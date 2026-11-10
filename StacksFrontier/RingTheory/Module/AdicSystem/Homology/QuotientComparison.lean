@@ -232,7 +232,7 @@ theorem exists_uniform_adic_homology_comparison
   have hcpos : 0 < c := by dsimp [c]; omega
   have kerCycles (n : ℕ) : LinearMap.ker β ≤ cycles n := by
     intro x hx
-    show β x ∈ I ^ n • (⊤ : Submodule A M)
+    change β x ∈ I ^ n • (⊤ : Submodule A M)
     rw [LinearMap.mem_ker.mp hx]
     exact zero_mem _
   have cyclesMono {a b : ℕ} (hab : a ≤ b) : cycles b ≤ cycles a :=
@@ -252,14 +252,14 @@ theorem exists_uniform_adic_homology_comparison
         change (x : L) ∈ LinearMap.range α at hx
         rcases hx with ⟨v, hv⟩
         apply (Submodule.Quotient.mk_eq_zero (rel n)).2
-        show (x : L) ∈ boundaries n
+        change (x : L) ∈ boundaries n
         exact Submodule.mem_sup_left ⟨v, hv⟩)
   let transition : ∀ n, Hn (n + 1) →ₗ[A] Hn n := fun n =>
     (rel (n + 1)).mapQ (rel n)
       ((cycles (n + 1)).inclusion (cyclesMono n.le_succ))
       (by
         intro x hx
-        show (x : L) ∈ boundaries n
+        change (x : L) ∈ boundaries n
         have hp : I ^ (n + 1) ≤ I ^ n := Ideal.pow_le_pow_right (by omega)
         exact (Submodule.comap_mono
           (sup_le_sup le_rfl (Submodule.smul_mono_left hp))) hx)
@@ -277,7 +277,7 @@ theorem exists_uniform_adic_homology_comparison
       rw [← hmapS n] at hx
       rcases hx with ⟨y, hy, rfl⟩
       apply (Submodule.Quotient.mk_eq_zero (rel n)).2
-      show ((LinearMap.ker β).subtype y) ∈ boundaries n
+      change ((LinearMap.ker β).subtype y) ∈ boundaries n
       exact Submodule.mem_sup_right
         (Submodule.smul_top_le_comap_smul_top (I ^ n) (LinearMap.ker β).subtype hy))
   have hαker : LinearMap.range α ≤ LinearMap.ker β := by
@@ -318,7 +318,7 @@ theorem exists_uniform_adic_homology_comparison
       have hxH : S.mkQ x ∈ I ^ t • (⊤ : Submodule A H) := by
         rw [← hmapS t]
         exact ⟨x, hxPt, rfl⟩
-      show (I ^ t • (⊤ : Submodule A H)).mkQ (S.mkQ x) = 0
+      change (I ^ t • (⊤ : Submodule A H)).mkQ (S.mkQ x) = 0
       exact (Submodule.Quotient.mk_eq_zero _).2 hxH
     let lift := T.liftQ f hT
     let bridge : cycles n →ₗ[A] H ⧸ I ^ t • (⊤ : Submodule A H) :=
@@ -330,7 +330,7 @@ theorem exists_uniform_adic_homology_comparison
       obtain ⟨a, ha, b, hb, hab⟩ := (Submodule.mem_sup.mp hxB)
       have haP : a ∈ LinearMap.ker β := hαker ha
       have haC : a ∈ cycles n := by
-        show β a ∈ I ^ n • (⊤ : Submodule A M)
+        change β a ∈ I ^ n • (⊤ : Submodule A M)
         rw [LinearMap.mem_ker.mp haP]
         exact zero_mem _
       have hbC : b ∈ cycles n :=
@@ -345,45 +345,45 @@ theorem exists_uniform_adic_homology_comparison
       have haEq := LinearMap.quotientInfEquivSupQuotient_symm_apply_left P J
         ⟨a, haU⟩ haP
       have haS : (⟨a, haP⟩ : P) ∈ S := by
-        show a ∈ LinearMap.range α
+        change a ∈ LinearMap.range α
         exact ha
       have haZero : f ⟨a, haP⟩ = 0 := by
-        show (I ^ t • (⊤ : Submodule A H)).mkQ (S.mkQ ⟨a, haP⟩) = 0
+        change (I ^ t • (⊤ : Submodule A H)).mkQ (S.mkQ ⟨a, haP⟩) = 0
         have hmk : S.mkQ ⟨a, haP⟩ = 0 := (Submodule.Quotient.mk_eq_zero S).2 haS
         rw [hmk, map_zero]
       have hbV : (⟨b, hbU⟩ : U) ∈ V := by
-        show b ∈ J
+        change b ∈ J
         exact hbJ
       have hbZero : V.mkQ ⟨b, hbU⟩ = 0 :=
         (Submodule.Quotient.mk_eq_zero V).2 hbV
       have hbBridge : bridge ⟨b, hbC⟩ = 0 := by
-        show lift (quotientEquiv.symm (V.mkQ ⟨b, hbU⟩)) = 0
+        change lift (quotientEquiv.symm (V.mkQ ⟨b, hbU⟩)) = 0
         rw [hbZero]
         simp
       have haBridge : bridge ⟨a, haC⟩ = 0 := by
-        show lift ((LinearMap.quotientInfEquivSupQuotient P J).symm
+        change lift ((LinearMap.quotientInfEquivSupQuotient P J).symm
           (Submodule.Quotient.mk ⟨a, haU⟩)) = 0
         rw [haEq]
         simp [lift, Submodule.liftQ_apply, haZero]
       rw [hxEq]
-      show bridge (⟨a, haC⟩ + ⟨b, hbC⟩) = 0
+      change bridge (⟨a, haC⟩ + ⟨b, hbC⟩) = 0
       rw [map_add, haBridge, hbBridge, zero_add]
     refine ⟨(rel n).liftQ bridge hkill, ?_⟩
     intro y z hyz
     have hyU : (y : L) ∈ U := hU y.property
     have hzU : (z : L) ∈ U := Submodule.mem_sup_left z.property
     have hEq : V.mkQ (⟨y, hyU⟩ : U) = V.mkQ (⟨z, hzU⟩ : U) := by
-      show (Submodule.Quotient.mk (⟨y, hyU⟩ : U) : U ⧸ V) =
+      change (Submodule.Quotient.mk (⟨y, hyU⟩ : U) : U ⧸ V) =
         Submodule.Quotient.mk (⟨z, hzU⟩ : U)
       rw [Submodule.Quotient.eq]
-      show (y : L) - (z : L) ∈ J
+      change (y : L) - (z : L) ∈ J
       exact hyz
     have hzEq := LinearMap.quotientInfEquivSupQuotient_symm_apply_left P J
       ⟨z, hzU⟩ z.property
-    show lift (quotientEquiv.symm (V.mkQ ⟨y, hyU⟩)) =
+    change lift (quotientEquiv.symm (V.mkQ ⟨y, hyU⟩)) =
       (I ^ t • (⊤ : Submodule A H)).mkQ (S.mkQ z)
     rw [hEq]
-    show lift ((LinearMap.quotientInfEquivSupQuotient P J).symm
+    change lift ((LinearMap.quotientInfEquivSupQuotient P J).symm
       (Submodule.Quotient.mk ⟨z, hzU⟩)) =
         (I ^ t • (⊤ : Submodule A H)).mkQ (S.mkQ z)
     rw [hzEq]
@@ -398,14 +398,14 @@ theorem exists_uniform_adic_homology_comparison
     (backWitness n (n - c) (by omega)).property y z hyz
   have hTo (n : ℕ) (x : LinearMap.ker β) (y : cycles n) (hxy : (y : L) = x) :
       toLevel n (Submodule.Quotient.mk x) = Submodule.Quotient.mk y := by
-    show (rel n).mkQ ((LinearMap.ker β).inclusion (kerCycles n) x) =
+    change (rel n).mkQ ((LinearMap.ker β).inclusion (kerCycles n) x) =
       (rel n).mkQ y
     congr 1
     exact Subtype.ext hxy.symm
   have hTransition (n : ℕ) (x : cycles (n + 1)) (y : cycles n)
       (hxy : (y : L) = x) :
       transition n (Submodule.Quotient.mk x) = Submodule.Quotient.mk y := by
-    show (rel n).mkQ (⟨x, cyclesMono n.le_succ x.property⟩ : cycles n) = (rel n).mkQ y
+    change (rel n).mkQ (⟨x, cyclesMono n.le_succ x.property⟩ : cycles n) = (rel n).mkQ y
     congr 1
     exact Subtype.ext hxy.symm
   have hQuotTransition (n : ℕ) (x : H) :
@@ -418,7 +418,7 @@ theorem exists_uniform_adic_homology_comparison
     | _ x =>
       let y₁ : cycles (n + 1) := ⟨x, kerCycles (n + 1) x.property⟩
       let y₀ : cycles n := ⟨x, kerCycles n x.property⟩
-      show transition n (toLevel (n + 1) (Submodule.Quotient.mk x)) =
+      change transition n (toLevel (n + 1) (Submodule.Quotient.mk x)) =
         toLevel n (Submodule.Quotient.mk x)
       rw [hTo (n + 1) x y₁ rfl, hTransition n y₁ y₀ rfl, hTo n x y₀ rfl]
   have hFromApply (n : ℕ) (x : H) :
@@ -461,7 +461,7 @@ theorem exists_uniform_adic_homology_comparison
           rw [hstep]
           exact hTransition b x z rfl
         rw [tr_trans Hsys hb (Nat.le_succ b)]
-        show (tr Hsys hb).hom ((tr Hsys (Nat.le_succ b)).hom
+        change (tr Hsys hb).hom ((tr Hsys (Nat.le_succ b)).hom
           (Submodule.Quotient.mk x)) = Submodule.Quotient.mk y
         rw [hs]
         exact ih z y hxy
@@ -486,7 +486,7 @@ theorem exists_uniform_adic_homology_comparison
           rw [hstep]
           exact hQuotTransition b x
         rw [tr_trans Qsys hb (Nat.le_succ b)]
-        show (tr Qsys hb).hom ((tr Qsys (Nat.le_succ b)).hom
+        change (tr Qsys hb).hom ((tr Qsys (Nat.le_succ b)).hom
           ((I ^ (b + 1) • (⊤ : Submodule A H)).mkQ x)) = _
         rw [hs]
         exact ih x
@@ -500,16 +500,16 @@ theorem exists_uniform_adic_homology_comparison
       induction x using Submodule.Quotient.induction_on with
       | _ z =>
         let y : cycles n := ⟨z, kerCycles n z.property⟩
-        show (backWitness n t ht).val (fromQuotient n
+        change (backWitness n t ht).val (fromQuotient n
           ((I ^ n • (⊤ : Submodule A H)).mkQ (S.mkQ z))) =
           (tr Qsys (by omega : t ≤ n)).hom
             ((I ^ n • (⊤ : Submodule A H)).mkQ (S.mkQ z))
         rw [hFromApply]
-        show (backWitness n t ht).val (toLevel n (Submodule.Quotient.mk z)) =
+        change (backWitness n t ht).val (toLevel n (Submodule.Quotient.mk z)) =
           (tr Qsys (by omega : t ≤ n)).hom
             ((I ^ n • (⊤ : Submodule A H)).mkQ (S.mkQ z))
         rw [hTo n z y rfl, (backWitness n t ht).property y z (by
-          show (z : L) - (z : L) ∈ I ^ (n - c₁) • (⊤ : Submodule A L)
+          change (z : L) - (z : L) ∈ I ^ (n - c₁) • (⊤ : Submodule A L)
           simp),
           trQRep (by omega : t ≤ n) (S.mkQ z)]
   have hBackFrom (n : ℕ) (hn : c ≤ n) :
@@ -533,15 +533,15 @@ theorem exists_uniform_adic_homology_comparison
       have hEq : (Submodule.Quotient.mk zc : Hn t) =
           Submodule.Quotient.mk yy := by
         rw [Submodule.Quotient.eq]
-        show (zz : L) - (y : L) ∈ boundaries t
+        change (zz : L) - (y : L) ∈ boundaries t
         apply Submodule.mem_sup_right
         rw [show (zz : L) - (y : L) = -((y : L) - zz) by abel]
         exact (I ^ t • (⊤ : Submodule A L)).neg_mem hyz'
-      show fromQuotient t ((backWitness n t ht).val (Submodule.Quotient.mk y)) =
+      change fromQuotient t ((backWitness n t ht).val (Submodule.Quotient.mk y)) =
         (tr Hsys (by omega : t ≤ n)).hom (Submodule.Quotient.mk y)
       rw [(backWitness n t ht).property y zz hyz]
       rw [hFromApply]
-      show toLevel t (Submodule.Quotient.mk zz) =
+      change toLevel t (Submodule.Quotient.mk zz) =
         (tr Hsys (by omega : t ≤ n)).hom (Submodule.Quotient.mk y)
       rw [hTo t zz zc rfl, trHRep (by omega : t ≤ n) y yy rfl]
       exact hEq
@@ -558,7 +558,7 @@ theorem exists_uniform_adic_homology_comparison
     | _ z =>
       let zb : cycles b := ⟨z, kerCycles b z.property⟩
       let za : cycles a := ⟨z, kerCycles a z.property⟩
-      show (tr Hsys hab).hom (toLevel b (Submodule.Quotient.mk z)) =
+      change (tr Hsys hab).hom (toLevel b (Submodule.Quotient.mk z)) =
         toLevel a (Submodule.Quotient.mk z)
       rw [hTo b z zb rfl, trHRep hab zb za rfl, hTo a z za rfl]
   have hFromNat : ∀ {a b : ℕ} (hab : a ≤ b),
@@ -569,7 +569,7 @@ theorem exists_uniform_adic_homology_comparison
     intro x
     induction x using Submodule.Quotient.induction_on with
     | _ x =>
-      show (tr Hsys hab).hom
+      change (tr Hsys hab).hom
         (fromQuotient b ((I ^ b • (⊤ : Submodule A H)).mkQ x)) =
         fromQuotient a ((tr Qsys hab).hom
           ((I ^ b • (⊤ : Submodule A H)).mkQ x))
@@ -590,7 +590,7 @@ theorem exists_uniform_adic_homology_comparison
       have hyzA : (y : L) - (zz : L) ∈ I ^ (a - c₁) • (⊤ : Submodule A L) :=
         (Submodule.smul_mono_left (Ideal.pow_le_pow_right hpow)) hyz
       let ya : cycles a := ⟨y, cyclesMono hab y.property⟩
-      show (backWitness a s ha).val ((tr Hsys hab).hom (Submodule.Quotient.mk y)) =
+      change (backWitness a s ha).val ((tr Hsys hab).hom (Submodule.Quotient.mk y)) =
         (tr Qsys hst).hom ((backWitness b t hb).val (Submodule.Quotient.mk y))
       rw [trHRep hab y ya rfl, (backWitness a s ha).property ya zz hyzA,
         (backWitness b t hb).property y zz hyz, trQRep hst (S.mkQ zz)]
@@ -666,14 +666,14 @@ theorem exists_uniform_adic_homology_comparison
     have hnk : n ≤ unop k := leOfHom g.unop
     obtain rfl : g = (homOfLE hnk).op := Subsingleton.elim _ _
     refine ⟨toLevel (unop k) z, ?_⟩
-    show (tr Hsys hnk).hom (toLevel (unop k) z) = x
+    change (tr Hsys hnk).hom (toLevel (unop k) z) = x
     exact (LinearMap.congr_fun (hToNat hnk) z).trans hz
   have hMulRange (n : ℕ) (a : A) (ha : a ∈ I ^ c) (x : Hn n) :
       a • x ∈ LinearMap.range (fromQuotient n) := by
     induction x using Submodule.Quotient.induction_on with
     | _ y =>
       have hay : (a • y : L) ∈ cycles (n + c) := by
-        show β (a • (y : L)) ∈ I ^ (n + c) • (⊤ : Submodule A M)
+        change β (a • (y : L)) ∈ I ^ (n + c) • (⊤ : Submodule A M)
         rw [map_smul]
         have hh : a • β (y : L) ∈ I ^ c • (I ^ n • (⊤ : Submodule A M)) :=
           Submodule.smul_mem_smul ha y.property
@@ -683,7 +683,7 @@ theorem exists_uniform_adic_homology_comparison
       have heq : (tr Hsys (Nat.le_add_right n c)).hom (Submodule.Quotient.mk ay) =
           a • (Submodule.Quotient.mk y : Hn n) := by
         rw [trHRep (Nat.le_add_right n c) ay ay0 rfl]
-        show (rel n).mkQ (a • y) = a • (rel n).mkQ y
+        change (rel n).mkQ (a • y) = a • (rel n).mkQ y
         exact map_smul (rel n).mkQ a y
       rw [hFromRange n, ← hRange n]
       exact ⟨Submodule.Quotient.mk ay, heq⟩
@@ -700,7 +700,7 @@ theorem exists_uniform_adic_homology_comparison
       by_cases hn : c ≤ n
       · have hzero : (tr Qsys (Nat.sub_le n c)).hom
             ((I ^ n • (⊤ : Submodule A H)).mkQ z) = 0 := by
-          show (tr Qsys (Nat.sub_le n c)).hom
+          change (tr Qsys (Nat.sub_le n c)).hom
             (Submodule.Quotient.mk z) = 0
           rw [hz]
           have hh := LinearMap.congr_fun (hBackFrom n hn) x.val
@@ -718,9 +718,9 @@ theorem exists_uniform_adic_homology_comparison
           Submodule.smul_mono_left (Ideal.pow_le_pow_right (by omega))
         exact hsmall (Submodule.smul_mem_smul ha Submodule.mem_top)
     apply Subtype.ext
-    show a • (x : H ⧸ I ^ n • (⊤ : Submodule A H)) = 0
+    change a • (x : H ⧸ I ^ n • (⊤ : Submodule A H)) = 0
     rw [← hz]
-    show (I ^ n • (⊤ : Submodule A H)).mkQ (a • z) = 0
+    change (I ^ n • (⊤ : Submodule A H)).mkQ (a • z) = 0
     exact (Submodule.Quotient.mk_eq_zero _).mpr hmul
   have hAnnCoker (n : ℕ) :
       I ^ c ≤ Module.annihilator A
@@ -730,7 +730,7 @@ theorem exists_uniform_adic_homology_comparison
     intro x
     induction x using Submodule.Quotient.induction_on with
     | _ x =>
-      show (LinearMap.range (fromQuotient n)).mkQ (a • x) = 0
+      change (LinearMap.range (fromQuotient n)).mkQ (a • x) = 0
       exact (Submodule.Quotient.mk_eq_zero _).mpr (hMulRange n a ha x)
   let toLevelQuotient : ∀ n k,
       (H ⧸ I ^ k • (⊤ : Submodule A H)) →ₗ[A]
@@ -764,12 +764,12 @@ theorem exists_uniform_adic_homology_comparison
         (LinearMap.congr_fun (hBackFrom n hn)
           ((I ^ n • (⊤ : Submodule A H)).mkQ z)).trans
           (trQRep (Nat.sub_le n c) z)
-      show toLevelQuotient n (n - c)
+      change toLevelQuotient n (n - c)
           (back n hn (fromQuotient n ((I ^ n • (⊤ : Submodule A H)).mkQ z))) =
         (I ^ (n - c) • (⊤ : Submodule A (Hn n))).mkQ
           (fromQuotient n ((I ^ n • (⊤ : Submodule A H)).mkQ z))
       rw [he]
-      show toLevelQuotient n (n - c)
+      change toLevelQuotient n (n - c)
           ((I ^ (n - c) • (⊤ : Submodule A H)).mkQ z) =
         (I ^ (n - c) • (⊤ : Submodule A (Hn n))).mkQ (toLevel n z)
       rfl

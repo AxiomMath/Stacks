@@ -97,7 +97,7 @@ theorem gradedTensorMap_comm_d (f : N ⟶ N') (n : ℤ) :
     (congrArg (fun φ : N.complex.X q.1.2 ⟶ N'.complex.X (q.1.2 + 1) ↦
       (SheafOfModules.Hom.val φ).app X w)
         (f.toHomologicalComplex.comm q.1.2 (q.1.2 + 1))).symm
-  show PresheafOfModules.Hom.app (dgTensorD P N' n).val X
+  change PresheafOfModules.Hom.app (dgTensorD P N' n).val X
       (PresheafOfModules.Hom.app (gradedTensorMap (gP P) (gMapLeft f) n).val X
         (tmul (gP P) (gN N) n q X u w)) =
     PresheafOfModules.Hom.app (gradedTensorMap (gP P) (gMapLeft f) (n + 1)).val X
@@ -232,7 +232,7 @@ theorem opSwap_naturality (M : DifferentialGradedModule.{t, m, m} A)
       opSwap M P n ≫
         gradedTensorMap (gP M) (gMapLeft (DifferentialGradedModule.Hom.unopLeftMap g)) n := by
   refine gradedTensor_hom_ext (gP P) (gN M.opLeft) fun q X u w ↦ ?_
-  show PresheafOfModules.Hom.app (opSwap M P' n).val X
+  change PresheafOfModules.Hom.app (opSwap M P' n).val X
       (PresheafOfModules.Hom.app (gradedTensorMapRight (gMap g) (gN M.opLeft) n).val X
         (tmul (gP P) (gN M.opLeft) n q X u w)) =
     PresheafOfModules.Hom.app
@@ -315,7 +315,7 @@ theorem actPre_comp_mapPre (ν : N ⟶ N') (m i : ℤ) :
     (Limits.Sigma.hom_ext _ _ fun q => ?_)
   refine PresheafOfModules.tensorObj_hom_ext fun X x y => ?_
   refine hApp_ext fun V f b => ?_
-  show PresheafOfModules.Hom.app (gradedTensorMapPre (gP M) (bMapLeft ν) (m + i)) V
+  change PresheafOfModules.Hom.app (gradedTensorMapPre (gP M) (bMapLeft ν) (m + i)) V
       (hApp (PresheafOfModules.Hom.app
         (actPre.{t, v, u, max u v} (gP M) N.toGradedBimodule m i (m + i) rfl) X
         (tmulPre (gP M) N.toGradedBimodule m q X x y)) f b) =
@@ -361,7 +361,7 @@ theorem gradedTensorMap_smul (ν : N ⟶ N') (m i : ℤ) (X : Cᵒᵖ)
     (((gradedTensorRight (gP M) N'.toGradedBimodule).smulBil m i).compLeft
       (gradedTensorMap (gP M) (bMapLeft ν) m).val) ?_ X s b
   intro W z b'
-  show PresheafOfModules.Hom.app (gradedTensorMap (gP M) (bMapLeft ν) (m + i)).val W
+  change PresheafOfModules.Hom.app (gradedTensorMap (gP M) (bMapLeft ν) (m + i)).val W
       ((gradedTensorRight (gP M) N.toGradedBimodule).smul m i W
         (PresheafOfModules.Hom.app
           (gradedTensorUnit (gP M) N.toGradedBimodule.toLeftGradedModule m) W z) b') =

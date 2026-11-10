@@ -130,7 +130,7 @@ private lemma isClosed_range_subschemeι_homOfLE {X : Scheme.{u}} (U V : X.Opens
     rw [hrange]
     rintro y ⟨z, hz, rfl⟩
     refine fun hy ↦ (Set.disjoint_left.mp h) (show z ∈ (V.ι ⁻¹ᵁ U : Set V) from ?_) hz
-    show (V.ι z : X) ∈ U
+    change (V.ι z : X) ∈ U
     rw [show (V.ι : V.toScheme ⟶ X) = vW ≫ W.ι by simp [hvW, Scheme.homOfLE_ι],
       Scheme.Hom.comp_apply]
     exact hy

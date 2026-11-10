@@ -147,7 +147,7 @@ public theorem isOpen_regularLocus (X : Scheme.{u}) (hX : IsNagataScheme X)
 @[ega "IV 6.13.4" "partial"]
 public theorem mem_regularLocus_of_mem_genericPoints (X : Scheme.{u}) [IsReduced X]
     (x : X) (hx : x ∈ genericPoints X) : x ∈ regularLocus X := by
-  show IsRegularLocalRing (X.presheaf.stalk x)
+  change IsRegularLocalRing (X.presheaf.stalk x)
   let _ : Field (X.presheaf.stalk x) :=
     (AlgebraicGeometry.isField_stalk_of_closure_mem_irreducibleComponents X x hx).toField
   infer_instance

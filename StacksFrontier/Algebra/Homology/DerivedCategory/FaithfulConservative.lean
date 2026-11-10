@@ -99,7 +99,7 @@ theorem isIso_of_isIso_mapDerivedCategory_map_of_faithful {C D : Type*} [Categor
   have hnat :=
     (StacksDraft.DerivedCategoryHomology.mapDerivedCategoryHomologyIso F n).hom.naturality f
   have h₀ : IsIso ((F.mapDerivedCategory ⋙ DerivedCategory.homologyFunctor D n).map f) := by
-    show IsIso ((DerivedCategory.homologyFunctor D n).map (F.mapDerivedCategory.map f))
+    change IsIso ((DerivedCategory.homologyFunctor D n).map (F.mapDerivedCategory.map f))
     infer_instance
   have h₁ : IsIso
       ((StacksDraft.DerivedCategoryHomology.mapDerivedCategoryHomologyIso F n).hom.app X ≫

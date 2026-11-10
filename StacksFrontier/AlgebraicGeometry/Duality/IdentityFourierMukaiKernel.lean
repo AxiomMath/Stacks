@@ -33,9 +33,11 @@ objects in its statement.
 ## Implementation notes
 
 *Which `IsPerfect`.*  The library states [Stacks, Tag 08CM] twice: as
-`Stacks.Cohomology.PerfectComplexes.IsPerfect`, in `StacksFrontier/Topology/Sheaves/Cohomology/PerfectComplexes/Defs.lean`, at independent
+`Stacks.Cohomology.PerfectComplexes.IsPerfect`, in
+`StacksFrontier/Topology/Sheaves/Cohomology/PerfectComplexes/Defs.lean`, at independent
 space and section universes, and as `AlgebraicGeometry.RingedSpace.IsPerfect`, in
-`StacksFrontier/Topology/Sheaves/Cohomology/PerfectComplexes/BasicProperties.lean`, at a single universe.  The first is used here, because
+`StacksFrontier/Topology/Sheaves/Cohomology/PerfectComplexes/BasicProperties.lean`, at a single
+universe.  The first is used here, because
 it is the one `AlgebraicGeometry.perfectDerived` of
 `StacksFrontier/AlgebraicGeometry/DerivedVarieties/TransformedDiagonal/Basic.lean` already reads
 for a scheme, and this file's `perfectDerivedObjects` agrees with it.

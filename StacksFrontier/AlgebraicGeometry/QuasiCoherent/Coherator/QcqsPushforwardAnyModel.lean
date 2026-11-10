@@ -19,8 +19,8 @@ quasi-coherent derived categories `Stacks.Duality.quasiCoherentDerivedCategory` 
 statements built on them live. This file removes the pin.
 
 The route is the one
-`StacksFrontier/AlgebraicGeometry/QuasiCoherent/Coherator/AffinePushforwardAnyModel.lean` takes for an
-affine morphism, and the proofs below are that file's with the affine input replaced by the
+`StacksFrontier/AlgebraicGeometry/QuasiCoherent/Coherator/AffinePushforwardAnyModel.lean` takes for
+an affine morphism, and the proofs below are that file's with the affine input replaced by the
 quasi-compact quasi-separated one: the statement is first re-expressed with **no derived category
 in it at all** — the cohomology sheaves of `f_*I`, for `I` a K-injective resolution of a complex
 with quasi-coherent cohomology, are quasi-coherent — and then read back at an arbitrary

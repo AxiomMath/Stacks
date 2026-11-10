@@ -557,7 +557,7 @@ theorem homEquiv_componentPushforwardTransition_iff (G : Sheaf K (Type u))
   have hkey := homEquiv_transitionInverseImageIso S D K a φ G ((S.restrict n).obj F) (γ n)
   rw [Adjunction.comp_homEquiv, Equiv.trans_apply, Adjunction.homEquiv_naturality_right,
     ← transitionDirectInverseImageTrans_app] at hkey
-  show (componentAugmentation S D K a m).adj.homEquiv G ((S.restrict m).obj F) (γ m) ≫
+  change (componentAugmentation S D K a m).adj.homEquiv G ((S.restrict m).obj F) (γ m) ≫
           (componentAugmentation S D K a m).pushforward.map
               ((S.restrictTransition φ).app F) ≫
             (transitionPushforwardIso S D K a φ).hom.app ((S.restrict n).obj F) =

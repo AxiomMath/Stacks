@@ -90,10 +90,10 @@ theorem satisfiesRS_fibredCategory_of_satisfiesRSFunctor (h : SatisfiesRSFunctor
     obtain ⟨t, ⟨ht₁, ht₂⟩, -⟩ := hRS a b hab
     refine ⟨fibredCategoryFiberMk t, ⟨CategoricalPullback.mkIso
       (eqToIso (by
-        show (c.pullbackFunctor j').obj _ = _
+        change (c.pullbackFunctor j').obj _ = _
         rw [pullbackFunctor_obj_eq, ht₁]))
       (eqToIso (by
-        show (c.pullbackFunctor i').obj _ = _
+        change (c.pullbackFunctor i').obj _ = _
         rw [pullbackFunctor_obj_eq, ht₂]))
       (Subsingleton.elim _ _)⟩⟩
   exact { }
@@ -150,7 +150,7 @@ private theorem descentHom_fibredCategory_of_isColimit {I : Type u} [Category.{u
   have ht' : t' = F.map (c.π.app i).op b := eq_map_of_isHomLift _ ε hε
   have htt : t = t' := by simpa using eq_map_of_isHomLift _ φ hφ
   have hab : (F.mapCocone c.op).ι.app (op i) a = (F.mapCocone c.op).ι.app (op i) b := by
-    show F.map (c.π.app i).op a = F.map (c.π.app i).op b
+    change F.map (c.π.app i).op a = F.map (c.π.app i).op b
     rw [← ht, ← ht', htt]
   obtain ⟨⟨k⟩, s, hs⟩ := (Types.FilteredColimit.isColimit_eq_iff' hcol a b).mp hab
   let s' : k ⟶ i := s.unop
@@ -169,12 +169,12 @@ private theorem descentHom_fibredCategory_of_isColimit {I : Type u} [Category.{u
   refine ⟨k, s', fibredCategoryFiberMk a', fibredCategoryFiberMk a', dx, dy, δk, ψ,
     hdx, hdy, hδk, hψ, ?_, ?_⟩
   · apply fibredCategory_hom_ext
-    show δk.base ≫ dx.base = δ.base
+    change δk.base ≫ dx.base = δ.base
     rw [base_eq_of_isHomLift _ δk hδk, base_eq_of_isHomLift _ dx hdx,
       base_eq_of_isHomLift _ δ hδ]
     exact c.w s'
   · apply fibredCategory_hom_ext
-    show δk.base ≫ ψ.base ≫ dy.base = φ.base ≫ ε.base
+    change δk.base ≫ ψ.base ≫ dy.base = φ.base ≫ ε.base
     rw [base_eq_of_isHomLift _ δk hδk, base_eq_of_isHomLift _ dy hdy,
       base_eq_of_isHomLift _ ψ hψ, base_eq_of_isHomLift _ φ hφ, base_eq_of_isHomLift _ ε hε]
     have key : c.π.app k ≫ 𝟙 (D.obj k) ≫ D.map s' = 𝟙 c.pt ≫ c.π.app i := by

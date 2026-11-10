@@ -209,12 +209,12 @@ private theorem exists_sepClosed_field_of_fractionRing_mvPolynomial {ι K O : Ty
     IsLocalization.isAlgebraic (R := A) (S := E) (nonZeroDivisors A)
   have hAE : ∀ a : A, e (algebraMap A L a) = MvPolynomial.aeval z a := by
     intro a
-    show e (algebraMap E L (algebraMap A E a)) = _
+    change e (algebraMap E L (algebraMap A E a)) = _
     rw [e.commutes]
     exact hψE a
   have hKA : ∀ k : K, algebraMap K L k = algebraMap A L (MvPolynomial.C k) := by
     intro k
-    show algebraMap E L (algebraMap K E k) = algebraMap E L (algebraMap A E (MvPolynomial.C k))
+    change algebraMap E L (algebraMap K E k) = algebraMap E L (algebraMap A E (MvPolynomial.C k))
     rw [IsScalarTower.algebraMap_apply K A E]
     rfl
   refine ⟨L, inferInstance, inferInstance, inferInstance, e.toRingHom, ?_,
@@ -286,7 +286,7 @@ public theorem exists_sepClosed_field_strictHenselization {K : Type u} [Field K]
   let ρ : Y.residueField y →ₐ[K] ResidueField O :=
     { toRingHom := ResidueField.map φ
       commutes' := fun k => by
-        show ResidueField.map φ (residue _ (Y.presheaf.germ ⊤ y trivial
+        change ResidueField.map φ (residue _ (Y.presheaf.germ ⊤ y trivial
             (gY.appTop ((Scheme.ΓSpecIso (.of K)).inv k)))) =
           residue O (((strictHenselizationToBase B Y hS s).appTop ≫
             (Scheme.ΓSpecIso _).hom) (gY.appTop ((Scheme.ΓSpecIso (.of K)).inv k)))

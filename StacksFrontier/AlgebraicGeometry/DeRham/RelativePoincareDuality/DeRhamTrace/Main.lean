@@ -140,7 +140,7 @@ theorem existsUnique_deRhamPoincareTrace_of_trace {t₀}
       (ht₀ 0) (D.topInclusion ≫ D.deRhamTraceEquiv.symm t')
     have e : D.deRhamTraceEquiv.symm t' = D.deRhamDirectImageTopSMul g ≫ s := by
       apply D.bijective_topInclusion_comp.1
-      show D.topInclusion ≫ _ = D.topInclusion ≫ _
+      change D.topInclusion ≫ _ = D.topInclusion ≫ _
       have hs' : D.topInclusion ≫ s = t₀ := hs
       exact hg.trans ((congrArg (D.f.formsShiftSMul D.n g ≫ ·) hs'.symm).trans
         ((Category.assoc _ _ _).symm.trans

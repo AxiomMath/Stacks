@@ -97,7 +97,7 @@ theorem totalTo_naturality {K K' : CochainComplex (PresheafModules.{u} C R) ℤ}
       · exact Or.inr ⟨b, rfl⟩
     · rw [summandTo_natCast, summandTo_natCast]
       refine ModuleCat.hom_ext (LinearMap.ext fun z => ?_)
-      show totSingle W P' n p b hpa ((cochainsIso W (P'.X b) p).hom
+      change totSingle W P' n p b hpa ((cochainsIso W (P'.X b) p).hom
           ((cechCochainsMap W R (e' b).hom p).hom ((cechCochainsMap W R (f.f b) p).hom z))) =
         totMap g n (totSingle W P n p b hpa ((cochainsIso W (P.X b) p).hom
           ((cechCochainsMap W R (e b).hom p).hom z)))
@@ -150,7 +150,7 @@ def natSectionsXIso (M : CochainComplex (SheafOfModules.{u} (ringSheaf O)) ℤ) 
 def natSectionsMap {M M' : CochainComplex (SheafOfModules.{u} (ringSheaf O)) ℤ} (j : M ⟶ M') :
     natSections O M ⟶ natSections O M' where
   f b := ((Stacks.Cech.ModuleCupProduct.sectionsComplexFunctor O ⊤).map j).f b
-  comm' i k _ := ((Stacks.Cech.ModuleCupProduct.sectionsComplexFunctor O ⊤).map j).comm _ _
+  comm' i k _ := ((Stacks.Cech.ModuleCupProduct.sectionsComplexFunctor O ⊤).map j).comm i k
 
 /-- The sections in nonnegative degrees preserve composition of morphisms. -/
 theorem natSectionsMap_comp {M M' M'' : CochainComplex (SheafOfModules.{u} (ringSheaf O)) ℤ}
@@ -184,7 +184,7 @@ def cechNatIsoS (M : CochainComplex (SheafOfModules.{u} (ringSheaf O)) ℤ)
     (cechS O U hU).obj M ≅ cechTot (coverObject U hU) (natSections O M) :=
   totalCechIso (coverObject U hU) (sectionsK O M) (natSections O M) (natSectionsXIso O M)
     (isZero_sectionsK_X O M hM) (fun b =>
-      (Category.comp_id _).trans (Category.id_comp _).symm)
+      (Category.comp_id _).trans (Category.id_comp ((natSections O M).d b (b + 1))).symm)
 
 /-- **The library's total Čech complex of a complex vanishing in negative degrees is the
 elementwise total Čech complex of its sections.** -/
@@ -204,7 +204,7 @@ theorem cechNatIsoS_hom_naturality {M M' : CochainComplex (SheafOfModules.{u} (r
     totalTo_naturality (coverObject U hU) (K := sectionsK O M) (K' := sectionsK O M')
       (P := natSections O M) (P' := natSections O M') (natSectionsXIso O M) (natSectionsXIso O M')
       ((Stacks.Cech.ModuleCupProduct.sectionsComplexFunctor O ⊤).map j) (natSectionsMap O j)
-      (fun b => (Category.comp_id _).trans (Category.id_comp _).symm) n
+      (fun b => (Category.comp_id _).trans (Category.id_comp ((natSectionsMap O j).f b)).symm) n
 
 /-- `cechNatIso` is natural in the complex. -/
 theorem cechNatIso_hom_naturality {M M' : CochainComplex (SheafOfModules.{u} (ringSheaf O)) ℤ}
@@ -242,13 +242,13 @@ theorem cechNatIso_hom_sectionsToTotalCech (M : CochainComplex (SheafOfModules.{
     ((cechNatIso O U hU M hM).hom.f n).hom
         ((((Stacks.Cech.Linear.sectionsToTotalCech X (ringSheaf O) ⊤ U hU).app M).f n).hom s) =
       restrictTotS O U hU M n s := by
-  show (totalTo (coverObject U hU) (sectionsK O M) (natSections O M) (natSectionsXIso O M)
+  change (totalTo (coverObject U hU) (sectionsK O M) (natSections O M) (natSectionsXIso O M)
       n).hom ((ιTotalCechTo (coverObject U hU) (SectionRing (ringSheaf O) ⊤) (sectionsK O M) 0
         (n : ℤ) n (by simp)).hom ((Stacks.Cohomology.CechDerived.cechDegreeZeroRestriction
           (ringSheaf O) ⊤ U hU (M.X n)).hom s)) = _
   refine (ConcreteCategory.congr_hom (ιTotalCechTo_totalTo (coverObject U hU) (sectionsK O M)
     (natSections O M) (natSectionsXIso O M) n 0 n (by simp)) _).trans ?_
-  show totSingle (coverObject U hU) (natSections O M) n 0 n _
+  change totSingle (coverObject U hU) (natSections O M) n 0 n _
       ((cochainsIso (coverObject U hU) ((natSections O M).X n) 0).hom
         ((cechCochainsMap (coverObject U hU) (SectionRing (ringSheaf O) ⊤)
           (natSectionsXIso O M n).hom 0).hom
@@ -265,7 +265,7 @@ end Stacks.Cech.RingChange
 
 namespace Stacks.Cech.RingChange
 
-open AlgebraicGeometry
+open _root_.Stacks.AlgebraicGeometry
 open AlgebraicGeometry.SheafOfModules (baseRingedSpace)
 
 attribute [local instance] ModuleCat.hasLimitsOfSize ModuleCat.hasColimitsOfSize
@@ -423,7 +423,7 @@ theorem pushSectionsIso_hom_naturality {M M' : CochainComplex (SheafOfModules.{u
               exact ConcreteCategory.congr_hom
                 (NatTrans.congr_app ((natSectionsMap A j).comm i k) W) x }) := by
   ext b W x
-  show ((M'.X b).val.map (eqToHom (map_obj_eq h hh W.unop.left).symm).op).hom
+  change ((M'.X b).val.map (eqToHom (map_obj_eq h hh W.unop.left).symm).op).hom
       (((j.f b).val.app (op ((Opens.map h.hom.base).obj W.unop.left))).hom x) =
     ((j.f b).val.app (op W.unop.left)).hom
       (((M.X b).val.map (eqToHom (map_obj_eq h hh W.unop.left).symm).op).hom x)
@@ -447,7 +447,7 @@ theorem totMap_pushSectionsIso_restrictTotS
       TotX (coverObject U hU) (natSections A M) n) = restrictTotS A U hU M n s := by
   refine (totMap_totSingle _ _ _ _ _ _ _).trans ?_
   refine congrArg (totSingle (coverObject U hU) _ n 0 n _) (funext fun t => ?_)
-  show ((M.X n).val.map (eqToHom (map_obj_eq h hh (inter (coverObject U hU) t).left).symm).op).hom
+  change ((M.X n).val.map (eqToHom (map_obj_eq h hh (inter (coverObject U hU) t).left).symm).op).hom
       (((M.X n).val.map ((Opens.map h.hom.base).map
         (Over.mkIdTerminal.from (inter (coverObject U hU) t)).left).op).hom s) =
     ((M.X n).val.map (Over.mkIdTerminal.from (inter (coverObject U hU) t)).left.op).hom s

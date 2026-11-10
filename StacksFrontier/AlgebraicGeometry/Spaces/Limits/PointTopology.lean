@@ -116,10 +116,10 @@ theorem exists_affine_etale_chart_point (X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type
   let V₀ : BigFppfOver B S hS := Over.mk (jsite ≫ V.hom)
   let a : V₀ ⟶ V := Over.homMk jsite (by rfl)
   have hmap : (BigFppfOver.toScheme B S hS).map a = j := by
-    show B.inclusion.map jsite = j
+    change B.inclusion.map jsite = j
     exact B.inclusion.map_preimage _
   have haffine : IsAffine ((BigFppfOver.toScheme B S hS).obj V₀) := by
-    show IsAffine (Spec R)
+    change IsAffine (Spec R)
     infer_instance
   refine ⟨⟨V₀, haffine⟩, yoneda.map a ≫ g, ?_, (pointsEquivScheme B S hS V₀).symm z₀, ?_⟩
   · refine etale_comp_of_scheme B S hS a g ?_ hgEtale

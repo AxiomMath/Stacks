@@ -97,7 +97,7 @@ theorem isAffine_preimage_of_bijective (R X : BigFppfOver B S hS) (V : S.Opens)
   have hXV : Set.range ⇑(π.left.hom) ⊆ Set.range ⇑W.ι := by
     rintro _ ⟨z, rfl⟩
     rw [Scheme.Opens.range_ι]
-    show R.hom.hom (π.left.hom z) ∈ V
+    change R.hom.hom (π.left.hom z) ∈ V
     have hπ : π.left.hom ≫ R.hom.hom = X.hom.hom := congrArg InducedCategory.Hom.hom (Over.w π)
     have hq : q.left.hom ≫ V.ι = X.hom.hom := congrArg InducedCategory.Hom.hom (Over.w q)
     rw [← Scheme.Hom.comp_apply, hπ, ← hq, Scheme.Hom.comp_apply]
@@ -106,7 +106,7 @@ theorem isAffine_preimage_of_bijective (R X : BigFppfOver B S hS) (V : S.Opens)
   have hm₀ : m₀ ≫ W.ι = π.left.hom := IsOpenImmersion.lift_fac W.ι π.left.hom hXV
   let m : X ⟶ O := Over.homMk (ObjectProperty.homMk (X := X.left) (Y := O.left) m₀) (by
     apply ObjectProperty.hom_ext
-    show m₀ ≫ (W.ι ≫ R.hom.hom) = X.hom.hom
+    change m₀ ≫ (W.ι ≫ R.hom.hom) = X.hom.hom
     rw [← Category.assoc, hm₀]
     exact congrArg InducedCategory.Hom.hom (Over.w π))
   have hmι : m ≫ ι = π := by
@@ -125,7 +125,7 @@ theorem isAffine_preimage_of_bijective (R X : BigFppfOver B S hS) (V : S.Opens)
     refine ⟨fun f f' hff' => (hbij T hT).1 ?_, fun g => ?_⟩
     · have h1 : f ≫ m = f' ≫ m := hff'
       refine Prod.ext ?_ (hom_ext_opensObj B S hS _ _)
-      show f ≫ π = f' ≫ π
+      change f ≫ π = f' ≫ π
       rw [← hmι, ← Category.assoc, h1, Category.assoc]
     · have hT' : Set.range ⇑T.hom.hom ⊆ (V : Set S) := by
         rintro _ ⟨t, rfl⟩
@@ -135,7 +135,7 @@ theorem isAffine_preimage_of_bijective (R X : BigFppfOver B S hS) (V : S.Opens)
         exact (g.left.hom t).2
       obtain ⟨f, hf⟩ := (hbij T hT).2 (g ≫ ι, homOfRangeLe B S hS V hT')
       refine ⟨f, ?_⟩
-      show f ≫ m = g
+      change f ≫ m = g
       apply hιmono.right_cancellation
       rw [Category.assoc, hmι]
       exact congrArg Prod.fst hf

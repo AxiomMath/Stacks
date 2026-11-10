@@ -943,8 +943,7 @@ theorem baseChange_linearMap_ext {R S : Type*} [CommRing R] [CommRing S] [Algebr
     {φ ψ : (S ⊗[R] N) →ₗ[S] M} (h : ∀ n : N, φ ((1 : S) ⊗ₜ[R] n) = ψ ((1 : S) ⊗ₜ[R] n)) :
     φ = ψ := by
   refine LinearMap.ext fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy]
   | tmul s n =>
     have hs : s ⊗ₜ[R] n = s • ((1 : S) ⊗ₜ[R] n) := by

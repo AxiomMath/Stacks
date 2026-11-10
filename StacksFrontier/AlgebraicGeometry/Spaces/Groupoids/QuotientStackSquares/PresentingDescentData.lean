@@ -667,7 +667,7 @@ private lemma exists_lift_descentDatum
   refine Pseudofunctor.DescentData.isoMk (fun i => Iso.refl (M.obj i)) ?_
   intro W b i j f g hf hg
   rw [Functor.pullbackPseudofunctor_map_map, Functor.pullbackPseudofunctor_map_map]
-  show Functor.pullbackFiberHom (𝟙 (M.obj i)) f ≫
+  change Functor.pullbackFiberHom (𝟙 (M.obj i)) f ≫
       ((presentingDescentFunctor G 𝒰).obj E).hom b f g hf hg =
     M.hom b f g hf hg ≫ Functor.pullbackFiberHom (𝟙 (M.obj j)) g
   rw [Functor.pullbackFiberHom_id, Functor.pullbackFiberHom_id]
@@ -686,7 +686,7 @@ private lemma exists_small_covering
   classical
   have hsmall : Precoverage.Small.{u} C.precoverage := by
     rw [bigFppfPrecoverage_eq_comap C]
-    show Precoverage.Small.{u}
+    change Precoverage.Small.{u}
       ((Scheme.precoverage (@Flat ⊓ @LocallyOfFinitePresentation)).comap C.inclusion)
     infer_instance
   obtain ⟨E, hE, hER⟩ := BigFppfOver.exists_isCovering_of_mem_topology C S hS hR

@@ -86,7 +86,7 @@ theorem coordinateDifference_wsCoordinate_mem (c : wholeSpaceIndex S hp) :
     (wholeSpacePresentation S hp) 1).algebraMap.ideal_comp
       (Ideal.mem_map_of_mem _ ?_)
   rw [RingHom.mem_ker]
-  show (tensorPowerPresentation (affineSituation S hp)
+  change (tensorPowerPresentation (affineSituation S hp)
     (wholeSpacePresentation S hp) 1) (coprojectionDifference _ 1 (c, 0)) = 0
   simp only [tensorPowerPresentation, coprojectionDifference, AlgHom.comp_apply, map_sub,
     MvPolynomial.rename_X, sub_self]

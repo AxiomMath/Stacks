@@ -180,7 +180,7 @@ private theorem exists_mem_primeCompl_forall_mem_span [Module.Finite A B] [Modul
       rw [hσ, ← Finset.mul_prod_erase G sg hy]
       push_cast
       ring
-    show (σ : B) • y ∈ Submodule.span B (Set.range v)
+    change (σ : B) • y ∈ Submodule.span B (Set.range v)
     rw [hfac, mul_smul, hsc y]
     exact Submodule.smul_mem _ _ (Submodule.sum_mem _ fun i _ =>
       Submodule.smul_mem _ _ (Submodule.subset_span ⟨i, rfl⟩))

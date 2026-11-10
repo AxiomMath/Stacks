@@ -131,14 +131,14 @@ public theorem exists_finiteFree_tensorIdealPower_proIso
     idealPowerComplexTransition M I, idealPowerComplexTransition_comp M I,
     tensorToIdealPowerNatTrans P I ≫ idealPowerSystemMap p I, fun n => ?_, ?_⟩
   · rw [NatTrans.comp_app, idealPowerSystemMap_app]
-    show DerivedCategory.Q.map (factorThruImage (idealPowerMultiplication P I n)) ≫ _ = _
+    change DerivedCategory.Q.map (factorThruImage (idealPowerMultiplication P I n)) ≫ _ = _
     exact (Functor.map_comp _ _ _).symm.trans
       (congrArg _ (factorThruImage_idealPowerComplexMap p I n))
   · apply proInverse_comp
     · apply proInverse_of_isIso_app
       intro n
       have := isIso_factorThruImage_idealPowerMultiplication P I n
-      show IsIso (DerivedCategory.Q.map (factorThruImage (idealPowerMultiplication P I n)))
+      change IsIso (DerivedCategory.Q.map (factorThruImage (idealPowerMultiplication P I n)))
       infer_instance
     · exact proInverse_idealPowerSystemMap_of_reduction p I hpred
 

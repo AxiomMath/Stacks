@@ -145,7 +145,7 @@ public theorem bijective_germ_iff_of_specializes (U : SmallEtale B S hS)
   have hσ : (specializationFiberHom σ).app U ⟨s.hom, rfl⟩ = ⟨t.hom, rfl⟩ := by
     apply Subtype.ext
     rw [specializationFiberHom_app_val]
-    show (l ≫ strictHenselizationSquareMap B U.obj.left.property hS
+    change (l ≫ strictHenselizationSquareMap B U.obj.left.property hS
       (B.inclusion.map U.obj.hom) s) ≫ _ = t.hom
     rw [Category.assoc, hfactor, hl]
   have hcomp : (fun a : A => (geometricPointSitePoint B S hS
@@ -159,7 +159,7 @@ public theorem bijective_germ_iff_of_specializes (U : SmallEtale B S hS)
         (s.map (B.inclusion.map U.obj.hom))) U ⟨s.hom, rfl⟩) (z a)) ?_)
     exact congrArg (fun y : (geometricPointFiber B S hS
         (t.map (B.inclusion.map U.obj.hom))).obj U =>
-      colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS
+      colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS
         (t.map (B.inclusion.map U.obj.hom)))).op ⋙ P)
         (op (Functor.elementsMk (geometricPointFiber B S hS
           (t.map (B.inclusion.map U.obj.hom))) U y)) (z a)) hσ

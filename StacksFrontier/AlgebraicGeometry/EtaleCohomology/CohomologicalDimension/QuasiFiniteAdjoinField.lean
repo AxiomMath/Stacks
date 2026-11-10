@@ -147,7 +147,7 @@ theorem isIntegral_residueFieldMap_of_closure_eq_top {R : Type u} {B : Type v} {
     have hπ : ι₁ (algebraMap D PD.ResidueField d) = π (j d) := by
       simp [ι₁, π]
     refine ⟨p, hmon, ?_⟩
-    show p.eval₂ ι (π (j d)) = 0
+    change p.eval₂ ι (π (j d)) = 0
     rw [← hπ, ← hcomp, ← Polynomial.hom_eval₂, hp, map_zero]
   -- the images of `L`
   have hLint : ∀ ℓ : L, IsIntegral k (π (lam ℓ)) := by

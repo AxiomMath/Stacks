@@ -77,7 +77,7 @@ with invertible fibre component to an arrow with invertible fibre component. -/
 theorem isIso_fiber_map_map {E : Type*} [Category E] {F G : E ⥤ Cat} (α : F ⟶ G)
     {x y : Grothendieck F} (f : x ⟶ y) (hf : IsIso f.fiber) :
     IsIso ((Grothendieck.map α).map f).fiber := by
-  show IsIso ((eqToHom (α.naturality f.base).symm).toNatTrans.app x.fiber ≫
+  change IsIso ((eqToHom (α.naturality f.base).symm).toNatTrans.app x.fiber ≫
     (α.app y.base).toFunctor.map f.fiber)
   rw [Cat.eqToHom_app]
   exact IsIso.comp_isIso' inferInstance (Functor.map_isIso _ f.fiber)

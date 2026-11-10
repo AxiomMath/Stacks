@@ -71,7 +71,7 @@ theorem awayEval_mk (φ : A →+* B) {t : A} (hu : IsUnit (φ t)) {d : ℕ} (htd
   simp only [awayEval, RingHom.coe_comp, Function.comp_apply,
     HomogeneousLocalization.algebraMap_apply, Away.val_mk, Localization.mk_eq_mk']
   rw [IsLocalization.Away.lift, IsLocalization.lift_mk'_spec]
-  show φ a = φ (t ^ n) * (φ a * ↑(hu.unit⁻¹ ^ n))
+  change φ a = φ (t ^ n) * (φ a * ↑(hu.unit⁻¹ ^ n))
   rw [map_pow, mul_left_comm, mul_comm (φ t ^ n), val_inv_pow_mul_pow, mul_one]
 
 /-- The `B`-valued point of `Proj A` determined by `φ : A →+* B`, read on the chart `D₊(t)`. -/
@@ -188,7 +188,7 @@ theorem awayEval_fromZeroRingHom (φ : A →+* B) (t : A) {d : ℕ} (htd : t ∈
   have : fromZeroRingHom 𝒜 (Submonoid.powers t) a =
       Away.mk 𝒜 htd 0 (a : A) (by simp) := by
     ext
-    show (HomogeneousLocalization.mk ⟨0, a, 1, one_mem _⟩).val = _
+    change (HomogeneousLocalization.mk ⟨0, a, 1, one_mem _⟩).val = _
     rw [HomogeneousLocalization.val_mk, Away.val_mk]
     congr 1
     ext
@@ -275,7 +275,7 @@ theorem hom_ext_of_point {Z S : Scheme.{u}} (s : Z ⟶ S) [IsSeparated s]
     f = g := by
   refine (Proj.affineOpenCoverOfIrrelevantLESpan 𝒜 t ht hm hspan).openCover.hom_ext _ _
     (fun (i : ι) => ?_)
-  show Proj.awayι 𝒜 (t i) (ht i) (hm i) ≫ f = Proj.awayι 𝒜 (t i) (ht i) (hm i) ≫ g
+  change Proj.awayι 𝒜 (t i) (ht i) (hm i) ≫ f = Proj.awayι 𝒜 (t i) (ht i) (hm i) ≫ g
   have : IsDomain (Away 𝒜 (t i)) := (hinj i).isDomain _
   have : IsDominant (Spec.map (CommRingCat.ofHom (awayEval 𝒜 φ (t i) (hu i)))) :=
     isDominant_Spec_map_of_injective (CommRingCat.ofHom (awayEval 𝒜 φ (t i) (hu i))) (hinj i)

@@ -121,7 +121,7 @@ theorem isIso_relHomConeEquiv_iff (κ : ConeTo π a₀) (κ' : ConeTo π' a₀) 
   refine ⟨fun h => ?_, fun _ => Functor.isIso_conjHom (P.triangle hσ) α⟩
   change IsIso (Functor.conjHom (P.triangle hσ) α) at h
   have : IsIso ((P.pullEquivalence σ).functor.map α) := by
-    show IsIso ((P.pull σ.hom).map α)
+    change IsIso ((P.pull σ.hom).map α)
     rw [show (P.pull σ.hom).map α = (P.triangle hσ).inv.app M ≫
         Functor.conjHom (P.triangle hσ) α ≫ (P.triangle hσ).hom.app N by simp [Functor.conjHom]]
     infer_instance

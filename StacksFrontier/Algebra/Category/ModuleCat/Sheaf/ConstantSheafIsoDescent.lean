@@ -131,7 +131,7 @@ theorem exists_surjective_of_constantSheaf_iso (hJ : ∃ U : C, (⊥ : Sieve U) 
   have hts : (e.hom.hom.app (op V)).hom
       ((e.inv.hom.app (op V)).hom ((constantUnitApp J N (op V)).hom n)) =
         (constantUnitApp J N (op V)).hom n := by
-    show ((e.inv ≫ e.hom).hom.app (op V)).hom _ = _
+    change ((e.inv ≫ e.hom).hom.app (op V)).hom _ = _
     rw [e.inv_hom_id]
     rfl
   -- `s` is the canonical section of some `m : M` over an object that is not empty
@@ -192,10 +192,10 @@ theorem nonempty_iso_of_constantSheaf_iso (hJ : ∃ U : C, (⊥ : Sieve U) ∉ J
     intro A B θ θ' ε ε' hε hε' hcomp
     refine eq_of_constantSheaf_map_app_eq J _ _ hW ?_
     rw [CategoryTheory.Functor.map_comp, CategoryTheory.Functor.map_id]
-    show ((constantSheaf J (ModuleCat.{x} Λ)).map θ).hom.app (op W) ≫
+    change ((constantSheaf J (ModuleCat.{x} Λ)).map θ).hom.app (op W) ≫
       ((constantSheaf J (ModuleCat.{x} Λ)).map θ').hom.app (op W) = _
     rw [← hε, ← hε']
-    show (ε ≫ ε').hom.app (op W) = _
+    change (ε ≫ ε').hom.app (op W) = _
     rw [hcomp]
   exact ⟨⟨ψ, χ, key ψ χ e.hom e.inv hψW hχW e.hom_inv_id,
     key χ ψ e.inv e.hom hχW hψW e.inv_hom_id⟩⟩
@@ -214,7 +214,7 @@ theorem exists_surjective_ker_eq_of_constantSheaf_quotient_iso
   refine ⟨ModuleCat.ofHom P.mkQ ≫ f.hom, ?_, ?_⟩
   · simpa using hbij.2.comp P.mkQ_surjective
   · refine Submodule.ext fun m => ?_
-    show f.hom.hom (P.mkQ m) = 0 ↔ m ∈ P
+    change f.hom.hom (P.mkQ m) = 0 ↔ m ∈ P
     rw [map_eq_zero_iff _ hbij.1, P.mkQ_apply, Submodule.Quotient.mk_eq_zero]
 
 end Descent

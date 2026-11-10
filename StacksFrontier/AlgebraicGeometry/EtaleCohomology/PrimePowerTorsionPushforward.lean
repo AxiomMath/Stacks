@@ -216,7 +216,7 @@ theorem isPrimePowerTorsion_smallEtalePullbackAb {X Y : Scheme.{u}} (f : X ⟶ Y
     rw [op_comp, CategoryTheory.Functor.map_comp, ConcreteCategory.comp_apply, hh,
       ← ConcreteCategory.comp_apply, ← CategoryTheory.Functor.map_comp, ← op_comp, hbm, op_comp,
       CategoryTheory.Functor.map_comp, ConcreteCategory.comp_apply]
-    show ℓ ^ r • ((smallEtalePullbackAb f).obj G).obj.map c.op
+    change ℓ ^ r • ((smallEtalePullbackAb f).obj G).obj.map c.op
       (((smallEtalePullbackAb f).obj G).obj.map ((smallEtaleBaseChange f).map w).op
         (smallEtalePullbackAbUnitApp f G W h)) = 0
     rw [← ConcreteCategory.comp_apply ((smallEtalePullbackAbUnitApp f G W)),

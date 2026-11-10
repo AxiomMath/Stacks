@@ -101,8 +101,8 @@ The source proves `⟸` by cohomology. Write `P(F)` for "there is `n₀` with
    `f_*((f⁻¹ J) · F)`, and the projection formula [Stacks, Tag 01E8] together with
    [Stacks, Tag 089W] transports the vanishing from `Y` to `X`.
 
-**All five inputs are in the library and tagged**, and `isAmple_of_isAmple_modulePullback` consumes them
-as they stand:
+**All five inputs are in the library and tagged**, and `isAmple_of_isAmple_modulePullback` consumes
+them as they stand:
 
 * **[Stacks, Tag 0B5U]**, both directions the converse consumes:
   `AlgebraicGeometry.Scheme.Modules.hasEventualTwistCohomologyVanishing_of_isAmple` for
@@ -619,7 +619,8 @@ theorem hasHighTwistVanishing_of_isCoherent {R : Type u} [CommRing R] [IsNoether
 /-- **The implication `⟸` of [Stacks, Tag 0B5V].** For `f : Y ⟶ X` finite and surjective and `X`
 proper over a Noetherian ring `R`, ampleness of `f^* L` gives ampleness of `L`.
 
-The source's route, every step of it from the library. `hasHighTwistVanishing_of_isCoherent` is clause
+The source's route, every step of it from the library. `hasHighTwistVanishing_of_isCoherent` is
+clause
 (2) of [Stacks, Tag 0B5U] for `L`, and `(2) ⟹ (1)` of that tag is ampleness. The two spellings of
 clause (2) — this file's `Stacks.HighTwistVanishing.HasHighTwistVanishing` over `Hgroup`, and
 `AlgebraicGeometry.Scheme.Modules.HasEventualTwistCohomologyVanishing` over the derived functor of

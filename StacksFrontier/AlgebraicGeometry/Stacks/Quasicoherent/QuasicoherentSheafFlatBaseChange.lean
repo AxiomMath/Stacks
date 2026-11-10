@@ -71,7 +71,6 @@ theorem hasSheafFlatBaseChangeProperty_of_isQuasicoherentOnSite
     HasSheafFlatBaseChangeProperty B E h S hS p hp (etaleTopology B)
       (etaleTopology_le_topology B) M.val :=
   hasSheafFlatBaseChangeProperty_of_isIso_restrictionBaseChange B E h S hS p hp M.val
-    (isLocallyQuasicoherent_of_isQuasicoherentOnSite B E h S hS p hp M hM)
     (fun φ hx hy _ => FibredSite.isIso_restrictionBaseChange_of_isQuasicoherentOnSite M hM φ hx hy)
 
 /-- **`QCoh(𝒪_𝒳) ⊆ LQCoh^fbc(𝒪_𝒳)`** (Stacks, Section 0GQG; Stacks 06WK, forward direction of

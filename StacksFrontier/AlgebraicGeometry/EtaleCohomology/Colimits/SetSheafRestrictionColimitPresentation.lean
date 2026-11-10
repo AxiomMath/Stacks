@@ -81,9 +81,9 @@ the cancellation of two `eqToHom`s and not an appeal to the machinery.
 stated with the *constructed* inverse image on Mathlib's small étale site; passing between it and
 the restriction predicate here takes the two steps recorded in
 `StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/SmallEtaleCoefficientCrossing.lean` and
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/SmallEtaleColimitVanishingReduction.lean`:
-an adjunction and a change of coefficients, neither of which is performed in this file. The
-abelian half of the adjunction step is
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/SmallEtaleColimitVanishingReduction.lean`
+(namely an adjunction and a change of coefficients), neither of which is performed in this
+file. The abelian half of the adjunction step is
 `Stacks.EtaleCohomology.SmallEtaleLimitCohomology.isColimitPresentation_iff`.
 
 ## References

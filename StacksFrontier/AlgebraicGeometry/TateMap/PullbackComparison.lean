@@ -137,7 +137,7 @@ theorem detNLPullbackChartEquiv_pullbackSection (U : X.affineOpens) (V : Y.affin
   have := isQuasicoherent_detNL f hf
   have h := (LinearEquiv.symm_apply_eq _).mpr
     (pullbackSectionsTensorEquiv_one_tmul sq.cover (detNL f hf) V V' hV'V s).symm
-  show (detNLChartEquiv f' hf' U' V' hV'U').symm (detNLBaseChange D
+  change (detNLChartEquiv f' hf' U' V' hV'U').symm (detNLBaseChange D
     (LinearEquiv.baseChange Γ(Y, V.1) Γ(Y', V'.1) _ _ (detNLChartEquiv f hf U V hVU)
       ((pullbackSectionsTensorEquiv sq.cover (detNL f hf) V V' hV'V).symm
         (Scheme.Modules.pullbackSection sq.cover (detNL f hf) V.1 V'.1 hV'V s)))) = _
@@ -237,8 +237,7 @@ theorem equiv_restrict (k m : sq.Chart) (a : Γ(X, k.U.1)) (b : Γ(Y, k.V.1))
   let : Algebra Γ(Y, k.V.1) Γ(Y', k.V'.1) := (sq.cover.appLE k.V.1 k.V'.1 k.hV'V).hom.toAlgebra
   obtain ⟨z, rfl⟩ :=
     (pullbackSectionsTensorEquiv sq.cover (detNL f hf) k.V k.V' k.hV'V).surjective s
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | add z w hz hw => simp only [map_add] at hz hw ⊢; rw [hz, hw]
   | tmul t x =>
     rw [pullbackSectionsTensorEquiv_tmul]

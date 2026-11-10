@@ -65,6 +65,8 @@ private theorem eq_of_notMem_compl_support {V : Scheme.{u}} {J : V.IdealSheafDat
     exact hx hn
   rwa [hJ] at this
 
+omit [IsLocallyNoetherian W] [IsNormal W] [Flat h] [QuasiCompact (blowUpToBase I)]
+  [QuasiSeparated (blowUpToBase I)] in
 include hI sq in
 /-- The open `b⁻¹(W ∖ {w})` and the image of `h` cover the blowup. -/
 theorem mem_range_or_mem_range_of_isPullback (x : blowUp I) :
@@ -99,7 +101,7 @@ theorem nonempty_iso_unit_of_pullback_iso_of_blowUp (L : (blowUp I).Modules)
   let g := specToOfRingEquivStalk A w e
   have hfac : W.fromSpecStalk w =
       Spec.map (CommRingCat.ofHom (e : A →+* W.presheaf.stalk w)) ≫ g := by
-    show _ = Spec.map _ ≫ (Spec.map _ ≫ W.fromSpecStalk w)
+    change _ = Spec.map _ ≫ (Spec.map _ ≫ W.fromSpecStalk w)
     rw [← Category.assoc, ← Spec.map_comp, ← CommRingCat.ofHom_comp, RingEquiv.comp_symm,
       CommRingCat.ofHom_id]
     exact (Category.id_comp _).symm.trans

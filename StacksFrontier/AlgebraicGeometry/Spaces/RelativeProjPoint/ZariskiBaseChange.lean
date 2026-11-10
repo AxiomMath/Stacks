@@ -238,7 +238,7 @@ theorem directImageSelfOpensSection_structureSharp {T T' : BigFppfOver B S hS} (
   refine (congrArg ((Sheaf.ringSheaf (Stacks.SheafOfModules.Tensor.ringSheaf
           (smallEtaleRingedTopos B S hS (yonedaSpace B S hS T')).O)).obj.map
         (baseChangeSelfOpensIso τ O).inv.op) h).trans ?_
-  show Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
+  change Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
         (baseChangeSelfOpensIso τ O).inv.hom.left).op
       (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
         ((relativelyRepresentable_yoneda_map B S hS τ).snd

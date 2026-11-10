@@ -218,7 +218,7 @@ theorem determinantEquivOfSurjectiveQuasiIso_eq_lineCongr (d : K₁ →ₗ[R] K�
     ha hqa).unique
   intro φ x y
   apply Subtype.ext
-  show ((kernelDeterminantEquiv e₀.toLinearMap e₀.surjective _ :
+  change ((kernelDeterminantEquiv e₀.toLinearMap e₀.surjective _ :
       ProjectiveDeterminant.module (R := R) (M := K₀)) : ExteriorAlgebra R K₀) =
     ((φ (kernelDeterminantEquiv e₁.toLinearMap e₁.surjective (x ⊗ₜ[R] y)) :
       ProjectiveDeterminant.module (R := R) (M := K₀)) : ExteriorAlgebra R K₀)
@@ -228,13 +228,13 @@ theorem determinantEquivOfSurjectiveQuasiIso_eq_lineCongr (d : K₁ →ₗ[R] K�
     rw [kernelDeterminantEquiv_val_of_equiv, Submodule.coe_smul, coe_mapEquiv_symm_apply]
   rw [kernelDeterminantEquiv_val_of_equiv, hkn, map_smul, Submodule.coe_smul]
   congr 1
-  · show ExteriorAlgebra.algebraMapInv (ExteriorAlgebra.map _ x.1) = _
+  · change ExteriorAlgebra.algebraMapInv (ExteriorAlgebra.map _ x.1) = _
     induction x.1 using ExteriorAlgebra.induction with
     | algebraMap r => simp
     | ι m => simp [ExteriorAlgebra.algebraMapInv]
     | mul a b ha hb => rw [map_mul, map_mul, ha, hb, map_mul]
     | add a b ha hb => rw [map_add, map_add, ha, hb, map_add]
-  · show ExteriorAlgebra.map e₀.symm.toLinearMap
+  · change ExteriorAlgebra.map e₀.symm.toLinearMap
       (ExteriorAlgebra.map e₀.toLinearMap (φ ((ProjectiveDeterminant.mapEquiv e₁).symm y)).1) = _
     simpa using map_map_symm_apply e₀.symm _
 

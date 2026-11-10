@@ -86,7 +86,7 @@ theorem prop_algebraicSpaceMap_relativeDiagonal_iff_isomSpace
   let Q : MorphismProperty (AlgebraicSpaces B S hS) := P.inverseImage (ObjectProperty.ι _)
   have _ : Q.RespectsIso := MorphismProperty.RespectsIso.inverseImage _ _
   refine (prop_algebraicSpaceMap_iff B S hS Q U F hF).trans ?_
-  show P (OverShriek.relocalizeToYoneda U.hom F) ↔ _
+  change P (OverShriek.relocalizeToYoneda U.hom F) ↔ _
   rw [← OverShriek.relocalizePresheafFunctor_map_comp_relocalizeToYoneda U.hom iI.hom]
   exact P.cancel_left_of_respectsIso _ _
 

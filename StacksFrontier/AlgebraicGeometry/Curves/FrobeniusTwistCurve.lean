@@ -95,7 +95,7 @@ theorem smooth_frobeniusTwist_curve {k : Type u} [Field k] (p : ℕ) [Fact p.Pri
     (hS : IsInCharacteristic (Spec (.of k)) p) {X : Scheme.{u}} (pX : X ⟶ Spec (.of k))
     [Smooth pX] :
     Smooth ((frobeniusTwist (Spec (.of k)) p hS).obj (Over.mk pX)).hom := by
-  show Smooth (pullback.snd pX (absoluteFrobenius (Spec (.of k)) p hS))
+  change Smooth (pullback.snd pX (absoluteFrobenius (Spec (.of k)) p hS))
   infer_instance
 
 /-- **The Frobenius twist of a proper scheme over a field is proper.** The structure morphism of
@@ -104,7 +104,7 @@ theorem isProper_frobeniusTwist_curve {k : Type u} [Field k] (p : ℕ) [Fact p.P
     (hS : IsInCharacteristic (Spec (.of k)) p) {X : Scheme.{u}} (pX : X ⟶ Spec (.of k))
     [IsProper pX] :
     IsProper ((frobeniusTwist (Spec (.of k)) p hS).obj (Over.mk pX)).hom := by
-  show IsProper (pullback.snd pX (absoluteFrobenius (Spec (.of k)) p hS))
+  change IsProper (pullback.snd pX (absoluteFrobenius (Spec (.of k)) p hS))
   infer_instance
 
 /-- **Stacks Project, Tag 056S at the Frobenius twist.** The Frobenius twist of a smooth scheme

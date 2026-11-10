@@ -103,7 +103,7 @@ theorem algebraPullback_map_inclusion_comp :
     ((Category.assoc _ _ _).trans (congrArg (_ ≫ ·) (Functor.map_comp _ _ _).symm)))
   refine Under.UnderMorphism.ext (gradedAlgebraSheaf_right_hom_ext _ _ _ fun n W x => ?_)
   obtain ⟨V⟩ := W
-  show ((gradedAlgebraSheafMap X ψ (pbGraded_mul_comm g 𝒞 hc) hb).right.hom.app
+  change ((gradedAlgebraSheafMap X ψ (pbGraded_mul_comm g 𝒞 hc) hb).right.hom.app
         (op (g ⁻¹ᵁ V))).hom
       (((pushforwardHom g 𝒞 hc).right.hom.app (op V)).hom
         (((gradedAlgebraSheafMap Y (inclusion 𝒞) (isCommutative_nonnegTruncation 𝒞 hc)

@@ -143,7 +143,8 @@ No `@[stacks]` attribute is claimed.  A naturality square is not a Stacks tag, a
 below is restated there with nothing assumed as
 `AlgebraicGeometry.Space.conormalSheafMap_representedConormalKernelIdealZPowIso_of_comp_eq`.
 What part (2) still needs is named in the section "What the reduction of `hnat` still
-owes" of `StacksFrontier/AlgebraicGeometry/Spaces/ConormalModuleRepresentedImmersionNaturality.lean`.
+owes" of
+`StacksFrontier/AlgebraicGeometry/Spaces/ConormalModuleRepresentedImmersionNaturality.lean`.
 
 ## References
 

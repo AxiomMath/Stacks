@@ -68,7 +68,7 @@ theorem PrimeSpectrum.mem_genericPoints_of_disjoint_nonZeroDivisors {A : Type u}
   have hmin : p.asIdeal ∈ minimalPrimes A :=
     mem_minimalPrimes_of_disjoint_nonZeroDivisors (minimalPrimes.finite_of_isNoetherianRing A)
       (fun _ ha => exists_mem_minimalPrimes_of_notMem_nonZeroDivisors A ha) p.asIdeal hp.symm
-  show closure ({p} : Set (PrimeSpectrum A)) ∈ irreducibleComponents (PrimeSpectrum A)
+  change closure ({p} : Set (PrimeSpectrum A)) ∈ irreducibleComponents (PrimeSpectrum A)
   rw [PrimeSpectrum.closure_singleton]
   exact PrimeSpectrum.zeroLocus_ideal_mem_irreducibleComponents.mpr
     (by rw [p.isPrime.radical]; exact hmin)

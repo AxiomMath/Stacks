@@ -98,13 +98,13 @@ theorem range_subset_opensRange_iff_exists_fac {V H : BigFppfOver B S hS} (q : V
     let l := IsOpenImmersion.lift ((𝒯).map q) g (by rwa [Scheme.Hom.coe_opensRange] at hg)
     have hl : l ≫ (𝒯).map q = g := IsOpenImmersion.lift_fac _ _ _
     refine ⟨Over.homMk (ObjectProperty.homMk l) (ObjectProperty.hom_ext _ ?_), ?_⟩
-    · show l ≫ V.hom.hom = g ≫ H.hom.hom
+    · change l ≫ V.hom.hom = g ≫ H.hom.hom
       rw [← hl, Category.assoc]
       exact congrArg (l ≫ ·) (congrArg (fun m => m.hom) (Over.w q)).symm
     · exact Over.OverMorphism.ext (ObjectProperty.hom_ext _ hl)
   · rintro ⟨t, ht⟩ _ ⟨y, rfl⟩
     refine ⟨((𝒯).map t) y, ?_⟩
-    show ((𝒯).map q) (((𝒯).map t) y) = ((𝒯).map (isoLocusTestHom H hT' g)) y
+    change ((𝒯).map q) (((𝒯).map t) y) = ((𝒯).map (isoLocusTestHom H hT' g)) y
     rw [← Scheme.Hom.comp_apply, ← Functor.map_comp, ht]
 
 /-- A morphism of the site factors through the base change of the realisation of `Mor_Q(Z, X)`

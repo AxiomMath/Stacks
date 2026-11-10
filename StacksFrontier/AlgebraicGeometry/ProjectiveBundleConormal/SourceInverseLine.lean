@@ -122,7 +122,7 @@ theorem reseat_tensorHom (e : curriedTensor C ≅ T) (ε : 𝟙_ C ≅ U) {A B D
     (f : A ⟶ B) (k : D ⟶ E) :
     @MonoidalCategoryStruct.tensorHom C _ (reseat e ε).toMonoidalCategoryStruct _ _ _ _ f k =
       (reseatIso e A D).inv ≫ (f ⊗ₘ k) ≫ (reseatIso e B E).hom := by
-  show (T.map f).app D ≫ (T.obj B).map k = _
+  change (T.map f).app D ≫ (T.obj B).map k = _
   rw [reseat_whiskerRight e f D, reseat_whiskerLeft e B k]
   simp only [Category.assoc, Iso.hom_inv_id_assoc]
   rw [MonoidalCategory.tensorHom_def]

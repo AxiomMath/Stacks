@@ -124,8 +124,7 @@ homogeneous piece. -/
 public theorem baseChange_gradeDifferential (n : ℕ) (u : P ⊗[R] 𝒜 (n + 1)) :
     LinearMap.baseChange P d ((𝒜 (n + 1)).subtype.baseChange P u) =
       (𝒜 n).subtype.baseChange P ((gradeDifferential 𝒜 d n).baseChange P u) := by
-  induction u using TensorProduct.induction_on with
-  | zero => simp
+  induction u using TensorProduct.inductionOn with
   | tmul p x => simp
   | add u v hu hv => simp [hu, hv]
 
@@ -139,15 +138,15 @@ public theorem exact_positive_baseChange [Module.Flat R P]
   obtain ⟨m, rfl⟩ := Nat.exists_eq_succ_of_ne_zero (Nat.pos_iff_ne_zero.1 hn)
   obtain ⟨u, rfl⟩ := hx
   have hinj : Function.Injective ((𝒜 m).subtype.baseChange P) := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap _ (𝒜 m).injective_subtype
   have hker : (gradeDifferential 𝒜 d m).baseChange P u = 0 :=
     hinj (by rwa [map_zero, ← baseChange_gradeDifferential 𝒜 d m u])
   have hexact := Module.Flat.lTensor_exact P (exact_gradeDifferential 𝒜 d hex m)
-  rw [LinearMap.baseChange_eq_ltensor] at hker
+  rw [LinearMap.baseChange_eq_lTensor] at hker
   obtain ⟨w, hw⟩ := (hexact u).1 hker
   have hw' : (gradeDifferential 𝒜 d (m + 1)).baseChange P w = u := by
-    rw [LinearMap.baseChange_eq_ltensor]; exact hw
+    rw [LinearMap.baseChange_eq_lTensor]; exact hw
   refine ⟨(𝒜 (m + 2)).subtype.baseChange P w, ⟨w, rfl⟩, ?_⟩
   rw [baseChange_gradeDifferential 𝒜 d (m + 1) w, hw']
 
@@ -214,8 +213,7 @@ public theorem baseChangeMap_tmul (ψ : P →ₐ[R] T) (p : P) (a : A) :
 public theorem surjective_baseChangeMap (ψ : P →ₐ[R] T) (hψ : Function.Surjective ψ) :
     Function.Surjective (baseChangeMap (A := A) ψ) := by
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction z using TensorProduct.inductionOn with
   | tmul t a =>
       obtain ⟨p, rfl⟩ := hψ t
       exact ⟨p ⊗ₜ[R] a, rfl⟩
@@ -227,8 +225,7 @@ public theorem surjective_baseChangeMap (ψ : P →ₐ[R] T) (hψ : Function.Sur
 /-- The base change of an algebra map is semilinear for the coefficient map. -/
 public theorem baseChangeMap_smul (ψ : P →ₐ[R] T) (p : P) (x : P ⊗[R] A) :
     baseChangeMap ψ (p • x) = ψ p • baseChangeMap ψ x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul q a => simp [TensorProduct.smul_tmul']
   | add x y hx hy => simp [hx, hy]
 
@@ -252,8 +249,7 @@ public theorem baseChangeMap_mem_baseChange (ψ : P →ₐ[R] T) (p : Submodule 
 public theorem baseChangeMap_baseChange (ψ : P →ₐ[R] T) (d : A →ₗ[R] A) (x : P ⊗[R] A) :
     baseChangeMap ψ (LinearMap.baseChange P d x) =
       LinearMap.baseChange T d (baseChangeMap ψ x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul p a => simp
   | add x y hx hy => simp [map_add, hx, hy]
 
@@ -279,8 +275,7 @@ public theorem positiveEvenPart_baseChange_eq (𝒜 : ℕ → Submodule R A) :
 /-- Scalar multiplication on a base change is multiplication by a coefficient. -/
 public theorem smul_eq_tmul_one_mul (p : P) (x : P ⊗[R] A) :
     p • x = (p ⊗ₜ[R] (1 : A)) * x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul q a => simp [Algebra.TensorProduct.tmul_mul_tmul, TensorProduct.smul_tmul']
   | add x y hx hy => simp [mul_add, hx, hy]
 

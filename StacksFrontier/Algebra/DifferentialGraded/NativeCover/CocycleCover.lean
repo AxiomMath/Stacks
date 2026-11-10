@@ -136,7 +136,7 @@ theorem coverHom₂_dchain (s : DirectSum (Idx PM) (fun _ => A)) :
           = ((-1 : R) ^ (k PM c).natAbs)
               • DirectSum.lof R (Idx PM) (fun _ => A) c (dA.d b) := by
         refine DirectSum.ext (fun j => ?_)
-        show ShiftSum.diffDiag R A dA (Idx PM) (k PM)
+        change ShiftSum.diffDiag R A dA (Idx PM) (k PM)
               (DirectSum.lof R (Idx PM) (fun _ => A) c b) j = _
         rw [ShiftSum.diffDiag_apply, DirectSum.smul_apply]
         rw [show DirectSum.lof R (Idx PM) (fun _ => A) c b
@@ -199,10 +199,10 @@ theorem coverHom_gradedSurjectiveOnCocycles :
   -- The index for the cocycle `m`.
   refine ⟨DirectSum.lof R (Idx PM) (fun _ => A) ⟨n, ⟨m, ⟨hmcoc, hmgr⟩⟩⟩ 1, ⟨?_, ?_⟩, ?_⟩
   · -- x ∈ Pend.cocycles, i.e. Pend.d x = 0
-    show (Pend PM).d (DirectSum.lof R (Idx PM) (fun _ => A) ⟨n, ⟨m, ⟨hmcoc, hmgr⟩⟩⟩ 1) = 0
+    change (Pend PM).d (DirectSum.lof R (Idx PM) (fun _ => A) ⟨n, ⟨m, ⟨hmcoc, hmgr⟩⟩⟩ 1) = 0
     refine DirectSum.ext (fun j => ?_)
     rw [DirectSum.zero_apply]
-    show ShiftSum.diffDiag R A dA (Idx PM) (k PM)
+    change ShiftSum.diffDiag R A dA (Idx PM) (k PM)
           (DirectSum.lof R (Idx PM) (fun _ => A) ⟨n, ⟨m, ⟨hmcoc, hmgr⟩⟩⟩ 1) j = 0
     rw [ShiftSum.diffDiag_apply]
     rw [show DirectSum.lof R (Idx PM) (fun _ => A) ⟨n, ⟨m, ⟨hmcoc, hmgr⟩⟩⟩ (1 : A)
@@ -212,7 +212,7 @@ theorem coverHom_gradedSurjectiveOnCocycles :
     · subst h; simp [dA_one]
     · simp [h]
   · -- x ∈ Pend.grading n
-    show DirectSum.lof R (Idx PM) (fun _ => A) ⟨n, ⟨m, ⟨hmcoc, hmgr⟩⟩⟩ (1 : A)
+    change DirectSum.lof R (Idx PM) (fun _ => A) ⟨n, ⟨m, ⟨hmcoc, hmgr⟩⟩⟩ (1 : A)
         ∈ (Pend PM).grading n
     rw [show (Pend PM).grading n = ShiftSum.gradingSub R A 𝒜 (Idx PM) (k PM) n from rfl,
         ShiftSum.mem_gradingSub]
@@ -228,7 +228,7 @@ theorem coverHom_gradedSurjectiveOnCocycles :
       exact SetLike.one_mem_graded 𝒜
     · simp [h]
   · -- φ₂ x = m
-    show coverHom₂ PM (DirectSum.lof R (Idx PM) (fun _ => A) ⟨n, ⟨m, ⟨hmcoc, hmgr⟩⟩⟩ 1) = m
+    change coverHom₂ PM (DirectSum.lof R (Idx PM) (fun _ => A) ⟨n, ⟨m, ⟨hmcoc, hmgr⟩⟩⟩ 1) = m
     rw [coverHom₂_lof]
     show PM.smul (elt PM ⟨n, ⟨m, ⟨hmcoc, hmgr⟩⟩⟩) 1 = m
     rw [PM.smul_one]
@@ -424,7 +424,7 @@ theorem fwd_fst_apply (ιA ιB : Type t) (x : DirectSum (ιA ⊕ ιB) (fun _ => 
       cases i with
       | inl a =>
           rw [fwd_lof_inl]
-          show (DirectSum.lof R ιA (fun _ => A) a c) j
+          change (DirectSum.lof R ιA (fun _ => A) a c) j
             = (DirectSum.lof R (ιA ⊕ ιB) (fun _ => A) (Sum.inl a) c) (Sum.inl j)
           rw [show DirectSum.lof R ιA (fun _ => A) a c
                 = DirectSum.of (fun _ : ιA => A) a c from rfl,
@@ -436,7 +436,7 @@ theorem fwd_fst_apply (ιA ιB : Type t) (x : DirectSum (ιA ⊕ ιB) (fun _ => 
           · rw [dite_eq_right h, dite_eq_right (by simpa using h)]
       | inr b =>
           rw [fwd_lof_inr]
-          show (0 : DirectSum ιA (fun _ => A)) j
+          change (0 : DirectSum ιA (fun _ => A)) j
             = (DirectSum.lof R (ιA ⊕ ιB) (fun _ => A) (Sum.inr b) c) (Sum.inl j)
           rw [DirectSum.zero_apply,
               show DirectSum.lof R (ιA ⊕ ιB) (fun _ => A) (Sum.inr b) c
@@ -458,7 +458,7 @@ theorem fwd_snd_apply (ιA ιB : Type t) (x : DirectSum (ιA ⊕ ιB) (fun _ => 
       cases i with
       | inr b =>
           rw [fwd_lof_inr]
-          show (DirectSum.lof R ιB (fun _ => A) b c) j
+          change (DirectSum.lof R ιB (fun _ => A) b c) j
             = (DirectSum.lof R (ιA ⊕ ιB) (fun _ => A) (Sum.inr b) c) (Sum.inr j)
           rw [show DirectSum.lof R ιB (fun _ => A) b c
                 = DirectSum.of (fun _ : ιB => A) b c from rfl,
@@ -470,7 +470,7 @@ theorem fwd_snd_apply (ιA ιB : Type t) (x : DirectSum (ιA ⊕ ιB) (fun _ => 
           · rw [dite_eq_right h, dite_eq_right (by simpa using h)]
       | inl a =>
           rw [fwd_lof_inl]
-          show (0 : DirectSum ιB (fun _ => A)) j
+          change (0 : DirectSum ιB (fun _ => A)) j
             = (DirectSum.lof R (ιA ⊕ ιB) (fun _ => A) (Sum.inl a) c) (Sum.inr j)
           rw [DirectSum.zero_apply,
               show DirectSum.lof R (ιA ⊕ ιB) (fun _ => A) (Sum.inl a) c
@@ -576,7 +576,7 @@ theorem isInternal_gradingProd (QA : DGModule R A 𝒜 dA PA)
       _ = ⊥ := by
             rw [inf_comm (QA.grading i), inf_comm (QB.grading i),
               hXle, hYle, Submodule.prod_bot]
-  · show (⨆ n, (QA.grading n).prod (QB.grading n)) = ⊤
+  · change (⨆ n, (QA.grading n).prod (QB.grading n)) = ⊤
     rw [hprod, hX2, hY2, Submodule.prod_top]
 
 /-- The binary product DG `A`-module `PA × PB`. -/
@@ -651,7 +651,7 @@ theorem isDirectSumOfShifts_prodDG
         ((eA.prodCongr eB).trans (SumDS.equiv ιA ιB).symm t) i
           = (Sum.elim (fun jₐ => (eA t.1) jₐ) (fun jᵦ => (eB t.2) jᵦ)) i := by
       intro t i
-      show (SumDS.equiv ιA ιB).symm (eA t.1, eB t.2) i = _
+      change (SumDS.equiv ιA ιB).symm (eA t.1, eB t.2) i = _
       rw [SumDS.equiv_symm_apply]
       cases i with
       | inl jₐ =>
@@ -670,18 +670,18 @@ theorem isDirectSumOfShifts_prodDG
       rw [hes, hes]
       cases j with
       | inl jₐ =>
-          show (eA ((ProdDG.smulProd PSA PSB s a).1)) jₐ
+          change (eA ((ProdDG.smulProd PSA PSB s a).1)) jₐ
               = (eA s.1) jₐ * a
           rw [ProdDG.smulProd_apply]
           exact hAact s.1 a jₐ
       | inr jᵦ =>
-          show (eB ((ProdDG.smulProd PSA PSB s a).2)) jᵦ
+          change (eB ((ProdDG.smulProd PSA PSB s a).2)) jᵦ
               = (eB s.2) jᵦ * a
           rw [ProdDG.smulProd_apply]
           exact hBact s.2 a jᵦ
     · -- grading
       intro n s
-      show s ∈ (ProdDG.gradingProd PSA PSB n) ↔ _
+      change s ∈ (ProdDG.gradingProd PSA PSB n) ↔ _
       rw [ProdDG.gradingProd, Submodule.mem_prod, hAgr, hBgr]
       constructor
       · rintro ⟨h1, h2⟩ j
@@ -699,27 +699,27 @@ theorem isDirectSumOfShifts_prodDG
       show _ = ((-1 : R) ^ (Sum.elim kA kB j).natAbs) • dA.d _
       cases j with
       | inl jₐ =>
-          show (eA ((ProdDG.dProd PSA PSB s).1)) jₐ
+          change (eA ((ProdDG.dProd PSA PSB s).1)) jₐ
               = ((-1 : R) ^ (kA jₐ).natAbs) • dA.d ((eA s.1) jₐ)
           rw [ProdDG.dProd_apply]
           exact hAd s.1 jₐ
       | inr jᵦ =>
-          show (eB ((ProdDG.dProd PSA PSB s).2)) jᵦ
+          change (eB ((ProdDG.dProd PSA PSB s).2)) jᵦ
               = ((-1 : R) ^ (kB jᵦ).natAbs) • dA.d ((eB s.2) jᵦ)
           rw [ProdDG.dProd_apply]
           exact hBd s.2 jᵦ
   · -- DG-isomorphism
     refine ⟨ProdDG.prodHom fA fB, ProdDG.prodHom gA gB, ?_, ?_⟩
     · intro m
-      show ((ProdDG.prodHom gA gB).toFun ((ProdDG.prodHom fA fB).toFun m)) = m
+      change ((ProdDG.prodHom gA gB).toFun ((ProdDG.prodHom fA fB).toFun m)) = m
       apply Prod.ext
-      · show gA.toFun (fA.toFun m.1) = m.1; rw [hgfA]
-      · show gB.toFun (fB.toFun m.2) = m.2; rw [hgfB]
+      · change gA.toFun (fA.toFun m.1) = m.1; rw [hgfA]
+      · change gB.toFun (fB.toFun m.2) = m.2; rw [hgfB]
     · intro s
-      show ((ProdDG.prodHom fA fB).toFun ((ProdDG.prodHom gA gB).toFun s)) = s
+      change ((ProdDG.prodHom fA fB).toFun ((ProdDG.prodHom gA gB).toFun s)) = s
       apply Prod.ext
-      · show fA.toFun (gA.toFun s.1) = s.1; rw [hfgA]
-      · show fB.toFun (gB.toFun s.2) = s.2; rw [hfgB]
+      · change fA.toFun (gA.toFun s.1) = s.1; rw [hfgA]
+      · change fB.toFun (gB.toFun s.2) = s.2; rw [hfgB]
 
 end DifferentialGraded.NativeCover
 

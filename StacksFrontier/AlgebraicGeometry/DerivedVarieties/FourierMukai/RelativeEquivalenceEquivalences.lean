@@ -31,8 +31,8 @@ are equivalences. This is [Stacks, Tag 0G0J], under exactly the source's hypothe
 ## Implementation notes
 
 The argument is the source's ("immediate from [Stacks, Tag 0FYS] and [Stacks, Tag 0FYV]") and
-is carried out in
-`StacksFrontier/AlgebraicGeometry/DerivedVarieties/FourierMukai/RelativeEquivalenceIsEquivalence.lean`
+is carried out in the module
+`StacksFrontier.AlgebraicGeometry.DerivedVarieties.FourierMukai.RelativeEquivalenceIsEquivalence`
 as `AlgebraicGeometry.isEquivalence_quasiCoherentFourierMukai` and
 `AlgebraicGeometry.isEquivalence_perfectFourierMukai`. Those two theorems take exactly the
 source's hypotheses and assume nothing further: the four auxiliary Stacks results their proof

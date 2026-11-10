@@ -103,11 +103,11 @@ private theorem relationMap_kernel {C : Type u} [Category C] [Abelian C]
     IsColimit.coconePointUniqueUpToIso (cokernelIsCokernel S.v₁₂.τ₃) S.h₃τ₃
   let ec : cokernel (S.v₁₂.τ₃) ≅ cokernel f :=
     by
-      show cokernel (Abelian.factorThruCoimage f) ≅ cokernel f
+      change cokernel (Abelian.factorThruCoimage f) ≅ cokernel f
       exact (cokernelEpiComp (cokernel.π (kernel.ι f))
         (Abelian.factorThruCoimage f)).symm ≪≫ cokernelIsoOfEq (Abelian.coimage.fac f)
   let : Mono S.v₁₂.τ₃ := by
-    show Mono (Abelian.factorThruCoimage f)
+    change Mono (Abelian.factorThruCoimage f)
     infer_instance
   let e₀ := IsLimit.conePointUniqueUpToIso (kernelIsKernel S.v₁₂.τ₃) S.h₀τ₃
   have hzero : IsZero S.L₀.X₃ := IsZero.of_iso (isZero_kernel_of_mono S.v₁₂.τ₃) e₀.symm
@@ -207,8 +207,7 @@ private noncomputable def moduleExtensionULiftIso {A : Type u} [CommRing A]
       (LinearEquiv.refl B B) (ULift.moduleEquiv.{u, w, max u v} (R := A) (M := M)).symm).toModuleIso
   · intro X Y f
     ext x
-    induction x using TensorProduct.induction_on with
-    | zero => rfl
+    induction x using TensorProduct.inductionOn with
     | tmul b m =>
       simp only []
       rfl
@@ -311,7 +310,7 @@ public theorem isAdequate_cokernel_to_moduleExtension
           E.map (f i.as) ≫ E.map (Sigma.ι
             (fun j => finiteFreeModule.{max u v w} A (m j)) i.as) := by
         rw [← Category.assoc, hcol, Category.assoc]
-        show α.app i ≫ (colimit.ι G i ≫ eQ.hom) = _
+        change α.app i ≫ (colimit.ι G i ≫ eQ.hom) = _
         rw [hiQ i]
         rfl
       _ = E.map (Sigma.ι (fun j => finiteFreeModule.{max u v w} A (n j)) i.as ≫ δ) := by

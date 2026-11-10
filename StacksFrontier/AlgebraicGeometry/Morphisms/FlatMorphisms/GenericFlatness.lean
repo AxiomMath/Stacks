@@ -67,7 +67,7 @@ private theorem cyclic_support_compl_isCompact
   have hker : LinearMap.ker (Algebra.linearMap R A) = Module.annihilator R A := by
     ext r
     simp only [LinearMap.mem_ker, Module.mem_annihilator]
-    show (algebraMap R A r = 0) ↔ ∀ a : A, r • a = 0
+    change (algebraMap R A r = 0) ↔ ∀ a : A, r • a = 0
     constructor
     · intro hr a
       rw [Algebra.smul_def, hr, zero_mul]
@@ -89,21 +89,20 @@ private theorem tensor_quotient_algebraMap_surjective
     (I : Ideal B) :
     Function.Surjective (Algebra.linearMap C (C ⊗[B] (B ⧸ I))) := by
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction z using TensorProduct.inductionOn with
   | tmul c q =>
     obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective q
     refine ⟨algebraMap B C b * c, ?_⟩
     have htmul : c ⊗ₜ[B] Ideal.Quotient.mk I b =
         (algebraMap B C b * c) ⊗ₜ[B] (1 : B ⧸ I) := by
       rw [show Ideal.Quotient.mk I b = b • (1 : B ⧸ I) by
-        show algebraMap B (B ⧸ I) b = _
+        change algebraMap B (B ⧸ I) b = _
         exact Algebra.algebraMap_eq_smul_one b]
       rw [TensorProduct.tmul_smul]
-      show (b • c) ⊗ₜ[B] (1 : B ⧸ I) = _
+      change (b • c) ⊗ₜ[B] (1 : B ⧸ I) = _
       rw [Algebra.smul_def]
     rw [htmul]
-    show algebraMap C (C ⊗[B] (B ⧸ I)) _ = _
+    change algebraMap C (C ⊗[B] (B ⧸ I)) _ = _
     rw [Algebra.TensorProduct.algebraMap_apply]
     rfl
   | add z z' hz hz' =>
@@ -202,7 +201,7 @@ private theorem affineGood_basicOpen_ringHom_properties
       eB.toRingEquiv.toRingHom.comp (IsLocalization.Away.map A Bf g a) := by
     refine IsLocalization.ringHom_ext (M := Submonoid.powers a) (S := A) ?_
     ext r
-    show IsLocalization.Away.map A' C g a (eA (algebraMap R A r)) =
+    change IsLocalization.Away.map A' C g a (eA (algebraMap R A r)) =
       eB (IsLocalization.Away.map A Bf g a (algebraMap R A r))
     rw [eA.commutes, IsLocalization.Away.map, IsLocalization.map_eq, IsLocalization.Away.map,
       IsLocalization.map_eq, eB.commutes]
@@ -257,7 +256,7 @@ private theorem affineOverlap_preimage_eq_support_compl
     exact (PrimeSpectrum.isClosed_iff_zeroLocus_ideal Z).mp hZ |>.choose_spec
   rw [Module.support_eq_zeroLocus, Ideal.annihilator_quotient, ← hzero]
   ext x
-  show x ∈ f ⁻¹' (V.1 : Set X) ↔ x ∉ Z
+  change x ∈ f ⁻¹' (V.1 : Set X) ↔ x ∉ Z
   constructor
   · intro hx hdiff
     exact hdiff.2 (Set.mem_preimage.mpr hx)
@@ -283,7 +282,7 @@ private theorem range_localized_affineChart
   have himage : W.2.fromSpec '' (PrimeSpectrum.basicOpen a : Set (PrimeSpectrum Γ(X, W.1))) =
       (X.basicOpen a : Set X) :=
     congrArg (fun O : X.Opens => (O : Set X)) (W.2.fromSpec_image_basicOpen a)
-  show Set.range (W.2.fromSpec ∘ PrimeSpectrum.comap (algebraMap Γ(X, W.1) C)) = _
+  change Set.range (W.2.fromSpec ∘ PrimeSpectrum.comap (algebraMap Γ(X, W.1) C)) = _
   exact (hcomp.trans (congrArg (fun t => W.2.fromSpec '' t) hrange)).trans himage
 
 /-- A good-away witness for an affine overlap makes the intersection of the corresponding
@@ -352,7 +351,7 @@ private theorem isQuasiSeparated_of_affine_cover
     rw [T.ι.isOpenEmbedding.isEmbedding.isCompact_iff]
     have heq : T.ι '' ((W' i : Set T) ∩ W' j) = (W i : Set X) ∩ W j := by
       rw [Set.image_inter T.ι.isOpenEmbedding.injective]
-      show (T.ι ''ᵁ W' i : Set X) ∩ (T.ι ''ᵁ W' j : Set X) = _
+      change (T.ι ''ᵁ W' i : Set X) ∩ (T.ι ''ᵁ W' j : Set X) = _
       rw [himage, himage]
     rw [heq]
     exact hinter i j
@@ -456,7 +455,7 @@ private theorem exists_common_basicOpen_good
   choose a ha using h
   refine ⟨∏ i, a i, ?_, ?_⟩
   · have hxmem : ∀ i, a i ∈ x.asIdeal.primeCompl := fun i => (ha i).1
-    show (∏ i, a i) ∈ x.asIdeal.primeCompl
+    change (∏ i, a i) ∈ x.asIdeal.primeCompl
     have hprod : ∀ s : Finset ι, (∀ i ∈ s, a i ∈ x.asIdeal.primeCompl) →
         (∏ i ∈ s, a i) ∈ x.asIdeal.primeCompl := by
       intro s
@@ -520,8 +519,7 @@ private noncomputable def moduleExtendScalarsTensorEquiv
   let e := TensorProduct.congr eB (LinearEquiv.refl B N)
   have key : ∀ (c : Bf) (w : A ⊗[B] (N : Type u)), e (c • w) = c • e w := by
     intro c w
-    induction w using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero, smul_zero]
+    induction w using TensorProduct.inductionOn with
     | tmul r n => rfl
     | add w w' hw hw' => rw [smul_add, map_add, map_add, smul_add, hw, hw']
   exact { e.toAddEquiv with map_smul' := key }
@@ -798,10 +796,10 @@ private theorem affineCommonGoodOpen_dense
   have hqV : hVaff'.fromSpec q ∈ (V.1 : Set S) := hrange ▸ Set.mem_range_self q
   have hqO : hVaff'.fromSpec q ∈ O := hVO' hqV
   have hqGoodOpen : hVaff'.fromSpec q ∈ affineCommonGoodOpen f F := by
-    show hVaff'.fromSpec q ∈ (⨆ W : S.affineOpens,
+    change hVaff'.fromSpec q ∈ (⨆ W : S.affineOpens,
       affineCommonGoodChartOpen f F W : S.Opens)
     exact Opens.mem_iSup.mpr ⟨V, by
-      show hVaff'.fromSpec q ∈ affineCommonGoodChartOpen f F V
+      change hVaff'.fromSpec q ∈ affineCommonGoodChartOpen f F V
       exact ⟨q, hq.2, rfl⟩⟩
   exact ⟨hVaff'.fromSpec q, ⟨hqO, hqGoodOpen⟩⟩
 
@@ -813,7 +811,7 @@ private theorem mem_affineCommonGoodOpen_iff
     y ∈ affineCommonGoodOpen f F ↔
       ∃ V : S.affineOpens, ∃ p : PrimeSpectrum Γ(S, V.1),
         V.2.fromSpec p = y ∧ p ∈ (affineCommonGoodDataChoice f F V).goodLocus := by
-  show y ∈ (⨆ V : S.affineOpens, affineCommonGoodChartOpen f F V : S.Opens) ↔ _
+  change y ∈ (⨆ V : S.affineOpens, affineCommonGoodChartOpen f F V : S.Opens) ↔ _
   rw [Opens.mem_iSup]
   constructor
   · rintro ⟨V, ⟨p, hp, rfl⟩⟩
@@ -893,7 +891,7 @@ private theorem affineCommonGoodOpen_quasiSeparated
     exists_affine_common_good_at_mem f F (y := U.ι y) y.2
   let O : U.toScheme.Opens := U.ι ⁻¹ᵁ S.basicOpen a
   have hy : y ∈ O := by
-    show U.ι y ∈ S.basicOpen a
+    change U.ι y ∈ S.basicOpen a
     rw [← hpy, ← V.2.fromSpec_image_basicOpen]
     exact ⟨p, hpa, rfl⟩
   refine ⟨O, hy, ?_⟩
@@ -906,7 +904,7 @@ private theorem affineCommonGoodOpen_quasiSeparated
     convert ht using 1
     ext x
     have hx : (g x).1 = f x.1 := Scheme.Hom.coe_resLE_apply f le_rfl x
-    show (g x).1 ∈ S.basicOpen a ↔ f x.1 ∈ S.basicOpen a
+    change (g x).1 ∈ S.basicOpen a ↔ f x.1 ∈ S.basicOpen a
     exact iff_of_eq (congrArg (fun z : S => z ∈ S.basicOpen a) hx)
   have : QuasiSeparatedSpace (g ⁻¹ᵁ O).toScheme :=
     (isQuasiSeparated_iff_quasiSeparatedSpace _ (g ⁻¹ᵁ O).2).mp hqs'
@@ -943,14 +941,14 @@ private theorem flatOver_spec_of_flat_sections
       { AddEquiv.refl _ with
         map_smul' := by
           intro r m
-          show (φ.hom ((Scheme.ΓSpecIso A).hom r)) • m =
+          change (φ.hom ((Scheme.ΓSpecIso A).hom r)) • m =
             @SMul.smul Γ(Spec B, ⊤) Γ(G, ⊤) inferInstance
               ((g.appLE ⊤ ⊤ (by simp)).hom r) m
           have heq : (Scheme.ΓSpecIso B).inv (φ.hom ((Scheme.ΓSpecIso A).hom r)) =
               g.appTop r := by
-            show (((Scheme.ΓSpecIso A).hom ≫ φ ≫ (Scheme.ΓSpecIso B).inv) r) = _
+            change (((Scheme.ΓSpecIso A).hom ≫ φ ≫ (Scheme.ΓSpecIso B).inv) r) = _
             rw [Scheme.ΓSpecIso_inv_naturality φ, Iso.hom_inv_id_assoc]
-          show @SMul.smul Γ(Spec B, ⊤) Γ(G, ⊤) inferInstance
+          change @SMul.smul Γ(Spec B, ⊤) Γ(G, ⊤) inferInstance
             ((Scheme.ΓSpecIso B).inv (φ.hom ((Scheme.ΓSpecIso A).hom r))) m = _
           rw [heq]
           rfl }
@@ -1092,7 +1090,7 @@ private theorem exists_openImmersion_sheaf_good
       _ = Spec.map (ρ ≫ ψ) ≫ V.2.fromSpec := by
         congr 2
         ext r
-        show algebraMap B C (algebraMap R B r) = algebraMap A C (algebraMap R A r)
+        change algebraMap B C (algebraMap R B r) = algebraMap A C (algebraMap R A r)
         simp only [← IsScalarTower.algebraMap_apply]
       _ = q ≫ i₀ := by simp [q, i₀, Spec.map_comp, Category.assoc]
   have hiU : Set.range i₀ ⊆ Set.range U.ι := by
@@ -1103,10 +1101,10 @@ private theorem exists_openImmersion_sheaf_good
     rintro _ ⟨z, rfl⟩
     have heq := congrArg (fun t : Spec (CommRingCat.of C) ⟶ S => t z) hcomm
     change f (j₀ z) = i₀ (q z) at heq
-    show f (j₀ z) ∈ U
+    change f (j₀ z) ∈ U
     rw [heq]
     apply haU
-    show i₀ (q z) ∈ (S.basicOpen a : Set S)
+    change i₀ (q z) ∈ (S.basicOpen a : Set S)
     exact hirange ▸ Set.mem_range_self (q z)
   let j := IsOpenImmersion.lift (f ⁻¹ᵁ U).ι j₀ hjU
   let i := IsOpenImmersion.lift U.ι i₀ hiU

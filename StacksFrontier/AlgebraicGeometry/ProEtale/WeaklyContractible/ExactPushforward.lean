@@ -81,7 +81,7 @@ theorem preservesEpimorphisms_sheafPushforwardContinuous
     (Sheaf.isLocallySurjective_iff_epi' AddCommGrpCat.{t} φ).2 hφ
   let forgetAb := sheafCompose K (forget AddCommGrpCat.{t})
   have hset : Sheaf.IsLocallySurjective (forgetAb.map φ) := by
-    show Presheaf.IsLocallySurjective K
+    change Presheaf.IsLocallySurjective K
       (Functor.whiskerRight φ.hom (forget AddCommGrpCat.{t}))
     infer_instance
   have hsurj : ∀ ⦃U : C⦄, P U →

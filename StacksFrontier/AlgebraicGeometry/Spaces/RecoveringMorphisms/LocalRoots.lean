@@ -107,7 +107,7 @@ the standard étale algebra, read through `Γ(Spec A', ⊤) ≅ A'`. -/
 theorem chartFunctionRes_standardEtaleChartMap :
     chartFunctionRes B S hS (standardEtaleChartMap B S hS U P) =
       CommRingCat.ofHom (algebraMap _ P.Ring) ≫ (Scheme.ΓSpecIso (CommRingCat.of P.Ring)).inv := by
-  show (standardEtaleSchemeHom B S hS U P).appTop = _
+  change (standardEtaleSchemeHom B S hS U P).appTop = _
   have h : ((BigFppfOver.toScheme B S hS).obj U.obj.left).isoSpec.inv.appTop ≫
       (Scheme.ΓSpecIso Γ((BigFppfOver.toScheme B S hS).obj U.obj.left, ⊤)).hom =
         CategoryStruct.id _ := by

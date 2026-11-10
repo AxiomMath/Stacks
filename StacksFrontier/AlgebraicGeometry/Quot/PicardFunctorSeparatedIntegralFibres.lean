@@ -239,7 +239,7 @@ private theorem pullback_map_single_comp_QComparison_eq_zero
       smallEtaleDerivedModulePullbackQComparison g' (singleComplex B S hS L) = 0 := by
   have hnat := smallEtaleDerivedPullbackQComparison_naturality B S hS g'
     ((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).map s)
-  show (smallEtaleDerivedModulePullback B S hS g').map (DerivedCategory.Q.map
+  change (smallEtaleDerivedModulePullback B S hS g').map (DerivedCategory.Q.map
       ((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).map s)) ≫
     smallEtaleDerivedPullbackQComparison g' _ ≫ _ = 0
   let F := Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules
@@ -933,7 +933,7 @@ private theorem valuativeUniquenessUpToExtension_of_represents
     have ha := uliftYonedaEquiv_naturality.{0} a g.op
     have hb := uliftYonedaEquiv_naturality.{0} b g.op
     simp only [Quiver.Hom.unop_op] at ha hb
-    show _ ↔ F.map g.op (uliftYonedaEquiv.{0} a) = F.map g.op (uliftYonedaEquiv.{0} b)
+    change _ ↔ F.map g.op (uliftYonedaEquiv.{0} a) = F.map g.op (uliftYonedaEquiv.{0} b)
     rw [ha, hb]
     exact ⟨fun h' => by rw [h'], fun h' => uliftYonedaEquiv.injective h'⟩
   have hxyK := (key _ (valuationRingExtensionHom (algebraMap R K) ring_mem field_mem base h)).2
@@ -1065,14 +1065,14 @@ private theorem existence_pullbackDiagonal_of_uniquenessUpToExtension (f : X ⟶
     Over.homMk (ObjectProperty.homMk (Spec.map (CommRingCat.ofHom ψ)) :
       B.obj field_mem' ⟶ B.obj q.field_mem) (by
         ext1
-        show Spec.map (CommRingCat.ofHom ψ) ≫
+        change Spec.map (CommRingCat.ofHom ψ) ≫
             (Spec.map (CommRingCat.ofHom (algebraMap q.R q.K)) ≫ q.base) =
           Spec.map (CommRingCat.ofHom (algebraMap R' K')) ≫
             (Spec.map (CommRingCat.ofHom φ) ≫ q.base)
         rw [← Category.assoc, hSpec, Category.assoc]) with hgO
   have hsquare : gO ≫ fr = fr' ≫ sO := by
     apply siteObject_hom_ext
-    show Spec.map (CommRingCat.ofHom ψ) ≫
+    change Spec.map (CommRingCat.ofHom ψ) ≫
         Spec.map (CommRingCat.ofHom (algebraMap q.R q.K)) =
       Spec.map (CommRingCat.ofHom (algebraMap R' K')) ≫ Spec.map (CommRingCat.ofHom φ)
     exact hSpec
@@ -1082,10 +1082,10 @@ private theorem existence_pullbackDiagonal_of_uniquenessUpToExtension (f : X ⟶
       generic := yoneda.map gO ≫ q.generic
       special := yoneda.map sO ≫ q.special
       comm := by
-        show (yoneda.map gO ≫ q.generic) ≫ pullback.diagonal f =
+        change (yoneda.map gO ≫ q.generic) ≫ pullback.diagonal f =
           yoneda.map fr' ≫ yoneda.map sO ≫ q.special
         rw [Category.assoc, q.comm]
-        show yoneda.map gO ≫ yoneda.map fr ≫ q.special = _
+        change yoneda.map gO ≫ yoneda.map fr ≫ q.special = _
         rw [← Functor.map_comp_assoc, hsquare, Functor.map_comp_assoc] }
   let ext : q.DominatingExtension :=
     { square := square
@@ -1104,11 +1104,11 @@ private theorem existence_pullbackDiagonal_of_uniquenessUpToExtension (f : X ⟶
   exact
     { map := yoneda.map sO ≫ a
       generic_comm := by
-        show yoneda.map fr' ≫ yoneda.map sO ≫ a = yoneda.map gO ≫ q.generic
+        change yoneda.map fr' ≫ yoneda.map sO ≫ a = yoneda.map gO ≫ q.generic
         rw [← Functor.map_comp_assoc, ← hsquare, Functor.map_comp_assoc, ha,
           hgen _ (pullback.diagonal_fst f)]
       special_comm := by
-        show (yoneda.map sO ≫ a) ≫ pullback.diagonal f = yoneda.map sO ≫ q.special
+        change (yoneda.map sO ≫ a) ≫ pullback.diagonal f = yoneda.map sO ≫ q.special
         apply pullback.hom_ext
         · rw [Category.assoc, Category.assoc, pullback.diagonal_fst, Category.comp_id, ha,
             Category.assoc]
@@ -1204,7 +1204,7 @@ private theorem pointsEquiv_map (T U : s.SchemesOver) (g : T ⟶ U)
     (ξ : s.picardFunctor.obj (Opposite.op U)) :
     (pointsEquiv c T (s.picardFunctor.map g.op ξ)).val =
       H.1.map g.left.op (pointsEquiv c U ξ).val := by
-  show (c.inv.app (Opposite.op T) (s.picardFunctor.map g.op ξ)).down.1 = _
+  change (c.inv.app (Opposite.op T) (s.picardFunctor.map g.op ξ)).down.1 = _
   rw [NatTrans.naturality_apply]
   rfl
 

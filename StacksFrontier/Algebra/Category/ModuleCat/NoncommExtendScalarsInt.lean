@@ -61,8 +61,7 @@ lemma map_intCast_injective {M N P : Type v} [AddCommGroup M] [instM : Module �
   have hc : ∀ y, map (Int.castRingHom B) ψ (mk (Int.castRingHom B) M y) =
       mk (Int.castRingHom B) N (ψ.lTensor B y) := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction y using TensorProduct.inductionOn with
     | tmul b m => rfl
     | add y y' hy hy' => simp only [map_add, hy, hy']
   rw [injective_iff_map_eq_zero]

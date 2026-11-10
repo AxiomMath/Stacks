@@ -20,7 +20,8 @@ Stacks 02TH.
 
 This file proves Stacks 02TJ with **two inputs**: Stacks 02TI, in the single reduced form
 `Stacks.Chow.FirstChernCapKillsPrincipalDivisor` of
-`StacksFrontier.AlgebraicGeometry.Chow.ChernCapRationalEquivalenceReduction`, and Stacks 02TH itself,
+`StacksFrontier.AlgebraicGeometry.Chow.ChernCapRationalEquivalenceReduction`, and Stacks 02TH
+itself,
 as the hypothesis `Stacks.Chow.FirstChernCapCommutesOnIntegralComponents`. The two operations
 being composed exist on Chow groups only granted the first, and the identity comes from the
 second.

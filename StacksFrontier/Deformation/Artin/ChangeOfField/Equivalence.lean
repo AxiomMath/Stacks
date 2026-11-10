@@ -137,13 +137,13 @@ cartesian lifts of a commutative square in the base. -/
 private theorem fiberSquareComparison_iso_fac (x : q.Fiber Z) :
     Fiber.fiberInclusion.map ((fiberSquareComparison q c f g i j w).obj x).iso.hom ≫
       c.map g (c.obj j x) ≫ c.map j x = c.map f (c.obj i x) ≫ c.map i x := by
-  show Fiber.fiberInclusion.map (((c.objCompIso f i x).symm ≪≫
+  change Fiber.fiberInclusion.map (((c.objCompIso f i x).symm ≪≫
     (eqToIso (congrArg c.pullbackFunctor w)).app x ≪≫ c.objCompIso g j x).hom) ≫ _ = _
   simp only [Iso.trans_hom, Iso.symm_hom, Functor.map_comp, Category.assoc]
   rw [c.objCompIso_hom_fac, pullbackFunctorEqToIso_app_fac q c _ _ w]
   rw [← c.objCompIso_hom_fac f i x]
   simp only [← Category.assoc, ← Functor.map_comp, Iso.inv_hom_id]
-  show (𝟙 _ ≫ _) ≫ _ = _
+  change (𝟙 _ ≫ _) ≫ _ = _
   simp only [Category.id_comp]
 
 /-- When `q` is fibred in groupoids, two lifts of one arrow with domains in the same fibre differ
@@ -167,10 +167,10 @@ private theorem fiberSquareComparison_hom_ext
       c.map j s ≫ Fiber.fiberInclusion.map β) : α = β := by
   apply (fiberSquareComparison q c f g i j w).map_injective
   apply CategoricalPullback.hom_ext
-  · show c.homMap i α = c.homMap i β
+  · change c.homMap i α = c.homMap i β
     apply fiber_hom_ext_of_cartesian i (c.map i t) inferInstance
     simpa only [c.homMap_fac] using hi
-  · show c.homMap j α = c.homMap j β
+  · change c.homMap j α = c.homMap j β
     apply fiber_hom_ext_of_cartesian j (c.map j t) inferInstance
     simpa only [c.homMap_fac] using hj
 
@@ -252,7 +252,7 @@ private theorem fiberSquareComparison_glue
           c.map g z ≫ Fiber.fiberInclusion.map e.inv.snd ≫ c.map j t := hw
     _ = Fiber.fiberInclusion.map eV.hom ≫ β ≫
           Fiber.fiberInclusion.map e.inv.snd ≫ c.map j t := by
-      show Fiber.fiberInclusion.map (eV.hom ≫ eW.hom) ≫ _ = _
+      change Fiber.fiberInclusion.map (eV.hom ≫ eW.hom) ≫ _ = _
       rw [Functor.map_comp, Category.assoc,
         ← Category.assoc (Fiber.fiberInclusion.map eW.hom), heW]
 
@@ -459,7 +459,7 @@ condition (RS) quantifies over. -/
 theorem overIsArtinianLocal_spec (R : Type u) [CommRing R] [IsLocalRing R] [IsArtinianRing R]
     (b : Spec (CommRingCat.of R) ⟶ S) :
     OverIsArtinianLocal (Over.mk b) := by
-  show IsAffine (Spec (CommRingCat.of R)) ∧ IsLocalRing Γ(Spec (CommRingCat.of R), ⊤) ∧
+  change IsAffine (Spec (CommRingCat.of R)) ∧ IsLocalRing Γ(Spec (CommRingCat.of R), ⊤) ∧
     IsArtinianRing Γ(Spec (CommRingCat.of R), ⊤)
   refine ⟨inferInstance, ?_, ?_⟩
   · exact (Scheme.ΓSpecIso (CommRingCat.of R)).commRingCatIsoToRingEquiv.symm.isLocalRing
@@ -470,7 +470,7 @@ private theorem residueMap_comp_algebraMap_aux {Λ κ : Type u} [CommRing Λ] [F
     (A : ArtinianLocalAlgCat.{u, u, u} Λ κ) :
     (residueMap A).comp (algebraMap Λ A) = algebraMap Λ κ := by
   ext a
-  show A.residueEquiv (IsLocalRing.residue A (algebraMap Λ A a)) = algebraMap Λ κ a
+  change A.residueEquiv (IsLocalRing.residue A (algebraMap Λ A a)) = algebraMap Λ κ a
   rw [← ResidueField.algebraMap_eq, ← IsScalarTower.algebraMap_apply Λ A (ResidueField A) a]
   exact A.residueEquiv.commutes a
 
@@ -498,7 +498,7 @@ theorem spec_finiteType_of_residueField_point {Λ κ : Type u} [CommRing Λ] [Fi
     apply congrArg Spec.map
     apply CommRingCat.hom_ext
     ext a
-    show A.residueEquiv.symm (A.residueEquiv (IsLocalRing.residue A a)) = _
+    change A.residueEquiv.symm (A.residueEquiv (IsLocalRing.residue A a)) = _
     exact A.residueEquiv.symm_apply_apply _
   have hcanonical : Spec.map (CommRingCat.ofHom (IsLocalRing.residue A)) ≫ f =
       eSpec.hom ≫ g := by
@@ -725,7 +725,7 @@ theorem specResidueBaseMap_comp {A B : ArtinianLocalAlgCat.{u, u, u} T.Λ T.k} (
   congr 1
   apply CommRingCat.hom_ext
   ext a
-  show B.residueEquiv (IsLocalRing.residue B (h.hom a)) =
+  change B.residueEquiv (IsLocalRing.residue B (h.hom a)) =
     A.residueEquiv (IsLocalRing.residue A a)
   exact h.residue_comm a
 
@@ -1110,7 +1110,7 @@ public theorem changeOfFieldFunctor_full
     (changeOfFieldRestriction T iΛ c (D.objects a.fst) (changeOfFieldIso T iΛ D a))
     (algebraBaseMap T iΛ fsnd) ?_
   rw [changeOfFieldMorphismArrow_fac]
-  show _ ≫ (D.morphisms a.fst b.fst ffst).arrow = _
+  change _ ≫ (D.morphisms a.fst b.fst ffst).arrow = _
   rw [hffst, ← hγ₂]
 
 /-! #### Essential surjectivity -/
@@ -1197,7 +1197,7 @@ theorem fiberHom_arrow_base {Zobj : Over S} {s t : q.Fiber Zobj} (m : s ⟶ t) :
 theorem specMap_id_ringHom (C : ArtinianLocalAlgCat.{u, u, u} T.Λ T.l) :
     Spec.map (CommRingCat.ofHom (ArtinianLocalAlgCat.Hom.hom (𝟙 C)).toRingHom) =
       𝟙 (Spec (CommRingCat.of (C : Type u))) := by
-  show Spec.map (CommRingCat.ofHom (RingHom.id C)) = _
+  change Spec.map (CommRingCat.ofHom (RingHom.id C)) = _
   rw [CommRingCat.ofHom_id, Spec.map_id]
 
 /-- Postcomposing a lift with a morphism of a fibre again gives a lift of the same base
@@ -1299,7 +1299,7 @@ public theorem changeOfFieldFunctor_essSurj
     ⟨a₀, (E.objects t).algebra, eqToIso ((D.object_projection a₀).trans hA)⟩
   have hcfi : changeOfFieldIso T iΛ D a = eqToHom hA := by
     rw [changeOfFieldIso_eq]
-    show eqToHom (D.object_projection a₀).symm ≫
+    change eqToHom (D.object_projection a₀).symm ≫
       eqToHom ((D.object_projection a₀).trans hA) = _
     rw [eqToHom_trans]
   rw [← hcfi] at hδ

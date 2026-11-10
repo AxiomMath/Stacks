@@ -68,7 +68,7 @@ theorem eq_of_isIdempotentElem_of_basicOpen_eq {e e' : Γ(X, ⊤)} (he : IsIdemp
     (he' : IsIdempotentElem e') (h : (X.basicOpen e : Set X) = X.basicOpen e') : e = e' := by
   classical
   refine TopCat.Presheaf.section_ext X.sheaf ⊤ e e' fun x _ ↦ ?_
-  show X.presheaf.germ ⊤ x trivial e = X.presheaf.germ ⊤ x trivial e'
+  change X.presheaf.germ ⊤ x trivial e = X.presheaf.germ ⊤ x trivial e'
   rw [germ_eq_ite_of_isIdempotentElem he, germ_eq_ite_of_isIdempotentElem he']
   exact if_congr (Set.ext_iff.1 h x) rfl rfl
 
@@ -116,7 +116,7 @@ theorem exists_isIdempotentElem_basicOpen_eq (U : Set X) (hU : IsClopen U) :
       · obtain ⟨i, hi⟩ := Opens.mem_iSup.1 (hcover (Set.mem_univ x))
         have := h i hi
         rwa [← CommRingCat.comp_apply, TopCat.Presheaf.germ_res] at this
-    show x ∈ X.basicOpen e ↔ x ∈ U
+    change x ∈ X.basicOpen e ↔ x ∈ U
     rw [hmem]
     by_cases hx : x ∈ U
     · refine ⟨fun _ ↦ hx, fun _ i hxi ↦ ?_⟩
@@ -157,10 +157,10 @@ theorem appTop_clopenIdempotent {Y : Scheme.{u}} (f : Y ⟶ X) (U : Set X) (hU :
     f.appTop (clopenIdempotent U hU) =
       clopenIdempotent (f ⁻¹' U) (hU.preimage f.continuous) := by
   refine eq_clopenIdempotent_of_isIdempotentElem ?_ _ _ ?_
-  · show f.appTop _ * f.appTop _ = f.appTop _
+  · change f.appTop _ * f.appTop _ = f.appTop _
     rw [← map_mul, isIdempotentElem_clopenIdempotent U hU]
   · rw [← preimage_basicOpen_top]
-    show f ⁻¹' (X.basicOpen _ : Set X) = _
+    change f ⁻¹' (X.basicOpen _ : Set X) = _
     rw [coe_basicOpen_clopenIdempotent]
 
 /-- The "exclusive or" `e + e' - 2 e e'` of two idempotents of a commutative ring is
@@ -178,7 +178,7 @@ theorem coe_basicOpen_xor {e e' : Γ(X, ⊤)} (he : IsIdempotentElem e)
       symmDiff (X.basicOpen e : Set X) (X.basicOpen e') := by
   classical
   ext x
-  show x ∈ X.basicOpen _ ↔ _
+  change x ∈ X.basicOpen _ ↔ _
   rw [← germ_eq_one_iff_mem_basicOpen_of_isIdempotentElem (isIdempotentElem_xor he he') x]
   simp only [map_sub, map_add, map_mul, map_ofNat, Set.mem_symmDiff, SetLike.mem_coe]
   rw [germ_eq_ite_of_isIdempotentElem he, germ_eq_ite_of_isIdempotentElem he']

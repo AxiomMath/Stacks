@@ -61,12 +61,12 @@ private theorem ModuleCat.isLocalizedModule_restrictScalars_iff {M N : ModuleCat
     · obtain ⟨⟨x, s⟩, h⟩ := h2 y
       obtain ⟨s₀, hs₀⟩ := hlift s
       refine ⟨⟨x, s₀⟩, ?_⟩
-      show σ s₀ • y = f.hom x
+      change σ s₀ • y = f.hom x
       rwa [hs₀]
     · obtain ⟨c, hc⟩ := h3 hx
       obtain ⟨c₀, hc₀⟩ := hlift c
       refine ⟨c₀, ?_⟩
-      show σ c₀ • x₁ = σ c₀ • x₂
+      change σ c₀ • x₁ = σ c₀ • x₂
       rwa [hc₀]
 
 end Surjective
@@ -160,7 +160,7 @@ theorem modelKappa_homology_apply (N : CochainComplex (ModuleCat.{u} A) ℤ)
   have hc := congrArg (fun f => f.hom y)
     (modelHomology_comparison (R := R) (A := A) (R' := R') (A' := A') ε hF n N)
   rw [cohomologyComparisonMap_comp]
-  show _ = ((DerivedCategory.homologyFunctor (ModuleCat.{u} A') n).map
+  change _ = ((DerivedCategory.homologyFunctor (ModuleCat.{u} A') n).map
     (DerivedCategory.Q.map α)).hom ((cohomologyComparisonMap (R := R) (R' := R')
       (DerivedCategory.Q.obj N) _ (alphaH A A' N) n).hom
         ((modelHomologyIso (R := R) ε hF n N).hom.hom y))

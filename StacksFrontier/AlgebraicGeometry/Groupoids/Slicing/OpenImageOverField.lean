@@ -176,7 +176,7 @@ private lemma leftTranslation_source {S : Scheme.{u}} (G : GroupoidScheme S)
     (a : G.objects ⟶ G.arrows) (ha : a ≫ G.source = 𝟙 G.objects) :
     GroupoidScheme.leftTranslation G a ha ≫ G.source = G.source := by
   simp [GroupoidScheme.leftTranslation, Category.assoc,
-    G.source_comp, pullback.lift_snd_assoc]
+    G.source_comp]
 
 /-- Composing a left translate of an arrow with the inverse of that arrow recovers the value of
 the chosen section at its target. -/
@@ -199,8 +199,7 @@ private lemma leftTranslation_comp_inverse {S : Scheme.{u}} (G : GroupoidScheme 
   have w1 : (G.compose A f wAf) ≫ G.source = (f ≫ G.inverse) ≫ G.target := by
     calc
       (G.compose A f wAf) ≫ G.source = f ≫ G.source := by
-        simp [GroupoidScheme.compose, Category.assoc, G.source_comp,
-          pullback.lift_snd_assoc]
+        simp [GroupoidScheme.compose, Category.assoc, G.source_comp]
       _ = (f ≫ G.inverse) ≫ G.target := wfi
   have hrightInv : G.compose f (f ≫ G.inverse) wfi = f ≫ G.target ≫ G.identity :=
     G.right_inverse T f wfi
@@ -371,7 +370,7 @@ scheme is the spectrum of a field has open image on arrows, then that image is c
   have hτsource : τ ≫ R.groupoid.source = R.groupoid.source := by
     dsimp [τ, GroupoidScheme.translationByPoint,
       GroupoidScheme.leftTranslation]
-    simp [Category.assoc, R.groupoid.source_comp, pullback.lift_snd_assoc]
+    simp [Category.assoc, R.groupoid.source_comp]
   let L := R.groupoid.arrows.left.residueField y
   let pL := IsLocalRing.closedPoint L
   let pt := R.groupoid.arrows.left.fromSpecResidueField y

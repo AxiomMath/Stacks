@@ -68,7 +68,7 @@ public theorem RelativeDimension.of_opensCover {X S : Scheme.{u}} (f : X ⟶ S)
     (h : ∀ i, RelativeDimension ((U i).ι ≫ f) d) : RelativeDimension f d := by
   intro s hs
   have hFT : LocallyOfFiniteType (f.fiberToSpecResidueField s) := by
-    show LocallyOfFiniteType (Limits.pullback.snd f (S.fromSpecResidueField s))
+    change LocallyOfFiniteType (Limits.pullback.snd f (S.fromSpecResidueField s))
     infer_instance
   have hlocal : ∀ w : f.fiber s, topologicalKrullDimAt (f.fiber s) w = (d : WithBot ℕ∞) := by
     intro w
@@ -191,7 +191,7 @@ theorem exists_properPushforward_fundamentalCycle_eq (n : ℤ) (r : ℕ) (hrn : 
       relativeDimension (fieldChowSituation k).dimensionFunction sX (j.1 : X) = n := fun j ↦
     (mem_cyclesOfDimension_iff_forall_point (fieldChowSituation k) sX n b.1).1 b.2 _ j.1.2
   have hιg : ∀ j, Sigma.ι Z j ≫ g ≫ sX = v j ≫ sX := fun j ↦ by
-    rw [hgdef, Sigma.ι_desc_assoc]
+    rw [hgdef, Sigma.ι_comp_desc_assoc]
   have hdimZ : ∀ j,
       schemeDeltaDimension (fieldChowSituation k) (Sigma.ι Z j ≫ g ≫ sX) = (n : EInt) := fun j ↦ by
     rw [schemeDeltaDimension_eq_genericPoint, hιg, relativeDimension_comp_closedImmersion, hvgen,
@@ -231,7 +231,7 @@ theorem exists_properPushforward_fundamentalCycle_eq (n : ℤ) (r : ℕ) (hrn : 
         obtain ⟨j', z', rfl⟩ := exists_mem_range_sigmaι Z w
         exact hdimle j' z')
       (fun x ↦ relativeDimension_comp_isOpenImmersion _ _ _ x) z
-    show (fundamentalCycle (fieldChowSituation k) (g ≫ sX) n).1 (Sigma.ι Z j z) = _
+    change (fundamentalCycle (fieldChowSituation k) (g ≫ sX) n).1 (Sigma.ι Z j z) = _
     rw [fundamentalCycle, ← h1]
     exact fundamentalCycle_apply_of_isIntegral (fieldChowSituation k) (Sigma.ι Z j ≫ g ≫ sX)
       (hdimZ j) z
@@ -257,14 +257,14 @@ theorem exists_properPushforward_fundamentalCycle_eq (n : ℤ) (r : ℕ) (hrn : 
   set F : (∐ Z : Scheme.{u}) → ℤ :=
     fun w ↦ (fundamentalCycle (fieldChowSituation k) (g ≫ sX) n).1 w with hF
   have hgι : ∀ j (z : Z j), g.base (Sigma.ι Z j z) = (v j).base z := fun j z ↦ by
-    rw [← Scheme.Hom.comp_apply, hgdef, Sigma.ι_desc]
+    rw [← Scheme.Hom.comp_apply, hgdef, Sigma.ι_comp_desc]
   have hjy : ∀ j, g.base (Sigma.ι Z j (genericPoint (Z j))) = y → (j.1 : X) = y := fun j h ↦
     (hvgen j).symm.trans ((hgι j _).symm.trans h)
   by_cases hy : b.1 y = 0
   · rw [hy]
     refine finsum_mem_eq_zero_of_forall_eq_zero fun w hw ↦ ?_
     obtain ⟨j, z, rfl⟩ := exists_mem_range_sigmaι Z w
-    show (fundamentalCycle (fieldChowSituation k) (g ≫ sX) n).1 (Sigma.ι Z j z) = 0
+    change (fundamentalCycle (fieldChowSituation k) (g ≫ sX) n).1 (Sigma.ι Z j z) = 0
     rw [hfund]
     split_ifs with hz
     · subst hz
@@ -303,8 +303,8 @@ theorem exists_properPushforward_fundamentalCycle_eq (n : ℤ) (r : ℕ) (hrn : 
       ← Set.image_univ, finsum_mem_image he_inj.injOn]
     have hone : ∀ i, F (e i) = 1 := fun i ↦ by
       rw [hF]
-      show (fundamentalCycle (fieldChowSituation k) (g ≫ sX) n).1 (Sigma.ι Z ⟨y', i⟩ _) = 1
-      rw [hfund, if_pos rfl]
+      change (fundamentalCycle (fieldChowSituation k) (g ≫ sX) n).1 (Sigma.ι Z ⟨y', i⟩ _) = 1
+      rw [hfund, ite_eq_left rfl]
     simp only [hone]
     rw [finsum_mem_univ, finsum_eq_sum_of_fintype, Finset.sum_const, Finset.card_univ,
       Fintype.card_fin, nsmul_eq_mul, mul_one]
@@ -366,7 +366,7 @@ theorem bivariantToBaseEval_surjective_field (p : ℤ) :
           (comp_comp_structureMorphism_eq (rfl : g ≫ sX = g ≫ sX) (Category.comp_id sX)) r
           hrel), ?_⟩
       rw [bivariantToBaseEval_bivariantProperPushforward]
-      show properChowPushforward (fieldChowSituation k) (g ≫ sX) sX g rfl (-(-(r : ℤ))) _
+      change properChowPushforward (fieldChowSituation k) (g ≫ sX) sX g rfl (-(-(r : ℤ))) _
         (flatPullbackBaseClass (fieldChowSituation k) (g ≫ sX) r hrel
           (flatPullbackDescends (fieldChowSituation k))) = _
       rw [flatPullbackBaseClass_eq_fundamentalChowClass, fundamentalChowClass,
@@ -392,11 +392,11 @@ theorem bivariantToBaseEval_surjective_field (p : ℤ) :
       hx (by simp [h])⟩
     have ha : a = P - N := by
       refine Subtype.ext (Function.locallyFinsuppWithin.ext fun x ↦ ?_)
-      show a.1 x = (a.1 x)⁺ - (a.1 x)⁻
+      change a.1 x = (a.1 x)⁺ - (a.1 x)⁻
       exact (posPart_sub_negPart (a.1 x)).symm
     have hP := hpos P fun x ↦ posPart_nonneg (a.1 x)
     have hN := hpos N fun x ↦ negPart_nonneg (a.1 x)
-    show QuotientAddGroup.mk' (rationalEquivalences (fieldChowSituation k) sX (-p)) a ∈
+    change QuotientAddGroup.mk' (rationalEquivalences (fieldChowSituation k) sX (-p)) a ∈
       (bivariantToBaseEval (fieldChowSituation k)
         (gysinSystemOfInvertible (fieldChowSituation k)) sX p).range
     rw [ha, map_sub]

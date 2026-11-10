@@ -173,7 +173,7 @@ theorem isIso_pinnedAdicComparison_of_bijective (hL : IsDerivedComplete.{u, u, u
   · refine hom_ext_derivedCompletionUnit X I (isDerivedComplete_derivedCompletion_obj X I K) ?_
     rw [Category.comp_id]
     exact (derivedCompletionUnit_comp_pinnedAdicComparison_assoc ..).trans hd
-  · show u ≫ d ≫ pinnedAdicComparison X I hL u = u ≫ 𝟙 L
+  · change u ≫ d ≫ pinnedAdicComparison X I hL u = u ≫ 𝟙 L
     rw [← Category.assoc, hd, derivedCompletionUnit_comp_pinnedAdicComparison, Category.comp_id]
 
 /-- **The pinned comparison is invertible once both its source and its target are identified with

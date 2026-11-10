@@ -128,7 +128,7 @@ theorem exists_formalSpectrum_hom_of_cofinal
                rw [Subsingleton.elim f (homOfLE (leOfHom f))]
                simpa using hnat n k (leOfHom f) } }
   refine ⟨(Functor.Final.colimitIso P G).inv ≫ colimit.desc H c, fun n => ?_⟩
-  show colimit.ι G (P.obj n) ≫ (Functor.Final.colimitIso P G).inv ≫ colimit.desc H c = x n
+  change colimit.ι G (P.obj n) ≫ (Functor.Final.colimitIso P G).inv ≫ colimit.desc H c = x n
   rw [← Category.assoc, Functor.Final.ι_colimitIso_inv P G n]
   exact colimit.ι_desc c n
 
@@ -261,9 +261,9 @@ theorem exists_finite_separable_section_of_isRepresentableEtale {X Y : FppfSheaf
   let i : Iu := ((sigmaMk (fun i => Spec (.of (K i)))).symm (e.hom w)).1
   let v : Spec (.of (K i)) ⟶ C.obj U := Sigma.ι (fun i => Spec (.of (K i))) i ≫ e.inv
   have hv : v ≫ C.map u = Spec.map (CommRingCat.ofHom (algebraMap k (K i))) := by
-    show (Sigma.ι (fun i => Spec (.of (K i))) i ≫ e.inv) ≫
+    change (Sigma.ι (fun i => Spec (.of (K i))) i ≫ e.inv) ≫
       (show C.obj U ⟶ Spec (.of k) from C.map u) = _
-    rw [Category.assoc, ← he, e.inv_hom_id_assoc, Sigma.ι_desc]
+    rw [Category.assoc, ← he, e.inv_hom_id_assoc, Sigma.ι_comp_desc]
   have hL : B.Contains (Spec (.of (K i))) :=
     Scheme.size_Spec_lt_of_finiteType B.aleph0_lt_cutoff B.cutoff_isStrongPrelimit
       k (K i) hk
@@ -272,7 +272,7 @@ theorem exists_finite_separable_section_of_isRepresentableEtale {X Y : FppfSheaf
     (Spec.map (CommRingCat.ofHom (algebraMap k (K i))))) (by rfl)
   let v' : Lo ⟶ U := Over.homMk (ObjectProperty.homMk v) (by
     apply ObjectProperty.hom_ext
-    show v ≫ U.hom.hom = _
+    change v ≫ U.hom.hom = _
     have ht := congrArg (fun z => z.hom) u.w
     change C.map u ≫ pk = U.hom.hom at ht
     rw [← ht]
@@ -323,10 +323,10 @@ theorem exists_etale_root_of_finite_separable (R : Type u) [CommRing R] (k : Typ
     fun q => (Polynomial.aeval_map_algebraMap k pb.gen q).symm
   have hmap : P.HasMap pb.gen := by
     refine ⟨?_, ?_⟩
-    · show aeval pb.gen G = 0
+    · change aeval pb.gen G = 0
       rw [haeval, hG]
       exact minpoly.aeval _ _
-    · show IsUnit (aeval pb.gen (derivative G))
+    · change IsUnit (aeval pb.gen (derivative G))
       rw [haeval, ← Polynomial.derivative_map, hG]
       exact (Polynomial.Separable.aeval_derivative_ne_zero
         (Algebra.IsSeparable.isSeparable k pb.gen) (minpoly.aeval _ _)).isUnit
@@ -340,7 +340,7 @@ theorem exists_etale_root_of_finite_separable (R : Type u) [CommRing R] (k : Typ
   have h2 : (RingHom.ker π).map (algebraMap R L) = ⊥ := by
     rw [eq_bot_iff, Ideal.map_le_iff_le_comap]
     intro r hr
-    show algebraMap k L (π r) = 0
+    change algebraMap k L (π r) = 0
     rw [RingHom.mem_ker.mp hr, map_zero]
   rw [Ideal.map_map, hc, h2] at h1
   exact bot_ne_top h1
@@ -451,7 +451,7 @@ theorem exists_finite_separable_section_of_pointsULift_pullback {X Y : FppfSheaf
     apply ObjectProperty.hom_ext
     have hw := congrArg (fun z => z.hom) g.hom.w
     change gs ≫ D.overS jj = z₀.toBase at hw
-    show Spec.map (CommRingCat.ofHom ψ) ≫ D.overS Jm = z₀.toBase
+    change Spec.map (CommRingCat.ofHom ψ) ≫ D.overS Jm = z₀.toBase
     rw [← D.compatible jj Jm hjm, ← Category.assoc, hgs, hw])
   have hgt : (BigAffineFppf.inclusion B S hS).map g =
       t ≫ (BigAffineFppf.inclusion B S hS).map (D.transition hjm) :=
@@ -552,10 +552,10 @@ theorem exists_lift_of_pointsULift_pullback_of_isRepresentableEtale {X Y : FppfS
     have hc : ρ.comp (IsLocalRing.residue R) =
         ((Ideal.Quotient.mk KW.1).comp gW).comp (algebraMap R A) := by
       ext r
-      show Ideal.Quotient.mk KW.1 (e.toRingHom r) = Ideal.Quotient.mk KW.1 (gW (algebraMap R A r))
+      change Ideal.Quotient.mk KW.1 (e.toRingHom r) = Ideal.Quotient.mk KW.1 (gW (algebraMap R A r))
       rw [he, ← RingHom.comp_apply gW, hgcomp]
     rw [← hGmap, Polynomial.aeval_def, Polynomial.eval₂_map]
-    show Polynomial.eval₂ (ρ.comp (IsLocalRing.residue R)) w G = 0
+    change Polynomial.eval₂ (ρ.comp (IsLocalRing.residue R)) w G = 0
     rw [hc, show w = ((Ideal.Quotient.mk KW.1).comp gW) a₀ from rfl, ← Polynomial.hom_eval₂,
       ← Polynomial.aeval_def, haG, map_zero]
   let μr : L →ₐ[IsLocalRing.ResidueField R] W ⧸ KW.1 :=

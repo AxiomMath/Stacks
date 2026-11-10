@@ -163,7 +163,7 @@ theorem isLocalizedModule_map_eq_stalkMapₗ {K L : X.Modules} (ψ : K ⟶ L) {U
   intro _ _
   refine IsLocalizedModule.linearMap_ext S (germₗ K hx) (germₗ L hx) ?_
   ext m
-  show IsLocalizedModule.map S (germₗ K hx) (germₗ L hx) (appₗ ψ U) (germₗ K hx m) = _
+  change IsLocalizedModule.map S (germₗ K hx) (germₗ L hx) (appₗ ψ U) (germₗ K hx m) = _
   rw [IsLocalizedModule.map_apply]
   exact (stalkMapₗ_germₗ ψ hx m).symm
 

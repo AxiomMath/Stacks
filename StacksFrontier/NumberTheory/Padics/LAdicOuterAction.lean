@@ -335,7 +335,7 @@ theorem toLinAlgEquiv'_ladicLog_mem_normalizer
     intro g hg
     refine lie_mem_of_forall_conj_mem (T := T.restrictScalars ℚ_[ℓ]) hT hu hu' fun k => ?_
     rw [← ladicLog_conj (u ^ k) (hG g hg).le]
-    show Matrix.toLinAlgEquiv' _ ∈ logLieSpan ℓ G
+    change Matrix.toLinAlgEquiv' _ ∈ logLieSpan ℓ G
     exact LieSubalgebra.subset_lieSpan ⟨u ^ k * g * (u ^ k)⁻¹, hconj k g hg, by
       simp only [Units.val_mul]⟩
   rw [LieSubalgebra.mem_normalizer_iff]

@@ -82,7 +82,7 @@ public theorem IsContractionOfExceptionalCurve.exists_centre {X X' : Scheme.{u}}
     isIso_morphismRestrict_compl_of_blowUp_iso _ z hz
       (Scheme.IdealSheafData.coe_support_vanishingIdeal _) e he⟩
   rw [hD, Scheme.IdealSheafData.support_comap]
-  show b x ∈ ((Scheme.IdealSheafData.vanishingIdeal (⟨{z}, hz⟩ : Closeds X')).support :
+  change b x ∈ ((Scheme.IdealSheafData.vanishingIdeal (⟨{z}, hz⟩ : Closeds X')).support :
     Set X') ↔ b x = z
   simp only [Scheme.IdealSheafData.coe_support_vanishingIdeal, Closeds.coe_mk,
     Set.mem_singleton_iff]
@@ -183,7 +183,7 @@ public theorem flat_of_surjective_of_flat_comp {R : Type u} [CommRing R] [IsDoma
   have : IsPrincipalIdealRing ((Spec (.of R)).presheaf.stalk (f y)) :=
     isPrincipalIdealRing_stalk_spec (f y)
   let := (f.stalkMap y).hom.toAlgebra
-  show Module.Flat _ _
+  change Module.Flat _ _
   rw [Module.Flat.flat_iff_torsion_eq_bot_of_isBezout,
     ← Submodule.isTorsionFree_iff_torsion_eq_bot]
   refine Module.isTorsionFree_iff_algebraMap_injective.mpr ?_
@@ -250,12 +250,12 @@ public theorem specMap_residueField_ne_specMap_fractionField (x : Spec (.of S.k)
       Spec.map (CommRingCat.ofHom (algebraMap S.R S.K)) y := by
   have hπk : algebraMap S.R S.k S.π = 0 := by
     rw [← S.residueEquiv.commutes]
-    show S.residueEquiv (IsLocalRing.residue S.R S.π) = 0
+    change S.residueEquiv (IsLocalRing.residue S.R S.π) = 0
     rw [(IsLocalRing.residue_eq_zero_iff _).mpr
       (show S.π ∈ IsLocalRing.maximalIdeal S.R from S.uniformizer.not_isUnit), map_zero]
   intro h
   have hmem : S.π ∈ (Spec.map (CommRingCat.ofHom (algebraMap S.R S.k)) x).asIdeal := by
-    show algebraMap S.R S.k S.π ∈ x.asIdeal
+    change algebraMap S.R S.k S.π ∈ x.asIdeal
     rw [hπk]
     exact Ideal.zero_mem _
   rw [h] at hmem

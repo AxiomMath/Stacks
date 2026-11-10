@@ -152,7 +152,7 @@ theorem coextRestrFun_app (φ : O ⟶ O') (F : PresheafOfModules.{u} O.obj) {X Y
 private theorem coextMap_apply_eq (φ : O ⟶ O') (F : PresheafOfModules.{u} O.obj) {X Y : Cᵒᵖ}
     (f : X ⟶ Y) (ψ : coextSec φ.hom F X) :
     (coextObj φ.hom F).map f ψ = coextRestrFun φ.hom F f ψ := by
-  show (ModuleCat.semilinearMapAddEquiv (RingCat.Hom.hom (O'.obj.map f)) _ _
+  change (ModuleCat.semilinearMapAddEquiv (RingCat.Hom.hom (O'.obj.map f)) _ _
     (coextRestrSemilinear φ.hom F f)) ψ = _
   rw [ModuleCat.semilinearMapAddEquiv_apply]
   rfl
@@ -233,7 +233,7 @@ theorem linSub_isSheaf (φ : O ⟶ O') (F : SheafOfModules.{u} O) :
       M.restrictₛₗ p.op (r • x) = O.obj.map p.op r • M.restrictₛₗ p.op x := fun M x => by
     simp only [PresheafOfModules.restrictₛₗ_apply]
     exact PresheafOfModules.map_smul (M := M) p.op r x
-  show F.val.restrictₛₗ p.op (allHomsEval s W (r • m)) =
+  change F.val.restrictₛₗ p.op (allHomsEval s W (r • m)) =
     F.val.restrictₛₗ p.op (r • allHomsEval s W m)
   rw [← enat, hsmul (O'asOModule φ.hom), key, enat, ← hsmul F.val]
 

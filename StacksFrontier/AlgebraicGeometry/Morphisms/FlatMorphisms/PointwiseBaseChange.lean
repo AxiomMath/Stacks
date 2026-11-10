@@ -60,7 +60,7 @@ public theorem isFlatAt_comp_of_isIso {P Q A : Scheme.{u}} (e : P ⟶ Q) [IsIso 
     rw [CommRingCat.hom_comp]
     exact (RingHom.Flat.comp_iff_of_bijective_left hbij).mpr hflat
   have heq := congrArg CommRingCat.Hom.hom (Scheme.Hom.stalkMap_comp e q t)
-  show ((e ≫ q).stalkMap t).hom.Flat
+  change ((e ≫ q).stalkMap t).hom.Flat
   exact heq ▸ hcomp
 
 /-- **Base change of flatness at a point.**  In a cartesian square the projection to the new
@@ -90,7 +90,7 @@ public theorem isFlatAt_of_comp {X Y Z : Scheme.{u}} (a : X ⟶ Y) (b : Y ⟶ Z)
     congrArg CommRingCat.Hom.hom (Scheme.Hom.stalkMap_comp a b x)
   rw [heq] at hab
   change ((a.stalkMap x).hom).Flat at ha
-  show ((b.stalkMap (a x)).hom).Flat
+  change ((b.stalkMap (a x)).hom).Flat
   let C := Z.presheaf.stalk (b (a x))
   let A := Y.presheaf.stalk (a x)
   let M := X.presheaf.stalk x
@@ -119,7 +119,7 @@ public theorem isFlatAt_iff_of_isPullback {X Y X' Y' : Scheme.{u}} {f : X ⟶ Y}
     MorphismProperty.IsStableUnderBaseChange.of_isPullback hp.flip inferInstance
   refine ⟨fun h => ?_, fun h => isFlatAt_of_isPullback hp.flip x' h⟩
   have hcomp : IsFlatAt (p ≫ f).toLRSHom.toShHom x' := by
-    show (((p ≫ f).stalkMap x').hom).Flat
+    change (((p ≫ f).stalkMap x').hom).Flat
     rw [hp.w, congrArg CommRingCat.Hom.hom (Scheme.Hom.stalkMap_comp f' q x')]
     exact RingHom.Flat.comp (Flat.stalkMap q (f' x')) h
   exact isFlatAt_of_comp p f x' (Flat.stalkMap p x') hcomp

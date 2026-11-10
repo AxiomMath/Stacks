@@ -11,7 +11,8 @@ Let `A` be a Noetherian ring, `I ⊆ A` an ideal, `Z = V(I)` and `M` a finite `A
 associated prime `𝔭` of `M` with `𝔭 ∉ Z` and every `𝔮 ∈ V(𝔭 + I)`, the completion of `(A/𝔭)_𝔮`
 has no associated prime of dimension `1`.
 
-`StacksFrontier.AlgebraicGeometry.LocalCohomology.PushforwardCoherence.FirstLocalCohomologyFiniteness`
+The module `FirstLocalCohomologyFiniteness` (in
+`StacksFrontier.AlgebraicGeometry.LocalCohomology.PushforwardCoherence`)
 proves everything that equivalence needs apart from Kollár's criterion, [Stacks, Tag 0BK3], at
 the one open immersion `U = Spec A \ Z ⟶ Spec A` and the one coherent module `M̃|_U`. The tag is
 stated here instead of there because the criterion is proved downstream of that module: it is

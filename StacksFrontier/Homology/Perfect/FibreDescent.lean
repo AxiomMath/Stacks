@@ -149,7 +149,7 @@ private lemma tensorComplexMap_comp_eq_zero
   apply TensorProduct.ext
   ext x y
   have : ψ.hom (φ.hom y) = 0 := congrFun (congrArg (fun f => f.hom.toFun) h) y
-  show x ⊗ₜ[C] (ψ.hom (φ.hom y)) = (0 : TensorProduct C (E.X n) P)
+  change x ⊗ₜ[C] (ψ.hom (φ.hom y)) = (0 : TensorProduct C (E.X n) P)
   rw [this, TensorProduct.tmul_zero]
 
 /-- A short exact sequence of test modules gives a short exact sequence of the termwise tensor
@@ -280,7 +280,7 @@ private lemma flat_extendScalars_of_free {R S : Type u} [CommRing R] [CommRing S
     Module.Flat S ((ModuleCat.extendScalars f).obj M) := by
   let _ : Algebra R S := f.toAlgebra
   have := h
-  show Module.Flat S (TensorProduct R S M)
+  change Module.Flat S (TensorProduct R S M)
   infer_instance
 
 /-- Restricting the base change `S ⊗_R -` back to `R` is tensoring with `S` viewed as an
@@ -440,7 +440,7 @@ private theorem isZero_homology_extendScalars_of_fibre_globalDimension_le [Modul
   have := hPle
   -- The base change of `P` to the fibre ring is bounded above with free, hence flat, terms.
   have hEle : ((CochainComplex.extendScalars (algebraMap B C)).obj P).IsStrictlyLE n := by
-    show CochainComplex.IsStrictlyLE
+    change CochainComplex.IsStrictlyLE
       (((ModuleCat.extendScalars (algebraMap B C)).mapHomologicalComplex
         (ComplexShape.up ℤ)).obj P) n
     infer_instance

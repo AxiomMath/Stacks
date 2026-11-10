@@ -482,7 +482,7 @@ noncomputable def qhQuotientIso (N : CochainComplex.Plus A) :
 lemma isGE_Q_obj (N : CochainComplex.Plus A) (n : ℤ) [N.obj.IsStrictlyGE n] :
     (Plus.Q.obj N).IsGE n := by
   rw [← Plus.isGE_ι_obj_iff]
-  show (Q.obj N.obj).IsGE n
+  change (Q.obj N.obj).IsGE n
   have : N.obj.IsGE n := inferInstance
   infer_instance
 
@@ -624,7 +624,7 @@ public lemma exists_distTriang_singleFunctor [HasDerivedCategory A]
       ?_ ?_ ?_)
   · exact (Plus.singleFunctorιIso A 0).hom.naturality S.f
   · exact (Plus.singleFunctorιIso A 0).hom.naturality S.g
-  · show (Plus.ι.map δ ≫ (Plus.ι.commShiftIso (1 : ℤ)).hom.app
+  · change (Plus.ι.map δ ≫ (Plus.ι.commShiftIso (1 : ℤ)).hom.app
           ((Plus.singleFunctor A 0).obj S.X₁)) ≫
         (shiftFunctor (DerivedCategory A) (1 : ℤ)).map
           (𝟙 ((DerivedCategory.singleFunctor A 0).obj S.X₁)) =
@@ -894,7 +894,7 @@ private lemma rightAcyclic_iff (A : C) :
         ((HomotopyCategory.Plus.singleFunctor C 0).obj A)))).symm)
       (rightDerivedPlusObjIso F A i)
   · rintro ⟨h₀, hpos⟩
-    show IsIso (F.rightDerivedFunctorPlusUnith.app
+    change IsIso (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor C 0).obj A))
     rw [Plus.isIso_iff]
     intro i

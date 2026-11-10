@@ -145,13 +145,9 @@ noncomputable def baseChangeTowerEquiv
       change cB (algebraMap _ _ r * b) = algebraMap _ _ (cM' r) * cB b
       have hscalarRaw (r : A₂ ⊗[A₁] (A₁ ⊗[A] F.middle)) :
           cB (algebraMap _ _ r) = algebraMap _ _ (cM r) := by
-        induction r using TensorProduct.induction_on with
-        | zero =>
-          simp
+        induction r using TensorProduct.inductionOn with
         | tmul a₂ z =>
-          induction z using TensorProduct.induction_on with
-          | zero =>
-            simp
+          induction z using TensorProduct.inductionOn with
           | tmul a₁ m =>
             have hinner :
                 IsScalarTower.toAlgHom A₁ F₁.middle (A₁ ⊗[A] B)
@@ -239,17 +235,9 @@ theorem baseChange_comp
   let : Algebra B (A₂ ⊗[A] B) := Algebra.TensorProduct.rightAlgebra
   let : Module B (dualizingModule Fdirect) :=
     Module.compHom _ (algebraMap B (A₂ ⊗[A] B))
-  induction ω using TensorProduct.induction_on with
-  | zero =>
-    show (baseChangeTowerEquiv F A₁ A₂).1
-      (dualizingModule.baseChange
-        (FiniteOpenFactorization.baseChange F A₁) A₂
-          (dualizingModule.baseChange F A₁ (0 : dualizingModule F))) =
-      dualizingModule.baseChange F A₂ (0 : dualizingModule F)
-    rw [map_zero, map_zero, map_zero]
-    exact (map_zero (dualizingModule.baseChange F A₂)).symm
+  induction ω using TensorProduct.inductionOn with
   | tmul f b =>
-    show (baseChangeTowerEquiv F A₁ A₂).1
+    change (baseChangeTowerEquiv F A₁ A₂).1
         (dualizingModule.baseChange
           (FiniteOpenFactorization.baseChange F A₁) A₂
           (dualizingModule.baseChange F A₁
@@ -277,7 +265,7 @@ theorem baseChange_comp
           TensorProduct.AlgebraTensorModule.cancelBaseChange A A₁ A₂ A₂ F.middle
               (cM'.symm z) = z :=
         (LinearMap.congr_fun hcM (cM'.symm z)).symm.trans (cM'.apply_symm_apply z)
-      show (f.baseChange A₂)
+      change (f.baseChange A₂)
           ((TensorProduct.AlgebraTensorModule.cancelBaseChange A A₁ A₂ A₂ F.middle)
             (cM'.symm z)) = (f.baseChange A₂) z
       rw [hcancel]

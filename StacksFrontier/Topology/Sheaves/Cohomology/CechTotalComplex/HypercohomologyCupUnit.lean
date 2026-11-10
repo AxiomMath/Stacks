@@ -59,12 +59,13 @@ def scalarBilinear (F : SheafOfModules.{u} (ringSheaf O)) :
     { toFun := fun x =>
         { toFun := fun r => (show (ringSheaf O).obj.obj V from r) • x
           map_zero' := zero_smul _ x
-          map_add' := fun r r' => add_smul _ _ x }
-      map_zero' := AddMonoidHom.ext fun r => smul_zero _
-      map_add' := fun x x' => AddMonoidHom.ext fun r => smul_add _ x x' }
+          map_add' := fun r r' => add_smul (show (ringSheaf O).obj.obj V from r) r' x }
+      map_zero' := AddMonoidHom.ext fun r => smul_zero (show (ringSheaf O).obj.obj V from r)
+      map_add' := fun x x' => AddMonoidHom.ext fun r =>
+        smul_add (show (ringSheaf O).obj.obj V from r) x x' }
   map_smul_left V s x r := smul_comm (show SectionRing (ringSheaf O) (unop V) from r) s x
-  map_smul_right V s x r := mul_smul s _ x
-  naturality f x r := PresheafOfModules.map_smul _ f _ x
+  map_smul_right _ s x r := mul_smul s r x
+  naturality f x r := PresheafOfModules.map_smul _ f r x
 
 /-- **The scalar action of `𝒪_X` on a sheaf of modules**, as a pairing of the sheaves placed in
 degree zero. -/

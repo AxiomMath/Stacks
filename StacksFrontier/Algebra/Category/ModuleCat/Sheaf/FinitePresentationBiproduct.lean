@@ -175,10 +175,10 @@ theorem Presentation.isFinite_biprod
     (P.biprod Q).IsFinite := by
   constructor
   · constructor
-    show Finite (P.generators.I ⊕ Q.generators.I)
+    change Finite (P.generators.I ⊕ Q.generators.I)
     infer_instance
   · constructor
-    show Finite (P.relations.I ⊕ Q.relations.I)
+    change Finite (P.relations.I ⊕ Q.relations.I)
     infer_instance
 
 end SheafOfModules

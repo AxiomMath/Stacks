@@ -32,11 +32,12 @@ in every degree `q`.
 
 ## Implementation notes
 
-The mathematics is already in the library, in the three modules
+The mathematics is already in the library, in the three modules (the first and the last under
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.CechComparison`)
 
 * `StacksFrontier.AlgebraicGeometry.EtaleCohomology.CechComparison.BigSiteQuasiCoherentCohomology`,
 * `StacksFrontier.AlgebraicGeometry.Topologies.Zariski.SmallZariskiQuasiCoherentCohomology`,
-* `StacksFrontier.AlgebraicGeometry.EtaleCohomology.CechComparison.SmallEtaleQuasiCoherentCohomology`,
+* `CechComparison.SmallEtaleQuasiCoherentCohomology`,
 
 each of which proves its case as a comparison of `CategoryTheory.Sheaf.H'`, Mathlib's cohomology
 *over an object* of a site, at the object that the whole of `S` becomes.  What this file adds is

@@ -88,7 +88,7 @@ private lemma exists_invariant_multiple_of_action_hom
     { smul g x := ConcreteCategory.hom (A.ρ g).asHom x
       one_smul x := by change ConcreteCategory.hom (A.ρ 1).asHom x = x; simp
       mul_smul g h x := by
-        show ConcreteCategory.hom (A.ρ (g * h)).asHom x =
+        change ConcreteCategory.hom (A.ρ (g * h)).asHom x =
           ConcreteCategory.hom (A.ρ g).asHom (ConcreteCategory.hom (A.ρ h).asHom x)
         rw [map_mul]
         rfl }
@@ -99,7 +99,7 @@ private lemma exists_invariant_multiple_of_action_hom
     { smul g x := ConcreteCategory.hom (B.ρ g).asHom x
       one_smul x := by change ConcreteCategory.hom (B.ρ 1).asHom x = x; simp
       mul_smul g h x := by
-        show ConcreteCategory.hom (B.ρ (g * h)).asHom x =
+        change ConcreteCategory.hom (B.ρ (g * h)).asHom x =
           ConcreteCategory.hom (B.ρ g).asHom (ConcreteCategory.hom (B.ρ h).asHom x)
         rw [map_mul]
         rfl }
@@ -114,7 +114,7 @@ private lemma exists_invariant_multiple_of_action_hom
       map_add' := f'.hom.map_add }
   have hd : ∀ (g : G) (a : ↑A.V), d (g • a) = g • d a := by
     intro g a
-    show f'.hom (ConcreteCategory.hom (A.ρ g).asHom a) =
+    change f'.hom (ConcreteCategory.hom (A.ρ g).asHom a) =
       ConcreteCategory.hom (B.ρ g).asHom (f'.hom a)
     simpa [f'] using ConcreteCategory.congr_hom (f.comm g) a
   exact finite_orbit_sum_fixed continuous_smul d hd x hy
@@ -148,7 +148,7 @@ private lemma exists_preimage_of_exact_addCommGrpCat
   have hepi : Epi (kernel.lift S.g S.f S.zero) := S.exact_iff_epi_kernel_lift.mp hS
   obtain ⟨y, hy⟩ := (AddCommGrpCat.epi_iff_surjective _).mp hepi kx'
   have hk : (kernel.ι S.g).hom kx' = x := by
-    show ((AddCommGrpCat.kernelIsoKer S.g).inv ≫ kernel.ι S.g).hom kx = x
+    change ((AddCommGrpCat.kernelIsoKer S.g).inv ≫ kernel.ι S.g).hom kx = x
     rw [AddCommGrpCat.kernelIsoKer_inv_comp_ι]
     rfl
   refine ⟨y, ?_⟩
@@ -247,7 +247,7 @@ private lemma ι_map_baseSingleTrianglePlus {C : Type*} [Category C] [Abelian C]
 private lemma baseSingleTrianglePlus_distinguished {C : Type*} [Category C] [Abelian C]
     [HasDerivedCategory C] {S : ShortComplex C} (hS : S.ShortExact) :
     baseSingleTrianglePlus hS ∈ distTriang (DerivedCategory.Plus C) := by
-  show DerivedCategory.Plus.ι.mapTriangle.obj (baseSingleTrianglePlus hS) ∈
+  change DerivedCategory.Plus.ι.mapTriangle.obj (baseSingleTrianglePlus hS) ∈
     distTriang (DerivedCategory C)
   rw [ι_map_baseSingleTrianglePlus hS]
   exact hS.singleTriangle_distinguished
@@ -360,7 +360,7 @@ private lemma exists_annihilator_degree_one
         ConcreteCategory.hom gA.hom x := by
     intro g
     rw [hx']
-    show (RB.ρ g) y0.1 = y0.1
+    change (RB.ρ g) y0.1 = y0.1
     exact y0.2 g
   obtain ⟨n, hn, z, hz, hgz⟩ := exists_invariant_multiple_of_action_hom hG A B
     (F₁.obj S.X₂).property S.X₂.property gA x hy0
@@ -369,7 +369,7 @@ private lemma exists_annihilator_degree_one
   let z0 : ↑RA.ρ.invariants := ⟨z, hz⟩
   have hmap : (F.map S.g).hom z0 = (n : ℤ) • y0 := by
     apply Subtype.ext
-    show ConcreteCategory.hom gA.hom z = (n : ℤ) • y0.1
+    change ConcreteCategory.hom gA.hom z = (n : ℤ) • y0.1
     rw [hgz, hx']
     rfl
   have hcomp : F.map S.g ≫ (e.app S.X₃).hom ≫ T.f = 0 := by
@@ -403,7 +403,7 @@ private lemma isTorsion_rightDerivedPlus_succ
   obtain ⟨y, hy⟩ := exists_preimage_derivedDelta_of_injective F hS i hi c
   obtain ⟨a, ha⟩ := h S.X₃ (x := y)
   refine ⟨a, ?_⟩
-  show (a : ℤ) • c = 0
+  change (a : ℤ) • c = 0
   rw [← hy]
   exact (_root_.map_zsmul T.f.hom (a : ℤ) y).symm.trans
     ((congrArg T.f.hom ha).trans (map_zero T.f.hom))
@@ -418,7 +418,7 @@ private lemma isIso_zsmul_id_of_module_rat
   let f₂ := (ObjectProperty.ι P₂).map f₁
   have : IsIso f₂.hom := by
     apply (ConcreteCategory.isIso_iff_bijective _).mpr
-    show Function.Bijective (fun x : M.1.1.V ↦ n • x)
+    change Function.Bijective (fun x : M.1.1.V ↦ n • x)
     have hnq : (n : ℚ) ≠ 0 := by exact_mod_cast hn
     simpa only [Int.cast_smul_eq_zsmul] using
       ((isUnit_iff_ne_zero.mpr hnq).smul_bijective (β := M.1.1.V))
@@ -474,6 +474,6 @@ public theorem isZero_continuousGroupCohomology_of_module_rat
     infer_instance
   apply (AddCommGrpCat.mono_iff_injective ((n : ℤ) • 𝟙 (F.obj M))).mp
     (inferInstance : Mono ((n : ℤ) • 𝟙 (F.obj M)))
-  show (n : ℤ) • x = (n : ℤ) • 0
+  change (n : ℤ) • x = (n : ℤ) • 0
   rwa [smul_zero]
 

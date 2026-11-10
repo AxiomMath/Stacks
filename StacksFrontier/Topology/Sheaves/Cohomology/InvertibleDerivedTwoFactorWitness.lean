@@ -102,7 +102,7 @@ def skyscraperRingSheaf : Sheaf (Opens.grothendieckTopology T) CommRingCat.{u} :
 /-- Over an open set containing the point, the sections of the skyscraper sheaf are the ring. -/
 theorem skyscraperRingSheaf_obj_of_mem {U : Opens T} (hU : p₀ ∈ U) :
     (skyscraperRingSheaf p₀ R).obj.obj (op U) = R :=
-  if_pos hU
+  ite_eq_left hU
 
 /-- Over an open set containing the point, the sections of the skyscraper sheaf of a nontrivial
 ring are nontrivial. -/
@@ -121,17 +121,17 @@ def twoFactorFamily : ℤ → Sheaf (Opens.grothendieckTopology T) CommRingCat.{
 /-- The degree-zero member of the two-factor family is the skyscraper sheaf of `R` at `p₀`. -/
 theorem twoFactorFamily_zero :
     twoFactorFamily p₀ p₁ R S 0 = skyscraperRingSheaf p₀ R :=
-  if_pos rfl
+  ite_eq_left rfl
 
 /-- The degree-one member of the two-factor family is the skyscraper sheaf of `S` at `p₁`. -/
 theorem twoFactorFamily_one :
     twoFactorFamily p₀ p₁ R S 1 = skyscraperRingSheaf p₁ S :=
-  (if_neg one_ne_zero).trans (if_pos rfl)
+  (ite_eq_right one_ne_zero).trans (ite_eq_left rfl)
 
 /-- Outside degrees zero and one the two-factor family is the zero sheaf of rings. -/
 theorem twoFactorFamily_of_ne {n : ℤ} (h0 : n ≠ 0) (h1 : n ≠ 1) :
     twoFactorFamily p₀ p₁ R S n = zeroRingSheaf _ :=
-  (if_neg h0).trans (if_neg h1)
+  (ite_eq_right h0).trans (ite_eq_right h1)
 
 /-- The zero sheaf of rings has no sections beyond zero. -/
 theorem subsingleton_zeroRingSheaf_obj {D : Type u} [Category.{u} D]

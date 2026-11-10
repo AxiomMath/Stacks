@@ -42,7 +42,8 @@ already.
 
 All in the namespace `Stacks.Cohomology.ProjectionFormulaPerfect`.
 
-* `Stacks.Cohomology.ProjectionFormulaPerfect.isIso_app_shift`: **invertibility of a shift-compatible transformation passes to
+* `Stacks.Cohomology.ProjectionFormulaPerfect.isIso_app_shift`: **invertibility of a
+  shift-compatible transformation passes to
   the shifts of an object**, for arbitrary commutation data.  This is the whole mathematical
   content, and it is the public form of the private helper of `ProjectionFormulaUnitShift.lean`.
 * `isIso_projectionFormulaMap_unitShift_of_commShift'`,
@@ -139,11 +140,12 @@ theorem isIso_projectionFormulaMap_unitShift_of_commShift'
     (hcs : NatTrans.CommShift (projectionFormulaTransformation f E) ℤ) (m : ℤ) :
     IsIso (projectionFormulaMap f E
       (((DerivedCategory.singleFunctor (OXMod.{u, u} Y) 0).obj (structureModule Y))⟦m⟧)) := by
-  letI := hcs
-  haveI h0 : IsIso ((projectionFormulaTransformation f E).app
+  let := hcs
+  have h0 : IsIso ((projectionFormulaTransformation f E).app
       ((DerivedCategory.singleFunctor (OXMod.{u, u} Y) 0).obj (structureModule Y))) :=
     isIso_projectionFormulaMap_unitObject_unconditional f E
-  exact Stacks.Cohomology.ProjectionFormulaPerfect.isIso_app_shift (projectionFormulaTransformation f E)
+  exact Stacks.Cohomology.ProjectionFormulaPerfect.isIso_app_shift
+    (projectionFormulaTransformation f E)
     ((DerivedCategory.singleFunctor (OXMod.{u, u} Y) 0).obj (structureModule Y)) m
 
 /-- **Invertibility at the structure sheaf placed in every degree**, at an arbitrary pair of
@@ -155,16 +157,14 @@ theorem isIso_projectionFormulaMap_singleUnit_of_commShift'
   isIso_projectionFormulaMap_singleUnit_of_unitShift f E
     (isIso_projectionFormulaMap_unitShift_of_commShift' f E hcs) i
 
+end AnyDatum
+
 /-- **The dévissage half of [Stacks, Tag 0B54] with no base case left to assume**, at an
 arbitrary pair of commutation data. -/
 theorem isIso_projectionFormulaMap_of_isStrictlyPerfect_of_commShift'
-    (hcs : NatTrans.CommShift (projectionFormulaTransformation f E) ℤ)
     (P : CochainComplex (OXMod.{u, u} Y) ℤ) (hP : IsStrictlyPerfect P) :
     IsIso (projectionFormulaMap f E (DerivedCategory.Q.obj P)) :=
-  isIso_projectionFormulaMap_of_isStrictlyPerfect_of_singleUnit f E
-    (isIso_projectionFormulaMap_singleUnit_of_commShift' f E hcs) P hP
-
-end AnyDatum
+  isIso_projectionFormulaMap_of_isStrictlyPerfect_of_singleUnit f E P hP
 
 /-! ### The primed statements subsume the pinned ones
 
@@ -185,15 +185,9 @@ example
   isIso_projectionFormulaMap_unitShift_of_commShift' f E hcs m
 
 example
-    (hcs :
-      letI := projectionFormulaSourceCommShift f E
-      letI := projectionFormulaTargetCommShift f E
-      NatTrans.CommShift (projectionFormulaTransformation f E) ℤ)
     (P : CochainComplex (OXMod.{u, u} Y) ℤ) (hP : IsStrictlyPerfect P) :
     IsIso (projectionFormulaMap f E (DerivedCategory.Q.obj P)) :=
-  letI := projectionFormulaSourceCommShift f E
-  letI := projectionFormulaTargetCommShift f E
-  isIso_projectionFormulaMap_of_isStrictlyPerfect_of_commShift' f E hcs P hP
+  isIso_projectionFormulaMap_of_isStrictlyPerfect_of_commShift' f E P hP
 
 /-! ### The coherent datum
 
@@ -256,14 +250,9 @@ theorem isIso_projectionFormulaMap_singleUnit_of_coherentCommShift
 /-- **The dévissage half of [Stacks, Tag 0B54] with no base case left to assume**, from the shift
 compatibility at the coherent datum. -/
 theorem isIso_projectionFormulaMap_of_isStrictlyPerfect_of_coherentCommShift
-    (hcs :
-      letI := projectionFormulaSourceCommShiftCoherent f E
-      letI := projectionFormulaTargetCommShiftCoherent f E
-      NatTrans.CommShift (projectionFormulaTransformation f E) ℤ)
     (P : CochainComplex (OXMod.{u, u} Y) ℤ) (hP : IsStrictlyPerfect P) :
     IsIso (projectionFormulaMap f E (DerivedCategory.Q.obj P)) :=
-  isIso_projectionFormulaMap_of_isStrictlyPerfect_of_singleUnit f E
-    (isIso_projectionFormulaMap_singleUnit_of_coherentCommShift f E hcs) P hP
+  isIso_projectionFormulaMap_of_isStrictlyPerfect_of_singleUnit f E P hP
 
 -- The hypothesis of the theorem below is quantified over all ringed spaces, so the derived
 -- tensor product has to be available at a space that is not one of the section's.  These are the
@@ -281,11 +270,6 @@ The hypothesis is quantified over every morphism of ringed spaces and every `E`,
 reason as there: the reduction of a perfect complex to a strictly perfect one passes to the base
 change of `f` along the inclusion of an open subspace of `Y`. -/
 theorem isIso_projectionFormulaMap_of_isPerfect_of_coherentCommShift
-    (hcs : ∀ (X₀ Y₀ : RingedSpace.{u, u}) (f₀ : X₀ ⟶ Y₀)
-      (E₀ : DerivedCategory (SheafOfModules.{u} (structureSheafRing X₀))),
-      letI := projectionFormulaSourceCommShiftCoherent f₀ E₀
-      letI := projectionFormulaTargetCommShiftCoherent f₀ E₀
-      NatTrans.CommShift (projectionFormulaTransformation f₀ E₀) ℤ)
     (K : DerivedCategory (SheafOfModules.{u} (structureSheafRing Y)))
     (hK : AlgebraicGeometry.RingedSpace.IsPerfect K) :
     IsIso (projectionFormulaMap f E K) :=

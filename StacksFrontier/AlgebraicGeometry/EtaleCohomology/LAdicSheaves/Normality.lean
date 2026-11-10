@@ -149,7 +149,8 @@ public def isLimit_kernelFork_of_app {K F G : LAdicSheaf.{u, u + 1} B X ℓ} (i 
 
 /-- A morphism of ℓ-adic sheaves whose components are monomorphisms is the kernel of its
 levelwise cokernel. -/
-@[stacks 03UO "monomorphisms with monomorphic components are kernels, of the levelwise cokernel"]
+@[instance_reducible, stacks 03UO "monomorphisms with monomorphic components are kernels, \
+of the levelwise cokernel"]
 public def normalMono_of_app_mono {F G : LAdicSheaf.{u, u + 1} B X ℓ} (f : F ⟶ G)
     (hf : ∀ n, Mono (f.app n)) : NormalMono f where
   Z := cokernelSystem f
@@ -191,7 +192,8 @@ public def isColimit_cokernelCofork_of_app {F G Q : LAdicSheaf.{u, u + 1} B X �
 
 /-- An epimorphism of ℓ-adic sheaves is the cokernel of a morphism killed by it whose levelwise
 kernel comparisons are epimorphisms. -/
-@[stacks 03UO "epimorphisms whose levelwise kernel comparisons are epimorphisms are cokernels, \
+@[instance_reducible, stacks 03UO "epimorphisms whose levelwise kernel comparisons are \
+epimorphisms are cokernels, \
 of the morphism those comparisons compare to"]
 public def normalEpi_of_epi_kernelLift {K F G : LAdicSheaf.{u, u + 1} B X ℓ} (i : K ⟶ F)
     (f : F ⟶ G) [Epi f] (w : i ≫ f = 0)

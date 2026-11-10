@@ -83,7 +83,10 @@ def squarePushforwardIso (s : TwoIso (g.comp f') (f.comp g')) :
       (g.comp f').toModulesHom.toToposHom.pushforward :=
   toModulesHomPushforwardIso g' f ≪≫ s.e.symm
 
-omit [Y'.J.HasSheafCompose (forget AddCommGrpCat.{u})] in
+omit [X'.J.HasSheafCompose (forget AddCommGrpCat.{u})]
+  [X.J.HasSheafCompose (forget AddCommGrpCat.{u})]
+  [Y'.J.HasSheafCompose (forget AddCommGrpCat.{u})]
+  [Y.J.HasSheafCompose (forget AddCommGrpCat.{u})] in
 /-- The comparison of direct images of the square carries the composite structure map of `g'`
 and `f` to the structure map of `g ∘ f'`: this is the compatibility of `s` with the structure
 maps. -/

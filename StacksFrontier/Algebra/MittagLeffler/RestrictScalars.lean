@@ -107,11 +107,9 @@ private theorem rTensor_cancelBaseChange_apply (N : Type v) [AddCommGroup N] [Mo
     (f : X →ₗ[S] Y) (x : X ⊗[S] (S ⊗[R] N)) :
     (f.restrictScalars R).rTensor N (AlgebraTensorModule.cancelBaseChange R S S X N x) =
       AlgebraTensorModule.cancelBaseChange R S S Y N (f.rTensor (S ⊗[R] N) x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a y =>
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul s n => simp
     | add u v hu hv => simp [tmul_add, hu, hv]
   | add x y hx hy => simp [hx, hy]

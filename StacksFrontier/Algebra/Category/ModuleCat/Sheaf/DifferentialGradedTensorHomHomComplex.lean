@@ -265,7 +265,7 @@ is the commutator differential on the underlying action-linear cochains. -/
 theorem underlyingCochain_d (D : DGCategoryData.{u, v, w} A) {n : ℤ}
     (f : D.category.Hom (moduleObject A D K) (moduleObject A D L) n) :
     underlyingCochain A D (D.category.d f) = δ n (n + 1) (underlyingCochain A D f) := by
-  show (D.homs K L (n + 1) ▸ D.category.d f).val = _
+  change (D.homs K L (n + 1) ▸ D.category.d f).val = _
   rw [eq_of_heq (D.differential K L n f)]
   rfl
 
@@ -306,7 +306,7 @@ another. -/
 theorem tensorFamily_sheafHomFamily (hT : IsTensorProduct M N T) (hH : IsSheafHom N L H) (n : ℤ)
     (G : LocalHomFamily M H n) : tensorFamily hT hH n (sheafHomFamily hT hH n G) = G := by
   refine LocalHomFamily.ext fun U => ?_
-  show ofBalancedDg hH
+  change ofBalancedDg hH
     (hT.universal L n U ((hT.universal L n U).symm (toBalancedDg hH (G.hom U)))) = G.hom U
   rw [Equiv.apply_symm_apply, ofBalancedDg_toBalancedDg]
 
@@ -315,7 +315,7 @@ another. -/
 theorem sheafHomFamily_tensorFamily (hT : IsTensorProduct M N T) (hH : IsSheafHom N L H) (n : ℤ)
     (F : LocalHomFamily T L n) : sheafHomFamily hT hH n (tensorFamily hT hH n F) = F := by
   refine LocalHomFamily.ext fun U => ?_
-  show (hT.universal L n U).symm
+  change (hT.universal L n U).symm
     (toBalancedDg hH (ofBalancedDg hH (hT.universal L n U (F.hom U)))) = F.hom U
   rw [toBalancedDg_ofBalancedDg, Equiv.symm_apply_apply]
 

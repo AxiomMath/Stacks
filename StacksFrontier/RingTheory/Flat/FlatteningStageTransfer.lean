@@ -79,12 +79,12 @@ theorem isFlatAtPrimesAbove_iff_of_finite {A : Type u} [CommRing A] {C : Type v}
   let : Algebra CR DR := g.toRingHom.toAlgebra
   have hR : g.toRingHom.comp (algebraMap R CR) = algebraMap R DR := by
     ext r
-    show g ((1 : C) ⊗ₜ[A] r) = (1 : D) ⊗ₜ[A] r
+    change g ((1 : C) ⊗ₜ[A] r) = (1 : D) ⊗ₜ[A] r
     rw [Algebra.TensorProduct.map_tmul]
     simp
   have hC : g.toRingHom.comp (algebraMap C CR) = (algebraMap D DR).comp (algebraMap C D) := by
     ext c
-    show g (c ⊗ₜ[A] (1 : R)) = (algebraMap C D c) ⊗ₜ[A] (1 : R)
+    change g (c ⊗ₜ[A] (1 : R)) = (algebraMap C D c) ⊗ₜ[A] (1 : R)
     rw [Algebra.TensorProduct.map_tmul]
     simp [f]
   have _ : IsScalarTower R CR DR :=
@@ -106,7 +106,7 @@ theorem isFlatAtPrimesAbove_iff_of_finite {A : Type u} [CommRing A] {C : Type v}
   have towerM : IsScalarTower R CR (CR ⊗[C] N) := inferInstance
   have towerE : IsScalarTower R CR (DR ⊗[D] N) :=
     IsScalarTower.of_algebraMap_smul fun r n ↦ by
-      show g ((algebraMap R CR) r) • n = (algebraMap R DR r) • n
+      change g ((algebraMap R CR) r) • n = (algebraMap R DR r) • n
       rw [IsScalarTower.algebraMap_apply R CR DR r]
       rfl
   have hlocal (p : Ideal CR) [p.IsPrime] :=
@@ -140,7 +140,7 @@ theorem isFlatAtPrimesAbove_iff_of_finite {A : Type u} [CommRing A] {C : Type v}
       exact Ideal.map_le_iff_le_comap.mpr (h𝔓q ▸ hm)
     · refine huniq _ (Ideal.comap_isPrime _ 𝔓) ?_
       rw [← hcomapC]
-      show (𝔓.comap (algebraMap CR DR)).comap (algebraMap C CR) = _
+      change (𝔓.comap (algebraMap CR DR)).comap (algebraMap C CR) = _
       rw [h𝔓q, hq]
 
 

@@ -46,7 +46,8 @@ itself is Stacks 03EO, whose correspondence `sheafTensorHomEquivPlain` tensors o
 the canonical symmetry `Stacks.SheafOfModules.Tensor.sheafTensorBraiding` of `⊗_O` turns it into
 the left tensor functor of Stacks 05NB.
 
-**No local symmetry is introduced here.** A hand-assembled `(sheafTensor O).obj F ≅ (sheafTensor O).flip.obj F` built
+**No local symmetry is introduced here.** A hand-assembled
+`(sheafTensor O).obj F ≅ (sheafTensor O).flip.obj F` built
 from `BraidedCategory.braiding` on presheaves of modules and whiskered through
 `SheafOfModules.forget` and `PresheafOfModules.sheafification` would be the construction of
 `Stacks.SheafOfModules.Tensor.sheafTensorBraiding` itself, inlined: same type at the component,
@@ -107,9 +108,11 @@ variable {C : Type u} [Category.{u} C] (J : GrothendieckTopology C)
   [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasWeakSheafify J AddCommGrpCat.{u}]
   (O : Sheaf J CommRingCat.{u})
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The tensor--internal-Hom correspondence sends `b` to the morphism locally given by
 `x ↦ (y ↦ b (x ⊗ y))`. -/
-theorem tensorHomEquiv_apply (F G' H : _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf (J := J) O))
+theorem tensorHomEquiv_apply
+    (F G' H : _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf (J := J) O))
     (b : (((sheafTensor.{u, u, u, u, u} O).flip.obj F)).obj G' ⟶ H) (U : C)
     (x : G'.val.obj (op U)) (y : F.val.obj (op U)) :
     (((sheafTensorHomEquivPlain J O G' F H b).val.app (op U) x).app
@@ -117,17 +120,20 @@ theorem tensorHomEquiv_apply (F G' H : _root_.SheafOfModules.{u} (Stacks.SheafOf
       b.val.app (op U)
         (((_root_.PresheafOfModules.sheafificationAdjunction
             (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (J := J) O).obj)).unit.app
-              ((((_root_.PresheafOfModules.tensorBifunctor.{u, u, u, u, u} O.obj).flip.obj F.val)).obj G'.val)).app (op U)
+              ((((_root_.PresheafOfModules.tensorBifunctor.{u, u, u, u, u}
+                O.obj).flip.obj F.val)).obj G'.val)).app (op U)
           (x ⊗ₜ[O.obj.obj (op U)] y)) :=
   sheafTensorHomEquivPlain_apply J O G' F H b U x y
 
 /-- **Stacks 03EO**, read as an adjunction: tensoring by `F` is left adjoint to internal Hom
 out of `F`. -/
-noncomputable def sheafTensorHomAdjunction (F : _root_.SheafOfModules (Stacks.SheafOfModules.Tensor.ringSheaf (J := J) O)) :
+noncomputable def sheafTensorHomAdjunction
+    (F : _root_.SheafOfModules (Stacks.SheafOfModules.Tensor.ringSheaf (J := J) O)) :
     ((sheafTensor.{u, u, u, u, u} O).obj F) ⊣ internalHomSecondFunctor J O F := by
   let shAdj := _root_.PresheafOfModules.sheafificationAdjunction
     (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (J := J) O).obj)
-  let sh := _root_.PresheafOfModules.sheafification (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (J := J) O).obj)
+  let sh := _root_.PresheafOfModules.sheafification
+    (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (J := J) O).obj)
   let tensor := ((_root_.PresheafOfModules.tensorBifunctor.{u, u, u, u, u} O.obj).flip.obj F.val)
   let G := internalHomSecondFunctor J O F
   let adj : Adjunction.CoreHomEquiv (((sheafTensor.{u, u, u, u, u} O).flip.obj F)) G :=
@@ -171,13 +177,15 @@ noncomputable def sheafTensorHomAdjunction (F : _root_.SheafOfModules (Stacks.Sh
                 (((shAdj.unit.app (tensor.obj X.val)).app U).hom
                   (((tensor.map f.val).app U).hom (x ⊗ₜ[O.obj.obj U] y))) =
               ((ModuleCat.restrictScalars
-                (RingCat.Hom.hom (𝟙 ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J) O).obj.obj U)))).map
+                (RingCat.Hom.hom
+                  (𝟙 ((Stacks.SheafOfModules.Tensor.ringSheaf (J := J) O).obj.obj U)))).map
                   ((e.symm g).val.app U)).hom
                 (((shAdj.unit.app (tensor.obj X.val)).app U).hom
                   (((tensor.map f.val).app U).hom (x ⊗ₜ[O.obj.obj U] y))) := rfl
         exact hleft.symm.trans (hcomp.trans (hright.trans (hscalar.trans hright'))) }
   exact (Adjunction.mkOfHomEquiv adj).ofNatIsoLeft ((sheafTensorBraiding.{u, u, u} O).app F).symm
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The tensor--internal-Hom correspondence read on sections over an arbitrary object `V ⟶ U` of the
 slice category: `b` goes to `x ↦ (y ↦ b (x|_V ⊗ y))`. This is `tensorHomEquiv_apply` with the
 object of the slice left free, which is what an equality of sections of an internal Hom sheaf
@@ -189,7 +197,11 @@ theorem tensorHomEquiv_section_apply
     (y : F.val.obj (op V.unop.left)) :
     (((sheafTensorHomEquivPlain J O G' F H b).val.app (op U) x).app V).hom y =
       b.val.app (op V.unop.left)
-        ((((_root_.PresheafOfModules.sheafificationAdjunction.{u} (R := Stacks.SheafOfModules.Tensor.ringSheaf O) (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit).app ((((_root_.PresheafOfModules.tensorBifunctor.{u, u, u, u, u} O.obj).flip.obj F.val)).obj G'.val)).app
+        ((((_root_.PresheafOfModules.sheafificationAdjunction.{u}
+              (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
+              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit).app
+            ((((_root_.PresheafOfModules.tensorBifunctor.{u, u, u, u, u} O.obj).flip.obj F.val)).obj
+              G'.val)).app
             (op V.unop.left)
           (G'.val.map V.unop.hom.op x ⊗ₜ[O.obj.obj (op V.unop.left)] y)) :=
   presheafTensorHomEquiv_section_apply O.obj G'.val F.val H.val _ U x V y
@@ -216,22 +228,39 @@ theorem sheafTensorBraiding_inv_app_sheafifyUnit_tmul
     (F G : _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf (J := J) O)) (U : C)
     (x : G.val.obj (op U)) (y : F.val.obj (op U)) :
     (((sheafTensorBraiding.{u, u, u} O).app F).inv.app G).val.app (op U)
-        ((((_root_.PresheafOfModules.sheafificationAdjunction.{u} (R := Stacks.SheafOfModules.Tensor.ringSheaf O) (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit).app ((((_root_.PresheafOfModules.tensorBifunctor.{u, u, u, u, u} O.obj).flip.obj F.val)).obj G.val)).app (op U)
+        ((((_root_.PresheafOfModules.sheafificationAdjunction.{u}
+              (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
+              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit).app
+            ((((_root_.PresheafOfModules.tensorBifunctor.{u, u, u, u, u} O.obj).flip.obj F.val)).obj
+              G.val)).app (op U)
           (x ⊗ₜ[O.obj.obj (op U)] y)) =
-      (((_root_.PresheafOfModules.sheafificationAdjunction.{u} (R := Stacks.SheafOfModules.Tensor.ringSheaf O) (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit).app ((((_root_.PresheafOfModules.tensorBifunctor.{u, u, u, u, u} O.obj).obj F.val)).obj G.val)).app (op U)
+      (((_root_.PresheafOfModules.sheafificationAdjunction.{u}
+            (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
+            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit).app
+          ((((_root_.PresheafOfModules.tensorBifunctor.{u, u, u, u, u} O.obj).obj F.val)).obj
+            G.val)).app (op U)
         (y ⊗ₜ[O.obj.obj (op U)] x) := by
   exact sheafification_map_unit_app_apply J O
     (BraidedCategory.braiding F.val G.val).inv (op U) (x ⊗ₜ[O.obj.obj (op U)] y)
 
 /-- Tensoring a pure tensor by `φ` in the left-hand factor. -/
 theorem sheafTensor_map_app_sheafifyUnit_tmul
-    {F F' : _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf (J := J) O)} (φ : F ⟶ F')
+    {F F' : _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf (J := J) O)}
+    (φ : F ⟶ F')
     (G : _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf (J := J) O)) (U : C)
     (y : F.val.obj (op U)) (x : G.val.obj (op U)) :
     (((sheafTensor.{u, u, u, u, u} O).map φ).app G).val.app (op U)
-        ((((_root_.PresheafOfModules.sheafificationAdjunction.{u} (R := Stacks.SheafOfModules.Tensor.ringSheaf O) (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit).app ((((_root_.PresheafOfModules.tensorBifunctor.{u, u, u, u, u} O.obj).obj F.val)).obj G.val)).app (op U)
+        ((((_root_.PresheafOfModules.sheafificationAdjunction.{u}
+              (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
+              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit).app
+            ((((_root_.PresheafOfModules.tensorBifunctor.{u, u, u, u, u} O.obj).obj F.val)).obj
+              G.val)).app (op U)
           (y ⊗ₜ[O.obj.obj (op U)] x)) =
-      (((_root_.PresheafOfModules.sheafificationAdjunction.{u} (R := Stacks.SheafOfModules.Tensor.ringSheaf O) (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit).app ((((_root_.PresheafOfModules.tensorBifunctor.{u, u, u, u, u} O.obj).obj F'.val)).obj G.val)).app (op U)
+      (((_root_.PresheafOfModules.sheafificationAdjunction.{u}
+            (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
+            (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit).app
+          ((((_root_.PresheafOfModules.tensorBifunctor.{u, u, u, u, u} O.obj).obj F'.val)).obj
+            G.val)).app (op U)
         (φ.val.app (op U) y ⊗ₜ[O.obj.obj (op U)] x) := by
   exact sheafification_map_unit_app_apply J O (MonoidalCategory.whiskerRight φ.val G.val) (op U)
     (y ⊗ₜ[O.obj.obj (op U)] x)
@@ -245,7 +274,11 @@ theorem tensorHomAdjunction_homEquiv_section_apply
     (y : F.val.obj (op V.unop.left)) :
     ((((sheafTensorHomAdjunction J O F).homEquiv G H f).val.app (op U) x).app V).hom y =
       f.val.app (op V.unop.left)
-        ((((_root_.PresheafOfModules.sheafificationAdjunction.{u} (R := Stacks.SheafOfModules.Tensor.ringSheaf O) (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit).app ((((_root_.PresheafOfModules.tensorBifunctor.{u, u, u, u, u} O.obj).obj F.val)).obj G.val)).app
+        ((((_root_.PresheafOfModules.sheafificationAdjunction.{u}
+              (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
+              (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit).app
+            ((((_root_.PresheafOfModules.tensorBifunctor.{u, u, u, u, u} O.obj).obj F.val)).obj
+              G.val)).app
             (op V.unop.left)
           (y ⊗ₜ[O.obj.obj (op V.unop.left)]
             G.val.map V.unop.hom.op x)) := by
@@ -265,7 +298,8 @@ theorem tensorHomAdjunction_homEquiv_section_apply
 /-- Precomposition by `φ` in the first variable of internal Hom, as a natural transformation
 between the internal-Hom functors in the second variable. -/
 noncomputable def internalHomSecondFunctorMapLeft
-    {F F' : _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf (J := J) O)} (φ : F ⟶ F') :
+    {F F' : _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf (J := J) O)}
+    (φ : F ⟶ F') :
     internalHomSecondFunctor J O F' ⟶ internalHomSecondFunctor J O F where
   app _ := sheafInternalHomMapLeft J O φ
   naturality _ _ _ := rfl
@@ -273,7 +307,8 @@ noncomputable def internalHomSecondFunctorMapLeft
 /-- **The tensor--internal-Hom adjunction of Stacks 03EO is parametrised in the tensor factor:**
 the conjugate of tensoring by `φ : F ⟶ F'` is precomposition by `φ` on internal Hom. -/
 theorem conjugateEquiv_sheafTensor_map
-    {F F' : _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf (J := J) O)} (φ : F ⟶ F') :
+    {F F' : _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf (J := J) O)}
+    (φ : F ⟶ F') :
     conjugateEquiv (sheafTensorHomAdjunction J O F') (sheafTensorHomAdjunction J O F)
         ((sheafTensor.{u, u, u, u, u} O).map φ) =
       internalHomSecondFunctorMapLeft J O φ := by
@@ -304,9 +339,11 @@ variable [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
 /-- **Stacks 0E8H**, read functorially: internal Hom out of `F` commutes with restriction to
 the localized site over `U`. -/
 @[sga "4 IV 12.3" "(b)", sga "4 IV 12.5" "special case"]
-noncomputable def internalHomRestrictionNatIso (F : _root_.SheafOfModules (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
+noncomputable def internalHomRestrictionNatIso
+    (F : _root_.SheafOfModules (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
     internalHomSecondFunctor X.J X.O F ⋙
-        _root_.SheafOfModules.overFunctor (Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J) X.O) U ≅
+        _root_.SheafOfModules.overFunctor
+          (Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J) X.O) U ≅
       _root_.SheafOfModules.overFunctor (Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J) X.O) U ⋙
         internalHomSecondFunctor (X.J.over U) (X.O.over U) (F.over U) := by
   refine NatIso.ofComponents
@@ -318,13 +355,16 @@ noncomputable def internalHomRestrictionNatIso (F : _root_.SheafOfModules (Stack
 /-- **Stacks 0E8I.** Extension by zero commutes with tensoring by a module on the original
 site, naturally in the module on the slice site. -/
 @[stacks 0E8I]
-noncomputable def extensionByZeroTensorIso (F : _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
-    letI := Stacks.Sites.ExtensionByZero.sheafRestrictionIsRightAdjoint X.J (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U
+noncomputable def extensionByZeroTensorIso
+    (F : _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
+    letI := Stacks.Sites.ExtensionByZero.sheafRestrictionIsRightAdjoint X.J
+      (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U
     let E := _root_.SheafOfModules.pullback.{u}
       (F := Over.forget U) (𝟙 ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U))
     E ⋙ ((sheafTensor.{u, u, u, u, u} X.O).obj F) ≅
       ((sheafTensor.{u, u, u, u, u} (X.O.over U)).obj (F.over U)) ⋙ E := by
-  letI := Stacks.Sites.ExtensionByZero.sheafRestrictionIsRightAdjoint X.J (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U
+  letI := Stacks.Sites.ExtensionByZero.sheafRestrictionIsRightAdjoint X.J
+    (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U
   let E := _root_.SheafOfModules.pullback.{u}
     (F := Over.forget U) (𝟙 ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U))
   let adjE := _root_.SheafOfModules.pullbackPushforwardAdjunction
@@ -336,25 +376,32 @@ noncomputable def extensionByZeroTensorIso (F : _root_.SheafOfModules.{u} (Stack
 
 omit [HasWeakSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
   [HasWeakSheafify (X.J.over U) AddCommGrpCat.{u}]
-  [(X.J.over U).WEqualsLocallyBijective AddCommGrpCat.{u}] in
+  [(X.J.over U).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(X.J.over U).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **Stacks 0E8H** is natural in the source module: precomposing by `φ : F ⟶ F'` before
 restricting to `C/U` is restricting and then precomposing by `φ|_U`. -/
 theorem internalHomRestrictionNatIso_naturality
     {F F' : _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)} (φ : F ⟶ F') :
     Functor.whiskerRight (internalHomSecondFunctorMapLeft X.J X.O φ)
-          (_root_.SheafOfModules.overFunctor (Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J) X.O) U) ≫
+          (_root_.SheafOfModules.overFunctor
+            (Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J) X.O) U) ≫
         (internalHomRestrictionNatIso X U F).hom =
       (internalHomRestrictionNatIso X U F').hom ≫
-        Functor.whiskerLeft (_root_.SheafOfModules.overFunctor (Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J) X.O) U)
+        Functor.whiskerLeft (_root_.SheafOfModules.overFunctor
+          (Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J) X.O) U)
           (internalHomSecondFunctorMapLeft (X.J.over U) (X.O.over U) (φ.over U)) := by
   ext H
   rfl
 
 /-- Extension by zero from the localized site `C/U`: the left adjoint of restriction. -/
 noncomputable def extensionByZeroFunctor :
-    _root_.SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U) ⥤ _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) :=
-  letI := Stacks.Sites.ExtensionByZero.sheafRestrictionIsRightAdjoint X.J (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U
-  _root_.SheafOfModules.pullback.{u} (F := Over.forget U) (𝟙 ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U))
+    _root_.SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U) ⥤
+      _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) :=
+  letI := Stacks.Sites.ExtensionByZero.sheafRestrictionIsRightAdjoint X.J
+    (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U
+  _root_.SheafOfModules.pullback.{u} (F := Over.forget U)
+    (𝟙 ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U))
 
 /-- Extension by zero is left adjoint to restriction to the localized site `C/U`, with the
 right adjoint written as `SheafOfModules.overFunctor`. -/
@@ -362,7 +409,8 @@ right adjoint written as `SheafOfModules.overFunctor`. -/
 noncomputable def extensionByZeroAdjunction :
     extensionByZeroFunctor X U ⊣
       _root_.SheafOfModules.overFunctor (Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J) X.O) U :=
-  letI := Stacks.Sites.ExtensionByZero.sheafRestrictionIsRightAdjoint X.J (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U
+  letI := Stacks.Sites.ExtensionByZero.sheafRestrictionIsRightAdjoint X.J
+    (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U
   _root_.SheafOfModules.pullbackPushforwardAdjunction
     (F := Over.forget U) (𝟙 ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U))
 
@@ -370,14 +418,16 @@ noncomputable def extensionByZeroAdjunction :
 by zero from the localized site. -/
 noncomputable def extensionTensorBifunctor :
     _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) ⥤
-      _root_.SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U) ⥤ _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) :=
+      _root_.SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U) ⥤
+        _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) :=
   sheafTensor.{u, u, u, u, u} X.O ⋙ (Functor.whiskeringLeft _ _ _).obj (extensionByZeroFunctor X U)
 
 /-- `F ↦ (G ↦ E(G ⊗_{O|_U} F|_U))`: tensoring by the restriction of a module on the big site,
 followed by extension by zero. -/
 noncomputable def tensorExtensionBifunctor :
     _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) ⥤
-      _root_.SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U) ⥤ _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) :=
+      _root_.SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U) ⥤
+        _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) :=
   _root_.SheafOfModules.overFunctor (Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J) X.O) U ⋙
     sheafTensor.{u, u, u, u, u} (X.O.over U) ⋙
       (Functor.whiskeringRight _ _ _).obj (extensionByZeroFunctor X U)
@@ -415,7 +465,8 @@ theorem conjugateEquiv_extensionTensor_naturality
         (((extensionByZeroAdjunction X U).comp
           (sheafTensorHomAdjunction X.J X.O F)).ofNatIsoRight
             (internalHomRestrictionNatIso X U F))
-        (Functor.whiskerLeft (extensionByZeroFunctor X U) ((sheafTensor.{u, u, u, u, u} X.O).map φ)) =
+        (Functor.whiskerLeft (extensionByZeroFunctor X U)
+          ((sheafTensor.{u, u, u, u, u} X.O).map φ)) =
       conjugateEquiv
         ((sheafTensorHomAdjunction (X.J.over U) (X.O.over U) (F'.over U)).comp
           (extensionByZeroAdjunction X U))
@@ -430,7 +481,8 @@ theorem conjugateEquiv_extensionTensor_naturality
         (sheafTensorHomAdjunction X.J X.O F) (extensionByZeroAdjunction X U)
         ((sheafTensor.{u, u, u, u, u} X.O).map φ))).trans ?_
   refine (congrArg (fun k => (internalHomRestrictionNatIso X U F').inv ≫
-    Functor.whiskerRight k (_root_.SheafOfModules.overFunctor (Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J) X.O) U) ≫
+    Functor.whiskerRight k (_root_.SheafOfModules.overFunctor
+      (Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J) X.O) U) ≫
       (internalHomRestrictionNatIso X U F).hom)
         (conjugateEquiv_sheafTensor_map X.J X.O φ)).trans ?_
   refine ((Iso.inv_comp_eq _).2 (internalHomRestrictionNatIso_naturality X U φ)).trans ?_
@@ -443,6 +495,8 @@ theorem conjugateEquiv_extensionTensor_naturality
     (extensionByZeroAdjunction X U)
     ((sheafTensor.{u, u, u, u, u} (X.O.over U)).map (φ.over U))).symm
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(X.J.over U).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- Stacks 0E8I is uniqueness of left adjoints for `extensionTensorAdjunction` and
 `tensorExtensionAdjunction`. -/
 theorem extensionTensorBifunctorIsoApp_eq_leftAdjointUniq

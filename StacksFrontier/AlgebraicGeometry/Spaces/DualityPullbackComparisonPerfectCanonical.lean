@@ -66,16 +66,15 @@ theorem isIso_quasicoherentDerivedCompareWithPullbackTensor_of_exactPairing
   let D := quasicoherentDualityData hZ f hXqc hXqs hYqs
   have hπ : ∀ K₀, D.projectionFormulaTwoSquare K₀ =
       ProjectionFormula.projection (quasicoherentDerivedModulePullback f) D.adj K₀ := fun K₀ =>
-    (TwoSquare.equivNatTrans _ _ _ _).injective (NatTrans.ext (funext fun E =>
+    NatTrans.ext (funext fun E =>
       ProjectionFormula.adjunctionTensorMap_eq_projection_app _ D.adj
-        D.tensorPullbackComparison (fun X K => (hδ K X).symm) E K₀))
+        D.tensorPullbackComparison (fun X K => (hδ K X).symm) E K₀)
   refine D.isIso_compareWithPullbackTensor_of_mateEquiv
     (quasicoherentDualityAdjunction hZ f hXqc hXqs hYqs)
     (tensorLeftAdjunction ((quasicoherentDerivedModulePullback f).obj K)
       ((quasicoherentDerivedModulePullback f).obj K'))
     (tensorLeftAdjunction K K') ?_ L
-  apply (TwoSquare.equivNatTrans _ _ _ _).injective
-  show _ = inv (D.projectionFormulaTwoSquare K).natTrans
+  change _ = inv (D.projectionFormulaTwoSquare K)
   apply IsIso.eq_inv_of_inv_hom_id
   rw [hπ K, hπ K']
   exact ProjectionFormula.mateEquiv_projection_comp_projection _ D.adj K K'

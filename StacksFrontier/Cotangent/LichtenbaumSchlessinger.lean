@@ -180,7 +180,7 @@ lemma relation_scalar_mem_trivialRelations (P : Algebra.Presentation A B X T)
   have hz : trivialCombination P s r.1 = (P.relation s) • r :=
     Subtype.ext <| by simpa using LinearMap.congr_fun (trivialCombination_formula P s) r.1
   rw [← hz]
-  show r.1.sum (fun t c ↦ c • trivialRelationInRelations P s t) ∈ trivialRelations P
+  change r.1.sum (fun t c ↦ c • trivialRelationInRelations P s t) ∈ trivialRelations P
   exact Submodule.sum_mem _ fun t _ ↦
     Submodule.smul_mem _ _ (Submodule.subset_span ⟨(s, t), rfl⟩)
 
@@ -192,7 +192,7 @@ lemma relationKer_le_annihilator (P : Algebra.Presentation A B X T) :
   rintro f ⟨s, rfl⟩
   refine Module.mem_annihilator.mpr fun q ↦ ?_
   obtain ⟨r, rfl⟩ := Submodule.mkQ_surjective (trivialRelations P) q
-  show Submodule.Quotient.mk ((P.relation s) • r) = 0
+  change Submodule.Quotient.mk ((P.relation s) • r) = 0
   exact (Submodule.Quotient.mk_eq_zero (trivialRelations P)).2
     (relation_scalar_mem_trivialRelations P s r)
 
@@ -219,7 +219,7 @@ lemma relationModule_smul (P : Algebra.Presentation A B X T) :
   let _ : Module (P.Ring ⧸ P.ker) (relationQuotient P) :=
     Module.IsTorsionBySet.module (isTorsionBySet_relationQuotient P)
   intro p q
-  show (P.quotientEquiv.symm (algebraMap P.Ring B p)) • q = p • q
+  change (P.quotientEquiv.symm (algebraMap P.Ring B p)) • q = p • q
   rw [show P.quotientEquiv.symm (algebraMap P.Ring B p) = Ideal.Quotient.mk P.ker p from
     P.quotientEquiv.injective (by simp)]
   exact Module.IsTorsionBySet.mk_smul (isTorsionBySet_relationQuotient P) p q
@@ -322,7 +322,7 @@ lemma relationBoundary_tmul (P : Algebra.Presentation A B X T) (r : relations P)
     relationBoundary P (1 ⊗ₜ[P.Ring] Submodule.mkQ (trivialRelations P) r) =
       1 ⊗ₜ[P.Ring] (r : T →₀ P.Ring) := by
   let _ := relationModule P
-  show relationBoundaryB P
+  change relationBoundaryB P
     (relationBaseChangeEquiv P (1 ⊗ₜ[P.Ring] Submodule.mkQ (trivialRelations P) r)) = _
   rw [relationBaseChangeEquiv_tmul]
   exact relationBoundaryR_mk P r
@@ -350,7 +350,7 @@ lemma baseTensor_relationDifferential_zero (P : Algebra.Presentation A B X T)
     refine Finset.sum_eq_zero fun s _ ↦ ?_
     rw [_root_.TensorProduct.tmul_smul (P.relation s) (1 : B)
       (D A P.Ring ((r : T →₀ P.Ring) s))]
-    show (P.relation s • (1 : B)) ⊗ₜ[P.Ring]
+    change (P.relation s • (1 : B)) ⊗ₜ[P.Ring]
       D A P.Ring ((r : T →₀ P.Ring) s) = 0
     rw [Algebra.smul_def, P.algebraMap_apply, P.aeval_val_relation]
     simp
@@ -362,19 +362,18 @@ lemma relationDifferentialB_comp_relationBoundary (P : Algebra.Presentation A B 
     (relationDifferentialB P).comp (relationBoundary P) = 0 := by
   let _ := relationModule P
   refine LinearMap.ext fun z ↦ ?_
-  induction z using _root_.TensorProduct.induction_on with
-  | zero => simp
+  induction z using _root_.TensorProduct.inductionOn with
   | tmul b q =>
       obtain ⟨r, rfl⟩ := Submodule.mkQ_surjective (trivialRelations P) q
       have hb : relationBaseChangeEquiv P
           (b ⊗ₜ[P.Ring] Submodule.mkQ (trivialRelations P) r) =
           b • Submodule.mkQ (trivialRelations P) r := by
         simp [relationBaseChangeEquiv, _root_.TensorProduct.lidOfCompatibleSMul_tmul]
-      show relationDifferentialB P (relationBoundaryB P
+      change relationDifferentialB P (relationBoundaryB P
         (relationBaseChangeEquiv P
           (b ⊗ₜ[P.Ring] Submodule.mkQ (trivialRelations P) r))) = 0
       rw [hb, (relationBoundaryB P).map_smul]
-      show relationDifferentialB P
+      change relationDifferentialB P
         (b • relationBoundaryR P (Submodule.mkQ (trivialRelations P) r)) = 0
       rw [relationBoundaryR_mk P r, (relationDifferentialB P).map_smul,
         relationDifferentialB_tmul, baseTensor_relationDifferential_zero P r]
@@ -382,7 +381,7 @@ lemma relationDifferentialB_comp_relationBoundary (P : Algebra.Presentation A B 
   | add x y hx hy =>
       change relationDifferentialB P (relationBoundary P x) = 0 at hx
       change relationDifferentialB P (relationBoundary P y) = 0 at hy
-      show relationDifferentialB P (relationBoundary P (x + y)) = 0
+      change relationDifferentialB P (relationBoundary P (x + y)) = 0
       rw [(relationBoundary P).map_add, (relationDifferentialB P).map_add, hx, hy]
       simp
 

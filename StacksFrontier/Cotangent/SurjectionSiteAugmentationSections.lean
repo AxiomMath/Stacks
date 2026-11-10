@@ -108,7 +108,7 @@ lemma map_smallPolynomialAugmentationIdealPowSubmodule (n : ℕ)
     rwa [map_smallPolynomialAugmentationIdeal_pow] at this
   · refine ⟨(smallPolynomialQuotientAlgEquiv A B κ X).symm y, ?_, by simp⟩
     have hy' : y ∈ MvPolynomial.augmentationIdeal (smallSitePoint A B κ X) ^ n := hy
-    show (smallPolynomialQuotientAlgEquiv A B κ X).symm y ∈
+    change (smallPolynomialQuotientAlgEquiv A B κ X).symm y ∈
       smallPolynomialAugmentationIdeal A B κ X ^ n
     rw [smallPolynomialAugmentationIdeal_pow_eq_comap, Ideal.mem_comap]
     simpa using hy'

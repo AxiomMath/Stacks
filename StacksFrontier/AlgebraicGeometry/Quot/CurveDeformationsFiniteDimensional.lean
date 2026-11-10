@@ -70,7 +70,7 @@ theorem finiteDimensional_predeformation :
     ∃ hD : IsDeformationCategory.{u, u, u} (predeformation x hx).projection,
       (letI : Fact (IsPredeformationCategory
           (BasedCategory.ofFunctor (predeformation x hx).projection).p) := ⟨hD.predeformation⟩;
-        letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+        letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
           (isomorphismClasses (BasedCategory.ofFunctor (predeformation x hx).projection)
             hD.predeformation.cofibered))) := ⟨tangentConditionS2.{u, u, u} hD⟩;
         FiniteDimensional k (artinianTangentSpace Λ k

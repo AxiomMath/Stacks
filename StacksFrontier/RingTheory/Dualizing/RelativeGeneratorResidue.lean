@@ -58,12 +58,11 @@ generator is the map of diagonals. -/
 theorem envelopingBaseChangeRingHom_eq :
     envelopingBaseChangeRingHom R A R' = diagonalBaseChangeMap R A R' := by
   refine RingHom.ext fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul a₁ a₂ =>
       rw [diagonalBaseChangeMap_tmul]
-      show ((a₁ ⊗ₜ[R] (1 : R')) ⊗ₜ[R'] (1 : A ⊗[R] R')) *
+      change ((a₁ ⊗ₜ[R] (1 : R')) ⊗ₜ[R'] (1 : A ⊗[R] R')) *
           ((1 : A ⊗[R] R') ⊗ₜ[R'] (a₂ ⊗ₜ[R] (1 : R'))) = _
       rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
 

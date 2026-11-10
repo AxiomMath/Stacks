@@ -92,6 +92,7 @@ theorem homOfSummands_naturality {ι κ : Type*} [Fintype ι] [Fintype κ] {M N 
         simp only [homOfSummands, Preadditive.sum_comp, G.map_comp, Category.assoc]
 
 include he in
+omit [G.Additive] in
 /-- **The comparison at a finite sum of copies of `A` is an isomorphism**, with inverse the
 comparison for `e⁻¹`. -/
 theorem homOfSummands_comp_homOfSummands {ι : Type*} [Fintype ι] {M : 𝒜}
@@ -152,8 +153,8 @@ theorem sum_comp_summandsOfIsIsoPiLift {ι : Type*} [Fintype ι] [DecidableEq ι
   refine Pi.hom_ext _ _ fun k => ?_
   simp only [summandsOfIsIsoPiLift, Category.assoc, IsIso.inv_hom_id, Category.comp_id,
     Preadditive.sum_comp, Pi.lift_comp_π]
-  rw [Finset.sum_eq_single k (fun i _ hik => by rw [if_neg (Ne.symm hik), Limits.comp_zero])
-    (fun h => absurd (Finset.mem_univ k) h), if_pos rfl, Category.comp_id]
+  rw [Finset.sum_eq_single k (fun i _ hik => by rw [ite_eq_right (Ne.symm hik), Limits.comp_zero])
+    (fun h => absurd (Finset.mem_univ k) h), ite_eq_left rfl, Category.comp_id]
 
 end Product
 

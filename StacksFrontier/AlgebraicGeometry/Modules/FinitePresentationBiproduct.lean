@@ -55,7 +55,7 @@ theorem isFinite_presentationOfLE {X : Scheme.{u}} {U V : X.Opens} (h : V ≤ U)
   let P' := P.map F (SheafOfModules.overMapUnitIso (R := X.ringCatSheaf) (homOfLE h)).symm
   have : P'.IsFinite :=
     { isFiniteType_generators := by
-        show (P.generators.map F
+        change (P.generators.map F
           (SheafOfModules.overMapUnitIso (R := X.ringCatSheaf) (homOfLE h)).symm).IsFiniteType
         infer_instance
       isFiniteType_relations := ⟨by
@@ -106,13 +106,13 @@ theorem isFinitePresentation_biprod {X : Scheme.{u}} (A B : X.Modules)
         rw [Opens.coversTop_iff] at hA hB ⊢
         change (⨆ i, qA.X i) = ⊤ at hA
         change (⨆ i, qB.X i) = ⊤ at hB
-        show (⨆ ij : qA.I × qB.I, qA.X ij.1 ⊓ qB.X ij.2) = ⊤
+        change (⨆ ij : qA.I × qB.I, qA.X ij.1 ⊓ qB.X ij.2) = ⊤
         rw [← iSup_inf_iSup, hA, hB, inf_top_eq]
       presentation ij := (T ij).ofIsIso (Scheme.Modules.overBiprodIso A B (U ij)).inv }
   refine { exists_quasicoherentData := ⟨q, ?_⟩ }
   constructor
   intro ij
-  show ((T ij).ofIsIso (Scheme.Modules.overBiprodIso A B (U ij)).inv).IsFinite
+  change ((T ij).ofIsIso (Scheme.Modules.overBiprodIso A B (U ij)).inv).IsFinite
   infer_instance
 
 end AlgebraicGeometry

@@ -71,9 +71,9 @@ variable {S : Scheme.{u}} (T : BigEtaleSpaceSite S)
 attribute [local instance] HasDerivedCategory.standard smallEtaleAbelianInverseImage_additive
   bigToSmallAbelianInverseImage_additive
 
-/- Lean v4.35.0: instance search for these limits on presheaves of the big fppf site and on the
-Kan extensions defining the big direct image times out; supply them directly. -/
 set_option synthInstance.maxHeartbeats 400000 in
+-- Lean v4.35.0: instance search for these limits on presheaves of the big fppf site and on the
+-- Kan extensions defining the big direct image times out; supply them directly.
 local instance hasLimitsOfSize_presheaf_SpacesEtaleDerivedProperBaseChange :
     HasLimitsOfSize.{0, 0} ((BigFppfOver T.fppfSite S T.fppf_mem)ᵒᵖ ⥤ Type u) := inferInstance
 
@@ -82,6 +82,7 @@ local instance hasLimitsOfShape_presheaf_SpacesEtaleDerivedProperBaseChange (J :
   HasLimitsOfSize.has_limits_of_shape _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits over `StructuredArrow` in `Ab` is slow
 local instance hasLimitsOfShape_structuredArrow_SpacesEtaleDerivedProperBaseChange
     {X Y : T.Spaces} (f : Y ⟶ X) (V : (Over X)ᵒᵖ) :
     HasLimitsOfShape (StructuredArrow V (Over.map f).op) Ab.{u + 1} := inferInstance

@@ -104,7 +104,7 @@ theorem braidedLeftUnitor_eq_tensorSheafUnitRightIso (F : SheafOfModules.{w}
             (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).val) ≪≫
         (Stacks.SheafOfModules.Invertible.tensorLeftFunctorUnitIso O hO).app F).hom =
       (Stacks.SheafOfModules.tensorSheafUnitRightIso O hO F).hom := by
-  show (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
+  change (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
         (β_ F.val
           (𝟙_ (PresheafOfModules.{w}
             (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf O)))).hom ≫
@@ -173,7 +173,7 @@ theorem swap_unitIso_naturality {C : Type u} [Category.{v} C]
         ((SheafOfModules.unit
           (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).val ◁ e.hom.val) ≫
       targetUnitor = sourceUnitor ≫ e.hom at hnat
-  show (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
+  change (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
         (e.hom.val ▷ (SheafOfModules.unit
           (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)).val) ≫
       ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
@@ -233,7 +233,7 @@ theorem restrictFunctorIsoPullback_inv_app_unit_comp_restrictUnitIso' {W X : Sch
     (f : W ⟶ X) [IsOpenImmersion f] :
     (Scheme.Modules.restrictFunctorIsoPullback f).inv.app (SheafOfModules.unit X.ringCatSheaf) ≫
         (Scheme.Modules.restrictUnitIso f).hom = (Scheme.Modules.pullbackUnitIso f).hom := by
-  show (Scheme.Modules.restrictFunctorIsoPullback f).inv.app (Scheme.unitModule X) ≫
+  change (Scheme.Modules.restrictFunctorIsoPullback f).inv.app (Scheme.unitModule X) ≫
       (Scheme.Modules.restrictUnitIso f).hom = (Scheme.Modules.pullbackUnitIso f).hom
   apply ((Scheme.Modules.pullbackPushforwardAdjunction f).homEquiv
     (Scheme.unitModule X) (Scheme.unitModule W)).injective

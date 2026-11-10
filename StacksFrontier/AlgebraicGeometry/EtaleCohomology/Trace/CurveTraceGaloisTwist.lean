@@ -61,7 +61,7 @@ theorem map_rootOn_pullbackFst_of_twist (V : Y.Etale) :
     rw [← Category.assoc (CommRingCat.ofHom τ.toRingHom), Scheme.ΓSpecIso_inv_naturality,
       Category.assoc, Category.assoc, Category.assoc, ← Scheme.Hom.comp_appTop,
       ← Scheme.Hom.comp_appTop, ← Scheme.Hom.comp_appTop, ← Scheme.Hom.comp_appTop]
-    show _ ≫ (pullback.fst V.hom π ≫ V.hom ≫ gY).appTop =
+    change _ ≫ (pullback.fst V.hom π ≫ V.hom ≫ gY).appTop =
       _ ≫ (pullback.snd V.hom π ≫ gX ≫ Spec.map (CommRingCat.ofHom τ.toRingHom)).appTop
     rw [pullback.condition_assoc, hπ]
   ext
@@ -86,13 +86,13 @@ theorem inverseImage_rootsOfUnityConstantHom_comp_comparison_of_twist :
     Adjunction.homEquiv_naturality_right, ObjectProperty.FullSubcategory.comp_hom,
     NatTrans.comp_app, ObjectProperty.FullSubcategory.comp_hom, NatTrans.comp_app,
     ← Category.assoc, ← Category.assoc, constantSheafSection_comp_homEquiv_constantIso.{u, 0} π]
-  show (toSheafify Y.smallEtaleTopology _ ≫ (Stacks.Kummer.rootSheafHom gY hζ hn).hom).app _ ≫
+  change (toSheafify Y.smallEtaleTopology _ ≫ (Stacks.Kummer.rootSheafHom gY hζ hn).hom).app _ ≫
       _ = (toSheafify X.smallEtaleTopology _ ≫
         (Stacks.Kummer.rootSheafHom gX (hζ.map_of_injective τ.injective) hn).hom).app _
   rw [Stacks.Kummer.toSheafify_rootSheafHom, Stacks.Kummer.toSheafify_rootSheafHom]
   ext ⟨m⟩
   obtain ⟨z, rfl⟩ := ZMod.intCast_surjective m
-  show (multiplicativeDirectImageComparison.{u, 0} π).hom.app (op (etaleSiteTerminal Y))
+  change (multiplicativeDirectImageComparison.{u, 0} π).hom.app (op (etaleSiteTerminal Y))
       (Stacks.Kummer.rootHom gY hζ hn _ (z : ZMod n)) =
     Stacks.Kummer.rootHom gX (hζ.map_of_injective τ.injective) hn _ (z : ZMod n)
   rw [Stacks.Kummer.rootHom_intCast, Stacks.Kummer.rootHom_intCast, map_zsmul,
@@ -112,7 +112,7 @@ theorem sheafHMap_rootsOfUnityConstantHom_etaleCohomologyMapTo_of_twist (q : ℕ
       rootsOfUnityPullbackMap.{u, 0, u + 1} π n q
         (Sheaf.H.map (Stacks.Kummer.rootsOfUnityConstantHom gY hζ hn) q x) := by
   rw [rootsOfUnityPullbackMap_apply, Stacks.Kummer.etaleCohomologyRestrictionMap_sheafHMap]
-  show Sheaf.H.map _ q (Sheaf.H.map _ q (etaleCohomologyRestrictionMap.{u, 0, u + 1} π _ q x)) = _
+  change Sheaf.H.map _ q (Sheaf.H.map _ q (etaleCohomologyRestrictionMap.{u, 0, u + 1} π _ q x)) = _
   rw [← Sheaf.H.map_comp_apply, ← Sheaf.H.map_comp_apply,
     inverseImage_rootsOfUnityConstantHom_comp_comparison_of_twist gX gY π τ hπ hζ hn]
 
@@ -132,7 +132,7 @@ theorem curveConstantTrace_etaleConstantCohomologyPullback_of_twist (s : C ⟶ C
     curveConstantTrace q hn (hζ.map_of_injective τ.injective)
         (etaleConstantCohomologyPullback s (ZMod n) 2 x) =
       curveConstantTrace q hn hζ x := by
-  show Stacks.Kummer.smoothProperCurveTrace q hn
+  change Stacks.Kummer.smoothProperCurveTrace q hn
       (sheafHRootsOfUnityConstantAddEquiv q (hζ.map_of_injective τ.injective)
         (Stacks.Kummer.neZero_of_isUnit hn) 2 (etaleConstantCohomologyPullback s (ZMod n) 2 x)) =
     Stacks.Kummer.smoothProperCurveTrace q hn
@@ -157,7 +157,7 @@ theorem etaleConstantCohomologyPullback_curveConstantClass_of_twist (s : C ⟶ C
     [AddCommGroup A] (φ : ZMod n →+ A) :
     etaleConstantCohomologyPullback s A 2 (curveConstantClass q hn hζ A φ) =
       curveConstantClass q hn (hζ.map_of_injective τ.injective) A φ := by
-  show etaleConstantCohomologyPullback s A 2 (Sheaf.H.map (etaleConstantSheafMap C φ) 2 _) =
+  change etaleConstantCohomologyPullback s A 2 (Sheaf.H.map (etaleConstantSheafMap C φ) 2 _) =
     Sheaf.H.map (etaleConstantSheafMap C φ) 2 _
   rw [etaleConstantCohomologyPullback_sheafHMap,
     etaleConstantCohomologyPullback_curveFundamentalClass_of_twist q hn hζ s τ hs]

@@ -126,13 +126,13 @@ theorem ker_adicThickeningι_le_pow (n : ℕ) :
     (adicThickeningι A I n).ker ≤ (adicThickeningι A I 0).ker ^ (n + 1) := by
   apply Scheme.IdealSheafData.le_of_isAffine
   simp only [Scheme.IdealSheafData.ideal_pow, Pi.pow_apply, Scheme.Hom.ker_apply]
-  show RingHom.ker (adicThickeningι A I n).appTop.hom ≤
+  change RingHom.ker (adicThickeningι A I n).appTop.hom ≤
     RingHom.ker (adicThickeningι A I 0).appTop.hom ^ (n + 1)
   rw [adicThickeningι, adicThickeningι, Stacks.Smooth.ker_specMap_appTop,
     Stacks.Smooth.ker_specMap_appTop]
   simp only [CommRingCat.hom_ofHom, Ideal.mk_ker, zero_add, pow_one]
   let e := (Scheme.ΓSpecIso (CommRingCat.of A)).commRingCatIsoToRingEquiv
-  show Ideal.comap e (I ^ (n + 1)) ≤ (Ideal.comap e I) ^ (n + 1)
+  change Ideal.comap e (I ^ (n + 1)) ≤ (Ideal.comap e I) ^ (n + 1)
   rw [← Ideal.map_symm e, ← Ideal.map_symm e, Ideal.map_pow]
 
 /-- **A thickening of order `n` of a scheme over `Spec (A ⧸ I)` lies over `Spec (A ⧸ Iⁿ⁺¹)`.**
@@ -174,7 +174,7 @@ theorem exists_etale_isPullback_adicBaseChangeSucc (n : ℕ)
     rw [← he, Iso.inv_hom_id_assoc]
   refine ⟨MorphismProperty.Over.mk ⊤ q hq, e.inv ≫ pullback.fst q _, ?_⟩
   refine IsPullback.of_iso_pullback ⟨?_⟩ e.symm rfl he'
-  show (e.inv ≫ pullback.fst q _) ≫ q = s.hom ≫ adicBaseChangeSucc A I f n
+  change (e.inv ≫ pullback.fst q _) ≫ q = s.hom ≫ adicBaseChangeSucc A I f n
   rw [Category.assoc, pullback.condition, ← Category.assoc, he']
 
 end Lift

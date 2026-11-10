@@ -66,7 +66,7 @@ theorem realizationTermMap_comp_homEquiv_symm_of_naturality
   refine ((S.componentLowerShriekDerivedAdjunction n).homEquiv (T.obj n) K').injective ?_
   rw [Equiv.apply_symm_apply, Adjunction.homEquiv_naturality_right,
     realizationTermMap_homEquiv]
-  show (@inv _ _ _ _ (T.map φ) (hT φ) ≫
+  change (@inv _ _ _ _ (T.map φ) (hT φ) ≫
       (derivedInverseImage S φ).map
           ((S.componentLowerShriekDerivedAdjunction m).unit.app (T.obj m)) ≫
         (derivedTransition S φ).app ((S.componentLowerShriekDerived m).obj (T.obj m))) ≫

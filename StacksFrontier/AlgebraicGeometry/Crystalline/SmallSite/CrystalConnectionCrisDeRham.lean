@@ -61,8 +61,7 @@ variable {S : GlobalCrystallineSituation.{u}} {F : SheafOfModules.{u} (structure
 private theorem tensor_addMonoidHom_apply_eq {R M N P : Type*} [CommSemiring R] [AddCommMonoid M]
     [AddCommMonoid N] [AddCommMonoid P] [Module R M] [Module R N] (f g : M ⊗[R] N →+ P)
     (h : ∀ m n, f (m ⊗ₜ n) = g (m ⊗ₜ n)) (w : M ⊗[R] N) : f w = g w := by
-  induction w using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction w using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy]
   | tmul m n => exact h m n
 
@@ -208,7 +207,7 @@ theorem tensorFormsReadTop_formsOneTensor
       FirstOrderSec F B ⊤ :=
     (F.val.map ((firstOrderThickeningCrysObject S B).restrictOpenHom ⊤).op).hom.toAddMonoidHom.comp
       (AffineConnection.readBack F hVB hV)
-  show ((tensorFormsReadTop B).comp (formsOneTensor B)) w = ρ w
+  change ((tensorFormsReadTop B).comp (formsOneTensor B)) w = ρ w
   refine tensor_addMonoidHom_apply_eq _ _ (fun m η ↦ ?_) w
   revert m
   refine Submodule.span_induction (p := fun (η : (GlobalCrystallineSituation.crysDifferentials
@@ -309,7 +308,7 @@ theorem differential_formsZeroOne (B : CrystallineThickening S) :
       @id (⋀[crysFormRing S B]^0 ((crysDifferentials S).obj (op B))) (formsZeroOne B) := by
     apply Subtype.ext
     refine Eq.trans ?_ (formsZeroOne_coe B).symm
-    show (1 : crysFormRing S B) • ((exteriorPower.ιMulti (crysFormRing S B) 0 _ :
+    change (1 : crysFormRing S B) • ((exteriorPower.ιMulti (crysFormRing S B) 0 _ :
       ⋀[crysFormRing S B]^0 ((crysDifferentials S).obj (op B))) :
         ExteriorAlgebra (crysFormRing S B) ((crysDifferentials S).obj (op B))) = 1
     rw [one_smul, exteriorPower.ιMulti_apply_coe, ExteriorAlgebra.ιMulti_apply, List.ofFn_zero,
@@ -350,7 +349,7 @@ theorem crysFormSections_symm_leftWedge_one (B : CrystallineThickening S)
         (leftWedge 1 η (crysFormSections S 1 B ω))) =
       formsWedgeOne ((crysFormsOneGen S).app (op B) η) ω := by
   apply crysFormVal_injective
-  show ExteriorAlgebra.ι (crysFormRing S B) (@id ((crysDifferentials S).obj (op B)) η) *
+  change ExteriorAlgebra.ι (crysFormRing S B) (@id ((crysDifferentials S).obj (op B)) η) *
       crysFormVal S ω =
     ExteriorAlgebra.ι (crysFormRing S B) (formsOneEquiv B ((crysFormsOneGen S).app (op B) η)) *
       ExteriorAlgebra.ι (crysFormRing S B) (formsOneEquiv B ω)
@@ -436,7 +435,7 @@ theorem toSheafify_tensorDifferentialFormsSheafZeroIso_hom :
           (structurePresheaf S ⋙ forget₂ CommRingCat RingCat))).hom)
         AddCommGrpCat.uliftFunctor.{u + 1, u}) ≫
       (isoSheafify (smallTopology S) (abelianSheaf F).property).inv := by
-    show _ ≫ (sheafToPresheaf (smallTopology S) AddCommGrpCat.{u + 1}).map
+    change _ ≫ (sheafToPresheaf (smallTopology S) AddCommGrpCat.{u + 1}).map
       ((sheafToPresheaf (smallTopology S) AddCommGrpCat.{u + 1}).preimage _) = _
     rw [Functor.map_preimage]
     rfl
@@ -517,7 +516,7 @@ theorem crystalDeRhamDifferential_one_eq (hC : IsSheafCrystal F) :
   ext ⟨x⟩
   let η₁ := CategoryTheory.toSheafify (smallTopology S) (tensorDifferentialFormsPresheaf F 1)
   let η₂ := CategoryTheory.toSheafify (smallTopology S) (tensorDifferentialFormsPresheaf F 2)
-  show (presheafDeRhamDifferential hF 1).app (op B.obj) (ULift.up x) =
+  change (presheafDeRhamDifferential hF 1).app (op B.obj) (ULift.up x) =
     crystalExtensionCrisApp hC B.obj (η₁.app (op B.obj) (ULift.up x))
   refine (presheafDeRhamDifferential_app hF 1 B x).trans ?_
   refine tensor_addMonoidHom_apply_eq

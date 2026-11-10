@@ -140,13 +140,13 @@ theorem exists_towerCover : ∃ c : projectiveLineTower S n ⟶ PS.{u} n S,
     IsFinite c ∧ Surjective c ∧ c ≫ pullback.fst _ _ = projectiveLineTowerHom S n := by
   induction n with
   | zero =>
-      show ∃ c : S ⟶ PS.{u} 0 S, IsFinite c ∧ Surjective c ∧ c ≫ pullback.fst _ _ = 𝟙 S
+      change ∃ c : S ⟶ PS.{u} 0 S, IsFinite c ∧ Surjective c ∧ c ≫ pullback.fst _ _ = 𝟙 S
       have := isIso_projectiveSpace_zero_over S
       exact ⟨inv (pullback.fst (terminal.from S) (terminal.from (projectiveSpaceAtUniverse.{u} 0))),
         inferInstance, inferInstance, IsIso.inv_hom_id _⟩
   | succ n ih =>
       obtain ⟨c, hfin, hsurj, hc⟩ := ih
-      show ∃ c : PS.{u} 1 (projectiveLineTower S n) ⟶ PS.{u} (n + 1) S,
+      change ∃ c : PS.{u} 1 (projectiveLineTower S n) ⟶ PS.{u} (n + 1) S,
         IsFinite c ∧ Surjective c ∧ c ≫ pullback.fst _ _ = pullback.fst _ _ ≫
           projectiveLineTowerHom S n
       refine ⟨lineMap c ≫ mulOver S n, inferInstance, inferInstance, ?_⟩

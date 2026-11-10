@@ -76,7 +76,7 @@ public theorem preservesFiniteLimits_sheafCompose_forget {E : Type u} [Category.
     PreservesFiniteLimits (sheafCompose J (forget AddCommGrpCat.{w})) := by
   have : PreservesFiniteLimits
       (sheafCompose J (forget AddCommGrpCat.{w}) ⋙ sheafToPresheaf J (Type w)) := by
-    show PreservesFiniteLimits
+    change PreservesFiniteLimits
       (sheafToPresheaf J AddCommGrpCat.{w} ⋙
         (Functor.whiskeringRight _ _ _).obj (forget AddCommGrpCat.{w}))
     infer_instance

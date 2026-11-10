@@ -81,8 +81,7 @@ private theorem coe_eq_of_tmul {R P Q Z F G : Type*} [CommSemiring R] [AddCommMo
     [FunLike G (P ⊗[R] Q) Z] [AddMonoidHomClass F (P ⊗[R] Q) Z] [AddMonoidHomClass G (P ⊗[R] Q) Z]
     (f : F) (g : G) (h : ∀ (x : P) (y : Q), f (x ⊗ₜ y) = g (x ⊗ₜ y)) : ⇑f = ⇑g := by
   funext z
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul x y => exact h x y
   | add z z' hz hz' => rw [map_add, map_add, hz, hz']
 
@@ -107,8 +106,7 @@ def rTensorOver (M : Type*) [AddCommGroup M] [Module A M] : X ⊗[A] M →ₗ[R]
   toFun := TensorProduct.map (linearMapOver f hf) LinearMap.id
   map_add' := map_add _
   map_smul' r z := by
-    induction z using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero, smul_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul x m =>
       rw [TensorProduct.smul_tmul', TensorProduct.map_tmul, TensorProduct.map_tmul,
         RingHom.id_apply, TensorProduct.smul_tmul']
@@ -141,8 +139,7 @@ theorem bijective_liftBaseChange_rTensorOver (h : Function.Bijective (f.liftBase
       map_smul' r x := smul_comm a r x }
   have heA : ∀ (a : A) (z : T ⊗[R] X), e (LinearMap.lTensor T (aX a) z) = a • e z := by
     intro a z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, smul_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul t x =>
       rw [LinearMap.lTensor_tmul, he, he]
       change t • f (a • x) = a • t • f x
@@ -177,27 +174,23 @@ theorem bijective_liftBaseChange_rTensorOver (h : Function.Bijective (f.liftBase
   let L := (rTensorOver f hf M).liftBaseChange T
   have hLl : ∀ (m : M) (z : T ⊗[R] X), L (LinearMap.lTensor T (tmulRight m) z) = e z ⊗ₜ m := by
     intro m z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, map_zero, TensorProduct.zero_tmul]
+    induction z using TensorProduct.inductionOn with
     | tmul t x =>
       rw [LinearMap.lTensor_tmul, LinearMap.liftBaseChange_tmul, he]
       rfl
     | add z z' hz hz' => rw [map_add, map_add, hz, hz', map_add, TensorProduct.add_tmul]
   have h₁ : ∀ w, L (ψ w) = w := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction w using TensorProduct.inductionOn with
     | tmul y m =>
       change L (LinearMap.lTensor T (tmulRight m) (e.symm y)) = y ⊗ₜ m
       rw [hLl, LinearEquiv.apply_symm_apply]
     | add w w' hw hw' => rw [map_add, map_add, hw, hw']
   have h₂ : ∀ z, ψ (L z) = z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul t w =>
-      induction w using TensorProduct.induction_on with
-      | zero => rw [TensorProduct.tmul_zero, map_zero, map_zero]
+      induction w using TensorProduct.inductionOn with
       | tmul x m =>
         rw [LinearMap.liftBaseChange_tmul, rTensorOver_tmul, TensorProduct.smul_tmul']
         change LinearMap.lTensor T (tmulRight m) (e.symm (t • f x)) = t ⊗ₜ (x ⊗ₜ m)
@@ -301,8 +294,7 @@ theorem tensorRestrict_tmul {T T' : Thickening S} (g : T' ⟶ T) (x : BaseSectio
 theorem tensorRestrict_smul {T T' : Thickening S} (g : T' ⟶ T) (b : crysSheafRing S T)
     (z : TensorSections N M T) :
     tensorRestrict N M g (b • z) = crysSheafRingMap g b • tensorRestrict N M g z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul x m =>
     rw [TensorProduct.smul_tmul', tensorRestrict_tmul, tensorRestrict_tmul,
       TensorProduct.smul_tmul']
@@ -322,8 +314,7 @@ def tensorPresheaf : PresheafOfModules.{u} (crystallineStructureSheaf S).obj whe
   map_id T := by
     ext z
     change tensorRestrict N M (𝟙 T.unop) z = z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul x m =>
       rw [tensorRestrict_tmul]
       exact congrArg (· ⊗ₜ[BaseRing S] m) (PresheafOfModules.restrictₛₗ_id_apply N T x)
@@ -332,8 +323,7 @@ def tensorPresheaf : PresheafOfModules.{u} (crystallineStructureSheaf S).obj whe
     ext z
     change tensorRestrict N M (g ≫ g').unop z =
       tensorRestrict N M g'.unop (tensorRestrict N M g.unop z)
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul x m =>
       rw [tensorRestrict_tmul, tensorRestrict_tmul, tensorRestrict_tmul]
       exact congrArg (· ⊗ₜ[BaseRing S] m) (PresheafOfModules.restrictₛₗ_comp_apply N g g' x)
@@ -367,8 +357,7 @@ def tensorSectionsMap (φ : N ⟶ N') (ψ : M ⟶ M') (T : Thickening S) :
   toFun := TensorProduct.map (baseSectionsMap φ T) ψ.hom
   map_add' := map_add _
   map_smul' b z := by
-    induction z using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero, smul_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul x m =>
       rw [TensorProduct.smul_tmul', TensorProduct.map_tmul, TensorProduct.map_tmul,
         RingHom.id_apply, TensorProduct.smul_tmul']
@@ -388,8 +377,7 @@ def tensorPresheafMap (φ : N ⟶ N') (ψ : M ⟶ M') : tensorPresheaf N M ⟶ t
     refine ModuleCat.hom_ext (LinearMap.ext fun z ↦ ?_)
     change tensorSectionsMap φ ψ T'.unop (tensorRestrict N M g.unop z) =
       tensorRestrict N' M' g.unop (tensorSectionsMap φ ψ T.unop z)
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul x m =>
       rw [tensorRestrict_tmul, tensorSectionsMap_tmul, tensorSectionsMap_tmul,
         tensorRestrict_tmul]
@@ -436,8 +424,7 @@ def baseSectionsFunctor : (Thickening S)ᵒᵖ ⥤ ModuleCat.{u} (BaseRing S) wh
 `A`-module structure. -/
 theorem baseMap_smul_tensorSections (T : Thickening S) (a : BaseRing S)
     (z : TensorSections N M T) : baseMap T a • z = a • z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [smul_zero, smul_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul x m => rfl
   | add z z' hz hz' => rw [smul_add, smul_add, hz, hz']
 

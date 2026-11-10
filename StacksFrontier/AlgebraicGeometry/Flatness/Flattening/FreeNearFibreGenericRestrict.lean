@@ -251,11 +251,11 @@ theorem exists_isOpenImmersion_strictTransformSheaf_restrict (f : X ⟶ S) (I : 
     have hZ' : k.base ⁻¹' Stacks.StrictTransform.exceptionalPreimage f bI (exceptionalIdeal I) =
         Stacks.StrictTransform.exceptionalPreimage (f ∣_ V) bJ
           (exceptionalIdeal (I.comap V.ι)) := by
-      show k.base ⁻¹' (q.base ⁻¹' ((I.comap bI).support : Set (blowUp I))) =
+      change k.base ⁻¹' (q.base ⁻¹' ((I.comap bI).support : Set (blowUp I))) =
         q'.base ⁻¹' (((I.comap V.ι).comap bJ).support : Set (blowUp (I.comap V.ι)))
       simp only [Scheme.IdealSheafData.support_comap]
       refine Set.ext fun z ↦ ?_
-      show bI.base (q.base (k.base z)) ∈ I.support ↔
+      change bI.base (q.base (k.base z)) ∈ I.support ↔
         V.ι.base (bJ.base (q'.base z)) ∈ I.support
       rw [hkqz, hbw]
     have eH : (Scheme.Modules.pullback (k ≫ p)).obj F ≅

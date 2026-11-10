@@ -52,7 +52,7 @@ theorem hasGlobalPresentation_over_of_isIso_transitionA (F : SheafOfModules.{u} 
   refine ⟨m, _, canonicalArrow C ψ Q, W, hW, sliceTransitionA C O ψ Q, ?_⟩
   have := isIso_beckChevalleyA C O ψ Q
   have := hcart m ψ
-  show IsIso ((sliceTransitionModules C O ψ Q).app _)
+  change IsIso ((sliceTransitionModules C O ψ Q).app _)
   rw [sliceTransitionModules_app_over C O ψ Q F]
   exact @IsIso.comp_isIso _ _ _ _ _ _ _ (NatIso.isIso_app_of_isIso _ _) (Functor.map_isIso _ _)
 

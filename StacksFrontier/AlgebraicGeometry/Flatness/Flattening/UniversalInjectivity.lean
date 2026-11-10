@@ -183,7 +183,7 @@ private theorem universallyInjective_of_injective_mapQ_maximal
     rw [hmap, ← LinearMap.comp_assoc,
       iso_comp_mkLinearMap m.primeCompl lM]
     rw [algebraTensor_rTensor_eq f]
-    show TensorProduct.AlgebraTensorModule.rTensor R Q fmA ∘ₗ
+    change TensorProduct.AlgebraTensorModule.rTensor R Q fmA ∘ₗ
         TensorProduct.AlgebraTensorModule.rTensor R Q
           (LocalizedModule.mkLinearMap m.primeCompl P) =
       TensorProduct.AlgebraTensorModule.rTensor R Q
@@ -206,7 +206,7 @@ private theorem universallyInjective_of_injective_mapQ_maximal
         exact hlocalQ
       exact hlocalQ'.comp eP.injective
     exact (eM.injective.of_comp_iff loc).mp hcomp
-  show Function.Injective loc
+  change Function.Injective loc
   exact hloc
 
 /-- A universally injective map is injective modulo every maximal ideal. -/
@@ -228,7 +228,7 @@ private theorem universallyInjective_injective_mapQ
   by_contra hne
   let z := x - y
   have hzmap : fbar z = 0 := by
-    show fbar (x - y) = 0
+    change fbar (x - y) = 0
     rw [map_sub, hxy]
     exact sub_self _
   have hz : z ≠ 0 := by
@@ -267,11 +267,11 @@ private theorem universallyInjective_injective_mapQ
       rw [← Submodule.Quotient.mk_smul (m • (⊤ : Submodule R P))]
       exact (Submodule.Quotient.mk_eq_zero (m • (⊤ : Submodule R P))).2
         (Submodule.smul_mem_smul hr (Submodule.mem_top))
-    show g (r • z) = 0
-    show (r • z) ⊗ₜ[R] (Submodule.Quotient.mk p : Q) = 0
+    change g (r • z) = 0
+    change (r • z) ⊗ₜ[R] (Submodule.Quotient.mk p : Q) = 0
     rw [TensorProduct.smul_tmul, hrx, tmul_zero]
   have hkill : f.rTensor Q (p ⊗ₜ[R] (Submodule.Quotient.mk p : Q)) = 0 := by
-    show f p ⊗ₜ[R] (Submodule.Quotient.mk p : Q) = 0
+    change f p ⊗ₜ[R] (Submodule.Quotient.mk p : Q) = 0
     exact LinearMap.mem_ker.mp (hgker hfp)
   have hnonzero : p ⊗ₜ[R] (Submodule.Quotient.mk p : Q) ≠ 0 := by
     intro hz
@@ -355,7 +355,7 @@ theorem universallyInjective_of_injective_mod_maximalIdeal
       stage s x = IsLocalizedModule.mk' fB x s := by
     symm
     apply IsLocalizedModule.mk'_eq_iff.mpr
-    show fB x = algebraMap X.B X.Bₛ (s : X.B) •
+    change fB x = algebraMap X.B X.Bₛ (s : X.B) •
       ((↑((unit s)⁻¹) : X.Bₛ) • fA x)
     have hunit : (unit s : X.Bₛ) = algebraMap X.B X.Bₛ (s : X.B) :=
       (IsLocalization.map_units X.Bₛ s).unit_spec
@@ -372,7 +372,7 @@ theorem universallyInjective_of_injective_mod_maximalIdeal
     have hcomp : (stage s).rTensor Q =
         (LinearEquiv.rTensor Q e).toLinearMap.comp
           (fA.rTensor Q) := by
-      show (e.toLinearMap.comp fA).rTensor Q = _
+      change (e.toLinearMap.comp fA).rTensor Q = _
       ext x q
       rfl
     rw [hcomp]
@@ -428,7 +428,7 @@ theorem universallyInjective_of_injective_mod_maximalIdeal
       have h (s t : X.S) (y : P.N' ⊗[X.A] Q) :
           (stage (s * t)).rTensor Q ((numerator t).rTensor Q y) =
             (stage s).rTensor Q y := by
-        show ((stage (s * t)).rTensor Q ∘ₗ (numerator t).rTensor Q) y = _
+        change ((stage (s * t)).rTensor Q ∘ₗ (numerator t).rTensor Q) y = _
         rw [← LinearMap.rTensor_comp, hstage_adjust]
       rw [map_add, h s t y₁]
       congr 1

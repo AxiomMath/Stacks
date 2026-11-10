@@ -173,7 +173,7 @@ def fNewShriekObjIsoNagata (f : X ⟶ Y)
         (stdComplex nagataCompactification 𝒦Y)).obj (stdComplex nagataCompactification 𝒦Y) :=
   haveI := hq.source_noetherian
   (fNewShriekStdObjIsoOfIsDualizing f _
-    (isDualizing_stdComplex nagataCompactification (Category.id_comp q) hωS 𝒦Y)).symm
+    (isDualizing_stdComplex nagataCompactification hωS 𝒦Y)).symm
 
 /-- `ω_S^•` read at the standard model of `D(𝒪_S)`. -/
 abbrev baseStdComplex (ωS : quasiCoherentDerivedCategoryPlusOfModel S) : Std S :=
@@ -208,16 +208,16 @@ theorem coherentDuality_spec_nagata
     (∀ M : Std X, cohStd X M →
       cohStd X ((dualInto (stdComplex nagataCompactification 𝒦)).obj (op M))) ∧
     (coherentDuality X
-      (isDualizing_stdComplex nagataCompactification (Category.id_comp p) hωS 𝒦)).IsEquivalence ∧
+      (isDualizing_stdComplex nagataCompactification hωS 𝒦)).IsEquivalence ∧
     IsIso (coherentBiduality X
-      (isDualizing_stdComplex nagataCompactification (Category.id_comp p) hωS 𝒦)) ∧
+      (isDualizing_stdComplex nagataCompactification hωS 𝒦)) ∧
     (∀ M : Std X, cohStd X M →
       (plusCoh X M ↔
         minusCoh X ((dualInto (stdComplex nagataCompactification 𝒦)).obj (op M))) ∧
       (minusCoh X M ↔
         plusCoh X ((dualInto (stdComplex nagataCompactification 𝒦)).obj (op M)))) ∧
     (boundedCoherentDuality X
-      (isDualizing_stdComplex nagataCompactification (Category.id_comp p) hωS 𝒦)).IsEquivalence :=
+      (isDualizing_stdComplex nagataCompactification hωS 𝒦)).IsEquivalence :=
   coherentDuality_spec_stdComplex nagataCompactification hωS 𝒦
 
 /-- `f_new^! = D_X ∘ Lf^* ∘ D_Y` as a functor `D^+_Coh(𝒪_Y) ⥤ D^+_Coh(𝒪_X)`, for the dualizing
@@ -233,8 +233,8 @@ def fNewShriekPlusCohNagata (f : X ⟶ Y)
       fNewShriekStd f (stdComplex nagataCompactification 𝒦X)
         (stdComplex nagataCompactification 𝒦Y))
     (fun M => plusCoh_fNewShriek f
-      (isDualizing_stdComplex nagataCompactification (Category.id_comp p) hωS 𝒦X)
-      (isDualizing_stdComplex nagataCompactification (Category.id_comp q) hωS 𝒦Y) M.obj
+      (isDualizing_stdComplex nagataCompactification hωS 𝒦X)
+      (isDualizing_stdComplex nagataCompactification hωS 𝒦Y) M.obj
       M.property)
 
 /-- **[Stacks, Tag 0AUE] part (5).** In Situation 0AU4, for a morphism `f : X ⟶ Y` of schemes of

@@ -112,7 +112,7 @@ theorem sumMulMonomial_mk (n : ℕ) (a : degreeMonomials r n → MvPolynomial (F
     sumMulMonomial A r n (fun s => Submodule.Quotient.mk (a s)) =
       Submodule.Quotient.mk (∑ s, a s * monomial s.1 1) := by
   rw [sumMulMonomial, LinearMap.sum_apply]
-  show _ = (Submodule.mkQ _) (∑ s, a s * monomial s.1 1)
+  change _ = (Submodule.mkQ _) (∑ s, a s * monomial s.1 1)
   rw [map_sum]
   rfl
 
@@ -151,7 +151,7 @@ theorem quotientPowSucc_sumMulMonomial (n : ℕ) :
   refine LinearMap.ext fun c => ?_
   obtain ⟨a, -, hc⟩ := exists_eq_mk_and_sumMulMonomial_eq_mk n c
   rw [LinearMap.comp_apply, hc, LinearMap.zero_apply]
-  show (Submodule.Quotient.mk _ : _ ⧸ idealOfVars (Fin r) A ^ n) = 0
+  change (Submodule.Quotient.mk _ : _ ⧸ idealOfVars (Fin r) A ^ n) = 0
   rw [Submodule.Quotient.mk_eq_zero]
   exact Submodule.sum_mem _ fun s _ =>
     Ideal.mul_mem_left _ _ (monomial_mem_pow_idealOfVars (mem_degreeMonomials.1 s.2))
@@ -194,7 +194,7 @@ theorem isZero_tor_quotient_idealOfVars (N : ModuleCat.{u} (MvPolynomial (Fin r)
       | zero =>
         intro i hi
         refine ShortComplex.isZero_homology_of_isZero_X₂ _ ?_
-        show IsZero (ModuleCat.of _ (⋀[MvPolynomial (Fin 0) A]^i
+        change IsZero (ModuleCat.of _ (⋀[MvPolynomial (Fin 0) A]^i
           (Fin 0 → MvPolynomial (Fin 0) A)))
         have : Subsingleton (⋀[MvPolynomial (Fin 0) A]^i (Fin 0 → MvPolynomial (Fin 0) A)) :=
           exteriorPower.subsingleton_of_span_eq_top_of_card_lt
@@ -206,14 +206,15 @@ theorem isZero_tor_quotient_idealOfVars (N : ModuleCat.{u} (MvPolynomial (Fin r)
     exact Koszul.isZero_tor_of_lt (X : Fin r → MvPolynomial (Fin r) A) hf N hp
 
 /-- A finite direct sum of copies of `R/(x)` has vanishing `Tor_p(-, N)` for `p > r`. -/
-theorem isZero_tor_pi_quotient_idealOfVars {J : Type} [Fintype J]
+theorem isZero_tor_pi_quotient_idealOfVars {J : Type} [Finite J]
     (N : ModuleCat.{u} (MvPolynomial (Fin r) A)) {p : ℕ} (hp : r < p) :
     IsZero (((Tor' (ModuleCat.{u} (MvPolynomial (Fin r) A)) p).obj
       (ModuleCat.of _ (J → MvPolynomial (Fin r) A ⧸ idealOfVars (Fin r) A))).obj N) := by
+  have := Fintype.ofFinite J
   let G := ((tensoringRight (ModuleCat.{u} (MvPolynomial (Fin r) A))).obj N).leftDerived p
   let f : J → ModuleCat.{u} (MvPolynomial (Fin r) A) :=
     fun _ => ModuleCat.of _ (MvPolynomial (Fin r) A ⧸ idealOfVars (Fin r) A)
-  show IsZero (G.obj (ModuleCat.of _ (∀ j, f j)))
+  change IsZero (G.obj (ModuleCat.of _ (∀ j, f j)))
   refine IsZero.of_iso ?_ (G.mapIso (ModuleCat.biproductIsoPi f)).symm
   refine (IsZero.iff_id_eq_zero _).2 ?_
   rw [← G.map_id, ← biproduct.total, G.map_sum]
@@ -234,7 +235,7 @@ theorem isZero_tor_quotient_pow_idealOfVars (n : ℕ) (N : ModuleCat.{u} (MvPoly
   | zero =>
     have : Subsingleton (MvPolynomial (Fin r) A ⧸ idealOfVars (Fin r) A ^ 0) := by
       rw [Submodule.Quotient.subsingleton_iff, pow_zero, Ideal.one_eq_top]
-    show IsZero (G.obj _)
+    change IsZero (G.obj _)
     exact G.map_isZero (ModuleCat.isZero_of_subsingleton _)
   | succ n ih =>
     obtain ⟨q, rfl⟩ : ∃ q, p = q + 1 := ⟨p - 1, by omega⟩

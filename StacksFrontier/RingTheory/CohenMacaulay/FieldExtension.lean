@@ -126,12 +126,12 @@ private alias isMaximalCohenMacaulay_self_of_isField :=
 
 /-- Along an integral algebra map the height of a prime is at most the height of its contraction:
 `Spec` of an integral algebra is strictly monotone on prime spectra, by
-`Ideal.IsIntegral.comap_lt_comap`. -/
+`Ideal.IsIntegral.under_lt_under`. -/
 private lemma height_le_height_comap_of_isIntegral {A B : Type*} [CommRing A] [CommRing B]
     [Algebra A B] [Algebra.IsIntegral A B] (q : Ideal B) [q.IsPrime] :
     q.height ≤ (q.comap (algebraMap A B)).height := by
   have hstrict : StrictMono (PrimeSpectrum.comap (algebraMap A B)) := fun _ _ hpp' =>
-    Ideal.IsIntegral.comap_lt_comap hpp'
+    Ideal.IsIntegral.under_lt_under hpp'
   have h := Order.height_le_height_apply_of_strictMono _ hstrict (⟨q, ‹q.IsPrime›⟩ :
     PrimeSpectrum B)
   rwa [← PrimeSpectrum.height_eq_orderHeight, ← PrimeSpectrum.height_eq_orderHeight] at h
@@ -220,7 +220,7 @@ private theorem isMaximalCohenMacaulay_localizationAtPrime_of_intermediateField
   let η₂ := Algebra.TensorProduct.cancelBaseChange k (↥F) (↥F) K L
   let Θ : ((↥F ⊗[k] L) ⊗[↥F] K) ≃ₐ[↥F ⊗[k] L] B :=
     AlgEquiv.ofRingEquiv (f := (η₁.trans η₂).toRingEquiv.trans e.symm) fun g => by
-      show e.symm (η₂ (η₁ (algebraMap (↥F ⊗[k] L) ((↥F ⊗[k] L) ⊗[↥F] K) g))) = _
+      change e.symm (η₂ (η₁ (algebraMap (↥F ⊗[k] L) ((↥F ⊗[k] L) ⊗[↥F] K) g))) = _
       rw [show algebraMap (↥F ⊗[k] L) ((↥F ⊗[k] L) ⊗[↥F] K) g = g ⊗ₜ[↥F] 1 from rfl,
         show η₁ (g ⊗ₜ[↥F] (1 : K)) = Algebra.TensorProduct.includeRight g from
           Algebra.TensorProduct.comm_tmul ..]
@@ -685,7 +685,8 @@ equivalence "`(S_K)_{𝔮_K}`" alone.
 
 Cohen–Macaulayness of a Noetherian local ring `A` (Definition 00N8: `A` is Cohen–Macaulay as a
 module over itself, `depth_{𝔪_A}(A) = dim A`) is `Module.IsMaximalCohenMacaulay A A`, Tag 00NF,
-as in the companion statements 00R5, 00ND, 045J and in the statement Tag 045M this one is proved from.
+as in the companion statements 00R5, 00ND, 045J and in the statement Tag 045M this one is proved
+from.
 
 Finite generation of the field extension `K/k` is `Algebra.EssFiniteType k K`, which by
 `IntermediateField.fg_top_iff` says `(⊤ : IntermediateField k K).FG`, i.e. `K = k(x_1, …, x_n)`

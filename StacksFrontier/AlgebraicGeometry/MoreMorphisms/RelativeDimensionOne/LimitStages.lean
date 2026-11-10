@@ -375,7 +375,7 @@ theorem exists_topologicalKrullDim_fiber_le_stage (hc : IsLimit c) (i : I)
   obtain ⟨j, g, hg⟩ := exists_forall_fst_notMem_range D c hc i A J.subschemeι (fun a ha => by
     rw [hrange] at ha
     refine ha ?_
-    show topologicalKrullDimAt (f.left.fiber (f.left (pullback.fst A.hom (c.π.app i) a)))
+    change topologicalKrullDimAt (f.left.fiber (f.left (pullback.fst A.hom (c.π.app i) a)))
       (f.left.asFiber (pullback.fst A.hom (c.π.app i) a)) ≤ (d : WithBot ℕ∞)
     rw [← hdimAt]
     exact (topologicalKrullDim_fiber_le_iff _ _ _).mp (h _) a rfl)

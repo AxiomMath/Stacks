@@ -510,7 +510,7 @@ theorem isPrincipalDivisorCycleOfGood_properCyclePushforward_subspace (sX : X âŸ
   have hdom : IsDominant D.site D.base D.base_mem q := by
     have _ : IrreducibleSpace (points D.site D.base D.base_mem W'.subspace.toFunctor) :=
       W'.isIntegralSpace.2.2
-    show DenseRange _
+    change DenseRange _
     rw [DenseRange, dense_iff_closure_eq, Set.eq_univ_iff_forall]
     intro y
     have hmem : Space.genericPoint D.site D.base D.base_mem hW'g.1 W'.isIntegralSpace âˆˆ

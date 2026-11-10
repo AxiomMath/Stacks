@@ -143,7 +143,7 @@ theorem isom_isSheaf_finiteCoverProjection {U : BigFppfOver B S hS}
       CategoryTheory.IsHomLift.fac'
         (finiteCoverProjection (B := B) (S := S) (hS := hS) (d := d)) (f i) (yr i).hom
     have hi := FiniteCover.Hom.f_eq_of_fibreHom (hxpt i) (hypt i) (φ i) (hφ i)
-    show (ν i).f ≫ fU.hom = (φ i).f ≫ (yr i).hom.f
+    change (ν i).f ≫ fU.hom = (φ i).f ≫ (yr i).hom.f
     simp [hνf, hi, hy, hfU]
   have hμcover : Sieve.ofArrows (fun i => (t i).U) (fun i => (μ i).f) ∈
       BigFppfOver.topology B S hS Q.U := by

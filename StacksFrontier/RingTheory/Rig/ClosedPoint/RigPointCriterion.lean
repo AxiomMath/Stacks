@@ -1,6 +1,6 @@
 module
 
-public import Mathlib.Data.ENat.SuccOrder
+public import Mathlib.Order.SuccPred.ENat
 public import Mathlib.Data.List.TFAE
 public import Mathlib.LinearAlgebra.TensorProduct.Quotient
 public import Mathlib.LinearAlgebra.TensorProduct.Tower
@@ -225,7 +225,7 @@ private lemma isAdic_map_quotient {A : Type*} [CommRing A] [TopologicalSpace A]
     have heq : (Ideal.Quotient.mk q) '' ((I ^ n : Ideal A) : Set A) =
         ((I ^ n).map (Ideal.Quotient.mk q) : Set (A ⧸ q)) := by
       ext y
-      show (∃ x, x ∈ I ^ n ∧ Ideal.Quotient.mk q x = y) ↔ _
+      change (∃ x, x ∈ I ^ n ∧ Ideal.Quotient.mk q x = y) ↔ _
       constructor
       · rintro ⟨x, hx, rfl⟩
         exact Ideal.mem_map_of_mem _ hx
@@ -331,7 +331,7 @@ private lemma complete_one_dimensional_domain_is_local {S : Type*} [CommRing S]
     intro P hP
     have hJp : J ≤ P.comap (Ideal.Quotient.mk J) := by
       intro x hx
-      show Ideal.Quotient.mk J x ∈ P
+      change Ideal.Quotient.mk J x ∈ P
       rw [Ideal.Quotient.eq_zero_iff_mem.mpr hx]
       exact P.zero_mem
     have : (P.comap (Ideal.Quotient.mk J)).IsMaximal := hmax _ inferInstance hJp
@@ -401,7 +401,7 @@ private lemma map_le_nonzero_prime_of_maximalAvoiding {A : Type*} [CommRing A]
   have hp : p.IsPrime := inferInstance
   have hqp : q ≤ p := by
     intro x hx
-    show Ideal.Quotient.mk q x ∈ P
+    change Ideal.Quotient.mk q x ∈ P
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr hx]
     exact P.zero_mem
   have hIp : ¬ I ≤ p := fun hIp => hnot (Ideal.map_le_iff_le_comap.mpr hIp)
@@ -500,7 +500,7 @@ private lemma ringKrullDim_le_one_of_maximalAvoiding {A : Type*} [CommRing A]
         exact (PrimeSpectrum.mem_basicOpen xL ⟨⊥, Ideal.isPrime_bot⟩).mpr hxL
     have hUnonempty : U.Nonempty := by
       refine ⟨⟨⊥, Ideal.isPrime_bot⟩, ?_⟩
-      show (⟨⊥, Ideal.isPrime_bot⟩ : PrimeSpectrum L) ∈ PrimeSpectrum.basicOpen xL
+      change (⟨⊥, Ideal.isPrime_bot⟩ : PrimeSpectrum L) ∈ PrimeSpectrum.basicOpen xL
       rw [PrimeSpectrum.mem_basicOpen]
       exact hxL
     have hUinf := PrimeSpectrum.infinite_of_two_le_ringKrullDim L hdim U hUopen hUnonempty

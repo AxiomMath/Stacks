@@ -131,9 +131,9 @@ theorem exists_comp_map_eq_comp_app_of_epi {X : AlgebraicSpaces B S hS}
   -- `t` is a section of the image of `ψ`
   have ht0 : SheafOfModules.sectionsMap (cokernel.π ψ) ts = 0 := by
     refine sections_eq_zero_of_val_eq_zero B S hS U hsurj _ ?_
-    show (cokernel.π ψ).val.app (op U) (ts.val (op U)) = 0
+    change (cokernel.π ψ).val.app (op U) (ts.val (op U)) = 0
     rw [← hm]
-    show ((G.ι ≫ g) ≫ cokernel.π ψ).val.app (op U) ⟨m, hmG⟩ = 0
+    change ((G.ι ≫ g) ≫ cokernel.π ψ).val.app (op U) ⟨m, hmG⟩ = 0
     rw [cokernel.condition]
     rfl
   have ht0' : ∀ W, (cokernel.π ψ).val.app W (ts.val W) = 0 := fun W =>
@@ -148,7 +148,7 @@ theorem exists_comp_map_eq_comp_app_of_epi {X : AlgebraicSpaces B S hS}
   -- the corestriction of `ψ` to its image is an epimorphism with coherent kernel
   have hψJ : ∀ (W : (smallEtaleRingedSite B S hS X.1 X.2).Cᵒᵖ) (x : G.toSheafOfModules.val.obj W),
       ψ.val.app W x ∈ J.obj W := fun W x => by
-    show (ψ ≫ cokernel.π ψ).val.app W x = 0
+    change (ψ ≫ cokernel.π ψ).val.app W x = 0
     rw [cokernel.condition]
     rfl
   let q : G.toSheafOfModules ⟶ J.toSheafOfModules := J.factorThru ψ hψJ

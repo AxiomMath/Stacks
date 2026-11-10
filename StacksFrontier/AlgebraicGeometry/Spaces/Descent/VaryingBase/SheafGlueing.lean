@@ -47,8 +47,8 @@ which it needs. The glued sheaf `H` lives on `C/U`, and the sheaf over `h_U` is
 `OverShriek.presheaf H`, whose charts are the morphisms from the objects of the datum. The small
 glueing, the covering subfamily and the charts are the private auxiliaries of the proof of
 Stacks 04UM condition (3) in
-`StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.GroupSpaces.SheafTorsorsEffectiveDescent`, reached
-by `import all` rather than restated.
+`StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.GroupSpaces.SheafTorsorsEffectiveDescent`,
+reached by `import all` rather than restated.
 
 The one non-formal verification is that the glueing morphisms are compatible with base change
 (`AlgebraicGeometry.SpacesDescent.sheafDescentHom_pullHom`), which is the base-change axiom of the
@@ -261,7 +261,7 @@ private theorem rest_fiberSheaf_val {V : BigFppfOver B S hS} (X : (spacesProject
     {W : BigFppfOver B S hS} (g ug : W ⟶ V) (e : 𝟙 W ≫ g = ug)
     (x : (fiberSheaf X).obj.obj (op (Over.mk g))) :
     (ConcreteCategory.hom (rest (fiberSheaf X) (𝟙 W) g ug e) x).1 = x.1 := by
-  show X.1.left.obj.map (𝟙 W).op x.1 = x.1
+  change X.1.left.obj.map (𝟙 W).op x.1 = x.1
   simp
 
 /-- A morphism of the comma category of algebraic spaces over varying bases, lying over
@@ -530,7 +530,7 @@ theorem nonempty_sheafGlueing (hR : R ∈ BigFppfOver.topology B S hS U) :
         (pullbackFiberSheafIso_inv_app_val_eq (D.obj f hf) ε (op (Over.mk z)) x y rfl rfl)))
   have key := sigma_descent_inv (BigFppfOver.topology B S hS) H
     (sheafDescentData D) e (ε ≫ f) (i := ⟨V, f, hf⟩) (j := ⟨W, g, hg⟩) ε ε' rfl heq.symm z x
-  show (sheafChart g H.obj (fiberOver (D.obj g hg)) (ei ⟨W, g, hg⟩)).app (op T) yv =
+  change (sheafChart g H.obj (fiberOver (D.obj g hg)) (ei ⟨W, g, hg⟩)).app (op T) yv =
     (sheafChart f H.obj (fiberOver (D.obj f hf)) (ei ⟨V, f, hf⟩)).app (op T) xv
   refine (sheafChart_apply g H.obj (fiberOver (D.obj g hg)) (ei ⟨W, g, hg⟩)
     (Over.mk (z ≫ ε')) ⟨yv, hyv⟩).trans (Eq.trans ?_ (sheafChart_apply f H.obj
@@ -551,7 +551,7 @@ theorem SheafGlueing.isEffective (G : SheafGlueing D) (halg : IsAlgebraicSpace B
       { left := ObjectProperty.homMk (G.ι f hf)
         right := eqToHom (D.obj f hf).2 ≫ f
         w := by
-          show G.ι f hf ≫ G.π = (D.obj f hf).1.hom ≫ yoneda.map (eqToHom (D.obj f hf).2 ≫ f)
+          change G.ι f hf ≫ G.π = (D.obj f hf).1.hom ≫ yoneda.map (eqToHom (D.obj f hf).2 ≫ f)
           simpa [Functor.map_comp] using (G.isPullback f hf).w }
   have hζ : ∀ ⦃V : BigFppfOver B S hS⦄ (f : V ⟶ U) (hf : R.arrows f),
       (spacesProjection B S hS).IsStronglyCartesian f (ζ f hf) := fun V f hf =>

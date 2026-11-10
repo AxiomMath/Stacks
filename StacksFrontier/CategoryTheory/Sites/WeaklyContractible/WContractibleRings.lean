@@ -230,7 +230,7 @@ lemma proetaleCoveringSieve_of_ffWeaklyEtale (A B : Type u) [CommRing A] [CommRi
     · rintro ⟨_⟩; exact Presieve.singleton.mk
     · rintro ⟨⟩; exact Presieve.ofArrows.mk ()
   -- assemble: membership in the saturated sieves of the precoverage
-  show Scheme.proetalePrecoverage.Saturate (specOf A)
+  change Scheme.proetalePrecoverage.Saturate (specOf A)
     (Sieve.ofArrows (fun _ : Unit => specOf B) (fun _ => specMapOf A B))
   have hsieve : Sieve.ofArrows (fun _ : Unit => specOf B) (fun _ => specMapOf A B)
       = Sieve.generate (Presieve.singleton (Spec.map f)) := by
@@ -276,7 +276,7 @@ lemma exists_section_of_weaklyContractibleObj (A B : Type u) [CommRing A] [CommR
       refine ⟨h, ?_⟩
       -- goal: (yoneda.map g).app _ h = (yoneda.obj _).map i.op s
       simp only [yoneda_map_app, yoneda_obj_map]
-      show h ≫ g = i ≫ s
+      change h ≫ g = i ≫ s
       exact hcomp
     refine J.superset_covering hsub ?_
     exact J.pullback_stable s hcov
@@ -545,14 +545,14 @@ lemma exists_finite_affine_refinement_in_sieve (A : Type u) [CommRing A]
   -- the key equality: `specMapOf A (B j) = 𝒱.f (e.symm j)`.
   have heq : ∀ j, specMapOf A (B j) = 𝒱.f (e.symm j) := by
     intro j
-    show Scheme.Spec.map (CommRingCat.ofHom (algebraMap A (B j))).op = 𝒱.f (e.symm j)
+    change Scheme.Spec.map (CommRingCat.ofHom (algebraMap A (B j))).op = 𝒱.f (e.symm j)
     set φ : CommRingCat.of A ⟶ 𝒱.X (e.symm j) :=
       Spec.preimage (R := CommRingCat.of A) (S := 𝒱.X (e.symm j)) (𝒱.f (e.symm j)) with hφ
     have halg : algebraMap A (B j) = φ.hom := rfl
     rw [halg]
     have hof : CommRingCat.ofHom φ.hom = φ := rfl
     rw [hof]
-    show Spec.map φ = 𝒱.f (e.symm j)
+    change Spec.map φ = 𝒱.f (e.symm j)
     exact Spec.map_preimage (𝒱.f (e.symm j))
   refine ⟨n, B, cr, alg, ?_, ?_, ?_⟩
   · -- weak etaleness: `specMapOf A (B j) = 𝒱.f (e.symm j)`, which is `@WeaklyEtale`.
@@ -704,7 +704,7 @@ lemma product_isFaithfullyFlat_weaklyEtale (A : Type u) [CommRing A]
     obtain ⟨j, q, hq⟩ := hsurj p
     refine ⟨PrimeSpectrum.comap (Pi.evalRingHom B j) q, ?_⟩
     have hbase : (specMapOf A (B j)).base q = PrimeSpectrum.comap (algebraMap A (B j)) q := by
-      show (Spec.map (CommRingCat.ofHom (algebraMap A (B j)))) q
+      change (Spec.map (CommRingCat.ofHom (algebraMap A (B j)))) q
         = PrimeSpectrum.comap (algebraMap A (B j)) q
       rw [Spec.map_apply]; rfl
     rw [← PrimeSpectrum.comap_comp_apply, evalRingHom_comp_algebraMap, ← hbase, hq]

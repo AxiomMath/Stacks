@@ -111,7 +111,7 @@ private theorem derivationPoint_precomp_eq
       (restrictedCoyonedaMap f).app (artinianDualNumbers.{u, w, v} Λ k)
         (derivationPoint E) := by
   refine CompleteLocalAlgCat.Hom.ext (AlgHom.ext fun r ↦ ?_)
-  show (derivationPoint.{u, v, w} D).hom (f.hom r) =
+  change (derivationPoint.{u, v, w} D).hom (f.hom r) =
     (derivationPoint.{u, v, w} E).hom (f.hom r)
   refine TrivSqZeroExt.ext ?_ (ULift.ext ?_)
   · rw [derivationPoint_fst, derivationPoint_fst]
@@ -198,7 +198,7 @@ public theorem isMinimalVersal_of_hasBijectiveDifferentialOnDerivationOrbits
           simpa only [ResidueDerivation.comap_apply] using
             congrArg (fun q : ResidueDerivation ξ'.base ↦ q s) hDE.symm
     have hq : residueHom ξ.base (f.base.hom s) = a := by
-      show ξ.base.residueEquiv (residue ξ.base (f.base.hom s)) = a
+      change ξ.base.residueEquiv (residue ξ.base (f.base.hom s)) = a
       rw [f.base.residue_comm s, hs, hr]
     simpa only [hq, Derivation.zero_apply] using add_eq_left.mp hsum
   let : Algebra ξ.base k := (residueAlgHom ξ.base).toRingHom.toAlgebra

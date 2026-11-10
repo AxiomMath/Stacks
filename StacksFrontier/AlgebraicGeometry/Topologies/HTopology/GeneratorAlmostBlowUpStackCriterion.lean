@@ -23,8 +23,8 @@ by three conditions on a category `p : 𝒮 ⥤ (Sch/S)_h` fibred in groupoids:
 
 It is the stack analogue of Stacks 0EVI, which is the same criterion for a presheaf of sets, and
 which is carried in this development by
-`StacksFrontier.AlgebraicGeometry.Topologies.HTopology.GeneratorAlmostBlowUpSheafCriterion`.  The two
-shapes of square are the ones defined there: `AlgebraicGeometry.IsOneGeneratorAlmostBlowUpModel`
+`StacksFrontier.AlgebraicGeometry.Topologies.HTopology.GeneratorAlmostBlowUpSheafCriterion`.  The
+two shapes of square are the ones defined there: `AlgebraicGeometry.IsOneGeneratorAlmostBlowUpModel`
 for Example 0EVG and `AlgebraicGeometry.IsTwoGeneratorAlmostBlowUpModel` for Example 0EVH, and they
 are reused verbatim, so conditions (2) and (3) here range over exactly the squares conditions (2),
 (3) and (4) there range over.
@@ -205,7 +205,7 @@ public theorem zariskiTopology_le_topology :
     ⟨E.map (BigHOver.toScheme B S hS), hE⟩
   refine ⟨fun i ↦ ?_, IsPHCovering.of_openCover O⟩
   have := O.map_prop i
-  show LocallyOfFinitePresentation (O.f i)
+  change LocallyOfFinitePresentation (O.f i)
   infer_instance
 
 /-! ### The three conditions of Stacks 0EX9 -/

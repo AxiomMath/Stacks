@@ -148,18 +148,20 @@ theorem exists_span_baseChange_iso
         rw [IsOpenImmersion.range_pullbackSnd]
         simpa [Scheme.Hom.comp_apply, Scheme.Opens.opensRange_ι] using hd
       obtain ⟨t, ht⟩ := hd'
-      exact ⟨t, by simp [Scheme.Hom.comp_apply, ht]⟩
+      exact ⟨t, by simp [ht]⟩
   have hrange : Set.range tD = Set.range j := hpre.trans (congrArg SetLike.coe hO)
   let e := eW.symm ≪≫ IsOpenImmersion.isoOfRangeEq tD j hrange
-  have hfac : e.hom ≫ j = eW.inv ≫ tD := by
-    simp [e]
+  have hfac : e.hom ≫ j = eW.inv ≫
+      pullback.snd O.ι (pullback.fst (pullback.fst f g ≫ f) i) ≫ dIso.inv := by
+    simp only [e, Iso.trans_hom, Iso.symm_hom, Category.assoc, IsOpenImmersion.isoOfRangeEq_hom_fac]
+    rfl
   have hfst : e.hom ≫ j ≫ pullback.fst _ _ =
       pullback.fst ((O.ι ≫ pullback.fst f g) ≫ f) i ≫ O.ι := by
-    simp only [reassoc_of% hfac, tD, dIso, Category.assoc,
+    simp only [reassoc_of% hfac, dIso,
       pullbackRightPullbackFstIso_inv_fst, heWfst]
   have hsnd : e.hom ≫ pullback.snd f i = pullback.snd ((O.ι ≫ pullback.fst f g) ≫ f) i := by
     rw [← Category.id_comp (pullback.snd f i), ← hjq]
-    simp only [Category.assoc, reassoc_of% hfac, tD, dIso,
+    simp only [Category.assoc, reassoc_of% hfac, dIso,
       pullbackRightPullbackFstIso_inv_snd_snd, heWsnd]
   have h₁ : e.hom ≫ pullback.fst f i =
       pullback.fst ((O.ι ≫ pullback.fst f g) ≫ f) i ≫ O.ι ≫ pullback.fst f g := by

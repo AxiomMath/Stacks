@@ -91,7 +91,7 @@ public theorem exists_principal_neighborhood {ι : Type uι} [Finite ι] (m : ι
     exact one_ne_zero hone
   · intro j hji
     apply Ideal.Quotient.eq_zero_iff_mem.mp
-    simpa only [if_neg hji] using hs j
+    simpa only [ite_eq_right hji] using hs j
 
 /-! ### Cancelling along a smooth or bijective first factor -/
 
@@ -103,7 +103,7 @@ private theorem isSmooth_of_isSmooth_comp_of_isSmooth
     {φ : BasedFunctor 𝓕 𝓖} (ψ : BasedFunctor 𝓖 𝓗) (hφ : IsSmooth φ)
     (h : IsSmooth (BasedFunctor.comp φ ψ)) : IsSmooth ψ := by
   have := essSurj_of_isSmooth h𝓕 h𝓖 φ hφ
-  exact isSmooth_of_essSurj_comp h𝓕.cofibered φ ψ h
+  exact isSmooth_of_essSurj_comp φ ψ h
 
 /-- If a square of based functors commutes up to isomorphism and its top `F` and right `G` maps
 are bijective on isomorphism classes, so is the composite of the other two. -/
@@ -461,7 +461,7 @@ public theorem algebraMap_adicCompletionHenselizedLocalRingEquiv (q : PrimeSpect
       (IsLocalRing.maximalIdeal (localRingAt q)) (henselizedMaximalIdealAt q) le_rfl)
     (algebraMap k (localRingAt q) a)
   simp only [RingHom.coe_comp, Function.comp_apply] at h
-  show adicCompletionMap (algebraMap (localRingAt q) (henselizedLocalRingAt q))
+  change adicCompletionMap (algebraMap (localRingAt q) (henselizedLocalRingAt q))
       (IsLocalRing.maximalIdeal (localRingAt q)) (henselizedMaximalIdealAt q) le_rfl
       (algebraMap k
         (AdicCompletion (IsLocalRing.maximalIdeal (localRingAt q)) (localRingAt q)) a) = _
@@ -779,7 +779,7 @@ what exposes the canonical `k`-vector-space structure of **Stacks 06IH** on its 
 It comes from the product being a deformation category, hence satisfying (RS). -/
 public theorem schlessingerConditionS2_pi_ringDeformation {ι : Type uι} (R : ι → Type w)
     [∀ i, CommRing (R i)] [∀ i, Algebra k (R i)] :
-    SchlessingerConditionS2 (CategoryOfElements.π
+    SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (piBasedCategory fun i => ringDeformationBasedCategory Λ k (R i))
         (isCofiberedInGroupoids_pi_ringDeformation R))) :=
   schlessingerConditionS2_of_isIsomorphismClasses _ _
@@ -1004,7 +1004,7 @@ public theorem bijective_differential_completedLocalRingFunctors_aux [Algebra.Fi
       bijective_differential_ringDeformationTransport (Λ := Λ) (k := k)
         (adicCompletionHenselizedLocalRingEquiv (m i)).symm
         (algebraMap_adicCompletionHenselizedLocalRingEquiv_symm (k := k) (m i))
-  show Function.Bijective (mapIsomorphismClasses hHen hLoc (BasedFunctor.comp C T) A)
+  change Function.Bijective (mapIsomorphismClasses hHen hLoc (BasedFunctor.comp C T) A)
   rw [mapIsomorphismClasses_comp hHen hCom hLoc C T A]
   exact hdT.comp hdC
 
@@ -1031,25 +1031,25 @@ public theorem finiteDimensional_artinianTangentSpace_of_bijective_differential
     {𝓖 : BasedCategory.{v₂, u₂} (ArtinianLocalAlgCat.{u, w, w} Λ k)}
     (h𝓕 : IsPredeformationCategory 𝓕.p) (h𝓖 : IsPredeformationCategory 𝓖.p)
     (hS2𝓕 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))
     (hS2𝓖 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered)))
     (φ : BasedFunctor 𝓕 𝓖)
     (hbij : Function.Bijective (differential h𝓕.cofibered h𝓖.cofibered φ)) :
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕⟩
     letI : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2𝓕⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2𝓕⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2𝓖⟩
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2𝓖⟩
     ∀ _ : FiniteDimensional k (artinianTangentSpace Λ k (isomorphismClasses 𝓕 h𝓕.cofibered)),
       FiniteDimensional k (artinianTangentSpace Λ k (isomorphismClasses 𝓖 h𝓖.cofibered)) := by
   let : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕⟩
   let : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2𝓕⟩
+    (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2𝓕⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2𝓖⟩
+    (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2𝓖⟩
   intro hfd
   exact (LinearEquiv.ofBijective
     (IsLinearMap.mk' _ (differential_isLinearMap 𝓕 𝓖 h𝓕 h𝓖 hS2𝓕 hS2𝓖 φ)) hbij).finiteDimensional
@@ -1078,7 +1078,7 @@ public theorem finiteDimensional_artinianTangentSpace_chain_aux
       (completedLocalRingFunctors (Λ := Λ) (k := k) m))) :
     letI : Fact (IsPredeformationCategory (ringDeformationBasedCategory Λ k P).p) :=
       ⟨(ringDeformationCategory_isDeformationCategory P).predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (ringDeformationBasedCategory Λ k P)
         isCofiberedInGroupoids_ringDeformationProjection))) :=
       ⟨schlessingerConditionS2_ringDeformation Λ k P⟩
@@ -1086,7 +1086,7 @@ public theorem finiteDimensional_artinianTangentSpace_chain_aux
         (piBasedCategory fun i => ringDeformationBasedCategory Λ k (localRingAt (m i))).p) :=
       ⟨(isDeformationCategory_pi_ringDeformation (Λ := Λ) (k := k)
         fun i => localRingAt (m i)).predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (piBasedCategory fun i =>
           ringDeformationBasedCategory Λ k (localRingAt (m i)))
         (isCofiberedInGroupoids_pi_ringDeformation fun i => localRingAt (m i))))) :=
@@ -1096,7 +1096,7 @@ public theorem finiteDimensional_artinianTangentSpace_chain_aux
           ringDeformationBasedCategory Λ k (henselizedLocalRingAt (m i))).p) :=
       ⟨(isDeformationCategory_pi_ringDeformation (Λ := Λ) (k := k)
         fun i => henselizedLocalRingAt (m i)).predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (piBasedCategory fun i =>
           ringDeformationBasedCategory Λ k (henselizedLocalRingAt (m i)))
         (isCofiberedInGroupoids_pi_ringDeformation fun i => henselizedLocalRingAt (m i))))) :=
@@ -1109,7 +1109,7 @@ public theorem finiteDimensional_artinianTangentSpace_chain_aux
       ⟨(isDeformationCategory_pi_ringDeformation (Λ := Λ) (k := k) fun i =>
         AdicCompletion (IsLocalRing.maximalIdeal (localRingAt (m i)))
           (localRingAt (m i))).predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (piBasedCategory fun i => ringDeformationBasedCategory Λ k
           (AdicCompletion (IsLocalRing.maximalIdeal (localRingAt (m i))) (localRingAt (m i))))
         (isCofiberedInGroupoids_pi_ringDeformation fun i =>
@@ -1346,7 +1346,7 @@ public theorem finiteDimensional_artinianTangentSpace_chain
     (hsm : ∀ q : PrimeSpectrum P, ¬ Algebra.IsSmoothAt k q.asIdeal → ∃ i, m i = q) :
     letI : Fact (IsPredeformationCategory (ringDeformationBasedCategory Λ k P).p) :=
       ⟨(ringDeformationCategory_isDeformationCategory P).predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (ringDeformationBasedCategory Λ k P)
         isCofiberedInGroupoids_ringDeformationProjection))) :=
       ⟨schlessingerConditionS2_ringDeformation Λ k P⟩
@@ -1354,7 +1354,7 @@ public theorem finiteDimensional_artinianTangentSpace_chain
         (piBasedCategory fun i => ringDeformationBasedCategory Λ k (localRingAt (m i))).p) :=
       ⟨(isDeformationCategory_pi_ringDeformation (Λ := Λ) (k := k)
         fun i => localRingAt (m i)).predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (piBasedCategory fun i =>
           ringDeformationBasedCategory Λ k (localRingAt (m i)))
         (isCofiberedInGroupoids_pi_ringDeformation fun i => localRingAt (m i))))) :=
@@ -1364,7 +1364,7 @@ public theorem finiteDimensional_artinianTangentSpace_chain
           ringDeformationBasedCategory Λ k (henselizedLocalRingAt (m i))).p) :=
       ⟨(isDeformationCategory_pi_ringDeformation (Λ := Λ) (k := k)
         fun i => henselizedLocalRingAt (m i)).predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (piBasedCategory fun i =>
           ringDeformationBasedCategory Λ k (henselizedLocalRingAt (m i)))
         (isCofiberedInGroupoids_pi_ringDeformation fun i => henselizedLocalRingAt (m i))))) :=
@@ -1377,7 +1377,7 @@ public theorem finiteDimensional_artinianTangentSpace_chain
       ⟨(isDeformationCategory_pi_ringDeformation (Λ := Λ) (k := k) fun i =>
         AdicCompletion (IsLocalRing.maximalIdeal (localRingAt (m i)))
           (localRingAt (m i))).predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (piBasedCategory fun i => ringDeformationBasedCategory Λ k
           (AdicCompletion (IsLocalRing.maximalIdeal (localRingAt (m i))) (localRingAt (m i))))
         (isCofiberedInGroupoids_pi_ringDeformation fun i =>

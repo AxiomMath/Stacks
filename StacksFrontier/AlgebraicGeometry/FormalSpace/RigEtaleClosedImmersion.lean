@@ -178,7 +178,7 @@ private theorem isAffineHom_of_isClosedImmersion {X Y : FppfSheaf B S hS} (f : X
         (BigFppfOver.toScheme B S hS) := by
     intro U V g hg
     change AlgebraicGeometry.IsClosedImmersion ((BigFppfOver.toScheme B S hS).map g) at hg
-    show IsAffineHom ((BigFppfOver.toScheme B S hS).map g)
+    change IsAffineHom ((BigFppfOver.toScheme B S hS).map g)
     exact (isClosedImmersion_iff_isAffineHom.mp hg).1
   exact MorphismProperty.relative_monotone
     (F := Sheaf.sheafifiedYoneda (BigFppfOver.topology B S hS)) hle f

@@ -177,7 +177,7 @@ theorem mono_cokernel_desc_of_isLimit_kernelFork {C : Type*} [Category C] [Abeli
   obtain ⟨l, hl⟩ := KernelFork.IsLimit.lift' hlim (pullback.snd a (cokernel.π i)) hq0
   have hfst : pullback.fst a (cokernel.π i) ≫ a = 0 := by
     rw [pullback.condition, ← hl]
-    show (l ≫ i) ≫ cokernel.π i = 0
+    change (l ≫ i) ≫ cokernel.π i = 0
     rw [Category.assoc, cokernel.condition, comp_zero]
   exact zero_of_epi_comp (pullback.fst a (cokernel.π i)) hfst
 

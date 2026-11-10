@@ -83,7 +83,7 @@ theorem iSup_dimensionSubNat_zero_eq_top {ι : Type*} {δ : ι → WithBot ℕ�
     induction d' using WithTop.recTopCoe with
     | top => exact le_top
     | coe m =>
-      show (((n : ℤ) : ℤ) : EInt) ≤ (((m : ℤ) - ((0 : ℕ) : ℤ) : ℤ) : EInt)
+      change (((n : ℤ) : ℤ) : EInt) ≤ (((m : ℤ) - ((0 : ℕ) : ℤ) : ℤ) : EInt)
       rw [WithBotTop.coe_le_coe]
       have h1 : ((n : ℕ∞) : WithBot ℕ∞) < (((m : ℕ∞)) : WithBot ℕ∞) := hi
       have : n < m := by
@@ -412,7 +412,7 @@ theorem exists_not_xor_relativeDimension_pos_of_ringKrullDim_eq_top :
   have hT : dimension B (Spec (.of R)) hS (schemeStack.{u, w} B _ hS V) h𝒯 = ⊤ :=
     dimension_schemeStack_eq_top B _ hS V h𝒯 (topologicalKrullDim_affineLineScheme_eq_top R hdim)
   obtain ⟨-, W, -, ⟨t, ht⟩, -, hWeq⟩ :=
-    dimension_le_add_and_exists_isOpen_dense_eq_add_relativeStackDimensionAt_of_isQuasiCompactMorphism.{u, w}
+  dimension_le_add_and_exists_isOpen_dense_eq_add_relativeStackDimensionAt_of_isQuasiCompactMorphism
       B (Spec (.of R)) hS (affineLineStackMap.{u, w} R B hS) hf hfQC h𝒯 h𝒳 h𝒯J h𝒳J h𝒯C h𝒳C hIrr
       hQS hP
   have hZ : closedSubstackDimension B (Spec (.of R)) hS (schemeStack.{u, w} B _ hS X₀) ⊤ hP.1

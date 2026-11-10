@@ -337,7 +337,7 @@ theorem BivariantClass.commutesWithEveryClass_of_connectedComponentRestriction {
     c.CommutesWithEveryClass := by
   subst hf
   intro Z g _ q d
-  show BivariantCommute C G sY f g p q c d
+  change BivariantCommute C G sY f g p q c d
   intro T t _ k α
   set m := pullback.fst f t ≫ f
   set π := pullback.snd g m ≫ pullback.fst f t
@@ -862,7 +862,7 @@ theorem bivariantConnectedComponentRestriction_sum_bivariantCompositeOfInvertibl
   rw [map_sum, Finset.sum_apply, completedBivariantCompositeOfInvertible,
     completedBivariantComposite_apply]
   conv_rhs => rw [← hcw]
-  rw [map_sum, AddMonoidHom.finset_sum_apply, map_sum, DFinsupp.finset_sum_apply]
+  rw [map_sum, AddMonoidHom.finsetSum_apply, map_sum, DFinsupp.finsetSum_apply]
   refine Finset.sum_congr rfl fun p _ ↦ eq_of_heq ?_
   refine (bivariantConnectedComponentRestriction_copy_heq C sX sZ (f ≫ g) _ _ _ w).trans ?_
   rw [bivariantConnectedComponentRestriction_bivariantCompositeOfInvertible, hcs, hds]

@@ -122,9 +122,10 @@ theorem chartLocalRingToEtaleLocalRing_germ_open {x : GeometricPoint B S hS X}
   have hWsize : E.Contains W.toScheme := (Scheme.size_coe_opens_le _ W).trans_lt hV
   let W' : _root_.AlgebraicGeometry.SmallEtale E Y hV :=
     ⟨Over.mk (ObjectProperty.homMk W.ι : E.obj W.toScheme hWsize ⟶ E.obj Y hV), by
-      show Etale W.ι
+      change Etale W.ι
       infer_instance⟩
-  let n : (geometricPointFiber E Y hV g).Elementsᵒᵖ := op ((geometricPointFiber E Y hV g).elementsMk W' ⟨pt, hpt⟩)
+  let n : (geometricPointFiber E Y hV g).Elementsᵒᵖ :=
+    op ((geometricPointFiber E Y hV g).elementsMk W' ⟨pt, hpt⟩)
   let pW : W.toScheme := pt (closedPoint g.residueField)
   have hpW : W.ι pW = chartPoint B S hS X V :=
     (Scheme.Hom.comp_apply pt W.ι _).symm.trans
@@ -137,7 +138,7 @@ theorem chartLocalRingToEtaleLocalRing_germ_open {x : GeometricPoint B S hS X}
   refine Eq.trans ?_ (structureSheafStalkFromLocalRing_germ E Y hV g n
     ((chartScheme V.chart).presheaf.germ W (chartPoint B S hS X V) hw a) a'
     (germ_stalkMap_openTop_of_eq Y W pW (chartPoint B S hS X V) hpW hw a))
-  show e.val ((c.val.trans e.val.symm)
+  change e.val ((c.val.trans e.val.symm)
     (algebraMap _ T.strictHenselization
       ((chartScheme V.chart).presheaf.germ W (chartPoint B S hS X V) hw a))) = _
   rw [RingEquiv.trans_apply, e.val.apply_symm_apply]

@@ -118,10 +118,10 @@ lemma map_biprodLift_eq_zero {X Y Z : A} (a : X ⟶ Y) (b : X ⟶ Z) {m : ℕ}
     (F.functor m).map (biprod.lift a b) x = 0 := by
   have := F.additive m
   rw [biprod.lift_eq, Functor.map_add, Functor.map_comp, Functor.map_comp]
-  show ((F.functor m).map a ≫ (F.functor m).map biprod.inl).hom x +
+  change ((F.functor m).map a ≫ (F.functor m).map biprod.inl).hom x +
     ((F.functor m).map b ≫ (F.functor m).map biprod.inr).hom x = 0
   rw [ModuleCat.hom_comp, ModuleCat.hom_comp, LinearMap.comp_apply, LinearMap.comp_apply]
-  show (F.functor m).map biprod.inl ((F.functor m).map a x) +
+  change (F.functor m).map biprod.inl ((F.functor m).map a x) +
     (F.functor m).map biprod.inr ((F.functor m).map b x) = 0
   rw [ha, hb, map_zero, map_zero, add_zero]
 
@@ -190,10 +190,10 @@ lemma exists_mono_δ_eq_δ_eq (X : A) (x x' : (F.functor (n + 1)).obj X) :
     ElementwiseEffaceable.exists_mono (F := F) ((F.functor (n + 1)).map ι₁ x')
   have hι := shortExact_effSeq (ι₁ ≫ ι₂)
   obtain ⟨y, hy⟩ := exists_δ_eq hι x (by
-    show ((F.functor (n + 1)).map (ι₁ ≫ ι₂)) x = 0
+    change ((F.functor (n + 1)).map (ι₁ ≫ ι₂)) x = 0
     rw [Functor.map_comp, ConcreteCategory.comp_apply, hx, map_zero])
   obtain ⟨y', hy'⟩ := exists_δ_eq hι x' (by
-    show ((F.functor (n + 1)).map (ι₁ ≫ ι₂)) x' = 0
+    change ((F.functor (n + 1)).map (ι₁ ≫ ι₂)) x' = 0
     rw [Functor.map_comp, ConcreteCategory.comp_apply, hx'])
   exact ⟨I₂, ι₁ ≫ ι₂, inferInstance, y, y', hy, hy'⟩
 

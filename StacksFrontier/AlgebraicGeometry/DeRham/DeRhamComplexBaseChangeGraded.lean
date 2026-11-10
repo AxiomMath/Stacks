@@ -33,9 +33,11 @@ theorem toShHom_comp_toInverseImageBase :
 
 /-- The underived base change map `(g₀)^*ι_* ⟶ ι'_*(g')^*` of the square of structural
 morphisms. -/
-abbrev structuralBaseChange :=
-  (moduleBaseChangeSquare g'.toLRSHom.toShHom (toInverseImageBase f') (toInverseImageBase f)
-    (inverseImageBaseMap g' f' f g w) (toShHom_comp_toInverseImageBase g' f' f g w)).natTrans
+abbrev structuralBaseChange :
+    modulePushforward (toInverseImageBase f) ⋙ modulePullback (inverseImageBaseMap g' f' f g w) ⟶
+      modulePullback g'.toLRSHom.toShHom ⋙ modulePushforward (toInverseImageBase f') :=
+  moduleBaseChangeSquare g'.toLRSHom.toShHom (toInverseImageBase f') (toInverseImageBase f)
+    (inverseImageBaseMap g' f' f g w) (toShHom_comp_toInverseImageBase g' f' f g w)
 
 /-- The two identifications of the composite pushforwards of the square of structural
 morphisms agree. -/

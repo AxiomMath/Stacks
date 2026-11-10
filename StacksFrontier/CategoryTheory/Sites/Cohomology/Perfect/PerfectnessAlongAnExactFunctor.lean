@@ -23,7 +23,7 @@ degreewise, and — when `F` is itself exact — a perfect object of `D(O')` to 
 
 This is the perfectness counterpart of the pseudo-coherence transfer in
 `StacksFrontier/CategoryTheory/Sites/Cohomology/PseudoCoherent/`,
-file `StacksFrontier/CategoryTheory/Sites/Cohomology/PseudoCoherent/PseudoCoherenceAlongAnExactFunctor.lean`, and it exists for the same reason: the only
+file `PseudoCoherenceAlongAnExactFunctor.lean`, and it exists for the same reason: the only
 perfectness-preservation statement in this
 development, Stacks 08H6
 (`AlgebraicGeometry.RingedSite.Hom.isPerfect_derivedPullback`), is stated for an

@@ -104,7 +104,7 @@ theorem coinvariantsKer_le_comap_padicVecReduction (k : ℕ) :
   rw [Coinvariants.ker, Submodule.span_le]
   rintro _ ⟨⟨h, v⟩, rfl⟩
   rw [SetLike.mem_coe, Submodule.mem_comap]
-  show padicVecReduction k (matrixRepresentation ρ (h : Γ) v - v) ∈
+  change padicVecReduction k (matrixRepresentation ρ (h : Γ) v - v) ∈
     Coinvariants.ker ((levelRepresentation ρ k).comp H.subtype)
   rw [map_sub, padicVecReduction_matrixRepresentation]
   exact Coinvariants.sub_mem_ker (ρ := (levelRepresentation ρ k).comp H.subtype) h _
@@ -264,7 +264,7 @@ theorem range_rationalCoinvariantsGenerators :
         Function.comp_apply, Algebra.linearMap_apply, hv i, Algebra.smul_def]
       field_simp
     rw [hwv]
-    show matrixRepresentation (rationalGL ρ) (h : Γ)
+    change matrixRepresentation (rationalGL ρ) (h : Γ)
         ((algebraMap ℤ_[ℓ] ℚ_[ℓ] b)⁻¹ • padicVecInclusion v) -
       (algebraMap ℤ_[ℓ] ℚ_[ℓ] b)⁻¹ • padicVecInclusion v ∈ _
     rw [map_smul, ← smul_sub]
@@ -315,7 +315,7 @@ theorem integralCoinvariantsReduction_coinvariantsFrobenius (k : ℕ) (x : integ
     integralCoinvariantsReduction H ρ k (coinvariantsFrobenius H ρ φ x) =
       levelCoinvariantsFrobenius H ρ φ k (integralCoinvariantsReduction H ρ k x) := by
   obtain ⟨v, rfl⟩ := Coinvariants.mk_surjective _ x
-  show Coinvariants.mk _ (padicVecReduction k (matrixRepresentation ρ φ v)) =
+  change Coinvariants.mk _ (padicVecReduction k (matrixRepresentation ρ φ v)) =
     Coinvariants.mk _ (levelRepresentation ρ k φ (padicVecReduction k v))
   rw [padicVecReduction_matrixRepresentation]
 
@@ -324,7 +324,7 @@ theorem integralCoinvariantsRationalization_coinvariantsFrobenius (x : integralC
     integralCoinvariantsRationalization H ρ (coinvariantsFrobenius H ρ φ x) =
       coinvariantsFrobenius H (rationalGL ρ) φ (integralCoinvariantsRationalization H ρ x) := by
   obtain ⟨v, rfl⟩ := Coinvariants.mk_surjective _ x
-  show Coinvariants.mk _ (padicVecInclusion (matrixRepresentation ρ φ v)) =
+  change Coinvariants.mk _ (padicVecInclusion (matrixRepresentation ρ φ v)) =
     Coinvariants.mk _ (matrixRepresentation (rationalGL ρ) φ (padicVecInclusion v))
   rw [padicVecInclusion_matrixRepresentation]
 
@@ -357,7 +357,7 @@ theorem inv_mulVec_matrixRepresentation (g : Γ) (v : Fin r → ℚ_[ℓ]) :
 /-- **Conjugation by `P` identifies the coinvariants of `P⁻¹ τ P` with those of `τ`.** -/
 def rationalCoinvariantsConjEquiv :
     rationalCoinvariants H ρ ≃ₗ[ℚ_[ℓ]] Coinvariants ((matrixRepresentation τ).comp H.subtype) :=
-  LinearEquiv.ofLinear
+  LinearEquiv.ofLinearMap
     (Coinvariants.lift _ (Coinvariants.mk _ ∘ₗ Matrix.mulVecLin P.val)
       fun h => LinearMap.ext fun v => by
         change Coinvariants.mk _ (P.val *ᵥ matrixRepresentation (rationalGL ρ) h v) =
@@ -386,7 +386,7 @@ theorem rationalCoinvariantsConjEquiv_coinvariantsFrobenius (x : rationalCoinvar
     rationalCoinvariantsConjEquiv H τ P hP (coinvariantsFrobenius H (rationalGL ρ) φ x) =
       coinvariantsFrobenius H τ φ (rationalCoinvariantsConjEquiv H τ P hP x) := by
   obtain ⟨v, rfl⟩ := Coinvariants.mk_surjective _ x
-  show Coinvariants.mk _ (P.val *ᵥ matrixRepresentation (rationalGL ρ) φ v) =
+  change Coinvariants.mk _ (P.val *ᵥ matrixRepresentation (rationalGL ρ) φ v) =
     Coinvariants.mk _ (matrixRepresentation τ φ (P.val *ᵥ v))
   rw [mulVec_matrixRepresentation_rationalGL τ P hP]
 
@@ -533,7 +533,7 @@ theorem ker_padicQuotientTransition (n : ℕ) :
   · rw [Submodule.smul_le]
     intro a ha x _
     obtain ⟨y, rfl⟩ := Submodule.Quotient.mk_surjective _ x
-    show Submodule.Quotient.mk (a • y) ∈ _
+    change Submodule.Quotient.mk (a • y) ∈ _
     rw [LinearMap.mem_ker]
     exact (Submodule.Quotient.mk_eq_zero _).2 (Submodule.smul_mem_smul ha Submodule.mem_top)
 
@@ -548,7 +548,7 @@ theorem finite_padicQuotientTower_obj [Module.Finite ℤ_[ℓ] M] (n : ℕ) :
     rw [hI]
     exact Finite.of_equiv _ (RingHom.quotientKerEquivOfSurjective
       (ZMod.ringHom_surjective (PadicInt.toZModPow (p := ℓ) (n + 1)))).symm.toEquiv
-  show Finite (M ⧸ I • (⊤ : Submodule ℤ_[ℓ] M))
+  change Finite (M ⧸ I • (⊤ : Submodule ℤ_[ℓ] M))
   have : Module.Finite (ℤ_[ℓ] ⧸ I) (M ⧸ I • (⊤ : Submodule ℤ_[ℓ] M)) :=
     Module.Finite.of_restrictScalars_finite ℤ_[ℓ] _ _
   exact Module.finite_of_finite (ℤ_[ℓ] ⧸ I)
@@ -610,7 +610,7 @@ theorem exists_iso_padicQuotientTower_of_levels [Module.Finite ℤ_[ℓ] M] (ψ 
     let q := (LinearMap.quotKerEquivOfSurjective (tS n) (hsurj n)).symm.toLinearMap
     let g' := (LinearMap.ker (tS n)).liftQ g hker' ∘ₗ q
     have hg' : ∀ x, g' (tS n x) = tQ n (e.1 x) := fun x => by
-      show (LinearMap.ker (tS n)).liftQ g hker'
+      change (LinearMap.ker (tS n)).liftQ g hker'
         ((LinearMap.quotKerEquivOfSurjective (tS n) (hsurj n)).symm (tS n x)) = _
       have : (LinearMap.quotKerEquivOfSurjective (tS n) (hsurj n)).symm (tS n x) =
           Submodule.Quotient.mk x := by
@@ -637,8 +637,8 @@ theorem exists_iso_padicQuotientTower_of_levels [Module.Finite ℤ_[ℓ] M] (ψ 
         exact ⟨tS n x, hg' x⟩
     refine ⟨⟨LinearEquiv.ofBijective g' hbij, fun y => ?_⟩, hg'⟩
     obtain ⟨x, rfl⟩ := hsurj n y
-    show g' ((σ.app (Opposite.op n)).hom (tS n x)) = _
-    show _ = ((padicQuotientTowerMap ψ).app (Opposite.op n)).hom (g' (tS n x))
+    change g' ((σ.app (Opposite.op n)).hom (tS n x)) = _
+    change _ = ((padicQuotientTowerMap ψ).app (Opposite.op n)).hom (g' (tS n x))
     rw [← hσS, hg', hg', e.2, hψQ]
   choose res hres using hres
   let F : ℕᵒᵖ ⥤ Type v := Functor.ofOpSequence (C := Type v) (X := fun n => levelIsoSet M S σ ψ n)
@@ -647,7 +647,7 @@ theorem exists_iso_padicQuotientTower_of_levels [Module.Finite ℤ_[ℓ] M] (ψ 
     have := finite_padicQuotientTower_obj (M := M) j.unop
     obtain ⟨e₀⟩ := hlev j.unop
     have : Finite (S.obj (Opposite.op j.unop)) := Finite.of_equiv _ e₀.1.symm.toEquiv
-    show Finite (levelIsoSet M S σ ψ j.unop)
+    change Finite (levelIsoSet M S σ ψ j.unop)
     exact Finite.of_injective (fun e => (e.1 : S.obj (Opposite.op j.unop) →
       (padicQuotientTower M).obj (Opposite.op j.unop))) fun a b h =>
         Subtype.ext (LinearEquiv.coe_injective h)
@@ -794,9 +794,9 @@ theorem exists_extendScalars_limit_linearEquiv_coinvariants (S : ℕᵒᵖ ⥤ M
   have he : ∀ m : ((limit S : ModuleCat.{w} ℤ_[ℓ]) : Type w), e ((1 : ℚ_[ℓ]) ⊗ₜ[ℤ_[ℓ], f] m) =
       e₄ (integralCoinvariantsRationalization H ρ (ULift.down (I.hom.hom m))) := by
     intro m
-    show e₄ (e₃ (e₂ ((1 : ℚ_[ℓ]) ⊗ₜ[ℤ_[ℓ], f] I.hom.hom m))) = _
+    change e₄ (e₃ (e₂ ((1 : ℚ_[ℓ]) ⊗ₜ[ℤ_[ℓ], f] I.hom.hom m))) = _
     congr 1
-    show e₃ ((1 : ℚ_[ℓ]) ⊗ₜ ULift.down (I.hom.hom m)) = _
+    change e₃ ((1 : ℚ_[ℓ]) ⊗ₜ ULift.down (I.hom.hom m)) = _
     rw [IsBaseChange.equiv_tmul, one_smul]
   have hI : ∀ m : ((limit S : ModuleCat.{w} ℤ_[ℓ]) : Type w), I.hom.hom ((limMap σ).hom m) =
       (integralCoinvariantsModuleEnd H ρ φ c).hom (I.hom.hom m) := fun m =>
@@ -812,7 +812,7 @@ theorem exists_extendScalars_limit_linearEquiv_coinvariants (S : ℕᵒᵖ ⥤ M
       (f c • coinvariantsFrobenius H τ φ) ∘ₗ e.toLinearMap)
   have hαβ : α = β := by
     refine ModuleCat.ExtendScalars.hom_ext fun m => ?_
-    show ULift.up (e (((ModuleCat.extendScalars f).map (limMap σ)).hom
+    change ULift.up (e (((ModuleCat.extendScalars f).map (limMap σ)).hom
         ((1 : ℚ_[ℓ]) ⊗ₜ[ℤ_[ℓ], f] m))) =
       ULift.up (f c • coinvariantsFrobenius H τ φ (e ((1 : ℚ_[ℓ]) ⊗ₜ[ℤ_[ℓ], f] m)))
     congr 1

@@ -256,7 +256,7 @@ theorem openChart_openCover_mem
   let T := BigFppfOver.toScheme B S hS
   let e := D₀.gluedIso T
   have hX : B.Contains (T.obj D₀.glued) := by
-    show (T.obj D₀.glued).size < B.cutoff
+    change (T.obj D₀.glued).size < B.cutoff
     rw [Scheme.size_congr e]
     exact openChartGlueData_size_lt_cutoff B S hS hf hI μ hμ hcharts
   let Y : D₀.J → B.Schemes := fun i => (D₀.U i).left
@@ -268,7 +268,7 @@ theorem openChart_openCover_mem
     have : AlgebraicGeometry.IsOpenImmersion (T.map (D₀.ι i) ≫ e.hom) := by
       rw [hcomp i]
       exact Scheme.GlueData.ι_isOpenImmersion D i
-    show AlgebraicGeometry.IsOpenImmersion (T.map (D₀.ι i))
+    change AlgebraicGeometry.IsOpenImmersion (T.map (D₀.ι i))
     exact IsOpenImmersion.of_comp _ e.hom
   have hsurj' : ∀ x : B.inclusion.obj (B.obj hX),
       ∃ i y, (B.inclusion.map (g i)).base y = x := by
@@ -276,7 +276,7 @@ theorem openChart_openCover_mem
     obtain ⟨i, y, hy⟩ := D.ι_jointly_surjective (e.hom x)
     refine ⟨i, y, ?_⟩
     apply e.hom.isOpenEmbedding.injective
-    show (T.map (D₀.ι i) ≫ e.hom) y = e.hom x
+    change (T.map (D₀.ι i) ≫ e.hom) y = e.hom x
     rwa [hcomp i]
   rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
   exact open_cover_mem_bigFppf_topology B hX Y g hopen hsurj'
@@ -327,10 +327,10 @@ theorem isRepresentable_of_openCharts
     apply yonedaEquiv.injective
     dsimp only [η]
     rw [yonedaEquiv_comp, yonedaEquiv_yoneda_map]
-    show H.obj.map (D₀.ι i).op gluedSection = s i
+    change H.obj.map (D₀.ι i).op gluedSection = s i
     exact Multifork.IsLimit.sectionsEquiv_apply_val (E.isLimitMultifork H) sec i
   have hfactor : Sigma.desc (fun i => yoneda.map (ιX i)) ≫ η = Sigma.desc p :=
-    Sigma.hom_ext _ _ fun i => by simpa only [Sigma.ι_desc_assoc, Sigma.ι_desc] using hη i
+    Sigma.hom_ext _ _ fun i => by simpa only [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc] using hη i
   have _ : Presheaf.IsLocallySurjective J η :=
     Presheaf.isLocallySurjective_of_isLocallySurjective_fac J hfactor
   have hcompToGlued {V : C} {i j : I} (a : V ⟶ X i) (b : V ⟶ X j)
@@ -352,7 +352,7 @@ theorem isRepresentable_of_openCharts
     refine J.superset_covering ?_ (J.intersection_covering
       (J.pullback_stable α hcover) (J.pullback_stable β hcover))
     rintro W γ ⟨⟨W₁, a, _, ⟨i⟩, fac₁⟩, ⟨W₂, b, _, ⟨j⟩, fac₂⟩⟩
-    show γ ≫ α = γ ≫ β
+    change γ ≫ α = γ ≫ β
     have h' : yoneda.map a ≫ p i = yoneda.map b ≫ p j := by
       have hh : yoneda.map (γ ≫ α) ≫ η = yoneda.map (γ ≫ β) ≫ η := by
         simpa only [Functor.map_comp, Category.assoc] using

@@ -119,7 +119,7 @@ theorem isIndZariski_of_retraction (R : Type u) (S : Type v)
             (r.comp (ULift.algEquiv (R := R)).toAlgHom)) := by
         apply p.isColimit.hom_ext
         intro i; apply CommAlgCat.hom_ext; ext x
-        show algebraMap S s.pt (f i x) = algebraMap R s.pt (r (f i x))
+        change algebraMap S s.pt (f i x) = algebraMap R s.pt (r (f i x))
         calc
           _ = (s.ι.app i).hom (algebraMap S (D i) (f i x)) :=
             ((s.ι.app i).hom.commutes _).symm

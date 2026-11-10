@@ -56,6 +56,7 @@ section ProjectiveCurve
 variable (k : Type u) [Field k] [IsAlgClosed k] (X : Scheme.{u}) (f : X ⟶ Spec (.of k))
   [IsCurve k f] [IsProjectiveVariety k f] (n : ℕ)
 
+omit [IsAlgClosed k] in
 /-- The torsion `Pic⁰(X)[n]` is the image of the `n`-torsion under an additive isomorphism onto
 `Pic⁰(X)`. -/
 private lemma map_torsionBy_eq_curvePicardDegreeZeroTorsion {M : Type*} [AddCommGroup M]

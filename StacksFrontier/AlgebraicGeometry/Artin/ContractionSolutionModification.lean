@@ -72,12 +72,14 @@ local instance (priority := high) hasPullback_presheaf_ContractionSolutionModifi
     HasLimit (cospan f g) :=
   hasPullbacks_presheaf_ContractionSolutionModification.has_limit _
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullbacks` instance search for fppf sheaves of types on `BigFppfOver B S hS`
 /-- Pullbacks of fppf sheaves in `Type (u + 1)` on `BigFppfOver B S hS`: instance search for them
 times out under Lean v4.35.0. -/
 local instance (priority := high) hasPullbacks_sheaf_ContractionSolutionModification
     {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
     HasPullbacks (Sheaf (BigFppfOver.topology B S hS) (Type (u + 1))) := by
-  set_option synthInstance.maxHeartbeats 400000 in infer_instance
+  infer_instance
 
 local instance (priority := high) hasLimit_cospan_sheaf_ContractionSolutionModification
     {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
@@ -194,7 +196,7 @@ theorem tripleOfMor_xhat (hX : IsAlgebraicSpace B S hS X)
     have hx' : Space.HasImageIn B S hS (yoneda.obj V.obj) t.Z N
         ((yoneda.map x).app (op N) (𝟙 N)) := by
       simpa using hx
-    show _ = t.xhat.hom.app (op N) ((Space.completionSheafRestrict B S hS (yoneda.map x)
+    change _ = t.xhat.hom.app (op N) ((Space.completionSheafRestrict B S hS (yoneda.map x)
       (mapTriple c x t).Z t.Z (mapTriple_Z_eq_preimage c x t).subset).hom.app (op N)
         (FormalSpace.presheafSection B S hS (𝟙 N) hid))
     rw [FormalSpace.completionSheafRestrict_presheafSection B S hS _ _ _ _ _ hid hx']
@@ -205,13 +207,13 @@ theorem tripleOfMor_xhat (hX : IsAlgebraicSpace B S hS X)
     have h := congrArg (fun e => e.hom.app (op N') (FormalSpace.presheafSection B S hS
       (ξ.app (op N) x) hy)) (isoWhiskerLeft_completionSheafIsoWExt c α hX hft)
     refine h.trans ?_
-    show (completionToW c α).app (op N') ((Space.completionSheafIsoSubfunctor B S hS hX.isSheaf
+    change (completionToW c α).app (op N') ((Space.completionSheafIsoSubfunctor B S hS hX.isSheaf
       (contractedLocus c α)).hom.app (op N) (FormalSpace.presheafSection B S hS _ hy)) = _
     have hsub : (Space.completionSheafIsoSubfunctor B S hS hX.isSheaf
         (contractedLocus c α)).hom.app (op N) (FormalSpace.presheafSection B S hS _ hy) =
           ⟨ULift.up (ξ.app (op N) x), hy⟩ := by
       have hP := Space.isSheaf_completionSubfunctor B S hS hX.isSheaf (contractedLocus c α)
-      show (((BigFppfOver.topology B S hS).isoSheafify hP).hom ≫
+      change (((BigFppfOver.topology B S hS).isoSheafify hP).hom ≫
         ((BigFppfOver.topology B S hS).isoSheafify hP).inv).app (op N)
           ⟨ULift.up (ξ.app (op N) x), hy⟩ = _
       rw [Iso.hom_inv_id]
@@ -223,7 +225,7 @@ theorem tripleOfMor_xhat (hX : IsAlgebraicSpace B S hS X)
     rwa [Equiv.symm_apply_apply,
       show X.map φ.hom.op (yonedaEquiv ξ) = ξ.app (op N) x from map_yonedaEquiv ξ x] at h'
   rw [hL]
-  show _ = (completionSheafIsoWExt c α hX hft).hom.hom.app (op N)
+  change _ = (completionSheafIsoWExt c α hX hft).hom.hom.app (op N)
     ((Space.completionSheafRestrict B S hS ξ t.Z (contractedLocus c α) _).hom.app (op N)
       (FormalSpace.presheafSection B S hS x hx))
   rw [FormalSpace.completionSheafRestrict_presheafSection B S hS _ _ _ _ _ hx hy, hR]

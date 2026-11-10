@@ -138,7 +138,7 @@ theorem complementOfClosedPoints_eq_puncturedOpen [Unique I] :
     complementOfClosedPoints s hs =
       GlueingNearPoint.puncturedOpen (mem_closedPoints_iff.mp (hs default)) := by
   apply TopologicalSpace.Opens.ext
-  show ⋂ i, ({s i}ᶜ : Set S) = ({s default}ᶜ : Set S)
+  change ⋂ i, ({s i}ᶜ : Set S) = ({s default}ᶜ : Set S)
   refine Set.eq_of_subset_of_subset (Set.iInter_subset _ default) fun x hx => ?_
   refine Set.mem_iInter.mpr fun i => ?_
   obtain rfl := Unique.eq_default i

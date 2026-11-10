@@ -304,7 +304,7 @@ theorem exists_monic_range_eq_basicOpen {U : Scheme.{u}} [Nonempty U] (e : U ⟶
   have hU : PrimeSpectrum.basicOpen (C (leadingCoeff h)⁻¹) = ⊤ :=
     top_unique fun y _ hm => y.isPrime.ne_top (Ideal.eq_top_of_isUnit_mem _ hm hu)
   rw [hr]
-  show (PrimeSpectrum.zeroLocus {h})ᶜ =
+  change (PrimeSpectrum.zeroLocus {h})ᶜ =
     ((PrimeSpectrum.basicOpen (h * C (leadingCoeff h)⁻¹) : Set (PrimeSpectrum k[X])))
   rw [PrimeSpectrum.basicOpen_mul, hU, inf_top_eq, PrimeSpectrum.basicOpen_eq_zeroLocus_compl]
 
@@ -330,7 +330,7 @@ theorem exists_finite_etale_affineLine {U : Scheme.{u}} [Nonempty U] (e : U ⟶ 
     ← Spec.map_comp, ← Spec.map_comp, ← CommRingCat.ofHom_comp, ← CommRingCat.ofHom_comp]
   congr 3
   refine RingHom.ext fun a => ?_
-  show affineLineShift k p g (algebraMap k k[X] a) = _
+  change affineLineShift k p g (algebraMap k k[X] a) = _
   rw [AlgHom.commutes, RingHom.comp_apply, ← IsScalarTower.algebraMap_apply]
 
 variable (k)
@@ -340,7 +340,7 @@ theorem smoothOfRelativeDimension_specMap_polynomial :
     SmoothOfRelativeDimension 1 (Spec.map (CommRingCat.ofHom (algebraMap k k[X]))) := by
   rw [HasRingHomProperty.Spec_iff (P := @SmoothOfRelativeDimension 1)]
   refine RingHom.locally_of RingHom.isStandardSmoothOfRelativeDimension_respectsIso _ ?_
-  show (algebraMap k k[X]).IsStandardSmoothOfRelativeDimension 1
+  change (algebraMap k k[X]).IsStandardSmoothOfRelativeDimension 1
   rw [RingHom.isStandardSmoothOfRelativeDimension_algebraMap]
   exact isStandardSmoothOfRelativeDimension_polynomial k
 

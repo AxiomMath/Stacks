@@ -306,7 +306,7 @@ theorem range_morphismRestrict_base (i : Z ⟶ X) (W : X.Opens) :
     exact ⟨(i ⁻¹ᵁ W).ι z, (morphismRestrict_base_coe i W z).symm⟩
   · rintro ⟨z, hz⟩
     have hzW : z ∈ i ⁻¹ᵁ W := by
-      show i.base z ∈ W
+      change i.base z ∈ W
       rw [hz]
       exact w.2
     exact ⟨⟨z, hzW⟩, Subtype.ext ((morphismRestrict_base_coe i W ⟨z, hzW⟩).trans hz)⟩
@@ -631,10 +631,10 @@ theorem restrictSections_zero {M N : X.Modules} {O : X.Opens}
     (U : X.Opens) (h : U ≤ O) (m : Γ(M, U)) :
     restrictSections (0 : Scheme.Modules.restrict M O.ι ⟶ Scheme.Modules.restrict N O.ι)
       U h m = 0 := by
-  show N.presheaf.map _ (restrictHomApp (0 : Scheme.Modules.restrict M O.ι ⟶
+  change N.presheaf.map _ (restrictHomApp (0 : Scheme.Modules.restrict M O.ι ⟶
     Scheme.Modules.restrict N O.ι) (O.ι ⁻¹ᵁ U) _) = 0
   rw [restrictHomApp_apply]
-  show N.presheaf.map _ (Scheme.Modules.Hom.app (0 : Scheme.Modules.restrict M O.ι ⟶
+  change N.presheaf.map _ (Scheme.Modules.Hom.app (0 : Scheme.Modules.restrict M O.ι ⟶
     Scheme.Modules.restrict N O.ι) (O.ι ⁻¹ᵁ U) _) = 0
   rw [Scheme.Modules.Hom.zero_app]
   exact map_zero _
@@ -658,7 +658,7 @@ theorem srcIso_hom_app_subschemeFormPullback (i : Z ⟶ X) (π : X ⟶ S) (W : X
               (homOfLE (W.ι.image_preimage_le U)).op ω)) := by
   have hkU : ((i ∣_ W) ≫ W.ι) ⁻¹ᵁ U = ((i ⁻¹ᵁ W).ι ≫ i) ⁻¹ᵁ U := by rw [morphismRestrict_ι]
   have hV₀ : (i ⁻¹ᵁ W).ι ''ᵁ ((i ∣_ W) ⁻¹ᵁ (W.ι ⁻¹ᵁ U)) ≤ i ⁻¹ᵁ U := by
-    show (i ⁻¹ᵁ W).ι ''ᵁ (((i ∣_ W) ≫ W.ι) ⁻¹ᵁ U) ≤ i ⁻¹ᵁ U
+    change (i ⁻¹ᵁ W).ι ''ᵁ (((i ∣_ W) ≫ W.ι) ⁻¹ᵁ U) ≤ i ⁻¹ᵁ U
     rw [hkU]
     exact (i ⁻¹ᵁ W).ι.image_preimage_le (i ⁻¹ᵁ U)
   have hc2 : ((i ∣_ W) ≫ W.ι) ≫ π = ((i ∣_ W) ≫ (W.ι ≫ π)) ≫ 𝟙 S := by

@@ -184,8 +184,8 @@ public theorem isCompatible_indicator (n : ℤ) :
   dsimp only
   by_cases hij : deg i = deg j
   · by_cases hi : deg i = n
-    · rw [if_pos hi, if_pos (hij ▸ hi), map_one, map_one]
-    · rw [if_neg hi, if_neg (fun h => hi (hij.trans h)), map_zero, map_zero]
+    · rw [ite_eq_left hi, ite_eq_left (hij ▸ hi), map_one, map_one]
+    · rw [ite_eq_right hi, ite_eq_right (fun h => hi (hij.trans h)), map_zero, map_zero]
   · exact presheaf_eq_of_isEmpty (fun x (hx : x ∈ U i ⊓ U j) =>
       hdisj i j hij x (Opens.mem_inf.mp hx).1 (Opens.mem_inf.mp hx).2) _ _
 
@@ -227,8 +227,8 @@ public def indicatorIdempotents : LocallyFiniteIdempotents X where
   locallyFinite x := by
     obtain ⟨i, hi⟩ := exists_mem_of_iSup_eq_top U hU x
     refine ⟨U i, {deg i}, hi, fun n hn => ?_, ?_⟩
-    · rw [globalRes_indicator, if_neg (fun h => hn (Finset.mem_singleton.mpr h.symm))]
-    · rw [Finset.sum_singleton, globalRes_indicator, if_pos rfl]
+    · rw [globalRes_indicator, ite_eq_right (fun h => hn (Finset.mem_singleton.mpr h.symm))]
+    · rw [Finset.sum_singleton, globalRes_indicator, ite_eq_left rfl]
 
 /-- The indicator of degree `n` restricts to `1` on an open contained in a member of degree `n`,
 and to `0` on an open contained in a member of another degree. -/
@@ -334,11 +334,11 @@ public theorem hasInvertibleModuleDecomposition_of_hasLocalInvertibleDegree
       refine ⟨W, hxW, t, fun W' hW' => (ht W' hW').comp ?_⟩
       exact bijective_val_corner_of_eq_one
         ((indicatorIdempotents U hU deg hdisj).idem_res (deg i) W')
-        ((globalRes_indicator_of_le U hU deg hdisj (deg i) (hW'.trans hWU)).trans (if_pos rfl))
+        ((globalRes_indicator_of_le U hU deg hdisj (deg i) (hW'.trans hWU)).trans (ite_eq_left rfl))
     · refine ⟨U i, hi, 0, fun W' hW' => ⟨fun a b _ => LocallyFiniteIdempotents.Corner.ext _ ?_,
         fun y => ⟨0, ?_⟩⟩⟩
       · have h0 : globalRes ((indicatorIdempotents U hU deg hdisj).e n) W' = 0 :=
-          (globalRes_indicator_of_le U hU deg hdisj n hW').trans (if_neg hin)
+          (globalRes_indicator_of_le U hU deg hdisj n hW').trans (ite_eq_right hin)
         exact (LocallyFiniteIdempotents.corner_val_eq_zero _ h0 a).trans
           (LocallyFiniteIdempotents.corner_val_eq_zero _ h0 b).symm
       · exact @Subsingleton.elim _ (subsingleton_obj_of_isZero_restrict (hz i n (Ne.symm hin)) hW')

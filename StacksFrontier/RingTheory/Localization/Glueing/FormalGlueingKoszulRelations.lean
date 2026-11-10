@@ -205,7 +205,7 @@ public theorem range_firstRelationBoundaries_le_ker_cyclesToKernelHom
     simp [cycleToPresentedModuleHom, firstRelationBoundaries, Stacks.RelationsOfSequence.phi,
       Stacks.RelationsOfSequence.baseMap, Submodule.liftQ_apply, Fintype.linearCombination_apply,
       Finset.sum_smul, smul_smul]
-  show cycleToPresentedModuleHom f N (firstRelationBoundaries f N x) k.1 = 0
+  change cycleToPresentedModuleHom f N (firstRelationBoundaries f N x) k.1 = 0
   rw [h, k.property, zero_smul]
 
 /-- The canonical map `H₁(N, f) → Hom_R(K, N)` obtained by restricting a cycle to `K`. -/
@@ -255,7 +255,7 @@ private lemma idealProjection_surjective : Function.Surjective (idealProjection 
 private lemma idealProjection_ker :
     LinearMap.ker (idealProjection f) = Stacks.RelationsOfSequence.K f := by
   ext x
-  show idealProjection f x = 0 ↔ Stacks.RelationsOfSequence.phi f x = 0
+  change idealProjection f x = 0 ↔ Stacks.RelationsOfSequence.phi f x = 0
   exact ⟨congrArg Subtype.val, fun h ↦ Subtype.ext h⟩
 
 private lemma cycleToPresentedModuleHom_injective {N : Type v}
@@ -274,7 +274,7 @@ private lemma cycleToPresentedModuleHom_idealHom {N : Type v}
   apply LinearMap.ext
   intro q
   obtain ⟨a, rfl⟩ := Submodule.mkQ_surjective (Stacks.RelationsOfSequence.relSubmodule f) q
-  show Fintype.linearCombination R
+  change Fintype.linearCombination R
       (fun i ↦ g ⟨f i, Submodule.subset_span ⟨i, rfl⟩⟩) a =
     g (idealProjection f (Submodule.Quotient.mk a))
   rw [Fintype.linearCombination_apply]
@@ -312,10 +312,10 @@ private lemma firstRelationCyclesToKernelHom_exact {N : Type v}
           g.comp (idealProjection f) := cycleToPresentedModuleHom_idealHom f g
       _ = cycleToPresentedModuleHom f N x := hg
   · rintro ⟨g, rfl⟩
-    show firstRelationCyclesToKernelHom f N (idealHomToFirstRelationCycles f N g) = 0
+    change firstRelationCyclesToKernelHom f N (idealHomToFirstRelationCycles f N g) = 0
     apply LinearMap.ext
     intro k
-    show cycleToPresentedModuleHom f N (idealHomToFirstRelationCycles f N g) k.1 = 0
+    change cycleToPresentedModuleHom f N (idealHomToFirstRelationCycles f N g) k.1 = 0
     rw [cycleToPresentedModuleHom_idealHom]
     have hk : idealProjection f k.1 = 0 := Subtype.ext k.property
     simp [hk]
@@ -363,7 +363,7 @@ private lemma idealHomToExtOne_eq_zero_iff {N : Type v}
     idealHomToExtOne f N g = 0 ↔
       ∃ h : R →ₗ[R] N, h.comp (Stacks.RelationsOfSequence.idealI f).subtype = g := by
   let hS := liftedIdealShortExact.{u, v} f
-  show hS.extClass.comp
+  change hS.extClass.comp
     (CategoryTheory.Abelian.Ext.mk₀ (idealHomToLiftedIdealHom f N g)) rfl = 0 ↔ _
   constructor
   · intro hg
@@ -408,7 +408,7 @@ private lemma idealHomToFirstRelationHomology_eq_zero_iff {N : Type v}
     [AddCommGroup N] [Module R N] (g : Stacks.RelationsOfSequence.idealI f →ₗ[R] N) :
     idealHomToFirstRelationHomology f N g = 0 ↔
       ∃ h : R →ₗ[R] N, h.comp (Stacks.RelationsOfSequence.idealI f).subtype = g := by
-  show Submodule.Quotient.mk (idealHomToFirstRelationCycles f N g) = 0 ↔ _
+  change Submodule.Quotient.mk (idealHomToFirstRelationCycles f N g) = 0 ↔ _
   rw [Submodule.Quotient.mk_eq_zero]
   constructor
   · rintro ⟨x, hx⟩
@@ -420,7 +420,7 @@ private lemma idealHomToFirstRelationHomology_eq_zero_iff {N : Type v}
     refine ⟨h 1, ?_⟩
     apply Subtype.ext
     funext i
-    show f i • h 1 = h (f i)
+    change f i • h 1 = h (f i)
     rw [← map_smul, smul_eq_mul, mul_one]
 
 private lemma firstRelationHomologyToKernelHom_exact {N : Type v}

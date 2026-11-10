@@ -104,6 +104,7 @@ theorem chartLimit_hom_ext {T : AlgebraicSpaces B S hS} (m : Over i)
   ObjectProperty.hom_ext _ ((L.isPullback_stage m).hom_ext (congrArg (fun z => z.hom) h₁)
     (congrArg (fun z => z.hom) h₂))
 
+omit [IsCofiltered I] in
 /-- Morphisms into a stage of the system of base changes are determined by their two
 components. -/
 theorem stageBaseChange_hom_ext {R : AlgebraicSpaces B S hS}
@@ -118,6 +119,7 @@ theorem stageBaseChange_hom_ext {R : AlgebraicSpaces B S hS}
   ObjectProperty.hom_ext _ (pullback.hom_ext (congrArg (fun z => z.hom) h₁)
     (congrArg (fun z => z.hom) h₂))
 
+omit [IsCofiltered I] in
 /-- The projection `pairStageProj` from the base change of the kernel pair to the stage `j`,
 composed with the chart at `overStageComp l j`, is the first projection of the base change. -/
 theorem pairStageProj_comp_chartStageMap
@@ -148,6 +150,7 @@ theorem exists_lift_chartPair {T : AlgebraicSpaces B S hS}
     ObjectProperty.hom_ext _ (pullback.lift_fst _ _ _),
     ObjectProperty.hom_ext _ (pullback.lift_snd _ _ _)⟩
 
+omit [IsCofiltered I] in
 /-- Two morphisms into the chart of the limit over a common morphism to the limit lift to the base
 change of the limit along the kernel pair, through given factorizations `μ₁`, `μ₂`. -/
 theorem exists_lift_limitBaseChangeSpace_of_chartLimitMap
@@ -192,7 +195,7 @@ theorem exists_lift_limitBaseChangeSpace_of_chartLimitMap
       exact congrArg (· ≫ limitSpaceProjection B S hS D hL hD l.left) (ha.trans hb.symm))
   obtain ⟨y, hy₁, hy₂⟩ := exists_lift_limitBaseChangeSpace B S hS D hL hD C l t ρ
     (by
-      show t ≫ limitSpaceProjection B S hS D hL hD l.left =
+      change t ≫ limitSpaceProjection B S hS D hL hD l.left =
         ρ ≫ stageChartPairFst B S hS D hD C l ≫ chartStageMap B S hS D hD U₀ f₀ C l
       rw [← Category.assoc, hρ₁, hcm, ha])
   exact ⟨y, ρ, hρ₁, hρ₂, hy₁, hy₂,

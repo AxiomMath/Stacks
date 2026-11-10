@@ -266,7 +266,7 @@ theorem bijective_toAddMonoid_of_basis {S N ι : Type*} [CommRing S] [AddCommGro
     | zero => simp
     | of i a =>
       rw [DirectSum.toAddMonoid_of, hL]
-      simp only [M, DirectSum.map_of, AddEquiv.toAddMonoidHom_eq_coe, AddMonoidHom.coe_coe]
+      simp only [M, DirectSum.map_of, AddEquiv.toAddMonoidHom_eq_coe, AddMonoidHom.coe_ofClass]
       rw [← DirectSum.lof_eq_of S, finsuppLEquivDirectSum_symm_lof, Module.Basis.repr_symm_single]
     | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add, map_add]
   have hfun : (DirectSum.toAddMonoid L : (⨁ _ : ι, A) → B) =
@@ -394,7 +394,7 @@ theorem isIso_sigmaDesc_scalarExtensionLeg {J : Type (u + 1)}
       | of j x =>
         rw [DirectSum.toAddMonoid_of]
         have h := congrArg (fun m => m.hom.app (op U))
-          (Sigma.ι_desc (fun j => scalarExtensionLeg k k' f (e j)) j)
+          (Sigma.ι_comp_desc (fun j => scalarExtensionLeg k k' f (e j)) j)
         simp only [ObjectProperty.FullSubcategory.comp_hom, NatTrans.comp_app] at h
         exact (ConcreteCategory.congr_hom h x).trans (DirectSum.toAddMonoid_of
           (fun j => ((scalarExtensionLeg k k' f (e j)).hom.app (op U)).hom) j x).symm
@@ -468,7 +468,7 @@ theorem additiveCohomologyRestriction_scalarExtension_coefficientUniverse
         (additiveCohomologyRestriction.{u, 0, u + 1} π q x) := by
     intro j x
     simp only [Θ, T]
-    rw [DirectSum.toAddMonoid_of, ← Sheaf.H.map_comp_apply, Sigma.ι_desc]
+    rw [DirectSum.toAddMonoid_of, ← Sheaf.H.map_comp_apply, Sigma.ι_comp_desc]
     exact etaleCohomologyDirectImageEdge_sheafH_map_additiveDirectImageComparison π _ q x
   have hΘadd : ∀ a b, Θ (a + b) = Θ a + Θ b := fun a b => by
     simp only [Θ, map_add]

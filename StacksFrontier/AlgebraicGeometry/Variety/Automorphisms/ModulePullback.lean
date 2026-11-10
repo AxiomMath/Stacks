@@ -99,7 +99,7 @@ private theorem isIso_fromTildeΓ_of_field
       Module.subsingleton (Γ(Spec (.of field), ⊥)) _
     let : Subsingleton Γ(tilde ((moduleSpecΓFunctor (R := .of field)).obj moduleSheaf), ⊥) :=
       Module.subsingleton (Γ(Spec (.of field), ⊥)) _
-    show IsIso ((modulesSpecToSheaf.map moduleSheaf.fromTildeΓ).hom.app (Opposite.op ⊥))
+    change IsIso ((modulesSpecToSheaf.map moduleSheaf.fromTildeΓ).hom.app (Opposite.op ⊥))
     let : Subsingleton ((modulesSpecToSheaf.obj moduleSheaf).obj.obj (Opposite.op ⊥)) :=
       inferInstanceAs (Subsingleton Γ(moduleSheaf, ⊥))
     let : Subsingleton Γ(tilde (R := CommRingCat.of field)
@@ -123,7 +123,7 @@ private theorem isIso_fromTildeΓ_of_field
             ((modulesSpecToSheaf.obj moduleSheaf).presheaf.obj (Opposite.op ⊤)) ⊤) :=
       IsIso.eq_inv_of_hom_inv_id
         (comparison.trans ((modulesSpecToSheaf.obj moduleSheaf).obj.map_id _))
-    show IsIso ((modulesSpecToSheaf.map moduleSheaf.fromTildeΓ).hom.app (Opposite.op ⊤))
+    change IsIso ((modulesSpecToSheaf.map moduleSheaf.fromTildeΓ).hom.app (Opposite.op ⊤))
     rw [hcomparison]
     infer_instance
 

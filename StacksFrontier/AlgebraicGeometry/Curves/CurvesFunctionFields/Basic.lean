@@ -56,11 +56,11 @@ private lemma topologicalKrullDim_eq_one_of_irreducible_nontrivial
   let T : IrreducibleCloseds s :=
     ⟨Set.univ, IrreducibleSpace.isIrreducible_univ s, isClosed_univ⟩
   have hηnotD : η' ∉ (D : Set s) := by
-    show η' ∉ closure ({z'} : Set s)
+    change η' ∉ closure ({z'} : Set s)
     rw [closure_subtype, Set.image_singleton]
     exact fun h ↦ hzn ((specializes_iff_mem_closure.mpr h).antisymm (hgeneric.specializes hz)).eq
   refine le_antisymm hupper ?_
-  show 1 ≤ Order.krullDim (IrreducibleCloseds s)
+  change 1 ≤ Order.krullDim (IrreducibleCloseds s)
   exact Order.one_le_krullDim_iff.mpr
     ⟨D, T, lt_iff_le_not_ge.mpr ⟨Set.subset_univ _, fun h ↦ hηnotD (h (Set.mem_univ _))⟩⟩
 

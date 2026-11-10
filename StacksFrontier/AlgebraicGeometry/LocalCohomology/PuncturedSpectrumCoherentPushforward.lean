@@ -101,7 +101,7 @@ private theorem isAssociatedPrimeStacks_maximalIdeal_of_ringEquiv {A B : Type*} 
   ext b
   obtain ⟨a, rfl⟩ := e.surjective b
   rw [Submodule.mem_colon_span_singleton, Submodule.mem_bot]
-  show e a * e m = 0 ↔ _
+  change e a * e m = 0 ↔ _
   rw [← map_mul, map_eq_zero_iff e e.injective]
   have hmul : a * m = 0 ↔ a ∈ maximalIdeal A := by
     rw [← hm, Submodule.mem_colon_span_singleton, Submodule.mem_bot]

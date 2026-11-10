@@ -193,7 +193,7 @@ lemma isTorsionFree_extensionByZeroUnitAb (U : E) (V : Eᵒᵖ) :
     Module.IsTorsionFree ℤ ((extensionByZeroUnitAb.{u + 1} L U).obj.obj V) :=
   ModuleSheafCohomology.isTorsionFree_sheafify L
     (uliftYoneda.{u + 1}.obj U ⋙ AddCommGrpCat.free) (fun W => by
-      show Module.IsTorsionFree ℤ (FreeAbelianGroup (ULift.{u + 1} (W.unop ⟶ U)))
+      change Module.IsTorsionFree ℤ (FreeAbelianGroup (ULift.{u + 1} (W.unop ⟶ U)))
       exact Module.Flat.isTorsionFree) V
 
 /-- The constant sheaf `ℤ` is sectionwise torsion free: it is the sheafification of the constant
@@ -202,7 +202,7 @@ lemma isTorsionFree_constantIntegerSheaf (V : Eᵒᵖ) :
     Module.IsTorsionFree ℤ ((constantIntegerSheaf.{u + 1} L).obj.obj V) :=
   ModuleSheafCohomology.isTorsionFree_sheafify L
     ((Functor.const Eᵒᵖ).obj (AddCommGrpCat.of (ULift.{u + 1} ℤ))) (fun W => by
-      show Module.IsTorsionFree ℤ (ULift.{u + 1} ℤ)
+      change Module.IsTorsionFree ℤ (ULift.{u + 1} ℤ)
       exact Module.Flat.isTorsionFree) V
 
 end TorsionFree

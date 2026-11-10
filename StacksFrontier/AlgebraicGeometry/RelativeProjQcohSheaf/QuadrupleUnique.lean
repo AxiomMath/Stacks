@@ -259,11 +259,11 @@ theorem eq_trans_of_witness {P Q R : Quadruple f A d}
     (hψ'' : ∀ n : ℤ, P.twisting.app n ≫ γ''.hom.app n = R.twisting.app n) :
     β ≪≫ δ = ε := by
   refine (strictlyEquivalent_witness_unique (β := β ≪≫ δ) (γ := γ ≪≫ γ') ?_ ?_ h3 hψ'').1
-  · show γ.hom.app 1 ≫ γ'.hom.app 1 = (pieceOneIso (β ≪≫ δ)).hom
+  · change γ.hom.app 1 ≫ γ'.hom.app 1 = (pieceOneIso (β ≪≫ δ)).hom
     rw [h1, h2]
     simp
   · intro n
-    show P.twisting.app n ≫ γ.hom.app n ≫ γ'.hom.app n = R.twisting.app n
+    change P.twisting.app n ≫ γ.hom.app n ≫ γ'.hom.app n = R.twisting.app n
     rw [← Category.assoc, hψ n, hψ' n]
 
 end Quadruple

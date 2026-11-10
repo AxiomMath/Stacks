@@ -816,7 +816,7 @@ theorem mem_smul_top_of_coord_mem_mul
       Submodule.smul_mem_smul hr Submodule.mem_top, ?_⟩
     rw [Submodule.subtype_apply]
     funext i
-    simp [mul_comm]
+    simp
   have hmem := hle h
   rw [Submodule.mem_comap] at hmem
   have hcoord : toPiOne ((v : Fin 1 → MvPowerSeries (Fin 4) ℂ) 0) =
@@ -1101,8 +1101,7 @@ theorem injective_rTensor_kerPairPresentation :
   have hgen : ∀ ξ : ↥(LinearMap.ker kerPairPresentation) ⊗[MvPowerSeries (Fin 4) ℂ]
       (MvPowerSeries (Fin 4) ℂ ⧸ unionOfPlanes), ∃ n, ξ = pairSyzygy ⊗ₜ n := by
     intro ξ
-    induction ξ using TensorProduct.induction_on with
-    | zero => exact ⟨0, by rw [TensorProduct.tmul_zero]⟩
+    induction ξ using TensorProduct.inductionOn with
     | tmul v n =>
       obtain ⟨c, rfl⟩ := exists_smul_pairSyzygy v
       exact ⟨c • n, by rw [TensorProduct.smul_tmul]⟩

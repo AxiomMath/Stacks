@@ -123,7 +123,7 @@ theorem toComponentRule_cycle_genericPointOf (W : X.IdealSheafData)
     (hW : IsIntegral W.subscheme)
     (hDim : schemeDeltaDimension C (W.subschemeι ≫ p) = ((k + 1 : ℤ) : EInt)) :
     R.toComponentRule.cycle (genericPointOf W hW) = (R.cycle W hW hDim).1 := by
-  show R.totalize (integralComponentAt (genericPointOf W hW)) = _
+  change R.totalize (integralComponentAt (genericPointOf W hW)) = _
   rw [integralComponentAt_genericPointOf W hW, R.totalize_eq W hW hDim]
 
 /-- The homomorphism `Z_{k+1}(X) → Z_k(Y)` extending a rule on integral components

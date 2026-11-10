@@ -69,7 +69,7 @@ theorem appTop_map_comp_stageRingHom {J K : WeakIdeals Bt} (f : J ⟶ K) :
       ((BigAffineFppf.inclusion B S hS).map (DB.diagram.map f))).appTop.hom).comp
         (stageRingHom DB K) = stageRingHom DB J := by
   ext b
-  show (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor (leOfHom f)))).appTop
+  change (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor (leOfHom f)))).appTop
       ((Scheme.ΓSpecIso _).inv (Ideal.Quotient.mk _ b)) =
     (Scheme.ΓSpecIso _).inv (Ideal.Quotient.mk _ b)
   exact (congrArg (fun φ => φ.hom (Ideal.Quotient.mk _ b))
@@ -116,7 +116,7 @@ theorem existsUnique_sheafifiedULiftMap {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Ty
     · rintro rfl
       apply H.map_injective
       rw [H.map_preimage]
-      show (sheafifiedULiftIso B S hS X hX).hom ≫ (sheafifiedULiftMap B S hS t).hom ≫
+      change (sheafifiedULiftIso B S hS X hX).hom ≫ (sheafifiedULiftMap B S hS t).hom ≫
         (sheafifiedULiftIso B S hS Y hY).inv = Functor.whiskerRight t uliftFunctor.{u + 1}
       rw [← Category.assoc, ← whiskerRight_comp_sheafifiedULiftIso_hom B S hS hX hY t,
         Category.assoc, Iso.hom_inv_id, Category.comp_id]

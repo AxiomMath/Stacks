@@ -74,17 +74,17 @@ theorem sum_twistedCount_eq_card_mul {k : Type u} [Field k] [Finite k] {B : Type
   set xB : B := algebraMap k[X] B X
   let : Algebra E[X] B := (Polynomial.aeval xB : E[X] →ₐ[E] B).toRingHom.toAlgebra
   have : IsScalarTower E E[X] B := IsScalarTower.of_algebraMap_eq fun c => by
-    show algebraMap E B c = Polynomial.aeval xB (Polynomial.C c)
+    change algebraMap E B c = Polynomial.aeval xB (Polynomial.C c)
     rw [Polynomial.aeval_C]
   have hcompX : (algebraMap E[X] B).comp (Polynomial.mapRingHom (algebraMap k E)) =
       algebraMap k[X] B := by
     refine Polynomial.ringHom_ext (fun c => ?_) ?_
     · rw [RingHom.comp_apply, Polynomial.coe_mapRingHom, Polynomial.map_C]
-      show Polynomial.aeval xB (Polynomial.C (algebraMap k E c)) = _
+      change Polynomial.aeval xB (Polynomial.C (algebraMap k E c)) = _
       rw [Polynomial.aeval_C, ← IsScalarTower.algebraMap_apply,
         IsScalarTower.algebraMap_apply k k[X] B, Polynomial.algebraMap_eq]
     · rw [RingHom.comp_apply, Polynomial.coe_mapRingHom, Polynomial.map_X]
-      show Polynomial.aeval xB Polynomial.X = xB
+      change Polynomial.aeval xB Polynomial.X = xB
       rw [Polynomial.aeval_X]
   have hcomp : ∀ r : k[X], algebraMap E[X] B (Polynomial.map (algebraMap k E) r) =
       algebraMap k[X] B r := fun r => congrArg (fun F : k[X] →+* B => F r) hcompX
@@ -106,7 +106,7 @@ theorem sum_twistedCount_eq_card_mul {k : Type u} [Field k] [Finite k] {B : Type
   refine sum_twistedCount_eq pr n hn hQE FiniteField.pow_card
     (fun b hb => exists_algebraMap_eq_of_pow_eq b hb) hinjE
     (fun g => by
-      show g • Polynomial.aeval xB (Polynomial.X : E[X]) = Polynomial.aeval xB Polynomial.X
+      change g • Polynomial.aeval xB (Polynomial.X : E[X]) = Polynomial.aeval xB Polynomial.X
       rw [Polynomial.aeval_X]
       exact smul_algebraMap g (Polynomial.X : k[X])) (fun φ φ' hfix hagree => ?_)
   have hagree' : φ.comp (algebraMap k[X] B) = φ'.comp (algebraMap k[X] B) :=
@@ -222,7 +222,7 @@ private theorem iterate_toRingEquiv_eq {G B : Type*} [Group G] [Finite G] [Semir
     [MulSemiringAction G B] (σ : G) (b : B) :
     (⇑(MulSemiringAction.toRingEquiv G B σ))^[Nat.card G] b = b := by
   have h : (⇑(MulSemiringAction.toRingEquiv G B σ))^[Nat.card G] b = (σ ^ Nat.card G) • b := by
-    show (fun b : B => σ • b)^[Nat.card G] b = _
+    change (fun b : B => σ • b)^[Nat.card G] b = _
     rw [smul_iterate]
   rw [h, pow_card_eq_one', one_smul]
 
@@ -335,7 +335,7 @@ theorem exists_lower_bound_of_isSeparable {k : Type u} [Field k] [Fintype k] (pr
   let : Algebra k L := ((algebraMap F₀ L).comp (algebraMap k F₀)).toAlgebra
   have : IsScalarTower k F₀ L := IsScalarTower.of_algebraMap_eq fun _ => rfl
   have : IsScalarTower k k[X] L := IsScalarTower.of_algebraMap_eq fun c => by
-    show algebraMap F₀ L (algebraMap k F₀ c) = algebraMap F₀ L (algebraMap k[X] F₀ _)
+    change algebraMap F₀ L (algebraMap k F₀ c) = algebraMap F₀ L (algebraMap k[X] F₀ _)
     rw [← IsScalarTower.algebraMap_apply k k[X] F₀]
   -- the Galois group and the integral closure `B`
   set G := L ≃ₐ[F₀] L
@@ -350,7 +350,7 @@ theorem exists_lower_bound_of_isSeparable {k : Type u} [Field k] [Fintype k] (pr
   have : IsScalarTower k k[X] B := IsScalarTower.of_algebraMap_eq fun _ => rfl
   have : Algebra.FiniteType k B := Algebra.FiniteType.trans (S := k[X]) inferInstance inferInstance
   have : IsScalarTower k B L := IsScalarTower.of_algebraMap_eq fun c => by
-    show algebraMap k L c = algebraMap k[X] L (algebraMap k k[X] c)
+    change algebraMap k L c = algebraMap k[X] L (algebraMap k k[X] c)
     rw [← IsScalarTower.algebraMap_apply]
   have htrL : Algebra.trdeg k L = 1 := by
     have h := trdeg_add_eq k F₀ (A := L)
@@ -401,18 +401,18 @@ theorem exists_lower_bound_of_isSeparable {k : Type u} [Field k] [Fintype k] (pr
   let : Algebra BH B := ((algebraMap K L).comp (algebraMap BH K)).codRestrict B.toSubring
     hBHL |>.toAlgebra
   have : IsScalarTower k[X] BH B := IsScalarTower.of_algebraMap_eq fun r => Subtype.ext (by
-    show algebraMap k[X] L r = algebraMap K L (algebraMap k[X] K r)
+    change algebraMap k[X] L r = algebraMap K L (algebraMap k[X] K r)
     rw [← IsScalarTower.algebraMap_apply])
   have : IsScalarTower k BH B := IsScalarTower.of_algebraMap_eq fun c => Subtype.ext (by
     have h1 : ((algebraMap k B c : B) : L) = algebraMap k L c :=
       (IsScalarTower.algebraMap_apply k B L c).symm
     rw [h1]
-    show algebraMap k L c = algebraMap K L (algebraMap BH K (algebraMap k BH c))
+    change algebraMap k L c = algebraMap K L (algebraMap BH K (algebraMap k BH c))
     rw [← IsScalarTower.algebraMap_apply k BH K, ← IsScalarTower.algebraMap_apply])
   have hH : ∀ h ∈ H, ∀ c : BH, h • algebraMap BH B c = algebraMap BH B c := by
     intro h hh c
     refine Subtype.ext ?_
-    show h (algebraMap K L c) = algebraMap K L c
+    change h (algebraMap K L c) = algebraMap K L c
     exact (IntermediateField.mem_fixingSubgroup_iff K' h).1 hh _ ⟨c, rfl⟩
   have hinv : ∀ b : B, (∀ h ∈ H, h • b = b) → ∃ c : BH, algebraMap BH B c = b := by
     intro b hb

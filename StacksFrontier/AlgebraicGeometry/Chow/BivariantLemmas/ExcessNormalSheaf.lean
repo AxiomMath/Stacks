@@ -300,7 +300,7 @@ def VirtualNormalBundle.excessProjection : N.bundle ⟶ N.excessNormalSheaf :=
 theorem VirtualNormalBundle.excessInclusion_comp_excessProjection :
     N.excessInclusion ≫ N.excessProjection = 0 := by
   have := isIso_toDoubleDual_of_isFiniteLocallyFree N.bundle N.isFiniteLocallyFree
-  show dualMap N.conormalSurjection ≫ inv (toDoubleDual N.bundle) ≫ toDoubleDual N.bundle ≫
+  change dualMap N.conormalSurjection ≫ inv (toDoubleDual N.bundle) ≫ toDoubleDual N.bundle ≫
     dualMap (kernel.ι N.conormalSurjection) = 0
   rw [IsIso.inv_hom_id_assoc, ← dualMap_comp, kernel.condition]
   exact dualMap_zero
@@ -345,7 +345,7 @@ theorem VirtualNormalBundle.dualMap_excessInclusion_comp_surjection (hi : IsRegu
       ⟨⟨dualMap (inv (toDoubleDual N.bundle)), by rw [← dualMap_comp, IsIso.inv_hom_id,
         dualMap_id], h2⟩⟩
     exact (cancel_mono (dualMap (toDoubleDual N.bundle))).mp (h2.trans h1.symm)
-  show _ = N.conormalSurjection
+  change _ = N.conormalSurjection
   rw [VirtualNormalBundle.excessInclusion, dualMap_comp, hdual,
     VirtualNormalBundle.ofIsRegularImmersion_surjection, regularNormalSurjection]
   have hnat := toDoubleDual_naturality N.conormalSurjection

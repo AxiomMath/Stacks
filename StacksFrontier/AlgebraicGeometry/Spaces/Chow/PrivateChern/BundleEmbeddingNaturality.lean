@@ -136,7 +136,7 @@ theorem symmetricSituationPullbackHom_symUnitalHom_pullbackSection
     (Scheme.Modules.pullbackSection g ((Scheme.Modules.symmetricAlgebra X E).piece n) W W' h a))
     (symmetricSituationPullbackHom_comp_symUnitalHom g q q' cE cF hc)
   refine key.trans ?_
-  show ((Stacks.RelativeProj.symmetricSituationPullbackHom g F F' cF).app n).val.app (op W')
+  change ((Stacks.RelativeProj.symmetricSituationPullbackHom g F F' cF).app n).val.app (op W')
       (((Scheme.Modules.pullback g).map ((symUnitalHom q).app n)).val.app (op W')
         (Scheme.Modules.pullbackSection g ((Scheme.Modules.symmetricAlgebra X E).piece n) W W' h
           a)) = _
@@ -163,7 +163,7 @@ theorem sectionHom_comp_baseChangeGradedHom
   induction x using DirectSum.induction_on with
   | zero => exact (map_zero _).trans (map_zero _).symm
   | of n a =>
-    show ((Stacks.SymGraded.schemeSheafGradedAlgebraHom q' hqcE' hqcF').sectionHom W'.toOpens)
+    change ((Stacks.SymGraded.schemeSheafGradedAlgebraHom q' hqcE' hqcF').sectionHom W'.toOpens)
         (Stacks.ProjectiveBundle.baseChangeGradedHom g E hqcE E' hqcE' cE W W' h
           (DirectSum.of _ n a)) =
       Stacks.ProjectiveBundle.baseChangeGradedHom g F hqcF F' hqcF' cF W W' h

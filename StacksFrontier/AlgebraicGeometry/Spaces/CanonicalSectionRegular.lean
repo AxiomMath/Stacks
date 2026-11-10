@@ -251,7 +251,7 @@ theorem toSheafify_comp_unitTensorHom :
         (modulePresheaf B S hS X (SheafOfModules.unit (structureRingSheaf B S hS X)) ⊗
           modulePresheaf B S hS X (idealSheafOfModules B S hS X D)) ≫
       (unitTensorHom B S hS X D).val = (unitTensorPresheafIso B S hS X D).hom := by
-  show ((sheafifyAdjunction (structureCommRings B S hS X)
+  change ((sheafifyAdjunction (structureCommRings B S hS X)
     (structureRingSheaf B S hS X).property).homEquiv _ _) (unitTensorHom B S hS X D) = _
   exact ((sheafifyAdjunction (structureCommRings B S hS X)
     (structureRingSheaf B S hS X).property).homEquiv _ _).apply_symm_apply _

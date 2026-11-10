@@ -232,7 +232,7 @@ theorem smoothOfRelativeDimension_one_of_topologicalKrullDim_eq_one (k : Type u)
     (hdim : topologicalKrullDim X = ((1 : ℕ) : WithBot ℕ∞)) :
     SmoothOfRelativeDimension 1 f := by
   have : Subsingleton (Spec (CommRingCat.of k)) := by
-    show Subsingleton (PrimeSpectrum k); infer_instance
+    change Subsingleton (PrimeSpectrum k); infer_instance
   have : IrreducibleSpace X := GeometricallyIrreducible.irreducibleSpace_of_subsingleton f
   have hrel : RelativeDimension f 1 :=
     relativeDimension_one_of_equidimensional k f

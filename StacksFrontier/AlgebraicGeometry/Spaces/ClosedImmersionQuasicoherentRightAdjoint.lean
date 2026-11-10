@@ -70,7 +70,8 @@ hypothesis is discharged by
 sheaf of the small étale ringed site is a sheaf of commutative rings, and
 `AlgebraicGeometry.Space.structureRingSheaf` only forgets that.
 
-Stacks 04CK is formalized as a statement about `CategoryTheory.Subobject`, while the annihilator is a
+Stacks 04CK is formalized as a statement about `CategoryTheory.Subobject`,
+while the annihilator is a
 `SheafOfModules.Submodule`; the two are joined by `CategoryTheory.Subobject.mk` of the inclusion
 and `CategoryTheory.Subobject.underlyingIso`, and
 `AlgebraicGeometry.Space.exists_largest_annihilated_quasicoherentSubobject` is stated with a plain

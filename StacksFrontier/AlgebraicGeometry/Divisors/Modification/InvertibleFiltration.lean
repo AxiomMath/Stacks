@@ -91,7 +91,7 @@ theorem isModification_imageι_comp {X P : Scheme.{u}} [IsIntegral X] (p : P ⟶
   have : IsReduced s.image := inferInstance
   have : IrreducibleSpace s.image := by
     refine (irreducibleSpace_def _).mpr ?_
-    show IsIrreducible (Set.univ : Set s.image)
+    change IsIrreducible (Set.univ : Set s.image)
     rw [← s.toImage.denseRange.closure_range]
     simpa only [Set.image_univ] using
       ((IrreducibleSpace.isIrreducible_univ U.toScheme).image

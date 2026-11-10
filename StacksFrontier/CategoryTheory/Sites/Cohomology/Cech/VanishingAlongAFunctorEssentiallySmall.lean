@@ -107,7 +107,7 @@ private lemma cechComplexFunctor_preservesFiniteLimitsAux
     ⟨fun J _ _ ↦ by
       apply HomologicalComplex.preservesLimitsOfShape_of_eval
       intro n
-      show PreservesLimitsOfShape J ((evaluation SimplexCategory A).obj (SimplexCategory.mk n))
+      change PreservesLimitsOfShape J ((evaluation SimplexCategory A).obj (SimplexCategory.mk n))
       infer_instance⟩
   unfold cechComplexFunctor FormalCoproduct.cochainComplexFunctor
     FormalCoproduct.cosimplicialObjectFunctor
@@ -236,7 +236,7 @@ theorem subsingleton_ext_of_cechCohomology_isZero
           let : Epi ((SC.map (HomologicalComplex.eval _ _ m)).g) := by
             let W := fun i : Fin (m + 1) → E.1.I₀ =>
               (∏ᶜ fun a ↦ Over.mk (E.1.f (i a))).left
-            show Epi (Limits.Pi.map fun i : Fin (m + 1) → E.1.I₀ =>
+            change Epi (Limits.Pi.map fun i : Fin (m + 1) → E.1.I₀ =>
               ((sheafToPresheaf J (AddCommGrpCat.{max a u v w})).map S.g).app (op (W i)))
             exact @epi_piMapAux.{max a u v w, w} _ _ _
               (fun _ ↦ AddCommGrpCat.hasLimitsOfSize.{w, max a u v w, w}.has_limits_of_shape _) _

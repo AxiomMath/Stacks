@@ -57,7 +57,7 @@ theorem isConstructibleEtaleModule_extensionByZero {G : EtaleModules.{u, r} Λ U
     (hG : IsBigSiteConstructibleEtaleModule B U Λ G) :
     IsBigSiteConstructibleEtaleModule B X Λ
       ((etaleModuleExtensionByZero.{u, r} Λ (B.inclusion.map j)).obj G) := by
-  have hjc := isConstructible_range_of_compactSpace B (Z := Z) j i hij
+  have hjc := isConstructible_range_of_compactSpace B j
   refine isConstructibleModuleSheaf_of_constructible_immersion_cover B X Λ _ (I := Bool)
     (fun b => match b with | true => U | false => Z)
     (fun b => match b with | true => j | false => i) ?_ ?_ ?_ ?_
@@ -67,7 +67,7 @@ theorem isConstructibleEtaleModule_extensionByZero {G : EtaleModules.{u, r} Λ U
     · exact inferInstanceAs (IsImmersion (B.inclusion.map j))
   · intro b
     cases b
-    · show Topology.IsConstructible (Set.range (B.inclusion.map i).base)
+    · change Topology.IsConstructible (Set.range (B.inclusion.map i).base)
       rw [← compl_compl (Set.range (B.inclusion.map i).base), ← hij]
       exact hjc.compl
     · exact hjc

@@ -745,8 +745,7 @@ public theorem span_range_toBaseChange_eq_top (B₁ : AdicFiniteTypeAlgebra.{u�
     Submodule.span A₂ (Set.range (toBaseChange (A₂ := A₂) B₁)) with hM
   have key : ∀ s : baseChangedAlgebra (A₂ := A₂) B₁, s ∈ M := by
     intro s
-    induction s using TensorProduct.induction_on with
-    | zero => exact M.zero_mem
+    induction s using TensorProduct.inductionOn with
     | tmul b a =>
         have h : (b ⊗ₜ[A₁] a : baseChangedAlgebra (A₂ := A₂) B₁) =
             a • (toBaseChange (A₂ := A₂) B₁ b) := by

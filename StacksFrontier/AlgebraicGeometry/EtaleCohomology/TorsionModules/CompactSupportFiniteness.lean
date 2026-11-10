@@ -18,7 +18,8 @@ This is the consequence of Stacks 0GL0 for `X ⟶ Spec k`: the cohomology sheave
 constructible on `Spec k`, and `H^q_c(X, F)` is `H^q(RΓ(Spec k, Rf_! F))`, which is assembled from
 the finite modules `H^p(Spec k, G)` of constructible sheaves `G` on `Spec k` (Stacks 0GKR for
 `Spec k` itself) by the dévissage of Stacks 015J. Stacks 0GL0 is used over the Nagata scheme
-`Spec k` (`Stacks.EtaleCohomology.isConstructibleEtaleModule_homology_derivedLowerShriek_plus_of_isNagataScheme`),
+`Spec k` (in namespace `Stacks.EtaleCohomology`,
+`isConstructibleEtaleModule_homology_derivedLowerShriek_plus_of_isNagataScheme`),
 and Stacks 0GKV enters through it as the hypothesis `h0GKV`.
 
 ## Main results
@@ -104,7 +105,8 @@ theorem module_finite_compactlySupportedCohomologyGroup_zmod {k : Type u} [Field
       ringKrullDim_eq_zero_of_isField (Field.toIsField k)]
     exact zero_le_one
   have hF0 : ∀ M : EtaleModules.{u, 0} Λ K.obj, IsBigSiteConstructibleEtaleModule B K Λ M → ∀ p : ℕ,
-      Module.Finite Λ (((etaleModuleGlobalSections.{u, 0} Λ (Spec (.of k))).rightDerived p).obj M) :=
+      Module.Finite Λ
+        (((etaleModuleGlobalSections.{u, 0} Λ (Spec (.of k))).rightDerived p).obj M) :=
     fun M hM p => by
     let j₀ := CompactificationOf.ofProper (𝟙 (Spec (.of k)))
     have h := module_finite_compactlySupportedCohomologyGroup B K (𝟙 (Spec (.of k))) hdim0 j₀ Λ M
@@ -115,7 +117,8 @@ theorem module_finite_compactlySupportedCohomologyGroup_zmod {k : Type u} [Field
   have := isWeakSerreClass_isBigSiteConstructibleEtaleModule B K Λ
   have := (etaleModuleGlobalSections.{u, 0} Λ
     (Spec (.of k))).derivedCategoryBPlus_rightDerivedFunctorPlus_obj
-      (IsBigSiteConstructibleEtaleModule B K Λ) (AlgebraicGeometry.DeRhamTypeComplex.moduleFinite Λ) hF0 L hL
+      (IsBigSiteConstructibleEtaleModule B K Λ) (AlgebraicGeometry.DeRhamTypeComplex.moduleFinite Λ)
+      hF0 L hL
   exact this.2 q
 
 end TorsionModules

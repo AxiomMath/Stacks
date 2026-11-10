@@ -107,7 +107,7 @@ theorem nonempty_derivedSheafHomExactSupport_restrict_iso
   let resZ := moduleRestriction S.Z (preimageOpen S.i U)
   have hJ' := isKInjective_moduleRestriction_mapHomologicalComplex S.X U J
   have hs' : QuasiIso ((resX.mapHomologicalComplex (ComplexShape.up ℤ)).map s) := inferInstance
-  let e := asIso (S.sheafHomExactSupportRestrictComparison U).natTrans
+  let e := asIso (S.sheafHomExactSupportRestrictComparison U)
   have : (S.restrict U).sheafHomExactSupport.Additive :=
     (S.restrict U).modulePushforwardSheafHomExactSupportAdjunction.right_adjoint_additive
   refine ⟨resZ.mapDerivedCategory.mapIso

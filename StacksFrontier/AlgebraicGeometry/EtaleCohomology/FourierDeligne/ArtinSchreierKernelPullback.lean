@@ -61,7 +61,7 @@ theorem nonempty_etaleModuleInverseImage_artinSchreierLevelSheaf_iso
   have h1 : artinSchreierCharacter k A' (φ g) ψ y p₀' σ =
       artinSchreierCharacter k A g ψ (y.map f.hom) p₀ (etaleFundamentalGroupMap f.hom y σ) :=
     congrArg (fun χ => χ σ) hχ
-  show ((artinSchreierCharacter k A g ψ (y.map f.hom) p₀
+  change ((artinSchreierCharacter k A g ψ (y.map f.hom) p₀
       (etaleFundamentalGroupMap f.hom y σ) : Λˣ) : Λ) • v =
     ((artinSchreierCharacter k A' (φ g) ψ y p₀' σ : Λˣ) : Λ) • v
   rw [h1]

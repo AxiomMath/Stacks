@@ -182,7 +182,7 @@ theorem isLocallyQuasicoherentWithSheafFlatBaseChange_of_affine_presented
               (B.inclusion.map (𝒳.val.val.p.map g').left) := hopen
           infer_instance) (V i).property
       refine ⟨⟨i, ⟨⟨y', hy'⟩, ObjectProperty.homMk g'⟩, haff⟩, s'', ?_⟩
-      show (BigFppfOver.toScheme B S hS).map (𝒳.val.val.p.map (g' ≫ (fV i).hom)) s'' = t
+      change (BigFppfOver.toScheme B S hS).map (𝒳.val.val.p.map (g' ≫ (fV i).hom)) s'' = t
       rw [Functor.map_comp, Functor.map_comp, Scheme.Hom.comp_apply, hs'', ← hs]
       simp only [s', Functor.map_comp, Scheme.Hom.comp_apply]
       rfl)

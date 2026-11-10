@@ -46,8 +46,8 @@ consumed are the inverse images in `X` of the ideal sheaves of `V(K)`, the **joi
 `StacksFrontier/AlgebraicGeometry/Scheme/SubschemeIdealJoin.lean`, and those are not powers of any
 ideal sheaf of `X` (`Stacks.IdealSheafData.pow_map_le_map_pow`). This file carries that
 replacement for the proper-annihilator statement, exactly as
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/SubschemeDevissage.lean` carries it
-for the essential-image statement of [Stacks, Tag 088C].
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/SubschemeDevissage.lean` carries
+it for the essential-image statement of [Stacks, Tag 088C].
 
 **After the replacement the side condition is trivial.** On `V(K)` the system is killed by `⊥` and
 the clause reads `∀ e, ⊥ < ⊥ ⊔ 𝒦₀ ᵉ⁺¹`, i.e. `𝒦₀ ᵉ⁺¹ ≠ ⊥`, which is
@@ -264,7 +264,7 @@ public theorem hasProperSupport_of_pushforward_of_isClosedImmersion {Z X S : Sch
   have hsub : (⟨_root_.SheafOfModules.supp N, _root_.SheafOfModules.isClosed_supp N⟩ :
       Closeds Z) ≤ W.preimage i.continuous := by
     intro z hz
-    show i.base z ∈ (W : Set X)
+    change i.base z ∈ (W : Set X)
     rw [hWeq, AlgebraicGeometry.supp_pushforward_of_isClosedImmersion i N]
     exact ⟨z, hz, rfl⟩
   refine isProperOver_of_le (i ≫ g) hsub ?_

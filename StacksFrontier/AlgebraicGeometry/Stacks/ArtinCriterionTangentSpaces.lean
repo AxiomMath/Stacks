@@ -70,7 +70,7 @@ theorem hasFiniteDimensionalTangentSpaces_of_isFiniteDimensionalDeformationCateg
     hbase ▸ hqc
   obtain ⟨hp, hfin, -⟩ := h k Λ iΛ x₀ hx hlft' hqc'
   have : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
-  have : Fact (Deformation.SchlessingerConditionS2 (CategoryOfElements.π
+  have : Fact (Deformation.SchlessingerConditionS2 (Functor.Elements.π
       (Deformation.isomorphismClasses 𝓕 hD.predeformation.cofibered))) := ⟨hS2⟩
   have : FiniteDimensional k (Deformation.tangentSpaceArtinian.{u, u, u} Λ k
       (Deformation.isomorphismClasses 𝓕 hD.predeformation.cofibered)) := hfin

@@ -50,16 +50,16 @@ invertible, if the back mate is invertible at `ΦC c` then the image under `ΦF`
 at `c` is invertible. No hypothesis is made on `ΦF`: this is the form needed when the front mate
 is detected by a jointly conservative family of functors `ΦF`, one cube for each. -/
 public theorem isIso_map_mateEquiv_symm_app_of_isIso
-    [IsIso τ₁.natTrans] [IsIso τ₂.natTrans] [IsIso σG] [IsIso σH]
+    [IsIso τ₁] [IsIso τ₂] [IsIso σG] [IsIso σH]
     (h : ((mateEquiv adj₁ adj₁' τ₁ ≫ᵥ β').whiskerRight σG).whiskerLeft σH =
       β ≫ᵥ mateEquiv adj₂ adj₂' τ₂) (c : C)
-    [IsIso (((mateEquiv adj₁' adj₂').symm β').natTrans.app (ΦC.obj c))] :
-    IsIso (ΦF.map (((mateEquiv adj₁ adj₂).symm β).natTrans.app c)) := by
+    [IsIso (((mateEquiv adj₁' adj₂').symm β').app (ΦC.obj c))] :
+    IsIso (ΦF.map (((mateEquiv adj₁ adj₂).symm β).app c)) := by
   have e := mateEquiv_symm_hComp_eq_app adj₁ adj₂ adj₁' adj₂' τ₁ τ₂ σG σH β β' h c
-  have : IsIso (τ₂.natTrans.app (G.obj c) ≫
-      ΦF.map (((mateEquiv adj₁ adj₂).symm β).natTrans.app c)) := by
+  have : IsIso (τ₂.app (G.obj c) ≫
+      ΦF.map (((mateEquiv adj₁ adj₂).symm β).app c)) := by
     rw [e]; infer_instance
-  exact IsIso.of_isIso_comp_left (τ₂.natTrans.app (G.obj c)) _
+  exact IsIso.of_isIso_comp_left (τ₂.app (G.obj c)) _
 
 end Cube
 

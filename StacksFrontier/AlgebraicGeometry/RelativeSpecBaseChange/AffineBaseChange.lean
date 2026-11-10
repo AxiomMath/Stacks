@@ -338,11 +338,11 @@ public theorem isIso_baseChangeAlgebraHom_of_isAffine : IsIso (baseChangeAlgebra
     (isPushout_pushforwardBaseChangeMap h X).inr_desc _ _ _
   refine ⟨Under.homMk (baseChangeAlgebraInv h X) hr, Under.UnderMorphism.ext ?_,
     Under.UnderMorphism.ext ?_⟩
-  · show (baseChangeAlgebraHom h X).right ≫ baseChangeAlgebraInv h X = 𝟙 _
+  · change (baseChangeAlgebraHom h X).right ≫ baseChangeAlgebraInv h X = 𝟙 _
     refine (algebraPullback_isPushout h (pushforwardAlgebra X.hom)).hom_ext ?_ ?_
     · exact comp_comp_eq_comp_id _ _ _ (algebraPullbackMap_comp_baseChangeAlgebraHom h X) hl
     · exact comp_comp_eq_comp_id _ _ _ (Under.w (baseChangeAlgebraHom h X)) hr
-  · show baseChangeAlgebraInv h X ≫ (baseChangeAlgebraHom h X).right = 𝟙 _
+  · change baseChangeAlgebraInv h X ≫ (baseChangeAlgebraHom h X).right = 𝟙 _
     refine (isPushout_pushforwardBaseChangeMap h X).hom_ext ?_ ?_
     · exact comp_comp_eq_comp_id _ _ _ hl (algebraPullbackMap_comp_baseChangeAlgebraHom h X)
     · exact comp_comp_eq_comp_id _ _ _ hr (Under.w (baseChangeAlgebraHom h X))

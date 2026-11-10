@@ -47,7 +47,7 @@ namespace Deformation.Artin.SquareZeroTower
 site. -/
 public theorem contains_spec_pi (B : BigFppfSite.{u}) {R : ℕ → Type u} [∀ n, CommRing (R n)]
     (hR : ∀ n, B.Contains (Spec (.of (R n)))) : B.Contains (Spec (.of (∀ n, R n))) := by
-  show (Spec (CommRingCat.of (∀ n, R n))).size < B.cutoff
+  change (Spec (CommRingCat.of (∀ n, R n))).size < B.cutoff
   have hlt : ∀ n, max Cardinal.aleph0 (Cardinal.mk (R n)) < B.cutoff := fun n => by
     have h : (Spec (CommRingCat.of (R n))).size < B.cutoff := hR n
     rwa [Scheme.size_Spec] at h
@@ -123,7 +123,7 @@ public theorem contains_sameBase : B.Contains (Spec (.of (sameBase f))) :=
 
 /-- The map from `R` to `R̃`, `r ↦ (β₀ r, β₁ r, …)`. -/
 public def sameBaseBase : Λ.ring →+* sameBase f :=
-  (Pi.ringHom β).codRestrict (sameBase f) fun l n => by
+  (RingHom.pi β).codRestrict (sameBase f) fun l n => by
     change toBase f n (β n l) = β 0 l
     rw [← RingHom.comp_apply, toBase_comp_eq f Λ β hβ hβ0 n, hβ0]
 
@@ -280,7 +280,7 @@ public theorem productIncl_smul (d : sameBase f) (m : kernelProduct f hf hsq) :
     productIncl f hf hsq (base f d • m) = d * productIncl f hf hsq m := by
   let := kernelModule f hf hsq
   refine Subtype.ext (funext fun n => ?_)
-  show (component f hf hsq (base f d • m) n : R n) = proj f n d * component f hf hsq m n
+  change (component f hf hsq (base f d • m) n : R n) = proj f n d * component f hf hsq m n
   have h := Stacks.Smooth.kerModule_smul (toBase_surjective f hf n) (hsq n)
     (proj f n d) (component f hf hsq m n)
   rw [proj_apply, d.2 n] at h

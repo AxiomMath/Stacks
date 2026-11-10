@@ -100,7 +100,7 @@ def rankBaseOpen (ρ : ℕ) : S.Opens :=
 /-- A point lies in `rankBaseOpen f E ρ` iff every point over it lies in the rank-`ρ` locus. -/
 theorem mem_rankBaseOpen_iff {ρ : ℕ} {s : S} :
     s ∈ rankBaseOpen f E ρ ↔ ∀ x : X, f x = s → x ∈ rankStratum E ρ := by
-  show s ∉ f '' (rankStratum E ρ : Set X)ᶜ ↔ _
+  change s ∉ f '' (rankStratum E ρ : Set X)ᶜ ↔ _
   simp only [Set.mem_image, Set.mem_compl_iff, SetLike.mem_coe, not_exists, not_and]
   exact ⟨fun h x hx ↦ by_contra fun hx' ↦ h x hx' hx, fun h x hx' hx ↦ hx' (h x hx)⟩
 

@@ -83,7 +83,7 @@ namespace Stacks.Sites
 
 
 variable {C : Type u₁} [Category.{v₁} C] {J : GrothendieckTopology C}
-  [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] {O : Sheaf J CommRingCat.{u}}
+  {O : Sheaf J CommRingCat.{u}}
 
 /-- The ideal of sections of a sheaf of ideals over an object of the site, as an ideal of the
 ring of sections of the sheaf of rings over which the modules are taken.
@@ -94,7 +94,6 @@ def ringSectionIdeal (I : IdealSubsheaf O) (X : Cᵒᵖ) :
     Ideal ((Stacks.SheafOfModules.Tensor.ringSheaf O).obj.obj X) :=
   I.obj X
 
-omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- Membership in the ideal of sections is membership in the sheaf of ideals. -/
 theorem mem_ringSectionIdeal {I : IdealSubsheaf O} {X : Cᵒᵖ}
     {a : (Stacks.SheafOfModules.Tensor.ringSheaf O).obj.obj X} :

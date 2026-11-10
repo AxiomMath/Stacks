@@ -23,7 +23,7 @@ base-change clause of Stacks 0FBK and of Stacks 0FV7 in `A^*(Z ⟶ X)^∧`.
   counterpart of Stacks 0FV7: `res(c(Z ⟶ X, 𝒩)) = c_top(ℰ) ∘ c(Z' ⟶ X', 𝒩')`.
 
 The counterpart of the base-change clause of Stacks 0FBK, for a cartesian square of immersions, is
-`completedBivariantTransport_completedBivariantRestriction_completedVirtualNormalGysinClassOfOpen`
+`completedBivariantTransport_completedBivariantRestriction_completedVirtualNormalGysinClass`
 (in the namespace `Stacks.Chow`): the restriction of `c(Z ⟶ X, 𝒩)` along `X' ⟶ X` is
 `c(Z' ⟶ X', g^*𝒩)`.
 
@@ -145,7 +145,7 @@ theorem completedVirtualNormalGysinClassOfOpen_cap_baseChange (V : X'.Opens)
   have hrange : Set.range i₂.base ⊆ Set.range (f ⁻¹ᵁ U).ι.base := by
     rintro _ ⟨z, rfl⟩
     rw [Scheme.Opens.range_ι]
-    show (i₂ ≫ f).base z ∈ U
+    change (i₂ ≫ f).base z ∈ U
     rw [sq.w, ← hU]
     exact ((g' ≫ i').base z).2
   let iW : Z' ⟶ (f ⁻¹ᵁ U).toScheme := IsOpenImmersion.lift (f ⁻¹ᵁ U).ι i₂ hrange
@@ -169,6 +169,7 @@ theorem completedVirtualNormalGysinClassOfOpen_cap_baseChange (V : X'.Opens)
       sZ' hi₂ 𝒩 iW hW sqW hiW' n (pullback.fst (f ⁻¹ᵁ U).ι t) k,
     chowGroupCongr_chowGroupRestrict,
     BivariantClass.cap_preimageTest C sZ sX i hi U i' hU f rfl _ t k α] at hL
+  case hv' => simp [pullback.condition_assoc]
   refine eq_of_heq (hL.trans ?_)
   -- the right side: through `U ×_X T`
   subst hU
@@ -176,6 +177,7 @@ theorem completedVirtualNormalGysinClassOfOpen_cap_baseChange (V : X'.Opens)
       (t ≫ f) k _),
     chowGroupRestrict_chowGroupCongr, chowPushforwardOfIso_comp_apply,
     chowPushforwardOfIso_comp_apply, chowPushforwardOfIso_comp_apply]
+  on_goal 2 => simp [pullback.condition_assoc]
   refine (chowPushforwardOfIso_congrHom_heq hW t (by simp) (k - n) _).symm.trans (heq_of_eq ?_)
   rw [chowPushforwardOfIso_comp_apply]
   refine chowPushforwardOfIso_congr_apply C _ _ _ _ ?_ _ _ _ _
@@ -184,7 +186,6 @@ theorem completedVirtualNormalGysinClassOfOpen_cap_baseChange (V : X'.Opens)
   refine pullback.hom_ext ?_ ?_
   · simp [pullback.congrHom]
   · simp [pullback.congrHom]
-  · simp [pullback.condition_assoc]
 
 /-- **The counterpart for immersions of the base-change clause of Stacks 0FBK, at arbitrary
 rank.** For a cartesian square `Z' = Z ×_X X'` of immersions with `f : X' ⟶ X` locally of finite
@@ -196,7 +197,7 @@ operations agree by `Stacks.Chow.completedVirtualNormalGysinClassOfOpen_cap_base
 @[stacks 0FBQ "(3), counterparts: the counterpart of the base-change clause of Lemma 0FBK, the \
 restriction of c(Z → X, 𝒩) ∈ A^*(Z → X)^∧ along X' → X is c(Z' → X', g^*𝒩), for a cartesian \
 square of immersions and 𝒩 of arbitrary rank"]
-theorem completedBivariantTransport_completedBivariantRestriction_completedVirtualNormalGysinClassOfOpen
+theorem completedBivariantTransport_completedBivariantRestriction_completedVirtualNormalGysinClass
     (V : X'.Opens) (iV : Z' ⟶ V.toScheme) [IsClosedImmersion iV] (hV : iV ≫ V.ι = i₂) :
     haveI : IsLocallyNoetherian Z := LocallyOfFiniteType.isLocallyNoetherian sZ
     haveI : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian sX
@@ -233,7 +234,7 @@ theorem completedBivariantTransport_completedBivariantRestriction_completedVirtu
     chowPushforwardOfIso_comp_apply]
   refine chowPushforwardOfIso_congr_apply C _ _ _ _ ?_ _ _ _ _
   rw [← cancel_mono ((IsPullback.of_hasPullback i₂ t).paste_horiz sq.flip).isoPullback.hom]
-  simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id]
+  simp only [Category.assoc, Iso.inv_hom_id]
   refine pullback.hom_ext ?_ ?_
   · simp
   · simp

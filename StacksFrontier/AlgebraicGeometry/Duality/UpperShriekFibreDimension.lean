@@ -71,7 +71,8 @@ concentration under a uniform fibre-dimension bound is
 `Dualizing.isZero_homology_upperShriekFunctor_unit_of_notMem_Icc`, both of
 `StacksFrontier.RingTheory.Dualizing.UpperShriek.FibreDimensionBoundUpper`, and the Tor-amplitude
 clause is `Dualizing.upperShriekFunctor_hasTorAmplitude_of_fiber_dimension_le` of
-`StacksFrontier.RingTheory.Dualizing.UpperShriek.RelativeDualizingTorAmplitude`.  Those are consumed by the flat
+`StacksFrontier.RingTheory.Dualizing.UpperShriek.RelativeDualizingTorAmplitude`.
+Those are consumed by the flat
 refinement in `StacksFrontier/AlgebraicGeometry/Duality/UpperShriekFibreDimensionFlat.lean`, not
 here.
 

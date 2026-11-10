@@ -132,7 +132,7 @@ private lemma maximalWeaklyEtale_bot_of_fieldEquivSubalgebra
       map_add' _ _ := rfl
       commutes' r := Subtype.ext (IsScalarTower.algebraMap_apply k R A r).symm }
   intro x hx
-  show (x : A) ∈ Set.range (algebraMap R A)
+  change (x : A) ∈ Set.range (algebraMap R A)
   exact ⟨e ⟨x, hBmax Ck (Algebra.WeaklyEtale.of_algEquiv k hweakC eC) hx⟩, hmap _⟩
 
 /-- If every weakly étale `R`-subalgebra of the nontrivial `R`-algebra `A` is `⊥`, then for
@@ -166,14 +166,14 @@ private lemma idempotent_eq_zero_or_one_after_field_baseChange
         ring
       commutes' := by
         intro r
-        show algebraMap E (E ⊗[R] A) r * e +
+        change algebraMap E (E ⊗[R] A) r * e +
           algebraMap E (E ⊗[R] A) r * (1 - e) = algebraMap E (E ⊗[R] A) r
         ring }
   have hu : Algebra.WeaklyEtale E u.range :=
     (structure_of_weaklyEtale_over_field E (Fin 2 → E) inferInstance).2.2.2.2.1.2 _
       ⟨u.rangeRestrict, u.rangeRestrict_surjective⟩
   have heRange : e ∈ u.range := ⟨![1, 0], by
-    show u ![1, 0] = e
+    change u ![1, 0] = e
     simp [u, ← Algebra.TensorProduct.one_def]
   ⟩
   obtain ⟨y, hy⟩ := baseMax.2.2 u.range hu ⟨e, heRange⟩
@@ -189,6 +189,7 @@ private lemma idempotent_eq_zero_or_one_after_field_baseChange
     exact .inr (by simpa [f] using hy.symm)
 
 /-- The `k`-algebra structure on `Γ(X, ⊤)` induced by the morphism `f : X ⟶ Spec k`. -/
+@[instance_reducible]
 private noncomputable def structureMapAlgebra
     {k : Type u} [Field k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) :
     Algebra k Γ(X, ⊤) :=
@@ -227,7 +228,7 @@ private lemma structureMap_factors_through_subalgebra
   apply congrArg (fun q : Spec Γ(X, ⊤) ⟶ Spec Γ(Spec (.of k), ⊤) => X.toSpecΓ ≫ q)
   apply congrArg Spec.map
   apply CommRingCat.hom_ext
-  show (B.val.toRingHom.comp (algebraMap k B)).comp
+  change (B.val.toRingHom.comp (algebraMap k B)).comp
       (Scheme.ΓSpecIso (.of k)).hom.hom = (f.appTop).hom
   calc
     (B.val.toRingHom.comp (algebraMap k B)).comp (Scheme.ΓSpecIso (.of k)).hom.hom =
@@ -304,9 +305,9 @@ private lemma connectedSpace_of_no_idempotents_globalSections
     intro i
     rw [map_mul, he i]
     cases i
-    · show (1 : Γ(X, U)) * 1 = 1
+    · change (1 : Γ(X, U)) * 1 = 1
       simp
-    · show (0 : Γ(X, V)) * 0 = 0
+    · change (0 : Γ(X, V)) * 0 = 0
       simp
   rcases hidem e he_sq with hzero | hone
   · have : Nontrivial Γ(X, W false) :=
@@ -458,7 +459,7 @@ theorem image_connectedComponent_baseChange
     let Y := I.subscheme
     let i := I.subschemeι
     have hi : Set.range i.base = C := by
-      show Set.range I.subschemeι.base = C
+      change Set.range I.subschemeι.base = C
       rw [Scheme.IdealSheafData.range_subschemeι,
         Scheme.IdealSheafData.coe_support_vanishingIdeal]
       rfl
@@ -479,7 +480,7 @@ theorem image_connectedComponent_baseChange
       simp
     obtain ⟨xY, hxY⟩ : x ∈ Set.range mY.base := by
       rw [hmYrange]
-      show p.base x ∈ Set.range i.base
+      change p.base x ∈ Set.range i.base
       rwa [hi]
     have : IsReduced Y :=
       Scheme.IdealSheafData.isReduced_subscheme_vanishingIdeal
@@ -515,7 +516,7 @@ theorem image_connectedComponent_baseChange
     have : GeometricallyConnected q := inferInstance
     let Z := pullback q l
     have : ConnectedSpace Z := by
-      show ConnectedSpace (q.fiber s)
+      change ConnectedSpace (q.fiber s)
       infer_instance
     have hxFiber : xAlt ∈ Set.range (pullback.fst q l).base := by
       rw [Scheme.Pullback.range_fst, Scheme.range_fromSpecResidueField]
@@ -546,7 +547,7 @@ theorem image_connectedComponent_baseChange
     have hzImage : m.base z ∈ connectedComponent x :=
       hconnected.subset_connectedComponent hxRange ⟨z, rfl⟩
     have hmYfst : mY ≫ pullback.fst f gK = pullback.fst fY gK ≫ i := by
-      show pullback.lift (pullback.fst fY gK ≫ i)
+      change pullback.lift (pullback.fst fY gK ≫ i)
         (pullback.snd fY gK ≫ 𝟙 _) _ ≫ pullback.fst f gK = _
       rw [pullback.lift_fst]
     have heBasefst : eBase.hom ≫ pullback.fst fY gK = pullback.fst fB rB := by

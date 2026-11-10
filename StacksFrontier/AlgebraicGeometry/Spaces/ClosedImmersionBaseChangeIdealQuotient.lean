@@ -194,7 +194,7 @@ theorem annihilatedByKerIdeal_idealQuotient_of_isPullback
   let : Module ((structureRingSheaf B S hS X).obj.obj U)
       ((idealQuotient (targetScalars B S hS π) M (siteMapKer B S hS ι ^ 1)).val.obj U) :=
     ((idealQuotient (targetScalars B S hS π) M (siteMapKer B S hS ι ^ 1)).val.obj U).isModule
-  show (idealQuotient (targetScalars B S hS π) M (siteMapKer B S hS ι ^ 1)).val.map g.op
+  change (idealQuotient (targetScalars B S hS π) M (siteMapKer B S hS ι ^ 1)).val.map g.op
       (r • y) =
     (idealQuotient (targetScalars B S hS π) M (siteMapKer B S hS ι ^ 1)).val.map g.op 0
   rw [map_zero]

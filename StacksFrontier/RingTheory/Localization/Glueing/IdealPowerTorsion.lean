@@ -139,8 +139,7 @@ private lemma unitMap_surjective_of_annihilator
     (M : Type w) [AddCommGroup M] [Module R M] (hM : I ≤ Module.annihilator R M) :
     Function.Surjective (unitMap R S M) := by
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy =>
       obtain ⟨x, rfl⟩ := hx
       obtain ⟨y, rfl⟩ := hy
@@ -150,11 +149,11 @@ private lemma unitMap_surjective_of_annihilator
       induction r using Quotient.inductionOn' with
       | _ r =>
         refine ⟨r • m, ?_⟩
-        show (r • m) ⊗ₜ[R] (1 : S) = m ⊗ₜ[R] s
+        change (r • m) ⊗ₜ[R] (1 : S) = m ⊗ₜ[R] s
         rw [TensorProduct.smul_tmul]
         have hd : s - algebraMap R S r ∈ I.map (algebraMap R S) := by
           rw [← Ideal.Quotient.eq_zero_iff_mem]
-          show Ideal.Quotient.mk _ s -
+          change Ideal.Quotient.mk _ s -
             (Ideal.quotientMap (I.map (algebraMap R S)) (algebraMap R S)
               Ideal.le_comap_map) (Ideal.Quotient.mk I r) = 0
           exact sub_eq_zero.mpr hr.symm
@@ -197,7 +196,7 @@ private lemma bijective_unitMap_of_annihilator
   have he (x : R ⧸ I) : e (unitMap R S (R ⧸ I) x) = q x := by
     induction x using Quotient.inductionOn' with
     | _ x =>
-      show (Algebra.TensorProduct.quotIdealMapEquivQuotTensor S I).symm
+      change (Algebra.TensorProduct.quotIdealMapEquivQuotTensor S I).symm
         (Ideal.Quotient.mk I x ⊗ₜ[R] (1 : S)) =
           Ideal.quotientMap (I.map (algebraMap R S)) (algebraMap R S)
             Ideal.le_comap_map (Ideal.Quotient.mk I x)
@@ -230,7 +229,7 @@ private lemma bijective_unitMap_of_annihilator
     intro a ha
     rw [LinearMap.mem_ker]
     apply Subtype.ext
-    show a • d = 0
+    change a • d = 0
     dsimp [d]
     rw [smul_sub, (Module.mem_annihilator.mp (hM ha)) x,
       (Module.mem_annihilator.mp (hM ha)) y, sub_zero]
@@ -242,9 +241,9 @@ private lemma bijective_unitMap_of_annihilator
       exact n.property
     obtain ⟨r, hr⟩ := hn
     refine ⟨Ideal.Quotient.mk I r, ?_⟩
-    show g r = n
+    change g r = n
     ext
-    show r • d = (n : M)
+    change r • d = (n : M)
     exact hr
   have hd0 : unitMap R S N ⟨d, Submodule.mem_span_singleton_self d⟩ = 0 := by
     apply (Module.Flat.rTensor_preserves_injective_linearMap N.subtype N.injective_subtype)
@@ -256,9 +255,9 @@ private lemma bijective_unitMap_of_annihilator
     rw [TensorProduct.sub_tmul, sub_eq_zero]
     exact hxy
   have hf1 : f 1 = ⟨d, Submodule.mem_span_singleton_self d⟩ := by
-    show g 1 = _
+    change g 1 = _
     ext
-    show (1 : R) • d = d
+    change (1 : R) • d = d
     simp
   have hone : LinearMap.rTensor S f (unitMap R S (R ⧸ I) 1) = 0 := by
     calc
@@ -278,7 +277,7 @@ private lemma bijective_unitMap_of_annihilator
     rw [Module.mem_annihilator]
     intro k
     apply Subtype.ext
-    show (Ideal.Quotient.mk I a) * (k : R ⧸ I) = 0
+    change (Ideal.Quotient.mk I a) * (k : R ⧸ I) = 0
     rw [show Ideal.Quotient.mk I a = 0 by
       exact Ideal.Quotient.eq_zero_iff_mem.mpr ha, zero_mul]
   obtain ⟨k, hk⟩ := unitMap_surjective_of_annihilator R S I hq.2
@@ -335,7 +334,7 @@ private lemma bijective_unitMap_of_pow_annihilator
         rw [Module.mem_annihilator]
         intro x
         obtain ⟨x, rfl⟩ := N.mkQ_surjective x
-        show Submodule.Quotient.mk (a • x) = 0
+        change Submodule.Quotient.mk (a • x) = 0
         rw [Submodule.Quotient.mk_eq_zero]
         exact Submodule.smul_mem_smul ha Submodule.mem_top
 
@@ -357,7 +356,7 @@ theorem baseChange_bijective_iff_quotientMap_bijective
   have he (x : R ⧸ I) : e (unitMap R S (R ⧸ I) x) = q x := by
     induction x using Quotient.inductionOn' with
     | _ x =>
-      show (Algebra.TensorProduct.quotIdealMapEquivQuotTensor S I).symm
+      change (Algebra.TensorProduct.quotIdealMapEquivQuotTensor S I).symm
         (Ideal.Quotient.mk I x ⊗ₜ[R] (1 : S)) = q (Ideal.Quotient.mk I x)
       rw [AlgEquiv.symm_apply_eq]
       simpa [q] using
@@ -381,7 +380,7 @@ theorem baseChange_bijective_iff_quotientMap_bijective
       apply ULift.ext
       induction x using Quotient.inductionOn' with
       | _ x =>
-        show Ideal.Quotient.mk I (a * x) = 0
+        change Ideal.Quotient.mk I (a * x) = 0
         exact Ideal.Quotient.eq_zero_iff_mem.mpr (I.mul_mem_right x (by simpa using ha))
     have hu := h A ht
     let lt : TensorProduct R A S ≃ₗ[R] TensorProduct R (R ⧸ I) S := l.rTensor S
@@ -418,9 +417,9 @@ theorem baseChange_bijective_iff_quotientMap_bijective
         exact x.property
       obtain ⟨r, hr⟩ := hx
       apply Subtype.ext
-      show a • (x : M) = 0
+      change a • (x : M) = 0
       rw [← hr]
-      show a • (r • m) = 0
+      change a • (r • m) = 0
       rw [smul_smul, mul_comm a r, ← smul_smul, hn a ha, smul_zero]
     constructor
     · intro x y hxy
@@ -429,7 +428,7 @@ theorem baseChange_bijective_iff_quotientMap_bijective
       obtain ⟨n, hn⟩ := cyclic_ann d
       have hN := bijective_unitMap_of_pow_annihilator R S I hflat hq n N hn
       apply sub_eq_zero.mp
-      show d = 0
+      change d = 0
       have hz : unitMap R S N ⟨d, Submodule.mem_span_singleton_self d⟩ = 0 := by
         apply (Module.Flat.rTensor_preserves_injective_linearMap N.subtype N.injective_subtype)
         rw [show LinearMap.rTensor S N.subtype
@@ -442,8 +441,7 @@ theorem baseChange_bijective_iff_quotientMap_bijective
       have := hN.1 (hz.trans (map_zero _).symm)
       exact congrArg Subtype.val this
     · intro z
-      induction z using TensorProduct.induction_on with
-      | zero => exact ⟨0, by simp⟩
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy =>
           obtain ⟨x, rfl⟩ := hx
           obtain ⟨y, rfl⟩ := hy
@@ -494,7 +492,7 @@ private theorem torsionBySet_quotient_primaryComponent_eq_bot
   apply mem_primaryComponent_of_smul_mem I hI x
   intro a ha
   apply (Submodule.Quotient.mk_eq_zero _).mp
-  show a • (Ideal.primaryComponent M I).mkQ x = 0
+  change a • (Ideal.primaryComponent M I).mkQ x = 0
   exact (Submodule.mem_torsionBySet_iff _ _).mp hq ⟨a, ha⟩
 
 /-- If no nonzero element of `M` is annihilated by `I`, the same holds for every positive power
@@ -564,8 +562,7 @@ public lemma bigPhi_baseChange_injective
   have he : Function.Injective e := e.injective
   have heq (z : TensorProduct R S Q) :
       e (a z) = bigPhi t (algebraMap R S ∘ f) z := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul s q => ext i; simp [a, e, bigPhi, Algebra.smul_def]
     | add x y hx hy => simpa using congrArg₂ (· + ·) hx hy
   intro x y hxy
@@ -628,14 +625,14 @@ public lemma one_tmul_mem_primaryComponent
     zero_mem' := by simp
     add_mem' := by
       intro a b ha hb
-      show (a + b) • ((1 : S) ⊗ₜ[R] x.1) = 0
+      change (a + b) • ((1 : S) ⊗ₜ[R] x.1) = 0
       rw [add_smul, ha, hb, add_zero]
     smul_mem' := by intro a b hb; simpa [smul_smul, mul_comm] using congrArg (a • ·) hb }
   have hle : (I ^ n).map (algebraMap R S) ≤ J := by
     rw [Ideal.map_le_iff_le_comap]
     intro a ha
-    show algebraMap R S a • ((1 : S) ⊗ₜ[R] x.1) = 0
-    show (algebraMap R S a * 1) ⊗ₜ[R] x.1 = 0
+    change algebraMap R S a • ((1 : S) ⊗ₜ[R] x.1) = 0
+    change (algebraMap R S a * 1) ⊗ₜ[R] x.1 = 0
     rw [mul_one, show algebraMap R S a = a • (1 : S) by simp [Algebra.smul_def],
       TensorProduct.smul_tmul,
       hn ⟨a, ha⟩, TensorProduct.tmul_zero]
@@ -653,7 +650,7 @@ public lemma isIPowerTorsion_restrictScalars
   intro m
   obtain ⟨n, hn, hnm⟩ := hM m
   refine ⟨n, hn, fun a ha ↦ ?_⟩
-  show algebraMap R S a • m = 0
+  change algebraMap R S a • m = 0
   apply hnm
   rw [← Ideal.map_pow]
   exact Ideal.mem_map_of_mem _ ha
@@ -716,13 +713,13 @@ public lemma primaryComponent_baseChange_equiv
     have hex := Module.Flat.lTensor_exact S (LinearMap.exact_subtype_mkQ P)
     have hyrange : y.1 ∈ LinearMap.range (P.subtype.lTensor S) := by
       rw [← hex.linearMap_ker_eq]
-      show (q.lTensor S) y.1 = 0
+      change (q.lTensor S) y.1 = 0
       exact hz
     obtain ⟨z, hz⟩ := hyrange
     obtain ⟨x, hx⟩ := (hunit P (primaryComponent_isIPowerTorsion I)).2
       ((TensorProduct.comm R S P) z)
     refine ⟨x, Subtype.ext ?_⟩
-    show η x.1 = y.1
+    change η x.1 = y.1
     rw [← hz]
     apply (TensorProduct.comm R S M).injective
     rw [← LinearMap.rTensor_comm, ← hx]
@@ -837,8 +834,8 @@ public lemma hom_baseChange_bijective
       (Ideal.primaryComponent N I).subtype.comp (eN.symm.toLinearMap.comp z)
     refine ⟨f, ?_⟩
     ext m
-    show (1 : S) ⊗ₜ[R] f m = g ((1 : S) ⊗ₜ[R] m)
-    show (1 : S) ⊗ₜ[R] (eN.symm (z m)).1 = (z m).1
+    change (1 : S) ⊗ₜ[R] f m = g ((1 : S) ⊗ₜ[R] m)
+    change (1 : S) ⊗ₜ[R] (eN.symm (z m)).1 = (z m).1
     rw [← heN, LinearEquiv.apply_symm_apply]
 
 /-- The counit of the extension/restriction adjunction is bijective on every `IS`-power torsion
@@ -867,7 +864,7 @@ theorem extendRestrictScalarsAdj_counit_app_bijective
     map_add' := fun _ _ ↦ rfl
     map_smul' := by
       intro r s
-      show r • s = algebraMap R S r * s
+      change r • s = algebraMap R S r * s
       exact Algebra.smul_def r s }
   let eT : TensorProduct R S N ≃ₗ[R] TensorProduct R S' N :=
     TensorProduct.congr eS (LinearEquiv.refl R N)
@@ -956,11 +953,11 @@ public lemma tensorModuleCatHomEquiv_map
       LinearMap.baseChange S f := by
   apply TensorProduct.AlgebraTensorModule.ext
   intro s m
-  show (tensorModuleCatEquiv N).symm
+  change (tensorModuleCatEquiv N).symm
     ((ModuleCat.extendScalars (algebraMap R S)).map (ModuleCat.ofHom f)
       (tensorModuleCatEquiv M (s ⊗ₜ[R] m))) = s ⊗ₜ[R] f m
   rw [tensorModuleCatEquiv_tmul]
-  show (tensorModuleCatEquiv N).symm
+  change (tensorModuleCatEquiv N).symm
     (s ⊗ₜ[R, algebraMap R S] f m) = s ⊗ₜ[R] f m
   rw [← tensorModuleCatEquiv_tmul]
   exact (tensorModuleCatEquiv N).symm_apply_apply _
@@ -981,7 +978,7 @@ public lemma moduleCatHom_baseChange_bijective
   constructor
   · intro f g hfg
     apply h.1
-    show LinearMap.baseChange S f = LinearMap.baseChange S g
+    change LinearMap.baseChange S f = LinearMap.baseChange S g
     calc
       _ = E ((ModuleCat.extendScalars (algebraMap R S)).map (ModuleCat.ofHom f)) :=
         (tensorModuleCatHomEquiv_map.{u, v, w} M N f).symm

@@ -110,7 +110,7 @@ theorem unitHom_ext_over {M : SheafOfModules.{u} O} {U : C}
       g.val.app (op (Over.mk (𝟙 U))) (1 : (O.over U).obj.obj (op (Over.mk (𝟙 U))))) :
     f = g := by
   refine (unitHomEquiv (M.over U)).injective ((overSectionsEquiv O M U).symm.injective ?_)
-  show (unitHomEquiv (M.over U) f).val (op (Over.mk (𝟙 U))) =
+  change (unitHomEquiv (M.over U) f).val (op (Over.mk (𝟙 U))) =
     (unitHomEquiv (M.over U) g).val (op (Over.mk (𝟙 U)))
   rw [unitHomEquiv_apply_coe, unitHomEquiv_apply_coe]
   exact h

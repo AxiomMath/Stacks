@@ -213,7 +213,7 @@ theorem exists_presheaf_cover_by_representables (J : Pretopology C)
   refine ⟨I, fun p ↦ uliftYoneda.{max w u} (C := C).obj (W p), g, ?_, ?_⟩
   · intro p
     exact ⟨W p, hB p.1 p.2.2, rfl⟩
-  · show ∀ U s, localLifts
+  · change ∀ U s, localLifts
       (Presieve.ofArrows (fun p : I ↦ uliftYoneda.{max w u} (C := C).obj (W p)) g)
       U s ∈ J.toGrothendieck U
     intro U s
@@ -367,7 +367,7 @@ theorem liftFormalHom_id (B : Set C)
   refine FormalCoproduct.hom_ext ?_ ?_
   · rfl
   · intro i
-    show (liftFormalHom B hX hX (𝟙 X)).φ i ≫ 𝟙 _ = 𝟙 _
+    change (liftFormalHom B hX hX (𝟙 X)).φ i ≫ 𝟙 _ = 𝟙 _
     rw [Category.comp_id]
     apply uliftYoneda.map_injective
     rw [liftFormalHom_map]
@@ -384,7 +384,7 @@ theorem liftFormalHom_comp (B : Set C)
   refine FormalCoproduct.hom_ext ?_ ?_
   · rfl
   · intro i
-    show (liftFormalHom B hX hZ (f ≫ g)).φ i ≫ 𝟙 _ =
+    change (liftFormalHom B hX hZ (f ≫ g)).φ i ≫ 𝟙 _ =
       (liftFormalHom B hX hY f).φ i ≫ (liftFormalHom B hY hZ g).φ (f.f i)
     rw [Category.comp_id]
     apply uliftYoneda.map_injective

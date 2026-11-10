@@ -139,7 +139,7 @@ public lemma Sheaf.ΓNatIsoSheafSections_hom_app (T : C) (hT : IsTerminal T)
   have hh := congrArg ((constantSheafAdj J (Type w) hT).homEquiv _ _) h
   rw [Equiv.apply_symm_apply] at hh
   refine hh.trans ?_
-  show ((constantPresheafAdj (Type w) hT).homEquiv _ F.obj)
+  change ((constantPresheafAdj (Type w) hT).homEquiv _ F.obj)
       (((sheafificationAdjunction J (Type w)).homEquiv _ F)
         ((constantSheafΓAdj J (Type w)).counit.app F)) =
     (((sheafificationAdjunction J (Type w)).homEquiv _ F)
@@ -279,7 +279,7 @@ public lemma sheafPullbackIsoOfInitial_unit (F : Sheaf J (Type w)) (U : Cᵒᵖ)
     Functor.sheafPushforwardContinuous_map_hom_app, Functor.whiskerLeft_app,
     asIso_hom, sheafPushforwardRanComparison, Category.assoc]
   rw [Functor.sheafAdjunctionCocontinuous_unit_app_hom]
-  show (adjP.unit.app F).hom.app U ≫
+  change (adjP.unit.app F).hom.app U ≫
       ((i.op.ranAdjunction (Type w)).unit.app (P.obj F).obj).app (j.op.obj U) ≫
         (i.op.ran.obj (i.op ⋙ (P.obj F).obj)).map (ε.app U.unop).op ≫
           (i.op.ranCounit.app (i.op ⋙ (P.obj F).obj)).app (a.op.obj U) = _
@@ -414,7 +414,7 @@ public lemma sheafPullbackSectionsIso_restriction
   apply (cancel_epi ((sheafPullbackSectionsIso J K M i P _ m hT).inv.app F)).mp
   apply (cancel_mono ((sheafPullbackSectionsIso J L M i' P _ m' hT').inv.app F)).mp
   simp only [Category.assoc, Iso.inv_hom_id_app_assoc, Iso.hom_inv_id_app]
-  show sheafPullbackSectionsRestriction J K L a b c e hT hbT F ≫
+  change sheafPullbackSectionsRestriction J K L a b c e hT hbT F ≫
       ((Sheaf.ΓNatIsoSheafSections L (Type w) hT').hom.app _ ≫
         (m'.hom.app F).hom.app (Opposite.op T')) =
     ((Sheaf.ΓNatIsoSheafSections K (Type w) hT).hom.app _ ≫

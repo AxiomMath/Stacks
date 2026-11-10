@@ -131,7 +131,7 @@ private lemma length_quotient_span_pow_succ_le
       Module.length R (LinearMap.ker g) + Module.length R (R ⧸ Ideal.span {x}) := by
     rwa [← smul_span_pow_eq]
   rw [hlen']
-  show _ ≤ Module.length R (R ⧸ I) + _
+  change _ ≤ Module.length R (R ⧸ I) + _
   exact add_le_add hker le_rfl
 
 private lemma length_quotient_span_pow_succ_eq
@@ -242,7 +242,7 @@ private theorem card_minimalPrimes_le_length_pi_quotient_smul
     (Nat.card (minimalPrimes R) : ℕ∞) =
         ∑ p : {p : Ideal R // p ∈ minimalPrimes R}, (1 : ℕ∞) := by
       rw [Nat.card_eq_fintype_card]
-      show (Fintype.card {p : Ideal R // p ∈ minimalPrimes R} : ℕ∞) =
+      change (Fintype.card {p : Ideal R // p ∈ minimalPrimes R} : ℕ∞) =
         ∑ _ : {p : Ideal R // p ∈ minimalPrimes R}, 1
       simp
     _ ≤ ∑ p : {p : Ideal R // p ∈ minimalPrimes R},
@@ -275,7 +275,7 @@ private theorem diagonal_cokernel_annihilator_witness (p : {p : Ideal R // p ∈
         intro hle
         have hle' : p.1 ≤ q.1 := p.2.2 ⟨q.2.isPrime, bot_le⟩ hle
         exact hqp (Subtype.ext (le_antisymm hle hle'))
-      obtain ⟨y, hyq, hynp⟩ := SetLike.not_le_iff_exists.mp hnle
+      obtain ⟨y, hyq, hynp⟩ := IsConcreteLE.not_le_iff_exists.mp hnle
       exact ⟨y, fun _ => ⟨hyq, hynp⟩⟩
   choose y hy using hchoose
   let r : R :=
@@ -291,14 +291,14 @@ private theorem diagonal_cokernel_annihilator_witness (p : {p : Ideal R // p ∈
   intro m
   obtain ⟨v, rfl⟩ :=
     Submodule.mkQ_surjective (LinearMap.range (minimalPrimeDiagonal (R := R))) m
-  show (LinearMap.range (minimalPrimeDiagonal (R := R))).mkQ (r • v) = 0
+  change (LinearMap.range (minimalPrimeDiagonal (R := R))).mkQ (r • v) = 0
   rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
   obtain ⟨a, ha⟩ := Submodule.mkQ_surjective (p.1 : Submodule R R) (v p)
   refine ⟨r * a, ?_⟩
   funext q
   by_cases hqp : q = p
   · subst q
-    show (Submodule.mkQ (p.1 : Submodule R R)) (r * a) = r • v p
+    change (Submodule.mkQ (p.1 : Submodule R R)) (r * a) = r • v p
     rw [← ha]
     simp [Algebra.smul_def, mul_comm]
   · have hqmem : r ∈ q.1 := by
@@ -307,7 +307,7 @@ private theorem diagonal_cokernel_annihilator_witness (p : {p : Ideal R // p ∈
         (i := q)
       · exact Finset.mem_erase.mpr ⟨hqp, Finset.mem_univ q⟩
       · exact (hy q hqp).1
-    show (Submodule.mkQ (q.1 : Submodule R R)) (r * a) = r • v q
+    change (Submodule.mkQ (q.1 : Submodule R R)) (r * a) = r • v q
     have hzero : (Ideal.Quotient.mk q.1) r = 0 := Ideal.Quotient.eq_zero_iff_mem.mpr hqmem
     simp [Algebra.smul_def, hzero]
 
@@ -547,7 +547,7 @@ private lemma degree_map_eq_supportDim
   have hQe : Q.degree = e :=
     (he (maximalIdeal R) ((maximalIdeal.isMaximal R).isPrime.radical) Q).2 hQ
   have hdeg : Module.hilbertSamuelDegree R M = P.degree := by
-    show (maximalIdeal R).hilbertSamuelDegree M = P.degree
+    change (maximalIdeal R).hilbertSamuelDegree M = P.degree
     rw [hilbertSamuelDegree_eq_degree_of_computesHilbertSamuel hQ, hQe, hPe]
   rw [← hdeg]
   exact Module.hilbertSamuelDegree_eq_supportDim R M
@@ -726,7 +726,7 @@ theorem multiplicity_le_length_quotient_of_isSystemOfParameters
     rw [← ENat.natCast_toNat hpow.ne, ← ENat.natCast_toNat hL.ne,
       ← Nat.cast_mul, ENat.natCast_le_natCast] at hb
     unfold HilbertSamuel.hilbertSamuelFunction
-    show (↑(Module.length R (R ⧸ I ^ (n + 1) • (⊤ : Submodule R R))).toNat : ℚ) ≤
+    change (↑(Module.length R (R ⧸ I ^ (n + 1) • (⊤ : Submodule R R))).toNat : ℚ) ≤
       (L.toNat : ℚ) * ((n + d).choose d : ℚ)
     have hs : I ^ (n + 1) • (⊤ : Submodule R R) = I ^ (n + 1) := by simp
     rw [hs]
@@ -749,7 +749,7 @@ theorem multiplicity_le_length_quotient_of_isSystemOfParameters
       simpa [d, div_eq_mul_inv, mul_comm] using hlc
     exact_mod_cast (div_le_div_iff_of_pos_right
       (by positivity : (0 : ℚ) < d.factorial)).mp hrat
-  show (e : ℕ∞) ≤ L
+  change (e : ℕ∞) ≤ L
   rw [← ENat.natCast_toNat hL.ne]
   exact_mod_cast heL
 

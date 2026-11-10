@@ -121,7 +121,7 @@ theorem localTrace_restrict (U U' : X.affineOpens) (h : U'.1 ≤ U.1) (b : Γ(Y,
     IsScalarTower.of_algebraMap_eq fun _ => rfl
   have : IsScalarTower Γ(X, U.1) Γ(Y, f ⁻¹ᵁ U.1) Γ(Y, f ⁻¹ᵁ U'.1) :=
     IsScalarTower.of_algebraMap_eq fun r => by
-      show (X.presheaf.map (homOfLE h).op ≫ f.app U'.1) r =
+      change (X.presheaf.map (homOfLE h).op ≫ f.app U'.1) r =
         (f.app U.1 ≫ Y.presheaf.map (homOfLE (f.preimage_mono h)).op) r
       rw [f.naturality]
       rfl

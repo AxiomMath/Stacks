@@ -131,7 +131,7 @@ public theorem jointlyFaithful_smallEtaleSetPullback
   obtain ⟨i, y, hy⟩ := hsurj (s.hom default)
   set x : GeometricPoint (Y i).obj := GeometricPoint.ofPoint (Y i).obj y with hxdef
   have hbase : (x.map (B.inclusion.map (inclusions i))).hom default = s.hom default := by
-    show (B.inclusion.map (inclusions i)).base (x.hom default) = s.hom default
+    change (B.inclusion.map (inclusions i)).base (x.hom default) = s.hom default
     rwa [hxdef, GeometricPoint.ofPoint_liesOver]
   -- The stalk of the inverse image at `x` is the stalk at the image point of `x`.
   have hpushed := map_eq_map_of_iso_hom (smallEtalePullbackStalkIso B (inclusions i) x) α β

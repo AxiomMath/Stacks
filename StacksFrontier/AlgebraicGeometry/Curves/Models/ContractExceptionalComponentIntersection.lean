@@ -162,14 +162,14 @@ public theorem exists_comap_contractedComponent_eq
       T.toRegularModelSituation.specialFiberIdeal_le_specialFiberComponentIdeal _
     have hk : f x ∈ (T.specialFiberIdeal.support : Set X') :=
       Scheme.IdealSheafData.support_antitone hle hx'
-    show x ∈ (S.specialFiberIdeal.support : Set S.X)
+    change x ∈ (S.specialFiberIdeal.support : Set S.X)
     rw [S.specialFiberIdeal_eq_comap_contraction hf, Scheme.IdealSheafData.support_comap]
     exact hk
   have hpb : IsEffectiveCartierDivisor (D'.comap f) :=
     Stacks.Divisors.isPullbackDefined_of_isReduced f D' hD' fun ξ hξ hmem =>
       notMem_support_of_mem_genericPoints_of_isEffectiveCartierDivisor S.specialFiberIdeal
         inferInstance hξ (hsupp ξ (by
-          show ξ ∈ ((D'.comap f).support : Set S.X)
+          change ξ ∈ ((D'.comap f).support : Set S.X)
           rw [Scheme.IdealSheafData.support_comap]
           exact hmem))
   refine ⟨hpb, ?_⟩
@@ -184,7 +184,7 @@ public theorem exists_comap_contractedComponent_eq
   have hmult : ∀ Y, effectiveCartierMultiplicity (D'.comap f)
       (S.specialFiberComponentPrimeDivisor Y) = (a Y : ℤ) := by
     intro Y
-    rw [ha, S.effectiveCartierMultiplicity_prod_specialFiberComponentIdeal_pow, if_pos
+    rw [ha, S.effectiveCartierMultiplicity_prod_specialFiberComponentIdeal_pow, ite_eq_left
       (Finset.mem_univ Y)]
   -- the coefficient of `C_j` is one
   have haW : a W.1 = 1 := by
@@ -192,7 +192,7 @@ public theorem exists_comap_contractedComponent_eq
     rw [S.effectiveCartierMultiplicity_comap_contraction hf D' W] at h1
     have h2 := T.effectiveCartierMultiplicity_prod_specialFiberComponentIdeal_pow
       {S.contractedComponentEquiv hf W} (fun _ => 1) (S.contractedComponentEquiv hf W)
-    rw [Finset.prod_singleton, pow_one, if_pos (Finset.mem_singleton_self _)] at h2
+    rw [Finset.prod_singleton, pow_one, ite_eq_left (Finset.mem_singleton_self _)] at h2
     exact_mod_cast h1.symm.trans h2
   -- no other component than `C_j` and `C_n` occurs
   have haY : ∀ Y, Y ≠ W.1 → Y ≠ N → a Y = 0 := by
@@ -250,7 +250,7 @@ public theorem contractedComponentMap_specialFiberComponentToSpec
   have h2 : S.contractionSpecialFiberMap hf ≫ T.specialFiberToSpec = S.specialFiberToSpec := by
     simp only [contractionSpecialFiberMap, pullback.map]
     exact (pullback.lift_snd _ _ _).trans (Category.comp_id _)
-  show _ ≫ T.specialFiberComponentι _ ≫ T.specialFiberToSpec =
+  change _ ≫ T.specialFiberComponentι _ ≫ T.specialFiberToSpec =
     S.specialFiberComponentι _ ≫ S.specialFiberToSpec
   rw [← Category.assoc, h1, Category.assoc, h2]
 
@@ -352,7 +352,7 @@ public theorem componentDegree_pullback_contraction
     subst hc
     exact S.isIso_stalkMap_contractedComponentMap hf Z
   have : IsProper (T.specialFiberComponentToSpec W) := T.isProper_specialFiberComponentToSpec W
-  show @invertibleCurveDegree S.k _ C (S.specialFiberComponentToSpec Z.1) _ _
+  change @invertibleCurveDegree S.k _ C (S.specialFiberComponentToSpec Z.1) _ _
       ((Scheme.Modules.pullback ι).obj ((Scheme.Modules.pullback f).obj L))
       (isInvertible_restrict _ _ hL') =
     @invertibleCurveDegree S.k _ C' (T.specialFiberComponentToSpec W) _ _ E hE

@@ -225,7 +225,7 @@ private theorem liftStage_eq_of_le (c : A →+* P) (p : P →+* C) (K : Ideal C)
   ext x
   have hx : transitionMap c hJJ' (x.1 J) = x.1 J' := x.2 J J' hJJ'
   obtain ⟨a, ha⟩ := Ideal.Quotient.mk_surjective (x.1 J)
-  show Ideal.quotientMap K p hJ (x.1 J) = Ideal.quotientMap K p hJ' (x.1 J')
+  change Ideal.quotientMap K p hJ (x.1 J) = Ideal.quotientMap K p hJ' (x.1 J')
   rw [← hx, ← ha]
   rfl
 
@@ -271,16 +271,16 @@ theorem exists_continuous_lift_completionOver (hA : IsWeaklyAdmissible A)
     fun K x ↦ congrArg (fun q ↦ q x) (hχ K)
   refine ⟨χ, ?_, ?_⟩
   · refine continuous_of_continuousAt_zero χ ?_
-    show Filter.Tendsto χ (nhds 0) (nhds (χ 0))
+    change Filter.Tendsto χ (nhds 0) (nhds (χ 0))
     rw [map_zero]
     refine (hasBasis_nhds_zero_isWeakIdealOfDefinition hC).tendsto_right_iff.mpr
       fun K hK ↦ ?_
     refine Filter.mem_of_superset ((CompletionOver.isOpen_ker_projection c
       (J ⟨K, hK⟩)).mem_nhds (Ideal.zero_mem _)) fun x hx ↦ ?_
     change CompletionOver.projection c (J ⟨K, hK⟩) x = 0 at hx
-    show χ x ∈ K
+    change χ x ∈ K
     rw [← Ideal.Quotient.eq_zero_iff_mem, hstage ⟨K, hK⟩ x]
-    show Ideal.quotientMap K p (hJ ⟨K, hK⟩) (CompletionOver.projection c (J ⟨K, hK⟩) x) = 0
+    change Ideal.quotientMap K p (hJ ⟨K, hK⟩) (CompletionOver.projection c (J ⟨K, hK⟩) x) = 0
     rw [hx, map_zero]
   · ext a
     refine eq_of_forall_weakIdeal_mk_eq hC fun K ↦ ?_
@@ -312,7 +312,7 @@ private theorem surjective_quotientMap_of_denseRange (g : A →+* C) (hg : Dense
     (hK.preimage (continuous_id.sub (continuous_const (y := c))))
     ⟨c, by simp⟩
   refine ⟨Ideal.Quotient.mk I a, ?_⟩
-  show Ideal.Quotient.mk K (g a) = Ideal.Quotient.mk K c
+  change Ideal.Quotient.mk K (g a) = Ideal.Quotient.mk K c
   exact Ideal.Quotient.eq.mpr ha
 
 /-- **The formal spectrum of a taut homomorphism with dense image is a closed immersion.** Let
@@ -340,7 +340,7 @@ theorem isClosedImmersion_formalSpectrumMap_of_isTaut_of_denseRange
     refine ⟨fun {Q} f₁ f₂ h => Limits.colimit.hom_ext fun Kk => ?_⟩
     have hK : cc (ULift.up (OrderDual.ofDual Kk)) ≫ f₁ =
         cc (ULift.up (OrderDual.ofDual Kk)) ≫ f₂ := by
-      rw [← Limits.Sigma.ι_desc cc (ULift.up (OrderDual.ofDual Kk)),
+      rw [← Limits.Sigma.ι_comp_desc cc (ULift.up (OrderDual.ofDual Kk)),
         Category.assoc, Category.assoc, h]
     exact hK
   refine isClosedImmersion_of_locallySurjectiveFamily B S hS Idx Yi cc hls ?_
@@ -349,7 +349,7 @@ theorem isClosedImmersion_formalSpectrumMap_of_isTaut_of_denseRange
     isPullback_formalSpectrumMap_stage_of_isTaut B S hS hA hC D E g htaut i.down
   have hclosed : _root_.AlgebraicGeometry.IsClosedImmersion
       ((BigAffineFppf.toScheme B S hS).map (g.stageMap i.down K hIK)) := by
-    show _root_.AlgebraicGeometry.IsClosedImmersion
+    change _root_.AlgebraicGeometry.IsClosedImmersion
       (Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1 g.toRingHom hIK)))
     exact _root_.AlgebraicGeometry.IsClosedImmersion.spec_of_surjective _
       (surjective_quotientMap_of_denseRange g.toRingHom hdense i.down.1 K.1 K.2.1 hIK)
@@ -444,7 +444,7 @@ theorem exists_quotientSystem_completionOver_of_finiteType
       rw [TopologicalRing.extendedIdeal, Ideal.map_le_iff_le_comap, Ideal.comap_comap]
       intro a ha
       refine hJ₀ ?_
-      show TopologicalRing.CompletionOver.projection f J₀
+      change TopologicalRing.CompletionOver.projection f J₀
         (TopologicalRing.CompletionOver.ofTarget f (f a)) = 0
       rw [TopologicalRing.CompletionOver.projection_ofTarget]
       exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_map_of_mem f ha)
@@ -499,7 +499,7 @@ theorem isAffineFormalAlgebraicSpace_formalSpectrum_completionOver
     exact TopologicalRing.isTaut_canonicalMap f hA.1
   have hmod : TopologicalRing.FiniteTypeModuloEveryWeakIdeal g.toRingHom :=
     TopologicalRing.finiteTypeModuloEveryWeakIdeal_of_topologicallyOfFiniteType' g.toRingHom
-      g.continuous htaut (by
+      htaut (by
         rw [hg]
         exact TopologicalRing.isTopologicallyOfFiniteType_canonicalMap f hA.1 hf)
   let G := Sheaf.sheafifiedYoneda (BigFppfOver.topology B S hS)
@@ -611,7 +611,7 @@ theorem exists_isClosedImmersion_affineSpace_factorization
   have hE'aff := isAffineFormalAlgebraicSpace_formalSpectrum_completionOver B S hS hA c
     (finiteType_mvPolynomial_C r) D hX E' π hπ
   have hpc : Continuous (p.comp c) := by
-    show Continuous (p.comp MvPolynomial.C)
+    change Continuous (p.comp MvPolynomial.C)
     rw [hpC]
     exact g.continuous
   obtain ⟨χ, hχc, hχp⟩ := TopologicalRing.exists_continuous_lift_completionOver hA hC c p hpc

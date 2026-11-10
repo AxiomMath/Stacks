@@ -126,7 +126,7 @@ public theorem finiteSupportTensorSectionsHom_smul_section
             (modPullbackUnitSection B Λ f G V t)).finiteSupportDiagramHom B f := by
     refine NatTrans.ext (funext fun E => AddCommGrpCat.hom_ext
       (AddMonoidHom.ext fun s => Subtype.ext ?_))
-    show tensorSectionHom B Λ F ((modPullback.{u, v, max (u + 1) v} B Λ f).obj G)
+    change tensorSectionHom B Λ F ((modPullback.{u, v, max (u + 1) v} B Λ f).obj G)
         (baseChange B f V) (modPullbackUnitSection B Λ f G V (a • t))
         (supportOpen B X.obj X.property (baseChange B f V) E.1
           (finiteSupport_isLocallyClosed B f V E)) s.val = _
@@ -138,7 +138,7 @@ public theorem finiteSupportTensorSectionsHom_smul_section
       (modPullbackUnitSection B Λ f G V t)
       (supportOpen B X.obj X.property (baseChange B f V) E.1
         (finiteSupport_isLocallyClosed B f V E)) s.val
-  show colim.map _ = _
+  change colim.map _ = _
   rw [hΘ, CategoryTheory.Functor.map_comp]
   rfl
 
@@ -157,7 +157,7 @@ public theorem modFiniteSupportTensorHom_add_section
           (modFiniteSupportTensorHom B Λ f F G V t) +
         (forget₂ (ModuleCat.{max (u + 1) v} Λ) AddCommGrpCat.{max (u + 1) v}).map
           (modFiniteSupportTensorHom B Λ f F G V t') := by
-    show eqToHom ((finiteSupportPushforward.{u, max (u + 1) v} B f
+    change eqToHom ((finiteSupportPushforward.{u, max (u + 1) v} B f
           (fun _ => inferInstance)).2.obj_eq
           ((forgetModuleSheaf.{u, v, max (u + 1) v} B X Λ).obj F) V) ≫
         finiteSupportTensorSectionsHom B Λ f F G V (t + t') ≫
@@ -182,7 +182,7 @@ public theorem modFiniteSupportTensorHom_smul_section
       ((((modFiniteSupportPresheaf.{u, v, max (u + 1) v} B Λ f).obj F).obj (op V)).smul a).asHom ≫
         (forget₂ (ModuleCat.{max (u + 1) v} Λ) AddCommGrpCat.{max (u + 1) v}).map
           (modFiniteSupportTensorHom B Λ f F G V t) := by
-    show eqToHom ((finiteSupportPushforward.{u, max (u + 1) v} B f
+    change eqToHom ((finiteSupportPushforward.{u, max (u + 1) v} B f
           (fun _ => inferInstance)).2.obj_eq
           ((forgetModuleSheaf.{u, v, max (u + 1) v} B X Λ).obj F) V) ≫
         finiteSupportTensorSectionsHom B Λ f F G V (a • t) ≫
@@ -235,7 +235,7 @@ public theorem modFiniteSupportTensorHom_naturality
     rw [← Category.assoc, hnat, Category.assoc]
   refine (forget₂ (ModuleCat.{max (u + 1) v} Λ) AddCommGrpCat.{max (u + 1) v}).map_injective ?_
   rw [CategoryTheory.Functor.map_comp, CategoryTheory.Functor.map_comp]
-  show (eqToHom ((finiteSupportPushforward.{u, max (u + 1) v} B f
+  change (eqToHom ((finiteSupportPushforward.{u, max (u + 1) v} B f
           (fun _ => inferInstance)).2.obj_eq
           ((forgetModuleSheaf.{u, v, max (u + 1) v} B X Λ).obj F) V) ≫
         finiteSupportTensorSectionsHom B Λ f F G V t ≫

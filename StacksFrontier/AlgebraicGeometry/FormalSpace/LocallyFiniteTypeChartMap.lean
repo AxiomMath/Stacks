@@ -126,7 +126,7 @@ theorem finiteTypeAdicAlgebraForEveryIdeal_of_isLocallyOfFiniteType
           htaut hLFT I hI⟩
   obtain ⟨I, hI, -⟩ := hA.1
   obtain ⟨J, hJ, -⟩ := hC.1
-  have h := Rig.adicFiniteType_tfae f.toRingHom f.continuous hA hC
+  have h := Rig.adicFiniteType_tfae f.toRingHom hA hC
     ⟨I, hI, Ideal.fg_of_isNoetherianRing I⟩ ⟨J, hJ, Ideal.fg_of_isNoetherianRing J⟩
   exact (h.out 2 6).mp
     (show RingHom.IsTaut f.toRingHom ∧ TopologicalRing.IsTopologicallyOfFiniteType f.toRingHom

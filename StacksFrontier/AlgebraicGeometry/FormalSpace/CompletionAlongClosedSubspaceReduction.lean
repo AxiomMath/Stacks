@@ -274,7 +274,7 @@ theorem relative_uliftFunctor_of_presheaf
     P.relative uliftYoneda.{u + 1} (Functor.whiskerRight f uliftFunctor.{u + 1}) := by
   let H : (Cᵒᵖ ⥤ Type u) ⥤ (Cᵒᵖ ⥤ Type (u + 1)) :=
     (Functor.whiskeringRight Cᵒᵖ (Type u) (Type (u + 1))).obj uliftFunctor.{u + 1}
-  show P.relative (yoneda ⋙ H) (H.map f)
+  change P.relative (yoneda ⋙ H) (H.map f)
   refine ⟨?_, ?_⟩
   · intro a g
     obtain ⟨g₀, rfl⟩ := H.map_surjective g

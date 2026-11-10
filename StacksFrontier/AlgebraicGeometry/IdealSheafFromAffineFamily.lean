@@ -146,7 +146,7 @@ theorem exists_pow_mul_mem_ofAffineFamilyIdeal
     have hSf : S (X.affineBasicOpen (U := X.affineBasicOpen g) (ρ f)) :=
       hbasic (X.affineBasicOpen g) (ρ f) hSg
     have hle : X.affineBasicOpen (U := X.affineBasicOpen g) (ρ f) ≤ X.affineBasicOpen f := by
-      show X.basicOpen (ρ f) ≤ X.basicOpen f
+      change X.basicOpen (ρ f) ≤ X.basicOpen f
       rw [hρ, Scheme.basicOpen_res]
       exact inf_le_right
     have h1 := ha _ hSf hle

@@ -63,9 +63,9 @@ private theorem mem_span_p_pow_iff_valuation_le (n : ℕ) (x : PadicComplexInt p
         (PadicComplex.valued p).v.restrict (p : ℂ_[p]) ^ n := by
   let v := (PadicComplex.valued p).v
   rw [Ideal.span_singleton_pow]
-  show x ∈ (Ideal.span {((p : PadicComplexInt p) ^ n)} : Set (PadicComplexInt p)) ↔ _
+  change x ∈ (Ideal.span {((p : PadicComplexInt p) ^ n)} : Set (PadicComplexInt p)) ↔ _
   rw [(PadicComplexInt.integers p).coe_span_singleton_eq_setOfPred_le_v_algebraMap]
-  show v (x : ℂ_[p]) ≤ v (((p : PadicComplexInt p) ^ n) : ℂ_[p]) ↔ _
+  change v (x : ℂ_[p]) ≤ v (((p : PadicComplexInt p) ^ n) : ℂ_[p]) ↔ _
   rw [show (((p : PadicComplexInt p) ^ n) : ℂ_[p]) = (p : ℂ_[p]) ^ n by norm_cast, ← map_pow]
   exact (v.restrict_le_iff).symm
 
@@ -149,10 +149,10 @@ ideal; in particular it is nonzero and not a unit. -/
 @[stacks 0CB8 "the p-adic complex integers"]
 theorem natCast_mem_maximalIdeal :
     (p : PadicComplexInt p) ∈ maximalIdeal (PadicComplexInt p) := by
-  show (p : (PadicComplex.valued p).v.valuationSubring) ∈
+  change (p : (PadicComplex.valued p).v.valuationSubring) ∈
     maximalIdeal ((PadicComplex.valued p).v.valuationSubring)
   rw [Valuation.mem_maximalIdeal_iff]
-  show (PadicComplex.valued p).v ((p : PadicComplexInt p) : ℂ_[p]) < 1
+  change (PadicComplex.valued p).v ((p : PadicComplexInt p) : ℂ_[p]) < 1
   rw [show ((p : PadicComplexInt p) : ℂ_[p]) = (p : ℂ_[p]) by norm_cast]
   exact valuation_p_lt_one p
 
@@ -184,7 +184,7 @@ theorem radical_span_p :
       refine ⟨n, ?_⟩
       simpa only [pow_one] using (mem_span_p_pow_iff_valuation_le p 1 (x ^ n)).2
         (by
-          show v.restrict ((x : ℂ_[p]) ^ n) ≤ v.restrict (p : ℂ_[p]) ^ 1
+          change v.restrict ((x : ℂ_[p]) ^ n) ≤ v.restrict (p : ℂ_[p]) ^ 1
           simpa only [map_pow, pow_one] using hpow.le)
 
 /-- **Stacks 0CB8.** The ring of integers of `ℂ_[p]` is a valuation ring: inside its fraction

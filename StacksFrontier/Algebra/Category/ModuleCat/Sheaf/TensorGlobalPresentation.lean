@@ -152,13 +152,13 @@ theorem hasGlobalPresentation_of_tensorIso (R : Sheaf J CommRingCat.{w})
       P' := ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, max u v w, max u v w} R).map a).app
       P'
   have hyp₁ : y ≫ p₁ = 0 := by
-    show ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, max u v w, max u v w} R).obj
+    change ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, max u v w, max u v w} R).obj
         P).map a' ≫
         ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, max u v w, max u v w} R).obj P).map b'
             = 0
     rw [← Functor.map_comp, hab', Functor.map_zero]
   have hwq : w₀ ≫ q = 0 := by
-    show ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, max u v w, max u v w} R).flip.obj
+    change ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, max u v w, max u v w} R).flip.obj
         uB).map a ≫
         ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, max u v w, max u v w} R).flip.obj
             uB).map b = 0

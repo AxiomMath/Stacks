@@ -167,6 +167,7 @@ private instance (priority := high) hasPullback_presheaf_formalGlueingSpacesGrap
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` for pullbacks in the presheaf category on the big fppf site
 /-- Pullbacks of presheaves on the big fppf site over `S`. -/
 private instance hasPullbacks_presheaf_formalGlueingSpacesGraph :
     HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance

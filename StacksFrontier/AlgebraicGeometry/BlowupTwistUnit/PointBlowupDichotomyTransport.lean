@@ -7,8 +7,7 @@ public import StacksFrontier.AlgebraicGeometry.Blowup.RegularSurfaceFormsDichoto
 public import StacksFrontier.AlgebraicGeometry.Blowup.Transform.Integral
 public import StacksFrontier.AlgebraicGeometry.BlowupTwistUnit.TopFormsNormalizedDualizing
 public import StacksFrontier.AlgebraicGeometry.NodalContraction.Basic
-public import
-  StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.QuadraticTransformations.ProperBirationalPointBlowups
+public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.QuadraticTransformations.ProperBirationalPointBlowups
 public import StacksFrontier.AlgebraicGeometry.ClosedImmersionEuler.Basic
 public import StacksFrontier.AlgebraicGeometry.ModuleLimits.AffineTilde
 public import StacksFrontier.AlgebraicGeometry.Morphisms.Differentials.OpenImmersion
@@ -78,7 +77,7 @@ variable {S Z : Scheme.{u}} (p : Z ⟶ S) [IsClosedImmersion p]
 theorem comap_exceptionalIdeal_blowUpIso_hom {X : Scheme.{u}} (I : X.IdealSheafData) :
     (AlgebraicGeometry.exceptionalIdeal I).comap (Stacks.Blowup.blowUpIso I).hom =
       Stacks.Blowup.exceptionalIdeal I := by
-  show (I.comap (AlgebraicGeometry.blowUpToBase I)).comap (Stacks.Blowup.blowUpIso I).hom =
+  change (I.comap (AlgebraicGeometry.blowUpToBase I)).comap (Stacks.Blowup.blowUpIso I).hom =
     I.comap (Stacks.Blowup.blowUpToBase I)
   rw [← Scheme.IdealSheafData.comap_comp, Stacks.Blowup.blowUpIso_hom_comp]
 
@@ -386,7 +385,7 @@ theorem hullForms_comp_eq_reflexiveHull_exteriorPower {S₀ S W V : Scheme.{u}} 
     hullForms p n (b ≫ h) =
       reflexiveHull (exteriorPower
         (Scheme.Hom.relativeDifferentials (b ≫ (h ≫ p))) n) := by
-  show reflexiveHull (Scheme.Hom.relativeDifferentialForms ((b ≫ h) ≫ p) n) =
+  change reflexiveHull (Scheme.Hom.relativeDifferentialForms ((b ≫ h) ≫ p) n) =
     reflexiveHull (exteriorPower (Scheme.Hom.relativeDifferentials (b ≫ (h ≫ p))) n)
   rw [Category.assoc]
   rfl

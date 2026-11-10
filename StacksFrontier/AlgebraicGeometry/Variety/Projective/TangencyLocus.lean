@@ -88,7 +88,7 @@ public theorem sup_inf_pointSubmodule_eq_iff_notMem_linearSubspace [IsAlgClosed 
   refine ⟨fun hsup hle => hxp (pointSubmodule_le_of_le_of_isClosed k V hx hp
     ((hsup.ge.trans (sup_le inf_le_left hle)).trans hker.ge)), fun hle => ?_⟩
   obtain ⟨ν, hνN, hν⟩ : ∃ ν ∈ N, φ ν ≠ 0 := by
-    obtain ⟨ν, hνN, hν⟩ := SetLike.not_le_iff_exists.mp hle
+    obtain ⟨ν, hνN, hν⟩ := IsConcreteLE.not_le_iff_exists.mp hle
     exact ⟨ν, hνN, fun h => hν (LinearMap.mem_ker.mpr h)⟩
   refine le_antisymm (sup_le inf_le_right hN) fun w hw => ?_
   refine Submodule.mem_sup.mpr ⟨w - (φ w / φ ν) • ν, ?_, (φ w / φ ν) • ν, ?_, by abel⟩

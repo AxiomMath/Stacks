@@ -78,7 +78,7 @@ public lemma kernel_mem_maximalIdeal
     (i : A') ∈ maximalIdeal A' := by
   have : IsLocalHom f.hom.toRingHom := f.isLocal
   rw [← maximalIdeal_comap f.hom.toRingHom]
-  show f.hom.toRingHom (i : A') ∈ maximalIdeal A
+  change f.hom.toRingHom (i : A') ∈ maximalIdeal A
   rw [RingHom.mem_ker.mp i.2]
   exact zero_mem _
 
@@ -104,7 +104,7 @@ public lemma homToResidueFieldObject_unique
       (residue (residueFieldObject.{u, v, w} Λ k)) := by
     apply (RingHom.injective_iff_ker_eq_bot _).2
     rw [ker_residue]
-    show maximalIdeal (ULift.{v} k) = ⊥
+    change maximalIdeal (ULift.{v} k) = ⊥
     exact maximalIdeal_eq_bot
   exact hinj <| (residueFieldObject.{u, v, w} Λ k).residueEquiv.injective <|
     (g.residue_comm a).trans (h.residue_comm a).symm

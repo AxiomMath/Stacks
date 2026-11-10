@@ -57,7 +57,6 @@ theorem extendScalars_finite (M : ModuleCat.{max r w} R) [Module.Finite R M] :
   rw [eq_top_iff]
   rintro x -
   induction x using induction_on (f := f) with
-  | zero => exact Submodule.zero_mem _
   | add x y hx hy => exact Submodule.add_mem _ hx hy
   | pure b m =>
     rw [tmul_eq_smul_tmul_one]

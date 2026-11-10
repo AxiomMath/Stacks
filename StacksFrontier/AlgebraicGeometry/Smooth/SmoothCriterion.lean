@@ -129,7 +129,7 @@ theorem finitePresentation_pullbackCotangentSheaf_isAffineOpen {U : T.Opens} (hU
     have hUa : IsAffine (U : Scheme.{u}) := hU
     have hUW' : (⊤ : U.toScheme.Opens) ≤ (U.ι ≫ a) ⁻¹ᵁ W := by
       intro x _
-      show a.base (U.ι.base x) ∈ W
+      change a.base (U.ι.base x) ∈ W
       exact hUW x.2
     refine finitePresentation_of_ringEquiv Γ(U.toScheme, (⊤ : U.toScheme.Opens))
       Γ(T, U.ι ''ᵁ (⊤ : U.toScheme.Opens))
@@ -218,7 +218,7 @@ theorem base_apply_eq_of_lift (hi : Function.Surjective i.base) (h₁ : i ≫ b�
 theorem preimage_eq_of_lift (hi : Function.Surjective i.base) (h₁ : i ≫ b₁ = a)
     (h₂ : i ≫ b₂ = a) (W : X.Opens) : b₁ ⁻¹ᵁ W = b₂ ⁻¹ᵁ W :=
   Opens.ext (Set.ext fun t ↦ by
-    show b₁.base t ∈ W ↔ b₂.base t ∈ W
+    change b₁.base t ∈ W ↔ b₂.base t ∈ W
     rw [base_apply_eq_of_lift hi h₁ h₂ t])
 
 /-- **An open carried into a chart by one solution is carried into it by every other.** This is

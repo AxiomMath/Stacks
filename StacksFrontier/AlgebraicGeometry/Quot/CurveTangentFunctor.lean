@@ -44,7 +44,7 @@ theorem projection_obj_eq_of_curvesProjectionOver_obj_eq {k : Type u} [Field k]
     (hx : (curvesProjectionOver B hZ).obj x = algebraOver k B integerBase hZ toS hk) :
     (CurveDeformation.projection B hZ).obj x =
       Over.mk (Spec.map (CommRingCat.ofHom (algebraMap k k)) ≫ toS) := by
-  show (Over.post B.inclusion).obj ((curvesProjectionOver B hZ).obj x) = _
+  change (Over.post B.inclusion).obj ((curvesProjectionOver B hZ).obj x) = _
   rw [hx]
   have h : Spec.map (CommRingCat.ofHom (algebraMap k k)) ≫ toS = toS := by
     rw [Algebra.algebraMap_self, CommRingCat.ofHom_id, Spec.map_id, Category.id_comp]

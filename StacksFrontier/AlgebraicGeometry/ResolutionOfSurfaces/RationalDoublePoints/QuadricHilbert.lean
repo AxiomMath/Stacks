@@ -123,7 +123,7 @@ public theorem finrank_gradedPieceS_le_finrank_gradedPieceI_of_mem {d : ℕ}
   let F : gradedPieceS k d m →ₗ[k] gradedPieceI I (m + e) :=
     { toFun := fun p => ⟨q * (p : MvPolynomial (Fin d) k), hmem p p.2⟩
       map_add' := fun a b => Subtype.ext (by simp [mul_add])
-      map_smul' := fun c a => Subtype.ext (by simp [mul_smul_comm]) }
+      map_smul' := fun c a => Subtype.ext (by simp) }
   exact F.finrank_le_finrank_of_injective fun a b hab =>
     Subtype.ext (mul_left_cancel₀ hq0 (congrArg Subtype.val hab))
 

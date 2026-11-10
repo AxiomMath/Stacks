@@ -106,13 +106,13 @@ theorem isFlatOver_of_exactFunctor (R : Type u) [CommRing R]
     targetChangeMap_comp_fst R X Y V' g
   have hx : x ∈ Set.range (pullback.fst (pullback.snd X.hom Y.hom) V.ι) := by
     rw [IsOpenImmersion.range_pullbackFst V.ι (pullback.snd X.hom Y.hom)]
-    show (pullback.snd X.hom Y.hom).base x ∈ V.ι.opensRange
+    change (pullback.snd X.hom Y.hom).base x ∈ V.ι.opensRange
     rw [Scheme.Opens.opensRange_ι]
     exact hxV
   obtain ⟨w, hw⟩ := hx
   have hpb := isPullback_targetChangeMap R X Y V' g
   have hxz : q (hpb.isoPullback.inv w) = x := by
-    show (hpb.isoPullback.inv ≫ q) w = x
+    change (hpb.isoPullback.inv ≫ q) w = x
     rw [hpb.isoPullback_inv_fst]
     exact hw
   rw [← hxz]

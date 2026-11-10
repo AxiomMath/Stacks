@@ -176,7 +176,7 @@ subspaces is invariant under the relation of the chart. -/
 theorem isInvariantSubscheme_mul_chartKer (D₁ D₂ : ClosedSubspaces B S hS X.1) :
     IsInvariantSubscheme B S hS hs
       (Subobject.mk (chartKer B S hS X D₁ φ * chartKer B S hS X D₂ φ).subschemeι) := by
-  show (Subobject.pullback ((BigFppfOver.toScheme B S hS).map
+  change (Subobject.pullback ((BigFppfOver.toScheme B S hS).map
       (atlasRelationTarget B S hS hs))).obj
         (Subobject.mk (chartKer B S hS X D₁ φ * chartKer B S hS X D₂ φ).subschemeι) =
       (Subobject.pullback ((BigFppfOver.toScheme B S hS).map

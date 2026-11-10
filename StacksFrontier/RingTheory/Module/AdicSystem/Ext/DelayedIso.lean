@@ -234,12 +234,12 @@ private theorem nonempty_iso_of_almostBij (E F : AdicModuleSystem.{u, v} A I)
     induction y using Submodule.Quotient.induction_on with
     | H y =>
     obtain ⟨x, hx⟩ := (hφ n).2 y _ (hmem n a ha)
-    show a • (Submodule.Quotient.mk (Submodule.Quotient.mk y) : _ ⧸ LinearMap.range (r.map n _)) =
+    change a • (Submodule.Quotient.mk (Submodule.Quotient.mk y) : _ ⧸ LinearMap.range (r.map n _)) =
       0
     rw [← Submodule.Quotient.mk_smul, ← Submodule.Quotient.mk_smul,
       Submodule.Quotient.mk_eq_zero]
     refine ⟨⟨x, by
-      show x ∈ I ^ 0 • ⊤
+      change x ∈ I ^ 0 • ⊤
       simp only [FGModuleCat.obj_carrier, pow_zero, Ideal.one_eq_top, Submodule.top_smul]
       trivial⟩, ?_⟩
     rw [hr]
@@ -394,7 +394,7 @@ private theorem redHomAux_le : J • (⊤ : Submodule A (X →ₗ[A] Y)) ≤ Lin
   refine LinearMap.ext fun x => ?_
   induction x using Submodule.Quotient.induction_on with
   | H x =>
-  show (Submodule.Quotient.mk (a • h x) : red J Y) = 0
+  change (Submodule.Quotient.mk (a • h x) : red J Y) = 0
   rw [Submodule.Quotient.mk_eq_zero]
   exact Submodule.smul_mem_smul ha trivial
 

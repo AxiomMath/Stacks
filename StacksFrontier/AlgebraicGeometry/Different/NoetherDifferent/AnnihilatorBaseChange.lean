@@ -58,7 +58,7 @@ theorem idealBaseChangeMap_injective :
     Function.Injective (idealBaseChangeMap (S := S) I) := by
   intro x y h
   have hi : Function.Injective (LinearMap.baseChange S I.subtype) := by
-    simpa only [LinearMap.baseChange_eq_ltensor] using
+    simpa only [LinearMap.baseChange_eq_lTensor] using
       (Module.Flat.iff_lTensor_injectiveₛ.mp (inferInstance : Module.Flat R S)) I
   exact hi ((TensorProduct.AlgebraTensorModule.rid R S S).injective h)
 
@@ -68,7 +68,7 @@ theorem range_idealBaseChangeMap :
     (idealBaseChangeMap (S := S) I).range = Ideal.map (algebraMap R S) I := by
   dsimp [idealBaseChangeMap]
   rw [LinearMap.range_comp]
-  show Submodule.map (TensorProduct.AlgebraTensorModule.rid R S S).toLinearMap
+  change Submodule.map (TensorProduct.AlgebraTensorModule.rid R S S).toLinearMap
     (Submodule.baseChange S I) = Ideal.map (algebraMap R S) I
   rw [Submodule.baseChange_eq_span, Submodule.map_span]
   have key (r : R) : (TensorProduct.AlgebraTensorModule.rid R S S).toLinearMap

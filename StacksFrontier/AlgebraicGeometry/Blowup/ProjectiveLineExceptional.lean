@@ -315,7 +315,7 @@ theorem isWeaklyRegular_of_span_range_eq_maximalIdeal (A : Type u) [CommRing A]
   have hset : {r : A | r ∈ [x 0, x 1]} = Set.range x := by
     ext a
     refine ⟨fun ha => ?_, ?_⟩
-    · simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at ha
+    · simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at ha
       rcases ha with rfl | rfl
       · exact ⟨0, rfl⟩
       · exact ⟨1, rfl⟩
@@ -428,7 +428,7 @@ theorem exists_isClosedImmersion_isPullback_projectiveLine_blowUpSpec_maximalIde
                 MvPolynomial.homogeneousSubmodule (Fin 2) (IsLocalRing.ResidueField A) 0) :
               MvPolynomial (Fin 2) (IsLocalRing.ResidueField A)) = MvPolynomial.C c' := by
           intro c'
-          show ((algebraMap (IsLocalRing.ResidueField A)
+          change ((algebraMap (IsLocalRing.ResidueField A)
             (MvPolynomial.homogeneousSubmodule (Fin 2) (IsLocalRing.ResidueField A) 0) c' :
               MvPolynomial.homogeneousSubmodule (Fin 2) (IsLocalRing.ResidueField A) 0) :
             MvPolynomial (Fin 2) (IsLocalRing.ResidueField A)) = MvPolynomial.C c'

@@ -129,7 +129,7 @@ inclusion of the smaller one. -/
 theorem openSubInclusionOver_comp {U U' : X.left.Opens} (h : U' ≤ U) :
     openSubInclusionOver R X h ≫ openSubOverHom R X U = openSubOverHom R X U' :=
   Over.OverMorphism.ext (by
-    show X.left.homOfLE h ≫ U.ι = U'.ι
+    change X.left.homOfLE h ≫ U.ι = U'.ι
     rw [Scheme.homOfLE_ι])
 
 /-- The inclusions of the opens of `X` compose. -/
@@ -137,7 +137,7 @@ theorem openSubInclusionOver_trans {U U' U'' : X.left.Opens} (h : U' ≤ U) (h' 
     openSubInclusionOver R X h' ≫ openSubInclusionOver R X h =
       openSubInclusionOver R X (h'.trans h) :=
   Over.OverMorphism.ext (by
-    show X.left.homOfLE h' ≫ X.left.homOfLE h = X.left.homOfLE (h'.trans h)
+    change X.left.homOfLE h' ≫ X.left.homOfLE h = X.left.homOfLE (h'.trans h)
     rw [Scheme.homOfLE_homOfLE])
 
 /-- The map of charts of `X ×_R Y` induced by the inclusion of a smaller open subscheme of

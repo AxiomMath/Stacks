@@ -67,16 +67,11 @@ strict composition of the étale restrictions.
 This is `AlgebraicGeometry.Space.modulePullbackCompIso_hom_comp_etaleRestriction` with its
 hypothesis discharged by
 `AlgebraicGeometry.Space.etaleModulePullbackCompAdjunction_unit`, which needs no relative
-representability.  The three representability hypotheses below are therefore no longer used in
-the proof; they are kept in the statement because this declaration's own consumers pass them, and
-dropping them is a separate change to those call sites. -/
+representability, so the statement carries no representability hypothesis. -/
 theorem modulePullbackCompIso_hom_comp_etaleRestriction_of_representable
     {A C D : AlgebraicSpaces B S hS} (h : D ⟶ A) (g : A ⟶ C)
     (hh : IsEtale B S hS h.hom) (hg : IsEtale B S hS g.hom)
-    (hhg : IsEtale B S hS (h ≫ g).hom)
-    (hreph : yoneda.relativelyRepresentable h.hom)
-    (hrepg : yoneda.relativelyRepresentable g.hom)
-    (hrephg : yoneda.relativelyRepresentable (h ≫ g).hom) :
+    (hhg : IsEtale B S hS (h ≫ g).hom) :
     (modulePullbackCompIso B S hS h g).hom ≫
         (modulePullbackIsoEtaleModulePullback B S hS (h ≫ g) hhg).hom =
       Functor.whiskerLeft (modulePullback B S hS g)
@@ -109,9 +104,8 @@ theorem chartModuleInverseImageSliceApp_comp_unconditional
         chartModuleInverseImageSliceApp B S hS X (g ≫ f) T ≫
           (chartModuleSliceReindex B S hS X W).map (overMapCompInvApp B S hS X f g T) :=
   chartModuleInverseImageSliceApp_comp B S hS X
-    (fun {_ _ _} h' g' hh' hg' hhg' hreph' hrepg' hrephg' ↦
-      modulePullbackCompIso_hom_comp_etaleRestriction_of_representable B S hS h' g' hh' hg'
-        hhg' hreph' hrepg' hrephg')
+    (fun h' g' hh' hg' hhg' _ _ _ ↦
+      modulePullbackCompIso_hom_comp_etaleRestriction_of_representable B S hS h' g' hh' hg' hhg')
     f g T
 
 /-- **The second dictionary square of Stacks 03LY**, with no hypothesis: the dictionary carries
@@ -130,9 +124,8 @@ theorem chartModuleRestrictionSliceIso_comp_unconditional
       (chartModuleRestrictionComp B S hS X f).hom.app F ≫
         (chartModuleRestrictionSliceIso B S hS X V).hom.app F :=
   chartModuleRestrictionSliceIso_comp B S hS X
-    (fun {_ _ _} h' g' hh' hg' hhg' hreph' hrepg' hrephg' ↦
-      modulePullbackCompIso_hom_comp_etaleRestriction_of_representable B S hS h' g' hh' hg'
-        hhg' hreph' hrepg' hrephg')
+    (fun h' g' hh' hg' hhg' _ _ _ ↦
+      modulePullbackCompIso_hom_comp_etaleRestriction_of_representable B S hS h' g' hh' hg' hhg')
     f F
 
 /-- **The cocycle condition of Stacks 03LY for the chartwise reading of a slice-indexed glueing

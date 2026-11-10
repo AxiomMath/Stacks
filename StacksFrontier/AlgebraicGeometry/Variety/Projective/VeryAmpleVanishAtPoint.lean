@@ -128,7 +128,7 @@ theorem exists_globalSection_vanishing_at_rationalPoint
     exact AlgebraicGeometry.ptOfIsRationalPoint_comp fX x hx
   have hpt : ∀ a, (AlgebraicGeometry.ptOfIsRationalPoint fX x hx ≫ α).base a = α.base x := by
     intro a
-    show α.base ((AlgebraicGeometry.ptOfIsRationalPoint fX x hx).base a) = α.base x
+    change α.base ((AlgebraicGeometry.ptOfIsRationalPoint fX x hx).base a) = α.base x
     rw [AlgebraicGeometry.ptOfIsRationalPoint_apply]
   have hinj : Function.Injective α.base := α.isEmbedding.injective
   -- the degree-one equation of the rational point
@@ -168,7 +168,7 @@ theorem exists_globalSection_vanishing_at_rationalPoint
             ((symAlgebra E).grading (⊤ : (Spec (CommRingCat.of k)).Opens)) v hv) ↔
         v ∉ y.asHomogeneousIdeal := by
     intro y
-    show y ∈ Stacks.SheafOfModules.nonvanishingOpen (X := _) _ _ ↔ _
+    change y ∈ Stacks.SheafOfModules.nonvanishingOpen (X := _) _ _ ↔ _
     rw [hdict]
     exact Iff.rfl
   -- carry the section back to `X`

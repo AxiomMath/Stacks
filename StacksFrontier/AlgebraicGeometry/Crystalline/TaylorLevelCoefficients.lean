@@ -139,15 +139,15 @@ theorem sum_sum_ite_add_eq_single [DecidableEq ι] {A B C : Type*} [Zero A] [Zer
     intro K a
     by_cases hK0 : K = 0
     · subst hK0
-      simp only [zero_add, if_neg (Ne.symm hne), add_zero]
+      simp only [zero_add, ite_eq_right (Ne.symm hne), add_zero]
       exact sum_ite_eq_apply_of_map_zero g (fun L y ↦ h 0 L a y) (h₂ 0 · a) e
     · by_cases hKe : K = e
       · subst hKe
         have : ∀ L : ι →₀ ℕ, (e + L = e) ↔ L = 0 := fun L ↦ by simp
-        simp only [this, if_neg hK0, zero_add]
+        simp only [this, ite_eq_right hK0, zero_add]
         exact sum_ite_eq_apply_of_map_zero g (fun L y ↦ h e L a y) (h₂ e · a) 0
-      · rw [if_neg hK0, if_neg hKe, add_zero]
-        refine Finset.sum_eq_zero fun L _ ↦ if_neg fun h ↦ ?_
+      · rw [ite_eq_right hK0, ite_eq_right hKe, add_zero]
+        refine Finset.sum_eq_zero fun L _ ↦ ite_eq_right fun h ↦ ?_
         rcases eq_zero_or_eq_single_of_add_eq_single h with ⟨h', -⟩ | ⟨h', -⟩
         · exact hK0 h'
         · exact hKe h'
@@ -275,14 +275,14 @@ theorem sum_antidiagonal_single_apply [DecidableEq ι] (g : (ι →₀ ℕ) →�
     (a b : ι →₀ ℕ) :
     (g.sum fun N y ↦ ∑ x ∈ Finset.antidiagonal N, Finsupp.single x y) (a, b) = g (a + b) := by
   rw [Finsupp.sum_apply, Finsupp.sum_eq_single (a + b)]
-  · rw [Finsupp.finset_sum_apply, Finset.sum_eq_single (a, b)]
+  · rw [Finsupp.finsetSum_apply, Finset.sum_eq_single (a, b)]
     · exact Finsupp.single_eq_same
     · intro x _ hx
       exact Finsupp.single_eq_of_ne' hx
     · intro h
       simp at h
   · intro N _ hN
-    rw [Finsupp.finset_sum_apply]
+    rw [Finsupp.finsetSum_apply]
     refine Finset.sum_eq_zero fun x hx ↦ Finsupp.single_eq_of_ne' fun h ↦ hN ?_
     have hx' := Finset.mem_antidiagonal.mp hx
     rw [h] at hx'
@@ -445,7 +445,7 @@ theorem bijective_taylorSum_of_basis (a₀ : M₀ →+ M₁) (κ : B → R₁)
   have h : taylorSum a₀ (fun K ↦ κ (b K)) = β.comp Ψ.toAddMonoidHom := by
     refine Finsupp.addHom_ext fun K m ↦ ?_
     rw [taylorSum_single, AddMonoidHom.coe_comp, Function.comp_apply]
-    show _ = β ((LinearEquiv.rTensor M₀ b.repr.symm)
+    change _ = β ((LinearEquiv.rTensor M₀ b.repr.symm)
       ((TensorProduct.finsuppScalarLeft R₀ M₀ X).symm (Finsupp.single K m)))
     rw [TensorProduct.finsuppScalarLeft_symm_apply_single, LinearEquiv.rTensor_tmul,
       Module.Basis.repr_symm_single_one, hβt]
@@ -463,7 +463,7 @@ noncomputable def basisOfBijective (xi : X → B)
     (h : Function.Bijective (Finsupp.linearCombination R₀ xi)) (K : X) :
     basisOfBijective xi h K = xi K := by
   rw [basisOfBijective, Module.Basis.coe_ofRepr, LinearEquiv.symm_symm]
-  show Finsupp.linearCombination R₀ xi (Finsupp.single K 1) = xi K
+  change Finsupp.linearCombination R₀ xi (Finsupp.single K 1) = xi K
   rw [Finsupp.linearCombination_single, one_smul]
 
 end Basis
@@ -492,7 +492,7 @@ theorem bijective_taylorSum_quotient (σ : R →+* B) (xi : X → B)
     rw [taylorSum_apply, taylorSum_apply, Finsupp.sum_mapRange_index (fun _ ↦ by simp),
       map_finsuppSum]
     refine Finsupp.sum_congr fun K _ ↦ ?_
-    simp only [RingHom.toAddMonoidHom_eq_coe, AddMonoidHom.coe_coe, smul_eq_mul, map_mul,
+    simp only [RingHom.toAddMonoidHom_eq_coe, AddMonoidHom.coe_ofClass, smul_eq_mul, map_mul,
       hcomm]
   refine ⟨fun g₁' g₂' h ↦ ?_, fun y' ↦ ?_⟩
   · obtain ⟨g₁, rfl⟩ := Finsupp.mapRange_surjective πR (map_zero πR) hπR g₁'
@@ -506,7 +506,7 @@ theorem bijective_taylorSum_quotient (σ : R →+* B) (xi : X → B)
       rw [taylorSum_apply, taylorSum_apply, Finsupp.sum_mapRange_index (fun _ ↦ by simp),
         Finsupp.mul_sum]
       refine Finsupp.sum_congr fun K _ ↦ ?_
-      simp only [RingHom.toAddMonoidHom_eq_coe, AddMonoidHom.coe_coe, smul_eq_mul, map_mul,
+      simp only [RingHom.toAddMonoidHom_eq_coe, AddMonoidHom.coe_ofClass, smul_eq_mul, map_mul,
         map_natCast]
       ring
     refine sub_eq_zero.mp ?_

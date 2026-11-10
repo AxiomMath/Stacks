@@ -79,11 +79,11 @@ private lemma exists_equal_stage_of_equal_limit_sections {J : Type v} [Category.
       (c.π.app m).appTop ((F.map g).appTop y) := by
     calc
       (c.π.app m).appTop ((F.map f).appTop x) = (c.π.app j).appTop x := by
-        show ((F.map f).appTop ≫ (c.π.app m).appTop) x = _
+        change ((F.map f).appTop ≫ (c.π.app m).appTop) x = _
         rw [← Scheme.Hom.comp_appTop, c.w f]
       _ = (c.π.app k).appTop y := h
       _ = (c.π.app m).appTop ((F.map g).appTop y) := by
-        show _ = ((F.map g).appTop ≫ (c.π.app m).appTop) y
+        change _ = ((F.map g).appTop ≫ (c.π.app m).appTop) y
         rw [← Scheme.Hom.comp_appTop, c.w g]
   have hm' : cΓ.ι.app (Opposite.op m) ((F.map f).appTop x) =
       cΓ.ι.app (Opposite.op m) ((F.map g).appTop y) := hm
@@ -182,7 +182,7 @@ private lemma exists_stage_map_mem_range {J : Type z} [Category.{w} J] [IsFilter
   refine ⟨(F.map e).hom z, ?_⟩
   refine (NatTrans.naturality_apply η e z).trans ?_
   rw [hz]
-  show ((G.map (p ⟨y, hy⟩)) ≫ G.map e).hom y = _
+  change ((G.map (p ⟨y, hy⟩)) ≫ G.map e).hom y = _
   rw [← Functor.map_comp, he ⟨y, hy⟩ (Finset.mem_univ _)]
 
 /-- A ring map is surjective once its target is generated, as an algebra over its source, by a
@@ -257,7 +257,7 @@ private lemma exists_finset_adjoin_baseChangeDiagram_eq_top {I : Type v} [Catego
     isAffine_baseChangeDiagram_obj D i₀ Y rootObj
   have : LocallyOfFiniteType fRoot := locallyOfFiniteType_baseChangeMap (D.map rootObj.hom) X Y f
   have hft : Algebra.FiniteType (F.obj root) (G.obj root) := by
-    show fRoot.appTop.hom.FiniteType
+    change fRoot.appTop.hom.FiniteType
     simpa [Scheme.Hom.appTop, Scheme.Hom.app_eq_appLE] using
       fRoot.finiteType_appLE (isAffineOpen_top _) (isAffineOpen_top _) (by simp)
   obtain ⟨s, hs⟩ := hft.out
@@ -346,7 +346,7 @@ private lemma isClosedImmersion_of_baseChange_cover {S T : Scheme.{u}} (p : T �
   have hp := hOver.map (Over.pullback p ⋙ Over.forget _)
   change IsPullback ((Over.pullback p).map (vx k)).left ((Over.pullback p).map (fu k)).left
     ((Over.pullback p).map f).left ((Over.pullback p).map (vy k)).left at hp
-  show IsClosedImmersion (pullback.snd ((Over.pullback p).map f).left
+  change IsClosedImmersion (pullback.snd ((Over.pullback p).map f).left
     ((Over.pullback p).map (vy k)).left)
   rw [← hp.isoPullback_inv_snd]
   have := H k
@@ -381,7 +381,7 @@ private lemma exists_isClosedImmersion_of_isAffineHom {I : Type v} [Category.{w}
     have : IsAffine (YU k).left := inferInstanceAs (IsAffine (U.X k))
     have : IsAffine (XU k).left := IsAffine.of_isPullback (hpb k).flip
     have : LocallyOfFiniteType (fu k).left := by
-      show LocallyOfFiniteType (pullback.snd f.left (U.f k))
+      change LocallyOfFiniteType (pullback.snd f.left (U.f k))
       infer_instance
     have : IsClosedImmersion ((Over.pullback (c.π.app i₀)).map (fu k)).left :=
       MorphismProperty.IsStableUnderBaseChange.of_isPullback
@@ -423,7 +423,7 @@ theorem exists_isClosedImmersion_baseChange_of_isLimit
   let f₁ : X₁ ⟶ Y₁ := (Over.pullback (D.map hi₁)).map f₀
   have : IsAffineHom f₁.left := hAffine
   have : CompactSpace Y₁.left := by
-    show CompactSpace ↥(pullback Y₀.hom (D.map hi₁))
+    change CompactSpace ↥(pullback Y₀.hom (D.map hi₁))
     infer_instance
   have : LocallyOfFiniteType f₁.left :=
     MorphismProperty.overPullbackMap (P := @LocallyOfFiniteType) (D.map hi₁) f₀ inferInstance

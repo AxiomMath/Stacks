@@ -12,7 +12,8 @@ pseudofunctor in groupoids `AlgebraicGeometry.frobeniusVectorBundleGroupoidPseud
 finite locally free `colim_F 𝒪_U`-modules and the structure functor
 `AlgebraicGeometry.frobeniusVectorBundleGroupoidFibration` it presents, and
 `StacksFrontier/AlgebraicGeometry/Descent/FrobeniusColimitVectorBundleGroupoidStack.lean` and
-`StacksFrontier/AlgebraicGeometry/Descent/FrobeniusColimitVectorBundleGroupoidFullSubcategory.lean` carry descent statements *about
+`StacksFrontier/AlgebraicGeometry/Descent/FrobeniusColimitVectorBundleGroupoidFullSubcategory.lean`
+carry descent statements *about
 the pseudofunctor* down from the pseudofunctor of all Frobenius-colimit modules.  The conditions
 of Stacks Tag 0EX9, however, and its conclusion, are statements about the *structure functor*.
 This file crosses between the two, by

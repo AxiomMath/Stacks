@@ -49,7 +49,8 @@ sites, no iterated slice, and no formula for any tensorator.
 
 **What this leaves for `app_restrict`.** Together with
 `Stacks.TwistedSections.openDivision_gsmul_changeGenerator`
-(`StacksFrontier/AlgebraicGeometry/TwistedSectionModule/DivisionGeneratorChange.lean`), which compares the divisions at two
+(`StacksFrontier/AlgebraicGeometry/TwistedSectionModule/DivisionGeneratorChange.lean`), which
+compares the divisions at two
 generators over a common open, the division side of Tag 0B5I's compatibility field is complete.
 What is not here is the *source* side: the degree-zero restriction map
 `Γ_*(X, ℱ, L)_{(p)} ⟶ Γ_*(X, ℱ, L)_{(q)}` of Stacks Tag 01M4 has to be computed on a fraction,
@@ -58,8 +59,8 @@ to be produced from `D₊(q) ≤ D₊(p)`.
 
 **The degree reductions.** `ℱ|_V ⊙ 0` and `ℱ|_V` are equal by `rfl` and not syntactically, so
 the crossing is made explicitly, by `Stacks.TwistedSections.twistZeroIso`; see the implementation
-notes of `StacksFrontier/AlgebraicGeometry/TwistedSectionModule/SectionMultiplication.lean`. The degree-zero section the
-division produces is introduced by `obtain` at the reduced type, so that
+notes of `StacksFrontier/AlgebraicGeometry/TwistedSectionModule/SectionMultiplication.lean`. The
+degree-zero section the division produces is introduced by `obtain` at the reduced type, so that
 `shiftPow_eq_comp_twistMul` matches it.
 
 ## References

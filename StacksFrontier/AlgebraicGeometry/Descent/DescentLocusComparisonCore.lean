@@ -75,25 +75,26 @@ def homologyZeroModelEquiv :
     (homologyZeroBaseEquivSections fY (fun j => g ⁻¹ᵁ U j) (top_eq_iSup_preimage g U hU)
       ((Scheme.Modules.pullback g).obj F))
 
-omit [LinearOrder I] in
+omit [Fintype I] [LinearOrder I] in
 include hsq hU hUaff u hflat b in
 /-- **The base change of a model has no `H⁻¹`.** -/
-theorem subsingleton_homology_neg_one :
+theorem subsingleton_homology_neg_one [Finite I] :
     Subsingleton ((extendScalarsComplex φ P).homology (-1)) := by
+  have := Fintype.ofFinite I
   have := quasiIso_baseChangeChainComparison φ hsq F U hU hUaff u hflat b
   refine ModuleCat.subsingleton_of_isZero (IsZero.of_iso ?_
     (asIso (HomologicalComplex.homologyMap (baseChangeChainComparison φ hsq F U hU hUaff u) (-1))))
   exact isZero_homology_baseAlternatingCechComplex_neg_one fY (fun j => g ⁻¹ᵁ U j)
     (top_eq_iSup_preimage g U hU) ((Scheme.Modules.pullback g).obj F)
 
-omit [LinearOrder I] in
+omit [Fintype I] [LinearOrder I] in
 include hsq hU hUaff u hflat b in
 /-- **A degree-zero cocycle of the base change of a model is a global section, and its class
 dies on a fibre exactly where that section does.** If `σ` is a cocycle of `P ⊗_A B`, there is a
 global section `s` of the base change of `F` such that for every further base change
 `Z ⟶ Y` along `B → K` on which `s` pulls back to zero, the image of `σ` in `P ⊗_A K` is a
 coboundary. -/
-theorem exists_section_of_cycle (σ : (extendScalarsComplex φ P).X 0)
+theorem exists_section_of_cycle [Finite I] (σ : (extendScalarsComplex φ P).X 0)
     (hσ : (extendScalarsComplex φ P).d 0 1 σ = 0) :
     ∃ s : Γ((Scheme.Modules.pullback g).obj F, ⊤),
       ∀ (K : Type u) [CommRing K] (χ : B →+* K) {Z : Scheme.{u}} {fZ : Z ⟶ Spec (.of K)}
@@ -103,6 +104,7 @@ theorem exists_section_of_cycle (σ : (extendScalarsComplex φ P).X 0)
           (extendScalarsComplex (χ.comp φ) P).d (-1) 0 τ =
             (ModuleCat.extendScalarsComp φ χ).inv.app (P.X 0)
               (StacksDraft.Perfect.etm χ 1 σ) := by
+  have := Fintype.ofFinite I
   have : IsSeparated fY := isSeparated_of_isPullback φ hsq
   set FY := (Scheme.Modules.pullback g).obj F
   set UY : I → Y.Opens := fun j => g ⁻¹ᵁ U j

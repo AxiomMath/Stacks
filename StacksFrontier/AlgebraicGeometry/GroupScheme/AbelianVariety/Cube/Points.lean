@@ -44,13 +44,13 @@ theorem hzk_of_evz (z : Spec (.of k) ⟶ A.left) {V : A.left.Opens} (hzV : z ⁻
     z ≫ A.hom = 𝟙 _ := by
   refine ext_of_isAffine ?_
   ext x
-  show (z ≫ A.hom).appLE ⊤ ⊤ (Stacks.AffineProduct.le_preimage_top _ _) x = x
+  change (z ≫ A.hom).appLE ⊤ ⊤ (Stacks.AffineProduct.le_preimage_top _ _) x = x
   rw [← appLE_comp A.hom z (Stacks.AffineProduct.le_preimage_top A.hom V)
     (le_top_preimage_z z hzV) x, evz_eq_of z hzV]
   have : A.hom.appLE ⊤ V (Stacks.AffineProduct.le_preimage_top A.hom V) x =
       (Stacks.Cech.baseRingHom A.hom V).hom ((Scheme.ΓSpecIso (.of k)).hom x) := by
     rw [Stacks.Cech.baseRingHom_eq_appLE A.hom V (Stacks.AffineProduct.le_preimage_top _ _)]
-    show _ = A.hom.appLE ⊤ V _ ((Scheme.ΓSpecIso (.of k)).inv ((Scheme.ΓSpecIso (.of k)).hom x))
+    change _ = A.hom.appLE ⊤ V _ ((Scheme.ΓSpecIso (.of k)).inv ((Scheme.ΓSpecIso (.of k)).hom x))
     rw [Iso.hom_inv_id_apply]
   rw [this, h, Iso.hom_inv_id_apply]
 

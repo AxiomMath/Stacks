@@ -52,11 +52,11 @@ noncomputable def sigmaIsoOfIsZero {C : Type u} [Category.{v} C] [HasZeroMorphis
   hom := Sigma.ι P r
   inv := Sigma.desc fun i => if hi : i = r then eqToHom (by rw [hi]) else 0
   hom_inv_id := by
-    rw [Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc]
     simp
   inv_hom_id := by
     refine Sigma.hom_ext _ _ fun i => ?_
-    rw [Category.comp_id, ← Category.assoc, Sigma.ι_desc]
+    rw [Category.comp_id, ← Category.assoc, Sigma.ι_comp_desc]
     by_cases hi : i = r
     · subst hi
       simp

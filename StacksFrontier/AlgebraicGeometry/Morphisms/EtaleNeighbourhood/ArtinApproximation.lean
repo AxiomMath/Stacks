@@ -69,7 +69,7 @@ private lemma completion_approximation_mod_pow (A : Type u) [CommRing A]
   rw [← Submodule.restrictScalars_mem A, ← Ideal.smul_top_eq_map]
   rw [AdicCompletion.pow_smul_top_eq_ker_eval
     (M := A) (maximalIdeal A).fg_of_isNoetherianRing]
-  show AdicCompletion.eval I A n (x - algebraMap A (AdicCompletion I A) a) = 0
+  change AdicCompletion.eval I A n (x - algebraMap A (AdicCompletion I A) a) = 0
   rw [map_sub, AdicCompletion.algebraMap_apply, AdicCompletion.eval_of]
   exact sub_eq_zero.mpr ha.symm
 
@@ -246,10 +246,10 @@ private lemma section_comp_stalk_map
   have hbaseCat : f.stalkMap t ≫ CommRingCat.ofHom sigma =
       CommRingCat.ofHom (algebraMap (S.presheaf.stalk (f t)) D) := by
     ext x
-    show sigma ((f.stalkMap t).hom x) = algebraMap (S.presheaf.stalk (f t)) D x
+    change sigma ((f.stalkMap t).hom x) = algebraMap (S.presheaf.stalk (f t)) D x
     exact DFunLike.congr_fun hbase0 x
   have hpre : t ∈ f ⁻¹ᵁ U := by
-    show f.base t ∈ U
+    change f.base t ∈ U
     simpa using hsU
   have hrestrict :
       f.appLE U V hVU ≫ T.presheaf.germ V t htV ≫ CommRingCat.ofHom sigma =
@@ -317,7 +317,7 @@ private theorem finiteType_extension_bridge
   have hkill : J ≤ RingHom.ker evB.toRingHom := by
     apply Ideal.span_le.2
     rintro p ⟨i, rfl⟩
-    show MvPolynomial.eval₂Hom (algebraMap B D) (fun ik => w ik.1 ik.2)
+    change MvPolynomial.eval₂Hom (algebraMap B D) (fun ik => w ik.1 ik.2)
       (finiteType_extension_relation b d a v i) = 0
     simp only [finiteType_extension_relation, map_sub, MvPolynomial.eval₂Hom_C,
       MvPolynomial.eval₂Hom_X', map_sum, map_mul]
@@ -333,17 +333,17 @@ private theorem finiteType_extension_bridge
   let j : B →ₐ[R] E := (Algebra.ofId B E).restrictScalars R
   refine ⟨ρ, inferInstance, ?_, ?_⟩
   · ext x
-    show ρB (algebraMap B E x) = φ x
+    change ρB (algebraMap B E x) = φ x
     rw [← Ideal.Quotient.mk_algebraMap B J x]
     simp only [Ideal.Quotient.mk_algebraMap, AlgHom.commutes, ρB, evB]
-    show φ.toRingHom x = φ x
+    change φ.toRingHom x = φ x
     rfl
   · intro ψ x
     apply agreement_mod_ideal_of_algebra_generators
       (R := R) K φ (ψ.comp j) (Set.range b) hb
     rintro _ ⟨i, rfl⟩
     have hmkC (c : B) : Ideal.Quotient.mk J (MvPolynomial.C c) = j c := by
-      show Ideal.Quotient.mk J (algebraMap B P c) = algebraMap B E c
+      change Ideal.Quotient.mk J (algebraMap B P c) = algebraMap B E c
       exact Ideal.Quotient.mk_algebraMap B J c
     have hz : ψ (Ideal.Quotient.mk J (finiteType_extension_relation b d a v i)) = 0 := by
       have hz0 : Ideal.Quotient.mk J (finiteType_extension_relation b d a v i) = 0 :=
@@ -469,7 +469,7 @@ theorem exists_pointed_extension_of_finiteType_chartAlgebra
           ext x
           rfl
         rw [← hφcat, ← hchart]
-        show Spec.map (T.presheaf.germ V t htV ≫ CommRingCat.ofHom sigma) ≫ hV.fromSpec =
+        change Spec.map (T.presheaf.germ V t htV ≫ CommRingCat.ofHom sigma) ≫ hV.fromSpec =
           Spec.map (CommRingCat.ofHom sigma) ≫
             (Spec.map (T.presheaf.germ V t htV) ≫ hV.fromSpec)
         exact Spec.map_comp_assoc (T.presheaf.germ V t htV)
@@ -477,7 +477,7 @@ theorem exists_pointed_extension_of_finiteType_chartAlgebra
   let e := SpecToEquivOfLocalRing T (CommRingCat.of D)
   have heK : e (Spec.map (CommRingCat.ofHom sigma) ≫ T.fromSpecStalk t) =
       ⟨t, ⟨CommRingCat.ofHom sigma, hsigma⟩⟩ := by
-    show e (e.symm ⟨t, ⟨CommRingCat.ofHom sigma, hsigma⟩⟩) = _
+    change e (e.symm ⟨t, ⟨CommRingCat.ofHom sigma, hsigma⟩⟩) = _
     exact e.apply_symm_apply _
   have he : e (mD ≫ g) = ⟨t, ⟨CommRingCat.ofHom sigma, hsigma⟩⟩ :=
     (congrArg e hmap).trans heK
@@ -530,12 +530,12 @@ theorem exists_pointed_extension_of_finiteType_chartAlgebra
   have hr : Set.range hV.fromSpec ⊆ (V : Set T) := by rw [hV.range_fromSpec]
   have htop : (⊤ : T'.Opens) ≤ g ⁻¹ᵁ V := by
     intro x hx
-    show (Spec.map (CommRingCat.ofHom (algebraMap C E)) ≫ hV.fromSpec) x ∈ (V : Set T)
+    change (Spec.map (CommRingCat.ofHom (algebraMap C E)) ≫ hV.fromSpec) x ∈ (V : Set T)
     rw [Scheme.Hom.comp_apply]
     exact hr ⟨Spec.map (CommRingCat.ofHom (algebraMap C E)) x, rfl⟩
   have hj : (⊤ : (Spec (CommRingCat.of C)).Opens) ≤ hV.fromSpec ⁻¹ᵁ V := by
     intro x hx
-    show hV.fromSpec x ∈ (V : Set T)
+    change hV.fromSpec x ∈ (V : Set T)
     exact hr ⟨x, rfl⟩
   have hq : (⊤ : (Spec (CommRingCat.of E)).Opens) ≤
       (Spec.map (CommRingCat.ofHom (algebraMap C E))) ⁻¹ᵁ
@@ -572,7 +572,7 @@ theorem exists_pointed_extension_of_finiteType_chartAlgebra
     have hqmap : homOfLE hq = 𝟙 (⊤ : (Spec (CommRingCat.of E)).Opens) :=
       Subsingleton.elim _ _
     rw [hqmap]
-    show (Spec.map (CommRingCat.ofHom (algebraMap C E))).app ⊤ ≫ 𝟙 _ = _
+    change (Spec.map (CommRingCat.ofHom (algebraMap C E))).app ⊤ ≫ 𝟙 _ = _
     rw [CategoryTheory.Category.comp_id]
   have hCE : g.appLE V ⊤ htop ≫ (Scheme.ΓSpecIso (CommRingCat.of E)).hom =
       CommRingCat.ofHom (algebraMap C E) := by
@@ -782,8 +782,8 @@ theorem exists_finiteType_pointed_extension_agree_mod_maximalIdeal_pow_of_factor
       { toRingHom := ψring
         commutes' := by
           intro r
-          show ψring (algebraMap C E (algebraMap R C r)) = g₀ r
-          show (ψring.comp (algebraMap C E)) (algebraMap R C r) = g₀ r
+          change ψring (algebraMap C E (algebraMap R C r)) = g₀ r
+          change (ψring.comp (algebraMap C E)) (algebraMap R C r) = g₀ r
           rw [hψC]
           exact hbaseOf sigma' hbase' r }
     have hsections : ∀ x : C, sigma (γT x) - sigma' (γT x) ∈ K := by
@@ -792,7 +792,7 @@ theorem exists_finiteType_pointed_extension_agree_mod_maximalIdeal_pow_of_factor
       change φ x - ψring (algebraMap C E x) ∈ K at hx
       change φ x - (ψring.comp (algebraMap C E)) x ∈ K at hx
       rw [hψC] at hx
-      show sigma (γT x) - sigma' (γT x) ∈ K
+      change sigma (γT x) - sigma' (γT x) ∈ K
       exact hx
     let pT := (hV.primeIdealOf ⟨t, htV⟩).asIdeal
     let MT := pT.primeCompl

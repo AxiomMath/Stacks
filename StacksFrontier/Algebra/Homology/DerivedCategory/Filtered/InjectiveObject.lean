@@ -399,7 +399,7 @@ theorem biproduct_total_split [HasFiniteBiproducts 𝒜]
   have : Fintype J := Fintype.ofFinite J
   rw [biproduct.lift_desc, ← biproduct.total (f := f)]
   set g : J → (⨁ f ⟶ ⨁ f) := fun j => biproduct.π f j ≫ biproduct.ι f j with hg
-  show (∑ k, g (e k)) + g kp = ∑ j, g j
+  change (∑ k, g (e k)) + g kp = ∑ j, g j
   rw [← Finset.sum_image fun _ _ _ _ h => he h]
   have himage : Finset.univ.image e = Finset.univ.filter (fun j => j ≠ kp) := by
     ext j
@@ -455,9 +455,9 @@ theorem psi_step (hI : ∀ p, Injective (grSub F hF p)) (a b : ℤ)
   have he_cov : ∀ jj : Subtype Pp, jj ≠ kp → ∃ n, e n = jj := fun jj hjj => by
     refine ⟨⟨jj.1, ?_⟩, rfl⟩
     have h₁ : p ≤ (jj.1 : ℤ) := jj.2
-    show p + 1 ≤ (jj.1 : ℤ)
+    change p + 1 ≤ (jj.1 : ℤ)
     by_contra hQ
-    exact hjj (Subtype.ext (Subtype.ext (by show (jj.1 : ℤ) = p; omega)))
+    exact hjj (Subtype.ext (Subtype.ext (by change (jj.1 : ℤ) = p; omega)))
   set Sf : (⨁ (Subtype.restrict Qp (fun n : (Finset.Icc a b) => grSub F hF n.1))) ⟶
       (⨁ (Subtype.restrict Pp (fun n : (Finset.Icc a b) => grSub F hF n.1))) :=
     biproduct.desc
@@ -515,7 +515,7 @@ theorem psi_step (hI : ∀ p, Injective (grSub F hF p)) (a b : ℤ)
     ((F p).arrow ≫ g) ≫ biproduct.toSubtype (fun n : (Finset.Icc a b) => grSub F hF n.1) Pp with hτ₂
   have hcomm₂₃ : τ₂ ≫ Sg = cokernel.π j ≫ 𝟙 (cokernel j) := by
     rw [Category.comp_id, hτ₂, hSg, Category.assoc, biproduct.toSubtype_π]
-    show ((F p).arrow ≫ g) ≫
+    change ((F p).arrow ≫ g) ≫
       biproduct.π (fun n : (Finset.Icc a b) => grSub F hF n.1) ⟨p, hmem⟩ = _
     rw [Category.assoc, hg_π ⟨p, hmem⟩]
     exact gext_spec F hF hI p
@@ -599,7 +599,7 @@ theorem exists_filtered_iso_of_injective (hI : ∀ p, Injective (grSub F hF p))
     refine factor_through_fromSubtype (fun n : (Finset.Icc a b) => Inj n.1) (P p) (φ p) ?_
     intro n hn
     have hlt : (n : ℤ) + 1 ≤ p := by simp only [hP_def, not_le] at hn; omega
-    show ((F p).arrow ≫ g) ≫ biproduct.π _ n = 0
+    change ((F p).arrow ≫ g) ≫ biproduct.π _ n = 0
     rw [Category.assoc, hg_π]
     exact gext_vanish F hF hI n.1 p hlt
   have hbase : ∀ p : ℤ, b < p → IsIso (φ p ≫ biproduct.toSubtype
@@ -669,14 +669,14 @@ theorem exists_filtered_iso_of_injective (hI : ∀ p, Injective (grSub F hF p))
   refine ⟨asIso g, ?_⟩
   intro p
   have := hψ_iso p
-  show (Subobject.map (asIso g).hom).obj (F p) = stdFil a b Inj p
+  change (Subobject.map (asIso g).hom).obj (F p) = stdFil a b Inj p
   rw [stdFil_eq_mk a b Inj p]
   conv_lhs => rw [← Subobject.mk_arrow (F p)]
   rw [Subobject.map_mk]
   have hMono := mono_fromSubtype (fun n : (Finset.Icc a b) => Inj n.1) (P p)
   refine Subobject.mk_eq_mk_of_comm _ _
     (asIso (φ p ≫ biproduct.toSubtype (fun n : (Finset.Icc a b) => Inj n.1) (P p))) ?_
-  show (φ p ≫ biproduct.toSubtype (fun n : (Finset.Icc a b) => Inj n.1) (P p))
+  change (φ p ≫ biproduct.toSubtype (fun n : (Finset.Icc a b) => Inj n.1) (P p))
       ≫ biproduct.fromSubtype (fun n : (Finset.Icc a b) => Inj n.1) (P p)
       = (F p).arrow ≫ (asIso g).hom
   exact (hφ_factor p).symm

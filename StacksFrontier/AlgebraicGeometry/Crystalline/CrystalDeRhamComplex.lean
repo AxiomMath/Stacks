@@ -454,7 +454,8 @@ theorem isZero_derivedZariskiDirectImageFunctor_obj_of_termwise
       (zariskiDirectImage S).rightDerivedFunctorPlusUnith
       (HomotopyCategory.Plus.quasiIso _) _
       (((zariskiDirectImage S).mapHomotopyCategoryPlus ⋙
-        DerivedCategory.Plus.Qh).totalRightDerivedUnit DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso _))).1 inferInstance
+        DerivedCategory.Plus.Qh).totalRightDerivedUnit DerivedCategory.Plus.Qh
+          (HomotopyCategory.Plus.quasiIso _))).1 inferInstance
     rw [← Functor.rightDerived_fac_app (zariskiDirectImage S).rightDerivedFunctorPlus
       (zariskiDirectImage S).rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso _)] at hβ
     rwa [isIso_comp_right_iff] at hβ
@@ -838,8 +839,9 @@ is condition (2): the comparison morphism `c_f : f^*(Ω_{X/S})_{T'} ⟶ (Ω_{X/S
 for every morphism whose map on ambient schemes is a closed immersion.  The two are the two
 clauses of [Stacks, Tag 07KM], proved in
 `StacksFrontier/AlgebraicGeometry/Crystalline/DifferentialsLocallyQuasicoherent.lean` and
-`StacksFrontier/AlgebraicGeometry/Crystalline/DifferentialsComparison.lean`; what this statement adds
-is the conjunction [Stacks, Tag 07LN] asserts, that the two together are what the vanishing needs.
+`StacksFrontier/AlgebraicGeometry/Crystalline/DifferentialsComparison.lean`; what this statement
+adds is the conjunction [Stacks, Tag 07LN] asserts, that the two together are what the vanishing
+needs.
 
 **No tag attribute is placed**: the claim [Stacks, Tag 07LN] makes is about the sheaf
 `Ω^i_{X/S}` for *every* `i`, and that is `...SmallSite.crysFormsSheaf_vanishing` of

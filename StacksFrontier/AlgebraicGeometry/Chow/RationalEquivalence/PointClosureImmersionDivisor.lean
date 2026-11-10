@@ -69,7 +69,7 @@ theorem principalDivisorPushforward_apply_subschemeι (C : ChowSituation.{u}) {X
       principalCycle W.subscheme
         ((rationalFunctionsEquivFunctionField W.subscheme).1
           (g : rationalFunctions W.subscheme)) z := by
-  show closedSubschemeCyclePushforward C p W
+  change closedSubschemeCyclePushforward C p W
       (principalCycle W.subscheme ((rationalFunctionsEquivFunctionField W.subscheme).1
         (g : rationalFunctions W.subscheme))) (W.subschemeι.base z) = _
   rw [closedSubschemeCyclePushforward_apply]
@@ -104,7 +104,7 @@ theorem rationalFunctionsEquivFunctionField_integralComponentFunction {X : Schem
       (pointClosureFunctionFieldEquiv x).symm (v : X.residueField x) := by
   refine (pointClosureFunctionFieldEquiv x).injective ?_
   rw [RingEquiv.apply_symm_apply]
-  show rationalFunctionsEquivResidueFieldOfGenericPoint (integralComponentAt x)
+  change rationalFunctionsEquivResidueFieldOfGenericPoint (integralComponentAt x)
       (isIntegral_integralComponentAt x) (genericPointOf_integralComponentAt x)
       ((rationalFunctionsEquivFunctionField (integralComponentAt x).subscheme).1.symm
         ((rationalFunctionsEquivFunctionField (integralComponentAt x).subscheme).1

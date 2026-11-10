@@ -119,7 +119,7 @@ private lemma isQuasicoherent_middle_onSpec (R : CommRingCat.{u})
     [S.X₁.IsQuasicoherent] [S.X₃.IsQuasicoherent] :
     S.X₂.IsQuasicoherent := by
   have hΓ : (S.map (moduleSpecΓFunctor (R := R))).ShortExact := by
-    show (S.map (AlgebraicGeometry.moduleGlobalSections (Spec R) ⋙
+    change (S.map (AlgebraicGeometry.moduleGlobalSections (Spec R) ⋙
       ModuleCat.restrictScalars.{u} (Scheme.ΓSpecIso R).inv.hom)).ShortExact
     exact (shortExact_map_moduleGlobalSections (Spec R) S hS).map_of_exact
       (ModuleCat.restrictScalars.{u} (Scheme.ΓSpecIso R).inv.hom)

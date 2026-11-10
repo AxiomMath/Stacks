@@ -125,6 +125,7 @@ attribute [local instance] pointTopology
 /-! ### Cancelling a monomorphism out of quasi-compactness -/
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the pullbacks (`IsPullback.of_hasPullback`) of functors on the fppf site
 /-- If `f ≫ m` is a quasi-compact morphism of algebraic spaces over `S` in the sense of
 Tag 03HE and `m` is a monomorphism, then `f` is quasi-compact. -/
 theorem isQuasiCompact_of_comp_mono {F Y X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -186,7 +187,7 @@ theorem isDecentSpace_of_isOpenSubspace
   have hfield : fieldMorphism B S hS G.toFunctor
       (FieldValuedPoint.map B S hS (yoneda.obj (FieldValuedPoint.siteObject B S hS X p)) g
         (FieldValuedPoint.tautological B S hS p)) = g := by
-    show yonedaEquiv.symm (yonedaEquiv g) = g
+    change yonedaEquiv.symm (yonedaEquiv g) = g
     exact yonedaEquiv.symm_apply_apply g
   refine ⟨FieldValuedPoint.map B S hS (yoneda.obj (FieldValuedPoint.siteObject B S hS X p)) g
     (FieldValuedPoint.tautological B S hS p), ?_, ?_, ?_⟩

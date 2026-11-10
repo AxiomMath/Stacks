@@ -81,7 +81,7 @@ theorem exists_standardEtalePair_localization
   let f := Localization.localRingHom p qC (algebraMap A C) hcomap.symm
   let : Algebra (Localization.AtPrime p) (Localization.AtPrime qC) :=
     Localization.AtPrime.algebraOfLiesOver p qC
-  let : Localization.AtPrime.IsLiesOverAlgebra p qC := inferInstance
+  let : IsScalarTower A (Localization.AtPrime p) (Localization.AtPrime qC) := inferInstance
   let : Algebra.FiniteType A C := inferInstance
   let : IsNoetherianRing C := Algebra.FiniteType.isNoetherianRing A C
   let : IsNoetherianRing (Localization.AtPrime p) :=

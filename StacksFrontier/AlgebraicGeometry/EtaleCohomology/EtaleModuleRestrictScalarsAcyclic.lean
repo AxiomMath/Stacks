@@ -171,7 +171,7 @@ theorem exists_isSectionwiseTorsionFree_epi (F : EtaleModules.{u, 0} Λ X) :
       (sheafificationAdjunction X.smallEtaleTopology _).counit.app F, ?_, epi_comp _ _⟩
   apply isSectionwiseTorsionFree_sheafify
   intro U
-  show Module.IsTorsionFree Λ (((forget (ModuleCat.{u + 1} Λ)).obj (F.obj.obj U)) →₀ Λ)
+  change Module.IsTorsionFree Λ (((forget (ModuleCat.{u + 1} Λ)).obj (F.obj.obj U)) →₀ Λ)
   infer_instance
 
 end TorsionFree
@@ -330,7 +330,7 @@ def freeYonedaSheafSectionsCorepresentation (U : X.Etale) :
 theorem isSectionwiseTorsionFree_freeYonedaSheaf [IsDomain Λ] (U : X.Etale) :
     IsSectionwiseTorsionFree (freeYonedaSheaf (Λ := Λ) U) :=
   isSectionwiseTorsionFree_sheafify _ (fun V => by
-    show Module.IsTorsionFree Λ (ULift.{u + 1} (V.unop ⟶ U) →₀ Λ)
+    change Module.IsTorsionFree Λ (ULift.{u + 1} (V.unop ⟶ U) →₀ Λ)
     infer_instance)
 
 end Corepresentation

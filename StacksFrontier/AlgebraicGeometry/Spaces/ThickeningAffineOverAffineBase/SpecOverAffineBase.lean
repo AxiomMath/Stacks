@@ -54,7 +54,7 @@ theorem exists_desc_of_isPullback {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
   let gf : WF ⟶ YF := ⟨yoneda.map g⟩
   let c := Cofork.IsColimit.desc hc gf (by
     apply Sheaf.hom_ext
-    show yoneda.map s ≫ yoneda.map g = yoneda.map t ≫ yoneda.map g
+    change yoneda.map s ≫ yoneda.map g = yoneda.map t ≫ yoneda.map g
     rw [← Functor.map_comp, ← Functor.map_comp, hg])
   exact ⟨c.hom, congrArg (fun z ↦ z.hom) (Cofork.IsColimit.π_desc' hc gf _)⟩
 
@@ -133,7 +133,7 @@ theorem specOverAffineBaseHom_toBase {R R' : Type u} [CommRing R] [CommRing R']
       specOverAffineBaseToBase B S hS R' hR' := by
   apply (BigFppfOver.toScheme B S hS).map_injective
   rw [Functor.map_comp]
-  show (Spec.map (CommRingCat.ofHom f.toRingHom) ≫
+  change (Spec.map (CommRingCat.ofHom f.toRingHom) ≫
       Spec.map (CommRingCat.ofHom (algebraMap (affineBaseRing B S hS T) R)) ≫
         ((BigFppfOver.toScheme B S hS).obj T).isoSpec.inv : Spec (CommRingCat.of R') ⟶ _) =
     Spec.map (CommRingCat.ofHom (algebraMap (affineBaseRing B S hS T) R')) ≫
@@ -153,7 +153,6 @@ def toSpecOverAffineBase {V : BigFppfOver B S hS} [IsAffine ((BigFppfOver.toSche
     V ⟶ specOverAffineBase B S hS T R hR :=
   BigFppfOver.homMk B S hS hR _
     (((BigFppfOver.toScheme B S hS).obj V).isoSpec.hom ≫ Spec.map (CommRingCat.ofHom θ)) (by
-    change _ ≫ specOverAffineBaseStructure B S hS (T := T) R = _
     rw [Category.assoc, ← Category.assoc (Spec.map _), ← Spec.map_comp, ← CommRingCat.ofHom_comp,
       hθ, CommRingCat.ofHom_hom, Scheme.isoSpec_hom_naturality_assoc, Iso.hom_inv_id_assoc]
     exact congrArg (fun k ↦ k.hom) (Over.w ωV))
@@ -179,7 +178,7 @@ theorem appTop_toSpecOverAffineBase {V : BigFppfOver B S hS}
       ((BigFppfOver.toScheme B S hS).map ωV).appTop.hom) :
     ((BigFppfOver.toScheme B S hS).map (toSpecOverAffineBase B S hS ωV hR θ hθ)).appTop =
       (Scheme.ΓSpecIso (CommRingCat.of R)).hom ≫ CommRingCat.ofHom θ := by
-  show Scheme.Hom.appTop (X := (BigFppfOver.toScheme B S hS).obj V)
+  change Scheme.Hom.appTop (X := (BigFppfOver.toScheme B S hS).obj V)
       (Y := Spec (CommRingCat.of R))
       (((BigFppfOver.toScheme B S hS).obj V).isoSpec.hom ≫ Spec.map (CommRingCat.ofHom θ)) = _
   rw [Scheme.Hom.comp_appTop, Scheme.isoSpec_hom, Scheme.toSpecΓ_appTop]

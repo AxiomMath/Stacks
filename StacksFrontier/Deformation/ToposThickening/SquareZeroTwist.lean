@@ -135,7 +135,7 @@ public theorem twist_comp_reduction (S : LiftSquare J) {R : Sheaf J CommRingCat.
     (b : R ⟶ S.O') (δ : SectionwiseDerivation R S.G (b ≫ S.reduction)) :
     S.twist b δ ≫ S.reduction = b ≫ S.reduction := by
   refine sheafHom_ext J fun U x => ?_
-  show S.reduction.hom.app U (b.hom.app U x + S.incl (δ.toFun U x)) =
+  change S.reduction.hom.app U (b.hom.app U x + S.incl (δ.toFun U x)) =
     S.reduction.hom.app U (b.hom.app U x)
   rw [map_add, S.reduction_incl, add_zero]
 

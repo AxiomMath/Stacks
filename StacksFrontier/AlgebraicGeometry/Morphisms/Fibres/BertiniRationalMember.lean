@@ -63,7 +63,8 @@ theorem linearFormPolynomial_ne_zero {ℓ : D.V →ₗ[D.k] D.k} (hℓ : ℓ ≠
     simp only [not_exists, not_not] at h
     exact hℓ (D.basis.ext fun i => by simpa using h i)
   intro h0
-  have hc := congrArg (fun p : MvPolynomial D.basisIndex D.k => p.coeff (Finsupp.single (ULift.up i) 1)) h0
+  have hc := congrArg
+    (fun p : MvPolynomial D.basisIndex D.k => p.coeff (Finsupp.single (ULift.up i) 1)) h0
   rw [linearFormPolynomial, MvPolynomial.coeff_sum] at hc
   simp only [MvPolynomial.coeff_C_mul, MvPolynomial.coeff_X, AddMonoidAlgebra.coeff_zero,
     Finsupp.zero_apply] at hc
@@ -132,7 +133,7 @@ theorem exists_parameterPoint_mem_and_ne_zero [Infinite D.k]
     have hval := AffineSpace.homOfVector_appTop_ΓIso_inv_map a' P
     rw [hPG] at hval
     rw [D.parameterPoint_self]
-    show p ∈ _ ⁻¹ᵁ (𝔸(D.basisIndex; Spec (.of D.k))).basicOpen G
+    change p ∈ _ ⁻¹ᵁ (𝔸(D.basisIndex; Spec (.of D.k))).basicOpen G
     rw [Scheme.preimage_basicOpen_top]
     have hfun : (fun q : D.basisIndex => e.inv (a' (ULift.up q.down))) =
         fun q => e.inv (a' q) := rfl
@@ -160,21 +161,21 @@ theorem smooth_zeroScheme_of_smooth_specializedDivisor (a : Fin (Module.finrank 
   have : IsIso φ := by rw [hφ]; infer_instance
   set e : D.baseChange D.k ⟶ D.X := D.baseChangeToX D.k
   have : IsIso e := by
-    show IsIso (pullback.fst D.toBase φ)
+    change IsIso (pullback.fst D.toBase φ)
     infer_instance
   have hsnd : D.baseChangeToSpec D.k = e ≫ D.toBase := by
-    show pullback.snd D.toBase φ = pullback.fst D.toBase φ ≫ D.toBase
+    change pullback.snd D.toBase φ = pullback.fst D.toBase φ ≫ D.toBase
     rw [pullback.condition, hφ, Category.comp_id]
   -- the scalars of the base change are the pulled-back scalars
   have hscalar : ∀ c : D.k, D.baseChangeScalar D.k c = e.appTop (D.baseScalar c) := by
     intro c
-    show (pullback.snd D.toBase φ).appTop ((Scheme.ΓSpecIso (.of D.k)).inv c) = _
+    change (pullback.snd D.toBase φ).appTop ((Scheme.ΓSpecIso (.of D.k)).inv c) = _
     rw [show pullback.snd D.toBase φ = e ≫ D.toBase from hsnd, Scheme.Hom.comp_appTop]
     rfl
   set s := D.sectionOf (∑ i, a i • D.basis i)
   have hsec : D.specializedSection D.k a = pullbackGlobalSections e D.L s := by
     have hs : s = ∑ i, D.baseScalar (a i) • D.sectionOf (D.basis i) := by
-      show D.ψ (∑ i, a i • D.basis i) = _
+      change D.ψ (∑ i, a i • D.basis i) = _
       rw [map_sum]
       exact Finset.sum_congr rfl fun i _ => D.sectionOf_smul _ _
     rw [specializedSection, hs, map_sum]

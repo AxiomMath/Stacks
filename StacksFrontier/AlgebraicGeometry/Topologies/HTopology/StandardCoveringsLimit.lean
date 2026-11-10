@@ -320,7 +320,7 @@ private lemma exists_isAffine_finitePresentation_model (hc : IsLimit c) (X : Ove
   obtain ⟨i, Y, hY, ⟨α⟩⟩ :=
     LimitFPObjectDescent.exists_model_of_finitePresentation D c hc X hX
   have hαinv : IsIso α.inv.left := by
-    show IsIso ((Over.forget c.pt).map α.inv)
+    change IsIso ((Over.forget c.pt).map α.inv)
     infer_instance
   have : LocallyOfFinitePresentation Y.hom := hY.1
   have : QuasiCompact Y.hom := hY.2.1
@@ -360,7 +360,7 @@ private lemma exists_isAffine_finitePresentation_models (hc : IsLimit c) {K : Ty
   refine ⟨i, fun k ↦ (Over.pullback (D.map (maps k))).obj (models k), fun k ↦ ?_,
     fun k ↦ LimitFPObjectDescent.finitePresentation_overPullback _ _ (hfp k), ?_⟩
   · have : IsAffine (models k).left := haff k
-    show IsAffine (pullback (models k).hom (D.map (maps k)))
+    change IsAffine (pullback (models k).hom (D.map (maps k)))
     exact isAffine_of_isAffineHom (pullback.fst _ _)
   · exact ⟨fun k ↦ overPullbackCompIso _ _ _ (c.w (maps k)) (models k) ≪≫ (iso k).some⟩
 
@@ -431,7 +431,7 @@ private lemma exists_isProper_surjective_finitePresentation_model (hc : IsLimit 
   obtain ⟨i, Y, hY, ⟨α⟩⟩ :=
     LimitFPObjectDescent.exists_model_of_finitePresentation D c hc X hX
   have hαinv : IsIso α.inv.left := by
-    show IsIso ((Over.forget c.pt).map α.inv)
+    change IsIso ((Over.forget c.pt).map α.inv)
     infer_instance
   have : IsProper ((Over.pullback (c.π.app i)).obj Y).hom := by
     rw [← α.inv.w]
@@ -444,7 +444,7 @@ private lemma exists_isProper_surjective_finitePresentation_model (hc : IsLimit 
   let β : (Over.pullback (c.π.app j)).obj ((Over.pullback (D.map e)).obj Y) ≅ X :=
     overPullbackCompIso _ _ _ (c.w e) Y ≪≫ α.symm
   have hβ : IsIso β.hom.left := by
-    show IsIso ((Over.forget c.pt).map β.hom)
+    change IsIso ((Over.forget c.pt).map β.hom)
     infer_instance
   have : Surjective ((Over.pullback (c.π.app j)).obj
       ((Over.pullback (D.map e)).obj Y)).hom := by
@@ -454,7 +454,7 @@ private lemma exists_isProper_surjective_finitePresentation_model (hc : IsLimit 
     (LimitFPObjectDescent.finitePresentation_overPullback _ Y hY)
   have : IsProper ((Over.pullback (D.map b)).obj
       ((Over.pullback (D.map e)).obj Y)).hom := by
-    show IsProper (pullback.snd ((Over.pullback (D.map e)).obj Y).hom (D.map b))
+    change IsProper (pullback.snd ((Over.pullback (D.map e)).obj Y).hom (D.map b))
     infer_instance
   exact ⟨k, (Over.pullback (D.map b)).obj ((Over.pullback (D.map e)).obj Y),
     LimitFPObjectDescent.finitePresentation_overPullback _ _
@@ -600,7 +600,7 @@ private lemma exists_standardPHCovering_model (hc : IsLimit c) {K : Type*} [Fini
   refine ⟨k.left, W.X, W.f, ?_, hfp, ?_⟩
   · refine StandardPHCovering.of_presentation W.f (fun t ↦ haffU t) q (fun t ↦ (U t).ι)
       hqp hqs (fun t ↦ inferInstance) ?_ (fun _ ↦ rfl)
-    show (⋃ t : K, Set.range (U t).ι) = Set.univ
+    change (⋃ t : K, Set.range (U t).ι) = Set.univ
     convert hU.iSup_set_eq_univ using 1
     congr 1
     funext t
@@ -617,9 +617,9 @@ private lemma exists_standardPHCovering_model (hc : IsLimit c) {K : Type*} [Fini
       (isPullback_baseChangeStageCone D c i Z k)
     let δ : pullback (W.f t) (c.π.app k.left) ≅ V t := square.isoPullback.symm ≪≫ ε
     refine Over.isoMk δ ?_
-    show δ.hom ≫ j t ≫ Y.hom = pullback.snd (W.f t) (c.π.app k.left)
+    change δ.hom ≫ j t ≫ Y.hom = pullback.snd (W.f t) (c.π.app k.left)
     have hγ : γ.hom ≫ Y.hom = pullback.fst (c.π.app i) Z.hom := by
-      show ((pullbackSymmetry (c.π.app i) Z.hom).hom ≫ α.hom.left) ≫ Y.hom = _
+      change ((pullbackSymmetry (c.π.app i) Z.hom).hom ≫ α.hom.left) ≫ Y.hom = _
       rw [Category.assoc, α.hom.w]
       exact pullbackSymmetry_hom_comp_snd _ _
     have hε : ε.hom ≫ j t ≫ Y.hom = B.ι ≫ pullback.fst (c.π.app i) Z.hom := by
@@ -698,9 +698,9 @@ private lemma exists_isStandardHCovering_model_of_isLimit_small (hc : IsLimit c)
     · intro t
       have : IsAffine (X t).left := haX t
       have : IsAffine (F.X t) := by
-        show IsAffine (pullback (X t).hom (D.map ei))
+        change IsAffine (pullback (X t).hom (D.map ei))
         exact isAffine_of_isAffineHom (pullback.fst (X t).hom (D.map ei))
-      show IsAffine (pullback (F.f t) (D.map e))
+      change IsAffine (pullback (F.f t) (D.map e))
       exact isAffine_of_isAffineHom (pullback.fst (F.f t) (D.map e))
     · intro t
       exact LimitFPObjectDescent.finitePresentation_overPullback _ _

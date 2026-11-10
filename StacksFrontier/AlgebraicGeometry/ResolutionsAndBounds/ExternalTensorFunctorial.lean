@@ -194,7 +194,7 @@ theorem tensorSheafMap_globalSmulCenter_right (Z : Scheme.{u}) (r : Γ(Z, ⊤))
       ⟨Z.toRingedSpace.presheaf, Z.toRingedSpace.IsSheaf⟩ (Opposite.op U) _
   refine (tensorSheafMap_app_toTensorSheafSection Z.toRingedSpace A B A B (𝟙 A)
     ((globalSmulCenter Z r).app B) U a b).trans ?_
-  show toTensorSheafSection Z.toRingedSpace A B (Opposite.op U)
+  change toTensorSheafSection Z.toRingedSpace A B (Opposite.op U)
       (a ⊗ₜ[Z.presheaf.obj (Opposite.op U)] (Z.presheaf.map U.leTop.op r • b))
     = Z.presheaf.map U.leTop.op r •
         toTensorSheafSection Z.toRingedSpace A B (Opposite.op U)
@@ -225,7 +225,7 @@ theorem tensorSheafMap_globalSmulCenter_left (Z : Scheme.{u}) (r : Γ(Z, ⊤))
       ⟨Z.toRingedSpace.presheaf, Z.toRingedSpace.IsSheaf⟩ (Opposite.op U) _
   refine (tensorSheafMap_app_toTensorSheafSection Z.toRingedSpace A B A B
     ((globalSmulCenter Z r).app A) (𝟙 B) U a b).trans ?_
-  show toTensorSheafSection Z.toRingedSpace A B (Opposite.op U)
+  change toTensorSheafSection Z.toRingedSpace A B (Opposite.op U)
       ((Z.presheaf.map U.leTop.op r • a) ⊗ₜ[Z.presheaf.obj (Opposite.op U)] b)
     = Z.presheaf.map U.leTop.op r •
         toTensorSheafSection Z.toRingedSpace A B (Opposite.op U)

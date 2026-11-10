@@ -60,8 +60,7 @@ variable {B R R' : Type u} [CommRing B] [CommRing R] [CommRing R']
 /-- Multiplication by `t` on `R ⊗_B Q` is the base change of multiplication by `t` on `R`. -/
 theorem rTensor_mulLeft_apply (t : R) (Q : Type u) [AddCommGroup Q] [Module B Q]
     (z : R ⊗[B] Q) : (LinearMap.mulLeft B t).rTensor Q z = t • z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul r q => simp [LinearMap.mulLeft_apply, TensorProduct.smul_tmul']
   | add x y hx hy => simp [hx, hy]
 
@@ -131,7 +130,7 @@ private def equivSpanSingleton {t : R} (ht : t ∈ nonZeroDivisors R) {I : Ideal
 private theorem equivSpanSingleton_apply {t : R} (ht : t ∈ nonZeroDivisors R) {I : Ideal R}
     (hI : I = Ideal.span {t}) (htI : t ∈ I) (a : R) :
     (equivSpanSingleton ht hI htI a : R) = a * t := by
-  show ((LinearMap.toSpanSingleton R ↥I ⟨t, htI⟩ a : ↥I) : R) = a * t
+  change ((LinearMap.toSpanSingleton R ↥I ⟨t, htI⟩ a : ↥I) : R) = a * t
   simp only [LinearMap.toSpanSingleton_apply, SetLike.val_smul, smul_eq_mul]
 
 /-- The functional on the conormal module `I/I²` of the kernel `I` of `R ⟶ R'` induced by the
@@ -161,7 +160,7 @@ private theorem conormalFunctional_toCotangent {t : R} (ht : t ∈ nonZeroDiviso
     Subtype.ext <| (equivSpanSingleton_apply ht hker htI 1).trans (one_mul t)
   have hsymm : (equivSpanSingleton ht hker htI).symm ⟨t, htI⟩ = 1 :=
     (LinearEquiv.symm_apply_eq _).2 hone.symm
-  show Algebra.linearMap R R' ((equivSpanSingleton ht hker htI).symm ⟨t, htI⟩) = 1
+  change Algebra.linearMap R R' ((equivSpanSingleton ht hker htI).symm ⟨t, htI⟩) = 1
   simp [hsymm]
 
 end Conormal

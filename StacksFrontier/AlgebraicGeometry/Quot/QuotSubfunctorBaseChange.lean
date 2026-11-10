@@ -84,7 +84,7 @@ theorem isPullback_baseChangeSubfunctor :
   · rintro ⟨x, hx⟩ b hxb
     obtain ⟨y, hy₁, hy₂⟩ := hsurj x b hxb
     refine ⟨⟨y, ?_⟩, Subtype.ext hy₁, hy₂⟩
-    show (D.canonicalBaseChangedQuotSitePresheafHom p).app T y ∈ Q.obj T
+    change (D.canonicalBaseChangedQuotSitePresheafHom p).app T y ∈ Q.obj T
     rwa [show (D.canonicalBaseChangedQuotSitePresheafHom p).app T y = x from hy₁]
 
 /-- **A representation of `Q ×_B W` is a cartesian square over `h_W ⟶ B` for every model of

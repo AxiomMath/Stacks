@@ -130,7 +130,7 @@ component of a composite of morphisms of ringed spaces is the second one followe
 image of the first, and a functor carries an isomorphism to an isomorphism. -/
 theorem isIso_hom_c_comp {X Y W : SheafedSpace CommRingCat.{u}} (a : X ⟶ Y) (b : Y ⟶ W)
     [IsIso a.hom.c] [IsIso b.hom.c] : IsIso (a ≫ b).hom.c := by
-  show IsIso (b.hom.c ≫
+  change IsIso (b.hom.c ≫
     (TopCat.Presheaf.pushforward CommRingCat.{u} b.hom.base).map a.hom.c)
   infer_instance
 
@@ -243,7 +243,7 @@ theorem isIso_c_map_pushforwardHom :
   have : IsIso ((E.pushforwardHom g k hπ hqc).sheafHom).hom.c :=
     isIso_pushforwardShHom_hom_c g k E hπ hqc
   have := isIso_hom_c_comp (E.pushforwardHom g k hπ hqc).sheafHom r₂.sheafedIso.inv
-  show IsIso (r₁.sheafedIso.hom ≫
+  change IsIso (r₁.sheafedIso.hom ≫
     (E.pushforwardHom g k hπ hqc).sheafHom ≫ r₂.sheafedIso.inv).hom.c
   exact isIso_hom_c_comp _ _
 

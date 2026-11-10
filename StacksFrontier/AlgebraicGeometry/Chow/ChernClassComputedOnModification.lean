@@ -177,10 +177,7 @@ theorem rationalChowCohomologyRestriction_comp {Y V : Scheme.{u}} (f : Y ⟶ X)
     rationalChowCohomologyRestriction C G (f ≫ sX) a p hgys
         (rationalChowCohomologyRestriction C G sX f p hgys c) =
       rationalChowCohomologyRestriction C G sX (a ≫ f) p hgys c := by
-  induction c using TensorProduct.induction_on with
-  | zero =>
-    rw [map_zero, map_zero, map_zero]
-    rfl
+  induction c using TensorProduct.inductionOn with
   | tmul q x =>
     rw [rationalChowCohomologyRestriction_tmul, rationalChowCohomologyRestriction_tmul,
       rationalChowCohomologyRestriction_tmul, chowCohomologyRestriction_comp]

@@ -260,7 +260,7 @@ private theorem chartComparisonObjectMap_comp :
       chartComparisonObjectMapSource B S hS g ≫ totalFractionObjectMap B S hS U := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show (Spec.map (CommRingCat.ofHom (chartComparisonTarget B S hS g)) ≫
+  change (Spec.map (CommRingCat.ofHom (chartComparisonTarget B S hS g)) ≫
       V.left.1.fromSpecTotalFractionRing) ≫ (BigFppfOver.toScheme B S hS).map g =
     Spec.map (CommRingCat.ofHom (chartComparisonSource B S hS g)) ≫
       U.left.1.fromSpecTotalFractionRing

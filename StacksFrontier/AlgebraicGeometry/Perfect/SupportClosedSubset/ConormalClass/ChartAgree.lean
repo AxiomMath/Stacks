@@ -48,7 +48,7 @@ theorem evalSecAt_restrict {V₂ V : Y.Opens} (h : V₂ ≤ V) (ω : Γ(L, V)) (
     evalSecAt L G V₂ (L.presheaf.map (homOfLE h).op ω) P hP m =
       evalSecAt L G V ω P (hP.trans h) m := by
   have e := congrArg (fun φ => φ.app P m) (evalAt_restrict h G L ω)
-  show G.presheaf.map (homOfLE (le_image_preimage hP)).op
+  change G.presheaf.map (homOfLE (le_image_preimage hP)).op
       ((evalAt L G V₂ (L.presheaf.map (homOfLE h).op ω)).app P m) = _
   rw [e]
   exact modules_map_map_eq G (homOfLE (inter_mono_restrict h P))
@@ -61,9 +61,9 @@ theorem evalSecAt_smul (V : Y.Opens) (ω : Γ(L, V)) (a : Γ(Y, V)) (P : Y.Opens
     evalSecAt L G V (a • ω) P hP m =
       Y.presheaf.map (homOfLE hP).op a • evalSecAt L G V ω P hP m := by
   have e := congrArg (fun φ => φ.app P m) (evalAt_smul L G V ω a)
-  show G.presheaf.map (homOfLE (le_image_preimage hP)).op ((evalAt L G V (a • ω)).app P m) = _
+  change G.presheaf.map (homOfLE (le_image_preimage hP)).op ((evalAt L G V (a • ω)).app P m) = _
   rw [e]
-  show G.presheaf.map (homOfLE (le_image_preimage hP)).op
+  change G.presheaf.map (homOfLE (le_image_preimage hP)).op
       ((globalSmul (Y.presheaf.map (homOfLE V.ι_image_top.le).op a) ((res V).obj G)).app
         (V.ι ⁻¹ᵁ P) ((evalAt L G V ω).app P m)) = _
   refine (congrArg (G.presheaf.map (homOfLE (le_image_preimage hP)).op).hom
@@ -152,7 +152,7 @@ theorem chartDescSec_unit (U : X.Opens) (hU : U ≤ W) (s : Γ(F, U)) :
       (topClass W F (isClosed_chartSupport W (chartEq W f)) (chartEq W f) subset_rfl).app U s := by
   have e := congrArg (fun φ => φ.app U s)
     (unit_comp_chartDescent i W f F hgen (isClosed_chartSupport W (chartEq W f)) subset_rfl)
-  show (supportCohomologySheaf (isClosed_chartSupport W (chartEq W f)) F (c : ℤ)).presheaf.map
+  change (supportCohomologySheaf (isClosed_chartSupport W (chartEq W f)) F (c : ℤ)).presheaf.map
       (homOfLE (le_image_preimage hU)).op ((chartDescent i W f F hgen
         (isClosed_chartSupport W (chartEq W f)) subset_rfl).app U
         (((Scheme.Modules.pullbackPushforwardAdjunction i).unit.app F).app U s)) = _
@@ -188,8 +188,7 @@ theorem chartEq_restrictGen :
 
 variable (F : X.Modules)
 
-omit [IsClosedImmersion i] in
-include hgen in
+omit hgen in
 /-- A set containing the support of the chart restricted to `U'` contains the support of the chart
 on `W`. -/
 theorem chartSupport_subset_of_restrict {T : Set X}
@@ -207,14 +206,14 @@ theorem chartSec_theta_eq (m : Γ(twistSource i c F, U')) (s : Γ(F, U'))
     (hsub : chartSupport U' (chartEq U' (restrictGen (f := f) hU')) ⊆ T) :
     (supportChangeH (isClosed_zeroLocus i) hT
         ((zeroLocus_subset_chartSupport W f hgen).trans
-          (chartSupport_subset_of_restrict hgen hU' hsub)) F (c : ℤ)).app U'
+          (chartSupport_subset_of_restrict hU' hsub)) F (c : ℤ)).app U'
         (chartSec F hgen U' hU' m) =
       (topClass U' F hT (chartEq U' (restrictGen (f := f) hU')) hsub).app U' s := by
-  have hTa := chartSupport_subset_of_restrict hgen hU' hsub
+  have hTa := chartSupport_subset_of_restrict hU' hsub
   have hcomp := supportChangeH_comp (isClosed_zeroLocus i) (isClosed_chartSupport W (chartEq W f))
     (zeroLocus_subset_chartSupport W f hgen) hT hTa F (c : ℤ)
   rw [← hcomp]
-  show (supportChangeH _ hT hTa F (c : ℤ)).app U'
+  change (supportChangeH _ hT hTa F (c : ℤ)).app U'
       ((chartTheta F hgen).app U' (chartSec F hgen U' hU' m)) = _
   rw [chartTheta_chartSec, ← hs, chartDescSec_unit]
   refine (congrArg (fun φ => φ.app U' s)
@@ -342,7 +341,7 @@ theorem chartSec_agree {Wa Wb : X.Opens} {fa : Fin c → Γ(X, Wa)} {fb : Fin c 
       Set.subset_union_right
     have hbij := bijective_supportChangeH_app (isClosed_zeroLocus i) hT
       ((zeroLocus_subset_chartSupport Wa fa ha).trans
-        (chartSupport_subset_of_restrict ha ((h₂.trans h₁).trans hUa) Set.subset_union_left))
+        (chartSupport_subset_of_restrict ((h₂.trans h₁).trans hUa) Set.subset_union_left))
       U₂ (fun y hy hyT => hyT.elim
         (mem_zeroLocus_of_mem_chartSupport U₂ _
           (isGeneratedByOn_restrictGen ha ((h₂.trans h₁).trans hUa)) y hy)
@@ -356,7 +355,7 @@ theorem chartSec_agree {Wa Wb : X.Opens} {fa : Fin c → Γ(X, Wa)} {fb : Fin c 
       (chartEq U₂ (restrictGen (f := fb) ((h₂.trans h₁).trans hUb)))
       (fun j k => φ (A' j k))
       (fun j => by
-        show φ _ = _
+        change φ _ = _
         rw [hA' j, map_sum]
         exact Finset.sum_congr rfl fun k _ => map_mul _ _ _)
       Set.subset_union_left Set.subset_union_right (le_refl U₂) s

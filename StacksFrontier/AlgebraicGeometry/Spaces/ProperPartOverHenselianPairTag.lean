@@ -13,8 +13,8 @@ recovers the given decomposition, with the closed part proper.
 
 This file registers the tag. The theorem is
 `AlgebraicGeometry.Space.exists_isOpenSubspace_isClosedSubspace_isProper_of_henselianPair`, proved
-in `StacksFrontier.AlgebraicGeometry.Spaces.ClopenLiftOverHenselianPair`, and declares nothing of its
-own.
+in `StacksFrontier.AlgebraicGeometry.Spaces.ClopenLiftOverHenselianPair`, and declares nothing of
+its own.
 
 ## References
 

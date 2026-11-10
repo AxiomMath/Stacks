@@ -180,7 +180,7 @@ def projectiveLineConstant : projectiveLineObj k ⟶ projectiveLineObj k :=
 theorem projectiveLineConstant_comp_self :
     projectiveLineConstant x hx ≫ projectiveLineConstant x hx = projectiveLineConstant x hx := by
   ext
-  show (σ ≫ x) ≫ σ ≫ x = σ ≫ x
+  change (σ ≫ x) ≫ σ ≫ x = σ ≫ x
   rw [← Category.assoc, constantMorphism_comp_base σ x hx]
 
 /-- The graph correspondence of the constant morphism `P¹ → x → P¹` is the graph correspondence
@@ -213,7 +213,7 @@ theorem diagonalCorr_projectiveLine :
     projectiveLineCorrEquiv k (correspondenceDiagonal k (projectiveLineObj k)) =
       pointFibreCorrespondence (fieldChowSituation k) σ x hx 1 +
         fibrePointCorrespondence (fieldChowSituation k) σ x hx 1 := by
-  show corrEquivCorrespondence k σ σ (relativeDimension_projectiveLine k)
+  change corrEquivCorrespondence k σ σ (relativeDimension_projectiveLine k)
       (relativeDimension_projectiveLine k) 0 (diagonalCorr k σ) = _
   rw [corrEquivCorrespondence_diagonalCorr, graphCorrespondence, pointFibreCorrespondence,
     fibrePointCorrespondence, cycle_pointFibre_imageι x hx, cycle_fibrePoint_imageι x hx,

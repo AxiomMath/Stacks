@@ -308,7 +308,7 @@ private theorem comap_quotientMap_bijective_of_zeroLocusContraction_bijective
       eA (PrimeSpectrum.comap (Ideal.quotientMap (I.map f) f Ideal.le_comap_map) x) =
         zeroLocusContraction f I (I.map f) Ideal.le_comap_map (eS x) := by
     refine Subtype.ext ?_
-    show PrimeSpectrum.comap (Ideal.Quotient.mk I)
+    change PrimeSpectrum.comap (Ideal.Quotient.mk I)
         (PrimeSpectrum.comap (Ideal.quotientMap (I.map f) f Ideal.le_comap_map) x) =
       PrimeSpectrum.comap f (PrimeSpectrum.comap (Ideal.Quotient.mk (I.map f)) x)
     rw [← PrimeSpectrum.comap_comp_apply, ← PrimeSpectrum.comap_comp_apply,
@@ -358,7 +358,7 @@ private theorem comap_closedPoints_stratificationColimit_bijective (A : Type u) 
 /-- `Spec A_w` is w-local. -/
 private theorem wLocalSpace_stratificationColimit {A : Type u} [CommRing A] :
     WLocalSpace (PrimeSpectrum (stratificationColimitRing (A := A))) := by
-  show WLocalSpace (stratificationLimitScheme (A := A))
+  change WLocalSpace (stratificationLimitScheme (A := A))
   infer_instance
 
 /-- `V(I·A_w)` contracts bijectively onto `V(I)`, when the latter is profinite: profiniteness
@@ -443,7 +443,7 @@ theorem bijective_of_identifiesLocalRings_of_comap_bijective
       ((huniq ((Algebra.ofId Q T).comp ψ) ?_).trans
         (huniq (AlgHom.id Q T) (by simp)).symm)
     ext x
-    show PrimeSpectrum.comap ψ.toRingHom (PrimeSpectrum.comap (algebraMap Q T) x) = x
+    change PrimeSpectrum.comap ψ.toRingHom (PrimeSpectrum.comap (algebraMap Q T) x) = x
     rw [hψApply]
     exact e.symm_apply_apply x
   exact ⟨Function.LeftInverse.injective (g := ψ.toRingHom) (RingHom.congr_fun hψφ),

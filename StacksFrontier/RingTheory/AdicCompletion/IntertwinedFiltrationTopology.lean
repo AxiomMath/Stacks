@@ -183,7 +183,7 @@ theorem induced_limitTopology_adicCompletionEquivTowerLimit (hIfg : I.FG) :
     rw [LinearMap.mem_ker] at hz ⊢
     have hc := towerLimit_compat (e z) i j hij
     change ((e z : ∀ k, P k)) j = 0 at hz
-    show ((e z : ∀ k, P k)) i = 0
+    change ((e z : ∀ k, P k)) i = 0
     rw [← hc, hz, map_zero]
   have hpow : ∀ n, ∃ k,
       I ^ k • (⊤ : Submodule A (AdicCompletion I M)) ≤ LinearMap.ker (g n) := by

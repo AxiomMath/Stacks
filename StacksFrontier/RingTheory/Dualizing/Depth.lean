@@ -86,7 +86,7 @@ private theorem supportDim_ideal_quotient_quotient_eq {R M : Type*} [CommRing R]
     · rintro ⟨hp, hI⟩
       refine ⟨⟨hp, ?_⟩, hI⟩
       exact Set.singleton_subset_iff.mpr (hI hx)
-  show Order.krullDim (Module.support R ((QuotSMulTop x M) ⧸ I • ⊤)) =
+  change Order.krullDim (Module.support R ((QuotSMulTop x M) ⧸ I • ⊤)) =
     Order.krullDim (Module.support R (M ⧸ I • ⊤))
   rw [hsupp]
 

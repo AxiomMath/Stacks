@@ -86,7 +86,7 @@ theorem schemeSymAlgebraHom_symmetricAlgebraGen_apply (U : X.Opens) (x : Γ(E₁
     ((PresheafOfModules.sheafification (𝟙 X.ringCatSheaf.obj)).map_comp _ _).symm.trans
       ((congrArg (PresheafOfModules.sheafification (𝟙 X.ringCatSheaf.obj)).map hpre).trans
         ((PresheafOfModules.sheafification (𝟙 X.ringCatSheaf.obj)).map_comp _ _))
-  show ((Stacks.SymGraded.schemeSymAlgebraHom g).app 1).val.app (op U)
+  change ((Stacks.SymGraded.schemeSymAlgebraHom g).app 1).val.app (op U)
       (((PresheafOfModules.sheafification (𝟙 X.ringCatSheaf.obj)).map
         (Stacks.SymGraded.siteGen E₁.val)).val.app (op U)
           ((Scheme.Modules.sheafificationIso X E₁).inv.val.app (op U) x)) =

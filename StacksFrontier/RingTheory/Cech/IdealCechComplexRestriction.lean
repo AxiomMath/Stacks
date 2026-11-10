@@ -195,7 +195,7 @@ private theorem augmentation_f_zero_eq {n : ℕ} (u : Fin n → R) :
           ComplexShape.embeddingUpNat_f_zero).hom ≫ (cechZeroIso u M).hom ≫
         (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 M).inv := by
   rw [extendedCechAugmentation_f_zero]
-  show ((HomologicalComplex.extendXIso (Cech.cechComplex u M) ComplexShape.embeddingUpNat
+  change ((HomologicalComplex.extendXIso (Cech.cechComplex u M) ComplexShape.embeddingUpNat
     ComplexShape.embeddingUpNat_f_zero).hom ≫ (cechZeroIso u M).hom) ≫ _ = _
   rw [Category.assoc]
 
@@ -213,7 +213,7 @@ summand indexed by the empty set, on which the restriction map is the identity o
 theorem cechZeroIso_cechRestrict :
     (Cech.cechRestrict f M g e he).f 0 ≫ (cechZeroIso f M).hom = (cechZeroIso g M).hom := by
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-  show cechTermZeroEquiv f M (Cech.cechTermRestrict f M g e he 0 x) =
+  change cechTermZeroEquiv f M (Cech.cechTermRestrict f M g e he 0 x) =
     cechTermZeroEquiv g M x
   have key : (cechTermZeroEquiv f M).toLinearMap.comp (Cech.cechTermRestrict f M g e he 0) =
       (cechTermZeroEquiv g M).toLinearMap := by
@@ -222,7 +222,7 @@ theorem cechZeroIso_cechRestrict :
     obtain ⟨m, rfl⟩ : ∃ m, y = LocalizedModule.mkLinearMap (Cech.cechSub g ∅) M m :=
       ⟨Stacks.CechBaseChange.cechModEmptyEquiv g M y, by
         rw [← Stacks.CechBaseChange.cechModEmptyEquiv_symm_apply, LinearEquiv.symm_apply_apply]⟩
-    show cechTermZeroEquiv f M (Cech.cechTermRestrict f M g e he 0
+    change cechTermZeroEquiv f M (Cech.cechTermRestrict f M g e he 0
         (DirectSum.lof R (ExtendedAlternatingCech.Idx s 0)
           (fun S => Cech.cechMod g (M : Type (max u v)) S.1) default
           (LocalizedModule.mkLinearMap (Cech.cechSub g ∅) (M : Type (max u v)) m))) =
@@ -254,7 +254,7 @@ def restrictObjHom : extendedCechObject g M ⟶ extendedCechObject f M :=
 theorem restrictObjHom_comp_augmentationHom :
     restrictObjHom f g e he M ≫ extendedCechAugmentationHom f M =
       extendedCechAugmentationHom g M := by
-  show DerivedCategory.Q.map (HomologicalComplex.extendMap (Cech.cechRestrict f M g e he)
+  change DerivedCategory.Q.map (HomologicalComplex.extendMap (Cech.cechRestrict f M g e he)
       ComplexShape.embeddingUpNat) ≫
       (DerivedCategory.Q.map (extendedCechAugmentation f M) ≫
         ((DerivedCategory.singleFunctorIsoCompQ (ModuleCat.{max u v} R) 0).app M).inv) =

@@ -1,8 +1,7 @@
 module
 
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.DerivedLowerShriek.ConstructibilityAssembly
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperSmoothCurveConstructibility.InvertibleL.ConstructibleOfIsUnit
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperSmoothCurveConstructibility.InvertibleL.ConstructibleOfIsUnit
 
 /-!
 # Constructibility of the derived lower shriek, for coefficients killed by an invertible integer
@@ -71,7 +70,7 @@ theorem isTorsionConstructibleEtaleComplexPlus_derivedLowerShriekUnbounded_of_is
     (j : CompactificationOf (Over.mk f)) (K : DerivedCategory (EtaleModules.{u, 0} Λ X))
     (hK : IsTorsionConstructibleEtaleComplexPlus Λ K) :
     IsTorsionConstructibleEtaleComplexPlus Λ ((derivedLowerShriekUnbounded.{u, 0} f j Λ).obj K) :=
-  isTorsionConstructibleEtaleComplexPlus_derivedLowerShriekUnbounded_of_isUnit_natCast_of_directImageZMod
+  isTorsionConstructiblePlus_derivedLowerShriekUnbounded_of_isUnit_natCast_of_directImageZMod
     Λ (fun f _ _ _ hd ℓ _ hℓ q ↦
       isConstructibleEtaleModule_homology_derivedDirectImage_zmod_of_isUnit f hd ℓ hℓ q)
     hn0 hΛ f hnY j K hK

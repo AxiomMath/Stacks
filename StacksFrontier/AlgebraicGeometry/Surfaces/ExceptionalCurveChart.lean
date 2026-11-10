@@ -179,7 +179,7 @@ public theorem eq_zero_of_thickeningChartRestrict_eq_zero
   have hpmem : ∀ W : X.affineOpens, Nonempty (D.subschemeι ⁻¹ᵁ W.1) →
       p ∈ thickeningChart D W d := by
     intro W hW
-    show (D ^ (d + 1)).subschemeι p ∈ W.1
+    change (D ^ (d + 1)).subschemeι p ∈ W.1
     rw [hp]
     exact hη _ hW
   refine TopCat.Presheaf.section_ext (thickening D d).sheaf ⊤ z 0 fun x _ => ?_

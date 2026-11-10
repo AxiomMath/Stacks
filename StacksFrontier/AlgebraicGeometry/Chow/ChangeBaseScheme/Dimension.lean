@@ -179,10 +179,10 @@ private theorem relativeDimension_baseChange_genericPoint (B : FlatBaseChangeSit
   rw [deltaDimension_eq_of_isGenericPoint _ _ _ ζ.1 (genericPoints.isGenericPoint ζ)] at hdZ
   have hjζ : j ζ.1 = y' := by
     have hinv : e.inv (e.hom w) = w := by
-      show ((e.hom ≫ e.inv) w) = w
+      change ((e.hom ≫ e.inv) w) = w
       rw [Iso.hom_inv_id]
       rfl
-    show (I.comap p).subschemeι (e.inv ζ.1) = y'
+    change (I.comap p).subschemeι (e.inv ζ.1) = y'
     rw [show ζ.1 = e.hom w from rfl, hinv]
     exact hw
   rw [← hjζ, ← relativeDimension_comp_closedImmersion, hjsnd]

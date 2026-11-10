@@ -238,7 +238,7 @@ theorem preimage_le_preimage_of_square {i : Z ⟶ Z'} {j : W ⟶ W'} {f : Z ⟶ 
   calc
     i ⁻¹ᵁ U ≤ i ⁻¹ᵁ (k ⁻¹ᵁ V) := i.preimage_mono hUV
     _ = f ⁻¹ᵁ (j ⁻¹ᵁ V) := by
-      show (i ≫ k) ⁻¹ᵁ V = (f ≫ j) ⁻¹ᵁ V
+      change (i ≫ k) ⁻¹ᵁ V = (f ≫ j) ⁻¹ᵁ V
       rw [hcomm]
 
 /-- **The morphism `f^* 𝒞_{W/W'} ⟶ 𝒞_{Z/Z'}` of conormal sheaves induced by a commutative square

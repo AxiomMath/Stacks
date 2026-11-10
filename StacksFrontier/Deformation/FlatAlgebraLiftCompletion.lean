@@ -385,12 +385,8 @@ difference between them is the hypothesis `Module.Flat A P`, which
 theorem flatModuleLiftBaseChangeStatement_of_faithful
     (h : FlatModuleLiftBaseChangeStatementFaithful.{u}) :
     FlatModuleLiftBaseChangeStatement.{u} := by
-  intro A' A P' P Q' Q
-  intro _ _ _ _ _ _
-  intro _ _ _ _ _ _
-  intro _ _ _ _ _ _ _ _ _ _ _ _
-  intro _ _ _ _ _ _ _
-  intro hsurjA hnilA hsurjP hkerP hsurjQ hkerQ hfAP' hfAQ' hfPQ' hfPQ
+  intro A' A P' P Q' Q _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ hsurjA hnilA
+    hsurjP hkerP hsurjQ hkerQ hfAP' hfAQ' hfPQ' hfPQ
   exact h A' A P' P Q' Q hsurjA hnilA hsurjP hkerP hsurjQ hkerQ hfAP' hfAQ' hfPQ' hfPQ
     (flat_of_surjective_of_ker_eq_map A' A P' P hsurjA hsurjP hkerP hfAP')
 
@@ -402,12 +398,8 @@ equivalent, which is the precise sense in which omitting `Module.Flat A P` from
 theorem flatModuleLiftBaseChangeStatementFaithful_of_statement
     (h : FlatModuleLiftBaseChangeStatement.{u}) :
     FlatModuleLiftBaseChangeStatementFaithful.{u} := by
-  intro A' A P' P Q' Q
-  intro _ _ _ _ _ _
-  intro _ _ _ _ _ _
-  intro _ _ _ _ _ _ _ _ _ _ _ _
-  intro _ _ _ _ _ _ _
-  intro hsurjA hnilA hsurjP hkerP hsurjQ hkerQ hfAP' hfAQ' hfPQ' hfPQ _hfAP
+  intro A' A P' P Q' Q _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ hsurjA hnilA
+    hsurjP hkerP hsurjQ hkerQ hfAP' hfAQ' hfPQ' hfPQ _hfAP
   exact h A' A P' P Q' Q hsurjA hnilA hsurjP hkerP hsurjQ hkerQ hfAP' hfAQ' hfPQ' hfPQ
 
 
@@ -691,7 +683,7 @@ private theorem exists_ringEquiv_tensorAdicCompletion
       ((Algebra.TensorProduct.comm P' B (AdicCompletion I' P')).toRingEquiv.trans
         (ofTensorProductAlgEquiv I' B).toRingEquiv)), fun p => ?_⟩
   rw [RingEquiv.trans_apply, RingEquiv.trans_apply, RingEquiv.trans_apply]
-  simp only [AlgEquiv.coe_ringEquiv, Algebra.TensorProduct.comm_tmul,
+  simp only [AlgEquiv.coe_toRingEquiv, Algebra.TensorProduct.comm_tmul,
     Algebra.TensorProduct.cancelBaseChange_tmul]
   rw [Algebra.smul_def, mul_one]
   exact hc4 (algebraMap P B p)
@@ -897,7 +889,7 @@ private theorem exists_algHom_adicCompletion_of_algebraLift
     have hcomp : eρ.toRingEquiv.toRingHom.comp
         (algebraMap C' (C' ⧸ RingHom.ker rho)) = rho.toRingHom :=
       RingHom.ext fun x => Ideal.quotientKerAlgEquivOfSurjective_mk hrhosurj x
-    show Ideal.map eρ.toRingEquiv.toRingHom
+    change Ideal.map eρ.toRingEquiv.toRingHom
       (c'.map (algebraMap C' (C' ⧸ RingHom.ker rho))) = c
     rw [Ideal.map_map, hcomp]
     exact Ideal.map_comap_of_surjective rho.toRingHom hrhosurj c
@@ -920,7 +912,7 @@ private theorem exists_algHom_adicCompletion_of_algebraLift
     intro x hx
     refine Ideal.mem_comap.mpr ?_
     rw [hc'def, Ideal.mem_comap]
-    show rho (η₀ x) ∈ c
+    change rho (η₀ x) ∈ c
     rw [hη₀ x]
     exact hJc x hx
   obtain ⟨η, hη⟩ :=
@@ -929,11 +921,11 @@ private theorem exists_algHom_adicCompletion_of_algebraLift
   have hext : rho.comp η = IsScalarTower.toAlgHom A' (AdicCompletion J' P') C := by
     refine AdicCompletion.algHom_ext_of_isHausdorff J' (IsNoetherian.noetherian J') c _ _
       (fun p => ?_) (fun p hp => ?_)
-    · show rho (η (AdicCompletion.of J' P' p)) =
+    · change rho (η (AdicCompletion.of J' P' p)) =
         algebraMap (AdicCompletion J' P') C (AdicCompletion.of J' P' p)
       rw [hη p, hη₀ p, ← hQC p]
       rfl
-    · show rho (η (AdicCompletion.of J' P' p)) ∈ c
+    · change rho (η (AdicCompletion.of J' P' p)) ∈ c
       rw [hη p, hη₀ p]
       exact hJc p hp
   rw [← hrhoapp]
@@ -1050,7 +1042,7 @@ private theorem exists_polynomial_presentation (A' A B : Type u) [CommRing A'] [
     MvPolynomial.ker_map (algebraMap A' A)
   have : IsScalarTower A' (MvPolynomial (Fin n) A') (MvPolynomial (Fin n) A) := by
     refine IsScalarTower.of_algebraMap_eq fun a' => ?_
-    show MvPolynomial.C (algebraMap A' A a') =
+    change MvPolynomial.C (algebraMap A' A a') =
       MvPolynomial.map (algebraMap A' A) (MvPolynomial.C a')
     rw [MvPolynomial.map_C]
   let : Algebra (MvPolynomial (Fin n) A) B := f.toRingHom.toAlgebra
@@ -1104,7 +1096,7 @@ theorem hasFlatAlgebraLift_adicCompletion_of_hasFlatAlgebraLift
     (fun g hg => exists_flatModuleLift_localization_of_syntomic A' A P' P B hsurjA hnilA hsurjP
       hkerP b hsyn g hg)
     (AdicCompletion (I'.map (algebraMap P' B)) B) e (fun a => ?_)
-  show algebraMap A _ a = e (((algebraMap A P a) ⊗ₜ[P'] (1 : AdicCompletion I' P'))
+  change algebraMap A _ a = e (((algebraMap A P a) ⊗ₜ[P'] (1 : AdicCompletion I' P'))
     ⊗ₜ[P] (1 : B))
   rw [he (algebraMap A P a), ← IsScalarTower.algebraMap_apply A P B]
   rfl
@@ -1153,7 +1145,7 @@ theorem hasFlatAlgebraLift_of_hasFlatAlgebraLift_adicCompletion
     (fun g hg => exists_flatModuleLift_localization_of_syntomic A' A P' P B hsurjA hnilA hsurjP
       hkerP b hsyn g hg)
     (b.map (algebraMap B (AdicCompletion b B))) hCcomplete e (fun a => ?_) hJc
-  show algebraMap A _ a = e (((algebraMap A P a) ⊗ₜ[P'] (1 : AdicCompletion I' P'))
+  change algebraMap A _ a = e (((algebraMap A P a) ⊗ₜ[P'] (1 : AdicCompletion I' P'))
     ⊗ₜ[P] (1 : B))
   rw [he (algebraMap A P a), ← IsScalarTower.algebraMap_apply A P B]
   rfl

@@ -213,8 +213,8 @@ image of every quasi-coherent ideal on every integral closed subscheme, holds on
 module — provided every coherent module has a dévissage filtration.
 
 The hypothesis `hdev` is [Stacks, Tag 01YF] and is **not** proved anywhere in this repository;
-it is the sole gap between this statement and Stacks Tag 01YG, whose `[IsNoetherian X]` is used by the
-source only to obtain `hdev`. Accordingly no 01YG tag attribute is attached to anything here. -/
+it is the sole gap between this statement and Stacks Tag 01YG, whose `[IsNoetherian X]` is used by
+the source only to obtain `hdev`. Accordingly no 01YG tag attribute is attached to anything here. -/
 theorem property_of_forall_hasIdealDevissage
     (hdev : ∀ F : X.Modules, F.IsCoherent → HasIdealDevissage F)
     (hzero : P (⊤_ X.Modules))

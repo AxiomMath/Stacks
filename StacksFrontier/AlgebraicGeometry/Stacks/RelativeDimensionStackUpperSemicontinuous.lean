@@ -302,7 +302,7 @@ theorem isOpen_setOf_relativeStackDimension_le (c : EInt) :
     ?_, ?_, ⟨v₀, ⟨rfl, le_of_eq hm⟩, hv₀⟩⟩
   · rintro _ ⟨v, ⟨hvD, hvA⟩, rfl⟩
     obtain ⟨e, he⟩ := exists_relativeDimensionAt_eq_natCast.{u, w} B S hS V hV 𝒳 (h ≫ f) hhf v
-    show relativeStackDimension.{u, w} B S hS f hf _ ≤ c
+    change relativeStackDimension.{u, w} B S hS f hf _ ≤ c
     rw [hval v e (hvD.trans hd₀) he]
     have hvA' : relativeDimensionAt.{u, w} B S hS V hV 𝒳 (h ≫ f) hhf v ≤
         ((m : ℕ) : WithBot ℕ∞) := hvA
@@ -326,7 +326,7 @@ theorem upperSemicontinuous_relativeStackDimension :
     UpperSemicontinuous (relativeStackDimension.{u, w} B S hS f hf) := by
   intro t y hy
   filter_upwards [(isOpen_setOf_relativeStackDimension_le B S hS f hf
-    (relativeStackDimension.{u, w} B S hS f hf t)).mem_nhds (Set.mem_setOf.2 le_rfl)] with t' ht'
+    (relativeStackDimension.{u, w} B S hS f hf t)).mem_nhds (Set.mem_ofPred.2 le_rfl)] with t' ht'
   exact ht'.trans_lt hy
 
 /-- For a smooth, locally-of-finite-type 1-morphism `f : 𝒯 ⟶ 𝒳` of algebraic stacks, the function

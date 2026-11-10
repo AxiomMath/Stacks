@@ -25,7 +25,8 @@ multiplicativity of the isomorphism `θ` of Stacks 085C
 
 The propositions are one-field structures (so that their statements are not abstracted into
 auxiliary lemmas, as the body of a definition is), stated in a module with the imports of
-`StacksFrontier/AlgebraicGeometry/Spaces/RelativeProjTwistDescent/PointTwistGraded.lean`, so that the
+`StacksFrontier/AlgebraicGeometry/Spaces/RelativeProjTwistDescent/PointTwistGraded.lean`, so that
+the
 instances of the categories of quasi-coherent modules in their statements are found exactly as in
 the comparisons of twists of Tag 01O3 there
 (`AlgebraicGeometry.Space.RelativeProjSituation.baseChangeTwistPieceComparison_mul`), which then

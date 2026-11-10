@@ -111,7 +111,7 @@ theorem dimPartPieceGysin_openImmersion_point {d : ℕ} (hd : RelativeDimension 
         (properPushforwardFactorsThroughRationalEquivalence_of_isProper _ _ _ _ _ _)
         (fundamentalChowClass (fieldChowSituation k) ((δU ≫ (dimPart sX d).ι) ≫ sX)
           ((d : ℤ) - (d : ℤ))) := by
-    show chowGroupRestrict (fieldChowSituation k) sX ((dimPart sX d).ι ≫ sX)
+    change chowGroupRestrict (fieldChowSituation k) sX ((dimPart sX d).ι ≫ sX)
         (dimPart sX d).ι rfl _
         (properChowPushforward (fieldChowSituation k) (𝟙 _) sX (x ≫ j) hx' _
           (properPushforwardDescends _ _ _ _ _ _)
@@ -125,7 +125,7 @@ theorem dimPartPieceGysin_openImmersion_point {d : ℕ} (hd : RelativeDimension 
       chowGroupRestrict_fundamentalChowClass (fieldChowSituation k) (𝟙 _) _ (𝟙 _) _ _ hpt]
   rw [h1]
   -- the Gysin map on the piece is the cap with `j^!` at the test scheme `X_d ⟶ X`, restricted
-  show chowGroupDegreeEquiv _ _ _
+  change chowGroupDegreeEquiv _ _ _
     ((dimPartPieceGysinClass sV sX hj d d).capTargetHom _ _ _ _ _ _ _ _ _) = _
   rw [chowGroupDegreeEquiv_eq_iff_heq, BivariantClass.capTargetHom_apply]
   refine (dimPartPieceGysinClass_capTarget_heq sV sX hj d d _ _).trans ?_
@@ -199,7 +199,7 @@ theorem dimPartPieceGysin_openImmersion_point {d : ℕ} (hd : RelativeDimension 
   have : IsIso (dimPartPiece sV sX j d d).ι := by
     apply isIso_of_isOpenImmersion_of_opensRange_eq_top
     rw [Scheme.Opens.opensRange_ι]
-    show (dimPart sV d).ι ⁻¹ᵁ (j ⁻¹ᵁ dimPart sX d) = ⊤
+    change (dimPart sV d).ι ⁻¹ᵁ (j ⁻¹ᵁ dimPart sX d) = ⊤
     rw [dimPart_eq_top_of_relativeDimension sX hd]
     simp
   rw [chowGroupRestrict_properChowPushforward_of_isIso (fieldChowSituation k) _ _ _ _ _
@@ -211,7 +211,7 @@ theorem dimPartPieceGysin_openImmersion_point {d : ℕ} (hd : RelativeDimension 
         (properChowPushforward (fieldChowSituation k) (𝟙 _) sV x hx ((d : ℤ) - d)
           (properPushforwardFactorsThroughRationalEquivalence_of_isProper _ _ _ _ _ _)
           (fundamentalChowClass (fieldChowSituation k) (𝟙 _) ((d : ℤ) - d))) := by
-    show chowGroupRestrict (fieldChowSituation k) sV (partBase sV d) (dimPart sV d).ι rfl _
+    change chowGroupRestrict (fieldChowSituation k) sV (partBase sV d) (dimPart sV d).ι rfl _
       (properChowPushforward (fieldChowSituation k) (𝟙 _) sV x hx _
         (properPushforwardDescends _ _ _ _ _ _)
         (chowCodimTotal k (𝟙 _) 0 _ (chowCodimFundamental k (𝟙 _)))) = _
@@ -294,7 +294,7 @@ theorem dimPartPieceGysin_openImmersion_point_eq_zero {d : ℕ} (hd : RelativeDi
         (properPushforwardFactorsThroughRationalEquivalence_of_isProper _ _ _ _ _ _)
         (fundamentalChowClass (fieldChowSituation k) ((δU ≫ (dimPart sX d).ι) ≫ sX)
           ((d : ℤ) - (d : ℤ))) := by
-    show chowGroupRestrict (fieldChowSituation k) sX ((dimPart sX d).ι ≫ sX)
+    change chowGroupRestrict (fieldChowSituation k) sX ((dimPart sX d).ι ≫ sX)
         (dimPart sX d).ι rfl _
         (properChowPushforward (fieldChowSituation k) (𝟙 _) sX x hx _
           (properPushforwardDescends _ _ _ _ _ _)
@@ -307,7 +307,7 @@ theorem dimPartPieceGysin_openImmersion_point_eq_zero {d : ℕ} (hd : RelativeDi
         _ _ (properPushforwardFactorsThroughRationalEquivalence_of_isProper _ _ _ _ _ _),
       chowGroupRestrict_fundamentalChowClass (fieldChowSituation k) (𝟙 _) _ (𝟙 _) _ _ hpt]
   rw [h1]
-  show chowGroupDegreeEquiv _ _ _
+  change chowGroupDegreeEquiv _ _ _
     ((dimPartPieceGysinClass sV sX hj d d).capTargetHom _ _ _ _ _ _ _ _ _) = _
   rw [chowGroupDegreeEquiv_eq_iff_heq, BivariantClass.capTargetHom_apply]
   refine (dimPartPieceGysinClass_capTarget_heq sV sX hj d d _ _).trans ?_

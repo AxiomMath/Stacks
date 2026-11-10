@@ -85,7 +85,7 @@ theorem chartRestrict_chartToBaseRingHom {U V : SmallEtale B S hS X.1} (φ : V �
       chartToBaseRingHom B S hS X V r := by
   have h2 := congrArg (fun k : chartScheme V ⟶ S => k.appTop.hom r)
     (chartToBase_comp_map B S hS X φ)
-  show ((BigFppfOver.toScheme B S hS).map ((SmallEtale.toOver B S hS X.1).map φ)).appTop.hom
+  change ((BigFppfOver.toScheme B S hS).map ((SmallEtale.toOver B S hS X.1).map φ)).appTop.hom
       ((chartToBase B S hS X U).appTop.hom r) = (chartToBase B S hS X V).appTop.hom r
   simpa only [Scheme.Hom.comp_appTop, CommRingCat.comp_apply] using h2
 
@@ -104,7 +104,7 @@ theorem chartRestrictLinear_smul_base (M : Modules.{u, m} B S hS X.1 X.2)
     Module.compHom _ (chartToBaseRingHom B S hS X U)
   let : Module Γ(S, ⊤) (M.val.obj (op V) : Type m) :=
     Module.compHom _ (chartToBaseRingHom B S hS X V)
-  show chartRestrictLinear M φ (chartToBaseRingHom B S hS X U r • x) =
+  change chartRestrictLinear M φ (chartToBaseRingHom B S hS X U r • x) =
     chartToBaseRingHom B S hS X V r • chartRestrictLinear M φ x
   rw [← chartRestrict_chartToBaseRingHom B S hS X φ r]
   exact M.val.map_smul φ.op _ x

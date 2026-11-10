@@ -142,7 +142,7 @@ public theorem isIso_πTruncGE_f {R : Type u} [CommRing R]
     (K : CochainComplex (ModuleCat.{u} R) ℤ) (a i : ℤ) (hi : a < i) :
     IsIso ((K.πTruncGE a).f i) := by
   have h : (ComplexShape.embeddingUpIntGE a).f (i - a).natAbs = i := by
-    show a + ((i - a).natAbs : ℤ) = i
+    change a + ((i - a).natAbs : ℤ) = i
     lia
   have hn : ¬ (ComplexShape.embeddingUpIntGE a).BoundaryGE (i - a).natAbs := by
     rw [ComplexShape.boundaryGE_embeddingUpIntGE_iff, Int.natAbs_eq_zero]

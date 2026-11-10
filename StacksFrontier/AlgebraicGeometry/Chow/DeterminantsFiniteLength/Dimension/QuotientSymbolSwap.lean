@@ -223,7 +223,7 @@ lemma quotientSymbol_swap
         funext j
         by_cases hja : j = a'
         · subst j
-          show q (es0 (p.i.succAbove a')) =
+          change q (es0 (p.i.succAbove a')) =
             swapAdjacent (R := R) d a' b' a'
           rw [ha', hcastSwap]
           have hleft : q (swapAdjacent (R := R) e0 a0 b0 a0) =
@@ -241,7 +241,7 @@ lemma quotientSymbol_swap
             _ = swapAdjacent (R := R) d a' b' a' := hright.symm
         · by_cases hjb : j = b'
           · subst j
-            show q (es0 (p.i.succAbove b')) =
+            change q (es0 (p.i.succAbove b')) =
               swapAdjacent (R := R) d a' b' b'
             rw [hb', hcastSwap]
             have hleft : q (swapAdjacent (R := R) e0 a0 b0 b0) =
@@ -265,7 +265,7 @@ lemma quotientSymbol_swap
               intro h
               apply hjb
               exact Fin.succAbove_right_injective (h.trans hb'.symm)
-            show q (es0 (p.i.succAbove j)) =
+            change q (es0 (p.i.succAbove j)) =
               swapAdjacent (R := R) d a' b' j
             rw [hcastSwap]
             simp [d, swapAdjacent, hka, hkb, hja, hjb]

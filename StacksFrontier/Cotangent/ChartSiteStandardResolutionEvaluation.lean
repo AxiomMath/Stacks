@@ -114,7 +114,7 @@ theorem cotangentChartComponentPresheafIso_comm (n : ℕ) :
       (liftedSectionwiseCotangentComplex Λ X structureMap).d (-(n + 1 : ℕ) : ℤ) (-(n : ℤ)) ≫
         (cotangentChartComponentPresheafIso Λ X structureMap n).hom := by
   ext V x
-  show ((chartBaseChangeMooreComplex Λ X structureMap).d (n + 1) n).app V
+  change ((chartBaseChangeMooreComplex Λ X structureMap).d (n + 1) n).app V
       (cotangentToChart Λ X structureMap V.unop ⦋n + 1⦌
         ((CommAlgCat.cotangentComplex_degreeIso.{u, u} Λ
           (sectionCotangentAlgebra Λ X structureMap V.unop) (n + 1)).hom x.down)) =

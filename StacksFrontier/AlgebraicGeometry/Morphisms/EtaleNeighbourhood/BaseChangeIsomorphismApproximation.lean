@@ -279,7 +279,7 @@ private theorem exists_etale_elementary_restriction
       EtaleNeighborhood.isElementary_ofEtale_of_isOpenImmersion O.ι _, hOet⟩
   let : IsLocallyNoetherian W'.scheme := LocallyOfFiniteType.isLocallyNoetherian W'.toBase
   have hF' : (W'.toBase ≫ F) (W₀.comp W').point = x := by
-    show F (W'.toBase W'.point) = x
+    change F (W'.toBase W'.point) = x
     rw [W'.map_point]; exact hF
   refine ⟨W', hF', hW'el, hW'et, fun a => ?_⟩
   have hstalk : (W'.toBase ≫ F).stalkHomAt hF' a = W'.stalkHom (F.stalkHomAt hF a) :=
@@ -380,7 +380,7 @@ theorem exists_etale_relativeApproximation_of_adicCompletion_ringEquiv
     exists_etale_elementary_restriction W₀ F hF hFat Φ N (max N 2) hNM hcong
   have hover' : (W'.toBase ≫ F) ≫ f =
       (W₀.comp W').toBase ≫ pullback.snd g τ ≫ V.toBase := by
-    show (W'.toBase ≫ F) ≫ f = (W'.toBase ≫ W₀.toBase) ≫ pullback.snd g τ ≫ V.toBase
+    change (W'.toBase ≫ F) ≫ f = (W'.toBase ≫ W₀.toBase) ≫ pullback.snd g τ ≫ V.toBase
     rw [Category.assoc, Category.assoc, hover]
   have hcomm' : (W'.toBase ≫ F) ≫ f =
       ((W₀.comp W').toBase ≫ pullback.snd g τ) ≫ V.toBase := by

@@ -54,7 +54,7 @@ sections over `X : Cᵒᵖ`, whereas a coproduct or limit of a family indexed ov
 `HasColimit`/`HasLimit` instance in `ModuleCat (O.obj (op V))`. Those two are definitionally
 equal, but the equality is not available to unification, which cannot unfold
 `CategoryTheory.Limits.getColimitCocone`; indexing by `Cᵒᵖ` makes the instances match
-syntactically, which is what lets the proofs below rewrite with `Sigma.ι_desc`, `limit.lift_π`
+syntactically, which is what lets the proofs below rewrite with `Sigma.ι_comp_desc`, `limit.lift_π`
 and `limit.w`.
 
 For the same reason every morphism whose source or target needs an identification between two
@@ -129,7 +129,7 @@ lemma ι_comp_extensionRestriction {X Y : Cᵒᵖ} (f : X ⟶ Y) (p : X.unop ⟶
       extensionSummandRestriction O U M f p ≫
         (ModuleCat.restrictScalars (O.map f).hom).map
           (Sigma.ι (extensionSummands O U M Y) (f.unop ≫ p)) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- `extensionRestriction` on an element of the summand indexed by `p`, with the target
 summand index given as any `q` equal to `f.unop ≫ p`. -/
@@ -207,8 +207,8 @@ lemma extensionRestriction_comp_desc {N : PresheafOfModules.{a, v, u, w} O}
           (Sigma.desc (extensionDescComponent O U M α Y)) =
       Sigma.desc (extensionDescComponent O U M α X) ≫ N.map f := by
   refine Sigma.hom_ext _ _ fun p => ?_
-  rw [ι_comp_extensionRestriction_assoc, ← Functor.map_comp, Sigma.ι_desc,
-    Sigma.ι_desc_assoc]
+  rw [ι_comp_extensionRestriction_assoc, ← Functor.map_comp, Sigma.ι_comp_desc,
+    Sigma.ι_comp_desc_assoc]
   exact α.naturality _
 
 /-- The map `j_{U!} M ⟶ N` determined by a map `M ⟶ j_U^* N`. -/
@@ -222,7 +222,7 @@ lemma ι_comp_extensionHomBackward {N : PresheafOfModules.{a, v, u, w} O}
     (α : M ⟶ (restrictionFunctor O U).obj N) (X : Cᵒᵖ) (p : X.unop ⟶ U) :
     Sigma.ι (extensionSummands O U M X) p ≫ (extensionHomBackward O U M α).app X =
       α.app (op (Over.mk p)) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- Extension by zero is left adjoint to restriction, in hom-set form. -/
 noncomputable def extensionHomEquiv (N : PresheafOfModules.{a, v, u, w} O) :

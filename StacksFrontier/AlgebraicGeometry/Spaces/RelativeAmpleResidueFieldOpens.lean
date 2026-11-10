@@ -70,6 +70,7 @@ def AmpleSpreadsFromResidueFieldsToOpens : Prop :=
 variable {B S hS}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` on presheaves over the big fppf site is slow
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 instance hasPullbacks_presheaf_relativeAmpleResidueFieldOpens :

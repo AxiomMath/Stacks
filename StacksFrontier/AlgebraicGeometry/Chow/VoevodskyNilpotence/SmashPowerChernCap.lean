@@ -140,7 +140,7 @@ theorem properChowPushforward_sectionSlice_rationalPointChowClass
   have : IsClosedImmersion (p ≫ sectionSlice k g f x hx) := inferInstance
   have : IsClosedImmersion (pullback.lift (f := g) (g := f) p x (hp.trans hx.symm)) :=
     he ▸ inferInstance
-  show QuotientAddGroup.mk' _ (properPushforward _ g (pullback.fst g f ≫ g)
+  change QuotientAddGroup.mk' _ (properPushforward _ g (pullback.fst g f ≫ g)
       (sectionSlice k g f x hx) (sectionSlice_comp_structure k g f x hx) 0
       (cycleAssociatedToClosedSubscheme _ g p 0)) = QuotientAddGroup.mk' _ _
   rw [properPushforward_cycleAssociatedToClosedSubscheme_of_isClosedImmersion_comp]
@@ -171,13 +171,13 @@ theorem isVariety_smashPointDifference [IsAlgClosed k] [IsVariety k f] (d : ℕ)
   induction n with
   | zero =>
     refine ⟨isVariety_id_spec k, ?_⟩
-    show topologicalKrullDim (Spec (.of k)) = _
+    change topologicalKrullDim (Spec (.of k)) = _
     rw [zero_mul, Nat.cast_zero]
     exact topologicalKrullDim_eq_zero_of_subsingleton
   | succ n ih =>
     obtain ⟨hv, hdim⟩ := ih
     refine ⟨isVariety_pullback k _ f, ?_⟩
-    show topologicalKrullDim
+    change topologicalKrullDim
       ↑(pullback (smashPointDifference k f x x' hx hx' n).Y.hom f : Scheme.{u}) = _
     rw [topologicalKrullDim_pullback_of_isVariety k, hdim, hd, ← Nat.cast_add, add_mul, one_mul]
 
@@ -209,7 +209,7 @@ theorem flatPullback_rationalPointChowClass_pullbackSnd :
   have hsq := (isPullback_sectionSlice k g f x hx).flip
   have : IsClosedImmersion (𝟙 Y ≫ sectionSlice k g f x hx) := by
     rw [Category.id_comp]; infer_instance
-  show QuotientAddGroup.mk' _ (flatPullback _ _ _ _ _ n hrel 0
+  change QuotientAddGroup.mk' _ (flatPullback _ _ _ _ _ n hrel 0
       (cycleAssociatedToClosedSubscheme _ f x 0)) =
     QuotientAddGroup.mk' _ (properPushforward _ g (pullback.fst g f ≫ g)
       (sectionSlice k g f x hx) (sectionSlice_comp_structure k g f x hx) _
@@ -349,7 +349,7 @@ theorem smashPointDifference_succ_cycle (n : ℕ) :
           (sectionSlice_comp_structure k _ f x' hx') 0
           (properPushforwardFactorsThroughRationalEquivalence_of_isProper _ _ _ _ _ 0)
           (smashPointDifference k f x x' hx hx' n).cycle := by
-  show chowExteriorProduct (fieldChowSituation k)
+  change chowExteriorProduct (fieldChowSituation k)
       (fieldChowSituation_dimensionFunction_of_isClosed k) _ f 0 0
       ((smashPointDifference k f x x' hx hx' n).cycle ⊗ₜ
         (rationalPointChowClass k f x hx - rationalPointChowClass k f x' hx')) = _
@@ -496,7 +496,7 @@ theorem smashPointDifference_cycle_eq_iteratedChernCapOnChow [IsAlgClosed k] [Is
     refine (chowGroup_eq_of_heq (fieldChowSituation k) _ (iteratedChernCapOnChow_heq_of_eq
       (fieldChowSituation k) _ hlist 0
       (fundamentalChowClass_heq_of_eq (fieldChowSituation k) _ (by rw [hlist])))).trans ?_
-    show iteratedChernCapOnChow (fieldChowSituation k) (pullback.fst _ f ≫ _) (Os ++ [O]) 0
+    change iteratedChernCapOnChow (fieldChowSituation k) (pullback.fst _ f ≫ _) (Os ++ [O]) 0
       (fundamentalChowClass (fieldChowSituation k) (pullback.fst _ f ≫ _)
         (0 + ((Os ++ [O]).length : ℤ))) = _
     rw [iteratedChernCapOnChow_append (fieldChowSituation k) _ Os [O] 0 _
@@ -519,7 +519,7 @@ theorem smashProjection_comp (n : ℕ) (i : Fin n) :
       exact pullback.condition.symm
     | cast i =>
       rw [smashProjection_castSucc]
-      show pullback.fst _ f ≫ smashProjection k f x x' hx hx' n i ≫ f = pullback.fst _ f ≫ _
+      change pullback.fst _ f ≫ smashProjection k f x x' hx hx' n i ≫ f = pullback.fst _ f ≫ _
       rw [ih]
 
 /-- The projections `prᵢ : Xⁿ ⟶ X` are locally of finite type. -/

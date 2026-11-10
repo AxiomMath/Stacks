@@ -121,10 +121,10 @@ theorem smul_coprod_sections_eq_zero {X : Scheme.{u}} {ι : Type} (N : ι → X.
   have h0 : ((∐ N).smul (U := U) a).asHom = 0 := by
     refine hcol2.hom_ext ?_
     intro j
-    show (Sigma.ι N j.as).app U ≫ ((∐ N).smul a).asHom = (Sigma.ι N j.as).app U ≫ 0
+    change (Sigma.ι N j.as).app U ≫ ((∐ N).smul a).asHom = (Sigma.ι N j.as).app U ≫ 0
     rw [comp_zero]
     ext x
-    show a • ((Sigma.ι N j.as).app U x) = 0
+    change a • ((Sigma.ι N j.as).app U x) = 0
     rw [← Scheme.Modules.Hom.app_smul, hN j.as x, map_zero]
   simpa using congrArg (fun φ : Γ(∐ N, U) ⟶ Γ(∐ N, U) => φ.hom m) h0
 
@@ -137,7 +137,7 @@ theorem smul_sections_eq_zero_of_coprodIso {X : Scheme.{u}} {ι : Type} (N : ι 
     (hN : ∀ (i : ι) (x : Γ(N i, U)), a • x = 0) (m : Γ(P, U)) : a • m = 0 := by
   obtain ⟨x, rfl⟩ : ∃ x, e.hom.app U x = m :=
     ⟨e.inv.app U m, by
-      show (e.inv ≫ e.hom).app U m = m
+      change (e.inv ≫ e.hom).app U m = m
       rw [e.inv_hom_id]
       rfl⟩
   rw [← Scheme.Modules.Hom.app_smul, smul_coprod_sections_eq_zero N hU a hN x, map_zero]

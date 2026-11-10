@@ -289,7 +289,7 @@ theorem geometricPairIdeal_eq_sup :
       commutes' := fun a => by
         have h1 : identityStalk G z (sourceStalk G z (cA a)) = cA a :=
           RingHom.congr_fun (identityStalk_comp_sourceStalk G z) (cA a)
-        show cA.symm (identityStalk G z ((Space.etaleLocalRingCongr hfst)
+        change cA.symm (identityStalk G z ((Space.etaleLocalRingCongr hfst)
           ((Space.etaleLocalRingMap G.arrows.property G.source.hom y₁) a))) = _
         rw [hA a, h1, RingEquiv.symm_apply_apply]
         rfl } with hresA
@@ -303,7 +303,7 @@ theorem geometricPairIdeal_eq_sup :
   have h₁ (b : Space.etaleLocalRing C S hS G.arrows.obj y₁) :
       ε₀ (φ (Algebra.TensorProduct.includeLeftRingHom b)) = resA b := by
     rw [hε₀]
-    show cA.symm (identityStalk G z (identityPairFst G z
+    change cA.symm (identityStalk G z (identityPairFst G z
       (φ (Algebra.TensorProduct.includeLeftRingHom b)))) = _
     rw [show φ (Algebra.TensorProduct.includeLeftRingHom b) =
         Space.etaleLocalRingMap (isAlgebraicSpace_composablePairs G)
@@ -322,7 +322,7 @@ theorem geometricPairIdeal_eq_sup :
         Space.etaleLocalRing C S hS G.arrows.obj y₂ →ₐ[
           Space.etaleLocalRing C S hS G.objects.obj w₀] _) b)) = rB b := by
     rw [hε₀]
-    show cA.symm (identityStalk G z (identityPairFst G z (φ _))) = _
+    change cA.symm (identityStalk G z (identityPairFst G z (φ _))) = _
     rw [show φ ((Algebra.TensorProduct.includeRight :
           Space.etaleLocalRing C S hS G.arrows.obj y₂ →ₐ[
             Space.etaleLocalRing C S hS G.objects.obj w₀] _) b) =

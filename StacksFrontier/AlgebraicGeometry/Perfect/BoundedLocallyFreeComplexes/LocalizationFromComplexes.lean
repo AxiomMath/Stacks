@@ -145,7 +145,7 @@ theorem perfectComplexFunctor_rightFractions_of_exists_roof (X : Scheme.{u})
       (quasiIsomorphisms_mapOfComplex X hG hE p hp)
   refine ⟨ofComplex X hG, mapOfComplex X hG hE p,
     quasiIsomorphisms_mapOfComplex X hG hE p hp, mapOfComplex X hG hF q, ?_⟩
-  show g = inv ((perfectComplexFunctor X).map (mapOfComplex X hG hE p)) ≫
+  change g = inv ((perfectComplexFunctor X).map (mapOfComplex X hG hE p)) ≫
     (perfectComplexFunctor X).map (mapOfComplex X hG hF q)
   rw [IsIso.eq_inv_comp]
   exact ObjectProperty.hom_ext _ (comp_eq_of_natural_isos

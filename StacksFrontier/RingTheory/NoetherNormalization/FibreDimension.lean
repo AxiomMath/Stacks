@@ -73,10 +73,10 @@ theorem topologicalKrullDim_fibre_firstCoordinates_le_one
     intro c
     have h := congrArg (fun F => F c)
       (sumAlgEquiv_comp_rename_inr k (S₁ := Fin 1) (S₂ := Fin n))
-    simp only [AlgHom.coe_comp, Function.comp_apply, AlgEquiv.coe_algHom,
+    simp only [AlgHom.coe_comp, Function.comp_apply, AlgEquiv.coe_toAlgHom,
       IsScalarTower.coe_toAlgHom'] at h
     simp only [ψ₀, g, firstCoordinates, AlgHom.coe_comp, Function.comp_apply,
-      AlgEquiv.coe_algHom]
+      AlgEquiv.coe_toAlgHom]
     congr 2
     apply (sumAlgEquiv k (Fin 1) (Fin n)).injective
     rw [AlgEquiv.apply_symm_apply, h]
@@ -85,7 +85,7 @@ theorem topologicalKrullDim_fibre_firstCoordinates_le_one
     { ψ₀.toRingHom with
       commutes' := hψ₀C }
   have hfin : ψ.toRingHom.Finite := by
-    show (ψ₀.toRingHom).Finite
+    change (ψ₀.toRingHom).Finite
     exact (hφ.comp (.of_surjective _ (renameEquiv k (lastSumEquiv n)).surjective)).comp
       (.of_surjective _ (sumAlgEquiv k (Fin 1) (Fin n)).symm.surjective)
   have h := forall_topologicalKrullDim_fiber_le_of_quasiFinite_mvPolynomial (R := C) (S := A) 1 ψ
@@ -148,7 +148,7 @@ theorem exists_algHom_mvPolynomial_topologicalKrullDim_fibre_le_one (k A : Type 
     exact_mod_cast this
   obtain rfl : s = n + 1 := le_antisymm (by exact_mod_cast hs₁) (by exact_mod_cast hs₂)
   refine ⟨firstCoordinates φ, ?_, topologicalKrullDim_fibre_firstCoordinates_le_one φ hfin⟩
-  simp only [firstCoordinates, AlgHom.coe_comp, AlgEquiv.coe_algHom]
+  simp only [firstCoordinates, AlgHom.coe_comp, AlgEquiv.coe_toAlgHom]
   exact hinj.comp ((renameEquiv k (lastSumEquiv n)).injective.comp
     (rename_injective _ Sum.inr_injective))
 

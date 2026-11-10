@@ -200,7 +200,7 @@ public theorem isQuasicoherentOnSite_over_eq_inverseImage' (x : 𝒳) :
             (contains_baseScheme' B S hS p x))).inverseImage
         (localizationModulesEquivalence' B S hS p hp x).inverse := by
   ext M
-  show M.IsQuasicoherentOnSite ↔
+  change M.IsQuasicoherentOnSite ↔
     ((localizationModulesEquivalence' B S hS p hp x).inverse.obj M).IsQuasicoherentOnSite
   rw [← Stacks.SheafOfModules.isQuasicoherentOnSite_reindex_iff_ofUniv
     (J' := localizedTopology' B S hS p x) (localizationEquivalence' B S hS p hp x)

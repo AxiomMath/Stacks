@@ -215,7 +215,7 @@ theorem exists_finite_closedPoints_frobeniusElements_topologicalClosure_eq_top (
       (finite_residueField_of_residueDegree_ne_zero f xι.1 hdeg0)
     refine ⟨hcl, c, fun z => hZtriv _ (hsub ⟨⟨_, hcl⟩, ?_, c, rfl⟩) z⟩
     simpa only [S, closedPointsDegreeLE, Finset.coe_sort_coe, Set.Finite.coe_toFinset,
-      Set.mem_setOf_eq] using (Nat.le_of_dvd hpos hdvd).trans hKN
+      Set.mem_ofPred_eq] using (Nat.le_of_dvd hpos hdvd).trans hKN
   -- extensions of degree `N - 1` and `N`
   obtain ⟨K₁, _, _, _, hK₁⟩ := exists_finrank_eq k (n := 2 * M) (by omega)
   obtain ⟨K₂, _, _, _, hK₂⟩ := exists_finrank_eq k (n := N) (by omega)

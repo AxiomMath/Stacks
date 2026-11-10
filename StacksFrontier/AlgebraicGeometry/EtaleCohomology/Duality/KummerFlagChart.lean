@@ -113,7 +113,7 @@ theorem range_goodNeighbourhoodOrigin :
   ext x
   obtain ⟨y, rfl⟩ : ∃ y : PrimeSpectrum (MvPolynomial (ULift.{u} (Fin n)) K), e.inv.base y = x :=
     (Scheme.homeoOfIso e.symm).surjective x
-  rw [Set.mem_setOf_eq]
+  rw [Set.mem_ofPred_eq]
   refine Iff.trans ?_ (forall_congr' fun j => (not_congr (hmem y j)).symm)
   simp only [PrimeSpectrum.mem_basicOpen, not_not]
   rw [horigin]
@@ -151,7 +151,7 @@ theorem exists_comp_zeroSchemeι_eq {S : Scheme.{u}} (g : S ⟶ U) (φ : Γ(U, �
     Ideal.Quotient.lift (Ideal.span {φ}) g.appTop.hom (fun a ha => by
       obtain ⟨b, rfl⟩ := Ideal.mem_span_singleton'.1 ha
       rw [map_mul]
-      show _ * g.appTop φ = 0
+      change _ * g.appTop φ = 0
       rw [hg, mul_zero])
   refine ⟨S.toSpecΓ ≫ Spec.map (CommRingCat.ofHom q), ?_⟩
   rw [zeroSchemeι, ← Category.assoc, Category.assoc S.toSpecΓ, ← Spec.map_comp]

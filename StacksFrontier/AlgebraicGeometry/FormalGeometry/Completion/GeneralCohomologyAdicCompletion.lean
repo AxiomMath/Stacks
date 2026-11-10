@@ -3,8 +3,7 @@ module
 public import StacksFrontier.AlgebraicGeometry.FormalGeometry.Completion.BaseIdealKoszulGenerators
 public import StacksFrontier.AlgebraicGeometry.FormalGeometry.Completion.CohomologyAdicCompletionWhole
 public import StacksFrontier.AlgebraicGeometry.FormalGeometry.Completion.KoszulIdentityBaseIdeal
-public import
-  StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.GlobalSectionsCompletionWhole
+public import StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.GlobalSectionsCompletionWhole
 public import StacksFrontier.AlgebraicGeometry.FormalGeometry.PrincipalQuotientTowerProducts
 public import StacksCore.Tactic.StacksAttribute
 

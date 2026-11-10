@@ -124,7 +124,7 @@ theorem exists_isAlgClosed_fieldValuedPoint
   have hKsite : B.Contains (Spec (.of K)) := by
     have hb : ((BigFppfOver.toScheme B S hS).obj p₀.base).size < B.cutoff := p₀.base.left.2
     rw [Scheme.size_congr p₀.isSpec, Scheme.size_Spec] at hb
-    show (Spec (.of K)).size < B.cutoff
+    change (Spec (.of K)).size < B.cutoff
     rw [Scheme.size_Spec]
     exact max_lt B.aleph0_lt_cutoff ((Algebra.IsAlgebraic.cardinalMk_le_max p₀.carrier K).trans_lt
       (max_lt ((le_max_right _ _).trans_lt hb) B.aleph0_lt_cutoff))
@@ -298,7 +298,7 @@ theorem liftsTwoArrowsAtGeometricPoints_of_isSurjective_relativeDiagonal (f : �
   -- Unwinding, that section is the 2-arrow.
   obtain ⟨α, hα⟩ := TwoFibreProductOver.exists_map_eq_iso_of_hom hp hq f.hom.hom.w ξ.inv
     ((TwoFibreProductOver.RelativeDiagonalFibre.nonempty_relVertHom_iff
-      𝒳.val.isFiberedInGroupoids hY f.hom.hom.w (Over.mk (𝟙 V.left))).1 ⟨m₀⟩)
+      hY f.hom.hom.w (Over.mk (𝟙 V.left))).1 ⟨m₀⟩)
   exact ⟨α, TwoFibreProductOver.isHomLift_id_of_map_eq_iso f.hom.hom.w Q α hα, hα⟩
 
 /-- **Stacks 0CPN, parts (1) and (3).** A 1-morphism of algebraic stacks over `S` is universally

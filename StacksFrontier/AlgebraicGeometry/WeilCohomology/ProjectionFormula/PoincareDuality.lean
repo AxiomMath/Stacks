@@ -218,8 +218,7 @@ theorem tateTwistCoordinates_map (c : L ≃ₗ[F] F) (n : ℤ)
     (f : U →ₗ[F] V) (x : tateTwist F L U n) :
     tateTwistCoordinates c n (tateTwistMap f n x) =
       f (tateTwistCoordinates c n x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul u l => simp [tateTwistMap, tateTwistCoordinates]
   | add x y hx hy => simp_all
 
@@ -278,7 +277,7 @@ private theorem tateLineCoordinates_change (c c' : L ≃ₗ[F] F)
         (c'.symm.dualMap.trans (LinearMap.ringLmapEquivSelf F F F)) l =
           (↑r⁻¹ : F) * (c.symm.dualMap.trans (LinearMap.ringLmapEquivSelf F F F)) l := by
       intro l
-      show l (c'.symm 1) = _ * l (c.symm 1)
+      change l (c'.symm 1) = _ * l (c.symm 1)
       rw [hd, map_smul, smul_eq_mul]
     simpa [tateLineCoordinates, zpow_negSucc, inv_pow] using
       tensorPowerCoordinates_change _ _ r⁻¹ hdual (m + 1) x
@@ -287,8 +286,7 @@ private theorem tateTwistCoordinates_change (c c' : L ≃ₗ[F] F)
     (r : Fˣ) (h : ∀ l, c' l = (r : F) * c l) (n : ℤ)
     (x : tateTwist F L V n) :
     tateTwistCoordinates c' n x = ((r ^ n : Fˣ) : F) • tateTwistCoordinates c n x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul v l =>
     rw [tateTwistCoordinates_tmul, tateTwistCoordinates_tmul,
       tateLineCoordinates_change c c' r h]
@@ -337,7 +335,7 @@ theorem tateLineMulWith_eq (c c' : L ≃ₗ[F] F)
   obtain ⟨r, hr⟩ := coordinate_change c c'
   apply LinearEquiv.toLinearMap_injective
   ext l t
-  show tateLineMulWith c n m k h (l ⊗ₜ[F] t) =
+  change tateLineMulWith c n m k h (l ⊗ₜ[F] t) =
     tateLineMulWith c' n m k h (l ⊗ₜ[F] t)
   apply (tateLineCoordinates c' k).injective
   conv_lhs => rw [tateLineCoordinates_change c c' r hr]
@@ -359,7 +357,7 @@ theorem tateCup_tmul (hL : Module.finrank F L = 1)
     tateCup hL cup n m k h (u ⊗ₜ[F] l) (v ⊗ₜ[F] t) =
       cup u v ⊗ₜ[F] tateLineMul hL n m k h (l ⊗ₜ[F] t) := by
   apply (tateTwistCoordinates (tateLineCoordinate hL) k).injective
-  show tateTwistCoordinates _ k ((tateTwistCoordinates _ k).symm
+  change tateTwistCoordinates _ k ((tateTwistCoordinates _ k).symm
     (cup (tateTwistCoordinates _ n (u ⊗ₜ[F] l))
       (tateTwistCoordinates _ m (v ⊗ₜ[F] t)))) = _
   rw [LinearEquiv.apply_symm_apply, tateTwistCoordinates_tmul,
@@ -386,7 +384,7 @@ theorem tateTwistCoordinates_add (hL : Module.finrank F L = 1)
       (tateTwistCoordinates (V := V) (tateLineCoordinate hL) n).toLinearMap.comp
         (tateTwistCoordinates (V := tateTwist F L V n) (tateLineCoordinate hL) m).toLinearMap := by
     ext v l t
-    show tateTwistCoordinates (tateLineCoordinate hL) k
+    change tateTwistCoordinates (tateLineCoordinate hL) k
       (v ⊗ₜ[F] tateLineMul hL n m k h (l ⊗ₜ[F] t)) =
       tateTwistCoordinates (tateLineCoordinate hL) n
         (tateTwistCoordinates (tateLineCoordinate hL) m ((v ⊗ₜ[F] l) ⊗ₜ[F] t))

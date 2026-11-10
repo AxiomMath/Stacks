@@ -107,7 +107,8 @@ attribute. The rest of this section records how the remaining inputs are supplie
 
 The **chart comparison** is
 `Stacks.AlgebraicGeometry.RelativeProjGradedIdeal.sectionIdeal_eq_idealOfClosedSubscheme` of
-`StacksFrontier/AlgebraicGeometry/RelativeProjGradedIdeal/ChartComparison.lean`, which says that over
+`StacksFrontier/AlgebraicGeometry/RelativeProjGradedIdeal/ChartComparison.lean`, which says that
+over
 an affine open `U` of the base the homogeneous ideal
 `sectionIdeal 𝒜 (twistKerGradedIdeal 𝒜 D i) U` is the absolute ideal of equations
 `Stacks.AlgebraicGeometry.IdealOfClosedSubscheme.idealOfClosedSubscheme (𝒜.grading U) i'` of the
@@ -136,8 +137,8 @@ It needs three things.
   `ℕ → AddSubgroup (𝒜.sectionRing U)`, a `GradedRing` and not a `GradedAlgebra` over a base ring.
   The restatement is
   `Stacks.ProjQuotientFiniteCover.ker_eq_ker_projMap_quotientMk_of_cover` of
-  `StacksFrontier/AlgebraicGeometry/ProjQuotientFiniteCover/GradedRing.lean`. Nothing more is needed:
-  the `GradedAlgebra` hypothesis
+  `StacksFrontier/AlgebraicGeometry/ProjQuotientFiniteCover/GradedRing.lean`.
+  Nothing more is needed: the `GradedAlgebra` hypothesis
   in that chain buys exactly one thing, `ambientHom_eq_projMap`, which identifies the glued
   `Stacks.AlgebraicGeometry.RelativeProj.mapHomOfTop` with Mathlib's `AlgebraicGeometry.Proj.map`,
   so stating the conclusion at `Proj.map` of `Stacks.HomogeneousIdeal.quotientMk` from the start

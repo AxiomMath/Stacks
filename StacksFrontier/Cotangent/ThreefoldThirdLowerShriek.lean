@@ -193,7 +193,7 @@ lemma isFibreAcyclicSheaf_biprod (M N : Sheaf (⊥ : GrothendieckTopology (polyn
   let T := sheafToPresheaf ⊥ AddCommGrpCat.{u + 1} ⋙ fibreHomologyFunctor A U (n + 1)
   have hG : IsZero (T.obj M) := hM U n
   have hG' : IsZero (T.obj N) := hN U n
-  show IsZero (T.obj (M ⊞ N))
+  change IsZero (T.obj (M ⊞ N))
   rw [IsZero.iff_id_eq_zero, ← T.map_id, ← biprod.total, T.map_add, T.map_comp, T.map_comp,
     hG.eq_of_tgt (T.map biprod.fst) 0, hG'.eq_of_tgt (T.map biprod.snd) 0, zero_comp, zero_comp,
     add_zero]

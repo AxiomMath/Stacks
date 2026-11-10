@@ -26,8 +26,9 @@ is bijective -- **part (2) of [Stacks, Tag 01XQ](https://stacks.math.columbia.ed
 ## Implementation notes
 
 The proofs are written in term mode, through `Exists.elim` rather than `obtain`, for the reason
-recorded in `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/NonvanishingGradedHom.lean`: building a tactic motive over
-`Stacks.SheafOfModules.homAtNonvanishingOpen`, whose carrier is a localization of the graded Hom
+recorded in `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/NonvanishingGradedHom.lean`: building a
+tactic motive over `Stacks.SheafOfModules.homAtNonvanishingOpen`, whose carrier is a localization of
+the graded Hom
 module at a `Module.compHom` instance, costs more than the heartbeat budget, while passing the
 same terms positionally keeps every type known before it is checked. For the same reason the two
 implications from finite presentation are taken from the Mathlib instances by name

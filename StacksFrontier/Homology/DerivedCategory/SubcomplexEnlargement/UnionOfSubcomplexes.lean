@@ -69,7 +69,7 @@ open Cardinal
 private lemma forget_preservesFilteredColimitsOfShape
     {R : Type u} [Ring R] {J : Type v} [SmallCategory J] [IsFiltered J] :
     PreservesColimitsOfShape J (forget (ModuleCat.{v} R)) := by
-  show PreservesColimitsOfShape J
+  change PreservesColimitsOfShape J
     (forget₂ (ModuleCat.{v} R) AddCommGrpCat.{v} ⋙ forget AddCommGrpCat.{v})
   infer_instance
 
@@ -165,7 +165,7 @@ lemma exists_stage_killing_kernel_and_covering_image
   · intro x hx0
     have hp : p = px x ≫ qx x := Subsingleton.elim _ _
     rw [hp, F.map_comp]
-    show (F.map (qx x)) ((F.map (px x)) x) = 0
+    change (F.map (qx x)) ((F.map (px x)) x) = 0
     rw [hx x hx0, map_zero]
   · intro y
     refine ⟨(F.map (qy y)) (xy y), ?_⟩
@@ -613,7 +613,7 @@ public theorem isIso_comparison_of_stagewise_union
     intro j
     obtain ⟨n⟩ := j
     rw [hιM n, E.map_comp, Category.assoc, hbs n]
-    show E.map (eM n).inv ≫ bs n ≫ cN n =
+    change E.map (eM n).inv ≫ bs n ≫ cN n =
       (E.map (eM n).inv ≫ bs n ≫ (eN n).hom) ≫ (PN (ULift.up n)).ι
     rw [Category.assoc, Category.assoc, hεN n]
   -- the steps of the chain, conjugated to the images
@@ -675,7 +675,7 @@ public theorem isIso_comparison_of_stagewise_union
       (UM n).hom ≫ (Hf i).map (α.app (Ms n) ≫ DerivedCategory.Q.map (bs n)) ≫ (VN n).hom := by
     intro n
     have hcompat : E.map (eM n).inv ≫ bs n = bi (ULift.up n) ≫ (eN n).inv := by
-      show E.map (eM n).inv ≫ bs n = (E.map (eM n).inv ≫ bs n ≫ (eN n).hom) ≫ (eN n).inv
+      change E.map (eM n).inv ≫ bs n = (E.map (eM n).inv ≫ bs n ≫ (eN n).hom) ≫ (eN n).inv
       rw [Category.assoc, Category.assoc, Iso.hom_inv_id, Category.comp_id]
     have h2 := congrArg (Hf i).map
       (comparison_square α (eM n).inv (eN n).inv (bi (ULift.up n)) (bs n) hcompat)
@@ -691,7 +691,7 @@ public theorem isIso_comparison_of_stagewise_union
       (familyDiagram PM hPM ⋙ DerivedCategory.Q ⋙ T ⋙ Hf i).map (homOfLE (hsucc n)) =
         (UM n).hom ≫ (Hf i).map (T.map (DerivedCategory.Q.map (pM n))) ≫ (UM (n + 1)).inv := by
     intro n
-    show (DerivedCategory.Q ⋙ T ⋙ Hf i).map
+    change (DerivedCategory.Q ⋙ T ⋙ Hf i).map
       (SubcomplexFamily.map (hPM (leOfHom (homOfLE (hsucc n))))) = _
     rw [hstepM n (hsucc n), Functor.map_comp, Functor.map_comp]
     rfl
@@ -699,7 +699,7 @@ public theorem isIso_comparison_of_stagewise_union
       (familyDiagram PN hPN ⋙ DerivedCategory.Q ⋙ Hf i).map (homOfLE (hsucc n)) =
         (VN n).inv ≫ (Hf i).map (DerivedCategory.Q.map (pN n)) ≫ (VN (n + 1)).hom := by
     intro n
-    show (DerivedCategory.Q ⋙ Hf i).map
+    change (DerivedCategory.Q ⋙ Hf i).map
       (SubcomplexFamily.map (hPN (leOfHom (homOfLE (hsucc n))))) = _
     rw [hstepN n (hsucc n), Functor.map_comp, Functor.map_comp]
     rfl

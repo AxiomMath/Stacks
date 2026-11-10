@@ -101,7 +101,7 @@ theorem sectionsOverBaseHomologyLerayIso_hom_lerayIso
           ((lerayIso c).hom.app T)).hom z) =
       (lerayCohomologyIso c T n).hom z := by
   let := @HasDerivedCategory.standard.{u, u + 1}
-  show (lerayCohomologyIso c T n).hom
+  change (lerayCohomologyIso c T n).hom
     (((DerivedCategory.homologyFunctor (ModuleCat.{u} (baseRing S)) n).map
       ((lerayIso c).inv.app T)).hom
         (((DerivedCategory.homologyFunctor (ModuleCat.{u} (baseRing S)) n).map
@@ -121,7 +121,7 @@ theorem lerayIso_inv_sectionsOverBaseHomologyLerayIso_inv
         ((lerayIso c).inv.app T)).hom ((sectionsOverBaseHomologyLerayIso c T n).inv x) =
       (lerayCohomologyIso c T n).inv x := by
   let := @HasDerivedCategory.standard.{u, u + 1}
-  show ((DerivedCategory.homologyFunctor (ModuleCat.{u} (baseRing S)) n).map
+  change ((DerivedCategory.homologyFunctor (ModuleCat.{u} (baseRing S)) n).map
       ((lerayIso c).inv.app T)).hom
         (((DerivedCategory.homologyFunctor (ModuleCat.{u} (baseRing S)) n).map
           ((lerayIso c).hom.app T)).hom ((lerayCohomologyIso c T n).inv x)) = _

@@ -175,7 +175,7 @@ private theorem isCompatible_of_epi_systemHom
         eqToHom (restrict_eq.{v, u, w, t} D uC hu a H.obj)⟩ from congrArg (fun q => q.hom) h
   apply (cancel_epi (f.app i)).mp
   apply Sheaf.hom_ext
-  show (f.app i).hom ≫ ι i = (f.app i).hom ≫ transition D G a ≫ _
+  change (f.app i).hom ≫ ι i = (f.app i).hom ≫ transition D G a ≫ _
   rw [← Category.assoc, hom_comp_transition D f a]
   simpa only [Functor.whiskerLeft_comp, Category.assoc] using hι a
 
@@ -200,7 +200,7 @@ private theorem systemColimitMap_comp
   apply colimitPresentation_hom_ext D uC hu K F (systemKanUnit D uC hu F)
     (systemColimitSheaf_isColimitPresentation D uC hu hobj hhom hhom_inj K hK F)
   intro i
-  show _ = systemKanUnit D uC hu F i ≫ Functor.whiskerLeft (uC i).op (_ ≫ _)
+  change _ = systemKanUnit D uC hu F i ≫ Functor.whiskerLeft (uC i).op (_ ≫ _)
   rw [Functor.whiskerLeft_comp,
     systemColimitMap_fac D uC hu hobj hhom hhom_inj K hK (systemHomComp f g),
     ← Category.assoc, systemColimitMap_fac D uC hu hobj hhom hhom_inj K hK f,
@@ -236,7 +236,7 @@ private theorem systemColimitMap_sections_fac
   have h := congrArg (fun q => q.app (op ((D.u A.unop.hom).obj X)))
     (systemColimitMap_fac D uC hu hobj hhom hhom_inj K hK f A.unop.left)
   dsimp only [NatTrans.comp_app, Functor.whiskerLeft_app] at h
-  show ((_ ≫ _) ≫ _) = _ ≫ (_ ≫ _)
+  change ((_ ≫ _) ≫ _) = _ ≫ (_ ≫ _)
   rw [Category.assoc, NatTrans.naturality, ← Category.assoc, h, Category.assoc]
   rfl
 
@@ -254,7 +254,7 @@ private theorem mono_of_isColimit
     apply hc.hom_ext
     intro i
     simp only [← Category.assoc, IsColimit.comp_coconePointUniqueUpToIso_hom]
-    show c.ι.app i ≫ m = (colimit.ι F i ≫ colim.map f) ≫ _
+    change c.ι.app i ≫ m = (colimit.ι F i ≫ colim.map f) ≫ _
     rw [colimit.ι_map, Category.assoc, colimit.comp_coconePointUniqueUpToIso_hom, hm]
   rw [heq]
   infer_instance
@@ -310,7 +310,7 @@ private theorem systemColimitMap_epi
     congrArg (fun q => q.hom) hh
   apply (cancel_epi (f.app i)).mp
   apply Sheaf.hom_ext
-  show (f.app i).hom ≫ systemKanUnit D uC hu G i ≫ _ =
+  change (f.app i).hom ≫ systemKanUnit D uC hu G i ≫ _ =
     (f.app i).hom ≫ systemKanUnit D uC hu G i ≫ _
   rw [← Category.assoc, ← Category.assoc,
     ← systemColimitMap_fac D uC hu hobj hhom hhom_inj K hK f]
@@ -338,7 +338,7 @@ private theorem exists_compatible_cokernel_desc
   refine ⟨q, ?_, hq⟩
   apply isCompatible_of_epi_systemHom D uC hu K (systemCokernelπ D f)
     (fun i => by change Epi (cokernel.π (f.app i)); infer_instance) H q
-  show IsCompatible D uC hu G H.obj (fun i => (cokernel.π (f.app i)).hom ≫ q i)
+  change IsCompatible D uC hu G H.obj (fun i => (cokernel.π (f.app i)).hom ≫ q i)
   intro i j a
   simpa only [hq] using hg a
 
@@ -415,7 +415,7 @@ public theorem exists_shortExact_pointwiseInjective_colimit
           (π.app j).hom ≫ systemKanUnit D uC hu Q j) := by
   have hmono := injectiveSystemι_mono D F
   have hepi : ∀ j, Epi ((systemCokernelπ D (injectiveSystemι D F)).app j) := fun j => by
-    show Epi (cokernel.π _); infer_instance
+    change Epi (cokernel.π _); infer_instance
   have w : ∀ j, (injectiveSystemι D F).app j ≫ (systemCokernelπ D (injectiveSystemι D F)).app j
       = 0 := fun j => cokernel.condition _
   refine ⟨injectiveSystem D F, systemCokernel D (injectiveSystemι D F), injectiveSystemι D F,
@@ -472,7 +472,7 @@ private def overCohomologyMap {i : D.I} (X : D.C i) (p : ℕ)
 private theorem overCohomologyMap_id {i : D.I} (X : D.C i) (p : ℕ) (A : Over i) :
     overCohomologyMap D F (htrans := htrans) X p (𝟙 A) = 𝟙 _ := by
   let := pushforward_id_preservesInjectives.{w, max u v t} (D.J A.left)
-  show cohomologyMapTo (D.u (𝟙 A.left)) (transition D F (𝟙 A.left))
+  change cohomologyMapTo (D.u (𝟙 A.left)) (transition D F (𝟙 A.left))
     _ _ _ p = _
   calc
     _ = cohomologyMapTo (𝟭 (D.C A.left)) (𝟙 (F.obj A.left).obj)
@@ -682,7 +682,7 @@ private theorem preservesColimitsOfShape_lim_of_colim
       apply limit.hom_ext
       intro j
       simp only [e, Iso.trans_hom, Iso.symm_hom, Category.assoc,
-        HasColimit.isoOfNatIso_ι_inv_assoc]
+        HasColimit.ι_isoOfNatIso_inv_assoc]
       have h := ι_colimitLimitIso_limit_π F.flip i j
       simp only [Functor.flip_flip] at h
       rw [h]
@@ -919,7 +919,7 @@ private theorem preservesProduct_fin_of_binaryProducts
     refine Fin.inductionOn j ?_ ?_
     · exact (Category.id_comp _).symm
     · intro j _
-      show F.map prod.snd ≫ F.map (Pi.π (fun i => f (a i.succ)) j) = _
+      change F.map prod.snd ≫ F.map (Pi.π (fun i => f (a i.succ)) j) = _
       dsimp only [Iso.refl_hom, Fan.mk_π_app, Fin.cases_succ]
       rw [Category.id_comp, ← F.map_comp]
       rfl
@@ -941,15 +941,15 @@ private theorem overPost_preservesBinaryProduct
   refine IsLimit.ofIsoLimit
     (isLimitOfHasPullbackOfPreservesLimit F V.hom W.hom).pullbackConeEquivBinaryFanFunctor ?_
   refine BinaryFan.ext (Over.isoMk (Iso.refl _) (by
-    show 𝟙 (F.obj (pullback V.hom W.hom)) ≫ F.map (pullback.fst V.hom W.hom ≫ V.hom) =
+    change 𝟙 (F.obj (pullback V.hom W.hom)) ≫ F.map (pullback.fst V.hom W.hom ≫ V.hom) =
       F.map (pullback.fst V.hom W.hom) ≫ F.map V.hom
     rw [Category.id_comp, F.map_comp])) ?_ ?_
   · ext
-    show F.map (pullback.fst V.hom W.hom) =
+    change F.map (pullback.fst V.hom W.hom) =
       𝟙 (F.obj (pullback V.hom W.hom)) ≫ F.map (pullback.fst V.hom W.hom)
     rw [Category.id_comp]
   · ext
-    show F.map (pullback.snd V.hom W.hom) =
+    change F.map (pullback.snd V.hom W.hom) =
       𝟙 (F.obj (pullback V.hom W.hom)) ≫ F.map (pullback.snd V.hom W.hom)
     rw [Category.id_comp]
 
@@ -960,7 +960,7 @@ private theorem overPost_preservesTerminal
   apply (isLimitMapConeEmptyConeEquiv (Over.post F) (Over.mk (𝟙 U))).symm.toFun
   exact IsTerminal.ofIso (Over.mkIdTerminal (X := F.obj U))
     (Over.isoMk (Iso.refl _) (by
-      show 𝟙 (F.obj U) ≫ F.map (𝟙 U) = 𝟙 (F.obj U)
+      change 𝟙 (F.obj U) ≫ F.map (𝟙 U) = 𝟙 (F.obj U)
       rw [F.map_id, Category.comp_id]))
 
 /-- A member of a covering `E` of `U` and any arrow over `U` have a pullback. -/
@@ -1040,7 +1040,7 @@ private theorem cechProductIso_naturality {n m : ℕ}
       Pi.lift (fun a ↦ Pi.π (fun b ↦ Over.mk (E.f (i b))) (g a)) := rfl
   have h₂ : (Stacks.CechSite.cechFormalCoproductMap (E.map F) g).φ i =
       Pi.lift (fun a ↦ Pi.π (fun b ↦ Over.mk ((E.map F).f (i b))) (g a)) := rfl
-  show ((Over.post F).map ((Stacks.CechSite.cechFormalCoproductMap E g).φ i) ≫
+  change ((Over.post F).map ((Stacks.CechSite.cechFormalCoproductMap E g).φ i) ≫
     (PreservesProduct.iso (Over.post F) (fun a ↦ Over.mk (E.f (i (g a))))).hom).left =
     ((PreservesProduct.iso (Over.post F) (fun a ↦ Over.mk (E.f (i a)))).hom ≫
       (Stacks.CechSite.cechFormalCoproductMap (E.map F) g).φ i).left
@@ -1285,7 +1285,7 @@ private theorem systemColimitSheaf_cohomology_isZero_of_pointwise_injective
     have hmap := mappedCovering_mem D uC K hK Ei hEi
     refine ⟨⟨Ei.map (uC i), K.generate_mem_toGrothendieck hmap⟩,
       ⟨i, X, Ei, rfl, inferInstance, hEi, rfl⟩, ?_⟩
-    show Sieve.generate (Ei.map (uC i)).presieve₀ ≤ R
+    change Sieve.generate (Ei.map (uC i)).presieve₀ ≤ R
     rw [Sieve.generate_le_iff, PreZeroHypercover.presieve₀_map, he]
     exact hle
   · obtain ⟨i, X, Ei, rfl, hfin, hEi, he⟩ := hE
@@ -2477,7 +2477,7 @@ private theorem nonempty_isColimitCohomologyCoconeZero
       sectionsCocone D uC hu F 𝒢.obj ι hcolim.1 i X :=
     Cocone.ext (asIso (((sheafSections K.toGrothendieck (Ab.{max u v w})).obj
       (op ((uC i).obj X))).toRightDerivedZero.app 𝒢)).symm (fun A => by
-        show (_ ≫ cohomologyMapTo _ _ _ _ _ 0) ≫ _ = _
+        change (_ ≫ cohomologyMapTo _ _ _ _ _ 0) ≫ _ = _
         exact (Iso.comp_inv_eq (asIso (((sheafSections K.toGrothendieck (Ab.{max u v w})).obj
           (op ((uC i).obj X))).toRightDerivedZero.app 𝒢))).mpr
             (cohomologyMapTo_zero_comm (uC A.unop.left) (ι A.unop.left)

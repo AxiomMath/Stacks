@@ -145,12 +145,12 @@ theorem isDClosed_dClosure (A : Gens c K) : IsDClosed (dClosure A) := by
   rcases hs with (hA | ⟨m', s', hs', hss'⟩) | h0
   · exact Or.inl (Or.inr ⟨m, s, hA, rfl⟩)
   · refine Or.inr ?_
-    show (K.d m n).val.app (op (c i)) s = 0
+    change (K.d m n).val.app (op (c i)) s = 0
     change s = (K.d m' m).val.app _ s' at hss'
     rw [hss', ← _root_.SheafOfModules.comp_val_app_apply, K.d_comp_d,
       _root_.SheafOfModules.zero_val_app_apply]
   · refine Or.inr ?_
-    show (K.d m n).val.app (op (c i)) s = 0
+    change (K.d m n).val.app (op (c i)) s = 0
     change s = 0 at h0
     rw [h0, map_zero]
 
@@ -244,7 +244,7 @@ theorem isDClosed_enlargement (A₀ : Gens c K) : IsDClosed (enlargement A₀) :
 theorem genSet_enlargement (A₀ : Gens c K) (n : ℤ) (V : Cᵒᵖ) :
     genSet (enlargement A₀) n V = ⋃ k, genSet (seq A₀ k) n V := by
   ext x
-  simp only [genSet, enlargement, Set.mem_iUnion, Set.mem_setOf_eq]
+  simp only [genSet, enlargement, Set.mem_iUnion, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨i, s, f, ⟨k, hk⟩, rfl⟩
     exact ⟨k, i, s, f, hk, rfl⟩
@@ -262,7 +262,7 @@ theorem exists_mem_span_seq (A₀ : Gens c K) {n : ℤ} {V : Cᵒᵖ} {x : (K.X 
     (hx : x ∈ (span (enlargement A₀) n).obj V) : ∃ k, x ∈ (span (seq A₀ k) n).obj V := by
   have key : (span (enlargement A₀) n).obj V =
       ⨆ k, Submodule.span (R.obj.obj V) (genSet (seq A₀ k) n V) := by
-    show Submodule.span _ _ = _
+    change Submodule.span _ _ = _
     rw [genSet_enlargement, Submodule.span_iUnion]
   have hmono : Monotone (fun k => Submodule.span (R.obj.obj V) (genSet (seq A₀ k) n V)) :=
     fun a b hab => Submodule.span_mono (genSet_mono (monotone_seq A₀ hab) n V)
@@ -287,9 +287,10 @@ section Bounds
 variable {ν : Cardinal.{t}} (hν : ℵ₀ ≤ ν) (hι : #ι ≤ ν) (hHom : ∀ i j : ι, #(c i ⟶ c j) ≤ ν)
   (hR : ∀ i : ι, #(R.obj.obj (op (c i))) ≤ ν)
 
-include hν hι hHom hR in
 /-- The witnesses of a set of generators bounded by `ν` are bounded by `ν`. -/
-theorem mk_witnesses_le (A : Gens c K) (hA : #A ≤ ν) : #(witnesses A) ≤ ν := by
+theorem mk_witnesses_le (hν : ℵ₀ ≤ ν) (hι : #ι ≤ ν) (hHom : ∀ i j : ι, #(c i ⟶ c j) ≤ ν)
+    (hR : ∀ i : ι, #(R.obj.obj (op (c i))) ≤ ν) (A : Gens c K) (hA : #A ≤ ν) :
+    #(witnesses A) ≤ ν := by
   refine Cardinal.mk_range_le.trans ((Cardinal.mk_subtype_le _).trans ?_)
   exact mk_sigma_int_le hν (fun n => mk_sigma_le_of_le hν hι
     (fun i => mk_span_obj_le A hν hA hι hHom hR (n + 1) i))

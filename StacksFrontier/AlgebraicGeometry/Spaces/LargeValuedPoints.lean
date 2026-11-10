@@ -298,7 +298,7 @@ theorem schemePointULift_map_uliftYoneda {U V : BigFppfOver B S hS} (h : U ⟶ V
         (FieldValuedPointULift.map B S hS ((uliftYoneda.{w}).obj U)
           ((uliftYoneda.{w}).map h) p) =
       (BigFppfOver.toScheme B S hS).map h (schemePointULift B S hS U p) := by
-  show (BigFppfOver.toScheme B S hS).map (p.value.down ≫ h) _ = _
+  change (BigFppfOver.toScheme B S hS).map (p.value.down ≫ h) _ = _
   rw [Functor.map_comp]
   rfl
 

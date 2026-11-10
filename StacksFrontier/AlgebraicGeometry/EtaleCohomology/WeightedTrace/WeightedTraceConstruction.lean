@@ -179,9 +179,9 @@ geometric points. -/
 public theorem etaleStalk_eqToHom_naturality {t t' : GeometricPoint S} (h : t = t')
     {P Q : (SmallEtale B S hS)ᵒᵖ ⥤ AddCommGrpCat.{max (u + 1) v}} (φ : P ⟶ Q) :
     eqToHom (congrArg (fun r => etaleStalk B S hS r P) h) ≫
-        colim.map (Functor.whiskerLeft (CategoryOfElements.π
+        colim.map (Functor.whiskerLeft (Functor.Elements.π
           (geometricPointFiber B S hS t')).op φ) =
-      colim.map (Functor.whiskerLeft (CategoryOfElements.π
+      colim.map (Functor.whiskerLeft (Functor.Elements.π
           (geometricPointFiber B S hS t)).op φ) ≫
         eqToHom (congrArg (fun r => etaleStalk B S hS r Q) h) := by
   cases h
@@ -223,12 +223,12 @@ stalk of `F` at the geometric point below it is natural in the abelian sheaf. -/
 public theorem fiberPointPullbackStalkIso_natural (s : GeometricPoint Y.obj)
     {F G : Sheaf (SmallEtale.topology B Y.obj Y.property) AddCommGrpCat.{max (u + 1) v}}
     (φ : F ⟶ G) (x : GeometricFiberPoint B f s) :
-    colim.map (Functor.whiskerLeft (CategoryOfElements.π (geometricPointFiber B X.obj X.property
+    colim.map (Functor.whiskerLeft (Functor.Elements.π (geometricPointFiber B X.obj X.property
             (x.toGeometricPoint B f s))).op ((abPullback.{u, v} B f).map φ).1) ≫
         (fiberPointPullbackStalkIso.{u, v} B f s G x).hom =
       (fiberPointPullbackStalkIso.{u, v} B f s F x).hom ≫
         colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op φ.1) := by
+          (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op φ.1) := by
   have hnat := (smallEtalePullbackSheafFiberIso B f (x.toGeometricPoint B f s)
     AddCommGrpCat.{max (u + 1) v}).hom.naturality φ
   have htr := etaleStalk_eqToHom_naturality.{u, v} B Y.obj Y.property
@@ -339,7 +339,7 @@ public def HasWeightedTraceStalks (w : X.obj → ℤ)
   ∀ s : GeometricPoint Y.obj,
     (fShriekStalkIso.{u, v} B f s ((abPullback.{u, v} B f).obj F)).inv ≫
         colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op τ.1) =
+          (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op τ.1) =
       weightedTraceStalkMap.{u, v} B f w F s
 
 /-- The summandwise reading of the characterising property: the trace carries a germ of
@@ -353,7 +353,7 @@ public theorem hasWeightedTraceStalks_fiberStalkOf (w : X.obj → ℤ)
     (z : ↑(etaleStalk B X.obj X.property (x.toGeometricPoint B f s)
       ((abPullback.{u, v} B f).obj F).obj)) :
     (colim.map (Functor.whiskerLeft
-        (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op τ.1))
+        (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op τ.1))
       ((fShriekStalkIso.{u, v} B f s ((abPullback.{u, v} B f).obj F)).inv
         (fiberStalkOf.{u, v} B f s ((abPullback.{u, v} B f).obj F) x z)) =
       w (x.1 default) • (fiberPointPullbackStalkIso.{u, v} B f s F x).hom z :=
@@ -402,7 +402,7 @@ public def HasWeightedTracePresheafStalks (w : X.obj → ℤ)
     (finiteSupportStalkIso.{u, max (u + 1) v} B f s ((abPullback.{u, v} B f).obj F)
           (fun _ => inferInstance)).inv ≫
         colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op σ) =
+          (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op σ) =
       weightedTraceStalkMap.{u, v} B f w F s
 
 /-- The stalk map of a morphism out of `f_! f^{-1}F`, read through the stalk decomposition of
@@ -417,13 +417,13 @@ public theorem finiteSupportStalkIso_inv_comp_stalkMap_toSheafify
     (finiteSupportStalkIso.{u, max (u + 1) v} B f s ((abPullback.{u, v} B f).obj F)
           (fun _ => inferInstance)).inv ≫
         colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+          (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
           (toSheafify (SmallEtale.topology B Y.obj Y.property)
             ((finiteSupportPushforward.{u, max (u + 1) v} B f
               (fun _ => inferInstance)).1.obj ((abPullback.{u, v} B f).obj F)) ≫ τ.1)) =
       (fShriekStalkIso.{u, v} B f s ((abPullback.{u, v} B f).obj F)).inv ≫
         colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op τ.1) :=
+          (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op τ.1) :=
   (congrArg
     (fun m => (finiteSupportStalkIso.{u, max (u + 1) v} B f s
       ((abPullback.{u, v} B f).obj F) (fun _ => inferInstance)).inv ≫ m)
@@ -501,7 +501,7 @@ public theorem hasWeightedTraceStalks_zero
     HasWeightedTraceStalks.{u, v} B f (fun _ => (0 : ℤ)) F 0 := by
   intro s
   have hz : colim.map (Functor.whiskerLeft
-      (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+      (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
       (0 : ((fShriekFunctor.{u, v} B f).obj
         ((abPullback.{u, v} B f).obj F)).obj ⟶ F.obj)) = 0 := by
     refine colimit.hom_ext fun j => ?_

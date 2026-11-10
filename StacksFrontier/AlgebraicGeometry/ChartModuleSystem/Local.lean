@@ -157,7 +157,7 @@ theorem map_chartTildeEquiv {e₁ e₂ d : I.ι} (h₁ : I.Refines e₁ d) (h₂
     { toFun := S.ρ h₂₁
       map_add' := map_add _
       map_smul' := fun a x => by
-        show S.ρ h₂₁ (I.res h₁ a • x) = I.res h₂ a • S.ρ h₂₁ x
+        change S.ρ h₂₁ (I.res h₁ a • x) = I.res h₂ a • S.ρ h₂₁ x
         rw [map_smulₛₗ, I.res_res] }
   have key : ((S.chartTilde d).presheaf.map i.op).hom ∘ₗ (S.chartTildeEquiv h₁).toLinearMap =
       (S.chartTildeEquiv h₂).toLinearMap ∘ₗ ρ₂₁ := by
@@ -168,7 +168,7 @@ theorem map_chartTildeEquiv {e₁ e₂ d : I.ι} (h₁ : I.Refines e₁ d) (h₂
       refine (Scheme.Modules.isUnit_algebraMap_end_of_le_basicOpen (M := tilde _) _ ?_).pow n
       rw [← chartPreimage_eq h₁]
       exact i.le
-    · show (S.chartTilde d).presheaf.map i.op (S.chartTildeEquiv h₁ (S.ρ h₁ x)) =
+    · change (S.chartTilde d).presheaf.map i.op (S.chartTildeEquiv h₁ (S.ρ h₁ x)) =
         S.chartTildeEquiv h₂ (S.ρ h₂₁ (S.ρ h₁ x))
       rw [chartTildeEquiv_ρ, S.ρ_ρ, chartTildeEquiv_ρ]
       rfl

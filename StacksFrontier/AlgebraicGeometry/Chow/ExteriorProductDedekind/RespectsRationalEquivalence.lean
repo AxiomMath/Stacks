@@ -227,7 +227,7 @@ theorem _root_.Ideal.exists_span_singleton_eq_map_of_isDedekindDomain {A : Type 
     have h1 : P * P = P * 1 := by rw [← pow_two, h, mul_one]
     have h2 := mul_left_cancel₀ hP h1
     exact (Ideal.IsPrime.ne_top ‹_›) (by rw [h2, Ideal.one_eq_top])
-  obtain ⟨π, hπP, hπ2⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨π, hπP, hπ2⟩ := IsConcreteLE.exists_of_lt hlt
   obtain ⟨J, hJ⟩ : P ∣ Ideal.span {π} :=
     Ideal.dvd_iff_le.mpr ((Ideal.span_singleton_le_iff_mem P).mpr hπP)
   have hJP : ¬ J ≤ P := by
@@ -235,7 +235,7 @@ theorem _root_.Ideal.exists_span_singleton_eq_map_of_isDedekindDomain {A : Type 
     refine hπ2 ?_
     rw [pow_two]
     exact (Ideal.span_singleton_le_iff_mem _).mp (hJ ▸ Ideal.mul_mono_right hJP)
-  obtain ⟨τ, hτJ, hτP⟩ := SetLike.not_le_iff_exists.mp hJP
+  obtain ⟨τ, hτJ, hτP⟩ := IsConcreteLE.not_le_iff_exists.mp hJP
   refine ⟨π, τ, hπP, hτP, fun R _ _ _ ↦ ?_⟩
   have hJR : J.map (algebraMap A R) = ⊤ :=
     Ideal.eq_top_of_isUnit_mem _ (Ideal.mem_map_of_mem _ hτJ)
@@ -333,7 +333,7 @@ theorem IsDedekindChowBase.exists_zeroScheme_unit_eq (hS : IsDedekindChowBase C)
   have hpre' : ((isAffineOpen_top (U : Scheme.{u})).fromSpec.base ⁻¹'
       (Closeds.closure ({s'} : Set (U : Scheme.{u})) : Set (U : Scheme.{u})) :
         Set (PrimeSpectrum Γ((U : Scheme.{u}), ⊤))) = {Ptop} := hpre
-  show _ = PrimeSpectrum.vanishingIdeal ((isAffineOpen_top (U : Scheme.{u})).fromSpec.base ⁻¹'
+  change _ = PrimeSpectrum.vanishingIdeal ((isAffineOpen_top (U : Scheme.{u})).fromSpec.base ⁻¹'
     (Closeds.closure ({s'} : Set (U : Scheme.{u})) : Set (U : Scheme.{u})))
   rw [hpre', PrimeSpectrum.vanishingIdeal_singleton, hspan]
 
@@ -419,7 +419,7 @@ theorem relativeDimension_of_flat_of_coheight {X' B : Scheme.{u}} [IsIntegral X'
         rfl
   intro t ht
   have hFT : LocallyOfFiniteType (q.fiberToSpecResidueField t) := by
-    show LocallyOfFiniteType (pullback.snd q (B.fromSpecResidueField t))
+    change LocallyOfFiniteType (pullback.snd q (B.fromSpecResidueField t))
     infer_instance
   have hlocal : ∀ w : q.fiber t,
       topologicalKrullDimAt (q.fiber t) w = ((r : ℕ) : WithBot ℕ∞) := by
@@ -480,7 +480,7 @@ theorem IsDedekindChowBase.flat_of_mem_genericPoints (hS : IsDedekindChowBase C)
     let q : (p ⁻¹ᵁ U : Scheme.{u}) ⟶ Spec (.of Γ(C.S, U)) := (p ∣_ U) ≫ hU.isoSpec.hom
     have hq : Flat q := by
       refine flat_of_genericPoint_map_eq (A := Γ(C.S, U)) q ?_
-      show hU.isoSpec.hom.base ((p ∣_ U).base (genericPoint (p ⁻¹ᵁ U))) = _
+      change hU.isoSpec.hom.base ((p ∣_ U).base (genericPoint (p ⁻¹ᵁ U))) = _
       rw [hgenU]
       exact genericPoint_eq_of_isOpenImmersion hU.isoSpec.hom
     rw [show p ∣_ U = q ≫ hU.isoSpec.inv by simp [q]]
@@ -502,7 +502,7 @@ theorem IsDedekindChowBase.relativeDimension_integralComponentAt_comp (hS : IsDe
       (relativeDimension C.dimensionFunction f x - C.dimensionFunction (f.base x)).toNat := by
   have _ := isIntegral_integralComponentAt x
   have hδx : C.dimensionFunction (f.base x) ≤ relativeDimension C.dimensionFunction f x := by
-    show _ ≤ C.dimensionFunction (f.base x) + (Cardinal.toNat (residueTrdeg f x) : ℤ)
+    change _ ≤ C.dimensionFunction (f.base x) + (Cardinal.toNat (residueTrdeg f x) : ℤ)
     omega
   refine relativeDimension_of_flat_of_coheight C ((integralComponentAt x).subschemeι ≫ f)
     (𝟙 C.S) _ fun w ↦ ?_
@@ -613,7 +613,7 @@ theorem closedSubschemeCycleCoeff_exteriorProductIdeal_comap (x : X) (y : Y) (j 
       (integralComponentAt y).comap
         (((integralComponentAt x).comap (pullback.fst f g)).subschemeι ≫ pullback.snd f g) := by
     rw [exteriorProductIdeal, Scheme.IdealSheafData.comap_sup]
-    show ((integralComponentAt x).comap (pullback.fst f g)).comap
+    change ((integralComponentAt x).comap (pullback.fst f g)).comap
       ((integralComponentAt x).comap (pullback.fst f g)).subschemeι ⊔ _ = _
     rw [hkill, bot_sup_eq, ← Scheme.IdealSheafData.comap_comp]
     rfl
@@ -667,7 +667,7 @@ theorem exists_exteriorProductDedekindSummand_of_flat (α : CycleGroup C f n)
     obtain ⟨h1, -⟩ := mem_closure_of_exteriorProductDedekindTerm_ne_zero C f g n m α β z (x, y) hne
     refine hz ?_
     rw [Scheme.IdealSheafData.range_subschemeι, Scheme.IdealSheafData.support_comap]
-    show (pullback.fst f g).base z ∈ ((integralComponentAt x).support : Set X)
+    change (pullback.fst f g).base z ∈ ((integralComponentAt x).support : Set X)
     rw [coe_support_integralComponentAt]
     exact h1
 
@@ -782,10 +782,10 @@ theorem exists_gysinCycle_mem_rationalEquivalences {T : Scheme.{u}} (p : T ⟶ C
       (QuotientAddGroup.eq_zero_iff δ).mpr hδ
     rw [h0, map_zero] at h
     exact (QuotientAddGroup.eq_zero_iff _).mp h.symm
-  · show ((gysinCycleMapRule C p k L σ).extendCycleGroup δ).1 d = _
+  · change ((gysinCycleMapRule C p k L σ).extendCycleGroup δ).1 d = _
     rw [GysinChernCap.extendCycleGroup_eq_finsum_cycle]
     refine finsum_congr fun i ↦ ?_
-    show (δ.1 i.1 • gysinCycleMapComponent C p k L σ _ (isIntegral_integralComponentAt i.1)
+    change (δ.1 i.1 • gysinCycleMapComponent C p k L σ _ (isIntegral_integralComponentAt i.1)
       (schemeDeltaDimension_cycleSupportIndex δ i)).1 d = _
     split_ifs with h
     · rw [gysinCycleMapComponent_of_le C p k L σ _ _ _ h]
@@ -846,7 +846,7 @@ theorem IsDedekindChowBase.exists_exteriorProductDedekindSummand_of_notMem_gener
   have hδs : C.dimensionFunction (f.base x) = 0 := hS.2.1 _ hclosed
   have hn : 0 ≤ n := by
     rw [← hδx]
-    show 0 ≤ C.dimensionFunction (f.base x) + (Cardinal.toNat (residueTrdeg f x) : ℤ)
+    change 0 ≤ C.dimensionFunction (f.base x) + (Cardinal.toNat (residueTrdeg f x) : ℤ)
     omega
   -- the closure of `x` lies over the reduced point `s`
   have hrange : ∀ w : I.subscheme, (I.subschemeι ≫ f).base w = f.base x := by
@@ -1050,7 +1050,7 @@ theorem IsDedekindChowBase.exists_exteriorProductDedekindSummand_of_notMem_gener
   rw [← finsum_mem_univ, finsum_mem_inter_support_eq _ Set.univ (Set.range φ)
     (by rw [Set.univ_inter, Set.inter_eq_right.mpr hsupp]), finsum_mem_range hφinj]
   refine finsum_congr fun i ↦ ?_
-  show exteriorProductDedekindTerm C f g n m α β (K.subschemeι.base w) (x, T.ι.base i.1) = _
+  change exteriorProductDedekindTerm C f g n m α β (K.subschemeι.base w) (x, T.ι.base i.1) = _
   unfold exteriorProductDedekindTerm
   dsimp only
   rw [← hδ₀val]

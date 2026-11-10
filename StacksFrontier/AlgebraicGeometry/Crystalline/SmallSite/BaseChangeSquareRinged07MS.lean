@@ -100,7 +100,7 @@ theorem dominationPairs_le_base_preimage (V' : S'.S.scheme.Opens)
     (forgetToOpens S).obj e.right.right.unop ≤
       (Opens.map (sourceToBase S).base).obj (f.hom ⁻¹ᵁ V') := by
   refine (dominationPairs_le_preimage S S' f g h _ e).trans (le_of_eq ?_)
-  show (Opens.map g.base).obj ((Opens.map (sourceToBase S').base).obj V') =
+  change (Opens.map g.base).obj ((Opens.map (sourceToBase S').base).obj V') =
     (Opens.map (sourceToBase S).base).obj ((Opens.map f.hom.base).obj V')
   rw [← Opens.map_comp_obj, ← Opens.map_comp_obj]
   congr 2

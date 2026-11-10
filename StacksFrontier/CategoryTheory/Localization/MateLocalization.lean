@@ -82,8 +82,7 @@ theorem eq_mateEquiv_of_counit (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂)
     (h : ∀ Y : D, L₂.map (β.app Y) ≫ adj₂.counit.app (H.obj Y) =
       α.app (R₁.obj Y) ≫ H.map (adj₁.counit.app Y)) :
     β = mateEquiv adj₁ adj₂ α := by
-  refine TwoSquare.ext _ _ fun Y => ?_
-  show β.app Y = (mateEquiv adj₁ adj₂ α).app Y
+  refine NatTrans.ext (funext fun Y => ?_)
   refine (adj₂.homEquiv _ _).symm.injective ?_
   rw [Adjunction.homEquiv_counit, Adjunction.homEquiv_counit]
   exact (h Y).trans (mateEquiv_counit adj₁ adj₂ α Y).symm
@@ -211,10 +210,10 @@ theorem mateEquiv_localization
       rw [Functor.map_comp, assoc, hnα, hH, hα₁, hm, ← hh, ← Functor.map_comp_assoc]
     rw [hL, hR, mateEquiv_counit adj₁ adj₂ α Y]
   -- Both sides are components of natural transformations out of `D₁'`.
-  have knat : (Functor.associator R₁' G' L₂').inv ≫ Functor.whiskerRight β'.natTrans L₂' ≫
+  have knat : (Functor.associator R₁' G' L₂').inv ≫ Functor.whiskerRight β' L₂' ≫
         (Functor.associator H' R₂' L₂').hom ≫ Functor.whiskerLeft H' adj₂'.counit ≫
         (Functor.rightUnitor H').hom =
-      Functor.whiskerLeft R₁' α'.natTrans ≫ (Functor.associator R₁' L₁' H').inv ≫
+      Functor.whiskerLeft R₁' α' ≫ (Functor.associator R₁' L₁' H').inv ≫
         Functor.whiskerRight adj₁'.counit H' ≫ (Functor.leftUnitor H').hom :=
     Localization.natTrans_ext PD₁ WD₁ fun Y => by
       simpa [Functor.whiskerLeft_app, Functor.whiskerRight_app] using key Y

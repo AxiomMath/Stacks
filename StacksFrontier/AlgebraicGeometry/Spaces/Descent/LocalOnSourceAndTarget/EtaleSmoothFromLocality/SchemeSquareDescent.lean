@@ -19,6 +19,7 @@ universe u v w
 namespace AlgebraicGeometry
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is deep (see the docstring)
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 private instance hasPullbacks_presheaf_bigFppfOver

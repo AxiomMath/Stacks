@@ -108,7 +108,7 @@ theorem projectiveBundleRelationSurjective_of_bundleMap
   refine ⟨fun i ↦ (chowGroupCast C sX
     (show k - ((n + 1 - i.val : ℕ) : ℤ) = k - ((n + 1 : ℕ) : ℤ) + (i.val : ℤ) by
       push_cast [Nat.cast_sub i.isLt.le]; ring)).symm (β i), ?_⟩
-  show ∑ i : Fin (n + 1), _ = y
+  change ∑ i : Fin (n + 1), _ = y
   rw [sum_projectiveBundleChernTerm_eq_bundleMap]
   simp only [AddEquiv.apply_symm_apply]
   rw [hβ, chowGroupCast_chowGroupCast, chowGroupCast_rfl]

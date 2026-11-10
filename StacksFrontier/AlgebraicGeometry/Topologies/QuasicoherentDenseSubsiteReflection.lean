@@ -51,7 +51,8 @@ universes is `Stacks.DenseSubsiteModules.full_pushforward` and
 ## Implementation notes
 
 Essential surjectivity at an independent module universe is formal, and is where this file
-differs from the single-universe Comparison Lemma: the direct image of sheaves of modules along a fully
+differs from the single-universe Comparison Lemma: the direct image of sheaves of modules along a
+fully
 faithful functor of sites is fully faithful, `SheafOfModules.full_directImage`, so the counit of
 its adjunction with restriction is an isomorphism and every sheaf of modules on the subsite is
 the restriction of its own direct image. The universe of the module sections is then the one the

@@ -112,7 +112,7 @@ noncomputable def pullbackCompSectionsIsoOfEq (hg' : g' = k ≫ g) (A : Over W')
 lemma pullbackCompSectionsIsoOfEq_rfl (A : Over W') :
     pullbackCompSectionsIsoOfEq 𝓕 g k (k ≫ g) rfl A = pullbackCompSectionsIso 𝓕 g k A := by
   refine Iso.ext ?_
-  show ((Scheme.Modules.pullback A.hom).map
+  change ((Scheme.Modules.pullback A.hom).map
       ((Scheme.Modules.pullbackComp k g).hom.app 𝓕 ≫
         ((Scheme.Modules.pullbackCongr (rfl : k ≫ g = k ≫ g)).app 𝓕).inv)).app ⊤ = _
   rw [show ((Scheme.Modules.pullbackCongr (rfl : k ≫ g = k ≫ g)).app 𝓕).inv = 𝟙 _ from rfl,
@@ -217,10 +217,9 @@ theorem liftedSectionsIso_hom_eq {x z : 𝒳} (φ : z ⟶ x)
             (quasiCoherentPresheafFunctor (p.obj x).left.1 𝓕).map e.op) := by
   let := h𝓕
   refine ⟨(Over.isoMk (Iso.refl _)
-    (by simp [smallEtaleFinal, SmallEtale.final, Over.post])).hom, rfl, ?_⟩
+    (by simp)).hom, rfl, ?_⟩
   unfold liftedSectionsIso liftedSectionsUpper
-  simp only [Iso.trans_hom, Iso.symm_hom, Iso.app_hom, Iso.app_inv, Functor.mapIso_hom,
-    Category.assoc]
+  simp only [Iso.trans_hom, Iso.symm_hom, Iso.app_hom, Category.assoc]
   rfl
 
 /-- **Stand-in, not a result: the composition law for factor 4 of
@@ -231,7 +230,7 @@ Factors 1, 2, 3, 4 and 5a of the identification compose into
 `AlgebraicGeometry.Stack.liftedSectionsUpper`; of their composition laws every one but factor
 4's is available. This is the square those laws paste into: at a composable pair of arrows both
 lying over a morphism along which the comparison map of **Stacks 06WC** is an isomorphism,
-restriction of `F` along `ψ` followed by the identification at `φ'` is the identification at
+restriction of `F` along `ψ` followed by the identification at `ψ ≫ φ` is the identification at
 `φ` followed by the right-hand vertical of factor 5's square — restriction along the arrow `n`
 of `Sch/W`, base change along the morphism `k` below `ψ`, and the composition isomorphism of the
 pullback pseudofunctor.
@@ -250,21 +249,20 @@ def LiftedSectionsFactorFourSquareStandIn : Prop :=
         (contains_base B E h S hS p x)).obj 𝓕 ≅
       ⟨restrictModuleToSmallEtale B E h S hS p hp x (etaleTopology B)
         (etaleTopology_le_topology B) F, hMx⟩)
-    {z' z : 𝒳} (ψ : z' ⟶ z) (φ : z ⟶ x) (φ' : z' ⟶ x) (hφ' : φ' = ψ ≫ φ)
-    (hkg : B.inclusion.map (p.map φ').left =
+    {z' z : 𝒳} (ψ : z' ⟶ z) (φ : z ⟶ x)
+    (hkg : B.inclusion.map (p.map (ψ ≫ φ)).left =
       B.inclusion.map (p.map ψ).left ≫ B.inclusion.map (p.map φ).left)
     (hiso : IsIso (restrictModulePullbackComparison B E h S hS p hp φ (etaleTopology B)
       (etaleTopology_le_topology B) F))
-    (hiso' : IsIso (restrictModulePullbackComparison B E h S hS p hp φ' (etaleTopology B)
+    (hiso' : IsIso (restrictModulePullbackComparison B E h S hS p hp (ψ ≫ φ) (etaleTopology B)
       (etaleTopology_le_topology B) F))
     (n : (Over.map (B.inclusion.map (p.map ψ).left)).obj
         ((SmallEtale.toOver E (p.obj z').left.1 (contains_base B E h S hS p z')).obj
           (smallEtaleFinal B E h S hS p z')) ⟶
       (SmallEtale.toOver E (p.obj z).left.1 (contains_base B E h S hS p z)).obj
-        (smallEtaleFinal B E h S hS p z))
-    (hn : n.left = B.inclusion.map (p.map ψ).left),
+        (smallEtaleFinal B E h S hS p z)),
     letI := h𝓕
-    F.presheaf.map ψ.op ≫ liftedSectionsUpper B E h S hS p hp F hlqc φ' 𝓕 hMx eU hiso' =
+    F.presheaf.map ψ.op ≫ liftedSectionsUpper B E h S hS p hp F hlqc (ψ ≫ φ) 𝓕 hMx eU hiso' =
       liftedSectionsUpper B E h S hS p hp F hlqc φ 𝓕 hMx eU hiso ≫
         (quasiCoherentPresheafFunctor (p.obj z).left.1
               ((Scheme.Modules.pullback (B.inclusion.map (p.map φ).left)).obj 𝓕)).map n.op ≫
@@ -274,7 +272,7 @@ def LiftedSectionsFactorFourSquareStandIn : Prop :=
             (op ((SmallEtale.toOver E (p.obj z').left.1 (contains_base B E h S hS p z')).obj
               (smallEtaleFinal B E h S hS p z'))) ≫
           (Stacks.Sites.pullbackCompSectionsIsoOfEq 𝓕 (B.inclusion.map (p.map φ).left)
-              (B.inclusion.map (p.map ψ).left) (B.inclusion.map (p.map φ').left) hkg
+              (B.inclusion.map (p.map ψ).left) (B.inclusion.map (p.map (ψ ≫ φ)).left) hkg
               ((SmallEtale.toOver E (p.obj z').left.1 (contains_base B E h S hS p z')).obj
                 (smallEtaleFinal B E h S hS p z'))).hom
 
@@ -377,24 +375,25 @@ theorem liftedSectionsCocycle_at_belowArrowSite
       (quasiCoherentPresheafFunctor (p.obj x).left.1 𝓕).map
         (belowArrow B S hS p ψ φ φ' hkg).op := rfl
   rw [hfac, hfac', hmm]
-  have hA := hf4 F hlqc 𝓕 h𝓕 hMx eU ψ φ φ' hφ' hkg hiso hiso'
-    (finalBaseChangeArrow B E h S hS p ψ) rfl
+  subst hφ'
+  have hA := hf4 F hlqc 𝓕 h𝓕 hMx eU ψ φ hkg hiso hiso'
+    (finalBaseChangeArrow B E h S hS p ψ)
   have hB := Stacks.Sites.baseChangeCompIso_inv_restriction_of_eq 𝓕
     (B.inclusion.map (p.map φ).left) (B.inclusion.map (p.map ψ).left)
-    (B.inclusion.map (p.map φ').left) hkg
+    (B.inclusion.map (p.map (ψ ≫ φ)).left) hkg
     (A := (SmallEtale.toOver E (p.obj z).left.1 (contains_base B E h S hS p z)).obj
       (smallEtaleFinal B E h S hS p z))
     (A' := (SmallEtale.toOver E (p.obj z').left.1 (contains_base B E h S hS p z')).obj
       (smallEtaleFinal B E h S hS p z'))
     (finalBaseChangeArrow B E h S hS p ψ) e e'
-    (belowArrow B S hS p ψ φ φ' hkg)
+    (belowArrow B S hS p ψ φ (ψ ≫ φ) hkg)
     (by rw [he, he']; exact (Category.comp_id _).trans (Category.id_comp _).symm)
   have hC : (quasiCoherentPresheafFunctor (p.obj x).left.1 𝓕).map
-        (belowArrow B S hS p ψ φ φ' hkg ≫ e).op =
+        (belowArrow B S hS p ψ φ (ψ ≫ φ) hkg ≫ e).op =
       (quasiCoherentPresheafFunctor (p.obj x).left.1 𝓕).map e.op ≫
         (quasiCoherentPresheafFunctor (p.obj x).left.1 𝓕).map
-          (belowArrow B S hS p ψ φ φ' hkg).op := by
-    rw [op_comp, Functor.map_comp]
+          (belowArrow B S hS p ψ φ (ψ ≫ φ) hkg).op := by
+    exact Functor.map_comp _ _ _
   exact paste_squares _ _ _ _ _ _ _ _ _ _ hA hB hC (Iso.inv_hom_id_app _ _)
 
 /-- **The cocycle condition for `AlgebraicGeometry.Stack.liftedSectionsIso`, over the factor-4

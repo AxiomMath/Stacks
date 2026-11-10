@@ -11,11 +11,11 @@ public import StacksFrontier.AlgebraicGeometry.Stacks.SeparationSmallerBase
 /-!
 # Morphisms out of quasi-compact and quasi-separated algebraic stacks, absolutely (Stacks 075S)
 
-`StacksFrontier/AlgebraicGeometry/Stacks/QuasiCompactQuasiSeparatedStack.lean` states the three parts
-of **Stacks 075S** over the base scheme `S` of the big fppf site, with the separation conditions
-read as `AlgebraicGeometry.Stack.IsQuasiSeparatedOver` (**Stacks 050D** part (4)) and under the
-extra hypothesis `QuasiSeparatedSpace S`. That hypothesis is not in the source, and it is not
-removable at `S`: the proof of part (1) cancels the structure morphism to `S`, and
+`StacksFrontier/AlgebraicGeometry/Stacks/QuasiCompactQuasiSeparatedStack.lean` states the three
+parts of **Stacks 075S** over the base scheme `S` of the big fppf site, with the separation
+conditions read as `AlgebraicGeometry.Stack.IsQuasiSeparatedOver` (**Stacks 050D** part (4)) and
+under the extra hypothesis `QuasiSeparatedSpace S`. That hypothesis is not in the source, and it
+is not removable at `S`: the proof of part (1) cancels the structure morphism to `S`, and
 quasi-compactness of that morphism for a quasi-compact algebraic stack is compactness of `W ×_S V`
 for affine objects `W`, `V` of the site, which fails over a base scheme that is not
 quasi-separated.

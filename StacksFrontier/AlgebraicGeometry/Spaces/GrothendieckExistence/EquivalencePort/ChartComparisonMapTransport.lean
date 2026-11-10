@@ -86,7 +86,7 @@ theorem C1573.chartAdicSystemMapSections_naturality (n : ℕ) :
     (adicQuotientSystem_map_succ B S hS Y.1 Y.2 J ((modulePushforward B S hS f).obj F) n)
   have h3 := chartPushforwardAdicQuotientEquiv_transition B S hS f hf V J F hF hfp hJ hM n
     ((α.app (op (n + 1))).val.app (op V) m)
-  show chartPushforwardAdicQuotientEquiv B S hS f hf V J F hF hfp hJ hM n
+  change chartPushforwardAdicQuotientEquiv B S hS f hf V J F hF hfp hJ hM n
       ((α.app (op n)).val.app (op V) ((G.obj.map (homOfLE (Nat.le_add_right n 1)).op).val.app
         (op V) m)) = _
   exact (congrArg (chartPushforwardAdicQuotientEquiv B S hS f hf V J F hF hfp hJ hM n) h1).trans

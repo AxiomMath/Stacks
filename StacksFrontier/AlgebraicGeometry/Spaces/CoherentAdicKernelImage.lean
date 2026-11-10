@@ -49,26 +49,32 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
       ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O))).Submodule)
     {E E' : CoherentAdicSystems B S hS F hF 𝓘}
 
-set_option synthInstance.maxHeartbeats 200000
-
 /-! ### The kernel image at a level -/
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for kernels, cokernels and images of modules on the small étale site
 /-- The image in the `m`-th term of `E` of the kernel of `α` at a level `l ≥ m`, taken along the
 transition map `E_l ⟶ E_m`. -/
 def kernelImageAt (α : E ⟶ E') (m l : ℕ) (h : m ≤ l) : Modules.{u, u} B S hS F hF :=
   Abelian.image (kernel.ι (α.hom.app (op l)) ≫ E.obj.map (homOfLE h).op)
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for kernels, cokernels and images of modules on the small étale site
 /-- The inclusion of a levelwise kernel image into the term of `E` containing it. -/
 def kernelImageAtIncl (α : E ⟶ E') (m l : ℕ) (h : m ≤ l) :
     kernelImageAt B S hS F hF 𝓘 α m l h ⟶ E.obj.obj (op m) :=
   Abelian.image.ι (kernel.ι (α.hom.app (op l)) ≫ E.obj.map (homOfLE h).op)
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for kernels, cokernels and images of modules on the small étale site
 /-- A levelwise kernel image is a subobject of the term of `E` containing it. -/
 instance mono_kernelImageAtIncl (α : E ⟶ E') (m l : ℕ) (h : m ≤ l) :
     Mono (kernelImageAtIncl B S hS F hF 𝓘 α m l h) :=
   inferInstanceAs (Mono (Abelian.image.ι
     (kernel.ι (α.hom.app (op l)) ≫ E.obj.map (homOfLE h).op)))
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for kernels, cokernels and images of modules on the small étale site
 /-- A levelwise kernel image is annihilated by `α`. -/
 theorem kernelImageAtIncl_comp (α : E ⟶ E') (m l : ℕ) (h : m ≤ l) :
     kernelImageAtIncl B S hS F hF 𝓘 α m l h ≫ α.hom.app (op m) = 0 := by
@@ -78,6 +84,8 @@ theorem kernelImageAtIncl_comp (α : E ⟶ E') (m l : ℕ) (h : m ≤ l) :
 
 /-! ### Comparison between kernel images -/
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for kernels, cokernels and images of modules on the small étale site
 /-- Composing two transition maps of `E` gives the transition map of the composite. -/
 private theorem map_homOfLE_comp_map_homOfLE (E : CoherentAdicSystems B S hS F hF 𝓘)
     {n m l : ℕ} (hnm : n ≤ m) (hml : m ≤ l) :
@@ -86,6 +94,8 @@ private theorem map_homOfLE_comp_map_homOfLE (E : CoherentAdicSystems B S hS F h
   rw [← E.obj.map_comp]
   rfl
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for kernels, cokernels and images of modules on the small étale site
 /-- The kernel image in `E_m` computed from a level `l` factors through the one computed from an
 intermediate level `k`, compatibly with the inclusions into `E_m`. -/
 theorem kernelImageAt_hasMap (α : E ⟶ E') (m k l : ℕ) (hmk : m ≤ k) (hkl : k ≤ l) :
@@ -105,6 +115,8 @@ theorem kernelImageAt_hasMap (α : E ⟶ E') (m k l : ℕ) (hmk : m ≤ k) (hkl 
   exact ⟨kernel.lift (cokernel.π b) (Abelian.image.ι a) (Abelian.image_ι_comp_eq_zero
     (by rw [← hv, Category.assoc, cokernel.condition, comp_zero])), kernel.lift_ι _ _ _⟩
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for kernels, cokernels and images of modules on the small étale site
 /-- The transition maps of `E` carry the kernel image at a fixed level `l` taken in the term `E_m`
 into the one taken in any lower term `E_n`. -/
 theorem kernelImageAt_comp_map_comp_cokernel_π (α : E ⟶ E') (n m l : ℕ) (hnm : n ≤ m)
@@ -116,6 +128,8 @@ theorem kernelImageAt_comp_map_comp_cokernel_π (α : E ⟶ E') (n m l : ℕ) (h
   rw [← Category.assoc, Category.assoc (kernel.ι (α.hom.app (op l))),
     map_homOfLE_comp_map_homOfLE B S hS F hF 𝓘 E, cokernel.condition]
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for kernels, cokernels and images of modules on the small étale site
 /-- The inclusion of the kernel image at level `l` taken in `E_m`, followed by the transition map
 `E_m ⟶ E_n`, lands in the kernel image at level `l` taken in `E_n`. -/
 theorem kernelImageAtIncl_comp_map_comp_cokernel_π (α : E ⟶ E') (n m l : ℕ) (hnm : n ≤ m)
@@ -127,6 +141,8 @@ theorem kernelImageAtIncl_comp_map_comp_cokernel_π (α : E ⟶ E') (n m l : ℕ
   exact Abelian.image_ι_comp_eq_zero
     (kernelImageAt_comp_map_comp_cokernel_π B S hS F hF 𝓘 α n m l hnm hml)
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for kernels, cokernels and images of modules on the small étale site
 /-- The kernel image at a fixed level `l`, taken in the term `E_m`, maps to the one taken in any
 lower term `E_n`, through the transition map `E_m ⟶ E_n`. -/
 def kernelImageAtProject (α : E ⟶ E') (n m l : ℕ) (hnm : n ≤ m) (hml : m ≤ l) :
@@ -137,6 +153,8 @@ def kernelImageAtProject (α : E ⟶ E') (n m l : ℕ) (hnm : n ≤ m) (hml : m 
     (kernelImageAtIncl B S hS F hF 𝓘 α m l hml ≫ E.obj.map (homOfLE hnm).op)
     (kernelImageAtIncl_comp_map_comp_cokernel_π B S hS F hF 𝓘 α n m l hnm hml)
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for kernels, cokernels and images of modules on the small étale site
 /-- The projection between kernel images is compatible with the inclusions: it covers the
 transition map `E_m ⟶ E_n`. -/
 theorem kernelImageAtProject_comp (α : E ⟶ E') (n m l : ℕ) (hnm : n ≤ m) (hml : m ≤ l) :

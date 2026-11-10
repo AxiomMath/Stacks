@@ -326,7 +326,7 @@ private lemma truncationSequence_shortExact (A : Type u) [CommRing A]
   let a := (homology A p).map (F.map ((truncIn A p).app K))
   let b := (homology A p).map (F.map ((truncOut A (p + 1)).app K))
   have w : a ≫ b = 0 := by
-    show (homology A p).map T.mor₁ ≫ (homology A p).map T.mor₂ = 0
+    change (homology A p).map T.mor₁ ≫ (homology A p).map T.mor₂ = 0
     rw [← Functor.map_comp, comp_distTriang_mor_zero₁₂ T hT, Functor.map_zero]
   have hm : Mono a :=
     (HomologySequence.exact₁ T hT (p - 1) p (by omega)).mono_g_iff.mpr
@@ -350,7 +350,7 @@ private lemma truncationSequence_shortExact (A : Type u) [CommRing A]
     exact ShortComplex.isoMk eL.symm (Iso.refl _) eR (by simp) (by simp)
   have hsign := shortExact_negOnePow_smul_right (eL.hom ≫ a) (b ≫ eR.hom) w' (p + 1) hs'
   have hw : t.inclusion s ≫ t.projection f s e = 0 := by
-    show (eL.hom ≫ a) ≫ ((p + 1).negOnePow • (b ≫ eR.hom)) = 0
+    change (eL.hom ≫ a) ≫ ((p + 1).negOnePow • (b ≫ eR.hom)) = 0
     rw [Linear.comp_units_smul, w', smul_zero]
   refine ⟨hw, ?_⟩
   exact hsign

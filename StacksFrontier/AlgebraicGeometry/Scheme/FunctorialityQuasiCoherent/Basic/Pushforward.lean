@@ -134,7 +134,7 @@ public theorem exists_pow_smul_res_eq_zero_of_isCompact
         (X.basicOpen_le gV) ((X.basicOpen_le gV).trans le_sup_right) x
       have h2 := res_res M (inf_le_left : (S ⊔ V.1) ⊓ X.basicOpen g ≤ S ⊔ V.1)
         hB1A ((X.basicOpen_le gV).trans le_sup_right) x
-      show M.presheaf.map (homOfLE (X.basicOpen_le gV)).op xV = 0
+      change M.presheaf.map (homOfLE (X.basicOpen_le gV)).op xV = 0
       rw [hxV, h1, ← h2, hx, map_zero]
     obtain ⟨c, hc⟩ := IsLocalizedModule.exists_of_eq
       (S := Submonoid.powers gV) (f := restrictBasicOpenₗ M gV)
@@ -318,7 +318,7 @@ public theorem exists_res_eq_pow_smul_of_isCompact
       · exact congrArg (fun (h : V.1 ⊓ V.1 ⟶ V.1) => M.presheaf.map h.op (gV ^ m • xV'))
           (Subsingleton.elim _ _)
       · -- `V` against `S`: transport `hglue` along `V ⊓ S ≤ S ⊓ V`
-        show M.presheaf.map (homOfLE (inf_le_left : V.1 ⊓ S ≤ V.1)).op (gV ^ m • xV')
+        change M.presheaf.map (homOfLE (inf_le_left : V.1 ⊓ S ≤ V.1)).op (gV ^ m • xV')
           = M.presheaf.map (homOfLE (inf_le_right : V.1 ⊓ S ≤ S)).op
               (X.presheaf.map (homOfLE hSW).op g ^ m • xS')
         rw [← res_res M (inf_le_right : S ⊓ V.1 ≤ V.1)
@@ -326,7 +326,7 @@ public theorem exists_res_eq_pow_smul_of_isCompact
           ← res_res M (inf_le_left : S ⊓ V.1 ≤ S)
             (le_inf inf_le_right inf_le_left : V.1 ⊓ S ≤ S ⊓ V.1) inf_le_right, hglue]
       · -- `S` against `V`: `hglue`
-        show M.presheaf.map (homOfLE (inf_le_left : S ⊓ V.1 ≤ S)).op
+        change M.presheaf.map (homOfLE (inf_le_left : S ⊓ V.1 ≤ S)).op
               (X.presheaf.map (homOfLE hSW).op g ^ m • xS')
           = M.presheaf.map (homOfLE (inf_le_right : S ⊓ V.1 ≤ V.1)).op (gV ^ m • xV')
         exact hglue
@@ -353,7 +353,7 @@ public theorem exists_res_eq_pow_smul_of_isCompact
       (inf_le_inf le_sup_left le_rfl : S ⊓ X.basicOpen g ≤ (S ⊔ V.1) ⊓ X.basicOpen g) hB1A
       (by rw [hB1eq, inf_sup_right]) ?_ ?_
     · -- on `S ⊓ D(g)`
-      show M.presheaf.map (homOfLE (inf_le_inf le_sup_left le_rfl :
+      change M.presheaf.map (homOfLE (inf_le_inf le_sup_left le_rfl :
             S ⊓ X.basicOpen g ≤ (S ⊔ V.1) ⊓ X.basicOpen g)).op
           (M.presheaf.map (homOfLE (inf_le_left : (S ⊔ V.1) ⊓ X.basicOpen g ≤ S ⊔ V.1)).op x')
         = M.presheaf.map (homOfLE (inf_le_inf le_sup_left le_rfl)).op
@@ -417,11 +417,11 @@ private lemma isUnit_algebraMap_end_of_isUnit_algebraMap
        map_add' := fun a b => smul_add _ a b,
        map_smul' := fun c m => by simpa using hcomm c m }, ?_, ?_⟩
   · ext m
-    show algebraMap R (Module.End R N) r ((↑u⁻¹ : S) • m) = m
+    change algebraMap R (Module.End R N) r ((↑u⁻¹ : S) • m) = m
     rw [Module.algebraMap_end_apply, ← algebraMap_smul S r, ← hu, ← mul_smul,
       Units.mul_inv, one_smul]
   · ext m
-    show (↑u⁻¹ : S) • (algebraMap R (Module.End R N) r m) = m
+    change (↑u⁻¹ : S) • (algebraMap R (Module.End R N) r m) = m
     rw [Module.algebraMap_end_apply, ← algebraMap_smul S r m, ← hu, ← mul_smul,
       Units.inv_mul, one_smul]
 
@@ -470,7 +470,7 @@ theorem isLocalizedModule_basicOpen_of_isCompact
         (X.basicOpen_le g) g,
       res_res M (inf_le_right : W ⊓ X.basicOpen g ≤ X.basicOpen g) hDW le_rfl y,
       res_self M y] at e2
-    show (g ^ k : Γ(X, W)) • y = M.presheaf.map (homOfLE (X.basicOpen_le g)).op x
+    change (g ^ k : Γ(X, W)) • y = M.presheaf.map (homOfLE (X.basicOpen_le g)).op x
     rw [e1, e2]
   exists_of_eq {x₁ x₂} h := by
     have h' := congrArg
@@ -584,7 +584,7 @@ private theorem isIso_fromTildeΓ_pullback_fromSpec_of_isLocalizedModule
     have hres : (Y.presheaf.map (eqToHom eT.symm).op).hom
         (Y.presheaf.map (homOfLE eT.le).op a) = a := by
       rw [Subsingleton.elim (eqToHom eT.symm) (homOfLE eT.ge)]
-      show Y.presheaf.map (homOfLE eT.ge).op (Y.presheaf.map (homOfLE eT.le).op a) = a
+      change Y.presheaf.map (homOfLE eT.ge).op (Y.presheaf.map (homOfLE eT.le).op a) = a
       rw [resRing_res eT.le eT.ge le_rfl a, resRing_self a]
     rw [hres] at happ
     -- happ : a = ΓSpecIso.hom (appIso.hom (res a))
@@ -595,7 +595,7 @@ private theorem isIso_fromTildeΓ_pullback_fromSpec_of_isLocalizedModule
       (Scheme.ΓSpecIso Γ(Y, U)).inv_hom_id
     simp only [CommRingCat.hom_comp, RingHom.comp_apply, CommRingCat.hom_id,
       RingHom.id_apply] at hcancel
-    show (Scheme.ΓSpecIso Γ(Y, U)).hom.hom ((j.appIso ⊤).hom.hom
+    change (Scheme.ΓSpecIso Γ(Y, U)).hom.hom ((j.appIso ⊤).hom.hom
         (Y.presheaf.map (homOfLE eT.le).op a))
       = (Scheme.ΓSpecIso Γ(Y, U)).hom.hom ((Scheme.ΓSpecIso Γ(Y, U)).inv.hom a)
     rw [← happ, hcancel]
@@ -605,7 +605,7 @@ private theorem isIso_fromTildeΓ_pullback_fromSpec_of_isLocalizedModule
     have hN : (N.resAddEquivOfEq eT.symm) (a • x)
         = (gammaImageRingEquiv j ⊤) ((Scheme.ΓSpecIso Γ(Y, U)).inv a)
           • (N.resAddEquivOfEq eT.symm) x := by
-      show N.presheaf.map (homOfLE eT.le).op (a • x)
+      change N.presheaf.map (homOfLE eT.le).op (a • x)
         = _ • N.presheaf.map (homOfLE eT.le).op x
       rw [Scheme.Modules.map_smul N (homOfLE eT.le) a x, C1 a]
     -- Term mode throughout. The goal mixes `Γ(N, U)` with
@@ -642,7 +642,7 @@ private theorem isIso_fromTildeΓ_pullback_fromSpec_of_isLocalizedModule
               (homOfLE (le_top : PrimeSpectrum.basicOpen f' ≤ ⊤)).op
               ((Scheme.ΓSpecIso Γ(Y, U)).inv a))
           • (N.resAddEquivOfEq eB.symm) x := by
-      show N.presheaf.map (homOfLE eB.le).op
+      change N.presheaf.map (homOfLE eB.le).op
           ((Y.presheaf.map (homOfLE (Y.basicOpen_le f')).op a) • x)
         = _ • N.presheaf.map (homOfLE eB.le).op x
       rw [Scheme.Modules.map_smul N (homOfLE eB.le), resRing_res (Y.basicOpen_le f')
@@ -684,7 +684,7 @@ private theorem isIso_fromTildeΓ_pullback_fromSpec_of_isLocalizedModule
       exact (gammaPullbackImageIso j N
         (PrimeSpectrum.basicOpen f')).addCommGroupIsoToAddEquiv.apply_symm_apply _
     rw [hL, hR]
-    show N.presheaf.map (homOfLE (leOfHom (j.opensFunctor.map
+    change N.presheaf.map (homOfLE (leOfHom (j.opensFunctor.map
           (homOfLE (le_top : PrimeSpectrum.basicOpen f' ≤ ⊤))))).op
         (N.presheaf.map (homOfLE eT.le).op x)
       = N.presheaf.map (homOfLE eB.le).op
@@ -750,7 +750,7 @@ private theorem isLocalizedModule_basicOpen_pushforward
   -- ring coherence: restricting `π♯ f'` matches `π♯` of the restriction
   have hring : X.presheaf.map (homOfLE hle).op g
       = π.app (S.basicOpen f') (algebraMap Γ(S, U) Γ(S, S.basicOpen f') f') := by
-    show X.presheaf.map (homOfLE hle).op g
+    change X.presheaf.map (homOfLE hle).op g
       = π.app (S.basicOpen f') (S.presheaf.map (homOfLE (S.basicOpen_le f')).op f')
     have hnat := congrArg
       (fun (φ : Γ(S, U) ⟶ Γ(X, π ⁻¹ᵁ (S.basicOpen f'))) => φ.hom f')
@@ -777,7 +777,7 @@ private theorem isLocalizedModule_basicOpen_pushforward
     have hcL : F.presheaf.map (homOfLE hpre.le).op
         ((c : Γ(X, π ⁻¹ᵁ U)) • (F.presheaf.map (homOfLE hpre.ge).op yF))
         = (X.presheaf.map (homOfLE hle).op (c : Γ(X, π ⁻¹ᵁ U))) • yF := by
-      show F.presheaf.map (homOfLE hpre.le).op
+      change F.presheaf.map (homOfLE hpre.le).op
           ((X.presheaf.map (homOfLE (X.basicOpen_le g)).op (c : Γ(X, π ⁻¹ᵁ U)))
             • (F.presheaf.map (homOfLE hpre.ge).op yF))
         = (X.presheaf.map (homOfLE hle).op (c : Γ(X, π ⁻¹ᵁ U))) • yF
@@ -786,18 +786,18 @@ private theorem isLocalizedModule_basicOpen_pushforward
         res_res F hpre.ge hpre.le le_rfl yF, res_self F yF]
     have hcR : F.presheaf.map (homOfLE hpre.le).op (restrictBasicOpenₗ F g x)
         = F.presheaf.map (homOfLE hle).op x := by
-      show F.presheaf.map (homOfLE hpre.le).op
+      change F.presheaf.map (homOfLE hpre.le).op
           (F.presheaf.map (homOfLE (X.basicOpen_le g)).op x)
         = F.presheaf.map (homOfLE hle).op x
       exact res_res F (X.basicOpen_le g) hpre.le hle x
     rw [hcL, hcR] at hc'
     -- identify with the pushforward-side statement
-    show (f' ^ c.2.choose : Γ(S, U)) • y
+    change (f' ^ c.2.choose : Γ(S, U)) • y
       = ((Scheme.Modules.pushforward π).obj F).presheaf.map
           (homOfLE (S.basicOpen_le f')).op x
     have hact : (f' ^ c.2.choose : Γ(S, U)) • y
         = (X.presheaf.map (homOfLE hle).op (c : Γ(X, π ⁻¹ᵁ U))) • yF := by
-      show (π.app (S.basicOpen f')
+      change (π.app (S.basicOpen f')
           (algebraMap Γ(S, U) Γ(S, S.basicOpen f') (f' ^ c.2.choose))) • yF
         = (X.presheaf.map (homOfLE hle).op (c : Γ(X, π ⁻¹ᵁ U))) • yF
       rw [map_pow, map_pow, ← hring, ← map_pow]
@@ -817,7 +817,7 @@ private theorem isLocalizedModule_basicOpen_pushforward
         res_hom_eq_res F ((Opens.map π.base).map (homOfLE (S.basicOpen_le f'))) x₂
       exact e1.symm.trans (h.trans e2)
     have h'' : restrictBasicOpenₗ F g x₁ = restrictBasicOpenₗ F g x₂ := by
-      show F.presheaf.map (homOfLE (X.basicOpen_le g)).op x₁
+      change F.presheaf.map (homOfLE (X.basicOpen_le g)).op x₁
         = F.presheaf.map (homOfLE (X.basicOpen_le g)).op x₂
       have r1 := res_res F hle hpre.ge (X.basicOpen_le g) x₁
       have r2 := res_res F hle hpre.ge (X.basicOpen_le g) x₂
@@ -828,9 +828,9 @@ private theorem isLocalizedModule_basicOpen_pushforward
     refine ⟨⟨f' ^ c.2.choose, c.2.choose, rfl⟩, ?_⟩
     let xF₁ : ToType Γ(F, π ⁻¹ᵁ U) := x₁
     let xF₂ : ToType Γ(F, π ⁻¹ᵁ U) := x₂
-    show (π.app U (f' ^ c.2.choose)) • xF₁ = (π.app U (f' ^ c.2.choose)) • xF₂
+    change (π.app U (f' ^ c.2.choose)) • xF₁ = (π.app U (f' ^ c.2.choose)) • xF₂
     rw [map_pow]
-    show (g : Γ(X, π ⁻¹ᵁ U)) ^ c.2.choose • xF₁ = g ^ c.2.choose • xF₂
+    change (g : Γ(X, π ⁻¹ᵁ U)) ^ c.2.choose • xF₁ = g ^ c.2.choose • xF₂
     rw [hk]
     exact hc
 

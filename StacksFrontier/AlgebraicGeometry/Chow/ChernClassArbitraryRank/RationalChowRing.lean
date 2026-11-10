@@ -120,7 +120,7 @@ theorem IsHomogeneous.mul {i j : ℕ} {c d : TotalChowClass C sX} (hc : c.IsHomo
   have h : homComponent m (c * d) m =
       (∑ k ∈ Finset.range (m + 1), homComponent (m - k) c * homComponent k d) m := by
     rw [homComponent_mul]
-  rw [homComponent_apply, if_pos rfl] at h
+  rw [homComponent_apply, ite_eq_left rfl] at h
   rw [h, sum_apply]
   refine Finset.sum_eq_zero fun k hk ↦ ?_
   have hkm : k ≤ m := Nat.lt_succ_iff.mp (Finset.mem_range.mp hk)
@@ -176,8 +176,7 @@ theorem rationalComponent_tmul (p : ℕ) (q : ℚ) (c : TotalChowClass C sX) :
 theorem rationalComponent_rationalSingle (p : ℕ)
     (x : rationalChowCohomologyComponent C (gysinSystemOfInvertible C) sX (p : ℤ)) :
     rationalComponent C sX p (rationalSingle C sX p x) = x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul q a => simp
   | add x y hx hy => simp [hx, hy]
 
@@ -221,12 +220,10 @@ theorem isRationalHomogeneous_rationalSingle_mul {i j n : ℕ} (h : i + j = n)
     (y : rationalChowCohomologyComponent C (gysinSystemOfInvertible C) sX (j : ℤ)) :
     IsRationalHomogeneous n (rationalSingle C sX i x * rationalSingle C sX j y) := by
   subst h
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, zero_mul]; exact isRationalHomogeneous_zero _
+  induction x using TensorProduct.inductionOn with
   | add x x' hx hx' => rw [map_add, add_mul]; exact hx.add hx'
   | tmul q a =>
-    induction y using TensorProduct.induction_on with
-    | zero => rw [map_zero, mul_zero]; exact isRationalHomogeneous_zero _
+    induction y using TensorProduct.inductionOn with
     | add y y' hy hy' => rw [map_add, mul_add]; exact hy.add hy'
     | tmul q' b =>
       rw [rationalSingle_tmul, rationalSingle_tmul, Algebra.TensorProduct.tmul_mul_tmul]
@@ -272,7 +269,7 @@ theorem coeff_toRationalPowerSeries
     (a : fullRationalChowCohomology C (gysinSystemOfInvertible C) sX)
     (i : ℕ) :
     PowerSeries.coeff i (toRationalPowerSeries C sX a) = rationalSingle C sX i (a i) := by
-  show PowerSeries.coeff i (PowerSeries.mk fun i ↦ rationalSingle C sX i (a i)) = _
+  change PowerSeries.coeff i (PowerSeries.mk fun i ↦ rationalSingle C sX i (a i)) = _
   exact PowerSeries.coeff_mk i _
 
 /-- The `i`-th entry of the family read back from `f` is the degree-`i` component of the
@@ -412,7 +409,7 @@ theorem fullRationalChowCohomology_mul_apply
     (a * b) n = ∑ q ∈ Finset.HasAntidiagonal.antidiagonal n,
       rationalComponent C sX n
         (rationalSingle C sX q.1 (a q.1) * rationalSingle C sX q.2 (b q.2)) := by
-  show rationalComponent C sX n (PowerSeries.coeff n
+  change rationalComponent C sX n (PowerSeries.coeff n
     (toRationalPowerSeries C sX a * toRationalPowerSeries C sX b)) = _
   rw [PowerSeries.coeff_mul, map_sum]
   simp only [coeff_toRationalPowerSeries]

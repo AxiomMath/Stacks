@@ -97,7 +97,7 @@ public lemma coyoneda_exact₃_map_of_distTriang (R : 𝒟 ⥤ 𝒞) [R.Additive
     (f : X ⟶ R.obj T.obj₃) (hf : f ≫ R.map T.mor₃ = 0) :
     ∃ g : X ⟶ R.obj T.obj₂, f = g ≫ R.map T.mor₂ := by
   refine Triangle.coyoneda_exact₃ (R.mapTriangle.obj T) (R.map_distinguished T hT) f ?_
-  show f ≫ R.map T.mor₃ ≫ (R.commShiftIso (1 : ℤ)).hom.app T.obj₁ = 0
+  change f ≫ R.map T.mor₃ ≫ (R.commShiftIso (1 : ℤ)).hom.app T.obj₁ = 0
   rw [← Category.assoc, hf, zero_comp]
 
 /-- **The surjectivity half of the dévissage in the target.** Let `T` be a distinguished triangle

@@ -50,6 +50,7 @@ theorem lof_lof_congr {r : ℤ} {n m : ℕ}
       DirectSum.lof ℚ ℕ _ n (DirectSum.lof ℚ ℕ _ m z') := by
   rw [h]
 
+omit [IsSeparated sP] [IsSeparated sQ] in
 /-- Two pure blocks of correspondences with equal indices and heterogeneously equal classes
 agree, up to the identification of degrees. -/
 theorem lof_lof_eq_corrCongr {r r' : ℤ} (h : r' = r) {n n' m m' : ℕ} (hn : n = n')
@@ -100,8 +101,7 @@ private theorem linearMap_ext_of_lof_lof {P₁ Q₁ : Scheme.{u}}
     F = G := by
   refine DirectSum.linearMap_ext ℚ fun d ↦ DirectSum.linearMap_ext ℚ fun e ↦
     LinearMap.ext fun x ↦ ?_
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy]
   | tmul q α => exact h d e q α
 

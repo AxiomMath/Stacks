@@ -165,7 +165,8 @@ theorem exists_affine_etaleNeighborhood (U : (geometricPointFiber B S hS s).Elem
   have hyS : y ≫ j ≫ B.inclusion.map U.1.obj.hom = s.hom := by
     rw [← Category.assoc, hy]
     exact U.2.2
-  refine ⟨Functor.elementsMk (geometricPointFiber B S hS s) V ⟨y, hyS⟩, (inferInstance : IsAffine (Spec R)), ⟨⟨ObjectProperty.homMk
+  refine ⟨Functor.elementsMk (geometricPointFiber B S hS s) V ⟨y, hyS⟩,
+    (inferInstance : IsAffine (Spec R)), ⟨⟨ObjectProperty.homMk
     (Over.homMk (ObjectProperty.homMk j) ?_), Subtype.ext hy⟩⟩⟩
   apply ObjectProperty.hom_ext
   rfl

@@ -684,7 +684,7 @@ theorem epi_openSubspaceRestriction_map_tensorLeftFunctor_map_relComplex_g
       (congrArg Epi (tensorLeftFunctor_map_eq_tensorSheafBifunctor_map AF₁ k
         (relComplex A₂ AG₃ T.f T.g T.zero m).g))
       (@Stacks.SheafOfModules.TensorEncodings.epi_tensorSheafBifunctor_map _ _
-        (Opens.grothendieckTopology X.carrier) _ _ _ X.sheaf _ _ _ _ _
+        (Opens.grothendieckTopology X.carrier) _ _ _ X.sheaf _ _ _ _
         (𝟙 (AF₁.exteriorPower k)) (relComplex A₂ AG₃ T.f T.g T.zero m).g hid hrel)
   @Functor.map_epi _ _ _ _ (openSubspaceRestriction U) _ _ _ _ this
 

@@ -91,7 +91,7 @@ theorem Algebra.IsPushout.quotIdealMap {R A : Type*} [CommRing R] [CommRing A] [
   refine Algebra.IsPushout.of_equiv (h := TensorProduct.isPushout)
     (Algebra.TensorProduct.quotIdealMapEquivQuotTensor A I).symm ?_
   ext a
-  show (Algebra.TensorProduct.quotIdealMapEquivQuotTensor A I).symm (1 ⊗ₜ a) = _
+  change (Algebra.TensorProduct.quotIdealMapEquivQuotTensor A I).symm (1 ⊗ₜ a) = _
   rw [AlgEquiv.symm_apply_eq, Ideal.Quotient.algebraMap_eq,
     Algebra.TensorProduct.quotIdealMapEquivQuotTensor_mk]
 

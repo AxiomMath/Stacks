@@ -112,7 +112,7 @@ public theorem isGeometricallyReducedAt_of_specializes
   have : IsLocalization.AtPrime S p := hU.isLocalization_stalk xU
   have : IsLocalization.AtPrime T q := hU.isLocalization_stalk x'U
   have hqp : q ≤ p := (PrimeSpectrum.le_iff_specializes _ _).mpr (by
-    show (Scheme.homeoOfIso hU.isoSpec) x'U ⤳ (Scheme.homeoOfIso hU.isoSpec) xU
+    change (Scheme.homeoOfIso hU.isoSpec) x'U ⤳ (Scheme.homeoOfIso hU.isoSpec) xU
     exact ((subtype_specializes_iff x'U xU).mpr hsp).map
       (Scheme.homeoOfIso hU.isoSpec).continuous)
   have hpq : p.primeCompl ≤ q.primeCompl := fun a ha hqa ↦ ha (hqp hqa)
@@ -147,7 +147,7 @@ private lemma mem_genericPoints_of_forall_generalization_eq
       isIrreducible_singleton.closure
   have hzZ : z ∈ Z := hsub (subset_closure (Set.mem_singleton z))
   obtain ⟨η, hη⟩ := QuasiSober.sober hZ.1 (isClosed_of_mem_irreducibleComponents Z hZ)
-  show closure {z} ∈ irreducibleComponents T
+  change closure {z} ∈ irreducibleComponents T
   rwa [← hz η (hη.specializes hzZ), hη]
 
 /-- The point of an affine open corresponding to a minimal prime of its ring of sections is the
@@ -297,7 +297,7 @@ public theorem isGeometricallyReducedAt_of_isReduced_stalk_of_genericPoints
   let e : U ≃ₜ PrimeSpectrum R := Scheme.homeoOfIso hU.isoSpec
   let xU : U := e.symm yr
   have hprime_xU : (hU.primeIdealOf xU).asIdeal = r := by
-    show (e xU).asIdeal = r
+    change (e xU).asIdeal = r
     simp [xU, yr]
   have hxU_spec : (xU : X) ⤳ x := by
     have hs' : xU ⤳ (⟨x, hxU⟩ : U) := by
@@ -356,7 +356,7 @@ public theorem geometricallyReduced_iff_isSeparableExtension_functionField
   have hAlgebra : statementAlgebra = stalkAlgebra := by
     apply Algebra.algebra_ext _ _
     intro a
-    show ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫ X.germToFunctionField ⊤).hom a =
+    change ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫ X.germToFunctionField ⊤).hom a =
       ((f.stalkMap x).hom.comp (algebraMap k ((Spec (.of k)).presheaf.stalk (f.base x)))) a
     rw [RingHom.comp_apply, show algebraMap k ((Spec (.of k)).presheaf.stalk (f.base x)) a =
       (Spec (.of k)).presheaf.germ ⊤ (f.base x) (by simp)

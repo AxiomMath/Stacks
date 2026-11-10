@@ -493,12 +493,11 @@ theorem mem_range_lTensor_of_pow_smul_eq_zero
       TensorProduct.piRight A A A' (fun _ : ι => M) (LinearMap.lTensor A' φ z) i =
         gen i • z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => intro i; simp
+    induction z using TensorProduct.inductionOn with
     | tmul b x =>
       intro i
       rw [LinearMap.lTensor_tmul, TensorProduct.piRight_apply, TensorProduct.piRightHom_tmul]
-      show TensorProduct.tmul A b (φ x i) = gen i • TensorProduct.tmul A b x
+      change TensorProduct.tmul A b (φ x i) = gen i • TensorProduct.tmul A b x
       rw [hφapply, TensorProduct.tmul_smul]
     | add z w hz hw => intro i; rw [map_add, map_add, Pi.add_apply, hz, hw, smul_add]
   have hzero : LinearMap.lTensor A' φ y = 0 := by

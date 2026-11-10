@@ -41,7 +41,8 @@ hypothesis:
   spelling —
   `AlgebraicGeometry.SmallEtale.existsUnique_postcomp_associatedRelativeDifferentialsDerivation`
   and `AlgebraicGeometry.SmallEtale.isIso_differentialsComparison_of_universal` of
-  `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleDifferentialsCorepresentable.lean`
+  `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/`
+  `SmallEtaleDifferentialsCorepresentable.lean`
   — but the transport of that identification onto the spaces-level sheaf of differentials of a
   morphism of represented algebraic spaces is not available: the two statements name different
   relative structures, vanishing on functions pulled back from opens of the target against

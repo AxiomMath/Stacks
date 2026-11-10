@@ -82,16 +82,16 @@ private theorem relabelType_equivalent (T : NumericalType)
   Equivalent T (relabelType T e) := by
   refine ⟨e, ?_, ?_, ?_, ?_⟩
   · intro i
-    show T.multiplicity i = T.multiplicity (e.symm (e i))
+    change T.multiplicity i = T.multiplicity (e.symm (e i))
     exact (congrArg T.multiplicity (e.symm_apply_apply i)).symm
   · intro i j
-    show T.intersection i j = T.intersection (e.symm (e i)) (e.symm (e j))
+    change T.intersection i j = T.intersection (e.symm (e i)) (e.symm (e j))
     rw [e.symm_apply_apply, e.symm_apply_apply]
   · intro i
-    show T.weight i = T.weight (e.symm (e i))
+    change T.weight i = T.weight (e.symm (e i))
     exact (congrArg T.weight (e.symm_apply_apply i)).symm
   · intro i
-    show T.componentGenus i = T.componentGenus (e.symm (e i))
+    change T.componentGenus i = T.componentGenus (e.symm (e i))
     exact (congrArg T.componentGenus (e.symm_apply_apply i)).symm
 
 /-- Relabelling the components of a numerical type leaves its genus unchanged. -/
@@ -99,7 +99,7 @@ public theorem genus_relabelType (T : NumericalType)
     (e : Fin T.componentCount ≃ Fin T.componentCount) :
     genus (relabelType T e) = genus T := by
   unfold genus
-  show 1 + (∑ i, T.multiplicity (e.symm i) *
+  change 1 + (∑ i, T.multiplicity (e.symm i) *
       (T.weight (e.symm i) * (T.componentGenus (e.symm i) - 1))) -
       (∑ i, T.multiplicity (e.symm i) * T.intersection (e.symm i) (e.symm i)) / 2 = _
   rw [Equiv.sum_comp e.symm (fun i => T.multiplicity i *
@@ -148,7 +148,7 @@ public noncomputable def relabelPicardEquiv (T : NumericalType)
 
 private theorem addSubgroupInt_equiv_int (K : AddSubgroup ℤ) (hK : K ≠ ⊥) :
     Nonempty (K ≃+ ℤ) := by
-  obtain ⟨a, ha⟩ := Int.subgroup_cyclic K
+  obtain ⟨a, ha⟩ := AddSubgroup.isAddCyclic K
   have ha0 : (a : ℤ) ≠ 0 := by
     intro h0
     refine hK ((AddSubgroup.eq_bot_iff_forall K).2 fun x hx => ?_)
@@ -219,7 +219,7 @@ private theorem picardGroup_equiv_int_of_genus_nonpos_aux (n : ℕ) :
         simp [e, lastIndex]
       have hlast : IsMinusOneIndex (relabelType T e)
           (lastIndex (relabelType T e)) := by
-        show T.componentGenus (e.symm (lastIndex T)) = 0 ∧
+        change T.componentGenus (e.symm (lastIndex T)) = 0 ∧
           T.intersection (e.symm (lastIndex T))
             (e.symm (lastIndex T)) =
               -T.weight (e.symm (lastIndex T))

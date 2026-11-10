@@ -89,7 +89,7 @@ theorem isoRightDerivedObjOfAcyclic_hom_comp_homologyFunctor_map {X Y : D}
   rw [← cancel_mono ((HomologicalComplex.homologyFunctor E (ComplexShape.up ℕ) n).map
     ((T.mapHomologicalComplex _).map δ')), Category.assoc, Category.assoc, hY, hnat,
     ← Functor.map_comp, ← Functor.map_comp]
-  show _ ≫ HomologicalComplex.homologyMap ((T.mapHomologicalComplex _).map (φ ≫ δ')) n = _
+  change _ ≫ HomologicalComplex.homologyMap ((T.mapHomologicalComplex _).map (φ ≫ δ')) n = _
   rw [hh, Functor.map_comp, HomologicalComplex.homologyMap_comp, ← hX, Category.assoc]
   rfl
 
@@ -133,7 +133,7 @@ theorem objIsoOfAcyclicImage_naturality_rightDerived {A B : C}
   have nat2 := isoRightDerivedObjOfAcyclic_hom_comp_homologyFunctor_map T (mapι G IA) (mapι G IB)
     (fun q => hGT _ (IA.injective q)) (fun q => hGT _ (IB.injective q)) (G.map g)
     ((G.mapHomologicalComplex _).map φ) (mapι_comp_map G IA IB g φ comm) n
-  show ((G ⋙ T).rightDerived n).map g ≫ ((IB.isoRightDerivedObj (G ⋙ T) n).hom ≫
+  change ((G ⋙ T).rightDerived n).map g ≫ ((IB.isoRightDerivedObj (G ⋙ T) n).hom ≫
       (isoRightDerivedObjOfAcyclic T (mapι G IB) (fun q => hGT _ (IB.injective q)) n).inv) =
     ((IA.isoRightDerivedObj (G ⋙ T) n).hom ≫
       (isoRightDerivedObjOfAcyclic T (mapι G IA) (fun q => hGT _ (IA.injective q)) n).inv) ≫

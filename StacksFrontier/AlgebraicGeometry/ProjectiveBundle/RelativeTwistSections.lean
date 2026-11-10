@@ -251,7 +251,7 @@ theorem twistSectionGerm_add (U : X.Opens) (e f : Γ(E, U))
     (hy : y ∈ (relativeProj (symAlgebra E)).toBase ⁻¹ᵁ U) :
     twistSectionGerm E U (e + f) y hy =
       twistSectionGerm E U e y hy + twistSectionGerm E U f y hy := by
-  show ((Stacks.Tag01VMVeryAmple.twistOne E).presheaf.germ _ y hy).hom
+  change ((Stacks.Tag01VMVeryAmple.twistOne E).presheaf.germ _ y hy).hom
       (twistSection E U (e + f)) = _
   rw [twistSection_add, map_add]
   rfl

@@ -66,7 +66,7 @@ the identifications of the two terms. -/
 theorem doubleZeroEquiv_d (x : (Deformation.Artin.twoTermComplex C).X (-1)) :
     doubleZeroEquiv C (((Deformation.Artin.twoTermComplex C).d (-1) 0).hom x) =
       C.d (doubleNegEquiv C x) := by
-  show (HomologicalComplex.doubleXIso₁ (ModuleCat.ofHom C.d)
+  change (HomologicalComplex.doubleXIso₁ (ModuleCat.ofHom C.d)
       ComplexShape.upIntRelNegOneZero (by decide)).hom.hom
         (((HomologicalComplex.double (ModuleCat.ofHom C.d)
           ComplexShape.upIntRelNegOneZero).d (-1) 0).hom x) = _
@@ -275,7 +275,7 @@ theorem doubleHom_comp_hom (g : ChainMap C D) {K L : DerivedCategory (ModuleCat.
   have h₁ : ((doubleHom D).comp ((ofTwoTerm C eC).hom (ofTwoTerm D eD)
       (Deformation.Artin.twoTermHom g))).neg = (g.toHom.comp (doubleHom C)).neg := by
     refine LinearMap.ext fun x => ?_
-    show (doubleNegEquiv D) (((Deformation.Artin.twoTermHom g).f (-1)).hom x) =
+    change (doubleNegEquiv D) (((Deformation.Artin.twoTermHom g).f (-1)).hom x) =
       g.f₁ (doubleNegEquiv C x)
     rw [Deformation.Artin.twoTermHom_f_neg_one]
     exact (HomologicalComplex.doubleXIso₀ (ModuleCat.ofHom D.d)
@@ -283,7 +283,7 @@ theorem doubleHom_comp_hom (g : ChainMap C D) {K L : DerivedCategory (ModuleCat.
   have h₀ : ((doubleHom D).comp ((ofTwoTerm C eC).hom (ofTwoTerm D eD)
       (Deformation.Artin.twoTermHom g))).zero = (g.toHom.comp (doubleHom C)).zero := by
     refine LinearMap.ext fun x => ?_
-    show (doubleZeroEquiv D) (((Deformation.Artin.twoTermHom g).f 0).hom x) =
+    change (doubleZeroEquiv D) (((Deformation.Artin.twoTermHom g).f 0).hom x) =
       g.f₀ (doubleZeroEquiv C x)
     rw [Deformation.Artin.twoTermHom_f_zero]
     exact (HomologicalComplex.doubleXIso₁ (ModuleCat.ofHom D.d)
@@ -369,7 +369,7 @@ theorem doubleEquiv_detPresentationIso (K : PerfectTwoTermComplex B)
   have hf : (ofTwoTerm C eC).iso.hom ≫ DerivedCategory.Q.map (Deformation.Artin.twoTermHom g) ≫
       (ofTwoTerm D eD).iso.inv =
       (𝟙 (⟨K⟩ : Core (PerfectTwoTermComplex B)) : _ ⟶ _).iso.hom.hom := by
-    show eC.hom ≫ DerivedCategory.Q.map (Deformation.Artin.twoTermHom g) ≫ eD.inv = 𝟙 _
+    change eC.hom ≫ DerivedCategory.Q.map (Deformation.Artin.twoTermHom g) ≫ eD.inv = 𝟙 _
     rw [← Category.assoc, hg, Iso.hom_inv_id]
   have key := detPresentationIso_det_map K K (ofTwoTerm C eC) (ofTwoTerm D eD) (𝟙 _)
     (Deformation.Artin.twoTermHom g) hf hs' hq' x

@@ -112,7 +112,7 @@ public noncomputable def preimageIso_of_le
       let z : V.toFunctor.obj X := ⟨x.1, h X x.2⟩
       refine ⟨⟨z, ?_⟩, ?_⟩
       · change V.ι.app X z ∈ U.obj X
-        simpa [z] using x.2
+        simp [z]
       · rfl
   have (X : Cᵒᵖ) : IsIso (f.app X) := (isIso_iff_bijective _).2 (hbij X)
   have : IsIso f := NatIso.isIso_of_isIso_app f
@@ -141,7 +141,7 @@ private theorem exists_sigma_section
     simpa using congrArg e.inv hxy
   apply hinj
   rw [h]
-  show (((Sigma.ι A i).app (op T) ≫ e.hom) t) = _
+  change (((Sigma.ι A i).app (op T) ≫ e.hom) t) = _
   simp [e]
 
 private theorem locallySurjective_sigmaFamily
@@ -166,17 +166,17 @@ private theorem locallySurjective_sigmaFamily
   rcases hg with ⟨a, ha⟩
   obtain ⟨j, b, hb⟩ := exists_sigma_section B S hS (fun j => A ⟨i, j⟩) T' a
   refine ⟨(Sigma.ι A ⟨i, j⟩).app (op T') b, ?_⟩
-  show ((Sigma.ι A ⟨i, j⟩ ≫ Limits.Sigma.map' Sigma.fst f).app (op T')) b = _
+  change ((Sigma.ι A ⟨i, j⟩ ≫ Limits.Sigma.map' Sigma.fst f).app (op T')) b = _
   rw [Limits.Sigma.ι_comp_map']
-  show ((Sigma.ι D i).app (op T') ((f ⟨i, j⟩).app (op T') b)) = _
+  change ((Sigma.ι D i).app (op T') ((f ⟨i, j⟩).app (op T') b)) = _
   calc
     ((Sigma.ι D i).app (op T')) ((f ⟨i, j⟩).app (op T') b) =
         (Sigma.ι D i).app (op T')
           ((G i).app (op T') ((Sigma.ι (fun j => A ⟨i, j⟩) j).app (op T') b)) := by
             congr 1
-            show (f ⟨i, j⟩).app (op T') b =
+            change (f ⟨i, j⟩).app (op T') b =
               ((Sigma.ι (fun j => A ⟨i, j⟩) j ≫ G i).app (op T')) b
-            rw [Sigma.ι_desc]
+            rw [Sigma.ι_comp_desc]
     _ = (Sigma.ι D i).app (op T') ((G i).app (op T') a) := by rw [hb]
     _ = (Sigma.ι D i).app (op T') ((D i).map g.op t) := by rw [ha]
     _ = (∐ D).map g.op ((Sigma.ι D i).app (op T) t) :=
@@ -240,9 +240,10 @@ private noncomputable def directMap (E : Covering (OpenSubspaces B S hS F)) :
 private theorem ι_comp_directMap (E : Covering (OpenSubspaces B S hS F)) (i : E.2.I₀) :
     Sigma.ι (fun k => (E.2.X k).1.toFunctor) i ≫ directMap B S hS F E =
       Subfunctor.homOfLe (E.2.f i).le :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the coproducts `∐` and local surjectivity over the big fppf site
 private theorem isCovering_iff_directMap (E : Covering (OpenSubspaces B S hS F)) :
     IsCovering B S hS F E ↔
       Presheaf.IsLocallySurjective (BigFppfOver.topology B S hS)
@@ -258,8 +259,8 @@ private theorem isCovering_iff_directMap (E : Covering (OpenSubspaces B S hS F))
     apply Limits.Sigma.hom_ext
     intro i
     dsimp [α, directMap]
-    rw [← Category.assoc, Limits.Sigma.ι_map, Category.assoc, Sigma.ι_desc,
-      preimageIso_homOfLe, Sigma.ι_desc]
+    rw [← Category.assoc, Limits.Sigma.ι_map, Category.assoc, Sigma.ι_comp_desc,
+      preimageIso_homOfLe, Sigma.ι_comp_desc]
   constructor
   · intro h
     have hlocal := h.2
@@ -298,12 +299,12 @@ public theorem isSite : IsSite (IsCovering B S hS F) := by
       apply Subtype.ext
       exact le_antisymm f.le (inv f).le
     subst V
-    show IsZariskiCover B S hS PUnit
+    change IsZariskiCover B S hS PUnit
       (fun _ : PUnit => U.1.preimage U.1.ι)
     constructor
     · intro i
       exact isOpenSubspace_preimage_of_le B S hS le_rfl U.2
-    · show Presheaf.IsLocallySurjective
+    · change Presheaf.IsLocallySurjective
         (BigFppfOver.topology B S hS)
         (Sigma.desc fun _ : PUnit => (U.1.preimage U.1.ι).ι)
       have hpre : U.1.preimage U.1.ι = ⊤ := by
@@ -314,10 +315,10 @@ public theorem isSite : IsSite (IsCovering B S hS F) := by
       intro T x
       refine ⟨(Sigma.ι (fun _ : PUnit => (⊤ : Subfunctor U.1.toFunctor).toFunctor)
         PUnit.unit).app T ⟨x, trivial⟩, ?_⟩
-      show ((Sigma.ι (fun _ : PUnit => (⊤ : Subfunctor U.1.toFunctor).toFunctor)
+      change ((Sigma.ι (fun _ : PUnit => (⊤ : Subfunctor U.1.toFunctor).toFunctor)
         PUnit.unit ≫ Sigma.desc (fun _ : PUnit => (⊤ : Subfunctor U.1.toFunctor).ι)).app T)
         ⟨x, trivial⟩ = x
-      rw [Sigma.ι_desc]
+      rw [Sigma.ι_comp_desc]
       rfl
   · intro E hE F' hF htargets
     let e (i : E.2.I₀) : (F' i).1 ⟶ E.2.X i := by
@@ -370,12 +371,12 @@ public theorem isSite : IsSite (IsCovering B S hS F) := by
       convert hpost using 1
       apply Limits.Sigma.hom_ext
       intro j
-      show (Sigma.ι (fun j => ((F' i).2.X j).1.toFunctor) j ≫
+      change (Sigma.ι (fun j => ((F' i).2.X j).1.toFunctor) j ≫
           Sigma.desc (fun j => f ⟨i, j⟩)) =
         (Sigma.ι (fun j => ((F' i).2.X j).1.toFunctor) j ≫
           Sigma.desc (fun j => Subfunctor.homOfLe ((F' i).2.f j).le)) ≫
             (eNat i).hom
-      rw [Sigma.ι_desc, Sigma.ι_desc, heNat]
+      rw [Sigma.ι_comp_desc, Sigma.ι_comp_desc, heNat]
       ext
       rfl
     have hfirst := locallySurjective_sigmaFamily (B := B) (S := S) (hS := hS)
@@ -403,12 +404,12 @@ public theorem isSite : IsSite (IsCovering B S hS F) := by
         have h₁ : Sigma.ι (fun ij => ((F' ij.1).2.X ij.2).1.toFunctor) ij ≫
             Sigma.desc (fun a => f a ≫ Sigma.ι (fun i => (E.2.X i).1.toFunctor) a.1) =
               f ij ≫ Sigma.ι (fun i => (E.2.X i).1.toFunctor) ij.1 :=
-          Sigma.ι_desc _ _
-        show (Sigma.ι (fun ij => ((F' ij.1).2.X ij.2).1.toFunctor) ij ≫
+          Sigma.ι_comp_desc _ _
+        change (Sigma.ι (fun ij => ((F' ij.1).2.X ij.2).1.toFunctor) ij ≫
             Sigma.desc (fun a => f a ≫
               Sigma.ι (fun i => (E.2.X i).1.toFunctor) a.1)) ≫
               Sigma.desc (fun i => Subfunctor.homOfLe (E.2.f i).le) = _
-        rw [h₁, Category.assoc, Sigma.ι_desc]
+        rw [h₁, Category.assoc, Sigma.ι_comp_desc]
       rw [hleft, hright]
       ext
       rfl
@@ -579,11 +580,13 @@ public theorem isSite : IsSite (IsCovering B S hS F) := by
     have hxy : xmap ≫ fAlg j = ymap ≫ gAlg := by
       apply ObjectProperty.hom_ext
       apply yonedaEquiv.injective
-      show yonedaEquiv (xmap.hom ≫ (fAlg j).hom) =
+      change yonedaEquiv (xmap.hom ≫ (fAlg j).hom) =
         yonedaEquiv (ymap.hom ≫ gAlg.hom)
       rw [yonedaEquiv_comp, yonedaEquiv_comp]
-      simp [xmap, ymap, fAlg, gAlg, fFun, gFun,
-        ← NatTrans.naturality_apply] at hcompat ⊢
+      simp only [Subfunctor.toFunctor_obj, Subfunctor.homOfLe_app, TypeCat.ofHom_apply,
+        Subfunctor.toFunctor_map, TypeCat.hom_ofHom, TypeCat.Fun.coe_mk, Subtype.mk.injEq,
+        ObjectProperty.homMk_hom, Equiv.apply_symm_apply, fFun, gFun, fAlg, xmap, gAlg,
+        ymap] at hcompat ⊢
       exact Subtype.ext hcompat
     let zmap := (sq j).lift xmap ymap hxy
     let z : (P j).obj.obj (op T') := yonedaEquiv zmap.hom
@@ -595,16 +598,16 @@ public theorem isSite : IsSite (IsCovering B S hS F) := by
       simp [ymap]
     let zR := (Subfunctor.toRange (q j)).app (op T') z
     have hrange : (R j).ι.app (op T') zR = (q j).app (op T') z := by
-      show ((Subfunctor.toRange (q j)).app (op T') z).val = (q j).app (op T') z
+      change ((Subfunctor.toRange (q j)).app (op T') z).val = (q j).app (op T') z
       exact Subfunctor.toRange_app_val (p := q j) z
     have hmap : (Subfunctor.homOfLe (hRleV j)).app (op T') zR =
         (V.1.toFunctor).map i.op s := by
       apply Subtype.ext
-      show (R j).ι.app (op T') zR = (V.1.ι).app (op T') ((V.1.toFunctor).map i.op s)
+      change (R j).ι.app (op T') zR = (V.1.ι).app (op T') ((V.1.toFunctor).map i.op s)
       rw [hrange]
       simp [q, NatTrans.comp_app, hz]
     refine ⟨(Sigma.ι (fun k => (W k).1.toFunctor) j).app (op T') zR, ?_⟩
-    show ((directMap B S hS F H).app (op T'))
+    change ((directMap B S hS F H).app (op T'))
       ((Sigma.ι (fun k => (W k).1.toFunctor) j).app (op T') zR) =
         (V.1.toFunctor).map i.op s
     have hsum := ι_comp_directMap B S hS F H j

@@ -14,9 +14,9 @@ in the complex. This file constructs that functoriality and proves that the char
 by the determinants of the restrictions of `a` to the charts of `V` and of `W` commutes.
 
 Together with the transitivity of
-`StacksFrontier/AlgebraicGeometry/DeterminantTwoTermChartTrans.lean` this is what makes the family of
-determinants on the charts a functor of `L`, which is the last structural input the determinant of
-Stacks 0FJX on an arbitrary scheme needs from the affine case.
+`StacksFrontier/AlgebraicGeometry/DeterminantTwoTermChartTrans.lean` this is what makes the family
+of determinants on the charts a functor of `L`, which is the last structural input the determinant
+of Stacks 0FJX on an arbitrary scheme needs from the affine case.
 
 ## Main definitions
 
@@ -154,7 +154,7 @@ theorem detBaseChangeIso_natural (φ : R →+* A)
   refine LinearMap.ext fun t => ?_
   have hbase := LinearMap.congr_fun (detBaseChange_detIsoEquiv φ hφ c) t
   simp only [LinearMap.comp_apply, LinearEquiv.coe_coe] at hbase
-  show detIsoEquiv e₂.symm
+  change detIsoEquiv e₂.symm
       (detBaseChange φ hφ K₂ (LinearMap.baseChange A (detIsoEquiv c).toLinearMap t)) =
     detIsoEquiv c' (detIsoEquiv e₁.symm (detBaseChange φ hφ K₁ t))
   rw [← hbase, ← LinearEquiv.trans_apply, ← detIsoEquiv_trans, hiso, detIsoEquiv_trans,

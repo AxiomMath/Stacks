@@ -3,7 +3,7 @@ module
 public import
   StacksFrontier.AlgebraicGeometry.EtaleCohomology.BaseChangeHigher.StrictHenselizationCriterion
 public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.LocalAcyclicity.StrictHenselizationSquareSiteChange
+StacksFrontier.AlgebraicGeometry.EtaleCohomology.LocalAcyclicity.StrictHenselizationSquareSiteChange
 
 /-!
 # The stalk of the base change map of a commutative square, on strict henselizations
@@ -258,13 +258,11 @@ local instance containsIdentities_etale_commSq :
 
 section DegreeZero
 
-variable (w : h ≫ f = e ≫ g) [QuasiCompact g] [QuasiSeparated g] [QuasiCompact h]
-  [QuasiSeparated h] (x : GeometricPoint X)
+variable (w : h ≫ f = e ≫ g) (x : GeometricPoint X)
   (F : Sheaf (smallEtaleTopology T) Ab.{u + 1}) (V : S.Etale)
   (v : (Scheme.pointSmallEtale (x.map f).hom).fiber.obj V)
   (σ : ToType (F.obj.obj (op ((Stacks.EtaleCohomology.smallEtaleBaseChange g).obj V))))
 
-omit [QuasiCompact g] [QuasiSeparated g] in
 /-- **The stalk of the base change map of a commutative square in degree zero, on germs.** -/
 theorem stalkBaseChange_comparison_zero_germ_of_comm :
     Sheaf.H.equiv₀ ((smallEtalePullbackAb (strictHenselizationBaseChangeToSource B₁ hX h x)).obj
@@ -351,7 +349,6 @@ variable (m : strictHenselization B₁ X hX x ⟶ strictHenselization B₂ S hS 
   (hmpt : geometricPointToStrictHenselization B₁ X hX x ≫ m =
     geometricPointToStrictHenselization B₂ S hS (x.map f))
 
-omit [QuasiCompact g] [QuasiSeparated g] [QuasiCompact h] [QuasiSeparated h] in
 /-- The restriction along `κ` in degree zero, read on the identity object. -/
 theorem equiv₀_squarePullbackHom_zero (z : Sheaf.H.{u + 1} ((smallEtalePullbackAb
       (strictHenselizationBaseChangeToSource B₂ hS g (x.map f))).obj F) 0) :
@@ -433,8 +430,7 @@ end DegreeZero
 
 section Main
 
-variable (w : h ≫ f = e ≫ g) [QuasiCompact g] [QuasiSeparated g] [QuasiCompact h]
-  [QuasiSeparated h] (x : GeometricPoint X)
+variable (w : h ≫ f = e ≫ g) (x : GeometricPoint X)
   (m : strictHenselization B₁ X hX x ⟶ strictHenselization B₂ S hS (x.map f))
   (hm : m ≫ strictHenselizationToBase B₂ S hS (x.map f) = strictHenselizationToBase B₁ X hX x ≫ f)
   (hmpt : geometricPointToStrictHenselization B₁ X hX x ≫ m =
@@ -442,9 +438,9 @@ variable (w : h ≫ f = e ≫ g) [QuasiCompact g] [QuasiSeparated g] [QuasiCompa
 
 include hmpt in
 /-- **The stalk of the base change map of a commutative square is the restriction along `κ`**, as
-morphisms of δ-functors. For a commutative square `h ≫ f = e ≫ g` with `g`, `h` quasi-compact and
-quasi-separated, a geometric point `x` of `X` and a morphism `m` of strict henselizations at `x`
-and `f(x)` lying over `f` and compatible with the canonical geometric points, the stalk at `x` of
+morphisms of δ-functors. For a commutative square `h ≫ f = e ≫ g`, a geometric point `x` of `X`
+and a morphism `m` of strict henselizations at `x` and `f(x)` lying over `f` and compatible with
+the canonical geometric points, the stalk at `x` of
 `f⁻¹ R^• g_* F ⟶ R^• h_* e⁻¹ F`, read through Stacks 03Q9 on both sides, is the restriction
 `H^•(T ×_S Spec(𝒪^{sh}_{S,f(x)}), F) ⟶ H^•(Y ×_X Spec(𝒪^{sh}_{X,x}), e⁻¹F)` along
 `κ = AlgebraicGeometry.strictHenselizationBaseChangeSquareMap`. -/
@@ -490,8 +486,7 @@ end Main
 section OneSite
 
 variable (B : BigEtaleSite.{u}) (hXB : B.Contains X) (hSB : B.Contains S)
-  (w : h ≫ f = e ≫ g) [QuasiCompact g] [QuasiSeparated g] [QuasiCompact h] [QuasiSeparated h]
-  (x : GeometricPoint X)
+  (w : h ≫ f = e ≫ g) (x : GeometricPoint X)
 
 /-- **The stalk of the base change map of a commutative square, in one big étale site**: the
 special case of `AlgebraicGeometry.higherBaseChangeStalkHom_comp_squareRestriction` for the
@@ -519,8 +514,7 @@ end OneSite
 section TwoSites
 
 variable (B : BigEtaleSite.{u}) (hXB : B.Contains X) (hSB : B.Contains S)
-  (w : h ≫ f = e ≫ g) [QuasiCompact g] [QuasiSeparated g] [QuasiCompact h] [QuasiSeparated h]
-  (x : GeometricPoint X)
+  (w : h ≫ f = e ≫ g) (x : GeometricPoint X)
 
 /-- **The stalk of the base change map of a commutative square, across two big étale sites**: the
 special case of `AlgebraicGeometry.higherBaseChangeStalkHom_comp_squareRestriction` for the

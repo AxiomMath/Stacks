@@ -110,7 +110,7 @@ theorem preimage_dimPart_eq_top_of_isOpenImmersion (d : ℕ) :
     ((dimPart sX d).ι ≫ f) ⁻¹ᵁ dimPart sP d = ⊤ := by
   ext x
   simp only [TopologicalSpace.Opens.coe_top, Set.mem_univ, iff_true]
-  show ((dimPart sX d).ι ≫ f) x ∈ dimPart sP d
+  change ((dimPart sX d).ι ≫ f) x ∈ dimPart sP d
   rw [Scheme.Hom.comp_apply, ← mem_dimPart_iff_of_isOpenImmersion sX sP f hf]
   exact x.2
 
@@ -165,6 +165,7 @@ instance isClosedImmersion_cographPiece (f : X ⟶ P) (hf : f ≫ sP = sX) (d e 
     IsClosedImmersion (cographPiece k sX sP f hf d e) := by
   rw [cographPiece]; infer_instance
 
+omit [IsSeparated sX] [IsSeparated sP] in
 /-- The first coordinate of `Γ_fᵗ ∩ (X_e × P_d) ⟶ X_e × P_d` is the inclusion into `X_e`. -/
 @[reassoc (attr := simp)]
 theorem cographPiece_fst (f : X ⟶ P) (hf : f ≫ sP = sX) (d e : ℕ) :
@@ -172,6 +173,7 @@ theorem cographPiece_fst (f : X ⟶ P) (hf : f ≫ sP = sX) (d e : ℕ) :
       (((dimPart sX e).ι ≫ f) ⁻¹ᵁ dimPart sP d).ι := by
   rw [cographPiece, Category.assoc, pullbackSymmetry_hom_comp_fst, graphPiece_snd]
 
+omit [IsSeparated sX] [IsSeparated sP] in
 /-- The second coordinate of `Γ_fᵗ ∩ (X_e × P_d) ⟶ X_e × P_d` is the restriction of `f`. -/
 @[reassoc (attr := simp)]
 theorem cographPiece_snd (f : X ⟶ P) (hf : f ≫ sP = sX) (d e : ℕ) :
@@ -179,6 +181,7 @@ theorem cographPiece_snd (f : X ⟶ P) (hf : f ≫ sP = sX) (d e : ℕ) :
       ((dimPart sX e).ι ≫ f) ∣_ dimPart sP d := by
   rw [cographPiece, Category.assoc, pullbackSymmetry_hom_comp_snd, graphPiece_fst]
 
+omit [IsSeparated sX] [IsSeparated sP] in
 /-- `Γ_fᵗ ∩ (X_e × P_d)` lies over `k` as the open subscheme `X_e ∩ f⁻¹(P_d)` of `X_e`. -/
 theorem cographPiece_prodBase (f : X ⟶ P) (hf : f ≫ sP = sX) (d e : ℕ) :
     cographPiece k sX sP f hf d e ≫ prodBase (partBase sX e) (partBase sP d) =
@@ -413,7 +416,7 @@ theorem mem_range_restrict_dimPart (f : X ⟶ P) [IsOpenImmersion f] (hf : f ≫
     rw [mem_dimPart_iff_of_isOpenImmersion sX sP f hf, hx]; exact hwmem
   obtain ⟨y, rfl⟩ : x ∈ Set.range (dimPart sX d).ι := by rw [Scheme.Opens.range_ι]; exact hxd
   have hy : y ∈ ((dimPart sX d).ι ≫ f) ⁻¹ᵁ dimPart sP d := by
-    show ((dimPart sX d).ι ≫ f) y ∈ dimPart sP d
+    change ((dimPart sX d).ι ≫ f) y ∈ dimPart sP d
     rw [Scheme.Hom.comp_apply, hx]; exact hwmem
   obtain ⟨z, rfl⟩ : y ∈ Set.range (((dimPart sX d).ι ≫ f) ⁻¹ᵁ dimPart sP d).ι := by
     rw [Scheme.Opens.range_ι]; exact hy
@@ -499,6 +502,7 @@ theorem cographBlock_eq_zero (f : X ⟶ P) (hf : f ≫ sP = sX) {e d : ℕ}
   rw [cographBlock, cycleAssociatedToClosedSubscheme_eq_zero_of_isEmpty, QuotientAddGroup.mk_zero,
     TensorProduct.tmul_zero]
 
+omit [IsSeparated sX] in
 /-- `[Γ_fᵗ]` is the sum of its diagonal blocks over any finite set of indices containing those of
 the nonempty parts of `X`. -/
 theorem cographCorr_eq_sum [QuasiCompact sX] (f : X ⟶ P) (hf : f ≫ sP = sX) {E : Finset ℕ}
@@ -512,6 +516,7 @@ theorem cographCorr_eq_sum [QuasiCompact sX] (f : X ⟶ P) (hf : f ≫ sP = sX) 
   rw [cographBlock_eq_zero k sX sP f hf fun x hx _ ↦
     he ((finite_setOf_nonempty_dimPart sX).mem_toFinset.2 ⟨x, hx⟩), map_zero, map_zero]
 
+omit [IsSeparated sX] [IsSeparated sP] [IsSeparated sZ] in
 /-- Composition of a finite sum of pure blocks with a finite sum of diagonal blocks. -/
 theorem comp_sum_lof_lof_sum_lof_lof [IsProper sP] (Δ : DiagonalClassFamily k) (r s : ℤ)
     (D E : Finset ℕ)
@@ -547,6 +552,7 @@ theorem diagonalCorr_eq_sum [QuasiCompact sX] {D : Finset ℕ}
     QuotientAddGroup.mk_zero, TensorProduct.tmul_zero, map_zero, map_zero]
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the module structures on the nested `DirectSum.lof` Chow-group summands
 omit [Smooth sP] [Smooth sZ] [IsSeparated sP] [IsSeparated sZ] in
 /-- Transport of a sum of diagonal blocks along an equality of degrees is blockwise. -/
 theorem corrCongr_sum_diagonalBlock {r : ℤ} (h : 0 = r) (D : Finset ℕ) :
@@ -566,6 +572,7 @@ private theorem graphBlock_eq_zero_of_ne (k : Type u) [Field k] {X P : Scheme.{u
       ((mem_dimPart_iff_of_isOpenImmersion sX sP f hf d x).2 hfx))
 
 set_option maxHeartbeats 1000000 in
+-- large `rw` chains through nested `DirectSum.lof` block sums of correspondences
 set_option synthInstance.maxHeartbeats 200000 in
 /-- **`[Γ_f] ∘ [Γ_fᵗ] = [Δ_X]`** for an open immersion `f : X ⟶ P` of schemes smooth and
 separated over `k`, with `P` proper and `X` quasi-compact, the degrees `0 + 0` and `0` being
@@ -614,7 +621,7 @@ theorem comp_cographCorr_graphCorr_of_disjoint [IsProper sP] [QuasiCompact sX] [
   rw [composition_cographBlock_graphBlock_of_disjoint k sX sP sZ f g hf hg hfg d m, map_zero,
     map_zero]
 
-omit [Smooth sZ] [IsSeparated sZ] in
+omit [Smooth sZ] [IsSeparated sX] [IsSeparated sZ] in
 /-- `[Γ_fᵗ] ∘ [Γ_f]`, for an open immersion `f : X ⟶ P`, is the sum of the diagonal block
 composites `[Γ_fᵗ ∩ (X_d × P_d)] ∘ [Γ_f ∩ (P_d × X_d)]` over any finite set of indices containing
 those of the nonempty parts of `P`. -/
@@ -727,13 +734,15 @@ theorem cographHom_comp_graph_self (f : X ⟶ P) [IsOpenImmersion f.hom.left] :
   rfl
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- the `change` and `rw` elaborate correspondence composites whose graded-module instances are
+-- found by unification through `SmoothProjectiveCorr.toCorr`
 /-- **`[Γ_g] ∘ [Γ_fᵗ] = 0`** in the category of correspondences, for `f : X ⟶ P` and
 `g : Z ⟶ P` with disjoint images. -/
 theorem cographHom_comp_graph_of_disjoint (f : X ⟶ P) (g : Z ⟶ P)
     (hfg : Disjoint (Set.range f.hom.left) (Set.range g.hom.left)) :
     cographHom f ≫ homOf 0 (graphCorrespondenceSP g) = 0 := by
   rw [cographHom, homOf_comp_homOf]
-  show homOf (0 + 0) ((SmoothProjectiveCorr.toCorr X Z (0 + 0)).symm
+  change homOf (0 + 0) ((SmoothProjectiveCorr.toCorr X Z (0 + 0)).symm
     (comp k X.obj.hom P.obj.hom Z.obj.hom (canonicalDiagonalClassFamily k) 0 0
       (cographCorr k X.obj.hom P.obj.hom f.hom.left (Over.w f.hom))
       (graphCorr k P.obj.hom Z.obj.hom g.hom.left (Over.w g.hom)))) = 0
@@ -787,7 +796,7 @@ def graphMap {P Q : (SmoothProjectiveScheme k).FullSubcategory} (f : Q ⟶ P) :
 theorem graphMap_eq {P Q : (SmoothProjectiveScheme k).FullSubcategory} (f : Q ⟶ P) : graphMap f =
     (h k).map f.op :=
   TwistedKaroubi.hom_ext (by
-    show homOf 0 (graphCorrespondenceSP f) = DirectSum.of _ 0 _
+    change homOf 0 (graphCorrespondenceSP f) = DirectSum.of _ 0 _
     rw [homOf, DirectSum.lof_eq_of]
     rfl)
 

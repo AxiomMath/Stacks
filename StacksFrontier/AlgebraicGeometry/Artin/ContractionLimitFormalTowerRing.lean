@@ -159,7 +159,7 @@ theorem towerRingHom_preimage_mem_nhds
         (pointsMap_fibreInclusion_mem g hZI m) ≫ F)
     refine Filter.mem_of_superset ((OrderDual.ofDual J).2.1.mem_nhds (zero_mem _)) ?_
     intro b hb
-    show formalRingHom hB _ (hqc (m + 1)) _ b = 0
+    change formalRingHom hB _ (hqc (m + 1)) _ b = 0
     rw [formalRingHom_eq hB _ (hqc (m + 1)) ht]
     have h0 : stageRingHom DB J b = 0 := ΓSpecIso_inv_quotient_mk_eq_zero hb
     rw [stageFactorRingHom, RingHom.comp_apply, h0, map_zero]
@@ -230,9 +230,9 @@ theorem alpha_mem_towerFiltration {n : ℕ}
     (hx : x ∈ (I.map (algebraMap _ (AdicCompletion I Γ((BigFppfOver.toScheme B S hS).obj V, ⊤))))
       ^ n) : alpha g hZI hqc x ∈ towerFiltration I g n := by
   intro m hm
-  show (pullbackRingHom B _ _) (powStageRingHom' I m x) = 0
+  change (pullbackRingHom B _ _) (powStageRingHom' I m x) = 0
   have hx' : x ∈ (adicCompletionPowStageIdeal I I.fg_of_isNoetherianRing m).1 := by
-    show x ∈ (I ^ (m + 1)).map _
+    change x ∈ (I ^ (m + 1)).map _
     rw [Ideal.map_pow]
     exact Ideal.pow_le_pow_right (Nat.succ_le_of_lt hm) hx
   rw [powStageRingHom'_eq_zero hx', map_zero]

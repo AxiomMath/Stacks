@@ -64,7 +64,7 @@ the commutation isomorphism, `cone (f^*α)` is K-flat; `f^*Λ` is K-flat by the 
 **second** vertex of the distinguished mapping-cone triangle of `f^*α`, so
 `CochainComplex.KFlatBifunctor.kFlat_obj₂_of_distTriang` concludes.
 
-Two-out-of-three in a distinguished triangle is available for `Stacks.SheafOfModules.KFlat.KFlat`
+Two-out-of-three in a distinguished triangle is available for `Stacks.SheafOfModules.KFlat`
   in all
 three positions (`kFlat_obj₁_of_distTriang`, `kFlat_obj₂_of_distTriang`,
 `kFlat_obj₃_of_distTriang`) precisely because K-flatness relative to a bifunctor is "the image
@@ -75,7 +75,7 @@ complex with non-flat terms is isomorphic in `K(O')` to the zero complex — whi
   morphisms of complexes
 rather than for an abstract third vertex.  Nothing here needs the conjunction to be
 triangulated: flat terms of `cone α` are computed from its biproduct description, and the
-conclusion is about `Stacks.SheafOfModules.KFlat.KFlat` alone.
+conclusion is about `Stacks.SheafOfModules.KFlat` alone.
 
 ## Tagging
 
@@ -139,6 +139,7 @@ variable {X Y : AlgebraicGeometry.RingedTopos.{u, u, u}}
     HomologicalComplex.HasMapBifunctor K₁ K₂
       (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O) (ComplexShape.up ℤ)]
 
+omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The mapping cone of a resolution.**  For a quasi-isomorphism `α : L ⟶ K` of complexes of
 `O`-modules with `K` and `L` K-flat with flat terms, the mapping cone of `α` is acyclic, is
 K-flat, and has flat terms — the last because each of its terms is a biproduct `L^{i+1} ⊕ K^i`
@@ -151,13 +152,13 @@ argument does not fit the elaboration budget of a single declaration. -/
 theorem mappingCone_resolution_facts
     [HasBinaryBiproducts (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))]
     {K L : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ}
-    (hK : Stacks.SheafOfModules.KFlat.KFlat Y.O K)
+    (hK : Stacks.SheafOfModules.KFlat Y.O K)
     (hflatK : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (K.X i))
     (hΛflat : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (L.X i))
-    (hΛkflat : Stacks.SheafOfModules.KFlat.KFlat Y.O L)
+    (hΛkflat : Stacks.SheafOfModules.KFlat Y.O L)
     (α : L ⟶ K) (hqis : QuasiIso α) :
     (CochainComplex.mappingCone α).Acyclic ∧
-      Stacks.SheafOfModules.KFlat.KFlat Y.O (CochainComplex.mappingCone α) ∧
+      Stacks.SheafOfModules.KFlat Y.O (CochainComplex.mappingCone α) ∧
       (∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O)
         ((CochainComplex.mappingCone α).X i)) := by
   refine ⟨(CochainComplex.KFlatBifunctor.quasiIso_iff_acyclic_mappingCone α).1 hqis, ?_,
@@ -193,10 +194,10 @@ theorem kFlat_pullbackComplex_of_mappingCone
     (f : AlgebraicGeometry.RingedToposSiteHom X Y)
     {K L : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ}
     (α : L ⟶ K)
-    (hpC : Stacks.SheafOfModules.KFlat.KFlat X.O
+    (hpC : Stacks.SheafOfModules.KFlat X.O
       ((pullbackComplex f).obj (CochainComplex.mappingCone α)))
-    (hpΛ : Stacks.SheafOfModules.KFlat.KFlat X.O ((pullbackComplex f).obj L)) :
-    Stacks.SheafOfModules.KFlat.KFlat X.O ((pullbackComplex f).obj K) :=
+    (hpΛ : Stacks.SheafOfModules.KFlat X.O ((pullbackComplex f).obj L)) :
+    Stacks.SheafOfModules.KFlat X.O ((pullbackComplex f).obj K) :=
   have : (show SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) ⥤
       SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) from
         f.pullbackTopos).Additive :=
@@ -206,6 +207,7 @@ theorem kFlat_pullbackComplex_of_mappingCone
     (CochainComplex.KFlatBifunctor.KFlat.of_iso _ hpC
       (HomologicalComplex.homotopyCofiber.mapHomologicalComplexObjIso α _))
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The K-flatness assertion of Stacks Tag 0G7E, on Stacks 05VD alone.**
 
 The pullback of a K-flat complex of `O`-modules with flat terms along a morphism of ringed
@@ -221,10 +223,10 @@ theorem kFlat_pullbackComplex_of_pullbackPreservesIsFlat
     (hmos : f.u.IsMorphismOfSites Y.J X.J)
     (hpf : PullbackPreservesIsFlat f)
     (K : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat Y.O K)
+    (hK : Stacks.SheafOfModules.KFlat Y.O K)
     (hflatK : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O)
       (K.X i)) :
-    Stacks.SheafOfModules.KFlat.KFlat X.O ((pullbackComplex f).obj K) := by
+    Stacks.SheafOfModules.KFlat X.O ((pullbackComplex f).obj K) := by
   have hbbY : HasBinaryBiproducts (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
     :=
     inferInstance
@@ -237,10 +239,10 @@ theorem kFlat_pullbackComplex_of_pullbackPreservesIsFlat
     (Stacks.SheafOfModules.KFlatResolution.isFlat_colimit_X Y.O D hDflat)
     (Stacks.SheafOfModules.KFlatResolution.kFlat_colimit_of_isStrictlyLE_of_isFlat Y.O D hLE
       hDflat) α hqis
-  have hpC : Stacks.SheafOfModules.KFlat.KFlat X.O
+  have hpC : Stacks.SheafOfModules.KFlat X.O
       ((pullbackComplex f).obj (CochainComplex.mappingCone α)) :=
     kFlat_pullbackComplex_of_acyclic f hmos hpf _ hCacyc hCkflat hCflat
-  have hpΛ : Stacks.SheafOfModules.KFlat.KFlat X.O ((pullbackComplex f).obj (colimit D)) :=
+  have hpΛ : Stacks.SheafOfModules.KFlat X.O ((pullbackComplex f).obj (colimit D)) :=
     kFlat_pullbackComplex_colimit f hmos hpf D hLE hDflat
   exact kFlat_pullbackComplex_of_mappingCone f α hpC hpΛ
 

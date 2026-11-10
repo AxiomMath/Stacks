@@ -74,7 +74,8 @@ Stacks 08HB is assumed.
 the colimit assertion for the datum Stacks 09RI is formalized at,
 `AlgebraicGeometry.Space.smallEtaleDerivedPullbackData`, is
 `AlgebraicGeometry.Space.isColim_canonicalPullbackData_iff` of
-`StacksFrontier/AlgebraicGeometry/Spaces/Perfect/LimitDerivedHomUnconditionalPullbackData.lean`; it is
+`StacksFrontier/AlgebraicGeometry/Spaces/Perfect/LimitDerivedHomUnconditionalPullbackData.lean`; it
+is
 not used below, since the assertions are taken for the datum the square step's `hfac` is written
 with.
 

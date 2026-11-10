@@ -225,7 +225,7 @@ theorem stdSimplexPresheaf_restrict' (S : SimplicialSiteSituation.{u})
   cases S with
   | mk c => cases c with
     | inl C =>
-      show (((componentFunctor (⟨Sum.inl C⟩ : SimplicialSiteSituation.{u}) n ⋙
+      change (((componentFunctor (⟨Sum.inl C⟩ : SimplicialSiteSituation.{u}) n ⋙
         totalSimplexDegree ⟨Sum.inl C⟩).op ⋙ CategoryTheory.unopUnop SimplexCategory) ⋙
         SSet.stdSimplex ⋙ (evaluation SimplexCategoryᵒᵖ (Type u)).obj (Opposite.op k)) = _
       rw [totalSimplexDegree_component']
@@ -235,7 +235,7 @@ theorem stdSimplexPresheaf_restrict' (S : SimplicialSiteSituation.{u})
       · intro X Y f
         simp [CategoryTheory.unopUnop]
     | inr C =>
-      show (((componentFunctor (⟨Sum.inr C⟩ : SimplicialSiteSituation.{u}) n ⋙
+      change (((componentFunctor (⟨Sum.inr C⟩ : SimplicialSiteSituation.{u}) n ⋙
         totalSimplexDegree ⟨Sum.inr C⟩).op ⋙ CategoryTheory.unopUnop SimplexCategory) ⋙
         SSet.stdSimplex ⋙ (evaluation SimplexCategoryᵒᵖ (Type u)).obj (Opposite.op k)) = _
       rw [totalSimplexDegree_component']
@@ -289,7 +289,7 @@ theorem stdSimplexPresheafAbMap_generator' (S : SimplicialSiteSituation.{u})
     (x : (stdSimplexPresheaf' S m).obj X) :
     ((stdSimplexPresheafAbMap' S φ).app X).hom (FreeAbelianGroup.of x) =
       FreeAbelianGroup.of ((stdSimplexPresheafMap' S φ).app X x) := by
-  show FreeAbelianGroup.map
+  change FreeAbelianGroup.map
     (fun y => (stdSimplexPresheafMap' S φ).app X y) (FreeAbelianGroup.of x) = _
   exact FreeAbelianGroup.map_of_apply x
 
@@ -350,7 +350,7 @@ private theorem freeStandardSimplex_exact_positive (k : SimplexCategory)
       (freeStandardSimplexAug k).left).ExactAt n := by
   let e := (freeStandardSimplexExtra k).homotopyEquiv
   have : QuasiIso e.hom := e.quasiIso_hom
-  show (AlgebraicTopology.AlternatingFaceMapComplex.obj
+  change (AlgebraicTopology.AlternatingFaceMapComplex.obj
     (SimplicialObject.Augmented.drop.obj (freeStandardSimplexAug k))).ExactAt n
   rw [exactAt_iff_of_quasiIsoAt e.hom n]
   exact HomologicalComplex.exactAt_single_obj _ 0 _ n (by omega)
@@ -421,7 +421,7 @@ noncomputable def freeUnitIntegerIso' :
 element to `1`. -/
 private theorem freeUnitIntegerIso_generator' :
     (freeUnitIntegerIso'.{u}).hom.hom (FreeAbelianGroup.of PUnit.unit) = ULift.up 1 := by
-  show ((FreeAbelianGroup.uniqueEquiv PUnit.{u + 1}).trans AddEquiv.ulift.symm)
+  change ((FreeAbelianGroup.uniqueEquiv PUnit.{u + 1}).trans AddEquiv.ulift.symm)
     (FreeAbelianGroup.of PUnit.unit) = _
   simp [FreeAbelianGroup.uniqueEquiv, FreeAbelianGroup.lift_apply_of]
   rfl
@@ -461,7 +461,7 @@ private theorem stdSimplexPresheafAbAugmentation_generator'
     (X : S.totalCategoryᵒᵖ) (x : (stdSimplexPresheaf' S n).obj X) :
     ((stdSimplexPresheafAbAugmentation' S n).app X).hom (FreeAbelianGroup.of x) =
       ULift.up 1 := by
-  show (freeUnitIntegerIso'.{u}).hom.hom (FreeAbelianGroup.of PUnit.unit) = _
+  change (freeUnitIntegerIso'.{u}).hom.hom (FreeAbelianGroup.of PUnit.unit) = _
   exact freeUnitIntegerIso_generator'
 
 /-- The augmentation of the free abelian simplex presheaf is an epimorphism. -/
@@ -478,7 +478,7 @@ private theorem stdSimplexPresheafAbAugmentation_epi'
       exact SSet.stdSimplex.objEquiv.symm (SimplexCategory.const n k 0)
     refine ⟨z.down • FreeAbelianGroup.of x, ?_⟩
     apply ULift.ext
-    show (((stdSimplexPresheafAbAugmentation' S n).app X).hom
+    change (((stdSimplexPresheafAbAugmentation' S n).app X).hom
       (z.down • FreeAbelianGroup.of x)).down = z.down
     exact (congrArg ULift.down (((stdSimplexPresheafAbAugmentation' S n).app X).hom.map_zsmul
       z.down (FreeAbelianGroup.of x))).trans
@@ -496,7 +496,7 @@ private theorem stdSimplexPresheafAbMap_augmentation' (S : SimplicialSiteSituati
   apply AddCommGrpCat.hom_ext
   apply FreeAbelianGroup.lift_ext
   intro x
-  show ((stdSimplexPresheafAbAugmentation' S n).app X).hom
+  change ((stdSimplexPresheafAbAugmentation' S n).app X).hom
       (((stdSimplexPresheafAbMap' S φ).app X).hom (FreeAbelianGroup.of x)) =
     ((stdSimplexPresheafAbAugmentation' S m).app X).hom (FreeAbelianGroup.of x)
   rw [stdSimplexPresheafAbMap_generator', stdSimplexPresheafAbAugmentation_generator',
@@ -531,7 +531,7 @@ private theorem resolutionSimplicialMap_termAugmentation'
     (S : SimplicialSiteSituation.{u}) {n m : SimplexCategory} (φ : n ⟶ m) :
     (resolutionSimplicial' S).map φ.op ≫ resolutionTermAugmentation' S n =
       resolutionTermAugmentation' S m := by
-  show (presheafToSheaf S.totalTopology AddCommGrpCat.{u}).map
+  change (presheafToSheaf S.totalTopology AddCommGrpCat.{u}).map
       (stdSimplexPresheafAbMap' S φ) ≫
       (presheafToSheaf S.totalTopology AddCommGrpCat.{u}).map
         (stdSimplexPresheafAbAugmentation' S n) =
@@ -549,7 +549,7 @@ noncomputable def resolutionAugmentation' (S : SimplicialSiteSituation.{u}) :
 /-- The augmentation of the resolution is an epimorphism. -/
 theorem resolutionAugmentation_epi' (S : SimplicialSiteSituation.{u}) :
     Epi (resolutionAugmentation' S) := by
-  show Epi ((presheafToSheaf S.totalTopology AddCommGrpCat.{u}).map
+  change Epi ((presheafToSheaf S.totalTopology AddCommGrpCat.{u}).map
     (stdSimplexPresheafAbAugmentation' S ⦋0⦌))
   let : Epi (stdSimplexPresheafAbAugmentation' S ⦋0⦌) :=
     stdSimplexPresheafAbAugmentation_epi' S ⦋0⦌
@@ -564,7 +564,7 @@ theorem resolutionAugmentation_comp' (S : SimplicialSiteSituation.{u}) :
   rw [AlgebraicTopology.alternatingFaceMapComplex_obj_d,
     AlgebraicTopology.AlternatingFaceMapComplex.objD, Fin.sum_univ_two]
   simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, one_smul, neg_smul]
-  show ((resolutionSimplicial' S).map (SimplexCategory.δ (0 : Fin 2)).op +
+  change ((resolutionSimplicial' S).map (SimplexCategory.δ (0 : Fin 2)).op +
       -((resolutionSimplicial' S).map (SimplexCategory.δ (1 : Fin 2)).op)) ≫
       resolutionTermAugmentation' S ⦋0⦌ = 0
   rw [CategoryTheory.Preadditive.add_comp, CategoryTheory.Preadditive.neg_comp]
@@ -588,7 +588,7 @@ private theorem presheafAugmentation_comp' (S : SimplicialSiteSituation.{u}) :
   rw [AlgebraicTopology.alternatingFaceMapComplex_obj_d,
     AlgebraicTopology.AlternatingFaceMapComplex.objD, Fin.sum_univ_two]
   simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, one_smul, neg_smul]
-  show (stdSimplexPresheafAbMap' S (SimplexCategory.δ (0 : Fin 2)) +
+  change (stdSimplexPresheafAbMap' S (SimplexCategory.δ (0 : Fin 2)) +
       -(stdSimplexPresheafAbMap' S (SimplexCategory.δ (1 : Fin 2)))) ≫
       stdSimplexPresheafAbAugmentation' S ⦋0⦌ = 0
   rw [Preadditive.add_comp, Preadditive.neg_comp,
@@ -621,7 +621,7 @@ private theorem presheafSimplicial_exact_zero' (S : SimplicialSiteSituation.{u})
       (HomologicalComplex.Hom.isoApp comparison.symm 1)
       (HomologicalComplex.Hom.isoApp comparison.symm 0)
       (by
-        show AddCommGrpCat.free.obj (⊤_ (Type u)) ≅ AddCommGrpCat.of (ULift.{u} ℤ)
+        change AddCommGrpCat.free.obj (⊤_ (Type u)) ≅ AddCommGrpCat.of (ULift.{u} ℤ)
         exact AddCommGrpCat.free.mapIso Types.terminalIso ≪≫ freeUnitIntegerIso')
       ?_ ?_) (freeStandardSimplex_exact_zero degree)
   · exact comparison.inv.comm 1 0
@@ -673,7 +673,7 @@ theorem resolutionSimplicial_exact_zero' (S : SimplicialSiteSituation.{u}) :
   let comparison :=
     (AlgebraicTopology.alternatingFaceMapComplexCompMapHomologicalComplexIso
       (presheafToSheaf S.totalTopology Ab.{u})).app (presheafSimplicial' S)
-  show (ShortComplex.mk _
+  change (ShortComplex.mk _
     ((presheafToSheaf S.totalTopology Ab.{u}).map
       (stdSimplexPresheafAbAugmentation' S ⦋0⦌)) _).Exact
   refine ShortComplex.exact_of_iso
@@ -705,7 +705,7 @@ private theorem localEquivalence_whiskerLeft
     (morphism : first ⟶ second) (localEquivalence : K.W morphism) :
     J.W (Functor.whiskerLeft F.op morphism) := by
   intro sheaf sheafCondition
-  show Function.Bijective (fun transformation : F.op ⋙ second ⟶ sheaf =>
+  change Function.Bijective (fun transformation : F.op ⋙ second ⟶ sheaf =>
     Functor.whiskerLeft F.op morphism ≫ transformation)
   exact ((F.op.ranAdjunction Ab.{u}).map_comp_bijective_iff morphism sheaf).2
     (localEquivalence _
@@ -852,17 +852,17 @@ private theorem freeTerminalIntegerIso_hom_generator
     (toSheafify J ((Functor.const Cᵒᵖ).obj
       (AddCommGrpCat.of (ULift.{u} ℤ)))).app object (ULift.up 1) := by
   rw [Adjunction.homEquiv_unit]
-  show (((Sheaf.adjunction J AddCommGrpCat.adj).unit.app
+  change (((Sheaf.adjunction J AddCommGrpCat.adj).unit.app
     (Sheaf.terminal J Types.isTerminalPUnit)).hom ≫
     Functor.whiskerRight (freeTerminalIntegerIso J).hom.hom
       (forget Ab.{u})).app object PUnit.unit = _
   rw [Sheaf.adjunction_unit_app_hom]
-  show (toSheafify J _ ≫ ((presheafToSheaf J Ab.{u}).map
+  change (toSheafify J _ ≫ ((presheafToSheaf J Ab.{u}).map
     (freeAbPresheafConstIso' C ≪≫
       (Functor.const Cᵒᵖ).mapIso freeUnitIntegerIso').hom).hom).app object
       (FreeAbelianGroup.of PUnit.unit) = _
   rw [← toSheafify_naturality]
-  show (toSheafify J ((Functor.const Cᵒᵖ).obj
+  change (toSheafify J ((Functor.const Cᵒᵖ).obj
     (AddCommGrpCat.of (ULift.{u} ℤ)))).app object
     ((freeUnitIntegerIso'.{u}).hom.hom (FreeAbelianGroup.of PUnit.unit)) = _
   rw [freeUnitIntegerIso_generator']
@@ -914,7 +914,7 @@ private theorem continuousConstantIntegerIso_adjacent
     Iso.symm_hom, Iso.hom_inv_id_assoc,
     Adjunction.homEquiv_naturality_right]
   rw [Adjunction.homEquiv_naturality_right]
-  show ((Sheaf.adjunction J AddCommGrpCat.adj).homEquiv _ _
+  change ((Sheaf.adjunction J AddCommGrpCat.adj).homEquiv _ _
     ((Functor.sheafPullbackConstruction.sheafAdjunctionContinuous F Ab.{u} J K).homEquiv
       _ _ ((pullbackFreeAbelianIso F J K).hom.app
         (Sheaf.terminal J Types.isTerminalPUnit)))) ≫ _ = _
@@ -923,7 +923,7 @@ private theorem continuousConstantIntegerIso_adjacent
   let terminalMap := ((Sheaf.isTerminalTerminal J Types.isTerminalPUnit).isTerminalObj
       (Functor.sheafPullbackConstruction.sheafPullback F (Type u) J K) _).uniqueUpToIso
         (Sheaf.isTerminalTerminal K Types.isTerminalPUnit)
-  show _ ≫ ((F.sheafPushforwardContinuous (Type u) J K).map
+  change _ ≫ ((F.sheafPushforwardContinuous (Type u) J K).map
     ((Sheaf.adjunction K AddCommGrpCat.adj).unit.app _) ≫
     (F.sheafPushforwardContinuous (Type u) J K).map
       ((sheafCompose K (forget Ab.{u})).map
@@ -940,7 +940,7 @@ private theorem continuousConstantIntegerIso_adjacent
   apply ConcreteCategory.hom_ext
   intro point
   cases point
-  show ((Sheaf.adjunction K AddCommGrpCat.adj).homEquiv _ _
+  change ((Sheaf.adjunction K AddCommGrpCat.adj).homEquiv _ _
       (freeTerminalIntegerIso K).hom).hom.app (F.op.obj object) PUnit.unit =
     (constantIntegerRestriction F J K).hom.app object
       (((Sheaf.adjunction J AddCommGrpCat.adj).homEquiv _ _
@@ -1154,7 +1154,7 @@ private theorem transitionIntegerIso_canonical_inl' (C : SimplicialSite.{u})
       constantIntegerRestriction (C.underlying.map φ).toFunctor
         (C.coverage n).toGrothendieck (C.coverage m).toGrothendieck := by
   let := (C.isMorphismOfSites φ).preservesFiniteLimits
-  show (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous
+  change (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous
     (C.underlying.map φ).toFunctor Ab.{u}
     (C.coverage n).toGrothendieck (C.coverage m).toGrothendieck).homEquiv _ _
       (continuousConstantIntegerIso (C.underlying.map φ).toFunctor
@@ -1206,7 +1206,7 @@ private theorem stdSimplexPresheafGenerator_generator' (S : SimplicialSiteSituat
         ((componentFunctor S m).op.obj object) from by
           rcases S with ⟨C | C⟩ <;> exact SSet.stdSimplex.objEquiv.symm φ) := by
   rcases S with ⟨C | C⟩ <;>
-    show FreeAbelianGroup.map (fun _ : PUnit.{u + 1} =>
+    change FreeAbelianGroup.map (fun _ : PUnit.{u + 1} =>
       SSet.stdSimplex.objEquiv.symm φ)
       (freeUnitIntegerIso'.inv.hom (ULift.up 1)) = _
     <;> rw [← freeUnitIntegerIso_generator']
@@ -1239,7 +1239,7 @@ private theorem stdSimplexPresheafGenerator_map' (S : SimplicialSiteSituation.{u
           AddEquiv.ulift.symm.toAddMonoidHom))
     (g := ((stdSimplexPresheafGenerator' S (φ ≫ ψ)).app object).hom.comp
       AddEquiv.ulift.symm.toAddMonoidHom) (by
-      show ((stdSimplexPresheafAbMap' S φ).app _).hom
+      change ((stdSimplexPresheafAbMap' S φ).app _).hom
         ((stdSimplexPresheafGenerator' S ψ).app object (ULift.up 1)) =
         (stdSimplexPresheafGenerator' S (φ ≫ ψ)).app object (ULift.up 1)
       rw [stdSimplexPresheafGenerator_generator',
@@ -1267,7 +1267,7 @@ private theorem stdSimplexPresheafGenerator_augmentation' (S : SimplicialSiteSit
         (stdSimplexPresheafAbAugmentation' S n)).app object).hom.comp
           AddEquiv.ulift.symm.toAddMonoidHom)) (g := AddEquiv.ulift.symm.toAddMonoidHom)
       (by
-        show ((stdSimplexPresheafAbAugmentation' S n).app _).hom
+        change ((stdSimplexPresheafAbAugmentation' S n).app _).hom
           ((stdSimplexPresheafGenerator' S φ).app object (ULift.up 1)) = ULift.up 1
         rw [stdSimplexPresheafGenerator_generator',
           stdSimplexPresheafAbAugmentation_generator'])
@@ -1287,7 +1287,7 @@ private theorem resolutionDegreeMap_augmentation' (S : SimplicialSiteSituation.{
   apply ((sheafificationAdjunction (S.componentTopology n) Ab.{u}).homEquiv _ _).injective
   rw [Adjunction.homEquiv_naturality_right, Equiv.apply_symm_apply,
     constantIntegerRestriction, Equiv.apply_symm_apply]
-  show (stdSimplexIdentityGenerator' S n ≫
+  change (stdSimplexIdentityGenerator' S n ≫
     Functor.whiskerLeft (componentFunctor S n).op
       (toSheafify S.totalTopology (stdSimplexPresheafAb' S n))) ≫
     Functor.whiskerLeft (componentFunctor S n).op
@@ -1466,7 +1466,7 @@ private theorem resolutionRestrictedGenerator_map' (S : SimplicialSiteSituation.
   rw [Adjunction.homEquiv_naturality_right]
   rw [show ((sheafificationAdjunction (S.componentTopology k) Ab.{u}).homEquiv _ _)
     (resolutionRestrictedGenerator' S ψ) = _ from Equiv.apply_symm_apply _ _]
-  show (stdSimplexPresheafGenerator' S ψ ≫
+  change (stdSimplexPresheafGenerator' S ψ ≫
     Functor.whiskerLeft (componentFunctor S k).op (toSheafify S.totalTopology _)) ≫
     Functor.whiskerLeft (componentFunctor S k).op
       ((presheafToSheaf S.totalTopology Ab.{u}).map (stdSimplexPresheafAbMap' S φ)).hom = _
@@ -1819,7 +1819,7 @@ private theorem transitionIntegerGenerator_comparison_inl
   apply (((⟨Sum.inl C⟩ : SimplicialSiteSituation.{u}).transitionMorphism
     φ).adj.homEquiv _ _).injective
   rw [Adjunction.homEquiv_naturality_left, Adjunction.homEquiv_naturality_right]
-  show constantIntegerGenerator (C.coverage n).toGrothendieck ≫
+  change constantIntegerGenerator (C.coverage n).toGrothendieck ≫
     ((Functor.sheafAdjunctionContinuous (C.underlying.map φ).toFunctor (Type u)
       (C.coverage n).toGrothendieck (C.coverage m).toGrothendieck).homEquiv _ _
       (transitionInverseImageForgetComparison ⟨Sum.inl C⟩ φ
@@ -1840,12 +1840,12 @@ private theorem transitionIntegerGenerator_comparison_inl
     rw [transitionInverseImageForgetComparison_inl]
     exact Equiv.apply_symm_apply _ _
   rw [transpose]
-  show constantIntegerGenerator (C.coverage n).toGrothendieck ≫
+  change constantIntegerGenerator (C.coverage n).toGrothendieck ≫
     (sheafCompose (C.coverage n).toGrothendieck (forget Ab.{u})).map
       ((Functor.sheafPullbackConstruction.sheafAdjunctionContinuous
         (C.underlying.map φ).toFunctor Ab.{u} (C.coverage n).toGrothendieck
         (C.coverage m).toGrothendieck).unit.app _) ≫ _ = _
-  show constantIntegerGenerator (C.coverage n).toGrothendieck ≫
+  change constantIntegerGenerator (C.coverage n).toGrothendieck ≫
     (sheafCompose (C.coverage n).toGrothendieck (forget Ab.{u})).map
       ((Functor.sheafPullbackConstruction.sheafAdjunctionContinuous
         (C.underlying.map φ).toFunctor Ab.{u} (C.coverage n).toGrothendieck
@@ -1853,7 +1853,7 @@ private theorem transitionIntegerGenerator_comparison_inl
         ((C.underlying.map φ).toFunctor.sheafPushforwardContinuous Ab.{u}
           (C.coverage n).toGrothendieck (C.coverage m).toGrothendieck).map
           (transitionIntegerIso' ⟨Sum.inl C⟩ φ).inv) = _
-  show constantIntegerGenerator (C.coverage n).toGrothendieck ≫
+  change constantIntegerGenerator (C.coverage n).toGrothendieck ≫
     (sheafCompose (C.coverage n).toGrothendieck (forget Ab.{u})).map
       ((Functor.sheafPullbackConstruction.sheafAdjunctionContinuous
         (C.underlying.map φ).toFunctor Ab.{u} (C.coverage n).toGrothendieck
@@ -1868,21 +1868,21 @@ private theorem transitionIntegerGenerator_comparison_inl
   apply ConcreteCategory.hom_ext
   intro point
   cases point
-  show (constantIntegerRestriction (C.underlying.map φ).toFunctor
+  change (constantIntegerRestriction (C.underlying.map φ).toFunctor
     (C.coverage n).toGrothendieck (C.coverage m).toGrothendieck).hom.app object
       ((constantIntegerGenerator (C.coverage n).toGrothendieck).hom.app object PUnit.unit) = _
   rw [constantIntegerGenerator_app]
-  show (constantIntegerRestriction (C.underlying.map φ).toFunctor
+  change (constantIntegerRestriction (C.underlying.map φ).toFunctor
     (C.coverage n).toGrothendieck (C.coverage m).toGrothendieck).hom.app object
     ((toSheafify (C.coverage n).toGrothendieck ((Functor.const _).obj
       (AddCommGrpCat.of (ULift.{u} ℤ)))).app object (ULift.up 1)) = _
   rw [constantIntegerRestriction_generator]
   rw [Adjunction.homEquiv_naturality_right]
-  show _ = (constantIntegerGenerator (C.coverage m).toGrothendieck).hom.app
+  change _ = (constantIntegerGenerator (C.coverage m).toGrothendieck).hom.app
     ((C.underlying.map φ).toFunctor.op.obj object)
       ((((⟨Sum.inl C⟩ : SimplicialSiteSituation.{u}).transitionMorphism φ).adj.homEquiv _ _
         (transitionTerminalIso ⟨Sum.inl C⟩ φ).hom).hom.app object PUnit.unit)
-  show _ = (constantIntegerGenerator (C.coverage m).toGrothendieck).hom.app _ PUnit.unit
+  change _ = (constantIntegerGenerator (C.coverage m).toGrothendieck).hom.app _ PUnit.unit
   rw [constantIntegerGenerator_app]
   rfl
 
@@ -1909,7 +1909,7 @@ private theorem transitionIntegerGenerator_comparison_inr
   apply ConcreteCategory.hom_ext
   intro point
   cases point
-  show ((toSheafify topology _).app object ≫
+  change ((toSheafify topology _).app object ≫
     (((presheafToSheaf topology (Type u)).map
       (Functor.whiskerLeft (C.underlying.map φ.op).toFunctor.op
         (constantIntegerGenerator
@@ -2005,7 +2005,7 @@ private theorem resolutionFiberGenerator_inl
   apply ConcreteCategory.hom_ext
   intro point
   cases point
-  show (((⟨Sum.inl C⟩ : SimplicialSiteSituation.{u}).restrictTransition φ).app
+  change (((⟨Sum.inl C⟩ : SimplicialSiteSituation.{u}).restrictTransition φ).app
     ((sheafCompose _ (forget Ab.{u})).obj
       ((resolutionSimplicial' ⟨Sum.inl C⟩).obj (Opposite.op n)))).hom.app object
     ((resolutionRestrictedGenerator' ⟨Sum.inl C⟩ (𝟙 n)).hom.app object
@@ -2040,8 +2040,8 @@ private theorem resolutionFiberGenerator_inl
           (stdSimplexPresheaf' ⟨Sum.inl C⟩ n).map
             ((continuousInclusionTransition C φ).app object.unop).op
             (SSet.stdSimplex.objEquiv.symm (𝟙 n)) from by
-        show SSet.stdSimplex.objEquiv.symm φ = _
-        show _ = (SSet.stdSimplex.map φ).app (Opposite.op n)
+        change SSet.stdSimplex.objEquiv.symm φ = _
+        change _ = (SSet.stdSimplex.map φ).app (Opposite.op n)
           (SSet.stdSimplex.objEquiv.symm (𝟙 n))
         rw [← SSet.stdSimplex.objEquiv_symm_comp, Category.id_comp]))
   have target :
@@ -2093,7 +2093,7 @@ private theorem resolutionFiberGenerator_inr
   refine Eq.trans ?_ (Adjunction.homEquiv_naturality_right _ _ _).symm
   apply Sheaf.hom_ext
   apply (((C.underlying.map φ.op).toFunctor.op.ranAdjunction (Type u)).homEquiv _ _).symm.injective
-  show (((C.underlying.map φ.op).toFunctor.op.ranAdjunction (Type u)).homEquiv _ _).symm
+  change (((C.underlying.map φ.op).toFunctor.op.ranAdjunction (Type u)).homEquiv _ _).symm
     ((constantIntegerGenerator ((⟨Sum.inr C⟩ : SimplicialSiteSituation.{u}).componentTopology n) ≫
       (sheafCompose _ (forget Ab.{u})).map
         (resolutionRestrictedGenerator' ⟨Sum.inr C⟩ (𝟙 n))).hom ≫
@@ -2116,7 +2116,7 @@ private theorem resolutionFiberGenerator_inr
   apply ConcreteCategory.hom_ext
   intro point
   cases point
-  show ((((C.underlying.map φ.op).toFunctor.op.ranAdjunction (Type u)).homEquiv _ _).symm
+  change ((((C.underlying.map φ.op).toFunctor.op.ranAdjunction (Type u)).homEquiv _ _).symm
     (((⟨Sum.inr C⟩ : SimplicialSiteSituation.{u}).restrictTransition φ).app
       ((sheafCompose _ (forget Ab.{u})).obj
         ((resolutionSimplicial' ⟨Sum.inr C⟩).obj (Opposite.op n)))).hom).app object
@@ -2157,8 +2157,8 @@ private theorem resolutionFiberGenerator_inr
           (stdSimplexPresheaf' ⟨Sum.inr C⟩ n).map
             ((CategoryTheory.Grothendieck.ιNatTrans (F := C.underlying) φ.op).app object.unop).op
             (SSet.stdSimplex.objEquiv.symm (𝟙 n)) from by
-        show SSet.stdSimplex.objEquiv.symm φ = _
-        show _ = (SSet.stdSimplex.map φ).app (Opposite.op n)
+        change SSet.stdSimplex.objEquiv.symm φ = _
+        change _ = (SSet.stdSimplex.map φ).app (Opposite.op n)
           (SSet.stdSimplex.objEquiv.symm (𝟙 n))
         rw [← SSet.stdSimplex.objEquiv_symm_comp, Category.id_comp]))
   have target :
@@ -2450,7 +2450,7 @@ theorem resolutionSimplicial_face_adjacent (S : SimplicialSiteSituation.{u}) (n 
           (integerSheaf (S.componentTopology ⦋n⦌)) := by
   let := resolutionDegreeMap_isIso' S ⦋n⦌
   let := resolutionDegreeMap_isIso' S ⦋n + 1⦌
-  show (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous
+  change (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous
     (componentFunctor S ⦋n + 1⦌) Ab.{u}
     (S.componentTopology ⦋n + 1⦌) S.totalTopology).homEquiv _ _
       (resolutionDegreeMap' S ⦋n + 1⦌ ≫
@@ -2481,7 +2481,7 @@ theorem resolutionAugmentation_adjacent (S : SimplicialSiteSituation.{u}) :
       ((resolutionDegreeIso' S ⦋0⦌).inv ≫ resolutionAugmentation' S) =
     constantIntegerRestriction (componentFunctor S ⦋0⦌)
       (S.componentTopology ⦋0⦌) S.totalTopology := by
-  show (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous
+  change (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous
     (componentFunctor S ⦋0⦌) Ab.{u} (S.componentTopology ⦋0⦌) S.totalTopology).homEquiv
       _ _ (resolutionDegreeMap' S ⦋0⦌ ≫ resolutionTermAugmentation' S ⦋0⦌) = _
   exact resolutionDegreeMap_augmentation' S ⦋0⦌

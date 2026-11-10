@@ -39,7 +39,8 @@ open CategoryTheory CategoryTheory.Limits MonoidalCategory Opposite
 open Stacks.SheafOfModules
 open Stacks.SheafOfModules.Invertible (tensorProductAssociator tensorProductLeftUnitor
   tensorProductRightUnitor)
-open Stacks.SheafOfModules.TensorSheafification (sheafify toSheafify sheafifyAdjunction structureSheaf structureRingPresheaf)
+open Stacks.SheafOfModules.TensorSheafification (sheafify toSheafify sheafifyAdjunction
+  structureSheaf structureRingPresheaf)
 open scoped TensorProduct
 
 universe v u w
@@ -66,7 +67,9 @@ variable {O hO} (A : _root_.SheafOfModules.GradedAlgebra.{w, w} (structureSheaf 
 
 /-- **The product of a sheaf of graded algebras, as a morphism out of the tensor product
 sheaf**: the bilinear map on sections extends uniquely over the sheafification. -/
-def mulHomOf (i j : ℤ) : (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj ((A.piece i))).obj ((A.piece j))) ⟶ A.piece (i + j) :=
+def mulHomOf (i j : ℤ) : (((Stacks.SheafOfModules.Tensor.sheafTensor
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj
+      ((A.piece i))).obj ((A.piece j))) ⟶ A.piece (i + j) :=
   ((sheafifyAdjunction O hO).homEquiv
     ((PresheafOfModules.tensorObj (O := O) ((A.piece i).val) ((A.piece j).val)))
       (A.piece (i + j))).symm
@@ -95,19 +98,24 @@ variable {O hO} (A B : _root_.SheafOfModules.GradedAlgebra.{w, w} (structureShea
 
 /-- The piece of degree `n` of the degreewise tensor product. -/
 abbrev segrePiece (n : ℤ) : _root_.SheafOfModules.{w} (structureSheaf O hO) :=
-  (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj ((A.piece n))).obj ((B.piece n)))
+  (((Stacks.SheafOfModules.Tensor.sheafTensor
+    ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj
+      ((A.piece n))).obj ((B.piece n)))
 
 /-- **The product of the degreewise tensor product**, as a morphism of sheaves of modules: the
 middle-four interchange followed by the two products. -/
 def segreMulMor (i j : ℤ) :
-    (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj ((segrePiece A B i))).obj ((segrePiece A B j))) ⟶ segrePiece A B (i + j) :=
+    (((Stacks.SheafOfModules.Tensor.sheafTensor
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj
+        ((segrePiece A B i))).obj ((segrePiece A B j))) ⟶ segrePiece A B (i + j) :=
   (interchange O hO (A.piece i) (B.piece i) (A.piece j) (B.piece j)).hom ≫
     tensorMap O hO (mulHomOf A i j) (mulHomOf B i j)
 
 /-- The product of the degreewise tensor product, on local sections. -/
 def segreMulSection (i j : ℤ) (U : Cᵒᵖ) (a : (segrePiece A B i).val.obj U)
     (b : (segrePiece A B j).val.obj U) : (segrePiece A B (i + j)).val.obj U :=
-  (segreMulMor A B i j).val.app U (tensorSectionsAt O hO U (segrePiece A B i) (segrePiece A B j) a b)
+  (segreMulMor A B i j).val.app U
+    (tensorSectionsAt O hO U (segrePiece A B i) (segrePiece A B j) a b)
 
 /-- **The product on pure local sections is the product in each factor.** -/
 theorem segreMulMor_app_pure (i j : ℤ) (U : Cᵒᵖ) (x : (A.piece i).val.obj U)
@@ -175,13 +183,17 @@ def segreOne : (segrePiece A B 0).sections :=
 
 /-- Inserting the unit on the left, as a morphism. -/
 def segreInsertOneLeft (i : ℤ) :
-    segrePiece A B i ⟶ (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj ((segrePiece A B 0))).obj ((segrePiece A B i))) :=
+    segrePiece A B i ⟶ (((Stacks.SheafOfModules.Tensor.sheafTensor
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj
+        ((segrePiece A B 0))).obj ((segrePiece A B i))) :=
   (tensorProductLeftUnitor O hO (segrePiece A B i)).inv ≫
     tensorMap O hO ((segrePiece A B 0).unitHomEquiv.symm (segreOne A B)) (𝟙 _)
 
 /-- Inserting the unit on the right, as a morphism. -/
 def segreInsertOneRight (i : ℤ) :
-    segrePiece A B i ⟶ (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj ((segrePiece A B i))).obj ((segrePiece A B 0))) :=
+    segrePiece A B i ⟶ (((Stacks.SheafOfModules.Tensor.sheafTensor
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj
+        ((segrePiece A B i))).obj ((segrePiece A B 0))) :=
   (tensorProductRightUnitor O hO (segrePiece A B i)).inv ≫
     tensorMap O hO (𝟙 _) ((segrePiece A B 0).unitHomEquiv.symm (segreOne A B))
 
@@ -309,9 +321,16 @@ def segre : _root_.SheafOfModules.GradedAlgebra.{w, w} (structureSheaf O hO) whe
   one := segreOne A B
   mul_assoc i j k U a b c := by
     have h := congrArg
-      (fun φ : (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj (((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj ((segrePiece A B i))).obj ((segrePiece A B j)))))).obj ((segrePiece A B k))) ⟶ segrePiece A B (i + j + k) =>
+      (fun φ : (((Stacks.SheafOfModules.Tensor.sheafTensor
+          ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj
+            (((((Stacks.SheafOfModules.Tensor.sheafTensor
+              ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj
+                ((segrePiece A B i))).obj ((segrePiece A B j)))))).obj ((segrePiece A B k))) ⟶
+            segrePiece A B (i + j + k) =>
         φ.val.app U (tensorSectionsAt O hO U
-          ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj ((segrePiece A B i))).obj ((segrePiece A B j)))) (segrePiece A B k)
+          ((((Stacks.SheafOfModules.Tensor.sheafTensor
+            ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj
+              ((segrePiece A B i))).obj ((segrePiece A B j)))) (segrePiece A B k)
           (tensorSectionsAt O hO U (segrePiece A B i) (segrePiece A B j) a b) c))
       (segreMulMor_assoc A B i j k)
     simp only [_root_.SheafOfModules.comp_val, PresheafOfModules.comp_app,
@@ -336,7 +355,9 @@ def segre : _root_.SheafOfModules.GradedAlgebra.{w, w} (structureSheaf O hO) whe
     exact (heq_of_eq h).trans (heq_segreReindex A B U _ a)
 
 @[simp] theorem segre_piece (n : ℤ) :
-    (segre A B).piece n = (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj ((A.piece n))).obj ((B.piece n))) := rfl
+    (segre A B).piece n = (((Stacks.SheafOfModules.Tensor.sheafTensor
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj
+        ((A.piece n))).obj ((B.piece n))) := rfl
 
 /-- **The product of the degreewise tensor product on pure local sections.** -/
 theorem segre_mul_tensorSectionsAt (i j : ℤ) (U : Cᵒᵖ) (x : (A.piece i).val.obj U)

@@ -36,7 +36,8 @@ propositions of Descent, Chapter 35 written out at every use:
 
 Five of the eleven, the cokernel-side ones in
 `StacksFrontier.AlgebraicGeometry.Spaces.CokernelAffineSurjectivity`, were **already** discharged
-unconditionally by `StacksFrontier.AlgebraicGeometry.Spaces.CokernelAffineSurjectivityFromCartesian`,
+unconditionally by
+`StacksFrontier.AlgebraicGeometry.Spaces.CokernelAffineSurjectivityFromCartesian`,
 which replaces the uniform hypothesis by
 `AlgebraicGeometry.Space.surjective_val_app_of_epi_of_cartesian` — available there because the
 source of each of those three epimorphisms is already cartesian.  That file records that the one

@@ -73,7 +73,7 @@ theorem isNaivelyRigFlat_comp {A B C : Type u} [CommRing A] [CommRing B] [CommRi
     IsNaivelyRigFlat (g.comp f) := by
   obtain ⟨hf_adic, hf_tft, hf_flat⟩ := hf
   obtain ⟨hg_adic, hg_tft, hg_flat⟩ := hg
-  refine ⟨_root_.RingHom.isAdic_comp f g hf_cont hg_cont hf_adic hg_adic,
+  refine ⟨_root_.RingHom.isAdic_comp f g hf_adic hg_adic,
     TopologicalRing.isTopologicallyOfFiniteType_comp g f hg_cont hg_tft hf_tft, ?_⟩
   intro a ha
   let Bₚ := Localization.Away (f a)
@@ -124,7 +124,7 @@ theorem adicCompletionCongrOfEq_comp_algebraMap
     (adicCompletionCongrOfEq h).toRingHom.comp (algebraMap R (AdicCompletion I R)) =
       algebraMap R (AdicCompletion J R) := by
   refine RingHom.ext fun x ↦ AdicCompletion.ext_evalₐ fun n ↦ ?_
-  show AdicCompletion.evalₐ J n (adicCompletionCongrOfEq h
+  change AdicCompletion.evalₐ J n (adicCompletionCongrOfEq h
     (algebraMap R (AdicCompletion I R) x)) = _
   rw [evalₐ_adicCompletionCongrOfEq]
   simp [AdicCompletion.algebraMap_apply]
@@ -191,7 +191,7 @@ theorem completedAwayMap_comp {A B C : Type u} [CommRing A] [CommRing B] [CommRi
   let : Algebra M T := ψ.toAlgebra
   let : Algebra L T := χ.toAlgebra
   have hlocal : ψ.comp φ = χ := localizationAwayMap_comp f g a
-  show AdicCompletion.evalₐ _ n (adicCompletionCongrOfEq
+  change AdicCompletion.evalₐ _ n (adicCompletionCongrOfEq
       (map_map_algebraMap_localizationAway_eq f g I a)
       ((RingHom.completedAwayMap g (I.map f) (f a))
         ((RingHom.completedAwayMap f I a) x))) = _

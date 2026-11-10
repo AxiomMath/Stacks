@@ -110,7 +110,7 @@ private lemma isLocallySurjective_structureSheafHom
     (hs : TopCat.Presheaf.IsLocallySurjective i.hom.c) :
     Presheaf.IsLocallySurjective (Opens.grothendieckTopology X.carrier)
       (structureSheafHom i).hom := by
-  show Presheaf.IsLocallySurjective _
+  change Presheaf.IsLocallySurjective _
     (whiskerRight i.hom.c (forget₂ CommRingCat RingCat))
   exact ⟨fun s => hs.imageSieve_mem s⟩
 
@@ -137,7 +137,7 @@ theorem modulePushforward_fullyFaithful
       (structureSheafRing Z).obj M.val N.val (e.symm g.val)
     refine ⟨⟨h₀⟩, ?_⟩
     apply SheafOfModules.hom_ext
-    show e ((PresheafOfModules.pushforward₀ (Opens.map i.hom.base)
+    change e ((PresheafOfModules.pushforward₀ (Opens.map i.hom.base)
       (structureSheafRing Z).obj).map h₀) = g.val
     rw [hh₀]
     exact e.apply_symm_apply g.val⟩

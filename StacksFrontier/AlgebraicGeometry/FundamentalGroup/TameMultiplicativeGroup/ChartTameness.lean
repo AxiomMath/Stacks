@@ -280,7 +280,7 @@ theorem isTamelyRamifiedInCodimensionOne_chartInfty_iff {C : Type u} [CommRing C
   · refine Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne.of_iso eU.symm
       (Iso.refl (Spec (CommRingCat.of C))) ?_ ?_ h
     · rw [Iso.symm_hom, chartInfty_eq]
-      show eU.inv ≫ eU.hom ≫ chartZero k = chartZero k
+      change eU.inv ≫ eU.hom ≫ chartZero k = chartZero k
       rw [Iso.inv_hom_id_assoc]
     · rw [Iso.refl_hom, Category.id_comp, hcomp, Category.assoc, Iso.symm_hom, Iso.hom_inv_id,
         Category.comp_id]

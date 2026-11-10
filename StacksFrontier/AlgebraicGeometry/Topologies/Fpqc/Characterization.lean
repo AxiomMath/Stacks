@@ -113,7 +113,7 @@ private lemma fpqc_mem_iff_flat_and_compactOpenCovered :
         ∀ U : T.Opens, IsAffineOpen U →
           IsCompactOpenCovered (fun i => (f i).base) (U : Set T)) := by
   rw [Scheme.fpqcPrecoverage]
-  show (Presieve.ofArrows X f ∈ Scheme.qcPrecoverage T ∧
+  change (Presieve.ofArrows X f ∈ Scheme.qcPrecoverage T ∧
       Presieve.ofArrows X f ∈ Scheme.precoverage @Flat T) ↔ _
   constructor
   · rintro ⟨hqc, hflat⟩
@@ -139,14 +139,14 @@ private lemma fpqc_mem_iff_flat_and_compactOpenCovered :
       (fun j => g j) (fun j => by fun_prop)
       (fun j => by
         funext x
-        show (E.f j) x = (f (a j)) ((g j) x)
+        change (E.f j) x = (f (a j)) ((g j) x)
         exact congrArg (fun q : E.X j ⟶ T => q x) (hg j))
       (fun i => (f i).continuous) U.2 hEcov
   · rintro ⟨hflat, hcov⟩
     let E : PreZeroHypercover.{v} T := ⟨I, X, f⟩
     have hE : QuasiCompactCover E := ⟨fun {U} hU ↦ by simpa [E] using hcov U hU⟩
     have hqc : Presieve.ofArrows X f ∈ Scheme.qcPrecoverage T := by
-      show E.presieve₀ ∈ Scheme.qcPrecoverage T
+      change E.presieve₀ ∈ Scheme.qcPrecoverage T
       rw [Scheme.presieve₀_mem_qcPrecoverage_iff]
       exact hE
     have hsurj : ∀ x : T, ∃ i, x ∈ Set.range (f i) := by
@@ -272,11 +272,11 @@ public lemma mem_fpqcPrecoverage_iff_exists_affine_open_cover :
       let V' (j : Fin (n a)) : (X (i a j)).Opens :=
         V a j ⊓ (f (i a j)) ⁻¹ᵁ W'
       have hV'compact (j : Fin (n a)) : IsCompact (V' j : Set (X (i a j))) := by
-        show IsCompact ((V a j : Set (X (i a j))) ∩
+        change IsCompact ((V a j : Set (X (i a j))) ∩
           (f (i a j)) ⁻¹' (W' : Set T))
         exact compact_inter_preimage_of_affine (f (i a j)) (U a) (V a j) W'
           (hUa a) (hV a j) (by
-            show (V a j : Set (X (i a j))) ⊆ (f (i a j)) ⁻¹' (U a : Set T)
+            change (V a j : Set (X (i a j))) ⊆ (f (i a j)) ⁻¹' (U a : Set T)
             intro x hx
             have himg : (f (i a j)) '' (V a j : Set (X (i a j))) ⊆ (U a : Set T) := by
               rw [← hUa_eq a]
@@ -331,7 +331,7 @@ public lemma mem_fpqcPrecoverage_iff_pointwise_compact_open_neighborhood
               (show x ∈ O' ⊓ U from ⟨hxO, hxU⟩)
           let V' (j : Fin n) : (X (i j)).Opens := V j ⊓ (f (i j)) ⁻¹ᵁ W
           have hV' (j : Fin n) : IsCompact (V' j : Set (X (i j))) := by
-            show IsCompact ((V j : Set (X (i j))) ∩
+            change IsCompact ((V j : Set (X (i j))) ∩
               (f (i j)) ⁻¹' (W : Set T))
             exact compact_inter_preimage_of_quasiSeparated (f (i j)) (V j) (hV j) W hW.isCompact
           have hEq : ⋃ j, f (i j) '' (V' j : Set (X (i j))) = (W : Set T) := by
@@ -390,20 +390,20 @@ public lemma presieve₀_mem_fpqcPrecoverage_of_affine_refinements
       · rintro ⟨y, rfl⟩
         obtain ⟨z, hz⟩ := V.covers y
         refine ⟨V.idx y, z, ?_⟩
-        show W.ι.base ((V.f (V.idx y)).base z) = W.ι.base y
+        change W.ι.base ((V.f (V.idx y)).base z) = W.ι.base y
         exact congrArg W.ι.base hz
     let : Finite F.I₀ := hVfin
     have hcovered : IsCompactOpenCovered refined (Set.range W.ι.base) :=
       IsCompactOpenCovered.of_finite (fun j : F.I₀ ↦ j)
         (fun _ ↦ ⟨Set.univ, isOpen_univ⟩) (fun j ↦ by
-          show IsCompact (Set.univ : Set (Spec (V.X j)))
+          change IsCompact (Set.univ : Set (Spec (V.X j)))
           exact isCompact_univ) hcover
     simpa [Scheme.Opens.range_ι] using
       (IsCompactOpenCovered.of_comp (f := family) (U := Set.range W.ι.base)
         (g := refined) (a := a) (t := fun j ↦ (t j).base)
         (fun j ↦ (t j).continuous) hfactor_base (fun i ↦ (U.f i).continuous)
         (IsOpenImmersion.isOpen_range W.ι) hcovered)
-  show U.presieve₀ ∈ Scheme.qcPrecoverage T ∧
+  change U.presieve₀ ∈ Scheme.qcPrecoverage T ∧
     U.presieve₀ ∈ Scheme.precoverage (@Flat.{u} : MorphismProperty Scheme.{u}) T
   constructor
   · simpa only [Scheme.presieve₀_mem_qcPrecoverage_iff] using hqc

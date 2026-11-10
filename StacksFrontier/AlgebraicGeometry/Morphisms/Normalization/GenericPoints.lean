@@ -86,7 +86,7 @@ the corresponding residue-field morphism. -/
 theorem genericPointResidueSpectrum_ι_fromGenericPointResidueFields (X : Scheme.{u})
     (η : genericPoints X) :
     Sigma.ι (fun η : genericPoints X ↦ Spec (.of (X.residueField η.1))) η ≫
-      fromGenericPointResidueFields X = X.fromSpecResidueField η.1 := Sigma.ι_desc _ _
+      fromGenericPointResidueFields X = X.fromSpecResidueField η.1 := Sigma.ι_comp_desc _ _
 
 /-- A morphism out of the coproduct of the generic-point residue spectra is the canonical one
 exactly when its restriction to every summand is the corresponding residue-field morphism. -/

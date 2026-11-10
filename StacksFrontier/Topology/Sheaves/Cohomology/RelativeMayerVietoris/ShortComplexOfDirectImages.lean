@@ -281,7 +281,7 @@ lemma immCounitCondition :
       (structureSheafHom i).hom ≫
         (opensMap i).op.whiskerLeft (immStructureSheafHom i).hom := by
   refine NatTrans.ext (funext fun V => ?_)
-  show (forget₂ CommRingCat.{u} RingCat.{u}).map
+  change (forget₂ CommRingCat.{u} RingCat.{u}).map
       (X.presheaf.map ((immOpensAdjunction i).counit.app V.unop).op) = _
   rw [show ((immOpensAdjunction i).counit.app V.unop).op =
     (homOfLE (Set.image_preimage_subset i.hom.base V.unop.1)).op from
@@ -297,7 +297,7 @@ lemma immUnitCondition :
       Functor.whiskerRight (NatTrans.op (immOpensAdjunction i).unit) (structureSheafRing Z).obj =
         𝟙 (structureSheafRing Z).obj := by
   refine NatTrans.ext (funext fun W => ?_)
-  show (forget₂ CommRingCat.{u} RingCat.{u}).map
+  change (forget₂ CommRingCat.{u} RingCat.{u}).map
         (SheafedSpace.IsOpenImmersion.invApp i W.unop) ≫
       (forget₂ CommRingCat.{u} RingCat.{u}).map
         (i.hom.c.app (op ((immOpensFunctor i).obj W.unop))) ≫

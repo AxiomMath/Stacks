@@ -137,7 +137,7 @@ theorem mem_zeroSubfunctor_baseChangeTarget_iff (D : ModuleMapSituation.{u, u} B
   have hhom : ((D.baseChangeTarget b).zeroTest a x).hom ≫ b =
       (D.zeroTest a (b.hom.app (op a) x)).hom := by
     apply ObjectProperty.hom_ext
-    show yonedaEquiv.symm x ≫ b.hom = yonedaEquiv.symm (b.hom.app (op a) x)
+    change yonedaEquiv.symm x ≫ b.hom = yonedaEquiv.symm (b.hom.app (op a) x)
     apply yonedaEquiv.injective
     simp [yonedaEquiv_comp]
   have hobj : (D.overTarget b).obj ((D.baseChangeTarget b).zeroTest a x) =
@@ -160,6 +160,7 @@ theorem zeroSubfunctor_baseChangeTarget (D : ModuleMapSituation.{u, u} B S hS)
 /-! ### The descent step -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 private instance hasPullbacks_presheaf_zeroLocusClosedEtaleLocalDescent :

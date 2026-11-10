@@ -108,7 +108,7 @@ theorem openSubSchemeHomOfRestrict_comp_left {A A' : BigFppfOver B S hS} (σ : A
   apply B.inclusion.map_injective
   rw [B.inclusion.map_comp, B.inclusion.map_comp,
     inclusion_map_openSubSchemeHomOfRestrict]
-  show _ ≫ (BigFppfOver.toScheme B S hS).map (openSubHom A O) =
+  change _ ≫ (BigFppfOver.toScheme B S hS).map (openSubHom A O) =
     (BigFppfOver.toScheme B S hS).map
         (openSubHom A' ((BigFppfOver.toScheme B S hS).map σ ⁻¹ᵁ O)) ≫
       (BigFppfOver.toScheme B S hS).map σ
@@ -173,7 +173,7 @@ theorem openChartRestrict_naturality {U V : SmallEtale B S hS F} (g : V ⟶ U)
   apply CostructuredArrow.hom_ext
   apply Over.OverMorphism.ext
   apply B.inclusion.map_injective
-  show (chartScheme V).homOfLE ((Opens.map (chartSchemeMap g).base).map i).le ≫
+  change (chartScheme V).homOfLE ((Opens.map (chartSchemeMap g).base).map i).le ≫
       (chartSchemeMap g ∣_ O') =
     (chartSchemeMap g ∣_ O) ≫ (chartScheme U).homOfLE i.le
   rw [← cancel_mono O'.ι, Category.assoc, Category.assoc, morphismRestrict_ι,

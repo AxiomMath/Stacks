@@ -245,8 +245,6 @@ invertibility at the structure sheaf in each degree, uniformly in the degree, an
 K-flat complex with flat terms, so the comparison of [Stacks, Tag 079U] at it is computed
 degreewise and no derived-category shift compatibility is involved. -/
 theorem isIso_projectionFormulaMap_of_isStrictlyPerfect_of_singleUnit
-    (hunit : ∀ i : ℤ, IsIso (projectionFormulaMap f E
-      ((DerivedCategory.singleFunctor (OXMod.{u, u} Y) i).obj (structureModule Y))))
     (P : CochainComplex (OXMod.{u, u} Y) ℤ) (hP : IsStrictlyPerfect P) :
     IsIso (projectionFormulaMap f E (DerivedCategory.Q.obj P)) :=
   isIso_projectionFormulaMap_of_isStrictlyPerfect f E P hP

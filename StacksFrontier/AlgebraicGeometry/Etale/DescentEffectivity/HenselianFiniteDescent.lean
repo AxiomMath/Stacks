@@ -55,8 +55,8 @@ theorem eq_of_pullbackFst_comp_eq {A : Type u} [CommRing A] {I : Ideal A}
   set k := pullback.fst m (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I)))
   have hfac : k ≫ pullback.lift g₁ g₂ hw = (k ≫ g₁) ≫ pullback.diagonal t := by
     apply pullback.hom_ext
-    · simp [pullback.lift_fst]
-    · simp [pullback.lift_snd, h]
+    · simp
+    · simp [h]
   have hopen : IsOpen ((pullback.lift g₁ g₂ hw).base ⁻¹'
       Set.range (pullback.diagonal t).base) :=
     (IsOpenImmersion.isOpen_range (pullback.diagonal t)).preimage

@@ -112,11 +112,11 @@ lemma isZero_singleNatTensor_X
     (a b n : ℕ) (hn : n ≠ a + b) :
     IsZero
       ((((tensorBifunctorNat (A := X.sheaf)).obj (singleNat F a)).obj (singleNat G b)).X n) := by
-  show IsZero ((HomologicalComplex.mapBifunctor (singleNat F a) (singleNat G b)
+  change IsZero ((HomologicalComplex.mapBifunctor (singleNat F a) (singleNat G b)
     (sheafTensor.{u, u, u, u, u} X.sheaf) (ComplexShape.up ℕ)).X n)
   refine HomologicalComplex₂.isZero_total_X_of_isZero _ _ n fun a' b' hab => ?_
   have hab' : a' + b' = n := hab
-  show IsZero (((sheafTensor.{u, u, u, u, u} X.sheaf).obj ((singleNat F a).X a')).obj
+  change IsZero (((sheafTensor.{u, u, u, u, u} X.sheaf).obj ((singleNat F a).X a')).obj
     ((singleNat G b).X b'))
   by_cases ha : a' = a
   · exact AlgebraicGeometry.SheafOfModules.isZero_tensorFunctor_obj_obj_of_right _
@@ -209,7 +209,7 @@ instance isIso_derivedGlobalSectionsForget (X : RingedSpace.{u, u}) :
     (exists_isKInjective_quasiIso_moduleSheaves X) _ fun I hI => ?_
   have h1 : IsIso ((derivedGlobalSectionsUnit X).app
       ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj I)) := by
-    haveI := hI
+    have := hI
     exact Stacks.DerivedFunctor.isIso_totalRightDerivedUnit_app_of_isKInjective _ I
   have h2 := isIso_forgetUnit_app X I hI
   rw [← derivedGlobalSectionsForget_fac_app] at h2

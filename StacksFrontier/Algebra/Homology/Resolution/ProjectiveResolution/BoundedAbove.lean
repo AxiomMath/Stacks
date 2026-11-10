@@ -15,9 +15,9 @@ public import Mathlib.CategoryTheory.ExtremalEpi
 public import Mathlib.CategoryTheory.Limits.FunctorCategory.EpiMono
 import Mathlib.CategoryTheory.Monoidal.Mon
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
-public import Mathlib.Data.Int.Star
-public import Mathlib.Data.Int.SuccPred
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
+public import Mathlib.Algebra.Order.Star.Int
+public import Mathlib.Order.SuccPred.Int
 import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.ReduceModChar
 public import Mathlib.Tactic.Ring.Basic
@@ -176,7 +176,7 @@ theorem epiResData_to_resolution [EnoughProjectives C] (a : ℤ)
     have hcm : eZ.hom ≫ HomologicalComplex.cyclesMap α (m + 1) = D.αZ (m + 1) := by
       rw [← cancel_mono (K.iCycles (m + 1)), Category.assoc, HomologicalComplex.cyclesMap_i,
         ← Category.assoc]
-      show (fwd ≫ P.iCycles (m + 1)) ≫ α.f (m + 1) = _
+      change (fwd ≫ P.iCycles (m + 1)) ≫ α.f (m + 1) = _
       rw [hfwd_i, hαfn, D.hαZ (m + 1)]
     -- `Epi (cyclesMap α (m+1))` from `D.epiαZ`.
     have hepiCM : Epi (HomologicalComplex.cyclesMap α (m + 1)) :=
@@ -232,7 +232,7 @@ theorem epiResData_to_resolution [EnoughProjectives C] (a : ℤ)
       -- Key: `D.dbarP m ≫ eZ.hom = P.toCycles m (m+1)`, hence `w` is a coboundary.
       have hdbar_toCycles : D.dbarP m ≫ eZ.hom = P.toCycles m (m + 1) := by
         rw [← cancel_mono (P.iCycles (m + 1)), Category.assoc]
-        show D.dbarP m ≫ fwd ≫ P.iCycles (m + 1) = _
+        change D.dbarP m ≫ fwd ≫ P.iCycles (m + 1) = _
         rw [hfwd_i, HomologicalComplex.toCycles_i, hPd m]
         exact (D.hdbarP m)
       -- Conclude `η = 0`: `pseudoApply (P.homologyπ (m+1)) w = 0`.
@@ -251,7 +251,7 @@ theorem epiResData_to_resolution [EnoughProjectives C] (a : ℤ)
         _ = 0 := by rw [hzero, Pseudoelement.zero_apply]
     exact isIso_of_mono_of_epi _
   · intro n
-    show Epi (D.α n)
+    change Epi (D.α n)
     exact D.epiα n
 
 /-- **Statement 3, packaged** (the core descending-induction construction).

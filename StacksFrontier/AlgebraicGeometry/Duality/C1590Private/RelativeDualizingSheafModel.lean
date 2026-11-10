@@ -129,7 +129,7 @@ theorem isGorensteinAt_of_isPullback {X X₀ S S₀ : Scheme.{u}} {g : X ⟶ X�
     (e.hom x)).mp h₁
   have hg : (pullback.fst f₀ π) (e.hom x) = g x := by
     rw [← Scheme.Hom.comp_apply, sq.isoPullback_hom_fst]
-  simpa only [Set.mem_preimage, Set.mem_setOf_eq, hg] using h₂
+  simpa only [Set.mem_preimage, Set.mem_ofPred_eq, hg] using h₂
 
 /-- If `f` has fibres of dimension one, so does any morphism `f₀` it is a base change of. -/
 private theorem topologicalKrullDimAt_fiber_eq_one_of_isPullback {X X₀ S S₀ : Scheme.{u}}
@@ -185,7 +185,7 @@ theorem exists_gorensteinNoetherianModel {X S : Scheme.{u}} [IsAffine S] (f : X 
   have hgU : Set.range g₁.base ⊆ Set.range (f₁ ⁻¹ᵁ U₀).ι.base := by
     rintro _ ⟨x, rfl⟩
     rw [Scheme.Opens.range_ι]
-    show f₁ (g₁ x) ∈ U₀
+    change f₁ (g₁ x) ∈ U₀
     rw [← Scheme.Hom.comp_apply, sq₁.w, Scheme.Hom.comp_apply]
     exact hπ ⟨_, rfl⟩
   let g : X ⟶ X₀ := IsOpenImmersion.lift (f₁ ⁻¹ᵁ U₀).ι g₁ hgU

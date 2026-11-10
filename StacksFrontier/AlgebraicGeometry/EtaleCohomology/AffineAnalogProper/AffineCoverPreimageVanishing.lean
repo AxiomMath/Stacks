@@ -42,6 +42,7 @@ namespace Stacks.EtaleCohomology.MayerVietoris
 variable {X Z : Scheme.{u}} [IsAffineHom (pullback.diagonal (terminal.from X))] (i : Z ⟶ X)
   (F : Sheaf (topology Z) AddCommGrpCat.{u + 1})
 
+omit [IsAffineHom (pullback.diagonal (terminal.from X))] in
 /-- A union of `n + 2` opens splits off its last member. -/
 theorem iSup_fin_succ_eq_sup {n : ℕ} (U : Fin (n + 2) → X.Opens) :
     ⨆ k, U k = (⨆ k : Fin (n + 1), U k.castSucc) ⊔ U (Fin.last _) := by

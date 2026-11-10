@@ -188,7 +188,7 @@ private lemma cycles_chase {R : Type u} [Ring R] {A B C : CochainComplex (Module
     ξ.hom ((C.iCycles n).hom
         ((HomologicalComplex.cyclesMap φ n ≫ HomologicalComplex.cyclesMap χ n).hom a)) =
       (φ.f n ≫ χ.f n ≫ ξ).hom ((A.iCycles n).hom a) := by
-  show ((HomologicalComplex.cyclesMap φ n ≫ HomologicalComplex.cyclesMap χ n) ≫
+  change ((HomologicalComplex.cyclesMap φ n ≫ HomologicalComplex.cyclesMap χ n) ≫
     C.iCycles n ≫ ξ).hom a = (A.iCycles n ≫ φ.f n ≫ χ.f n ≫ ξ).hom a
   simp only [Category.assoc, HomologicalComplex.cyclesMap_i_assoc]
 
@@ -549,7 +549,7 @@ theorem secF_map_unitToPushforward_apply :
         (pushforwardSectionsIso f).hom.app (SheafOfModules.unit (structureSheafRing X))).hom
       ((unitSection (X := Y)).eval (op ⊤)) = (unitSection (X := X)).eval (op ⊤) := by
   rw [unitToPushforward_eq]
-  show (structureSheafHom f).hom.app (op ⊤) 1 = 1
+  change (structureSheafHom f).hom.app (op ⊤) 1 = 1
   exact map_one _
 
 /-- **The pullback of the class of `1` is the class of `1`**, whatever the placement degree. -/

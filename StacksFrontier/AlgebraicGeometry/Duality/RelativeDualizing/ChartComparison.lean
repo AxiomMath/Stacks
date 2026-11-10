@@ -231,7 +231,7 @@ public theorem adaptedComparison_trans (U₁ : X.affineOpens) (V₁ : Y.affineOp
   let : Algebra Γ(X, k.base.1) Γ(Y, k.source.1) :=
     (f.appLE k.base k.source k.source_le).hom.toAlgebra
   intro F₁ F₂ F₃ s
-  show (chartDualizingEquiv f U₃ V₃ hVU₃ k hk₃ F₃).symm
+  change (chartDualizingEquiv f U₃ V₃ hVU₃ k hk₃ F₃).symm
       ((chartDualizingEquiv f U₂ V₂ hVU₂ k hk₂ F₂)
         ((chartDualizingEquiv f U₂ V₂ hVU₂ k hk₂ F₂).symm
           ((chartDualizingEquiv f U₁ V₁ hVU₁ k hk₁ F₁) s))) =

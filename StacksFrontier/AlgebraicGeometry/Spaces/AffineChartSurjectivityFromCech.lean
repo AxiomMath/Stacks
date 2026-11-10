@@ -96,7 +96,8 @@ affine chart `W` is
 `StacksFrontier/AlgebraicGeometry/Spaces/ChartCechVanishing.lean`.  It needs neither
 `AlgebraicGeometry.Space.chartSchemeEquivalence` nor
 `Stacks.SheafOfModules.isQuasicoherentOnSite_reindex_iff` nor the private family-moving helpers
-of `StacksFrontier/AlgebraicGeometry/Adequate/AdequateModules/AffineCohomologyVanishing.lean`: the comparison is a change of *slice depth*, the Čech
+of `StacksFrontier/AlgebraicGeometry/Adequate/AdequateModules/AffineCohomologyVanishing.lean`: the
+comparison is a change of *slice depth*, the Čech
 complex of a family with target `W` being built from products in `Over W` while the Čech complex
 of a family with target an object of `Over (chartScheme W)` is built one slice deeper.  So the
 family is read in `Over W` with target the terminal object and
@@ -172,9 +173,9 @@ Amitsur route named at the top of this note, so nothing depends on `hEss`.
 The Čech cohomology this file names is
 `Stacks.CechSite.cechCohomology` of
 `StacksFrontier/CategoryTheory/Sites/Cohomology/Cech/ComplexOfAFamily.lean`, the same construction
-the 03FJ declarations use — `StacksFrontier/AlgebraicGeometry/Topologies/CechAmitsurSmallSites.lean` and
-`StacksFrontier/AlgebraicGeometry/Topologies/CechVanishingStandardCovering.lean` both `open Stacks.CechSite` — so no comparison of two Čech
-constructions is owed.
+the 03FJ declarations use — `StacksFrontier/AlgebraicGeometry/Topologies/CechAmitsurSmallSites.lean`
+and `StacksFrontier/AlgebraicGeometry/Topologies/CechVanishingStandardCovering.lean` both
+`open Stacks.CechSite` — so no comparison of two Čech constructions is owed.
 
 **Affineness of the chart is in `hCech` deliberately.**  The same hypothesis quantified over
 *every* chart `W` would be stronger than anything needed below and almost certainly false: for a
@@ -292,7 +293,7 @@ theorem SmallEtale.exists_finite_affine_preZeroHypercover_univ (W : SmallEtale B
   have _ : Finite ι := hι
   have hsieve : (PreZeroHypercover.mk (ULift.{u} ι) (fun i => V i.down)
         (fun i => f i.down) : PreZeroHypercover.{u} W).sieve₀ = Sieve.ofArrows V f := by
-    show Sieve.generate _ = Sieve.generate _
+    change Sieve.generate _ = Sieve.generate _
     rw [ofArrows_ulift]
   exact ⟨⟨ULift.{u} ι, fun i => V i.down, fun i => f i.down⟩,
     ⟨inferInstance, fun i => haff i.down, hsieve ▸ hmem⟩, hsieve ▸ hle⟩

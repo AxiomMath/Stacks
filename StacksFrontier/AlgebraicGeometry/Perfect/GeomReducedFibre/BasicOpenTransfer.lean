@@ -41,7 +41,7 @@ theorem topIso_globalRingHom_restrict_isoSpec_apply {X S : Scheme.{u}} (f : X �
   have h2 (x) : ((f ∣_ W).app ⊤).hom x = (X.presheaf.map
       (eqToHom (image_morphismRestrict_preimage f W ⊤)).op).hom ((f.app (W.ι ''ᵁ ⊤)).hom x) :=
     congrArg (fun φ => φ.hom x) (morphismRestrict_appTop f W)
-  show (f ⁻¹ᵁ W).topIso.hom.hom (((f ∣_ W).app ⊤).hom ((hW.isoSpec.hom.app ⊤).hom
+  change (f ⁻¹ᵁ W).topIso.hom.hom (((f ∣_ W).app ⊤).hom ((hW.isoSpec.hom.app ⊤).hom
     ((Scheme.ΓSpecIso Γ(S, W)).inv.hom r))) = _
   rw [h1, h2, Iso.inv_hom_id_apply]
   exact presheafMap_eqToHom_app_eqToHom_apply f (by simp) (by simp) (by simp) r
@@ -62,7 +62,7 @@ theorem of_algebraMap_localizationAway_tensor (hP : RingHom.RespectsIso @P) {R A
   let M := Algebra.algebraMapSubmonoid A (Submonoid.powers h)
   let T := Localization.tensorRightAlgEquiv (Submonoid.powers h) A
   have hM : M.map ι.toMonoidHom = Submonoid.powers a' := by
-    show (Submonoid.map (algebraMap R A) (Submonoid.powers h)).map ι.toMonoidHom = _
+    change (Submonoid.map (algebraMap R A) (Submonoid.powers h)).map ι.toMonoidHom = _
     rw [← ha', Submonoid.map_powers, Submonoid.map_powers]
     rfl
   let e₂ : Localization M ≃+* C := IsLocalization.ringEquivOfRingEquiv (Localization M) C ι hM
@@ -72,7 +72,7 @@ theorem of_algebraMap_localizationAway_tensor (hP : RingHom.RespectsIso @P) {R A
     rw [hχ]
     ext r
     simp only [RingHom.comp_apply, RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom, e,
-      RingEquiv.trans_apply, AlgEquiv.coe_ringEquiv, T]
+      RingEquiv.trans_apply, AlgEquiv.coe_toRingEquiv, T]
     rw [AlgEquiv.commutes, ← IsScalarTower.algebraMap_apply R (Localization.Away h),
       IsScalarTower.algebraMap_apply R A (Localization M), IsLocalization.ringEquivOfRingEquiv_eq]
     rfl

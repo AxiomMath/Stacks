@@ -443,7 +443,7 @@ public theorem exists_isAdelicChar_ne_one [HasEnoughRootsOfUnity Λ (ringChar k)
       linarith
     exact_mod_cast this
   have hne : H ≠ ⊤ := fun h => by simp [h] at hidx
-  obtain ⟨a, -, ha⟩ := SetLike.exists_of_lt hne.lt_top
+  obtain ⟨a, -, ha⟩ := IsConcreteLE.exists_of_lt hne.lt_top
   obtain ⟨φ, hφ, ha'⟩ := exists_charOfHom_apply_ne_one k (Λ := Λ) ha
   exact ⟨charOfHom _ φ, hφ, fun h => ha' (by rw [h, AddChar.one_apply])⟩
 

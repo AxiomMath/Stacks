@@ -159,7 +159,7 @@ public theorem bijective_completion_map_pushforward (I : X.IdealSheafData)
           (pushforwardCompletionIso i I G).inv ≫ γ ≫
             (pushforwardCompletionIso i I G').hom := hα
       refine ⟨α, ?_⟩
-      show (pushforwardCompletionIso i I G).hom ≫
+      change (pushforwardCompletionIso i I G).hom ≫
         Functor.whiskerRight α (Scheme.Modules.pushforward i) ≫
           (pushforwardCompletionIso i I G').inv = γ
       rw [hα']

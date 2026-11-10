@@ -164,8 +164,7 @@ theorem exists_glued_invertible_section [AlgebraicGeometry.IsReduced X] [X.IsSep
     fun C D hCD z hz => hEs C (mem_componentOverlap_of_mem_range X hCD z hz)
   obtain ⟨M, hM, t, he⟩ :=
     StacksTag09NE.exists_invertible_with_sections_of_closed_cover_discrete_intersections
-      X (componentScheme X) (componentι X) (exists_componentι_eq X)
-      (discreteTopology_range_inter_componentι X hdim) L s hs
+      X (componentScheme X) (componentι X) (exists_componentι_eq X) L s hs
   exact ⟨M, hM, t, L, hL, s, haff, hample, hEs, he⟩
 
 end Stacks.AmpleReducedDimensionOne

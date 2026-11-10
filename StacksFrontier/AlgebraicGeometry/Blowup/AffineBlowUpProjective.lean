@@ -44,7 +44,7 @@ theorem polynomialComparison_inv_over (n : ℕ) :
       projSpaceToSpec R (n + 1) := by
   have h := (Stacks.AlgebraicGeometry.ProjBaseChange.polynomialComparison R n).toBase
   rw [← Iso.eq_inv_comp] at h
-  show _ ≫ Limits.pullback.fst _ _ = _
+  change _ ≫ Limits.pullback.fst _ _ = _
   rw [← h, projSpaceToSpec]
   congr 2
   ext r m
@@ -52,7 +52,7 @@ theorem polynomialComparison_inv_over (n : ℕ) :
       Stacks.AlgebraicGeometry.ProjPolyChart.polyGrading R n 0 :=
     MvPolynomial.isHomogeneous_C _ r
   refine congrArg (fun p : MvPolynomial (Fin (n + 1)) R => p.coeff m) ?_
-  show ((GradedRing.projZeroRingHom (Stacks.AlgebraicGeometry.ProjPolyChart.polyGrading R n)
+  change ((GradedRing.projZeroRingHom (Stacks.AlgebraicGeometry.ProjPolyChart.polyGrading R n)
       (MvPolynomial.C r) : MvPolynomial (Fin (n + 1)) R)) =
     ((algebraMap R (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) R 0) r :
       MvPolynomial.homogeneousSubmodule (Fin (n + 1)) R 0) : MvPolynomial (Fin (n + 1)) R)

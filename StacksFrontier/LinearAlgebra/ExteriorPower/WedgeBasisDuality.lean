@@ -72,10 +72,10 @@ theorem wedgeBasisMap_basis (v : Module.Basis ι R M) {a b : ℕ} (t : powersetC
   apply Subtype.ext
   rw [wedgeMul_apply_coe, exteriorPower.basis_apply, exteriorPower.basis_apply]
   by_cases h : Disjoint t.val s.val
-  · rw [dif_pos h, Submodule.coe_smul_of_tower, exteriorPower.basis_apply]
+  · rw [dite_eq_left h, Submodule.coe_smul_of_tower, exteriorPower.basis_apply]
     simp only [exteriorPower.ιMulti_family_apply_coe]
     exact ExteriorAlgebra.ιMulti_family_mul_of_disjoint R _ t s h
-  · rw [dif_neg h]
+  · rw [dite_eq_right h]
     simp only [exteriorPower.ιMulti_family_apply_coe, Submodule.coe_zero]
     exact ExteriorAlgebra.ιMulti_family_mul_of_not_disjoint R _ t s h
 
@@ -118,12 +118,12 @@ theorem wedgeBasisMap_bijective (v : Module.Basis ι R M) {a b : ℕ}
     rw [he, Pi.basis_apply]
     by_cases hs : s = (compl hab).symm t
     · subst hs
-      rw [dif_pos (hd t), Pi.single_eq_same, Subsingleton.elim (disjUnion (hd t)) default,
+      rw [dite_eq_left (hd t), Pi.single_eq_same, Subsingleton.elim (disjUnion (hd t)) default,
         Units.smul_def, Units.smul_def]
       simp [w, Int.cast_smul_eq_zsmul]
     · have hnd : ¬Disjoint t.val s.val := fun h =>
         hs (by rw [(disjoint_iff_eq_compl hab (s := t) (t := s)).1 h, Equiv.symm_apply_apply])
-      rw [dif_neg hnd, Pi.single_eq_of_ne hs, smul_zero]
+      rw [dite_eq_right hnd, Pi.single_eq_of_ne hs, smul_zero]
   rw [key]
   exact LinearEquiv.bijective _
 

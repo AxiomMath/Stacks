@@ -67,7 +67,7 @@ theorem isLocallyFreeEtaleModule_tensor {X : Scheme.{u}} {A B : EtaleModules.{u,
     rw [Scheme.ofArrows_mem_smallEtaleTopology_iff] at hi
     obtain ⟨j, w, hw⟩ := Set.mem_iUnion.1 (hi ▸ Set.mem_univ v)
     refine Set.mem_iUnion.2 ⟨⟨i, j⟩, w, ?_⟩
-    show ((g i j).left ≫ (f i).left) w = x
+    change ((g i j).left ≫ (f i).left) w = x
     rw [Scheme.Hom.comp_apply, hw, hv]
   · obtain ⟨i, j⟩ := p
     obtain ⟨E, ⟨hEf, hEn⟩, ⟨eA⟩⟩ := htriv i

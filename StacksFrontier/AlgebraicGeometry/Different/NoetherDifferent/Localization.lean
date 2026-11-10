@@ -142,12 +142,12 @@ private theorem ringHom_ext_of_isEpi
   ext s
   calc
     p s = f (s ⊗ₜ[R] 1) := by
-      show p s = pa s * qa 1
+      change p s = pa s * qa 1
       simp [pa, qa]
     _ = f (1 ⊗ₜ[R] s) :=
       congrArg f ((Algebra.isEpi_iff_forall_one_tmul_eq R S).mp inferInstance s).symm
     _ = q s := by
-      show pa 1 * qa s = q s
+      change pa 1 * qa s = q s
       simp [pa, qa]
 
 private theorem mul_diagonal_tensor_map (x : B' ⊗[A] B') :
@@ -156,8 +156,7 @@ private theorem mul_diagonal_tensor_map (x : B' ⊗[A] B') :
           (IsScalarTower.toAlgHom A B' B) (IsScalarTower.toAlgHom A B' B) x) =
       algebraMap B' B ((Algebra.TensorProduct.lmul' A :
         B' ⊗[A] B' →ₐ[A] B') x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul x y => simp [Algebra.TensorProduct.lmul'_apply_tmul]
   | add x y hx hy => simp [hx, hy]
 
@@ -169,10 +168,10 @@ private theorem diagonalIdeal_map_eq [Algebra.IsEpi B' B] :
     Algebra.TensorProduct.map
       (IsScalarTower.toAlgHom A B' B) (IsScalarTower.toAlgHom A B' B)
   let K : Ideal (B ⊗[A] B) := Ideal.map g (KaehlerDifferential.ideal A B')
-  show K = KaehlerDifferential.ideal A B
+  change K = KaehlerDifferential.ideal A B
   apply le_antisymm
   · refine Ideal.map_le_iff_le_comap.mpr fun x hx => ?_
-    show (Algebra.TensorProduct.lmul' A : B ⊗[A] B →ₐ[A] B) (g x) = 0
+    change (Algebra.TensorProduct.lmul' A : B ⊗[A] B →ₐ[A] B) (g x) = 0
     rw [mul_diagonal_tensor_map A B' B x]
     exact map_zero (algebraMap B' B) ▸ congrArg (algebraMap B' B)
       (RingHom.mem_ker.mp hx)
@@ -206,7 +205,7 @@ private theorem diagonalAnnihilator_map_eq
     RingHom.flat_algebraMap_iff.mp (flat_tensorSquare A B' B)
   have : Module.Finite (B' ⊗[A] B')
       ↥(KaehlerDifferential.ideal A B') := finite_diagonalIdeal A B'
-  show Ideal.map g (KaehlerDifferential.ideal A B').annihilator =
+  change Ideal.map g (KaehlerDifferential.ideal A B').annihilator =
     (KaehlerDifferential.ideal A B).annihilator
   rw [← diagonalIdeal_map_eq A B' B]
   exact annihilator_map_eq_of_flat (S := B ⊗[A] B)
@@ -218,7 +217,7 @@ private theorem mul_eq_lmul'_tmul_one_mul {R S : Type*} [CommRing R] [CommRing S
     r * j = ((Algebra.TensorProduct.lmul' R : S ⊗[R] S →ₐ[R] S) r ⊗ₜ[R] (1 : S)) * j := by
   have hr : r - (Algebra.TensorProduct.lmul' R : S ⊗[R] S →ₐ[R] S) r ⊗ₜ[R] (1 : S) ∈
       KaehlerDifferential.ideal R S := by
-    show (Algebra.TensorProduct.lmul' R : S ⊗[R] S →ₐ[R] S)
+    change (Algebra.TensorProduct.lmul' R : S ⊗[R] S →ₐ[R] S)
       (r - (Algebra.TensorProduct.lmul' R : S ⊗[R] S →ₐ[R] S) r ⊗ₜ[R] (1 : S)) = 0
     simp [Algebra.TensorProduct.lmul'_apply_tmul]
   linear_combination (Submodule.mem_annihilator.mp hj) _ hr
@@ -229,7 +228,7 @@ private theorem diagonalAnnihilator_smul
     r • j = (Algebra.TensorProduct.lmul' A :
       B' ⊗[A] B' →ₐ[A] B') r • j := by
   apply Subtype.ext
-  show r * j.1 =
+  change r * j.1 =
     (Algebra.TensorProduct.lmul' A : B' ⊗[A] B' →ₐ[A] B') r • j.1
   rw [Algebra.smul_def, Algebra.TensorProduct.algebraMap_apply]
   exact mul_eq_lmul'_tmul_one_mul r j.2
@@ -320,31 +319,27 @@ private theorem diagonalBaseChangeFromFull_leftInverse :
       ↥(diagonalAnnihilator A B') := ⟨by
     intro r b j
     rw [diagonalAnnihilator_smul A B' r j]
-    show ((algebraMap B' B (m₀ r)) * b) ⊗ₜ[B'] j = b ⊗ₜ[B'] (m₀ r • j)
+    change ((algebraMap B' B (m₀ r)) * b) ⊗ₜ[B'] j = b ⊗ₜ[B'] (m₀ r • j)
     simpa only [Algebra.smul_def] using (TensorProduct.smul_tmul (m₀ r) b j)⟩
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero =>
-    show (TensorProduct.mapOfCompatibleSMul B' (B' ⊗[A] B') B' B
-      ↥(diagonalAnnihilator A B')) 0 = 0
-    exact map_zero _
+  induction x using TensorProduct.inductionOn with
   | tmul b j =>
     have hv : diagonalBaseChangeToFull A B' B (b ⊗ₜ[B'] j) =
         ((b ⊗ₜ[A] (1 : B)) : B ⊗[A] B) ⊗ₜ[R] j := by
       simp only [diagonalBaseChangeToFull, LinearMap.toSpanSingleton_apply,
         TensorProduct.AlgebraTensorModule.lift_tmul]
-      show b • ((1 : B ⊗[A] B) ⊗ₜ[R] j) = _
+      change b • ((1 : B ⊗[A] B) ⊗ₜ[R] j) = _
       rw [TensorProduct.smul_tmul']
       congr 1
       simp [Algebra.smul_def]
     rw [hv]
     unfold diagonalBaseChangeFromFull
     rw [TensorProduct.map_tmul, TensorProduct.mapOfCompatibleSMul_tmul]
-    show ((Algebra.TensorProduct.lmul' A : B ⊗[A] B →ₐ[A] B)
+    change ((Algebra.TensorProduct.lmul' A : B ⊗[A] B →ₐ[A] B)
       (b ⊗ₜ[A] (1 : B))) ⊗ₜ[B'] j = b ⊗ₜ[B'] j
     simp [Algebra.TensorProduct.lmul'_apply_tmul]
   | add x y hx hy =>
-    show (TensorProduct.mapOfCompatibleSMul B' (B' ⊗[A] B') B' B
+    change (TensorProduct.mapOfCompatibleSMul B' (B' ⊗[A] B') B' B
       ↥(diagonalAnnihilator A B'))
       ((TensorProduct.map _ (LinearMap.id : _ →ₗ[B' ⊗[A] B'] _))
         ((diagonalBaseChangeToFull A B' B) (x + y))) = x + y
@@ -357,8 +352,7 @@ private theorem idealBaseChangeMap_diagonalBaseChangeToFull
       (diagonalAnnihilator A B')
       (diagonalBaseChangeToFull A B' B x) =
         diagonalAnnihilatorBaseChange A B' B x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul b j =>
     simp [diagonalBaseChangeToFull, idealBaseChangeMap,
       diagonalAnnihilatorBaseChange, LinearMap.toSpanSingleton,
@@ -407,11 +401,10 @@ theorem range_diagonalAnnihilatorBaseChange
   have hle : f.range ≤ J.restrictScalars B := by
     have hall : ∀ y : B ⊗[B'] ↥J', f y ∈ J := by
       intro y
-      induction y using TensorProduct.induction_on with
-      | zero => exact J.zero_mem
+      induction y using TensorProduct.inductionOn with
       | tmul b j =>
         have hj : g j.1 ∈ J := by
-          show g j.1 ∈ diagonalAnnihilator A B
+          change g j.1 ∈ diagonalAnnihilator A B
           rw [← diagonalAnnihilator_map_eq A B' B]
           exact Ideal.mem_map_of_mem g j.2
         simpa [f, diagonalAnnihilatorBaseChange, LinearMap.toSpanSingleton]
@@ -433,10 +426,10 @@ theorem range_diagonalAnnihilatorBaseChange
       simpa [Algebra.smul_def] using f.range.smul_mem (m c) hx
   }
   refine le_antisymm hle ?_
-  show diagonalAnnihilator A B ≤ K
+  change diagonalAnnihilator A B ≤ K
   rw [← diagonalAnnihilator_map_eq A B' B]
   refine Ideal.map_le_iff_le_comap.mpr fun j hj => ?_
-  show g j ∈ f.range
+  change g j ∈ f.range
   refine ⟨(1 : B) ⊗ₜ[B'] (⟨j, hj⟩ : ↥J'), ?_⟩
   simp [f, g, diagonalAnnihilatorBaseChange, LinearMap.toSpanSingleton]
 
@@ -453,13 +446,13 @@ theorem noetherDifferent_eq_map
         (noetherDifferent A B') := by
   let _ : Module.Flat B' B := flat_of_openImmersion B' B h
   let _ : Algebra.IsEpi B' B := epi_of_openImmersion B' B h
-  show Ideal.map (Algebra.TensorProduct.lmul' A).toRingHom
+  change Ideal.map (Algebra.TensorProduct.lmul' A).toRingHom
       (diagonalAnnihilator A B) =
     Ideal.map (algebraMap B' B)
       (Ideal.map (Algebra.TensorProduct.lmul' A).toRingHom
         (diagonalAnnihilator A B'))
   rw [← diagonalAnnihilator_map_eq A B' B]
-  show Ideal.map (Algebra.TensorProduct.lmul' A).toRingHom
+  change Ideal.map (Algebra.TensorProduct.lmul' A).toRingHom
       (Ideal.map (Algebra.TensorProduct.map
         (IsScalarTower.toAlgHom A B' B)
         (IsScalarTower.toAlgHom A B' B)).toRingHom

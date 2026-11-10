@@ -152,7 +152,7 @@ theorem exists_affineOpen_isPrincipal_map_determinantalIdeal (V : S.chartOpens)
       S.goodBlowupToBase ⁻¹ᵁ ((S.chartOf V).U : S.X.Opens) := by
     intro x hx
     obtain ⟨z', -, rfl⟩ := hAle hx
-    show S.goodBlowupToBase.base ((S.goodBlowupChart V).base z') ∈
+    change S.goodBlowupToBase.base ((S.goodBlowupChart V).base z') ∈
       ((S.chartOf V).U : S.X.Opens)
     rw [← Scheme.Hom.comp_apply, S.goodBlowupChart_comp_goodBlowupToBase V]
     exact S.chartPieceToBase_apply_mem V z'
@@ -179,7 +179,7 @@ theorem exists_affineOpen_isPrincipal_map_determinantalIdeal (V : S.chartOpens)
         = (S.goodBlowupChart V).base z' := by
       rw [← Scheme.Hom.comp_apply, hafac]
       exact hz'.symm
-    show (IsOpenImmersion.lift (S.goodBlowupChart V) (A : S.goodBlowup.Opens).ι hrange).base w ∈
+    change (IsOpenImmersion.lift (S.goodBlowupChart V) (A : S.goodBlowup.Opens).ι hrange).base w ∈
       (A' : (AlgebraicGeometry.blowUp (S.chartOf V).blowupCentreIdealSheaf).Opens)
     rw [(S.goodBlowupChart V).isOpenEmbedding.injective hj]
     exact hz'A'

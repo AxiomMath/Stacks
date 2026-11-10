@@ -84,7 +84,7 @@ theorem quotientStructureMap_algebraMap (a : A') :
       Ideal.Quotient.mk (RingHom.ker (algebraMap A' A)) a := by
     rw [RingEquiv.symm_apply_eq]
     rfl
-  show Ideal.quotientMap _ (algebraMap A' B') Ideal.le_comap_map
+  change Ideal.quotientMap _ (algebraMap A' B') Ideal.le_comap_map
     ((RingHom.quotientKerEquivOfSurjective hsurj).symm (algebraMap A' A a)) = _
   rw [h]
   rfl
@@ -342,7 +342,7 @@ private theorem exists_finite_free_of_closure {L : Type u} [Field L] (s : Finset
       have hle : maximalIdeal (AdjoinRoot F) ≤ RingHom.ker g₁ := by
         rw [← hmaxeq, Ideal.map_le_iff_le_comap]
         intro r hr
-        show g₁ (AdjoinRoot.of F r) = 0
+        change g₁ (AdjoinRoot.of F r) = 0
         have : g₁ (AdjoinRoot.of F r) = φ r := AdjoinRoot.lift_of heval
         rw [this, ← RingHom.mem_ker, hker]; exact hr
       exact le_antisymm (IsLocalRing.le_maximalIdeal (RingHom.ker_ne_top g₁)) hle
@@ -461,7 +461,7 @@ theorem isNilpotent_jacobson_and_finite_maximalSpectrum_of_finite (R A : Type u)
         Ideal.Quotient.mk_surjective hle
       refine ⟨⟨P.asIdeal.map (Ideal.Quotient.mk N), inferInstance⟩, ?_⟩
       ext1
-      show Ideal.comap _ (Ideal.map _ _) = _
+      change Ideal.comap _ (Ideal.map _ _) = _
       rw [Ideal.comap_map_of_surjective _ Ideal.Quotient.mk_surjective, ← RingHom.ker_eq_comap_bot,
         sup_eq_left.2 hle]
     exact Finite.of_injective _ MaximalSpectrum.toPrimeSpectrum_injective
@@ -672,7 +672,7 @@ theorem exists_algHom_tensorProduct_of_formallySmooth (R : Type u) [CommRing R] 
     funext n
     have := congrArg (fun h : A →+* T ⧸ n.asIdeal => h a) (hφ n)
     simp only [RingHom.comp_apply] at this
-    show φ n (algebraMap A D a) = _
+    change φ n (algebraMap A D a) = _
     rw [this]
     exact (congrFun (Ideal.quotientInfToPiQuotient_mk (fun n : MaximalSpectrum T => n.asIdeal)
       (algebraMap A T a)) n).symm

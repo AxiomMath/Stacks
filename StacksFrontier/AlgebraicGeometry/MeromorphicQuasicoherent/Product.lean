@@ -124,11 +124,11 @@ preimage of such an open set in the local scheme is empty. -/
 theorem subsingleton_genericPointStalkModule_sections {η : genericPoints X} {U : X.Opens}
     (hη : (η : X) ∉ U) : Subsingleton Γ(genericPointStalkModule X η, U) := by
   have h : (X.fromSpecStalk η.1) ⁻¹ᵁ U = ⊥ := fromSpecStalk_preimage_eq_bot η.2 hη
-  show Subsingleton
+  change Subsingleton
     Γ(SheafOfModules.unit (Spec (X.presheaf.stalk η.1)).ringCatSheaf,
       (X.fromSpecStalk η.1) ⁻¹ᵁ U)
   rw [h]
-  show Subsingleton ((Spec (X.presheaf.stalk η.1)).presheaf.obj (op ⊥))
+  change Subsingleton ((Spec (X.presheaf.stalk η.1)).presheaf.obj (op ⊥))
   infer_instance
 
 /-- Restricting a family of modules to the sub-index-type on which it may have sections loses

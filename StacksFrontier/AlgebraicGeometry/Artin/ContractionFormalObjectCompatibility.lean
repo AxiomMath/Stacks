@@ -52,6 +52,7 @@ attribute [local instance] Space.pointTopology
 variable (c : ContractionSituation B S hS)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the `HasPullbacks` search on fppf sheaves times out at the default
 /-- Pullbacks of fppf sheaves (instance search times out without this shortcut). -/
 local instance hasPullbacks_fppfSheaf_ContractionFormalObjectCompatibility :
     HasPullbacks (FormalSpace.FppfSheaf B S hS) := inferInstance
@@ -101,7 +102,7 @@ theorem closedPoint_mem_of_hasImageIn (A : FormalBase S) (hA : ∀ n, B.Contains
     refine PrimeSpectrum.ext ((maximalIdeal.isMaximal A.R).eq_of_le
       (PrimeSpectrum.comap (Ideal.Quotient.mk _) a).isPrime.ne_top ?_).symm
     intro z hz
-    show Ideal.Quotient.mk _ z ∈ a.asIdeal
+    change Ideal.Quotient.mk _ z ∈ a.asIdeal
     rw [Ideal.Quotient.eq_zero_iff_mem.2 (by simpa using hz)]
     exact a.asIdeal.zero_mem
   have h' := (Space.hasImageIn_yoneda_iff_forall_scheme Z _).1 hZ a

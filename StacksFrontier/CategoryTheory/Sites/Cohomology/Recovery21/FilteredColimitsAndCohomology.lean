@@ -233,7 +233,7 @@ private lemma isIso_third_of_isColimit
   let i := CokernelCofork.mapIsoOfIsColimit hS hT e
   have he : φ.τ₃ = i.hom := by
     apply Cofork.IsColimit.hom_ext hS
-    show S.g ≫ φ.τ₃ = S.g ≫ CokernelCofork.mapOfIsColimit hS (CokernelCofork.ofπ T.g T.zero) e.hom
+    change S.g ≫ φ.τ₃ = S.g ≫ CokernelCofork.mapOfIsColimit hS (CokernelCofork.ofπ T.g T.zero) e.hom
     exact φ.comm₂₃.symm.trans
       (CokernelCofork.π_mapOfIsColimit hS (CokernelCofork.ofπ T.g T.zero) e.hom).symm
   rw [he]
@@ -361,7 +361,7 @@ private lemma hasIntersectionsIn_pushforward_iso {C : Type u} [Category.{v} C]
   let t' : WidePullbackCone (fun i => (E.pushforward e.inv).f (a' i)) :=
     WidePullbackCone.mk (t.base ≫ e.inv) t.π (by
       intro i
-      show t.π i ≫ (E.f (a' i) ≫ e.inv) = t.base ≫ e.inv
+      change t.π i ≫ (E.f (a' i) ≫ e.inv) = t.base ≫ e.inv
       rw [← Category.assoc, t.condition i])
   let oldCone (s : WidePullbackCone (fun i => (E.pushforward e.inv).f (a' i))) :
       WidePullbackCone (fun i => E.f (a' i)) :=
@@ -387,7 +387,7 @@ private lemma hasIntersectionsIn_pushforward_iso {C : Type u} [Category.{v} C]
   have ht' : IsLimit t' := by
     refine WidePullbackCone.IsLimit.mk t' lift ?_ hlπ ?_
     · intro s
-      show lift s ≫ (t.base ≫ e.inv) = s.base
+      change lift s ≫ (t.base ≫ e.inv) = s.base
       rw [← Category.assoc, hfac s]
       simp
     · intro s m hm hπ
@@ -495,7 +495,7 @@ private lemma isIso_colimit_post_limit_finite
       Functor.curry_obj_obj_obj, Prod.swap_obj, Functor.uncurry_obj_obj, ι_colimMap,
       Functor.currying_unitIso_inv_app_app_app, Category.id_comp, Functor.flip_obj_obj,
       Functor.flipIsoCurrySwapUncurry_hom_app_app, Functor.flipIsoCurrySwapUncurry_inv_app_app]
-    show limit.π (F.obj i) d ≫ (colimit.ι F i).app d ≫
+    change limit.π (F.obj i) d ≫ (colimit.ι F i).app d ≫
       (colimitObjIsoColimitCompEvaluation F d).hom =
       limit.π (F.flip.flip.obj i) d ≫ colimit.ι (F.flip.obj d) i
     simp only [colimitObjIsoColimitCompEvaluation_ι_app_hom,
@@ -564,7 +564,7 @@ private lemma preservesColimit_cechTerm {C : Type u} [SmallCategory C]
     isIso_colimit_post_limit_finite (F ⋙ L)
   let : PreservesColimit (F ⋙ L) P := preservesColimit_of_isIso_post _ _
   let : PreservesColimit F L := hL
-  show PreservesColimit F (L ⋙ P)
+  change PreservesColimit F (L ⋙ P)
   infer_instance
 
 private lemma preservesColimit_cechComplex {C : Type u} [SmallCategory C]
@@ -657,7 +657,7 @@ private lemma isZero_cechCohomology_colimit_of_injective
         colim.map d ≫
           (preservesColimitIso (HomologicalComplex.eval Ab (ComplexShape.up ℕ) l) K).inv := by
     refine colimit.hom_ext fun i => ?_
-    simpa [hd] using (colimit.ι K i).comm k l
+    simp [hd]
   let d₁ : (K ⋙ HomologicalComplex.eval Ab (ComplexShape.up ℕ) p) ⟶
       (K ⋙ HomologicalComplex.eval Ab (ComplexShape.up ℕ) (p + 1)) :=
     { app i := (K.obj i).d p (p + 1)
@@ -668,7 +668,7 @@ private lemma isZero_cechCohomology_colimit_of_injective
       naturality _ _ f := (K.map f).comm (p + 1) (p + 2) }
   let S : ShortComplex (I ⥤ Ab.{u}) := ShortComplex.mk d₁ d₂ (by ext i; simp [d₁, d₂])
   have hS : S.Exact := exact_of_pointwise S fun i => by
-    show (HomologicalComplex.sc' (K.obj i) p (p + 1) (p + 2)).Exact
+    change (HomologicalComplex.sc' (K.obj i) p (p + 1) (p + 2)).Exact
     exact (HomologicalComplex.exactAt_iff' (K.obj i) p (p + 1) (p + 2)
       (by simp) (by simp)).1 (hK i)
   let e (k : ℕ) := preservesColimitIso (HomologicalComplex.eval Ab (ComplexShape.up ℕ) k) K
@@ -1033,7 +1033,7 @@ public theorem isIso_colimit_post_rightDerived_sheafSections
         preservesColimit_sections J B h X U hU
       let : PreservesColimit X (D.functor 0) :=
         preservesColimit_of_natIso X e.symm
-      show IsIso (colimit.post X (D.functor 0))
+      change IsIso (colimit.post X (D.functor 0))
       infer_instance
     have heff : ∀ (X : I ⥤ Sheaf J (Ab.{u})) (n : ℕ),
         ∃ (Y : I ⥤ Sheaf J (Ab.{u})) (f : X ⟶ Y),
@@ -1051,10 +1051,10 @@ public theorem isIso_colimit_post_rightDerived_sheafSections
         exact ((Iso.isZero_iff
           ((sectionsExtRightDerivedIso J U (n + 1)).app (Y.obj i))).2 hrd).eq_zero_of_tgt _
       refine ⟨Y, f, hf, ?_, ?_⟩
-      · show colim.map (((deltaFunctorPointwise D).functor (n + 1)).map f) = 0
+      · change colim.map (((deltaFunctorPointwise D).functor (n + 1)).map f) = 0
         rw [hsource]
         exact Functor.map_zero (colim : (I ⥤ Ab.{u}) ⥤ Ab.{u}) _ _
-      · show (D.functor (n + 1)).map (colim.map f) = 0
+      · change (D.functor (n + 1)).map (colim.map f) = 0
         exact (sectionsExt_isZero_of_injective_colimit J B h Y hY U hU n).eq_zero_of_tgt _
     have hη : IsIso ((η.app (p + 1)).app F) :=
       isIso_deltaFunctor_app_of_common_effacements η heff (p + 1) F
@@ -1065,7 +1065,7 @@ public theorem isIso_colimit_post_rightDerived_sheafSections
             colimit.post F (((sheafSections J Ab.{u}).obj (op U)).rightDerived (p + 1)) := by
       apply colimit.hom_ext
       intro i
-      show colimit.ι (F ⋙ D.functor (p + 1)) i ≫
+      change colimit.ι (F ⋙ D.functor (p + 1)) i ≫
           colimit.post F (D.functor (p + 1)) ≫ (e.app (colimit F)).hom =
         colimit.ι (F ⋙ D.functor (p + 1)) i ≫
           colim.map (Functor.whiskerLeft F e.hom) ≫
@@ -1088,6 +1088,7 @@ private alias hasProduct_over_of_hasIntersectionsIn := HasIntersectionsIn.hasPro
 
 /-- `Stacks.Cohomology.HasIntersectionsIn.exists_mem_iso_prod_over`, in this file's original
 spelling. -/
-private alias product_over_iso_mem_of_hasIntersectionsIn := HasIntersectionsIn.exists_mem_iso_prod_over
+private alias product_over_iso_mem_of_hasIntersectionsIn :=
+  HasIntersectionsIn.exists_mem_iso_prod_over
 
 end Stacks.Cohomology

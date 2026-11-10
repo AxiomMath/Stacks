@@ -115,7 +115,7 @@ public theorem coverPreserving_opensToEtale (X : Scheme.{u}) :
       simp only [Set.mem_iUnion, Set.mem_range, Set.mem_univ, iff_true]
       obtain ⟨V, h, hSh, hyV⟩ := hS y.1 y.2
       refine ⟨⟨V, h, hSh⟩, ⟨y.1, hyV⟩, Subtype.ext ?_⟩
-      show Subtype.val ((X.homOfLE h.le).base ⟨y.1, hyV⟩) = y.1
+      change Subtype.val ((X.homOfLE h.le).base ⟨y.1, hyV⟩) = y.1
       rw [Scheme.homOfLE_base]
       rfl
 

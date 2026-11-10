@@ -68,7 +68,7 @@ theorem mapExactFunctor_tensorDual {F G T : C} [(MonoidalCategory.tensorRight G)
   have hu : (λ_ (Φ.obj G)).inv ≫
       (MonoidalCategory.tensorRight (Φ.obj G)).map (Functor.LaxMonoidal.ε Φ) ≫
       Functor.LaxMonoidal.μ Φ (𝟙_ C) G = Φ.map (λ_ G).inv := by
-    show _ ≫ Functor.LaxMonoidal.ε Φ ▷ Φ.obj G ≫ _ = _
+    change _ ≫ Functor.LaxMonoidal.ε Φ ▷ Φ.obj G ≫ _ = _
     rw [← cancel_epi (λ_ (Φ.obj G)).hom, Iso.hom_inv_id_assoc, Functor.LaxMonoidal.left_unitality,
       Category.assoc, Category.assoc, ← Φ.map_comp, Iso.hom_inv_id, Φ.map_id, Category.comp_id]
   have key' : (Ext.mk₀ ((MonoidalCategory.tensorRight (Φ.obj G)).map (Functor.LaxMonoidal.ε Φ) ≫
@@ -199,7 +199,7 @@ theorem mk₀_unit_comp_mapExactFunctor_extMap (A : C) (M : D) (n : ℕ)
     Stacks.ExtFunctorial.mapExactFunctor_comp_functor, ← Ext.comp_assoc_of_third_deg_zero,
     Stacks.ExtFunctorial.mk₀_comp_mapExactFunctor adj.unit A n e,
     Stacks.ExtFunctorial.mapExactFunctor_id, Ext.comp_assoc_of_third_deg_zero, Ext.mk₀_comp_mk₀]
-  show e.comp (Ext.mk₀ (adj.unit.app (R.obj M) ≫ R.map (adj.counit.app M))) _ = e
+  change e.comp (Ext.mk₀ (adj.unit.app (R.obj M) ≫ R.map (adj.counit.app M))) _ = e
   rw [adj.right_triangle_components, Ext.comp_mk₀_id]
 
 /-- **`R` is bijective on `Ext` out of `L A`** when the unit of `L ⊣ R` is invertible at `A`:

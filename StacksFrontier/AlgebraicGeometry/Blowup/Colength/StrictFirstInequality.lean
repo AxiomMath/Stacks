@@ -94,14 +94,16 @@ sections of `𝒪_X(-dE)/I·𝒪_X`, which the source only afterwards identifies
 ## This inequality is not the `descent` hypothesis that Tag 0AHH consumes
 
 Eight theorems under `StacksFrontier/AlgebraicGeometry/ResolutionOfSurfaces/` carry a hypothesis
-binder named `descent`: Tag 0AHH and Tag 0AHI at
-`StacksFrontier/AlgebraicGeometry/ResolutionOfSurfaces/QuadraticTransformations/PointBlowupChain.lean:158` and `:231`, three consumers at
-`StacksFrontier/AlgebraicGeometry/ResolutionOfSurfaces/QuadraticTransformations/FactorizationBirationalMaps.lean:146`, `:360` and `:444`, Tag 0C5H at
-`StacksFrontier/AlgebraicGeometry/ResolutionOfSurfaces/QuadraticTransformations/DominateRationalMap.lean:99`, Tag 0BIB at
-`StacksFrontier/AlgebraicGeometry/ResolutionOfSurfaces/EmbeddedResolution/CartierAfterPointBlowups.lean:237` and Tag 0BIC at
-`StacksFrontier/AlgebraicGeometry/ResolutionOfSurfaces/EmbeddedResolution/NormalCrossingsAfterPointBlowups.lean:394`. All eight are one proposition,
-named `Stacks.ResolutionOfSurfaces.PointBlowupColengthDescent`
-(`StacksFrontier/AlgebraicGeometry/ResolutionOfSurfaces/QuadraticTransformations/FactorizationBirationalMaps.lean:126`).
+binder named `descent` (paths below are relative to `StacksFrontier/AlgebraicGeometry/`):
+Tag 0AHH and Tag 0AHI at
+`ResolutionOfSurfaces/QuadraticTransformations/PointBlowupChain.lean:158` and `:231`, three
+consumers at `ResolutionOfSurfaces/QuadraticTransformations/FactorizationBirationalMaps.lean:146`,
+`:360` and `:444`, Tag 0C5H at
+`ResolutionOfSurfaces/QuadraticTransformations/DominateRationalMap.lean:99`, Tag 0BIB at
+`ResolutionOfSurfaces/EmbeddedResolution/CartierAfterPointBlowups.lean:237` and Tag 0BIC at
+`ResolutionOfSurfaces/EmbeddedResolution/NormalCrossingsAfterPointBlowups.lean:394`. All eight
+are one proposition, named `Stacks.ResolutionOfSurfaces.PointBlowupColengthDescent`
+(`ResolutionOfSurfaces/QuadraticTransformations/FactorizationBirationalMaps.lean:126`).
 
 **That proposition is not the inequality proved here, and no respelling turns one into the
 other.** It is the globalization step inside the *proof* of [Stacks, Tag 0AHH] — the step the
@@ -109,8 +111,8 @@ source writes as "(some details omitted)" — which *consumes* Tag 0AGT at the l
 `𝒪_{Y, y}` and transports its conclusion to the blowup of an arbitrary scheme `Y` at an
 arbitrary closed point. Beyond the last equality recorded in the section above, it needs:
 
-* **A maximal `d`, which it must exhibit.** Every result in the library takes `d` together with `hle` and
-  `hmax` as hypotheses: `Stacks.Blowup.Colength.pos_order_of_le_center`
+* **A maximal `d`, which it must exhibit.** Every result in the library takes `d` together with
+  `hle` and `hmax` as hypotheses: `Stacks.Blowup.Colength.pos_order_of_le_center`
   (`Blowup/Colength/PositiveOrder.lean:146`),
   `Stacks.Blowup.Colength.exists_exceptionalIdeal_pow_mul_eq_comap` (`:167`) and
   `Stacks.Blowup.Colength.length_ker_inclusion_lt_length_quotient_blowUp` below all do. No
@@ -121,19 +123,20 @@ arbitrary closed point. Beyond the last equality recorded in the section above, 
   with the blowup of `Spec 𝒪_{Y, y}` in its maximal ideal, which is the only thing this file and
   the rest of `Blowup/Colength/` speak about. That is the flat cartesian square of Tag 0AHH's
   proof, and nothing in the tree builds it: the one comap-invariance of a stalk colength is
-  `colength_comap_iso` (`StacksFrontier/AlgebraicGeometry/ResolutionOfSurfaces/EmbeddedResolution/CurveStrictTransform.lean:985`, private), and it
+  `colength_comap_iso`
+  (`ResolutionOfSurfaces/EmbeddedResolution/CurveStrictTransform.lean:985`, private), and it
   requires `IsIso`.
 * **A calculus for the measure, which does not exist.**
   `Stacks.ResolutionOfSurfaces.totalColength`
-  (`StacksFrontier/AlgebraicGeometry/ResolutionOfSurfaces/QuadraticTransformations/PointBlowupChain.lean:108`) is
+  (`ResolutionOfSurfaces/QuadraticTransformations/PointBlowupChain.lean:108`) is
   `∑ x ∈ S, length_{𝒪_{Y,x}}(𝒪_{Y,x}/J_x)` — lengths over the *stalks*, where this file's
   inequality is over `Γ(Spec A, 𝒪)`. Exactly two declarations say anything about it:
   `Stacks.ResolutionOfSurfaces.length_quotient_stalk_eq_zero_of_notMem_support`
-  (`StacksFrontier/AlgebraicGeometry/ResolutionOfSurfaces/QuadraticTransformations/PointBlowupChain.lean:115`) and the upper bound
+  (`ResolutionOfSurfaces/QuadraticTransformations/PointBlowupChain.lean:115`) and the upper bound
   `Stacks.ResolutionOfSurfaces.totalColength_le_length_globalSections`
-  (`StacksFrontier/AlgebraicGeometry/ResolutionOfSurfaces/QuadraticTransformations/TotalColengthGlobalBound.lean:53`). There is no additivity over a
-  `Finset`, nothing comparing the measure across a blowup, and no declaration anywhere whose
-  *conclusion* is a strict inequality between two `totalColength`s.
+  (`ResolutionOfSurfaces/QuadraticTransformations/TotalColengthGlobalBound.lean:53`). There is
+  no additivity over a `Finset`, nothing comparing the measure across a blowup, and no
+  declaration anywhere whose *conclusion* is a strict inequality between two `totalColength`s.
 * **`ringKrullDim ((blowUp M).presheaf.stalk z) = 2` at the points of `S'`.** The global form of
   Tag 0AGR, `AlgebraicGeometry.isRegular_and_topologicalKrullDim_blowUp_vanishingIdeal_singleton`
   (`Blowup/RegularSurfaceBlowupGlobal.lean:326`), gives `IsRegular (blowUp M)` together with

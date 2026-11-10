@@ -76,6 +76,7 @@ theorem subsingleton_preimage_scalarExtensionFst {x : X} (hx : IsClosed ({x} : S
   exact congrArg Subtype.val (e.symm.injective (Subsingleton.elim (e.symm ⟨a, ha⟩)
     (e.symm ⟨b, hb⟩)))
 
+omit [IsAlgClosed k] [LocallyOfFiniteType g] in
 /-- **The projection `X_{k'} ⟶ X` is surjective.** -/
 theorem surjective_scalarExtensionFst : Surjective (scalarExtensionFst k k' g) := by
   have : Surjective (Spec.map (CommRingCat.ofHom (algebraMap k k'))) :=

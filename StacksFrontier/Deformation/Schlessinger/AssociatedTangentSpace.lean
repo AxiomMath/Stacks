@@ -350,8 +350,8 @@ private theorem elements_s2_pullback_bijective
     (d : A ⟶ X) (e : B ⟶ X) (g : P ⟶ A) (h : P ⟶ B)
     (hPB : IsPullback h g e d)
     (hsq : IsSquareZeroProjection (V := V) e)
-    (hcof : IsCofiberedInGroupoids (CategoryOfElements.π F))
-    (hS2 : SchlessingerConditionS2 (CategoryOfElements.π F))
+    (hcof : IsCofiberedInGroupoids (Functor.Elements.π F))
+    (hS2 : SchlessingerConditionS2 (Functor.Elements.π F))
     (hcompat : ∀ x : F.obj A, ∀ y : F.obj B, F.map d x = F.map e y) :
     Function.Bijective (fun z : F.obj P ↦ (F.map g z, F.map h z)) := by
   classical
@@ -476,7 +476,7 @@ private theorem associatedUnliftedClasses_product_bijective
     (𝓕 : BasedCategory.{v₁, u₁} (ArtinianLocalAlgCat.{u, w, w} Λ k))
     (h𝓕 : IsPredeformationCategory 𝓕.p)
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))
     (M N : FGModuleCat.{w} k) :
     Function.Bijective (fun z : (isomorphismClasses 𝓕 h𝓕.cofibered).obj
         (associatedSquareZeroObject (Λ := Λ) (k := k) (prodFGModule k M N)) ↦
@@ -510,7 +510,7 @@ private theorem associatedTangentSpaceConditionsAux
     (𝓕 : BasedCategory.{v₁, u₁} (ArtinianLocalAlgCat.{u, w, w} Λ k))
     (h𝓕 : IsPredeformationCategory 𝓕.p)
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) :
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) :
     let L := squareZeroExtensionArtinian.{u, w, w} Λ k ⋙
       isomorphismClasses 𝓕 h𝓕.cofibered
     Nonempty (L.obj (zeroFGModule k)) ∧
@@ -547,7 +547,7 @@ theorem associatedTangentSpaceFunctorConditions
     (𝓕 : BasedCategory.{v₁, u₁} (ArtinianLocalAlgCat.{u, w, w} Λ k))
     (h𝓕 : IsPredeformationCategory 𝓕.p)
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) :
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) :
     TangentSpaceFunctorConditions Λ k (artinianLocalOver Λ k)
       (squareZeroExtension_mem_artinianLocalOver Λ k)
       (artinianLocalOverToArtinian Λ k ⋙ isomorphismClasses 𝓕 h𝓕.cofibered) :=

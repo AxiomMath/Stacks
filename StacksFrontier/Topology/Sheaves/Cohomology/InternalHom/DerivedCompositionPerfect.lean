@@ -555,7 +555,7 @@ theorem isIso_derivedTensorDualToSheafHom_of_isPerfect
       (derivedDual X L)) := by
     have : IsIso (T.tensor.map (derivedStructureSheafHomIso X M).inv) := Functor.map_isIso _ _
     infer_instance
-  show IsIso ((T.tensor.map (derivedStructureSheafHomIso X M).inv).app (derivedDual X L) ≫
+  change IsIso ((T.tensor.map (derivedStructureSheafHomIso X M).inv).app (derivedDual X L) ≫
     derivedSheafHomComposition X T (derivedInternalHomOfBifunctor X) L
       (derivedStructureSheaf X) M)
   infer_instance

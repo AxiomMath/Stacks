@@ -157,7 +157,7 @@ theorem constantModuleFunctor_map_smul (M : ModuleCat.{u} Λ) (a : Λ) :
     ((Stacks.SheafOfModules.globalSectionToEnd _ (constantSection J Λ a)).asHom.app
       ((constantModuleFunctor J Λ).obj M))
   rw [← hφ]
-  show F.map (Stacks.SheafOfModules.Constant.constantModuleSheafMap J (a • 𝟙 M)) = F.map φ
+  change F.map (Stacks.SheafOfModules.Constant.constantModuleSheafMap J (a • 𝟙 M)) = F.map φ
   congr 1
   have h₁ := (PresheafOfModules.sheafificationAdjunction α).homEquiv_naturality_left
     ((PresheafOfModules.constFunctor
@@ -172,7 +172,7 @@ theorem constantModuleFunctor_map_smul (M : ModuleCat.{u} Λ) (a : Λ) :
       η ≫ (SheafOfModules.forget _ ⋙ PresheafOfModules.restrictScalars α).map φ := by
     refine PresheafOfModules.hom_ext fun U => ModuleCat.hom_ext (LinearMap.ext fun y => ?_)
     have hφU := congrArg (fun ψ => (ψ.val.app U).hom ((η.app U).hom y)) hφ
-    show (η.app U).hom (a • y) = (φ.val.app U).hom ((η.app U).hom y)
+    change (η.app U).hom (a • y) = (φ.val.app U).hom ((η.app U).hom y)
     rw [(η.app U).hom.map_smul]
     refine Eq.trans ?_ hφU.symm
     let z : (Stacks.SheafOfModules.Constant.constantModuleSheaf J M).val.obj U := (η.app U).hom y
@@ -230,7 +230,7 @@ theorem koszulScalar_constantGlobalSection {r : ℕ} (g : Fin r → Λ) (e : Fin
         (SheafOfModules.unit _) := by
   refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun U => ?_)
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-  show koszulRingValue _ _ e U • x = constantSectionRingHom J Λ U (∏ i, g i ^ e i) • x
+  change koszulRingValue _ _ e U • x = constantSectionRingHom J Λ U (∏ i, g i ^ e i) • x
   congr 1
   simp only [koszulRingValue, koszulValue, globalSectionVal_constantGlobalSection, map_prod,
     map_pow]

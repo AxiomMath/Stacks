@@ -85,7 +85,7 @@ private abbrev homOfSection {X : Scheme.{u}} (M : X.Modules) (x : Γ(M, (⊤ : X
 /-- The global section attached to the zero morphism out of the structure sheaf vanishes. -/
 private theorem globalSectionOfHom_zero_hom {X : Scheme.{u}} (M : X.Modules) :
     globalSectionOfHom M (0 : unitModule X ⟶ M) = 0 := by
-  show Scheme.Modules.Hom.app (0 : unitModule X ⟶ M) ⊤ (1 : Γ(X, (⊤ : X.Opens))) = 0
+  change Scheme.Modules.Hom.app (0 : unitModule X ⟶ M) ⊤ (1 : Γ(X, (⊤ : X.Opens))) = 0
   rw [Scheme.Modules.Hom.zero_app]
   rfl
 

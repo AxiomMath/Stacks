@@ -48,7 +48,7 @@ public theorem natCast_lt_add_iff_eint (n : ℕ) (d h : ℕ∞) :
   cases d <;> cases h
   case coe.coe d h =>
     dsimp [enatToEInt, krullDimToEInt, WithBotTop.coe]
-    show (n : ℕ∞) < d + h ↔ ((d + h : ℤ) : EInt) > ((n : ℤ) : EInt)
+    change (n : ℕ∞) < d + h ↔ ((d + h : ℤ) : EInt) > ((n : ℤ) : EInt)
     simp only [WithBotTop.coe_lt_coe]
     norm_cast
   all_goals exact ⟨fun _ ↦ show ((n : ℤ) : EInt) < ⊤ from eint_natCast_lt_top n, fun _ ↦ by simp⟩

@@ -84,7 +84,7 @@ theorem associatedModuleSheafTensorMap_globalSections (m : 𝒨 0) (n : 𝒩 0) 
   dsimp
   refine .trans (ProjSheafFunctoriality.associatedModuleSheafTensorMap_app_toTensorSheafSection
     𝒮 𝒨 𝒩 _ _) ?_
-  show ProjSheafFunctoriality.tensorModuleSectionsAddHom
+  change ProjSheafFunctoriality.tensorModuleSectionsAddHom
       (S := S) (𝒮 := 𝒮) (𝒨 := 𝒨) (𝒩 := 𝒩) (⊤ : Opens (ProjectiveSpectrum.top 𝒮))
       ((degreeZeroToGlobalSections 𝒮 𝒨 m) ⊗ₜ[
         ↑((ProjectiveSpectrum.Proj.structureSheaf 𝒮).obj.obj (op ⊤))]
@@ -92,7 +92,7 @@ theorem associatedModuleSheafTensorMap_globalSections (m : 𝒨 0) (n : 𝒩 0) 
   refine .trans (ProjSheafFunctoriality.tensorModuleSectionsAddHom_tmul 𝒮 𝒨 𝒩 _ _ _) ?_
   apply Subtype.ext
   funext x
-  show ProjSheafFunctoriality.tensorLocalizationEquivOverLocalization
+  change ProjSheafFunctoriality.tensorLocalizationEquivOverLocalization
       (S := S) (M := M) (N := N) x.1.asHomogeneousIdeal.toIdeal.primeCompl
       ((degreeZeroToGlobalSections 𝒮 𝒨 m).1 x ⊗ₜ[S]
        (degreeZeroToGlobalSections 𝒮 𝒩 n).1 x) =

@@ -84,7 +84,7 @@ theorem extendMapXIso_hom_d (i j : Option ι) :
   | none, _ => simp [extend.d_none_eq_zero _ _ _ rfl]
   | some _, none => simp [extend.d_none_eq_zero' _ _ _ rfl]
   | some a, some b =>
-      show extend.d ((F.mapHomologicalComplex c).obj K) (some a) (some b) ≫
+      change extend.d ((F.mapHomologicalComplex c).obj K) (some a) (some b) ≫
           (Iso.refl _).hom =
         (Iso.refl _).hom ≫ F.map (extend.d K (some a) (some b))
       exact (Category.comp_id _).trans (Category.id_comp _).symm
@@ -189,7 +189,7 @@ theorem mkHomFromSingle_comp_extendMap_mapHomologicalComplexExtendIso [Decidable
     Functor.mapHomologicalComplex_map_f, mkHomFromSingle_f,
     extendMap_mapHomologicalComplexExtendIso_f F K φ e h,
     Functor.map_comp, Functor.map_comp]
-  simp only [Category.assoc, CategoryTheory.Iso.map_inv_hom_id_assoc,
+  simp only [Category.assoc, CategoryTheory.Iso.inv_hom_id_map_assoc,
     CategoryTheory.Iso.inv_hom_id_assoc]
   rw [reassoc_of% hsq]
 

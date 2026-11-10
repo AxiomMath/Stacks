@@ -64,7 +64,8 @@ the results available for restriction to an open of a scheme, whose tensorator i
 **Why the degree reductions are written out.** `Stacks.TwistedSections.twistPow F L 0` is `F`
 and `0 + j` is `j`, both by `rfl` and neither syntactically. A composite that crosses either
 spelling is *not type-correct at `implicit` transparency*, and then every `rw` touching it fails
-with "did not find an occurrence of the pattern". Two devices keep every statement rewritable, and no reducibility attribute is set:
+with "did not find an occurrence of the pattern". Two devices keep every statement rewritable,
+and no reducibility attribute is set:
 
 * the crossing `F ⊙ 0 = F` is made once, as the explicit `eqToHom` of `twistZeroIso`, inside
   `twistMul`; so `twistMul F σ : F ⟶ F ⊙ j` has a source in reduced form, and so does
@@ -252,7 +253,7 @@ theorem mapTwistPow_comp_twistPowAddIso (m : ℕ) : ∀ j : ℕ,
       simpa using (map_rightUnitor_inv_comp_map_whiskerLeft G m (𝟙 (𝟙_ C))
         (mapTwistPow G F L m) (Functor.OplaxMonoidal.η G)).symm
   | j + 1 => by
-      show (Functor.OplaxMonoidal.δ G (twistPow F L (m + j)) L ≫
+      change (Functor.OplaxMonoidal.δ G (twistPow F L (m + j)) L ≫
             mapTwistPow G F L (m + j) ▷ G.obj L) ≫
           ((twistPowAddIso (G.obj F) (G.obj L) m j).hom ▷ G.obj L ≫
             (α_ (twistPow (G.obj F) (G.obj L) m) (natTensorPow (G.obj L) j) (G.obj L)).hom) =

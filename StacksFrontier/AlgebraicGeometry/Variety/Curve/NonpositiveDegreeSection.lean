@@ -138,7 +138,7 @@ theorem isTrivial_of_nonvanishingLocus_eq_univ (L : X.Modules)
     Stacks.SheafOfModules.IsInvertible.ofAlgebraicGeometry _ _ _ hL
   have hle : ∀ V : X.Opens, V ≤ nonvanishingOpen (X := X.toRingedSpace) L s := by
     intro V x _
-    show x ∈ nonvanishingLocus (X := X.toRingedSpace) L s
+    change x ∈ nonvanishingLocus (X := X.toRingedSpace) L s
     rw [hs]
     exact Set.mem_univ x
   have hiso : IsIso (L.unitHomEquiv.symm s) :=

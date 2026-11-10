@@ -85,7 +85,7 @@ theorem extendScalars_isZero_iff_of_faithfullyFlat (f : R →+* S)
     IsZero ((ModuleCat.extendScalars f).obj M) ↔ IsZero M := by
   rw [ModuleCat.isZero_iff_subsingleton, ModuleCat.isZero_iff_subsingleton]
   algebraize [f]
-  show Subsingleton (TensorProduct R S M) ↔ Subsingleton M
+  change Subsingleton (TensorProduct R S M) ↔ Subsingleton M
   exact Module.FaithfullyFlat.subsingleton_tensorProduct_iff_right R S
 
 /-- Extension of scalars along a faithfully flat ring homomorphism reflects monomorphisms. -/

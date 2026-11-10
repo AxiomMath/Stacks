@@ -110,10 +110,10 @@ public theorem bigEtaleOver_openCoverData (B : BigEtaleSite.{u}) (S : Scheme.{u}
     · exact HEq.rfl
     · exact heq_of_eq (funext fun _ => rfl)
   have hfamily : BigEtaleOver.IsCovering B S hS ⟨T, E⟩ := by
-    show B.IsCovering ⟨T.left, E.map (Over.forget (B.obj S hS))⟩
+    change B.IsCovering ⟨T.left, E.map (Over.forget (B.obj S hS))⟩
     rwa [hEV]
   have hcover : Sieve.ofArrows W a ∈ BigEtaleOver.topology B S hS T := by
-    show Sieve.generate E.presieve₀ ∈ (BigEtaleOver.precoverage B S hS).toGrothendieck T
+    change Sieve.generate E.presieve₀ ∈ (BigEtaleOver.precoverage B S hS).toGrothendieck T
     exact (BigEtaleOver.precoverage B S hS).generate_mem_toGrothendieck ⟨E, rfl, hfamily⟩
   refine ⟨V.I₀, W, a, fun i => (β i).down, hcover, ?_⟩
   intro i y
@@ -156,8 +156,8 @@ public theorem smallEtale_openCoverData (B : BigEtaleSite.{u}) (S : Scheme.{u})
   let a' : ∀ i, W' i ⟶ T' := fun i => Over.homMk (V.f i) (by simp [W'])
   have hW : ∀ i, BigEtaleOver.IsEtaleOver B S hS (W' i) := by
     intro i
-    show Etale (B.inclusion.map (W' i).hom)
-    show Etale (B.inclusion.map (V.f i ≫ T'.hom))
+    change Etale (B.inclusion.map (W' i).hom)
+    change Etale (B.inclusion.map (V.f i ≫ T'.hom))
     rw [Functor.map_comp]
     let : Etale (B.inclusion.map (V.f i)) := by infer_instance
     let : Etale (B.inclusion.map T'.hom) := T.property
@@ -173,21 +173,21 @@ public theorem smallEtale_openCoverData (B : BigEtaleSite.{u}) (S : Scheme.{u})
     · exact HEq.rfl
     · apply heq_of_eq
       funext i
-      show (Over.forget (B.obj S hS)).map ((SmallEtale.inclusion B S hS).map (a i)) = V.f i
+      change (Over.forget (B.obj S hS)).map ((SmallEtale.inclusion B S hS).map (a i)) = V.f i
       rw [ha i]
       rfl
   have hfamily : SmallEtale.IsCovering B S hS ⟨T, E⟩ := by
-    show BigEtaleOver.IsCovering B S hS ⟨T', E.map (SmallEtale.inclusion B S hS)⟩
-    show B.IsCovering ⟨T'.left,
+    change BigEtaleOver.IsCovering B S hS ⟨T', E.map (SmallEtale.inclusion B S hS)⟩
+    change B.IsCovering ⟨T'.left,
       (E.map (SmallEtale.inclusion B S hS)).map (Over.forget (B.obj S hS))⟩
     rwa [hEF]
   have hcover : Sieve.ofArrows W a ∈ SmallEtale.topology B S hS T := by
-    show Sieve.generate E.presieve₀ ∈ (SmallEtale.precoverage B S hS).toGrothendieck T
+    change Sieve.generate E.presieve₀ ∈ (SmallEtale.precoverage B S hS).toGrothendieck T
     exact (SmallEtale.precoverage B S hS).generate_mem_toGrothendieck ⟨E, rfl, hfamily⟩
   refine ⟨V.I₀, W, a, fun i => (β i).down, hcover, ?_⟩
   intro i y
   have hmap : (SmallEtale.toScheme B S hS).map (a i) y = (B.inclusion.map (V.f i)) y := by
-    show (BigEtaleOver.toScheme B S hS).map ((SmallEtale.inclusion B S hS).map (a i)) y = _
+    change (BigEtaleOver.toScheme B S hS).map ((SmallEtale.inclusion B S hS).map (a i)) y = _
     rw [ha i]
     rfl
   rw [hmap]
@@ -256,7 +256,7 @@ public theorem smallEtaleZariski_openCoverData (B : BigEtaleSite.{u}) (S : Schem
   let V : O.I₀ → B.Scheme := fun i =>
     ⟨O.X i, Scheme.size_lt_of_isOpenImmersion (O.f i) T'.left.2⟩
   let hOmap : ∀ i, B.inclusion.obj (V i) ⟶ B.inclusion.obj T'.left := fun i => by
-    show O.X i ⟶ X
+    change O.X i ⟶ X
     exact O.f i
   let f : ∀ i, V i ⟶ T'.left := fun i => (B.inclusion).preimage (hOmap i)
   have hfm : ∀ i, B.inclusion.map (f i) = O.f i := fun i =>
@@ -266,8 +266,8 @@ public theorem smallEtaleZariski_openCoverData (B : BigEtaleSite.{u}) (S : Schem
   let a' : ∀ i, W' i ⟶ T' := fun i => Over.homMk (f i) (by simp [W'])
   have hW : ∀ i, BigEtaleOver.IsEtaleOver B S hS (W' i) := by
     intro i
-    show Etale (B.inclusion.map (W' i).hom)
-    show Etale (B.inclusion.map (f i ≫ T'.hom))
+    change Etale (B.inclusion.map (W' i).hom)
+    change Etale (B.inclusion.map (f i ≫ T'.hom))
     rw [Functor.map_comp]
     let : IsOpenImmersion (B.inclusion.map (f i)) := by
       rw [hfm i]
@@ -283,7 +283,7 @@ public theorem smallEtaleZariski_openCoverData (B : BigEtaleSite.{u}) (S : Schem
     rw [Sieve.functorPushforward_ofArrows]
     congr 1
     funext i
-    show (BigEtaleOver.toScheme B S hS).map ((SmallEtale.inclusion B S hS).map (a i)) = _
+    change (BigEtaleOver.toScheme B S hS).map ((SmallEtale.inclusion B S hS).map (a i)) = _
     rw [ha i]
     exact hfm i
   refine ⟨O.I₀, W, a, fun i => i.down, ?_, ?_⟩
@@ -292,7 +292,7 @@ public theorem smallEtaleZariski_openCoverData (B : BigEtaleSite.{u}) (S : Schem
     exact O.mem_grothendieckTopology
   · intro i y
     have hmap : F.map (a i) y = O.f i y := by
-      show (BigEtaleOver.toScheme B S hS).map ((SmallEtale.inclusion B S hS).map (a i)) y = _
+      change (BigEtaleOver.toScheme B S hS).map ((SmallEtale.inclusion B S hS).map (a i)) y = _
       rw [ha i]
       exact congrArg (fun g => g y) (hfm i)
     rw [hmap]
@@ -311,14 +311,14 @@ public theorem smallEtaleProperty_closedUnderCospans (B : BigEtaleSite.{u}) (S :
     intro X Y Z f g hf hg
     change Etale (B.inclusion.map f) at hf
     change Etale (B.inclusion.map g) at hg
-    show Etale (B.inclusion.map (f ≫ g))
+    change Etale (B.inclusion.map (f ≫ g))
     rw [Functor.map_comp]
     infer_instance⟩
   have : P.IsStableUnderBaseChange := ⟨by
     intro X Y Y' Z f g f' g' h hg
     change Etale (B.inclusion.map g) at hg
     have h' := Functor.map_isPullback B.inclusion h
-    show Etale (B.inclusion.map g')
+    change Etale (B.inclusion.map g')
     exact (MorphismProperty.IsStableUnderBaseChange.of_isPullback h') hg⟩
   have : P.HasOfPostcompProperty P := ⟨by
     intro X Y Z f g hg hfg
@@ -326,7 +326,7 @@ public theorem smallEtaleProperty_closedUnderCospans (B : BigEtaleSite.{u}) (S :
     change Etale (B.inclusion.map (f ≫ g)) at hfg
     rw [Functor.map_comp] at hfg
     exact Etale.of_comp (B.inclusion.map f) (B.inclusion.map g)⟩
-  show (P.overObj (X := B.obj S hS)).IsClosedUnderLimitsOfShape Limits.WalkingCospan
+  change (P.overObj (X := B.obj S hS)).IsClosedUnderLimitsOfShape Limits.WalkingCospan
   infer_instance
 
 /-! ### The sheaf condition for locally constant maps -/

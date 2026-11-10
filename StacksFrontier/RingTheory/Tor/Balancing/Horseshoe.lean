@@ -185,10 +185,10 @@ theorem Tor_iso_Tor'.hsDP_comp (M : ModuleCat.{u} R) (n : ℕ) :
           ≫ Tor_iso_Tor'.hsTau R M n) := by
     cases n with
     | zero =>
-      show (Tor_iso_Tor'.hsTauAux R M 0).fst ≫ _ = _
+      change (Tor_iso_Tor'.hsTauAux R M 0).fst ≫ _ = _
       exact (Tor_iso_Tor'.hsSC0_exact R M).liftFromProjective_comp _ _
     | succ m =>
-      show (Tor_iso_Tor'.hsTauAux R M (m + 1)).fst ≫ _ = _
+      change (Tor_iso_Tor'.hsTauAux R M (m + 1)).fst ≫ _ = _
       exact (Tor_iso_Tor'.hsSCsucc_exact R M m).liftFromProjective_comp _ _
   apply Limits.biprod.hom_ext' <;>
     apply Limits.biprod.hom_ext <;>
@@ -224,7 +224,7 @@ theorem Tor_iso_Tor'.hsEpsP_zero (M : ModuleCat.{u} R) :
        Limits.zero_comp, Limits.comp_zero,
       add_zero]
   · rw [← Category.assoc, ProjectiveResolution.complex_d_comp_π_f_zero, Limits.zero_comp]
-  · show Tor_iso_Tor'.hsTau0 R M ≫ (Tor_iso_Tor'.hsResK R M).π.f 0
+  · change Tor_iso_Tor'.hsTau0 R M ≫ (Tor_iso_Tor'.hsResK R M).π.f 0
         ≫ (Tor_iso_Tor'.syzygySC R M).f
       + (Tor_iso_Tor'.hsResM R M).complex.d 1 0 ≫ Tor_iso_Tor'.hsS0 R M = 0
     rw [show (Tor_iso_Tor'.syzygySC R M).f = Limits.kernel.ι (Projective.π M) from rfl,
@@ -587,7 +587,7 @@ theorem Tor_iso_Tor'.oneIso_hsq (M N : ModuleCat.{u} R) :
     HomologicalComplex.homologyMap (Tor_iso_Tor'.oneIso_S R M N).f 0 ≫ (Tor_iso_Tor'.oneIso_q R M
         N).hom
       = (Tor_iso_Tor'.oneIso_p R M N).hom ≫ Tor_iso_Tor'.oneIso_κ R M N := by
-  show HomologicalComplex.homologyMap (Tor_iso_Tor'.oneIso_S R M N).f 0 ≫
+  change HomologicalComplex.homologyMap (Tor_iso_Tor'.oneIso_S R M N).f 0 ≫
       ((Tor_iso_Tor'.horseshoe R M).resP.isoLeftDerivedObj (tensorRight N) 0).inv ≫
         (Functor.leftDerivedZeroIsoSelf (tensorRight N)).hom.app ((Tor_iso_Tor'.syzygySC R M).X₂)
     = (((Tor_iso_Tor'.horseshoe R M).resK.isoLeftDerivedObj (tensorRight N) 0).inv ≫

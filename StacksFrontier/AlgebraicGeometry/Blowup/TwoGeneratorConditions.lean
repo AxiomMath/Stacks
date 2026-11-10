@@ -130,7 +130,7 @@ def modificationCoord (i : Fin 2) : modificationRing A f₁ f₂ :=
 /-- The class of a homogeneous coordinate is homogeneous of degree one. -/
 theorem modificationCoord_mem (i : Fin 2) :
     modificationCoord A f₁ f₂ i ∈ modificationGrading A f₁ f₂ 1 := by
-  show Ideal.Quotient.mk (relationIdeal A f₁ f₂) (MvPolynomial.X i) ∈
+  change Ideal.Quotient.mk (relationIdeal A f₁ f₂) (MvPolynomial.X i) ∈
     (MvPolynomial.homogeneousSubmodule (Fin 2) A 1).toAddSubgroup.map
       (Ideal.Quotient.mk (relationIdeal A f₁ f₂)).toAddMonoidHom
   exact AddSubgroup.mem_map.mpr ⟨MvPolynomial.X i,
@@ -163,7 +163,7 @@ def chartAwayMap (i : Fin 2) :
 theorem chartAwayMap_val (i : Fin 2) (a : A) :
     (chartAwayMap A f₁ f₂ i a).val =
       Localization.mk (Ideal.Quotient.mk (relationIdeal A f₁ f₂) (MvPolynomial.C a)) 1 := by
-  show (HomogeneousLocalization.mk ⟨0, _, 1, _⟩).val = _
+  change (HomogeneousLocalization.mk ⟨0, _, 1, _⟩).val = _
   rw [HomogeneousLocalization.val_mk]
   rfl
 

@@ -47,13 +47,13 @@ def twoSquareConjLeft (α : TwoSquare G L₁ L₂ H) :
       (eC'.inverse ⋙ L₂ ⋙ eD'.functor) (eD.inverse ⋙ H ⋙ eD'.functor) :=
   .mk _ _ _ _ <| {
     app := fun U => eD'.functor.map (L₂.map (eC'.unitIso.inv.app (G.obj (eC.inverse.obj U))) ≫
-      α.natTrans.app (eC.inverse.obj U) ≫ H.map (eD.unitIso.hom.app (L₁.obj (eC.inverse.obj U))))
+      α.app (eC.inverse.obj U) ≫ H.map (eD.unitIso.hom.app (L₁.obj (eC.inverse.obj U))))
     naturality := by
       intro U V f
       simp only [Functor.comp_obj, Functor.comp_map, ← Functor.map_comp, Category.assoc]
       congr 1
       have h1 := eC'.unitIso.inv.naturality (G.map (eC.inverse.map f))
-      have h2 := α.natTrans.naturality (eC.inverse.map f)
+      have h2 := α.naturality (eC.inverse.map f)
       have h3 := eD.unitIso.hom.naturality (L₁.map (eC.inverse.map f))
       simp only [Functor.comp_obj, Functor.comp_map, Functor.id_obj, Functor.id_map] at h1 h2 h3
       rw [← L₂.map_comp_assoc, h1, L₂.map_comp_assoc, reassoc_of% h2, ← H.map_comp, ← h3,
@@ -67,13 +67,13 @@ def twoSquareConjRight (β : TwoSquare R₁ H G R₂) :
       (eC.inverse ⋙ G ⋙ eC'.functor) (eD'.inverse ⋙ R₂ ⋙ eC'.functor) :=
   .mk _ _ _ _ <| {
     app := fun V => eC'.functor.map (G.map (eC.unitIso.inv.app (R₁.obj (eD.inverse.obj V))) ≫
-      β.natTrans.app (eD.inverse.obj V) ≫ R₂.map (eD'.unitIso.hom.app (H.obj (eD.inverse.obj V))))
+      β.app (eD.inverse.obj V) ≫ R₂.map (eD'.unitIso.hom.app (H.obj (eD.inverse.obj V))))
     naturality := by
       intro U V f
       simp only [Functor.comp_obj, Functor.comp_map, ← Functor.map_comp, Category.assoc]
       congr 1
       have h1 := eC.unitIso.inv.naturality (R₁.map (eD.inverse.map f))
-      have h2 := β.natTrans.naturality (eD.inverse.map f)
+      have h2 := β.naturality (eD.inverse.map f)
       have h3 := eD'.unitIso.hom.naturality (H.map (eD.inverse.map f))
       simp only [Functor.comp_obj, Functor.comp_map, Functor.id_obj, Functor.id_map] at h1 h2 h3
       rw [← G.map_comp_assoc, h1, G.map_comp_assoc, reassoc_of% h2, ← R₂.map_comp, ← h3,
@@ -110,15 +110,15 @@ theorem mateEquiv_twoSquareConjLeft (α : TwoSquare G L₁ L₂ H) :
     (eC'.unitIso.inv.app (G.obj (eC.inverse.obj (eC.functor.obj (R₁.obj (eD.inverse.obj V))))))
   have h3 := adj₂.unit.naturality (G.map (eC.unitIso.inv.app (R₁.obj (eD.inverse.obj V))))
   have h4 := congr_arg R₂.map
-    (α.natTrans.naturality (eC.unitIso.inv.app (R₁.obj (eD.inverse.obj V))))
+    (α.naturality (eC.unitIso.inv.app (R₁.obj (eD.inverse.obj V))))
   simp only [Functor.id_map, Functor.comp_map, Functor.id_obj, Functor.comp_obj,
     Functor.map_comp] at h2 h3 h4
   rw [← reassoc_of% h2, Iso.hom_inv_id_app_assoc, reassoc_of% h3, reassoc_of% h4,
     reassoc_of% h1]
 
 /-- The conjugate of an invertible 2-cell is invertible. -/
-instance isIso_twoSquareConjLeft (α : TwoSquare G L₁ L₂ H) [IsIso α.natTrans] :
-    IsIso (twoSquareConjLeft eC eD eC' eD' α).natTrans := by
+instance isIso_twoSquareConjLeft (α : TwoSquare G L₁ L₂ H) [IsIso α] :
+    IsIso (twoSquareConjLeft eC eD eC' eD' α) := by
   rw [NatTrans.isIso_iff_isIso_app]
   intro U
   dsimp [twoSquareConjLeft]

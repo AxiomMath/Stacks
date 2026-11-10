@@ -240,7 +240,7 @@ theorem forall_fixes_stalkDerivation_of_forall_fixes (ν : Y ⟶ X) [IsAffineHom
   let ψ : X.presheaf.stalk x →+* k :=
     ε.toRingHom.comp (algebraMap (X.presheaf.stalk x) ((ν.base _* Y.presheaf).stalk x))
   have hφψ : ∀ a : Γ(X, U₀), φ (ν.app U₀ a) = ψ (X.presheaf.germ U₀ x hxU₀ a) := fun a => by
-    show ε _ = ε _
+    change ε _ = ε _
     congr 1
     exact (TopCat.Presheaf.stalkFunctor_map_germ_apply U₀ x hxU₀ ν.c a).symm
   have htop : U₀ ≤ hX ⁻¹ᵁ ⊤ := fun _ _ => trivial
@@ -251,7 +251,7 @@ theorem forall_fixes_stalkDerivation_of_forall_fixes (ν : Y ⟶ X) [IsAffineHom
           ((hX.app ⊤).hom ((Scheme.ΓSpecIso (.of k)).inv.hom c))) =
         algebraMap k ((ν.base _* Y.presheaf).stalk x) c :=
       TopCat.Presheaf.stalkFunctor_map_germ_apply (hX ⁻¹ᵁ ⊤) x trivial ν.c _
-    show ε _ = c
+    change ε _ = c
     rw [he]
     exact ε.commutes c
   have hφ : Function.Surjective φ := fun c => by

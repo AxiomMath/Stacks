@@ -375,7 +375,7 @@ public theorem isSmoothAt_baseChange_of_isVersalAt
         (yoneda.obj c'.U) c'.a c'.representative) z₀ hcommon
     have hpoint : c'.point = IsLocalRing.closedPoint c'.representative.carrier :=
       Subsingleton.elim _ _
-    show B.inclusion.map
+    change B.inclusion.map
       (η.app ⟨c'.U, Discrete.mk (c'.a.app (Opposite.op c'.U) (𝟙 c'.U))⟩).left
       (B.inclusion.map c'.representative.value.left c'.point) = u₀
     rw [hpoint]
@@ -454,7 +454,7 @@ public theorem isSmoothAt_baseChange_of_isVersalAt
       ((AlgebraicGeometry.BigFppfOver.toScheme B V.left.1 V.left.2).map d.h) from hWV
   have hp₀base : LocallyOfFiniteType (p₀.toBase ≫ B.inclusion.map V.hom) := by
     have h1 : LocallyOfFiniteType p₀.toBase := by
-      show LocallyOfFiniteType
+      change LocallyOfFiniteType
         (c'.U.left.1.fromSpecResidueField
           (AlgebraicGeometry.Space.schemePoint B V.left.1 V.left.2 c'.U c'.representative) ≫
           B.inclusion.map d.U.hom)
@@ -549,7 +549,7 @@ public theorem isSmoothAt_baseChange_of_isVersalAt
     let : IsIso ((c'.U.left.1.residueFieldCongr hclosed.symm).hom) :=
       (c'.U.left.1.residueFieldCongr hclosed.symm).isIso_hom
     let : IsIso (σ.residueFieldMap (IsLocalRing.closedPoint A : Spec A)) := hresIso
-    show IsIso ((c'.U.left.1.residueFieldCongr hclosed.symm).hom ≫
+    change IsIso ((c'.U.left.1.residueFieldCongr hclosed.symm).hom ≫
       σ.residueFieldMap (IsLocalRing.closedPoint A : Spec A))
     infer_instance
   let eσ : p₀.carrier ≃+* (Spec A).residueField (IsLocalRing.closedPoint A : Spec A) :=
@@ -633,7 +633,7 @@ public theorem isSmoothAt_baseChange_of_isVersalAt
       rw [← hsq', Category.assoc]
       exact hrangeA ⟨_, rfl⟩
     rw [hs]
-    show ((Spec.map φ ≫ β) ≫ B.inclusion.map V.hom)
+    change ((Spec.map φ ≫ β) ≫ B.inclusion.map V.hom)
       (IsLocalRing.closedPoint A : Spec A) ∈ Set.range iR
     exact h3
   obtain ⟨algA, halgA⟩ := exists_algebra_factorization iR hiR
@@ -695,7 +695,7 @@ public theorem isSmoothAt_baseChange_of_isVersalAt
   have heA' : ∀ a : A', eA' (IsLocalRing.residue A' a) =
       eA (IsLocalRing.residue A (φ.hom a)) := by
     intro a
-    show eA (residueFieldEquiv_of_surjective φ hsurj (IsLocalRing.residue A' a)) = _
+    change eA (residueFieldEquiv_of_surjective φ hsurj (IsLocalRing.residue A' a)) = _
     rw [residueFieldEquiv_of_surjective_residue]
   have hbaseA' : ∀ r : R, eA' (IsLocalRing.residue A' (algebraMap R A' r)) =
       algebraMap R p₀.carrier r := by
@@ -720,16 +720,16 @@ public theorem isSmoothAt_baseChange_of_isVersalAt
   have hρ₀ : B.inclusion.map ρ₀ = ν := B.inclusion.map_preimage _
   have hρbase : ρ₀ ≫ T.hom = p₀.siteObject.hom := by
     apply B.inclusion.map_injective
-    show B.inclusion.map (ρ₀ ≫ tW ≫ c'.U.hom) = B.inclusion.map p₀.siteObject.hom
+    change B.inclusion.map (ρ₀ ≫ tW ≫ c'.U.hom) = B.inclusion.map p₀.siteObject.hom
     rw [Functor.map_comp, Functor.map_comp, hρ₀, htW]
-    show ν ≫ σ ≫ B.inclusion.map c'.U.hom = p₀.toBase
+    change ν ≫ σ ≫ B.inclusion.map c'.U.hom = p₀.toBase
     rw [← Category.assoc, hν, hp₀base']
   let ρ : p₀.siteObject ⟶ T := Over.homMk ρ₀ hρbase
   let aSec : F.obj (Opposite.op T) := d.a.app (Opposite.op T) aT
   have hρaT : ρ ≫ aT = d.representative.value := by
     apply Over.OverMorphism.ext
     apply B.inclusion.map_injective
-    show B.inclusion.map (ρ₀ ≫ tW) = B.inclusion.map d.representative.value.left
+    change B.inclusion.map (ρ₀ ≫ tW) = B.inclusion.map d.representative.value.left
     rwa [Functor.map_comp, hρ₀, htW]
   have hFρ : p₀.value = F.map ρ.op aSec := by
     have hn : d.a.app (Opposite.op p₀.siteObject) ((yoneda.obj d.U).map ρ.op aT) =
@@ -750,11 +750,11 @@ public theorem isSmoothAt_baseChange_of_isVersalAt
   let hG := Deformation.Artin.sliceFunctor_comp_post B S hS 𝒳.val.p 𝒳.val.p.chosenPullbacks x
   have hTstruct : B.inclusion.map (T.hom ≫ V.hom) =
       σ ≫ B.inclusion.map c'.U.hom ≫ B.inclusion.map V.hom := by
-    show B.inclusion.map ((tW ≫ c'.U.hom) ≫ V.hom) = _
+    change B.inclusion.map ((tW ≫ c'.U.hom) ≫ V.hom) = _
     rw [Functor.map_comp, Functor.map_comp, htW]
     simp only [Category.assoc]
   have hT'struct : B.inclusion.map (T'.hom ≫ V.hom) = β ≫ B.inclusion.map V.hom := by
-    show B.inclusion.map (tV ≫ V.hom) = _
+    change B.inclusion.map (tV ≫ V.hom) = _
     rw [Functor.map_comp, htV]
   have hPbase : (Over.map V.hom ⋙ Over.post B.inclusion).obj P.x =
       Over.mk (Spec.map (CommRingCat.ofHom (algebraMap R A)) ≫ iR) := by
@@ -765,7 +765,7 @@ public theorem isSmoothAt_baseChange_of_isVersalAt
     (congrArg (Over.post B.inclusion).obj (P.hy.trans P.hx.symm)).trans hPbase
   have hbaseObjA' : qX.obj (y.obj T') =
       Over.mk (Spec.map (CommRingCat.ofHom (algebraMap R A')) ≫ iR) := by
-    show (Over.post B.inclusion).obj (𝒳.val.p.obj (y.obj T')) = _
+    change (Over.post B.inclusion).obj (𝒳.val.p.obj (y.obj T')) = _
     rw [show 𝒳.val.p.obj (y.obj T') = (Over.map V.hom).obj T' from Functor.congr_obj hy T']
     exact congrArg Over.mk (hT'struct.trans halgA'2.symm)
   have harrowBaseA :
@@ -778,7 +778,7 @@ public theorem isSmoothAt_baseChange_of_isVersalAt
       (congrArg Over.left hP).symm.trans
         (congrArg Over.left (P.hy.trans P.hx.symm)).symm
     have hb := baseChangeHom_b_left B S hS 𝒳 U V x hx y F e m hP₀ hP k₀ k₁
-    show eqToHom (congrArg Over.left huₗ₀).symm ≫
+    change eqToHom (congrArg Over.left huₗ₀).symm ≫
         B.inclusion.map (((Over.forget U).map ((e.inv.functor.map m).b)).left) ≫
         eqToHom (congrArg Over.left hbaseObjA) = ν
     rw [hb, Functor.map_comp, Functor.map_comp, eqToHom_map, eqToHom_map,
@@ -826,7 +826,7 @@ public theorem isSmoothAt_baseChange_of_isVersalAt
       infer_instance
     let := hξlift
     have hfac := IsHomLift.fac' 𝒳.val.p k ξ
-    show eqToHom _ ≫ B.inclusion.map ((𝒳.val.p.map ξ).left) ≫ eqToHom _ = _
+    change eqToHom _ ≫ B.inclusion.map ((𝒳.val.p.map ξ).left) ≫ eqToHom _ = _
     rw [hfac]
     simp only [k, Over.comp_left, Over.eqToHom_left, Over.map_map_left, Functor.map_comp,
       eqToHom_map, Category.assoc, eqToHom_trans_assoc, eqToHom_trans]
@@ -850,7 +850,7 @@ public theorem isSmoothAt_baseChange_of_isVersalAt
   obtain ⟨bSec, hbSec⟩ := exists_baseChange_section_of_deformation_objects B S hS 𝒳 V x y hy F e
     𝒳.val.p.chosenPullbacks iR P₀.y huₗ₀ hsmooth iAB aSec aUobj bXobj i₁ hsurj rfl rfl
     (by
-      show ξ = G.map (𝟙 P.y) ≫ (P.iso ≪≫ α.app P.y).inv ≫
+      change ξ = G.map (𝟙 P.y) ≫ (P.iso ≪≫ α.app P.y).inv ≫
         y.map (eqToHom hP ≫ iAB) ≫ 𝟙 (y.obj T')
       rw [CategoryTheory.Functor.map_id, Category.id_comp, Category.comp_id])
   -- Step 5: the étale chart map is formally étale, so the lifted section of `F` comes
@@ -863,10 +863,10 @@ public theorem isSmoothAt_baseChange_of_isVersalAt
       (show iAB ≫ γsite = aT from hγ₁)
     rw [Functor.map_comp, hiAB, haT] at h
     exact h
-  · show (AlgebraicGeometry.BigFppfOver.toScheme B V.left.1 V.left.2).map γsite ≫
+  · change (AlgebraicGeometry.BigFppfOver.toScheme B V.left.1 V.left.2).map γsite ≫
       B.inclusion.map c'.U.hom = β
     rw [← htV]
-    show B.inclusion.map γsite.left ≫ B.inclusion.map c'.U.hom = B.inclusion.map tV
+    change B.inclusion.map γsite.left ≫ B.inclusion.map c'.U.hom = B.inclusion.map tV
     rw [← Functor.map_comp]
     exact congrArg B.inclusion.map γsite.w
 

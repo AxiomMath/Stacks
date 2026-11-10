@@ -133,8 +133,8 @@ variable {X S : Scheme.{u}} (f : X ⟶ S) [LocallyOfFiniteType f] [IsLocallyNoet
 
 /-! ### Replacing the base by its reduction -/
 
-/-- The group of relative `r`-cycles does not change when the base is replaced by its reduction: base change along `S_red ⟶ S` is an additive equivalence
-`z(X/S, r) ≃ z(X ×_S S_red / S_red, r)`.
+/-- The group of relative `r`-cycles does not change when the base is replaced by its reduction:
+base change along `S_red ⟶ S` is an additive equivalence `z(X/S, r) ≃ z(X ×_S S_red / S_red, r)`.
 
 This is Stacks 0H5G applied to the reduction morphism, which is a universal homeomorphism and
 induces isomorphisms on all residue fields. The invariance of Stacks Remark 0H5Y in the form the
@@ -153,8 +153,9 @@ theorem relativeCyclesAddEquivReduction_coe (α : ↥(relativeCycles f r)) :
   relativeCyclesAddEquivOfUniversalHomeomorphism_coe f S.reductionι
     (fun _ => inferInstance) r α
 
-/-- The monoid of effective relative `r`-cycles does not change when the base is replaced by its reduction: base change along `S_red ⟶ S` is an additive
-equivalence `z^eff(X/S, r) ≃ z^eff(X ×_S S_red / S_red, r)`.
+/-- The monoid of effective relative `r`-cycles does not change when the base is replaced by its
+reduction: base change along `S_red ⟶ S` is an additive equivalence
+`z^eff(X/S, r) ≃ z^eff(X ×_S S_red / S_red, r)`.
 
 Base change preserves effectivity by Stacks 0H5S, and `S_red ⟶ S` being surjective it also
 reflects it by Stacks 0H5U, so the equivalence of
@@ -203,7 +204,7 @@ theorem isThickening_reductionToPullback {X S : Scheme.{u}} (f : X ⟶ S) :
     Stacks.Thickenings.IsThickening (reductionToPullback f) := by
   have h : reductionToPullback f ≫ pullback.fst f S.reductionι = X.reductionι :=
     pullback.lift_fst _ _ _
-  haveI : IsClosedImmersion (reductionToPullback f ≫ pullback.fst f S.reductionι) :=
+  have : IsClosedImmersion (reductionToPullback f ≫ pullback.fst f S.reductionι) :=
     h ▸ inferInstance
   refine ⟨IsClosedImmersion.of_comp _ (pullback.fst f S.reductionι), fun y => ?_⟩
   obtain ⟨x, hx⟩ := X.surjective_reductionι (pullback.fst f S.reductionι y)

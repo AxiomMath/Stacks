@@ -163,8 +163,7 @@ theorem projectiveBundleAxiom (hA2' : 𝔇'.PullbackAxiom) (hA3' : 𝔇'.Project
       (LinearEquiv.piCongrRight fun _ => (Φ.iso X).toLinearEquiv)
   have hcomm : ∀ x, Φ.iso _ ((𝔇.bundleFormulaU X E r).baseChange F' x) = U' (πX x) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a v =>
       rw [LinearMap.baseChange_tmul, iso_tmul, FirstChernClassData.bundleFormulaU_apply,
         ← ρ_apply, map_sum]

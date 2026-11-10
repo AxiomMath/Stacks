@@ -258,7 +258,7 @@ theorem cycleGroupClosedPushforward_integralCycle_coe {i : X ⟶ Y}
         (D.isDecentSpace_of_isGood sY hY) hi W) := by
   classical
   funext T
-  show cycleClosedPushforward D hY.1 hX.1 _ hi (integralCycleCoeff D W) T = _
+  change cycleClosedPushforward D hY.1 hX.1 _ hi (integralCycleCoeff D W) T = _
   by_cases hT : ∃ T0, IntegralClosedSubspace.pushforward D.site D.base D.base_mem hY.1 hX.1
       (D.isDecentSpace_of_isGood sY hY) hi T0 = T
   · obtain ⟨T0, rfl⟩ := hT
@@ -323,7 +323,7 @@ theorem isFlatPullbackSurjective_of_forall_integralClosedSubspace
   have hsubW : ∀ W : I, subspacePointSet D.site D.base D.base_mem X W.1.subspace ⊆
       Set.range (pointsMap D.site D.base D.base_mem _ ((ZW W).subspace.preimage f).ι) := by
     intro W x hx
-    show x ∈ subspacePointSet D.site D.base D.base_mem X ((ZW W).subspace.preimage f)
+    change x ∈ subspacePointSet D.site D.base D.base_mem X ((ZW W).subspace.preimage f)
     rw [hPpts W, Set.mem_preimage, IntegralClosedSubspace.subspacePointSet_closureImage]
     exact subset_closure ⟨x, hx, rfl⟩
   choose W' hW' using fun W : I => IntegralClosedSubspace.exists_pushforward_eq D.site D.base
@@ -362,7 +362,7 @@ theorem isFlatPullbackSurjective_of_forall_integralClosedSubspace
     by
       have h := α.2.1.comp_injective (Subtype.val_injective (p := fun W => α.1 W ≠ 0))
       refine h.subset fun W => ?_
-      simp only [Function.comp_apply, if_neg W.2, subset_refl]
+      simp only [Function.comp_apply, ite_eq_right W.2, subset_refl]
   have hlf : LocallyFinite fun W : I => subspacePointSet D.site D.base D.base_mem Y
       (ZW W).subspace := by
     have h := (locallyFinite_closure_image_pointsMap D sX hX sY hY hbase hqc
@@ -530,7 +530,7 @@ theorem isFlatPullbackSurjective_of_isIntegralSpace
     have h₁ := subspacePointSet_preimage D.site D.base D.base_mem f Y'
     have h₂ := preimage_image_pointsMap_of_isPullback D.site D.base D.base_mem sq.flip Set.univ
     simp only [Set.image_univ, Set.preimage_univ] at h₂
-    show subspacePointSet D.site D.base D.base_mem X (Y'.preimage f) = _
+    change subspacePointSet D.site D.base D.base_mem X (Y'.preimage f) = _
     rw [h₁, ← h₂, subspacePointSet, hY'pts, hF, Set.preimage_compl]
   -- Stacks 0EQ7
   obtain ⟨γ, hγ⟩ :=

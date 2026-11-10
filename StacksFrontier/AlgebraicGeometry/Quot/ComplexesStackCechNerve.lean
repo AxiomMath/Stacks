@@ -246,7 +246,7 @@ def isLimitVertexFanSchemeCechNerve (n : ℕ) :
           (schemeSpaceFunctor B S hS).map q = s.pt.hom := fun s i =>
     (Category.assoc _ _ _).trans
       ((congrArg _ (schemeCechNerve_hom_app_zero q).symm).trans (Over.w (s.proj i)))
-  refine mkFanLimit _ (fun s => Over.homMk (schemeCechNerveLift q s.pt.hom _ (hw s))
+  refine Fan.IsLimit.mk _ (fun s => Over.homMk (schemeCechNerveLift q s.pt.hom _ (hw s))
     (schemeCechNerveLift_base q _ _ _)) (fun s i => ?_) (fun s m hm => ?_)
   · refine Over.OverMorphism.ext ?_
     change schemeCechNerveLift q s.pt.hom _ (hw s) ≫ (schemeCechNerve q).vertexMap n i =

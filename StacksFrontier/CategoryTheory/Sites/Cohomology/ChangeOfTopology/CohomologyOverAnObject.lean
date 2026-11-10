@@ -323,14 +323,14 @@ theorem mem_range_cohomologyComparison_over_iff (S : CohomologyComparison C) (n 
     intro Z h hh
     obtain ⟨Y₁, b, r, hRr, hbr⟩ : Sieve.generate R h.left := hh
     have hbrw : b ≫ (Over.mk (r ≫ V.hom) : Over X).hom = Z.hom := by
-      show b ≫ r ≫ V.hom = Z.hom
+      change b ≫ r ≫ V.hom = Z.hom
       rw [← Category.assoc, hbr]
       exact Over.w h
     have hfac : (Over.homMk b hbrw : Z ⟶ Over.mk (r ≫ V.hom)) ≫
         (Over.homMk r : Over.mk (r ≫ V.hom) ⟶ V) = h := by
       ext
       exact hbr
-    show Stacks.sheafCohomologyRestriction (S.fineCoverage.toGrothendieck.over X) h
+    change Stacks.sheafCohomologyRestriction (S.fineCoverage.toGrothendieck.over X) h
       (n + 1) F ξ = 0
     rw [← hfac, Stacks.sheafCohomologyRestriction_comp, hR' r hRr, map_zero]
   · rintro ⟨R, hR⟩

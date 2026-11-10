@@ -151,7 +151,7 @@ theorem exists_factorization_of_isOpenImmersion {X Y Z : BigFppfOver B S hS}
     have hwg : (BigFppfOver.toScheme B S hS).map g ≫ B.inclusion.map X.hom =
         B.inclusion.map Z.hom := by rw [← Over.w g]; rfl
     refine B.inclusion.map_injective ?_
-    show (_root_.AlgebraicGeometry.IsOpenImmersion.lift
+    change (_root_.AlgebraicGeometry.IsOpenImmersion.lift
       ((BigFppfOver.toScheme B S hS).map f) ((BigFppfOver.toScheme B S hS).map g) hg) ≫
       B.inclusion.map Y.hom = B.inclusion.map Z.hom
     rw [← hwf, ← Category.assoc, _root_.AlgebraicGeometry.IsOpenImmersion.lift_fac]

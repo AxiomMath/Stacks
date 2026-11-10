@@ -105,7 +105,7 @@ private theorem mem_range_pointsMap_of_section {Y : (BigFppfOver B S hS)ᵒᵖ �
     ⟨eqToHom hdom, eqToHom (congrArg Discrete.mk ?_)⟩
   have h1 := PresheafOfCategories.sectionOfBasedFunctor_map f.hom.hom.toFunctor f.hom.hom.w φ
   have hfac := IsHomLift.fac' 𝒳.val.val.p p.value φ
-  show _ = Y.map (eqToHom hdom).op (Y.map p.value.op (algebraicSpaceStackSection f ξ))
+  change _ = Y.map (eqToHom hdom).op (Y.map p.value.op (algebraicSpaceStackSection f ξ))
   rw [← h1, hfac, ← Functor.map_comp_apply, ← op_comp]
   simp
 
@@ -177,7 +177,7 @@ theorem exists_sectionFamily_of_isFlat
   have hfW : ∀ ξ, algebraicSpaceStackSection f ξ ∈
       (Space.openSubspaceOfPoints B S hS Y O).obj (Opposite.op (𝒳.val.val.p.obj ξ)) := by
     intro ξ
-    show Set.range _ ⊆ O
+    change Set.range _ ⊆ O
     rintro _ ⟨t, rfl⟩
     exact mem_range_pointsMap_of_section f ξ t
   -- an open subspace over which the base change of `f` is surjective lies in `W`
@@ -288,7 +288,7 @@ theorem exists_sectionFamily_of_isFlat
       rw [← hm, Category.assoc, hιq j, ← Category.assoc]
     have h : g.app T v = ((m ≫ qj j).app T ⟨v, hv⟩).1 :=
       ConcreteCategory.congr_hom (NatTrans.congr_app hcomp T) (⟨v, hv⟩ : V.toFunctor.obj T)
-    show g.app T v ∈ W.obj T
+    change g.app T v ∈ W.obj T
     rw [h]
     exact ((m ≫ qj j).app T ⟨v, hv⟩).2
   choose j V hVo hVqc hyV hVle m hm using hloc

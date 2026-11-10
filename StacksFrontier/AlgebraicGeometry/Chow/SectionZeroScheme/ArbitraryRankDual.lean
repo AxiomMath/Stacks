@@ -110,7 +110,7 @@ theorem rankLocus_dualSheaf (r : ℕ) :
     rankLocus (dualSheaf E) r = rankLocus E r := by
   have := isFiniteLocallyFree_dualSheaf E hE
   ext x
-  show moduleRank (dualSheaf E) x = r ↔ moduleRank E x = r
+  change moduleRank (dualSheaf E) x = r ↔ moduleRank E x = r
   rw [moduleRank_dualSheaf E x]
 
 variable (C : ChowSituation.{u}) (sX : X ⟶ C.S) [LocallyOfFiniteType sX]

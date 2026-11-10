@@ -424,7 +424,7 @@ theorem projCounitCompat_of_mate_Q_legs (φ : A →+* B)
     (h : ∀ P : CochainComplex (ModuleCat.{max u v} A) ℤ,
       ∀ hP : CochainComplex.DerivedTensor.IsKFlat.{u, max u v} P,
       ∀ X I : CochainComplex (ModuleCat.{max u v} (ULift.{max u v} B)) ℤ,
-      ∀ hX : X.KFlat, ∀ _hI : I.IsKInjective,
+      X.KFlat → ∀ _hI : I.IsKInjective,
       ∀ g : E.functor.obj (DerivedCategory.Q.obj P) ≅
         (derivedScalarEquivalence.{u, max u v, max u v + 1} B).functor.obj
           (DerivedCategory.Q.obj X),

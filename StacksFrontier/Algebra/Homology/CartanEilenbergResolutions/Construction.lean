@@ -404,7 +404,7 @@ private theorem exists_cartanEilenbergResolution_of_horseshoe (h : HorseshoeProp
     ⟨{ f := ιK
        comm' := fun i j hij => by
          obtain rfl : j = i + 1 := hij.symm
-         show ιK i ≫ Ibi.d i (i + 1)
+         change ιK i ≫ Ibi.d i (i + 1)
            = (single C (ComplexShape.up ℤ) 0).map (K.d i (i + 1)) ≫ ιK (i + 1)
          rw [hIbid i, reassoc_of% (hcI₂' i), reassoc_of% (hcJ₁' (i + 1)), hcI₁' (i + 1),
            ← Functor.map_comp_assoc, ← Functor.map_comp_assoc, Category.assoc, ← GK.hd i] },

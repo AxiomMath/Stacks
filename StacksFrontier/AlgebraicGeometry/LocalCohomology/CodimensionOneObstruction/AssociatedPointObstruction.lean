@@ -8,7 +8,7 @@ public import StacksFrontier.AlgebraicGeometry.CoherentDevissage.Coherence
 public import
   StacksFrontier.AlgebraicGeometry.LocalCohomology.CodimensionOneObstruction.AssociatedPointTransfer
 public import
-  StacksFrontier.AlgebraicGeometry.LocalCohomology.CodimensionOneObstruction.AssociatedTorsionSections
+StacksFrontier.AlgebraicGeometry.LocalCohomology.CodimensionOneObstruction.AssociatedTorsionSections
 public import
   StacksFrontier.AlgebraicGeometry.LocalCohomology.CodimensionOneObstruction.ClosureStalkHeight
 public import
@@ -83,7 +83,7 @@ theorem not_moduleFinite_sections_of_isAssociatedPoint [IsLocallyNoetherian X]
   have hxz' : x ≠ z := fun h => hzS (h ▸ hxS)
   have hpnq : p ≠ q := fun h ↦ hxz' (inseparable_iff_specializes_and.mpr
     ⟨hxz, specializes_of_primeIdealOf_le hV₀ hx hz (le_of_eq h.symm)⟩).eq
-  obtain ⟨s, hsq, hsp⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hpq hpnq)
+  obtain ⟨s, hsq, hsp⟩ := IsConcreteLE.exists_of_lt (lt_of_le_of_ne hpq hpnq)
   obtain ⟨m, hmgerm, hmkill⟩ :=
     exists_section_smul_eq_zero_of_isAssociatedPoint hV₀ F hx hass hSV hxS
   have hkey : ∀ g : Γ(X, V₀), g ∉ q → X.presheaf.map (homOfLE hSV).op g • m ≠ 0 := by

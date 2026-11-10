@@ -89,14 +89,14 @@ def FinitelyGeneratedByCompactOpenSections
 private lemma compact_open_inter [QuasiSeparatedSpace X]
     (U V : Opens X) (hU : IsCompact (U : Set X)) (hV : IsCompact (V : Set X)) :
     IsCompact ((U ⊓ V : Opens X) : Set X) := by
-  show IsCompact ((U : Set X) ∩ (V : Set X))
+  change IsCompact ((U : Set X) ∩ (V : Set X))
   exact hU.inter_of_isOpen hV U.isOpen V.isOpen
 
 /-- The union of two quasi-compact opens is quasi-compact. -/
 private lemma compact_open_union (U V : Opens X)
     (hU : IsCompact (U : Set X)) (hV : IsCompact (V : Set X)) :
     IsCompact ((U ⊔ V : Opens X) : Set X) := by
-  show IsCompact ((U : Set X) ∪ (V : Set X))
+  change IsCompact ((U : Set X) ∪ (V : Set X))
   exact hU.union hV
 
 /-- A finite union of quasi-compact opens is quasi-compact. -/
@@ -352,7 +352,7 @@ private lemma integerSectionLocus_restrict_eq_constant (U : Opens X)
   let W : I → Opens X := fun i => i.1
   have hWL : ∀ i : I, W i ≤ L := by
     rintro ⟨V, hV⟩
-    show V ≤ integerSectionLocus X U s a
+    change V ≤ integerSectionLocus X U s a
     intro x hx
     exact (mem_integerSectionLocus_iff X U s a x).mpr ⟨V, hV, hx⟩
   let iWL : ∀ i : I, W i ⟶ L := fun i => homOfLE (hWL i)
@@ -362,7 +362,7 @@ private lemma integerSectionLocus_restrict_eq_constant (U : Opens X)
     exact (Opens.mem_iSup).mpr ⟨⟨V, hV⟩, hxV⟩
   refine TopCat.Sheaf.eq_of_locally_eq' (integerConstantSheaf X) W L iWL hcover _ _ ?_
   rintro ⟨V, ⟨hVU, hval⟩⟩
-  show (integerConstantSheaf X).obj.map (op (iWL ⟨V, ⟨hVU, hval⟩⟩))
+  change (integerConstantSheaf X).obj.map (op (iWL ⟨V, ⟨hVU, hval⟩⟩))
       ((integerConstantSheaf X).obj.map
         (op (homOfLE (integerSectionLocus_le X U s a))) s) =
     (integerConstantSheaf X).obj.map (op (iWL ⟨V, ⟨hVU, hval⟩⟩))
@@ -578,13 +578,13 @@ private theorem extensionHomOfSection_extensionSectionOnRestricted
         (AddCommGrpCat.of (ULift.{u} ℤ))) ((U.sheafRestrict).obj H)
   let p := constantPresheafMapOfSection (TopCat.of U) ((U.sheafRestrict).obj H)
     (extensionSectionOnRestricted X U H f)
-  show e₂ (e₁ (e₁.symm (e₂.symm p))) = e₂ (e₁ f)
+  change e₂ (e₁ (e₁.symm (e₂.symm p))) = e₂ (e₁ f)
   calc
     e₂ (e₁ (e₁.symm (e₂.symm p))) = p :=
       (congrArg e₂ (e₁.apply_symm_apply _)).trans (e₂.apply_symm_apply _)
     _ = e₂ (e₁ f) := by
       apply constantPresheafMap_ext_one (TopCat.of U) ((U.sheafRestrict).obj H)
-      show (1 : ℤ) • ((U.sheafRestrict.obj H).obj.map (𝟙 _))
+      change (1 : ℤ) • ((U.sheafRestrict.obj H).obj.map (𝟙 _))
           ((e₂ (e₁ f)).app (op ⊤) (ULift.up (1 : ℤ))) =
         (e₂ (e₁ f)).app (op ⊤) (ULift.up (1 : ℤ))
       simp
@@ -603,7 +603,7 @@ private theorem extensionSectionOnRestricted_extensionHomOfSection
       (constantPresheafOnSpace (TopCat.of U) AddCommGrpCat.{u}
         (AddCommGrpCat.of (ULift.{u} ℤ))) ((U.sheafRestrict).obj H)
   let p := constantPresheafMapOfSection (TopCat.of U) ((U.sheafRestrict).obj H) s
-  show (e₂ (e₁ (e₁.symm (e₂.symm p)))).app
+  change (e₂ (e₁ (e₁.symm (e₂.symm p)))).app
     (op (⊤ : Opens (TopCat.of U))) (ULift.up (1 : ℤ)) = s
   have hcalc : e₂ (e₁ (e₁.symm (e₂.symm p))) = p :=
     (congrArg e₂ (e₁.apply_symm_apply _)).trans (e₂.apply_symm_apply _)
@@ -615,7 +615,7 @@ private theorem extensionSectionOnRestricted_extensionHomOfSection
           (AddCommGrpCat.of (ULift.{u} ℤ)) ⟶ ((U.sheafRestrict).obj H).obj =>
             q.app (op (⊤ : Opens (TopCat.of U))) (ULift.up (1 : ℤ))) hcalc
     _ = s := by
-      show (1 : ℤ) • ((U.sheafRestrict.obj H).obj.map (𝟙 _)) s = s
+      change (1 : ℤ) • ((U.sheafRestrict.obj H).obj.map (𝟙 _)) s = s
       simp
 
 /-- The section attached to `f ≫ g` is the image under `g` of the section attached to `f`. -/
@@ -730,7 +730,7 @@ private theorem subobject_section_glue
       (op (Opens.infLELeft (V i) (V j))) (t i)
     have hj := NatTrans.naturality_apply A.arrow.hom
       (op (Opens.infLERight (V i) (V j))) (t j)
-    show A.arrow.hom.app (op (V i ⊓ V j))
+    change A.arrow.hom.app (op (V i ⊓ V j))
         ((A : TopCat.Sheaf AddCommGrpCat.{u} X).obj.map
           (op (Opens.infLELeft (V i) (V j))) (t i)) =
       A.arrow.hom.app (op (V i ⊓ V j))
@@ -750,7 +750,7 @@ private theorem subobject_section_glue
   refine ⟨tU, ?_⟩
   apply H.eq_of_locally_eq' V U (fun i => homOfLE (hVU i)) hcover
   intro i
-  show H.obj.map (op (homOfLE (hVU i)))
+  change H.obj.map (op (homOfLE (hVU i)))
       (A.arrow.hom.app (op U) tU) = H.obj.map (op (homOfLE (hVU i))) s
   rw [← ht i, ← htU i]
   exact (NatTrans.naturality_apply A.arrow.hom
@@ -799,7 +799,7 @@ private theorem extensionHom_factors_of_section_lift
   rw [sectionOfExtensionHomViaAdjunction_comp]
   have hg : sectionOfExtensionHomViaAdjunction X U
       (A : TopCat.Sheaf AddCommGrpCat.{u} X) g = t := by
-    show Eq.mp (congrArg
+    change Eq.mp (congrArg
       (fun V : Opens X => CategoryTheory.ToType
         ((A : TopCat.Sheaf AddCommGrpCat.{u} X).obj.obj (op V)))
       U.isOpenEmbedding_obj_top)
@@ -892,7 +892,7 @@ private lemma shortExact_of_stalk_strata
   intro x
   let T := S.map (TopCat.Sheaf.forget AddCommGrpCat.{u} X ⋙
     TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x)
-  show T.ShortExact
+  change T.ShortExact
   by_cases hxV : x ∈ V
   · obtain ⟨hf, hz⟩ := hV x hxV
     let _hfIso : IsIso T.f := hf
@@ -951,7 +951,7 @@ private lemma liftableIntegerCoefficients_mono
   rintro a ⟨s, hs⟩
   refine ⟨(F : TopCat.Sheaf AddCommGrpCat.{u} X).obj.map (op (homOfLE hVU)) s, ?_⟩
   have hF := NatTrans.naturality_apply F.arrow.hom (op (homOfLE hVU)) s
-  show F.arrow.hom.app (op V)
+  change F.arrow.hom.app (op V)
       ((F : TopCat.Sheaf AddCommGrpCat.{u} X).obj.map (op (homOfLE hVU)) s) =
     (CategoryTheory.toSheafify (Opens.grothendieckTopology X)
       (constantPresheafOnSpace X AddCommGrpCat.{u}
@@ -1057,7 +1057,7 @@ private lemma adjoinImage_cokernel_epi
     · rw [coprod.inl_desc]
       apply (cancel_mono (adjoinImage X H A q).arrow).mp
       rw [Subobject.ofLE_arrow]
-      show A.arrow =
+      change A.arrow =
         (coprod.inl ≫ factorThruImageSubobject (coprod.desc A.arrow q)) ≫
           (imageSubobject (coprod.desc A.arrow q)).arrow
       simp only [Category.assoc, imageSubobject_arrow_comp, coprod.inl_desc]
@@ -1142,7 +1142,7 @@ private theorem shortExact_adjoinImage
     rw [← Category.assoc, hja, Category.assoc, cokernel.condition, comp_zero]
   refine ⟨hab, ?_⟩
   let S := ShortComplex.mk a b hab
-  show S.ShortExact
+  change S.ShortExact
   apply shortExact_of_stalk_strata X S U V
   · intro x hxV
     let L := TopCat.Sheaf.forget AddCommGrpCat.{u} X ⋙
@@ -1153,7 +1153,7 @@ private theorem shortExact_adjoinImage
       apply (cancel_epi (L.map a)).mp
       have h := congrArg (fun f => L.map f) hab
       simpa only [Functor.map_comp, Functor.map_zero, comp_zero] using h
-    show IsIso (L.map a) ∧ IsZero (L.obj (cokernel inc))
+    change IsIso (L.map a) ∧ IsZero (L.obj (cokernel inc))
     exact ⟨inferInstance, IsZero.of_epi_eq_zero (L.map b) hb0⟩
   · intro x hxU hxV
     let L := TopCat.Sheaf.forget AddCommGrpCat.{u} X ⋙
@@ -1180,7 +1180,7 @@ private theorem shortExact_adjoinImage
       infer_instance
     have : Epi (L.map b) := Functor.map_epi L b
     have : IsIso (L.map b) := isIso_of_mono_of_epi _
-    show IsIso (L.map b) ∧ IsZero (L.obj (integerExtensionByZero X V))
+    change IsIso (L.map b) ∧ IsZero (L.obj (integerExtensionByZero X V))
     exact ⟨inferInstance, hzV⟩
   · intro x hxU
     let L := TopCat.Sheaf.forget AddCommGrpCat.{u} X ⋙
@@ -1653,14 +1653,14 @@ private theorem coefficient_family_filtration [QuasiSeparatedSpace X]
   let G : Fin (M + 1) → Subobject (integerConstantSheaf X) := fun i => B i.val
   have hG : Monotone G := fun i j hij => hBmono hij
   refine ⟨M, G, hG, ?_, ?_, ?_⟩
-  · show B 0 = ⊥
+  · change B 0 = ⊥
     apply le_antisymm _ bot_le
     apply Finset.sup_le
     intro k hk
     split_ifs with h
     · omega
     · exact le_rfl
-  · show B M = F
+  · change B M = F
     rw [← hF]
     apply Finset.sup_congr rfl
     intro k hk

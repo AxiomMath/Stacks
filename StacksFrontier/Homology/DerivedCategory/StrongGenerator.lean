@@ -143,7 +143,7 @@ private lemma chainMap_from_single_eq_zero
           HomologicalComplex.cyclesMap f p := by
       apply (cancel_mono (L.iCycles p)).1
       rw [L.liftCycles_i, Category.assoc, HomologicalComplex.cyclesMap_i]
-      show eX.inv ≫ f.f p =
+      change eX.inv ≫ f.f p =
         ((HomologicalComplex.singleObjCyclesSelfIso
           (ComplexShape.up ℤ) p (ModuleCat.of R R)).inv ≫
           ((HomologicalComplex.single (ModuleCat R) (ComplexShape.up ℤ) p).obj
@@ -159,7 +159,7 @@ private lemma chainMap_from_single_eq_zero
   let g : ModuleCat.of R R ⟶ L.X (p - 1) := hS.liftFromProjective z hz
   have hg : g ≫ L.d (p - 1) p = α := by
     rw [← L.toCycles_i (p - 1) p, ← Category.assoc]
-    show (hS.liftFromProjective z hz ≫ S.f) ≫ L.iCycles p = _
+    change (hS.liftFromProjective z hz ≫ S.f) ≫ L.iCycles p = _
     rw [ShortComplex.Exact.liftFromProjective_comp]
     exact L.liftCycles_i _ _ _ _
   rw [HomotopyCategory.quotient_map_eq_zero_iff]
@@ -170,7 +170,7 @@ private lemma chainMap_from_single_eq_zero
       apply (CochainComplex.HomComplex.Cochain.fromSingleEquiv
         (show p + 0 = p by simp)).injective
       simp only [map_add]
-      show (CochainComplex.HomComplex.Cochain.fromSingleEquiv
+      change (CochainComplex.HomComplex.Cochain.fromSingleEquiv
         (show p + 0 = p by simp)) (CochainComplex.HomComplex.Cochain.ofHom f) =
           (CochainComplex.HomComplex.Cochain.fromSingleEquiv
             (show p + 0 = p by simp))
@@ -180,7 +180,7 @@ private lemma chainMap_from_single_eq_zero
       rw [CochainComplex.HomComplex.Cochain.δ_fromSingleMk g
         (show p + (-1 : ℤ) = p - 1 by omega) 0 p (by omega)]
       rw [CochainComplex.HomComplex.Cochain.fromSingleEquiv_fromSingleMk]
-      show eX.inv ≫ f.f p = g ≫ L.d (p - 1) p
+      change eX.inv ≫ f.f p = g ≫ L.d (p - 1) p
       exact hg.symm⟩⟩
 
 /-- A morphism in `D(R)` out of `R` placed in degree `p` which vanishes on degree-`p` cohomology
@@ -202,7 +202,7 @@ private lemma derived_single_map_eq_zero [HasDerivedCategory.{w} (ModuleCat.{u} 
   let K := (CochainComplex.singleFunctor (ModuleCat R) p).obj (ModuleCat.of R R)
   let : Projective (ModuleCat.of R R) := projective_R
   have (n : ℤ) : Projective (K.X n) := by
-    show Projective (((HomologicalComplex.single (ModuleCat R) (ComplexShape.up ℤ) p).obj
+    change Projective (((HomologicalComplex.single (ModuleCat R) (ComplexShape.up ℤ) p).obj
       (ModuleCat.of R R)).X n)
     infer_instance
   let : K.IsKProjective := CochainComplex.isKProjective_of_projective K p
@@ -221,7 +221,7 @@ private lemma derived_single_map_eq_zero [HasDerivedCategory.{w} (ModuleCat.{u} 
     simp only [← Category.assoc]
     rw [← e.hom.naturality φ]
     simp only [Category.assoc, Iso.hom_inv_id_app, Category.comp_id]
-    show DerivedCategory.Qh.map (q.map φ) = t
+    change DerivedCategory.Qh.map (q.map φ) = t
     rw [hφ, hg]
   have hφH : HomologicalComplex.homologyMap φ p = 0 := by
     apply (cancel_epi ((DerivedCategory.homologyFunctorFactors (ModuleCat R) p).hom.app K)).1
@@ -377,22 +377,22 @@ private theorem ghostComposite_of_mem_iter : ∀ (m : ℕ)
       have hH := homology_map_precomp_δ₀_eq_zero G.δ₀ h fun i hi j => hG (i + 1) (by omega) j
       have hH0 : H.hom = 0 := ih H hB hH
       have hG0 : G.hom = 0 := by
-        show G.map' 0 (m + 2) = 0
+        change G.map' 0 (m + 2) = 0
         rw [G.map'_comp 0 1 (m + 2), hh, G.map'_comp 1 2 (m + 2)]
         have hEq : (p ≫ h) ≫ (G.map' 1 2 ≫ G.map' 2 (m + 2)) =
             p ≫ H.hom := by
           have hHhom : H.hom = (h ≫ G.map' 1 2) ≫ G.map' 2 (m + 2) := by
-            show H.map' 0 (m + 1) = _
+            change H.map' 0 (m + 1) = _
             rw [H.map'_comp 0 1 (m + 1)]
             rfl
           rw [hHhom]
           simp only [Category.assoc]
           rfl
-        show (p ≫ h) ≫ (G.map' 1 2 ≫ G.map' 2 (m + 2)) = 0
+        change (p ≫ h) ≫ (G.map' 1 2 ≫ G.map' 2 (m + 2)) = 0
         rw [hEq, hH0, comp_zero]
         rfl
       have hF0 : r.r ≫ F.hom = 0 := by
-        show r.r ≫ F.map' 0 (m + 2) = 0
+        change r.r ≫ F.map' 0 (m + 2) = 0
         rw [F.map'_comp 0 1 (m + 2)]
         change (r.r ≫ F.map' 0 1) ≫ F.map' 1 (m + 2) = 0 at hG0
         simpa only [Category.assoc] using hG0
@@ -476,7 +476,7 @@ private lemma precomp_hom {n : ℕ} (F : ComposableArrows (DerivedCategory C) n)
     (F.precomp f).hom = f ≫ F.hom := by
   cases n with
   | zero =>
-    show f = f ≫ F.map (𝟙 _)
+    change f = f ≫ F.map (𝟙 _)
     rw [F.map_id, Category.comp_id]
   | succ n => rfl
 
@@ -489,7 +489,7 @@ private lemma IsGhostComposite.exists_composableArrows {n : ℕ}
   induction n generalizing X Y with
   | zero =>
     refine ⟨ComposableArrows.mk₀ X, Iso.refl X, f, ?_, fun i hi ↦ by omega⟩
-    show 𝟙 X ≫ 𝟙 X ≫ f = f
+    change 𝟙 X ≫ 𝟙 X ≫ f = f
     simp
   | succ n ih =>
     obtain ⟨Z, a, b, ha, hb, rfl⟩ := hf
@@ -499,7 +499,7 @@ private lemma IsGhostComposite.exists_composableArrows {n : ℕ}
     · intro i hi j
       cases i with
       | zero =>
-        show (DerivedCategory.homologyFunctor C j).map (a ≫ e.hom) = 0
+        change (DerivedCategory.homologyFunctor C j).map (a ≫ e.hom) = 0
         simp only [Functor.map_comp, ha j, zero_comp]
       | succ i => exact hF i (by omega) j
 
@@ -914,7 +914,7 @@ theorem iso_biproduct_truncations_of_cohomology_isZero [IsRegularRing R]
     dsimp [Am]
     exact t.isLE_shift A a 1 (k - d) (by dsimp [a]; omega)
   have hzero : T.mor₃ = 0 := by
-    show (t.truncGEδLE a (a + 1) rfl).app K = 0
+    change (t.truncGEδLE a (a + 1) rfl).app K = 0
     have hs := subsingleton_hom_of_isGE_of_isLE d hdim Gm Am k hGge hAle
     apply @Subsingleton.elim _ hs
   obtain ⟨e₁, -⟩ := Pretriangulated.exists_iso_binaryBiproduct_of_distTriang T hT hzero
@@ -926,7 +926,7 @@ theorem iso_biproduct_truncations_of_cohomology_isZero [IsRegularRing R]
   let eG : G ≅ (t.truncGE b).obj K :=
     asIso ((t.truncGEπ b).app G) ≪≫
       (asIso ((t.truncGE b).map ((t.truncGEπ (a + 1)).app K))).symm
-  show Nonempty (K ≅ A ⊞ (t.truncGE b).obj K)
+  change Nonempty (K ≅ A ⊞ (t.truncGE b).obj K)
   exact ⟨e₁ ≪≫ Limits.biprod.mapIso (Iso.refl A) eG⟩
 
 end Regular
@@ -1058,7 +1058,7 @@ private lemma exists_hom_single_epi_homology
     epi_comp' inferInstance hg
   have : Epi (H.map (DerivedCategory.Q.map g)) :=
     (epi_comp_iff_of_isIso _ eH.hom).mp (by
-      show Epi ((DerivedCategory.Q ⋙ DerivedCategory.homologyFunctor C n).map g ≫
+      change Epi ((DerivedCategory.Q ⋙ DerivedCategory.homologyFunctor C n).map g ≫
         (DerivedCategory.homologyFunctorFactors C n).hom.app P)
       rw [(DerivedCategory.homologyFunctorFactors C n).hom.naturality g]
       exact hcomp)
@@ -1120,7 +1120,7 @@ private lemma exists_finite_projective_homology_cover
     · have := hf ⟨i, hi⟩
       apply epi_of_epi_fac (f := (H i).map (biproduct.ι F ⟨i, hi⟩))
         (h := (H i).map (f ⟨i, hi⟩))
-      show (H i).map (biproduct.ι F ⟨i, hi⟩) ≫ (H i).map φ = _
+      change (H i).map (biproduct.ι F ⟨i, hi⟩) ≫ (H i).map φ = _
       simp only [← Functor.map_comp, φ, biproduct.ι_desc]
     · have hz : IsZero ((H i).obj K) := by
         simp only [Finset.mem_Icc, not_and_or, not_le] at hi

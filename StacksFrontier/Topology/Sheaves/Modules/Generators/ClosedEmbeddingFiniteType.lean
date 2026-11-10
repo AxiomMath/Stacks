@@ -83,7 +83,7 @@ private lemma span_pushforward_subset {X Z : AlgebraicGeometry.RingedSpace.{u, u
   | zero => exact Submodule.zero_mem _
   | add x y hx hy ihx ihy => exact Submodule.add_mem _ ihx ihy
   | smul r x hx ih =>
-      show ((id : (Z.presheafRing.obj (op ((Opens.map i.hom.base).obj W))) →
+      change ((id : (Z.presheafRing.obj (op ((Opens.map i.hom.base).obj W))) →
           (Z.presheafRing.obj (op ((Opens.map i.hom.base).obj W))))
           ((i.hom.c.app (op W)).hom r)) •
         ((id : (F.toPresheaf.obj (op ((Opens.map i.hom.base).obj W))) →
@@ -108,7 +108,7 @@ private lemma preimage_inf_functorObj {X Z : TopCat} {f : Z ⟶ X} (hf : Topolog
     (V : Opens X) (C : Opens Z) (h : C ≤ (Opens.map f).obj V) :
     (Opens.map f).obj (V ⊓ hf.functorObj C) = C := by
   ext q
-  show (f q ∈ V ∧ f q ∈ hf.functorObj C) ↔ q ∈ C
+  change (f q ∈ V ∧ f q ∈ hf.functorObj C) ↔ q ∈ C
   rw [hf.mem_functorObj_iff]
   exact ⟨And.right, fun hq => ⟨h hq, hq⟩⟩
 
@@ -153,7 +153,7 @@ private theorem isFiniteType_of_pushforward {X Z : AlgebraicGeometry.RingedSpace
         (homOfLE hCB).op :=
       congrArg op (Subsingleton.elim
         ((Opens.map i.hom.base).map (homOfLE hWV) ≫ eqToHom hVA) (homOfLE hCB))
-    show F.toPresheaf.map ((Opens.map i.hom.base).map (homOfLE hWV)).op
+    change F.toPresheaf.map ((Opens.map i.hom.base).map (homOfLE hWV)).op
         (F.toPresheaf.map (eqToHom hVA).op t) = _
     exact (F.toPresheaf.map_comp_apply (eqToHom hVA).op
       ((Opens.map i.hom.base).map (homOfLE hWV)).op t).symm.trans
@@ -163,7 +163,7 @@ private theorem isFiniteType_of_pushforward {X Z : AlgebraicGeometry.RingedSpace
         (homOfLE (hWV.trans (show V ≤ U from inf_le_left))).op) (s j) =
       F.toPresheaf.map (homOfLE (show C ≤ A from
         fun q hq => (hWV.trans (show V ≤ U from inf_le_left)) hq)).op (s j) := by
-    show F.toPresheaf.map
+    change F.toPresheaf.map
       ((Opens.map i.hom.base).map
         (homOfLE (hWV.trans (show V ≤ U from inf_le_left)))).op (s j) = _
     exact F.toPresheaf.congr_map_apply (congrArg op (Subsingleton.elim _ _)) (s j)
@@ -213,7 +213,7 @@ private lemma locally_span_pushforward
             (homOfLE (hVj j)).op).hom ((i.hom.c.app (op (Vj j))).hom (aj j)) := hh
       _ = _ := by
         rw [haj j]
-        show (Z.presheafRing.map
+        change (Z.presheafRing.map
           ((Opens.map i.hom.base).map (homOfLE (hVj j))).op)
           ((Z.presheafRing.map ((Opens.map i.hom.base).map (ιj j)).op) (c j)) = _
         let f : (op ((Opens.map i.hom.base).obj W) : (Opens Z)ᵒᵖ) ⟶
@@ -293,14 +293,14 @@ private theorem isFiniteType_pushforward_of {X Z : AlgebraicGeometry.RingedSpace
               F.toPresheaf.obj (op ((Opens.map i.hom.base).obj W))) (sW j)) := by
         cases hWC
         have h_t : tW = F.toPresheaf.map (homOfLE hCB).op t := by
-          show F.toPresheaf.map ((Opens.map i.hom.base).map (homOfLE hWV)).op t = _
+          change F.toPresheaf.map ((Opens.map i.hom.base).map (homOfLE hWV)).op t = _
           exact F.toPresheaf.congr_map_apply (congrArg op (Subsingleton.elim _ _)) t
         have h_s (j : Fin n) :
             sW j = F.toPresheaf.map (homOfLE (hCB.trans hBA)).op (s j) := by
           have hh : (eqToHom hUA).op ≫
               ((Opens.map i.hom.base).map (homOfLE (hWV.trans hVU))).op =
               (homOfLE (hCB.trans hBA)).op := congrArg op (Subsingleton.elim _ _)
-          show F.toPresheaf.map
+          change F.toPresheaf.map
             ((Opens.map i.hom.base).map (homOfLE (hWV.trans hVU))).op
               (F.toPresheaf.map (eqToHom hUA).op (s j)) = _
           exact (F.toPresheaf.map_comp_apply (eqToHom hUA).op

@@ -105,7 +105,7 @@ theorem isRightDerivedFunctor_of_isRightDerivedValueAt_derivedUnitCocone
     [L.IsLocalization W] (F' : D ⥤ H) (α : F ⟶ L ⋙ F')
     (hval : ∀ X, F.IsRightDerivedValueAt W X (derivedUnitCocone F W L F' α X)) :
     F'.IsRightDerivedFunctor α W := by
-  haveI := Localization.essSurj L W
+  have := Localization.essSurj L W
   have hpt : ∀ X : C, (LeftExtension.mk F' α).IsPointwiseLeftKanExtensionAt (L.obj X) := by
     intro X
     letI := W.final_underToCostructuredArrow L X
@@ -123,8 +123,6 @@ namespace CochainComplex
 universe w v
 
 variable (A : Type) [Category.{0} A] [Abelian A]
-  [((DGCategory.yonedaDGFunctor (CochainComplex.dgCategory A)).onK).CommShift ℤ]
-  [((DGCategory.yonedaDGFunctor (CochainComplex.dgCategory A)).onK).IsTriangulated]
 
 /-- The homotopy category of right differential graded modules over the differential graded
 category of complexes in `A`, where the reflector of steps 1 and 2 lives. -/
@@ -135,7 +133,18 @@ abbrev derivedHomModuleK :=
 `DGCategory.phiGen`, with the reflector, its unit and all three clauses kept. This is
 `DGCategory.exists_derivedHomReflector_data` with its hypothesis discharged by `fun _ h ↦ h`, and
 it is the single existential every declaration below chooses from. -/
-def exists_derivedHomReflectorData :=
+theorem exists_derivedHomReflectorData :
+    ∃ (L : derivedHomModuleK A ⥤ derivedHomModuleK A)
+      (_ : L.CommShift ℤ) (_ : L.IsTriangulated) (η : 𝟭 _ ⟶ L)
+      (_ : ∀ X, (DGCategory.RightModule.yonedaLocalizing (CochainComplex.dgCategory A)
+        (DGCategory.phiGen A)).rightOrthogonal (L.obj X))
+      (_ : ∀ (X Y : derivedHomModuleK A) (f : Y ⟶ X) (g : L.obj X ⟶ Y⟦(1 : ℤ)⟧),
+        Triangle.mk f (η.app X) g ∈ distTriang (derivedHomModuleK A) →
+          DGCategory.RightModule.yonedaLocalizing (CochainComplex.dgCategory A)
+            (DGCategory.phiGen A) Y),
+      ∀ X, DGCategory.RightModule.yonedaInverseImage (CochainComplex.dgCategory A)
+          (DGCategory.phiGen A) X →
+        IsZero (((DGCategory.yonedaDGFunctor (CochainComplex.dgCategory A)).onK ⋙ L).obj X) :=
   DGCategory.exists_derivedHomReflector_data (CochainComplex.dgCategory A) (DGCategory.phiGen A)
     ((DGCategory.yonedaDGFunctor (CochainComplex.dgCategory A)).onK)
     (DGCategory.RightModule.yonedaInverseImage (CochainComplex.dgCategory A)
@@ -215,7 +224,9 @@ theorem derivedHomReflectorSource_eq :
   congrArg ((CochainComplex.homotopyCategoryEquivalence A).functor ⋙ ·)
     (DGCategory.yonedaOnK_comp_evaluationOnK_comp_derivedQ (CochainComplex.dgCategory A) K)
 
-variable [HasDerivedCategory.{v} A]
+variable [((DGCategory.yonedaDGFunctor (CochainComplex.dgCategory A)).onK).CommShift ℤ]
+  [((DGCategory.yonedaDGFunctor (CochainComplex.dgCategory A)).onK).IsTriangulated]
+  [HasDerivedCategory.{v} A]
 
 /-- **The functor `R Hom(K, -) : D(A) ⥤ D(E, d)` of [Stacks, Tag 09LK]**, for
 `E = C(K, K)` the endomorphism differential graded category of `K` in `Comp^dg(A)`: the
@@ -321,7 +332,7 @@ theorem isRightDerivedFunctor_derivedHomReflectorFunctor
           (HomotopyCategory.quasiIso A (ComplexShape.up ℤ)) X c) :
     (derivedHomReflectorFunctor A K).IsRightDerivedFunctor β
       (HomotopyCategory.quasiIso A (ComplexShape.up ℤ)) := by
-  haveI := hstep3
+  have := hstep3
   refine Functor.isRightDerivedFunctor_of_isRightDerivedValueAt_derivedUnitCocone
     (derivedHomReflectorSource A K) (HomotopyCategory.quasiIso A (ComplexShape.up ℤ))
     DerivedCategory.Qh (derivedHomReflectorFunctor A K) β fun X => hU X _ ?_

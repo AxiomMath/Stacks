@@ -232,18 +232,18 @@ private theorem degree_neg_one_iff {R : Type u'} {S : Type v'}
   let C := HomologicalComplex.double (i₀ := (-1 : ℤ)) (i₁ := 0)
     (ModuleCat.ofHom P.cotangentComplex)
     (show (ComplexShape.up ℤ).Rel (-1) 0 from rfl)
-  show IsZero ((DerivedCategory.homologyFunctor (ModuleCat.{max u' v'} S) (-1)).obj
+  change IsZero ((DerivedCategory.homologyFunctor (ModuleCat.{max u' v'} S) (-1)).obj
     (DerivedCategory.Q.obj C)) ↔ _
   refine ((DerivedCategory.homologyFunctorFactors
     (ModuleCat.{max u' v'} S) (-1)).app C).isZero_iff.trans ?_
-  show IsZero (C.homology (-1)) ↔ _
+  change IsZero (C.homology (-1)) ↔ _
   rw [← C.exactAt_iff_isZero_homology,
     C.exactAt_iff' (j := (-1)) (-2) 0 (by simp) (by simp), ShortComplex.exact_iff_mono]
-  · show Mono (C.d (-1) 0) ↔ _
+  · change Mono (C.d (-1) 0) ↔ _
     rw [HomologicalComplex.double_d _ _ (by norm_num), mono_comp_iff_of_isIso,
       mono_comp_iff_of_mono, ModuleCat.mono_iff_injective]
     exact (Algebra.Extension.subsingleton_h1Cotangent P).symm
-  · show C.d (-2) (-1) = 0
+  · change C.d (-2) (-1) = 0
     exact HomologicalComplex.double_d_eq_zero₀ _ _ (-2) (-1) (by norm_num)
 
 -- Elaborating the universe-lifted cokernel comparison requires a higher heartbeat limit.
@@ -347,7 +347,7 @@ private theorem projective_homology_iff_formallySmooth {R : Type u'} {S : Type v
       f.FormallySmooth := by
   let _ := f.toAlgebra
   dsimp only
-  show _ ↔ Algebra.FormallySmooth R S
+  change _ ↔ Algebra.FormallySmooth R S
   rw [Algebra.formallySmooth_iff]
   exact (and_congr (degree_neg_one_iff f) (degree_zero_projective_iff f)).trans and_comm
 

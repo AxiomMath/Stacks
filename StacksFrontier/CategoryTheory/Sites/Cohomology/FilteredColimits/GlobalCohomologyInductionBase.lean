@@ -71,8 +71,9 @@ identifies global sections with the limit of the underlying presheaf, together w
 The hypothesis `h_equalizer` of the source, (4) of Stacks 0GN3, is not needed here: it enters only
 through the spectral sequence used for the vanishing input, which is a hypothesis below.
 
-The universes are those of the statement: the site, the coefficient category and the index category all use
-one `u`, which is forced by Mathlib's `IsGrothendieckAbelian` instance for `Sheaf J Ab`.
+The universes are those of the statement: the site, the coefficient category and the index
+category all use one `u`, which is forced by Mathlib's `IsGrothendieckAbelian` instance for
+`Sheaf J Ab`.
 
 ## References
 

@@ -149,8 +149,10 @@ variable (Z : RingedTopos.{u, u, u}) [Z.J.HasSheafCompose (forget RingCat.{u})]
 forgotten: the underlying abelian sheaf followed by Mathlib's `CategoryTheory.Sheaf.Γ`. This is
 the spelling of `Stacks.Cohomology.ForgetModule.moduleGlobalSections`. -/
 abbrev moduleGlobalSections :
-    SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Z.J)) Z.O) ⥤ AddCommGrpCat.{u} :=
-  SheafOfModules.toSheaf ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Z.J)) Z.O) ⋙ Sheaf.Γ Z.J AddCommGrpCat.{u}
+    SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Z.J)) Z.O) ⥤
+      AddCommGrpCat.{u} :=
+  SheafOfModules.toSheaf ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Z.J)) Z.O) ⋙
+    Sheaf.Γ Z.J AddCommGrpCat.{u}
 
 /-- Global sections of abelian sheaves are additive, being a right adjoint and therefore
 preserving binary products. -/
@@ -158,7 +160,8 @@ instance additive_abelianGlobalSections : (Sheaf.Γ Z.J AddCommGrpCat.{u}).Addit
   Functor.additive_of_preserves_binary_products _
 
 instance additive_moduleGlobalSections : (moduleGlobalSections Z).Additive :=
-  inferInstanceAs ((SheafOfModules.toSheaf ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Z.J)) Z.O) ⋙
+  inferInstanceAs
+    ((SheafOfModules.toSheaf ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Z.J)) Z.O) ⋙
     Sheaf.Γ Z.J AddCommGrpCat.{u})).Additive
 
 /-- `RΓ(C, -)`: the total right derived functor of global sections of sheaves of modules on a
@@ -194,7 +197,8 @@ attribute [local instance] pullbackModules_preservesFiniteLimits_of_isIso_fSharp
 direct image carries a K-injective complex of sheaves of modules on the source to a K-injective
 complex on the target, because `f_*` is the right adjoint of the exact functor `f^*`. -/
 theorem isKInjective_pushforwardModules
-    (I : CochainComplex (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J)) X.O)) ℤ)
+    (I : CochainComplex
+      (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J)) X.O)) ℤ)
     (hI : I.IsKInjective) :
     CochainComplex.IsKInjective
       (((pushforwardModules f).mapHomologicalComplex (ComplexShape.up ℤ)).obj I) :=

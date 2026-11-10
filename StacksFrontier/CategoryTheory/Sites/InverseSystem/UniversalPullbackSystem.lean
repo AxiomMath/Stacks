@@ -355,7 +355,7 @@ identity and the identity. -/
 theorem ψSheaf_id (i : D.I) :
     ψSheaf huniv' (𝟙 i) = (abelianSheafPushforwardIdIso.{v, u, w, w} D i).hom.app (F' i) := by
   apply (huniv' i).hom_ext (M := push D (𝟙 i) (F' i))
-  show ε' i ≫ Functor.whiskerLeft (D.u (ht.from i)).op (ψ D ht ε' huniv' (𝟙 i)) = _
+  change ε' i ≫ Functor.whiskerLeft (D.u (ht.from i)).op (ψ D ht ε' huniv' (𝟙 i)) = _
   rw [ψ_spec D ht ε' huniv' (𝟙 i)]
   refine NatTrans.ext (funext fun U => ?_)
   simp only [NatTrans.comp_app, Functor.whiskerLeft_app, eqToHom_app]

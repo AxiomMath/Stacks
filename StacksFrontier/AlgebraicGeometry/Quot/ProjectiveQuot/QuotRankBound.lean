@@ -7,8 +7,8 @@ public import Mathlib.Algebra.Order.Antidiag.FinsuppEquiv
 /-!
 # The rank bound `p ≤ N` for `Quot^P`
 
-Let `n ≥ 0`, `r ≥ 1`, `P ∈ ℚ[t]`, `m = AlgebraicGeometry.ProjectiveQuot.regularityIndex n r hr P`,
-`N = freeRank n r m` and `p = quotRank n r hr P = ⌊P(m)⌋₊`. If some scheme `T` with a point `t`
+Let `n ≥ 0`, `r ≥ 1`, `P ∈ ℚ[t]`, `m = AlgebraicGeometry.ProjectiveQuot.regularityIndex n r P`,
+`N = freeRank n r m` and `p = quotRank n r P = ⌊P(m)⌋₊`. If some scheme `T` with a point `t`
 carries a member `K` of `Quot^P(T)`, then `p ≤ N`: on the fibre over `t` the map
 `Γ(ℙⁿ_{κ(t)}, 𝒪^{⊕ r}(m)) ⟶ Γ(ℙⁿ_{κ(t)}, 𝒬_t(m))` is onto, the source has dimension
 `r · (m + n choose n) = N` and the target has dimension `P(m)`. Hence when `p > N` the functor
@@ -67,20 +67,21 @@ theorem freeRank_eq (m : ℕ) : freeRank.{u} n r m = r * (m + n).choose n := by
 
 variable (hr : 1 ≤ r) {P : Polynomial ℚ}
 
+include hr in
 /-- **`p ≤ N`.** If `K ∈ Quot^P(T)` for a scheme `T` with a point `t`, then
 `⌊P(m)⌋₊ ≤ freeRank n r m`: on the fibre over `t` the sections map
 `Γ(ℙⁿ_{κ(t)}, 𝒪^{⊕ r}(m)) ⟶ Γ(ℙⁿ_{κ(t)}, 𝒬_t(m))` is onto, between spaces of dimensions
 `r · (m + n choose n)` and `P(m)`. -/
 theorem quotRank_le_freeRank {T : Scheme.{u}} {K : Subobject (freeModule n r T)}
     (hK : K ∈ hilbertFamilies n r P T) (t : T) :
-    quotRank.{u} n r hr P ≤ freeRank.{u} n r (regularityIndex.{u} n r hr P) := by
+    quotRank.{u} n r P ≤ freeRank.{u} n r (regularityIndex.{u} n r P) := by
   obtain ⟨hcoh, hval⟩ := hK.2 t
   let k := T.residueField t
   let q : freeModules k n r ⟶ fibre t (quotient K) :=
     baseChangeQuotientMap (T.fromSpecResidueField t) K
   have : Epi q := inferInstanceAs (Epi (baseChangeQuotientMap (T.fromSpecResidueField t) K))
-  obtain ⟨-, -, hfin, hsurj, -⟩ := regularityIndex_spec n r hr P k (fibre t (quotient K)) q hval
-  let m := regularityIndex.{u} n r hr P
+  obtain ⟨-, -, hfin, hsurj, -⟩ := regularityIndex_spec n r P k (fibre t (quotient K)) q hval
+  let m := regularityIndex.{u} n r P
   let f := projectiveSpaceOverRing n (.of k) ↘ Spec (.of k)
   -- the dimension of the source
   have hsrc : Module.finrank k (cohomologyOverField k f
@@ -109,9 +110,10 @@ theorem quotRank_le_freeRank {T : Scheme.{u}} {K : Subobject (freeModule n r T)}
   rw [quotRank, freeRank_eq, hP, Nat.floor_natCast, ← hsrc]
   exact hle
 
+include hr in
 /-- **`Quot^P` is empty over a nonempty scheme when `N < p`.** -/
 theorem hilbertFamilies_eq_empty_of_lt
-    (h : freeRank.{u} n r (regularityIndex.{u} n r hr P) < quotRank.{u} n r hr P)
+    (h : freeRank.{u} n r (regularityIndex.{u} n r P) < quotRank.{u} n r P)
     {T : Scheme.{u}} (t : T) : hilbertFamilies n r P T = ∅ :=
   Set.eq_empty_of_forall_notMem fun _ hK => (quotRank_le_freeRank hr hK t).not_gt h
 

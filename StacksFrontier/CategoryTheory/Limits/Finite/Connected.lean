@@ -93,7 +93,7 @@ private lemma hasWidePullback_option {C : Type u} [Category.{v} C] [HasPullbacks
   have hfac : ∀ j, proj j ≫ arrows j = bse := by
     rintro (_ | a)
     · rfl
-    · show (pullback.fst g (arrows none) ≫ WidePullback.π (fun a => arrows (some a)) a) ≫
+    · change (pullback.fst g (arrows none) ≫ WidePullback.π (fun a => arrows (some a)) a) ≫
         arrows (some a) = _
       rw [Category.assoc, WidePullback.π_arrow]
       exact hfb
@@ -101,14 +101,14 @@ private lemma hasWidePullback_option {C : Type u} [Category.{v} C] [HasPullbacks
   refine WidePullbackCone.IsLimit.mk _
     (fun t => pullback.lift t.liftSome (t.π none) (hcond t)) ?_ ?_ ?_
   · intro t
-    show pullback.lift t.liftSome (t.π none) (hcond t) ≫
+    change pullback.lift t.liftSome (t.π none) (hcond t) ≫
       (pullback.snd g (arrows none) ≫ arrows none) = t.base
     rw [← Category.assoc, pullback.lift_snd, WidePullbackCone.condition t none]
   · rintro t (_ | a)
-    · show pullback.lift t.liftSome (t.π none) (hcond t) ≫ pullback.snd g (arrows none)
+    · change pullback.lift t.liftSome (t.π none) (hcond t) ≫ pullback.snd g (arrows none)
         = t.π none
       rw [pullback.lift_snd]
-    · show pullback.lift t.liftSome (t.π none) (hcond t) ≫
+    · change pullback.lift t.liftSome (t.π none) (hcond t) ≫
           (pullback.fst g (arrows none) ≫ WidePullback.π (fun a => arrows (some a)) a) =
             t.π (some a)
       rw [← Category.assoc, pullback.lift_fst]

@@ -66,7 +66,7 @@ theorem chartOpensRestrict_top_comp_chartOpensTopHom {U V : SmallEtale B S hS X.
 theorem chartRealizedSchemeΓIso_naturality {U V : SmallEtale B S hS X.1} (g : V ⟶ U) :
     E.A.obj.map g.op ≫ (E.chartRealizedSchemeΓIso V).hom =
       (E.chartRealizedSchemeΓIso U).hom ≫ (E.chartRealizedSchemeMap g).appTop := by
-  show E.A.obj.map g.op ≫ E.A.obj.map (chartOpensTopHom B S hS X V).op =
+  change E.A.obj.map g.op ≫ E.A.obj.map (chartOpensTopHom B S hS X V).op =
     E.A.obj.map (chartOpensTopHom B S hS X U).op ≫ E.A.obj.map (chartOpensRestrict B S hS g ⊤).op
   rw [← Functor.map_comp, ← Functor.map_comp, ← op_comp, ← op_comp,
     chartOpensRestrict_top_comp_chartOpensTopHom]
@@ -254,7 +254,7 @@ theorem full_thickenedChartFunctor : (E.thickenedChartFunctor P hU hR).Full := b
   apply (E.quotientChartBaseChange P hU hR).map_injective
   rw [← cancel_epi (E.thickenedChartBaseChangeIso P hU hR W₁).hom,
     thickenedChartBaseChangeIso_naturality]
-  show ((E.thickenedChartBaseChangeIso P hU hR W₁).hom ≫
+  change ((E.thickenedChartBaseChangeIso P hU hR W₁).hom ≫
     (E.quotientChartBaseChange P hU hR).map h ≫
       (E.thickenedChartBaseChangeIso P hU hR W₂).inv) ≫
         (E.thickenedChartBaseChangeIso P hU hR W₂).hom = _
@@ -378,7 +378,7 @@ theorem chartInclusion_appTop_chartRealizedSchemeΓIso (W : SmallEtale B S hS X.
           (E.π.hom.app (op W) a) :=
     ConcreteCategory.congr_hom (E.π.hom.naturality (chartOpensTopHom B S hS X W).op) a
   refine (congrArg (chartΓEquiv W (op ⊤)) hn).trans ?_
-  show (chartScheme W).presheaf.map _ ((chartScheme W).presheaf.map _ _) = _
+  change (chartScheme W).presheaf.map _ ((chartScheme W).presheaf.map _ _) = _
   exact Scheme.presheaf_map_map_top _ _ _
 
 /-- The map `Γ(W', ⊤) ⟶ 𝒪_X(W)` sends `x` to the image under `π` of the section of `𝒜(W)`
@@ -405,12 +405,12 @@ theorem quotientSheafIso_hom_comp_π :
     have he : t.ringAdjunction.homEquiv _ _ (E.quotientSheafIso P hU hR).hom ≫
         (pushforwardRingIsoRan B S hS (E.thickeningImmersion P hU hR) E.A).hom =
           (E.structureIsoRingDirectImageRan P hU hR).hom := by
-      show t.ringAdjunction.homEquiv _ _ ((t.ringAdjunction.homEquiv _ _).symm
+      change t.ringAdjunction.homEquiv _ _ ((t.ringAdjunction.homEquiv _ _).symm
         (E.structureIsoPushforward P hU hR).hom) ≫ _ = _
       rw [Equiv.apply_symm_apply]
       exact (Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) (Iso.inv_hom_id _)).trans
         (Category.comp_id _))
-    show ringDirectImageRanChartProjection B S hS _ E.A _ _
+    change ringDirectImageRanChartProjection B S hS _ E.A _ _
       ((t.ringAdjunction.homEquiv _ _ (E.quotientSheafIso P hU hR).hom ≫
         (pushforwardRingIsoRan B S hS (E.thickeningImmersion P hU hR) E.A).hom).hom.app _ x) = _
     rw [he]

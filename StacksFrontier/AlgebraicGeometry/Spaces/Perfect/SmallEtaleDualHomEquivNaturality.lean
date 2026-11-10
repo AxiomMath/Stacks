@@ -299,7 +299,7 @@ theorem smallEtaleHomAddEquivUnitTensorDual_naturality_left
         ((smallEtaleDerivedSheafHom B S hS X).map u.op).app M :=
     (congrArg ((smallEtaleDerivedTensorSheafHomAdjunction B S hS X E).homEquiv
       (structureDerived X) M) (hl.trans hd'.symm)).trans (Equiv.apply_symm_apply _ _)
-  show ((smallEtaleDerivedTensorSheafHomAdjunction B S hS X E).homEquiv (structureDerived X) M)
+  change ((smallEtaleDerivedTensorSheafHomAdjunction B S hS X E).homEquiv (structureDerived X) M)
         (((smallEtaleDerivedTensorProduct B S hS X).leftUnitor.app E).hom ≫ u ≫ g) ≫
       (smallEtaleDerivedSheafHomTensorDualNatIso B S hS X E hE).hom.app M =
     (((smallEtaleDerivedTensorSheafHomAdjunction B S hS X E').homEquiv (structureDerived X) M)
@@ -323,7 +323,7 @@ theorem smallEtaleExtAddEquivUnitTensorDual_naturality_left
   have : NatTrans.CommShift ((smallEtaleDerivedTensor B S hS X).map
       (smallEtaleDerivedDualMap B S hS X u)) ℤ :=
     (smallEtaleDerivedTensorProduct B S hS X).commShift₂.commShift_map _
-  show smallEtaleHomAddEquivUnitTensorDual B S hS X E hE (M⟦i⟧) (u ≫ g) ≫ _ =
+  change smallEtaleHomAddEquivUnitTensorDual B S hS X E hE (M⟦i⟧) (u ≫ g) ≫ _ =
     (smallEtaleHomAddEquivUnitTensorDual B S hS X E' hE' (M⟦i⟧) g ≫ _) ≫ _
   rw [smallEtaleHomAddEquivUnitTensorDual_naturality_left B S hS X hE hE' u g, Category.assoc,
     Category.assoc]

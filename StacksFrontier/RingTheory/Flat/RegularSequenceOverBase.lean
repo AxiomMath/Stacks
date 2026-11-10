@@ -25,8 +25,8 @@ the source's case being `M = S`.
 046Z is the source's proof: apply 046Y to `LinearMap.lsmul S M f`. Both of 046Y's conclusions
 specialise once two submodules are identified, and both identifications are equalities of
 submodules rather than of quotients, so the two ways of writing a quotient of `M` never have to be
-compared as types. The fibre: 046Y takes the quotient by `𝔪 • (⊤ : Submodule R M)` while 046Z and 0470
-take it by `𝔪S • (⊤ : Submodule S M)`, and the second restricted to `R` is the first
+compared as types. The fibre: 046Y takes the quotient by `𝔪 • (⊤ : Submodule R M)` while 046Z and
+0470 take it by `𝔪S • (⊤ : Submodule S M)`, and the second restricted to `R` is the first
 (`Ideal.smul_restrictScalars`); the hypothesis is therefore transported at the level of membership.
 The cokernel: 046Y produces `M ⧸ LinearMap.range (LinearMap.lsmul S M f)` and 046Z asks for
 `M ⧸ Ideal.span {f} • ⊤`, the same submodule (`range_lsmul`).

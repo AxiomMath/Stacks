@@ -73,11 +73,11 @@ theorem geometricLength_eq_of_iso (X : AlgebraicSpaces B S hS) (x : GeometricPoi
   (LinearEquiv.ofLinearMap (geometricModuleStalkLinearMap B S hS X x e.hom)
     (geometricModuleStalkLinearMap B S hS X x e.inv)
     (LinearMap.ext fun z => by
-      show geometricModuleStalkMap B S hS X x e.hom (geometricModuleStalkMap B S hS X x e.inv z)
+      change geometricModuleStalkMap B S hS X x e.hom (geometricModuleStalkMap B S hS X x e.inv z)
         = z
       rw [← geometricModuleStalkMap_comp, e.inv_hom_id, geometricModuleStalkMap_id])
     (LinearMap.ext fun z => by
-      show geometricModuleStalkMap B S hS X x e.inv (geometricModuleStalkMap B S hS X x e.hom z)
+      change geometricModuleStalkMap B S hS X x e.inv (geometricModuleStalkMap B S hS X x e.hom z)
         = z
       rw [← geometricModuleStalkMap_comp, e.hom_inv_id, geometricModuleStalkMap_id])).length_eq
 
@@ -108,7 +108,7 @@ theorem residueFieldDegreeAt_eq_one_of_mono {X Y : (BigFppfOver B S hS)ᵒᵖ �
   let e : residueField B S hS Y hDY (pointsMap B S hS X f x) ≃ₐ[
       residueField B S hS Y hDY (pointsMap B S hS X f x)] residueField B S hS X hDX x :=
     AlgEquiv.ofBijective (Algebra.ofId _ _) hbij
-  show Module.finrank _ _ = 1
+  change Module.finrank _ _ = 1
   rw [← e.toLinearEquiv.finrank_eq, Module.finrank_self]
 
 end General

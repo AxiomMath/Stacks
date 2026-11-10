@@ -25,7 +25,7 @@ open scoped BigOperators
 
 namespace AlgebraicGeometry.NumericalType
 
-private def BoundaryAt {t : ℕ} (T : NumericalType)
+def BoundaryAt {t : ℕ} (T : NumericalType)
     (I : Finset (Fin T.componentCount)) (v : Fin t → Fin T.componentCount)
     (r : Fin t) : Prop :=
   ∃ y, y ∉ I ∧ 0 < T.intersection (v r) y
@@ -174,7 +174,7 @@ private theorem exists_BC_boundary_control {t : ℕ} (T : NumericalType)
           rw [sum_edge_B_nonlast _ (by omega) m, sum_edge_A_head ht' m] at hrow
           have hfr : DynkinShape.weightFactor .B
               (⟨0, by omega⟩ : Fin t) = 2 := by
-            show (if 0 + 1 = t then 1 else 2) = 2
+            change (if 0 + 1 = t then 1 else 2) = 2
             rw [ite_eq_right (by omega)]
           rw [hfr] at hrow
           have hmax1 := hmax ⟨1, by omega⟩
@@ -198,7 +198,7 @@ private theorem exists_BC_boundary_control {t : ℕ} (T : NumericalType)
               have hlast : t - 1 + 1 = t := Nat.sub_add_cancel (by omega : 1 ≤ t)
               have hfactor : DynkinShape.weightFactor .B
                   (⟨t - 1, by omega⟩ : Fin t) = 1 := by
-                show (if t - 1 + 1 = t then 1 else 2) = 1
+                change (if t - 1 + 1 = t then 1 else 2) = 1
                 simp [hlast]
               rw [hfactor] at hrow
               dsimp [m] at hrow
@@ -220,7 +220,7 @@ private theorem exists_BC_boundary_control {t : ℕ} (T : NumericalType)
               (by dsimp [n]; omega) m] at hrow
             have hfr : DynkinShape.weightFactor .B
                 (⟨n, by omega⟩ : Fin t) = 2 := by
-              show (if n + 1 = t then 1 else 2) = 2
+              change (if n + 1 = t then 1 else 2) = 2
               rw [ite_eq_right (by omega)]
             rw [hfr] at hrow
             have hprev : m ⟨n - 1, by omega⟩ = m ⟨n, by omega⟩ := by
@@ -245,7 +245,7 @@ private theorem exists_BC_boundary_control {t : ℕ} (T : NumericalType)
           rw [sum_edge_C_nonlast _ (by omega) m, sum_edge_A_head ht' m] at hrow
           have hfr : DynkinShape.weightFactor .C
               (⟨0, by omega⟩ : Fin t) = 1 := by
-            show (if 0 + 1 = t then 2 else 1) = 1
+            change (if 0 + 1 = t then 2 else 1) = 1
             rw [ite_eq_right (by omega)]
           rw [hfr] at hrow
           have h1 : m ⟨1, by omega⟩ = 2 * m ⟨0, by omega⟩ := by
@@ -271,7 +271,7 @@ private theorem exists_BC_boundary_control {t : ℕ} (T : NumericalType)
               have hlast : t - 1 + 1 = t := Nat.sub_add_cancel (by omega : 1 ≤ t)
               have hfactor : DynkinShape.weightFactor .C
                   (⟨t - 1, by omega⟩ : Fin t) = 2 := by
-                show (if t - 1 + 1 = t then 2 else 1) = 2
+                change (if t - 1 + 1 = t then 2 else 1) = 2
                 simp [hlast]
               rw [hfactor] at hrow
               dsimp [m] at hrow
@@ -294,7 +294,7 @@ private theorem exists_BC_boundary_control {t : ℕ} (T : NumericalType)
                 (by dsimp [n]; omega) m] at hrow
               have hfr : DynkinShape.weightFactor .C
                   (⟨n, by omega⟩ : Fin t) = 1 := by
-                show (if n + 1 = t then 2 else 1) = 1
+                change (if n + 1 = t then 2 else 1) = 1
                 rw [ite_eq_right (by omega)]
               rw [hfr] at hrow
               have hprev : m ⟨n - 1, by omega⟩ = m ⟨n, by omega⟩ := by
@@ -313,7 +313,7 @@ private theorem exists_BC_boundary_control {t : ℕ} (T : NumericalType)
               rw [sum_edge_C_penultimate htC m] at hrow
               have hfr : DynkinShape.weightFactor .C
                   (⟨t - 2, by omega⟩ : Fin t) = 1 := by
-                show (if t - 2 + 1 = t then 2 else 1) = 1
+                change (if t - 2 + 1 = t then 2 else 1) = 1
                 rw [ite_eq_right (by omega)]
               rw [hfr] at hrow
               let e : Fin t := ⟨t - 1, by omega⟩
@@ -333,7 +333,7 @@ private theorem exists_BC_boundary_control {t : ℕ} (T : NumericalType)
                 have hprev : m ⟨t - 2, by omega⟩ = 2 * m e := by
                   have hlast : t - 1 + 1 = t := Nat.sub_add_cancel (by omega : 1 ≤ t)
                   have hfactor : DynkinShape.weightFactor .C e = 2 := by
-                    show (if t - 1 + 1 = t then 2 else 1) = 2
+                    change (if t - 1 + 1 = t then 2 else 1) = 2
                     simp [hlast]
                   rw [hfactor] at heqrow
                   dsimp [m] at heqrow

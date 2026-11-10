@@ -10,7 +10,7 @@ public import StacksFrontier.AlgebraicGeometry.Modules.GlobalSectionsOverGamma
 public import StacksFrontier.Homology.Perfect.Basic
 public import StacksFrontier.Homology.PseudoCoherent.Coherent
 public import
-  StacksFrontier.Topology.Sheaves.Cohomology.CechOfSheavesOfModules.ModuleValuedAlternatingComparison
+ StacksFrontier.Topology.Sheaves.Cohomology.CechOfSheavesOfModules.ModuleValuedAlternatingComparison
 public import StacksFrontier.Topology.Sheaves.Cohomology.CechToCohomology.AffineCovering
 import StacksCore.Tactic.EgaSgaAttribute
 

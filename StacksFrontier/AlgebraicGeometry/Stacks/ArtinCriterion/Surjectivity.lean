@@ -165,7 +165,7 @@ private theorem fieldPointOverSchemePoint_schemePoint
     Space.schemePoint B S hS U (fieldPointOverSchemePoint B S hS U x) = x := by
   let X := (AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj U
   let kobj : B.Schemes := B.obj (residueField_spec_mem B U.left.property x)
-  show B.inclusion.map (B.inclusion.preimage (X := kobj) (Y := U.left)
+  change B.inclusion.map (B.inclusion.preimage (X := kobj) (Y := U.left)
     (X.fromSpecResidueField x)) _ = x
   rw [B.inclusion.map_preimage]
   exact Scheme.fromSpecResidueField_apply x _
@@ -247,7 +247,7 @@ private theorem fieldPoint_mem_range_algebraicSpaceMap_of_nonempty_section
       value := ((spacesOverSmallerBaseFunctorForgetIso
         B V.left.1 S V.left.2 hS V.hom).inv.app ⟨F, hF⟩).app _ z }
   refine ⟨q.class, ?_⟩
-  show (Space.FieldValuedPoint.map B S hS G.1.left G.1.hom q).class = p.class
+  change (Space.FieldValuedPoint.map B S hS G.1.left G.1.hom q).class = p.class
   have hz : G.1.hom.app _ q.value = p.value :=
     spacesOverSmallerBaseFunctor_hom_app_forgetIso_inv_app
       B V.left.1 S V.left.2 hS V.hom ⟨F, hF⟩ (Opposite.op p.siteObject) z
@@ -317,7 +317,7 @@ private theorem exists_iso_schemePoint_obj_of_hom
   let iso := Functor.IsStronglyCartesian.domainIsoOfBaseIso p
     (f := a) (f' := a) (g := Iso.refl A) (by simp) s r
   refine ⟨iso, ?_⟩
-  show p.IsHomLift (𝟙 A)
+  change p.IsHomLift (𝟙 A)
     (Functor.IsStronglyCartesian.domainIsoOfBaseIso p (g := Iso.refl A) _ s r).hom
   rw [Functor.IsStronglyCartesian.domainIsoOfBaseIso_hom]
   exact Functor.IsStronglyCartesian.map_isHomLift p a s _ r
@@ -378,7 +378,7 @@ private theorem exists_fieldBaseOver_iso
     B.inclusion.preimageIso eSpec
   refine ⟨d, ⟨Over.isoMk eSite ?_⟩⟩
   apply B.inclusion.map_injective
-  show B.inclusion.map eSite.hom ≫ fieldBaseMap S d.1 = p.toBase
+  change B.inclusion.map eSite.hom ≫ fieldBaseMap S d.1 = p.toBase
   dsimp only [eSite, Functor.preimageIso]
   rw [Functor.map_preimage]
   exact he
@@ -523,7 +523,7 @@ private theorem isSurjective_of_field_models [IsLocallyNoetherian S]
   have : QuasiCompact p.toBase := inferInstance
   let t := Over.mk p.value.left
   have ht : (Over.map V.hom).obj t = p.siteObject := by
-    show Over.mk (p.value.left ≫ V.hom) = p.siteObject
+    change Over.mk (p.value.left ≫ V.hom) = p.siteObject
     rw [p.value.w]
     rfl
   let x : 𝒳.val.p.Fiber p.siteObject :=

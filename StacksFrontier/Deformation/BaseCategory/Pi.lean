@@ -204,7 +204,7 @@ public theorem piBasedCategory_isCofiberedInGroupoids
     (𝓖 : ι → BasedCategory.{v₂, u₂} 𝒮)
     (h𝓖 : ∀ i, IsCofiberedInGroupoids (𝓖 i).p) :
     IsCofiberedInGroupoids (piBasedCategory 𝓖).p := by
-  show (PiOver.structureFunctor (fun i ↦ (𝓖 i).p)).op.IsFiberedInGroupoids
+  change (PiOver.structureFunctor (fun i ↦ (𝓖 i).p)).op.IsFiberedInGroupoids
   constructor
   · intro V U f x hx
     let x₀ : PiOver (fun i ↦ (𝓖 i).p) := Opposite.unop x
@@ -230,7 +230,7 @@ public theorem piBasedCategory_isCofiberedInGroupoids
     refine ⟨Opposite.op y, g.op, ?_⟩
     refine IsHomLift.of_fac' (PiOver.structureFunctor (fun i ↦ (𝓖 i).p)).op f g.op ?_ hx ?_
     · exact Opposite.op_unop V
-    · show (eqToHom hxbase ≫ f.unop).op =
+    · change (eqToHom hxbase ≫ f.unop).op =
         eqToHom (Opposite.op_unop V) ≫ f ≫ eqToHom hx.symm
       rw [CategoryTheory.op_comp, Quiver.Hom.op_unop]
       simp only [eqToHom_op, eqToHom_refl, Category.id_comp]
@@ -273,7 +273,7 @@ public theorem piBasedCategory_isCofiberedInGroupoids
           rw [(hχi i).1] }
     refine ⟨χ₀.op, ?_, ?_⟩
     · constructor
-      · show (((PiOver.structureFunctor (fun i ↦ (𝓖 i).p)).map χ₀).op = f)
+      · change (((PiOver.structureFunctor (fun i ↦ (𝓖 i).p)).map χ₀).op = f)
         exact Quiver.Hom.op_inj (by rfl)
       · exact Quiver.Hom.unop_inj (PiOver.Hom.ext' hbase fun i ↦ (hχi i).2)
     · intro χ' hχ'

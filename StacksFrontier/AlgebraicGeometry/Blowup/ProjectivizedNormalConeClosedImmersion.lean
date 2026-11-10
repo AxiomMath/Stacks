@@ -134,7 +134,7 @@ theorem reesPieceToAssociatedGraded_mul {i j : ℕ} (ai : reesGrading I i) (aj :
   have key : (((c : reesAlgebra I) : R[X])).coeff (i + j)
       = (((ai : reesAlgebra I) : R[X])).coeff i * (((aj : reesAlgebra I) : R[X])).coeff j := by
     conv_lhs => rw [hc, coe_eq_monomial I ai.2, coe_eq_monomial I aj.2]
-    rw [monomial_mul_monomial, coeff_monomial, if_pos rfl]
+    rw [monomial_mul_monomial, coeff_monomial, ite_eq_left rfl]
   rw [reesPieceToAssociatedGraded_apply, reesPieceToAssociatedGraded_apply,
     reesPieceToAssociatedGraded_apply, AssociatedGraded.of_mul_of]
   exact congrArg _ (Stacks.Conormal.toPiece_mul I i j _ _ _
@@ -166,7 +166,7 @@ def reesToAssociatedGraded : reesAlgebra I →+* AssociatedGraded.gradedRing I :
 theorem reesToAssociatedGraded_apply_of_mem {n : ℕ} {x : reesAlgebra I}
     (hx : x ∈ reesGrading I n) :
     reesToAssociatedGraded I x = reesPieceToAssociatedGraded I n ⟨x, hx⟩ := by
-  show reesSumToAssociatedGraded I (DirectSum.decompose (reesGrading I) x) = _
+  change reesSumToAssociatedGraded I (DirectSum.decompose (reesGrading I) x) = _
   rw [DirectSum.decompose_of_mem (reesGrading I) hx, reesSumToAssociatedGraded_of]
 
 /-- **A homogeneous element of the Rees algebra dies in `Gr_I(R)` exactly when its coefficient
@@ -265,7 +265,7 @@ theorem reesGradedToAssociatedGraded_gradedZeroRingHom_comp :
     rw [show ((reesGradingZeroEquiv I a : reesGrading I 0) : reesAlgebra I)
         = algebraMap R (reesGrading I 0) a from rfl, SetLike.GradeZero.coe_algebraMap]
     simp
-  show reesToAssociatedGraded I
+  change reesToAssociatedGraded I
       ((reesGradingZeroEquiv I a : reesGrading I 0) : reesAlgebra I) = _
   rw [reesToAssociatedGraded_apply_of_mem I hmem, reesPieceToAssociatedGraded_apply,
     AssociatedGraded.coe_gradeZeroHom]

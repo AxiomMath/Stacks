@@ -52,8 +52,7 @@ private theorem dualTensorHom_map_split
     (z : Module.Dual R M ⊗[R] M) :
     dualTensorHom R F F (TensorProduct.map p.dualMap i z) =
       i.comp ((dualTensorHom R M M z).comp p) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul φ m =>
       ext x
       simp [TensorProduct.map_tmul, LinearMap.dualMap_apply, dualTensorHom_apply]
@@ -65,8 +64,7 @@ private theorem contractTensor_map_split
     (i : M →ₗ[R] F) (p : F →ₗ[R] M) (h : p.comp i = LinearMap.id)
     (z : Module.Dual R M ⊗[R] M) :
     contractLeft R F (TensorProduct.map p.dualMap i z) = contractLeft R M z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul φ m =>
       simp only [TensorProduct.map_tmul, contractLeft_apply, LinearMap.dualMap_apply]
       change φ ((p.comp i) m) = φ m
@@ -294,10 +292,10 @@ private lemma branch_tensor_equiv
   have hφψ : φ.comp ψ = AlgHom.id S Q := by
     apply AdjoinRoot.algHom_ext
     change φ (ψ r) = r
-    rw [hψ, hφ, hg, if_pos rfl, one_smul]
+    rw [hψ, hφ, hg, ite_eq_left rfl, one_smul]
   have hψφ : ψ.comp φ = AlgHom.id S C := by
     apply Algebra.TensorProduct.ext_ring
-    apply AlgHom.coe_ringHom_injective
+    apply AlgHom.toRingHom_injective
     apply Ideal.Quotient.ringHom_ext
     apply MvPolynomial.ringHom_ext
     · intro a
@@ -313,8 +311,8 @@ private lemma branch_tensor_equiv
       rw [hj, hφ, one_smul, hg]
       by_cases hji : j = i
       · subst j
-        rw [if_pos rfl, hψ]
-      · rw [if_neg hji, map_zero]
+        rw [ite_eq_left rfl, hψ]
+      · rw [ite_eq_right hji, map_zero]
         have hjn : j = !i := by cases j <;> cases i <;> simp_all
         rw [hjn, htother]
   let e : Q ≃ₐ[S] C :=

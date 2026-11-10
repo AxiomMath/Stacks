@@ -63,13 +63,13 @@ public theorem exists_iso_of_injective_same_range {X : Scheme.{u}} {A B F : X.Mo
       ((LinearEquiv.ofEq _ _ (Submodule.ext fun s ↦ Set.ext_iff.mp (hab V) s)).trans
         (LinearEquiv.ofInjective (b.val.app V).hom (hb V)).symm)
   have he V s : b.val.app V (e V s) = a.val.app V s := by
-    show ((LinearEquiv.ofInjective (b.val.app V).hom (hb V)) (e V s)).val = _
+    change ((LinearEquiv.ofInjective (b.val.app V).hom (hb V)) (e V s)).val = _
     simp [e]
   let ee : A.val ≅ B.val := PresheafOfModules.isoMk (fun V ↦ (e V).toModuleIso) (by
     intro V W f
     ext s
     apply hb W
-    show b.val.app W (e W (A.val.map f s)) = b.val.app W (B.val.map f (e V s))
+    change b.val.app W (e W (A.val.map f s)) = b.val.app W (B.val.map f (e V s))
     exact (he W (A.val.map f s)).trans ((PresheafOfModules.naturality_apply a.val f s).trans
       ((congrArg (F.val.map f) (he V s)).symm.trans
         (PresheafOfModules.naturality_apply b.val f (e V s)).symm)))
@@ -111,7 +111,7 @@ public theorem suppSection_restrict_subset_iff {X : Scheme.{u}} (T : Set X) (U :
   · rintro h _ ⟨y, hy, rfl⟩ hxT
     refine (ConcreteCategory.congr_hom
       (Scheme.Modules.germ_restrictStalkNatIso_hom_app U.ι y F hy) s).symm.trans ?_
-    show (Scheme.Modules.restrictStalkNatIso U.ι y).hom.app F
+    change (Scheme.Modules.restrictStalkNatIso U.ι y).hom.app F
       (((Scheme.Modules.restrictFunctor U.ι).obj F).presheaf.germ V y hy s) = 0
     rw [h y hy hxT]
     exact map_zero _

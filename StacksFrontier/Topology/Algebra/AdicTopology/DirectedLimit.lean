@@ -156,7 +156,7 @@ theorem isTopologicallyNilpotent_of_mem_ker [Nonempty I] [IsDirected I (· ≤ �
   have hqk : a ^ q ∈ RingHom.ker (proj t k) := RingHom.mem_ker.mpr ((map_pow _ a q).trans hq)
   filter_upwards [Filter.eventually_ge_atTop q] with n hn
   refine hsub ?_
-  show a ^ n ∈ (RingHom.ker (proj t j) : Set (DirectedLimit t))
+  change a ^ n ∈ (RingHom.ker (proj t j) : Set (DirectedLimit t))
   rw [← Nat.sub_add_cancel hn, pow_add]
   exact (RingHom.ker (proj t j)).mul_mem_left _ (ker_antitone t hjk hqk)
 

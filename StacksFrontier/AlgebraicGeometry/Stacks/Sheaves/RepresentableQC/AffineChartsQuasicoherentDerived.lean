@@ -69,7 +69,7 @@ instance smallEtaleRingedSite_wEqualsLocallyBijective_of_univLE [UnivLE.{u, m}] 
     inferInstanceAs (EssentiallySmall.{u} (SmallEtale B S hS F))
   have : EssentiallySmall.{m} (smallEtaleRingedSite B S hS F hF).C :=
     essentiallySmall_trans_univLE.{u, u, u + 1, m} this
-  haveI (X : (smallEtaleRingedSite B S hS F hF).Cᵒᵖ) : HasLimitsOfShape
+  have (X : (smallEtaleRingedSite B S hS F hF).Cᵒᵖ) : HasLimitsOfShape
       (StructuredArrow X (equivSmallModel.{m} (smallEtaleRingedSite B S hS F hF).C).inverse.op)
       AddCommGrpCat.{m} :=
     hasLimitsOfShape_of_essentiallySmall.{m} _ _
@@ -196,8 +196,8 @@ theorem isCartesianPresheaf_affineEtaleLiftedModulesEquivalence_iff
 /-- The functor of `AlgebraicGeometry.Space.affineEtaleLiftedModulesEquivalence` is additive. -/
 instance affineEtaleLiftedModulesEquivalence_functor_additive :
     (affineEtaleLiftedModulesEquivalence.{u, m} B S hS F hF).functor.Additive := by
-  haveI := essentiallySmall_lift.{m, u} (AffineEtale B S hS F)
-  haveI : (affineEtaleRestrictionEquivalence.{u, m} B S hS F hF).functor.Additive :=
+  have := essentiallySmall_lift.{m, u} (AffineEtale B S hS F)
+  have : (affineEtaleRestrictionEquivalence.{u, m} B S hS F hF).functor.Additive :=
     @Stacks.UniverseLift.moduleRestrictionEquivalenceULift_functor_additive.{m}
       (smallEtaleRingedSite B S hS F hF) _ _ (AffineEtale.topology B S hS F)
       (AffineEtale.inclusion B S hS F)

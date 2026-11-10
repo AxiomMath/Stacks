@@ -405,6 +405,7 @@ instance quasiSeparated_fourierMukaiQuadToXYW :
 
 variable {f g h k}
 
+omit [QuasiCompact k] [QuasiSeparated k] in
 /-- The base-change step of the left half: [Stacks, Tag 08IB] along the defining square of the
 quadruple product, at the convolution tensor of `c` and `c'`. -/
 theorem isIso_fourierMukaiConvolutionAssocLeft_baseChange [Flat k]
@@ -420,6 +421,7 @@ theorem isIso_fourierMukaiConvolutionAssocLeft_baseChange [Flat k]
     inferInstance (torIndependent_of_flat_right _ _) _ _
     (isQCohAll_dtenR (isQCohAll_dpull _ hc) (isQCohAll_dpull _ hc'))
 
+omit [QuasiCompact k] [QuasiSeparated k] in
 /-- The projection-formula step of the left half: [Stacks, Tag 08EU] along `pr^{1234}_{134}`. -/
 theorem isIso_fourierMukaiConvolutionAssocLeft_projection
     {c : DerivedCategory (pullback f g).Modules} (hc : IsQCohAll c)
@@ -439,7 +441,7 @@ product. -/
 def fourierMukaiConvolutionAssocLeft₁ [Flat k]
     {c : DerivedCategory (pullback f g).Modules} (hc : IsQCohAll c)
     {c' : DerivedCategory (pullback g h).Modules} (hc' : IsQCohAll c')
-    {c'' : DerivedCategory (pullback h k).Modules} (hc'' : IsQCohAll c'') :
+    {c'' : DerivedCategory (pullback h k).Modules} :
     fourierMukaiConvolution f h k (fourierMukaiConvolution f g h c c') c'' ≅
       (dpush (fourierMukaiPr13 f h k)).obj ((dtenR _ ((dpull (fourierMukaiPr23 f h k)).obj c'')).obj
         ((dpush (fourierMukaiQuadToXZW f g h k)).obj
@@ -503,9 +505,11 @@ def fourierMukaiConvolutionAssocLeft [Flat k]
               ((dpull (fourierMukaiPr23 f g h)).obj c'))).obj
             ((dpull (fourierMukaiQuadToXYZ f g h k)).obj
               ((dpull (fourierMukaiPr12 f g h)).obj c))))) :=
-  fourierMukaiConvolutionAssocLeft₁ hc hc' hc'' ≪≫ fourierMukaiConvolutionAssocLeft₂ hc hc' hc'' ≪≫
+  fourierMukaiConvolutionAssocLeft₁ (c'' := c'') hc hc' ≪≫
+    fourierMukaiConvolutionAssocLeft₂ hc hc' hc'' ≪≫
     fourierMukaiConvolutionAssocLeft₃ c c' c''
 
+omit [QuasiCompact f] [QuasiSeparated f] in
 /-- The base-change step of the right half: [Stacks, Tag 08IB] along the square of
 `isPullback_fourierMukaiQuad_right`, at the convolution tensor of `c'` and `c''`. -/
 theorem isIso_fourierMukaiConvolutionAssocRight_baseChange [Flat f]
@@ -539,7 +543,7 @@ theorem isIso_fourierMukaiConvolutionAssocRight_projection
 /-- Step 1 of the right half: [Stacks, Tag 08IB] along the square of
 `isPullback_fourierMukaiQuad_right`. -/
 def fourierMukaiConvolutionAssocRight₁ [Flat f]
-    {c : DerivedCategory (pullback f g).Modules} (hc : IsQCohAll c)
+    {c : DerivedCategory (pullback f g).Modules}
     {c' : DerivedCategory (pullback g h).Modules} (hc' : IsQCohAll c')
     {c'' : DerivedCategory (pullback h k).Modules} (hc'' : IsQCohAll c'') :
     fourierMukaiConvolution f g k c (fourierMukaiConvolution g h k c' c'') ≅
@@ -725,7 +729,8 @@ def fourierMukaiConvolutionAssocRight [Flat f]
               ((dpull (fourierMukaiPr23 f g h)).obj c'))).obj
             ((dpull (fourierMukaiQuadToXYZ f g h k)).obj
               ((dpull (fourierMukaiPr12 f g h)).obj c))))) :=
-  fourierMukaiConvolutionAssocRight₁ hc hc' hc'' ≪≫ fourierMukaiConvolutionAssocRight₂ c c' c'' ≪≫
+  fourierMukaiConvolutionAssocRight₁ (c := c) hc' hc'' ≪≫
+    fourierMukaiConvolutionAssocRight₂ c c' c'' ≪≫
     fourierMukaiConvolutionAssocRight₃ hc hc' hc'' ≪≫ fourierMukaiConvolutionAssocRight₄ c c' c'' ≪≫
     fourierMukaiConvolutionAssocRight₅ c c' c'' ≪≫ fourierMukaiConvolutionAssocRight₆ c c' c'' ≪≫
     fourierMukaiConvolutionAssocRight₇ c c' c''

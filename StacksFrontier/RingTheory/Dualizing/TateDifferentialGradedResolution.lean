@@ -242,7 +242,7 @@ theorem bijective_cohomologyMap_regradedAugmentationHom
     · intro s
       obtain ⟨a, hamem, ha⟩ := exists_mem_grade_zero_augmentation_eq 𝒜 ε hpos hsurj s
       refine ⟨a, ?_, ?_, ha⟩
-      · show a ∈ cohomologicalGrade 𝒜 0
+      · change a ∈ cohomologicalGrade 𝒜 0
         rwa [cohomologicalGrade_zero]
       · exact IsDifferentialGradedAlgebra.d_grade_zero (𝒜 := 𝒜) (d := d) hamem
     · intro a ha hεa

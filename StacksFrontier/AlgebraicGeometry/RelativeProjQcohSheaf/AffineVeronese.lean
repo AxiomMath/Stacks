@@ -234,7 +234,7 @@ theorem pow_veroneseSections_one (ψ : Twisting f (situationAlgebra B) (d : ℤ)
             (op (⊤ : Opens S.toRingedSpace.carrier)) b :=
     (eqToHom_piece_app_eq ((one_mul d).symm) _ b _
       (of_eq_of_apply ((one_mul d).symm) b)).symm
-  show veroneseRaw ψ 1 (((a : B.sectionRing ⊤) ^ 1) (1 * d))
+  change veroneseRaw ψ 1 (((a : B.sectionRing ⊤) ^ 1) (1 * d))
       = veroneseRaw ψ 1 ((eqToHom (congrArg (situationAlgebra B).piece
           (one_mul ((d : ℕ) : ℤ)).symm)).val.app
             (op (⊤ : Opens S.toRingedSpace.carrier)) b)

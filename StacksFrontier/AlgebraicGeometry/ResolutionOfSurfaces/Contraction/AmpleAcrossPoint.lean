@@ -131,12 +131,12 @@ scheme-theoretically dense, so it is the identity, and every point of `Z` lies i
 theorem false_of_isIso_c_of_isAffine {Z T : Scheme.{u}} [IsAffine T] (q : Z ⟶ T) [IsSeparated q]
     (U : Z.Opens) [IsAffine U.toScheme] (hc : IsIso U.ι.c) (v : Z) (hv : v ∉ U) : False := by
   have : IsIso U.ι.appTop := by
-    show IsIso (U.ι.c.app (op ⊤))
+    change IsIso (U.ι.c.app (op ⊤))
     infer_instance
   -- `Z ⟶ Spec Γ(Z)` is separated, `q` being so
   have hqf : q = Z.toSpecΓ ≫ Spec.map q.appTop ≫ T.isoSpec.inv := by
     rw [← Scheme.toSpecΓ_naturality_assoc]
-    show q = q ≫ T.isoSpec.hom ≫ T.isoSpec.inv
+    change q = q ≫ T.isoSpec.hom ≫ T.isoSpec.inv
     rw [Iso.hom_inv_id, Category.comp_id]
   have : IsSeparated (Z.toSpecΓ ≫ Spec.map q.appTop ≫ T.isoSpec.inv) := hqf ▸ ‹IsSeparated q›
   have : IsSeparated Z.toSpecΓ :=
@@ -147,15 +147,15 @@ theorem false_of_isIso_c_of_isAffine {Z T : Scheme.{u}} [IsAffine T] (q : Z ⟶ 
   have hspec' : Spec.map (inv U.ι.appTop) ≫ Spec.map U.ι.appTop = 𝟙 _ := by
     rw [← Spec.map_comp, IsIso.hom_inv_id, Spec.map_id]
   have hr : U.ι ≫ r = 𝟙 _ := by
-    show U.ι ≫ Z.toSpecΓ ≫ Spec.map (inv U.ι.appTop) ≫ U.toScheme.isoSpec.inv = 𝟙 _
+    change U.ι ≫ Z.toSpecΓ ≫ Spec.map (inv U.ι.appTop) ≫ U.toScheme.isoSpec.inv = 𝟙 _
     rw [Scheme.toSpecΓ_naturality_assoc, reassoc_of% hspec]
     exact U.toScheme.isoSpec.hom_inv_id
   have hq : (r ≫ U.ι) ≫ Z.toSpecΓ = Z.toSpecΓ := by
-    show (Z.toSpecΓ ≫ Spec.map (inv U.ι.appTop) ≫ U.toScheme.isoSpec.inv) ≫ U.ι ≫ Z.toSpecΓ =
+    change (Z.toSpecΓ ≫ Spec.map (inv U.ι.appTop) ≫ U.toScheme.isoSpec.inv) ≫ U.ι ≫ Z.toSpecΓ =
       Z.toSpecΓ
     rw [Scheme.toSpecΓ_naturality, Category.assoc, Category.assoc, ← Category.assoc
       U.toScheme.isoSpec.inv]
-    show Z.toSpecΓ ≫ Spec.map (inv U.ι.appTop) ≫
+    change Z.toSpecΓ ≫ Spec.map (inv U.ι.appTop) ≫
       (U.toScheme.isoSpec.inv ≫ U.toScheme.isoSpec.hom) ≫ Spec.map U.ι.appTop = Z.toSpecΓ
     rw [Iso.inv_hom_id, Category.id_comp, hspec', Category.comp_id]
   have hdense : Scheme.Opens.IsSchemeTheoreticallyDense U := by
@@ -164,7 +164,7 @@ theorem false_of_isIso_c_of_isAffine {Z T : Scheme.{u}} [IsAffine T] (q : Z ⟶ 
   have : IsSeparated (Over.mk Z.toSpecΓ).hom := ‹IsSeparated Z.toSpecΓ›
   have heq := eq_of_isSchemeTheoreticallyDense (X := Over.mk Z.toSpecΓ) (Y := Over.mk Z.toSpecΓ)
     (Over.homMk (r ≫ U.ι) hq) (𝟙 _) U hdense (by
-      show U.ι ≫ r ≫ U.ι = U.ι ≫ 𝟙 Z
+      change U.ι ≫ r ≫ U.ι = U.ι ≫ 𝟙 Z
       rw [← Category.assoc, hr, Category.id_comp, Category.comp_id])
   have hv' : (r ≫ U.ι).base v = v := congrArg (fun φ => φ.left.base v) heq
   apply hv

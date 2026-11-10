@@ -145,9 +145,9 @@ of the lifted family, which is the form in which compactness tests it. -/
 def isColimitCofanULift (Z : ℕ → derivedCategory.{u, u, u} A) [HasCoproduct Z] :
     IsColimit (Cofan.mk (∐ Z) (fun k : ULift.{u} ℕ => Sigma.ι Z k.down)) :=
   Cofan.IsColimit.mk _ (fun t => Sigma.desc fun n => t.inj (ULift.up n))
-    (fun t k => Sigma.ι_desc (fun n => t.inj (ULift.up n)) k.down)
+    (fun t k => Sigma.ι_comp_desc (fun n => t.inj (ULift.up n)) k.down)
     (fun t _ hm => Sigma.hom_ext _ _ fun n => (hm (ULift.up n)).trans
-      (Sigma.ι_desc (fun n => t.inj (ULift.up n)) n).symm)
+      (Sigma.ι_comp_desc (fun n => t.inj (ULift.up n)) n).symm)
 
 /-- **A countable direct sum of objects with countable cohomology has countable cohomology.**
 Cohomology is represented by the regular module, which is a compact object, so a morphism from it

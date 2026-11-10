@@ -29,7 +29,8 @@ public import StacksFrontier.CategoryTheory.Sites.Simplicial.AbelianSumFormula.M
 public import StacksFrontier.Cotangent.CohomologyPresheaf.SiteSectionsComparison
 public import StacksFrontier.Homology.DerivedIndexing.Basic
 
-/-! # Cohomology of a colimit of sites with finite coverings: systems of abelian sheaves and sections (Stacks 0EXZ, 09YN)
+/-! # Cohomology of a colimit of sites with finite coverings: systems of abelian sheaves and
+sections (Stacks 0EXZ, 09YN)
 
 `CategoryTheory.Sites.InverseSystem.InverseSystemOfSites` requires every covering sieve of every
 level to be **generated** by a finite family. That requirement is satisfied by no inverse system of
@@ -58,7 +59,8 @@ colimit of sheaves on a colimit of sites (Stacks 09YN).
 * `InverseSystemOfFiniteSites.sections_colimit_pullback_of_colimit`:
   **Stacks 09YN** for such a system.
 
-The further results of the chain are `InverseSystemOfFiniteSites.exists_isMorphismOfSites_sections_pullback_of_colimit`
+The further results of the chain are
+`InverseSystemOfFiniteSites.exists_isMorphismOfSites_sections_pullback_of_colimit`
 (**Stacks 0A35**) and the `pullbackPushforwardDesc` family (**Stacks 0EXJ**), in
 `CohomologyOfColimitOfFiniteSites.MorphismOfSitesAndDescent`, and
 `Stacks.WeakSites.ColimitSiteCohomology.cohomologyCocone` with
@@ -614,7 +616,7 @@ private lemma pushforwardCompId_inv_cancels (D : InverseSystemOfFiniteSites.{v, 
   apply Sheaf.hom_ext
   apply NatTrans.ext
   funext U
-  show ((abelianSheafPushforwardCompIso.{v, u, w, t} D b (𝟙 i)).inv.app X).hom.app U ≫
+  change ((abelianSheafPushforwardCompIso.{v, u, w, t} D b (𝟙 i)).inv.app X).hom.app U ≫
       ((abelianSheafPushforwardIdIso.{v, u, w, t} D i).inv.app
         ((abelianSheafPushforward.{v, u, w, t} D b).obj X)).hom.app U = _
   rw [pushforwardCompIso_inv_app_app.{v, u, w, t} D b (𝟙 i) X U.unop,
@@ -930,7 +932,7 @@ private lemma pullbackIdIso_homEquiv_comp (D : InverseSystemOfFiniteSites.{v, u,
         (abelianSheafPushforward.{v, u, w, t} D (𝟙 i)).map f := by
       rw [Adjunction.homEquiv_leftAdjointUniq_hom_app]
     _ = f ≫ (abelianSheafPushforwardIdIso.{v, u, w, t} D i).hom.app Y := by
-      show (abelianSheafPushforwardIdIso.{v, u, w, t} D i).hom.app X ≫
+      change (abelianSheafPushforwardIdIso.{v, u, w, t} D i).hom.app X ≫
           (abelianSheafPushforward.{v, u, w, t} D (𝟙 i)).map f = _
       exact (abelianSheafPushforwardIdIso.{v, u, w, t} D i).hom.naturality f |>.symm
 
@@ -982,7 +984,7 @@ private lemma envelopeMap_naturality (D : InverseSystemOfFiniteSites.{v, u, w})
   rw [Adjunction.homEquiv_naturality_left, Adjunction.homEquiv_naturality_right]
   dsimp only [incomingFactor, A]
   rw [incomingRestriction, Equiv.apply_symm_apply]
-  show mC ≫ e.inv.app (A b.1) =
+  change mC ≫ e.inv.app (A b.1) =
     adjA.homEquiv (F.obj j) (F.obj i) (F.map a) ≫
       (abelianSheafPushforward.{v, u, w, t} D a).map mB
   dsimp only [mC, mB, envelopeComponent]
@@ -1022,11 +1024,11 @@ private lemma mono_envelopeMap (D : InverseSystemOfFiniteSites.{v, u, w})
         _ = (abelianSheafPullbackIdIso.{v, u, w, t} D i).inv.app (F.obj i) ≫
               (abelianSheafPullbackIdIso.{v, u, w, t} D i).hom.app (F.obj i) := by simp
     dsimp only [A]
-    show (Limits.Pi.lift (envelopeComponent.{v, u, w, t} D F i)) ≫
+    change (Limits.Pi.lift (envelopeComponent.{v, u, w, t} D F i)) ≫
         Limits.Pi.π (incomingFactor.{v, u, w, t} D
           (injectiveEnvelope.{v, u, w, t} D F) i) b = _
     rw [Limits.Pi.lift_comp_π]
-    show (abelianSheafAdjunction.{v, u, w, t} D (𝟙 i)).homEquiv
+    change (abelianSheafAdjunction.{v, u, w, t} D (𝟙 i)).homEquiv
         (F.obj i) (injectiveEnvelope.{v, u, w, t} D F i)
         (F.map (𝟙 i) ≫ Injective.ι (F.obj i)) = _
     rw [hmap]
@@ -2691,9 +2693,9 @@ private lemma comesFromLevel_amalgamate (Z : C) (R : Presieve Z) (hR : R ∈ K Z
             (Limits.PreservesPullback.iso (D.u c₀) (π r₁) (π r₂)).inv :=
       ⟨_, rfl⟩
     have hq1 : Q ≫ (D.u c₀).map (Limits.pullback.fst (π r₁) (π r₂)) = q₁ := by
-      rw [hQ]; simp [Limits.pullback.lift_fst]
+      rw [hQ]; simp
     have hq2 : Q ≫ (D.u c₀).map (Limits.pullback.snd (π r₁) (π r₂)) = q₂ := by
-      rw [hQ]; simp [Limits.pullback.lift_snd]
+      rw [hQ]; simp
     have inner :
       (F m').obj.map ((D.u c₀).map (Limits.pullback.fst (π r₁) (π r₂))).op (S' r₁) =
         (F m').obj.map ((D.u c₀).map (Limits.pullback.snd (π r₁) (π r₂))).op (S' r₂) := by

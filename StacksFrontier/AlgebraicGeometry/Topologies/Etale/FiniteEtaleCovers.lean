@@ -86,7 +86,7 @@ theorem smallEtaleOfFiniteEtale_hom (Y : FiniteEtaleOver X.1) :
   dsimp [smallEtaleOfFiniteEtale]
   let U := B.obj Y.left (finiteEtale_size_lt (B := B) Y)
   let hf : B.inclusion.obj U ⟶ B.inclusion.obj (B.obj X.1 X.2) := Y.hom
-  show B.inclusion.map (B.inclusion.preimage hf) = hf
+  change B.inclusion.map (B.inclusion.preimage hf) = hf
   exact B.inclusion.map_preimage hf
 
 /-- A scheme finite étale over `X`, read as a finite object of the small étale site of `X`. -/

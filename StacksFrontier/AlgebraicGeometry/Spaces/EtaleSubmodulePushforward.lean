@@ -179,6 +179,7 @@ theorem le_etaleSubmoduleRestrict_etaleSubmodulePushforward_of_mono (j : Y ⟶ X
 section Square
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves of sets times out at the default budget
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 private instance hasPullbacks_presheaf_EtaleSubmodulePushforward :
@@ -261,7 +262,7 @@ theorem exists_covering_eq_or_factor_of_isElementaryDistinguishedSquare
     obtain ⟨i, q, rfl⟩ := (Sieve.mem_ofArrows_iff _ _ _).1 hp
     have hq : yoneda.map q.hom.left ≫ yoneda.map (u i) ≫ T'.1.hom = T''.1.hom :=
       CostructuredArrow.w q.hom
-    show yoneda.map (q.hom.left ≫ u i) ≫ a = yoneda.map (q.hom.left ≫ u i) ≫ b ∨ _
+    change yoneda.map (q.hom.left ≫ u i) ≫ a = yoneda.map (q.hom.left ≫ u i) ≫ b ∨ _
     rw [Functor.map_comp, Category.assoc, Category.assoc]
     cases i with
     | false =>
@@ -271,7 +272,7 @@ theorem exists_covering_eq_or_factor_of_isElementaryDistinguishedSquare
           pullback.diagonal fV ≫ π = 𝟙 _ → yoneda.map (u false) ≫ c = hΔ.rep.fst pair := by
         intro π c hc hd
         rw [hc, ← Category.assoc]
-        show (yoneda.map (hΔ.rep.snd pair) ≫ pair) ≫ π = _
+        change (yoneda.map (hΔ.rep.snd pair) ≫ pair) ≫ π = _
         rw [← h1, Category.assoc, hd, Category.comp_id]
       exact (key ha (pullback.diagonal_fst fV)).trans (key hb' (pullback.diagonal_snd fV)).symm
     | true =>
@@ -327,7 +328,7 @@ theorem map_mem_of_isElementaryDistinguishedSquare
   obtain ⟨R, hR, hRp⟩ := exists_covering_eq_or_factor_of_isElementaryDistinguishedSquare hsq T'
     (yoneda.map g.hom.left ≫ T.1.hom) (hw.symm.trans (Category.assoc _ _ _).symm)
   refine N.isSheaf _ ((SmallEtale.topology B S hS Ve).superset_covering (fun T'' p hp => ?_) hR)
-  show M.val.map (jV.map p).op (M.val.map g.op x) ∈ N.obj (op T'')
+  change M.val.map (jV.map p).op (M.val.map g.op x) ∈ N.obj (op T'')
   have hp' : yoneda.map p.hom.left ≫ T'.1.hom = T''.1.hom := CostructuredArrow.w p.hom
   rcases hRp p hp with heq | ⟨c, hc⟩
   · let q : T'' ⟶ T := ObjectProperty.homMk (CostructuredArrow.homMk

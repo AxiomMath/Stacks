@@ -70,8 +70,8 @@ Remark 0GHK, outside the Stacks project; see the module documentation. -/
 @[stacks 0GIC "the diagonal of F is representable with no separatedness of X' or W; the theorem \
 holds for every X' admitting the morphisms x' of Lemma 0GI8, with no separatedness of X' or W; the \
 theorem holds with X' separated and W arbitrary. The closing sentences on quasi-separated X' rest \
-on Remark 0GHK (algebraization results of Bhatt and of Hall-Rydh outside the Stacks project), which \
-the source does not state or prove"]
+on Remark 0GHK (algebraization results of Bhatt and of Hall-Rydh outside the Stacks project), \
+which the source does not state or prove"]
 theorem separatednessRemark
     (hG : ∀ s : S, IsFiniteTypePoint s → IsGRing (S.presheaf.stalk s)) :
     (uliftYoneda.{u + 1} (C := LocallyNoetherianOver B S hS)).relativelyRepresentable

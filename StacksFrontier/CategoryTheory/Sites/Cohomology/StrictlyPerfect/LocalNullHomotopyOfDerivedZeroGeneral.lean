@@ -94,13 +94,13 @@ theorem exists_coveringSieve_homotopy_zero_of_derived_zero_general
         ((CochainComplex.ShiftSequence.shiftIso M (-1) i (i + (-1)) (add_comm (-1) i)).app
           (CochainComplex.mappingCone t)))
   have hC' : (T.obj₁.as).Acyclic := by
-    show (((q.obj (CochainComplex.mappingCone t))⟦(-1 : ℤ)⟧).as).Acyclic
+    change (((q.obj (CochainComplex.mappingCone t))⟦(-1 : ℤ)⟧).as).Acyclic
     rw [HomotopyCategory.shift_quotient_obj]
     exact hsh
   obtain ⟨β₀, hβ₀⟩ := Triangle.coyoneda_exact₂ T
     (inv_rot_of_distTriang _ (HomotopyCategory.mappingCone_triangleh_distinguished t)) (q.map α)
     (by
-      show q.map α ≫ (CochainComplex.mappingCone.triangleh t).mor₁ = 0
+      change q.map α ≫ (CochainComplex.mappingCone.triangleh t).mor₁ = 0
       exact (by simpa using hαs : q.map α ≫ q.map t = 0))
   obtain ⟨β, hβ⟩ := q.map_surjective β₀
   obtain ⟨j, hj⟩ := q.map_surjective T.mor₁

@@ -54,14 +54,14 @@ public theorem pAdicCompletionEvalKer
   let P : Ideal A := DividedPowers.pAdicIdeal (A := A) p
   let Ahat := AdicCompletion P A
   have hP : DividedPowers.pAdicIdeal (A := Ahat) p = P.map (algebraMap A Ahat) := by
-    show Ideal.span {(p : Ahat)} = (Ideal.span {(p : A)}).map (algebraMap A Ahat)
+    change Ideal.span {(p : Ahat)} = (Ideal.span {(p : A)}).map (algebraMap A Ahat)
     rw [Ideal.map_span]
     simp
   rw [hP, ← Ideal.map_pow]
   ext x
   rw [RingHom.mem_ker]
   symm
-  show x ∈ ((P ^ e).map (algebraMap A Ahat)).restrictScalars A ↔
+  change x ∈ ((P ^ e).map (algebraMap A Ahat)).restrictScalars A ↔
     (AdicCompletion.evalₐ P e).toRingHom x = 0
   have hPfg : P.FG := by
     refine ⟨{(p : A)}, ?_⟩
@@ -97,12 +97,12 @@ public theorem pAdicCompletionQuotientEquiv_mk
       (Ideal.Quotient.mk _ (algebraMap A
         (AdicCompletion (DividedPowers.pAdicIdeal (A := A) p) A) x)) =
       Ideal.Quotient.mk (DividedPowers.pAdicIdeal (A := A) p ^ e) x := by
-  show pAdicCompletionQuotientEquiv p e
+  change pAdicCompletionQuotientEquiv p e
     (Ideal.Quotient.mk _ (AdicCompletion.of (DividedPowers.pAdicIdeal (A := A) p) A x)) = _
   simp only [pAdicCompletionQuotientEquiv, RingEquiv.trans_apply,
     Ideal.quotEquivOfEq_mk,
     RingHom.quotientKerEquivOfSurjective_apply_mk]
-  show AdicCompletion.evalₐ (DividedPowers.pAdicIdeal (A := A) p) e
+  change AdicCompletion.evalₐ (DividedPowers.pAdicIdeal (A := A) p) e
     (AdicCompletion.of (DividedPowers.pAdicIdeal (A := A) p) A x) = _
   exact AdicCompletion.evalₐ_of (DividedPowers.pAdicIdeal (A := A) p) e x
 
@@ -141,13 +141,13 @@ public theorem completionLimitUniversal_down
     DividedPowers.ofRingEquiv (e := eULift.symm) (by rfl) δ
   have htoBase : δLift.IsDPMorphism δ eULift.toRingHom := by
     constructor
-    · show JLift.map eULift.toRingHom ≤ J
+    · change JLift.map eULift.toRingHom ≤ J
       rw [show JLift.map eULift.toRingHom = J by
         dsimp [JLift]
         rw [Ideal.map_map]
         simp [eULift]]
     · intro n x hx
-      show δ.dpow n (eULift x) =
+      change δ.dpow n (eULift x) =
         eULift (eULift.symm (δ.dpow n (eULift x)))
       rw [RingEquiv.apply_symm_apply]
   have hfromBase : δ.IsDPMorphism δLift eULift.symm.toRingHom :=
@@ -186,7 +186,7 @@ public theorem completionLimitUniversal_down
     g' = (g'.comp toBaseDP).comp fromBaseDP := by
       apply DividedPowers.DPMorphism.ext
       funext x
-      show g'.toRingHom (eULift (eULift.symm x)) = g'.toRingHom x
+      change g'.toRingHom (eULift (eULift.symm x)) = g'.toRingHom x
       simp
     _ = gLift.comp fromBaseDP := by rw [← hLiftEq]
     _ = g := rfl

@@ -114,7 +114,7 @@ theorem LinearMap.injective_baseChange_quotient_iff {R A : Type*} [CommRing R] [
     [AddCommGroup Y] [Module R Y] [Module A Y] [IsScalarTower R A Y] (u : X →ₗ[A] Y) :
     Function.Injective (LinearMap.baseChange (A ⧸ Ideal.map (algebraMap R A) I) u) ↔
       Function.Injective (LinearMap.lTensor (R ⧸ I) (u.restrictScalars R)) := by
-  rw [LinearMap.baseChange_eq_ltensor, LinearMap.injective_lTensor_quotient_iff (X := X)
+  rw [LinearMap.baseChange_eq_lTensor, LinearMap.injective_lTensor_quotient_iff (X := X)
       (Y := Y), LinearMap.injective_lTensor_quotient_iff (A := R) (X := X) (Y := Y)]
   exact forall_congr' fun x =>
     imp_congr (Ideal.mem_map_smul_top_iff_mem_smul_top I _)
@@ -204,7 +204,7 @@ theorem Submodule.exists_fg_le_localized_eq
   refine ⟨L, Submodule.span_le.mpr ?_, Submodule.fg_span (Set.finite_range k), ?_⟩
   · rintro _ ⟨x, rfl⟩
     exact hk x
-  · show (Submodule.span S (Set.range k)).localized' (Localization T) T f = _
+  · change (Submodule.span S (Set.range k)).localized' (Localization T) T f = _
     rw [Submodule.localized'_span, Submodule.localized, Submodule.localized'_eq_span, heq,
       ← Set.range_comp, show f ∘ k = Subtype.val from funext he, Subtype.range_coe]
 
@@ -287,7 +287,7 @@ theorem Module.flat_localizations_injective
   apply (TensorProduct.piLeft R M (fun i : ι ↦ Localization (S i))).injective
   ext i
   have hi := congrFun hxy i
-  show (1 : Localization (S i)) ⊗ₜ[R] x =
+  change (1 : Localization (S i)) ⊗ₜ[R] x =
     (1 : Localization (S i)) ⊗ₜ[R] y
   simpa only [LocalizedModule.equivTensorProduct_apply_mk,
     Localization.mk_one] using
@@ -303,7 +303,7 @@ theorem Module.eq_zero_of_forall_exists_smul_eq_zero_of_flat
     (x : N) (hx : ∀ i, ∃ t : T i, (t : R) • x = 0) : x = 0 := by
   apply Module.flat_localizations_injective T hT
   funext i
-  show LocalizedModule.mk x (1 : T i) = LocalizedModule.mk 0 (1 : T i)
+  change LocalizedModule.mk x (1 : T i) = LocalizedModule.mk 0 (1 : T i)
   rw [LocalizedModule.zero_mk]
   exact (IsLocalizedModule.eq_zero_iff (T i)
     (LocalizedModule.mkLinearMap (T i) N)).mpr (hx i)
@@ -484,7 +484,7 @@ theorem Module.free_localizedModule_atPrime_of_forall_shortExact
   have : IsScalarTower R (Localization.AtPrime (q.under R))
       (LocalizedModule.AtPrime q (K n)) :=
     IsScalarTower.of_algebraMap_smul fun r x => by
-      show algebraMap (Localization.AtPrime (q.under R)) (Localization.AtPrime q)
+      change algebraMap (Localization.AtPrime (q.under R)) (Localization.AtPrime q)
         (algebraMap R (Localization.AtPrime (q.under R)) r) • x = r • x
       rw [← IsScalarTower.algebraMap_apply, IsScalarTower.algebraMap_smul]
   have : Module.Flat (Localization.AtPrime (q.under R)) (LocalizedModule.AtPrime q (K n)) :=

@@ -73,7 +73,7 @@ theorem isStructureContraction_residueFieldMap_of_fibre (X Y : CurveFamily B hZ)
   have : IsIso ι₀ := Space.isIso_residueFieldObjectMap B integerBase hZ P X.base ū x
   have : IsIso rP := by
     have : IsIso (B.inclusion.map ((Over.forget (B.obj hZ)).map rP)) := by
-      show IsIso (P.left.1.fromSpecResidueField x)
+      change IsIso (P.left.1.fromSpecResidueField x)
       infer_instance
     have : IsIso ((Over.forget (B.obj hZ)).map rP) :=
       isIso_of_reflects_iso _ B.inclusion

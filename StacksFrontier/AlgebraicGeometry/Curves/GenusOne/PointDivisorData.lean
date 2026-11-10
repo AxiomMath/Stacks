@@ -296,7 +296,7 @@ theorem exists_basis_weierstrassMonomials
   have hR0 : ∀ i, ringElt (pointDivisorSheaf p hp 1) (w i) ≠ 0 := fun i h => by
     have := hords i
     rw [h, D.ord_zero] at this
-    exact ENat.top_ne_coe _ this
+    exact ENat.top_ne_natCast _ this
   have hli : LinearIndependent k (fun i => ringElt (pointDivisorSheaf p hp 1) (w i)) :=
     have hinj : Function.Injective (![6, 4, 3, 2, 1, 0] : Fin 6 → ℕ) := by decide
     D.linearIndependent_of_ord _ (fun _ => 6) (fun i => hmem _) hR0 (fun i j _ h =>
@@ -310,7 +310,7 @@ theorem exists_basis_weierstrassMonomials
           Stacks.AmpleFiniteAvoidance.grading (pointDivisorSheaf p hp 1) 6) =
         Stacks.ExternalGrading.summandEquiv (powSections (pointDivisorSheaf p hp 1)) 6
           (secOf (pointDivisorSheaf p hp 1) a) := Subtype.ext rfl
-    show globalSection X _ ((Stacks.ExternalGrading.summandEquiv
+    change globalSection X _ ((Stacks.ExternalGrading.summandEquiv
       (powSections (pointDivisorSheaf p hp 1)) 6).symm
       ⟨ringElt (pointDivisorSheaf p hp 1) a, hmem a⟩) = a
     rw [h1, AddEquiv.symm_apply_apply, globalSection_secOf]

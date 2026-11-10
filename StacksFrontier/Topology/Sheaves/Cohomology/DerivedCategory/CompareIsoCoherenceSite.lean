@@ -24,7 +24,8 @@ against a per-declaration ceiling of 200000, so an equation whose two sides end 
 spellings cannot be stated at all, however its proof is split.  The identification is therefore
 **carried**, as the `CategoryTheory.eqToHom` of that one proof, and the statement below has
 no definitional crossing in it; this is the same discipline the implementation notes of
-`StacksFrontier.CategoryTheory.Sites.Cohomology.InternalHom.SectionsIsoOpenNaturality` record for the
+`StacksFrontier.CategoryTheory.Sites.Cohomology.InternalHom.SectionsIsoOpenNaturality` record for
+the
 rest of this cone.
 
 ## References

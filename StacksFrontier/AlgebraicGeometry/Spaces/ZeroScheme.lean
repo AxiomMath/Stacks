@@ -210,7 +210,7 @@ theorem isClosedImmersion_ι_sInf (𝒮 : Set (Subfunctor F))
     refine ⟨{ app := fun U => ↾(mm U), naturality := ?_ }, ?_⟩
     · intro U U' k
       ext x
-      show mm U' (T.map k x) = k.unop ≫ mm U x
+      change mm U' (T.map k x) = k.unop ≫ mm U x
       rw [← cancel_mono snb, Category.assoc, hmm, hmm]
       exact ConcreteCategory.congr_hom (t.naturality k) x
     · ext U x

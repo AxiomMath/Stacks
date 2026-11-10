@@ -111,7 +111,7 @@ theorem surjective_germ_of_supp_subset_singleton {X : Scheme.{u}} (F : X.Modules
     by_cases hy : y = x
     · exact ⟨true, hy ▸ hxV⟩
     · refine ⟨false, ?_⟩
-      show y ∈ (W : Set X)
+      change y ∈ (W : Set X)
       rw [hW]
       exact hy
   have hcompat : TopCat.Presheaf.IsCompatible F.presheaf O sf := by
@@ -243,7 +243,7 @@ theorem stalkLinearMap_cokernel_π_apply {X : Scheme.{u}} {M N : X.Modules} (φ 
     (PreservesCokernel.iso (Scheme.Modules.stalkFunctor X x) φ).hom
         (AlgebraicGeometry.stalkLinearMap N (cokernel φ) (cokernel.π φ) x z) =
       cokernel.π ((Scheme.Modules.stalkFunctor X x).map φ) z := by
-  show ConcreteCategory.hom ((Scheme.Modules.stalkFunctor X x).map (cokernel.π φ) ≫
+  change ConcreteCategory.hom ((Scheme.Modules.stalkFunctor X x).map (cokernel.π φ) ≫
     (PreservesCokernel.iso (Scheme.Modules.stalkFunctor X x) φ).hom) z = _
   exact congrArg (fun m : (Scheme.Modules.stalkFunctor X x).obj N ⟶
       cokernel ((Scheme.Modules.stalkFunctor X x).map φ) => ConcreteCategory.hom m z)
@@ -280,7 +280,7 @@ theorem stalkLinearMap_cokernel_π_stalkLinearMap {X : Scheme.{u}} {M N : X.Modu
       (AlgebraicGeometry.stalkLinearMap M N φ x w) = 0 := by
   have h : cokernel.π ((Scheme.Modules.stalkFunctor X x).map φ)
       (AlgebraicGeometry.stalkLinearMap M N φ x w) = 0 := by
-    show ConcreteCategory.hom ((Scheme.Modules.stalkFunctor X x).map φ ≫
+    change ConcreteCategory.hom ((Scheme.Modules.stalkFunctor X x).map φ ≫
       cokernel.π ((Scheme.Modules.stalkFunctor X x).map φ)) w = 0
     rw [cokernel.condition]
     rfl
@@ -335,7 +335,7 @@ theorem exists_map_eq_app_of_stalkLinearMap_cokernel_π_germ_eq_zero {X' X : Sch
     exact heq
   have hnat := congrArg (fun m : Γ(X, V) ⟶ Γ(X', f ⁻¹ᵁ V') => m.hom (t₀ : Γ(X, V)))
     (map_comp_app f hVle)
-  simp only [CommRingCat.hom_comp, RingHom.coe_comp, Function.comp_apply] at hnat
+  simp only [CommRingCat.hom_comp, RingHom.coe_comp] at hnat
   exact ⟨V', hUle, hxV', _, heq'.symm.trans hnat.symm⟩
 
 /-- In the quotient, the germ of `a - c • b` is the germ of `a` minus the constant `c` times the

@@ -93,12 +93,9 @@ lemma mapPullbackFiberIso_snd_eq (h𝒴 : p𝒴.IsFiberedInGroupoids)
 
 section Conjugation
 
-variable [p𝒳.IsFibered] [p𝒴.IsFibered]
-  [(structureFunctor p𝒳 p𝒴 p𝒮 F G).IsFibered]
-  (hF : F ⋙ p𝒮 = p𝒳) (hG : G ⋙ p𝒮 = p𝒴) {U U' V : 𝒞}
-  (P : (structureFunctor p𝒳 p𝒴 p𝒮 F G).Fiber U) (f : V ⟶ U)
-  (P' : (structureFunctor p𝒳 p𝒴 p𝒮 F G).Fiber U') (f' : V ⟶ U')
+variable {U' : 𝒞} (P' : (structureFunctor p𝒳 p𝒴 p𝒮 F G).Fiber U') (f' : V ⟶ U')
 
+omit [p𝒴.IsFibered] in
 /-- **The two conjugations of a morphism of `𝒳`-components agree.** The split fibre of the first
 projection conjugates by the base-change comparison of the projection, the stagewise comparison of
 split fibres of a 2-fibre product by the comparison of the `𝒳`-components of a chosen pullback;
@@ -123,6 +120,7 @@ lemma conj_mapPullbackFiberIso_fst (h𝒳 : p𝒳.IsFiberedInGroupoids)
     mapPullbackFiberIso_fst_eq p𝒳 p𝒴 p𝒮 F G hF hG P' f' h𝒳 hfst]
   rfl
 
+omit [p𝒳.IsFibered] in
 /-- **The two conjugations of a morphism of `𝒴`-components agree**, by the argument of
 `CategoryTheory.TwoFibreProductOver.conj_mapPullbackFiberIso_fst` on the other side. -/
 lemma conj_mapPullbackFiberIso_snd (h𝒴 : p𝒴.IsFiberedInGroupoids)

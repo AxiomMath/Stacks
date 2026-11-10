@@ -48,12 +48,12 @@ private lemma isEssentiallyConstantWith_comp {M : I ⥤ A} {t : Cocone M} {i : I
     {r : t.pt ⟶ M.obj i} (h : IsEssentiallyConstantWith M t i r) (Φ : A ⥤ B) :
     IsEssentiallyConstantWith (M ⋙ Φ) (Φ.mapCocone t) i (Φ.map r) where
   retraction := by
-    show Φ.map r ≫ Φ.map (t.ι.app i) = 𝟙 _
+    change Φ.map r ≫ Φ.map (t.ι.app i) = 𝟙 _
     rw [← Φ.map_comp, h.retraction, Φ.map_id]
   cofinal j := by
     obtain ⟨k, σ, τ, hk⟩ := h.cofinal j
     refine ⟨k, σ, τ, ?_⟩
-    show Φ.map (M.map τ) = Φ.map (t.ι.app j) ≫ Φ.map r ≫ Φ.map (M.map σ)
+    change Φ.map (M.map τ) = Φ.map (t.ι.app j) ≫ Φ.map r ≫ Φ.map (M.map σ)
     rw [← Φ.map_comp, ← Φ.map_comp, hk]
 
 /-- Essential constancy of an ind-object is invariant under an isomorphism of diagrams. -/
@@ -61,13 +61,13 @@ private lemma isEssentiallyConstantWith_ofIso {M M' : I ⥤ A} {t : Cocone M} {i
     {r : t.pt ⟶ M.obj i} (h : IsEssentiallyConstantWith M t i r) (α : M ≅ M') :
     IsEssentiallyConstantWith M' (Cocone.mk t.pt (α.inv ≫ t.ι)) i (r ≫ α.hom.app i) where
   retraction := by
-    show (r ≫ α.hom.app i) ≫ α.inv.app i ≫ t.ι.app i = 𝟙 _
+    change (r ≫ α.hom.app i) ≫ α.inv.app i ≫ t.ι.app i = 𝟙 _
     rw [Category.assoc, ← Category.assoc (α.hom.app i), α.hom_inv_id_app, Category.id_comp]
     exact h.retraction
   cofinal j := by
     obtain ⟨k, σ, τ, hk⟩ := h.cofinal j
     refine ⟨k, σ, τ, ?_⟩
-    show M'.map τ = (α.inv.app j ≫ t.ι.app j) ≫ (r ≫ α.hom.app i) ≫ M'.map σ
+    change M'.map τ = (α.inv.app j ≫ t.ι.app j) ≫ (r ≫ α.hom.app i) ≫ M'.map σ
     have hτ : M'.map τ = α.inv.app j ≫ M.map τ ≫ α.hom.app k := by
       rw [α.hom.naturality τ, ← Category.assoc, α.inv_hom_id_app, Category.id_comp]
     rw [hτ, hk]
@@ -81,12 +81,12 @@ private lemma isEssentiallyConstantWith_extend {M : I ⥤ A} {t : Cocone M} {i :
     {r : t.pt ⟶ M.obj i} (h : IsEssentiallyConstantWith M t i r) {V : A} (e : t.pt ≅ V) :
     IsEssentiallyConstantWith M (t.extend e.hom) i (e.inv ≫ r) where
   retraction := by
-    show (e.inv ≫ r) ≫ t.ι.app i ≫ e.hom = 𝟙 V
+    change (e.inv ≫ r) ≫ t.ι.app i ≫ e.hom = 𝟙 V
     rw [Category.assoc, ← Category.assoc r, h.retraction, Category.id_comp, e.inv_hom_id]
   cofinal j := by
     obtain ⟨k, σ, τ, hk⟩ := h.cofinal j
     refine ⟨k, σ, τ, ?_⟩
-    show M.map τ = (t.ι.app j ≫ e.hom) ≫ (e.inv ≫ r) ≫ M.map σ
+    change M.map τ = (t.ι.app j ≫ e.hom) ≫ (e.inv ≫ r) ≫ M.map σ
     rw [hk]
     simp only [Category.assoc, Iso.hom_inv_id_assoc]
 
@@ -117,7 +117,7 @@ private lemma isEssentiallyConstantWith_precomp {M : I ⥤ A} {t : Cocone M} {i 
     have key : M.map e.inv ≫ M.map (e.hom ≫ σ ≫ f.inv) = M.map σ ≫ M.map f.inv := by
       rw [← M.map_comp, ← M.map_comp, ← Category.assoc, e.inv_hom_id, Category.id_comp,
         M.map_comp]
-    show M.map (G.map (G.preimage (τ ≫ f.inv))) =
+    change M.map (G.map (G.preimage (τ ≫ f.inv))) =
       t.ι.app (G.obj j) ≫ (r ≫ M.map e.inv) ≫
         M.map (G.map (G.preimage (e.hom ≫ σ ≫ f.inv)))
     rw [G.map_preimage, G.map_preimage]
@@ -187,7 +187,7 @@ lemma isEssentiallyConstantWith_comp_final [IsFiltered I] [IsFiltered J] {M : I 
     obtain ⟨kJ, vJ, uJ, hJ⟩ := h.cofinal (G.obj j)
     obtain ⟨c, u, v, z, hu, hv⟩ := exists_lift_cospan G τ₀ uJ vJ
     refine ⟨c, v, u, ?_⟩
-    show M.map (G.map u) = t.ι.app (G.obj j) ≫ (r ≫ M.map τ₀) ≫ M.map (G.map v)
+    change M.map (G.map u) = t.ι.app (G.obj j) ≫ (r ≫ M.map τ₀) ≫ M.map (G.map v)
     rw [hu, M.map_comp, hJ, Category.assoc, Category.assoc, ← M.map_comp, ← hv, M.map_comp]
     simp only [Category.assoc]
 
@@ -205,7 +205,7 @@ lemma isEssentiallyConstantWith_of_comp_final (M : I ⥤ A) (G : J ⥤ I) [G.Fin
     (h : IsEssentiallyConstantWith (G ⋙ M) s j₀ r) :
     IsEssentiallyConstantWith M (Functor.Final.extendCocone.obj s) (G.obj j₀) r := by
   constructor
-  · show r ≫ M.map (Functor.Final.homToLift G (G.obj j₀)) ≫
+  · change r ≫ M.map (Functor.Final.homToLift G (G.obj j₀)) ≫
         s.ι.app (Functor.Final.lift G (G.obj j₀)) = 𝟙 s.pt
     rw [Functor.Final.colimit_cocone_comp_aux s j₀]
     exact h.retraction
@@ -215,7 +215,7 @@ lemma isEssentiallyConstantWith_of_comp_final (M : I ⥤ A) (G : J ⥤ I) [G.Fin
     have hι : (Functor.Final.extendCocone.obj s).ι.app d =
         M.map (Functor.Final.homToLift G d) ≫ s.ι.app (Functor.Final.lift G d) :=
       Functor.Final.extendCocone_obj_ι_app' s (Functor.Final.homToLift G d)
-    show M.map (Functor.Final.homToLift G d ≫ G.map τ) =
+    change M.map (Functor.Final.homToLift G d ≫ G.map τ) =
       (Functor.Final.extendCocone.obj s).ι.app d ≫ r ≫ M.map (G.map σ)
     calc M.map (Functor.Final.homToLift G d ≫ G.map τ)
         = M.map (Functor.Final.homToLift G d) ≫ M.map (G.map τ) := M.map_comp _ _
@@ -267,7 +267,7 @@ lemma exists_isEssentiallyConstantWith_of_hom_factorization [IsFiltered I] (M : 
         IsFiltered.coeq_condition (τ j ≫ m) (φ ≫ τ j' ≫ m')
     refine hinj (M.obj j) _ _ _ (σ j' ≫ m' ≫ n) (σ j ≫ m ≫ n) ?_
     rw [Category.assoc, key j' (m' ≫ n), key j (m ≫ n), ← Functor.map_comp, ← hcoeq]
-  · show ρ ≫ c i₀ = 𝟙 X
+  · change ρ ≫ c i₀ = 𝟙 X
     refine hinj X _ _ (K i₀) (σ i₀) (τ i₀) ?_
     rw [Category.assoc, ← hc i₀, Category.id_comp]
 
@@ -361,7 +361,7 @@ private lemma underPrecomp_essSurj {X Y : C} (e : X ≅ Y) : (underPrecomp W e).
     have hs : W (e.inv ≫ s.hom) := (W.cancel_left_of_respectsIso e.inv s.hom).2 s.prop
     refine ⟨MorphismProperty.Under.mk ⊤ (e.inv ≫ s.hom) hs, ⟨?_⟩⟩
     refine MorphismProperty.Under.isoMk (Iso.refl _) ?_
-    show (e.hom ≫ e.inv ≫ s.hom) ≫ 𝟙 _ = s.hom
+    change (e.hom ≫ e.inv ≫ s.hom) ≫ 𝟙 _ = s.hom
     rw [Category.comp_id, ← Category.assoc, e.hom_inv_id, Category.id_comp]
 
 /-- **Tag 05S9 is invariant under isomorphism of the object.** -/
@@ -408,7 +408,7 @@ public lemma underShift_essSurj (X : C) (n : ℤ) : (underShift W X n).EssSurj w
         ((MorphismProperty.IsCompatibleWithShift.iff W t.hom (-n)).2 t.prop)), ⟨?_⟩⟩
     refine MorphismProperty.Under.isoMk
       ((shiftFunctorCompIsoId C (-n) n (neg_add_cancel n)).app t.right) ?_
-    show (((shiftFunctorCompIsoId C n (-n) (add_neg_cancel n)).inv.app X ≫
+    change (((shiftFunctorCompIsoId C n (-n) (add_neg_cancel n)).inv.app X ≫
         t.hom⟦-n⟧')⟦n⟧') ≫ _ = t.hom
     rw [Functor.map_comp, shift_shiftFunctorCompIsoId_add_neg_cancel_inv_app,
       Category.assoc]

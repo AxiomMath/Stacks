@@ -232,7 +232,7 @@ lemma NatTrans.app_eq_of_iso {C E : Type*} [Category C] [Category E] {A B : C �
     (α β : A ⟶ B) {Z Z' : C} (e : Z ≅ Z') (h : α.app Z' = β.app Z') :
     α.app Z = β.app Z := by
   apply (cancel_mono (B.mapIso e).hom).1
-  show α.app Z ≫ B.map e.hom = β.app Z ≫ B.map e.hom
+  change α.app Z ≫ B.map e.hom = β.app Z ≫ B.map e.hom
   rw [← α.naturality, ← β.naturality, h]
 
 /-- A functor carries a commuting square to a commuting square. -/

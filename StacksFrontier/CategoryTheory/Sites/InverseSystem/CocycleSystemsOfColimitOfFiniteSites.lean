@@ -336,7 +336,7 @@ theorem splitCocycle_map_id (S : ∀ i, M.Splitting i) (i : D.I) :
   have hsp := M.incl_proj_hom (S i)
   have hi : (S i).incl.hom ≫ (M.idem i).hom = (S i).incl.hom := by
     rw [← M.proj_incl_hom (S i), ← Category.assoc, hsp, Category.id_comp]
-  show (S i).incl.hom ≫ M.map (𝟙 i) ≫
+  change (S i).incl.hom ≫ M.map (𝟙 i) ≫
       Functor.whiskerLeft (D.u (𝟙 i)).op (S i).proj.hom =
     eqToHom (congrArg (fun H : D.C i ⥤ D.C i => H.op ⋙ ((S i).obj).obj) (D.id_map i).symm)
   rw [M.map_id_eq i]
@@ -407,7 +407,7 @@ def toAbelianSheafSystem
           eqToHom (congrArg (fun H : D.C k ⥤ D.C i => H.op ⋙ (M.obj i).obj) (D.comp a b)) := by
       rw [M.map_comp a b, Category.assoc, eqToHom_trans, eqToHom_refl, Category.comp_id]
     refine Sheaf.hom_ext ?_
-    show M.map b ≫ Functor.whiskerLeft (D.u b).op (M.map a) =
+    change M.map b ≫ Functor.whiskerLeft (D.u b).op (M.map a) =
       M.map (a ≫ b) ≫
         ((abelianSheafPushforwardCompIso.{v, u, w, t} D a b).inv.app (M.obj i)).hom
     rw [pushforwardCompIso_inv_app_hom.{v, u, w, t} D a b (M.obj i)]
@@ -473,7 +473,7 @@ and not a modification. -/
 theorem idem_toAbelianCocycleSystem (F : AbelianSheafSystem.{v, u, w, t} D) (i : D.I) :
     F.toAbelianCocycleSystem.idem i = 𝟙 (F.obj i) := by
   refine Sheaf.hom_ext ?_
-  show Stacks.WeakSites.ColimitSiteCohomology.transition.{v, u, w, t} D F (𝟙 i) ≫
+  change Stacks.WeakSites.ColimitSiteCohomology.transition.{v, u, w, t} D F (𝟙 i) ≫
       eqToHom (congrArg (fun H : D.C i ⥤ D.C i => H.op ⋙ (F.obj i).obj) (D.id_map i)) =
     𝟙 (F.obj i).obj
   rw [Stacks.WeakSites.ColimitSiteCohomology.transition_id_eqToHom.{v, u, w, t} D F i,
@@ -627,7 +627,7 @@ theorem isColimitPresentation_split (S : ∀ i, M.Splitting i) {C : Type w} [Sma
       exact hg' a
     have hkey : (S j).proj.hom ≫ (S j).incl.hom ≫ M.map a = M.map a := by
       rw [← Category.assoc, M.proj_incl_hom (S j), M.idem_comp_map a]
-    show (S j).proj.hom ≫ g j = M.map a ≫
+    change (S j).proj.hom ≫ g j = M.map a ≫
       Functor.whiskerLeft (D.u a).op ((S k).proj.hom ≫ g k) ≫
         eqToHom (restrict_eq.{v, u, w, t} D uC hu a H.obj)
     rw [e, Functor.whiskerLeft_comp]
@@ -637,14 +637,14 @@ theorem isColimitPresentation_split (S : ∀ i, M.Splitting i) {C : Type w} [Sma
   refine ⟨h₀, ?_, ?_⟩
   · intro j
     have e0 : ι j ≫ Functor.whiskerLeft (uC j).op h₀.hom = (S j).proj.hom ≫ g j := hh₀ j
-    show ((S j).incl.hom ≫ ι j) ≫ Functor.whiskerLeft (uC j).op h₀.hom = g' j
+    change ((S j).incl.hom ≫ ι j) ≫ Functor.whiskerLeft (uC j).op h₀.hom = g' j
     rw [← hgdef j, Category.assoc, e0, ← Category.assoc, M.incl_proj_hom (S j), Category.id_comp]
   · intro h' hh'
     refine huniq h' ?_
     intro j
     have e1 : ((S j).incl.hom ≫ ι j) ≫ Functor.whiskerLeft (uC j).op h'.hom = g' j := hh' j
     rw [← hgdef j] at e1
-    show ι j ≫ Functor.whiskerLeft (uC j).op h'.hom = (S j).proj.hom ≫ g j
+    change ι j ≫ Functor.whiskerLeft (uC j).op h'.hom = (S j).proj.hom ≫ g j
     rw [← e1, ← Category.assoc, ← Category.assoc, M.proj_incl_hom (S j), hιj j]
 
 end InverseSystemOfFiniteSites.AbelianCocycleSystem

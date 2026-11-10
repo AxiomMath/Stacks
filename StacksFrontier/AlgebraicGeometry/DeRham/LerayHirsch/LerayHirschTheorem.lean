@@ -75,6 +75,7 @@ abbrev fibreTransport (m : ℤ) :
   deRhamPullbackSquare φ ((f ∣_ V).fiberToSpecResidueField y) (f.fiberToSpecResidueField (V.ι y))
     (Spec.map e) hw m
 
+omit [IsIso φ] [IsIso e] in
 include h₁ h₂ in
 /-- The transport carries the fibre class of `ξ` to the fibre class of its restriction. -/
 theorem fibreTransport_fibreClassOverS (m : ℤ)
@@ -97,6 +98,7 @@ theorem fibreTransport_fibreClassOverS (m : ℤ)
     h₁ ?_ _ _ m ξ
   rw [← Category.assoc, h₂, Category.assoc, restrictBase_w g V W hVW, Category.assoc]
 
+omit [IsIso φ] [IsIso e] in
 /-- The transport is semilinear along `κ(y) ≅ κ_V(y)`. -/
 theorem fibreTransport_smul (m : ℤ) (c : Y.residueField (V.ι y))
     (x : ↥(fibreDeRhamModule f (V.ι y) m)) :
@@ -259,7 +261,8 @@ morphism `f : X ⟶ Y` over `S` and classes `ξ_i ∈ H^{n_i}_{dR}(X/S)` whose i
 `⨁_i H^*_{dR}(Y/S) ⟶ H^*_{dR}(X/S), (a_i) ↦ ∑ ξ_i ∪ f^*a_i` is an isomorphism: in every degree `k`
 the map `⨁_i H^{k - n_i}_{dR}(Y/S) ⟶ H^k_{dR}(X/S)` is bijective. -/
 @[stacks 0FMR "second assertion: under the same hypotheses the map ⊕_i H^*_dR(Y/S) → H^*_dR(X/S), \
-(a_1, ..., a_N) ↦ Σ ξ_i ∪ f^*a_i, is an isomorphism (in every degree k, from ⊕_i H^{k-n_i}_dR(Y/S))"]
+(a_1, ..., a_N) ↦ Σ ξ_i ∪ f^*a_i, is an isomorphism (in every degree k, \
+from ⊕_i H^{k-n_i}_dR(Y/S))"]
 theorem bijective_sum_deRhamCohomologyCup [Smooth f] [IsProper f] {r : ℕ} (n : Fin r → ℕ)
     (ξ : ∀ i, SheafOfModules.deRhamCohomology (Scheme.Hom.deRhamAlgebras (f ≫ g))
       (SheafOfModules.deRhamDifferential (Scheme.Hom.deRhamAlgebras (f ≫ g))) (n i : ℤ))

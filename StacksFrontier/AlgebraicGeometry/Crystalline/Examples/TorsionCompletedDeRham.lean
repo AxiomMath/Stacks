@@ -214,17 +214,17 @@ theorem formsOneEquiv_deRhamDifferential_zero (omega : forms p 0) :
   have hzero : b • exteriorPower.ιMulti (completedEnvelope p) 0
       (fun _ : Fin 0 ↦ dividedPowerDifferential (A := ℤ_[p]) (completedGamma p) b) = omega := by
     refine (formsZeroEquiv p).injective ?_
-    show exteriorPower.zeroEquiv (completedEnvelope p) (differentials p)
+    change exteriorPower.zeroEquiv (completedEnvelope p) (differentials p)
       (b • exteriorPower.ιMulti (completedEnvelope p) 0
         (fun _ : Fin 0 ↦ dividedPowerDifferential (A := ℤ_[p]) (completedGamma p) b)) = b
     rw [map_smul, exteriorPower.zeroEquiv_ιMulti, smul_eq_mul, mul_one]
   have hgen := (dividedPowerDeRhamComplex (A := ℤ_[p])
     (completedGamma p)).differential_generator 0 (fun _ : Fin 1 ↦ b)
   rw [hzero] at hgen
-  show formsOneEquiv p ((dividedPowerDeRhamComplex (A := ℤ_[p])
+  change formsOneEquiv p ((dividedPowerDeRhamComplex (A := ℤ_[p])
     (completedGamma p)).differential 0 omega) = differential p b
   rw [hgen]
-  show exteriorPower.oneEquiv (completedEnvelope p) (differentials p)
+  change exteriorPower.oneEquiv (completedEnvelope p) (differentials p)
     (exteriorPower.ιMulti (completedEnvelope p) 1
       (fun _ : Fin 1 ↦ dividedPowerDifferential (A := ℤ_[p]) (completedGamma p) b)) =
     differential p b
@@ -246,7 +246,7 @@ def completedFormsZeroEquiv : completedForms p 0 ≃ₗ[ℤ_[p]] completedEnvelo
 theorem of_completedFormsZeroEquiv (xi : completedForms p 0) :
     AdicCompletion.of (baseIdeal p) (completedEnvelope p) (completedFormsZeroEquiv p xi) =
       AdicCompletion.map (baseIdeal p) (formsZeroMap p) xi := by
-  show AdicCompletion.of (baseIdeal p) (completedEnvelope p)
+  change AdicCompletion.of (baseIdeal p) (completedEnvelope p)
     ((AdicCompletion.ofLinearEquiv (baseIdeal p) (completedEnvelope p)).symm
       (AdicCompletion.congr (baseIdeal p)
         ((formsZeroEquiv p).restrictScalars ℤ_[p]) xi)) = _
@@ -258,11 +258,11 @@ theorem of_completedFormsZeroEquiv (xi : completedForms p 0) :
 theorem completedFormsZeroEquiv_ofForms (omega : forms p 0) :
     completedFormsZeroEquiv p (ofForms p 0 omega) = formsZeroEquiv p omega := by
   refine (AdicCompletion.ofLinearEquiv (baseIdeal p) (completedEnvelope p)).injective ?_
-  show AdicCompletion.of (baseIdeal p) (completedEnvelope p)
+  change AdicCompletion.of (baseIdeal p) (completedEnvelope p)
       (completedFormsZeroEquiv p (ofForms p 0 omega)) =
     AdicCompletion.of (baseIdeal p) (completedEnvelope p) (formsZeroEquiv p omega)
   rw [of_completedFormsZeroEquiv]
-  show AdicCompletion.map (baseIdeal p) (formsZeroMap p)
+  change AdicCompletion.map (baseIdeal p) (formsZeroMap p)
       (AdicCompletion.of (baseIdeal p) (forms p 0) omega) = _
   rw [AdicCompletion.map_of]
   rfl

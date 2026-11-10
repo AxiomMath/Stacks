@@ -154,7 +154,7 @@ private theorem topologicalKrullDimAt_fiber_subscheme_lt
       e.hom ≫ compFiberMap I.subschemeι f (g z) ≫
         pullback.fst f (S.fromSpecResidueField (g z)) := by
     rw [← I.comapIso_hom_fst (pullback.fst f (S.fromSpecResidueField (g z)))]
-    show (I.comapIso (pullback.fst f (S.fromSpecResidueField (g z)))).hom ≫
+    change (I.comapIso (pullback.fst f (S.fromSpecResidueField (g z)))).hom ≫
         (pullback.fst (pullback.fst f (S.fromSpecResidueField (g z))) I.subschemeι ≫
           pullback.fst f (S.fromSpecResidueField (g z))) = _
     unfold e
@@ -199,7 +199,7 @@ private theorem topologicalKrullDimAt_fiber_subscheme_lt
           Scheme.Hom.comp_apply _ _ w
         _ = f.fiberι (f (I.subschemeι z)) (f.asFiber (I.subschemeι z)) := by
           have hgw : (I.subschemeι ≫ f).fiberι (f (I.subschemeι z)) w = z := by
-            show (I.subschemeι ≫ f).fiberι ((I.subschemeι ≫ f) z)
+            change (I.subschemeι ≫ f).fiberι ((I.subschemeι ≫ f) z)
               ((I.subschemeι ≫ f).asFiber z) = z
             exact Scheme.Hom.fiberι_asFiber (I.subschemeι ≫ f) z
           rw [congrArg I.subschemeι hgw]
@@ -311,7 +311,7 @@ private lemma exists_etale_open_slice_of_etaleAt
     rw [hOeq, Set.mem_singleton_iff] at hyO
     exact Subtype.ext (congrArg Subtype.val hyO : U.ι y = x)
   · rintro rfl
-    show (U.ι ≫ f) z = f x
+    change (U.ι ≫ f) z = f x
     rw [Scheme.Hom.comp_apply]
     simp [z]
 
@@ -355,7 +355,7 @@ private theorem isSeparableExtension_of_algEquiv {k K L : Type u} [Field k] [Fie
       exact hv
     · intro hw
       refine ⟨e.symm w, ?_, e.apply_symm_apply w⟩
-      show e (e.symm w) ∈ L'
+      change e (e.symm w) ∈ L'
       simpa using hw
   have hK'fg : K'.FG := by
     have hL'fg : L'.FG := IntermediateField.essFiniteType_iff.mp hL'
@@ -426,11 +426,11 @@ private lemma isClosed_asFiber_comp_of_isImmersion
     dsimp only [F, Function.comp_apply]
     rw [Homeomorph.apply_symm_apply]
     apply Subtype.ext
-    show j ((j ≫ f).fiberι _ ((j ≫ f).asFiber y)) = f.fiberι _ (f.asFiber (j y))
+    change j ((j ≫ f).fiberι _ ((j ≫ f).asFiber y)) = f.fiberι _ (f.asFiber (j y))
     rw [Scheme.Hom.fiberι_asFiber, Scheme.Hom.fiberι_asFiber]
   convert hclosed.preimage hF.continuous using 1
   ext a
-  show a = (j ≫ f).asFiber y ↔ F a = f.asFiber (j y)
+  change a = (j ≫ f).asFiber y ↔ F a = f.asFiber (j y)
   rw [← hp, hF.injective.eq_iff]
 
 /-! ### The étale slice -/
@@ -490,7 +490,7 @@ private theorem exists_etale_slice_of_smooth
     have hlt := topologicalKrullDimAt_fiber_subscheme_lt (U.ι ≫ f) I hI y hfiniteU
     have hlt' : topologicalKrullDimAt (g.fiber (g y)) (g.asFiber y) < d := by
       rw [hdimU, show U.ι (I.subschemeι y) = x from hy, hd] at hlt
-      show topologicalKrullDimAt (((I.subschemeι ≫ U.ι) ≫ f).fiber
+      change topologicalKrullDimAt (((I.subschemeι ≫ U.ι) ≫ f).fiber
         (((I.subschemeι ≫ U.ι) ≫ f) y)) (((I.subschemeι ≫ U.ι) ≫ f).asFiber y) < d
       rw [Category.assoc]
       exact hlt

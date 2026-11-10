@@ -198,7 +198,7 @@ theorem bijective_affineChartDerivedTilde_map_single (q : ℤ)
       (inferInstanceAs (IsAffine (chartScheme A))) q
       _ (spaceQuasicoherentProp_affineChartDerivedTilde_obj B S hS Y hA M)
       (a₁ := i.inv ≫ a) (a₂ := i.inv ≫ b) (by
-        show (DerivedCategory.homologyFunctor _ q).map (i.inv ≫ a) =
+        change (DerivedCategory.homologyFunctor _ q).map (i.inv ≫ a) =
           (DerivedCategory.homologyFunctor _ q).map (i.inv ≫ b)
         rw [Functor.map_comp, Functor.map_comp, hab'])
     exact (cancel_epi i.inv).mp this

@@ -135,14 +135,14 @@ def Pairing.descLE (D : Pairing O K L M) (p : ℤ)
     else 0
   μ_d a b n h := by
     by_cases ha : a ≤ p
-    · rw [dif_pos ha, dif_pos ha, Category.assoc, D.μ_d a b n h]
+    · rw [dite_eq_left ha, dite_eq_left ha, Category.assoc, D.μ_d a b n h]
       simp only [Preadditive.comp_add, Units.smul_def, Preadditive.comp_zsmul]
       congr 1
       · by_cases ha' : a + 1 ≤ p
-        · rw [dif_pos ha', ← Category.assoc, ← Category.assoc, ← NatTrans.comp_app,
+        · rw [dite_eq_left ha', ← Category.assoc, ← Category.assoc, ← NatTrans.comp_app,
             ← NatTrans.comp_app, ← Functor.map_comp, ← Functor.map_comp,
             truncLESectionsXIso_comm K p a ha']
-        · rw [dif_neg ha', Limits.comp_zero, hD (a + 1) b (n + 1) (by omega) (by omega),
+        · rw [dite_eq_right ha', Limits.comp_zero, hD (a + 1) b (n + 1) (by omega) (by omega),
             Limits.comp_zero, Limits.comp_zero]
       · rw [← Category.assoc, ← Category.assoc, NatTrans.naturality]
     · have ha' : ¬ a + 1 ≤ p := by omega
@@ -155,13 +155,13 @@ theorem Pairing.descLE_μ_of_le (D : Pairing O K L M) (p : ℤ)
     (D.descLE p hD).μ a b n h =
       ((tens).map (truncLESectionsXIso K p a ha).hom).app (((secC).obj L.obj).X b) ≫
         D.μ a b n h :=
-  dif_pos ha
+  dite_eq_left ha
 
 /-- In a degree `a > p` the descended pairing vanishes. -/
 theorem Pairing.descLE_μ_of_lt (D : Pairing O K L M) (p : ℤ)
     (hD : ∀ a b n h, p < a → D.μ a b n h = 0) (a b n : ℤ) (h : a + b = n) (ha : p < a) :
     (D.descLE p hD).μ a b n h = 0 :=
-  dif_neg (by omega)
+  dite_eq_right (by omega)
 
 /-- The projection `K ⟶ σ^{≤p}K` carries the pairing to its descent. -/
 theorem pairingHom_descLE (D : Pairing O K L M) (p : ℤ)
@@ -238,7 +238,7 @@ def gradedPairing (a b : ℤ) (hab : a + b = d) :
       Limits.zero_comp, smul_zero, add_zero]
     by_cases hab' : a' = a ∧ b' = b
     · exact (isZero_sections (hd (n + 1) (by omega))).eq_of_tgt _ _
-    · rw [dif_neg hab', Limits.zero_comp]
+    · rw [dite_eq_right hab', Limits.zero_comp]
 
 /-- In bidegree `(a, b)` the pairing of the graded pieces is `γ` after the identifications of the
 single terms. -/
@@ -247,12 +247,12 @@ theorem gradedPairing_μ (a b : ℤ) (hab : a + b = d) :
       ((tens).map (singleXIsoAt O (K.obj.X a) a a rfl).hom).app _ ≫
         ((tens).obj (sectionsP O (K.obj.X a))).map (singleXIsoAt O (K.obj.X b) b b rfl).hom ≫
           γ.μ a b (a + b) rfl :=
-  dif_pos ⟨rfl, rfl⟩
+  dite_eq_left ⟨rfl, rfl⟩
 
 /-- Outside bidegree `(a, b)` the pairing of the graded pieces vanishes. -/
 theorem gradedPairing_μ_of_ne (a b : ℤ) (hab : a + b = d) (a' b' n : ℤ) (h : a' + b' = n)
     (hab' : ¬ (a' = a ∧ b' = b)) : (gradedPairing K γ d hd a b hab).μ a' b' n h = 0 :=
-  dif_neg hab'
+  dite_eq_right hab'
 
 include hd in
 /-- **The first compatibility of [Stacks, Tag 07MC]** for the sequences

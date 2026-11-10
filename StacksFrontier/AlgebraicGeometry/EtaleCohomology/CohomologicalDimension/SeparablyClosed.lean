@@ -90,7 +90,7 @@ public theorem exists_algHom_separableClosure_of_henselianLocalRing (F O : Type 
   have hφres : φres.comp ((residue E).comp (algebraMap F E)) =
       (residue O).comp (algebraMap F O) := by
     ext z
-    show g (eE.symm (eE (algebraMap F E z))) = _
+    change g (eE.symm (eE (algebraMap F E z))) = _
     rw [eE.symm_apply_apply, g.commutes]
     rfl
   obtain ⟨e, -, -⟩ := StacksDraft.existsUnique_isLocalHom_comp_residue_of_indEtale

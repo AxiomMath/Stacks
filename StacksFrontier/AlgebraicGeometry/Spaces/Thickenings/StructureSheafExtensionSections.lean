@@ -59,7 +59,8 @@ none of them is assumed here.
   discharged there by
   `AlgebraicGeometry.Space.exists_sliceAssociatedModule_iso_of_isQuasicoherentOnSite`.
 
-The implementation notes of `StacksFrontier.AlgebraicGeometry.Spaces.AffineChartSurjectivityFromCech`
+The implementation notes of
+`StacksFrontier.AlgebraicGeometry.Spaces.AffineChartSurjectivityFromCech`
 take `hCech` as a hypothesis.  That hypothesis is discharged in the library, and this file
 does not re-discharge it: it is the `p = 1` case of
 `isZero_cechCohomology_succ_of_isQuasicoherentOnSite` after quasi-coherence is traded for
@@ -111,7 +112,8 @@ algebraic space has an étale equivalence-relation presentation by
 quotient of such a relation is an algebraic space by
 `AlgebraicGeometry.Space.isAlgebraicSpace_quotient_unconditional` of
 `StacksFrontier.AlgebraicGeometry.Spaces.QuotientSheafPresentationUnconditional`, which carries
-`@[stacks 02WW]` with nothing granted.  **Nor is Tag 04KL over a base needed**: the source builds the ambient space over `Spec ℤ` and applies
+`@[stacks 02WW]` with nothing granted.  **Nor is Tag 04KL over a base needed**: the source builds
+the ambient space over `Spec ℤ` and applies
 Tag 05ZN *there*, with `Y = Y' = B` and the trivial thickening, so only the terminal-base form
 of Tag 05ZN is on the path.  That form is
 `AlgebraicGeometry.Space.existsUnique_thickeningHom_of_isLocallyRinged_specULiftZ` of

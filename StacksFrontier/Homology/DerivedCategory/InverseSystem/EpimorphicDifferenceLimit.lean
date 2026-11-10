@@ -118,7 +118,7 @@ theorem isDerivedLimitWithProjections_Q_limit_of_epi_milnorDifference (F : ℕ�
     simp [S, inverseSystemLimitKernelFork]
   · exact map_milnorDifference_comp_piComparison DerivedCategory.Q (fun n : ℕ ↦ F.obj ⟨n⟩)
       (fun n : ℕ ↦ F.map (homOfLE (Nat.le_succ n)).op)
-  · show _ ≫ (shiftFunctor _ (1 : ℤ)).map (𝟙 _) = e.hom ≫ e.inv ≫ _
+  · change _ ≫ (shiftFunctor _ (1 : ℤ)).map (𝟙 _) = e.hom ≫ e.inv ≫ _
     simp only [CategoryTheory.Functor.map_id]
     exact (Category.comp_id _).trans (e.hom_inv_id_assoc _).symm
 

@@ -298,7 +298,7 @@ theorem presheaf_of_etale_cover (Q : MorphismProperty Scheme.{u})
       (hf.isPullback (yoneda.map c ≫ g)) hQ
   have : Etale ((BigFppfOver.toScheme B S hS).map c) := hetale
   have : Surjective ((BigFppfOver.toScheme B S hS).map c) := hsurj
-  show Q ((BigFppfOver.toScheme B S hS).map (hf.snd g))
+  change Q ((BigFppfOver.toScheme B S hS).map (hf.snd g))
   refine MorphismProperty.IsLocalAtTarget.of_forall_pullbackSnd
     (K := Scheme.fppfPrecoverage)
     (Scheme.Hom.singleton_mem_fppfPrecoverage ((BigFppfOver.toScheme B S hS).map c)) ?_
@@ -362,7 +362,7 @@ embedding of the first projection `U ⨯ V ⟶ U`. -/
 @[reassoc (attr := simp)]
 theorem yonedaProdIso_hom_fst (U V : BigFppfOver B S hS) :
     (yonedaProdIso B S hS U V).hom ≫ prod.fst = yoneda.map prod.fst := by
-  show (preservesLimitIso yoneda (pair U V)).hom ≫
+  change (preservesLimitIso yoneda (pair U V)).hom ≫
     (HasLimit.isoOfNatIso (pairComp U V yoneda)).hom ≫
       limit.π (pair (yoneda.obj U) (yoneda.obj V)) ⟨WalkingPair.left⟩ = _
   simp only [← Category.assoc, HasLimit.isoOfNatIso_hom_π, ← Category.assoc,
@@ -374,7 +374,7 @@ Yoneda embedding of the second projection `U ⨯ V ⟶ V`. -/
 @[reassoc (attr := simp)]
 theorem yonedaProdIso_hom_snd (U V : BigFppfOver B S hS) :
     (yonedaProdIso B S hS U V).hom ≫ prod.snd = yoneda.map prod.snd := by
-  show (preservesLimitIso yoneda (pair U V)).hom ≫
+  change (preservesLimitIso yoneda (pair U V)).hom ≫
     (HasLimit.isoOfNatIso (pairComp U V yoneda)).hom ≫
       limit.π (pair (yoneda.obj U) (yoneda.obj V)) ⟨WalkingPair.right⟩ = _
   simp only [← Category.assoc, HasLimit.isoOfNatIso_hom_π, ← Category.assoc,

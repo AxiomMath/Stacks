@@ -92,8 +92,7 @@ lemma cmpLeft_tmul (b : B) (k : K) : cmpLeft i₁ i₂ hA α₂ hα₂ (b ⊗ₜ
 /-- The comparison map `Module.Descent.cmpLeft` is semilinear along `i₁`. -/
 lemma cmpLeft_smul (b : B) (x : B ⊗[A] K) :
     cmpLeft i₁ i₂ hA α₂ hα₂ (b • x) = i₁ b • cmpLeft i₁ i₂ hA α₂ hα₂ x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul c k =>
     rw [TensorProduct.smul_tmul', cmpLeft_tmul, cmpLeft_tmul, smul_eq_mul, map_mul, mul_smul]
   | add x y hx hy => rw [smul_add, map_add, map_add, hx, hy, smul_add]
@@ -163,15 +162,13 @@ theorem exists_sub_eq_of_cocycle [Module.FaithfullyFlat A B]
   have hco : ∀ k, θ (co k) = α₁ k := fun k => heθ (α₁ k)
   have hcounit : ∀ x : B ⊗[A] K, counit A B K x = Δ (θ x) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul b k => rw [counit_tmul, cmpLeft_tmul, hΔ, hμ, hΔ₂]
     | add x y hx hy => rw [map_add, map_add, map_add, hx, hy]
   have hρco : ∀ x : B ⊗[A] K,
       ρ (AlgebraTensorModule.lTensor B B (co.restrictScalars A) x) = γ₁₂ (θ x) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul b k =>
       rw [AlgebraTensorModule.lTensor_tmul, LinearMap.restrictScalars_apply, cmpRight_tmul, hco,
         cmpLeft_tmul, hγ₁₂, hγα₂]
@@ -179,8 +176,7 @@ theorem exists_sub_eq_of_cocycle [Module.FaithfullyFlat A B]
   have hρmk : ∀ x : B ⊗[A] K,
       ρ (AlgebraTensorModule.lTensor B B (TensorProduct.mk A B K 1) x) = γ₁₃ (θ x) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul b k =>
       rw [AlgebraTensorModule.lTensor_tmul, TensorProduct.mk_apply, cmpRight_tmul, cmpLeft_tmul,
         map_one, one_smul, cmpLeft_tmul, hγ₁₃, h₁₂₁₃, hγα₃]
@@ -217,11 +213,9 @@ theorem exists_sub_eq_of_cocycle [Module.FaithfullyFlat A B]
           AlgebraTensorModule.lTensor B B (TensorProduct.mk A B K 1) (E₁ x') +
             (1 : B) ⊗ₜ E₁ x' := by
     intro x'
-    induction x' using TensorProduct.induction_on with
-    | zero => simp
+    induction x' using TensorProduct.inductionOn with
     | tmul s z =>
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul t m =>
         simp only [amitsurDiff₁_tmul, map_add, map_sub, hE₂, hE₁, he, one_smul,
           AlgebraTensorModule.lTensor_tmul, LinearMap.restrictScalars_apply,
@@ -238,8 +232,7 @@ theorem exists_sub_eq_of_cocycle [Module.FaithfullyFlat A B]
   have hdiff₀ : ∀ y : B ⊗[A] d.descended,
       E₁ (amitsurDiff₀ A B d.descended y) = co (e y) - (1 : B) ⊗ₜ e y := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul s m =>
       simp only [amitsurDiff₀_tmul, map_sub, hE₁, he, one_smul, LinearMap.map_smul, hdes,
         TensorProduct.smul_tmul', smul_eq_mul, mul_one]

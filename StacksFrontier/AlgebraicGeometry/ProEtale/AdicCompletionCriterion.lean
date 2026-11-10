@@ -111,7 +111,7 @@ private theorem isDerivedComplete_sheaf_single_iff_sections_of_slicedObjectsSitu
     let R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U)
     let : CommRing R := inferInstance
     let J : Ideal R := by
-      show Submodule R R
+      change Submodule R R
       exact I.toSubmodule.obj (op U)
     let G := SheafOfModules.evaluation (Stacks.SheafOfModules.Tensor.ringSheaf X.O) (op U)
     obtain ⟨hAdd, hLim, hColim, hProd, hComplete⟩ := h U hU
@@ -119,8 +119,8 @@ private theorem isDerivedComplete_sheaf_single_iff_sections_of_slicedObjectsSitu
     let : PreservesFiniteLimits G := hLim
     let : PreservesFiniteColimits G := hColim
     let : HasProductsOfShape ℕ (DerivedCategory (ModuleCat.{max u v} R)) := hProd
-    show IsDerivedCompleteModule J (G.obj F)
-    show ∀ f ∈ J, IsDerivedCompleteAt
+    change IsDerivedCompleteModule J (G.obj F)
+    change ∀ f ∈ J, IsDerivedCompleteAt
       ((DerivedCategory.singleFunctor (ModuleCat.{max u v} R) 0).obj
         (G.obj F)) f
     intro f hf
@@ -131,7 +131,7 @@ private theorem isDerivedComplete_sheaf_single_iff_sections_of_slicedObjectsSitu
     let R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U)
     let : CommRing R := inferInstance
     let J : Ideal R := by
-      show Submodule R R
+      change Submodule R R
       exact I.toSubmodule.obj (op U)
     let G := SheafOfModules.evaluation (Stacks.SheafOfModules.Tensor.ringSheaf X.O) (op U)
     let : HasProductsOfShape ℕ (ModuleCat.{max u v} R) := inferInstance
@@ -153,7 +153,7 @@ private theorem isDerivedComplete_sheaf_single_iff_sections_of_slicedObjectsSitu
     refine ⟨inferInstance, inferInstance, inferInstance,
       inferInstance, ?_⟩
     intro f hf
-    show IsDerivedCompleteAt ((G.mapDerivedCategory).obj
+    change IsDerivedCompleteAt ((G.mapDerivedCategory).obj
       ((DerivedCategory.singleFunctor
         (SheafOfModules.{max u v} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) 0).obj F)) f
     rw [isDerivedCompleteAt_iff_isIso]
@@ -283,13 +283,13 @@ private theorem evaluation_jointly_reflects_iso_of_weaklyContractibleObjectsSitu
     apply (Stacks.WeaklyContractible.exact_iff_exact_sections_of_weaklyContractibleObjectsSituation
       X.J B S₁).2
     intro U hU
-    show ∀ x, (f.val.app (op U)) x = 0 ↔
+    change ∀ x, (f.val.app (op U)) x = 0 ↔
       x ∈ Set.range (fun _ : F.val.obj (op U) => (0 : F.val.obj (op U)))
     intro x
     constructor
     · intro hx
       have hzero : x = 0 := (hf U hU).1 (a₁ := x) (a₂ := 0) (by
-        show f.val.app (op U) x = f.val.app (op U) 0
+        change f.val.app (op U) x = f.val.app (op U) 0
         rw [hx, map_zero])
       simp [hzero]
     · rintro ⟨y, rfl⟩
@@ -301,7 +301,7 @@ private theorem evaluation_jointly_reflects_iso_of_weaklyContractibleObjectsSitu
     apply (Stacks.WeaklyContractible.exact_iff_exact_sections_of_weaklyContractibleObjectsSituation
       X.J B S₂).2
     intro U hU
-    show ∀ y, (0 : G.val.obj (op U)) = 0 ↔
+    change ∀ y, (0 : G.val.obj (op U)) = 0 ↔
       y ∈ Set.range (f.val.app (op U))
     intro y
     constructor
@@ -327,10 +327,10 @@ private lemma sheafSubmodule_bot_obj
     { toSubmodule := ⊥
       isSheaf := by
         intro V x hx
-        show x = 0
+        change x = 0
         apply (isSheaf_forget_comp F.isSheaf _ hx).isSeparatedFor.ext
         intro W f hf
-        show F.val.map f.op x = F.val.map f.op 0
+        change F.val.map f.op x = F.val.map f.op 0
         simpa only [map_zero] using (show F.val.map f.op x = 0 from hf) }
   exact le_bot_iff.mp (show (⊥ : F.Submodule).toSubmodule.obj U ≤ N.toSubmodule.obj U
     from (SheafOfModules.Submodule.le_iff.mp (bot_le : (⊥ : F.Submodule) ≤ N)) U)
@@ -473,7 +473,7 @@ private lemma idealPowerProduct_eq_sheafify
     intro a ha m
     apply le_submoduleSheafify (idealPowerActionPresheaf X I F n) U
     let J : Ideal ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U) := I.toSubmodule.obj U
-    show a • m ∈ J ^ n •
+    change a • m ∈ J ^ n •
       (⊤ : Submodule ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U) (F.val.obj U))
     exact Submodule.smul_mem_smul (show a ∈ J ^ n from ha) Submodule.mem_top
   · apply le_sInf
@@ -481,7 +481,7 @@ private lemma idealPowerProduct_eq_sheafify
     rw [submoduleSheafify_le_iff]
     intro U
     let J : Ideal ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U) := I.toSubmodule.obj U
-    show J ^ n •
+    change J ^ n •
       (⊤ : Submodule ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U) (F.val.obj U)) ≤ _
     apply Submodule.smul_le.mpr
     intro a ha m hm
@@ -511,7 +511,7 @@ private lemma pow_smul_le_iff_products
       apply (ih (N.comap (LinearMap.lsmul A M a)) ?_) hm
       intro b y
       have hh := h (Fin.cons ⟨a, ha⟩ b) y
-      show a • ((∏ i, (b i : A)) • y) ∈ N
+      change a • ((∏ i, (b i : A)) • y) ∈ N
       simpa only [Fin.prod_univ_succ, Fin.cons_zero, Fin.cons_succ, mul_smul] using hh
 
 private abbrev PowerExpression
@@ -555,7 +555,7 @@ private lemma mem_pow_smul_iff_expression
     · apply (pow_smul_le_iff_products I n N).mpr
       intro a m
       exact ⟨[(a, m)], by simp [powerExpressionValue]⟩
-  show x ∈ I ^ n • (⊤ : Submodule A M) ↔ x ∈ N
+  change x ∈ I ^ n • (⊤ : Submodule A M) ↔ x ∈ N
   rw [hN]
 
 private lemma locallyBijective_ulift
@@ -599,13 +599,13 @@ private lemma exists_sections_refinement_of_surjective_sections
       map_id W := by
         apply ConcreteCategory.hom_ext (CC := fun X => X)
         intro t
-        show (ULift.up ⟨t.down.1, 𝟙 _ ≫ t.down.2⟩ :
+        change (ULift.up ⟨t.down.1, 𝟙 _ ≫ t.down.2⟩ :
           ULift.{u} (Σ i, W.unop ⟶ V i)) = t
         simp
       map_comp g h := by
         apply ConcreteCategory.hom_ext (CC := fun X => X)
         intro t
-        show (ULift.up ⟨t.down.1, (h.unop ≫ g.unop) ≫ t.down.2⟩ :
+        change (ULift.up ⟨t.down.1, (h.unop ≫ g.unop) ≫ t.down.2⟩ :
             ULift.{u} (Σ i, _ ⟶ V i)) =
           ULift.up ⟨t.down.1, h.unop ≫ (g.unop ≫ t.down.2)⟩
         rw [Category.assoc] }
@@ -615,12 +615,12 @@ private lemma exists_sections_refinement_of_surjective_sections
       map_id W := by
         apply ConcreteCategory.hom_ext (CC := fun X => X)
         intro h
-        show (ULift.up (𝟙 _ ≫ h.down) : ULift.{u} (W.unop ⟶ U)) = h
+        change (ULift.up (𝟙 _ ≫ h.down) : ULift.{u} (W.unop ⟶ U)) = h
         simp
       map_comp g h := by
         apply ConcreteCategory.hom_ext (CC := fun X => X)
         intro q
-        show (ULift.up ((h.unop ≫ g.unop) ≫ q.down) : ULift.{u} (_ ⟶ U)) =
+        change (ULift.up ((h.unop ≫ g.unop) ≫ q.down) : ULift.{u} (_ ⟶ U)) =
           ULift.up (h.unop ≫ (g.unop ≫ q.down))
         rw [Category.assoc] }
   let π : P ⟶ Y :=
@@ -648,7 +648,7 @@ private lemma exists_sections_refinement_of_surjective_sections
       naturality W Z g := by
         apply ConcreteCategory.hom_ext
         intro t
-        show (F k).obj.map (g.unop ≫ t.down.2).op (x k t.down.1) =
+        change (F k).obj.map (g.unop ≫ t.down.2).op (x k t.down.1) =
           (F k).obj.map g ((F k).obj.map t.down.2.op (x k t.down.1))
         simp only [op_comp, Functor.map_comp, types_comp_apply, Quiver.Hom.op_unop] }
   let hη : J.W η := J.W_toSheafify P
@@ -724,7 +724,7 @@ private lemma exists_locallyFiniteSum
     ∑ i ∈ Finset.range (b W f hf), F.obj.map f.op (x i)
   have ht : t.Compatible := by
     intro W₁ W₂ Z g₁ g₂ f₁ f₂ hf₁ hf₂ heq
-    show F.obj.map g₁.op (∑ i ∈ Finset.range (b W₁ f₁ hf₁), F.obj.map f₁.op (x i)) =
+    change F.obj.map g₁.op (∑ i ∈ Finset.range (b W₁ f₁ hf₁), F.obj.map f₁.op (x i)) =
       F.obj.map g₂.op (∑ i ∈ Finset.range (b W₂ f₂ hf₂), F.obj.map f₂.op (x i))
     simp only [map_sum, ← Functor.map_comp_apply, ← op_comp, heq]
     apply sum_range_eq_of_eventually_zero
@@ -836,7 +836,7 @@ private lemma idealPowerProduct_obj_of_surjective_sections
     have hh := Ideal.prod_mem_prod (fun k (_ : k ∈ (Finset.univ : Finset (Fin n))) =>
       (A j k).property)
     have hpow : (∏ _ : Fin n, J) = J ^ n := by
-      let : CommRing R := by show CommRing (X.O.obj.obj (op U)); infer_instance
+      let : CommRing R := by change CommRing (X.O.obj.obj (op U)); infer_instance
       simp only [Finset.prod_const, Finset.card_fin]
     rw [← hpow]
     exact hh
@@ -851,20 +851,20 @@ private lemma idealPowerProduct_obj_of_surjective_sections
       F.val.restrictₛₗ q.op x = ∑ j ∈ Finset.range (b W q hq),
         F.val.restrictₛₗ q.op (c j • M j) := by
     conv_lhs => rw [← hg W q hq]
-    show F.val.presheaf.map (g W q hq ≫ f (d W q hq)).op x = _
+    change F.val.presheaf.map (g W q hq ≫ f (d W q hq)).op x = _
     rw [op_comp, Functor.map_comp]
-    show F.val.restrictₛₗ (g W q hq).op (F.val.restrictₛₗ (f (d W q hq)).op x) = _
+    change F.val.restrictₛₗ (g W q hq).op (F.val.restrictₛₗ (f (d W q hq)).op x) = _
     rw [← hl (d W q hq), powerExpressionValue_eq_sum_range (l (d W q hq)), map_sum]
     apply Finset.sum_congr rfl
     intro j hj
-    show F.val.restrictₛₗ (g W q hq).op
+    change F.val.restrictₛₗ (g W q hq).op
         ((∏ k, (a (d W q hq) j k).val) • m (d W q hq) j) =
       F.val.restrictₛₗ q.op (c j • M j)
     rw [(F.val.restrictₛₗ (g W q hq).op).map_smulₛₗ, (F.val.restrictₛₗ q.op).map_smulₛₗ]
     dsimp only [c]
     simp only [map_prod, hM W q hq j]
     congr 1
-    show (∏ k, ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.map (g W q hq).op).hom
+    change (∏ k, ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.map (g W q hq).op).hom
         (a (d W q hq) j k).val) =
       ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.map q.op).hom
         (∏ k, (show R from (A j k).val))
@@ -878,13 +878,13 @@ private lemma idealPowerProduct_obj_of_surjective_sections
         F.val.restrictₛₗ q.op (e j k • M j) := by
     apply exists_locallyFiniteSum F' U S hS b (fun j => e j k • M j)
     intro W q hq j hj
-    show F.val.restrictₛₗ q.op (e j k • M j) = 0
+    change F.val.restrictₛₗ q.op (e j k • M j) = 0
     rw [(F.val.restrictₛₗ q.op).map_smulₛₗ, hzero W q hq j hj, smul_zero]
   choose t ht using hsum
   have hxsum : x = ∑ k, z k • t k := by
     apply (isSheaf_forget_comp F.isSheaf S hS).isSeparatedFor.ext
     intro W q hq
-    show F.val.restrictₛₗ q.op x = F.val.restrictₛₗ q.op (∑ k, z k • t k)
+    change F.val.restrictₛₗ q.op x = F.val.restrictₛₗ q.op (∑ k, z k • t k)
     have htk (k : Fin r) : F.val.restrictₛₗ q.op (z k • t k) =
         ∑ j ∈ Finset.range (b W q hq), F.val.restrictₛₗ q.op (z k • (e j k • M j)) := by
       rw [(F.val.restrictₛₗ q.op).map_smulₛₗ]
@@ -902,9 +902,9 @@ private lemma idealPowerProduct_obj_of_surjective_sections
     rw [← he j, Finset.sum_smul]
     apply Finset.sum_congr rfl
     intro k hk
-    show (e j k * z k) • M j = z k • (e j k • M j)
+    change (e j k * z k) • M j = z k • (e j k • M j)
     rw [mul_smul, smul_comm]
-  show x ∈ J ^ n • (⊤ : Submodule R (F.val.obj (op U)))
+  change x ∈ J ^ n • (⊤ : Submodule R (F.val.obj (op U)))
   rw [hxsum]
   apply Submodule.sum_mem
   intro k hk
@@ -945,7 +945,7 @@ private lemma sheafSubmodule_eq_bot_iff_hasEnoughObjects
   intro U
   apply le_bot_iff.mp
   intro x hx
-  show x = 0
+  change x = 0
   obtain ⟨ι, V, f, hcov, hV⟩ := hX U.unop
   apply (isSheaf_forget_comp F.isSheaf _ hcov).isSeparatedFor.ext
   intro W g hg
@@ -954,7 +954,7 @@ private lemma sheafSubmodule_eq_bot_iff_hasEnoughObjects
   have hz : F.val.map (f i).op x = 0 := by
     have hm := N.toSubmodule.map (f i).op hx
     rwa [h _ (hV i)] at hm
-  show (F.val.presheaf.map (a ≫ f i).op) x = (F.val.presheaf.map (a ≫ f i).op) 0
+  change (F.val.presheaf.map (a ≫ f i).op) x = (F.val.presheaf.map (a ≫ f i).op) 0
   simp only [op_comp, Functor.map_comp, map_zero]
   exact congrArg (fun z => F.val.presheaf.map a.op z) hz |>.trans (map_zero _)
 
@@ -985,7 +985,7 @@ private lemma evaluation_cokernel_submodule_of_weaklyContractibleObjectsSituatio
         X.J B (ShortComplex.cokernelSequence N.ι)).mp
         (ShortComplex.cokernelSequence_exact N.ι) hU
     ext x
-    show q x = 0 ↔ x ∈ N.toSubmodule.obj (op U)
+    change q x = 0 ↔ x ∈ N.toSubmodule.obj (op U)
     have he' : q x = 0 ↔ ∃ y : N.toSubmodule.obj (op U), (y : F.val.obj (op U)) = x := he x
     exact he'.trans ⟨fun ⟨y, hy⟩ => hy ▸ y.property, fun hx => ⟨⟨x, hx⟩, rfl⟩⟩
   let e := ((Submodule.quotEquivOfEq _ _ hker.symm).trans
@@ -1042,7 +1042,7 @@ private lemma evaluation_adicQuotientCone_isLimit_iff_of_weaklyContractibleObjec
   have ec : (Cone.postcompose eD.hom).obj (moduleAdicQuotientCone J M) ≅ c :=
     Cone.ext (Iso.refl M) (by
       intro n
-      show (moduleAdicQuotientCone J M).π.app n ≫ (e n.unop).hom =
+      change (moduleAdicQuotientCone J M).π.app n ≫ (e n.unop).hom =
         𝟙 M ≫ G.map ((adicQuotientSystem X I F).quotientMap.app n)
       simpa only [Category.id_comp] using he n.unop)
   constructor
@@ -1190,7 +1190,7 @@ theorem isZero_of_isDerivedComplete_of_idealProduct_eq_top_of_slicedObjectsSitua
         (hI U hU) hcomplete
         (Submodule.Quotient.subsingleton_iff.mpr hsmul)
     refine le_bot_iff.mp fun x _ ↦ ?_
-    show x = 0
+    change x = 0
     exact Subsingleton.elim
       (α := (SheafOfModules.evaluation (Stacks.SheafOfModules.Tensor.ringSheaf X.O) (op U)).obj F)
       x 0
@@ -1200,7 +1200,7 @@ theorem isZero_of_isDerivedComplete_of_idealProduct_eq_top_of_slicedObjectsSitua
         (⊤ : F.Submodule)).mpr key)
   rw [IsZero.iff_id_eq_zero]
   ext U m
-  show m = 0
+  change m = 0
   have hm : m ∈ (⊤ : F.Submodule).toSubmodule.obj U := by
     rw [sheafSubmodule_top_obj]
     exact Submodule.mem_top
@@ -1449,7 +1449,8 @@ a covering collection of objects which test surjectivity of sheaves of sets in t
 universe, on the site and on its slices: `ℱ`, placed in degree zero, is derived complete along
 `ℐ` exactly when, for every member `U` of the collection, the module `Γ(U, ℱ)` is derived
 complete along the ideal `Γ(U, ℐ)` of `Γ(U, 𝒪)`. -/
-alias isDerivedComplete_single_iff_sections_of_slicedObjectsSituation := isDerivedComplete_sheaf_single_iff_sections_of_slicedObjectsSituation
+alias isDerivedComplete_single_iff_sections_of_slicedObjectsSituation :=
+  isDerivedComplete_sheaf_single_iff_sections_of_slicedObjectsSituation
 
 /-- **A sheaf of modules killed locally by powers of the sections of `ℐ` is derived complete.**
 If, over every member `U` of a covering collection of weakly contractible objects, every section
@@ -1485,11 +1486,13 @@ theorem isDerivedComplete_single_of_pow_smul_eq_zero_of_slicedObjectsSituation
 /-- Over an object on which locally surjective maps of sheaves of sets are surjective, and over
 which the ideal of sections is finitely generated, the sections of `IⁿF` are the products of the
 `n`-th power of that ideal with the sections of `F`. -/
-alias idealPowerProduct_obj_eq_pow_smul_top_of_sections_surjective := idealPowerProduct_obj_eq_pow_smul_top_of_surjective_sections
+alias idealPowerProduct_obj_eq_pow_smul_top_of_sections_surjective :=
+  idealPowerProduct_obj_eq_pow_smul_top_of_surjective_sections
 
 /-- Over a testing object of a weakly contractible situation, the sections of the quotient of a
 sheaf of modules by a subsheaf are the quotient of the sections, compatibly with the projection. -/
-alias exists_evaluation_cokernel_iso_of_weaklyContractibleObjectsSituation := evaluation_cokernel_submodule_of_weaklyContractibleObjectsSituation
+alias exists_evaluation_cokernel_iso_of_weaklyContractibleObjectsSituation :=
+  evaluation_cokernel_submodule_of_weaklyContractibleObjectsSituation
 
 end AlgebraicGeometry.RingedSite
 

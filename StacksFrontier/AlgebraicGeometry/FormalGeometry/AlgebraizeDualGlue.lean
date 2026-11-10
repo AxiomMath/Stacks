@@ -406,7 +406,7 @@ public theorem localApp_restrictDownIso {X : Scheme.{u}} {U W : X.Opens} (hWU : 
         Scheme.Modules.Hom.app ψ (X.homOfLE hWU ''ᵁ A) ≫
           (Scheme.Modules.presheaf N).map i₂.op := by
   subst hA
-  show Scheme.Modules.Hom.app ((restrictDownIso hWU M).hom ≫
+  change Scheme.Modules.Hom.app ((restrictDownIso hWU M).hom ≫
       (Scheme.Modules.restrictFunctor (X.homOfLE hWU)).map ψ ≫
         (restrictDownIso hWU N).inv) A = _
   rw [app_comp₃, restrictDownIso_hom_app hWU M A i₁, restrictDownIso_inv_app hWU N A i₂,

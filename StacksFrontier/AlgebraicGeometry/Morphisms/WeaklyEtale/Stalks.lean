@@ -157,7 +157,7 @@ private lemma flat_diagonal_stalk_iff_flat_lmul
       (X.presheaf.stalk x) := by
     apply IsScalarTower.of_algebraMap_eq'
     simpa only [RingHom.algebraMap_toAlgebra] using hcomp.symm
-  show Module.Flat ((Limits.pullback f f).presheaf.stalk ((Limits.pullback.diagonal f) x))
+  change Module.Flat ((Limits.pullback f f).presheaf.stalk ((Limits.pullback.diagonal f) x))
       (X.presheaf.stalk x) ↔
     Module.Flat (TensorProduct (Y.presheaf.stalk (f x))
       (X.presheaf.stalk x) (X.presheaf.stalk x)) (X.presheaf.stalk x)
@@ -293,7 +293,7 @@ private theorem exists_isLocalHom_strictHenselizationMap
         ((IsLocalRing.residue Ysh).comp (algebraMap (Y.presheaf.stalk (f x)) Ysh)) =
       (IsLocalRing.residue Xsh).comp (algebraMap (Y.presheaf.stalk (f x)) Xsh) := by
     ext a
-    show φ (IsLocalRing.residue Ysh (algebraMap (Y.presheaf.stalk (f x)) Ysh a)) =
+    change φ (IsLocalRing.residue Ysh (algebraMap (Y.presheaf.stalk (f x)) Ysh a)) =
       IsLocalRing.residue Xsh (algebraMap (Y.presheaf.stalk (f x)) Xsh a)
     rw [← hresY a, φ.commutes]
     exact IsLocalRing.ResidueField.map_residue (algebraMap (Y.presheaf.stalk (f x)) Xsh) a

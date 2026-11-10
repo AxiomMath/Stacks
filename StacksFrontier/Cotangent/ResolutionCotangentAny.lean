@@ -17,9 +17,9 @@ isomorphism
 `L_{B/A} ≅ Ω[P_•⁄A] ⊗_{P_•, ε} B` in `D(B)`.
 
 `StacksFrontier/Cotangent/ResolutionCotangentDerived.lean` and
-`StacksFrontier/Cotangent/ResolutionPointCriterionSmallOfModules.lean` prove both identifications for
-a resolution whose terms are polynomial algebras on at most `κ` variables, `κ` a cardinal fixed in
-advance — the bound being what puts the resolution on the small model of the site that
+`StacksFrontier/Cotangent/ResolutionPointCriterionSmallOfModules.lean` prove both identifications
+for a resolution whose terms are polynomial algebras on at most `κ` variables, `κ` a cardinal fixed
+in advance — the bound being what puts the resolution on the small model of the site that
 [Stacks, Tag 08PR] is read at here. This file removes the bound: an arbitrary resolution has
 countably many terms, so the disjoint union of their index types bounds all of them at once, and
 enlarging that bound by `CommAlgCat.standardResolutionVarCardinal A B` puts the given resolution

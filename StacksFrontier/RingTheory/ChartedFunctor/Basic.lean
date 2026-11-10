@@ -141,8 +141,7 @@ lemma mk_tensorProduct_lt (hκ : ℵ₀ < κ) {M N : Type u} [AddCommGroup M] [A
   have hsurj : Function.Surjective
       (fun l : List (M × N) => (l.map fun p => p.1 ⊗ₜ[R] p.2).sum) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => exact ⟨[], rfl⟩
+    induction t using TensorProduct.inductionOn with
     | tmul m n => exact ⟨[(m, n)], by simp⟩
     | add s t hs ht =>
       obtain ⟨l₁, rfl⟩ := hs
@@ -410,7 +409,7 @@ theorem bijective_fibreProdFibMap (h₁ : Function.Surjective (BoundedAlg.toAlgH
       ⟨ρ.1 ≫ (fibreProd.snd π₁ π₂).hom, by
         rw [Category.assoc]
         refine Eq.trans ?_ ρ.2
-        show ρ.1 ≫ (fibreProd.snd π₁ π₂ ≫ π₂).hom = ρ.1 ≫ (fibreProd.fst π₁ π₂ ≫ π₁).hom
+        change ρ.1 ≫ (fibreProd.snd π₁ π₂ ≫ π₂).hom = ρ.1 ≫ (fibreProd.fst π₁ π₂ ≫ π₁).hom
         rw [fibreProd.condition]⟩)
   have hφ : Function.Bijective φ :=
     ⟨fun ρ ρ' h => Subtype.ext (fibreProd.hom_ext π₁ π₂

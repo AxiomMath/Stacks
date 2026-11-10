@@ -480,7 +480,7 @@ theorem baseChangeConeKilled07Q9_of_iso {q : ℤ}
     transportConnection_apply p e mu muInv phi d d₀ nabla hmu₁ hmu₂ hphid m
   have hint₀ : IsCurvatureZero p D₀ Om₀ wedge₀ deRham₀ _ nabla₀ hleib₀ := by
     intro m₀
-    show differential p D₀ Om₀ wedge₀ deRham₀ _ nabla₀ hleib₀ 1 (nabla₀ (mu (muInv m₀))) = 0
+    change differential p D₀ Om₀ wedge₀ deRham₀ _ nabla₀ hleib₀ 1 (nabla₀ (mu (muInv m₀))) = 0
     rw [hnabla, differential_comparisonValues p D D₀ (e : D →+* D₀) M _ mu Om Om₀ phi wedge wedge₀
       deRham deRham₀ nabla nabla₀ hleib hleib₀ hphi_wedge hphi_deRham hnabla 1, hint, map_zero]
   have hsq₀ := isSquareZero_comparison p e mu muInv phi phiInv hmu₂ hphi₂ wedge wedge₀ deRham
@@ -752,7 +752,7 @@ theorem completionFormsMap07Q9_smul (i : ℕ) (c : completedDividedPowerRing p (
       (LinearMap.toSpanSingleton (completedDividedPowerRing p (B := B)) _ ω).toAddMonoidHom)
     (g := (LinearMap.toSpanSingleton (completedDividedPowerRing p (B := B)) _
       (completionFormsMap07Q9 p A hJ hp i ω)).toAddMonoidHom) (fun b ↦ ?_) c
-  · show completionFormsMap07Q9 p A hJ hp i (AdicCompletion.of (pAdicIdeal (A := B) p) B b • ω) =
+  · change completionFormsMap07Q9 p A hJ hp i (AdicCompletion.of (pAdicIdeal (A := B) p) B b • ω) =
       AdicCompletion.of (pAdicIdeal (A := B) p) B b • completionFormsMap07Q9 p A hJ hp i ω
     have hb : AdicCompletion.of (pAdicIdeal (A := B) p) B b • ω = b • ω := by
       have h1 : AdicCompletion.of (pAdicIdeal (A := B) p) B b =
@@ -874,9 +874,9 @@ theorem genuineFormsMap07Q9_comp (i : ℕ) (ω : completedDividedPowerForms p A 
         (genuineFormsMap07Q9 p A B hJ B₁ hJ₁ f₁ hf₁ hfa₁ i ω) := by
   have hcomp : f = f₂.comp f₁ := AlgHom.ext fun x ↦ by
     rw [AlgHom.comp_apply]
-    show f.toRingHom x = f₂.toRingHom (f₁.toRingHom x)
+    change f.toRingHom x = f₂.toRingHom (f₁.toRingHom x)
     rw [hfa, hfa₁, hfa₂, ← IsScalarTower.algebraMap_apply]
-  show completedMapDifferentialForms p A hJ hJ₂ f hf i ω =
+  change completedMapDifferentialForms p A hJ hJ₂ f hf i ω =
     completedMapDifferentialForms p A hJ₁ hJ₂ f₂ hf₂ i
       (completedMapDifferentialForms p A hJ hJ₁ f₁ hf₁ i ω)
   rw [completedMapDifferentialForms_congr p A hJ hJ₂ hcomp hf (IsDPMorphism.comp hJ₂ hf₂ hf₁)]
@@ -918,7 +918,7 @@ the identity. -/
 theorem genuineFormsMap07Q9_self (i : ℕ) (ω : completedDividedPowerForms p A hJ i) :
     genuineFormsMap07Q9 p A B hJ B hJ f hf hfa i ω = ω := by
   have hid : f = AlgHom.id A B := AlgHom.ext fun x ↦ hfa x
-  show completedMapDifferentialForms p A hJ hJ f hf i ω = ω
+  change completedMapDifferentialForms p A hJ hJ f hf i ω = ω
   subst hid
   exact completedMapDifferentialForms_id p A hJ i hf ω
 
@@ -954,15 +954,15 @@ def homotopyOfDegreewise07Q9 (f g : K ⟶ L) (h : ∀ q, K.X (q + 1) ⟶ L.X q)
     _root_.Homotopy f g where
   hom i j := if hij : i = j + 1 then eqToHom (by rw [hij]) ≫ h j else 0
   zero i j hij := by
-    rw [dif_neg]
+    rw [dite_eq_right]
     intro h'
     exact hij (by simp [h'])
   comm i := by
-    rw [Homotopy.dNext_cochainComplex, dif_pos rfl, eqToHom_refl, Category.id_comp]
+    rw [Homotopy.dNext_cochainComplex, dite_eq_left rfl, eqToHom_refl, Category.id_comp]
     cases i with
     | zero => rw [Homotopy.prevD_zero_cochainComplex, add_zero, h0]
     | succ q =>
-      rw [Homotopy.prevD_succ_cochainComplex, dif_pos rfl, eqToHom_refl, Category.id_comp, hs]
+      rw [Homotopy.prevD_succ_cochainComplex, dite_eq_left rfl, eqToHom_refl, Category.id_comp, hs]
 
 /-- The degree `q + 1 ⟶ q` component of `Crystalline.CompletedDeRham.homotopyOfDegreewise07Q9`. -/
 theorem homotopyOfDegreewise07Q9_hom (f g : K ⟶ L) (h : ∀ q, K.X (q + 1) ⟶ L.X q)
@@ -970,8 +970,8 @@ theorem homotopyOfDegreewise07Q9_hom (f g : K ⟶ L) (h : ∀ q, K.X (q + 1) ⟶
     (hs : ∀ q, f.f (q + 1) =
       K.d (q + 1) (q + 1 + 1) ≫ h (q + 1) + h q ≫ L.d q (q + 1) + g.f (q + 1))
     (q : ℕ) : (homotopyOfDegreewise07Q9 f g h h0 hs).hom (q + 1) q = h q := by
-  show (if hij : q + 1 = q + 1 then eqToHom (by rw [hij]) ≫ h q else 0) = h q
-  rw [dif_pos rfl, eqToHom_refl, Category.id_comp]
+  change (if hij : q + 1 = q + 1 then eqToHom (by rw [hij]) ≫ h q else 0) = h q
+  rw [dite_eq_left rfl, eqToHom_refl, Category.id_comp]
 
 end Degreewise
 
@@ -1006,8 +1006,8 @@ theorem coneKilledNat07Q9_of_degreewise {a : ℤ} (c : K ⟶ L) (e : ∀ q, L.X 
     by_cases hij : i = j + 1
     · subst hij
       rw [homotopyOfDegreewise07Q9_hom, hch]
-    · show c.f i ≫ (if hij' : i = j + 1 then _ else 0) = 0
-      rw [dif_neg hij, comp_zero]
+    · change c.f i ≫ (if hij' : i = j + 1 then _ else 0) = 0
+      rw [dite_eq_right hij, comp_zero]
 
 end DegreewiseCone
 

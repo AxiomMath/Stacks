@@ -117,7 +117,7 @@ public theorem satisfiesDepthInequalities_of_completedStalk_serre
     refine absurd ?_ hp
     refine Ideal.map_le_iff_le_comap.mpr ((stalk_idealOnOpen_eq_map S y).le.trans ?_)
     refine Ideal.map_le_iff_le_comap.mpr fun x hx => ?_
-    show _ ∈ p.asIdeal
+    change _ ∈ p.asIdeal
     obtain ⟨n, hn⟩ := (hnil x hx).map
       ((algebraMap (S.U.toScheme.presheaf.stalk y) (completedLocalRing (idealOnOpen S) y)).comp
         (baseToPointStalk S y))

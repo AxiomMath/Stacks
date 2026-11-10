@@ -59,7 +59,7 @@ private lemma associatedPoints_inter_affine_finite {X : Scheme.{u}} [IsLocallyNo
   refine (hpre.image Subtype.val).subset ?_
   rintro x ⟨hxAss, hxU⟩
   refine ⟨⟨x, hxU⟩, ?_, rfl⟩
-  show p ⟨x, hxU⟩ ∈ associatedPrimes Γ(X, U) Γ(F, U)
+  change p ⟨x, hxU⟩ ∈ associatedPrimes Γ(X, U) Γ(F, U)
   rw [← isAssociatedPrimeStacks_iff_mem_associatedPrimes]
   exact (isAssociatedPrime_sections_iff_isAssociatedPoint_of_isLocallyNoetherian F U hU hxU).mpr
     ((Stacks.Divisors.mem_associatedPoints_iff F x).mp hxAss)

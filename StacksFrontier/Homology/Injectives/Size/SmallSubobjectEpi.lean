@@ -105,7 +105,7 @@ private theorem imageSubobject_epi_comp {W X Y : C} (e : W ⟶ X) [Epi e] (g : X
       rw [hrel]; exact epi_comp e (factorThruImage g)
     exact epi_of_epi (factorThruImage (e ≫ g)) (image.preComp e g)
   have : IsIso (image.preComp e g) := isIso_of_mono_of_epi _
-  show Subobject.mk (image.ι (e ≫ g)) = Subobject.mk (image.ι g)
+  change Subobject.mk (image.ι (e ≫ g)) = Subobject.mk (image.ι g)
   exact Subobject.mk_eq_mk_of_comm (image.ι (e ≫ g)) (image.ι g)
     (asIso (image.preComp e g)) (image.preComp_ι e g)
 
@@ -158,7 +158,7 @@ private theorem mono_sigmaDesc_ι {U : C} {ι : Type w} {J : Type w'} (f : ι �
       Sigma.ι (fun (_ : ι) => U) h.choose else 0), ?_⟩⟩
     apply Sigma.hom_ext
     intro a
-    rw [← Category.assoc, Sigma.ι_desc, Sigma.ι_desc]
+    rw [← Category.assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc]
     have hex : ∃ b, f b = f a := ⟨a, rfl⟩
     rw [dite_eq_left hex, Category.comp_id]
     congr 1
@@ -244,7 +244,7 @@ theorem exists_small_subfamily_epi {ι : Type w} (U N : C)
       = φ s.val := by
     intro s
     congr 1
-    rw [subCoproductιMap, ← Category.assoc, Sigma.ι_desc]
+    rw [subCoproductιMap, ← Category.assoc, Sigma.ι_comp_desc]
   rw [iSup_congr hcomp]
   refine le_antisymm le_top ?_
   rw [← hsup_top]

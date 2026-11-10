@@ -6,8 +6,7 @@ public import StacksFrontier.CategoryTheory.Adjunction.TransportAdjunctionDinatu
 public import
   StacksFrontier.CategoryTheory.Sites.Cohomology.InternalHom.DerivedTensorSheafHomDinaturality
 public import StacksFrontier.AlgebraicGeometry.Spaces.SmallEtaleDerivedSheafHomDinaturality
-public import
-StacksFrontier.CategoryTheory.Sites.Cohomology.InternalHom.DerivedTensorSheafHomDinaturalitySupplement
+public import StacksFrontier.CategoryTheory.Sites.Cohomology.InternalHom.DerivedTensorSheafHomDinaturalitySupplement
 public meta import StacksFrontier.Tactic.HEqCongr
 
 /-!

@@ -116,7 +116,7 @@ lemma isFirstOrderThickening_specMap {R S : Type u} [CommRing R] [CommRing S]
           ((Scheme.ΓSpecIso (CommRingCat.of R)).hom.hom x) at hn
     constructor
     · intro hx
-      show φ.hom ((Scheme.ΓSpecIso (CommRingCat.of R)).hom.hom x) = 0
+      change φ.hom ((Scheme.ΓSpecIso (CommRingCat.of R)).hom.hom x) = 0
       rw [← hn, hx]
       simp
     · intro hx
@@ -168,7 +168,7 @@ private lemma existsUnique_algHom_lift
         (Ideal.quotientKerAlgEquivOfSurjective_mk hq (a' x)).symm
       _ = e (a₀ ((IsScalarTower.toAlgHom R P.Ring S) x)) := congrArg e hx
       _ = a ((IsScalarTower.toAlgHom R P.Ring S) x) := by
-        show e (e.symm (a ((IsScalarTower.toAlgHom R P.Ring S) x))) = _
+        change e (e.symm (a ((IsScalarTower.toAlgHom R P.Ring S) x))) = _
         exact e.apply_symm_apply _
   · intro b hb
     apply huniq b
@@ -181,7 +181,7 @@ private lemma existsUnique_algHom_lift
         Ideal.quotientKerAlgEquivOfSurjective_mk hq (b x)
       _ = a ((IsScalarTower.toAlgHom R P.Ring S) x) := hx
       _ = e (a₀ ((IsScalarTower.toAlgHom R P.Ring S) x)) := by
-        show _ = e (e.symm (a ((IsScalarTower.toAlgHom R P.Ring S) x)))
+        change _ = e (e.symm (a ((IsScalarTower.toAlgHom R P.Ring S) x)))
         exact (e.apply_symm_apply _).symm
 
 /-- Global sections of `Z.isoSpec.hom ≫ Spec.map q` for an affine scheme `Z`. -/
@@ -191,7 +191,7 @@ private lemma isoSpec_hom_comp_specMap_appTop {Z : Scheme.{u}} [IsAffine Z]
       q.hom.comp (Scheme.ΓSpecIso P).hom.hom := by
   rw [Scheme.Hom.comp_appTop]
   have hz : Z.isoSpec.hom.appTop = (Scheme.ΓSpecIso (Γ(Z, ⊤))).hom := by
-    show Z.toSpecΓ.appTop = _
+    change Z.toSpecΓ.appTop = _
     exact Scheme.toSpecΓ_appTop Z
   rw [hz]
   have hn := congrArg CommRingCat.Hom.hom (Scheme.ΓSpecIso_naturality q)
@@ -205,7 +205,7 @@ private lemma specMap_comp_isoSpec_inv_appTop {X : Scheme.{u}} [IsAffine X]
   rw [Scheme.Hom.comp_appTop]
   have hx : X.isoSpec.inv.appTop = (Scheme.ΓSpecIso (Γ(X, ⊤))).inv := by
     have hxhom : X.isoSpec.hom.appTop = (Scheme.ΓSpecIso (Γ(X, ⊤))).hom := by
-      show X.toSpecΓ.appTop = _
+      change X.toSpecΓ.appTop = _
       exact Scheme.toSpecΓ_appTop X
     apply (cancel_mono (Scheme.ΓSpecIso (Γ(X, ⊤))).hom).mp
     rw [← hxhom, ← Scheme.Hom.comp_appTop X.isoSpec.hom X.isoSpec.inv,
@@ -355,7 +355,7 @@ private lemma existsUnique_lift_of_isAffine
     simpa [p, r] using
       specMap_comp_isoSpec_inv_appTop (X := X) r
   have hfirst : (j ≫ f).appTop.hom = (a ≫ i).appTop.hom := by
-    show j.appTop.hom.comp f.appTop.hom = a.appTop.hom.comp i.appTop.hom
+    change j.appTop.hom.comp f.appTop.hom = a.appTop.hom.comp i.appTop.hom
     rw [affineHomOfRingHom_appTop, hI]
     have hlift' := congrArg (fun g : P.Ring →+* Γ(T, ⊤) =>
       g.comp (Scheme.ΓSpecIso (CommRingCat.of P.Ring)).hom.hom) hlift
@@ -364,10 +364,10 @@ private lemma existsUnique_lift_of_isAffine
     ext x
     exact lift.commutes' x
   have hsecond : (f ≫ p).appTop.hom = b.appTop.hom := by
-    show f.appTop.hom.comp p.appTop.hom = b.appTop.hom
+    change f.appTop.hom.comp p.appTop.hom = b.appTop.hom
     rw [affineHomOfRingHom_appTop, hPbase]
     ext x
-    show lift.toRingHom
+    change lift.toRingHom
       ((Scheme.ΓSpecIso (CommRingCat.of P.Ring)).hom.hom
         ((Scheme.ΓSpecIso (CommRingCat.of P.Ring)).inv.hom (algebraMap R P.Ring x))) =
       b.appTop.hom x
@@ -376,7 +376,7 @@ private lemma existsUnique_lift_of_isAffine
       have hs := congrArg CommRingCat.Hom.hom
         (Iso.inv_hom_id (Scheme.ΓSpecIso (CommRingCat.of P.Ring)))
       simpa only [CommRingCat.hom_comp, CommRingCat.hom_id] using hs
-    show lift.toRingHom
+    change lift.toRingHom
       ((Scheme.ΓSpecIso (CommRingCat.of P.Ring)).hom.hom.comp
         (Scheme.ΓSpecIso (CommRingCat.of P.Ring)).inv.hom
         (algebraMap R P.Ring x)) = b.appTop.hom x
@@ -386,7 +386,7 @@ private lemma existsUnique_lift_of_isAffine
     formallyUnramified_ring_of_isUniversal P
       (Algebra.FormallyUnramified.isUniversalFirstOrderThickening R S)
   have hringformal : r.hom.FormallyUnramified := by
-    show (algebraMap R P.Ring).FormallyUnramified
+    change (algebraMap R P.Ring).FormallyUnramified
     rw [RingHom.formallyUnramified_algebraMap]
     exact hPformal
   let : FormallyUnramified (Spec.map r) := by
@@ -495,7 +495,7 @@ public lemma comap_sq_eq_bot_of_isOpenImmersion
   apply le_antisymm
   · rw [Scheme.IdealSheafData.le_def]
     intro U
-    show ((J.comap v).ideal U) ^ 2 ≤ (⊥ : Scheme.IdealSheafData Z).ideal U
+    change ((J.comap v).ideal U) ^ 2 ≤ (⊥ : Scheme.IdealSheafData Z).ideal U
     rw [Scheme.IdealSheafData.ideal_comap_of_isOpenImmersion]
     let V : Y.affineOpens := ⟨v ''ᵁ U, U.2.image_of_isOpenImmersion v⟩
     exact (comap_sq_eq_bot_of_injective
@@ -516,7 +516,7 @@ private lemma isFirstOrderThickening_morphismRestrict {Z Z' : Scheme.{u}} (i : Z
   let A : Z'.affineOpens := ⟨U.ι ''ᵁ W, W.2.image_of_isOpenImmersion U.ι⟩
   have hker := Scheme.ker_ideal_of_isPullback_of_isOpenImmersion i (i ∣_ U)
     (i ⁻¹ᵁ U).ι U.ι (isPullback_morphismRestrict i U) W
-  show ((i ∣_ U).ker.ideal W) ^ 2 = ⊥
+  change ((i ∣_ U).ker.ideal W) ^ 2 = ⊥
   rw [hker]
   exact comap_sq_eq_bot_of_injective
     (ConcreteCategory.bijective_of_isIso (U.ι.appIso W).inv).1 (ideal_sq_eq_bot hi.2 A)
@@ -559,7 +559,7 @@ lemma preimage_thickeningOpenImage {Z Z' : Scheme.{u}} (i : Z ⟶ Z')
     i ⁻¹ᵁ thickeningOpenImage i hi V = V := by
   let e := thickeningHomeomorph i hi
   ext x
-  show e x ∈ e '' V ↔ x ∈ V
+  change e x ∈ e '' V ↔ x ∈ V
   simp
 
 section Restriction

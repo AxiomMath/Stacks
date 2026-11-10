@@ -42,10 +42,10 @@ intermediate open.
 **Reading the coherence on the inverses is term mode.**  `simp` makes no progress on a goal about
 `AlgebraicGeometry.Scheme.Modules.restrictUnitIso`, and `rw` cannot find `Epi` of an isomorphism's
 forward map there, both for the reason recorded in
-`StacksFrontier/AlgebraicGeometry/FiniteLocallyFree/RestrictFreeIsoComp.lean`:  the sheaf of rings of
-a scheme unfolds to the one `CategoryTheory.SheafOfModules` asks for only at default transparency.
-The inverse form is therefore obtained by `Iso.ext`, `congrArg Iso.inv` and the associativity of
-composition applied by hand.
+`StacksFrontier/AlgebraicGeometry/FiniteLocallyFree/RestrictFreeIsoComp.lean`:  the sheaf of rings
+of a scheme unfolds to the one `CategoryTheory.SheafOfModules` asks for only at default
+transparency. The inverse form is therefore obtained by `Iso.ext`, `congrArg Iso.inv` and the
+associativity of composition applied by hand.
 
 ## Main results
 

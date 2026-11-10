@@ -119,8 +119,7 @@ variable [∀ n : ℕ, HasWeakSheafify
   (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
 variable [IsNoetherian X.1] [Fact ℓ.Prime]
 
-variable {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
-  [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
+variable {k : Type u} [Field k] (f : X.1 ⟶ Spec (.of k))
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
 
 /-- `Hⁱ_c(X_k̄, -|_{X_k̄})` with `ℤ_[ℓ]`-coefficients is additive. -/
@@ -262,7 +261,7 @@ public theorem LAdicSheaf.geometricCompactlySupportedCohomologySystemMap_add
 public theorem LAdicSheaf.geometricCompactlySupportedCohomologyMap_id (F : LAdicSheaf B X ℓ)
     (i : ℤ) :
     LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar (𝟙 F) i = 𝟙 _ := by
-  show limMap _ = _
+  change limMap _ = _
   rw [LAdicSheaf.geometricCompactlySupportedCohomologySystemMap_id]
   exact lim.map_id _
 
@@ -272,7 +271,7 @@ public theorem LAdicSheaf.geometricCompactlySupportedCohomologyMap_comp {F G H :
     LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar (φ ≫ ψ) i =
       LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar φ i ≫
         LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar ψ i := by
-  show limMap _ = limMap _ ≫ limMap _
+  change limMap _ = limMap _ ≫ limMap _
   rw [LAdicSheaf.geometricCompactlySupportedCohomologySystemMap_comp]
   exact lim.map_comp _ _
 
@@ -282,7 +281,7 @@ public theorem LAdicSheaf.geometricCompactlySupportedCohomologyMap_add {F G : LA
     LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar (φ + ψ) i =
       LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar φ i +
         LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar ψ i := by
-  show limMap _ = limMap _ + limMap _
+  change limMap _ = limMap _ + limMap _
   rw [LAdicSheaf.geometricCompactlySupportedCohomologySystemMap_add]
   exact limMap_add _ _
 
@@ -305,7 +304,7 @@ public theorem LAdicSheaf.geometricCompactlySupportedCohomologyMap_pullback
         LAdicSheaf.geometricCompactlySupportedCohomologyPullback B X ℓ f j kbar G i θ =
       LAdicSheaf.geometricCompactlySupportedCohomologyPullback B X ℓ f j kbar F i θ ≫
         LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar φ i := by
-  show limMap _ ≫ limMap _ = limMap _ ≫ limMap _
+  change limMap _ ≫ limMap _ = limMap _ ≫ limMap _
   refine (lim.map_comp _ _).symm.trans (Eq.trans (congrArg lim.map ?_) (lim.map_comp _ _))
   refine natTrans_op_nat_ext fun n => ?_
   exact (geometricCompactSupportPadicCohomologyPullback B X ℓ f j kbar i θ).naturality
@@ -315,7 +314,7 @@ public theorem LAdicSheaf.geometricCompactlySupportedCohomologyMap_pullback
 sheaves.** -/
 @[reassoc]
 public theorem LAdicSheaf.geometricCompactlySupportedCohomologyMap_frobenius
-    (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
+    [Fintype k] (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
     {F G : LAdicSheaf B X ℓ} (φ : F ⟶ G) (i : ℤ) :
     LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar φ i ≫
         LAdicSheaf.geometricCompactlySupportedFrobenius B X ℓ f j kbar p q hcard G i =
@@ -335,7 +334,8 @@ public def LAdicSheaf.geometricCompactlySupportedCohomologyEndRingHom (F : LAdic
     rw [LAdicSheaf.geometricCompactlySupportedCohomologyMap_id]
     rfl
   map_mul' φ ψ := by
-    change (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar (ψ.asHom ≫ φ.asHom) i).hom = _
+    change (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar (ψ.asHom ≫ φ.asHom)
+      i).hom = _
     rw [LAdicSheaf.geometricCompactlySupportedCohomologyMap_comp]
     rfl
   map_zero' := by
@@ -343,7 +343,8 @@ public def LAdicSheaf.geometricCompactlySupportedCohomologyEndRingHom (F : LAdic
     rw [LAdicSheaf.geometricCompactlySupportedCohomologyMap_zero]
     rfl
   map_add' φ ψ := by
-    change (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar (φ.asHom + ψ.asHom) i).hom = _
+    change (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar (φ.asHom + ψ.asHom)
+      i).hom = _
     rw [LAdicSheaf.geometricCompactlySupportedCohomologyMap_add]
     rfl
 

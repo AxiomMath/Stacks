@@ -229,7 +229,7 @@ theorem endomorphismRing_isLocalRing
   apply IsLocalRing.of_nonunits_add
   intro f g hf hg
   change ¬IsUnit f at hf; change ¬IsUnit g at hg
-  show ¬IsUnit (f + g)
+  change ¬IsUnit (f + g)
   have hfker : LinearMap.ker f ≠ ⊥ := fun h => hf ((endo_isUnit_iff_ker_eq_bot hE f).2 h)
   have hgker : LinearMap.ker g ≠ ⊥ := fun h => hg ((endo_isUnit_iff_ker_eq_bot hE g).2 h)
   have hInf := inf_ne_bot_of_nonzero_submodules R (ModuleCat.of R E) hE _ _ hfker hgker
@@ -266,7 +266,7 @@ theorem exists_maximalIdeal_endomorphismRing
   refine ⟨I, ?_, ?_, ?_, ?_⟩
   · constructor
     intro f a hf
-    show ¬IsUnit (f * a)
+    change ¬IsUnit (f * a)
     intro hu
     have ha : IsUnit a := endo_isUnit_of_isUnit_mul hE f a hu
     obtain ⟨u, rfl⟩ := ha
@@ -321,7 +321,7 @@ theorem exists_prime_eq_zeroDivisorsOn {R : Type u} [CommRing R]
       ((hunit x (not_or.mp h).1).mul (hunit y (not_or.mp h).2)))⟩
   refine ⟨I.comap f, Ideal.comap_isPrime f I, ?_⟩
   ext r
-  show f r ∈ I ↔ r ∈ {r : R | ∃ m : E, m ≠ 0 ∧ r • m = 0}
+  change f r ∈ I ↔ r ∈ {r : R | ∃ m : E, m ≠ 0 ∧ r • m = 0}
   rw [hker]
   exact ((mem_zeroDivisors_iff_ker_lsmul_ne_bot (M := (E : Type v)) r).symm)
 
@@ -385,7 +385,7 @@ private lemma exists_common_nonzero_smul_quotient {R : Type*} [CommRing R] (p : 
   obtain ⟨b, hb⟩ := Ideal.Quotient.mk_surjective y.down
   refine ⟨b, a, ?_, ?_⟩
   · apply ULift.down_injective
-    show b • x.down = a • y.down
+    change b • x.down = a • y.down
     rw [← ha, ← hb]
     simp only [Algebra.smul_def]
     simp [mul_comm]
@@ -519,7 +519,7 @@ theorem exists_isInjectiveHull_residueField_of_indecomposable
     rw [← Localization.AtPrime.map_eq_maximalIdeal (I := p)]
     apply Ideal.map_le_iff_le_comap.mpr
     intro r hr
-    show fA (algebraMap R A r) = 0
+    change fA (algebraMap R A r) = 0
     rw [LinearMap.toSpanSingleton_apply, hcompat]
     exact hpx r hr
   have hker_ne_top : fA.ker ≠ ⊤ := by
@@ -604,7 +604,7 @@ private lemma exists_smul_mem_of_essential_inclusion {N : ModuleCat.{v} R}
   obtain ⟨y, hy⟩ := Submodule.nonzero_mem_of_bot_lt ((bot_lt_iff_ne_bot).2 hmeet)
   obtain ⟨a, ha⟩ := Submodule.mem_span_singleton.mp (Submodule.mem_inf.mp y.2).1
   refine ⟨a, ?_, ?_⟩
-  · show M'.subtype (a • x) ∈ M
+  · change M'.subtype (a • x) ∈ M
     rw [ha]
     exact (Submodule.mem_inf.mp y.2).2
   · intro hzero
@@ -655,7 +655,7 @@ lemma injective_iSup_torsionBy_pow (f : R) :
   obtain ⟨S, hS⟩ := J.fg_of_isNoetherianRing
   have hgen (a : R) (ha : a ∈ S) : ∃ m : ℕ, f ^ m • (a • (x : I)) = 0 := by
     apply (mem_iSup_torsionBy_pow_iff I f _).mp
-    show a ∈ J
+    change a ∈ J
     rw [← hS]
     exact Submodule.subset_span (by simpa using ha)
   choose! exponent hexponent using hgen
@@ -674,7 +674,7 @@ lemma injective_iSup_torsionBy_pow (f : R) :
   have hkill (a : R) (ha : a • (x' : E') ∈ E.comap E'.subtype) : a • x' = 0 := by
     have hax'E : a • (x' : I) ∈ E := by simpa [x'] using ha
     have haJ : a ∈ J := by
-      show a • (x : I) ∈ E
+      change a • (x : I) ∈ E
       obtain ⟨m, hm⟩ := (mem_iSup_torsionBy_pow_iff I f _).mp hax'E
       apply (mem_iSup_torsionBy_pow_iff I f _).mpr
       refine ⟨m + n, ?_⟩
@@ -761,11 +761,11 @@ lemma injective_primaryComponent (J : Ideal R) :
           zero_mem' := by simp
           add_mem' := by
             intro a b ha hb
-            show (a + b) • x = 0
+            change (a + b) • x = 0
             rw [add_smul, ha, hb, add_zero]
           smul_mem' := by
             intro a b hb
-            show (a * b) • x = 0
+            change (a * b) • x = 0
             rw [mul_smul, hb, smul_zero] }
       have hJA : J ≤ A.radical := by
         rw [← hS, Ideal.span_le]

@@ -190,9 +190,9 @@ the conjugate of that comparison.  In particular the iterated-pushforward compar
 isomorphism as soon as the iterated-pullback comparison is, which at a square of ringed spaces it
 is: there it is built from the two composition isomorphisms of [Stacks, Tag 0D5S]. -/
 theorem derivedPushforwardComparisonSquare_eq_conjugateEquiv :
-    (derivedPushforwardComparisonSquare adjf adjf' adjg adjg' eg ef).natTrans =
+    (derivedPushforwardComparisonSquare adjf adjf' adjg adjg' eg ef) =
       conjugateEquiv (adjf.comp adjg') (adjg.comp adjf')
-        (derivedPullbackSquare eg ef).natTrans :=
+        (derivedPullbackSquare eg ef) :=
   iterated_mateEquiv_conjugateEquiv adjf adjf' adjg adjg' (derivedPullbackSquare eg ef)
 
 end Mate
@@ -239,10 +239,10 @@ theorem derivedPushforwardComparisonSquare_eq_conjugateEquiv :
     (Mate.derivedPushforwardComparisonSquare (derivedAdjunction f) (derivedAdjunction f')
         (derivedAdjunction g) (derivedAdjunction g')
         (derivedPullbackCompIsoLeft g' f' f g sq)
-        (derivedPullbackCompIsoCanonical g' f)).natTrans =
+        (derivedPullbackCompIsoCanonical g' f)) =
       conjugateEquiv ((derivedAdjunction f).comp (derivedAdjunction g'))
         ((derivedAdjunction g).comp (derivedAdjunction f'))
-        (derivedPullbackSquare g' f' f g sq).natTrans :=
+        (derivedPullbackSquare g' f' f g sq) :=
   Mate.derivedPushforwardComparisonSquare_eq_conjugateEquiv (derivedAdjunction f)
     (derivedAdjunction f') (derivedAdjunction g) (derivedAdjunction g')
     (derivedPullbackCompIsoLeft g' f' f g sq) (derivedPullbackCompIsoCanonical g' f)

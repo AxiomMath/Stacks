@@ -96,13 +96,13 @@ theorem σe_face₁ : σe (A := A) ≫ face₁ A = σe ≫ face₂ A := by
     rw [σe_bx_assoc, ← Category.assoc eA, eA_hom (A := A), Category.id_comp]
   refine pullback.hom_ext (pullback.hom_ext ?_ ?_) ?_
   · simp only [Category.assoc]
-    show σe ≫ face₁ A ≫ q A ≫ bx A = σe ≫ face₂ A ≫ q A ≫ bx A
+    change σe ≫ face₁ A ≫ q A ≫ bx A = σe ≫ face₂ A ≫ q A ≫ bx A
     rw [face₁_q_bx, face₂_q_bx, he, σe_bx]
   · simp only [Category.assoc]
-    show σe ≫ face₁ A ≫ q A ≫ bz A = σe ≫ face₂ A ≫ q A ≫ bz A
+    change σe ≫ face₁ A ≫ q A ≫ bz A = σe ≫ face₂ A ≫ q A ≫ bz A
     rw [face₁_q_bz, face₂_q_bz, he, σe_bx]
   · simp only [Category.assoc]
-    show σe ≫ face₁ A ≫ r A = σe ≫ face₂ A ≫ r A
+    change σe ≫ face₁ A ≫ r A = σe ≫ face₂ A ≫ r A
     rw [face₁_r, face₂_r]
 
 /-! ### The faces map the face opens into the chart cover -/
@@ -238,7 +238,7 @@ theorem phi₁_comp_d₀ (hnorm : Normalized N (g₁ := g₁) (g₂ := g₂)) :
     rw [d_apply_val, faceD_faceMap]
   refine LinearMap.ext fun x => Prod.ext (key hg₁ (le_face₁ U V ha₀) x)
     (Prod.ext (key hg₂ (le_face₂ U V ha₀) x) ?_)
-  · show (0 : chartRing V) =
+  · change (0 : chartRing V) =
       evalE V U ha₀ (faceMap N (face₁ A) hg₁ U _ (le_face₁ U V ha₀) 0 x.1) -
         evalE V U ha₀ (faceMap N (face₂ A) hg₂ U _ (le_face₂ U V ha₀) 0 x.1)
     rw [eq_comm, sub_eq_zero]

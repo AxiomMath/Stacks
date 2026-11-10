@@ -53,7 +53,7 @@ theorem d_unitSection_pushforward :
     ((((pushforwardComplex h).obj (unitComplex W' m)).d m (m + 1)).val.app (op ⊤)).hom
       (unitSection W' m) = 0 := by
   have : ((pushforwardComplex h).obj (unitComplex W' m)).d m (m + 1) = 0 := by
-    show (StacksDraft.KFlat.modulePushforward h).map ((unitComplex W' m).d m (m + 1)) = 0
+    change (StacksDraft.KFlat.modulePushforward h).map ((unitComplex W' m).d m (m + 1)) = 0
     rw [show (unitComplex W' m).d m (m + 1) = 0 by simp [unitComplex]]
     exact (modulePushforward h).map_zero _ _
   rw [this]

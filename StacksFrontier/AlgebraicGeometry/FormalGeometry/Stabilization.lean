@@ -115,7 +115,7 @@ public theorem enatToEInt_mono {x y : ℕ∞} (h : x ≤ y) :
     cases y with
     | top => exact le_top
     | coe m =>
-      show ((n : ℤ) : EInt) ≤ ((m : ℤ) : EInt)
+      change ((n : ℤ) : EInt) ≤ ((m : ℤ) : EInt)
       have hnm : n ≤ m := by exact_mod_cast h
       exact WithBotTop.coe_le_coe.mpr (by exact_mod_cast hnm)
 
@@ -125,12 +125,12 @@ public theorem enatToEInt_add_one (n : ℕ∞) :
   induction n using ENat.recTopCoe with
   | top =>
     rw [show (⊤ : ℕ∞) + 1 = ⊤ by simp]
-    show (⊤ : EInt) = ⊤ + 1
+    change (⊤ : EInt) = ⊤ + 1
     exact (congrArg (fun z : WithTop ℤ => (z : WithBot (WithTop ℤ)))
       (WithTop.top_add (1 : WithTop ℤ))).symm
   | coe n =>
-    show enatToEInt ((n + 1 : ℕ) : ℕ∞) = ((n : ℤ) : EInt) + 1
-    show (((n + 1 : ℕ) : ℤ) : EInt) = ((n : ℤ) : EInt) + 1
+    change enatToEInt ((n + 1 : ℕ) : ℕ∞) = ((n : ℤ) : EInt) + 1
+    change (((n + 1 : ℕ) : ℤ) : EInt) = ((n : ℤ) : EInt) + 1
     push_cast
     rfl
 
@@ -143,7 +143,7 @@ public theorem krullDimToEInt_add_one (n : WithBot ℕ∞) :
   | coe n =>
     have h (k : ℕ∞) : krullDimToEInt (k : WithBot ℕ∞) = enatToEInt k := by
       cases k using ENat.recTopCoe <;> rfl
-    show krullDimToEInt ((n + 1 : ℕ∞) : WithBot ℕ∞) =
+    change krullDimToEInt ((n + 1 : ℕ∞) : WithBot ℕ∞) =
       krullDimToEInt (n : WithBot ℕ∞) + 1
     rw [h, h, enatToEInt_add_one]
 

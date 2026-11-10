@@ -257,7 +257,6 @@ public theorem eventually_eq_of_baseChange_eq_of_chartLimitsInSite
     (hD : ∀ i, AlgebraicGeometry.IsAlgebraicSpace B S hS (D.obj i))
     (hAffine : ∀ {i j : I} (f : i ⟶ j), AlgebraicGeometry.Space.IsAffineHom B S hS (D.map f))
     (hQc : ∀ i, AlgebraicGeometry.Space.IsQuasiCompactSpace B S hS (D.obj i))
-    (hQs : ∀ i, AlgebraicGeometry.Space.IsAbsolutelyQuasiSeparated B S hS hZ (D.obj i))
     (i : I) (Yᵢ Zᵢ : Over (D.obj i))
     (hY : AlgebraicGeometry.IsAlgebraicSpace B S hS Yᵢ.left)
     (hZ' : AlgebraicGeometry.IsAlgebraicSpace B S hS Zᵢ.left)
@@ -270,8 +269,8 @@ public theorem eventually_eq_of_baseChange_eq_of_chartLimitsInSite
       (Over.pullback (D.map e)).map f =
         (Over.pullback (D.map e)).map g :=
   eventually_eq_of_baseChange_eq_of_siteContainsBaseChangeLimits
-    (B := B) (S := S) (hS := hS) (hZ := hZ) (D := D)
-    (hD := hD) (hAffine := hAffine) (hQc := hQc) (hQs := hQs)
+    (B := B) (S := S) (hS := hS) (D := D)
+    (hD := hD) (hAffine := hAffine) (hQc := hQc)
     (hconv := siteContainsBaseChangeLimits_of_chartLimitsInSite B S hS D hconv)
     i Yᵢ Zᵢ hY hZ' hYfp hZfp f g hfg
 

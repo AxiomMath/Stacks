@@ -123,7 +123,7 @@ theorem coverComparison_comp_coverToBase (φ : P ⟶ Q) :
   refine Over.OverMorphism.ext ?_
   have h := congrArg Over.Hom.left φ.square.w
   simp only [Over.comp_left] at h
-  show P.q.left ≫ φ.f.left = φ.g.left ≫ Q.q.left
+  change P.q.left ≫ φ.f.left = φ.g.left ≫ Q.q.left
   exact h.symm
 
 /-! ### The base objects of the two slices -/
@@ -131,7 +131,7 @@ theorem coverComparison_comp_coverToBase (φ : P ⟶ Q) :
 /-- Reading the base of a quintuple over itself and then forgetting the base returns the base. -/
 theorem Object.overMap_baseOver (P : Object B S hS 𝒳 𝒴 F d) :
     (Over.map P.U.hom).obj P.baseOver = P.U := by
-  show Over.mk (𝟙 P.U.left ≫ P.U.hom) = P.U
+  change Over.mk (𝟙 P.U.left ≫ P.U.hom) = P.U
   exact PresheafOfCategories.over_mk_eq P.U (Category.id_comp P.U.hom)
 
 /-- The base of a quintuple, read over an object `U'` of the site that its base maps to and then
@@ -201,7 +201,7 @@ theorem isHomLift_baseComparison (φ : P ⟶ Q) :
     (overMap_obj_base φ) (Object.overMap_baseOver Q) ?_
   refine PresheafOfCategories.over_hom_eq_conj (overMap_obj_base φ)
     (Object.overMap_baseOver Q) rfl rfl _ _ ?_
-  show φ.f.left = eqToHom rfl ≫ φ.f.left ≫ eqToHom rfl
+  change φ.f.left = eqToHom rfl ≫ φ.f.left ≫ eqToHom rfl
   simp
 
 /-- The cover comparison lies over the cover component of the morphism. -/
@@ -211,7 +211,7 @@ theorem isHomLift_coverComparison (φ : P ⟶ Q) :
     (overMap_obj_cover φ) (Object.overMap_coverOver Q) ?_
   refine PresheafOfCategories.over_hom_eq_conj (overMap_obj_cover φ)
     (Object.overMap_coverOver Q) rfl rfl _ _ ?_
-  show φ.g.left = eqToHom rfl ≫ φ.g.left ≫ eqToHom rfl
+  change φ.g.left = eqToHom rfl ≫ φ.g.left ≫ eqToHom rfl
   simp
 
 /-- **The structure morphism of the cover of a quintuple, read in the slice of its base, lies over
@@ -222,7 +222,7 @@ theorem isHomLift_coverToBase (P : Object B S hS 𝒳 𝒴 F d) :
     (Object.overMap_coverOver P) (Object.overMap_baseOver P) ?_
   refine PresheafOfCategories.over_hom_eq_conj (Object.overMap_coverOver P)
     (Object.overMap_baseOver P) rfl rfl _ _ ?_
-  show P.q.left = eqToHom rfl ≫ P.q.left ≫ eqToHom rfl
+  change P.q.left = eqToHom rfl ≫ P.q.left ≫ eqToHom rfl
   simp
 
 /-- The object `x` of the source quintuple lies over its cover read over the base of the target
@@ -240,7 +240,7 @@ theorem isHomLift_hom_a (φ : P ⟶ Q) :
     (Object.overMap_coverOver Q).symm ?_ φ.a_over
   refine PresheafOfCategories.over_hom_eq_conj (overMap_obj_cover φ)
     (Object.overMap_coverOver Q) rfl rfl _ _ ?_
-  show φ.g.left = eqToHom rfl ≫ φ.g.left ≫ eqToHom rfl
+  change φ.g.left = eqToHom rfl ≫ φ.g.left ≫ eqToHom rfl
   simp
 
 /-! ### The transported data -/
@@ -410,7 +410,7 @@ theorem homAlpha_comp :
   refine Functor.IsStronglyCartesian.ext 𝒴.toBasedCategory.p φ.f φ.b P.q ?_
   have hQα : D.α.hom ≫ Q.α = D.y.map Q.coverToBase ≫ D.yUnit := by
     rw [← D.α_comp, ← Category.assoc, Iso.hom_inv_id, Category.id_comp]
-  show (D.y.map ((Over.map φ.f.left).map P.coverToBase) ≫ homUnit φ D) ≫ φ.b = _
+  change (D.y.map ((Over.map φ.f.left).map P.coverToBase) ≫ homUnit φ D) ≫ φ.b = _
   rw [Category.assoc, homUnit_comp, ← D.y.map_comp_assoc, coverComparison_comp_coverToBase,
     D.y.map_comp_assoc, ← hQα, reassoc_of% homAlpha_square, φ.compatible, Category.assoc]
 

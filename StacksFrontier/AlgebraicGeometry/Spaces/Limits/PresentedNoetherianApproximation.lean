@@ -159,6 +159,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {I : Type u} [Category.{u} I] [IsCofiltered I] {D : I ⥤ BigFppfOver B S hS}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_PresentedNoetherianApproximation :
@@ -229,7 +230,7 @@ theorem exists_stage_hom_of_isLimit_toScheme
   let f₀ : pullback Yi.hom (yoneda.map (c.π.app i)) ⟶ Zi.left :=
     pullback.lift (pullback.snd _ _ ≫ g) (pullback.fst _ _) (terminal.hom_ext _ _)
   have hf₀ : f₀ ≫ Zi.hom = pullback.fst Yi.hom (yoneda.map (c.π.app i)) ≫ Yi.hom := by
-    show f₀ ≫ pullback.snd _ _ = pullback.fst _ _ ≫ 𝟙 _
+    change f₀ ≫ pullback.snd _ _ = pullback.fst _ _ ≫ 𝟙 _
     rw [pullback.lift_snd, Category.comp_id]
   obtain ⟨j, U, p, g', hs, he, hg', hgf⟩ := exists_stage_atlas_factorization_of_isLimit B S hS
     hAffine hc i Yi hDi (hQc i) hZalg Zi.hom hZfp f₀ hf₀

@@ -68,7 +68,7 @@ public theorem congrEquiv_restrictedPowerSeriesMap_comp [Algebra A B] [Algebra B
           (restrictedPowerSeriesMap (B := B) I σ)) =
       restrictedPowerSeriesMap (B := C) I σ := by
   refine RingHom.ext fun x => RestrictedPowerSeries.idealSystem_ext fun n => ?_
-  show MvPolynomial.map _ (MvPolynomial.map _ (MvPolynomial.map _
+  change MvPolynomial.map _ (MvPolynomial.map _ (MvPolynomial.map _
     (coefficientProjection I σ n x))) = MvPolynomial.map _ (coefficientProjection I σ n x)
   have hlevel :
       (((Ideal.quotEquivOfEq (congrArg (· ^ n)
@@ -81,7 +81,7 @@ public theorem congrEquiv_restrictedPowerSeriesMap_comp [Algebra A B] [Algebra B
         (coefficientQuotientMap (B := B) I n) =
       coefficientQuotientMap (B := C) I n :=
     Ideal.Quotient.ringHom_ext (RingHom.ext fun a => by
-      show Ideal.Quotient.mk ((I.map (algebraMap A C)) ^ n)
+      change Ideal.Quotient.mk ((I.map (algebraMap A C)) ^ n)
           (algebraMap B C (algebraMap A B a)) =
         Ideal.Quotient.mk ((I.map (algebraMap A C)) ^ n) (algebraMap A C a)
       rw [IsScalarTower.algebraMap_apply A B C])

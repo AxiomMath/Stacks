@@ -136,7 +136,7 @@ def quadraticTensorProductSplit [FiniteDimensional k K] [IsGalois k K]
 lemma quadraticTensorProductSplit_tmul [FiniteDimensional k K] [IsGalois k K]
     (hdegree : Module.finrank k K = 2) (σ : K ≃ₐ[k] K) (hσ : σ ≠ 1) (a b : K) :
     quadraticTensorProductSplit k K hdegree σ hσ (a ⊗ₜ[k] b) = (a * b, a * σ b) := by
-  show (Algebra.TensorProduct.lift (Algebra.ofId K (K × K))
+  change (Algebra.TensorProduct.lift (Algebra.ofId K (K × K))
     (AlgHom.prod (AlgHom.id k K) σ.toAlgHom) (fun _ _ => Commute.all _ _)) (a ⊗ₜ[k] b) = _
   simp [Algebra.TensorProduct.lift_tmul, AlgHom.prod_apply]
 
@@ -221,7 +221,7 @@ lemma polynomialTensorSplitMap_fst (σ : K ≃ₐ[k] K) :
       (polynomialTensorSplitMap k K σ) = polynomialTensorSplitFirstMap k K := by
   apply Algebra.TensorProduct.ext
   · simp [polynomialTensorSplitMap, polynomialTensorSplitFirstMap, AlgHom.comp_assoc]
-  · show (AlgHom.restrictScalars (Polynomial k)
+  · change (AlgHom.restrictScalars (Polynomial k)
         (AlgHom.fst (Polynomial K) (Polynomial K) (Polynomial K))).comp
       ((AlgHom.restrictScalars (Polynomial k)
           (polynomialTensorSplitMap k K σ)).comp Algebra.TensorProduct.includeRight) = _
@@ -246,7 +246,7 @@ lemma polynomialTensorSplitFirst_includeLeft (hdegree : Module.finrank k K = 2)
           Polynomial K ⊗[Polynomial k] Polynomial K)) = RingHom.id _ := by
   apply RingHom.ext
   intro p
-  show (polynomialFiberProductTensorSplit k K hdegree σ hσ
+  change (polynomialFiberProductTensorSplit k K hdegree σ hσ
     (Algebra.TensorProduct.includeLeftRingHom p)).1 = p
   rw [polynomialFiberProductTensorSplit_apply]
   simp [polynomialTensorSplitMap, Algebra.TensorProduct.lift_tmul, AlgHom.prod_apply,
@@ -261,7 +261,7 @@ lemma polynomialTensorSplitFirst_includeRight (hdegree : Module.finrank k K = 2)
           Polynomial K ⊗[Polynomial k] Polynomial K)) = RingHom.id _ := by
   apply RingHom.ext
   intro p
-  show (polynomialFiberProductTensorSplit k K hdegree σ hσ
+  change (polynomialFiberProductTensorSplit k K hdegree σ hσ
     (Algebra.TensorProduct.includeRight p)).1 = p
   rw [polynomialFiberProductTensorSplit_apply]
   simp [polynomialTensorSplitMap, Algebra.TensorProduct.lift_tmul, AlgHom.prod_apply,
@@ -275,7 +275,7 @@ lemma polynomialTensorSplitSecond_includeLeft (hdegree : Module.finrank k K = 2)
         Algebra.TensorProduct.includeLeftRingHom) = RingHom.id _ := by
   apply RingHom.ext
   intro p
-  show (polynomialFiberProductTensorSplit k K hdegree σ hσ
+  change (polynomialFiberProductTensorSplit k K hdegree σ hσ
     (Algebra.TensorProduct.includeLeftRingHom p)).2 = p
   rw [polynomialFiberProductTensorSplit_apply]
   simp [polynomialTensorSplitMap, Algebra.TensorProduct.lift_tmul, AlgHom.prod_apply,
@@ -291,7 +291,7 @@ lemma polynomialTensorSplitSecond_includeRight (hdegree : Module.finrank k K = 2
       Polynomial.mapRingHom σ.toRingEquiv.toRingHom := by
   apply RingHom.ext
   intro p
-  show (polynomialFiberProductTensorSplit k K hdegree σ hσ
+  change (polynomialFiberProductTensorSplit k K hdegree σ hσ
     (Algebra.TensorProduct.includeRight p)).2 =
       Polynomial.mapRingHom σ.toRingEquiv.toRingHom p
   rw [polynomialFiberProductTensorSplit_apply]

@@ -57,8 +57,8 @@ adjoints, and that mate is the comparison. The mates correspondence is
 `CategoryTheory.mateEquiv`, which supplies naturality in `K` as part of the package.
 
 Pointwise this is `CategoryTheory.Adjunction.restrictionMate` of
-`StacksFrontier/CategoryTheory/Sites/Cohomology/ChaoticSite/EilenbergZilber.lean`, which is the shape
-in which the hypotheses `_h08QA`, `_h08QA₁`, `_h08QA₂` of
+`StacksFrontier/CategoryTheory/Sites/Cohomology/ChaoticSite/EilenbergZilber.lean`, which is the
+shape in which the hypotheses `_h08QA`, `_h08QA₁`, `_h08QA₂` of
 `Stacks.ChaoticSite.isIso_totalDerivedColimitTensorComparison` state [Stacks, Tag 08QA] at the
 derived level: those hypotheses also take the identification `α` of the derived constant diagrams
 as an input, and `derivedConstRestrictionIso` is that input.
@@ -217,7 +217,9 @@ def unboundedComparison :
       totalDerivedColimit C D :=
   ((mateEquiv (totalDerivedColimitAdjunction C D)
       (totalDerivedColimitAdjunction C' D)).symm
-        (TwoSquare.mk _ _ _ _ (derivedConstRestrictionIso f D).hom)).natTrans ≫
+        (TwoSquare.mk _ _ _ _ (derivedConstRestrictionIso f D).hom) :
+      ((Functor.whiskeringLeft C'ᵒᵖ Cᵒᵖ D).obj f.op).mapDerivedCategory ⋙
+        totalDerivedColimit C' D ⟶ totalDerivedColimit C D ⋙ 𝟭 _) ≫
     (Functor.rightUnitor (totalDerivedColimit C D)).hom
 
 /-- **The identity that pins `Stacks.ChaoticSite.unboundedComparison` down.** Its transpose along

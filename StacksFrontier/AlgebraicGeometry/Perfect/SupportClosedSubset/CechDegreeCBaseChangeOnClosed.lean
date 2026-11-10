@@ -159,8 +159,9 @@ section Concrete
 
 attribute [local instance 10000] HasDerivedCategory.standard
 
--- Restated instances of `StacksFrontier/AlgebraicGeometry/DeRham/Gysin/GysinDifferentialCompatibility.lean`, needed for the cohomology functor
--- on modules over a closed subset; see the implementation notes there.
+-- Restated instances of
+-- `StacksFrontier/AlgebraicGeometry/DeRham/Gysin/GysinDifferentialCompatibility.lean`, needed for
+-- the cohomology functor on modules over a closed subset; see the implementation notes there.
 attribute [local instance] Stacks.Perfect.GysinLocalCohomology.abelian_sheafOfModules_ringSheaf
   Stacks.Perfect.GysinLocalCohomology.additive_modulePushforward
 
@@ -212,7 +213,7 @@ def pullbackSquare :
   (Stacks.Cohomology.pullbackCompSquare g.toLRSHom.toShHom
     (closedSubsetInclusion X'.toRingedSpace (equationsClosedSet (fun j => g.appTop (f j))))
     (closedSubsetInclusion X.toRingedSpace (equationsClosedSet f)) (closedRestriction g f)
-    (closedRestriction_comp g f)).natTrans
+    (closedRestriction_comp g f))
 
 /-- **The bottom arrow of the first diagram of [Stacks, Tag 0G7U]**, `h^*i^*ℱ ⟶ (i')^*ℱ'`, on the
 presentations `i^*(ℱ/(f₁, …, f_c)ℱ)` and `(i')^*(ℱ'/(f'₁, …, f'_c)ℱ')` of [Stacks, Tag 0G7Q]: the

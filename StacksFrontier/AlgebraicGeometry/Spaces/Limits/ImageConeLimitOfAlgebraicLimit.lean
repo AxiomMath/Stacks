@@ -59,6 +59,7 @@ lemma isAffineHom_limitCone_π_of_algebraicLimit {hZ : B.Contains (⊤_ Scheme.{
 end Helpers
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullbacks` instance search for presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_ImageConeLimitOfAlgebraicLimit {B : BigFppfSite.{u}}
@@ -259,7 +260,7 @@ theorem imageInter_le_range_induced_of_chartLimit
         (fun k : yoneda.obj L.cone.pt ⟶ pullback (D.system.map j.hom) G.modelMap =>
           k.app (op (hclE.rep.pullback t)) (hclE.rep.fst' t))
         (chartLimitChart_comp_modelπ G a L j)).symm
-    show (stageChart G a j).app (op (hclE.rep.pullback t))
+    change (stageChart G a j).app (op (hclE.rep.pullback t))
         (hclE.rep.fst' t ≫ L.cone.π.app j) ∈ (stageImage G j).obj (op (hclE.rep.pullback t))
     rwa [h2]
   obtain ⟨ψ, hψ⟩ := exists_comp_eq_of_ker_le B S hS

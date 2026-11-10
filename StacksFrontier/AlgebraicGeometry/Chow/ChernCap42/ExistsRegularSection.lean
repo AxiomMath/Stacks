@@ -128,7 +128,7 @@ theorem exists_isRegularMeromorphicSection_of_isIntegral (X : Scheme.{u}) [IsInt
     rfl
   have hval : Stacks.Divisors.genericValue L
       (M.val.sectionsMk (fun _ => M.val.map (homOfLE le_top).op a) hcompat) = v := by
-    show (Stacks.Divisors.meromorphicSectionsAddEquivGenericStalk L ⊤ trivial)
+    change (Stacks.Divisors.meromorphicSectionsAddEquivGenericStalk L ⊤ trivial)
       (M.val.map (homOfLE le_top).op a) = v
     rw [htop]
     exact (Stacks.Divisors.meromorphicSectionsAddEquivGenericStalk L ⊤ trivial).apply_symm_apply v

@@ -132,7 +132,7 @@ public theorem isDominant_specMap_algebraMap (A B : Type u) [CommRing A] [CommRi
     [Algebra A B] [FaithfulSMul A B] :
     IsDominant (Spec.map (CommRingCat.ofHom (algebraMap A B))) := by
   rw [isDominant_iff]
-  show DenseRange (PrimeSpectrum.comap (CommRingCat.ofHom (algebraMap A B)).hom)
+  change DenseRange (PrimeSpectrum.comap (CommRingCat.ofHom (algebraMap A B)).hom)
   rw [DenseRange, dense_iff_closure_eq, PrimeSpectrum.closure_range_comap]
   simp only [CommRingCat.hom_ofHom]
   rw [(RingHom.injective_iff_ker_eq_bot _).mp (FaithfulSMul.algebraMap_injective A B)]

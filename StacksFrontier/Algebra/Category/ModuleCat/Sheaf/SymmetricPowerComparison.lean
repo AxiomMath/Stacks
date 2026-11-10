@@ -172,7 +172,7 @@ theorem UnitalHom.app_homogeneousProd (g : UnitalHom A B) (X : Cᵒᵖ) (n : ℕ
   induction n with
   | zero => exact g.map_one X
   | succ n ih =>
-      show (g.app ((n : ℤ) + 1)).val.app X ((A.mul (n : ℤ) 1).app X _ _) = _
+      change (g.app ((n : ℤ) + 1)).val.app X ((A.mul (n : ℤ) 1).app X _ _) = _
       rw [g.map_mul (n : ℤ) 1 X, ih fun i => z i.castSucc]
       rfl
 

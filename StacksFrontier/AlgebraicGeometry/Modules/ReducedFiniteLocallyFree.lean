@@ -57,11 +57,11 @@ private lemma stalkMap_germ_appIso_inv {X Y : Scheme.{u}} (f : X ⟶ Y)
     f.stalkMap x (Y.presheaf.germ (f ''ᵁ U) (f x) (by simpa) ((f.appIso U).inv r)) =
       X.presheaf.germ U x hx r := by
   rw [Scheme.Hom.germ_stalkMap_apply]
-  show (X.presheaf.germ _ x _).hom ((f.app (f ''ᵁ U)).hom ((f.appIso U).inv.hom r)) = _
+  change (X.presheaf.germ _ x _).hom ((f.app (f ''ᵁ U)).hom ((f.appIso U).inv.hom r)) = _
   have hcomp := congrArg (fun g : Γ(X, U) ⟶ Γ(X, f ⁻¹ᵁ f ''ᵁ U) => g.hom r)
     (Scheme.Hom.appIso_inv_app f U)
   dsimp only [CommRingCat.hom_comp, RingHom.comp_apply] at hcomp
-  show (X.presheaf.germ _ x _).hom _ = _
+  change (X.presheaf.germ _ x _).hom _ = _
   rw [hcomp]
   simpa using X.presheaf.germ_res_apply (eqToHom (f.preimage_image_eq U)) x
     (by simpa using hx) r
@@ -95,7 +95,7 @@ private lemma restrictStalk_smul {X Y : Scheme.{u}} (f : X ⟶ Y)
     PresheafOfModules.instModuleCarrierStalkCommRingCatCarrierAbPresheafOpensCarrier F.val (f x)
   let e : (F.restrict f).presheaf.stalk x →+ F.presheaf.stalk (f x) :=
     ((Scheme.Modules.restrictStalkNatIso f x).hom.app F).hom
-  show ∀ r m, e (r • m) = (inv (f.stalkMap x)).hom r • e m
+  change ∀ r m, e (r • m) = (inv (f.stalkMap x)).hom r • e m
   intro r m
   obtain ⟨V, hxV, a', b, rfl, rfl⟩ := exists_germ_eq_pair (F.restrict f) x r m
   have hsmul : (F.restrict f).presheaf.germ V x hxV (a' • b) =
@@ -155,7 +155,7 @@ private lemma finrank_tensorProduct_congr
     __ := fieldEquiv.toAddEquiv.toAddMonoidHom
     map_smul' := by
       intro scalar element
-      show fieldEquiv (scalar • element) = ringEquiv scalar • fieldEquiv element
+      change fieldEquiv (scalar • element) = ringEquiv scalar • fieldEquiv element
       simp only [Algebra.smul_def, map_mul, commutes] }
   let fieldLinearEquiv : LinearEquiv (↑ringEquiv : R →+* S)
       (σ' := (↑ringEquiv.symm : S →+* R)) K L :=
@@ -302,7 +302,7 @@ private theorem fiberRank_tilde_eq_finrank {R : CommRingCat.{u}} (M : ModuleCat 
   let eCancel : K ⊗[A] (A ⊗[(↑R)] ↑M) ≃ₗ[K] K ⊗[(↑R)] ↑M :=
     TensorProduct.AlgebraTensorModule.cancelBaseChange (↑R) A K K (↑M)
   let e : K ⊗[(↑R)] ↑M ≃ₗ[K] K ⊗[A] N := eCancel.symm.trans eCongr
-  show Module.finrank K (K ⊗[A] N) = Module.finrank K (K ⊗[(↑R)] ↑M)
+  change Module.finrank K (K ⊗[A] N) = Module.finrank K (K ⊗[(↑R)] ↑M)
   exact e.finrank_eq.symm
 
 private theorem finrank_residueField_change {R : CommRingCat.{u}} (M : ModuleCat R)

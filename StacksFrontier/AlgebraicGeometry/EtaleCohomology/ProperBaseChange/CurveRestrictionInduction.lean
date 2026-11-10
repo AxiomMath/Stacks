@@ -83,6 +83,7 @@ private theorem compactSpace_and_quasiSeparatedSpace_of_isProper {Z : Scheme.{u}
     CompactSpace Z ∧ QuasiSeparatedSpace Z :=
   ⟨QuasiCompact.compactSpace_of_compactSpace f, quasiSeparatedSpace_of_quasiSeparated f⟩
 
+omit [IsSepClosed k] in
 /-- A proper scheme over a field is Noetherian. -/
 theorem isNoetherian_of_isProper {X : Scheme.{u}} (π : X ⟶ Spec (.of k)) [IsProper π] :
     IsNoetherian X := by
@@ -203,7 +204,7 @@ theorem surjective_etaleCohomologyRestrictionMap_of_constant_near_genericPoints
   cases o with
   | none =>
     have : IsFinite i := inferInstance
-    show Function.Surjective (etaleCohomologyRestrictionMap.{u, 0, u + 1} _
+    change Function.Surjective (etaleCohomologyRestrictionMap.{u, 0, u + 1} _
       ((etaleAbelianDirectImage.{u, 0} i).obj ((etaleAbelianInverseImage.{u, 0} i).obj G)) q)
     rw [etaleCohomologyRestrictionMap_surjective_directImage_iff_of_isFinite.{u, u + 1} i _ _ _
       (isPullback_scalarExtension_closed k k' π i)]

@@ -146,7 +146,7 @@ theorem boundaryMap_inv_apply
     rw [← reassoc_of% (he hSq)]
     simp
   rw [h]
-  show e₂.inv.app Sq.X₁ (T.δ hSq ((e₁.inv.app Sq.X₃ ≫ e₁.hom.app Sq.X₃) y)) = _
+  change e₂.inv.app Sq.X₁ (T.δ hSq ((e₁.inv.app Sq.X₃ ≫ e₁.hom.app Sq.X₃) y)) = _
   rw [Iso.inv_hom_id_app]
   rfl
 
@@ -206,7 +206,7 @@ public theorem obstructionBoundaryCondition_toDualDeformationSituation
   obtain ⟨hzero, hSq, hmem, s, ψ, hs, hψfst, hψsnd, dMap, lift₁, φ, h₁, h₂, h₃, h₄, h₅⟩ :=
     T.boundary A₁ A₂ A₃ D₁ D₂ D₃ g₂₁ g₃₂ hses lift₂
   refine ⟨hzero, hSq, hmem, s, ψ, hs, hψfst, hψsnd, dMap, lift₁, φ, h₁, h₂, h₃, h₄, ?_⟩
-  show e₂.inv.app D₃.kernel (T.obstruction A₃ D₃) = _
+  change e₂.inv.app D₃.kernel (T.obstruction A₃ D₃) = _
   rw [h₅]
   exact (T.boundaryMap_inv_apply K e₁ e₂ he hSq _).symm
 

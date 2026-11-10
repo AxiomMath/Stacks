@@ -299,7 +299,7 @@ theorem ker_doubleExtLinearClass (dl : M₁ →ₗ[A] M₀) :
     ModuleCat.projective_of_free (Module.Free.chooseBasis A M₀)
   ext g
   rw [LinearMap.mem_ker, Submodule.restrictScalars_mem]
-  show doubleExtClass (ModuleCat.ofHom dl) (ModuleCat.of A N) (ModuleCat.ofHom g) = 0 ↔ _
+  change doubleExtClass (ModuleCat.ofHom dl) (ModuleCat.of A N) (ModuleCat.ofHom g) = 0 ↔ _
   rw [doubleExtClass_eq_zero_iff]
   exact ⟨fun ⟨h, hh⟩ => ⟨h.hom, congrArg ModuleCat.Hom.hom hh⟩,
     fun ⟨h, hh⟩ => ⟨ModuleCat.ofHom h, ModuleCat.hom_ext hh⟩⟩
@@ -319,7 +319,7 @@ def doubleCokernelExtEquiv (dl : M₁ →ₗ[A] M₀) (N : Type u) [AddCommGroup
 the residue class of `g`; this characterises `doubleCokernelExtEquiv`. -/
 theorem doubleCokernelExtEquiv_doubleExtLinearClass (dl : M₁ →ₗ[A] M₀) (g : M₁ →ₗ[A] N) :
     doubleCokernelExtEquiv dl N (doubleExtLinearClass dl N g) = Submodule.Quotient.mk g := by
-  show (Submodule.quotEquivOfEq _ _ (ker_doubleExtLinearClass dl))
+  change (Submodule.quotEquivOfEq _ _ (ker_doubleExtLinearClass dl))
       ((LinearMap.quotKerEquivOfSurjective (doubleExtLinearClass dl N).toIntLinearMap
         (surjective_doubleExtLinearClass dl)).symm
           ((doubleExtLinearClass dl N).toIntLinearMap g)) = Submodule.Quotient.mk g
@@ -597,10 +597,9 @@ theorem nlBaseChange_comm :
         ModuleCat.ofHom (nlBaseChangeCotangentSpace Λ R A P) := by
   apply ModuleCat.hom_ext
   refine LinearMap.ext fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a y =>
-      show (Algebra.Generators.self Λ A).toExtension.cotangentComplex
+      change (Algebra.Generators.self Λ A).toExtension.cotangentComplex
           (nlBaseChangeCotangent Λ R A P (a ⊗ₜ[R] y)) =
         nlBaseChangeCotangentSpace Λ R A P
           (P.toExtension.cotangentComplex.baseChange A (a ⊗ₜ[R] y))
@@ -728,7 +727,7 @@ of the presentation of `R` followed by `R → A`. -/
 theorem algebraMap_canonicalLiftAlgHom (x : P.toExtension.Ring) :
     algebraMap A' A (canonicalLiftAlgHom Λ R A A' P hq x) =
       algebraMap R A (algebraMap P.toExtension.Ring R x) := by
-  show algebraMap (squareZeroExtension A' A hq).Ring A
+  change algebraMap (squareZeroExtension A' A hq).Ring A
       ((squareZeroCompareHom A' A hq).toRingHom
         ((towerCompareHom Λ A' A).toRingHom ((toSelfHom Λ R A P).toRingHom x))) =
     algebraMap R A (algebraMap P.toExtension.Ring R x)
@@ -777,13 +776,13 @@ theorem compositeObsFunctional_one_tmul_mk (f : P.toExtension.ker) :
       Algebra.Extension.Cotangent.map (toSelfHom Λ R A P)
         (Algebra.Extension.Cotangent.mk f) := by
     rw [nlBaseChangeCotangent_tmul, one_smul]
-  show (squareZeroKernelCotangentEquiv A' A hq hsq).symm
+  change (squareZeroKernelCotangentEquiv A' A hq hsq).symm
       (Algebra.Extension.Cotangent.map (squareZeroCompareHom A' A hq)
         (Algebra.Extension.Cotangent.map (towerCompareHom Λ A' A)
           (nlBaseChangeCotangent Λ R A P
             (1 ⊗ₜ[R] Algebra.Extension.Cotangent.mk f)))) = _
   rw [hmk, LinearEquiv.symm_apply_eq]
-  show Algebra.Extension.Cotangent.map (squareZeroCompareHom A' A hq)
+  change Algebra.Extension.Cotangent.map (squareZeroCompareHom A' A hq)
       (Algebra.Extension.Cotangent.map (towerCompareHom Λ A' A)
         (Algebra.Extension.Cotangent.map (toSelfHom Λ R A P)
           (Algebra.Extension.Cotangent.mk f))) =

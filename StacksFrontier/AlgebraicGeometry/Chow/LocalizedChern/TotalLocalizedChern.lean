@@ -247,7 +247,7 @@ theorem totalLocalizedChern_triangle_fst (a : E₁ ⟶ E₂) (b : E₂ ⟶ E₃)
         (totalLocalizedChern (D := D.withObject E₃ p₃ h₃ r₃) d₃
           (D.isFiniteLocallyFreeOfRankLTOnComplement_withObject r₃))).1 n := by
   rw [localizedGradingMul_fst, totalLocalizedChern_fst,
-    perfectChernClass_triangle D.base D.a (Triangle.mk a b c) hT h₁ h₂ h₃ hc d₁ d₂ d₃,
+    perfectChernClass_triangle D.base D.a (Triangle.mk a b c) hT h₁ h₂ hc d₁ d₂ d₃,
     TotalChowClass.intComponent_mul]
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [localizedGradingPush_totalLocalizedChern (D := D.withObject E₁ p₁ h₁ r₁) d₁ _,

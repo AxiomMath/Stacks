@@ -79,7 +79,7 @@ private theorem pullback_property (P Q : MorphismProperty Scheme.{u})
   rcases hQ with hQ | hQ | hQ | hQ
   · subst Q
     have : P.IsLocalAtTarget Scheme.fppfPrecoverage := by
-      show P.IsLocalAtTarget (Scheme.precoverage
+      change P.IsLocalAtTarget (Scheme.precoverage
         ((@Flat ⊓ @LocallyOfFinitePresentation) : MorphismProperty Scheme.{u}))
       infer_instance
     exact pullbackSnd_of_flat_locallyOfFinitePresentation P f g hf hg.1 hg.2
@@ -89,7 +89,7 @@ private theorem pullback_property (P Q : MorphismProperty Scheme.{u})
     exact pullbackSnd_of_smooth P f g hf hg
   · subst Q
     have : P.IsLocalAtTarget Scheme.etalePrecoverage := by
-      show P.IsLocalAtTarget (Scheme.precoverage (@Etale : MorphismProperty Scheme.{u}))
+      change P.IsLocalAtTarget (Scheme.precoverage (@Etale : MorphismProperty Scheme.{u}))
       infer_instance
     exact pullbackSnd_of_etale P f g hf hg
 
@@ -230,7 +230,7 @@ lemma property_largestTargetOpen (P Q : MorphismProperty Scheme.{u})
     (largestTargetOpen P f).ι ⁻¹ᵁ i.1
   have htop : ⨆ i, V i = ⊤ := by
     ext y
-    show y ∈ (⨆ i, V i) ↔ True
+    change y ∈ (⨆ i, V i) ↔ True
     rw [TopologicalSpace.Opens.mem_iSup]
     refine ⟨fun _ => trivial, fun _ => ?_⟩
     obtain ⟨W, hW, hyW⟩ := TopologicalSpace.Opens.mem_sSup.mp y.2

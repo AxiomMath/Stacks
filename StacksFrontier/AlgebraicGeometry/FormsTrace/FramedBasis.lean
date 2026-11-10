@@ -142,6 +142,7 @@ def restrictFrame (U V : X.affineOpens) (h : V.1 ≤ U.1) :
   fun F => frameOfBasisRestrict f U V h F.basis F.basis_zero F.g F.good
     (F.isUnit.map (X.presheaf.map (homOfLE h).op).hom)
 
+omit [Flat f] [LocallyOfFinitePresentation f] in
 /-- Restriction of frames keeps the syntomic-good element. -/
 theorem restrictFrame_g (U V : X.affineOpens) (h : V.1 ≤ U.1) :
     letI := (f.app U.1).hom.toAlgebra

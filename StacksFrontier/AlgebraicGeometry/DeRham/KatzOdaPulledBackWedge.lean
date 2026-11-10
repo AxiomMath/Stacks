@@ -553,9 +553,7 @@ theorem restrictedLeftMulCochain_comp_summand_pulledBack (p k k' q n n' : ℕ) (
             (Scheme.Hom.deRhamAlgebras (f ≫ g)))).X q).val).presheaf)
     (Presheaf.isLocallySurjective_toSheafify' (Opens.grothendieckTopology X) _) ?_
   intro W r
-  induction r using TensorProduct.induction_on with
-  | zero => exact (congrArg _ (map_zero _)).trans ((map_zero _).trans
-      ((congrArg _ (map_zero _)).trans (map_zero _)).symm)
+  induction r using TensorProduct.inductionOn with
   | add a b ha hb => exact (congrArg _ (map_add _ a b)).trans ((map_add _ _ _).trans
       ((congrArg₂ (· + ·) ha hb).trans ((congrArg _ (map_add _ a b)).trans
         (map_add _ _ _)).symm))

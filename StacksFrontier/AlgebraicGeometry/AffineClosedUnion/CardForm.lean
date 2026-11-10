@@ -11,8 +11,8 @@ closed immersions `f i : Z i ⟶ X` whose set-theoretic covering of `X` is expre
 `AlgebraicGeometry.Surjective (CategoryTheory.Limits.Sigma.desc f)`, the morphism from the
 coproduct being onto. `StacksDraft.AlgebraicGeometry.F3b.AffineClosedUnion.Finite` states the
 reduced case of that tag with the covering written as `⋃ i, Set.range (f i).base = Set.univ`.
-This file identifies the two, so that the statement proved there is available in the vocabulary of the
-tag.
+This file identifies the two, so that the statement proved there is available in the vocabulary of
+the tag.
 
 The identification is the computation of the range of `Sigma.desc f`: it contains each
 `Set.range (f i).base` because `Sigma.ι Z i ≫ Sigma.desc f = f i`, and it is contained in their

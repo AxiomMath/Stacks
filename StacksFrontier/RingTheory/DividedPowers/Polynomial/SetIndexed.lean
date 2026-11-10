@@ -90,7 +90,7 @@ private theorem finiteStageRestriction_comp_lmapDomain {A : Type u} [CommRing A]
     (finiteStageRestriction E).comp (Finsupp.lmapDomain A A (fun e : E => e.1)) =
       LinearMap.id := by
   refine LinearMap.ext fun x => ?_
-  show (Finsupp.lmapDomain A A (fun e : E => e.1) x).comapDomain Subtype.val
+  change (Finsupp.lmapDomain A A (fun e : E => e.1) x).comapDomain Subtype.val
     (fun _ _ _ _ hab => Subtype.ext hab) = x
   exact Finsupp.comapDomain_mapDomain (f := Subtype.val) Subtype.val_injective x
 
@@ -176,7 +176,7 @@ private theorem dp_one_mem_polynomialIdeal (A : DividedPowerRing.{u})
     (ι : Type w) (m : ι →₀ A) :
     DividedPowerAlgebra.dp A 1 m ∈ dividedPowerPolynomialIdeal A.ideal ι := by
   apply Ideal.mem_sup_right
-  show dividedPowerPolynomialAugmentation A ι (DividedPowerAlgebra.dp A 1 m) = 0
+  change dividedPowerPolynomialAugmentation A ι (DividedPowerAlgebra.dp A 1 m) = 0
   simp [dividedPowerPolynomialAugmentation, DividedPowerAlgebra.lift_apply_dp,
     dividedPowersBot]
 
@@ -196,7 +196,7 @@ private theorem dividedPowerPolynomialDividedPowers_dpow_dp_one (A : DividedPowe
   have hcount (i x : ι) :
       Multiset.count i (↑(x ::ₛ (∅ : Sym ι 0)) : Multiset ι) =
         if i = x then 1 else 0 := by
-    show Multiset.count i (x ::ₘ (0 : Multiset ι)) = _
+    change Multiset.count i (x ::ₘ (0 : Multiset ι)) = _
     rw [Multiset.count_cons]
     simp
   have hsym : m.support.sym 1 =
@@ -317,11 +317,11 @@ public theorem exists_finiteStage_lift_mem_polynomialIdeal (A : DividedPowerRing
   refine ⟨G, aG + bG, ?_, ?_⟩
   · rw [map_add, finiteStageInclusion_finiteStageMap, finiteStageInclusion_finiteStageMap,
       hincA, hincB]
-  · show aG + bG ∈ Ideal.map (algebraMap A _) A.ideal +
+  · change aG + bG ∈ Ideal.map (algebraMap A _) A.ideal +
       RingHom.ker (dividedPowerPolynomialAugmentation A G).toRingHom
     apply Submodule.add_mem_sup
     · exact algHom_mem_map_algebraMap _ A.ideal hmemA
-    · show dividedPowerPolynomialAugmentation A G bG = 0
+    · change dividedPowerPolynomialAugmentation A G bG = 0
       change dividedPowerPolynomialAugmentation A W b = 0 at hb
       have hincBG : finiteStageInclusion A G bG = b :=
         (finiteStageInclusion_finiteStageMap A _ bF).trans hincB
@@ -355,7 +355,7 @@ public theorem finiteStageMap_isDPMorphism (A : DividedPowerRing.{u})
     calc
       φA (dividedPowerPolynomialVariable A e) =
           dividedPowerPolynomialVariable A ⟨e.1, h e.2⟩ := by
-            show φ (dividedPowerPolynomialVariable A e) = _
+            change φ (dividedPowerPolynomialVariable A e) = _
             exact hφ.2 e
       _ = finiteStageMap A h (dividedPowerPolynomialVariable A e) := by
             simpa [dividedPowerPolynomialVariable, dividedPowerPolynomialVariableMonomial]
@@ -364,7 +364,7 @@ public theorem finiteStageMap_isDPMorphism (A : DividedPowerRing.{u})
       φA (DividedPowerAlgebra.dp A 1 m) =
         finiteStageMap A h (DividedPowerAlgebra.dp A 1 m) := by
     rw [dp_one_eq_finsuppSum]
-    show φA.toLinearMap (m.sum fun i a => a • DividedPowerAlgebra.dp A 1
+    change φA.toLinearMap (m.sum fun i a => a • DividedPowerAlgebra.dp A 1
         (Finsupp.single i 1)) =
       (finiteStageMap A h).toLinearMap (m.sum fun i a => a •
         DividedPowerAlgebra.dp A 1 (Finsupp.single i 1))
@@ -380,19 +380,19 @@ public theorem finiteStageMap_isDPMorphism (A : DividedPowerRing.{u})
     have h1 : φA (DividedPowerAlgebra.dp A n m) =
         φ ((dividedPowerPolynomialDividedPowers A E).dpow n
           (DividedPowerAlgebra.dp A 1 m)) := by
-      show φ (DividedPowerAlgebra.dp A n m) = _
+      change φ (DividedPowerAlgebra.dp A n m) = _
       rw [← dividedPowerPolynomialDividedPowers_dpow_dp_one A E n m]
     have h2 : φ ((dividedPowerPolynomialDividedPowers A E).dpow n
           (DividedPowerAlgebra.dp A 1 m)) =
         B.dividedPowers.dpow n (φA (DividedPowerAlgebra.dp A 1 m)) := by
-      show φ.toRingHom ((dividedPowerPolynomialDividedPowers A E).dpow n
+      change φ.toRingHom ((dividedPowerPolynomialDividedPowers A E).dpow n
           (DividedPowerAlgebra.dp A 1 m)) =
         B.dividedPowers.dpow n (φA.toRingHom (DividedPowerAlgebra.dp A 1 m))
       exact hφdp.symm
     have h3 : B.dividedPowers.dpow n (φA (DividedPowerAlgebra.dp A 1 m)) =
         B.dividedPowers.dpow n
           (finiteStageMap A h (DividedPowerAlgebra.dp A 1 m)) := by
-      show (dividedPowerPolynomialDividedPowers A F).dpow n
+      change (dividedPowerPolynomialDividedPowers A F).dpow n
           (φA (DividedPowerAlgebra.dp A 1 m)) =
         (dividedPowerPolynomialDividedPowers A F).dpow n
           (finiteStageMap A h (DividedPowerAlgebra.dp A 1 m))
@@ -423,13 +423,13 @@ public theorem finiteStageInclusion_mem_polynomialIdeal (A : DividedPowerRing.{u
       RingHom.ker (dividedPowerPolynomialAugmentation A E).toRingHom at hx
   rw [Submodule.add_eq_sup, Submodule.mem_sup] at hx
   rcases hx with ⟨a, ha, b, hb, rfl⟩
-  show finiteStageInclusion A E (a + b) ∈
+  change finiteStageInclusion A E (a + b) ∈
       Ideal.map (algebraMap A _) A.ideal +
         RingHom.ker (dividedPowerPolynomialAugmentation A W).toRingHom
   rw [map_add]
   apply Submodule.add_mem_sup
   · exact algHom_mem_map_algebraMap _ _ ha
-  · show dividedPowerPolynomialAugmentation A W (finiteStageInclusion A E b) = 0
+  · change dividedPowerPolynomialAugmentation A W (finiteStageInclusion A E b) = 0
     change dividedPowerPolynomialAugmentation A E b = 0 at hb
     rw [← AlgHom.comp_apply, dividedPowerPolynomialAugmentation_comp_finiteStageInclusion, hb]
 
@@ -481,7 +481,7 @@ public theorem setIndexedDividedPowerPolynomialDpow_eq_of_lift
   have hmap := (finiteStageMap_isDPMorphism A hEG).map_dpow (n := n) hyI
   unfold setIndexedDividedPowerPolynomialDpow
   rw [dite_eq_left hx]
-  show finiteStageInclusion A E₀
+  change finiteStageInclusion A E₀
       ((dividedPowerPolynomialDividedPowers A E₀).dpow n y₀) = _
   calc
     finiteStageInclusion A E₀
@@ -683,7 +683,7 @@ public theorem finiteStageInclusion_isDPMorphism (A : DividedPowerRing.{u})
       (finiteStageInclusion A E).toRingHom := by
   refine ⟨Ideal.map_le_iff_le_comap.mpr fun x hx =>
     finiteStageInclusion_mem_polynomialIdeal A W E hx, fun {n} x hx => ?_⟩
-  show setIndexedDividedPowerPolynomialDpow A W n (finiteStageInclusion A E x) = _
+  change setIndexedDividedPowerPolynomialDpow A W n (finiteStageInclusion A E x) = _
   exact setIndexedDividedPowerPolynomialDpow_eq_of_lift A W n
     (finiteStageInclusion_mem_polynomialIdeal A W E hx) x rfl hx
 
@@ -699,14 +699,14 @@ public theorem setIndexedDividedPowerPolynomialDividedPowers_dpow_variable
   let e : E := ⟨i, Finset.mem_singleton_self i⟩
   let y := dividedPowerPolynomialVariable A e
   have hy : finiteStageInclusion A E y = dividedPowerPolynomialVariable A i := by
-    show finiteStageInclusion A E (dividedPowerPolynomialVariable A e) = _
+    change finiteStageInclusion A E (dividedPowerPolynomialVariable A e) = _
     simpa [E, e, dividedPowerPolynomialVariable,
       dividedPowerPolynomialVariableMonomial] using
       (finiteStageInclusion_dp A E e 1)
   have hyI : y ∈ dividedPowerPolynomialIdeal A.ideal E := variable_mem_polynomialIdeal A e
   have hxI : dividedPowerPolynomialVariable A i ∈ dividedPowerPolynomialIdeal A.ideal W :=
     variable_mem_polynomialIdeal A i
-  show setIndexedDividedPowerPolynomialDpow A W n (dividedPowerPolynomialVariable A i) = _
+  change setIndexedDividedPowerPolynomialDpow A W n (dividedPowerPolynomialVariable A i) = _
   rw [setIndexedDividedPowerPolynomialDpow_eq_of_lift A W n hxI y hy hyI]
   rw [dividedPowerPolynomialDividedPowers_dpow_variable A E e n]
   simpa [E, e, dividedPowerPolynomialVariable, dividedPowerPolynomialVariableMonomial]
@@ -723,7 +723,7 @@ public theorem setIndexedDividedPowerPolynomialCoefficient_isDPMorphism
   refine ⟨?_, ?_⟩
   · rw [Ideal.map_le_iff_le_comap]
     intro a ha
-    show f a ∈ dividedPowerPolynomialIdeal A.ideal W
+    change f a ∈ dividedPowerPolynomialIdeal A.ideal W
     exact Ideal.mem_sup_left (Ideal.mem_map_of_mem f ha)
   · intro n a ha
     let fE := algebraMap A (DividedPowerAlgebra A ((∅ : Finset W) →₀ A))
@@ -734,7 +734,7 @@ public theorem setIndexedDividedPowerPolynomialCoefficient_isDPMorphism
         (Ideal.mem_map_of_mem fE ha)
     have hfa : f a ∈ dividedPowerPolynomialIdeal A.ideal W :=
       Ideal.mem_sup_left (Ideal.mem_map_of_mem f ha)
-    show setIndexedDividedPowerPolynomialDpow A W n (f a) = f (A.dividedPowers.dpow n a)
+    change setIndexedDividedPowerPolynomialDpow A W n (f a) = f (A.dividedPowers.dpow n a)
     calc
       setIndexedDividedPowerPolynomialDpow A W n (f a) = finiteStageInclusion A (∅ : Finset W)
           ((dividedPowerPolynomialDividedPowers A (∅ : Finset W)).dpow n (fE a)) :=
@@ -767,7 +767,7 @@ public theorem setIndexedDividedPowerPolynomialDividedPowers_unique
   apply _root_.DividedPowers.ext
   intro n x hx
   obtain ⟨E, y, rfl, hyI⟩ := exists_finiteStage_lift_mem_polynomialIdeal A W hx
-  show δ.dpow n _ = setIndexedDividedPowerPolynomialDpow A W n _
+  change δ.dpow n _ = setIndexedDividedPowerPolynomialDpow A W n _
   exact ((hδ E).map_dpow (n := n) hyI).symm.trans
     (setIndexedDividedPowerPolynomialDpow_eq_of_lift A W n hx y rfl hyI).symm
 

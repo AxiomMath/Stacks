@@ -520,7 +520,7 @@ theorem statement_3_stalk_off_U
       fun hle => hx (hle j.unop.2)
   have hInit : IsInitial (stalk00A6 S X ((jpShriek00A6 S X U).obj 𝓕.1) x) := by
     unfold stalk00A6
-    show IsInitial (colimit ((OpenNhds.inclusion x).op ⋙ (jpShriek00A6 S X U).obj 𝓕.1))
+    change IsInitial (colimit ((OpenNhds.inclusion x).op ⋙ (jpShriek00A6 S X U).obj 𝓕.1))
     exact IsInitial.ofUniqueHom
       (fun A => colimit.desc _ ⟨A, ⟨fun j => (hVals j).to A,
         fun {j k} _ => (hVals j).hom_ext _ _⟩⟩)

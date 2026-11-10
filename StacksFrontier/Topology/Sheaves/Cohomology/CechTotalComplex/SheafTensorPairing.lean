@@ -259,7 +259,7 @@ theorem sheafTensorPairing_naturality_left {F F' : Modules O} (f : F ⟶ F') (G 
           ((sectionsFunctor O V).obj G) ≫ sheafTensorPairing O V F' G =
       sheafTensorPairing O V F G ≫
         (sectionsFunctor O V).map (((sheafTensor O).map f).app G) := by
-  show ((tensorPresheafModules.{u} (CoeffRing O V)).map
+  change ((tensorPresheafModules.{u} (CoeffRing O V)).map
         ((sectionsPresheafModules O V).map f.val)).app
           ((sectionsPresheafModules O V).obj G.val) ≫
         (basePairing O V F'.val G.val ≫
@@ -278,7 +278,7 @@ theorem sheafTensorPairing_naturality_right (F : Modules O) {G G' : Modules O} (
           ((sectionsFunctor O V).map g)) ≫ sheafTensorPairing O V F G' =
       sheafTensorPairing O V F G ≫
         (sectionsFunctor O V).map (((sheafTensor O).obj F).map g) := by
-  show (((tensorPresheafModules.{u} (CoeffRing O V)).obj
+  change (((tensorPresheafModules.{u} (CoeffRing O V)).obj
         ((sectionsPresheafModules O V).obj F.val)).map
           ((sectionsPresheafModules O V).map g.val)) ≫
         (basePairing O V F.val G'.val ≫

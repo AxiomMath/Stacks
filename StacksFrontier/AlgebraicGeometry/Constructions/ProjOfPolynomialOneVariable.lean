@@ -98,9 +98,9 @@ public noncomputable def oneVariableFromZeroEquiv :
 public theorem coe_oneVariableFromZeroEquiv : ⇑(oneVariableFromZeroEquiv A) =
     fromZeroRingHom (homogeneousSubmodule (Fin 1) A) (Submonoid.powers (X 0)) := by
   funext b
-  show awayChartInv 0 A (C ((gradeZeroEquiv (Fin 1) A).symm b)) = _
+  change awayChartInv 0 A (C ((gradeZeroEquiv (Fin 1) A).symm b)) = _
   rw [awayChartInv, eval₂Hom_C]
-  show fromZeroRingHom _ _ ((algebraMap A _) _) = _
+  change fromZeroRingHom _ _ ((algebraMap A _) _) = _
   congr 1
   exact (gradeZeroEquiv (Fin 1) A).apply_symm_apply b
 

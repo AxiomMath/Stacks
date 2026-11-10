@@ -122,7 +122,7 @@ structure sheaves have supports of delta-dimension at most `n`. Then
 This is the case the source disposes of by saying "this equality is the definition of `V · W`":
 both sides are the alternating sum of Tag 0AZR, the left after the bilinear extension of Tag
 0B08 has been evaluated at the one pair of components that contributes. -/
-theorem torFormulaCycleIntersectionProduct_structureSheafAt [DecidableEq X]
+theorem torFormulaCycleIntersectionProduct_structureSheafAt
     (C : ChowSituation.{u}) (f : X ⟶ C.S) [LocallyOfFiniteType f] [IsLocallyNoetherian X]
     (hX : IsRegular X) (x y : X) (r s n : ℤ)
     (hx : schemeDeltaDimension C ((integralComponentAt x).subschemeι ≫ f) = (r : EInt))
@@ -137,6 +137,7 @@ theorem torFormulaCycleIntersectionProduct_structureSheafAt [DecidableEq X]
         (coherentSheafCycle C f (structureSheafAt y) s hby) =
       intersectionProductCycle C f hX (structureSheafAt x) (structureSheafAt y)
         (isCoherent_structureSheafAt x) (isCoherent_structureSheafAt y) n hbd := by
+  classical
   rw [torFormulaCycleIntersectionProduct,
     coherentSheafCycle_structureSheafAt C f x r hx hbx,
     coherentSheafCycle_structureSheafAt C f y s hy hby,

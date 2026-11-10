@@ -133,7 +133,7 @@ theorem cechTermZeroEquiv_termMap (φ : A →+* B) (f : Fin r → A) (x : Cech.c
       (ofRingHom φ).comp (cechTermZeroEquiv f (ModuleCat.of A A)).toLinearMap := by
     refine DirectSum.linearMap_ext A fun s => LinearMap.ext fun y => ?_
     obtain rfl : s = default := Subsingleton.elim _ _
-    show cechTermZeroEquiv (mapFamily φ f) (ModuleCat.of B B)
+    change cechTermZeroEquiv (mapFamily φ f) (ModuleCat.of B B)
         (termMap φ f 0 (DirectSum.lof A (ExtendedAlternatingCech.Idx r 0)
           (fun t ↦ Cech.cechMod f (ModuleCat.of A A) t.1) default y)) =
       φ (cechTermZeroEquiv f (ModuleCat.of A A)
@@ -167,7 +167,7 @@ theorem extendedComplexMap_f_zero_comp_extendedCechXZeroIso (φ : A →+* B) (f 
     HomologicalComplex.extendMap_mapHomologicalComplexExtendIso_f _ _ (complexMap φ f)
       ComplexShape.embeddingUpNat ComplexShape.embeddingUpNat_f_zero
   rw [hzero, extendedCechXZeroIso_hom, extendedCechXZeroIso_hom, Functor.map_comp]
-  simp only [Category.assoc, Iso.map_inv_hom_id_assoc]
+  simp only [Category.assoc, Iso.inv_hom_id_map_assoc]
   rw [complexMap_f_zero_comp_cechZeroIso]
 
 /-! ### Condition (a) -/

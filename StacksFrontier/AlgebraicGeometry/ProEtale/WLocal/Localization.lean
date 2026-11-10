@@ -111,7 +111,7 @@ private theorem locallyClosedCoordinateMap_comap_mem (I : Ideal A) (f : A)
     PrimeSpectrum.comap (locallyClosedCoordinateMap I f) q ∈ locallyClosedPoints I f := by
   constructor
   · intro x hx
-    show locallyClosedCoordinateMap I f x ∈ q.asIdeal
+    change locallyClosedCoordinateMap I f x ∈ q.asIdeal
     simp [locallyClosedCoordinateMap, Ideal.Quotient.eq_zero_iff_mem.mpr hx]
   · exact (isUnit_iff_forall_prime_not_mem _).mp
       (IsLocalization.Away.algebraMap_isUnit (Ideal.Quotient.mk I f)) q
@@ -132,7 +132,7 @@ theorem locallyClosedCoordinateMap_range (I : Ideal A) (f : A) :
     have hback : PrimeSpectrum.comap (Ideal.Quotient.mk I) q₀ = p :=
       congrArg Subtype.val (e.apply_symm_apply ⟨p, hp'⟩)
     have hq₀ : q₀ ∈ PrimeSpectrum.basicOpen (Ideal.Quotient.mk I f) := by
-      show Ideal.Quotient.mk I f ∉ q₀.asIdeal
+      change Ideal.Quotient.mk I f ∉ q₀.asIdeal
       intro hfq
       have hf' : f ∈ (PrimeSpectrum.comap (Ideal.Quotient.mk I) q₀).asIdeal := hfq
       exact hp.2 (by simpa [hback] using hf')
@@ -145,7 +145,7 @@ theorem locallyClosedCoordinateMap_range (I : Ideal A) (f : A) :
         (locallyClosedCoordinateRing I f) (Ideal.Quotient.mk I f)]
     obtain ⟨q, hq⟩ := hq₀range
     refine ⟨q, ?_⟩
-    show PrimeSpectrum.comap
+    change PrimeSpectrum.comap
       ((algebraMap (A ⧸ I) (locallyClosedCoordinateRing I f)).comp
         (Ideal.Quotient.mk I)) q = p
     rw [PrimeSpectrum.comap_comp_apply, hq, hback]
@@ -155,7 +155,7 @@ theorem locallyClosedCoordinateMap_range (I : Ideal A) (f : A) :
 private theorem localizationSubmonoid_mem_iff (I : Ideal A) (f a : A) :
     a ∈ localizationSubmonoid I f ↔
       ∀ p ∈ locallyClosedPoints I f, a ∉ p.asIdeal := by
-  show IsUnit (locallyClosedCoordinateMap I f a) ↔ _
+  change IsUnit (locallyClosedCoordinateMap I f a) ↔ _
   rw [isUnit_iff_forall_prime_not_mem]
   constructor
   · intro ha p hp
@@ -200,7 +200,7 @@ theorem localization_comap_range (I : Ideal A) (f : A) :
         (Ideal.mem_map_iff_of_surjective (Ideal.Quotient.mk I)
           Ideal.Quotient.mk_surjective).mp w.1.2
       have hyS : y ∈ localizationSubmonoid I f := by
-        show IsUnit (algebraMap (A ⧸ I) (locallyClosedCoordinateRing I f)
+        change IsUnit (algebraMap (A ⧸ I) (locallyClosedCoordinateRing I f)
           (Ideal.Quotient.mk I y))
         rw [hyx, ← hs]
         simpa using IsLocalization.map_units (locallyClosedCoordinateRing I f) w.2
@@ -266,7 +266,7 @@ theorem localizationSubmonoid_le_comap
       PrimeSpectrum.comap h q ∈ locallyClosedPoints I f) :
     localizationSubmonoid I f ≤ (localizationSubmonoid J g).comap h := by
   intro a ha
-  show h a ∈ localizationSubmonoid J g
+  change h a ∈ localizationSubmonoid J g
   rw [localizationSubmonoid_mem_iff]
   intro q hq hqa
   exact (localizationSubmonoid_mem_iff I f a).mp ha _ (hZ q hq) hqa

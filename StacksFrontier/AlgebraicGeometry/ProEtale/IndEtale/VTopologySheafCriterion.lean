@@ -116,12 +116,12 @@ theorem exists_affineSystem_of_isStandardVCovering_singleton
   have (i : Λᵒᵖ) : IsAffine (((Functor.const Λᵒᵖ).obj Y).obj i) := inferInstanceAs (IsAffine Y)
   let p : (Functor.const Λᵒᵖ).obj X ⟶ D :=
     { app i := by
-        show X ⟶ Spec (CommRingCat.of (G i.unop))
+        change X ⟶ Spec (CommRingCat.of (G i.unop))
         exact X.isoSpec.hom ≫ Spec.map (CommRingCat.ofHom (g i.unop).toRingHom)
       naturality := by
         intro i j α
         have hij : j.unop ≤ i.unop := (α.unop).le
-        show X.isoSpec.hom ≫ Spec.map (CommRingCat.ofHom (g j.unop).toRingHom) =
+        change X.isoSpec.hom ≫ Spec.map (CommRingCat.ofHom (g j.unop).toRingHom) =
           (X.isoSpec.hom ≫ Spec.map (CommRingCat.ofHom (g i.unop).toRingHom)) ≫
             Spec.map (CommRingCat.ofHom (q j.unop i.unop hij).toRingHom)
         rw [Category.assoc, spec_map_comp_of_forall_eq
@@ -131,7 +131,7 @@ theorem exists_affineSystem_of_isStandardVCovering_singleton
   let cX : Cone D := Cone.mk X p
   have hcX : IsLimit cX := by
     let eX : c₀.pt ≅ X := by
-      show Spec (CommRingCat.of A) ≅ X
+      change Spec (CommRingCat.of A) ≅ X
       exact X.isoSpec.symm
     apply hc₀.ofIsoLimit (Cone.ext (c := c₀) (c' := cX) eX (by
       intro i
@@ -139,12 +139,12 @@ theorem exists_affineSystem_of_isStandardVCovering_singleton
       rw [Iso.inv_hom_id_assoc]))
   let t : D ⟶ (Functor.const Λᵒᵖ).obj Y :=
     { app i := by
-        show Spec (CommRingCat.of (G i.unop)) ⟶ Y
+        change Spec (CommRingCat.of (G i.unop)) ⟶ Y
         exact Spec.map (CommRingCat.ofHom (algebraMap R (G i.unop))) ≫ Y.isoSpec.inv
       naturality := by
         intro i j α
         have hij : j.unop ≤ i.unop := (α.unop).le
-        show Spec.map (CommRingCat.ofHom (q j.unop i.unop hij).toRingHom) ≫
+        change Spec.map (CommRingCat.ofHom (q j.unop i.unop hij).toRingHom) ≫
             (Spec.map (CommRingCat.ofHom (algebraMap R (G j.unop))) ≫ Y.isoSpec.inv) =
           (Spec.map (CommRingCat.ofHom (algebraMap R (G i.unop))) ≫ Y.isoSpec.inv) ≫ 𝟙 Y
         rw [← Category.assoc, spec_map_comp_of_forall_eq
@@ -156,7 +156,7 @@ theorem exists_affineSystem_of_isStandardVCovering_singleton
   have hcompat : p ≫ t = (Functor.const Λᵒᵖ).map f := by
     ext i
     dsimp [p, t]
-    show X.isoSpec.hom ≫ Spec.map (CommRingCat.ofHom (g i.unop).toRingHom) ≫
+    change X.isoSpec.hom ≫ Spec.map (CommRingCat.ofHom (g i.unop).toRingHom) ≫
         (Spec.map (CommRingCat.ofHom (algebraMap R (G i.unop))) ≫ Y.isoSpec.inv) = f
     have hbase := spec_map_comp_of_forall_eq (CommRingCat.ofHom (algebraMap R (G i.unop)))
       (CommRingCat.ofHom (g i.unop).toRingHom) (CommRingCat.ofHom f.appTop.hom) fun x ↦
@@ -170,7 +170,7 @@ theorem exists_affineSystem_of_isStandardVCovering_singleton
       _ = f := by rw [hnat]; simp
   have hΓ : IsColimit ((Scheme.Γ ⋙ forget CommRingCat).mapCocone cX.op) := by
     have (i : (Λᵒᵖ)ᵒᵖ) : IsAffine (D.op.obj i).unop := by
-      show IsAffine (D.obj i.unop)
+      change IsAffine (D.obj i.unop)
       infer_instance
     exact isColimitOfPreserves (forget CommRingCat) (isColimitOfPreserves Scheme.Γ hcX.op)
   have hStage : ∀ i, IsStandardVCovering (fun _ : Unit ↦ D.obj i) (fun _ ↦ t.app i) :=
@@ -181,10 +181,10 @@ theorem exists_affineSystem_of_isStandardVCovering_singleton
         (Spec.map (CommRingCat.ofHom (algebraMap R (G i.unop)))) :=
       (LocallyOfFinitePresentation.SpecMap_iff
         (CommRingCat.ofHom (algebraMap R (G i.unop)))).2 (by
-          show (algebraMap R (G i.unop)).FinitePresentation
+          change (algebraMap R (G i.unop)).FinitePresentation
           rw [RingHom.finitePresentation_algebraMap]
           exact hFP i.unop)
-    show LocallyOfFinitePresentation
+    change LocallyOfFinitePresentation
       (Spec.map (CommRingCat.ofHom (algebraMap R (G i.unop))) ≫ Y.isoSpec.inv)
     let : LocallyOfFinitePresentation
         (Spec.map (CommRingCat.ofHom (algebraMap R (G i.unop)))) := hlfpSpec
@@ -345,7 +345,7 @@ lemma isSheafFor_singleton_of_isColimit [IsCofiltered J] (c : Cone D) (f : c.pt 
       rw [← F.map_comp, ← op_comp, hf]
     have heq : F.map (c.π.app i).op (F.map (t.app i).op y) =
         F.map (c.π.app i).op (F.map (t.app i).op z) := by
-      show (F.map (t.app i).op ≫ F.map (c.π.app i).op) y =
+      change (F.map (t.app i).op ≫ F.map (c.π.app i).op) y =
         (F.map (t.app i).op ≫ F.map (c.π.app i).op) z
       rw [hfac]
       exact hyz

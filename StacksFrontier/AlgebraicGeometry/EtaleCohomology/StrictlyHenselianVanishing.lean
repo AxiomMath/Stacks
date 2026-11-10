@@ -87,7 +87,7 @@ private theorem projective_ulift_int :
   refine ⟨AddCommGrpCat.ofHom (uliftZMultiplesHom E y), ?_⟩
   apply AddCommGrpCat.hom_ext
   ext z
-  show e.hom ((uliftZMultiplesHom E y) z) = f.hom z
+  change e.hom ((uliftZMultiplesHom E y) z) = f.hom z
   rw [uliftZMultiplesHom_apply_apply]
   have hz : z = z.down • (ULift.up (1 : ℤ)) := ULift.ext (by simp)
   calc
@@ -106,7 +106,7 @@ private theorem exists_residue_compatible_retraction
   let P : Ideal A := RingHom.ker α
   let : P.IsPrime := RingHom.ker_isPrime α
   have hlo : P.comap (algebraMap R A) = IsLocalRing.maximalIdeal R := by
-    show RingHom.ker (α.comp (algebraMap R A)) = _
+    change RingHom.ker (α.comp (algebraMap R A)) = _
     rw [hα, hβ]
   let hP : P.LiesOver (IsLocalRing.maximalIdeal R) := ⟨hlo.symm⟩
   let := hP
@@ -115,7 +115,8 @@ private theorem exists_residue_compatible_retraction
         Ideal.LiesOver.over) := by
     let : Algebra (Localization.AtPrime (IsLocalRing.maximalIdeal R)) (Localization.AtPrime P) :=
       Localization.AtPrime.algebraOfLiesOver _ _
-    let : Localization.AtPrime.IsLiesOverAlgebra (IsLocalRing.maximalIdeal R) P := inferInstance
+    let : IsScalarTower R (Localization.AtPrime (IsLocalRing.maximalIdeal R))
+        (Localization.AtPrime P) := inferInstance
     have hfin := Algebra.IsEtaleAt.map_eq_maximalIdeal_and_finite_isSeparable_residueField
       (IsLocalRing.maximalIdeal R) P
     let : Algebra.IsSeparable (IsLocalRing.maximalIdeal R).ResidueField P.ResidueField :=
@@ -126,7 +127,7 @@ private theorem exists_residue_compatible_retraction
         (IsLocalRing.maximalIdeal R).ResidueField)
         (IsLocalRing.maximalIdeal R).bijective_algebraMap_quotient_residueField
     let : IsSepClosed (IsLocalRing.maximalIdeal R).ResidueField := IsSepClosed.of_ringEquiv e.symm
-    show Function.Bijective
+    change Function.Bijective
       (algebraMap (IsLocalRing.maximalIdeal R).ResidueField P.ResidueField)
     exact IsSepClosed.algebraMap_bijective _ _
   exact henselian_etale_residue_point_section R A P hres
@@ -154,7 +155,7 @@ private theorem etale_section_unique
         _ = s.hom ≫ t₁ := hp.symm
         _ = s.hom ≫ t₁ ≫ d ≫ pullback.snd g g := by simp [d]
   have hclosed : IsLocalRing.closedPoint R ∈ w ⁻¹ᵁ d.opensRange := by
-    show w (IsLocalRing.closedPoint R) ∈ d.opensRange
+    change w (IsLocalRing.closedPoint R) ∈ d.opensRange
     rw [Scheme.Hom.mem_opensRange]
     refine ⟨t₁ (IsLocalRing.closedPoint R), ?_⟩
     have heq := congrArg (fun f : s.source ⟶ pullback g g => f default) hsp
@@ -192,7 +193,7 @@ private theorem exists_etale_section
     have hp : Spec.map β₀ (default : Spec (.of s.residueField)) = IsLocalRing.closedPoint R :=
       hβ ▸ hs
     rw [RingHom.ker_eq_comap_bot]
-    show (Spec.map β₀ (default : Spec (.of s.residueField))).asIdeal = _
+    change (Spec.map β₀ (default : Spec (.of s.residueField))).asIdeal = _
     simpa [IsLocalRing.closedPoint] using congrArg PrimeSpectrum.asIdeal hp
   obtain ⟨A, j, hj, hxj, -⟩ :=
     Scheme.exists_affine_mem_range_and_range_subset (x := x default) (U := ⊤) (by simp)
@@ -228,7 +229,7 @@ private theorem exists_etale_section
   have hσbase : CommRingCat.ofHom (σ.toRingHom.comp q.hom) = 𝟙 (CommRingCat.of R) := by
     apply CommRingCat.hom_ext
     ext r
-    show σ (algebraMap R A r) = r
+    change σ (algebraMap R A r) = r
     simp
   have hαsection : α = β.comp σ.toRingHom := by
     ext a
@@ -515,10 +516,10 @@ private theorem closedGeometricPoint_liesOver
   have hf : RingHom.ker f = IsLocalRing.maximalIdeal R := by
     rw [RingHom.ker_comp_of_injective _ (algebraMap K Ω).injective]
     exact IsLocalRing.ker_residue
-  show (Spec.map (CommRingCat.ofHom f)) _ = IsLocalRing.closedPoint R
+  change (Spec.map (CommRingCat.ofHom f)) _ = IsLocalRing.closedPoint R
   apply PrimeSpectrum.ext
   rw [Spec.map_apply]
-  show Ideal.comap f _ = _
+  change Ideal.comap f _ = _
   have hbot : (default : Spec (.of Ω)).asIdeal = ⊥ :=
     @Ideal.eq_bot_of_prime Ω _ _ (default : Spec (.of Ω)).isPrime
   rw [hbot]
@@ -687,7 +688,7 @@ public theorem subsingleton_etaleCohomology
   let : Projective ((constantSheaf J AddCommGrpCat.{u + 1}).obj
       (AddCommGrpCat.of (ULift ℤ))) :=
     adj.map_projective _ (projective_ulift_int.{u + 1})
-  show Subsingleton (CategoryTheory.Abelian.Ext.{w}
+  change Subsingleton (CategoryTheory.Abelian.Ext.{w}
     ((constantSheaf J AddCommGrpCat.{u + 1}).obj
     (AddCommGrpCat.of (ULift ℤ))) F (n + 1))
   exact CategoryTheory.Abelian.Ext.subsingleton_of_projective _ _ n

@@ -108,7 +108,8 @@ theorem complToSituationOpen_comp_ι_comp_f :
 instance mono_U'_ι_comp_f : Mono (c.U'.ι ≫ s.f) := by
   rw [← s.isoU_comp_ι]
   have hι : Mono s.U.ι := ⟨fun _ _ e => NatTrans.ext <| funext fun V =>
-    ConcreteCategory.hom_ext _ _ fun x => Subtype.ext <| ConcreteCategory.congr_hom (congr_app e V) x⟩
+    ConcreteCategory.hom_ext _ _ fun x => Subtype.ext <|
+      ConcreteCategory.congr_hom (congr_app e V) x⟩
   exact mono_comp' (IsIso.mono_of_iso _) hι
 
 include hU in

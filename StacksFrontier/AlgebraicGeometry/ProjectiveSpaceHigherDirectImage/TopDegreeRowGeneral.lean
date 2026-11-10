@@ -179,7 +179,7 @@ theorem pushKoszulCoeff_eq (m : ℕ) (S : Scheme.{u}) (a j : ℤ) (s : koszulInd
     pushKoszulCoeff m S a j s u =
       koszulSign i s.1 • (push m S (m + 1)).map
         (twistOverMulMonomial (m + 1) S (coordIndex.{u} i) (a + j) (a + (j + 1)) hr) := by
-  show (pullPush m S (m + 1)).map (koszulCoeff (ULift.{u} ℤ) (m + 1) a j s u) = _
+  change (pullPush m S (m + 1)).map (koszulCoeff (ULift.{u} ℤ) (m + 1) a j s u) = _
   rw [koszulCoeff_eq (ULift.{u} ℤ) (m + 1) a j s u hi hu]
   exact (Functor.map_zsmul (pullPush m S (m + 1))).trans
     (congrArg (fun z => koszulSign i s.1 • (push m S (m + 1)).map z)
@@ -191,7 +191,7 @@ theorem pushKoszulCoeff_eq_zero (m : ℕ) (S : Scheme.{u}) (a j : ℤ)
     (s : koszulIndex (m + 1 + 1) j) (u : koszulIndex (m + 1 + 1) (j + 1))
     (h : ∀ i : Fin (m + 1 + 1), i ∉ s.1 → u.1 ≠ insert i s.1) :
     pushKoszulCoeff m S a j s u = 0 := by
-  show (pullPush m S (m + 1)).map (koszulCoeff (ULift.{u} ℤ) (m + 1) a j s u) = _
+  change (pullPush m S (m + 1)).map (koszulCoeff (ULift.{u} ℤ) (m + 1) a j s u) = _
   rw [koszulCoeff_eq_zero (ULift.{u} ℤ) (m + 1) a j s u h]
   exact Functor.map_zero (pullPush m S (m + 1)) _ _
 
@@ -261,7 +261,7 @@ theorem pushKoszulIso_inv_d_hom (m : ℕ) (S : Scheme.{u}) (a j : ℤ) :
     (pushKoszulIso m S a j).inv ≫ (pushKoszul m S a).d j (j + 1) ≫
         (pushKoszulIso m S a (j + 1)).hom =
       biproduct.matrix (pushKoszulCoeff m S a j) := by
-  show (Functor.mapBiproduct (pullPush m S (m + 1)) (koszulFamilyOver.{u} m a j)).inv ≫
+  change (Functor.mapBiproduct (pullPush m S (m + 1)) (koszulFamilyOver.{u} m a j)).inv ≫
     (push m S (m + 1)).map ((koszulOver (m + 1) S a).d j (j + 1)) ≫
       (Functor.mapBiproduct (pullPush m S (m + 1)) (koszulFamilyOver.{u} m a (j + 1))).hom = _
   rw [koszulOver_d]

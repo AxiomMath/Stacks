@@ -115,7 +115,7 @@ along a morphism is the intersection of the image of that morphism with the supp
 theorem range_comap_subschemeι_comp_eq_inter {A B : Scheme.{u}} (f : A ⟶ B)
     (I : B.IdealSheafData) :
     Set.range ((I.comap f).subschemeι ≫ f) = Set.range f ∩ (I.support : Set B) := by
-  show Set.range (f ∘ (I.comap f).subschemeι) = _
+  change Set.range (f ∘ (I.comap f).subschemeι) = _
   rw [Set.range_comp, Scheme.IdealSheafData.range_subschemeι,
     Scheme.IdealSheafData.support_comap]
   exact Set.image_preimage_eq_range_inter
@@ -188,7 +188,7 @@ theorem leftRule_cycle_eq_rightRule_cycle_of_cartier
         (R.normalize.D₁.subschemeι ≫ R.normalize.p ≫ sY)
         (((W.comap R.normalize.p).comap R.normalize.D₁.subschemeι).subschemeι)
         (k + 1) := by
-    show (gysinRuleBranch₁ C Y L₁ L₂ s R sY k).extendCycleGroup
+    change (gysinRuleBranch₁ C Y L₁ L₂ s R sY k).extendCycleGroup
         (Stacks.Chow.flatPullback C (R.normalize.p ≫ sY) sY R.normalize.p rfl 1
           R.normalize.p_relativeDimension (k + 1) _) = _
     rw [Stacks.Chow.flatPullback_cycleAssociatedToClosedSubscheme_comap_of_le C
@@ -202,7 +202,7 @@ theorem leftRule_cycle_eq_rightRule_cycle_of_cartier
         (R.normalize.D₁.subschemeι ≫ R.normalize.p ≫ sY)
         (((W.comap (zeroIdeal Y L₁ L₂ s).subschemeι).comap R.normalize.p₁).subschemeι)
         (k + ((1 : ℕ) : ℤ)) := by
-    show Stacks.Chow.flatPullback C (R.normalize.D₁.subschemeι ≫ R.normalize.p ≫ sY)
+    change Stacks.Chow.flatPullback C (R.normalize.D₁.subschemeι ≫ R.normalize.p ≫ sY)
         ((zeroIdeal Y L₁ L₂ s).subschemeι ≫ sY) R.normalize.p₁
         (proj₁_comp_zeroIdeal_subschemeι_comp C Y L₁ L₂ s R sY) 1
         ((Decomposition.relativeDimension_p₁ Y L₁ L₂ s R.normalize)) k

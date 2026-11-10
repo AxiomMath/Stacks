@@ -78,8 +78,10 @@ universes of the two rings: it does not change the underlying maps. -/
 theorem exact_map_restrictScalars {S S' : Type*} [Ring S] [Ring S'] (f : S →+* S')
     {T : ShortComplex (ModuleCat.{m} S')} (hT : T.Exact) :
     (T.map (ModuleCat.restrictScalars.{m} f)).Exact := by
-  rwa [ShortComplex.ShortExact.moduleCat_exact_iff_function_exact] at hT ⊢
+  rw [ShortComplex.ShortExact.moduleCat_exact_iff_function_exact] at hT ⊢
+  exact hT
 
+set_option linter.checkUnivs false in
 /-- Products of modules indexed by types in `w` are exact. -/
 theorem ab4StarOfSize_moduleCat (A : Type uA) [Ring A] :
     AB4StarOfSize.{w} (ModuleCat.{max u v w} A) where

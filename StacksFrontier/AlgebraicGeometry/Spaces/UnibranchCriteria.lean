@@ -276,7 +276,7 @@ theorem exists_smallEtale_refinement_of_etaleNeighborhood
   let y : A'.1.toScheme := ⟨N.point, hpoint⟩
   let w : Scheme.Hom A'.1.toScheme X := A'.1.ι ≫ N.toBase
   have hwpoint : w.base y = N.toBase.base N.point := by
-    show (A'.1.ι ≫ N.toBase).base y = N.toBase.base N.point
+    change (A'.1.ι ≫ N.toBase).base y = N.toBase.base N.point
     rw [Scheme.Hom.comp_apply]
     rfl
   let hsize : B.Contains A'.1.toScheme :=
@@ -301,10 +301,10 @@ theorem exists_smallEtale_refinement_of_etaleNeighborhood
       _ = N.toBase.base N.point := hwpoint
       _ = schemePoint B S hS U.1.left p := N.map_point
   refine ⟨V, q, A'.1.ι, inferInstance, ?_, ?_⟩
-  · show A'.1.ι.base (schemePoint B S hS V.1.left q) = N.point
+  · change A'.1.ι.base (schemePoint B S hS V.1.left q) = N.point
     rw [schemePointRepresentative_point]
     rfl
-  · show pointsMap B S hS (yoneda.obj V.1.left) (yoneda.map a ≫ U.1.hom)
+  · change pointsMap B S hS (yoneda.obj V.1.left) (yoneda.map a ≫ U.1.hom)
       (q.class B S hS (yoneda.obj V.1.left)) = _
     rw [pointsMap_comp, Function.comp_apply, pointsMap_class,
       class_eq_class_of_schemePoint_eq U.1.left qU p hpointMap, pointsMap_class]
@@ -461,9 +461,9 @@ private theorem isGeometricallyUnibranchAt_of_hasUniqueMinimalPrimeAtGeometricPo
     ⟨FieldValuedPoint.map B S hS (yoneda.obj U.1.left) U.1.hom q, AlgebraicClosure.isAlgClosed K⟩
   let V : SmallEtaleNeighborhood g := { chart := U, point := q.value, point_comp := rfl }
   have hrpoint : schemePoint B S hS p.siteObject r = closedPoint K := by
-    show (B.inclusion.map f) (closedPoint Ω) = _
+    change (B.inclusion.map f) (closedPoint Ω) = _
     rw [B.inclusion.map_preimage f₀]
-    show PrimeSpectrum.comap (algebraMap K Ω) (closedPoint Ω) = closedPoint K
+    change PrimeSpectrum.comap (algebraMap K Ω) (closedPoint Ω) = closedPoint K
     simp
   have hpoint : schemePoint B S hS U.1.left q = schemePoint B S hS U.1.left p := by
     rw [schemePoint_map_yoneda, hrpoint]

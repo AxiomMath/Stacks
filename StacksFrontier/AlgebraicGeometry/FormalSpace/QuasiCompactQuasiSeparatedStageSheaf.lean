@@ -76,7 +76,7 @@ theorem isPullback_toImage_of_invariant {Z : BigFppfOver B S hS}
   refine Sheaf.isPullback_toImage_of_sieveOfSection_le z c ?_ ?_
   · have h2 : MorphismProperty.monomorphisms ((BigFppfOver B S hS)ᵒᵖ ⥤ Type (u + 1))
         (((fppfYonedaCompSheafToPresheaf' B S hS).app Z).inv ≫ z.hom) := by
-      show Mono _
+      change Mono _
       rwa [← hzp]
     exact (MorphismProperty.cancel_left_of_respectsIso
       (P := MorphismProperty.monomorphisms ((BigFppfOver B S hS)ᵒᵖ ⥤ Type (u + 1)))
@@ -98,7 +98,7 @@ theorem isPullback_toImage_of_invariant {Z : BigFppfOver B S hS}
           (uliftYonedaEquiv.{u + 1}.symm
             (((fppfYonedaCompSheafToPresheaf' B S hS).app Z).hom.app (op V) w')) hcond ≫
           (uliftYoneda.{u + 1}).map t)), ?_⟩
-    show (((fppfYonedaCompSheafToPresheaf' B S hS).app Z).inv ≫ z.hom).app (op V) _ = _
+    change (((fppfYonedaCompSheafToPresheaf' B S hS).app Z).inv ≫ z.hom).app (op V) _ = _
     rw [← hzp, ← uliftYonedaEquiv_comp, Category.assoc, hinv.lift_fst,
       Equiv.apply_symm_apply]
 
@@ -280,12 +280,12 @@ theorem isPullback_sheaf_imageTransition
       (imageTransition B S hS c zi zj w hw).hom (Sheaf.toImage (zj ≫ c)).hom := by
     refine hP.of_iso' ((fppfYonedaCompSheafToPresheaf' B S hS).app Zi) (Iso.refl _)
       ((fppfYonedaCompSheafToPresheaf' B S hS).app Zj) (Iso.refl _) ?_ (hnat Zi Zj w) ?_ ?_
-    · show _ = _ ≫ 𝟙 _
+    · change _ = _ ≫ 𝟙 _
       rw [Category.comp_id]
-      show _ ≫ ((fppfYonedaCompSheafToPresheaf' B S hS).app Zi).inv ≫ _ = _
+      change _ ≫ ((fppfYonedaCompSheafToPresheaf' B S hS).app Zi).inv ≫ _ = _
       rw [Iso.hom_inv_id_assoc]
     · simp
-    · show _ ≫ ((fppfYonedaCompSheafToPresheaf' B S hS).app Zj).inv ≫ _ = _ ≫ 𝟙 _
+    · change _ ≫ ((fppfYonedaCompSheafToPresheaf' B S hS).app Zj).inv ≫ _ = _ ≫ 𝟙 _
       rw [Iso.hom_inv_id_assoc, Category.comp_id]
   exact IsPullback.of_map_of_faithful
     (F := sheafToPresheaf (BigFppfOver.topology B S hS) (Type (u + 1)))
@@ -313,7 +313,7 @@ theorem isRepresentableThickening_imageTransition
   have hmono : Mono (imageTransition B S hS c zi zj w hw) := by
     refine (sheafToPresheaf (BigFppfOver.topology B S hS) (Type (u + 1))).mono_of_mono_map
       (f := imageTransition B S hS c zi zj w hw) ?_
-    show Mono (Subfunctor.homOfLe (sheafifyRange_le_of_factor B S hS c zi zj w hw))
+    change Mono (Subfunctor.homOfLe (sheafifyRange_le_of_factor B S hS c zi zj w hw))
     infer_instance
   have hchart : IsRepresentableEtale B S hS (Sheaf.toImage (zj ≫ c)) := by
     refine isRepresentableEtale_of_relative_etaleOnSite B S hS _ ?_
@@ -332,7 +332,7 @@ theorem isRepresentableThickening_imageTransition
     have h : (Sigma.ι (fun _ : PUnit.{u + 2} => (fppfYoneda B S hS).obj Zj) PUnit.unit ≫
         Sigma.desc (fun _ : PUnit.{u + 2} => Sheaf.toImage (zj ≫ c))).hom =
         (Sheaf.toImage (zj ≫ c)).hom := by
-      rw [Sigma.ι_desc]
+      rw [Sigma.ι_comp_desc]
     exact h
   have _ := MorphismProperty.relative_isStableUnderBaseChange
     (F := uliftYoneda.{u + 1} (C := BigFppfOver B S hS))

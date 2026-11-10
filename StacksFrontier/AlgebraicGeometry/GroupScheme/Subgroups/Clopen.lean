@@ -63,7 +63,7 @@ theorem isClosed_range_of_pairwiseDisjoint_of_iUnion_range_eq_univ {σ : Type v}
   rw [← isOpen_compl_iff]
   have hcompl : (Set.range (j d₀).base)ᶜ = ⋃ d ∈ {d : σ | d ≠ d₀}, Set.range (j d).base := by
     ext x
-    simp only [Set.mem_compl_iff, Set.mem_iUnion, Set.mem_setOf_eq, exists_prop]
+    simp only [Set.mem_compl_iff, Set.mem_iUnion, Set.mem_ofPred_eq, exists_prop]
     constructor
     · intro hx
       obtain ⟨d, hd⟩ := Set.mem_iUnion.mp (hcover ▸ Set.mem_univ x)

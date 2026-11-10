@@ -186,7 +186,7 @@ private theorem homologyMap_truncLEι_isIso
   let T := (TStructure.t.triangleLEGE p (p + 1) rfl).obj K
   have ht := TStructure.t.triangleLEGE_distinguished p (p + 1) rfl K
   have : T.obj₃.IsGE (p + 1) := by
-    show ((TStructure.t.truncGE (p + 1)).obj K).IsGE (p + 1)
+    change ((TStructure.t.truncGE (p + 1)).obj K).IsGE (p + 1)
     infer_instance
   have hz : IsZero ((homologyFunctor C a).obj T.obj₃) :=
     DerivedCategory.isZero_of_isGE T.obj₃ (p + 1) a (by omega)
@@ -208,7 +208,7 @@ private theorem piMap_epi
   let α : Discrete.functor X ⟶ Discrete.functor Y := Discrete.natTrans (fun n ↦ f n.as)
   have : ∀ n : Discrete ℕ, Epi (α.app n) := fun n ↦ inferInstanceAs (Epi (f n.as))
   have : Epi α := NatTrans.epi_of_epi_app α
-  show Epi (lim.map α)
+  change Epi (lim.map α)
   infer_instance
 
 set_option backward.defeqAttrib.useBackward true in
@@ -325,7 +325,7 @@ private theorem milnorConnecting_single_shift
   have hr : (H p).map (F.map e.hom) ≫ (s.singleIso M p p 0 (by omega)).hom =
       (H p).map (F.map ((Q.commShiftIso (-p)).hom.app C) ≫ (s.iso (Q.obj C) (-p)).hom) ≫
       ((H 0).shiftIso (-p) p 0 (by omega)).hom.app (F.obj (Q.obj C)) := by
-    show (H p).map (F.map (((Q.commShiftIso (-p)).hom.app C) ≫ d.hom)) ≫
+    change (H p).map (F.map (((Q.commShiftIso (-p)).hom.app C) ≫ d.hom)) ≫
       (H p).map (F.map d.inv ≫ (s.iso (Q.obj C) (-p)).hom) ≫ _ = _
     simp only [Functor.map_comp, Category.assoc]
     simp only [← Functor.map_comp_assoc, d.hom_inv_id]
@@ -603,7 +603,7 @@ private theorem principalCompletionDiagramSolution
   let topIn := limMap termIn
   let topOut := limMap termOut
   have htop : topIn ≫ topOut = 0 := by
-    show lim.map termIn ≫ lim.map termOut = 0
+    change lim.map termIn ≫ lim.map termOut = 0
     rw [← Functor.map_comp, htermZero, Functor.map_zero]
   have htopExact : (ShortComplex.mk topIn topOut htop).ShortExact :=
     ShortComplex.shortExact_map_lim_of_isMittagLeffler
@@ -646,18 +646,18 @@ private theorem principalCompletionDiagramSolution
     intro n
     exact limMap_π termOut ⟨n⟩
   case columnConnecting =>
-    show productIso.hom ≫ cokernel.π (CompletionSequences.moduleDifference A (V (p - 1))) ≫
+    change productIso.hom ≫ cokernel.π (CompletionSequences.moduleDifference A (V (p - 1))) ≫
       (milnorIn ≫ (H p).map e.inv) = _
     erw [← Category.assoc _ milnorIn, ← Category.assoc productIso.hom,
       hmilnorIn]
   case bottomNormalization =>
-    show cokernel.π (CompletionSequences.moduleDifference A (V (p - 1))) ≫ b = _
+    change cokernel.π (CompletionSequences.moduleDifference A (V (p - 1))) ≫ b = _
     dsimp only [b]
     rw [cokernel.map, cokernel.π_desc]
     congr 1
   case columnProjection =>
     intro n
-    show ((H p).map e.hom ≫ milnorOut) ≫ limit.π (V p) ⟨n⟩ = _
+    change ((H p).map e.hom ≫ milnorOut) ≫ limit.π (V p) ⟨n⟩ = _
     erw [Category.assoc, hmilnorOut]
     exact (Functor.map_comp _ _ _).symm
   case leftSquare =>
@@ -711,13 +711,13 @@ private theorem principalCompletionDiagramSolution
       erw [reassoc_of% hproduct n]
     have ht := milnorConnecting_truncation f adj S.comparison S.shift K p
       (S.truncation K p) (S.moduleSequence ((H p).obj K)) C eK qK hqK
-    show inv b ≫ columnIn = _
+    change inv b ≫ columnIn = _
     apply (cancel_epi b).1
     simp only [IsIso.hom_inv_id_assoc]
     apply (cancel_epi (cokernel.π (CompletionSequences.moduleDifference A (V (p - 1))))).1
     apply (cancel_epi productIso.hom).1
     simp only
-    show productIso.hom ≫ cokernel.π (CompletionSequences.moduleDifference A (V (p - 1))) ≫
+    change productIso.hom ≫ cokernel.π (CompletionSequences.moduleDifference A (V (p - 1))) ≫
         milnorIn ≫ (H p).map e.inv = _
     erw [reassoc_of% hmilnorIn]
     have hb : cokernel.π (CompletionSequences.moduleDifference A (V (p - 1))) ≫ b =

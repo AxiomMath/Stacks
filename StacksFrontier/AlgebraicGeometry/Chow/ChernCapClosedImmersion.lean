@@ -131,7 +131,7 @@ theorem firstChernComponentCycleAt_base_eq (chernY' : FirstChernComponentCycleRu
           (isIntegral_integralComponentAt x)
           (schemeDeltaDimension_integralComponentAt_of_eq C sX hx)) := by
   apply Subtype.ext
-  show (firstChernCapRule C sY k chernY').totalize (integralComponentAt (p.base x)) = _
+  change (firstChernCapRule C sY k chernY').totalize (integralComponentAt (p.base x)) = _
   rw [ChernCap42.integralComponentAt_comp p x]
   exact (firstChernCapRule C sY k chernY').totalize_eq _ _ _
 

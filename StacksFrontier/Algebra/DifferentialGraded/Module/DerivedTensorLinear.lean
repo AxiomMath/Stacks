@@ -100,7 +100,7 @@ theorem tensorCompFunctor_map_smul_id (N : Bimodule A B) (M : DifferentialGraded
     (tensorCompFunctor N).map (r • 𝟙 M) = r • 𝟙 ((tensorCompFunctor N).obj M) := by
   refine tensorObj_hom_ext' N M _ _ fun x y => ?_
   refine (tensorCompFunctor_map_pure' N (r • 𝟙 M) x y).trans ?_
-  show ((tensorDGFunctor N).pure M).toLinearMap (r • x) y = _
+  change ((tensorDGFunctor N).pure M).toLinearMap (r • x) y = _
   rw [map_smul, LinearMap.smul_apply]
   rfl
 
@@ -115,7 +115,7 @@ theorem tensorHomotopyFunctor_map_smul_id (N : Bimodule A B) (X : HomotopyCatego
   let e := tensorCompFunctor_quotient N
   have hsrc : (tensorCompFunctor N ⋙ toHomotopyCategory B).map (r • 𝟙 X.as) =
       r • 𝟙 ((tensorCompFunctor N ⋙ toHomotopyCategory B).obj X.as) := by
-    show (toHomotopyCategory B).map ((tensorCompFunctor N).map (r • 𝟙 X.as)) = _
+    change (toHomotopyCategory B).map ((tensorCompFunctor N).map (r • 𝟙 X.as)) = _
     rw [tensorCompFunctor_map_smul_id]
     exact Functor.map_smul_id _ _ _
   have hnat := e.hom.naturality (r • 𝟙 X.as)
@@ -130,7 +130,7 @@ theorem tensorFunctorToDerivedCategory_map_smul_id (N : Bimodule A B) (X : Homot
     (r : R) :
     (tensorFunctorToDerivedCategory N).map (r • 𝟙 X) =
       r • 𝟙 ((tensorFunctorToDerivedCategory N).obj X) := by
-  show (quasiIsomorphisms' B).Q.map ((tensorHomotopyFunctor N).map (r • 𝟙 X)) = _
+  change (quasiIsomorphisms' B).Q.map ((tensorHomotopyFunctor N).map (r • 𝟙 X)) = _
   rw [tensorHomotopyFunctor_map_smul_id]
   exact Functor.map_smul_id _ _ _
 

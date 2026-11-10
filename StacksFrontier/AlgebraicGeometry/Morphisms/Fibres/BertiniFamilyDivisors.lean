@@ -229,7 +229,7 @@ theorem fibreParameterMap_appTop_coord (a : Fin (Module.finrank D.k D.V) → K)
     (i : Fin (Module.finrank D.k D.V)) :
     (D.fibreParameterMap K a).appTop (AffineSpace.coord D.X (ULift.up i)) =
       D.baseChangeScalar K (a i) := by
-  show (AffineSpace.homOfVector (D.baseChangeToX K)
+  change (AffineSpace.homOfVector (D.baseChangeToX K)
       (fun j => D.baseChangeScalar K (a j.down))).appTop
         (AffineSpace.coord D.X (ULift.up i)) = D.baseChangeScalar K (a i)
   simpa only [ULift.down_up] using

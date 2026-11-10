@@ -67,7 +67,7 @@ theorem exists_pow_smul_eq_of_pow_smul_eq_zero {J : Type*} [AddCommGroup J]
     intro r hr
     rw [LinearMap.mem_ker] at hr ⊢
     obtain ⟨s, rfl⟩ := exists_eq_pow_mul_of_pow_mul_eq_zero ha hr
-    show ((p : ZMod (p ^ m)) ^ a * s) • x = 0
+    change ((p : ZMod (p ^ m)) ^ a * s) • x = 0
     rw [mul_comm, mul_smul, hx, smul_zero]
   let φ : LinearMap.range g →ₗ[ZMod (p ^ m)] J :=
     ((LinearMap.ker g).liftQ f hker).comp g.quotKerEquivRange.symm.toLinearMap
@@ -123,7 +123,7 @@ theorem baer_self : Module.Baer (ZMod (p ^ m)) (ZMod (p ^ m)) := by
     rw [← smul_eq_mul, ← map_smul]
     have : (p : ZMod (p ^ m)) ^ (m - a) • (⟨g, hg⟩ : Ideal.span {g}) = 0 := by
       ext
-      show (p : ZMod (p ^ m)) ^ (m - a) * g = 0
+      change (p : ZMod (p ^ m)) ^ (m - a) * g = 0
       rw [hgu, ← mul_assoc, ← pow_add, Nat.sub_add_cancel ha, natCast_pow_self_eq_zero, zero_mul]
     rw [this, map_zero]
   obtain ⟨s, hs⟩ := exists_eq_pow_mul_of_pow_mul_eq_zero ha hkill
@@ -145,6 +145,7 @@ isomorphisms such as the corepresentation of sections of a sheaf. -/
 def IsPowExact (p m : ℕ) (M : Type*) [AddCommGroup M] : Prop :=
   ∀ a ≤ m, ∀ x : M, p ^ a • x = 0 → ∃ y : M, p ^ (m - a) • y = x
 
+omit hp in
 /-- The exactness property `IsPowExact p m` is invariant under additive isomorphisms. -/
 theorem IsPowExact.of_addEquiv {M N : Type*} [AddCommGroup M] [AddCommGroup N] (e : M ≃+ N)
     (h : IsPowExact p m M) : IsPowExact p m N := by
@@ -171,10 +172,10 @@ theorem isPowExact_finsupp (X : Type*) : IsPowExact p m (X →₀ ZMod (p ^ m)) 
   refine ⟨Finsupp.mapRange c hc0 x, ?_⟩
   ext i
   have hi : p ^ a • x i = 0 := by simpa using congrArg (fun z => z i) hx
-  simp only [Finsupp.smul_apply, Finsupp.mapRange_apply, c, dif_pos hi]
+  simp only [Finsupp.smul_apply, Finsupp.mapRange_apply, c, dite_eq_left hi]
   by_cases h0 : x i = 0
   · simp [h0]
-  · rw [if_neg h0]
+  · rw [ite_eq_right h0]
     exact (hR a ha (x i) hi).choose_spec
 
 /-- **Over `ℤ/pᵐℤ`, the exactness property is Baer's criterion**: every ideal is principal,
@@ -193,7 +194,7 @@ theorem baer_of_isPowExact {J : Type*} [AddCommGroup J] [Module (ZMod (p ^ m)) J
     rw [← map_nsmul]
     have : p ^ (m - a) • (⟨g, hg⟩ : Ideal.span {g}) = 0 := by
       ext
-      show p ^ (m - a) • g = 0
+      change p ^ (m - a) • g = 0
       rw [← Nat.cast_smul_eq_nsmul (ZMod (p ^ m)), smul_eq_mul, hgu, Nat.cast_pow, ← mul_assoc,
         ← pow_add, Nat.sub_add_cancel ha, natCast_pow_self_eq_zero, zero_mul]
     rw [this, map_zero]

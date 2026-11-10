@@ -286,7 +286,7 @@ theorem coordinateExceptionalIsoBundle_hom_toCentre (k : ℕ) :
   have h2 : (bundleFreeIsoConormal R m k).inv ≫ Stacks.RelativeProj.projectiveBundleToBase _ _ =
       Stacks.RelativeProj.projectiveBundleToBase _ _ := by
     rw [Iso.inv_comp_eq, bundleFreeIsoConormal_hom_toBase]
-  show (coordinateExceptionalIsoBundle R m k).hom ≫ pullback.fst (terminal.from _)
+  change (coordinateExceptionalIsoBundle R m k).hom ≫ pullback.fst (terminal.from _)
     (terminal.from (projectiveSpaceAtUniverse.{u} k)) = _
   rw [coordinateExceptionalIsoBundle, Iso.trans_hom, Iso.trans_hom, Iso.trans_hom,
     Iso.symm_hom, Category.assoc, Category.assoc, Category.assoc,

@@ -100,7 +100,7 @@ private theorem isZero_of_restrictModules_cover (X : RingedSpace.{u, u})
     (hM : ∀ i, IsZero ((restrictModules X (U i)).obj M)) : IsZero M := by
   apply (IsZero.iff_id_eq_zero M).2
   ext V s
-  show s = 0
+  change s = 0
   apply (show TopCat.Presheaf.IsSheaf M.val.presheaf from M.isSheaf).section_ext
     (U := V) (s := s) (t := 0)
   intro x hx

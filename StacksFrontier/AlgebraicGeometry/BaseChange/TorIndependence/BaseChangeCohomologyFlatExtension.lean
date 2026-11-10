@@ -809,7 +809,7 @@ omit [Algebra R A₂] [IsScalarTower R A A₂] [HasDerivedCategory.{u} (ModuleCa
 theorem isZero_localizedBaseChangeCohomologyFunctor_single (d n : ℤ) (hdn : d < n) :
     IsZero ((localizedBaseChangeCohomologyFunctor (R := R) (A := A) (A₂ := A₂) (R' := R') n).obj
       ((DerivedCategory.singleFunctor (ModuleCat.{u} A) d).obj (ModuleCat.of A A))) := by
-  show IsZero ((ModuleCat.extendScalars.{u, u, u} (algebraMap A A₂)).obj
+  change IsZero ((ModuleCat.extendScalars.{u, u, u} (algebraMap A A₂)).obj
     ((ModuleCat.restrictScalars.{u} (includeLeftRingHom R A R')).obj
       (baseChangeCohomology (R := R) (R' := R')
         ((DerivedCategory.singleFunctor (ModuleCat.{u} A) d).obj (ModuleCat.of A A)) n)))
@@ -825,7 +825,7 @@ omit [Algebra R A] [IsScalarTower R A A₂] in
 theorem isZero_baseChangeCohomologyExtendFunctor_single (d n : ℤ) (hdn : d < n) :
     IsZero ((baseChangeCohomologyExtendFunctor (R := R) (A := A) (A₂ := A₂) (R' := R') n).obj
       ((DerivedCategory.singleFunctor (ModuleCat.{u} A) d).obj (ModuleCat.of A A))) := by
-  show IsZero ((ModuleCat.restrictScalars.{u} (includeLeftRingHom R A₂ R')).obj
+  change IsZero ((ModuleCat.restrictScalars.{u} (includeLeftRingHom R A₂ R')).obj
     (baseChangeCohomology (R := R) (R' := R')
       ((totalDerivedExtensionScalars.{u, u, u, u, u} (algebraMap A A₂)).functor.obj
         ((DerivedCategory.singleFunctor (ModuleCat.{u} A) d).obj (ModuleCat.of A A))) n))

@@ -106,7 +106,9 @@ theorem smul_globalHomologyPiece_eq_zero_of_eq_open (n : ℤ) {A W : Opens Y.car
   exact h b hb m
 
 include hQ e in
-omit [HasWeakSheafify (Opens.grothendieckTopology Y.carrier) CommRingCat.{u}] in
+omit [∀ V : Opens Y.carrier,
+    HasWeakSheafify ((Opens.grothendieckTopology Y.carrier).over V) CommRingCat.{u}]
+  [HasWeakSheafify (Opens.grothendieckTopology Y.carrier) CommRingCat.{u}] in
 /-- **Over an open contained in the open of a Koszul presentation, the sheaf of ideals
 annihilates every homogeneous piece of the composition-product algebra of `Q`.**
 
@@ -152,6 +154,8 @@ theorem smul_globalHomologyPiece_eq_zero_of_le (d : KoszulPresentation Y J) (n :
     exact hc
 
 include hQ e in
+omit [∀ V : Opens Y.carrier,
+    HasWeakSheafify ((Opens.grothendieckTopology Y.carrier).over V) CommRingCat.{u}] in
 /-- **The sheaf of ideals annihilates every homogeneous piece of the composition-product algebra
 of `Q`, over every open of `Y`.**  This is the hypothesis `hAglob` of the gluing of
 [Stacks, Tag 0BQY], for the quotient map by a Koszul-regular sheaf of ideals.

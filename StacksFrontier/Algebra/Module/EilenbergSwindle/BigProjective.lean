@@ -185,7 +185,7 @@ private theorem shrinkFirstFactor
     intro x hx
     have hspan : Submodule.span R (g : Set K₁) ≤
         (A.prod ⊤).comap K₁.subtype := Submodule.span_le.2 fun y hy => by
-      show (y : F × P) ∈ A.prod ⊤
+      change (y : F × P) ∈ A.prod ⊤
       refine ⟨?_, trivial⟩
       apply Submodule.span_mono (Set.image_mono (Finset.subset_iff.2 fun i hi =>
         Finset.mem_biUnion.2 ⟨y, hy, hi⟩))
@@ -299,7 +299,7 @@ private theorem exists_mem_add_dual_eq_one_of_large {R P : Type*} [CommRing R] [
     (set_has_maximal_iff_noetherian.mpr (inferInstance : IsNoetherian R R)) D hD
   by_cases htop : I = ⊤
   · have hone : (1 : R) ∈ (evalAt (s + m)).range := by
-      show (1 : R) ∈ J m
+      change (1 : R) ∈ J m
       rw [hI, htop]
       trivial
     obtain ⟨φ, hφ⟩ := hone
@@ -443,7 +443,7 @@ private theorem finite_local_fiber_of_finite_fiber {R P : Type*} [CommRing R]
   have hpmap : Submodule.localized' S p.primeCompl (Algebra.linearMap R S) p =
       IsLocalRing.maximalIdeal S := by
     rw [Submodule.localized'_eq_span]
-    show Ideal.map (algebraMap R S) p = IsLocalRing.maximalIdeal S
+    change Ideal.map (algebraMap R S) p = IsLocalRing.maximalIdeal S
     have hunder : Ideal.under R (IsLocalRing.maximalIdeal S) = p :=
       IsLocalization.AtPrime.under_maximalIdeal S p
     calc
@@ -454,7 +454,7 @@ private theorem finite_local_fiber_of_finite_fiber {R P : Type*} [CommRing R]
         IsLocalization.map_under p.primeCompl S (IsLocalRing.maximalIdeal S)
   have hloc : (p • (⊤ : Submodule R P)).localized p.primeCompl =
       IsLocalRing.maximalIdeal S • (⊤ : Submodule S (LocalizedModule p.primeCompl P)) := by
-    show Submodule.localized' S p.primeCompl (LocalizedModule.mkLinearMap p.primeCompl P)
+    change Submodule.localized' S p.primeCompl (LocalizedModule.mkLinearMap p.primeCompl P)
       (p • (⊤ : Submodule R P)) = _
     rw [Submodule.localized'_smul, Submodule.localized'_top, hpmap]
   let e := localizedQuotientEquiv p.primeCompl (p • (⊤ : Submodule R P))
@@ -651,7 +651,7 @@ theorem exists_mem_add_unimodular
   obtain ⟨u, hu⟩ := Ideal.isUnit_of_sub_one_mem_jacobson_bot
     (φ (s + m)) hmem
   refine ⟨m, hm, (↑u⁻¹ : R) • φ, ?_⟩
-  show (↑u⁻¹ : R) * φ (s + m) = 1
+  change (↑u⁻¹ : R) * φ (s + m) = 1
   rw [← hu]
   simp
 
@@ -819,7 +819,7 @@ private theorem exists_isCompl_ker_of_surjective {R P N : Type*} [CommRing R]
   have hpr : ∀ x : C, pr x = x := by
     rintro ⟨x, y, rfl⟩
     apply Subtype.ext
-    show i (f (i y)) = i y
+    change i (f (i y)) = i y
     rw [hfi]
   have hker : LinearMap.ker pr = LinearMap.ker f := by
     ext x
@@ -830,7 +830,7 @@ private theorem exists_isCompl_ker_of_surjective {R P N : Type*} [CommRing R]
     · intro hx
       apply LinearMap.mem_ker.mpr
       apply Subtype.ext
-      show i (f x) = 0
+      change i (f x) = 0
       rw [LinearMap.mem_ker.mp hx, map_zero]
   exact ⟨C, hker ▸ (LinearMap.isCompl_of_proj hpr).symm⟩
 
@@ -858,7 +858,7 @@ private theorem nonempty_prod_ker_equiv {R P A N : Type*} [CommRing R]
         intro x y
         apply Prod.ext
         · rfl
-        · show (x.2.1 + y.2.1) + (x.1 + y.1) • p₀ =
+        · change (x.2.1 + y.2.1) + (x.1 + y.1) • p₀ =
             (x.2.1 + x.1 • p₀) + (y.2.1 + y.1 • p₀)
           rw [add_smul]
           abel
@@ -866,7 +866,7 @@ private theorem nonempty_prod_ker_equiv {R P A N : Type*} [CommRing R]
         intro r x
         apply Prod.ext
         · rfl
-        · show r • x.2.1 + (r * x.1) • p₀ = r • (x.2.1 + x.1 • p₀)
+        · change r • x.2.1 + (r * x.1) • p₀ = r • (x.2.1 + x.1 • p₀)
           rw [smul_add, mul_smul] }
   have hj : ∀ z, h (j z) = 0 := by
     intro z
@@ -893,17 +893,17 @@ private theorem nonempty_prod_ker_equiv {R P A N : Type*} [CommRing R]
     let x := e'.symm (y, 0)
     have hm : x.2 - x.1 • p₀ ∈ M := by
       apply LinearMap.mem_ker.mpr
-      show h (0, x.2 - x.1 • p₀) = 0
+      change h (0, x.2 - x.1 • p₀) = 0
       rw [map_zero_sub_smul_eq h h_one_p]
-      show (e' x).2 = 0
+      change (e' x).2 = 0
       simp [x]
     refine ⟨(x.1, ⟨x.2 - x.1 • p₀, hm⟩), ?_⟩
     have hjx : j (x.1, ⟨x.2 - x.1 • p₀, hm⟩) = x := by
       apply Prod.ext
       · rfl
-      · show (x.2 - x.1 • p₀) + x.1 • p₀ = x.2
+      · change (x.2 - x.1 • p₀) + x.1 • p₀ = x.2
         abel
-    show (e' (j (x.1, ⟨x.2 - x.1 • p₀, hm⟩))).1 = y
+    change (e' (j (x.1, ⟨x.2 - x.1 • p₀, hm⟩))).1 = y
     rw [hjx]
     simp [x]
   exact ⟨LinearEquiv.ofBijective t ⟨htinj, htsurj⟩⟩
@@ -931,20 +931,20 @@ private theorem coordinate_cancel
   let h : R × P →ₗ[R] LinearMap.ker φ := (LinearMap.snd R (K × R) _).comp e'.toLinearMap
   have h_zero_s : h (0, s) = 0 := by
     apply Subtype.ext
-    show ((e (0, s)).2 - φ ((e (0, s)).2) • u) = 0
+    change ((e (0, s)).2 - φ ((e (0, s)).2) • u) = 0
     simp [hs]
   have h_one_p : h (1, p₀) = 0 := by
     apply Subtype.ext
-    show u - φ u • u = 0
+    change u - φ u • u = 0
     simp [u, hu]
   let f : P →ₗ[R] LinearMap.ker φ := h.comp (LinearMap.inr R R P)
   have hf_surj : Function.Surjective f := by
     intro y
     let x := e'.symm ((0, 0), y)
     refine ⟨x.2 - x.1 • p₀, ?_⟩
-    show h (0, x.2 - x.1 • p₀) = y
+    change h (0, x.2 - x.1 • p₀) = y
     rw [map_zero_sub_smul_eq h h_one_p]
-    show (e' x).2 = y
+    change (e' x).2 = y
     simp [x]
   have : Module.Projective R (LinearMap.ker φ) := projective_right_of_prod_equiv b.symm
   obtain ⟨et⟩ := nonempty_prod_ker_equiv e' p₀ h_one_p
@@ -982,7 +982,7 @@ private theorem cancel_equiv
     intro q _
     let x := e.symm (0, q)
     have hq : q = r x := by
-      show q = (e x).2
+      change q = (e x).2
       simp [x]
     have hx : x = x.1 • (1, (0 : P)) + (0, x.2) := by
       ext <;> simp
@@ -999,7 +999,7 @@ private theorem cancel_equiv
       φ ((e (1, p₀)).2) = φ (r (1, p₀)) := rfl
       _ = φ (r ((1, (0 : P)) + (0, p₀))) := congrArg (φ ∘ r) heq
       _ = φ (a + f p₀) := by
-        show φ (r ((1, (0 : P)) + (0, p₀))) =
+        change φ (r ((1, (0 : P)) + (0, p₀))) =
           φ (r (1, (0 : P)) + r (0, p₀))
         rw [map_add]
       _ = 1 := hφ
@@ -1031,7 +1031,7 @@ private theorem summand_of_product_equiv
   have hsM : s ∈ M := by
     refine ⟨(e s).1, ?_⟩
     have hp : e s = ((e s).1, 0) := by ext <;> simp [hs]
-    show e.symm ((e s).1, 0) = s
+    change e.symm ((e s).1, 0) = s
     rw [← hp, e.symm_apply_apply]
   have hc : IsCompl M M' := by
     constructor
@@ -1106,7 +1106,7 @@ private theorem cancel_fin
           (LocalizedModule p.asIdeal.primeCompl C) := large_prod_right hP
     have hzero : t (0, (0, s)) = (0, s) := by
       apply Prod.ext
-      · show (Fin.consLinearEquiv R (fun _ : Fin (n + 1) => R)) (0, 0) = 0
+      · change (Fin.consLinearEquiv R (fun _ : Fin (n + 1) => R)) (0, 0) = 0
         exact map_zero _
       · rfl
     have hs' : (e' (0, (0, s))).2 = 0 := by simpa [e', hzero] using hs
@@ -1168,7 +1168,7 @@ theorem exists_finite_isStablyFree_summand_containing
       t.trans (K.prodEquivOfIsCompl Q hc).symm
     have heq : t (0, s) = (0, s) := by simp [t]
     have hs' : (e (0, s)).2 = 0 := by
-      show ((K.prodEquivOfIsCompl Q hc).symm (t (0, s))).2 = 0
+      change ((K.prodEquivOfIsCompl Q hc).symm (t (0, s))).2 = 0
       rw [heq]
       exact (Submodule.prodEquivOfIsCompl_symm_apply_snd_eq_zero K Q hc).mpr hs
     exact cancel_fin s hR hP n e hs'

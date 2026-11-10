@@ -143,7 +143,7 @@ lemma residueHom_comp_C :
     (residueHom a p).comp (C : k[X] →+* (k[X])[X])
       = (AdjoinRoot.of (X ^ p - C a)).comp (Polynomial.evalRingHom (0 : k)) :=
   RingHom.ext fun q => by
-    show AdjoinRoot.mk _ (Polynomial.map (Polynomial.evalRingHom (0 : k)) (C q)) = _
+    change AdjoinRoot.mk _ (Polynomial.map (Polynomial.evalRingHom (0 : k)) (C q)) = _
     rw [Polynomial.map_C]
     rfl
 

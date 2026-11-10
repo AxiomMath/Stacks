@@ -234,7 +234,7 @@ theorem module_finite_etaleCohomology_extensionByZero_of_module_finite_succ
   let Φ : (∐ Q) ⟶ G := Sigma.desc φ'
   have hfac : Limits.Sigma.map (fun i => cokernel.π (N • 𝟙 (P i))) ≫ Φ = φ := by
     refine Sigma.hom_ext _ _ fun i => ?_
-    rw [Sigma.ι_map_assoc, Sigma.ι_desc, cokernel.π_desc]
+    rw [Sigma.ι_map_assoc, Sigma.ι_comp_desc, cokernel.π_desc]
   have : Epi Φ := by
     rw [← hfac] at hφ
     exact epi_of_epi (Limits.Sigma.map fun i => cokernel.π (N • 𝟙 (P i))) Φ

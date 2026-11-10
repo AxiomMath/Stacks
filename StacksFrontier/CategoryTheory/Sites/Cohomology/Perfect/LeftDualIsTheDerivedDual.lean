@@ -59,8 +59,9 @@ Stacks 0FPV has two assertions, and only the second is proved here.
   down to Stacks 08CP — and only then applies the criterion of Stacks 08G7,
   `Stacks.SheafOfModules.DerivedTensorProduct.torAmplitudePerfectnessCriterion`.
 
-  The **first step is available**. `Stacks.Cohomology.DerivedRestriction.mapDerivedCategoryMonoidal` makes derived
-  restriction to a localized site strongly monoidal, unconditionally, for the structure of
+  The **first step is available**. `Stacks.Cohomology.DerivedRestriction.mapDerivedCategoryMonoidal`
+  makes derived restriction to a localized site strongly monoidal, unconditionally, for the
+  structure of
   Stacks 0FPT in which left duals are taken here; composed with
   `CategoryTheory.ExactPairing.map` of `StacksFrontier.CategoryTheory.Monoidal.Rigid`, which this
   file imports, it restricts the pairing to the slice. That composition is
@@ -251,15 +252,15 @@ Stacks 0FPV has two assertions, and only the second is proved here.
   `StacksDraft.CategoryTheory.Sites.Cohomology`, but because that closure is 514 in-repo modules
   against the new file's 30.
 
-  Stacks 08FR is proved on a site in **both** parts: part (2), "a map of complexes whose class in `D(O_U)` vanishes is homotopic
-  to zero on a covering", is
+  Stacks 08FR is proved on a site in **both** parts: part (2), "a map of complexes whose class in
+  `D(O_U)` vanishes is homotopic to zero on a covering", is
   `AlgebraicGeometry.RingedSite.exists_coveringSieve_homotopy_zero_of_derived_zero`
   (`StacksFrontier/CategoryTheory/Sites/Cohomology/StrictlyPerfect/LocalNullHomotopyOfDerivedZero.`
   `lean:87`), at `RingedSite.{u, v, w}` with the modules in `SheafOfModules.{w}`; the one
   universe-sensitive input of its proof is Stacks 08FP (1) at its diagonal-universe form.
 
-  **The triangle bookkeeping is proved, in all four of its pieces.** The pieces, in the order the source's inductive step
-  performs them:
+  **The triangle bookkeeping is proved, in all four of its pieces.** The pieces, in the order the
+  source's inductive step performs them:
 
   1. The strictly perfect `ℰ ⟶ M` with its cone `ℒ` vanishing in degrees `≥ m` is
      `AlgebraicGeometry.RingedSite.exists_local_strictlyPerfect_approximation_with_cone`
@@ -281,8 +282,9 @@ Stacks 0FPV has two assertions, and only the second is proved here.
      `AlgebraicGeometry.RingedSite.exists_coveringSieve_complexMap_homotopy_of_section`
      (`StrictlyPerfect/LocalComplexMapOfARetraction.lean:160`): given `t : M ⟶ K` in `D(O|_U)`
      with `t ≫ Q(κ) = 𝟙`, along a covering sieve `t ∘ i` is a map of complexes `σ` and `σ ≫ κ`
-     is homotopic to `i`. The difficulty is that part (1) restricts with `SheafOfModules.overMap` and part (2) with
-     `SheafOfModules.overFunctor` onto an iterated slice, so neither could be fed the other's
+     is homotopic to `i`. The difficulty is that part (1) restricts with `SheafOfModules.overMap`
+     and part (2) with `SheafOfModules.overFunctor` onto an iterated slice, so neither could be fed
+     the other's
      output; `exists_coveringSieve_homotopy_zero_of_derived_zero_overMap` (`:114` of the same
      file) closes that along `Stacks.SheafOfModules.sliceBackwardComplexIso`.
   3. The morphism of triangles with its dotted arrow is
@@ -335,17 +337,19 @@ Stacks 0FPV has two assertions, and only the second is proved here.
     `tensorTotalSectionAt`, which is exactly the crossing between the spelling the coevaluation
     lands in and the spelling the decomposition is stated at. Second, the dictionary between a
     chain map out of `O[0]` and its value at the unit section, which the ringed-space route
-    carries in `StacksFrontier/Topology/Sheaves/Cohomology/PerfectComplexes/UnitComplexMaps.lean`: on a site it is stronger and already
-    proved, as `AlgebraicGeometry.RingedSite.evalAtOneHom` and `structureSheafHomIso`
+    carries in `StacksFrontier/Topology/Sheaves/Cohomology/PerfectComplexes/UnitComplexMaps.lean`:
+    on a site it is stronger and already proved, as `AlgebraicGeometry.RingedSite.evalAtOneHom` and
+    `structureSheafHomIso`
     (`InternalHom/FromTheStructureSheaf.lean:179`, `:311`), evaluation at `1` being an
     isomorphism of complexes `RSheafHom(O[0], I) ≅ I`.
 
   Two further inputs of that list are available on a site as well:
 
   * the cocycle criterion, `Stacks.Cohomology.LeftDualPerfect.d_eq_zero_of_mono`
-    (`StacksFrontier/Topology/Sheaves/Cohomology/PerfectComplexes/TotalComplexLocalSections.lean:229`), generalized in place to an arbitrary
-    small site — its one input is `Stacks.SheafOfModules.injective_app_of_mono`, which holds at
-    any object of any site, and the open entered only as the object the sections are over;
+    (`Topology/Sheaves/Cohomology/PerfectComplexes/TotalComplexLocalSections.lean:229`),
+    generalized in place to an arbitrary small site — its one input is
+    `Stacks.SheafOfModules.injective_app_of_mono`, which holds at any object of any site, and
+    the open entered only as the object the sections are over;
   * the lift of a decomposed section,
     `AlgebraicGeometry.RingedSite.tensorComplexMap_sum_tensorComplexSection_lift`
     (`TensorComplex/LiftOfPureTensorSums.lean:89`). Its ringed-space form
@@ -361,7 +365,9 @@ Stacks 0FPV has two assertions, and only the second is proved here.
     spelling with the right target type.
 
   **The K-flatness identification is available.**
-  `isKFlat_iff_kFlat` (`StacksFrontier/Topology/Sheaves/Cohomology/PerfectComplexes/LeftDualRingedSpaceJoin.lean:132`) is stated at `{C : Type u} [SmallCategory.{u} C]
+  `isKFlat_iff_kFlat`
+  (`StacksFrontier/Topology/Sheaves/Cohomology/PerfectComplexes/LeftDualRingedSpaceJoin.lean:132`)
+  is stated at `{C : Type u} [SmallCategory.{u} C]
   {J : GrothendieckTopology C} (R : Sheaf J CommRingCat.{u})` — an arbitrary small site. Only its
   *file* is in the ringed-space tree.
 
@@ -379,8 +385,9 @@ Stacks 0FPV has two assertions, and only the second is proved here.
   `unitComplexHomOfCocycle`.
 
   **No terminal object is assumed anywhere.** The ringed-space dictionary
-  (`StacksFrontier/Topology/Sheaves/Cohomology/PerfectComplexes/UnitComplexMaps.lean:35`, `:109`, `:124`) spreads a section over `op ⊤` by
-  `homOfLE le_top`, a lattice fact about `Opens T`, so it does not port by widening a binder. What
+  (`StacksFrontier/Topology/Sheaves/Cohomology/PerfectComplexes/UnitComplexMaps.lean:35`, `:109`,
+  `:124`) spreads a section over `op ⊤` by `homOfLE le_top`, a lattice fact about `Opens T`, so it
+  does not port by widening a binder. What
   replaces it is that the slice site `C/U` has the terminal object `𝟙 U` for *every* `U`, with no
   hypothesis on `C`, and the whole dictionary is stated over the slice; what does the work is
   Mathlib's `SheafOfModules.unitHomEquiv` on the slice followed by
@@ -429,9 +436,11 @@ Stacks 0FPV has two assertions, and only the second is proved here.
 
   **What remains is the production of that hypothesis, and then the three uses.** On the space
   side those are `exists_local_cocycle_data` and `restrict_map_eq_cocycleHom`
-  (`StacksFrontier/Topology/Sheaves/Cohomology/PerfectComplexes/LeftDualRetract.lean:141`, `:163`), then `exists_local_retract`
-  (`StacksFrontier/Topology/Sheaves/Cohomology/PerfectComplexes/LeftDualLocalRetract.lean:34`) and `isPerfect_of_coevaluationFactors`
-  (`LeftDualDirectSummand.lean:92`). On a site the chain is: apply Stacks 08FR (1) to
+  (`StacksFrontier/Topology/Sheaves/Cohomology/PerfectComplexes/LeftDualRetract.lean:141`, `:163`),
+  then `exists_local_retract`
+  (`StacksFrontier/Topology/Sheaves/Cohomology/PerfectComplexes/LeftDualLocalRetract.lean:34`) and
+  `isPerfect_of_coevaluationFactors` (`LeftDualDirectSummand.lean:92`). On a site the chain is:
+  apply Stacks 08FR (1) to
   `coevaluationUnitHomRestrict` to get a map of complexes over a covering sieve — this is where
   that lemma's five instance existentials have to be unpacked and worked under, since they cannot
   be discharged against ambient ones; take its value at `1` with `cocycleOfUnitComplexHom`;
@@ -444,8 +453,9 @@ Stacks 0FPV has two assertions, and only the second is proved here.
 
   **The lift link of that chain is one declaration.**
   `AlgebraicGeometry.RingedSite.d_sum_tensorComplexSection_lift_eq_zero` of
-  `StacksFrontier.CategoryTheory.Sites.Cohomology.TensorComplex.CocycleLiftOfPureTensorSums` performs
-  the three cited steps at once: for a degreewise-monic `j : 𝒦 ⟶ ℳ`, a termwise flat `𝒩`, and a
+  `StacksFrontier.CategoryTheory.Sites.Cohomology.TensorComplex.CocycleLiftOfPureTensorSums`
+  performs the three cited steps at once: for a degreewise-monic `j : 𝒦 ⟶ ℳ`, a termwise flat `𝒩`,
+  and a
   degree-zero cocycle section of `Tot(ℳ ⊗ 𝒩)` written as a finite sum of pure tensors whose
   `ℳ`-factors lift along `j`, the lifted sum is a cocycle of `Tot(𝒦 ⊗ 𝒩)` — which is what makes
   the factored coevaluation a morphism of `D(O|_U)` and not merely a section. Two spellings of
@@ -463,7 +473,8 @@ Stacks 0FPV has two assertions, and only the second is proved here.
   extensions by zero of structure sheaves of slices, not merely be covered by one. An
   epimorphism is not enough, and epimorphisms are what the extension-by-zero presentation
   cluster supplies (`Algebra/Category/ModuleCat/Sheaf/ExtensionByZeroQuasiCompact.lean:172`,
-  `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/FiniteExtensionByZeroPresentation.lean:313`, `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/ExtensionByZeroRefinePresentation.lean:389`).
+  `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/FiniteExtensionByZeroPresentation.lean:313`,
+  `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/ExtensionByZeroRefinePresentation.lean:389`).
   Nothing in the chain above gives an arbitrary representative `ℳ` that shape, and the
   Stacks 06YS resolutions do not: `exists_kFlat_quasiIso` (`KFlat/Resolution.lean:93`) gives
   K-flatness only, and `exists_isKFlat_isFlat_quasiIso_epi`
@@ -504,8 +515,9 @@ Stacks 0FPV has two assertions, and only the second is proved here.
   `Stacks.SheafOfModules` over `X : RingedSite`
   (`DerivedTensor/ResolutionByExtensionsByZero.lean:218`, `:230`) and one in
   `Stacks.DerivedTensor.ResolutionByExtensionsByZero` over a ring sheaf
-  (`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedTensor/ResolutionBySumsOfExtensionsByZero.lean:271`, `:342`), each with live consumers. The bridge
-  above is built on the ring-sheaf one, because that is the side `exists_sieve_subcomplex` is on.
+  (`DerivedTensor/ResolutionBySumsOfExtensionsByZero.lean:271`, `:342`), each with live
+  consumers. The bridge above is built on the ring-sheaf one, because that is the side
+  `exists_sieve_subcomplex` is on.
 
   The presentation is then delivered in the consumed form by
   `exists_cofanP_isColimit_of_term_isSum` (the coproduct cocone transported along the
@@ -537,9 +549,10 @@ Stacks 0FPV has two assertions, and only the second is proved here.
 
   The ringed-space composite to replay is then
   `Stacks.Cohomology.LeftDualPerfect.exists_local_retract`
-  (`StacksFrontier/Topology/Sheaves/Cohomology/PerfectComplexes/LeftDualLocalRetract.lean:34`, forty lines) and
-  `isPerfect_of_coevaluationFactors` (`StacksFrontier/Topology/Sheaves/Cohomology/PerfectComplexes/LeftDualDirectSummand.lean:92`). One thing
-  to check when writing it: whether `Stacks.Cohomology.DerivedRestriction.restriction X U`
+  (`StacksFrontier/Topology/Sheaves/Cohomology/PerfectComplexes/LeftDualLocalRetract.lean:34`, forty
+  lines) and `isPerfect_of_coevaluationFactors`
+  (`StacksFrontier/Topology/Sheaves/Cohomology/PerfectComplexes/LeftDualDirectSummand.lean:92`). One
+  thing to check when writing it: whether `Stacks.Cohomology.DerivedRestriction.restriction X U`
   (`DerivedTensor/ExtensionByZeroTensor.lean:161`) and
   `SheafOfModules.overFunctor (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U`, which the
   dictionary of piece one is stated at, are the same functor or need a comparison.

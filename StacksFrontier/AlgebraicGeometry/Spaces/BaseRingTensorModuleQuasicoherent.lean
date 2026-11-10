@@ -42,7 +42,7 @@ def freeCover : ModuleCat.of R (M →₀ R) ⟶ M :=
 
 /-- `ModuleCat.freeCover` sends the basis vector at `m` to `m`. -/
 theorem freeCover_single (m : M) : (freeCover R M).hom (Finsupp.single m 1) = m := by
-  show Finsupp.linearCombination R (fun m : M => m) (Finsupp.single m 1) = m
+  change Finsupp.linearCombination R (fun m : M => m) (Finsupp.single m 1) = m
   rw [Finsupp.linearCombination_single, one_smul]
 
 /-- The free module on the kernel of `ModuleCat.freeCover`, mapping to the free module on the
@@ -56,7 +56,7 @@ def freeRelations :
 on the elements. -/
 theorem freeRelations_single (k : LinearMap.ker (freeCover R M).hom) :
     (freeRelations R M).hom (Finsupp.single k 1) = k.1 := by
-  show Finsupp.linearCombination R _ (Finsupp.single k 1) = k.1
+  change Finsupp.linearCombination R _ (Finsupp.single k 1) = k.1
   rw [Finsupp.linearCombination_single, one_smul]
 
 /-- The composite of `ModuleCat.freeRelations` and `ModuleCat.freeCover` is zero. -/
@@ -64,7 +64,7 @@ theorem freeRelations_comp_freeCover : freeRelations R M ≫ freeCover R M = 0 :
   refine ModuleCat.hom_ext (Finsupp.lhom_ext' fun k => LinearMap.ext fun a => ?_)
   have h : (freeRelations R M).hom (Finsupp.single k a) = a • k.1 :=
     Finsupp.linearCombination_single _ _ _
-  show (freeCover R M).hom ((freeRelations R M).hom (Finsupp.single k a)) = 0
+  change (freeCover R M).hom ((freeRelations R M).hom (Finsupp.single k a)) = 0
   rw [h, map_smul, LinearMap.mem_ker.1 k.2, smul_zero]
 
 /-- **Every module is the cokernel of a map of free modules**: of the free module on the kernel

@@ -157,7 +157,7 @@ theorem exists_cancelBaseChange_pi_pair
       (e.trans cur)).trans (f.trans cur₃)).toAddMonoidHom, he, ?_, fun s y i j k => ?_⟩
   · exact ((TensorProduct.congr (LinearEquiv.refl A (∀ i, B i))
       (e.trans cur)).trans (f.trans cur₃)).injective
-  · show cur₃ (f (TensorProduct.congr (LinearEquiv.refl A (∀ i, B i)) (e.trans cur)
+  · change cur₃ (f (TensorProduct.congr (LinearEquiv.refl A (∀ i, B i)) (e.trans cur)
       (s ⊗ₜ[A] y))) i j k = _
     rw [TensorProduct.congr_tmul]
     exact hf s (cur (e y)) i ⟨j, k⟩

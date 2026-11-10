@@ -261,12 +261,12 @@ private theorem map_ker_eq_of_isPushout {A C₁ C₂ D : CommRingCat.{u}} {f : A
   refine le_antisymm ?_ ?_
   · rw [hI, Ideal.map_le_iff_le_comap]
     intro a ha
-    show j.hom (g.hom a) = 0
+    change j.hom (g.hom a) = 0
     rw [← ConcreteCategory.comp_apply, ← h.w, ConcreteCategory.comp_apply]
     exact (congrArg i.hom ha).trans (map_zero i.hom)
   · intro a ha
     apply Ideal.Quotient.eq_zero_iff_mem.mp
-    show q a = 0
+    change q a = 0
     have hd := ConcreteCategory.congr_hom (h.inr_desc
       (CommRingCat.ofHom b) (CommRingCat.ofHom q) (CommRingCat.hom_ext hb)) a
     change d.hom (j.hom a) = q a at hd

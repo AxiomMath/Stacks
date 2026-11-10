@@ -65,8 +65,7 @@ theorem span_one_tmul_D :
     Submodule.span B (Set.range fun a : A => (1 : B) ⊗ₜ[A] D R A a) = ⊤ := by
   refine eq_top_iff.2 fun z _ => ?_
   clear ‹z ∈ ⊤›
-  induction z using TensorProduct.induction_on with
-  | zero => exact zero_mem _
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => exact add_mem hx hy
   | tmul b ω =>
     have hω : ω ∈ Submodule.span A (Set.range (D R A)) := by
@@ -125,10 +124,10 @@ theorem wedgeStep_le_of {k n : ℕ} (P : Submodule B (⋀[B]^n (Ω[B⁄R])))
   choose a ha using fun i => he ⟨i, rfl⟩
   have he' : e = fun i => (1 : B) ⊗ₜ[A] D R A (a i) := funext fun i => (ha i).symm
   subst he'
-  show L _ ∈ P
+  change L _ ∈ P
   convert hP j m h hk a y using 1
   refine Subtype.ext ?_
-  show ExteriorAlgebra.map (mapBaseChange R A B) _ * _ = _
+  change ExteriorAlgebra.map (mapBaseChange R A B) _ * _ = _
   rw [exteriorPower.ιMulti_apply_coe, map_ιMulti_one_tmul_D]
   rfl
 
@@ -239,7 +238,7 @@ theorem ι_D_mul_mem_wedgeStep_succ {k n : ℕ} {x : ⋀[B]^n (Ω[B⁄R])}
     { toFun := fun x => ⟨ExteriorAlgebra.ι B (D R B (algebraMap A B a)) * x,
         exteriorPower.mul_mem_of_mem (by omega : 1 + n = n + 1)
           (by
-            show _ ∈ LinearMap.range (ExteriorAlgebra.ι B) ^ 1
+            change _ ∈ LinearMap.range (ExteriorAlgebra.ι B) ^ 1
             rw [pow_one]
             exact LinearMap.mem_range_self _ _) x.2⟩
       map_add' := fun x x' => Subtype.ext (by simp [mul_add])
@@ -249,7 +248,7 @@ theorem ι_D_mul_mem_wedgeStep_succ {k n : ℕ} {x : ⋀[B]^n (Ω[B⁄R])}
     (by omega) (by omega) (Fin.cons a α) y
   convert this using 1
   refine Subtype.ext ?_
-  show ExteriorAlgebra.ι B _ * ((dWedge R A B α : ExteriorAlgebra B (Ω[B⁄R])) *
+  change ExteriorAlgebra.ι B _ * ((dWedge R A B α : ExteriorAlgebra B (Ω[B⁄R])) *
     (y : ExteriorAlgebra B (Ω[B⁄R]))) =
       (dWedge R A B (Fin.cons a α) : ExteriorAlgebra B (Ω[B⁄R])) * (y : ExteriorAlgebra B (Ω[B⁄R]))
   rw [← mul_assoc, coe_dWedge, coe_dWedge, ExteriorAlgebra.ιMulti_succ_apply]
@@ -346,16 +345,16 @@ theorem mapExteriorPower_mem_wedgeStep {k n : ℕ} {x : ⋀[B]^n (Ω[B⁄R])}
   let P : Submodule B (⋀[B]^n (Ω[B⁄R])) :=
     { carrier :=
         {x | mapExteriorPower R B B' n x ∈ exteriorPower.wedgeStep (mapBaseChange R A B') k n}
-      add_mem' := fun hx hy => by simp only [Set.mem_setOf_eq, map_add]; exact add_mem hx hy
-      zero_mem' := by simp only [Set.mem_setOf_eq, map_zero]; exact zero_mem _
+      add_mem' := fun hx hy => by simp only [Set.mem_ofPred_eq, map_add]; exact add_mem hx hy
+      zero_mem' := by simp only [Set.mem_ofPred_eq, map_zero]; exact zero_mem _
       smul_mem' := fun c x hx => by
-        simp only [Set.mem_setOf_eq, map_smul]
+        simp only [Set.mem_ofPred_eq, map_smul]
         rw [← algebraMap_smul B' c]
         exact Submodule.smul_mem _ _ hx }
   suffices h : exteriorPower.wedgeStep (mapBaseChange R A B) k n ≤ P from h hx
   refine wedgeStep_le_of R A B P fun j m h hk a y => ?_
   subst h
-  show mapExteriorPower R B B' (j + m) _ ∈
+  change mapExteriorPower R B B' (j + m) _ ∈
     exteriorPower.wedgeStep (mapBaseChange R A B') k (j + m)
   have h₁ : (⟨(dWedge R A B a : ExteriorAlgebra B (Ω[B⁄R])) * y,
       exteriorPower.mul_mem_of_mem rfl (dWedge R A B a).2 y.2⟩ : ⋀[B]^(j + m) (Ω[B⁄R])) =

@@ -140,10 +140,10 @@ theorem surjective_sections_of_isWeaklyContractible_large [Small.{v} C]
     apply Sigma.hom_ext
     intro i
     simp only [PreservesCoproduct.inv_hom, ι_comp_sigmaComparison_assoc, ← L.map_comp_assoc,
-      Stacks.WeaklyContractible.piPre, Sigma.ι_desc]
+      Stacks.WeaklyContractible.piPre, Sigma.ι_comp_desc]
     apply uliftYonedaEquiv.{max u t}.injective
-    rw [Sigma.ι_desc_assoc]
-    show uliftYonedaEquiv.{max u t} (uliftYonedaEquiv.{max u t}.symm (a i) ≫ φ.hom) =
+    rw [Sigma.ι_comp_desc_assoc]
+    change uliftYonedaEquiv.{max u t} (uliftYonedaEquiv.{max u t}.symm (a i) ≫ φ.hom) =
       uliftYonedaEquiv.{max u t} (uliftYoneda.map (f i) ≫ uliftYonedaEquiv.{max u t}.symm s)
     have hnat := uliftYonedaEquiv_naturality (uliftYonedaEquiv.{max u t}.symm s) (f i).op
     simp only [Equiv.apply_symm_apply, Quiver.Hom.unop_op] at hnat
@@ -156,7 +156,7 @@ theorem surjective_sections_of_isWeaklyContractible_large [Small.{v} C]
   change L.map (toSheafify J (yoneda.obj U)) ≫ b = β at hb
   have hglue : τ ≫ φ.hom = L.map (Stacks.WeaklyContractible.piSharp J V f).hom ≫ b := by
     apply (w_whiskerRight_toSheafify_ulift.{t} J P G.obj G.property).injective
-    show L.map (toSheafify J P) ≫ (τ ≫ φ.hom) =
+    change L.map (toSheafify J P) ≫ (τ ≫ φ.hom) =
       L.map (toSheafify J P) ≫ (L.map (Stacks.WeaklyContractible.piSharp J V f).hom ≫ b)
     rw [← Category.assoc, hτ, hα, ← Category.assoc, ← L.map_comp,
       Stacks.WeaklyContractible.piSharp, ← toSheafify_naturality, L.map_comp, Category.assoc, hb]

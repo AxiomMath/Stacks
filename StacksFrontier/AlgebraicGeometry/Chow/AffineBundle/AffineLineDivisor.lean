@@ -229,7 +229,7 @@ theorem ord_germToFunctionField_spec_eq [IsNoetherianRing A]
   have hcoq := coheight_eq_one_of_comap_eq_bot q hq hq0
   by_cases hco : Order.coheight z = 1
   swap
-  · rw [Scheme.ord_eq_zero_of_coheight_neq_one hco, if_neg]
+  · rw [Scheme.ord_eq_zero_of_coheight_neq_one hco, ite_eq_right]
     rintro rfl
     exact hco hcoq
   by_cases hfz : f ∈ z.asIdeal
@@ -241,7 +241,7 @@ theorem ord_germToFunctionField_spec_eq [IsNoetherianRing A]
       rw [hco, hcoq] at h
       exact absurd h (by decide)
     subst hzq
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     refine ord_germToFunctionField_spec hco hf0 (ord_eq_one_of_span_eq_maximalIdeal ?_)
     rw [← IsLocalization.AtPrime.map_eq_maximalIdeal z.asIdeal (Localization.AtPrime z.asIdeal)]
     refine le_antisymm ?_ ?_
@@ -256,7 +256,7 @@ theorem ord_germToFunctionField_spec_eq [IsNoetherianRing A]
             z.asIdeal.primeCompl)
       rw [Ideal.mem_comap, ← Ideal.unit_mul_mem_iff_mem _ hu, ← map_mul, hN, map_mul]
       exact Ideal.mul_mem_left _ _ (Ideal.mem_span_singleton_self _)
-  · rw [if_neg (show ¬ z = q by rintro rfl; exact hfz hf)]
+  · rw [ite_eq_right (show ¬ z = q by rintro rfl; exact hfz hf)]
     refine ord_germToFunctionField_spec hco hf0 ?_
     exact_mod_cast ord_eq_zero_of_isUnit (IsLocalization.map_units
       (Localization.AtPrime z.asIdeal) (⟨f, hfz⟩ : z.asIdeal.primeCompl))
@@ -303,10 +303,10 @@ theorem exists_principalCycle_polyBasicOpen_eq_single [IsNoetherianRing A]
   refine Eq.trans ?_ (@Function.locallyFinsuppWithin.single_apply D.toScheme _ ℤ
     (Classical.decEq _) _ ⟨q, hqs⟩ y 1).symm
   by_cases hy : y.1 = q
-  · rw [if_pos hy]
-    exact (@if_pos _ (Classical.decEq _ _ _) (Subtype.ext hy) _ _ _).symm
-  · rw [if_neg hy]
-    exact (@if_neg _ (Classical.decEq _ _ _) (fun h ↦ hy (congrArg Subtype.val h)) _ _ _).symm
+  · rw [ite_eq_left hy]
+    exact (@ite_eq_left _ (Classical.decEq _ _ _) (Subtype.ext hy) _ _ _).symm
+  · rw [ite_eq_right hy]
+    exact (@ite_eq_right _ (Classical.decEq _ _ _) (fun h ↦ hy (congrArg Subtype.val h)) _ _ _).symm
 
 end Scheme
 

@@ -157,7 +157,7 @@ theorem exists_isOpenImmersion_flat_zeroScheme_pullback_of_smooth {R U : Scheme.
     with hDdef
   have hWV : (⊤ : W.Opens) ≤ ((j ≫ ι') ≫ a) ⁻¹ᵁ V := fun x _ => hle (x := j x) trivial
   have hjw' : (j ≫ ι') w = r₀ := by
-    show ι' (j w) = r₀
+    change ι' (j w) = r₀
     rw [hjw]
     rfl
   refine ⟨d, V, hrV, s, hV, fun i => hs i ▸ hmem i, W, j ≫ ι', inferInstance, w, hWV,
@@ -173,7 +173,7 @@ theorem exists_isOpenImmersion_flat_zeroScheme_pullback_of_smooth {R U : Scheme.
   · intro hclosed t₀ ht₀
     have : IsAffine W := hWaff
     have hx : (D.subschemeι ≫ j ≫ ι') t₀ = r₀ := by
-      show (j ≫ ι') (D.subschemeι t₀) = r₀
+      change (j ≫ ι') (D.subschemeι t₀) = r₀
       rw [ht₀]
       exact hjw'
     rw [show D.subschemeι ≫ (j ≫ ι') ≫ b = (D.subschemeι ≫ j ≫ ι') ≫ b from
@@ -203,7 +203,7 @@ theorem exists_isOpenImmersion_flat_zeroScheme_pullback_of_smooth {R U : Scheme.
       ((a.stalkMap r₀).hom (t k)), ← hgermW]
     -- the sections cutting the slice pull back to zero on it
     have happ : (D.subschemeι.appTop) (cW k) = 0 := by
-      show (D.subschemeι.appTop).hom (cW k) = 0
+      change (D.subschemeι.appTop).hom (cW k) = 0
       refine RingHom.mem_ker.mp ?_
       rw [hDdef, Stacks.AlgebraicGeometry.ker_appTop_subschemeι_ofIdealTop
         (Ideal.ofList (List.ofFn cW))]

@@ -112,8 +112,8 @@ neighbourhood.  Four observations, all in the library build:
   positions that admit it is not enough, because `chartToSpace B S hS Z A` carries
   `chartSpace B S hS Z A` into the first factor's own type.
 
-Hence the chart-level square is not an instantiation of what is in the library: it needs the pasting to
-be done by a *generic assembler at variables* — in the manner of
+Hence the chart-level square is not an instantiation of what is in the library: it needs the pasting
+to be done by a *generic assembler at variables* — in the manner of
 `CategoryTheory.square_of_factorizations` — taking the `_hom` equations, the head square
 and the law above as hypotheses, so that no chart-level composite is ever written out and the
 `chartSpace`/`schemeSpace` junction is never formed.

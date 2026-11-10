@@ -224,7 +224,7 @@ public theorem covarianceTargetOpenMap_subscheme_range :
   let q : (↑(openCovarianceSupportOpen B (j ≫ f) V E) : Scheme) ⟶
       (↑(openCovarianceSupportOpen B f V D) : Scheme) :=
     (SmallEtale.toScheme B X.obj X.property).map (covarianceTargetOpenMap B j f V E D hD)
-  show Set.range (i ≫ q).base = _
+  change Set.range (i ≫ q).base = _
   rw [Scheme.Hom.comp_base, TopCat.coe_comp, Set.range_comp,
     covarianceSupportCloseds_range B j f V E]
   exact covarianceTargetOpenMap_support_image B j f V E D hD
@@ -297,7 +297,7 @@ public theorem supportSection_subset_iff_zero_on_open {W' W : SmallEtale B S hS}
     supportSection B S hS F W s ⊆ Z ↔ F.obj.map i.op s = 0 := by
   rw [map_eq_zero_iff_le_zeroOpen B S hS F W s _ i]
   simp only [supportSection, Set.compl_subset_comm]
-  show Zᶜ ⊆ (zeroOpen B S hS F W s : Set _) ↔
+  change Zᶜ ⊆ (zeroOpen B S hS F W s : Set _) ↔
     (Scheme.Hom.opensRange ((SmallEtale.toScheme B S hS).map i) :
       Set ((SmallEtale.toScheme B S hS).obj W)) ⊆ _
   rw [Scheme.Hom.coe_opensRange, hRange]
@@ -560,7 +560,7 @@ public theorem covarianceSectionMap_map (V V' : SmallEtale B Y.obj Y.property)
   apply AddMonoidHom.ext
   intro s
   apply covarianceTargetOpenMap_restrict_injective B j f F V' E' D' hD'
-  show F.obj.map (covarianceTargetOpenMap B j f V' E' D' hD').op
+  change F.obj.map (covarianceTargetOpenMap B j f V' E' D' hD').op
     (l (covarianceSectionMap B j f F V E D hD s)).val =
       F.obj.map (covarianceTargetOpenMap B j f V' E' D' hD').op
         (covarianceSectionMap B j f F V' E' D' hD' (k s)).val
@@ -589,7 +589,7 @@ public theorem covarianceSectionMap_sheaf
   apply AddMonoidHom.ext
   intro s
   apply covarianceTargetOpenMap_restrict_injective B j f G V E D hD
-  show G.obj.map (covarianceTargetOpenMap B j f V E D hD).op
+  change G.obj.map (covarianceTargetOpenMap B j f V E D hD).op
     (φ.hom.app _ (covarianceSectionMap B j f F V E D hD s).val) =
     G.obj.map (covarianceTargetOpenMap B j f V E D hD).op
       (covarianceSectionMap B j f G V E D hD

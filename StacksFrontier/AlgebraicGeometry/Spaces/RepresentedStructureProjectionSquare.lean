@@ -61,7 +61,8 @@ components in `AlgebraicGeometry.Space.representedModulePushforwardSquareIso` ar
 Every proof is written as a term — `CategoryTheory.whisker_eq`, `CategoryTheory.eq_whisker`,
 `CategoryTheory.Category.assoc` and `congrArg` — and every step is cut into its own declaration.
 The reason is the one recorded in the implementation notes of
-`StacksFrontier/AlgebraicGeometry/Spaces/RepresentedStructureMapModuleSquare.lean`: the goals mix the
+`StacksFrontier/AlgebraicGeometry/Spaces/RepresentedStructureMapModuleSquare.lean`: the goals mix
+the
 several definitionally equal spellings of the structure sheaf of rings of an algebraic space and
 of the scheme underlying an object of the big fppf site, which agree at default transparency but
 not at the transparency at which `rw` and `simp` match, so no rewrite fires; and each spelling
@@ -81,8 +82,8 @@ spellings a step does not need is a `whnf` it cannot afford.
 
 ## What this leaves owed
 
-This is the square, not clause (2) of the conormal statement in
-`StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.PseudoCoherent.LocalCompleteIntersection.Conormal`.
+This is the square, not clause (2) of the conormal statement in the module `Conormal` of
+`StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.PseudoCoherent.LocalCompleteIntersection`.
 Taking kernels of the two sides is the next step, and it needs one identification this library
 does not have: the square is stated for a morphism `g` of the big fppf category over `S`, whereas
 `AlgebraicGeometry.Space.definingIdealSheafIsoKernel` presents the defining ideal sheaf of a

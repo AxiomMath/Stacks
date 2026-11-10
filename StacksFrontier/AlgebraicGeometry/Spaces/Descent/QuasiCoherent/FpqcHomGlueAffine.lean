@@ -179,7 +179,7 @@ theorem chartDiagramRestrict_reprIdChartDiagram_comp {T'' T' T : BigFppfOver B S
         (chartDiagramRestrict B S hS (reprSpaceMap B S hS g) (reprIdChartDiagram B S hS g) a) =
       chartDiagramRestrict B S hS (reprSpaceMap B S hS l) (reprIdChartDiagram B S hS l) a := by
   subst hl
-  show ((forget₂ CommRingCat RingCat).map (Scheme.Γ.map
+  change ((forget₂ CommRingCat RingCat).map (Scheme.Γ.map
       ((BigFppfOver.toScheme B S hS).map g).op) ≫ (forget₂ CommRingCat RingCat).map (Scheme.Γ.map
       ((BigFppfOver.toScheme B S hS).map k).op)).hom a = ((forget₂ CommRingCat RingCat).map
       (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (k ≫ g)).op)).hom a
@@ -328,8 +328,7 @@ theorem reprBaseChange_eq {T' T : BigFppfOver B S hS} (g : T' ⟶ T)
         (reprIdChartDiagram B S hS g) z := by
   let := reprAlgebra B S hS g
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul b x =>
     rw [reprBaseChange_tmul, modulePullbackChartBaseChange_tmul, reprChartSection_eq]
   | add x y hx hy => rw [map_add, map_add, hx, hy]
@@ -388,7 +387,6 @@ variable {T'' T' T : BigFppfOver B S hS}
     (hτ : ∀ x, reprChartSection B S hS k _ (reprChartSection B S hS g N x) =
       τ.val.app (op (idEtaleChart B S hS T'')) (reprChartSection B S hS l N x))
 
-include hτ in
 /-- The base-change formula along a further represented morphism, at zero. -/
 theorem reprChartSection_reprBaseChange_zero :
     letI := reprAlgebra B S hS g; letI := reprAlgebra B S hS l
@@ -448,8 +446,7 @@ theorem reprChartSection_reprBaseChange
         (reprBaseChange B S hS l N (LinearMap.rTensor (reprSec B S hS N)
           (reprRestrictLinear B S hS k g hl) ζ)) :=
   let := reprAlgebra B S hS g; let := reprAlgebra B S hS l
-  TensorProduct.induction_on ζ (reprChartSection_reprBaseChange_zero B S hS k g hl N τ hτ)
-    (reprChartSection_reprBaseChange_tmul B S hS k g hl N τ hτ)
+  TensorProduct.inductionOn ζ (reprChartSection_reprBaseChange_tmul B S hS k g hl N τ hτ)
     (reprChartSection_reprBaseChange_add B S hS k g hl N τ)
 
 end KF
@@ -526,7 +523,7 @@ theorem exists_hom_of_linearMap_of_isTerminal {X : AlgebraicSpaces B S hS}
         (Stacks.Sites.freeSectionsMap (R := structureRingSheaf B S hS X) P.generators.I
           (op t)).hom := by
     refine Finsupp.lhom_ext fun i x => ?_
-    show (v.val.app (op t)).hom ((Stacks.Sites.freeSectionsMap
+    change (v.val.app (op t)).hom ((Stacks.Sites.freeSectionsMap
         (R := structureRingSheaf B S hS X) P.generators.I (op t)).hom (Finsupp.single i x)) =
       φ ((P.generators.π.val.app (op t)).hom ((Stacks.Sites.freeSectionsMap
         (R := structureRingSheaf B S hS X) P.generators.I (op t)).hom (Finsupp.single i x)))
@@ -676,8 +673,7 @@ theorem reprPullback_hom_ext {T' : BigFppfOver B S hS} (g : T' ⟶ T)
   refine reprHom_ext_of_isAffine B S hS hT'
     (isQuasicoherentOnSite_modulePullback_of_isQuasicoherentOnSite B S hS _ M hM) fun x => ?_
   obtain ⟨ζ, rfl⟩ := (bijective_reprBaseChange B S hS g hT' hT M hM).2 x
-  induction ζ using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction ζ using TensorProduct.inductionOn with
   | tmul b m => rw [reprBaseChange_tmul, map_smul, map_smul, h m]
   | add x y hx hy => simp only [map_add, hx, hy]
 

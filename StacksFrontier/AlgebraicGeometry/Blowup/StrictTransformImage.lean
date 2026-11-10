@@ -114,7 +114,7 @@ theorem isIso_morphismRestrict_pullbackFst {Z X B : Scheme.{u}} (h : Z ⟶ X) (b
   let R : (pullback h b₀).Opens := pullback.fst h b₀ ⁻¹ᵁ (h ⁻¹ᵁ C)
   let pR : R.toScheme ⟶ (h ⁻¹ᵁ C).toScheme := pullback.fst h b₀ ∣_ (h ⁻¹ᵁ C)
   have hRB : R = pullback.snd h b₀ ⁻¹ᵁ (b₀ ⁻¹ᵁ C) := by
-    show (pullback.fst h b₀ ≫ h) ⁻¹ᵁ C = (pullback.snd h b₀ ≫ b₀) ⁻¹ᵁ C
+    change (pullback.fst h b₀ ≫ h) ⁻¹ᵁ C = (pullback.snd h b₀ ≫ b₀) ⁻¹ᵁ C
     rw [pullback.condition]
   let qR : R.toScheme ⟶ (b₀ ⁻¹ᵁ C).toScheme :=
     ((pullback h b₀).isoOfEq hRB).hom ≫ (pullback.snd h b₀ ∣_ (b₀ ⁻¹ᵁ C))
@@ -140,7 +140,7 @@ theorem preimage_compl_support_eq_exceptionalPullbackCompl {Z X : Scheme.{u}} (h
     pullback.fst h (blowUpToBase I) ⁻¹ᵁ h ⁻¹ᵁ I.support.compl = exceptionalPullbackCompl h I := by
   rw [← Scheme.Hom.comp_preimage, pullback.condition]
   ext z
-  show blowUpToBase I (pullback.snd h (blowUpToBase I) z) ∉ I.support ↔
+  change blowUpToBase I (pullback.snd h (blowUpToBase I) z) ∉ I.support ↔
     z ∉ exceptionalPullbackSet h I
   rw [exceptionalPullbackSet_eq_preimage_support]
   rfl
@@ -207,7 +207,7 @@ theorem exists_iso_image_strictTransform_of_centre
   let R : (pullback h b₀).Opens := pullback.fst h b₀ ⁻¹ᵁ W
   have hWpre : f.toImage ⁻¹ᵁ W = ⊤ := by
     ext x
-    show ((f.toImage ≫ f.imageι) ≫ pullback.fst p q) x ∈ C ↔ True
+    change ((f.toImage ≫ f.imageι) ≫ pullback.fst p q) x ∈ C ↔ True
     rw [Scheme.Hom.toImage_imageι]
     exact iff_true_intro (Set.disjoint_left.mp hdisj (hfU ⟨x, rfl⟩))
   have := isSchemeTheoreticallyDominant_morphismRestrict f.toImage W

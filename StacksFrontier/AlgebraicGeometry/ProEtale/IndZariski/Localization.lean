@@ -68,7 +68,7 @@ private instance awayIndexNonempty (M : Submonoid A) : Nonempty (AwayIndex (A :=
 private theorem hom_ext_of_isLocalization (S : Submonoid A) {L : Type u} [CommRing L] [Algebra A L]
     [IsLocalization S L] {Y : CommAlgCat.{u} A} {f g : CommAlgCat.of A L ⟶ Y}
     (h : ∀ a, f.hom (algebraMap A L a) = g.hom (algebraMap A L a)) : f = g := by
-  exact CommAlgCat.hom_ext (AlgHom.coe_ringHom_injective
+  exact CommAlgCat.hom_ext (AlgHom.toRingHom_injective
     (IsLocalization.ringHom_ext S (RingHom.ext h)))
 
 /-- The transition map `A_s → A_t` of the divisibility diagram, for `s ∣ t`. -/

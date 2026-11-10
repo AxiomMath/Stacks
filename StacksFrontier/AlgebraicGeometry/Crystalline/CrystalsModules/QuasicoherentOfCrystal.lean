@@ -156,7 +156,7 @@ theorem fmapCompOver_toTerminalOver_zero (X : Over B)
     (N : SheafOfModules.{u + 1} ((crystallineStructureSheaf S).over B))
     (Z : SheafOfModules.{u + 1} X.left.ringRestrictionSheaf) :
     fmapCompOver.{u + 1} N (toTerminalOver B X) Z 0 = 0 := by
-  show moduleFMapSheafOver N (toTerminalOver B X) ≫
+  change moduleFMapSheafOver N (toTerminalOver B X) ≫
     (SheafOfModules.pushforward.{u + 1}
       (ringRestrictionSheafFMap (toTerminalOver B X).left)).map 0 = 0
   rw [Functor.map_zero, comp_zero]

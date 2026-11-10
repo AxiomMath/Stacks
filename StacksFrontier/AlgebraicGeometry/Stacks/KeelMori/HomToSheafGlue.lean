@@ -225,11 +225,11 @@ noncomputable def glueHom : 𝒳 ⟶ fibredCategory B S hS E :=
 /-- **The glued 1-morphism restricts to `φ i` along `g i`.** -/
 theorem comp_glueHom (i : ι) : g i ≫ glueHom hE hg hφ = φ i := by
   refine hom_ext_of_obj B S hS fun y => ?_
-  show (glueHom hE hg hφ).hom.obj ((g i).hom.obj y) = (φ i).hom.obj y
+  change (glueHom hE hg hφ).hom.obj ((g i).hom.obj y) = (φ i).hom.obj y
   have hb : ((φ i).hom.obj y).base = 𝒳.val.p.obj ((g i).hom.obj y) :=
     (base_obj_eq (φ i) y).trans (Functor.congr_obj (g i).hom.w y).symm
   refine PresheafOfCategories.obj_eq_of_elementOf_eq (P := E) rfl hb ?_
-  show glueSection hE hg hφ ((g i).hom.obj y) = _
+  change glueSection hE hg hφ ((g i).hom.obj y) = _
   refine eq_of_forall_map_eq hE (hg ((g i).hom.obj y)).choose_spec.1 fun V k hk => ?_
   obtain ⟨j, y'', m, hm⟩ := (hg ((g i).hom.obj y)).choose_spec.2 hk
   rw [map_glueSection hE hg hφ hk m hm]

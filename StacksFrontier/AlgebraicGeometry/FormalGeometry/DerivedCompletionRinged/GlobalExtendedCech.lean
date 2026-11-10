@@ -208,7 +208,7 @@ theorem map_mkHomToSingle (p : K.X j ⟶ A) (hp : ∀ i, c.Rel i j → K.d i j �
   refine to_single_hom_ext ?_
   rw [comp_f, Functor.mapHomologicalComplex_map_f, mkHomToSingle_f, mkHomToSingle_f,
     singleMapHomologicalComplex_hom_app_self, G.map_comp, Category.assoc,
-    Iso.map_inv_hom_id_assoc]
+    Iso.inv_hom_id_map_assoc]
 
 end Map
 

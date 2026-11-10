@@ -141,7 +141,7 @@ theorem cosimplicialMap_naturality {G H : Sheaf (smallTopology S) AddCommGrpCat.
   have h2 := levelLimitFunctor_map_π (T.obj (op n)) ψ.hom e
   have h3 := Φ.app_π H n e.unop
   have h4 := Φ.app_π G n e.unop
-  show ((levelLimitFunctor (T'.obj (op n))).map ((crisDirectImage S S' fS fX hf).map ψ).hom ≫
+  change ((levelLimitFunctor (T'.obj (op n))).map ((crisDirectImage S S' fS fX hf).map ψ).hom ≫
       Φ.app H n) ≫ _ = (Φ.app G n ≫ (levelLimitFunctor (T.obj (op n))).map ψ.hom) ≫ _
   refine ((Category.assoc _ _ _).trans ?_).trans (Category.assoc _ _ _).symm
   erw [h3, h2, reassoc_of% h1, reassoc_of% h4]

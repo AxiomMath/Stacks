@@ -101,7 +101,7 @@ private theorem exists_boundedRingCode (κ : Cardinal.{u}) {R : CommRingCat.{u}}
   }
   let : CommRing (c.1.1 : Type u) := c.2
   refine ⟨c, ?_⟩
-  show Nonempty (CommRingCat.of R.carrier ≅ CommRingCat.of A)
+  change Nonempty (CommRingCat.of R.carrier ≅ CommRingCat.of A)
   exact ⟨(RingEquiv.ofBijective ψ E.symm.bijective).symm.toCommRingCatIso⟩
 
 /-- The property of a commutative ring that its carrier has cardinality below `κ`. -/
@@ -114,7 +114,7 @@ private theorem boundedRingProperty_essentiallySmall (κ : Cardinal.{u}) :
   let Q : ObjectProperty CommRingCat.{u} := fun R ↦
     R ∈ Set.range (boundedRingCodeObj (κ := κ))
   have hQ : ObjectProperty.Small.{u} Q := by
-    show Small.{u} (Subtype Q)
+    change Small.{u} (Subtype Q)
     refine small_of_surjective
       (f := fun c : boundedRingCode κ ↦
         (⟨boundedRingCodeObj c, Set.mem_range_self c⟩ : Subtype Q)) ?_

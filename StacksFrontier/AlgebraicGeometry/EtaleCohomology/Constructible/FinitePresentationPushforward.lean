@@ -164,7 +164,7 @@ public theorem isConstructibleSetSheaf_pushforward_of_isFinite {T S : B.Scheme} 
       ((B.inclusion.obj S).affineOpenCover.openCover.f i) :
         B.obj _ (hUc i) ⟶ B.obj S.1 S.property), by
       have := hUopen i
-      show Etale ((B.inclusion.obj S).affineOpenCover.openCover.f i)
+      change Etale ((B.inclusion.obj S).affineOpenCover.openCover.f i)
       infer_instance⟩
   refine isConstructibleFiniteSheaf_of_openCover B S _
     (fun i => (W i).obj.left) (fun i => (W i).obj.hom) hUopen

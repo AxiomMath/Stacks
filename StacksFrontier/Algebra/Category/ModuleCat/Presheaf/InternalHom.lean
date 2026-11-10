@@ -148,12 +148,12 @@ theorem multEndoHom_naturality (U : C) (f : (Oforget O).obj (op U))
   intro x
   simp only [ModuleCat.hom_comp, LinearMap.comp_apply]
   set ρ := ((restrFun O U).obj G).map g with hρ
-  show (fRestr O U f Y) • (ρ.hom x) = ρ.hom ((fRestr O U f X) • x)
+  change (fRestr O U f Y) • (ρ.hom x) = ρ.hom ((fRestr O U f X) • x)
   rw [map_smul]
   congr 1
-  show (fRestr O U f Y) = ((ORestr O U).map g).hom (fRestr O U f X)
+  change (fRestr O U f Y) = ((ORestr O U).map g).hom (fRestr O U f X)
   rw [fRestr, fRestr]
-  show ((Oforget O).map Y.unop.hom.op).hom f
+  change ((Oforget O).map Y.unop.hom.op).hom f
       = ((Oforget O).map ((Over.forget U).map g.unop).op).hom
           (((Oforget O).map X.unop.hom.op).hom f)
   have hcomp : ((Over.forget U).map g.unop) ≫ X.unop.hom = Y.unop.hom := Over.w g.unop
@@ -186,7 +186,7 @@ theorem homModule_one_smul (U : C) (α : (restrFun O U).obj F ⟶ (restrFun O U)
     smulHom O F G U 1 α = α := by
   have key : multEndoHom O G U 1 = 𝟙 _ := by
     refine presheafOfModules_hom_ext_apply fun V x => ?_
-    show (fRestr O U 1 V) • x = x
+    change (fRestr O U 1 V) • x = x
     rw [fRestr, map_one, one_smul]
   rw [smulHom, key, Category.comp_id]
 
@@ -197,7 +197,7 @@ theorem homModule_mul_smul (U : C) (f g : (Oforget O).obj (op U))
   have keyMult : multEndoHom O G U (f * g)
       = multEndoHom O G U g ≫ multEndoHom O G U f := by
     refine presheafOfModules_hom_ext_apply fun V x => ?_
-    show (fRestr O U (f * g) V) • x
+    change (fRestr O U (f * g) V) • x
         = (fRestr O U f V) • ((fRestr O U g V) • x)
     rw [fRestr, fRestr, fRestr, map_mul, mul_smul]
   rw [smulHom, smulHom, smulHom, Category.assoc, keyMult]
@@ -220,7 +220,7 @@ theorem homModule_add_smul (U : C) (f g : (Oforget O).obj (op U))
   have keyAdd : multEndoHom O G U (f + g)
       = multEndoHom O G U f + multEndoHom O G U g := by
     refine presheafOfModules_hom_ext_apply fun V x => ?_
-    show (fRestr O U (f + g) V) • x
+    change (fRestr O U (f + g) V) • x
         = (fRestr O U f V) • x + (fRestr O U g V) • x
     rw [fRestr, fRestr, fRestr, map_add, add_smul]
   rw [smulHom, smulHom, smulHom, keyAdd, Preadditive.comp_add]
@@ -230,7 +230,7 @@ theorem homModule_zero_smul (U : C) (α : (restrFun O U).obj F ⟶ (restrFun O U
     smulHom O F G U 0 α = 0 := by
   have keyZero : multEndoHom O G U 0 = 0 := by
     refine presheafOfModules_hom_ext_apply fun V x => ?_
-    show (fRestr O U 0 V) • x = 0
+    change (fRestr O U 0 V) • x = 0
     rw [fRestr, map_zero, zero_smul]
   rw [smulHom, keyZero, Limits.comp_zero]
 
@@ -287,7 +287,7 @@ theorem internalHomMap_map_smul {X Y : Cᵒᵖ} (f : X ⟶ Y)
         = fRestr O X.unop r ((Over.map f.unop).op.obj W) := by
     intro W
     rw [fRestr, fRestr]
-    show ((Oforget O).map W.unop.hom.op).hom (((Oforget O).map f).hom r)
+    change ((Oforget O).map W.unop.hom.op).hom (((Oforget O).map f).hom r)
         = ((Oforget O).map ((Over.map f.unop).obj W.unop).hom.op).hom r
     have hcomp : ((Over.map f.unop).obj W.unop).hom = W.unop.hom ≫ f.unop := rfl
     rw [hcomp, op_comp, Functor.map_comp]
@@ -296,7 +296,7 @@ theorem internalHomMap_map_smul {X Y : Cᵒᵖ} (f : X ⟶ Y)
       = multEndoHom O G Y.unop (((Oforget O).map f).hom r) := by
     refine presheafOfModules_hom_ext_apply fun W x => ?_
     rw [homRestr]
-    show (fRestr O X.unop r ((Over.map f.unop).op.obj W)) • x
+    change (fRestr O X.unop r ((Over.map f.unop).op.obj W)) • x
         = (fRestr O Y.unop (((Oforget O).map f).hom r) W) • x
     rw [keyScalar]
   rw [smulHom, smulHom, hsplit, keyMult]
@@ -321,10 +321,10 @@ theorem internalHom_map_id (X : Cᵒᵖ) :
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro α
-  show homRestr O F G (𝟙 X).unop α = α
+  change homRestr O F G (𝟙 X).unop α = α
   rw [unop_id]
   apply (PresheafOfModules.toPresheaf (ORestr O X.unop)).map_injective
-  show (presheafHom F.presheaf G.presheaf).map (𝟙 X.unop).op
+  change (presheafHom F.presheaf G.presheaf).map (𝟙 X.unop).op
         ((PresheafOfModules.toPresheaf (ORestr O X.unop)).map α)
       = (PresheafOfModules.toPresheaf (ORestr O X.unop)).map α
   rw [op_id]
@@ -337,7 +337,7 @@ theorem homRestr_comp {W V U : C} (g : W ⟶ V) (f : V ⟶ U)
     (α : (restrFun O U).obj F ⟶ (restrFun O U).obj G) :
     homRestr O F G (g ≫ f) α = homRestr O F G g (homRestr O F G f α) := by
   apply (PresheafOfModules.toPresheaf (ORestr O W)).map_injective
-  show (presheafHom F.presheaf G.presheaf).map (g ≫ f).op
+  change (presheafHom F.presheaf G.presheaf).map (g ≫ f).op
         ((PresheafOfModules.toPresheaf (ORestr O U)).map α)
       = (presheafHom F.presheaf G.presheaf).map g.op
           ((presheafHom F.presheaf G.presheaf).map f.op
@@ -355,7 +355,7 @@ theorem internalHom_map_comp {X Y Z : Cᵒᵖ} (f : X ⟶ Y) (g : Y ⟶ Z) :
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro α
-  show homRestr O F G (f ≫ g).unop α = homRestr O F G g.unop (homRestr O F G f.unop α)
+  change homRestr O F G (f ≫ g).unop α = homRestr O F G g.unop (homRestr O F G f.unop α)
   rw [unop_comp]
   exact homRestr_comp O F G g.unop f.unop α
 
@@ -425,7 +425,7 @@ theorem toUnderlying_isCompatible
       (fun Y f hf ↦ toUnderlying O F G (φ ⟨Y, f, hf⟩) :
         Presieve.FamilyOfElements (presheafHom F.presheaf G.presheaf) (S : Sieve U).arrows) := by
   intro Y₁ Y₂ Z g₁ g₂ f₁ f₂ hf₁ hf₂ hcomm
-  show (presheafHom F.presheaf G.presheaf).map g₁.op (toUnderlying O F G (φ ⟨Y₁, f₁, hf₁⟩))
+  change (presheafHom F.presheaf G.presheaf).map g₁.op (toUnderlying O F G (φ ⟨Y₁, f₁, hf₁⟩))
      = (presheafHom F.presheaf G.presheaf).map g₂.op (toUnderlying O F G (φ ⟨Y₂, f₂, hf₂⟩))
   rw [toUnderlying_restr, toUnderlying_restr]
   exact congrArg (toUnderlying O F G) (hφ (I₁ := ⟨Y₁, f₁, hf₁⟩) (I₂ := ⟨Y₂, f₂, hf₂⟩)
@@ -512,7 +512,7 @@ theorem homRestr_gluedHom
     (hφ : IsCompatibleFamily O F G S φ) (I : S.Arrow) :
     homRestr O F G I.f (gluedHom O F G S hG φ hφ) = φ I := by
   apply (PresheafOfModules.toPresheaf (ORestr O I.Y)).map_injective
-  show toUnderlying O F G (homRestr O F G I.f (gluedHom O F G S hG φ hφ))
+  change toUnderlying O F G (homRestr O F G I.f (gluedHom O F G S hG φ hφ))
     = toUnderlying O F G (φ I)
   rw [← toUnderlying_restr]
   exact gluedUnder_restr O F G S hG φ hφ I
@@ -561,7 +561,7 @@ theorem internalHom_glue_injective
   apply (forget₂ (ModuleCat ((ORestr O U).obj W)) Ab).map_injective
   set e₁ := (PresheafOfModules.toPresheaf (ORestr O U)).map a with he₁
   set e₂ := (PresheafOfModules.toPresheaf (ORestr O U)).map a' with he₂
-  show e₁.app W = e₂.app W
+  change e₁.app W = e₂.app W
   have keyApp' : ∀ (P : Over U), (S : Sieve U).arrows P.hom →
       e₁.app (op P) = e₂.app (op P) := by
     intro P hP
@@ -578,7 +578,7 @@ theorem internalHom_glue_injective
     have hmem : (S : Sieve U).arrows I'.Y.hom := mem_of_overEquiv S W.unop I'.f I'.hf
     have hnat₁ := e₁.naturality I'.f.op
     have hnat₂ := e₂.naturality I'.f.op
-    show e₁.app W ≫ ((PresheafOfModules.toPresheaf (ORestr O U)).obj
+    change e₁.app W ≫ ((PresheafOfModules.toPresheaf (ORestr O U)).obj
         ((restrFun O U).obj G)).map I'.f.op
       = e₂.app W ≫ ((PresheafOfModules.toPresheaf (ORestr O U)).obj
         ((restrFun O U).obj G)).map I'.f.op
@@ -681,14 +681,14 @@ theorem internalHom_isSheaf
   · apply AddCommGrpCat.hom_ext
     apply AddMonoidHom.ext
     intro e
-    show (ConcreteCategory.hom ((S.multifork (internalHom O F G).presheaf).ι i))
+    change (ConcreteCategory.hom ((S.multifork (internalHom O F G).presheaf).ι i))
         (L E e) = (ConcreteCategory.hom (E.ι i)) e
     rw [hι i]
     exact hLrestr E e i
   · apply AddCommGrpCat.hom_ext
     apply AddMonoidHom.ext
     intro e
-    show (ConcreteCategory.hom m) e = L E e
+    change (ConcreteCategory.hom m) e = L E e
     refine hext _ _ fun I => ?_
     rw [hLrestr]
     have h2 := congrArg (fun (k : E.pt ⟶ _) => (ConcreteCategory.hom k) e) (hm I)

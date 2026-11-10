@@ -53,8 +53,7 @@ variable {A : Type u} {B : Type v} [CommRing A] [CommRing B] [Algebra A B]
 /-- The `B`-action on the generic fibre is multiplication by the image of the scalar. -/
 theorem smul_tmul_fractionRing_eq_algebraMap_mul (r : B) (x : B ⊗[A] FractionRing A) :
     r • x = algebraMap B (B ⊗[A] FractionRing A) r * x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul b k =>
       simp [TensorProduct.smul_tmul',
         Algebra.TensorProduct.algebraMap_apply, Algebra.TensorProduct.tmul_mul_tmul]
@@ -101,7 +100,7 @@ theorem mem_dedekindDifferent_iff_smul_dual_le_span_one_mem (b : B) :
       exact (smul_eq_smul_one_iff_algebraMap_eq_mul b c y.1).mpr hc
     have heq := congrArg e hy
     rw [map_smul, map_smul] at heq
-    show b • e y ∈ Submodule.span B {e oneC}
+    change b • e y ∈ Submodule.span B {e oneC}
     rw [heq]
     exact Submodule.smul_mem _ c (Submodule.subset_span (by simp [oneC]))
   · intro h y hy
@@ -122,7 +121,7 @@ theorem annihilator_dual_quotient_eq_dedekindDifferentIdeal :
   ext c
   rw [show (c ∈ dedekindDifferentIdeal setup) ↔ ∀ g : Module.Dual A B, c • g ∈ W from
     mem_dedekindDifferent_iff_smul_dual_le_span_one_mem setup h1 c, Module.mem_annihilator]
-  show (∀ q : Module.Dual A B ⧸ W, c • q = 0) ↔ ∀ g : Module.Dual A B, c • g ∈ W
+  change (∀ q : Module.Dual A B ⧸ W, c • q = 0) ↔ ∀ g : Module.Dual A B, c • g ∈ W
   refine ⟨fun h g => (Submodule.Quotient.mk_eq_zero (p := W) (x := c • g)).mp ?_, fun h q => ?_⟩
   · simpa only [Submodule.Quotient.mk_smul] using h (Submodule.Quotient.mk g)
   · obtain ⟨g, rfl⟩ := Submodule.Quotient.mk_surjective W q

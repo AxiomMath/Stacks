@@ -110,7 +110,7 @@ theorem map_appLE_ideal_idealSheaf_of_isPullback {P X T U : Scheme.{u}} {p : P �
   have hq : IsFinite q := MorphismProperty.of_isPullback (P := @IsFinite) hsq ‹IsFinite f›
   rw [ideal_idealSheaf_pushforward, ideal_idealSheaf_pushforward]
   rcases lt_or_ge k 0 with hk | hk
-  · rw [fittingIdeal, if_pos hk, Ideal.map_bot, fittingIdeal, if_pos hk]
+  · rw [fittingIdeal, ite_eq_left hk, Ideal.map_bot, fittingIdeal, ite_eq_left hk]
   lift k to ℕ using hk
   have e : q ⁻¹ᵁ V'.1 ≤ p ⁻¹ᵁ (f ⁻¹ᵁ V.1) := by
     refine le_trans (q.preimage_mono hV') ?_

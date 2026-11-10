@@ -56,7 +56,7 @@ private theorem fst_comp_mul {C : Type u} [Category.{v} C] [CartesianMonoidalCat
     (G P : C) [MonObj G] :
     fst (G ⊗ G) P ≫ (MonObj.mul : G ⊗ G ⟶ G) =
       (fst (G ⊗ G) P ≫ fst G G) * (fst (G ⊗ G) P ≫ snd G G) := by
-  show _ = lift _ _ ≫ (MonObj.mul : G ⊗ G ⟶ G)
+  change _ = lift _ _ ≫ (MonObj.mul : G ⊗ G ⟶ G)
   rw [← comp_lift, lift_fst_snd, Category.comp_id]
 
 /-- **A monoid object from a monoid structure on its points.** Given a unit and a
@@ -101,7 +101,7 @@ private theorem monObjOfHoms_lift_comp_mul {C : Type u} [Category.{v} C]
     lift g h ≫
         (monObjOfHoms G one mul one_comp mul_comp one_mul mul_one mul_assoc).mul =
       mul Q g h := by
-  show lift g h ≫ mul (G ⊗ G) (fst G G) (snd G G) = _
+  change lift g h ≫ mul (G ⊗ G) (fst G G) (snd G G) = _
   rw [mul_comp, lift_fst, lift_snd]
 
 /-- The unit on the points of `CategoryTheory.monObjOfHoms` is the given one. -/
@@ -218,7 +218,7 @@ theorem grpObjOfHoms_hom_inv {C : Type u} [Category.{v} C] [CartesianMonoidalCat
     letI : GrpObj G :=
       grpObjOfHoms G one mul inv one_comp mul_comp one_mul mul_one mul_assoc inv_mul mul_inv
     g ≫ GrpObj.inv = inv Q g := by
-  show g ≫ inv G (𝟙 G) = inv Q g
+  change g ≫ inv G (𝟙 G) = inv Q g
   rw [inv_comp, Category.comp_id]
 
 /-- **An action of a monoid object from an action on its points.** An action of `G` on `P` is
@@ -261,7 +261,7 @@ theorem modObjOfHoms_hom_smul {C : Type u} [Category.{v} C] [CartesianMonoidalCa
     g • p = smul Q g p := by
   let : ModObj G P := modObjOfHoms P smul smul_comp one_smul mul_smul
   rw [show (g • p) = lift g p ≫ ModObj.smul (M := G) (X := P) from rfl]
-  show lift g p ≫ smul (G ⊗ P) (fst G P) (snd G P) = _
+  change lift g p ≫ smul (G ⊗ P) (fst G P) (snd G P) = _
   rw [smul_comp, lift_fst, lift_snd]
 
 /-- **A morphism of monoid objects whose point-level monoid structures are given is a
@@ -292,7 +292,7 @@ theorem isMonHom_of_homs {C : Type u} [Category.{v} C] [CartesianMonoidalCategor
   let : MonObj Y := monObjOfHoms Y oneY mulY one_compY mul_compY one_mulY mul_oneY mul_assocY
   constructor
   · exact hone (𝟙_ C)
-  · show mulX (X ⊗ X) (fst X X) (snd X X) ≫ k =
+  · change mulX (X ⊗ X) (fst X X) (snd X X) ≫ k =
       (k ⊗ₘ k) ≫ mulY (Y ⊗ Y) (fst Y Y) (snd Y Y)
     rw [hmul, mul_compY, tensorHom_fst, tensorHom_snd]
 

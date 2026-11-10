@@ -108,7 +108,7 @@ theorem imageSubmodule_locallySurjective_comp (e : M' ⟶ M)
   refine le_antisymm (imageSubmodule_le _ fun X m ↦
       apply_mem_imageSubmodule f (PresheafOfModules.Hom.app e.val X m))
     (imageSubmodule_le f fun X m ↦ ?_)
-  show (rangeSubmodule (e ≫ f)).toSubfunctor.sieveOfSection
+  change (rangeSubmodule (e ≫ f)).toSubfunctor.sieveOfSection
       (PresheafOfModules.Hom.app f.val X m) ∈ J X.unop
   refine J.superset_covering ?_ (he.imageSieve_mem m)
   intro V g hg

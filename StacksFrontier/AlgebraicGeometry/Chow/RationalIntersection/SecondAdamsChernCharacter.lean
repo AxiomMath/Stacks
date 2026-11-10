@@ -75,7 +75,7 @@ theorem pullback_eq_pullbackRingHom (f : X ⟶ Y) (a : VectorBundleKZero Y) :
     pullback f a = pullbackRingHom f a := by
   refine DFunLike.congr_fun (addHom_ext (φ := pullback f)
     (ψ := (pullbackRingHom f).toAddMonoidHom) fun M hM => ?_) a
-  show pullback f (classOf Y M) = pullbackRingHom f (classOf Y M)
+  change pullback f (classOf Y M) = pullbackRingHom f (classOf Y M)
   rw [pullback_classOf, pullbackRingHom_classOf f M hM]
 
 /-- `ψ²` commutes with the pullback `VectorBundleKZero.pullback`. -/
@@ -214,11 +214,11 @@ theorem secondAdamsScales_classOf_of_hasInvertibleFiltration {F : X.Modules} {r 
 theorem powerSumKHom_secondAdams (p : ℕ) (a : VectorBundleKZero X) :
     powerSumKHom C sX p (secondAdamsRingHom (squarePowersData X) a) =
       (2 ^ p : ℤ) • powerSumKHom C sX p a := by
-  show SecondAdamsScales C sX p a
+  change SecondAdamsScales C sX p a
   refine DFunLike.congr_fun (addHom_ext
     (φ := (powerSumKHom C sX p).comp (secondAdamsRingHom (squarePowersData X)).toAddMonoidHom)
     (ψ := (2 ^ p : ℤ) • powerSumKHom C sX p) fun M hM => ?_) a
-  show SecondAdamsScales C sX p (classOf X M)
+  change SecondAdamsScales C sX p (classOf X M)
   refine TotalChowClass.eq_of_res_eq (isClopenDecomposition_rankLociFamily M) fun r => ?_
   let := isFiniteLocallyFreeOfRank_pullback_rankLociFamily M r
   refine SecondAdamsScales.of_res _ rfl M ?_
@@ -280,8 +280,7 @@ private theorem rationalChernCharacterVectorBundle_rationalSecondAdams_aux (p : 
     (a : ℚ ⊗[ℤ] VectorBundleKZero X) :
     rationalChernCharacterVectorBundle C sX (rationalSecondAdams X a) p =
       (2 ^ p : ℚ) • rationalChernCharacterVectorBundle C sX a p := by
-  induction a using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, Pi.zero_apply, smul_zero]
+  induction a using TensorProduct.inductionOn with
   | add a b ha hb => rw [map_add, map_add, Pi.add_apply, ha, hb, map_add, Pi.add_apply, smul_add]
   | tmul r a =>
     rw [rationalSecondAdams_tmul, rationalChernCharacterVectorBundle_tmul,

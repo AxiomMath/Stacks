@@ -84,10 +84,9 @@ private lemma dualTensorBaseChangeMap_natural
         (dualTensorBaseChangeMap (R := R) (M := N) (S := S)) := by
   apply LinearMap.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' =>
-    show dualTensorBaseChangeMap (R := R) (M := M) (S := S)
+    change dualTensorBaseChangeMap (R := R) (M := M) (S := S)
         ((TensorProduct.AlgebraTensorModule.lTensor S S f.dualMap) (z + z')) =
       (f.baseChange S).dualMap
         (dualTensorBaseChangeMap (R := R) (M := N) (S := S) (z + z'))
@@ -109,8 +108,7 @@ private lemma dualTensorBaseChangeMap_natural
   | tmul s g =>
     apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' =>
       calc
         (dualTensorBaseChangeMap (R := R) (M := M) (S := S)
@@ -131,7 +129,7 @@ private lemma dualTensorBaseChangeMap_natural
     | tmul t m =>
       simp [dualTensorBaseChangeMap, LinearMap.dualMap_apply,
         Module.Dual.baseChange_apply_tmul, LinearMap.baseChange_tmul,
-        smul_eq_mul, mul_assoc]
+        smul_eq_mul]
 
 private lemma dual_baseChange_isBaseChange_of_free
     {R : Type u} {M : Type v} {S : Type x}
@@ -145,8 +143,7 @@ private lemma dual_baseChange_isBaseChange_of_free
   have h := hj.dual
   have hequiv : hj.equiv = LinearEquiv.refl S (S ⊗[R] M) := by
     ext z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z₁ z₂ hz₁ hz₂ => simp [hz₁, hz₂]
     | tmul s z => simp [j, TensorProduct.smul_tmul']
   have heq : hj.toDual = Module.Dual.baseChange S := by
@@ -174,8 +171,7 @@ private lemma dual_baseChange_isBaseChange_of_finite_projective
   have heP : eP.toLinearMap = mapP := by
     apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' =>
       calc
         eP (z + z') = eP z + eP z' := map_add eP _ _
@@ -211,7 +207,7 @@ private lemma dual_baseChange_isBaseChange_of_finite_projective
       _ = (pDual.comp mapP).comp (eP.symm.toLinearMap.comp iDual) := by rw [hp]
       _ = pDual.comp iDual := by
         rw [LinearMap.comp_assoc, ← heP]
-        simp [LinearMap.comp_assoc]
+        simp
       _ = LinearMap.id := hip
   have hright : inv.comp mapM = LinearMap.id := by
     calc
@@ -269,7 +265,7 @@ local instance : IsScalarTower R M (Module.Dual R M) :=
     ext m
     change f ((algebraMap R M r) * m) = r * f m
     rw [← Algebra.smul_def]
-    simpa using f.map_smul r m)
+    simp)
 /-- The `S ⊗[R] M`-module structure on `Hom_S(S ⊗[R] M, S)` by precomposition with
 multiplication. -/
 local instance : Module (S ⊗[R] M) (Module.Dual S (S ⊗[R] M)) :=
@@ -379,13 +375,13 @@ private theorem dualizingModule_isBaseChange_of_dual_isBaseChange
   let _ : IsScalarTower C B B₁ :=
     IsScalarTower.of_algebraMap_eq (fun _ => rfl)
   let _ : IsScalarTower C C₁ B₁ := IsScalarTower.of_algebraMap_eq (fun c => by
-    show algebraMap C₁ B₁ (algebraMap C C₁ c) =
+    change algebraMap C₁ B₁ (algebraMap C C₁ c) =
       algebraMap B B₁ (algebraMap C B c)
-    show Algebra.TensorProduct.map (AlgHom.id A A₁)
+    change Algebra.TensorProduct.map (AlgHom.id A A₁)
         (IsScalarTower.toAlgHom A C B) (1 ⊗ₜ[A] c) = _
     rw [Algebra.TensorProduct.map_tmul]
     simp only [AlgHom.id_apply]
-    show algebraMap B B₁ (algebraMap C B c) = _
+    change algebraMap B B₁ (algebraMap C B c) = _
     rfl)
   let _ : Module B (E ⊗[C] B) :=
     (TensorProduct.comm C E B).toAddEquiv.module B
@@ -415,8 +411,7 @@ private theorem dualizingModule_isBaseChange_of_dual_isBaseChange
     { eTensor with
       map_smul' := by
         intro b z
-        induction z using TensorProduct.induction_on with
-        | zero => simp
+        induction z using TensorProduct.inductionOn with
         | add z z' hz hz' =>
           calc
             eTensor (b • (z + z')) = eTensor (b • z + b • z') :=
@@ -427,7 +422,7 @@ private theorem dualizingModule_isBaseChange_of_dual_isBaseChange
             _ = b • eTensor (z + z') := by
               rw [eTensor.map_add, smul_add]
         | tmul b' y =>
-          show (b * b') ⊗ₜ[B] eComm y = b • (b' ⊗ₜ[B] eComm y)
+          change (b * b') ⊗ₜ[B] eComm y = b • (b' ⊗ₜ[B] eComm y)
           rw [TensorProduct.smul_tmul']
           rfl }
   let eCancel :=
@@ -440,8 +435,7 @@ private theorem dualizingModule_isBaseChange_of_dual_isBaseChange
     { eLiftRaw with
       map_smul' := by
         intro b z
-        induction z using TensorProduct.induction_on with
-        | zero => simp
+        induction z using TensorProduct.inductionOn with
         | add z z' hz hz' =>
           calc
             eLiftRaw (b • (z + z')) = eLiftRaw (b • z + b • z') :=
@@ -452,7 +446,7 @@ private theorem dualizingModule_isBaseChange_of_dual_isBaseChange
             _ = b • eLiftRaw (z + z') := by
               rw [eLiftRaw.map_add, smul_add]
         | tmul b' y =>
-          show (b * b') ⊗ₜ[C₁] hE.equiv y = b • (b' ⊗ₜ[C₁] hE.equiv y)
+          change (b * b') ⊗ₜ[C₁] hE.equiv y = b • (b' ⊗ₜ[C₁] hE.equiv y)
           rw [TensorProduct.smul_tmul']
           rfl }
   let eMiddle := eCancelC.symm.trans eLift
@@ -463,12 +457,7 @@ private theorem dualizingModule_isBaseChange_of_dual_isBaseChange
     (f := dualizingModule.baseChange F A₁) e ?_
   intro x
   dsimp only [dualizingModule] at x ⊢
-  induction x using TensorProduct.induction_on with
-  | zero =>
-    calc
-      e 0 = 0 := map_zero e
-      _ = dualizingModule.baseChange F A₁ 0 :=
-        (map_zero (dualizingModule.baseChange F A₁)).symm
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy =>
     -- `rw [TensorProduct.tmul_add]` cannot abstract the sum here, because the `+` of the goal
     -- and the `+` of the lemma are two instances identified only definitionally; splitting the
@@ -480,13 +469,13 @@ private theorem dualizingModule_isBaseChange_of_dual_isBaseChange
       (map_add (dualizingModule.baseChange F A₁) x y).symm
     exact hsplit.trans ((congrArg₂ (· + ·) hx hy).trans hsum)
   | tmul f b =>
-    show e (1 ⊗ₜ[B] dualizingModule.tmul F f b) =
+    change e (1 ⊗ₜ[B] dualizingModule.tmul F f b) =
       dualizingModule.baseChange F A₁
         (dualizingModule.tmul F f b)
     rw [dualizingModule.baseChange_tmul]
     have h1 : eTensor' (1 ⊗ₜ[B] (f ⊗ₜ[C] b)) =
         1 ⊗ₜ[B] (b ⊗ₜ[C] f) := by
-      show (1 : B₁) ⊗ₜ[B] eComm (f ⊗ₜ[C] b) = _
+      change (1 : B₁) ⊗ₜ[B] eComm (f ⊗ₜ[C] b) = _
       rfl
     have h2 : eCancel (1 ⊗ₜ[B] (b ⊗ₜ[C] f)) =
         (algebraMap B B₁ b) ⊗ₜ[C] f := by
@@ -497,14 +486,14 @@ private theorem dualizingModule_isBaseChange_of_dual_isBaseChange
       simp [eCancelC, TensorProduct.AlgebraTensorModule.cancelBaseChange_symm_tmul]
     have h4 : eLift ((algebraMap B B₁ b) ⊗ₜ[C₁] (1 ⊗ₜ[C] f)) =
         (algebraMap B B₁ b) ⊗ₜ[C₁] (Module.Dual.baseChange A₁ f) := by
-      show (algebraMap B B₁ b) ⊗ₜ[C₁] hE.equiv (1 ⊗ₜ[C] f) = _
+      change (algebraMap B B₁ b) ⊗ₜ[C₁] hE.equiv (1 ⊗ₜ[C] f) = _
       rw [IsBaseChange.equiv_tmul]
       rw [one_smul, dualBaseChangeRestrictScalars]
       rfl
     have h5 : eCommTarget.symm
         ((algebraMap B B₁ b) ⊗ₜ[C₁] (Module.Dual.baseChange A₁ f)) =
         (Module.Dual.baseChange A₁ f) ⊗ₜ[C₁] (algebraMap B B₁ b) := rfl
-    show eCommTarget.symm
+    change eCommTarget.symm
       (eLift (eCancelC.symm (eCancel
         (eTensor' (1 ⊗ₜ[B] (f ⊗ₜ[C] b)))))) = _
     rw [h1, h2, h3, h4, h5]
@@ -533,7 +522,7 @@ private theorem baseChangeLinearMap_bijective_of_isBaseChange
   let : IsScalarTower B B₁ (dualizingModule F₁) :=
     IsScalarTower.of_compHom B B₁ _
   let h' : IsBaseChange B₁ (dualizingModule.baseChange F A₁) := h
-  show Function.Bijective h'.equiv.toLinearMap
+  change Function.Bijective h'.equiv.toLinearMap
   exact h'.equiv.bijective
 
 theorem baseChangeLinearMap_bijective_of_flat_finitePresentation

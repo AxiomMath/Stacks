@@ -153,7 +153,7 @@ public theorem laumonAffineLineAbsIrrInput_of_linear (h : LaumonAffineLineLinear
   have : FiniteDimensional E (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B U ℓ f j
       kbar (restrictScalarsRepCoefficientSheaf B U x b σ hσ).toLAdicSheaf 1) :=
     Module.Finite.of_restrictScalars_finite ℚ_[ℓ] E _
-  show IsCharpolyNormMixedOfWeightLE (p ^ n) ι (w + 1)
+  change IsCharpolyNormMixedOfWeightLE (p ^ n) ι (w + 1)
     (((restrictScalarsRepCoefficientSheaf B U x b σ hσ).rationalGeometricCompactlySupportedFrobenius
       f j kbar 1 E p n hcard).restrictScalars ℚ_[ℓ])
   refine (isCharpolyNormMixedOfWeightLE_restrictScalars_iff _ _ ι _).2 fun ι' hι' => ?_

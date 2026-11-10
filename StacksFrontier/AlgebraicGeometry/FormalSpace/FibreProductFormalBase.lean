@@ -207,13 +207,13 @@ theorem isFormalAlgebraicSpace_pullback_of_isAffineFormal_of_isFormal
         (equifibered_relativeStageSnd c₁ c₂ a b (Θ.functor.obj m).1
           (Θ.functor.map f).2).flip hQ₂
     have hcomp : (IsThickeningSite B S hS).relative (Sheaf.sheafifiedYoneda J) (E₀.map f) := by
-      show (IsThickeningSite B S hS).relative (Sheaf.sheafifiedYoneda J)
+      change (IsThickeningSite B S hS).relative (Sheaf.sheafifiedYoneda J)
         (Big.map (Θ.functor.map f))
       rw [uncurry_relativeProductDiagram_map]
       exact MorphismProperty.comp_mem _ _ _ hbase hstage
     have harr : Arrow.mk ((Dsite ⋙ Sheaf.sheafifiedYoneda J).map f) ≅ Arrow.mk (E₀.map f) :=
       Arrow.isoMk (eD.app l) (eD.app m) (eD.hom.naturality f).symm
-    show IsThickeningSite B S hS (Dsite.map f)
+    change IsThickeningSite B S hS (Dsite.map f)
     exact MorphismProperty.of_relative_map
       ((MorphismProperty.arrow_mk_iso_iff
         (P := (IsThickeningSite B S hS).relative (Sheaf.sheafifiedYoneda J)) harr).mpr hcomp)

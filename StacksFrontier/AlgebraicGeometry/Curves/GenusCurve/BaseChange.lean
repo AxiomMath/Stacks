@@ -57,7 +57,7 @@ point, so the only fibre is the whole scheme. -/
 private theorem isIso_fiberι_over_field (k : Type u) [Field k] {X : Scheme.{u}}
     (f : X ⟶ Spec (.of k)) (x : Spec (.of k)) : IsIso (f.fiberι x) := by
   have := isIso_fromSpecResidueField_of_field k x
-  show IsIso (pullback.fst f ((Spec (.of k)).fromSpecResidueField x)); infer_instance
+  change IsIso (pullback.fst f ((Spec (.of k)).fromSpecResidueField x)); infer_instance
 
 /-- For a scheme over a field, the local dimension of a fibre at a point agrees with the local
 dimension of the scheme itself at that point. -/

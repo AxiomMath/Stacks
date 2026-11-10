@@ -132,24 +132,24 @@ private theorem hasPropertyOnEveryAffineEtaleDiagram_isAdic_of_isLocallyOfFinite
   let _ : UniformSpace R := IsTopologicalAddGroup.rightUniformSpace R
   have : CompleteSpace R := hRc.1.2.2
   have : T2Space R := hRc.1.2.1
-  exact ⟨RingHom.isAdic_of_isTaut φ.toRingHom φ.continuous htaut
+  exact ⟨RingHom.isAdic_of_isTaut φ.toRingHom htaut
     ⟨I, IsNoetherian.noetherian I, hI⟩, htft⟩
 
-/-- **Ad (i) of Stacks 0GDL.** Let `f : X ⟶ Y` be a morphism of locally Noetherian formal
-algebraic spaces over `S` which is locally of finite type, as Artin's proper morphisms are.
+/-- **Ad (i) of Stacks 0GDL.** Let `f : X ⟶ Y` be a morphism of formal algebraic spaces over
+`S` which is locally of finite type, as Artin's proper morphisms are (local Noetherianity, part
+of the setting of 0GDL, is not needed here).
 Then Artin's condition (i), that the Jacobian and the Cramer ideal of `f` contain an ideal of
 definition of `X`, holds if and only if `f` is rig-étale. Chart by chart this is Stacks 0AJY
 (`RingHom.isRigEtale_tfae_jacobianCramer`); local finite typeness makes every chart map adic
 and topologically of finite type, which the Jacobian and Cramer ideals presuppose. -/
 theorem hasJacobianCramerIdealOfDefinition_iff_isRigEtale {X Y : FppfSheaf B S hS}
-    (f : X ⟶ Y) (hX : IsLocallyNoetherian B S hS X) (hY : IsLocallyNoetherian B S hS Y)
-    (hft : IsLocallyOfFiniteType B S hS f) :
+    (f : X ⟶ Y) (hft : IsLocallyOfFiniteType B S hS f) :
     HasJacobianCramerIdealOfDefinition B S hS f ↔ IsRigEtale B S hS f := by
   rw [isRigEtale_iff_hasPropertyOnEveryAffineEtaleDiagram]
   have hloc := hasPropertyOnEveryAffineEtaleDiagram_isAdic_of_isLocallyOfFiniteType B S hS f hft
   constructor
   · intro h U V a b t hU hV ha hb hsq A R _ _ _ _ _ _ _ _ hCA hCR hA D E eU eV g hg _ _ _ _
-    have hfin := ((Rig.adicFiniteType_tfae g.toRingHom g.continuous hCA.1 hCR.1
+    have hfin := ((Rig.adicFiniteType_tfae g.toRingHom hCA.1 hCR.1
       (Rig.exists_idealOfDefinition_fg hCA.1 hCA.2)
       (Rig.exists_idealOfDefinition_fg hCR.1 hCR.2)).out 1 6).mp
       (hloc U V a b t hU hV ha hb hsq A R hCA hCR hA D E eU eV g hg)
@@ -220,7 +220,7 @@ theorem factorsAdicCompleteDvrPoints_iff_isRigSurjective_of_artinConditions
     (hii : HasAnnihilatedKerOnPullbackCharts B S hS (pullback.diagonal f)) :
     FactorsAdicCompleteDvrPoints B S hS f ↔ IsRigSurjective B S hS f := by
   have hft := IsProper.isLocallyOfFiniteType B S hS hproper
-  have hf := (hasJacobianCramerIdealOfDefinition_iff_isRigEtale B S hS f hX hY hft).mp hi
+  have hf := (hasJacobianCramerIdealOfDefinition_iff_isRigEtale B S hS f hft).mp hi
   obtain ⟨-, hΔ⟩ := isRigEtale_diagonal_of_isRigEtale_of_isProper B S hS f hX hY hproper hf
   have hΔs := (hasAnnihilatedKerOnPullbackCharts_diagonal_iff_isRigSurjective B S hS f hX hY
     hproper hf).mp hii
@@ -257,7 +257,7 @@ theorem artinConditions_comparison {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
       (HasJacobianCramerIdealOfDefinition B S hS f →
         HasAnnihilatedKerOnPullbackCharts B S hS (pullback.diagonal f) →
           (FactorsAdicCompleteDvrPoints B S hS f ↔ IsRigSurjective B S hS f)) :=
-  ⟨hasJacobianCramerIdealOfDefinition_iff_isRigEtale B S hS f hX hY
+  ⟨hasJacobianCramerIdealOfDefinition_iff_isRigEtale B S hS f
       (IsProper.isLocallyOfFiniteType B S hS hproper),
     fun hf ↦ ⟨(isRigEtale_diagonal_of_isRigEtale_of_isProper B S hS f hX hY hproper hf).2,
       hasAnnihilatedKerOnPullbackCharts_diagonal_iff_isRigSurjective B S hS f hX hY hproper hf⟩,

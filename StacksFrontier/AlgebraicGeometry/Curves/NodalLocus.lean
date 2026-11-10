@@ -203,7 +203,7 @@ private theorem isOpen_setOf_syntomicDimOneAt {X S : Scheme.{u}} (f : X ⟶ S) :
   have hloc := isLocallyConstant_fiberDimensionAt (U.ι ≫ f) hsyn
   set D : U.toScheme.Opens := ⟨_, hloc.isOpen_fiber ((1 : ℕ) : WithBot ℕ∞)⟩
   have hxD : (⟨x, hxU⟩ : U.toScheme) ∈ D := by
-    show topologicalKrullDimAt ((U.ι ≫ f).fiber _) ((U.ι ≫ f).asFiber ⟨x, hxU⟩) = _
+    change topologicalKrullDimAt ((U.ι ≫ f).fiber _) ((U.ι ≫ f).asFiber ⟨x, hxU⟩) = _
     rw [topologicalKrullDimAt_fiber_comp_etale f U.ι ⟨x, hxU⟩]
     exact hx.2
   refine ⟨U.ι ''ᵁ D, ?_, (U.ι ''ᵁ D).2, ⟨⟨x, hxU⟩, hxD, rfl⟩⟩
@@ -285,7 +285,7 @@ private theorem range_comapSubschemeHom_ι {X : Scheme.{u}} (C : X.Opens)
     Set.range (comapSubschemeHom I C.ι) = (I.subschemeι ⁻¹ᵁ C : Set I.subscheme) := by
   apply Set.eq_of_subset_of_subset
   · rintro _ ⟨w, rfl⟩
-    show I.subschemeι _ ∈ C
+    change I.subschemeι _ ∈ C
     rw [subschemeι_comapSubschemeHom]
     exact ((I.comap C.ι).subschemeι w).2
   · intro z hz
@@ -344,7 +344,7 @@ private theorem mem_largestOpen_nodal_iff {X S : Scheme.{u}} (f : X ⟶ S)
     ⟨fun ⟨C, hxC, hC⟩ => ?_, fun ⟨h1, h2⟩ => ?_⟩
   · obtain ⟨hs, hu⟩ := (isAtWorstNodalOfRelativeDimensionOne_comp_ι_iff f C).mp hC
     refine ⟨hs x hxC, fun y hy => hu y ?_⟩
-    show (relativeSingularIdeal f).subschemeι y ∈ C
+    change (relativeSingularIdeal f).subschemeι y ∈ C
     rw [hy]
     exact hxC
   · obtain ⟨C₁, hC₁sub, hC₁open, hxC₁⟩ :=

@@ -77,7 +77,7 @@ theorem firstChernCapChow_pow_of_chowClass : ∀ (m : ℕ) (k : ℤ) (b : CycleG
     exact of_chowClass_congr D sX hX (by simp) _ _ rfl
   | m + 1, k, b => by
     have h : k + ((m + 1 : ℕ) : ℤ) = k + (m : ℤ) + 1 := by push_cast; ring
-    show (HPow.hPow (α := AddMonoid.End (chowHomology.{u, u + 1} D sX hX))
+    change (HPow.hPow (α := AddMonoid.End (chowHomology.{u, u + 1} D sX hX))
         (firstChernCapChow.{u, u + 1} D sX hX N hN) m)
       (firstChernCapChow.{u, u + 1} D sX hX N hN
         (DirectSum.of _ (k + ((m + 1 : ℕ) : ℤ))
@@ -180,7 +180,7 @@ theorem segreCap_zero_projectiveBundleDatum (d : ℕ)
         hZ]
       exact rationallyEquivalentOn_refl.{u + 1} D sX hX k _ _) b
   rw [ProjectiveBundleDatum.segreCap, Nat.add_zero]
-  show (projectiveBundleDatum E d hr).pushforwardChow
+  change (projectiveBundleDatum E d hr).pushforwardChow
       (((projectiveBundleDatum E d hr).twistCap ^ d) ((projectiveBundleDatum E d hr).pullbackChow
         (DirectSum.of _ k (chowClass.{u + 1} D sX hX k b)))) =
     DirectSum.of (fun k => chowGroup.{u + 1} D sX hX k) k (chowClass.{u + 1} D sX hX k b)

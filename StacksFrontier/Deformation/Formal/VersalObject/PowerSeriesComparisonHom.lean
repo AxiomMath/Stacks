@@ -75,11 +75,11 @@ theorem mvps_sumCurry_C (σ τ A : Type*) [CommRing A] (a : A) :
       MvPowerSeries.C (MvPowerSeries.C a) := by
   classical
   ext s t
-  show (MvPowerSeries.C a : MvPowerSeries (σ ⊕ τ) A)
+  change (MvPowerSeries.C a : MvPowerSeries (σ ⊕ τ) A)
       (Finsupp.sumFinsuppAddEquivProdFinsupp.symm (s, t)) =
     MvPowerSeries.coeff t (MvPowerSeries.coeff s (MvPowerSeries.C (MvPowerSeries.C a)))
   rw [MvPowerSeries.coeff_C]
-  show MvPowerSeries.coeff (Finsupp.sumFinsuppAddEquivProdFinsupp.symm (s, t))
+  change MvPowerSeries.coeff (Finsupp.sumFinsuppAddEquivProdFinsupp.symm (s, t))
       (MvPowerSeries.C a) = _
   rw [MvPowerSeries.coeff_C]
   have hz : Finsupp.sumFinsuppAddEquivProdFinsupp.symm (s, t) = 0 ↔ s = 0 ∧ t = 0 := by
@@ -149,7 +149,7 @@ private theorem exists_algEquiv_mvPowerSeries_of_le {R A B : CompleteLocalAlgCat
     intro a
     have hren : (MvPowerSeries.renameEquiv R σ) (MvPowerSeries.C a) = MvPowerSeries.C a :=
       (MvPowerSeries.renameEquiv R σ).commutes a
-    show mvPowerSeriesRingEquivOfRingEquiv (Fin (m - n)) e'
+    change mvPowerSeriesRingEquivOfRingEquiv (Fin (m - n)) e'
         (Stacks.NoetherianCompletion.mvps_sumCurry (Fin (m - n)) (Fin n) R
           ((MvPowerSeries.renameEquiv R σ) (e.symm (f.hom a)))) = _
     rw [← he a, e.symm_apply_apply, hren, mvps_sumCurry_C, mvPowerSeriesRingEquivOfRingEquiv_C,
@@ -187,7 +187,7 @@ theorem exists_powerSeries_comparison_hom_of_le (ξ η ξ₀ : FormalObject p)
     { hRing with
       commutes' := fun c => by
         apply E.injective
-        show E (hRing (algebraMap Λ η.base c)) = _
+        change E (hRing (algebraMap Λ η.base c)) = _
         rw [hE, E.commutes, MvPowerSeries.algebraMap_apply] }
   let hHom : η.base ⟶ ξ.base :=
     { hom := hAlg
@@ -221,7 +221,7 @@ theorem exists_powerSeries_comparison_hom [IsNoetherianRing Λ] [Module.Finite �
   have := FormalObject.isHomLift_projection_base j.hom
   have hg₁ : (FormalObject.projection (p := p)).IsStronglyCocartesian (j.hom ≫ g).base
       (j.hom ≫ g) := by
-    show (FormalObject.projection (p := p)).IsStronglyCocartesian (j.hom.base ≫ g.base)
+    change (FormalObject.projection (p := p)).IsStronglyCocartesian (j.hom.base ≫ g.base)
       (j.hom ≫ g)
     infer_instance
   let j₀ : ξ₀.base ≃+* η₀.base :=
@@ -236,7 +236,7 @@ theorem exists_powerSeries_comparison_hom [IsNoetherianRing Λ] [Module.Finite �
     (mvPowerSeriesRingEquivOfRingEquiv (Fin n) j₀).trans e'.toRingEquiv
   have he₁ : ∀ a, e₁ (MvPowerSeries.C a) = (j.hom ≫ g).base.hom a := by
     intro a
-    show e' (mvPowerSeriesRingEquivOfRingEquiv (Fin n) j₀ (MvPowerSeries.C a)) = _
+    change e' (mvPowerSeriesRingEquivOfRingEquiv (Fin n) j₀ (MvPowerSeries.C a)) = _
     rw [mvPowerSeriesRingEquivOfRingEquiv_C, he']
     rfl
   rcases le_total n m with hnm | hmn

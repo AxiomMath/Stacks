@@ -149,7 +149,7 @@ theorem isSquareZeroEffective_of_towerExistence {hZ : B.Contains (⊤_ Scheme.{u
         (BigFppfOver.toScheme B _ hZ).map (ξ'.map g : CoherentHom _ _).base.left ≫ (e' j).hom := by
       rw [Iso.eq_inv_comp]
       exact (he' g).symm
-    show Spec.map (A.map g.op) ≫ (e' j).inv ≫ (BigFppfOver.toScheme B _ hZ).map (τ j) =
+    change Spec.map (A.map g.op) ≫ (e' j).inv ≫ (BigFppfOver.toScheme B _ hZ).map (τ j) =
       (e' i).inv ≫ (BigFppfOver.toScheme B _ hZ).map (τ i)
     rw [h1, Category.assoc, Category.assoc, Iso.hom_inv_id_assoc, ← Functor.map_comp, hτc g]
   have hnil' : ∀ n, RingHom.ker (A.map (homOfLE (Nat.zero_le n)).op).hom ≤
@@ -173,16 +173,16 @@ theorem isSquareZeroEffective_of_towerExistence {hZ : B.Contains (⊤_ Scheme.{u
   have hg : ∀ n, ι' n ≫ g = τ n := fun n => by
     apply (BigFppfOver.toScheme B _ hZ).map_injective
     rw [Functor.map_comp]
-    show (BigFppfOver.toScheme B _ hZ).map (ι' n) ≫ eLimit.hom ≫ τA = _
+    change (BigFppfOver.toScheme B _ hZ).map (ι' n) ≫ eLimit.hom ≫ τA = _
     rw [← Category.assoc, heLimit' n, Category.assoc]
     rw [show Spec.map (CommRingCat.ofHom (cR.π.app (op n)).hom.toRingHom) ≫ τA = t n from hτA n]
-    show (e' n).hom ≫ (e' n).inv ≫ _ = _
+    change (e' n).hom ≫ (e' n).inv ≫ _ = _
     rw [Iso.hom_inv_id_assoc]
   -- the test scheme over `Y` and the maps to it
   let Tc : SchemesOver D.Y := CostructuredArrow.mk (Y := pt) ((schemeSpaceFunctor B _ hZ).map g)
   let b : ∀ n, (ξ'.obj n).T ⟶ Tc := fun n => CostructuredArrow.homMk (ι' n) (by
     apply ObjectProperty.hom_ext
-    show yoneda.map (ι' n) ≫ yoneda.map g = (ξ'.obj n).T.hom.hom
+    change yoneda.map (ι' n) ≫ yoneda.map g = (ξ'.obj n).T.hom.hom
     rw [← Functor.map_comp, hg]
     exact hτ n)
   have hb : ∀ n, (ξ'.map (homOfLE (n.le_add_right 1)) : CoherentHom _ _).base ≫ b (n + 1) =

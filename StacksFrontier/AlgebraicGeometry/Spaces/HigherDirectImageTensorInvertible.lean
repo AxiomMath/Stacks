@@ -271,11 +271,11 @@ noncomputable def twistStepCongrIndicatorIso (Z : AlgebraicSpaces B S hS)
     twistStep B S hS Z.1 Z.2 L (if b then 1 else 0) N ≅
       twistStep B S hS Z.1 Z.2 L' (if b then 1 else 0) N := by
   by_cases h : b
-  · simp only [if_pos h]
+  · simp only [ite_eq_left h]
     exact twistStepOneIso B S hS Z L N ≪≫
       ((Stacks.SheafOfModules.Tensor.sheafTensor (smallEtaleRingedSite B S hS Z.1 Z.2).O).obj
         N).mapIso e ≪≫ (twistStepOneIso B S hS Z L' N).symm
-  · simp only [if_neg h]
+  · simp only [ite_eq_right h]
     exact twistStepZeroIso B S hS Z.1 Z.2 L N ≪≫ (twistStepZeroIso B S hS Z.1 Z.2 L' N).symm
 
 /-- A twist at an indicator exponent depends on the family of invertible modules only up to
@@ -378,12 +378,12 @@ noncomputable def rightDerivedTwistStepIndicatorIso (f : X ⟶ Y)
   intro _
   haveI := stacksIsInvertible_modulePullback_obj B S hS f L (hM := hL)
   by_cases h : b
-  · simp only [if_pos h]
+  · simp only [ite_eq_left h]
     exact ((modulePushforward B S hS f).rightDerived q).mapIso
         (twistStepOneIso B S hS X ((modulePullback B S hS f).obj L) N) ≪≫
       @rightDerivedModulePushforwardSheafTensorIso B S hS _ _ f L hL N q ≪≫
       (twistStepOneIso B S hS Y L _).symm
-  · simp only [if_neg h]
+  · simp only [ite_eq_right h]
     exact ((modulePushforward B S hS f).rightDerived q).mapIso
         (twistStepZeroIso B S hS X.1 X.2 ((modulePullback B S hS f).obj L) N) ≪≫
       (twistStepZeroIso B S hS Y.1 Y.2 L _).symm
@@ -426,12 +426,12 @@ noncomputable def pushforwardTwistStepIndicatorIso (f : X ⟶ Y)
       twistStep B S hS Y.1 Y.2 L (if b then 1 else 0) ((modulePushforward B S hS f).obj N) := by
   haveI := stacksIsInvertible_modulePullback_obj B S hS f L (hM := hL)
   by_cases h : b
-  · simp only [if_pos h]
+  · simp only [ite_eq_left h]
     exact (modulePushforward B S hS f).mapIso
         (twistStepOneIso B S hS X ((modulePullback B S hS f).obj L) N) ≪≫
       (@pushforwardTensorRightIso B S hS _ _ f L hL).app N ≪≫
       (twistStepOneIso B S hS Y L _).symm
-  · simp only [if_neg h]
+  · simp only [ite_eq_right h]
     exact (modulePushforward B S hS f).mapIso
         (twistStepZeroIso B S hS X.1 X.2 ((modulePullback B S hS f).obj L) N) ≪≫
       (twistStepZeroIso B S hS Y.1 Y.2 L _).symm

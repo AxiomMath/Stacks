@@ -115,7 +115,7 @@ it is `AlgebraicGeometry.Scheme.Opens.topIso` over every open. -/
 theorem isIso_unitToChartPushforward : IsIso (unitToChartPushforward B S hS X A) := by
   refine Scheme.Modules.isIso_of_isIso_app_affineOpens _ fun U => ?_
   refine (ConcreteCategory.isIso_iff_bijective _).2 ?_
-  show Function.Bijective (fun a : Γ(chartScheme A, U.1) => U.1.topIso.inv a)
+  change Function.Bijective (fun a : Γ(chartScheme A, U.1) => U.1.topIso.inv a)
   exact ConcreteCategory.bijective_of_isIso U.1.topIso.inv
 
 /-- The restriction of `𝒪_X` to the Zariski site of an étale chart `A` is `𝒪_A`. -/
@@ -177,7 +177,7 @@ theorem chartIdealToUnit_comp_eq_zero :
     chartIdealToUnit B S hS X A Z ≫ chartBaseChangeUnitMap B S hS X A Z = 0 := by
   refine Scheme.Modules.hom_ext_of_val_app_affineOpens _ _ fun V => ?_
   ext x
-  show (chartBaseChangeUnitMap B S hS X A Z).val.app (op V.1)
+  change (chartBaseChangeUnitMap B S hS X A Z).val.app (op V.1)
     ((chartIdealToUnit B S hS X A Z).val.app (op V.1) x) = 0
   exact (congrArg ((chartBaseChangeUnitMap B S hS X A Z).val.app (op V.1))
     (chartIdealToUnit_val_app_apply B S hS X A Z V.1 x)).trans

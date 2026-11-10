@@ -185,7 +185,7 @@ abbrev single (G : EtaleSheafSystem D Ab.{u + 1}) (n : ℤ) : EtaleComplexSystem
       Functor.mapHomologicalComplex_map_f, Functor.mapCochainComplexSingleFunctor,
       HomologicalComplex.singleMapHomologicalComplex_hom_app_self,
       HomologicalComplex.single_map_f_self, Functor.map_comp, Category.assoc,
-      Iso.inv_hom_id_assoc, Iso.map_inv_hom_id_assoc, ← h,
+      Iso.inv_hom_id_assoc, Iso.inv_hom_id_map_assoc, ← h,
       ← reassoc_of% hnat]
 
 /-- The cocone of a system of sheaves placed in degree `n`. -/
@@ -214,7 +214,7 @@ lemma isPullbackCocone_single (G : EtaleSheafSystem D Ab.{u + 1})
     Functor.mapHomologicalComplex_map_f, Functor.mapCochainComplexSingleFunctor,
     HomologicalComplex.singleMapHomologicalComplex_hom_app_self,
     HomologicalComplex.single_map_f_self, Functor.map_comp, Category.assoc,
-    Iso.inv_hom_id_assoc, Iso.map_inv_hom_id_assoc, ← h,
+    Iso.inv_hom_id_assoc, Iso.inv_hom_id_map_assoc, ← h,
     ← reassoc_of% hnat]
   rfl
 
@@ -233,7 +233,7 @@ abbrev truncGE (n : ℤ) : EtaleComplexSystem D where
       simp only [Functor.comp_map] at hnat
       simp only [HomologicalComplex.comp_f, NatIso.mapHomologicalComplex_inv_app_f,
         Functor.mapHomologicalComplex_map_f, stupidTruncGEMapOfHom_f _ _ n m hm, Functor.map_comp,
-        Category.assoc, Iso.map_inv_hom_id_assoc, ← hF, reassoc_of% hnat]
+        Category.assoc, Iso.inv_hom_id_map_assoc, ← hF, reassoc_of% hnat]
     · exact (CochainComplex.isZero_of_isStrictlyGE _ n m (by omega)).eq_of_tgt _ _
 
 /-- The transition maps of the system of stupid truncations are the maps induced on stupid
@@ -267,7 +267,7 @@ lemma IsPullbackCocone.truncGE {𝓕 : CochainComplex (Sheaf (smallEtaleTopology
     simp only [truncGEι, HomologicalComplex.comp_f,
       NatIso.mapHomologicalComplex_inv_app_f,
       Functor.mapHomologicalComplex_map_f, stupidTruncGEMapOfHom_f _ _ n m hm, Functor.map_comp,
-      Category.assoc, Iso.map_inv_hom_id_assoc, ← hF, ← reassoc_of% hnat]
+      Category.assoc, Iso.inv_hom_id_map_assoc, ← hF, ← reassoc_of% hnat]
     rfl
   · exact (CochainComplex.isZero_of_isStrictlyGE _ n m (by omega)).eq_of_tgt _ _
 
@@ -478,6 +478,7 @@ lemma IsHypercohomologyColimit.surjective_injective
     fun _i x hx => h.exists_eq_zero (F.ofHom_etaleHypercohomologyPullback_map_comp · · p)
       (ofHom_etaleHypercohomologyPullback_π_comp hι · p) x hx⟩
 
+omit [Nonempty I] in
 /-- Conversely, its two halves give the colimit assertion. -/
 lemma isHypercohomologyColimit_of_surjective_of_injective
     {ι : ∀ i : Iᵒᵖ, ((smallEtalePullbackAb (c.π.app i)).mapHomologicalComplex _).obj (F.obj i) ⟶ 𝓕}
@@ -486,6 +487,7 @@ lemma isHypercohomologyColimit_of_surjective_of_injective
   IsSystemColimit.of_forall_exists.{u, u + 2} (F.ofHom_etaleHypercohomologyPullback_map_comp · · p)
     (ofHom_etaleHypercohomologyPullback_π_comp hι · p) hs hi
 
+omit [IsDirected I (· ≤ ·)] in
 /-- Below the degrees of a uniformly bounded below system both halves hold trivially. -/
 lemma surjective_injective_of_isStrictlyGE
     {ι : ∀ i : Iᵒᵖ, ((smallEtalePullbackAb (c.π.app i)).mapHomologicalComplex _).obj (F.obj i) ⟶ 𝓕}
@@ -673,7 +675,7 @@ theorem isSystemColimit_etaleHypercohomologyPullback (a : ℤ) [∀ i, (F.obj i)
     (ofHom_etaleHypercohomologyPullback_π_comp (hι.truncGE a) · p) hσ e eB
     (fun b x => ?_) (fun i x => ?_)
   all_goals
-    show etaleHypercohomologyPullback _ _ p x ≫ _ =
+    change etaleHypercohomologyPullback _ _ p x ≫ _ =
       etaleHypercohomologyPullback _ _ p (x ≫ _)
     simp only [Functor.mapIso_hom, asIso_hom]
     rw [etaleHypercohomologyPullback_comp_Q_map, etaleHypercohomologyPullback_Q_map]

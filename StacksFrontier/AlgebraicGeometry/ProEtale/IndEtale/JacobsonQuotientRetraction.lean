@@ -214,9 +214,9 @@ private theorem exists_equiv_comp_quotientMk
       ((Under.map (quotientMkHom A I)).obj V.obj).hom := by
     rw [Under.mkIdInitial.hom_ext (j.hom.hom ≫ Q) (Under.mkIdInitial.to _)]
     exact Under.mkIdInitial_to_right _
-  show (Adj₀.homEquiv X.obj V.obj ((adj.homEquiv X V).symm (f ≫ j.hom)).hom).right = _
+  change (Adj₀.homEquiv X.obj V.obj ((adj.homEquiv X V).symm (f ≫ j.hom)).hom).right = _
   rw [adj.homEquiv_counit, hstep]
-  show (f.hom ≫ j.hom.hom ≫ Q).right = _
+  change (f.hom ≫ j.hom.hom ≫ Q).right = _
   rw [Under.comp_right, hinit]
   rfl
 
@@ -258,7 +258,7 @@ theorem existsUnique_algHom_comp_quotientMk_eq (A : Type u) [CommRing A]
       indEtaleAlgebraHomOfRingHom _ _ τ.toRingHom τ.commutes
     have hgτ : e gτ = v := by
       refine StructuredArrow.hom_ext _ _ (CommRingCat.hom_ext (RingHom.ext fun y ↦ ?_))
-      show (e gτ).right.hom y = φ y
+      change (e gτ).right.hom y = φ y
       rw [hmk gτ y]
       exact AlgHom.congr_fun hτ y
     exact congrArg (fun g : X ⟶ indEtaleAlgebraSelf A ↦ g.hom.right.hom x)
@@ -354,7 +354,7 @@ private theorem exists_ringHom_quotient_comp_unit (A : Type u) [CommRing A] (I :
     ConcreteCategory.congr_hom htri' ((pushout.inl C.obj.hom b).hom x)
   have e3 : w.hom ((pushout.inl C.obj.hom b).hom x) = Ideal.Quotient.mk J x :=
     ConcreteCategory.congr_hom hinl x
-  show w.hom (ε.hom.right.hom ((pushout.inl L.obj.hom b).hom (η.hom.right.hom x))) = _
+  change w.hom (ε.hom.right.hom ((pushout.inl L.obj.hom b).hom (η.hom.right.hom x))) = _
   rw [e1, e2, e3]
 
 /-- **Stacks 09AC, affine case.** Let `C` be an ind-étale `A`-algebra whose ring is

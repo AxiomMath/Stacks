@@ -93,15 +93,13 @@ private def tensorAutHom {K L E : Type*} [Field K] [Field L] [Field E]
   map_one' := by
     apply AlgEquiv.ext
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul l e => simp [tensorAut_tmul]
     | add x y hx hy => simp [hx, hy]
   map_mul' g h := by
     apply AlgEquiv.ext
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul l e => simp [tensorAut_tmul]
     | add x y hx hy => simp [hx, hy]
 
@@ -293,8 +291,7 @@ private theorem fixed_tensor_mem_perfectClosure
   let e := TensorProduct.equivFinsuppOfBasisLeft (N := E) b
   have hcoord (g : E ≃ₐ[K] E) (t : L ⊗[K] E) (i : Module.Basis.ofVectorSpaceIndex K L) :
       e (tensorAut (L := L) g t) i = g (e t i) := by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul l z =>
         simp only [tensorAut_tmul, e,
           TensorProduct.equivFinsuppOfBasisLeft_apply_tmul_apply]

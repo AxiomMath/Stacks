@@ -42,14 +42,14 @@ range of `m ↦ 1 ⊗ m`. Finally the given morphism `f` is identified, by
 functor `Stacks.Adequate.affineSpecOver` produces from the structure morphism `R → T`, using that
 an affine scheme is isomorphic to the spectrum of its global functions.
 
-Two places need care when `backward.isDefEq.respectTransparency` is left at its default. The additivity of the map `m ↦ b • F.map g m`
-inside `extensionOfBaseSection` and the naturality lemma both compare an element of
-`F.obj (op (op C))` with one of `(ModuleCat.restrictScalars _).obj (F.obj (op (op C)))`, which
-have the same carrier but are not definitionally equal at `implicit` transparency; the
-additivity is proved by an explicit `change` to the bundled `ConcreteCategory.hom`, as
-`AdequateFunctor.moduleValuedFunctorBaseChangeMap` itself does, and the naturality is proved
-from `PresheafOfModules.map_smul` as a term rather than by rewriting with it, with
-`ModuleCat.restrictScalars` made `implicit_reducible` for this file. In
+Two places need care when `backward.isDefEq.respectTransparency` is left at its default. The
+additivity of the map `m ↦ b • F.map g m` inside `extensionOfBaseSection` and the naturality lemma
+both compare an element of `F.obj (op (op C))` with one of `(ModuleCat.restrictScalars _).obj (F.obj
+(op (op C)))`, which have the same carrier but are not definitionally equal at `implicit`
+transparency; the additivity is proved by an explicit `change` to the bundled
+`ConcreteCategory.hom`, as `AdequateFunctor.moduleValuedFunctorBaseChangeMap` itself does, and the
+naturality is proved from `PresheafOfModules.map_smul` as a term rather than by rewriting with it,
+with `ModuleCat.restrictScalars` made `implicit_reducible` for this file. In
 `extensionOfBaseSection_bijective` the `Algebra R C` structure that
 `AdequateFunctor.moduleValuedFunctorBaseChangeMap` induces from the structure morphism is the
 one `RingHom.toAlgebra` builds from `algebraMap`, propositionally but not definitionally the
@@ -139,8 +139,7 @@ private theorem existsUnique_tensor_of_equal_cofaces
       (TensorProduct.map (Algebra.TensorProduct.includeRight : A →ₐ[R] A ⊗[R] A).toLinearMap
         (LinearMap.id : M →ₗ[R] M) x) = (1 : A) ⊗ₜ[R] x := by
     clear hx
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [map_zero, TensorProduct.tmul_zero, and_self]
+    induction x using TensorProduct.inductionOn with
     | tmul b m => exact ⟨rfl, rfl⟩
     | add x y hx hy =>
       simp only [map_add, TensorProduct.tmul_add, hx.1, hy.1, hx.2, hy.2, and_self]
@@ -219,7 +218,6 @@ private theorem extensionOfBaseSection_bijective {R : Type*} [CommRing R]
   convert e using 1 <;> congr! (config := { typeEqs := true }) 4 <;>
     first
       | simp +instances only [toAlgebra_algebraMap]
-      | exact heq_leftModule_of_algebra_eq toAlgebra_algebraMap
       | exact heq_leftModule_of_algebra_eq toAlgebra_algebraMap.symm
 
 attribute [local implicit_reducible] ModuleCat.restrictScalars
@@ -233,10 +231,7 @@ private theorem extensionOfBaseSection_naturality {R : Type*} [CommRing R]
     F.map f.op.op (extensionOfBaseSection P hR F Y x) =
       extensionOfBaseSection P hR F Z
         (TensorProduct.map f.hom.hom.toLinearMap LinearMap.id x) := by
-  induction x using TensorProduct.induction_on with
-  | zero =>
-    rw [map_zero, map_zero, map_zero]
-    exact (map_zero _).symm
+  induction x using TensorProduct.inductionOn with
   | tmul b m =>
     have e : F.map f.op.op (F.map (baseAlgebraHom P hR Y).op.op m) =
         F.map (baseAlgebraHom P hR Z).op.op m := by

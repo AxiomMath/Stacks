@@ -243,13 +243,13 @@ theorem isLocalization_away_pinchedX :
     IsLocalization.Away (pinchedX k K) (LaurentPolynomial K) := by
   refine ⟨?_, ?_, ?_⟩
   · rintro ⟨t, ⟨n, rfl⟩⟩
-    show IsUnit (Polynomial.toLaurent (Polynomial.X ^ n : Polynomial K))
+    change IsUnit (Polynomial.toLaurent (Polynomial.X ^ n : Polynomial K))
     rw [Polynomial.toLaurent_X_pow]
     exact LaurentPolynomial.isUnit_T n
   · intro z
     obtain ⟨n, p, hp⟩ := LaurentPolynomial.exists_T_pow z
     refine ⟨(pinchedMulX k K p, ⟨pinchedX k K ^ (n + 1), ⟨n + 1, rfl⟩⟩), ?_⟩
-    show z * (pinchedToLaurent k K) (pinchedX k K ^ (n + 1)) = (pinchedToLaurent k K) _
+    change z * (pinchedToLaurent k K) (pinchedX k K ^ (n + 1)) = (pinchedToLaurent k K) _
     simp only [map_pow, pinchedToLaurent, RingHom.coe_comp, Function.comp_apply,
       Subring.coe_subtype, pinchedX, pinchedMulX]
     rw [map_mul, Polynomial.toLaurent_X, hp]
@@ -333,7 +333,7 @@ theorem isMaximal_pinchedOrigin [Module.Finite k K] :
     (pinchedOrigin k K).asIdeal.IsMaximal := by
   have : (Ideal.span {(Polynomial.X : Polynomial K)}).IsMaximal :=
     PrincipalIdealRing.isMaximal_of_irreducible Polynomial.irreducible_X
-  show ((Ideal.span {(Polynomial.X : Polynomial K)}).under
+  change ((Ideal.span {(Polynomial.X : Polynomial K)}).under
     (pinchedPolynomialRing k K)).IsMaximal
   infer_instance
 
@@ -350,12 +350,12 @@ private theorem pinchedX_mem_iff [Module.Finite k K]
     obtain ⟨p, hp⟩ := Ideal.mem_span_singleton.mp ha
     have hpow : a ^ 2 = pinchedX k K * pinchedMulX k K (p ^ 2) := by
       apply Subtype.ext
-      show a.val ^ 2 = Polynomial.X * (Polynomial.X * p ^ 2)
+      change a.val ^ 2 = Polynomial.X * (Polynomial.X * p ^ 2)
       rw [hp]
       ring
     exact q.isPrime.mem_of_pow_mem 2 (hpow ▸ q.asIdeal.mul_mem_right _ hq)
   · rintro rfl
-    show Polynomial.X ∈ Ideal.span {(Polynomial.X : Polynomial K)}
+    change Polynomial.X ∈ Ideal.span {(Polynomial.X : Polynomial K)}
     exact Ideal.mem_span_singleton_self _
 
 /-- The punctured chart is the complement of the pinched point. -/
@@ -364,7 +364,7 @@ theorem pinchedPuncturedChart_range [Module.Finite k K] :
   let : Algebra (pinchedPolynomialRing k K) (LaurentPolynomial K) :=
     (pinchedToLaurent k K).toAlgebra
   have := isLocalization_away_pinchedX k K
-  show Set.range (PrimeSpectrum.comap
+  change Set.range (PrimeSpectrum.comap
     (algebraMap (pinchedPolynomialRing k K) (LaurentPolynomial K))) = _
   rw [PrimeSpectrum.localization_away_comap_range _ (pinchedX k K)]
   ext q
@@ -374,7 +374,7 @@ theorem pinchedPuncturedChart_range [Module.Finite k K] :
 the Krull dimension of the ring, and `dim K[X] = dim K + 1 = 1`. -/
 theorem topologicalKrullDim_spec_polynomial :
     topologicalKrullDim (Spec (.of (Polynomial K))) = 1 := by
-  show topologicalKrullDim (PrimeSpectrum (Polynomial K)) = 1
+  change topologicalKrullDim (PrimeSpectrum (Polynomial K)) = 1
   rw [PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim,
     Polynomial.ringKrullDim_of_isNoetherianRing, ringKrullDim_eq_zero_of_field]
   rfl

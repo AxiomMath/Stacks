@@ -263,7 +263,7 @@ theorem map_representedTopToIdChart_baseRingHom (a : A) :
     refine Eq.trans ?_ (((BigFppfOver.toScheme B (Spec (.of A)) hA).obj U).presheaf.map_comp _ _)
     exact congrArg ((BigFppfOver.toScheme B (Spec (.of A)) hA).obj U).presheaf.map
       (Subsingleton.elim _ _)
-  show ((Scheme.ΓSpecIso (.of A)).inv ≫ Scheme.Γ.map (representedStructureMorphism A B hA U).op ≫
+  change ((Scheme.ΓSpecIso (.of A)).inv ≫ Scheme.Γ.map (representedStructureMorphism A B hA U).op ≫
       Scheme.Γ.map ((⊤ : ((BigFppfOver.toScheme B (Spec (.of A)) hA).obj U).Opens).ι).op).hom a =
     ((Scheme.ΓSpecIso (.of A)).inv ≫
       (representedStructureMorphism A B hA U).appLE ⊤ ⊤ (by simp) ≫
@@ -509,7 +509,7 @@ def representedCohomologyAssociatedModuleIso
 the base object: a morphism to the terminal object of the slice is the structure morphism. -/
 theorem toScheme_map_eq_representedStructureMorphism (w : U ⟶ Over.mk (𝟙 (B.obj hA))) :
     (BigFppfOver.toScheme B (Spec (.of A)) hA).map w = representedStructureMorphism A B hA U := by
-  show B.inclusion.map w.left = B.inclusion.map U.hom
+  change B.inclusion.map w.left = B.inclusion.map U.hom
   rw [← Over.w w]
   exact (congrArg B.inclusion.map (Category.comp_id w.left)).symm
 

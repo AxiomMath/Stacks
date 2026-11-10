@@ -57,8 +57,8 @@ sets, `CategoryTheory.SimplicialSiteSituation.cartesianSheafEquivCartesianPair`.
 not transfer to modules verbatim, because the pullback of modules is not the inverse image of the
 underlying sheaves of sets but extension of scalars along it; the descent of a pair to a module
 on the total site is therefore carried out at the level of modules in
-`StacksFrontier.AlgebraicGeometry.Simplicial.ComponentRingedTopos.ModuleDescentSystem`, and this file
-provides only the functor and its faithfulness.
+`StacksFrontier.AlgebraicGeometry.Simplicial.ComponentRingedTopos.ModuleDescentSystem`, and this
+file provides only the functor and its faithfulness.
 
 The three identifications occurring in the cocycle condition are carried to the composites
 `faceSquareTransitionModulesIso` of the transitions along two faces by

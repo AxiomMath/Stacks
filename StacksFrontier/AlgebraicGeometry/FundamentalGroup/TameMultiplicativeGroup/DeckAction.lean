@@ -68,7 +68,7 @@ theorem coe_zetaUnit (m : ℕ) : ((zetaUnit k m : towerField k m) : Omega k) = t
 /-- `ζ_m^{N_m} = 1`. -/
 theorem zetaUnit_pow (m : ℕ) : zetaUnit k m ^ towerN k m = 1 := by
   ext
-  show ((((zetaUnit k m) ^ towerN k m : (towerField k m)ˣ) : towerField k m) : Omega k) = 1
+  change ((((zetaUnit k m) ^ towerN k m : (towerField k m)ˣ) : towerField k m) : Omega k) = 1
   rw [Units.val_pow_eq_pow_val, IntermediateField.coe_pow, coe_zetaUnit,
     (isPrimitiveRoot_towerZeta k m).pow_eq_one]
 
@@ -110,7 +110,7 @@ theorem frobAut_pow_apply (m n : ℕ) (a : towerField k m) :
   | zero => simp
   | succ n ih =>
     rw [pow_succ']
-    show frobAut k m ((frobAut k m ^ n) a) = _
+    change frobAut k m ((frobAut k m ^ n) a) = _
     rw [ih, frobAut_apply, ← pow_mul, ← pow_succ]
 
 /-- The Frobenius of `𝔽_{m!}` has order dividing `m!`. -/
@@ -152,12 +152,12 @@ theorem frobAut_inv_zeta (m : ℕ) :
   have h : Units.map (frobAut k m : RingAut (towerField k m)).toMonoidHom
       (zetaPow k m (qInvMod k m)) = zetaUnit k m := by
     apply Units.ext
-    show frobAut k m ((zetaPow k m (qInvMod k m) : (towerField k m)ˣ) : towerField k m) = _
+    change frobAut k m ((zetaPow k m (qInvMod k m) : (towerField k m)ˣ) : towerField k m) = _
     rw [frobAut_apply, ← Units.val_pow_eq_pow_val, ← zetaPow_mul_natCast, qInvMod_mul_card,
       zetaPow_one]
   rw [← h]
   apply Units.ext
-  show (frobAut k m).symm (frobAut k m _) = _
+  change (frobAut k m).symm (frobAut k m _) = _
   rw [RingEquiv.symm_apply_apply]
 
 /-- `Frob⁻ᵉ(ζ_m) = ζ_m^{q⁻ᵉ}`. -/
@@ -209,7 +209,7 @@ theorem actN_actF_compat (m : ℕ) (g : Multiplicative ProfiniteIntegers) :
     (actN k m).comp (frobeniusAut (inverseCharacter (Fintype.card k)) g).toMonoidHom =
       (MulAut.conj (actF k m g)).toMonoidHom.comp (actN k m) := by
   refine MonoidHom.ext fun n ↦ ?_
-  show scaleAut _ (zetaPow k m (redN k m (Multiplicative.toAdd
+  change scaleAut _ (zetaPow k m (redN k m (Multiplicative.toAdd
       (frobeniusAut (inverseCharacter (Fintype.card k)) g n)))) =
     coeffAut _ ((frobAut k m)⁻¹ ^ (redF m (Multiplicative.toAdd g)).val) *
       scaleAut _ (zetaPow k m (redN k m (Multiplicative.toAdd n))) *

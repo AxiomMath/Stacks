@@ -141,7 +141,7 @@ private theorem isLocallyInjective_coequalizerDesc_of_isLocallySurjective
   let qᵦ : yoneda.obj T ⟶ U := yonedaEquiv.symm b
   have hq : qₐ ≫ k = qᵦ ≫ k := by
     apply yonedaEquiv.injective
-    show (qₐ ≫ k).app (Opposite.op T) (𝟙 T) = (qᵦ ≫ k).app (Opposite.op T) (𝟙 T)
+    change (qₐ ≫ k).app (Opposite.op T) (𝟙 T) = (qᵦ ≫ k).app (Opposite.op T) (𝟙 T)
     simpa [qₐ, qᵦ] using (hpk a).symm.trans (hxy.trans (hpk b))
   let s := (pullback.lift qₐ qᵦ hq).app (Opposite.op T) (𝟙 T)
   have hz (pr : pullback k k ⟶ U) (c) (h : pullback.lift qₐ qᵦ hq ≫ pr = yonedaEquiv.symm c) :

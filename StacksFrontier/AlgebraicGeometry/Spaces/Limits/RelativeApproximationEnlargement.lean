@@ -158,9 +158,9 @@ theorem hasRelativeApproximation_of_changeBigSite {X Y : AlgebraicSpaces B (⊤_
     refine isLimitOfIsLimitChangeBigSite B B' h (⊤_ Scheme.{u}) hZ _ ?_
     refine (IsLimit.postcomposeHomEquiv (Functor.isoWhiskerRight eL ι') _)
       ((Arrow.isLimitLeftOfIsLimit R.isLimit).ofIsoLimit (Cone.ext (Iso.refl _) fun j => ?_))
-    show (R.π.app j).left = 𝟙 _ ≫ (F.map (πL j)).hom ≫ (eL.hom.app j).hom
+    change (R.π.app j).left = 𝟙 _ ≫ (F.map (πL j)).hom ≫ (eL.hom.app j).hom
     rw [Category.id_comp, hFπL]
-    show (R.π.app j).left = ((ObjectProperty.homMk (R.π.app j).left : F.obj X ⟶ G.obj j) ≫
+    change (R.π.app j).left = ((ObjectProperty.homMk (R.π.app j).left : F.obj X ⟶ G.obj j) ≫
       eL.inv.app j ≫ eL.hom.app j).hom
     rw [Iso.inv_hom_id_app, Category.comp_id]
     rfl
@@ -169,9 +169,9 @@ theorem hasRelativeApproximation_of_changeBigSite {X Y : AlgebraicSpaces B (⊤_
     refine (IsLimit.postcomposeHomEquiv (Functor.isoWhiskerRight eM ι') _)
       ((Arrow.isLimitRightOfIsLimit initialIsInitial R.isLimit).ofIsoLimit
         (Cone.ext (Iso.refl _) fun j => ?_))
-    show (R.π.app j).right = 𝟙 _ ≫ (F.map (πM j)).hom ≫ (eM.hom.app j).hom
+    change (R.π.app j).right = 𝟙 _ ≫ (F.map (πM j)).hom ≫ (eM.hom.app j).hom
     rw [Category.id_comp, hFπM]
-    show (R.π.app j).right = ((ObjectProperty.homMk (R.π.app j).right : F.obj Y ⟶ H.obj j) ≫
+    change (R.π.app j).right = ((ObjectProperty.homMk (R.π.app j).right : F.obj Y ⟶ H.obj j) ≫
       eM.inv.app j ≫ eM.hom.app j).hom
     rw [Iso.inv_hom_id_app, Category.comp_id]
     rfl
@@ -180,11 +180,11 @@ theorem hasRelativeApproximation_of_changeBigSite {X Y : AlgebraicSpaces B (⊤_
     { app := fun j => Arrow.homMk' (πL j).hom (πM j).hom (congrArg InducedCategory.Hom.hom (hπw j))
       naturality := fun a b g => Arrow.hom_ext _ _
         (by
-          show 𝟙 _ ≫ (πL b).hom = (πL a).hom ≫ (L.map g).hom
+          change 𝟙 _ ≫ (πL b).hom = (πL a).hom ≫ (L.map g).hom
           rw [Category.id_comp, ← hπLnat g]
           rfl)
         (by
-          show 𝟙 _ ≫ (πM b).hom = (πM a).hom ≫ (M.map g).hom
+          change 𝟙 _ ≫ (πM b).hom = (πM a).hom ≫ (M.map g).hom
           rw [Category.id_comp, ← hπMnat g]
           rfl) }
   have hlim : IsLimit (Cone.mk (Arrow.mk f.hom) π) :=

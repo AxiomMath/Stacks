@@ -46,25 +46,31 @@ variable (X : (BigFppfOver B (Spec (.of Λ)) hΛ)ᵒᵖ ⥤ Type u)
   (toK : X ⟶ yoneda.obj (spaceBaseOver B hΛ hSpec (residueFieldBase Λ k)))
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the small étale site is deep
 /-- Discrete limits of presheaves of sets on the small étale site (instance search times out
 without this shortcut). -/
-local instance (priority := high) hasLimitsOfShape_discrete_SpacesTangentSpaceSurjectiveClassComparison
+local instance (priority := high)
+    hasLimitsOfShape_discrete_SpacesTangentSpaceSurjectiveClassComparison
     {S : Scheme.{u}} {hS : B.Contains S} (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (J : Type u) :
     HasLimitsOfShape (Discrete J) ((SmallEtale B S hS F)ᵒᵖ ⥤ Type u) :=
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `Type`-indexed limits of presheaves on the small étale site is deep
 /-- Discrete limits indexed by `Type` of presheaves of sets on the small étale site (instance
 search times out without this shortcut). -/
-local instance (priority := high) hasLimitsOfShape_discrete₀_SpacesTangentSpaceSurjectiveClassComparison
+local instance (priority := high)
+    hasLimitsOfShape_discrete₀_SpacesTangentSpaceSurjectiveClassComparison
     {S : Scheme.{u}} {hS : B.Contains S} (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (J : Type) :
     HasLimitsOfShape (Discrete J) ((SmallEtale B S hS F)ᵒᵖ ⥤ Type u) :=
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of sheaves on the small étale site is deep
 /-- Discrete limits of sheaves of sets on the small étale site (instance search times out
 without this shortcut). -/
-local instance (priority := high) hasDiscreteLimits_topos_SpacesTangentSpaceSurjectiveClassComparison
+local instance (priority := high)
+    hasDiscreteLimits_topos_SpacesTangentSpaceSurjectiveClassComparison
     {S : Scheme.{u}} {hS : B.Contains S} (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (J : Type) :
     HasLimitsOfShape (Discrete J) (Sheaf (SmallEtale.topology B S hS F) (Type u)) :=
   letI : HasLimitsOfShape (Discrete J) (Type u) := inferInstance
@@ -243,7 +249,7 @@ theorem algebraMap_comp_spaceSurjMiddleMap :
       spaceDefoRetractedStructureMap B hΛ hSpec X hX toK
         (spaceTangentRetraction B hΛ hSpec X hX toK xP) := by
     refine (spaceSurjToDual_comp B hΛ hSpec X hX toK P).symm.trans ?_
-    simp only [spaceTangentRetraction, spaceFiberConstants, eqToHom_refl, Category.comp_id]
+    simp only [spaceTangentRetraction, spaceFiberConstants]
     rfl
   have hG := eqToHom_inverseImageStructureSheafMap_eqToHom B
     (spaceSurjThickeningIso_comp_inclusion B hΛ hSpec X hX toK P hflat hcart).symm hh
@@ -257,7 +263,7 @@ theorem algebraMap_comp_spaceSurjMiddleMap :
         (spaceSurjToBase B hΛ hSpec X hX toK P) ≫ ((E).quotientSheafIso Pp hU hU).hom := by
     refine hT.trans ?_
     unfold inverseImageStructureSheafMap
-    simp only [Category.assoc]
+    simp only
     rfl
   unfold spaceSurjMiddleMap
   rw [hT']
@@ -290,7 +296,7 @@ theorem globalFunctionsOfMap_spaceSurjToDual_val (U : (SmallEtale B (Spec (.of �
   refine (RingHom.comp_apply _ _ _).trans ?_
   refine (congrArg (spaceSurjDualHom B hΛ hSpec X hX toK P)
     (RingEquiv.symm_apply_apply _ _)).trans ?_
-  show spaceSurjConstants B hΛ hSpec X hX toK P 0 +
+  change spaceSurjConstants B hΛ hSpec X hX toK P 0 +
     spaceSurjConstants B hΛ hSpec X hX toK P 1 * spaceSurjEps B hΛ hSpec X hX toK P = _
   rw [map_zero, map_one, zero_add, one_mul]
 

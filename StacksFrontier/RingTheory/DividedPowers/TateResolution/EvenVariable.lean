@@ -215,12 +215,12 @@ public instance : NonUnitalNonAssocRing (EvenVariableAlgebra A) where
 
 private theorem one_mul_monomial (n : ℕ) (a : A) :
     (1 : EvenVariableAlgebra A) * monomial n a = monomial n a := by
-  show monomial 0 1 * monomial n a = _
+  change monomial 0 1 * monomial n a = _
   simp
 
 private theorem monomial_mul_one (n : ℕ) (a : A) :
     monomial n a * (1 : EvenVariableAlgebra A) = monomial n a := by
-  show monomial n a * monomial 0 1 = _
+  change monomial n a * monomial 0 1 = _
   simp
 
 /-- The constant monomial `1` is a two-sided unit. -/
@@ -392,7 +392,7 @@ public def monomialLinearMap (n : ℕ) : A →ₗ[R] EvenVariableAlgebra A where
 public theorem sum_monomial (x : EvenVariableAlgebra A) :
     ∑ n ∈ x.coeff.support, monomial n (x.coeff n) = x := by
   apply EvenVariableAlgebra.ext
-  show (show EvenVariableAlgebra A →+ (ℕ →₀ A) from
+  change (show EvenVariableAlgebra A →+ (ℕ →₀ A) from
     { toFun := coeff, map_zero' := coeff_zero, map_add' := coeff_add }) _ = _
   simp only [map_sum]
   exact Finsupp.sum_single x.coeff
@@ -503,9 +503,9 @@ private theorem decomposeAddHom_monomial (𝒜 : ℕ → Submodule R A) [GradedA
     decomposeAddHom 𝒜 d (monomial n a) =
       DirectSum.of (fun m ↦ grade 𝒜 d m) (k + n * d)
         ⟨monomial n a, monomial_mem_grade 𝒜 d n k ha⟩ := by
-  show (Finsupp.liftAddHom (decomposeMonomial 𝒜 d)) (Finsupp.single n a) = _
+  change (Finsupp.liftAddHom (decomposeMonomial 𝒜 d)) (Finsupp.single n a) = _
   rw [Finsupp.liftAddHom_apply_single]
-  show DirectSum.toAddMonoid (fun k ↦ _) (DirectSum.decompose 𝒜 a) = _
+  change DirectSum.toAddMonoid (fun k ↦ _) (DirectSum.decompose 𝒜 a) = _
   rw [DirectSum.decompose_of_mem 𝒜 ha, DirectSum.toAddMonoid_of]
   rfl
 
@@ -530,7 +530,7 @@ private theorem decomposeAddHom_of_mem (𝒜 : ℕ → Submodule R A) [GradedAlg
   refine homogeneous_induction_on (P := fun x ↦ ∀ hx : x ∈ grade 𝒜 d m,
     decomposeAddHom 𝒜 d x = DirectSum.of (fun m ↦ grade 𝒜 d m) m ⟨x, hx⟩) hx ?_ ?_ ?_ hx
   · intro h
-    show decomposeAddHom 𝒜 d 0 = DirectSum.of _ m 0
+    change decomposeAddHom 𝒜 d 0 = DirectSum.of _ m 0
     simp
   · intro n a hn ha h
     generalize hk : m - n * d = k at ha

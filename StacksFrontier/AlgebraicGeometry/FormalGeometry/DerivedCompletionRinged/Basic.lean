@@ -191,7 +191,7 @@ theorem isDerivedComplete_iff_of_iso (X : RingedSite.{u, v, r})
     let A := SheafOfModules.{max u v w} R
     let : Linear (CatCenter A) A := Linear.ofRingMorphism (RingHom.id (CatCenter A))
     let : ∀ V : (Over U)ᵒᵖ, IsMulCommutative (R.obj.obj V) := fun V ↦ by
-      show IsMulCommutative (X.O.obj.obj (Opposite.op V.unop.left))
+      change IsMulCommutative (X.O.obj.obj (Opposite.op V.unop.left))
       infer_instance
     let F := SheafOfModules.overFunctor.{max u v w} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) U
     obtain ⟨hAdd, hLim, hColim, hProducts, hComplete⟩ := h U f hf

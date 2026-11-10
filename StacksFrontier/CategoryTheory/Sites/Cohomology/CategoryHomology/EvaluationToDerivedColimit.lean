@@ -381,7 +381,7 @@ private theorem exactFunctorToDerivedFunctorLift_comp
                           (F.mapHomotopyCategoryFactors (ComplexShape.up ℤ)).hom.app K =
                         (HomotopyCategory.quotient B (ComplexShape.up ℤ)).map
                           ((NatTrans.mapHomologicalComplex τ (ComplexShape.up ℤ)).app K) := by
-                      show (𝟙 _ ≫ (HomotopyCategory.quotient B (ComplexShape.up ℤ)).map
+                      change (𝟙 _ ≫ (HomotopyCategory.quotient B (ComplexShape.up ℤ)).map
                         ((NatTrans.mapHomologicalComplex τ (ComplexShape.up ℤ)).app K) ≫
                           𝟙 _) = _
                       simp only [Category.id_comp, Category.comp_id]

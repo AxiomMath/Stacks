@@ -198,7 +198,7 @@ theorem mem_spanningOpen_iff (e : Module.Basis (Fin d) κ W) (φ : (ι → κ) �
     tuplePoint a p ∈ spanningOpen e φ ↔
       Submodule.span κ (Set.range fun t => φ (Function.curry a t)) = ⊤ := by
   rw [span_eq_top_iff_eval_spanDet_ne_zero e φ a]
-  show p ∈ tuplePoint a ⁻¹ᵁ spanningOpen e φ ↔ _
+  change p ∈ tuplePoint a ⁻¹ᵁ spanningOpen e φ ↔ _
   rw [spanningOpen, Scheme.preimage_basicOpen_top, tuplePoint_appTop_spanDetFunction e φ a]
   refine ⟨fun hmem h0 => ?_, fun hne => ?_⟩
   · rwa [h0, map_zero, Scheme.basicOpen_zero] at hmem

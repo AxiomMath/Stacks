@@ -118,7 +118,7 @@ public lemma bijective_mapExtAddHom_of_boundedFullyFaithful
     funext e
     simp only [Function.comp_apply]
     rw [Equiv.eq_symm_apply]
-    show (Φ.mapExtAddHom.{w, w'} X Y n e).hom = _
+    change (Φ.mapExtAddHom.{w, w'} X Y n e).hom = _
     rw [Functor.mapExtAddHom_apply, Ext.mapExactFunctor_hom]
     simp [hα, hβ, Iso.homCongr, ShiftedHom.map, Category.assoc]
   rw [hfun]

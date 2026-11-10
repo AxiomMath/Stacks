@@ -180,7 +180,7 @@ lemma smallPolynomialQuotientModule_map_smul
     ((smallPolynomialQuotientAlgebra A B κ).map f).hom (r • m) =
       (smallPolynomialStructurePresheaf A B κ).map f r •
         ((smallPolynomialQuotientAlgebra A B κ).map f).hom m := by
-  show ((smallPolynomialQuotientAlgebra A B κ).map f).hom
+  change ((smallPolynomialQuotientAlgebra A B κ).map f).hom
       (smallSiteStructureToQuotient A B κ X r * m) =
     smallSiteStructureToQuotient A B κ Y ((smallPolynomialStructurePresheaf A B κ).map f r) *
       ((smallPolynomialQuotientAlgebra A B κ).map f).hom m

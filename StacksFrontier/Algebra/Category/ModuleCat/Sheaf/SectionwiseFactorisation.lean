@@ -63,7 +63,7 @@ theorem existsUnique_factorThrough : ∃! l : N ⟶ I, l ≫ incl = g := by
       (ModuleCat.restrictScalars (R.obj.map p).hom).map (ModuleCat.ofHom (lapp V)) =
         ModuleCat.ofHom (lapp U) ≫ I.val.map p := fun {U V} p ↦
     ModuleCat.hom_ext (LinearMap.ext fun z ↦ hinj V (by
-      show (incl.val.app V) (t V (N.val.map p z)) = (incl.val.app V) (I.val.map p (t U z))
+      change (incl.val.app V) (t V (N.val.map p z)) = (incl.val.app V) (I.val.map p (t U z))
       exact (hti V (N.val.map p z)).trans
         ((PresheafOfModules.naturality_apply g.val p z).trans
           ((congrArg (fun x ↦ M.val.map p x) (hti U z).symm).trans

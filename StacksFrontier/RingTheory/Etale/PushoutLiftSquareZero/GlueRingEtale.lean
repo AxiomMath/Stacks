@@ -150,8 +150,7 @@ theorem modelResS_comp {t s : Finset (Fin r)} (h : t ⊆ s) :
       modelLS (J := J) (f := f) C s := by
   apply TensorProduct.ext'
   intro x c
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul b j =>
     simp [modelResS, modelLS, thetaJ_tmul, locC₀ResLin, locC₀Res_algebraMap]
   | add x y hx hy => simp only [TensorProduct.add_tmul, map_add, hx, hy]
@@ -384,8 +383,7 @@ theorem isBaseChange_muJ :
   refine IsBaseChange.of_equiv
     (TensorProduct.AlgebraTensorModule.cancelBaseChange A B₀ (C ⧸ J.map (algebraMap A C))
       (C ⧸ J.map (algebraMap A C)) J) fun x ↦ ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul b j => simp [muJ, Algebra.smul_def]
   | add x y hx hy => simp only [TensorProduct.tmul_add, map_add, hx, hy]
 
@@ -493,8 +491,7 @@ theorem ker_glueReduction (σ : Setup J f B₀)
   have hgen : ∀ m : modJ J B₀, ∃ X ∈ J.map (algebraMap A (glueRing C σ)),
       X.1.1 = pushC₀ C σ (muJ C m) ∧ ∀ i, X.1.2 i = pushE σ {i} (hne1 i) (modelL J f B₀ {i} m) := by
     intro m
-    induction m using TensorProduct.induction_on with
-    | zero => exact ⟨0, Submodule.zero_mem _, by simp, fun i ↦ by simp⟩
+    induction m using TensorProduct.inductionOn with
     | tmul b j =>
       obtain ⟨Y, hY⟩ := exists_lift_to_glueRing C σ hflat hq hEtC b
       refine ⟨algebraMap A (glueRing C σ) j * Y,

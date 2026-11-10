@@ -91,8 +91,8 @@ public noncomputable def envelopeDPAlgebra :
   dividedPowers b := (tensorPowerEnvelope s f b).object.dividedPowers
   map φ := envelopeReindexAlgHomOfSimplex s f φ
   map_isDPMorphism φ := (envelopeReindex s f φ).1.isDPMorphism
-  map_id n := AlgHom.coe_ringHom_injective (RingHom.ext (envelopeReindex_id s f n))
-  map_comp φ ψ := AlgHom.coe_ringHom_injective (RingHom.ext (envelopeReindex_comp s f φ ψ))
+  map_id n := AlgHom.toRingHom_injective (RingHom.ext (envelopeReindex_id s f n))
+  map_comp φ ψ := AlgHom.toRingHom_injective (RingHom.ext (envelopeReindex_comp s f φ ψ))
 
 /-- **The bigraded family `Ω^a_{D(b)}`** of the cosimplicial envelope: the `p`-adic completion of
 the `a`-th exterior power of the divided power differentials of `D(b)`. -/

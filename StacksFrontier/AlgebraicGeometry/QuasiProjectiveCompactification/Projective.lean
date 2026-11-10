@@ -205,7 +205,7 @@ theorem exists_isImmersion_isProjective_of_qcqs {X S : Scheme.{u}} (f : X ⟶ S)
           (f ⁻¹ᵁ V j) x) = x :=
       Stacks.AlgebraicGeometry.ProjChartRatioPullbackLocalMul.hom_app_inv_app
         (Stacks.AlgebraicGeometry.CoherentMulSections.powCompare L' 1).symm (f ⁻¹ᵁ V j) x
-    show (Φ j).hom.app ⊤
+    change (Φ j).hom.app ⊤
       (Stacks.AlgebraicGeometry.ProjChartRatioPullbackLocalMul.restrictPowSection
         L' (f ⁻¹ᵁ V j) 1 ((Stacks.AlgebraicGeometry.CoherentMulSections.powCompare L' 1).inv.app
           (f ⁻¹ᵁ V j) ((Stacks.AlgebraicGeometry.CoherentMulSections.powCompare L' 1).hom.app

@@ -136,8 +136,7 @@ lemma idealActionPresheaf_app_eq_smulMap
       (J.toSheafOfModules.val) (F.val))).obj U) :
     ((idealActionPresheaf J F).app U).hom t =
       Stacks.IdealTensor.smulMap (idealSections J U).subtype t := by
-  induction t using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction t using TensorProduct.inductionOn with
   | tmul a m => rfl
   | add t s ht hs =>
       exact (map_add _ t s).trans ((congrArg₂ (· + ·) ht hs).trans (map_add _ t s).symm)
@@ -345,7 +344,7 @@ theorem smul_eq_zero_of_idealActionLift_eq_zero
     (fun g ↦ (PresheafOfModules.Hom.app (SheafOfModules.Hom.val g) (op U)).hom z)
     (idealActionLift_fac J F N h)
   refine hfac.symm.trans ?_
-  show (N.ι.val.app (op U)).hom ((idealActionLift J F N h).val.app (op U) z) = 0
+  change (N.ι.val.app (op U)).hom ((idealActionLift J F N h).val.app (op U) z) = 0
   rw [hz, map_zero]
 
 end Stacks.Algebraization

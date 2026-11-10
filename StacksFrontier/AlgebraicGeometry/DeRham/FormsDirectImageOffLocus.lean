@@ -63,7 +63,7 @@ theorem isIso_app_formsDirectImageComparison_of_isIso_morphismRestrict (f : Y �
   have : IsOpenImmersion (s ≫ f) := by rw [hsf]; infer_instance
   have h₁ := isIso_app_formsDirectImageComparison_of_isOpenImmersion (s ≫ f) π d U
     (fun x hx => by
-      show x ∈ Set.range (s ≫ f).base
+      change x ∈ Set.range (s ≫ f).base
       rw [hsf]
       exact ⟨⟨x, hx⟩, rfl⟩)
   have h₂ := isIso_app_formsDirectImageComparison_of_isOpenImmersion s (f ≫ π) d (f ⁻¹ᵁ U)

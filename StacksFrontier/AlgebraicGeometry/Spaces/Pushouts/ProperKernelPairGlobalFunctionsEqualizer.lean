@@ -188,7 +188,7 @@ theorem isEqualizer_pushforwardAlgebraMap_kernelPairSpecπOver (hg : IsProper B 
     rw [← hinv r₁, ← hinv r₂, Subtype.ext h]
   · have ha' : a ∈ AlgebraSheaf.equalizerSections (kernelPairFstMap g) (kernelPairSndMap g)
         (op V) := by
-      show ((kernelPairFstMap g).right.hom.app (op V)).hom a =
+      change ((kernelPairFstMap g).right.hom.app (op V)).hom a =
         ((kernelPairSndMap g).right.hom.app (op V)).hom a
       rwa [kernelPairFstMap_def, kernelPairSndMap_def]
     refine ⟨(e.inv.right.hom.app (op V)).hom ⟨a, ha'⟩, ?_⟩
@@ -351,7 +351,7 @@ theorem globalFunctionsEqualizer_cech (V : SmallEtale B S hS X.1) :
     rfl
   have hα₁ : (cechOneIso hg).hom ≫ (kernelPairOver g).hom =
       cechBase (kernelPairSpecπ hg) (op ⦋1⦌) ≫ kernelPairSpecToTarget hg := by
-    show cechOneHom hg ≫ (kernelPairFstOver g).left ≫ g = _
+    change cechOneHom hg ≫ (kernelPairFstOver g).left ≫ g = _
     rw [cechOneHom_fst_assoc, ← cechProj_comp (kernelPairSpecπ hg) (n := op ⦋1⦌) 0,
       Category.assoc, e]
   refine GlobalFunctionsEqualizer.of_iso (Iso.refl _) (chartBaseChangeSpaceIso B S hS α₀ hα₀ V)
@@ -391,7 +391,7 @@ theorem isProper_cechBase_one
   have hfst : IsProper B S hS (kernelPairFstOver g).left.hom :=
     (isProper_isStableUnderBaseChange B S hS).of_isPullback (isPullback_kernelPairOver g).flip hg
   rw [← cechProj_comp (kernelPairSpecπ hg) (n := op ⦋1⦌) 0, ← cechOneHom_fst hg]
-  show IsProper B S hS ((cechOneIso hg).hom.hom ≫ (kernelPairFstOver g).left.hom ≫
+  change IsProper B S hS ((cechOneIso hg).hom.hom ≫ (kernelPairFstOver g).left.hom ≫
     (kernelPairSpecπ hg).hom)
   exact (isProper_isIso_comp_iff B S hS _ _).2 (isProper_comp B S hS
     (kernelPairOver g).left.property Y.property (kernelPairSpec hg).obj.left.property _ _ hfst

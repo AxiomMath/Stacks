@@ -91,8 +91,9 @@ theorem lt_ordZ_iff {w : AddValuation K (WithTop ℤ)} {f : K} (hf : f ≠ 0) (z
 
 /-- A nonzero constant has valuation zero at every valuation, the constants being a finite field:
 `c ^ (q - 1) = 1`. -/
-theorem val_algebraMap [Fintype k] (w : AddValuation K (WithTop ℤ)) {c : k} (hc : c ≠ 0) :
+theorem val_algebraMap [Finite k] (w : AddValuation K (WithTop ℤ)) {c : k} (hc : c ≠ 0) :
     w (algebraMap k K c) = 0 := by
+  have := Fintype.ofFinite k
   have hc' : algebraMap k K c ≠ 0 := by simpa using hc
   have h1 : (algebraMap k K c) ^ (Fintype.card k - 1) = 1 := by
     rw [← map_pow, FiniteField.pow_card_sub_one_eq_one c hc, map_one]
@@ -106,7 +107,7 @@ theorem val_algebraMap [Fintype k] (w : AddValuation K (WithTop ℤ)) {c : k} (h
   rfl
 
 /-- Multiplying by a constant does not decrease the valuation: `w g ≤ w (c g)`. -/
-theorem le_val_algebraMap_mul [Fintype k] (w : AddValuation K (WithTop ℤ)) (c : k) (g : K) :
+theorem le_val_algebraMap_mul [Finite k] (w : AddValuation K (WithTop ℤ)) (c : k) (g : K) :
     w g ≤ w (algebraMap k K c * g) := by
   rcases eq_or_ne c 0 with rfl | hc
   · simp
@@ -262,7 +263,7 @@ theorem zero_mem_poleSpace (P₀ : Pl) (m : ℕ) : (0 : K) ∈ poleSpace v P₀ 
   simp [poleSpace]
 
 /-- The space `L(m P₀)` is closed under `f, g ↦ f - c g` for constants `c`. -/
-theorem sub_mem_poleSpace [Fintype k] {P₀ : Pl} {m : ℕ} {f g : K} (hf : f ∈ poleSpace v P₀ m)
+theorem sub_mem_poleSpace [Finite k] {P₀ : Pl} {m : ℕ} {f g : K} (hf : f ∈ poleSpace v P₀ m)
     (hg : g ∈ poleSpace v P₀ m) (c : k) : f - algebraMap k K c * g ∈ poleSpace v P₀ m :=
   ⟨AddValuation.map_le_sub _ hf.1 (hg.1.trans (le_val_algebraMap_mul _ c g)),
     fun P hP => AddValuation.map_le_sub _ (hf.2 P hP)

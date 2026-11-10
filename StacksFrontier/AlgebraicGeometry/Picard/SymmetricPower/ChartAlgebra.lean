@@ -219,8 +219,7 @@ theorem coordMap_tmul {t : Fin d → A → R'} (ht : IsChartFunction R w t) (r :
 
 theorem coordMap_mul_chartGenerator {t : Fin d → A → R'} (ht : IsChartFunction R w t)
     (x : R' ⊗[R] A) (a : A) : coordMap ht (x * chartGenerator R w t a) = 0 := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul r c =>
     simp only [chartGenerator, mul_sub, Finset.mul_sum, Algebra.TensorProduct.tmul_mul_tmul,
       mul_one, map_sub, map_sum, coordMap_tmul]
@@ -251,8 +250,7 @@ theorem coordMap_basis {t : Fin d → A → R'} (ht : IsChartFunction R w t) (c 
 
 theorem exists_sub_mem_chartIdeal (t : Fin d → A → R') (x : R' ⊗[R] A) :
     ∃ c : Fin d → R', x - ∑ l, c l ⊗ₜ w l ∈ chartIdeal R w t := by
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction x using TensorProduct.inductionOn with
   | tmul r a =>
     refine ⟨fun l => r * t l a, ?_⟩
     have : r ⊗ₜ[R] a - ∑ l, (r * t l a) ⊗ₜ[R] w l = (r ⊗ₜ[R] (1 : A)) * chartGenerator R w t a := by
@@ -344,9 +342,9 @@ theorem isChartFunction_coordinates (σ : A →ₐ[R] B) (b : Module.Basis (Fin 
     by_cases h : l = m
     · subst h; simp
     · simp [h]
-  · show b.repr (σ (a * c)) l = _
+  · change b.repr (σ (a * c)) l = _
     conv_lhs => rw [map_mul, eq_sum_coordinates_smul σ b hb c, Finset.mul_sum]
-    simp only [mul_smul_comm, ← map_mul, map_sum, map_smul, Finsupp.coe_finset_sum,
+    simp only [mul_smul_comm, ← map_mul, map_sum, map_smul, Finsupp.coe_finsetSum,
       Finset.sum_apply, Finsupp.coe_smul, Pi.smul_apply, smul_eq_mul]
     rfl
 
@@ -507,7 +505,7 @@ theorem ker_eq_chartIdeal_chartCoords (ψ : R' ⊗[R] A →+* B)
   have hle : chartIdeal R w (chartCoords w ψ hb) ≤ RingHom.ker ψ := by
     rw [chartIdeal, Ideal.span_le]
     rintro _ ⟨a, rfl⟩
-    show ψ (chartGenerator R w _ a) = 0
+    change ψ (chartGenerator R w _ a) = 0
     rw [chartGenerator, map_sub, ← chartSum_chartCoords ψ hb a, chartSum, sub_self]
   refine le_antisymm (fun x hx => ?_) hle
   obtain ⟨c, hc⟩ := exists_sub_mem_chartIdeal (w := w) (chartCoords w ψ hb) x

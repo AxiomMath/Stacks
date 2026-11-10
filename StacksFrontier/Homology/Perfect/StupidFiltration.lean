@@ -183,7 +183,7 @@ lemma exists_distinguished_filtration (K : CochainComplex A ℤ) (q : ℤ) :
     (Triangle.isoMk _ _ e₁.symm (Iso.refl _) (Iso.refl _) ?_ ?_ ?_)
   · exact Category.comp_id _
   · exact (Category.comp_id _).trans (Category.id_comp _).symm
-  · show (T.mor₃ ≫ (shiftFunctor (DerivedCategory B) (1 : ℤ)).map e₁.hom) ≫
+  · change (T.mor₃ ≫ (shiftFunctor (DerivedCategory B) (1 : ℤ)).map e₁.hom) ≫
       (shiftFunctor (DerivedCategory B) (1 : ℤ)).map e₁.inv = 𝟙 T.obj₃ ≫ T.mor₃
     rw [Category.assoc, ← CategoryTheory.Functor.map_comp, e₁.hom_inv_id,
       CategoryTheory.Functor.map_id, Category.comp_id, Category.id_comp]

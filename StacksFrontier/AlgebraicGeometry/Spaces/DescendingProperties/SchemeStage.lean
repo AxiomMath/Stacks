@@ -185,7 +185,7 @@ theorem exists_isRepresentable_system_obj_of_mk_lt {I : Type u} [Preorder I] [Is
       rw [hcomp]; exact hU
     obtain ⟨y, rfl⟩ := hx
     refine ⟨pointsMap B S hS _ (P.fromPreimage (limit.π D.system (op j))) y, ?_⟩
-    show (pointsMap B S hS P.toFunctor P.ι ∘
+    change (pointsMap B S hS P.toFunctor P.ι ∘
         pointsMap B S hS _ (P.fromPreimage (limit.π D.system (op j)))) y =
       (pointsMap B S hS (limit D.system) (limit.π D.system (op j)) ∘
         pointsMap B S hS (P.preimage (limit.π D.system (op j))).toFunctor

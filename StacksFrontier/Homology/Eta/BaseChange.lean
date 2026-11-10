@@ -208,7 +208,7 @@ theorem etaBCPsi_fLoc (f : A) {M N : Type*} [AddCommGroup M] [Module A M]
       = fLoc (algebraMap A B f) (LinearMap.baseChange B d) (etaBCPsi f M x) := by
   induction x using LocalizedModule.induction_on with
   | h m s =>
-    show etaBCPsi f N ((LocalizedModule.map (Submonoid.powers f) d) (LocalizedModule.mk m s)) = _
+    change etaBCPsi f N ((LocalizedModule.map (Submonoid.powers f) d) (LocalizedModule.mk m s)) = _
     rw [LocalizedModule.map_mk, etaBCPsi, etaBCPsi,
       LocalizedModule.lift_mk, LocalizedModule.lift_mk]
     -- the localized base-changed differential sends `mk_g (1 ⊗ m)` to `mk_g (1 ⊗ d m)`
@@ -384,8 +384,7 @@ theorem fpowSub_baseChange_eq (f : A) (P : Type*) [AddCommGroup P] [Module A P] 
   apply le_antisymm
   · rw [fpowSub_eq_range]
     rintro y ⟨ξ, rfl⟩
-    induction ξ using TensorProduct.induction_on with
-    | zero => simp
+    induction ξ using TensorProduct.inductionOn with
     | tmul b p =>
         rw [tmul_eq_smul_one_tmul, map_smul, ← etaBCPsi_fpowMap]
         exact Submodule.smul_mem _ _

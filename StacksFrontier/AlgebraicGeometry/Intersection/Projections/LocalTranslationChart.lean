@@ -157,7 +157,7 @@ public theorem apply_chartCoord_mul {w₀ : W} (χ : chartRing k W w₀ →ₐ[k
     have hx0 : x.asIdeal = ⊥ :=
       (Ideal.eq_bot_or_top x.asIdeal).resolve_right x.isPrime.ne_top
     rw [Spec.map_base]
-    show y ∈ Ideal.comap χ.toRingHom x.asIdeal ↔ _
+    change y ∈ Ideal.comap χ.toRingHom x.asIdeal ↔ _
     rw [hx0, Ideal.mem_comap, Ideal.mem_bot]
     rfl
   have hzero : ∀ w' : W, μ w' = 0 → χ (chartCoord k W w₀ w') = 0 := by

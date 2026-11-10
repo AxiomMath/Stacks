@@ -72,7 +72,7 @@ theorem exists_plus_triangle (T : Triangle (DerivedCategory C)) (hT : T ∈ dist
   let c : X₃ ⟶ X₁⟦(1 : ℤ)⟧ := DerivedCategory.Plus.ι.preimage
     (T.mor₃ ≫ (DerivedCategory.Plus.ι.commShiftIso (1 : ℤ)).inv.app X₁)
   refine ⟨Triangle.mk a b c, ?_, rfl, rfl, rfl⟩
-  show DerivedCategory.Plus.ι.mapTriangle.obj (Triangle.mk a b c) ∈ distTriang _
+  change DerivedCategory.Plus.ι.mapTriangle.obj (Triangle.mk a b c) ∈ distTriang _
   refine isomorphic_distinguished _ hT _ (Triangle.isoMk _ _ (Iso.refl _) (Iso.refl _)
     (Iso.refl _) ?_ ?_ ?_)
   · exact (Category.comp_id _).trans

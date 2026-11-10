@@ -67,7 +67,7 @@ private theorem finrank_range_eq_of_linearEquiv {k : Type*} [Field k]
     refine ⟨fun x y h => Subtype.ext (eN.injective (congrArg Subtype.val h)), fun y => ?_⟩
     rcases y.property with ⟨z, hz⟩
     refine ⟨⟨f (eM.symm z), ⟨eM.symm z, rfl⟩⟩, Subtype.ext ?_⟩
-    show eN (f (eM.symm z)) = (y : N')
+    change eN (f (eM.symm z)) = (y : N')
     rw [hcomm]
     simpa using hz
   exact (LinearEquiv.ofBijective L hbij).finrank_eq
@@ -110,7 +110,7 @@ private theorem finrank_homology_add_finrank_ranges {k : Type*} [Field k]
     S.moduleCatHomologyIso.toLinearEquiv.finrank_eq
   have hker : L.ker = S.f.hom.ker := by
     ext x
-    show (L x = 0) ↔ S.f.hom x = 0
+    change (L x = 0) ↔ S.f.hom x = 0
     exact ⟨fun hx => congrArg Subtype.val hx, fun hx => Subtype.ext hx⟩
   have hL := L.finrank_range_add_finrank_ker
   have hf := S.f.hom.finrank_range_add_finrank_ker

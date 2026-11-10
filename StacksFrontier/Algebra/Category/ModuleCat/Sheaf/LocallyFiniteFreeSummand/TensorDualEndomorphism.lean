@@ -274,7 +274,7 @@ theorem sheafHom_sum_apply
   | empty => rfl
   | @insert i s hi ih =>
     simp only [Finset.sum_insert hi]
-    show ((a i).app V).hom g + ((∑ i ∈ s, a i).app V).hom g = _
+    change ((a i).app V).hom g + ((∑ i ∈ s, a i).app V).hom g = _
     rw [ih]
 
 /-- A scalar multiple of a section of the sheaf-hom is evaluated componentwise. -/
@@ -299,11 +299,11 @@ theorem sum_desc_comp_ιFree (U : TopologicalSpace.Opens X.carrier) {I : Type u}
   let p (i : I) : SheafOfModules.free (R := R) I ⟶ SheafOfModules.unit R :=
     Limits.Sigma.desc (fun j => if j = i then 𝟙 _ else 0)
   have hp (i j : I) : SheafOfModules.ιFree j ≫ p i = if j = i then 𝟙 _ else 0 :=
-    Limits.Sigma.ι_desc _ _
-  show ∑ i, p i ≫ SheafOfModules.ιFree i = 𝟙 (SheafOfModules.free (R := R) I)
+    Limits.Sigma.ι_comp_desc _ _
+  change ∑ i, p i ≫ SheafOfModules.ιFree i = 𝟙 (SheafOfModules.free (R := R) I)
   apply Limits.Sigma.hom_ext
   intro j
-  show SheafOfModules.ιFree (R := R) j ≫ (∑ i, p i ≫ SheafOfModules.ιFree i) =
+  change SheafOfModules.ιFree (R := R) j ≫ (∑ i, p i ≫ SheafOfModules.ιFree i) =
     SheafOfModules.ιFree (R := R) j ≫ 𝟙 (SheafOfModules.free (R := R) I)
   rw [Preadditive.comp_sum, Category.comp_id, Finset.sum_eq_single j]
   · rw [← Category.assoc, hp j j]
@@ -363,7 +363,7 @@ theorem exists_dualBasis
     (congrArg (fun z : F.val.obj (op V.unop.left) =>
       dualValue X F (b i).val V g • z) (ha i)).trans
         (hlin i (dualValue X F (b i).val V g)).symm
-  show (∑ i, dualValue X F (b i).val V g •
+  change (∑ i, dualValue X F (b i).val V g •
     resSection X F V ((a i).val.app T (1 : X.presheaf.obj (op U)))) = g
   simp_rw [h]
   exact (_root_.SheafOfModules.sum_val_app_apply Finset.univ (fun i => b i ≫ a i) V g).symm.trans
@@ -385,7 +385,7 @@ theorem dualBasis_restrict
   refine Eq.trans ?_ (h ((Over.map k).op.obj V) g)
   apply Finset.sum_congr rfl
   intro i _
-  show _ • _ = _ • (F.val.map (V.unop.hom ≫ k).op).hom (e i)
+  change _ • _ = _ • (F.val.map (V.unop.hom ≫ k).op).hom (e i)
   rw [op_comp, PresheafOfModules.map_comp]
   rfl
 
@@ -421,7 +421,7 @@ theorem dualBasis_sum_dualEval_smul
       (X.presheaf.map V.unop.hom.op).hom (dualEval X F l (e i)) :=
     PresheafOfModules.naturality_apply l
       (Over.homMk V.unop.hom : V.unop ⟶ Over.mk (𝟙 U)).op (e i)
-  show dualValue X F (∑ i, dualEval X F l (e i) • lam i) V g = dualValue X F l V g
+  change dualValue X F (∑ i, dualEval X F l (e i) • lam i) V g = dualValue X F l V g
   refine (sheafHom_sum_apply X F _ U Finset.univ _ V g).trans (Eq.trans ?_
     (sum_dualValue_smul_homApp X F (SheafOfModules.unit (structureSheafRing X)) U e lam hb l V g))
   refine Finset.sum_congr rfl fun i _ => ?_
@@ -457,7 +457,7 @@ theorem tensorEndPresheafMap_app_sum_homValue_tmul
       homApp X F F (B (homValue X F F a (e i) ⊗ₜ[X.presheaf.obj (op U)] lam i)) V g =
         dualValue X F (lam i) V g • resSection X F V (homValue X F F a (e i)) :=
     congrArg (fun q => homApp X F F q V g) (TensorProduct.lift.tmul _ _)
-  show (∑ i, homApp X F F
+  change (∑ i, homApp X F F
     (B (homValue X F F a (e i) ⊗ₜ[X.presheaf.obj (op U)] lam i)) V g) =
       homApp X F F a V g
   calc
@@ -483,15 +483,10 @@ theorem sum_homValue_tmul_tensorEndPresheafMap_app
       (PresheafOfModules.tensorObj (O := X.presheaf) F.val (dualSheaf X F).val).obj
         (op U)) = t := by
   let B := ((tensorEndPresheafMap X F).app (op U)).hom
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    refine Eq.trans (Finset.sum_congr rfl fun i _ => ?_) Finset.sum_const_zero
-    refine Eq.trans (congrArg (fun z : F.val.obj (op U) =>
-      z ⊗ₜ[X.presheaf.obj (op U)] lam i) ?_) (zero_tmul _ _)
-    exact congrArg (fun q => homValue X F F q (e i)) (LinearMap.map_zero B)
+  induction t using TensorProduct.inductionOn with
   | tmul f l =>
     have hf' : resSection X F (op (Over.mk (𝟙 U))) f = f := by
-      show (F.val.map (𝟙 U).op).hom f = f
+      change (F.val.map (𝟙 U).op).hom f = f
       rw [op_id, PresheafOfModules.map_id]
       rfl
     have hval (i : I) : homValue X F F (B (f ⊗ₜ[X.presheaf.obj (op U)] l)) (e i) =

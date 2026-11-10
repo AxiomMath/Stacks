@@ -34,7 +34,8 @@ products of the family in the slice.  The universes do not collide: the objects 
 universe free.
 
 **This is the complex, not a resolution.**  The augmentation `ℱ[0] ⟶ K` is instantiated in
-`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleSheafLevelCechAugmentation.lean`,
+the module
+`StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.SmallEtaleSheafLevelCechAugmentation`,
 and is a quasi-isomorphism *when the family covers the final object* — which the construction
 below does not require of it — by
 `AlgebraicGeometry.SmallEtale.quasiIso_sheafLevelCechAugmentation` in

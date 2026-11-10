@@ -168,7 +168,7 @@ theorem exists_formalSpectrumMap_constants_not_representable
     { toRingHom := φ
       continuous := TopologicalRing.continuous_constantsToTAdicPowerSeries k
       overS := fun J K h => by
-        show Spec.map _ ≫ (Spec.map _ ≫ 𝟙 _) = Spec.map _ ≫ Spec.map _
+        change Spec.map _ ≫ (Spec.map _ ≫ 𝟙 _) = Spec.map _ ≫ Spec.map _
         rw [Category.comp_id, ← Spec.map_comp, ← Spec.map_comp, ← CommRingCat.ofHom_comp,
           ← CommRingCat.ofHom_comp, Ideal.quotientMap_comp_mk] }
   refine ⟨B, Spec (.of k), hk, D, E, f, rfl, ?_, ?_, ?_, ?_⟩

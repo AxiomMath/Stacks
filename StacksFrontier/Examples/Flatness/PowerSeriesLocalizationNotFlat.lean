@@ -76,8 +76,7 @@ private theorem tensorRid_mulLeft_comm (A B : Type*) [CommRing A] [CommRing B]
         (TensorProduct.AlgebraTensorModule.rid A B B).toLinearMap := by
   apply LinearMap.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul b a =>
       simp [TensorProduct.AlgebraTensorModule.rid_tmul, LinearMap.mulLeft_apply,
         Algebra.smul_def, map_mul, mul_assoc]
@@ -209,15 +208,15 @@ private theorem simultaneousPolynomialCoordinateMap_relations (k : Type u)
       RingHom.ker (simultaneousPolynomialCoordinateMap k) := by
   apply Ideal.span_le.mpr
   rintro p (⟨i, rfl⟩ | ⟨ij, rfl⟩)
-  · show simultaneousPolynomialCoordinateMap k
+  · change simultaneousPolynomialCoordinateMap k
       (MvPolynomial.X (Sum.inl 0) * MvPolynomial.X (Sum.inr i)) = 0
     rw [simultaneousPolynomialCoordinateMap, map_mul,
       MvPolynomial.eval₂Hom_X', MvPolynomial.eval₂Hom_X', TrivSqZeroExt.inl_mul_inr]
-    show TrivSqZeroExt.inr (R := coordinateBase k)
+    change TrivSqZeroExt.inr (R := coordinateBase k)
         ((coordinateAction k (MvPolynomial.X 0)) •
           Pi.single i (1 : Polynomial k)) = TrivSqZeroExt.inr 0
     simp [coordinateAction]
-  · show simultaneousPolynomialCoordinateMap k
+  · change simultaneousPolynomialCoordinateMap k
       (MvPolynomial.X (Sum.inr ij.1) * MvPolynomial.X (Sum.inr ij.2)) = 0
     rw [simultaneousPolynomialCoordinateMap, map_mul,
       MvPolynomial.eval₂Hom_X', MvPolynomial.eval₂Hom_X']
@@ -367,19 +366,19 @@ private theorem simultaneousLocalizedPolynomialCoordinateMap_relations (k : Type
       RingHom.ker (simultaneousLocalizedPolynomialCoordinateMap k) := by
   apply Ideal.span_le.mpr
   rintro p (⟨i, rfl⟩ | ⟨ij, rfl⟩)
-  · show simultaneousLocalizedPolynomialCoordinateMap k
+  · change simultaneousLocalizedPolynomialCoordinateMap k
       (MvPolynomial.X (Sum.inl 0) * MvPolynomial.X (Sum.inr i)) = 0
     rw [simultaneousLocalizedPolynomialCoordinateMap, map_mul,
       MvPolynomial.eval₂Hom_X', MvPolynomial.eval₂Hom_X',
       TrivSqZeroExt.inl_mul_inr]
-    show TrivSqZeroExt.inr (R := localizedBase k)
+    change TrivSqZeroExt.inr (R := localizedBase k)
         ((localizedAction k
           (algebraMap (coordinateBase k) (localizedBase k)
             (MvPolynomial.X 0))) • Pi.single i (1 : localizedModule k)) =
       TrivSqZeroExt.inr 0
     rw [localizedAction_y]
     simp
-  · show simultaneousLocalizedPolynomialCoordinateMap k
+  · change simultaneousLocalizedPolynomialCoordinateMap k
       (MvPolynomial.X (Sum.inr ij.1) * MvPolynomial.X (Sum.inr ij.2)) = 0
     rw [simultaneousLocalizedPolynomialCoordinateMap, map_mul,
       MvPolynomial.eval₂Hom_X', MvPolynomial.eval₂Hom_X']
@@ -441,7 +440,7 @@ private theorem simultaneousLocalizeExtension_inl (k : Type u) [CommRing k]
       (simultaneousLocalizedModule k)).comp
         (algebraMap (coordinateBase k) (localizedBase k)))
   dsimp only [simultaneousLocalizeExtension]
-  show TrivSqZeroExt.lift _ _ _ _ _ (TrivSqZeroExt.inl x) = _
+  change TrivSqZeroExt.lift _ _ _ _ _ (TrivSqZeroExt.inl x) = _
   rw [TrivSqZeroExt.lift_apply_inl]
   rfl
 
@@ -456,7 +455,7 @@ private theorem simultaneousLocalizedCoordinateRingMap_factor (k : Type u)
       simultaneousCoordinateMap, Ideal.Quotient.lift_mk,
       simultaneousLocalizedPolynomialCoordinateMap,
       simultaneousPolynomialCoordinateMap, MvPolynomial.eval₂Hom_C]
-    show TrivSqZeroExt.inl
+    change TrivSqZeroExt.inl
         (algebraMap (coordinateBase k) (localizedBase k)
           (MvPolynomial.C a)) =
       simultaneousLocalizeExtension k (TrivSqZeroExt.inl (MvPolynomial.C a))
@@ -468,7 +467,7 @@ private theorem simultaneousLocalizedCoordinateRingMap_factor (k : Type u)
         simultaneousCoordinateMap, Ideal.Quotient.lift_mk,
         simultaneousLocalizedPolynomialCoordinateMap,
         simultaneousPolynomialCoordinateMap, MvPolynomial.eval₂Hom_X']
-      show TrivSqZeroExt.inl
+      change TrivSqZeroExt.inl
           (algebraMap (coordinateBase k) (localizedBase k)
             (MvPolynomial.X i)) =
         simultaneousLocalizeExtension k (TrivSqZeroExt.inl (MvPolynomial.X i))
@@ -478,7 +477,7 @@ private theorem simultaneousLocalizedCoordinateRingMap_factor (k : Type u)
         simultaneousCoordinateMap, Ideal.Quotient.lift_mk,
         simultaneousLocalizedPolynomialCoordinateMap,
         simultaneousPolynomialCoordinateMap, MvPolynomial.eval₂Hom_X']
-      show TrivSqZeroExt.inr (Pi.single i (1 : localizedModule k)) =
+      change TrivSqZeroExt.inr (Pi.single i (1 : localizedModule k)) =
         simultaneousLocalizeExtension k
           (TrivSqZeroExt.inr (Pi.single i (1 : Polynomial k)))
       rw [simultaneousLocalizeExtension_inr]
@@ -621,13 +620,13 @@ private theorem simultaneousExtensionModuleSeries_mul_of_right_base_zero
   intro d
   simp only [simultaneousExtensionModuleSeries, PowerSeries.coeff_mk,
     PowerSeries.coeff_mul]
-  show ((TrivSqZeroExt.sndHom (localizedBase k)
+  change ((TrivSqZeroExt.sndHom (localizedBase k)
       (simultaneousLocalizedModule k)).toAddMonoidHom
       (∑ p ∈ Finset.antidiagonal d,
         PowerSeries.coeff p.1 s * PowerSeries.coeff p.2 t)) n = _
   rw [map_sum]
   simp only [Finset.sum_apply]
-  show (∑ p ∈ Finset.antidiagonal d,
+  change (∑ p ∈ Finset.antidiagonal d,
       (PowerSeries.coeff p.1 s * PowerSeries.coeff p.2 t).snd n) = _
   simp_rw [TrivSqZeroExt.snd_mul]
   have ht' (j : ℕ) : (PowerSeries.coeff j t).fst = 0 := by
@@ -655,7 +654,7 @@ private def squareZeroGenerator (k : Type u) [CommRing k] (n : ℕ) :
 private theorem y_mul_squareZeroGenerator (k : Type u) [CommRing k] (n : ℕ) :
     Ideal.Quotient.mk (nonflatPowerSeriesRelations k)
         (MvPolynomial.X (Sum.inl (0 : Fin 2))) * squareZeroGenerator k n = 0 := by
-  show Ideal.Quotient.mk (nonflatPowerSeriesRelations k)
+  change Ideal.Quotient.mk (nonflatPowerSeriesRelations k)
     (MvPolynomial.X (Sum.inl 0) * MvPolynomial.X (Sum.inr n)) = 0
   exact Ideal.Quotient.eq_zero_iff_mem.mpr
     (Ideal.subset_span (Or.inl ⟨n, rfl⟩))
@@ -942,7 +941,7 @@ private theorem simultaneousExtensionModuleSeries_kernelSeries (k : Type u) [Com
   let : CommSemiring (coordinateBase k) := inferInstance
   let : CommSemiring (localizedBase k) := inferInstance
   let : CommSemiring (simultaneousLocalizedModule k) := inferInstance
-  show (localizedAction k (localizedBaseXInverse k ^ d) •
+  change (localizedAction k (localizedBaseXInverse k ^ d) •
       Pi.single d (1 : localizedModule k)) n = _
   rw [map_pow, localizedAction_baseXInverse k, seriesRatio_pow_coeff k n d]
   by_cases h : d = n
@@ -1017,7 +1016,7 @@ theorem not_flat_powerSeries_map_localizationAway
     intro i hi
     rw [simultaneousExtensionModuleSeries_mul_of_right_base_zero k n _ _ (hkernelBase i),
       simultaneousLocalizedCoordinateModuleSeries_source]
-    show barh i * ψ (q i n) ∈ N
+    change barh i * ψ (q i n) ∈ N
     rw [mul_comm]
     exact N.smul_mem (q i n) (Submodule.subset_span ⟨i, rfl⟩)
   let P : Submodule R₀ S₀ := Submodule.span R₀ (Set.range (seriesRatio k ^ ·))

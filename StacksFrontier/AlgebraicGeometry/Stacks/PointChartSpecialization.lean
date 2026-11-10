@@ -94,7 +94,7 @@ theorem nonempty_iso_obj_of_isHomLift {V : BigFppfOver B S hS} {y₀ : 𝒳.val.
   have hdom : 𝒳.val.val.p.obj ((Over.iteratedSliceBackward V ⋙ G).obj
       (Over.mk a.left : BigFppfOver B V.left.1 V.left.2)) = T := by
     rw [← Functor.comp_obj, Functor.assoc, hGq]
-    show (Over.mk (a.left ≫ V.hom) : BigFppfOver B S hS) = T
+    change (Over.mk (a.left ≫ V.hom) : BigFppfOver B S hS) = T
     exact CostructuredArrow.obj_ext _ _ rfl (by simp)
   have hcod : 𝒳.val.val.p.obj y₀ = V := IsHomLift.codomain_eq 𝒳.val.val.p (𝟙 V) ξ.hom
   have : 𝒳.val.val.p.IsHomLift a m' := by

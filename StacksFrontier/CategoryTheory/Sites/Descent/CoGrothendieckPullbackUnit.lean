@@ -47,7 +47,8 @@ semireducible `CategoryTheory.Functor.Fiber`. Re-indexing the comparison by a on
 no transparency option.
 
 **The reducibility list.** Beyond the four definitions
-`StacksFrontier/CategoryTheory/Sites/Descent/CoGrothendieckStack.lean` declares reducible at implicit
+`StacksFrontier/CategoryTheory/Sites/Descent/CoGrothendieckStack.lean` declares reducible at
+implicit
 transparency, the proof here needs `CategoryTheory.Functor.IsFibered.pbObj` and `pbMap`: the
 unitor `pbMapId` of the pullback pseudofunctor has a type spelled through `pbObj`, i.e. through
 `Cat.of` of a fibre, while the comparison has one spelled through the fibre itself, and composing

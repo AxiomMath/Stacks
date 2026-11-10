@@ -163,6 +163,7 @@ theorem thickenedBaseMorphism_fSharpInverseImage :
     (thickenedBaseMorphism D).fSharpInverseImage = D.hB' :=
   fSharpInverseImage_mk_homEquiv _ _
 
+omit [HasWeakSheafify X₂.J AddCommGrpCat] [X₂.J.WEqualsLocallyBijective AddCommGrpCat] in
 /-- **The face `f'₁ ∘ g' = h' ∘ f'₂` of (08UH)**, for `g'` inducing `g` on the topoi, is the
 equality `g⁻¹f'₁ ≫ g'^♯ = h' ≫ f'₂` of the two maps `g⁻¹f₁⁻¹𝒪_{ℬ'₁} ⟶ 𝒪'₂`, the source and
 `f₂⁻¹h⁻¹𝒪_{ℬ'₁}` compared by `f₁ ∘ g = h ∘ f₂`. -/

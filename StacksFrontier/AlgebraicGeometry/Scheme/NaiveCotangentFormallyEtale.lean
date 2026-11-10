@@ -201,7 +201,7 @@ theorem formallySmooth_appLE_of_formallySmooth_stalkMap [FormallyUnramified f]
     rwa [show (⟨x.1, x.2⟩ : U) = x from rfl, hp] at h
   have hetale : Algebra.FormallyEtale Γ(S, V) Γ(X, U) := by
     refine Algebra.etaleLocus_eq_univ_iff.mp ?_
-    rw [Algebra.etaleLocus_eq_unramfiedLocus_inter_smoothLocus, hsmooth,
+    rw [Algebra.etaleLocus_eq_unramifiedLocus_inter_smoothLocus, hsmooth,
       Algebra.unramifiedLocus_eq_univ_iff.mpr hunram, Set.univ_inter]
   exact (Algebra.FormallyEtale.iff_formallyUnramified_and_formallySmooth.mp hetale).2
 

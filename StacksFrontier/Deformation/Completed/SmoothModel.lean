@@ -119,8 +119,7 @@ private theorem surjective_of_tmul_D_mem_range
   rw [← LinearMap.range_eq_top]
   apply Submodule.eq_top_iff'.mpr
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => exact zero_mem _
+  induction x using TensorProduct.inductionOn with
   | tmul a y =>
     have heq : a ⊗ₜ[C] y = a • ((1 : B) ⊗ₜ[C] y) := by
       simp [TensorProduct.smul_tmul']
@@ -169,7 +168,7 @@ public theorem mapBaseChange_bijective_of_formallyEtale
       TensorProduct.AlgebraTensorModule.cancelBaseChange_symm_tmul,
       TensorProduct.AlgebraTensorModule.congr_tmul]
     congr 1
-    show KaehlerDifferential.tensorKaehlerEquivOfFormallyEtale R A C
+    change KaehlerDifferential.tensorKaehlerEquivOfFormallyEtale R A C
       (1 ⊗ₜ[A] y) = KaehlerDifferential.map R R A C y
     rw [KaehlerDifferential.tensorKaehlerEquivOfFormallyEtale_apply,
       KaehlerDifferential.mapBaseChange_tmul, one_smul]
@@ -276,7 +275,7 @@ public theorem completionObjectOfSurjection_maximalIdeal
       (AdicCompletion I T) := AdicCompletion.isAdicComplete_self I hfg
   let : IsLocalRing (AdicCompletion I T) :=
     isLocalRing_of_isAdicComplete_maximal (I.map (algebraMap T (AdicCompletion I T)))
-  show maximalIdeal (AdicCompletion I T) = I.map (algebraMap T (AdicCompletion I T))
+  change maximalIdeal (AdicCompletion I T) = I.map (algebraMap T (AdicCompletion I T))
   exact (IsLocalRing.eq_maximalIdeal
     (AdicCompletion.isMaximal_map_of_le I I le_rfl hfg)).symm
 
@@ -315,7 +314,7 @@ public theorem mapBaseChange_bijective_of_completion
     IsScalarTower.of_algebraMap_eq' qhat.comp_algebraMap.symm
   have hqhat : qhat.comp (IsScalarTower.toAlgHom Λ T C) = q := by
     ext t
-    show AdicCompletion.kerProj hq (AdicCompletion.of I T t) = q t
+    change AdicCompletion.kerProj hq (AdicCompletion.of I T t) = q t
     exact AdicCompletion.kerProj_of hq t
   let : IsScalarTower T C k :=
     IsScalarTower.of_algebraMap_eq'
@@ -443,7 +442,7 @@ public theorem exists_embedding_isUnit_det_submatrix_of_linearIndependent_rows
   have hdet : IsUnit (b.det (M.col ∘ g)) :=
     b.is_basis_iff_det.mp ⟨hliCols, hspanCols⟩
   refine ⟨⟨g, hginj⟩, ?_⟩
-  show IsUnit ((M.submatrix id g).det)
+  change IsUnit ((M.submatrix id g).det)
   have hdet' : b.det (M.col ∘ g) = (M.submatrix id g).det := by
     rw [Module.Basis.det_apply]
     rfl
@@ -488,7 +487,7 @@ public theorem exists_polynomial_conormal_jacobian_minor
   have hliM : LinearIndependent B M.row := by
     rwa [← hrow]
   obtain ⟨e, he⟩ := exists_embedding_isUnit_det_submatrix_of_linearIndependent_rows M hliM
-  show ∃ e : Fin m ↪ Fin n, IsUnit (M.submatrix id e).det
+  change ∃ e : Fin m ↪ Fin n, IsUnit (M.submatrix id e).det
   exact ⟨e, he⟩
 
 /-- Quotienting a surjective presentation by equations whose conormal differentials span the
@@ -531,7 +530,7 @@ public theorem mapBaseChange_bijective_of_quotient_by_conormal_generators
   let qA : A →ₐ[R] A' := Ideal.Quotient.mkₐ R J
   let q' : A' →+* B :=
     Ideal.Quotient.lift J (algebraMap A B) (by
-        show Ideal.span (Set.range fun i => (f i).1) ≤ RingHom.ker (algebraMap A B)
+        change Ideal.span (Set.range fun i => (f i).1) ≤ RingHom.ker (algebraMap A B)
         apply Ideal.span_le.mpr
         rintro x ⟨i, rfl⟩
         exact (f i).2)
@@ -561,7 +560,7 @@ public theorem mapBaseChange_bijective_of_quotient_by_conormal_generators
       g (KaehlerDifferential.kerCotangentToTensor R A B
         (Ideal.toCotangent _ (f i))) = 0 := by
     rw [KaehlerDifferential.kerCotangentToTensor_toCotangent]
-    show g (1 ⊗ₜ[A] KaehlerDifferential.D R A (f i).1) = 0
+    change g (1 ⊗ₜ[A] KaehlerDifferential.D R A (f i).1) = 0
     have hfi : (f i).1 ∈ J := Ideal.subset_span ⟨i, rfl⟩
     have hqfi : algebraMap A A' (f i).1 = 0 :=
       Ideal.Quotient.eq_zero_iff_mem.mpr hfi
@@ -611,7 +610,7 @@ public theorem mapBaseChange_bijective_of_quotient_by_conormal_generators
     intro b
     obtain ⟨a, ha⟩ := hsurj b
     refine ⟨algebraMap A A' a, ?_⟩
-    show q' (algebraMap A A' a) = b
+    change q' (algebraMap A A' a) = b
     exact (DFunLike.congr_fun hcomp a).trans ha
 
 /-- A formally smooth `Λ`-algebra, with carrier in the universe `max u w`, together with a

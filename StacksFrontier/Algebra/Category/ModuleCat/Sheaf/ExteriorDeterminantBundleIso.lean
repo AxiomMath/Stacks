@@ -153,7 +153,7 @@ theorem symm_comparison_generator
     (e.symm.inv ≫ B.exteriorGenerator) ≫ (φ 1).symm.hom = A.exteriorGenerator := by
   have h : e.hom ≫ B.exteriorGenerator = A.exteriorGenerator ≫ (φ 1).hom := by
     rw [← hgen, ← Category.assoc, ← Category.assoc, e.hom_inv_id, Category.id_comp]
-  show (e.hom ≫ B.exteriorGenerator) ≫ (φ 1).inv = A.exteriorGenerator
+  change (e.hom ≫ B.exteriorGenerator) ≫ (φ 1).inv = A.exteriorGenerator
   rw [h, Category.assoc, Iso.hom_inv_id, Category.comp_id]
 
 /-- The multiplicativity of the inverse comparison, read at the inverse images of the two
@@ -174,7 +174,7 @@ theorem symm_comparison_mul
     hom_congr_app_apply (φ j).inv_hom_id V y
   have h := hmul i j V ((φ i).inv.val.app V x) ((φ j).inv.val.app V y)
   rw [e1, e2] at h
-  show (φ (i + j)).inv.val.app V ((B.exterior.mul i j).app V x y) =
+  change (φ (i + j)).inv.val.app V ((B.exterior.mul i j).app V x y) =
     (A.exterior.mul i j).app V ((φ i).inv.val.app V x) ((φ j).inv.val.app V y)
   rw [← h]
   exact hom_congr_app_apply (φ (i + j)).hom_inv_id V _

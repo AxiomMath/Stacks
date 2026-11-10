@@ -92,7 +92,7 @@ theorem iSup_opensRange_eq_top_of_sigma_iso [∀ i, IsOpenImmersion (j i)] :
   let k : I := (sigmaOpenCover Y).idx (e.inv y)
   refine Opens.mem_iSup.mpr ⟨k, show Y k from z, ?_⟩
   have hz' : (Sigma.ι Y k) (show Y k from z) = e.inv y := hz
-  show (j k) (show Y k from z) = y
+  change (j k) (show Y k from z) = y
   rw [← hje k, Scheme.Hom.comp_apply, hz', ← Scheme.Hom.comp_apply, e.inv_hom_id]
   rfl
 

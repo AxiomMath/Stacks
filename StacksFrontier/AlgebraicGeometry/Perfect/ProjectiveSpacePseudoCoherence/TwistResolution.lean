@@ -110,7 +110,7 @@ theorem exists_unit_hom_mem_range (M : DerivedCategory X.Modules) (j : ℤ)
     apply (E (M⟦j⟧)).injective
     refine (AlgebraicGeometry.RingedSite.derivedStructureSheafGlobalSectionsEquiv_naturality
       (Stacks.SheafOfModules.ringedSite X.sheaf) β' y0).trans ?_
-    show (E O).toEquiv ((E O).toEquiv.symm (𝟙 _)) ≫ β' = (E (M⟦j⟧)).toEquiv x'
+    change (E O).toEquiv ((E O).toEquiv.symm (𝟙 _)) ≫ β' = (E (M⟦j⟧)).toEquiv x'
     rw [Equiv.apply_symm_apply, Category.id_comp]
     rfl
   let ι : L⟦j⟧ ≅ O :=
@@ -123,7 +123,7 @@ theorem exists_unit_hom_mem_range (M : DerivedCategory X.Modules) (j : ℤ)
   have hnat := ConcreteCategory.congr_hom (Θ.hom.naturality β) z
   simp only [ConcreteCategory.comp_apply] at hnat
   have hz' : Θ.hom.app L z = G.map ι.inv y0 := Iso.inv_hom_id_apply (Θ.app L) _
-  show Θ.hom.app M (((DerivedCategory.homologyFunctor (ModuleCat.{u} A) j).map
+  change Θ.hom.app M (((DerivedCategory.homologyFunctor (ModuleCat.{u} A) j).map
       ((derivedGlobalSectionsOver f).map β)).hom z) = x'
   refine hnat.trans ?_
   rw [hz', Functor.comp_map, hβ]
@@ -183,7 +183,7 @@ theorem exists_twist_hom_mem_range
   let H := derivedGlobalSectionsOver (proj (A := A) n) ⋙
     DerivedCategory.homologyFunctor (ModuleCat.{u} A) j
   refine ⟨α, (H.mapIso γ).inv z, ?_⟩
-  show (H.map ((tensorTwist (A := A) n e).map α)).hom ((H.mapIso γ).inv z) = x
+  change (H.map ((tensorTwist (A := A) n e).map α)).hom ((H.mapIso γ).inv z) = x
   rw [hα]
   exact (map_comp_map_inv_apply H γ β z).trans hz
 

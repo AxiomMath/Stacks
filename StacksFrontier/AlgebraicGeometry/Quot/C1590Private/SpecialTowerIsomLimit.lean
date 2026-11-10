@@ -67,7 +67,7 @@ theorem map_transportSectionsEquiv {C D : Type*} [Category C] [Category D] (E : 
   have h1 := congrArg (fun k => k (ULift.up.{v} a)) (e.hom.naturality (E.functor.map h).op)
   have h2 : h ≫ E.unitIso.hom.app g₂ = E.unitIso.hom.app g₁ ≫ E.inverse.map (E.functor.map h) :=
     E.unitIso.hom.naturality h
-  show G.map h.op (G.map (E.unitIso.hom.app g₂).op
+  change G.map h.op (G.map (E.unitIso.hom.app g₂).op
       (ULift.down (e.hom.app _ (ULift.up.{v} a)))) =
     G.map (E.unitIso.hom.app g₁).op
       (ULift.down (e.hom.app _ (ULift.up.{v} (F.map (E.functor.map h).op a))))

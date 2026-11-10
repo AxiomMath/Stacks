@@ -158,7 +158,7 @@ theorem subsingleton_H_of_smallEtaleSupport_subset_of_cdBound (K : Type u) [Fiel
       refine iSup_le fun z => ?_
       have htr := trdeg_residueField_of_surjectiveOnStalks K f i₀ z.1
       have hz : i₀ z.1 ∈ E := hWE (hrange ▸ ⟨z.1, rfl⟩)
-      simp only [E, Scheme.trdegLESet, Set.mem_setOf_eq] at hz
+      simp only [E, Scheme.trdegLESet, Set.mem_ofPred_eq] at hz
       rw [htr] at hz
       exact_mod_cast Cardinal.toENat_le_natCast.2 hz
     have hcd := hV J.subscheme (i₀ ≫ f) hdim

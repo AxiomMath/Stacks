@@ -124,7 +124,7 @@ theorem bijective_algebraLocalizationAtPrimeBase (η : Y) (h : (g.base η).asIde
   refine ⟨IsFractionRing.injective _ K, fun k ↦ ?_⟩
   obtain ⟨⟨r, s⟩, rfl⟩ := IsLocalization.mk'_surjective (nonZeroDivisors R) k
   have hs : (s : R) ∈ (g.base η).asIdeal.primeCompl := by
-    show (s : R) ∉ (g.base η).asIdeal
+    change (s : R) ∉ (g.base η).asIdeal
     rw [h]
     exact nonZeroDivisors.coe_ne_zero s
   refine ⟨IsLocalization.mk' (Localization.AtPrime (g.base η).asIdeal) r ⟨s, hs⟩, ?_⟩
@@ -454,7 +454,7 @@ theorem exists_finiteSeparableExtension_smoothAt_genericPoints_fiber_normalizati
   have : Algebra.IsSeparable K L :=
     Algebra.IsSeparable.of_equiv_equiv e.symm.toRingEquiv (RingEquiv.refl L) (by
       ext x
-      show algebraMap (FractionRing A) L (e (e.symm x)) = _
+      change algebraMap (FractionRing A) L (e (e.symm x)) = _
       rw [e.apply_symm_apply]
       rfl)
   have : IsScalarTower A K L := IsScalarTower.of_algebraMap_eq fun a ↦ by

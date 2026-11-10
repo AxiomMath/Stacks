@@ -455,7 +455,8 @@ naturally in `N`.  Both sides are left adjoints — `pullback f ⋙ stalk_x` by
 pullback, and no colimit interchange, is used.
 
 **On the covering set.**  Tag 0098 is also carried by
-`PullbackStalkTensor.stalkPullbackTensorIso` (`StacksFrontier/Topology/Sheaves/RingedSpace/ModulePullbackStalk.lean`), and the two
+`PullbackStalkTensor.stalkPullbackTensorIso`
+(`StacksFrontier/Topology/Sheaves/RingedSpace/ModulePullbackStalk.lean`), and the two
 declarations state different things, which is what the covering-set rule requires of a shared
 tag.  That one works over an arbitrary morphism of *ringed spaces* and computes the stalk of the
 hand-built model `O_X ⊗_{f^{-1}O_Y} f^{-1}G` of Tag 0095 (2), at a single object, as a linear

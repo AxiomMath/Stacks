@@ -103,7 +103,7 @@ theorem artinianResidueMap_comp_algebraMap
     (A : Deformation.ArtinianLocalAlgCat.{u, u, u} Λ l) :
     (residueMap A).comp (algebraMap Λ A) = algebraMap Λ l := by
   ext a
-  show A.residueEquiv (IsLocalRing.residue A (algebraMap Λ A a)) = algebraMap Λ l a
+  change A.residueEquiv (IsLocalRing.residue A (algebraMap Λ A a)) = algebraMap Λ l a
   calc
     A.residueEquiv (IsLocalRing.residue A (algebraMap Λ A a)) =
         A.residueEquiv (algebraMap Λ (IsLocalRing.ResidueField A) a) := by
@@ -271,8 +271,6 @@ theorem chartArtinHom_stalkLinear
     (f : A →ₐ[Λ] B') (iΛ : Spec (.of Λ) ⟶ S) (g : Spec (.of l) ⟶ S)
     (s : S) (hs : g (IsLocalRing.closedPoint l) = s)
     [Algebra (S.presheaf.stalk s) l]
-    (hRpoint : Spec.map (CommRingCat.ofHom
-      (algebraMap (S.presheaf.stalk s) l)) ≫ S.fromSpecStalk s = g)
     (hpoint : Spec.map (CommRingCat.ofHom (algebraMap Λ l)) ≫ iΛ = g) :
     letI := chartArtinStalkAlgebra S A iΛ g s hs hpoint
     letI := chartArtinStalkAlgebra S B' iΛ g s hs hpoint
@@ -319,7 +317,7 @@ theorem chartArtinHom_stalkLinear
           Spec.map (CommRingCat.ofHom f.toRingHom) ≫ fA =
               Spec.map (CommRingCat.ofHom
                 (f.toRingHom.comp (algebraMap Λ A))) ≫ iΛ := by
-                  show Spec.map (CommRingCat.ofHom f.toRingHom) ≫
+                  change Spec.map (CommRingCat.ofHom f.toRingHom) ≫
                     (Spec.map (CommRingCat.ofHom (algebraMap Λ A)) ≫ iΛ) = _
                   calc
                     _ = (Spec.map (CommRingCat.ofHom f.toRingHom) ≫
@@ -342,7 +340,7 @@ noncomputable def chartArtinHomOverStalk
       chartArtinObjectOverStalk S B' iΛ g s hs hRpoint hpoint := by
   letI := chartArtinStalkAlgebra S A iΛ g s hs hpoint
   letI := chartArtinStalkAlgebra S B' iΛ g s hs hpoint
-  have hlin := chartArtinHom_stalkLinear S A B' f.hom iΛ g s hs hRpoint hpoint
+  have hlin := chartArtinHom_stalkLinear S A B' f.hom iΛ g s hs hpoint
   refine ⟨{ toRingHom := f.hom.toRingHom, commutes' := ?_ }, f.isLocal, f.residue_comm⟩
   intro r
   exact congrArg (fun φ : S.presheaf.stalk s →+* B' => φ r) hlin

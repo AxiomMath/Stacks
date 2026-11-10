@@ -52,7 +52,7 @@ theorem chart_toBase (E : X.Modules) [E.IsQuasicoherent] {U : X.Opens} (hU : IsA
         Spec.map (Stacks.AlgebraicGeometry.ProjBundleSurjection.strZeroSheaf (alg E) U) ≫
           hU.fromSpec := by
   rw [((bun E).chart_isPullback U hU).w]
-  show (Proj.toSpecZero _ ≫
+  change (Proj.toSpecZero _ ≫
     Spec.map (Stacks.AlgebraicGeometry.ProjBundleSurjection.strZeroSheaf (alg E) U) ≫
       hU.isoSpec.inv) ≫ U.ι = _
   rw [Category.assoc, Category.assoc, IsAffineOpen.isoSpec_inv_ι]
@@ -69,7 +69,7 @@ theorem pieceSegre_toBase {U : X.Opens} (hU : IsAffineOpen U) (a : (alg H).gradi
       CommRingCat.ofHom (algebraMap Γ(X, U) (pieceRing H G a b)) ≫
         (Scheme.ΓSpecIso (CommRingCat.of (pieceRing H G a b))).inv := by
     ext r
-    show segreΓ H G hU a b ((Stacks.AlgebraicGeometry.ProjBundleSurjection.strZeroSheaf
+    change segreΓ H G hU a b ((Stacks.AlgebraicGeometry.ProjBundleSurjection.strZeroSheaf
       (alg (tens H G)) U r : (alg (tens H G)).grading U 0) : (alg (tens H G)).sectionRing U) = _
     rw [Stacks.AlgebraicGeometry.ProjBundleSurjection.coe_strZeroSheaf_apply, segreΓ,
       RingHom.comp_apply, segreRingHom_strHom]
@@ -91,7 +91,7 @@ theorem segre_toBase :
     segre H G ≫ (bun (tens H G)).toBase =
       pullback.fst (bun H).toBase (bun G).toBase ≫ (bun H).toBase := by
   refine (pieceCover H G).hom_ext _ _ fun (i : PieceIndex H G) => ?_
-  show pieceMap H G i.hU i.a i.b ≫ _ = pieceMap H G i.hU i.a i.b ≫ _
+  change pieceMap H G i.hU i.a i.b ≫ _ = pieceMap H G i.hU i.a i.b ≫ _
   rw [← Category.assoc, pieceMap_segre, pieceSegre_toBase, pieceMap_toBase]
 
 end Base
@@ -217,8 +217,7 @@ theorem surjective_segreRingHom : Function.Surjective (segreRingHom H G hU a b) 
     · rw [segreRingHom_deg1Tensor, ratioOf_secOf]
       rfl
   refine eq_top_iff.mpr fun w _ => ?_
-  induction w using TensorProduct.induction_on with
-  | zero => exact T.zero_mem
+  induction w using TensorProduct.inductionOn with
   | tmul x y =>
     have : x ⊗ₜ[Γ(X, U)] y = Algebra.TensorProduct.includeLeftRingHom x *
         (Algebra.TensorProduct.includeRight (R := Γ(X, U))).toRingHom y := by
@@ -266,7 +265,7 @@ theorem range_fromOfGlobalSections_segre :
     rw [Proj.fromOfGlobalSections_preimage_basicOpen _ _ _ Nat.one_pos (unitElt_mem H G hU a b),
       segreΓ_unitElt, Scheme.basicOpen_one]
     trivial
-  show _ ∈ (Proj.awayι _ (unitElt H G hU a b) (unitElt_mem H G hU a b) Nat.one_pos).opensRange
+  change _ ∈ (Proj.awayι _ (unitElt H G hU a b) (unitElt_mem H G hU a b) Nat.one_pos).opensRange
   rw [Proj.opensRange_awayι]
   exact hy
 
@@ -419,13 +418,13 @@ theorem preimage_unitChart (i : PieceIndex H G) :
           Proj.awayι _ (unitElt H G i.hU i.a i.b) (unitElt_mem H G i.hU i.a i.b) Nat.one_pos w := by
       apply ((bun (tens H G)).chart i.U i.hU).isOpenEmbedding.injective
       rw [← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply]
-      show pieceSegre H G i.hU a' b' y = unitChart H G i.hU i.a i.b w
+      change pieceSegre H G i.hU a' b' y = unitChart H G i.hU i.a i.b w
       rw [hw, ← pieceMap_segre H G ⟨i.U, i.hU, a', b'⟩]
       rfl
     have h2 : y ∈ (Spec _).basicOpen (segreΓ H G i.hU a' b' (unitElt H G i.hU i.a i.b)) := by
       rw [← Proj.fromOfGlobalSections_preimage_basicOpen _ _
         (map_irrelevant_segreΓ H G i.hU a' b') Nat.one_pos (unitElt_mem H G i.hU i.a i.b)]
-      show _ ∈ Proj.basicOpen _ _
+      change _ ∈ Proj.basicOpen _ _
       rw [h1, ← Proj.opensRange_awayι _ _ (unitElt_mem H G i.hU i.a i.b) Nat.one_pos]
       exact ⟨w, rfl⟩
     rw [segreΓ, RingHom.comp_apply, unitElt, segreRingHom_deg1Tensor, basicOpen_tmul] at h2
@@ -436,14 +435,14 @@ theorem preimage_unitChart (i : PieceIndex H G) :
       rw [ratioOf]
       exact congrArg (ratio G b') (Subtype.ext (deg1_secOf i.hU G i.b))
     rw [hA, hB] at h2
-    show _ ∈ Set.range (pieceMap H G i.hU i.a i.b)
+    change _ ∈ Set.range (pieceMap H G i.hU i.a i.b)
     rw [range_pieceMap]
     refine ⟨?_, ?_⟩
-    · show pullback.fst (bun H).toBase (bun G).toBase (pieceMap H G i.hU a' b' y) ∈
+    · change pullback.fst (bun H).toBase (bun G).toBase (pieceMap H G i.hU a' b' y) ∈
         Set.range (chartι H i.hU i.a)
       rw [← Scheme.Hom.comp_apply, pieceMap_fst]
       exact mem_range_chartι_of_unit H i.hU a' i.a _ h2.1
-    · show pullback.snd (bun H).toBase (bun G).toBase (pieceMap H G i.hU a' b' y) ∈
+    · change pullback.snd (bun H).toBase (bun G).toBase (pieceMap H G i.hU a' b' y) ∈
         Set.range (chartι G i.hU i.b)
       rw [← Scheme.Hom.comp_apply, pieceMap_snd]
       exact mem_range_chartι_of_unit G i.hU b' i.b _ h2.2
@@ -487,15 +486,11 @@ theorem iSup_basicOpen_unitElt_eq_top {U : X.Opens} (hU : IsAffineOpen U) :
   refine Algebra.adjoin_le fun x hx => ?_
   obtain ⟨q, rfl⟩ := exists_deg1_eq hU (tens H G) ⟨x, hx⟩
   obtain ⟨t, rfl⟩ := (Stacks.SectionTensorFormula.tensorSectionEquiv H G hU).surjective q
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    rw [map_zero]
-    simp only [deg1, map_zero]
-    exact Subalgebra.zero_mem _
+  induction t using TensorProduct.inductionOn with
   | tmul h g =>
     rw [Stacks.SectionTensorFormula.tensorSectionEquiv_tmul]
     refine Algebra.subset_adjoin ⟨(deg1' H hU h, deg1' G hU g), ?_⟩
-    show deg1Tensor H G hU (secOf hU H (deg1' H hU h)) (secOf hU G (deg1' G hU g)) = _
+    change deg1Tensor H G hU (secOf hU H (deg1' H hU h)) (secOf hU G (deg1' G hU g)) = _
     rw [secOf_deg1', secOf_deg1']
     rfl
   | add t₁ t₂ ih₁ ih₂ =>
@@ -550,7 +545,7 @@ theorem isClosedImmersion_segre : IsClosedImmersion (segre H G) := by
   have e : pullback.snd (segre H G) (unitChart H G i.hU i.a i.b) =
       h.isoPullback.inv ≫ pieceToUnit H G i.hU i.a i.b := by
     rw [Iso.eq_inv_comp, IsPullback.isoPullback_hom_snd]
-  show IsClosedImmersion (pullback.snd (segre H G) (unitChart H G i.hU i.a i.b))
+  change IsClosedImmersion (pullback.snd (segre H G) (unitChart H G i.hU i.a i.b))
   rw [e]
   have := isClosedImmersion_pieceToUnit H G i.hU i.a i.b
   infer_instance

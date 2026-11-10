@@ -575,16 +575,11 @@ theorem cotangentToChart_smul (U : SmallEtale B (Spec (CommRingCat.of Λ)) hS X)
       chartScalarUp Λ B hS X hX U n b • cotangentToChart Λ B hS X hX U n x := by
   let := ((liftedEvaluation Λ B hS X hX).app
     (op (resolutionChart Λ B hS X hX U n))).hom.toAlgebra
-  induction x using TensorProduct.induction_on (R := resolutionTermAlgebra Λ B hS X U n)
+  induction x using TensorProduct.inductionOn (R := resolutionTermAlgebra Λ B hS X U n)
       (M := (ModuleCat.restrictScalars (CommAlgCat.standardResolutionAugmentationHom.{u + 1, u + 1}
         (ULift.{u + 1} Λ) (liftedSectionsAlgebra Λ B hS X U) (op n))).obj
           (ModuleCat.of _ (liftedSectionsAlgebra Λ B hS X U)))
       (N := Ω[resolutionTermAlgebra Λ B hS X U n⁄ULift.{u + 1} Λ]) with
-  | zero =>
-    exact (congrArg _ (smul_zero (A := CommAlgCat.cotangentTerm.{u + 1, u + 1} (ULift.{u + 1} Λ)
-      (liftedSectionsAlgebra Λ B hS X U) (op n)) b)).trans ((map_zero _).trans
-        (smul_zero (A := (chartBaseChangePresheaf Λ B hS X hX).obj
-          (op (resolutionChart Λ B hS X hX U n))) _).symm)
   | add x x' hx hx' =>
     exact (congrArg _ (smul_add (A := CommAlgCat.cotangentTerm.{u + 1, u + 1} (ULift.{u + 1} Λ)
       (liftedSectionsAlgebra Λ B hS X U) (op n)) b x x')).trans ((map_add _ _ _).trans
@@ -705,12 +700,11 @@ theorem chartToCotangent_cotangentToChart (U : SmallEtale B (Spec (CommRingCat.o
     (x : CommAlgCat.cotangentTerm.{u + 1, u + 1} (ULift.{u + 1} Λ)
       (liftedSectionsAlgebra Λ B hS X U) (op n)) :
     chartToCotangent Λ B hS X hX U n (cotangentToChart Λ B hS X hX U n x) = x := by
-  induction x using TensorProduct.induction_on (R := resolutionTermAlgebra Λ B hS X U n)
+  induction x using TensorProduct.inductionOn (R := resolutionTermAlgebra Λ B hS X U n)
       (M := (ModuleCat.restrictScalars (CommAlgCat.standardResolutionAugmentationHom.{u + 1, u + 1}
         (ULift.{u + 1} Λ) (liftedSectionsAlgebra Λ B hS X U) (op n))).obj
           (ModuleCat.of _ (liftedSectionsAlgebra Λ B hS X U)))
       (N := Ω[resolutionTermAlgebra Λ B hS X U n⁄ULift.{u + 1} Λ]) with
-  | zero => exact (congrArg _ (map_zero _)).trans (map_zero _)
   | add x y hx hy =>
     exact (congrArg _ (map_add _ x y)).trans ((map_add _ _ _).trans (congrArg₂ (· + ·) hx hy))
   | tmul b ω =>
@@ -735,10 +729,9 @@ theorem cotangentToChart_chartToCotangent (U : SmallEtale B (Spec (CommRingCat.o
     cotangentToChart Λ B hS X hX U n (chartToCotangent Λ B hS X hX U n t) = t := by
   let := ((liftedEvaluation Λ B hS X hX).app
     (op (resolutionChart Λ B hS X hX U n))).hom.toAlgebra
-  induction t using TensorProduct.induction_on (R := resolutionChartRing Λ B hS X hX U n)
+  induction t using TensorProduct.inductionOn (R := resolutionChartRing Λ B hS X hX U n)
       (M := (liftedEtalePresheaf Λ B hS X hX).obj (op (resolutionChart Λ B hS X hX U n)))
       (N := ULift.{u + 1} (resolutionChartDifferentials Λ B hS X hX U n)) with
-  | zero => exact (congrArg _ (map_zero _)).trans (map_zero _)
   | add x y hx hy =>
     exact (congrArg _ (map_add _ x y)).trans ((map_add _ _ _).trans (congrArg₂ (· + ·) hx hy))
   | tmul b m =>

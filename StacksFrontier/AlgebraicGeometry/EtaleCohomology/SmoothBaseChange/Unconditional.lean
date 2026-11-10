@@ -16,10 +16,10 @@ torsion of orders invertible on `S`.
 
 This is `Stacks.EtaleCohomology.SmoothBaseChange.isIso_higherBaseChangeMapAb_of_smooth` (the
 second proof of the source) with each of its cited inputs supplied by a proved theorem:
-[Stacks, Tags 0EYS, 0EZR, 0EZS, 0F08 and 03SC (2), (6)] from `CitedInputs.lean`, purity
-[Stacks, Tag 0BMA] (`AlgebraicGeometry.purityAtRegularLocalRings`) and the tame half of
-[Stacks, Tag 0EYD] (`Stacks.FundamentalGroup.pulledBackCover_isTamelyRamifiedInCodimensionOne`)
-for the Noetherian case of [Stacks, Tag 0EYJ].
+[Stacks, Tags 0EYS, 0EZR, 0EZS, 0F08 and 03SC (2), (6)] from `CitedInputs.lean` and the tame
+half of [Stacks, Tag 0EYD]
+(`Stacks.FundamentalGroup.pulledBackCover_isTamelyRamifiedInCodimensionOne`) for the Noetherian
+case of [Stacks, Tag 0EYJ].
 
 ## Main results
 
@@ -59,7 +59,7 @@ theorem isIso_higherBaseChangeMapAb_app_of_smooth
     IsIso ((higherBaseChangeMapAb f g h e sq.w q).app F) :=
   isIso_higherBaseChangeMapAb_of_smooth flatReducedFibresBaseChange etaleLocalHigherBaseChange
     higherBaseChangePaste firstFailureNormalization affineCurveCohomologyVanishing
-    curveCohomologyAlgClosedInvariance AlgebraicGeometry.purityAtRegularLocalRings
+    curveCohomologyAlgClosedInvariance
     (fun D hD => Stacks.FundamentalGroup.pulledBackCover_isTamelyRamifiedInCodimensionOne D hD)
     f h e g sq F hF q
 

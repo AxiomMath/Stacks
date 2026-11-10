@@ -41,14 +41,14 @@ def thetaHomAt (b : R) (M N : ModuleCat.{u} A) : (M ⟶ N) →ₗ[A] (M ⟶ (RE 
 lemma thetaHomAt_add (b b' : R) (M N : ModuleCat.{u} A) :
     thetaHomAt ρ (b + b') M N = thetaHomAt ρ b M N + thetaHomAt ρ b' M N := by
   ext f : 1
-  show f ≫ _ ≫ mulApp ρ (b + b') N = f ≫ _ ≫ mulApp ρ b N + f ≫ _ ≫ mulApp ρ b' N
+  change f ≫ _ ≫ mulApp ρ (b + b') N = f ≫ _ ≫ mulApp ρ b N + f ≫ _ ≫ mulApp ρ b' N
   rw [mulApp_add, Preadditive.comp_add, Preadditive.comp_add]
 
 /-- `thetaHomAt` at `ρ a * b` is `a` times `thetaHomAt` at `b`. -/
 lemma thetaHomAt_smul (a : A) (b : R) (M N : ModuleCat.{u} A) :
     thetaHomAt ρ (ρ a * b) M N = a • thetaHomAt ρ b M N := by
   ext f : 1
-  show f ≫ _ ≫ mulApp ρ (ρ a * b) N = a • (f ≫ _ ≫ mulApp ρ b N)
+  change f ≫ _ ≫ mulApp ρ (ρ a * b) N = a • (f ≫ _ ≫ mulApp ρ b N)
   rw [mulApp_mul, mulApp_algebraMap, Linear.comp_smul, Category.comp_id, Linear.comp_smul,
     Linear.comp_smul]
 
@@ -76,13 +76,10 @@ lemma bijective_thetaHom (M N : ModuleCat.{u} A) [Module.Finite A M] [Module.Fre
   let c : (ι → RR ρ ⊗[A] N) → (ι → (RE ρ).obj N) := fun v i => v i
   have key : ∀ x, e₂ (thetaHom ρ M N x) = c (π (LinearMap.lTensor (RR ρ) e₁.toLinearMap x)) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero =>
-      rw [map_zero, map_zero, map_zero, map_zero]
-      rfl
+    induction x using TensorProduct.inductionOn with
     | tmul b f =>
       funext i
-      show (mulApp ρ (b : R) N).hom ((unitRE ρ).app N (f.hom (bM i))) =
+      change (mulApp ρ (b : R) N).hom ((unitRE ρ).app N (f.hom (bM i))) =
         π ((b : RR ρ) ⊗ₜ[A] e₁ f) i
       rw [TensorProduct.piRight_apply, TensorProduct.piRightHom_tmul,
         ModuleCat.extendRestrictScalarsAdj_unit_app_apply]
@@ -136,7 +133,7 @@ lemma bijective_resCochain (S : Finset ℤ) (n : ℤ)
     · exact congrFun h ⟨p, hp⟩
     · exact (hS p hp).eq_of_tgt _ _
   · funext p
-    rw [resCochain_apply, Cochain.mk_v, dif_pos p.2, eqToHom_refl, Category.comp_id]
+    rw [resCochain_apply, Cochain.mk_v, dite_eq_left p.2, eqToHom_refl, Category.comp_id]
 
 end Window
 
@@ -153,7 +150,7 @@ lemma resCochain_thetaLin (S : Finset ℤ) (n : ℤ) (p : S) :
         LinearMap.lTensor (RR ρ) (resCochainR S n) := by
   classical
   refine TensorProduct.ext' (fun b c => ?_)
-  show (thetaCochain ρ Q I b c).v p (p + n) rfl = thetaHom ρ _ _
+  change (thetaCochain ρ Q I b c).v p (p + n) rfl = thetaHom ρ _ _
     (TensorProduct.piRight A A (RR ρ) (fun p : S => (Q.X p ⟶ I.X ((p : ℤ) + n)))
       (b ⊗ₜ resCochainR S n c) p)
   rw [TensorProduct.piRight_apply, TensorProduct.piRightHom_tmul]

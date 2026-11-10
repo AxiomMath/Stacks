@@ -207,7 +207,7 @@ theorem isFiniteLocallyFreeOfRank_relativeDualizingSheaf (h : HasGorensteinCurve
   let ι := f.fiberι s
   let W : (f.fiber s).Opens := ι ⁻¹ᵁ U x
   have hpW : f.asFiber x ∈ W := by
-    show ι (f.asFiber x) ∈ U x
+    change ι (f.asFiber x) ∈ U x
     rw [f.fiberι_asFiber x]
     exact hxU x
   have hW₁ := Stacks.Chow.isFiniteLocallyFreeOfRank_modulePullback (ι ∣_ U x) _ (n x)

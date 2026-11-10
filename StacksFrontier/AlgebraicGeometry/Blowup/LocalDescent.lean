@@ -102,7 +102,7 @@ theorem nonempty_overIso_blowUpToBase_of_openCover {X Y : Scheme.{u}} (I : X.Ide
   classical
   set e := fun i => Classical.choice (h i) with he
   have heIso (i : 𝒰.I₀) : IsIso (e i).hom.left := by
-    show IsIso ((Over.forget _).map (e i).hom)
+    change IsIso ((Over.forget _).map (e i).hom)
     infer_instance
   have hew (i : 𝒰.I₀) :
       (e i).hom.left ≫ pullback.snd (blowUpToBase I) (𝒰.f i) = pullback.snd f (𝒰.f i) :=
@@ -124,7 +124,7 @@ theorem nonempty_overIso_blowUpToBase_of_openCover {X Y : Scheme.{u}} (I : X.Ide
     fun i => (e i).hom.left ≫ pullback.fst (blowUpToBase I) (𝒰.f i) with hgL
   have hgLocal (i : (𝒰.pullback₁ f).I₀) :
       gLocal i ≫ blowUpToBase I = (𝒰.pullback₁ f).f i ≫ f := by
-    show ((e i).hom.left ≫ pullback.fst (blowUpToBase I) (𝒰.f i)) ≫ blowUpToBase I
+    change ((e i).hom.left ≫ pullback.fst (blowUpToBase I) (𝒰.f i)) ≫ blowUpToBase I
       = pullback.fst f (𝒰.f i) ≫ f
     rw [hmap i, Category.assoc, pullback.condition]
   have hcompat (i j : (𝒰.pullback₁ f).I₀) :

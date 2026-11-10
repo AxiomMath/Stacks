@@ -279,7 +279,7 @@ private lemma res_comp {X : RingedSpace.{u, u}} (F : ModuleSheaf X)
     {U V W : Opens X.carrier} (hVU : V ≤ U) (hWV : W ≤ V) (s : F.obj U) :
     F.res hWV (F.res hVU s) = F.res (le_trans hWV hVU) s := by
   simp only [ModuleSheaf.res]
-  show (F.toPresheaf.presheaf.map (homOfLE hVU).op ≫
+  change (F.toPresheaf.presheaf.map (homOfLE hVU).op ≫
          F.toPresheaf.presheaf.map (homOfLE hWV).op).hom s =
         (F.toPresheaf.presheaf.map (homOfLE (le_trans hWV hVU)).op).hom s
   have hmc := F.toPresheaf.presheaf.map_comp (homOfLE hVU).op (homOfLE hWV).op

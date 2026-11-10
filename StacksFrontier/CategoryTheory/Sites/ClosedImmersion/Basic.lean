@@ -115,7 +115,7 @@ lemma kernelIdeal_map (S : ClosedRingedImmersion.{v, u, v', u', w})
   intro x hx
   let M : SheafOfModules (S.targetRingSheaf) :=
     SheafOfModules.unit (S.targetRingSheaf)
-  show ((S.hom.fSharp.hom.app V).hom) (M.val.map f x) = 0
+  change ((S.hom.fSharp.hom.app V).hom) (M.val.map f x) = 0
   have hnat := congrArg (fun g => g x) (S.hom.fSharp.hom.naturality f)
   change ((S.hom.fSharp.hom.app V).hom) (M.val.map f x) =
     (((Stacks.Sheaves.ToposPushforward.pushforwardCommRingFunctor

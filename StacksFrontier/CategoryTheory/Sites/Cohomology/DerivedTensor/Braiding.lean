@@ -86,7 +86,7 @@ theorem braiding_hom_naturality
       (DerivedMonoidalGeneral.derivedSymmetric Y.O).toBraidedCategory T.monoidalTensorIso
       (DerivedMonoidalGeneral.canonicalUnitIso Y.O) A B).symm
   rw [e, e]
-  show a ▷ B ≫ A' ◁ b ≫ (β_ A' B').hom = (β_ A B).hom ≫ b ▷ A ≫ B' ◁ a
+  change a ▷ B ≫ A' ◁ b ≫ (β_ A' B').hom = (β_ A B).hom ≫ b ▷ A ≫ B' ◁ a
   rw [← Category.assoc, ← MonoidalCategory.tensorHom_def, BraidedCategory.braiding_naturality,
     MonoidalCategory.tensorHom_def]
 

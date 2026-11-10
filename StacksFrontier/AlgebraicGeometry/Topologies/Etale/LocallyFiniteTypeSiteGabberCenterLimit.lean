@@ -17,8 +17,10 @@ public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.CohomologicalDime
 The Zariski–Riemann proof of Travaux de Gabber, Exposé XVIII-A, Corollary 1.2 (the last remark of
 §2 there) gives the vanishing above `d_V` of Stacks 0DC6, `GabberVanishing S n`, from its
 remaining inputs: germ death at a valuation ring in the limit of the proper models
-(`AlgebraicGeometry.Scheme.ZariskiRiemann.CenterLimitGermDeath`) and the stalk cocycle of the transition maps along refinements
-(`AlgebraicGeometry.Scheme.ZariskiRiemann.DeadAtStableUnderRefinement`), the latter proved (`deadAtStableUnderRefinement`). Every other input
+(`AlgebraicGeometry.Scheme.ZariskiRiemann.CenterLimitGermDeath`) and the stalk cocycle of the
+transition maps along refinements
+(`AlgebraicGeometry.Scheme.ZariskiRiemann.DeadAtStableUnderRefinement`), the latter proved
+(`deadAtStableUnderRefinement`). Every other input
 of `AlgebraicGeometry.Scheme.ZariskiRiemann.centeredGermDeath_of_valuationGermDeath_of_etaleInputs`
 is proved: `refinementsCofiltered`, `germDeathSpreads`, `stalkZeroOffClosure`,
 `killsOfForallDeadAt`, `fibreOpenOverEtale`, `centerOpenBasic` and `finiteLiftsAtPoint`. So
@@ -47,7 +49,8 @@ universe u
 
 namespace AlgebraicGeometry.Scheme.ZariskiRiemann
 
-/-- **Germ death at the centres of small rank from germ death at valuation rings**, with every étale-sheaf and scheme input proved except the stalk
+/-- **Germ death at the centres of small rank from germ death at valuation rings**, with every
+étale-sheaf and scheme input proved except the stalk
 cocycle `AlgebraicGeometry.Scheme.ZariskiRiemann.DeadAtStableUnderRefinement`. -/
 theorem centeredGermDeath_of_valuationGermDeath_of_stable {n : ℕ}
     (hVGD : ValuationGermDeath.{u} n) (hstab : DeadAtStableUnderRefinement.{u}) :

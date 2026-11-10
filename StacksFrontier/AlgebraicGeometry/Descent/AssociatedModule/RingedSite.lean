@@ -175,7 +175,7 @@ chosen category of schemes. -/
 public theorem isFppfCovering_opensHypercover {U : S.Opens} (R : Sieve U)
     (hR : R ∈ Opens.grothendieckTopology ↥S U) :
     IsFppfCovering (κ := B.cutoff) ⟨_, opensHypercover B S hS R⟩ := by
-  show Presieve.map B.inclusion (opensHypercover B S hS R).presieve₀ ∈
+  change Presieve.map B.inclusion (opensHypercover B S hS R).presieve₀ ∈
     Scheme.fppfPrecoverage.coverings _
   rw [PreZeroHypercover.presieve₀, Presieve.map_ofArrows]
   refine Scheme.zariskiPrecoverage_le_fppfPrecoverage _ ?_
@@ -183,7 +183,7 @@ public theorem isFppfCovering_opensHypercover {U : S.Opens} (R : Sieve U)
   refine ⟨fun x ↦ ?_, fun i ↦ inferInstanceAs (IsOpenImmersion (S.homOfLE (leOfHom i.down.2.1)))⟩
   obtain ⟨V, g, hg, hV⟩ := hR x.1 x.2
   refine ⟨⟨⟨V, g, hg⟩⟩, ⟨⟨x.1, hV⟩, ?_⟩⟩
-  show B.inclusion.map (((opensToBig B S hS).map g).left) _ = x
+  change B.inclusion.map (((opensToBig B S hS).map g).left) _ = x
   rw [ObjectProperty.ι_map, opensToBig_map, opensHom_left_hom]
   exact (Scheme.homOfLE_apply' (leOfHom g) x.1 hV).trans (Subtype.ext rfl)
 

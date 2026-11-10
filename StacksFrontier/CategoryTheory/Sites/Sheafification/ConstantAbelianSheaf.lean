@@ -258,7 +258,7 @@ theorem constantSheaf_section_g_epi
   have hsplit : IsSplitEpi (fgt.map S.g) := (isSplitEpi_iff_surjective _).mpr hg
   -- A functor preserves split epis, so `(fgt ⋙ Ψ).map S.g = Ψ.map (fgt.map S.g)` is a split epi.
   have hsplit2 : IsSplitEpi ((fgt ⋙ Ψ).map S.g) := by
-    show IsSplitEpi (Ψ.map (fgt.map S.g)); infer_instance
+    change IsSplitEpi (Ψ.map (fgt.map S.g)); infer_instance
   -- Transfer the split epi across the natural iso `key`.
   have hnat : (Φ ⋙ fgt).map S.g
       = key.hom.app S.X₂ ≫ (fgt ⋙ Ψ).map S.g ≫ key.inv.app S.X₃ := by
@@ -307,9 +307,9 @@ theorem constantSheaf_sections_shortExact_of_shortExact
   -- `PreservesMonomorphisms` instance specialized to the concrete section functor.
   have hpm : G.PreservesMonomorphisms := preservesMonomorphisms_of_preservesLimitsOfShape G
   have hmono : Mono (T.map G).f := by
-    show Mono (G.map T.f); exact G.map_mono T.f
+    change Mono (G.map T.f); exact G.map_mono T.f
   have hepi : Epi (T.map G).g := by
-    show Epi (G.map T.g); exact constantSheaf_section_g_epi J S hS U
+    change Epi (G.map T.g); exact constantSheaf_section_g_epi J S hS U
   have hexact : (T.map G).Exact := by
     have hker : Limits.IsLimit (Limits.KernelFork.ofι T.f T.zero) := hTse.fIsKernel
     have hmap := Limits.KernelFork.mapIsLimit (Limits.KernelFork.ofι T.f T.zero) hker G

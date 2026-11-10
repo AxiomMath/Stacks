@@ -240,7 +240,7 @@ private lemma smul_eq_zero_of_forall_top {R : CommRingCat.{u}}
         (tildeEquiv (R := R)).inverse.map (ObjectProperty.homMk 0 : T' ⟶ T') := by
       apply ModuleCat.hom_ext
       ext y
-      show (a.app ⊤).hom y = ((0 : T ⟶ T).app ⊤).hom y
+      change (a.app ⊤).hom y = ((0 : T ⟶ T).app ⊤).hom y
       have h0 : ((0 : T ⟶ T).app ⊤) y = 0 := rfl
       exact ((haapp ⊤ y).trans (h y)).trans h0.symm
     exact congrArg (fun k => k.hom) ((tildeEquiv (R := R)).inverse.map_injective he)
@@ -280,7 +280,7 @@ private lemma pushforward_annihilated {X : Scheme.{u}} (I : X.IdealSheafData)
     | mem s hs =>
       obtain ⟨a, ha, rfl⟩ := hs
       change Γ(T, f ⁻¹ᵁ W.1) at y
-      show (f.app W.1) (X.presheaf.map (homOfLE hWU).op a) • y = 0
+      change (f.app W.1) (X.presheaf.map (homOfLE hWU).op a) • y = 0
       dsimp only [f] at y ⊢
       exact (congrArg (fun b : Γ(Spec Γ(X, U), f ⁻¹ᵁ W.1) => b • y)
         (fromSpec_map_app U hWU a)).trans
@@ -288,7 +288,7 @@ private lemma pushforward_annihilated {X : Scheme.{u}} (I : X.IdealSheafData)
     | zero => exact zero_smul _ _
     | add a b ha hb h₁ h₂ => rw [add_smul, h₁, h₂, add_zero]
     | smul a b hb h => rw [smul_eq_mul, mul_smul, h, smul_zero]
-  show @SMul.smul Γ(Spec Γ(X, U), f ⁻¹ᵁ V.1) Γ(T, f ⁻¹ᵁ V.1) inferInstance
+  change @SMul.smul Γ(Spec Γ(X, U), f ⁻¹ᵁ V.1) Γ(T, f ⁻¹ᵁ V.1) inferInstance
     (f.app V.1 r) x = 0
   apply TopCat.Presheaf.IsSheaf.section_ext T.isSheaf
   intro z hz
@@ -302,7 +302,7 @@ private lemma pushforward_annihilated {X : Scheme.{u}} (I : X.IdealSheafData)
   have hWV' : W ≤ V.1 := le_trans hWV inf_le_left
   have hWU : W ≤ U.1 := le_trans hWV inf_le_right
   refine ⟨f ⁻¹ᵁ W, (Opens.map f.base).monotone hWV', hzW, ?_⟩
-  show H.presheaf.map (homOfLE hWV').op (r • x) =
+  change H.presheaf.map (homOfLE hWV').op (r • x) =
     H.presheaf.map (homOfLE hWV').op 0
   rw [H.map_smul, map_zero]
   exact hsmall W' hWU (X.presheaf.map (homOfLE hWV').op r)
@@ -318,7 +318,7 @@ lemma affineSectionsEquiv_naturality {X : Scheme.{u}} {M N : X.Modules} (g : M �
   let i : op (hU.fromSpec ''ᵁ ⊤) ⟶ op U :=
     (eqToHom (show U = hU.fromSpec ''ᵁ ⊤ by
       rw [Scheme.Hom.image_top_eq_opensRange, hU.opensRange_fromSpec])).op
-  show N.presheaf.map i (g.app _ x) = g.app _ (M.presheaf.map i x)
+  change N.presheaf.map i (g.app _ x) = g.app _ (M.presheaf.map i x)
   exact (congrArg (fun k => k x) (g.mapPresheaf.naturality i)).symm
 
 /-- The sections of `I ^ n M` over an affine open `U` are exactly `I(U) ^ n • M(U)`, for `M`
@@ -365,7 +365,7 @@ public lemma idealPowerMultiple_toSubmodule_obj_affine {X : Scheme.{u}} (I : X.I
   have hT : ∀ r ∈ (I ^ n).ideal U, ∀ x : Γ(T, ⊤), r • x = 0 := by
     intro r hr x
     obtain ⟨y, rfl⟩ := (ModuleCat.epi_iff_surjective (adjT.unit.app B)).mp inferInstance x
-    show r • (adjT.unit.app B).hom y = (0 : G.obj T)
+    change r • (adjT.unit.app B).hom y = (0 : G.obj T)
     rw [← (adjT.unit.app B).hom.map_smul]
     have hy : r • y = (0 : B) := by
       obtain ⟨z, rfl⟩ := Submodule.Quotient.mk_surjective K y

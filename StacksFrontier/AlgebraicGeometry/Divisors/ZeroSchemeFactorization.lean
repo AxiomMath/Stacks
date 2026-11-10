@@ -253,7 +253,7 @@ theorem pullbackSection_eq_zero_iff_factorsThrough_zeroScheme (X : Scheme.{u}) (
     refine F.eq_of_locally_eq' (U := VV) ⊤ (fun y => homOfLE le_top) hcover _ 0 fun y => ?_
     have hVtop : VV y ≤ f ⁻¹ᵁ (⊤ : X.Opens) := by simp
     simp only [map_zero]
-    show ((Scheme.Modules.pullback f).obj L).presheaf.map (homOfLE (le_top : VV y ≤ ⊤)).op
+    change ((Scheme.Modules.pullback f).obj L).presheaf.map (homOfLE (le_top : VV y ≤ ⊤)).op
       (pullbackGlobalSections f L s) = 0
     rw [pullbackGlobalSections_eq_pullbackSection f L htop s,
       pullbackSection_res_target f L (le_top : VV y ≤ ⊤) htop hVtop s,
@@ -281,7 +281,7 @@ theorem zeroScheme_isGreatest_vanishingClosedSubscheme (X : Scheme.{u}) (L : X.M
   refine ⟨(pullbackSection_eq_zero_iff_factorsThrough_zeroScheme X L s
     (zeroScheme X L s).subschemeι).2 ⟨𝟙 _, Category.id_comp _⟩, ?_⟩
   intro I hI
-  show zeroScheme X L s ≤ OrderDual.ofDual I
+  change zeroScheme X L s ≤ OrderDual.ofDual I
   simpa only [Scheme.IdealSheafData.ker_subschemeι] using
     (factorsThrough_ideal_iff_ideal_le_ker _ _).1
       ((pullbackSection_eq_zero_iff_factorsThrough_zeroScheme X L s

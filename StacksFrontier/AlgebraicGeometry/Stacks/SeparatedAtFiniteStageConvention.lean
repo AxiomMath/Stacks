@@ -249,7 +249,7 @@ theorem exists_isSeparated_stage_of_siteContainsBaseChangeLimits
   refine (key (D.algebraicSpace i) qi).2 ?_
   let t : D.system.obj (op i) ⟶ D.system.obj (op j₀) := D.system.map (homOfLE hi).op
   have hq : t ≫ D'.baseAtToInitial j₀ h₀ = qi := by
-    show D.system.map _ ≫ D.system.map _ = D.system.map _
+    change D.system.map _ ≫ D.system.map _ = D.system.map _
     rw [← D.system.map_comp]
     exact congrArg D.system.map (Subsingleton.elim _ _)
   exact isProper_of_baseChange_of_comp hT₀ hV₀ hY₀ (D.algebraicSpace j₀)

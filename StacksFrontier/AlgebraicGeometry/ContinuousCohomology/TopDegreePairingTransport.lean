@@ -40,7 +40,7 @@ theorem bijective_of_pairing_transport {X X' Y' Z' : Type*} [AddCommGroup Y'] [A
   have hψ : ψ = Φ ∘ ψ' ∘ e₁ := by
     funext x
     ext y
-    show (ψ x).hom y = e₃.symm (ψ' (e₁ x) (e₂ y))
+    change (ψ x).hom y = e₃.symm (ψ' (e₁ x) (e₂ y))
     rw [← h, AddEquiv.symm_apply_apply]
   rw [hψ]
   exact hΦ.comp (hψ'.comp e₁.bijective)
@@ -59,14 +59,14 @@ lemma shiftIso_hom_app_homologyπ (K : CochainComplex AddCommGrpCat.{w} ℤ) (n 
   rw [shiftIso_hom_app]
   refine (ConcreteCategory.congr_hom (ShortComplex.homologyπ_naturality
     ((shiftShortComplexFunctorIso AddCommGrpCat.{w} n 0 n (add_zero n)).hom.app K)) z).trans ?_
-  show ((K.sc n).homologyπ) (ShortComplex.cyclesMap
+  change ((K.sc n).homologyπ) (ShortComplex.cyclesMap
     ((shiftShortComplexFunctorIso AddCommGrpCat.{w} n 0 n (add_zero n)).hom.app K) z) =
       (K.sc n).homologyπ c
   congr 1
   apply (AddCommGrpCat.mono_iff_injective (K.iCycles n)).1 inferInstance
   refine (ConcreteCategory.congr_hom (ShortComplex.cyclesMap_i
     ((shiftShortComplexFunctorIso AddCommGrpCat.{w} n 0 n (add_zero n)).hom.app K)) z).trans ?_
-  show (K.shiftFunctorObjXIso n 0 n (zero_add n).symm).hom ((K⟦n⟧).iCycles 0 z) = _
+  change (K.shiftFunctorObjXIso n 0 n (zero_add n).symm).hom ((K⟦n⟧).iCycles 0 z) = _
   rw [h]
   exact ConcreteCategory.congr_hom (K.shiftFunctorObjXIso n 0 n (zero_add n).symm).inv_hom_id _
 
@@ -121,7 +121,7 @@ theorem traceTargetShiftHomologyIso_hom_homologyπ
   have h3 := ConcreteCategory.congr_hom (ShortComplex.mapHomologyIso_hom_naturality
     ((HomologicalComplex.shortComplexFunctor _ (ComplexShape.up ℤ) d).map t) (forgetAb ℤ Q))
       ((underlyingAb ℤ P).homologyπ d w)
-  show (forgetAb ℤ Q).map (traceTargetHomologyIso.{v, w} Q d).hom
+  change (forgetAb ℤ Q).map (traceTargetHomologyIso.{v, w} Q d).hom
       ((((traceTarget.{v, w} Q d).sc d).mapHomologyIso (forgetAb ℤ Q)).hom
         ((CochainComplex.ShiftSequence.shiftIso AddCommGrpCat d 0 d (add_zero d)).hom.app _
           (((underlyingAb ℤ (traceTarget.{v, w} Q d))⟦d⟧).homologyπ 0 z))) = _
@@ -165,6 +165,7 @@ theorem postcomp_topDegreePairing_homologyπ (P : ComplexPairing R φ A E G) (d 
   rw [(P.postcomp t).topDegreePairing_homologyπ d x y z (hz.trans (by rw [hc]; rfl))]
   exact traceTargetShiftHomologyIso_hom_homologyπ Q G d t c z hz
 
+omit [CompactSpace Q] [Finite R] in
 /-- **The top-degree pairing of a pairing followed by a trace lift, read in `ℚ/ℤ`, is the trace of
 the pairing**: if `t : G ⟶ T` lifts the derived trace `tr : H^d(G) ⟶ ℚ/ℤ`, the pairing of the
 classes of `x` and `y` is `tr` of the class of the cycle `P(x, y)`. -/

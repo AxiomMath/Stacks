@@ -76,7 +76,7 @@ abbrev canonicalExtension (A : Type uA) (B : Type uB) (N : Type uN)
 the algebra extension problem is the identity of `A`. -/
 lemma reducedRelationOf_val (x : RingHom.ker (problemPresentationToB (prob A B N))) :
     (reducedRelationOf (prob A B N) x).1 = x.1 := by
-  show MvPolynomial.map (RingHom.id A) x.1 = x.1
+  change MvPolynomial.map (RingHom.id A) x.1 = x.1
   exact MvPolynomial.map_id x.1
 
 /-- A scalar of the base acts on the conormal module of an extension through any of its
@@ -238,10 +238,10 @@ lemma liftFunctional_canonicalLift
     relationEval₁_spec (comparisonDiagram X X) x
   refine Eq.trans ?_ (X.kernelEquiv.symm_apply_apply (solutionRelationEval X x))
   refine congrArg X.kernelEquiv.symm (Subtype.ext ?_)
-  show @Eq X.B' ((canonicalLift X).toAlgHom (reducedRelationOf (prob A B N) x).1)
+  change @Eq X.B' ((canonicalLift X).toAlgHom (reducedRelationOf (prob A B N) x).1)
     ((X.kernelEquiv (solutionRelationEval X x) : RingHom.ker X.toB.toRingHom) : X.B')
   rw [hspec]
-  show (MvPolynomial.aeval (fun b : (prob A B N).B ↦ Classical.choose (X.surjective b)))
+  change (MvPolynomial.aeval (fun b : (prob A B N).B ↦ Classical.choose (X.surjective b)))
       (reducedRelationOf (prob A B N) x).1 =
     (presentationEval₁ (comparisonDiagram X X)) x.1
   rw [reducedRelationOf_val]
@@ -261,7 +261,7 @@ lemma liftClass_eq (a a' : (canonicalExtension A B N).Hom (solutionExtension X))
   refine LinearMap.ext fun z ↦ ?_
   have h := LinearMap.congr_fun (Algebra.Extension.Cotangent.map_sub_map a a') z
   simp only [LinearMap.sub_apply, LinearMap.coe_comp, Function.comp_apply] at h
-  show (solutionCotangentEquiv X).symm
+  change (solutionCotangentEquiv X).symm
       ((a.sub a') ((canonicalExtension A B N).cotangentComplex z)) =
     liftFunctional X a z - liftFunctional X a' z
   rw [← h, map_sub]

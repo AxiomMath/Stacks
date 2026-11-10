@@ -204,7 +204,7 @@ private theorem exists_directed_stage_complex_operators {R₀ : Type uR} [CommRi
   have hel' : ∀ n, IsIdempotentElem ((el n).baseChange R) := by
     intro n
     rw [hel]
-    show αl.symm.conj (e n) ∘ₗ αl.symm.conj (e n) = αl.symm.conj (e n)
+    change αl.symm.conj (e n) ∘ₗ αl.symm.conj (e n) = αl.symm.conj (e n)
     rw [← LinearEquiv.conj_comp]
     exact congrArg αl.symm.conj (he n)
   have hdel : ∀ n, dl.baseChange R ∘ₗ (el n).baseChange R =
@@ -470,7 +470,7 @@ private lemma isIso_of_mapDerivedCategory_map
   rw [DerivedCategory.isIso_iff]
   intro n
   have hi : IsIso ((F.mapDerivedCategory ⋙ DerivedCategory.homologyFunctor D n).map f) := by
-    show IsIso ((DerivedCategory.homologyFunctor D n).map (F.mapDerivedCategory.map f))
+    change IsIso ((DerivedCategory.homologyFunctor D n).map (F.mapDerivedCategory.map f))
     infer_instance
   have : IsIso (F.map ((DerivedCategory.homologyFunctor C n).map f)) :=
     (NatIso.isIso_map_iff
@@ -547,17 +547,16 @@ private lemma isIso_baseChangeComparison_app
     ((τ.app M).hom.toAddMonoidHom.comp u.symm.toAddEquiv.toAddMonoidHom)
   have hψ : (ψ : _ → _) = ⇑e := by
     funext x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul s m =>
-      show w (τ.app M (s ⊗ₜ[R,algebraMap R S] m)) = e (s ⊗ₜ[R] m)
+      change w (τ.app M (s ⊗ₜ[R,algebraMap R S] m)) = e (s ⊗ₜ[R] m)
       rw [hτ]
       exact (Algebra.IsPushout.cancelBaseChange_symm_tmul R S A B M s m).symm
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
   apply (ConcreteCategory.isIso_iff_bijective (τ.app M)).mpr
   have he : (τ.app M : _ → _) = w.symm ∘ ψ ∘ u := by
     funext x
-    show τ.app M x = w.symm (w (τ.app M (u.symm (u x))))
+    change τ.app M x = w.symm (w (τ.app M (u.symm (u x))))
     rw [LinearEquiv.symm_apply_apply, LinearEquiv.symm_apply_apply]
   rw [he]
   exact w.symm.bijective.comp ((hψ.symm ▸ e.bijective).comp u.bijective)
@@ -628,7 +627,7 @@ private lemma isIso_comparison_app_of_torIndependent
   have : ∀ M, IsIso (τ.1.app M) := fun M ↦ isIso_baseChangeComparison_app τ.1 τ.2.2.1 M
   have : IsIso τ.1 := NatIso.isIso_of_isIso_app τ.1
   have : IsIso ((NatTrans.mapHomologicalComplex τ.1 (.up ℤ)).app P) := by
-    show IsIso ((NatIso.mapHomologicalComplex (asIso τ.1) (.up ℤ)).hom.app P)
+    change IsIso ((NatIso.mapHomologicalComplex (asIso τ.1) (.up ℤ)).hom.app P)
     infer_instance
   have hh := congrArg (fun α ↦ α.app P) τ.2.2.2
   dsimp only [Functor.whiskerLeft_app, NatTrans.comp_app, Functor.associator_hom_app,
@@ -661,14 +660,15 @@ lemma isIso_stage_comparison_app_of_flat
     IsScalarTower.of_algebraMap_eq fun x ↦ ((c.ι.app i).hom.commutes x).symm
   let : Algebra A B := (stageToLimitMap c A₀ i).toAlgebra
   let : IsScalarTower Ri A B := IsScalarTower.of_algebraMap_eq fun x ↦ by
-    show (c.ι.app i).hom x ⊗ₜ[R₀] 1 = stageToLimitMap c A₀ i (x ⊗ₜ[R₀] 1)
+    change (c.ι.app i).hom x ⊗ₜ[R₀] 1 = stageToLimitMap c A₀ i (x ⊗ₜ[R₀] 1)
     simp [stageToLimitMap]
   have hp : Algebra.IsPushout Ri c.pt A B :=
     @Algebra.IsPushout.tensorProduct_tensorProduct R₀ A₀ Ri c.pt
       _ _ _ _ _ _ _ _ _ ((stageToLimitMap c A₀ i).toAlgebra) inferInstance (by
         ext x
-        show stageToLimitMap c A₀ i (1 ⊗ₜ[R₀] x) = 1 ⊗ₜ[R₀] x
-        simp [stageToLimitMap]
+        change stageToLimitMap c A₀ i (1 ⊗ₜ[R₀] x) = 1 ⊗ₜ[R₀] x
+        simp only [stageToLimitMap, Functor.const_obj_obj, AlgHom.toRingHom_eq_coe, RingHom.coe_coe,
+          Algebra.TensorProduct.map_tmul, AlgHom.coe_id, id_eq]
         exact congrArg (· ⊗ₜ[R₀] x) (c.ι.app i).hom.map_one')
   let : Algebra.IsPushout Ri A c.pt B := Algebra.IsPushout.symm hp
   let DR := totalDerivedExtensionScalars.{uR, uR, max uA uM} (algebraMap Ri c.pt)

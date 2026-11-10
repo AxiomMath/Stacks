@@ -207,14 +207,14 @@ theorem completionIdHom_completionIdSection (V : BigFppfOver B S hS)
   have hid := hasImageIn_of_eq_univ B S hS hZ V (𝟙 V)
   have h := NatTrans.congr_app ((BigFppfOver.topology B S hS).toSheafify_sheafifyLift
     (completionIdSubfunctorHom B S hS V Z y) Y.property) (op V)
-  show ((BigFppfOver.topology B S hS).toSheafify
+  change ((BigFppfOver.topology B S hS).toSheafify
       (Space.completionSubfunctor B S hS (yoneda.obj V) Z).toFunctor ≫
       (BigFppfOver.topology B S hS).sheafifyLift
         (completionIdSubfunctorHom B S hS V Z y) Y.property).app (op V)
           (⟨ULift.up (𝟙 V), hid⟩ :
             (Space.completionSubfunctor B S hS (yoneda.obj V) Z).toFunctor.obj (op V)) = y
   rw [h]
-  show Y.obj.map (𝟙 V).op y = y
+  change Y.obj.map (𝟙 V).op y = y
   simp
 
 /-- Morphisms from the completion of `V` along all of `|V|` into a sheaf `Y` are the sections
@@ -259,7 +259,7 @@ transporting a triple along `φ : V₂ ⟶ V₁` restricts its section along `φ
 theorem wSection_mapTriple {V₂ V₁ : BigFppfOver B S hS} (φ : V₂ ⟶ V₁) (t : Triple c V₁)
     (ht : t.Z = Set.univ) (ht₂ : (mapTriple c φ t).Z = Set.univ) :
     wSection c (mapTriple c φ t) ht₂ = c.W.obj.map φ.op (wSection c t ht) := by
-  show t.xhat.hom.app (op V₂)
+  change t.xhat.hom.app (op V₂)
       ((Space.completionSheafRestrict B S hS (yoneda.map φ) (mapTriple c φ t).Z t.Z
         (mapTriple_Z_eq_preimage c φ t).subset).hom.app (op V₂)
           (FormalSpace.completionIdSection B S hS V₂ (mapTriple c φ t).Z ht₂)) = _
@@ -281,7 +281,7 @@ under the Yoneda identification. -/
 theorem wSection_eq_iff {V : BigFppfOver B S hS} (t : Triple c V) (ht : t.Z = Set.univ)
     (w : c.W.obj.obj (op V)) :
     wSection c t ht = w ↔ t.xhat = FormalSpace.completionIdHom B S hS V t.Z ht w :=
-  (FormalSpace.completionSheafUnivHomEquiv B S hS V t.Z ht c.W).apply_eq_iff_eq_symm_apply
+  (FormalSpace.completionSheafUnivHomEquiv B S hS V t.Z ht c.W).eq_symm_apply.symm
 
 /-! ### Sections with point-set image in `T` -/
 

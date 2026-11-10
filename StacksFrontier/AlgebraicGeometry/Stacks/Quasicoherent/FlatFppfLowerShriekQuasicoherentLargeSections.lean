@@ -158,7 +158,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 `y : (Sch/U) ⟶ 𝒳` to `y` lies over the identity of `U`, hence is an isomorphism. -/
 theorem isIso_primedSiteFunctorTerminalHom_hom (z : FlatFppf B S hS 𝒳) :
     IsIso (primedSiteFunctorTerminalHom B S hS 𝒳 z).hom := by
-  show IsIso (Functor.TwoYoneda.chosenLift 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids
+  change IsIso (Functor.TwoYoneda.chosenLift 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids
     (𝒳.val.val.p.obj z.obj) (Functor.Fiber.mk (a := z.obj) rfl) (Over.mk (𝟙 _))).φ
   have : IsIso (Over.mk (𝟙 (𝒳.val.val.p.obj z.obj))).hom :=
     inferInstanceAs (IsIso (𝟙 (𝒳.val.val.p.obj z.obj)))

@@ -157,8 +157,8 @@ theorem faithful_finiteEtaleBaseChange_of_forall_exists_specializes {X X₀ : Sc
   have hfac : pullback.fst U.hom g ≫ pullback.lift φ.left ψ.left hw
       = (pullback.fst U.hom g ≫ φ.left) ≫ pullback.diagonal V.hom := by
     apply pullback.hom_ext
-    · simp [pullback.lift_fst]
-    · simp [pullback.lift_snd, hkey]
+    · simp
+    · simp [hkey]
   have hopen : IsOpen ((pullback.lift φ.left ψ.left hw).base ⁻¹'
       Set.range (pullback.diagonal V.hom).base) :=
     (IsOpenImmersion.isOpen_range (pullback.diagonal V.hom)).preimage
@@ -194,7 +194,7 @@ theorem exists_specializes_mem_range_pullback_fst_of_isProper (A : Type u) [Comm
       (pullback.fst f (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I)))).base, x ⤳ x' := by
   have hr : Set.range (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I))).base
       = PrimeSpectrum.zeroLocus (I : Set A) := by
-    show Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk I)) = _
+    change Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk I)) = _
     rw [range_comap_of_surjective _ _ Ideal.Quotient.mk_surjective, Ideal.mk_ker]
   have hZ : ∀ y : Spec (CommRingCat.of A),
       ∃ z ∈ Set.range (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I))).base, y ⤳ z := by

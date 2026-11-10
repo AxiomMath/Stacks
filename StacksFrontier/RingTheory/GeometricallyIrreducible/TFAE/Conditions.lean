@@ -232,7 +232,7 @@ theorem geomIrred_step_2_3
     (k : Type u) [Field k] (R : Type u) [CommRing R] [Algebra k R]
     (h : GeomIrred2 k R) : GeomIrred3 k R := by
   classical
-  show IrreducibleSpace (PrimeSpectrum (R ⊗[k] SeparableClosure k))
+  change IrreducibleSpace (PrimeSpectrum (R ⊗[k] SeparableClosure k))
   rw [PrimeSpectrum.irreducibleSpace_iff_isPrime_nilradical]
   -- Nontriviality of `R ⊗[k] SeparableClosure k`: from (2) at `k' = k` the spectrum of
   -- `R ⊗[k] k` is nonempty, hence `R ⊗[k] k` is nontrivial, hence `R` is, hence (faithful
@@ -353,14 +353,13 @@ theorem geomIrred_step_3_4
     have hcond1 : ∀ y : R ⊗[k] L, ∃ n : ℕ, n > 0 ∧ y ^ n ∈ (ψ.toRingHom).range := by
       intro y
       have key : ∃ n : ℕ, y ^ q ^ n ∈ ψ.range := by
-        induction y using TensorProduct.induction_on with
-        | zero => exact ⟨0, by simp⟩
+        induction y using TensorProduct.inductionOn with
         | tmul r l =>
             obtain ⟨n, c, hc⟩ := hpow_f l
             refine ⟨n, ?_⟩
             rw [Algebra.TensorProduct.tmul_pow]
             refine ⟨(r ^ q ^ n) ⊗ₜ[k] c, ?_⟩
-            show (Algebra.TensorProduct.map (AlgHom.id k R) f) _ = _
+            change (Algebra.TensorProduct.map (AlgHom.id k R) f) _ = _
             rw [Algebra.TensorProduct.map_tmul]
             simp only [AlgHom.coe_id, id_eq]
             congr 1
@@ -675,7 +674,7 @@ theorem geomIrred_fg_presentation
     rfl
   have hsepK : Algebra.IsSeparable K E := by
     refine Algebra.IsSeparable.of_equiv_equiv φ.symm.toRingEquiv (RingEquiv.refl E) ?_
-    rw [RingEquiv.coe_ringHom_refl, RingHom.id_comp]
+    rw [RingEquiv.toRingHom_refl, RingHom.id_comp]
     exact hcompat
   have hfd : FiniteDimensional K E := by
     have : Algebra.EssFiniteType K E :=
@@ -774,7 +773,7 @@ theorem geomIrred_fg_baseChange_localization_ker
       ≤ nilradical (E ⊗[K] R) := by
   -- E being K-flat; kernel is ⊥ ≤ nilradical).
   have hfinj : Function.Injective (IsScalarTower.toAlgHom K R M) := by
-    show Function.Injective (algebraMap R M)
+    change Function.Injective (algebraMap R M)
     exact IsFractionRing.injective R M
   have hlinj : Function.Injective
       (LinearMap.lTensor E (IsScalarTower.toAlgHom K R M).toLinearMap) :=

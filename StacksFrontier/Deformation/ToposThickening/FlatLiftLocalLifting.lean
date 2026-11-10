@@ -140,7 +140,7 @@ many covering sieves is covering. -/
 theorem exists_cover_lift_finite_sections {A : Type*} [Category A] {FA : A → A → Type*}
     {CA : A → Type*} [∀ P Q, FunLike (FA P Q) (CA P) (CA Q)] [ConcreteCategory A FA]
     {F G : Cᵒᵖ ⥤ A} (φ : F ⟶ G) [Presheaf.IsLocallySurjective J φ] {U : C}
-    {ι : Type*} [Fintype ι] (y : ι → ToType (G.obj (op U))) :
+    {ι : Type*} [Finite ι] (y : ι → ToType (G.obj (op U))) :
     ∃ S : Sieve U, S ∈ J U ∧ ∀ (V : C) (g : V ⟶ U), S g →
       ∃ x : ι → ToType (F.obj (op V)), ∀ j, φ.app (op V) (x j) = G.map g.op (y j) := by
   classical
@@ -206,7 +206,7 @@ An epimorphism of sheaves of modules is locally surjective on sections (Stacks 0
 form `Stacks.SheafOfModules.EpiMono.imageSieve_mem_of_epi`), and finitely many covering sieves
 have a covering infimum. -/
 theorem exists_cover_lift_finite_module_sections {M N : SheafOfModules.{w} R} (p : M ⟶ N)
-    [Epi p] {U : C} {ι : Type*} [Fintype ι] (y : ι → N.val.obj (op U)) :
+    [Epi p] {U : C} {ι : Type*} [Finite ι] (y : ι → N.val.obj (op U)) :
     ∃ S : Sieve U, S ∈ J U ∧ ∀ (V : C) (g : V ⟶ U), S g →
       ∃ x : ι → M.val.obj (op V), ∀ j, p.val.app (op V) (x j) = restr N g.op (y j) := by
   have : Presheaf.IsLocallySurjective J ((PresheafOfModules.toPresheaf R.obj).map p.val) :=
@@ -594,7 +594,7 @@ theorem locallySpansModIdealProduct_of_unit (hi : FirstOrderThickening i)
 surjective on sections, so finitely many sections of the reduction over `V` lift simultaneously
 on a covering of `V`. -/
 theorem exists_cover_lift_unit_sections (hi : FirstOrderThickening i)
-    (F' : SheafOfModules.{w} (ringSheaf Y.O)) {V : Y.C} {ι : Type*} [Fintype ι]
+    (F' : SheafOfModules.{w} (ringSheaf Y.O)) {V : Y.C} {ι : Type*} [Finite ι]
     (y : ι → (i.pushforwardModules.obj
       (i.toRingedToposModulesHom.pullbackModules.obj F')).val.obj (op V)) :
     ∃ S : Sieve V, S ∈ Y.J V ∧ ∀ (W : Y.C) (g : W ⟶ V), S g →
@@ -616,7 +616,7 @@ omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
 covering.** The structure map of a first order thickening is locally surjective, so finitely
 many sections of `i_*O` over `V` lift simultaneously on a covering of `V`. -/
 theorem exists_cover_lift_structure_sections (hi : FirstOrderThickening i) {V : Y.C}
-    {ι : Type*} [Fintype ι]
+    {ι : Type*} [Finite ι]
     (a : ι → (ringSheaf
       ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj.obj (op V)) :
     ∃ S : Sieve V, S ∈ Y.J V ∧ ∀ (W : Y.C) (g : W ⟶ V), S g →

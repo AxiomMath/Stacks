@@ -468,7 +468,7 @@ of `π_*(c₁(𝒪_P(1))^s ∩ π^*α)` in `CH_{k+n-s}(X)` is zero, the Chow gro
 at the canonical embeddings of Stacks 0ENK. -/
 @[stacks 0ERU "the vanishing for s < r - 1, read on a cycle representing α, in the Chow group of \
 Stacks 0EQ6 at the canonical embeddings"]
-theorem chowClassCanonical_properCyclePushforward_firstChernCapPowCycleMap_flatPullbackMap_projectiveBundle_eq_zero
+theorem chowClassCanonical_properCyclePushforward_firstChernCapPow_flatPullback_projBundle_eq_zero
     (s : ℕ) (hs : s < n) (k m : ℤ) (h : k + n = m + s) (α : CycleGroup D sX k) :
     chowClassCanonical.{u + 1} D sX hX m
         (properCyclePushforward D _ (isGood_projectiveBundleProj_comp D sX hX E hfree) sX hX rfl
@@ -491,7 +491,7 @@ finite locally free `𝒪_X`-module of rank `n + 1` on a good algebraic space `X
 Stacks 0EQ6 at the canonical embeddings of Stacks 0ENK. -/
 @[stacks 0ERU "the top power s = r - 1, read on a cycle representing α, in the Chow group of \
 Stacks 0EQ6 at the canonical embeddings"]
-theorem chowClassCanonical_properCyclePushforward_firstChernCapPowCycleMap_flatPullbackMap_projectiveBundle
+theorem chowClassCanonical_properCyclePushforward_firstChernCapPow_flatPullback_projBundle
     (k : ℤ) (α : CycleGroup D sX k) :
     chowClassCanonical.{u + 1} D sX hX k
         (properCyclePushforward D _ (isGood_projectiveBundleProj_comp D sX hX E hfree) sX hX rfl

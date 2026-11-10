@@ -115,7 +115,7 @@ theorem isIso_homMk_yoneda_map {T T' : BigFppfOver B S hS} (g : T ⟶ T') [IsIso
       representedAlgebraicSpace B S hS T ⟶ representedAlgebraicSpace B S hS T') := by
   refine ⟨⟨ObjectProperty.homMk (yoneda.map (inv g)), ?_, ?_⟩⟩ <;>
     apply ObjectProperty.hom_ext <;>
-    show yoneda.map _ ≫ yoneda.map _ = _ <;>
+    change yoneda.map _ ≫ yoneda.map _ = _ <;>
     rw [← yoneda.map_comp] <;>
     simp
 

@@ -92,7 +92,7 @@ theorem isContinuous_stableSubmoduleRep
   intro x
   convert isOpen_stabilizer R G N x.1 using 1
   ext g
-  simp only [Set.mem_setOf_eq, Subtype.ext_iff]
+  simp only [Set.mem_ofPred_eq, Subtype.ext_iff]
   rfl
 
 /-- **A `G`-stable submodule as a continuous discrete `R`-`G`-module.** -/
@@ -583,24 +583,27 @@ stabilizer is open, hence of finite index. -/
 lemma finite_range_ρ_apply (N : Stacks.Injectives.ContinuousModule.{u, v, w} R G)
     (x : N.obj.obj.V) : (Set.range fun g : G ↦ (N.obj.obj.ρ g).asHom.hom x).Finite := by
   have ρ_mul_apply (g h : G) (y : N.obj.obj.V) :
-      (N.obj.obj.ρ (g * h)).asHom.hom y = (N.obj.obj.ρ g).asHom.hom ((N.obj.obj.ρ h).asHom.hom y) := by
+      (N.obj.obj.ρ (g * h)).asHom.hom y =
+        (N.obj.obj.ρ g).asHom.hom ((N.obj.obj.ρ h).asHom.hom y) := by
     rw [map_mul, End.mul_asHom, ModuleCat.hom_comp, LinearMap.comp_apply]
   let S : Subgroup G :=
     { carrier := {g | (N.obj.obj.ρ g).asHom.hom x = x}
       one_mem' := by simp [End.one_asHom]
       mul_mem' := fun {a b} ha hb ↦ by
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         rw [ρ_mul_apply, hb, ha]
       inv_mem' := fun {a} ha ↦ by
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         conv_lhs => rw [← ha]
         rw [← ρ_mul_apply, inv_mul_cancel, map_one, End.one_asHom, ModuleCat.hom_id,
           LinearMap.id_apply] }
   have := Subgroup.quotient_finite_of_isOpen S (isOpen_stabilizer R G N x)
-  let f' : G ⧸ S → N.obj.obj.V := Quotient.lift (fun g ↦ (N.obj.obj.ρ g).asHom.hom x) fun a b hab ↦ by
+  let f' : G ⧸ S → N.obj.obj.V := Quotient.lift (fun g ↦ (N.obj.obj.ρ g).asHom.hom x)
+    fun a b hab ↦ by
     have hab' : a⁻¹ * b ∈ S := QuotientGroup.leftRel_apply.1 hab
     change (N.obj.obj.ρ (a⁻¹ * b)).asHom.hom x = x at hab'
-    calc (N.obj.obj.ρ a).asHom.hom x = (N.obj.obj.ρ a).asHom.hom ((N.obj.obj.ρ (a⁻¹ * b)).asHom.hom x) := by
+    calc (N.obj.obj.ρ a).asHom.hom x
+        = (N.obj.obj.ρ a).asHom.hom ((N.obj.obj.ρ (a⁻¹ * b)).asHom.hom x) := by
           rw [hab']
       _ = (N.obj.obj.ρ b).asHom.hom x := by
           rw [← ρ_mul_apply, mul_inv_cancel_left]
@@ -637,7 +640,7 @@ lemma FiniteStableSubmodule.subset_orbitSpan
 lemma FiniteStableSubmodule.orbitSpan_le
     (N : Stacks.Injectives.ContinuousModule.{u, v, w} R G) (s : Set N.obj.obj.V) (hs : s.Finite)
     (P : FiniteStableSubmodule N) (h : s ⊆ P.1) : FiniteStableSubmodule.orbitSpan N s hs ≤ P := by
-  show Submodule.span R _ ≤ P.1
+  change Submodule.span R _ ≤ P.1
   rw [Submodule.span_le]
   intro y hy
   simp only [Set.mem_iUnion, Set.mem_range] at hy
@@ -655,7 +658,7 @@ lemma FiniteStableSubmodule.exists_le_map
   choose b hb using hsurj
   refine ⟨FiniteStableSubmodule.orbitSpan N (b '' (t : Set N'.obj.obj.V))
     (t.finite_toSet.image b), ?_⟩
-  show Q.1 ≤ Submodule.map h.hom.hom.hom.hom _
+  change Q.1 ≤ Submodule.map h.hom.hom.hom.hom _
   rw [← ht, Submodule.span_le]
   intro q hq
   refine Submodule.mem_map.2 ⟨b q, FiniteStableSubmodule.subset_orbitSpan N _ _ ⟨q, hq, rfl⟩,

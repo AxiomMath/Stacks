@@ -107,7 +107,7 @@ Every homogeneous piece of a polynomial ring is a power of the linear one, by
 `MvPolynomial.homogeneousSubmodule_one_pow`, and the degrees add. -/
 public theorem polyGrading_one_add_eq_mul (R : Type u) [CommRing R] (n d : ℕ) :
     polyGrading R n (1 + d) = polyGrading R n 1 * polyGrading R n d := by
-  show MvPolynomial.homogeneousSubmodule (Fin (n + 1)) R (1 + d) = _
+  change MvPolynomial.homogeneousSubmodule (Fin (n + 1)) R (1 + d) = _
   conv_lhs => rw [← MvPolynomial.homogeneousSubmodule_one_pow]
   rw [pow_add, pow_one, MvPolynomial.homogeneousSubmodule_one_pow]
 
@@ -153,7 +153,7 @@ public theorem mem_closure_degreeOneProducts (k : Type u) [Field k] (d : ℕ)
       rw [degreeSectionHom_apply]
       exact mul_degreeSection (polyGrading k 1) 1 d ⟨x, hx⟩ ⟨y, hy⟩
     | add x hx y hy ihx ihy =>
-      show degreeSectionHom (polyGrading k 1) (1 + d)
+      change degreeSectionHom (polyGrading k 1) (1 + d)
         ((⟨x, hmul.ge hx⟩ : polyGrading k 1 (1 + d)) + ⟨y, hmul.ge hy⟩) ∈ C
       rw [map_add]
       exact AddSubgroup.add_mem _ ihx ihy

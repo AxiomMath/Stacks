@@ -10,8 +10,8 @@ public import StacksFrontier.AlgebraicGeometry.Picard.SmoothCurveLocalDimension
 Let `S` be a Noetherian scheme, `f : X ⟶ S` separated, affine and smooth of relative dimension
 `1`, `Λ` a torsion Noetherian ring and `M` a finite `Λ`-module. Then `Rf_! M̲` has constructible
 cohomology sheaves. The proof is
-`Stacks.EtaleCohomology.isConstructibleEtaleModule_homology_derivedLowerShriek_of_fiberDimension_le_one`,
-with Stacks 0GKV over a Noetherian base
+`isConstructibleEtaleModule_homology_derivedLowerShriek_of_fiberDimension_le_one`
+(in the namespace `Stacks.EtaleCohomology`), with Stacks 0GKV over a Noetherian base
 (`Stacks.EtaleCohomology.isConstructibleEtaleModule_rightDerivedConstantUnit_of_isNoetherian`).
 
 The statements are made in the standard model of the derived category

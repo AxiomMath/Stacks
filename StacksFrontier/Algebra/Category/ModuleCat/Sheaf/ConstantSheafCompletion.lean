@@ -318,7 +318,7 @@ theorem ker_constantSections_mkQ_le_pow_smul_top (U : C) (n : ℕ) :
     apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro r
-    show (TensorProduct.lid R (R ⧸ I ^ n)) (r ⊗ₜ[R] (1 : R ⧸ I ^ n)) = (I ^ n).mkQ r
+    change (TensorProduct.lid R (R ⧸ I ^ n)) (r ⊗ₜ[R] (1 : R ⧸ I ^ n)) = (I ^ n).mkQ r
     rw [TensorProduct.lid_tmul, Submodule.mkQ_apply,
       show r • (1 : R ⧸ I ^ n) = Submodule.Quotient.mk (r • (1 : R)) from rfl, smul_eq_mul,
       mul_one]

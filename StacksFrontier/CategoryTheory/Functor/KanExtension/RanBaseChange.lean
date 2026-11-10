@@ -40,7 +40,7 @@ hypothesis on the square: after whiskering with `T` and the counit of `Ran_T`, a
 
 namespace CategoryTheory
 
-open Category Functor Limits
+open Category _root_.CategoryTheory.Functor Limits
 
 universe v₁ v₂ v₃ v₄ v₅ u₁ u₂ u₃ u₄ u₅
 
@@ -75,7 +75,7 @@ variable {T : C₁ ⥤ C₂} {L : C₁ ⥤ C₃} {R : C₂ ⥤ C₄} {B : C₃ �
 of `Ran_T` at `Y`, is the `2`-cell of the square at `Y` followed by the counit of `Ran_B`. -/
 theorem ranBaseChange_app_app_ranCounit (F : C₃ ⥤ D) (Y : C₁) :
     (w.ranBaseChange.app F).app (T.obj Y) ≫ (T.ranCounit.app (L ⋙ F)).app Y =
-      (B.ran.obj F).map (w.natTrans.app Y) ≫ (B.ranCounit.app F).app (L.obj Y) := by
+      (B.ran.obj F).map (w.app Y) ≫ (B.ranCounit.app F).app (L.obj Y) := by
   have h : ((T.ranAdjunction D).homEquiv _ _).symm (w.ranBaseChange.app F) =
       ((Functor.RightExtension.mk (B.ran.obj F) (B.ranCounit.app F)).compTwoSquare w).hom := by
     rw [ranBaseChange_app, Equiv.symm_apply_apply]
@@ -90,7 +90,7 @@ theorem ranBaseChange_app_app_comp_π (F : C₃ ⥤ D)
     [T.HasPointwiseRightKanExtension (L ⋙ F)] (X : C₂) (d : StructuredArrow X T) :
     (w.ranBaseChange.app F).app X ≫
         (T.ranObjObjIsoLimit (L ⋙ F) X).hom ≫ limit.π _ d =
-      (B.ran.obj F).map (R.map d.hom ≫ w.natTrans.app d.right) ≫
+      (B.ran.obj F).map (R.map d.hom ≫ w.app d.right) ≫
         (B.ranCounit.app F).app (L.obj d.right) := by
   have hn : (w.ranBaseChange.app F).app X ≫ (T.ran.obj (L ⋙ F)).map d.hom =
       (B.ran.obj F).map (R.map d.hom) ≫ (w.ranBaseChange.app F).app (T.obj d.right) :=

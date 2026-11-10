@@ -723,7 +723,7 @@ public theorem exact_infLegDiff_boundary (hRS𝒴 : SatisfiesRSStar B S hS p𝒴
       rw [hu, Category.assoc, Iso.inv_hom_id, Category.comp_id]
     have hpc : (InfZ.autEquiv M v).1.right ≫
         (twoFibreCompSnd A B S hS toS hA hP hQ h𝒳 h𝒵 h𝒴 w hw M) = bl := by
-      show (InfZ.autEquiv M v).1.right ≫
+      change (InfZ.autEquiv M v).1.right ≫
         (twoFibreCompSndIso A B S hS toS hA hP hQ h𝒳 h𝒵 h𝒴 w hw M).hom = bl
       rw [hv, Category.assoc, Iso.inv_hom_id, Category.comp_id]
     have hkey : (InfY.autEquiv M ((infLinearMapOfOneMorphism A B S hS toS hA p𝒳 p𝒴 P hP w.x

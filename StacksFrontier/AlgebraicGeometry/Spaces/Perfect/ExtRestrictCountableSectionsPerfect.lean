@@ -151,8 +151,6 @@ This is one half of the tag's covering set; the other is the `H^i(U, K ⊗^𝐋 
 clause is `AlgebraicGeometry.Space.hasCountableCohomology_derivedTensor_restrict_of_isPerfect`"]
 theorem countable_ext_etaleRestrict_of_countable_sections_of_isPerfect
     (X : AlgebraicSpaces B S hS) (hZ : B.Contains (⊤_ Scheme.{u}))
-    (hXqc : IsQuasiCompactSpace B S hS X.1)
-    (hXqs : IsAbsolutelyQuasiSeparated B S hS hZ X.1)
     (K : DerivedCategory (Modules.{u, u} B S hS X.1 X.2))
     (hqcK : ∀ q : ℤ, ((DerivedCategory.homologyFunctor (Modules.{u, u} B S hS X.1 X.2) q).obj
       K).IsQuasicoherentOnSite)
@@ -167,7 +165,7 @@ theorem countable_ext_etaleRestrict_of_countable_sections_of_isPerfect
       ((etaleModulePullback.{u, u} B S hS U.1.hom U.2).mapDerivedCategory.obj E)
       ((etaleModulePullback.{u, u} B S hS U.1.hom U.2).mapDerivedCategory.obj K) i) :=
   countable_ext_etaleRestrict_of_countable_sections_derivedDualTensor_of_qcohDerived B S hS X hZ
-    hXqc hXqs K E hE hqcK
+    K E hE hqcK
     (fun v hv q => countable_sections_homology_derivedDualTensor_of_isPerfect B S hS X K hqcK
       hcountK E hE v hv q)
     U hUqc hUqs i

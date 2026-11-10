@@ -108,10 +108,10 @@ theorem compactSpace_quasiSeparatedSpace_pullback {U V W : X.ProEt} (f : V ⟶ U
   let q := Scheme.ProEt.forget X ⋙ Over.forget X
   let e := PreservesPullback.iso q f g
   have : CompactSpace ↥(pullback (q.map f) (q.map g) : Scheme) := by
-    show CompactSpace ↥(pullback f.left g.left : Scheme)
+    change CompactSpace ↥(pullback f.left g.left : Scheme)
     infer_instance
   have : QuasiSeparatedSpace ↥(pullback (q.map f) (q.map g) : Scheme) := by
-    show QuasiSeparatedSpace ↥(pullback f.left g.left : Scheme)
+    change QuasiSeparatedSpace ↥(pullback f.left g.left : Scheme)
     exact quasiSeparatedSpace_of_quasiSeparated (pullback.fst f.left g.left)
   exact ⟨e.inv.homeomorph.compactSpace,
     (quasiSeparatedSpace_congr e.hom.homeomorph).mpr inferInstance⟩
@@ -191,14 +191,14 @@ theorem exists_finite_affine_covering_le (U : X.ProEt) [CompactSpace U.left]
         exact (V.cover.f i).isSpectralMap)
       (fun x _ => ⟨V.idx x, V.covers x⟩) W.2 hW.isCompact⟩
   refine ⟨F, hfin, ?_, ?_, haff⟩
-  · show Presieve.map q F.presieve₀ ∈ Scheme.proetalePrecoverage U.left
+  · change Presieve.map q F.presieve₀ ∈ Scheme.proetalePrecoverage U.left
     rw [← PreZeroHypercover.presieve₀_map, hMap]
     exact ⟨Scheme.presieve₀_mem_qcPrecoverage_iff.mpr hVqc, V.cover.mem₀⟩
   · apply (Sieve.generate_le_iff _ _).mpr
     rintro Y g ⟨i⟩
     let a : F.X i ⟶ E.X (f.s₀ i) :=
       MorphismProperty.Over.homMk (f.h₀ i) (by
-        show f.h₀ i ≫ (E.X (f.s₀ i)).hom = V.cover.f i ≫ U.hom
+        change f.h₀ i ≫ (E.X (f.s₀ i)).hom = V.cover.f i ≫ U.hom
         rw [← f.w₀ i, Category.assoc]
         exact congrArg (fun k => f.h₀ i ≫ k) (E.f (f.s₀ i)).w.symm)
     have ha : a ≫ E.f (f.s₀ i) = F.f i := MorphismProperty.Over.Hom.ext (f.w₀ i)

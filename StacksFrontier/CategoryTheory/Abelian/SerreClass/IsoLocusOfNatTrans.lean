@@ -131,6 +131,7 @@ noncomputable def isLimitMapKernelFork {X Y : 𝒜} {f : X ⟶ Y} (hX : Q X) (hY
   have : Mono (S.map T).f := hT k.ι (Q.prop_of_isLimit_kernelFork hk hX hY) hX inferInstance
   exact IsLimit.ofIsoLimit hTS.fIsKernel (Fork.ext (Iso.refl _) (by simp [S]))
 
+omit [Q.IsWeakSerreClass] in
 include hT in
 /-- A right exact functor which preserves monomorphisms between objects of a weak Serre
 subcategory carries a short exact sequence of objects of it to a short exact sequence. -/

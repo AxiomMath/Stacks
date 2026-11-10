@@ -114,7 +114,7 @@ On `D₊(f b)` the section is a single fraction `m b / f b ^ k b`; the two fract
 overlaps, so a power of `f a * f b` kills `f b ^ {k b} · m a - f a ^ {k a} · m b`, and with `N`
 large enough to serve every `b` the element `f a ^ N · m a` of degree `k a + N + n` represents
 `f a ^ {k a + N} · s` at every point. -/
-theorem exists_pow_smul_eq_degreeNToGlobalSections {ι : Type*} [Fintype ι] (f : ι → S)
+theorem exists_pow_smul_eq_degreeNToGlobalSections {ι : Type*} [Finite ι] (f : ι → S)
     (hf : ∀ i, f i ∈ 𝒮 1)
     (hcover : ∀ y : ProjectiveSpectrum.top 𝒮,
       ∃ i, f i ∈ y.asHomogeneousIdeal.toIdeal.primeCompl)
@@ -162,6 +162,7 @@ theorem exists_pow_smul_eq_degreeNToGlobalSections {ι : Type*} [Fintype ι] (f 
       simp only [Submonoid.smul_def, smul_sub] at hu ⊢
       rw [hu, sub_self]
   choose N hN using hpair
+  have := Fintype.ofFinite ι
   set N₀ : ℕ := Finset.univ.sup N with hN₀
   have hNle : ∀ b : ι, N b ≤ N₀ := fun b => Finset.le_sup (Finset.mem_univ b)
   have hN' : ∀ b : ι, (f a * f b) ^ N₀ • (f b ^ k b • m a - f a ^ k a • m b) = 0 := by

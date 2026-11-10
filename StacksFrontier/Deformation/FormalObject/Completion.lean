@@ -302,7 +302,7 @@ theorem representableSectionLift_quotient
   have hf := fun {m n : ℕ} (hmn : m ≤ n) =>
     representableSectionQuotientHom_comp (Λ := Λ) (k := k) R S x hmn
   let : IsAdicComplete (maximalIdeal S) S := S.completeLocal.isComplete
-  show Ideal.Quotient.mk (maximalIdeal S ^ (n + 1))
+  change Ideal.Quotient.mk (maximalIdeal S ^ (n + 1))
     ((AdicCompletion.ofAlgEquiv (maximalIdeal S)).symm
       ((AdicCompletion.liftAlgHom (maximalIdeal S) f hf) a)) = f (n + 1) a
   rw [AdicCompletion.mk_ofAlgEquiv_symm, AdicCompletion.evalₐ_liftAlgHom]
@@ -470,7 +470,7 @@ theorem truncationMapLE_comp
   have hIJ : I ≤ J := Ideal.pow_le_pow_right (Nat.add_le_add_right hmn 1)
   have hJK : J ≤ K := Ideal.pow_le_pow_right (Nat.add_le_add_right hlm 1)
   have hIK : I ≤ K := hIJ.trans hJK
-  show (Ideal.Quotient.factorₐ Λ hJK) ((Ideal.Quotient.factorₐ Λ hIJ) (Ideal.Quotient.mk I r)) =
+  change (Ideal.Quotient.factorₐ Λ hJK) ((Ideal.Quotient.factorₐ Λ hIJ) (Ideal.Quotient.mk I r)) =
     Ideal.Quotient.factorₐ Λ hIK (Ideal.Quotient.mk I r)
   simp
 
@@ -541,7 +541,7 @@ theorem adicSection_compatible_le
   | @succ n h ih =>
       rw [← truncationMapLE_comp S h (Nat.le_succ n), F.map_comp,
         truncationMapLE_succ]
-      show F.map (truncationMapLE S h)
+      change F.map (truncationMapLE S h)
         (F.map (AdicTruncation.transition S n) (s.value (n + 1))) = s.value m
       rw [s.compatible n, ih]
 
@@ -555,7 +555,7 @@ theorem quotientTransition_factorPow
     (S : CompleteLocalAlgCat.{u, v, w} Λ k) (n : ℕ) :
     (Ideal.Quotient.factorPow (maximalIdeal S) (Nat.le_succ (n + 1))) =
       (AdicTruncation.transition S n).hom.toRingHom := by
-  show (Ideal.Quotient.factorPow (maximalIdeal S) (Nat.le_succ (n + 1)) :
+  change (Ideal.Quotient.factorPow (maximalIdeal S) (Nat.le_succ (n + 1)) :
       S ⧸ maximalIdeal S ^ (n + 2) →+* S ⧸ maximalIdeal S ^ (n + 1)) =
     (Ideal.Quotient.factor (show maximalIdeal S ^ (n + 2) ≤
       maximalIdeal S ^ (n + 1) from Ideal.pow_le_pow_right (Nat.le_succ (n + 1))) :
@@ -681,7 +681,7 @@ theorem adicQuotientConeLift_fac
   apply CompleteLocalAlgCat.Hom.ext
   apply AlgHom.ext
   intro x
-  show Ideal.Quotient.mk (AdicTruncation.ideal S n)
+  change Ideal.Quotient.mk (AdicTruncation.ideal S n)
       ((adicQuotientConeLift S t).hom x) = adicQuotientConeFamily S t n x
   simpa [adicQuotientConeLift, AdicTruncation.ideal] using
     adicQuotientConeLiftRingHom_mk S t n x
@@ -847,7 +847,7 @@ public theorem adicCompletionRestrictionIso_hom_apply
     (q : S ⟶ artinianToComplete.obj (AdicTruncation.obj S n))
     (hq : q.hom = Ideal.Quotient.mkₐ Λ (AdicTruncation.ideal S n)) :
     ((adicCompletionRestrictionIso G).hom.app S x).value n = G.map q x := by
-  show G.map ((adicQuotientCone S).π.app (Opposite.op n)) x = G.map q x
+  change G.map ((adicQuotientCone S).π.app (Opposite.op n)) x = G.map q x
   exact congrArg (fun q => G.map q x) (CompleteLocalAlgCat.Hom.ext hq.symm)
 
 end

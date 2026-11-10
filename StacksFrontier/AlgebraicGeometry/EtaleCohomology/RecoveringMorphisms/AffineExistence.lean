@@ -10,7 +10,8 @@ of their small étale **locally** ringed topoi.  Then there is a morphism of sch
 with `(g, g^♯)` 2-isomorphic to `(f_{small}, f_{small}^♯)`, and it is unique.  That is
 [Stacks Project, Tag 04I6], and this file closes it.
 
-Everything else is already available: the comparison `g⁻¹h_V ⟶ h_{X ×_Y V}` of step (3) of the source's
+Everything else is already available: the comparison `g⁻¹h_V ⟶ h_{X ×_Y V}` of step (3) of the
+source's
 proof together with its naturality in both variables, its iso-ness at every affine chart
 (`AlgebraicGeometry.affineRepresentableComparison`), the transport of the resulting isomorphism of
 direct images from the affine charts to all charts along [Stacks Project, Tag 04HR], and the
@@ -119,8 +120,8 @@ theorem sectionsEquivOfIso_forgetFSharp (V : SmallEtale B Y.obj Y.property)
         (u := smallEtaleBaseChange B f) e
         ((RingedToposHom.forgetFSharp g).hom.app (op V) b) =
       (RingedToposHom.forgetFSharp (smallEtaleRingedToposHom B f)).hom.app (op V) b := by
-  refine (Equiv.apply_eq_iff_eq_symm_apply _).2 ?_
-  show (g.fSharp.hom.app (op V)).hom b =
+  refine (Equiv.eq_symm_apply _).1 ?_
+  change (g.fSharp.hom.app (op V)).hom b =
     (SmallEtale.topology B Y.obj Y.property).yonedaEquiv
       (g.toToposHom.adj.homEquiv _ _
         (e.hom ≫

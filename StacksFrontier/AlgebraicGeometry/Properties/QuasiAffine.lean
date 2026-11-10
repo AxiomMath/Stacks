@@ -156,7 +156,7 @@ lemma isPullback_id_toSpecΓ_of_isOpenImmersion (U V : Scheme.{u}) (f : U ⟶ V)
       (by rw [← Category.assoc, Scheme.isoOfEq_hom_ι])
   have hfactor : (𝒰.pullback₁ (𝟙 U)).f i =
       𝒰.pullbackHom (𝟙 U) i ≫ 𝒰.f i := by
-    show pullback.fst (𝟙 U) (𝒰.f i) =
+    change pullback.fst (𝟙 U) (𝒰.f i) =
       pullback.snd (𝟙 U) (𝒰.f i) ≫ 𝒰.f i
     rw [← pullback.condition]
     simp
@@ -169,7 +169,7 @@ lemma isPullback_id_toSpecΓ_of_isOpenImmersion (U V : Scheme.{u}) (f : U ⟶ V)
     infer_instance
   apply IsOpenImmersion.isPullback
   · simp only [Category.assoc, ← Scheme.toSpecΓ_naturality, hfactor]
-  · show Spec.map f.appTop ⁻¹ᵁ
+  · change Spec.map f.appTop ⁻¹ᵁ
       ((U.basicOpen (f.appTop i.1)).ι ≫ f ≫ V.toSpecΓ).opensRange = _
     rw [opensRange_basicOpen_ι_comp_toSpecΓ f i.2.1 i.2.2, SpecMap_preimage_basicOpen]
     simp only [hfactor, Category.assoc, Scheme.Hom.opensRange_comp_of_isIso]

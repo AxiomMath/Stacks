@@ -403,8 +403,7 @@ theorem countable_sections_homology_derivedTensor_of_isPerfect
 is countable for every quasi-compact quasi-separated `U` étale over `X` and every `i`. -/
 @[stacks 0CRU "the sets H^i(U, K ⊗^𝐋 E)"]
 theorem hasCountableCohomology_derivedTensor_restrict_of_isPerfect
-    (hZ : B.Contains (⊤_ Scheme.{u})) (hXqc : IsQuasiCompactSpace B S hS X.1)
-    (hXqs : IsAbsolutelyQuasiSeparated B S hS hZ X.1)
+    (hZ : B.Contains (⊤_ Scheme.{u}))
     (T : Stacks.SheafOfModules.DerivedTensorProduct.{u + 1, u, u, u + 1}
       (smallEtaleRingedSite B S hS X.1 X.2))
     (K : DerivedCategory (Modules.{u, u} B S hS X.1 X.2))
@@ -423,7 +422,7 @@ theorem hasCountableCohomology_derivedTensor_restrict_of_isPerfect
   have hqcL : ∀ q : ℤ, ((DerivedCategory.homologyFunctor (Modules.{u, u} B S hS X.1 X.2) q).obj
       ((T.tensor.obj K).obj E)).IsQuasicoherentOnSite :=
     qcohDerived_derivedTensor_of_isPerfect B S hS X T ⟨K, hqcK⟩ E hE
-  hasCountableCohomology_derivedGlobalSectionsAb_restrict B S hS hZ X hXqc hXqs
+  hasCountableCohomology_derivedGlobalSectionsAb_restrict B S hS hZ X
     ((T.tensor.obj K).obj E) hqcL
     (fun v hv q => countable_sections_homology_derivedTensor_of_isPerfect B S hS T K hqcK
       hcountK E hE hqcL v hv q) U hUqc hUqs

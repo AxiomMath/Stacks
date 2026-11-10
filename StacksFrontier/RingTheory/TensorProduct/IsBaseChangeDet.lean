@@ -141,7 +141,7 @@ theorem exists_det_spread {A B₁ κ M N₁ O : Type*} [CommRing A] [CommRing B�
     (hρ₁ : letI := φ₁.toAlgebra; letI := Module.compHom N₁ φ₁
       letI : IsScalarTower A B₁ N₁ := IsScalarTower.of_algebraMap_smul fun _ _ ↦ rfl
       IsBaseChange B₁ ρ₁)
-    {ι : Type*} [Fintype ι] (b₁ : Basis ι B₁ N₁)
+    {ι : Type*} [Finite ι] (b₁ : Basis ι B₁ N₁)
     (ρκ : letI := Module.compHom O χ; M →ₗ[A] O)
     (hρκ : letI := χ.toAlgebra; letI := Module.compHom O χ
       letI : IsScalarTower A κ O := IsScalarTower.of_algebraMap_smul fun _ _ ↦ rfl
@@ -158,6 +158,7 @@ theorem exists_det_spread {A B₁ κ M N₁ O : Type*} [CommRing A] [CommRing B�
           IsBaseChange B ρB) →
         IsUnit (ψ d) → IsUnit (ψ e) →
         ∃ c : Fin n → B, IsUnit (c i₀) ∧ ρB z = ∑ i, c i • ρB (w i) := by
+  have := Fintype.ofFinite ι
   subst hχ
   let : Algebra B₁ κ := ι₁.toAlgebra
   let : Module B₁ O := Module.compHom O ι₁
@@ -175,7 +176,7 @@ theorem exists_det_spread {A B₁ κ M N₁ O : Type*} [CommRing A] [CommRing B�
   obtain ⟨c, hc, hdet⟩ := hbcτκ.exists_repr_det_update b₁ v hli hsp (ρ₁ z) i₀
   rw [hκw, hτκ] at hc
   refine ⟨b₁.det v, b₁.det (Function.update v i₀ (ρ₁ z)), hd.ne_zero, ?_, ?_⟩
-  · show algebraMap B₁ κ _ ≠ 0
+  · change algebraMap B₁ κ _ ≠ 0
     rw [hdet]
     exact mul_ne_zero (hz c hc) hd.ne_zero
   · intro B NB _ _ _ ψ φ hψ ρB hρB hψd hψe

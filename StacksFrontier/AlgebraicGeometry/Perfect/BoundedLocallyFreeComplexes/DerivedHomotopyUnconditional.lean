@@ -93,8 +93,8 @@ attribute [local instance 10000] HasDerivedCategory.standard
 
 /-- **A Noetherian scheme with the resolution property is affine over a Noetherian scheme with
 the resolution property**, namely over itself.  This is the hypothesis `hmodel` of the
-formalized form of [Stacks, Tag 0F8H] and of [Stacks, Tag 0F8C]; the point of stating it is that it makes
-that hypothesis satisfiable, so the tagged statement can be instantiated. -/
+formalized form of [Stacks, Tag 0F8H] and of [Stacks, Tag 0F8C]; the point of stating it is that it
+makes that hypothesis satisfiable, so the tagged statement can be instantiated. -/
 theorem exists_affineNoetherianModel_of_isNoetherian (X : Scheme.{u}) [IsNoetherian X]
     [HasResolutionProperty X] :
     ∃ (Y : Scheme.{u}) (f : X ⟶ Y),

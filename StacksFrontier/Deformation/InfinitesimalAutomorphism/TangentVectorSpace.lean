@@ -576,9 +576,11 @@ private theorem existsUnique_planeAut (hp : SatisfiesRS p)
         P.map (squareZeroUnderMap p x (lineSnd.{v, w} k)) ≫ (b⁻¹).asIso.hom.val →
       g ≫ g' = 𝟙 (P.obj (squareZeroUnder p x (tgtPlane.{v, w} k))).1 := by
     intro a b g g' h1 h2 h1' h2'
-    have ha : a.asIso.hom.val ≫ (a⁻¹).asIso.hom.val = 𝟙 (P.obj (squareZeroUnder p x (tgtLine.{v, w} k))).1 :=
+    have ha : a.asIso.hom.val ≫ (a⁻¹).asIso.hom.val =
+        𝟙 (P.obj (squareZeroUnder p x (tgtLine.{v, w} k))).1 :=
       congrArg Subtype.val a.asIso.hom_inv_id
-    have hb : b.asIso.hom.val ≫ (b⁻¹).asIso.hom.val = 𝟙 (P.obj (squareZeroUnder p x (tgtLine.{v, w} k))).1 :=
+    have hb : b.asIso.hom.val ≫ (b⁻¹).asIso.hom.val =
+        𝟙 (P.obj (squareZeroUnder p x (tgtLine.{v, w} k))).1 :=
       congrArg Subtype.val b.asIso.hom_inv_id
     refine huniq _ _ ?_ ?_
     · rw [Category.assoc, h1', ← Category.assoc, h1, Category.assoc, ha, Category.comp_id,
@@ -1219,13 +1221,15 @@ public theorem existsUnique_localizedTangentAutomorphismLinearEquiv
       hom_inv_id := Functor.Fiber.hom_ext (by
         change (HEi ≫ α.asIso.hom.val ≫ HE) ≫ (HEi ≫ α.asIso.inv.val ≫ HE) =
           𝟙 (Q.obj (dualNumbersUnder (p := p) (x := x₀))).1
-        have h : α.asIso.hom.val ≫ α.asIso.inv.val = 𝟙 (P.obj (dualNumbersUnder (p := p) (x := x))).1 :=
+        have h : α.asIso.hom.val ≫ α.asIso.inv.val =
+            𝟙 (P.obj (dualNumbersUnder (p := p) (x := x))).1 :=
           congrArg Subtype.val α.asIso.hom_inv_id
         rw [hcancelP, h, hidP])
       inv_hom_id := Functor.Fiber.hom_ext (by
         change (HEi ≫ α.asIso.inv.val ≫ HE) ≫ (HEi ≫ α.asIso.hom.val ≫ HE) =
           𝟙 (Q.obj (dualNumbersUnder (p := p) (x := x₀))).1
-        have h : α.asIso.inv.val ≫ α.asIso.hom.val = 𝟙 (P.obj (dualNumbersUnder (p := p) (x := x))).1 :=
+        have h : α.asIso.inv.val ≫ α.asIso.hom.val =
+            𝟙 (P.obj (dualNumbersUnder (p := p) (x := x))).1 :=
           congrArg Subtype.val α.asIso.inv_hom_id
         rw [hcancelP, h, hidP]) }
   let Ψ : Aut (Q.obj (dualNumbersUnder (p := p) (x := x₀))) →
@@ -1236,13 +1240,15 @@ public theorem existsUnique_localizedTangentAutomorphismLinearEquiv
       hom_inv_id := Functor.Fiber.hom_ext (by
         change (HE ≫ β.asIso.hom.val ≫ HEi) ≫ (HE ≫ β.asIso.inv.val ≫ HEi) =
           𝟙 (P.obj (dualNumbersUnder (p := p) (x := x))).1
-        have h : β.asIso.hom.val ≫ β.asIso.inv.val = 𝟙 (Q.obj (dualNumbersUnder (p := p) (x := x₀))).1 :=
+        have h : β.asIso.hom.val ≫ β.asIso.inv.val =
+            𝟙 (Q.obj (dualNumbersUnder (p := p) (x := x₀))).1 :=
           congrArg Subtype.val β.asIso.hom_inv_id
         rw [hcancelQ, h, hidQ])
       inv_hom_id := Functor.Fiber.hom_ext (by
         change (HE ≫ β.asIso.inv.val ≫ HEi) ≫ (HE ≫ β.asIso.hom.val ≫ HEi) =
           𝟙 (P.obj (dualNumbersUnder (p := p) (x := x))).1
-        have h : β.asIso.inv.val ≫ β.asIso.hom.val = 𝟙 (Q.obj (dualNumbersUnder (p := p) (x := x₀))).1 :=
+        have h : β.asIso.inv.val ≫ β.asIso.hom.val =
+            𝟙 (Q.obj (dualNumbersUnder (p := p) (x := x₀))).1 :=
           congrArg Subtype.val β.asIso.inv_hom_id
         rw [hcancelQ, h, hidQ]) }
   have hΨΦ : ∀ α, Ψ (Φ α) = α := by
@@ -1304,7 +1310,8 @@ public theorem existsUnique_localizedTangentAutomorphismLinearEquiv
     calc (HEi ≫ α.asIso.hom.val ≫ HE) ≫ Q.map (tangentReduction (p := p) (x := x₀))
         = HEi ≫ α.asIso.hom.val ≫ HE ≫ Q.map (tangentReduction (p := p) (x := x₀)) := by
             simp only [Category.assoc]
-      _ = HEi ≫ α.asIso.hom.val ≫ P.map (tangentReduction (p := p) (x := x)) ≫ HZ := by rw [← hredcomp]
+      _ = HEi ≫ α.asIso.hom.val ≫ P.map (tangentReduction (p := p) (x := x)) ≫ HZ := by
+            rw [← hredcomp]
       _ = HEi ≫ (α.asIso.hom.val ≫ P.map (tangentReduction (p := p) (x := x))) ≫ HZ := by
             simp only [Category.assoc]
       _ = HEi ≫ P.map (tangentReduction (p := p) (x := x)) ≫ HZ := by rw [hα']
@@ -1322,7 +1329,8 @@ public theorem existsUnique_localizedTangentAutomorphismLinearEquiv
     calc (HE ≫ β.asIso.hom.val ≫ HEi) ≫ P.map (tangentReduction (p := p) (x := x))
         = HE ≫ β.asIso.hom.val ≫ HEi ≫ P.map (tangentReduction (p := p) (x := x)) := by
             simp only [Category.assoc]
-      _ = HE ≫ β.asIso.hom.val ≫ Q.map (tangentReduction (p := p) (x := x₀)) ≫ HZi := by rw [hredcomp']
+      _ = HE ≫ β.asIso.hom.val ≫ Q.map (tangentReduction (p := p) (x := x₀)) ≫ HZi := by
+            rw [hredcomp']
       _ = HE ≫ (β.asIso.hom.val ≫ Q.map (tangentReduction (p := p) (x := x₀))) ≫ HZi := by
             simp only [Category.assoc]
       _ = HE ≫ Q.map (tangentReduction (p := p) (x := x₀)) ≫ HZi := by rw [hβ']

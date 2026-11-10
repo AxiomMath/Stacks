@@ -20,7 +20,7 @@ Let `B` be a Noetherian ring, let `𝔟 ⊆ B` be an ideal, let `g ∈ B` and le
 
 This file identifies them, termwise and compatibly with the quotient projections out of the
 structure sheaf and with the transition maps. It is the transport of
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionFullyFaithful/QuotientTildeComplement.lean`
+`StacksFrontier.AlgebraicGeometry.FormalGeometry.CompletionFullyFaithful.QuotientTildeComplement`
 read at the indexing of Stacks 0880 and at the quotient modules Stacks 0EII uses.
 
 ## Main definitions
@@ -209,7 +209,7 @@ public theorem complementCompletionTermIso_transition :
   have hepi : Epi (completionProjection (complementZeroLocus B b : Scheme)
       (complementPrincipalIdealSheaf B b g)
       (unitCoherentModule (complementZeroLocus B b : Scheme)) (n + 1)) := by
-    show Epi (cokernel.π (C := (complementZeroLocus B b : Scheme).Modules)
+    change Epi (cokernel.π (C := (complementZeroLocus B b : Scheme).Modules)
         (idealPowerMultiple (complementPrincipalIdealSheaf B b g) (n + 1 + 1)
           (unitCoherentModule (complementZeroLocus B b : Scheme)).obj).ι ≫
       eqToHom (completionFunctor_obj (complementZeroLocus B b : Scheme)

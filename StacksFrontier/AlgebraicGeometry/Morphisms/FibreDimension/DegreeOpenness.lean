@@ -215,7 +215,7 @@ private lemma lift_injective_fiber_points_to_open {X S : Scheme.{u}} (f : X ⟶ 
   let e : pullback (pullback.snd g f) W.ι ≅ pullback g (W.ι ≫ f) :=
     pullbackLeftPullbackSndIso g f W.ι
   have hj (i : Fin n) : x i ∈ Set.range j.base := by
-    show x i ∈ Set.range (pullback.fst (pullback.snd g f) W.ι).base
+    change x i ∈ Set.range (pullback.fst (pullback.snd g f) W.ι).base
     rw [IsOpenImmersion.range_pullbackFst, Scheme.Opens.opensRange_ι]
     exact hW i
   have hz (i : Fin n) : j ((hj i).choose) = x i := (hj i).choose_spec
@@ -272,7 +272,7 @@ private lemma exists_compact_open_containing_finite_fiber {X S : Scheme.{u}} (f 
     rintro _ ⟨p, rfl⟩
     have h : f ((pullback.snd g f) p) = g ((pullback.fst g f) p) :=
       congrArg (fun q : pullback g f ⟶ S => q.base p) (pullback.condition (f := g) (g := f)).symm
-    show f ((pullback.snd g f) p) ∈ (U.1 : Set S)
+    change f ((pullback.snd g f) p) ∈ (U.1 : Set S)
     rw [h, congrArg g.base
       (Subsingleton.elim ((pullback.fst g f) p) (default : Spec (.of k)))]
     exact hgU

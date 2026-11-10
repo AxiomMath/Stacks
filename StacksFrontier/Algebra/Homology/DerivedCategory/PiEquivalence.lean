@@ -246,7 +246,7 @@ theorem quasiIso_map_iff {X Y : CochainComplex A ℤ} (f : X ⟶ Y) :
   intro i
   have hi := (quasiIso_iff _).mp (h i) n
   rw [quasiIsoAt_iff_isIso_homologyMap] at hi
-  show IsIso ((F i).map (HomologicalComplex.homologyMap f n))
+  change IsIso ((F i).map (HomologicalComplex.homologyMap f n))
   have e := ShortComplex.mapHomologyIso_hom_naturality
     ((HomologicalComplex.shortComplexFunctor A (ComplexShape.up ℤ) n).map f) (F i)
   have hi' : IsIso (ShortComplex.homologyMap ((F i).mapShortComplex.map
@@ -268,7 +268,7 @@ theorem quasiIso_iff_forall_map {X Y : HomotopyCategory A (ComplexShape.up ℤ)}
   obtain ⟨X⟩ := X
   obtain ⟨Y⟩ := Y
   obtain ⟨g, rfl⟩ := (HomotopyCategory.quotient A (ComplexShape.up ℤ)).map_surjective f
-  show HomotopyCategory.quasiIso A (ComplexShape.up ℤ)
+  change HomotopyCategory.quasiIso A (ComplexShape.up ℤ)
       ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).map g) ↔
     ∀ i, HomotopyCategory.quasiIso (B i) (ComplexShape.up ℤ)
       ((HomotopyCategory.quotient (B i) (ComplexShape.up ℤ)).map

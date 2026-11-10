@@ -104,7 +104,7 @@ theorem section_comp_associatedMap {F G' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u
       (⟨𝒳.val.p.obj x, Discrete.mk (a.app (op (𝒳.val.p.obj x))
         (sectionOfBasedFunctor f.hom.toFunctor f.hom.w x))⟩ :
         (fibredCategory B S hS G').val.obj) := by
-    show (associatedMap B S hS a).1.hom.obj (f.hom.obj x) = _
+    change (associatedMap B S hS a).1.hom.obj (f.hom.obj x) = _
     rw [associatedMap_obj, obj_eq_mk_section B S hS f x]
   exact (elementOf_congr _ rfl h1).trans (elementOf_mk G' _ _)
 

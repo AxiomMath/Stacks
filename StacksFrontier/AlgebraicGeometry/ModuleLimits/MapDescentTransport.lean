@@ -102,7 +102,7 @@ theorem restrictHomOfLE_eq {V W : X.Opens} (e : V ≤ W)
         = N.presheaf.map (eqToHom hQ.symm).op (χ.app (X.homOfLE e ''ᵁ P)
             (M.presheaf.map (eqToHom hQ).op m)) := by
     intro m
-    show N.presheaf.map (eqToHom h1.symm).op (N.presheaf.map (eqToHom h2.symm).op
+    change N.presheaf.map (eqToHom h1.symm).op (N.presheaf.map (eqToHom h2.symm).op
         (χ.app (X.homOfLE e ''ᵁ P) (M.presheaf.map (eqToHom h2).op
           (M.presheaf.map (eqToHom h1).op m)))) = _
     rw [map_eqToHom_op_apply_trans M h1 h2]

@@ -107,25 +107,25 @@ private theorem exists_isAffineOpen_ringEquiv_localizationAway
   let : IsScalarTower R A Γ(X, U) := IsScalarTower.of_algebraMap_eq' (by
     ext r
     have happ := Scheme.Hom.appLE_map S.over (U := ⊤) (by simp) (homOfLE hle).op
-    show (S.over.appLE ⊤ U hle).hom (γR.hom r) =
+    change (S.over.appLE ⊤ U hle).hom (γR.hom r) =
       (X.presheaf.map (homOfLE hle).op).hom (S.over.appTop.hom (γR.hom r))
     exact (congrArg
       (fun h : Γ(Spec (.of R), ⊤) ⟶ Γ(X, U) => h.hom (γR.hom r)) happ).symm)
   have hxU : S.point ∈ U := by
     have hTop := isAffineOpen_top X
     have hp : hTop.primeIdealOf ⟨S.point, by simp⟩ = X.isoSpec.hom S.point := by
-      show (⊤ : X.Opens).toSpecΓ ⟨S.point, by simp⟩ = X.isoSpec.hom S.point
+      change (⊤ : X.Opens).toSpecΓ ⟨S.point, by simp⟩ = X.isoSpec.hom S.point
       rw [Scheme.Opens.toSpecΓ_top, Scheme.isoSpec_hom]
       rfl
     have hnotA : gA ∉ (hTop.primeIdealOf ⟨S.point, by simp⟩).asIdeal := by
       rw [hp, Scheme.isoSpec_Spec_hom]
-      show (Scheme.ΓSpecIso (.of B)).hom.hom gA ∉ S.point.asIdeal
+      change (Scheme.ΓSpecIso (.of B)).hom.hom gA ∉ S.point.asIdeal
       rw [show (Scheme.ΓSpecIso (.of B)).hom.hom gA = gB from
         eBA.toRingEquiv.symm_apply_apply gB]
       exact S.mk_notMem_point_asIdeal hg
-    show ((⟨S.point, by simp⟩ : (⊤ : X.Opens)) : X) ∈ U
+    change ((⟨S.point, by simp⟩ : (⊤ : X.Opens)) : X) ∈ U
     rw [← hTop.fromSpec_primeIdealOf ⟨S.point, by simp⟩]
-    show hTop.primeIdealOf ⟨S.point, by simp⟩ ∈ hTop.fromSpec ⁻¹ᵁ U
+    change hTop.primeIdealOf ⟨S.point, by simp⟩ ∈ hTop.fromSpec ⁻¹ᵁ U
     rw [hTop.fromSpec_preimage_basicOpen]
     exact hnotA
   exact ⟨U, (isAffineOpen_top X).basicOpen gA, hxU, hle,

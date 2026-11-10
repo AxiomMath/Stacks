@@ -324,7 +324,7 @@ private lemma finite_quotient_primeSpectrum_of_finite_primes_over
     apply (hV _ (PrimeSpectrum.comap f P).isPrime).mp
     have ht : t ∈ Ideal.span ({t} : Set A) := Ideal.subset_span (Set.mem_singleton t)
     have hzero : f t = 0 := Ideal.Quotient.eq_zero_iff_mem.mpr ht
-    show f t ∈ P.asIdeal
+    change f t ∈ P.asIdeal
     rw [hzero]
     exact (P.asIdeal).zero_mem
   let ix (P : PrimeSpectrum (A ⧸ Ideal.span {t}))
@@ -681,14 +681,14 @@ lemma exists_boundedDenominator_lift
     · funext j
       by_cases hji : j = i
       · subst j
-        show (algebraMap A (Localization.Away t × (∀ j, Bᵢ j)) (a * s ^ K)).2 i =
+        change (algebraMap A (Localization.Away t × (∀ j, Bᵢ j)) (a * s ^ K)).2 i =
           (algebraMap A (Localization.Away t × (∀ j, Bᵢ j)) (t ^ n)).2 i * y i
         rw [ambient_algebraMap_snd_apply A t Bᵢ i,
           ambient_algebraMap_snd_apply A t Bᵢ i]
         simp only [y, dite_eq_left rfl, v, map_mul, map_pow]
         rw [ha, map_pow]
         ring
-      · show (algebraMap A (Localization.Away t × (∀ j, Bᵢ j)) (a * s ^ K)).2 j =
+      · change (algebraMap A (Localization.Away t × (∀ j, Bᵢ j)) (a * s ^ K)).2 j =
           (algebraMap A (Localization.Away t × (∀ j, Bᵢ j)) (t ^ n)).2 j * y j
         rw [ambient_algebraMap_snd_apply A t Bᵢ j,
           ambient_algebraMap_snd_apply A t Bᵢ j]
@@ -770,14 +770,14 @@ lemma boundedDenominator_projection_kernel_torsion
     have hsK : s ^ K ∉ q i := fun h => hsi ((hq i).mem_of_pow_mem K h)
     exact (hq i).mul_notMem u.property hsK⟩
   refine ⟨v, Prod.ext ?_ (funext fun j => ?_)⟩
-  · show algebraMap A (Localization.Away t) (u * s ^ K) * x.1 = 0
+  · change algebraMap A (Localization.Away t) (u * s ^ K) * x.1 = 0
     exact away_algebraMap_mul_eq_zero t N (a := a)
       (by simpa using congrArg Prod.fst ha) (by rw [mul_right_comm, hu, zero_mul])
   · by_cases hji : j = i
     · subst j
       simp [hx0]
     · obtain ⟨d, hsd⟩ := hd j hji
-      show algebraMap A (Bᵢ j) (u * s ^ K) * x.2 j = 0
+      change algebraMap A (Bᵢ j) (u * s ^ K) * x.2 j = 0
       exact algebraMap_mul_pow_eq_zero (a := a)
         (by simpa using congrArg (fun z : Localization.Away t × (∀ k, Bᵢ k) => z.2 j) ha)
         hu (algebraMap_pow_eq_mul_of_atPrime (Localization.AtPrime (q j)) (Bᵢ j) hsd)

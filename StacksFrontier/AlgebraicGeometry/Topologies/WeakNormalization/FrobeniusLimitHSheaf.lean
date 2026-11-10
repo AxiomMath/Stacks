@@ -142,7 +142,7 @@ public theorem isSheafFor_frobeniusLimit {C : Type*} [Category* C] {X : C} (p : 
   have hstep (n : ℕ) : glued (n + 1) ^ p = glued n := by
     apply (hG (coord n) (hcoord n)).choose_spec.2
     intro Y f hf
-    show (G.map f.op).hom (glued (n + 1) ^ p) = _
+    change (G.map f.op).hom (glued (n + 1) ^ p) = _
     rw [map_pow, show (G.map f.op).hom (glued (n + 1)) = coord (n + 1) f hf from
       hglued (n + 1) f hf]
     exact Perfection.coeffMonoidHom_pow_p' (x f hf) n
@@ -195,13 +195,13 @@ public theorem bijective_mapMonoidHom_of_surjective_of_pow_eq_zero {p : ℕ} (hp
         have hd : φ (root (n + 1) ^ p - root n) = 0 := by
           simp only [map_sub, map_pow, hroot]
           rw [show n + 1 + N = n + N + 1 by omega, b.2 (n + N), sub_self]
-        show (root (n + 1) ^ p ^ N) ^ p = _
+        change (root (n + 1) ^ p ^ N) ^ p = _
         rw [← pow_mul, Nat.mul_comm, pow_mul, ← sub_eq_zero,
           ← sub_pow_char_pow (R := R) (root (n + 1) ^ p) (root n) N]
         exact pow_eq_zero_of_le hN (hm _ hd)
       · apply Subtype.ext
         funext n
-        show φ (root n ^ p ^ N) = b.1 n
+        change φ (root n ^ p ^ N) = b.1 n
         rw [map_pow, hroot]
         exact Perfection.coeffMonoidHom_pow_p_pow' b n N
   · have : Subsingleton R := not_nontrivial_iff_subsingleton.mp hR
@@ -224,7 +224,7 @@ public theorem isPullback_of_bijective_snd_of_injective_fst {P X Y Z : Type u}
   refine ⟨by ext x; exact hcomm x, fun x y h => hb.1 h.2, fun x₂ x₃ h => ?_⟩
   obtain ⟨x₁, hx₁⟩ := hb.2 x₃
   refine ⟨x₁, hf ?_, hx₁⟩
-  show f (a x₁) = f x₂
+  change f (a x₁) = f x₂
   rw [hcomm x₁, hx₁]
   exact h.symm
 
@@ -264,11 +264,11 @@ public theorem isPullback_mapMonoidHom_of_isPushout (p : ℕ) (hp : p.Prime)
   let K := RingHom.ker f.hom ⊔ RingHom.ker g.hom
   let qf := RingHom.liftOfSurjective f.hom hf
     ⟨Ideal.Quotient.mk K, by
-      show RingHom.ker f.hom ≤ RingHom.ker (Ideal.Quotient.mk K)
+      change RingHom.ker f.hom ≤ RingHom.ker (Ideal.Quotient.mk K)
       rw [Ideal.mk_ker]; exact le_sup_left⟩
   let qg := RingHom.liftOfSurjective g.hom hg
     ⟨Ideal.Quotient.mk K, by
-      show RingHom.ker g.hom ≤ RingHom.ker (Ideal.Quotient.mk K)
+      change RingHom.ker g.hom ≤ RingHom.ker (Ideal.Quotient.mk K)
       rw [Ideal.mk_ker]; exact le_sup_right⟩
   have hq : f ≫ CommRingCat.ofHom qf = g ≫ CommRingCat.ofHom qg := by
     ext x
@@ -294,9 +294,9 @@ public theorem isPullback_mapMonoidHom_of_isPushout (p : ℕ) (hp : p.Prime)
       exact sub_eq_zero.mpr a.2
     obtain ⟨xf, hxf, xg, hxg, heq⟩ := Submodule.mem_sup.mp hxy
     refine ⟨x - xf, Subtype.ext (Prod.ext ?_ ?_)⟩
-    · show f.hom (x - xf) = a.1.1
+    · change f.hom (x - xf) = a.1.1
       simpa [map_sub, RingHom.mem_ker.mp hxf] using hx
-    · show g.hom (x - xf) = a.1.2
+    · change g.hom (x - xf) = a.1.2
       have hdiff : x - xf = y + xg := by linear_combination -heq
       rw [hdiff, map_add, RingHom.mem_ker.mp hxg, add_zero, hy]
   obtain ⟨m, hm⟩ := hnil
@@ -321,9 +321,9 @@ public theorem isPullback_mapMonoidHom_of_isPushout (p : ℕ) (hp : p.Prime)
       ⟨fun n => ⟨(α.1 n, β.1 n), hcompat n⟩, fun n => Subtype.ext (Prod.ext (α.2 n) (β.2 n))⟩
     obtain ⟨a, ha⟩ := hbij.2 γ
     refine ⟨a, Perfection.extMonoid fun n => ?_, Perfection.extMonoid fun n => ?_⟩
-    · show f.hom (a.1 n) = α.1 n
+    · change f.hom (a.1 n) = α.1 n
       exact congrArg (fun c : P => c.1.1) (congrFun (congrArg Subtype.val ha) n)
-    · show g.hom (a.1 n) = β.1 n
+    · change g.hom (a.1 n) = β.1 n
       exact congrArg (fun c : P => c.1.2) (congrFun (congrArg Subtype.val ha) n)
 
 /-! ### The Frobenius limit of global functions on schemes -/
@@ -520,10 +520,10 @@ public theorem exists_section_exceptionalToCenter (A : Type u) [CommRing A] (f�
       (Stacks.AlmostBlowUp.twoGeneratorSquare A f₁ f₂).centerMap =
       (Scheme.ΓSpecIso (.of (Stacks.AlmostBlowUp.centerRing A f₁ f₂))).inv.hom := by
     ext a
-    show ev ((Stacks.AlmostBlowUp.twoGeneratorSquare A f₁ f₂).centerMap a) = _
+    change ev ((Stacks.AlmostBlowUp.twoGeneratorSquare A f₁ f₂).centerMap a) = _
     rw [(Stacks.AlmostBlowUp.twoGeneratorSquare A f₁ f₂).centerMap_apply]
     exact MvPolynomial.eval₂_C _ _ _
-  show Proj.fromOfGlobalSections grading ev hev ≫
+  change Proj.fromOfGlobalSections grading ev hev ≫
     Proj.toSpecZero grading ≫
       Spec.map (CommRingCat.ofHom
         (Stacks.AlmostBlowUp.twoGeneratorSquare A f₁ f₂).centerMap) = 𝟙 _

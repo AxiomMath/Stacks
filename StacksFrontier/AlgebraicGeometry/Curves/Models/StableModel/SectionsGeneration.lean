@@ -66,7 +66,7 @@ theorem specMap_residueField_eq_closedPoint (pt : Spec (.of S.k)) :
   have := pt.isPrime
   refine PrimeSpectrum.ext ?_
   rw [Spec.map_apply]
-  show Ideal.comap (algebraMap S.R S.k) pt.asIdeal = IsLocalRing.maximalIdeal S.R
+  change Ideal.comap (algebraMap S.R S.k) pt.asIdeal = IsLocalRing.maximalIdeal S.R
   rw [Ideal.eq_bot_of_prime pt.asIdeal, ← RingHom.ker_eq_comap_bot]
   ext r
   rw [RingHom.mem_ker]

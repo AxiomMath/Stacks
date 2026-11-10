@@ -104,7 +104,8 @@ ringed site. -/
 theorem existsKFlatRes :
     ∀ G : CochainComplex (RingedSite.Modules.{c, v, w} X) ℤ,
       ∃ (P : CochainComplex (RingedSite.Modules.{c, v, w} X) ℤ) (p : P ⟶ G),
-        KFlat (Stacks.SheafOfModules.Tensor.sheafTensor.{c, v, w, w, w} X.O) P ∧ QuasiIso p :=
+        CochainComplex.KFlatBifunctor.KFlat
+          (Stacks.SheafOfModules.Tensor.sheafTensor.{c, v, w, w, w} X.O) P ∧ QuasiIso p :=
   fun G => Stacks.SheafOfModules.KFlatResolution.exists_kFlat_quasiIso_ofSize.{v, c, w} X.O G
 
 variable [HasDerivedCategory.{d} (RingedSite.Modules.{c, v, w} X)]

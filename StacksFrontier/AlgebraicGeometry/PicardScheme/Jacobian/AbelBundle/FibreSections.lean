@@ -65,7 +65,7 @@ theorem pullbackComp_app_pullbackGlobalSections_abelSection {T : Over S} (v : T 
   rw [AlgebraicGeometry.SectionsEqualizer.pullbackGlobalSections_smul,
     Scheme.Modules.Hom.app_smul, AlgebraicGeometry.SectionsEqualizer.pullbackGlobalSections_comp]
   congr 1
-  show (g' ≫ bcProj f T).appTop (c i) = (p' ≫ h').appTop (c i)
+  change (g' ≫ bcProj f T).appTop (c i) = (p' ≫ h').appTop (c i)
   rw [w]
 
 end Stacks.RigidifiedPicard
@@ -80,10 +80,10 @@ spectrum is nonempty. -/
 private theorem mem_basicOpen_iff_exists_mem_preimage {T : Scheme.{u}} (t : T) (a : Γ(T, ⊤)) :
     t ∈ T.basicOpen a ↔ ∃ x, x ∈ (T.fromSpecResidueField t) ⁻¹ᵁ T.basicOpen a := by
   have hpt : Nonempty (Spec (T.residueField t)) := by
-    show Nonempty (PrimeSpectrum _); infer_instance
+    change Nonempty (PrimeSpectrum _); infer_instance
   obtain ⟨x⟩ := hpt
   refine ⟨fun ht => ⟨x, ?_⟩, fun ⟨x, hx⟩ => ?_⟩
-  · show T.fromSpecResidueField t x ∈ T.basicOpen a
+  · change T.fromSpecResidueField t x ∈ T.basicOpen a
     rwa [Scheme.fromSpecResidueField_apply]
   · change T.fromSpecResidueField t x ∈ T.basicOpen a at hx
     rwa [Scheme.fromSpecResidueField_apply] at hx

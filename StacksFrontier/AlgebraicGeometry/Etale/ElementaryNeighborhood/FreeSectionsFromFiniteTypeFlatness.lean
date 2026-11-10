@@ -44,8 +44,8 @@ Tag 05ID enters as
 `AlgebraicGeometry.exists_elementaryEtaleNeighborhood_projective_sections_of_isFlatOverAt`.
 
 `AlgebraicGeometry.exists_etale_neighborhood_with_free_globalSections` in
-`StacksFrontier.AlgebraicGeometry.Etale.ElementaryNeighborhood.FreeGlobalSections05KY` states the same
-conclusion from a different assumption: projectivity of the sections already transported to the
+`StacksFrontier.AlgebraicGeometry.Etale.ElementaryNeighborhood.FreeGlobalSections05KY` states the
+same conclusion from a different assumption: projectivity of the sections already transported to the
 local ring of the new base, which leaves flatness at `x` unused.
 
 ## Main results
@@ -155,7 +155,7 @@ private theorem affineStage_closedPoint
     (Y : Scheme.{u}) (y : Y) (U : Y.affineOpens) (hy : y ∈ U.1) :
     ((stalkSpecCone Y y).π.app ⟨U.1, hy⟩ ≫ (affineStageIso Y y U hy).hom)
         (IsLocalRing.closedPoint (Y.presheaf.stalk y)) = ⟨y, hy⟩ := by
-  show U.2.isoSpec.inv
+  change U.2.isoSpec.inv
     (Spec.map (Y.presheaf.germ U.1 y hy)
       (IsLocalRing.closedPoint (Y.presheaf.stalk y))) = ⟨y, hy⟩
   have hU : IsAffineOpen U.1 := U.2
@@ -172,7 +172,7 @@ private theorem affineStage_projection_isPreimmersion
     dsimp [k]
     infer_instance
   have : IsPreimmersion (b ≫ k) := by
-    show IsPreimmersion ((stalkSpecCone Y y).π.app ⟨U.1, hy⟩ ≫
+    change IsPreimmersion ((stalkSpecCone Y y).π.app ⟨U.1, hy⟩ ≫
       (affineStageIso Y y U hy).hom ≫ U.1.ι)
     rw [affineStage_projection_toBase Y y U hy]
     exact (inferInstance : IsPreimmersion (Y.fromSpecStalk y))
@@ -224,11 +224,11 @@ private theorem etale_pullback_hom_of_iso
       (Over.homMk X.hom (show X.hom ≫ (𝟙 T) = X.hom by simp) :
         X ⟶ Over.mk (𝟙 T))).left := by
   let f : X ⟶ Over.mk (𝟙 T) := Over.homMk X.hom (by simp)
-  show Etale ((Over.pullback b).map f).left
+  change Etale ((Over.pullback b).map f).left
   have hX : Etale ((Over.pullback b).obj X).hom := etale_of_over_iso e
   refine MorphismProperty.of_postcomp @Etale (W' := @Etale) _ (pullback.snd (𝟙 T) b)
     inferInstance ?_
-  show Etale (((Over.pullback b).map f).left ≫ ((Over.pullback b).obj (Over.mk (𝟙 T))).hom)
+  change Etale (((Over.pullback b).map f).left ≫ ((Over.pullback b).obj (Over.mk (𝟙 T))).hom)
   rwa [Over.w]
 
 /-- Étaleness of the morphism obtained by pulling back a structure morphism gives étaleness of the
@@ -242,7 +242,7 @@ private theorem etale_pullback_obj_of_etale_map
   let f : X ⟶ Over.mk (𝟙 T) := Over.homMk X.hom (by simp)
   have : Etale ((Over.pullback b).map f).left := h
   have : Etale ((Over.pullback b).obj (Over.mk (𝟙 T))).hom := by
-    show Etale (pullback.snd (𝟙 T) b)
+    change Etale (pullback.snd (𝟙 T) b)
     infer_instance
   rw [← Over.w ((Over.pullback b).map f)]
   infer_instance
@@ -270,10 +270,10 @@ private theorem exists_etale_model_over_stalk
   have : CompactSpace Xᵢ.left := QuasiCompact.compactSpace_of_compactSpace Xᵢ.hom
   have : QuasiSeparatedSpace Xᵢ.left := quasiSeparatedSpace_of_quasiSeparated Xᵢ.hom
   have : CompactSpace (Over.mk (𝟙 (D.obj i))).left := by
-    show CompactSpace (D.obj i)
+    change CompactSpace (D.obj i)
     infer_instance
   have : QuasiSeparatedSpace (Over.mk (𝟙 (D.obj i))).left := by
-    show QuasiSeparatedSpace (D.obj i)
+    change QuasiSeparatedSpace (D.obj i)
     infer_instance
   have : LocallyOfFinitePresentation f₀.left := hXi.locallyOfFinitePresentation
   have : Etale ((Over.pullback ((stalkSpecCone Y y).π.app i)).map f₀).left :=
@@ -484,7 +484,7 @@ private theorem exists_elementaryNeighborhood_stalkDescent
   have hVfp : FinitePresentation V.toBase :=
     FinitePresentation.mk inferInstance inferInstance inferInstance
   have : Etale (Over.mk V.toBase).hom := by
-    show Etale V.toBase; infer_instance
+    change Etale V.toBase; infer_instance
   obtain ⟨i₁, Wᵢ, hWᵢfp, ⟨eWᵢ⟩, j₁, hWⱼEtale⟩ :=
     exists_etale_model_over_stalk U.scheme U.point (Over.mk V.toBase) hVfp
   let D := openNeighborhoodRingDiagram U.scheme U.point
@@ -496,7 +496,7 @@ private theorem exists_elementaryNeighborhood_stalkDescent
   let α : a ⟶ j₁.left := homOfLE hAle
   let Wₐ : Over (D.obj a) := (Over.pullback (D.map α)).obj Wⱼ
   have hWₐ : Etale Wₐ.hom := by
-    show Etale (pullback.snd Wⱼ.hom (D.map α)); infer_instance
+    change Etale (pullback.snd Wⱼ.hom (D.map α)); infer_instance
   let c : Cone D := stalkSpecCone U.scheme U.point
   let tᵢ : V.scheme ⟶ Wᵢ.left :=
     eWᵢ.hom.left ≫ pullback.fst Wᵢ.hom (c.π.app i₁)
@@ -560,7 +560,7 @@ private theorem exists_elementaryNeighborhood_stalkDescent
   have hkOpen : IsOpenImmersion k := by dsimp [k]; infer_instance
   let m : Wₐ.left ⟶ U.scheme := Wₐ.hom ≫ k
   have hmpoint : m (γₐ V.point) = U.point := by
-    show A.1.ι ((affineStageIso U.scheme U.point A hApoint).hom
+    change A.1.ι ((affineStageIso U.scheme U.point A hApoint).hom
       (Wₐ.hom (γₐ V.point))) = U.point
     rw [hγₐpoint, hVpoint, hAclosed]
     rfl
@@ -569,7 +569,7 @@ private theorem exists_elementaryNeighborhood_stalkDescent
       point := γₐ V.point
       toBase := m ≫ U.toBase
       map_point := by
-        show U.toBase (m (γₐ V.point)) = s
+        change U.toBase (m (γₐ V.point)) = s
         rw [hmpoint]
         exact U.map_point }
   have hUres : IsIso (U.toBase.residueFieldMap U.point) := (U.isElementary_iff).mp hU
@@ -615,7 +615,7 @@ private theorem exists_elementaryNeighborhood_stalkDescent
   have hρclosed : ρ (IsLocalRing.closedPoint
       (U'.scheme.presheaf.stalk U'.point)) = V.point := by
     refine γₐ.isEmbedding.injective ?_
-    show (ρ ≫ γₐ) (IsLocalRing.closedPoint (U'.scheme.presheaf.stalk U'.point)) =
+    change (ρ ≫ γₐ) (IsLocalRing.closedPoint (U'.scheme.presheaf.stalk U'.point)) =
       γₐ V.point
     rw [hργ, Scheme.fromSpecStalk_closedPoint]
   have hρPre : IsPreimmersion ρ := by
@@ -681,7 +681,7 @@ theorem exists_etale_neighborhood_with_free_globalSections_of_isFiniteType
   have hclosed₀ : f₀ v₀ = IsLocalRing.closedPoint
       (U₀.scheme.presheaf.stalk U₀.point) := by
     refine unique_fiber_open_point_maps_to f b₀ x _ ?_ V₀ v₀ hv₀
-    show f x = U₀.toBase
+    change f x = U₀.toBase
       (U₀.scheme.fromSpecStalk U₀.point
         (IsLocalRing.closedPoint (U₀.scheme.presheaf.stalk U₀.point)))
     rw [Scheme.fromSpecStalk_closedPoint, U₀.map_point]
@@ -717,7 +717,7 @@ theorem exists_etale_neighborhood_with_free_globalSections_of_isFiniteType
     have hv : V₀.ι v₀ ∈ pullback.fst f b₀ ⁻¹' {x} := by rw [hv₀]; rfl
     simpa using hv
   have hgx : g x' = x := by
-    show (pullback.fst f b₀) (V₀.ι (U₁.toBase ((pullback.fst h₁ ρ) x'))) = x
+    change (pullback.fst f b₀) (V₀.ι (U₁.toBase ((pullback.fst h₁ ρ) x'))) = x
     rw [hx'₁, U₁.map_point]
     exact hv₀x
   have hgf₀ : V₀.ι ≫ pullback.fst f b₀ ≫ f = f₀ ≫ b₀ := by
@@ -745,9 +745,9 @@ theorem exists_etale_neighborhood_with_free_globalSections_of_isFiniteType
     · dsimp only [k₁]
       simp only [Category.assoc, pullbackLeftPullbackSndIso_inv_fst]
       exact ht₁fst
-    · show t₁ ≫ k₁ ≫ pullback.snd f b₀ = U₁.toBase ≫ V₀.ι ≫ pullback.snd f b₀
+    · change t₁ ≫ k₁ ≫ pullback.snd f b₀ = U₁.toBase ≫ V₀.ι ≫ pullback.snd f b₀
       simp only [Category.assoc, k₁, pullbackLeftPullbackSndIso_inv_fst_snd]
-      show t₁ ≫ pullback.snd f b₁ ≫ V₁.toBase = U₁.toBase ≫ V₀.ι ≫ pullback.snd f b₀
+      change t₁ ≫ pullback.snd f b₁ ≫ V₁.toBase = U₁.toBase ≫ V₀.ι ≫ pullback.snd f b₀
       rw [← Category.assoc, ht₁snd]
       simpa only [f₀, Category.assoc] using hcomp₁
   have : Etale U₁.toBase := U₁.etale_toBase

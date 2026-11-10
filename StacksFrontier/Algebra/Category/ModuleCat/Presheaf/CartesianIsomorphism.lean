@@ -40,8 +40,7 @@ theorem isIso_restrictionBaseChange_of_isIso {X Y : Cᵒᵖ} (h : X ⟶ Y) [IsIs
   have hone : ∀ t : (ModuleCat.extendScalars (R.map h).hom).obj (M.obj X),
       ∃ x : M.obj X, t = (1 : R.obj Y) ⊗ₜ[R.obj X, (R.map h).hom] x := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => exact ⟨0, (TensorProduct.tmul_zero _ _).symm⟩
+    induction t using TensorProduct.inductionOn with
     | tmul s x =>
       obtain ⟨a, rfl⟩ := (ConcreteCategory.bijective_of_isIso (R.map h)).2 s
       exact ⟨a • x, (congrArg (fun s : R.obj Y => s ⊗ₜ[R.obj X, (R.map h).hom] x)

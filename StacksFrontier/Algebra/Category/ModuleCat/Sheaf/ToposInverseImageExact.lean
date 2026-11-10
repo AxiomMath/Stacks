@@ -77,7 +77,7 @@ theorem sheafComposeForgetAb_preservesFiniteLimits
     PreservesFiniteLimits (sheafCompose K (forget AddCommGrpCat.{w'})) := by
   have : PreservesFiniteLimits
       (sheafCompose K (forget AddCommGrpCat.{w'}) ⋙ sheafToPresheaf K (Type w')) := by
-    show PreservesFiniteLimits
+    change PreservesFiniteLimits
       (sheafToPresheaf K AddCommGrpCat.{w'} ⋙
         (Functor.whiskeringRight _ _ _).obj (forget AddCommGrpCat.{w'}))
     exact comp_preservesFiniteLimits _ _

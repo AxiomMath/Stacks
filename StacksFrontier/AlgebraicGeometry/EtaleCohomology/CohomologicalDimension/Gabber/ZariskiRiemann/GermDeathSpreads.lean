@@ -22,7 +22,8 @@ The argument:
    description of the stalk of an inverse image on germs,
    `Stacks.EtaleCohomology.toPresheafFiber_comp_smallEtaleStalkPullbackAbIso_inv`.
 2. A germ which vanishes vanishes near its point
-   (`Stacks.EtaleCohomology.exists_isOpen_forall_toPresheafFiber_eq_zero`): it vanishes on an étale neighbourhood `E`, the image of `E` is
+   (`Stacks.EtaleCohomology.exists_isOpen_forall_toPresheafFiber_eq_zero`): it vanishes on an étale
+   neighbourhood `E`, the image of `E` is
    open (étale morphisms are open) and every geometric point in it lifts to `E`
    (`AlgebraicGeometry.Scheme.exists_fac_of_etale_of_isSepClosed`).
 

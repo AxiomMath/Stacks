@@ -45,9 +45,10 @@ instance hasFiniteBiproducts_sheaf_smallEtale (X : Scheme.{u}) :
 theorem surjective_etaleCohomologyRestrictionMap_biproduct {X Y : Scheme.{u}} (i : Y ⟶ X)
     [HasExt.{w} (Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1})]
     [HasExt.{w} (Sheaf Y.smallEtaleTopology AddCommGrpCat.{u + 1})]
-    {ι : Type} [Fintype ι] (A : ι → Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1}) (q : ℕ)
+    {ι : Type} [Finite ι] (A : ι → Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1}) (q : ℕ)
     (h : ∀ a, Function.Surjective (etaleCohomologyRestrictionMap.{u, 0, w} i (A a) q)) :
     Function.Surjective (etaleCohomologyRestrictionMap.{u, 0, w} i (⨁ A) q) := by
+  have := Fintype.ofFinite ι
   intro y
   choose x hx using fun a => h a
     (y.comp (Ext.mk₀ ((etaleAbelianInverseImage.{u, 0} i).map (biproduct.π A a))) (add_zero q))

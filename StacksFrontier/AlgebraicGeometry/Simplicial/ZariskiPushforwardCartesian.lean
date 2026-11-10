@@ -99,9 +99,9 @@ public theorem componentModuleDirectTransition_modulePushforward (f : V ⟶ U) (
         SimplicialSheafSystem.transitionHom (X := zariskiSpace V) φ
           ((Opens.map (f.app m).base).obj W) := by
     apply SimplicialOpen.Hom.ext
-    show φ = (𝟙 n) ≫ φ
+    change φ = (𝟙 n) ≫ φ
     simp
-  show (G.val.presheaf.map ((zariskiPullback f).map
+  change (G.val.presheaf.map ((zariskiPullback f).map
       (SimplicialSheafSystem.transitionHom φ W)).op) x =
     (G.val.presheaf.map ((levelFunctor (zariskiSpace V) n).map (eqToHom e)).op)
       ((G.val.presheaf.map (SimplicialSheafSystem.transitionHom (X := zariskiSpace V) φ

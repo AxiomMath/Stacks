@@ -217,7 +217,7 @@ theorem layerPiece_invariant {S : Scheme.{u}} (G : GroupoidScheme S)
     IsInvariantOpen G (layerPiece G n) := by
   intro r hr
   change G.source.left.base r ∈ (layerPiece G n : Set G.objects.left) at hr
-  show G.target.left.base r ∈ (layerPiece G n : Set G.objects.left)
+  change G.target.left.base r ∈ (layerPiece G n : Set G.objects.left)
   by_cases hn : n = 0
   · subst n
     rw [layerPiece_eq_zero] at hr ⊢
@@ -386,7 +386,7 @@ theorem layerUnionCoproductIso_ι {S : Scheme.{u}} (G : GroupoidScheme S)
     Limits.Sigma.ι (fun m : ULift.{u} ℕ ↦ (layerPiece G m.down).toScheme) n ≫
         (layerUnionCoproductIso G).hom = layerPieceToUnion G n.down := by
   dsimp [layerUnionCoproductIso]
-  exact Limits.Sigma.ι_desc _ _
+  exact Limits.Sigma.ι_comp_desc _ _
 
 /-- The union of the chosen opens is invariant. -/
 theorem layerUnion_invariant {S : Scheme.{u}} (G : GroupoidScheme S)
@@ -394,7 +394,7 @@ theorem layerUnion_invariant {S : Scheme.{u}} (G : GroupoidScheme S)
     IsInvariantOpen G (layerUnionOpen G) := by
   intro r hr
   change G.source.left.base r ∈ (layerUnionOpen G : Set G.objects.left) at hr
-  show G.target.left.base r ∈ (layerUnionOpen G : Set G.objects.left)
+  change G.target.left.base r ∈ (layerUnionOpen G : Set G.objects.left)
   rw [layerUnionOpen_coe] at hr ⊢
   obtain ⟨n, hn⟩ := Set.mem_iUnion.mp hr
   exact Set.mem_iUnion.mpr ⟨n, layerPiece_invariant G n r hn⟩
@@ -528,7 +528,7 @@ theorem layerFitting_thickening {S : Scheme.{u}} (G : GroupoidScheme S)
       (pullback.fst (layerPiece G n).ι (finiteStratification G n).subschemeι) := by
   set j := pullback.fst (layerPiece G n).ι (finiteStratification G n).subschemeι with hj
   refine ⟨inferInstance, fun x ↦ ?_⟩
-  show x ∈ Set.range j.base
+  change x ∈ Set.range j.base
   rw [hj, Scheme.Pullback.range_fst, Scheme.IdealSheafData.range_subschemeι]
   exact (layerPiece_subset_stratum G n x.property).1
 
@@ -642,9 +642,9 @@ theorem isInvariantMonomorphism_layerFitting {S : Scheme.{u}} (G : GroupoidSchem
       refine IsPullback.of_iso (Subobject.inf_isPullback C D)
         (Iso.refl (Subobject.underlying.obj P)) (Subobject.underlyingIso U.ι)
         (Subobject.underlyingIso F.subschemeι) (Iso.refl G.objects.left) ?_ ?_ ?_ ?_
-      · show a = 𝟙 (Subobject.underlying.obj P) ≫ a
+      · change a = 𝟙 (Subobject.underlying.obj P) ≫ a
         simp
-      · show b = 𝟙 (Subobject.underlying.obj P) ≫ b
+      · change b = 𝟙 (Subobject.underlying.obj P) ≫ b
         simp
       · exact (Subobject.underlyingIso_hom_comp_eq_mk U.ι).symm
       · exact (Subobject.underlyingIso_hom_comp_eq_mk F.subschemeι).symm
@@ -665,7 +665,7 @@ theorem isInvariantMonomorphism_layerFitting {S : Scheme.{u}} (G : GroupoidSchem
           rw [← Category.assoc, hPull.isoPullback_inv_fst]
         _ = j := rfl
     simpa [P, C, D] using Subobject.mk_eq_mk_of_comm j P.arrow _ he
-  show (Subobject.pullback G.target.left).obj (Subobject.mk j) =
+  change (Subobject.pullback G.target.left).obj (Subobject.mk j) =
     (Subobject.pullback G.source.left).obj (Subobject.mk j)
   rw [hmeet, Subobject.inf_pullback,
     subobject_pullback_eq_of_isInvariantOpen G (layerPiece_invariant G n),
@@ -755,7 +755,7 @@ theorem restrictionSource_mem_of_isInvariantMonomorphism {S : Scheme.{u}}
   have hSrcOver : P (pullback.snd G.source g).left := by
     rw [← hpSrc.isoPullback_hom_snd]
     exact (P.cancel_left_of_respectsIso hpSrc.isoPullback.hom _).mpr hsrc
-  show P (tOver.left ≫ (pullback.snd G.source g).left)
+  change P (tOver.left ≫ (pullback.snd G.source g).left)
   exact (P.cancel_left_of_respectsIso tOver.left _).mpr hSrcOver
 
 /-- Each coproduct inclusion of a coproduct of schemes is the base change of the corresponding
@@ -768,13 +768,13 @@ theorem sigmaMap_component_pullback {ι : Type u} [Small.{u} ι] (X Y : ι → S
   · ext x
     obtain ⟨⟨j, xj⟩, hx⟩ := (sigmaMk X).surjective x
     have hx' : (Sigma.ι X j) xj = x := by simpa using hx
-    show (Limits.Sigma.map p).base x ∈ Set.range (Sigma.ι Y i).base ↔
+    change (Limits.Sigma.map p).base x ∈ Set.range (Sigma.ι Y i).base ↔
       x ∈ Set.range (Sigma.ι X i).base
     rw [← hx']
     have hmap : (Limits.Sigma.map p) ((Sigma.ι X j) xj) = (Sigma.ι Y j) ((p j) xj) := by
-      show (Sigma.ι X j ≫ Limits.Sigma.map p) xj = (p j ≫ Sigma.ι Y j) xj
+      change (Sigma.ι X j ≫ Limits.Sigma.map p) xj = (p j ≫ Sigma.ι Y j) xj
       rw [Limits.Sigma.ι_map]
-    show (∃ y, (Sigma.ι Y i).base y =
+    change (∃ y, (Sigma.ι Y i).base y =
         (Limits.Sigma.map p).base ((Sigma.ι X j).base xj)) ↔
       ∃ z, (Sigma.ι X i).base z = (Sigma.ι X j).base xj
     rw [hmap]
@@ -873,7 +873,7 @@ theorem sigmaPullbackCofanIso_ι {ι : Type u} [Small.{u} ι] (X : ι → Scheme
     Sigma.ι (fun i ↦ sigmaPullbackComponent X j f i) i ≫ (sigmaPullbackCofanIso X j f).hom =
       sigmaPullbackComponentToPullback X j f i := by
   dsimp [sigmaPullbackCofanIso]
-  exact Limits.Sigma.ι_desc _ _
+  exact Limits.Sigma.ι_comp_desc _ _
 
 /-- The identification of a base change with the coproduct of its parts is compatible with the
 second projections. -/
@@ -883,7 +883,7 @@ theorem sigmaPullbackCofanIso_snd {ι : Type u} [Small.{u} ι] (X : ι → Schem
       Limits.Sigma.desc fun i ↦ (sigmaPullbackComponentIso X j f i).hom ≫
         pullback.snd (Sigma.ι X i ≫ j) f := by
   refine Limits.Sigma.hom_ext _ _ fun i ↦ ?_
-  rw [← Category.assoc, sigmaPullbackCofanIso_ι, Limits.Sigma.ι_desc]
+  rw [← Category.assoc, sigmaPullbackCofanIso_ι, Limits.Sigma.ι_comp_desc]
   exact (sigmaPullbackComponentIso_snd X j f i).symm
 
 /-- A monomorphism out of a coproduct has equal subobject pullbacks along two morphisms as soon
@@ -1003,7 +1003,7 @@ theorem layerThickeningInclusion_eq_sigmaDesc {S : Scheme.{u}} (G : GroupoidSche
     layerThickeningInclusion G =
       Limits.Sigma.desc fun n ↦ layerFittingProj G n ≫ layerPieceToUnion G n.down := by
   refine Limits.Sigma.hom_ext _ _ fun n ↦ ?_
-  rw [Limits.Sigma.ι_desc, layerThickeningInclusion, ← Category.assoc, Limits.Sigma.ι_map,
+  rw [Limits.Sigma.ι_comp_desc, layerThickeningInclusion, ← Category.assoc, Limits.Sigma.ι_map,
     Category.assoc, layerUnionCoproductIso_ι]
 
 /-- On the stage `n`, the inclusion of the thickening into the object scheme is the inclusion of
@@ -1013,7 +1013,7 @@ theorem sigmaι_comp_layerThickeningInclusion_ι {S : Scheme.{u}} (G : GroupoidS
     Limits.Sigma.ι (layerFittingPiece G) n ≫
         layerThickeningInclusion G ≫ (layerUnionOpen G).ι =
       layerFittingProj G n ≫ (layerPiece G n.down).ι := by
-  rw [layerThickeningInclusion_eq_sigmaDesc, ← Category.assoc, Limits.Sigma.ι_desc,
+  rw [layerThickeningInclusion_eq_sigmaDesc, ← Category.assoc, Limits.Sigma.ι_comp_desc,
     Category.assoc, layerPieceToUnion_comp_ι]
 
 /-- The inclusion of the thickening is a closed immersion. -/
@@ -1099,7 +1099,7 @@ public theorem exists_invariant_thickening_finiteLocallyFree_restriction {S : Sc
       (@IsFiniteLocallyFree : MorphismProperty Scheme.{u})
       (finiteLocallyFree_pullback_source_layerThickening G)
   refine ⟨layerUnionOpen G, layerThickening G, layerThickeningInclusion G, inferInstance, ?_⟩
-  show IsInvariantOpen G (layerUnionOpen G) ∧ IsInvariantMonomorphism G j ∧
+  change IsInvariantOpen G (layerUnionOpen G) ∧ IsInvariantMonomorphism G j ∧
     (G.target.left.base '' (G.source.left.base ⁻¹'
       closure (layerUnionOpen G : Set G.objects.left)) = Set.univ) ∧
     IsThickening (layerThickeningInclusion G) ∧

@@ -119,7 +119,7 @@ theorem representedTransposeRingHom_app (V : SmallEtale B S hS (yoneda.obj U)) :
   refine CommRingCat.hom_ext (RingHom.ext fun t => ?_)
   have h1 := representedToZariskiRingedToposSiteHom_fSharp_app_apply B S hS U
     ((representedImageOpenFunctor B S hS U).obj V) t
-  show ((smallEtaleRingedTopos B S hS (representedAlgebraicSpace B S hS U)).O.obj.map
+  change ((smallEtaleRingedTopos B S hS (representedAlgebraicSpace B S hS U)).O.obj.map
       ((representedImageOpenEpsilonAdjunction B S hS U).unit.app V).op).hom
     (((representedToZariskiRingedToposSiteHom B S hS U).fSharp.hom.app
       (op ((representedImageOpenFunctor B S hS U).obj V))).hom t) = _

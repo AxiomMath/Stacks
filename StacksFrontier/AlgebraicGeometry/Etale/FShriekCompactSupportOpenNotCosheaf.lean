@@ -103,9 +103,9 @@ public theorem eq_zero_of_mem_zeroOpen_additiveStructureSheaf (S : Scheme.{u})
   have hmem : φ.base y ∈ (⊤ : T.Opens) := Set.mem_univ _
   have key : φ.stalkMap y (T.presheaf.germ ⊤ (φ.base y) hmem a') = 0 := by
     refine (Scheme.Hom.germ_stalkMap_apply φ ⊤ y hmem a').trans ?_
-    show ((SmallEtale.toScheme B S hS).obj V).presheaf.germ _ y _ (φ.appTop a') = 0
+    change ((SmallEtale.toScheme B S hS).obj V).presheaf.germ _ y _ (φ.appTop a') = 0
     rw [show φ.appTop a' = 0 from hzero, map_zero]
-  show a' = 0
+  change a' = 0
   apply germ_injective_of_isIntegral T (φ.base y) hmem
   apply (ConcreteCategory.bijective_of_isIso (φ.stalkMap y)).1
   rw [key, map_zero, map_zero]
@@ -148,7 +148,7 @@ public theorem not_surjective_compactlySupportedSections_openInclusion_coprod
   let one : G.obj.obj (op (SmallEtale.final B X.obj X.property)) := (1 : Γ(T, ⊤))
   have hone : one ∈ compactlySupportedSections k X.obj f B X.property G := by
     rw [mem_compactlySupportedSections]
-    show IsProper ((Scheme.IdealSheafData.vanishingIdeal _).subschemeι ≫ f)
+    change IsProper ((Scheme.IdealSheafData.vanishingIdeal _).subschemeι ≫ f)
     infer_instance
   have hzero (Y : B.Scheme) (j : Y ⟶ X) [IsOpenImmersion (B.inclusion.map j)]
       (hj : Set.range (B.inclusion.map j).base ≠ Set.univ) (s) :

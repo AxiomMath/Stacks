@@ -189,7 +189,7 @@ theorem exists_bijective_residueFieldHom_of_mono (hX : IsAlgebraicSpace B S hS X
   have hspec : B.inclusion.map g.left = Spec.map (CommRingCat.ofHom φ) := by
     rw [hφDef]; simp
   have hleftIso : IsIso (B.inclusion.map g.left) := by
-    show IsIso ((BigFppfOver.toScheme B S hS).map g)
+    change IsIso ((BigFppfOver.toScheme B S hS).map g)
     infer_instance
   have hφiso : IsIso (Spec.map (CommRingCat.ofHom φ)) := by rw [← hspec]; infer_instance
   have hSpecIso : IsIso (Scheme.Spec.map (CommRingCat.ofHom φ).op) := hφiso
@@ -255,7 +255,7 @@ theorem inclusion_map_left_eq_spec_residueFieldMap {CX CY : BigFppfOver B S hS} 
     rw [← toScheme_map_siteHom_schemePointRepresentative B S hS CY,
       ← toScheme_map_siteHom_schemePointRepresentative B S hS CX u]
     exact k1
-  show (BigFppfOver.toScheme B S hS).map gh = _
+  change (BigFppfOver.toScheme B S hS).map gh = _
   exact (cancel_mono (((BigFppfOver.toScheme B S hS).obj CY).fromSpecResidueField
     ((BigFppfOver.toScheme B S hS).map h u))).1
     (hcan.trans (Scheme.Hom.SpecMap_residueFieldMap_fromSpecResidueField _ u).symm)

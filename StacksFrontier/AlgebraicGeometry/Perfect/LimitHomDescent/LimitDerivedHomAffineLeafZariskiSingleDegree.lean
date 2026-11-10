@@ -168,7 +168,7 @@ theorem extSingleDegreeSelfIso_hom_comp (f : R ⟶ A) (β : A ⟶ A') (f' : R �
       Functor.mapHomologicalComplexCompIso, NatIso.mapHomologicalComplex,
       eqToIso_refl, Iso.refl_hom, Category.comp_id, CommRingCat.hom_comp,
       Functor.map_comp, Category.assoc, Iso.inv_hom_id_assoc, Iso.symm_hom,
-      Iso.map_inv_hom_id_assoc, NatTrans.mapHomologicalComplex]
+      Iso.inv_hom_id_map_assoc, NatTrans.mapHomologicalComplex]
     rw [ModuleCat.ExtendScalars.map_map_comp_objSelfIso_hom]
   · exact (HomologicalComplex.isZero_single_obj_X (ComplexShape.up ℤ) j
       (ModuleCat.of (A' : Type u) (A' : Type u)) n hn).eq_of_tgt _ _

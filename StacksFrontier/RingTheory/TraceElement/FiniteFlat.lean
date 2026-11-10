@@ -153,7 +153,7 @@ theorem isTraceElement_finiteFlatTraceElement (A : Type u) (B : Type v)
         exact Prod.ext (by simp [hfactor]) (by simp) }
   have hpBiB : pB.comp iB = LinearMap.id := by
     ext c
-    show algebraMap F₁.middle C (eProd.symm (c, 0)) = c
+    change algebraMap F₁.middle C (eProd.symm (c, 0)) = c
     rw [hfactor]
     simp
   obtain ⟨hmfinite, hmprojective⟩ := finite_and_projective_of_retract iB pB hpBiB
@@ -161,7 +161,7 @@ theorem isTraceElement_finiteFlatTraceElement (A : Type u) (B : Type v)
   ext c
   have hτ : dualizingModule.baseChange (selfFactorization A B) A₁ (finiteFlatTraceElement A B) =
       dualizingModule.tmul F₁ (f₀.baseChange A₁) (1 ⊗ₜ[A] (1 : B)) := by
-    show dualizingModule.baseChange F A₁ (dualizingModule.tmul F f₀ (1 : B)) = _
+    change dualizingModule.baseChange F A₁ (dualizingModule.tmul F f₀ (1 : B)) = _
     rw [dualizingModule.baseChange_tmul]
   have hfactorTrace : finiteProjectiveTrace F₁.middle C (Algebra.lmul F₁.middle C c) =
       eProd.symm (c, 0) :=
@@ -185,7 +185,7 @@ theorem isTraceElement_finiteFlatTraceElement (A : Type u) (B : Type v)
     rw [← finiteProjectiveTrace_conj_linearEquiv eProd.toLinearEquiv
       (Algebra.lmul A₁ F₁.middle (eProd.symm (c, 0))), hmul, finiteProjectiveTrace_prodMap]
     simp
-  show (finiteFactorRestriction (selfFactorization A B) A₁ C D e (by intro; rfl) hfinite
+  change (finiteFactorRestriction (selfFactorization A B) A₁ C D e (by intro; rfl) hfinite
       hprojective inferInstance inferInstance).1
       (dualizingModule.baseChange (selfFactorization A B) A₁ (finiteFlatTraceElement A B)) c =
     finiteProjectiveTrace A₁ C (Algebra.lmul A₁ C c)
@@ -195,7 +195,7 @@ theorem isTraceElement_finiteFlatTraceElement (A : Type u) (B : Type v)
     rw [show (1 : A₁) ⊗ₜ[A] (1 : B) = 1 from Algebra.TensorProduct.one_def.symm, map_one]
     rfl
   rw [hunit, one_mul]
-  show (f₀.baseChange A₁)
+  change (f₀.baseChange A₁)
       (finiteProjectiveTrace F₁.middle C (Algebra.lmul F₁.middle C c)) =
     finiteProjectiveTrace A₁ C (Algebra.lmul A₁ C c)
   rw [hfactorTrace, hbaseValue, hprodTrace]

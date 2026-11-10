@@ -148,7 +148,7 @@ theorem globalSectionEval_comp_baseFunctionsToGlobalSections_id (T : BigFppfOver
   have h : yoneda.preimage ((idEtaleChart B S hS T).1.hom ≫
       (𝟙 (schemeSpace T) : schemeSpace T ⟶ schemeSpace T).hom) = 𝟙 T :=
     yoneda.map_injective (by rw [Functor.map_preimage]; ext; rfl)
-  show (Scheme.Γ.map (op ((BigFppfOver.toScheme B S hS).map (yoneda.preimage
+  change (Scheme.Γ.map (op ((BigFppfOver.toScheme B S hS).map (yoneda.preimage
     ((idEtaleChart B S hS T).1.hom ≫
       (𝟙 (schemeSpace (B := B) (S := S) (hS := hS) T) :
         schemeSpace T ⟶ schemeSpace T).hom))))).hom r = r

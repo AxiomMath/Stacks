@@ -42,8 +42,7 @@ private theorem linearMap_eq_of_one_tmul
     (f g : S ⊗[R] M →ₗ[S] N)
     (h : ∀ m, f (1 ⊗ₜ[R] m) = g (1 ⊗ₜ[R] m)) : f = g := by
   ext z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => simp [hz, hz']
   | tmul s m =>
       rw [TensorProduct.tmul_eq_smul_one_tmul]
@@ -90,7 +89,7 @@ private noncomputable def dualAdjunction_bridge
             rw [← IsScalarTower.algebraMap_apply R F C a]
             calc
               φ (c * (algebraMap R C a * algebraMap F C x)) =
-                  φ (algebraMap R C a * (c * algebraMap F C x)) := by congr 1 <;> ring
+                  φ (algebraMap R C a * (c * algebraMap F C x)) := by congr 1; ring
               _ = algebraMap R R a * φ (c * algebraMap F C x) := by
                   simpa [Algebra.smul_def] using φ.map_smul a (c * algebraMap F C x) }
       map_add' := by intro c d; ext x; simp [map_add, add_mul]
@@ -101,7 +100,7 @@ private noncomputable def dualAdjunction_bridge
         change φ ((algebraMap F C b * c) * algebraMap F C x) =
           φ (c * algebraMap F C (b * x))
         simp only [map_mul]
-        congr 1 <;> ring }
+        congr 1; ring }
   let unadj (ψ : C →ₗ[F] Module.Dual R F) : Module.Dual R C :=
     { toFun := fun c => ψ c 1
       map_add' := by intro c d; exact congrArg (fun f : Module.Dual R F => f 1) (ψ.map_add c d)
@@ -132,7 +131,7 @@ private noncomputable def dualAdjunction_bridge
         apply LinearMap.ext
         intro a
         change φ (d * (c * algebraMap F C a)) = φ ((d * c) * algebraMap F C a)
-        congr 1 <;> ring }
+        congr 1; ring }
   apply LinearEquiv.ofBijective L
   constructor
   · intro φ ψ h
@@ -166,7 +165,7 @@ private theorem dualAdjunction_apply_one_bridge
   let : Module C (Module.Dual R C) := algebraDualModule R C
   let : Module C (C →ₗ[F] Module.Dual R F) := dualHomModule
   ext a
-  show φ (1 * algebraMap F C a) = φ (algebraMap F C a)
+  change φ (1 * algebraMap F C a) = φ (algebraMap F C a)
   simp
 
 private noncomputable def dualizingModule_commonChange_bridge
@@ -189,8 +188,7 @@ private noncomputable def dualizingModule_commonChange_bridge
   letI : IsScalarTower F C (C →ₗ[F] Module.Dual R F) := ⟨by
     intro f c ψ
     ext z x
-    simp only [LinearMap.smul_apply, dualHomModule_smul_apply,
-      algebraDualModule_smul_apply]
+    simp only [LinearMap.smul_apply, dualHomModule_smul_apply]
     calc
       ψ ((f • c) * z) x = ψ (f • (c * z)) x := by
         congr 2
@@ -213,8 +211,7 @@ private noncomputable def dualizingModule_commonChange_bridge
   let eAdj : S ⊗[C] Module.Dual R C ≃ₗ[S] S ⊗[C] (C →ₗ[F] Module.Dual R F) :=
     (TensorProduct.congr (LinearEquiv.refl C S) adj).toAddEquiv.toLinearEquiv (by
       intro s z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add z z' hz hz' => simp only [map_add, hz, hz', smul_add]
       | tmul c φ => simp [TensorProduct.smul_tmul'])
   letI : Algebra.IsPushout F S C S := hpush
@@ -236,7 +233,7 @@ private noncomputable def dualizingModule_commonChange_bridge
         { toFun := fun s => s • m
           map_add' := fun _ _ => add_smul _ _ _
           map_smul' := fun _ _ => mul_smul _ _ _ }
-      left_inv := by intro g; ext s; simpa using (g.map_smul s (1 : S)).symm
+      left_inv := by intro g; ext; simp
       right_inv := by intro m; simp
       map_add' := by intro f g; rfl
       map_smul' := by intro s g; rfl }
@@ -391,9 +388,9 @@ private theorem finiteProjectiveTargetEquiv_baseChange
   let r₁ : F₁.middle →ₐ[R₁] S₁ := IsScalarTower.toAlgHom R₁ F₁.middle S₁
   have hdual : (Module.Dual.baseChange R₁ φ).comp r₁.toLinearMap =
       Module.Dual.baseChange R₁ (φ.comp r.toLinearMap) := by
-    show (Module.Dual.baseChange R₁ φ).comp
+    change (Module.Dual.baseChange R₁ φ).comp
       (Algebra.TensorProduct.map (AlgHom.id R₁ R₁) r).toLinearMap = _
-    ext a c
+    ext a
     simp [Module.Dual.baseChange_apply_tmul]
   rw [finiteProjectiveTargetEquiv_apply F φ b,
     dualizingModule.baseChange_tmul,
@@ -415,10 +412,10 @@ theorem baseChangeLinearMap_bijective_of_finite_projective_target
   let : Module S (Module.Dual R S) := algebraDualModule R S
   let H := identityFactorization (A := R) (B := S)
   let : Module.Finite R H.middle := by
-    show Module.Finite R S
+    change Module.Finite R S
     infer_instance
   let : Module.Projective R H.middle := by
-    show Module.Projective R S
+    change Module.Projective R S
     infer_instance
   let S₁ := R₁ ⊗[R] S
   let F₁ := FiniteOpenFactorization.baseChange F R₁
@@ -447,8 +444,7 @@ theorem baseChangeLinearMap_bijective_of_finite_projective_target
   have h0 (x : Module.Dual R S ⊗[S] S) :
       e₁ (baseChangeLinearMap F R₁ (1 ⊗ₜ[S] eF x)) =
         baseChangeLinearMap H R₁ (1 ⊗ₜ[S] eH x) := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp [baseChangeLinearMap_one_tmul]
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy =>
       have hx' : (1 : S₁) ⊗ₜ[S] eF (x + y) =
           (1 : S₁) ⊗ₜ[S] eF x + (1 : S₁) ⊗ₜ[S] eF y := by
@@ -465,9 +461,9 @@ theorem baseChangeLinearMap_bijective_of_finite_projective_target
       rw [← hF, LinearEquiv.symm_apply_apply, ← hH']
   have hbc (x : Module.Dual R S ⊗[S] S) :
       eBC ((1 : S₁) ⊗ₜ[S] eF x) = (1 : S₁) ⊗ₜ[S] eH x := by
-    show (e.toLinearMap.baseChange S₁) ((1 : S₁) ⊗ₜ[S] eF x) = _
+    change (e.toLinearMap.baseChange S₁) ((1 : S₁) ⊗ₜ[S] eF x) = _
     rw [LinearMap.baseChange_tmul]
-    show (1 : S₁) ⊗ₜ[S] eH (eF.symm (eF x)) = _
+    change (1 : S₁) ⊗ₜ[S] eH (eF.symm (eF x)) = _
     rw [LinearEquiv.symm_apply_apply]
   have hCongr : e₁.toLinearMap.comp (baseChangeLinearMap F R₁) =
       (baseChangeLinearMap H R₁).comp eBC :=
@@ -512,8 +508,7 @@ noncomputable def dualizingModule_targetAlgEquiv
   let eAdd := TensorProduct.congr (LinearEquiv.refl C (Module.Dual R C)) e.toLinearEquiv
   exact eAdd.toAddEquiv.toLinearEquiv (by
     intro s z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' => simp only [map_add, hz, hz', smul_add]
     | tmul φ d =>
         have hsource : e.symm s • (φ ⊗ₜ[C] d) =
@@ -564,14 +559,7 @@ noncomputable def targetAwayBaseChangeAlgEquiv
     toRingHom := e₀.toRingHom
     commutes' := by
       intro c
-      induction c using TensorProduct.induction_on with
-      | zero =>
-          calc
-            e₀ (algebraMap C (A₁ ⊗[A] Localization.Away e) 0) = e₀ 0 :=
-              congrArg e₀ (map_zero (algebraMap C (A₁ ⊗[A] Localization.Away e)))
-            _ = 0 := map_zero e₀
-            _ = algebraMap C (Localization.Away e₁) 0 :=
-              (map_zero (algebraMap C (Localization.Away e₁))).symm
+      induction c using TensorProduct.inductionOn with
       | add c c' hc hc' =>
           calc
             e₀ (algebraMap C (A₁ ⊗[A] Localization.Away e) (c + c')) =

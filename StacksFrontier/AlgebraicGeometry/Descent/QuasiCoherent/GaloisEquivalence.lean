@@ -166,7 +166,7 @@ private lemma pullHomMap {Z T U : C} {M N : F.obj (.mk (op Z))} (h : M ⟶ N) (p
       (F.map gp.op.toLoc).toFunctor.map h := by
   let α := Cat.Hom.toNatIso (F.mapComp' p.op.toLoc g.op.toLoc gp.op.toLoc
     (by simpa using congrArg (fun t ↦ t.op.toLoc) w))
-  show α.hom.app M ≫
+  change α.hom.app M ≫
       (F.map p.op.toLoc ≫ F.map g.op.toLoc).toFunctor.map h ≫ α.inv.app N = _
   rw [← Category.assoc, ← α.hom.naturality h, Category.assoc, Iso.hom_inv_id_app]
   exact Category.comp_id _
@@ -196,7 +196,7 @@ private lemma pullHomNormalize {Z T : Scheme.{u}} {M N : Z.Modules} (p : Z ⟶ Z
   have hinv := galoisMapComp'_inv_app (X₁ := T) (X₂ := Z) (X₃ := Z) p g gp w N
   dsimp only [pullHom]
   rw [hid, hinv]
-  show (Scheme.Modules.pullback g).map ((Scheme.Modules.pullbackId Z).inv.app M) ≫
+  change (Scheme.Modules.pullback g).map ((Scheme.Modules.pullbackId Z).inv.app M) ≫
       (Scheme.Modules.pullback g).map ((Scheme.Modules.pullbackId Z).hom.app M ≫ h) ≫
       ((Scheme.Modules.pullbackComp g p).hom ≫
         (Scheme.Modules.pullbackCongr w).hom).app N = _
@@ -493,7 +493,7 @@ private lemma galoisTripleComparisonPullback_ι_fst (σ τ : G) :
         pullback.fst (pullback.snd f f) (pullback.fst f f) =
       Sigma.ι (fun _ : G ↦ X) σ ≫ galoisCoverComparison f a := by
   rw [galoisTripleComparisonPullback_eq]
-  simp [galoisTripleFiberMap, pullback.map, pullback.lift_fst, pullback.lift_fst_assoc]
+  simp [galoisTripleFiberMap, pullback.map]
 
 /-- The second projection of the chosen triple fibre product, read on the summand indexed by
 `(σ, τ)`: it is `f_σ` followed by the summand `τ` of the Galois cover comparison. -/
@@ -502,14 +502,14 @@ private lemma galoisTripleComparisonPullback_ι_snd (σ τ : G) :
         pullback.snd (pullback.snd f f) (pullback.fst f f) =
       twist G f a σ ≫ Sigma.ι (fun _ : G ↦ X) τ ≫ galoisCoverComparison f a := by
   rw [galoisTripleComparisonPullback_eq]
-  simp [galoisTripleFiberMap, pullback.map, pullback.lift_snd, pullback.lift_snd_assoc]
+  simp [galoisTripleFiberMap, pullback.map]
 
 /-- **The first leg of the triple comparison.**  On the summand indexed by `(σ, τ)` the
 projection of `X ×_Y X ×_Y X` to the first factor is the identity. -/
 theorem galoisTripleComparison_ι_p₁ (σ τ : G) :
     (Sigma.ι (fun _ : G × G ↦ X) (σ, τ) ≫ galoisTripleComparison f a) ≫
       (galoisChosenPullback₃ f).p₁ = 𝟙 X := by
-  show (Sigma.ι (fun _ : G × G ↦ X) (σ, τ) ≫ galoisTripleComparisonPullback f a) ≫
+  change (Sigma.ι (fun _ : G × G ↦ X) (σ, τ) ≫ galoisTripleComparisonPullback f a) ≫
     pullback.fst (pullback.snd f f) (pullback.fst f f) ≫ pullback.fst f f = 𝟙 X
   rw [← Category.assoc, galoisTripleComparisonPullback_ι_fst,
     galoisCoverComparison_ι_comp_fst]
@@ -519,7 +519,7 @@ projection of `X ×_Y X ×_Y X` to the second factor is `f_σ`. -/
 theorem galoisTripleComparison_ι_p₂ (σ τ : G) :
     (Sigma.ι (fun _ : G × G ↦ X) (σ, τ) ≫ galoisTripleComparison f a) ≫
       (galoisChosenPullback₃ f).p₂ = twist G f a σ := by
-  show (Sigma.ι (fun _ : G × G ↦ X) (σ, τ) ≫ galoisTripleComparisonPullback f a) ≫
+  change (Sigma.ι (fun _ : G × G ↦ X) (σ, τ) ≫ galoisTripleComparisonPullback f a) ≫
     pullback.fst (pullback.snd f f) (pullback.fst f f) ≫ pullback.snd f f = twist G f a σ
   rw [← Category.assoc, galoisTripleComparisonPullback_ι_fst,
     galoisCoverComparison_ι_comp_snd]
@@ -529,7 +529,7 @@ projection of `X ×_Y X ×_Y X` to the third factor is `f_(στ)`. -/
 theorem galoisTripleComparison_ι_p₃ (σ τ : G) :
     (Sigma.ι (fun _ : G × G ↦ X) (σ, τ) ≫ galoisTripleComparison f a) ≫
       (galoisChosenPullback₃ f).p₃ = twist G f a (σ * τ) := by
-  show (Sigma.ι (fun _ : G × G ↦ X) (σ, τ) ≫ galoisTripleComparisonPullback f a) ≫
+  change (Sigma.ι (fun _ : G × G ↦ X) (σ, τ) ≫ galoisTripleComparisonPullback f a) ≫
     pullback.snd (pullback.snd f f) (pullback.fst f f) ≫ pullback.snd f f =
       twist G f a (σ * τ)
   rw [← Category.assoc, galoisTripleComparisonPullback_ι_snd, Category.assoc,
@@ -755,7 +755,7 @@ private lemma galoisIso_galoisDescentDatum (σ : G) :
     galoisIso (a := a) (galoisDescentDatum A sq θ c hc₁ hc₂ hθ sq₃ c₃ h₁ h₂ h₃) σ = A.φ σ := by
   apply Iso.ext
   rw [galoisIso_hom_eq]
-  show (Scheme.Modules.pullbackId X).inv.app A.module ≫
+  change (Scheme.Modules.pullbackId X).inv.app A.module ≫
       galoisTransition A sq θ f (𝟙 X) (twist G f a σ) (Category.id_comp f)
         (twist_comp G f a σ) = (A.φ σ).hom
   rw [galoisTransition_actionHom A sq θ c hc₁ hc₂ hθ σ, actionHom_def]

@@ -70,7 +70,7 @@ theorem isRegular_of_span_eq_stalkIdeal_fiber_of_dim_eq (f : X ⟶ S) [LocallyOf
   let k := S.residueField (f x)
   let q : f.fiber (f x) ⟶ Spec (.of k) := f.fiberToSpecResidueField (f x)
   have _ : LocallyOfFiniteType q := by
-    show LocallyOfFiniteType (pullback.snd f (S.fromSpecResidueField (f x)))
+    change LocallyOfFiniteType (pullback.snd f (S.fromSpecResidueField (f x)))
     infer_instance
   -- a regular generating family of the ideal in the local ring of the fibre
   obtain ⟨V, hxV, hIQR⟩ := hfib

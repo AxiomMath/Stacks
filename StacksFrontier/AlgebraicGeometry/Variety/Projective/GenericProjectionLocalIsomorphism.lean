@@ -343,11 +343,11 @@ public theorem exists_isOpen_unramifiedAt_fibre_inter_range_eq {m : ℕ}
   have hce := isClosedImmersion_of_comp_eq e iX he
   have hezc : IsClosed ({e z} : Set X) := by
     simpa using e.isClosedEmbedding.isClosedMap _ hzc
-  obtain ⟨hZc, hZirr, hZdim⟩ := isClosed_isIrreducible_range_base iZ
+  obtain ⟨hZc, -, hZdim⟩ := isClosed_isIrreducible_range_base iZ
   obtain ⟨U₁, hU₁ne, hU₁⟩ :=
     exists_isOpen_isFinite_unramifiedAt_projection_restrict iX hXP (e z) hezc hzreg
   obtain ⟨U₂, hU₂open, hU₂ne, hU₂⟩ := exists_isOpen_nonempty_forall_eq_of_isIrreducible k V
-    (iZ.base z) (isClosed_singleton_base iZ z hzc) hV hZc hZirr (by rw [hZdim]; exact hdimZ)
+    (iZ.base z) (isClosed_singleton_base iZ z hzc) hV hZc (by rw [hZdim]; exact hdimZ)
   refine ⟨⟨(U₁ : Set (projectiveSpaceOfModule k V)) ∩ U₂, U₁.isOpen.inter hU₂open⟩,
     nonempty_preirreducible_inter U₁.isOpen hU₂open hU₁ne hU₂ne, ?_⟩
   rintro p ⟨hp₁, hp₂⟩ hpc

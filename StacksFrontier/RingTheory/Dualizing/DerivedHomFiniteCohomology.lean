@@ -153,7 +153,7 @@ private theorem isIso_ιTruncLE_f (K : CochainComplex C ℤ) (n p : ℤ) (hp : p
     IsIso ((K.ιTruncLE n).f p) := by
   set e := (ComplexShape.embeddingUpIntLE n).op with he
   have hf : e.f (n - p).natAbs = p := by
-    show n - ((n - p).natAbs : ℤ) = p
+    change n - ((n - p).natAbs : ℤ) = p
     omega
   have hb : ¬ e.BoundaryGE (n - p).natAbs := by
     rw [he, ComplexShape.Embedding.op_boundaryGE_iff,
@@ -164,7 +164,7 @@ private theorem isIso_ιTruncLE_f (K : CochainComplex C ℤ) (n p : ℤ) (hp : p
     rw [e.isIso_liftExtend_f_iff _ _ hf]
     exact HomologicalComplex.isIso_restrictionToTruncGE' K.op e _ hb
   have key2 : IsIso ((K.op.πTruncGE e).f p) := key
-  show IsIso ((K.op.πTruncGE e).f p).unop
+  change IsIso ((K.op.πTruncGE e).f p).unop
   infer_instance
 
 end HomologyIso
@@ -301,7 +301,7 @@ private theorem exists_finiteTerms_model (J : CochainComplex (ModuleCat.{w} R) �
       ((DerivedCategory.homologyFunctor (ModuleCat.{w} R) p).mapIso eE)
   have := hEGE
   have hepi : ∀ q : ℤ, Epi ((E.πTruncGE a).f q) := fun q => by
-    show Epi ((HomologicalComplex.πTruncGE E (ComplexShape.embeddingUpIntGE a)).f q)
+    change Epi ((HomologicalComplex.πTruncGE E (ComplexShape.embeddingUpIntGE a)).f q)
     infer_instance
   have hisoπ : IsIso (DerivedCategory.Q.map (E.πTruncGE a)) :=
     (DerivedCategory.isIso_Q_map_iff_quasiIso (ModuleCat.{w} R) (E.πTruncGE a)).mpr inferInstance

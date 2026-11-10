@@ -92,7 +92,7 @@ theorem properPushforward_cycleAssociatedToClosedSubscheme_of_isIso (C : ChowSit
     exact relativeDimension_comp_closedImmersion C.dimensionFunction e.hom sY x
   have hcoeff : (cycleAssociatedToClosedSubscheme C sX i k).1 x =
       (cycleAssociatedToClosedSubscheme C sY (i ≫ e.hom) k).1 (e.hom x) := by
-    show closedSubschemeCycleCoeff C sX i k x =
+    change closedSubschemeCycleCoeff C sX i k x =
       closedSubschemeCycleCoeff C sY (i ≫ e.hom) k (e.hom x)
     unfold closedSubschemeCycleCoeff
     have hexists :

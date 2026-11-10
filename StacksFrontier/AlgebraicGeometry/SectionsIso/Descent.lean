@@ -137,8 +137,7 @@ lemma isIso_pushoutSection_of_iSup_eq
     naturality := by
       intro i j φ
       apply pushout.hom_ext <;>
-        simp [F, F₀, CategoryTheory.Under.lift, pushoutSection, pushout.inl_desc,
-          pushout.inr_desc, pushout.inl_desc_assoc, pushout.inr_desc_assoc,
+        simp [F, F₀, CategoryTheory.Under.lift, pushoutSection,
           Scheme.Hom.appLE_map] }
   let c : Cone F := (Under.pushout (f.appLE US UT hUST) ⋙ Under.forget _).mapCone
     (Under.liftCone (X.presheaf.mapCone c₀.op) _)
@@ -195,9 +194,9 @@ lemma isIso_pushoutSection_of_iSup_eq
     rw [hc'.fac]
     ext1
     · simp [αF, c, Under.liftCone, c', c₀, F₀, CategoryTheory.Under.lift, pushoutSection,
-        pushout.inl_desc_assoc, pushout.inl_desc, Scheme.Hom.appLE_map, Scheme.Hom.map_appLE]
+        Scheme.Hom.appLE_map, Scheme.Hom.map_appLE]
     · simp [αF, c, c', c₀, F₀, CategoryTheory.Under.lift, pushoutSection,
-        pushout.inr_desc_assoc, pushout.inr_desc, Scheme.Hom.appLE_map]
+        pushout.inr_desc_assoc, Scheme.Hom.appLE_map]
 
 /-- **Bijectivity of the comparison map over an arbitrary open, with no compactness
 hypothesis.** When `Uₛ` and `Uₜ` are affine and `Γ(T, Uₜ)` is a flat, finitely presented

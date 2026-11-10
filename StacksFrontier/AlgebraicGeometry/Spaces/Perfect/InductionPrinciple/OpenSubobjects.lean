@@ -296,7 +296,7 @@ private theorem open_identity_isElementaryDistinguishedSquare
       (Set.range (pointsMap B S hS U.toFunctor U.ι))ᶜ hclosed
     have (T : BigFppfOver B S hS) : IsIso ((D.fromPreimage (𝟙 F)).app (Opposite.op T)) :=
       (isIso_iff_bijective _).2 ⟨fun x y hxy => Subtype.ext (congrArg Subtype.val hxy),
-        fun y => ⟨⟨y.val, by simpa using y.property⟩, Subtype.ext rfl⟩⟩
+        fun y => ⟨⟨y.val, by simp⟩, Subtype.ext rfl⟩⟩
     exact NatIso.isIso_of_isIso_app (D.fromPreimage (𝟙 F))
 
 /-- An open subspace together with the identity morphism is an elementary distinguished

@@ -111,7 +111,7 @@ theorem Fd.chartHom_range_le (U : S.Opens) (hU : IsAffineOpen U) (hk : 0 < k) (T
     Set.range (Fd.chartHom A U P hU hk T η).base ⊆ (P.degreeOpen k : Set P.scheme) := by
   have h1 : Set.range (Fd.chartHom A U P hU hk T η).base
       ⊆ Set.range ((P.toBase ⁻¹ᵁ U ⊓ P.degreeOpen k).ι).base := by
-    show Set.range ((Fd.chartRelativeEquiv A U P hU hk T η
+    change Set.range ((Fd.chartRelativeEquiv A U P hU hk T η
       ≫ (P.toBase ⁻¹ᵁ U ⊓ P.degreeOpen k).ι)).base ⊆ _
     simp only [Scheme.Hom.comp_base, TopCat.coe_comp, Set.range_comp]
     exact Set.image_subset_range _ _

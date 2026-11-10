@@ -67,7 +67,7 @@ theorem globalFunctionsSchemeSpaceIso_naturality {V W : BigFppfOver B S hS} (g :
       (globalFunctionsSchemeSpaceIso B S hS W).hom ≫
         CommRingCat.ofHom ((Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map g).op).hom.ulift) := by
   ext s
-  show chartFunctionsYonedaEquiv B S hS V
+  change chartFunctionsYonedaEquiv B S hS V
       ((globalFunctionsChartEquiv B S hS ((schemeSpaceFunctor B S hS).obj V)).val
         (globalFunctionsMap B S hS ((schemeSpaceFunctor B S hS).map g) s)) =
     (chartPresheaf B S hS (yoneda.obj W)).map
@@ -365,6 +365,7 @@ theorem baseChangeIsSheaf (V₀ : T.Schemes)
   fun M => isSheaf_baseChangePresheaf _ M
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the sheaf-of-modules category on the slice site exceeds the default
 /-- **The sheaf of modules `M^a` on the slice `(Spaces/X)_fppf/V`** attached to a module `M` over
 the ring of an affine scheme `V₀` identified with `V`: the unique sheaf of modules whose sections
 over an affine scheme `A` over `V` are `𝒪(A) ⊗_{𝒪(V₀)} M`. -/

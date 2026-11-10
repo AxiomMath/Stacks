@@ -104,7 +104,7 @@ theorem exists_of_galoisExtendsOver_top (h : GaloisExtendsOver f Z ⊤) :
   refine ⟨Y.baseChange θ hconn, (c.app Y.obj).symm ≪≫ e, fun g ↦ ?_⟩
   have hnat := c.inv.naturality (Y.action g).asIso.hom
   simp only [Functor.comp_map] at hnat
-  show (finiteEtaleBaseChange (f.fiberι (genericPoint S))).map
+  change (finiteEtaleBaseChange (f.fiberι (genericPoint S))).map
       ((finiteEtaleBaseChange θ).map (Y.action g).asIso.hom) ≫ c.inv.app Y.obj ≫ e.hom = _
   rw [← Category.assoc, hnat, Category.assoc, he]
   rfl

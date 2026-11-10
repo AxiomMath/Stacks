@@ -61,7 +61,7 @@ theorem map_add (g g' : M ⟶ M₂) : PD.map (g + g') = PD.map g + PD.map g' :=
           (PD.unit M₂).app i V (homSections (h.toHomologicalComplex.f i) V x) :=
       fun h ↦ congrArg (fun θ : SemilinearHom φ M (PD.obj M₂) ↦ θ.app i V x)
         (PD.unit_postcomp_map h)
-    show homSections ((PD.map g + PD.map g').toHomologicalComplex.f i) (u.op.obj V)
+    change homSections ((PD.map g + PD.map g').toHomologicalComplex.f i) (u.op.obj V)
         ((PD.unit M).app i V x) =
       (PD.unit M₂).app i V (homSections ((g + g').toHomologicalComplex.f i) V x)
     rw [add_f, homSections_add, e g, e g', add_f, homSections_add]
@@ -70,7 +70,7 @@ theorem map_add (g g' : M ⟶ M₂) : PD.map (g + g') = PD.map g + PD.map g' :=
 /-- The pullback of the zero morphism of right differential graded modules is zero. -/
 theorem map_zero : PD.map (0 : M ⟶ M₂) = 0 :=
   ((PD.isPullback M).uniq _ _ (SemilinearHom.ext fun i V x ↦ by
-    show homSections ((0 : PD.obj M ⟶ PD.obj M₂).toHomologicalComplex.f i) (u.op.obj V)
+    change homSections ((0 : PD.obj M ⟶ PD.obj M₂).toHomologicalComplex.f i) (u.op.obj V)
         ((PD.unit M).app i V x) =
       (PD.unit M₂).app i V (homSections ((0 : M ⟶ M₂).toHomologicalComplex.f i) V x)
     rw [zero_f, homSections_zero, zero_f, homSections_zero]

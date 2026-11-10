@@ -123,7 +123,7 @@ theorem exists_finitePresentation_closedImmersion_of_forall_topologicalKrullDim_
   -- The hypotheses of Tag 05M5 for this morphism of systems.
   let : ∀ {a b : Iᵒᵖ} (q : a ⟶ b), IsAffineHom (F.map q) := by
     intro a b q
-    show IsAffineHom (𝟙 S)
+    change IsAffineHom (𝟙 S)
     infer_instance
   let : ∀ a : Iᵒᵖ, CompactSpace (F.obj a) := fun _ => (inferInstance : CompactSpace S)
   let : ∀ a : Iᵒᵖ, QuasiSeparatedSpace (F.obj a) :=
@@ -133,12 +133,12 @@ theorem exists_finitePresentation_closedImmersion_of_forall_topologicalKrullDim_
     let : LocallyOfFinitePresentation (t.app a) :=
       (hstage a).2.locallyOfFinitePresentation
     let : LocallyOfFinitePresentation f := hf.locallyOfFinitePresentation
-    show LocallyOfFiniteType (t.app a ≫ f)
+    change LocallyOfFiniteType (t.app a ≫ f)
     infer_instance
   let : ∀ a : Iᵒᵖ, QuasiCompact (g.app a) := by
     intro a
     let : QuasiCompact (t.app a) := (hstage a).2.quasiCompact
-    show QuasiCompact (t.app a ≫ f)
+    change QuasiCompact (t.app a ≫ f)
     infer_instance
   have htransition : ∀ {a b : Iᵒᵖ} (q : a ⟶ b), IsClosedImmersion (D.map q) := by
     intro a b q
@@ -151,7 +151,7 @@ theorem exists_finitePresentation_closedImmersion_of_forall_topologicalKrullDim_
     let : IsClosedImmersion (D.map q) := htransition q
     have hfst : IsIso (pullback.fst (g.app b) (F.map q)) := by
       have : IsIso (F.map q) := by
-        show IsIso (𝟙 S)
+        change IsIso (𝟙 S)
         infer_instance
       infer_instance
     have hlift : pullback.lift (D.map q) (g.app a) (g.naturality q) =

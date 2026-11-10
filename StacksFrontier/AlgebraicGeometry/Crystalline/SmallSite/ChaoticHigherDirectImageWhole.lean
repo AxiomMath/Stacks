@@ -10,8 +10,8 @@ Fix a global crystalline situation `(p, (S, I, γ), X)` of [Stacks, Tag 07MF] wi
 affine, and let `u = wholeToAffineSubsite : 𝒞 ⥤ AffineCris(X/S)` be the inclusion of the chaotic
 subsite of thickenings of the whole of `X`.
 
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/ChaoticHigherDirectImage.lean` reduces step 4
-of the proof of [Stacks, Tag 07JK] — the vanishing `R^p f_* F = 0` for `p > 0` — to the hypothesis
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/ChaoticHigherDirectImage.lean` reduces step
+4 of the proof of [Stacks, Tag 07JK] — the vanishing `R^p f_* F = 0` for `p > 0` — to the hypothesis
 `Vanishing07JJ`, which asks the cohomology of the localized site `Cris(X/S)/(U, T, δ)` to vanish
 in positive degrees for **every** object with affine ambient scheme.
 

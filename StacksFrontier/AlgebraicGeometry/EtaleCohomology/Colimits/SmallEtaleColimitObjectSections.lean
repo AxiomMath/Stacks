@@ -121,7 +121,7 @@ theorem presheafMap_op_apply_eq_of_comp_eq {A : Type*} [Category* A]
     (P : Aᵒᵖ ⥤ AddCommGrpCat.{w}) {X Y Z T₁ T₂ : A} (p : X ⟶ Y) (q : Y ⟶ Z) (r : X ⟶ T₁)
     (s : T₁ ⟶ T₂) (m : T₂ ⟶ Z) (h : p ≫ q = r ≫ s ≫ m) (x : ToType (P.obj (op Z))) :
     P.map p.op (P.map q.op x) = P.map r.op (P.map s.op (P.map m.op x)) := by
-  simp only [← ConcreteCategory.comp_apply, ← P.map_comp, ← op_comp, h, Category.assoc]
+  simp only [← ConcreteCategory.comp_apply, ← P.map_comp, ← op_comp, h]
 
 /-- **A transport along an equality of objects of a site, read after restriction along a
 functor.** For a presheaf `P` on `A'` and a functor `Ψ : A ⥤ A'`, the transport that the

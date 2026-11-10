@@ -219,7 +219,7 @@ theorem isSite_isCovering : IsSite (IsCovering B) := by
       exact hcomp'
     · have _ : Finite 𝒰.2.I₀ := h𝒰.2
       have _ : ∀ i, Finite (𝒱 i).2.I₀ := fun i ↦ (h𝒱 i).2
-      show Finite (Σ i, (𝒱 i).2.I₀)
+      change Finite (Σ i, (𝒱 i).2.I₀)
       infer_instance
   · intro 𝒰 h𝒰 V g
     have _ : Finite 𝒰.2.I₀ := h𝒰.2
@@ -250,7 +250,7 @@ theorem mapsCoveringsToCoverings :
   obtain ⟨i⟩ := hf
   obtain ⟨Z, a, b, ⟨j⟩, hfac⟩ := hle _ (E.f i) (Presieve.ofArrows.mk i)
   refine ⟨_, (inclusion B).map a, (inclusion B).map (g j), Presieve.ofArrows.mk j, ?_⟩
-  show (inclusion B).map a ≫ (inclusion B).map (g j) = (inclusion B).map (E.f i)
+  change (inclusion B).map a ≫ (inclusion B).map (g j) = (inclusion B).map (E.f i)
   rw [← (inclusion B).map_comp, hfac]
 
 end QcqsProetale

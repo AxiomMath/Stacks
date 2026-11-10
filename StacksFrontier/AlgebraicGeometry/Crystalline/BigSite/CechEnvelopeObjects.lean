@@ -295,7 +295,7 @@ theorem nonempty_smoothLift [IsAffine U] (hsm : Smooth (j ≫ S.toClosedFiber)) 
     equiv := e.trans (Ideal.quotEquivOfEq (by rw [hker]))
     equiv_sourceToBase := fun r ↦ ?_ }⟩
   simp only [RingEquiv.trans_apply]
-  show (Ideal.quotEquivOfEq _) (e (algebraMap _ Γ(U, ⊤)
+  change (Ideal.quotEquivOfEq _) (e (algebraMap _ Γ(U, ⊤)
     (algebraMap ↥(baseSectionsRing S) Γ(DividedPowerScheme.closedFiber S.S, ⊤) r))) = _
   rw [he r, Ideal.quotEquivOfEq_mk]
 

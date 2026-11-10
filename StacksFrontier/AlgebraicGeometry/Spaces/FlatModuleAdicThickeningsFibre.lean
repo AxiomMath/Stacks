@@ -123,7 +123,7 @@ theorem restrictScalars_map_smul_top (ψ : A →+* O) (J : Ideal A) (M : Type*)
       rw [smul_eq_mul, mul_comm, mul_smul]
       exact hr (o • m) trivial
   · refine Submodule.smul_le.mpr fun a ha m _ => ?_
-    show ψ a • m ∈ (J.map ψ) • (⊤ : Submodule O M)
+    change ψ a • m ∈ (J.map ψ) • (⊤ : Submodule O M)
     exact Submodule.smul_mem_smul (Ideal.mem_map_of_mem ψ ha) Submodule.mem_top
 
 /-- **Flatness of `M / J M` from flatness of a base change along a quotient.**  Let
@@ -152,7 +152,7 @@ theorem flat_quotient_smul_top_of_flat_extendScalars (ψ : A →+* O) (θ : O �
     { r.toAddEquiv with
       map_smul' := fun o q => by
         obtain ⟨q, rfl⟩ := Ideal.Quotient.mk_surjective q
-        show r (Ideal.Quotient.mk K (o * q)) = θ o * r (Ideal.Quotient.mk K q)
+        change r (Ideal.Quotient.mk K (o * q)) = θ o * r (Ideal.Quotient.mk K q)
         rw [hr, hr, map_mul] }
   let E : TensorProduct O Cr M ≃ₗ[O] M ⧸ (K • ⊤ : Submodule O M) :=
     TensorProduct.congr e₀.symm (LinearEquiv.refl O M) ≪≫ₗ
@@ -165,10 +165,7 @@ theorem flat_quotient_smul_top_of_flat_extendScalars (ψ : A →+* O) (θ : O �
         (θ o • (show ↑((ModuleCat.extendScalars θ).obj M) from t) :
           ↑((ModuleCat.extendScalars θ).obj M)) := by
     intro o t
-    induction t using TensorProduct.induction_on with
-    | zero =>
-      exact (smul_zero o).trans
-        (smul_zero (A := ↑((ModuleCat.extendScalars θ).obj M)) (θ o)).symm
+    induction t using TensorProduct.inductionOn with
     | tmul c m => rfl
     | add x y hx hy =>
       exact (smul_add o x y).trans ((congrArg₂ (· + ·) hx hy).trans
@@ -191,7 +188,7 @@ theorem flat_quotient_smul_top_of_flat_extendScalars (ψ : A →+* O) (θ : O �
             (ψ a • t' : TensorProduct O Cr M) := by
           rw [h1]
           exact (hact (ψ a) t').symm
-        show G (E (ρ (Ideal.Quotient.mk J a) • t)) = Ideal.Quotient.mk J a • G (E t')
+        change G (E (ρ (Ideal.Quotient.mk J a) • t)) = Ideal.Quotient.mk J a • G (E t')
         calc G (E (ρ (Ideal.Quotient.mk J a) • t)) = G (E (ψ a • t')) :=
               congrArg (fun z => G (E z)) h2
           _ = G (ψ a • E t') := by rw [E.map_smul]
@@ -289,7 +286,7 @@ lemma ker_stalkMap_pullback_fst_specQuotient (w : ↑(pullback g ι[J])) :
         ((Spec (.of A)).presheaf.stalk ((pullback.fst g ι[J] ≫ g).base w))
         (X.presheaf.stalk x) ((Spec (.of (A ⧸ J))).presheaf.stalk y))
         ((pullback g ι[J]).presheaf.stalk w) (Algebra.TensorProduct.includeLeftRingHom o) = 0 := by
-      show φ (Algebra.TensorProduct.includeLeftRingHom o) = 0
+      change φ (Algebra.TensorProduct.includeLeftRingHom o) = 0
       rw [← RingHom.comp_apply, hφl]
       exact ho
     obtain ⟨m, hm0⟩ := (IsLocalization.map_eq_zero_iff Msub _ _).mp h1
@@ -348,7 +345,7 @@ lemma ker_stalkMap_pullback_fst_specQuotient (w : ↑(pullback g ι[J])) :
             ((StructureSheaf.toStalk A ((pullback.fst g ι[J] ≫ g).base w)).hom a) =
           algebraMap (A ⧸ J) ((Spec (.of (A ⧸ J))).presheaf.stalk y) (Ideal.Quotient.mk J a) :=
         (congrArg ((ι[J]).stalkMap y).hom (toStalk_eqToHom_apply h0 a)).trans e1
-      show f₂₀ (algebraMap ((Spec (.of A)).presheaf.stalk ((pullback.fst g ι[J] ≫ g).base w))
+      change f₂₀ (algebraMap ((Spec (.of A)).presheaf.stalk ((pullback.fst g ι[J] ≫ g).base w))
         ((Spec (.of (A ⧸ J))).presheaf.stalk y)
           ((StructureSheaf.toStalk A ((pullback.fst g ι[J] ≫ g).base w)).hom a)) = _
       rw [e2, IsLocalization.lift_eq]
@@ -358,7 +355,7 @@ lemma ker_stalkMap_pullback_fst_specQuotient (w : ↑(pullback g ι[J])) :
       { f₂₀ with commutes' := fun r => RingHom.congr_fun hf₂ r }
     have h3 : Algebra.TensorProduct.lift f₁ f₂ (fun _ _ => Commute.all _ _)
         (Algebra.TensorProduct.includeLeftRingHom o) = Ideal.Quotient.mk K o := by
-      show Algebra.TensorProduct.lift f₁ f₂ (fun _ _ => Commute.all _ _) (o ⊗ₜ 1) = _
+      change Algebra.TensorProduct.lift f₁ f₂ (fun _ _ => Commute.all _ _) (o ⊗ₜ 1) = _
       rw [Algebra.TensorProduct.lift_tmul, map_one, mul_one]
       rfl
     rw [h2, map_zero] at h3

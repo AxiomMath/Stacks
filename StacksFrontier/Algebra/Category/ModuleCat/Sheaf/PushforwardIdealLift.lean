@@ -74,7 +74,7 @@ theorem IsIdealLift.map_add (U : Cᵒᵖ) (m m' : I₁.val.obj U) :
       (show A₀.obj.obj (F.op.obj U) from ι₀.val.app (F.op.obj U) (e U m)) +
         (show A₀.obj.obj (F.op.obj U) from ι₀.val.app (F.op.obj U) (e U m')) :=
     (ι₀.val.app (F.op.obj U)).hom.map_add (e U m) (e U m')
-  show (show A₀.obj.obj (F.op.obj U) from ι₀.val.app (F.op.obj U) (e U (m + m'))) =
+  change (show A₀.obj.obj (F.op.obj U) from ι₀.val.app (F.op.obj U) (e U (m + m'))) =
     (show A₀.obj.obj (F.op.obj U) from ι₀.val.app (F.op.obj U) (e U m + e U m'))
   rw [h1, a0, h2, h3, a1]
   exact _root_.map_add _ _ _
@@ -95,7 +95,7 @@ theorem IsIdealLift.naturality {U U' : Cᵒᵖ} (p : U ⟶ U') (m : I₁.val.obj
   have nA : φA.hom.app U' (A₁.obj.map p (show A₁.obj.obj U from ι₁.val.app U m)) =
       A₀.obj.map (F.op.map p) (φA.hom.app U (show A₁.obj.obj U from ι₁.val.app U m)) :=
     ConcreteCategory.congr_hom (φA.hom.naturality p) _
-  show (show A₀.obj.obj (F.op.obj U') from ι₀.val.app (F.op.obj U') (e U' (I₁.val.map p m))) =
+  change (show A₀.obj.obj (F.op.obj U') from ι₀.val.app (F.op.obj U') (e U' (I₁.val.map p m))) =
     (show A₀.obj.obj (F.op.obj U') from
       ι₀.val.app (F.op.obj U') (I₀.val.map (F.op.map p) (e U m)))
   rw [h1, n1, nA, n0, h2]
@@ -118,7 +118,7 @@ theorem IsIdealLift.map_smul (U : Cᵒᵖ) (a : A₁.obj.obj U) (m : I₁.val.ob
       (show A₀.obj.obj (F.op.obj U) from φA.hom.app U a) *
         (show A₀.obj.obj (F.op.obj U) from ι₀.val.app (F.op.obj U) (e U m)) :=
     (ι₀.val.app (F.op.obj U)).hom.map_smul (φA.hom.app U a) (e U m)
-  show (show A₀.obj.obj (F.op.obj U) from
+  change (show A₀.obj.obj (F.op.obj U) from
       ι₀.val.app (F.op.obj U) (e U (π₁.hom.app U a • m))) =
     (show A₀.obj.obj (F.op.obj U) from
       ι₀.val.app (F.op.obj U)
@@ -174,7 +174,7 @@ theorem congr_restrictScalars_val {𝒞 : Type u₁} [Category.{v₁} 𝒞] {L :
 section Bijective
 
 variable (he : IsIdealLift ι₁ ι₀ φA e) (hinj : ∀ V : Dᵒᵖ, Function.Injective (ι₀.val.app V))
-include he hinj
+include he
 
 /-- A lift is injective if `ι₁` is injective and `φA` is an isomorphism. -/
 theorem IsIdealLift.injective [IsIso φA] (hinj₁ : ∀ U : Cᵒᵖ, Function.Injective (ι₁.val.app U))
@@ -182,12 +182,12 @@ theorem IsIdealLift.injective [IsIso φA] (hinj₁ : ∀ U : Cᵒᵖ, Function.I
   intro m m' h
   apply hinj₁ U
   apply (bijective_hom_app_of_isIso φA U).1
-  show φA.hom.app U (show A₁.obj.obj U from ι₁.val.app U m) =
+  change φA.hom.app U (show A₁.obj.obj U from ι₁.val.app U m) =
     φA.hom.app U (show A₁.obj.obj U from ι₁.val.app U m')
   rw [← he U m, ← he U m', h]
 
 variable (comm : π₁ ≫ φR = φA ≫ (F.sheafPushforwardContinuous RingCat.{u} J K).map π₀)
-include comm
+include hinj comm
 
 /-- A lift is surjective if `φA` and `φR` are isomorphisms, `ι₀` lands in the kernel of `π₀` and
 `ι₁` exhausts the kernel of `π₁`. -/
@@ -203,13 +203,13 @@ theorem IsIdealLift.surjective [IsIso φA] [IsIso φR]
   have hc := comm_hom_app_apply φR comm U a
   have h0 : π₁.hom.app U a = 0 := by
     apply (bijective_hom_app_of_isIso φR U).1
-    show (show R₀.obj.obj (F.op.obj U) from φR.hom.app U (π₁.hom.app U a)) =
+    change (show R₀.obj.obj (F.op.obj U) from φR.hom.app U (π₁.hom.app U a)) =
       (show R₀.obj.obj (F.op.obj U) from φR.hom.app U 0)
     rw [hc, _root_.map_zero, ha]
     exact hzero _ n
   obtain ⟨m, hm⟩ := huniv U a h0
   refine ⟨m, hinj _ ?_⟩
-  show (show A₀.obj.obj (F.op.obj U) from ι₀.val.app (F.op.obj U) (e U m)) =
+  change (show A₀.obj.obj (F.op.obj U) from ι₀.val.app (F.op.obj U) (e U m)) =
     (show A₀.obj.obj (F.op.obj U) from ι₀.val.app (F.op.obj U) n)
   rw [he U m, hm, ha]
 

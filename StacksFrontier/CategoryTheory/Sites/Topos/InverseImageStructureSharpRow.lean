@@ -68,7 +68,8 @@ attribute [local instance] Stacks.sheafCommRingObj
 
 variable {Γ : Type*} [CommRing Γ]
 
-omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)]
+  [K.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The row of a polynomial system, pulled back along `g⁻¹`, read in the inverse-image sheaf of
 commutative rings.**  This is `Stacks.Sheaves.inverseImage_map_evalSystemHom` with the
 commutative ring object structure on `g⁻¹𝒪` taken to be the sectionwise one of
@@ -95,7 +96,8 @@ theorem inverseImage_map_evalSystemHom_pullback (κ : Type) [Finite κ] {ν : Ty
     RingHom.ext hc₁
   exact inverseImage_map_evalSystemHom f O κ c P
 
-omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)]
+  [K.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The zero row, pulled back along `g⁻¹`, read in the inverse-image sheaf of commutative
 rings.**  The companion of `Stacks.Sheaves.inverseImage_map_evalSystemHom_pullback` for the other
 leg of the equalizer presentation. -/
@@ -110,6 +112,8 @@ theorem inverseImage_map_zeroSystemHom_pullback (κ ν : Type) [Finite κ] [Fini
 
 variable {O' : Sheaf J CommRingCat.{w}}
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)]
+  [K.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The row of a polynomial system, pulled back along `g⁻¹` and pushed along `g^♯`, is the row
 of the same system over the structure sheaf upstairs.**
 
@@ -140,6 +144,8 @@ theorem inverseImage_evalSystemHom_comp_fSharp
   exact (Category.assoc _ _ _).trans
     (congrArg (_ ≫ ·) (PolynomialSystem.evalSystemHom_comp_piMap α c₁ κ P))
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)]
+  [K.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The zero row, pulled back along `g⁻¹` and pushed along `g^♯`, is the zero row upstairs.**
 The companion of `Stacks.Sheaves.inverseImage_evalSystemHom_comp_fSharp` for the other leg of the
 equalizer presentation. -/

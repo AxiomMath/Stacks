@@ -85,7 +85,7 @@ theorem homologyRestrictScalarsMap_homologyπ (z : L.cycles i) :
   have h2 := ConcreteCategory.congr_hom
     (Stacks.Homology.exactHomologyIso_hom_app_homologyπ (ModuleCat.restrictScalars φ) i L')
     (HomologicalComplex.cyclesMap ψ i z)
-  show (Stacks.Homology.exactHomologyIso (ModuleCat.restrictScalars φ) i).hom.app L'
+  change (Stacks.Homology.exactHomologyIso (ModuleCat.restrictScalars φ) i).hom.app L'
       (HomologicalComplex.homologyMap ψ i (L.homologyπ i z)) = _
   rw [ConcreteCategory.comp_apply] at h1
   rwa [h1]

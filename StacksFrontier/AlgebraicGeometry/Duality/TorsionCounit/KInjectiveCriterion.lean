@@ -130,7 +130,7 @@ theorem isRightDerivedFunctor_derivedPowerTorsion :
       (fun K ↦ by
         obtain ⟨L, q, hq, hL⟩ := CochainComplex.exists_quasiIso_isKInjective K
         exact ⟨L, q, hL, hq⟩)).1
-  show (H.totalRightDerived DerivedCategory.Qh W).IsRightDerivedFunctor
+  change (H.totalRightDerived DerivedCategory.Qh W).IsRightDerivedFunctor
     (H.totalRightDerivedUnit DerivedCategory.Qh W) W
   infer_instance
 

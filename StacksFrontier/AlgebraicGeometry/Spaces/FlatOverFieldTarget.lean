@@ -47,7 +47,7 @@ theorem isFlat_to_field (hX : IsAlgebraicSpace B S hS X)
   let T := BigFppfOver.toScheme B S hS
   let q : yoneda.obj K ⟶ yoneda.obj K := 𝟙 _
   have : PreservesLimitsOfShape WalkingCospan T := by
-    show PreservesLimitsOfShape WalkingCospan ((Over.forget (B.obj hS)) ⋙ B.inclusion)
+    change PreservesLimitsOfShape WalkingCospan ((Over.forget (B.obj hS)) ⋙ B.inclusion)
     exact comp_preservesLimitsOfShape _ _
   have hstab (P : MorphismProperty Scheme.{u}) [P.IsStableUnderBaseChange] :
       (P.inverseImage T).IsStableUnderBaseChange :=
@@ -71,7 +71,7 @@ theorem isFlat_to_field (hX : IsAlgebraicSpace B S hS X)
     (@Flat : MorphismProperty Scheme.{u}) Flat.isEtaleLocalOnSourceAndTarget
     hX (isAlgebraicSpace_yoneda B S hS K) p).2
   refine ⟨U, K, a, q, α, ha_etale, hq_etale, ha_surj, hcomm.symm, ?_⟩
-  show Flat (T.map α)
+  change Flat (T.map α)
   have h : Flat ((T.map α ≫ e.hom) ≫ e.inv) := inferInstance
   rwa [Category.assoc, Iso.hom_inv_id, Category.comp_id] at h
 

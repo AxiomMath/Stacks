@@ -169,8 +169,7 @@ theorem app_sectionsBaseChange_of_commSq {G G' : Modules.{u, m} B S hS F hF}
           (LinearMap.lTensor (chartRing B S hS F hF V) φU.hom z) := by
   let _ := chartAlgebra (hF := hF) f
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul b x =>
     rw [chartBaseChange_tmul, LinearMap.lTensor_tmul, chartBaseChange_tmul, map_smul, hsq]
   | add z w hz hw => rw [map_add, map_add, map_add, map_add, hz, hw]
@@ -280,7 +279,7 @@ theorem chartAlgebra_isScalarTower {U V W : SmallEtale B S hS F} (f : V ⟶ U) (
   let _ := chartAlgebra (hF := hF) g
   let _ := chartAlgebra (hF := hF) (g ≫ f)
   refine IsScalarTower.of_algebraMap_eq (fun x => ?_)
-  show chartRestrict (hF := hF) (g ≫ f) x = chartRestrict (hF := hF) g (chartRestrict f x)
+  change chartRestrict (hF := hF) (g ≫ f) x = chartRestrict (hF := hF) g (chartRestrict f x)
   rw [chartRestrict_comp]
   rfl
 
@@ -312,11 +311,9 @@ theorem sectionsBaseChange_comp (G : Modules.{u, m} B S hS F hF)
   let _ := chartAlgebra (hF := hF) (g ≫ f)
   have _ := chartAlgebra_isScalarTower (hF := hF) f g
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul b w =>
-    induction w using TensorProduct.induction_on with
-    | zero => rw [TensorProduct.tmul_zero, map_zero, map_zero, map_zero, map_zero]
+    induction w using TensorProduct.inductionOn with
     | tmul a x =>
       rw [LinearMap.lTensor_tmul, chartBaseChange_tmul, chartBaseChange_tmul,
         TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul, chartBaseChange_tmul,

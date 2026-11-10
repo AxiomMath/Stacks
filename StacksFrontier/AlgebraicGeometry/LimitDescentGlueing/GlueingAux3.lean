@@ -69,13 +69,13 @@ private lemma exists_hom_of_sup_eq_top {X Y : Scheme.{u}} {A B : X.Opens} (hAB :
   let F : ∀ c : Bool, 𝒱.X c ⟶ Y := fun c => Bool.rec (motive := fun c => 𝒱.X c ⟶ Y) b a c
   have hc : ∀ x y, pullback.fst (𝒱.f x) (𝒱.f y) ≫ F x = pullback.snd _ _ ≫ F y := by
     rintro (_ | _) (_ | _)
-    · show pullback.fst B.ι B.ι ≫ b = pullback.snd B.ι B.ι ≫ b
+    · change pullback.fst B.ι B.ι ≫ b = pullback.snd B.ι B.ι ≫ b
       rw [(cancel_mono B.ι).mp (pullback.condition (f := B.ι) (g := B.ι))]
-    · show pullback.fst B.ι A.ι ≫ b = pullback.snd B.ι A.ι ≫ a
+    · change pullback.fst B.ι A.ι ≫ b = pullback.snd B.ι A.ι ≫ a
       rw [← cancel_epi (pullbackSymmetry A.ι B.ι).hom]
       simp [h]
     · exact h
-    · show pullback.fst A.ι A.ι ≫ a = pullback.snd A.ι A.ι ≫ a
+    · change pullback.fst A.ι A.ι ≫ a = pullback.snd A.ι A.ι ≫ a
       rw [(cancel_mono A.ι).mp (pullback.condition (f := A.ι) (g := A.ι))]
   refine ⟨𝒱.glueMorphisms F hc, ?_, ?_⟩
   · have := 𝒱.ι_glueMorphisms F hc true
@@ -123,7 +123,7 @@ private lemma le_preimage_opensRange {X Y Z : Scheme.{u}} {U : X.Opens} {h : U.t
     U ≤ g ⁻¹ᵁ j.opensRange := by
   rintro x hxU
   obtain ⟨y, rfl⟩ : ∃ y : U.toScheme, U.ι y = x := ⟨⟨x, hxU⟩, rfl⟩
-  show g (U.ι y) ∈ j.opensRange
+  change g (U.ι y) ∈ j.opensRange
   rw [← Scheme.Hom.comp_apply, hg, Scheme.Hom.comp_apply]
   exact Scheme.Hom.mem_opensRange.2 ⟨_, rfl⟩
 
@@ -149,7 +149,7 @@ private lemma preimage_opensRange_inf_le {X Y Z Z' : Scheme.{u}} {U V : X.Opens}
   obtain ⟨z, hz⟩ := Scheme.Hom.mem_opensRange.1 hmem
   rw [Scheme.Hom.comp_apply, egx] at hz
   have key : y ∈ h ⁻¹ᵁ W := by
-    show h y ∈ W
+    change h y ∈ W
     rw [← j.isOpenEmbedding.injective hz]
     exact z.2
   rw [hW] at key

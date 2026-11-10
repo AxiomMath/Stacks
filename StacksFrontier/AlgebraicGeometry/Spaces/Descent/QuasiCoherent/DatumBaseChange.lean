@@ -109,7 +109,7 @@ theorem modulePullback_mapIso_canonicalComparison {A P Q R T : AlgebraicSpaces B
   subst hx
   subst hy
   rw [← pair_coherence B S hS q a b fi fj h M]
-  simp only [Iso.trans_assoc, Iso.symm_self_id_assoc, Iso.self_symm_id_assoc,
+  simp only [Iso.trans_assoc, Iso.symm_self_id_assoc,
     Iso.symm_self_id, Iso.trans_refl]
 
 variable {I : Type v} {X : AlgebraicSpaces B S hS}
@@ -196,7 +196,7 @@ theorem transitionOn_baseChangeTransition (D : DescentDatum B S hS W (fun t => w
       (pairOver_fst B S hS W w ρ i j) (pairOver_snd B S hS W w ρ i j)
       (v ≫ pairFst B S hS W w i j) (v ≫ pairSnd B S hS W w i j) rfl rfl
       (by simp) (by simp)]
-  simp only [Iso.trans_assoc, Iso.symm_self_id_assoc, Iso.self_symm_id_assoc,
+  simp only [Iso.trans_assoc, Iso.self_symm_id_assoc,
     Iso.self_symm_id, Iso.trans_refl]
 
 /-- **The base change of a descent datum along a factorization of its family**: a descent datum

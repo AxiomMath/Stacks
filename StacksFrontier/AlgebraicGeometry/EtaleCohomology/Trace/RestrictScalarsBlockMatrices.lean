@@ -69,7 +69,7 @@ theorem blockConjRow_mul_blockConjCol_self (i : Fin r) :
 theorem blockConjRow_mul_blockConjCol_of_ne {i j : Fin r} (h : i ≠ j) :
     blockConjRow eqv M i * blockConjCol eqv M j = 0 := by
   ext a b
-  rw [blockConjRow_mul_blockConjCol_apply, Matrix.one_apply, if_neg (fun h' => h (congrArg
+  rw [blockConjRow_mul_blockConjCol_apply, Matrix.one_apply, ite_eq_right (fun h' => h (congrArg
     Sigma.fst h')), Matrix.zero_apply]
 
 /-- The products `colᵢ rowᵢ` over all blocks sum to the identity: `∑ colᵢ rowᵢ = 1`. -/
@@ -94,7 +94,7 @@ local notation "MI" =>
 
 /-- The entries of `blockDiagonal' D * N` in the rows of block `i` only involve the block `D i` and
 the rows of `N` of block `i`. -/
-theorem blockDiagonal'_mul_apply {n : Type*} [Fintype n] (N : Matrix (Σ i, Fin (ms i)) n E)
+theorem blockDiagonal'_mul_apply {n : Type*} (N : Matrix (Σ i, Fin (ms i)) n E)
     (i : Fin r) (a : Fin (ms i)) (q : n) :
     (Matrix.blockDiagonal' D * N) ⟨i, a⟩ q = ∑ b, D i a b * N ⟨i, b⟩ q := by
   rw [Matrix.mul_apply, Fintype.sum_sigma, Finset.sum_eq_single i (fun j _ hji =>
@@ -104,7 +104,7 @@ theorem blockDiagonal'_mul_apply {n : Type*} [Fintype n] (N : Matrix (Σ i, Fin 
 
 /-- The entries of `N * blockDiagonal' D` in the columns of block `i` only involve the block `D i`
 and the columns of `N` of block `i`. -/
-theorem mul_blockDiagonal'_apply {n : Type*} [Fintype n] (N : Matrix n (Σ i, Fin (ms i)) E)
+theorem mul_blockDiagonal'_apply {n : Type*} (N : Matrix n (Σ i, Fin (ms i)) E)
     (q : n) (i : Fin r) (a : Fin (ms i)) :
     (N * Matrix.blockDiagonal' D) q ⟨i, a⟩ = ∑ b, N q ⟨i, b⟩ * D i b a := by
   rw [Matrix.mul_apply, Fintype.sum_sigma, Finset.sum_eq_single i (fun j _ hji =>
@@ -161,7 +161,7 @@ theorem restrictScalarsMatrix_mul_restrictScalarsScalarAlgHom {m n : ℕ}
     (A : Matrix (Fin m) (Fin n) E) (e : E) :
     restrictScalarsMatrix b A * restrictScalarsScalarAlgHom b n e =
       restrictScalarsScalarAlgHom b m e * restrictScalarsMatrix b A := by
-  show restrictScalarsMatrix b A * restrictScalarsMatrix b _ =
+  change restrictScalarsMatrix b A * restrictScalarsMatrix b _ =
     restrictScalarsMatrix b _ * restrictScalarsMatrix b A
   rw [← restrictScalarsMatrix_mul, ← restrictScalarsMatrix_mul]
   congr 1
@@ -195,7 +195,7 @@ theorem restrictScalarsMatrix_eq_toMatrix {m n : ℕ} (M : Matrix (Fin m) (Fin n
   rw [restrictScalarsMatrix_apply, LinearMap.toMatrix_apply, restrictScalarsPiBasis_apply,
     restrictScalarsPiBasis_repr, LinearMap.restrictScalars_apply, Matrix.mulVecLin_apply,
     Matrix.mulVec_single, Algebra.leftMulMatrix_eq_repr_mul]
-  simp [mul_comm]
+  simp
 
 end RestrictScalars
 
@@ -232,6 +232,7 @@ theorem restrictScalarsInclusionMatrix_mul (X : Matrix (Fin m) (Fin m) E₁) :
     IsScalarTower.coe_toAlgHom']
   exact RingHom.map_mulVec (algebraMap E₁ E₂) X v i
 
+omit [Fintype s] in
 /-- Each coordinate matrix intertwines `Res_{b₂} (X ⊗ E₂)` and `Res_{b₁} X`. -/
 theorem restrictScalarsCoordMatrix_mul (t : s) (X : Matrix (Fin m) (Fin m) E₁) :
     restrictScalarsCoordMatrix b₁ b₂ c m t * restrictScalarsMatrix b₂ (X.map (algebraMap E₁ E₂)) =
@@ -242,7 +243,7 @@ theorem restrictScalarsCoordMatrix_mul (t : s) (X : Matrix (Fin m) (Fin m) E₁)
   refine LinearMap.ext fun v => funext fun i => ?_
   simp only [LinearMap.comp_apply, LinearMap.compLeft_apply, LinearMap.restrictScalars_apply,
     Matrix.mulVecLin_apply, Function.comp_apply, Module.Basis.coord_apply, Matrix.mulVec,
-    dotProduct, Matrix.map_apply, map_sum, Finsupp.coe_finset_sum, Finset.sum_apply]
+    dotProduct, Matrix.map_apply, map_sum]
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [← smul_eq_mul, algebraMap_smul, map_smul, Finsupp.smul_apply, smul_eq_mul]
 
@@ -263,6 +264,7 @@ theorem restrictScalarsInclusionMatrix_mul_scalar (e : E₁) :
   rw [scalar_map_algebraMap] at h
   exact h
 
+omit [Fintype s] in
 /-- Each coordinate matrix intertwines the actions of `e ∈ E₁` on `E₂ᵐ` and on `E₁ᵐ`. -/
 theorem restrictScalarsCoordMatrix_mul_scalar (t : s) (e : E₁) :
     restrictScalarsCoordMatrix b₁ b₂ c m t * restrictScalarsScalarAlgHom b₂ m (algebraMap E₁ E₂ e) =
@@ -271,12 +273,13 @@ theorem restrictScalarsCoordMatrix_mul_scalar (t : s) (e : E₁) :
   rw [scalar_map_algebraMap] at h
   exact h
 
+omit [Fintype s] in
 /-- Including `E₁ᵐ` into `E₂ᵐ`, multiplying by `c u` and taking the `t`-th coordinate along `c` is
 the identity if `t = u` and zero otherwise. -/
 theorem restrictScalarsCoordMatrix_mul_scalar_mul_inclusionMatrix [DecidableEq s] (t u : s) :
     restrictScalarsCoordMatrix b₁ b₂ c m t * restrictScalarsScalarAlgHom b₂ m (c u) *
         restrictScalarsInclusionMatrix b₁ b₂ m = if t = u then 1 else 0 := by
-  show restrictScalarsCoordMatrix b₁ b₂ c m t * restrictScalarsMatrix b₂ _ *
+  change restrictScalarsCoordMatrix b₁ b₂ c m t * restrictScalarsMatrix b₂ _ *
     restrictScalarsInclusionMatrix b₁ b₂ m = _
   rw [restrictScalarsMatrix_eq_toMatrix, restrictScalarsInclusionMatrix,
     restrictScalarsCoordMatrix, ← LinearMap.toMatrix_comp, ← LinearMap.toMatrix_comp]
@@ -297,7 +300,7 @@ along `c`: `E₂ᵐ = E₂ ⊗_{E₁} E₁ᵐ`. -/
 theorem sum_scalar_mul_inclusionMatrix_mul_coordMatrix :
     ∑ t, restrictScalarsScalarAlgHom b₂ m (c t) * restrictScalarsInclusionMatrix b₁ b₂ m *
         restrictScalarsCoordMatrix b₁ b₂ c m t = 1 := by
-  show ∑ t, restrictScalarsMatrix b₂ _ * restrictScalarsInclusionMatrix b₁ b₂ m *
+  change ∑ t, restrictScalarsMatrix b₂ _ * restrictScalarsInclusionMatrix b₁ b₂ m *
     restrictScalarsCoordMatrix b₁ b₂ c m t = 1
   simp only [restrictScalarsMatrix_eq_toMatrix, restrictScalarsInclusionMatrix,
     restrictScalarsCoordMatrix, ← LinearMap.toMatrix_comp]

@@ -237,7 +237,7 @@ public lemma sectionsWithSupportInCompEquiv_apply
     (M : ModuleCat.{max u v} A)
     (x : sectionsWithSupportIn A T (sectionsWithSupportIn A T' M)) :
     (sectionsWithSupportInCompEquiv A T T' M x).val = x.val.val := by
-  show ((((sectionsWithSupportIn A T' M).equivSubtypeMap
+  change ((((sectionsWithSupportIn A T' M).equivSubtypeMap
       (sectionsWithSupportIn A T (sectionsWithSupportIn A T' M))).trans
     (LinearEquiv.ofEq _ _ (sectionsWithSupportIn_map_eq A T T' M))) x : M) = x.val.val
   rw [LinearEquiv.trans_apply, LinearEquiv.coe_ofEq_apply, Submodule.equivSubtypeMap_apply]

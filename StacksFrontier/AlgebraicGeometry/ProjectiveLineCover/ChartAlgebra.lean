@@ -81,12 +81,12 @@ theorem coeff_sum_neg_X_pow (τ : ℕ → R) (N k : ℕ) (hk : k ≤ N) :
     intro m
     rw [neg_pow, map_mul, map_pow, map_neg, map_one]
     ring
-  simp only [hterm, Polynomial.finset_sum_coeff, Polynomial.coeff_C_mul_X_pow]
+  simp only [hterm, Polynomial.finsetSum_coeff, Polynomial.coeff_C_mul_X_pow]
   rw [Finset.sum_eq_single k]
-  · rw [if_pos rfl]
+  · rw [ite_eq_left rfl]
   · intro m hm hmk
     rw [Finset.mem_range] at hm
-    rw [if_neg]
+    rw [ite_eq_right]
     omega
   · intro hk'
     simp at hk'
@@ -105,7 +105,7 @@ universe u
 variable {B : Type u} [CommRing B] (n : ℕ)
 
 /-- The image of a coefficient in a degree-zero localization of `B[a₀, …, aₙ]`. -/
-def coeffAt {ℓ : MvPolynomial (Fin (n + 1)) B} (hℓ : ℓ ∈ polyGrading B n 1) :
+def coeffAt (ℓ : MvPolynomial (Fin (n + 1)) B) :
     B →+* Away (polyGrading B n) ℓ :=
   (fromZeroRingHom (polyGrading B n) _).comp (algebraMap B (polyGrading B n 0))
 
@@ -118,7 +118,7 @@ def frac {ℓ : MvPolynomial (Fin (n + 1)) B} (hℓ : ℓ ∈ polyGrading B n 1)
 /-- The comparison `B[Y₀, …, Yₙ] → B[a]_{(ℓ)}`, `Y_j ↦ a_j / ℓ`. -/
 def fracHom {ℓ : MvPolynomial (Fin (n + 1)) B} (hℓ : ℓ ∈ polyGrading B n 1) :
     MvPolynomial (Fin (n + 1)) B →+* Away (polyGrading B n) ℓ :=
-  eval₂Hom (coeffAt n hℓ) fun j => frac n hℓ (X j) (X_mem_one B n j)
+  eval₂Hom (coeffAt n ℓ) fun j => frac n hℓ (X j) (X_mem_one B n j)
 
 /-- `fracHom` sends a monomial `∏ₖ X_k ^ e_k` of total degree `a` to the fraction
 `(∏ₖ a_k ^ e_k) / ℓ ^ a`. -/
@@ -180,7 +180,7 @@ theorem frac_add {ℓ : MvPolynomial (Fin (n + 1)) B} (hℓ : ℓ ∈ polyGradin
 theorem frac_C_mul {ℓ : MvPolynomial (Fin (n + 1)) B} (hℓ : ℓ ∈ polyGrading B n 1) (b : B)
     (x : MvPolynomial (Fin (n + 1)) B) (hx : x ∈ polyGrading B n 1)
     (hbx : MvPolynomial.C b * x ∈ polyGrading B n 1) :
-    frac n hℓ (MvPolynomial.C b * x) hbx = coeffAt n hℓ b * frac n hℓ x hx := by
+    frac n hℓ (MvPolynomial.C b * x) hbx = coeffAt n ℓ b * frac n hℓ x hx := by
   ext
   simp only [frac, val_mul, Away.val_mk, coeffAt, RingHom.comp_apply, val_fromZeroRingHom,
     SetLike.GradeZero.coe_algebraMap, MvPolynomial.algebraMap_eq]
@@ -233,7 +233,7 @@ theorem quasiFinite_awayMap_of_recursion
     intro m
     rw [RingHom.algebraMap_toAlgebra, Away.map_mk]
     rfl
-  set s : Away (polyGrading B n) (ψ (X k)) := coeffAt n hℓ t
+  set s : Away (polyGrading B n) (ψ (X k)) := coeffAt n (ψ (X k)) t
   set w : ℕ → Away (polyGrading B n) (ψ (X k)) := fun j => frac n hℓ (W j) (hW j)
   have hw0 : algebraMap _ _ (τ 0) = w 0 := by
     rw [hτ, frac_congr n hℓ _ h0]
@@ -244,7 +244,7 @@ theorem quasiFinite_awayMap_of_recursion
     simpa using SetLike.mul_mem_graded
       ((MvPolynomial.mem_homogeneousSubmodule _ _).2 (MvPolynomial.isHomogeneous_C _ t)) (hW m)
   have hwN : w (n + 1) = 0 := by
-    show frac n hℓ (W (n + 1)) (hW (n + 1)) = 0
+    change frac n hℓ (W (n + 1)) (hW (n + 1)) = 0
     rw [frac_congr n hℓ _ hN, frac_zero]
   obtain ⟨hw, hP⟩ := mem_adjoin_and_aeval_eq_zero
     (R := Away (Stacks.ProjectiveCohomology.polyGrading (ULift.{u} ℤ) (n + 1)) (X k))
@@ -257,8 +257,9 @@ theorem quasiFinite_awayMap_of_recursion
     obtain ⟨p, rfl⟩ := fracHom_surjective n hℓ z
     induction p using MvPolynomial.induction_on with
     | C b =>
-      rw [show fracHom n hℓ (MvPolynomial.C b) = coeffAt n hℓ b from eval₂Hom_C _ _ _]
-      refine Subring.closure_induction (p := fun b _ => coeffAt n hℓ b ∈ Algebra.adjoin _ {s})
+      rw [show fracHom n hℓ (MvPolynomial.C b) = coeffAt n (ψ (X k)) b from eval₂Hom_C _ _ _]
+      refine Subring.closure_induction
+        (p := fun b _ => coeffAt n (ψ (X k)) b ∈ Algebra.adjoin _ {s})
         ?_ ?_ ?_ ?_ ?_ ?_ (hB b)
       · rintro x rfl; exact Algebra.subset_adjoin rfl
       · rw [map_zero]; exact zero_mem _

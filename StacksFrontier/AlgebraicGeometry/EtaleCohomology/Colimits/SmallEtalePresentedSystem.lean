@@ -133,16 +133,16 @@ theorem etaleCohomologyMapTo_comp (k₁ : Z ⟶ Y) (k₂ : Y ⟶ X) (k : Z ⟶ X
   have hres := etaleCohomologyRestrictionMap_comp.{u, u + 1, u + 1} k₂ k₁ k hk A p x
   have hnat := etaleCohomologyRestrictionMap_comp_mk₀.{u, u + 1, u + 1} k₁ w₂ p
     (etaleCohomologyRestrictionMap.{u, u + 1, u + 1} k₂ A p x)
-  show Sheaf.H.map w₁ p (etaleCohomologyRestrictionMap.{u, u + 1, u + 1} k₁ B p
+  change Sheaf.H.map w₁ p (etaleCohomologyRestrictionMap.{u, u + 1, u + 1} k₁ B p
       (Sheaf.H.map w₂ p (etaleCohomologyRestrictionMap.{u, u + 1, u + 1} k₂ A p x))) = _
   rw [show (Sheaf.H.map w₂ p (etaleCohomologyRestrictionMap.{u, u + 1, u + 1} k₂ A p x)) =
       (etaleCohomologyRestrictionMap.{u, u + 1, u + 1} k₂ A p x).comp
         (Ext.mk₀ w₂) (add_zero p) from rfl, hnat]
-  show Sheaf.H.map w₁ p (Sheaf.H.map ((etaleAbelianInverseImage.{u, u + 1} k₁).map w₂) p
+  change Sheaf.H.map w₁ p (Sheaf.H.map ((etaleAbelianInverseImage.{u, u + 1} k₁).map w₂) p
       (etaleCohomologyRestrictionMap.{u, u + 1, u + 1} k₁ _ p
         (etaleCohomologyRestrictionMap.{u, u + 1, u + 1} k₂ A p x))) = _
   rw [← Sheaf.H.map_comp_apply]
-  show _ = Sheaf.H.map ((etaleAbelianInverseImageCompIso'.{u, u + 1} k₁ k₂ k hk).hom.app A ≫
+  change _ = Sheaf.H.map ((etaleAbelianInverseImageCompIso'.{u, u + 1} k₁ k₂ k hk).hom.app A ≫
       (etaleAbelianInverseImage.{u, u + 1} k₁).map w₂ ≫ w₁) p
       (etaleCohomologyRestrictionMap.{u, u + 1, u + 1} k A p x)
   rw [← hres, ← Sheaf.H.map_comp_apply, ← Category.assoc, Iso.inv_hom_id_app,

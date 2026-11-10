@@ -68,7 +68,7 @@ theorem spec_residueField_essFiniteType (k : Type u) [Field k]
     (algebraMap k q.ResidueField) e.symm.commRingCatIsoToRingEquiv hq'
   rw [← RingHom.essFiniteType_algebraMap]
   convert h
-  show ((Scheme.ΓSpecIso (.of k)).inv ≫ (Spec (.of k)).Γevaluation (f x)).hom =
+  change ((Scheme.ΓSpecIso (.of k)).inv ≫ (Spec (.of k)).Γevaluation (f x)).hom =
     e.inv.hom.comp (algebraMap k q.ResidueField)
   simpa [e, q, Scheme.Γevaluation, Scheme.evaluation, RingHom.comp_assoc] using
     (congrArg CommRingCat.Hom.hom

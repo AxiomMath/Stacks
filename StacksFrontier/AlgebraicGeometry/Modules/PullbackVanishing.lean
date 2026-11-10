@@ -81,11 +81,11 @@ theorem hom_eq_zero_of_app_eq_zero_of_iSup_eq_top {M N : X.Modules} {ι : Type*}
         simpa using
           (congrArg (fun q => q x)
             (φ.mapPresheaf.naturality (homOfLE (inf_le_left : W i ≤ V)).op)).symm
-      show (P.map (eqToHom hW).op ≫ P.map (homOfLE (le_iSup W i)).op).hom (φ.app V x) = 0
+      change (P.map (eqToHom hW).op ≫ P.map (homOfLE (le_iSup W i)).op).hom (φ.app V x) = 0
       rw [hmapEq, hnat]
       exact hlocal i (W i) inf_le_right _
     rw [show f.op = (homOfLE (le_iSup W i)).op ≫ h.op by rw [← op_comp, hcomp], Functor.map_comp]
-    show (N.presheaf.map h.op).hom ((N.presheaf.map (homOfLE (le_iSup W i)).op).hom y) =
+    change (N.presheaf.map h.op).hom ((N.presheaf.map (homOfLE (le_iSup W i)).op).hom y) =
       (N.presheaf.map h.op).hom ((N.presheaf.map (homOfLE (le_iSup W i)).op).hom 0)
     rw [hres]
     simp

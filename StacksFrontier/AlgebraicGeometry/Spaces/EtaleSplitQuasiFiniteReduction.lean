@@ -146,6 +146,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 private instance hasPullbacks_presheaf_etaleSplitQuasiFiniteReduction :
@@ -159,6 +160,7 @@ private instance (priority := high) hasPullback_presheaf_etaleSplitQuasiFiniteRe
 /-! ### The first paragraph: reduction to an affine base -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default
 /-- **An affine étale neighbourhood of the target over which the relevant set of points of the
 base change is finite.** Let `f : X ⟶ Y` be a morphism of algebraic spaces over `S` which is
 locally of finite type, let `y` be a point of `|Y|` and let `x₁, …, x_n` be points of `|X|`
@@ -171,8 +173,8 @@ This is the first paragraph of the proof of Stacks 082H. The étale neighbourhoo
 `AlgebraicGeometry.Space.exists_affine_etale_chart_at_point`, which produces an affine chart
 through a prescribed point of an arbitrary algebraic space, and the finiteness is Decent Spaces
 0AC6 in the quasi-compact case and 0AC7 in the decent case, applied once for each `xᵢ`: the set
-in question is the union over `i` of the sets of Tag 0AC2 attached to `xᵢ` and `u`. The library's two
-forms match the two cases of the source's hypothesis (4) exactly — 0AC6 asks for the
+in question is the union over `i` of the sets of Tag 0AC2 attached to `xᵢ` and `u`. The library's
+two forms match the two cases of the source's hypothesis (4) exactly — 0AC6 asks for the
 right vertical morphism to be of finite type and quasi-finite at the point, and 0AC7 for the
 lower-right corner to be decent and the lower horizontal morphism to be étale, which the
 chart is. -/

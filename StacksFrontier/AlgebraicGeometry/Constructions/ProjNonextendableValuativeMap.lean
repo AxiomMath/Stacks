@@ -108,7 +108,7 @@ private lemma positiveIdeal_eq_constantTerm_ker :
   apply le_antisymm
   · apply Ideal.span_le.2
     rintro b ⟨q, hq, rfl⟩
-    show constantTerm.toRingHom (AddMonoidAlgebra.single q (1 : ℂ)) = 0
+    change constantTerm.toRingHom (AddMonoidAlgebra.single q (1 : ℂ)) = 0
     simp [constantTerm, exponentZeroHom, AddMonoidAlgebra.lift_single, hq.ne']
   · intro p hp
     have hp0 : p.coeff 0 = 0 := (constantTerm_eq_coeff_zero p).symm.trans hp
@@ -140,7 +140,7 @@ private lemma shiftedPart_coeff_zero (p : fractionalExponentAlgebra) (q : ℚ≥
     (shiftedPart p q).coeff 0 = p.coeff q := by
   classical
   rw [shiftedPart, AddMonoidAlgebra.coeff_finsuppSum, Finsupp.sum_apply]
-  show (∑ r ∈ p.coeff.support,
+  change (∑ r ∈ p.coeff.support,
       (AddMonoidAlgebra.single (r - q) (p.coeff r)).coeff 0) = p.coeff q
   rw [Finset.sum_eq_single q]
   · simp
@@ -169,7 +169,7 @@ private lemma factor_by_leastExponent (p : fractionalExponentAlgebra) (hp : p �
     p = p.coeff.sum (fun r c => AddMonoidAlgebra.single r c) :=
       (AddMonoidAlgebra.sum_coeff_single p).symm
     _ = AddMonoidAlgebra.single q (1 : ℂ) * shiftedPart p q := by
-      show (∑ r ∈ p.coeff.support, AddMonoidAlgebra.single r (p.coeff r)) =
+      change (∑ r ∈ p.coeff.support, AddMonoidAlgebra.single r (p.coeff r)) =
         AddMonoidAlgebra.single q (1 : ℂ) *
           ∑ r ∈ p.coeff.support, AddMonoidAlgebra.single (r - q) (p.coeff r)
       rw [Finset.mul_sum]
@@ -205,14 +205,14 @@ private lemma localization_factor (hm : positiveIdeal.IsPrime)
   let u : Localization positiveIdeal.primeCompl :=
     algebraMap fractionalExponentAlgebra _ (shiftedPart p q)
   have hu : IsUnit u := by
-    show IsUnit (algebraMap fractionalExponentAlgebra (Localization positiveIdeal.primeCompl)
+    change IsUnit (algebraMap fractionalExponentAlgebra (Localization positiveIdeal.primeCompl)
       (shiftedPart p q))
     exact IsLocalization.map_units (Localization positiveIdeal.primeCompl)
       ⟨shiftedPart p q,
         Ideal.mem_primeCompl_iff.mpr (by
           simpa [q] using shiftedPart_not_mem_positiveIdeal p hp)⟩
   refine ⟨q, u, hu, ?_⟩
-  show algebraMap fractionalExponentAlgebra (Localization positiveIdeal.primeCompl) p = _
+  change algebraMap fractionalExponentAlgebra (Localization positiveIdeal.primeCompl) p = _
   rw [factor_by_leastExponent p hp]
   simp [u, q]
 
@@ -299,12 +299,12 @@ private lemma localization_isValuationRing (hm : positiveIdeal.IsPrime) :
   let : positiveIdeal.IsPrime := hm
   let : ValuationRing (Localization positiveIdeal.primeCompl) := localization_valuationRing hm
   let A := Localization positiveIdeal.primeCompl
-  show IsMax (LocalSubring.range (algebraMap A (FractionRing A)))
+  change IsMax (LocalSubring.range (algebraMap A (FractionRing A)))
   let v := ValuationRing.valuation A (FractionRing A)
   apply (LocalSubring.isMax_iff).2
   refine ⟨v.valuationSubring, ?_⟩
   apply LocalSubring.toSubring_injective
-  show v.valuationSubring.toSubring = (algebraMap A (FractionRing A)).range
+  change v.valuationSubring.toSubring = (algebraMap A (FractionRing A)).range
   rw [← ValuationRing.range_algebraMap_eq A (FractionRing A)]
   rfl
 
@@ -332,13 +332,13 @@ private lemma projective_variables_cover
   · apply top_unique
     intro p hp
     clear hp
-    show p ∈ Algebra.adjoin
+    change p ∈ Algebra.adjoin
       (MvPolynomial.homogeneousSubmodule ℕ ℂ 0)
       (Set.range (MvPolynomial.X : ℕ → MvPolynomial ℕ ℂ))
     induction p using MvPolynomial.induction_on with
     | C r =>
         let c : MvPolynomial.homogeneousSubmodule ℕ ℂ 0 := ⟨MvPolynomial.C r, by simp⟩
-        show (c : MvPolynomial ℕ ℂ) ∈ _
+        change (c : MvPolynomial ℕ ℂ) ∈ _
         exact (Algebra.adjoin (MvPolynomial.homogeneousSubmodule ℕ ℂ 0)
           (Set.range (MvPolynomial.X : ℕ → MvPolynomial ℕ ℂ))).algebraMap_mem c
     | add p q hp hq => exact (Algebra.adjoin _ _).add_mem hp hq
@@ -356,7 +356,7 @@ private lemma not_exists_monomial_ratio (hm : positiveIdeal.IsPrime)
   let : positiveIdeal.IsPrime := hm
   let A := Localization positiveIdeal.primeCompl
   let K := FractionRing A
-  show ¬ ∃ a : A, algebraMap A K a *
+  change ¬ ∃ a : A, algebraMap A K a *
     algebraMap fractionalExponentAlgebra K (AddMonoidAlgebra.single q (1 : ℂ)) =
       algebraMap fractionalExponentAlgebra K (AddMonoidAlgebra.single r (1 : ℂ))
   rintro ⟨a, ha⟩
@@ -443,7 +443,7 @@ private lemma X_mem_one (i : ℕ) : (MvPolynomial.X i : polynomialAlgebra) ∈ �
   exact Submodule.subset_span ⟨i, rfl⟩
 
 private lemma fractionMap_X_ne_zero (i : ℕ) : fractionMap (MvPolynomial.X i) ≠ 0 := by
-  show algebraMap fractionalExponentAlgebra 𝕂 (polynomialMap (MvPolynomial.X i)) ≠ 0
+  change algebraMap fractionalExponentAlgebra 𝕂 (polynomialMap (MvPolynomial.X i)) ≠ 0
   simpa using (target_algebraMap_fraction_injective positiveIdeal_isPrime).ne
     (show polynomialMap (MvPolynomial.X i) ≠ 0 by simp [polynomialMap, exponent])
 
@@ -513,7 +513,7 @@ private lemma preimage_chart_eq (i : ℕ)
     simp only [Scheme.isoOfEq_hom, Scheme.isoOfEq_inv, Category.assoc,
       Iso.inv_hom_id, Category.comp_id]
   rw [hfactor, Spec.preimage_comp, Spec.preimage_map]
-  show (Spec.preimage P).hom.comp chartRingMap = _
+  change (Spec.preimage P).hom.comp chartRingMap = _
   rw [preimage_eq_lift_of_comp_eq_id _ _ hu P (basicOpen_roundtrip _ _ hV)]
   dsimp only [chartRingMap]
   rw [← RingHom.comp_assoc]
@@ -551,7 +551,7 @@ private lemma exists_ratio_of_extension (g : Spec (CommRingCat.of 𝔸) ⟶ Proj
     exact hy
   have hψRange : Set.range genericMap ⊆ (Proj.basicOpen 𝒮 (MvPolynomial.X i)).ι.opensRange := by
     rintro _ ⟨y, rfl⟩
-    show genericMap y ∈ (Proj.basicOpen 𝒮 (MvPolynomial.X i)).ι.opensRange
+    change genericMap y ∈ (Proj.basicOpen 𝒮 (MvPolynomial.X i)).ι.opensRange
     rw [← hg]
     exact hgRange ⟨_, rfl⟩
   have hchart : Spec.map (CommRingCat.ofHom (algebraMap 𝔸 𝕂)) ≫

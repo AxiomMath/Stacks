@@ -161,7 +161,7 @@ public lemma doubleGlueData_t_comp_eqToHom (Y : Scheme.{u}) (V : Y.Opens) {b c :
       eqToHom (dite_eq_right ((doubleIndex Y V).injective.ne h)) := by
   classical
   have hbc := (doubleIndex Y V).injective.ne h
-  show (if hh : (doubleIndex Y V) b = (doubleIndex Y V) c then eqToHom (by simp [hh])
+  change (if hh : (doubleIndex Y V) b = (doubleIndex Y V) c then eqToHom (by simp [hh])
       else eqToHom (dite_eq_right hh) ≫ (doublePreGlueData Y V).t (doubleIndex Y V b)
         (doubleIndex Y V c) hh ≫ eqToHom (dite_eq_right (Ne.symm hh)).symm) ≫
       eqToHom (dite_eq_right hbc.symm) = eqToHom (dite_eq_right hbc)

@@ -50,14 +50,14 @@ private theorem exists_elementary_stalk_map_to_henselization
   let H := henselizationRing S s
   let : Algebra R A := (stalkMap S s Ue).toAlgebra
   have : IsLocalHom (algebraMap R A) := by
-    show IsLocalHom (stalkMap S s Ue)
+    change IsLocalHom (stalkMap S s Ue)
     dsimp [stalkMap]
     infer_instance
   have hres : Function.Surjective (IsLocalRing.ResidueField.map (algebraMap R A)) := by
     have hmap : IsLocalRing.ResidueField.map (algebraMap R A) = U.residueFieldMap.hom := by
       ext z
       obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective z
-      show IsLocalRing.residue A (stalkMap S s Ue r) =
+      change IsLocalRing.residue A (stalkMap S s Ue r) =
         U.residueFieldMap.hom (IsLocalRing.residue R r)
       have hcomm : CommRingCat.ofHom (stalkMap S s Ue) ≫ U.scheme.residue U.point =
           S.residue s ≫ U.residueFieldMap := by
@@ -134,7 +134,7 @@ theorem exists_isImpurity_henselization_iff_elementaryEtaleNeighborhood
     let : Algebra R H := henselizationRingAlgebra P.S P.s
     let : Algebra A H := f.toAlgebra
     have hscalarMap (r : R) : algebraMap R H r = algebraMap A H (stalkMap P.S P.s Ue r) := by
-      show algebraMap R H r = f (stalkMap P.S P.s Ue r)
+      change algebraMap R H r = f (stalkMap P.S P.s Ue r)
       exact (RingHom.congr_fun hfac r).symm
     let : IsScalarTower R A H := IsScalarTower.of_algebraMap_eq hscalarMap
     let : IsLocalRing.IsHenselization R (IsLocalRing.ResidueField R) H := inferInstance
@@ -170,10 +170,10 @@ theorem exists_isImpurity_henselization_iff_elementaryEtaleNeighborhood
     let : Flat i := inferInstance
     let tH : Hs := IsLocalRing.closedPoint (CommRingCat.of H)
     have hSpecClosed : (Spec.map (CommRingCat.ofHom f)).base tH = IsLocalRing.closedPoint A := by
-      show PrimeSpectrum.comap f (IsLocalRing.closedPoint H) = _
+      change PrimeSpectrum.comap f (IsLocalRing.closedPoint H) = _
       exact IsLocalRing.comap_closedPoint f
     have hiClosed : i.base tH = D.t := by
-      show D.T.fromSpecStalk D.t ((Spec.map (CommRingCat.ofHom f)).base tH) = D.t
+      change D.T.fromSpecStalk D.t ((Spec.map (CommRingCat.ofHom f)).base tH) = D.t
       rw [hSpecClosed]
       exact Scheme.fromSpecStalk_closedPoint
     have hchosen : gH.base tH = P.s := by
@@ -217,7 +217,7 @@ theorem exists_isImpurity_henselization_iff_elementaryEtaleNeighborhood
         ((Scheme.Modules.pullback r).obj Fold) := by
       rw [mem_relativeAssassin_pullback_iff]
       refine ⟨?_, ?_⟩
-      · show r xiH ∈ Stacks.Divisors.relativeAssassin D.toT Fold
+      · change r xiH ∈ Stacks.Divisors.relativeAssassin D.toT Fold
         rw [hrxi]
         exact hImp.1
       · have he : (⟨Scheme.Pullback.Triplet.ofPoint xiH, Scheme.Pullback.SpecOfPoint xiH⟩ :
@@ -225,7 +225,7 @@ theorem exists_isImpurity_henselization_iff_elementaryEtaleNeighborhood
           (Scheme.Pullback.carrierEquiv (f := D.toT) (g := i)).apply_symm_apply ⟨Tr, p⟩
         let Good : (Σ T : Scheme.Pullback.Triplet D.toT i, Spec T.tensor) → Prop :=
           fun z => ∃ Z ∈ irreducibleComponents (Spec z.1.tensor), IsGenericPoint z.2 Z
-        show Good ⟨Scheme.Pullback.Triplet.ofPoint xiH, Scheme.Pullback.SpecOfPoint xiH⟩
+        change Good ⟨Scheme.Pullback.Triplet.ofPoint xiH, Scheme.Pullback.SpecOfPoint xiH⟩
         exact he.symm ▸ (show Good ⟨Tr, p⟩ from ⟨Z, hZ, hp⟩)
     let eQ : D'.pulledBack P ≅ (Scheme.Modules.pullback r).obj Fold :=
       (Scheme.Modules.pullbackComp r D.toX).symm.app P.F

@@ -182,7 +182,7 @@ theorem exists_homology_selfMapCohomology_model (hm : 1 ≤ m) (hℓ : (ℓ : Ω
   have hN : ℓ ^ m ≠ 0 := pow_ne_zero _ (Fact.out : ℓ.Prime).ne_zero
   have : NeZero (ℓ ^ m) := ⟨hN⟩
   have : NeZero ((ℓ ^ m : ℕ) : Ω) := ⟨by rw [Nat.cast_pow]; exact pow_ne_zero _ hℓ⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot Ω (ℓ ^ m)
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot Ω (ℓ ^ m)
   have := isMonoidal_W_etaleModules (ZMod (ℓ ^ m)) Y
   have : UniversalHomeomorphism φ := by
     have h : φ = Ψ.inv ≫ absoluteFrobeniusPow Y p hY e := by rw [← hΨ, Iso.inv_hom_id_assoc]
@@ -192,7 +192,7 @@ theorem exists_homology_selfMapCohomology_model (hm : 1 ≤ m) (hℓ : (ℓ : Ω
   have := etaleModuleDirectImage_preservesFiniteColimits_of_universalHomeomorphism
     (ZMod (ℓ ^ m)) φ
   obtain ⟨r, E₀, hE₀⟩ :=
-    exists_model_rootsOfUnityPullbackMap_eq_sum f φ w p hY e Ψ hΨ hΨ' ℓ m hm hℓ q
+    exists_model_rootsOfUnityPullbackMap_eq_sum f φ w p hY e Ψ hΨ' ℓ m hm hℓ q
   let R : (DerivedCategory.homologyFunctor (ModuleCat.{u + 1} (ZMod (ℓ ^ m))) q).obj
       (DerivedCategory.Plus.ι.obj (selfMapCohomology.{u, 0} (ZMod (ℓ ^ m)) f
         ((Stacks.DerivedIndexing.singlePlusFunctor _ 0).obj
@@ -270,6 +270,7 @@ theorem hasFiniteProjectiveHomology_selfMapCohomology (hm : 1 ≤ m) (hℓ : (�
     obtain ⟨hF, hFin⟩ := free_finite_homology_selfMapCohomology f φ w p hY e Ψ hΨ hΨ' ℓ m hm hℓ q
     exact ⟨inferInstance, hFin⟩
 
+omit [IsAlgClosed Ω] in
 /-- `φ^*` has trace zero in degrees `≥ 3`. -/
 theorem componentTraceSum_add_three (q : ℕ) :
     componentTraceSum f φ w p hY e Ψ hΨ' ℓ m (q + 3) = 0 := by
@@ -358,7 +359,7 @@ theorem finsum_signedByDegree_derivedHomologyTrace_selfMapCohomologyEndo (hm : 1
   rw [h0, h1, h2, map_add, map_sub]
   have e0 : Even (0 : ℤ) := ⟨0, rfl⟩
   have e2 : Even (2 : ℤ) := ⟨1, rfl⟩
-  simp only [signedByDegree, if_pos e0, if_pos e2, if_neg Int.not_even_one]
+  simp only [signedByDegree, ite_eq_left e0, ite_eq_left e2, ite_eq_right Int.not_even_one]
   abel
 
 variable [CharP Ω p] (halg : letI := ZMod.algebra Ω p; Algebra.IsAlgebraic (ZMod p) Ω)
@@ -421,7 +422,7 @@ theorem nonempty_constantSections_addEquiv (N : ℕ) [NeZero N] (hN : (N : Ω) �
       (Spec (.of Ω)).smallEtaleTopology).obj.obj (op (Scheme.Etale.mk (𝟙 (Spec (.of Ω)))))) ≃+
         ZMod N) := by
   have : NeZero (N : Ω) := ⟨hN⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot Ω N
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot Ω N
   let J := ((sheafToPresheaf _ _).mapIso
     (Stacks.Kummer.etaleModuleConstantUnderlyingIso (𝟙 (Spec (.of Ω))) hζ (NeZero.ne N))).app
       (op (Scheme.Etale.mk (𝟙 (Spec (.of Ω)))))
@@ -484,7 +485,7 @@ theorem perfectDerivedTrace_id_baseSectionsComplex_constant (N : ℕ) [Fact (1 <
     rw [h0, CategoryTheory.Functor.map_id, ModuleCat.hom_id, LinearMap.trace_id,
       L₀.finrank_eq, Module.finrank_self, Nat.cast_one]
     have e0 : Even (0 : ℤ) := ⟨0, rfl⟩
-    simp only [signedByDegree, if_pos e0]
+    simp only [signedByDegree, ite_eq_left e0]
   · have := hz i hi
     have h : derivedHomologyTrace (ZMod N) _ hH (𝟙 _) i = 0 :=
       projectiveModuleTrace_eq_zero_of_subsingleton _ _ _
@@ -499,7 +500,7 @@ attribute [local instance] HasDerivedCategory.standard
 open CategoryTheory.FilteredDerived
 
 /-- An algebraic extension of a finite field of characteristic `p` is algebraic over `𝔽_p`. -/
-theorem isAlgebraic_zmod_of_finite (k : Type u) [Field k] [Fintype k] (kbar : Type u) [Field kbar]
+theorem isAlgebraic_zmod_of_finite (k : Type u) [Field k] [Finite k] (kbar : Type u) [Field kbar]
     [Algebra k kbar] [Algebra.IsAlgebraic k kbar] (p : ℕ) [Fact p.Prime] [CharP k p]
     [CharP kbar p] :
     letI := ZMod.algebra kbar p; Algebra.IsAlgebraic (ZMod p) kbar := by

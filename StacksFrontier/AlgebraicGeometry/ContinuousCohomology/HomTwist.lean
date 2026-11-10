@@ -78,16 +78,16 @@ lemma isContinuous_homTwistRepresentation [Finite A.obj.obj.V]
   let H : Subgroup Γ :=
     { carrier := {γ | homTwistRepresentation R A M γ φ = φ}
       mul_mem' := fun {a b} ha hb ↦ by
-        show homTwistRepresentation R A M (a * b) φ = φ
+        change homTwistRepresentation R A M (a * b) φ = φ
         rw [map_mul, Module.End.mul_apply, show homTwistRepresentation R A M b φ = φ from hb, ha]
       one_mem' := by
-        show homTwistRepresentation R A M 1 φ = φ
+        change homTwistRepresentation R A M 1 φ = φ
         rw [map_one]; rfl
       inv_mem' := fun {a} ha ↦ by
-        show homTwistRepresentation R A M a⁻¹ φ = φ
+        change homTwistRepresentation R A M a⁻¹ φ = φ
         conv_lhs => rw [← (show homTwistRepresentation R A M a φ = φ from ha)]
         rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one]; rfl }
-  show IsOpen (H : Set Γ)
+  change IsOpen (H : Set Γ)
   let O : Set Γ := ⋂ a : A.obj.obj.V, ({γ | (A.obj.obj.ρ γ).asHom.hom a = a} ∩
     {γ | (M.obj.obj.ρ γ).asHom.hom (φ a) = φ a})
   have hO : IsOpen O := isOpen_iInter_of_finite fun a ↦
@@ -97,9 +97,9 @@ lemma isContinuous_homTwistRepresentation [Finite A.obj.obj.V]
   refine Subgroup.isOpen_of_mem_nhds H (Filter.mem_of_superset (hO.mem_nhds h1) ?_)
   intro γ hγ
   have hγ' := Set.mem_iInter.mp hγ
-  show homTwistRepresentation R A M γ φ = φ
+  change homTwistRepresentation R A M γ φ = φ
   refine AddMonoidHom.ext fun a ↦ ?_
-  show (M.obj.obj.ρ γ).asHom.hom (φ ((A.obj.obj.ρ γ⁻¹).asHom.hom a)) = φ a
+  change (M.obj.obj.ρ γ).asHom.hom (φ ((A.obj.obj.ρ γ⁻¹).asHom.hom a)) = φ a
   have hinv : (A.obj.obj.ρ γ⁻¹).asHom.hom a = a := by
     conv_lhs => rw [← (hγ' a).1]
     rw [← continuousModuleRho_mul_apply, inv_mul_cancel, continuousModuleRho_one_apply]

@@ -69,7 +69,7 @@ theorem chartRingEquiv_C {n : ℕ} (j : Fin (n + 1)) (r : R) :
     chartRingEquiv R j (MvPolynomial.C r) = algebraMap R (ChartRing R n j) r := by
   rw [chartRingEquiv, RingEquiv.trans_apply, MvPolynomial.mapEquiv_apply, MvPolynomial.map_C]
   simp only [RingEquiv.coe_toRingHom, degreeZeroEquiv_symm_eq_algebraMap]
-  show (chartHom R j) (MvPolynomial.C (algebraMap R (Deg0 R n) r)) = _
+  change (chartHom R j) (MvPolynomial.C (algebraMap R (Deg0 R n) r)) = _
   exact MvPolynomial.aeval_C _ _
 
 /-- **The chart identification is `R`-linear on sections.**  The section of `𝒪_{ℙⁿ_R}` over

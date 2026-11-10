@@ -51,7 +51,7 @@ flatness of `F_i` away from `Z'_i`.  At that stage the non-flat locus of `F_i` i
   (1) and (2) together, is
   `AlgebraicGeometry.FlatDimensionSituation.flatDimensionFunctor_isSheaf_fpqc_and_limitPreserving`
   in
-  `StacksFrontier.AlgebraicGeometry.Flatness.FlatteningFunctor.FlatDimensionSheafAndLimitPreserving`.
+`StacksFrontier.AlgebraicGeometry.Flatness.FlatteningFunctor.FlatDimensionSheafAndLimitPreserving`.
 * `AlgebraicGeometry.isFlatOver_iff_isFlatOverInDimensionsGE_zero`: flatness in dimensions `≥ 0`
   is flatness.
 
@@ -154,7 +154,7 @@ private theorem topologicalKrullDim_fiber_closed_bad_locus_le
       have hr : i z.1 ∈ Set.range i := ⟨z.1, rfl⟩
       have hr' : i z.1 ∈ {x : X | ¬ IsFlatOverAt
           f.toLRSHom.toShHom F x} := hbad ▸ hr
-      simpa only [Set.mem_setOf_eq] using hr'
+      simpa only [Set.mem_ofPred_eq] using hr'
     simpa [ψ, k, Scheme.Hom.fiberι_fiberHomeo_symm] using hzbad⟩
   have hφcont : Continuous φ := hψemb.continuous.subtype_mk _
   have hφemb : IsEmbedding φ := IsEmbedding.of_comp hφcont continuous_subtype_val hψemb
@@ -172,12 +172,12 @@ private theorem closed_bad_locus_subscheme
   have hopen : IsOpen ({x : X | IsFlatOverAt f.toLRSHom.toShHom F x}) :=
     isOpen_setOf_flatOverAt f F
   have hclosed : IsClosed bad := by
-    simpa [bad, Set.compl_setOf] using hopen.isClosed_compl
+    simpa [bad, Set.compl_ofPred] using hopen.isClosed_compl
   let I : X.IdealSheafData := Scheme.IdealSheafData.vanishingIdeal ⟨bad, hclosed⟩
   let i := I.subschemeι
   refine ⟨I.subscheme, i, ?_, ?_⟩
   · infer_instance
-  · simpa [i, I, bad] using Scheme.IdealSheafData.range_subschemeι I
+  · simp [i, I, bad]
 
 private theorem withBotENat_lt_nat_le_pred {n : ℕ}
     (a : WithBot ℕ∞) (ha : a < (n : WithBot ℕ∞)) :
@@ -210,7 +210,7 @@ private theorem trdeg_residueField_eq_of_etale {A B S : Scheme.{u}}
     ((S.residueFieldCongr rfl).inv ≫ (q ≫ p).residueFieldMap a).hom.toAlgebra
   have hcomp : (algebraMap E L).comp (algebraMap K E) = algebraMap K L := by
     ext z
-    show (q.residueFieldMap a).hom
+    change (q.residueFieldMap a).hom
         (((S.residueFieldCongr rfl).inv ≫ p.residueFieldMap (q a)).hom z) =
       ((S.residueFieldCongr rfl).inv ≫ (q ≫ p).residueFieldMap a).hom z
     simp [Scheme.residueFieldCongr_refl, Scheme.residueFieldMap_comp,
@@ -332,7 +332,7 @@ private theorem exists_finitePresentation_bad_locus_enlargement
   intro x hx
   by_contra hflat
   have hbad : x ∈ {x : X | ¬ IsFlatOverAt f.toLRSHom.toShHom F x} := by
-    simpa only [Set.mem_setOf_eq] using hflat
+    simpa only [Set.mem_ofPred_eq] using hflat
   have hi' : x ∈ Set.range i := hrange.symm ▸ hbad
   exact hx (hsubset hi')
 
@@ -372,7 +372,7 @@ private theorem flatInDimensions_of_closed_bad_locus
       exact b.2 (hflat _ hx)
     obtain ⟨z, hz⟩ := hb
     have hzs : (i ≫ f) z = s := by
-      show f (i z) = s
+      change f (i z) = s
       rw [hz]
       exact (f.fiberHomeo s b.1).property
     exact ⟨⟨z, hzs⟩, hz⟩
@@ -508,7 +508,7 @@ private theorem range_over_pullback_map
       (pullback.fst Y.hom g) ⁻¹' Set.range f.left := by
   have sq := (pullbackProjection_isPullback g f).flip
   rw [← sq.isoPullback_hom_snd]
-  show Set.range (pullback.snd f.left (pullback.fst Y.hom g) ∘
+  change Set.range (pullback.snd f.left (pullback.fst Y.hom g) ∘
     sq.isoPullback.hom) = _
   rw [Set.range_comp, sq.isoPullback.hom.surjective.range_eq, Set.image_univ]
   exact Scheme.Pullback.range_snd _ _
@@ -545,7 +545,7 @@ private theorem exists_fiber_dimension_le_baseChange
   have hclosed {i j : I} (g : i ⟶ j) :
       IsClosedImmersion (pullback.lift (Y.map g) (p.app i) (p.naturality g)) := by
     have h := pullbackProjection_isPullback f (E.map g)
-    show IsClosedImmersion h.isoPullback.hom
+    change IsClosedImmersion h.isoPullback.hom
     infer_instance
   have hp : hc.lift ((Cone.postcompose p).obj cY) = pullback.fst c.pt.hom f := by
     apply hc.hom_ext
@@ -565,7 +565,7 @@ private theorem exists_fiber_dimension_le_baseChange
     fun i => inferInstanceAs (QuasiCompact (pullback.fst (E.obj i).hom f))
   apply exists_forall_topologicalKrullDim_fiber_le_of_isLimit_of_essentiallySmall
     Y S p cY hcY cS hc d
-  show ∀ s : c.pt.left, topologicalKrullDim
+  change ∀ s : c.pt.left, topologicalKrullDim
     ((hc.lift ((Cone.postcompose p).obj cY)).fiber s) ≤ (d : WithBot ℕ∞)
   rw [hp]
   exact hdim
@@ -589,7 +589,7 @@ private theorem overPullbackConeIso_naturality
       (Over.pullback (c.π.app j)).map f ≫
         (overPullbackConeIso S c g Z).hom := by
   have h := overPullbackCompIso_naturality (S.map g) (c.π.app i) (c.π.app j) (c.w g) f
-  show (overPullbackCompIso (S.map g) (c.π.app i) (c.π.app j) (c.w g) Y).inv ≫ _ =
+  change (overPullbackCompIso (S.map g) (c.π.app i) (c.π.app j) (c.w g) Y).inv ≫ _ =
     _ ≫ (overPullbackCompIso (S.map g) (c.π.app i) (c.π.app j) (c.w g) Z).inv
   rw [Iso.inv_comp_eq, ← Category.assoc, h, Category.assoc, Iso.hom_inv_id, Category.comp_id]
 
@@ -603,7 +603,7 @@ private theorem overPullbackConeIso_fst
   have h := overPullbackCompIso_fst (S.map g) (c.π.app i) (c.π.app j) (c.w g) Y
   have hid : (overPullbackConeIso S c g Y).hom.left ≫
       (overPullbackCompIso (S.map g) (c.π.app i) (c.π.app j) (c.w g) Y).hom.left = 𝟙 _ := by
-    show ((overPullbackCompIso (S.map g) (c.π.app i) (c.π.app j) (c.w g) Y).inv ≫
+    change ((overPullbackCompIso (S.map g) (c.π.app i) (c.π.app j) (c.w g) Y).inv ≫
       (overPullbackCompIso (S.map g) (c.π.app i) (c.π.app j) (c.w g) Y).hom).left = 𝟙 _
     rw [Iso.inv_hom_id]
     rfl
@@ -614,7 +614,7 @@ private theorem fiber_dimension_eq_of_over_iso
     topologicalKrullDim (X.hom.fiber s) = topologicalKrullDim (Y.hom.fiber s) := by
   let h : X.left ≃ₜ Y.left := TopCat.homeoOfIso (asIso e.hom.left.base)
   have heq (x : X.left) : X.hom x = Y.hom (h x) := by
-    show X.hom x = Y.hom (e.hom.left x)
+    change X.hom x = Y.hom (e.hom.left x)
     rw [← e.hom.w]
     rfl
   let h' : X.hom ⁻¹' {s} ≃ₜ Y.hom ⁻¹' {s} := h.subtype (fun x => by
@@ -763,7 +763,7 @@ private theorem eventually_flatInDimensionsGE_of_finitePresentation
   have hXl : FinitePresentation Xl.hom :=
     finitePresentation_pullback (S.map gli₀) X₀ hX₀
   have hjlim : IsClosedImmersion jlim.left := by
-    show IsClosedImmersion (βZ.inv.left ≫ α.inv.left ≫ j ≫ βX.hom.left)
+    change IsClosedImmersion (βZ.inv.left ≫ α.inv.left ≫ j ≫ βX.hom.left)
     infer_instance
   obtain ⟨m, gml, jm, γZ, γX, hγZ, hγX, hγj⟩ :=
     exists_morphism_after_baseChange S c hc l Zl Xl hZl hXl jlim
@@ -812,9 +812,9 @@ private theorem eventually_flatInDimensionsGE_of_finitePresentation
     have hγ'' : γZ.inv ≫ (Over.pullback (c.π.app m)).map jm =
         jlim ≫ γX.inv := by
       rw [← hγ']
-      simp [Category.assoc]
+      simp
     dsimp [eZm, eXm]
-    simp only [Iso.trans_hom, Iso.symm_hom, Category.assoc]
+    simp only [Category.assoc]
     rw [hγ'']
     simp [jlim, Category.assoc]
   let Zr : Over (S.obj r) := (Over.pullback (S.map grm)).obj Zm
@@ -848,19 +848,19 @@ private theorem eventually_flatInDimensionsGE_of_finitePresentation
     isLimitOfPreserves (Over.forget (S.obj r)) (Over.isLimitConePost r hc)
   let : ∀ {a b : Over r} (g : a ⟶ b), IsAffineHom (Er.map g).left := by
     intro a b g
-    show IsAffineHom (S.map g.left)
+    change IsAffineHom (S.map g.left)
     infer_instance
   let : ∀ a : Over r, CompactSpace (Er.obj a).left := fun a => by
-    show CompactSpace (S.obj a.left)
+    change CompactSpace (S.obj a.left)
     infer_instance
   let : ∀ a : Over r, QuasiSeparatedSpace (Er.obj a).left := fun a => by
-    show QuasiSeparatedSpace (S.obj a.left)
+    change QuasiSeparatedSpace (S.obj a.left)
     infer_instance
   let : LocallyOfFinitePresentation Zr.hom := by
-    show LocallyOfFinitePresentation (pullback.snd Zm.hom (S.map grm))
+    change LocallyOfFinitePresentation (pullback.snd Zm.hom (S.map grm))
     infer_instance
   let : QuasiCompact Zr.hom := by
-    show QuasiCompact (pullback.snd Zm.hom (S.map grm))
+    change QuasiCompact (pullback.snd Zm.hom (S.map grm))
     infer_instance
   let : LocallyOfFiniteType Zr.hom := by
     infer_instance
@@ -967,7 +967,7 @@ private theorem eventually_flatInDimensionsGE_of_finitePresentation
   let Ut : Xt.left.Opens :=
     ⟨(Set.range jt.left)ᶜ, jt.left.isClosedEmbedding.isClosed_range.isOpen_compl⟩
   have hUtCompact : IsCompact (Ut : Set Xt.left) := by
-    show IsCompact (Set.range jt.left)ᶜ
+    change IsCompact (Set.range jt.left)ᶜ
     have ⟨_, _, _⟩ := hfpjt
     exact isCompact_compl_range_of_finitePresentation jt.left
   have hfpUt : FinitePresentation (Ut.ι ≫ Xt.hom) := by
@@ -1008,7 +1008,7 @@ private theorem eventually_flatInDimensionsGE_of_finitePresentation
     (Over.pullback (c.π.app t.left)).map iu
   have hiuProj : iuLim.left ≫ pullback.fst Xt.hom (c.π.app t.left) =
       pullback.fst Uover.hom (c.π.app t.left) ≫ Ut.ι := by
-    simp [iuLim, iu, Over.pullback_map_left, pullback.lift_fst]
+    simp [iuLim, iu, Over.pullback_map_left]
   have hpaths : pullback.fst Uover.hom (c.π.app t.left) ≫ Ut.ι ≫ qt =
       iuLim.left ≫ eXt.inv.left ≫ pullback.fst X₀.hom (c.π.app i₀) := by
     calc
@@ -1079,7 +1079,7 @@ private theorem eventually_flatInDimensionsGE_of_finitePresentation
   let fLim := ((Over.pullback (c.π.app t.left)).map fUt).left
   let qYlim := ((Over.pullback (c.π.app t.left)).obj Yt).hom
   let : IsIso qYlim := by
-    show IsIso (pullback.snd (𝟙 (S.obj t.left)) (c.π.app t.left))
+    change IsIso (pullback.snd (𝟙 (S.obj t.left)) (c.π.app t.left))
     infer_instance
   let : Etale qYlim := by infer_instance
   have hLimComp : fLim ≫ qYlim = Ulim.hom :=
@@ -1113,7 +1113,7 @@ private theorem eventually_flatInDimensionsGE_of_finitePresentation
     let fUp := ((Over.pullback (S.map gpt)).map fUt).left
     let qYp := ((Over.pullback (S.map gpt)).obj Yt).hom
     have : IsIso qYp := by
-      show IsIso (pullback.snd (𝟙 (S.obj t.left)) (S.map gpt))
+      change IsIso (pullback.snd (𝟙 (S.obj t.left)) (S.map gpt))
       infer_instance
     have h := (isFlatOver_comp_iff_of_etale fUp qYp
       ((Scheme.Modules.pullback (pullback.fst Uover.hom (S.map gpt))).obj FUt)).mpr hflatp
@@ -1121,7 +1121,7 @@ private theorem eventually_flatInDimensionsGE_of_finitePresentation
       ((Over.pullback (S.map gpt)).map fUt).w] using h
   have hpathp : iup.left ≫ qp =
       pullback.fst Uover.hom (S.map gpt) ≫ (Ut.ι ≫ qt) := by
-    simp [iup, iu, qp, Over.pullback_map_left, Category.assoc, pullback.lift_fst_assoc]
+    simp [iup, iu, qp, Over.pullback_map_left, Category.assoc]
   let eMp : (Scheme.Modules.pullback iup.left).obj Mp ≅
       (Scheme.Modules.pullback (pullback.fst Uover.hom (S.map gpt))).obj FUt :=
     (modulePullbackCompIsoOfEq iup.left qp
@@ -1156,14 +1156,14 @@ private theorem eventually_flatInDimensionsGE_of_finitePresentation
     · intro x hx
       have hxU : x ∈ Set.range iup.left := by
         rw [range_over_pullback_map (S.map gpt) iu]
-        show (pullback.fst Xt.hom (S.map gpt) x) ∈ Set.range Ut.ι
+        change (pullback.fst Xt.hom (S.map gpt) x) ∈ Set.range Ut.ι
         rw [Scheme.Opens.range_ι]
-        show pullback.fst Xt.hom (S.map gpt) x ∉ Set.range jt.left
+        change pullback.fst Xt.hom (S.map gpt) x ∉ Set.range jt.left
         exact fun hmem => hx (by rwa [range_over_pullback_map (S.map gpt) jt])
       obtain ⟨z, rfl⟩ := hxU
       apply (isFlatOverAt_iff_modulePullback_isFlatOverAt
         iup.left Xp.hom Mp z (Flat.stalkMap iup.left z)).mpr
-      show IsFlatOverAt (iup.left ≫ Xp.hom).toLRSHom.toShHom
+      change IsFlatOverAt (iup.left ≫ Xp.hom).toLRSHom.toShHom
         ((Scheme.Modules.pullback iup.left).obj Mp) z
       rw [iup.w]
       exact hflatUp' z
@@ -1222,7 +1222,7 @@ private theorem flatInDimensions_pullback_etale_iff
   let M := (Scheme.Modules.pullback (pullback.fst f g)).obj F
   have hw : Qg.left ≫ pullback.snd f g = pullback.snd (q ≫ f) g := Qg.w
   have hpath : Qg.left ≫ pullback.fst f g = pullback.fst (q ≫ f) g ≫ q := by
-    simp [Qg, Q, Over.pullback_map_left, pullback.lift_fst]
+    simp [Qg, Q, Over.pullback_map_left]
   let e : (Scheme.Modules.pullback Qg.left).obj M ≅
       (Scheme.Modules.pullback (pullback.fst (q ≫ f) g)).obj
         ((Scheme.Modules.pullback q).obj F) :=

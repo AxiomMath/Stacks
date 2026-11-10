@@ -157,7 +157,7 @@ theorem eq_zero_of_comp_idealSmulHom_eq_zero (I : IdealSheaves B S hS X.1 X.2) {
             ((idealSmulHom I (a i) (ha i) N _ le_rfl).val.app (op A) ⟨m, hm⟩) =
               (a i).1 (op A) • m := fun i => rfl
         simp only [hι]
-        show (∑ i, c i * (a i).1 (op A)) • m = _
+        change (∑ i, c i * (a i).1 (op A)) • m = _
         rw [Finset.sum_smul]
         simp only [mul_smul]
       rw [hsum, map_sum]

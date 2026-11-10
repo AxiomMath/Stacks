@@ -3,8 +3,6 @@ module
 public import StacksCore.Tactic.StacksAttribute
 public import
   StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.AdicQuotientFactorization
-public import
-  StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.AdicQuotientLocalAnnihilation
 public import StacksFrontier.AlgebraicGeometry.ProEtale.DerivedCompleteInverseLimit
 
 /-!

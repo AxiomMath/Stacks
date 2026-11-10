@@ -107,7 +107,7 @@ public theorem residueDegree_comp_of_bijective {k : Type u} [Field k] {X X' : Sc
     AlgEquiv.ofBijective
       { toRingHom := (g.residueFieldMap x').hom
         commutes' := fun c => by
-          show _ = (fieldToResidue (g ≫ h) x').hom c
+          change _ = (fieldToResidue (g ≫ h) x').hom c
           rw [fieldToResidue_comp]
           rfl } hbij
   exact e.toLinearEquiv.finrank_eq.symm
@@ -220,10 +220,10 @@ public theorem charSeries_closedPointFrobenius_smallEtalePullObj
         ((SmallEtale.sheafEquiv B T.obj T.property (ModuleCat.{max (u + 1) r} Λ)).functor.obj
           (smallEtalePullObj B q F)) = φ.hom ≫ frobeniusStalk (ModuleCat.{max (u + 1) r} Λ) T.obj
             t.1 _ ≫ φ.inv := by
-      show _ = (Scheme.pointSmallEtale (geometricPointAt T.obj t.1).hom).sheafFiber.map
+      change _ = (Scheme.pointSmallEtale (geometricPointAt T.obj t.1).hom).sheafFiber.map
         (sheafEquivSmallEtalePullObjIso B q Λ F).hom ≫ _ ≫ φ.inv
       rw [reassoc_of% hnat]
-      show _ = _ ≫ φ.hom ≫ φ.inv
+      change _ = _ ≫ φ.hom ≫ φ.inv
       rw [φ.hom_inv_id, Category.comp_id]
     exact LinearMap.ext fun v => congrArg (fun g => g.hom v) h'
   rw [h, ProjectiveDeterminant.charSeries_conj]
@@ -257,7 +257,7 @@ public theorem isClosed_singleton_stratum_iff (i : Fin s.n) (z : (s.piece i).obj
   have : IsImmersion (fS B (s.inclusion i)) := s.isImmersion i
   have : JacobsonSpace X.obj := LocallyOfFiniteType.jacobsonSpace f
   constructor
-  · exact fun hz => (fS B (s.inclusion i)).closePoints_subset_preimage_closedPoints hz
+  · exact fun hz => (fS B (s.inclusion i)).closedPoints_subset_preimage_closedPoints hz
   · intro hz
     have h : (fS B (s.inclusion i)) ⁻¹' {(fS B (s.inclusion i)) z} = {z} := by
       ext w
@@ -327,7 +327,7 @@ public theorem lFunctionOfFiniteProjectiveStalks_eq_prod_stratification :
     have hdeg := residueDegree_comp_of_bijective _ f _ hbij
   · exact hdeg.symm
   · have := noetherianSpace_stratum B X f s p.1
-    show PowerSeries.invOfUnit _ 1 = PowerSeries.invOfUnit _ 1
+    change PowerSeries.invOfUnit _ 1 = PowerSeries.invOfUnit _ 1
     congr 1
     rw [finiteProjectiveLocalCharSeries, finiteProjectiveLocalCharSeries, hdeg]
     exact (charSeries_closedPointFrobenius_smallEtalePullObj B (s.inclusion p.1) Λ F hfin hproj f

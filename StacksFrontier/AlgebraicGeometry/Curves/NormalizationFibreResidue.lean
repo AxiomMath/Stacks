@@ -95,7 +95,7 @@ public theorem exists_algHom_apply_germ_eq_zero_iff_notMem_basicOpen
         (TopCat.Presheaf.stalkPushforward CommRingCat.{u} ν.base Y.presheaf y).hom)) ?_,
     fun U hxU s => ?_⟩
   · intro c
-    show eκ (residue (Y.presheaf.stalk y)
+    change eκ (residue (Y.presheaf.stalk y)
       ((TopCat.Presheaf.stalkPushforward CommRingCat.{u} ν.base Y.presheaf y).hom
         (algebraMap k ((ν.base _* Y.presheaf).stalk (ν.base y)) c))) = algebraMap k k c
     have h : (TopCat.Presheaf.stalkPushforward CommRingCat.{u} ν.base Y.presheaf y).hom
@@ -106,7 +106,7 @@ public theorem exists_algHom_apply_germ_eq_zero_iff_notMem_basicOpen
           (g.appTop ((Scheme.ΓSpecIso (.of k)).inv.hom c))) hcomp)
     rw [h, ← ResidueField.algebraMap_eq, ← IsScalarTower.algebraMap_apply]
     exact eκ.commutes c
-  · show eκ (residue (Y.presheaf.stalk y)
+  · change eκ (residue (Y.presheaf.stalk y)
       ((TopCat.Presheaf.stalkPushforward CommRingCat.{u} ν.base Y.presheaf y).hom
         ((ν.base _* Y.presheaf).germ U (ν.base y) hxU s))) = 0 ↔ y ∉ Y.basicOpen s
     rw [hφ U hxU s, map_eq_zero_iff eκ eκ.injective, residue_eq_zero_iff, mem_maximalIdeal,

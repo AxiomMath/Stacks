@@ -130,7 +130,7 @@ private theorem hasFlatRepresentative_single_of_0DJF
       ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj M) a b := by
   let P := FaithfullyFlat.projResComplex M
   have hPle : P.IsStrictlyLE 0 := by
-    show CochainComplex.IsStrictlyLE
+    change CochainComplex.IsStrictlyLE
       ((CategoryTheory.ProjectiveResolution.of M).complex.extend
         ComplexShape.embeddingDownNat) 0
     infer_instance
@@ -140,7 +140,7 @@ private theorem hasFlatRepresentative_single_of_0DJF
     (CategoryTheory.ProjectiveResolution.of M).π'
   have hq : QuasiIso q := by
     dsimp [q]
-    show QuasiIso
+    change QuasiIso
       (HomologicalComplex.extendMap (CategoryTheory.ProjectiveResolution.of M).π
         ComplexShape.embeddingDownNat ≫ _)
     have hπ' : QuasiIso (HomologicalComplex.extendMap
@@ -402,7 +402,7 @@ theorem hasTorAmplitudeCanonical_atPrime_of_hasTorAmplitudeAt
           (ModuleCat.of B B))
         (TensorProduct.AlgebraTensorModule.rid B (Localization.AtPrime q)
           (Localization.AtPrime q))).toModuleIso
-    show restr.obj (ext.obj (ModuleCat.of B B)) ≅
+    change restr.obj (ext.obj (ModuleCat.of B B)) ≅
       restr.obj (ModuleCat.of (Localization.AtPrime q) (Localization.AtPrime q))
     exact restr.mapIso eExt
   have hamp2 : FaithfullyFlat.HasTorAmplitude

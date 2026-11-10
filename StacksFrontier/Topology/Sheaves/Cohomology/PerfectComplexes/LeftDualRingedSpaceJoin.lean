@@ -12,7 +12,8 @@ Stacks 0FPD has two conclusions for an object `M` of `D(O_X)` with a left dual: 
 perfect, and **(b)** the left dual is the one constructed in Example 0FPC. The two are proved in
 two different idioms, and a carrier for the whole tag has to state both at once:
 
-* **(b)** is proved in `StacksFrontier.Topology.Sheaves.Cohomology.InternalHom.LeftDualOnARingedSpace`
+* **(b)** is proved in
+  `StacksFrontier.Topology.Sheaves.Cohomology.InternalHom.LeftDualOnARingedSpace`
   over a sheaf of rings `Rc` on a topological space, with the pairing taken in
   `AlgebraicGeometry.RingedSite.derivedMonoidalStructure (Stacks.SheafOfModules.ringedSite Rc)`,
   the ringed-*site* spelling of Stacks 0FPB;

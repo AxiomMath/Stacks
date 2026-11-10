@@ -1,7 +1,7 @@
 module
 
 public import
-  StacksFrontier.CategoryTheory.Sites.Cohomology.ChaoticSite.DerivedColimitByPointResolutionNaturality
+StacksFrontier.CategoryTheory.Sites.Cohomology.ChaoticSite.DerivedColimitByPointResolutionNaturality
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.ChaoticSite.MooreCochainComplex
 import StacksCore.Tactic.EgaSgaAttribute
 

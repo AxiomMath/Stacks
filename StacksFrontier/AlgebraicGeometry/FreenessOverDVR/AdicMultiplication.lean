@@ -107,7 +107,7 @@ theorem adicFiltration_le_comap_globalSmul (F : X.Modules) (j e : ℕ) :
         (adicFiltration p (Ideal.span {π}) (j + e) F) := by
   refine (idealPowerMultiple_le_iff _ j F _).2 fun U => ?_
   intro x hx
-  show (globalSmul (baseScalarMap p π ^ e) F).app U.1 x ∈
+  change (globalSmul (baseScalarMap p π ^ e) F).app U.1 x ∈
     (adicFiltration p (Ideal.span {π}) (j + e) F).toSubmodule.obj (op U.1)
   rw [globalSmul_app]
   have hmem := restrictMemIdealPow_baseScalarMap p e
@@ -238,7 +238,7 @@ theorem isIso_adicMul (F : X.Modules) [F.IsQuasicoherent] {k j : ℕ}
       (LinearMap.mem_range_self _ z)
     obtain ⟨y, hy⟩ := (mem_range_stalk_adicFiltration_ι_iff p π F x j (t ^ j • v)).2 ⟨v, rfl⟩
     refine ⟨y, hι ?_⟩
-    show ((modulesStalkFunctor X x).map (adicFiltration p (Ideal.span {π}) (j + e) F).ι).hom
+    change ((modulesStalkFunctor X x).map (adicFiltration p (Ideal.span {π}) (j + e) F).ι).hom
         (((modulesStalkFunctor X x).map (adicMul p π F j e)).hom y) = _
     rw [stalk_ι_adicMul, hy, ← hv, smul_smul, ← pow_add, add_comm]
 

@@ -270,7 +270,7 @@ structure IsStackInGroupoids (p : 𝒮 ⥤ 𝒞) (J : GrothendieckTopology 𝒞)
 /-- The identity of an object over `U` is a morphism of the fibre category over `U`. -/
 protected theorem FibreHom.id (p : 𝒮 ⥤ 𝒞) {U : 𝒞} (a : 𝒮) (ha : p.obj a = U) :
     FibreHom p a a ha ha (𝟙 a) := by
-  show p.IsHomLift (eqToHom ha ≫ eqToHom ha.symm) (𝟙 a)
+  change p.IsHomLift (eqToHom ha ≫ eqToHom ha.symm) (𝟙 a)
   simp only [eqToHom_trans, eqToHom_refl]
   infer_instance
 
@@ -283,7 +283,7 @@ protected theorem FibreHom.comp {p : 𝒮 ⥤ 𝒞} {U : 𝒞} {a b c : 𝒮} {h
   have := hβ
   have h := CategoryTheory.IsHomLift.comp p (eqToHom ha ≫ eqToHom hb.symm)
     (eqToHom hb ≫ eqToHom hc.symm) α β
-  show p.IsHomLift (eqToHom ha ≫ eqToHom hc.symm) (α ≫ β)
+  change p.IsHomLift (eqToHom ha ≫ eqToHom hc.symm) (α ≫ β)
   simpa using h
 
 /-- Canonical restriction along `g` is compatible with composition: if `β₁` is the canonical
@@ -302,7 +302,7 @@ theorem IsRestrictionOf.comp {p : 𝒮 ⥤ 𝒞} {W V Ux Uy Uz : 𝒞} {g : W �
     (h₁ : IsRestrictionOf p g hfx hfy xr yr xrW yrW α₁ β₁)
     (h₂ : IsRestrictionOf p g hfy hfz yr zr yrW zrW α₂ β₂) :
     IsRestrictionOf p g hfx hfz xr zr xrW zrW (α₁ ≫ α₂) (β₁ ≫ β₂) := by
-  show (β₁ ≫ β₂) ≫ Restriction.compTo p g fz hfz zr zrW
+  change (β₁ ≫ β₂) ≫ Restriction.compTo p g fz hfz zr zrW
       = Restriction.compTo p g fx hfx xr xrW ≫ (α₁ ≫ α₂)
   rw [Category.assoc, h₂, ← Category.assoc, h₁, Category.assoc]
 

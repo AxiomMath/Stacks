@@ -226,7 +226,7 @@ corresponding member of the universal family. -/
 theorem productFamilyCover_base_obj (T : Over P.U.left) :
     (Over.map P.Z.hom).obj ((productFamilyCover P y hy).obj T) =
       ((productFamily P y hy).obj T).x.Z := by
-  show Over.mk ((productFamilyArrowHilbert P y hy T).cover.g.left ≫ P.Z.hom) = _
+  change Over.mk ((productFamilyArrowHilbert P y hy T).cover.g.left ≫ P.Z.hom) = _
   rw [(productFamilyArrowHilbert P y hy T).cover.g.w]
   rfl
 
@@ -247,7 +247,7 @@ theorem productFamilyCover_arrow (T : Over P.U.left) :
       eqToHom (productFamilyCover_base_obj P y hy T).symm ≫
         ((Over.iteratedSliceBackward P.Z).obj ((productFamilyCover P y hy).obj T)).hom := by
   refine Over.OverMorphism.ext ?_
-  show (productFamilyArrowHilbert P y hy T).cover.g.left =
+  change (productFamilyArrowHilbert P y hy T).cover.g.left =
     (eqToHom (productFamilyCover_base_obj P y hy T).symm).left ≫
       (productFamilyArrowHilbert P y hy T).cover.g.left
   simp
@@ -279,7 +279,7 @@ theorem productFamilyProduct_isPullback (T : Over P.U.left) :
   · have hf := congrArg (fun g => g.left) (productFamilyArrowHilbert_cover_f P y hy T)
     change (productFamilyArrowHilbert P y hy T).cover.f.left =
       (eqToHom (productFamily_base_obj P y hy T)).left ≫ T.hom at hf
-    show (productFamilyArrowHilbert P y hy T).cover.f.left ≫ 𝟙 P.U.left =
+    change (productFamilyArrowHilbert P y hy T).cover.f.left ≫ 𝟙 P.U.left =
       eqToHom (congrArg Over.left (productFamily_base_obj P y hy T)) ≫ T.hom
     simpa only [Over.eqToHom_left, Category.comp_id] using hf
 
@@ -362,7 +362,7 @@ theorem productFamilyProductMap_fst {T T' : Over P.U.left} (f : T ⟶ T') :
   have hf := congrArg (fun g => g.left) (productFamilyMap_cover_f P y hy f)
   have hs := congrArg (fun g => g.left) ((productFamily P y hy).map f).a.cover.square.w
   refine Over.OverMorphism.ext ?_
-  show ((productFamily P y hy).map f).a.cover.g.left ≫
+  change ((productFamily P y hy).map f).a.cover.g.left ≫
       (((productFamily P y hy).obj T').x.q.left ≫
         eqToHom (congrArg Over.left (productFamily_base_obj P y hy T'))) =
     ((((productFamily P y hy).obj T).x.q.left ≫

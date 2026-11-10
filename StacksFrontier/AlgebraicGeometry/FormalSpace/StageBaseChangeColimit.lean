@@ -95,7 +95,7 @@ noncomputable def baseChangeDiagram : I ⥤ Q where
     refine pullback.hom_ext ?_ ?_ <;> simp
   map_comp _ _ := by
     refine pullback.hom_ext ?_ ?_ <;>
-      simp [pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc]
+      simp
 
 /-- The stage of `baseChangeDiagram c v` at `i` is the fibre product `F i ×_{c.pt} V`. -/
 @[simp]

@@ -75,7 +75,7 @@ public lemma ker_mulVecLin_eq_span_indicator {n : ℕ}
       (heq : ∀ i ∈ I, -A i i * m i = ∑ j ∈ Finset.univ.erase i, A i j * m j) :
       A *ᵥ I.indicator m = 0 := by
     ext i
-    show (∑ j : Fin n, A i j * I.indicator m j) = 0
+    change (∑ j : Fin n, A i j * I.indicator m j) = 0
     by_cases hi : i ∈ I
     · have hsum : (∑ j ∈ Finset.univ.erase i, A i j * I.indicator m j) =
           ∑ j ∈ Finset.univ.erase i, A i j * m j := by
@@ -151,14 +151,14 @@ public lemma ker_mulVecLin_eq_span_indicator {n : ℕ}
         ).resolve_right fun h => hj (sub_eq_zero.mp h).symm
     · exact (mul_left_cancel₀ (pow_ne_zero 2 hc0) (hrow i hi).2).symm
     · exact mul_left_cancel₀ hc0 (by rw [show c * v i = c ^ 2 * m i from hi]; ring)
-    · show c * v p = c ^ 2 * m p
+    · change c * v p = c ^ 2 * m p
       rw [hvp]
       ring
   let G : Set (Fin n → ℝ) := {x | ∃ I : Set (Fin n),
     x = I.indicator m ∧
     (∀ i ∈ I, ∀ j ∉ I, A i j = 0) ∧
     (∀ i ∈ I, -A i i * m i = ∑ j ∈ Finset.univ.erase i, A i j * m j)}
-  show LinearMap.ker A.mulVecLin = Submodule.span ℝ G
+  change LinearMap.ker A.mulVecLin = Submodule.span ℝ G
   refine le_antisymm ?_ (Submodule.span_le.mpr ?_)
   · intro x hx
     -- The converse follows by repeatedly removing a maximal weighted coordinate.
@@ -299,7 +299,7 @@ lemma dotProduct_mulVec_eq_zero_iff_of_positive_kernel
             hk ((hedge j k hAne).symm.trans hj)
       refine ⟨y i₀, ?_⟩
       funext i
-      show x i = y i₀ * m i
+      change x i = y i₀ * m i
       rw [← hxy i, hall i]
       ring
     · refine ⟨0, ?_⟩

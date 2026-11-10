@@ -87,7 +87,7 @@ theorem exists_openNormalSubgroup_smul_eq_finiteType
     ∃ U : OpenNormalSubgroup G, ∀ g ∈ U, ∀ x : N.obj.obj.obj.V, g • x = x := by
   obtain ⟨H, hn, ho, hH⟩ := exists_isOpen_normal_subgroup_ρ_eq_one_finiteType Λ G N
   refine ⟨⟨⟨H, ho⟩, hn⟩, fun g hg x => ?_⟩
-  show (N.obj.obj.obj.ρ g).asHom.hom x = x
+  change (N.obj.obj.obj.ρ g).asHom.hom x = x
   rw [hH g hg]
   rfl
 
@@ -113,13 +113,13 @@ theorem finiteTypeCompletedAction_comm {N N' : FiniteTypeContinuousModule.{0, v,
   | zero => simp
   | add p q hp hq =>
     rw [map_add, map_add]
-    show u.hom.hom.hom.hom.hom (_ + _) = _ + _
+    change u.hom.hom.hom.hom.hom (_ + _) = _ + _
     exact (map_add _ _ _).trans (congrArg₂ (· + ·) hp hq)
   | single q c =>
     induction q using QuotientGroup.induction_on with
     | H g =>
       rw [quotientAlgebraAction_single, quotientAlgebraAction_single]
-      show u.hom.hom.hom.hom.hom (c.down • finiteTypeContinuousModuleRepresentation Λ G N g x) =
+      change u.hom.hom.hom.hom.hom (c.down • finiteTypeContinuousModuleRepresentation Λ G N g x) =
         c.down • finiteTypeContinuousModuleRepresentation Λ G N' g (u.hom.hom.hom.hom.hom x)
       rw [map_smul, finiteTypeContinuousModule_hom_comm]
 
@@ -187,6 +187,7 @@ instance : (finiteTypeCompletedModule Λ G).Additive where
 variable {Λ G} [CompactSpace G] {Γ : Type v} [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ]
   [CompactSpace Γ] (φ : G →ₜ* Γ)
 
+omit [IsTopologicalGroup G] [CompactSpace G] [IsTopologicalGroup Γ] [CompactSpace Γ] in
 /-- Restriction of finite modules with continuous action along `φ` preserves finite limits. -/
 theorem preservesFiniteLimits_finiteTypeContinuousModuleRes :
     PreservesFiniteLimits (finiteTypeContinuousModuleRes.{0, v, v} Λ φ) := by
@@ -195,6 +196,7 @@ theorem preservesFiniteLimits_finiteTypeContinuousModuleRes :
     Stacks.ContinuousCohomology.preservesFiniteLimits_finiteTypeContinuousModuleToRes Λ φ
   exact preservesFiniteLimits_of_reflects_of_preserves _ (finiteTypeContinuousModuleι.{0, v, v} Λ G)
 
+omit [IsTopologicalGroup G] [CompactSpace G] [IsTopologicalGroup Γ] [CompactSpace Γ] in
 /-- Restriction of finite modules with continuous action along `φ` preserves finite colimits. -/
 theorem preservesFiniteColimits_finiteTypeContinuousModuleRes :
     PreservesFiniteColimits (finiteTypeContinuousModuleRes.{0, v, v} Λ φ) := by
@@ -224,6 +226,7 @@ def finiteTypeGroupHomology :
   (coinvariantsFunctor (ULift.{v} Λ) G).leftDerivedHomologicalDeltaFunctor.precomp
     (finiteTypeContinuousModuleRes.{0, v, v} Λ φ ⋙ finiteTypeCompletedModule Λ G)
 
+omit [CompactSpace G] [IsTopologicalGroup Γ] [CompactSpace Γ] in
 /-- The functors of `finiteTypeGroupHomology` are the derived coinvariants of the restriction. -/
 theorem finiteTypeGroupHomology_functor (n : ℕ) :
     (finiteTypeGroupHomology (Λ := Λ) φ).functor n =

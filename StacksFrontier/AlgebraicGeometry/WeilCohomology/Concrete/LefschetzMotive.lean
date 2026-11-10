@@ -53,7 +53,7 @@ theorem comp_projectiveLineFibrePointCorr :
     (canonicalCorrespondenceCompositionData k).comp (projectiveLineFibrePointCorr x hx)
       (projectiveLineFibrePointCorr x hx) = projectiveLineFibrePointCorr x hx := by
   apply homOf_injective 0
-  show homOf (0 + 0) _ = _
+  change homOf (0 + 0) _ = _
   rw [← homOf_comp_homOf, homOf, DirectSum.lof_eq_of]
   exact projectiveLine_fibrePoint_comp_fibrePoint x hx
 

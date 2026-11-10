@@ -101,7 +101,7 @@ theorem sliceBilin_balanced (Z : (Over U)ᵒᵖ) (c : ULift.{u} (Scheme.Γ.obj (
     (a : (((gammaAlg S (𝟭 (Over S)) U).obj Z : CommAlgCat.{u} _) : Type u))
     (m : G.obj (op U)) :
     sliceBilin.{t} G U Z (c • a) m = sliceBilin.{t} G U Z a (c • m) := by
-  show (c • a) • sliceRestrict.{t} G U Z m = a • sliceRestrict.{t} G U Z (c • m)
+  change (c • a) • sliceRestrict.{t} G U Z m = a • sliceRestrict.{t} G U Z (c • m)
   rw [sliceRestrict_smul, Algebra.smul_def, mul_smul, smul_smul, smul_smul, mul_comm]
 
 /-- The coefficient comparison at one object of the slice at `U`: `a ⊗ m ↦ a • m|_Z`. -/

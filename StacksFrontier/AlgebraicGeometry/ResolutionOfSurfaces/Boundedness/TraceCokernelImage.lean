@@ -135,7 +135,7 @@ theorem secsOver_map_apply_modificationSecsOverUnitIso_inv_one [IsNormalDomain A
     ((secsOver f).map ψ).hom ((modificationSecsOverUnitIso f hf).inv.hom (1 : A)) =
       unitHomEquivSectionsTop N ψ := by
   have h1 : ((Scheme.ΓSpecIso (.of A)).inv ≫ f.appTop).hom (1 : A) = 1 := map_one _
-  show ((secsOver f).map ψ).hom
+  change ((secsOver f).map ψ).hom
     (((Scheme.ΓSpecIso (.of A)).inv ≫ f.appTop).hom (1 : A)) = _
   rw [h1]
   rfl

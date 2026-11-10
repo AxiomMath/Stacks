@@ -30,8 +30,8 @@ The two properties already carry one instance each: integrality is stable under 
 `AlgebraicGeometry.Space.integralMorphismProperty_isStableUnderBaseChange` and finiteness is
 local on the target for the fppf precoverage by
 `AlgebraicGeometry.Space.isFinite_isLocalAtTarget_fppf`. The four instances below are the
-remaining ones, and each is the corresponding tagged statement read at the packaged spelling: the fppf
-locality of integrality from its fpqc locality (Stacks 0425) through
+remaining ones, and each is the corresponding tagged statement read at the packaged spelling: the
+fppf locality of integrality from its fpqc locality (Stacks 0425) through
 `AlgebraicGeometry.Space.fppfPrecoverage_le_fpqcPrecoverage`, exactly as
 `AlgebraicGeometry.Space.isFinite_isLocalAtTarget_fppf` does for finiteness; base change of
 finiteness from `AlgebraicGeometry.Space.isFinite_of_isPullback` (Stacks 03ZS) together with

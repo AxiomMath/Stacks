@@ -327,7 +327,7 @@ theorem representedChartFunctionFieldMap_map
       ((toMeromorphicFunctionSheaf B S hS (representedAlgebraicSpace B S hS R).1
         (representedAlgebraicSpace B S hS R).2).hom.naturality g.op)
     simp only [RingHom.comp_apply]
-    show representedChartFunctionFieldMap B S hS R V hKV
+    change representedChartFunctionFieldMap B S hS R V hKV
         (((toMeromorphicFunctionSheaf B S hS (representedAlgebraicSpace B S hS R).1
           (representedAlgebraicSpace B S hS R).2).hom.app (op (representedIdChartOpen B S hS R U)) ≫
           (meromorphicFunctionSheaf B S hS (representedAlgebraicSpace B S hS R).1
@@ -735,7 +735,7 @@ free on `e`, it is the ratio `t / e`, read in the function field, times the gene
 (`AlgebraicGeometry.Space.representedChartFunctionFieldMap_chartRatio_smul_germ_eq_of_charts`). At
 a prime divisor `Z` with generic point `ξ` both orders are read on such a chart through `ξ`: on
 the space side by Stacks 0EPR on an arbitrary free affine chart
-(`AlgebraicGeometry.Space.PrimeDivisor.orderOfVanishingSection_canonicalLocalRatio_eq_ordTotalFracInt`),
+(`PrimeDivisor.orderOfVanishingSection_canonicalLocalRatio_eq_ordTotalFracInt`),
 on the scheme side as the order of the coordinate against the germ of `e`, which is a stalk basis
 (`AlgebraicGeometry.Space.isStalkBasis_germ_representedChartModule`), and the two are compared by
 `AlgebraicGeometry.Space.ord_representedChartFunctionFieldMap`. -/

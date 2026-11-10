@@ -253,8 +253,13 @@ add_to_ega "IV 18.8.6" "special case"
   Algebra.FormallyEtale.instIsSeparableQuotientIdealOfEssFiniteTypeOfIsPrime
 add_to_ega "IV 18.8.6" "partial" Algebra.instFiniteResidueFieldOfIsUnramifiedAt
 add_to_ega "IV 18.8.6" "partial" Algebra.instIsSeparableResidueFieldOfIsUnramifiedAt
-add_to_ega "IV 18.8.6" "partial"
-  AlgebraicGeometry.FormallyUnramified.instIsSeparableCarrierResidueFieldCoeContinuousMapCarrierCarrierCommRingCatHomTopCatBaseOfLocallyOfFiniteType
+-- The auto-generated instance name is longer than a line, so its identifier is assembled
+-- from two pieces before being handed to `add_to_ega`.
+run_cmd do
+  let decl := Lean.mkIdent <| .str `AlgebraicGeometry.FormallyUnramified <|
+    "instIsSeparableCarrierResidueFieldCoeContinuousMapCarrierCarrierCommRingCat" ++
+      "HomTopCatBaseOfLocallyOfFiniteType"
+  Lean.Elab.Command.elabCommand (← `(command| add_to_ega "IV 18.8.6" "partial" $decl:ident))
 add_to_ega "IV 18.9.5" "special case" CommAlgCat.FiniteEtale.baseChange
 add_to_ega "IV 18.9.7.6" "partial" AlgebraicGeometry.Surjective.of_universallyClosed_of_isDominant
 add_to_ega "IV 18.10.1" "special case" Algebra.FormallyEtale.iff_formallyUnramified_of_field
@@ -278,8 +283,13 @@ add_to_ega "IV 18.11.6" "more general" Algebra.FormallyUnramified.iff_map_maxima
 add_to_ega "IV 18.11.6" "partial" Algebra.instIsSeparableResidueFieldOfFormallyUnramified
 add_to_ega "IV 18.11.6" "partial" Algebra.instIsSeparableResidueFieldOfIsUnramifiedAt
 add_to_ega "IV 18.11.6" "more general" Algebra.isUnramifiedAt_iff_map_eq
-add_to_ega "IV 18.11.6" "partial"
-  AlgebraicGeometry.FormallyUnramified.instIsSeparableCarrierResidueFieldCoeContinuousMapCarrierCarrierCommRingCatHomTopCatBaseOfLocallyOfFiniteType
+-- The auto-generated instance name is longer than a line, so its identifier is assembled
+-- from two pieces before being handed to `add_to_ega`.
+run_cmd do
+  let decl := Lean.mkIdent <| .str `AlgebraicGeometry.FormallyUnramified <|
+    "instIsSeparableCarrierResidueFieldCoeContinuousMapCarrierCarrierCommRingCat" ++
+      "HomTopCatBaseOfLocallyOfFiniteType"
+  Lean.Elab.Command.elabCommand (← `(command| add_to_ega "IV 18.11.6" "partial" $decl:ident))
 add_to_ega "IV 18.11.12" FractionRing
 add_to_ega "IV 18.11.12" IsFractionRing
 add_to_ega "IV 18.12.1" AlgebraicGeometry.exists_etale_isCompl_of_quasiFiniteAt

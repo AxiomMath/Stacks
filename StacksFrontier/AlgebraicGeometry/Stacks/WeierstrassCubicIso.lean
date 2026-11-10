@@ -213,7 +213,7 @@ theorem gradedZeroRingHom_coordHom_comp
     (coordHom σ hσ).gradedZeroRingHom.comp (toGradingZeroOf C) =
       (toGradingZeroOf C').comp φ :=
   RingHom.ext fun a => Subtype.ext <| by
-    show Ideal.Quotient.mk _ (σ (MvPolynomial.C a)) = Ideal.Quotient.mk _ (MvPolynomial.C (φ a))
+    change Ideal.Quotient.mk _ (σ (MvPolynomial.C a)) = Ideal.Quotient.mk _ (MvPolynomial.C (φ a))
     rw [hφ]
 
 end CoordHom
@@ -223,7 +223,7 @@ end CoordHom
 /-- The substitution of `γ` sends the cubic of `C` into the ideal of the cubic of `γ • C`. -/
 theorem substOf_cubicOf_mem (γ : WeierstrassCurve.VariableChange R) (C : WeierstrassCurve R) :
     substGradedHom γ (cubicOf C) ∈ (cubicIdealOf (γ • C)).toIdeal := by
-  show substOf γ (cubicOf C) ∈ Ideal.span {cubicOf (γ • C)}
+  change substOf γ (cubicOf C) ∈ Ideal.span {cubicOf (γ • C)}
   rw [substOf_cubicOf]
   exact Ideal.mul_mem_left _ _ (Ideal.subset_span rfl)
 
@@ -251,7 +251,7 @@ theorem changeInvHom_comp_changeHom (γ : WeierstrassCurve.VariableChange R)
     (changeInvHom γ C).comp (changeHom γ C) = GradedRingHom.id (gradingOf C) :=
   GradedRingHom.ext fun x => by
     obtain ⟨p, rfl⟩ := Ideal.Quotient.mk_surjective x
-    show Ideal.Quotient.mk _ (substOf γ⁻¹ (substOf γ p)) = Ideal.Quotient.mk _ p
+    change Ideal.Quotient.mk _ (substOf γ⁻¹ (substOf γ p)) = Ideal.Quotient.mk _ p
     rw [← AlgHom.comp_apply, substOf_inv_comp, AlgHom.id_apply]
 
 /-- `changeInvHom γ C` is a right inverse of `changeHom γ C`. -/
@@ -260,7 +260,7 @@ theorem changeHom_comp_changeInvHom (γ : WeierstrassCurve.VariableChange R)
     (changeHom γ C).comp (changeInvHom γ C) = GradedRingHom.id (gradingOf (γ • C)) :=
   GradedRingHom.ext fun x => by
     obtain ⟨p, rfl⟩ := Ideal.Quotient.mk_surjective x
-    show Ideal.Quotient.mk _ (substOf γ (substOf γ⁻¹ p)) = Ideal.Quotient.mk _ p
+    change Ideal.Quotient.mk _ (substOf γ (substOf γ⁻¹ p)) = Ideal.Quotient.mk _ p
     rw [← AlgHom.comp_apply, substOf_comp_inv, AlgHom.id_apply]
 
 /-- The irrelevant ideal of the target of `changeHom γ C` lies in the image of the irrelevant ideal
@@ -294,7 +294,7 @@ instance isIso_changeMap (γ : WeierstrassCurve.VariableChange R) (C : Weierstra
 /-- The morphism of plane cubics induced by a coordinate change lies over `Spec R`. -/
 theorem changeMap_projectionOf (γ : WeierstrassCurve.VariableChange R) (C : WeierstrassCurve R) :
     changeMap γ C ≫ projectionOf C = projectionOf (γ • C) := by
-  show Proj.map (changeHom γ C) (irrelevant_le_map_changeHom γ C) ≫
+  change Proj.map (changeHom γ C) (irrelevant_le_map_changeHom γ C) ≫
       Proj.toSpecZero (gradingOf C) ≫ Spec.map (CommRingCat.ofHom (toGradingZeroOf C)) =
     Proj.toSpecZero (gradingOf (γ • C)) ≫ Spec.map (CommRingCat.ofHom (toGradingZeroOf (γ • C)))
   rw [Proj.map_toSpecZero_assoc, ← Spec.map_comp, ← CommRingCat.ofHom_comp, changeHom,
@@ -315,7 +315,7 @@ theorem evalZeroOf_changeHom (γ : WeierstrassCurve.VariableChange R) (C : Weier
     {d : ℕ} {p : MvPolynomial (Fin 3) R} (hp : p.IsHomogeneous d) :
     evalZeroOf (γ • C) (changeHom γ C (Ideal.Quotient.mk _ p)) =
       ((γ.u : R) ^ 3) ^ d * evalZeroOf C (Ideal.Quotient.mk _ p) := by
-  show aeval ![0, 1, 0] (substOf γ p) = ((γ.u : R) ^ 3) ^ d * aeval ![0, 1, 0] p
+  change aeval ![0, 1, 0] (substOf γ p) = ((γ.u : R) ^ 3) ^ d * aeval ![0, 1, 0] p
   have h : (![0, (γ.u : R) ^ 3, 0] : Fin 3 → R) = fun i => (γ.u : R) ^ 3 * ![0, 1, 0] i := by
     funext i
     fin_cases i <;> simp
@@ -331,7 +331,7 @@ theorem zeroOf_changeMap (γ : WeierstrassCurve.VariableChange R) (C : Weierstra
     rw [← Ideal.map_map]
     refine top_unique ((map_irrelevant_eq_top_of (γ • C)).symm.le.trans (Ideal.map_mono ?_))
     exact irrelevant_le_map_changeHom γ C
-  show Proj.fromOfGlobalSections (gradingOf (γ • C)) (evalZeroGlobalOf (γ • C))
+  change Proj.fromOfGlobalSections (gradingOf (γ • C)) (evalZeroGlobalOf (γ • C))
       (map_irrelevant_eq_top_of (γ • C)) ≫
       Proj.map (changeHom γ C) (irrelevant_le_map_changeHom γ C) =
     Proj.fromOfGlobalSections (gradingOf C) (evalZeroGlobalOf C) (map_irrelevant_eq_top_of C)
@@ -340,7 +340,7 @@ theorem zeroOf_changeMap (γ : WeierstrassCurve.VariableChange R) (C : Weierstra
     (Units.map (Scheme.ΓSpecIso (CommRingCat.of R)).inv.hom.toMonoidHom (γ.u ^ 3)) ?_ _ _).symm
   intro d a ha
   obtain ⟨p, hp, rfl⟩ := (Stacks.HomogeneousIdeal.mem_quotientGrading_iff _ a).mp ha
-  show (Scheme.ΓSpecIso (CommRingCat.of R)).inv.hom
+  change (Scheme.ΓSpecIso (CommRingCat.of R)).inv.hom
       (evalZeroOf (γ • C) (changeHom γ C (Ideal.Quotient.mk _ p))) = _
   rw [evalZeroOf_changeHom γ C hp]
   simp [evalZeroGlobalOf]
@@ -370,7 +370,7 @@ theorem cubicOf_map (C : WeierstrassCurve R) (φ : R →+* S) :
 theorem map_cubicOf_mem (C : WeierstrassCurve R) (φ : R →+* S) :
     Stacks.ProjectiveCohomology.polyGradedMap (Fin 3) φ (cubicOf C) ∈
       (cubicIdealOf (C.map φ)).toIdeal := by
-  show MvPolynomial.map φ (cubicOf C) ∈ Ideal.span {cubicOf (C.map φ)}
+  change MvPolynomial.map φ (cubicOf C) ∈ Ideal.span {cubicOf (C.map φ)}
   rw [cubicOf_map]
   exact Ideal.subset_span rfl
 
@@ -400,7 +400,7 @@ theorem irrelevant_le_map_mapHom (C : WeierstrassCurve R) (φ : R →+* S) :
   have h : Ideal.Quotient.mk (cubicIdealOf (C.map φ)).toIdeal (monomial d (q.coeff d)) =
       Ideal.Quotient.mk _ (MvPolynomial.C (q.coeff d)) *
         mapHom C φ (Ideal.Quotient.mk (cubicIdealOf C).toIdeal (monomial d 1)) := by
-    show _ = _ * Ideal.Quotient.mk _ (MvPolynomial.map φ (monomial d 1))
+    change _ = _ * Ideal.Quotient.mk _ (MvPolynomial.map φ (monomial d 1))
     rw [← map_mul, MvPolynomial.map_monomial, map_one, C_mul_monomial, mul_one]
   rw [h]
   exact Ideal.mul_mem_left _ _ (Ideal.mem_map_of_mem _ hmem)
@@ -414,7 +414,7 @@ def mapMap (C : WeierstrassCurve R) (φ : R →+* S) : projOf (C.map φ) ⟶ pro
 theorem mapMap_projectionOf (C : WeierstrassCurve R) (φ : R →+* S) :
     mapMap C φ ≫ projectionOf C =
       projectionOf (C.map φ) ≫ Spec.map (CommRingCat.ofHom φ) := by
-  show Proj.map (mapHom C φ) (irrelevant_le_map_mapHom C φ) ≫
+  change Proj.map (mapHom C φ) (irrelevant_le_map_mapHom C φ) ≫
       Proj.toSpecZero (gradingOf C) ≫ Spec.map (CommRingCat.ofHom (toGradingZeroOf C)) =
     (Proj.toSpecZero (gradingOf (C.map φ)) ≫
       Spec.map (CommRingCat.ofHom (toGradingZeroOf (C.map φ)))) ≫ Spec.map (CommRingCat.ofHom φ)
@@ -434,7 +434,7 @@ theorem zeroOf_mapMap (C : WeierstrassCurve R) (φ : R →+* S) :
     simp only [CommRingCat.hom_comp, RingHom.comp_apply, CommRingCat.hom_ofHom] at h
     simp only [RingHom.comp_apply, evalZeroGlobalOf, ← h]
     congr 1
-    show eval ![0, 1, 0] (MvPolynomial.map φ p) = φ (eval ![0, 1, 0] p)
+    change eval ![0, 1, 0] (MvPolynomial.map φ p) = φ (eval ![0, 1, 0] p)
     have hpt : (φ ∘ ![0, 1, 0] : Fin 3 → S) = ![0, 1, 0] := by
       funext i
       fin_cases i <;> simp
@@ -444,7 +444,7 @@ theorem zeroOf_mapMap (C : WeierstrassCurve R) (φ : R →+* S) :
       ((evalZeroGlobalOf (C.map φ)).comp (mapHom C φ).toRingHom) = ⊤ := by
     rw [hring]
     exact Proj.map_irrelevant_comp_appTop_eq_top (gradingOf C) _ _ (map_irrelevant_eq_top_of C)
-  show Proj.fromOfGlobalSections (gradingOf (C.map φ)) (evalZeroGlobalOf (C.map φ))
+  change Proj.fromOfGlobalSections (gradingOf (C.map φ)) (evalZeroGlobalOf (C.map φ))
       (map_irrelevant_eq_top_of (C.map φ)) ≫
       Proj.map (mapHom C φ) (irrelevant_le_map_mapHom C φ) =
     Spec.map (CommRingCat.ofHom φ) ≫
@@ -529,7 +529,7 @@ theorem moduleGradingIso_hom_projectionOf :
     (moduleGradingIso C).hom ≫ projectionOf C =
       Proj.toSpecZero (moduleGradingOf C) ≫
         Spec.map (CommRingCat.ofHom (algebraMap R ↥(moduleGradingOf C 0))) := by
-  show Proj.map (toModuleGrading C) (irrelevant_le_map_toModuleGrading C) ≫
+  change Proj.map (toModuleGrading C) (irrelevant_le_map_toModuleGrading C) ≫
       Proj.toSpecZero (gradingOf C) ≫ Spec.map (CommRingCat.ofHom (toGradingZeroOf C)) = _
   rw [Proj.map_toSpecZero_assoc, ← Spec.map_comp, ← CommRingCat.ofHom_comp]
   congr 2
@@ -550,11 +550,11 @@ theorem cubicIdealOf_map_eq :
         (Ideal.map (Algebra.TensorProduct.includeRight :
             MvPolynomial (Fin 3) R →ₐ[R] S ⊗[R] MvPolynomial (Fin 3) R)
           (cubicIdealOf C).toIdeal) := by
-  show Ideal.span {cubicOf (C.map (algebraMap R S))} =
+  change Ideal.span {cubicOf (C.map (algebraMap R S))} =
     Ideal.map _ (Ideal.map _ (Ideal.span {cubicOf C}))
   rw [Ideal.map_span, Ideal.map_span, Set.image_singleton, Set.image_singleton, cubicOf_map]
   congr 2
-  show _ = MvPolynomial.algebraTensorAlgEquiv R S (1 ⊗ₜ[R] cubicOf C)
+  change _ = MvPolynomial.algebraTensorAlgEquiv R S (1 ⊗ₜ[R] cubicOf C)
   rw [MvPolynomial.algebraTensorAlgEquiv_tmul, one_smul]
 
 /-- The base change of the homogeneous coordinate ring of the plane cubic is the homogeneous
@@ -570,12 +570,12 @@ def baseChangeEquiv :
 theorem baseChangeEquiv_tmul (s : S) (p : MvPolynomial (Fin 3) R) :
     baseChangeEquiv C S (s ⊗ₜ[R] Ideal.Quotient.mk (cubicIdealOf C).toIdeal p) =
       Ideal.Quotient.mk _ (MvPolynomial.C s * MvPolynomial.map (algebraMap R S) p) := by
-  show Ideal.quotientEquivAlg _ _ (MvPolynomial.algebraTensorAlgEquiv R S)
+  change Ideal.quotientEquivAlg _ _ (MvPolynomial.algebraTensorAlgEquiv R S)
       (cubicIdealOf_map_eq C S)
       (Algebra.TensorProduct.tensorQuotientEquiv S (MvPolynomial (Fin 3) R) S
         (cubicIdealOf C).toIdeal (s ⊗ₜ[R] Ideal.Quotient.mk (cubicIdealOf C).toIdeal p)) = _
   rw [Algebra.TensorProduct.tensorQuotientEquiv_apply_tmul]
-  show Ideal.Quotient.mk _ (MvPolynomial.algebraTensorAlgEquiv R S (s ⊗ₜ[R] p)) = _
+  change Ideal.Quotient.mk _ (MvPolynomial.algebraTensorAlgEquiv R S (s ⊗ₜ[R] p)) = _
   rw [MvPolynomial.algebraTensorAlgEquiv_tmul, smul_eq_C_mul]
 
 /-- The comparison of the base-changed homogeneous coordinate ring with the homogeneous coordinate
@@ -656,7 +656,7 @@ theorem mapHom_comp_fromModuleGrading_eq :
         (Stacks.ProjBaseChange.includeRight (moduleGradingOf C) S) :=
   GradedRingHom.ext fun x => by
     obtain ⟨p, rfl⟩ := Ideal.Quotient.mk_surjective x
-    show Ideal.Quotient.mk _ (MvPolynomial.map (algebraMap R S) p) =
+    change Ideal.Quotient.mk _ (MvPolynomial.map (algebraMap R S) p) =
       baseChangeEquiv C S (1 ⊗ₜ[R] Ideal.Quotient.mk (cubicIdealOf C).toIdeal p)
     rw [baseChangeEquiv_tmul, map_one, one_mul]
 
@@ -690,12 +690,12 @@ theorem isPullback_mapMap_algebraMap :
   · rw [Proj.map_comp (fromModuleGrading C) (mapHom C (algebraMap R S))
       (irrelevant_le_map_fromModuleGrading C) (irrelevant_le_map_mapHom C (algebraMap R S)),
       Category.assoc]
-    show mapMap C (algebraMap R S) ≫ (moduleGradingIso C).inv ≫ (moduleGradingIso C).hom = _
+    change mapMap C (algebraMap R S) ≫ (moduleGradingIso C).inv ≫ (moduleGradingIso C).hom = _
     rw [Iso.inv_hom_id, Category.comp_id]
     exact (Category.id_comp _).symm
   · rw [Iso.refl_hom, Category.comp_id]
     refine Eq.trans ?_ (Category.id_comp (projectionOf (C.map (algebraMap R S)))).symm
-    show _ = Proj.toSpecZero (gradingOf (C.map (algebraMap R S))) ≫
+    change _ = Proj.toSpecZero (gradingOf (C.map (algebraMap R S))) ≫
       Spec.map (CommRingCat.ofHom (toGradingZeroOf (C.map (algebraMap R S))))
     have hring : (baseChangeGradedHom C S).gradedZeroRingHom.comp
         (algebraMap S ↥(Stacks.ProjBaseChange.grading (moduleGradingOf C) S 0)) =
@@ -797,7 +797,7 @@ theorem map_substOf_cubicOf_mem (γ : WeierstrassCurve.VariableChange R) (C : We
     (ψ : R →+* S) :
     ((Stacks.ProjectiveCohomology.polyGradedMap (Fin 3) ψ).comp (substGradedHom γ)) (cubicOf C) ∈
       (cubicIdealOf ((γ • C).map ψ)).toIdeal := by
-  show MvPolynomial.map ψ (substOf γ (cubicOf C)) ∈ Ideal.span {cubicOf ((γ • C).map ψ)}
+  change MvPolynomial.map ψ (substOf γ (cubicOf C)) ∈ Ideal.span {cubicOf ((γ • C).map ψ)}
   rw [substOf_cubicOf, map_mul, MvPolynomial.map_C, cubicOf_map]
   exact Ideal.mul_mem_left _ _ (Ideal.subset_span rfl)
 

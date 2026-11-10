@@ -124,7 +124,7 @@ theorem exists_morphismDescentSystem_of_isEtale {I : Type u} [Preorder I] [Nonem
   let eY : Y.left ≅ D.sourceLimit := (Over.forget _).mapIso e ≪≫ pullbackSymmetry _ _
   let q : D.sourceLimit ⟶ limit D.base := pullback.fst _ _
   have heY : eY.hom ≫ q = Y.hom := by
-    show (e.hom.left ≫ (pullbackSymmetry Yi.hom (limit.π E.quotient i)).hom) ≫
+    change (e.hom.left ≫ (pullbackSymmetry Yi.hom (limit.π E.quotient i)).hom) ≫
       pullback.fst (limit.π E.quotient i) Yi.hom = Y.hom
     rw [Category.assoc, pullbackSymmetry_hom_comp_fst]
     simpa using Over.w e.hom

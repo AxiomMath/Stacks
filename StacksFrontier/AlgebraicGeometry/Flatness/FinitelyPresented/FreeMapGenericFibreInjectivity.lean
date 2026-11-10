@@ -133,7 +133,7 @@ public theorem injective_of_forall_flat_localizedModule_genericFibre
     have h0 : (LocalizedModule.map (q.under R).primeCompl (alpha.restrictScalars R))
         (LocalizedModule.mk x 1) = 0 := by
       rw [LocalizedModule.map_mk]
-      show LocalizedModule.mk (alpha x) 1 = 0
+      change LocalizedModule.mk (alpha x) 1 = 0
       rw [hx]
       simp
     have hx0 : (LocalizedModule.mkLinearMap (q.under R).primeCompl (Fin n → S)) x = 0 := by

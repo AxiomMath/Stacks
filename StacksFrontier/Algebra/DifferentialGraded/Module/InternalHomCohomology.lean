@@ -141,7 +141,7 @@ theorem homOfCocycle_cocyclesEquiv_gradedCocyclesMap (h : P ⟶ P')
       homOfCocycle B ((homModulePresentation A B N L P).cocyclesEquiv 0 c) ≫ h := by
   refine Hom.ext ?_
   have hval := homModuleFunctor_map_homogeneousEquiv A B N L h 0 (c : _)
-  show ((homModulePresentation A B N L P').homogeneousEquiv 0
+  change ((homModulePresentation A B N L P').homogeneousEquiv 0
       (((homModuleFunctor A B N L).map h).gradedMap 0 (c : _))).1 = _
   rw [hval]
   rfl

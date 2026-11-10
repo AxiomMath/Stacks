@@ -184,7 +184,7 @@ theorem koszulNaiveDualTowerDegreeIso_naturality (n : ℕ) :
           (derivedDualIsoSheafHomComplexUnit_koszulPowerComplex X f n).hom) :=
     (Iso.eq_inv_comp _).2 hnat.symm
   rw [koszulDerivedDualSystem_map_succ, Functor.comp_map, koszulNaiveDualSystem_map_succ]
-  show ((derivedSheafHomBifunctor X).map
+  change ((derivedSheafHomBifunctor X).map
         (DerivedCategory.Q.map (koszulPowerComplexMap X f n)).op).app
           (derivedStructureSheaf X) ≫
       (derivedDualIsoSheafHomComplexUnit_koszulPowerComplex X f n).inv ≫

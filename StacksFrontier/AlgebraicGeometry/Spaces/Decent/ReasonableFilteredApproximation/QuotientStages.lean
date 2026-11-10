@@ -29,6 +29,7 @@ attribute [local instance] ReasonableApproximation.schemeCutoff_isClosedUnderIso
   ReasonableApproximation.schemeCutoff_hasPullbacks
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of a presheaf category times out at the default budget
 /-- Pullbacks of presheaves on a category (instance search times out without this shortcut). -/
 local instance hasPullbacks_presheaf_QuotientStages
     {C : Type (u + 1)} [Category.{u} C] : HasPullbacks (Cᵒᵖ ⥤ Type u) := inferInstance
@@ -179,11 +180,11 @@ theorem quotient_is_quasiCompact_quasiSeparated
     (MorphismProperty.relative_map_iff (F := yoneda) (P := P)).1 (hs R (𝟙 (yoneda.obj R)) hId)
   have hRelTarget : (relation B S hS source target).target =
       (Over.post B.inclusion).map target := by
-    show prod.lift _ _ ≫ prod.fst = _
+    change prod.lift _ _ ≫ prod.fst = _
     exact prod.lift_fst _ _
   have hRelSource : (relation B S hS source target).source =
       (Over.post B.inclusion).map source := by
-    show prod.lift _ _ ≫ prod.snd = _
+    change prod.lift _ _ ≫ prod.snd = _
     exact prod.lift_snd _ _
   let : Stacks.Groupoids.IsEtaleEquivalenceRelation
       (relation B S hS source target) := {
@@ -217,7 +218,7 @@ theorem quotient_is_quasiCompact_quasiSeparated
       MorphismProperty.inverseImage_isStableUnderBaseChange G _
     apply (MorphismProperty.relative_map_iff (F := yoneda) (P :=
       MorphismProperty.inverseImage (@QuasiCompact.{u} : MorphismProperty Scheme.{u}) G)).2
-    show QuasiCompact (G.map target)
+    change QuasiCompact (G.map target)
     infer_instance
   have hqKernel := quotientMap_isPullback B S hS source target
   have hKernelQC : (MorphismProperty.presheaf (MorphismProperty.inverseImage

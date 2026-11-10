@@ -159,7 +159,7 @@ theorem valuativeCriterion_existence_of_diagonal_uniqueness (f : F ⟶ G)
     Over.homMk (ObjectProperty.homMk (Spec.map (CommRingCat.ofHom ψ)) :
       B.obj field_mem' ⟶ B.obj q.field_mem) (by
         ext1
-        show Spec.map (CommRingCat.ofHom ψ) ≫
+        change Spec.map (CommRingCat.ofHom ψ) ≫
             (Spec.map (CommRingCat.ofHom (algebraMap q.R q.K)) ≫ q.base) =
           Spec.map (CommRingCat.ofHom (algebraMap R' K')) ≫
             (Spec.map (CommRingCat.ofHom φ) ≫ q.base)
@@ -171,10 +171,10 @@ theorem valuativeCriterion_existence_of_diagonal_uniqueness (f : F ⟶ G)
       generic := yoneda.map gO ≫ q.generic
       special := yoneda.map sO ≫ q.special
       comm := by
-        show (yoneda.map gO ≫ q.generic) ≫ yoneda.map snd =
+        change (yoneda.map gO ≫ q.generic) ≫ yoneda.map snd =
           yoneda.map fr' ≫ yoneda.map sO ≫ q.special
         rw [Category.assoc, q.comm]
-        show yoneda.map gO ≫ yoneda.map fr ≫ q.special = _
+        change yoneda.map gO ≫ yoneda.map fr ≫ q.special = _
         rw [← Functor.map_comp_assoc, hsquare, Functor.map_comp_assoc] }
   let ext : q.DominatingExtension :=
     { square := square
@@ -215,10 +215,10 @@ theorem valuativeCriterion_existence_of_diagonal_uniqueness (f : F ⟶ G)
   exact
     { map := yoneda.map l'
       generic_comm := by
-        show yoneda.map fr' ≫ yoneda.map l' = yoneda.map gO ≫ q.generic
+        change yoneda.map fr' ≫ yoneda.map l' = yoneda.map gO ≫ q.generic
         rw [← hgK, ← Functor.map_comp, ← Functor.map_comp, hgeneric]
       special_comm := by
-        show yoneda.map l' ≫ yoneda.map snd = yoneda.map sO ≫ q.special
+        change yoneda.map l' ≫ yoneda.map snd = yoneda.map sO ≫ q.special
         rw [← hsR, ← Functor.map_comp, ← Functor.map_comp, hspecial] }
 
 /-- **Separatedness from a quasi-compact immersive diagonal and the uniqueness part of the
@@ -256,7 +256,7 @@ theorem isSeparatedULift_of_diagonal_of_valuativeUniqueness (f : F ⟶ G)
       inferInstance snd).mp
       (presheaf_universallyClosed_of_universallyClosed B S hS
         (Functor.relativelyRepresentable.map yoneda snd) hUC)
-  show AlgebraicGeometry.IsClosedImmersion ((BigFppfOver.toScheme B S hS).map snd)
+  change AlgebraicGeometry.IsClosedImmersion ((BigFppfOver.toScheme B S hS).map snd)
   exact IsClosedImmersion.of_isPreimmersion _
     ((BigFppfOver.toScheme B S hS).map snd).isClosedMap.isClosed_range
 

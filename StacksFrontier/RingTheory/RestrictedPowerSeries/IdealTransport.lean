@@ -90,13 +90,13 @@ public theorem congrLevelEquiv_transition {I J : Ideal A} (h : I = J) (σ : Type
       (Ideal.quotEquivOfEq (congrArg (· ^ m) h)).toRingHom.comp
         (Ideal.Quotient.factorPow I hmn) :=
     Ideal.Quotient.ringHom_ext (RingHom.ext fun a => by
-      show Ideal.Quotient.factorPow J hmn ((Ideal.quotEquivOfEq (congrArg (· ^ n) h))
+      change Ideal.Quotient.factorPow J hmn ((Ideal.quotEquivOfEq (congrArg (· ^ n) h))
           (Ideal.Quotient.mk (I ^ n) a)) =
         (Ideal.quotEquivOfEq (congrArg (· ^ m) h))
           (Ideal.Quotient.factorPow I hmn (Ideal.Quotient.mk (I ^ n) a))
       rw [Ideal.quotEquivOfEq_mk, Ideal.Quotient.factor_mk, Ideal.Quotient.factor_mk,
         Ideal.quotEquivOfEq_mk])
-  show MvPolynomial.map (Ideal.Quotient.factorPow J hmn)
+  change MvPolynomial.map (Ideal.Quotient.factorPow J hmn)
       (MvPolynomial.map (Ideal.quotEquivOfEq (congrArg (· ^ n) h)).toRingHom p) =
     MvPolynomial.map (Ideal.quotEquivOfEq (congrArg (· ^ m) h)).toRingHom
       (MvPolynomial.map (Ideal.Quotient.factorPow I hmn) p)
@@ -151,7 +151,7 @@ public theorem coefficientProjection_congrEquiv {I J : Ideal A} (h : I = J) (σ 
 public theorem congrEquiv_coefficientRingHom {I J : Ideal A} (h : I = J) (σ : Type v) (a : A) :
     congrEquiv h σ (coefficientRingHom I σ a) = coefficientRingHom J σ a := by
   refine Subtype.ext (funext fun n => ?_)
-  show congrLevelEquiv h σ n
+  change congrLevelEquiv h σ n
       (coefficientProjection I σ n (algebraMap A (RestrictedPowerSeries I σ) a)) =
     coefficientProjection J σ n (algebraMap A (RestrictedPowerSeries J σ) a)
   rw [coefficientProjection_algebraMap, coefficientProjection_algebraMap, congrLevelEquiv_C]
@@ -162,7 +162,7 @@ public theorem congrEquiv_polynomialRingHom {I J : Ideal A} (h : I = J) (σ : Ty
     (p : MvPolynomial σ A) :
     congrEquiv h σ (polynomialRingHom I σ p) = polynomialRingHom J σ p := by
   refine Subtype.ext (funext fun n => ?_)
-  show congrLevelEquiv h σ n (coefficientProjection I σ n (polynomialRingHom I σ p)) =
+  change congrLevelEquiv h σ n (coefficientProjection I σ n (polynomialRingHom I σ p)) =
     coefficientProjection J σ n (polynomialRingHom J σ p)
   rw [coefficientProjection_polynomialRingHom, coefficientProjection_polynomialRingHom,
     congrLevelEquiv, MvPolynomial.mapEquiv_apply, MvPolynomial.map_map,

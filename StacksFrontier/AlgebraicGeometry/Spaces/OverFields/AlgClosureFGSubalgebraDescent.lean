@@ -245,6 +245,7 @@ def isLimitFgSubalgebraSiteCone (hk : B.Contains (Spec (.of k)))
 /-! ### The system of base changes -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on a big fppf site (instance search times out without this
 shortcut). -/
 private instance hasPullbacks_presheaf_AlgClosureFGSubalgebraDescent
@@ -257,8 +258,9 @@ private instance (priority := high) hasPullback_presheaf_AlgClosureFGSubalgebraD
     HasLimit (cospan f g) :=
   hasPullbacks_presheaf_AlgClosureFGSubalgebraDescent.has_limit _
 
-set_option synthInstance.maxHeartbeats 400000
-
+set_option synthInstance.maxHeartbeats 400000 in
+-- formerly set for the whole file from here on: instance search for limits of presheaves on
+-- the big fppf site is deep
 /-- The diagram of the presheaves represented by the spectra of the finitely generated
 `k`-subalgebras of `K`. -/
 def fgSubalgebraPresheafDiagram (hk : B.Contains (Spec (.of k)))
@@ -266,6 +268,9 @@ def fgSubalgebraPresheafDiagram (hk : B.Contains (Spec (.of k)))
     (FGSubalgebra k K)ᵒᵖ ⥤ ((BigFppfOver B (Spec (.of k)) hk)ᵒᵖ ⥤ Type u) :=
   fgSubalgebraSiteDiagram k K B hk hK ⋙ yoneda
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- formerly set for the whole file from here on: instance search for limits of presheaves on
+-- the big fppf site is deep
 /-- The structure morphisms of the presheaf diagram over the presheaf represented by the base,
 which is a terminal presheaf. -/
 def fgSubalgebraPresheafToBase (hk : B.Contains (Spec (.of k)))
@@ -275,6 +280,9 @@ def fgSubalgebraPresheafToBase (hk : B.Contains (Spec (.of k)))
   app i := yoneda.map (Over.mkIdTerminal.from ((fgSubalgebraSiteDiagram k K B hk hK).obj i))
   naturality _ _ _ := (isTerminal_yoneda_obj_base B (Spec (.of k)) hk).hom_ext _ _
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- formerly set for the whole file from here on: instance search for limits of presheaves on
+-- the big fppf site is deep
 /-- **The system of base changes `A ↦ X_A = X ×_{Spec k} Spec A`** of an algebraic space `X`
 over `k` to the finitely generated `k`-subalgebras of `K`. The base `Spec k` is terminal in its
 own big fppf site, so the base change is the fibre product over the terminal presheaf. -/
@@ -284,7 +292,11 @@ def fgSubalgebraSystem (hk : B.Contains (Spec (.of k))) (hK : B.Contains (Spec (
   Over.lift (fgSubalgebraPresheafDiagram k K B hk hK) (fgSubalgebraPresheafToBase k K B hk hK) ⋙
     Over.pullback ((isTerminal_yoneda_obj_base B (Spec (.of k)) hk).from X) ⋙ Over.forget X
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- formerly set for the whole file from here on: instance search for limits of presheaves on
+-- the big fppf site is deep
 set_option maxHeartbeats 1000000 in
+-- the `rfl` unfolds `Over.lift ⋙ Over.pullback ⋙ Over.forget`, which defines the system
 /-- A stage of the system is the fibre product of the presheaf represented by `Spec A` with
 `X` over the terminal presheaf. -/
 theorem fgSubalgebraSystem_obj (hk : B.Contains (Spec (.of k)))
@@ -295,7 +307,11 @@ theorem fgSubalgebraSystem_obj (hk : B.Contains (Spec (.of k)))
         ((isTerminal_yoneda_obj_base B (Spec (.of k)) hk).from X) :=
   rfl
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- formerly set for the whole file from here on: instance search for limits of presheaves on
+-- the big fppf site is deep
 set_option maxHeartbeats 1000000 in
+-- `isoPullback` is elaborated against the unfolded stage of the system
 /-- **A stage of the system is the base change `X_A`**, in the form of the product with the
 presheaf represented by `Spec A` — which is what
 `AlgebraicGeometry.Space.extensionBaseChange` is for a field extension. -/
@@ -306,6 +322,9 @@ def fgSubalgebraSystemObjIso (hk : B.Contains (Spec (.of k)))
       (fgSubalgebraSystem k K B hk hK X).obj (op A) :=
   (isPullback_prod_fst_snd_yoneda_obj (fgSubalgebraSiteObj k K B hk hK A) X).isoPullback
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- formerly set for the whole file from here on: instance search for limits of presheaves on
+-- the big fppf site is deep
 /-- **`X_K` is the limit of the system of base changes `X_A`.** The presheaf diagram has
 `Spec K` as its limit over `Spec k`, base change along the structure morphism of `X` is a right
 adjoint, and forgetting the structure morphism preserves a limit over a connected index. -/
@@ -329,7 +348,11 @@ def fgSubalgebraSystemLimitCone (hk : B.Contains (Spec (.of k)))
         (yoneda.map (Over.mkIdTerminal.from (specExtension k K B hk hK))) _
         (isLimitOfPreserves yoneda (isLimitFgSubalgebraSiteCone k K B hk hK))))
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- formerly set for the whole file from here on: instance search for limits of presheaves on
+-- the big fppf site is deep
 set_option maxHeartbeats 1000000 in
+-- the `rfl` unfolds the image of the chosen limit cone under three functors
 /-- The apex of the chosen limit cone is the fibre product of the presheaf represented by
 `Spec K` with `X` over the terminal presheaf. -/
 theorem fgSubalgebraSystemLimitCone_pt (hk : B.Contains (Spec (.of k)))
@@ -339,7 +362,11 @@ theorem fgSubalgebraSystemLimitCone_pt (hk : B.Contains (Spec (.of k)))
         ((isTerminal_yoneda_obj_base B (Spec (.of k)) hk).from X) :=
   rfl
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- formerly set for the whole file from here on: instance search for limits of presheaves on
+-- the big fppf site is deep
 set_option maxHeartbeats 1000000 in
+-- `isoPullback` is elaborated against the unfolded apex of the chosen limit cone
 /-- **The limit of the system is the base change `X_K`**, in the form
 `AlgebraicGeometry.Space.extensionBaseChange` uses. -/
 def extensionBaseChangeIsoLimitConePt (hk : B.Contains (Spec (.of k)))
@@ -349,15 +376,21 @@ def extensionBaseChangeIsoLimitConePt (hk : B.Contains (Spec (.of k)))
 
 /-! ### The stages of the system -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- formerly set for the whole file from here on: instance search for limits of presheaves on
+-- the big fppf site is deep
 /-- The scheme underlying a stage of the diagram in the site is affine, being the spectrum of
 the subalgebra. -/
 theorem isAffine_toScheme_fgSubalgebraSiteObj (hk : B.Contains (Spec (.of k)))
     (hK : B.Contains (Spec (.of K))) (A : FGSubalgebra k K) :
     IsAffine ((BigFppfOver.toScheme B (Spec (.of k)) hk).obj
       (fgSubalgebraSiteObj k K B hk hK A)) := by
-  show IsAffine (Spec (.of (A : Subalgebra k K)))
+  change IsAffine (Spec (.of (A : Subalgebra k K)))
   infer_instance
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- formerly set for the whole file from here on: instance search for limits of presheaves on
+-- the big fppf site is deep
 /-- The scheme underlying a stage of the diagram in the site is affine. This is the previous
 statement at the stage of the diagram rather than at
 `AlgebraicGeometry.Space.fgSubalgebraSiteObj`, which is the spelling instance search needs. -/
@@ -367,13 +400,19 @@ theorem isAffine_toScheme_fgSubalgebraSiteDiagram_obj (hk : B.Contains (Spec (.o
       ((fgSubalgebraSiteDiagram k K B hk hK).obj i)) :=
   isAffine_toScheme_fgSubalgebraSiteObj k K B hk hK i.unop
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- formerly set for the whole file from here on: instance search for limits of presheaves on
+-- the big fppf site is deep
 /-- The scheme underlying the terminal object of the site of `Spec k` is `Spec k`, which is
 affine. -/
 theorem isAffine_toScheme_mk_id (hk : B.Contains (Spec (.of k))) :
     IsAffine ((BigFppfOver.toScheme B (Spec (.of k)) hk).obj (Over.mk (𝟙 (B.obj hk)))) := by
-  show IsAffine (Spec (.of k))
+  change IsAffine (Spec (.of k))
   infer_instance
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- formerly set for the whole file from here on: instance search for limits of presheaves on
+-- the big fppf site is deep
 /-- A representable presheaf on the site of `Spec k` whose scheme is affine is absolutely
 quasi-separated: an affine scheme is quasi-separated, so [Stacks, Tag 03JX] applies. -/
 theorem isAbsolutelyQuasiSeparated_yoneda_obj_of_isAffine (hk : B.Contains (Spec (.of k)))
@@ -384,6 +423,9 @@ theorem isAbsolutelyQuasiSeparated_yoneda_obj_of_isAffine (hk : B.Contains (Spec
   isAbsolutelyQuasiSeparated_of_isQuasiSeparatedScheme B (Spec (.of k)) hk (yoneda.obj U)
     B.contains_terminal ⟨U, inferInstance, ⟨Functor.RepresentableBy.yoneda U⟩⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- formerly set for the whole file from here on: instance search for limits of presheaves on
+-- the big fppf site is deep
 /-- The fibre product over the terminal presheaf of a representable presheaf with an algebraic
 space is an algebraic space, by [Stacks, Tag 02X2]. -/
 private theorem isAlgebraicSpace_pullback_yoneda_map_from (hk : B.Contains (Spec (.of k)))
@@ -396,6 +438,9 @@ private theorem isAlgebraicSpace_pullback_yoneda_map_from (hk : B.Contains (Spec
     (isAlgebraicSpace_yoneda B (Spec (.of k)) hk T) hX
     (isAlgebraicSpace_yoneda B (Spec (.of k)) hk (Over.mk (𝟙 (B.obj hk))))
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- formerly set for the whole file from here on: instance search for limits of presheaves on
+-- the big fppf site is deep
 /-- Each stage of the system is an algebraic space over `Spec k`, being a fibre product of
 algebraic spaces by [Stacks, Tag 02X2]. -/
 theorem isAlgebraicSpace_fgSubalgebraSystem_obj (hk : B.Contains (Spec (.of k)))
@@ -404,6 +449,9 @@ theorem isAlgebraicSpace_fgSubalgebraSystem_obj (hk : B.Contains (Spec (.of k)))
     IsAlgebraicSpace B (Spec (.of k)) hk ((fgSubalgebraSystem k K B hk hK X).obj (op A)) :=
   isAlgebraicSpace_pullback_yoneda_map_from k B hk X hX (fgSubalgebraSiteObj k K B hk hK A)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- formerly set for the whole file from here on: instance search for limits of presheaves on
+-- the big fppf site is deep
 /-- Each stage of the system is quasi-compact by [Stacks, Tag 073B] part (3): it is the fibre
 product of the quasi-compact `Spec A` with the quasi-compact `X` over the quasi-separated
 `Spec k`. -/
@@ -420,6 +468,9 @@ theorem isQuasiCompactSpace_fgSubalgebraSystem_obj (hk : B.Contains (Spec (.of k
     (isAbsolutelyQuasiSeparated_yoneda_obj_of_isAffine k B hk (Over.mk (𝟙 (B.obj hk)))
       (isAffine_toScheme_mk_id k B hk))
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- formerly set for the whole file from here on: instance search for limits of presheaves on
+-- the big fppf site is deep
 /-- Each stage of the system is quasi-separated by [Stacks, Tag 073B] part (3): it is the fibre
 product of the quasi-separated `Spec A` with the quasi-separated `X`. -/
 theorem isAbsolutelyQuasiSeparated_fgSubalgebraSystem_obj (hk : B.Contains (Spec (.of k)))
@@ -436,6 +487,9 @@ theorem isAbsolutelyQuasiSeparated_fgSubalgebraSystem_obj (hk : B.Contains (Spec
       (fgSubalgebraSiteObj k K B hk hK A) (isAffine_toScheme_fgSubalgebraSiteObj k K B hk hK A))
     hXqs
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- formerly set for the whole file from here on: instance search for limits of presheaves on
+-- the big fppf site is deep
 /-- The limit of the system is an algebraic space over `Spec k`, being a fibre product of
 algebraic spaces. -/
 theorem isAlgebraicSpace_fgSubalgebraSystemLimitCone_pt (hk : B.Contains (Spec (.of k)))
@@ -444,6 +498,9 @@ theorem isAlgebraicSpace_fgSubalgebraSystemLimitCone_pt (hk : B.Contains (Spec (
     IsAlgebraicSpace B (Spec (.of k)) hk (fgSubalgebraSystemLimitCone k K B hk hK X).cone.pt :=
   isAlgebraicSpace_pullback_yoneda_map_from k B hk X hX (specExtension k K B hk hK)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- formerly set for the whole file from here on: instance search for limits of presheaves on
+-- the big fppf site is deep
 /-- **The transition morphisms of the system are affine.** A transition morphism is the base
 change along the structure morphism of `X` of the morphism `Spec A' ⟶ Spec A` of spectra of
 subalgebras, which is affine because both of its ends are; affineness of a morphism of
@@ -490,6 +547,9 @@ theorem isAffineHom_fgSubalgebraSystem_map (hk : B.Contains (Spec (.of k)))
 
 /-! ### The descent situation -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- formerly set for the whole file from here on: instance search for limits of presheaves on
+-- the big fppf site is deep
 /-- **The descent situation of the finitely generated subalgebras of a field extension.** For a
 quasi-compact and quasi-separated algebraic space `X` over a field `k` and a field extension
 `K/k` inside a big fppf site, the base changes `X_A` of `X` to the finitely generated
@@ -514,6 +574,9 @@ def fgSubalgebraDescentSituation (hk : B.Contains (Spec (.of k)))
   limitAlgebraicSpace := isAlgebraicSpace_fgSubalgebraSystemLimitCone_pt k K B hk hK X hX
   base := ⟨⊥, Subalgebra.fg_bot⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- formerly set for the whole file from here on: instance search for limits of presheaves on
+-- the big fppf site is deep
 /-- The system of the descent situation is the system of base changes. -/
 theorem fgSubalgebraDescentSituation_system (hk : B.Contains (Spec (.of k)))
     (hK : B.Contains (Spec (.of K))) (X : (BigFppfOver B (Spec (.of k)) hk)ᵒᵖ ⥤ Type u)
@@ -524,6 +587,9 @@ theorem fgSubalgebraDescentSituation_system (hk : B.Contains (Spec (.of k)))
       fgSubalgebraSystem k K B hk hK X :=
   rfl
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- formerly set for the whole file from here on: instance search for limits of presheaves on
+-- the big fppf site is deep
 /-- The chosen limit cone of the descent situation is the chosen limit cone of the system. -/
 theorem fgSubalgebraDescentSituation_limitCone (hk : B.Contains (Spec (.of k)))
     (hK : B.Contains (Spec (.of K))) (X : (BigFppfOver B (Spec (.of k)) hk)ᵒᵖ ⥤ Type u)
@@ -534,6 +600,9 @@ theorem fgSubalgebraDescentSituation_limitCone (hk : B.Contains (Spec (.of k)))
       (fgSubalgebraSystemLimitCone k K B hk hK X).cone :=
   rfl
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- formerly set for the whole file from here on: instance search for limits of presheaves on
+-- the big fppf site is deep
 /-- The chosen index of the descent situation is the zero subalgebra. -/
 theorem fgSubalgebraDescentSituation_base (hk : B.Contains (Spec (.of k)))
     (hK : B.Contains (Spec (.of K))) (X : (BigFppfOver B (Spec (.of k)) hk)ᵒᵖ ⥤ Type u)
@@ -546,6 +615,9 @@ theorem fgSubalgebraDescentSituation_base (hk : B.Contains (Spec (.of k)))
 
 /-! ### Reading representability in and out of the situation -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- formerly set for the whole file from here on: instance search for limits of presheaves on
+-- the big fppf site is deep
 /-- **The restriction of a presheaf to the slice over `V` is representable as soon as its
 product with the presheaf represented by `(V ⟶ U)` is.** A representing object of the product
 comes with a morphism to `(V ⟶ U)`, and the object of the slice over `V` that morphism defines
@@ -563,7 +635,7 @@ theorem isRepresentable_relocalizeRestrict_of_isRepresentable_prod
   let Y : Over V := Over.mk p.left
   let lift {W : Over V} (g : W ⟶ Y) : (Over.map f).obj W ⟶ R :=
     Over.homMk g.left (by
-      show g.left ≫ R.hom = W.hom ≫ f
+      change g.left ≫ R.hom = W.hom ≫ f
       rw [← p.w, ← Category.assoc]
       exact congrArg (fun t => t ≫ f) g.w)
   let canonical (W : Over V) : (Over.map f).obj W ⟶ Over.mk f := Over.homMk W.hom rfl
@@ -584,19 +656,22 @@ theorem isRepresentable_relocalizeRestrict_of_isRepresentable_prod
     refine ⟨fun g => (e.homEquiv (lift g)).2, inv, ?_, ?_⟩
     · intro g
       apply Over.OverMorphism.ext
-      show (e.homEquiv.symm (canonical W, (e.homEquiv (lift g)).2)).left = g.left
+      change (e.homEquiv.symm (canonical W, (e.homEquiv (lift g)).2)).left = g.left
       rw [← hfirst g]
       exact congrArg Over.Hom.left (e.homEquiv.symm_apply_apply (lift g))
     · intro x
-      show (e.homEquiv (lift (inv x))).2 = x
+      change (e.homEquiv (lift (inv x))).2 = x
       rw [hinv]
       exact congrArg (fun t => t.2) (e.homEquiv.apply_symm_apply (canonical W, x))
   · intro W W' b g
-    show (e.homEquiv (lift (b ≫ g))).2 = F.map ((Over.map f).map b).op _
+    change (e.homEquiv (lift (b ≫ g))).2 = F.map ((Over.map f).map b).op _
     have hl : lift (b ≫ g) = (Over.map f).map b ≫ lift g := Over.OverMorphism.ext rfl
     rw [hl, e.homEquiv_comp]
     rfl
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- formerly set for the whole file from here on: instance search for limits of presheaves on
+-- the big fppf site is deep
 /-- **If a stage of the system is a scheme over `Spec k`, then `X_A` is a scheme over
 `Spec A`.** The stage is the product of `X` with the presheaf represented by `Spec A`, and such
 a product being representable makes the restriction of `X` to the site of `Spec A`
@@ -614,6 +689,9 @@ theorem isRepresentable_relocalizeRestrict_of_isRepresentable_system_obj
     (r.toIso ≪≫ (fgSubalgebraSystemObjIso k K B hk hK X A).symm ≪≫
       FunctorToTypes.binaryProductIso _ _)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- formerly set for the whole file from here on: instance search for limits of presheaves on
+-- the big fppf site is deep
 /-- **If `X_K` is a scheme over `Spec K`, then the limit of the system is representable.** The
 base change of `X` to `Spec K`, relocalized back to the site of `Spec k`, is the product of `X`
 with the presheaf represented by `Spec K`, which is the limit of the system; the relocalization
@@ -637,6 +715,9 @@ theorem isRepresentable_limitCone_pt_of_isRepresentable_relocalizeRestrict
 
 /-! ### A finitely generated stage which is a scheme -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- formerly set for the whole file from here on: instance search for limits of presheaves on
+-- the big fppf site is deep
 /-- **If `X_K` is a scheme then so is `X_A` for a finitely generated `k`-subalgebra `A` of `K`.**
 This is the first half of the proof of [Stacks, Tag 0B84] part (2), with no condition on the
 site.

@@ -34,11 +34,11 @@ on its total site has a derived restriction `Kₙ` in every simplicial degree, a
 
 ## Implementation notes
 
-The unprimed names of `StacksFrontier.CategoryTheory.Sites.Simplicial.CartesianDerivedSheaves` denote
-different terms: there the component restriction is the direct image along the continuous component
-inclusion and the derived categories are a hypothesis, here it is the abelian inverse image of the
-component morphism of topoi and the derived categories are the standard ones. The two restrictions
-agree by Stacks 00XR; that identification is not formalized.
+The unprimed names of `StacksFrontier.CategoryTheory.Sites.Simplicial.CartesianDerivedSheaves`
+denote different terms: there the component restriction is the direct image along the continuous
+component inclusion and the derived categories are a hypothesis, here it is the abelian inverse
+image of the component morphism of topoi and the derived categories are the standard ones. The two
+restrictions agree by Stacks 00XR; that identification is not formalized.
 
 The component restriction is `CategoryTheory.Sites.abelianInverseImage` of the component morphism
 of topoi, as are the simplex transitions `abelianTransition` of Stacks 0D9G, so its exactness is

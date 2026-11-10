@@ -144,7 +144,8 @@ end Underived
 section Derived
 
 -- `Stacks.Cohomology.BaseChange.derived` (`StacksFrontier/Topology/Sheaves/Cohomology/
--- StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/AbelianBaseChangeMap.lean:204`) is built under the standard model.
+-- StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/AbelianBaseChangeMap.lean:204`)
+-- is built under the standard model.
 attribute [local instance] HasDerivedCategory.standard
 
 variable {𝒮 𝒯 𝒳 𝒴 : Type*} [Category* 𝒮] [Category* 𝒯] [Category* 𝒳] [Category* 𝒴]

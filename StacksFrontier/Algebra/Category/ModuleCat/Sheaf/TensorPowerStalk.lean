@@ -173,7 +173,7 @@ theorem span_range_ιMulti (n : ℕ) :
   have hrange : Submodule.span R (Set.range (TensorAlgebra.ι R (M := M))) =
       LinearMap.range (TensorAlgebra.ι R : M →ₗ[R] TensorAlgebra R M) := by
     rw [LinearMap.range_eq_map, ← Submodule.span_univ, Submodule.map_span, Set.image_univ]
-  show Submodule.span R (Set.range (ιMulti R n (M := M))) =
+  change Submodule.span R (Set.range (ιMulti R n (M := M))) =
     LinearMap.range (TensorAlgebra.ι R : M →ₗ[R] TensorAlgebra R M) ^ n
   induction n with
   | zero =>
@@ -1127,7 +1127,8 @@ instance is synthesised for `Y.presheaf` and is *not* synthesised for `Y.sheaf.o
 `inferInstanceAs` between the two succeeds, so the two are defeq and only instance *search*
 cannot bridge them. Raising the projection's transparency for these two declarations is the whole
 repair; the statements are untouched. The search fails because the sheaf of rings of a ringed
-space is an `instance_reducible` definition rather than a `reducible` one, and the budget cannot be raised here since this project forbids `set_option`. -/
+space is an `instance_reducible` definition rather than a `reducible` one, and the budget cannot be
+raised here since this project forbids `set_option`. -/
 attribute [local implicit_reducible] AlgebraicGeometry.SheafedSpace.sheaf
 
 /-- For the chosen package `SheafOfModules.ringedSpaceAlgebras` of the three algebras of

@@ -91,7 +91,7 @@ theorem SmallEtale.commRingStructureSheaf_map_from_final (U : SmallEtale B S hS)
     (SmallEtale.commRingStructureSheaf B S hS).obj.map
         ((SmallEtale.finalIsTerminal B S hS).from U).op =
       (schemeStructureHom B S hS U).appTop := by
-  show Scheme.Γ.map ((SmallEtale.toScheme B S hS).map
+  change Scheme.Γ.map ((SmallEtale.toScheme B S hS).map
     ((SmallEtale.finalIsTerminal B S hS).from U)).op = _
   rw [SmallEtale.toScheme_map_from_final]
   exact Scheme.Γ_map_op (schemeStructureHom B S hS U)

@@ -166,7 +166,7 @@ theorem pow_smul_id_homologyFunctor_eq_zero_of_chainComp
   | zero =>
     intro Z v w hZ j
     have hiso : IsIso (Triangle.mk (chainComp Y g 0) v w).mor₁ := by
-      show IsIso (chainComp Y g 0)
+      change IsIso (chainComp Y g 0)
       rw [chainComp_zero]
       infer_instance
     have hzero : IsZero Z := Triangle.isZero₃_of_isIso₁ _ hZ hiso
@@ -203,7 +203,7 @@ theorem annihilation07Q9_one_of_isIso
     Annihilation07Q9 S₀ 1 e := by
   intro E v wE hT j
   have hiso : IsIso (Triangle.mk e v wE).mor₁ := by
-    show IsIso e
+    change IsIso e
     infer_instance
   have hzero : IsZero E := Triangle.isZero₃_of_isIso₁ _ hT hiso
   exact Stacks.Triangulated.smul_id_homologyFunctor_eq_zero_of_isZero hzero _ j

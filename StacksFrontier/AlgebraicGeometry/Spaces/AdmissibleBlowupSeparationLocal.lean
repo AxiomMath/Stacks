@@ -128,7 +128,7 @@ theorem exists_open_partition_reesSituation_relativeProj {Y : Scheme.{u}}
   let ψ := Stacks.Blowup.reesSituationBlowUpIso (I ⊔ J) ≪≫ AlgebraicGeometry.blowUpIso (I ⊔ J)
   have hψ : ψ.hom ≫ Stacks.Blowup.blowUpToBase (I ⊔ J) =
       (Stacks.Blowup.reesSituation (I ⊔ J)).relativeProjToBase := by
-    show (Stacks.Blowup.reesSituationBlowUpIso (I ⊔ J)).hom ≫
+    change (Stacks.Blowup.reesSituationBlowUpIso (I ⊔ J)).hom ≫
       (AlgebraicGeometry.blowUpIso (I ⊔ J)).hom ≫ Stacks.Blowup.blowUpToBase (I ⊔ J) = _
     rw [AlgebraicGeometry.blowUpIso_hom_blowUpToBase]
     exact Stacks.Blowup.reesSituationBlowUpIso_hom_blowUpToBase _
@@ -322,7 +322,7 @@ theorem exists_open_partition_of_isPullback {X X' W : AlgebraicSpaces B S hS}
         pointsMap B S hS (schemeSpace V).1 a.hom v ∈ subspacePointSet B S hS X.1 Zi.1 := by
     intro Zi v
     rw [mem_support_ker_rep_snd_iff B S hS _ (preimageClosedSubspace a Zi).2.2 b₀ v]
-    show pointsMap B S hS _ (𝟙 _) v ∈ subspacePointSet B S hS _ (Zi.1.preimage a.hom) ↔ _
+    change pointsMap B S hS _ (𝟙 _) v ∈ subspacePointSet B S hS _ (Zi.1.preimage a.hom) ↔ _
     rw [subspacePointSet_preimage, pointsMap_id]
     rfl
   let O : Set (points B S hS X.1) → Set ((BigFppfOver.toScheme B S hS).obj V) :=

@@ -98,6 +98,7 @@ theorem mono_of_isRigEtale_of_isRigSurjective_diagonal
   have : IsIso (pullback.diagonal q) := isIso_of_mono_of_epi _
   exact (pullback.isIso_diagonal_iff q).mp this
 
+omit [IsLinearTopology A A] in
 attribute [-instance] CategoryTheory.catToReflQuiver in
 /-- **The formal spectrum of a complete discrete valuation ring has one point.** Every point of
 `Spf A` is its closed point: a point is given by a ring map `A ⧸ I → Ω` into a field for a weak
@@ -148,16 +149,19 @@ theorem pointsULift_formalSpectrum_eq_residuePoint
     (Ideal.Quotient.factor hIm) hφ (toScheme_map_transition D hIm) ?_
   ext x
   obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective x
-  show φ (Ideal.Quotient.mk I.1 r) = 0 ↔ Ideal.Quotient.mk mI.1 r = 0
+  change φ (Ideal.Quotient.mk I.1 r) = 0 ↔ Ideal.Quotient.mk mI.1 r = 0
   rw [Ideal.Quotient.eq_zero_iff_mem]
   have hprime : (RingHom.ker (φ.comp (Ideal.Quotient.mk I.1))).IsPrime := RingHom.ker_isPrime _
   have heq := (IsLocalRing.maximalIdeal.isMaximal A).eq_of_le hprime.ne_top fun y hy ↦
     hprime.mem_of_pow_mem N (by
       rw [RingHom.mem_ker, RingHom.comp_apply, Ideal.Quotient.eq_zero_iff_mem.mpr
         (hN (Ideal.pow_mem_pow hy N)), map_zero])
-  show r ∈ RingHom.ker (φ.comp (Ideal.Quotient.mk I.1)) ↔ r ∈ IsLocalRing.maximalIdeal A
+  change r ∈ RingHom.ker (φ.comp (Ideal.Quotient.mk I.1)) ↔ r ∈ IsLocalRing.maximalIdeal A
   rw [← heq]
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- synthesizing `Mono (initial.to F)` in the category of fppf sheaves exceeds the default
+-- typeclass heartbeats
 /-- **An fppf sheaf without points is initial.** A section of the sheaf over a nonempty object of
 the site gives a field-valued point at the residue field of a point of that object, so all its
 sections live over empty objects, which the empty sieve covers. Hence the morphism from the
@@ -181,8 +185,7 @@ theorem nonempty_isInitial_of_isEmpty_pointsULift {F : FppfSheaf B S hS}
   have : Epi ι := (Sheaf.isLocallySurjective_iff_epi ι).mp ⟨fun {T} s =>
     (BigFppfOver.topology B S hS).superset_covering bot_le
       (BigFppfOver.bot_mem_topology T (hT T s))⟩
-  have : IsIso ι := by
-    set_option synthInstance.maxHeartbeats 400000 in exact isIso_of_mono_of_epi ι
+  have : IsIso ι := isIso_of_mono_of_epi ι
   exact ⟨initialIsInitial.ofIso (asIso ι)⟩
 
 /-- **A flat formal space over a cdvr with rig-étale rig-surjective diagonal is the base or

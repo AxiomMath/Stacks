@@ -154,12 +154,12 @@ theorem isRepresentedOver_of_isAffine_of_isFlat (hf : IsFinitePresentation B S h
   have hvO : E'.f ⁻¹' {Nb.point} ⊆ O := by
     intro x hx
     have hx' : φ.hom x ∈ pullback.snd E.f Nb.toBase ⁻¹' {Nb.point} := by
-      show (φ.hom ≫ pullback.snd E.f Nb.toBase) x = Nb.point
+      change (φ.hom ≫ pullback.snd E.f Nb.toBase) x = Nb.point
       rwa [show φ.hom ≫ pullback.snd E.f Nb.toBase = E'.f from
         D.stageChartIsoPullback_hom_snd n β U]
     obtain ⟨j, w, hw⟩ := Set.mem_iUnion.1 (hcov hx')
     refine Set.mem_iUnion.2 ⟨j, w, ?_⟩
-    show φ.inv (h j w) = x
+    change φ.inv (h j w) = x
     rw [hw]
     exact congrFun (congrArg (fun k : E'.X ⟶ E'.X ↦ (k : E'.X → E'.X)) φ.hom_inv_id) x
   obtain ⟨W₀, hW₀o, hvW₀, hW₀⟩ := D.exists_isOpen_relativeAssassin_subset_image hf hF hpure n V'
@@ -202,14 +202,14 @@ theorem isRepresentedOver_of_isAffine_of_isFlat (hf : IsFinitePresentation B S h
   have hV₀W₀ : (V₀ : Set E''.S) ⊆ W₀ := fun x hx ↦ hx.1
   have hsV₀ : Nb.point ∈ V₀ := by
     refine ⟨hvW₀, ?_⟩
-    show Nb.point ∈ ((⨅ i, W i : E''.S.Opens) : Set E''.S)
+    change Nb.point ∈ ((⨅ i, W i : E''.S.Opens) : Set E''.S)
     rw [TopologicalSpace.Opens.coe_iInf]
     exact Set.mem_iInter.mpr hsW
   have hcharts (i : Fin m) : IsCutOutByMonoFP (fun T : Over V₀.toScheme ↦
       (E''.etaleChart (h i)).IsFlatInDimensionsGEAfterBaseChange ((Over.map V₀.ι).obj T)) := by
     refine ((hW i).baseChange (E''.S.homOfLE (hV₀W i))).of_iff fun T ↦ ?_
     refine (E''.etaleChart (h i)).isFlat_mk_congr ?_
-    show (T.hom ≫ E''.S.homOfLE (hV₀W i)) ≫ (W i).ι = T.hom ≫ V₀.ι
+    change (T.hom ≫ E''.S.homOfLE (hV₀W i)) ≫ (W i).ι = T.hom ≫ V₀.ι
     rw [Category.assoc, Scheme.homOfLE_ι]
   have hV₀ : IsCutOutByMonoFP (fun T : Over V₀.toScheme ↦
       E''.IsFlatInDimensionsGEAfterBaseChange ((Over.map V₀.ι).obj T)) := by

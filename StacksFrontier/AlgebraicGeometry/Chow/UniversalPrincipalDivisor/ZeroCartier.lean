@@ -187,7 +187,7 @@ global sections is then a polynomial ring. -/
 theorem isRegular_coord {n : Type u} (W : Scheme.{u}) [IsAffine W] (i : n) :
     IsRegular (AffineSpace.coord W i) := by
   have : IsIso ((AffineSpace.isoOfIsAffine n W).inv.appTop) := by
-    show IsIso ((AffineSpace.isoOfIsAffine n W).inv.app ⊤)
+    change IsIso ((AffineSpace.isoOfIsAffine n W).inv.app ⊤)
     infer_instance
   refine isRegular_of_isIso_apply ((AffineSpace.isoOfIsAffine n W).inv.appTop) ?_
   rw [AffineSpace.isoOfIsAffine_inv_appTop_coord]
@@ -217,7 +217,7 @@ theorem exists_affineOpens_isRegular_coord {n : Type u} (S : Scheme.{u}) (i : n)
       (AffineSpace.isPullback_map W.1.ι).flip inferInstance
   refine ⟨⟨AffineSpace.map n W.1.ι ''ᵁ ⊤,
     (isAffineOpen_top _).image_of_isOpenImmersion _⟩, ?_, ?_⟩
-  · show w ∈ (AffineSpace.map n W.1.ι) '' (⊤ : Set _)
+  · change w ∈ (AffineSpace.map n W.1.ι) '' (⊤ : Set _)
     rw [Set.top_eq_univ, Set.image_univ, range_affineSpaceMap, Scheme.Opens.range_ι]
     exact hwW
   · refine isRegular_of_isIso_apply (((AffineSpace.map n W.1.ι).appIso ⊤).hom) ?_

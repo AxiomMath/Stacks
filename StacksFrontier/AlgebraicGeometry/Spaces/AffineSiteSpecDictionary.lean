@@ -149,14 +149,14 @@ theorem exists_specOver (B : BigFppfSite.{u}) {R : CommRingCat.{u}}
       Nonempty (T ≅ specOver B hX hA φ) := by
   have : IsAffine T.left.obj := hT
   have hA : B.Contains (Spec Γ(T.left.obj, ⊤)) := by
-    show (Spec Γ(T.left.obj, ⊤)).size < B.cutoff
+    change (Spec Γ(T.left.obj, ⊤)).size < B.cutoff
     rw [← Scheme.size_congr T.left.obj.isoSpec]
     exact T.left.property
   refine ⟨Γ(T.left.obj, ⊤), hA,
     Spec.preimage (T.left.obj.isoSpec.inv ≫ B.inclusion.map T.hom), ⟨?_⟩⟩
   refine Over.isoMk (ObjectProperty.isoMk _ T.left.obj.isoSpec) ?_
   apply ObjectProperty.hom_ext
-  show T.left.obj.isoSpec.hom ≫
+  change T.left.obj.isoSpec.hom ≫
       Spec.map (Spec.preimage (T.left.obj.isoSpec.inv ≫ B.inclusion.map T.hom)) =
     B.inclusion.map T.hom
   rw [Spec.map_preimage, Iso.hom_inv_id_assoc]

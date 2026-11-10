@@ -110,7 +110,7 @@ theorem isSumOfCharts_fracFG
         convert hs using 2
         omega
       obtain ⟨p, hp, q, hq, rfl⟩ := hred (a + b + 1) (by omega) s hs'
-      have hp' : p ∈ 𝒜 (a + (b + 1)) := by convert hp using 2 <;> omega
+      have hp' : p ∈ 𝒜 (a + (b + 1)) := by convert hp using 2
       have hq' : q ∈ 𝒜 ((a + 1) + b) := by convert hq using 2; omega
       have key : fracFG 𝒜 hf hg (a + 1) (b + 1) (f * p + g * q) hs =
           fracFG 𝒜 hf hg a (b + 1) p hp' + fracFG 𝒜 hf hg (a + 1) b q hq' := by
@@ -184,6 +184,7 @@ theorem reesGrading_reduction {a b : R} (ha : a ∈ I) (hb : b ∈ I)
   rw [add_comm 1 k]
 
 set_option maxHeartbeats 400000 in
+-- long chain of `rw`/`change` steps through sections of `Proj` of the Rees algebra
 open Stacks.Cohomology.CechSheaf Stacks.Cohomology.Basis in
 /-- **`H¹(Proj(⨁ Iᵏ), 𝒪) = 0` for an ideal with a two-generated reduction of reduction number
 one.** If `a, b ∈ I` and `I² ≤ (a, b) I`, then the two charts `D₊(a⁽¹⁾)`, `D₊(b⁽¹⁾)` cover the
@@ -250,7 +251,7 @@ theorem isZero_Hgroup_one_proj_reesGrading_of_sq_le {a b : R} (ha : a ∈ I) (hb
   rw [e0, e1] at hd
   have hc : secToΓ c =
       (AlgebraicGeometry.Proj (reesGrading I)).presheaf.map (homOfLE hint.le).op d := by
-    show secToΓ c = ((AlgebraicGeometry.Proj (reesGrading I)).presheaf.map (homOfLE hint.ge).op ≫
+    change secToΓ c = ((AlgebraicGeometry.Proj (reesGrading I)).presheaf.map (homOfLE hint.ge).op ≫
       (AlgebraicGeometry.Proj (reesGrading I)).presheaf.map (homOfLE hint.le).op) (secToΓ c)
     rw [← Functor.map_comp]
     exact (ConcreteCategory.congr_hom
@@ -295,11 +296,11 @@ theorem nodalCenter_sq_le (π : R) {n : ℕ} (hn : 2 ≤ n) :
     omega
   have hc : p * p ^ (n - 1) ∈ J * I := Ideal.mul_mem_mul hpJ hpowI
   rw [pow_two]
-  show Ideal.span {p, x, y} * Ideal.span {p, x, y} ≤ J * I
+  change Ideal.span {p, x, y} * Ideal.span {p, x, y} ≤ J * I
   rw [Ideal.span_mul_span, Ideal.span_le]
   rintro _ ⟨s, hs, t, ht, rfl⟩
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hs ht
-  show s * t ∈ J * I
+  change s * t ∈ J * I
   rcases hs with rfl | rfl | rfl <;> rcases ht with rfl | rfl | rfl
   · exact Ideal.mul_mem_mul hpJ hpI
   · exact Ideal.mul_mem_mul hpJ hxI

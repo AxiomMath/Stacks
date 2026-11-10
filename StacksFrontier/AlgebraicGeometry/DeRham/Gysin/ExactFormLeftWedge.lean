@@ -122,7 +122,7 @@ theorem formLeftWedgeHom_exactOneFormSection_comp_eq_zero (π : X ⟶ S) (b : Γ
       rw [hψ]
       rfl
     exact h
-  show ψ.val.app U ((eqToHom e₁).val.app U
+  change ψ.val.app U ((eqToHom e₁).val.app U
     ((A.mul 1 (p : ℤ)).app U ((exactOneFormSection π b).eval U) ω)) = 0
   refine Eq.trans (congrArg (ψ.val.app U) (eqToHom_app_eq_eqToHom_app e₁ e₂ U _
     (((-1 : ℤ) ^ p) • (A.mul (p : ℤ) 1).app U ω ((exactOneFormSection π b).eval U))

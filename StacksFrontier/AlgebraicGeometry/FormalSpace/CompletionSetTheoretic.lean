@@ -153,14 +153,14 @@ private theorem exists_bounded_closedSubscheme_cover (Y : Scheme.{u}) (hY : B.Co
     obtain ⟨⟨J, z⟩, rfl⟩ := (sigmaMk D).surjective w
     rw [sigmaMk_mk]
     change (Sigma.ι D J ≫ f) z ∈ T
-    rw [Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc]
     exact J.2 (J.1.range_subschemeι ▸ Set.mem_range_self z)
   · intro Z g hg hgT
     have hker : (g.ker.support : Set Y) ⊆ T := by
       rw [Scheme.Hom.support_ker]
       exact closure_minimal hgT hT
     refine ⟨g.toImage ≫ Sigma.ι D ⟨g.ker, hker⟩, ?_⟩
-    rw [Category.assoc, Sigma.ι_desc]
+    rw [Category.assoc, Sigma.ι_comp_desc]
     exact g.toImage_imageι
 
 /-- The field-valued points of a chart landing in a closed set `T` of points are those whose

@@ -247,7 +247,7 @@ private theorem isIso_of_morphismRestrict_top {A B : Scheme.{u}} (f : A ⟶ B)
   have h := morphismRestrict_ι f ⊤
   have : IsIso ((f ⁻¹ᵁ ⊤).ι ≫ f) := h ▸ inferInstance
   have : IsIso (f ⁻¹ᵁ ⊤).ι := by
-    show IsIso ((⊤ : A.Opens).ι)
+    change IsIso ((⊤ : A.Opens).ι)
     exact inferInstanceAs (IsIso A.topIso.hom)
   exact IsIso.of_isIso_comp_left (f ⁻¹ᵁ ⊤).ι f
 
@@ -289,7 +289,7 @@ private theorem transformToCurve_isIso_of_notMem_support {X : Scheme.{u}}
     (isIso_blowUpToBase_of_support_eq_bot _ ?_)
   rw [Scheme.IdealSheafData.support_comap]
   refine SetLike.coe_injective ?_
-  show I.subschemeι ⁻¹' ((centerIdeal p hp).support : Set X) = (∅ : Set I.subscheme)
+  change I.subschemeι ⁻¹' ((centerIdeal p hp).support : Set X) = (∅ : Set I.subscheme)
   rw [show ((centerIdeal p hp).support : Set X) = {p} from
     Scheme.IdealSheafData.coe_support_vanishingIdeal _]
   ext x
@@ -468,7 +468,7 @@ private theorem genericPoint_notMem_support_of_ne {X : Scheme.{u}} (I J : X.Idea
     (η : I.subscheme) (hη : η ∈ genericPoints I.subscheme) : I.subschemeι η ∉ J.support := by
   have : IrreducibleSpace I.subscheme := irreducibleSpace_of_isIntegral I.subscheme
   have hgeneric : IsGenericPoint η Set.univ := by
-    show closure {η} = Set.univ
+    change closure {η} = Set.univ
     simpa only [genericPoints, Set.mem_ofPred_eq, irreducibleComponents_eq_singleton,
       Set.mem_singleton_iff] using hη
   intro hmem
@@ -525,7 +525,7 @@ private theorem transformToBlowUp_comp_blowUpToBase {X : Scheme.{u}} (I : X.Idea
     (p : X) (hp : IsClosed ({p} : Set X)) :
     transformToBlowUp I p hp ≫ blowUpToBase (centerIdeal p hp) =
       transformToCurve I p hp ≫ I.subschemeι := by
-  show ((strictTransformCenterIdeal I p hp).subschemeι ≫
+  change ((strictTransformCenterIdeal I p hp).subschemeι ≫
       pullback.snd I.subschemeι (blowUpToBase (centerIdeal p hp))) ≫
       blowUpToBase (centerIdeal p hp) =
     ((strictTransformCenterIdeal I p hp).subschemeι ≫
@@ -553,7 +553,7 @@ private theorem transformIdeal_support_subset {X : Scheme.{u}} (I : X.IdealSheaf
   rintro _ ⟨z, rfl⟩
   have h := congrArg (fun f => f z) (transformToBlowUp_comp_blowUpToBase I p hp)
   simp only [Scheme.Hom.comp_apply] at h
-  show (blowUpToBase (centerIdeal p hp)) (transformToBlowUp I p hp z) ∈ (I.support : Set X)
+  change (blowUpToBase (centerIdeal p hp)) (transformToBlowUp I p hp z) ∈ (I.support : Set X)
   rw [h]
   exact (transformToCurve I p hp z).property
 
@@ -1023,14 +1023,14 @@ private theorem surjective_of_comp_eq_of_isIso_morphismRestrict {Z B Y : Scheme.
       rw [hzz]
       exact hz
     have hlz : l z ∈ ((b ⁻¹ᵁ V : B.Opens) : Set B) := by
-      show b (l z) ∈ (V : Set Y)
+      change b (l z) ∈ (V : Set Y)
       rw [hbz]
       exact hw
     exact injOn_of_isIso_morphismRestrict b V hVi hlz hw hbz
   have hVne : ((b ⁻¹ᵁ V : B.Opens) : Set B).Nonempty := by
     obtain ⟨x, hxV, w, hw⟩ := hb.denseRange.inter_open_nonempty (V : Set Y) V.2 hV
     refine ⟨w, ?_⟩
-    show b w ∈ (V : Set Y)
+    change b w ∈ (V : Set Y)
     rw [hw]
     exact hxV
   refine ⟨Set.range_eq_univ.mp (Set.eq_univ_of_univ_subset ?_)⟩

@@ -74,7 +74,7 @@ private lemma homMk_twist_comp_map_singlePlusIso {A B : Type*} [Category* A] [Ca
       ObjectProperty.FullSubcategory.comp_hom, HomologicalComplex.comp_f]
     dsimp [Stacks.DerivedIndexing.mapSinglePlus, Stacks.DerivedIndexing.singlePlusFunctor]
     dsimp only [Functor.mapCochainComplexPlus, ObjectProperty.lift_map, Functor.comp_map]
-    show ((NatTrans.mapHomologicalComplex t (ComplexShape.up ℤ)).app
+    change ((NatTrans.mapHomologicalComplex t (ComplexShape.up ℤ)).app
           ((HomologicalComplex.single A (ComplexShape.up ℤ) 0).obj M)).f 0 ≫
         P.map (((HomologicalComplex.singleMapHomologicalComplex I (ComplexShape.up ℤ) 0).app
           M).hom.f 0) =
@@ -201,7 +201,7 @@ theorem adjunctionExtMap_eq_etaleModuleExtRestriction
         (etaleModuleDirectImage.{u, 0} Λ φ) (etaleModuleInverseImageAdj.{u, 0} Λ φ) N b =
       (etaleModuleExtRestriction Λ φ _ i b).comp
         (Ext.mk₀ ((etaleModuleInverseImageAdj.{u, 0} Λ φ).counit.app N)) (add_zero i) := by
-  show ((Ext.mk₀ (Functor.LaxMonoidal.ε (etaleModuleInverseImage.{u, 0} Λ φ))).comp
+  change ((Ext.mk₀ (Functor.LaxMonoidal.ε (etaleModuleInverseImage.{u, 0} Λ φ))).comp
     (b.mapExactFunctor (etaleModuleInverseImage.{u, 0} Λ φ)) (zero_add i)).comp _ _ = _
   rw [etaleModuleExtRestriction_apply, etaleModuleInverseImageMonoidal_ε]
   rfl

@@ -237,7 +237,7 @@ public theorem PairAgree.trans {Q : Scheme.{u}} {j₁ j₂ j₃ : α} {G₁ : Q 
     smallEtalePairLift (π₁₂ ≫ smallEtalePairFst _ _) (smallEtalePairSnd P (W j₃))
   have hτ : pairLift W G₁ G₂ h₁₂ ≫ ((P.hom : P.left ⟶ X)) =
       G₃ ≫ ((W j₃).hom : (W j₃).left ⟶ X) := by
-    show pairLift W G₁ G₂ h₁₂ ≫ (smallEtalePairFst (W j₁) (W j₂)).left ≫
+    change pairLift W G₁ G₂ h₁₂ ≫ (smallEtalePairFst (W j₁) (W j₂)).left ≫
       ((W j₁).hom : (W j₁).left ⟶ X) = _
     rw [pairLift_fst_assoc, h₁₃]
   let τ : Q ⟶ T.left := pullback.lift (pairLift W G₁ G₂ h₁₂) G₃ hτ
@@ -247,14 +247,14 @@ public theorem PairAgree.trans {Q : Scheme.{u}} {j₁ j₂ j₃ : α} {G₁ : Q 
     smallEtalePair_hom_ext W
       (by
         rw [Category.assoc, smallEtalePairLift_left_fst, pairLift_fst]
-        show (τ ≫ π₁₂.left) ≫ (smallEtalePairSnd (W j₁) (W j₂)).left = G₂
+        change (τ ≫ π₁₂.left) ≫ (smallEtalePairSnd (W j₁) (W j₂)).left = G₂
         rw [e₁₂, pairLift_snd])
       (by rw [Category.assoc, smallEtalePairLift_left_snd, e₃, pairLift_snd])
   have e₁₃ : τ ≫ π₁₃.left = pairLift W G₁ G₃ h₁₃ :=
     smallEtalePair_hom_ext W
       (by
         rw [Category.assoc, smallEtalePairLift_left_fst, pairLift_fst]
-        show (τ ≫ π₁₂.left) ≫ (smallEtalePairFst (W j₁) (W j₂)).left = G₁
+        change (τ ≫ π₁₂.left) ≫ (smallEtalePairFst (W j₁) (W j₂)).left = G₁
         rw [e₁₂, pairLift_fst])
       (by rw [Category.assoc, smallEtalePairLift_left_snd, e₃, pairLift_snd])
   unfold PairAgree at a b ⊢
@@ -357,7 +357,7 @@ public theorem pairAgree_of_mem_range
         (terminal.from ((smallEtaleBaseChange i).obj (smallEtalePair (W j) (W j'))))]
   refine mem_smallEtaleEqLocus_of_sectionPullback_eq.{u, v} i F
     ((key j _).trans (key j' _).symm) _ ?_
-  show ((pairLift W G G' hG ≫ (smallEtalePairFst (W j) (W j')).left) ≫
+  change ((pairLift W G G' hG ≫ (smallEtalePairFst (W j) (W j')).left) ≫
     ((W j).hom : (W j).left ⟶ X)).base q ∈ _
   rwa [pairLift_fst]
 

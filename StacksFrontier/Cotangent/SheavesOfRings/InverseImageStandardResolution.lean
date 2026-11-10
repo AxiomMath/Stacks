@@ -148,7 +148,7 @@ lemma Adjunction.comonadSquareIso_counit (a : F ⊣ U) (b : F' ⊣ U')
       have hn := i.inv.naturality (a.counit.app X)
       dsimp only [Functor.comp_map, Functor.comp_obj, Functor.id_obj] at hn
       rw [← hn, ← Category.assoc, ← L.map_comp, a.right_triangle_components]
-      show i.inv.app X = L.map (𝟙 (U.obj X)) ≫ i.inv.app X
+      change i.inv.app X = L.map (𝟙 (U.obj X)) ≫ i.inv.app X
       rw [L.map_id (U.obj X), Category.id_comp]
 
 /-- The comonad comparison commutes with the comultiplications of the two comonads. -/
@@ -227,13 +227,13 @@ lemma Functor.iterateCompIso_godementFace {G : C ⥤ C} {G' : D ⥤ D} {H : C �
   | succ n ih =>
     refine Fin.cases ?_ (fun j => ?_) j
     · simp only [Godement.Prep.face_zero, whiskerLeft_app]
-      show H.map (ε.app ((G.iterate (n + 1)).obj X)) ≫ _ =
+      change H.map (ε.app ((G.iterate (n + 1)).obj X)) ≫ _ =
         (e.hom.app _ ≫ G'.map ((Functor.iterateCompIso e (n + 1)).hom.app X)) ≫ _
       have hn := ε'.naturality ((Functor.iterateCompIso e (n + 1)).hom.app X)
       dsimp only [Functor.id_map, Functor.comp_obj] at hn
       rw [Category.assoc, hn, ← Category.assoc, hε]
     · simp only [Godement.Prep.face_succ, whiskerRight_app]
-      show H.map (G.map ((Godement.face ε n j).app X)) ≫
+      change H.map (G.map ((Godement.face ε n j).app X)) ≫
         (e.hom.app _ ≫ G'.map ((Functor.iterateCompIso e n).hom.app X)) =
         (e.hom.app _ ≫ G'.map ((Functor.iterateCompIso e (n + 1)).hom.app X)) ≫
           G'.map ((Godement.face ε' n j).app (H.obj X))
@@ -258,7 +258,7 @@ lemma Functor.iterateCompIso_godementDegeneracy {G : C ⥤ C} {G' : D ⥤ D} {H 
   | succ n ih =>
     refine Fin.cases ?_ (fun j => ?_) j
     · simp only [Godement.Prep.degeneracy_zero, whiskerLeft_app]
-      show H.map (δ.app ((G.iterate (n + 1)).obj X)) ≫
+      change H.map (δ.app ((G.iterate (n + 1)).obj X)) ≫
         (e.hom.app _ ≫ G'.map (e.hom.app _ ≫
           G'.map ((Functor.iterateCompIso e (n + 1)).hom.app X))) =
         (e.hom.app _ ≫ G'.map ((Functor.iterateCompIso e (n + 1)).hom.app X)) ≫ _
@@ -270,7 +270,7 @@ lemma Functor.iterateCompIso_godementDegeneracy {G : C ⥤ C} {G' : D ⥤ D} {H 
           ((Functor.iterateCompIso e (n + 1)).hom.app X)))
           (hδ ((G.iterate (n + 1)).obj X))
     · simp only [Godement.Prep.degeneracy_succ, whiskerRight_app]
-      show H.map (G.map ((Godement.degeneracy δ n j).app X)) ≫
+      change H.map (G.map ((Godement.degeneracy δ n j).app X)) ≫
         (e.hom.app _ ≫ G'.map ((Functor.iterateCompIso e (n + 2)).hom.app X)) =
         (e.hom.app _ ≫ G'.map ((Functor.iterateCompIso e (n + 1)).hom.app X)) ≫
           G'.map ((Godement.degeneracy δ' n j).app (H.obj X))
@@ -423,7 +423,7 @@ theorem standardResolution_delta (a : A ⟶ B) (n : ℕ) (j : Fin (n + 2)) :
       eqToHom (standardResolution_obj.{v, u, w} J a (n + 1)) ≫
         (Godement.face (standardResolutionComonad.{v, u, w} J A).ε (n + 1) j).app (Under.mk a) ≫
         eqToHom (standardResolution_obj.{v, u, w} J a n).symm := by
-  show ((standardResolutionFunctor.{v, u, w} J A).left.δ j).app (Under.mk a) = _
+  change ((standardResolutionFunctor.{v, u, w} J A).left.δ j).app (Under.mk a) = _
   rw [standardResolutionFunctor_face.{v, u, w}]
   simp only [NatTrans.comp_app, eqToHom_app]
   rfl
@@ -435,7 +435,7 @@ theorem standardResolution_sigma (a : A ⟶ B) (n : ℕ) (j : Fin (n + 1)) :
       eqToHom (standardResolution_obj.{v, u, w} J a n) ≫
         (Godement.degeneracy (standardResolutionComonad.{v, u, w} J A).δ n j).app (Under.mk a) ≫
         eqToHom (standardResolution_obj.{v, u, w} J a (n + 1)).symm := by
-  show ((standardResolutionFunctor.{v, u, w} J A).left.σ j).app (Under.mk a) = _
+  change ((standardResolutionFunctor.{v, u, w} J A).left.σ j).app (Under.mk a) = _
   rw [standardResolutionFunctor_degeneracy.{v, u, w}]
   simp only [NatTrans.comp_app, eqToHom_app]
   rfl
@@ -446,7 +446,7 @@ theorem standardResolution_augmentation_app_zero (a : A ⟶ B) :
     (standardResolution.{v, u, w} J a).hom.app (op ⦋0⦌) =
       eqToHom (standardResolution_obj.{v, u, w} J a 0) ≫
         (standardResolutionComonad.{v, u, w} J A).ε.app (Under.mk a) := by
-  show ((standardResolutionFunctor.{v, u, w} J A).hom.app (op ⦋0⦌)).app (Under.mk a) ≫
+  change ((standardResolutionFunctor.{v, u, w} J A).hom.app (op ⦋0⦌)).app (Under.mk a) ≫
     eqToHom (Functor.congr_obj
       (standardResolutionFunctor_point.{v, u, w} J A) (Under.mk a)) = _
   rw [standardResolutionFunctor_augmentation.{v, u, w}]
@@ -504,12 +504,12 @@ lemma freeAlgebraSheafInverseImageAdjunction_unit (X : Sheaf K (Type (max u' v' 
           ((freeAlgebraSheaf.{v', u', w'} K A).obj X)) ≫
         f.pushforward.map ((forgetAlgebraSheafInverseImageIso J K f A).inv.app
           ((freeAlgebraSheaf.{v', u', w'} K A).obj X)) := by
-  show ((freeAlgebraSheafAdjunction.{v', u', w'} K A).comp
+  change ((freeAlgebraSheafAdjunction.{v', u', w'} K A).comp
     (Under.postAdjunctionLeft (X := A) f.ringAdjunction)).unit.app X ≫ _ = _
   rw [Adjunction.comp_unit_app]
-  show (_ ≫ (sheafCompose K (forget CommRingCat)).map (f.ringAdjunction.unit.app _)) ≫ 𝟙 _ = _
+  change (_ ≫ (sheafCompose K (forget CommRingCat)).map (f.ringAdjunction.unit.app _)) ≫ 𝟙 _ = _
   rw [MorphismOfTopoi.ringAdjunction_unit_forget, Category.comp_id]
-  show _ ≫ _ = _ ≫ _ ≫ f.pushforward.map (𝟙 _)
+  change _ ≫ _ = _ ≫ _ ≫ f.pushforward.map (𝟙 _)
   rw [f.pushforward.map_id]
   exact congrArg (fun k => (freeAlgebraSheafAdjunction.{v', u', w'} K A).unit.app X ≫ k)
     (Category.comp_id _).symm

@@ -161,7 +161,7 @@ public lemma dpow_mem_imageIdeal (f : B ⟶ C) (g : B' ⟶ C) (n : ℕ) (hn : n 
         intro m hm
         have haC := coe_mem_ideal_of_mem_imageIdeal f g (hsub ha)
         have hbC := coe_mem_ideal_of_mem_imageIdeal f g (hsub hb)
-        show C.dividedPowers.dpow m ((a : C) + (b : C)) ∈ _
+        change C.dividedPowers.dpow m ((a : C) + (b : C)) ∈ _
         rw [C.dividedPowers.dpow_add' haC hbC]
         have hpow (c : imageSubring f g) (hcC : (c : C) ∈ C.ideal)
             (ih : ∀ m : ℕ, m ≠ 0 → C.dividedPowers.dpow m (c : C) ∈
@@ -187,7 +187,7 @@ public lemma dpow_mem_imageIdeal (f : B ⟶ C) (g : B' ⟶ C) (n : ℕ) (hn : n 
     | smul c a ha iha =>
         intro m hm
         have haC := coe_mem_ideal_of_mem_imageIdeal f g (hsub ha)
-        show C.dividedPowers.dpow m ((c : C) * (a : C)) ∈ _
+        change C.dividedPowers.dpow m ((c : C) * (a : C)) ∈ _
         rw [C.dividedPowers.dpow_mul haC]
         rcases iha m hm with ⟨y, hy, heq⟩
         refine ⟨c ^ m * y, (imageIdeal f g).mul_mem_left _ hy, ?_⟩
@@ -384,11 +384,11 @@ public theorem tensorProductToPushout_tmul
     tensorProductToPushout f f' g g' w (b ⊗ₜ[A] b') = g b * g' b' := by
   let : Algebra A B := f.toRingHom.toAlgebra
   let : Algebra A B' := f'.toRingHom.toAlgebra
-  show ((CommRingCat.isPushout_tensorProduct A B B').desc
+  change ((CommRingCat.isPushout_tensorProduct A B B').desc
     (DividedPowerRing.forget.map g) (DividedPowerRing.forget.map g') _) (b ⊗ₜ[A] b') = _
   rw [← mul_one b, ← one_mul b', ← Algebra.TensorProduct.tmul_mul_tmul, map_mul]
   simp only [mul_one, one_mul]
-  show (((CommRingCat.ofHom Algebra.TensorProduct.includeLeftRingHom ≫
+  change (((CommRingCat.ofHom Algebra.TensorProduct.includeLeftRingHom ≫
       (CommRingCat.isPushout_tensorProduct A B B').desc
         (DividedPowerRing.forget.map g) (DividedPowerRing.forget.map g') _) :
       CommRingCat.of B ⟶ CommRingCat.of B'') b) *
@@ -397,7 +397,7 @@ public theorem tensorProductToPushout_tmul
         (DividedPowerRing.forget.map g) (DividedPowerRing.forget.map g') _) :
       CommRingCat.of B' ⟶ CommRingCat.of B'') b') = g b * g' b'
   simp only [AlgHom.toRingHom_eq_coe, IsPushout.inl_desc, IsPushout.inr_desc]
-  show g b * g' b' = g b * g' b'
+  change g b * g' b' = g b * g' b'
   rfl
 
 /-- In a pushout of divided power rings, the image of the two legs is everything: the inclusion
@@ -504,11 +504,11 @@ public theorem dividedPowerIdeal_surjective_of_isPushout
   obtain ⟨d, hd⟩ := exists_comp_imageInclusion_eq_id H
   have hleft : φ.comp Algebra.TensorProduct.includeLeftRingHom = h.toRingHom := by
     apply RingHom.ext; intro b
-    show h.toRingHom b * h'.toRingHom 1 = h.toRingHom b
+    change h.toRingHom b * h'.toRingHom 1 = h.toRingHom b
     rw [map_one, mul_one]
   have hright : φ.comp Algebra.TensorProduct.includeRight.toRingHom = h'.toRingHom := by
     apply RingHom.ext; intro b
-    show h.toRingHom 1 * h'.toRingHom b = h'.toRingHom b
+    change h.toRingHom 1 * h'.toRingHom b = h'.toRingHom b
     rw [map_one, one_mul]
   have hφsurj : Function.Surjective φ := by
     refine surjective_of_range_le H φ ?_ ?_
@@ -529,7 +529,7 @@ public theorem dividedPowerIdeal_surjective_of_isPushout
   have hideal : y.1 ∈ (Ideal.map Algebra.TensorProduct.includeLeftRingHom B.ideal +
       Ideal.map Algebra.TensorProduct.includeRight.toRingHom B'.ideal).map φ := by
     rw [add_eq_sup, Ideal.map_sup, Ideal.map_map, Ideal.map_map]
-    show y.1 ∈ B.ideal.map (φ.comp Algebra.TensorProduct.includeLeftRingHom) ⊔
+    change y.1 ∈ B.ideal.map (φ.comp Algebra.TensorProduct.includeLeftRingHom) ⊔
       B'.ideal.map (φ.comp Algebra.TensorProduct.includeRight.toRingHom)
     rwa [hleft, hright]
   obtain ⟨x, hx, hφx⟩ := (Ideal.mem_map_iff_of_surjective φ hφsurj).mp hideal

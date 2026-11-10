@@ -193,7 +193,7 @@ private theorem curvature_toDerived_eq_zero_of_zero_square
     obtain ⟨y, rfl⟩ := L.reduction_surjective n x
     apply c.kernelEmbedding_injective (n + 2)
     rw [c.hom_eq_square]
-    show _ = c.kernelEmbedding (n + 2) 0
+    change _ = c.kernelEmbedding (n + 2) 0
     rw [map_zero]
     exact hdd n y
   simp [Deformation.Obstruction.LiftedDifferentialCurvature.toDerived, hhom]
@@ -290,8 +290,7 @@ private lemma kernelEmbedding_reduction_zero
     (n : ℤ) (z : (P ⊗ Deformation.Obstruction.kernelComplex f hf).X n) :
     L.reduction n (c.kernelEmbedding n z) = 0 := by
   obtain ⟨w, rfl⟩ := kernelTensorInclusion_surjective (f := f) (hf := hf) P n z
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | add w w' hw hw' =>
       rw [(Deformation.Obstruction.kernelTensorInclusion f hf P n).hom.map_add,
         (c.kernelEmbedding n).map_add, (L.reduction n).map_add, hw, hw']
@@ -395,7 +394,7 @@ private lemma curvatureCorrection_sq
   let : Module.Free R' (L.X n) := L.free n
   let : Module.Free R' (L.X (n + 1)) := L.free (n + 1)
   rw [congrArg ModuleCat.Hom.hom (curvatureCorrection_eq_expected h (n + 1))]
-  show c.kernelEmbedding ((n + 1) + 1)
+  change c.kernelEmbedding ((n + 1) + 1)
     ((curvatureHomotopyComponent h (n + 1)).hom
       (L.reduction (n + 1) ((curvatureCorrection h n).hom x))) = 0
   rw [curvatureCorrection_reduction h n x]
@@ -462,7 +461,7 @@ private lemma curvatureCorrection_homotopy_equation
   let : Module.Free R' (L.X (n + 1)) := L.free (n + 1)
   rw [congrArg ModuleCat.Hom.hom (curvatureCorrection_eq_expected h n),
     congrArg ModuleCat.Hom.hom (curvatureCorrection_eq_expected h (n + 1))]
-  show L.d (n + 1) ((n + 1) + 1)
+  change L.d (n + 1) ((n + 1) + 1)
       (c.kernelEmbedding (n + 1)
         ((curvatureHomotopyComponent h n).hom (L.reduction n x))) +
       c.kernelEmbedding ((n + 1) + 1)
@@ -539,7 +538,7 @@ private lemma curvatureCorrected_d_comp
     (h : Homotopy c.hom 0) (n : ℤ) :
     curvatureCorrectedDifferential h n ≫ curvatureCorrectedDifferential h (n + 1) = 0 := by
   ext x
-  show (L.d (n + 1) ((n + 1) + 1) - curvatureCorrection h (n + 1)).hom
+  change (L.d (n + 1) ((n + 1) + 1) - curvatureCorrection h (n + 1)).hom
       ((L.d n (n + 1) - curvatureCorrection h n).hom x) = 0
   simp only [ModuleCat.hom_sub, LinearMap.sub_apply, map_sub]
   rw [curvatureCorrection_sq h n x, ← curvatureCorrection_homotopy_equation h n x]
@@ -768,7 +767,7 @@ theorem canonicalObstructionMap_eq_zero_iff_exists_lift
     have hdd : ∀ n x, L.d (n + 1) (n + 2) (L.d n (n + 1) x) = 0 := by
       intro n x
       dsimp [L, canonicalFreeDifferentialLift] at x ⊢
-      show (Q.d (n + 1) (n + 2)).hom ((Q.d n (n + 1)).hom x) = 0
+      change (Q.d (n + 1) (n + 2)).hom ((Q.d n (n + 1)).hom x) = 0
       rw [← ModuleCat.comp_apply, HomologicalComplex.d_comp_d]
       rfl
     exact (ω.property.eq_curvature P' b hP'b hP'free e L c).trans

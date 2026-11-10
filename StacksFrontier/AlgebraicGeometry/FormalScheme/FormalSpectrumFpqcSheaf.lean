@@ -155,7 +155,7 @@ theorem existsUnique_comp_eq_of_forall_comp_eq (hA : IsAdmissible A)
       (schemeToFormalScheme.map a) (fun {_} q₁ q₂ hq => hcompat q₁ q₂ hq)
     exact ⟨t, ht⟩
   refine ⟨t ≫ ι, ?_, fun z hz => ?_⟩
-  · show schemeToFormalScheme.map (Spec.map φ) ≫ t ≫ ι = x
+  · change schemeToFormalScheme.map (Spec.map φ) ≫ t ≫ ι = x
     rw [← Category.assoc, ht, hax]
   refine formalSchemeHom_ext_of_flat_of_jointlySurjective
     (V := fun _ : Unit => Spec S) (fun _ => Spec.map φ) (fun _ => hflat)

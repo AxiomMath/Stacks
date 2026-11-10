@@ -61,7 +61,8 @@ term is reported as not type-correct under `implicit` transparency, and the next
 equations with `Eq.trans` and `congrArg` never builds a motive, and both proofs below are
 therefore terms, assembled by two generic lemmas at variables.
 
-One more elaboration fact matters.  `AlgebraicGeometry.Space.idealSheafMap` takes its two ambient spaces
+One more elaboration fact matters.  `AlgebraicGeometry.Space.idealSheafMap` takes its two ambient
+spaces
 as **implicit** arguments, inferrable from the two closed subspaces only through a projection —
 `Z : ClosedSubspaces B S hS X.1` — and at the range of a represented closed immersion that
 projection is not a pattern the unifier can solve.  Writing the two ambient spaces out, as
@@ -102,7 +103,8 @@ composites are the image of `ιA` and of `ιA'` followed by one and the same `t`
 the two transports carry `ιA'` to `ιA` under `F` (`hδ`) and `ιT` to `ιT'` (`hτ`).
 
 This is `CategoryTheory.eq_eqToHom_comp_comp_eqToHom_of_mono` of
-`StacksFrontier.AlgebraicGeometry.Spaces.KernelIdealSquareMapDegreeOne` with the two transports taken
+`StacksFrontier.AlgebraicGeometry.Spaces.KernelIdealSquareMapDegreeOne` with the two transports
+taken
 as *data* and composed onto the two sides, rather than written as `CategoryTheory.eqToHom` of two
 object equalities on one side.  That is what makes the conclusion usable inside a naturality
 square, and it is also what keeps the proof a term: no rewrite motive is built over a morphism of

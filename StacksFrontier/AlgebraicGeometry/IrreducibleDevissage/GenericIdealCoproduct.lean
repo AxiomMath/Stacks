@@ -194,7 +194,7 @@ theorem exists_idealCoproduct_mono_isIso_of_free [IsNoetherian Z] [IsIntegral Z]
   have hκ : a ≫ (idealPowSmul J n Fr).ι =
       CategoryTheory.Limits.Sigma.map (fun _ : Fin r => I.ι) ≫ eC.hom := by
     refine Sigma.hom_ext _ _ fun j => ?_
-    rw [ha, Sigma.ι_desc_assoc, Sigma.ι_map_assoc]
+    rw [ha, Sigma.ι_comp_desc_assoc, Sigma.ι_map_assoc]
     exact idealPowSmulMap_comp_ι J n _
   -- everything in sight is invertible over `U`
   have hIiso : IsIso ((Scheme.Modules.restrictFunctor U.ι).map I.ι) :=

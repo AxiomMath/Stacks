@@ -136,8 +136,7 @@ private theorem tensor_mk_bijective_of_annihilated
     simp [q]
   have hright : ∀ z, can (inv z) = z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp [can]
+    induction z using TensorProduct.inductionOn with
     | tmul x s =>
         change (q s • x) ⊗ₜ[R] (1 : S) = x ⊗ₜ[R] s
         obtain ⟨r, hr⟩ :=

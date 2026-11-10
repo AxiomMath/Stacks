@@ -201,7 +201,7 @@ public theorem map_apply_of_eq_smul_id (g : LinearMap.GeneralLinearGroup k V) (c
     Submodule.smul_mem (p.asHomogeneousIdeal.toIdeal.restrictScalars k) d hy
   apply ProjectiveSpectrum.ext
   ext x
-  show SymPow.gradedSymAlgMap (g : V →ₗ[k] V) x ∈ p.asHomogeneousIdeal.toIdeal ↔
+  change SymPow.gradedSymAlgMap (g : V →ₗ[k] V) x ∈ p.asHomogeneousIdeal.toIdeal ↔
     x ∈ p.asHomogeneousIdeal.toIdeal
   rw [p.asHomogeneousIdeal.isHomogeneous.mem_iff, p.asHomogeneousIdeal.isHomogeneous.mem_iff]
   refine forall_congr' fun n => ?_
@@ -224,7 +224,7 @@ public theorem localRingHom_val_eq_self {g : LinearMap.GeneralLinearGroup k V} {
   rw [HomogeneousLocalization.val_mk, Localization.localRingHom_mk]
   apply Localization.mk_eq_mk_iff.mpr
   apply Localization.r_of_eq
-  show (b : SymmetricAlgebra k V) * SymPow.gradedSymAlgMap (g : V →ₗ[k] V) a =
+  change (b : SymmetricAlgebra k V) * SymPow.gradedSymAlgMap (g : V →ₗ[k] V) a =
     SymPow.gradedSymAlgMap (g : V →ₗ[k] V) b * a
   rw [gradedSymAlgMap_apply_of_eq_smul_id k V hg a.property,
     gradedSymAlgMap_apply_of_eq_smul_id k V hg b.property]
@@ -247,7 +247,7 @@ public theorem map_eq_id_of_eq_smul_id (g : LinearMap.GeneralLinearGroup k V) (c
   funext p
   apply HomogeneousLocalization.val_injective
   have : p.val.asHomogeneousIdeal.toIdeal.IsPrime := p.val.isPrime
-  show (HomogeneousLocalization.localRingHom (SymPow.gradedSymAlgMap (g : V →ₗ[k] V)) _ _ rfl
+  change (HomogeneousLocalization.localRingHom (SymPow.gradedSymAlgMap (g : V →ₗ[k] V)) _ _ rfl
     (s.val ⟨map k V g p.val, _⟩)).val = (s.val p).val
   refine (HomogeneousLocalization.val_localRingHom _).trans ?_
   have hlocal (q : U) (hqp : q = p)

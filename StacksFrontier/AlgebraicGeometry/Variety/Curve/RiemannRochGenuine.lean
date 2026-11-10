@@ -134,7 +134,7 @@ theorem componentDegree_eq_cycleDegree_chernCycleRule (hdim : topologicalKrullDi
   have hleft : componentDegree k p hdim E (n + 1) ξ =
       chowDegree (fieldChowSituation k) (fieldChowSituation_dimensionFunction_eq_zero k)
         (W.subschemeι ≫ p) (IsLocalRing.closedPoint k) c := by
-    show curveDegree k (W.subschemeι ≫ p) hdimW F (n + 1) = _
+    change curveDegree k (W.subschemeι ≫ p) hdimW F (n + 1) = _
     rw [curveDegree_eq_curveDegree_exteriorPower_of_isProper k (W.subschemeι ≫ p) hdimW (n + 1) F,
       curveDegree_eq_curveChernDegree_of_isInvertible k (W.subschemeι ≫ p) hdimW
         (Scheme.Modules.exteriorPower F ((n + 1 : ℕ) : ℤ)),
@@ -146,7 +146,7 @@ theorem componentDegree_eq_cycleDegree_chernCycleRule (hdim : topologicalKrullDi
   have hR : (QuotientAddGroup.mk' _ (curveFirstChernRule k p E (n + 1)
         (GenuineChern.chernCycleRule (fieldChowSituation k) (n + 1)) W hWint hDim) :
         chowGroup (fieldChowSituation k) (W.subschemeι ≫ p) 0) = c := by
-    rw [curveFirstChernRule, dif_pos (Nat.succ_pos n)]
+    rw [curveFirstChernRule, dite_eq_left (Nat.succ_pos n)]
     unfold firstChernComponentCycleRuleOfRank chernClassComponentCycleOn
     rw [mk_cycleGroupOfEq, GenuineChern.mk_chernCycleRule_succ]
     calc _ = chowGroupCast (fieldChowSituation k) (W.subschemeι ≫ p) (show (1 : ℤ) - 1 = 0 by simp)

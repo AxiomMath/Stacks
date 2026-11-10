@@ -65,7 +65,7 @@ public theorem isGorensteinRing_sections [AlgebraicGeometry.IsGorenstein X] (U :
   intro p hp
   obtain ⟨y, hy⟩ : ∃ y : U, hU.primeIdealOf y = ⟨p, hp⟩ := by
     refine ⟨hU.isoSpec.inv.base ⟨p, hp⟩, ?_⟩
-    show (hU.isoSpec.inv ≫ hU.isoSpec.hom).base _ = _
+    change (hU.isoSpec.inv ≫ hU.isoSpec.hom).base _ = _
     rw [hU.isoSpec.inv_hom_id]
     rfl
   let : Algebra Γ(X, U) (X.presheaf.stalk y.1) :=

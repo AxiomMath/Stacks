@@ -147,7 +147,7 @@ lemma mono_pushoutSection_of_iSup_eq {ι : Type u} (VX : ι → X.Opens) (hVU : 
     simp only [RingHom.comp_assoc, H₁]
     ext x j
     simp [ψY, H₂, -CommRingCat.hom_comp, ← CategoryTheory.comp_apply, pushoutSection,
-      pushout.inr_desc, Scheme.Hom.appLE_map]
+      Scheme.Hom.appLE_map]
   · have H₁ : e.inv.hom.comp Algebra.TensorProduct.includeRight.toRingHom =
         (pushout.inl (C := CommRingCat) _ _).hom :=
       congr($((CommRingCat.isPushout_tensorProduct _ _ _).flip.inl_isoPushout_hom).hom)
@@ -158,7 +158,7 @@ lemma mono_pushoutSection_of_iSup_eq {ι : Type u} (VX : ι → X.Opens) (hVU : 
     simp only [RingHom.comp_assoc, H₁]
     ext x j
     simp [ψY, H₂, -CommRingCat.hom_comp, ← CategoryTheory.comp_apply, pushoutSection, ψ,
-      pushout.inl_desc, Scheme.Hom.appLE_map, Scheme.Hom.map_appLE]
+      Scheme.Hom.appLE_map, Scheme.Hom.map_appLE]
 
 /-- **Injectivity of the comparison map over an arbitrary open, with no compactness
 hypothesis.** When `Uₛ` and `Uₜ` are affine and `Γ(T, Uₜ)` is a flat, finitely presented

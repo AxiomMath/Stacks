@@ -154,7 +154,7 @@ theorem isZero_rightDerived_etaleSections_multiplicativeSheaf_over_field (k : Ty
     .mk (Sigma.ι (fun i ↦ Spec (.of (L i))) i ≫ e.inv ≫ W.hom)
   let eW : W ≅ etaleCoproduct U :=
     MorphismProperty.Over.isoMk e (by
-      show e.hom ≫ (Sigma.desc fun i ↦ Sigma.ι (fun i ↦ Spec (.of (L i))) i ≫ e.inv ≫ W.hom) =
+      change e.hom ≫ (Sigma.desc fun i ↦ Sigma.ι (fun i ↦ Spec (.of (L i))) i ≫ e.inv ≫ W.hom) =
         W.hom
       rw [show (Sigma.desc fun i ↦ Sigma.ι (fun i ↦ Spec (.of (L i))) i ≫ e.inv ≫ W.hom) =
         e.inv ≫ W.hom from Sigma.hom_ext _ _ fun i ↦ by simp]

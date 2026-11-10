@@ -199,7 +199,7 @@ noncomputable def functorSituation (C : Type u) (C' : Type u')
 theorem functorSituation_totalTopology (C : Type u) (C' : Type u')
     [Category.{v} C] [Category.{v'} C'] (f : C' ⥤ C) (B : CommRingCat.{max w u u' v v'}) :
     (functorSituation.{w} C C' f B).totalTopology = GrothendieckTopology.trivial C := by
-  show (Functor.star.{max u u', v, u} C).inheritedTopology
+  change (Functor.star.{max u u', v, u} C).inheritedTopology
     (GrothendieckTopology.trivial (Discrete PUnit.{max u u' + 1})) =
       GrothendieckTopology.trivial C
   simpa [GrothendieckTopology.trivial_eq_bot] using star_inheritedTopology_bot C
@@ -208,7 +208,7 @@ theorem functorSituation_totalTopology (C : Type u) (C' : Type u')
 theorem functorSituation_sourceTopology (C : Type u) (C' : Type u')
     [Category.{v} C] [Category.{v'} C'] (f : C' ⥤ C) (B : CommRingCat.{max w u u' v v'}) :
     (functorSituation.{w} C C' f B).sourceTopology = GrothendieckTopology.trivial C' := by
-  show (Functor.star.{max u u', v', u'} C').inheritedTopology
+  change (Functor.star.{max u u', v', u'} C').inheritedTopology
     (GrothendieckTopology.trivial (Discrete PUnit.{max u u' + 1})) =
       GrothendieckTopology.trivial C'
   simpa [GrothendieckTopology.trivial_eq_bot] using star_inheritedTopology_bot C'

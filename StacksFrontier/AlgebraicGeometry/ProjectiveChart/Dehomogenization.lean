@@ -108,7 +108,7 @@ theorem _root_.MvPolynomial.totalDegree_aeval_le {σ τ : Type*} {A : Type*} [Co
   refine MvPolynomial.totalDegree_finsetSum_le fun d hd => ?_
   refine (MvPolynomial.totalDegree_mul _ _).trans ?_
   rw [MvPolynomial.algebraMap_eq, MvPolynomial.totalDegree_C, zero_add]
-  refine (MvPolynomial.totalDegree_finset_prod _ _).trans ?_
+  refine (MvPolynomial.totalDegree_finsetProd _ _).trans ?_
   refine (Finset.sum_le_sum fun i _ => (MvPolynomial.totalDegree_pow _ _).trans
     (Nat.mul_le_mul_left _ (hg i))).trans ?_
   simpa [Finsupp.sum] using MvPolynomial.le_totalDegree hd
@@ -161,7 +161,7 @@ theorem chartRingEquiv_dehomCoeff {n : ℕ} (i : Fin (n + 1)) (d : ℕ)
     exact (MvPolynomial.mapEquiv (Fin n) (degreeZeroEquiv R n)).symm_apply_apply x
   rw [show chartRingEquiv R i (dehomCoeff R i F)
       = chartRingEquivDeg0 R i (dehomPolynomial R i F) by
-    show chartRingEquivDeg0 R i (MvPolynomial.mapEquiv (Fin n) (degreeZeroEquiv R n).symm
+    change chartRingEquivDeg0 R i (MvPolynomial.mapEquiv (Fin n) (degreeZeroEquiv R n).symm
         (MvPolynomial.mapEquiv (Fin n) (degreeZeroEquiv R n) (dehomPolynomial R i F)))
       = chartRingEquivDeg0 R i (dehomPolynomial R i F)
     exact congrArg (chartRingEquivDeg0 R i) (hmm _)]

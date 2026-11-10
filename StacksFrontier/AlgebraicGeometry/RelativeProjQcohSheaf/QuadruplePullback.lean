@@ -70,7 +70,8 @@ they are not type-correct at `implicit` transparency and `rw` refuses them.
   two identifications of the display 01NX, i.e. to carry a strict equivalence
   (`Quadruple.StrictlyEquivalent`) and an equivalence (`Quadruple.Equivalent`) to one of the same
   kind. That is proved in
-  `StacksFrontier.AlgebraicGeometry.RelativeProjQcohSheaf.UnionPullback`, which descends the pullback
+  `StacksFrontier.AlgebraicGeometry.RelativeProjQcohSheaf.UnionPullback`, which
+  descends the pullback
   to the map `F.pullback : F(T) → F(T')`. It does **not** go through the functoriality of
   `Stacks.SheafOfModules.TensorPower.laurentAlgebra` in the invertible module, which is still not
   available: the witness of an identification is transported along the comparison

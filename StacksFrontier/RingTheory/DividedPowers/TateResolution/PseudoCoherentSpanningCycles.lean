@@ -158,7 +158,7 @@ public theorem hasFiniteSpanningCycles_finiteTateBase_of_isModulePseudoCoherent
     rintro ⟨i, jj, hlt⟩ hj
     subst hj
     refine ⟨finiteTateCycle A₀ 0 jj, finiteTateCycle_finiteTateBase_mem P s₀ jj, ?_⟩
-    show ι (finiteTateCycle A₀ 0 jj) = finiteTateDifferential A₀ (n + 1)
+    change ι (finiteTateCycle A₀ 0 jj) = finiteTateDifferential A₀ (n + 1)
       ((chainMap (finiteTateAlgebra A₀) (finiteTateStep A₀) hlt).hom
         (finiteTateGenerator A₀ 0 jj))
     rw [finiteTateChainMap_differential A₀ hlt, finiteTateGenerator_differential A₀ 0 jj,
@@ -180,7 +180,7 @@ public theorem hasFiniteSpanningCycles_finiteTateBase_of_isModulePseudoCoherent
         (finiteTateDifferential A₀ (n + 1)) h0 0 x) ∈ Ideal.span (↑s₀ : Set P) := by
       refine (Submodule.apply_mem_span_image_iff_mem_span
         (f := Algebra.linearMap P (finiteTateAlgebra A₀ (n + 1)).carrier) hιinj).1 ?_
-      show ι _ ∈ Submodule.span P (ι '' (↑s₀ : Set P))
+      change ι _ ∈ Submodule.span P (ι '' (↑s₀ : Set P))
       rw [hιχ]
       exact hdspan x.1 x.2
     rw [← hkerπ] at hmem
@@ -199,7 +199,7 @@ public theorem hasFiniteSpanningCycles_finiteTateBase_of_isModulePseudoCoherent
       refine ⟨⟨(chainMap (finiteTateAlgebra A₀) (finiteTateStep A₀) h₁).hom b,
         (chainMap (finiteTateAlgebra A₀) (finiteTateStep A₀) h₁).map_grade 1 b hb⟩,
         Subtype.ext ?_⟩
-      show finiteTateDifferential A₀ (n + 1) _ = _
+      change finiteTateDifferential A₀ (n + 1) _ = _
       rw [finiteTateChainMap_differential A₀ h₁, hdb, hstepι h₁]
       exact (congrArg ι hsum).trans (hιχ v)
     · rintro _ ⟨x, rfl⟩

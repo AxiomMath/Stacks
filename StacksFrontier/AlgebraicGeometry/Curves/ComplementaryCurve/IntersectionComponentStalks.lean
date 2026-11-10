@@ -219,7 +219,7 @@ theorem stalk_eq_stalk_vanishingIdeal_of_forall_mem_closure {X : Scheme.{u}}
     have hwC₀ : K.subschemeι.base w ∈ C₀ :=
       h _ (by rw [← K.range_subschemeι]; exact ⟨w, rfl⟩) hxw
     have hwT : w ∈ T := by
-      show w ∈ closure ({w₀} : Set K.subscheme)
+      change w ∈ closure ({w₀} : Set K.subscheme)
       rw [K.subschemeι.isClosedEmbedding.isInducing.closure_eq_preimage_closure_image,
         Set.image_singleton, Set.mem_preimage, hw₀, hη.def]
       exact hwC₀
@@ -439,7 +439,7 @@ theorem exists_iso_sigma_spec_intersectionWithComplementaryCurve
   have : IsIso (Limits.Sigma.desc f) := by
     refine StacksTag09NE.isIso_sigmaDesc_of_disjointOpenCover _ f ?_ ?_
     · intro a b hab
-      show Disjoint (Set.range (W.fromSpecResidueField a)) (Set.range (W.fromSpecResidueField b))
+      change Disjoint (Set.range (W.fromSpecResidueField a)) (Set.range (W.fromSpecResidueField b))
       rw [Scheme.range_fromSpecResidueField, Scheme.range_fromSpecResidueField]
       exact Set.disjoint_singleton.mpr hab
     · intro w
@@ -455,7 +455,7 @@ theorem exists_iso_sigma_spec_intersectionWithComplementaryCurve
     exact ⟨hfin,
       Stacks.AlgebraicGeometry.ProperSectionsGeom.isSeparable_of_isSeparableExtension_of_isAlgebraic
         k (K w)⟩
-  · rw [asIso_hom, Limits.Sigma.ι_desc_assoc]
+  · rw [asIso_hom, Limits.Sigma.ι_comp_desc_assoc]
     exact fromSpecResidueField_comp w g
 
 end Stacks.Curves

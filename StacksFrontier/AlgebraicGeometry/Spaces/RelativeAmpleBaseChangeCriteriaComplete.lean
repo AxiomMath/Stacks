@@ -140,7 +140,7 @@ theorem BigFppfOver.exists_affine_comp_etale_surjective {U Z : BigFppfOver B S h
   have hdesc : e.hom ≫ (BigFppfOver.toScheme B S hS).map d =
       Sigma.desc fun a : {x // x ∈ t} => (BigFppfOver.toScheme B S hS).map (j a) := by
     refine Sigma.hom_ext _ _ fun a => ?_
-    rw [← Category.assoc, hce a, Sigma.ι_desc, ← Functor.map_comp, hd a]
+    rw [← Category.assoc, hce a, Sigma.ι_comp_desc, ← Functor.map_comp, hd a]
   have hEt : ∀ a : {x // x ∈ t}, Etale ((BigFppfOver.toScheme B S hS).map (j a)) := by
     intro a
     have := hj a
@@ -183,6 +183,7 @@ private theorem exists_isPullback_id_of_isPullback {C : Type*} [Category C]
 namespace Space
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits in the presheaf category on the big fppf site is heavy
 /-- Small products of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance (priority := high) hasProducts_presheaf_RelativeAmpleBaseChangeCriteriaComplete
@@ -332,7 +333,7 @@ theorem isAmpleOnBaseChange_of_forall_affine {X Y : AlgebraicSpaces B S hS} {f :
   have := hu
   set O := ((BigFppfOver.toScheme B S hS).map u).opensRange with hOdef
   refine ⟨O, ?_, ?_⟩
-  · show x ∈ Set.range ((BigFppfOver.toScheme B S hS).map u)
+  · change x ∈ Set.range ((BigFppfOver.toScheme B S hS).map u)
     rw [hurange]
     exact hxW
   set φ : O.toScheme ⟶ (BigFppfOver.toScheme B S hS).obj V :=
@@ -417,7 +418,7 @@ theorem isAmpleOnBaseChange_of_exists_etaleChart {X Y : AlgebraicSpaces B S hS} 
     ObjectProperty.homMk (pullback.snd fZ.hom hh.hom) with hf'def
   -- `V' ×_Z X_Z` is also `V' ×_V X_V`
   have hhk : hh ≫ gZ' = k ≫ gV := ObjectProperty.hom_ext _ (by
-    show yoneda.map (c ≫ b) ≫ gZ = yoneda.map (c ≫ a) ≫ g
+    change yoneda.map (c ≫ b) ≫ gZ = yoneda.map (c ≫ a) ≫ g
     rw [Functor.map_comp, Functor.map_comp, Category.assoc, Category.assoc, hab])
   have hbigsq : IsPullback (pr' ≫ prZ) f' f (k ≫ gV) := by
     rw [← hhk]

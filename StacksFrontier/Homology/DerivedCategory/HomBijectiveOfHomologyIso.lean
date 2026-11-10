@@ -42,12 +42,12 @@ theorem isZero_homology_cone_of_isIso_of_epi (T : Triangle (DerivedCategory C))
   have hep : Epi (((homologyFunctor C 0).shift i).map T.mor₁) := by
     rcases hi.lt_or_eq with hlt | rfl
     · have := hiso i hlt
-      show Epi ((homologyFunctor C i).map T.mor₁)
+      change Epi ((homologyFunctor C i).map T.mor₁)
       infer_instance
     · exact hepi
   have hmo : Mono (((homologyFunctor C 0).shift (i + 1)).map T.mor₁) := by
     have := hiso (i + 1) (by omega)
-    show Mono ((homologyFunctor C (i + 1)).map T.mor₁)
+    change Mono ((homologyFunctor C (i + 1)).map T.mor₁)
     infer_instance
   have h₁ := ((homologyFunctor C 0).homologySequence_epi_shift_map_mor₁_iff T hT i).1 hep
   have h₂ := ((homologyFunctor C 0).homologySequence_mono_shift_map_mor₁_iff T hT i (i + 1)

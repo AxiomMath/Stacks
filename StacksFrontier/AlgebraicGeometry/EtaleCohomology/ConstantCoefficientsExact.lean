@@ -146,7 +146,7 @@ private lemma modulePresheafOverConstantCoefficientsFunctor_preservesFiniteLimit
           PresheafOfModules.evaluation
             ((Functor.const (SmallEtale B X.obj X.property)ᵒᵖ).obj
               (RingCat.of (ULift.{max (u + 1) w} Λ))) U) := by
-    show PreservesFiniteLimits
+    change PreservesFiniteLimits
       (sheafToPresheaf (SmallEtale.topology B X.obj X.property) (ModuleCat.{w} Λ) ⋙
         (evaluation (SmallEtale B X.obj X.property)ᵒᵖ (ModuleCat.{w} Λ)).obj U ⋙ H)
     infer_instance
@@ -365,7 +365,7 @@ private lemma boundedByBase_essentiallySmall [Small.{w} X.obj.size.out] :
     essentiallySmall_schemeBelow_of_small_out bound
   let _ : LocallySmall.{w} (SchemeBelow bound) := locallySmall_schemeBelow bound
   let _ : EssentiallySmall.{w} (Over base) := by
-    show EssentiallySmall.{w} (CostructuredArrow (𝟭 (SchemeBelow bound)) base)
+    change EssentiallySmall.{w} (CostructuredArrow (𝟭 (SchemeBelow bound)) base)
     infer_instance
   let comparison : (boundedByBase B X).FullSubcategory ⥤ Over base :=
     { obj := fun T => Over.mk
@@ -461,7 +461,7 @@ private lemma boundedByBase_oneHypercoverDense
         (fun i => (affineCoverObj B X T (e.symm i)).obj)
         (fun i => affineCoverHom B X T (e.symm i)) (e i)
       rwa [e.symm_apply_apply i] at hmem
-  show Sieve.ofArrows _ (fun i => affineCoverHom B X T (e.symm i)) ∈ _
+  change Sieve.ofArrows _ (fun i => affineCoverHom B X T (e.symm i)) ∈ _
   rw [hequal]
   exact affineCover_mem_topology B X T
 
@@ -544,7 +544,7 @@ private def coproductHom (κ : Cardinal.{u}) (hκ : κ < B.cutoff)
     (T : SmallEtale B X.obj X.property) (i : κ.out) : T ⟶ coproductObj B X κ hκ T :=
   Stacks.EtaleCohomology.mkHom B X.property
     (Sigma.ι (fun _ : κ.out => (SmallEtale.toScheme B X.obj X.property).obj T) i)
-    (Sigma.ι_desc _ i)
+    (Sigma.ι_comp_desc _ i)
 
 /-- The tautological inclusions cover the disjoint union. -/
 private lemma coproduct_mem_topology (κ : Cardinal.{u}) (hκ : κ < B.cutoff)

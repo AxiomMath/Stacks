@@ -48,7 +48,7 @@ theorem enatToEInt_le_intCast_iff (e : ℕ∞) (s : ℤ) :
     enatToEInt e ≤ (s : EInt) ↔ ∃ n : ℕ, e = (n : ℕ∞) ∧ (n : ℤ) ≤ s := by
   cases e using ENat.recTopCoe with
   | top =>
-      show (⊤ : EInt) ≤ (s : EInt) ↔ _
+      change (⊤ : EInt) ≤ (s : EInt) ↔ _
       simp
   | coe n => simp [enatToEInt]
 
@@ -57,7 +57,7 @@ private theorem intCast_lt_enatToEInt_iff (n : ℕ) (e : ℕ∞) :
     ((n : ℤ) : EInt) < enatToEInt e ↔ (n : ℕ∞) < e := by
   induction e using ENat.recTopCoe with
   | top =>
-      show ((n : ℤ) : EInt) < ⊤ ↔ (n : ℕ∞) < ⊤
+      change ((n : ℤ) : EInt) < ⊤ ↔ (n : ℕ∞) < ⊤
       exact iff_of_true (lt_top_iff_ne_top.mpr (WithBotTop.coe_ne_top _))
         (ENat.natCast_lt_top n)
   | coe d => simp [enatToEInt]
@@ -78,10 +78,10 @@ private theorem intCast_lt_enatToEInt_of_neg (e : ℕ∞) {s : ℤ} (hs : s < 0)
     (s : EInt) < enatToEInt e := by
   cases e using ENat.recTopCoe with
   | top =>
-      show (s : EInt) < ⊤
+      change (s : EInt) < ⊤
       exact lt_top_iff_ne_top.mpr (WithBotTop.coe_ne_top _)
   | coe n =>
-      show (s : EInt) < ((n : ℤ) : EInt)
+      change (s : EInt) < ((n : ℤ) : EInt)
       exact WithBotTop.coe_lt_coe.mpr (by omega)
 
 /-- A relative dimension is never negative: for `𝔭 ⊆ 𝔮` the ring `(A/𝔭)_𝔮` is nonzero, so its
@@ -206,7 +206,7 @@ private theorem exists_nontrivial_ext_ge_iff_depth_le
       have hj' : -(((-j).toNat : ℕ) : ℤ) = j := by omega
       have hnle : n ≤ (-j).toNat := by
         refine hn.2 ?_
-        show Nontrivial (DerivedCategory.Ext _ omega (-(((-j).toNat : ℕ) : ℤ)))
+        change Nontrivial (DerivedCategory.Ext _ omega (-(((-j).toNat : ℕ) : ℤ)))
         rwa [hj']
       exact ⟨n, hdepth, by omega⟩
     · rintro ⟨m, hm, hmc⟩
@@ -481,7 +481,7 @@ theorem closure_subset_of_generic_mem
     exact Set.mem_iUnion₂.mpr ⟨r, hr, hb, hrb⟩
   intro q hq
   have hKq : K ≤ q.asIdeal := by
-    show q ∈ PrimeSpectrum.zeroLocus (K : Set A)
+    change q ∈ PrimeSpectrum.zeroLocus (K : Set A)
     rwa [PrimeSpectrum.zeroLocus_vanishingIdeal_eq_closure]
   obtain ⟨p₀, hp₀, hpq⟩ := Ideal.exists_minimalPrimes_le hKq
   let p : PrimeSpectrum A := ⟨p₀, hp₀.1.1⟩
@@ -507,7 +507,7 @@ theorem closure_subset_of_generic_mem
         exact ⟨hb, b.2⟩
       · rintro ⟨hb, hbp⟩
         exact ⟨⟨b, hbp⟩, hb, rfl⟩
-    show p ∈ closure _
+    change p ∈ closure _
     rwa [himage]
   exact hT ((PrimeSpectrum.le_iff_specializes p q).mp hpq) (hgeneric p hpSub)
 

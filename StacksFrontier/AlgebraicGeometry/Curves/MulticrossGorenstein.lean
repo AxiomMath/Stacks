@@ -215,7 +215,7 @@ private theorem exists_relation_ext_of_isGorenstein
           apply ULift.ext
           simp only [neg_smul, ULift.add_down, ULift.smul_down, ULift.neg_down,
             ULift.zero_down]
-          show f aq * p.down + -(f ap * q.down) = 0
+          change f aq * p.down + -(f ap * q.down) = 0
           rw [Classical.choose_spec (Ideal.Quotient.mk_surjective q.down),
             Classical.choose_spec (Ideal.Quotient.mk_surjective p.down)]
           ring
@@ -287,14 +287,14 @@ private noncomputable def multicrossBranchX (k : Type u) [CommRing k] (n : ℕ) 
 private theorem multicrossBranchX_mul_val (k : Type u) [CommRing k] (n : ℕ) (i : Fin n)
     (z : ↥(multicross k n)) :
     (multicrossBranchX k n i * z).1 i = PowerSeries.X * z.1 i := by
-  show (multicrossBranchX k n i).1 i * z.1 i = _
+  change (multicrossBranchX k n i).1 i * z.1 i = _
   simp [multicrossBranchX]
 
 /-- The `i`-th branch of an element times the `i`-th uniformizer. -/
 private theorem mul_multicrossBranchX_val (k : Type u) [CommRing k] (n : ℕ) (i : Fin n)
     (z : ↥(multicross k n)) :
     (z * multicrossBranchX k n i).1 i = z.1 i * PowerSeries.X := by
-  show z.1 i * (multicrossBranchX k n i).1 i = _
+  change z.1 i * (multicrossBranchX k n i).1 i = _
   simp [multicrossBranchX]
 
 /-- Multiplying by the `i`-th uniformizer moves the constant coefficient of the `i`-th branch
@@ -395,12 +395,12 @@ private theorem multicross_gorenstein_not_of_three_le
     { toFun := fun z => ULift.up (Ideal.Quotient.mk m z)
       map_add' := by
         intro z w
-        show ULift.up (Ideal.Quotient.mk m (z + w)) =
+        change ULift.up (Ideal.Quotient.mk m (z + w)) =
           ULift.up (Ideal.Quotient.mk m z + Ideal.Quotient.mk m w)
         exact congrArg ULift.up ((Ideal.Quotient.mk m).map_add z w)
       map_smul' := by
         intro r z
-        show ULift.up (Ideal.Quotient.mk m (r * z)) =
+        change ULift.up (Ideal.Quotient.mk m (r * z)) =
           ULift.up (f r * Ideal.Quotient.mk m z)
         exact congrArg ULift.up ((Ideal.Quotient.mk m).map_mul r z) }
   let S : ShortComplex (ModuleCat A) := ModuleCat.shortComplexOfCompEqZero
@@ -409,7 +409,7 @@ private theorem multicross_gorenstein_not_of_three_le
       intro z
       have hz : Ideal.Quotient.mk m (m.subtype z) = 0 :=
         (Ideal.Quotient.eq_zero_iff_mem).2 z.property
-      show ULift.up (Ideal.Quotient.mk m (m.subtype z)) = 0
+      change ULift.up (Ideal.Quotient.mk m (m.subtype z)) = 0
       exact congrArg ULift.up hz)
   have hS : S.ShortExact := ModuleCat.shortComplex_shortExact S
     (by
@@ -422,7 +422,7 @@ private theorem multicross_gorenstein_not_of_three_le
           exact h
         exact ⟨⟨z, (Ideal.Quotient.eq_zero_iff_mem).1 hz'⟩, rfl⟩
       · rintro ⟨⟨w, hw⟩, rfl⟩
-        show ULift.up (Ideal.Quotient.mk m w) = 0
+        change ULift.up (Ideal.Quotient.mk m w) = 0
         apply ULift.ext
         exact (Ideal.Quotient.eq_zero_iff_mem).2 hw)
     (by intro z w h; exact Subtype.ext h)
@@ -430,7 +430,7 @@ private theorem multicross_gorenstein_not_of_three_le
       intro y
       obtain ⟨z, hz⟩ := Ideal.Quotient.mk_surjective y.down
       refine ⟨z, ?_⟩
-      show ULift.up (Ideal.Quotient.mk m z) = y
+      change ULift.up (Ideal.Quotient.mk m z) = y
       apply ULift.ext
       exact hz)
   let e₀map := multicrossBranchProjection k n i₀ i₀

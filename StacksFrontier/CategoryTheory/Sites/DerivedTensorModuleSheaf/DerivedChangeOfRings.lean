@@ -201,7 +201,7 @@ theorem extendScalarsKFlat_inverts :
       ((HomotopyCategory.quotient_map_mem_quasiIso_iff _).2
         ((HomologicalComplex.mem_quasiIso_iff _).2
           (quasiIso_extendScalars_map_of_kFlat J f g X.2 Y.2 hg')))
-  show IsIso (DerivedCategory.Qh.map (((extendScalars J f).mapHomotopyCategory _).map
+  change IsIso (DerivedCategory.Qh.map (((extendScalars J f).mapHomotopyCategory _).map
     ((kFlatObjects _).ι.map φ)))
   exact hg ▸ key
 

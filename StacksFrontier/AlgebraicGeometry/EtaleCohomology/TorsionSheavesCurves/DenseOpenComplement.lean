@@ -95,7 +95,7 @@ theorem topologicalKrullDim_nonpos_of_isClosed_singleton {α : Type*} [Topologic
     have : x ∈ (W : Set α) := hZW hxZ
     rwa [hy] at this
   intro w hw
-  show w ∈ (Z : Set α)
+  change w ∈ (Z : Set α)
   rwa [hx, hxy, ← hy]
 
 /-- **The complement of a dense open in a curve is finite over the base field.** Let `X` be of

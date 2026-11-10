@@ -264,7 +264,7 @@ private theorem exists_reduced_open_neighborhood_of_reduced_stalk
     exact hs
   have hxW : x ∈ W := by
     have hx' : hU.fromSpec p ∈ W := by
-      show p ∈ hU.fromSpec ⁻¹ᵁ W
+      change p ∈ hU.fromSpec ⁻¹ᵁ W
       rw [hU.fromSpec_preimage_basicOpen s]
       exact hxSpec
     simpa [W, p, hU.fromSpec_primeIdealOf] using hx'
@@ -297,12 +297,12 @@ private theorem isReduced_reducedOpenLocus (X : Scheme.{u}) :
       rw [reducedOpenLocus, TopologicalSpace.Opens.mem_iSup] at hxW
       obtain ⟨i, hi⟩ := hxW
       refine TopologicalSpace.Opens.mem_iSup.mpr ⟨i, ?_⟩
-      show (x.1 : X) ∈ i.1
+      change (x.1 : X) ∈ i.1
       exact hi
   let 𝒰 := Scheme.openCoverOfIsOpenCover W.toScheme coverOpen hcover
   have hred : ∀ i : 𝒰.I₀, IsReduced (𝒰.X i) := by
     intro i
-    show IsReduced (coverOpen i).toScheme
+    change IsReduced (coverOpen i).toScheme
     let e := Scheme.Opens.isoOfLE (le_iSup (fun V : J => V.1) i)
     have hOpen : AlgebraicGeometry.IsOpenImmersion e.hom := by
       let _ : IsIso e.hom := e.isIso_hom
@@ -349,7 +349,7 @@ private theorem isReduced_fiber_closedPoint_of_isReduced_pullback_residue
     ext r
     exact (IsScalarTower.algebraMap_apply R (R ⧸ m) m.ResidueField r).symm
   have hi : i ≫ s = (Spec (.of R)).fromSpecResidueField y := by
-    show Spec.map (ek.hom ≫ (Scheme.Spec.residueFieldIso (.of R) y).inv) ≫
+    change Spec.map (ek.hom ≫ (Scheme.Spec.residueFieldIso (.of R) y).inv) ≫
       Spec.map (CommRingCat.ofHom (IsLocalRing.residue R)) = _
     calc
       _ = Spec.map (CommRingCat.ofHom (IsLocalRing.residue R) ≫
@@ -446,7 +446,7 @@ private theorem isReduced_stalk_of_closedPoint_of_flat
     rw [IsSMulRegular] at hreg
     have ha' : ϖ • a = 0 := by
       rw [Algebra.smul_def]
-      show algebraMap R Aq ϖ * a = 0
+      change algebraMap R Aq ϖ * a = 0
       rw [IsScalarTower.algebraMap_apply R A Aq]
       have hφ : algebraMap R A = φ := rfl
       simpa [hφ] using ha
@@ -628,7 +628,7 @@ private theorem map_projection (D : RestrictedChart B S S' hS hS' g X')
     (D.map E f).left ≫ E.projection = D.projection ≫ f.left := by
   apply B.inclusion.map_injective
   rw [B.inclusion.map_comp]
-  show B.inclusion.map (B.inclusion.preimage _) ≫ B.inclusion.map E.projection =
+  change B.inclusion.map (B.inclusion.preimage _) ≫ B.inclusion.map E.projection =
     B.inclusion.map (D.projection ≫ f.left)
   rw [B.inclusion.map_preimage]
   exact E.isPullback.lift_fst _ _ _
@@ -640,7 +640,7 @@ private theorem iso_naturality (D : RestrictedChart B S S' hS hS' g X')
       yoneda.map (D.map E f) ≫ E.iso.hom := by
   ext T x
   apply Over.OverMorphism.ext
-  show (x.left ≫ D.projection) ≫ f.left =
+  change (x.left ≫ D.projection) ≫ f.left =
     (x.left ≫ (D.map E f).left) ≫ E.projection
   simp only [Category.assoc, map_projection]
 
@@ -693,7 +693,7 @@ private theorem RestrictedChart.presheaf_property
   let T' : BigFppfOver B S' hS' := (Over.map g).obj T
   let Tdata := restrictedChart B S S' hS hS' g T'
   let ξ : F'.obj (Opposite.op T') := by
-    show (Res.obj F').obj (Opposite.op T)
+    change (Res.obj F').obj (Opposite.op T)
     exact yonedaEquiv t
   let t' : yoneda.obj T' ⟶ F' := yonedaEquiv.symm ξ
   let delta : T ⟶ Tdata.base := by
@@ -708,10 +708,10 @@ private theorem RestrictedChart.presheaf_property
     simp [RestrictedChart.iso, RestrictedChart.equiv, hdelta, T']
   have ht : yoneda.map delta ≫ Tdata.iso.hom ≫ Res.map t' = t := by
     apply yonedaEquiv.injective
-    show (Res.map t').app (Opposite.op T) (Tdata.iso.hom.app (Opposite.op T) delta) =
+    change (Res.map t').app (Opposite.op T) (Tdata.iso.hom.app (Opposite.op T) delta) =
       yonedaEquiv t
     rw [hsection]
-    show F'.map (𝟙 T').op ξ = ξ
+    change F'.map (𝟙 T').op ξ = ξ
     simp
   obtain ⟨V', snd, fst, hpb⟩ := hf.1 t'
   let Vdata := restrictedChart B S S' hS hS' g V'
@@ -784,7 +784,7 @@ private theorem fieldPoint_factors_through_open
   let k : A.left ⟶ V.left :=
     B.inclusion.preimage (show B.inclusion.obj A.left ⟶ B.inclusion.obj V.left from ψ)
   have hk : B.inclusion.map k = ψ := by
-    show B.inclusion.map
+    change B.inclusion.map
       (B.inclusion.preimage
         (show B.inclusion.obj A.left ⟶ B.inclusion.obj V.left from ψ)) = ψ
     rw [B.inclusion.map_preimage]
@@ -792,10 +792,10 @@ private theorem fieldPoint_factors_through_open
     apply B.inclusion.map_injective
     rw [B.inclusion.map_comp]
     have hj : G.map j ≫ B.inclusion.map U.hom = B.inclusion.map V.hom := by
-      show B.inclusion.map j.left ≫ B.inclusion.map U.hom = B.inclusion.map V.hom
+      change B.inclusion.map j.left ≫ B.inclusion.map U.hom = B.inclusion.map V.hom
       rw [← B.inclusion.map_comp, j.w]
     have hpv : G.map p.value ≫ B.inclusion.map U.hom = B.inclusion.map A.hom := by
-      show B.inclusion.map p.value.left ≫ B.inclusion.map U.hom = B.inclusion.map A.hom
+      change B.inclusion.map p.value.left ≫ B.inclusion.map U.hom = B.inclusion.map A.hom
       rw [← B.inclusion.map_comp, p.value.w]
       rfl
     rw [hk, ← hj, ← Category.assoc, hψ]
@@ -805,7 +805,7 @@ private theorem fieldPoint_factors_through_open
     have hleft : k ≫ j.left = p.value.left := by
       apply B.inclusion.map_injective
       rw [B.inclusion.map_comp, hk]
-      show ψ ≫ G.map j = G.map p.value
+      change ψ ≫ G.map j = G.map p.value
       exact hψ
     exact hleft
   let q : FieldValuedPoint B S hS (yoneda.obj V) := ⟨p.carrier, p.contained, p.toBase, a⟩
@@ -883,7 +883,7 @@ public theorem isReduced_of_isReduced_specialFiber
       (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u}) T))
       (𝟙 (yoneda.obj base)) := by
     let Q := MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u}) T
-    show (MorphismProperty.relative yoneda Q) _
+    change (MorphismProperty.relative yoneda Q) _
     refine ⟨Functor.relativelyRepresentable.of_isIso yoneda (𝟙 _), ?_⟩
     intro A C q fst snd hpb
     have : IsIso (yoneda.map snd) := hpb.isIso_snd_of_isIso
@@ -899,7 +899,7 @@ public theorem isReduced_of_isReduced_specialFiber
   have hlocalFTU : LocallyOfFiniteType fU :=
     hproper.2.1.1 U base a (𝟙 _) uToBase haEtale hbaseEtale hchartMap
   let _ : IsLocallyNoetherian (B.inclusion.obj (B.obj hR)) := by
-    show IsLocallyNoetherian (Spec (.of R))
+    change IsLocallyNoetherian (Spec (.of R))
     infer_instance
   let _ : LocallyOfFiniteType fU := hlocalFTU
   let _ : IsLocallyNoetherian (B.inclusion.obj U.left) :=
@@ -948,7 +948,7 @@ public theorem isReduced_of_isReduced_specialFiber
         rw [← hchartMap, Category.comp_id] at hx'
         change (B.inclusion.map (p.value.left ≫ U.hom))
           (IsLocalRing.closedPoint p.carrier) = _ at hx'
-        show (B.inclusion.map U.hom)
+        change (B.inclusion.map U.hom)
           ((B.inclusion.map p.value.left) (IsLocalRing.closedPoint p.carrier)) = _
         rw [B.inclusion.map_comp] at hx'
         exact hx'

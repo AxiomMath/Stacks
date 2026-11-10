@@ -225,7 +225,7 @@ theorem bivariantCommute_pushAtInfinity {p : ℤ}
     unfold pushAtInfinity
     rw [canonicalBivariantProperPushforward_cap]
     refine eq_of_heq (properChowPushforward_heq_congr_base C _ ?_ rfl _ _ rfl _ _ _ _ ?_)
-    · show pullback.fst (preimageProjection f b iZ ≫ iZ) t ≫
+    · change pullback.fst (preimageProjection f b iZ ≫ iZ) t ≫
           (preimageInclusion f b iZ ≫ (modificationProjectionAtInfinity f b ≫ f)) = _
       rw [← Category.assoc (preimageInclusion f b iZ), hfac, Category.assoc]
     · refine (BivariantClass.copy_cap C _ _ _ _ _ _ _ _ t k α).trans ?_

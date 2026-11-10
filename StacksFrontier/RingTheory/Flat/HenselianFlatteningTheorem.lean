@@ -94,7 +94,7 @@ theorem exists_ideal_condition_iff_map_eq_bot_of_henselian
         Module.FinitePresentation S.B S.M → I.FG) := by
   obtain ⟨I, hI⟩ := exists_ideal_conditionOn_iff_map_eq_bot_of_henselian.{u, v, w, x} S
   refine ⟨I, fun R ↦ ?_, fun hB hM ↦ ?_⟩
-  · show S.ConditionOn R ↔ _
+  · change S.ConditionOn R ↔ _
     rw [← S.conditionOn_ulift_iff.{u, v, w, x, u} R, hI (ULift.{u} R),
       Ideal.map_eq_bot_iff_le_ker, Ideal.map_eq_bot_iff_le_ker, ULift.ker_algebraMap]
   · have := hM

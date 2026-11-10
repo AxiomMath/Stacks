@@ -16,7 +16,8 @@ import all StacksFrontier.AlgebraicGeometry.FormalSpace.Restricted.FlatBaseChang
 # Base change of a flat morphism of locally Noetherian formal algebraic spaces: the refined forms
 
 The strengthened and newly added declarations of the 2026-10 chapter-87 round that
-belong with `StacksFrontier.AlgebraicGeometry.FormalSpace.Restricted.FlatBaseChange`. A declaration of that module whose statement the round strengthened
+belong with `StacksFrontier.AlgebraicGeometry.FormalSpace.Restricted.FlatBaseChange`. A declaration
+of that module whose statement the round strengthened
 keeps its original statement there; its strengthened form lives here under a primed name.
 -/
 
@@ -43,7 +44,7 @@ The two inputs are those the library's `isLocallyOfFiniteTypeOnReductions_tfae'`
 leg: the affine computation of Stacks 0GB6 as `hbridge` and the étale locality of Stacks 040Y
 read on reductions as `hredsquare`. The implication (2) ⟹ (1) of Stacks 0AKX, which used to be
 `h0AKX`, is
-`AlgebraicGeometry.FormalSpace.isCountablyIndexed_of_isRepresentableEtale_of_isLocallyCountablyIndexed`.
+`FormalSpace.isCountablyIndexed_of_isRepresentableEtale_of_isLocallyCountablyIndexed`.
 The charts of `WAdm^{Noeth}` lie in `WAdm^{count}`, which is what lets `hbridge` apply to
 them. -/
 theorem hasPropertyOnEveryAffineEtaleDiagram_finiteTypeOnReductions'
@@ -71,7 +72,8 @@ Flatness of arrows of `WAdm^{Noeth}` is stable under base change by arrows of fi
 reductions by part (1) of Stacks 0GCA, which the library proves outright; Remark 0GBG transfers
 that to the second projection of the fibre product, on the two inputs `h31` and `hcover` it
 carries — the invariance of flatness under isomorphism of targets is read off the locality
-field of the stability bundle, whose first axiom it is; and the hypothesis on `g_red` becomes the chart condition the transfer
+field of the stability bundle, whose first axiom it is; and the hypothesis on `g_red` becomes the
+chart condition the transfer
 consumes by the implication (4) ⟹ (1) of Stacks 0GC7, on the two inputs `hbridge` and
 `hredsquare`. Nothing about flatness is assumed in any of the five. -/
 @[stacks 0GCE "part (1), on the 0GBG transfer inputs and the 0GC7 (4) implies (1) inputs"]
@@ -202,7 +204,7 @@ theorem hasPropertyOnEveryAffineEtaleDiagram_isFlatAdicOfFiniteTypeHom_of_isLoca
     obtain ⟨⟨J, hJdef, -⟩, -⟩ := hRc.1
     exact ⟨J, hJdef, Ideal.fg_of_isNoetherianRing J⟩
   refine ⟨hP U V a b t hU hV ha hb hsq A R hA hRc hwa D E eU eV φ hφ,
-    ((Rig.adicFiniteType_tfae φ.toRingHom φ.continuous hA.1 hRc.1 hAfg hRfg).out 2 1).mp ?_⟩
+    ((Rig.adicFiniteType_tfae φ.toRingHom hA.1 hRc.1 hAfg hRfg).out 2 1).mp ?_⟩
   exact hT U V a b t hU hV ha hb hsq A R
     (isCountablyWeaklyAdmissible_of_isNoetherianAdic hA.1)
     (isCountablyWeaklyAdmissible_of_isNoetherianAdic hRc.1) hwa D E eU eV φ hφ

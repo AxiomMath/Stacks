@@ -143,7 +143,7 @@ def quotientEquivResidueFieldSpec (A : CommRingCat.{u}) (x : Spec A) [x.asIdeal.
 theorem quotientEquivResidueFieldSpec_mk (A : CommRingCat.{u}) (x : Spec A)
     [x.asIdeal.IsMaximal] (a : ↑A) :
     quotientEquivResidueFieldSpec A x (Ideal.Quotient.mk x.asIdeal a) = specEvaluation A x a := by
-  show (RingHom.quotientKerEquivOfSurjective (specEvaluation_surjective A x))
+  change (RingHom.quotientKerEquivOfSurjective (specEvaluation_surjective A x))
       (Ideal.quotEquivOfEq (ker_specEvaluation A x).symm (Ideal.Quotient.mk x.asIdeal a))
     = specEvaluation A x a
   rw [Ideal.quotEquivOfEq_mk,
@@ -174,7 +174,7 @@ theorem residueDegree_specMap_of_isField {R A : CommRingCat.{u}} [Algebra ↑R �
   have hcompat : (algebraMap ((Spec R).residueField y) ((Spec A).residueField x)).comp
       eK.toRingHom = eL.toRingHom.comp (algebraMap ↑R (↑A ⧸ x.asIdeal)) := by
     refine RingHom.ext fun r => ?_
-    show ((Spec.map psi).residueFieldMap x).hom (specEvaluation R y r) =
+    change ((Spec.map psi).residueFieldMap x).hom (specEvaluation R y r) =
       quotientEquivResidueFieldSpec A x (Ideal.Quotient.mk x.asIdeal (algebraMap ↑R ↑A r))
     rw [quotientEquivResidueFieldSpec_mk, ← hpsi]
     exact specEvaluation_naturality psi x r

@@ -211,7 +211,7 @@ theorem tensorExceptionalHom_exceptionalTensorHom
       AlgHom.id (centerRing A f₁ f₂) _ := by
     refine Algebra.TensorProduct.ext_ring (AlgHom.ext fun b ↦ ?_)
     obtain ⟨p, rfl⟩ := Ideal.Quotient.mk_surjective b
-    show tensorExceptionalHom A f₁ f₂ (exceptionalTensorHom A f₁ f₂ (1 ⊗ₜ[A] _)) = _
+    change tensorExceptionalHom A f₁ f₂ (exceptionalTensorHom A f₁ f₂ (1 ⊗ₜ[A] _)) = _
     rw [exceptionalTensorHom_tmul_one, tensorExceptionalHom_map]
     rfl
   exact congr($key x)
@@ -223,7 +223,7 @@ theorem exceptionalTensorHom_tensorExceptionalHom
   have key : (exceptionalTensorHom A f₁ f₂).comp (tensorExceptionalHom A f₁ f₂) =
       AlgHom.id (centerRing A f₁ f₂) _ := by
     refine MvPolynomial.algHom_ext fun i ↦ ?_
-    show exceptionalTensorHom A f₁ f₂ (tensorExceptionalHom A f₁ f₂ (MvPolynomial.X i)) = _
+    change exceptionalTensorHom A f₁ f₂ (tensorExceptionalHom A f₁ f₂ (MvPolynomial.X i)) = _
     rw [tensorExceptionalHom, MvPolynomial.aeval_X, exceptionalTensorHom_tmul_one,
       MvPolynomial.map_X]
     rfl
@@ -290,7 +290,7 @@ theorem gradedZeroRingHom_exceptionalTensorGradedHom_comp :
             (centerRing A f₁ f₂) 0)) =
       centerRingHom A f₁ f₂ := by
   refine RingHom.ext fun s ↦ Subtype.ext ?_
-  show exceptionalTensorHom A f₁ f₂
+  change exceptionalTensorHom A f₁ f₂
     (algebraMap (centerRing A f₁ f₂) (centerRing A f₁ f₂ ⊗[A] modificationRing A f₁ f₂) s) =
       MvPolynomial.C s
   rw [AlgHom.commutes]

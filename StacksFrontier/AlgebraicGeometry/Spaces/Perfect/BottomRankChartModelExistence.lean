@@ -221,6 +221,8 @@ theorem nonempty_bottomModel_of_homotopyEquiv_homModule
   exact ⟨_, _, M, by convert hM using 3⟩
 
 set_option maxHeartbeats 800000 in
+-- the statement nests several base changes of sheaves of modules, and the closing
+-- `convert h3 using 6 <;> rfl` unifies them
 /-- **No fibre cohomology below `a` at a geometric point.** Let `A` be a strictly perfect model of
 `E` on the chart of a small étale neighbourhood `N` of a geometric point. If `H^j(Lf^*E) = 0` for
 all `f` and all `j < a`, then the complex of global sections of `A`, base changed to the field of

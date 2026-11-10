@@ -175,11 +175,11 @@ theorem algebraMap_smul_mem_polyComponent (e : A[X] ≃ₐ[A] B) {p n : ℕ} (c 
   obtain ⟨z, hz, rfl⟩ := hx
   refine ⟨(C c : A[X]) • z, ?_, ?_⟩
   · change z ∈ weightComponent R A n p at hz
-    show (C c : A[X]) • z ∈ weightComponent R A n p
+    change (C c : A[X]) • z ∈ weightComponent R A n p
     rw [weightComponent_eq_weightForms] at hz ⊢
     have h := monomial_smul_mem_weightForms R A 0 c hz
     rwa [zero_add, monomial_zero_left] at h
-  · show mapExteriorPower R A[X] B p ((C c : A[X]) • z) = _
+  · change mapExteriorPower R A[X] B p ((C c : A[X]) • z) = _
     rw [map_smul]
     have h : algebraMap A[X] B (Polynomial.C c) = algebraMap A B c := by
       rw [IsScalarTower.algebraMap_apply A A[X] B, Polynomial.algebraMap_apply,
@@ -239,7 +239,7 @@ theorem transport_weightComparison (eB : A[X] ≃ₐ[A] B) (eB' : A[T;T⁻¹] �
   rw [hgB, hgB', ← map_gradedDifferentialFormComponent, ← map_gradedDifferentialFormComponent]
   constructor
   · have h := map_weightComponent_eq_laurentWeightComponent R A n p hn
-    show _ = Submodule.map _ (LaurentDeRham.weightComponent R A (n : ℤ) p)
+    change _ = Submodule.map _ (LaurentDeRham.weightComponent R A (n : ℤ) p)
     rw [← h, ← Submodule.map_comp, ← Submodule.map_comp]
     congr 1
     exact LinearMap.ext fun y ↦ hcomp y
@@ -247,7 +247,7 @@ theorem transport_weightComparison (eB : A[X] ≃ₐ[A] B) (eB' : A[T;T⁻¹] �
     change mapExteriorPower R B B' p (mapExteriorPower R A[X] B p y) = 0 at h0
     rw [hcomp] at h0
     have h1 := hinjB' (h0.trans (map_zero _).symm)
-    show mapExteriorPower R A[X] B p y = 0
+    change mapExteriorPower R A[X] B p y = 0
     rw [eq_zero_of_mem_weightComponent_of_mapExteriorPower_eq_zero R A n p hy h1, map_zero]
 
 end LaurentDeRham

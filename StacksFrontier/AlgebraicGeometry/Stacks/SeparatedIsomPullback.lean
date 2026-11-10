@@ -173,7 +173,7 @@ theorem isEquivalence_restrictComparison
             (ObjectProperty.homMk t.iso.inv :
               ((restrictComparison p q F hF P Q hPQ).obj ⟨t.y, hPt⟩).x ⟶ t.x)
             (Functor.congr_obj hF t.y) t.hx ?_
-          show q.map t.iso.inv = _
+          change q.map t.iso.inv = _
           rw [IsHomLift.fac' q (𝟙 t.base) t.iso.inv]
           simp only [Category.id_comp, eqToHom_trans]
         hb := by

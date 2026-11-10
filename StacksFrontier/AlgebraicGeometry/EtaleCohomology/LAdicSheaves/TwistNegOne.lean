@@ -116,7 +116,7 @@ theorem LAdicSheaf.twistNegOneTower_map_succ (n : ℕ) :
 theorem LAdicSheaf.twistNegOneTower_annihilated (n : ℕ) :
     ℓ ^ (n + 1) • 𝟙 (towerObj (LAdicSheaf.twistNegOneTower fX F) n) = 0 := by
   let R := etaleModuleRestrictScalars (PadicInt.toZModPow (p := ℓ) (n + 1)) X.1
-  show ℓ ^ (n + 1) • 𝟙 (R.obj (LAdicSheaf.twistNegOneLevel F n)) = 0
+  change ℓ ^ (n + 1) • 𝟙 (R.obj (LAdicSheaf.twistNegOneLevel F n)) = 0
   rw [← R.map_id, ← R.map_nsmul,
     zmodSheaf_nsmul_id X.1.smallEtaleTopology (ℓ ^ (n + 1)) (LAdicSheaf.twistNegOneLevel F n),
     R.map_zero]
@@ -337,7 +337,7 @@ theorem LAdicSheaf.twistNegOneTower_fiber (n : ℕ) :
     (etaleModuleRestrictScalarsComp (PadicInt.toZModPow (p := ℓ) (n + 1 + 1)) (levelCast ℓ n)
       (PadicInt.toZModPow (p := ℓ) (n + 1)) (toZModPow_succ_comp ℓ n) X.1).hom.app
       (LAdicSheaf.twistNegOneLevel F n)
-  show Function.Surjective (Φ.presheafFiber.map τH.hom) ∧
+  change Function.Surjective (Φ.presheafFiber.map τH.hom) ∧
     ∀ x, Φ.presheafFiber.map τH.hom x = 0 → ∃ z, ℓ ^ (n + 1) • z = x
   obtain ⟨hsurj, hex⟩ := LAdicSheaf.etaleLevelPadicTransition_fiber F Φ n
   exact surjective_and_exact_of_fiberPairing Φ pair₁ hpair₁ pair₀ hpair₀

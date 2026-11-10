@@ -101,7 +101,7 @@ theorem finite_toRingHom (p : PolynomialPresentation f) : p.toRingHom.Finite :=
 for the finite type homomorphisms. -/
 theorem finiteType (p : PolynomialPresentation f) : f.FiniteType := by
   let : Algebra R A := f.toAlgebra
-  show Algebra.FiniteType R A
+  change Algebra.FiniteType R A
   exact Algebra.FiniteType.of_surjective p.toAlgHom p.surjective
 
 /-- Derived base change `- ⊗_R^L P` along the polynomial algebra `P` of a presentation.  It is

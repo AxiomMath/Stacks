@@ -90,7 +90,7 @@ theorem properPushforward_eq_zero_of_val_eq (C : ChowSituation.{u}) {X Y : Schem
     properPushforward C sX sY p hp k c = 0 := by
   have hval : (properPushforward C sX sY p hp k c).1 =
       (properPushforward C sX sY p hp k' c').1 := by
-    show AlgebraicCycle.map p (relativeDimension C.dimensionFunction sX)
+    change AlgebraicCycle.map p (relativeDimension C.dimensionFunction sX)
         (relativeDimension C.dimensionFunction sY) c.1 =
       AlgebraicCycle.map p (relativeDimension C.dimensionFunction sX)
         (relativeDimension C.dimensionFunction sY) c'.1

@@ -84,7 +84,7 @@ noncomputable def toFree (I : Type u) :
 lemma ι_toFree (I : Type u) (i : I) :
     Sigma.ι (fun _ : I ↦ PresheafOfModules.unit R.obj) i ≫ toFree R I =
       (SheafOfModules.ιFree (R := R) i).val :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The sheafification of `PresheafOfModules.unit R.obj` is `SheafOfModules.unit R`: a sheaf of
 modules is its own sheafification, and `SheafOfModules.unit R` is by definition the sheaf of

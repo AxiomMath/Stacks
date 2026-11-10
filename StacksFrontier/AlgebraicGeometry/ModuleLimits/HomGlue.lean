@@ -157,7 +157,7 @@ theorem exists_hom_app_eq_of_cover {ι : Type u} (W : ι → X.Opens) (hW : ∀ 
       (F := (⟨N.presheaf, N.isSheaf⟩ : TopCat.Sheaf Ab.{u} X))
       (fun a => U ⊓ W a) U (fun a => homOfLE inf_le_left) (hcov U) _ ?_
     intro a b
-    show N.presheaf.map _ _ = N.presheaf.map _ _
+    change N.presheaf.map _ _ = N.presheaf.map _ _
     rw [Subsingleton.elim (TopologicalSpace.Opens.infLELeft (U ⊓ W a) (U ⊓ W b))
         (homOfLE (inf_le_left : (U ⊓ W a) ⊓ (U ⊓ W b) ≤ U ⊓ W a)),
       Subsingleton.elim (TopologicalSpace.Opens.infLERight (U ⊓ W a) (U ⊓ W b))

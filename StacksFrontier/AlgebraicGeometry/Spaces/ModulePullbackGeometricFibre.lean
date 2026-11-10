@@ -59,7 +59,7 @@ the underlying type of a module nor the underlying function of a map of modules.
 theorem isIso_of_isIso_restrictScalars_map {R' S' : Type u} [Ring R'] [Ring S'] (φ : R' →+* S')
     {M N : ModuleCat.{u} S'} (g : M ⟶ N)
     (hg : IsIso ((ModuleCat.restrictScalars φ).map g)) : IsIso g := by
-  rwa [ConcreteCategory.isIso_iff_bijective] at hg ⊢
+  rw [ConcreteCategory.isIso_iff_bijective] at hg ⊢; assumption
 
 /-- A map between two modules each of which has at most one element is an isomorphism: it is
 injective because its source is a subsingleton and surjective because its target is. -/

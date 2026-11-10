@@ -82,8 +82,8 @@ statements, and both are identified precisely in the module docstring of
 Both are now theorems — see
 `CategoryTheory.Sheaf.nonempty_resolutionAtiyahTriangleFirstTermIso`
 (`StacksFrontier/Cotangent/SheavesOfRings/AtiyahTriangleFirstTerm.lean`), and the registrations
-of Tags 09DH and 09DI are in `StacksFrontier/Cotangent/SheavesOfRings/AtiyahClassDefinite.lean` — but neither is claimed
-here, and no `@[stacks]` attribute is taken.
+of Tags 09DH and 09DI are in `StacksFrontier/Cotangent/SheavesOfRings/AtiyahClassDefinite.lean`
+— but neither is claimed here, and no `@[stacks]` attribute is taken.
 
 Nor is this [Stacks, Tag 08PU]. That lemma opens "Let `A → B` be a ring map" and computes
 `L_{B/A}` as `Lπ_!(Ω_{𝒪/A} ⊗_𝒪 \underline{B})` for the point morphism `π` of the chaotic

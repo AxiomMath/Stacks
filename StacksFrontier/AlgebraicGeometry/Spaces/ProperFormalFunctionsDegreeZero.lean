@@ -85,7 +85,7 @@ theorem bijective_of_bijective_towerLimit
     have hs : ∀ n, π (n + 1) x = π (n + 1) y := fun n =>
       (e n).injective (by simpa only [hg] using congrArg (fun z => z.1 n) hxy)
     rcases n with _ | n
-    · show π 0 x = π 0 y
+    · change π 0 x = π 0 y
       rw [← hπ 0 1 (Nat.zero_le 1) x, ← hπ 0 1 (Nat.zero_le 1) y, hs 0]
     · exact hs n
   · let y : ∀ n, P n := fun n => match n with
@@ -94,7 +94,7 @@ theorem bijective_of_bijective_towerLimit
     have hsucc : ∀ n, T n (n + 1) (Nat.le_succ n) (y (n + 1)) = y n := by
       rintro (_ | n)
       · rfl
-      · show T (n + 1) (n + 2) _ ((e (n + 1)).symm (s.1 (n + 1))) = (e n).symm (s.1 n)
+      · change T (n + 1) (n + 2) _ ((e (n + 1)).symm (s.1 (n + 1))) = (e n).symm (s.1 n)
         apply (e n).injective
         rw [Equiv.apply_symm_apply, he, Equiv.apply_symm_apply, s.2 n]
     have hall : ∀ m n (h : m ≤ n), T m n h (y n) = y m := by
@@ -179,7 +179,7 @@ theorem isIso_idealMultipleToIdealPowerMultiple (hK : K.IsQuasicoherentOnSite) (
     have hmem : P.ι.val.app (op V) y ∈
         chartSubmodule B (Spec (.of A)) hA X.1 X.2
           (idealPowSubmodule (baseIdealSheaf A X I) n K) V := by
-      show _ ∈ (idealPowSubmodule (baseIdealSheaf A X I) n K).obj (op V)
+      change _ ∈ (idealPowSubmodule (baseIdealSheaf A X I) n K).obj (op V)
       rw [← idealPowerMultiple_eq_idealPowSubmodule]
       exact y.2
     rw [chartSubmodule_idealPowSubmodule_eq_of_isAffine B (Spec (.of A)) hA X.1 X.2 _ K hKc
@@ -398,7 +398,7 @@ theorem bijective_adicSectionsOfSections_of_isProper
       (bijective_adicCohomologyLimitMap_of_isAdicComplete X hX K I 0) g
       (fun x n => (adicCohomologyZeroEquiv_proj X I K hK (n + 1) x).symm)
     · intro n x
-      show cohomologyResMap (baseRingHom A B hA X.1 X.2) 0
+      change cohomologyResMap (baseRingHom A B hA X.1 X.2) 0
         (idealQuotientMap (baseRingHom A B hA X.1 X.2) K (le_refl (I ^ n))) x = x
       rw [idealQuotientMap_refl, cohomologyResMap_id_apply]
     · intro m n k h₁ h₂ x
@@ -406,7 +406,7 @@ theorem bijective_adicSectionsOfSections_of_isProper
   have hfac : adicSectionsOfSections B (Spec (.of A)) hA X.1 X.2 (baseIdealSheaf A X I) K =
       g ∘ η.inv := by
     funext σ
-    show _ = adicSectionsOfSections B (Spec (.of A)) hA X.1 X.2 (baseIdealSheaf A X I) K
+    change _ = adicSectionsOfSections B (Spec (.of A)) hA X.1 X.2 (baseIdealSheaf A X I) K
       (η.hom (η.inv σ))
     exact congrArg _ (Iso.inv_hom_id_apply η σ).symm
   rw [hfac]

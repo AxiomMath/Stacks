@@ -5,9 +5,9 @@ public import StacksFrontier.AlgebraicGeometry.Descent.FrobeniusColimitSquarePas
 /-!
 # The pasting law and the cube coherence on the finite locally free modules
 
-Let `p` be a prime. `StacksFrontier.AlgebraicGeometry.Descent.FrobeniusColimitSquarePaste` proves the
-pasting law and the cube coherence of the square comparisons **on all sheaves of modules** over the
-Frobenius colimits of the structure sheaves, and the pasting law also on the finite locally free
+Let `p` be a prime. `StacksFrontier.AlgebraicGeometry.Descent.FrobeniusColimitSquarePaste` proves
+the pasting law and the cube coherence of the square comparisons **on all sheaves of modules** over
+the Frobenius colimits of the structure sheaves, and the pasting law also on the finite locally free
 ones. This file carries the remaining statements to the finite locally free modules, which are the
 fibre categories of the category fibred in groupoids of [Stacks, Tag 0EXE] and the categories the
 comparison functor of [Stacks, Tag 0EXD] is a functor between.

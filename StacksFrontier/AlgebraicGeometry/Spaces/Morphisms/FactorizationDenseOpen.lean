@@ -85,6 +85,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site needs the extra budget
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_FactorizationDenseOpen :
@@ -188,7 +189,7 @@ private theorem exists_factorization_of_kernelPair
   have hunique : l' ≫ pY = k ≫ pZ := by
     apply R.to_sheafify_lift_unique ((isSheaf_iff_isSheaf_of_type J T).mp hT)
     apply (cancel_epi q).mp
-    show q ≫ j ≫ l' ≫ pY = q ≫ j ≫ k ≫ pZ
+    change q ≫ j ≫ l' ≫ pY = q ≫ j ≫ k ≫ pZ
     rw [reassoc_of% hj, reassoc_of% hl, reassoc_of% hqjk, hbase]
   simpa [h] using hunique
 

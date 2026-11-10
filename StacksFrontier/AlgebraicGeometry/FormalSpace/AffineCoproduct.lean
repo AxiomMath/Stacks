@@ -387,7 +387,7 @@ theorem satisfiesSetTheoreticCondition_sigma {I : Type (u + 1)} [Finite I]
     SatisfiesSetTheoreticCondition B S hS (∐ Z) := by
   classical
   let : HasColimitsOfSize.{u + 1, u + 1} (FppfSheaf B S hS) := Sheaf.instHasColimitsOfSize
-  show SatisfiesSetTheoreticCondition B S hS (∐ Z)
+  change SatisfiesSetTheoreticCondition B S hS (∐ Z)
   let : Small.{u} I := Countable.toSmall.{u} I
   let J := BigFppfOver.topology B S hS
   have key : ∀ i, ∃ (Ui Ri : BigFppfOver B S hS) (a : J.uliftYoneda.{u + 1}.obj Ui ⟶ Z i),
@@ -462,7 +462,7 @@ theorem isAffineFormalAlgebraicSpace_sigma {I : Type (u + 1)} [Finite I]
     IsAffineFormalAlgebraicSpace B S hS (∐ Z) := by
   classical
   let : HasColimitsOfSize.{u + 1, u + 1} (FppfSheaf B S hS) := Sheaf.instHasColimitsOfSize
-  show IsAffineFormalAlgebraicSpace B S hS (∐ Z)
+  change IsAffineFormalAlgebraicSpace B S hS (∐ Z)
   let : Small.{u} I := Countable.toSmall.{u} I
   let J := BigFppfOver.topology B S hS
   let G := BigAffineFppf.inclusion B S hS ⋙ Sheaf.sheafifiedYoneda J

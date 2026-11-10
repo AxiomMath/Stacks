@@ -116,7 +116,7 @@ theorem preservesFiniteLimits_liftModuleFunctor :
       (Stacks.SheafOfModules.Tensor.ringSheaf (liftRingedSite.{u, v, w} X).O) ⋙
     PresheafOfModules.toPresheaf _
   have : PreservesFiniteLimits (liftModuleFunctor.{u, v, w} X ⋙ G) := by
-    show PreservesFiniteLimits
+    change PreservesFiniteLimits
       ((_root_.SheafOfModules.forget.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) ⋙
           PresheafOfModules.toPresheaf _) ⋙
         (Functor.whiskeringRight _ AddCommGrpCat.{w} AddCommGrpCat.{max u v w}).obj

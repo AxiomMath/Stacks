@@ -65,6 +65,7 @@ variable (c : ∀ {X Y : Scheme.{u}} (f : X ⟶ Y), IsShriekable f → Compactif
   (hpe : f ≫ q = p) (hωS : haveI := hp.base_noetherian; IsDualizingComplex ωS.obj.obj)
   [LocallyQuasiFinite f]
 
+omit [LocallyQuasiFinite f] in
 /-- **The restriction step of [Stacks, Tag 0BUL], second assertion**. -/
 theorem restrictIso_affineIsoOfIso_chart (U : Y.affineOpens) {V W : X.affineOpens} (hWV : W.1 ≤ V.1)
     (hVU : V.1 ≤ f ⁻¹ᵁ U.1) (hWU : W.1 ≤ f ⁻¹ᵁ U.1) :
@@ -84,7 +85,7 @@ theorem restrictIso_affineIsoOfIso_chart (U : Y.affineOpens) {V W : X.affineOpen
       (affineRestrictHom_comp hpe hWV))
   have R := restrict_upperShriekStructureSheafZerothIsoOfIso_trans'
     (affineRestrictHom (hp := hp) (hq := hq) hpe hWV) F (affineRestrictHom_comp hpe hWV)
-    (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y)
+    (isDualizing_stdComplex c hωS 𝒦Y)
     (isBoundedBelow_dualizingQCoh (hp := hp) c 𝒦Y hωS) (stdComplexRestrictLEIso c 𝒦X hWV)
     (affineNormalizationAt c 𝒦X 𝒦Y hpe hωS V (affineChartNormalization c 𝒦X 𝒦Y hpe U V hVU) F)
     (affineNormalizationAt c 𝒦X 𝒦Y hpe hωS W (affineChartNormalization c 𝒦X 𝒦Y hpe U W hWU)
@@ -138,7 +139,7 @@ theorem localEquiv_affineChartData_restrict (U : Y.affineOpens) {V W : X.affineO
       upperShriekStructureSheafZerothIsoOfIso
         (ftsHomSelf (hp.isShriekable_ι_comp_of_isAffineOpen hq hpe W.2))
         (c _ (hp.isShriekable_ι_comp_of_isAffineOpen hq hpe W.2))
-        (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y)
+        (isDualizing_stdComplex c hωS 𝒦Y)
         (normalizationStdIso c hωS (hp.isShriekable_ι_comp_of_isAffineOpen hq hpe W.2)
           (𝒦X.restrict W.1) 𝒦Y (affineChartNormalization c 𝒦X 𝒦Y hpe U W hWU)))
     U T'W _ F' _

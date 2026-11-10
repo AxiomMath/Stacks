@@ -160,17 +160,17 @@ theorem exists_etale_surjective_coproduct_affine_cover
     refine ⟨W.1, W.2, ?_⟩
     intro y
     have hmap : e.hom ≫ B.inclusion.map U.hom = a ≫ q := by
-      show B.inclusion.map U.hom = a ≫ q
-      show B.inclusion.map
+      change B.inclusion.map U.hom = a ≫ q
+      change B.inclusion.map
           ((B.inclusion.preimage
             (show B.inclusion.obj (B.obj hZ) ⟶ B.inclusion.obj V.left from a)) ≫ V.hom) =
         a ≫ q
       rw [Functor.map_comp, B.inclusion.map_preimage]
     rw [hmap]
-    show (Sigma.ι Y i ≫ a ≫ q) y ∈ W.1
+    change (Sigma.ι Y i ≫ a ≫ q) y ∈ W.1
     have hi : Sigma.ι Y i ≫ a = (i.1.1 : X.Opens).ι := by simp [a]
     rw [← Category.assoc, hi]
-    show ((i.1.1 : X.Opens).ι ≫ q) y ∈ W.1
+    change ((i.1.1 : X.Opens).ι ≫ q) y ∈ W.1
     exact hAW y.property
 
 /-- A quasi-compact algebraic space has an affine, étale, surjective cover, and any algebraic

@@ -183,7 +183,7 @@ theorem presIso_transport
   | hof g =>
     cases g with
     | atom A =>
-      show μ H (Ψ.obj A) (Ψ.obj (𝟙_ 𝒜)) ≫ H.map (μ Ψ A (𝟙_ 𝒜) ≫ Ψ.map (ρ_ A).hom) ≫
+      change μ H (Ψ.obj A) (Ψ.obj (𝟙_ 𝒜)) ≫ H.map (μ Ψ A (𝟙_ 𝒜) ≫ Ψ.map (ρ_ A).hom) ≫
           κ.hom.app A = (κ.hom.app A ⊗ₘ κ.hom.app (𝟙_ 𝒜)) ≫ (μ Ψ' A (𝟙_ 𝒜) ≫ Ψ'.map (ρ_ A).hom)
       have h := NatTrans.IsMonoidal.tensor (τ := κ.hom) A (𝟙_ 𝒜)
       rw [Functor.LaxMonoidal.comp_μ, Category.assoc] at h
@@ -191,14 +191,14 @@ theorem presIso_transport
         Category.assoc]
     | inv => exact hτ
     | pd X =>
-      show μ H (𝟙_ 𝒟) (Ψ.obj X) ≫ H.map (λ_ (Ψ.obj X)).hom ≫ κ.hom.app X =
+      change μ H (𝟙_ 𝒟) (Ψ.obj X) ≫ H.map (λ_ (Ψ.obj X)).hom ≫ κ.hom.app X =
         (η H ⊗ₘ κ.hom.app X) ≫ (λ_ (Ψ'.obj X)).hom
       exact transport_leftUnitor H κ X
   | hunit =>
     simp only [presIso, pres, evTransport, liftNatIso_app, liftNatIsoApp_unit, Iso.trans_hom,
       Iso.symm_hom, εIso_inv, εIso_hom, Functor.OplaxMonoidal.comp_η, Functor.LaxMonoidal.comp_ε,
       tensor_η, tensor_map, Functor.prod'_η_fst, Functor.prod'_η_snd, project_η, project_ε]
-    show μ H (𝟙_ 𝒟) (Ψ.obj (𝟙_ 𝒜)) ≫ H.map (((𝟙 (𝟙_ 𝒟) ⊗ₘ Ψ.map (𝟙 (𝟙_ 𝒜)) ≫ η Ψ) ≫
+    change μ H (𝟙_ 𝒟) (Ψ.obj (𝟙_ 𝒜)) ≫ H.map (((𝟙 (𝟙_ 𝒟) ⊗ₘ Ψ.map (𝟙 (𝟙_ 𝒜)) ≫ η Ψ) ≫
         (λ_ (𝟙_ 𝒟)).hom) ≫ ε Ψ ≫ Ψ.map (𝟙 (𝟙_ 𝒜))) ≫ κ.hom.app (𝟙_ 𝒜) =
       ((H.map (𝟙 (𝟙_ 𝒟)) ≫ η H) ≫ 𝟙 (𝟙_ 𝒟') ⊗ₘ κ.hom.app (𝟙_ 𝒜)) ≫
         ((𝟙 (𝟙_ 𝒟') ⊗ₘ Ψ'.map (𝟙 (𝟙_ 𝒜)) ≫ η Ψ') ≫ (λ_ (𝟙_ 𝒟')).hom) ≫ ε Ψ' ≫
@@ -214,6 +214,7 @@ variable (hτ : μ H 𝕋 (Ψ.obj L) ≫ H.map (β_ 𝕋 (Ψ.obj L) ≪≫ ω �
       (τ.hom ⊗ₘ κ.hom.app L) ≫ (β_ 𝕋' (Ψ'.obj L) ≪≫ ω' ≪≫ εIso Ψ').hom)
 include hτ
 
+omit [BraidedCategory 𝒜] in
 /-- `θ` is carried to `θ`. -/
 theorem θ_transport (e : Expr 𝒜) (X : 𝒜) :
     μ H ((ev Ψ 𝕋).obj e) (Ψ.obj ((pad L).obj e ⊗ X)) ≫ H.map (θ L Ψ 𝕋 ω e X).hom ≫
@@ -237,6 +238,7 @@ theorem θ_transport (e : Expr 𝒜) (X : 𝒜) :
     Category.id_comp, ← tensorHom_id, ← Category.assoc, tensorHom_comp_tensorHom,
     Category.comp_id]
 
+omit [BraidedCategory 𝒜] in
 /-- **A presented morphism is carried to a morphism presented by the same data.** -/
 theorem RelX.transport {e e' : Expr 𝒜} {u : (ev Ψ 𝕋).obj e ⟶ (ev Ψ 𝕋).obj e'} {X Y : 𝒜}
     {φ : (pad L).obj e ⊗ X ≅ (pad L).obj e' ⊗ Y} {c : (base).obj e ⊗ X ⟶ (base).obj e' ⊗ Y}

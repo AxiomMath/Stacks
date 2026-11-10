@@ -220,9 +220,8 @@ noncomputable def pullbackFactorIso (h : a ≫ b = c) :
     intro A A' f
     ext
     apply (isPullback_pullback_snd_pullback_of_comp h A').hom_ext
-    · simp [Over.pullback_obj_hom, Over.pullback_obj_left, pullback.lift_fst,
-        pullback.lift_fst_assoc]
-    · simp [Over.pullback_obj_hom, Over.pullback_obj_left, pullback.lift_snd])
+    · simp [Over.pullback_obj_hom, Over.pullback_obj_left]
+    · simp [Over.pullback_obj_hom, Over.pullback_obj_left])
 
 @[simp]
 theorem pullbackFactorIso_hom_app (h : a ≫ b = c) (A : Over T) :
@@ -287,7 +286,7 @@ theorem pullbackFactorObjIso_assoc {X₁ X₂ X₃ X₄ : C} {f : X₁ ⟶ X₂}
       (pullbackFactorObjIso h₂ A).hom ≫
         (pullbackFactorObjIso hfg ((Over.pullback k).obj A)).hom := by
   apply hom_ext_pullback_pullback_pullback A <;>
-    simp [pullback.lift_fst_assoc, pullback.lift_snd]
+    simp
 
 /-- The compatibility of the comparison isomorphism of a cartesian square with the projections
 to the object pulled back, at a base change. -/
@@ -325,7 +324,7 @@ theorem pullbackSquareObjIso_comp_map {Z' U' M₁ M₂ N₁ N₂ : C} {jU : U' �
         (Over.pullback r).map (pullbackSquareObjIso w₂ A).hom ≫
           (pullbackSquareObjIso c₂ ((Over.pullback jW₂).obj A)).hom := by
   apply hom_ext_pullback_pullback_pullback A <;>
-    simp [pullback.lift_fst_assoc, pullback.lift_snd]
+    simp
 
 /-- **Pasting two cartesian squares horizontally is compatible with the comparison
 isomorphisms.** The comparison of the pasted square is the composite of the comparison of the
@@ -342,7 +341,7 @@ theorem pullbackSquareObjIso_paste {N' Wni Wnj Wi Wj M' : C} {pNi : N' ⟶ Wni} 
       (pullbackSquareObjIso h₃ A).hom ≫
         (Over.pullback iM).map (pullbackFactorObjIso h₅ A).hom := by
   apply hom_ext_pullback_pullback_pullback A <;>
-    simp [pullback.lift_fst_assoc, pullback.lift_snd]
+    simp
 
 end CategoryTheory.Over
 

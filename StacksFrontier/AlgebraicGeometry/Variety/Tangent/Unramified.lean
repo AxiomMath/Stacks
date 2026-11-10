@@ -164,12 +164,12 @@ lemma tangentMap_eq_zero_iff (h : f ≫ q = p) [IsIso (f.residueFieldMap x)]
     congr 2
     refine CommRingCat.hom_ext (RingHom.ext fun z => ?_)
     refine TrivSqZeroExt.ext ?_ ?_
-    · show TrivSqZeroExt.fst (α (TrivSqZeroExt.inl ((f.residueFieldMap x).hom z))) = z
+    · change TrivSqZeroExt.fst (α (TrivSqZeroExt.inl ((f.residueFieldMap x).hom z))) = z
       rw [hα₀]
-      show (inv (f.residueFieldMap x)).hom ((f.residueFieldMap x).hom z) = z
+      change (inv (f.residueFieldMap x)).hom ((f.residueFieldMap x).hom z) = z
       exact congrArg (fun g : Y.residueField (f.base x) ⟶ Y.residueField (f.base x) ↦ g z)
         (IsIso.hom_inv_id (f.residueFieldMap x))
-    · show TrivSqZeroExt.snd (α (TrivSqZeroExt.inl ((f.residueFieldMap x).hom z))) = 0
+    · change TrivSqZeroExt.snd (α (TrivSqZeroExt.inl ((f.residueFieldMap x).hom z))) = 0
       rw [hα₁]
       exact map_zero _
   have happly := tangentMap_apply f p q h x θ α.toRingHom hα₀ hα₁

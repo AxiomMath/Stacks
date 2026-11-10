@@ -134,7 +134,7 @@ theorem exists_mem_genericPoints_specializes {T : Type*} [TopologicalSpace T] [Q
     (isIrreducible_singleton (x := y)).closure
   have hgen := hZ.1.isGenericPoint_genericPoint (isClosed_of_mem_irreducibleComponents Z hZ)
   refine ⟨hZ.1.genericPoint, ?_, specializes_iff_mem_closure.mpr ?_⟩
-  · show closure {_} ∈ irreducibleComponents T
+  · change closure {_} ∈ irreducibleComponents T
     rw [hgen.def]
     exact hZ
   · rw [hgen.def]

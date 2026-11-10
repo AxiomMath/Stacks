@@ -77,7 +77,7 @@ theorem localizedModule_eq_zero_of_smul_eq_zero {M : Type v} [AddCommGroup M] [M
   induction z using LocalizedModule.induction_on with
   | _ m s =>
     refine Eq.trans (LocalizedModule.mk_eq.2 ⟨⟨a, hp⟩, ?_⟩) (LocalizedModule.zero_mk s)
-    show (a • (s • m) : M) = a • (s • (0 : M))
+    change (a • (s • m) : M) = a • (s • (0 : M))
     rw [smul_zero, smul_zero, smul_comm, hM, smul_zero]
 
 /-- A scalar annihilating a module annihilates every section of the associated module. -/
@@ -85,7 +85,7 @@ theorem smul_eq_zero_of_forall_smul_eq_zero {M : ModuleCat.{v} A} {a : A}
     (hM : ∀ m : M, a • m = 0) {U : Opens (PrimeSpectrum.Top A)} (s : moduleSections M U) :
     a • s = 0 := by
   refine ext_moduleSections fun x ↦ ?_
-  show a • s.1 x = 0
+  change a • s.1 x = 0
   induction (s.1 x) using LocalizedModule.induction_on with
   | _ m t =>
     refine Eq.trans (LocalizedModule.smul'_mk a m t) ?_
@@ -120,12 +120,12 @@ theorem bijective_moduleSectionsRestrict_of_smul_eq_zero {M : ModuleCat.{v} A} {
     set F : (x : U) → LocalizedModule x.1.asIdeal.primeCompl (M : Type v) :=
       fun x ↦ if h : x.1 ∈ V then t.1 ⟨x.1, h⟩ else 0 with hFdef
     have hFV : ∀ (y : PrimeSpectrum A) (hyU : y ∈ U) (hyV : y ∈ V),
-        F ⟨y, hyU⟩ = t.1 ⟨y, hyV⟩ := fun y hyU hyV ↦ dif_pos hyV
+        F ⟨y, hyU⟩ = t.1 ⟨y, hyV⟩ := fun y hyU hyV ↦ dite_eq_left hyV
     have hFzero : ∀ (y : PrimeSpectrum A) (hyU : y ∈ U), a ∉ y.asIdeal → F ⟨y, hyU⟩ = 0 := by
       intro y hyU hy
       by_cases hyV : y ∈ V
       · exact (hFV y hyU hyV).trans (localizedModule_eq_zero_of_smul_eq_zero hy hM _)
-      · exact dif_neg hyV
+      · exact dite_eq_right hyV
     have hmem : ((moduleIsFractionPrelocal M).sheafify).pred F := by
       intro x
       by_cases hx : x.1 ∈ V
@@ -191,7 +191,7 @@ theorem exists_pow_smul_eq_zero_of_restrict_basicOpen_eq_zero {M : ModuleCat.{v}
         rw [map_pow]; exact hunit.pow _
       exact (Module.End.isUnit_iff _).1 this
     refine hpow.1 ?_
-    show (gs i ^ (e + n)) • (g ^ e • moduleSectionsRestrict M (hle i) s) =
+    change (gs i ^ (e + n)) • (g ^ e • moduleSectionsRestrict M (hle i) s) =
       (gs i ^ (e + n)) • (0 : moduleSections M (basicOpen (gs i)))
     rw [smul_zero, smul_smul]
     exact hc
@@ -270,7 +270,7 @@ private theorem mk_eq_locMap_mk_of_smul_eq {M N : ModuleCat.{v} A} (u : M ⟶ N)
       locMap u p (LocalizedModule.mk m (⟨c, hc⟩ * ⟨b, hb⟩ : p.asIdeal.primeCompl)) := by
   rw [locMap_mk]
   refine (LocalizedModule.mk_eq).2 ⟨1, ?_⟩
-  show (1 : A) • (c * b) • z = (1 : A) • b • u m
+  change (1 : A) • (c * b) • z = (1 : A) • b • u m
   rw [one_smul, one_smul, ← hcm, mul_smul, smul_comm]
 
 /-- If every element of `M` killed by `u` is killed by an element outside `p`, then the
@@ -310,7 +310,7 @@ theorem surjective_locMap {M N : ModuleCat.{v} A} (u : M ⟶ N) {p : PrimeSpectr
     refine ⟨LocalizedModule.mk m ⟨c * (t : A), Submonoid.mul_mem _ hc t.2⟩, ?_⟩
     rw [locMap_mk]
     refine (LocalizedModule.mk_eq).2 ⟨1, ?_⟩
-    show (1 : A) • (t : A) • u m = (1 : A) • (c * (t : A)) • z
+    change (1 : A) • (t : A) • u m = (1 : A) • (c * (t : A)) • z
     rw [one_smul, one_smul, ← hcm, mul_smul, smul_comm]
 
 /-- **A locally bijective module map is bijective on sections.** If at every point of `V` the

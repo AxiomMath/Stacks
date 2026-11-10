@@ -119,7 +119,7 @@ private lemma exists_isAffineOpen_smooth_appLE_of_smoothAt
   have : Smooth g := smooth_ι_comp_of_smooth_resLE f W hfW
   let xW : W.toScheme := ⟨x, hxW⟩
   have hxWV : xW ∈ g ⁻¹ᵁ V := by
-    show f x ∈ V
+    change f x ∈ V
     exact hxV
   obtain ⟨_, ⟨A, hA, rfl⟩, hxA, hAV⟩ :=
     W.toScheme.isBasis_affineOpens.exists_subset_of_mem_open hxWV
@@ -163,12 +163,12 @@ public lemma smoothAt_iff_exists_affine_isStandardSmooth
     let U : X.Opens := X.basicOpen r
     have hU : IsAffineOpen U := hA'.basicOpen r
     have hxU : x ∈ U := by
-      show x ∈ X.basicOpen r
+      change x ∈ X.basicOpen r
       have hp : hA'.isoSpec.hom ⟨x, hxA'⟩ ∈ PrimeSpectrum.basicOpen r := hr
       rw [← hA'.fromSpec_preimage_basicOpen] at hp
       change hA'.fromSpec (hA'.isoSpec.hom ⟨x, hxA'⟩) ∈ X.basicOpen r at hp
       have heq : hA'.fromSpec (hA'.isoSpec.hom ⟨x, hxA'⟩) = x := by
-        show (hA'.isoSpec.hom ≫ hA'.fromSpec) ⟨x, hxA'⟩ = x
+        change (hA'.isoSpec.hom ≫ hA'.fromSpec) ⟨x, hxA'⟩ = x
         rw [hA'.isoSpec_hom_fromSpec]
         rfl
       rwa [heq] at hp

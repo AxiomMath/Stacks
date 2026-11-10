@@ -109,7 +109,7 @@ private lemma formallyUnramified_ext_of_le_nilradical
   have hJI : J ≤ I := by
     rw [Ideal.span_le]
     rintro _ ⟨i, rfl⟩
-    show f (π (MvPolynomial.X i)) - g (π (MvPolynomial.X i)) ∈ I
+    change f (π (MvPolynomial.X i)) - g (π (MvPolynomial.X i)) ∈ I
     rw [← Ideal.Quotient.eq_zero_iff_mem, map_sub]
     exact sub_eq_zero.mpr (DFunLike.congr_fun h (π (MvPolynomial.X i)))
   have hJnil : IsNilpotent J := isNilpotent_of_fg
@@ -149,7 +149,7 @@ private lemma henselianRing_of_le_nilradical {A : Type*} [CommRing A]
             f.eval (f.newtonMap^[m] a₀) by ring]
       exact I.sub_mem ih (I.mul_mem_left _ hev)
   refine ⟨f.newtonMap^[n] a₀, ?_, haI n⟩
-  show f.eval (f.newtonMap^[n] a₀) = 0
+  change f.eval (f.newtonMap^[n] a₀) = 0
   rw [← zero_dvd_iff, ← pow_eq_zero_of_le (n.lt_two_pow_self).le hn]
   exact Polynomial.aeval_pow_two_pow_dvd_aeval_iterate_newtonMap
     (mem_nilradical.mp (hI hf)) hunit n
@@ -197,11 +197,10 @@ private lemma etaleBaseChange_full {A : Type u} [CommRing A]
     refine ⟨ObjectProperty.homMk (CommAlgCat.ofHom g), ?_⟩
     apply ObjectProperty.hom_ext
     apply CommAlgCat.hom_ext
-    show Algebra.TensorProduct.map (AlgHom.id (A ⧸ I) (A ⧸ I)) g = f.hom.hom
+    change Algebra.TensorProduct.map (AlgHom.id (A ⧸ I) (A ⧸ I)) g = f.hom.hom
     apply AlgHom.ext
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul x b =>
       have hb := DFunLike.congr_fun hg b
@@ -360,7 +359,7 @@ private theorem exists_lift_of_compatible
             induction p using Polynomial.induction_on' with
             | add p q hp hq => simp only [map_add, hp, hq]
             | monomial m x =>
-              show eval₂ (c.π.app (Opposite.op j)).hom (a (Opposite.op j))
+              change eval₂ (c.π.app (Opposite.op j)).hom (a (Opposite.op j))
                   (monomial m x) =
                 (F.map (Opposite.op h)).hom
                   (eval₂ (c.π.app (Opposite.op i)).hom (a (Opposite.op i))
@@ -448,7 +447,7 @@ private theorem exists_compatible_simple_roots
   let p : (m : ℕ) → P m := Nat.rec p₀ (fun m x => (step m x).val)
   refine ⟨fun m => (p m).val, ?_, ?_, ?_⟩
   · intro m
-    show (F.map (homOfLE (Nat.le_succ m)).op).hom (step m (p m)).val.val =
+    change (F.map (homOfLE (Nat.le_succ m)).op).hom (step m (p m)).val.val =
       (p m).val
     exact (step m (p m)).property
   · intro m hm
@@ -468,9 +467,9 @@ private theorem compatible_of_adjacent
     have he : (homOfLE (Nat.le_succ j)).op ≫ (homOfLE hj).op =
         (homOfLE (Nat.le_trans hj (Nat.le_succ j))).op :=
       Subsingleton.elim _ _
-    show (F.map (homOfLE (Nat.le_trans hj (Nat.le_succ j))).op).hom (a (j + 1)) = a i
+    change (F.map (homOfLE (Nat.le_trans hj (Nat.le_succ j))).op).hom (a (j + 1)) = a i
     rw [← he, Functor.map_comp]
-    show (F.map (homOfLE hj).op).hom
+    change (F.map (homOfLE hj).op).hom
       ((F.map (homOfLE (Nat.le_succ j)).op).hom (a (j + 1))) = a i
     rwa [ha j]
 
@@ -539,7 +538,7 @@ theorem henselianRing_ker_limit_π_of_surjective_of_ker_le_nilradical
       have hk : (c.π.app (.op k)).hom (f.eval x) = 0 := by
         rw [← eval_map_apply, hx (.op k)]
         exact (hroot k (le_max_left n m)).eq_zero
-      show (c.π.app (.op m)).hom (f.eval x) =
+      change (c.π.app (.op m)).hom (f.eval x) =
         (c.π.app (.op m)).hom (0 : c.pt)
       rw [map_zero, ← map_π_apply F c (le_max_right n m), hk, map_zero]
     · rw [RingHom.mem_ker, map_sub, sub_eq_zero]

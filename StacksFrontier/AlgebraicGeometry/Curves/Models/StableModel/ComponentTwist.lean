@@ -79,7 +79,7 @@ theorem exists_isInvertible_specialFiberComponentDegree
       (Stacks.Picard.picardRepresentative S.X.toRingedSpace x).property =
       (a : ℤ) * S.specialFiberComponentDegree Z L hL +
         ∑ Y ∈ s, (n Y : ℤ) * S.specialFiberIntersectionMatrix Z Y := by
-    show S.specialFiberComponentDegreeHom Z x = _
+    change S.specialFiberComponentDegreeHom Z x = _
     rw [hx, map_add, map_nsmul, S.specialFiberComponentDegreeHom_picardClass,
       S.specialFiberComponentDegreeHom_picardClass,
       S.specialFiberComponentDegree_specialFiberVerticalDivisorSheaf_eq_sum, nsmul_eq_mul]

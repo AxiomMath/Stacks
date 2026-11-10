@@ -47,6 +47,7 @@ universe u v
 namespace AlgebraicGeometry.Space
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` through the functor category on the big fppf site
 /-- Presheaves of types on the big fppf site have pullbacks (supplied once, since instance search
 for them through the functor category times out). -/
 local instance (priority := high) hasPullbacks_presheaf_elementaryDistinguishedSquarePushout
@@ -318,7 +319,7 @@ private theorem maps_equal_on_overlap
     intro i
     refine ObjectProperty.hom_ext _ ?_
     cases i
-    · show pullback.diagonal f ≫ pullback.fst f f ≫ gV =
+    · change pullback.diagonal f ≫ pullback.fst f f ≫ gV =
         pullback.diagonal f ≫ pullback.snd f f ≫ gV
       rw [← Category.assoc, ← Category.assoc, pullback.diagonal_fst, pullback.diagonal_snd]
     · set sU : pullback U.ι (pullback.fst f f ≫ f) ⟶ U.toFunctor :=
@@ -326,7 +327,7 @@ private theorem maps_equal_on_overlap
       set sR : pullback U.ι (pullback.fst f f ≫ f) ⟶ pullback f f :=
         pullback.snd U.ι (pullback.fst f f ≫ f) with hsR
       obtain ⟨h₁, h₂⟩ := pullback_overlap_condition U.ι f
-      show sR ≫ pullback.fst f f ≫ gV = sR ≫ pullback.snd f f ≫ gV
+      change sR ≫ pullback.fst f f ≫ gV = sR ≫ pullback.snd f f ≫ gV
       rw [← Category.assoc, ← Category.assoc]
       exact (comp_eq_of_pullback_comp_eq hagree.symm _ _ h₁).symm.trans
         (comp_eq_of_pullback_comp_eq hagree.symm _ _ h₂)
@@ -365,7 +366,7 @@ theorem isPushout_elementaryDistinguishedSquare
   let P : AlgebraicSpaces B S hS := AlgebraicSpaces.fiberProduct B S hS i f'
   let a : P ⟶ V' := ObjectProperty.homMk (pullback.snd U.ι f)
   let b : P ⟶ U' := ObjectProperty.homMk (pullback.fst U.ι f)
-  show IsPushout a b f' i
+  change IsPushout a b f' i
   have hcomm : a ≫ f' = b ≫ i :=
     ObjectProperty.hom_ext _ (pullback.condition (f := U.ι) (g := f)).symm
   refine ⟨⟨hcomm⟩, ⟨?_⟩⟩
@@ -391,7 +392,7 @@ theorem isPushout_elementaryDistinguishedSquare
       cases j <;> cases k
       · have hαβ' : α.hom ≫ U.ι = β.hom ≫ U.ι :=
           congrArg (fun m : T ⟶ W' => m.hom) hαβ
-        show α.hom ≫ s.inr.hom = β.hom ≫ s.inr.hom
+        change α.hom ≫ s.inr.hom = β.hom ≫ s.inr.hom
         rw [(cancel_mono U.ι).1 hαβ']
       · have hαβ' : α.hom ≫ U.ι = β.hom ≫ f :=
           congrArg (fun m : T ⟶ W' => m.hom) hαβ

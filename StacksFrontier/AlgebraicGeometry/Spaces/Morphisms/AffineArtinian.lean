@@ -86,10 +86,11 @@ private theorem presheaf_etale_of_isIso (B : AlgebraicGeometry.BigFppfSite.{u}) 
   refine ⟨yoneda.relativelyRepresentable.of_isIso e, fun X Y k fst snd hsq => ?_⟩
   have : IsIso (yoneda.map snd) := hsq.isIso_snd_of_isIso
   have : IsIso snd := Yoneda.fullyFaithful.isIso_of_isIso_map snd
-  show Etale ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map snd)
+  change Etale ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map snd)
   infer_instance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site times out at the default
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 private instance hasPullbacks_presheaf_affineArtinian (B : AlgebraicGeometry.BigFppfSite.{u})
@@ -165,7 +166,7 @@ theorem isAffineHom_of_isArtinianRing
     refine IsPullback.of_iso_pullback (fst := e.hom ≫ pullback.fst f g) (snd := yoneda.map r)
       (f := f) (g := g) ⟨?_⟩ e rfl hr.symm
     rw [hr]
-    show (e.hom ≫ pullback.fst f g) ≫ f = (e.hom ≫ pullback.snd f g) ≫ g
+    change (e.hom ≫ pullback.fst f g) ≫ f = (e.hom ≫ pullback.snd f g) ≫ g
     simp [pullback.condition]
   exact ((AlgebraicGeometry.Space.isAffineHom_tfae_of_isAlgebraicSpace B S hS f
       (AlgebraicGeometry.isAlgebraicSpace_yoneda B S hS (Over.mk p)) hF).out 3 2).mp hlocal

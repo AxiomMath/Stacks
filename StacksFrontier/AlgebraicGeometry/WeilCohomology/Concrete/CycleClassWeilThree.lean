@@ -126,7 +126,7 @@ theorem cycleClassPullback_toWeilData : (h.toWeilData hA1 hA3 hA5 hA6).CycleClas
           (h.tateTwistMap_toWeilData_cycleClass hA1 hA3 hA5 hA6 Y n β).symm).trans
           (h.tateTwistMap_subtype_pullTw_toWeilData hA1 hA3 hA5 hA6 f _ _ _).symm))
   | Int.negSucc n =>
-    show (0 : _ →+ _) _ = (h.toWeilData hA1 hA3 hA5 hA6).pullTw f _ _ ((0 : _ →+ _) β)
+    change (0 : _ →+ _) _ = (h.toWeilData hA1 hA3 hA5 hA6).pullTw f _ _ ((0 : _ →+ _) β)
     rw [AddMonoidHom.zero_apply, AddMonoidHom.zero_apply, map_zero]
 
 /-- **Axiom (C)(c)** for the data of (A1)–(A6): `γ(α · β) = γ(α) ∪ γ(β)` for `α ∈ CH^i(X)`,

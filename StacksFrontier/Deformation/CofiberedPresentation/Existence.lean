@@ -168,12 +168,12 @@ theorem exists_isSmooth_isProrepresentable_presentation
         GroupoidInFunctors.IsProrepresentable.{u, w, w, w} G ∧
           Nonempty (Presentation G p) := by
   classical
-  have hS2' : SchlessingerConditionS2 (CategoryOfElements.π
+  have hS2' : SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (BasedCategory.ofFunctor p) hp.predeformation.cofibered)) :=
     tangentConditionS2.{u, w, w} hp
   let : Fact (IsPredeformationCategory.{u, w, w} (BasedCategory.ofFunctor p).p) :=
     ⟨hp.predeformation⟩
-  let : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+  let : Fact (SchlessingerConditionS2 (Functor.Elements.π
     (isomorphismClasses (BasedCategory.ofFunctor p) hp.predeformation.cofibered))) := ⟨hS2'⟩
   let : FiniteDimensional k (tangentSpaceArtinian.{u, w, w} Λ k
       (isomorphismClasses (BasedCategory.ofFunctor p) hp.predeformation.cofibered)) := by

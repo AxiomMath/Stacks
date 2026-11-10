@@ -130,7 +130,7 @@ theorem pointCompIso_natural (T T' : BigFppfOver B S hS) (h : T' ⟶ T)
   rw [invertibleQuotientBaseChangeClass_transportClass,
     invertibleQuotientTransportClass_baseChangeClass]
   refine congrArg (fun i => invertibleQuotientBaseChangeClass (yonedaSpaceMap h) i z) (Iso.ext ?_)
-  show eqToHom h₁ ≫ (modulePullbackCompIso B S hS (yonedaSpaceMap h)
+  change eqToHom h₁ ≫ (modulePullbackCompIso B S hS (yonedaSpaceMap h)
       (pointHom (x' ≫ g.hom))).inv.app E ≫
       (modulePullback B S hS (yonedaSpaceMap h)).map
         ((modulePullbackCompIso B S hS (pointHom x') g).inv.app E) =
@@ -206,7 +206,7 @@ theorem baseChangeHomOfPointsEquiv_comp :
     baseChangeHomOfPointsEquiv g E π π' e he e' he' ≫ π = π' ≫ g := by
   ext1
   refine hom_ext_yoneda fun T v => ?_
-  show v ≫ (baseChangeHomOfPointsEquiv g E π π' e he e' he').hom ≫ π.hom =
+  change v ≫ (baseChangeHomOfPointsEquiv g E π π' e he e' he').hom ≫ π.hom =
     v ≫ π'.hom ≫ g.hom
   rw [← Category.assoc, comp_baseChangeHomOfPointsEquiv_hom,
     (baseChangePointOfPointsEquiv g E π π' e e' T (v ≫ π'.hom) ⟨v, rfl⟩).2, Category.assoc]

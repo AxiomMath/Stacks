@@ -67,19 +67,19 @@ theorem henselizationLift_unique (A : Type u) {C : Type u} [CommRing A] [CommRin
     [Algebra A C] (I : Ideal A) (L : Ideal C) (hL : HenselianPair C L)
     (hIL : I ≤ L.comap (algebraMap A C)) (g : (henselization A I : Type u) →ₐ[A] C) :
     g = henselizationLift A I L hL hIL := by
-  apply AlgHom.coe_ringHom_injective
+  apply AlgHom.toRingHom_injective
   have hg : g.toRingHom.comp (algebraMap A (henselization A I : Type u)) = algebraMap A C := by
     ext a
     exact g.commutes a
   have hgi : I.map (algebraMap A (henselization A I : Type u)) ≤ L.comap g.toRingHom := by
     rw [Ideal.map_le_iff_le_comap]
     intro a ha
-    show g (algebraMap A (henselization A I : Type u) a) ∈ L
+    change g (algebraMap A (henselization A I : Type u) a) ∈ L
     simpa only [Ideal.mem_comap, g.commutes] using hIL ha
   have h := (Classical.choose_spec
     (henselization_universalProperty A I C inferInstance L hL (algebraMap A C) hIL)).2
     g.toRingHom ⟨hg, hgi⟩
-  show g.toRingHom = (henselizationLift A I L hL hIL).toRingHom
+  change g.toRingHom = (henselizationLift A I L hL hIL).toRingHom
   exact h
 
 end

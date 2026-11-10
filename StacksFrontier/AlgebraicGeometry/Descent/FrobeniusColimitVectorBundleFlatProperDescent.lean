@@ -59,7 +59,7 @@ lemma frobeniusStageFunctorPullbackIso_compat_inv {X Y : Scheme.{u}} (p : ℕ) [
       (frobeniusStageFunctorIso X p hX n).hom.app ((Scheme.Vect.pullback f).obj E) ≫
         (frobeniusStageFunctorPullbackIso p f hX hY n).inv.app E := by
   rw [← cancel_mono ((frobeniusStageFunctorPullbackIso p f hX hY n).hom.app E)]
-  simp only [Category.assoc, Iso.inv_hom_id_app, Category.comp_id]
+  simp only [Category.assoc, Iso.inv_hom_id_app]
   rw [frobeniusStageFunctorPullbackIso_compat]
   simp only [Iso.inv_hom_id_app_assoc]
   rw [← CategoryTheory.Functor.map_comp_assoc, Iso.inv_hom_id_app, CategoryTheory.Functor.map_id,

@@ -75,12 +75,12 @@ lemma twistResolutionIsoOfIsIso_hom_comp {K T : CochainComplex.Plus C} (ψ : K �
         DerivedCategory.Plus.Q.map (twistChainEndo P F₁ F₂ θ T g) := by
     rw [IsIso.eq_inv_comp, ← Category.assoc, hc, Category.assoc, IsIso.hom_inv_id,
       Category.comp_id]
-  show DerivedCategory.Plus.ι.map _ ≫ DerivedCategory.Plus.ι.map _ =
+  change DerivedCategory.Plus.ι.map _ ≫ DerivedCategory.Plus.ι.map _ =
     DerivedCategory.Plus.ι.map _ ≫ DerivedCategory.Plus.ι.map
       (DerivedCategory.Plus.Q.map (twistChainEndo P F₁ F₂ θ T g))
   rw [← Functor.map_comp, ← Functor.map_comp]
   congr 1
-  show derivedTwistEndo P F₁ F₂ θ K τ ≫ (F₂.rightDerivedFunctorPlus.map
+  change derivedTwistEndo P F₁ F₂ θ K τ ≫ (F₂.rightDerivedFunctorPlus.map
       (F₁.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Q.map ψ)) ≫
         CategoryTheory.inv (twistComparison F₁ F₂ T)) =
     (F₂.rightDerivedFunctorPlus.map

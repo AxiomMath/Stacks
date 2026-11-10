@@ -67,7 +67,7 @@ theorem ker_transitionMap_le_nilradical (Z : EtaleCompletion A)
   have hstep : extendedIdeal Z.str J ≤
       Ideal.comap (Ideal.Quotient.mk (extendedIdeal Z.str K)) (nilradical (Z.stage K)) := by
     refine Ideal.map_le_iff_le_comap.mpr fun j hj ↦ ?_
-    show Ideal.Quotient.mk (extendedIdeal Z.str K) (Z.str j) ∈ nilradical (Z.stage K)
+    change Ideal.Quotient.mk (extendedIdeal Z.str K) (Z.str j) ∈ nilradical (Z.stage K)
     obtain ⟨n, hn⟩ := (J.2.2 j hj).exists_pow_mem_of_mem_nhds (K.2.1.mem_nhds K.1.zero_mem)
     refine mem_nilradical.mpr ⟨n, ?_⟩
     rw [← map_pow, ← map_pow]
@@ -135,7 +135,7 @@ theorem existsUnique_stageHom_of_le {J K : WeakIdealOfDefinitionIndex A} (hKJ : 
     have hZ := RingHom.congr_fun (transitionMap_comp_stageStr Z hKJ) r
     have hφr := RingHom.congr_fun hφ (Ideal.Quotient.factor hKJ r)
     simp only [RingHom.comp_apply] at hY hZ hφr
-    show e.symm (φ (transitionMap Y.str hKJ (Y.stageStr K r))) =
+    change e.symm (φ (transitionMap Y.str hKJ (Y.stageStr K r))) =
       Ideal.Quotient.mk (RingHom.ker (transitionMap Z.str hKJ)) (Z.stageStr K r)
     refine e.injective ?_
     rw [RingEquiv.apply_symm_apply, hmk (Z.stageStr K r), hY, hφr, hZ]

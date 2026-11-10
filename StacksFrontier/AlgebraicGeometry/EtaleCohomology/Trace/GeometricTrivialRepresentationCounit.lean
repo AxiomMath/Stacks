@@ -65,7 +65,7 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) {k : Type u} [Field k] (f : X.1 �
   (Λ : Type) [Ring Λ] [Fintype Λ]
   (y : GeometricPoint (fieldBaseChange (Over.mk f) kbar))
 
-omit [Fintype Λ] in
+omit [Smooth f] [IsAlgClosed kbar] [Fintype Λ] in
 /-- **The counit `Γ(X_k̄, G)_{X_k̄} ⟶ G` is an isomorphism for `G = ℱ_ρ|_{X_k̄}`** when the image
 of `π₁(X_k̄, η̄)` acts trivially on `ρ`. -/
 theorem isIso_constantSheafΓAdj_counit_geometricRepresentationSheaf [Finite Λ]

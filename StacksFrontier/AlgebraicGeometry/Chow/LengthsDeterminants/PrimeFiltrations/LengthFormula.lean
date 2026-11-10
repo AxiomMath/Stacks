@@ -217,7 +217,7 @@ theorem length_coker_eq_order_determinant_scalar
         have hsym : symbol eN ≠ 0 := symbol_ne_zero_of_generating
           (IsFiniteLength.of_subsingleton) eN (Subsingleton.elim _ _)
         have hf1 : f = 1 := smul_left_injective _ hsym (by
-          show f • symbol eN = 1 • symbol eN
+          change f • symbol eN = 1 • symbol eN
           rw [← hdet, heq, one_smul])
         subst f
         simp
@@ -255,7 +255,7 @@ theorem length_coker_eq_order_determinant_scalar
                 admissible_units_smul eN.1 eN.2 (fun _ => au)⟩ := by
             apply Subtype.ext
             funext i
-            show eφ.1 i = (au : Localization.AtPrime q) • eN.1 i
+            change eφ.1 i = (au : Localization.AtPrime q) • eN.1 i
             rw [heφ, heN, hau, IsScalarTower.algebraMap_smul, LocalizedModule.smul'_mk,
               hi0 (Fin.cast hφl i), ha]
           have hsymbols : symbol eφ =
@@ -269,7 +269,7 @@ theorem length_coker_eq_order_determinant_scalar
             (span_localized_sequence_eq_top q y hy eN hφl heN)
           have hfval : f = algebraMap (R ⧸ q) q.ResidueField (Ideal.Quotient.mk q a) := by
             apply smul_left_injective _ hsymN
-            show f • symbol eN = _ • symbol eN
+            change f • symbol eN = _ • symbol eN
             rw [algebraMap_quotient_residueField_mk_eq_residue, ← hdet, hsymbols]
           have hrange : LinearMap.range φ = R ∙ (a • y i0) := by
             rw [← Submodule.map_top, ← hxg, Submodule.map_span, Set.image_singleton, ← ha]
@@ -309,7 +309,7 @@ theorem length_coker_eq_order_determinant_scalar
             have hUV : U ≤ V.comap φ := by
               apply Submodule.span_le.mpr
               rintro z (rfl : z = x 0)
-              show φ (x 0) ∈ V
+              change φ (x 0) ∈ V
               rw [hφfirst]
               exact V.smul_mem _ (Submodule.mem_span_singleton_self _)
             let ψ := U.mapQ V φ hUV
@@ -396,7 +396,7 @@ theorem length_coker_eq_order_determinant_scalar
               rw [spanBefore_eq_spanPrefix, spanPrefix_scale_suffix_of_le y a le_rfl]
               exact ht
             have htPN : t ∈ PN := by
-              show t ∈ Submodule.span R (Set.range ys)
+              change t ∈ Submodule.span R (Set.range ys)
               rw [← spanPrefix_length ys]
               exact spanPrefix_mono ys k.isLt.le ht'
             let tp : PN := ⟨t, htPN⟩
@@ -404,7 +404,7 @@ theorem length_coker_eq_order_determinant_scalar
               have hmap : (spanBefore (R := R) yp k).map PN.subtype =
                   spanBefore (R := R) ys k := spanPrefix_map yp PN.subtype k.val
               have hm : tp ∈ ((spanBefore (R := R) yp k).map PN.subtype).comap PN.subtype := by
-                show t ∈ (spanBefore (R := R) yp k).map PN.subtype
+                change t ∈ (spanBefore (R := R) yp k).map PN.subtype
                 rw [hmap]
                 exact ht'
               rwa [Submodule.comap_map_eq_of_injective (Submodule.subtype_injective _)] at hm
@@ -413,9 +413,9 @@ theorem length_coker_eq_order_determinant_scalar
               prime_factors_update_add q yp hyp k tp htp
             have hφa : φ' (xp 0) = ya k := by
               apply Subtype.ext
-              show φ (xs 0) = (Function.update yp k (yp k + tp) k).val
+              change φ (xs 0) = (Function.update yp k (yp k + tp) k).val
               rw [Function.update_self]
-              show φ (if (0 : Fin (n + 1)).val < 1 then x 0 else a • x 0) =
+              change φ (if (0 : Fin (n + 1)).val < 1 then x 0 else a • x 0) =
                 (if k.val < k.val then y k else a • y k) + t
               simp only [Fin.val_zero, Nat.zero_lt_one, ite_eq_left, lt_self_iff_false, ite_false]
               rw [hφx', add_comm]
@@ -436,7 +436,7 @@ theorem length_coker_eq_order_determinant_scalar
                 spanPrefix_update_add yp k tp htp, spanPrefix_length]
               exact hypg
             have hφf : φ' (xp 0) = yf i.castSucc := by
-              show φ' (xp 0) = ya (Equiv.swap k i.castSucc i.castSucc)
+              change φ' (xp 0) = ya (Equiv.swap k i.castSucc i.castSucc)
               rw [Equiv.swap_apply_right]
               exact hφa
             have hxf' := fun j => cyclic_factor_equiv_of_smul_mem_iff _ _ q (hxp j)
@@ -469,7 +469,7 @@ theorem length_coker_eq_order_determinant_scalar
             have hnext := hi φ' hφ' eNewX eNewY f' hf' hf'det xp yf hxpg hxf' hyfg hyf''
               hPNn hXe hYe 1 0 hnotnew hone (Submodule.zero_mem _)
               (by
-                show φ' (xp 0) = 0 + 1 • yf i.castSucc
+                change φ' (xp 0) = 0 + 1 • yf i.castSucc
                 simpa only [zero_add, one_smul] using hφf)
             have hNloclen := localized_length_of_generating q y hy hyf
             have hPinj := LocalizedModule.map_injective q.primeCompl PN.subtype
@@ -499,7 +499,7 @@ theorem length_coker_eq_order_determinant_scalar
                 IsLocalRing.residue S au ^ n • symbol eφ := by
               have h := symbol_scale_suffix eφ exs au 1 (by
                 intro j
-                show ((if j.val < 1 then 1 else au : Sˣ) : S) • eφ.1 j = _
+                change ((if j.val < 1 then 1 else au : Sˣ) : S) • eφ.1 j = _
                 split_ifs <;> simp)
               simpa only [hφl, Nat.succ_eq_add_one, Nat.add_sub_cancel_right] using h
             let uy : Fin (moduleLength S (LocalizedModule q.primeCompl N)) → Sˣ :=
@@ -511,27 +511,27 @@ theorem length_coker_eq_order_determinant_scalar
                 IsLocalRing.residue S au ^ (n + 1 - k.val) • symbol eN := by
               have h := symbol_scale_suffix eN eys au k.val (by
                 intro j
-                show ((if j.val < k.val then 1 else au : Sˣ) : S) • eN.1 j = _
+                change ((if j.val < k.val then 1 else au : Sˣ) : S) • eN.1 j = _
                 split_ifs <;> simp)
               simpa only [hφl] using h
             have hidx (j : Fin (moduleLength S (LocalizedModule q.primeCompl N))) :
                 Fin.cast hPNn (Fin.cast hlenE.symm j) = Fin.cast hφl j := Fin.ext rfl
             have hex (j) : eNX.1 j = exs.1 j := by
-              show E (eNewX.1 (Fin.cast hlenE.symm j)) = _
+              change E (eNewX.1 (Fin.cast hlenE.symm j)) = _
               rw [hXe, hidx, show E (LocalizedModule.mk (φ' (xp (Fin.cast hφl j))) 1) =
                   LocalizedModule.mk (φ (xs (Fin.cast hφl j))) 1 from by
-                    show LocalizedModule.map q.primeCompl PN.subtype _ = _
+                    change LocalizedModule.map q.primeCompl PN.subtype _ = _
                     rw [LocalizedModule.map_mk]
                     rfl]
               by_cases hj : j.val < 1
-              · show LocalizedModule.mk
+              · change LocalizedModule.mk
                     (φ (if (Fin.cast hφl j).val < 1 then x (Fin.cast hφl j)
                       else a • x (Fin.cast hφl j))) 1 =
                     ((if j.val < 1 then 1 else au : Sˣ) : S) • eφ.1 j
                 simp only [Fin.val_cast]
                 simp only [ite_eq_left hj, heφ j]
                 simp
-              · show LocalizedModule.mk
+              · change LocalizedModule.mk
                     (φ (if (Fin.cast hφl j).val < 1 then x (Fin.cast hφl j)
                       else a • x (Fin.cast hφl j))) 1 =
                     ((if j.val < 1 then 1 else au : Sˣ) : S) • eφ.1 j
@@ -541,14 +541,14 @@ theorem length_coker_eq_order_determinant_scalar
             have hey (j) : eys.1 j =
                 LocalizedModule.mk (ys (Fin.cast hφl j)) 1 := by
               by_cases hj : j.val < k.val
-              · show ((if j.val < k.val then 1 else au : Sˣ) : S) • eN.1 j =
+              · change ((if j.val < k.val then 1 else au : Sˣ) : S) • eN.1 j =
                     LocalizedModule.mk
                       (if (Fin.cast hφl j).val < k.val then y (Fin.cast hφl j)
                         else a • y (Fin.cast hφl j)) 1
                 simp only [Fin.val_cast]
                 simp only [ite_eq_left hj, heN j]
                 simp
-              · show ((if j.val < k.val then 1 else au : Sˣ) : S) • eN.1 j =
+              · change ((if j.val < k.val then 1 else au : Sˣ) : S) • eN.1 j =
                     LocalizedModule.mk
                       (if (Fin.cast hφl j).val < k.val then y (Fin.cast hφl j)
                         else a • y (Fin.cast hφl j)) 1
@@ -576,9 +576,9 @@ theorem length_coker_eq_order_determinant_scalar
                   (admissible_localized q yA (fun j r hr => (hYA j r).mpr hr))⟩
             have heNY (j) : eNY.1 j =
                 LocalizedModule.mk (yA (Equiv.swap k i.castSucc (Fin.cast hφl j))) 1 := by
-              show E (eNewY.1 (Fin.cast hlenE.symm j)) = _
+              change E (eNewY.1 (Fin.cast hlenE.symm j)) = _
               rw [hYe, hidx]
-              show LocalizedModule.map q.primeCompl PN.subtype _ = _
+              change LocalizedModule.map q.primeCompl PN.subtype _ = _
               rw [LocalizedModule.map_mk]
               exact congrArg (fun z : N => LocalizedModule.mk z 1)
                 (hyaN (Equiv.swap k i.castSucc (Fin.cast hφl j)))
@@ -612,14 +612,14 @@ theorem length_coker_eq_order_determinant_scalar
                   admissible_update_add eys kk _ hbefore⟩ := by
                 apply Subtype.ext
                 funext j
-                show LocalizedModule.mk (yA (Fin.cast hφl j)) 1 =
+                change LocalizedModule.mk (yA (Fin.cast hφl j)) 1 =
                   Function.update eys.1 kk (eys.1 kk + LocalizedModule.mk t 1) j
                 by_cases hj : j = kk
                 · subst j
                   rw [Function.update_self]
                   have hk : Fin.cast hφl kk = k := Fin.ext rfl
                   rw [hey kk, hk]
-                  show LocalizedModule.mk (yA k) 1 =
+                  change LocalizedModule.mk (yA k) 1 =
                     LocalizedModule.mk (ys k) 1 + LocalizedModule.mk t 1
                   simp [yA]
                 · rw [Function.update_of_ne hj, hey j]
@@ -627,9 +627,9 @@ theorem length_coker_eq_order_determinant_scalar
                     intro h
                     apply hj
                     apply Fin.ext
-                    show j.val = k.val
+                    change j.val = k.val
                     exact congrArg Fin.val h
-                  show LocalizedModule.mk (yA (Fin.cast hφl j)) 1 =
+                  change LocalizedModule.mk (yA (Fin.cast hφl j)) 1 =
                     LocalizedModule.mk (ys (Fin.cast hφl j)) 1
                   simp [yA, hjk]
               exact (congrArg symbol heq).trans (symbol_update_add eys kk _ hbefore)
@@ -697,7 +697,7 @@ theorem length_coker_eq_order_determinant_scalar
               have h := ordFrac_algebraMap_eq_length (-(b ^ i.val)) hbpow hbpowmap
               change _ = ((Ring.ord (R ⧸ q) (-(b ^ i.val))).toNat : ℤ) at h
               rw [h]
-              show ((Ring.ord (R ⧸ q) (-(b ^ i.val))).toNat : ℤ) =
+              change ((Ring.ord (R ⧸ q) (-(b ^ i.val))).toNat : ℤ) =
                 (i.val : ℤ) * ((Ring.ord (R ⧸ q) b).toNat : ℤ)
               rw [Ring.ord_neg, Ring.ord_pow (mem_nonZeroDivisors_of_ne_zero hb),
                 nsmul_eq_mul, ENat.toNat_mul]
@@ -728,14 +728,14 @@ theorem length_coker_eq_order_determinant_scalar
             have hPMvalue : ((Module.length R (M ⧸ PM)).toNat : ℤ) = (n : ℤ) * B := by
               rw [hPMlen, nsmul_eq_mul, ENat.toNat_mul]
               simp only [ENat.toNat_natCast]
-              show (((n * (Ring.ord (R ⧸ q) b).toNat : ℕ) : ℤ)) =
+              change (((n * (Ring.ord (R ⧸ q) b).toNat : ℕ) : ℤ)) =
                 (n : ℤ) * ((Ring.ord (R ⧸ q) b).toNat : ℤ)
               norm_cast
             have hPNvalue : ((Module.length R (N ⧸ PN)).toNat : ℤ) =
                 ((n + 1 - k.val : ℕ) : ℤ) * B := by
               rw [hPNlen, nsmul_eq_mul, ENat.toNat_mul]
               simp only [ENat.toNat_natCast]
-              show ((((n + 1 - k.val) * (Ring.ord (R ⧸ q) b).toNat : ℕ) : ℤ)) =
+              change ((((n + 1 - k.val) * (Ring.ord (R ⧸ q) b).toNat : ℕ) : ℤ)) =
                 ((n + 1 - k.val : ℕ) : ℤ) * ((Ring.ord (R ⧸ q) b).toNat : ℤ)
               norm_cast
             have hsquareZ :

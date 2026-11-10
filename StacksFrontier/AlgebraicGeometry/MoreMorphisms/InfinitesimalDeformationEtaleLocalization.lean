@@ -75,8 +75,8 @@ This is the affine case only.
 ### No `@[stacks 04BY]`
 
 [Stacks Project, Tag 04BY] is proved for arbitrary schemes by
-`Stacks.Thickenings.derivationActionSheaf_comp_etaleLocalization` in
-`StacksFrontier/AlgebraicGeometry/MoreMorphisms/InfinitesimalDeformationEtaleLocalizationSheaf.lean`,
+`Stacks.Thickenings.derivationActionSheaf_comp_etaleLocalization` in the module
+`StacksFrontier.AlgebraicGeometry.MoreMorphisms.InfinitesimalDeformationEtaleLocalizationSheaf`,
 which carries the tag. The statement below is the same assertion restricted to affine ambient
 schemes and affine bases, so it is no longer a statement of the whole tag and no longer carries
 it; what it still contributes is the affine *model* of the construction, in which `𝒞_{T_n/T_n'}`

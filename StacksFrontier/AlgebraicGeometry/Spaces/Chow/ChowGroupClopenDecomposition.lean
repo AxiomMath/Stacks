@@ -140,7 +140,7 @@ def chowGroupCanonicalDecompositionRestrict
     (h : IsClopenSubspaceDecomposition D sY fun i => (R i).ι) (k : ℤ) :
     chowGroupCanonical.{u + 1} D sY h.isGood k →+
       ∀ i, chowGroupCanonical.{u + 1} D ((R i).ι ≫ sY) (h.isGoodPiece i) k :=
-  Pi.addMonoidHom fun i => chowGroupCanonicalPieceRestrict h i k
+  AddMonoidHom.pi fun i => chowGroupCanonicalPieceRestrict h i k
 
 /-- The glued cycle restricts to the given cycle on every piece. -/
 theorem cycleGroupRestrict_glueDecompositionCycle
@@ -158,7 +158,7 @@ theorem bijective_chowGroupCanonicalDecompositionRestrict
     Function.Bijective (chowGroupCanonicalDecompositionRestrict h k) := by
   refine ⟨(injective_iff_map_eq_zero _).2 fun α hα => ?_, fun β => ?_⟩
   · obtain ⟨a, rfl⟩ := QuotientAddGroup.mk'_surjective _ α
-    show chowClassCanonical.{u + 1} D sY h.isGood k a = 0
+    change chowClassCanonical.{u + 1} D sY h.isGood k a = 0
     rw [chowClassCanonical_eq_zero_iff]
     refine isRationallyEquivalentToZeroCanonical_of_forall_cycleGroupRestrict D sY h.isGood R
       h.isOpenSubspace h.isClosedSubspace h.disjoint (fun p => h.exists_mem p) k a fun i => ?_
@@ -170,7 +170,7 @@ theorem bijective_chowGroupCanonicalDecompositionRestrict
       (rationalEquivalencesCanonical.{u + 1} D ((R i).ι ≫ sY) (h.isGoodPiece i) k) (β i)
     refine ⟨chowClassCanonical.{u + 1} D sY h.isGood k (glueDecompositionCycle h b),
       funext fun i => ?_⟩
-    show chowGroupCanonicalPieceRestrict h i k
+    change chowGroupCanonicalPieceRestrict h i k
       (chowClassCanonical.{u + 1} D sY h.isGood k (glueDecompositionCycle h b)) = β i
     rw [chowGroupCanonicalPieceRestrict_chowClassCanonical,
       cycleGroupRestrict_glueDecompositionCycle h b i]

@@ -90,7 +90,7 @@ def lisseEtaleModuleRingInverseImageHom :
 isomorphism. -/
 instance isIso_lisseEtaleModuleRingInverseImageHom :
     IsIso (lisseEtaleModuleRingInverseImageHom f hf) := by
-  haveI := isContinuous_subsiteFunctor.{u, w} B S hS f hf
+  have := isContinuous_subsiteFunctor.{u, w} B S hS f hf
   have : IsIso ((sheafToPresheaf _ _).map (lisseEtaleModuleRingInverseImageHom f hf)) :=
     inferInstanceAs (IsIso ((sheafToPresheaf _ _).map
       (eqToHom (subsiteRingStructureSheaf_inverseImageRing B S hS f hf).symm)))

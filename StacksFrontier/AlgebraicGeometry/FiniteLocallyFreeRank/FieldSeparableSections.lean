@@ -76,7 +76,7 @@ theorem exists_finiteSeparable_hom_of_etale_isFiniteLocallyFreeOfRank {K : Type 
   · intro k l hkl
     have h1 : CommRingCat.ofHom (φ k).toRingHom = CommRingCat.ofHom (φ l).toRingHom :=
       Spec.map_injective ((cancel_mono Z.isoSpec.inv).1 hkl)
-    exact hφ (AlgHom.coe_ringHom_injective (congrArg CommRingCat.Hom.hom h1))
+    exact hφ (AlgHom.toRingHom_injective (congrArg CommRingCat.Hom.hom h1))
   · intro k
     rw [Category.assoc, hα.symm, ← Spec.map_comp]
     refine congrArg Spec.map (CommRingCat.hom_ext (RingHom.ext fun x ↦ ?_))

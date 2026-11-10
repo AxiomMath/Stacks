@@ -174,7 +174,7 @@ theorem preimage_basicOpen_eq_nvCover_canonical (s : Fin (n + 1) → Γ(L, ⊤))
   rw [← Stacks.ProjectiveSpaceModuli.nvOpen_pullbackCoordSection
     (toProjectiveSpaceAtUniverse s hs) i]
   refine TopologicalSpace.Opens.ext ?_
-  show Stacks.Ample.nonvanishingLocus
+  change Stacks.Ample.nonvanishingLocus
       ((Scheme.Modules.pullback (toProjectiveSpaceAtUniverse s hs)).obj
         (twistingSheafAtUniverse.{u} n))
       (pullbackCoordSection.{u} (toProjectiveSpaceAtUniverse s hs) i) =

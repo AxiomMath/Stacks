@@ -259,7 +259,7 @@ private lemma precompCM_quasiIso
     ext x
     apply (eL' n).injective
     rw [homologyToExt_precomp]
-    show DerivedCategory.Q.map f ≫ eL n x =
+    change DerivedCategory.Q.map f ≫ eL n x =
       eL' n ((eL' n).symm (eExt n (eL n x)))
     simp [eExt, eF, homCongrAddEquiv_apply]
   rw [hmap]
@@ -291,7 +291,7 @@ private lemma filteredHomMap_grMap_naturality
     (hcomp G)
   rw [Category.assoc, hcomp F]
   apply Eq.trans ?_ hn'.symm
-  show ((filteredHomComplexFiltrationStepIso B K G p).hom ≫
+  change ((filteredHomComplexFiltrationStepIso B K G p).hom ≫
       Stacks.Cohomology.Locality.precompCM ((FilteredObject.quot (op (-p + 1))).map f) ≫
       (filteredHomComplexFiltrationStepIso B K F p).inv) ≫
       (filteredHomComplexFiltrationStepIso B K F p).hom ≫
@@ -345,12 +345,12 @@ private lemma shrinkGrMap_quasiIso
   let e := ShrinkHoms.equivalence.{w} A
   let eC := e.mapHomologicalComplex (ComplexShape.up ℤ)
   let : e.functor.Additive := by
-    show (ShrinkHoms.functor A).Additive
+    change (ShrinkHoms.functor A).Additive
     infer_instance
   let : eC.functor.IsEquivalence := eC.isEquivalence_functor
   let : eC.functor.PreservesZeroMorphisms := inferInstance
   let : eC.functor.Additive :=
-    Functor.map_homogical_complex_additive e.functor (ComplexShape.up ℤ)
+    instAdditiveHomologicalComplexMapHomologicalComplex e.functor (ComplexShape.up ℤ)
   let : e.functor.PreservesHomology := by infer_instance
   have : Limits.PreservesColimitsOfShape Limits.WalkingParallelPair eC.functor := by
     infer_instance
@@ -369,7 +369,7 @@ private lemma shrinkGrMap_quasiIso
       f.natTrans.app (op (p + 1)) ≫ stepG := by
     simp [stepF, stepG]
   have hnat : eF.hom ≫ m' = mE ≫ eG.hom := by
-    show (Limits.PreservesCokernel.iso eC.functor stepF).hom ≫
+    change (Limits.PreservesCokernel.iso eC.functor stepF).hom ≫
         Limits.cokernel.map (eC.functor.map stepF) (eC.functor.map stepG)
           (eC.functor.map (f.natTrans.app (op (p + 1))))
           (eC.functor.map (f.natTrans.app (op p)))
@@ -401,7 +401,7 @@ private lemma extSpectralSequenceIsoOfFilteredQuasiIso
       let eC := e.mapHomologicalComplex (ComplexShape.up ℤ)
       let _std := HasDerivedCategory.standard (ShrinkHoms A)
       let K' := DerivedCategory.Q.obj (eC.functor.obj (DerivedCategory.Q.objPreimage K))
-      show QuasiIso ((FilteredObject.gr p).map
+      change QuasiIso ((FilteredObject.gr p).map
         (filteredHomMap (ShrinkHoms A) K' (shrinkFilteredComplexMap f)))
       exact filteredHomMap_grMap_quasiIso (B := ShrinkHoms A) K'
         (shrinkFilteredComplexMap f) (shrinkGrMap_quasiIso f hf) p

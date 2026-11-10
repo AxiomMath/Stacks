@@ -89,7 +89,8 @@ theorem sheafTensor_map_app_unit_tmul
 
 variable {A A' B B' N : _root_.SheafOfModules.{w} (Tensor.ringSheaf O)}
 
-omit [J.HasSheafCompose (forget RingCat.{w})] in
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [J.HasSheafCompose (forget RingCat.{w})] in
 /-- **A morphism out of a tensor product sheaf is determined by its pairing**: two morphisms
 `A ⊗ B ⟶ N` agree as soon as they agree after the universal pairing `A × B ⟶ A ⊗ B`. -/
 theorem hom_ext_of_tensorSectionPairing {f g : ((Tensor.sheafTensor O).obj A).obj B ⟶ N}
@@ -339,7 +340,7 @@ theorem pushforwardModuleTensorIso_hom_eq
   have h2 : ((pushforwardModuleFunctor i.toToposHom (Tensor.ringSheaf X.O)).isoWhiskerLeft
       (pushforwardTensorNatIso (pushforwardModulesHom i) F hiso)).hom.app J =
       pushforwardTensorMap (pushforwardModulesHom i) ((thickenedModulesFunctor i).obj J) F := by
-    show (pushforwardTensorNatIso (pushforwardModulesHom i) F hiso).hom.app
+    change (pushforwardTensorNatIso (pushforwardModulesHom i) F hiso).hom.app
       ((pushforwardModuleFunctor i.toToposHom (Tensor.ringSheaf X.O)).obj J) = _
     exact (NatIso.ofComponents_hom_app _ _ _).trans (@asIso_hom _ _ _ _ _ (hiso _))
   have h3 : ((pushforwardModuleFunctor i.toToposHom (Tensor.ringSheaf X.O)).associator

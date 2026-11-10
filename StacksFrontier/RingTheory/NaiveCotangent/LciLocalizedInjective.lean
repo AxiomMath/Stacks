@@ -143,7 +143,7 @@ theorem exact_coneIn_coneOut {f : ChainMap A B} (hf : IsQuasiIso f) :
     refine ⟨-z - k, Prod.ext ?_ ?_⟩
     · rw [coneIn_apply, map_sub, hk0, sub_zero, hx₀]
     · rw [coneIn_apply]
-      show -f.f₁ (-z - k) = p.2
+      change -f.f₁ (-z - k) = p.2
       rw [map_sub, hk, neg_sub]
       abel
   · rintro ⟨x, rfl⟩
@@ -260,12 +260,12 @@ section CancelComp
 
 variable {R S : Type*} [CommRing R] [CommRing S] [Algebra R S] (P : Extension R S)
 variable {R' D : Type*} [CommRing R'] [CommRing D] [Algebra R R'] [Algebra R' D] [Algebra R D]
-  [Algebra S D] [IsScalarTower R R' D] [IsScalarTower R S D] {Q : Extension R' D}
+  [Algebra S D] [IsScalarTower R R' D] {Q : Extension R' D}
 variable {R'' C : Type*} [CommRing R''] [CommRing C] [Algebra R' R''] [Algebra R'' C]
-  [Algebra R' C] [Algebra D C] [IsScalarTower R' R'' C] [IsScalarTower R' D C]
+  [Algebra R' C] [Algebra D C] [IsScalarTower R' R'' C]
   {Q' : Extension R'' C}
 variable [Algebra R R''] [Algebra R C] [Algebra S C] [IsScalarTower R R'' C]
-  [IsScalarTower R S C] [IsScalarTower S D C] [IsScalarTower R R' R'']
+  [IsScalarTower S D C] [IsScalarTower R R' R'']
 
 /-- **Stacks 00S1 (3) for the base-changed comparison, over three bases.**  Let `P`, `Q`, `Q'` be
 extensions of `S` over `R`, of `D` over `R'` and of `C` over `R''`, in a tower
@@ -409,7 +409,7 @@ variable {A B C : Type u} [CommRing A] [CommRing B] [CommRing C]
   [Algebra A B] [Algebra A C] [Algebra B C] [IsScalarTower A B C]
 variable {A' B' C' : Type u} [CommRing A'] [CommRing B'] [CommRing C']
   [Algebra A A'] [Algebra B B'] [Algebra C C']
-  [Algebra A' B'] [Algebra A' C'] [Algebra B' C'] [IsScalarTower A' B' C']
+  [Algebra A' B'] [Algebra A' C'] [Algebra B' C']
   [Algebra A B'] [Algebra A C'] [Algebra B C']
   [IsScalarTower A A' B'] [IsScalarTower A B B'] [IsScalarTower A A' C']
   [IsScalarTower A C C'] [IsScalarTower B B' C'] [IsScalarTower B C C']

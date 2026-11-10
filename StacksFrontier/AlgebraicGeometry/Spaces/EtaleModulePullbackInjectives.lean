@@ -91,8 +91,8 @@ presheaf of sets represented by `i : X' ⟶ X`: an étale chart `U ⟶ X'` is se
 chart `U ⟶ X` of `X` together with the point of `X'` that it is. -/
 def smallEtaleToElements (hi : IsEtale B S hS i.hom) :
     SmallEtale B S hS X'.1 ⥤ ((etaleChartPresheaf B S hS i).Elements)ᵒᵖ where
-  obj A := op ((etaleChartPresheaf B S hS i).elementsMk (op ((smallEtalePostcomp B S hS i hi).obj A))
-    ⟨yonedaEquiv A.1.hom, rfl⟩)
+  obj A := op ((etaleChartPresheaf B S hS i).elementsMk
+    (op ((smallEtalePostcomp B S hS i hi).obj A)) ⟨yonedaEquiv A.1.hom, rfl⟩)
   map {A A'} g := Quiver.Hom.op (Functor.Elements.homMk
     ((smallEtalePostcomp B S hS i hi).map g).op
     (Subtype.ext (by
@@ -162,7 +162,7 @@ theorem exists_iso_smallEtaleToElements (hi : IsEtale B S hS i.hom)
         (Quiver.Hom.op (ObjectProperty.homMk (CostructuredArrow.homMk
           (𝟙 ((SmallEtale.toOver B S hS X.1).obj W))
           (by
-            show yoneda.map (𝟙 _) ≫ W.1.hom = yonedaEquiv.symm s.1 ≫ i.hom
+            change yoneda.map (𝟙 _) ≫ W.1.hom = yonedaEquiv.symm s.1 ≫ i.hom
             rw [ht]
             simp))))
         (Subtype.ext rfl)
@@ -170,11 +170,11 @@ theorem exists_iso_smallEtaleToElements (hi : IsEtale B S hS i.hom)
         (Quiver.Hom.op (ObjectProperty.homMk (CostructuredArrow.homMk
           (𝟙 ((SmallEtale.toOver B S hS X.1).obj W))
           (by
-            show yoneda.map (𝟙 _) ≫ (yonedaEquiv.symm s.1 ≫ i.hom) = W.1.hom
+            change yoneda.map (𝟙 _) ≫ (yonedaEquiv.symm s.1 ≫ i.hom) = W.1.hom
             rw [ht]
             simp))))
         (Subtype.ext (by
-          show X'.1.map (𝟙 ((SmallEtale.toOver B S hS X.1).obj W)).op
+          change X'.1.map (𝟙 ((SmallEtale.toOver B S hS X.1).obj W)).op
             (yonedaEquiv (yonedaEquiv.symm s.1)) = s.1
           rw [Equiv.apply_symm_apply]
           simp))

@@ -126,7 +126,7 @@ theorem rel_of_hom {ℓ₁ ℓ₂ : P.obj →ₐ[ringOf B S hS T'] C'.obj} (h₁
       (eqToHom (congrArg (ξ a ι) (h₁.trans h₂.symm)) :
         ξ a ι (e.q.hom.hom.comp ℓ₁) ⟶ ξ a ι (e.q.hom.hom.comp ℓ₂)) :=
     isHomLift_eqToHom _ (ξ_obj a ι _)
-  show Arr.map a ι e.q g = Arr.idt w
+  change Arr.map a ι e.q g = Arr.idt w
   rw [Arr.map_eq_mk e.q g _ hl ((liftArrow_comp_eq_iff h₁ h₂ _).mp hw)]
   exact Arr.ext_heq h₁ h₂ (eqToHom_heq_id (congrArg (ξ a ι) h₁) (congrArg (ξ a ι) h₂)
     (congrArg (ξ a ι) (h₁.trans h₂.symm)))

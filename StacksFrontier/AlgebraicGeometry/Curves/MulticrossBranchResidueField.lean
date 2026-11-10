@@ -66,7 +66,7 @@ theorem ker_branchResidueHom (i : Fin 2) :
     RingHom.ker (branchResidueHom k i).toRingHom = branchMaximalIdeal k i := by
   refine Ideal.ext fun f ↦ ?_
   rw [RingHom.mem_ker, mem_branchMaximalIdeal, PowerSeries.isUnit_iff_constantCoeff]
-  show PowerSeries.constantCoeff (f i) = 0 ↔ ¬ IsUnit (PowerSeries.constantCoeff (f i))
+  change PowerSeries.constantCoeff (f i) = 0 ↔ ¬ IsUnit (PowerSeries.constantCoeff (f i))
   rw [isUnit_iff_ne_zero, not_not]
 
 /-- **The residue field at a branch maximal ideal of `k[[t]] × k[[t]]` is `k`.** -/

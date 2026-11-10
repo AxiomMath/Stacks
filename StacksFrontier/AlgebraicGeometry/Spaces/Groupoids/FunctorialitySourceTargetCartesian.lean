@@ -205,7 +205,7 @@ variable {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
 theorem groupoidInverse_groupoidInverse (G : GroupoidInAlgebraicSpaces C S hS B) :
     groupoidInverse G ≫ groupoidInverse G = 𝟙 G.arrows.obj := by
   ext V a
-  show (groupoidInverse G).app V ((groupoidInverse G).app V a) = a
+  change (groupoidInverse G).app V ((groupoidInverse G).app V a) = a
   rw [groupoidInverse_app, groupoidInverse_app]
   exact Deformation.inverseArrow_inverseArrow G.toGroupoidInFunctors V a
 

@@ -68,7 +68,7 @@ public theorem smooth_of_isPullback_of_subset_smoothLocus {A B T F : Scheme.{u}}
   have hrange : Set.range c ⊆ Set.range (g ⁻¹ᵁ W).ι := by
     rw [Scheme.Opens.range_ι]
     rintro _ ⟨x, rfl⟩
-    show g (c x) ∈ W
+    change g (c x) ∈ W
     rw [← Scheme.Hom.comp_apply, hsq.w, Scheme.Hom.comp_apply]
     exact ht _
   have hbig := (IsOpenImmersion.isPullback_lift_id c (g ⁻¹ᵁ W).ι hrange).paste_vert hsq

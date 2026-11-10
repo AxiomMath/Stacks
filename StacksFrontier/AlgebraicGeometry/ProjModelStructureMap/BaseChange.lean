@@ -141,7 +141,7 @@ theorem polyDegreeZeroHom_comp_gradedZeroRingHom (n : ℕ) (f : R →+* S) :
         CommRingCat.ofHom (polyGradedMap (Fin (n + 1)) f).gradedZeroRingHom =
       CommRingCat.ofHom f ≫ polyDegreeZeroHom S n := by
   refine CommRingCat.hom_ext (RingHom.ext fun r => Subtype.ext ?_)
-  show MvPolynomial.map f (MvPolynomial.C r) = MvPolynomial.C (f r)
+  change MvPolynomial.map f (MvPolynomial.C r) = MvPolynomial.C (f r)
   exact MvPolynomial.map_C f r
 
 /-- **The induced morphism is a morphism over `Spec S ⟶ Spec R`**: it commutes with the structure

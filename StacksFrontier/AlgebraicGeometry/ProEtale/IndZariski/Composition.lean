@@ -257,7 +257,7 @@ theorem isIndZariski_iff_ind_algebraMap {A B : Type u} [CommRing A] [CommRing B]
       (CommRingCat.localIso.{u}).underObj.inverseImage
         (commAlgCatEquivUnder (CommRingCat.of A)).functor := by
     ext S
-    show Algebra.IsLocalIso A S ↔ CommRingCat.localIso (CommRingCat.ofHom (algebraMap A S))
+    change Algebra.IsLocalIso A S ↔ CommRingCat.localIso (CommRingCat.ofHom (algebraMap A S))
     rw [CommRingCat.localIso_ofHom_iff, RingHom.isLocalIso_algebraMap]
   rw [show IsIndZariski.{u, u, u} A B ↔
       ObjectProperty.ind.{u} (fun C : CommAlgCat.{u} A ↦ Algebra.IsLocalIso A C)

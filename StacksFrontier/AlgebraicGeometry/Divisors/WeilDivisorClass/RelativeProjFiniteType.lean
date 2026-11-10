@@ -79,18 +79,18 @@ private theorem projInclusionToOpen_properties (U : s.base.Opens) (hU : IsAffine
   have hcomp : (algebraMap A₀ A).comp φ = algebraMap R A := by
     ext r i
     have hmem : s.sectionRingBaseMap U r ∈ s.sectionRingGrading U 0 := by
-      show s.sectionRingBaseMap U r ∈ (DirectSum.of (s.sectionPieces U) 0).range
+      change s.sectionRingBaseMap U r ∈ (DirectSum.of (s.sectionPieces U) 0).range
       let r' : (forget₂ CommRingCat RingCat).obj R := r
-      show (s.sectionRingStructure).baseMap U r' ∈ _
+      change (s.sectionRingStructure).baseMap U r' ∈ _
       rw [(s.sectionRingStructure).baseMap_apply U r']
       exact ⟨_, rfl⟩
     have hproj : φ r = ⟨s.sectionRingBaseMap U r, hmem⟩ := by
       refine Subtype.ext ?_
-      show GradedRing.projZeroRingHom (s.sectionRingGrading U)
+      change GradedRing.projZeroRingHom (s.sectionRingGrading U)
         (s.sectionRingBaseMap U r) = s.sectionRingBaseMap U r
       rw [GradedRing.projZeroRingHom_apply,
         DirectSum.decompose_of_mem_same (s.sectionRingGrading U) hmem]
-    show ((φ r : A₀) : A) i = (s.sectionRingBaseMap U r) i
+    change ((φ r : A₀) : A) i = (s.sectionRingBaseMap U r) i
     rw [hproj]
   let _ : IsScalarTower R A₀ A := IsScalarTower.of_algebraMap_eq' hcomp.symm
   let _ : Algebra.FiniteType R A := RingHom.finiteType_algebraMap.mp hft

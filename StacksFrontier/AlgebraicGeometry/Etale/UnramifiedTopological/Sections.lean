@@ -59,7 +59,7 @@ public lemma section_isOpenImmersion {X Y : Scheme.{u}} (f : X ⟶ Y)
     IsOpenImmersion s := by
   have hdiag : @Unramified ≤ (@IsOpenImmersion : MorphismProperty Scheme).diagonal := by
     intro A B g hg
-    show IsOpenImmersion (pullback.diagonal g)
+    change IsOpenImmersion (pullback.diagonal g)
     let : Unramified g := hg
     infer_instance
   let : MorphismProperty.HasOfPostcompProperty IsOpenImmersion @Unramified :=
@@ -190,7 +190,7 @@ public theorem sections_equiv_connectedComponents {X Y : Scheme.{u}}
       apply Subtype.ext
       let d := sectionImageComponentData f s.1 s.2
       let : IsIso (d.U.ι ≫ f) := sectionImageComponent_hom_isIso d
-      show inv (d.U.ι ≫ f) ≫ d.U.ι = s.1
+      change inv (d.U.ι ≫ f) ≫ d.U.ι = s.1
       rw [sectionImageComponent_inv d, d.factor]
     right_inv := by
       intro U
@@ -204,15 +204,15 @@ public theorem sections_equiv_connectedComponents {X Y : Scheme.{u}}
         ext x
         constructor
         · rintro ⟨y, rfl⟩
-          show U.1.ι (inv g y) ∈ U.1
+          change U.1.ι (inv g y) ∈ U.1
           exact (inv g y).property
         · intro hx
           let u : U.1.toScheme := ⟨x, hx⟩
           refine ⟨g u, ?_⟩
-          show U.1.ι (g.homeomorph.symm (g.homeomorph u)) = x
+          change U.1.ι (g.homeomorph.symm (g.homeomorph u)) = x
           rw [g.homeomorph.symm_apply_apply u]
           rfl
-      show d.U = U.1
+      change d.U = U.1
       apply TopologicalSpace.Opens.ext
       exact d.image.trans hrange
     }
@@ -234,7 +234,7 @@ public theorem section_eq_of_common_point {X Y : Scheme.{u}}
   have hxa : x ∈ connectedComponent a := ha ▸ hxU
   have hxb : x ∈ connectedComponent b := hb ▸ hxV
   have hUV : U = V := TopologicalSpace.Opens.ext (by
-    show (U : Set X) = (V : Set X)
+    change (U : Set X) = (V : Set X)
     rw [ha, hb, connectedComponent_eq hxa, connectedComponent_eq hxb])
   subst V
   have : IsIso (U.ι ≫ f) := isIso_ι_comp_of_factor hs hfac

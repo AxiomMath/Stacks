@@ -123,11 +123,11 @@ private lemma order_precomp_smul {k : ℕ} {D : M →ₗ[R] N}
     (D ∘ₗ Algebra.lsmul R R M c).IsDifferentialOperatorOfOrderLE S k :=
   order_map (Φ := fun D => D ∘ₗ Algebra.lsmul R R M c)
     (fun D hD g m => by
-      show D (c • g • m) = g • D (c • m)
+      change D (c • g • m) = g • D (c • m)
       rw [smul_comm c g m, isDifferentialOperatorOfOrderLE_zero_iff.mp hD g (c • m)])
     (fun D g => by
       ext m
-      show D (g • c • m) - g • D (c • m) = D (c • g • m) - g • D (c • m)
+      change D (g • c • m) - g • D (c • m) = D (c • g • m) - g • D (c • m)
       rw [smul_comm c g m]) hD
 
 end Order
@@ -219,7 +219,7 @@ private lemma order_of_comp_smul {k : ℕ} {G : M' →ₗ[R] N'} (u : T)
   have hG : G = (G ∘ₗ Algebra.lsmul R R M' (algebraMap S S' (u : S)))
       ∘ₗ Algebra.lsmul R R M' ((w⁻¹ : S'ˣ) : S') := by
     ext x
-    show G x = G ((algebraMap S S' (u : S)) • (((w⁻¹ : S'ˣ) : S') • x))
+    change G x = G ((algebraMap S S' (u : S)) • (((w⁻¹ : S'ˣ) : S') • x))
     rw [smul_smul, ← hw, w.mul_inv, one_smul]
   rw [hG]
   exact order_precomp_smul h _
@@ -260,7 +260,7 @@ private lemma apply_eq_of_smul_eq {k : ℕ} {D : M →ₗ[R] N'}
   induction k generalizing D with
   | zero =>
     refine smul_injective (S' := S') T c ?_
-    show (c : S) • D p = (c : S) • D q
+    change (c : S) • D p = (c : S) • D q
     rw [← isDifferentialOperatorOfOrderLE_zero_iff.mp hD,
       ← isDifferentialOperatorOfOrderLE_zero_iff.mp hD, h]
   | succ k ih =>
@@ -299,7 +299,7 @@ private lemma eq_zero_of_comp_eq_zero (f : M →ₗ[S] M') [IsLocalizedModule T 
   induction k generalizing F with
   | zero =>
     refine smul_injective (S' := S') T s ?_
-    show (s : S) • F x = (s : S) • 0
+    change (s : S) • F x = (s : S) • 0
     rw [smul_zero, ← IsScalarTower.algebraMap_smul S' (s : S) (F x),
       ← isDifferentialOperatorOfOrderLE_zero_iff.mp hF, IsScalarTower.algebraMap_smul, hs, hf m]
   | succ k ih =>
@@ -344,7 +344,7 @@ private lemma extension_mul_apply (f : M →ₗ[S] M') [IsLocalizedModule T f] {
     · rw [← lsmul_algebraMap_source (S' := S') c, ← lsmul_algebraMap_target (S' := S') b]
       exact isDifferentialOperatorOfOrderLE_add (order_precomp_smul (hEord b) _)
         (order_postcomp_smul (hEord c) _)
-    · show E (b * c) (f m) = E b (c • f m) + b • E c (f m)
+    · change E (b * c) (f m) = E b (c • f m) + b • E c (f m)
       rw [← map_smul f c m, hEext b (c • m), hEext c m, hEext (b * c) m]
       exact commSMul_mul_apply D b c m
   exact LinearMap.congr_fun key x
@@ -394,7 +394,7 @@ private lemma exists_smul_eq_sub (f : M →ₗ[S] M') [IsLocalizedModule T f] {k
   obtain ⟨n, u, hu⟩ := exists_smul_eq_map T f x
   obtain ⟨y, hy⟩ := exists_smul_eq (S' := S') T u (D n - E (u : S) x)
   refine ⟨y, fun m s hs => smul_injective (S' := S') T u ?_⟩
-  show (u : S) • ((s : S) • y) = (u : S) • (D m - E (s : S) x)
+  change (u : S) • ((s : S) • y) = (u : S) • (D m - E (s : S) x)
   rw [smul_comm (u : S) (s : S) y, hy]
   exact (smul_sub_smul_comm T f hD hEord hEext hs hu).symm
 
@@ -414,7 +414,7 @@ private lemma map_add_of_spec (f : M →ₗ[S] M') [IsLocalizedModule T f] {D : 
   have hy : ((s * u : T) : S) • y = f ((s : S) • n) := by
     rw [Submonoid.coe_mul, mul_smul, hu, map_smul]
   refine smul_injective (S' := S') T (s * u) ?_
-  show ((s * u : T) : S) • F (x + y) = ((s * u : T) : S) • (F x + F y)
+  change ((s * u : T) : S) • F (x + y) = ((s * u : T) : S) • (F x + F y)
   rw [hF (x + y) _ (s * u) (by rw [smul_add, hx, hy, map_add]), smul_add, hF x _ (s * u) hx,
     hF y _ (s * u) hy]
   simp only [map_add]
@@ -431,7 +431,7 @@ private lemma map_smul_of_spec (f : M →ₗ[S] M') [IsLocalizedModule T f] {D :
   obtain ⟨m, s, hs⟩ := exists_smul_eq_map T f x
   have hrx : (s : S) • (r • x) = f (r • m) := by rw [smul_comm, hs, f.map_smul_of_tower]
   refine smul_injective (S' := S') T s ?_
-  show (s : S) • F (r • x) = (s : S) • (r • F x)
+  change (s : S) • F (r • x) = (s : S) • (r • F x)
   rw [hF (r • x) (r • m) s hrx, smul_comm (s : S) r (F x), hF x m s hs, map_smul, map_smul,
     smul_sub]
 
@@ -466,7 +466,7 @@ private lemma sub_smul_eq_of_spec (f : M →ₗ[S] M') [IsLocalizedModule T f] {
   have e4 : E b ((s : S) • x) = D (b • m) - b • D m := by
     rw [hs, hEext b m, commSMul_apply]
   refine smul_injective (S' := S') T s ?_
-  show (s : S) • (F (b • x) - b • F x) = (s : S) • E b x
+  change (s : S) • (F (b • x) - b • F x) = (s : S) • E b x
   rw [smul_sub, e1, smul_comm (s : S) b (F x), e2, smul_sub,
     show D (b • m) - E (s : S) (b • x) - (b • D m - b • E (s : S) x)
       = D (b • m) - b • D m - (E (s : S) (b • x) - b • E (s : S) x) by abel, e3, e4]

@@ -313,7 +313,7 @@ public theorem affineLineCoordinate_map {T T' : (BigFppfOver B S hS)ᵒᵖ} (i :
     (f : (affineLineFunctor B S hS).obj T) :
     affineLineCoordinate B S hS T' ((affineLineFunctor B S hS).map i f) =
       ((BigFppfOver.toScheme B S hS).map i.unop).appTop (affineLineCoordinate B S hS T f) := by
-  show (((Over.post B.inclusion).map i.unop).left ≫ f.left).appTop _ = _
+  change (((Over.post B.inclusion).map i.unop).left ≫ f.left).appTop _ = _
   rw [Scheme.Hom.comp_appTop]
   rfl
 

@@ -105,7 +105,7 @@ private theorem ker_algebraMap_pPowerAlgebra_le_nilradical
   let F : pPowerAlgebra A x y p →+* L := Ideal.Quotient.lift _ φ hI
   have hcomp : F.comp (algebraMap A (pPowerAlgebra A x y p)) = g := by
     ext b
-    show (Ideal.Quotient.lift _ φ hI) (Ideal.Quotient.mk _ (Polynomial.C b)) = g b
+    change (Ideal.Quotient.lift _ φ hI) (Ideal.Quotient.mk _ (Polynomial.C b)) = g b
     simp [φ, Polynomial.eval₂_C]
   have hga : g a = 0 := by
     rw [← hcomp]
@@ -175,7 +175,7 @@ private theorem specResidueFieldMap_isPurelyInseparable_of_idealResidueFieldMap
       simpa only [RingHom.comp_apply, RingEquiv.toRingHom_eq_coe,
         RingEquiv.coe_toRingHom, RingEquiv.symm_apply_apply] using
         congrArg (fun g => g (eP a)) hbridge
-    show eQ.toRingHom (((Spec.map f).residueFieldMap q).hom a) =
+    change eQ.toRingHom (((Spec.map f).residueFieldMap q).hom a) =
       eQ.toRingHom (eQ.symm.toRingHom (Ideal.ResidueField.map _ _ f.hom hpq (eP.toRingHom a)))
     exact heval'.trans (eQ.apply_symm_apply _).symm
   rw [hmap]
@@ -196,7 +196,7 @@ theorem universalHomeomorphism_spec_quotient_of_pPower_mul
   classical
   let B := pPowerAlgebra A x y p
   let f := Scheme.Spec.map (CommRingCat.ofHom (algebraMap A B)).op
-  show UniversalHomeomorphism f
+  change UniversalHomeomorphism f
   have : Algebra.IsIntegral A B := pPowerAlgebra_isIntegral x y p hp
   have hdata :=
     @isHomeomorph_comap_and_isPurelyInseparable_and_baseChange_of_adjoin_pow_eq_top.{u,

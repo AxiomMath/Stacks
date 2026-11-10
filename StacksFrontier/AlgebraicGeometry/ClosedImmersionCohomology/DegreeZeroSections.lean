@@ -46,7 +46,8 @@ Both are in the namespace `Stacks.Cohomology.ClosedImmersion`.
 
 **No `@[stacks]` attribute is attached, and none should be.**  The clause of [Stacks, Tag 0D2M]
 lives at `exists_surjective_fibreCohomology_twistModule` and at the `@[stacks 0D2M]` site in
-`StacksFrontier/AlgebraicGeometry/FormalFunctions/AmpleFibreTwistStalkSurjective.lean`; everything here
+`StacksFrontier/AlgebraicGeometry/FormalFunctions/AmpleFibreTwistStalkSurjective.lean`; everything
+here
 is a translation between two spellings of one degree-zero map, with none of the source's hypotheses
 and none of its content.  Tagging a re-spelling would register the tag a second time on a
 statement that proves nothing the source asserts.

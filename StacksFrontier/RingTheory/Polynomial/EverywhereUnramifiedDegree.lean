@@ -67,7 +67,7 @@ theorem exists_pow_mul_isIntegral {t : F} (ht : t ≠ 0) {x : N}
                   (Finset.mem_range.mpr (Nat.lt_succ_of_le hi))
             _ ≤ D * (p.natDegree - i) := Nat.le_mul_of_pos_right _ (by omega)
         refine ⟨⟨_, pow_mul_aeval_inv_mem_adjoin (k := k) ht hdeg⟩, ?_⟩
-        show t ^ (D * (p.natDegree - i)) * aeval t⁻¹ (q i) = _
+        change t ^ (D * (p.natDegree - i)) * aeval t⁻¹ (q i) = _
         rw [hq, pow_mul, mul_comm]
         rfl
     · rw [coeff_eq_zero_of_natDegree_lt (not_le.mp hi), map_zero, zero_mul]
@@ -149,7 +149,7 @@ theorem exists_basis_discr_eq_algebraMap {t : F} (ht : Transcendental k t)
     conv_lhs => rw [hexpand z]
     rw [map_sum]
     simp only [map_smul, hdual, smul_eq_mul, mul_ite, mul_one,
-      mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   have hbd : ∀ i, IsIntegral R (bd i) := by
     intro i
     obtain ⟨y, hy⟩ := mem_range_of_forall_traceForm_mem_range R F N B hunr (x := bd i) (by
@@ -189,7 +189,7 @@ theorem exists_basis_discr_eq_algebraMap {t : F} (ht : Transcendental k t)
   have hdet1 : MR.det * GR.det = 1 := by
     apply hinj
     rw [map_mul, map_one, RingHom.map_det, RingHom.map_det]
-    show (MR.map (algebraMap R F)).det * (GR.map (algebraMap R F)).det = 1
+    change (MR.map (algebraMap R F)).det * (GR.map (algebraMap R F)).det = 1
     rw [hGmap, hMmap, ← Matrix.det_mul, hMG, Matrix.det_one]
   have hunit : IsUnit GR.det := IsUnit.of_mul_eq_one _ (by rwa [mul_comm])
   have hunit' : IsUnit ((adjoinSingletonEquiv k ht).symm GR.det) :=
@@ -200,7 +200,7 @@ theorem exists_basis_discr_eq_algebraMap {t : F} (ht : Transcendental k t)
     rw [← (adjoinSingletonEquiv k ht).apply_symm_apply GR.det, ← hαeq, ← algebraMap_eq,
       AlgEquiv.commutes]
   rw [Algebra.discr_def]
-  show G.det = _
+  change G.det = _
   rw [← hGmap]
   refine (RingHom.map_det (algebraMap R F) GR).symm.trans ?_
   rw [hGdet, ← IsScalarTower.algebraMap_apply]

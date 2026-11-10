@@ -72,7 +72,7 @@ private theorem polynomialMap_continuous_of_taut (σ : Type w) (φ : B →+* A)
     intro x hx
     exact subset_closure (Ideal.map_le_iff_le_comap.mp hmap hx)
   apply continuous_of_continuousAt_zero f.toAddMonoidHom
-  show Tendsto (f.toAddMonoidHom) (nhds 0) (nhds (f.toAddMonoidHom 0))
+  change Tendsto (f.toAddMonoidHom) (nhds 0) (nhds (f.toAddMonoidHom 0))
   rw [map_zero]
   exact hzero
 
@@ -173,11 +173,11 @@ private theorem compatible_lift_vanishing_until
     by_cases hn : n < m
     · have h₀ := hzle n (by omega)
       have h₁ := hzle (n + 1) (by omega)
-      show s n (z (n + 1)).1 = (z n).1
+      change s n (z (n + 1)).1 = (z n).1
       rw [h₀, h₁, map_zero]
     · have hznext : (z (n + 1)).1 = chooseLift n (z n).1 (z n).2 := by
         simp [z, hn]
-      show s n (z (n + 1)).1 = (z n).1
+      change s n (z (n + 1)).1 = (z n).1
       rw [hznext]
       exact (chooseLift_spec n (z n).1 (z n).2).2
   · intro n
@@ -221,7 +221,7 @@ private theorem quotientLimit_coordinate_hasBasis
 -- The nested completion, quotient-limit, and compatible-lift constructions elaborate together
 -- into a large dependent term, so this bridge needs a larger heartbeat budget.
 private theorem restrictedPowerSeriesPresentation_of_taut_dense
-    (φ : B →+* A) (hφ : Continuous φ)
+    (φ : B →+* A)
     (hB : TopologicalRing.IsWeaklyAdmissible B) (hA : TopologicalRing.IsWeaklyAdmissible A)
     (hBcount : (nhds (0 : B)).IsCountablyGenerated)
     (htaut : RingHom.IsTaut φ)
@@ -244,7 +244,7 @@ private theorem restrictedPowerSeriesPresentation_of_taut_dense
   let : T2Space R := restrictedPowerSeriesT2Space B (Fin n)
   let : IsTopologicalRing R := restrictedPowerSeriesIsTopologicalRing B (Fin n)
   let : IsUniformAddGroup R := by
-    show IsUniformAddGroup
+    change IsUniformAddGroup
       (@UniformSpace.Completion P (restrictedPolynomialUniformSpace B (Fin n)))
     exact UniformSpace.Completion.isUniformAddGroup
   let incl : P →+* R := polynomialToRestrictedPowerSeries B (Fin n)
@@ -255,10 +255,10 @@ private theorem restrictedPowerSeriesPresentation_of_taut_dense
   let : T2Space A := hA.2.2
   let g : R →+* A := UniformSpace.Completion.extensionHom (α := P) f hfcont
   have hgcont : Continuous g := by
-    show Continuous (UniformSpace.Completion.extension (α := P) f)
+    change Continuous (UniformSpace.Completion.extension (α := P) f)
     exact UniformSpace.Completion.continuous_extension
   have hg_incl (x : P) : g (incl x) = f x := by
-    show UniformSpace.Completion.extensionHom f hfcont (x : UniformSpace.Completion P) = f x
+    change UniformSpace.Completion.extensionHom f hfcont (x : UniformSpace.Completion P) = f x
     exact UniformSpace.Completion.extensionHom_coe f hfcont x
   have hgp : g.comp incl = f := RingHom.ext hg_incl
   let N : ℕ → Ideal P := fun m => (J m).map (MvPolynomial.C : B →+* P)
@@ -279,7 +279,7 @@ private theorem restrictedPowerSeriesPresentation_of_taut_dense
   have hLanti : Antitone L := by
     apply antitone_nat_of_succ_le
     intro m
-    show Ideal.closure (Ideal.map incl (N (m + 1))) ≤
+    change Ideal.closure (Ideal.map incl (N (m + 1))) ≤
       Ideal.closure (Ideal.map incl (N m))
     apply closure_mono
     exact Ideal.map_mono (Ideal.map_mono (hJ.2.1 (Nat.le_succ m)))
@@ -326,7 +326,7 @@ private theorem restrictedPowerSeriesPresentation_of_taut_dense
     RingHom.QuotientDiagram.targetIdeal φ J m
   have hdiag : RingHom.QuotientDiagram.HasQuotientDiagram φ J hJ.2.1 :=
     (RingHom.QuotientDiagram.isTaut_iff_hasQuotientDiagram
-      φ hφ hA hB J hJ).mp htaut
+      φ hA J hJ).mp htaut
   let T := RingHom.QuotientDiagram.quotientLimit φ J hJ.2.1
   let eA : A ≃+* T := Classical.choose hdiag.2.2.2
   have heA : Continuous eA ∧ Continuous eA.symm ∧
@@ -336,7 +336,7 @@ private theorem restrictedPowerSeriesPresentation_of_taut_dense
   let C : ℕ → Ideal R := fun m =>
     RingHom.QuotientDiagram.targetIdeal (RingHom.id R) L m
   have hCeq (m : ℕ) : C m = L m := by
-    show Ideal.closure (Ideal.map (RingHom.id R) (L m)) = L m
+    change Ideal.closure (Ideal.map (RingHom.id R) (L m)) = L m
     rw [Ideal.map_id]
     exact Ideal.closure_eq_of_isClosed (L m) (hLclosed m)
   let qS : (m : ℕ) → R ⧸ C (m + 1) →+* R ⧸ C m := fun m =>
@@ -346,7 +346,7 @@ private theorem restrictedPowerSeriesPresentation_of_taut_dense
     RingHom.QuotientDiagram.quotientTransition φ J hJ.2.1 m
   let qA : (m : ℕ) → A →+* A ⧸ I m := fun m => Ideal.Quotient.mk (I m)
   have hNmap (m : ℕ) : Ideal.map f (N m) ≤ I m := by
-    show Ideal.map f ((J m).map (MvPolynomial.C : B →+* P)) ≤
+    change Ideal.map f ((J m).map (MvPolynomial.C : B →+* P)) ≤
       Ideal.closure ((J m).map φ)
     rw [Ideal.map_map, hfcomp]
     exact subset_closure
@@ -355,7 +355,7 @@ private theorem restrictedPowerSeriesPresentation_of_taut_dense
     have hpre : Ideal.map incl (N m) ≤ RingHom.ker ((qA m).comp g) := by
       apply Ideal.map_le_iff_le_comap.mpr
       intro x hx
-      show qA m (g (incl x)) = 0
+      change qA m (g (incl x)) = 0
       rw [hg_incl]
       exact Ideal.Quotient.eq_zero_iff_mem.mpr
         (hNmap m (Ideal.mem_map_of_mem f hx))
@@ -363,7 +363,7 @@ private theorem restrictedPowerSeriesPresentation_of_taut_dense
     have : DiscreteTopology (A ⧸ I m) :=
       QuotientAddGroup.discreteTopology_iff.mpr (hdiag.1 m)
     have hclosed : IsClosed (RingHom.ker ((qA m).comp g) : Set R) := by
-      show IsClosed (((qA m).comp g) ⁻¹' ({0} : Set (A ⧸ I m)))
+      change IsClosed (((qA m).comp g) ⁻¹' ({0} : Set (A ⧸ I m)))
       exact (isClosed_discrete _).preimage hcont
     exact closure_minimal hpre hclosed
   let F : (m : ℕ) → R ⧸ C m →+* A ⧸ I m := fun m =>
@@ -395,24 +395,24 @@ private theorem restrictedPowerSeriesPresentation_of_taut_dense
     apply RingHom.ext
     intro x
     obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective x
-    show qT m (F (m + 1) (Ideal.Quotient.mk (C (m + 1)) r)) =
+    change qT m (F (m + 1) (Ideal.Quotient.mk (C (m + 1)) r)) =
       F m (qS m (Ideal.Quotient.mk (C (m + 1)) r))
     have hqSmk : qS m (Ideal.Quotient.mk (C (m + 1)) r) =
         Ideal.Quotient.mk (C m) r := by
-      show Ideal.Quotient.factor (hCanti (Nat.le_succ m))
+      change Ideal.Quotient.factor (hCanti (Nat.le_succ m))
         (Ideal.Quotient.mk (C (m + 1)) r) = Ideal.Quotient.mk (C m) r
       rw [Ideal.Quotient.factor_mk]
     rw [hFmk (m + 1) r, hqSmk, hFmk m r]
     have hIt : I (m + 1) ≤ I m := by
-      show (Ideal.closure ((J (m + 1)).map φ) : Set A) ⊆
+      change (Ideal.closure ((J (m + 1)).map φ) : Set A) ⊆
         (Ideal.closure ((J m).map φ) : Set A)
       exact closure_mono (Ideal.map_mono (hJ.2.1 (Nat.le_succ m)))
-    show Ideal.Quotient.factor hIt
+    change Ideal.Quotient.factor hIt
       (Ideal.Quotient.mk (I (m + 1)) (g r)) = Ideal.Quotient.mk (I m) (g r)
     rw [Ideal.Quotient.factor_mk]
   have hkerS (m : ℕ) : RingHom.ker (qS m) =
       Ideal.map (Ideal.Quotient.mk (C (m + 1))) (C m) := by
-    show RingHom.ker (Ideal.Quotient.factor (hCanti (Nat.le_succ m))) = _
+    change RingHom.ker (Ideal.Quotient.factor (hCanti (Nat.le_succ m))) = _
     rw [Ideal.Quotient.factor_ker]
   have hFimageKer (m : ℕ) :
       Ideal.map (F (m + 1)) (Ideal.map (Ideal.Quotient.mk (C (m + 1))) (C m)) =
@@ -425,7 +425,7 @@ private theorem restrictedPowerSeriesPresentation_of_taut_dense
         rw [Ideal.map_map, hFmkcomp]
       _ = Ideal.map ((qA (m + 1)).comp g) (Ideal.map incl (N m)) := by
         rw [hCeq m]
-        show Ideal.map ((qA (m + 1)).comp g)
+        change Ideal.map ((qA (m + 1)).comp g)
           (Ideal.closure (Ideal.map incl (N m))) = _
         exact RingHom.QuotientDiagram.map_closure_eq_of_discrete
           ((qA (m + 1)).comp g) hcont (Ideal.map incl (N m))
@@ -434,7 +434,7 @@ private theorem restrictedPowerSeriesPresentation_of_taut_dense
         rw [RingHom.comp_assoc]
       _ = Ideal.map ((qA (m + 1)).comp f) (N m) := by rw [hgp]
       _ = (J m).map ((qA (m + 1)).comp φ) := by
-        show Ideal.map ((qA (m + 1)).comp f) ((J m).map (MvPolynomial.C : B →+* P)) = _
+        change Ideal.map ((qA (m + 1)).comp f) ((J m).map (MvPolynomial.C : B →+* P)) = _
         rw [Ideal.map_map]
         congr 1
         rw [RingHom.comp_assoc, hfcomp]
@@ -444,9 +444,9 @@ private theorem restrictedPowerSeriesPresentation_of_taut_dense
     obtain ⟨u, hu⟩ := Ideal.Quotient.factor_surjective (hCanti (Nat.le_succ m)) x
     have hFuKer : F (m + 1) u ∈ RingHom.ker (qT m) := by
       rw [RingHom.mem_ker]
-      show ((qT m).comp (F (m + 1))) u = 0
+      change ((qT m).comp (F (m + 1))) u = 0
       rw [hFcomm m]
-      show F m (qS m u) = 0
+      change F m (qS m u) = 0
       exact (congrArg (F m) hu).trans hx
     have hkerImage : Ideal.map (F (m + 1)) (RingHom.ker (qS m)) =
         RingHom.ker (qT m) := by
@@ -478,7 +478,7 @@ private theorem restrictedPowerSeriesPresentation_of_taut_dense
   let HF : ∀ m, S →+* A ⧸ I m := fun m => (F m).comp (projS m)
   have hHFcompat (x : S) (m : ℕ) :
       qT m (HF (m + 1) x) = HF m x := by
-    show qT m (F (m + 1) (x.1 (m + 1))) = F m (x.1 m)
+    change qT m (F (m + 1) (x.1 (m + 1))) = F m (x.1 m)
     have hc := congrArg (fun u : (R ⧸ C (m + 1)) →+* A ⧸ I m =>
       u (x.1 (m + 1))) (hFcomm m)
     simp only [RingHom.comp_apply] at hc
@@ -511,7 +511,7 @@ private theorem restrictedPowerSeriesPresentation_of_taut_dense
     have hcoord : Continuous (fun y : T => y.1 m) :=
       (continuous_apply m).comp continuous_subtype_val
     have hWopen : IsOpen {y : T | y.1 m = (H x).1 m} := by
-      show IsOpen ((fun y : T => y.1 m) ⁻¹' ({(H x).1 m} : Set (A ⧸ I m)))
+      change IsOpen ((fun y : T => y.1 m) ⁻¹' ({(H x).1 m} : Set (A ⧸ I m)))
       exact (isOpen_discrete _).preimage hcoord
     have hW : {y : T | y.1 m = (H x).1 m} ∈ nhds (H x) :=
       hWopen.mem_nhds rfl
@@ -519,11 +519,11 @@ private theorem restrictedPowerSeriesPresentation_of_taut_dense
     rintro y hy
     change y.1 m = (H x).1 m at hy
     have hzero : (y - H x).1 m = 0 := by
-      show y.1 m - (H x).1 m = 0
+      change y.1 m - (H x).1 m = 0
       rw [hy, sub_self]
     have hyminus : ∀ k, qT k ((y - H x).1 (k + 1)) = (y - H x).1 k := by
       intro k
-      show qT k (y.1 (k + 1) - (H x).1 (k + 1)) = y.1 k - (H x).1 k
+      change qT k (y.1 (k + 1) - (H x).1 (k + 1)) = y.1 k - (H x).1 k
       rw [map_sub, y.2 k, (H x).2 k]
     obtain ⟨zseq, hzcompat, hzF, hzzero⟩ := compatible_lift_vanishing_until
       qS qT F hFcomm hFsurj hkerLift (fun k => (y - H x).1 k) hyminus m hzero
@@ -532,9 +532,9 @@ private theorem restrictedPowerSeriesPresentation_of_taut_dense
     have hHz : H z = y - H x := by
       apply Subtype.ext
       funext k
-      show F k (z.1 k) = y.1 k - (H x).1 k
+      change F k (z.1 k) = y.1 k - (H x).1 k
       rw [hHcoord x k]
-      show F k (zseq k) = y.1 k - F k (x.1 k)
+      change F k (zseq k) = y.1 k - F k (x.1 k)
       rw [hzF k]
       rfl
     have hxz : x + z ∈ U := hm hz
@@ -558,18 +558,18 @@ private theorem restrictedPowerSeriesPresentation_of_taut_dense
     obtain ⟨x, hx⟩ := hHsurj (eA a)
     refine ⟨eR.symm x, ?_⟩
     rw [hfactor]
-    show eA.symm (H (eR (eR.symm x))) = a
+    change eA.symm (H (eR (eR.symm x))) = a
     rw [eR.apply_symm_apply, hx, eA.symm_apply_apply]
   let eRtop : R ≃ₜ S := Homeomorph.mk eR.toEquiv heR.1 heR.2.1
   let eAtop : T ≃ₜ A := Homeomorph.mk eA.symm.toEquiv heA.2.1 heA.1
   have hGopen : IsOpenMap g := by
     rw [hfactor]
-    show IsOpenMap ((eAtop : T → A) ∘ (H ∘ (eRtop : R → S)))
+    change IsOpenMap ((eAtop : T → A) ∘ (H ∘ (eRtop : R → S)))
     exact (Homeomorph.isOpenMap eAtop).comp
       (hHopen.comp (Homeomorph.isOpenMap eRtop))
   let K : Ideal R := RingHom.ker g
   have hKclosed : IsClosed (K : Set R) := by
-    show IsClosed (g ⁻¹' ({0} : Set A))
+    change IsClosed (g ⁻¹' ({0} : Set A))
     exact isClosed_singleton.preimage hgcont
   let eK : R ⧸ K ≃+* A := g.quotientKerEquivOfSurjective hgsurj
   have heKmk : eK.toRingHom.comp (Ideal.Quotient.mk K) = g := by
@@ -581,12 +581,12 @@ private theorem restrictedPowerSeriesPresentation_of_taut_dense
   have hquot := QuotientRing.isOpenQuotientMap_mk K
   have heKcont : Continuous eK := by
     apply hquot.continuous_comp_iff.mp
-    show Continuous (fun r : R => eK (Ideal.Quotient.mk K r))
+    change Continuous (fun r : R => eK (Ideal.Quotient.mk K r))
     rw [heKfun]
     exact hgcont
   have heKopen : IsOpenMap eK := by
     apply hquot.isOpenMap_iff.mpr
-    show IsOpenMap (fun r : R => eK (Ideal.Quotient.mk K r))
+    change IsOpenMap (fun r : R => eK (Ideal.Quotient.mk K r))
     rw [heKfun]
     exact hGopen
   have heKsymmcont : Continuous eK.symm := by
@@ -604,14 +604,14 @@ private theorem restrictedPowerSeriesPresentation_of_taut_dense
   refine ⟨n, K, hKclosed, eK, heKcont, heKsymmcont, ?_⟩
   apply RingHom.ext
   intro b
-  show eK (Ideal.Quotient.mk K (coeffToRestrictedPowerSeries B (Fin n) b)) = φ b
+  change eK (Ideal.Quotient.mk K (coeffToRestrictedPowerSeries B (Fin n) b)) = φ b
   rw [RingHom.quotientKerEquivOfSurjective_apply_mk hgsurj]
-  show g (incl (MvPolynomial.C b)) = φ b
+  change g (incl (MvPolynomial.C b)) = φ b
   rw [hg_incl]
   exact DFunLike.congr_fun hfcomp b
 
 /-- The four finite-type conditions are equivalent, given the two (a) ↔ (c) implications. -/
-private theorem finiteType_tfae_aux (φ : B →+* A) (hφ : Continuous φ)
+private theorem finiteType_tfae_aux (φ : B →+* A)
     (hB : TopologicalRing.IsWeaklyAdmissible B)
     (hA : TopologicalRing.IsWeaklyAdmissible A)
     (hBcount : (nhds (0 : B)).IsCountablyGenerated)
@@ -640,8 +640,8 @@ private theorem finiteType_tfae_aux (φ : B →+* A) (hφ : Continuous φ)
   have had : a ↔ d := by
     constructor
     · intro h
-      exact restrictedPowerSeriesPresentation_of_taut_dense φ hφ hB hA hBcount h.1 (hto h)
-    · exact finiteTypeModuloEveryWeakIdeal_of_presentation φ hφ
+      exact restrictedPowerSeriesPresentation_of_taut_dense φ hB hA hBcount h.1 (hto h)
+    · exact finiteTypeModuloEveryWeakIdeal_of_presentation φ
   apply List.tfae_of_forall (b := a)
   intro p hp
   simp only [List.mem_cons] at hp
@@ -654,19 +654,18 @@ private theorem finiteType_tfae_aux (φ : B →+* A) (hφ : Continuous φ)
 
 /-- The four finite-type conditions for a morphism of countably indexed weakly admissible rings
 are equivalent. -/
-public theorem finiteType_tfae (φ : B →+* A) (hφ : Continuous φ)
+public theorem finiteType_tfae (φ : B →+* A)
     (hB : TopologicalRing.IsWeaklyAdmissible B)
     (hA : TopologicalRing.IsWeaklyAdmissible A)
-    (hBcount : (nhds (0 : B)).IsCountablyGenerated)
-    (hAcount : (nhds (0 : A)).IsCountablyGenerated) :
+    (hBcount : (nhds (0 : B)).IsCountablyGenerated) :
     List.TFAE [
       FiniteTypeModuloEveryWeakIdeal φ,
       FiniteTypeModuloCofinalWeakIdeals φ,
       RingHom.IsTaut φ ∧ TopologicalRing.IsTopologicallyOfFiniteType φ,
       HasRestrictedPowerSeriesPresentation φ] := by
-  exact finiteType_tfae_aux φ hφ hB hA hBcount
-    (finiteTypeModuloEveryWeakIdeal_to_topologicallyOfFiniteType φ hφ hB hA hBcount hAcount)
-    (finiteTypeModuloEveryWeakIdeal_of_topologicallyOfFiniteType φ hφ)
+  exact finiteType_tfae_aux φ hB hA hBcount
+    (finiteTypeModuloEveryWeakIdeal_to_topologicallyOfFiniteType φ hB hA hBcount)
+    (finiteTypeModuloEveryWeakIdeal_of_topologicallyOfFiniteType φ)
 
 /-- The four finite-type conditions for a morphism of countably indexed weakly admissible rings
 are equivalent.
@@ -681,7 +680,7 @@ countability at all — it is condition (2) of Stacks 0ANT verbatim, and
 `isTopologicallyOfFiniteType_of_finiteTypeModuloEveryWeakIdeal` gets it from condition (a) for
 any weakly pre-admissible source. -/
 @[stacks 0ANU "equivalent_conditions"]
-public theorem finiteType_tfae' (φ : B →+* A) (hφ : Continuous φ)
+public theorem finiteType_tfae' (φ : B →+* A)
     (hB : TopologicalRing.IsWeaklyAdmissible B)
     (hA : TopologicalRing.IsWeaklyAdmissible A)
     (hBcount : (nhds (0 : B)).IsCountablyGenerated) :
@@ -690,9 +689,9 @@ public theorem finiteType_tfae' (φ : B →+* A) (hφ : Continuous φ)
       FiniteTypeModuloCofinalWeakIdeals φ,
       RingHom.IsTaut φ ∧ TopologicalRing.IsTopologicallyOfFiniteType φ,
       HasRestrictedPowerSeriesPresentation φ] := by
-  exact finiteType_tfae_aux φ hφ hB hA hBcount
+  exact finiteType_tfae_aux φ hB hA hBcount
     (isTopologicallyOfFiniteType_of_finiteTypeModuloEveryWeakIdeal' φ hB.1)
-    (finiteTypeModuloEveryWeakIdeal_of_topologicallyOfFiniteType' φ hφ)
+    (finiteTypeModuloEveryWeakIdeal_of_topologicallyOfFiniteType' φ)
 
 end
 

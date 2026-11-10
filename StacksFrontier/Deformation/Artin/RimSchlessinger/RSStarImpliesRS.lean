@@ -130,7 +130,7 @@ private lemma exists_pullbackStep {RU RV RW RW₁ RZ : CommRingCat.{u}}
   · exact e1.trans hz1
   · refine e2.trans ?_
     have hzb : χ.hom z = b := hz2
-    show π.hom (χ.hom z) = (x : RV × RW₁).2
+    change π.hom (χ.hom z) = (x : RV × RW₁).2
     rw [hzb]
     exact hb
 
@@ -266,7 +266,7 @@ private theorem isoSpec_inv_appTop_gamma (W : BigAffineFppf B S hS) :
 private theorem appTop_surjHom :
     ((BigAffineFppf.toScheme B S hS).map (surjHom W e t ht)).appTop ≫
         (surjIso W e t ht).hom = e.hom ≫ t := by
-  show (surjSchemeHom W e t).appTop ≫ (Scheme.ΓSpecIso R').hom = _
+  change (surjSchemeHom W e t).appTop ≫ (Scheme.ΓSpecIso R').hom = _
   rw [Scheme.Hom.comp_appTop, Scheme.Hom.comp_appTop, Category.assoc, Category.assoc,
     Scheme.ΓSpecIso_naturality, ← Category.assoc ((Spec.map e.hom).appTop),
     Scheme.ΓSpecIso_naturality, Category.assoc, ← Category.assoc,
@@ -334,7 +334,7 @@ private theorem exists_factor_of_surjective {R R' T : CommRingCat.{u}} (t : R �
     ((Ideal.Quotient.lift (RingHom.ker t.hom) ρ.hom hle').comp
       (RingHom.quotientKerEquivOfSurjective ht).symm.toRingHom), ?_⟩
   ext x
-  show (Ideal.Quotient.lift (RingHom.ker t.hom) ρ.hom hle')
+  change (Ideal.Quotient.lift (RingHom.ker t.hom) ρ.hom hle')
       ((RingHom.quotientKerEquivOfSurjective ht).symm (t.hom x)) = ρ.hom x
   have hx : (RingHom.quotientKerEquivOfSurjective ht).symm (t.hom x) =
       Ideal.Quotient.mk (RingHom.ker t.hom) x :=
@@ -358,21 +358,21 @@ private theorem exists_hom_surjObj {V W : BigAffineFppf B S hS} (m : V ⟶ W)
     rw [hρ', ← Category.assoc, e.hom_inv_id, Category.id_comp]
   have hiso : ((BigAffineFppf.toScheme B S hS).obj W).toSpecΓ ≫
       ((BigAffineFppf.toScheme B S hS).obj W).isoSpec.inv = 𝟙 _ := by
-    show ((BigAffineFppf.toScheme B S hS).obj W).isoSpec.hom ≫ _ = _
+    change ((BigAffineFppf.toScheme B S hS).obj W).isoSpec.hom ≫ _ = _
     rw [Iso.hom_inv_id]
   have hg2 : g ≫ surjSchemeHom W e t = (BigAffineFppf.toScheme B S hS).map m := by
     rw [hg]
-    show _ ≫ Spec.map t ≫ Spec.map e.hom ≫ _ = _
+    change _ ≫ Spec.map t ≫ Spec.map e.hom ≫ _ = _
     rw [Category.assoc, ← Spec.map_comp_assoc, ← Spec.map_comp_assoc, hring,
       ← Category.assoc, ← Scheme.toSpecΓ_naturality, Category.assoc, hiso,
       Category.comp_id]
   have hw : (BigAffineFppf.toScheme B S hS).map m ≫ B.inclusion.map W.obj.hom =
       B.inclusion.map V.obj.hom := by
-    show B.inclusion.map m.hom.left ≫ B.inclusion.map W.obj.hom = _
+    change B.inclusion.map m.hom.left ≫ B.inclusion.map W.obj.hom = _
     rw [← Functor.map_comp, Over.w]
   refine ⟨ObjectProperty.homMk (Over.homMk (ObjectProperty.homMk g) ?_), ?_⟩
   · apply ObjectProperty.hom_ext
-    show g ≫ surjSchemeHom W e t ≫ B.inclusion.map W.obj.hom = B.inclusion.map V.obj.hom
+    change g ≫ surjSchemeHom W e t ≫ B.inclusion.map W.obj.hom = B.inclusion.map V.obj.hom
     rw [← Category.assoc, hg2]
     exact hw
   · apply ObjectProperty.hom_ext
@@ -643,7 +643,7 @@ private theorem affineSquareComparison_isEquivalence_of_pow_eq_bot
     have hmono : Mono ((BigAffineFppf.toScheme B S hS).map i₂) := by
       have : IsClosedImmersion (Spec.map τ) := IsClosedImmersion.spec_of_surjective τ hτsurj
       rw [hi₂, toScheme_map_surjHom]
-      show Mono (Spec.map τ ≫ Spec.map eZ.hom ≫
+      change Mono (Spec.map τ ≫ Spec.map eZ.hom ≫
         ((BigAffineFppf.toScheme B S hS).obj Z).isoSpec.inv)
       infer_instance
     have w₁ : f ≫ i₁ = g₁ ≫ j₁ := by

@@ -44,7 +44,8 @@ The limit argument is Mathlib's: `Algebra.Smooth.exists_subalgebra_fg` produces 
 element of `S` has to be moved into a subalgebra by hand. Its shape puts the flat factor on the
 left, so the tensor factors are transposed by `Algebra.TensorProduct.comm`.
 
-The steps stated separately here are the ones that are not about the ring map of the statement, and none
+The steps stated separately here are the ones that are not about the ring map of the statement, and
+none
 of them is in Mathlib. `isRegularLocalRing_of_smooth_of_perfectField` carries the local content of
 the proof; it is stated for an arbitrary model of the localization, as Lemma 00TV is, and at an
 arbitrary prime rather than only at the maximal ideals used below. Smoothness at the prime is read

@@ -90,7 +90,7 @@ theorem hasEffectiveThickeningTowers_polarizedSliceProjection (good : S.Opens �
   let g : ∀ n, x ⟶ Xs.obj n := fun n => fromX (n + 1)
   have hfromX : ∀ {i j : ℕ} (f : i ⟶ j), g i ≫ Xs.map f = g j := fun f =>
     Deformation.Artin.comp_map_of_succ Xs g (fun n => by
-      show fromX (n + 1 + 1) = fromX (n + 1) ≫ Xs.map (homOfLE (Nat.le_succ n))
+      change fromX (n + 1 + 1) = fromX (n + 1) ≫ Xs.map (homOfLE (Nat.le_succ n))
       rw [hXs]
       exact hfromS (n + 1)) f
   have hclosed : ∀ {i j : ℕ} (f : i ⟶ j), IsClosedImmersion (VS.map (Tn.map f)) := fun f =>
@@ -102,7 +102,7 @@ theorem hasEffectiveThickeningTowers_polarizedSliceProjection (good : S.Opens �
   have hFmap : ∀ n, F.map (homOfLE (Nat.le_succ n)).op =
       (B.inclusion.map (step (n + 1)).baseMap).appTop := by
     intro n
-    show (VS.map (q.map (Xs.map (homOfLE (Nat.le_succ n))))).appTop = _
+    change (VS.map (q.map (Xs.map (homOfLE (Nat.le_succ n))))).appTop = _
     rw [hXs]
     rfl
   have hFc : ∀ n : ℕᵒᵖ, B.Contains (Spec (F.obj n)) := by
@@ -110,7 +110,7 @@ theorem hasEffectiveThickeningTowers_polarizedSliceProjection (good : S.Opens �
     have h : Scheme.size (B.inclusion.obj (xs (n.unop + 1)).base) < B.cutoff :=
       (xs (n.unop + 1)).base.2
     rw [Scheme.size_of_isAffine] at h
-    show Scheme.size (Spec (F.obj n)) < B.cutoff
+    change Scheme.size (Spec (F.obj n)) < B.cutoff
     rwa [Scheme.size_Spec]
   have hRc : B.Contains (Spec (limit F)) := Deformation.Artin.contains_spec_limit B F hFc
   have hsurjΓ : ∀ {i j : ℕ} (f : i ⟶ j), Function.Surjective (VS.map (Tn.map f)).appTop := by
@@ -130,7 +130,7 @@ theorem hasEffectiveThickeningTowers_polarizedSliceProjection (good : S.Opens �
     refine le_bot_iff.mp ((Ideal.pow_right_mono ?_ 2).trans hk.le)
     intro z hz
     have hz' : (VS.map (Tn.map f)).appTop.hom z = 0 := hz
-    show (VS.map (q.map (g j))).appTop.hom z = 0
+    change (VS.map (q.map (g j))).appTop.hom z = 0
     rw [hqfac f, CommRingCat.comp_apply, hz', map_zero]
   have hsurj : ∀ n : ℕ, Function.Surjective (F.map (homOfLE (Nat.le_succ n)).op).hom :=
     fun n => hsurjΓ (homOfLE (Nat.le_succ n))
@@ -196,18 +196,18 @@ theorem hasEffectiveThickeningTowers_polarizedSliceProjection (good : S.Opens �
     ({ baseMap := ObjectProperty.homMk (X := (xs (n + 1)).base) (Y := B.obj hRc) (legS n)
        totalMap := j n
        cartesian := by
-         show IsPullback (j n) (xs (n + 1)).toBase gY (legS n)
+         change IsPullback (j n) (xs (n + 1)).toBase gY (legS n)
          refine (hpbY n).of_iso (Iso.refl _) (Iso.refl _)
            (isoS n).symm (Iso.refl _) ?_ ?_ ?_ ?_ <;> simp [legS]
        lineBundleIso := @asIso _ _ _ _ (e n) (hiso n) } : PolarizedFamily.Hom (xs (n + 1)) ξ)
   refine ⟨ξ, ι, fun n => ?_, ?_⟩
   · refine PolarizedFamily.Hom.ext ?_ (hj n) ?_
     · apply B.inclusion.map_injective
-      show B.inclusion.map (step (n + 1)).baseMap ≫ (isoS (n + 1)).hom ≫
+      change B.inclusion.map (step (n + 1)).baseMap ≫ (isoS (n + 1)).hom ≫
           Spec.map (limit.π F (op (n + 1))) = (isoS n).hom ≫ Spec.map (limit.π F (op n))
       rw [← Category.assoc, hnat n, Category.assoc, ← Spec.map_comp, limit.w]
     · refine PolarizedFormal.heq_of_pullbackCongr_hom_app_comp (hj n) _ _ ?_
-      show (Scheme.Modules.pullbackCongr (hj n)).hom.app ℒ ≫ e n =
+      change (Scheme.Modules.pullbackCongr (hj n)).hom.app ℒ ≫ e n =
         (Scheme.Modules.pullbackComp _ _).inv.app ℒ ≫
           (Scheme.Modules.pullback (step (n + 1)).totalMap).map (e (n + 1)) ≫
             (step (n + 1)).lineBundleIso.hom
@@ -216,10 +216,10 @@ theorem hasEffectiveThickeningTowers_polarizedSliceProjection (good : S.Opens �
   · -- `U ⟶ Spec (lim Rₙ)` is a first-order thickening
     let a : B.inclusion.obj x.base ⟶ B.inclusion.obj (xs (0 + 1)).base :=
       B.inclusion.map (fromX (0 + 1)).baseMap
-    show Stacks.Thickenings.IsFirstOrderThickening
+    change Stacks.Thickenings.IsFirstOrderThickening
       (B.inclusion.map ((fromX (0 + 1)).baseMap ≫ (ι 0).baseMap))
     rw [Functor.map_comp]
-    show Stacks.Thickenings.IsFirstOrderThickening (a ≫ legS 0)
+    change Stacks.Thickenings.IsFirstOrderThickening (a ≫ legS 0)
     have : IsAffine (B.inclusion.obj x.base) := hxaff
     have ha : Stacks.Thickenings.IsFirstOrderThickening a := hthick 0
     have : IsClosedImmersion a := ha.1

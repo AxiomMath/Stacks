@@ -47,6 +47,7 @@ private noncomputable def rel : RelativeModuleFibreProductSituation
     (D' := base.fibreProduct) base := ⟨RingHom.id _⟩
 
 set_option synthInstance.maxHeartbeats 100000 in
+-- instance search for `TensorProduct R R X` with `Algebra` structures from `RingHom.toAlgebra`
 /-- The inclusion of the second factor of `R ⊗ X` is bijective. -/
 private theorem includeRight_bijective_of_id {R X : Type u} [CommRing R] [CommRing X]
     (f : R →+* X) :
@@ -60,6 +61,7 @@ private theorem includeRight_bijective_of_id {R X : Type u} [CommRing R] [CommRi
     Function.bijective_id
 
 set_option synthInstance.maxHeartbeats 100000 in
+-- instance search for `TensorProduct R R X` with `Algebra` structures from `RingHom.toAlgebra`
 /-- In `R ⊗ X`, the two ways of including `r : R` agree. -/
 private theorem tmul_one_eq_one_tmul_of_id {R X : Type u} [CommRing R] [CommRing X]
     (f : R →+* X) (r : R) :
@@ -75,6 +77,7 @@ private theorem btoD_bijective : Function.Bijective
   includeRight_bijective_of_id base.pullbackCone.fst.hom
 
 set_option synthInstance.maxHeartbeats 100000 in
+-- instance search for the `Algebra` structures on the fibre product's tensor products
 private theorem toD_eq : (rel toBase surjection I base).toD =
     ((rel toBase surjection I base).BtoD).comp base.pullbackCone.fst.hom :=
   RingHom.ext (tmul_one_eq_one_tmul_of_id base.pullbackCone.fst.hom)
@@ -84,6 +87,7 @@ private theorem a'toC'_bijective : Function.Bijective
   includeRight_bijective_of_id base.pullbackCone.snd.hom
 
 set_option synthInstance.maxHeartbeats 100000 in
+-- instance search for the `Algebra` structures on the fibre product's tensor products
 private theorem toC'_eq : (rel toBase surjection I base).toC' =
     ((rel toBase surjection I base).A'toC').comp base.pullbackCone.snd.hom :=
   RingHom.ext (tmul_one_eq_one_tmul_of_id base.pullbackCone.snd.hom)
@@ -99,7 +103,7 @@ private theorem projective_baseChange
   obtain ⟨_, _⟩ := hL
   let : Algebra base.fibreProduct B := base.pullbackCone.fst.hom.toAlgebra
   let : Algebra base.fibreProduct A' := base.pullbackCone.snd.hom.toAlgebra
-  show (Module.Finite B (TensorProduct base.fibreProduct B L) ∧
+  change (Module.Finite B (TensorProduct base.fibreProduct B L) ∧
       Module.Projective B (TensorProduct base.fibreProduct B L)) ∧
     (Module.Finite A' (TensorProduct base.fibreProduct A' L) ∧
       Module.Projective A' (TensorProduct base.fibreProduct A' L))
@@ -123,11 +127,11 @@ private theorem baseChange_components {R S T : Type u} [CommRing R] [CommRing S]
   let : Module.Flat S ((ModuleCat.extendScalars f).obj L) := hS.2
   have hfp : Module.FinitePresentation T ((ModuleCat.extendScalars g).obj
       ((ModuleCat.extendScalars f).obj L)) := by
-    show Module.FinitePresentation T (TensorProduct S T ((ModuleCat.extendScalars f).obj L))
+    change Module.FinitePresentation T (TensorProduct S T ((ModuleCat.extendScalars f).obj L))
     infer_instance
   have hflat : Module.Flat S ((ModuleCat.restrictScalars g).obj ((ModuleCat.extendScalars g).obj
       ((ModuleCat.extendScalars f).obj L))) := by
-    show Module.Flat S (TensorProduct S T ((ModuleCat.extendScalars f).obj L))
+    change Module.Flat S (TensorProduct S T ((ModuleCat.extendScalars f).obj L))
     exact Module.Flat.trans S T _
   exact ⟨Module.FinitePresentation.of_equiv i.symm.toLinearEquiv,
     Module.Flat.of_linearEquiv ((ModuleCat.restrictScalars g).mapIso i).toLinearEquiv⟩
@@ -191,7 +195,7 @@ private theorem finitePresentation_of_baseComponents
     relativelyFlatModulesEquivalenceOverFibreProduct r
   have hflatR : Module.Flat base.fibreProduct
       ((ModuleCat.restrictScalars r.toD').obj L) := by
-    show Module.Flat base.fibreProduct
+    change Module.Flat base.fibreProduct
       ((ModuleCat.restrictScalars (RingHom.id base.fibreProduct)).obj L)
     let : Module.Flat base.fibreProduct ((𝟭 (ModuleCat.{u} base.fibreProduct)).obj L) := hflat
     exact Module.Flat.of_linearEquiv
@@ -202,7 +206,7 @@ private theorem finitePresentation_of_baseComponents
     exact hunitrw L hflatR
   have huKM : IsIso (adjkm.unit.app L) := by
     have : IsIso (c.hom.app (Er.obj L)) := by
-      show IsIso (c.app (Er.obj L)).hom
+      change IsIso (c.app (Er.obj L)).hom
       infer_instance
     exact IsIso.of_isIso_comp_right (adjkm.unit.app L) (c.hom.app (Er.obj L))
   have hfpF : Module.FinitePresentation base.fibreProduct (Fkm.obj (Er.obj L)) :=
@@ -262,6 +266,7 @@ private theorem finiteProjective_rightAdjoint_obj
     Module.Flat.projective_of_finitePresentation⟩
 
 set_option synthInstance.maxHeartbeats 100000 in
+-- instance search for the `Algebra` structures on the fibre product's tensor products
 /-- **Stacks Project, Tag 0D2J.** Over a fibre product `B' = B ×_A A'` with `A' → A`
 surjective, extension of scalars gives an equivalence from finite projective `B'`-modules to
 compatible pairs whose `B`- and `A'`-components are finite projective. -/
@@ -315,7 +320,7 @@ public theorem finiteProjectiveModulesEquivalenceOverFibreProduct
     have hflatX : Module.Flat s.fibreProduct X.obj := by
       let : Module.Projective s.fibreProduct X.obj := X.property.2
       infer_instance
-    show IsIso (P.ι.map (adjR.unit.app X))
+    change IsIso (P.ι.map (adjR.unit.app X))
     rw [show P.ι.map (adjR.unit.app X) = _ by simpa only [adjR] using hmap]
     exact IsIso.comp_isIso' (hunit X.obj hflatX) (IsIso.comp_isIso'
       (F.mapIso (commE.app X)).isIso_hom (commF.app (qE.obj X)).isIso_hom)
@@ -323,7 +328,7 @@ public theorem finiteProjectiveModulesEquivalenceOverFibreProduct
     apply (ObjectProperty.isIso_hom_iff (adjR.counit.app Y)).mp
     have hmap := Adjunction.map_restrictFullyFaithful_counit_app adj
       P.fullyFaithfulι Q.fullyFaithfulι commE commF Y
-    show IsIso (Q.ι.map (adjR.counit.app Y))
+    change IsIso (Q.ι.map (adjR.counit.app Y))
     rw [show Q.ι.map (adjR.counit.app Y) = _ by simpa only [adjR] using hmap]
     exact IsIso.comp_isIso' (commE.app (qF.obj Y)).symm.isIso_hom
       (IsIso.comp_isIso' (E.mapIso (commF.app Y).symm).isIso_hom

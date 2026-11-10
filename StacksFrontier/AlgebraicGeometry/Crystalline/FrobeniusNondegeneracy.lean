@@ -344,7 +344,7 @@ theorem hom_ext_of_sieve {F G : SheafOfModules.{w₁} R} {φ ψ : F ⟶ G}
       (CategoryTheory.forget AddCommGrpCat) G.isSheaf
   apply hP.isSeparated U.unop S hS
   intro Z f hf
-  show G.val.map f.op ((φ.val.app U).hom x) = G.val.map f.op ((ψ.val.app U).hom x)
+  change G.val.map f.op ((φ.val.app U).hom x) = G.val.map f.op ((ψ.val.app U).hom x)
   rw [← PresheafOfModules.naturality_apply, ← PresheafOfModules.naturality_apply]
   exact hSeq f hf (F.val.map f.op x)
 
@@ -419,7 +419,7 @@ theorem nonempty_isColimit_cofan_fin_zero (M : SheafOfModules.{w₁} R) (V : C)
     (hV : Subsingleton (R.obj.obj (Opposite.op V)))
     (ι : ∀ _ : Fin 0, SheafOfModules.unit (R.over V) ⟶ M.over V) :
     Nonempty (IsColimit (Cofan.mk (M.over V) ι)) := by
-  refine ⟨mkCofanColimit _ (fun _ => 0) (fun _ j => Fin.elim0 j) (fun t m _ => ?_)⟩
+  refine ⟨Cofan.IsColimit.mk _ (fun _ => 0) (fun _ j => Fin.elim0 j) (fun t m _ => ?_)⟩
   ext U x
   have hU : Subsingleton ((R.over V).obj.obj U) := by
     rw [← subsingleton_iff_zero_eq_one]

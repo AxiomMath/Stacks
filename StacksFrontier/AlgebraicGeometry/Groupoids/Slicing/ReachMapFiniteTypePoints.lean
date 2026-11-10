@@ -109,7 +109,7 @@ theorem surjective_reachMap_sigmaDesc_of_finiteTypePoints (G : GroupoidScheme S)
     obtain ⟨e, he⟩ := exists_section_comp_reachMap_eq G (q i)
     exact Set.mem_iUnion.2 ⟨i, e y, by rw [← Scheme.Hom.comp_apply, he, hy]⟩
   refine surjective_reachMap_of_jointly_covering G (Sigma.desc q) (Sigma.ι V) q
-    (fun i => Sigma.ι_desc _ _) (fun x => ?_)
+    (fun i => Sigma.ι_comp_desc _ _) (fun x => ?_)
   have hx : x ∈ (W : Set G.objects.left) := by simp [hWtop]
   exact Set.mem_iUnion.1 hx
 

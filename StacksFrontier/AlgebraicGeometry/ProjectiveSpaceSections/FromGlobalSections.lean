@@ -171,7 +171,7 @@ theorem comp_fromOfGlobalSections (g : Y ⟶ X) (f : A →+* Γ(X, ⊤))
       fromOfGlobalSections 𝒜 (g.appTop.hom.comp f) hf' := by
   refine (openCoverOfMapIrrelevantEqTop 𝒜 (g.appTop.hom.comp f) hf').hom_ext _ _ fun i ↦ ?_
   obtain ⟨d, t, h0d, hd⟩ := i
-  show (Y.basicOpen ((g.appTop.hom.comp f) t)).ι ≫ g ≫ fromOfGlobalSections 𝒜 f hf =
+  change (Y.basicOpen ((g.appTop.hom.comp f) t)).ι ≫ g ≫ fromOfGlobalSections 𝒜 f hf =
     (Y.basicOpen ((g.appTop.hom.comp f) t)).ι ≫
       fromOfGlobalSections 𝒜 (g.appTop.hom.comp f) hf'
   rw [basicOpen_ι_comp_fromOfGlobalSections 𝒜 (g.appTop.hom.comp f) hf' h0d hd,

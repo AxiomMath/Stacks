@@ -108,13 +108,11 @@ def tensorCongrOfRingEquiv (hsm : ∀ (b : B) (m : M), b • m = f b • m) (g :
   invFun := tensorCongrHom f.symm (smul_eq_symm_smul f hsm) g.symm (map_smul_symm f g hg)
   map_add' := map_add _
   left_inv z := by
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul m x => rw [tensorCongrHom_tmul, tensorCongrHom_tmul, g.symm_apply_apply]
     | add z w hz hw => rw [map_add, map_add, hz, hw]
   right_inv z := by
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul m y => rw [tensorCongrHom_tmul, tensorCongrHom_tmul, g.apply_symm_apply]
     | add z w hz hw => rw [map_add, map_add, hz, hw]
 

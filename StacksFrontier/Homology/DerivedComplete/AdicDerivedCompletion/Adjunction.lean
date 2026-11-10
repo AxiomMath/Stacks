@@ -73,7 +73,7 @@ public theorem completion_hom_bijective
     exact (cancel_mono (unit.app target)).1 (by simpa using naturality)
   · intro map
     refine ⟨completion.map map ≫ inv (unit.app target), ?_⟩
-    show unit.app source ≫ (completion.map map ≫ inv (unit.app target)) = map
+    change unit.app source ≫ (completion.map map ≫ inv (unit.app target)) = map
     have hm : unit.app source ≫ completion.map map = map ≫ unit.app target := by
       simpa using (unit.naturality map).symm
     rw [← Category.assoc, hm]

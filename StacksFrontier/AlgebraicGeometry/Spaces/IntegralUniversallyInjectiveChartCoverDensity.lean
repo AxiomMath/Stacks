@@ -249,7 +249,7 @@ private theorem exists_baseChange_chart_cover_of_integral (B : BigFppfSite.{u})
   obtain ⟨a, y, hy⟩ := CovA.exists_eq p
   refine ⟨ULift.up a, (cmp a).inv y, ?_⟩
   rw [hmapφ a]
-  show (BigFppfOver.toScheme B S hS).map pV
+  change (BigFppfOver.toScheme B S hS).map pV
     (dom' (CovA.f a ((cmp a).hom ((cmp a).inv y)))) = x
   rw [scheme_iso_hom_inv_apply, hy, hp, hz]
 
@@ -284,7 +284,7 @@ theorem smallBaseChange_isCoverDense_of_isIntegralHom_of_universallyInjective
     obtain ⟨w, hw⟩ := surjective_pointsToScheme B S hS
       ((SmallEtale.toOver B S hS Y.1).obj ((smallBaseChange B S hS f hrep).obj (C k))) y
     refine ⟨k, w, injective_pointsToScheme B S hS V.1.left ?_⟩
-    show pointsToScheme B S hS V.1.left (pointsMap B S hS _
+    change pointsToScheme B S hS V.1.left (pointsMap B S hS _
       (yoneda.map ((SmallEtale.toOver B S hS Y.1).map (φ k))) w) = _
     rwa [pointsToScheme_pointsMap_yoneda, hw]
   have hle : Sieve.generate E.presieve₀ ≤

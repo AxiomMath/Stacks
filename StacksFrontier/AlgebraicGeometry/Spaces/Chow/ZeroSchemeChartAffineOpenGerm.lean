@@ -120,7 +120,7 @@ theorem schemeDeltaDimension_subschemeι_le_of_forall_exists_affineOpen
     (C : ChowSituation.{u}) {Y : Scheme.{u}} (f : Y ⟶ C.S) [LocallyOfFiniteType f]
     (Dz : Y.IdealSheafData) {k : ℤ}
     (hY : schemeDeltaDimension C f ≤ ((k + 1 : ℤ) : EInt))
-    (hloc : ∀ y ∈ Dz.support, ∃ (U : Y.affineOpens) (hyU : y ∈ U.1) (a : Γ(Y, U.1)),
+    (hloc : ∀ y ∈ Dz.support, ∃ (U : Y.affineOpens), y ∈ U.1 ∧ ∃ (a : Γ(Y, U.1)),
       a ∈ nonZeroDivisors Γ(Y, U.1) ∧ a ∈ Dz.ideal U) :
     schemeDeltaDimension C (Dz.subschemeι ≫ f) ≤ (k : EInt) := by
   refine schemeDeltaDimension_comp_le_of_forall_exists_nonZeroDivisors_stalk C f _ hY fun w => ?_

@@ -333,6 +333,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the ring structure on sections of the inverse-image sheaf is deep
 /-- The sections of `i^{-1}𝒪_X` over any object of the small étale site of `Z` commute. -/
 private theorem inverseImage_structureRingSheaf_mul_comm
     (V : (SmallEtale B S hS (⟨Z.1.toFunctor, Z.2.1⟩ : AlgebraicSpaces B S hS).1)ᵒᵖ)

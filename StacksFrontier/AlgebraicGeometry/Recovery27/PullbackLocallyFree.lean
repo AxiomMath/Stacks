@@ -87,7 +87,7 @@ public theorem exists_pullbackRestrictionData {X Y : TopCat.{u}} (f : X ⟶ Y)
       SheafOfModules.pushforwardCongr₂ _ e (by
         ext : 2
         funext V
-        show φ.hom.app V ≫ R.obj.map prod.snd.op ≫
+        change φ.hom.app V ≫ R.obj.map prod.snd.op ≫
           R.obj.map (prodComparison F U V.unop).op =
             S.obj.map prod.snd.op ≫ φ.hom.app _
         rw [← R.obj.map_comp, ← op_comp, prodComparison_snd]
@@ -128,7 +128,7 @@ private theorem exists_isLocallyFreeData_pullback {X Y : TopCat.{u}} (f : X ⟶ 
   have : PreservesColimitsOfSize.{u, u} (G k) := hG k
   have hcomp : IsIso (((q.generators k).map (G k) (eUnit k).some).π ≫ (eM k).some.hom) :=
     inferInstance
-  show IsIso (((q.generators k).map (G k) (eUnit k).some).ofEpi (eM k).some.hom).π
+  change IsIso (((q.generators k).map (G k) (eUnit k).some).ofEpi (eM k).some.hom).π
   exact Eq.mpr (congrArg IsIso (SheafOfModules.GeneratingSections.ofEpi_π
     ((q.generators k).map (G k) (eUnit k).some) (eM k).some.hom)) hcomp
 

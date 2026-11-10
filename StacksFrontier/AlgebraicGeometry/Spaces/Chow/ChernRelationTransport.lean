@@ -98,7 +98,7 @@ theorem chowClassCanonical_properCyclePushforward_firstChernCapPowCycleMap (s : 
     rw [chowClassCanonical_properPushforward_canonicalFirstChernCap_of_component D hX hY q hqB hq
       L hL m (fun β hβ => isRationallyEquivalentToZeroCanonical_properCyclePushforward D sX hX sY
         hY hqB hq m β hβ)]
-    show canonicalFirstChernCapCanonical.{u + 1} D sY hY L hL m _ =
+    change canonicalFirstChernCapCanonical.{u + 1} D sY hY L hL m _ =
       canonicalFirstChernCapCanonical.{u + 1} D sY hY L hL m _
     rw [← canonicalFirstChernCapCanonicalChowMap_chowClassCanonical,
       ← canonicalFirstChernCapCanonicalChowMap_chowClassCanonical, ih (m + 1)]
@@ -153,7 +153,7 @@ theorem chowClassCanonical_gysinCycleMap_firstChernCapPowCycleMap (t : ℕ) :
     intro m α
     simp only [firstChernCapPowCycleMap, AddMonoidHom.coe_comp, Function.comp_apply]
     rw [chowClassCanonical_gysinCycleMap_firstChernCapCycleMap.{u, u + 1} D sX hX L hL s N hN m]
-    show canonicalFirstChernCapCanonical.{u + 1} D _ _ _ _ m _ =
+    change canonicalFirstChernCapCanonical.{u + 1} D _ _ _ _ m _ =
       canonicalFirstChernCapCanonical.{u + 1} D _ _ _ _ m _
     rw [← canonicalFirstChernCapCanonicalChowMap_chowClassCanonical,
       ← canonicalFirstChernCapCanonicalChowMap_chowClassCanonical, ih (m + 1)]
@@ -538,8 +538,8 @@ theorem bundleRelationSumAt_of_isIso (e : ℤ) (he : (n : ℤ) = e) (r : ℕ) (k
     (b : ∀ j : Fin (r + 1), chowGroupCanonical.{u + 1} D sX hX (k - ((j : ℕ) : ℤ))) :
     bundleRelationSumAt D sX hX sP' hP' π' hπB' n hflat' hrel' L' hL' e he r k b =
       flatPullbackChowMapCanonical.{u + 1} D sP' hP' sP hP φ hφB 0
-        (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP sP' hP' φ).1
-        (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP sP' hP' φ).2 _ _ (by simp)
+        (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP φ).1
+        (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP φ).2 _ _ (by simp)
         (bundleRelationSumAt D sX hX sP hP π hπB n hflat hrel L hL e he r k b) := by
   subst he
   simp only [bundleRelationSumAt, ProjectiveBundleRelation.relationSumAt,

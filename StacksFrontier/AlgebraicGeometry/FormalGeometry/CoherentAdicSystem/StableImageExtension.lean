@@ -119,12 +119,12 @@ theorem exists_range_map_eq_range_limitπ (hML : IsMittagLefflerCategorical H) (
   have tcomp : ∀ {i j l : ℕ} (hij : i ≤ j) (hjl : j ≤ l) (z : H.obj (op l)),
       t hij (t hjl z) = t (hij.trans hjl) z := by
     intro i j l hij hjl z
-    show (H.map (homOfLE hjl).op ≫ H.map (homOfLE hij).op).hom z = _
+    change (H.map (homOfLE hjl).op ≫ H.map (homOfLE hij).op).hom z = _
     rw [← H.map_comp]
     rfl
   have tid : ∀ {i : ℕ} (h : i ≤ i) (z : H.obj (op i)), t h z = z := by
     intro i h z
-    show (H.map (𝟙 _)).hom z = z
+    change (H.map (𝟙 _)).hom z = z
     rw [H.map_id]
     rfl
   have hlift : ∀ (i : ℕ) (s : H.obj (op i)), s ∈ Set.range (t (hc i)) →
@@ -179,7 +179,7 @@ theorem exists_range_map_eq_range_limitπ (hML : IsMittagLefflerCategorical H) (
     have h1 := congrArg (fun g => g.hom (1 : A)) (limit.lift_π cone (op m))
     simp only [ModuleCat.hom_comp, LinearMap.coe_comp, Function.comp_apply] at h1
     refine h1.trans ?_
-    show LinearMap.toSpanSingleton A _ (f m) 1 = _
+    change LinearMap.toSpanSingleton A _ (f m) 1 = _
     rw [LinearMap.toSpanSingleton_apply, one_smul]
     exact hchain 0 m (Nat.zero_le m)
   · rintro x ⟨z, rfl⟩
@@ -225,18 +225,19 @@ theorem ker_limitπ_antitone {a b : ℕ} (hab : a ≤ b) :
 
 /-- **Uniform indices for finitely many Mittag-Leffler systems with `J`-adic limit topology.**
 Only the first two conditions of `IsStableAdicSystem` are used. -/
-theorem exists_uniform_indices_of_isMittagLeffler {ι : Type*} [Fintype ι] (A' : ι → Type u)
+theorem exists_uniform_indices_of_isMittagLeffler {ι : Type*} [Finite ι] (A' : ι → Type u)
     [∀ i, CommRing (A' i)] (J : ∀ i, Ideal (A' i)) (H' : ∀ i, ℕᵒᵖ ⥤ ModuleCat.{u} (A' i))
     (hML : ∀ i, IsMittagLefflerCategorical (H' i))
     (hker : ∀ i, ∀ n : ℕ, ∃ a : ℕ, LinearMap.ker (limit.π (H' i) (op a)).hom ≤
       J i ^ (n + 1) • (⊤ : Submodule (A' i) (limit (H' i) : ModuleCat.{u} (A' i)))) :
-    ∃ (m k : ℕ → ℕ) (hm : Monotone m) (hk : Monotone k) (hmk : ∀ n, m n ≤ k n),
+    ∃ (m k : ℕ → ℕ), Monotone m ∧ Monotone k ∧ ∃ hmk : ∀ n, m n ≤ k n,
       (∀ n, n ≤ m n) ∧
       (∀ i n, LinearMap.range ((H' i).map (homOfLE (hmk n)).op).hom =
         LinearMap.range (limit.π (H' i) (op (m n))).hom) ∧
       (∀ i n, LinearMap.ker (limit.π (H' i) (op (m n))).hom ≤
         J i ^ (n + 1) • (⊤ : Submodule (A' i) (limit (H' i) : ModuleCat.{u} (A' i)))) := by
   classical
+  have := Fintype.ofFinite ι
   choose a ha using hker
   choose b hb hbstab using fun i => exists_range_map_eq_range_limitπ (H' i) (hML i)
   let m : ℕ → ℕ := fun n => n + ∑ j ∈ Finset.range (n + 1), ∑ i, a i j
@@ -267,10 +268,10 @@ theorem exists_uniform_indices_of_isMittagLeffler {ι : Type*} [Fintype ι] (A' 
     fun i n => (ker_limitπ_antitone (H' i) (ham i n)).trans (ha i n)⟩
 
 /-- **Uniform indices for finitely many stable adic systems.** -/
-theorem exists_uniform_indices {ι : Type*} [Fintype ι] (A' : ι → Type u) [∀ i, CommRing (A' i)]
+theorem exists_uniform_indices {ι : Type*} [Finite ι] (A' : ι → Type u) [∀ i, CommRing (A' i)]
     (J : ∀ i, Ideal (A' i)) (H' : ∀ i, ℕᵒᵖ ⥤ ModuleCat.{u} (A' i))
     (h : ∀ i, IsStableAdicSystem (H' i) (J i)) :
-    ∃ (m k : ℕ → ℕ) (hm : Monotone m) (hk : Monotone k) (hmk : ∀ n, m n ≤ k n),
+    ∃ (m k : ℕ → ℕ), Monotone m ∧ Monotone k ∧ ∃ hmk : ∀ n, m n ≤ k n,
       (∀ n, n ≤ m n) ∧
       (∀ i n, LinearMap.range ((H' i).map (homOfLE (hmk n)).op).hom =
         LinearMap.range (limit.π (H' i) (op (m n))).hom) ∧
@@ -619,7 +620,7 @@ theorem isCoherentAdicSystem_stableImageQuotientSystem [IsLocallyNoetherian X]
     IsCoherentAdicSystem I (stableImageQuotientSystem I P m k hm hk hmk) := by
   refine ⟨fun n => ?_, fun n => idealPowerMultiple_stableImageQuotient I P m k hmk n,
     fun n => ?_⟩
-  · show _root_.SheafOfModules.IsCoherent.{u} (stableImageQuotient I P m k hmk n)
+  · change _root_.SheafOfModules.IsCoherent.{u} (stableImageQuotient I P m k hmk n)
     refine isCoherent_of_exists_affineOpenCover_isFiniteTildeOn _
         ⟨ι, fun i => (T i : X.Opens), IsOpenCover.mk hT, fun i => ⟨(T i).2, ?_⟩⟩
     exact isFiniteTildeOn_of_moduleFinite_sections _ (T i)

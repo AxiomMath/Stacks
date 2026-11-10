@@ -178,7 +178,7 @@ public lemma unit_end_comm (a b : SheafOfModules.unit R ⟶ SheafOfModules.unit 
   ext V
   let av : (R.obj.obj V) →ₗ[R.obj.obj V] (R.obj.obj V) := (a.val.app V).hom
   let bv : (R.obj.obj V) →ₗ[R.obj.obj V] (R.obj.obj V) := (b.val.app V).hom
-  show bv (av 1) = av (bv 1)
+  change bv (av 1) = av (bv 1)
   have hmul (φ : R.obj.obj V →ₗ[R.obj.obj V] R.obj.obj V) (y : R.obj.obj V) :
       φ y = y * φ 1 := by
     simpa using φ.map_smul y 1
@@ -318,7 +318,7 @@ private theorem transport_natural {C : Type*} [Category* C] {D : Type*} [Categor
   calc Φ.map g ≫ Φ.map eN'.inv ≫ θ.hom.app N' ≫ Ψ.map eN'.hom
       = (Φ.map eN.inv ≫ Φ.map eN.hom) ≫
           Φ.map g ≫ Φ.map eN'.inv ≫ θ.hom.app N' ≫ Ψ.map eN'.hom := by
-        rw [eN.map_inv_hom_id Φ, Category.id_comp]
+        rw [eN.inv_hom_id_map Φ, Category.id_comp]
     _ = Φ.map eN.inv ≫
           (Φ.map eN.hom ≫ Φ.map g ≫ Φ.map eN'.inv ≫ θ.hom.app N') ≫ Ψ.map eN'.hom := by
         simp only [Category.assoc]
@@ -326,7 +326,7 @@ private theorem transport_natural {C : Type*} [Category* C] {D : Type*} [Categor
           (θ.hom.app N ≫ Ψ.map eN.hom ≫ Ψ.map g ≫ Ψ.map eN'.inv) ≫ Ψ.map eN'.hom := by
         rw [hθ]
     _ = (Φ.map eN.inv ≫ θ.hom.app N ≫ Ψ.map eN.hom) ≫ Ψ.map g := by
-        simp only [Category.assoc, eN'.map_inv_hom_id Ψ, Category.comp_id]
+        simp only [Category.assoc, eN'.inv_hom_id_map Ψ, Category.comp_id]
 
 /-- **The colimit of the morphism groups out of the Koszul system is degree-zero
 hypercohomology over `U`**, for every object with quasi-coherent cohomology. -/
@@ -393,11 +393,11 @@ public theorem cohomologyEquivHom_comp (f : Fin r → A) (X : derivedCat A)
     ← cohomologyEquiv_naturality f _ X (hasQuasicoherentCohomology_koszulDerivedSystem f n) hX g]
   congr 1
   symm
-  show (colimit.ι (homGroupSystem f ((koszulDerivedSystem f).obj (op n))) n ≫
+  change (colimit.ι (homGroupSystem f ((koszulDerivedSystem f).obj (op n))) n ≫
     colim.map (Functor.whiskerLeft (koszulDerivedSystem f).rightOp
       (preadditiveYoneda.map g))) (𝟙 _) = _
   rw [colimit.ι_map]
-  show colimit.ι (homGroupSystem f X) n (𝟙 _ ≫ g) = _
+  change colimit.ι (homGroupSystem f X) n (𝟙 _ ≫ g) = _
   rw [Category.id_comp]
 
 /-- **The comparison map of [Stacks, Tag 08DC] is bijective.** For every object `E` of `D(𝒪_X)`

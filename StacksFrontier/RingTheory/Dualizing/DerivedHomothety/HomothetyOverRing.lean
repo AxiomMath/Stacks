@@ -141,7 +141,7 @@ theorem homothety_restrictScalars (I : CochainComplex (ModuleCat.{max w x} R) �
   intro y
   simp only [HomologicalComplex.comp_f, AddCommGrpCat.comp_apply]
   rw [homothety_f_zero_apply_source I a, homothety_f_zero_apply_source _]
-  show (((a.down • CochainComplex.HomComplex.Cochain.ofHom (𝟙 I)).map
+  change (((a.down • CochainComplex.HomComplex.Cochain.ofHom (𝟙 I)).map
       (ModuleCat.restrictScalars.{max w x} e.toRingHom)).v n n (add_zero n)).hom y =
     (((e.symm a.down) • CochainComplex.HomComplex.Cochain.ofHom
       (𝟙 (((ModuleCat.restrictScalars.{max w x} e.toRingHom).mapHomologicalComplex
@@ -150,7 +150,7 @@ theorem homothety_restrictScalars (I : CochainComplex (ModuleCat.{max w x} R) �
     CochainComplex.HomComplex.Cochain.smul_v, CochainComplex.HomComplex.Cochain.ofHom_v,
     CochainComplex.HomComplex.Cochain.ofHom_v]
   let yR : I.X n := y
-  show a.down • yR = e (e.symm a.down) • yR
+  change a.down • yR = e (e.symm a.down) • yR
   rw [e.apply_symm_apply]
 
 /-- The scalar homothety of a complex and the scalar homothety of its restriction along a ring

@@ -111,7 +111,7 @@ theorem homogeneousProd_presheafAlgebra (U : ((Spec R).Opens)ᵒᵖ) (n : ℕ) (
         (1 : Γ(Spec R, U.unop)) ⊗ₜ[R] w) (Subtype.ext ?_)
       simp
   | succ n ih =>
-      show ((presheafAlgebraP M).mul (n : ℤ) 1).app U
+      change ((presheafAlgebraP M).mul (n : ℤ) 1).app U
         ((presheafAlgebraP M).homogeneousProd U n
           (fun i => (1 : Γ(Spec R, U.unop)) ⊗ₜ[R] ιG (R := R) M (s i.castSucc)))
         ((1 : Γ(Spec R, U.unop)) ⊗ₜ[R] ιG (R := R) M (s (Fin.last n))) = _
@@ -220,10 +220,9 @@ theorem unitalHom_ext_of_symGen
           (fun q : (tilde M : SheafOfModules.{u} (Spec R).ringCatSheaf) ⟶ B.piece 1 =>
             (presheafOf B).homogeneousProd U k fun i => q.val.app U
               (AffineBaseChange.toTildeₗ M U.unop ((1 : Γ(Spec R, U.unop)) ⊗ₜ[R] s i))) h
-      show PresheafOfModules.Hom.app (compCmp M B g (Int.ofNat k)) U t =
+      change PresheafOfModules.Hom.app (compCmp M B g (Int.ofNat k)) U t =
         PresheafOfModules.Hom.app (compCmp M B g' (Int.ofNat k)) U t
-      induction t using TensorProduct.induction_on with
-      | zero => erw [map_zero, map_zero]
+      induction t using TensorProduct.inductionOn with
       | tmul a z =>
           rw [compCmp_tmul M B g (Int.ofNat k) U a z, compCmp_tmul M B g' (Int.ofNat k) U a z]
           exact congrArg (fun y : (pieceVal B (Int.ofNat k)).obj U => (a : secRing R U) • y)
@@ -245,8 +244,7 @@ theorem descHom_genPresheaf (U : ((Spec R).Opens)ᵒᵖ) (x : Γ(Spec R, U.unop)
     PresheafOfModules.Hom.app (descHom M B κ hc 1) U
         (PresheafOfModules.Hom.app (genPresheaf M) U x) =
       κ.val.app U (PresheafOfModules.Hom.app (AffineBaseChange.toTilde M) U x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => erw [map_zero, map_zero]; rfl
+  induction x using TensorProduct.inductionOn with
   | tmul a m =>
       rw [AffineBaseChange.presheafMap_app, AffineBaseChange.presheafMapₗ_tmul, descHom_tmul,
         show ((ConcreteCategory.hom (ModuleCat.ofHom (ιG (R := R) M)) m :
@@ -270,7 +268,7 @@ theorem existsUnique_desc_symAlgebra (hκ : SheafOfModules.GradedAlgebra.Pairwis
   have hkey : symGen M ≫ h.app 1 = κ := by
     refine SheafOfModules.hom_ext (Stacks.hom_eq_of_app_eq (T := (tilde M).val)
       (B.piece 1).isSheaf.isSeparated (AffineBaseChange.toTilde M) fun U x => ?_)
-    show (h.app 1).val.app U ((symGen M).val.app U
+    change (h.app 1).val.app U ((symGen M).val.app U
       (PresheafOfModules.Hom.app (AffineBaseChange.toTilde M) U x)) = _
     rw [symGen_toTilde M U x, hh 1 U (PresheafOfModules.Hom.app (genPresheaf M) U x)]
     exact descHom_genPresheaf M B κ (genCommutes_genBC M B κ hκ) U x

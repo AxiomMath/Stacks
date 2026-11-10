@@ -93,7 +93,7 @@ theorem higherDirectImageTwoOfElementaryFibration :
   have hY : IsUnit ((N : ℕ) : Γ(pullback fbar fbar, ⊤)) :=
     isUnit_natCast_sections k (pullback.fst fbar fbar ≫ fbar ≫ q) hN
   have : NeZero (N : k) := ⟨hN.ne_zero⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot k N
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot k N
   -- Tag 0F7I
   have hK : isTorsionPlus.{u, 0} (ZMod N) U
       ((DerivedCategory.Plus.singleFunctor _ 0).obj (unitSheaf (X := U) N)) :=

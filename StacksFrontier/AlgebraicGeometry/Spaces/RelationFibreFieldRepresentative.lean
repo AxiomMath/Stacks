@@ -59,9 +59,9 @@ No new definitions are introduced; the four conditions are those of
 * `HasFiniteRelationFiberAtEveryEtaleChart.hasEtaleQuasiCompactFieldRepresentative`, in the
   namespace `AlgebraicGeometry.Space`: **Stacks 03JU, part (2) implies part (3).**
 * `HasFiniteRelationFiberAtEveryEtaleChart.hasMonomorphicFieldRepresentative`, in the same
-  namespace: the composite of that implication with the tagged implication part (3) implies part (4). It
-  carries no attribute of its own, being a composite of two tagged implications rather than a
-  part of the lemma; it is the form the conditional statements of
+  namespace: the composite of that implication with the tagged implication part (3) implies part
+  (4). It carries no attribute of its own, being a composite of two tagged implications rather than
+  a part of the lemma; it is the form the conditional statements of
   `StacksFrontier.AlgebraicGeometry.Spaces.FiniteFibresOneChart` carry as their hypothesis
   `h03JU`.
 
@@ -158,6 +158,7 @@ theorem quasiCompact_of_finite_source {Z Y : Scheme.{u}} (hZ : Finite Z) (f : Z 
 namespace Space
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullbacks` for presheaves on the big fppf site is found only with a larger budget
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 private instance hasPullbacks_presheaf_relationFibreFieldRepresentative
@@ -173,6 +174,7 @@ private instance (priority := high) hasPullback_presheaf_relationFibreFieldRepre
 /-! ### Stacks 03JU, part (2) implies part (3) -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site
 /-- **Stacks 03JU, part (2) implies part (3).** If every pair of points above a point `x` of an
 algebraic space `F` over `S`, in every étale chart of `F`, has finite relation fibre, then `x`
 has a field-valued representative whose two self-intersection projections are étale and
@@ -216,7 +218,7 @@ theorem HasFiniteRelationFiberAtEveryEtaleChart.hasEtaleQuasiCompactFieldReprese
   have hqa : q.class B S hS (yoneda.obj U) = a := by
     refine injective_pointsToScheme B S hS U ?_
     rw [pointsToScheme_class]
-    show (BigFppfOver.toScheme B S hS).map ν _ = u
+    change (BigFppfOver.toScheme B S hS).map ν _ = u
     rw [hschemeν]
     exact Scheme.fromSpecResidueField_apply _ _
   set p : FieldValuedPoint B S hS F :=

@@ -85,7 +85,7 @@ theorem quasiIsoZero_restrictScalars_iff {B : DifferentialGradedAlgebra.{u, u} R
     DifferentialGradedModule.Hom.ext rfl
   unfold QuasiIsoZero
   rw [h0]
-  show QuasiIso (restrictScalarsHom φ (0 : X ⟶ X)).toCochainMap ↔
+  change QuasiIso (restrictScalarsHom φ (0 : X ⟶ X)).toCochainMap ↔
     QuasiIso (0 : X ⟶ X).toCochainMap
   rw [h]
   exact Iff.rfl

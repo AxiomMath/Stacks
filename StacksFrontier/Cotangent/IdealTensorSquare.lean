@@ -135,7 +135,7 @@ theorem exists_eq_sum_trivial_of_sum_mul_X_eq_zero {j : ι → σ} (hj : Functio
       intro k
       have h1 : δ k = ∑ i ∈ l.support, (l i * (if i₀ = k then MvPolynomial.X (j i) else 0) -
           l i * (if i = k then MvPolynomial.X (j i₀) else 0)) := by
-        simp only [δ, Finsupp.sum, Finsupp.finset_sum_apply, Finsupp.smul_apply, koszulTrivial,
+        simp only [δ, Finsupp.sum, Finsupp.finsetSum_apply, Finsupp.smul_apply, koszulTrivial,
           Finsupp.sub_apply, Finsupp.single_apply, smul_eq_mul, mul_sub]
       rw [h1, Finset.sum_sub_distrib]
       congr 1
@@ -154,7 +154,7 @@ theorem exists_eq_sum_trivial_of_sum_mul_X_eq_zero {j : ι → σ} (hj : Functio
       by_cases hki : k = i₀
       · subst hki
         simp only [hl₀, zero_mul, sub_zero] at hk
-        exact (hk (by rw [show L l = γ k from hlγ, if_pos trivial, sub_self])).elim
+        exact (hk (by rw [show L l = γ k from hlγ, ite_eq_left trivial, sub_self])).elim
       · refine ⟨hki, ?_⟩
         by_cases hlk : l k = 0
         · rw [Finsupp.mem_support_iff]
@@ -247,8 +247,7 @@ theorem idealTensorMap_tmul (f : R →+* R') (h : ∀ a ∈ I, f a ∈ I') (a b 
 `x'` is the image of `x`. -/
 theorem idealTensorMap_smul (f : R →+* R') (h : ∀ a ∈ I, f a ∈ I') (r : R) (x : I ⊗[R] I) :
     idealTensorMap f h (r • x) = f r • idealTensorMap f h x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a b =>
     rw [smul_tmul', idealTensorMap_tmul, idealTensorMap_tmul, smul_tmul']
     congr 1
@@ -260,8 +259,7 @@ theorem idealTensorMap_smul (f : R →+* R') (h : ∀ a ∈ I, f a ∈ I') (r : 
 image of `x` gives `f` applied to the product of `x`. -/
 theorem idealTensorMul_idealTensorMap (f : R →+* R') (h : ∀ a ∈ I, f a ∈ I') (x : I ⊗[R] I) :
     idealTensorMul I' (idealTensorMap f h x) = f (idealTensorMul I x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a b => simp [idealRestrict]
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
 
@@ -281,16 +279,14 @@ theorem idealTensorMap_comp {R'' : Type w} [CommRing R''] {I'' : Ideal R''}
     (x : I ⊗[R] I) :
     idealTensorMap g h' (idealTensorMap f h x) =
       idealTensorMap (g.comp f) (fun a ha => h' _ (h a ha)) x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a b => rfl
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add]
 
 /-- The map induced by the identity is the identity. -/
 theorem idealTensorMap_id (h : ∀ a ∈ I, (RingHom.id R) a ∈ I) (x : I ⊗[R] I) :
     idealTensorMap (RingHom.id R) h x = x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a b => rfl
   | add x y hx hy => rw [map_add, hx, hy]
 
@@ -361,7 +357,7 @@ theorem exists_finsupp_trivial_diagonalDifference (γ : V →₀ MvPolynomial (V
   have hk := congrArg (fun g => θ (g k)) hc
   simp only [γ', Finsupp.mapRange_apply, AlgEquiv.apply_symm_apply] at hk
   rw [← hk, Finsupp.sum_mapRange_index (by simp), Finsupp.sum, Finsupp.sum,
-    Finsupp.finset_sum_apply, map_sum]
+    Finsupp.finsetSum_apply, map_sum]
   refine Finset.sum_congr rfl fun p _ => ?_
   simp only [Finsupp.smul_apply, koszulTrivial, Finsupp.sub_apply, Finsupp.single_apply,
     smul_eq_mul, map_mul]
@@ -402,7 +398,7 @@ theorem rename_inr_mem_diagonalIdeal (a : MvPolynomial V A) (ha : a ∈ I) :
   have hle : Ideal.span (Set.range (diagonalDifference (A := A) (V := V))) ≤ diagonalIdeal I :=
     Ideal.span_mono Set.subset_union_right
   have : rename Sum.inr a = rename Sum.inl a - (rename Sum.inl a - rename Sum.inr a) := by ring
-  show rename Sum.inr a ∈ _
+  change rename Sum.inr a ∈ _
   rw [this]
   exact Ideal.sub_mem _ (rename_inl_mem_diagonalIdeal a ha) (hle h)
 
@@ -442,8 +438,7 @@ private theorem universal_aux (ξ : I ⊗[MvPolynomial V A] I) :
       idealTensorMap _ rename_inl_mem_diagonalIdeal ξ -
           idealTensorMap _ rename_inr_mem_diagonalIdeal ξ - diagonalTensor I γ ∈
         idealTensorAntisymm (diagonalIdeal I) := by
-  induction ξ using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp, by simp⟩
+  induction ξ using TensorProduct.inductionOn with
   | tmul a b =>
     obtain ⟨δa, hδa⟩ := Finsupp.mem_span_range_iff_exists_finsupp.1
       (rename_inl_sub_rename_inr_mem (A := A) (a : MvPolynomial V A))
@@ -480,7 +475,7 @@ private theorem universal_aux (ξ : I ⊗[MvPolynomial V A] I) :
       ring
     · rw [map_add, diagonalTensor_mapRange_smul, diagonalTensor_mapRange_smul,
         idealTensorMap_tmul, idealTensorMap_tmul]
-      show a₁ ⊗ₜ b₁ - a₂ ⊗ₜ b₂ - _ ∈ _
+      change a₁ ⊗ₜ b₁ - a₂ ⊗ₜ b₂ - _ ∈ _
       have key : a₁ ⊗ₜ[MvPolynomial (V ⊕ V) A] b₁ - a₂ ⊗ₜ b₂ =
           (a₁ - a₂) ⊗ₜ b₁ + a₂ ⊗ₜ (b₁ - b₂) := by
         rw [sub_tmul, tmul_sub]; abel
@@ -527,7 +522,7 @@ theorem universal_sub_mem_antisymm (ξ : I ⊗[MvPolynomial V A] I) (hξ : ideal
     have hk := hc k
     rw [Finsupp.mapRange_apply] at hk
     rw [hk]
-    simp only [Finsupp.sum, Finsupp.finset_sum_apply, Submodule.coe_sum, Finsupp.smul_apply,
+    simp only [Finsupp.sum, Finsupp.finsetSum_apply, Submodule.coe_sum, Finsupp.smul_apply,
       Finsupp.sub_apply, Submodule.coe_smul, Submodule.coe_sub, Finsupp.single_apply]
     refine Finset.sum_congr rfl fun p _ => ?_
     split_ifs <;> simp [diagonalDifferenceElem, smul_eq_mul]
@@ -559,10 +554,10 @@ theorem idealTensorMap_sub_mem_antisymm (e₁ e₂ : MvPolynomial V A →ₐ[A] 
     intro a ha
     refine (Ideal.span_le (I := I'.comap g.toRingHom)).2 ?_ ha
     rintro _ (⟨b, hb, rfl⟩ | ⟨i, rfl⟩)
-    · show g (rename Sum.inl b) ∈ I'
+    · change g (rename Sum.inl b) ∈ I'
       rw [← AlgHom.comp_apply, hg₁]
       exact h₁ b hb
-    · show g (diagonalDifference i) ∈ I'
+    · change g (diagonalDifference i) ∈ I'
       simpa [g, diagonalDifference] using hX i
   have e1 := idealTensorMap_comp _ rename_inl_mem_diagonalIdeal g.toRingHom hg ξ
   have e2 := idealTensorMap_comp _ rename_inr_mem_diagonalIdeal g.toRingHom hg ξ

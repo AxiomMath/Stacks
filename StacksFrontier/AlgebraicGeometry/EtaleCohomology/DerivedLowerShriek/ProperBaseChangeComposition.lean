@@ -46,7 +46,7 @@ theorem compOver_baseChange_toBase_comm :
   have h1 := overBar_baseChange_toBase_comm sqg sqf jg jX
   have h2 : (jg.baseChange sqg).toBase ≫ h = pullback.fst jg.toBase h ≫ jg.toBase :=
     pullback.condition.symm
-  show ((compImmersionBaseChange sqg sqf jg jX).toBase ≫ (jg.baseChange sqg).toBase) ≫ h =
+  change ((compImmersionBaseChange sqg sqf jg jX).toBase ≫ (jg.baseChange sqg).toBase) ≫ h =
     compImmersionBaseChangeι sqg sqf jg jX ≫ (jX.toBase ≫ jg.toBase)
   rw [Category.assoc, h2, ← Category.assoc]
   exact (congrArg (fun z => z ≫ jg.toBase) h1).trans (Category.assoc _ _ _)

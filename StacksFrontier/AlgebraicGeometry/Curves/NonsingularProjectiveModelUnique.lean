@@ -168,7 +168,7 @@ theorem NonsingularProjectiveModel.existsUnique_iso (M₁ M₂ : NonsingularProj
   have hcomm : ∀ a : k, ρ (algebraMap k V₂.toScheme.functionField a) =
       algebraMap k V₁.toScheme.functionField a := by
     intro a
-    show ρ (functionFieldAlgebraMap V₂ a) = functionFieldAlgebraMap V₁ a
+    change ρ (functionFieldAlgebraMap V₂ a) = functionFieldAlgebraMap V₁ a
     rw [DFunLike.congr_fun (functionFieldAlgebraMap_eq_germToFunctionField V₁) a,
       DFunLike.congr_fun (functionFieldAlgebraMap_eq_germToFunctionField V₂) a,
       ← M₂.functionFieldRingEquiv_germ a, hρ, M₁.functionFieldRingEquiv_germ a]
@@ -277,7 +277,7 @@ abbrev sqrtAffineLineStructureMap : sqrtAffineLine.{u} ⟶ Spec (.of imperfectRa
 /-- The affine line over `𝔽₂(√t)` is not smooth over `𝔽₂(t)`. -/
 theorem not_smooth_sqrtAffineLineStructureMap : ¬ Smooth sqrtAffineLineStructureMap.{u} := by
   rw [HasRingHomProperty.Spec_iff (P := @Smooth)]
-  show ¬ (algebraMap imperfectRatFunc.{u} (Polynomial sqrtExtension.{u})).Smooth
+  change ¬ (algebraMap imperfectRatFunc.{u} (Polynomial sqrtExtension.{u})).Smooth
   rw [RingHom.smooth_algebraMap]
   exact fun h ↦ not_formallySmooth_polynomial_sqrtExtension h.formallySmooth
 

@@ -148,7 +148,7 @@ theorem upperShriekStructureSheafZerothIso_eq_trans (F : OpenFiniteFactorization
       upperShriekStructureSheafZerothCompactificationIso j c ≪≫
         upperShriekStructureSheafZerothIso F c := by
   ext1
-  show (homologyFunctor X.left.Modules 0).map ((ObjectProperty.ι _).map
+  change (homologyFunctor X.left.Modules 0).map ((ObjectProperty.ι _).map
       ((ObjectProperty.ι _).map ((DominatingCompactification.upperShriekPlusIso f j
         F.compactification).hom.app (structurePlus Y)) ≫
         ((restrictedDerivedRestrictAdjointIso F.immersion).app _).inv)) ≫ _ =

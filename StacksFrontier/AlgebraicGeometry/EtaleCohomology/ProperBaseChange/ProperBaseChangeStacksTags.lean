@@ -1,9 +1,7 @@
 module
 
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.ClosedFibreProjectiveLineInjective
-public import
- StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.ProperBaseChangeTheoremUnconditional
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.ClosedFibreProjectiveLineInjective
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.ProperBaseChangeTheoremUnconditional
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.ProperPushforwardBaseChangeUnconditional
 import StacksCore.Tactic.StacksAttribute
 

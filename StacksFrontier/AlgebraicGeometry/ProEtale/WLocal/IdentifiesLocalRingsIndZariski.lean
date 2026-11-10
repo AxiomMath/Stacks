@@ -177,7 +177,7 @@ theorem isIndZariski_of_wLocalMap_identifiesLocalRings
     { p : XU × TU // S.componentMap.hom p.1 = S.toConnectedComponents.hom p.2 }
   let unlift : liftPullback ≃ₜ plainPullback := Homeomorph.setCongr (by
     ext p
-    show ULift.up (ConnectedComponents.mk p.1.down) = ULift.up (fCT p.2.down) ↔
+    change ULift.up (ConnectedComponents.mk p.1.down) = ULift.up (fCT p.2.down) ↔
       ConnectedComponents.mk p.1 = eCC.symm (ULift.up (fCT p.2.down))
     rw [← eCC.injective.eq_iff, connectedComponentsHomeomorphULift_mk, eCC.apply_symm_apply])
   let eC : PrimeSpectrum C ≃ₜ S.Y :=
@@ -188,28 +188,28 @@ theorem isIndZariski_of_wLocalMap_identifiesLocalRings
   have heC_toX (p : PrimeSpectrum C) :
       S.toX (eC p) = ULift.up (PrimeSpectrum.comap (algebraMap A C) p) := by
     have hfst := congrArg (fun k => k p) hpull.isoPullback_hom_fst
-    show pullback.fst S.componentMap S.toConnectedComponents
+    change pullback.fst S.componentMap S.toConnectedComponents
       ((TopCat.pullbackIsoProdSubtype S.componentMap S.toConnectedComponents).inv
         (unlift ((TopCat.homeoOfIso (TopCat.pullbackIsoProdSubtype fLift gLift))
           ((TopCat.homeoOfIso hpull.isoPullback) p)))) = _
     rw [TopCat.pullbackIsoProdSubtype_inv_fst_apply]
     calc
       _ = pullback.fst fLift gLift (hpull.isoPullback.hom p) := by
-        show ((TopCat.pullbackIsoProdSubtype fLift gLift).hom
+        change ((TopCat.pullbackIsoProdSubtype fLift gLift).hom
           (hpull.isoPullback.hom p)).1.1 = _
         rw [TopCat.pullbackIsoProdSubtype_hom_apply]
       _ = ULift.up (PrimeSpectrum.comap (algebraMap A C) p) := hfst
   have heC_toT (p : PrimeSpectrum C) :
       S.toT (eC p) = ULift.up (gT p) := by
     have hsnd := congrArg (fun k => k p) hpull.isoPullback_hom_snd
-    show pullback.snd S.componentMap S.toConnectedComponents
+    change pullback.snd S.componentMap S.toConnectedComponents
       ((TopCat.pullbackIsoProdSubtype S.componentMap S.toConnectedComponents).inv
         (unlift ((TopCat.homeoOfIso (TopCat.pullbackIsoProdSubtype fLift gLift))
           ((TopCat.homeoOfIso hpull.isoPullback) p)))) = _
     rw [TopCat.pullbackIsoProdSubtype_inv_snd_apply]
     calc
       _ = pullback.snd fLift gLift (hpull.isoPullback.hom p) := by
-        show ((TopCat.pullbackIsoProdSubtype fLift gLift).hom
+        change ((TopCat.pullbackIsoProdSubtype fLift gLift).hom
           (hpull.isoPullback.hom p)).1.2 = _
         rw [TopCat.pullbackIsoProdSubtype_hom_apply]
       _ = ULift.up (gT p) := hsnd
@@ -233,7 +233,7 @@ theorem isIndZariski_of_wLocalMap_identifiesLocalRings
   have hcompat : fB ≫ S.componentMap = kB ≫ S.toConnectedComponents := by
     ext p
     apply eCC.injective
-    show eCC (ConnectedComponents.mk
+    change eCC (ConnectedComponents.mk
         (ULift.up (PrimeSpectrum.comap (algebraMap A B') p))) =
       eCC (eCC.symm (ULift.up (fCT (ConnectedComponents.mk (eBSpec p)))))
     rw [connectedComponentsHomeomorphULift_mk, eCC.apply_symm_apply]
@@ -241,13 +241,13 @@ theorem isIndZariski_of_wLocalMap_identifiesLocalRings
   let q : TopCat.of (PrimeSpectrum B') ⟶ S.Y := pullback.lift fB kB hcompat
   have hqX (p : PrimeSpectrum B') :
       S.toX (q p) = ULift.up (PrimeSpectrum.comap (algebraMap A B') p) := by
-    show ((pullback.lift fB kB hcompat) ≫
+    change ((pullback.lift fB kB hcompat) ≫
       pullback.fst S.componentMap S.toConnectedComponents).hom p = _
     rw [pullback.lift_fst]
     rfl
   have hqT (p : PrimeSpectrum B') :
       S.toT (q p) = ULift.up (ConnectedComponents.mk (eBSpec p)) := by
-    show ((pullback.lift fB kB hcompat) ≫
+    change ((pullback.lift fB kB hcompat) ≫
       pullback.snd S.componentMap S.toConnectedComponents).hom p = _
     rw [pullback.lift_snd]
     rfl
@@ -290,7 +290,7 @@ theorem isIndZariski_of_wLocalMap_identifiesLocalRings
   let : IsScalarTower A C B' :=
     IsScalarTower.of_algebraMap_eq fun a => (φ.commutes' (ULift.up a)).symm
   have hSpecAlg : PrimeSpectrum.comap (algebraMap C B') = g := by
-    show PrimeSpectrum.comap φ.toRingHom = g
+    change PrimeSpectrum.comap φ.toRingHom = g
     funext p
     exact congrArg (fun k => k p) hφ
   have hlocalCB :=
@@ -310,7 +310,7 @@ theorem isIndZariski_of_wLocalMap_identifiesLocalRings
         hwlocal.closedPoints_subset_preimage_closedPoints hpB
       have hqY : q p ∈ closedPoints S.Y := by
         rw [closedPoints_pullback S]
-        show S.toX (q p) ∈ closedPoints XU
+        change S.toX (q p) ∈ closedPoints XU
         rw [hqX, hprime p]
         exact (closedPoint_iff_homeomorph
           ((Homeomorph.ulift (X := X)).symm) _).mp hpX
@@ -342,7 +342,7 @@ theorem isIndZariski_of_wLocalMap_identifiesLocalRings
   let eCB : C ≃ₐ[A] B' := AlgEquiv.ofBijective φA hφbij
   let eLift : ULift.{u} C ≃ₐ[A] ULift.{u} B :=
     (ULift.algEquiv (R := A) (A := C)).trans eCB
-  show ObjectProperty.ind.{max u v}
+  change ObjectProperty.ind.{max u v}
     (fun D : CommAlgCat.{max u v} A => Algebra.IsLocalIso A D)
     (CommAlgCat.of A (ULift.{u} B))
   exact (ObjectProperty.ind.{max u v}

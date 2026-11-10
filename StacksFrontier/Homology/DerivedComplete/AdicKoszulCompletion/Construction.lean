@@ -95,7 +95,7 @@ public theorem coefficientCompletion_isInvertedBy {r : ℕ} (f : Fin r → A) :
     (HomologicalComplex.quasiIso (ModuleCat.{v} A) (ComplexShape.up ℤ)).IsInvertedBy
       (coefficientCompletionComplex f ⋙ DerivedCategory.Q (C := ModuleCat.{v} A)) := by
   intro K L g hg
-  show IsIso (DerivedCategory.Q.map ((coefficientCompletionComplex f).map g))
+  change IsIso (DerivedCategory.Q.map ((coefficientCompletionComplex f).map g))
   let : QuasiIso g := hg
   let : QuasiIso ((coefficientCompletionComplex f).map g) :=
     coefficientCompletion_preserves_quasiIso f g
@@ -190,13 +190,13 @@ public theorem tensorComparisonIso_of_kFlat (T : CochainComplex.DerivedTensor.De
   rw [hq, (T.tensor.obj (DerivedCategory.Q.obj K)).map_id,
     Category.id_comp] at hn
   apply Iso.ext
-  show inv (DerivedCategory.Q.map (q ⊗ₘ 𝟙 E)) ≫
+  change inv (DerivedCategory.Q.map (q ⊗ₘ 𝟙 E)) ≫
     (T.comparison P E hP hE).inv ≫
     (T.tensor.map (DerivedCategory.Q.map q)).app (DerivedCategory.Q.obj E) =
       (T.comparison K E hK hE).inv
   rw [← cancel_mono (T.comparison K E hK hE).hom]
   simp only [Category.assoc, hn, Iso.inv_hom_id_assoc, Iso.inv_hom_id]
-  show inv (DerivedCategory.Q.map (q ⊗ₘ 𝟙 E)) ≫
+  change inv (DerivedCategory.Q.map (q ⊗ₘ 𝟙 E)) ≫
     DerivedCategory.Q.map (q ⊗ₘ 𝟙 E) = 𝟙 _
   exact IsIso.inv_hom_id _
 

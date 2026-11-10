@@ -150,7 +150,7 @@ private theorem etaleQuotientLiftIndex_stageSurjective (A : Type u) [CommRing A]
       exact congrArg (fun q : CommRingCat.of _ ⟶ CommRingCat.of _ => q.hom)
         (Limits.pushout.inr_desc (CommRingCat.ofHom f) X.obj.hom hc))
   have ht : t.right.hom.comp (Limits.pushout.inl Y.hom b).hom = f := by
-    show d.hom.comp (Limits.pushout.inl Y.hom b).hom = f
+    change d.hom.comp (Limits.pushout.inl Y.hom b).hom = f
     exact congrArg (fun q : CommRingCat.of Y.right ⟶ CommRingCat.of X.obj.right => q.hom)
       (Limits.pushout.inl_desc (CommRingCat.ofHom f) X.obj.hom hc)
   have hsurjT : Function.Surjective t.right.hom := by
@@ -210,23 +210,23 @@ private theorem etaleQuotientLiftIndex_cocone_objs (A : Type u) [CommRing A]
   let z : etaleQuotientLiftIndex A I V := CostructuredArrow.mk zh
   let f : x ⟶ z := CostructuredArrow.homMk ux (by
     apply (Under.mapPushoutAdj b).homEquiv X V.obj |>.injective
-    show (Under.mapPushoutAdj b).homEquiv X V.obj
+    change (Under.mapPushoutAdj b).homEquiv X V.obj
       ((Under.pushout b).map ux.hom ≫ zh) = xa
     rw [Adjunction.homEquiv_naturality_left]
     rw [Equiv.apply_symm_apply]
-    show ux.hom ≫ za = xa
+    change ux.hom ≫ za = xa
     apply (Under.forget (CommRingCat.of A)).map_injective
-    show Limits.pushout.inl fx fy ≫ t = xa.right
+    change Limits.pushout.inl fx fy ≫ t = xa.right
     exact Limits.pushout.inl_desc _ _ _)
   let g : y ⟶ z := CostructuredArrow.homMk uy (by
     apply (Under.mapPushoutAdj b).homEquiv Y V.obj |>.injective
-    show (Under.mapPushoutAdj b).homEquiv Y V.obj
+    change (Under.mapPushoutAdj b).homEquiv Y V.obj
       ((Under.pushout b).map uy.hom ≫ zh) = ya
     rw [Adjunction.homEquiv_naturality_left]
     rw [Equiv.apply_symm_apply]
-    show uy.hom ≫ za = ya
+    change uy.hom ≫ za = ya
     apply (Under.forget (CommRingCat.of A)).map_injective
-    show Limits.pushout.inr fx fy ≫ t = ya.right
+    change Limits.pushout.inr fx fy ≫ t = ya.right
     exact Limits.pushout.inr_desc _ _ _)
   exact ⟨z, f, g, trivial⟩
 
@@ -292,7 +292,7 @@ private theorem etaleQuotientLiftIndex_cocone_maps (A : Type u) [CommRing A]
   let : CommRing E := hERing
   let : Algebra A E := hEAlg
   let Z : EtaleUnder A := ⟨Under.mk (CommRingCat.ofHom (algebraMap A E)), by
-    show RingHom.Etale (algebraMap A E)
+    change RingHom.Etale (algebraMap A E)
     exact RingHom.etale_algebraMap.mpr hE⟩
   let uX : x.left ⟶ Z := ObjectProperty.homMk <| Under.homMk
     (CommRingCat.ofHom ej.toRingHom) (by
@@ -321,14 +321,14 @@ private theorem etaleQuotientLiftIndex_cocone_maps (A : Type u) [CommRing A]
   let z : etaleQuotientLiftIndex A I V := CostructuredArrow.mk zh
   let hx : x ⟶ z := CostructuredArrow.homMk uX (by
     apply (Under.mapPushoutAdj b).homEquiv X V.obj |>.injective
-    show (Under.mapPushoutAdj b).homEquiv X V.obj
+    change (Under.mapPushoutAdj b).homEquiv X V.obj
       ((Under.pushout b).map uX.hom ≫ zh) = xa
     rw [Adjunction.homEquiv_naturality_left]
     rw [Equiv.apply_symm_apply]
     exact hX)
   let hy : y ⟶ z := CostructuredArrow.homMk uY (by
     apply (Under.mapPushoutAdj b).homEquiv Y V.obj |>.injective
-    show (Under.mapPushoutAdj b).homEquiv Y V.obj
+    change (Under.mapPushoutAdj b).homEquiv Y V.obj
       ((Under.pushout b).map uY.hom ≫ zh) = ya
     rw [Adjunction.homEquiv_naturality_left]
     rw [Equiv.apply_symm_apply]
@@ -339,7 +339,7 @@ private theorem etaleQuotientLiftIndex_cocone_maps (A : Type u) [CommRing A]
   apply (Under.forget (CommRingCat.of A)).map_injective
   apply CommRingCat.hom_ext
   ext a
-  show eh (f.left.hom.right.hom a) = eh (g.left.hom.right.hom a)
+  change eh (f.left.hom.right.hom a) = eh (g.left.hom.right.hom a)
   exact (congrArg (fun q : X.right →ₐ[A] E => q a) he).trans
     (congrArg (fun q : X.right →ₐ[A] E => q a) hge).symm
 
@@ -780,7 +780,7 @@ private theorem indEtaleQuotientLift_counit_natural
   let Dv := etaleQuotientLiftDiagram A I V
   let Dw := etaleQuotientLiftDiagram A I W
   apply ObjectProperty.hom_ext
-  show F.map (etaleQuotientLiftColimitMap A I f) ≫
+  change F.map (etaleQuotientLiftColimitMap A I f) ≫
       etaleQuotientLift_counitRaw A I W =
     etaleQuotientLift_counitRaw A I V ≫ f.hom
   apply (isColimitOfPreserves F (colimit.isColimit Dv)).hom_ext
@@ -849,9 +849,9 @@ private theorem indEtaleQuotientLift_homBackward_homForward
   let idx : E := CostructuredArrow.mk (Y := si)
     (F.map leg ≫ hh)
   have hci : c.ι.app i = colimit.ι D idx := by
-    show (indEtaleQuotientLift_homForwardCocone A I X V J pres hpres h).ι.app i = _
+    change (indEtaleQuotientLift_homForwardCocone A I X V J pres hpres h).ι.app i = _
     dsimp [indEtaleQuotientLift_homForwardCocone, idx, leg, F, hh]
-  show F.map (pres.ι.app i) ≫
+  change F.map (pres.ι.app i) ≫
       (F.map (pres.isColimit.desc c) ≫ ε) =
         F.map (pres.ι.app i) ≫ hh
   have hfac := etaleQuotientLift_counitRaw_fac A I V idx
@@ -895,7 +895,7 @@ private theorem indEtaleQuotientLift_homForward_homBackward
   let ε : F.obj (colimit D) ⟶ V.obj := etaleQuotientLift_counitRaw A I V
   let c := indEtaleQuotientLift_homForwardCocone A I X V J pres hpres
     (indEtaleQuotientLift_homBackward A I X V g)
-  show ObjectProperty.homMk
+  change ObjectProperty.homMk
       (pres.isColimit.desc c) = g
   apply ObjectProperty.hom_ext
   apply pres.isColimit.hom_ext
@@ -910,13 +910,13 @@ private theorem indEtaleQuotientLift_homForward_homBackward
     pres.ι.app i ≫ (pres.isColimit.desc c)
   have hfg : f = g' := by
     apply etaleQuotientLift_map_ext A I si V f g'
-    show F.map f ≫ ε = F.map g' ≫ ε
+    change F.map f ≫ ε = F.map g' ≫ ε
     dsimp [f, g']
     let E := etaleQuotientLiftIndex A I V
     let idx : E := CostructuredArrow.mk (Y := si)
       (F.map leg ≫ (indEtaleQuotientLift_homBackward A I X V g).hom)
     have hci : c.ι.app i = colimit.ι D idx := by
-      show (indEtaleQuotientLift_homForwardCocone A I X V J pres hpres
+      change (indEtaleQuotientLift_homForwardCocone A I X V J pres hpres
         (indEtaleQuotientLift_homBackward A I X V g)).ι.app i = _
       dsimp [indEtaleQuotientLift_homForwardCocone, idx, leg, F]
     have hfac := etaleQuotientLift_counitRaw_fac A I V idx
@@ -925,7 +925,7 @@ private theorem indEtaleQuotientLift_homForward_homBackward
     calc
       F.map (pres.ι.app i ≫ g.hom) ≫ ε =
           F.map (pres.ι.app i) ≫ (indEtaleQuotientLift_homBackward A I X V g).hom := by
-            show F.map (pres.ι.app i ≫ g.hom) ≫ ε =
+            change F.map (pres.ι.app i ≫ g.hom) ≫ ε =
               F.map (pres.ι.app i) ≫ (F.map g.hom ≫ ε)
             exact (congrArg (fun k ↦ k ≫ ε) (F.map_comp (pres.ι.app i) g.hom)).trans
               (Category.assoc _ _ _)
@@ -1031,7 +1031,7 @@ private theorem indEtaleQuotientLift_isUnit_of_isUnit_comparison
     IsLocalization.Away.lift_eq g ht a
   let s' : W.obj ⟶ (Under.map b).obj V.obj := Under.homMk (CommRingCat.ofHom s) (by
     ext a
-    show s (algebraMap A D a) = _
+    change s (algebraMap A D a) = _
     rw [IsScalarTower.algebraMap_apply A C.obj.right D, hs]
     exact congrArg (fun k : CommRingCat.of A ⟶ V.obj.right => k.hom a) (Under.w t))
   let k : (indEtaleQuotientBaseChange A I).obj W ⟶ V := ObjectProperty.homMk
@@ -1039,10 +1039,10 @@ private theorem indEtaleQuotientLift_isUnit_of_isUnit_comparison
   have hfk : (indEtaleQuotientBaseChange A I).map f ≫ k = e := by
     apply ObjectProperty.hom_ext
     apply ((Under.mapPushoutAdj b).homEquiv C.obj V.obj).injective
-    show (Under.mapPushoutAdj b).homEquiv C.obj V.obj
+    change (Under.mapPushoutAdj b).homEquiv C.obj V.obj
       ((Under.pushout b).map f.hom ≫ k.hom) = t
     rw [Adjunction.homEquiv_naturality_left]
-    show f.hom ≫ (Under.mapPushoutAdj b).homEquiv W.obj V.obj
+    change f.hom ≫ (Under.mapPushoutAdj b).homEquiv W.obj V.obj
       (((Under.mapPushoutAdj b).homEquiv W.obj V.obj).symm s') = t
     rw [Equiv.apply_symm_apply]
     ext a
@@ -1077,7 +1077,7 @@ public theorem indEtaleQuotientLift_isUnit_of_quotient_isUnit
   have hI : I.map C.obj.hom.hom ≤ RingHom.ker t.right.hom := by
     rw [Ideal.map_le_iff_le_comap]
     intro a ha
-    show t.right.hom (C.obj.hom.hom a) = 0
+    change t.right.hom (C.obj.hom.hom a) = 0
     have hw := congrArg (fun k : CommRingCat.of A ⟶ V.obj.right => k.hom a) (Under.w t)
     change t.right.hom (C.obj.hom.hom a) = V.obj.hom.hom (Ideal.Quotient.mk I a) at hw
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr ha, map_zero] at hw
@@ -1160,7 +1160,7 @@ private theorem etaleQuotientLift_counitRaw_injective
             (Algebra.TensorProduct.includeRight (R := A) (A := A ⧸ I)
               (B := X.right)).toRingHom := by
         simpa [e, b] using hi
-      show (pushout.inl X.hom b ≫ e.inv.right).hom x =
+      change (pushout.inl X.hom b ≫ e.inv.right).hom x =
         Algebra.TensorProduct.includeRight (R := A) (A := A ⧸ I)
           (B := X.right) x
       exact congrArg (fun f => f.hom x) hi'
@@ -1171,12 +1171,12 @@ private theorem etaleQuotientLift_counitRaw_injective
       inferInstanceAs (IsIso ((Under.forget (CommRingCat.of (A ⧸ I))).map e.inv))
     apply ((ConcreteCategory.isIso_iff_bijective e.inv.right).mp hiso).1
     rw [hcomp]
-    show Algebra.TensorProduct.includeRight x = e.inv.right.hom y
+    change Algebra.TensorProduct.includeRight x = e.inv.right.hom y
     exact hx
   have hS : (CommAlgCat.etale (A ⧸ I)).ind
       (CommAlgCat.of (A ⧸ I) S) := by
     rw [CommAlgCat.ind_etale_iff_ind_algebraMap, MorphismProperty.ind_iff_ind_underMk]
-    show ObjectProperty.ind.{u} (CommRingCat.etale.underObj
+    change ObjectProperty.ind.{u} (CommRingCat.etale.underObj
       (X := CommRingCat.of (A ⧸ I))) T
     exact MorphismProperty.ind_underObj_pushout b
       (etaleQuotientLiftColimit_ind A I V)
@@ -1198,19 +1198,19 @@ private theorem etaleQuotientLift_counitRaw_injective
     toRingHom := ε.right.hom
     commutes' := fun _ => rfl }
   have hf : Function.Surjective f := by
-    show Function.Surjective ε.right.hom
+    change Function.Surjective ε.right.hom
     exact etaleQuotientLift_counitRaw_surjective A I V
   have hflatQuot : Module.Flat S (S ⧸ RingHom.ker f) := by
     exact Module.Flat.of_linearEquiv
       (Ideal.quotientKerAlgEquivOfSurjective hf).toLinearEquiv
   have hPure : (RingHom.ker ε.right.hom).Pure := by
     rw [Ideal.Pure]
-    show Module.Flat S (S ⧸ RingHom.ker f)
+    change Module.Flat S (S ⧸ RingHom.ker f)
     exact hflatQuot
   let : (RingHom.ker ε.right.hom).Pure := hPure
   intro x y hxy
   have hx : x - y ∈ RingHom.ker ε.right.hom := by
-    show ε.right.hom (x - y) = 0
+    change ε.right.hom (x - y) = 0
     rw [map_sub, hxy, sub_self]
   obtain ⟨z, hz, hmul⟩ := Ideal.exists_eq_mul_of_pure hx
   obtain ⟨a, ha⟩ := hq z
@@ -1219,7 +1219,7 @@ private theorem etaleQuotientLift_counitRaw_injective
     have hz0 : ε.right.hom z = 0 := RingHom.mem_ker.mp hz
     have hcalc : ε.right.hom (q (1 - a)) = 1 := by
       simp only [map_sub, map_one, ha, hz0, sub_zero]
-    show IsUnit (ε.right.hom (q (1 - a)))
+    change IsUnit (ε.right.hom (q (1 - a)))
     rw [hcalc]
     exact isUnit_one
   have hunitS : IsUnit (1 - z) := by
@@ -1256,7 +1256,7 @@ public theorem indEtaleQuotientLift_baseChangeIso
     have : IsIso ε := (ObjectProperty.isIso_hom_iff ε).mp inferInstance
     exact asIso ε
   · intro V W f
-    show (indEtaleQuotientBaseChange A I).map
+    change (indEtaleQuotientBaseChange A I).map
         ((indEtaleQuotientLift A I).map f) ≫
           ObjectProperty.homMk (etaleQuotientLift_counitRaw A I W) =
       ObjectProperty.homMk (etaleQuotientLift_counitRaw A I V) ≫ f

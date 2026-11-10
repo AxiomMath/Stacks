@@ -50,7 +50,6 @@ universe v₁ u₁ u
 namespace Stacks.Sites
 
 variable {C : Type u₁} [Category.{v₁} C] {J : GrothendieckTopology C}
-  [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   {O : Sheaf J CommRingCat.{u}}
 
 /-- The objectwise quotient of the structure sheaf by a sheaf of ideals, a presheaf of
@@ -143,7 +142,7 @@ ideals. -/
 theorem toQuotientRingSheaf_comp_quotientRingSheafMapOfLE {I I' : IdealSubsheaf O} (h : I ≤ I') :
     toQuotientRingSheaf I ≫ quotientRingSheafMapOfLE h = toQuotientRingSheaf I' := by
   apply Sheaf.hom_ext
-  show (toQuotientPresheaf I ≫ toSheafify J (quotientPresheaf I)) ≫
+  change (toQuotientPresheaf I ≫ toSheafify J (quotientPresheaf I)) ≫
       sheafifyMap J (quotientPresheafMapOfLE h) =
     toQuotientPresheaf I' ≫ toSheafify J (quotientPresheaf I')
   rw [Category.assoc, ← toSheafify_naturality, ← Category.assoc,

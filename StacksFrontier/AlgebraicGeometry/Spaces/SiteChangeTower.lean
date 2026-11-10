@@ -216,7 +216,7 @@ theorem hasProperSupport_modulePushforward_zero (hπ : IsLocallyOfFiniteType B S
     congrArg (fun q => q.hom) (𝒯.isPullback 0).w
   have hprop' : IsProperOver B S hS (Z 0).2 (schemeSpace (Over.mk h)).2
       ((i 0).hom ≫ π.hom) hlft _ hcl := by
-    show IsProper B S hS (_ ≫ ((i 0).hom ≫ π.hom))
+    change IsProper B S hS (_ ≫ ((i 0).hom ≫ π.hom))
     rw [hw, ← Category.assoc]
     exact isProper_comp' B S hS _ _ (schemeSpace (T 0)).2 (schemeSpace (Over.mk h)).2 hprop
       (isProper_of_isClosedImmersion B S hS (schemeSpace (T 0)).2 (schemeSpace (Over.mk h)).2 _

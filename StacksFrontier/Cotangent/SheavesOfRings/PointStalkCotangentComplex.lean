@@ -58,6 +58,7 @@ variable {C : Type u} [Category.{v} C] (J : GrothendieckTopology C)
   [LocallySmall.{max u v w} C] (Φ : J.Point.{max u v w})
   {A B : Sheaf J CommRingCat.{max u v w}} (f : A ⟶ B)
 
+omit [LocallySmall.{max u v w} C] in
 /-- Restricting the germ square of a neighbourhood `(V, Φ.fiber.map g x)` along `g : U ⟶ V`
 gives the germ square of `(U, x)`. -/
 theorem sectionsRestrictionSquare_comp_pointGermSquare {U V : C} (g : U ⟶ V)
@@ -69,6 +70,7 @@ theorem sectionsRestrictionSquare_comp_pointGermSquare {U V : C} (g : U ⟶ V)
     ⟨congrArg CommRingCat.Hom.hom (Φ.toPresheafFiber_w g x A.obj),
       congrArg CommRingCat.Hom.hom (Φ.toPresheafFiber_w g x B.obj)⟩
 
+omit [LocallySmall.{max u v w} C] in
 /-- The maps of cotangent complexes induced by the germ squares, read in degree `n`, are
 compatible with the restriction maps of the presheaf `U ↦ L^n_{B(U)/A(U)}`. -/
 theorem pointGermSquare_restriction (n : ℤ) {U V : C} (g : U ⟶ V) (x : Φ.fiber.obj U) :
@@ -83,7 +85,7 @@ theorem pointGermSquare_restriction (n : ℤ) {U V : C} (g : U ⟶ V) (x : Φ.fi
 /-- The cocone over the neighbourhoods of `Φ` on the presheaf `U ↦ L^n_{B(U)/A(U)}`, with vertex
 `L^n_{B_Φ/A_Φ}`, whose legs are the maps induced by the germ squares. -/
 def pointStalkCotangentCocone (n : ℤ) :
-    Cocone ((CategoryOfElements.π Φ.fiber).op ⋙ (sectionwiseCotangentPresheafComplex J f).X n) where
+    Cocone ((Functor.Elements.π Φ.fiber).op ⋙ (sectionwiseCotangentPresheafComplex J f).X n) where
   pt := (CommAlgCat.cotangentComplexAb.{max u v w, max u v w} _ (pointStalkAlgebra J Φ f)).X n
   ι :=
     { app e := (CommAlgCat.cotangentComplexAbMap (pointGermSquare J Φ f e.unop.1 e.unop.2)).f n
@@ -109,6 +111,7 @@ def pointStalkCotangentTerm (n : ℤ) :
       (CommAlgCat.cotangentComplexAb.{max u v w, max u v w} _ (pointStalkAlgebra J Φ f)).X n :=
   colimit.desc _ (pointStalkCotangentCocone J Φ f n)
 
+omit [LocallySmall.{max u v w} C] in
 /-- On the germs at a neighbourhood `(U, x)`, the comparison is the map induced by the germ
 square of `(U, x)`. -/
 @[reassoc]
@@ -216,6 +219,7 @@ theorem exists_pointCotangentGermAb_eq
     ((sectionwiseCotangentPresheafComplexComparison J f).f n) U x s).symm.trans ?_⟩
   rw [hs, ← ConcreteCategory.comp_apply, IsIso.inv_hom_id, ConcreteCategory.id_apply]
 
+omit [LocallySmall.{max u v w} C] in
 /-- Germs of sectionwise classes are compatible with restriction to a smaller neighbourhood. -/
 theorem pointCotangentGermAb_restrict {W U : C} (g : W ⟶ U) (z : Φ.fiber.obj W)
     (s : (CommAlgCat.cotangentComplex.{max u v w, max u v w} _ (sectionsAlgebra J f (op U))).X n) :
@@ -227,6 +231,7 @@ theorem pointCotangentGermAb_restrict {W U : C} (g : W ⟶ U) (z : Φ.fiber.obj 
     (ConcreteCategory.congr_hom
       (((sectionwiseCotangentPresheafComplexComparison J f).f n).naturality g.op) s).symm
 
+omit [LocallySmall.{max u v w} C] in
 /-- The maps of cotangent complexes induced by germ squares are semilinear over the germ map of
 `B`. -/
 theorem cotangentComplexAbMap_pointGermSquare_smul (U : C) (x : Φ.fiber.obj U)
@@ -294,6 +299,7 @@ theorem pointCotangentGerm_restrict {W U : C} (g : W ⟶ U) (z : Φ.fiber.obj W)
         (((sectionwiseCotangentPresheafComplex J f).X n).map g.op s) :=
   pointCotangentGermAb_restrict J Φ f n g z s
 
+omit [LocallySmall.{max u v w} C] in
 /-- Two neighbourhoods of `Φ` have a common refinement. -/
 theorem exists_common_neighbourhood {U U' : C} (x : Φ.fiber.obj U) (x' : Φ.fiber.obj U') :
     ∃ (W : C) (z : Φ.fiber.obj W) (g : W ⟶ U) (g' : W ⟶ U'),
@@ -433,6 +439,7 @@ def pointStalkSquare :
     rw [← Functor.map_comp, ← Functor.map_comp]
     exact congrArg (fun k : A ⟶ B' => ((Φ.presheafFiber (A := CommRingCat)).map k.hom).hom z) hsq
 
+omit [LocallySmall.{max u v w} C] in
 /-- The germ squares intertwine the square on sections over a neighbourhood with the square of
 stalk maps. -/
 theorem pointGermSquare_comp_pointStalkSquare (U : C) (x : Φ.fiber.obj U) :
@@ -444,6 +451,7 @@ theorem pointGermSquare_comp_pointStalkSquare (U : C) (x : Φ.fiber.obj U) :
     ⟨congrArg CommRingCat.Hom.hom (Φ.toPresheafFiber_naturality a.hom U x),
       congrArg CommRingCat.Hom.hom (Φ.toPresheafFiber_naturality b.hom U x)⟩
 
+omit [LocallySmall.{max u v w} C] in
 /-- On the ring side, the map induced by a germ square followed by the map of stalk squares is
 the map of the square on sections followed by the map of the germ square. -/
 theorem cotangentComplexAbMap_pointGermSquare_pointStalkSquare (U : C) (x : Φ.fiber.obj U)

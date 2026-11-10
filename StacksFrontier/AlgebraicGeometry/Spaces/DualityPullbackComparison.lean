@@ -462,7 +462,7 @@ theorem compareWithPullback_naturality
       ρ.hom.app K ≫ h := ρ.hom.naturality h
   have hnat := D.compareWithPullbackTensor_naturality_left adja h
     (derivedStructureSheaf B S hS Y.1 Y.2)
-  show (D.tensorX.map (D.pullback.map h)).app
+  change (D.tensorX.map (D.pullback.map h)).app
         (a.obj (derivedStructureSheaf B S hS Y.1 Y.2)) ≫
       (D.compareWithPullbackTensor adja K' (derivedStructureSheaf B S hS Y.1 Y.2) ≫
         a.map (ρ.hom.app K')) =

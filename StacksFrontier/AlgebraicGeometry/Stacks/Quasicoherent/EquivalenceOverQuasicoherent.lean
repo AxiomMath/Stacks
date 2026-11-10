@@ -178,7 +178,7 @@ theorem isQuasicoherentOnSite_moduleInverseImage_obj (hF : F ⋙ q = p)
     refine ObjectProperty.hom_ext _ (NatTrans.ext (funext fun Y => ?_))
     obtain ⟨y⟩ := Y
     have hc : (G ⋙ p).map (ε.inv.app y) = _ := map_inv_eq_eqToHom (G ⋙ p) (ε.app y) (hε y)
-    show (𝟙 _ ≫ ψ.hom.app (op (G.obj y))) ≫
+    change (𝟙 _ ≫ ψ.hom.app (op (G.obj y))) ≫
         (BigFppfOver.structureSheaf B S hS).obj.map ((G ⋙ p).map (ε.inv.app y)).op = 𝟙 _
     rw [Category.id_comp, ringStructureSheafCoreHom_hom_app, hc]
     simp only [eqToHom_op, eqToHom_map]
@@ -262,7 +262,7 @@ theorem nonempty_iso_etaleRestrictedModuleInverseImage (hF : F ⋙ q = p)
     let a := (Space.restrictionFunctor B S hS U.1 p𝒰 eU).obj W
     have hc : q.map (α.inv.app a) = _ := map_inv_eq_eqToHom q (α.app a) (hα a)
     have h1 : q.map (α'.hom.app W) = q.map (α.inv.app a) := by simp [α', a]
-    show (φx.hom.app (op W) ≫ (ringStructureSheafCoreHom B S hS p q F (B.baseTopology .fppf)
+    change (φx.hom.app (op W) ≫ (ringStructureSheafCoreHom B S hS p q F (B.baseTopology .fppf)
         hp hq hF (B.baseTopology_le_topology .fppf)).hom.app (op (e.obj W))) ≫
         (BigFppfOver.structureSheaf B S hS).obj.map (q.map (α'.hom.app W)).op = φg.hom.app (op W)
     rw [Space.etaleChartStructureHom_app, Space.etaleChartStructureHom_app,

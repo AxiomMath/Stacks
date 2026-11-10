@@ -229,16 +229,16 @@ theorem exists_simplyTransitive_addAction_localizedTangent
   set E := localizedTangentEquivLiftsOverBaseTop hp P with hE
   refine ⟨fun θ a => E.symm (act θ (E a)), ?_, ?_, ?_⟩
   · intro a
-    show E.symm (act 0 (E a)) = a
+    change E.symm (act 0 (E a)) = a
     rw [hzero, E.symm_apply_apply]
   · intro θ η a
-    show E.symm (act (θ + η) (E a)) = E.symm (act θ (E (E.symm (act η (E a)))))
+    change E.symm (act (θ + η) (E a)) = E.symm (act θ (E (E.symm (act η (E a)))))
     rw [hadd, E.apply_symm_apply]
   · intro a b
-    show ∃! θ, E.symm (act θ (E a)) = b
+    change ∃! θ, E.symm (act θ (E a)) = b
     obtain ⟨θ, hθ, huniq⟩ := htrans (E a) (E b)
     refine ⟨θ, ?_, ?_⟩
-    · show E.symm (act θ (E a)) = b
+    · change E.symm (act θ (E a)) = b
       rw [hθ, E.symm_apply_apply]
     · intro ψ hψ
       have hψ' : E.symm (act ψ (E a)) = b := hψ

@@ -144,7 +144,7 @@ theorem toposGlobalSectionsRingHom_zariskiRingedHom_comp :
   refine RingHom.ext fun a ↦ Subtype.ext (funext fun V ↦ ?_)
   refine (Stacks.Cohomology.SiteModules.globalSectionsRingHom_val_eq
     (zariskiRingedHom φ).toModulesHom (zariskiTopSectionsRestrict φ V) _).trans ?_
-  show ULift.up ((Z.presheaf.map _).hom ((φ.c.app (op ⊤)).hom
+  change ULift.up ((Z.presheaf.map _).hom ((φ.c.app (op ⊤)).hom
       ((Z'.presheaf.map (homOfLE le_top).op).hom a))) =
     ULift.up ((Z.presheaf.map (homOfLE le_top).op).hom ((Scheme.Γ.map φ.op).hom a))
   rw [presheaf_map_homOfLE_top]
@@ -195,12 +195,12 @@ theorem toposGlobalSectionsRingHom_structureRingedHom_comp :
   refine (Stacks.Cohomology.SiteModules.globalSectionsRingHom_val_eq
     (structureRingedHom S).toModulesHom (structureProjection S ⊤ j) _).trans ?_
   refine (structureRingedHom_forgetFSharp_proj S ⊤ _ j).trans ?_
-  show ULift.up ((A.unop.obj.toBase.hom.appLE ⊤ ⊤ _).hom
+  change ULift.up ((A.unop.obj.toBase.hom.appLE ⊤ ⊤ _).hom
       ((S.S.scheme.presheaf.map (homOfLE le_top).op).hom a)) =
     ULift.up ((Scheme.Γ.map A.unop.obj.toBase.hom.op).hom a)
   rw [presheaf_map_homOfLE_top, Scheme.Hom.appLE, Scheme.Γ_map_op]
   refine congrArg ULift.up ?_
-  show (A.unop.obj.thickening.target.scheme.presheaf.map (homOfLE _).op).hom
+  change (A.unop.obj.thickening.target.scheme.presheaf.map (homOfLE _).op).hom
       ((A.unop.obj.toBase.hom.appTop).hom a) = (A.unop.obj.toBase.hom.appTop).hom a
   rw [presheaf_map_homOfLE_top]
   rfl

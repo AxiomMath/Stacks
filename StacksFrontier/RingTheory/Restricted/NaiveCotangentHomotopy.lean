@@ -115,7 +115,7 @@ public theorem completedCotangent_isAdicComplete
   let : IsAdicComplete B.adicIdeal B.carrier := B.isAdicallyComplete
   let : Module.Finite B.carrier P.extension.Cotangent :=
     Algebra.Extension.Cotangent.finite (P := P.extension) (by
-      show P.ker.FG
+      change P.ker.FG
       exact Ideal.fg_of_isNoetherianRing P.ker)
   have hsep : ⨅ n : ℕ, B.adicIdeal ^ n • (⊤ : Submodule B.carrier
       P.extension.Cotangent) = ⊥ :=
@@ -406,7 +406,7 @@ public theorem completedSubstitutionQuotientLift_compatible
   apply Ideal.Quotient.algHom_ext
   apply MvPolynomial.algHom_ext
   intro x
-  show ((Ideal.Quotient.factorₐ A (Ideal.pow_le_pow_right hmn)).comp
+  change ((Ideal.Quotient.factorₐ A (Ideal.pow_le_pow_right hmn)).comp
       (completedSubstitutionQuotientLift P Q n)).comp
         (Ideal.Quotient.mkₐ A
           ((I.map (MvPolynomial.C : A →+* MvPolynomial (Fin P.variableCount) A)) ^ n))
@@ -454,7 +454,7 @@ public theorem completedSubstitutionLevel_compatible
     exact AdicCompletion.factor_evalₐ _ hmn x
   apply AlgHom.ext
   intro x
-  show Ideal.Quotient.factorₐ A (Ideal.pow_le_pow_right hmn)
+  change Ideal.Quotient.factorₐ A (Ideal.pow_le_pow_right hmn)
       (completedSubstitutionQuotientLift P Q n
         (AdicCompletion.evalₐ
           (I.map (MvPolynomial.C : A →+* MvPolynomial (Fin P.variableCount) A)) n x)) =
@@ -494,7 +494,7 @@ public theorem completedSubstitution_eval
     AdicCompletion.evalₐ
         (I.map (MvPolynomial.C : A →+* MvPolynomial (Fin Q.variableCount) A)) n
         (completedSubstitution P Q x) = completedSubstitutionLevel P Q n x := by
-  show AdicCompletion.evalₐ _ n
+  change AdicCompletion.evalₐ _ n
       (AdicCompletion.liftAlgHom _ (completedSubstitutionLevel P Q)
         (completedSubstitutionLevel_compatible P Q) x) = _
   exact AdicCompletion.evalₐ_liftAlgHom _ _ _ n x
@@ -534,7 +534,7 @@ public theorem continuous_completedSubstitution
   apply continuous_induced_rng.mpr
   apply continuous_pi
   intro n
-  show Continuous (fun x => AdicCompletion.evalₐ
+  change Continuous (fun x => AdicCompletion.evalₐ
     (I.map (MvPolynomial.C : A →+* MvPolynomial (Fin Q.variableCount) A)) n
     (completedSubstitution P Q x))
   have hlevel : (fun x => AdicCompletion.evalₐ
@@ -543,7 +543,7 @@ public theorem continuous_completedSubstitution
     funext x
     exact completedSubstitution_eval P Q n x
   rw [hlevel]
-  show Continuous (completedSubstitutionQuotientLift P Q n ∘
+  change Continuous (completedSubstitutionQuotientLift P Q n ∘
     AdicCompletion.evalₐ
       (I.map (MvPolynomial.C : A →+* MvPolynomial (Fin P.variableCount) A)) n)
   have hqeval : Continuous (fun x : P.completedPolynomialRing =>
@@ -569,7 +569,7 @@ public theorem completedSubstitution_X
   simp only [
     AdicCompletion.algebraMap_apply,
     ]
-  show completedSubstitutionQuotientLift P Q n
+  change completedSubstitutionQuotientLift P Q n
       (Ideal.Quotient.mk _ (MvPolynomial.X i)) = _
   rw [completedSubstitutionQuotientLift_mk]
   simp [completedSubstitutionPolynomialLevel]
@@ -588,7 +588,7 @@ private theorem denseRange_completedPolynomials_adic
   let K : Ideal P.completedPolynomialRing := I.map (algebraMap A P.completedPolynomialRing)
   let : TopologicalSpace P.completedPolynomialRing := K.adicTopology
   rw [DenseRange]
-  show Dense (Set.range (algebraMap R P.completedPolynomialRing))
+  change Dense (Set.range (algebraMap R P.completedPolynomialRing))
   intro x
   apply (mem_closure_iff_nhds_basis (Ideal.hasBasis_nhds_adic K x)).2
   intro n hn
@@ -800,10 +800,10 @@ public theorem completedSubstitution_chainRule
   let Dcomp : Derivation A P.completedPolynomialRing Q.completedPolynomialRing := by
     refine Derivation.mk' (D.toLinearMap.comp F.toLinearMap) ?_
     intro y z
-    show D (F (y * z)) = y • D (F z) + z • D (F y)
+    change D (F (y * z)) = y • D (F z) + z • D (F y)
     rw [map_mul, D.leibniz]
     simp only [Algebra.smul_def]
-    show F y * D (F z) + F z * D (F y) =
+    change F y * D (F z) + F z * D (F y) =
       F y * D (F z) + F z * D (F y)
     rfl
   have hH_apply (y : P.completedPolynomialRing) :
@@ -826,7 +826,7 @@ public theorem completedSubstitution_chainRule
     rw [hderiv]
     simp only [map_add, map_mul]
     simp only [RingHom.algebraMap_toAlgebra]
-    show (F y * F (KP.partialDeriv i z) + F z * F (KP.partialDeriv i y)) *
+    change (F y * F (KP.partialDeriv i z) + F z * F (KP.partialDeriv i y)) *
         D (F (algebraMap (MvPolynomial (Fin P.variableCount) A)
           P.completedPolynomialRing (MvPolynomial.X i))) =
       F y * (F (KP.partialDeriv i z) *
@@ -866,7 +866,7 @@ public theorem completedSubstitution_chainRule
     intro f
     have hc := mvPolynomial_derivation_chainRule D φ f
     rw [← hpAlg f]
-    show D (F (pAlg f)) = H (pAlg f)
+    change D (F (pAlg f)) = H (pAlg f)
     rw [hH_apply]
     have hcoord (i : Fin P.variableCount) :
         KP.partialDeriv i (pAlg f) = algebraMap (MvPolynomial (Fin P.variableCount) A)
@@ -877,7 +877,7 @@ public theorem completedSubstitution_chainRule
     simpa [φ, pAlg, hpAlg] using hc
   have hEq := completedPolynomialDerivation_ext P Dcomp
     E (hD := by
-      show Continuous (fun x => D (F x))
+      change Continuous (fun x => D (F x))
       exact (continuous_completedPartialDeriv Q j).comp hF)
     (hE := hcontH) hpoly
   have hx := congrArg (fun d : Derivation A P.completedPolynomialRing
@@ -909,7 +909,7 @@ public theorem completedSubstitution_chainCondition
     funext j
     simp only [LinearMap.comp_apply]
     rw [KP.liftedDifferential_up, KQ.liftedDifferential_up]
-    show KQ.differential
+    change KQ.differential
         (Algebra.Extension.Cotangent.map (completedSubstitutionExtensionHom P Q)
           (Algebra.Extension.Cotangent.mk g)) j =
       completedSubstitutionCoordinateMap P Q (completedSubstitution P Q)
@@ -928,7 +928,7 @@ public theorem completedSubstitution_chainCondition
         Q.toAlgHom (F (completedPartialDeriv P i gval)) =
           P.toAlgHom (completedPartialDeriv P i gval) := hF _
     simp_rw [hFderiv] at hc'
-    show Q.toAlgHom (completedPartialDeriv Q j (F gval)) =
+    change Q.toAlgHom (completedPartialDeriv Q j (F gval)) =
       ∑ i : Fin P.variableCount,
         P.toAlgHom (completedPartialDeriv P i gval) *
           Q.toAlgHom (completedPartialDeriv Q j
@@ -1056,7 +1056,7 @@ public theorem completedSubstitutionDifferenceMap_differential
   intro x
   apply ULift.ext
   funext j
-  show K.differential
+  change K.differential
       (∑ i : Fin P.variableCount, x.down i •
         completedSubstitutionDifferenceGenerator P F hF i) j =
     x.down j - ∑ i : Fin P.variableCount, x.down i *
@@ -1064,7 +1064,7 @@ public theorem completedSubstitutionDifferenceMap_differential
   rw [map_sum]
   simp only [map_smul, K.differential_mk, completedSubstitutionDifferenceGenerator]
   rw [Finset.sum_apply]
-  show (∑ i : Fin P.variableCount, x.down i *
+  change (∑ i : Fin P.variableCount, x.down i *
       P.toAlgHom (K.partialDeriv j (X i - F (X i)))) =
     x.down j - ∑ i : Fin P.variableCount, x.down i *
       P.toAlgHom (K.partialDeriv j (F (X i)))
@@ -1217,7 +1217,7 @@ public theorem completedSubstitutionDifferenceDerivation_X
           (algebraMap (MvPolynomial (Fin P.variableCount) A) P.completedPolynomialRing
             (MvPolynomial.X i))) := by
   unfold completedSubstitutionDifferenceDerivation
-  show Algebra.Extension.Cotangent.mk
+  change Algebra.Extension.Cotangent.mk
       ((Algebra.Extension.Hom.id P.extension).subToKer
         (completedSubstitutionEndomorphismHom P F hF)
         (algebraMap (MvPolynomial (Fin P.variableCount) A) P.completedPolynomialRing
@@ -1308,7 +1308,7 @@ public theorem completedCotangent_iInf_coefficient_pow
   let : IsAdicComplete B.adicIdeal B.carrier := B.isAdicallyComplete
   let : Module.Finite B.carrier P.extension.Cotangent :=
     Algebra.Extension.Cotangent.finite (P := P.extension) (by
-      show P.ker.FG
+      change P.ker.FG
       exact Ideal.fg_of_isNoetherianRing P.ker)
   have hsepB : ⨅ n : ℕ, B.adicIdeal ^ n •
       (⊤ : Submodule B.carrier P.extension.Cotangent) = ⊥ :=
@@ -1410,7 +1410,7 @@ public theorem completedSubstitutionDifferenceMap_comp_differential
     obtain ⟨relation, rfl⟩ := Algebra.Extension.Cotangent.mk_surjective element
     apply ULift.ext
     let K := Rig.completedNaiveCotangentComplex B P
-    show (∑ i : Fin P.variableCount,
+    change (∑ i : Fin P.variableCount,
         K.differential (Algebra.Extension.Cotangent.mk relation) i •
           completedSubstitutionDifferenceGenerator P F hF i) =
       Algebra.Extension.Cotangent.mk relation -
@@ -1426,7 +1426,7 @@ public theorem completedSubstitutionDifferenceMap_comp_differential
           (completedSubstitutionEndomorphismHom P F hF) relation.val) =
       ∑ i : Fin P.variableCount, P.toAlgHom (completedPartialDeriv P i relation.val) •
         completedSubstitutionDifferenceGenerator P F hF i at identity
-    show (∑ i : Fin P.variableCount,
+    change (∑ i : Fin P.variableCount,
         P.toAlgHom (completedPartialDeriv P i relation.val) •
           completedSubstitutionDifferenceGenerator P F hF i) = _
     rw [← identity, ← map_sub]
@@ -1491,7 +1491,7 @@ public theorem completedSubstitutionCoordinateMap_comp
   apply LinearMap.ext
   intro vector
   funext coordinate
-  show (∑ source, vector source * R.toAlgHom
+  change (∑ source, vector source * R.toAlgHom
       (completedPartialDeriv R coordinate (second (first
         (algebraMap (MvPolynomial (Fin P.variableCount) A)
           P.completedPolynomialRing (MvPolynomial.X source)))))) =
@@ -1566,7 +1566,7 @@ public theorem completedSubstitutionZeroMap_comp
   intro element
   cases element
   apply ULift.ext
-  show completedSubstitutionCoordinateMap Q P (completedSubstitution Q P)
+  change completedSubstitutionCoordinateMap Q P (completedSubstitution Q P)
       (completedSubstitutionCoordinateMap P Q (completedSubstitution P Q) _) = _
   rw [completedSubstitutionCoordinateMap_comp P Q P
     (completedSubstitution P Q) (completedSubstitution Q P)

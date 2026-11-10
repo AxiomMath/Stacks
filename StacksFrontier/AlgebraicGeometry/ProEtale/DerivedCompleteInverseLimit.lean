@@ -86,9 +86,9 @@ private lemma isDerivedLimit_map_of_preservesProduct
   refine ⟨G.map p ≫ e.hom, e.inv ≫ G.map δ ≫ (G.commShiftIso (1 : ℤ)).hom.app L, ?_⟩
   apply isomorphic_distinguished _ (G.map_distinguished _ hT)
   refine Triangle.isoMk _ _ (Iso.refl _) e.symm e.symm ?_ ?_ ?_
-  · show (G.map p ≫ e.hom) ≫ e.inv = 𝟙 _ ≫ G.map p
+  · change (G.map p ≫ e.hom) ≫ e.inv = 𝟙 _ ≫ G.map p
     simp only [Category.assoc, Iso.hom_inv_id, Category.comp_id, Category.id_comp]
-  · show d' ≫ e.inv = e.inv ≫ G.map d
+  · change d' ≫ e.inv = e.inv ≫ G.map d
     rw [← cancel_epi e.hom, e.hom_inv_id_assoc, ← Category.assoc, ← hmap,
       Category.assoc, e.hom_inv_id, Category.comp_id]
   · dsimp [Functor.mapTriangle]
@@ -112,7 +112,7 @@ private theorem isDerivedCompleteAt_of_distTriang
       (by rw [productTriangle_mor₂]; exact (oneSubSmulShift_naturality f _).symm)
       (by
         rw [productTriangle_mor₃]
-        show (Limits.Pi.map (fun _ : ℕ => T.mor₃) ≫
+        change (Limits.Pi.map (fun _ : ℕ => T.mor₃) ≫
             inv (piComparison (shiftFunctor C (1 : ℤ)) (fun _ : ℕ => T.obj₁))) ≫
               (shiftFunctor C (1 : ℤ)).map (oneSubSmulShift T.obj₁ f)
           = oneSubSmulShift T.obj₃ f ≫
@@ -224,7 +224,7 @@ public theorem isDerivedComplete_limit_of_slicedObjectsSituation
     intro U hU
     let R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (Opposite.op U)
     let : IsMulCommutative R := by
-      show IsMulCommutative (X.O.obj.obj (Opposite.op U))
+      change IsMulCommutative (X.O.obj.obj (Opposite.op U))
       infer_instance
     let : CommRing R := inferInstance
     let G := SheafOfModules.evaluation (Stacks.SheafOfModules.Tensor.ringSheaf X.O) (Opposite.op U)

@@ -302,7 +302,7 @@ theorem isCentralSeries_gradedFormalInverse {a : chowCohomologySeries C G sX}
         rw [gradedFormalInverse_succ]
         refine isCentralComponent_neg (isCentralComponent_sum _ _ fun p hp => ?_)
         rw [mem_antidiagonal] at hp
-        rw [dif_pos hp]
+        rw [dite_eq_left hp]
         exact isCentralComponent_chowCohomologyGradedProductRule _ (ha (p.1 + 1))
           (ih p.2 (by omega))
 

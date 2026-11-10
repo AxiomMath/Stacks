@@ -71,7 +71,7 @@ public theorem exists_adicCompletion_ringEquiv_of_map_eq {R S : Type*} [CommRing
       ∀ x : R, E (algebraMap R (AdicCompletion I R) x) =
         algebraMap S (AdicCompletion J S) (e x) := by
   refine ⟨Rig.adicCompletionCongr e I J hIJ, fun x => AdicCompletion.ext_evalₐ fun n => ?_⟩
-  show AdicCompletion.evalₐ J n (adicCompletionMap (e : R →+* S) I J hIJ.le
+  change AdicCompletion.evalₐ J n (adicCompletionMap (e : R →+* S) I J hIJ.le
     (algebraMap R (AdicCompletion I R) x)) = _
   rw [adicCompletionMap_evalₐ, AdicCompletion.algebraMap_apply,
     AdicCompletion.algebraMap_apply, AdicCompletion.evalₐ_of, AdicCompletion.evalₐ_of]

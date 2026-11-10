@@ -2,8 +2,7 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.Duality.RightAdjointLemmas.ExactSupportDerived
 public import StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.ProjectionFormula
-public import
-  StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.ClosedEmbeddingProjectionFormulaDerived
+public import StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.ClosedEmbeddingProjectionFormulaDerived
 
 /-!
 # The tensor-Hom comparison map for sheaf Hom with exact support

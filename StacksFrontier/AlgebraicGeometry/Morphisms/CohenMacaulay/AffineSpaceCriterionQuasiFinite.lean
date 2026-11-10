@@ -27,7 +27,8 @@ import all StacksFrontier.AlgebraicGeometry.Morphisms.CohenMacaulay.AffineSpaceC
 /-!
 # Further results
 
-Results complementing `StacksFrontier.AlgebraicGeometry.Morphisms.CohenMacaulay.AffineSpaceCriterion`.
+Results complementing
+`StacksFrontier.AlgebraicGeometry.Morphisms.CohenMacaulay.AffineSpaceCriterion`.
 -/
 
 @[expose] public section
@@ -126,7 +127,7 @@ private theorem exists_affineOpen_flat_homOfLE_comp {X Y : Scheme.{u}} {U₀ : X
   obtain ⟨w, hw, hwz⟩ := (hU₁sub z.2).1
   have : X.homOfLE hle z = w := by
     apply U₀.ι.isOpenEmbedding.injective
-    show (X.homOfLE hle ≫ U₀.ι) z = U₀.ι w
+    change (X.homOfLE hle ≫ U₀.ι) z = U₀.ι w
     rw [Scheme.homOfLE_ι]
     exact hwz.symm
   rwa [this]

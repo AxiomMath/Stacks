@@ -166,9 +166,9 @@ theorem tensorPowIdx_one : tensorPowIdx ι (1 : Matrix n n R) = 1 := by
   by_cases h : f = g
   · subst h
     simp
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     obtain ⟨k, hk⟩ : ∃ k, f k ≠ g k := Function.ne_iff.mp h
-    exact Finset.prod_eq_zero (Finset.mem_univ k) (if_neg hk)
+    exact Finset.prod_eq_zero (Finset.mem_univ k) (ite_eq_right hk)
 
 omit [DecidableEq n] in
 /-- The Kronecker power is multiplicative:

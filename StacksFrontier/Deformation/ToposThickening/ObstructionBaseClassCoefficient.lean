@@ -95,7 +95,7 @@ public theorem baseExtEquiv_comp_single_map {G G' : targetModules.{u, u, u} J O}
       ((DerivedCategory.singleFunctor _ 0).obj G)⟦(1 : ℤ)⟧) :
     baseExtEquiv.{u, u, u} J g h G' (x ≫ ((DerivedCategory.singleFunctor _ 0).map k)⟦(1 : ℤ)⟧') =
       baseExtEquiv.{u, u, u} J g h G x ≫ (squareRestrict.{u, u, u} J h).map k := by
-  show (cotangentComplexHomologyNegOneIsoConormal.{u, u, u} J g).inv ≫
+  change (cotangentComplexHomologyNegOneIsoConormal.{u, u, u} J g).inv ≫
       (towerExtendRestrictAdjunction.{u, u, u} J h).homEquiv _ _
         ((extendScalarsCotangentHomologyNegOneIso.{u, u, u} J g h).inv ≫
           DerivedCategory.negOneHomologyMap _ G'

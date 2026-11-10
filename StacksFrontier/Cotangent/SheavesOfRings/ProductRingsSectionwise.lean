@@ -144,11 +144,11 @@ theorem bijective_prod_sections (U : Cᵒᵖ) :
       forget CommRingCat.{max u v w}
   let e := PreservesLimitPair.iso G B B' ≪≫ Types.binaryProductIso (G.obj B) (G.obj B')
   have h₁ : ∀ x, (e.hom x).1 = G.map (prod.fst : B ⨯ B' ⟶ B) x := fun x => by
-    show ((Types.binaryProductIso _ _).hom ((PreservesLimitPair.iso G B B').hom x)).1 = _
+    change ((Types.binaryProductIso _ _).hom ((PreservesLimitPair.iso G B B').hom x)).1 = _
     rw [Types.binaryProductIso_hom_comp_fst_apply, PreservesLimitPair.iso_hom]
     exact ConcreteCategory.congr_hom (prodComparison_fst G B B') x
   have h₂ : ∀ x, (e.hom x).2 = G.map (prod.snd : B ⨯ B' ⟶ B') x := fun x => by
-    show ((Types.binaryProductIso _ _).hom ((PreservesLimitPair.iso G B B').hom x)).2 = _
+    change ((Types.binaryProductIso _ _).hom ((PreservesLimitPair.iso G B B').hom x)).2 = _
     rw [Types.binaryProductIso_hom_comp_snd_apply, PreservesLimitPair.iso_hom]
     exact ConcreteCategory.congr_hom (prodComparison_snd G B B') x
   have he : (fun x : (B ⨯ B').obj.obj U =>

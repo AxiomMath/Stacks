@@ -154,16 +154,10 @@ def homComplexBaseChange
       homCochainBaseChange f P F j
         ((LinearMap.baseChange B (CochainComplex.HomComplex.δ_hom A P F i j)) t)
     dsimp only [homCochainBaseChange]
-    induction t using TensorProduct.induction_on with
-    -- `t` is only definitionally an element of the tensor product, so the zero and the sum
-    -- carry a different `Zero`/`Add` path from the one the maps' domain declares and neither
-    -- `rw` nor `simp` can match `map_zero`/`map_add` against them. Both steps are terms.
-    | zero =>
-      have h₀ : (LinearMap.liftBaseChange B (homCochainExtendScalars f P F i))
-          (0 : B ⊗[A] CochainComplex.HomComplex.Cochain P F i) = 0 := map_zero _
-      refine (congrArg
-        (fun z => (CochainComplex.HomComplex.δ_hom B _ _ i j) z) h₀).trans ?_
-      exact (map_zero _).trans (map_zero _).symm
+    induction t using TensorProduct.inductionOn with
+    -- `t` is only definitionally an element of the tensor product, so the sum carries a
+    -- different `Add` path from the one the maps' domain declares and neither `rw` nor `simp`
+    -- can match `map_add` against it. That step is a term.
     | add t s ht hs =>
       have hLi : (LinearMap.liftBaseChange B (homCochainExtendScalars f P F i)) (t + s) =
           (LinearMap.liftBaseChange B (homCochainExtendScalars f P F i)) t +
@@ -223,8 +217,7 @@ lemma linearMap_isBaseChange_of_finiteFree
   intro z
   apply LinearMap.ext
   intro t
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add t s ht hs => simp only [map_add, ht, hs]
   | tmul b x =>
     calc
@@ -265,15 +258,14 @@ lemma homCochainBaseChange_bijective
     apply LinearMap.ext
     intro t
     change B ⊗[A] CochainComplex.HomComplex.Cochain P F n at t
-    show (LinearMap.liftBaseChange B (homCochainExtendScalars f P F n)) t = e t
+    change (LinearMap.liftBaseChange B (homCochainExtendScalars f P F n)) t = e t
     apply eN.injective
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction t using TensorProduct.inductionOn with
     | add t s ht hs => simp only [map_add, ht, hs]
     | tmul c z =>
       simp only [LinearMap.liftBaseChange_tmul, map_smul, e, LinearEquiv.trans_apply,
         LinearEquiv.baseChange_tmul]
-      show c • eN ((homCochainExtendScalars f P F n) z) =
+      change c • eN ((homCochainExtendScalars f P F n) z) =
         eN (eN.symm (hg.equiv (c ⊗ₜ[A] eM z)))
       refine Eq.trans ?_ (eN.apply_symm_apply (hg.equiv (c ⊗ₜ[A] eM z))).symm
       rfl

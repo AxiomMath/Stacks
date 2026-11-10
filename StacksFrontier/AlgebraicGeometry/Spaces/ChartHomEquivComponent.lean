@@ -132,9 +132,10 @@ unapplied counterpart at the original spelling.
 variable, and never by unfolding the composite against that factor.**
 `AlgebraicGeometry.Space.chartSchemeModuleSectionsLinearEquiv` is a `LinearEquiv.trans`, and —
 as the implementation notes of
-`StacksFrontier.AlgebraicGeometry.Spaces.SmallEtaleInternalHomAffineChartEvaluation` record — every comparison which unfolds it
-against its two factors applied in turn exhausts the heartbeat budget, in either direction and
-unapplied as well as applied.  What is free at the default budget is this pair:
+`StacksFrontier.AlgebraicGeometry.Spaces.SmallEtaleInternalHomAffineChartEvaluation` record —
+every comparison which unfolds it against its two factors applied in turn exhausts the heartbeat
+budget, in either direction and unapplied as well as applied. What is free at the default budget is
+this pair:
 
 * `AlgebraicGeometry.Space.chartSchemeModuleSectionsLinearEquiv_eq_trans`, the delta equation
   *unapplied*, which is `rfl`, and `congrArg` of it at a section; and

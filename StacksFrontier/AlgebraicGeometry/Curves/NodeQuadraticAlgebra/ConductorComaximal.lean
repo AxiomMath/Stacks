@@ -160,7 +160,7 @@ public theorem not_le_comap_of_isMaximal_two_mul_sub_mem (k : Type u) (A : Type 
   refine four_mul_add_mul_self_notMem_of_isNodalAlgebra k A (𝔪 i)
     (hnodal (𝔪 i) ⟨i, hi, rfl⟩) t a c hspan hrel ?_
   rw [heq]
-  show algebraMap A ↥(integralClosure A (FractionRing A)) (4 * a + c * c) ∈ n
+  change algebraMap A ↥(integralClosure A (FractionRing A)) (4 * a + c * c) ∈ n
   rw [← Stacks.DerivationExtension.sq_two_mul_sub_algebraMap t a c hrel]
   exact Ideal.mul_mem_left n _ hun
 

@@ -97,7 +97,7 @@ theorem rightDerivedExactChangeIso_inv_eq_of_exact (e : F ⋙ cB ≅ cA ⋙ F')
     (rightDerivedExactChangeIso.{w} F F' cA cB RF α RF' α' e hα').inv =
       Functor.whiskerLeft cA.mapDerivedCategory
           (isoMapDerivedCategoryOfIsRightDerivedFunctor F' RF' α').hom ≫
-        (TwoSquare.mk _ _ _ _ e.inv : TwoSquare cA F F' cB).mapDerivedCategory.natTrans ≫
+        (TwoSquare.mk _ _ _ _ e.inv : TwoSquare cA F F' cB).mapDerivedCategory ≫
         Functor.whiskerRight (isoMapDerivedCategoryOfIsRightDerivedFunctor F RF α).inv
           cB.mapDerivedCategory := by
   have := isRightDerivedFunctor_exactChangeUnitDerivedFirst.{w} F cB RF α
@@ -154,10 +154,10 @@ theorem TwoSquare.isIso_mapDerivedCategory_natTrans {T : A ⥤ B} {L : A ⥤ C} 
     [L.Additive] [PreservesFiniteLimits L] [PreservesFiniteColimits L]
     [R.Additive] [PreservesFiniteLimits R] [PreservesFiniteColimits R]
     [Bo.Additive] [PreservesFiniteLimits Bo] [PreservesFiniteColimits Bo]
-    (α : TwoSquare T L R Bo) [IsIso α.natTrans] :
-    IsIso α.mapDerivedCategory.natTrans := by
-  have : IsIso (NatTrans.mapDerivedCategory α.natTrans) :=
-    ⟨NatTrans.mapDerivedCategory (inv α.natTrans), by
+    (α : TwoSquare T L R Bo) [IsIso α] :
+    IsIso α.mapDerivedCategory := by
+  have : IsIso (NatTrans.mapDerivedCategory α) :=
+    ⟨NatTrans.mapDerivedCategory (inv α), by
       rw [← NatTrans.mapDerivedCategory_comp, IsIso.hom_inv_id, NatTrans.mapDerivedCategory_id],
       by rw [← NatTrans.mapDerivedCategory_comp, IsIso.inv_hom_id,
         NatTrans.mapDerivedCategory_id]⟩
@@ -235,7 +235,7 @@ instance isIso_derivedExtensionByZeroUnboundedExtendScalarsMap :
   rw [Equiv.apply_symm_apply, hβ, hδ] at key
   have hid : IsIso (coefficientPushforwardTwoSquare
       (Scheme.Etale.smallEtaleCompose j) U.smallEtaleTopology X.smallEtaleTopology
-      (ModuleCat.restrictScalars.{max (u + 1) r} φ)).natTrans :=
+      (ModuleCat.restrictScalars.{max (u + 1) r} φ)) :=
     IsIso.id _
   have hiso := TwoSquare.isIso_mapDerivedCategory_natTrans (coefficientPushforwardTwoSquare
       (Scheme.Etale.smallEtaleCompose j) U.smallEtaleTopology X.smallEtaleTopology

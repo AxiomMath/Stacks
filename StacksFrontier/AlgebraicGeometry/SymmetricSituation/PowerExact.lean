@@ -22,7 +22,8 @@ sequence of sheaves of `O`-modules. Tag 01CJ asserts that in every degree `n = 1
 `M₂ ⊗ Sym^k(M₁) ⟶ Symⁿ(M₁) ⟶ Symⁿ(M) ⟶ 0`
 
 is exact. Its two maps and the fact that they compose to zero are built in
-`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PowerPresentationSequences`; epimorphy of the second
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PowerPresentationSequences`; epimorphy of the
+second
 map is `SheafOfModules.epi_descComp_app_symmetric`. **This file proves exactness at the middle
 term**, and therefore completes the symmetric half of the tag.
 
@@ -453,7 +454,7 @@ theorem symmetricPresheafFamily_mul (π : M₁.val ⟶ N₀) (i j : ℤ) (X : C�
         (𝟙 (toRingCat J Osharp).obj)).mul i j).app X
           (Hom.app (symmetricPresheafFamily π i) X x)
           (Hom.app (symmetricPresheafFamily π j) X y) := by
-  show Hom.app (sheafifyUnit (𝟙 (toRingCat J Osharp).obj) _) X
+  change Hom.app (sheafifyUnit (𝟙 (toRingCat J Osharp).obj) _) X
       (Hom.app (symmetricAlgebraPieceMap (i + j) π) X _) = _
   rw [symmetricAlgebraPieceMap_mul]
   exact ((symPowIntGradedAlgebra N₀).sheafify_mul_unit
@@ -466,7 +467,7 @@ theorem symmetricPresheafFamily_one (π : M₁.val ⟶ N₀) (X : Cᵒᵖ) :
         ((symPowIntGradedAlgebra M₁.val).one.eval X) =
       (((symPowIntGradedAlgebra N₀).sheafify
         (𝟙 (toRingCat J Osharp).obj)).one).eval X := by
-  show Hom.app (sheafifyUnit (𝟙 (toRingCat J Osharp).obj) _) X
+  change Hom.app (sheafifyUnit (𝟙 (toRingCat J Osharp).obj) _) X
       (Hom.app (symmetricAlgebraPieceMap 0 π) X
         ((symPowIntOne M₁.val).eval X)) = _
   rw [symmetricAlgebraPieceMap_one]
@@ -506,7 +507,7 @@ theorem symmetricPresheafHom_app (π : M₁.val ⟶ N₀) (n : ℤ) :
         (symmetricAlgebraPieceMap n π) := by
   refine PresheafOfModules.sheafification_hom_ext (PresheafOfModules.hom_ext fun X =>
     ModuleCat.hom_ext (LinearMap.ext fun s => ?_))
-  show ((symmetricPresheafHom π).app n).val.app X
+  change ((symmetricPresheafHom π).app n).val.app X
     (Hom.app (sheafifyUnit (𝟙 (toRingCat J Osharp).obj)
       (symPowInt n M₁.val)) X s) = _
   rw [symmetricPresheafHom_unit]
@@ -523,7 +524,7 @@ theorem sheafifiedSymmetricGenerator_comp_symmetricPresheafHom (π : M₁.val �
             (symPowIntGen N₀) := by
   refine SheafOfModules.Hom.ext (PresheafOfModules.hom_ext fun U =>
     ModuleCat.hom_ext (LinearMap.ext fun s => ?_))
-  show ((symmetricPresheafHom π).app 1).val.app U
+  change ((symmetricPresheafHom π).app 1).val.app U
       ((sheafifiedSymmetricGenerator J M₁).val.app U s) =
     ((symPowIntGradedAlgebra N₀).sheafifyGen (𝟙 (toRingCat J Osharp).obj)
         (symPowIntGen N₀)).val.app U
@@ -531,7 +532,7 @@ theorem sheafifiedSymmetricGenerator_comp_symmetricPresheafHom (π : M₁.val �
         ((sheafifiedValIso J M₁).inv.val.app U s))
   rw [sheafifiedSymmetricGenerator_apply, symmetricPresheafHom_unit,
     sheafifiedValIso_inv_apply]
-  show Hom.app (sheafifyUnit (𝟙 (toRingCat J Osharp).obj)
+  change Hom.app (sheafifyUnit (𝟙 (toRingCat J Osharp).obj)
       (symPowInt 1 N₀)) U
       (Hom.app (symmetricAlgebraPieceMap 1 π) U
         (Hom.app (symPowIntGen M₁.val) U s)) = _
@@ -639,7 +640,7 @@ theorem map_symmetricMulPresheaf_eq (q : M₂ ⟶ M₁) (k : ℕ) :
         GradedAlgebra.generatorMul (q ≫ sheafifiedSymmetricGenerator J M₁) (k : ℤ) := by
   refine PresheafOfModules.sheafification_hom_ext (PresheafOfModules.tensorObj_hom_ext
     fun U s y => ?_)
-  show ((PresheafOfModules.sheafification (𝟙 (toRingCat J Osharp).obj)).map
+  change ((PresheafOfModules.sheafification (𝟙 (toRingCat J Osharp).obj)).map
       (symmetricMulPresheaf q.val k)).val.app U
       (Hom.app (sheafifyUnit (𝟙 (toRingCat J Osharp).obj)
         (tensorObj M₂.val (symPowInt (k : ℤ) M₁.val))) U (s ⊗ₜ y)) =

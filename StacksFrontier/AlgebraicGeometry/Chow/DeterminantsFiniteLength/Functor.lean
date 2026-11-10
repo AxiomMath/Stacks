@@ -62,7 +62,7 @@ public lemma moduleLength_eq_of_equiv {R : Type u} {M N : Type v}
     [CommRing R] [IsLocalRing R] [AddCommGroup M] [Module R M]
     [AddCommGroup N] [Module R N] (e : M ≃ₗ[R] N) :
     moduleLength R M = moduleLength R N := by
-  show (Module.length R M).toNat = (Module.length R N).toNat
+  change (Module.length R M).toNat = (Module.length R N).toNat
   exact congrArg ENat.toNat e.length_eq
 
 /-- The image under an isomorphism of the span of the entries preceding an index is the span
@@ -211,7 +211,7 @@ public lemma determinantRelation_map {R : Type u} {M N : Type v}
           ⟨Function.update e.1 a replacement, hreplacement⟩ = replacementSeq :=
         Subtype.ext (mapSequence_update E h e.1 a replacement)
       have ha' : ea.1 (Fin.cast h a) = (unit : R) • E replacement + E x := by
-        show E (e.1 a) = (unit : R) • E replacement + E x
+        change E (e.1 a) = (unit : R) • E replacement + E x
         simpa [ea, map_add, map_smul] using congrArg E ha
       have hx' : E x ∈ spanBefore (R := R) ea.1 (Fin.cast h a) :=
         map_mem_spanBefore_of_equiv E h e.1 a hx
@@ -242,7 +242,7 @@ public lemma determinantRelation_map {R : Type u} {M N : Type v}
           E (sourceSwap (Fin.cast h.symm j))) =
           Function.update (Function.update ea.1 b' (ea.1 a')) a' (ea.1 b') := by
         funext j
-        show E (sourceSwap (Fin.cast h.symm j)) =
+        change E (sourceSwap (Fin.cast h.symm j)) =
           (Function.update (Function.update
             (fun k => E (e.1 (Fin.cast h.symm k))) b' (E (e.1 a)))
             a' (E (e.1 b))) j

@@ -212,7 +212,7 @@ theorem exists_uniform_ramificationIdx_inertiaDeg_and_finrank_eq
       (P.2.1.isMaximal (Ideal.ne_bot_of_mem_primesOver (IsDiscreteValuationRing.not_a_field A) P.2))
     exact ⟨by rw [← hσ, Ideal.ramificationIdx_smul], by rw [← hσ, Ideal.inertiaDeg_smul]⟩
   refine ⟨e, f, P₀.1.ramificationIdx_pos A, P₀.1.inertiaDeg_pos A, hunif, ?_⟩
-  show (p.primesOver B).ncard * e * f = Module.finrank K L
+  change (p.primesOver B).ncard * e * f = Module.finrank K L
   rw [IsFractionRing.finrank_eq A K B L, ← Ideal.sum_ramification_inertia_eq_finrank p B]
   simp_rw [hunif]
   rw [← Set.fintypeCard_eq_ncard]
@@ -297,7 +297,7 @@ theorem residueField_normal_and_stabilizerHom_surjective_of_isGalois
       have hfixed : algebraMap (integralClosure A L) L b ∈
           IntermediateField.fixedField (⊤ : Subgroup Gal(L/K)) := by
         rintro ⟨σ, -⟩
-        show σ • (b : L) = (b : L)
+        change σ • (b : L) = (b : L)
         simpa only [integralClosure.coe_smul] using congrArg Subtype.val (hb σ)
       have hbot : IntermediateField.fixedField (⊤ : Subgroup Gal(L/K)) = ⊥ :=
         ((IsGalois.tfae (F := K) (E := L)).out 1 2).mp (inferInstance : IsGalois K L)
@@ -347,7 +347,7 @@ theorem residueField_normal_and_stabilizerHom_surjective_of_isGalois
           ((integralClosure A L) ⧸ R) :=
         Ideal.Quotient.algEquivOfEqMap (R.under A)
           (MulSemiringAction.toAlgEquiv A (integralClosure A L) σ) (by
-            show R = σ • Q
+            change R = σ • Q
             exact hσ)
       exact Algebra.IsSeparable.of_equiv_equiv
           (A₁ := A ⧸ Q.under A) (B₁ := (integralClosure A L) ⧸ Q)
@@ -448,7 +448,7 @@ private theorem inertiaCharacter_eq_one_iff [IsDomain R]
     obtain ⟨c, hc, hqc⟩ := hχ g
     apply Units.ext
     rw [← hqc]
-    show Ideal.Quotient.mk P c = Ideal.Quotient.mk P 1
+    change Ideal.Quotient.mk P c = Ideal.Quotient.mk P 1
     apply Ideal.Quotient.eq.mpr
     apply (mul_sub_mem_pow_two_iff P hπ hP).mp
     simpa [hc] using hg π (hP ▸ Ideal.mem_span_singleton_self π)
@@ -673,7 +673,7 @@ private theorem smul_mem_pow_of_mem_stabilizer
     g • x ∈ P ^ n := by
   have hh := Ideal.smul_mem_pointwise_smul (g : G) x (P ^ n) hx
   have hg : (g : G) • P = P := g.property
-  show (g : G) • x ∈ P ^ n
+  change (g : G) • x ∈ P ^ n
   simpa only [smul_pow', hg] using hh
 
 /-- The subgroup of inertia acting trivially on `P / P ^ 2`, pushed into the decomposition
@@ -699,7 +699,7 @@ private theorem normal_map_of_inertiaCharacter_ker
   obtain ⟨hnI, hnP⟩ := (hmem n).mp hn
   apply (hmem _).mpr
   constructor
-  · show g * n * g⁻¹ ∈ P.inertia (MulAction.stabilizer G P)
+  · change g * n * g⁻¹ ∈ P.inertia (MulAction.stabilizer G P)
     exact Subgroup.Normal.conj_mem inferInstance n hnI g
   · intro x hx
     have hginv : g⁻¹ • x ∈ P := by
@@ -927,7 +927,7 @@ theorem exists_wildInertia_exact_and_tameInertia_equiv_rootsOfUnity
       (inertiaCharacter_pow_eq_one P hπ hG χ hχ e u hun hfix g))
   let W := θ.ker
   have hW (g : I) : g ∈ W ↔ ∀ x : B, x ∈ P → (g : Gal(L/K)) • x - x ∈ P ^ 2 := by
-    show θ g = 1 ↔ _
+    change θ g = 1 ↔ _
     rw [Subtype.ext_iff]
     exact inertiaCharacter_eq_one_iff P hπ hP hG χ hχ g
   obtain ⟨hmem, hnormal⟩ := normal_map_of_inertiaCharacter_ker P W hW
@@ -945,7 +945,7 @@ theorem exists_wildInertia_exact_and_tameInertia_equiv_rootsOfUnity
     have : CharP (B ⧸ P) 0 := hp ▸ inferInstance
     have : CharZero (B ⧸ P) := CharP.charP_to_charZero (B ⧸ P)
     refine le_antisymm (fun g hg ↦ ?_) bot_le
-    show g = 1
+    change g = 1
     exact congrArg Subtype.val
       (eq_one_of_trivial_on_graded_of_charZero P hπ hP hraise (⟨g, hg⟩ : W))
   have hcardI := card_inertia_eq_ramificationIdx_mul_finInsepDegree (G := Gal(L/K)) P p₀
@@ -1019,7 +1019,7 @@ theorem exists_uniformizerRatioMap_to_rootsOfUnity
     have hcalc : (σ • (u : C)) * (θunit σ : C) ^ e = (u : C) := by
       apply mul_right_cancel₀ (pow_ne_zero e hπ.ne_zero)
       rw [mul_assoc, ← mul_pow, hθunit]
-      show ((MulSemiringAction.toRingEquiv I C) σ) (u : C) *
+      change ((MulSemiringAction.toRingEquiv I C) σ) (u : C) *
         (((MulSemiringAction.toRingEquiv I C) σ) π) ^ e = (u : C) * π ^ e
       rw [← map_pow ((MulSemiringAction.toRingEquiv I C) σ),
         ← map_mul ((MulSemiringAction.toRingEquiv I C) σ), ← ha]

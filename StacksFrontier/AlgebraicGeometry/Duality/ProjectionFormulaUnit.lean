@@ -257,7 +257,7 @@ lemma comparisonTranspose_rightUnitor (A : _root_.SheafOfModules.{u} (structureR
             (tensorSheafUnitRightIso X ((pullbackFunctor f).obj A)).hom) =
       (tensorSheafUnitRightIso Y A).hom ≫ (pullbackAdjunction f).unit.app A := by
   refine sheafification_hom_ext (tensorObj_hom_ext fun U x r ↦ ?_)
-  show (tensorSheafUnitRightIso X ((pullbackFunctor f).obj A)).hom.val.app
+  change (tensorSheafUnitRightIso X ((pullbackFunctor f).obj A)).hom.val.app
         ((opensMap f).op.obj U)
       (Hom.app (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
           X.sheaf))).map
@@ -388,7 +388,7 @@ lemma comparisonTranspose_leftUnitor (A : _root_.SheafOfModules.{u} (structureRi
             (tensorSheafUnitLeftIso X ((pullbackFunctor f).obj A)).hom) =
       (tensorSheafUnitLeftIso Y A).hom ≫ (pullbackAdjunction f).unit.app A := by
   refine sheafification_hom_ext (tensorObj_hom_ext fun U r x ↦ ?_)
-  show (tensorSheafUnitLeftIso X ((pullbackFunctor f).obj A)).hom.val.app
+  change (tensorSheafUnitLeftIso X ((pullbackFunctor f).obj A)).hom.val.app
         ((opensMap f).op.obj U)
       (Hom.app (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
           X.sheaf))).map

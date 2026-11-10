@@ -44,7 +44,7 @@ universe v w
 
 namespace StacksDraft.Perfect
 
-variable {ℓ : ℕ} [Fact ℓ.Prime] {n : ℕ} [NeZero n] {H : Type} [Group H] [Fintype H]
+variable {ℓ : ℕ} [Fact ℓ.Prime] {n : ℕ} [NeZero n] {H : Type} [Group H] [Finite H]
 
 /-- An injective `(ℤ/ℓⁿ)[H]`-module, as an object of the module category, is projective. -/
 theorem projective_of_injective_zmod (M : ModuleCat.{v} (MonoidAlgebra (ZMod (ℓ ^ n)) H))

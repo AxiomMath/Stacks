@@ -245,7 +245,7 @@ theorem dualAdjunction_apply_one
   let : Module C (Module.Dual A C) := algebraDualModule A C
   let : Module C (C →ₗ[F] Module.Dual A F) := dualHomModule
   ext a
-  show φ ((1 : C) * algebraMap F C a) = φ (algebraMap F C a)
+  change φ ((1 : C) * algebraMap F C a) = φ (algebraMap F C a)
   simp
 
 /-- The target of a finite-open factorization is flat over the intermediate algebra: the
@@ -285,8 +285,7 @@ theorem isPushout_of_flat_epi_of_injective
   let eTensor : B ⊗[F] C ≃ₗ[B] B ⊗[F] P :=
     eAdd.toAddEquiv.toLinearEquiv (by
       intro b z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy => simp only [map_add, hx, hy, smul_add]
       | tmul x y => simp [eAdd, TensorProduct.smul_tmul'])
   let eSpan : B ⊗[F] P ≃ₗ[B] Submodule.span B (P : Set B) := P.tensorEquivSpan B
@@ -352,8 +351,7 @@ noncomputable def dualizingModule_commonChange
   let eAdj : B ⊗[C] Module.Dual A C ≃ₗ[B] B ⊗[C] (C →ₗ[F] Module.Dual A F) :=
     (TensorProduct.congr (LinearEquiv.refl C B) adj).toAddEquiv.toLinearEquiv (by
       intro b z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add z₁ z₂ hz₁ hz₂ => simp only [map_add, hz₁, hz₂, smul_add]
       | tmul c φ => simp [TensorProduct.smul_tmul'])
   let : Algebra.IsPushout F B C B := hpush
@@ -436,7 +434,7 @@ theorem dualizingModule_commonChange_tmul
     _ = dualRestrictLinear (IsScalarTower.toAlgHom A F C) φ ⊗ₜ[F] b := by
       rw [hone]
       apply (TensorProduct.comm F (Module.Dual A F) B).toAddEquiv.injective
-      show b • (TensorProduct.comm F (Module.Dual A F) B).toAddEquiv
+      change b • (TensorProduct.comm F (Module.Dual A F) B).toAddEquiv
         (dualRestrictLinear (IsScalarTower.toAlgHom A F C) φ ⊗ₜ[F] (1 : B)) = _
       simpa [Equiv.smul_def] using
         TensorProduct.smul_tmul' (R := F) (R' := B) (M := B)

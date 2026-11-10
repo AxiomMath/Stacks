@@ -184,10 +184,10 @@ lemma modificationGluingHomEquiv_naturality (F' F : 𝒳) (T : Lj ⊡ Lg) (f : F
     modificationGluingHomEquiv adjf adji adjj c F' T ((modificationGluingFunctor c).map f ≫ g) =
       f ≫ modificationGluingHomEquiv adjf adji adjj c F T g := by
   apply pullback.hom_ext
-  · show pullback.lift _ _ _ ≫ _ = (f ≫ pullback.lift _ _ _) ≫ _
+  · change pullback.lift _ _ _ ≫ _ = (f ≫ pullback.lift _ _ _) ≫ _
     rw [pullback.lift_fst, Category.assoc, pullback.lift_fst]
     exact adjf.homEquiv_naturality_left f g.fst
-  · show pullback.lift _ _ _ ≫ _ = (f ≫ pullback.lift _ _ _) ≫ _
+  · change pullback.lift _ _ _ ≫ _ = (f ≫ pullback.lift _ _ _) ≫ _
     rw [pullback.lift_snd, Category.assoc, pullback.lift_snd]
     exact adji.homEquiv_naturality_left f g.snd
 
@@ -263,18 +263,18 @@ theorem isIso_modificationGluingAdjunction_counit
     (hZ : ∀ G : 𝒵, Nonempty (IsTerminal (Lu.obj (Ri.obj G))))
     (hE : ∀ G : ℰ, Nonempty (IsTerminal (Lu'.obj (Rj.obj G))))
     (βZ : Rf ⋙ Li ≅ Lj ⋙ Rg)
-    (hβU : IsIso (mateEquiv adjf adjfU (TwoSquare.mk Lu Lf LfU Lu' d.inv)).natTrans)
+    (hβU : IsIso (mateEquiv adjf adjfU (TwoSquare.mk Lu Lf LfU Lu' d.inv)))
     (T : Lj ⊡ Lg) :
     IsIso ((modificationGluingAdjunction adjf adji adjj c).counit.app T) := by
   have hRfU : PreservesLimitsOfSize.{0, 0} RfU := adjfU.rightAdjoint_preservesLimits
-  set β := (mateEquiv adjf adjfU (TwoSquare.mk Lu Lf LfU Lu' d.inv)).natTrans
+  set β := (mateEquiv adjf adjfU (TwoSquare.mk Lu Lf LfU Lu' d.inv))
   have hpb := IsPullback.of_hasPullback (modificationGluingLeft (Rf := Rf) adjj T)
     (modificationGluingRight adjf adji adjj c T)
   have hLa : IsIso (Li.map (modificationGluingLeft (Rf := Rf) adjj T)) := by
     have : IsIso (Lj.map (adjj.unit.app T.fst)) := isIso_map_unit_app adjj T.fst
     have : IsIso (Li.map (Rf.map (adjj.unit.app T.fst))) :=
       (NatIso.isIso_map_iff βZ _).2 (by
-        show IsIso (Rg.map (Lj.map (adjj.unit.app T.fst)))
+        change IsIso (Rg.map (Lj.map (adjj.unit.app T.fst)))
         infer_instance)
     rw [modificationGluingLeft, Functor.map_comp, Functor.map_comp]
     infer_instance
@@ -303,7 +303,7 @@ theorem isIso_modificationGluingAdjunction_counit
         have : IsIso ((Lu ⋙ LfU).map
             (pullback.fst (modificationGluingLeft (Rf := Rf) adjj T)
               (modificationGluingRight adjf adji adjj c T))) := by
-          show IsIso (LfU.map (Lu.map _))
+          change IsIso (LfU.map (Lu.map _))
           infer_instance
         exact (NatIso.isIso_map_iff d _).2 this
       have h2 : IsIso (Lu'.map (adjf.counit.app T.fst)) := by
@@ -340,10 +340,10 @@ theorem isIso_modificationGluingAdjunction_unit [IsIso adjfU.unit]
   refine hX _ hi ?_
   have h1 : IsIso ((Lu ⋙ LfU).map (adj.unit.app F)) :=
     (NatIso.isIso_map_iff d _).1 (by
-      show IsIso (Lu'.map (Lf.map _))
+      change IsIso (Lu'.map (Lf.map _))
       infer_instance)
   have h2 : IsIso ((LfU ⋙ RfU).map (Lu.map (adj.unit.app F))) := by
-    show IsIso (RfU.map ((Lu ⋙ LfU).map _))
+    change IsIso (RfU.map ((Lu ⋙ LfU).map _))
     infer_instance
   exact (NatIso.isIso_map_iff (asIso adjfU.unit) _).2 h2
 
@@ -357,7 +357,7 @@ theorem modificationGluingFunctor_isEquivalence
     (hZ : ∀ G : 𝒵, Nonempty (IsTerminal (Lu.obj (Ri.obj G))))
     (hE : ∀ G : ℰ, Nonempty (IsTerminal (Lu'.obj (Rj.obj G))))
     (βZ : Rf ⋙ Li ≅ Lj ⋙ Rg)
-    (hβU : IsIso (mateEquiv adjf adjfU (TwoSquare.mk Lu Lf LfU Lu' d.inv)).natTrans) :
+    (hβU : IsIso (mateEquiv adjf adjfU (TwoSquare.mk Lu Lf LfU Lu' d.inv))) :
     (modificationGluingFunctor c).IsEquivalence := by
   have hcounit :=
     isIso_modificationGluingAdjunction_counit adjf adji adjj c adjfU d hX' hZ hE βZ hβU

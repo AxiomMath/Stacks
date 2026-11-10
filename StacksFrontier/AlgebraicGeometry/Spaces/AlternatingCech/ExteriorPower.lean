@@ -57,20 +57,20 @@ theorem contractLeft_mem (d : Module.Dual R M) (n : ℕ) :
   set P := LinearMap.range (ι R : M →ₗ[R] ExteriorAlgebra R M) with hP
   induction n with
   | zero =>
-      show P ^ 1 ≤ _
+      change P ^ 1 ≤ _
       rw [pow_one]
       rintro x ⟨a, rfl⟩
       simp only [Submodule.mem_comap, contractLeft_ι]
-      show _ ∈ P ^ 0
+      change _ ∈ P ^ 0
       rw [pow_zero]
       exact Submodule.mem_one.2 ⟨d a, rfl⟩
   | succ n ih =>
-      show P ^ (n + 1 + 1) ≤ _
+      change P ^ (n + 1 + 1) ≤ _
       rw [pow_succ' P (n + 1), Submodule.mul_le]
       rintro x ⟨a, rfl⟩ y hy
       simp only [Submodule.mem_comap, contractLeft_ι_mul]
       refine Submodule.sub_mem _ (Submodule.smul_mem _ _ hy) ?_
-      show _ ∈ P ^ (n + 1)
+      change _ ∈ P ^ (n + 1)
       rw [pow_succ' P n]
       exact Submodule.mul_mem_mul ⟨a, rfl⟩ (ih hy)
 

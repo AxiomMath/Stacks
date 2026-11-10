@@ -405,7 +405,7 @@ theorem quotientBaseUnderlyingCone_comp_toBase (i : ιᵒᵖ) :
         (quotientBaseToBase A B hA K hK).app i =
       (quotientBase A B hA (⨆ i, K i)).hom := by
   apply B.inclusion.map_injective
-  show Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor (le_iSup K i.unop))) ≫
+  change Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor (le_iSup K i.unop))) ≫
       Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (K i.unop))) =
     Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (⨆ i, K i)))
   rw [← Spec.map_comp]
@@ -518,7 +518,7 @@ theorem isClosedImmersion_toScheme_map_quotientBaseDiagram_map {i j : ιᵒᵖ} 
     _root_.AlgebraicGeometry.IsClosedImmersion
       ((BigFppfOver.toScheme B (Spec (.of A)) hA).map
         ((quotientBaseDiagram A B hA K hK).map f)) := by
-  show _root_.AlgebraicGeometry.IsClosedImmersion
+  change _root_.AlgebraicGeometry.IsClosedImmersion
     (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor (hK (leOfHom f.unop)))))
   exact _root_.AlgebraicGeometry.IsClosedImmersion.spec_of_surjective _
     (Ideal.Quotient.factor_surjective (hK (leOfHom f.unop)))

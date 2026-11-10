@@ -56,7 +56,7 @@ theorem exteriorAlgebraBaseChange_comp_map (f : M →ₗ[R] N) :
   apply TensorProduct.AlgebraTensorModule.ext
   intro a m
   simp only [LinearMap.coe_comp, Function.comp_apply, AlgHom.toLinearMap_apply,
-    AlgHom.coe_comp, AlgEquiv.coe_algHom]
+    AlgHom.coe_comp, AlgEquiv.coe_toAlgHom]
   rw [TensorProduct.tmul_eq_smul_one_tmul a m, map_smul, map_smul, ExteriorAlgebra.map_apply_ι,
     LinearMap.baseChange_tmul, map_smul, exteriorAlgebraBaseChange_ι,
     map_smul, exteriorAlgebraBaseChange_ι, map_smul, Algebra.TensorProduct.map_tmul,
@@ -78,14 +78,14 @@ theorem baseChangeEquiv_comp_baseChange_map
   simp only [LinearMap.coe_comp, LinearEquiv.coe_coe, Function.comp_apply,
     LinearMap.baseChange_tmul]
   rw [coe_baseChangeEquiv_tmul]
-  show _ = ExteriorAlgebra.map (f.baseChange A) (baseChangeEquiv (R := R) (A := A) (M := M)
+  change _ = ExteriorAlgebra.map (f.baseChange A) (baseChangeEquiv (R := R) (A := A) (M := M)
     (a ⊗ₜ[R] x) : ExteriorAlgebra A (A ⊗[R] M))
   rw [coe_baseChangeEquiv_tmul]
   apply (exteriorAlgebraBaseChange R A N).injective
   rw [AlgEquiv.apply_symm_apply]
   have := congrArg (fun φ => φ ((exteriorAlgebraBaseChange R A M).symm (a ⊗ₜ[R] (x : _))))
     (exteriorAlgebraBaseChange_comp_map A f)
-  simp only [AlgHom.coe_comp, Function.comp_apply, AlgEquiv.coe_algHom,
+  simp only [AlgHom.coe_comp, Function.comp_apply, AlgEquiv.coe_toAlgHom,
     AlgEquiv.apply_symm_apply, Algebra.TensorProduct.map_tmul, AlgHom.coe_id, id_eq] at this
   rw [this]
   rfl
@@ -141,7 +141,7 @@ theorem baseChangeEquiv_trans [Module.Finite R M] [Module.Projective R M]
           ((1 : C) ⊗ₜ[A] baseChangeEquiv (R := R) (A := A) (M := M) ((1 : A) ⊗ₜ[R] x))) =
       baseChangeEquiv (R := R) (A := C) (M := M) ((1 : C) ⊗ₜ[R] x) := by
   apply Subtype.ext
-  show ExteriorAlgebra.map
+  change ExteriorAlgebra.map
       (TensorProduct.AlgebraTensorModule.cancelBaseChange R A C C M).toLinearMap
       (baseChangeEquiv (R := A) (A := C) (M := A ⊗[R] M) ((1 : C) ⊗ₜ[A]
         baseChangeEquiv (R := R) (A := A) (M := M) ((1 : A) ⊗ₜ[R] x)) :
@@ -198,18 +198,18 @@ theorem lineCongr_delta (d : K₁ →ₗ[R] K₀) (d' : L₁ →ₗ[R] L₀) (e�
     apply (ProjectiveDeterminant.mapEquiv e₁).injective
     rw [LinearEquiv.apply_symm_apply]
     apply Subtype.ext
-    show x.1 = ExteriorAlgebra.map e₁.toLinearMap
+    change x.1 = ExteriorAlgebra.map e₁.toLinearMap
       (ExteriorAlgebra.map e₁.symm.toLinearMap x.1)
     rw [← AlgHom.comp_apply, ExteriorAlgebra.map_comp_map]
     simp
   rw [hx]
-  show _ = ProjectiveDeterminant.map hd' d' x
+  change _ = ProjectiveDeterminant.map hd' d' x
   subst hd''
   have h2x := LinearMap.congr_fun h2 x
   have h1x := LinearMap.congr_fun h1 x
   simp only [LinearMap.comp_apply] at h2x h1x
   rw [← h1x]
-  show ProjectiveDeterminant.mapEquiv e₀ _ = _
+  change ProjectiveDeterminant.mapEquiv e₀ _ = _
   rw [← LinearMap.comp_assoc] at h2x
   exact h2x.symm
 
@@ -223,7 +223,7 @@ theorem _root_.ProjectiveDeterminant.mapEquiv_trans {M N P : Type*} [AddCommGrou
     ProjectiveDeterminant.mapEquiv (e.trans f) =
       (ProjectiveDeterminant.mapEquiv e).trans (ProjectiveDeterminant.mapEquiv f) := by
   ext x
-  show ExteriorAlgebra.map (e.trans f).toLinearMap x.1 =
+  change ExteriorAlgebra.map (e.trans f).toLinearMap x.1 =
     ExteriorAlgebra.map f.toLinearMap (ExteriorAlgebra.map e.toLinearMap x.1)
   rw [← AlgHom.comp_apply, ExteriorAlgebra.map_comp_map]
   rfl
@@ -233,7 +233,7 @@ theorem _root_.ProjectiveDeterminant.mapEquiv_refl {M : Type*} [AddCommGroup M] 
     [Module.Finite R M] [Module.Projective R M] :
     ProjectiveDeterminant.mapEquiv (LinearEquiv.refl R M) = LinearEquiv.refl R _ := by
   ext x
-  show ExteriorAlgebra.map LinearMap.id x.1 = x.1
+  change ExteriorAlgebra.map LinearMap.id x.1 = x.1
   simp
 
 /-- `lineCongr` is compatible with composition. -/
@@ -267,8 +267,7 @@ def homBaseChangeEquiv (M N : Type u) [AddCommGroup M] [Module R M] [AddCommGrou
     have h : ⇑((LinearMap.baseChangeHom R S M N).liftBaseChange S) =
         ⇑(LinearMap.liftBaseChangeEquiv S) ∘ ⇑(lTensorHomEquivHomLTensor R M S N) := by
       funext x
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | add x y hx hy =>
         simp only [map_add, Function.comp_apply] at hx hy ⊢
         rw [hx, hy]
@@ -320,7 +319,7 @@ theorem lineBaseChange_delta (d : K₁ →ₗ[R] K₀) (hd : TwoTermComplex.IsRa
     lineBaseChange S d (1 ⊗ₜ TwoTermComplex.delta d hd) =
       TwoTermComplex.delta (d.baseChange S) hd' := by
   rw [lineBaseChange_tmul, one_smul]
-  show _ = ProjectiveDeterminant.map hd' (d.baseChange S)
+  change _ = ProjectiveDeterminant.map hd' (d.baseChange S)
   rw [TwoTermComplex.delta, ← LinearMap.comp_assoc,
     ProjectiveDeterminant.baseChangeEquiv_comp_baseChange_map S (fun p => hd p) (fun p => hd' p) d,
     LinearMap.comp_assoc]
@@ -377,8 +376,7 @@ theorem lineBaseChange_trans (d : K₁ →ₗ[R] K₀) (φ : determinantLine d) 
   intro y
   obtain ⟨w, rfl⟩ :=
     (ProjectiveDeterminant.baseChangeEquiv (R := R) (A := C) (M := K₁)).surjective y
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | add w w' hw hw' => rw [map_add, map_add, map_add, hw, hw']
   | tmul c z =>
     rw [TensorProduct.tmul_eq_smul_one_tmul c z, map_smul, map_smul, map_smul,

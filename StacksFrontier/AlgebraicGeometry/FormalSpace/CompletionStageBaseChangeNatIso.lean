@@ -149,7 +149,7 @@ theorem ContinuousHom.transition_comp_stageMap (φ : ContinuousHom D E)
   apply ObjectProperty.hom_ext
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor hKM)) ≫
+  change Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor hKM)) ≫
       Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1 φ.toRingHom hJK)) =
     Spec.map (CommRingCat.ofHom (Ideal.quotientMap M.1 φ.toRingHom hLM)) ≫
       Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor hJL))

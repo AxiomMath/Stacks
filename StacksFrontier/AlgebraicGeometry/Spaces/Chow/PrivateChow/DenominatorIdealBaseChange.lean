@@ -77,8 +77,7 @@ theorem injective_idealBaseChange_and_range [Module.Flat R A] (j : M →ₗ[R] P
   have hrid : ∀ z : A ⊗[R] D, idealBaseChange (A := A) D z =
       TensorProduct.AlgebraTensorModule.rid R A A (LinearMap.lTensor A D.subtype z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw => rw [map_add, map_add, map_add, hz, hw]
     | tmul a r => simp [Algebra.smul_def, mul_comm]
   refine ⟨fun z w h => ?_, fun a => ⟨fun ha => ?_, ?_⟩⟩
@@ -112,8 +111,7 @@ theorem injective_idealBaseChange_and_range [Module.Flat R A] (j : M →ₗ[R] P
     rw [hrid, hz]
     simp
   · rintro ⟨z, rfl⟩
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw => rw [map_add]; exact (denominatorIdeal j' x').add_mem hz hw
     | tmul a r =>
       obtain ⟨m, hm⟩ := r.2

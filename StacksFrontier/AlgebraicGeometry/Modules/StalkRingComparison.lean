@@ -51,8 +51,8 @@ reducible transparency will not cross between the two, and the instance does not
 instances below are therefore stated with a `Scheme` binder, so that the sheaf argument is already
 in the scheme's own spelling and no unfolding is asked of instance search.  Where a bare instance
 still cannot be keyed, `commRingStalkRing` repeats the same term as an `@[instance_reducible] def`,
-the idiom of `StacksFrontier.AlgebraicGeometry.DerivedQCoh.StructureSheafSpelling`, so that it can be
-supplied by hand with `letI` at a crossing point.
+the idiom of `StacksFrontier.AlgebraicGeometry.DerivedQCoh.StructureSheafSpelling`, so that it can
+be supplied by hand with `letI` at a crossing point.
 
 `Λ x` is spelled out in full in every instance rather than through the `stalkRing` abbreviation,
 so that the discrimination keys are exactly those of the spelling the sheaf-of-modules and

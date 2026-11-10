@@ -314,7 +314,7 @@ theorem ι_relation (p : ℤ × ℤ) :
     Sigma.ι (relationSummand f M d L) p ≫ relation M ψ =
       relationLeft f M d L p ≫ Sigma.ι (summand f M d L) (p.1 + p.2) -
         relationRight M ψ p ≫ Sigma.ι (summand f M d L) p.1 :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- **The pure tensors are balanced over `f^*𝒜^{(d)}`**: inside `ℳ̃_T` a homogeneous local
 section of `f^*𝒜^{(d)}` may be moved across the tensor sign. -/
@@ -341,11 +341,11 @@ theorem existsUnique_hom (N : SheafOfModules.{u} (structureRingSheaf T.toRingedS
   have hzero : relation M ψ ≫ Sigma.desc b = 0 := by
     refine Sigma.hom_ext _ _ fun p => ?_
     rw [comp_zero, ← Category.assoc, ι_relation, Preadditive.sub_comp, Category.assoc,
-      Category.assoc, Sigma.ι_desc, Sigma.ι_desc, hb p, sub_self]
+      Category.assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc, hb p, sub_self]
   have key : ∀ n : ℤ, pureTensor M ψ n ≫ cokernel.desc _ _ hzero = b n := by
     intro n
     dsimp only [pureTensor, associatedSheaf]
-    rw [Category.assoc, cokernel.π_desc, Sigma.ι_desc]
+    rw [Category.assoc, cokernel.π_desc, Sigma.ι_comp_desc]
   refine ⟨cokernel.desc _ _ hzero, key, fun h hh => ?_⟩
   refine (cancel_epi (cokernel.π (relation M ψ))).mp (Sigma.hom_ext _ _ fun n => ?_)
   simp only [← Category.assoc]

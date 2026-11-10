@@ -85,7 +85,7 @@ private lemma exists_isLimit_of_isClosedImmersion {J : Type v} [Category.{w} J] 
   · intro s j
     have := ht j
     apply (cancel_mono (t.app j)).1
-    show (IsClosedImmersion.lift r (base s) (hle s) ≫ p j) ≫ t.app j = _
+    change (IsClosedImmersion.lift r (base s) (hle s) ≫ p j) ≫ t.app j = _
     rw [Category.assoc, hp, IsClosedImmersion.lift_fac, hb]
   · intro s m hm
     apply (cancel_mono r).1
@@ -132,7 +132,7 @@ private lemma exists_isLimit_site_of_isClosedImmersion {J : Type v} [Category.{w
     { app := fun j => F.map (t.app j)
       naturality := by
         intro i j f
-        show F.map (D.map f) ≫ F.map (t.app j) = F.map (t.app i) ≫ 𝟙 _
+        change F.map (D.map f) ≫ F.map (t.app j) = F.map (t.app i) ≫ 𝟙 _
         rw [← F.map_comp, Category.comp_id]
         exact congrArg F.map ((t.naturality f).trans (Category.comp_id _)) }
   obtain ⟨cs, r, ⟨hc⟩, hr, hw, hk⟩ := exists_isLimit_of_isClosedImmersion (D ⋙ F) ts ht
@@ -143,7 +143,7 @@ private lemma exists_isLimit_site_of_isClosedImmersion {J : Type v} [Category.{w
         (r ≫ U.hom.hom))
   let p (j : J) : V ⟶ D.obj j := Over.homMk (ObjectProperty.homMk (cs.π.app j)) (by
     apply ObjectProperty.hom_ext
-    show cs.π.app j ≫ (D.obj j).hom.hom = r ≫ U.hom.hom
+    change cs.π.app j ≫ (D.obj j).hom.hom = r ≫ U.hom.hom
     rw [← hw j, Category.assoc]
     exact (congrArg (fun z => cs.π.app j ≫ z.hom) (Over.w (t.app j))).symm)
   let c : Cone D :=
@@ -176,7 +176,7 @@ private lemma exists_siteDiagram_of_isClosedImmersion {J : Type v} [Category.{w}
         intro i j f
         apply yoneda.map_injective
         simp only [Functor.map_comp, Functor.map_preimage]
-        show yoneda.map (D.map f) ≫ (e.hom.app j ≫ t.app j) =
+        change yoneda.map (D.map f) ≫ (e.hom.app j ≫ t.app j) =
           (e.hom.app i ≫ t.app i) ≫ yoneda.map (𝟙 U)
         rw [yoneda.map_id]
         refine Eq.trans ?_ (Category.comp_id (e.hom.app i ≫ t.app i)).symm
@@ -288,7 +288,7 @@ private lemma presheafEtale_of_isEtale (U : BigFppfOver B S hS)
     intro A W g fst snd hpb
     have : IsIso (yoneda.map snd) := hpb.isIso_snd_of_isIso
     have : IsIso snd := Yoneda.fullyFaithful.isIso_of_isIso_map snd
-    show Etale ((BigFppfOver.toScheme B S hS).map snd)
+    change Etale ((BigFppfOver.toScheme B S hS).map snd)
     infer_instance
   exact hq U (𝟙 _) hid
 
@@ -374,7 +374,7 @@ private lemma isLocallySurjective_of_isIso_pullback
       _ = yoneda.map (b ≫ targetPr) ≫ g := by simp [Functor.map_comp]
       _ = yoneda.map k ≫ g := by rw [hb]
   refine ⟨yonedaEquiv ℓ, ?_⟩
-  show p.app (op W) (yonedaEquiv ℓ) = G.map k.op x
+  change p.app (op W) (yonedaEquiv ℓ) = G.map k.op x
   rw [← yonedaEquiv_comp, hℓ]
   have hg : yonedaEquiv g = x := by simp [g]
   rw [← hg, yonedaEquiv_naturality]
@@ -392,6 +392,7 @@ private lemma isLocallyOfFinitePresentation_of_isIso_precomp
   simpa only [Category.assoc, IsIso.inv_hom_id_assoc] using hφ
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site times out at the default
 /-- Limits of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 private instance hasLimits_presheaf :
@@ -399,6 +400,7 @@ private instance hasLimits_presheaf :
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 private instance hasPullbacks_presheaf : HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=

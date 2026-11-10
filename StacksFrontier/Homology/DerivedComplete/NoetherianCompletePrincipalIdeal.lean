@@ -163,7 +163,7 @@ private theorem torsionByPowTransition_comp {R M : Type*} [CommSemiring R]
     (torsionByPowTransition (M := M) f h').comp (torsionByPowTransition f h) =
       torsionByPowTransition f (h'.trans h) := by
   ext x
-  show f ^ (n - k) • (f ^ (m - n) • (x : M)) = f ^ (m - k) • (x : M)
+  change f ^ (n - k) • (f ^ (m - n) • (x : M)) = f ^ (m - k) • (x : M)
   rw [← mul_smul, ← pow_add, show n - k + (m - n) = m - k by omega]
 
 /-- The positive power-torsion tower, with multiplication transitions. -/
@@ -185,7 +185,7 @@ private theorem torsionPowerSystem_map_apply {R : Type u} [CommRing R] (f : R)
     (M : ModuleCat.{v} R) {m n : ℕ} (h : n ≤ m)
     (x : Submodule.torsionBy R M (f ^ (m + 1))) :
     Subtype.val (((torsionPowerSystem f M).map (homOfLE h).op).hom x) = f ^ (m - n) • (x : M) := by
-  show f ^ ((m + 1) - (n + 1)) • (x : M) = _
+  change f ^ ((m + 1) - (n + 1)) • (x : M) = _
   rw [Nat.add_sub_add_right]
 
 
@@ -223,11 +223,11 @@ private theorem torsionPowerSystem_proZero_iff (A : Type u) [CommRing A] (f : A)
     intro x
     apply Subtype.ext
     let x' : Submodule.torsionBy A A (f ^ (n + k + 1)) := x
-    show f ^ ((n + k + 1) - (n + 1)) * (x' : A) = 0
+    change f ^ ((n + k + 1) - (n + 1)) * (x' : A) = 0
     rw [show (n + k + 1) - (n + 1) = k by omega]
     apply hk
     have hx : f ^ (n + k + 1) * (x' : A) = 0 := x'.property
-    show f ^ (n + 1 + k) * (x' : A) = 0
+    change f ^ (n + 1 + k) * (x' : A) = 0
     simpa only [show n + k + 1 = n + 1 + k by omega] using hx
 
 section Milnor
@@ -274,7 +274,7 @@ private lemma telescope (F : ℕᵒᵖ ⥤ C) [HasProduct fun n : ℕ ↦ F.obj 
       Pi.π (fun n : ℕ ↦ F.obj (op n)) n -
         Pi.π (fun n : ℕ ↦ F.obj (op n)) (n + c) ≫ F.map (homOfLE (Nat.le_add_right n c)).op := by
   rw [Finset.sum_range_sub', pi_π_map_congr F (add_zero n) _ le_rfl]
-  show _ ≫ F.map (𝟙 _) - _ = _
+  change _ ≫ F.map (𝟙 _) - _ = _
   rw [F.map_id, Category.comp_id]
 
 private lemma milnorEndo_comp_shiftHomotopy (F : ℕᵒᵖ ⥤ C)
@@ -327,7 +327,7 @@ private lemma isIso_of_triangle_endo_homotopic {T : Triangle C} (hT : T ∈ dist
     simp
   obtain ⟨g, hg⟩ := Triangle.yoneda_exact₃ _ (rot_of_distTriang _ hT) (e⟦(1 : ℤ)⟧') e₃
   have hrot : e⟦(1 : ℤ)⟧' ≫ T.rotate.mor₃ = 0 := by
-    show e⟦(1 : ℤ)⟧' ≫ (-(T.mor₁⟦(1 : ℤ)⟧')) = 0
+    change e⟦(1 : ℤ)⟧' ≫ (-(T.mor₁⟦(1 : ℤ)⟧')) = 0
     rw [Preadditive.comp_neg, ← Functor.map_comp, e₁, Functor.map_zero, neg_zero]
   have hee : (e ≫ e)⟦(1 : ℤ)⟧' = 0 :=
     ((Functor.map_comp _ _ _).trans (congrArg (fun x ↦ e⟦(1 : ℤ)⟧' ≫ x) hg)).trans
@@ -595,11 +595,11 @@ private theorem systemMilnor_inverts (A : Type u) [Ring A] :
       ((ModuleSystemRlimTensor.complexEvaluationDiagram A).map f)) := by
     apply CountableMilnorTower.map_quasiIso_and_milnor_triangle.1
     intro n
-    show QuasiIso (((PresheafOfModules.evaluation
+    change QuasiIso (((PresheafOfModules.evaluation
       ((Functor.const ℕᵒᵖ).obj (RingCat.of A)) (op n)).mapHomologicalComplex
         (ComplexShape.up ℤ)).map f)
     infer_instance
-  show IsIso ((DerivedCategory.Q (C := ModuleCat.{u} A)).map
+  change IsIso ((DerivedCategory.Q (C := ModuleCat.{u} A)).map
     (CountableMilnorTower.countableMilnorFunctor.map
       ((ModuleSystemRlimTensor.complexEvaluationDiagram A).map f)))
   infer_instance
@@ -754,7 +754,7 @@ private theorem totalTensorEvaluationIso_naturality_right (A : Type u) [CommRing
   let e := (HomologicalComplex.eval (ModuleCat.{u} A) (ComplexShape.up ℤ) k).mapIso
     (S.totalTensorEvaluationIso P E n)
   apply (cancel_epi e.inv).mp
-  show e.inv ≫ (VC.map (B.map f)).f k ≫
+  change e.inv ≫ (VC.map (B.map f)).f k ≫
       (S.totalTensorEvaluationIso P F n).hom.f k =
     e.inv ≫ e.hom ≫ ((TleftCochain (VC.obj P)).map (VC.map f)).f k
   rw [Iso.inv_hom_id_assoc]
@@ -774,15 +774,15 @@ private theorem totalTensorEvaluationIso_naturality_right (A : Type u) [CommRing
     convert S.totalTensorEvaluationIso_ι P F n p q k hpq using 1 <;> rfl
   rw [← hE]
   simp only [Category.assoc, Iso.hom_inv_id_assoc]
-  show V.map (HomologicalComplex.ιMapBifunctor P E _ _ p q k hpq) ≫
+  change V.map (HomologicalComplex.ιMapBifunctor P E _ _ p q k hpq) ≫
       V.map ((B.map f).f k) ≫ _ = _
   rw [← V.map_comp_assoc]
-  show V.map (HomologicalComplex.ιMapBifunctor P E _ _ p q k hpq ≫
+  change V.map (HomologicalComplex.ιMapBifunctor P E _ _ p q k hpq ≫
       (HomologicalComplex.mapBifunctorMap (𝟙 P) f _ _).f k) ≫ _ = _
   rw [HomologicalComplex.ι_mapBifunctorMap, V.map_comp, V.map_comp]
   simp only [Category.assoc]
   rw [hF, reassoc_of% hE]
-  show _ = HomologicalComplex.ιMapBifunctor (VC.obj P) (VC.obj E)
+  change _ = HomologicalComplex.ιMapBifunctor (VC.obj P) (VC.obj E)
     (curriedTensor (ModuleCat.{u} A)) (ComplexShape.up ℤ) p q k hpq ≫
       (HomologicalComplex.mapBifunctorMap (𝟙 (VC.obj P)) (VC.map f)
         (curriedTensor (ModuleCat.{u} A)) (ComplexShape.up ℤ)).f k
@@ -816,14 +816,14 @@ private theorem constantTensorComplexDiagramIso_naturality (A : Type u) [CommRin
   funext n
   let V := (PresheafOfModules.evaluation ((Functor.const ℕᵒᵖ).obj (RingCat.of A))
     n).mapHomologicalComplex (ComplexShape.up ℤ)
-  show V.map (B.map f) ≫ ((S.totalTensorEvaluationIso Z F n.unop).hom ≫
+  change V.map (B.map f) ≫ ((S.totalTensorEvaluationIso Z F n.unop).hom ≫
       ((c.app n).hom ⊗ₘ 𝟙 (V.obj F))) =
     ((S.totalTensorEvaluationIso Z E n.unop).hom ≫
       ((c.app n).hom ⊗ₘ 𝟙 (V.obj E))) ≫ (𝟙 P ⊗ₘ V.map f)
   rw [← Category.assoc, totalTensorEvaluationIso_naturality_right]
   simp only [Category.assoc]
   congr 1
-  show (𝟙 (V.obj Z) ⊗ₘ V.map f) ≫ ((c.app n).hom ⊗ₘ 𝟙 (V.obj F)) =
+  change (𝟙 (V.obj Z) ⊗ₘ V.map f) ≫ ((c.app n).hom ⊗ₘ 𝟙 (V.obj F)) =
     ((c.app n).hom ⊗ₘ 𝟙 (V.obj E)) ≫ (𝟙 P ⊗ₘ V.map f)
   rw [tensorHom_comp_tensorHom, tensorHom_comp_tensorHom]
   simp
@@ -1049,7 +1049,7 @@ private def milnorDerivedTriangleMap {F G : Tower (A := A)} (f : F ⟶ G) :
 set_option backward.isDefEq.respectTransparency false in
 private theorem milnorDerivedTriangleMap_hom₁ {F G : Tower (A := A)} (f : F ⟶ G) :
     (milnorDerivedTriangleMap f).hom₁ = DerivedCategory.Q.map (countableMilnorFunctor.map f) := by
-  show 𝟙 (DerivedCategory.Q.obj (countableMilnorFunctor.obj F)) ≫
+  change 𝟙 (DerivedCategory.Q.obj (countableMilnorFunctor.obj F)) ≫
     DerivedCategory.Q.map (countableMilnorFunctor.map f) ≫
       𝟙 (DerivedCategory.Q.obj (countableMilnorFunctor.obj G)) = _
   simp only [Category.id_comp, Category.comp_id]
@@ -1058,7 +1058,7 @@ set_option backward.isDefEq.respectTransparency false in
 private theorem milnorDerivedTriangleMap_hom₂ {F G : Tower (A := A)} (f : F ⟶ G) :
     (milnorDerivedTriangleMap f).hom₂ = Limits.Pi.map (fun n : ℕ ↦ DerivedCategory.Q.map (f.app (op
       n))) := by
-  show (milnorProductDerivedIso F).inv ≫
+  change (milnorProductDerivedIso F).inv ≫
     DerivedCategory.Q.map (towerProductMap f) ≫ (milnorProductDerivedIso G).hom = _
   rw [milnorProductDerivedIso_naturality, Iso.inv_hom_id_assoc]
 
@@ -1187,7 +1187,7 @@ private theorem strictTensorLimitRepresentativeIso_naturality (A : Type u) [Comm
   dsimp only [strictTensorLimitRepresentativeIso, Iso.trans_hom, Functor.mapIso_hom]
   rw [← Category.assoc, h₁]
   simp only [Category.assoc]
-  show _ ≫ H.map ((ModuleSystemRlimTensor.complexEvaluationDiagram A).map (B.map m)) ≫ H.map _ =
+  change _ ≫ H.map ((ModuleSystemRlimTensor.complexEvaluationDiagram A).map (B.map m)) ≫ H.map _ =
     _ ≫ H.map _ ≫ H.map _
   rw [← H.map_comp, ← H.map_comp]
   congr 2
@@ -1195,7 +1195,7 @@ private theorem strictTensorLimitRepresentativeIso_naturality (A : Type u) [Comm
   rw [← Category.assoc, h₂]
   simp only [Category.assoc]
   congr 1
-  show Functor.whiskerRight ((ModuleSystemRlimTensor.complexEvaluationDiagram A).map m)
+  change Functor.whiskerRight ((ModuleSystemRlimTensor.complexEvaluationDiagram A).map m)
     (TleftCochain P) ≫
       Functor.whiskerRight (complexSystemEvaluationIso A F).hom (TleftCochain P) =
     Functor.whiskerRight (complexSystemEvaluationIso A E).hom (TleftCochain P) ≫
@@ -1307,7 +1307,7 @@ private theorem exists_strictTensorLimit_milnorComparison_of_isos (A : Type u) [
   simp only [Category.assoc, Pi.map_π_assoc, Pi.map_π]
   dsimp only [Functor.comp_obj]
   rw [reassoc_of% (hπ n)]
-  show _ ≫ _ ≫ (T.tensor.obj K).map (DerivedCategory.Q.map (μ.app (op n))) ≫
+  change _ ≫ _ ≫ (T.tensor.obj K).map (DerivedCategory.Q.map (μ.app (op n))) ≫
       (T.tensor.obj K).map (iV.hom.app (op n)) =
     _ ≫ _ ≫ (T.tensor.obj K).map (iU.hom.app (op n)) ≫
       (T.tensor.obj K).map (φ.app (op n))
@@ -1441,7 +1441,7 @@ private theorem doubleIsoOfIsZero_inv_f₀ :
       e₀.inv ≫ (HomologicalComplex.doubleXIso₀ f h).inv := by
   let e := doubleIsoOfIsZero f h hne K e₀ e₁ hcomm hout hsupport
   apply (cancel_epi (e.hom.f i₀)).mp
-  show (HomologicalComplex.Hom.isoApp e i₀).hom ≫
+  change (HomologicalComplex.Hom.isoApp e i₀).hom ≫
     (HomologicalComplex.Hom.isoApp e i₀).inv = _
   rw [Iso.hom_inv_id]
   dsimp only [e]
@@ -1453,7 +1453,7 @@ private theorem doubleIsoOfIsZero_inv_f₁ :
       e₁.inv ≫ (HomologicalComplex.doubleXIso₁ f h hne).inv := by
   let e := doubleIsoOfIsZero f h hne K e₀ e₁ hcomm hout hsupport
   apply (cancel_epi (e.hom.f i₁)).mp
-  show (HomologicalComplex.Hom.isoApp e i₁).hom ≫
+  change (HomologicalComplex.Hom.isoApp e i₁).hom ≫
     (HomologicalComplex.Hom.isoApp e i₁).inv = _
   rw [Iso.hom_inv_id]
   dsimp only [e]
@@ -1477,7 +1477,7 @@ private theorem koszulSingle_d (A : Type u) [CommRing A] (f : A) :
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro a
-  show exteriorPower.zeroEquiv A (Fin 1 → A)
+  change exteriorPower.zeroEquiv A (Fin 1 → A)
     (Koszul.d (Koszul.seqDual (fun _ : Fin 1 ↦ f)) 0
       ((exteriorPower.oneEquiv A (Fin 1 → A)).symm
         ((LinearEquiv.funUnique (Fin 1) A A).symm a))) = f * a
@@ -1512,7 +1512,7 @@ private theorem singleConeMap_negOne :
       a ≫ (singleConeNegOneIso g).hom := by
   dsimp only [singleConeNegOneIso]
   rw [Category.assoc]
-  show (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 X).inv ≫
+  change (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 X).inv ≫
     (CochainComplex.mappingCone.inl (singleMap f)).v 0 (-1) (by decide) ≫
       (singleConeMap f g a b h).f (-1) = _
   simp [singleConeMap, CochainComplex.mappingCone.map, singleMap,
@@ -1525,7 +1525,7 @@ private theorem singleConeMap_zero :
       b ≫ (singleConeZeroIso g).hom := by
   dsimp only [singleConeZeroIso]
   rw [Category.assoc]
-  show (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 Y).inv ≫
+  change (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 Y).inv ≫
     (CochainComplex.mappingCone.inr (singleMap f)).f 0 ≫
       (singleConeMap f g a b h).f 0 = _
   rw [← HomologicalComplex.comp_f]
@@ -1651,7 +1651,7 @@ private theorem koszulPowerTransition_zero (A : Type u) [CommRing A]
     (NoetherianKoszulProIso.koszulPowerTransition f m n h).f 0 x = x := by
   let t : (⋀[A]^0 (Fin r → A)) →ₗ[A] (⋀[A]^0 (Fin r → A)) :=
     ((NoetherianKoszulProIso.koszulPowerTransition f m n h).f 0).hom
-  show t x = x
+  change t x = x
   obtain ⟨a, rfl⟩ := (exteriorPower.zeroEquiv A (Fin r → A)).symm.surjective x
   rw [exteriorPower.zeroEquiv_symm_apply, map_smul]
   congr 1
@@ -1730,7 +1730,7 @@ private theorem koszulPowerConeIso_augmentation (A : Type u) [CommRing A] (f : A
     Functor.mapIso_hom, HomologicalComplex.comp_f]
   rw [HomologicalComplex.extendMap_f _ _ (show ComplexShape.embeddingDownNat.f 0 = 0 from rfl),
     HomologicalComplex.extendSingleIso_hom_f]
-  show _ = (koszulSingleConeIso A (f ^ n)).hom.f 0 ≫ (ProTorsion.alphaCx A f n).f 0
+  change _ = (koszulSingleConeIso A (f ^ n)).hom.f 0 ≫ (ProTorsion.alphaCx A f n).f 0
   rw [koszulSingleConeIso_hom_f_zero]
   simp only [ProTorsion.single0, HomologicalComplex.single_map_f_self,
     Category.assoc, Iso.inv_hom_id_assoc]
@@ -1740,7 +1740,7 @@ private theorem koszulPowerConeIso_augmentation (A : Type u) [CommRing A] (f : A
         0 (ProTorsion.Qmod A f n)).inv := by
     dsimp only [singleConeZeroIso]
     rw [Category.assoc]
-    show (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 (ModuleCat.of A A)).inv ≫
+    change (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 (ModuleCat.of A A)).inv ≫
       (CochainComplex.mappingCone.inr ((ProTorsion.single0 A).map (ProTorsion.smulMap A f n))).f 0 ≫
         (ProTorsion.alphaCx A f n).f 0 = _
     rw [ProTorsion.alphaCx, CochainComplex.mappingCone.inr_f_desc_f]
@@ -1804,7 +1804,7 @@ private theorem ofOpSequence_map_of_transition {C : Type*} [Category* C]
     (Functor.ofOpSequence (fun n ↦ t (n + 1) n (Nat.le_succ n))).map (homOfLE h).op = t m n h := by
   induction m, h using Nat.le_induction with
   | base =>
-    show (Functor.ofOpSequence _).map (𝟙 (op n)) = _
+    change (Functor.ofOpSequence _).map (𝟙 (op n)) = _
     rw [hid]
     exact (Functor.ofOpSequence (fun n ↦ t (n + 1) n (Nat.le_succ n))).map_id _
   | succ m hnm ih =>
@@ -1872,7 +1872,7 @@ private theorem pow_smul_square (A : Type u) [CommRing A] (f : A) (m n c : ℕ) 
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro x
-  show f ^ (n + c) * x = f ^ n * (f ^ c * x)
+  change f ^ (n + c) * x = f ^ n * (f ^ c * x)
   rw [pow_add, mul_assoc]
 
 set_option backward.isDefEq.respectTransparency false in
@@ -1913,7 +1913,7 @@ private theorem koszulPowerConeIso_transition (A : Type u) [CommRing A] (f : A) 
     apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro x
-    show exteriorPower.oneEquiv A (Fin 1 → A)
+    change exteriorPower.oneEquiv A (Fin 1 → A)
       ((NoetherianKoszulProIso.koszulPowerTransition (fun _ : Fin 1 ↦ f) (n + c) n
         (Nat.le_add_right n c)).f 1 x) 0 =
       f ^ c * exteriorPower.oneEquiv A (Fin 1 → A) x 0
@@ -1925,7 +1925,7 @@ private theorem koszulPowerConeIso_transition (A : Type u) [CommRing A] (f : A) 
     apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro x
-    show exteriorPower.zeroEquiv A (Fin 1 → A)
+    change exteriorPower.zeroEquiv A (Fin 1 → A)
       ((NoetherianKoszulProIso.koszulPowerTransition (fun _ : Fin 1 ↦ f) (n + c) n
         (Nat.le_add_right n c)).f 0 x) = exteriorPower.zeroEquiv A (Fin 1 → A) x
     rw [koszulPowerTransition_zero]
@@ -1954,7 +1954,7 @@ private theorem quotientPowerTransition_shift (A : Type u) [CommRing A] (f : A) 
   dsimp only [q, ProTorsion.Qmod]
   rw [← Category.assoc, NoetherianKoszulProIso.quotientPowerTransition_comp_mkQ,
     principalQuotientIso_mkQ, ← Category.assoc, principalQuotientIso_mkQ]
-  show ProTorsion.quotMap A f (n + 1) =
+  change ProTorsion.quotMap A f (n + 1) =
     ProTorsion.quotMap A f (n + c + 1) ≫
       eqToHom (congrArg (ProTorsion.Qmod A f) (show n + c + 1 = n + 1 + c by omega)) ≫
         ProTorsion.QtransMod A f (n + 1) c
@@ -1987,11 +1987,11 @@ private abbrev transition {n m : ℕ} (h : n ≤ m) : E.obj (op m) →ₗ[A] E.o
   (E.map (homOfLE h).op).hom
 private theorem transition_comp {n m k : ℕ} (h : n ≤ m) (h' : m ≤ k)
     (x : E.obj (op k)) : transition E h (transition E h' x) = transition E (h.trans h') x := by
-  show (E.map (homOfLE h').op ≫ E.map (homOfLE h).op) x = _
+  change (E.map (homOfLE h').op ≫ E.map (homOfLE h).op) x = _
   rw [← E.map_comp]
   rfl
 private theorem transition_self (n : ℕ) (x : E.obj (op n)) : transition E (le_refl n) x = x := by
-  show E.map (𝟙 (op n)) x = x
+  change E.map (𝟙 (op n)) x = x
   rw [E.map_id]
   rfl
 
@@ -2144,7 +2144,7 @@ private theorem principalDerivedIso_comparison (A : Type u) [CommRing A] (f : A)
     (NoetherianKoszulProIso.koszulQuotientComparison (fun _ : Fin 1 ↦ f)).app (op n) ≫
       (principalQuotientDerivedIso A f n).hom =
       (principalKoszulDerivedIso A f n).hom ≫ ProTorsion.alpha A f (n + 1) := by
-  show (DerivedCategory.Q (C := ModuleCat A)).map _ ≫ (DerivedCategory.Q (C := ModuleCat A)).map _
+  change (DerivedCategory.Q (C := ModuleCat A)).map _ ≫ (DerivedCategory.Q (C := ModuleCat A)).map _
     =
     (DerivedCategory.Q (C := ModuleCat A)).map _ ≫ (DerivedCategory.Q (C := ModuleCat A)).map _
   rw [← CategoryTheory.Functor.map_comp, ← CategoryTheory.Functor.map_comp,
@@ -2196,7 +2196,7 @@ private theorem principalKoszulDerivedIso_shift (A : Type u) [CommRing A] (f : A
         eqToHom (congrArg (ProTorsion.Kobj A f) (show n + c + 1 = n + 1 + c by omega)) ≫
           ProTorsion.Ktrans A f (n + 1) c := by
   rw [koszulPowerSystem_map]
-  show (DerivedCategory.Q (C := ModuleCat A)).map _ ≫ (DerivedCategory.Q (C := ModuleCat A)).map _
+  change (DerivedCategory.Q (C := ModuleCat A)).map _ ≫ (DerivedCategory.Q (C := ModuleCat A)).map _
     = _
   rw [← CategoryTheory.Functor.map_comp, koszulPowerConeIso_transition,
     CategoryTheory.Functor.map_comp, CategoryTheory.Functor.map_comp,
@@ -2216,7 +2216,7 @@ private theorem quotientPowerTransition_eq_QtransMod (A : Type u) [CommRing A] (
   dsimp only [q, ProTorsion.Qmod]
   rw [← Category.assoc, NoetherianKoszulProIso.quotientPowerTransition_comp_mkQ,
     principalQuotientIso_mkQ, ← Category.assoc, principalQuotientIso_mkQ]
-  show ProTorsion.quotMap A f (n + 1) =
+  change ProTorsion.quotMap A f (n + 1) =
     ProTorsion.quotMap A f (m + 1) ≫ eqToHom (congrArg (ProTorsion.Qmod A f) he) ≫ _
   rw [← Category.assoc, quotMap_cast A f (m + 1) (n + 1 + c) he,
     ProTorsion.quotMap_QtransMod]
@@ -2246,7 +2246,7 @@ private theorem principalQuotientDerivedIso_map (A : Type u) [CommRing A] (f : A
       (principalQuotientDerivedIso A f m).hom ≫
         eqToHom (congrArg (ProTorsion.Qobj A f) he) ≫ ProTorsion.Qtrans A f (n + 1) c := by
   rw [quotientPowerSystem_map]
-  show (DerivedCategory.Q (C := ModuleCat A)).map _ ≫ (DerivedCategory.Q (C := ModuleCat A)).map _
+  change (DerivedCategory.Q (C := ModuleCat A)).map _ ≫ (DerivedCategory.Q (C := ModuleCat A)).map _
     = _
   rw [← CategoryTheory.Functor.map_comp, quotientPowerSingleIso_map A f m n c hm he,
     CategoryTheory.Functor.map_comp, CategoryTheory.Functor.map_comp,
@@ -2539,7 +2539,7 @@ private theorem isIso_milnorEndo_of_isZero_singleMilnor_at
   let := Stacks.DerivedProducts.preservesLimitsOfShape_Q (A := ModuleCat.{u} ring) (I := ℕ)
   let : PreservesLimitsOfShape (Discrete ℕ)
       (CochainComplex.singleFunctor (ModuleCat.{u} ring) degree) := by
-    show PreservesLimitsOfShape (Discrete ℕ)
+    change PreservesLimitsOfShape (Discrete ℕ)
       (HomologicalComplex.single (ModuleCat.{u} ring) (.up ℤ) degree)
     infer_instance
   let : PreservesLimitsOfShape (Discrete ℕ) embedding :=
@@ -2588,7 +2588,7 @@ private theorem proZero_of_isIso_milnorEndo_finsupp
   · intro x hx n
     have hzero : x = 0 := hinj (by
       funext k
-      show x k - (E.map (homOfLE (Nat.le_succ k)).op) (x (k+1)) = 0 - _
+      change x k - (E.map (homOfLE (Nat.le_succ k)).op) (x (k+1)) = 0 - _
       have hk := hx k
       change x k = (E.map (homOfLE (Nat.le_succ k)).op).hom (x (k+1)) at hk
       simpa only [Pi.zero_apply, map_zero, sub_zero] using sub_eq_zero.mpr hk)
@@ -2688,7 +2688,7 @@ private theorem constantRightTensorComplexDiagramIso_naturality (A : Type u) [Co
   let S := systemTensor A
   let B := (ModuleSystemKFlatComparison.totalTensorSystem.{u,u}
     ((Functor.const ℕᵒᵖ).obj (CommRingCat.of A))).obj M
-  show V.map (B.map (Δ.map g)) ≫ ((S.totalTensorEvaluationIso M (Δ.obj Q) n.unop).hom ≫
+  change V.map (B.map (Δ.map g)) ≫ ((S.totalTensorEvaluationIso M (Δ.obj Q) n.unop).hom ≫
       (𝟙 (V.obj M) ⊗ₘ (ModuleSystemRlimTensor.constantComplexEvaluationIso A Q).hom.app n)) =
     ((S.totalTensorEvaluationIso M (Δ.obj P) n.unop).hom ≫
       (𝟙 (V.obj M) ⊗ₘ (ModuleSystemRlimTensor.constantComplexEvaluationIso A P).hom.app n)) ≫
@@ -2696,7 +2696,7 @@ private theorem constantRightTensorComplexDiagramIso_naturality (A : Type u) [Co
   rw [← Category.assoc, totalTensorEvaluationIso_naturality_right]
   simp only [Category.assoc]
   congr 1
-  show (𝟙 _ ⊗ₘ V.map (Δ.map g)) ≫ (𝟙 _ ⊗ₘ _) = (𝟙 _ ⊗ₘ _) ≫ (𝟙 _ ⊗ₘ g)
+  change (𝟙 _ ⊗ₘ V.map (Δ.map g)) ≫ (𝟙 _ ⊗ₘ _) = (𝟙 _ ⊗ₘ _) ≫ (𝟙 _ ⊗ₘ g)
   rw [tensorHom_comp_tensorHom, tensorHom_comp_tensorHom]
   simp only [Category.id_comp]
   have h := constantComplexEvaluationIso_naturality A g n
@@ -2745,7 +2745,7 @@ private theorem koszulComplexTower_kFlat (A : Type u) [CommRing A]
     {r : ℕ} (f : Fin r → A) (n : ℕ) : ((koszulComplexTower f).obj (op n)).KFlat := by
   let C := Koszul.seqComplex (fun i ↦ f i ^ (n + 1))
   let (j : ℕ) : Projective (C.X j) := by
-    show Projective (ModuleCat.of A (⋀[A]^j (Fin r → A)))
+    change Projective (ModuleCat.of A (⋀[A]^j (Fin r → A)))
     exact ModuleCat.projective_of_free ((Pi.basisFun A (Fin r)).exteriorPower j)
   let (j : ℤ) : Module.Flat A ((C.extend ComplexShape.embeddingDownNat).X j) := by
     infer_instance
@@ -2800,17 +2800,10 @@ private theorem moduleUniverseLiftTensorIso_naturality {A : Type u} [CommRing A]
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   rintro ⟨x⟩
-  induction x using TensorProduct.induction_on with
-  | zero =>
-    show ((AdicKoszul.moduleUniverseLift.{u,u} A).map (f ⊗ₘ g) ≫
-      (moduleUniverseLiftTensorIso M' N').hom).hom 0 =
-      ((moduleUniverseLiftTensorIso M N).hom ≫
-        ((AdicKoszul.moduleUniverseLift.{u,u} A).map f ⊗ₘ
-          (AdicKoszul.moduleUniverseLift.{u,u} A).map g)).hom 0
-    simp only [map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul m n => rfl
   | add x y hx hy =>
-    show ((AdicKoszul.moduleUniverseLift.{u,u} A).map (f ⊗ₘ g) ≫
+    change ((AdicKoszul.moduleUniverseLift.{u,u} A).map (f ⊗ₘ g) ≫
         (moduleUniverseLiftTensorIso M' N').hom).hom (ULift.up x + ULift.up y) =
       ((moduleUniverseLiftTensorIso M N).hom ≫
         ((AdicKoszul.moduleUniverseLift.{u,u} A).map f ⊗ₘ
@@ -2900,7 +2893,7 @@ private theorem moduleUniverseLiftTensorBicomplexIso_naturality
   intro p
   apply HomologicalComplex.hom_ext
   intro q
-  show (AdicKoszul.moduleUniverseLift.{u,u} A).map
+  change (AdicKoszul.moduleUniverseLift.{u,u} A).map
       ((f.f p ▷ N.X q) ≫ (M'.X p ◁ g.f q)) ≫ _ = _ ≫
     (((AdicKoszul.moduleUniverseLift.{u,u} A).map (f.f p) ▷
         (AdicKoszul.moduleUniverseLift.{u,u} A).obj (N.X q)) ≫
@@ -2928,7 +2921,7 @@ private theorem complexUniverseLiftTensorIso_naturality
   let e' := HomologicalComplex₂.TotalMap.totalIso (c₁₂ := .up ℤ) U (tensorBicomplex M' N')
   let b := moduleUniverseLiftTensorBicomplexIso M N
   let b' := moduleUniverseLiftTensorBicomplexIso M' N'
-  show UC.map (f ⊗ₘ g) ≫ e'.inv ≫ (HomologicalComplex₂.total.map b'.hom (.up ℤ)) =
+  change UC.map (f ⊗ₘ g) ≫ e'.inv ≫ (HomologicalComplex₂.total.map b'.hom (.up ℤ)) =
     (e.inv ≫ HomologicalComplex₂.total.map b.hom (.up ℤ)) ≫ (UC.map f ⊗ₘ UC.map g)
   apply (cancel_epi e.hom).mp
   simp only [Category.assoc, Iso.hom_inv_id_assoc]
@@ -2939,7 +2932,7 @@ private theorem complexUniverseLiftTensorIso_naturality
     e.hom ≫ UC.map (f ⊗ₘ g) at hn
   rw [← Category.assoc, ← hn]
   simp only [Category.assoc, Iso.hom_inv_id_assoc]
-  show HomologicalComplex₂.total.map _ (.up ℤ) ≫
+  change HomologicalComplex₂.total.map _ (.up ℤ) ≫
       HomologicalComplex₂.total.map b'.hom (.up ℤ) =
     HomologicalComplex₂.total.map b.hom (.up ℤ) ≫
       HomologicalComplex₂.total.map (tensorBicomplexMap (UC.map f) (UC.map g)) (.up ℤ)
@@ -3414,9 +3407,9 @@ private theorem milnorMap_isIso_of_tensorUnitComparison_isIso
           (milnor.mapIso targetIso).hom := by
     simp only [Functor.mapIso_inv, Functor.mapIso_hom, ← milnor.map_comp]
     rw [square, Iso.inv_hom_id_assoc]
-  show IsIso (milnor.map comparison)
+  change IsIso (milnor.map comparison)
   rw [equation]
-  show IsIso ((milnor.mapIso sourceIso).inv ≫
+  change IsIso ((milnor.mapIso sourceIso).inv ≫
     DerivedCategory.Q.map (countableMilnorFunctor.map
       (Functor.whiskerRight comparison (TleftCochain coefficient))) ≫
         (milnor.mapIso targetIso).hom)
@@ -3538,7 +3531,7 @@ private theorem principalAugmentation_f_zero (A : Type u) [CommRing A] (f : A) (
   simp only [Iso.hom_inv_id_assoc]
   dsimp only [singleConeZeroIso]
   rw [Category.assoc]
-  show (HomologicalComplex.singleObjXSelf (.up ℤ) 0 (ModuleCat.of A A)).inv ≫
+  change (HomologicalComplex.singleObjXSelf (.up ℤ) 0 (ModuleCat.of A A)).inv ≫
     (CochainComplex.mappingCone.inr ((ProTorsion.single0 A).map
       (ProTorsion.smulMap A f n))).f 0 ≫ (ProTorsion.alphaCx A f n).f 0 = _
   rw [ProTorsion.alphaCx, CochainComplex.mappingCone.inr_f_desc_f]
@@ -3667,7 +3660,7 @@ private theorem tensorSingleInclusion_naturality {R : Type u} [CommRing R]
         (f.f n ▷ M) ≫ (L.X n ◁ 𝟙 M) ≫
           HomologicalComplex.ιTensorObj L
             ((CochainComplex.singleFunctor (ModuleCat.{u} R) 0).obj M) n 0 n (add_zero n) at h
-  show (f.f n ▷ M) ≫ HomologicalComplex.ιTensorObj L
+  change (f.f n ▷ M) ≫ HomologicalComplex.ιTensorObj L
       ((CochainComplex.singleFunctor (ModuleCat.{u} R) 0).obj M) n 0 n (add_zero n) =
     HomologicalComplex.ιTensorObj K
       ((CochainComplex.singleFunctor (ModuleCat.{u} R) 0).obj M) n 0 n (add_zero n) ≫
@@ -3852,7 +3845,7 @@ private theorem isZero_principalTorsionMilnor_of_isIso
   let : PreservesFiniteLimits G := ⟨fun J ↦ by dsimp [G]; infer_instance⟩
   let : PreservesFiniteColimits G := ⟨fun J ↦ by dsimp [G]; infer_instance⟩
   have : IsIso (DerivedCategory.Q.map (countableMilnorFunctor.map (S.map G).g)) := by
-    show IsIso (DerivedCategory.Q.map (countableMilnorFunctor.map
+    change IsIso (DerivedCategory.Q.map (countableMilnorFunctor.map
       (Functor.whiskerRight (principalConeAugmentation A f) (F.mapHomologicalComplex (.up ℤ)))))
     infer_instance
   have hzero := isZero_milnor_of_shortExact_of_isIso (S.map G) (hS.map_of_exact G)
@@ -3860,7 +3853,7 @@ private theorem isZero_principalTorsionMilnor_of_isIso
     apply (map_quasiIso_and_milnor_triangle (A := A)).1
     intro n
     have := principalTorsionTowerKernelLift_quasiIso A f n
-    show QuasiIso ((F.mapHomologicalComplex (.up ℤ)).map (j.app (op n)))
+    change QuasiIso ((F.mapHomologicalComplex (.up ℤ)).map (j.app (op n)))
     infer_instance
   exact hzero.of_iso (asIso (DerivedCategory.Q.map (countableMilnorFunctor.map (G.map j))))
 
@@ -3917,7 +3910,7 @@ private theorem principalComparison_milnorTriangles (A : Type u) [CommRing A] (f
     ((principalCompletionIso A f).app K).symm hp
   refine ⟨_, δ', q, ε, hp', hq, ?_⟩
   intro n
-  show ((principalCompletionIso A f).hom.app K ≫
+  change ((principalCompletionIso A f).hom.app K ≫
       (tensorKoszulQuotientComparison A generators).app K) ≫ q ≫ Pi.π _ n = _
   simp only [Category.assoc]
   rw [he n]

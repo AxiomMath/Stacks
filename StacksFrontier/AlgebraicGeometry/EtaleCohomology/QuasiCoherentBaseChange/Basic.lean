@@ -64,14 +64,14 @@ theorem assocMap_comp {F G H : X.Modules} [F.IsQuasicoherent] [G.IsQuasicoherent
     [H.IsQuasicoherent] (φ : F ⟶ G) (ψ : G ⟶ H) :
     assocMap (φ ≫ ψ) = assocMap φ ≫ assocMap ψ := by
   ext T x
-  show ((pullbackSectionsFunctor X).map (φ ≫ ψ)).app _ x =
+  change ((pullbackSectionsFunctor X).map (φ ≫ ψ)).app _ x =
     ((pullbackSectionsFunctor X).map φ ≫ (pullbackSectionsFunctor X).map ψ).app _ x
   rw [Functor.map_comp]
 
 /-- `assocMap` sends the identity to the identity. -/
 theorem assocMap_id (F : X.Modules) [F.IsQuasicoherent] : assocMap (𝟙 F) = 𝟙 _ := by
   ext T x
-  show ((pullbackSectionsFunctor X).map (𝟙 F)).app _ x = x
+  change ((pullbackSectionsFunctor X).map (𝟙 F)).app _ x = x
   rw [CategoryTheory.Functor.map_id]
   rfl
 
@@ -109,7 +109,7 @@ theorem etaleMap_id (F : X.Modules) [F.IsQuasicoherent] : etaleMap (𝟙 F) = �
 theorem etaleMap_zero (F G : X.Modules) [F.IsQuasicoherent] [G.IsQuasicoherent] :
     etaleMap (0 : F ⟶ G) = 0 := by
   ext T x
-  show ULift.up (((Scheme.Modules.pullback T.unop.hom).map (0 : F ⟶ G)).app ⊤ x.down) = 0
+  change ULift.up (((Scheme.Modules.pullback T.unop.hom).map (0 : F ⟶ G)).app ⊤ x.down) = 0
   rw [Functor.map_zero]
   rfl
 
@@ -173,7 +173,7 @@ theorem etaleScalar_comp_etaleMap {F G : X.Modules} [F.IsQuasicoherent] [G.IsQua
     (φ : F ⟶ G) (r : Γ(X, ⊤)) :
     etaleScalar F r ≫ etaleMap φ = etaleMap φ ≫ etaleScalar G r := by
   ext T x
-  show ULift.up (((Scheme.Modules.pullback T.unop.hom).map φ).app ⊤
+  change ULift.up (((Scheme.Modules.pullback T.unop.hom).map φ).app ⊤
       (smulHom ((Scheme.Modules.pullback T.unop.hom).obj F) (T.unop.hom.appTop r) x.down)) =
     ULift.up (smulHom ((Scheme.Modules.pullback T.unop.hom).obj G) (T.unop.hom.appTop r)
       (((Scheme.Modules.pullback T.unop.hom).map φ).app ⊤ x.down))
@@ -267,7 +267,7 @@ theorem unitSheaf_naturality {F G : X.Modules} [F.IsQuasicoherent] [G.IsQuasicoh
   have h2 := ConcreteCategory.congr_hom (congrArg (fun ψ => Scheme.Modules.Hom.app ψ ⊤)
     ((Scheme.Modules.pullbackComp A.hom g).inv.naturality φ)) (pullbackSectionsMap F c x)
   simp only [Scheme.Modules.Hom.comp_app, Functor.comp_map, ConcreteCategory.comp_apply] at h1 h2
-  show ((Scheme.Modules.pullbackComp A.hom g).inv.app G).app ⊤
+  change ((Scheme.Modules.pullbackComp A.hom g).inv.app G).app ⊤
       (pullbackSectionsMap G c (((Scheme.Modules.pullback T.unop.hom).map φ).app ⊤ x)) =
     ((Scheme.Modules.pullback A.hom).map ((Scheme.Modules.pullback g).map φ)).app ⊤
       (((Scheme.Modules.pullbackComp A.hom g).inv.app F).app ⊤ (pullbackSectionsMap F c x))
@@ -299,7 +299,7 @@ private theorem inverseImage_map_comp_comparison {F F' : X.Modules} [F.IsQuasico
     (smallEtaleBaseChange g) AddCommGrpCat.{u + 1} X.smallEtaleTopology Y.smallEtaleTopology
   have h1 := adj.homEquiv_naturality_left_symm a (unit g F')
   have h2 := adj.homEquiv_naturality_right_symm (unit g F) b
-  show _ = (adj.homEquiv _ _).symm (unit g F) ≫ _
+  change _ = (adj.homEquiv _ _).symm (unit g F) ≫ _
   rw [← h2, ← h, h1]
   rfl
 
@@ -316,7 +316,7 @@ theorem baseChangeCounit_appTop (r : Γ(X, ⊤)) (T : X.Etale) :
       ((baseChangeOver g).obj T).hom.appTop (g.appTop r) := by
   have hw : ((baseChangeCounit g).app T).left ≫ T.hom = ((baseChangeOver g).obj T).hom ≫ g :=
     Over.w ((baseChangeCounit g).app T)
-  show (((baseChangeCounit g).app T).left ≫ T.hom).appTop r =
+  change (((baseChangeCounit g).app T).left ≫ T.hom).appTop r =
     (((baseChangeOver g).obj T).hom ≫ g).appTop r
   rw [hw]
 
@@ -329,7 +329,7 @@ theorem unitSheaf_scalar (F : X.Modules) [F.IsQuasicoherent] (r : Γ(X, ⊤)) :
   ext T x
   let A := (baseChangeOver g).obj T.unop
   let c := (baseChangeCounit g).app T.unop
-  show ((Scheme.Modules.pullbackComp A.hom g).inv.app F).app ⊤
+  change ((Scheme.Modules.pullbackComp A.hom g).inv.app F).app ⊤
       (pullbackSectionsMap F c (smulHom _ (T.unop.hom.appTop r) x)) =
     smulHom _ (A.hom.appTop (g.appTop r))
       (((Scheme.Modules.pullbackComp A.hom g).inv.app F).app ⊤ (pullbackSectionsMap F c x))

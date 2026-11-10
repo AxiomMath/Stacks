@@ -66,7 +66,7 @@ private theorem stalksNontrivial (S : Scheme.{u}) :
     LocallyFreeRank.StalksNontrivial S.toTopCat S.sheaf := by
   intro x
   have : IsLocalRing (S.presheaf.stalk x) := S.isLocalRing x
-  show Nontrivial (S.presheaf.stalk x)
+  change Nontrivial (S.presheaf.stalk x)
   infer_instance
 
 /-- Reindexing a free sheaf of modules along an equivalence of index sets. -/

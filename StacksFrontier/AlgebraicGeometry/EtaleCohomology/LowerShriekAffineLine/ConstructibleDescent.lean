@@ -180,7 +180,7 @@ theorem isIso_etaleModuleBaseChange_app_of_isFinite {X X' Y Y' : Scheme.{u}} (f 
     IsIso ((etaleModuleBaseChangeGeneral.{u, r} Λ f g g' f' sq.w).app F) := by
   have h := etaleModuleBaseChange_forget.{u, r} Λ f g g' f' sq.w F
   have := isIso_etaleAbelianBaseChange_of_isFinite_unconditional.{u, r} f g g' f' sq
-  have : IsIso ((etaleModuleInverseImageForget.{u, r} Λ g).natTrans.app
+  have : IsIso ((etaleModuleInverseImageForget.{u, r} Λ g).app
       ((etaleModuleDirectImage.{u, r} Λ f).obj F) ≫
       (_root_.Stacks.EtaleCohomology.etaleModuleForgetAb.{u, r} Λ Y').map
       ((etaleModuleBaseChangeGeneral.{u, r} Λ f g g' f' sq.w).app F)) := by
@@ -188,14 +188,14 @@ theorem isIso_etaleModuleBaseChange_app_of_isFinite {X X' Y Y' : Scheme.{u}} (f 
     have : IsIso ((etaleAbelianBaseChange.{u, r} f g g' f' sq.w).app
         ((_root_.Stacks.EtaleCohomology.etaleModuleForgetAb.{u, r} Λ X).obj F)) :=
       NatIso.isIso_app_of_isIso _ _
-    have : IsIso ((etaleModuleInverseImageForget.{u, r} Λ g').natTrans.app F) :=
+    have : IsIso ((etaleModuleInverseImageForget.{u, r} Λ g').app F) :=
       NatIso.isIso_app_of_isIso _ _
     refine IsIso.comp_isIso' ?_ ?_
     · exact NatIso.isIso_app_of_isIso _ _
     · exact Functor.map_isIso _ _
-  have : IsIso ((etaleModuleInverseImageForget.{u, r} Λ g).natTrans.app
+  have : IsIso ((etaleModuleInverseImageForget.{u, r} Λ g).app
       ((etaleModuleDirectImage.{u, r} Λ f).obj F)) := NatIso.isIso_app_of_isIso _ _
-  have := IsIso.of_isIso_comp_left ((etaleModuleInverseImageForget.{u, r} Λ g).natTrans.app
+  have := IsIso.of_isIso_comp_left ((etaleModuleInverseImageForget.{u, r} Λ g).app
       ((etaleModuleDirectImage.{u, r} Λ f).obj F))
     ((_root_.Stacks.EtaleCohomology.etaleModuleForgetAb.{u, r} Λ Y').map
       ((etaleModuleBaseChangeGeneral.{u, r} Λ f g g' f' sq.w).app F))

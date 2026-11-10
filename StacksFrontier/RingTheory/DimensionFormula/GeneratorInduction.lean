@@ -635,7 +635,7 @@ private theorem single_generator_step_poly_le {A : Type u} [CommRing A]
     (Ideal.polynomialQuotientEquivQuotientPolynomial P).trans
       (Ideal.quotientEquiv (Ideal.map Polynomial.C P)
         (Ideal.map (algebraMap A (Polynomial A)) P) (RingEquiv.refl _) (by
-          rw [RingEquiv.coe_ringHom_refl, Ideal.map_id]; exact hmapeq.symm)) with he
+          rw [RingEquiv.toRingHom_refl, Ideal.map_id]; exact hmapeq.symm)) with he
   set Ft : Ideal (Polynomial (A ⧸ P)) := Ideal.comap (e : Polynomial (A ⧸ P) →+* _) F with hFt
   have hFtprime : Ft.IsPrime := Ideal.comap_isPrime _ _
   have hekey : ∀ a : A, (e : Polynomial (A ⧸ P) →+* _) (Polynomial.C ((Ideal.Quotient.mk P) a))

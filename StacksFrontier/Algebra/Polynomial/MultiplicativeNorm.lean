@@ -81,7 +81,7 @@ theorem monic_charPolyOf {P : MvPolynomial (Fin 2) ℚ} (hP : P.IsHomogeneous N)
   have hexp : charPolyOf P = ∑ s ∈ P.support, C (P.coeff s) * (-X) ^ (s 0) := by
     rw [charPolyOf, MvPolynomial.aeval_def, MvPolynomial.eval₂_eq']
     refine sum_congr rfl fun s _ => ?_
-    rw [Fin.prod_univ_two, if_pos rfl, if_neg (by decide), one_pow, mul_one,
+    rw [Fin.prod_univ_two, ite_eq_left rfl, ite_eq_right (by decide), one_pow, mul_one,
       Polynomial.algebraMap_eq]
   have hs0 : ∀ s ∈ P.support, s 0 + s 1 = N := by
     intro s hs
@@ -99,7 +99,7 @@ theorem monic_charPolyOf {P : MvPolynomial (Fin 2) ℚ} (hP : P.IsHomogeneous N)
         fin_cases k
         · have := hs0 s hs; simp [h1] at this ⊢; omega
         · simp [h1]
-      rw [Fin.prod_univ_two, if_neg (by decide : (1 : Fin 2) ≠ 0), zero_pow h1, mul_zero,
+      rw [Fin.prod_univ_two, ite_eq_right (by decide : (1 : Fin 2) ≠ 0), zero_pow h1, mul_zero,
         mul_zero]
     · intro hn
       rw [MvPolynomial.notMem_support_iff.mp hn, zero_mul]
@@ -115,11 +115,11 @@ theorem monic_charPolyOf {P : MvPolynomial (Fin 2) ℚ} (hP : P.IsHomogeneous N)
     have := hs0 s hs
     omega
   have hcoeff : (charPolyOf P).coeff N = 1 := by
-    rw [hexp, finset_sum_coeff, sum_eq_single (Finsupp.single 0 N)]
-    · rw [hterm, coeff_C_mul_X_pow, Finsupp.single_eq_same, if_pos rfl, hcoeffN, one_mul,
+    rw [hexp, finsetSum_coeff, sum_eq_single (Finsupp.single 0 N)]
+    · rw [hterm, coeff_C_mul_X_pow, Finsupp.single_eq_same, ite_eq_left rfl, hcoeffN, one_mul,
         hN.neg_one_pow]
     · intro s hs hne
-      rw [hterm, coeff_C_mul_X_pow, if_neg]
+      rw [hterm, coeff_C_mul_X_pow, ite_eq_right]
       intro hN0
       apply hne
       have h1 := hs0 s hs
@@ -248,9 +248,9 @@ theorem eq_zero_of_eval_split {m : ℕ} (F : MvPolynomial (Fin (m + 1)) ℚ)
     let R : K[X] := ∑ j : Fin (m + 1), C ((r j : ℚ) : K) * X ^ (j : ℕ)
     have hRcoeff : ∀ j : Fin (m + 1), R.coeff (j : ℕ) = ((r j : ℚ) : K) := by
       intro j
-      simp only [R, finset_sum_coeff, coeff_C_mul_X_pow]
-      rw [sum_eq_single j (fun i _ hi => if_neg (fun h => hi (Fin.ext h.symm)))
-        (fun h => absurd (mem_univ j) h), if_pos rfl]
+      simp only [R, finsetSum_coeff, coeff_C_mul_X_pow]
+      rw [sum_eq_single j (fun i _ hi => ite_eq_right (fun h => hi (Fin.ext h.symm)))
+        (fun h => absurd (mem_univ j) h), ite_eq_left rfl]
     have hRdeg : R.natDegree = m := by
       refine le_antisymm ?_ ?_
       · refine natDegree_sum_le_of_forall_le _ _ fun j _ => (natDegree_C_mul_X_pow_le _ _).trans ?_
@@ -383,17 +383,17 @@ theorem exists_eq_normForm (hmul : ∀ R S, D (R * S) = D R * D S)
         _ = R.natDegree := by simp
     have hc0 := ofCoeffs_coeff hR0deg
     rw [map_sub, ← hP, ← hQ, hc0, sub_eq_zero]
-    show Dm R0 = Nm R0
+    change Dm R0 = Nm R0
     rw [hR0, map_mul, map_mul, map_prod, map_prod]
     have hDC : Dm (C c) = (c : ℚ) ^ N := by
-      show ((D (C c) : ℤ) : ℚ) = _
+      change ((D (C c) : ℤ) : ℚ) = _
       rw [hC]; push_cast; rfl
     have hNC : Nm (C c) = (c : ℚ) ^ N := by
-      show normForm χ (C c) = _
+      change normForm χ (C c) = _
       rw [normForm_C hmon, hdeg]
     have hlin : ∀ k, Dm (X - C (n k)) = Nm (X - C (n k)) := by
       intro k
-      show (D (X - C (n k)) : ℚ) = normForm χ (X - C (n k))
+      change (D (X - C (n k)) : ℚ) = normForm χ (X - C (n k))
       rw [normForm_X_sub_C hmon (hdeg ▸ hN), hev]
     rw [hDC, hNC]
     congr 1

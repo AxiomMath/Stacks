@@ -347,7 +347,7 @@ theorem smul_id_idealPowerQuotientTower_eq_zero (I : Ideal A) (M : ModuleCat.{ma
   apply LinearMap.ext
   intro x
   obtain ⟨y, rfl⟩ := Submodule.Quotient.mk_surjective (I ^ n.unop • (⊤ : Submodule A M)) x
-  show a • (Submodule.Quotient.mk y : M ⧸ (I ^ n.unop • (⊤ : Submodule A M))) = 0
+  change a • (Submodule.Quotient.mk y : M ⧸ (I ^ n.unop • (⊤ : Submodule A M))) = 0
   rw [← Submodule.Quotient.mk_smul, Submodule.Quotient.mk_eq_zero]
   exact Submodule.smul_mem_smul ha Submodule.mem_top
 
@@ -498,7 +498,7 @@ theorem exists_isEssentiallyConstantWith_localCohomologyAdicCone_of_pow_smul_top
   EssentiallyConstantPro.exists_isEssentiallyConstantWith_of_isIso_π
     (localCohomologyAdicCone.{u, v} A T I i M) N fun m hm => by
       have h := isIso_idealPowerQuotientCone_π I M hN hm
-      show IsIso ((localCohomologyWithSupportInModuleFunctor.{u, v} A T i).map
+      change IsIso ((localCohomologyWithSupportInModuleFunctor.{u, v} A T i).map
         ((idealPowerQuotientCone I M).π.app (op m)))
       infer_instance
 
@@ -653,7 +653,7 @@ theorem isIso_limitLift (_hi : i ≤ S.s) {j : ℕᵒᵖ}
     letI : HasLimit (tower.{u, v} S i) := HasLimit.mk ⟨cone.{u, v} S i, h.isLimit⟩
     IsIso (limit.lift (tower.{u, v} S i) (cone.{u, v} S i)) := by
   let : HasLimit (tower.{u, v} S i) := HasLimit.mk ⟨cone.{u, v} S i, h.isLimit⟩
-  show IsIso (limit.lift (tower.{u, v} S i) (cone.{u, v} S i))
+  change IsIso (limit.lift (tower.{u, v} S i) (cone.{u, v} S i))
   have heq : limit.lift (tower.{u, v} S i) (cone.{u, v} S i) =
       (h.isLimit.conePointUniqueUpToIso (limit.isLimit (tower.{u, v} S i))).hom := by
     apply limit.hom_ext

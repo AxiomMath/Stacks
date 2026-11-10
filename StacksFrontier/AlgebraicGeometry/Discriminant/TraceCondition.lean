@@ -132,7 +132,6 @@ def factorRestriction
   refine ⟨{ toFun := h0, map_add' := h0.map_add, map_smul' := ?_ }, hh0⟩
   intro a₁ u
   induction u using dualizingModule.induction_on with
-  | zero => simp
   | add u u' hu hu' =>
       change h0 (a₁ • (u + u')) = a₁ • h0 (u + u')
       rw [smul_add, map_add, map_add, hu, hu', smul_add]

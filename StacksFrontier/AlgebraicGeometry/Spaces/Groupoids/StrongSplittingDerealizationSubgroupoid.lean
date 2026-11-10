@@ -173,7 +173,7 @@ theorem Restriction.comp_eq_compose :
     Gr.groupoid.compose (pullback.fst Gr.groupoid.source Gr.groupoid.target)
         (pullback.snd Gr.groupoid.source Gr.groupoid.target) pullback.condition =
       Gr.groupoid.comp := by
-  show pullback.lift (pullback.fst Gr.groupoid.source Gr.groupoid.target)
+  change pullback.lift (pullback.fst Gr.groupoid.source Gr.groupoid.target)
     (pullback.snd Gr.groupoid.source Gr.groupoid.target) pullback.condition ≫
       Gr.groupoid.comp = _
   refine (congrArg (fun k => k ≫ Gr.groupoid.comp) (pullback.hom_ext ?_ ?_)).trans
@@ -367,7 +367,7 @@ private theorem splittingSubfunctor_ι_comp_map
         eqToHom (restrictionObjectsObj_eq G C hS hU hR hP hX p Rs) := by
     rw [← Category.assoc, hfg, Category.assoc, eqToHom_trans, eqToHom_refl, Category.comp_id]
   rw [hf]
-  show (P.arrows.preimage (restrictionArrowsSpaceIso G C hS hU hR hP hX p hA hB hRA Rs).hom).ι ≫
+  change (P.arrows.preimage (restrictionArrowsSpaceIso G C hS hU hR hP hX p hA hB hRA Rs).hom).ι ≫
     (restrictionArrowsSpaceIso G C hS hU hR hP hX p hA hB hRA Rs).hom ≫ _ = _
   rw [← Category.assoc, ← hsq.w]
   simp only [Category.assoc]
@@ -447,7 +447,7 @@ private theorem isFinite_splittingOpens_comp
           (splittingOpens G C hS hU hR hP hX p hA hB hRA Rs P) ≫ f) =
       splittingOpensHom G C hS hU hR hP hX p hA hB hRA Rs P ≫ schemeSiteMap C hS hRA hX f :=
     schemeSiteMap_comp C hS _ hRA hX _ _
-  show Space.IsFinite C S hS (yoneda.map (schemeSiteMap C hS
+  change Space.IsFinite C S hS (yoneda.map (schemeSiteMap C hS
     (contains_splittingOpens G C hS hU hR hP hX p hA hB hRA Rs P) hX _))
   rw [hsplit, yoneda.map_comp,
     ← rangeIsoOfMono_hom_ι C S hS
@@ -611,7 +611,7 @@ theorem mem_splittingOpens_composition
 /-- The inclusion of the open cut out by a splitting is a monomorphism. -/
 theorem mono_splittingIncl :
     Mono (splittingIncl G C hS hU hR hP hX p hA hB hRA Rs P Gr) := by
-  show Mono (openOverι (AlgebraicGeometry.restrictionArrows G p)
+  change Mono (openOverι (AlgebraicGeometry.restrictionArrows G p)
     (splittingOpens G C hS hU hR hP hX p hA hB hRA Rs P) ≫ eqToHom Gr.arrows_eq.symm)
   infer_instance
 
@@ -621,7 +621,7 @@ theorem isOpenImmersion_splittingIncl :
       (splittingIncl G C hS hU hR hP hX p hA hB hRA Rs P Gr).left := by
   have hiso : IsIso (eqToHom Gr.arrows_eq.symm).left :=
     inferInstanceAs (IsIso ((Over.forget S).map (eqToHom Gr.arrows_eq.symm)))
-  show _root_.AlgebraicGeometry.IsOpenImmersion
+  change _root_.AlgebraicGeometry.IsOpenImmersion
     ((openOverι (AlgebraicGeometry.restrictionArrows G p)
       (splittingOpens G C hS hU hR hP hX p hA hB hRA Rs P) ≫ eqToHom Gr.arrows_eq.symm).left)
   rw [Over.comp_left]
@@ -713,7 +713,7 @@ theorem splittingComp_ι
       splittingIncl G C hS hU hR hP hX p hA hB hRA Rs P Gr =
       (splittingComposables G C hS hU hR hP hX p hA hB hRA Rs P Gr ≫
         restrictionComposition G p) ≫ eqToHom Gr.arrows_eq.symm := by
-    show openOverLift _ _ h ≫ (openOverι (AlgebraicGeometry.restrictionArrows G p)
+    change openOverLift _ _ h ≫ (openOverι (AlgebraicGeometry.restrictionArrows G p)
       (splittingOpens G C hS hU hR hP hX p hA hB hRA Rs P) ≫ eqToHom Gr.arrows_eq.symm) = _
     rw [← Category.assoc, openOverLift_comp_openOverι]
   rw [hL, Gr.comp_eq, ← Category.assoc,
@@ -839,7 +839,7 @@ private theorem pointsMap_restrictionArrowsSpaceIso
     have hz := pointsToScheme_pointsEquivScheme_symm C hS (schemeSiteObject C hS hRA)
       ((eqToHom Gr.arrows_eq).left.base r)
     refine (Equiv.eq_symm_apply _).2 ?_
-    show Space.pointsToScheme C S hS (schemeSiteObject C hS hX) _ = _
+    change Space.pointsToScheme C S hS (schemeSiteObject C hS hX) _ = _
     rw [pointsToScheme_pointsMap_yoneda, toScheme_map_schemeSiteMap_eq]
     exact (congrArg (fun t : (AlgebraicGeometry.restrictionArrows G p).left => f.left.base t)
       hz).trans hf
@@ -901,10 +901,10 @@ theorem isStronglySplitAt_of_contains_arrows (x : Gr.groupoid.objects.left)
         pointsMap_target_restrictionArrowsSpaceIso G C hS hU hR hP hX p hA hB hRA Rs Gr r x hrt⟩
     exact ⟨q, hq⟩
   refine ⟨⟨(eqToHom Gr.arrows_eq).left.base r, hmem⟩, ?_⟩
-  show (splittingIncl G C hS hU hR hP hX p hA hB hRA Rs P Gr).left.base
+  change (splittingIncl G C hS hU hR hP hX p hA hB hRA Rs P Gr).left.base
     ⟨(eqToHom Gr.arrows_eq).left.base r, hmem⟩ = r
   refine Eq.trans ?_ (eqToHom_arrows_apply_symm G p Gr r)
-  show (openOverι (AlgebraicGeometry.restrictionArrows G p)
+  change (openOverι (AlgebraicGeometry.restrictionArrows G p)
       (splittingOpens G C hS hU hR hP hX p hA hB hRA Rs P) ≫
     eqToHom Gr.arrows_eq.symm).left.base ⟨(eqToHom Gr.arrows_eq).left.base r, hmem⟩ = _
   rfl

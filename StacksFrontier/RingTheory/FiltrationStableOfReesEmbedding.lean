@@ -80,7 +80,7 @@ theorem stable_of_reesAction [Module.Finite A M] (F : J.Filtration M) {Q : Type*
       | single j y =>
         rw [PolynomialModule.monomial_smul_single, hθ₀, hθ₀, hu,
           ← Polynomial.C_mul_X_pow_eq_monomial]
-        show (χ (Polynomial.X ^ (i + j)) * χ (Polynomial.C a)) (u y) =
+        change (χ (Polynomial.X ^ (i + j)) * χ (Polynomial.C a)) (u y) =
           (χ (Polynomial.C a * Polynomial.X ^ i) * χ (Polynomial.X ^ j)) (u y)
         rw [← map_mul, ← map_mul, pow_add]
         congr 2
@@ -97,7 +97,7 @@ theorem stable_of_reesAction [Module.Finite A M] (F : J.Filtration M) {Q : Type*
     have h0 := hinj v.coeff (by
       have : θ₀ v = 0 := hv
       rw [← this]
-      show _ = (Finsupp.liftAddHom fun k => (χ (Polynomial.X ^ k)).comp u) v.coeff
+      change _ = (Finsupp.liftAddHom fun k => (χ (Polynomial.X ^ k)).comp u) v.coeff
       rw [Finsupp.liftAddHom_apply]
       rfl)
     rw [← PolynomialModule.ofCoeff_coeff v, h0]

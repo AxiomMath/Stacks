@@ -188,7 +188,7 @@ theorem exists_clopenNhds_comp_mem_of_mem (hX : IsWeaklyContractibleObj X) (x : 
         · exact Or.inl ⟨e ≫ k, by simpa using R.downward_closed hk e⟩
         · exact Or.inr ⟨e ≫ k.some⟩ }
   have hf : ∀ i, WeaklyEtale ((clopenOpens (clopenPair U.1 i)).ι ≫ T.hom) := fun i => by
-    show WeaklyEtale ((clopenOpens (clopenPair U.1 i)).ι ≫ 𝟙 X)
+    change WeaklyEtale ((clopenOpens (clopenPair U.1 i)).ι ≫ 𝟙 X)
     infer_instance
   have hS : S ∈ ProEt.topology X T := by
     refine (ProEt.topology X).transitive
@@ -365,7 +365,7 @@ theorem exists_clopenNhdsOver_comp_mem_of_mem [IsAffine W.left]
     obtain ⟨l, hl⟩ := exists_lift_clopenOpens_ι (ws i : Ws i ⟶ W.left) V rfl
     let a : ofClopenOver W V ⟶ clopenDecompositionObj W ws hw i :=
       MorphismProperty.Over.homMk l (by
-        show l ≫ ws i ≫ W.hom = (clopenOpens V).ι ≫ W.hom
+        change l ≫ ws i ≫ W.hom = (clopenOpens V).ι ≫ W.hom
         rw [← Category.assoc, hl])
     have ha : a ≫ k = ofClopenOverHom W hVU := by
       refine ofClopenOver_hom_ext W ?_

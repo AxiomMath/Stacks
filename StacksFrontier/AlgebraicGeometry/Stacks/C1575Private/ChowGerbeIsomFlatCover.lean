@@ -167,7 +167,7 @@ theorem StageData.exists_open_iso_of_lift (D : StageData hY f W V n)
     Space.isOpenSubspace_range_of_open B S hS ι hW' hι
   have hOV : Subfunctor.range ι ≤ (D.pullback hY'' g hg).V'.1 := by
     rintro U _ ⟨a, rfl⟩
-    show g.app U (ι.app U a) ∈ D.V'.1.obj U
+    change g.app U (ι.app U a) ∈ D.V'.1.obj U
     have h := congrArg (fun m : W' ⟶ D.Y'.1 => m.app U a) hιg
     simp only [NatTrans.comp_app_apply] at h
     rw [h]

@@ -199,7 +199,7 @@ theorem exact_chowPushforwardOfIsClosedImmersion_prod_coprod
     let q₂ := chowPushforwardOfIsClosedImmersion C sX₂ (J.subschemeι ≫ sX) j₂.toImage
       (toImage_comp_subschemeι_comp_structureMorphism C sX j₂ sX₂ hj₂) k α₂
     have hq : summandsToUnionChow C sX I J k (q₁, q₂) = 0 := by
-      show chowPushforwardOfIsClosedImmersion C _ sX I.subschemeι rfl k q₁ +
+      change chowPushforwardOfIsClosedImmersion C _ sX I.subschemeι rfl k q₁ +
         chowPushforwardOfIsClosedImmersion C _ sX J.subschemeι rfl k q₂ = 0
       rwa [chowPushforwardOfIsClosedImmersion_comp_apply C sX₁ _ sX j₁.toImage I.subschemeι j₁
           (Scheme.Hom.toImage_imageι j₁) _ rfl hj₁ k,
@@ -235,13 +235,13 @@ theorem exact_chowPushforwardOfIsClosedImmersion_prod_coprod
     refine ⟨chowPushforwardOfIsClosedImmersion C _ _ φ hφs k c, Prod.ext ?_ ?_⟩
     · exact pushforward_pushforward_eq_of_comp_inclusion_inv_toImage C sX j₁ sX₁ hj₁ k _
         (pullback.fst j₁ j₂) _ le_sup_left φ hφfst hφs rfl c α₁ hc₁
-    · show -chowPushforwardOfIsClosedImmersion C _ sX₂ (pullback.snd j₁ j₂) hsnd k
+    · change -chowPushforwardOfIsClosedImmersion C _ sX₂ (pullback.snd j₁ j₂) hsnd k
         (chowPushforwardOfIsClosedImmersion C _ _ φ hφs k c) = α₂
       rw [← map_neg, ← map_neg]
       exact pushforward_pushforward_eq_of_comp_inclusion_inv_toImage C sX j₂ sX₂ hj₂ k _
         (pullback.snd j₁ j₂) _ le_sup_right φ hφsnd hφs hsnd (-c) α₂ (by rw [map_neg, hc₂])
   · rintro ⟨γ, rfl⟩
-    show chowPushforwardOfIsClosedImmersion C sX₁ sX j₁ hj₁ k
+    change chowPushforwardOfIsClosedImmersion C sX₁ sX j₁ hj₁ k
         (chowPushforwardOfIsClosedImmersion C _ sX₁ (pullback.fst j₁ j₂) rfl k γ) +
       chowPushforwardOfIsClosedImmersion C sX₂ sX j₂ hj₂ k
         (-chowPushforwardOfIsClosedImmersion C _ sX₂ (pullback.snd j₁ j₂) hsnd k γ) = 0

@@ -270,7 +270,7 @@ private lemma exists_empty_preimage_of_isConstructible
   | sdiff U hU V hV =>
     have hle : c.π.app i ⁻¹ᵁ (⟨U, hU.1⟩ : (D.obj i).Opens) ≤
         c.π.app i ⁻¹ᵁ (⟨V, hV.1⟩ : (D.obj i).Opens) := by
-      show c.π.app i ⁻¹' U ⊆ c.π.app i ⁻¹' V
+      change c.π.app i ⁻¹' U ⊆ c.π.app i ⁻¹' V
       rwa [← Set.sdiff_eq_empty, ← Set.preimage_sdiff]
     obtain ⟨j, g, hg⟩ := exists_map_preimage_le_map_preimage D c hc hU.2.isCompact hle
     exact ⟨j, g, by rwa [Set.preimage_sdiff, Set.sdiff_eq_empty]⟩
@@ -283,15 +283,15 @@ private lemma exists_empty_preimage_of_isConstructible
       (hUV ▸ Set.subset_union_right))
     obtain ⟨m, mj, mk, hm⟩ := IsCofiltered.cospan gj gk
     refine ⟨m, mj ≫ gj, ?_⟩
-    show D.map (mj ≫ gj) ⁻¹' (U ∪ V) = ∅
+    change D.map (mj ≫ gj) ⁻¹' (U ∪ V) = ∅
     rw [Set.preimage_union]
     have hj' : D.map (mj ≫ gj) ⁻¹' U = ∅ := by
       rw [D.map_comp]
-      show D.map mj ⁻¹' (D.map gj ⁻¹' U) = ∅
+      change D.map mj ⁻¹' (D.map gj ⁻¹' U) = ∅
       rw [hj, Set.preimage_empty]
     have hk' : D.map (mj ≫ gj) ⁻¹' V = ∅ := by
       rw [hm, D.map_comp]
-      show D.map mk ⁻¹' (D.map gk ⁻¹' V) = ∅
+      change D.map mk ⁻¹' (D.map gk ⁻¹' V) = ∅
       rw [hk, Set.preimage_empty]
     rw [hj', hk', Set.union_empty]
 
@@ -324,10 +324,10 @@ private lemma exists_isOpen_preimage_of_isConstructible
       ((hV'.isConstructible V'.isOpen).sdiff hE')
   have heq' : c.π.app k ⁻¹' E' = c.π.app k ⁻¹' (V' : Set (D.obj k)) := by
     have hleft : c.π.app k ⁻¹' E' = c.π.app i ⁻¹' E := by
-      show (c.π.app k ≫ D.map ki) ⁻¹' E = _
+      change (c.π.app k ≫ D.map ki) ⁻¹' E = _
       rw [c.w]
     have hright : c.π.app k ⁻¹' (V' : Set (D.obj k)) = c.π.app j ⁻¹' (V : Set (D.obj j)) := by
-      show (c.π.app k ≫ D.map kj) ⁻¹' (V : Set (D.obj j)) = _
+      change (c.π.app k ≫ D.map kj) ⁻¹' (V : Set (D.obj j)) = _
       rw [c.w]
     rw [hleft, hright]
     exact congrArg (fun W : c.pt.Opens => (W : Set c.pt)) heq.symm
@@ -342,7 +342,7 @@ private lemma exists_isOpen_preimage_of_isConstructible
       (Set.sdiff_eq_empty.mp (Set.eq_empty_of_subset_empty (hm ▸ Set.subset_union_right)))
   refine ⟨m, mk ≫ ki, ?_⟩
   rw [D.map_comp]
-  show IsOpen (D.map mk ⁻¹' E')
+  change IsOpen (D.map mk ⁻¹' E')
   rw [heqstage]
   exact V'.isOpen.preimage (D.map mk).continuous
 
@@ -398,7 +398,7 @@ private lemma finite_affine_generators_baseChange
     IsScalarTower.of_algebraMap_eq' rfl
   have : IsScalarTower Γ(Y, ⊤) Γ(T, ⊤) Γ(pullback hom base, ⊤) :=
     IsScalarTower.of_algebraMap_eq' (by
-      show (pullback.fst hom base ≫ hom).appTop.hom =
+      change (pullback.fst hom base ≫ hom).appTop.hom =
         (pullback.snd hom base).appTop.hom.comp base.appTop.hom
       rw [pullback.condition, Scheme.Hom.comp_appTop, CommRingCat.hom_comp])
   have : Algebra.IsPushout Γ(Y, ⊤) Γ(T, ⊤) Γ(X, ⊤) Γ(pullback hom base, ⊤) :=
@@ -540,7 +540,7 @@ private lemma universallyOpen_of_etale_postcomp {X Y Z : Scheme.{u}}
     apply MorphismProperty.hasOfPostcompProperty_iff_le_diagonal.mpr
     intro X Y hom hetale
     have : Etale hom := hetale
-    show UniversallyOpen (pullback.diagonal hom)
+    change UniversallyOpen (pullback.diagonal hom)
     infer_instance
   exact MorphismProperty.of_postcomp (@UniversallyOpen) (W' := @Etale)
     hom base inferInstance hopen

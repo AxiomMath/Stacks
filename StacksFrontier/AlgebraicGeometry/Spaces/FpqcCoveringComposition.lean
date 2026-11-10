@@ -78,7 +78,7 @@ theorem isFpqcCovering_comp
   let : Finite U.I₀ := hUfinite
   have (j : U.I₀) : Finite (V j).I₀ := hVfinite j
   refine ⟨W, inferInstance, ?_, ?_⟩
-  · show Presieve.map F W.presieve₀ ∈ Scheme.fpqcPrecoverage (F.obj T)
+  · change Presieve.map F W.presieve₀ ∈ Scheme.fpqcPrecoverage (F.obj T)
     simpa [W, PreZeroHypercover.presieve₀_map, Functor.map_comp] using
       (Precoverage.comp_mem_coverings (J := Scheme.fpqcPrecoverage)
         (f := fun j => F.map (U.f j))
@@ -88,7 +88,7 @@ theorem isFpqcCovering_comp
   · intro jl
     obtain ⟨k, b, hb⟩ := hVfactor jl.1 jl.2
     refine ⟨⟨i jl.1, k⟩, b, ?_⟩
-    show b ≫ (g (i jl.1) k ≫ f (i jl.1)) =
+    change b ≫ (g (i jl.1) k ≫ f (i jl.1)) =
       yoneda.map ((BigAffineFppf.inclusion B S hS).map (W.f jl)) ≫ h
     rw [← Category.assoc, hb, Category.assoc, ha]
     simp [W, Functor.map_comp, Category.assoc]

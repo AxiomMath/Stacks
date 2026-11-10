@@ -41,8 +41,7 @@ theorem mem_span_singleton_of_flat_of_mul_eq_zero (ε : A)
   have hR := Module.Flat.lTensor_exact R hexact
   let e : R ⊗[A] A ≃ₗ[A] R := _root_.TensorProduct.rid A R
   have he (y : R ⊗[A] A) : e (μ.lTensor R y) = algebraMap A R ε * e y := by
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul r a => simp [e, μ, mul_smul, Algebra.smul_def ε]
     | add y z hy hz => rw [map_add, map_add, hy, hz, map_add, mul_add]
   obtain ⟨z, hz⟩ := (hR (e.symm x)).1

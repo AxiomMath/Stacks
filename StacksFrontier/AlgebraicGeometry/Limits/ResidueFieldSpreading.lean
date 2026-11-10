@@ -459,7 +459,7 @@ lemma specCone_π_baseMap (hc : IsLimit c) (a : Index D c U₀ y hy) :
     (specCone D c U₀ y hy).π.app (op a) ≫ baseMap D c U₀ y hy hU₀ a =
       c.pt.fromSpecResidueField y ≫ c.π.app (op i₀) := by
   have hUy := isAffineOpen_preimage_π D c U₀ hc hU₀
-  show Spec.map (toResidueField D c U₀ y hy a) ≫ baseMap D c U₀ y hy hU₀ a = _
+  change Spec.map (toResidueField D c U₀ y hy a) ≫ baseMap D c U₀ y hy hU₀ a = _
   rw [baseMap, stageSpecMap, Category.assoc, ← Spec.map_comp_assoc, toRingHom_comp_toResidueField,
     stageEval,
     Spec.map_comp_assoc, IsAffineOpen.SpecMap_appLE_fromSpec_assoc (hV := hUy),
@@ -559,13 +559,13 @@ theorem exists_isoAlong_baseMap (hc : IsLimit c) (M N : X₀.Modules)
   have hfl : ∀ {a b} (f : a ⟶ b), IsAffineHom ((fibreDiagram D c U₀ y hy hU₀ g₀).map f) := by
     intro a b f
     refine MorphismProperty.overPullbackMap (P := @IsAffineHom) g₀ _ ?_
-    show IsAffineHom (Spec.map _)
+    change IsAffineHom (Spec.map _)
     infer_instance
   have hcs : ∀ a, CompactSpace ((fibreDiagram D c U₀ y hy hU₀ g₀).obj a) := fun a => by
-    show CompactSpace ↥(pullback (baseMap D c U₀ y hy hU₀ a.unop) g₀)
+    change CompactSpace ↥(pullback (baseMap D c U₀ y hy hU₀ a.unop) g₀)
     infer_instance
   have hqs : ∀ a, QuasiSeparatedSpace ((fibreDiagram D c U₀ y hy hU₀ g₀).obj a) := fun a => by
-    show QuasiSeparatedSpace ↥(pullback (baseMap D c U₀ y hy hU₀ a.unop) g₀)
+    change QuasiSeparatedSpace ↥(pullback (baseMap D c U₀ y hy hU₀ a.unop) g₀)
     exact quasiSeparatedSpace_of_quasiSeparated (pullback.fst (baseMap D c U₀ y hy hU₀ a.unop) g₀)
   let a₀ : Index D c U₀ y hy := Classical.arbitrary _
   let t₀ := pullback.snd (baseMap D c U₀ y hy hU₀ a₀) g₀
@@ -680,7 +680,7 @@ lemma toRingHom_comp_liftResidueField (ht : t ∈ pieceSet D c U₀ y hy a) :
     toRingHom D c U₀ y hy a ≫ liftResidueField D c U₀ y hy ht =
       (D.obj a.k.left).evaluation _ t (mem_stageOpen_of_mem_pieceSet D c U₀ y hy ht) := by
   ext x
-  show liftResidueFieldHom D c U₀ y hy ht (toRing D c U₀ y hy a x) = _
+  change liftResidueFieldHom D c U₀ y hy ht (toRing D c U₀ y hy a x) = _
   rw [liftResidueFieldHom, toRing, RingHom.comp_apply, IsLocalization.Away.lift_eq,
     Ideal.Quotient.lift_mk]
 
@@ -788,7 +788,7 @@ theorem exists_stage_forall_isoAlong {I : Type u} [Preorder I] [IsDirected I (·
     rintro _ ⟨x, rfl⟩
     obtain ⟨y, hy, hxy⟩ := Set.mem_iUnion₂.mp (hσ (Set.mem_univ (WithTopology.toTopology _ x)))
     refine Set.mem_iUnion₂.mpr ⟨⟨y, hy⟩, Finset.mem_attach _ _, ?_⟩
-    show (c.π.app k₀.left ≫ D.map (m y hy).left) x ∈ C y
+    change (c.π.app k₀.left ≫ D.map (m y hy).left) x ∈ C y
     rw [c.w]
     exact hxy
   let DS : DescentSituation.{u, u} I :=

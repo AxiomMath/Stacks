@@ -196,7 +196,7 @@ private theorem formallySmooth_of_bijective_algebraMap {k F K : Type u} [CommRin
     (hk : Function.Bijective (algebraMap k F)) : u.FormallySmooth := by
   let ek : k ≃+* F := RingEquiv.ofBijective _ hk
   have hcomp : u = (algebraMap k K).comp ek.symm.toRingHom := RingHom.ext fun x => by
-    show u x = algebraMap k K (ek.symm x)
+    change u x = algebraMap k K (ek.symm x)
     rw [← hu]
     exact congrArg u (ek.apply_symm_apply x).symm
   rw [hcomp]

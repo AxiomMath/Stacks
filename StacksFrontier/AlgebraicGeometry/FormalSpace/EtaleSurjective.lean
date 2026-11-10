@@ -111,7 +111,7 @@ public theorem bijective_app_of_relativeThickening
     have : Surjective ((BigFppfOver.toScheme B S hS).map (hf.rep.snd map)) :=
       ⟨(hf.property_snd map).2⟩
     have : IsReduced ((BigFppfOver.toScheme B S hS).obj object) := by
-      show IsReduced (Spec (.of K))
+      change IsReduced (Spec (.of K))
       infer_instance
     have : IsIso ((BigFppfOver.toScheme B S hS).map (hf.rep.snd map)) :=
       isIso_of_isClosedImmersion_of_surjective _
@@ -133,7 +133,7 @@ public theorem bijective_app_of_relativeThickening
     · intro map
       have := hiso map
       refine ⟨embedding.map (inv (hf.rep.snd map)) ≫ hf.rep.fst map, ?_⟩
-      show (embedding.map (inv (hf.rep.snd map)) ≫ hf.rep.fst map) ≫ f = map
+      change (embedding.map (inv (hf.rep.snd map)) ≫ hf.rep.fst map) ≫ f = map
       rw [Category.assoc, hf.rep.w, ← Category.assoc, ← embedding.map_comp, IsIso.inv_hom_id,
         embedding.map_id, Category.id_comp]
   have hcomp (map : embedding.obj object ⟶ X) :
@@ -178,7 +178,7 @@ public theorem bijective_pointsMapULift_of_bijective_app
           (h : G.map m.op q.value = extension.value) :
           F.map m.op (liftPoint q).value = (liftPoint extension).value := by
         apply (hf extension.carrier extension.contained extension.toBase).1
-        show f.app (Opposite.op (extension.siteObject B S hS G))
+        change f.app (Opposite.op (extension.siteObject B S hS G))
             (F.map m.op (liftPoint q).value) =
           f.app (Opposite.op (extension.siteObject B S hS G)) (liftPoint extension).value
         rw [NatTrans.naturality_apply f m.op, hlift, hlift]
@@ -188,7 +188,7 @@ public theorem bijective_pointsMapULift_of_bijective_app
     intro point
     induction point using Quot.ind with
     | _ point =>
-      show Quot.mk _ (liftPoint (Space.FieldValuedPointULift.map B S hS F f point)) =
+      change Quot.mk _ (liftPoint (Space.FieldValuedPointULift.map B S hS F f point)) =
         Quot.mk _ point
       refine congrArg (Quot.mk _) ?_
       have hvalue : (liftPoint (Space.FieldValuedPointULift.map B S hS F f point)).value =
@@ -200,7 +200,7 @@ public theorem bijective_pointsMapULift_of_bijective_app
     intro point
     induction point using Quot.ind with
     | _ point =>
-      show Quot.mk _ (Space.FieldValuedPointULift.map B S hS F f (liftPoint point)) =
+      change Quot.mk _ (Space.FieldValuedPointULift.map B S hS F f (liftPoint point)) =
         Quot.mk _ point
       refine congrArg (Quot.mk _) ?_
       exact congrArg (fun value => fieldPointOfValue B S hS G point.carrier point.contained
@@ -340,7 +340,7 @@ public theorem surjective_pointsMapULift_sheafifiedYoneda_iff (B : BigFppfSite.{
     (Space.pointsMapULift.{u + 1} B S hS _ ((Sheaf.sheafifiedYoneda topology).map f).hom)
     (Space.pointsMapULift.{u + 1} B S hS _ ((topology.uliftYoneda.{u + 1}).map f).hom)
     (hbij source) (hbij target) (fun p => pointsMapULift_square (iso.hom.naturality f) p)]
-  show Function.Surjective (Space.pointsMapULift.{u + 1} B S hS _
+  change Function.Surjective (Space.pointsMapULift.{u + 1} B S hS _
     (Functor.whiskerRight (yoneda.map f) uliftFunctor.{u + 1})) ↔ _
   rw [surjective_pointsMapULift_whiskerRight_iff]
   refine (Space.presheafSurjective_iff_isSurjective_yoneda B S hS (yoneda.obj target)
@@ -401,7 +401,7 @@ public theorem etaleFormalSpectrumMap_surjective_tfae (f : R →+* A)
       have hle : J.1 ≤ Ideal.comap g.toRingHom kernel.1 := by
         rw [hg]
         intro element helement
-        show Ideal.Quotient.mk (TopologicalRing.extendedIdeal f J) (f element) = 0
+        change Ideal.Quotient.mk (TopologicalRing.extendedIdeal f J) (f element) = 0
         exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_map_of_mem f helement)
       let stage := g.stageMap J kernel hle
       have hsource := bijective_pointsMapULift_formalSpectrumInclusion B S hS
@@ -420,7 +420,7 @@ public theorem etaleFormalSpectrumMap_surjective_tfae (f : R →+* A)
         hsource htarget (fun p => (pointsMapULift_square hspec p).symm)).symm.trans
         ((surjective_pointsMapULift_sheafifiedYoneda_iff B S hS
           ((BigAffineFppf.inclusion B S hS).map stage)).trans ?_)
-      show Surjective (Spec.map (CommRingCat.ofHom
+      change Surjective (Spec.map (CommRingCat.ofHom
         (Ideal.quotientMap kernel.1 g.toRingHom hle))) ↔ _
       let equivalence := projection.quotientKerEquivOfSurjective
         (TopologicalRing.CompletionOver.projection_surjective f J)
@@ -430,7 +430,7 @@ public theorem etaleFormalSpectrumMap_surjective_tfae (f : R →+* A)
           Ideal.quotientMap (J.1.map f) f Ideal.le_comap_map := by
         refine Ideal.Quotient.ringHom_ext ?_
         ext element
-        show equivalence (Ideal.Quotient.mk (RingHom.ker projection) (g.toRingHom element)) =
+        change equivalence (Ideal.Quotient.mk (RingHom.ker projection) (g.toRingHom element)) =
           Ideal.Quotient.mk (J.1.map f) (f element)
         rw [RingHom.quotientKerEquivOfSurjective_apply_mk, hg]
         rfl

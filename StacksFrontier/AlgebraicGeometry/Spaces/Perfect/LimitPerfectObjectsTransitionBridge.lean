@@ -11,8 +11,8 @@ public import
 `StacksFrontier/AlgebraicGeometry/Spaces/Perfect/LimitPerfectEssSurjSquareStepBridged.lean` is the
 elementary-distinguished-square step of the essential surjectivity half of Stacks 09RJ.  It is run
 at a stage `W` of the system and needs the two inductive hypotheses `αU`, `αV` **at that stage**,
-while `AlgebraicGeometry.Space.exists_interStageIso_projHom_of_isColim` of
-`StacksFrontier/AlgebraicGeometry/Spaces/Perfect/LimitPerfectObjectsUnconditionalInterComparison.lean`
+while `AlgebraicGeometry.Space.exists_interStageIso_projHom_of_isColim` of the module
+`StacksFrontier.AlgebraicGeometry.Spaces.Perfect.LimitPerfectObjectsUnconditionalInterComparison`
 produces the comparison isomorphism `c` at a stage of its own choosing.  This is the source's
 "after increasing `i` we can find an isomorphism": the inductive hypotheses have to be carried to
 the stage the comparison was found at, and because `AlgebraicGeometry.Space.edsBridgeFst` is
@@ -130,7 +130,8 @@ bridge**, and that restatement does not pass the kernel.  The costs are as follo
   arrangement in which fewer than one check carries all five, because the objects of an equation
   are tied together by its type.
 
-  With that restatement in hand the rest is immediate: the factorisation of `α` costs **81,460** and of `β` **89,647**, the invariance
+  With that restatement in hand the rest is immediate: the factorisation of `α` costs **81,460**
+  and of `β` **89,647**, the invariance
   **157,927** and **188,431**, and the square step with its data at two stages **62,611**.
 
 *The induction of Stacks 08GP and the affine base case.*  Running the induction needs, besides the

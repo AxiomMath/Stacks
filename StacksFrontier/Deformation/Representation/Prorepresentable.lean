@@ -336,7 +336,7 @@ public theorem isProrepresentableULift_isomorphismClasses_representation
   · let hD := isDeformationCategory_deformationCategoryProjection (Λ := Λ) V ρ₀
     let 𝓕 := BasedCategory.ofFunctor (deformationCategoryProjection (Λ := Λ) V ρ₀)
     let F := isomorphismClasses 𝓕 hD.predeformation.cofibered
-    let 𝓖 := BasedCategory.ofFunctor (CategoryOfElements.π F)
+    let 𝓖 := BasedCategory.ofFunctor (Functor.Elements.π F)
     let hDel := (isDeformationCategory_iff F).2
       (isDeformationFunctor_isomorphismClasses_representation V ρ₀ h)
     let hS2el := Artin.schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory 𝓖 hDel

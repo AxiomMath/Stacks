@@ -279,7 +279,7 @@ theorem annihilator_span_singleton_eq_comap [Module.Flat R N] (m : N) :
   refine ⟨fun h => by rw [h, map_zero], fun h => ?_⟩
   obtain ⟨s, hs⟩ := (IsLocalizedModule.eq_zero_iff (baseChangeSubmonoid R S) _).mp h
   refine isSMulRegular_of_mem_baseChangeSubmonoid R S N s.property ?_
-  show (s : S) • (r • m) = (s : S) • 0
+  change (s : S) • (r • m) = (s : S) • 0
   simpa only [Submonoid.smul_def, smul_zero] using hs
 
 /-- For a prime `q` of `S` that is the contraction of a prime `q'` of `A` (equivalently, `q`

@@ -73,7 +73,7 @@ theorem prop_of_comp_of_fppf_refinement_family (P : MorphismProperty Scheme.{u})
     s₀ := fun _ => PUnit.unit
     h₀ := fun y => k (a y.down) ≫ Sigma.ι (fun y : Y => X (a y)) y.down
     w₀ := fun y => ?_ }⟩⟩
-  show (k (a y.down) ≫ Sigma.ι (fun y : Y => X (a y)) y.down) ≫ F = 𝒰.f (a y.down)
+  change (k (a y.down) ≫ Sigma.ι (fun y : Y => X (a y)) y.down) ≫ F = 𝒰.f (a y.down)
   simp [F, hk]
 
 namespace Space
@@ -177,14 +177,14 @@ theorem holdsOnEveryEtaleChart_of_comp_of_jointlyLocallySurjective
       yoneda.map (qUsite i ≫ h) ≫ b = (atlasT i ≫ pullback.snd a (f (jj i))) ≫ f (jj i) ≫ g := by
     simp only [Functor.map_comp, Category.assoc, hab,
       show yoneda.map (qUsite i) = atlasT i ≫ pullback.fst a (f (jj i)) from by simp [qUsite]]
-    show (atlasT i ≫ pullback.fst a (f (jj i))) ≫ a ≫ g =
+    change (atlasT i ≫ pullback.fst a (f (jj i))) ≫ a ≫ g =
       (atlasT i ≫ pullback.snd a (f (jj i))) ≫ f (jj i) ≫ g
     simp only [Category.assoc, pullback.condition_assoc]
   exact prop_of_comp_of_fppf_refinement_family P hdesc (Tsch.map h) refinedCover
     (X := fun ij => Tsch.obj (Q ij.1)) (fun ij => Tsch.map (qUsite ij.1))
     (fun ij => Tsch.map (yoneda.preimage (li ij.1)))
     (fun ij => by
-      show Tsch.map (yoneda.preimage (li ij.1)) ≫ Tsch.map (qUsite ij.1) =
+      change Tsch.map (yoneda.preimage (li ij.1)) ≫ Tsch.map (qUsite ij.1) =
         Tsch.map (ri ij.1) ≫ Tsch.map (E.f ij.1)
       simpa only [Functor.map_comp] using congrArg Tsch.map (hfactor' ij.1))
     (fun ij => by

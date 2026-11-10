@@ -190,7 +190,7 @@ lemma exists_hom_of_elementsFiberEquiv_map (G : Cᵒᵖ ⥤ Type a) {V U : C} (f
   change y.fiber.as = G.map f.op x.fiber.as at hs
   refine ⟨⟨f, Discrete.eqToHom hs⟩, ?_⟩
   refine IsHomLift.of_fac' _ f _ rfl rfl ?_
-  show f = eqToHom rfl ≫ f ≫ eqToHom rfl
+  change f = eqToHom rfl ≫ f ≫ eqToHom rfl
   simp
 
 /-- A section equation is realised by a morphism of objects: if the section named by `z'` is the

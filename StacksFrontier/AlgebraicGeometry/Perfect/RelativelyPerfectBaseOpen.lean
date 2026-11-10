@@ -108,7 +108,7 @@ theorem range_projection_subset :
       Set.range (ringedOpenImmersion j).hom.base := by
   rintro _ ⟨x, rfl⟩
   refine ⟨g.base x, ?_⟩
-  show j.base (g.base x) = (g ≫ j).base x
+  change j.base (g.base x) = (g ≫ j).base x
   rw [Scheme.Hom.comp_base]
   rfl
 

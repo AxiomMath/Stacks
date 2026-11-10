@@ -132,7 +132,7 @@ public theorem topologicalKrullDimAt_fiber_genericPoint_eq_zero {X Y : Scheme.{u
     rw [hmap]; exact subsingleton_fiber_genericPoint f hf
   have _ : Nonempty (f.fiber (f (genericPoint X))) := ⟨f.asFiber (genericPoint X)⟩
   have _ : LocallyOfFiniteType (f.fiberToSpecResidueField (f (genericPoint X))) := by
-    show LocallyOfFiniteType (Limits.pullback.snd f
+    change LocallyOfFiniteType (Limits.pullback.snd f
       (Y.fromSpecResidueField (f (genericPoint X))))
     infer_instance
   have _ : IsLocallyNoetherian (f.fiber (f (genericPoint X))) :=
@@ -280,7 +280,7 @@ public theorem isIso_morphismRestrict_puncturedSpectrumOpen (V : VanishingSituat
     IsBirational.genericPoint_eq V.f V.modification.isBirational
   have hfne : Nonempty (V.f ⁻¹ᵁ V.puncturedSpectrumOpen) :=
     ⟨⟨genericPoint V.X, by
-      show V.f (genericPoint V.X) ∈ V.puncturedSpectrumOpen
+      change V.f (genericPoint V.X) ∈ V.puncturedSpectrumOpen
       rw [hmapgen]
       exact hgen⟩⟩
   have hbir : IsBirational (V.f ∣_ V.puncturedSpectrumOpen) :=

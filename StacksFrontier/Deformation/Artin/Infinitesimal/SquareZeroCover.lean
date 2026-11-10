@@ -31,7 +31,7 @@ theorem isDeformationSituation_appTop_specMap {R S : CommRingCat.{u}} (φ : R �
   have hS : Function.Bijective (Scheme.ΓSpecIso S).inv.hom :=
     ConcreteCategory.bijective_of_isIso _
   refine ⟨hS.2.comp (h.1.comp hR.2), ?_⟩
-  show (RingHom.ker ((Scheme.ΓSpecIso S).inv.hom.comp
+  change (RingHom.ker ((Scheme.ΓSpecIso S).inv.hom.comp
     (φ.hom.comp (Scheme.ΓSpecIso R).hom.hom))) ^ 2 = ⊥
   rw [RingHom.ker_comp_of_injective _ hS.1, ← RingHom.comap_ker]
   refine le_bot_iff.mp ((Ideal.le_comap_pow _ 2).trans ?_)
@@ -75,8 +75,7 @@ variable {A A₁ : Type u} [CommRing A] [CommRing A₁] [Algebra A A₁]
 theorem addEquiv_smul_of_tmul (ψ : (M : Type u) →+ (M₁ : Type u)) (e : A₁ ⊗[A] M ≃+ M₁)
     (he : ∀ (c : A₁) (m : M), e (c ⊗ₜ m) = c • ψ m) (c : A₁) (t : A₁ ⊗[A] M) :
     e (c • t) = c • e t := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul c' m => rw [TensorProduct.smul_tmul', he, he, smul_eq_mul, mul_smul]
   | add t t' ht ht' => rw [smul_add, map_add, map_add, ht, ht', smul_add]
 
@@ -114,8 +113,7 @@ theorem sqzTensorDescAdd_tmul (c : A₁) (m : M) :
 `t`. -/
 theorem sqzTensorDescAdd_smul (c : A₁) (t : A₁ ⊗[A] M) :
     sqzTensorDescAdd uu v huv (c • t) = uu c * sqzTensorDescAdd uu v huv t := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, mul_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul c' m => rw [TensorProduct.smul_tmul', sqzTensorDescAdd_tmul, sqzTensorDescAdd_tmul,
       smul_eq_mul, map_mul, mul_assoc]
   | add t t' ht ht' => rw [smul_add, map_add, map_add, ht, ht', mul_add]
@@ -123,12 +121,10 @@ theorem sqzTensorDescAdd_smul (c : A₁) (t : A₁ ⊗[A] M) :
 /-- Any two values of `sqzTensorDescAdd` multiply to zero. -/
 theorem sqzTensorDescAdd_mul (t t' : A₁ ⊗[A] M) :
     sqzTensorDescAdd uu v huv t * sqzTensorDescAdd uu v huv t' = 0 := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, zero_mul]
+  induction t using TensorProduct.inductionOn with
   | add t₁ t₂ h₁ h₂ => rw [map_add, add_mul, h₁, h₂, add_zero]
   | tmul c m =>
-    induction t' using TensorProduct.induction_on with
-    | zero => rw [map_zero, mul_zero]
+    induction t' using TensorProduct.inductionOn with
     | add t₁ t₂ h₁ h₂ => rw [map_add, mul_add, h₁, h₂, add_zero]
     | tmul c' m' =>
       rw [sqzTensorDescAdd_tmul, sqzTensorDescAdd_tmul, mul_mul_mul_comm, ← map_mul v,
@@ -175,7 +171,7 @@ theorem isPushout_squareZero_of_addEquiv
     apply CommRingCat.hom_ext
     ext r
     · rfl
-    · show (0 : M₁) = restrictScalarsAddHom _ ψ 0
+    · change (0 : M₁) = restrictScalarsAddHom _ ψ 0
       rw [map_zero]
   have hs := addEquiv_symm_smul_of_tmul _ e he
   have hψ : ∀ m : M, e.symm (restrictScalarsAddHom (algebraMap A A₁) ψ m) = (1 : A₁) ⊗ₜ m :=
@@ -186,11 +182,11 @@ theorem isPushout_squareZero_of_addEquiv
       (fun s φ h₁ h₂ ↦ ?_))
   · apply CommRingCat.hom_ext
     ext c
-    show s.inl.hom c + sqzTensorDescAdd _ _ _ (e.symm 0) = s.inl.hom c
+    change s.inl.hom c + sqzTensorDescAdd _ _ _ (e.symm 0) = s.inl.hom c
     rw [map_zero, map_zero, add_zero]
   · apply CommRingCat.hom_ext
     ext z
-    show s.inl.hom (algebraMap A A₁ z.fst) +
+    change s.inl.hom (algebraMap A A₁ z.fst) +
       sqzTensorDescAdd _ _ _ (e.symm (restrictScalarsAddHom (algebraMap A A₁) ψ z.snd)) =
       s.inr.hom z
     rw [hψ]
@@ -211,8 +207,7 @@ theorem isPushout_squareZero_of_addEquiv
     have ht : ∀ t : A₁ ⊗[A] M, φ.hom (TrivSqZeroExt.inr (e t)) =
         sqzTensorDescAdd s.inl.hom s.inr.hom (fun r ↦ congrArg (fun g ↦ g.hom r) s.condition) t :=
       fun t ↦ by
-      induction t using TensorProduct.induction_on with
-      | zero => rw [map_zero, TrivSqZeroExt.inr_zero, map_zero, map_zero]
+      induction t using TensorProduct.inductionOn with
       | add t t' h h' => rw [map_add, TrivSqZeroExt.inr_add, map_add, h, h', map_add]
       | tmul c m =>
         rw [he, ← TrivSqZeroExt.inl_mul_inr, map_mul, hl]
@@ -372,7 +367,7 @@ theorem isSiteModule_tensor (hA₁ : B.Contains (Spec (.of A₁))) (M : SiteModu
     have h : (Spec (squareZeroRing A M.obj)).size < B.cutoff := M.property
     rw [Scheme.size_Spec] at h
     refine lt_of_le_of_lt ?_ (lt_of_le_of_lt (le_max_right _ _) h)
-    show Cardinal.mk (M.obj : Type u) ≤ Cardinal.mk (A × (M.obj : Type u))
+    change Cardinal.mk (M.obj : Type u) ≤ Cardinal.mk (A × (M.obj : Type u))
     exact Cardinal.mk_le_of_injective (f := fun m : M.obj ↦ ((0 : A), m))
       (fun m n h ↦ (Prod.mk.inj h).2)
   have hT : Cardinal.mk (A₁ ⊗[A] M.obj) < B.cutoff := by
@@ -382,10 +377,10 @@ theorem isSiteModule_tensor (hA₁ : B.Contains (Spec (.of A₁))) (M : SiteModu
     exact lt_of_le_of_lt (Cardinal.mul_le_max _ _)
       (max_lt (max_lt h₁ hM) B.aleph0_lt_cutoff)
   have hR : Cardinal.mk (squareZeroRing A₁ (ModuleCat.of A₁ (A₁ ⊗[A] M.obj))) < B.cutoff := by
-    show Cardinal.mk (A₁ × (A₁ ⊗[A] M.obj)) < B.cutoff
+    change Cardinal.mk (A₁ × (A₁ ⊗[A] M.obj)) < B.cutoff
     rw [Cardinal.mk_prod, Cardinal.lift_id, Cardinal.lift_id]
     exact lt_of_le_of_lt (Cardinal.mul_le_max _ _) (max_lt (max_lt h₁ hT) B.aleph0_lt_cutoff)
-  show (Spec (squareZeroRing A₁ (ModuleCat.of A₁ (A₁ ⊗[A] M.obj)))).size < B.cutoff
+  change (Spec (squareZeroRing A₁ (ModuleCat.of A₁ (A₁ ⊗[A] M.obj)))).size < B.cutoff
   rw [Scheme.size_Spec]
   exact max_lt B.aleph0_lt_cutoff hR
 
@@ -416,8 +411,7 @@ noncomputable def tensorCoeffMap (g : A₁ →ₐ[A] A₂) (M : ModuleCat.{u} A)
        map_smul' := fun c t ↦ by
          change TensorProduct.map g.toLinearMap LinearMap.id (c • t) =
            g c • TensorProduct.map g.toLinearMap LinearMap.id t
-         induction t using TensorProduct.induction_on with
-         | zero => rw [smul_zero, map_zero, smul_zero]
+         induction t using TensorProduct.inductionOn with
          | tmul c' m => rw [TensorProduct.smul_tmul', TensorProduct.map_tmul,
              TensorProduct.map_tmul, TensorProduct.smul_tmul', smul_eq_mul, smul_eq_mul,
              AlgHom.toLinearMap_apply, AlgHom.toLinearMap_apply, map_mul]
@@ -431,7 +425,7 @@ theorem tensorCoeffMap_apply_tensorCoeff (g : A₁ →ₐ[A] A₂) (M : ModuleCa
     restrictScalarsAddHom g.toRingHom (tensorCoeffMap g M)
       (restrictScalarsAddHom (algebraMap A A₁) (tensorCoeff (A₁ := A₁) M) m) =
       (1 : A₂) ⊗ₜ m := by
-  show TensorProduct.map g.toLinearMap LinearMap.id ((1 : A₁) ⊗ₜ m) = _
+  change TensorProduct.map g.toLinearMap LinearMap.id ((1 : A₁) ⊗ₜ m) = _
   rw [TensorProduct.map_tmul, AlgHom.toLinearMap_apply, map_one, LinearMap.id_apply]
 
 /-- **The coefficient maps are functorial.** For `A`-algebra maps with `g₂ ∘ g₁ = g₄ ∘ g₃`, the
@@ -442,7 +436,7 @@ theorem tensorCoeffMap_comp_apply {A₃ A₄ : Type u} [CommRing A₃] [CommRing
     (g₃ : A₁ →ₐ[A] A₄) (g₄ : A₄ →ₐ[A] A₃) (h : g₂.comp g₁ = g₄.comp g₃) (t : A₁ ⊗[A] M) :
     (tensorCoeffMap g₂ M).hom ((tensorCoeffMap g₁ M).hom t) =
       (tensorCoeffMap g₄ M).hom ((tensorCoeffMap g₃ M).hom t) := by
-  show TensorProduct.map g₂.toLinearMap LinearMap.id
+  change TensorProduct.map g₂.toLinearMap LinearMap.id
       (TensorProduct.map g₁.toLinearMap LinearMap.id t) =
     TensorProduct.map g₄.toLinearMap LinearMap.id (TensorProduct.map g₃.toLinearMap LinearMap.id t)
   rw [← LinearMap.comp_apply, ← TensorProduct.map_comp, ← LinearMap.comp_apply,
@@ -590,7 +584,7 @@ theorem liftClassRowExact_of_tensor (h𝒳 : IsAlgebraicStack.{u, w} B S hS 𝒳
       algebraOverMapOfRingHom (algebraMap A A₁) B S hS toS toS₁ hA hA₁ hf₀₁ := by
     apply (BigFppfOver.toScheme B S hS).map_injective
     rw [Functor.map_comp, Functor.map_comp]
-    show Spec.map _ ≫ Spec.map _ = Spec.map _ ≫ Spec.map _
+    change Spec.map _ ≫ Spec.map _ = Spec.map _ ≫ Spec.map _
     rw [← Spec.map_comp, ← Spec.map_comp, hcA, hcB]
   exact liftClassRowExact_of_cover h𝒳 f hf
     (isDeformationSituation_squareZeroArrow A hS toS hA M)
@@ -654,10 +648,10 @@ theorem liftClassRowExact_of_tensorProduct (h𝒳 : IsAlgebraicStack.{u, w} B S 
       (hx₁ := hx₁) (hx₂ := hx₂) :=
   liftClassRowExact_of_tensor h𝒳 f hf hFl hSu hLp hpush a.comp_algebraMap b.comp_algebraMap
     (AddEquiv.refl _) (fun c m ↦ by
-      show c ⊗ₜ m = c • ((1 : A₁) ⊗ₜ[A] m)
+      change c ⊗ₜ m = c • ((1 : A₁) ⊗ₜ[A] m)
       rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one])
     (AddEquiv.refl _) (fun c m ↦ by
-      show c ⊗ₜ m = c • restrictScalarsAddHom a.toRingHom (tensorCoeffMap a M.obj)
+      change c ⊗ₜ m = c • restrictScalarsAddHom a.toRingHom (tensorCoeffMap a M.obj)
         (restrictScalarsAddHom (algebraMap A A₁) (tensorCoeff (A₁ := A₁) M.obj) m)
       rw [tensorCoeffMap_apply_tensorCoeff, TensorProduct.smul_tmul', smul_eq_mul, mul_one])
     (fun m ↦ by rw [tensorCoeffMap_apply_tensorCoeff, tensorCoeffMap_apply_tensorCoeff]) hγ

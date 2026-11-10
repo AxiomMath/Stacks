@@ -119,7 +119,7 @@ theorem globalCechCoords_mem_cechCompatible (m : ℕ) (σ : Γ(natTensorPow L m,
     globalCechCoords L hL fam m σ ∈
       Stacks.LocalCohomology.cechCompatible (famRing L fam) (sectionRingModule (L := L)) := by
   refine mem_cechCompatible_of_pairs _ _ _ fun a b hab => ?_
-  show Cech.cechι _ _ _ (singletonChart L hL fam a m _) =
+  change Cech.cechι _ _ _ (singletonChart L hL fam a m _) =
     Cech.cechι _ _ _ (singletonChart L hL fam b m _)
   rw [cechι_singletonChart_left L hL fam hab, cechι_singletonChart_right L hL fam hab,
     presheaf_map_homOfLE_comp, presheaf_map_homOfLE_comp]
@@ -136,7 +136,7 @@ def globalCechSection (m : ℕ) (σ : Γ(natTensorPow L m, ⊤)) :
 theorem cechTermOneEquiv_globalCechSection (m : ℕ) (σ : Γ(natTensorPow L m, ⊤)) (j : Fin r) :
     Stacks.LocalCohomology.cechTermOneEquiv (famRing L fam) (sectionRingModule (L := L))
         (globalCechSection L hL fam m σ).1 j = globalCechCoords L hL fam m σ j := by
-  show Stacks.LocalCohomology.cechTermOneEquiv _ _
+  change Stacks.LocalCohomology.cechTermOneEquiv _ _
       ((Stacks.LocalCohomology.cechTermOneEquiv _ _).symm _) j = _
   rw [LinearEquiv.apply_symm_apply]
 
@@ -145,7 +145,7 @@ theorem globalCechSection_mem_kerDegree (m : ℕ) (σ : Γ(natTensorPow L m, ⊤
     globalCechSection L hL fam m σ ∈ kerDegree (grading L) (famRing L fam)
       (sectionRingModule (L := L)) (integerGrading (S := sectionRing L) (grading L)) (m : ℤ) := by
   refine (mem_gradedCechTerm_one_iff _ _ _ _ _ _).2 fun j => ?_
-  show Stacks.LocalCohomology.cechTermOneEquiv _ _ (globalCechSection L hL fam m σ).1 j ∈ _
+  change Stacks.LocalCohomology.cechTermOneEquiv _ _ (globalCechSection L hL fam m σ).1 j ∈ _
   rw [cechTermOneEquiv_globalCechSection]
   exact singletonChart_mem L hL fam j m _
 
@@ -178,7 +178,7 @@ theorem exists_globalCechSection_eq (hcov : ⨆ j, nvOpen L (fam j) = ⊤) (m : 
     intro a b
     obtain rfl | hab := eq_or_ne a b
     · rfl
-    show (natTensorPow L m).presheaf.map (homOfLE inf_le_left).op (σs a) =
+    change (natTensorPow L m).presheaf.map (homOfLE inf_le_left).op (σs a) =
       (natTensorPow L m).presheaf.map (homOfLE inf_le_right).op (σs b)
     apply presheaf_map_homOfLE_injective_of_eq (natTensorPow L m)
       (Stacks.SectionRingChartMap.nvOpen_mul L (fam a) (fam b))
@@ -193,7 +193,7 @@ theorem exists_globalCechSection_eq (hcov : ⨆ j, nvOpen L (fam j) = ⊤) (m : 
     hcov.ge σs hglue
   refine ⟨σ, kerCechDOne_ext _ _ fun j => ?_⟩
   rw [cechTermOneEquiv_globalCechSection, globalCechCoords]
-  show singletonChart L hL fam j m ((natTensorPow L m).presheaf.map (homOfLE le_top).op σ) = _
+  change singletonChart L hL fam j m ((natTensorPow L m).presheaf.map (homOfLE le_top).op σ) = _
   rw [hσ j, hσs j]
 
 end Stacks.Algebraization.SectionRingCone

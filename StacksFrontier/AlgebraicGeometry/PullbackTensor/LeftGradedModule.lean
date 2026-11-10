@@ -249,7 +249,7 @@ theorem pullbackBilinear_one (U : Opens X.carrier)
             ((pullbackSectionsUnit f M₀ t).eval (op U)))))
       LinearMap.id
       (fun V hx a => by
-        show sheafCast (congrArg (pullbackFunctor f).obj hQ) p
+        change sheafCast (congrArg (pullbackFunctor f).obj hQ) p
             (stalkMul (pullbackBilinear f β) p
               (grpGerm X ((pullbackFunctor f).obj M₀).val p U hp
                 ((pullbackSectionsUnit f M₀ t).eval (op U)))

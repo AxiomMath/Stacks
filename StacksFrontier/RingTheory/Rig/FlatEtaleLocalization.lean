@@ -171,7 +171,7 @@ private lemma etale_quotient_of_commutative_square
     apply RingHom.ext
     intro value
     obtain ⟨representative, rfl⟩ := Ideal.Quotient.mk_surjective value
-    show Ideal.Quotient.mk _ (hom' (source representative)) =
+    change Ideal.Quotient.mk _ (hom' (source representative)) =
       Ideal.Quotient.mk _ (target (hom representative))
     exact congrArg (Ideal.Quotient.mk _) (DFunLike.congr_fun hsquare representative)
   have hquot := etale_of_etale_comp quotientSource quotientHom' hsource (by
@@ -185,7 +185,7 @@ private lemma etale_quotient_of_commutative_square
   intro value
   obtain ⟨representative, rfl⟩ := Ideal.Quotient.mk_surjective value
   apply changeQuotient.injective
-  show changeQuotient (Ideal.Quotient.mk _ (hom' representative)) =
+  change changeQuotient (Ideal.Quotient.mk _ (hom' representative)) =
     changeQuotient (changeQuotient.symm (Ideal.Quotient.mk _ (hom' representative)))
   simp only [changeQuotient, Ideal.quotEquivOfEq_mk, RingEquiv.apply_symm_apply]
 
@@ -216,12 +216,12 @@ private lemma kernel_eval
   ext value
   have he : AdicCompletion.evalₐ ideal index value = 0 ↔
       AdicCompletion.eval ideal R index value = 0 := by
-    show (Ideal.quotientEquivAlgOfEq R
+    change (Ideal.quotientEquivAlgOfEq R
         (show (ideal ^ index • ⊤ : Ideal R) = ideal ^ index by simp))
       (AdicCompletion.eval ideal R index value) = 0 ↔ _
     exact map_eq_zero_iff _ (AlgEquiv.injective _)
   rw [RingHom.mem_ker]
-  show AdicCompletion.evalₐ ideal index value = 0 ↔ _
+  change AdicCompletion.evalₐ ideal index value = 0 ↔ _
   rw [he, ← LinearMap.mem_ker,
     ← AdicCompletion.pow_smul_top_eq_ker_eval ideal.fg_of_isNoetherianRing,
     Ideal.smul_top_eq_map]
@@ -237,7 +237,7 @@ private lemma kernel_factor_eval
   let hom := (Ideal.Quotient.factor hpow).comp (AdicCompletion.evalₐ ideal index).toRingHom
   have hcomm : hom.comp (algebraMap R target) = Ideal.Quotient.mk quotientIdeal := by
     ext value
-    show Ideal.Quotient.factor hpow
+    change Ideal.Quotient.factor hpow
       (AdicCompletion.evalₐ ideal index (AdicCompletion.of ideal R value)) = _
     rw [AdicCompletion.evalₐ_of, Ideal.Quotient.factor_mk]
   have hker : RingHom.ker hom = extended := by
@@ -248,14 +248,14 @@ private lemma kernel_factor_eval
       have hmem : representative ∈ quotientIdeal := by
         apply Ideal.Quotient.eq_zero_iff_mem.mp
         rw [← DFunLike.congr_fun hcomm representative]
-        show hom (algebraMap R target representative) = 0
-        show Ideal.Quotient.factor hpow (AdicCompletion.evalₐ ideal index
+        change hom (algebraMap R target representative) = 0
+        change Ideal.Quotient.factor hpow (AdicCompletion.evalₐ ideal index
           (AdicCompletion.of ideal R representative)) = 0
         rw [AdicCompletion.evalₐ_of, hrepresentative]
         exact hvalue
       have hdiff : value - algebraMap R target representative ∈ RingHom.ker
           (AdicCompletion.evalₐ ideal index).toRingHom := by
-        show AdicCompletion.evalₐ ideal index
+        change AdicCompletion.evalₐ ideal index
           (value - AdicCompletion.of ideal R representative) = 0
         rw [map_sub, AdicCompletion.evalₐ_of, hrepresentative, sub_self]
       rw [kernel_eval] at hdiff
@@ -266,8 +266,8 @@ private lemma kernel_factor_eval
         ring)
     · apply Ideal.map_le_iff_le_comap.mpr
       intro value hvalue
-      show hom (algebraMap R target value) = 0
-      show (hom.comp (algebraMap R target)) value = 0
+      change hom (algebraMap R target value) = 0
+      change (hom.comp (algebraMap R target)) value = 0
       rw [hcomm]
       exact Ideal.Quotient.eq_zero_iff_mem.mpr hvalue
   exact hker
@@ -287,7 +287,7 @@ private lemma quotientCompletionEquiv_apply_mk
     quotientCompletionEquiv ideal quotientIdeal index hpow (Ideal.Quotient.mk _ value) =
       Ideal.Quotient.factor hpow (AdicCompletion.evalₐ ideal index value) := by
   unfold quotientCompletionEquiv
-  show RingHom.quotientKerEquivOfSurjective
+  change RingHom.quotientKerEquivOfSurjective
     (f := (Ideal.Quotient.factor hpow).comp (AdicCompletion.evalₐ ideal index).toRingHom)
     ((Ideal.Quotient.factor_surjective hpow).comp (AdicCompletion.surjective_evalₐ ideal index))
     (Ideal.Quotient.mk (RingHom.ker ((Ideal.Quotient.factor hpow).comp
@@ -421,18 +421,18 @@ public lemma topologicallyOfFiniteType_of_dense_extension
     MvPolynomial.map g
   have hconst : q.toRingHom.comp MvPolynomial.C = ψ := by
     ext c
-    show q (algebraMap C (MvPolynomial (Fin n) C) c) = ψ c
+    change q (algebraMap C (MvPolynomial (Fin n) C) c) = ψ c
     rw [q.commutes]
     rfl
   have hpoly : q.toRingHom.comp mapg = k.comp p := by
     apply MvPolynomial.ringHom_ext'
     · ext a
-      show q (MvPolynomial.map g (MvPolynomial.C a)) =
+      change q (MvPolynomial.map g (MvPolynomial.C a)) =
         k (p (MvPolynomial.C a))
       rw [MvPolynomial.map_C]
       calc
         q (MvPolynomial.C (g a)) = ψ (g a) := by
-          show (q.toRingHom.comp MvPolynomial.C) (g a) = ψ (g a)
+          change (q.toRingHom.comp MvPolynomial.C) (g a) = ψ (g a)
           exact DFunLike.congr_fun hconst (g a)
         _ = k (φ a) := DFunLike.congr_fun hcomm a
         _ = k (p (MvPolynomial.C a)) :=
@@ -515,9 +515,9 @@ private lemma completedAway_canonical_etale_quotient
   simp only [RingEquiv.trans_apply, RingHom.comp_apply,
     RingEquiv.toRingHom_eq_coe, RingHom.coe_coe, RingEquiv.symm_apply_apply,
     RingEquiv.apply_symm_apply, Ideal.quotientMap_mk]
-  show (changeQuotient.symm.trans equiv)
+  change (changeQuotient.symm.trans equiv)
     (Ideal.Quotient.mk extended (algebraMap R target representative)) = quotientLoc _
-  show equiv (changeQuotient.symm
+  change equiv (changeQuotient.symm
     (Ideal.Quotient.mk extended (algebraMap R target representative))) = quotientLoc _
   have hmk : changeQuotient.symm
       (Ideal.Quotient.mk extended (algebraMap R target representative)) =
@@ -525,7 +525,7 @@ private lemma completedAway_canonical_etale_quotient
     apply changeQuotient.injective
     simp only [RingEquiv.apply_symm_apply, changeQuotient, Ideal.quotEquivOfEq_mk]
   rw [hmk, quotientCompletionEquiv_apply_mk]
-  show Ideal.Quotient.factor hpowLoc (AdicCompletion.evalₐ localizedIdeal index
+  change Ideal.Quotient.factor hpowLoc (AdicCompletion.evalₐ localizedIdeal index
     (AdicCompletion.of localizedIdeal localized (algebraMap R localized representative))) = _
   rw [AdicCompletion.evalₐ_of, Ideal.Quotient.factor_mk]
   rfl
@@ -588,7 +588,7 @@ public lemma completedAwayMap_properties
     let : Algebra sourceLoc targetLoc := localized.toAlgebra
     apply RingHom.ext
     intro value
-    show Stacks.Nagata.PthRootDescent.mapAdicCompletion sourceLocIdeal targetLocIdeal _
+    change Stacks.Nagata.PthRootDescent.mapAdicCompletion sourceLocIdeal targetLocIdeal _
       (algebraMap sourceLoc source value) = algebraMap targetLoc target (localized value)
     exact Stacks.Nagata.PthRootDescent.mapAdicCompletion_of
       (map_away_map_eq hom ideal element).le value
@@ -596,7 +596,7 @@ public lemma completedAwayMap_properties
       (algebraMap S target).comp hom := by
     apply RingHom.ext
     intro value
-    show completed (algebraMap R source value) = algebraMap S target (hom value)
+    change completed (algebraMap R source value) = algebraMap S target (hom value)
     rw [IsScalarTower.algebraMap_apply R sourceLoc source,
       show completed (algebraMap sourceLoc source (algebraMap R sourceLoc value)) =
         algebraMap targetLoc target (localized (algebraMap R sourceLoc value)) from
@@ -604,7 +604,7 @@ public lemma completedAwayMap_properties
     simp [localized, IsLocalization.Away.map, IsLocalization.map_eq,
       IsScalarTower.algebraMap_apply S targetLoc target]
   have hmap : sourceIdeal.map completed = targetIdeal := by
-    show (ideal.map (algebraMap R source)).map completed =
+    change (ideal.map (algebraMap R source)).map completed =
       (ideal.map hom).map (algebraMap S target)
     calc
       _ = ideal.map (completed.comp (algebraMap R source)) := Ideal.map_map _ _
@@ -628,7 +628,7 @@ public lemma completedAwayMap_properties
         (targetLocIdeal.map (algebraMap targetLoc target)).adicTopology targetLoc
         (algebraMap targetLoc target) at hdense
       rw [htargetIdeal] at hdense
-      show @DenseRange target targetIdeal.adicTopology targetLoc _
+      change @DenseRange target targetIdeal.adicTopology targetLoc _
       exact hdense)
   exact ⟨hcomm, hmap, hcont, hfiniteCompletion⟩
 
@@ -1223,7 +1223,7 @@ private theorem flatAtPrime_of_rigFlat_flat_etale_square
       inferInstanceAs (IsLocalHom
         (Localization.localRingHom prime targetPrime (algebraMap B' targetHat)
           hprimeComap.symm))
-    show Module.FaithfullyFlat (Localization.AtPrime prime) (Localization.AtPrime targetPrime)
+    change Module.FaithfullyFlat (Localization.AtPrime prime) (Localization.AtPrime targetPrime)
     exact Module.FaithfullyFlat.of_flat_of_isLocalHom
   apply flat_of_faithfullyFlat_comp _ localMap hlocalMapFaithful
   have hlocalComm : localMap.comp (algebraMap B' (Localization.AtPrime prime)) =
@@ -1293,7 +1293,7 @@ public theorem isRigFlat_of_flat_etale_square
   change ψ'.comp (algebraMap A' A'_hat) = (algebraMap B' B'_hat).comp φ' ∧
     I'_hat.map ψ' = J'_hat ∧ Continuous ψ' ∧
     TopologicalRing.IsTopologicallyOfFiniteType ψ' at hprops
-  show RingHom.IsNaivelyRigFlat ψ'
+  change RingHom.IsNaivelyRigFlat ψ'
   refine ⟨⟨I'_hat, rfl, congrArg Ideal.adicTopology hprops.2.1.symm⟩,
     hprops.2.2.2, ?_⟩
   · let : TopologicalSpace A'_f := I'_f.adicTopology

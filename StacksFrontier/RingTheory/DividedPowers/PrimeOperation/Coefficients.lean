@@ -38,7 +38,7 @@ open Finset
 
 namespace DividedPowers
 
-private lemma uniformBell_not_dvd {p m : ℕ} (hp : p.Prime) :
+lemma uniformBell_not_dvd {p m : ℕ} (hp : p.Prime) :
     ¬ p ∣ Nat.uniformBell m p := by
   have hmul := Nat.uniformBell_mul_eq m hp.ne_zero
   have hval := congrArg (fun n : ℕ => emultiplicity p n) hmul
@@ -72,10 +72,10 @@ private lemma uniformBell_not_dvd {p m : ℕ} (hp : p.Prime) :
         simp
   exact emultiplicity_eq_zero.mp hvalzero
 
-private def digitCoefficient (p m r : ℕ) : ℕ :=
+def digitCoefficient (p m r : ℕ) : ℕ :=
   Nat.uniformBell m p * ∏ j ∈ range r, (p * m + j + 1)
 
-private lemma digitProduct_not_dvd {p m r : ℕ} (hp : p.Prime) (hr : r < p) :
+lemma digitProduct_not_dvd {p m r : ℕ} (hp : p.Prime) (hr : r < p) :
     ¬p ∣ ∏ j ∈ range r, (p * m + j + 1) := by
   induction r with
   | zero => simp [hp.ne_one]
@@ -89,16 +89,16 @@ private lemma digitProduct_not_dvd {p m r : ℕ} (hp : p.Prime) (hr : r < p) :
       have hle : p ≤ r + 1 := Nat.le_of_dvd (by omega) hd'
       omega
 
-private lemma digitCoefficient_not_dvd {p m r : ℕ} (hp : p.Prime) (hr : r < p) :
+lemma digitCoefficient_not_dvd {p m r : ℕ} (hp : p.Prime) (hr : r < p) :
     ¬p ∣ digitCoefficient p m r := by
   rw [digitCoefficient, hp.dvd_mul]
   exact not_or.mpr ⟨uniformBell_not_dvd hp, digitProduct_not_dvd hp hr⟩
 
-private noncomputable def digitCoefficientInverse {A : Type*} [CommRing A] (p : ℕ)
+noncomputable def digitCoefficientInverse {A : Type*} [CommRing A] (p : ℕ)
     (hp : p.Prime) (hA : ∀ n : ℕ, ¬p ∣ n → IsUnit (n : A)) (m r : ℕ) (hr : r < p) : A :=
   ↑(hA (digitCoefficient p m r) (digitCoefficient_not_dvd hp hr)).unit⁻¹
 
-private noncomputable def primeGamma {A : Type*} [CommRing A] {I : Ideal A} (p : ℕ)
+noncomputable def primeGamma {A : Type*} [CommRing A] {I : Ideal A} (p : ℕ)
     (hp : p.Prime) (hA : ∀ n : ℕ, ¬p ∣ n → IsUnit (n : A)) (δ : I → I) :
     ℕ → I → A
   | 0, _ => 1
@@ -112,7 +112,7 @@ termination_by n _ => n
 decreasing_by
   exact Nat.div_lt_self (by omega) hp.one_lt
 
-private lemma primeGamma_digit_rec {A : Type*} [CommRing A] {I : Ideal A} (p : ℕ)
+lemma primeGamma_digit_rec {A : Type*} [CommRing A] {I : Ideal A} (p : ℕ)
     (hp : p.Prime) (hA : ∀ n : ℕ, ¬p ∣ n → IsUnit (n : A)) (δ : I → I)
     (n : ℕ) (x : I) :
     primeGamma p hp hA δ n x =
@@ -135,12 +135,12 @@ private lemma primeGamma_digit_rec {A : Type*} [CommRing A] {I : Ideal A} (p : �
           let u := hA (digitCoefficient p 0 1) hnC
           have hu : u.unit = 1 := by
             apply Units.ext
-            show (u.unit.val : A) = 1
+            change (u.unit.val : A) = 1
             rw [u.unit_spec]
             simp [hC]
           have hInv : digitCoefficientInverse p hp hA 0 1 (by omega) = 1 := by
             unfold digitCoefficientInverse
-            show (↑(u.unit⁻¹) : A) = 1
+            change (↑(u.unit⁻¹) : A) = 1
             rw [hu]
             simp
           simp only [primeGamma]
@@ -149,7 +149,7 @@ private lemma primeGamma_digit_rec {A : Type*} [CommRing A] {I : Ideal A} (p : �
       | succ k =>
           simp only [primeGamma, digitCoefficientInverse]
 
-private lemma primeGamma_at_prime {A : Type*} [CommRing A] {I : Ideal A} (p : ℕ)
+lemma primeGamma_at_prime {A : Type*} [CommRing A] {I : Ideal A} (p : ℕ)
     (hp : p.Prime) (hA : ∀ n : ℕ, ¬p ∣ n → IsUnit (n : A)) (δ : I → I) (x : I) :
     primeGamma p hp hA δ p x = δ x := by
   cases p with
@@ -161,7 +161,7 @@ private lemma primeGamma_at_prime {A : Type*} [CommRing A] {I : Ideal A} (p : �
           simp [primeGamma, digitCoefficient, Nat.div_self (by omega : 0 < k + 2),
             Nat.mod_self, Nat.uniformBell_one_left]
 
-private lemma factorial_mul_digitCoefficient {p m r : ℕ} (hp : p.Prime) :
+lemma factorial_mul_digitCoefficient {p m r : ℕ} (hp : p.Prime) :
     digitCoefficient p m r * (p.factorial ^ m * m.factorial) = (p * m + r).factorial := by
   have hbell := Nat.uniformBell_mul_eq m hp.ne_zero
   have hprod : (p * m).factorial *
@@ -193,7 +193,7 @@ private lemma factorial_mul_digitCoefficient {p m r : ℕ} (hp : p.Prime) :
       rw [Nat.mul_comm m p]
     _ = (p * m + r).factorial := hprod
 
-private lemma digitCoefficient_uniformBell_identity {p m r : ℕ} (hp : p.Prime)
+lemma digitCoefficient_uniformBell_identity {p m r : ℕ} (hp : p.Prime)
     (hm : 0 < m) (hr : r < p) :
     Nat.uniformBell p m * p.factorial ^ r * digitCoefficient p (p * m + r) 0 =
       Nat.uniformBell p (p * m + r) * digitCoefficient p m r ^ (p - 1) *
@@ -280,7 +280,7 @@ private lemma digitCoefficient_uniformBell_identity {p m r : ℕ} (hp : p.Prime)
                 rw [hMp]
                 ring
 
-private lemma digitCoefficient_low_uniformBell_identity {p r : ℕ} (hp : p.Prime)
+lemma digitCoefficient_low_uniformBell_identity {p r : ℕ} (hp : p.Prime)
     (hrpos : 0 < r) :
     p.factorial ^ (r - 1) * digitCoefficient p r 0 =
       Nat.uniformBell p r * digitCoefficient p 0 r ^ (p - 1) := by
@@ -316,7 +316,7 @@ private lemma digitCoefficient_low_uniformBell_identity {p r : ℕ} (hp : p.Prim
       rw [hRp]
       ring
 
-private lemma digitCoefficientInverse_uniformBell_identity {A : Type*} [CommRing A]
+lemma digitCoefficientInverse_uniformBell_identity {A : Type*} [CommRing A]
     (p : ℕ) (hp : p.Prime) (hA : ∀ n : ℕ, ¬p ∣ n → IsUnit (n : A))
     {m r : ℕ} (hm : 0 < m) (hr : r < p) :
     digitCoefficientInverse p hp hA m r hr ^ p * (p.factorial : A) ^ r *
@@ -374,7 +374,7 @@ private lemma digitCoefficientInverse_uniformBell_identity {A : Type*} [CommRing
           (Nat.uniformBell p m : A) *
             digitCoefficientInverse p hp hA m 0 (Nat.zero_lt_of_ne_zero (by omega))) =
         ((Nat.uniformBell p m * p.factorial ^ r * d₁ : ℕ) : A) := by
-          show (w : A) *
+          change (w : A) *
               ((eD : A) ^ p * (p.factorial : A) ^ r * (Nat.uniformBell p m : A) *
                 (e₀ : A)) = _
           have hleftA := congrArg (fun z : Aˣ => (z : A)) hleft
@@ -396,7 +396,7 @@ private lemma digitCoefficientInverse_uniformBell_identity {A : Type*} [CommRing
         ((Nat.uniformBell p (p * m + r) : A) *
           digitCoefficientInverse p hp hA m r hr *
             digitCoefficientInverse p hp hA (p * m + r) 0 (Nat.zero_lt_of_ne_zero (by omega))) := by
-          show _ = (w : A) *
+          change _ = (w : A) *
             ((Nat.uniformBell p (p * m + r) : A) * (eD : A) * (e₁ : A))
           have hrightA := congrArg (fun z : Aˣ => (z : A)) hright
           simp only [Units.val_mul, Units.val_pow_eq_pow_val, hcastD, hcast0] at hrightA
@@ -412,7 +412,7 @@ private lemma digitCoefficientInverse_uniformBell_identity {A : Type*} [CommRing
                           ((w : A) * (eD : A) * (e₁ : A)) := by rw [← hrightA]
             _ = _ := by ring
 
-private lemma digitCoefficientInverse_low_uniformBell_identity {A : Type*} [CommRing A]
+lemma digitCoefficientInverse_low_uniformBell_identity {A : Type*} [CommRing A]
     (p : ℕ) (hp : p.Prime) (hA : ∀ n : ℕ, ¬p ∣ n → IsUnit (n : A))
     {r : ℕ} (hrpos : 0 < r) (hr : r < p) :
     digitCoefficientInverse p hp hA 0 r hr ^ p * (p.factorial : A) ^ (r - 1) =
@@ -461,7 +461,7 @@ private lemma digitCoefficientInverse_low_uniformBell_identity {A : Type*} [Comm
         (digitCoefficientInverse p hp hA 0 r hr ^ p *
           (p.factorial : A) ^ (r - 1)) =
         ((p.factorial ^ (r - 1) * d₁ : ℕ) : A) := by
-          show (w : A) * ((e₀ : A) ^ p * (p.factorial : A) ^ (r - 1)) = _
+          change (w : A) * ((e₀ : A) ^ p * (p.factorial : A) ^ (r - 1)) = _
           have hunitA := congrArg (fun z : Aˣ => (z : A)) hunit
           simp only [Units.val_mul, Units.val_pow_eq_pow_val] at hunitA
           calc
@@ -473,7 +473,7 @@ private lemma digitCoefficientInverse_low_uniformBell_identity {A : Type*} [Comm
         ((Nat.uniformBell p r : A) *
           digitCoefficientInverse p hp hA r 0 (Nat.zero_lt_of_ne_zero (by omega)) *
             digitCoefficientInverse p hp hA 0 r hr) := by
-          show _ = (w : A) *
+          change _ = (w : A) *
             ((Nat.uniformBell p r : A) * (e₁ : A) * (e₀ : A))
           have hunitA := congrArg (fun z : Aˣ => (z : A)) hunit'
           simp only [Units.val_mul, Units.val_pow_eq_pow_val] at hunitA
@@ -486,7 +486,7 @@ private lemma digitCoefficientInverse_low_uniformBell_identity {A : Type*} [Comm
                   rw [← hunitA]
             _ = _ := by ring
 
-private lemma factorial_eq_choose_mul_digitCoefficient_mul {p a b r s : ℕ} (hp : p.Prime) :
+lemma factorial_eq_choose_mul_digitCoefficient_mul {p a b r s : ℕ} (hp : p.Prime) :
     (p * a + r + (p * b + s)).factorial =
       (p * (a + b) + r + s).choose (p * a + r) * digitCoefficient p a r *
         digitCoefficient p b s * (p.factorial ^ (a + b) * a.factorial * b.factorial) := by
@@ -498,7 +498,7 @@ private lemma factorial_eq_choose_mul_digitCoefficient_mul {p a b r s : ℕ} (hp
     ← factorial_mul_digitCoefficient hp (m := b) (r := s), pow_add]
   ring
 
-private lemma digitCoefficient_mul_choose_noCarry {p a b r s : ℕ} (hp : p.Prime) :
+lemma digitCoefficient_mul_choose_noCarry {p a b r s : ℕ} (hp : p.Prime) :
     digitCoefficient p (a + b) (r + s) * (a + b).choose a =
       (p * (a + b) + r + s).choose (p * a + r) *
         digitCoefficient p a r * digitCoefficient p b s := by
@@ -515,7 +515,7 @@ private lemma digitCoefficient_mul_choose_noCarry {p a b r s : ℕ} (hp : p.Prim
   rw [← factorial_eq_choose_mul_digitCoefficient_mul hp, ← hfac, ← hchoose]
   ring
 
-private lemma digitCoefficient_mul_choose_carry {p a b r s : ℕ} (hp : p.Prime)
+lemma digitCoefficient_mul_choose_carry {p a b r s : ℕ} (hp : p.Prime)
     (hrs : p ≤ r + s) :
     p.factorial * (b + 1) * (a + b + 1).choose a *
         digitCoefficient p (a + b + 1) (r + s - p) =
@@ -538,19 +538,19 @@ private lemma digitCoefficient_mul_choose_carry {p a b r s : ℕ} (hp : p.Prime)
   rw [← factorial_eq_choose_mul_digitCoefficient_mul hp, ← hfac, ← hchoose, pow_succ]
   ring
 
-private lemma digitCoefficient_mul_digitCoefficientInverse {A : Type*} [CommRing A] (p : ℕ)
+lemma digitCoefficient_mul_digitCoefficientInverse {A : Type*} [CommRing A] (p : ℕ)
     (hp : p.Prime) (hA : ∀ n : ℕ, ¬p ∣ n → IsUnit (n : A)) {m r : ℕ} (hr : r < p) :
     (digitCoefficient p m r : A) * digitCoefficientInverse p hp hA m r hr = 1 := by
   simp [digitCoefficientInverse]
 
 /-- Cancels three factors from `X * c₃ = Y * c₁ * c₂` using their inverses `i₁`, `i₂`, `i₃`. -/
-private lemma mul_inv_eq_mul_inv {A : Type*} [CommRing A] {c₁ c₂ c₃ i₁ i₂ i₃ X Y : A}
+lemma mul_inv_eq_mul_inv {A : Type*} [CommRing A] {c₁ c₂ c₃ i₁ i₂ i₃ X Y : A}
     (h₁ : c₁ * i₁ = 1) (h₂ : c₂ * i₂ = 1) (h₃ : c₃ * i₃ = 1) (h : X * c₃ = Y * c₁ * c₂) :
     i₁ * i₂ * X = Y * i₃ := by
   linear_combination (-(i₁ * i₂ * X)) * h₃ + i₁ * i₂ * i₃ * h + Y * i₃ * (c₂ * i₂) * h₁ +
     Y * i₃ * h₂
 
-private lemma digitCoefficientInverse_mul_choose_noCarry {A : Type*} [CommRing A]
+lemma digitCoefficientInverse_mul_choose_noCarry {A : Type*} [CommRing A]
     (p : ℕ) (hp : p.Prime) (hA : ∀ n : ℕ, ¬p ∣ n → IsUnit (n : A))
     {a b r s : ℕ} (hr : r < p) (hs : s < p) (hrs : r + s < p) :
     digitCoefficientInverse p hp hA a r hr * digitCoefficientInverse p hp hA b s hs *
@@ -564,7 +564,7 @@ private lemma digitCoefficientInverse_mul_choose_noCarry {A : Type*} [CommRing A
     (digitCoefficient_mul_digitCoefficientInverse p hp hA hs)
     (digitCoefficient_mul_digitCoefficientInverse p hp hA hrs) (by linear_combination hnum)
 
-private lemma digitCoefficientInverse_mul_choose_carry {A : Type*} [CommRing A]
+lemma digitCoefficientInverse_mul_choose_carry {A : Type*} [CommRing A]
     (p : ℕ) (hp : p.Prime) (hA : ∀ n : ℕ, ¬p ∣ n → IsUnit (n : A))
     {a b r s : ℕ} (hr : r < p) (hs : s < p) (hrs : p ≤ r + s) :
     (p.factorial : A) * (b + 1 : A) * ((a + b + 1).choose a : A) *

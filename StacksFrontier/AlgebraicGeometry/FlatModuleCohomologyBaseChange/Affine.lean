@@ -5,7 +5,8 @@ public import StacksFrontier.AlgebraicGeometry.FlatModuleCohomologyBaseChange.De
 /-!
 # The degreewise comparison is an isomorphism over an affine open
 
-In the situation of `StacksFrontier/AlgebraicGeometry/FlatModuleCohomologyBaseChange/Degreewise.lean`
+In the situation of
+`StacksFrontier/AlgebraicGeometry/FlatModuleCohomologyBaseChange/Degreewise.lean`
 — a cartesian square
 
 ```
@@ -126,8 +127,7 @@ private theorem bijective_of_addEquiv_tmul_eq {R M N P : Type*} [CommSemiring R]
     [AddCommMonoid N] [AddCommMonoid P] [Module R M] [Module R N] {φ : M ⊗[R] N →+ P}
     (Φ : M ⊗[R] N ≃+ P) (h : ∀ m n, Φ (m ⊗ₜ n) = φ (m ⊗ₜ n)) : Function.Bijective φ := by
   have key : ⇑φ = ⇑Φ := funext fun z => by
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul m n => exact (h m n).symm
     | add x y hx hy => rw [map_add, map_add, hx, hy]
   rw [key]
@@ -193,9 +193,9 @@ theorem bijective_comparisonMap_of_isAffineOpen
         coeffSection f' G (g' ⁻¹ᵁ U) n ⊗ₜ[Γ(X', g' ⁻¹ᵁ U)] pullbackUnitSections g' F U a :=
       congrArg (· ⊗ₜ[Γ(X', g' ⁻¹ᵁ U)] pullbackUnitSections g' F U a)
         (((isBaseChange_coeffSection f' G hU').equiv_tmul 1 n).trans (one_smul _ _))
-    show e7 (e6 (e5 (e4 (e3 (e2 (n ⊗ₜ[Γ(S', ⊤)] ((1 : Γ(S', ⊤)) ⊗ₜ[Γ(S, ⊤)] a))))))) = _
+    change e7 (e6 (e5 (e4 (e3 (e2 (n ⊗ₜ[Γ(S', ⊤)] ((1 : Γ(S', ⊤)) ⊗ₜ[Γ(S, ⊤)] a))))))) = _
     rw [h2]
-    show e7 (e6 (((1 : Γ(X', g' ⁻¹ᵁ U)) ⊗ₜ[Γ(S', ⊤)] n) ⊗ₜ[Γ(X', g' ⁻¹ᵁ U)]
+    change e7 (e6 (((1 : Γ(X', g' ⁻¹ᵁ U)) ⊗ₜ[Γ(S', ⊤)] n) ⊗ₜ[Γ(X', g' ⁻¹ᵁ U)]
       pullbackUnitSections g' F U a)) = _
     rw [h6]
     exact Stacks.SectionTensorFormula.tensorSectionEquiv_tmul _ _ hU' _ _

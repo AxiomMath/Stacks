@@ -128,7 +128,7 @@ theorem map_rootOn_pullbackFst (φ : Y ⟶ Y) (w : φ ≫ g = g) (V : Y.Etale) :
     rw [Stacks.Kummer.structMap, Stacks.Kummer.structMap, ← CommRingCat.hom_comp]
     congr 1
     rw [Category.assoc, Category.assoc, ← Scheme.Hom.comp_appTop]
-    show _ ≫ g.appTop ≫ (pullback.fst V.hom φ ≫ V.hom).appTop =
+    change _ ≫ g.appTop ≫ (pullback.fst V.hom φ ≫ V.hom).appTop =
       _ ≫ g.appTop ≫ (pullback.snd V.hom φ).appTop
     rw [pullback.condition, Scheme.Hom.comp_appTop, ← Category.assoc g.appTop,
       ← Scheme.Hom.comp_appTop, w]
@@ -189,7 +189,7 @@ theorem underlyingInverseImageConstant_comp_rootsOfUnity (φ : Y ⟶ Y) (w : φ 
       rw [constantSelfMapTwist, Adjunction.homEquiv_unit, Functor.map_comp]
       rfl
     rw [Adjunction.homEquiv_unit, h2, h1]
-    simp only [Functor.map_comp, Category.assoc]
+    simp only [Functor.map_comp]
     rfl
   rw [hL]
   -- both sides are maps out of `U ℤ/n_Y`; precompose with the epimorphism `ℤ_Y ⟶ U ℤ/n_Y`
@@ -203,7 +203,7 @@ theorem underlyingInverseImageConstant_comp_rootsOfUnity (φ : Y ⟶ Y) (w : φ 
     rintro ⟨m⟩
     obtain ⟨z, rfl⟩ := ZMod.intCast_surjective m
     exact ⟨ULift.up z, by
-      show ULift.up ((z : ℤ) • (1 : ZMod n)) = _
+      change ULift.up ((z : ℤ) • (1 : ZMod n)) = _
       simp⟩
   have : Epi (etaleModuleUnderlyingAbelianConstantMap (ZMod n) Y) := by
     unfold etaleModuleUnderlyingAbelianConstantMap
@@ -260,7 +260,7 @@ theorem underlyingInverseImageConstant_comp_rootsOfUnity (φ : Y ⟶ Y) (w : φ 
   congr 1
   ext ⟨m⟩
   obtain ⟨z, rfl⟩ := ZMod.intCast_surjective m
-  show Stacks.Kummer.rootHom g hζ hn _ (z : ZMod n) =
+  change Stacks.Kummer.rootHom g hζ hn _ (z : ZMod n) =
     (multiplicativeDirectImageComparison.{u, 0} φ).hom.app (op (Scheme.Etale.mk (𝟙 Y)))
       (Stacks.Kummer.rootHom g hζ hn _ (z : ZMod n))
   rw [Stacks.Kummer.rootHom_intCast, Stacks.Kummer.rootHom_intCast, map_zsmul,
@@ -320,6 +320,9 @@ theorem selfMapCohomologyRootsOfUnityAddEquiv_apply (i : ℕ)
 variable [(Y.smallEtaleTopology.W (A := ModuleCat.{u + 1} (ZMod n))).IsMonoidal]
   [PreservesFiniteColimits (etaleModuleDirectImage.{u, 0} (ZMod n) φ)]
 
+omit [HasExt.{u + 1} (Sheaf Y.smallEtaleTopology AddCommGrpCat.{u + 1})]
+  [(Y.smallEtaleTopology.W (A := ModuleCat.{u + 1} (ZMod n))).IsMonoidal]
+  [PreservesFiniteColimits (etaleModuleDirectImage.{u, 0} (ZMod n) φ)] in
 /-- The sheaf-level identity behind
 `Stacks.EtaleCohomology.selfMapCohomologyRootsOfUnityAddEquiv_selfMapCohomologyEndo`: the map
 `φ^{-1} U g^{-1} ℤ/n ⟶ U g^{-1} ℤ/n` of the self-map twist is, under `U g^{-1} ℤ/n ≅ μ_n`, the

@@ -97,7 +97,7 @@ variable (D : BaseSpaceDimensionSituation.{u})
       (ObjectProperty.homMk φ : (⟨P', hP'.1⟩ : AlgebraicSpaces D.site D.base D.base_mem) ⟶
         ⟨P, hP.1⟩)).obj L ≅ L')
 
-include hP hP' in
+include hP in
 /-- An isomorphism is flat of relative dimension `0`. -/
 theorem isFlat_and_hasRelativeDimension_zero_of_isIso :
     IsFlat D.site D.base D.base_mem φ ∧ HasRelativeDimension 0 D.site D.base D.base_mem φ :=
@@ -112,11 +112,11 @@ include hφπ in
 /-- `φ^*π^* = π'^*` on cycles. -/
 theorem flatPullbackMap_comp_of_isIso (k m : ℤ) (h : k + (n : ℤ) = m) (α : CycleGroup D sX k) :
     flatPullbackMap D sP' hP' sP hP φ hφB 0
-        (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP sP' hP' φ).1
-        (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP sP' hP' φ).2 m m (by simp)
+        (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP φ).1
+        (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP φ).2 m m (by simp)
         (flatPullbackMap D sP hP sX hX π hπB n hflat hrel k m h α) =
       flatPullbackMap D sP' hP' sX hX π' hπB' n hflat' hrel' k m h α := by
-  have hφ := isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP sP' hP' φ
+  have hφ := isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP φ
   refine Subtype.ext ?_
   have h1 := congrArg (fun ψ => (ψ α).1)
     (flatPullbackMap_comp D sP' hP' sP hP sX hX φ π hφB hπB 0 n hφ.1 hφ.2 hflat hrel k m
@@ -133,10 +133,10 @@ flat pullback along the identity is the identity. -/
 theorem properCyclePushforward_flatPullbackMap_of_isIso_over (k : ℤ) (β : CycleGroup D sP k) :
     properCyclePushforward D sP' hP' sX hX hπB' hp'.2.1.2 k
         (flatPullbackMap D sP' hP' sP hP φ hφB 0
-          (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP sP' hP' φ).1
-          (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP sP' hP' φ).2 k k (by simp) β) =
+          (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP φ).1
+          (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP φ).2 k k (by simp) β) =
       properCyclePushforward D sP hP sX hX hπB hp.2.1.2 k β := by
-  have hid := isFlat_and_hasRelativeDimension_zero_of_isIso D sX hX sX hX (𝟙 X)
+  have hid := isFlat_and_hasRelativeDimension_zero_of_isIso D sX hX (𝟙 X)
   have sq : IsPullback φ π' π (𝟙 X) := IsPullback.of_horiz_isIso ⟨by rw [hφπ, Category.comp_id]⟩
   have h := flatPullback_properPushforward_unconditional D sP' hP' sP hP sX hX sX hX hφB hπB' hπB
     (Category.id_comp sX) 0 hid.1 hid.2 sq hp k k (by simp) β
@@ -153,12 +153,12 @@ private theorem chowClass_firstChernCapPowCycleMap_flatPullbackMap_of_isIso (s :
         ⟨P, hP.1⟩)).obj L ≅ L') :
     chowClassCanonical.{u + 1} D sP' hP' m (firstChernCapPowCycleMap D sP' hP' L' hL' s m
         (flatPullbackMap D sP' hP' sP hP φ hφB 0
-          (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP sP' hP' φ).1
-          (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP sP' hP' φ).2 (m + s) (m + s)
+          (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP φ).1
+          (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP φ).2 (m + s) (m + s)
           (by simp) α)) =
       chowClassCanonical.{u + 1} D sP' hP' m (flatPullbackMap D sP' hP' sP hP φ hφB 0
-        (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP sP' hP' φ).1
-        (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP sP' hP' φ).2 m m (by simp)
+        (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP φ).1
+        (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP φ).2 m m (by simp)
         (firstChernCapPowCycleMap D sP hP L hL s m α)) := by
   rw [chowClassCanonical_flatPullbackMap_firstChernCapPowCycleMap_modulePullback
       D sP' hP' sP hP φ hφB 0 _ _ L hL s m m (by simp) (by simp),
@@ -173,7 +173,7 @@ theorem BundleTopPowerIdentity.of_iso
     (h : BundleTopPowerIdentity D sX hX sP hP π hπB n hflat hrel hp L hL) :
     BundleTopPowerIdentity D sX hX sP' hP' π' hπB' n hflat' hrel' hp' L' hL' := by
   intro k α
-  have hφ := isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP sP' hP' φ
+  have hφ := isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP φ
   rw [← flatPullbackMap_comp_of_isIso D sX hX sP hP sP' hP' π hπB π' hπB' n hflat hrel hflat'
       hrel' φ hφB hφπ k (k + n) rfl α,
     ← chowGroupCanonicalProperPushforward_chowClassCanonical.{u + 1} D sP' hP' sX hX hπB' hp',
@@ -193,12 +193,12 @@ theorem bundleFormulaCap_bundleFormulaPull_of_isIso (s : ℕ) (m N : ℤ) (h : m
         (bundleFormulaPull D sX hX sP' hP' π' hπB' n hflat' hrel' m (N + s) h
           (chowClassCanonical.{u + 1} D sX hX m α)) =
       flatPullbackChowMapCanonical.{u + 1} D sP' hP' sP hP φ hφB 0
-        (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP sP' hP' φ).1
-        (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP sP' hP' φ).2 N N (by simp)
+        (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP φ).1
+        (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP φ).2 N N (by simp)
         (bundleFormulaCap D sP hP L hL s (N + s) N rfl
           (bundleFormulaPull D sX hX sP hP π hπB n hflat hrel m (N + s) h
             (chowClassCanonical.{u + 1} D sX hX m α))) := by
-  have hφ := isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP sP' hP' φ
+  have hφ := isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP φ
   change chowClassCanonical.{u + 1} D sP' hP' N (firstChernCapPowCycleMap D sP' hP' L' hL' s N
       (cycleGroupCast D sP' rfl
         (flatPullbackMap D sP' hP' sX hX π' hπB' n hflat' hrel' m (N + s) h α))) =
@@ -220,8 +220,8 @@ theorem bundleFormulaMap_of_isIso (N : ℤ) (d : Fin (n + 1) → ℤ)
     (hd : ∀ i, d i + (n : ℤ) = N + (i : ℕ)) (a : ∀ i, chowGroupCanonical.{u + 1} D sX hX (d i)) :
     bundleFormulaMap D sX hX sP' hP' π' hπB' n hflat' hrel' L' hL' N d hd a =
       flatPullbackChowMapCanonical.{u + 1} D sP' hP' sP hP φ hφB 0
-        (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP sP' hP' φ).1
-        (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP sP' hP' φ).2 N N (by simp)
+        (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP φ).1
+        (isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP φ).2 N N (by simp)
         (bundleFormulaMap D sX hX sP hP π hπB n hflat hrel L hL N d hd a) := by
   choose α hα using fun i => QuotientAddGroup.mk_surjective (a i)
   have ha : a = fun i => chowClassCanonical.{u + 1} D sX hX (d i) (α i) :=
@@ -232,15 +232,15 @@ theorem bundleFormulaMap_of_isIso (N : ℤ) (d : Fin (n + 1) → ℤ)
     bundleFormulaCap_bundleFormulaPull_of_isIso D sX hX sP hP sP' hP' π hπB π' hπB' n hflat hrel
       hflat' hrel' L hL L' hL' φ hφB hφπ e i (d i) N (hd i) (α i)
 
-include hφB hφπ e hp hp' in
+include hφB hφπ e in
 /-- **The surjectivity half of Stacks 0ERV passes along an isomorphism of bundles.** -/
 theorem BundleFormulaSurjective.of_iso
     (h : BundleFormulaSurjective D sX hX sP hP π hπB n hflat hrel L hL) :
     BundleFormulaSurjective D sX hX sP' hP' π' hπB' n hflat' hrel' L' hL' := by
   intro N d hd b'
-  have hφ := isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP sP' hP' φ
+  have hφ := isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP φ
   have hψB : inv φ ≫ sP' = sP := by rw [← hφB, IsIso.inv_hom_id_assoc]
-  have hψ := isFlat_and_hasRelativeDimension_zero_of_isIso D sP' hP' sP hP (inv φ)
+  have hψ := isFlat_and_hasRelativeDimension_zero_of_isIso D sP' hP' (inv φ)
   obtain ⟨β', rfl⟩ := QuotientAddGroup.mk_surjective b'
   obtain ⟨a, ha⟩ := h N d hd (chowClassCanonical.{u + 1} D sP hP N
     (flatPullbackMap D sP hP sP' hP' (inv φ) hψB 0 hψ.1 hψ.2 N N (by simp) β'))
@@ -249,7 +249,7 @@ theorem BundleFormulaSurjective.of_iso
     L' hL' φ hφB hφπ e N d hd a, ha, flatPullbackChowMapCanonical_chowClassCanonical]
   change chowClassCanonical.{u + 1} D sP' hP' N _ = chowClassCanonical.{u + 1} D sP' hP' N β'
   congr 1
-  have hid := isFlat_and_hasRelativeDimension_zero_of_isIso D sP' hP' sP' hP' (𝟙 P')
+  have hid := isFlat_and_hasRelativeDimension_zero_of_isIso D sP' hP' (𝟙 P')
   refine Subtype.ext ?_
   have h1 := congrArg (fun ψ => (ψ β').1)
     (flatPullbackMap_comp D sP' hP' sP hP sP' hP' φ (inv φ) hφB hψB 0 0 hφ.1 hφ.2 hψ.1 hψ.2 N N

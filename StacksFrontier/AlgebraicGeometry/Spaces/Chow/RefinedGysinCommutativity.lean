@@ -257,7 +257,7 @@ theorem exists_closedSubspaceCyclePushforward_gysinComponentCycle_eq_canonicalDi
       exact hd
     have hcongr := closedSubspaceCycle_congr D (W.subspace.ι ≫ p) hWg hZ _ _ k hd' hd
     rw [gysinComponentCycle_of_not_le D p E hE k _ hW hWE]
-    show closedSubspaceCyclePushforward D p hp E k
+    change closedSubspaceCyclePushforward D p hp E k
       (gysinIntersectionCycle D p hp E hE k W hW hWE) = _
     rw [← integralClosedSubspacePushforward_closedSubspaceCycle_preimage_eq_gysinIntersectionCycle
       D p hp E hE W hWg k hW hWE, ← hcongr]

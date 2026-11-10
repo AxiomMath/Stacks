@@ -252,7 +252,7 @@ theorem exists_lift_of_kernelPair
     (by rw [← Functor.map_comp, ← Functor.map_comp, h₂t])
     inferInstance inferInstance hρS a (by
       rw [ha]
-      show ((BigFppfOver.toScheme B S hS).map (levelMap π k s (v := yoneda.map s ≫ w) rfl) ≫
+      change ((BigFppfOver.toScheme B S hS).map (levelMap π k s (v := yoneda.map s ≫ w) rfl) ≫
           (BigFppfOver.toScheme B S hS).map ρ).appTop _ =
         ((BigFppfOver.toScheme B S hS).map (levelMap π k t hb) ≫
           (BigFppfOver.toScheme B S hS).map ρ).appTop _
@@ -268,7 +268,7 @@ theorem chartFunctions_ext_of_iso {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
   refine Subtype.ext (funext fun j => ?_)
   obtain ⟨φ, hφ⟩ := yoneda.map_surjective (j.unop.hom ≫ e.hom)
   let f : j.unop ⟶ CostructuredArrow.mk e.inv := CostructuredArrow.homMk φ (by
-    show yoneda.map φ ≫ e.inv = j.unop.hom
+    change yoneda.map φ ≫ e.inv = j.unop.hom
     rw [hφ, Category.assoc, e.hom_inv_id, Category.comp_id])
   have h₁ := F.property f.op
   have h₂ := G.property f.op
@@ -299,7 +299,7 @@ theorem chartFunctionsMap_eq_of_isDescent {W X₀ : BigFppfOver B S hS} {w : yon
   have h₂ := ē.property fW.op
   change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map ρ).op).hom _ = _ at h₁ h₂
   rw [h₁, h₂]
-  show E.val (op (CostructuredArrow.mk (levelChartMap π w k ≫ pullback.fst π (yoneda.map k))))
+  change E.val (op (CostructuredArrow.mk (levelChartMap π w k ≫ pullback.fst π (yoneda.map k))))
     = _
   have hdesc := hE (CostructuredArrow.mk (levelChartMap π w k ≫ pullback.fst π (yoneda.map k)))
     (𝟙 _) (pullback.fst (levelChartBase π w) k) (by
@@ -308,7 +308,7 @@ theorem chartFunctionsMap_eq_of_isDescent {W X₀ : BigFppfOver B S hS} {w : yon
   rw [CategoryTheory.Functor.map_id] at hdesc
   change E.val _ = _ at hdesc
   rw [hdesc]
-  show ((BigFppfOver.toScheme B S hS).map (pullback.fst (levelChartBase π w) k)).appTop A = _
+  change ((BigFppfOver.toScheme B S hS).map (pullback.fst (levelChartBase π w) k)).appTop A = _
   rw [hA]
   exact h₂
 

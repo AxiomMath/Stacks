@@ -437,7 +437,7 @@ theorem limitPreserving_isoFunctor (D : ModuleMapSituation.{u, u} B S hS)
   have hc0 : IsIso (D.baseChangeHom (modulePullbackSystem B S hS) c.pt) := hiso
   obtain ⟨i₀, hi₀⟩ := (D.limitPreserving_surjFunctor_iff (modulePullbackSystem B S hS)).mp
     (D.limitPreserving_surjFunctor hGft hGqc) I E c hc hE hpt (by
-      show Epi (D.baseChangeHom (modulePullbackSystem B S hS) c.pt)
+      change Epi (D.baseChangeHom (modulePullbackSystem B S hS) c.pt)
       infer_instance)
   have hepi := D.epi_u_baseChangeTestScheme _ hi₀
   have hlp :=

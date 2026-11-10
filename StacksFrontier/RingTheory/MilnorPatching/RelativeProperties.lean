@@ -78,7 +78,7 @@ private theorem adjunction_mate_unit
     adjb.homEquiv_naturality_right_symm]
   simp only [Functor.id_obj, adjb.homEquiv_symm_unit, Category.id_comp]
   rw [← Category.assoc]
-  show ((S ⋙ Eb).map (adj.unit.app L) ≫ α.inv.app _) ≫ _ = _
+  change ((S ⋙ Eb).map (adj.unit.app L) ≫ α.inv.app _) ≫ _ = _
   rw [α.inv.naturality]
   simp only [Functor.comp_map, Category.assoc, ← R.map_comp]
   have ht : E.map (adj.unit.app L) ≫ adj.counit.app (E.obj L) = 𝟙 _ :=
@@ -114,10 +114,10 @@ private theorem compatiblePairs_restrictScalars_iff
   have hinj : Function.Injective (α.inv.app X.snd : _ → _) :=
     (ConcreteCategory.bijective_of_isIso (α.inv.app X.snd)).1
   rw [← hinj.eq_iff, ha]
-  show _ ↔ (α.inv.app X.snd)
+  change _ ↔ (α.inv.app X.snd)
     ((α.hom.app X.snd) (X.iso.hom ((β.inv.app X.fst) _))) = _
   rw [hb]
-  show _ ↔ (α.hom.app X.snd ≫ α.inv.app X.snd) _ = _
+  change _ ↔ (α.hom.app X.snd ≫ α.inv.app X.snd) _ = _
   rw [α.hom_inv_id_app]
   rfl
 
@@ -218,7 +218,7 @@ public theorem relativelyFlatModulesEquivalenceOverFibreProduct
       rw [adj_r.homEquiv_symm_id] at hr
       constructor
       · rw [hb.1]
-        show (adj_r.counit.app X).fst
+        change (adj_r.counit.app X).fst
           ((α.inv.app (F_r.obj X)).fst
             ((1 : B) ⊗ₜ[base.fibreProduct,base.pullbackCone.fst.hom]
               (show S.obj (F_r.obj X) from x))) = (e_r X x).1.1
@@ -228,7 +228,7 @@ public theorem relativelyFlatModulesEquivalenceOverFibreProduct
           ((1 : s.D) ⊗ₜ[D',s.toD] x) at hr1
         exact hr1.symm
       · rw [hb.2]
-        show (adj_r.counit.app X).snd
+        change (adj_r.counit.app X).snd
           ((α.inv.app (F_r.obj X)).snd
             ((1 : A') ⊗ₜ[base.fibreProduct,base.pullbackCone.snd.hom]
               (show S.obj (F_r.obj X) from x))) = (e_r X x).1.2
@@ -316,14 +316,14 @@ public theorem relativelyFlatModulesEquivalenceOverFibreProduct
     constructor
     · let : Algebra base.fibreProduct B := base.pullbackCone.fst.hom.toAlgebra
       let : Module.Flat B (Eb.obj (S.obj L)).fst := by
-        show Module.Flat B (B ⊗[base.fibreProduct] (S.obj L))
+        change Module.Flat B (B ⊗[base.fibreProduct] (S.obj L))
         infer_instance
       let e : (R.obj (Er.obj L)).fst ≃ₗ[B] (Eb.obj (S.obj L)).fst :=
         ((CategoricalPullback.π₁ _ _).mapIso (α.app L)).toLinearEquiv
       exact Module.Flat.of_linearEquiv e
     · let : Algebra base.fibreProduct A' := base.pullbackCone.snd.hom.toAlgebra
       let : Module.Flat A' (Eb.obj (S.obj L)).snd := by
-        show Module.Flat A' (A' ⊗[base.fibreProduct] (S.obj L))
+        change Module.Flat A' (A' ⊗[base.fibreProduct] (S.obj L))
         infer_instance
       let e : (R.obj (Er.obj L)).snd ≃ₗ[A'] (Eb.obj (S.obj L)).snd :=
         ((CategoricalPullback.π₂ _ _).mapIso (α.app L)).toLinearEquiv
@@ -455,15 +455,14 @@ public theorem finite_relativeRightAdjoint_obj_of_finite_components
   -- the kernel on the second side is the image of the extended ideal (08KN).
   have htoB : Function.Surjective s.toD := by
     intro b
-    induction b using TensorProduct.induction_on with
-    | zero => exact ⟨0, map_zero _⟩
+    induction b using TensorProduct.inductionOn with
     | tmul d b =>
         obtain ⟨a', ha'⟩ := base.surjective_surjection (toBase b)
         let j : base.fibreProduct := ⟨(b, a'), ha'.symm⟩
         refine ⟨d * s.toD' j, ?_⟩
-        show (d * algebraMap base.fibreProduct D' j) ⊗ₜ[base.fibreProduct] (1 : B) = _
+        change (d * algebraMap base.fibreProduct D' j) ⊗ₜ[base.fibreProduct] (1 : B) = _
         rw [mul_comm d, ← Algebra.smul_def, TensorProduct.smul_tmul]
-        show d ⊗ₜ[base.fibreProduct] (b * 1) = _
+        change d ⊗ₜ[base.fibreProduct] (b * 1) = _
         rw [mul_one]
     | add x y hx hy =>
         obtain ⟨x', rfl⟩ := hx
@@ -471,8 +470,7 @@ public theorem finite_relativeRightAdjoint_obj_of_finite_components
         exact ⟨x' + y', map_add _ _ _⟩
   have hC'surj : Function.Surjective s.C'toC := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact ⟨0, map_zero _⟩
+    induction z using TensorProduct.inductionOn with
     | tmul d a =>
         obtain ⟨a', rfl⟩ := base.surjective_surjection a
         refine ⟨d ⊗ₜ[base.fibreProduct] a', ?_⟩
@@ -484,9 +482,9 @@ public theorem finite_relativeRightAdjoint_obj_of_finite_components
   have hker : RingHom.ker s.C'toC = I.map s.A'toC' := by
     let g : A' →ₐ[base.fibreProduct] A :=
       { surjection with commutes' := fun x => x.property.symm }
-    show RingHom.ker (Algebra.TensorProduct.map (AlgHom.id base.fibreProduct D') g) = _
+    change RingHom.ker (Algebra.TensorProduct.map (AlgHom.id base.fibreProduct D') g) = _
     rw [Algebra.TensorProduct.lTensor_ker g base.surjective_surjection]
-    show (RingHom.ker surjection).map s.A'toC' = _
+    change (RingHom.ker surjection).map s.A'toC' = _
     rw [base.ker_surjection]
   have liftZero (t : s.C') (ht : s.C'toC t = 0) :
       ∃ d : D', s.toD d = 0 ∧ s.toC' d = t := by
@@ -499,10 +497,10 @@ public theorem finite_relativeRightAdjoint_obj_of_finite_components
         RingHom.ker s.toD := by
       rw [Ideal.map_le_iff_le_comap]
       intro j hj
-      show s.toD (s.toD' j) = 0
-      show (algebraMap base.fibreProduct D' j) ⊗ₜ[base.fibreProduct] (1 : B) = 0
+      change s.toD (s.toD' j) = 0
+      change (algebraMap base.fibreProduct D' j) ⊗ₜ[base.fibreProduct] (1 : B) = 0
       rw [Algebra.TensorProduct.tmul_one_eq_one_tmul]
-      show (1 : D') ⊗ₜ[base.fibreProduct]
+      change (1 : D') ⊗ₜ[base.fibreProduct]
         (RelativeModuleFibreProductSituation.toB (base := base)) j = 0
       rw [show (RelativeModuleFibreProductSituation.toB (base := base)) j = 0
         from hj, TensorProduct.tmul_zero]
@@ -518,7 +516,7 @@ public theorem finite_relativeRightAdjoint_obj_of_finite_components
         P.smul_mem (d ⟨i, j⟩) (Submodule.subset_span
           ⟨(⟨i, j⟩ : Σ i, Fin (kr i)), rfl⟩)
     · rw [he_fst]
-      show cB ((1 : s.D) ⊗ₜ[D'] (∑ i, ∑ j, d ⟨i, j⟩ • pr i j)) = n
+      change cB ((1 : s.D) ⊗ₜ[D'] (∑ i, ∑ j, d ⟨i, j⟩ • pr i j)) = n
       rw [← cB.apply_symm_apply n, ← ha]
       apply congrArg cB
       simp_rw [TensorProduct.tmul_sum, TensorProduct.tmul_smul, hpr, Finset.smul_sum]
@@ -541,7 +539,7 @@ public theorem finite_relativeRightAdjoint_obj_of_finite_components
         Q.smul_mem (d ⟨i, j⟩) (Submodule.subset_span
           ⟨(⟨i, j⟩ : Σ i, Fin (kq i)), rfl⟩)
     · rw [he_fst]
-      show cB ((1 : s.D) ⊗ₜ[D'] (∑ i, ∑ j, d ⟨i, j⟩ • pq i j)) = 0
+      change cB ((1 : s.D) ⊗ₜ[D'] (∑ i, ∑ j, d ⟨i, j⟩ • pq i j)) = 0
       rw [cB.map_eq_zero_iff]
       simp_rw [TensorProduct.tmul_sum, TensorProduct.tmul_smul]
       apply Finset.sum_eq_zero
@@ -551,7 +549,7 @@ public theorem finite_relativeRightAdjoint_obj_of_finite_components
       rw [TensorProduct.smul_tmul', restrictScalars_smul_one s.toD, (hd ⟨i, j⟩).1]
       simp
     · rw [he_snd]
-      show cC ((1 : s.C') ⊗ₜ[D'] (∑ i, ∑ j, d ⟨i, j⟩ • pq i j)) = t • m
+      change cC ((1 : s.C') ⊗ₜ[D'] (∑ i, ∑ j, d ⟨i, j⟩ • pq i j)) = t • m
       rw [← cC.apply_symm_apply m, ← cC.map_smul, ← ha]
       apply congrArg cC
       simp_rw [TensorProduct.tmul_sum, TensorProduct.tmul_smul, hpq, Finset.smul_sum]
@@ -569,7 +567,7 @@ public theorem finite_relativeRightAdjoint_obj_of_finite_components
     let d := z - p
     have hd_fst : (e X d).1.1 = 0 := by
       rw [he_fst]
-      show cB ((1 : s.D) ⊗ₜ[D'] (z - p)) = 0
+      change cB ((1 : s.D) ⊗ₜ[D'] (z - p)) = 0
       rw [TensorProduct.tmul_sub, map_sub]
       have hp' : cB ((1 : s.D) ⊗ₜ[D'] p) =
           cB ((1 : s.D) ⊗ₜ[D'] z) := by
@@ -581,7 +579,7 @@ public theorem finite_relativeRightAdjoint_obj_of_finite_components
     have hθ : θ ∈ RingHom.ker s.C'toC • (⊤ : Submodule s.C' M') := by
       let : Algebra s.C' s.C := s.C'toC.toAlgebra
       rw [← ker_tensorProductMk_of_surjective s.C'toC hC'surj]
-      show (1 : s.C) ⊗ₜ[s.C',s.C'toC] θ = 0
+      change (1 : s.C) ⊗ₜ[s.C',s.C'toC] θ = 0
       have hc := (e X d).2
       rw [hd_fst, TensorProduct.tmul_zero, map_zero] at hc
       exact hc.symm
@@ -597,7 +595,7 @@ public theorem finite_relativeRightAdjoint_obj_of_finite_components
     have hvSumQ : vSum ∈ Q := Submodule.sum_mem _ fun m _ ↦ hvQ m
     have hvSum_fst : (e X vSum).1.1 = 0 := by
       rw [he_fst]
-      show cB ((1 : s.D) ⊗ₜ[D'] (∑ m ∈ a.support, v m)) = 0
+      change cB ((1 : s.D) ⊗ₜ[D'] (∑ m ∈ a.support, v m)) = 0
       rw [cB.map_eq_zero_iff]
       simp_rw [TensorProduct.tmul_sum]
       apply Finset.sum_eq_zero
@@ -606,9 +604,9 @@ public theorem finite_relativeRightAdjoint_obj_of_finite_components
       exact hvfst m
     have hvSum_snd : (e X vSum).1.2 = θ := by
       rw [he_snd]
-      show cC ((1 : s.C') ⊗ₜ[D'] (∑ m ∈ a.support, v m)) = θ
+      change cC ((1 : s.C') ⊗ₜ[D'] (∑ m ∈ a.support, v m)) = θ
       simp_rw [TensorProduct.tmul_sum, map_sum, coord_snd, hvsnd]
-      show (∑ m ∈ a.support, a m • (m : M')) = θ
+      change (∑ m ∈ a.support, a m • (m : M')) = θ
       simpa [Finsupp.sum, id_eq] using ha
     have hd_eq : d = vSum := by
       apply (e X).injective
@@ -616,7 +614,7 @@ public theorem finite_relativeRightAdjoint_obj_of_finite_components
       apply Prod.ext
       · rw [hd_fst, hvSum_fst]
       · rw [hvSum_snd]
-    show z ∈ P ⊔ Q
+    change z ∈ P ⊔ Q
     have : z = p + vSum := by
       dsimp [d] at hd_eq
       calc
@@ -662,8 +660,7 @@ private noncomputable def extendScalarsAlgebraMapEquiv
   refine { eT.toAddEquiv with map_smul' := ?_ }
   intro s x
   change eT (s • x) = s • eT x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp [smul_add, hx, hy]
   | tmul t m =>
       change eT (s • t ⊗ₜ[R] m) = s • eT (t ⊗ₜ[R] m)
@@ -708,9 +705,9 @@ private def compHomLinearEquiv
   letI : Module S M := Module.compHom M (↑e.symm : S →+* R)
   { f.toAddEquiv with
     map_smul' := fun s m => by
-      show f (e.symm s • m) = s • f m
+      change f (e.symm s • m) = s • f m
       rw [f.map_smulₛₗ]
-      show e (e.symm s) • f m = s • f m
+      change e (e.symm s) • f m = s • f m
       rw [e.apply_symm_apply] }
 
 private theorem flat_of_semilinearEquiv
@@ -746,12 +743,10 @@ private noncomputable def tensorRingEquiv
   refine { e.toAddEquiv with map_mul' := ?_ }
   intro x y
   change e (x * y) = e x * e y
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x x' hx hx' => simp [add_mul, hx, hx']
   | tmul s t =>
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | add y y' hy hy' => simp [mul_add, hy, hy']
     | tmul s' t' =>
       simp [e, Algebra.TensorProduct.tmul_mul_tmul, algebraSemilinearEquiv]
@@ -784,8 +779,7 @@ private noncomputable def tensorExtensionEquiv
       map_smul' := by
         intro s x
         change eST (s • x) = eS s • eST x
-        induction x using TensorProduct.induction_on with
-        | zero => simp
+        induction x using TensorProduct.inductionOn with
         | add x y hx hy => simp [smul_add, hx, hy]
         | tmul a b =>
           simp only [smul_tmul', smul_eq_mul, eST, tensorRingEquiv_tmul, map_mul] }
@@ -793,8 +787,7 @@ private noncomputable def tensorExtensionEquiv
   refine { e.toAddEquiv with map_smul' := ?_ }
   intro r x
   change e (r • x) = eST r • e x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp [smul_add, hx, hy]
   | tmul q m =>
     simp only [smul_tmul', smul_eq_mul, e, TensorProduct.congr_tmul]
@@ -830,7 +823,7 @@ private theorem flat_ker_of_surjective
     (LinearMap.ker f).subtype_injective (LinearMap.exact_subtype_ker_map f) P
   have hM := Module.Flat.rTensor_preserves_injective_linearMap (M := M) g hg
   apply Function.Injective.of_comp (f := (LinearMap.ker f).subtype.lTensor Q)
-  show Function.Injective (((LinearMap.ker f).subtype.lTensor Q).comp
+  change Function.Injective (((LinearMap.ker f).subtype.lTensor Q).comp
     (g.rTensor (LinearMap.ker f)))
   rw [LinearMap.lTensor_comp_rTensor, ← LinearMap.rTensor_comp_lTensor]
   exact hM.comp hP
@@ -851,7 +844,7 @@ private theorem finitePresentation_tensorProduct_map
     (Algebra.TensorProduct.map f (AlgHom.id R T)).toRingHom.FinitePresentation := by
   apply RingHom.FinitePresentation.of_surjective
   · exact Algebra.TensorProduct.map_surjective f (AlgHom.id R T) hf Function.surjective_id
-  · show (RingHom.ker (Algebra.TensorProduct.map f (AlgHom.id R T))).FG
+  · change (RingHom.ker (Algebra.TensorProduct.map f (AlgHom.id R T))).FG
     rw [Algebra.TensorProduct.rTensor_ker f hf]
     exact hker.map _
 
@@ -911,7 +904,7 @@ public theorem finite_baseChange_ker_of_flat [Module.Flat R N] [Module.Finite S 
       constructor
       · intro x y h
         apply baseChange_injective_of_flat_cokernel R S T M N f hf
-        simpa only [LinearMap.tensorKer_coe, LinearMap.baseChange_eq_ltensor] using
+        simpa only [LinearMap.tensorKer_coe, LinearMap.baseChange_eq_lTensor] using
           congrArg Subtype.val h
       · intro x
         obtain ⟨y, hy⟩ := (lTensor_exact (S ⊗[R] T)
@@ -945,16 +938,13 @@ private noncomputable def tensorRestrictScalarsLinearEquiv :
   intro r x
   change e (r • x) =
     (Algebra.TensorProduct.map (IsScalarTower.toAlgHom R P S) (AlgHom.id R T) r) • e x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp [smul_add, hx, hy]
   | tmul q m =>
-    induction q using TensorProduct.induction_on with
-    | zero => simp
+    induction q using TensorProduct.inductionOn with
     | add q q' hq hq' => simpa [add_tmul, smul_add] using congrArg₂ (· + ·) hq hq'
     | tmul q w =>
-      induction r using TensorProduct.induction_on with
-      | zero => simp
+      induction r using TensorProduct.inductionOn with
       | add r r' hr hr' => simpa [add_smul] using congrArg₂ (· + ·) hr hr'
       | tmul p t =>
         simp only [smul_tmul', smul_eq_mul, Algebra.TensorProduct.tmul_mul_tmul,
@@ -1260,7 +1250,7 @@ private theorem finitePresentation_of_factorization
   have : IsScalarTower base.fibreProduct P D' := by
     apply IsScalarTower.of_algebraMap_eq
     intro r
-    show s.toD' r = f (MvPolynomial.C (toD'' r))
+    change s.toD' r = f (MvPolynomial.C (toD'' r))
     rw [show MvPolynomial.C (toD'' r) = algebraMap D'' P (toD'' r) from rfl,
       f.commutes]
     exact (RingHom.congr_fun hcomp r).symm
@@ -1271,7 +1261,7 @@ private theorem finitePresentation_of_factorization
     IsScalarTower.restrictScalars base.fibreProduct D' L
   have : IsScalarTower base.fibreProduct P L :=
     IsScalarTower.of_algebraMap_smul (fun r m => by
-      show (f (t.toD' r)) • m = s.toD' r • m
+      change (f (t.toD' r)) • m = s.toD' r • m
       exact congrArg (· • m)
         (IsScalarTower.algebraMap_apply base.fibreProduct P D' r).symm)
   let : Algebra base.fibreProduct B :=

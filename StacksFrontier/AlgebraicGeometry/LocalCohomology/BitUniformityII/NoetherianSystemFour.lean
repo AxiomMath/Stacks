@@ -74,14 +74,14 @@ theorem nonempty_strictProIso_systemFour_systemTwo [IsNoetherianRing P] [IsNoeth
     · intro i
       simp [χ, g]
   have hJ₀ : J = J₀.map χ := by
-    show J = (MvPolynomial.idealOfVars (Fin r) P).map χ
+    change J = (MvPolynomial.idealOfVars (Fin r) P).map χ
     rw [MvPolynomial.idealOfVars, Ideal.map_span, ← Set.range_comp, ← hgens]
     congr 2
     funext i
     simp [χ]
   have hIg : Ideal.span (Set.range g) = I := by
     rw [hI, ← hgens]
-    show _ = Ideal.map φ (Ideal.span (Set.range gens))
+    change _ = Ideal.map φ (Ideal.span (Set.range gens))
     rw [Ideal.map_span, ← Set.range_comp]
     rfl
   let D := CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars χ

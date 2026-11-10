@@ -182,7 +182,8 @@ additivity and linearity lemmas below can be proved by `map_add` and `map_smul`.
 theorem toTensorSheafSection_eq_sheafifyUnit (t : TensorProduct (X.presheaf.obj U)
     (A.val.obj U) (B.val.obj U)) :
     toTensorSheafSection X A B U t =
-      ((sheafifyUnit X ((PresheafOfModules.tensorObj (O := (X).presheaf) (A.val) (B.val)))).app U).hom t :=
+      ((sheafifyUnit X
+        ((PresheafOfModules.tensorObj (O := (X).presheaf) (A.val) (B.val)))).app U).hom t :=
   rfl
 
 /-- A pure tensor of local sections is additive in the second factor. -/
@@ -245,7 +246,8 @@ theorem connectionTmul_restrict {U V : (Y.Opens)ᵒᵖ} (k : U ⟶ V) (s : F.val
       connectionTmul f F V (F.val.map k s) ((relativeDifferentials f).val.map k α) :=
   (PresheafOfModules.naturality_apply
     (sheafifyUnit Y.toRingedSpace
-      ((PresheafOfModules.tensorObj (O := (Y.toRingedSpace).presheaf) (F.val) ((relativeDifferentials f).val)))) k
+      ((PresheafOfModules.tensorObj (O := (Y.toRingedSpace).presheaf) (F.val)
+        ((relativeDifferentials f).val)))) k
     (s ⊗ₜ[Y.presheaf.obj U] α)).symm
 
 end Tensor
@@ -371,7 +373,7 @@ morphism of sheaves of `𝒪_Y`-modules acts on sections over an arbitrary open.
 def addLinear {F : Y.Modules} (nabla : ModuleConnection f F)
     (η : F.val ⟶ (moduleConnectionTarget f F).val) : ModuleConnection f F where
   d U := nabla.d U + (η.app U).hom.toAddMonoidHom
-  d_restrict {U V} k s :=
+  d_restrict {U V} (k : U ⟶ V) s :=
     (_root_.map_add _ (nabla.d U s) ((η.app U).hom s)).trans
       (congrArg₂ (· + ·) (nabla.d_restrict k s)
         (PresheafOfModules.naturality_apply η k s).symm)

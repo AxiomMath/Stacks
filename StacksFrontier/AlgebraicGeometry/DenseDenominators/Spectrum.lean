@@ -185,7 +185,7 @@ theorem surjective_subSpecToBase [IsReduced Y] (hΩ : Dense (Ω : Set Y))
     exact injective_toSub P hΩ U.1 φ hφ
   have h1 : Surjective (Spec.map ((subStructureMap P).app (op U.1))) :=
     ⟨Algebra.IsIntegral.comap_surjective Γ(Y, U.1) (sub P U.1)⟩
-  show Surjective (Spec.map ((subStructureMap P).app (op U.1)) ≫ U.2.isoSpec.inv)
+  change Surjective (Spec.map ((subStructureMap P).app (op U.1)) ≫ U.2.isoSpec.inv)
   infer_instance
 
 /-! ### The morphism to the spectrum of `S` over an affine open of `Ω` -/
@@ -226,7 +226,7 @@ morphism of the algebra of denominators. -/
 lemma inclS_comp_algebraMap {U : Y.Opens} (hUΩ : U ≤ Ω) :
     (inclS P hUΩ).comp (algebraMap Γ(Y, Ω) S) = (toSub P U).comp (resHom hUΩ) := by
   refine RingHom.ext fun a => Subtype.ext ?_
-  show (1 : Γ(Y, U ⊓ Ω)) ⊗ₜ[Γ(Y, Ω)] (algebraMap Γ(Y, Ω) S a)
+  change (1 : Γ(Y, U ⊓ Ω)) ⊗ₜ[Γ(Y, Ω)] (algebraMap Γ(Y, Ω) S a)
     = resHom (inf_le_left : U ⊓ Ω ≤ U) (resHom hUΩ a) ⊗ₜ[Γ(Y, Ω)] (1 : S)
   rw [Algebra.algebraMap_eq_smul_one, tmul_smul, smul_tmul', smul_inf, mul_one, resHom_resHom]
 

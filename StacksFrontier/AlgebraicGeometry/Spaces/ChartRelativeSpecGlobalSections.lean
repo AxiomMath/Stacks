@@ -284,7 +284,7 @@ theorem chartRelativeSpecSectionsIso_naturality {V' V : SmallEtale B S hS X.1} (
   have hsq : openChartRestrictTop B S hS X.1 h ≫ (openChartTopIso B S hS X.1 V).hom =
       (openChartTopIso B S hS X.1 V').hom ≫ h :=
     openChartRestrictTop_comp_openChartTopIso_hom B S hS X.1 h
-  show A.right.obj.map h.op ≫ A.right.obj.map (openChartTopIso B S hS X.1 V').hom.op ≫
+  change A.right.obj.map h.op ≫ A.right.obj.map (openChartTopIso B S hS X.1 V').hom.op ≫
         (chartRelativeSpecTopSectionsIso B S hS X A hA V').inv =
       (A.right.obj.map (openChartTopIso B S hS X.1 V).hom.op ≫
           (chartRelativeSpecTopSectionsIso B S hS X A hA V).inv) ≫

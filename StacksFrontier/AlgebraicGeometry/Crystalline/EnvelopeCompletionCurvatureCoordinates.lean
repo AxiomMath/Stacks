@@ -158,7 +158,7 @@ theorem coordOp_comm_of_isCurvatureZero (hb : ∀ j, deRham 1 (b j) = 0)
     (phi a c) h0
   simp only [map_sum, dualTensorCoordinate_tmul, hphi, sub_smul, ite_mul, one_mul, zero_mul,
     ite_smul, one_smul, zero_smul, Finset.sum_sub_distrib, Finset.sum_ite_eq', Finset.mem_univ,
-    if_true] at h1
+    ite_true] at h1
   exact sub_eq_zero.mp h1
 
 end Generic

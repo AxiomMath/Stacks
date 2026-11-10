@@ -7,7 +7,8 @@ public import StacksFrontier.AlgebraicGeometry.DerivedVarieties.TransformedDiago
 # The complex of [Stacks, Tag 0G0A] in Situation [Stacks, Tag 0G08], from the standard model
 
 `AlgebraicGeometry.exists_kunnethComplex_of_imagePairing` of
-`StacksFrontier.AlgebraicGeometry.DerivedVarieties.TransformedDiagonal.SituationBoxPairing` states the
+`StacksFrontier.AlgebraicGeometry.DerivedVarieties.TransformedDiagonal.SituationBoxPairing` states
+the
 conclusion of [Stacks, Tag 0G0A] at the hypotheses of Situation [Stacks, Tag 0G08] from one Künneth
 input, `himage`, about Hom groups of the locally small model of `D(𝒪_{X ×_k Y})`.
 `AlgebraicGeometry.DiagonalResolution.isTensorPairing_transformedImagePairing_iff_std` of

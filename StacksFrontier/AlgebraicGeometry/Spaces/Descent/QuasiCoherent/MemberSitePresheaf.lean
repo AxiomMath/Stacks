@@ -99,7 +99,8 @@ forward along the first leg.  For the last, `.memberTransitionChart` is a reduci
 
 **The bridge from the bundled reading to the written-out one exists, and `rfl` is what fails.**
 The implementation notes of
-`StacksFrontier/AlgebraicGeometry/Spaces/Descent/QuasiCoherent/DatumChartBaseChange.lean` record that
+`StacksFrontier/AlgebraicGeometry/Spaces/Descent/QuasiCoherent/DatumChartBaseChange.lean`
+record that
 `(transitionEtaleForm …).val.app (.op U) s = etaleSect … ((transitionHom …).val.app (.op U)
 (etaleSectInv … s))` exhausts the elaborator's recursion depth.  What exhausts it is the proof
 `rfl`: the statement elaborates in milliseconds, and `.transitionEtaleForm_val_app_apply` proves
@@ -172,7 +173,8 @@ members** in that position.  The two print identically, and:
 * `rw`, `simp only` and `conv_lhs => rw` with the restriction half do not find their pattern at
   all, and `.apply_congr` with its equation left a hole times out at `whnf`.
 
-Three reshapings of `.memberDatumMap`'s **body** do not help against this: pinning the middle module by `show … from` (which leaves a `let` in the term, costs
+Three reshapings of `.memberDatumMap`'s **body** do not help against this:
+pinning the middle module by `show … from` (which leaves a `let` in the term, costs
 minutes in this file and makes the kernel time out downstream); pinning it with
 `@CategoryStruct.comp` and its three objects explicit (cheap, but the reduction still times
 out); and spelling the second factor's restriction of scalars through the member's own structure
@@ -240,7 +242,8 @@ Read on the sections over the identity chart of the test space the same statemen
 its two endpoints tried, although each of
 `memberChartMap V V (𝟙 …) = chartToSpace (Yi i) V` and
 `memberTransitionChart V V (𝟙 …) = V` is `rfl` in milliseconds.  That is the same wall
-`StacksFrontier/AlgebraicGeometry/Spaces/Descent/QuasiCoherent/DatumChartBaseChange.lean` records for the base change, met at the identity: an
+`StacksFrontier/AlgebraicGeometry/Spaces/Descent/QuasiCoherent/DatumChartBaseChange.lean`
+records for the base change, met at the identity: an
 identification of two charts is free, and is unaffordable inside the endpoints of a hom of modules
 of sections.
 

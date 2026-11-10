@@ -159,7 +159,7 @@ theorem exists_pointClass_eq (c : Stacks.Picard.ofScheme X)
     rw [mem_groupZero_iff]
     intro t
     rw [degree_apply]
-    show relativeInvertibleDegreeHomAt _ _ t ((smallEquiv (bc f (Stacks.Hilbert.fieldPoint K)))
+    change relativeInvertibleDegreeHomAt _ _ t ((smallEquiv (bc f (Stacks.Hilbert.fieldPoint K)))
       ((smallEquiv (bc f (Stacks.Hilbert.fieldPoint K))).symm c')) = 0
     rw [AddEquiv.apply_symm_apply,
       relativeInvertibleDegreeHomAt_eq_invertibleCurveDegreeHom _ _ hdim₀]
@@ -175,7 +175,7 @@ theorem exists_pointClass_eq (c : Stacks.Picard.ofScheme X)
   rw [pointClass, dite_eq_left hwa]
   have ha : (Over.homMk a.left hwa : Stacks.Hilbert.fieldPoint K ⟶ A.X) = a := rfl
   rw [ha, representedClass_classifyingHom]
-  show Stacks.Picard.schemePullbackClass (toBcFieldPoint f)
+  change Stacks.Picard.schemePullbackClass (toBcFieldPoint f)
     ((smallEquiv (bc f (Stacks.Hilbert.fieldPoint K)))
       ((smallEquiv (bc f (Stacks.Hilbert.fieldPoint K))).symm c')) = c
   rw [AddEquiv.apply_symm_apply, Stacks.Picard.schemePullbackClass_comp]

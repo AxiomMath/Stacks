@@ -115,7 +115,7 @@ theorem linearMapOfHgroup_surjective {X' : Scheme.{u}} {f' : X' ⟶ Spec (.of k)
   intro w
   obtain ⟨x, hx⟩ := hs (toHgroup k f' F' n' w)
   refine ⟨(toHgroup k f F n).symm x, ?_⟩
-  show (toHgroup k f' F' n').symm (e (toHgroup k f F n ((toHgroup k f F n).symm x))) = w
+  change (toHgroup k f' F' n').symm (e (toHgroup k f F n ((toHgroup k f F n).symm x))) = w
   rw [AddEquiv.apply_symm_apply, hx, AddEquiv.symm_apply_apply]
 
 /-- `linearMapOfHgroup e he` is injective when `e` is. -/

@@ -375,7 +375,7 @@ theorem connectedSpace_geometricFiber_iff_forall_scheme_etaleNeighborhood
         (map_fieldExtensionMap B (Vsch.residueField v) y.val.carrier r.contained
           y.val.contained)
     let eR : R ≅ y.val.siteObject := Over.isoMk (Iso.refl _) (by
-      show (𝟙 _) ≫ y.val.siteObject.hom = h ≫ r.siteObject.hom
+      change (𝟙 _) ≫ y.val.siteObject.hom = h ≫ r.siteObject.hom
       have hrw : r.value.left ≫ V.hom = r.siteObject.hom := r.value.w
       have hqw : q.left ≫ V.hom = y.val.siteObject.hom := q.w
       rw [Category.id_comp, ← hrw, ← Category.assoc, hj, hqw])
@@ -383,7 +383,7 @@ theorem connectedSpace_geometricFiber_iff_forall_scheme_etaleNeighborhood
         yoneda.map j ≫ (yoneda.map r.value ≫ a) := by
       have hpj : j ≫ r.value = eR.hom ≫ q := by
         apply Over.OverMorphism.ext
-        show h ≫ r.value.left = (𝟙 _) ≫ q.left
+        change h ≫ r.value.left = (𝟙 _) ≫ q.left
         simpa only [Category.id_comp] using hj
       rw [← Functor.map_comp_assoc, hpj, Functor.map_comp, Category.assoc]
       congr 1

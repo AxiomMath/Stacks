@@ -170,7 +170,7 @@ theorem TleftCochain_preservesHomotopyRel (G : CochainComplex C ℤ) :
     have hTg : (TleftCochain G).map g
         = HomologicalComplex.mapBifunctorMap (𝟙 G) g (curriedTensor C) (ComplexShape.up ℤ) := rfl
     -- Identify .ιTotal with ιMapBifunctor
-    show HomologicalComplex.ιMapBifunctor G X (curriedTensor C) (ComplexShape.up ℤ) i₁ i₂ i hi ≫
+    change HomologicalComplex.ιMapBifunctor G X (curriedTensor C) (ComplexShape.up ℤ) i₁ i₂ i hi ≫
           ((TleftCochain G).map f).f i
       = HomologicalComplex.ιMapBifunctor G X (curriedTensor C) (ComplexShape.up ℤ) i₁ i₂ i hi ≫
           ((dNext i) _ + (prevD i) _ + ((TleftCochain G).map g).f i)
@@ -282,7 +282,7 @@ theorem TrightCochain_preservesHomotopyRel (G : CochainComplex C ℤ) :
         = HomologicalComplex.mapBifunctorMap f (𝟙 G) (curriedTensor C) (ComplexShape.up ℤ) := rfl
     have hTg : (TrightCochain G).map g
         = HomologicalComplex.mapBifunctorMap g (𝟙 G) (curriedTensor C) (ComplexShape.up ℤ) := rfl
-    show HomologicalComplex.ιMapBifunctor X G (curriedTensor C) (ComplexShape.up ℤ) i₁ i₂ i hi ≫
+    change HomologicalComplex.ιMapBifunctor X G (curriedTensor C) (ComplexShape.up ℤ) i₁ i₂ i hi ≫
           ((TrightCochain G).map f).f i
       = HomologicalComplex.ιMapBifunctor X G (curriedTensor C) (ComplexShape.up ℤ) i₁ i₂ i hi ≫
           ((dNext i) _ + (prevD i) _ + ((TrightCochain G).map g).f i)

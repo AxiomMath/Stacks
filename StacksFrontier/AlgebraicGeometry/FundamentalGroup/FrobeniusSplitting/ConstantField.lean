@@ -37,8 +37,9 @@ open Stacks.EtaleCohomology
 
 /-- **Finite extensions of every degree.** A finite field `k` has an extension of degree `n` for
 every `n ≠ 0`, in the universe of `k`. -/
-theorem exists_finrank_eq (k : Type u) [Field k] [Fintype k] {n : ℕ} (hn : n ≠ 0) :
+theorem exists_finrank_eq (k : Type u) [Field k] [Finite k] {n : ℕ} (hn : n ≠ 0) :
     ∃ (K : Type u) (_ : Field K) (_ : Fintype K) (_ : Algebra k K), Module.finrank k K = n := by
+  let : Fintype k := Fintype.ofFinite k
   obtain ⟨p, hchar⟩ := CharP.exists k
   have : Fact p.Prime := ⟨CharP.char_is_prime k p⟩
   let := ZMod.algebra k p
@@ -62,9 +63,9 @@ theorem exists_finrank_eq (k : Type u) [Field k] [Fintype k] {n : ℕ} (hn : n �
   exact Nat.pow_right_injective (Fintype.one_lt_card (α := k))
     ((Module.card_eq_pow_finrank (K := k) (V := ULift.{u} K₀)).symm.trans hcardK₀)
 
-variable {k : Type u} [Field k] [Fintype k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k))
+variable {k : Type u} [Field k] [Finite k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k))
 
-omit [Fintype k] in
+omit [Finite k] in
 /-- A `K`-valued point of a scheme `Z` over a field `κ` over `k`, lying over `Spec k`, gives a
 `k`-embedding `κ → K`. -/
 theorem nonempty_algHom_of_fieldValuedPoints {Z : Scheme.{u}} {κ : Type u} [Field κ]
@@ -80,16 +81,17 @@ theorem nonempty_algHom_of_fieldValuedPoints {Z : Scheme.{u}} {κ : Type u} [Fie
 /-- **A connected cover with points over extensions of coprime degrees is a smooth proper
 geometrically irreducible curve over `k`.** -/
 theorem isCurve_comp_of_coprime [IsProper f] [Smooth f] [IsCurve k f] [ConnectedSpace X]
-    (Z : FiniteEtaleOver X) [ConnectedSpace Z.left] (K₁ K₂ : Type u) [Field K₁] [Fintype K₁]
-    [Algebra k K₁] [Field K₂] [Fintype K₂] [Algebra k K₂]
+    (Z : FiniteEtaleOver X) [ConnectedSpace Z.left] (K₁ K₂ : Type u) [Field K₁] [Finite K₁]
+    [Algebra k K₁] [Field K₂] [Finite K₂] [Algebra k K₂]
     (hcop : Nat.Coprime (Module.finrank k K₁) (Module.finrank k K₂))
     (t₁ : fieldValuedPoints (Z.hom ≫ f) K₁) (t₂ : fieldValuedPoints (Z.hom ≫ f) K₂) :
     IsProper (Z.hom ≫ f) ∧ Smooth (Z.hom ≫ f) ∧ GeometricallyIrreducible (Z.hom ≫ f) ∧
       IsCurve k (Z.hom ≫ f) := by
   obtain ⟨κ, _, _, _, r, hr, hP, hS, hG, hC⟩ := exists_constantField_of_finiteEtale k f Z
+  let : Fintype k := Fintype.ofFinite k
   have : Finite κ := Module.finite_of_finite k
   let : Fintype κ := Fintype.ofFinite κ
-  have hpt : ∀ (K : Type u) [Field K] [Fintype K] [Algebra k K],
+  have hpt : ∀ (K : Type u) [Field K] [Finite K] [Algebra k K],
       fieldValuedPoints (Z.hom ≫ f) K → Module.finrank k κ ∣ Module.finrank k K := by
     intro K _ _ _ t
     exact FiniteField.nonempty_algHom_iff_finrank_dvd.1

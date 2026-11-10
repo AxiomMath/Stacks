@@ -354,7 +354,7 @@ theorem completedStalkAffineOpenLevelEquiv_transitionMap {m n : ℕ} (h : m ≤ 
   rcases n with _ | n
   · omega
   have h' : m ≤ n := Nat.le_of_succ_le_succ h
-  show AdicCompletion.transitionMap _ _ (Nat.succ_le_succ h')
+  change AdicCompletion.transitionMap _ _ (Nat.succ_le_succ h')
       (affineOpenStalkLevelEquiv hU F ε x hIx q hq n (formalStalkAffineLevelEquiv F x n z)) =
     affineOpenStalkLevelEquiv hU F ε x hIx q hq m (formalStalkAffineLevelEquiv F x m
       (AdicCompletion.transitionMap _ _ (Nat.succ_le_succ h') z))

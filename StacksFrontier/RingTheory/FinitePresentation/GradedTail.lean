@@ -96,7 +96,7 @@ theorem surjective_bandProj (e : ℕ) : Function.Surjective (bandProj 𝒜 e) :=
   classical
   intro y
   refine ⟨∑ i : Fin (e - 1), (y i : A), funext fun j => Subtype.ext ?_⟩
-  rw [bandProj_apply, decompose_sum, DFinsupp.finset_sum_apply, Submodule.coe_sum,
+  rw [bandProj_apply, decompose_sum, DFinsupp.finsetSum_apply, Submodule.coe_sum,
     Finset.sum_eq_single j]
   · exact decompose_of_mem_same 𝒜 (y j).2
   · intro i _ hij
@@ -171,7 +171,7 @@ theorem decompose_map_apply (φ : B →ₐ[R₀] A) (hφ : ∀ n, ∀ b ∈ ℬ 
     (n : ℕ) : (decompose 𝒜 (φ b) n : A) = φ (decompose ℬ b n) := by
   classical
   conv_lhs => rw [← sum_support_decompose ℬ b]
-  rw [map_sum, decompose_sum, DFinsupp.finset_sum_apply, Submodule.coe_sum,
+  rw [map_sum, decompose_sum, DFinsupp.finsetSum_apply, Submodule.coe_sum,
     Finset.sum_eq_single n]
   · exact decompose_of_mem_same 𝒜 (hφ n _ (SetLike.coe_mem _))
   · intro m _ hmn
@@ -222,11 +222,10 @@ theorem finitePresentation_of_isBaseChange [Algebra.FinitePresentation R₀ B] (
     | zero => simp only [map_zero]
     | of n t =>
       rw [← DirectSum.lof_eq_of R₀]
-      induction t using TensorProduct.induction_on with
-      | zero => simp only [map_zero]
+      induction t using TensorProduct.inductionOn with
       | tmul r b =>
         rw [hEsymm, hΨ]
-        show _ = (decomposeLinearEquiv 𝒜).symm
+        change _ = (decomposeLinearEquiv 𝒜).symm
           (DirectSum.lmap ψ (DirectSum.lof R ℕ (fun n => R ⊗[R₀] ℬ n) n (r ⊗ₜ b)))
         rw [DirectSum.lmap_lof, decomposeLinearEquiv_symm_lof]
         simp only [ψ, LinearMap.liftBaseChange_tmul, Submodule.coe_smul, coe_pieceMap]
@@ -235,16 +234,14 @@ theorem finitePresentation_of_isBaseChange [Algebra.FinitePresentation R₀ B] (
   -- The band pieces `R ⊗ ℬ n` vanish.
   have hz : ∀ n, 0 < n → n < e → ∀ s : R ⊗[R₀] ℬ n, s = 0 := by
     intro n hn hne s
-    induction s using TensorProduct.induction_on with
-    | zero => rfl
+    induction s using TensorProduct.inductionOn with
     | tmul r b =>
       rw [show b = 0 from Subtype.ext (hBband n hn hne b b.2), TensorProduct.tmul_zero]
     | add s s' hs hs' => rw [hs, hs', add_zero]
   -- Beyond the band, `ψ n` is the base change equivalence.
   have heq : ∀ n (hn : e ≤ n) t, ψ n t = (hbc n hn).equiv t := by
     intro n hn t
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul r b => rw [IsBaseChange.equiv_tmul]; rfl
     | add t t' ht ht' => simp only [map_add, ht, ht']
   -- Each `ψ n` is injective.
@@ -253,8 +250,7 @@ theorem finitePresentation_of_isBaseChange [Algebra.FinitePresentation R₀ B] (
     rcases Nat.eq_zero_or_pos n with rfl | hn
     · have hform : ∀ t : R ⊗[R₀] ℬ 0, ∃ r : R, t = r ⊗ₜ ⟨1, SetLike.GradedOne.one_mem⟩ := by
         intro t
-        induction t using TensorProduct.induction_on with
-        | zero => exact ⟨0, (TensorProduct.zero_tmul _ _).symm⟩
+        induction t using TensorProduct.inductionOn with
         | tmul r b =>
           obtain ⟨s, hs⟩ := hB0 b b.2
           refine ⟨s • r, ?_⟩
@@ -300,14 +296,14 @@ theorem finitePresentation_of_isBaseChange [Algebra.FinitePresentation R₀ B] (
     intro n hn a ha
     obtain ⟨t, ht⟩ := (hbc n hn).equiv.surjective ⟨a, ha⟩
     refine ⟨E.symm (DirectSum.lof R₀ ℕ (fun n => R ⊗[R₀] ℬ n) n t), ?_⟩
-    show Ψ _ = a
+    change Ψ _ = a
     rw [hkey]
-    show (decomposeLinearEquiv 𝒜).symm
+    change (decomposeLinearEquiv 𝒜).symm
       (DirectSum.lmap ψ (DirectSum.lof R ℕ (fun n => R ⊗[R₀] ℬ n) n t)) = a
     rw [DirectSum.lmap_lof, decomposeLinearEquiv_symm_lof, heq n hn, ht]
   have hCband : ∀ c ∈ C, ∀ n, 0 < n → n < e → (decompose 𝒜 c n : A) = 0 := by
     rintro c ⟨t, rfl⟩ n hn hne
-    show (decompose 𝒜 (Ψ t) n : A) = 0
+    change (decompose 𝒜 (Ψ t) n : A) = 0
     rw [← E.symm_apply_apply t, hdecC, DirectSum.lmap_apply]
     rw [hz n hn hne (E t n), map_zero, ZeroMemClass.coe_zero]
   have := finitePresentation_quotient 𝒜 e h0 hband C hC hCband

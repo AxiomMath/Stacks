@@ -168,7 +168,7 @@ theorem homologyFunctorFactors_singleFunctorCompHomologyFunctorIso_inv_free (m :
       (ModuleCat.{v} R) 0).app M) m
   refine (HomologicalComplex.singleObjHomologySelfIso
     (ComplexShape.up ℤ) 0 M).toLinearEquiv.injective ?_
-  show (HomologicalComplex.singleObjHomologySelfIso (ComplexShape.up ℤ) 0 M).hom _ =
+  change (HomologicalComplex.singleObjHomologySelfIso (ComplexShape.up ℤ) 0 M).hom _ =
     (HomologicalComplex.singleObjHomologySelfIso (ComplexShape.up ℤ) 0 M).hom
       ((HomologicalComplex.singleObjHomologySelfIso (ComplexShape.up ℤ) 0 M).inv m)
   rw [← h, h2]

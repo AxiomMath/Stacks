@@ -62,8 +62,8 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) (τ : SiteKi
 
 -- The two sheafification retypings that `AlgebraicGeometry.trivializationTorsor` needs at the
 -- `(schemeFunctionsRingedSite _ _ _).J` spelling are declared `local` in
--- `StacksFrontier/AlgebraicGeometry/EtaleCohomology/KummerTheory/PairTransportIso.lean`, so they are
--- not in scope here; they are re-enabled rather than restated.
+-- `StacksFrontier/AlgebraicGeometry/EtaleCohomology/KummerTheory/PairTransportIso.lean`, so they
+-- are not in scope here; they are re-enabled rather than restated.
 attribute [local instance] baseSchemeFunctions_hasWeakSheafify
   baseSchemeFunctions_wEqualsLocallyBijective
 

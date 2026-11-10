@@ -181,7 +181,7 @@ theorem reach_sigmaOverDesc_mem {P : MorphismProperty Scheme.{u}} [IsZariskiLoca
       (restrictionReachMap G (sigmaOverDesc g)).left =
       Sigma.desc fun i => (restrictionReachMap G (g i)).left :=
     Sigma.hom_ext _ _ fun i => by
-      rw [Sigma.ι_desc_assoc, Sigma.ι_desc, sigmaRestrictionReachι_left_comp_reach]
+      rw [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc, sigmaRestrictionReachι_left_comp_reach]
   have h2 : P (Sigma.desc fun i => (restrictionReachMap G (g i)).left) :=
     IsZariskiLocalAtSource.sigmaDesc hP
   rw [← key] at h2

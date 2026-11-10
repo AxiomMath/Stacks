@@ -55,7 +55,7 @@ theorem trace_ringEquiv (eA : A ≃+* A') (eB : B ≃+* B')
   let e : B ≃ₗ[A] B' :=
     { eB.toAddEquiv with
       map_smul' := fun a x => by
-        show eB (a • x) = (algebraMap A' B' (eA a)) * eB x
+        change eB (a • x) = (algebraMap A' B' (eA a)) * eB x
         rw [Algebra.smul_def, map_mul, h] }
   have : Module.Finite A B' := Module.Finite.equiv e
   have : Module.Projective A B' := Module.Projective.of_equiv e
@@ -65,9 +65,9 @@ theorem trace_ringEquiv (eA : A ≃+* A') (eB : B ≃+* B')
   have h2 := Stacks.Discriminant.finiteProjectiveTrace_congr_ringEquiv (C := B') eA
     (fun _ => rfl) (e.conj (Algebra.lmul A B b))
     (Algebra.lmul A' B' (eB b)) (fun x => by
-      show eB (b * eB.symm x) = eB b * x
+      change eB (b * eB.symm x) = eB b * x
       rw [map_mul, RingEquiv.apply_symm_apply])
-  show finiteProjectiveTrace A' B' (Algebra.lmul A' B' (eB b)) =
+  change finiteProjectiveTrace A' B' (Algebra.lmul A' B' (eB b)) =
     eA (finiteProjectiveTrace A B (Algebra.lmul A B b))
   rw [← h2, h1]
 
@@ -92,7 +92,7 @@ theorem exists_isFormsTrace_of_ringEquiv (eA : A ≃+* A') (eB : B ≃+* B')
   have hB (p : ℕ) (a : A) (x : ⋀[B]^p Ω[B⁄ℤ]) :
       formsMap B B' p (a • x) = eA a • formsMap B B' p x := by
     rw [← algebraMap_smul B a x, map_smulₛₗ]
-    show eB (algebraMap A B a) • _ = _
+    change eB (algebraMap A B a) • _ = _
     rw [h, algebraMap_smul]
   have hA (p : ℕ) (a' : A') (y : ⋀[A']^p Ω[A'⁄ℤ]) :
       formsMap A' A p (a' • y) = eA.symm a' • formsMap A' A p y :=
@@ -101,14 +101,14 @@ theorem exists_isFormsTrace_of_ringEquiv (eA : A ≃+* A') (eB : B ≃+* B')
     { toFun := fun x => formsMap A' A p (Θ' p (formsMap B B' p x))
       map_add' := fun x y => by simp only [map_add]
       map_smul' := fun a x => by
-        show formsMap A' A p (Θ' p (formsMap B B' p (a • x))) =
+        change formsMap A' A p (Θ' p (formsMap B B' p (a • x))) =
           a • formsMap A' A p (Θ' p (formsMap B B' p x))
         rw [hB, map_smul, hA, RingEquiv.symm_apply_apply] }, ?_⟩
   intro p b ω
-  show formsMap A' A p (Θ' p (formsMap B B' p (b • formsMap A B p ω))) = _
+  change formsMap A' A p (Θ' p (formsMap B B' p (b • formsMap A B p ω))) = _
   rw [map_smulₛₗ, formsMap_formsMap (A := A) (B := B) (C := B'),
     ← formsMap_formsMap (A := A) (B := A') (C := B')]
-  show formsMap A' A p (Θ' p (eB b • formsMap A' B' p (formsMap A A' p ω))) = _
+  change formsMap A' A p (Θ' p (eB b • formsMap A' B' p (formsMap A A' p ω))) = _
   rw [hΘ', hA, formsMap_formsMap (A := A) (B := A') (C := A), formsMap_self,
     trace_ringEquiv eA eB h, RingEquiv.symm_apply_apply]
 

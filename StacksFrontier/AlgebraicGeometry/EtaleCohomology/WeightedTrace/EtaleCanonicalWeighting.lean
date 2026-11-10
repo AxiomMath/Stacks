@@ -112,7 +112,7 @@ theorem flatQuasiFiniteWeight_eq_one_of_etale (u : U) :
         (Ideal.isMaximal_def.mp (maximalIdeal.isMaximal (U.presheaf.stalk u)))
     exact Module.length_eq_one _ _
   have := isSeparable_residueField_of_etale_fibers j (etale_fiberToSpecResidueField j) u
-  show ((Module.length (U.presheaf.stalk u)
+  change ((Module.length (U.presheaf.stalk u)
       ((U.presheaf.stalk u) ⧸ Ideal.map (j.stalkMap u).hom
         (maximalIdeal (X.presheaf.stalk (j u))))).toNat : ℤ) *
     (Field.finInsepDegree (X.residueField (j u)) (U.residueField u) : ℤ) = 1

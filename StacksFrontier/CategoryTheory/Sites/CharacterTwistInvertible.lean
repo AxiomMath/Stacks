@@ -170,7 +170,7 @@ it is `[φ] ⊗ [φ]`. It is the global section attached by Stacks 0727 to the c
 `W`. -/
 def twistTensorSelfSection :
     (characterTwistTensor (characterTwist W act χ J).obj act χ J).obj.obj (op T) :=
-  h.twistTensorGlobalSection χ hT
+  h.twistTensorGlobalSection (T := T) χ
     ⟨twistSelfSection χ, mem_characterSections_twistSelfSection χ⟩
 
 
@@ -179,7 +179,7 @@ omit [J.WEqualsLocallyBijective AddCommGrpCat.{u + 1}] in
 `W`.** Over an object carrying `φ : V ⟶ W` the global section is `[φ] ⊗ [φ]`. -/
 theorem twistTensorSelfSection_map {V : C} (φ : V ⟶ W) :
     (characterTwistTensor (characterTwist W act χ J).obj act χ J).obj.map (hT.from V).op
-        (h.twistTensorSelfSection χ hT) =
+        (h.twistTensorSelfSection (T := T) χ) =
       twistTensorGenSection act χ
         ((toSheafify J (characterTwistPresheaf W act χ)).app (op V)
           (twistedGenerator W act χ φ)) φ := by
@@ -202,7 +202,7 @@ the tensor square: over `V` it sends `n` to `n` times the restriction of that se
 def twistTensorUnit :
     (Functor.const Cᵒᵖ).obj (AddCommGrpCat.of (ULift.{u + 1} ℤ)) ⟶
       (characterTwistTensor (characterTwist W act χ J).obj act χ J).obj :=
-  constPresheafOfGlobalSection hT (h.twistTensorSelfSection χ hT)
+  constPresheafOfGlobalSection hT (h.twistTensorSelfSection (T := T) χ)
 
 omit [J.WEqualsLocallyBijective AddCommGrpCat.{u + 1}] in
 /-- Over an object carrying a morphism `φ : V ⟶ W` the unit sends `n` to `n • ([φ] ⊗ [φ])`. -/
@@ -231,7 +231,7 @@ theorem imageSieve_twistTensorUnit_mem {V : C} (φ : V ⟶ W)
       (toSheafify J
         (characterTwistTensorPresheaf (characterTwist W act χ J).obj act χ)).app (op V₁) x :=
     hx.symm
-  obtain ⟨S', hS', hfam⟩ := h.exists_sieve_twistTensorGen χ hT (f ≫ φ) x
+  obtain ⟨S', hS', hfam⟩ := h.exists_sieve_twistTensorGen χ (f ≫ φ) x
   refine J.transitive hS' _ ?_
   intro V₂ k hk
   obtain ⟨t, ht⟩ := hfam k hk
@@ -324,7 +324,7 @@ theorem isLocallyInjective_twistTensorUnit :
     have hvan : (n₁.down - n₂.down) •
         (toSheafify J (characterTwistPresheaf W act χ)).app (op V₁)
           (twistedGenerator W act χ φ) = 0 := by
-      refine h.twistTensorGenSection_injective χ hT φ ?_
+      refine h.twistTensorGenSection_injective χ φ ?_
       dsimp only
       exact (twistTensorGenSection_zsmul (F := characterTwist W act χ J) act χ
         (n₁.down - n₂.down) _ φ).trans (hgs.trans hzero.symm)

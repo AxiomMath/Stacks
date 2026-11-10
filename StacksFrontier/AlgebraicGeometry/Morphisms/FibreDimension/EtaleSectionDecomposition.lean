@@ -188,7 +188,7 @@ def offSection [IsSeparated f] (hs : s ≫ f = 𝟙 Y) : X.Opens :=
 section. -/
 theorem coe_offSection [IsSeparated f] (hs : s ≫ f = 𝟙 Y) :
     (offSection f s hs : Set X) = (Set.range s.base)ᶜ := by
-  show (sectionGraph f s hs).base ⁻¹' (offDiagonal f : Set (pullback f f : Scheme.{u})) = _
+  change (sectionGraph f s hs).base ⁻¹' (offDiagonal f : Set (pullback f f : Scheme.{u})) = _
   rw [coe_offDiagonal, Set.preimage_compl, range_section_eq_preimage_range_diagonal f s hs]
 
 /-- For a separated étale morphism the off-section part is closed as well as open, being the
@@ -210,7 +210,7 @@ theorem isCompl_opensRange_offSection [IsSeparated f] [IsOpenImmersion s] (hs : 
     exact h₂ hmem.1
   · refine codisjoint_iff.mpr (TopologicalSpace.Opens.ext ?_)
     refine Set.eq_univ_iff_forall.mpr fun x => ?_
-    show x ∈ (s.opensRange ⊔ offSection f s hs : X.Opens)
+    change x ∈ (s.opensRange ⊔ offSection f s hs : X.Opens)
     by_cases h : x ∈ Set.range s.base
     · exact Or.inl h
     · exact Or.inr (by rw [show ((offSection f s hs : X.Opens) : Set X) = _ from hcoe]; exact h)

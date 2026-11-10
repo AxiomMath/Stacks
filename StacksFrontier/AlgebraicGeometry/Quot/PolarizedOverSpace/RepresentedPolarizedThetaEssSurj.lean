@@ -138,8 +138,8 @@ def representedOfPolarized : RepresentedPolarized B :=
       quasicoherent := isQuasicoherentOnSite_polarizedSpaceModule P
       invertible := isInvertible_zariskiPolarizedSpaceModule P
       relativelyAmple := by
-        letI := P.invertible
-        letI := isInvertible_zariskiPolarizedSpaceModule P
+        let := P.invertible
+        let := isInvertible_zariskiPolarizedSpaceModule P
         exact (Stacks.RelativeVeryAmple.isRelativelyAmple_congr P.toBase _ _
           (zariskiPolarizedSpaceModuleIso P)).mpr P.relativelyAmple }⟩⟩
 

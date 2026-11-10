@@ -105,7 +105,7 @@ private theorem le_of_forall_le_sup_maximalIdeal_pow {R : Type u} [CommRing R] [
     rw [Ideal.mem_iInf]
     intro n
     obtain ⟨y, hy, z, hz, hsum⟩ := Submodule.mem_sup.mp (h n hx)
-    show Ideal.Quotient.mk I x ∈
+    change Ideal.Quotient.mk I x ∈
       ((IsLocalRing.maximalIdeal R).map (Ideal.Quotient.mk I)) ^ n
     rw [← Ideal.map_pow, ← hsum, map_add, Ideal.Quotient.eq_zero_iff_mem.mpr hy, zero_add]
     exact Ideal.mem_map_of_mem _ hz
@@ -133,14 +133,14 @@ private theorem ideal_le_of_quotientSpec_factorization {R : Type u} [CommRing R]
         CommRingCat.ofHom (Ideal.Quotient.mk I) := by
       apply Spec.map_injective
       rw [CommRingCat.ofHom_comp, Spec.map_comp]
-      show Spec.map (Spec.preimage f) ≫ _ = _
+      change Spec.map (Spec.preimage f) ≫ _ = _
       rw [Spec.map_preimage]
       exact hf
     exact congrArg (fun k => k.hom) he
   intro x hx
   apply Ideal.Quotient.eq_zero_iff_mem.mp
   rw [← hφ]
-  show φ (Ideal.Quotient.mk J x) = 0
+  change φ (Ideal.Quotient.mk J x) = 0
   rw [Ideal.Quotient.eq_zero_iff_mem.mpr hx, map_zero]
 
 /-- If every `Spec (R / (I + K i))` of a family cofinal among the powers of the maximal ideal
@@ -250,17 +250,17 @@ private theorem exists_isPullback_upliftedSheaf
   let j' : Z' ⟶ X' := ObjectProperty.homMk (L.map j)
   let g₀ : yoneda.obj U ⟶ X := yonedaEquiv.symm (Sheaf.sectionEquiv 𝒥 g).down
   have hcanon : A.map (L.map g₀) ≫ adj.counit.app X' = g := by
-    show (adj.homEquiv _ X').symm (L.map g₀) = g
+    change (adj.homEquiv _ X').symm (L.map g₀) = g
     apply (adj.homEquiv _ X').symm_apply_eq.mpr
     apply uliftYonedaEquiv.injective
-    show ULift.up (yonedaEquiv g₀) = Sheaf.sectionEquiv 𝒥 g
+    change ULift.up (yonedaEquiv g₀) = Sheaf.sectionEquiv 𝒥 g
     exact ULift.ext (yonedaEquiv.apply_symm_apply _)
   refine ⟨H.map z ≫ eZ.hom, ?_⟩
   apply (hz.map H).of_iso (Iso.refl _) eZ (Iso.refl _) eX
   · exact (Category.id_comp (H.map z ≫ eZ.hom)).symm
   · simp only [Iso.refl_hom, Category.comp_id]
     rfl
-  · show (((sheafToPresheaf 𝒥 (Type (u + 1))) ⋙ A).map j') ≫ adj.counit.app X' =
+  · change (((sheafToPresheaf 𝒥 (Type (u + 1))) ⋙ A).map j') ≫ adj.counit.app X' =
       adj.counit.app Z' ≫ j'
     exact adj.counit.naturality j'
   · exact hcanon
@@ -356,10 +356,10 @@ public theorem pointsToScheme_eq_closedPoint_of_pointsMap_mem {R : Type u} [Comm
       have heIx := congrArg (fun k : G.obj W ⟶ Spec (.of R) =>
         k (Space.pointsToScheme B S hS W v)) heI
       apply (congrArg (fun y : PrimeSpectrum R => Ii ≤ y.asIdeal) heIx).mpr
-      show Ii ≤ Ideal.comap (Ideal.Quotient.mk Ii)
+      change Ii ≤ Ideal.comap (Ideal.Quotient.mk Ii)
         (eI.hom (Space.pointsToScheme B S hS W v)).asIdeal
       intro y hy
-      show Ideal.Quotient.mk Ii y ∈ (eI.hom (Space.pointsToScheme B S hS W v)).asIdeal
+      change Ideal.Quotient.mk Ii y ∈ (eI.hom (Space.pointsToScheme B S hS W v)).asIdeal
       rw [Ideal.Quotient.eq_zero_iff_mem.mpr hy]
       exact (eI.hom (Space.pointsToScheme B S hS W v)).asIdeal.zero_mem
     exact hrange ▸ hx
@@ -521,7 +521,7 @@ public theorem pointsToScheme_eq_closedPoint_of_pointsMap_mem {R : Type u} [Comm
       congr 2
     have hqL : qL ≫ G.map (kk L) =
         Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (Ii ⊔ L.1))) := by
-      show qL ≫ Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk L.1)) = _
+      change qL ≫ Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk L.1)) = _
       rw [← Spec.map_comp, ← CommRingCat.ofHom_comp]
       congr 2
     have hsL := (IsPullback.of_hasPullback i (kk L)).map G
@@ -536,7 +536,7 @@ public theorem pointsToScheme_eq_closedPoint_of_pointsMap_mem {R : Type u} [Comm
                   (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk Ii))))))
         exact h₁.trans (hqI.trans hqL.symm))
     refine ⟨jL ≫ G.map vL, ?_⟩
-    show (jL ≫ G.map vL) ≫ G.map kM = _
+    change (jL ≫ G.map vL) ≫ G.map kM = _
     rw [Category.assoc, ← G.map_comp, hvLM, G.map_comp, ← Category.assoc]
     exact (congrArg (fun t => t ≫ G.map (kk L)) (hsL.lift_snd _ _ _)).trans hqL
   -- Krull's intersection theorem.

@@ -171,10 +171,10 @@ def polynomialConstantSheafRestrictionIso :
           (polynomialTopology A B)
           (GrothendieckTopology.trivial (Discrete PUnit.{u + 2}))).obj
         (polynomialRingedPoint A B).fibredSituation.liftedBaseSheaf :=
-  @restrictionCommRingIso _ _ _ _ (polynomialTopology A B)
-    (GrothendieckTopology.trivial (Discrete PUnit.{u + 2})) _ _
+  haveI := (polynomialRingedPoint A B).fibredSituation.isContinuous
+  restrictionCommRingIso (polynomialTopology A B)
+    (GrothendieckTopology.trivial (Discrete PUnit.{u + 2}))
     (Functor.star (polynomialSite A B))
-    (polynomialRingedPoint A B).fibredSituation.isContinuous
     (polynomialRingedPoint A B).fibredSituation.liftedBaseSheaf
 
 /-- The constant presheaf of rings with value `B`, with its sections in the universe in which

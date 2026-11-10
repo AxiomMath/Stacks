@@ -98,6 +98,7 @@ section BaseChange
 variable {X Z U Y : Scheme.{u}} (i : Z ⟶ X) [IsClosedImmersion i] (j : U ⟶ X) [IsOpenImmersion j]
   (hij : Set.range j.base = (Set.range i.base)ᶜ)
 
+omit [IsClosedImmersion i] [IsOpenImmersion j] in
 include hij in
 /-- The base change of a closed immersion and of the open immersion of its complement are again
 complementary. -/
@@ -152,6 +153,8 @@ variable {k : Type u} [Field k] [IsAlgClosed k] {X Z U : Scheme.{u}} (f : X ⟶ 
   (hij : Set.range j.base = (Set.range i.base)ᶜ) [IsFinite (i ≫ f)]
   [HasExt.{u + 1} (Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1})]
 
+omit [IsAlgClosed k] [IsClosedImmersion i]
+  [HasExt.{u + 1} (Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1})] in
 /-- The base change of the closed part to a scalar extension is finite over the extended field. -/
 theorem isFinite_pullback_scalarExtension (k' : Type u) [Field k'] [Algebra k k'] :
     IsFinite (pullback.snd i (scalarExtensionFst k k' f) ≫
@@ -161,6 +164,8 @@ theorem isFinite_pullback_scalarExtension (k' : Type u) [Field k'] [Algebra k k'
       (IsPullback.of_hasPullback f (Spec.map (CommRingCat.ofHom (algebraMap k k')))))
     (inferInstance : IsFinite (i ≫ f))
 
+omit [IsAlgClosed k] [IsClosedImmersion i]
+  [HasExt.{u + 1} (Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1})] in
 /-- The base change of the closed part to an open subscheme is finite over the field. -/
 theorem isFinite_pullback_opens (V : X.Opens) : IsFinite (pullback.fst i V.ι ≫ i ≫ f) := by
   have : DiscreteTopology Z := discreteTopology_of_isFinite_over_field k (i ≫ f)

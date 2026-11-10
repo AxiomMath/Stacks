@@ -41,9 +41,9 @@ private theorem range_sigmaDesc {σ : Type u} {g : σ → Scheme.{u}} {X : Schem
   · rintro _ ⟨z, rfl⟩
     obtain ⟨i, y, rfl⟩ := exists_sigmaι_eq g z
     refine Set.mem_iUnion.mpr ⟨i, y, ?_⟩
-    rw [← Scheme.Hom.comp_apply, Sigma.ι_desc]
+    rw [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
   · rintro _ ⟨y, rfl⟩
-    exact ⟨Sigma.ι g i y, by rw [← Scheme.Hom.comp_apply, Sigma.ι_desc]⟩
+    exact ⟨Sigma.ι g i y, by rw [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]⟩
 
 /-- **An open subscheme that becomes a basic open on a finite étale cover is affine.** Let `V`
 be an affine scheme, let `cᵢ : Wᵢ ⟶ V` be a finite jointly surjective family of étale morphisms
@@ -70,7 +70,7 @@ theorem isAffineOpen_of_finite_etale_cover_preimage_eq_basicOpen
     (isAffineOpen_top (W i)).basicOpen (a i)
   have _ : ∀ i, IsAffine (((W i).basicOpen (a i)).toScheme) := hDaff
   have _ : IsAffine (∐ fun i => ((W i).basicOpen (a i)).toScheme) := inferInstance
-  have hid : ∀ i, Sigma.ι W i ≫ Sigma.desc c = c i := fun i => Sigma.ι_desc c i
+  have hid : ∀ i, Sigma.ι W i ≫ Sigma.desc c = c i := fun i => Sigma.ι_comp_desc c i
   have hrange : Set.range (Sigma.desc fun i =>
       ((W i).basicOpen (a i)).ι ≫ Sigma.ι W i) =
       Set.range (Sigma.desc c ⁻¹ᵁ O).ι := by
@@ -80,7 +80,7 @@ theorem isAffineOpen_of_finite_etale_cover_preimage_eq_basicOpen
       have hy : ((W i).basicOpen (a i)).ι y ∈ c i ⁻¹ᵁ O := by
         rw [ha i]
         exact y.2
-      show ((((W i).basicOpen (a i)).ι ≫ Sigma.ι W i) ≫ Sigma.desc c) y ∈ (O : Set V)
+      change ((((W i).basicOpen (a i)).ι ≫ Sigma.ι W i) ≫ Sigma.desc c) y ∈ (O : Set V)
       rwa [Category.assoc, hid i]
     · obtain ⟨i, y, rfl⟩ := exists_sigmaι_eq W z
       have hy : y ∈ c i ⁻¹ᵁ O := by

@@ -62,7 +62,7 @@ private lemma exists_affine_etale_neighborhood
   let V₀ : S.affineOpens := ⟨V₀, hV₀⟩
   let P : X.Opens := f ⁻¹ᵁ V₀.1
   have hxP : x ∈ P := by
-    show f x ∈ V₀.1
+    change f x ∈ V₀.1
     rwa [hx]
   let xP : P.toScheme := ⟨x, hxP⟩
   obtain ⟨_, ⟨U₀, hU₀, rfl⟩, hxU₀, -⟩ :=
@@ -76,7 +76,7 @@ private lemma exists_affine_etale_neighborhood
   have : IsAffine V₀.1.toScheme := V₀.2
   have hf₁a₀ : f₁ a₀ = b₀ := by
     apply Subtype.ext
-    show (f₀ xP).1 = s
+    change (f₀ xP).1 = s
     rwa [Scheme.Hom.coe_resLE_apply]
   have hopen : IsOpen (Set.range f₁) := by
     simpa only [Set.image_univ] using Scheme.Hom.isOpenMap f₁ _ isOpen_univ
@@ -99,7 +99,7 @@ private lemma exists_affine_etale_neighborhood
     obtain ⟨a, ha⟩ : (z.1 : V₀.1.toScheme) ∈ Set.range f₁ := hrO z.2
     have haU : a ∈ U₁ := by
       rw [← hpre]
-      show f₁ a ∈ B₁
+      change f₁ a ∈ B₁
       simpa [ha] using z.2
     refine ⟨⟨a, haU⟩, Subtype.ext ?_⟩
     simpa [f₂, Scheme.Hom.coe_resLE_apply] using ha
@@ -188,7 +188,7 @@ theorem exists_zariski_finiteLocallyFree_refinement {S : Scheme.{u}}
     ⟨{ s₀ := fun k ↦ (D k.1).i
        h₀ := fun k ↦ (D k.1).lift k.2
        w₀ := fun k ↦ ?_ }⟩⟩
-  show (D k.1).lift k.2 ≫ E.f (D k.1).i = ((D k.1).U.f k.2 ≫ (D k.1).p) ≫ V.f k.1
+  change (D k.1).lift k.2 ≫ E.f (D k.1).i = ((D k.1).U.f k.2 ≫ (D k.1).p) ≫ V.f k.1
   simpa [Category.assoc] using ((D k.1).comm k.2).symm
 
 end Stacks.Topologies.Etale

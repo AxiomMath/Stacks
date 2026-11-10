@@ -70,7 +70,7 @@ theorem genericFiberSpec_isOpenImmersion :
     IsOpenImmersion (Spec.map (CommRingCat.ofHom (algebraMap R K))) := by
   obtain ⟨π, hπ⟩ := IsDiscreteValuationRing.exists_irreducible R
   have : IsLocalization.Away π K := by
-    show IsLocalization (Submonoid.powers π) K
+    change IsLocalization (Submonoid.powers π) K
     rw [isLocalization_iff]
     refine ⟨?_, ?_, ?_⟩
     · rintro ⟨_, n, rfl⟩
@@ -125,7 +125,7 @@ private theorem flat_quotientMk_ker_comp_of_comp_eq {A B : Type u} [CommRing A] 
   refine RingHom.flat_algebraMap_iff.mpr <| flat_of_injective_hom_into_unitScalarAlgebra
     (Ideal.Quotient.liftₐ _ φ' hφ) (RingHom.lift_injective_of_ker_le_ideal _ hφ le_rfl)
     fun r hr => ?_
-  show IsUnit (θ (algebraMap R K r))
+  change IsUnit (θ (algebraMap R K r))
   exact IsUnit.map θ (isUnit_iff_ne_zero.mpr
     (fun h => hr.ne_zero (IsFractionRing.injective R K (by simpa using h))))
 
@@ -138,7 +138,7 @@ private theorem subschemeCover_f_imageι_comp {S : CommRingCat.{u}} {V X : Schem
         ((p.appLE ⊤ U.1 le_top).hom.comp (Scheme.ΓSpecIso S).inv.hom) : S →+* _)) := by
   let qmk : CommRingCat.of Γ(X, U.1) ⟶ CommRingCat.of (Γ(X, U.1) ⧸ g.ker.ideal U) :=
     CommRingCat.ofHom (Ideal.Quotient.mk _)
-  show (g.ker.subschemeCover.f U ≫ g.ker.subschemeι) ≫ p = _
+  change (g.ker.subschemeCover.f U ≫ g.ker.subschemeι) ≫ p = _
   rw [g.ker.subschemeCover_map_subschemeι U, g.ker.glueDataObjι_ι U]
   calc
     _ = Spec.map qmk ≫ (U.2.fromSpec ≫ p) := rfl
@@ -171,7 +171,7 @@ private theorem flat_imageι_comp {V₁ X₂ : Scheme.{u}}
   let φ : Γ(X₂, U₀.1) →+* Γ(V₁, W) := (g.appLE U₀.1 W le_rfl).hom
   let θ : K →+* Γ(V₁, W) := (v₁.appLE ⊤ W (by simp)).hom.comp γK
   have hker : RingHom.ker φ = g.ker.ideal U₀ := by
-    show RingHom.ker (g.appLE U₀.1 W le_rfl).hom = g.ker.ideal U₀
+    change RingHom.ker (g.appLE U₀.1 W le_rfl).hom = g.ker.ideal U₀
     rw [← Scheme.Hom.app_eq_appLE]
     exact (g.ker_apply U).symm
   have hcompCat : p₂.appLE ⊤ U₀.1 le_top ≫ g.appLE U₀.1 W le_rfl =
@@ -247,7 +247,7 @@ theorem schemeTheoreticImage_isModel {V₁ V₂ X₂ : Scheme.{u}}
     (Category.assoc _ _ _)
   refine ⟨asIso t ≪≫ pullbackSymmetry _ _ ≪≫ pullbackRightPullbackFstIso p₂ i g.imageι,
     flat_imageι_comp v₁ p₂ g hgbase, inferInstance, inferInstance, ?_⟩
-  show (t ≫ (pullbackSymmetry _ _).hom ≫ (pullbackRightPullbackFstIso p₂ i g.imageι).hom) ≫
+  change (t ≫ (pullbackSymmetry _ _).hom ≫ (pullbackRightPullbackFstIso p₂ i g.imageι).hom) ≫
     pullback.snd (g.imageι ≫ p₂) i = v₁
   simp only [Category.assoc, pullbackRightPullbackFstIso_hom_snd,
     pullbackSymmetry_hom_comp_snd_assoc, reassoc_of% ht]

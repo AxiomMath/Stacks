@@ -130,7 +130,7 @@ public theorem thetaGlue_eq_of_le {U₁ U₃ : X.Opens} (hU₁ : IsAffineOpen U�
   refine (resLE_thetaGlue g E hqc E' hqc' hE D D' U₁ hU₁ n V (fun _ hz => h31 (hV hz)) x
     ⟨i.1, fun _ hz => h31 (i.2 hz)⟩).trans ?_
   refine Eq.trans ?_ (thetaLoc_res g E hqc E' hqc' hE D D' hU₁ hU₃ h31 i.1.2 i.1.2 le_rfl
-    (fun _ hz => h31 (i.2 hz)) i.2 n V hV x)
+    (fun _ hz => h31 (i.2 hz)) i.2 n V x)
   exact ((D'.algebra.piece n).val.congr_map_apply (Subsingleton.elim _ (𝟙 _)) _).trans
     congr($((D'.algebra.piece n).val.presheaf.map_id _) _) |>.symm
 

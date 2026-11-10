@@ -129,7 +129,7 @@ theorem isPerfect_compactSupportFrobeniusCohomology_levelComplex_representationL
           (canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x) ρ₀ hρ₀) n))) := by
   let : Fintype (rationalPoints f) := @Fintype.ofFinite _ (finite_rationalPoints f)
   exact
-    (perfectDerivedTrace_canonicalCompactSupportFrobenius_eq_sum_of_isCtf_of_isSeparated_of_properDirectImageCtfInput
+    (perfectDerivedTrace_compactSupportFrobenius_eq_sum_of_isCtf_of_properDirectImageCtfInput
     (kbar := kbar) (p := p) (q := q) (hcard := hcard)
     (natCard_zmod_pow_ne_zero_of_ne_char ℓ p hℓp n)
     (properDirectImageCtfInput B (ZMod (ℓ ^ (n + 1)))) f j _ X.property
@@ -191,14 +191,10 @@ public theorem charpoly_contragredient_integralModel [CompactSpace (EtaleFundame
     Matrix.charpoly_transpose, ← map_inv, ← map_inv]
   exact charpoly_integralModel ρ hρ g⁻¹
 
-variable [∀ (n : ℕ) (T : B.Scheme) (V : SmallEtale B T.1 T.property),
-    HasWeakSheafify ((SmallEtale.topology B T.1 T.property).over V)
-      (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
-  [∀ n : ℕ, HasWeakSheafify (SmallEtale.topology B X.1 X.property)
-    (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
-  {k : Type u} [Field k] [Finite k] (f : X.1 ⟶ Spec (.of k)) [LocallyOfFiniteType f]
+variable {k : Type u} [Field k] [Finite k] (f : X.1 ⟶ Spec (.of k)) [LocallyOfFiniteType f]
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search through the étale sheaf categories of `ZMod (ℓ ^ (n + 1))`-modules is heavy
 /-- **The geometric Frobenius at a closed point `y` acts on the stalks of `ℱ_{ρ₀^∨}` and of
 `ℱ_{ρ^∨}` with the same characteristic polynomial**, that of `ρ^∨(F_y)`. -/
 public theorem LAdicSheaf.charpoly_rationalStalkFrobenius_representationDualSheaf

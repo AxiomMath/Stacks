@@ -88,7 +88,7 @@ theorem subsingleton_sections_of_shortExact {X : Scheme.{u}}
   intro y
   obtain ⟨z, rfl⟩ := hsurjg y
   obtain ⟨c, rfl⟩ := hf z
-  show (Γ.map S.f ≫ Γ.map S.g).hom c = 0
+  change (Γ.map S.f ≫ Γ.map S.g).hom c = 0
   rw [← Functor.map_comp, S.zero, Functor.map_zero]
   rfl
 
@@ -147,7 +147,7 @@ theorem exists_injective_firstCohomology_and_sections_rightDerived_eq_zero {X X'
       map_smul' := fun r c => (Γ.map m).hom.map_smul r c }
   have hcomp : ∀ i : Γ.obj (P.obj I),
       mΓ ((Γ.map (cokernel.π (P.map ι))).hom i) = (Γ'.map πQ).hom i := fun i => by
-    show (Γ.map (cokernel.π (P.map ι)) ≫ Γ.map m).hom i = _
+    change (Γ.map (cokernel.π (P.map ι)) ≫ Γ.map m).hom i = _
     rw [← Functor.map_comp, cokernel.π_desc]
     rfl
   have hle : LinearMap.range (Γ.map (cokernel.π (P.map ι))).hom ≤
@@ -199,7 +199,7 @@ theorem exists_injective_firstCohomology_and_sections_rightDerived_eq_zero {X X'
   have hR1I : IsZero ((P.rightDerived 1).obj I) := P.isZero_rightDerived_obj_injective_succ 0 I
   have hz' : P.map πQ ≫ (uP.app (cokernel ι) ≫ δP) = 0 := by
     rw [← Category.assoc, uP.naturality, Category.assoc]
-    show uP.app I ≫ ((P.rightDerived 0).map πQ ≫ DP.δ hS₂ 0) = 0
+    change uP.app I ≫ ((P.rightDerived 0).map πQ ≫ DP.δ hS₂ 0) = 0
     rw [show (P.rightDerived 0).map πQ ≫ DP.δ hS₂ 0 = 0 from DP.map_g_δ hS₂ 0, comp_zero]
   let S' := ShortComplex.mk (P.map πQ) (uP.app (cokernel ι) ≫ δP) hz'
   have hS' : S'.Exact := by

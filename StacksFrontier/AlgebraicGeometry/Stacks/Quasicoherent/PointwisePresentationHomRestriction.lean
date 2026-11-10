@@ -62,7 +62,7 @@ theorem etaleChartStructureHom_app_surjective {U : AlgebraicSpaces B S hS}
   have e := Functor.congr_obj (etaleChartToFibred_comp B S hS p r eU f hf) W
   refine ⟨(BigFppfOver.structureSheaf B S hS).obj.map (eqToHom e.symm).op c, ?_⟩
   rw [etaleChartStructureHom_app]
-  show ((BigFppfOver.structureSheaf B S hS).obj.map (eqToHom e.symm).op ≫
+  change ((BigFppfOver.structureSheaf B S hS).obj.map (eqToHom e.symm).op ≫
     (BigFppfOver.structureSheaf B S hS).obj.map (eqToHom e).op) c = c
   rw [← CategoryTheory.Functor.map_comp, ← op_comp, eqToHom_trans, eqToHom_refl, op_id,
     CategoryTheory.Functor.map_id]
@@ -115,7 +115,7 @@ theorem coverByImage_presentationChartedPointFunctor_mem (w : PointwiseFibration
       BigFppfOver.associatedTopology C S hS p .fppf (F.obj w) := by
   rw [Functor.mem_inheritedTopology_iff_functorPushforward p
     (BigFppfOver.baseOverTopology C S hS .fppf) hp]
-  show _ ∈ BigFppfOver.topology C S hS _
+  change _ ∈ BigFppfOver.topology C S hS _
   have hw := presentation_obj_eq F hF w
   refine (BigFppfOver.topology C S hS).superset_covering ?_
     ((BigFppfOver.topology C S hS).pullback_stable (eqToHom hw)
@@ -282,7 +282,7 @@ theorem presentationSource_comparisonMorphism
     F.map (chartDiagramPoint G G.source.hom d.U d.V d.g d.comm) := by
   unfold Space.comparisonMorphism Space.comparisonChartHom
   simp only [Iso.refl_inv, Iso.refl_hom, NatTrans.id_app, Category.id_comp]
-  show F.map ((pointwiseObjectInclusion G).map _) = _
+  change F.map ((pointwiseObjectInclusion G).map _) = _
   congr 1
 
 /-- **The comparison morphism of the triangle through the target**, on a commutative square of
@@ -305,7 +305,7 @@ theorem presentationTarget_comparisonMorphism
     pointwiseArrow_vertHom G _ _ rfl rfl, ?_⟩
   unfold Space.comparisonMorphism Space.comparisonChartHom
   refine Eq.trans ?_ (F.map_comp _ _).symm
-  show F.map ((pointwiseTwoArrow G).app _) ≫ F.map ((pointwiseObjectInclusion G).map _) = _
+  change F.map ((pointwiseTwoArrow G).app _) ≫ F.map ((pointwiseObjectInclusion G).map _) = _
   congr 2
 
 end Charts
@@ -410,7 +410,7 @@ theorem presentationMap_chartedExtension (c : ChartedPoint G) {T' : BigFppfOver 
     (presentation_isAffineOver (w := chartPoint G c.W) F hF c.hW)
     (presentation_isAffineOver (w := c.toPoint) F hF c.hT) H _ _ hn
     (presentation_isAffineOver F hF hT') _ _ (fun x => ?_) σ
-  show H.val.map (presentationChartMap F (c.restrict k hT')).op
+  change H.val.map (presentationChartMap F (c.restrict k hT')).op
       (presentationChartSectionValue F hF φ c.W x) =
     H.val.map (F.map (pointwiseSpecial G k c.pt)).op
       (H.val.map (presentationChartMap F c).op (presentationChartSectionValue F hF φ c.W x))
@@ -631,7 +631,7 @@ theorem presentationChartedExtension_naturality
   have h₂ : mK ≫ g₀ ≫ chartDiagramPoint G G.target.hom dT.U dT.V dT.g dT.comm =
       pointwiseSpecial G k c.pt ≫ q := by
     apply pointwiseHom_ext G.toGroupoidInFunctors
-    · show kV ≫ g₀.base ≫ dt = k ≫ q.base
+    · change kV ≫ g₀.base ≫ dt = k ≫ q.base
       rw [hg₀b, Category.id_comp, hg₂]
     · refine (pointwiseArrow_comp_of_left G _ _ hmK).trans ?_
       refine Eq.trans ?_ (pointwiseArrow_comp_of_left G _ _ rfl).symm
@@ -666,7 +666,7 @@ theorem presentationChartedExtension_naturality
     (pointwiseSpecial G k c.pt ≫ q)) hW' (presentation_isAffineOver F hF hT')) hx).trans ?_
   refine (FibredSite.extendAlong_map M hM (F.map (pointwiseSpecial G k c.pt ≫ q))
     (presentation_isAffineOver F hF hW') (presentation_isAffineOver F hF hT') H _ x).trans ?_
-  show H.val.map (F.map (pointwiseSpecial G k c.pt ≫ q)).op
+  change H.val.map (F.map (pointwiseSpecial G k c.pt ≫ q)).op
     (presentationChartSectionValue F hF φ W' x) = _
   rw [hcomp, op_comp]
   exact H.val.map_comp_apply _ _ _
@@ -729,7 +729,7 @@ theorem presentationChartedExtension_map
     (presentation_isAffineOver (w := chartPoint G c₂.W) F hF c₂.hW)
     (presentation_isAffineOver (w := c₂.toPoint) F hF c₂.hT) (θ₁ := L₁) (θ₂ := L₂)
     (fun x => by
-      show presentationChartedExtension F hF φ hM c₁
+      change presentationChartedExtension F hF φ hM c₁
           (M.val.map ((presentationChartedPointFunctor F).map m).op
             (M.val.map (presentationChartMap F c₂).op x)) =
         H.val.map ((presentationChartedPointFunctor F).map m).op
@@ -765,6 +765,7 @@ noncomputable abbrev presentationSectionsSheaf
     (BigFppfOver.associatedTopology C S hS p .fppf) (Type u) :=
   ⟨M.val.presheaf ⋙ CategoryTheory.forget AddCommGrpCat.{u}, M.isSheaf_sections⟩
 
+omit [F.Full] [F.Faithful] in
 /-- A section of a module on `𝒳` is determined by its restrictions to charted points. -/
 theorem presentationSections_ext_of_chartedPoint
     (M : SheafOfModules.{u} (FibredSite.ringStructureSheafCore C S hS p hp .fppf)) {y : 𝒳}
@@ -797,6 +798,7 @@ noncomputable def presentationChartedGluedPresheafHom : M.val.presheaf ⟶ H.val
       BigFppfOver.associatedTopology C S hS p .fppf)
     (ℱ' := ⟨H.val.presheaf, H.isSheaf⟩)) (presentationChartedExtensionTrans F hF φ χ hM hsqs hsqt)
 
+omit [F.Faithful] in
 /-- Over a charted point, the glued morphism is the extension. -/
 theorem presentationChartedGluedPresheafHom_app (c : ChartedPointCat G)
     (σ : M.val.obj (op ((presentationChartedPointFunctor F).obj c))) :
@@ -809,6 +811,7 @@ theorem presentationChartedGluedPresheafHom_app (c : ChartedPointCat G)
     (ℱ' := ⟨H.val.presheaf, H.isSheaf⟩) (presentationChartedExtensionTrans F hF φ χ hM hsqs hsqt)
   exact congrArg (fun f => f σ) (congrArg (fun t => (t.app (op c)).hom) h)
 
+omit [F.Faithful] in
 /-- Naturality of the glued morphism, on sections. -/
 theorem presentationChartedGluedPresheafHom_naturality {y y' : 𝒳} (f : y' ⟶ y)
     (σ : M.val.obj (op y)) :
@@ -818,6 +821,7 @@ theorem presentationChartedGluedPresheafHom_naturality {y y' : 𝒳} (f : y' ⟶
         ((presentationChartedGluedPresheafHom F hF φ χ hM hloc hsqs hsqt).app (op y) σ) :=
   NatTrans.naturality_apply (presentationChartedGluedPresheafHom F hF φ χ hM hloc hsqs hsqt) f.op σ
 
+omit [F.Faithful] in
 /-- The glued morphism is linear: it is so over charted points, and those cover. -/
 theorem presentationChartedGluedPresheafHom_smul (y : 𝒳)
     (r : (FibredSite.ringStructureSheafCore C S hS p
@@ -839,11 +843,13 @@ noncomputable def presentationChartedGluedHom : M ⟶ H :=
   ⟨PresheafOfModules.homMk (presentationChartedGluedPresheafHom F hF φ χ hM hloc hsqs hsqt)
     (fun y r σ => presentationChartedGluedPresheafHom_smul F hF φ χ hM hloc hsqs hsqt y.unop r σ)⟩
 
+omit [F.Faithful] in
 /-- The sections of the glued morphism of modules. -/
 theorem presentationChartedGluedHom_app (y : 𝒳) (σ : M.val.obj (op y)) :
     (presentationChartedGluedHom F hF φ χ hM hloc hsqs hsqt).val.app (op y) σ =
       (presentationChartedGluedPresheafHom F hF φ χ hM hloc hsqs hsqt).app (op y) σ := rfl
 
+omit [F.Full] [F.Faithful] hloc in
 /-- `φ` is natural for morphisms of étale charts of `U`, on sections. -/
 theorem presentationChartSectionValue_naturality {W₁ W₂ : Space.SmallEtale C S hS G.objects.obj}
     (i : W₁ ⟶ W₂)
@@ -853,6 +859,7 @@ theorem presentationChartSectionValue_naturality {W₁ W₂ : Space.SmallEtale C
           t) :=
   congrArg (fun f => f.hom t) (φ.val.naturality i.op)
 
+omit [F.Faithful] in
 /-- Over the image of an étale chart of `U`, the glued morphism is `φ`.  An affine open cover of
 the chart reduces this to charted points, where the glued morphism is the extension. -/
 theorem presentationChartedGluedHom_chart (W : Space.SmallEtale C S hS G.objects.obj)
@@ -906,9 +913,10 @@ theorem presentationChartedGluedHom_chart (W : Space.SmallEtale C S hS G.objects
     (M.val.map sp.op t)).trans ?_
   rw [hM']
   refine (presentationChartedExtension_chartMap F hF φ hM c (M.val.map m.op t)).trans ?_
-  rw [presentationChartSectionValue_naturality (hloc := hloc)]
+  rw [presentationChartSectionValue_naturality]
   exact (hH' _).symm
 
+omit [F.Faithful] in
 /-- **The glued morphism restricts to `φ`.** -/
 theorem presentationObjectRestrictionMap_chartedGluedHom : presentationObjectRestrictionMap F hF
     (presentationChartedGluedHom F hF φ χ hM hloc hsqs hsqt) = φ := by
@@ -953,6 +961,7 @@ variable [F.Full] [F.Faithful] (hloc : ∀ y : 𝒳, ∃ (I : Type u) (x : I →
     Sieve.ofArrows _ g ∈ BigFppfOver.associatedTopology C S hS p .fppf y)
 
 include hM hloc in
+omit [F.Full] [F.Faithful] in
 /-- **Injectivity in Stacks 076S** for a pointwise presentation: a morphism out of a
 quasi-coherent module is determined by its restriction `x^*ψ|_{U_étale}`. -/
 theorem presentationObjectRestrictionMap_injective {ψ₁ ψ₂ : M ⟶ H} (h :
@@ -998,6 +1007,7 @@ variable [F.Full] [F.Faithful] (hloc : ∀ y : 𝒳, ∃ (I : Type u) (x : I →
     Sieve.ofArrows _ g ∈ BigFppfOver.associatedTopology C S hS p .fppf y)
 
 include hloc in
+omit [F.Faithful] in
 /-- **Stacks 076S for a pointwise presentation.**  Let `(U, R, s, t, c)` be a groupoid in
 algebraic spaces and `F` a fully faithful 1-morphism from its pointwise groupoid fibration to a
 category `𝒳` fibred in groupoids over `(Sch/S)_{fppf}`, every object of which is fppf locally in

@@ -142,6 +142,7 @@ public def fiberPointChartEquiv :
         q ≫ finiteSupportChartProj B f V E = u.1} :=
   fiberPointHasFiberLiftEquiv B f s V u E
 
+omit [LocallyOfFiniteType (B.inclusion.map f)] [LocallyQuasiFinite (B.inclusion.map f)] in
 /-- The `s̄`-point of the chart attached to a point of the geometric fibre, followed by the open
 immersion, is the lift of that point to the base change. -/
 public theorem fiberPointChartEquiv_comp_ι
@@ -150,6 +151,7 @@ public theorem fiberPointChartEquiv_comp_ι
       fiberPointLift B f s V u x.1 :=
   fiberPointHasFiberLiftEquiv_apply_comp_ι B f s V u E x
 
+omit [LocallyOfFiniteType (B.inclusion.map f)] [LocallyQuasiFinite (B.inclusion.map f)] in
 /-- The `s̄`-point of the chart attached to a point of the geometric fibre, followed by the
 structure map of the chart to `X`, is that point of the geometric fibre. -/
 public theorem fiberPointChartEquiv_comp_toSource
@@ -246,6 +248,7 @@ public def integralTraceStalkMap :
   integralTraceStalkValue.{u, v} B f w s ≫
     (etaleStalkLocallyConstantMapsAbIso.{u, v} B Y.obj Y.property s TraceCoeff.{u, v}).inv
 
+omit [LocallyOfFiniteType (B.inclusion.map f)] [LocallyQuasiFinite (B.inclusion.map f)] in
 /-- The weighted sum over the geometric fibre is the coefficient-valued weighted sum followed by
 the identification of the coefficient group with the stalk at `s̄`. -/
 public theorem integralTraceStalkMap_eq :
@@ -254,6 +257,7 @@ public theorem integralTraceStalkMap_eq :
         (etaleStalkLocallyConstantMapsAbIso.{u, v} B Y.obj Y.property s TraceCoeff.{u, v}).inv :=
   rfl
 
+omit [LocallyOfFiniteType (B.inclusion.map f)] [LocallyQuasiFinite (B.inclusion.map f)] in
 /-- The coefficient-valued weighted sum on the summand indexed by a point of the geometric
 fibre. -/
 public theorem integralTraceStalkValue_fiberStalkOf (x : GeometricFiberPoint B f s)
@@ -268,6 +272,7 @@ public theorem integralTraceStalkValue_fiberStalkOf (x : GeometricFiberPoint B f
   let : DecidableEq (GeometricFiberPoint B f s) := Classical.decEq _
   exact DirectSum.toAddMonoid_of (integralTraceStalkValueSummand.{u, v} B f w s) x z
 
+omit [LocallyOfFiniteType (B.inclusion.map f)] [LocallyQuasiFinite (B.inclusion.map f)] in
 /-- The weighted sum over the geometric fibre on the summand indexed by a point of the fibre. -/
 public theorem integralTraceStalkMap_fiberStalkOf (x : GeometricFiberPoint B f s)
     (z : ↥(etaleStalk B X.obj X.property (x.toGeometricPoint B f s)
@@ -279,7 +284,7 @@ public theorem integralTraceStalkMap_fiberStalkOf (x : GeometricFiberPoint B f s
         (etaleStalkLocallyConstantMapsAbIso.{u, v} B Y.obj Y.property s TraceCoeff.{u, v}).inv
           ((etaleStalkLocallyConstantMapsAbIso.{u, v} B X.obj X.property
             (x.toGeometricPoint B f s) TraceCoeff.{u, v}).hom z) := by
-  show (etaleStalkLocallyConstantMapsAbIso.{u, v} B Y.obj Y.property s TraceCoeff.{u, v}).inv
+  change (etaleStalkLocallyConstantMapsAbIso.{u, v} B Y.obj Y.property s TraceCoeff.{u, v}).inv
       (integralTraceStalkValue.{u, v} B f w s
         (fiberStalkOf.{u, v} B f s
           (locallyConstantSheafAb.{u, v} B X.obj X.property TraceCoeff.{u, v}) x z)) = _
@@ -296,6 +301,7 @@ variable (B : BigEtaleSite.{u}) {X Y : B.Scheme} (f : X ⟶ Y)
   (w : X.obj → ℤ) (s : GeometricPoint Y.obj) (V : SmallEtale B Y.obj Y.property)
   (u : (geometricPointFiber B Y.obj Y.property s).obj V) (E : FiniteSupport B f V)
 
+omit [LocallyOfFiniteType (B.inclusion.map f)] [LocallyQuasiFinite (B.inclusion.map f)] in
 /-- The lift of a point of the geometric fibre into the canonical open of a finite support is the
 `s̄`-point of the chart attached to it. -/
 public theorem openObjectLift_base_eq_fiberPointChartEquiv (x : GeometricFiberPoint B f s)
@@ -305,6 +311,7 @@ public theorem openObjectLift_base_eq_fiberPointChartEquiv (x : GeometricFiberPo
         (default : ↥s.source) =
       (fiberPointChartEquiv B f s V u E ⟨x, h⟩).1.base (default : ↥s.source) := rfl
 
+omit [LocallyOfFiniteType (B.inclusion.map f)] [LocallyQuasiFinite (B.inclusion.map f)] in
 open Classical in
 /-- **The germ of a supported section at a point of the geometric fibre, read in the coefficient
 group, is the value of the section at the lift of that point** — and zero when the point does not
@@ -320,7 +327,7 @@ public theorem etaleStalkLocallyConstantMapsAbIso_fiberStalkComponent
           ((fiberPointChartEquiv B f s V u E ⟨x, h⟩).1.base (default : ↥s.source)))
       else 0 := by
   by_cases h : HasFiberLift B f s V u E x
-  · rw [dif_pos h]
+  · rw [dite_eq_left h]
     refine Eq.trans (congrArg (fun z => (etaleStalkLocallyConstantMapsAbIso.{u, v} B X.obj
           X.property (x.toGeometricPoint B f s) TraceCoeff.{u, v}).hom z)
         (fiberStalkComponent_of_hasFiberLift.{u, max (u + 1) v} B f s
@@ -331,7 +338,7 @@ public theorem etaleStalkLocallyConstantMapsAbIso_fiberStalkComponent
         (fiberPointElement B f s V u x) (finiteSupportOpen B f V E) h)
       (asLocallyConstant.{u, v} B X.obj X.property TraceCoeff.{u, v}
         (finiteSupportOpenObject B f V E) a.val)
-  · rw [dif_neg h, fiberStalkComponent_of_not_hasFiberLift.{u, max (u + 1) v} B f s
+  · rw [dite_eq_right h, fiberStalkComponent_of_not_hasFiberLift.{u, max (u + 1) v} B f s
       (locallyConstantSheafAb.{u, v} B X.obj X.property TraceCoeff.{u, v}) V u E a x h]
     exact map_zero _
 
@@ -347,6 +354,7 @@ public def integralTraceFiberTerm (a : integralTraceSections.{u, v} B f V E)
       w (x.1.base (default : ↥s.source))
   else 0
 
+omit [LocallyOfFiniteType (B.inclusion.map f)] [LocallyQuasiFinite (B.inclusion.map f)] in
 /-- The integer summand at a point of the geometric fibre which lifts into the canonical open. -/
 public theorem integralTraceFiberTerm_of_hasFiberLift
     (a : integralTraceSections.{u, v} B f V E) (x : GeometricFiberPoint B f s)
@@ -357,6 +365,7 @@ public theorem integralTraceFiberTerm_of_hasFiberLift
         w (x.1.base (default : ↥s.source)) :=
   dite_eq_left h
 
+omit [LocallyOfFiniteType (B.inclusion.map f)] [LocallyQuasiFinite (B.inclusion.map f)] in
 /-- The integer summand vanishes at a point of the geometric fibre which does not lift into the
 canonical open. -/
 public theorem integralTraceFiberTerm_of_not_hasFiberLift
@@ -365,6 +374,7 @@ public theorem integralTraceFiberTerm_of_not_hasFiberLift
     integralTraceFiberTerm.{u, v} B f w s V u E a x = 0 :=
   dite_eq_right h
 
+omit [LocallyOfFiniteType (B.inclusion.map f)] [LocallyQuasiFinite (B.inclusion.map f)] in
 /-- The summand of the weighted sum over the geometric fibre, evaluated at the germ of a
 supported section, is the integer summand lifted to the coefficient group. -/
 public theorem integralTraceStalkValueSummand_fiberStalkComponent
@@ -373,19 +383,20 @@ public theorem integralTraceStalkValueSummand_fiberStalkComponent
         (fiberStalkComponent.{u, max (u + 1) v} B f s
           (locallyConstantSheafAb.{u, v} B X.obj X.property TraceCoeff.{u, v}) V u E a x) =
       ULift.up (integralTraceFiberTerm.{u, v} B f w s V u E a x) := by
-  show w (x.1.base (default : ↥s.source)) •
+  change w (x.1.base (default : ↥s.source)) •
       (etaleStalkLocallyConstantMapsAbIso.{u, v} B X.obj X.property
         (x.toGeometricPoint B f s) TraceCoeff.{u, v}).hom
         (fiberStalkComponent.{u, max (u + 1) v} B f s
           (locallyConstantSheafAb.{u, v} B X.obj X.property TraceCoeff.{u, v}) V u E a x) = _
   rw [etaleStalkLocallyConstantMapsAbIso_fiberStalkComponent.{u, v} B f s V u E a x]
   by_cases h : HasFiberLift B f s V u E x
-  · rw [dif_pos h, integralTraceFiberTerm_of_hasFiberLift.{u, v} B f w s V u E a x h]
+  · rw [dite_eq_left h, integralTraceFiberTerm_of_hasFiberLift.{u, v} B f w s V u E a x h]
     exact congrArg ULift.up (mul_comm _ _)
-  · rw [dif_neg h, integralTraceFiberTerm_of_not_hasFiberLift.{u, v} B f w s V u E a x h,
+  · rw [dite_eq_right h, integralTraceFiberTerm_of_not_hasFiberLift.{u, v} B f w s V u E a x h,
       smul_zero]
     rfl
 
+omit [LocallyQuasiFinite (B.inclusion.map f)] in
 /-- The coefficient-valued weighted sum over the geometric fibre of the germ decomposition of a
 supported section is the locally finite sum of the integer summands. -/
 public theorem integralTraceStalkValue_fiberStalkSum
@@ -402,7 +413,7 @@ public theorem integralTraceStalkValue_fiberStalkSum
       ∑ᶠ x : GeometricFiberPoint B f s, integralTraceStalkValueSummand.{u, v} B f w s x
         (fiberStalkComponent.{u, max (u + 1) v} B f s
           (locallyConstantSheafAb.{u, v} B X.obj X.property TraceCoeff.{u, v}) V u E a x) := by
-    show DirectSum.toAddMonoid (integralTraceStalkValueSummand.{u, v} B f w s)
+    change DirectSum.toAddMonoid (integralTraceStalkValueSummand.{u, v} B f w s)
       (fiberStalkSum.{u, max (u + 1) v} B f s
         (locallyConstantSheafAb.{u, v} B X.obj X.property TraceCoeff.{u, v}) V u E a) = _
     exact directSum_toAddMonoid_eq_finsum _ _
@@ -452,7 +463,7 @@ the stalk decomposition followed by the coefficient-valued weighted sum over the
 fibre. -/
 public theorem integralTraceStalkValue_core (s : GeometricPoint Y.obj) :
     colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+          (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
           (integralTracePresheafMap.{u, v} B f hw)) ≫
         (etaleStalkLocallyConstantMapsAbIso.{u, v} B Y.obj Y.property s TraceCoeff.{u, v}).hom =
       (finiteSupportStalkIso.{u, max (u + 1) v} B f s
@@ -467,7 +478,7 @@ public theorem integralTraceStalkValue_core (s : GeometricPoint Y.obj) :
   apply colimit.hom_ext
   intro E
   refine Eq.trans (generator_comp_colim_map
-      (Functor.whiskerLeft (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+      (Functor.whiskerLeft (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
         (integralTracePresheafMap.{u, v} B f hw)) (op U) _ _ _
       (integralTracePresheafMap_ι.{u, v} B f hw U.1 E))
     (Eq.trans ?_ (comp_assoc_four _ _ _ _ _
@@ -488,7 +499,7 @@ public theorem integralTrace_stalk (s : GeometricPoint Y.obj) :
     (fShriekStalkIso.{u, v} B f s
           (locallyConstantSheafAb.{u, v} B X.obj X.property TraceCoeff.{u, v})).inv ≫
         colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+          (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
           (integralTrace.{u, v} B f hw).1) =
       integralTraceStalkMap.{u, v} B f w s := by
   have hS := iso_inv_comp_of_comp_hom

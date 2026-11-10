@@ -110,7 +110,7 @@ theorem isKoszulRegularImmersion_of_pullback_snd_of_etale_surjective {Z X X' : S
         pullback.congrHom hiV rfl).hom ≫ pullback.snd i g =
       pullback.snd i.liftCoborder (pullback.fst i.coborderRange.ι g) ≫
         pullback.snd i.coborderRange.ι g := by
-    simp [pullback.map, pullback.lift_snd]
+    simp [pullback.map]
   have hreg : IsKoszulRegularImmersion
       (pullback.snd i.liftCoborder (pullback.fst i.coborderRange.ι g)) :=
     isKoszulRegularImmersion_of_comp_of_smooth _ (pullback.snd i.coborderRange.ι g)
@@ -179,7 +179,7 @@ private theorem etale_inverseImage_isStableUnderComposition (B : BigFppfSite.{u}
     (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme B S hS)).IsStableUnderComposition :=
   ⟨fun x y hx hy => by
-    show Etale ((BigFppfOver.toScheme B S hS).map (x ≫ y))
+    change Etale ((BigFppfOver.toScheme B S hS).map (x ≫ y))
     rw [Functor.map_comp]
     have : Etale ((BigFppfOver.toScheme B S hS).map x) := hx
     have : Etale ((BigFppfOver.toScheme B S hS).map y) := hy

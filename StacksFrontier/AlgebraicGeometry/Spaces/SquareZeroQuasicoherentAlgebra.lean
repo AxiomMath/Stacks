@@ -216,7 +216,7 @@ theorem sqZeroSectionSnd_smul (M : Modules.{u, u} B S hS F hF) {W : SmallEtale B
     (r : chartRing B S hS F hF W)
     (x : (sqZeroAlgebraSheaf B S hS F hF M).underlyingModule.val.obj (op W)) :
     sqZeroSectionSnd M (r • x) = r • sqZeroSectionSnd M x := by
-  show r • sqZeroSectionSnd M x + sqZeroSectionFst M x • (0 : M.val.obj (op W)) = _
+  change r • sqZeroSectionSnd M x + sqZeroSectionFst M x • (0 : M.val.obj (op W)) = _
   rw [smul_zero, add_zero]
 
 /-- Restriction of a section of the square-zero extension restricts its ring component. -/
@@ -320,7 +320,7 @@ theorem sqZeroFreeChartEquiv_inl (I : Type u) (W : SmallEtale B S hS F)
       (free (R := (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O))
         I)).underlyingModule.val.obj (op W)) (t : Unit) :
     sqZeroFreeChartEquiv I W hW x (Sum.inl t) = sqZeroSectionFst _ x := by
-  show (Finsupp.uniqueLinearEquiv (chartRing B S hS F hF W) (chartRing B S hS F hF W)
+  change (Finsupp.uniqueLinearEquiv (chartRing B S hS F hF W) (chartRing B S hS F hF W)
       (() : Unit)).symm (sqZeroSectionFst _ x) t = _
   exact Finsupp.uniqueLinearEquiv_symm_apply_apply _ _ _ _ _
 

@@ -146,7 +146,7 @@ theorem sieveOfSection_imageSections_mem (A : Sheaf K (Type w))
   have hιiso : IsIso ι := isIso_of_mono_of_isIso_map adj ι
   have hιpre : IsIso ((imageSections u A).sheafify K).ι :=
     inferInstanceAs (IsIso ((sheafToPresheaf K (Type w)).map ι))
-  show a ∈ ((imageSections u A).sheafify K).obj (op Z)
+  change a ∈ ((imageSections u A).sheafify K).obj (op Z)
   rw [(Subfunctor.eq_top_iff_isIso _).2 hιpre]
   trivial
 

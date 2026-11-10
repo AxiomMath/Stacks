@@ -66,7 +66,7 @@ theorem finrank_globalSections_le_natCard_of_isReduced (k : Type u) [Field k] [I
   have hinj : Function.Injective fun m : MaximalSpectrum A =>
       (Z.isoSpec.inv).base m.toPrimeSpectrum :=
     (Z.isoSpec.inv.isOpenEmbedding.injective).comp MaximalSpectrum.toPrimeSpectrum_injective
-  show Module.finrank k A ≤ Nat.card Z
+  change Module.finrank k A ≤ Nat.card Z
   rw [hA, ← Nat.card_eq_fintype_card]
   exact Nat.card_le_card_of_injective _ hinj
 

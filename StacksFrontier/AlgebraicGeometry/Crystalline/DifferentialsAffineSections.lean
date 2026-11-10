@@ -446,7 +446,7 @@ theorem span_range_relDiff_d_eq_top :
         ModuleCat.of Γ(T.scheme, W)
           (↑((Scheme.Hom.relativeDifferentials f).val.obj (op W)) ⧸ P)) := by
     refine CommRingCat.KaehlerDifferential.ext fun b ↦ ?_
-    show P.mkQ ((affineKaehlerEquiv T Y f hW h hV).symm
+    change P.mkQ ((affineKaehlerEquiv T Y f hW h hV).symm
       (CommRingCat.KaehlerDifferential.d b)) = 0
     rw [show (affineKaehlerEquiv T Y f hW h hV).symm
         (CommRingCat.KaehlerDifferential.d b) =
@@ -563,7 +563,7 @@ theorem affineSectionsEquiv_apply (b : Γ(T.scheme, W)) :
       dpd (f := f.appLE V W h) (T.dividedPowers.dividedPowers (op W)) b := by
   refine (affineQuotientSectionsEquiv T Y f hW h hV).injective ?_
   refine Eq.trans ((affineQuotientSectionsEquiv T Y f hW h hV).apply_symm_apply _) ?_
-  show Scheme.Modules.sectionsLinearMap (dpDifferentialsIsoQuotient T Y f).hom W
+  change Scheme.Modules.sectionsLinearMap (dpDifferentialsIsoQuotient T Y f).hom W
       ((universalDPSchemeDerivation T Y f).app W b) =
     (affineQuotientComparison T Y f h).hom
       (dpd (f := f.appLE V W h) (T.dividedPowers.dividedPowers (op W)) b)

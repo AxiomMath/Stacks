@@ -174,7 +174,7 @@ theorem dualTriangleFirstNatTrans_app_eq_of_derivedCore
               (RingedSite.structureSheafComplex
                 (ringedSite (closedQuotient D).Z.sheaf)) I).symm)
   rw [derivedEvaluationAtOneNatTrans_eq_counit]
-  show ((derivedSheafHom X.sheaf).map (pushforwardStructureSheafDerivedUnit D).op).app
+  change ((derivedSheafHom X.sheaf).map (pushforwardStructureSheafDerivedUnit D).op).app
         (DerivedCategory.Q.obj I) ≫
       (RingedSite.derivedStructureSheafHomNatIso (ringedSite X.sheaf)).hom.app
         (DerivedCategory.Q.obj I) =

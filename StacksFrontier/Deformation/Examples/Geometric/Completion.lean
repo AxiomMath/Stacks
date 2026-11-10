@@ -104,13 +104,13 @@ private theorem completionMap_id {A : Type*} [CommRing A] (J : Ideal A) :
   intro x
   apply AdicCompletion.ext_evalₐ
   intro n
-  show evalₐ J n (adicCompletionMap (RingHom.id A) J J (by simp) x) = evalₐ J n x
+  change evalₐ J n (adicCompletionMap (RingHom.id A) J J (by simp) x) = evalₐ J n x
   rw [adicCompletionMap_evalₐ]
-  show (Ideal.quotientMap (J ^ n) (RingHom.id A) le_rfl) (evalₐ J n x) = _
+  change (Ideal.quotientMap (J ^ n) (RingHom.id A) le_rfl) (evalₐ J n x) = _
   have hid : Ideal.quotientMap (J ^ n) (RingHom.id A) le_rfl =
       RingHom.id (A ⧸ J ^ n) := by
     ext a
-    show (Ideal.Quotient.mk (J ^ n)) a = (Ideal.Quotient.mk (J ^ n)) a
+    change (Ideal.Quotient.mk (J ^ n)) a = (Ideal.Quotient.mk (J ^ n)) a
     rfl
   rw [hid]
   rfl
@@ -209,7 +209,7 @@ private theorem map_comap_ideal_le {A B C : Type*} [CommRing A] [CommRing B]
     (J.comap h).map f ≤ J.comap g := by
   rw [Ideal.map_le_iff_le_comap]
   intro a ha
-  show g (f a) ∈ J
+  change g (f a) ∈ J
   rw [← RingHom.comp_apply, hcomp]
   exact ha
 
@@ -221,12 +221,12 @@ private theorem comap_le_map_comap_sup_ker
   intro y hy
   obtain ⟨x, hx⟩ := hq (r y)
   have hxJ : x ∈ J.comap q := by
-    show q x ∈ J
+    change q x ∈ J
     rw [hx]
     exact hy
   refine Submodule.mem_sup.mpr ⟨f x, Ideal.mem_map_of_mem f hxJ,
     y - f x, ?_, by ring⟩
-  show r (y - f x) = 0
+  change r (y - f x) = 0
   rw [map_sub, ← RingHom.comp_apply, hcomp, hx, sub_self]
 
 private theorem adicCompletion_flat_over_of_flat
@@ -250,7 +250,7 @@ private theorem baseMap_surjective
   have ht (x : k) :
       (residueFieldAlgebra (Λ := Λ) (k := k) P).base.residueEquiv
         (residue ((residueFieldAlgebra (Λ := Λ) (k := k) P).base) x) = x := by
-    show ((Ideal.quotientEquivAlgOfEq Λ
+    change ((Ideal.quotientEquivAlgOfEq Λ
       (IsLocalRing.maximalIdeal_eq_bot (R := k))).trans
       (AlgEquiv.quotientBot Λ k)) (residue k x) = x
     rw [residue_def]
@@ -316,14 +316,14 @@ private theorem specialFiberMap_surjective
   have hsurjBase : Function.Surjective X.hom.base.hom := by
     simpa [residueFieldAlgebra] using baseMap_surjective P X
   have hsurj : Function.Surjective (algebraMap A k) := by
-    show Function.Surjective X.hom.base.hom
+    change Function.Surjective X.hom.base.hom
     exact hsurjBase
   have hresult := (Algebra.IsPushout.surjective_and_ker_eq_map_of_surjective
     (R := A) (S := k) (R' := Q) (S' := P) hsurj).1
   constructor
-  · show Function.Surjective (algebraMap Q P)
+  · change Function.Surjective (algebraMap Q P)
     exact hresult
-  · show RingHom.ker (algebraMap Q P) =
+  · change RingHom.ker (algebraMap Q P) =
       (RingHom.ker (algebraMap A k)).map (algebraMap A Q)
     exact (Algebra.IsPushout.surjective_and_ker_eq_map_of_surjective
       (R := A) (S := k) (R' := Q) (S' := P) hsurj).2
@@ -363,7 +363,7 @@ private theorem deformationFiber_isNoetherian
     exact Ideal.FG.map hbaseFg _
   have hQnil := isNilpotent_ker_map P X
   let : IsNoetherianRing (residueFieldAlgebra (Λ := Λ) (k := k) P).fiber := by
-    show IsNoetherianRing P
+    change IsNoetherianRing P
     infer_instance
   exact isNoetherianRing_of_surjective_fg_nilpotent_ker
     X.hom.map.hom hQsurj hQfg hQnil
@@ -392,8 +392,8 @@ private theorem completionFinite_isPushout
       e (algebraMap (AdicCompletion I R) (AdicCompletion I R ⊗[R] S) a) = fhat a := by
     apply AdicCompletion.ext_evalₐ
     intro n
-    show evalₐ L n (e (a ⊗ₜ[R] 1)) = evalₐ L n (fhat a)
-    show evalₐ L n (ofTensorProductLinearEquiv I S (a ⊗ₜ[R] 1)) = _
+    change evalₐ L n (e (a ⊗ₜ[R] 1)) = evalₐ L n (fhat a)
+    change evalₐ L n (ofTensorProductLinearEquiv I S (a ⊗ₜ[R] 1)) = _
     rw [ofTensorProductLinearEquiv_tmul_eval, adicCompletionMap_evalₐ]
     simp [L]
   let e' : (AdicCompletion I R ⊗[R] S) ≃ₐ[AdicCompletion I R]
@@ -407,8 +407,8 @@ private theorem completionFinite_isPushout
     intro s
     apply AdicCompletion.ext_evalₐ
     intro n
-    show evalₐ L n (e (1 ⊗ₜ[R] s)) = _
-    show evalₐ L n (ofTensorProductLinearEquiv I S (1 ⊗ₜ[R] s)) = _
+    change evalₐ L n (e (1 ⊗ₜ[R] s)) = _
+    change evalₐ L n (ofTensorProductLinearEquiv I S (1 ⊗ₜ[R] s)) = _
     rw [ofTensorProductLinearEquiv_tmul_eval]
     simp [L]
   let : Algebra S (AdicCompletion I R ⊗[R] S) := Algebra.TensorProduct.rightAlgebra
@@ -437,7 +437,7 @@ private theorem completion_quotientAlgEquiv_apply
   intro n
   induction x using AdicCompletion.induction_on with
   | h a =>
-      show evalₐ (I.map (algebraMap R (R ⧸ J))) n
+      change evalₐ (I.map (algebraMap R (R ⧸ J))) n
           (ofTensorProductLinearEquiv I (R ⧸ J)
             ((AdicCompletion.mk I R a) ⊗ₜ[R] 1)) = _
       rw [ofTensorProductLinearEquiv_tmul_eval]
@@ -462,7 +462,7 @@ private theorem completion_quotientRingEquiv_apply
         (AdicCompletion I R ⧸ (L.map (algebraMap R (AdicCompletion I R)))) x) =
     adicCompletionMap (e.toRingHom.comp (Ideal.Quotient.mk L)) I I'
         (by rw [← Ideal.map_map, he]) x := by
-  show adicCompletionMap e.toRingHom (I.map (Ideal.Quotient.mk L)) I' he.le
+  change adicCompletionMap e.toRingHom (I.map (Ideal.Quotient.mk L)) I' he.le
       (adicCompletionQuotientAlgEquiv I L
         (algebraMap (AdicCompletion I R)
           (AdicCompletion I R ⧸ (L.map (algebraMap R (AdicCompletion I R)))) x)) = _
@@ -499,7 +499,7 @@ private theorem completion_pushout
   let eqQ : (Q ⧸ LQ) ≃ₐ[A] P := eqKer.trans eqSurj
   have hqbar : eqQ.toRingHom.comp (Ideal.Quotient.mk LQ) = q.toRingHom := by
     ext x
-    show (Ideal.quotientKerAlgEquivOfSurjective hq)
+    change (Ideal.quotientKerAlgEquivOfSurjective hq)
       (Ideal.Quotient.mk (RingHom.ker q.toRingHom) x) = q x
     exact Ideal.quotientKerAlgEquivOfSurjective_mk hq x
   have hKbar : (K.map (Ideal.Quotient.mk LQ)).map eqQ.toRingHom = J := by
@@ -517,7 +517,7 @@ private theorem completion_pushout
       algebraMap A (AdicCompletion K Q) := IsScalarTower.algebraMap_eq A Q _
   have hA : qhat.comp (algebraMap A (AdicCompletion K Q)) =
       algebraMap A (AdicCompletion J P) := by
-    show (adicCompletionMap q.toRingHom K J _).comp
+    change (adicCompletionMap q.toRingHom K J _).comp
       (algebraMap A (AdicCompletion K Q)) = _
     rw [← htower, ← RingHom.comp_assoc, adicCompletionMap_comp_algebraMap]
     rw [RingHom.comp_assoc, hqA]
@@ -526,7 +526,7 @@ private theorem completion_pushout
   have heqComp (x : AdicCompletion K Q) :
       eqComp (algebraMap (AdicCompletion K Q)
         (AdicCompletion K Q ⧸ (LQ.map (algebraMap Q (AdicCompletion K Q)))) x) = qhat x := by
-    show completion_quotientRingEquiv K LQ J eqQ.toRingEquiv hKbar
+    change completion_quotientRingEquiv K LQ J eqQ.toRingEquiv hKbar
         (algebraMap (AdicCompletion K Q)
           (AdicCompletion K Q ⧸ LQ.map (algebraMap Q (AdicCompletion K Q))) x) = _
     rw [completion_quotientRingEquiv_apply]
@@ -573,14 +573,14 @@ private theorem completion_pushout
   have htowerC : (algebraMap k C).comp (algebraMap A k) = algebraMap A C := by
     ext a
     apply eTensor.symm.injective
-    show eTensor.symm (algebraMap k C (algebraMap A k a)) =
+    change eTensor.symm (algebraMap k C (algebraMap A k a)) =
       eTensor.symm (algebraMap A C a)
     rw [IsScalarTower.algebraMap_apply A (AdicCompletion K Q) C a,
       eTensor.symm.commutes]
     calc
       eTensor.symm (algebraMap k C (algebraMap A k a)) =
           algebraMap k (AdicCompletion K Q ⊗[A] k) (algebraMap A k a) := by
-            show eTensor.symm (eTensor
+            change eTensor.symm (eTensor
               (algebraMap k (AdicCompletion K Q ⊗[A] k) (algebraMap A k a))) = _
             simp
       _ = algebraMap A (AdicCompletion K Q ⊗[A] k) a :=
@@ -614,7 +614,7 @@ private theorem completion_pushout
     intro x
     obtain ⟨a, ha⟩ := hf x
     rw [← ha]
-    show eqCompAlg' (algebraMap k C ((algebraMap A k) a)) =
+    change eqCompAlg' (algebraMap k C ((algebraMap A k) a)) =
       algebraMap k (AdicCompletion J P) ((algebraMap A k) a)
     rw [← IsScalarTower.algebraMap_apply A k C a,
       ← IsScalarTower.algebraMap_apply A k (AdicCompletion J P) a]
@@ -704,7 +704,7 @@ private theorem completedSpecialFiber_isPushout
   let : IsNoetherianRing Q := deformationFiber_isNoetherian P X
   have hpush : Algebra.IsPushout A k (AdicCompletion K Q) (AdicCompletion J P) :=
     completion_pushout q J hsurj (baseMap_surjective P X) hker rfl
-  show IsPushout (CommRingCat.ofHom (algebraMap A (AdicCompletion K Q)))
+  change IsPushout (CommRingCat.ofHom (algebraMap A (AdicCompletion K Q)))
     (CommRingCat.ofHom (algebraMap A k)) (CommRingCat.ofHom qhat)
     (CommRingCat.ofHom (algebraMap k (AdicCompletion J P)))
   exact ((CommRingCat.isPushout_iff_isPushout (R := A)
@@ -749,7 +749,7 @@ private theorem completedHomMap_id
     (X : ringDeformationCategory (Λ := Λ) (k := k) P) :
     completedHomMap P J (𝟙 X) =
       RingHom.id (AdicCompletion (J.comap X.hom.map.hom) X.left.fiber) := by
-  show adicCompletionMap (RingHom.id X.left.fiber) _ _ _ = _
+  change adicCompletionMap (RingHom.id X.left.fiber) _ _ _ = _
   exact completionMap_id _
 
 private theorem completedHomMap_comp
@@ -759,7 +759,7 @@ private theorem completedHomMap_comp
     (f : X ⟶ Y) (g : Y ⟶ Z) :
     completedHomMap P J (f ≫ g) =
       (completedHomMap P J g).comp (completedHomMap P J f) := by
-  show adicCompletionMap (g.left.map.hom.comp f.left.map.hom) _ _ _ = _
+  change adicCompletionMap (g.left.map.hom.comp f.left.map.hom) _ _ _ = _
   exact (completionMap_comp f.left.map.hom g.left.map.hom _ _ _
     (deformationMap_completionIdeal_le P J f)
     (deformationMap_completionIdeal_le P J g)).symm
@@ -776,10 +776,10 @@ private theorem finite_of_artinian_local_residue_surjective
     obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective z
     obtain ⟨a, ha⟩ := hr (r b)
     refine ⟨a, ?_⟩
-    show Ideal.Quotient.mk _ (algebraMap A B a) = Ideal.Quotient.mk _ b
+    change Ideal.Quotient.mk _ (algebraMap A B a) = Ideal.Quotient.mk _ b
     rw [Ideal.Quotient.mk_eq_mk_iff_sub_mem,
       IsLocalRing.ringJacobson_eq_maximalIdeal, ← hker]
-    show r (algebraMap A B a - b) = 0
+    change r (algebraMap A B a - b) = 0
     change r (algebraMap A B a) = r b at ha
     simpa only [map_sub] using sub_eq_zero.mpr ha
   exact IsSemiprimaryRing.finite_of_isArtinian A B B
@@ -875,13 +875,13 @@ private theorem completedHomMap_isPushout
   have he : e.toRingHom.comp
       (adicCompletionMap (algebraMap Q T) I L le_rfl) =
         completedHomMap P J f := by
-    show (adicCompletionMap (RingHom.id T) L K hId).comp
+    change (adicCompletionMap (RingHom.id T) L K hId).comp
       (adicCompletionMap (algebraMap Q T) I L le_rfl) = _
     rw [completionMap_comp]
     exact completionMap_congr (by rfl) I K _ _
   have heT : e.toRingHom.comp (algebraMap T (AdicCompletion L T)) =
       algebraMap T (AdicCompletion K T) := by
-    show (adicCompletionMap (RingHom.id T) L K hId).comp
+    change (adicCompletionMap (RingHom.id T) L K hId).comp
       (algebraMap T (AdicCompletion L T)) = _
     simpa using adicCompletionMap_comp_algebraMap (RingHom.id T) L K hId
   let : IsNoetherianRing Q := deformationFiber_isNoetherian P X
@@ -898,7 +898,7 @@ private theorem completedHomMap_isPushout
     rw [IsScalarTower.algebraMap_eq B T (AdicCompletion L T),
       ← RingHom.comp_assoc, heT,
       IsScalarTower.algebraMap_eq B T (AdicCompletion K T)]
-  show IsPushout
+  change IsPushout
     (CommRingCat.ofHom (algebraMap A (AdicCompletion I Q)))
     (CommRingCat.ofHom (algebraMap A B))
     (CommRingCat.ofHom (completedHomMap P J f))
@@ -989,14 +989,14 @@ private noncomputable def completedFunctorData [IsNoetherianRing P] :
       map_id := by
         intro X
         ext : 1
-        show completedHom P J (𝟙 X) = 𝟙 (completedFlatAlgebra P J X)
+        change completedHom P J (𝟙 X) = 𝟙 (completedFlatAlgebra P J X)
         apply FlatAlgebraCategory.Hom.ext
         · rfl
         · exact congrArg CommRingCat.ofHom (completedHomMap_id P J X)
       map_comp := by
         intro X Y Z f g
         ext : 1
-        show completedHom P J (f ≫ g) =
+        change completedHom P J (f ≫ g) =
           completedHom P J f ≫ completedHom P J g
         apply FlatAlgebraCategory.Hom.ext
         · rfl

@@ -45,7 +45,7 @@ theorem Module.isOpen_setOf_flat_localizedModule_atPrime_of_mvPolynomial {A : Ty
   let : Module P M := Module.compHom M f.toRingHom
   have : IsScalarTower P B M := IsScalarTower.of_algebraMap_smul fun _ _ ↦ rfl
   have : IsScalarTower A P M := IsScalarTower.of_algebraMap_smul fun r m ↦ by
-    show f (algebraMap A P r) • m = r • m
+    change f (algebraMap A P r) • m = r • m
     rw [f.commutes, algebraMap_smul]
   have : IsScalarTower A P B := IsScalarTower.of_algebraMap_eq' f.comp_algebraMap.symm
   have hsurj : Function.Surjective (algebraMap P B) := hf

@@ -397,7 +397,7 @@ theorem ANCPresentation.freeSections_surjective {I : Ideal A} {n c : ℕ} {M : A
         rfl
       refine ⟨fun j => Submodule.Quotient.mk ⟨a * t j, Ideal.mul_mem_right _ _ ha⟩, ?_⟩
       rw [coe_freeSections]
-      show P.proj (fun j => Ideal.Quotient.mk (I ^ n) (a * t j)) = a • m
+      change P.proj (fun j => Ideal.Quotient.mk (I ^ n) (a * t j)) = a • m
       rw [hy', map_smul, hy, ModuleCat.restrictScalars.smul_def]
     · rintro x₁ x₂ ⟨v₁, h₁⟩ ⟨v₂, h₂⟩
       exact ⟨v₁ + v₂, by rw [map_add, Submodule.coe_add, h₁, h₂]⟩
@@ -470,8 +470,7 @@ of the free module's sections that the Stacks proof of clause (4) ends with. -/
 theorem ANCPresentation.freeTensor_surjective {I : Ideal A} {n c : ℕ} {M : ANCModule I n c}
     (P : ANCPresentation I n c M) (q : ℕ) : Function.Surjective (P.freeTensor q) := by
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction z using TensorProduct.inductionOn with
   | tmul x m =>
     obtain ⟨y, hy⟩ := P.proj_surjective m
     choose t ht using fun j => Ideal.Quotient.mk_surjective (y j)
@@ -1019,7 +1018,7 @@ theorem smul_quotient_self_eq_zero {R : Type*} [CommRing R] (J : Ideal R) {a : R
     (m : R ⧸ J) : a • m = 0 := by
   induction m using Submodule.Quotient.induction_on with
   | H y =>
-    show (Submodule.Quotient.mk (a • y) : R ⧸ J) = 0
+    change (Submodule.Quotient.mk (a • y) : R ⧸ J) = 0
     rw [Submodule.Quotient.mk_eq_zero, smul_eq_mul]
     exact Ideal.mul_mem_right _ _ ha
 
@@ -1097,8 +1096,7 @@ down from `q` to `q''`. -/
 theorem powTensorLe_powTensorLe (M : ModuleCat.{u} (A ⧸ I ^ n)) {q q' q'' : ℕ} (h : q' ≤ q)
     (h' : q'' ≤ q') (x : powTensor I n q M) :
     powTensorLe I n M h' (powTensorLe I n M h x) = powTensorLe I n M (h'.trans h) x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul a m => simp only [powTensorLe, LinearMap.rTensor_tmul, powQuotLe_powQuotLe]
   | add x y hx hy => simp only [map_add, hx, hy]
 

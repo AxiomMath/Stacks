@@ -132,7 +132,7 @@ theorem unitsPushforwardMap_app {X' X : Scheme.{u}} (f : X' ⟶ X)
       f.toLRSHom.toHom.c
     convert congrArg (fun g => g.app (op U)) hm using 1
     all_goals rfl
-  show Additive.ofMul
+  change Additive.ofMul
       (Units.map ((ringPushforwardMap f).hom.app (op U)).hom.toMonoidHom s) = _
   rw [hα]
   rfl
@@ -236,7 +236,7 @@ private lemma app_isIso_of_restrict {X' X : Scheme.{u}} (f : X' ⟶ X)
     (W : X.Opens) [IsIso (f ∣_ W)] (U : X.Opens) (hUW : U ≤ W) : IsIso (f.app U) := by
   have he : W.ι ''ᵁ (W.ι ⁻¹ᵁ U) = U := by
     ext x
-    show (∃ y : W.toScheme, y ∈ W.ι ⁻¹ᵁ U ∧ W.ι y = x) ↔ x ∈ U
+    change (∃ y : W.toScheme, y ∈ W.ι ⁻¹ᵁ U ∧ W.ι y = x) ↔ x ∈ U
     exact ⟨by rintro ⟨y, hy, rfl⟩; exact hy, fun hx => ⟨⟨x, hUW hx⟩, hx, rfl⟩⟩
   have h1 : IsIso ((f ∣_ W).app (W.ι ⁻¹ᵁ U)) := inferInstance
   have hcomp : IsIso (f.app (W.ι ''ᵁ (W.ι ⁻¹ᵁ U)) ≫
@@ -401,7 +401,7 @@ theorem unitRatioAt_eq_one_iff {k : Type u} [Field k] {X : Scheme.{u}}
     (hb : b.base (IsLocalRing.closedPoint k) ∈ U) (s : Γ(X, U)ˣ) :
     unitRatioAt a b U ha hb s = 1 ↔
       sectionAt a U ha (s : Γ(X, U)) = sectionAt b U hb (s : Γ(X, U)) := by
-  show Units.map _ s * (Units.map _ s)⁻¹ = 1 ↔ _
+  change Units.map _ s * (Units.map _ s)⁻¹ = 1 ↔ _
   rw [mul_inv_eq_one]
   exact ⟨fun h => congrArg Units.val h, fun h => Units.ext h⟩
 
@@ -429,7 +429,7 @@ theorem unitRatioAt_restrict {k : Type u} [Field k] {X : Scheme.{u}}
       Units.map (X.presheaf.germ U _ (i.le hc) ≫
         Scheme.stalkClosedPointTo c).hom.toMonoidHom s :=
     Units.ext (sectionAt_res c i hc s)
-  show Units.map _ _ * (Units.map _ _)⁻¹ = Units.map _ s * (Units.map _ s)⁻¹
+  change Units.map _ _ * (Units.map _ _)⁻¹ = Units.map _ s * (Units.map _ s)⁻¹
   rw [key a ha, key b hb]
 
 /-- The ratio of the two values of a *pulled back* unit is trivial, because the two points have
@@ -448,7 +448,7 @@ private theorem unitRatioAt_pullback_eq_one {k : Type u} [Field k]
     sectionAt_pullback f a U hx ha (s : Γ(X, U))
   have hB : sectionAt b (f ⁻¹ᵁ U) hb (f.app U (s : Γ(X, U))) = sectionAt (b ≫ f) U hxB s :=
     sectionAt_pullback f b U hxB hb (s : Γ(X, U))
-  show sectionAt a (f ⁻¹ᵁ U) ha (f.app U (s : Γ(X, U))) =
+  change sectionAt a (f ⁻¹ᵁ U) ha (f.app U (s : Γ(X, U))) =
     sectionAt b (f ⁻¹ᵁ U) hb (f.app U (s : Γ(X, U)))
   rw [hA, hB]
   exact sectionAt_congr hab U hx hxB (s : Γ(X, U))
@@ -562,7 +562,7 @@ private lemma units_res_eq_one {X : Scheme.{u}} {U V : X.Opens} (hVU : V ≤ U)
     (hv : (X.presheaf.map (homOfLE hVU).op).hom ((su : Γ(X, U)) - 1) = 0) :
     Units.map (X.presheaf.map (homOfLE hVU).op).hom.toMonoidHom su = 1 := by
   apply Units.ext
-  show (X.presheaf.map (homOfLE hVU).op).hom (su : Γ(X, U)) = 1
+  change (X.presheaf.map (homOfLE hVU).op).hom (su : Γ(X, U)) = 1
   simpa only [map_sub, map_one, sub_eq_zero] using hv
 
 /-- Equal sections of the pushforward units sheaf have equal images under the second map of
@@ -588,7 +588,7 @@ private lemma unitsPushforwardMap_comp_ratio {k : Type u} [Field k]
   classical
   apply Sheaf.hom_ext
   ext U s
-  show (unitsRatioPushforwardMap f a b hab).hom.app (op U.unop)
+  change (unitsRatioPushforwardMap f a b hab).hom.app (op U.unop)
     ((unitsPushforwardMap f).hom.app (op U.unop) s) = 0
   by_cases hz : gluedPoint f a ∈ U.unop
   · refine skyscraperUnitsEval_injective (k := k) X _ hz ?_
@@ -650,7 +650,7 @@ private lemma isUnit_restrict_of_values_one {k : Type u} [Field k] [IsAlgClosed 
     rwa [← sectionAt_pullback f a V hxV' haV t, ← hst, sectionAt_res]
   have hunit : IsUnit (X.presheaf.germ V _ hxV' t) := by
     apply (isUnit_map_iff (Scheme.stalkClosedPointTo (a ≫ f)).hom _).mp
-    show IsUnit (sectionAt (a ≫ f) V hxV' t)
+    change IsUnit (sectionAt (a ≫ f) V hxV' t)
     exact ht ▸ isUnit_one
   obtain ⟨W, i, hxW, hu⟩ :=
     X.toLocallyRingedSpace.toRingedSpace.isUnit_res_of_isUnit_germ V t _ hxV' hunit
@@ -697,7 +697,7 @@ private lemma exists_unit_ratio {k : Type u} [Field k] [IsAlgClosed k]
   refine ⟨V, hzV, haV, hbV, (isUnit_of_mul_isUnit_left hu).unit, ?_⟩
   apply Units.ext
   simp only [unitRatioAt, Units.val_mul, Units.val_inv_eq_inv_val, Units.coe_map]
-  show sectionAt a (f ⁻¹ᵁ V) haV ((isUnit_of_mul_isUnit_left hu).unit : Γ(X', f ⁻¹ᵁ V)) *
+  change sectionAt a (f ⁻¹ᵁ V) haV ((isUnit_of_mul_isUnit_left hu).unit : Γ(X', f ⁻¹ᵁ V)) *
     (sectionAt b (f ⁻¹ᵁ V) hbV
       ((isUnit_of_mul_isUnit_left hu).unit : Γ(X', f ⁻¹ᵁ V)))⁻¹ = (c : k)
   rw [ht', sectionAt_res a _ haV t, sectionAt_res b _ hbV t, hatt, hbtt, inv_one, mul_one]
@@ -728,7 +728,7 @@ private theorem unitPullback_local_surj {k : Type u} [Field k]
     X.toLocallyRingedSpace.toRingedSpace.isUnit_res_of_isUnit_germ V t _ haV hunitT
   refine ⟨W, le_trans iWV.le hVU, hxW, hunitW.unit, ?_⟩
   apply Units.ext
-  show X'.presheaf.map (homOfLE (f.preimage_mono (le_trans iWV.le hVU))).op
+  change X'.presheaf.map (homOfLE (f.preimage_mono (le_trans iWV.le hVU))).op
       (s : Γ(X', f ⁻¹ᵁ U)) = (f.app W).hom (hunitW.unit : Γ(X, W))
   rw [hunitW.unit_spec]
   exact pullback_res_of_eq f hVU iWV _ t hst
@@ -750,7 +750,7 @@ private lemma shortExact_units {k : Type u} [Field k] [IsAlgClosed k]
   obtain ⟨hab', -, ⟨W, hW, hiW⟩, hinj, hmid, -⟩ := h.2.2.2.2.2.2.2.2
   have := hiW
   have hmemW (y : X) : y ∈ W ↔ y ≠ gluedPoint f a := by
-    show y ∈ (W : Set X) ↔ _
+    change y ∈ (W : Set X) ↔ _
     rw [hW]
     rfl
   apply TopCat.Sheaf.shortExact_of_local

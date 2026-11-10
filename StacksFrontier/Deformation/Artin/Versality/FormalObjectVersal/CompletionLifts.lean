@@ -200,7 +200,7 @@ private theorem exists_unique_completedLocalRing_lift
   refine ⟨⟨ψ, hψ⟩, ?_, ?_⟩
   · dsimp only
     rw [← Spec.map_comp_assoc]
-    show Spec.map (CommRingCat.ofHom (ψ.comp (algebraMap _ _))) ≫ _ = _
+    change Spec.map (CommRingCat.ofHom (ψ.comp (algebraMap _ _))) ≫ _ = _
     rw [heψ, he]
   · rintro ⟨ψ', hψ'⟩ heψ'
     apply Subtype.ext
@@ -208,7 +208,7 @@ private theorem exists_unique_completedLocalRing_lift
     have : IsLocalHom ψ' := hψ'
     apply localHom_completion_ext
     apply localHom_fromSpecStalk_injective X x
-    show Spec.map (CommRingCat.ofHom (ψ'.comp (algebraMap _ _))) ≫ _ =
+    change Spec.map (CommRingCat.ofHom (ψ'.comp (algebraMap _ _))) ≫ _ =
       Spec.map (CommRingCat.ofHom (ψ.comp (algebraMap _ _))) ≫ _
     rw [heψ, he]
     rw [← Spec.map_comp_assoc] at heψ'
@@ -369,7 +369,7 @@ public theorem exists_completeLocalAlgHom_of_completionPresentation
     have : IsLocalHom b.hom.toRingHom := b.isLocal
     exact congrArg Subtype.val (huniq ⟨b.hom.toRingHom, b.isLocal⟩
       (by simpa only [← hg] using hb))
-  exact Deformation.CompleteLocalAlgCat.Hom.ext (AlgHom.coe_ringHom_injective he)
+  exact Deformation.CompleteLocalAlgCat.Hom.ext (AlgHom.toRingHom_injective he)
 
 /-- The functor from the opposite of a predeformation category to the ambient category,
 sending a deformation to its underlying object and a morphism to its reversed arrow. -/
@@ -529,7 +529,7 @@ theorem deformationMorphism_ext
     (h : f.arrow = g.arrow) : f = g := by
   have hbase : f.ringHom = g.ringHom := by
     apply Deformation.ArtinianLocalAlgCat.hom_ext
-    apply AlgHom.coe_ringHom_injective
+    apply AlgHom.toRingHom_injective
     have hspec : Spec.map (CommRingCat.ofHom f.ringHom.hom.toRingHom) =
         Spec.map (CommRingCat.ofHom g.ringHom.hom.toRingHom) := by
       rw [← f.arrow_base, ← g.arrow_base, h]
@@ -565,7 +565,7 @@ theorem factor_through_cartesian_comp_fullyFaithful
     simpa only [Functor.comp_map, Functor.map_comp, Functor.map_preimage] using h
   obtain ⟨l, hl, hc⟩ := factor_through_cartesian p r hr (J.preimage f) g hf
   refine ⟨l, ⟨?_, hc⟩, ?_⟩
-  · show J.map (p.map l) = f
+  · change J.map (p.map l) = f
     rw [hl, J.map_preimage]
   · intro l' hl'
     apply factor_through_cartesian_unique p r hr hf l' l _ hl hl'.2 hc

@@ -145,7 +145,7 @@ theorem IntegralClosedSubspace.pushforward_whole (hX : IsAlgebraicSpace B S hS X
     IntegralClosedSubspace.pushforward B S hS hX hZ hXdec Z.isClosedSubspace.2
         (Z.whole B S hS) = Z := by
   refine injective_integralClosedSubspaceSupport B S hS hX (IrreducibleCloseds.ext ?_)
-  show subspacePointSet B S hS X
+  change subspacePointSet B S hS X
       (IntegralClosedSubspace.pushforward B S hS hX hZ hXdec Z.isClosedSubspace.2
         (Z.whole B S hS)).subspace =
     subspacePointSet B S hS X Z.subspace
@@ -324,7 +324,7 @@ theorem cycleGroupClosedPushforward_cycle_whole (sX : X ⟶ D.space) (hX : D.IsG
       Z.isClosedSubspace.2 (Z.whole D.site D.base D.base_mem) = Z :=
     IntegralClosedSubspace.pushforward_whole D.site D.base D.base_mem hX.1 hXdec Z hZ
   refine Subtype.ext (funext fun W => ?_)
-  show cycleClosedPushforward D hX.1 hZ hXdec Z.isClosedSubspace.2
+  change cycleClosedPushforward D hX.1 hZ hXdec Z.isClosedSubspace.2
       (integralClosedSubspaceCycleCoeff D sZ (Z.whole D.site D.base D.base_mem) k) W =
     integralClosedSubspaceCycleCoeff D sX Z k W
   by_cases hW : ∃ V, IntegralClosedSubspace.pushforward D.site D.base D.base_mem hX.1 hZ hXdec

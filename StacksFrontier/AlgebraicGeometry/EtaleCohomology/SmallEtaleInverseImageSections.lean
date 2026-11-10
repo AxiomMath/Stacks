@@ -100,7 +100,7 @@ theorem exists_eq_zero_of_smallEtaleLanAb_eq_zero (F : Sheaf (smallEtaleTopology
   let j : CostructuredArrow (smallEtaleBaseChange f).op (op U) := CostructuredArrow.mk k.op
   obtain ⟨j', φ, φ₂, hφ⟩ := Concrete.isColimit_exists_of_rep_eq _ hcolim (i := j) (j := j) h 0
     (by
-      show (smallEtaleLanAb f F).map k.op
+      change (smallEtaleLanAb f F).map k.op
         (((smallEtaleBaseChange f).op.lanUnit.app F.obj).app (op W) h) =
           (smallEtaleLanAb f F).map k.op
             (((smallEtaleBaseChange f).op.lanUnit.app F.obj).app (op W) 0)

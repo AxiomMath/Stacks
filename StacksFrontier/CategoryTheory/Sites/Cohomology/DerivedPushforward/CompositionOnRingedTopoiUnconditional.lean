@@ -142,7 +142,10 @@ variable {X Y Z : RingedTopos.{u, u, u}}
   [HasSheafify Z.J AddCommGrpCat.{u}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
   (f : RingedToposSiteHom X Y) (g : RingedToposSiteHom Y Z)
 
-omit [HasSheafify Z.J AddCommGrpCat.{u}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Z.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [HasSheafify Z.J AddCommGrpCat.{u}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The two composition isomorphisms agree, on sheaves of modules.**  Reading the
 direct-image composition isomorphism through `g^*` and the counit of `g`, then through `f^*` and
 the counit of `f`, is the same as reading the inverse-image composition isomorphism through the
@@ -170,7 +173,10 @@ theorem pullbackToposCompIso_hom_app_comp_counit
     Adjunction.leftAdjointCompNatTrans]
   simpa [Adjunction.comp_counit_app] using h
 
-omit [HasSheafify Z.J AddCommGrpCat.{u}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Z.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [HasSheafify Z.J AddCommGrpCat.{u}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- `pullbackToposCompIso_hom_app_comp_counit` on cochain complexes.  Every map in sight is
 degreewise, so the identity holds degree by degree. -/
 theorem mapHomologicalComplex_pullbackToposComp_hom_app_comp_counit
@@ -193,7 +199,10 @@ theorem mapHomologicalComplex_pullbackToposComp_hom_app_comp_counit
   HomologicalComplex.hom_ext _ _ fun n =>
     pullbackToposCompIso_hom_app_comp_counit f g (K.X n)
 
-omit [HasSheafify Z.J AddCommGrpCat.{u}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Z.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [HasSheafify Z.J AddCommGrpCat.{u}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- `pullbackToposCompIso_hom_app_comp_counit` on the unbounded homotopy categories.  This is the
 one input of `Stacks.Cohomology.DerivedPushforwardComposition.compUnit_comp_compIso_of_adjunctions`
 that is not formal. -/
@@ -231,6 +240,7 @@ variable {Y Z : RingedTopos.{w, w, w}}
     DerivedCategory (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Z.O)))
   (αg : pushforwardToDerivedCategory g ⟶ DerivedCategory.Qh ⋙ Rg)
 
+omit [Z.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **Invertibility of a comparison, read on complexes.**  For a right derived functor of
 degreewise pushforward along `g`, the comparison is invertible at an object `M` of `K(𝒪_𝒟)`
 exactly when degreewise `g_*` carries one K-injective resolution of `M` to a quasi-isomorphism.

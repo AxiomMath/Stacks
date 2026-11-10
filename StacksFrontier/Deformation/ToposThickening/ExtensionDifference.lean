@@ -183,7 +183,7 @@ lemma smul_eq_zero_of_locallySurjective {R : Sheaf J RingCat.{w}}
     (Presheaf.imageSieve_mem J ((PresheafOfModules.toPresheaf R.obj).map q.val) z)
   rintro V t ⟨x, hx⟩
   change q.val.app (Opposite.op V) x = N.val.map t.op z at hx
-  show N.val.map t.op (r • z) = N.val.map t.op 0
+  change N.val.map t.op (r • z) = N.val.map t.op 0
   rw [N.val.map_smul, map_zero, ← hx]
   exact h V t x
 
@@ -199,7 +199,7 @@ lemma pullback_sections_ext {R : Sheaf J RingCat.{w}}
   apply Concrete.isLimit_ext _ (isLimitOfPreserves F (limit.isLimit (cospan f g))) x y
   intro j
   rcases j with (_ | (_ | _))
-  · show (F.map (limit.π (cospan f g) WalkingCospan.one)) x =
+  · change (F.map (limit.π (cospan f g) WalkingCospan.one)) x =
       (F.map (limit.π (cospan f g) WalkingCospan.one)) y
     rw [← limit.w (cospan f g) WalkingCospan.Hom.inl, F.map_comp]
     exact congrArg (f.val.app U) h₁
@@ -270,7 +270,7 @@ lemma quotient_shortExact
     obtain ⟨y, hy⟩ := hP.exact.lift' (x - k ≫ j) hxkp
     dsimp only at k hk y hy
     refine ⟨A', π, hπ, y, ?_⟩
-    show π ≫ z = y ≫ (l ≫ q)
+    change π ≫ z = y ≫ (l ≫ q)
     rw [← Category.assoc, hy, Preadditive.sub_comp, Category.assoc, hjq,
       comp_zero, sub_zero, hx]
   · apply (Preadditive.mono_iff_cancel_zero _).2
@@ -340,7 +340,7 @@ lemma difference_retraction_iff
   · rintro ⟨r, hr⟩
     change (l ≫ q) ≫ r = 𝟙 _ at hr
     obtain ⟨t, ht⟩ := hP.exact.desc' (s - q ≫ r ≫ S₂.f) (by
-      show l ≫ (s - q ≫ r ≫ S₂.f) = 0
+      change l ≫ (s - q ≫ r ≫ S₂.f) = 0
       rw [Preadditive.comp_sub, hls, ← Category.assoc, ← Category.assoc,
         hr, Category.id_comp, sub_self])
     change p ≫ t = s - q ≫ r ≫ S₂.f at ht
@@ -358,7 +358,7 @@ lemma difference_retraction_iff
       rw [Category.assoc, hc, Preadditive.comp_sub, hjs,
         ← Category.assoc, hjp, hft, sub_self, zero_comp]
     refine ⟨cokernel.desc j c hjc, ?_⟩
-    show (l ≫ q) ≫ cokernel.desc j c hjc = 𝟙 _
+    change (l ≫ q) ≫ cokernel.desc j c hjc = 𝟙 _
     rw [Category.assoc, cokernel.π_desc]
     apply (cancel_mono S₂.f).1
     rw [Category.assoc, hc, Preadditive.comp_sub, hls,
@@ -427,7 +427,7 @@ lemma yonedaExtension_shortExact
     (ShortComplex.mk E.f E.g (yonedaExtension_comp_zero E)).ShortExact := by
   apply ShortComplex.ShortExact.mk'
   · apply (ShortComplex.exact_iff_exact_toComposableArrows _).2
-    show (ComposableArrows.mk₂ E.f E.g).Exact
+    change (ComposableArrows.mk₂ E.f E.g).Exact
     exact E.exact_g
   · have := E.mono_f
     infer_instance
@@ -470,7 +470,7 @@ sheaves of rings. -/
 lemma structureMap_locallySurjective (D : TwoExtensions i) :
     Presheaf.IsLocallySurjective Y.J
       ((sheafCompose Y.J (forget₂ CommRingCat RingCat)).map i.fSharp).hom := by
-  show Presheaf.IsLocallySurjective Y.J
+  change Presheaf.IsLocallySurjective Y.J
     (Functor.whiskerRight i.fSharp.hom (forget₂ CommRingCat RingCat))
   have h := D.thickening.surjective
   refine ⟨?_⟩

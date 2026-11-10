@@ -125,7 +125,7 @@ theorem injective_app_of_flat (hn : Flat ((BigFppfOver.toScheme B S hS).map (p.m
     (bijective_liftBaseChange_of_eq_restriction N hN n hx hy _ fun _ => rfl)
     (fun m => PresheafOfModules.naturality_apply φ.val n.op m) hφ
 
-include hM hN n hx hy in
+include hN n hx hy in
 /-- **Base change preserves surjectivity of a map of quasi-coherent modules on sections.** -/
 theorem surjective_app_of_hom (hφ : Function.Surjective (φ.val.app (op x))) :
     Function.Surjective (φ.val.app (op y)) := by
@@ -146,7 +146,6 @@ theorem surjective_app_of_hom (hφ : Function.Surjective (φ.val.app (op x))) :
   let f' : M.val.obj (op y) →ₗ[objRing B S hS p y] N.val.obj (op y) := (φ.val.app (op y)).hom
   exact LinearMap.surjective_of_liftBaseChange f f'
     (restrictionLinear M n) (restrictionLinear N n)
-    (bijective_liftBaseChange_of_eq_restriction M hM n hx hy _ fun _ => rfl)
     (bijective_liftBaseChange_of_eq_restriction N hN n hx hy _ fun _ => rfl)
     (fun m => PresheafOfModules.naturality_apply φ.val n.op m) hφ
 
@@ -251,7 +250,7 @@ theorem eq_zero_of_map_eq_zero_of_flat_family {s : M.val.obj (op x)}
     (Scheme.exists_comap_eq_of_jointlySurjective _ hjs)
     (fun k => one_tmul_eq_zero_of_map_eq_zero hM (n k) hx (hy k) (hs k))
 
-include hM hN hx hy hflat hjs in
+include hM hx hy hflat hjs in
 /-- **Injectivity is reflected by a flat jointly surjective family of affine objects.** -/
 theorem injective_app_of_flat_family (hφ : ∀ k, Function.Injective (φ.val.app (op (y k)))) :
     Function.Injective (φ.val.app (op x)) := by

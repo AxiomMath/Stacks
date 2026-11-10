@@ -11,7 +11,8 @@ public import
 /-!
 # The completed relative contraction and the instantiation of the perturbation argument
 
-Part of `StacksFrontier.AlgebraicGeometry.Crystalline.Differentials.RelativeSplitDifferential`, whose
+Part of `StacksFrontier.AlgebraicGeometry.Crystalline.Differentials.RelativeSplitDifferential`,
+whose
 module docstring explains the construction.  This file contains the completed counterparts of
 wedging with a coefficient one-form and of the relative contraction identity on `Ω̂^*_{D'}`, the
 five maps of the perturbation argument recorded as `D`-linear maps, the completed forms of `D'` as
@@ -77,7 +78,7 @@ theorem completedFormsBidegreeProjection_completedCoefficientFormsMap (n : ℕ)
         (coefficientFormsMap A B W n).toAddMonoidHom =
       (coefficientFormsMap A B W n).toAddMonoidHom :=
     AddMonoidHom.ext fun omega ↦
-      (formsBidegreeProjection_coefficientFormsMap A B W n n omega).trans (if_pos rfl)
+      (formsBidegreeProjection_coefficientFormsMap A B W n n omega).trans (ite_eq_left rfl)
   have hcomp : (completedFormsBidegreeProjection A B W p n n).comp
       (completedCoefficientFormsMap A B W p n).toAddMonoidHom =
       (completedCoefficientFormsMap A B W p n).toAddMonoidHom := by
@@ -136,6 +137,7 @@ theorem completedRelativeFormsRelContraction_addHom (n : ℕ) :
     (completedRelativeFormsProjection_eq A B W p (n + 1))
     (AddMonoidHom.ext fun y ↦ relativeFormsHomotopy_relContraction A B W n y)
 
+omit [LinearOrder W] in
 /-- **The completion of a `B`-linear map of the forms of `P` is `D`-linear**, both sides carrying
 the `D`-module structure of
 `Crystalline.DividedPowerPolynomial.moduleCompletedPolynomialForms`.  This is
@@ -163,6 +165,7 @@ theorem mapAddHom_smul_polynomialForms {m n : ℕ}
         (PAdicCompletion.mapAddHom p (setIndexedDividedPowerPolynomialAlgebra B W)
           (setIndexedDividedPowerPolynomialAlgebra B W) u z)).symm))
 
+omit [LinearOrder W] in
 /-- **The completion of a `B`-linear map from the forms of `P` to the forms of `B` is
 `D`-linear**: the source carries the restricted structure of
 `Crystalline.DividedPowerPolynomial.moduleCompletedPolynomialForms` and the target the
@@ -191,6 +194,7 @@ theorem mapAddHom_smul_polynomialFormsToForms {m n : ℕ}
             (B : Type uB) u z)
         (PAdicCompletion.mapRingHom_id_apply p (B : Type uB) c)))
 
+omit [LinearOrder W] in
 /-- **The completion of a `B`-linear map from the forms of `B` to the forms of `P` is
 `D`-linear**, the target carrying the restricted structure of
 `Crystalline.DividedPowerPolynomial.moduleCompletedPolynomialForms`. -/
@@ -261,12 +265,14 @@ def completedFormsBidegreeProjectionₗ (n i : ℕ) :
     mapAddHom_smul_polynomialForms A B W p (formsBidegreeProjection A B W n i).toAddMonoidHom
       (fun b y ↦ formsBidegreeProjection_smul A B W n i b y) c x
 
+omit [LinearOrder W] in
 /-- The `D`-linear bidegree projection is the additive one. -/
 theorem completedFormsBidegreeProjectionₗ_toAddMonoidHom (n i : ℕ) :
     (completedFormsBidegreeProjectionₗ A B W p n i).toAddMonoidHom =
       completedFormsBidegreeProjection A B W p n i :=
   rfl
 
+omit [LinearOrder W] in
 /-- The `D`-linear bidegree projection, on an element. -/
 theorem completedFormsBidegreeProjectionₗ_apply (n i : ℕ)
     (x : completedPolynomialForms A B W p n) :
@@ -345,12 +351,14 @@ def completedCoefficientFormsMapₗ (n : ℕ) :
     mapAddHom_smul_formsToPolynomialForms A B W p (coefficientFormsMap A B W n).toAddMonoidHom
       (fun b y ↦ map_smul (coefficientFormsMap A B W n) b y) c x
 
+omit [LinearOrder W] in
 /-- The `D`-linear completed comparison is the semilinear one. -/
 theorem completedCoefficientFormsMapₗ_toAddMonoidHom (n : ℕ) :
     (completedCoefficientFormsMapₗ A B W p n).toAddMonoidHom =
       (completedCoefficientFormsMap A B W p n).toAddMonoidHom :=
   (completedCoefficientFormsMap_toAddMonoidHom A B W p n).symm
 
+omit [LinearOrder W] in
 /-- The `D`-linear completed comparison, on an element. -/
 theorem completedCoefficientFormsMapₗ_apply (n : ℕ)
     (x : completedDividedPowerForms p A B.dividedPowers n) :
@@ -373,6 +381,7 @@ def completedPolynomialFormsWedge (i : ℕ) :
     (completedDividedPowerWedge p A (setIndexedDividedPowerPolynomialDividedPowers B W))
     (completedPolynomialForms_smul A B W p) i
 
+omit [LinearOrder W] in
 /-- The `D`-bilinear wedge product is the library's wedge product. -/
 @[simp] theorem completedPolynomialFormsWedge_apply (i : ℕ)
     (x : completedPolynomialForms A B W p i) (y : completedPolynomialForms A B W p 1) :
@@ -443,6 +452,7 @@ theorem completedRelativeFormsProjection_eq_comp (n : ℕ)
       (relativeFormsRetraction A B W n).toAddMonoidHom
       (coefficientFormsMap A B W n).toAddMonoidHom) x)
 
+omit [LinearOrder W] in
 /-- **The completed comparison `ψ̂` carries the universal differential of `D` to that of `D'`**:
 `ψ̂ (d c) = d c` read in `Ω̂¹_{D'}`.  It is the completion of
 `Crystalline.DividedPowerPolynomial.coefficientFormsMap_dividedPowerOneForm`, both sides being

@@ -122,7 +122,7 @@ theorem isIso_derivedSectionsWithSupportInInclusion_app_of_torsion (I J : Ideal 
   have : IsIso β := ⟨γ, hβγ, hγβ⟩
   have hincl : incl = cIJ ≫ β ≫ inv cJ := by
     simp only [β, Category.assoc, IsIso.hom_inv_id, Category.comp_id, IsIso.hom_inv_id_assoc]
-  show IsIso incl
+  change IsIso incl
   rw [hincl]
   infer_instance
 
@@ -166,7 +166,7 @@ theorem localCohomologyAdicCone_π_comp_localCohomologyAdicTowerAddIso_hom (I J 
           ((derivedSectionsWithSupportInInclusion.{u, u} A (zeroLocus_add_subset_right I J)).app
             ((DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).obj M)) ≫
         (localCohomologyAdicCone.{u, u} A (PrimeSpectrum.zeroLocus (J : Set A)) I k M).π.app n := by
-  show (DerivedCategory.homologyFunctor (ModuleCat.{u} A) k).map _ ≫
+  change (DerivedCategory.homologyFunctor (ModuleCat.{u} A) k).map _ ≫
       (DerivedCategory.homologyFunctor (ModuleCat.{u} A) k).map _ =
     (DerivedCategory.homologyFunctor (ModuleCat.{u} A) k).map _ ≫
       (DerivedCategory.homologyFunctor (ModuleCat.{u} A) k).map _
@@ -282,14 +282,14 @@ theorem nonempty_isLimit_localCohomologyAdicCone_of_isAlgebraizationIdeal {I a :
         (ModuleCat.ofHom (I ^ n • ⊤ : Submodule A M).mkQ))) :=
       (H.map_comp _ _).symm.trans (congrArg H.map (hpunit n))
     refine Eq.trans ?_ h3.symm
-    show Φ.map ((idealPowerQuotientCone.{u, u} I M).π.app (op n)) ≫ Φ.map (𝟙 _) = _
+    change Φ.map ((idealPowerQuotientCone.{u, u} I M).π.app (op n)) ≫ Φ.map (𝟙 _) = _
     rw [Φ.map_id, Category.comp_id]
     rfl
   let ec : (H.mapCone hp.cone) ≅ c :=
     Cone.ext (asIso (H.map un)).symm (fun n => by
       induction n using Opposite.rec with
       | op n =>
-        show H.map (p n) = inv (H.map un) ≫ c.π.app (op n)
+        change H.map (p n) = inv (H.map un) ≫ c.π.app (op n)
         rw [hc n, IsIso.inv_hom_id_assoc])
   exact ⟨IsLimit.mapConeEquiv (β i)
     ((IsLimit.postcomposeHomEquiv eT (Φ.mapCone (idealPowerQuotientCone.{u, u} I M))).1

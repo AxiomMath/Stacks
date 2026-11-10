@@ -200,7 +200,7 @@ def congrRingEquiv : gradedRing I ≃+* gradedRing I' :=
 identification `f` of the two base rings. -/
 theorem congrRingEquiv_gradeZeroRingHom (a : A) :
     congrRingEquiv f hI (gradeZeroRingHom I a) = gradeZeroRingHom I' (f a) := by
-  show congrRingHom f hI (gradeZeroRingHom I a) = _
+  change congrRingHom f hI (gradeZeroRingHom I a) = _
   rw [gradeZeroRingHom_apply, congrRingHom_of, congrIncl_apply]
   rfl
 

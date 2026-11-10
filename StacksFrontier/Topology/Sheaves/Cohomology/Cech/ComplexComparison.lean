@@ -189,7 +189,7 @@ def cochainFace (p : ℕ) (i : Fin (p + 2)) : Cochain U ℱ p →+ Cochain U ℱ
 theorem cechD_eq_sum_cochainFace (p : ℕ) :
     cechD U ℱ p = ∑ i : Fin (p + 2), ((-1 : ℤ) ^ (i : ℕ)) • cochainFace U ℱ p i := by
   refine AddMonoidHom.ext fun s ↦ funext fun y ↦ ?_
-  show (∑ j : Fin (p + 2), ((-1 : ℤ) ^ (j : ℕ)) •
+  change (∑ j : Fin (p + 2), ((-1 : ℤ) ^ (j : ℕ)) •
       restr ℱ (inter_le_omit U y j) (s (y ∘ j.succAbove))) =
     cochainEvalAddHom U ℱ (p + 1) y
       ((∑ i : Fin (p + 2), ((-1 : ℤ) ^ (i : ℕ)) • cochainFace U ℱ p i) s)

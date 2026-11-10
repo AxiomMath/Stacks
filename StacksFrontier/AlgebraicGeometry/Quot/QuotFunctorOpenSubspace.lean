@@ -253,11 +253,11 @@ theorem relativeMap_comp_baseChangeOfMap {T' T : SchemesOver D.base} (h : T' ⟶
     D.sourceSituation.relativeMap h ≫ D.baseChangeOfMap T =
       D.baseChangeOfMap T' ≫ D.targetSituation.relativeMap h := by
   refine baseChange_hom_ext D.structureY ?_ ?_
-  · show _ ≫ D.baseChangeOfMap T ≫ D.targetSituation.sourceProjection T =
+  · change _ ≫ D.baseChangeOfMap T ≫ D.targetSituation.sourceProjection T =
       _ ≫ D.targetSituation.relativeMap h ≫ D.targetSituation.sourceProjection T
     rw [D.baseChangeOfMap_comp_projection, baseChangeMap_comp_projection,
       baseChangeMap_comp_projection_assoc, D.baseChangeOfMap_comp_projection]
-  · show _ ≫ D.baseChangeOfMap T ≫ D.targetSituation.projection T =
+  · change _ ≫ D.baseChangeOfMap T ≫ D.targetSituation.projection T =
       _ ≫ D.targetSituation.relativeMap h ≫ D.targetSituation.projection T
     rw [D.baseChangeOfMap_comp_inclusion, baseChangeMap_comp_inclusion,
       baseChangeMap_comp_inclusion, D.baseChangeOfMap_comp_inclusion_assoc]
@@ -717,10 +717,10 @@ theorem supportedInOpen_baseChange_iff {T U : BigFppfOver B S hS}
     (D.targetSituation.support _ (D.targetSituation.quotientModule _ L) \
       Set.range (pointsMap B S hS (D.sourceSituation.space (CostructuredArrow.mk b)).1
         (D.baseChangeOfMap (CostructuredArrow.mk b)).hom))
-  show D.targetSituation.support _
+  change D.targetSituation.support _
       (D.targetSituation.quotientModule _ (D.targetSituation.quotientPullback m L)) ⊆
     Set.range (pointsMap B S hS _ (D.baseChangeOfMap _).hom) ↔ _
-  rw [hsupp, D.range_pointsMap_baseChangeOfMap m, ← Set.diff_eq_empty, ← Set.preimage_diff,
+  rw [hsupp, D.range_pointsMap_baseChangeOfMap m, ← Set.sdiff_eq_empty, ← Set.preimage_sdiff,
     ← Set.image_eq_empty (f := pointsMap B S hS _ (baseChangeInclusion D.structureY _).hom),
     ← h03H4]
   unfold supportLocus
@@ -779,7 +779,7 @@ theorem quotModelMap_comp_toBase (MX : QuotSitePresheafModel D.sourceSituation)
     D.quotModelMap MX MY ≫ MY.toBase = MX.toBase := by
   ext T z
   have h := D.familyEquiv_quotModelMap MX MY T.unop z
-  show (D.targetSituation.quotSitePresheafToBase.app T
+  change (D.targetSituation.quotSitePresheafToBase.app T
       (MY.iso.hom.app T ⟨(D.quotModelMap MX MY).app T z⟩)).down =
     (D.sourceSituation.quotSitePresheafToBase.app T (MX.iso.hom.app T ⟨z⟩)).down
   rw [QuotSituation.quotSitePresheafToBase_app_apply,
@@ -817,7 +817,7 @@ theorem isOpenImmersion_quotModelMap (MX : QuotSitePresheafModel D.sourceSituati
       have hnat := NatTrans.naturality_apply q (Quiver.Hom.op g) (𝟙 T)
       rw [yonedaEquiv_apply]
       simpa using hnat
-    show q.app U g ∈ Set.range ((D.quotModelMap MX MY).app U) ↔
+    change q.app U g ∈ Set.range ((D.quotModelMap MX MY).app U) ↔
       g ∈ (openSubspaceOfPoints B S hS (yoneda.obj T) (D.supportLocus y)).obj U
     rw [hqg, D.mem_range_quotModelMap_iff MX MY, QuotSitePresheafModel.familyEquiv_map,
       D.exists_quotFamilyOverExtend_eq_iff, D.supportedInOpen_baseChange_iff,

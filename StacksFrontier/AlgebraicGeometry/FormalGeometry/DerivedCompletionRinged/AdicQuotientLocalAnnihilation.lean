@@ -69,7 +69,7 @@ variable (X : RingedSite.{u, u, u})
 /-- The structure sheaf restricted to a slice is a sheaf of commutative rings. -/
 theorem isMulCommutative_tensorRingSheaf_over (U : X.C) (V : (Over U)ᵒᵖ) :
     IsMulCommutative (((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U).obj.obj V) := by
-  show IsMulCommutative (X.O.obj.obj (op V.unop.left))
+  change IsMulCommutative (X.O.obj.obj (op V.unop.left))
   infer_instance
 
 attribute [local instance] isMulCommutative_tensorRingSheaf_over
@@ -349,7 +349,7 @@ private theorem isDerivedComplete_of_smul_id_pow_eq_zero
   let A := SheafOfModules.{u} RV
   let : Linear (CatCenter A) A := Linear.ofRingMorphism (RingHom.id (CatCenter A))
   let : ∀ W : (Over V)ᵒᵖ, IsMulCommutative (RV.obj.obj W) := fun W ↦ by
-    show IsMulCommutative (X.O.obj.obj (op W.unop.left))
+    change IsMulCommutative (X.O.obj.obj (op W.unop.left))
     infer_instance
   have hLim : PreservesFiniteLimits
       (SheafOfModules.overFunctor.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) V) :=

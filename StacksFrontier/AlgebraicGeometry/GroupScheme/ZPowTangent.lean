@@ -51,7 +51,8 @@ through it; this is `Stacks.Groupoids.zpow_residueFieldMap_isIso_at_identity`.  
 equality `[d] e = e` is propositional, so the derivative lands in the tangent space at `[d] e`
 and has to be transported back; the transport bookkeeping is the group of lemmas
 `AlgebraicGeometry.tangentMap_fixed_apply` and `AlgebraicGeometry.tangentMap_transport_*`, which
-live next to Tag 0BF5 in `StacksFrontier/AlgebraicGeometry/Groupoids/GroupSchemeProperties/TangentIdentity.lean`.
+live next to Tag 0BF5 in
+`StacksFrontier/AlgebraicGeometry/Groupoids/GroupSchemeProperties/TangentIdentity.lean`.
 
 Nonvanishing of the tangent space is proved by contradiction from Tag 0B2G: a vanishing relative
 tangent space at `x` makes the structure morphism unramified at `x`, hence quasi-finite there, so
@@ -168,7 +169,7 @@ theorem tangentArrow_add_val {S : Scheme.{u}} (G : Over S) [GrpObj G] (s : S)
   have hsum : (hm ▸ tangentMap m (p ≫ G.hom) G.hom hbase z θ :
       DottedTangentArrow G.hom e) = v + w := hadd v w
   rw [← hsum, hmval]
-  show c ≫ m = _
+  change c ≫ m = _
   rw [hc]
   rfl
 

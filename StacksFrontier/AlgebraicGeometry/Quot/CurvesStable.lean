@@ -141,7 +141,7 @@ theorem hasGenus_unique {X : CurveFamily B hZ} {g g' : ℕ} (h : HasGenus B hZ X
     (fun W ⟨x⟩ _ hT => Space.exists_mem_nonempty_of_mem_topology B integerBase hZ _ W hT x)
     (fun W ⟨x⟩ => by
       have : Nonempty (⊤ : (Space.chartScheme W).Opens) := ⟨⟨x, trivial⟩⟩
-      show Nontrivial Γ(Space.chartScheme W, ⊤)
+      change Nontrivial Γ(Space.chartScheme W, ⊤)
       infer_instance)
     (U := Space.selfChart B integerBase hZ X.base) ⟨s⟩
 

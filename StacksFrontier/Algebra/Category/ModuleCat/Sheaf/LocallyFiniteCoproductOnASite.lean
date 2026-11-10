@@ -165,7 +165,7 @@ def presToProd : presCoprod R M ⟶ (∏ᶜ M).val :=
 `i`-th canonical injection. -/
 theorem ι_presToProd (i : I) :
     Sigma.ι (fun k => (M k).val) i ≫ presToProd R M = (deltaInj R M i).val :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The `i`-th leg of the objectwise coproduct, followed by the comparison morphism and the
 `i`-th projection, is the identity. -/
@@ -265,7 +265,7 @@ def coprodToProd : (∐ M) ⟶ ∏ᶜ M :=
 theorem ι_coprodToProd_comp_π (i j : I) :
     Sigma.ι M i ≫ coprodToProd R M ≫ Pi.π M j =
       if h : i = j then eqToHom (congrArg M h) else 0 := by
-  rw [← Category.assoc, coprodToProd, Sigma.ι_desc, deltaInj, Pi.lift_comp_π]
+  rw [← Category.assoc, coprodToProd, Sigma.ι_comp_desc, deltaInj, Pi.lift_comp_π]
 
 /-- **Any family of components of `∐ M` is recovered from the canonical comparison.** If
 `π i : ∐ M ⟶ M i` is the identity on the `i`-th summand and zero on the others — which is how a
@@ -290,7 +290,7 @@ theorem toCoprod_comp_val_coprodToProd :
     toCoprod R M ≫ (coprodToProd R M).val = presToProd R M := by
   refine Sigma.hom_ext _ _ fun i => ?_
   rw [← Category.assoc, ι_toCoprod, ι_presToProd]
-  exact congrArg SheafOfModules.Hom.val (Sigma.ι_desc (deltaInj R M) i)
+  exact congrArg SheafOfModules.Hom.val (Sigma.ι_comp_desc (deltaInj R M) i)
 
 end Comparison
 

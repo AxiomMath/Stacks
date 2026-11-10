@@ -247,8 +247,7 @@ def crysSecondAffineCrossEquiv :
   invFun := crysSecondAffineCrossInv F B
   map_add' := map_add (crysSecondAffineCross F B)
   left_inv z := by
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul t s =>
         rw [crysSecondAffineCross_tmul, crysSecondAffineCrossInv_tmul,
           siteRingSection_ambientRingSection,
@@ -256,8 +255,7 @@ def crysSecondAffineCrossEquiv :
           AddEquiv.symm_apply_apply]
     | add z z' hz hz' => rw [map_add, map_add, hz, hz']
   right_inv w := by
-    induction w using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction w using TensorProduct.inductionOn with
     | tmul t x =>
         rw [crysSecondAffineCrossInv_tmul, crysSecondAffineCross_tmul,
           crysSiteRestrict_crysRestrictOpenTopEquiv_symm]
@@ -505,8 +503,7 @@ theorem crysSecondAffineExtensionHom_tmul
 theorem crysSecondExtensionSectionsMap_eq_crysSecondAffineExtensionHom :
     (crysSecondExtensionSectionsMap F B : _ → _) = (crysSecondAffineExtensionHom F B : _ → _) := by
   funext w
-  induction w using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction w using TensorProduct.inductionOn with
   | tmul t s => exact (crysSecondAffineExtensionHom_tmul F B t s).symm
   | add w w' hw hw' => rw [map_add, map_add, hw, hw']
 

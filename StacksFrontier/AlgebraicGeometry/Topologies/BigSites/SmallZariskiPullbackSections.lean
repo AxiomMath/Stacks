@@ -232,7 +232,7 @@ public lemma zariskiTransition_final (B : BigZariskiSite.{u}) (S : B.Schemes)
   change ((zariskiCounit B g.left).app U).left ≫ 𝟙 X.left =
     ((smallZariskiBaseChange B g.left).obj U).obj.hom ≫ g.left at hv
   change k.hom.left ≫ ((smallZariskiBaseChange B g.left).obj U).obj.hom = 𝟙 Y.left at hk
-  show k.hom.left ≫ ((zariskiCounit B g.left).app U).left = g.left
+  change k.hom.left ≫ ((zariskiCounit B g.left).app U).left = g.left
   have hv' : ((zariskiCounit B g.left).app U).left =
       ((smallZariskiBaseChange B g.left).obj U).obj.hom ≫ g.left :=
     (Category.comp_id _).symm.trans hv

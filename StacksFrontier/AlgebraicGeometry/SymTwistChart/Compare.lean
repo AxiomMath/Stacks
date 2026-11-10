@@ -196,7 +196,7 @@ public theorem res_comp_chartGradedHom :
       (chartGradedHom E L hqcE hqcEL (isoUnitOverOfHom L (homOfLE h) e) hU'aff).comp
         ((Stacks.SymGraded.schemeSheafGradedAlgebra E hqcE).res h) := by
   refine gradedRingHom_ext_degree_one E hqcE hUaff (fun r => ?_) (fun m => ?_)
-  · show (Stacks.SymGraded.schemeSheafGradedAlgebra (tensorObj E L) hqcEL).resRingHom h
+  · change (Stacks.SymGraded.schemeSheafGradedAlgebra (tensorObj E L) hqcEL).resRingHom h
         (chartRingEquiv E L hqcE hqcEL e hUaff
           ((Stacks.SymGraded.schemeSheafGradedAlgebra E hqcE).strHom U r)) =
       chartRingEquiv E L hqcE hqcEL (isoUnitOverOfHom L (homOfLE h) e) hU'aff
@@ -204,7 +204,7 @@ public theorem res_comp_chartGradedHom :
           ((Stacks.SymGraded.schemeSheafGradedAlgebra E hqcE).strHom U r))
     rw [chartRingEquiv_strHom, SheafGradedAlgebra.resRingHom_strHom,
       SheafGradedAlgebra.resRingHom_strHom, chartRingEquiv_strHom]
-  · show (Stacks.SymGraded.schemeSheafGradedAlgebra (tensorObj E L) hqcEL).resRingHom h
+  · change (Stacks.SymGraded.schemeSheafGradedAlgebra (tensorObj E L) hqcEL).resRingHom h
         (chartRingEquiv E L hqcE hqcEL e hUaff
           (DirectSum.of ((Stacks.SymGraded.schemeSheafGradedAlgebra E hqcE).sectionPieces U) 1
             (symOne E hqcE m))) =

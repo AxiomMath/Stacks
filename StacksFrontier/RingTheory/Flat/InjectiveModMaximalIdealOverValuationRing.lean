@@ -98,13 +98,13 @@ private theorem exists_localizedPolynomial_surjection (A : Type u₁) (B : Type 
     have hdq : d ∈ q.primeCompl := by
       intro hdmem
       have hu : IsUnit (ψ d) := by
-        show IsUnit (ι (φ d))
+        change IsUnit (ι (φ d))
         rw [hd]
         exact IsLocalization.map_units B t
       exact notMem_maximalIdeal.mpr hu hdmem
     refine ⟨IsLocalization.mk' (M := q.primeCompl) (Localization.AtPrime q) p ⟨d, hdq⟩, ?_⟩
     rw [IsLocalization.lift_mk'_spec]
-    show ι (φ p) = ι (φ d) * IsLocalization.mk' B (φ p) t
+    change ι (φ p) = ι (φ d) * IsLocalization.mk' B (φ p) t
     rw [hd]
     exact (IsLocalization.mk'_spec' B (φ p) t).symm
 
@@ -131,17 +131,17 @@ private theorem injective_and_flat_quotient_range_of_injective_mapQ_maximalIdeal
   let algPB : Algebra P B := g.toAlgebra
   have htwAPB : IsScalarTower A P B := IsScalarTower.of_algebraMap_smul fun a b => by
     simp only [Algebra.smul_def]
-    show g (algebraMap A P a) * b = algebraMap A B a * b
+    change g (algebraMap A P a) * b = algebraMap A B a * b
     rw [← RingHom.comp_apply, hgA]
   let modPN : Module P N := Module.compHom N g
   let modPM : Module P M := Module.compHom M g
   have htwPBN : IsScalarTower P B N := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   have htwPBM : IsScalarTower P B M := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   have htwAPN : IsScalarTower A P N := IsScalarTower.of_algebraMap_smul fun a x => by
-    show g (algebraMap A P a) • x = a • x
+    change g (algebraMap A P a) • x = a • x
     rw [← IsScalarTower.algebraMap_smul B a x, ← RingHom.comp_apply, hgA]
   have htwAPM : IsScalarTower A P M := IsScalarTower.of_algebraMap_smul fun a x => by
-    show g (algebraMap A P a) • x = a • x
+    change g (algebraMap A P a) • x = a • x
     rw [← IsScalarTower.algebraMap_smul B a x, ← RingHom.comp_apply, hgA]
   have hcompLocal : IsLocalHom (g.comp (algebraMap A P)) := hgA ▸ inferInstance
   have : IsLocalHom (algebraMap A P) := isLocalHom_of_comp (algebraMap A P) g

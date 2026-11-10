@@ -556,15 +556,15 @@ theorem hasFlatAlgebraLift_adicCompletion_of_hasFlatAlgebraLift_of_isNoetherianR
   -- the composite is `A`-linear: `algebraMap A B a` comes from `B'`, over which both are maps
   obtain ⟨x, hx⟩ := hsurjP (algebraMap A B a)
   rw [RingEquiv.trans_apply]
-  show e2 (e1 (algebraMap A (A ⊗[A'] AdicCompletion b' B') a)) =
+  change e2 (e1 (algebraMap A (A ⊗[A'] AdicCompletion b' B') a)) =
     algebraMap A (AdicCompletion (b'.map (algebraMap B' B)) B) a
   rw [e1.commutes a]
   have key : algebraMap A (B ⊗[B'] AdicCompletion b' B') a =
       algebraMap B' (B ⊗[B'] AdicCompletion b' B') x := by
-    show algebraMap B (B ⊗[B'] AdicCompletion b' B') (algebraMap A B a) = _
+    change algebraMap B (B ⊗[B'] AdicCompletion b' B') (algebraMap A B a) = _
     rw [← hx, ← IsScalarTower.algebraMap_apply B' B (B ⊗[B'] AdicCompletion b' B')]
   rw [key, e2.commutes x]
-  show AdicCompletion.of _ B (algebraMap B' B x) =
+  change AdicCompletion.of _ B (algebraMap B' B x) =
     AdicCompletion.of _ B (algebraMap A B a)
   rw [hx]
 
@@ -598,7 +598,7 @@ theorem hasFlatAlgebraLift_of_hasFlatAlgebraLift_adicCompletion_at
     MvPolynomial.ker_map (algebraMap A' A)
   have : IsScalarTower A' (MvPolynomial (Fin n) A') (MvPolynomial (Fin n) A) := by
     refine IsScalarTower.of_algebraMap_eq fun a' => ?_
-    show MvPolynomial.C (algebraMap A' A a') =
+    change MvPolynomial.C (algebraMap A' A a') =
       MvPolynomial.map (algebraMap A' A) (MvPolynomial.C a')
     rw [MvPolynomial.map_C]
   let : Algebra (MvPolynomial (Fin n) A) B := f.toRingHom.toAlgebra
@@ -670,7 +670,7 @@ theorem hasFlatAlgebraLift_of_hasFlatAlgebraLift_adicCompletion_at
       (MvPolynomial (Fin n) A') (MvPolynomial (Fin n) A) B hsurjA hnilA hsurjP hkerP b hsyn
       g hg)
     (b.map (algebraMap B (AdicCompletion b B))) hCcomplete e (fun a => ?_) hJc
-  show algebraMap A _ a = e (((algebraMap A (MvPolynomial (Fin n) A) a)
+  change algebraMap A _ a = e (((algebraMap A (MvPolynomial (Fin n) A) a)
     ⊗ₜ[MvPolynomial (Fin n) A'] (1 : AdicCompletion I' (MvPolynomial (Fin n) A')))
       ⊗ₜ[MvPolynomial (Fin n) A] (1 : B))
   rw [he (algebraMap A (MvPolynomial (Fin n) A) a),

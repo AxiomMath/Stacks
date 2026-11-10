@@ -298,7 +298,7 @@ theorem mem_complementOpen_iff (I : U.IdealSheafData) (x : deformationSpace I) :
         (paramGlobal I)).support := by
   have h := congrArg (fun S : Set (deformationSpace I) => x ∈ S) (range_zeroScheme_paramGlobal I)
   simp only [Scheme.IdealSheafData.range_subschemeι, Scheme.Opens.range_ι, Set.mem_compl_iff] at h
-  show x ∈ (complementOpen I : Set (deformationSpace I)) ↔ ¬ x ∈
+  change x ∈ (complementOpen I : Set (deformationSpace I)) ↔ ¬ x ∈
     ((Stacks.Divisors.zeroScheme (deformationSpace I) (Scheme.unitModule (deformationSpace I))
       (paramGlobal I)).support : Set (deformationSpace I))
   rw [h, not_not]
@@ -308,7 +308,7 @@ fibre.** -/
 theorem preimage_complementOpen :
     deformationBaseChangeMap h J ⁻¹ᵁ complementOpen J = complementOpen (J.comap h) := by
   ext x
-  show deformationBaseChangeMap h J x ∈ complementOpen J ↔ x ∈ complementOpen (J.comap h)
+  change deformationBaseChangeMap h J x ∈ complementOpen J ↔ x ∈ complementOpen (J.comap h)
   rw [mem_complementOpen_iff, mem_complementOpen_iff,
     ← comap_zeroScheme_paramGlobal h J (J.comap h) le_rfl, Scheme.IdealSheafData.support_comap]
   rfl

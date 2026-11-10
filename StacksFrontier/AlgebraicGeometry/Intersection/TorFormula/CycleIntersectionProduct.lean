@@ -344,8 +344,8 @@ theorem cycle_eq_sum_single [DecidableEq X] {α : AlgebraicCycle X ℤ}
     simp [Finset.sum_apply]
   rw [h1, Finset.sum_ite_eq]
   by_cases hz : z ∈ hα.toFinset
-  · rw [if_pos hz]
-  · rw [if_neg hz]
+  · rw [ite_eq_left hz]
+  · rw [ite_eq_right hz]
     exact Function.notMem_support.1 fun h => hz (hα.mem_toFinset.2 h)
 
 /-! ### Prime cycles -/

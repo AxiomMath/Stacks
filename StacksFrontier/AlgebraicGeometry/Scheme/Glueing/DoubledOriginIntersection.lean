@@ -53,7 +53,7 @@ private lemma preimage_chart_opensRange (k : Type u) [Field k] (n : ℕ) :
     chartInclusion k n 0 ⁻¹ᵁ (chartInclusion k n 1).opensRange = puncturedAffineSpace k n := by
   have hij : (ULift.up (0 : Fin 2) : ULift.{u} (Fin 2)) ≠ ULift.up 1 := by decide
   ext x
-  show chartInclusion k n 0 x ∈ (chartInclusion k n 1).opensRange ↔
+  change chartInclusion k n 0 x ∈ (chartInclusion k n 1).opensRange ↔
     x ∈ puncturedAffineSpace k n
   rw [Scheme.Hom.mem_opensRange, ← opensRange_glueData_f k n hij]
   refine ⟨fun ⟨y, hy⟩ => ?_, fun ⟨z, hz⟩ => ⟨x, ?_⟩⟩
@@ -128,9 +128,9 @@ private lemma puncturedAffineSpace_not_isAffine (k : Type u) [Field k] (n : ℕ)
     IsClosedImmersion.spec_of_surjective _ (MvPolynomial.rename_surjective p hp)
   have hpre : f ⁻¹ᵁ puncturedAffineSpace k n = puncturedAffineSpace k 2 := by
     ext x
-    show f x ∈ puncturedAffineSpace k n ↔ x ∈ puncturedAffineSpace k 2
+    change f x ∈ puncturedAffineSpace k n ↔ x ∈ puncturedAffineSpace k 2
     rw [mem_puncturedAffineSpace_iff, mem_puncturedAffineSpace_iff]
-    show (∃ i : Fin n, MvPolynomial.rename p (MvPolynomial.X i) ∉ x.asIdeal) ↔ _
+    change (∃ i : Fin n, MvPolynomial.rename p (MvPolynomial.X i) ∉ x.asIdeal) ↔ _
     simp only [MvPolynomial.rename_X]
     refine ⟨fun ⟨i, hi⟩ => ⟨p i, hi⟩, fun ⟨i, hi⟩ => ?_⟩
     obtain ⟨j, rfl⟩ := hp i

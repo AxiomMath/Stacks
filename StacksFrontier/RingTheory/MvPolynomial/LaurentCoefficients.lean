@@ -107,8 +107,8 @@ theorem partialDegree_add (β γ : σ →₀ ℕ) :
   simp [partialDegree, Finset.sum_add_distrib]
 
 /-- **Every monomial of an element of the `D`-th power of the ideal of the variables `X_{v j}`
-has degree at least `D` in those variables**, provided `v` is injective. -/
-theorem le_partialDegree_of_mem_pow (hv : Function.Injective v) {D : ℕ} {p : MvPolynomial σ R}
+has degree at least `D` in those variables**. -/
+theorem le_partialDegree_of_mem_pow {D : ℕ} {p : MvPolynomial σ R}
     (hp : p ∈ Ideal.span (Set.range fun j => (X (v j) : MvPolynomial σ R)) ^ D) :
     ∀ β ∈ p.support, D ≤ partialDegree v β := by
   classical
@@ -144,7 +144,7 @@ theorem partialDegree_single (hv : Function.Injective v) (j : ι) :
   rw [partialDegree, Finset.sum_eq_single j]
   · simp
   · intro k _ hk
-    rw [Finsupp.single_apply, if_neg (fun h => hk (hv h).symm)]
+    rw [Finsupp.single_apply, ite_eq_right (fun h => hk (hv h).symm)]
   · simp
 
 /-- **A monomial of degree at least `D` in the variables `X_{v j}` lies in the `D`-th power of

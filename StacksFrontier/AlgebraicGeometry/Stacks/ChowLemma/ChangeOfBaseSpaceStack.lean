@@ -73,7 +73,7 @@ theorem changeBaseFibredCategoryHom_comp_inv (F : (BigFppfOver B S hS)ᵒᵖ ⥤
     rfl
   · intro Z W u
     refine PresheafOfCategories.elements_hom_ext _ _ (Over.OverMorphism.ext ?_)
-    show u.base.left = 𝟙 _ ≫ u.base.left ≫ 𝟙 _
+    change u.base.left = 𝟙 _ ≫ u.base.left ≫ 𝟙 _
     rw [Category.id_comp, Category.comp_id]
 
 /-- The comparison is an equivalence of the underlying categories. -/
@@ -100,7 +100,7 @@ theorem changeBaseFunctor_associatedMap_comp {F G : (BigFppfOver B S hS)ᵒᵖ �
     rfl
   · intro Z W u
     refine PresheafOfCategories.elements_hom_ext _ _ (Over.OverMorphism.ext ?_)
-    show u.base.left = 𝟙 _ ≫ u.base.left ≫ 𝟙 _
+    change u.base.left = 𝟙 _ ≫ u.base.left ≫ 𝟙 _
     rw [Category.id_comp, Category.comp_id]
 
 /-- The inverse comparison is an equivalence of the underlying categories. -/
@@ -126,7 +126,7 @@ theorem associatedMap_relocalize_comp_inv {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ 
     rfl
   · intro Z W u
     refine PresheafOfCategories.elements_hom_ext _ _ (Over.OverMorphism.ext ?_)
-    show u.base.left = 𝟙 _ ≫ u.base.left ≫ 𝟙 _
+    change u.base.left = 𝟙 _ ≫ u.base.left ≫ 𝟙 _
     rw [Category.id_comp, Category.comp_id]
 
 /-- **Construction A of a 2-isomorphism.** A 2-isomorphism between two 1-morphisms of categories
@@ -235,7 +235,7 @@ theorem associatedMap_comp_structureHom {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Ty
   have h := congrArg (fun k => (CommaMorphism.left (k.app (Opposite.op P.base) P.fiber.as)))
     hm
   simp only [NatTrans.comp_app, types_comp_apply] at h
-  show Over.mk (Over.homMk (m.app _ P.fiber.as).1.1 (m.app _ P.fiber.as).2 :
+  change Over.mk (Over.homMk (m.app _ P.fiber.as).1.1 (m.app _ P.fiber.as).2 :
       P.base ⟶ Over.mk g) = Over.mk (Over.homMk P.fiber.as.1.1 P.fiber.as.2)
   congr 1
   exact Over.OverMorphism.ext h

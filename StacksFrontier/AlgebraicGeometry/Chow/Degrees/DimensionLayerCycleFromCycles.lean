@@ -242,10 +242,10 @@ private def coproductSumIso {D : Type*} [Category D] {J K : Type*} (F : J ⊕ K 
   hom_inv_id := by
     refine Sigma.hom_ext _ _ fun s ↦ ?_
     rcases s with j | k
-    · simp only [Sigma.ι_desc_assoc, Category.assoc, Category.comp_id, coprod.inl_desc,
-        Sigma.ι_desc]
-    · simp only [Sigma.ι_desc_assoc, Category.assoc, Category.comp_id, coprod.inr_desc,
-        Sigma.ι_desc]
+    · simp only [Sigma.ι_comp_desc_assoc, Category.assoc, Category.comp_id, coprod.inl_desc,
+        Sigma.ι_comp_desc]
+    · simp only [Sigma.ι_comp_desc_assoc, Category.assoc, Category.comp_id, coprod.inr_desc,
+        Sigma.ι_comp_desc]
   inv_hom_id := by
     refine coprod.hom_ext ?_ ?_
     · rw [← Category.assoc, coprod.inl_desc]
@@ -269,7 +269,7 @@ private def coproductSubtypeIso {D : Type*} [Category D] [HasZeroMorphisms D]
   · refine Sigma.hom_ext _ _ fun j ↦ ?_
     by_cases hj : j ∈ T
     · simp [hj]
-    · simp only [Sigma.ι_desc_assoc, hj, ↓reduceDIte, zero_comp, Category.comp_id]
+    · simp only [Sigma.ι_comp_desc_assoc, hj, ↓reduceDIte, zero_comp, Category.comp_id]
       exact (h j hj).eq_of_src _ _
 
 /-! ### Coherence of a locally finite direct sum -/
@@ -291,7 +291,7 @@ private theorem isZero_restrict_of_disjoint_supp {X : Scheme.{u}} (M : X.Modules
   refine (IsZero.iff_id_eq_zero _).2 ?_
   refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun V ↦ ?_)
   refine ModuleCat.hom_ext (LinearMap.ext fun s ↦ ?_)
-  show s = 0
+  change s = 0
   refine TopCat.Presheaf.section_ext ⟨M.presheaf, M.isSheaf⟩ (U.ι ''ᵁ V.unop) s 0 fun x hx ↦ ?_
   have hxU : (x : X) ∈ (U : Set X) := by
     obtain ⟨y, -, rfl⟩ := hx
@@ -654,7 +654,7 @@ theorem cyclePositivePart_add_cycleNegativePart (C : ChowSituation.{u}) {X : Sch
         cycleNegativePart C f k (c + c') := by
   refine DimensionCoefficients.ext C f k ?_
   funext x
-  show (c.1 x + c'.1 x).toNat + (-(c.1 x)).toNat + (-(c'.1 x)).toNat =
+  change (c.1 x + c'.1 x).toNat + (-(c.1 x)).toNat + (-(c'.1 x)).toNat =
     (c.1 x).toNat + (c'.1 x).toNat + (-(c.1 x + c'.1 x)).toNat
   omega
 
@@ -941,7 +941,7 @@ private theorem offPart_add_singlePart (C : ChowSituation.{u}) {X : Scheme.{u}} 
     offPart C f k p y + singlePart C f k y hy (p.1 y) = p := by
   refine DimensionCoefficients.ext C f k ?_
   funext x
-  show p.1 x - singleCoeff y (p.1 y) x + singleCoeff y (p.1 y) x = p.1 x
+  change p.1 x - singleCoeff y (p.1 y) x + singleCoeff y (p.1 y) x = p.1 x
   by_cases hx : x = y
   · subst hx
     rw [singleCoeff_self]
@@ -996,13 +996,13 @@ theorem dimensionLayerCycleHom_comp_cycleDimensionLayerHom (C : ChowSituation.{u
   rw [AddMonoidHom.comp_apply, cycleDimensionLayerHom_apply, map_sub, dimensionLayerCycleHom_of,
     dimensionLayerCycleHom_of, AddMonoidHom.id_apply]
   refine Subtype.ext (Function.locallyFinsuppWithin.ext fun y ↦ ?_)
-  show (dimensionLayerCycle C f k
+  change (dimensionLayerCycle C f k
       (cycleStructureSheafDimLE C f k (cyclePositivePart C f k c))).1 y -
     (dimensionLayerCycle C f k
       (cycleStructureSheafDimLE C f k (cycleNegativePart C f k c))).1 y = c.1 y
   rw [dimensionLayerCycle_cycleStructureSheafDimLE_apply,
     dimensionLayerCycle_cycleStructureSheafDimLE_apply]
-  show ((c.1 y).toNat : ℤ) - ((-(c.1 y)).toNat : ℤ) = c.1 y
+  change ((c.1 y).toNat : ℤ) - ((-(c.1 y)).toNat : ℤ) = c.1 y
   omega
 
 /-- **Stacks 02S9.** The cycle class of the element of `K₀(Coh_{≤k}(X)/Coh_{≤k-1}(X))` attached
@@ -1078,7 +1078,7 @@ theorem cycleNegativePart_dimensionLayerCycle (C : ChowSituation.{u}) {X : Schem
     (cycleNegativePart C f k (dimensionLayerCycle C f k F)).1 = 0 := by
   funext x
   have h := dimensionLayerCycle_nonneg C f k F x
-  show (-(dimensionLayerCycle C f k F).1 x).toNat = 0
+  change (-(dimensionLayerCycle C f k F).1 x).toNat = 0
   omega
 
 /-- A coefficient function which vanishes identically contributes the zero class: it is the sum

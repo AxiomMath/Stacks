@@ -194,7 +194,7 @@ theorem isIso_pullback_finFibreProduct_hom {T : Scheme.{u}} (g : T ⟶ S) :
     ∀ {m : ℕ} (Z : Fin m → Over S), (∀ j, IsIso ((Over.pullback g).obj (Z j)).hom) →
       IsIso ((Over.pullback g).obj (finFibreProduct Z)).hom
   | 0, _, _ => by
-    show IsIso (pullback.snd (𝟙 S) g)
+    change IsIso (pullback.snd (𝟙 S) g)
     infer_instance
   | _ + 1, Z, h =>
     isIso_hom_of_isTerminal (isTerminalOfBinaryFanIsLimit

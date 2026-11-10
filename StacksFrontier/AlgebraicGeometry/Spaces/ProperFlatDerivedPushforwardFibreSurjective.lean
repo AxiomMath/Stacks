@@ -269,7 +269,7 @@ theorem residueFieldSiteObjectRingEquivOfIsAffine_comp :
         CommRingCat.ofHom (algebraMap _ p.ResidueField) := by
     have hrw := Scheme.Spec.map_residueFieldIso_inv_eq_fromSpecResidueField
       Γ((BigFppfOver.toScheme B S hS).obj U, ⊤) (specGlobalSectionsPoint B S hS U p)
-    show ((Spec Γ((BigFppfOver.toScheme B S hS).obj U, ⊤)).fromSpecResidueField
+    change ((Spec Γ((BigFppfOver.toScheme B S hS).obj U, ⊤)).fromSpecResidueField
       (specGlobalSectionsPoint B S hS U p) ≫
       ((BigFppfOver.toScheme B S hS).obj U).isoSpec.inv).appTop ≫
       (Scheme.ΓSpecIso _ ≪≫

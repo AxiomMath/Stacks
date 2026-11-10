@@ -171,7 +171,7 @@ theorem existsUnique_lift_spec_of_bijective_quotientMap (hI : I.FG)
       (e.symm.toRingHom.comp (Ideal.Quotient.mk _))
   have hρ' : ρ'.comp φ = ρ := by
     ext a
-    show Ideal.Quotient.lift (I ^ n) ρ (fun a ha ↦ RingHom.mem_ker.mp (hn ha))
+    change Ideal.Quotient.lift (I ^ n) ρ (fun a ha ↦ RingHom.mem_ker.mp (hn ha))
       (e.symm (Ideal.Quotient.mk _ (φ a))) = ρ a
     have : e.symm (Ideal.Quotient.mk _ (φ a)) = Ideal.Quotient.mk _ a := e.symm_apply_eq.mpr rfl
     rw [this, Ideal.Quotient.lift_mk]
@@ -226,7 +226,7 @@ theorem W_of_bijective_app_of_isAffine {F₁ F₂ : (BigFppfOver B S hS)ᵒᵖ �
     have key : F₁.map st.map.op x = F₁.map st.map.op y := by
       apply (hf ((BigAffineFppf.inclusion B S hS).obj st.obj) st.obj.property).1
       rw [NatTrans.naturality_apply, NatTrans.naturality_apply, hxy]
-    show F₁.map g.op x = F₁.map g.op y
+    change F₁.map g.op x = F₁.map g.op y
     rw [← st.fac, op_comp, Functor.map_comp_apply, Functor.map_comp_apply, key]⟩
   have hsurj : Presheaf.IsLocallySurjective (BigFppfOver.topology B S hS) f := ⟨fun {U} t ↦ by
     refine (BigFppfOver.topology B S hS).superset_covering ?_
@@ -284,7 +284,7 @@ theorem bijective_completionMap_app_of_isAffine (hI : I.FG)
     let x : V ⟶ affineOver B S hS hR (Spec.map (CommRingCat.ofHom φ) ≫ s) :=
       Over.homMk (ObjectProperty.homMk z) (by
         apply ObjectProperty.hom_ext
-        show z ≫ (Spec.map (CommRingCat.ofHom φ) ≫ s) = B.inclusion.map V.hom
+        change z ≫ (Spec.map (CommRingCat.ofHom φ) ≫ s) = B.inclusion.map V.hom
         rw [← Category.assoc, hz]
         exact congrArg (fun t ↦ B.inclusion.map t) (Over.w y))
     have hx : Space.HasImageIn B S hS
@@ -295,7 +295,7 @@ theorem bijective_completionMap_app_of_isAffine (hI : I.FG)
       have hp := hy' p
       rw [← hz] at hp
       change PrimeSpectrum.comap φ (z p) ∈ _ at hp
-      show ((I.map φ : Ideal R) : Set R) ⊆ (z p).asIdeal
+      change ((I.map φ : Ideal R) : Set R) ⊆ (z p).asIdeal
       simp only [PrimeSpectrum.mem_zeroLocus, SetLike.coe_subset_coe] at hp
       rw [SetLike.coe_subset_coe]
       exact Ideal.map_le_iff_le_comap.mpr hp
@@ -337,7 +337,7 @@ isomorphism of locally Noetherian formal algebraic spaces is again one. -/
 theorem isRigEtaleOverWithNoetherianSource_pullback (W : Over Y)
     (hW : IsRigEtaleOverWithNoetherianSource B S hS Y W) :
     IsRigEtaleOverWithNoetherianSource B S hS Y₁ ((Over.pullback e).obj W) := by
-  haveI : HasPullback W.hom e := hasPullback_of_right_iso W.hom e
+  have : HasPullback W.hom e := hasPullback_of_right_iso W.hom e
   let i : Limits.pullback W.hom e ≅ W.left := asIso (pullback.fst W.hom e)
   exact ⟨isFormalAlgebraicSpace_of_iso B S hS i hW.1,
     isLocallyNoetherian_of_iso B S hS i.symm hW.2.1,

@@ -51,8 +51,8 @@ carries it to a constructible subset of `X` by Tag 09YJ.
 ## Implementation notes
 
 The locus is described, as the support of an abelian sheaf is in
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/SupportSheaf.lean`, by *some* geometric point above
-the given point satisfying the condition. This is the same set as the one described by *every*
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/SupportSheaf.lean`, by *some* geometric point
+above the given point satisfying the condition. This is the same set as the one described by *every*
 geometric point above it, because the stalk functors at two geometric points with the same image
 are isomorphic; that isomorphism is
 `AlgebraicGeometry.etaleStalkPresheafFunctorIsoOfEqBase` and it is used in both proofs.

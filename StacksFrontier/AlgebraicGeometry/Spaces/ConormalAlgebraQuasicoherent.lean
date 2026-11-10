@@ -84,7 +84,7 @@ theorem idealSheafPow_eq_idealPowSubmodule_ringSheaf (Y : AlgebraicSpaces B S hS
       ((SmallEtale.topology B S hS Y.1).superset_covering (fun W f hf => ?_) hT)
     have h1 := hTa f hf
     change _ ∈ Stacks.Sites.sectionIdeal I _ ^ n at h1
-    show (((Stacks.SheafOfModules.Tensor.ringSheaf
+    change (((Stacks.SheafOfModules.Tensor.ringSheaf
       (smallEtaleRingedSite B S hS Y.1 Y.2).O)).obj.map f.op).hom (a * SheafOfModules.unitVal z) ∈ _
     have h2 := Ideal.mul_mem_right (α := (smallEtaleRingedSite B S hS Y.1 Y.2).O.obj.obj (op W))
       ((((Stacks.SheafOfModules.Tensor.ringSheaf

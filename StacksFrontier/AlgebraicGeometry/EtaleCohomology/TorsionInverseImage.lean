@@ -81,7 +81,7 @@ public theorem exists_leftKanExtension_obj_eq_map_unit
   obtain ⟨j, y, hy⟩ := Concrete.colimit_exists_rep _ (e.hom x)
   refine ⟨unop j.left, j.hom.unop, y, ?_⟩
   rw [← e.hom_inv_id_apply x, ← hy]
-  show _ = (colimit.ι _ j ≫ e.inv) y
+  change _ = (colimit.ι _ j ≫ e.inv) y
   rw [G.op.ι_leftKanExtensionObjIsoColimit_inv P (op U') j]
   rfl
 
@@ -99,7 +99,7 @@ public theorem isLocallyTorsion_lan_obj
     (P : Cᵒᵖ ⥤ AddCommGrpCat.{w}) [G.op.HasPointwiseLeftKanExtension P]
     [∀ U : Dᵒᵖ, PreservesColimit (CostructuredArrow.proj G.op U ⋙ P) (forget AddCommGrpCat.{w})]
     (hP : IsLocallyTorsion J P) : IsLocallyTorsion K (G.op.lan.obj P) := by
-  show IsLocallyTorsion K (G.op.leftKanExtension P)
+  change IsLocallyTorsion K (G.op.leftKanExtension P)
   rw [isLocallyTorsion_iff_torsionSieve_mem] at hP ⊢
   intro U' x
   obtain ⟨V, a, y, rfl⟩ := exists_leftKanExtension_obj_eq_map_unit G P U' x

@@ -102,7 +102,7 @@ theorem ringKrullDim_localizationAtPrime_mvPolynomial_of_isMaximal
       (Ideal.comap_isPrime _ m').ne_top ?_).symm
     rw [← IsLocalization.AtPrime.map_eq_maximalIdeal q Rq, Ideal.map_le_iff_le_comap]
     intro r hr
-    show MvPolynomial.C (algebraMap R Rq r) ∈ m'
+    change MvPolynomial.C (algebraMap R Rq r) ∈ m'
     have : MvPolynomial.C (algebraMap R Rq r) =
         algebraMap (MvPolynomial (Fin n) R) (MvPolynomial (Fin n) Rq) (MvPolynomial.C r) := by
       rw [MvPolynomial.algebraMap_def, MvPolynomial.map_C]
@@ -130,7 +130,7 @@ private theorem PolynomialPresentation.faithfullyFlat_localRingHom
   have hflat : Module.Flat R (Localization.AtPrime m) := Module.Flat.trans R p.Poly _
   have : IsScalarTower R (Localization.AtPrime q) (Localization.AtPrime m) :=
     IsScalarTower.of_algebraMap_eq fun r => by
-      show _ = g (algebraMap R _ r)
+      change _ = g (algebraMap R _ r)
       rw [Localization.localRingHom_to_map,
         IsScalarTower.algebraMap_apply R p.Poly (Localization.AtPrime m),
         MvPolynomial.algebraMap_eq]
@@ -259,7 +259,7 @@ theorem PolynomialPresentation.dualizingDimension_upperShriekFunctor_of_isMaxima
       (p.variableCount : ℤ),
     dualizingDimension_derivedHom_of_surjective.{u, u} p.toRingHom p.surjective
       (p.derivedExtension.{u, u}.obj K) hL (⟨m, inferInstance⟩ : PrimeSpectrum A)]
-  show dualizingDimension.{u, u} (p.derivedExtension.{u, u}.obj K)
+  change dualizingDimension.{u, u} (p.derivedExtension.{u, u}.obj K)
       (⟨m.comap p.toRingHom, inferInstance⟩ : PrimeSpectrum p.Poly) + _ = _
   rw [p.dualizingDimension_derivedExtension_of_isMaximal q (m.comap p.toRingHom) hlies' K hK]
   ring

@@ -322,7 +322,7 @@ private theorem heightOnePrime_hub_comparison
     (hg.trans (congrArg (· * _)
       (heightOnePrime_isLocalizationMap_heightOne_eq B S hS hX V w 𝔮
         (heightOneFractionMap (heightOnePrimeOfIdeal B S hS V w 𝔮) b)).symm))
-  rw [← MonoidHom.coe_coe (heightOneFractionMap (heightOnePrimeOfIdeal B S hS V w 𝔮)),
+  rw [← MonoidHom.coe_ofClass (heightOneFractionMap (heightOnePrimeOfIdeal B S hS V w 𝔮)),
     ← Units.coe_map] at hf' hg'
   have hmB : Ideal.map (algebraMap ↥(Z.genericHenselianLocalRing B S hS hX hdec)
       (etaleLocalRing B S hS X (chartGeometricPointAt B S hS hX V

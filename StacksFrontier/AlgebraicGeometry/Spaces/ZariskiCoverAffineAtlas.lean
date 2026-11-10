@@ -64,7 +64,7 @@ theorem exists_zariski_cover_affine_etale_atlas
     exists_etale_surjective_coproduct_affine_cover B S hS F hF
   -- Each summand of the atlas is an object of the site over `S`, étale over `F`.
   have hcoprod : B.Contains (∐ Y) := by
-    show (∐ Y).size < B.cutoff
+    change (∐ Y).size < B.cutoff
     rw [Scheme.size_congr e]
     exact U.left.property
   have hYsmall (i : I) : B.Contains (Y i) :=
@@ -134,7 +134,7 @@ theorem exists_zariski_cover_affine_etale_atlas
       exact congrArg B.inclusion.map (Over.w m)
     have hUibase : B.inclusion.map (Ui i).hom =
         Sigma.ι Y i ≫ e.hom ≫ B.inclusion.map U.hom := by
-      show B.inclusion.map (giMap i ≫ U.hom) = _
+      change B.inclusion.map (giMap i ≫ U.hom) = _
       rw [Functor.map_comp, B.inclusion.map_preimage, Category.assoc]
     have key : (B.inclusion.map T.hom) t = (B.inclusion.map (Ui i).hom) ((G.map a) w) :=
       calc (B.inclusion.map T.hom) t

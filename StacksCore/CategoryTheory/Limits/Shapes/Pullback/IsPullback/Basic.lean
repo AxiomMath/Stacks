@@ -7,7 +7,8 @@ import StacksCore.Tactic.StacksAttribute
 
 `IsPullback.prod_lift`: a pullback square stays a pullback after pairing its top and bottom maps
 with compatible maps into a monomorphism. No zero morphisms are needed; the biproduct form
-`IsPullback.biprod_lift` in `StacksCore.CategoryTheory.Limits.Shapes.Pullback.IsPullback.BicartesianSq`
+`IsPullback.biprod_lift` in
+`StacksCore.CategoryTheory.Limits.Shapes.Pullback.IsPullback.BicartesianSq`
 is its transport along `biprod.isoProd`. -/
 
 @[expose] public section

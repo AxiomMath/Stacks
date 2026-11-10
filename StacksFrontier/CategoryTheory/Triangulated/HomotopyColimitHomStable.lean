@@ -88,7 +88,7 @@ theorem exists_sub_shift_eq_of_surjective (N : ℕ) (t : ∀ n, A (n + 1) →+ A
       Nat.rec (motive := A) 0 (fun m wm => (ht m (Nat.zero_le m) (wm - z m)).choose) n
     refine ⟨w, fun n => ?_⟩
     have := (ht n (Nat.zero_le n) (w n - z n)).choose_spec
-    show w n - t n ((ht n (Nat.zero_le n) (w n - z n)).choose) = z n
+    change w n - t n ((ht n (Nat.zero_le n) (w n - z n)).choose) = z n
     rw [this, sub_sub_cancel]
   | succ N ih =>
     obtain ⟨w', hw'⟩ := ih (A := fun n => A (n + 1)) (fun n => t (n + 1))
@@ -113,7 +113,7 @@ private noncomputable abbrev idSubShift {C : Type*} [Category C] [Preadditive C]
 private theorem ι_comp_idSubShift {C : Type*} [Category C] [Preadditive C] (F : ℕ ⥤ C)
     [HasCoproduct F.obj] (n : ℕ) : Sigma.ι F.obj n ≫ idSubShift F =
       Sigma.ι F.obj n - F.map (homOfLE (Nat.le_succ n)) ≫ Sigma.ι F.obj (n + 1) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 variable {D : Type*} [Category D] [Preadditive D] [HasZeroObject D] [HasShift D ℤ]
   [∀ n : ℤ, (shiftFunctor D n).Additive] [Pretriangulated D]
@@ -124,7 +124,7 @@ theorem IsHomotopyColimitWith.coprojection_eq {F : ℕ ⥤ D} [HasCoproduct F.ob
     c n = F.map (homOfLE (Nat.le_succ n)) ≫ c (n + 1) := by
   obtain ⟨p, q, hT, hc⟩ := h
   have h0 := Sigma.ι F.obj n ≫= comp_distTriang_mor_zero₁₂ _ hT
-  simp only [Triangle.mk_mor₁, Triangle.mk_mor₂, comp_zero, Sigma.ι_desc_assoc,
+  simp only [Triangle.mk_mor₁, Triangle.mk_mor₂, comp_zero, Sigma.ι_comp_desc_assoc,
     Preadditive.sub_comp, Category.assoc, hc] at h0
   exact sub_eq_zero.1 h0
 
@@ -148,7 +148,7 @@ private theorem exists_eq_shift_map_comp_of_surjective {F : ℕ ⥤ D} [HasCopro
       ι := Discrete.natTrans fun j => w j.as }
   refine ⟨hs.desc s, hs.hom_ext fun ⟨n⟩ => ?_⟩
   have f1 : ∀ m, (Sigma.ι F.obj m)⟦(1 : ℤ)⟧' ≫ hs.desc s = w m := fun m => hs.fac s ⟨m⟩
-  show (Sigma.ι F.obj n)⟦(1 : ℤ)⟧' ≫ z =
+  change (Sigma.ι F.obj n)⟦(1 : ℤ)⟧' ≫ z =
     (Sigma.ι F.obj n)⟦(1 : ℤ)⟧' ≫ (idSubShift F)⟦(1 : ℤ)⟧' ≫ hs.desc s
   rw [← Functor.map_comp_assoc, ι_comp_idSubShift, Functor.map_sub, Preadditive.sub_comp,
     Functor.map_comp, Category.assoc, f1, f1]
@@ -175,7 +175,7 @@ private theorem IsHomotopyColimitWith.injective_comp_of_stable {F : ℕ ⥤ D}
     (fun n => Preadditive.leftComp B (F.map (homOfLE (Nat.le_succ n))))
     (fun n hn => h₀ n hn) (fun n => c n ≫ (x - x'))
     (fun n => by
-      show c n ≫ (x - x') = F.map (homOfLE (Nat.le_succ n)) ≫ c (n + 1) ≫ (x - x')
+      change c n ≫ (x - x') = F.map (homOfLE (Nat.le_succ n)) ≫ c (n + 1) ≫ (x - x')
       rw [hcomp n, Category.assoc]) hN
   have hp : p ≫ (x - x') = 0 :=
     Sigma.hom_ext _ _ fun n => by
@@ -184,7 +184,7 @@ private theorem IsHomotopyColimitWith.injective_comp_of_stable {F : ℕ ⥤ D}
   obtain ⟨g, hg⟩ := Triangle.yoneda_exact₃ _ hT (x - x') hp
   obtain ⟨w, hw⟩ := exists_eq_shift_map_comp_of_surjective B N h₁ g
   rw [hg, hw]
-  show q ≫ (idSubShift F)⟦(1 : ℤ)⟧' ≫ w = 0
+  change q ≫ (idSubShift F)⟦(1 : ℤ)⟧' ≫ w = 0
   rw [← Category.assoc, show q ≫ (idSubShift F)⟦(1 : ℤ)⟧' = 0 from
     comp_distTriang_mor_zero₃₁ _ hT, zero_comp]
 
@@ -203,14 +203,14 @@ private theorem IsHomotopyColimitWith.surjective_comp_of_stable {F : ℕ ⥤ D}
   have hdb : idSubShift F ≫ Sigma.desc b = 0 :=
     Sigma.hom_ext _ _ fun n => by
       rw [← Category.assoc, ι_comp_idSubShift, Preadditive.sub_comp, Category.assoc,
-        Sigma.ι_desc, Sigma.ι_desc, comp_zero, sub_eq_zero]
+        Sigma.ι_comp_desc, Sigma.ι_comp_desc, comp_zero, sub_eq_zero]
       exact hb n
   obtain ⟨x, hx⟩ := Triangle.yoneda_exact₂ _ hT (Sigma.desc b) hdb
   refine ⟨x, ?_⟩
-  show c N ≫ x = β
+  change c N ≫ x = β
   rw [← hc, Category.assoc]
-  show Sigma.ι F.obj N ≫ (Triangle.mk (idSubShift F) p q).mor₂ ≫ x = β
-  rw [← hx, Sigma.ι_desc, hbN]
+  change Sigma.ι F.obj N ≫ (Triangle.mk (idSubShift F) p q).mor₂ ≫ x = β
+  rw [← hx, Sigma.ι_comp_desc, hbN]
 
 /-- **Morphisms out of a derived colimit of an eventually stable system.**  Let
 `K = hocolim Kₙ` with coprojections `cₙ`, and let `B` be an object such that, from the index `N`

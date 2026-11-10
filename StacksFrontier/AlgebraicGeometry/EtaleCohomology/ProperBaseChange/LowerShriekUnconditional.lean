@@ -15,8 +15,8 @@ base change ([Stacks, Tag 0F7L]), and the base change theorem for sheaves of `Λ
 ([Stacks, Tag 0DDE]), are proved in
 `StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.LowerShriekComposition`,
 `StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.LowerShriekBaseChange` and
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.ExtensionByZero.DerivedAdjunctionUnbounded` from the
-statement that cohomology commutes with base change for every proper morphism. That statement is
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.ExtensionByZero.DerivedAdjunctionUnbounded` from
+the statement that cohomology commutes with base change for every proper morphism. That statement is
 the proper base change theorem ([Stacks, Tag 095T]),
 `Stacks.EtaleCohomology.cohomologyCommutesWithBaseChange_of_isProper`, which is a theorem for
 coefficients in `AddCommGrpCat.{u + 1}`. This file substitutes it, so the results below hold for
@@ -94,7 +94,7 @@ theorem torsionSheafProperty_etaleModuleForget_of_finite [Finite Λ] {X : Scheme
   have := Fintype.ofFinite Λ
   intro U x
   refine ⟨⊤, X.smallEtaleTopology.top_mem U, fun V f _ ↦ ⟨Fintype.card Λ, Fintype.card_pos, ?_⟩⟩
-  show Fintype.card Λ • (M.obj.map f.op x : M.obj.obj (Opposite.op V)) = 0
+  change Fintype.card Λ • (M.obj.map f.op x : M.obj.obj (Opposite.op V)) = 0
   rw [← one_smul Λ (M.obj.map f.op x), ← smul_assoc, card_nsmul_eq_zero, zero_smul]
 
 /-- **Complexes of sheaves of modules over a finite ring have torsion cohomology.** If `Λ` is

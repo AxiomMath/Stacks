@@ -60,7 +60,7 @@ private theorem isScalarTower_localization_atPrime {S T : Type*} [CommRing S] [C
   let : Algebra (Localization.AtPrime p) (Localization.AtPrime r) :=
     Localization.AtPrime.algebraOfLiesOver p r
   refine IsScalarTower.of_algebraMap_smul fun s x ↦ ?_
-  show (algebraMap (Localization.AtPrime p) (Localization.AtPrime r))
+  change (algebraMap (Localization.AtPrime p) (Localization.AtPrime r))
     ((algebraMap S (Localization.AtPrime p)) s) • x = s • x
   rw [← IsScalarTower.algebraMap_apply S (Localization.AtPrime p) (Localization.AtPrime r) s,
     IsScalarTower.algebraMap_smul]
@@ -118,7 +118,7 @@ private theorem isScalarTower_tensorBaseChange {A B C R : Type*} [CommRing A] [C
     Algebra.TensorProduct.map (IsScalarTower.toAlgHom A B C) (AlgHom.id A R)
   let : Algebra (B ⊗[A] R) (C ⊗[A] R) := fAlg.toRingHom.toAlgebra
   exact IsScalarTower.of_algebraMap_eq fun b ↦ by
-    show fAlg (b ⊗ₜ[A] (1 : R)) = (algebraMap B C b) ⊗ₜ[A] (1 : R)
+    change fAlg (b ⊗ₜ[A] (1 : R)) = (algebraMap B C b) ⊗ₜ[A] (1 : R)
     rw [Algebra.TensorProduct.map_tmul]
     simp
 
@@ -180,7 +180,7 @@ private theorem isScalarTower_localizedModule {R T N : Type*} [CommRing R] [Comm
       (M := LocalizedModule q.primeCompl N) fun r x ↦ by
     induction x using LocalizedModule.induction_on with
     | h y s =>
-      show (algebraMap R (Localization.AtPrime q) r) • LocalizedModule.mk y s =
+      change (algebraMap R (Localization.AtPrime q) r) • LocalizedModule.mk y s =
         r • LocalizedModule.mk y s
       rw [h r,
         IsScalarTower.algebraMap_smul (R := T)
@@ -269,7 +269,7 @@ private theorem flat_localizedModule_baseChange_iff {A B C R M : Type*} [CommRin
       (M := LocalizedModule p.primeCompl X) fun r x ↦ by
         induction x using LocalizedModule.induction_on with
         | h m s =>
-          show (algebraMap R Sq r) • LocalizedModule.mk m s = r • LocalizedModule.mk m s
+          change (algebraMap R Sq r) • LocalizedModule.mk m s = r • LocalizedModule.mk m s
           rw [show (algebraMap R Sq) r = algebraMap S Sq ((algebraMap R S) r) from rfl,
             IsScalarTower.algebraMap_smul (R := S) (A := Sq) (algebraMap R S r)
               (LocalizedModule.mk m s), LocalizedModule.smul'_mk, LocalizedModule.smul'_mk]
@@ -339,9 +339,9 @@ private theorem exists_prime_closedFiber_lift {A B C R : Type*} [CommRing A] [Co
   refine ⟨q, hq, sup_le ?_ ((Ideal.map_le_iff_le_comap).mpr hqC), hqp⟩
   rw [Ideal.map_le_iff_le_comap]
   intro r hr
-  show Algebra.TensorProduct.includeRight.toRingHom r ∈ q
+  change Algebra.TensorProduct.includeRight.toRingHom r ∈ q
   rw [← hR, RingHom.comp_apply]
-  show Algebra.TensorProduct.includeRight.toRingHom r ∈ q.comap (algebraMap B' C')
+  change Algebra.TensorProduct.includeRight.toRingHom r ∈ q.comap (algebraMap B' C')
   rw [hqp]
   exact (sup_le_iff.mp hp).1 (Ideal.mem_map_of_mem _ hr)
 
@@ -363,7 +363,7 @@ private theorem closedFiber_le_comap {A B C R : Type*} [CommRing A] [CommRing B]
   refine sup_le ?_ ?_
   · rw [Ideal.map_le_iff_le_comap]
     intro r hr
-    show (f.comp Algebra.TensorProduct.includeRight.toRingHom) r ∈ q
+    change (f.comp Algebra.TensorProduct.includeRight.toRingHom) r ∈ q
     have hR : f.comp Algebra.TensorProduct.includeRight.toRingHom =
         Algebra.TensorProduct.includeRight.toRingHom :=
       tensorBaseChange_comp_includeRight (A := A) (B := B) (C := C)
@@ -372,11 +372,11 @@ private theorem closedFiber_le_comap {A B C R : Type*} [CommRing A] [CommRing B]
         (Ideal.mem_map_of_mem (f.comp Algebra.TensorProduct.includeRight.toRingHom) hr))
   · rw [Ideal.map_le_iff_le_comap]
     intro b hb
-    show (f.comp (algebraMap B (B ⊗[A] R))) b ∈ q
+    change (f.comp (algebraMap B (B ⊗[A] R))) b ∈ q
     have hB : f.comp (algebraMap B (B ⊗[A] R)) =
         (algebraMap C (C ⊗[A] R)).comp (algebraMap B C) := by
       ext b
-      show fAlg (b ⊗ₜ[A] (1 : R)) = (algebraMap B C b) ⊗ₜ[A] (1 : R)
+      change fAlg (b ⊗ₜ[A] (1 : R)) = (algebraMap B C b) ⊗ₜ[A] (1 : R)
       rw [Algebra.TensorProduct.map_tmul]
       simp
     rw [hB, RingHom.comp_apply]

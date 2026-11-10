@@ -223,7 +223,7 @@ private theorem exists_finset_forall_mem_ker (Ψ : P →ₐ[A] Q) (M : Submonoid
         Ideal.map (algebraMap P _) (Ideal.span ((κ.image g : Finset P) : Set P)) := by
       have : algebraMap P (Localization (Algebra.algebraMapSubmonoid P M)) a ∈
           RingHom.ker (locMap Ψ M) := by
-        show locMap Ψ M _ = 0
+        change locMap Ψ M _ = 0
         rw [locMap_algebraMap, ha, map_zero]
       rw [← hκ] at this
       refine (Ideal.span_le.2 ?_) this
@@ -331,8 +331,7 @@ variable {D E : Type u} [CommRing D] [CommRing E] [Algebra A D] [Algebra A E]
 private theorem forall_exists_smul_eq_map_of_forall (ψ : D →ₐ[A] E) (N : Submonoid A)
     (h : ∀ y : E, ∃ e ∈ N, ∃ a : D, e • y = ψ a) (y : C ⊗[A] E) :
     ∃ e ∈ N, ∃ a : C ⊗[A] D, e • y = Algebra.TensorProduct.map (AlgHom.id A C) ψ a := by
-  induction y using TensorProduct.induction_on with
-  | zero => exact ⟨1, N.one_mem, 0, by simp⟩
+  induction y using TensorProduct.inductionOn with
   | tmul c x =>
     obtain ⟨e, he, a, hea⟩ := h x
     exact ⟨e, he, c ⊗ₜ a, by rw [← TensorProduct.tmul_smul, hea]; rfl⟩
@@ -358,8 +357,7 @@ private theorem forall_exists_smul_eq_zero_map_of_forall [Module.Flat A C] (ψ :
     obtain ⟨e, he, hx⟩ := H a'
     exact ⟨e, he, by rw [← LinearMap.map_smul, hx, map_zero]⟩
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨1, N.one_mem, smul_zero _⟩
+  induction x using TensorProduct.inductionOn with
   | tmul c k =>
     obtain ⟨e, he, hk⟩ := h k k.2
     refine ⟨e, he, ?_⟩
@@ -583,8 +581,7 @@ power of `g`. -/
 private theorem exists_pow_smul_eq_tensorLocMap
     (y : M ⊗[B] Localization (Algebra.algebraMapSubmonoid X (Submonoid.powers g))) :
     ∃ n : ℕ, ∃ x : M ⊗[B] X, g ^ n • y = tensorLocMap M X g x := by
-  induction y using TensorProduct.induction_on with
-  | zero => exact ⟨0, 0, by simp⟩
+  induction y using TensorProduct.inductionOn with
   | tmul m z =>
     obtain ⟨⟨a, t⟩, rfl⟩ :=
       IsLocalization.mk'_surjective (Algebra.algebraMapSubmonoid X (Submonoid.powers g)) z
@@ -661,13 +658,13 @@ private theorem surjective_comap_localization_atPrime [Module.Flat B C] (p : Ide
   refine ⟨P', ?_⟩
   ext1
   apply (IsLocalization.orderEmbedding p.primeCompl (Localization.AtPrime p)).injective
-  show Ideal.comap _ (Ideal.comap _ _) = Ideal.comap _ _
+  change Ideal.comap _ (Ideal.comap _ _) = Ideal.comap _ _
   rw [Ideal.comap_comap, ← IsScalarTower.algebraMap_eq,
     IsScalarTower.algebraMap_eq B C (Localization (Algebra.algebraMapSubmonoid C p.primeCompl)),
     ← Ideal.comap_comap]
   have := IsLocalization.under_map_of_isPrime_disjoint (Algebra.algebraMapSubmonoid C p.primeCompl)
     (Localization (Algebra.algebraMapSubmonoid C p.primeCompl)) hQ'prime hdisj
-  show Ideal.comap _ (Ideal.comap _ (Q'.map _)) = q
+  change Ideal.comap _ (Ideal.comap _ (Q'.map _)) = q
   rw [show Ideal.comap _ (Q'.map _) = Q' from this]
   exact (hQ'q.over).symm
 
@@ -737,7 +734,7 @@ theorem exists_etale_bijective_map [Module.Flat B C] [Algebra.Etale C (C ⊗[B] 
   let Q₀ : PrimeSpectrum D := ⟨Q.comap φ₀.toRingHom, Ideal.comap_isPrime _ _⟩
   have hQ₀ : PrimeSpectrum.comap (algebraMap B D) Q₀ = ⟨p, inferInstance⟩ := by
     ext1
-    show Ideal.comap _ (Ideal.comap _ Q) = p
+    change Ideal.comap _ (Ideal.comap _ Q) = p
     rw [Ideal.comap_comap, ← hQ]
     congr 1
     ext x
@@ -821,8 +818,7 @@ theorem exists_etale_bijective_map [Module.Flat B C] [Algebra.Etale C (C ⊗[B] 
     let Ψ₀ : C ⊗[B] D →ₐ[B] C ⊗[B] C := Algebra.TensorProduct.map (AlgHom.id B C) φ₀
     have hcomm : ∀ x, Θ (tensorLocMap C D g x) = tensorLocMap C C g (Ψ₀ x) := by
       intro x
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul c d =>
         simp only [Θ, Ψ₀, tensorLocMap, Algebra.TensorProduct.map_tmul, AlgHom.id_apply,
           IsScalarTower.coe_toAlgHom', AlgHom.coe_restrictScalars']
@@ -843,7 +839,7 @@ theorem exists_etale_bijective_map [Module.Flat B C] [Algebra.Etale C (C ⊗[B] 
         rw [← hcomm, ← hx₀, map_smul, hx, smul_zero]
       obtain ⟨n₁, hn₁⟩ := exists_pow_smul_eq_zero_of_tensorLocMap_eq_zero C C g _ h1
       have h2 : Ψ (g ^ n₁ • x₀) = 0 := by
-        show Ψ₀ (g ^ n₁ • x₀) = 0
+        change Ψ₀ (g ^ n₁ • x₀) = 0
         rw [map_smul, hn₁]
       obtain ⟨k, hk⟩ := hminj _ h2
       rw [← map_pow, algebraMap_smul, smul_smul] at hk
@@ -863,7 +859,7 @@ theorem exists_etale_bijective_map [Module.Flat B C] [Algebra.Etale C (C ⊗[B] 
       have hΘu' : Θ ↑u⁻¹ * algebraMap B _ (m₀ ^ k * g ^ n) = 1 := by
         rw [← hΘu, ← map_mul, Units.inv_mul, map_one]
       rw [map_mul, hcomm]
-      show Θ ↑u⁻¹ * tensorLocMap C C g (Ψ x₀) = y
+      change Θ ↑u⁻¹ * tensorLocMap C C g (Ψ x₀) = y
       rw [← hx₀, map_smul, ← hy₀, smul_smul, Algebra.smul_def, ← mul_assoc, hΘu', one_mul]
 
 end Model

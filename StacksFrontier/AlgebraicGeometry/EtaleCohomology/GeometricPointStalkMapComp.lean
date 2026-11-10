@@ -63,8 +63,8 @@ theorem geometricPointStalkMap_comp (a : GeometricPoint.Hom s t) (b : GeometricP
   ext F
   apply colimit.hom_ext
   intro U
-  let G := (CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ F
-  let Gt := (CategoryOfElements.π (geometricPointFiber B S hS t)).op ⋙ F
+  let G := (Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ F
+  let Gt := (Functor.Elements.π (geometricPointFiber B S hS t)).op ⋙ F
   let f : (neighborhoodFunctor B S hS (a.comp b)).obj U.unop ⟶
       (neighborhoodFunctor B S hS a).obj ((neighborhoodFunctor B S hS b).obj U.unop) :=
     eqToHom (neighborhoodFunctor_comp_obj B S hS a b U.unop)
@@ -78,7 +78,7 @@ theorem geometricPointStalkMap_comp (a : GeometricPoint.Hom s t) (b : GeometricP
     (colimit.pre G (neighborhoodFunctor B S hS a).op)
   have h₃ := colimit.ι_pre G (neighborhoodFunctor B S hS a).op
     ((neighborhoodFunctor B S hS b).op.obj U)
-  show colimit.ι _ U ≫ colimit.pre G (neighborhoodFunctor B S hS (a.comp b)).op =
+  change colimit.ι _ U ≫ colimit.pre G (neighborhoodFunctor B S hS (a.comp b)).op =
     colimit.ι _ U ≫ colimit.pre Gt (neighborhoodFunctor B S hS b).op ≫
       colimit.pre G (neighborhoodFunctor B S hS a).op
   exact h₁.trans (((Category.id_comp _).symm.trans hw).trans (h₂.trans h₃).symm)

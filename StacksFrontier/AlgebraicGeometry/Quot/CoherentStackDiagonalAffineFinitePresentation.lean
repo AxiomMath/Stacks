@@ -157,7 +157,7 @@ theorem coherentFiberPoint_eq_of_isHomLift {U : BigFppfOver B S hS}
   have hw : (schemeSpaceFunctor B S hS).map φ.down.left ≫ x'.1.T.hom = x.1.T.hom :=
     CostructuredArrow.w φ.down
   change φ.down.left = _ at hfac
-  show (schemeSpaceFunctor B S hS).map (eqToHom x.2.symm) ≫ x.1.T.hom =
+  change (schemeSpaceFunctor B S hS).map (eqToHom x.2.symm) ≫ x.1.T.hom =
     (schemeSpaceFunctor B S hS).map (eqToHom x'.2.symm) ≫ x'.1.T.hom
   rw [← hw, hfac]
   simp only [Category.id_comp, eqToHom_trans]

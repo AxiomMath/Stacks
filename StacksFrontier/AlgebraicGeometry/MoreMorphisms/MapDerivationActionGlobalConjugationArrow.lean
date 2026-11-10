@@ -293,7 +293,7 @@ theorem conjugationDerivation_add
   refine (eq_conjugationDerivation hsq hsqj sq ci a' comm_a ha (u + u₂) (v + v₂) comm_i comm_j
     _ ?_).symm
   rw [derivationActionGlobalEquivOfBase_apply, Preadditive.comp_add]
-  show derivationActionGlobal hsq
+  change derivationActionGlobal hsq
       (((pullbackCotangentSheafIsoOfBase sq a).hom ≫
           conjugationDerivation hsq hsqj sq ci a' comm_a ha u v comm_i comm_j) +
         ((pullbackCotangentSheafIsoOfBase sq a).hom ≫

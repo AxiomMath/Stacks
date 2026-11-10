@@ -246,7 +246,7 @@ theorem exists_affine_chartSquare_hom_ofArrows {F : (BigFppfOver C S hS)ᵒᵖ �
     fun i => (dglob.restrictOpens i.2.1.1.1 i.1.1 i.2.1.2).comm.symm,
     fun i => ?_, ?_⟩
   · -- the restriction of `g` to the member factors through the member's chart of `Y`
-    show yoneda.map (openSubHom _ i.2.2.1.1 ≫ Yoneda.fullyFaithful.preimage pr) ≫ g
+    change yoneda.map (openSubHom _ i.2.2.1.1 ≫ Yoneda.fullyFaithful.preimage pr) ≫ g
       = yoneda.map (openSubMap α i.2.2.1.1 i.2.1.1.1 i.2.2.2) ≫
         yoneda.map (openSubHom _ i.2.1.1.1) ≫ pY
     rw [← Category.assoc, ← Functor.map_comp,
@@ -283,7 +283,7 @@ theorem exists_affine_chartSquare_hom_ofArrows {F : (BigFppfOver C S hS)ᵒᵖ �
         toScheme_map_toOver_map_openChartInclusion C S hS F Uc OU]
       rfl
     rw [hmap]
-    show ((BigFppfOver.toScheme C S hS).map (Yoneda.fullyFaithful.preimage pr))
+    change ((BigFppfOver.toScheme C S hS).map (Yoneda.fullyFaithful.preimage pr))
       ((Scheme.Opens.ι OU) z) = x
     rw [hz]
     exact hy

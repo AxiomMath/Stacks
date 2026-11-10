@@ -105,7 +105,8 @@ instance evaluation_additive :
 instance restrictScalars_preservesHomology {R S : Type u} [Ring R] [Ring S] (φ : R →+* S) :
     (ModuleCat.restrictScalars.{u} φ).PreservesHomology :=
   ((Functor.exact_tfae (ModuleCat.restrictScalars.{u} φ)).out 2 3).mp fun _ hT ↦ by
-    rwa [ShortComplex.ShortExact.moduleCat_exact_iff_function_exact] at hT ⊢
+    rw [ShortComplex.ShortExact.moduleCat_exact_iff_function_exact] at hT ⊢
+    exact hT
 
 /-- Global sections with scalars restricted to `A` is left exact: evaluation of a sheaf of
 modules at an open preserves finite limits, and restriction of scalars is exact. -/

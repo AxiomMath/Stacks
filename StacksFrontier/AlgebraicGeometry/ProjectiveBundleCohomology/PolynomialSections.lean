@@ -83,7 +83,7 @@ public theorem coe_chartSectionsAddEquiv_degreeSection (k : ℕ) (s : Finset (Fi
   refine (congrArg (fun y : GradedModuleDegreeZeroLocalization 𝒯
       (twistGrading (S := MvPolynomial (Fin (n + 1)) R) 𝒯 (k : ℤ)) (chartDenom R n s) =>
     (y : LocalizedModule.Away (chartDenom R n s) (MvPolynomial (Fin (n + 1)) R))) h2).trans ?_
-  show LocalizedModule.mk _ _ = _
+  change LocalizedModule.mk _ _ = _
   congr 1
 
 /-- The polynomial chart identification on a monomial basis vector. -/
@@ -99,7 +99,7 @@ public theorem coe_twistChartEmptyLinearEquiv_single {d : ℤ} (hd : 0 ≤ d)
           (Finsupp.single e 1))) =
       Finsupp.single (laurentMonomialsEmptyEquiv n hd e) (1 : R) := by
     rw [LinearEquiv.apply_symm_apply, Finsupp.domLCongr_single]
-  show (((AddMonoidAlgebra.supportedEquivFinsupp (R := R) (S := R)
+  change (((AddMonoidAlgebra.supportedEquivFinsupp (R := R) (S := R)
     {m : Fin (n + 1) →₀ ℕ | m.degree = d.toNat}).symm
       ((Finsupp.domLCongr (M := R) (R := R) (laurentMonomialsEmptyEquiv n hd))
         ((Finsupp.supportedEquivFinsupp (M := R) (R := R) (laurentMonomials n d ∅))
@@ -107,7 +107,7 @@ public theorem coe_twistChartEmptyLinearEquiv_single {d : ℤ} (hd : 0 ≤ d)
             (Finsupp.single e 1)))) :
             AddMonoidAlgebra R (Fin (n + 1) →₀ ℕ))) = _
   rw [h1]
-  show AddMonoidAlgebra.ofCoeff ((Finsupp.supportedEquivFinsupp (M := R) (R := R)
+  change AddMonoidAlgebra.ofCoeff ((Finsupp.supportedEquivFinsupp (M := R) (R := R)
     {m : Fin (n + 1) →₀ ℕ | m.degree = d.toNat}).symm
       (Finsupp.single (laurentMonomialsEmptyEquiv n hd e) (1 : R)) :
         (Fin (n + 1) →₀ ℕ) →₀ R) = _
@@ -147,7 +147,7 @@ public theorem coe_twistChartEquivTwistSections_inclusion_empty (k : ℕ)
     set b : twistChart R n (k : ℤ) (∅ : Set (Fin (n + 1))) :=
       (Finsupp.supportedEquivFinsupp (M := R) (R := R)
         (laurentMonomials n (k : ℤ) (∅ : Set (Fin (n + 1))))).symm (Finsupp.single e 1) with hb
-    show ((twistChartEquivTwistSections R n (k : ℤ) s
+    change ((twistChartEquivTwistSections R n (k : ℤ) s
         (Submodule.inclusion (twistChart_mono (R := R) (d := (k : ℤ))
           (Set.empty_subset (↑s : Set (Fin (n + 1))))) b) :
         LocalizedModule.Away (chartDenom R n s) (MvPolynomial (Fin (n + 1)) R))) =
@@ -189,7 +189,7 @@ public theorem chartSectionsAddEquivTwistChart_degreeSection (k : ℕ) (s : Fins
         (resChart (k : ℤ) s (degreeSection 𝒯 k (chartPoly w))) =
       Submodule.inclusion (twistChart_mono (R := R) (d := (k : ℤ))
         (Set.empty_subset (↑s : Set (Fin (n + 1))))) w := by
-  show (twistChartEquivTwistSections R n (k : ℤ) s).symm
+  change (twistChartEquivTwistSections R n (k : ℤ) s).symm
     (chartSectionsAddEquiv R n (k : ℤ) s hs
       (resChart (k : ℤ) s (degreeSection 𝒯 k (chartPoly w)))) = _
   rw [LinearEquiv.symm_apply_eq]

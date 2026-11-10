@@ -559,7 +559,7 @@ private noncomputable def pushforwardSkyscraperIso :
   haveI := isContinuous ι pt K hK Φ u hu
   Functor.fullyFaithfulCancelRight (sheafToPresheaf J (Type w))
     (((flipFunctor Cᵒᵖ (Type w) (Type w)).mapIso
-        (Functor.isoWhiskerRight (NatIso.op hu) (piFunctor.{w} (C := Type w)).flip)).symm)
+        (Functor.isoWhiskerRight (NatIso.op hu) (piConst.{w} (C := Type w)).flip)).symm)
 
 end
 

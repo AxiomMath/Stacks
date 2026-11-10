@@ -115,8 +115,7 @@ theorem baseChange_traceCandidate (F : FiniteOpenFactorization.{u, v, w} A B)
   have key : ∀ x : A₁ ⊗[A] F.middle, ∑ i, ((l i).baseChange A₁ x) • ((1 : A₁) ⊗ₜ[A] b i) =
       Algebra.TensorProduct.map (AlgHom.id A A₁) (IsScalarTower.toAlgHom A F.middle B) x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy =>
         simp only [map_add, add_smul, Finset.sum_add_distrib, hx, hy]
     | tmul a c =>
@@ -171,12 +170,12 @@ theorem isPushout_middleEquiv :
   let e : G.middle ≃ₗ[F.middle] F.middle :=
     { r.symm.toLinearEquiv.toAddEquiv with
       map_smul' := fun c x ↦ by
-        show r.symm (r c * x) = c * r.symm x
+        change r.symm (r c * x) = c * r.symm x
         rw [map_mul, AlgEquiv.symm_apply_apply] }
   have heq : (IsScalarTower.toAlgHom F.middle G.middle B).toLinearMap =
       (Algebra.linearMap F.middle B).comp e.toLinearMap := by
     refine LinearMap.ext fun x ↦ ?_
-    show algebraMap G.middle B x = algebraMap F.middle B (r.symm x)
+    change algebraMap G.middle B x = algebraMap F.middle B (r.symm x)
     rw [← hr, AlgEquiv.apply_symm_apply]
   exact ⟨heq ▸ IsBaseChange.comp_equiv e (Algebra.linearMap F.middle B)
     (IsBaseChange.linearMap F.middle B)⟩
@@ -211,7 +210,7 @@ theorem middleEquiv_tmul (φ : Module.Dual A G.middle) (b : B) :
     Module.FinitePresentation.of_equiv
       { r.toLinearEquiv.toAddEquiv with
         map_smul' := fun c x ↦ by
-          show r (c * x) = r c * r x
+          change r (c * x) = r c * r x
           rw [map_mul] }
   exact dualizingModule_commonChange_tmul (isPushout_middleEquiv F G r hr) φ b
 

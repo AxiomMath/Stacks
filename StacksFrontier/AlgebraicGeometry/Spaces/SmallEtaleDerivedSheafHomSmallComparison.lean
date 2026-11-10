@@ -143,7 +143,7 @@ theorem smallEtaleModel_compat₂ :
       𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
         (smallEtaleModelRingedSite B S hS X.1 X.2).O).obj := by
   ext A : 2
-  show 𝟙 _ ≫ (Stacks.SheafOfModules.Tensor.ringSheaf
+  change 𝟙 _ ≫ (Stacks.SheafOfModules.Tensor.ringSheaf
     (smallEtaleRingedSite B S hS X.1 X.2).O).obj.map _ ≫
       (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O).obj.map _ =
     𝟙 _

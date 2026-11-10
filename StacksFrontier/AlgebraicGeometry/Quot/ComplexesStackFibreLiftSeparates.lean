@@ -223,7 +223,7 @@ theorem fibreLiftRetraction_eq_comp_of_snd {M : SiteModule k B}
       CostructuredArrow.homMk (overMapHom x₀.T.left y'.1.right.y) rfl =
         CostructuredArrow.homMk (overMapHom x₀.T.left y.1.right.y) rfl := by
     apply CostructuredArrow.hom_ext
-    show (Over.map x₀.T.left.hom).map ψ ≫ overMapHom x₀.T.left y'.1.right.y =
+    change (Over.map x₀.T.left.hom).map ψ ≫ overMapHom x₀.T.left y'.1.right.y =
       overMapHom x₀.T.left y.1.right.y
     apply Over.OverMorphism.ext
     exact Over.w ψ
@@ -286,9 +286,9 @@ theorem fibreLift_nonempty_iso_of_isomorphic
     have := y'.1.right.vertical
     have e1 := IsHomLift.fac' (baseProj D.Y) (𝟙 y.1.right.base) y.1.right.iso.hom
     have e2 := IsHomLift.fac' (baseProj D.Y) (𝟙 y'.1.right.base) y'.1.right.iso.inv
-    show (baseProj D.Y).map Γ = _
+    change (baseProj D.Y).map Γ = _
     rw [hΓd, Functor.map_comp, Functor.map_comp, e1, e2]
-    show _ ≫ (Over.map x₀.T.left.hom).map ψ ≫ _ = _
+    change _ ≫ (Over.map x₀.T.left.hom).map ψ ≫ _ = _
     rw [e3]
     simp only [Category.id_comp, eqToHom_trans]
     exact eqToHom_comp_comp_eqToHom_of_eq _ _ _ _ _ rfl
@@ -300,7 +300,7 @@ theorem fibreLift_nonempty_iso_of_isomorphic
   have hFn : (complexesToBaseObjects D).map n = Γ := ULift.ext hn
   have hna : (complexesFunctor D).IsHomLift (eqToHom hbase) n := by
     refine IsHomLift.of_fac' _ _ _ y.1.right.hx y'.1.right.hx ?_
-    show n.base.left = _
+    change n.base.left = _
     rw [hn, hgl]
     simp only [eqToHom_trans]
     rfl
@@ -322,7 +322,7 @@ theorem fibreLift_nonempty_iso_of_isomorphic
       (𝟙 (squareZeroOver k B S hS (Spec.map (CommRingCat.ofHom (algebraMap Λ k)) ≫ iΛ)
         ((fgSiteModule B hk).obj V))) R := by
     refine IsHomLift.of_fac' _ _ _ (congrArg Under.right y.2) (congrArg Under.right y'.2) ?_
-    show eqToHom hbase = _
+    change eqToHom hbase = _
     rw [Category.id_comp]
     exact (eqToHom_trans _ _).symm
   have hgpd := fibreLift_isGroupoid (D := D) (iΛ := iΛ) (x₀ := x₀) (hx₀ := hx₀) (hk := hk)

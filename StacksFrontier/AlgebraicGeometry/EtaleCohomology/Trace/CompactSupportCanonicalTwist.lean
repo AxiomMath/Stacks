@@ -521,7 +521,7 @@ theorem geometricNormalCoinvariants_representation_map_eq_one
           (contains_fieldBaseChange_of_isCurve B X f kbar)).hom y).toMonoidHom.range.subtype)
     ⟨_, g, rfl⟩
 
-omit [Fintype Λ] in
+omit [Fintype Λ] [Smooth f] in
 /-- The residual Galois action on `M_N` at the image of `γ` is the action of `γ` on `ρ_N`. -/
 theorem geometricCoinvariantsGaloisRepresentation_mk
     (ρ : letI := connectedSpace_of_isCurve B X f

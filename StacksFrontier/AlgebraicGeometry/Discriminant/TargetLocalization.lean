@@ -180,7 +180,7 @@ public theorem localizedModule_dualizingModule_equiv_natural
       (localizedModule_dualizingModule_equiv g F G localizationMap hM).toLinearMap)
     (f₂ := (localizedModule_dualizingModule_equiv g F G' localizationMap hM).toLinearMap)
     fun x => ?_) m
-  show dualizingModuleEquiv G G'
+  change dualizingModuleEquiv G G'
       (localizedModule_dualizingModule_equiv g F G localizationMap hM (localizationMap x)) =
     localizedModule_dualizingModule_equiv g F G' localizationMap hM (localizationMap x)
   rw [localizedModule_dualizingModule_equiv_apply, localizedModule_dualizingModule_equiv_apply,
@@ -265,14 +265,13 @@ public theorem localizedModule_dualizingModule_equiv_natural_in_source
   let eHF : dualizingModule H ≃ₗ[B] dualizingModule F := dualizingModuleEquiv H F
   obtain ⟨t, rfl⟩ := eHF.surjective x
   induction t using dualizingModule.induction_on with
-  | zero => simp only [map_zero]
   | add y z hy hz => simp only [map_add, hy, hz]
   | tmul φ b =>
     have hcompare : dualizingModuleEquiv F F' (eHF (dualizingModule.tmul H φ b)) =
         dualizingModuleEquiv H F' (dualizingModule.tmul H φ b) := by
       rw [← dualizingModuleEquiv_trans H F F']
       rfl
-    show dualizingModuleEquiv G G'
+    change dualizingModuleEquiv G G'
         (localizedModule_dualizingModule_equiv g F G localizationMap hM
           (localizationMap (eHF (dualizingModule.tmul H φ b)))) =
       localizedModule_dualizingModule_equiv g F' G' localizationMap' hM'

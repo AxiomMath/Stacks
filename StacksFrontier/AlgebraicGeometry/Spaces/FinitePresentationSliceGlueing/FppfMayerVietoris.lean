@@ -46,6 +46,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {X Y X' Y' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Y) (f' : X' ⟶ Y')
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site is slow
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 private instance hasPullbacks_presheaf_fppfMayerVietoris :
@@ -75,6 +76,7 @@ theorem isFinitePresentation_of_arrowIso (e₁ : X ⟶ X') (e₂ : Y ⟶ Y') [Is
     isQuasiSeparated_of_arrowIso B S hS f f' e₁ e₂ w hf.2.2⟩
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullback` instances for presheaves on the big fppf site are found by a slow search
 /-- A cartesian square over a monomorphism `p` transports finite presentation of its left edge
 to the base change along the inclusion of the range of `p`. -/
 theorem isFinitePresentation_pullback_snd_range {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -141,11 +143,11 @@ theorem isZariskiCover_rangePair {jU : U ⟶ Z} {jW : W ⟶ Z}
   · refine ⟨(Sigma.ι (fun i => (rangePair B S hS jU jW i).toFunctor) ⟨true⟩).app (op T)
       ⟨g ≫ x, ⟨(a : T ⟶ U), ha.symm⟩⟩, ?_⟩
     exact ConcreteCategory.congr_hom (NatTrans.congr_app
-      (Sigma.ι_desc (fun i => (rangePair B S hS jU jW i).ι) ⟨true⟩) (op T)) _
+      (Sigma.ι_comp_desc (fun i => (rangePair B S hS jU jW i).ι) ⟨true⟩) (op T)) _
   · refine ⟨(Sigma.ι (fun i => (rangePair B S hS jU jW i).toFunctor) ⟨false⟩).app (op T)
       ⟨g ≫ x, ⟨(a : T ⟶ W), ha.symm⟩⟩, ?_⟩
     exact ConcreteCategory.congr_hom (NatTrans.congr_app
-      (Sigma.ι_desc (fun i => (rangePair B S hS jU jW i).ι) ⟨false⟩) (op T)) _
+      (Sigma.ι_comp_desc (fun i => (rangePair B S hS jU jW i).ι) ⟨false⟩) (op T)) _
 
 end Space
 

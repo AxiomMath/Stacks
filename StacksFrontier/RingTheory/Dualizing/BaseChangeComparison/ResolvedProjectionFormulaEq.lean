@@ -603,8 +603,7 @@ the independent-universe projection formula at a K-flat `K` is the comparison of
 followed by the unit of the scalar lift over `A`, the restriction comparison
 `Stacks.DerivedHom.BaseChange.scalarRestrictionIso`, and the scalar-lift presentation of
 `A ⊗_R K` read back through the explicit comparison of [stacks 0E1W]. -/
-theorem liftTransportPrefix_eq (K : CochainComplex (ModuleCat.{max v uR uA} R) ℤ)
-    (hK : CochainComplex.KFlat.{uR, max v uA} K) :
+theorem liftTransportPrefix_eq (K : CochainComplex (ModuleCat.{max v uR uA} R) ℤ) :
     let E := Stacks.DerivedHom.ScalarTransportedInternalHom.scalarEquivalence.{uR, max v uR uA} R
     let S := Stacks.DerivedHom.ScalarTransportedInternalHom.scalarEquivalence.{uA, max v uR uA} A
     let f' : ULift.{max v uR uA} R →+* ULift.{max v uR uA} A :=
@@ -747,6 +746,7 @@ theorem transportValue_eq (K : CochainComplex (ModuleCat.{max v uR uA} R) ℤ) :
     ((congrArg E.inverse.map (V.map_comp _ _)).trans (E.inverse.map_comp _ _)) _
     (map_map_comp_four DerivedCategory.Q E.inverse _ _ _ _)
 
+set_option linter.checkUnivs false in
 /-- The summand inclusions of the total tensor complex over the lifted ring are those of the
 monoidal tensor product of complexes. -/
 theorem ιMapBifunctor_moduleTensor_lift_eq
@@ -757,6 +757,7 @@ theorem ιMapBifunctor_moduleTensor_lift_eq
       HomologicalComplex.ιTensorObj K L p q n h :=
   rfl
 
+set_option linter.checkUnivs false in
 /-- A fourfold composite of chain maps over the lifted ring in degree `n`, computed on the
 summand of bidegree `(n, 0)` through four summand inclusions. -/
 theorem lifted_tail_f {X₀ X₁ : CochainComplex (ModuleCat.{max v uR uA} (ULift.{max v uR uA} R)) ℤ}
@@ -1012,8 +1013,7 @@ theorem transportChainIdentity : TransportChainIdentity.{v} f := by
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => exact (_root_.map_zero _).trans (_root_.map_zero _).symm
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy =>
     refine (LinearMap.map_add _ x y).trans ?_
     refine Eq.trans ?_ (LinearMap.map_add _ x y).symm
@@ -1039,7 +1039,7 @@ theorem derivedExtendRestrictScalarsTensorIso_hom_app_q_obj_eq_of_transportChain
         max v uR uA} R).inverse.mapIso (liftKFlatTensorIso.{v, uR, uA} f K hK))
   have hpair := derivedExtendRestrictScalarsTensorIso_hom_app_q_obj_chainPairing.{v, uR, uA}
     f F comparison K hK
-  have hL1 := liftTransportPrefix_eq.{v} f F comparison K hK
+  have hL1 := liftTransportPrefix_eq.{v} f F comparison K
   have htv := transportValue_eq.{v} f K
   let Ei := (Stacks.DerivedHom.ScalarTransportedInternalHom.scalarEquivalence.{uR,
       max v uR uA} R).inverse

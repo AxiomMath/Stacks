@@ -64,7 +64,7 @@ public theorem strictHenselizationToBase_closedPoint (s : GeometricPoint S) :
   have hclosed : Spec.map (CommRingCat.ofHom f) (closedPoint (↥A : Type u)) =
       closedPoint (↥R : Type u) :=
     PrimeSpectrum.ext (IsLocalRing.maximalIdeal_comap f)
-  show (S.fromSpecStalk (s.hom (closedPoint s.residueField)))
+  change (S.fromSpecStalk (s.hom (closedPoint s.residueField)))
       (Spec.map (CommRingCat.ofHom f) (closedPoint (↥A : Type u))) = _
   rw [hclosed, Scheme.fromSpecStalk_closedPoint]
 
@@ -227,7 +227,7 @@ public theorem existsUnique_specializationMorphism (s : GeometricPoint S)
   let fEΩ : E →ₐ[K] F :=
     { toRingHom := fxΩ.hom
       commutes' := fun r => by
-        show fxΩ.hom (fxy.hom r) = fyΩ.hom r
+        change fxΩ.hom (fxy.hom r) = fyΩ.hom r
         exact congrArg (fun g : K →+* F => g r) (congrArg CommRingCat.Hom.hom hres) }
   have hsep : Algebra.IsSeparable K E := by
     dsimp only [K, E, fxy]
@@ -263,7 +263,7 @@ public theorem existsUnique_specializationMorphism (s : GeometricPoint S)
     refine Ideal.ResidueField.ringHom_ext (RingHom.ext fun r => ?_)
     have hr : τ (algebraMap ↥A q.ResidueField (algebraMap ↥R ↥A r)) =
         residue C (algebraMap ↥R C r) := by
-      show Tt.strictHenselizationResidueEquiv
+      change Tt.strictHenselizationResidueEquiv
           (φ (eX.inv.hom (algebraMap ↥A q.ResidueField (algebraMap ↥R ↥A r)))) =
         residue C ((algebraMap (↥Ry) C) (hR r))
       rw [show eX.inv.hom (algebraMap ↥A q.ResidueField (algebraMap ↥R ↥A r)) =
@@ -285,22 +285,22 @@ public theorem existsUnique_specializationMorphism (s : GeometricPoint S)
   let g : ↥A →ₐ[↥R] ↥(etaleLocalRing B S hS tS) :=
     { toRingHom := eAlg.toRingEquiv.toRingHom.comp f.toRingHom
       commutes' := fun r => by
-        show eAlg (f (algebraMap ↥R ↥A r)) =
+        change eAlg (f (algebraMap ↥R ↥A r)) =
           algebraMap ↥R ↥(etaleLocalRing B S hS tS) r
         rw [f.commutes]
-        show eAlg (algebraMap (↥Ry) C (hR r)) = _
+        change eAlg (algebraMap (↥Ry) C (hR r)) = _
         exact e.2.1 (hR r) }
   let c : strictHenselization B S hS tS ⟶ X := Spec.map (CommRingCat.ofHom g.toRingHom)
   have ht : Spec.map (CommRingCat.ofHom
       (fxΩ.hom.comp (eX.inv.hom.comp (algebraMap ↥A q.ResidueField)))) = t.hom := by
     simp only [CommRingCat.ofHom_comp, Spec.map_comp]
-    show Spec.map fxΩ ≫ Spec.map eX.inv ≫
+    change Spec.map fxΩ ≫ Spec.map eX.inv ≫
       Spec.map (CommRingCat.ofHom (algebraMap ↥A q.ResidueField)) = t.hom
     rw [Scheme.Spec.map_residueFieldIso_inv_eq_fromSpecResidueField]
     exact Scheme.descResidueField_stalkClosedPointTo_fromSpecResidueField F X t.hom
   refine ⟨c, ?_, ?_⟩
   · constructor
-    · show Spec.map (CommRingCat.ofHom g.toRingHom) ≫
+    · change Spec.map (CommRingCat.ofHom g.toRingHom) ≫
         Spec.map (CommRingCat.ofHom (algebraMap ↥R ↥A)) ≫
           S.fromSpecStalk (s.hom (closedPoint s.residueField)) =
         Spec.map (CommRingCat.ofHom (algebraMap (↥Ry)
@@ -310,18 +310,18 @@ public theorem existsUnique_specializationMorphism (s : GeometricPoint S)
         RingHom.ext g.commutes
       rw [← Spec.map_comp_assoc, ← CommRingCat.ofHom_comp, hg,
         spec_map_comp_stalkSpecializes_fromSpecStalk hys]
-    · show Spec.map (CommRingCat.ofHom
+    · change Spec.map (CommRingCat.ofHom
           (structureSheafStalkToGeometricField B S hS tS)) ≫
         Spec.map (CommRingCat.ofHom g.toRingHom) = t.hom
       rw [← Spec.map_comp, ← CommRingCat.ofHom_comp, ← ht]
       apply congrArg (fun hom => Spec.map (CommRingCat.ofHom hom))
       ext a
-      show structureSheafStalkToGeometricField B S hS tS (e.1 (f a)) = _
+      change structureSheafStalkToGeometricField B S hS tS (e.1 (f a)) = _
       rw [e.2.2]
       have hfa := congrArg (fun hom : ↥A →+* ResidueField C => hom a) hf.2
       change τ (algebraMap ↥A q.ResidueField a) = residue C (f a) at hfa
       rw [← hfa]
-      show ((Tt.strictHenselizationResidueEquiv.symm
+      change ((Tt.strictHenselizationResidueEquiv.symm
         (Tt.strictHenselizationResidueEquiv
           (φ (eX.inv.hom (algebraMap ↥A q.ResidueField a))))) : F) = _
       rw [RingEquiv.symm_apply_apply]
@@ -343,7 +343,7 @@ public theorem existsUnique_specializationMorphism (s : GeometricPoint S)
     let dAlg : ↥A →ₐ[↥R] C :=
       { toRingHom := eAlg.symm.toRingEquiv.toRingHom.comp dRing
         commutes' := fun r => by
-          show eAlg.symm (dRing (algebraMap ↥R ↥A r)) = algebraMap ↥R C r
+          change eAlg.symm (dRing (algebraMap ↥R ↥A r)) = algebraMap ↥R C r
           rw [show dRing (algebraMap ↥R ↥A r) =
             algebraMap (↥Ry) ↥(etaleLocalRing B S hS tS) (hR r) from
               congrArg (fun hom : ↥R →+* ↥(etaleLocalRing B S hS tS) => hom r) hdBase]
@@ -385,7 +385,7 @@ public theorem existsUnique_specializationMorphism (s : GeometricPoint S)
     rw [← hdSpec]
     apply congrArg (fun hom : ↥A →+* ↥(etaleLocalRing B S hS tS) =>
       Spec.map (CommRingCat.ofHom hom))
-    show dRing = g.toRingHom
+    change dRing = g.toRingHom
     ext a
     have heq := congrArg (fun hom : ↥A →ₐ[↥R] C => eAlg (hom a)) hdAlg
     exact (eAlg.apply_symm_apply (dRing a)).symm.trans heq

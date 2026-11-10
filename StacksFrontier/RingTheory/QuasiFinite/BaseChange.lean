@@ -96,7 +96,7 @@ public theorem solution {R S : Type*} [CommRing R] [CommRing S]
   have : 𝔭'.LiesOver 𝔭 := ⟨rfl⟩
   have : 𝔮.LiesOver 𝔭 := ⟨by
     rw [h]
-    show 𝔭 = Ideal.under R (Ideal.under S 𝔮')
+    change 𝔭 = Ideal.under R (Ideal.under S 𝔮')
     rw [Ideal.under_under, show 𝔭 = Ideal.under R (Ideal.under R' 𝔮') from rfl,
       Ideal.under_under]⟩
   let := Localization.AtPrime.algebraOfLiesOver 𝔭 𝔭'

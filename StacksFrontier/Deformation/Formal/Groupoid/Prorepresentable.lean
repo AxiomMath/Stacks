@@ -230,12 +230,12 @@ public theorem exists_representablePresentation_of_componentIsos
         have h := (G.evaluationArrowEquiv T x x (𝟙 x)).2.2
         simpa [r, GroupoidInFunctors.evaluationArrowEquiv_id] using h
       have hys : H.source.app T z = y := by
-        show sP.app T z = y
+        change sP.app T z = y
         calc
           sP.app T z = iU.hom.app T (G.source.app T r) := hs T r
           _ = y := by rw [hrs]
       have hyt : H.target.app T z = y := by
-        show tP.app T z = y
+        change tP.app T z = y
         calc
           tP.app T z = iU.hom.app T (G.target.app T r) := ht T r
           _ = y := by rw [hrt]
@@ -307,18 +307,18 @@ public theorem exists_representablePresentation_of_componentIsos
     hom_inv_id := by
       apply GroupoidInFunctors.Hom.ext
       · ext T x
-        show iU.inv.app T (iU.hom.app T x) = x
+        change iU.inv.app T (iU.hom.app T x) = x
         simp
       · ext T x
-        show iR.inv.app T (iR.hom.app T x) = x
+        change iR.inv.app T (iR.hom.app T x) = x
         simp
     inv_hom_id := by
       apply GroupoidInFunctors.Hom.ext
       · ext T x
-        show iU.hom.app T (iU.inv.app T x) = x
+        change iU.hom.app T (iU.inv.app T x) = x
         simp
       · ext T x
-        show iR.hom.app T (iR.inv.app T x) = x
+        change iR.hom.app T (iR.inv.app T x) = x
         simp
   }
   exact ⟨P, rfl, rfl, ⟨e⟩⟩
@@ -472,10 +472,10 @@ public theorem isProrepresentable_iff_isRepresentable_completion
     have : PreservesLimits (uliftCoyoneda.{z}.obj (Opposite.op P.arrows)) :=
       by infer_instance
     let : PreservesLimits P.groupoidInFunctors.objects := by
-      show PreservesLimits (uliftCoyoneda.{z}.obj (Opposite.op P.objects))
+      change PreservesLimits (uliftCoyoneda.{z}.obj (Opposite.op P.objects))
       infer_instance
     let : PreservesLimits P.groupoidInFunctors.arrows := by
-      show PreservesLimits (uliftCoyoneda.{z}.obj (Opposite.op P.arrows))
+      change PreservesLimits (uliftCoyoneda.{z}.obj (Opposite.op P.arrows))
       infer_instance
     let : PreservesLimits H.objects :=
       preservesLimits_of_natIso (objectsIso f).symm

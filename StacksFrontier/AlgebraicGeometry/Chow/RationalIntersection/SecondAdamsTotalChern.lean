@@ -184,7 +184,7 @@ theorem induction_on_classOf {P : VectorBundleKZero X → Prop} (a : VectorBundl
     | of M =>
       by_cases hM : Stacks.FiniteLocallyFree.IsFiniteLocallyFree.{u, u, u} (R := X.ringCatSheaf) M
       · exact hclass M hM
-      · show P (classOf X M)
+      · change P (classOf X M)
         rw [classOf_eq_zero_of_not_isFiniteLocallyFree M hM]
         exact hzero
     | neg z hz =>
@@ -245,7 +245,7 @@ theorem twoScaleHom_apply (c : TotalChowClass C sX) (p : ℕ) :
 theorem homComponent_twoScaleHom (m : ℕ) (c : TotalChowClass C sX) :
     homComponent m (twoScaleHom c) = (2 ^ m : ℤ) • homComponent m c := by
   refine ext fun p => ?_
-  show homComponent m (twoScaleHom c) p = (2 ^ m : ℤ) • homComponent m c p
+  change homComponent m (twoScaleHom c) p = (2 ^ m : ℤ) • homComponent m c p
   rw [homComponent_apply, homComponent_apply, twoScaleHom_apply]
   split_ifs with hp
   · rw [hp]
@@ -284,7 +284,7 @@ theorem twoScale_apply (c : TotalChowClass C sX) (p : ℕ) : twoScale c p = (2 ^
 theorem twoScale_of_isHomogeneous_one {c : TotalChowClass C sX} (hc : IsHomogeneous 1 c) :
     twoScale c = (2 : ℤ) • c := ext fun p => by
   rw [twoScale_apply]
-  show (2 ^ p : ℤ) • c p = (2 : ℤ) • c p
+  change (2 ^ p : ℤ) • c p = (2 : ℤ) • c p
   rcases eq_or_ne p 1 with rfl | hp
   · rw [pow_one]
   · rw [hc p hp, smul_zero, smul_zero]

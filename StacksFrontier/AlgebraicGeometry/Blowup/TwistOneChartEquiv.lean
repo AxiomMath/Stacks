@@ -243,8 +243,7 @@ theorem chartTwistCoeff_map {V W : (blowUp I).Opens}
       = chartTwistCoeff I U a (hWV.trans hV)
           ((blowUpTwist I 1).val.restrictₛₗ (homOfLE hWV).op t) := by
   refine (chartTwistCoeff_eq_of_app_eq I U a (hWV.trans hV) _ _ ?_).symm
-  refine Eq.trans (Situation.map_chartSectionsIso_hom (reesSituation I) U
-    (hV.trans (chartOpen_le_opensRange_relativeProjChart I U a)) hWV _) ?_
+  refine Eq.trans (Situation.map_chartSectionsIso_hom (reesSituation I) U hWV _) ?_
   refine Eq.trans (congrArg (((AlgebraicGeometry.Proj
       ((reesSituation I).sectionRingGrading U.1)).presheaf.map
       (homOfLE (Scheme.Hom.preimage_mono

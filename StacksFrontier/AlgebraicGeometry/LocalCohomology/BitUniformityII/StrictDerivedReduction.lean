@@ -88,17 +88,17 @@ theorem isIso_proHom_of_hasUniformInverses {X Y : Functor ℕᵒᵖ C} (φ : Nat
         have h : n'.unop ≤ n.unop := leOfHom f.unop
         dsimp [shiftedInverseSequence, inverseSequenceShift]
         rw [show f = (homOfLE h).op from Subsingleton.elim _ _]
-        show tr Y (show n'.unop + 2 * c ≤ n.unop + 2 * c by omega) ≫ _ = _ ≫ tr X h
+        change tr Y (show n'.unop + 2 * c ≤ n.unop + 2 * c by omega) ≫ _ = _ ≫ tr X h
         rw [← Category.assoc, tr_comp, key h, Category.assoc] }
   have hψ₁ : ∀ n : ℕ, φ.app (op (n + 2 * c)) ≫ ψ.app (op n) =
       X.map (opHomOfLE (Nat.le_add_right n (2 * c))) := by
     intro n
-    show φ.app (op (n + 2 * c)) ≫ tr Y _ ≫ v n = tr X _
+    change φ.app (op (n + 2 * c)) ≫ tr Y _ ≫ v n = tr X _
     rw [← tr_naturality_assoc, hv₁, tr_comp]
   have hψ₂ : ∀ n : ℕ, ψ.app (op n) ≫ φ.app (op n) =
       Y.map (opHomOfLE (Nat.le_add_right n (2 * c))) := by
     intro n
-    show (tr Y _ ≫ v n) ≫ φ.app (op n) = tr Y _
+    change (tr Y _ ≫ v n) ≫ φ.app (op n) = tr Y _
     rw [Category.assoc, hv₂, tr_comp]
   let f : StrictProHomRep X Y := ⟨0, φ⟩
   let g : StrictProHomRep Y X := ⟨2 * c, ψ⟩

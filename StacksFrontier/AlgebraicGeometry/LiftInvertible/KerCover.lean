@@ -158,7 +158,7 @@ open Stacks.IdealSheafData
 private theorem sigmaDesc_apply_sigmaι {ι : Type v} [Finite ι] {X : Scheme.{u}}
     (Z : ι → Scheme.{u}) (f : ∀ i, Z i ⟶ X) (i : ι) (z : Z i) :
     Limits.Sigma.desc f (Limits.Sigma.ι Z i z) = f i z := by
-  rw [← Scheme.Hom.comp_apply, Limits.Sigma.ι_desc]
+  rw [← Scheme.Hom.comp_apply, Limits.Sigma.ι_comp_desc]
 
 /-- **The replacement for `isIso_of_isClosedImmersion_of_surjective`.** A closed immersion with
 open range is an open immersion as soon as its kernel ideal vanishes on the affine opens inside
@@ -252,7 +252,7 @@ theorem isIso_sigmaDesc_restrict_complement_overlap_of_iInf_ker {ι : Type v} [F
   have hdisjoint : Pairwise
       (Function.onFun Disjoint (fun i ↦ Set.range ⇑(f i ∣_ U))) := by
     intro i j hij
-    show Disjoint (Set.range ⇑(f i ∣_ U)) (Set.range ⇑(f j ∣_ U))
+    change Disjoint (Set.range ⇑(f i ∣_ U)) (Set.range ⇑(f j ∣_ U))
     rw [Set.disjoint_left]
     rintro x ⟨yi, hyi⟩ ⟨yj, hyj⟩
     have hxi_val : (f i) yi.1 = x.1 := by
@@ -296,7 +296,7 @@ theorem isIso_morphismRestrict_sigmaDesc_of_isIso_sigmaDesc_morphismRestrict {ι
       Set.range ⇑((f i ⁻¹ᵁ U).ι ≫ Limits.Sigma.ι Z i) ⊆ Set.range ⇑W.ι := by
     rintro _ ⟨z, rfl⟩
     refine ⟨⟨Limits.Sigma.ι Z i ((f i ⁻¹ᵁ U).ι z), ?_⟩, rfl⟩
-    show Limits.Sigma.desc f (Limits.Sigma.ι Z i ((f i ⁻¹ᵁ U).ι z)) ∈ U
+    change Limits.Sigma.desc f (Limits.Sigma.ι Z i ((f i ⁻¹ᵁ U).ι z)) ∈ U
     rw [sigmaDesc_apply_sigmaι]
     exact z.2
   let kf : ∀ i, (f i ⁻¹ᵁ U).toScheme ⟶ W.toScheme := fun i ↦
@@ -318,7 +318,7 @@ theorem isIso_morphismRestrict_sigmaDesc_of_isIso_sigmaDesc_morphismRestrict {ι
     intro x
     obtain ⟨i, z, hpoint⟩ := StacksTag09NE.exists_component_point_of_sigma Z (W.ι x)
     have hzU : z ∈ f i ⁻¹ᵁ U := by
-      show f i z ∈ U
+      change f i z ∈ U
       have hval : f i z = g (W.ι x) := by
         rw [← hpoint]
         exact (sigmaDesc_apply_sigmaι Z f i z).symm
@@ -329,7 +329,7 @@ theorem isIso_morphismRestrict_sigmaDesc_of_isIso_sigmaDesc_morphismRestrict {ι
       (kf i ≫ W.ι) ⟨z, hzU⟩ = ((f i ⁻¹ᵁ U).ι ≫ Limits.Sigma.ι Z i) ⟨z, hzU⟩ :=
         congrArg (fun q ↦ q ⟨z, hzU⟩) (hfac i)
       _ = Limits.Sigma.ι Z i z := by
-        show Limits.Sigma.ι Z i (((f i ⁻¹ᵁ U).ι ⟨z, hzU⟩)) = _
+        change Limits.Sigma.ι Z i (((f i ⁻¹ᵁ U).ι ⟨z, hzU⟩)) = _
         simp
       _ = W.ι x := hpoint
   let (i : ι) : IsOpenImmersion (kf i) := inferInstance
@@ -339,7 +339,7 @@ theorem isIso_morphismRestrict_sigmaDesc_of_isIso_sigmaDesc_morphismRestrict {ι
   have hcomp : Limits.Sigma.desc kf ≫ g ∣_ U =
       Limits.Sigma.desc (fun i ↦ f i ∣_ U) := by
     refine Limits.Sigma.hom_ext _ _ fun i ↦ ?_
-    rw [← Category.assoc, Limits.Sigma.ι_desc, Limits.Sigma.ι_desc, ← cancel_mono U.ι,
+    rw [← Category.assoc, Limits.Sigma.ι_comp_desc, Limits.Sigma.ι_comp_desc, ← cancel_mono U.ι,
       Category.assoc, morphismRestrict_ι, reassoc_of% hfac i, morphismRestrict_ι]
     simp [g]
   rw [← hcomp] at hh
@@ -424,7 +424,7 @@ theorem exists_invertible_of_closed_cover_discrete_intersections_of_iInf_ker
     StacksTag09NE.overlapComplement_discrete X Z f hdiscrete
   obtain ⟨M, hM, ⟨eM⟩⟩ := Stacks.PicFinite.exists_isInvertible_modulePullback_iso g U Lcop hLcop
   refine ⟨M, hM, fun i ↦ ?_⟩
-  have hdesc : Limits.Sigma.ι Z i ≫ g = f i := Limits.Sigma.ι_desc _ _
+  have hdesc : Limits.Sigma.ι Z i ≫ g = f i := Limits.Sigma.ι_comp_desc _ _
   let eEq : (Scheme.Modules.pullback (Limits.Sigma.ι Z i ≫ g)).obj M ≅
       (Scheme.Modules.pullback (f i)).obj M :=
     eqToIso (congrArg (fun q ↦ (Scheme.Modules.pullback q).obj M) hdesc)

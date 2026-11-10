@@ -158,7 +158,7 @@ theorem exists_mem_forall_isGeometricallyUnibranchAt {X : Scheme.{u}} (hX : IsNa
       s ∉ (hU.primeIdealOf ⟨y, hy⟩).asIdeal := by
     intro y hy
     rw [← PrimeSpectrum.mem_basicOpen, ← hU.fromSpec_preimage_basicOpen]
-    show y ∈ X.basicOpen s ↔ hU.fromSpec (hU.primeIdealOf ⟨y, hy⟩) ∈ X.basicOpen s
+    change y ∈ X.basicOpen s ↔ hU.fromSpec (hU.primeIdealOf ⟨y, hy⟩) ∈ X.basicOpen s
     rw [hU.fromSpec_primeIdealOf]
   refine ⟨X.basicOpen s, (hmem x hxU).2 hs, fun y hy => ?_⟩
   have hyU : y ∈ U := X.basicOpen_le s hy

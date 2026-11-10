@@ -54,7 +54,8 @@ pushed-forward first Chern classes up to rational equivalence, here both sides v
 
 ### Why the integral-component case is a theorem here and a hypothesis in Stacks 02TA
 
-`StacksFrontier.AlgebraicGeometry.Chow.Gysin42.ProperPushforward` carries the integral-component case
+`StacksFrontier.AlgebraicGeometry.Chow.Gysin42.ProperPushforward` carries the integral-component
+case
 of Stacks 02TA as the hypothesis `Stacks.Chow.GysinCompatibleWithPushforward`, and necessarily so:
 the Gysin map there is built from an arbitrary `Stacks.Chow.FirstChernComponentClassRule` on each
 of `X` and `X'`, and two unrelated rules have no reason to be compatible along `f`. The Gysin map
@@ -154,7 +155,7 @@ theorem cycleAt_eq_zero (x : X)
     R.cycleAt x = 0 := by
   classical
   refine Subtype.ext ?_
-  show R.totalize (integralComponentAt x) = 0
+  change R.totalize (integralComponentAt x) = 0
   rw [totalize, dite_eq_right h]
 
 /-- To compute the point-indexed cycle it suffices to know the cycle the rule attaches to the

@@ -161,7 +161,7 @@ private lemma smul_mem_of_forall_restrict (a : A ⟶ SheafOfModules.unit R) {P :
       ringValue a V (A.val.restrictₛₗ g z) • m ∈ P.obj V)
     (m : F.val.obj U) : ringValue a U z • m ∈ P.obj U := by
   refine P.isSheaf _ (J.superset_covering (fun W h _ => ?_) (J.top_mem U.unop))
-  show F.val.restrictₛₗ h.op (ringValue a U z • m) ∈ P.obj (op W)
+  change F.val.restrictₛₗ h.op (ringValue a U z • m) ∈ P.obj (op W)
   rw [restrictₛₗ_smul_ringValue]
   exact hz (op W) h.op (F.val.restrictₛₗ h.op m)
 
@@ -237,7 +237,7 @@ theorem imageProductSubmodule_eq_unitImageSections
       refine S.isSheaf z (J.superset_covering ?_ (EpiMono.imageSieve_mem_of_epi S.ι z))
       rintro W h ⟨t, ht⟩
       have h2 : Subtype.val t = A.val.restrictₛₗ h.op z := ht
-      show A.val.restrictₛₗ h.op z ∈ S.obj (op W)
+      change A.val.restrictₛₗ h.op z ∈ S.obj (op W)
       rw [← h2]
       exact t.2
     exact imageProductSubmodule_le a fun U z m =>

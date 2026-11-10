@@ -7,7 +7,8 @@ public import StacksFrontier.CategoryTheory.Sites.Stackification.UniversalProper
 Let `(𝒞, J)` be a site, let `p : 𝒮 ⥤ 𝒞` be a fibred category, let `G : 𝒮 ⥤ 𝒮'` exhibit `𝒮'` as the
 stackification of `𝒮` in the sense of Stacks 02ZN, and let `F : 𝒮 ⥤ 𝒳` be a 1-morphism of fibred
 categories over `𝒞` into a stack.
-`StacksFrontier.CategoryTheory.Sites.Stackification.UniversalPropertyExistence` proves the object half
+`StacksFrontier.CategoryTheory.Sites.Stackification.UniversalPropertyExistence` proves the object
+half
 of Stacks 0435: every object of a fibre of `𝒮'` is presented, along a covering sieve, by objects of
 `𝒮` whose images under `F` descend to an object of `𝒳`. This file builds the 1-morphism
 `H : 𝒮' ⥤ 𝒳` itself, shows it is a 1-morphism of fibred categories over `𝒞`, and constructs the
@@ -1069,7 +1070,8 @@ private lemma unitHom_choose_spec (A : 𝒮) :
 /-- The component at `A` of the 2-isomorphism lies over the identification of the images of
 `G A` and `A` in `𝒞`. -/
 lemma isHomLift_unitHom (A : 𝒮) :
-    q.IsHomLift (eqToHom (Functor.congr_obj hG.comp_eq A)) (unitHom hG hF hmor hqmor hobj hdesc A) :=
+    q.IsHomLift (eqToHom (Functor.congr_obj hG.comp_eq A))
+      (unitHom hG hF hmor hqmor hobj hdesc A) :=
   (unitHom_choose_spec hG hF hmor hqmor hobj hdesc A).1
 
 /-- The local characterization of the component of the 2-isomorphism. -/
@@ -1103,7 +1105,8 @@ lemma isIso_unitHom (A : 𝒮) : IsIso (unitHom hG hF hmor hqmor hobj hdesc A) :
 omit [Category.{v₄, u₄} 𝒳] [p.IsFibered] [p'.IsFibered] [q.IsFibered] hobj hdesc in
 /-- The image under `G` of a morphism of `𝒮`, read over the identifications of the fibres. -/
 lemma map_comp_eqToHom {A B : 𝒮} (u : A ⟶ B) :
-    p'.map (G.map u) ≫ eqToHom (Functor.congr_obj hG.comp_eq B) = eqToHom (Functor.congr_obj hG.comp_eq A) ≫ p.map u := by
+    p'.map (G.map u) ≫ eqToHom (Functor.congr_obj hG.comp_eq B) =
+      eqToHom (Functor.congr_obj hG.comp_eq A) ≫ p.map u := by
   have h := Functor.congr_hom hG.comp_eq u
   rw [Functor.comp_map] at h
   rw [h]

@@ -187,7 +187,7 @@ theorem restrictedCotangentTopMap_D (p : standardResolutionOverObj.{u} B C n) :
   have : IsScalarTower A P Q :=
     IsScalarTower.of_algebraMap_eq fun a => (topResolutionMap_algebraMap f n a).symm
   have : IsScalarTower P Q C' := IsScalarTower.of_algebraMap_eq' rfl
-  show (1 : C') ⊗ₜ[Q] (KaehlerDifferential.map A A P Q
+  change (1 : C') ⊗ₜ[Q] (KaehlerDifferential.map A A P Q
       (KaehlerDifferential.D A P p)) = _
   rw [KaehlerDifferential.map_D]
   rfl
@@ -203,7 +203,7 @@ theorem restrictedCotangentTopMap_naturality {i j : SimplexCategoryᵒᵖ} (g : 
         (ModuleCat.restrictScalars f.toRingHom).map
           (restrictedCotangentMap.{u, u} A B C' g) := by
   refine restrictedCotangentTerm_hom_ext.{u, u} A B C i _ _ fun p => ?_
-  show restrictedCotangentTopMap f j (restrictedCotangentMap.{u, u} A B C g
+  change restrictedCotangentTopMap f j (restrictedCotangentMap.{u, u} A B C g
       (restrictedCotangentDifferential.{u, u} A B C i p)) =
     restrictedCotangentMap.{u, u} A B C' g (restrictedCotangentTopMap f i
       (restrictedCotangentDifferential.{u, u} A B C i p))
@@ -236,7 +236,7 @@ theorem restrictedCotangentTopMap_toRelative :
         (ModuleCat.restrictScalars f.toRingHom).map
           (restrictedCotangentToRelative.{u, u} A B C' n) := by
   refine restrictedCotangentTerm_hom_ext.{u, u} A B C n _ _ fun p => ?_
-  show squareCotangentTermMap.{u, u, u} (topSquareOfAlgHom.{u} f) n
+  change squareCotangentTermMap.{u, u, u} (topSquareOfAlgHom.{u} f) n
       (restrictedCotangentToRelative.{u, u} A B C n
         (restrictedCotangentDifferential.{u, u} A B C n p)) =
     restrictedCotangentToRelative.{u, u} A B C' n (restrictedCotangentTopMap f n

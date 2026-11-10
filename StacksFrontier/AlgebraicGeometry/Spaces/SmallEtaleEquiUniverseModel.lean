@@ -9,8 +9,7 @@ public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.ToposPullbackPrope
 public import StacksFrontier.AlgebraicGeometry.Spaces.RingedSite
 public import StacksFrontier.AlgebraicGeometry.Spaces.SmallEtaleBinaryProducts
 public import StacksFrontier.CategoryTheory.Sites.Modules.RingedToposSmallModel
-public import
- StacksFrontier.CategoryTheory.Sites.Modules.InternalHomAndFlatness.InternalHomFilteredColimitsSections
+public import StacksFrontier.CategoryTheory.Sites.Modules.InternalHomAndFlatness.InternalHomFilteredColimitsSections
 
 /-!
 # An equi-universe model of the small étale ringed site of an algebraic space

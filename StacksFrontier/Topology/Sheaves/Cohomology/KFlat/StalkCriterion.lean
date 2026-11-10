@@ -310,11 +310,10 @@ theorem stalkTensorRingEquiv_map (M M' N N' : PresheafOfModules.{u}
       ToType (Stacks.SheafOfModules.TensorStalkRingedSpace.grpStalk Y N x)) :
     stalkTensorRingEquiv Y x M' N' (TensorProduct.map a b w) =
       TensorProduct.map a' b' (stalkTensorRingEquiv Y x M N w) := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction w using TensorProduct.inductionOn with
   | tmul m n =>
       rw [TensorProduct.map_tmul]
-      show a m ⊗ₜ b n = TensorProduct.map a' b' (m ⊗ₜ n)
+      change a m ⊗ₜ b n = TensorProduct.map a' b' (m ⊗ₜ n)
       rw [TensorProduct.map_tmul, ha, hb]
   | add p q hp hq => rw [map_add, map_add, map_add, map_add, hp, hq]
 
@@ -398,7 +397,7 @@ theorem stalkMapL_id (G : SheafOfModules.{u}
     (n : ToType (Stacks.SheafOfModules.TensorStalkRingedSpace.grpStalk Y G.val x)) :
     Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL Y G.val G.val
       (CategoryTheory.CategoryStruct.id G).val x n = n := by
-  show ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
+  change ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
     ((PresheafOfModules.toPresheaf (Stacks.SheafOfModules.TensorStalkRingedSpace.O Y)).map (𝟙
       G.val))).hom n = n
   simp
@@ -574,7 +573,7 @@ theorem kFlat_iff_stalkwise
         HomologicalComplex.HasMapBifunctor left right
           (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} R) (ComplexShape.up ℤ) :=
       fun left right => Stacks.SheafOfModules.Tensor.hasMapBifunctor_sheafTensor R left right
-    Stacks.SheafOfModules.KFlat.KFlat.{u, u, u} R K ↔ KFlatStalkwise R K := by
+    Stacks.SheafOfModules.KFlat.{u, u, u} R K ↔ KFlatStalkwise R K := by
   let := fun (left : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf R)) =>
     Stacks.SheafOfModules.Tensor.sheafTensor_obj_additive.{u, u, u, u, u} R left
   let : ∀ (left right : CochainComplex

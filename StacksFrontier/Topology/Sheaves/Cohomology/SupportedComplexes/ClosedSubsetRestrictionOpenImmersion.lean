@@ -81,6 +81,7 @@ variable {X' X : RingedSpace.{u, u}} (f : X' ⟶ X) [H : SheafedSpace.IsOpenImme
 
 /-! ### The restricted morphism is an open immersion -/
 
+omit H in
 /-- The continuous map underlying `f|_{Z'}` is the restriction of the continuous map of `f` to
 the preimage of `Z`. -/
 theorem closedSubsetRestriction_base_eq :
@@ -161,6 +162,7 @@ instance isOpenImmersion_closedSubsetRestriction :
 
 /-! ### The Cartesian square -/
 
+omit H in
 /-- The image of the continuous map underlying `f|_{Z'}` is the part of `Z` lying in the image of
 `f`. -/
 theorem range_closedSubsetRestriction_base :
@@ -169,6 +171,7 @@ theorem range_closedSubsetRestriction_base :
   rw [closedSubsetRestriction_base_eq]
   exact Set.range_restrictPreimage _ _
 
+omit H in
 /-- A competitor to the square of the restriction maps into `Z` through the image of `f`, so it
 can be lifted along `f|_{Z'}`. -/
 private theorem range_pullbackCone_fst_le

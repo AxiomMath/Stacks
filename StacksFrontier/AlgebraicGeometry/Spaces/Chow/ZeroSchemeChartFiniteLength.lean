@@ -258,7 +258,7 @@ theorem cycleCoeffOfClosedSubspace_vanishingLocus_eq_componentZeroCycleSumCoeff_
         refine Stacks.Chow.cycleAssociatedToClosedSubscheme_apply_eq_zero_of_notMem_range _ _ _
           k fun hmem => ?_
         have h1 : v ∈ (componentVanishingLocusChartImmersion D sX hX L s W.1 V).ker.support := by
-          show v ∈ (((componentVanishingLocusChartImmersion D sX hX L s W.1 V).ker.support :
+          change v ∈ (((componentVanishingLocusChartImmersion D sX hX L s W.1 V).ker.support :
             _) : Set (chartScheme V))
           rw [Scheme.Hom.support_ker]
           exact subset_closure hmem

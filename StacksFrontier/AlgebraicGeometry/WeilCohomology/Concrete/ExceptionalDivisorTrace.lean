@@ -114,11 +114,12 @@ theorem eq_zero_of_mul_pull_bundleProj_eq_zero (hA3 : 𝔇.ProjectiveBundleAxiom
       ∑ i : Fin (r + 1), 𝔇.bundleClassU X E r ^ (i : ℕ) *
         𝔇.pull (bundleProj X E r) ((0 : Fin (r + 1) → 𝔇.H X) i) := by
     rw [Fintype.sum_eq_add i₀ i₁ h01 fun x hx ↦ by simp [a, hx.1, hx.2]]
-    simp only [a, if_pos rfl, if_neg h01.symm, if_true, Pi.zero_apply, map_zero, mul_zero,
+    simp only [a, ite_eq_left rfl, ite_eq_right h01.symm, ite_true,
+      Pi.zero_apply, map_zero, mul_zero,
       Finset.sum_const_zero, map_mul, map_neg, i₀, i₁, pow_zero, pow_one, one_mul, mul_neg]
     rw [← h, add_mul, neg_mul, add_comm]
   have := congrFun ((𝔇.bijective_bundleFormulaU hA3 X E r).injective hsum) i₁
-  simpa [a, if_neg h01.symm] using this
+  simpa [a, ite_eq_right h01.symm] using this
 
 end FirstChernClassData
 

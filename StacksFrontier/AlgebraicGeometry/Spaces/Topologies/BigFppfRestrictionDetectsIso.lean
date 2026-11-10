@@ -66,7 +66,7 @@ theorem isIso_of_isIso_overMap_pushforward_map {V Y : T.Spaces} (j : V ⟶ Y)
   refine (Sheaf.isLocallyBijective_iff_isIso φ).1 ⟨⟨fun {X} x y hxy => ?_⟩, ⟨fun {U} s => ?_⟩⟩
   · refine (BigFppfSpaceOver.topology T Y).superset_covering (fun U' g hg => ?_) (hcov X.unop)
     apply (hbij _ _ g hg).1
-    show (K.obj.map g.op ≫ φ.hom.app (op U')) x = (K.obj.map g.op ≫ φ.hom.app (op U')) y
+    change (K.obj.map g.op ≫ φ.hom.app (op U')) x = (K.obj.map g.op ≫ φ.hom.app (op U')) y
     rw [φ.hom.naturality]
     exact congrArg (K'.obj.map g.op) hxy
   · exact (BigFppfSpaceOver.topology T Y).superset_covering

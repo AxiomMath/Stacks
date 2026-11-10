@@ -169,7 +169,7 @@ theorem exists_epi_isSumOfExtensionByZeroUnits (M : SheafOfModules.{max u₁ v�
   have key (i : σ) : f.val.app (op i.1) i.2 = g.val.app (op i.1) i.2 := by
     have hh := Sigma.ι
       (fun i : σ => Stacks.SheafOfModules.extensionByZeroUnit.{u₁, v₁, r, t} R i.1) i ≫= h
-    simp only [Sigma.ι_desc_assoc] at hh
+    simp only [Sigma.ι_comp_desc_assoc] at hh
     have he := congrArg
       (Stacks.SheafOfModules.extensionByZeroUnitHomEquiv.{u₁, v₁, r, t} R i.1 N) hh
     rwa [Stacks.SheafOfModules.extensionByZeroUnitHomEquiv_naturality,

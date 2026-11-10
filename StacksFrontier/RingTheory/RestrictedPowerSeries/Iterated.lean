@@ -78,7 +78,7 @@ public theorem coefficientTransition_quotientCoefficientIdealPowEquiv (I : Ideal
       quotientCoefficientIdealPowEquiv I hI σ m
         (Ideal.Quotient.factorPow (coefficientIdeal I σ) hmn x) := by
   obtain ⟨f, rfl⟩ := Ideal.Quotient.mk_surjective x
-  show coefficientTransition I σ hmn (coefficientProjection I σ n f) = _
+  change coefficientTransition I σ hmn (coefficientProjection I σ n f) = _
   exact f.property hmn
 
 /-- The inverses of the identifications of the finite quotients of `A{σ}` are compatible with

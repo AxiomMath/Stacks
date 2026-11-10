@@ -339,7 +339,7 @@ public theorem ConeSituationIso.exists_admissibleMono_factorization
     apply A.homotopic_symm
     obtain ⟨h, hh⟩ := hproj
     refine ⟨h, ?_⟩
-    show (A.id D.pt - A.comp (by omega : (0 : ℤ) + 0 = 0) D.inr D.snd) =
+    change (A.id D.pt - A.comp (by omega : (0 : ℤ) + 0 = 0) D.inr D.snd) =
       A.d' (by omega : (-1 : ℤ) + 1 = 0) h
     rw [hid]
     simpa [DGCategory.compCocycle] using hh
@@ -428,7 +428,7 @@ public theorem ConeSituationIso.exists_admissibleMono_sequence {R : Type w} [Com
         Fin.lastCases (eqToHom hylast ≫ πc ≫ eqToHom hxlast)
           (fun i => eqToHom (hycast i) ≫ p₀ i)
       have hfactorC : a₁ ≫ πc = α := by
-        show A.compCocycle π E₁.a = α; exact hfactor
+        change A.compCocycle π E₁.a = α; exact hfactor
       have hg_last : g (Fin.last n) =
           eqToHom (hycast (Fin.last n)) ≫ a₁ ≫ eqToHom hylastSucc.symm := by
         unfold g; rw [Fin.lastCases_last]
@@ -456,7 +456,7 @@ public theorem ConeSituationIso.exists_admissibleMono_sequence {R : Type w} [Com
             have hy : (y i.castSucc.succ : A.Obj) = y₀ i.succ := hysucc i
             refine ⟨z, transportGradedSplitShortExact hx hy E, ?_⟩
             rw [transportGradedSplitShortExact_a hx hy E]
-            show eqToHom (hycast i.castSucc) ≫ E.a ≫ eqToHom (hysucc i).symm =
+            change eqToHom (hycast i.castSucc) ≫ E.a ≫ eqToHom (hysucc i).symm =
               eqToHom (hycast i.castSucc) ≫ g₀ i ≫ eqToHom (hysucc i).symm
             rw [hEa]
       · intro i; induction i using Fin.lastCases with
@@ -464,9 +464,9 @@ public theorem ConeSituationIso.exists_admissibleMono_sequence {R : Type w} [Com
             rw [hp_last]
             let _ : IsIso (A.compToK.map πc) := by
               refine ⟨⟨A.compToK.map sc, ?_, ?_⟩⟩
-              · show Quotient.mk _ (A.compCocycle s π) = Quotient.mk _ _
+              · change Quotient.mk _ (A.compCocycle s π) = Quotient.mk _ _
                 exact Quotient.sound hπs
-              · show Quotient.mk _ (A.compCocycle π s) = Quotient.mk _ _
+              · change Quotient.mk _ (A.compCocycle π s) = Quotient.mk _ _
                 exact Quotient.sound (by rw [hsπ]; exact A.homotopic_refl _)
             rw [Functor.map_comp, Functor.map_comp]
             infer_instance
@@ -485,7 +485,7 @@ public theorem ConeSituationIso.exists_admissibleMono_sequence {R : Type w} [Com
                   (a₁ ≫ πc) ≫ eqToHom hxlast := by
                 cases hidx
                 rw [hg_last, hp_last]
-                show (eqToHom (hycast (Fin.last n)) ≫ a₁ ≫
+                change (eqToHom (hycast (Fin.last n)) ≫ a₁ ≫
                     eqToHom hylastSucc.symm) ≫
                     (eqToHom hylast ≫ πc ≫ eqToHom hxlast) =
                   (eqToHom (hycast (Fin.last n)) ≫ (a₁ ≫ πc) ≫ eqToHom hxlast)

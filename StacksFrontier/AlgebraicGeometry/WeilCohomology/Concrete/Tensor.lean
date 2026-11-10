@@ -46,7 +46,8 @@ closed subscheme of `(X × X')_{d+d'} × (Y × Y')_{e+e'}`. So the pushforward a
 is the identification of a cycle on the piece with a cycle on the whole product, and the sum over
 all blocks is `pr₁₃^* c · pr₂₄^* c'` on `X × X' × Y × Y'`.
 
-As in `StacksFrontier.AlgebraicGeometry.WeilCohomology.Correspondences.Composition`, the intersection
+As in `StacksFrontier.AlgebraicGeometry.WeilCohomology.Correspondences.Composition`, the
+intersection
 products are formed with a family `Δ` of diagonal classes; the category of correspondences uses
 the canonical family.
 
@@ -148,16 +149,14 @@ def tensorLift {T : Scheme.{u}} (u : T ⟶ Limits.pullback sA sB) (v : T ⟶ Lim
 theorem tensorLift_tensorPr₁₃ {T : Scheme.{u}} (u : T ⟶ Limits.pullback sA sB)
     (v : T ⟶ Limits.pullback sA' sB') (h : u ≫ prodBase sA sB = v ≫ prodBase sA' sB') :
     tensorLift sA sA' sB sB' u v h ≫ tensorPr₁₃ sA sA' sB sB' = u := by
-  apply Limits.pullback.hom_ext <;> simp [tensorLift, Limits.pullback.lift_fst_assoc,
-    Limits.pullback.lift_snd_assoc, Limits.pullback.lift_fst]
+  apply Limits.pullback.hom_ext <;> simp [tensorLift]
 
 /-- The composite of `tensorLift u v h` with `pr₂₄` is `v`. -/
 @[reassoc (attr := simp)]
 theorem tensorLift_tensorPr₂₄ {T : Scheme.{u}} (u : T ⟶ Limits.pullback sA sB)
     (v : T ⟶ Limits.pullback sA' sB') (h : u ≫ prodBase sA sB = v ≫ prodBase sA' sB') :
     tensorLift sA sA' sB sB' u v h ≫ tensorPr₂₄ sA sA' sB sB' = v := by
-  apply Limits.pullback.hom_ext <;> simp [tensorLift, Limits.pullback.lift_fst_assoc,
-    Limits.pullback.lift_snd_assoc, Limits.pullback.lift_snd]
+  apply Limits.pullback.hom_ext <;> simp [tensorLift]
 
 /-- Morphisms into `(A × A') × (B × B')` are determined by their composites with `pr₁₃` and
 `pr₂₄`. -/
@@ -386,7 +385,7 @@ instance (d d' : ℕ) : IsOpenImmersion (partProdHom k sX sX' d d') := by
 theorem partProdHom_comp_partBase (d d' : ℕ) :
     partProdHom k sX sX' d d' ≫ partBase (prodBase sX sX') (d + d') =
       prodBase (partBase sX d) (partBase sX' d') := by
-  show partProdHom k sX sX' d d' ≫ (dimPart (prodBase sX sX') (d + d')).ι ≫ prodBase sX sX' = _
+  change partProdHom k sX sX' d d' ≫ (dimPart (prodBase sX sX') (d + d')).ι ≫ prodBase sX sX' = _
   rw [partProdHom_ι_assoc, partProdMap_comp_prodBase]
 
 /-- For `X` and `X'` proper, `X_d × X'_{d'} ⟶ (X × X')_{d+d'}` is proper. -/
@@ -420,6 +419,8 @@ abbrev tensorBlockHom (d d' e e' : ℕ) :
     (partProdHom k sX sX' d d') (partProdHom k sY sY' e e')
     (partProdHom_comp_partBase k sX sX' d d') (partProdHom_comp_partBase k sY sY' e e')
 
+omit [IsSeparated sX] [IsSeparated sX'] [IsSeparated sY] [IsSeparated sY'] [IsProper sX]
+  [IsProper sX'] [IsProper sY] [IsProper sY'] in
 /-- The inclusion of a block of the fourfold product is a morphism over `k`. -/
 theorem tensorBlockHom_comp_prodBase (d d' e e' : ℕ) :
     tensorBlockHom k sX sX' sY sY' d d' e e' ≫

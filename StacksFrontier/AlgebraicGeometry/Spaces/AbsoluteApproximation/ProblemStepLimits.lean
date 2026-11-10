@@ -90,6 +90,7 @@ noncomputable def problemStepAmbientCone :
         simp only [Functor.const_obj_obj, Functor.const_obj_map, Functor.map_comp]
         exact Q.ambientCone.naturality ((opToDual Q.indexType).map u) }
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- **`V = lim V_j` in schemes.** -/
 theorem isLimit_problemStepAmbientCone :
     Nonempty (IsLimit ((BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).mapCone
@@ -120,6 +121,7 @@ noncomputable abbrev problemStepNbhdLeg (j : Q.indexTypeᵒᵖ) :
   stageChartLeg E.quotient (E.relativelyRepresentable_quotient_map hobj) (op k) wk w g hL
     ((E.problemStepOverIndex hZ hobj k wk Vs Wo w g hL Q).obj j)
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- The leg `W ⟶ W_j` followed by `W_j ⟶ U_j` is the composite `W ⟶ U ⟶ U_j`. -/
 lemma problemStepNbhdLeg_toBase (j : Q.indexTypeᵒᵖ) :
     yoneda.map (E.problemStepNbhdLeg hZ hobj k wk hwk Vs Wo w g hL Q j) ≫
@@ -127,6 +129,7 @@ lemma problemStepNbhdLeg_toBase (j : Q.indexTypeᵒᵖ) :
     w ≫ limit.π E.quotient ((E.problemStepBaseIndex hZ hobj k wk Vs Wo w g hL Q).obj j) :=
   stageChartLeg_toStage E.quotient (E.relativelyRepresentable_quotient_map hobj) (op k) wk w g hL _
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- The legs `W ⟶ W_j` are compatible with the transition maps of the system `W_j`. -/
 lemma problemStepNbhdLeg_map {i j : Q.indexTypeᵒᵖ} (u : i ⟶ j) :
     E.problemStepNbhdLeg hZ hobj k wk hwk Vs Wo w g hL Q i ≫
@@ -134,6 +137,7 @@ lemma problemStepNbhdLeg_map {i j : Q.indexTypeᵒᵖ} (u : i ⟶ j) :
     E.problemStepNbhdLeg hZ hobj k wk hwk Vs Wo w g hL Q j :=
   stageChartLeg_chartMap E.quotient (E.relativelyRepresentable_quotient_map hobj) (op k) wk w g hL _
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- **`W = U ×_{U_j} W_j` at every stage `j` of the problem step.** -/
 lemma isPullback_problemStepNbhdLeg (j : Q.indexTypeᵒᵖ) :
     IsPullback w (yoneda.map (E.problemStepNbhdLeg hZ hobj k wk hwk Vs Wo w g hL Q j))
@@ -165,6 +169,7 @@ theorem isLimit_problemStepNbhdCone' (hQ : Q.IsCofinal)
       (E.problemStepNbhdCone hZ hobj k wk hwk Vs Wo w g hL Q))) :=
   E.isLimit_problemStepNbhdCone hZ hobj k wk hwk Vs Wo w g hL Q hQ hlft cV hV
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- The inclusion `W ⟶ V` is compatible with the inclusions `W_j ⟶ V_j`. -/
 lemma problemStep_incl_π (j : Q.indexTypeᵒᵖ) :
     openSiteObjectHom B (⊤_ Scheme.{u}) hZ Vs Wo ≫
@@ -172,7 +177,7 @@ lemma problemStep_incl_π (j : Q.indexTypeᵒᵖ) :
       (E.problemStepNbhdCone hZ hobj k wk hwk Vs Wo w g hL Q).π.app j ≫
         (E.problemStepData hZ hobj k wk hwk Vs Wo w g hL Q).incl.app j := by
   apply (BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map_injective
-  show (BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map
+  change (BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map
         (openSiteObjectHom B (⊤_ Scheme.{u}) hZ Vs Wo) ≫
       Q.ambientCone.app (OrderDual.toDual j.unop) =
     (E.nbhdTailπ hZ hobj k wk Wo w g hL).app (Q.index.monotone.dual.functor.obj
@@ -188,6 +193,7 @@ lemma problemStep_incl_π (j : Q.indexTypeᵒᵖ) :
   rw [h₃, Category.assoc] at h₁
   exact h₁
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- **The kernel pairs `W_j ×_{U_j} W_j` are quasi-compact**, the `W_j` being quasi-compact and
 the `U_j` quasi-separated. -/
 theorem compactSpace_problemStepKernelPair

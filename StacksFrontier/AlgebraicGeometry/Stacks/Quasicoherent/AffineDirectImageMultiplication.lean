@@ -147,10 +147,7 @@ theorem directImageMulLeg_naturality
     (z : directImageMulSections g y) :
     ((FibredSite.ringStructureSheafCore B S hS 𝒰.val.val.p 𝒰.val.isFiberedInGroupoids
         .fppf).obj.map φ.right).hom (directImageMulLeg g j₁ z) = directImageMulLeg g j₂ z := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-    exact (congrArg _ ((directImageMulLeg g j₁).map_zero)).trans
-      ((map_zero _).trans (directImageMulLeg g j₂).map_zero.symm)
+  induction z using TensorProduct.inductionOn with
   | tmul s s' =>
     exact ((RingCat.Hom.hom _).map_mul _ _).trans (congrArg₂ (· * ·)
       (directImageUnitLeg_naturality φ s) (directImageUnitLeg_naturality φ s'))
@@ -204,18 +201,13 @@ theorem directImageMulLeg_map {y' : 𝒳.val.val.obj} (k : op y ⟶ op y')
         directImageUnitLeg g ((StructuredArrow.map k).obj j) s := fun s =>
     ConcreteCategory.congr_hom (Stacks.SheafOfModules.ranπ_map
       (CatFiberedInGroupoids.homFunctor g.hom).op (quasicoherentUnit 𝒰).obj.val.presheaf k j) s
-  induction z using TensorProduct.induction_on with
-  | zero =>
-    exact (congrArg (directImageMulLeg g j) (map_zero ((PresheafOfModulesOfCommRing.Monoidal.tensorObj
-      (R := (FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf).obj)
-      ((ranDirectImage g).obj (quasicoherentUnit 𝒰).obj).val
-      ((ranDirectImage g).obj (quasicoherentUnit 𝒰).obj).val).map k).hom)).trans
-        ((map_zero _).trans (map_zero _).symm)
+  induction z using TensorProduct.inductionOn with
   | tmul s s' =>
     exact (directImageMulLeg_tmul g j _ _).trans ((congrArg₂ (· * ·) (h1 s) (h1 s')).trans
       (directImageMulLeg_tmul g _ s s').symm)
   | add z z' hz hz' =>
-    exact (congrArg (directImageMulLeg g j) (map_add ((PresheafOfModulesOfCommRing.Monoidal.tensorObj
+    exact (congrArg (directImageMulLeg g j)
+      (map_add ((PresheafOfModulesOfCommRing.Monoidal.tensorObj
       (R := (FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf).obj)
       ((ranDirectImage g).obj (quasicoherentUnit 𝒰).obj).val
       ((ranDirectImage g).obj (quasicoherentUnit 𝒰).obj).val).map k).hom z z')).trans
@@ -233,16 +225,14 @@ theorem directImageMulLeg_smul
         (Stacks.SheafOfModules.scalarπ (CatFiberedInGroupoids.homFunctor g.hom) (𝔣).hom
           (op y) j).hom r) *
         directImageMulLeg g j z := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-    exact (congrArg (directImageMulLeg g j) (smul_zero r)).trans ((map_zero _).trans
-      (mul_zero _).symm)
+  induction z using TensorProduct.inductionOn with
   | tmul s s' =>
     exact (congrArg (· * directImageUnitLeg g j s') (directImageUnitLeg_smul j r s)).trans
       (mul_assoc _ _ _)
   | add z z' hz hz' =>
     exact (congrArg (directImageMulLeg g j)
-      (@smul_add _ _ _ (directImageMulSections g y).isModule.toDistribMulAction.toDistribSMul r z z')).trans
+      (@smul_add _ _ _ (directImageMulSections g y).isModule.toDistribMulAction.toDistribSMul
+        r z z')).trans
       (((directImageMulLeg g j).map_add _ _).trans ((congrArg₂ (· + ·) hz hz').trans
         ((mul_add _ _ _).symm.trans (congrArg (_ * ·)
           ((directImageMulLeg g j).map_add z z').symm))))
@@ -394,7 +384,7 @@ theorem fppfModulesPushforwardSectionsIsoOfIsTerminal_affineDirectImageMul {y : 
   have h1 := tensorHom_pointTensorMap B S hS 𝒳 y i.hom i.hom s s'
   have h3 : ∀ w, i.hom.hom.val.app (op y) (i.inv.hom.val.app (op y) w) = w := fun w =>
     congrArg (fun φ => φ.hom.val.app (op y) w) i.inv_hom_id
-  show directImageUnitLeg g (StructuredArrow.mk (Y := op t.left) t.hom.op)
+  change directImageUnitLeg g (StructuredArrow.mk (Y := op t.left) t.hom.op)
       (i.hom.hom.val.app (op y) (i.inv.hom.val.app (op y) ((directImageMulRan g).val.app (op y)
         ((i.hom ⊗ₘ i.hom).hom.val.app (op y) ((pointTensorMap B S hS 𝒳 y _ _).hom (s ⊗ₜ s')))))) =
     directImageUnitLeg g (StructuredArrow.mk (Y := op t.left) t.hom.op) (i.hom.hom.val.app (op y)

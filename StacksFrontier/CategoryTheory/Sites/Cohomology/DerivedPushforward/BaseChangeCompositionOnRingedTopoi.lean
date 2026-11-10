@@ -105,7 +105,7 @@ theorem mapHomotopyCategoryCompIso_assoc {C₀ C₁ C₂ C₃ : Type*}
   apply NatTrans.ext
   funext K
   rcases K with ⟨K⟩
-  show (HomotopyCategory.quotient C₃ c).map
+  change (HomotopyCategory.quotient C₃ c).map
       ((Functor.mapHomologicalComplexCompIso e₁₂₃ c).hom.app
         ((F₀₁.mapHomologicalComplex c).obj K)) ≫
       (HomotopyCategory.quotient C₃ c).map
@@ -174,10 +174,6 @@ theorem leftDerived_comparison_assoc
 section Cocycle
 
 variable {X Y Z W : RingedTopos.{u, u, u}}
-  [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
-  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
-  [Z.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
-  [W.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   (f : RingedToposSiteHom X Y) (g : RingedToposSiteHom Y Z) (h : RingedToposSiteHom Z W)
 
 /-- **The cocycle identity for the direct-image composition isomorphism.**  The two ways of

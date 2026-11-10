@@ -70,7 +70,7 @@ theorem singleFunctorCompHomologyFunctorIso_inv_app_eq_genClass (i : ℤ) :
   have h₂ := HomologicalComplex.singleObjCyclesSelfIso_inv_homologyπ (C := ModuleCat.{u} R)
     (ComplexShape.up ℤ) i (ModuleCat.of R R)
   refine h₁.trans ?_
-  show _ = cycleClass (singleCycle R i)
+  change _ = cycleClass (singleCycle R i)
   rw [cycleClass_def]
   refine Eq.trans ?_ (Category.assoc _ _ _)
   exact (congrArg (· ≫ (DerivedCategory.homologyFunctorFactors (ModuleCat.{u} R)

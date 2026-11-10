@@ -236,6 +236,7 @@ private theorem associator_isoWhiskerLeft_naturality {T T' : ℕᵒᵖ ⥤ Etale
   exact (compactSupportSheafCohomologyInverseImageIsoOfIsIso ℤ_[ℓ] f j kbar i
     (B.inclusion.map g)).hom.naturality (τ.app n)
 
+omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The identification is natural in the ℓ-adic sheaf.** -/
 public theorem LAdicSheaf.geometricCompactlySupportedCohomologySystemIsoOfIsIso_hom_naturality
     {F G : LAdicSheaf.{u, u + 1} B X ℓ} (φ : F ⟶ G) :
@@ -271,6 +272,7 @@ public theorem LAdicSheaf.geometricCompactlySupportedCohomologySystemIsoOfIsIso_
 
 variable (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The identification carries `π_{X'}^*` to `π_X^*`** on the inverse systems. -/
 public theorem LAdicSheaf.geometricCompactlySupportedCohomologySystemIsoOfIsIso_hom_frobenius
     (F : LAdicSheaf.{u, u + 1} B X ℓ) :
@@ -329,6 +331,7 @@ public def LAdicSheaf.rationalGeometricCompactlySupportedCohomologyIsoOfIsIso
   (rationalLim.{u + 1} (ℓ := ℓ)).mapIso
     (LAdicSheaf.geometricCompactlySupportedCohomologySystemIsoOfIsIso B ℓ g f j kbar i F)
 
+omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- The rational identification is natural in the ℓ-adic sheaf. -/
 public theorem LAdicSheaf.rationalGeometricCompactlySupportedCohomologyIsoOfIsIso_hom_naturality
     {F G : LAdicSheaf.{u, u + 1} B X ℓ} (φ : F ⟶ G) :
@@ -343,6 +346,7 @@ public theorem LAdicSheaf.rationalGeometricCompactlySupportedCohomologyIsoOfIsIs
     (LAdicSheaf.geometricCompactlySupportedCohomologySystemIsoOfIsIso_hom_naturality B ℓ g f j kbar
       i φ)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- The rational identification carries `π_{X'}^*` to `π_X^*`. -/
 public theorem LAdicSheaf.rationalGeometricCompactlySupportedCohomologyIsoOfIsIso_hom_frobenius
     (F : LAdicSheaf.{u, u + 1} B X ℓ) :
@@ -374,11 +378,12 @@ public def LAdicSheaf.CoefficientSheaf.rationalIsoOfIsIsoLinearEquiv :
     (LAdicSheaf.rationalGeometricCompactlySupportedCohomologyIsoOfIsIso B ℓ g f j kbar i
       F.toLAdicSheaf).toLinearEquiv
     (fun o v => by
-      have h := LAdicSheaf.rationalGeometricCompactlySupportedCohomologyIsoOfIsIso_hom_naturality B ℓ
-        g f j kbar i (F.act o).asHom
+      have h :=
+        LAdicSheaf.rationalGeometricCompactlySupportedCohomologyIsoOfIsIso_hom_naturality B ℓ
+          g f j kbar i (F.act o).asHom
       exact congrArg (fun t => t.hom v) h)
 
-omit [Algebra ℚ_[ℓ] E] in
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] [Algebra ℚ_[ℓ] E] in
 set_option backward.isDefEq.respectTransparency false in
 /-- The `E`-linear identification carries `π_{X'}^*` to `π_X^*`. -/
 public theorem LAdicSheaf.CoefficientSheaf.rationalIsoOfIsIsoLinearEquiv_frobenius

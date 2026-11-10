@@ -51,7 +51,7 @@ theorem smoothOfRelativeDimension_specMap_away (g : k[X]) :
       (Spec.map (CommRingCat.ofHom (algebraMap k (Localization.Away g)))) := by
   rw [HasRingHomProperty.Spec_iff (P := @SmoothOfRelativeDimension 1)]
   refine RingHom.locally_of RingHom.isStandardSmoothOfRelativeDimension_respectsIso _ ?_
-  show (algebraMap k (Localization.Away g)).IsStandardSmoothOfRelativeDimension 1
+  change (algebraMap k (Localization.Away g)).IsStandardSmoothOfRelativeDimension 1
   rw [RingHom.isStandardSmoothOfRelativeDimension_algebraMap]
   exact isStandardSmoothOfRelativeDimension_away k g
 

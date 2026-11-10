@@ -76,7 +76,7 @@ theorem isQuasiCompactObject_schemeStack_id
     (inclusionTopology.{u, w} B S hS (schemeStack.{u, w} B S hS U))
     (associatedTopology B S hS (schemeStack.{u, w} B S hS U).val.val.p (etaleTopology B))
     (CoverPreserving.of_isContinuous _ _ _) _ ?_
-  show (associatedTopology B S hS (schemeStack.{u, w} B S hS U).val.val.p
+  change (associatedTopology B S hS (schemeStack.{u, w} B S hS U).val.val.p
     (etaleTopology B)).IsQuasiCompactObject (Over.mk (𝟙 U))
   rw [associatedTopology_schemeStack]
   exact GrothendieckTopology.isQuasiCompactObject_over _ (Over.mk (𝟙 U))
@@ -105,12 +105,12 @@ theorem generate_isAffine_mem_inclusionTopology_schemeStack
       hu V
     have hx := smooth_map_hom_of_smoothObject.{u, w} B S hS U x
     rw [smoothObject_schemeStack_iff]
-    show Smooth ((BigFppfOver.toScheme B S hS).map (ui V ≫ x'.hom))
+    change Smooth ((BigFppfOver.toScheme B S hS).map (ui V ≫ x'.hom))
     rw [Functor.map_comp]
     infer_instance
   have hR' : Sieve.ofArrows W w ∈ (((etaleTopology B).over (B.obj hS)).over U) x' := by
     rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
-    show Sieve.ofArrows Vi ui ∈ (etaleTopology B).over (B.obj hS) x'.left
+    change Sieve.ofArrows Vi ui ∈ (etaleTopology B).over (B.obj hS) x'.left
     rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
     rw [etaleTopology_eq_comap]
     apply Precoverage.generate_mem_toGrothendieck
@@ -123,7 +123,7 @@ theorem generate_isAffine_mem_inclusionTopology_schemeStack
     rw [← iSup_affineOpens_eq_top] at hy
     obtain ⟨V, hV⟩ := TopologicalSpace.Opens.mem_iSup.1 hy
     refine ⟨V, ?_⟩
-    show y ∈ Set.range ((BigFppfOver.toScheme B S hS).map (ui V))
+    change y ∈ Set.range ((BigFppfOver.toScheme B S hS).map (ui V))
     rw [hrange V]
     exact hV
   have hR : (Sieve.ofArrows W w : Sieve x.obj) ∈ associatedTopology B S hS
@@ -151,7 +151,7 @@ theorem flat_structureSheaf_map_schemeStack
   have hleft : ((isTerminalSmoothObjectSchemeStackId.{u, w} B S hS U).from Z).hom.left =
       Z.obj.hom := by
     simpa using Over.w ((isTerminalSmoothObjectSchemeStackId.{u, w} B S hS U).from Z).hom
-  show (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
+  change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
     ((isTerminalSmoothObjectSchemeStackId.{u, w} B S hS U).from Z).hom.left).op).hom.Flat
   rw [hleft, Scheme.Γ_map_op]
   have := hU

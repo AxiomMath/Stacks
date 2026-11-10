@@ -137,7 +137,7 @@ private theorem finite_quotient_pow_of_finite_quotient
       exact Ideal.Quotient.eq_zero_iff_mem.mpr hb
   have hkerNil : RingHom.ker f.toRingHom ≤ nilradical (B ⧸ q ^ (n + 1)) := by
     intro x hx
-    show x ∈ (⊥ : Ideal (B ⧸ q ^ (n + 1))).radical
+    change x ∈ (⊥ : Ideal (B ⧸ q ^ (n + 1))).radical
     refine Ideal.mem_radical_iff.mpr ⟨n + 1, ?_⟩
     obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective x
     have hb : b ∈ q := Ideal.Quotient.eq_zero_iff_mem.mp
@@ -161,9 +161,9 @@ private theorem surjective_of_dense_finite_module
     obtain ⟨y, rfl⟩ := Submodule.mkQ_surjective (I • (⊤ : Submodule A N)) x
     obtain ⟨p, hp⟩ := happrox y
     refine ⟨p, ?_⟩
-    show (I • (⊤ : Submodule A N)).mkQ (F p) = (I • (⊤ : Submodule A N)).mkQ y
+    change (I • (⊤ : Submodule A N)).mkQ (F p) = (I • (⊤ : Submodule A N)).mkQ y
     rw [← sub_eq_zero, ← map_sub]
-    show Submodule.Quotient.mk (F p - y) = 0
+    change Submodule.Quotient.mk (F p - y) = 0
     rw [Submodule.Quotient.mk_eq_zero, ← neg_sub]
     exact Submodule.neg_mem _ hp
   exact LinearMap.surjective_of_surjective_comp_mkQ F I hI hquot
@@ -268,7 +268,7 @@ private theorem polynomial_quotient_surjective
       rw [← hmap, ← Ideal.map_map]
       exact Ideal.mem_map_of_mem _ hmem
     refine ⟨p, ?_⟩
-    show Ideal.Quotient.mk Q b - Ideal.Quotient.mk Q (f p) ∈ I • (⊤ : Submodule A N)
+    change Ideal.Quotient.mk Q b - Ideal.Quotient.mk Q (f p) ∈ I • (⊤ : Submodule A N)
     rw [← (Ideal.Quotient.mk Q).map_sub, Ideal.smul_top_eq_map]
     exact hquot
   let ψ : P →ₐ[A] N :=
@@ -320,7 +320,7 @@ private lemma map_maximalIdeal_of_surjective_quotient_sq
     have he : f r - x ∈ q ^ 2 := (Ideal.Quotient.mk_eq_mk_iff_sub_mem _ _).mp hr
     have heq : f r - x ∈ q := Ideal.pow_le_self (by decide) he
     have hrq : r ∈ q.comap f := by
-      show f r ∈ q
+      change f r ∈ q
       simpa using q.add_mem heq hx
     exact Submodule.mem_sup.mpr ⟨f r, (q.comap f).mem_map_of_mem f hrq, x - f r,
       by simpa only [neg_sub] using (q ^ 2).neg_mem he, by ring⟩
@@ -358,9 +358,9 @@ private lemma residueFieldMap_surjective_of_quotient_surjective
     intro s
     obtain ⟨r, hr⟩ := h (Ideal.Quotient.mk q s)
     refine ⟨r, ?_⟩
-    show residue S' (l (algebraMap R R' r)) = g s
+    change residue S' (l (algebraMap R R' r)) = g s
     rw [Localization.localRingHom_to_map]
-    show g (f r) = g s
+    change g (f r) = g s
     rw [← sub_eq_zero, ← map_sub]
     refine (residue_eq_zero_iff _).mpr ?_
     rw [← IsLocalization.AtPrime.map_eq_maximalIdeal q]
@@ -396,15 +396,15 @@ private lemma adicCompletionMap_eq_of_comp_algebraMap
   have hker : RingHom.ker (AdicCompletion.evalₐ J n).toRingHom ≤ RingHom.ker h := by
     rw [AdicCompletion.ker_evalₐ J hJ, ← Ideal.map_pow, Ideal.map_le_iff_le_comap]
     intro r hr
-    show AdicCompletion.evalₐ I n (g (algebraMap R (AdicCompletion J R) r)) = 0
+    change AdicCompletion.evalₐ I n (g (algebraMap R (AdicCompletion J R) r)) = 0
     rw [hg]
-    show Ideal.Quotient.mk (I ^ n) (f r) = 0
+    change Ideal.Quotient.mk (I ^ n) (f r) = 0
     exact Ideal.Quotient.eq_zero_iff_mem.mpr (hpow hr)
   obtain ⟨r, hr⟩ := Ideal.Quotient.mk_surjective (AdicCompletion.evalₐ J n x)
   have hsub : x - algebraMap R (AdicCompletion J R) r ∈
       RingHom.ker (AdicCompletion.evalₐ J n).toRingHom := by
     rw [RingHom.mem_ker, map_sub]
-    show AdicCompletion.evalₐ J n x - Ideal.Quotient.mk (J ^ n) r = 0
+    change AdicCompletion.evalₐ J n x - Ideal.Quotient.mk (J ^ n) r = 0
     rw [hr, sub_self]
   have hh := hker hsub
   rw [RingHom.mem_ker, map_sub, sub_eq_zero] at hh
@@ -412,7 +412,7 @@ private lemma adicCompletionMap_eq_of_comp_algebraMap
     AdicCompletion.evalₐ I n (g (algebraMap R (AdicCompletion J R) r)) at hh
   rw [hg] at hh
   rw [adicCompletionMap, AdicCompletion.evalₐ_liftRingHom]
-  show Ideal.quotientMap (I ^ n) f hpow (AdicCompletion.evalₐ J n x) = _
+  change Ideal.quotientMap (I ^ n) f hpow (AdicCompletion.evalₐ J n x) = _
   rw [← hr, Ideal.quotientMap_mk, hh]
   rfl
 
@@ -439,7 +439,7 @@ private lemma adicCompletionMap_localRingHom_bijective_of_flat
     ⟨RingHom.injective _, residueFieldMap_surjective_of_quotient_surjective f q h₁⟩
   obtain ⟨e, he⟩ := exists_adicCompletion_ringEquiv_of_flat
     (A := R') (B := S') (Ideal.fg_of_isNoetherianRing _) hmax hres
-  show Function.Bijective (adicCompletionMap l _ _ _)
+  change Function.Bijective (adicCompletionMap l _ _ _)
   rw [adicCompletionMap_eq_of_comp_algebraMap l _ _ _
     (Ideal.fg_of_isNoetherianRing _) e.toRingHom he]
   exact e.bijective
@@ -537,7 +537,7 @@ public theorem adicCompletionMap_localRingHom_bijective
     have he : f = e.symm.toRingHom.comp (algebraMap P (AdicCompletion J P)) := by
       refine RingHom.ext fun p ↦ ?_
       refine e.injective ?_
-      show e (f p) = e (e.symm (algebraMap P (AdicCompletion J P) p))
+      change e (f p) = e (e.symm (algebraMap P (AdicCompletion J P) p))
       rw [e.apply_symm_apply]
       exact adicCompletionEquiv_polynomialRingHom I σ p
     rw [he]

@@ -287,7 +287,7 @@ theorem injective_bundleFormulaMap_of_top (hp : IsProper D.site D.base D.base_me
       rw [cycleGroupCast_coe]
       exact coe_flatPullbackMap_congr D sX hX sY hY f hfB n hflat hrel rfl (degree_add_eq hd i j)
         (hd i) _ _ _ rfl
-    show chowClassCanonical.{u + 1} D sX hX (d j) _ = 0
+    change chowClassCanonical.{u + 1} D sX hX (d j) _ = 0
     rw [hβ0, map_zero]
   · intro i x
     obtain ⟨α, rfl⟩ := QuotientAddGroup.mk_surjective x

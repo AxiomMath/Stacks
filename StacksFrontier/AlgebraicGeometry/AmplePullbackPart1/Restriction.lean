@@ -14,8 +14,8 @@ third of the four inputs needed for part (1) of [Stacks, Tag 0892], saying that
 `Stacks.NonvanishingPullback.pullbackGlobalSection` is the forward map for an arbitrary morphism
 and that "the inverse for an open immersion is what turns the ampleness that
 `Stacks.RelativeAmple.IsRelativelyAmple` asserts on the subscheme `f⁻¹V` into sections of
-`L ^⊗ n` over the open `f⁻¹V` of `X`". **It is already available**: it is three existing facts composed,
-two of which hold by `rfl`.
+`L ^⊗ n` over the open `f⁻¹V` of `X`". **It is already available**: it is three existing facts
+composed, two of which hold by `rfl`.
 
 ## Main definitions
 

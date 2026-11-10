@@ -506,7 +506,7 @@ theorem baseChange_bijective {R : Type u} [CommRing R] {c : Finset R} {n : ℕ}
       commutes' := fun r => ((targetMapSystem hc).ψ_comm h r).symm } with hfS
   set fR : (sourceSystem R c).R B →ₐ[(sourceSystem R c).R A] (targetSystem hc).R B :=
     { (targetMapSystem hc).ψ B with commutes' := fun _ => rfl } with hfR
-  show Function.Bijective (Algebra.TensorProduct.productMap fS fR).toRingHom
+  change Function.Bijective (Algebra.TensorProduct.productMap fS fR).toRingHom
   set Φ := (Algebra.TensorProduct.productMap fS fR).toRingHom with hΦ
   -- The variable images of the inverse: `X i ↦ mk_A(X i) ⊗ 1`.
   set Xim : Fin n → TensorProduct ((sourceSystem R c).R A) ((targetSystem hc).R A) ((sourceSystem R
@@ -538,7 +538,7 @@ theorem baseChange_bijective {R : Type u} [CommRing R] {c : Finset R} {n : ℕ}
       -- both sides on `C a`
       rw [RingHom.comp_apply, RingHom.comp_apply, MvPolynomial.map_C, haux_C]
       -- RHS: includeLeft (mk_A (C a)) = includeLeft (ψ_A a) = ψ_A a ⊗ 1
-      show (1 : (targetSystem hc).R A) ⊗ₜ[(sourceSystem R c).R A] ((Subalgebra.inclusion
+      change (1 : (targetSystem hc).R A) ⊗ₜ[(sourceSystem R c).R A] ((Subalgebra.inclusion
           h).toRingHom a)
           = Algebra.TensorProduct.includeLeft
               (Ideal.Quotient.mk (targetIdeal c n gens A) (MvPolynomial.C a))
@@ -552,7 +552,7 @@ theorem baseChange_bijective {R : Type u} [CommRing R] {c : Finset R} {n : ℕ}
         (Algebra.TensorProduct.includeLeft.commutes a).symm
     · intro i
       rw [RingHom.comp_apply, RingHom.comp_apply, MvPolynomial.map_X, haux_X, hXim]
-      show (Ideal.Quotient.mk (targetIdeal c n gens A) (MvPolynomial.X i)) ⊗ₜ[(sourceSystem R
+      change (Ideal.Quotient.mk (targetIdeal c n gens A) (MvPolynomial.X i)) ⊗ₜ[(sourceSystem R
           c).R A] (1 : (sourceSystem R c).R B)
           = Algebra.TensorProduct.includeLeft
               (Ideal.Quotient.mk (targetIdeal c n gens A) (MvPolynomial.X i))
@@ -563,7 +563,7 @@ theorem baseChange_bijective {R : Type u} [CommRing R] {c : Finset R} {n : ℕ}
       rw [targetIdeal, Ideal.span_le]
       rintro _ ⟨p, hp, rfl⟩
       rw [Finset.mem_coe] at hp
-      show aux_00r0 (liftPoly n B.val p) = 0
+      change aux_00r0 (liftPoly n B.val p) = 0
       have hco :=
         congrArg (fun (φ : MvPolynomial (Fin n) A.val →+* _) => φ (liftPoly n A.val p)) hβ
       simp only [RingHom.comp_apply] at hco
@@ -589,7 +589,7 @@ theorem baseChange_bijective {R : Type u} [CommRing R] {c : Finset R} {n : ℕ}
       Φ (s ⊗ₜ[(sourceSystem R c).R A] r) = (targetTrans hc h s) * (targetPsi c n gens B r) := by
     intro s r
     rw [hΦ]
-    show (Algebra.TensorProduct.productMap fS fR) (s ⊗ₜ[(sourceSystem R c).R A] r) = _
+    change (Algebra.TensorProduct.productMap fS fR) (s ⊗ₜ[(sourceSystem R c).R A] r) = _
     rw [Algebra.TensorProduct.productMap_apply_tmul]
     rfl
   -- Bijectivity via the explicit two-sided inverse `Ψ`.
@@ -597,8 +597,7 @@ theorem baseChange_bijective {R : Type u} [CommRing R] {c : Finset R} {n : ℕ}
   refine ⟨Ψ, ?_, ?_⟩
   · -- LeftInverse Ψ Φ : ∀ x : T, Ψ (Φ x) = x
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => rw [map_add, map_add, hx, hy]
     | tmul s r =>
       -- s ⊗ r = (s ⊗ 1) * (1 ⊗ r)
@@ -621,7 +620,7 @@ theorem baseChange_bijective {R : Type u} [CommRing R] {c : Finset R} {n : ℕ}
       · -- Ψ (Φ (1 ⊗ r)) = 1 ⊗ r
         rw [hΦ_tmul]
         rw [show (targetTrans hc h) (1 : (targetSystem hc).R A) = 1 from map_one _, one_mul]
-        show Ψ (Ideal.Quotient.mk (targetIdeal c n gens B) (MvPolynomial.C r)) = _
+        change Ψ (Ideal.Quotient.mk (targetIdeal c n gens B) (MvPolynomial.C r)) = _
         rw [hΨ_mk]; exact haux_C r
   · -- RightInverse Ψ Φ : ∀ y : S_B, Φ (Ψ y) = y
     intro y
@@ -705,7 +704,7 @@ theorem targetColimit_ι_eq_zero {R S : Type u} [CommRing R] [CommRing S]
     exact sum_mem fun p hp => Ideal.mul_mem_left _ _ (Ideal.subset_span ⟨p, hp, rfl⟩)
   -- Transport along the cocone: `ι_A (mk q) = ι_B (φ (mk q)) = ι_B 0 = 0`.
   rw [← (targetSystem hc).ι_comp_φ hAB (Ideal.Quotient.mk (targetIdeal c n gens A) q)]
-  show (targetSystem hc).ι B (targetTrans hc hAB (Ideal.Quotient.mk (targetIdeal c n gens A) q))
+  change (targetSystem hc).ι B (targetTrans hc hAB (Ideal.Quotient.mk (targetIdeal c n gens A) q))
       = 0
   rw [targetTrans_mk hc hAB q, hzeroB]
   exact map_zero _

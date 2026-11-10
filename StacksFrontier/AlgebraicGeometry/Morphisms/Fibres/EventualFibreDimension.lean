@@ -118,7 +118,7 @@ private lemma locallyOfFiniteType_specMapAeval
   have hc : (Polynomial.aeval a).toRingHom.comp Polynomial.C = algebraMap R S := by
     ext r
     simp
-  show ((Polynomial.aeval a).toRingHom.comp Polynomial.C).FiniteType
+  change ((Polynomial.aeval a).toRingHom.comp Polynomial.C).FiniteType
   rw [hc]
   exact RingHom.finiteType_algebraMap.mpr inferInstance
 
@@ -159,11 +159,12 @@ private lemma topologicalKrullDim_le_of_irreducibleComponents
 /-- A finite closed cover bounds the dimension of the whole space. -/
 @[ega "0 14.1.4" "(ii)"]
 private lemma topologicalKrullDim_le_of_finite_closed_cover
-    {X ι : Type*} [TopologicalSpace X] [Fintype ι]
+    {X ι : Type*} [TopologicalSpace X] [Finite ι]
     (Z : ι → Set X) (hclosed : ∀ i, IsClosed (Z i))
     (hcover : ⋃ i, Z i = Set.univ) (d : WithBot ℕ∞)
     (hZ : ∀ i, topologicalKrullDim (Z i) ≤ d) : topologicalKrullDim X ≤ d := by
   classical
+  let : Fintype ι := Fintype.ofFinite ι
   apply topologicalKrullDim_le_of_irreducibleComponents d
   intro W hW
   have hWcover : W ⊆ ⋃₀ ↑(Finset.univ.image Z) := by
@@ -195,7 +196,7 @@ private lemma topologicalKrullDim_fiber_part_range_eq
           (Subtype.val : {z : f ⁻¹' {y} | (z : X) ∈ Set.range g} → f ⁻¹' {y})) :=
       Topology.IsEmbedding.subtypeVal.comp Topology.IsEmbedding.subtypeVal
     exact hp.of_comp_iff.mp (by
-      show Topology.IsEmbedding (g ∘ (Subtype.val : (f ∘ g) ⁻¹' {y} → W))
+      change Topology.IsEmbedding (g ∘ (Subtype.val : (f ∘ g) ⁻¹' {y} → W))
       exact hg.comp Topology.IsEmbedding.subtypeVal)
   have hsurj : Function.Surjective m := by
     rintro ⟨⟨x, hfx⟩, ⟨w, hw⟩⟩
@@ -221,7 +222,7 @@ private lemma topologicalKrullDim_fiber_restrict_le_comp
           (Subtype.val : B → (g ∘ f) ⁻¹' {g y})) :=
       Topology.IsEmbedding.subtypeVal.comp Topology.IsEmbedding.subtypeVal
     exact hp.of_comp_iff.mp (by
-      show Topology.IsEmbedding
+      change Topology.IsEmbedding
         ((Subtype.val : f ⁻¹' {y} → X) ∘
           (Subtype.val : A → f ⁻¹' {y}))
       exact Topology.IsEmbedding.subtypeVal.comp Topology.IsEmbedding.subtypeVal)
@@ -254,7 +255,7 @@ private lemma fiber_dimension_le_of_finite_closed_cover
       rcases Set.mem_iUnion.mp hz with ⟨i, hi⟩
       exact Set.mem_iUnion.mpr ⟨i, hi⟩
   · intro i
-    show topologicalKrullDim {z : f ⁻¹' {y} | (z : X) ∈ Set.range (g i)} ≤ d
+    change topologicalKrullDim {z : f ⁻¹' {y} | (z : X) ∈ Set.range (g i)} ≤ d
     rw [topologicalKrullDim_fiber_part_range_eq (g i) f (hg i).isEmbedding]
     have heq : ((f ∘ (g i : W i → X)) ⁻¹' {y}) = ((g i ≫ f) ⁻¹' {y}) := by
       ext z
@@ -292,7 +293,7 @@ private lemma topologicalKrullDimAt_polynomialSpec
     locallyOfFiniteType_specMap_algebraMap k (Polynomial k)
   rw [topologicalKrullDimAt_eq_of_irreducible
     (Spec.map (CommRingCat.ofHom (Polynomial.C : k →+* Polynomial k)))]
-  show topologicalKrullDim (PrimeSpectrum (Polynomial k)) = 1
+  change topologicalKrullDim (PrimeSpectrum (Polynomial k)) = 1
   rw [PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim,
     Polynomial.ringKrullDim_of_isNoetherianRing, ringKrullDim_eq_zero_of_field, zero_add]
 
@@ -450,7 +451,7 @@ private lemma fiber_compl_dimension_le_comp
     (p := fun x : (f ≫ g).fiber (g q) => (f ≫ g).fiberι (g q) x ∈ (Uᶜ : Set X))
     (q := fun x : (f ≫ g) ⁻¹' {g q} => (x : X) ∈ (Uᶜ : Set X))
     (by intro x; rfl)
-  show topologicalKrullDim {x : f.fiber q // f.fiberι q x ∈ (Uᶜ : Set X)} ≤
+  change topologicalKrullDim {x : f.fiber q // f.fiberι q x ∈ (Uᶜ : Set X)} ≤
     topologicalKrullDim
       {x : (f ≫ g).fiber (g q) // (f ≫ g).fiberι (g q) x ∈ (Uᶜ : Set X)}
   rw [eF.isHomeomorph.topologicalKrullDim_eq,
@@ -641,7 +642,7 @@ private lemma topologicalKrullDim_comp_fiber_eq_of_integral_surjective
     [IsIntegralHom g] [Surjective g] (y : Y) :
     topologicalKrullDim ((g ≫ f).fiber y) = topologicalKrullDim (f.fiber y) := by
   let e := Limits.pullbackRightPullbackFstIso f (Y.fromSpecResidueField y) g
-  show topologicalKrullDim ↥(Limits.pullback (g ≫ f) (Y.fromSpecResidueField y)) = _
+  change topologicalKrullDim ↥(Limits.pullback (g ≫ f) (Y.fromSpecResidueField y)) = _
   rw [← (Scheme.homeoOfIso e).isHomeomorph.topologicalKrullDim_eq]
   exact @AlgebraicGeometry.topologicalKrullDim_eq_of_isIntegralHom_of_surjective _ _
     (Limits.pullback.snd g (Limits.pullback.fst f (Y.fromSpecResidueField y)))
@@ -705,7 +706,7 @@ lemma topologicalKrullDim_fiber_le_comp
     ((f ≫ g).fiberHomeo (g y)).isHomeomorph.topologicalKrullDim_eq]
   have h : f ⁻¹' {y} ⊆ (f ≫ g) ⁻¹' {g y} := by
     intro x hx
-    show g (f x) = g y
+    change g (f x) = g y
     exact congrArg g hx
   exact (Topology.IsEmbedding.inclusion h).isInducing.topologicalKrullDim_le
 
@@ -737,7 +738,7 @@ private lemma isEmbedding_SpecMap_fiber_includeRight
     {R S : Type u} [CommRing R] [CommRing S] [Algebra R S] (p : PrimeSpectrum R) :
     Topology.IsEmbedding (Spec.map (CommRingCat.ofHom
       (Algebra.TensorProduct.includeRight : S →ₐ[R] p.asIdeal.Fiber S).toRingHom)) := by
-  show Topology.IsEmbedding (PrimeSpectrum.comap
+  change Topology.IsEmbedding (PrimeSpectrum.comap
     (Algebra.TensorProduct.includeRight : S →ₐ[R] p.asIdeal.Fiber S).toRingHom)
   exact Topology.IsEmbedding.subtypeVal.comp
     (PrimeSpectrum.preimageHomeomorphFiber R S p).symm.isEmbedding
@@ -988,7 +989,7 @@ private lemma topologicalKrullDim_fiber_eq_comp_of_injective
     ((f ≫ g).fiberHomeo (g y)).isHomeomorph.topologicalKrullDim_eq]
   have h : f ⁻¹' {y} = (f ≫ g) ⁻¹' {g y} := by
     ext x
-    show f x = y ↔ g (f x) = g y
+    change f x = y ↔ g (f x) = g y
     exact hg.eq_iff.symm
   rw [h]
 
@@ -1111,7 +1112,7 @@ private lemma powerAddProjectionRingMap_flat {R : Type u} [CommRing R] (n : ℕ)
       Polynomial.algEquivAevalXAddC, add_comm]
   rw [he]
   have hC : (Polynomial.C : Polynomial R →+* Polynomial (Polynomial R)).Flat := by
-    show (algebraMap (Polynomial R) (Polynomial (Polynomial R))).Flat
+    change (algebraMap (Polynomial R) (Polynomial (Polynomial R))).Flat
     exact RingHom.flat_algebraMap_iff.mpr inferInstance
   exact hC.comp (RingHom.Flat.of_bijective e.bijective)
 
@@ -1128,7 +1129,7 @@ private theorem planeEvaluationMap_comp_powerAddProjection
   apply CommRingCat.hom_ext
   ext x
   · simp [planeEvaluationRingMap, powerAddProjectionRingMap]
-  · show planeEvaluationRingMap (R := R) a b
+  · change planeEvaluationRingMap (R := R) a b
       (powerAddProjectionRingMap (R := R) n Polynomial.X) =
         (Polynomial.aeval (R := R) (a ^ n + b)) Polynomial.X
     simp [planeEvaluationRingMap, powerAddProjectionRingMap,
@@ -1173,7 +1174,7 @@ private lemma exists_dense_open_flat_of_isDominant
     constructor
     intro i
     constructor
-    show Finite PUnit.{u + 1}
+    change Finite PUnit.{u + 1}
     infer_instance
   obtain ⟨V, hV, hflat, _⟩ :=
     AlgebraicGeometry.exists_dense_open_flat_finitePresentation f
@@ -1195,7 +1196,7 @@ private lemma locallyOfFiniteType_planeEvaluationRingMap
       algebraMap R S := by
     ext r
     simp [planeEvaluationRingMap, Polynomial.eval₂_C]
-  show ((planeEvaluationRingMap (R := R) a b).comp (Polynomial.C.comp Polynomial.C)).FiniteType
+  change ((planeEvaluationRingMap (R := R) a b).comp (Polynomial.C.comp Polynomial.C)).FiniteType
   rw [h]
   exact RingHom.finiteType_algebraMap.mpr inferInstance
 
@@ -1204,7 +1205,7 @@ private lemma isDominant_specMap_of_injective
     {R S : Type u} [CommRing R] [CommRing S] (f : R →+* S)
     (hf : Function.Injective f) : IsDominant (Spec.map (CommRingCat.ofHom f)) := by
   constructor
-  show DenseRange (PrimeSpectrum.comap f)
+  change DenseRange (PrimeSpectrum.comap f)
   rw [PrimeSpectrum.denseRange_comap_iff_ker_le_nilRadical,
     (RingHom.injective_iff_ker_eq_bot _).mp hf]
   exact bot_le
@@ -1222,7 +1223,7 @@ private lemma exists_polynomial_relation_of_not_dominant
   push Not at hrel
   have hinj : Function.Injective (planeEvaluationRingMap (R := R) a b) := by
     refine (RingHom.injective_iff_ker_eq_bot _).mpr (le_antisymm (fun g hg ↦ ?_) bot_le)
-    show g = 0
+    change g = 0
     by_contra hne
     exact hrel g hne hg
   exact h (isDominant_specMap_of_injective _ hinj)
@@ -1385,9 +1386,9 @@ private lemma exists_eventually_isIntegral_of_polynomial_relation
   have hq : Polynomial.aeval (R := A) a q = b := by
     simp [q, hr]
   have hp : Polynomial.aeval (R := A) a p = 0 := by
-    show (Polynomial.aeval (R := A) a).toRingHom (G.eval q) = 0
+    change (Polynomial.aeval (R := A) a).toRingHom (G.eval q) = 0
     rw [Polynomial.eval, Polynomial.hom_eval₂]
-    show G.eval₂ (Polynomial.aeval (R := A) a).toRingHom
+    change G.eval₂ (Polynomial.aeval (R := A) a).toRingHom
       ((Polynomial.aeval (R := A) a) q) = 0
     rw [hq, Polynomial.eval₂_map, heval]
     exact hab
@@ -1412,7 +1413,7 @@ private lemma exists_fiber_dimension_pow_add_le_of_polynomial_relation
   let : Algebra P S := (Polynomial.aeval (R := R) (a ^ n + b)).toRingHom.toAlgebra
   have : IsScalarTower R P S := IsScalarTower.of_algebraMap_eq' (by
     ext r
-    show algebraMap R S r = Polynomial.aeval (R := R) (a ^ n + b) (Polynomial.C r)
+    change algebraMap R S r = Polynomial.aeval (R := R) (a ^ n + b) (Polynomial.C r)
     simp)
   let k := q.asIdeal.ResidueField
   let T := q.asIdeal.Fiber S
@@ -1436,7 +1437,7 @@ private lemma exists_fiber_dimension_pow_add_le_of_polynomial_relation
   let φ : S →ₐ[R] T := IsScalarTower.toAlgHom R S T
   have hunit : IsUnit (algebraMap R k c) := by
     apply isUnit_iff_ne_zero.mpr
-    show algebraMap P k (Polynomial.C c) ≠ 0
+    change algebraMap P k (Polynomial.C c) ≠ 0
     exact (Ideal.algebraMap_residueField_eq_zero (I := q.asIdeal)).not.mpr hcq
   have heval : φ.toRingHom.comp (Polynomial.aeval (R := R) a).toRingHom =
       (Polynomial.aeval (R := R) (φ a)).toRingHom := by
@@ -1449,7 +1450,7 @@ private lemma exists_fiber_dimension_pow_add_le_of_polynomial_relation
   have hr : algebraMap k T (algebraMap P k Polynomial.X) = φ a ^ n + φ b := by
     rw [← IsScalarTower.algebraMap_apply P k T,
       IsScalarTower.algebraMap_apply P S T]
-    show φ (Polynomial.aeval (R := R) (a ^ n + b) Polynomial.X) = _
+    change φ (Polynomial.aeval (R := R) (a ^ n + b) Polynomial.X) = _
     simp
   have hint : IsIntegral k (φ a) := hN hunit (φ a) (φ b) hab' n hn _ hr
   have hd : ∀ p : Spec (.of (Polynomial R)),
@@ -1459,7 +1460,7 @@ private lemma exists_fiber_dimension_pow_add_le_of_polynomial_relation
     exact (topologicalKrullDim_comp_fiber_le_of_isInducing
       (Spec.map (CommRingCat.ofHom φ.toRingHom)) (specMapAeval (R := R) a)
       (isEmbedding_SpecMap_fiber_includeRight (R := P) (S := S) q).isInducing p).trans (ha p)
-  show topologicalKrullDim ((Spec.map (CommRingCat.ofHom (algebraMap P S))).fiber q) ≤ _
+  change topologicalKrullDim ((Spec.map (CommRingCat.ofHom (algebraMap P S))).fiber q) ≤ _
   exact (topologicalKrullDim_fiber_SpecMap (R := P) (S := S) q).trans_le
     (topologicalKrullDim_le_of_isIntegral (R := R) (k := k) (φ a) hint _ hd)
 
@@ -1574,7 +1575,7 @@ private lemma exists_principal_open_eventually_fiber_dimension_le_of_domain
     intro hrq
     exact hcr (Ideal.mul_mem_left _ _ hrq)
   have hπ : π q ∈ PrimeSpectrum.basicOpen r := by
-    show r ∉ (π q).asIdeal
+    change r ∉ (π q).asIdeal
     exact hrq
   have hpV : π q ∈ V := hW hπ
   exact hN n hn q hpV hcq
@@ -1625,14 +1626,14 @@ private lemma eventually_transcendental_pow_add
   · obtain ⟨m, hm⟩ := hex
     refine ⟨m + 1, ?_⟩
     intro n hn
-    show ¬ IsAlgebraic k (a ^ n + b)
+    change ¬ IsAlgebraic k (a ^ n + b)
     intro h
     have heq := algebraic_pow_add_at_most_one a b ha ⟨n, h⟩ ⟨m, hm⟩
     simp only [Subtype.mk.injEq] at heq
     omega
   · refine ⟨0, ?_⟩
     intro n hn
-    show ¬ IsAlgebraic k (a ^ n + b)
+    change ¬ IsAlgebraic k (a ^ n + b)
     intro h
     exact hex ⟨n, h⟩
 
@@ -1677,7 +1678,7 @@ private lemma flat_specMapAeval_of_transcendental
   have : Module.IsTorsionFree (Polynomial k) S :=
     Module.isTorsionFree_iff_algebraMap_injective.mpr (transcendental_iff_injective.mp ha)
   apply Flat.SpecMap_iff.mpr
-  show (algebraMap (Polynomial k) S).Flat
+  change (algebraMap (Polynomial k) S).Flat
   exact RingHom.flat_algebraMap_iff.mpr inferInstance
 
 /-- When the first coordinate is algebraic over a field, every perturbation has the
@@ -1752,7 +1753,7 @@ private lemma eventually_fiber_dimension_le_of_minimalPrimes
   apply fiber_dimension_le_of_finite_closed_cover W g (specMapAeval (a ^ n + b))
   · intro i
     have : IsClosedImmersion (g i) := by
-      show IsClosedImmersion (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk i.1)))
+      change IsClosedImmersion (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk i.1)))
       exact IsClosedImmersion.spec_of_surjective _ Ideal.Quotient.mk_surjective
     exact this.isClosedEmbedding
   · ext q
@@ -1762,7 +1763,7 @@ private lemma eventually_fiber_dimension_le_of_minimalPrimes
       let : q.asIdeal.IsPrime := q.isPrime
       obtain ⟨p, hp, hpq⟩ := Ideal.exists_minimalPrimes_le (J := q.asIdeal) bot_le
       have hq : q ∈ Set.range (g ⟨p, hp⟩) := by
-        show q ∈ Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk p))
+        change q ∈ Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk p))
         rw [range_comap_of_surjective (S ⧸ p) (Ideal.Quotient.mk p)
           Ideal.Quotient.mk_surjective, Ideal.mk_ker]
         exact (PrimeSpectrum.mem_zeroLocus _ _).mpr hpq
@@ -1805,7 +1806,7 @@ private lemma eventually_fiber_dimension_le_of_pow_add_of_field
     obtain ⟨N, hN⟩ :=
       eventually_fiber_dimension_le_of_pow_add_of_field_of_isDomain d (φ a) (φ b) hi
     refine ⟨N, fun n hn q => ?_⟩
-    show topologicalKrullDim
+    change topologicalKrullDim
       ((Spec.map (CommRingCat.ofHom φ.toRingHom) ≫
         specMapAeval (a ^ n + b)).fiber q) ≤ _
     rw [specMap_comp_specMapAeval φ, map_add, map_pow]
@@ -1860,7 +1861,7 @@ private lemma topologicalKrullDim_comp_fiber_eq_of_range
     intro x
     obtain ⟨w, hw⟩ := h x.property
     refine ⟨⟨w, ?_⟩, Subtype.ext hw⟩
-    show f (g w) = y
+    change f (g w) = y
     rw [hw]
     exact x.property
   exact (hm.toHomeomorphOfSurjective hs).isHomeomorph.topologicalKrullDim_eq
@@ -1876,13 +1877,13 @@ private lemma fiber_dimension_evaluation_quotient_eq_of_mem
       topologicalKrullDim ((specMapAeval (R := R) a).fiber q) := by
   let J : Ideal S := Ideal.span {algebraMap R S c}
   let φ : S →ₐ[R] S ⧸ J := Ideal.Quotient.mkₐ R J
-  show topologicalKrullDim ((specMapAeval (R := R) (φ a)).fiber q) = _
+  change topologicalKrullDim ((specMapAeval (R := R) (φ a)).fiber q) = _
   rw [← specMap_comp_specMapAeval φ a]
   apply topologicalKrullDim_comp_fiber_eq_of_range
   · exact (PrimeSpectrum.isClosedEmbedding_comap_of_surjective _ _
       Ideal.Quotient.mk_surjective).isEmbedding
   · intro x hx
-    show x ∈ Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk J))
+    change x ∈ Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk J))
     rw [range_comap_of_surjective (S ⧸ J) _ Ideal.Quotient.mk_surjective, Ideal.mk_ker]
     apply (PrimeSpectrum.mem_zeroLocus _ _).mpr
     apply Ideal.span_le.mpr
@@ -1900,7 +1901,7 @@ private lemma ker_lt_ker_quotient_comp
     RingHom.ker φ < RingHom.ker ((Ideal.Quotient.mk J).comp φ) := by
   apply lt_of_le_of_ne
   · intro s hs
-    show Ideal.Quotient.mk J (φ s) = 0
+    change Ideal.Quotient.mk J (φ s) = 0
     rw [show φ s = 0 from hs, map_zero]
   · intro heq
     apply hJ
@@ -1962,7 +1963,7 @@ private lemma eventually_fiber_dimension_le_of_domain_of_quotients
     have hdim := hbound (Spec.map (CommRingCat.ofHom
       (Polynomial.mapRingHom (algebraMap R A))) q)
     rw [← fiber_dimension_evaluation_eq_of_surjective_base (S := S ⧸ J) hRA] at hdim
-    show topologicalKrullDim ((specMapAeval (R := A)
+    change topologicalKrullDim ((specMapAeval (R := A)
       (Ideal.Quotient.mk J (a ^ n + b))).fiber q) ≤ _
     rw [map_add, map_pow]
     exact hdim
@@ -2011,7 +2012,7 @@ private lemma eventually_fiber_dimension_le_of_pow_add_of_noetherian
           have hχ : Function.Surjective χ := Ideal.Quotient.mk_surjective
           have hle : RingHom.ker φ.toRingHom ≤ RingHom.ker (ψ.comp φ).toRingHom := by
             intro s hs
-            show ψ (φ s) = 0
+            change ψ (φ s) = 0
             rw [show φ s = 0 from hs, map_zero]
           have hlt : I < RingHom.ker (χ.comp (ψ.comp φ)).toRingHom := by
             rw [← hker]
@@ -2024,7 +2025,7 @@ private lemma eventually_fiber_dimension_le_of_pow_add_of_noetherian
           exact ih _ hlt _ (χ.comp (ψ.comp φ)) (hχ.comp (hψ.comp hφ)) rfl
             (χ (ψ a)) (χ (ψ b)) hqa)
       refine ⟨N, fun n hn q => ?_⟩
-      show topologicalKrullDim ((Spec.map (CommRingCat.ofHom ψ.toRingHom) ≫
+      change topologicalKrullDim ((Spec.map (CommRingCat.ofHom ψ.toRingHom) ≫
         specMapAeval (a ^ n + b)).fiber q) ≤ _
       rw [specMap_comp_specMapAeval ψ, map_add, map_pow]
       exact hN n hn q
@@ -2162,7 +2163,7 @@ theorem coefficientAlgebra_adjoin_eq_top {R S : Type*} [CommRing R] [CommRing S]
     Algebra.adjoin R (coefficientAlgebra (R := R) s i : Set S) = ⊤ := by
   have h : s ⊆ (coefficientAlgebra (R := R) s i : Set S) := by
     intro x hx
-    show x ∈ coefficientSubalgebra (algebraMap R S) s i
+    change x ∈ coefficientSubalgebra (algebraMap R S) s i
     exact Algebra.subset_adjoin (Or.inr hx)
   exact top_unique (hs ▸ Algebra.adjoin_mono h)
 
@@ -2207,12 +2208,12 @@ theorem isClosedImmersion_pullback_lift_of_closure_eq_top
   let g := Spec.map (CommRingCat.ofHom d)
   let k := pullback.lift (f := Spec.map (CommRingCat.ofHom a))
     (g := Spec.map (CommRingCat.ofHom b)) f g hcomm
-  show IsClosedImmersion k
+  change IsClosedImmersion k
   have hsurj : Function.Surjective k.appTop.hom := by
     let T : Subring D := k.appTop.hom.range.comap (Scheme.ΓSpecIso (.of D)).inv.hom
     have hc : Set.range c ⊆ T := by
       rintro _ ⟨x, rfl⟩
-      show (Scheme.ΓSpecIso (.of D)).inv (c x) ∈ k.appTop.hom.range
+      change (Scheme.ΓSpecIso (.of D)).inv (c x) ∈ k.appTop.hom.range
       refine ⟨(pullback.fst (Spec.map (CommRingCat.ofHom a))
         (Spec.map (CommRingCat.ofHom b))).appTop ((Scheme.ΓSpecIso (.of B)).inv x), ?_⟩
       rw [← CommRingCat.comp_apply, ← Scheme.Hom.comp_appTop, pullback.lift_fst]
@@ -2222,7 +2223,7 @@ theorem isClosedImmersion_pullback_lift_of_closure_eq_top
       exact hn
     have hd : Set.range d ⊆ T := by
       rintro _ ⟨x, rfl⟩
-      show (Scheme.ΓSpecIso (.of D)).inv (d x) ∈ k.appTop.hom.range
+      change (Scheme.ΓSpecIso (.of D)).inv (d x) ∈ k.appTop.hom.range
       refine ⟨(pullback.snd (Spec.map (CommRingCat.ofHom a))
         (Spec.map (CommRingCat.ofHom b))).appTop ((Scheme.ΓSpecIso (.of C)).inv x), ?_⟩
       rw [← CommRingCat.comp_apply, ← Scheme.Hom.comp_appTop, pullback.lift_snd]
@@ -2257,7 +2258,7 @@ theorem coefficientSubalgebra_closure_eq_top
     (Set.range (Subring.inclusion (S := Bj.toSubring) (T := Bi.toSubring)
       (coefficientSubalgebra_mono f s hij)) ∪
       Set.range ((coefficientMap f s i).toRingHom))
-  show T = ⊤
+  change T = ⊤
   apply top_le_iff.mp
   intro x _
   have hmem : ∀ (y : S) (hy : y ∈ Bi), (⟨y, hy⟩ : Bi) ∈ T := by
@@ -2277,7 +2278,7 @@ theorem coefficientSubalgebra_closure_eq_top
         refine ⟨⟨y, hyj⟩, ?_⟩
         rfl
     | algebraMap z =>
-      show (z : Bi) ∈ T
+      change (z : Bi) ∈ T
       exact intCast_mem T z
     | add x y _ _ hx hy => exact T.add_mem hx hy
     | mul x y _ _ hx hy => exact T.mul_mem hx hy
@@ -2387,7 +2388,7 @@ theorem coefficientSpec_limitMap_eq
   intro i
   rw [hcA.fac]
   simp only [Cone.postcompose_obj_π]
-  show Spec.map (CommRingCat.ofHom (B i.unop).subtype) ≫
+  change Spec.map (CommRingCat.ofHom (B i.unop).subtype) ≫
       Spec.map (CommRingCat.ofHom (coefficientMap (algebraMap R S) s i.unop).toRingHom) =
     Spec.map (CommRingCat.ofHom (algebraMap R S)) ≫
       Spec.map (CommRingCat.ofHom (A i.unop).subtype)
@@ -2437,26 +2438,26 @@ theorem exists_coefficient_stage_fiberDimension_le
   let hcB : CategoryTheory.Limits.IsLimit cB := coefficientSpecCone_isLimit s hs
   have instAffine : ∀ {i j : (Finset R)ᵒᵖ} (g : i ⟶ j), IsAffineHom (F.map g) := by
     intro i j g
-    show IsAffineHom (Spec.map (CommRingCat.ofHom
+    change IsAffineHom (Spec.map (CommRingCat.ofHom
       (Subring.inclusion (hA g.unop.le))))
     infer_instance
   have instCompact : ∀ i : (Finset R)ᵒᵖ, CompactSpace (F.obj i) := by
     intro i
-    show CompactSpace (Spec (.of (A i.unop)))
+    change CompactSpace (Spec (.of (A i.unop)))
     infer_instance
   have instQuasiSeparated : ∀ i : (Finset R)ᵒᵖ, QuasiSeparatedSpace (F.obj i) := by
     intro i
-    show QuasiSeparatedSpace (Spec (.of (A i.unop)))
+    change QuasiSeparatedSpace (Spec (.of (A i.unop)))
     infer_instance
   have instFiniteType : ∀ i : (Finset R)ᵒᵖ, LocallyOfFiniteType (f.app i) := by
     intro i
-    show LocallyOfFiniteType (Spec.map (CommRingCat.ofHom
+    change LocallyOfFiniteType (Spec.map (CommRingCat.ofHom
       (coefficientMap (algebraMap R S) (s : Set S) i.unop).toRingHom))
     exact (HasRingHomProperty.Spec_iff (P := @LocallyOfFiniteType)).mpr
       (coefficientMap_finiteType (algebraMap R S) s.finite_toSet i.unop)
   have instQuasiCompact : ∀ i : (Finset R)ᵒᵖ, QuasiCompact (f.app i) := by
     intro i
-    show QuasiCompact (Spec.map (CommRingCat.ofHom
+    change QuasiCompact (Spec.map (CommRingCat.ofHom
       (coefficientMap (algebraMap R S) (s : Set S) i.unop).toRingHom))
     infer_instance
   have instTransition : ∀ {i j : (Finset R)ᵒᵖ} (g : i ⟶ j),
@@ -2467,7 +2468,7 @@ theorem exists_coefficient_stage_fiberDimension_le
   have hdimLimit : ∀ p : cA.pt,
       topologicalKrullDim ((hcA.lift ((CategoryTheory.Limits.Cone.postcompose f).obj cB)).fiber p) ≤
         (d : WithBot ℕ∞) := by
-    show ∀ p : (baseCoefficientSpecCone R).pt,
+    change ∀ p : (baseCoefficientSpecCone R).pt,
       topologicalKrullDim (((baseCoefficientSpecCone_isLimit R).lift
         ((Cone.postcompose (coefficientSpecDiagramMap (algebraMap R S) (s : Set S))).obj
           (coefficientSpecCone (algebraMap R S) (s : Set S)))).fiber p) ≤
@@ -2691,7 +2692,7 @@ private lemma coefficientEvaluationSpec_limitMap_eq
   intro i
   rw [IsLimit.fac]
   simp only [Cone.postcompose_obj_π]
-  show Spec.map (CommRingCat.ofHom
+  change Spec.map (CommRingCat.ofHom
       (coefficientSubalgebra (algebraMap R S) s i.unop).toSubring.subtype) ≫
       Spec.map (CommRingCat.ofHom (coefficientEvaluationMap s a ha i.unop)) =
     specMapAeval (R := R) a ≫ Spec.map (CommRingCat.ofHom
@@ -2702,12 +2703,12 @@ private lemma coefficientEvaluationSpec_limitMap_eq
   apply CommRingCat.hom_ext
   apply Polynomial.ringHom_ext
   · intro r
-    show ((coefficientEvaluationMap s a ha i.unop (Polynomial.C r) :
+    change ((coefficientEvaluationMap s a ha i.unop (Polynomial.C r) :
       coefficientSubalgebra (algebraMap R S) s i.unop) : S) =
         Polynomial.aeval a (Polynomial.map _ (Polynomial.C r))
     rw [coefficientEvaluationMap_C, Polynomial.map_C, Polynomial.aeval_C]
     rfl
-  · show ((coefficientEvaluationMap s a ha i.unop Polynomial.X :
+  · change ((coefficientEvaluationMap s a ha i.unop Polynomial.X :
       coefficientSubalgebra (algebraMap R S) s i.unop) : S) =
         Polynomial.aeval a (Polynomial.map _ Polynomial.X)
     rw [coefficientEvaluationMap_X, Polynomial.map_X, Polynomial.aeval_X]
@@ -2733,7 +2734,7 @@ private lemma exists_coefficient_stage_evaluation_fiber_dimension_le
   let hcB : IsLimit cB := coefficientSpecCone_isLimit s hs
   have instAffine : ∀ {i j : (Finset R)ᵒᵖ} (g : i ⟶ j), IsAffineHom (F.map g) := by
     intro i j g
-    show IsAffineHom (Spec.map (CommRingCat.ofHom (Polynomial.mapRingHom
+    change IsAffineHom (Spec.map (CommRingCat.ofHom (Polynomial.mapRingHom
       (Subring.inclusion
         (S := (coefficientSubalgebra (RingHom.id R) ∅ j.unop).toSubring)
         (T := (coefficientSubalgebra (RingHom.id R) ∅ i.unop).toSubring)
@@ -2741,23 +2742,23 @@ private lemma exists_coefficient_stage_evaluation_fiber_dimension_le
     infer_instance
   have instCompact : ∀ i : (Finset R)ᵒᵖ, CompactSpace (F.obj i) := by
     intro i
-    show CompactSpace (Spec (.of
+    change CompactSpace (Spec (.of
       (Polynomial (coefficientSubalgebra (RingHom.id R) ∅ i.unop))))
     infer_instance
   have instQuasiSeparated : ∀ i : (Finset R)ᵒᵖ, QuasiSeparatedSpace (F.obj i) := by
     intro i
-    show QuasiSeparatedSpace (Spec (.of
+    change QuasiSeparatedSpace (Spec (.of
       (Polynomial (coefficientSubalgebra (RingHom.id R) ∅ i.unop))))
     infer_instance
   have instFiniteType : ∀ i : (Finset R)ᵒᵖ, LocallyOfFiniteType (f.app i) := by
     intro i
-    show LocallyOfFiniteType (Spec.map (CommRingCat.ofHom
+    change LocallyOfFiniteType (Spec.map (CommRingCat.ofHom
       (coefficientEvaluationMap (s : Set S) a has i.unop)))
     exact (HasRingHomProperty.Spec_iff (P := @LocallyOfFiniteType)).mpr
       (coefficientEvaluationMap_finiteType (s : Set S) s.finite_toSet a has i.unop)
   have instQuasiCompact : ∀ i : (Finset R)ᵒᵖ, QuasiCompact (f.app i) := by
     intro i
-    show QuasiCompact (Spec.map (CommRingCat.ofHom
+    change QuasiCompact (Spec.map (CommRingCat.ofHom
       (coefficientEvaluationMap (s : Set S) a has i.unop)))
     infer_instance
   have instTransition : ∀ {i j : (Finset R)ᵒᵖ} (g : i ⟶ j),
@@ -2767,7 +2768,7 @@ private lemma exists_coefficient_stage_evaluation_fiber_dimension_le
   have hdimLimit : ∀ q : cA.pt,
       topologicalKrullDim ((hcA.lift ((Cone.postcompose f).obj cB)).fiber q) ≤
         (d : WithBot ℕ∞) := by
-    show ∀ q, topologicalKrullDim (((polynomialCoefficientSpecConeIsLimit R).lift
+    change ∀ q, topologicalKrullDim (((polynomialCoefficientSpecConeIsLimit R).lift
       ((Cone.postcompose (coefficientEvaluationSpecMap (s : Set S) a has)).obj
         (coefficientSpecCone (algebraMap R S) (s : Set S)))).fiber q) ≤ _
     rw [coefficientEvaluationSpec_limitMap_eq]
@@ -2802,7 +2803,7 @@ private lemma fiber_dimension_evaluation_le_of_adjoin_eq_top
     have htop : T' = ⊤ := top_le_iff.mp (hB ▸ Algebra.adjoin_le hBT)
     apply top_le_iff.mp
     intro x hx
-    show x ∈ T'
+    change x ∈ T'
     rw [htop]
     trivial
   let φ : Polynomial A →+* B := (Polynomial.aeval (R := A) a).toRingHom
@@ -2815,11 +2816,11 @@ private lemma fiber_dimension_evaluation_le_of_adjoin_eq_top
     apply CommRingCat.hom_ext
     apply Polynomial.ringHom_ext
     · intro r
-      show B.val (Polynomial.aeval a (Polynomial.C r)) =
+      change B.val (Polynomial.aeval a (Polynomial.C r)) =
         Polynomial.aeval (R := R) (a : S) (Polynomial.map (algebraMap A R) (Polynomial.C r))
       rw [Polynomial.map_C, Polynomial.aeval_C, Polynomial.aeval_C, B.val.commutes]
       exact IsScalarTower.algebraMap_apply A R S r
-    · show B.val (Polynomial.aeval a Polynomial.X) =
+    · change B.val (Polynomial.aeval a Polynomial.X) =
         Polynomial.aeval (R := R) (a : S) (Polynomial.map (algebraMap A R) Polynomial.X)
       rw [Polynomial.map_X, Polynomial.aeval_X, Polynomial.aeval_X]
       rfl

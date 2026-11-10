@@ -54,7 +54,7 @@ theorem FormallyEtale.of_ind_etale (R : Type u) (R' : Type u) [CommRing R] [Comm
   · suffices e : CommAlgCat.ofHom f = CommAlgCat.ofHom g from
       congrArg CommAlgCat.Hom.hom e
     refine p.isColimit.hom_ext fun j => CommAlgCat.hom_ext ((hc j).injective ?_)
-    show (Ideal.Quotient.mkₐ R I).comp (f.comp (p.ι.app j).hom) =
+    change (Ideal.Quotient.mkₐ R I).comp (f.comp (p.ι.app j).hom) =
       (Ideal.Quotient.mkₐ R I).comp (g.comp (p.ι.app j).hom)
     rw [← AlgHom.comp_assoc, ← AlgHom.comp_assoc, hfg]
   · choose l hl using fun j =>
@@ -65,7 +65,7 @@ theorem FormallyEtale.of_ind_etale (R : Type u) (R' : Type u) [CommRing R] [Comm
         ι.app j := CommAlgCat.ofHom (l j)
         ι.naturality i j a := by
           refine CommAlgCat.hom_ext ((hc i).injective ?_)
-          show (Ideal.Quotient.mkₐ R I).comp ((l j).comp (p.diag.map a).hom) =
+          change (Ideal.Quotient.mkₐ R I).comp ((l j).comp (p.diag.map a).hom) =
             (Ideal.Quotient.mkₐ R I).comp (l i)
           rw [← AlgHom.comp_assoc, hl, hl, AlgHom.comp_assoc]
           congr 1
@@ -74,7 +74,7 @@ theorem FormallyEtale.of_ind_etale (R : Type u) (R' : Type u) [CommRing R] [Comm
     suffices e : p.isColimit.desc c ≫ CommAlgCat.ofHom (Ideal.Quotient.mkₐ R I) =
         CommAlgCat.ofHom f from congrArg CommAlgCat.Hom.hom e
     refine p.isColimit.hom_ext fun j => ?_
-    show p.ι.app j ≫ p.isColimit.desc c ≫ CommAlgCat.ofHom (Ideal.Quotient.mkₐ R I) = _
+    change p.ι.app j ≫ p.isColimit.desc c ≫ CommAlgCat.ofHom (Ideal.Quotient.mkₐ R I) = _
     rw [← Category.assoc, p.isColimit.fac]
     exact CommAlgCat.hom_ext (hl j)
 
@@ -108,7 +108,7 @@ theorem bijective_h1Cotangent_map_of_formallyEtale (R R' : Type u) (A' : Type v)
   have hi := hinj.comp (Generators.H1Cotangent.equiv W (Q.comp P)).injective
   convert hi using 1
   funext x
-  show Extension.H1Cotangent.map _ x =
+  change Extension.H1Cotangent.map _ x =
     Extension.H1Cotangent.map _ (Extension.H1Cotangent.map _ x)
   rw [← Extension.H1Cotangent.map_comp_apply, Extension.H1Cotangent.map_eq]
 

@@ -95,7 +95,7 @@ public theorem isFractionRing_of_injective_of_isLocalization_powers
   have hreg : algebraMap B R b ∈ nonZeroDivisors R :=
     localization_submonoid_le_nonZeroDivisors (S := FractionRing B)
       (Submonoid.powers (algebraMap B R b)) hinj (Submonoid.mem_powers _)
-  show IsLocalization (nonZeroDivisors R) (FractionRing B)
+  change IsLocalization (nonZeroDivisors R) (FractionRing B)
   rw [isLocalization_iff]
   refine ⟨fun r => ?_, fun z => ?_, fun {x y} hxy => ⟨1, by simp [hinj hxy]⟩⟩
   · have hregK : algebraMap R (FractionRing B) r.1 ∈ nonZeroDivisors (FractionRing B) := by
@@ -144,7 +144,7 @@ public theorem isIntegral_iff_mem_range_tensorProduct
   let gB : (S ⊗[A] B) →ₐ[B] FractionRing B :=
     { toRingHom := g.toRingHom
       commutes' := fun b => by
-        show g (Algebra.TensorProduct.includeRight b) = algebraMap B (FractionRing B) b
+        change g (Algebra.TensorProduct.includeRight b) = algebraMap B (FractionRing B) b
         exact hcompat b }
   let : IsScalarTower B (S ⊗[A] B) (FractionRing B) :=
     IsScalarTower.of_algebraMap_eq' gB.comp_algebraMap.symm

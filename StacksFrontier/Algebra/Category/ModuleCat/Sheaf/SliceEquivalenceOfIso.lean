@@ -94,7 +94,7 @@ theorem comp_inverseStructureMapOfIso_unit :
   dsimp only [Functor.id_obj, Functor.op_obj, unop_op, Functor.comp_obj]
   simp only [Category.assoc, Category.id_comp]
   rw [hn, ← Category.assoc ((inv φ.hom).app _) (φ.hom.app _), hi, Category.id_comp]
-  show φ.hom.app (op W) ≫ R.obj.map (eqv.counit.app (eqv.functor.obj W)).op ≫
+  change φ.hom.app (op W) ≫ R.obj.map (eqv.counit.app (eqv.functor.obj W)).op ≫
       R.obj.map (eqv.functor.map (eqv.unit.app W)).op = φ.hom.app (op W)
   have ht : eqv.functor.map (eqv.unit.app W) ≫ eqv.counit.app (eqv.functor.obj W) = 𝟙 _ :=
     eqv.functor_unit_comp W

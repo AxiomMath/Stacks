@@ -115,7 +115,7 @@ theorem hasEnoughObjects_of_exists_preZeroHypercover [Small.{v} C]
       congrArg Sieve.generate ((E.presieve₀_reindex (equivShrink A).symm).trans hE)]
     exact hmem
   · obtain ⟨j, hj, -⟩ := Presieve.ofArrows_surj 𝒰.f _ ((equivShrink A).symm i).2
-    show P ((((equivShrink A).symm i : A)).1.1)
+    change P ((((equivShrink A).symm i : A)).1.1)
     exact hj ▸ hP j
 
 end CategoryTheory.GrothendieckTopology

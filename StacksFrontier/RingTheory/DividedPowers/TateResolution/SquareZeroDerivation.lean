@@ -575,7 +575,7 @@ public theorem exists_addMonoidHom_comp_of_surjective
   · intro n₁ n₂
     obtain ⟨m₁, hm₁⟩ := hp n₁
     obtain ⟨m₂, hm₂⟩ := hp n₂
-    show g (Function.surjInv hp (n₁ + n₂)) =
+    change g (Function.surjInv hp (n₁ + n₂)) =
       g (Function.surjInv hp n₁) + g (Function.surjInv hp n₂)
     rw [key m₁ n₁ hm₁, key m₂ n₂ hm₂,
       key (m₁ + m₂) (n₁ + n₂) (by rw [map_add, hm₁, hm₂]), map_add]

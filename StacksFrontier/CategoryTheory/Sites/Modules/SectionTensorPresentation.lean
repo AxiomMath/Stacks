@@ -154,7 +154,7 @@ theorem freeGlobalModuleRelations_comp_cover (M : ModuleCat.{max u r} (GlobalFun
   refine ModuleCat.hom_ext (Finsupp.lhom_ext' fun k => LinearMap.ext fun a => ?_)
   have h : (freeGlobalModuleRelations O M).hom (Finsupp.single k a) = a • k.1 :=
     Finsupp.linearCombination_single _ _ _
-  show (freeGlobalModuleCover O M).hom ((freeGlobalModuleRelations O M).hom
+  change (freeGlobalModuleCover O M).hom ((freeGlobalModuleRelations O M).hom
     (Finsupp.single k a)) = 0
   rw [h, map_smul, LinearMap.mem_ker.1 k.2, smul_zero]
 

@@ -145,7 +145,7 @@ theorem symGradedMapOfEpi_chart (x' : X) :
         U) 1 ((Scheme.Modules.symmetricAlgebraGen X F').val.app (op U) z)) ?_
     refine Eq.trans ?_ (congrArg (F'.val.map (homOfLE (le_rfl : U ≤ (𝟙 X) ⁻¹ᵁ U)).op)
       (Stacks.Chow.GenuineChern.homEquiv_pullbackId_comp_apply u U x)).symm
-    show _ = F'.presheaf.map (𝟙 (op U)) _
+    change _ = F'.presheaf.map (𝟙 (op U)) _
     rw [CategoryTheory.Functor.map_id]
     rfl
 

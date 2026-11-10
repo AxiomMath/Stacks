@@ -66,16 +66,16 @@ theorem isMittagLefflerCategorical_adicTowerCollapseKernelTower_of_stableImage
     (fun i => if h : m₀ ≤ i then Classical.choose (hstab i h) else i)
     (fun i => by
       by_cases h : m₀ ≤ i
-      · rw [dif_pos h]
+      · rw [dite_eq_left h]
         exact Classical.choose (Classical.choose_spec (hstab i h))
-      · rw [dif_neg h])
+      · rw [dite_eq_right h])
     (fun i => Submodule.comap (adicTowerCollapseKernel.{u, u} T I M s m₀ i).subtype
       (LinearMap.range ((localCohomologyAdicCone.{u, u} A T I s M).π.app (op i)).hom))
     ?_
   intro i k hbk hik
   by_cases hm₀i : m₀ ≤ i
   · have hc := Classical.choose_spec (Classical.choose_spec (hstab i hm₀i))
-    have hck : Classical.choose (hstab i hm₀i) ≤ k := by rwa [dif_pos hm₀i] at hbk
+    have hck : Classical.choose (hstab i hm₀i) ≤ k := by rwa [dite_eq_left hm₀i] at hbk
     have hm₀k : m₀ ≤ k := hm₀i.trans hik
     rw [range_adicTowerCollapseKernelTower_map_eq.{u, u} T I M s m₀ hm₀i hik]
     refine le_antisymm (fun x hx => ?_) (fun x hx => ?_)
@@ -121,7 +121,7 @@ theorem isMittagLefflerCategorical_adicTowerCollapseKernelTower_of_stableImage
         (ConcreteCategory.congr_hom
           ((localCohomologyAdicCone.{u, u} A T I s M).w (homOfLE hik).op) z).trans hz⟩
   · have : Subsingleton ((adicTowerCollapseKernelTower.{u, u} T I M s m₀).obj (op i)) := by
-      show Subsingleton ↥(adicTowerCollapseKernel.{u, u} T I M s m₀ i)
+      change Subsingleton ↥(adicTowerCollapseKernel.{u, u} T I M s m₀ i)
       rw [adicTowerCollapseKernel_of_lt.{u, u} T I M s m₀ hm₀i]
       infer_instance
     exact submodule_eq_of_subsingleton _ _

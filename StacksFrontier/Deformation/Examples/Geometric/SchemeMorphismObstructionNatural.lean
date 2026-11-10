@@ -203,7 +203,7 @@ theorem isLinearMap_tangentModuleDescend (M : FGModuleCat.{w} k) :
   let y' : 𝓕.p.Fiber ((squareZeroExtensionArtinian.{u, w, w} Λ k).obj N) := ⟨y, hy⟩
   have h := tangentModuleMapAt_tangentClassAt.{u, w, w} 𝓕 h𝓕 g x y' a ha
   rw [tangentModuleMapAt_eq] at h
-  show tangentModuleDescend 𝓕 h𝓕 G t N ((((associatedTangentSpaceModuleStructure.{u, w, w} 𝓕
+  change tangentModuleDescend 𝓕 h𝓕 G t N ((((associatedTangentSpaceModuleStructure.{u, w, w} 𝓕
     h𝓕.predeformation (tangentConditionS2.{u, w, w} h𝓕)).functor.map g).hom)
       (tangentClassAt.{u, w, w} 𝓕 h𝓕 M x)) = _
   rw [h, tangentModuleDescend_tangentClassAt 𝓕 h𝓕 G t hinv N y',

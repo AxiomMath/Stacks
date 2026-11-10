@@ -52,7 +52,7 @@ theorem isLocallyConstant_relativeInvertibleDegreeHom (c : Stacks.Picard.ofSchem
     rw [relativeInvertibleDegreeHom_apply, relativeInvertibleDegreeHomAt_apply,
       invertibleCurveDegreeHom_apply, Pi.sub_apply]
     obtain ⟨e₁⟩ := Stacks.RigidifiedPicard.nonempty_iso_pullback_picardRepresentative (π.fiberι t) c
-    show _ = eulerSum (T.residueField t) (π.fiberToSpecResidueField t)
+    change _ = eulerSum (T.residueField t) (π.fiberToSpecResidueField t)
         ((Scheme.Modules.pullback (π.fiberι t)).obj L) -
       eulerSum (T.residueField t) (π.fiberToSpecResidueField t)
         ((Scheme.Modules.pullback (π.fiberι t)).obj (SheafOfModules.unit Y.ringCatSheaf))

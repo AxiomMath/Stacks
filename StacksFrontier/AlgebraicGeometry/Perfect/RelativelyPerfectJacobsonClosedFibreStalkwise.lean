@@ -11,8 +11,8 @@ Let `(R, I)` be a ring with an ideal contained in its Jacobson radical, write `S
 0DJZ says that a pseudo-coherent object `E` of `D(𝒪_X)` whose derived restriction to
 `X₀ = S₀ ×_S X` is `S₀`-perfect is itself `S`-perfect.
 
-`StacksFrontier.AlgebraicGeometry.Perfect.RelativelyPerfectJacobsonClosedFibre` states that lemma with
-its Tor clause carried as the named hypothesis
+`StacksFrontier.AlgebraicGeometry.Perfect.RelativelyPerfectJacobsonClosedFibre` states that lemma
+with its Tor clause carried as the named hypothesis
 `AlgebraicGeometry.Scheme.Hom.LocallyFiniteTorDimensionFromClosedFibre`, whose conclusion is a
 condition on a *sheaf* on the inverse-image ringed space `(X, f^{-1}𝒪_S)`, read at a family of
 certificates for the derived tensor product. This module replaces that hypothesis by the

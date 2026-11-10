@@ -216,7 +216,7 @@ lemma freeTensorCopowerIso_naturality
   have h4 : AddCommGrpCat.Hom.hom (freeTensorCopowerIsoApp E R N' X).inv
       (Finsupp.single e (Hom.app h X m)) = _ :=
     freeTensorCopowerIsoApp_inv_single E R N' X e (Hom.app h X m)
-  show AddCommGrpCat.Hom.hom
+  change AddCommGrpCat.Hom.hom
       (((toPresheaf (R ⋙ forget₂ CommRingCat RingCat)).map
         (tensorHom (𝟙 (freeObj E)) h)).app X)
       (AddCommGrpCat.Hom.hom (freeTensorCopowerIsoApp E R N X).inv (Finsupp.single e m)) =
@@ -258,7 +258,7 @@ lemma copowerStdSimplexIso_naturality
     (id : (n ⟶ (totalSimplexDegree S).leftOp.obj U) →
       (n ⟶ (totalSimplexDegree S).leftOp.obj U)) (β.app U)
     (stdSimplexPresheafObjEquiv S n U x)
-  show AddCommGrpCat.Hom.hom ((copowerStdSimplexIso S n H).hom.app U)
+  change AddCommGrpCat.Hom.hom ((copowerStdSimplexIso S n H).hom.app U)
       (AddCommGrpCat.Hom.hom ((copowerPresheafMap (stdSimplexPresheaf' S n) β).app U)
         (Finsupp.single x m)) =
     AddCommGrpCat.Hom.hom (copowerMap id (β.app U))
@@ -492,7 +492,7 @@ theorem barTermIsoIntegerTensorApp_naturality (S : SimplicialSiteSituation.{u})
     (n : SimplexCategory) {F G : Sheaf S.totalTopology Ab.{u}} (α : F ⟶ G) :
     (barTerm S n).map α ≫ (barTermIsoIntegerTensorApp S n G).hom =
       (barTermIsoIntegerTensorApp S n F).hom ≫ (integerTensorAb S n).map α := by
-  show (barTerm S n).map α ≫ (barTermIsoAux S n G).inv =
+  change (barTerm S n).map α ≫ (barTermIsoAux S n G).inv =
     (barTermIsoAux S n F).inv ≫ (integerTensorAb S n).map α
   rw [Iso.comp_inv_eq, Category.assoc, barTermIsoAux_naturality S n α,
     Iso.inv_hom_id_assoc]

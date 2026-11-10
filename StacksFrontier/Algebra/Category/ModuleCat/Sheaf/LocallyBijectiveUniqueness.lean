@@ -15,7 +15,8 @@ sheaves of modules — a sheafification — is compared with anything: both
 
 As a bare `def` it is opaque: it gives an isomorphism and no equation. This file supplies the
 equation. The extension principle `existsUnique_moduleHom_of_locallyBijective` already in
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorLocallyFree.lean` says a morphism out of a sheaf
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorLocallyFree.lean` says a
+morphism out of a sheaf
 is determined by its restriction along a locally bijective map; so
 
 * two morphisms of sheaves of modules agreeing after a locally bijective map are **equal**, and

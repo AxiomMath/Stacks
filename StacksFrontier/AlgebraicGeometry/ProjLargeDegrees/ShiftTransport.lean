@@ -123,7 +123,8 @@ theorem bijective_degreeNToGlobalSections_addSubgroupGrading (p : ℤ)
     (h : Function.Bijective
       (degreeNToGlobalSections 𝒮 (Stacks.GradedModule.addSubgroupGrading 𝒩) p)) :
     Function.Bijective (degreeNToGlobalSections 𝒮 𝒩 p) := by
-  rwa [bijective_degreeNToGlobalSections_iff] at h ⊢
+  rw [bijective_degreeNToGlobalSections_iff] at h ⊢
+  exact h
 
 end Stacks.AlgebraicGeometry.ProjLargeDegrees
 

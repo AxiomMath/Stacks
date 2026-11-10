@@ -116,11 +116,11 @@ theorem exists_ringEquiv_adicCompletion_stalk_origin (k : Type u) [Field k] (n :
     exact this
   have step1 := hE1 ((Spec (CommRingCat.of R)).presheaf.germ ⊤ (origin k n) trivial
         ((Scheme.ΓSpecIso (CommRingCat.of R)).inv f))
-  show (E2.symm.toRingEquiv.trans
+  change (E2.symm.toRingEquiv.trans
       ((Stacks.MixedCompletion.polynomialAdicCompletionAlgEquiv k n).toRingEquiv.trans
         (mvPowerSeriesCongr (completionFieldEquiv k)))) (E1 _) = _
   rw [step1]
-  show (E2.symm.toRingEquiv.trans
+  change (E2.symm.toRingEquiv.trans
       ((Stacks.MixedCompletion.polynomialAdicCompletionAlgEquiv k n).toRingEquiv.trans
         (mvPowerSeriesCongr (completionFieldEquiv k))))
       (algebraMap (Localization.AtPrime q) (AdicCompletion (maximalIdeal (Localization.AtPrime q))
@@ -128,7 +128,7 @@ theorem exists_ringEquiv_adicCompletion_stalk_origin (k : Type u) [Field k] (n :
       ((Spec (CommRingCat.of R)).presheaf.germ ⊤ (origin k n) trivial
         ((Scheme.ΓSpecIso (CommRingCat.of R)).inv f)))) = _
   rw [key1, ← hE2 f]
-  simp only [RingEquiv.trans_apply, AlgEquiv.coe_ringEquiv, AlgEquiv.symm_apply_apply]
+  simp only [RingEquiv.trans_apply, AlgEquiv.coe_toRingEquiv, AlgEquiv.symm_apply_apply]
   ext d
   rw [mvPowerSeriesCongr_apply, MvPowerSeries.coeff_map,
     Stacks.MixedCompletion.polynomialAdicCompletionAlgEquiv_of,

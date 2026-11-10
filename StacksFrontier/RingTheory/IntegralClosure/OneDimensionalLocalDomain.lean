@@ -244,7 +244,7 @@ theorem isLocalHom_algebraMap_localization (m : Ideal ↥(integralClosure A F)) 
   let := liesOver_maximalIdeal A F m
   refine ((local_hom_TFAE (algebraMap A (Localization.AtPrime m))).out 4 1).mp ?_
   intro a ha
-  show algebraMap A (Localization.AtPrime m) a ∈ maximalIdeal _
+  change algebraMap A (Localization.AtPrime m) a ∈ maximalIdeal _
   rw [IsScalarTower.algebraMap_apply A ↥(integralClosure A F) (Localization.AtPrime m)]
   refine (IsLocalization.AtPrime.to_map_mem_maximal_iff _ m _).mpr ?_
   rwa [Ideal.LiesOver.over (p := maximalIdeal A) (P := m)] at ha

@@ -91,16 +91,14 @@ def ambRes {V W : Y.Opens} (h : V ≤ W) : amb Ω S W →+* amb Ω S V :=
 
 /-- Restriction in the ambient ring along `W ≤ W` is the identity. -/
 lemma ambRes_self {W : Y.Opens} (x : amb Ω S W) : ambRes Ω S (le_refl W) x = x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul t s => rw [ambRes_tmul, resHom_self' _ t]
   | add x y hx hy => rw [map_add, hx, hy]
 
 /-- Restriction in the ambient ring is compatible with composition of inclusions. -/
 lemma ambRes_ambRes {U V W : Y.Opens} (h : V ≤ W) (h' : U ≤ V) (x : amb Ω S W) :
     ambRes Ω S h' (ambRes Ω S h x) = ambRes Ω S (h'.trans h) x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul t s => rw [ambRes_tmul, ambRes_tmul, ambRes_tmul, resHom_resHom]
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -275,8 +273,7 @@ lemma ambRes_mem_sub {V W : Y.Opens} (h : V ≤ W) {γ : amb Ω S W} (hγ : γ �
 ideal of denominators is everything there, and the generators of the presentation span. -/
 lemma sub_eq_top {W : Y.Opens} (hW : W ≤ Ω) : sub P W = ⊤ := by
   refine eq_top_iff.mpr fun γ _ => ?_
-  induction γ using TensorProduct.induction_on with
-  | zero => exact Subring.zero_mem _
+  induction γ using TensorProduct.inductionOn with
   | add x y hx hy => exact Subring.add_mem _ (hx trivial) (hy trivial)
   | tmul t s =>
       obtain ⟨c, hc⟩ := P.spans s
@@ -340,7 +337,7 @@ lemma isIntegralElem_genMul {W : Y.Opens} {ρ : Γ(Y, W)} (hρ : ρ ∈ denom P.
   have hgen : P.gen l ^ P.deg l = -∑ i : Fin (P.deg l), P.coeff l i • P.gen l ^ (i : ℕ) :=
     eq_neg_of_add_eq_zero_left (P.monic l)
   rw [Polynomial.eval₂_add, Polynomial.eval₂_pow, Polynomial.eval₂_X,
-    Polynomial.eval₂_finset_sum]
+    Polynomial.eval₂_finsetSum]
   simp only [Polynomial.eval₂_mul, Polynomial.eval₂_C, Polynomial.eval₂_pow, Polynomial.eval₂_X]
   have key : ∀ i : Fin (P.deg l),
       toAmb Ω S W (ρ ^ (P.deg l - 1 - (i : ℕ)) * s i) * genMul P W l ρ ^ (i : ℕ)

@@ -382,7 +382,7 @@ theorem not_factors_moduliSmoothCurvesOfGenus_zero_of_identity {k : Type u} [Fie
   have hH : HasUniversallyBijectiveGlobalFunctions B hZ
       (curveFamilyOfScheme (Over.mk (𝟙 (Spec (.of k)))) B hZ hk hdim) :=
     (hasUniversallyBijectiveGlobalFunctions_curveFamilyOfScheme_iff hk _ hdim).2 (by
-      show IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ Scheme.Hom.appTop (𝟙 (Spec (.of k))))
+      change IsIso ((Scheme.ΓSpecIso (.of k)).inv ≫ Scheme.Hom.appTop (𝟙 (Spec (.of k))))
       rw [Scheme.Hom.id_appTop, Category.comp_id]
       infer_instance)
   have hgen : genus (Over.mk (𝟙 (Spec (.of k)))).hom = 0 := by

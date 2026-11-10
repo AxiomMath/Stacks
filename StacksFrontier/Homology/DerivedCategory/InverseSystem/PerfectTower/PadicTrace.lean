@@ -265,7 +265,7 @@ private lemma projectiveTrace_eval_eq_trace_of_split {R : Type u} [CommRing R]
     ext x
     simp only [LinearMap.comp_apply, a, b]
     rw [hi_apply]
-  show commutativeAdditiveCommutatorQuotientEval R
+  change commutativeAdditiveCommutatorQuotientEval R
     (FilteredDerived.freeModuleTrace R (Fin n) (i₀.comp (f.comp p₀))) = _
   rw [freeModuleTrace_eval]
   rw [← hba, ← hab]
@@ -415,12 +415,12 @@ private theorem alternatingTrace_eval_baseChange {R S : Type} [CommRing R] [Comm
     apply hi
     simp [hzero]
   have hmφ := AddMonoidHom.map_finsum φ.toAddMonoidHom hfiniteEv
-  show evS (FilteredDerived.alternatingTrace S P' hP' g') =
+  change evS (FilteredDerived.alternatingTrace S P' hP' g') =
     φ (evR (FilteredDerived.alternatingTrace R P hP g))
   unfold FilteredDerived.alternatingTrace
-  show evS (∑ᶠ i, tS i) = φ (evR (∑ᶠ i, tR i))
+  change evS (∑ᶠ i, tS i) = φ (evR (∑ᶠ i, tR i))
   rw [hmS, hmR]
-  show (∑ᶠ i, evS (tS i)) = φ.toAddMonoidHom (∑ᶠ i, (evR ∘ tR) i)
+  change (∑ᶠ i, evS (tS i)) = φ.toAddMonoidHom (∑ᶠ i, (evR ∘ tR) i)
   rw [hmφ]
   apply finsum_congr
   intro i
@@ -546,12 +546,12 @@ private lemma perfectTrace_baseChange {S R : Type} [CommRing S] [CommRing R]
   have hβiso : IsIso β := inferInstance
   let βIso : D.functor.obj K ≅ N.obj := @asIso _ _ _ _ β hβiso
   let α' : DerivedCategory.Q.obj P' ≅ N.obj := by
-    show F.obj P ≅ N.obj
+    change F.obj P ≅ N.obj
     exact θ.symm ≪≫ βIso
   have : IsIso (D.comparison.app P) := hcomp
   have : IsIso (D.functor.map e.inv) := hMapIso
   have hc_hom : c.hom = D.comparison.app P := by
-    show (@asIso _ _ _ _ (D.comparison.app P) hcomp).hom = D.comparison.app P
+    change (@asIso _ _ _ _ (D.comparison.app P) hcomp).hom = D.comparison.app P
     rfl
   have hθhom : θ.hom = D.functor.map e.inv ≫ D.comparison.app P := rfl
   have hconj : f ≫ e.inv = e.inv ≫ DerivedCategory.Q.map g := by
@@ -591,7 +591,7 @@ private lemma perfectTrace_baseChange {S R : Type} [CommRing S] [CommRing R]
     exact asIso_hom _
   have hα' : DerivedCategory.Q.map g' ≫ α'.hom = α'.hom ≫ b := by
     have hhom : α'.hom = θ.inv ≫ β := by
-      show (θ.symm ≪≫ βIso).hom = θ.inv ≫ β
+      change (θ.symm ≪≫ βIso).hom = θ.inv ≫ β
       simp only [Iso.trans_hom, Iso.symm_hom, hβhom]
     rw [hhom]
     rw [← hmap]
@@ -612,7 +612,7 @@ private lemma perfectTrace_baseChange {S R : Type} [CommRing S] [CommRing R]
           (FilteredDerived.alternatingTrace R P' hP' g') := by
     rw [FilteredDerived.perfectDerivedTrace_eq_alternatingTrace R
       (N) (b) P' hP' α' g' hg']
-  show φ (commutativeAdditiveCommutatorQuotientEval S
+  change φ (commutativeAdditiveCommutatorQuotientEval S
       (FilteredDerived.perfectDerivedTrace S (M) f)) =
     commutativeAdditiveCommutatorQuotientEval R
       (FilteredDerived.perfectDerivedTrace R (N) (b))

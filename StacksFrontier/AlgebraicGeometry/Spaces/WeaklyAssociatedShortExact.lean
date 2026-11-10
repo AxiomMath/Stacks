@@ -120,30 +120,30 @@ private noncomputable def moduleStalkLargeMap (p : J.Point.{w}) (O : Sheaf J Com
     moduleStalkLarge.{m} p O F₁ ⟶ moduleStalkLarge.{m} p O F₂ := by
   let D := FinallySmall.FilteredFinalModel.{w} (p.fiber.Elementsᵒᵖ)
   let G : D ⥤ p.fiber.Elementsᵒᵖ := FinallySmall.fromFilteredFinalModel _
-  let R := G ⋙ (CategoryOfElements.π p.fiber).op ⋙ (commRingSheafToRingSheaf O).obj
-  let M := G ⋙ (CategoryOfElements.π p.fiber).op ⋙
+  let R := G ⋙ (Functor.Elements.π p.fiber).op ⋙ (commRingSheafToRingSheaf O).obj
+  let M := G ⋙ (Functor.Elements.π p.fiber).op ⋙
     F₁.val.presheaf ⋙ AddCommGrpCat.uliftFunctor.{w}
-  let N := G ⋙ (CategoryOfElements.π p.fiber).op ⋙
+  let N := G ⋙ (Functor.Elements.π p.fiber).op ⋙
     F₂.val.presheaf ⋙ AddCommGrpCat.uliftFunctor.{w}
   letI (i : D) : Module (R.obj i) (M.obj i) := by
     change Module _ (ULift (F₁.val.obj _))
     letI : Module ((commRingSheafToRingSheaf O).obj.obj
-        ((CategoryOfElements.π p.fiber).op.obj (G.obj i)))
-        (F₁.val.obj ((CategoryOfElements.π p.fiber).op.obj (G.obj i))) :=
+        ((Functor.Elements.π p.fiber).op.obj (G.obj i)))
+        (F₁.val.obj ((Functor.Elements.π p.fiber).op.obj (G.obj i))) :=
       (F₁.val.obj _).isModule
     infer_instance
   letI (i : D) : Module (R.obj i) (N.obj i) := by
     change Module _ (ULift (F₂.val.obj _))
     letI : Module ((commRingSheafToRingSheaf O).obj.obj
-        ((CategoryOfElements.π p.fiber).op.obj (G.obj i)))
-        (F₂.val.obj ((CategoryOfElements.π p.fiber).op.obj (G.obj i))) :=
+        ((Functor.Elements.π p.fiber).op.obj (G.obj i)))
+        (F₂.val.obj ((Functor.Elements.π p.fiber).op.obj (G.obj i))) :=
       (F₂.val.obj _).isModule
     infer_instance
   have hM : ∀ {i j} (f : i ⟶ j) (r : R.obj i) (x : M.obj i),
       M.map f (r • x) = R.map f r • M.map f x := by
     intro i j f r x
     let : Module (R.obj i)
-        (F₁.val.presheaf.obj ((CategoryOfElements.π p.fiber).op.obj (G.obj i))) :=
+        (F₁.val.presheaf.obj ((Functor.Elements.π p.fiber).op.obj (G.obj i))) :=
       (F₁.val.obj _).isModule
     change ULift.up (F₁.val.map _ (r • x.down)) = ULift.up (_ • F₁.val.map _ x.down)
     congr 1
@@ -152,22 +152,22 @@ private noncomputable def moduleStalkLargeMap (p : J.Point.{w}) (O : Sheaf J Com
       N.map f (r • x) = R.map f r • N.map f x := by
     intro i j f r x
     let : Module (R.obj i)
-        (F₂.val.presheaf.obj ((CategoryOfElements.π p.fiber).op.obj (G.obj i))) :=
+        (F₂.val.presheaf.obj ((Functor.Elements.π p.fiber).op.obj (G.obj i))) :=
       (F₂.val.obj _).isModule
     change ULift.up (F₂.val.map _ (r • x.down)) = ULift.up (_ • F₂.val.map _ x.down)
     congr 1
     exact F₂.val.map_smul _ _ _
-  let τ : M ⟶ N := Functor.whiskerLeft (G ⋙ (CategoryOfElements.π p.fiber).op)
+  let τ : M ⟶ N := Functor.whiskerLeft (G ⋙ (Functor.Elements.π p.fiber).op)
     (Functor.whiskerRight ((PresheafOfModules.toPresheaf _).map α.val)
       AddCommGrpCat.uliftFunctor.{w})
   have hτ : ∀ i (r : R.obj i) (x : M.obj i), τ.app i (r • x) = r • τ.app i x := by
     intro i r x
     let : Module (R.obj i)
-        (F₁.val.presheaf.obj ((CategoryOfElements.π p.fiber).op.obj (G.obj i))) :=
+        (F₁.val.presheaf.obj ((Functor.Elements.π p.fiber).op.obj (G.obj i))) :=
       (F₁.val.obj _).isModule
-    change ULift.up ((α.val.app ((CategoryOfElements.π p.fiber).op.obj (G.obj i))).hom
+    change ULift.up ((α.val.app ((Functor.Elements.π p.fiber).op.obj (G.obj i))).hom
         (r • x.down)) =
-      ULift.up (r • (α.val.app ((CategoryOfElements.π p.fiber).op.obj (G.obj i))).hom x.down)
+      ULift.up (r • (α.val.app ((Functor.Elements.π p.fiber).op.obj (G.obj i))).hom x.down)
     congr 1
     exact (α.val.app _).hom.map_smul r x.down
   letI : PreservesColimitsOfShape (p.fiber.Elementsᵒᵖ) (forget₂ CommRingCat.{w} RingCat.{w}) :=
@@ -176,7 +176,7 @@ private noncomputable def moduleStalkLargeMap (p : J.Point.{w}) (O : Sheaf J Com
       ((p.presheafFiber (A := CommRingCat.{w})).obj O.obj) :=
     Functor.Final.colimitIso G _ ≪≫
       (preservesColimitIso (forget₂ CommRingCat RingCat)
-        ((CategoryOfElements.π p.fiber).op ⋙ O.obj)).symm
+        ((Functor.Elements.π p.fiber).op ⋙ O.obj)).symm
   exact (ModuleCat.restrictScalars e.inv.hom).map
     (colimitModuleMap R M N hM hN τ hτ)
 
@@ -188,11 +188,11 @@ private theorem injective_moduleStalkLargeMap (p : J.Point.{w}) (O : Sheaf J Com
     Function.Injective (moduleStalkLargeMap p O α) := by
   let D := FinallySmall.FilteredFinalModel.{w} (p.fiber.Elementsᵒᵖ)
   let G : D ⥤ p.fiber.Elementsᵒᵖ := FinallySmall.fromFilteredFinalModel _
-  let M := G ⋙ (CategoryOfElements.π p.fiber).op ⋙
+  let M := G ⋙ (Functor.Elements.π p.fiber).op ⋙
     F₁.val.presheaf ⋙ AddCommGrpCat.uliftFunctor.{w}
-  let N := G ⋙ (CategoryOfElements.π p.fiber).op ⋙
+  let N := G ⋙ (Functor.Elements.π p.fiber).op ⋙
     F₂.val.presheaf ⋙ AddCommGrpCat.uliftFunctor.{w}
-  let τ : M ⟶ N := Functor.whiskerLeft (G ⋙ (CategoryOfElements.π p.fiber).op)
+  let τ : M ⟶ N := Functor.whiskerLeft (G ⋙ (Functor.Elements.π p.fiber).op)
     (Functor.whiskerRight ((PresheafOfModules.toPresheaf _).map α.val)
       AddCommGrpCat.uliftFunctor.{w})
   have happ : ∀ i, Function.Injective (τ.app i) := by
@@ -218,16 +218,16 @@ private theorem exact_moduleStalkLargeMap (p : J.Point.{w}) (O : Sheaf J CommRin
     Function.Exact (moduleStalkLargeMap p O α) (moduleStalkLargeMap p O β) := by
   let D := FinallySmall.FilteredFinalModel.{w} (p.fiber.Elementsᵒᵖ)
   let G : D ⥤ p.fiber.Elementsᵒᵖ := FinallySmall.fromFilteredFinalModel _
-  let M₁ := G ⋙ (CategoryOfElements.π p.fiber).op ⋙
+  let M₁ := G ⋙ (Functor.Elements.π p.fiber).op ⋙
     F₁.val.presheaf ⋙ AddCommGrpCat.uliftFunctor.{w}
-  let M₂ := G ⋙ (CategoryOfElements.π p.fiber).op ⋙
+  let M₂ := G ⋙ (Functor.Elements.π p.fiber).op ⋙
     F₂.val.presheaf ⋙ AddCommGrpCat.uliftFunctor.{w}
-  let M₃ := G ⋙ (CategoryOfElements.π p.fiber).op ⋙
+  let M₃ := G ⋙ (Functor.Elements.π p.fiber).op ⋙
     F₃.val.presheaf ⋙ AddCommGrpCat.uliftFunctor.{w}
-  let τ : M₁ ⟶ M₂ := Functor.whiskerLeft (G ⋙ (CategoryOfElements.π p.fiber).op)
+  let τ : M₁ ⟶ M₂ := Functor.whiskerLeft (G ⋙ (Functor.Elements.π p.fiber).op)
     (Functor.whiskerRight ((PresheafOfModules.toPresheaf _).map α.val)
       AddCommGrpCat.uliftFunctor.{w})
-  let σ : M₂ ⟶ M₃ := Functor.whiskerLeft (G ⋙ (CategoryOfElements.π p.fiber).op)
+  let σ : M₂ ⟶ M₃ := Functor.whiskerLeft (G ⋙ (Functor.Elements.π p.fiber).op)
     (Functor.whiskerRight ((PresheafOfModules.toPresheaf _).map β.val)
       AddCommGrpCat.uliftFunctor.{w})
   let : PreservesFilteredColimitsOfSize.{w, w} (forget AddCommGrpCat.{max w m}) :=
@@ -235,11 +235,11 @@ private theorem exact_moduleStalkLargeMap (p : J.Point.{w}) (O : Sheaf J CommRin
   have hlocal : ∀ k, Function.Exact (τ.app k) (σ.app k) := by
     intro k z
     refine ⟨fun hz => ?_, ?_⟩
-    · obtain ⟨a, ha⟩ := (h ((CategoryOfElements.π p.fiber).op.obj (G.obj k)) z.down).mp
+    · obtain ⟨a, ha⟩ := (h ((Functor.Elements.π p.fiber).op.obj (G.obj k)) z.down).mp
         (ULift.ext_iff.mp hz)
       exact ⟨ULift.up a, ULift.ext_iff.mpr ha⟩
     · rintro ⟨x, rfl⟩
-      exact ULift.ext_iff.mpr ((h ((CategoryOfElements.π p.fiber).op.obj (G.obj k)) _).mpr
+      exact ULift.ext_iff.mpr ((h ((Functor.Elements.π p.fiber).op.obj (G.obj k)) _).mpr
         ⟨x.down, rfl⟩)
   have hcomp : τ ≫ σ = 0 := by
     ext k z

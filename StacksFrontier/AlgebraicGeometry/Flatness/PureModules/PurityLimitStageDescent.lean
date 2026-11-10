@@ -116,7 +116,7 @@ public theorem exists_stage_isOpen_subset_preimage_of_mem_nhds_preimage
       have hcompat : pullback.snd (D.map (homOfLE j.2).op) w ((cb.π.app (op j)) x) =
           pullback.snd (c.π.app (op i)) w x :=
         hap (directedBaseChangeCone_π_snd D i w c j) x
-      show pullback.snd (D.map (homOfLE j.2).op) w ((cb.π.app (op j)) x) ∈ E
+      change pullback.snd (D.map (homOfLE j.2).op) w ((cb.π.app (op j)) x) ∈ E
       rw [hcompat]
       exact hxE
     · exact Or.inr hx
@@ -130,7 +130,7 @@ public theorem exists_stage_isOpen_subset_preimage_of_mem_nhds_preimage
   · exact Vj.2.preimage (Dsys.map (homOfLE hjk).op).continuous
   · have hwz : (Dsys.map (homOfLE hjk).op) ((cb.π.app (op k)) z) = (cb.π.app (op j)) z :=
       hap (cb.w (homOfLE hjk).op) z
-    show (Dsys.map (homOfLE hjk).op) ((cb.π.app (op k)) z) ∈ (Vj : Set (Dsys.obj (op j)))
+    change (Dsys.map (homOfLE hjk).op) ((cb.π.app (op k)) z) ∈ (Vj : Set (Dsys.obj (op j)))
     rw [hwz]
     have hzV : z ∈ cb.π.app (op j) ⁻¹ᵁ Vj := by rw [hVjpre]; exact hzVaff
     exact hzV
@@ -145,7 +145,7 @@ public theorem exists_stage_isOpen_subset_preimage_of_mem_nhds_preimage
     have hcy : pullback.snd (D.map (homOfLE j.2).op) w
         ((Dsys.map (homOfLE hjk).op) y) = pullback.snd (D.map (homOfLE k.2).op) w y :=
       hap (directedBaseChangeDiagram_map_snd D i w (homOfLE hjk).op) y
-    show pullback.snd (D.map (homOfLE k.2).op) w y ∈ E
+    change pullback.snd (D.map (homOfLE k.2).op) w y ∈ E
     rw [← hcy]
     exact hyE
 

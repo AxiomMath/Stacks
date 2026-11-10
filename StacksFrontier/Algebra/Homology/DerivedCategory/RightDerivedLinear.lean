@@ -63,7 +63,7 @@ theorem Functor.linear_of_isRightDerivedFunctor (R : Type*) [Ring R]
       rw [Functor.comp_map, L.map_smul, L.map_id]
     have h₂ : α.app Z ≫ (L ⋙ RF).map (r • 𝟙 Z) = r • α.app Z := by
       rw [← α.naturality (r • 𝟙 Z), F.map_smul, F.map_id, Linear.smul_comp, Category.id_comp]
-    show α.app Z ≫ RF.map (r • 𝟙 (L.obj Z)) = α.app Z ≫ (r • 𝟙 (RF.obj (L.obj Z)))
+    change α.app Z ≫ RF.map (r • 𝟙 (L.obj Z)) = α.app Z ≫ (r • 𝟙 (RF.obj (L.obj Z)))
     rw [h₁, h₂]
     simp
   exact NatTrans.congr_app (RF.rightDerived_ext α W RF γ₁ γ₂ hcomp) Y

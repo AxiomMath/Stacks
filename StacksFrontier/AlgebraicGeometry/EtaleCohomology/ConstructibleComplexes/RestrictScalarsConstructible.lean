@@ -129,7 +129,7 @@ public def restrictScalarsSheafPullbackIso {S T : B.Scheme} (f : T ⟶ S)
     (SmallEtale.topology B T.obj T.property) ρ
   asIso ((Stacks.EtaleCohomology.coefficientSheafPullbackTwoSquare (smallEtaleBaseChange B f)
     (SmallEtale.topology B S.obj S.property) (SmallEtale.topology B T.obj T.property)
-    (ModuleCat.restrictScalars.{u + 1} ρ)).natTrans.app F)
+    (ModuleCat.restrictScalars.{u + 1} ρ)).app F)
 
 /-- **Restriction of scalars from a finite ring preserves constructibility.** For a ring
 homomorphism `ρ : R →+* Λ` with `Λ` finite and a constructible sheaf `F` of `Λ`-modules on the

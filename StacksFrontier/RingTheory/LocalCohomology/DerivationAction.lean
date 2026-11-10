@@ -212,14 +212,14 @@ theorem cechRestrict_augmentation (f : Fin r → A) (g : Fin s → A) (e : Fin r
             (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 (ModuleCat.of A A)).inv := by
     intro n u
     rw [extendedCechAugmentation_f_zero]
-    show ((HomologicalComplex.extendXIso (Cech.cechComplex u A) ComplexShape.embeddingUpNat
+    change ((HomologicalComplex.extendXIso (Cech.cechComplex u A) ComplexShape.embeddingUpNat
       ComplexShape.embeddingUpNat_f_zero).hom ≫ (cechZeroIso u (ModuleCat.of A A)).hom) ≫ _ = _
     rw [Category.assoc]
   have hzero : (Cech.cechRestrict f A g e he).f 0 ≫
       (cechZeroIso f (ModuleCat.of A A)).hom = (cechZeroIso g (ModuleCat.of A A)).hom := by
     refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
     obtain ⟨m, rfl⟩ := (cechTermZeroEquiv g (ModuleCat.of A A)).symm.surjective x
-    show cechTermZeroEquiv f (ModuleCat.of A A)
+    change cechTermZeroEquiv f (ModuleCat.of A A)
         (Cech.cechTermRestrict f A g e he 0
           ((cechTermZeroEquiv g (ModuleCat.of A A)).symm m)) =
       cechTermZeroEquiv g (ModuleCat.of A A)
@@ -257,7 +257,7 @@ theorem transportedCechAction_apply (f : Fin r → A) (I : Ideal A) (hI : I.FG)
     (x : (Cech.cechComplex f A).homology i) :
     transportedCechAction f I hI hf θ i (cechHomologyEquiv f I hI hf i x) =
       cechHomologyEquiv f I hI hf i (Cech.cechHomologyAction f θ i x) := by
-  show cechHomologyEquiv f I hI hf i (Cech.cechHomologyAction f θ i
+  change cechHomologyEquiv f I hI hf i (Cech.cechHomologyAction f θ i
     ((cechHomologyEquiv f I hI hf i).symm (cechHomologyEquiv f I hI hf i x))) = _
   rw [LinearEquiv.symm_apply_apply]
 
@@ -267,7 +267,7 @@ theorem transportedCechAction_leibniz (f : Fin r → A) (I : Ideal A) (hI : I.FG
     (x : localCohomologyModule A I hI (ModuleCat.of A A) (i : ℤ)) :
     transportedCechAction f I hI hf θ i (a • x) =
       θ a • x + a • transportedCechAction f I hI hf θ i x := by
-  show cechHomologyEquiv f I hI hf i (Cech.cechHomologyAction f θ i
+  change cechHomologyEquiv f I hI hf i (Cech.cechHomologyAction f θ i
       ((cechHomologyEquiv f I hI hf i).symm (a • x))) =
     θ a • x + a • cechHomologyEquiv f I hI hf i
       (Cech.cechHomologyAction f θ i ((cechHomologyEquiv f I hI hf i).symm x))

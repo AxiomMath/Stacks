@@ -19,8 +19,7 @@ vanishing of `R^p P` into a *local* question about the functors `F ↦ (P F)(V)`
 time: if every object of `𝒟` has a covering sieve along whose members those derived functors
 vanish, then `R^p P F = 0`.
 
-This is the pattern of
-`StacksFrontier/CategoryTheory/Sites/Cohomology/HigherDirectImage/AbelianHigherDirectImageSheafification.lean`,
+This is the pattern of `AbelianHigherDirectImageSheafification.lean` (in this file's directory),
 which runs it for the direct image along a *continuous* functor of sites, where `P^pre` is the
 cohomology presheaf `V ↦ F(u V)` of [Stacks, Tag 072W].  Nothing in the pattern uses that `P` is
 such a direct image: `P` is an arbitrary additive functor here, so the same criterion applies to a
@@ -71,6 +70,7 @@ with the inclusion of sheaves into presheaves, which is additive. -/
 instance additive_presheafPart : (presheafPart A P).Additive :=
   inferInstanceAs (P ⋙ sheafToPresheaf J A).Additive
 
+omit [Abelian A] [HasSheafify J A] [HasSheafify K A] [P.Additive] in
 /-- The presheaf-valued form, evaluated at an object `V` of `𝒟`, is the functor `F ↦ (P F)(V)`;
 this holds by definition. -/
 theorem presheafPart_comp_evaluation (V : D) :
@@ -153,7 +153,7 @@ theorem isZero_rightDerived_of_locallyIsZero (p : ℕ) (F : Sheaf K AddCommGrpCa
       (op Z)) :=
     IsZero.of_iso (hzero k hk)
       ((presheafPartEvaluationIso AddCommGrpCat.{t} P p Z).app F).symm
-  show (((presheafPart (J := J) AddCommGrpCat.{t} P).rightDerived p).obj F).map k.op x =
+  change (((presheafPart (J := J) AddCommGrpCat.{t} P).rightDerived p).obj F).map k.op x =
     (((presheafPart (J := J) AddCommGrpCat.{t} P).rightDerived p).obj F).map k.op 0
   exact (AddCommGrpCat.subsingleton_of_isZero hZ).elim _ _
 

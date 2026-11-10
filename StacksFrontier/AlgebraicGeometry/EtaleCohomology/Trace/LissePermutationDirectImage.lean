@@ -63,6 +63,7 @@ variable {G H : Type (u + 1)} [Group G] [TopologicalSpace G] [IsTopologicalGroup
   (htrans : ∀ y, ∃ g : G, g • y₀ = y)
   (P : FiniteTypeContinuousModule.{0, u + 1, u + 1} (ZMod m) G)
 
+omit [IsTopologicalGroup G] [NeZero m] [Fintype Y] in
 include hstab in
 /-- A map from the restriction to `H` to the trivial module is invariant under the stabilizer of
 `y₀`. -/

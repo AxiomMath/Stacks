@@ -199,7 +199,7 @@ omit [IsTopologicalGroup Γ] [G.Normal] in
 public theorem koszulComplex_d_one_zero :
     (koszulComplex Λ σ).d 1 0 =
       ModuleCat.ofHom (mulRightLinear ((of σ : CompletedGroupAlgebra Λ G) - 1)) := by
-  show ChainComplex.of.d (koszulX Λ G) (koszulD Λ σ) (0 + 1) 0 = _
+  change ChainComplex.of.d (koszulX Λ G) (koszulD Λ σ) (0 + 1) 0 = _
   rw [ChainComplex.of_d]
   rfl
 
@@ -263,19 +263,19 @@ public theorem koszulπ_quasiIso : QuasiIso (koszulπ Λ σ hV) where
             (TrivialRep.of Γ Λ).injective (hx.trans (map_zero _).symm)
           obtain ⟨y, hy⟩ := exists_mul_eq_of_augmentation_eq_zero hgen hn hpow hΛ hx'
           refine ⟨y, ?_⟩
-          show ((koszulComplex Λ σ).d 1 0).hom y = x
+          change ((koszulComplex Λ σ).d 1 0).hom y = x
           rw [koszulComplex_d_one_zero]
-          show y * ((of σ : CompletedGroupAlgebra Λ G) - 1) =
+          change y * ((of σ : CompletedGroupAlgebra Λ G) - 1) =
             (show CompletedGroupAlgebra Λ G from x)
           rw [← sub_one_mul_comm hgen, hy]
         · rw [ModuleCat.epi_iff_surjective]
           intro x
           refine ⟨(const ((TrivialRep.of Γ Λ).symm (show TrivialRep Γ Λ from x)) :
             CompletedGroupAlgebra Λ G), ?_⟩
-          show koszulAugmentationLinear Λ hV _ = x
+          change koszulAugmentationLinear Λ hV _ = x
           rw [koszulAugmentationLinear_apply, augmentation_const]
           exact (TrivialRep.of Γ Λ).apply_symm_apply _
-      · show (koszulComplex Λ σ).d 0 0 = 0
+      · change (koszulComplex Λ σ).d 0 0 = 0
         exact (koszulComplex Λ σ).shape 0 0 (by simp)
     · rw [quasiIsoAt_iff_exactAt' _ _ (ChainComplex.exactAt_succ_single_obj _ _)]
       rcases m with _ | m
@@ -292,7 +292,7 @@ public theorem koszulπ_quasiIso : QuasiIso (koszulπ Λ σ hV) where
         exact (eq_zero_of_mul_eq_zero hgen hn hpow hΛ hx).symm
       · rw [HomologicalComplex.exactAt_iff' _ (m + 3) (m + 2) (m + 1) (by simp) (by simp)]
         refine ShortComplex.exact_of_isZero_X₂ _ ?_
-        show IsZero (ModuleCat.of (CompletedGroupAlgebra Λ G) PUnit.{u + 1})
+        change IsZero (ModuleCat.of (CompletedGroupAlgebra Λ G) PUnit.{u + 1})
         exact ModuleCat.isZero_of_subsingleton _
 
 /-- **The Koszul resolution** `0 → Λ[[G]] --(· (σ - 1))--> Λ[[G]] --ε--> Λ → 0` of the trivial

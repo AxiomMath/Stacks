@@ -339,8 +339,8 @@ there is a map `F → F''` of coherent `𝒪_X`-modules satisfying conditions (1
 source along `Z`, and it is unique up to a unique isomorphism under `F`.
 
 The disjointness is not one of the source's hypotheses, and the existence clause of
-[Stacks, Tag 0DX5] is false without it; see the implementation notes of
-`StacksFrontier/AlgebraicGeometry/LocalCohomology/ImprovingCoherentModules/ImprovementExistence.lean`.
+[Stacks, Tag 0DX5] is false without it; see the implementation notes of the module
+`StacksFrontier.AlgebraicGeometry.LocalCohomology.ImprovingCoherentModules.ImprovementExistence`.
 It is exactly the right hypothesis:
 `AlgebraicGeometry.disjoint_closure_lowDepthNotReached_of_open` shows it also follows from the
 existence of an open as in `AlgebraicGeometry.isImprovement_toDepthOneQuotient_comp_unit`.

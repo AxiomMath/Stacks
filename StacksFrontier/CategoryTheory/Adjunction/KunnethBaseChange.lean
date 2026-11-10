@@ -76,7 +76,7 @@ def flipComparison {C D : Type*} [Category C] [Category D] {L : C ⥤ D} {A : C 
     {B : D × D ⥤ D} (α : A ⋙ L ⟶ L.prod L ⋙ B) :
     flipBifunctor A ⋙ L ⟶ L.prod L ⋙ flipBifunctor B where
   app p := α.app (p.2, p.1)
-  naturality p q φ := α.naturality ((CategoryTheory.Prod.swap C C).map φ)
+  naturality _ _ φ := α.naturality ((CategoryTheory.Prod.swap C C).map φ)
 
 section Square
 
@@ -116,7 +116,7 @@ theorem isIso_map_tensor_baseChange_of_isIso (E : CX) (N : CY')
     (flipBifunctor TY) (flipBifunctor TY') (flipBifunctor TX') (flipComparison αg)
     (flipComparison αf') N (Rf.obj E) (Lg'.obj E) v₂
   rw [← Stacks.CategoryTheory.BaseChange.map_eq] at c₁ c₂
-  haveI : IsIso (𝟙 E ×ₘ Stacks.CategoryTheory.BaseChange.map ag ag' ef eg N) :=
+  have : IsIso (𝟙 E ×ₘ Stacks.CategoryTheory.BaseChange.map ag ag' ef eg N) :=
     (isIso_prod_iff _ _).mpr ⟨inferInstance, h₂⟩
   have i₁ : IsIso _ := (congrArg (fun x => IsIso x) c₁).mpr inferInstance
   let u₁ : (Lf ⋙ Lg').obj (TY.obj (Rf.obj E, Rg.obj N)) ⟶

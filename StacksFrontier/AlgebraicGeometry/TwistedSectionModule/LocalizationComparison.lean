@@ -211,6 +211,7 @@ noncomputable def numeratorHom (F L : C) [(tensorRight L).Additive] (d n : ℕ) 
     twistModule F L →+ twistSections F L (d * n) :=
   (twistCongrHom F L (Nat.mul_comm n d)).comp (componentHom F L (n * d))
 
+omit [BraidedCategory C] [HasTrivialSelfBraiding L] in
 /-- `numeratorHom F L d n` sends the homogeneous element of degree `d * n` given by `t` to `t`. -/
 @[simp] theorem numeratorHom_of {d n : ℕ} (t : twistSections F L (d * n)) :
     numeratorHom F L d n (DirectSum.of (twistSections F L) (d * n) t) = t := by
@@ -218,12 +219,14 @@ noncomputable def numeratorHom (F L : C) [(tensorRight L).Additive] (d n : ℕ) 
     componentHom_of, twistCongrHom_apply, twistCongr_trans]
   exact twistCongr_rfl t
 
+omit [BraidedCategory C] [HasTrivialSelfBraiding L] in
 /-- `numeratorHom F L d n` reindexes the degree-`n * d` component. -/
 private theorem numeratorHom_of_nat_mul {d n : ℕ} (t : twistSections F L (n * d)) :
     numeratorHom F L d n (DirectSum.of (twistSections F L) (n * d) t) =
       twistCongr (Nat.mul_comm n d) t := by
   rw [numeratorHom, AddMonoidHom.comp_apply, componentHom_of, twistCongrHom_apply]
 
+omit [BraidedCategory C] [HasTrivialSelfBraiding L] in
 /-- `numeratorHom F L d M` of a section `a` acting on a homogeneous element of degree `n * d`. -/
 private theorem numeratorHom_of_gsmul {d M m n : ℕ} (a : powSections L m)
     (t : twistSections F L (n * d)) (h : m + d * n = d * M) :

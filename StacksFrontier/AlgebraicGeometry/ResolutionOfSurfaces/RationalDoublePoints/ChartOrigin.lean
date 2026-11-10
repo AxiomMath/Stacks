@@ -167,7 +167,7 @@ theorem surjective_residue_comp_algebraMap_chartOrigin (hy : ∀ i, y i ∈ maxi
       Ideal.Quotient.mk z w → residue B (ι (algebraMap A A' r)) = residue B (ι w) := by
     intro w r h
     rw [Ideal.Quotient.eq] at h
-    show Ideal.Quotient.mk _ _ = Ideal.Quotient.mk _ _
+    change Ideal.Quotient.mk _ _ = Ideal.Quotient.mk _ _
     rw [Ideal.Quotient.eq, ← map_sub, ← Localization.AtPrime.map_eq_maximalIdeal]
     exact Ideal.mem_map_of_mem _ h
   have hr'u : IsUnit r' := by

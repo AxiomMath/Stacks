@@ -86,7 +86,7 @@ theorem unitIso_inv_comp_map_spanHom_app (M : ModuleCat.{w₂} R) (m : M) (X : C
       TensorProduct.tmul (O.obj.obj X) s
         (TensorProduct.tmul R (1 : O.obj.obj X) m) := by
   let := coefficientAlgebraOfHom R J O θ X
-  show TensorProduct.tmul (O.obj.obj X) s
+  change TensorProduct.tmul (O.obj.obj X) s
       (Hom.app ((changeOfRings θ).map ((constantModulePresheaf R).map (spanHom m))) X
         (Hom.app ((changeOfRings θ).map (constantModuleUnitIso R).inv) X
           (Hom.app (changeOfRingsUnitIso R J O θ).inv X (1 : O.obj.obj X)))) = _
@@ -151,7 +151,7 @@ theorem tensorOneSheafifyHomEquiv (M : ModuleCat.{w₂} R) (m : M)
     (tensorByBaseModuleOfHom R J O 𝓕 θ).map (spanHom m) ≫
         (PresheafOfModules.sheafificationHomEquiv (𝟙 (ringSheaf J O).obj)).symm Φ =
       (tensorByBaseModuleOfHomUnitIso R J O 𝓕 θ).hom ≫ ψ := by
-  show (PresheafOfModules.sheafification (𝟙 (ringSheaf J O).obj)).map
+  change (PresheafOfModules.sheafification (𝟙 (ringSheaf J O).obj)).map
           ((tensorByBaseModulePresheafOfHom R J O 𝓕 θ).map (spanHom m)) ≫
         (PresheafOfModules.sheafificationHomEquiv (𝟙 (ringSheaf J O).obj)).symm Φ =
       (PresheafOfModules.sheafification (𝟙 (ringSheaf J O).obj)).map

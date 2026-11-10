@@ -349,6 +349,7 @@ lemma actPullback_act_act_of_movesBase (H : BaseGluingMovesBase Q hff)
   refine (actPullback_congr Q.base _ (H ν u₁ x h₁ hx hv) rfl hvx hbh').trans ?_
   exact (H ν x y hx hy hbh').trans (H ν u₁ y h₁ hy hvy).symm
 
+omit [IsIntegralHom f] in
 /-- **The cocycle condition for the candidate gluing isomorphism**, from the hypothesis that it
 moves the base coordinate. -/
 theorem actPullbackLaw_baseGluingPullbackIso [IsSeparated Q.base.hom]

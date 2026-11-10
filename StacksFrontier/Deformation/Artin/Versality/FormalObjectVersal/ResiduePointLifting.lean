@@ -104,12 +104,12 @@ public theorem factor_through_cartesian_schemeMap
     have h2 := congrArg (fun t => t ≫ eqToHom (congrArg Over.left hx).symm) h'
     simp only [Category.assoc, eqToHom_trans, eqToHom_refl, Category.comp_id] at h2
     apply Over.OverMorphism.ext
-    show f ≫ (q.map r).left = (q.map a).left
+    change f ≫ (q.map r).left = (q.map a).left
     exact h2
   obtain ⟨l, hl, hu⟩ := factor_through_cartesian_comp_fullyFaithful
     p (Over.post B.inclusion) r (hp.isStronglyCartesian r) f' a hf'
   refine ⟨l, ⟨?_, hl.2⟩, ?_⟩
-  · show eqToHom _ ≫ (q.map l).left ≫ eqToHom _ = f
+  · change eqToHom _ ≫ (q.map l).left ≫ eqToHom _ = f
     rw [hl.1]
     simp [f']
   · intro l' hl'
@@ -266,7 +266,7 @@ public theorem schemeMap_id_isIso
     apply schemeMap_injective hy hz
     simpa [schemeMap] using hi
   have hq : IsIso ((Over.post B.inclusion).map (p.map i)) := by
-    show IsIso ((p ⋙ Over.post B.inclusion).map i)
+    change IsIso ((p ⋙ Over.post B.inclusion).map i)
     rw [he]
     infer_instance
   have := hq
@@ -308,7 +308,7 @@ public theorem associatedMorphismRestriction_base
     (H.toBasedFunctor.w_obj α)
   have hinc := deformationMorphism_base C (H.factor α) (H.pointInclusion α)
     (associatedMorphism_pointInclusion_isHomLift η H α) ha hb
-  show eqToHom (congrArg Over.left hb).symm ≫
+  change eqToHom (congrArg Over.left hb).symm ≫
     (q.map ((C.morphisms _ _ (H.pointInclusion α)).arrow ≫ r n)).left ≫
       eqToHom (congrArg Over.left hx) = _
   rw [q.map_comp, Over.comp_left]
@@ -346,7 +346,7 @@ public theorem associatedMorphismRestriction_closedPoint
     (α : (Deformation.restrictedCoyoneda η.base).Elements) :
     (C.objects (H.toBasedFunctor.obj α)).arrow ≫
       (associatedMorphismRestriction η H (deformationForget C) r hr).app (.op α) = r₀ := by
-  show (C.objects (H.toBasedFunctor.obj α)).arrow ≫
+  change (C.objects (H.toBasedFunctor.obj α)).arrow ≫
       ((C.morphisms _ _ (H.pointInclusion α)).arrow ≫ r (H.level α)) = r₀
   rw [← Category.assoc, (C.morphisms _ _ (H.pointInclusion α)).triangle, hclosed]
 
@@ -467,7 +467,7 @@ theorem isVersalAt_iff_liftsAtCompletionResiduePoint
     simpa only [hg] using completionResidueEquiv_spec U.left u₀ e
   have hc : E.toRingHom.comp (algebraMap Λ (U.left.residueField u₀)) =
       algebraMap Λ (ResidueField R) := by
-    show (CommRingCat.ofHom (E.toRingHom.comp
+    change (CommRingCat.ofHom (E.toRingHom.comp
       (algebraMap Λ (U.left.residueField u₀)))).hom =
       (CommRingCat.ofHom (algebraMap Λ (ResidueField R))).hom
     apply congrArg CommRingCat.Hom.hom
@@ -504,7 +504,7 @@ public theorem restriction_lifts_deformationObject
     (C : Deformation.Artin.PredeformationConstruction iΛ (p ⋙ Over.post B.inclusion) x₀ hx₀)
     (R : Deformation.CompleteLocalAlgCat.{u, u, u} Λ k)
     (H : BasedFunctor
-      (BasedCategory.ofFunctor (CategoryOfElements.π (Deformation.restrictedCoyoneda R)))
+      (BasedCategory.ofFunctor (Functor.Elements.π (Deformation.restrictedCoyoneda R)))
       (BasedCategory.ofFunctor C.projection))
     {x : F} (U : Over S) (hx : (p ⋙ Over.post B.inclusion).obj x = U)
     (r : H.toFunctor.op ⋙ deformationForget C ⟶ (Functor.const _).obj x)
@@ -548,7 +548,7 @@ public theorem restriction_lifts_deformationObject
   obtain ⟨a, ha, he⟩ := exists_deformationMorphism C (𝟙 A) (H.w_obj β) rfl l ht (by
     simpa using hl.1)
   refine ⟨β, a, ha, ?_⟩
-  show (C.morphisms _ _ a).arrow ≫ r.app (.op β) = b
+  change (C.morphisms _ _ a).arrow ≫ r.app (.op β) = b
   rw [he, hl.2]
 
 /-- A morphism between two values of the associated morphism compatible with the induced
@@ -564,7 +564,7 @@ private theorem restriction_lifts_deformationMorphism
     (C : Deformation.Artin.PredeformationConstruction iΛ (p ⋙ Over.post B.inclusion) x₀ hx₀)
     (R : Deformation.CompleteLocalAlgCat.{u, u, u} Λ k)
     (H : BasedFunctor
-      (BasedCategory.ofFunctor (CategoryOfElements.π (Deformation.restrictedCoyoneda R)))
+      (BasedCategory.ofFunctor (Functor.Elements.π (Deformation.restrictedCoyoneda R)))
       (BasedCategory.ofFunctor C.projection))
     {x : F} (U : Over S) (hx : (p ⋙ Over.post B.inclusion).obj x = U)
     (r : H.toFunctor.op ⋙ deformationForget C ⟶ (Functor.const _).obj x)
@@ -591,13 +591,13 @@ private theorem restriction_lifts_deformationMorphism
   have hjbase := deformationMorphism_base C f j hf hβ hα
   have he : (Deformation.restrictedCoyoneda R).map f β.2 = α.2 := by
     apply hinj α.1
-    show Spec.map (CommRingCat.ofHom (f.hom.comp β.2.hom).toRingHom) ≫ g = _
+    change Spec.map (CommRingCat.ofHom (f.hom.comp β.2.hom).toRingHom) ≫ g = _
     have hsplit : CommRingCat.ofHom (f.hom.comp β.2.hom).toRingHom =
         CommRingCat.ofHom β.2.hom.toRingHom ≫ CommRingCat.ofHom f.hom.toRingHom := rfl
     rw [hsplit, Spec.map_comp, Category.assoc, ← hbase β, ← hjbase,
       ← schemeMap_comp q hα hβ hx, hj, hbase α]
   let h : β ⟶ α := ⟨f, he⟩
-  have : (CategoryOfElements.π (Deformation.restrictedCoyoneda R)).IsHomLift f h :=
+  have : (Functor.Elements.π (Deformation.restrictedCoyoneda R)).IsHomLift f h :=
     IsHomLift.map _ h
   have hh : C.projection.IsHomLift f (H.map h) :=
     (H.isHomLift_iff f h).mpr (IsHomLift.map _ h)
@@ -624,7 +624,7 @@ private theorem isSmooth_iff_restriction_lifts
     (C : Deformation.Artin.PredeformationConstruction iΛ (p ⋙ Over.post B.inclusion) x₀ hx₀)
     (R : Deformation.CompleteLocalAlgCat.{u, u, u} Λ k)
     (H : BasedFunctor
-      (BasedCategory.ofFunctor (CategoryOfElements.π (Deformation.restrictedCoyoneda R)))
+      (BasedCategory.ofFunctor (Functor.Elements.π (Deformation.restrictedCoyoneda R)))
       (BasedCategory.ofFunctor C.projection))
     {x : F} (U : Over S) (hx : (p ⋙ Over.post B.inclusion).obj x = U)
     (r : H.toFunctor.op ⋙ deformationForget C ⟶ (Functor.const _).obj x)
@@ -666,7 +666,7 @@ private theorem isSmooth_iff_restriction_lifts
       obtain ⟨b, hb⟩ := hl f hf y α i hi
       refine ⟨b, ?_, hb⟩
       rw [← (C.morphisms _ _ i).triangle, Category.assoc]
-      show (C.objects (H.obj α)).arrow ≫ ((deformationForget C).map i.op ≫ b) = _
+      change (C.objects (H.obj α)).arrow ≫ ((deformationForget C).map i.op ≫ b) = _
       rw [hb, hclosed]
 
 /-- The lifting property at the residue point implies smoothness of the associated
@@ -682,7 +682,7 @@ theorem isSmooth_of_liftsAtResiduePoint
     (C : Deformation.Artin.PredeformationConstruction iΛ (p ⋙ Over.post B.inclusion) x₀ hx₀)
     (R : Deformation.CompleteLocalAlgCat.{u, u, u} Λ k)
     (H : BasedFunctor
-      (BasedCategory.ofFunctor (CategoryOfElements.π (Deformation.restrictedCoyoneda R)))
+      (BasedCategory.ofFunctor (Functor.Elements.π (Deformation.restrictedCoyoneda R)))
       (BasedCategory.ofFunctor C.projection))
     {x : F} (U : Over S) (hx : (p ⋙ Over.post B.inclusion).obj x = U)
     (r : H.toFunctor.op ⋙ deformationForget C ⟶ (Functor.const _).obj x)
@@ -731,7 +731,7 @@ public theorem liftsAtResiduePoint_of_isSmooth
     (C : Deformation.Artin.PredeformationConstruction iΛ (p ⋙ Over.post B.inclusion) x₀ hx₀)
     (R : Deformation.CompleteLocalAlgCat.{u, u, u} Λ k)
     (H : BasedFunctor
-      (BasedCategory.ofFunctor (CategoryOfElements.π (Deformation.restrictedCoyoneda R)))
+      (BasedCategory.ofFunctor (Functor.Elements.π (Deformation.restrictedCoyoneda R)))
       (BasedCategory.ofFunctor C.projection))
     {x : F} (U : Over S) (hx : (p ⋙ Over.post B.inclusion).obj x = U)
     (r : H.toFunctor.op ⋙ deformationForget C ⟶ (Functor.const _).obj x)
@@ -765,7 +765,7 @@ public theorem liftsAtResiduePoint_of_isSmooth
     arrow := (C.objects (H.obj β)).arrow ≫ v ≫ i
     base := hz
     arrow_base := by
-      show schemeMap q hx₀ hz ((C.objects (H.obj β)).arrow ≫ v ≫ i) = _
+      change schemeMap q hx₀ hz ((C.objects (H.obj β)).arrow ≫ v ≫ i) = _
       rw [schemeMap_comp q hx₀ hβ hz, schemeMap_comp q hβ hy hz,
         hv.1, Category.id_comp, hi, deformationObject_residueMap C (H.obj β) A (H.w_obj β),
         ← Spec.map_comp]

@@ -66,7 +66,7 @@ theorem isReduced_image_of_isIntegral {X Y : Scheme.{u}} (f : X ⟶ Y)
   have hcov : TopologicalSpace.IsOpenCover (fun U : Y.affineOpens => f.imageι ⁻¹ᵁ U.1) :=
     f.imageι.iSup_preimage_eq_top (iSup_affineOpens_eq_top Y)
   refine (IsReduced.iff_of_openCover f.image (f.image.openCoverOfIsOpenCover _ hcov)).2 fun U ↦ ?_
-  show IsReduced (((f.imageι ⁻¹ᵁ U.1 : f.image.Opens) : Scheme))
+  change IsReduced (((f.imageι ⁻¹ᵁ U.1 : f.image.Opens) : Scheme))
   let V : f.image.Opens := f.imageι ⁻¹ᵁ U.1
   have hVaff : IsAffine V.toScheme := U.2.preimage f.imageι
   have hred : _root_.IsReduced Γ(f.image, V) := by
@@ -177,7 +177,7 @@ theorem exists_closedImmersion_model_of_isLimit
   have : CompactSpace T.left := inferInstanceAs (CompactSpace (D.obj i))
   have : QuasiSeparatedSpace T.left := inferInstanceAs (QuasiSeparatedSpace (D.obj i))
   have hT {V : Scheme.{u}} (q : V ⟶ D.obj i) : IsIso ((Over.pullback q).obj T).hom := by
-    show IsIso (pullback.snd (𝟙 (D.obj i)) q)
+    change IsIso (pullback.snd (𝟙 (D.obj i)) q)
     infer_instance
   let f : Y ⟶ T := Over.homMk Y.hom (by simp [T])
   have : LocallyOfFiniteType f.left := inferInstanceAs (LocallyOfFiniteType Y.hom)

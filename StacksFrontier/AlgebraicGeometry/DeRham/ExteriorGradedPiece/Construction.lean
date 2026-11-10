@@ -105,10 +105,10 @@ theorem eq_map_comp_of_section {C₁ : Type*} [_root_.CategoryTheory.Category C�
 
 /-- **A morphism that factors has a smaller image.** Stated at generic objects for the same
 reason as the lemmas above: `exteriorImageFiltration` is elaborated against the abelian structure
-`StacksFrontier.AlgebraicGeometry.DeRham.ExteriorPowerFiltration` names and this file against the one
-`StacksFrontier.AlgebraicGeometry.DeRham.UnipotentExteriorPowerModFirstStep` names, and combining a
-subobject statement from the first with an image lemma synthesized against the second leaves
-`HasImage` unsynthesizable. -/
+`StacksFrontier.AlgebraicGeometry.DeRham.ExteriorPowerFiltration` names and this file against the
+one `StacksFrontier.AlgebraicGeometry.DeRham.UnipotentExteriorPowerModFirstStep` names, and
+combining a subobject statement from the first with an image lemma synthesized against the second
+leaves `HasImage` unsynthesizable. -/
 theorem imageSubobject_le_imageSubobject_of_eq_comp {C₁ : Type*}
     [_root_.CategoryTheory.Category C₁] [_root_.CategoryTheory.Abelian C₁] {P Q R : C₁}
     (c : P ⟶ R) (a : P ⟶ Q) (b : Q ⟶ R) (h : c = a ≫ b) :

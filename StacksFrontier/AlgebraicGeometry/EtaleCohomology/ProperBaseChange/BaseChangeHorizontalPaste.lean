@@ -165,7 +165,7 @@ theorem smallEtaleDirectImageSquare_hComp (A : Type*) [Category* A] :
     ((a' ≫ b') ≫ h₃) (by rw [Category.assoc, wb, Category.assoc]) (Category.assoc _ _ _) A
   have p₃ := smallEtalePushforwardComp'_assoc h₁ a b (a' ≫ h₂) wa (a ≫ b) rfl
     ((a' ≫ b') ≫ h₃) (by rw [Category.assoc, wb, ← Category.assoc]) w A
-  refine TwoSquare.ext _ _ fun F => ?_
+  refine NatTrans.ext (funext fun F => ?_)
   have q₁ := congrArg (fun e => e.hom.app F) p₁
   have q₂ := congrArg (fun e => e.hom.app F) p₂
   have q₃ := congrArg (fun e => e.hom.app F) p₃
@@ -204,7 +204,7 @@ theorem smallEtaleDirectImageSquare_hComp (A : Type*) [Category* A] :
   simp only [smallEtaleDirectImageSquare, TwoSquare.hComp, TwoSquare.whiskerTop,
     TwoSquare.whiskerBottom, NatTrans.comp_app, Functor.whiskerLeft_app,
     Functor.whiskerRight_app, Functor.associator_hom_app, Functor.associator_inv_app,
-    Category.id_comp, Category.comp_id, Category.assoc, Functor.map_comp]
+    Category.id_comp, Category.assoc, Functor.map_comp]
   rw [e₁, Category.assoc, Category.assoc, e₂, Category.assoc, Category.assoc, e₃]
 
 variable (Λ : Type r) [Ring Λ]
@@ -246,7 +246,7 @@ theorem etaleModuleBaseChange_hComp :
       mateEquiv_hcomp, m_a, m_b, conjugateEquiv_etaleModuleInverseImageCompIso_hom,
       conjugateEquiv_etaleModuleInverseImageCompIso_inv_univ]
     exact (smallEtaleDirectImageSquare_hComp a b a' b' h₁ h₂ h₃ wa wb w _).symm
-  show TwoSquare.mk _ _ _ _ ((mateEquiv _ _).symm _).natTrans = _
+  change TwoSquare.mk _ _ _ _ ((mateEquiv _ _).symm _) = _
   rw [← key, Equiv.symm_apply_apply]
 
 end SheafPaste
@@ -326,7 +326,7 @@ theorem etaleModuleDerivedBaseChange_hComp :
         (ComplexShape.up ℤ)).inv.app K = 𝟙 _ := by ext; simp
     simp [Stacks.Homology.DerivedSquare.cochainDerivedSquareUnit, e₁]
   simp only [NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app,
-    Functor.associator_hom_app, Functor.associator_inv_app, Category.id_comp, Category.comp_id,
+    Functor.associator_hom_app, Functor.associator_inv_app, Category.id_comp,
     hu₀, Category.assoc]
   congr 1
   have n₀ := (etaleModuleDerivedInverseImageCompIsoUnconditional.{u, r} Λ a b).hom.naturality
@@ -344,7 +344,7 @@ theorem etaleModuleDerivedBaseChange_hComp :
   simp only [etaleModuleDerivedInverseImageCompIsoUnconditional, Iso.trans_hom, Iso.trans_inv,
     NatTrans.comp_app, DerivedCategoryComparisons.mapDerivedCategoryIsoOfNatIso_hom_app_Q,
     DerivedCategoryComparisons.mapDerivedCategoryCompIso_hom_app_Q, Category.assoc,
-    Iso.inv_hom_id_app_assoc, Functor.comp_map,
+    Iso.inv_hom_id_app_assoc,
     DerivedCategoryComparisons.mapDerivedCategoryCompIso_inv_app_Q,
     DerivedCategoryComparisons.mapDerivedCategoryIsoOfNatIso_inv_app_Q]
   congr 1
@@ -453,8 +453,8 @@ theorem etaleModuleDerivedBaseChange_hComp :
   rw [hfin, reassoc_of% nu']
   simp only [← Functor.map_comp_assoc]
   refine congrArg (fun t => DerivedCategory.Q.map t ≫ _) ?_
-  have key := congr_app (congrArg TwoSquare.natTrans
-    (etaleModuleBaseChange_hComp.{u, r} a b a' b' h₁ h₂ h₃ wa wb w Λ))
+  have key := congr_app
+    (etaleModuleBaseChange_hComp.{u, r} a b a' b' h₁ h₂ h₃ wa wb w Λ)
   ext n : 1
   simpa [TwoSquare.vComp] using key (K.X n)
 

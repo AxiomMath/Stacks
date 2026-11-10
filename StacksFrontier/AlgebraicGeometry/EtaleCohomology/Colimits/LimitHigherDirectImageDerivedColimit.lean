@@ -120,7 +120,7 @@ instance isIso_smallEtaleComplexPullbackComparison_id (a : ℤ) {X Y : Scheme.{u
     [CochainComplex.IsStrictlyGE
       (((smallEtalePullbackAb f).mapHomologicalComplex (ComplexShape.up ℤ)).obj G) a] :
     IsIso (smallEtaleComplexPullbackComparison a f G _ (𝟙 _)) := by
-  letI : IsIso (smallEtalePullbackAb f).rightDerivedFunctorPlusUnith :=
+  let : IsIso (smallEtalePullbackAb f).rightDerivedFunctorPlusUnith :=
     (smallEtalePullbackAb f).isIso_rightDerivedFunctorPlusUnit_of_preservesHomology
   have : IsIso (ObjectProperty.homMk ((HomotopyCategory.quotient _ _).map
       (𝟙 (((smallEtalePullbackAb f).mapHomologicalComplex (ComplexShape.up ℤ)).obj G))) :
@@ -169,7 +169,7 @@ theorem complexPullbackIso_comp (a : ℤ) {X₀ X₁ X₂ : Scheme.{u}} (f₁ : 
     ((NatIso.mapHomologicalComplex (smallEtalePullbackAbComp' f₂ f₁ f hf)
       (ComplexShape.up ℤ)).hom.app G) (𝟙 _)
     (by
-      simp only [CategoryTheory.Functor.map_id, Category.id_comp]
+      simp only [CategoryTheory.Functor.map_id]
       exact (NatIso.mapHomologicalComplex (smallEtalePullbackAbComp' f₂ f₁ f hf)
         (ComplexShape.up ℤ)).inv_hom_id_app G)
   have hn := (smallEtaleDerivedPullbackAbPlusComp' f₁ f₂ f hf).hom.naturality e.inv
@@ -242,7 +242,7 @@ variable {I : Type u} [Preorder I] [IsDirected I (· ≤ ·)] [Nonempty I] {DX D
   [∀ i, QuasiSeparated (γ.app i)] {cX : Cone DX} {cS : Cone DS} (hcX : IsLimit cX)
   (hcS : IsLimit cS) (i₀ : I)
 
-omit [IsDirected I (· ≤ ·)] [Nonempty I] in
+omit [IsDirected I (· ≤ ·)] [Nonempty I] [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (DX.map a)] in
 /-- The transitions to `i₀` compose with the transition maps of the indices above `i₀`. -/
 theorem map_aboveTransition {j j' : (Set.Ici i₀)ᵒᵖ} (c : j ⟶ j') :
     DX.map (aboveTransition i₀ j) = DX.map ((aboveInclusion i₀).map c) ≫
@@ -382,6 +382,9 @@ abbrev aboveComparisonIso (p a : ℤ) (K₀ : PlusAb (DX.obj (op i₀)))
       ((derivedPushforwardAb ((aboveMorphism γ i₀).app j)).mapIso
         (complexPullbackIso a (DX.map (aboveTransition i₀ j)) G e)))
 
+omit [IsDirected I (· ≤ ·)] [Nonempty I] [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (DX.map a)]
+  [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (DS.map a)] [∀ i, QuasiCompact (γ.app i)]
+  [∀ i, QuasiSeparated (γ.app i)] in
 /-- The identifications `aboveComparisonIso` commute with the transition maps. -/
 theorem pullbackDiagramMap_comp_aboveComparisonIso (p a : ℤ) (K₀ : PlusAb (DX.obj (op i₀)))
     (G : CochainComplex (Sheaf (smallEtaleTopology (DX.obj (op i₀))) Ab.{u + 1}) ℤ)
@@ -410,6 +413,9 @@ theorem pullbackDiagramMap_comp_aboveComparisonIso (p a : ℤ) (K₀ : PlusAb (D
   simp only [Functor.comp_map] at hn
   exact comp_comp_eq_of_comp_eq hk hn
 
+omit [IsDirected I (· ≤ ·)] [Nonempty I] [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (DX.map a)]
+  [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (DS.map a)] [∀ i, QuasiCompact (γ.app i)]
+  [∀ i, QuasiSeparated (γ.app i)] in
 /-- The identifications `aboveComparisonIso` commute with the cocone maps. -/
 theorem complexLeg_comp_aboveComparisonIso (p a : ℤ) (K₀ : PlusAb (DX.obj (op i₀)))
     (G : CochainComplex (Sheaf (smallEtaleTopology (DX.obj (op i₀))) Ab.{u + 1}) ℤ)
@@ -434,7 +440,7 @@ theorem complexLeg_comp_aboveComparisonIso (p a : ℤ) (K₀ : PlusAb (DX.obj (o
       (cX.π.app ((aboveInclusion i₀).obj j))
       (cX.π.app (op i₀)) (cX.w (aboveTransition i₀ j)).symm G e)).symm
 
-include hcX hcS in
+include hcX in
 /-- **Stacks 0GIU for the systems restricted to the indices above `i₀`**, with the limit
 morphism of the restricted systems. -/
 theorem derivedPullbackHigherDirectImageColimit_aux (K₀ : PlusAb (DX.obj (op i₀))) (p : ℤ)
@@ -513,22 +519,23 @@ theorem derivedPullbackHigherDirectImageColimit (K₀ : PlusAb (DX.obj (op i₀)
           derivedPullbackTransition γ cS i₀ p K₀ c' ≫ derivedPullbackTransition γ cS i₀ p K₀ c) ∧
       (∀ {j j' : (Set.Ici i₀)ᵒᵖ} (c : j ⟶ j'),
         derivedPullbackTransition γ cS i₀ p K₀ c ≫ derivedPullbackLeg γ cX cS i₀ p K₀
-            (limitMorphism γ cX cS hcS) (fun j => limitMorphism_comp_π γ cX cS hcS _) j =
+            (limitMorphism γ cX cS hcS)
+            (fun j => limitMorphism_comp_π γ cX cS hcS ((aboveInclusion i₀).obj j)) j =
           derivedPullbackLeg γ cX cS i₀ p K₀ (limitMorphism γ cX cS hcS)
-            (fun j => limitMorphism_comp_π γ cX cS hcS _) j') ∧
+            (fun j => limitMorphism_comp_π γ cX cS hcS ((aboveInclusion i₀).obj j)) j') ∧
       IsSystemColimit (derivedPullbackTerm γ cS i₀ p K₀)
         (fun {j j'} c => derivedPullbackTransition γ cS i₀ p K₀ (j := j) (j' := j') c)
         ((homologyAb cS.pt p).obj ((derivedPushforwardAb (limitMorphism γ cX cS hcS)).obj
           ((derivedPullbackAb (cX.π.app (op i₀))).obj K₀)))
         (derivedPullbackLeg γ cX cS i₀ p K₀ (limitMorphism γ cX cS hcS)
-          (fun j => limitMorphism_comp_π γ cX cS hcS _)) := by
+          (fun j => limitMorphism_comp_π γ cX cS hcS ((aboveInclusion i₀).obj j))) := by
   let E := aboveInclusion i₀
   have hcS' := (Functor.Initial.isLimitWhiskerEquiv E cS).symm hcS
   have hg : limitMorphism (aboveMorphism γ i₀) (cX.whisker E) (cS.whisker E) hcS' =
       limitMorphism γ cX cS hcS :=
     hcS'.hom_ext fun j => (limitMorphism_comp_π _ _ _ hcS' j).trans
       (limitMorphism_comp_π γ cX cS hcS (E.obj j)).symm
-  obtain ⟨h₁, h₂, h₃⟩ := derivedPullbackHigherDirectImageColimit_aux γ hcX hcS i₀ K₀ p hcS'
+  obtain ⟨h₁, h₂, h₃⟩ := derivedPullbackHigherDirectImageColimit_aux γ hcX i₀ K₀ p hcS'
   have key : ∀ (h : cX.pt ⟶ cS.pt)
       (_ : limitMorphism (aboveMorphism γ i₀) (cX.whisker E) (cS.whisker E) hcS' = h)
       (w : ∀ j, h ≫ (cS.whisker E).π.app j = (cX.whisker E).π.app j ≫ (aboveMorphism γ i₀).app j),

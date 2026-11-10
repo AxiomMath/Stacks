@@ -147,7 +147,7 @@ theorem classifyingMap_eq_classifyingMap_iff (T : BigFppfOver B (Spec (.of k)) h
         Stacks.Picard.schemePullbackClass (baseChangeProj B hX hk f T) N = x - y := by
   have hex := exact_schemePullbackClass_baseChangeProj_toPicardFunctorHom B hX hk f σ hσ
     (isIso_baseChangeProj_c_of_isCurve B hX hk f σ hσ) T (x - y)
-  show _ ↔ x - y ∈ Set.range _
+  change _ ↔ x - y ∈ Set.range _
   rw [← hex, map_sub, sub_eq_zero]
   refine ⟨fun h => ?_, fun h => ?_⟩
   · simpa only [jacobianHomAddEquiv_classifyingMap] using
@@ -177,7 +177,7 @@ theorem classifyingMap_comp {T T' : BigFppfOver B (Spec (.of k)) hk} (g : T' ⟶
     (classifyingMap B hX hk f σ hσ T x hx)).trans ?_
   rw [jacobianHomAddEquiv_classifyingMap, jacobianHomAddEquiv_classifyingMap]
   apply Subtype.ext
-  show (picardFunctor B hX hk f).map g.op ((toPicardFunctor B hX hk f).app (op T) x) =
+  change (picardFunctor B hX hk f).map g.op ((toPicardFunctor B hX hk f).app (op T) x) =
     (toPicardFunctor B hX hk f).app (op T') (picardMap B hX hk f g x)
   rw [toPicardFunctor_app_naturality]
   rfl
@@ -246,7 +246,7 @@ theorem hasDegreeZero_familyClass_sub {d : ℕ} (T : BigFppfOver B (Spec (.of k)
   rw [← map_add, sub_add_cancel] at h
   have h1 := curveFibreDegree_familyClass B hX hk f σ hσ T D t
   have h2 := curveFibreDegree_familyClass B hX hk f σ hσ T D' t
-  show curveFibreDegree B hX hk f σ hσ T _ t = 0
+  change curveFibreDegree B hX hk f σ hσ T _ t = 0
   simp only [curveFibreDegree] at h1 h2 ⊢
   rw [h1, h2] at h
   omega

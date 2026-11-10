@@ -61,7 +61,7 @@ morphism. -/
 lemma eq_baseAlgebraHom {B : CommAlgCat.{max u v} A}
     (f : CommAlgCat.of A (ULift.{v} A) ⟶ B) : f = baseAlgebraHom.{v} A B := by
   refine CommAlgCat.hom_ext (AlgHom.ext fun x => ?_)
-  show f.hom x = algebraMap A B x.down
+  change f.hom x = algebraMap A B x.down
   rw [show x = algebraMap A (ULift.{v} A) x.down from rfl]
   exact f.hom.commutes x.down
 
@@ -127,8 +127,7 @@ lemma hom_ext_of_app_baseAlgebra {η θ : moduleExtension.{w, v} A M ⟶ F}
     (h : η.app (liftedBaseAlgebra.{v} A) = θ.app (liftedBaseAlgebra.{v} A)) : η = θ := by
   refine PresheafOfModules.hom_ext fun X => ?_
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-  induction x using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction x using TensorProduct.inductionOn with
   | tmul b m =>
     rw [app_tmul_eq η X b m, app_tmul_eq θ X b m]
     exact congrArg (fun y => b • F.map (baseAlgebraHom.{v} A X.unop.unop).op.op y)
@@ -190,8 +189,7 @@ under the transition map of `F` from the base algebra. -/
 lemma appAddHomOfAppBase_smul (X : ((CommAlgCat.{max u v} A)ᵒᵖ)ᵒᵖ) (c : X.unop.unop)
     (x : (moduleExtension.{w, v} A M).obj X) :
     appAddHomOfAppBase ψ X (c • x) = c • appAddHomOfAppBase ψ X x := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul b m =>
     rw [TensorProduct.smul_tmul', appAddHomOfAppBase_tmul, appAddHomOfAppBase_tmul,
       smul_eq_mul, mul_smul]
@@ -203,13 +201,12 @@ lemma appAddHomOfAppBase_naturality {X Y : ((CommAlgCat.{max u v} A)ᵒᵖ)ᵒ�
     (x : (moduleExtension.{w, v} A M).obj X) :
     appAddHomOfAppBase ψ Y ((moduleExtension.{w, v} A M).map f x) =
       F.map f (appAddHomOfAppBase ψ X x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction x using TensorProduct.inductionOn with
   | tmul b m =>
     have hcomp : (baseAlgebraHom.{v} A X.unop.unop).op.op ≫ f =
         (baseAlgebraHom.{v} A Y.unop.unop).op.op := by
       refine Quiver.Hom.unop_inj (Quiver.Hom.unop_inj ?_)
-      show baseAlgebraHom.{v} A X.unop.unop ≫ f.unop.unop =
+      change baseAlgebraHom.{v} A X.unop.unop ≫ f.unop.unop =
         baseAlgebraHom.{v} A Y.unop.unop
       exact eq_baseAlgebraHom _
     have h₄ := map_smul_algebra (F := F) f b
@@ -241,10 +238,9 @@ noncomputable def homOfAppBase : moduleExtension.{w, v} A M ⟶ F :=
 @[simp] lemma homOfAppBase_app_baseAlgebra :
     (homOfAppBase ψ).app (liftedBaseAlgebra.{v} A) = ψ := by
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-  induction x using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction x using TensorProduct.inductionOn with
   | tmul b m =>
-    show appAddHomOfAppBase ψ (liftedBaseAlgebra.{v} A) (b ⊗ₜ[A] m) = ψ (b ⊗ₜ[A] m)
+    change appAddHomOfAppBase ψ (liftedBaseAlgebra.{v} A) (b ⊗ₜ[A] m) = ψ (b ⊗ₜ[A] m)
     rw [appAddHomOfAppBase_tmul, map_baseAlgebraHom_self,
       tmul_eq_smul_one_tmul (liftedBaseAlgebra.{v} A) b m]
     exact ((ConcreteCategory.hom ψ).map_smul b _).symm

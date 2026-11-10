@@ -60,6 +60,7 @@ attribute [local instance] MvPolynomial.gradedAlgebra
 variable (B : BigHSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) (p : ℕ) [Fact p.Prime]
   (hpS : IsInCharacteristic S p)
 
+omit [Fact (Nat.Prime p)] in
 /-- A ring whose spectrum is in characteristic `p` has `p = 0`. -/
 lemma natCast_eq_zero_of_isInCharacteristic_spec (A : Type u) [CommRing A]
     (h : IsInCharacteristic (Spec (.of A)) p) : (p : A) = 0 := by

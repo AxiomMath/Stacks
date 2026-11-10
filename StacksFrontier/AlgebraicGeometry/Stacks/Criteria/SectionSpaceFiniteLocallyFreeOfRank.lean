@@ -77,7 +77,7 @@ theorem toScheme_map_from_baseTerminal :
     (BigFppfOver.toScheme B U hU).map (Over.mkIdTerminal.from Z) = B.inclusion.map Z.hom := by
   have h : (Over.mkIdTerminal.from Z).left = Z.hom := by
     simp
-  show B.inclusion.map (Over.mkIdTerminal.from Z).left = B.inclusion.map Z.hom
+  change B.inclusion.map (Over.mkIdTerminal.from Z).left = B.inclusion.map Z.hom
   exact congrArg B.inclusion.map h
 
 /-- **The structure morphism of `Z` to the final algebraic space of the site of `U` is a Yoneda

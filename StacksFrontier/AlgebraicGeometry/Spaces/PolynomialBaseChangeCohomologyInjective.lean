@@ -70,7 +70,7 @@ theorem isFlat_polynomialSpectrumSiteHom :
     IsFlat B S hS (schemeSpaceMap (algebraSpectrumSiteHom B S hS T
       (Polynomial Γ((BigFppfOver.toScheme B S hS).obj T, ⊤)))).hom := by
   refine isFlat_yoneda_map B S hS _ ?_
-  show Flat (algebraSpectrumMap B S hS T _)
+  change Flat (algebraSpectrumMap B S hS T _)
   unfold algebraSpectrumMap
   have : Flat (Spec.map (CommRingCat.ofHom (algebraMap Γ((BigFppfOver.toScheme B S hS).obj T, ⊤)
       (Polynomial Γ((BigFppfOver.toScheme B S hS).obj T, ⊤))))) := by

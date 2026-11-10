@@ -228,13 +228,13 @@ theorem isSolvable_of_hasRankIn : ∀ (n : ℕ) (E : FlatteningSituation.{u}) (A
       have hm : e.inv.base w ∈ (Z₁ ⊔ Z₂ : S'.Opens) := by rw [hZtop]; trivial
       exact (TopologicalSpace.Opens.mem_sup).mp hm
     have hinv : ∀ w : blowUp K, bl.base (e.inv.base w) = (blowUpToBase K).base w := fun w ↦ by
-      show (e.inv ≫ bl).base w = (blowUpToBase K).base w
+      change (e.inv ≫ bl).base w = (blowUpToBase K).base w
       rw [← he, ← Category.assoc, e.inv_hom_id, Category.id_comp]
     have hpre : ∀ (V : E.S.Opens) (ZZ : S'.Opens), bl ⁻¹ᵁ V ≤ ZZ →
         blowUpToBase K ⁻¹ᵁ V ≤ e.inv ⁻¹ᵁ ZZ := by
       intro V ZZ hle w hw
       refine hle ?_
-      show bl.base (e.inv.base w) ∈ V
+      change bl.base (e.inv.base w) ∈ V
       rw [hinv]
       exact hw
     have hZ₁p := hpre Ua Z₁ hZ₁
@@ -266,7 +266,7 @@ theorem isSolvable_of_hasRankIn : ∀ (n : ℕ) (E : FlatteningSituation.{u}) (A
         refine ((hcover ▸ hxU : E.f.base x ∈ (Ua : Set E.S) ∪ (Ur : Set E.S))).resolve_right
           fun hc ↦ ?_
         refine (Set.disjoint_left.mp hZ'disj) hwZ (hZ₂p ?_)
-        show (blowUpToBase K).base w ∈ Ur
+        change (blowUpToBase K).base w ∈ Ur
         rw [← hxw]
         exact hc
       exact hUaU.2
@@ -281,7 +281,7 @@ theorem isSolvable_of_hasRankIn : ∀ (n : ℕ) (E : FlatteningSituation.{u}) (A
         refine ((hcover ▸ hxU : E.f.base x ∈ (Ua : Set E.S) ∪ (Ur : Set E.S))).resolve_left
           fun hc ↦ ?_
         refine (Set.disjoint_left.mp hZ'disj) (hZ₁p ?_) hwZ
-        show (blowUpToBase K).base w ∈ Ua
+        change (blowUpToBase K).base w ∈ Ua
         rw [← hxw]
         exact hc
       obtain ⟨b, hub⟩ := TopologicalSpace.Opens.mem_iSup.mp hUrU.2

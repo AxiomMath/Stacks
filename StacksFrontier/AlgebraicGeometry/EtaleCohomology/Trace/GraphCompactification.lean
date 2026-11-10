@@ -94,14 +94,14 @@ def graphSnd : (graph c πP ψ hψ).space ⟶ P :=
 /-- The composite `X ⟶ W ⟶ X̄` is `c`. -/
 @[reassoc (attr := simp)]
 lemma immersion_graphFst : (graph c πP ψ hψ).immersion ≫ graphFst c πP ψ hψ = c.immersion := by
-  show (graphImmersion c πP ψ hψ).toImage ≫ (graphImmersion c πP ψ hψ).imageι ≫
+  change (graphImmersion c πP ψ hψ).toImage ≫ (graphImmersion c πP ψ hψ).imageι ≫
     pullback.fst _ _ = c.immersion
   rw [← Category.assoc, Scheme.Hom.toImage_imageι, graphImmersion_fst]
 
 /-- The composite `X ⟶ W ⟶ P` is `ψ`. -/
 @[reassoc (attr := simp)]
 lemma immersion_graphSnd : (graph c πP ψ hψ).immersion ≫ graphSnd c πP ψ hψ = ψ := by
-  show (graphImmersion c πP ψ hψ).toImage ≫ (graphImmersion c πP ψ hψ).imageι ≫
+  change (graphImmersion c πP ψ hψ).toImage ≫ (graphImmersion c πP ψ hψ).imageι ≫
     pullback.snd _ _ = ψ
   rw [← Category.assoc, Scheme.Hom.toImage_imageι, graphImmersion_snd]
 
@@ -111,7 +111,7 @@ lemma graphFst_toBase : graphFst c πP ψ hψ ≫ c.toBase = (graph c πP ψ hψ
 
 /-- The projection `ḡ : W ⟶ P` is a morphism over `S`. -/
 lemma graphSnd_toBase : graphSnd c πP ψ hψ ≫ πP = (graph c πP ψ hψ).toBase := by
-  show ((graphImmersion c πP ψ hψ).imageι ≫ pullback.snd _ _) ≫ πP =
+  change ((graphImmersion c πP ψ hψ).imageι ≫ pullback.snd _ _) ≫ πP =
     (graphImmersion c πP ψ hψ).imageι ≫ pullback.fst _ _ ≫ c.toBase
   rw [Category.assoc, pullback.condition]
 
@@ -150,7 +150,7 @@ theorem preimage_range_graphFst_subset :
   have heq := eq_of_isSchemeTheoreticallyDominant_ι (S := S)
     (X := Over.mk (V.ι ≫ W.toBase)) (Y := Over.mk W.toBase)
     (Over.homMk V.ι rfl) (Over.homMk (r ≫ m) (by
-      show (r ≫ W.immersion) ≫ W.toBase = V.ι ≫ W.toBase
+      change (r ≫ W.immersion) ≫ W.toBase = V.ι ≫ W.toBase
       have h1 : W.immersion ≫ W.toBase = φ := CompactificationOf.immersion_toBase W
       have h2 : c.immersion ≫ c.toBase = φ := CompactificationOf.immersion_toBase c
       have h3 : r ≫ c.immersion = V.ι ≫ q := IsOpenImmersion.lift_fac _ _ _

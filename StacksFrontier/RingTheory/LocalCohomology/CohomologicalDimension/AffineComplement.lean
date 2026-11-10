@@ -138,7 +138,7 @@ the quasi-compactness hypothesis of Serre's criterion for affineness, Stacks 01X
 `isAffine_complZeroLocusOpen_of_cohomologicalDimension_eq_one` below feeds it. -/
 theorem compactSpace_complZeroLocusOpen : CompactSpace (complZeroLocusOpen A I).toScheme := by
   have h : IsCompact ((complZeroLocusOpen A I).1 : Set (Spec (CommRingCat.of A))) := by
-    show @IsCompact (PrimeSpectrum A) PrimeSpectrum.zariskiTopology
+    change @IsCompact (PrimeSpectrum A) PrimeSpectrum.zariskiTopology
       (PrimeSpectrum.zeroLocus (I : Set A))ᶜ
     exact isCompact_compl_zeroLocus A I hI
   exact isCompact_iff_compactSpace.mp h

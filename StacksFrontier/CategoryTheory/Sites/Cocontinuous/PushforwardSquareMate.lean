@@ -86,7 +86,7 @@ theorem sheafPushforwardCocontinuousCompIso_hom_app_counit (u : C ⥤ D) (w : D 
       (G := u.sheafPushforwardCocontinuous (Type u) J K ⋙
         w.sheafPushforwardCocontinuous (Type u) K L)
       ((sheafToPresheaf J (Type u)).isoWhiskerLeft (ranOpCompIso u w)) F
-    show (sheafToPresheaf L (Type u)).map ((Functor.fullyFaithfulCancelRight
+    change (sheafToPresheaf L (Type u)).map ((Functor.fullyFaithfulCancelRight
       (sheafToPresheaf L (Type u)) (F := (u ⋙ w).sheafPushforwardCocontinuous (Type u) J L)
       (G := u.sheafPushforwardCocontinuous (Type u) J K ⋙
         w.sheafPushforwardCocontinuous (Type u) K L)
@@ -147,9 +147,9 @@ theorem mateEquiv_symm_natTrans_app_leftAdjointUniq {C₁ C₂ C₃ C₄ : Type*
     {R₁ : C₂ ⥤ C₁}
     {L₂ L₂' : C₃ ⥤ C₄} {R₂ : C₄ ⥤ C₃} (adj₁ : L₁ ⊣ R₁) (adj₁' : L₁' ⊣ R₁) (adj₂ : L₂ ⊣ R₂)
     (adj₂' : L₂' ⊣ R₂) (β : TwoSquare R₁ H G R₂) (X : C₁) :
-    ((mateEquiv adj₁ adj₂).symm β).natTrans.app X =
+    ((mateEquiv adj₁ adj₂).symm β).app X =
       (Adjunction.leftAdjointUniq adj₂ adj₂').hom.app (G.obj X) ≫
-        ((mateEquiv adj₁' adj₂').symm β).natTrans.app X ≫
+        ((mateEquiv adj₁' adj₂').symm β).app X ≫
           H.map ((Adjunction.leftAdjointUniq adj₁ adj₁').inv.app X) := by
   rw [Stacks.CategoryTheory.mateEquiv_symm_congr_left adj₁ adj₁' adj₂ β,
     Stacks.CategoryTheory.mateEquiv_symm_congr_right adj₁' adj₂' adj₂ β]
@@ -204,7 +204,7 @@ def sheafPushforwardCocontinuousSquareMateHom (hq : i ⋙ T = v ⋙ i') (F : She
         ((i.sheafPushforwardContinuous (Type u) JA JB).obj F))).hom
 
 private theorem squareMate_app_hom_eq (hq : i ⋙ T = v ⋙ i') (F : Sheaf JB (Type u)) :
-    ((sheafPushforwardCocontinuousSquareMate JA JA' JB JB' i i' v T hq).natTrans.app F).hom =
+    ((sheafPushforwardCocontinuousSquareMate JA JA' JB JB' i i' v T hq).app F).hom =
       sheafPushforwardCocontinuousSquareMateHom JA JA' JB JB' i i' v T hq F := by
   simp only [sheafPushforwardCocontinuousSquareMate, mateEquiv, Equiv.coe_fn_symm_mk,
     NatTrans.comp_app, Functor.whiskerRight_app, Functor.whiskerLeft_app,
@@ -250,7 +250,7 @@ private theorem squareIso_inv_counit (hq : i ⋙ T = v ⋙ i') (G : Sheaf JA (Ty
       NatTrans.comp_app,
       ObjectProperty.FullSubcategory.comp_hom, Category.assoc]
   rw [e]
-  show (v ⋙ i').op.whiskerLeft
+  change (v ⋙ i').op.whiskerLeft
         ((sheafPushforwardCocontinuousCompIso JA JB JB' i T).inv.app G).hom ≫
       (v ⋙ i').op.whiskerLeft
         ((SimplicialSiteSituation.cocontinuousPushforwardIsoOfEq.{u, u, u, u, u}
@@ -312,7 +312,7 @@ private theorem mateHom_eq (hq : i ⋙ T = v ⋙ i') (F : Sheaf JB (Type u)) :
   have hT : Functor.whiskerLeft i.op ((i.op.ranAdjunction (Type u)).unit.app F.obj) ≫
       (i.op.ranAdjunction (Type u)).counit.app (i.op ⋙ F.obj) = 𝟙 _ :=
     (i.op.ranAdjunction (Type u)).left_triangle_components F.obj
-  show (v ⋙ i').op.whiskerLeft (T.op.ran.map ((i.op.ranAdjunction (Type u)).unit.app F.obj)) ≫
+  change (v ⋙ i').op.whiskerLeft (T.op.ran.map ((i.op.ranAdjunction (Type u)).unit.app F.obj)) ≫
       (Functor.whiskerLeft v.op (Functor.whiskerLeft i'.op
         ((sheafPushforwardCocontinuousSquareIso JA JA' JB JB' i i' v T hq).inv.app
           ((i.sheafPushforwardContinuous (Type u) JA JB).obj F)).hom) ≫
@@ -326,7 +326,7 @@ private theorem mateHom_eq (hq : i ⋙ T = v ⋙ i') (F : Sheaf JB (Type u)) :
           (i.op.ran.obj (i.op ⋙ F.obj))) ≫
           (i.op.ranAdjunction (Type u)).counit.app (i.op ⋙ F.obj)) hW).trans ?_
   refine (Category.assoc _ _ _).trans ?_
-  show eqToHom _ ≫ Functor.whiskerLeft i.op
+  change eqToHom _ ≫ Functor.whiskerLeft i.op
       (Functor.whiskerLeft T.op (T.op.ran.map ((i.op.ranAdjunction (Type u)).unit.app F.obj)) ≫
         (T.op.ranAdjunction (Type u)).counit.app (i.op.ran.obj (i.op ⋙ F.obj))) ≫
       (i.op.ranAdjunction (Type u)).counit.app (i.op ⋙ F.obj) = _
@@ -340,7 +340,7 @@ private theorem mateHom_eq (hq : i ⋙ T = v ⋙ i') (F : Sheaf JB (Type u)) :
 Kan extensions of the square of opposite site functors. -/
 theorem sheafPushforwardCocontinuousSquareMate_app_hom (hq : i ⋙ T = v ⋙ i')
     (F : Sheaf JB (Type u)) :
-    ((sheafPushforwardCocontinuousSquareMate JA JA' JB JB' i i' v T hq).natTrans.app F).hom =
+    ((sheafPushforwardCocontinuousSquareMate JA JA' JB JB' i i' v T hq).app F).hom =
       (TwoSquare.mk _ _ _ _ (eqToHom hq) : TwoSquare i v T i').op.ranBaseChange.app F.obj :=
   (squareMate_app_hom_eq JA JA' JB JB' i i' v T hq F).trans (mateHom_eq JA JA' JB JB' i i' v T hq F)
 
@@ -349,7 +349,7 @@ Guitart exact, the mate `T_* ⋙ i'^{-1} ⟶ i^{-1} ⋙ v_*` of the square of di
 isomorphism. -/
 theorem isIso_sheafPushforwardCocontinuousSquareMate (hq : i ⋙ T = v ⋙ i')
     [(TwoSquare.mk _ _ _ _ (eqToHom hq) : TwoSquare i v T i').GuitartExact] :
-    IsIso (sheafPushforwardCocontinuousSquareMate JA JA' JB JB' i i' v T hq).natTrans := by
+    IsIso (sheafPushforwardCocontinuousSquareMate JA JA' JB JB' i i' v T hq) := by
   rw [NatTrans.isIso_iff_isIso_app]
   intro F
   rw [← ObjectProperty.isIso_hom_iff, sheafPushforwardCocontinuousSquareMate_app_hom]

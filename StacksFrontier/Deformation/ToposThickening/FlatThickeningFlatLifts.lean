@@ -143,7 +143,7 @@ theorem isIso_unit_app_ideal :
   have haKer : a ∈ RingHom.ker ((Sc.hom.fSharp.hom.app U).hom) := by
     rwa [← AlgebraicGeometry.ClosedRingedImmersion.ideal_obj Sc U]
   have hker : i.fSharp.hom.app U a = 0 := (RingHom.mem_ker).mp haKer
-  show (show (Stacks.SheafOfModules.Tensor.ringSheaf
+  change (show (Stacks.SheafOfModules.Tensor.ringSheaf
     ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj.obj U from
       i.fSharp.hom.app U a) • (show hi.I.val.obj U from m) = 0
   rw [hker]
@@ -204,7 +204,7 @@ theorem existenceObstructionClass_comp
   obtain ⟨Q, E, ⟨P⟩⟩ := exists_extension_monoActionPresentation hi F
   rw [existenceObstructionClass_eq_obstruction hi F L _ P,
     existenceObstructionClass_eq_obstruction hi F K c P]
-  show P.universalClass.comp (Abelian.Ext.mk₀ (c ≫ g)) (add_zero 2) =
+  change P.universalClass.comp (Abelian.Ext.mk₀ (c ≫ g)) (add_zero 2) =
     (P.universalClass.comp (Abelian.Ext.mk₀ c) (add_zero 2)).comp (Abelian.Ext.mk₀ g) (add_zero 2)
   rw [Abelian.Ext.comp_assoc_of_third_deg_zero, Abelian.Ext.mk₀_comp_mk₀]
 
@@ -361,7 +361,7 @@ theorem autOverIdentityExtZeroEquiv_spec
     (T := (pullbackModules i.toRingedToposModulesHom).obj L.module')
     (idealProductTensorIso i t f f' hi ht comm L.module' hstrict L.isFlat))
   refine ⟨fun α => rfl, fun α β => Subtype.ext ?_⟩
-  show (autOverIdentityEquiv hi L.module' (B (α + β))).val =
+  change (autOverIdentityEquiv hi L.module' (B (α + β))).val =
     (autOverIdentityEquiv hi L.module' (B α)).val ≪≫
       (autOverIdentityEquiv hi L.module' (B β)).val
   rw [map_add, autOverIdentityEquiv_add]

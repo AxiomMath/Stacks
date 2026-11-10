@@ -69,12 +69,12 @@ theorem exists_normalized {g : Γ((Scheme.Modules.pullback (face₂ A)).obj N, �
   rw [pulledGen₂_smul]
   congr 1
   have hs : σe (A := A) ≫ (A ⊗ A).hom = A.hom := by
-    show σe ≫ bx A ≫ A.hom = A.hom
+    change σe ≫ bx A ≫ A.hom = A.hom
     rw [σe_bx_assoc, show eA (A := A) ≫ A.hom = 𝟙 _ from eA_hom, Category.comp_id]
   exact (appLE_algebraMap (A ⊗ A).hom A.hom σe hs _ c).symm
 
 variable {g₂ : Γ((Scheme.Modules.pullback (face₂ A)).obj N, ⊤)} (hg₂ : IsGen _ g₂)
-  {V : A.left.Opens} (hV : IsAffineOpen V) {ι : Type u} [Fintype ι] [DecidableEq ι]
+  {V : A.left.Opens} (hV : IsAffineOpen V) {ι : Type u} [Finite ι]
   (U : ι → A.left.Opens) {a₀ : ι} (ha₀ : eA (A := A) ⁻¹ᵁ U a₀ = ⊤)
 
 variable [IsAlgClosed k] [LocallyOfFiniteType A.hom] [Smooth A.hom]
@@ -93,7 +93,7 @@ theorem false_of_fibre (h : ChartHyp hV U N)
     (z : Spec (.of k) ⟶ A.left) (hzk : z ≫ A.hom = 𝟙 _) (hzV : z ⁻¹ᵁ V = ⊤)
     (h0 : ∀ s : Γ(fibreModule z hzk hzV N, ⊤), s = 0) : False := by
   obtain ⟨a, ha, y, hy0, hy⟩ := exists_lift_at ha₀ hg₁ hg₂ hU hUcov hAc hBc h hnorm z' hzk' hzV' hσ₀
-  have hker := ker_d₀_eq_bot_of_fibre hUcov hAc h z hzk hzV h0
+  have hker := ker_d₀_eq_bot_of_fibre hUcov h z hzk hzV h0
   have hy00 : y = 0 := by
     have : y ∈ LinearMap.ker (d₀ hV U N) := hy0
     rw [hker] at this

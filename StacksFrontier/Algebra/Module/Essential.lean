@@ -140,7 +140,7 @@ theorem isEssentialMono_comp {A B C : 𝒜} (i : A ⟶ B) (j : B ⟶ C) [Mono i]
   let P : Subobject B := (Subobject.pullback j).obj X
   have hPX : (Subobject.map j).obj P = X ⊓ Subobject.mk j := by
     rw [inf_comm]
-    show (Subobject.map j).obj P = (Subobject.inf.obj (Quotient.mk'' (MonoOver.mk j))).obj X
+    change (Subobject.map j).obj P = (Subobject.inf.obj (Quotient.mk'' (MonoOver.mk j))).obj X
     exact (Subobject.inf_eq_map_pullback' (MonoOver.mk j) X).symm
   have hP : P ≠ ⊥ := fun h => hj X hX (by rw [← hPX, h, Subobject.map_bot])
   rw [show X ⊓ Subobject.mk (i ≫ j) =
@@ -289,7 +289,7 @@ theorem essentialEpi_epiDesc_cokernel (hf : IsEssentialEpi f) :
       let pb := Subobject.isPullback q S
       let kq : kernel q ⟶ S' := pb.lift 0 (kernel.ι q) (by simp)
       have hkq : kq ≫ S'.arrow = kernel.ι q := pb.lift_snd _ _ _
-      show t ≫ cokernel.π h = 0
+      change t ≫ cokernel.π h = 0
       rw [show t = kq ≫ h by simp [t, h, ← hkq, Category.assoc]]
       simp [h, Category.assoc])
   have hk : k ≫ Abelian.image.ι h = kernel.ι π := by
@@ -396,7 +396,7 @@ theorem isEssentialMono_colimit {R : Type u} [Ring R]
   let : PreservesColimit E (forget₂ (ModuleCat.{max v w u, u} R)
       AddCommGrpCat.{max (max u v) w} ⋙ forget AddCommGrpCat.{max (max u v) w}) := inferInstance
   let : PreservesColimit E (forget (ModuleCat.{max v w u, u} R)) := by
-    show PreservesColimit E (forget₂ (ModuleCat.{max v w u, u} R)
+    change PreservesColimit E (forget₂ (ModuleCat.{max v w u, u} R)
       AddCommGrpCat.{max (max u v) w} ⋙ forget AddCommGrpCat.{max (max u v) w})
     infer_instance
   have hcolimit_mono :=
@@ -416,7 +416,7 @@ theorem isEssentialMono_colimit {R : Type u} [Ring R]
     (isEssentialMono_iff_smul_mem_range (ι.app k)).mp hessential y hy
   refine ⟨r, ?_, fun hzero ↦ hr0 (hcolimit_mono k (by simpa using hzero))⟩
   rw [← map_smul]
-  show colimit.ι E k (r • y) ∈ _
+  change colimit.ι E k (r • y) ∈ _
   rw [← hm]
   exact ⟨m, by simpa only [ConcreteCategory.comp_apply] using
     ConcreteCategory.congr_hom (app_comp_colimit_ι_eq ι j k) m⟩

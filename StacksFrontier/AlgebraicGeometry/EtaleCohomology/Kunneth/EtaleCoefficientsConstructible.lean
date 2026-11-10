@@ -64,7 +64,7 @@ universe u
 namespace Stacks.EtaleCohomology.EtaleCoefficients
 
 -- `derivedPullback` and `derivedPushforward` (`StacksFrontier/CategoryTheory/Sites/Cohomology/
--- StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/AdjunctionForRingedTopoi.lean:394`), through `pushforward`, are stated for
+-- DerivedPushforward/AdjunctionForRingedTopoi.lean:394`), through `pushforward`, are stated for
 -- the standard model of the derived category.
 attribute [local instance] HasDerivedCategory.standard
 
@@ -86,10 +86,11 @@ def zmodHomOfNsmulEqZero (G : AddCommGrpCat.{u + 1}) (x : G) (hx : ℓ • x = 0
   AddCommGrpCat.ofHom (((ZMod.lift ℓ ⟨zmultiplesHom G x, by simp [hx]⟩)).comp
     (AddEquiv.ulift.toAddMonoidHom))
 
+omit [NeZero ℓ] in
 /-- The map `zmodHomOfNsmulEqZero ℓ G x hx` sends the class of an integer `k` to `k • x`. -/
 theorem zmodHomOfNsmulEqZero_apply (G : AddCommGrpCat.{u + 1}) (x : G) (hx : ℓ • x = 0)
     (k : ℤ) : (zmodHomOfNsmulEqZero ℓ G x hx).hom (ULift.up (k : ZMod ℓ)) = k • x := by
-  show (ZMod.lift ℓ ⟨zmultiplesHom G x, by simp [hx]⟩) (k : ZMod ℓ) = k • x
+  change (ZMod.lift ℓ ⟨zmultiplesHom G x, by simp [hx]⟩) (k : ZMod ℓ) = k • x
   rw [ZMod.lift_coe]
   rfl
 
@@ -135,6 +136,7 @@ private theorem additive_constantSheaf_addCommGrpCat :
     (constantSheaf Z.smallEtaleTopology AddCommGrpCat.{u + 1})
   exact Functor.additive_of_preservesBinaryBiproducts _
 
+omit [NeZero ℓ] in
 /-- The constant sheaf on `ℤ/ℓ` is killed by `ℓ`. -/
 theorem nsmul_id_constantZMod_eq_zero : ℓ • 𝟙 (constantZMod ℓ Z) = 0 := by
   let C := constantSheaf Z.smallEtaleTopology AddCommGrpCat.{u + 1}
@@ -144,6 +146,7 @@ theorem nsmul_id_constantZMod_eq_zero : ℓ • 𝟙 (constantZMod ℓ Z) = 0 :=
     simp
   exact nsmul_id_map_eq_zero ℓ C h
 
+omit [NeZero ℓ] in
 /-- The constant sheaf on `ℤ/ℓ` underlies a sheaf of `ℤ/ℓ̲`-modules. -/
 theorem constantZMod_mem_essImage :
     (etaleToSheaf (ULift.{u + 1} (ZMod ℓ)) Z).essImage (constantZMod ℓ Z) :=
@@ -165,8 +168,7 @@ def corepresentableByConstantZMod :
             ((etaleToSheaf (ULift.{u + 1} (ZMod ℓ)) Z).obj_mem_essImage M)) _ x)))
   homEquiv_comp {M M'} g f := by
     simp only [Equiv.trans_apply, Functor.FullyFaithful.homEquiv_apply, Functor.map_comp,
-      Iso.homCongr_apply, Iso.refl_hom, Category.comp_id, Category.assoc,
-      Adjunction.homEquiv_naturality_right]
+      Iso.homCongr_apply, Iso.refl_hom, Category.comp_id]
     rfl
 
 /-- **The underlying abelian sheaf of the structure sheaf of `(Z_étale, ℤ/ℓ)` is the constant
@@ -223,6 +225,7 @@ private instance compactSpace_constructibilityScheme [CompactSpace X] :
 private instance quasiSeparatedSpace_constructibilityScheme [QuasiSeparatedSpace X] :
     QuasiSeparatedSpace (constructibilityScheme X).obj := ‹QuasiSeparatedSpace X›
 
+omit [NeZero ℓ] in
 /-- Constructibility on the model is invariant under isomorphism. -/
 theorem IsConstructibleEtaleModule.of_iso {M N : SheafOfModules.{u + 1}
     (etaleRing (ULift.{u + 1} (ZMod ℓ)) X)} (e : M ≅ N) (hM : IsConstructibleEtaleModule ℓ X M) :

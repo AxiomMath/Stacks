@@ -253,23 +253,16 @@ lemma presheafUnit_isLocallySurjective (f : O ⟶ O₀) (hf : Sheaf.IsLocallySur
   constructor
   intro U s
   let _inst := (f.hom.app (Opposite.op U)).hom.toAlgebra
-  show Presheaf.imageSieve η s ∈ J U
+  change Presheaf.imageSieve η s ∈ J U
   change (O₀.obj.obj (Opposite.op U) ⊗[O.obj.obj (Opposite.op U)]
     M.obj (Opposite.op U)) at s
-  induction s using TensorProduct.induction_on with
-  | zero =>
-    apply J.superset_covering (S := ⊤) _ (J.top_mem U)
-    intro V i _
-    refine ⟨0, ?_⟩
-    exact (η.app _).hom.map_zero.trans
-      (((((Stacks.PresheafOfModules.ChangeOfRings.changeOfRings f.hom).obj M).presheaf.map
-        i.op)).hom.map_zero).symm
+  induction s using TensorProduct.inductionOn with
   | add x y hx hy =>
     apply J.superset_covering (S := Presheaf.imageSieve η x ⊓ Presheaf.imageSieve η y)
       _ (J.intersection_covering hx hy)
     rintro V i ⟨⟨a, ha⟩, ⟨b, hb⟩⟩
     refine ⟨a + b, ?_⟩
-    show (η.app _).hom (a + b) =
+    change (η.app _).hom (a + b) =
       (((Stacks.PresheafOfModules.ChangeOfRings.changeOfRings f.hom).obj M).presheaf.map i.op).hom
         (x + y)
     change (η.app _).hom a =
@@ -285,7 +278,7 @@ lemma presheafUnit_isLocallySurjective (f : O ⟶ O₀) (hf : Sheaf.IsLocallySur
     rintro V i ⟨r, hr⟩
     let _instV := (f.hom.app (Opposite.op V)).hom.toAlgebra
     refine ⟨r • (show M.obj (Opposite.op V) from M.map i.op m), ?_⟩
-    show (Stacks.PresheafOfModules.ChangeOfRings.unitApp f.hom (𝟙 _) _).hom _ =
+    change (Stacks.PresheafOfModules.ChangeOfRings.unitApp f.hom (𝟙 _) _).hom _ =
       (Stacks.PresheafOfModules.ChangeOfRings.cofMap f.hom M i.op).hom (a ⊗ₜ m)
     rw [Stacks.PresheafOfModules.ChangeOfRings.unitApp_apply,
       Stacks.PresheafOfModules.ChangeOfRings.cofMap_tmul, ← TensorProduct.smul_tmul]
@@ -313,7 +306,7 @@ lemma extensionOfScalarsUnit_epi (f : O ⟶ O₀) (hf : Sheaf.IsLocallySurjectiv
   have h : Sheaf.IsLocallySurjective
       ((_root_.SheafOfModules.toSheaf (Stacks.SheafOfModules.Tensor.ringSheaf O)).map
         (extensionOfScalarsUnit f M)) := by
-    show Presheaf.IsLocallySurjective J _
+    change Presheaf.IsLocallySurjective J _
     rw [heq]
     exact Presheaf.isLocallySurjective_comp J η (CategoryTheory.toSheafify J T.presheaf)
   exact (_root_.SheafOfModules.toSheaf.{max w z}
@@ -334,7 +327,7 @@ lemma IsExtensionOfScalars.epi_unit (f : O ⟶ O₀) (hf : Sheaf.IsLocallySurjec
   have hb : uM ≫ R.map b = extensionOfScalarsUnit f M := IsExtensionOfScalars.desc_spec f h _
   have hba : b ≫ a = 𝟙 _ := by
     apply (h _).injective
-    show uM ≫ R.map (b ≫ a) = uM ≫ R.map (𝟙 _)
+    change uM ≫ R.map (b ≫ a) = uM ≫ R.map (𝟙 _)
     rw [R.map_comp, ← Category.assoc, hb, ha, R.map_id, Category.comp_id]
   have : Epi (R.map a) := epi_of_epi_fac (by rw [← R.map_comp, hba, R.map_id])
   have : Epi (extensionOfScalarsUnit f M) := extensionOfScalarsUnit_epi f hf M
@@ -354,6 +347,7 @@ local instance : HasColimitsOfShape (Discrete (ULift.{z} Bool))
   PresheafOfModules.hasColimitsOfShape _ _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the `inferInstance` search for colimits of sheaves of modules over `ringSheaf O` is deep
 local instance (priority := high) : HasColimitsOfShape (Discrete (ULift.{z} Bool))
     (_root_.SheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :=
   inferInstance
@@ -385,12 +379,12 @@ noncomputable abbrev pairDesc
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- `pairDesc` restricts to the first summand as prescribed. -/
 lemma pairInl_desc {M N P : _root_.SheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O)}
-    (a : M ⟶ P) (b : N ⟶ P) : pairInl M N ≫ pairDesc a b = a := Sigma.ι_desc _ _
+    (a : M ⟶ P) (b : N ⟶ P) : pairInl M N ≫ pairDesc a b = a := Sigma.ι_comp_desc _ _
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- `pairDesc` restricts to the second summand as prescribed. -/
 lemma pairInr_desc {M N P : _root_.SheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O)}
-    (a : M ⟶ P) (b : N ⟶ P) : pairInr M N ≫ pairDesc a b = b := Sigma.ι_desc _ _
+    (a : M ⟶ P) (b : N ⟶ P) : pairInr M N ≫ pairDesc a b = b := Sigma.ι_comp_desc _ _
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- A morphism out of `pairObj` is determined by its restrictions to the two summands. -/
@@ -401,6 +395,7 @@ lemma pair_hom_ext {M N P : _root_.SheafOfModules.{z} (Stacks.SheafOfModules.Ten
   apply Sigma.hom_ext
   rintro ⟨_ | _⟩ <;> assumption
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- A direct sum of two flat sheaves of modules is flat. -/
 lemma pair_isFlat {M N : _root_.SheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O)}
     (hM : AlgebraicGeometry.SheafOfModules.IsFlat M)

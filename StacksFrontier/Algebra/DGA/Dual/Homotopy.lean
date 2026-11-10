@@ -166,13 +166,13 @@ theorem dualMap_comm_dDual {M' M : RightModule A} (φ : RightModuleHom M' M) (k 
   apply RDual.ext
   intro x
   rw [RightModule.dDual_apply]
-  show _ = (show M'.carrier (-(k + 1)) →+ QZ from
+  change _ = (show M'.carrier (-(k + 1)) →+ QZ from
       RDual.precompₗ (φ.toFun (-(k + 1))) (M.dDual k f)) x
   rw [RDual.precompₗ_apply, RightModule.dDual_apply]
-  show ((-1 : ℤ) ^ (k + 1).natAbs) • (RDual.toFun (dualMap φ k f)) (M'.dDownshift k x)
+  change ((-1 : ℤ) ^ (k + 1).natAbs) • (RDual.toFun (dualMap φ k f)) (M'.dDownshift k x)
       = ((-1 : ℤ) ^ (k + 1).natAbs) • (RDual.toFun f) (M.dDownshift k (φ.toFun (-(k + 1)) x))
   congr 1
-  show (RDual.toFun f) (φ.toFun (-k) (M'.dDownshift k x))
+  change (RDual.toFun f) (φ.toFun (-k) (M'.dDownshift k x))
       = (RDual.toFun f) (M.dDownshift k (φ.toFun (-(k + 1)) x))
   congr 1
   rw [RightModule.dDownshift_apply, RightModule.dDownshift_apply]
@@ -192,7 +192,7 @@ theorem dualMap_mem_coboundariesₛ {M' M : RightModule A} (φ : RightModuleHom 
   subst hz
   subst hw
   refine ⟨M'.dDual (k - 1) (dualMap φ (k - 1) w), ⟨dualMap φ (k - 1) w, rfl⟩, ?_⟩
-  show (degCastLin R (show k - 1 + 1 = k by ring) (V := fun n => M'.dualSpace n))
+  change (degCastLin R (show k - 1 + 1 = k by ring) (V := fun n => M'.dualSpace n))
         (M'.dDual (k - 1) (dualMap φ (k - 1) w))
       = dualMap φ k ((degCastLin R (show k - 1 + 1 = k by ring) (V := fun n => M.dualSpace n))
           (M.dDual (k - 1) w))
@@ -293,7 +293,7 @@ theorem dualMap_nullhomotopic_on_cocycles {M' M : RightModule A} {φ : RightModu
           (V := fun n => M'.dualSpace n)) (M'.dDual (k - 1) (homotopyDualMap H.toFun k f)) := by
   apply RDual.ext
   intro y
-  show (RDual.toFun f) (φ.toFun (-k) y) = _
+  change (RDual.toFun f) (φ.toFun (-k) y) = _
   rw [AddMonoidHom.zsmul_apply]
   rw [show (show M'.carrier (-k) →+ QZ from
         (degCastLin R (show k - 1 + 1 = k by ring) (V := fun n => M'.dualSpace n))
@@ -368,7 +368,7 @@ theorem cocyclesMap_add {M' M : RightModule A} (φ χ : RightModuleHom M' M) (k 
     (f : M.cocycles k) :
     cocyclesMap (φ + χ) k f = cocyclesMap φ k f + cocyclesMap χ k f := by
   apply Subtype.ext
-  show dualMap (φ + χ) k (f : M.dualSpace k)
+  change dualMap (φ + χ) k (f : M.dualSpace k)
       = dualMap φ k (f : M.dualSpace k) + dualMap χ k (f : M.dualSpace k)
   apply RDual.ext
   intro x
@@ -378,7 +378,7 @@ theorem cocyclesMap_add {M' M : RightModule A} (φ χ : RightModuleHom M' M) (k 
 theorem cocyclesMap_neg {M' M : RightModule A} (φ : RightModuleHom M' M) (k : ℤ)
     (f : M.cocycles k) : cocyclesMap (-φ) k f = - cocyclesMap φ k f := by
   apply Subtype.ext
-  show dualMap (-φ) k (f : M.dualSpace k) = - dualMap φ k (f : M.dualSpace k)
+  change dualMap (-φ) k (f : M.dualSpace k) = - dualMap φ k (f : M.dualSpace k)
   apply RDual.ext
   intro x
   simp only [dualMap, RDual.precompₗ_apply, RightModuleHom.neg_toFun, RDual.neg_apply, map_neg]

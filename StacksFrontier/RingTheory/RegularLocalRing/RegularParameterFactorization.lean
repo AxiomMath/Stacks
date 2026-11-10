@@ -41,8 +41,8 @@ generating set of `m` of exactly that length.
 A sequence is a `List`, as in `IsLocalRing.IsSystemOfParameters`, and the ideal it generates is
 `Ideal.ofList`. A *regular* system of parameters is the conjunction
 `IsLocalRing.IsSystemOfParameters rs ∧ Ideal.ofList rs = IsLocalRing.maximalIdeal R`, the composite
-that `StacksFrontier/RingTheory/KrullDimension/SystemOfParameters/Defs.lean` declines to name, so both
-conjuncts are carried explicitly.
+that `StacksFrontier/RingTheory/KrullDimension/SystemOfParameters/Defs.lean` declines to name, so
+both conjuncts are carried explicitly.
 
 That an entry of a regular system of parameters is prime is read off from Stacks 00NQ applied to a
 permutation of the list bringing that entry to the front: the length-one initial quotient is a

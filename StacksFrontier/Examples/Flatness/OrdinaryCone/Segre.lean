@@ -394,7 +394,7 @@ theorem segreElem_mem_radical (i : Fin 3) (j : Fin 2) :
   · exact hx j
   · exact hy j
   · refine Ideal.mem_radical_of_pow_mem (m := 3) ?_
-    show segreElem k 2 j ^ 3 ∈ I.radical
+    change segreElem k 2 j ^ 3 ∈ I.radical
     rw [show segreElem k 2 j ^ 3 = -((segreElem k 1 j ^ 2 + segreElem k 0 j * segreElem k 1 j) *
       segreElem k 2 j + segreElem k 0 j ^ 3) by linear_combination segreElem_cubic k j]
     exact neg_mem (add_mem (Ideal.mul_mem_right _ _ (add_mem (Ideal.pow_mem_of_mem _ (hy j) 2

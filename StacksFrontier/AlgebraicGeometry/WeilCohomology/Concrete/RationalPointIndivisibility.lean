@@ -128,12 +128,12 @@ theorem zeroCycleToCodimension_mk_cycleAssociatedToClosedSubscheme {Z : Scheme.{
   funext e
   simp only [zeroCycleToCodimension, AddMonoidHom.pi_apply, closedSubschemeClass_apply]
   by_cases h : (0 : ℤ) = e - c
-  · rw [dif_pos h]
+  · rw [dite_eq_left h]
     refine eq_of_heq ((chowGroupDegreeEquiv_heq _ _ _ _).trans
       (chowGroupRestrict_heq_of_eq (fieldChowSituation k) (dimPart sX e).ι (dimPart sX e).ι rfl rfl
         rfl rfl rfl h _ _
         (Stacks.Chow.mk_cycleAssociatedToClosedSubscheme_heq (fieldChowSituation k) sX i h)))
-  · rw [dif_neg h, cycleAssociatedToClosedSubscheme_eq_zero_of_ne sX i hZ (Ne.symm h)]
+  · rw [dite_eq_right h, cycleAssociatedToClosedSubscheme_eq_zero_of_ne sX i hZ (Ne.symm h)]
     exact (map_zero _).symm
 
 /-- **Two integral closed subschemes with the same generic point have the same cycle.** -/
@@ -448,7 +448,7 @@ theorem pullHom_comp_pullHom_of_comp_eq_id {S Y : (SmoothProjectiveScheme k).Ful
     (q : Y ⟶ S) (hx : x ≫ q = 𝟙 S) :
     (H0.pullHom W x).comp (H0.pullHom W q) = AlgHom.id F (W.H0 S) := by
   ext c
-  show W.pull x (W.pull q c) = c
+  change W.pull x (W.pull q c) = c
   rw [← AlgHom.comp_apply, ← W.pull_comp, hx, W.pull_id, AlgHom.id_apply]
 
 end WeilData
@@ -525,7 +525,7 @@ theorem hasSeparableResidueField_of_extension [Algebra.IsSeparable k k'] {z : Y.
     ((Scheme.ΓSpecIso (.of k)).inv ≫ Y.obj.hom.appTop ≫ Y.obj.left.Γevaluation z).hom.toAlgebra
   have : IsScalarTower k k' (Y.obj.left.residueField z) := by
     refine IsScalarTower.of_algebraMap_eq fun a ↦ ?_
-    show ((Scheme.ΓSpecIso (.of k)).inv ≫ Y.obj.hom.appTop ≫ Y.obj.left.Γevaluation z) a =
+    change ((Scheme.ΓSpecIso (.of k)).inv ≫ Y.obj.hom.appTop ≫ Y.obj.left.Γevaluation z) a =
       ((Scheme.ΓSpecIso (.of k')).inv ≫ q.appTop ≫ Y.obj.left.Γevaluation z)
         (CommRingCat.ofHom (algebraMap k k') a)
     have h1 : (Scheme.ΓSpecIso (.of k)).inv ≫ (fieldExtensionSpecMap k k').appTop =
@@ -565,7 +565,7 @@ theorem cycleAssociatedToClosedSubscheme_specField_val [LocallyOfFiniteType sT]
       componentMultiplicity_eq_one i hmem]
     simp
   · rw [cycleAssociatedToClosedSubscheme_apply_eq_zero, Function.locallyFinsuppWithin.single_apply,
-      if_neg hy]
+      ite_eq_right hy]
     · rintro ⟨ξ, hξ, -⟩
       have : Subsingleton (Spec (.of L)) := inferInstanceAs (Subsingleton (PrimeSpectrum L))
       exact hy (hξ ▸ congrArg i.base (Subsingleton.elim _ _))
@@ -611,7 +611,7 @@ theorem cycleGroupRestrict_cycleAssociatedToClosedSubscheme_specField_eq_zero (n
     rw [relativeDimension_comp_closedImmersion] at h0
     rw [cycleGroupRestrict_apply, cycleAssociatedToClosedSubscheme_specField_val sT i h0]
     simp only [Function.locallyFinsuppWithin.single_apply]
-    rw [if_neg fun e ↦ hU ⟨u, e⟩]
+    rw [ite_eq_right fun e ↦ hU ⟨u, e⟩]
     rfl
   · rw [cycleAssociatedToClosedSubscheme_eq_zero_of_ne sT i h hn, map_zero]
 
@@ -756,7 +756,7 @@ theorem cycleClass_eq_of_sub_eq_zsmul_of_equidimensional [CharZero F]
       cl (rationalPointChowClass k' q x hx) =
         W.cycleClass Y d (closedSubschemeClass Y.obj.hom x d) := fun x hx ↦ by
     have := isClosedImmersion_of_comp_eq_id q x hx
-    show W.cycleClass Y d (zeroCycleToCodimensionOfExtension Y q hqY d
+    change W.cycleClass Y d (zeroCycleToCodimensionOfExtension Y q hqY d
       (QuotientAddGroup.mk (cycleAssociatedToClosedSubscheme (fieldChowSituation k') q x 0))) = _
     rw [zeroCycleToCodimensionOfExtension_mk Y q hqY x
       (relativeDimension_eq_zero_of_eq_specStructure (hpt x hx))]
@@ -778,15 +778,15 @@ theorem cycleClass_eq_of_sub_eq_zsmul_of_equidimensional [CharZero F]
       { carrier := {α | IsSeparableTraceCombination.{w, w, w} F (W.H0 Y)
           ((W.h0Pairing Y d hY).flip (cl α))}
         zero_mem' := by
-          show IsSeparableTraceCombination F (W.H0 Y) ((W.h0Pairing Y d hY).flip (cl 0))
+          change IsSeparableTraceCombination F (W.H0 Y) ((W.h0Pairing Y d hY).flip (cl 0))
           rw [map_zero, map_zero]
           exact IsSeparableTraceCombination.zero
         add_mem' := fun {a b} ha hb ↦ by
-          show IsSeparableTraceCombination F (W.H0 Y) ((W.h0Pairing Y d hY).flip (cl (a + b)))
+          change IsSeparableTraceCombination F (W.H0 Y) ((W.h0Pairing Y d hY).flip (cl (a + b)))
           rw [map_add, map_add]
           exact ha.add hb
         neg_mem' := fun {a} ha ↦ by
-          show IsSeparableTraceCombination F (W.H0 Y) ((W.h0Pairing Y d hY).flip (cl (-a)))
+          change IsSeparableTraceCombination F (W.H0 Y) ((W.h0Pairing Y d hY).flip (cl (-a)))
           rw [map_neg, map_neg]
           exact ha.neg }
     have hgen : AddSubgroup.closure (separablePointClasses k' q) ≤ S := by
@@ -798,7 +798,7 @@ theorem cycleClass_eq_of_sub_eq_zsmul_of_equidimensional [CharZero F]
       have hZz := isNonemptyEquidimensional_closedPointObj hzk hzsep'
       have := h0fin _ hZz
       have := h0sep _ hZz
-      show IsSeparableTraceCombination F (W.H0 Y) ((W.h0Pairing Y d hY).flip (cl
+      change IsSeparableTraceCombination F (W.H0 Y) ((W.h0Pairing Y d hY).flip (cl
         (QuotientAddGroup.mk' _ (cycleAssociatedToClosedSubscheme (fieldChowSituation k') q
           (integralComponentAt z).subschemeι 0))))
       have := isIntegral_integralComponentAt z
@@ -869,7 +869,7 @@ theorem relativeDimension_rationalPoint (x : (fieldChowSituation k').S ⟶ X) (h
     relativeDimension (fieldChowSituation k).dimensionFunction
       (x ≫ (ofOverField p hp).obj.hom) z = 0 := by
   refine relativeDimension_eq_zero_of_eq_specStructure ?_ z
-  show x ≫ p ≫ _ = _
+  change x ≫ p ≫ _ = _
   rw [← Category.assoc, hx, Category.id_comp]
 
 omit [Smooth p] [Algebra.IsSeparable k k'] in
@@ -908,7 +908,7 @@ theorem chowGroupRestrict_rationalPointChowClass [LocallyOfFiniteType p] (U : X.
   have : IsClosedImmersion y :=
     isClosedImmersion_of_comp_eq_id (U.ι ≫ p) y (by rw [← Category.assoc, hyx, hx])
   have : IsClosedImmersion (y ≫ U.ι) := by rw [hyx]; infer_instance
-  show chowGroupRestrict (fieldChowSituation k') p (U.ι ≫ p) U.ι rfl 0
+  change chowGroupRestrict (fieldChowSituation k') p (U.ι ≫ p) U.ι rfl 0
       (QuotientAddGroup.mk (cycleAssociatedToClosedSubscheme (fieldChowSituation k') p x 0)) =
     QuotientAddGroup.mk (cycleAssociatedToClosedSubscheme (fieldChowSituation k') (U.ι ≫ p) y 0)
   rw [← cycleAssociatedToClosedSubscheme_congr (fieldChowSituation k') p (y ≫ U.ι) x hyx,
@@ -1004,11 +1004,11 @@ theorem cycleClass_closedSubschemeClass_eq_of_isColimit [CharZero F] (hA : W.Poi
     W.cycleClass X i (closedSubschemeClass X.obj.hom z i) =
       W.cycleClass X i (closedSubschemeClass X.obj.hom z' i) := by
   refine W.eq_of_pullTw_eq_of_isColimit hA hB hC hc (2 * i) i _ _ ?_ ?_
-  · show W.pullTw j _ _ _ = W.pullTw j _ _ _
+  · change W.pullTw j _ _ _ = W.pullTw j _ _ _
     rw [W.pullTw_cycleClass_closedSubschemeClass_specField hA hC j z w hwz h,
       W.pullTw_cycleClass_closedSubschemeClass_specField hA hC j z' w' hwz' h']
     exact hw
-  · show W.pullTw jc _ _ _ = W.pullTw jc _ _ _
+  · change W.pullTw jc _ _ _ = W.pullTw jc _ _ _
     subst hwz hwz'
     rw [W.pullTw_cycleClass_closedSubschemeClass_specField_eq_zero hA hC jc _ h
         (Set.disjoint_left.mp hdisj ⟨w _, rfl⟩),
@@ -1076,7 +1076,7 @@ theorem cycleClass_rationalPoint_eq_of_mem_dimPart [CharZero F]
   have : IsOpenImmersion jc.hom.left := inferInstanceAs (IsOpenImmersion V.ι)
   have hYd : IsNonemptyEquidimensional Y d := by
     refine ⟨⟨⟨rationalPointLocus x, hd⟩⟩, ?_⟩
-    show RelativeDimension ((U.ι ≫ p) ≫ SmoothProjectiveScheme.specStructure k k') d
+    change RelativeDimension ((U.ι ≫ p) ≫ SmoothProjectiveScheme.specStructure k k') d
     simpa only [partBase, sX, ← hpX, Category.assoc] using relativeDimension_partBase sX d
   have hdivU := congrArg (chowGroupRestrict (fieldChowSituation k') p (U.ι ≫ p) U.ι rfl 0) hdiv
   rw [map_sub, map_zsmul, chowGroupRestrict_rationalPointChowClass p U x hx y hyx,
@@ -1130,7 +1130,7 @@ theorem rationalPointChowClass_sub_ne_zsmul_of_hypotheses [CharZero F]
   · subst hi
     exact W.cycleClass_rationalPoint_eq_of_mem_dimPart hA hB hC h0fin h0sep h0tr X' p hp hpX x x'
       hx hx' hd hx'U n hn c hdiv
-  · show W.cycleClass X' i (closedSubschemeClass sX x i) =
+  · change W.cycleClass X' i (closedSubschemeClass sX x i) =
       W.cycleClass X' i (closedSubschemeClass sX x' i)
     rw [closedSubschemeClass_specField_eq_zero sX x
         (relativeDimension_comp_eq_zero_of_comp_eq_id p hpX x hx) hd hi,

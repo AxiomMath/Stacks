@@ -164,7 +164,7 @@ private theorem geometricallyReduced_fiber_iff_forall_openCover {X Y : Scheme.{u
       f.fiberToSpecResidueField y) ≅ Arrow.mk ((𝒰.f i ≫ f).fiberToSpecResidueField y) := by
     refine Arrow.isoMk (pullbackRightPullbackFstIso f (Y.fromSpecResidueField y) (𝒰.f i))
       (Iso.refl _) ?_
-    show (pullbackRightPullbackFstIso f (Y.fromSpecResidueField y) (𝒰.f i)).hom ≫
+    change (pullbackRightPullbackFstIso f (Y.fromSpecResidueField y) (𝒰.f i)).hom ≫
         pullback.snd (𝒰.f i ≫ f) (Y.fromSpecResidueField y) =
       (pullback.snd (𝒰.f i) (pullback.fst f (Y.fromSpecResidueField y)) ≫
         pullback.snd f (Y.fromSpecResidueField y)) ≫ 𝟙 _
@@ -244,7 +244,7 @@ private theorem exists_flat_isProper_noetherian_model {Y : Scheme.{u}} (R : Comm
     finitePresentation_overPullbackObj _ Z hfpZ
   have hproperZ' : IsProper ((Over.pullback (D.map a)).obj Z).hom := by
     have : IsProper Z.hom := hproperZ
-    show IsProper (pullback.snd Z.hom (D.map a))
+    change IsProper (pullback.snd Z.hom (D.map a))
     infer_instance
   exact ⟨CommRingCat.of (Algebra.adjoin ℤ ((k.unop : Finset (R : Type u)) : Set (R : Type u))),
     ((Over.pullback (D.map a)).obj Z).left, c.π.app k, ((Over.pullback (D.map a)).obj Z).hom,
@@ -307,7 +307,7 @@ private theorem flat_irreducibleComponent_dense_over_dvr
           exact congrArg (fun z : PrimeSpectrum R => (z : Spec (.of R))) (htop.trans htop')
         have hηspec : η ⤳ f ξ := by
           rw [hclosed]
-          show (⊥ : PrimeSpectrum R) ⤳ _
+          change (⊥ : PrimeSpectrum R) ⤳ _
           exact (PrimeSpectrum.le_iff_specializes _ _).mp bot_le
         obtain ⟨z, hz, hfz⟩ := Flat.generalizingMap f hηspec
         obtain rfl := hnoGeneralization z hz
@@ -326,7 +326,7 @@ private theorem flat_irreducibleComponent_dense_over_dvr
         exact congrArg (fun z : PrimeSpectrum R => (z : Spec (.of R))) (htop.trans htop')
       rw [hclosed]
       have hηclosed : η ⤳ IsLocalRing.closedPoint (CommRingCat.of R) := by
-        show (⊥ : PrimeSpectrum R) ⤳ _
+        change (⊥ : PrimeSpectrum R) ⤳ _
         exact (PrimeSpectrum.le_iff_specializes _ _).mp bot_le
       exact closure_mono (Set.singleton_subset_iff.mpr hη_image)
         (specializes_iff_mem_closure.mp hηclosed)
@@ -375,7 +375,7 @@ private theorem stableUnderGeneralization_geometricallyReduced_fiber
     have hclosedGeom : IsLocalRing.closedPoint A ∈
         {z : Spec (.of A) | GeometricallyReduced (fR.fiberToSpecResidueField z)} := by
       rw [hlocus]
-      show GeometricallyReduced (f.fiberToSpecResidueField (q (IsLocalRing.closedPoint A)))
+      change GeometricallyReduced (f.fiberToSpecResidueField (q (IsLocalRing.closedPoint A)))
       rw [hqclosed]
       exact hy
     have : IsReduced (fR.fiber (IsLocalRing.closedPoint A)) :=
@@ -389,7 +389,7 @@ private theorem stableUnderGeneralization_geometricallyReduced_fiber
       AlgebraicGeometry.isReduced_genericFiber_of_isProper_over_dvr_of_isReduced_specialFiber
         (f := fR) hcomponents
     have hredη : IsReduced (fR.fiber η) := by
-      show IsReduced (fR.fiber (genericPoint (Spec (.of A))))
+      change IsReduced (fR.fiber (genericPoint (Spec (.of A))))
       rw [genericPoint_eq_bot_of_affine (CommRingCat.of A)]
       exact hred
     let κ := (Spec (.of A)).residueField η
@@ -405,7 +405,7 @@ private theorem stableUnderGeneralization_geometricallyReduced_fiber
       ext a
       simpa [k, ρ] using (he a).symm
     have hbase : gL = ie ≫ gρ := by
-      show Spec.map (CommRingCat.ofHom (algebraMap k L)) =
+      change Spec.map (CommRingCat.ofHom (algebraMap k L)) =
         Spec.map e.toCommRingCatIso.hom ≫ Spec.map ρ
       rw [← Spec.map_comp]
       simpa [k, ρ] using congrArg Spec.map hfield
@@ -431,7 +431,7 @@ private theorem fiber_geometricallyReduced_iff_of_over_iso {Y X X' : Scheme.{u}}
   have eArrow : Arrow.mk (f.fiberToSpecResidueField y) ≅
       Arrow.mk (f'.fiberToSpecResidueField y) := by
     refine Arrow.isoMk ((Over.forget _).mapIso e₁) (Iso.refl _) ?_
-    show e₁.hom.left ≫ _ = _
+    change e₁.hom.left ≫ _ = _
     exact e₁.hom.w
   rw [GeometricallyReduced.eq_geometrically]
   exact MorphismProperty.arrow_mk_iso_iff (P := geometrically IsReduced) eArrow
@@ -493,7 +493,7 @@ private theorem isOpen_geometricallyReduced_fiber_spec
     have hbc : GeometricallyReduced ((pullback.snd f₀ g).fiberToSpecResidueField y) ↔
         GeometricallyReduced (f₀.fiberToSpecResidueField (g y)) := by
       simpa using congrArg (fun E => y ∈ E) hp
-    show GeometricallyReduced (f.fiberToSpecResidueField y) ↔
+    change GeometricallyReduced (f.fiberToSpecResidueField y) ↔
       GeometricallyReduced (f₀.fiberToSpecResidueField (g y))
     exact (fiber_geometricallyReduced_iff_of_over_iso e y).trans hbc
   rw [heq]
@@ -537,7 +537,7 @@ theorem isOpen_geometricallyReduced_fiber
   let : IsAffine (↑U : Scheme.{u}) := isAffineOpen_opensRange (Y.affineCover.f i)
   have hfpU : FinitePresentation (f ∣_ U) := ⟨inferInstance, inferInstance, inferInstance⟩
   have hopenU := isOpen_geometricallyReduced_fiber_of_isAffine (f ∣_ U) hfpU
-  show IsOpen (U.ι ⁻¹' {y : Y | GeometricallyReduced (f.fiberToSpecResidueField y)})
+  change IsOpen (U.ι ⁻¹' {y : Y | GeometricallyReduced (f.fiberToSpecResidueField y)})
   rw [← geometricallyReduced_fiber_set_morphismRestrict f U]
   exact hopenU
 
@@ -658,7 +658,7 @@ private theorem exists_opens_mem_subset_setOf_geometricallyReduced_fiber_of_fini
     exact ⟨⟨η, ⟨x, hx⟩⟩, rfl⟩
   have hpreW := geometricallyReduced_fiber_set_morphismRestrict f W
   have hwE : w ∈ W.ι ⁻¹' E := by
-    show W.ι w ∈ E
+    change W.ι w ∈ E
     rwa [hw]
   obtain ⟨U, hUopen, hwU, hUE⟩ :=
     exists_isOpen_mem_subset_of_isConstructible
@@ -755,13 +755,13 @@ theorem exists_opens_nonempty_geometricallyReduced_morphismRestrict_of_finiteTyp
       toNonempty := ⟨ηU⟩ }
   have hEU := geometricallyReduced_fiber_set_morphismRestrict fred U
   have hηUE : GeometricallyReduced ((fred ∣_ U).fiberToSpecResidueField ηU) := by
-    show ηU ∈ {z : (U : Scheme.{u}) |
+    change ηU ∈ {z : (U : Scheme.{u}) |
       GeometricallyReduced ((fred ∣_ U).fiberToSpecResidueField z)}
     rw [hEU]
-    show U.ι ηU ∈ {y : Y.nilradical.subscheme |
+    change U.ι ηU ∈ {y : Y.nilradical.subscheme |
       GeometricallyReduced (fred.fiberToSpecResidueField y)}
     rw [hEred]
-    show r (U.ι ηU) ∈ E
+    change r (U.ι ηU) ∈ E
     rw [show U.ι ηU = ηred from rfl, hrη]
     exact ‹GeometricallyReduced (f.fiberToSpecResidueField η)›
   -- The finite presentation case over `U`.

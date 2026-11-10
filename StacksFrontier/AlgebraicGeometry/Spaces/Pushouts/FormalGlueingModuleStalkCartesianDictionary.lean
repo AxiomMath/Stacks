@@ -276,7 +276,8 @@ lemma exists_chart_lift {X Y : AlgebraicSpaces B S hS} (f : Y ⟶ X)
   obtain ⟨⟨e, _, h⟩⟩ := (Functor.Initial.out (F := smallToSpacesFiberElements B S hS y)
     ((spacesGeometricFiber y).elementsMk
       ((spacesBaseChange B S hS f).functor.obj ((comparisonFunctor B S hS X).obj U))
-      ((spacesBaseChangeFiberIso B S hS f y).inv.app ((comparisonFunctor B S hS X).obj U) u))).is_nonempty
+      ((spacesBaseChangeFiberIso B S hS f y).inv.app
+        ((comparisonFunctor B S hS X).obj U) u))).is_nonempty
   exact ⟨e.obj, e.val, h.hom, h.map_val⟩
 
 /-! ### Geometric module fibres against geometric stalks of abelian sheaves -/
@@ -377,6 +378,7 @@ lemma moduleFiberStalkIso_hom_app {R : Type u} [Ring R]
   CategoryTheory.Functor.whiskerRightLeftIso_hom_app _ _ M
 
 set_option maxHeartbeats 1600000 in
+-- the `rfl` proof checks the component of `moduleFiberStalkIso'` by definitional unfolding
 /-- The component of `AlgebraicGeometry.Space.moduleFiberStalkIso'`. -/
 lemma moduleFiberStalkIso'_hom_app (M : Modules.{u, u} B S hS Z.1 Z.2) :
     (moduleFiberStalkIso' B S hS Z z).hom.app M =

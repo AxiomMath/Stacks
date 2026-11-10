@@ -187,7 +187,7 @@ private theorem isPureAlong_henselianSituation (P : PrePureSituation.{u})
       (henselianSituation P).S := @asIso _ _ _ _ _ hIso
   have hbase : (impurityAlongBaseChangedSituation (henselianBaseChange P) E).g =
       (e ≪≫ eH).hom ≫ henselizationToBase P.S P.s := by
-    show E.g ≫ henselizationToBase P.S P.s =
+    change E.g ≫ henselizationToBase P.S P.s =
       (e.hom ≫ henselizationToBase (henselianSituation P).S (henselianSituation P).s) ≫
         henselizationToBase P.S P.s
     rw [he]

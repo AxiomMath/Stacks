@@ -94,7 +94,7 @@ theorem natCast_le_toENat_cardinalMk_connectedComponents {X : Type v} [Topologic
 /-- A space covered by `m` open and closed preconnected subsets has at most `m` connected
 components. -/
 theorem toENat_cardinalMk_connectedComponents_le_natCast {X : Type v} [TopologicalSpace X] {m : ℕ}
-    (Q : Fin m → Set X) (hQ : ∀ i, IsClopen (Q i)) (hcov : ∀ x, ∃ i, x ∈ Q i)
+    (Q : Fin m → Set X) (hcov : ∀ x, ∃ i, x ∈ Q i)
     (hconn : ∀ i, IsPreconnected (Q i)) :
     Cardinal.toENat (Cardinal.mk (ConnectedComponents X)) ≤ m := by
   classical
@@ -208,15 +208,13 @@ connected components. -/
 theorem numberGeometricConnectedComponents_le_natCast
     {X G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hX : IsAlgebraicSpace B S hS X)
     (hG : IsAlgebraicSpace B S hS G) (g : X ⟶ G) {m : ℕ} (Pc : Fin m → Set (points B S hS X))
-    (hclopen : ∀ i, IsClopen (Pc i)) (hcov : ∀ x, ∃ i, x ∈ Pc i)
+    (hcov : ∀ x, ∃ i, x ∈ Pc i)
     (ζ : GeometricPoint B S hS G)
     (hpre : ∀ i, IsPreconnected (pointsMap B S hS _
       (pullback.fst g (yonedaEquiv.symm ζ.val.value)) ⁻¹' Pc i)) :
     numberGeometricConnectedComponents B S hS g ζ.image ≤ m := by
   rw [numberGeometricConnectedComponents_eq B S hS hX hG g ζ]
-  exact toENat_cardinalMk_connectedComponents_le_natCast _
-    (fun i => (hclopen i).preimage (continuous_pointsMap B S hS _))
-    (fun x => hcov _) hpre
+  exact toENat_cardinalMk_connectedComponents_le_natCast _ (fun x => hcov _) hpre
 
 /-- The pieces of a geometric fibre cut out by a set `E` of points of a represented intermediate
 space are preconnected, provided `E` has at most one point above it over the geometric point.
@@ -265,7 +263,7 @@ theorem isPreconnected_preimage_of_subsingleton_pullback
       {x | pointsToScheme B S hS T₂ (pointsMap B S hS X₂ φ x) ∈ E} =
         pointsMap B S hS _ bF ⁻¹' D := by
     ext ξ
-    simp only [Set.mem_preimage, Set.mem_setOf_eq, D]
+    simp only [Set.mem_preimage, Set.mem_ofPred_eq, D]
     rw [← pointsMap_comp_apply, ← hbFfst, pointsMap_comp_apply, pointsToScheme_pointsMap]
     rfl
   rw [hset]
@@ -342,7 +340,7 @@ fibres of the base change of `f` to `h_{W₂}` is, on an open neighbourhood of `
 value at `w₂`. -/
 theorem exists_etale_isOpen_le_numberGeometricConnectedComponents
     {X Y Y' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hX : IsAlgebraicSpace B S hS X)
-    (hY : IsAlgebraicSpace B S hS Y) (hY' : IsAlgebraicSpace B S hS Y')
+    (hY : IsAlgebraicSpace B S hS Y)
     (f : X ⟶ Y) (f' : X ⟶ Y') (π : Y' ⟶ Y) (hfac : f' ≫ π = f)
     (hsurj : Function.Surjective (pointsMap B S hS X f'))
     (hconn : ∀ y : GeometricPoint B S hS Y',
@@ -429,13 +427,13 @@ theorem exists_etale_isOpen_le_numberGeometricConnectedComponents
     obtain ⟨x, hxE, hxw⟩ := hEmeet i
     obtain ⟨ξ, hξ⟩ := hφsurj ((schemePointsHomeomorph B S hS T₂).symm x)
     refine ⟨ξ, ?_, ?_⟩
-    · show pointsToScheme B S hS T₂ (pointsMap B S hS _ φ ξ) ∈ E i
+    · change pointsToScheme B S hS T₂ (pointsMap B S hS _ φ ξ) ∈ E i
       rw [hξ]
-      show (schemePointsHomeomorph B S hS T₂) ((schemePointsHomeomorph B S hS T₂).symm x) ∈ E i
+      change (schemePointsHomeomorph B S hS T₂) ((schemePointsHomeomorph B S hS T₂).symm x) ∈ E i
       rwa [Homeomorph.apply_symm_apply]
     · apply injective_pointsToScheme B S hS W₂
       rw [← hφsnd, pointsMap_comp_apply, hξ, pointsToScheme_pointsMap, hw₂']
-      show (BigFppfOver.toScheme B S hS).map snd₂
+      change (BigFppfOver.toScheme B S hS).map snd₂
         ((schemePointsHomeomorph B S hS T₂) ((schemePointsHomeomorph B S hS T₂).symm x)) = w₂
       rwa [Homeomorph.apply_symm_apply]
   refine ⟨W₂, τ', hτ, w₂', ?_, O, hOopen, hw₂O, fun z hz => ?_⟩
@@ -446,7 +444,7 @@ theorem exists_etale_isOpen_le_numberGeometricConnectedComponents
     hPcdisj z ?_)
   · obtain ⟨ζ, hζ⟩ := exists_geometricRepresentative B S hS _ w₂'
     rw [← hζ]
-    refine numberGeometricConnectedComponents_le_natCast hX₂ hW₂alg _ Pc hPccl hPccov ζ
+    refine numberGeometricConnectedComponents_le_natCast hX₂ hW₂alg _ Pc hPccov ζ
       fun i => ?_
     refine isPreconnected_preimage_of_subsingleton_pullback sq₂ hconn snd₂ (E i) ζ ?_
     intro v v' hv hv'
@@ -502,9 +500,8 @@ theorem lowerSemicontinuous_numberGeometricConnectedComponents
   -- an affine étale chart at `y`
   obtain ⟨W, t, hWaff, ht, w, hw⟩ := exists_affine_etale_chart_at_point B S hS Y hY y
   obtain ⟨W₂, τ, hτ, w₂, hw₂, O, hO, hw₂O, hle⟩ :=
-    exists_etale_isOpen_le_numberGeometricConnectedComponents hX hY
-      (normalizationInQcqs B S hS fA hfqc hfqs).2 f _ _ hfac hsurj hconn hint hflat hfp
-      W hWaff t w
+    exists_etale_isOpen_le_numberGeometricConnectedComponents hX hY f _ _ hfac hsurj hconn hint
+      hflat hfp W hWaff t w
   -- transport along the étale morphism `h_{W₂} ⟶ Y`
   have ht₂ : (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme B S hS)).presheaf (yoneda.map τ ≫ t) :=

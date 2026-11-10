@@ -159,7 +159,7 @@ theorem tensorRawD_mk (n p q : ℤ) (h : p + q = n) (x : M'.grading p) (y : M.gr
             (LeftModule.gradedDifferential A M q y) := by
   have h1 : tensorRawD M' M n (tensorMk M' M n p q h x y) =
       tensorRawDComp M' M n p x (gradingCast M.grading (show q = n - p by omega) y) := by
-    show tensorRawD M' M n (DirectSum.lof R ℤ
+    change tensorRawD M' M n (DirectSum.lof R ℤ
       (fun i => M'.grading i ⊗[R] M.grading (n - i)) p
       (x ⊗ₜ[R] gradingCast M.grading (show q = n - p by omega) y)) = _
     rw [tensorRawD, DirectSum.toModule_lof]
@@ -268,7 +268,7 @@ theorem tensorMk_split_left (n P q : ℤ) (h : P + q = n) (c : ℤ)
     tensorMk M' M n P q h z y =
       tensorMk M' M n P q h z₁ y + c • tensorMk M' M n P q h z₂ y := by
   obtain rfl : z = z₁ + c • z₂ := Subtype.ext (by simpa using hz)
-  show ((tensorMk M' M n P q h).flip y) (z₁ + c • z₂) = _
+  change ((tensorMk M' M n P q h).flip y) (z₁ + c • z₂) = _
   rw [map_add, map_zsmul]
   rfl
 
@@ -341,7 +341,7 @@ theorem tensorRel_le_comap (n : ℤ) :
     tensorRel M' M n ≤ Submodule.comap (tensorRawD M' M n) (tensorRel M' M (n + 1)) := by
   rw [tensorRel, Submodule.span_le]
   rintro z ⟨p, i, q, h, x, a, y, rfl⟩
-  show tensorRawD M' M n (tensorRelator M' M p i q n h x a y) ∈ tensorRel M' M (n + 1)
+  change tensorRawD M' M n (tensorRelator M' M p i q n h x a y) ∈ tensorRel M' M (n + 1)
   rw [tensorRawD_relator]
   exact Submodule.add_mem _
     (Submodule.add_mem _ (tensorRelator_mem M' M _ _ _ _ _ _ _ _)
@@ -359,7 +359,7 @@ noncomputable def tensorDegD (n : ℤ) : tensorDeg M' M n →ₗ[R] tensorDeg M'
 theorem tensorDegD_comp (n : ℤ) :
     (tensorDegD M' M (n + 1)).comp (tensorDegD M' M n) = 0 := by
   refine Submodule.linearMap_qext _ (LinearMap.ext fun z => ?_)
-  show tensorDegD M' M (n + 1) (tensorDegD M' M n (Submodule.Quotient.mk z)) = 0
+  change tensorDegD M' M (n + 1) (tensorDegD M' M n (Submodule.Quotient.mk z)) = 0
   have hz : tensorRawD M' M (n + 1) (tensorRawD M' M n z) = 0 := by
     simpa using LinearMap.congr_fun (tensorRawD_comp_d M' M n) z
   rw [tensorDegD, tensorDegD, Submodule.mapQ_apply, Submodule.mapQ_apply, hz]
@@ -420,7 +420,7 @@ theorem tensorRawDesc_mk (Q : CochainComplex (ModuleCat.{u} R) ℤ)
     (b : BalancedBilinear M' M Q) (n p q : ℤ) (h : p + q = n)
     (x : M'.grading p) (y : M.grading q) :
     tensorRawDesc M' M Q b n (tensorMk M' M n p q h x y) = b.map p q n h x y := by
-  show tensorRawDesc M' M Q b n (DirectSum.lof R ℤ
+  change tensorRawDesc M' M Q b n (DirectSum.lof R ℤ
     (fun i => M'.grading i ⊗[R] M.grading (n - i)) p
     (x ⊗ₜ[R] gradingCast M.grading (show q = n - p by omega) y)) = _
   rw [tensorRawDesc, DirectSum.toModule_lof, TensorProduct.lift.tmul]
@@ -432,7 +432,7 @@ theorem tensorRawDesc_rel (Q : CochainComplex (ModuleCat.{u} R) ℤ)
     tensorRel M' M n ≤ LinearMap.ker (tensorRawDesc M' M Q b n) := by
   rw [tensorRel, Submodule.span_le]
   rintro z ⟨p, i, q, h, x, a, y, rfl⟩
-  show tensorRawDesc M' M Q b n (tensorRelator M' M p i q n h x a y) = 0
+  change tensorRawDesc M' M Q b n (tensorRelator M' M p i q n h x a y) = 0
   simp only [tensorRelator]
   rw [map_sub, tensorRawDesc_mk, tensorRawDesc_mk, sub_eq_zero]
   exact b.balance p i q n (by omega) (by omega) x a y
@@ -457,12 +457,12 @@ theorem tensorDesc_comm (Q : CochainComplex (ModuleCat.{u} R) ℤ)
     ModuleCat.ofHom (tensorDegDesc M' M Q b n) ≫ Q.d n (n + 1) =
       (tensorComplex M' M).d n (n + 1) ≫ ModuleCat.ofHom (tensorDegDesc M' M Q b (n + 1)) := by
   refine ModuleCat.hom_ext (tensorDeg_linearMap_ext M' M fun p q hpq x y => ?_)
-  show (Q.d n (n + 1)).hom (tensorDegDesc M' M Q b n
+  change (Q.d n (n + 1)).hom (tensorDegDesc M' M Q b n
       ((tensorRel M' M n).mkQ (tensorMk M' M n p q hpq x y))) =
     tensorDegDesc M' M Q b (n + 1) ((tensorComplex M' M).d n (n + 1)
       ((tensorRel M' M n).mkQ (tensorMk M' M n p q hpq x y)))
   rw [tensorComplex_d]
-  show _ = tensorDegDesc M' M Q b (n + 1)
+  change _ = tensorDegDesc M' M Q b (n + 1)
     (tensorDegD M' M n ((tensorRel M' M n).mkQ (tensorMk M' M n p q hpq x y)))
   rw [tensorDegD, Submodule.mkQ_apply, Submodule.mapQ_apply, tensorRawD_mk, tensorDegDesc,
     tensorDegDesc, Submodule.liftQ_apply, Submodule.liftQ_apply, tensorRawDesc_mk,
@@ -480,7 +480,7 @@ theorem tensorDesc_apply (Q : CochainComplex (ModuleCat.{u} R) ℤ)
     (b : BalancedBilinear M' M Q) (p q n : ℤ) (h : p + q = n)
     (x : M'.grading p) (y : M.grading q) :
     ((tensorDesc M' M Q b).f n).hom ((tensorTmul M' M).map p q n h x y) = b.map p q n h x y := by
-  show tensorDegDesc M' M Q b n ((tensorRel M' M n).mkQ (tensorMk M' M n p q h x y)) = _
+  change tensorDegDesc M' M Q b n ((tensorRel M' M n).mkQ (tensorMk M' M n p q h x y)) = _
   rw [tensorDegDesc, Submodule.mkQ_apply, Submodule.liftQ_apply, tensorRawDesc_mk]
 
 /-- Maps of complexes out of `M' ⊗_A M` agree once they agree on homogeneous pure tensors. -/

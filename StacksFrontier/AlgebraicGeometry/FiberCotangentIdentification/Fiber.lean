@@ -100,7 +100,7 @@ public theorem fiberPoint_eq : fiberPoint f x = f.asFiber x :=
 
 /-- The canonical point of the fibre lies over `x`. -/
 public theorem fiberι_fiberPoint : (f.fiberι (f x)) (fiberPoint f x) = x := by
-  show (f.asFiberHom x ≫ f.fiberι (f x)) _ = x
+  change (f.asFiberHom x ≫ f.fiberι (f x)) _ = x
   rw [Scheme.Hom.asFiberHom_fiberι]
   exact Scheme.fromSpecResidueField_apply x _
 

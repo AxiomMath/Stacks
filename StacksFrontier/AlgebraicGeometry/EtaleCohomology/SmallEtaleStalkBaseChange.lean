@@ -110,7 +110,7 @@ public def presheafFiberLanIso
         Φ.skyscraperPresheafFunctor (A := Type (max w w')) := by
     dsimp [GrothendieckTopology.Point.skyscraperPresheafFunctor]
     exact (CategoryTheory.flipFunctor _ _ _).mapIso
-      (Functor.isoWhiskerRight (NatIso.op e) piFunctor.flip)
+      (Functor.isoWhiskerRight (NatIso.op e) piConst.flip)
   exact Adjunction.leftAdjointUniq
     (((G.op.lanAdjunction (Type (max w w'))).comp
       (Ψ.skyscraperPresheafAdjunction (A := Type (max w w')))).ofNatIsoRight eSky)

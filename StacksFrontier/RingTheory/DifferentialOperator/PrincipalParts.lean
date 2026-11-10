@@ -996,7 +996,7 @@ variable {T : Type*} [CommSemiring T]
 inclusion may be tested on generators of `I`. -/
 private lemma mul_le_iff_le_colon (I A K : Ideal T) : I * A ≤ K ↔ I ≤ K.colon (A : Set T) := by
   rw [Ideal.mul_le]
-  simp [Submodule.mem_colon, SetLike.le_def, smul_eq_mul]
+  simp [Submodule.mem_colon, IsConcreteLE.le_iff, smul_eq_mul]
 
 end Colon
 
@@ -1108,7 +1108,7 @@ private lemma ideal_mul_le_ann_iff (A : Ideal (S ⊗[R] S)) (L : (S ⊗[R] M) �
     KaehlerDifferential.ideal R S * A ≤ ann L ↔
       ∀ g : S, A ≤ ann (L ∘ₗ mulSMul ((1 : S) ⊗ₜ[R] g - g ⊗ₜ[R] (1 : S))) := by
   rw [mul_le_iff_le_colon, ideal_le_iff]
-  simp only [Submodule.mem_colon, SetLike.le_def, SetLike.mem_coe, smul_eq_mul,
+  simp only [Submodule.mem_colon, IsConcreteLE.le_iff, SetLike.mem_coe, smul_eq_mul,
     mem_ann_comp_mulSMul]
 
 end Ann

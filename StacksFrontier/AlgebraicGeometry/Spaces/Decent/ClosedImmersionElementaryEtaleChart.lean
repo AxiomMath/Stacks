@@ -63,7 +63,7 @@ private theorem isIso_residueFieldMap_of_surjective_stalkMap {T Q : Scheme.{u}} 
   refine (ConcreteCategory.isIso_iff_bijective _).mpr
     ⟨(g.residueFieldMap t).hom.injective, ?_⟩
   refine Function.Surjective.of_comp (g := (Q.residue (g t)).hom) ?_
-  show Function.Surjective (Q.residue (g t) ≫ g.residueFieldMap t).hom
+  change Function.Surjective (Q.residue (g t) ≫ g.residueFieldMap t).hom
   rw [Scheme.residue_residueFieldMap]
   exact IsLocalRing.residue_surjective.comp (hg t)
 
@@ -80,7 +80,7 @@ private theorem isIso_pointedResidueFieldMap_of_surjective_stalkMap
     isIso_residueFieldMap_of_surjective_stalkMap g.left.1 hg v
   have : IsIso (B.inclusion.map ((Over.forget (B.obj hS)).map
       (pointedResidueFieldMap B S hS g v w hgv hv hw))) := by
-    show IsIso (Spec.map
+    change IsIso (Spec.map
       ((W.left.1.residueFieldCongr hgv).inv ≫ g.left.1.residueFieldMap v))
     infer_instance
   have : IsIso ((Over.forget (B.obj hS)).map
@@ -91,7 +91,7 @@ private theorem isIso_pointedResidueFieldMap_of_surjective_stalkMap
 /-- Applying a composite of two morphisms of the site to a point of the source scheme. -/
 private theorem toScheme_map_comp_apply {T Q R : BigFppfOver B S hS} (a : T ⟶ Q) (b : Q ⟶ R)
     (z : T.left.1) : (a ≫ b).left.1 z = b.left.1 (a.left.1 z) := by
-  show ((BigFppfOver.toScheme B S hS).map (a ≫ b)) z = _
+  change ((BigFppfOver.toScheme B S hS).map (a ≫ b)) z = _
   rw [Functor.map_comp]
   exact Scheme.Hom.comp_apply _ _ z
 

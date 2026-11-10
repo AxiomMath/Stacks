@@ -94,7 +94,9 @@ wrapper.
 
 **Local instances.** `commShiftRightDerivedFunctorPlus`,
 `natTransCommShiftRightDerivedFunctorPlusUnit` and `isTriangulated_rightDerivedFunctorPlus` are
-re-exported from `StacksFrontier/Algebra/Homology/DerivedCategory/RightDerivedFunctorInjective.lean` and made local instances, in a section
+re-exported from
+`StacksFrontier/Algebra/Homology/DerivedCategory/RightDerivedFunctorInjective.lean` and made
+local instances, in a section
 containing only the declarations that consume them.
 Mathlib supplies the commutation with the shift for a `totalRightDerived` as an
 instance, but `Functor.rightDerivedFunctorPlus` is a definition that instance search does not
@@ -164,8 +166,8 @@ degree shift in the connecting morphisms needs no cast lemma.
   cohomology sheaves in degrees at most `n` — is still to be assembled, as recorded in the tag
   string of
   `Stacks.ComparingTopologies.CohomologyComparison.vanishingCondition_of_singleCoveringDescent`
-  in
-  `StacksFrontier/CategoryTheory/Sites/Cohomology/ChangeOfTopology/VanishingConditionAllDegrees.lean`.
+  in the file `VanishingConditionAllDegrees.lean` of the directory
+  `StacksFrontier/CategoryTheory/Sites/Cohomology/ChangeOfTopology/`.
   The universe constraint is the one `edge_comp_rightDerivedIso` carries: `HasDerivedCategory.{w}`
   for both source categories.
 * Universality of the `ℕ`-indexed `δ`-functor (the second half of [Stacks, Tag 05TE]) is not
@@ -281,7 +283,7 @@ lemma singleTrianglePlus_distinguished (hS : S.ShortExact) :
       ((DerivedCategory.Plus.singleFunctorιIso C 0).app S.X₃) ?_ ?_ ?_)
   · exact (DerivedCategory.Plus.singleFunctorιIso C 0).hom.naturality S.f
   · exact (DerivedCategory.Plus.singleFunctorιIso C 0).hom.naturality S.g
-  · show (DerivedCategory.Plus.ι.map (singleδPlus hS) ≫
+  · change (DerivedCategory.Plus.ι.map (singleδPlus hS) ≫
           (DerivedCategory.Plus.ι.commShiftIso (1 : ℤ)).hom.app
             ((DerivedCategory.Plus.singleFunctor C 0).obj S.X₁)) ≫
         (shiftFunctor (DerivedCategory C) (1 : ℤ)).map

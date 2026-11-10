@@ -122,7 +122,7 @@ private theorem isLocallySurjective_sigmaDesc_reindex
   constructor
   intro T α β hab
   refine (cancel_epi (Sigma.desc fun l' ↦ c (e l'))).1 (Sigma.hom_ext _ _ fun l' ↦ ?_)
-  simpa only [← Category.assoc, Sigma.ι_desc] using Sigma.ι A (e l') ≫= hab
+  simpa only [← Category.assoc, Sigma.ι_comp_desc] using Sigma.ι A (e l') ≫= hab
 
 /-- **The surjectivity assertion of Definition 0AIM for the chart cover of `X ×_Y Z`.** Let
 `{Vⱼ ⟶ Y}` be a jointly locally surjective family, and for each `j` let `{Uⱼᵢ ⟶ Vⱼ ×_Y X}` and

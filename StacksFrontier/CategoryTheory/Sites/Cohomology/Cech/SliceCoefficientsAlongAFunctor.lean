@@ -67,6 +67,7 @@ variable [hE : ∀ (n : ℕ) (i : Fin (n + 1) → E.I₀),
     P.map g.op ≫ (e Y' hY').hom = (e Y hY).hom ≫ Q.map ((Over.post u).map g).op)
   (hK : ∀ (n : ℕ) (i : Fin (n + 1) → E.I₀), K (∏ᶜ (fun a ↦ Over.mk (E.f (i a)))))
 
+omit [Preadditive A] [HasProducts A] in
 include he in
 /-- The naturality of the inverse identifications. -/
 theorem inv_comp_map_of_partialIso {Y Y' : Over X} (hY : K Y) (hY' : K Y') (g : Y' ⟶ Y) :
@@ -151,7 +152,7 @@ theorem sliceCechComplexMapDegree_comm (n : ℕ) :
     sliceCechComplexMapDegree u E P Q K e hK n ≫ (sliceCechComplex E P).d n (n + 1) =
       (sliceCechComplex (E.map u) Q).d n (n + 1) ≫
         sliceCechComplexMapDegree u E P Q K e hK (n + 1) := by
-  show sliceCechComplexMapDegree u E P Q K e hK n ≫
+  change sliceCechComplexMapDegree u E P Q K e hK n ≫
       (AlgebraicTopology.AlternatingCofaceMapComplex.obj
         ((FormalCoproduct.cosimplicialObjectFunctor.{w} (cechSimplicialObject E)).obj
           P)).d n (n + 1) =

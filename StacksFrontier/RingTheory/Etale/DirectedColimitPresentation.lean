@@ -43,10 +43,10 @@ change of the quotient over `G j` along `G j → A`.
 The lifting of the polynomials themselves is
 `MvPolynomial.exists_ge_forall_map_eq_of_directed`, and the descent of invertibility is
 `MvPolynomial.exists_ge_isUnit_quotientMk_of_directed`; both live in
-`StacksFrontier.RingTheory.MvPolynomial.DirectedColimit`.  What is added here is the identification of
-the Jacobian determinant of a base-changed family with the base change of the Jacobian determinant,
-`MvPolynomial.map_detJacobian`, which turns the descent of invertibility of `Δ` into the descent of
-invertibility of `Δ_j`, and the packaging through Mathlib's
+`StacksFrontier.RingTheory.MvPolynomial.DirectedColimit`.  What is added here is the identification
+of the Jacobian determinant of a base-changed family with the base change of the Jacobian
+determinant, `MvPolynomial.map_detJacobian`, which turns the descent of invertibility of `Δ` into
+the descent of invertibility of `Δ_j`, and the packaging through Mathlib's
 `Algebra.PreSubmersivePresentation.naive`.
 
 The base change `Algebra.tensorQuotientSpanEquiv` is Mathlib's

@@ -55,7 +55,7 @@ private theorem connectedSpace_connectedComponentOpen
     (Y : Type*) [TopologicalSpace Y] [Finite (_root_.ConnectedComponents Y)]
     (c : _root_.ConnectedComponents Y) : ConnectedSpace (connectedComponentOpen Y c) := by
   unfold connectedComponentOpen
-  show ConnectedSpace (↑(connectedComponent (connectedComponentRepresentative Y c)))
+  change ConnectedSpace (↑(connectedComponent (connectedComponentRepresentative Y c)))
   exact isConnected_iff_connectedSpace.mp isConnected_connectedComponent
 
 /-- Every point of the chosen open component `c` lies in the connected component `c`. -/
@@ -129,7 +129,7 @@ theorem exists_connectedSpace_refines [IsNoetherian X] (s : ConstructibleStratif
       · exact Set.iUnion_subset fun j => (hsub (e.symm j)).trans (s.contained _)
   }
   refine ⟨t, fun j => ?_, fun j => ⟨(e.symm j).1, (g (e.symm j)).ι, inferInstance, rfl⟩⟩
-  show ConnectedSpace (g (e.symm j)).toScheme
+  change ConnectedSpace (g (e.symm j)).toScheme
   exact connectedSpace_connectedComponentOpen _ (e.symm j).2
 
 /-- The restriction of a stratification of a Noetherian scheme `X` to an open subscheme `U`: the

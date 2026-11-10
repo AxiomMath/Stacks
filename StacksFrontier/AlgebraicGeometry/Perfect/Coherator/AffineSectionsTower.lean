@@ -77,7 +77,7 @@ private theorem epi_app_of_isAffineOpen {X : Scheme.{u}} (U : X.Opens) (hU : IsA
       (g.val.app (op (⊤ : (Spec (.of Γ(X, U))).Opens))) x) :=
     (ModuleCat.epi_iff_surjective (moduleSpecΓFunctor.map g)).1 (epi_moduleSpecΓFunctor_map g)
   have hrange : i ''ᵁ (⊤ : (Spec (.of Γ(X, U))).Opens) = U := by
-    show (hU.isoSpec.inv ≫ U.ι) ''ᵁ (⊤ : (Spec (.of Γ(X, U))).Opens) = U
+    change (hU.isoSpec.inv ≫ U.ι) ''ᵁ (⊤ : (Spec (.of Γ(X, U))).Opens) = U
     rw [Scheme.Hom.image_top_eq_opensRange,
       Scheme.Hom.opensRange_comp_of_isIso, Scheme.Opens.opensRange_ι]
   let e := (eqToIso hrange).symm.op

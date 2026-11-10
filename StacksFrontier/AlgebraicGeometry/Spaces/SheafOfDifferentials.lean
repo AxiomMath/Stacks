@@ -57,7 +57,8 @@ presheaf of sectionwise Kähler differentials — assembled from Mathlib's
 `PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'` and
 `PresheafOfModules.sheafification`, both of which are universe-polymorphic.  For the same reason
 the universal property is proved from Mathlib's
-`PresheafOfModulesOfCommRing.DifferentialsConstruction.isUniversal'` through the sheafification bijection
+`PresheafOfModulesOfCommRing.DifferentialsConstruction.isUniversal'` through the sheafification
+bijection
 rather than read off the small-site statement.
 
 The instance `smallEtaleRingedSite_hasWeakSheafify` restates one of the two sheafification

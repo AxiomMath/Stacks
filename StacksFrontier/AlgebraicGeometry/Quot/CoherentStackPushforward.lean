@@ -307,7 +307,7 @@ theorem pushforwardHom_id (A : CoherentObject D.source) :
   let e : pushforwardObject H A ⟶ pushforwardObject H A :=
     pushforwardHom H (CoherentHom.id (modulePushforwardCoherence B S hS) A)
   have hidem : e ≫ e = e := by
-    show (pushforwardHom H _).comp (pushforwardHom H _) = pushforwardHom H _
+    change (pushforwardHom H _).comp (pushforwardHom H _) = pushforwardHom H _
     rw [← pushforwardHom_comp, CoherentHom.id_comp]
   have hlift : (D.target.categoryData.projection ⋙
       CostructuredArrow.proj (schemeSpaceFunctor B S hS) D.target.Y).IsHomLift

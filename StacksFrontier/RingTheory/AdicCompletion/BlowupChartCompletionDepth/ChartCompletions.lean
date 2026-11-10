@@ -71,7 +71,7 @@ theorem ringKrullDim_quotient_le_one_of_le_jacobson {R : Type*} [CommRing R]
     intro P hP htP
     have hP' := h (P.comap (Ideal.Quotient.mk p)) (Ideal.IsPrime.comap _)
       (fun x hx => by
-        show Ideal.Quotient.mk p x ∈ P
+        change Ideal.Quotient.mk p x ∈ P
         rw [Ideal.Quotient.eq_zero_iff_mem.mpr hx]; exact P.zero_mem) htP
     rw [← hP', Ideal.map_comap_of_surjective _ Ideal.Quotient.mk_surjective]
   have : IsLocalRing (R ⧸ p) := by
@@ -113,7 +113,7 @@ theorem isLocalization_atPrime_comap_of_pow_mul {R T₀ L : Type*} [CommRing R] 
     obtain ⟨n, r, hr⟩ := h₁ t
     obtain ⟨m, s, hs⟩ := h₁ u
     refine ⟨⟨f ^ m * r, ⟨f ^ n * s, hsP u m s hs n⟩⟩, ?_⟩
-    show z * algebraMap R L (f ^ n * s) = algebraMap R L (f ^ m * r)
+    change z * algebraMap R L (f ^ n * s) = algebraMap R L (f ^ m * r)
     simp only [IsScalarTower.algebraMap_apply R T₀ L, map_mul]
     rw [← hs, ← hr]
     simp only [map_mul]
@@ -128,7 +128,7 @@ theorem isLocalization_atPrime_comap_of_pow_mul {R T₀ L : Type*} [CommRing R] 
       rw [map_mul, ← hs, mul_assoc, hu, mul_zero]
     obtain ⟨k, hk⟩ := h₂ _ hsr
     refine ⟨⟨f ^ k * s, hsP u m s hs k⟩, ?_⟩
-    show f ^ k * s * r₁ = f ^ k * s * r₂
+    change f ^ k * s * r₁ = f ^ k * s * r₂
     rw [← sub_eq_zero, ← mul_sub, mul_assoc, hk]
 
 /-- **An algebra birational away from `f` is algebraic.** Let `R` be a domain and `f ≠ 0` an
@@ -143,7 +143,7 @@ theorem isAlgebraic_of_pow_mul {R T₀ : Type*} [CommRing R] [CommRing T₀] [Al
   refine ⟨Polynomial.C (f ^ n) * Polynomial.X - Polynomial.C r, fun h0 => ?_, ?_⟩
   · have := congrArg (Polynomial.coeff · 1) h0
     simp only [Polynomial.coeff_sub, Polynomial.coeff_C_mul_X, Polynomial.coeff_C,
-      Polynomial.coeff_zero, one_ne_zero, if_false, sub_zero, if_true] at this
+      Polynomial.coeff_zero, one_ne_zero, ite_false, sub_zero, ite_true] at this
     exact pow_ne_zero n hf this
   · simp only [map_sub, map_mul, Polynomial.aeval_C, Polynomial.aeval_X]
     rw [hr, sub_self]
@@ -178,7 +178,7 @@ theorem depth_localizedModule_tensorProduct_eq_add {R R' : Type*} [CommRing R] [
   let S := Localization.AtPrime p'
   let : Algebra Rp S := (Localization.localRingHom p p' φ rfl).toAlgebra
   have : IsScalarTower R Rp S := IsScalarTower.of_algebraMap_eq fun r => by
-    show algebraMap R S r = Localization.localRingHom p p' φ rfl (algebraMap R Rp r)
+    change algebraMap R S r = Localization.localRingHom p p' φ rfl (algebraMap R Rp r)
     rw [Localization.localRingHom_to_map, IsScalarTower.algebraMap_apply R R' S]
     rfl
   have : Module.Flat Rp S := RingHom.flat_algebraMap_iff.mp hflat
@@ -232,14 +232,14 @@ theorem flat_localRingHom_comp_of_isLocalization {R T R' : Type*} [CommRing R] [
           (Localization.AtPrime pT)).toRingEquiv.toRingHom := by
       refine IsLocalization.ringHom_ext p.primeCompl (RingHom.ext fun r => ?_)
       simp only [RingHom.comp_apply, Localization.localRingHom_to_map]
-      show _ = IsLocalization.algEquiv p.primeCompl (Localization.AtPrime p)
+      change _ = IsLocalization.algEquiv p.primeCompl (Localization.AtPrime p)
         (Localization.AtPrime pT) (algebraMap R (Localization.AtPrime p) r)
       rw [AlgEquiv.commutes, IsScalarTower.algebraMap_apply R T (Localization.AtPrime pT)]
     rw [this]
     exact (IsLocalization.algEquiv p.primeCompl (Localization.AtPrime p)
       (Localization.AtPrime pT)).bijective
   have hcomp := Localization.localRingHom_comp p pT p' (algebraMap R T) rfl ψ rfl
-  show (Localization.localRingHom p p' (ψ.comp (algebraMap R T)) _).Flat
+  change (Localization.localRingHom p p' (ψ.comp (algebraMap R T)) _).Flat
   rw [hcomp]
   exact RingHom.Flat.comp (RingHom.Flat.of_bijective hg1) (hψ.localRingHom p' pT rfl)
 
@@ -319,7 +319,7 @@ theorem trdeg_residueField_eq_of_bijective {A B R T : Type u} [CommRing A] [Comm
   let := Ideal.ResidueField.algebraOfLiesOver m N
   refine Algebra.trdeg_eq_of_ringEquiv (RingEquiv.ofBijective _ hbq)
     (RingEquiv.ofBijective _ hbQ) fun a => ?_
-  show (Ideal.ResidueField.map Q N β hQ).comp
+  change (Ideal.ResidueField.map Q N β hQ).comp
       (Ideal.ResidueField.map q Q (algebraMap A B) Ideal.LiesOver.over) a =
     (Ideal.ResidueField.map m N (algebraMap R T) Ideal.LiesOver.over).comp
       (Ideal.ResidueField.map q m α hq) a
@@ -354,8 +354,7 @@ theorem exists_pow_mul_eq_algebraMap_tensorProduct_affineBlowup
         (algebraMap A R f ^ n) * t = algebraMap R (TensorProduct A R (affineBlowup I f)) r := by
   have hal : ∀ x : R, algebraMap R (TensorProduct A R (affineBlowup I f)) x = x ⊗ₜ 1 :=
     fun x => by simp [Algebra.TensorProduct.algebraMap_apply]
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨0, 0, by simp⟩
+  induction t using TensorProduct.inductionOn with
   | tmul r b =>
     obtain ⟨n, a, hb⟩ := exists_pow_mul_eq_algebraMap_affineBlowup I f b
     refine ⟨n, algebraMap A R a * r, ?_⟩
@@ -386,7 +385,7 @@ theorem exists_pow_mul_eq_zero_of_algebraMap_tensorProduct_affineBlowup (r : R)
     { toRingHom := (IsLocalization.Away.map (Localization.Away f) Rf (algebraMap A R) f).comp
         (affineBlowup I f).val.toRingHom
       commutes' := fun a => by
-        show IsLocalization.Away.map (Localization.Away f) Rf (algebraMap A R) f
+        change IsLocalization.Away.map (Localization.Away f) Rf (algebraMap A R) f
           (algebraMap A (Localization.Away f) a) = _
         rw [IsLocalization.Away.map, IsLocalization.map_eq, IsScalarTower.algebraMap_apply A R Rf] }
   let ρ := Algebra.TensorProduct.productMap (IsScalarTower.toAlgHom A R Rf) γ
@@ -548,7 +547,7 @@ include hE in
 theorem comap_eq_comap_map_of_ringEquiv :
     p'.comap ψ = (p'.map E).comap (algebraMap T T') := by
   ext t
-  show ψ t ∈ p' ↔ algebraMap T T' t ∈ p'.map E
+  change ψ t ∈ p' ↔ algebraMap T T' t ∈ p'.map E
   rw [← hE]
   conv_lhs => rw [← Ideal.comap_map_of_bijective E E.bijective (I := p')]
   rfl
@@ -580,7 +579,7 @@ theorem depth_fibre_eq_of_ringEquiv
     ext r
     simp only [RingHom.comp_apply, RingHom.coe_coe]
     rw [IsScalarTower.algebraMap_apply R R' (Localization.AtPrime p'), hL]
-    show algebraMap T' _ (E (φ r)) = _
+    change algebraMap T' _ (E (φ r)) = _
     rw [← hφ, RingHom.comp_apply, hE, ← IsScalarTower.algebraMap_apply]
   let h := Localization.localRingHom (p'.comap ψ) (p'.map E) (algebraMap T T') hpT
   have c2 : h.comp (algebraMap T (Localization.AtPrime (p'.comap ψ))) =

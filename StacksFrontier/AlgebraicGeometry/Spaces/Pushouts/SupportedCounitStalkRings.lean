@@ -74,7 +74,7 @@ theorem bijective_quotientMap_of_ringEquiv (eA : A ≃+* A') (eB : B ≃+* B') (
       qB (Ideal.quotientMap (J.map c) c Ideal.le_comap_map x) := by
     intro x
     obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x
-    show Ideal.quotientMap (I'.map c') c' Ideal.le_comap_map
+    change Ideal.quotientMap (I'.map c') c' Ideal.le_comap_map
         (Ideal.quotientMap I' (eA : A →+* A') (Ideal.map_le_iff_le_comap.mp hJ.le)
           (Ideal.Quotient.mk J a)) =
       Ideal.quotientMap (I'.map c') (eB : B →+* B') (Ideal.map_le_iff_le_comap.mp hL.le)

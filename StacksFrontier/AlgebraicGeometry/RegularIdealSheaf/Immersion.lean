@@ -207,7 +207,7 @@ theorem le_coborderRange_of_isClosedImmersion {Z X : Scheme.{u}} (i : Z ⟶ X) [
       Set.preimage_image_eq _ U.ι.isOpenEmbedding.injective,
       j.isClosedEmbedding.isClosed_range.closure_eq]
   intro x hx
-  show x ∈ coborder (Set.range i.base)
+  change x ∈ coborder (Set.range i.base)
   rw [mem_coborder_iff_imp]
   intro hxc
   obtain ⟨y, rfl⟩ : x ∈ Set.range U.ι.base := by rwa [U.range_ι]

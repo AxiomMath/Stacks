@@ -201,7 +201,7 @@ private lemma mk_le_iff_comp_cokernel_eq_zero {C : Type*} [Category C] [Abelian 
 private lemma imageSubobject_le_iff_comp_cokernel_eq_zero {C : Type*} [Category C]
     [Abelian C] {X Y : C} (f : X ⟶ Y) (Q : Subobject Y) :
     imageSubobject f ≤ Q ↔ f ≫ cokernel.π Q.arrow = 0 := by
-  show Subobject.mk (image.ι f) ≤ Q ↔ _
+  change Subobject.mk (image.ι f) ≤ Q ↔ _
   rw [mk_le_iff_comp_cokernel_eq_zero]
   refine ⟨fun h => ?_, fun h => zero_of_epi_comp (factorThruImage f) (by simpa using h)⟩
   rw [← image.fac f, Category.assoc, h, comp_zero]
@@ -226,7 +226,7 @@ private lemma map_image_ι_sigma_desc_le_iff
     have hf : G.map (Sigma.desc f) ≫ cokernel.π Q.arrow = 0 := by
       rw [← hfac, Category.assoc, h, comp_zero]
     have hi := congrArg (fun k => G.map (Sigma.ι A i) ≫ k) hf
-    simpa only [← G.map_comp_assoc, Sigma.ι_desc, comp_zero] using hi
+    simpa only [← G.map_comp_assoc, Sigma.ι_comp_desc, comp_zero] using hi
   · intro h
     apply zero_of_epi_comp (G.map (factorThruImage (Sigma.desc f)))
     rw [← Category.assoc, hfac]
@@ -234,7 +234,7 @@ private lemma map_image_ι_sigma_desc_le_iff
     apply Sigma.hom_ext
     intro i
     simpa only [Category.assoc, ι_comp_sigmaComparison_assoc, ← G.map_comp_assoc,
-      Sigma.ι_desc, comp_zero] using h i
+      Sigma.ι_comp_desc, comp_zero] using h i
 
 variable {R : Type u} [CommRing R]
     (K L : FilteredObject (CochainComplex (ModuleCat.{u} R) ℤ) ℤᵒᵖ)
@@ -263,7 +263,7 @@ private lemma tensorFiltrationSumι_antitone :
     apply Sigma.hom_ext
     intro i
     dsimp [t, tensorFiltrationSumι]
-    simp only [Sigma.ι_desc_assoc, Sigma.ι_desc, Category.assoc, tensorHom_comp_tensorHom,
+    simp only [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc, Category.assoc, tensorHom_comp_tensorHom,
       Category.id_comp]
     congr 1
     simp
@@ -286,7 +286,7 @@ private lemma tensorConvolution_le_iff (p n : ℤ)
       ∀ ij : {ij : ℤ × ℤ // ij.1 + ij.2 = p},
         imageSubobject (((K.filtration.ι.app (op ij.1.1)) ⊗ₘ
           (L.filtration.ι.app (op ij.1.2))).f n) ≤ Q := by
-  show Subobject.mk ((HomologicalComplex.eval _ _ n).map
+  change Subobject.mk ((HomologicalComplex.eval _ _ n).map
     (imageSubobject (tensorFiltrationSumι K L p)).arrow) ≤ Q ↔ _
   have heq : Subobject.mk ((HomologicalComplex.eval _ _ n).map
       (imageSubobject (tensorFiltrationSumι K L p)).arrow) =
@@ -318,7 +318,7 @@ private lemma filtration_isZero_of_le {C : Type*} [Category C] [HasZeroMorphisms
 private lemma cochain_zero_tensor
     {P Q S T : CochainComplex (ModuleCat.{u} R) ℤ} (g : S ⟶ T) :
     (0 : P ⟶ Q) ⊗ₘ g = 0 := by
-  show HomologicalComplex.mapBifunctorMap (0 : P ⟶ Q) g
+  change HomologicalComplex.mapBifunctorMap (0 : P ⟶ Q) g
     (curriedTensor (ModuleCat R)) (ComplexShape.up ℤ) = 0
   ext n : 1
   apply HomologicalComplex.mapBifunctor.hom_ext
@@ -330,7 +330,7 @@ private lemma cochain_zero_tensor
 private lemma cochain_tensor_zero
     {P Q S T : CochainComplex (ModuleCat.{u} R) ℤ} (f : P ⟶ Q) :
     f ⊗ₘ (0 : S ⟶ T) = 0 := by
-  show HomologicalComplex.mapBifunctorMap f (0 : S ⟶ T)
+  change HomologicalComplex.mapBifunctorMap f (0 : S ⟶ T)
     (curriedTensor (ModuleCat R)) (ComplexShape.up ℤ) = 0
   ext n : 1
   apply HomologicalComplex.mapBifunctor.hom_ext
@@ -354,12 +354,12 @@ private lemma tensorConvolution_isFinite
     have hcomp : IsIso (Sigma.ι (fun i : ℤ => K.filtration.obj (op i) ⊗
         L.filtration.obj (op (a + b - i))) a ≫ tensorFiltrationSumι K L (a + b)) := by
       dsimp only [tensorFiltrationSumι]
-      rw [Sigma.ι_desc]
+      rw [Sigma.ι_comp_desc]
       infer_instance
     have : Epi (tensorFiltrationSumι K L (a + b)) := epi_of_epi
       (Sigma.ι (fun i : ℤ => K.filtration.obj (op i) ⊗
         L.filtration.obj (op (a + b - i))) a) _
-    show IsIso (imageSubobject (tensorFiltrationSumι K L (a + b))).arrow
+    change IsIso (imageSubobject (tensorFiltrationSumι K L (a + b))).arrow
     have : Epi (imageSubobject (tensorFiltrationSumι K L (a + b))).arrow :=
       epi_of_epi_fac (imageSubobject_arrow_comp _)
     exact isIso_of_mono_of_epi _
@@ -368,13 +368,13 @@ private lemma tensorConvolution_isFinite
       apply Sigma.hom_ext
       intro i
       dsimp only [tensorFiltrationSumι]
-      rw [Sigma.ι_desc, comp_zero]
+      rw [Sigma.ι_comp_desc, comp_zero]
       by_cases hi : c ≤ i
       · rw [(filtration_isZero_of_le K.filtration hi hc).eq_of_src
           (K.filtration.ι.app (op i)) 0, cochain_zero_tensor]
       · rw [(filtration_isZero_of_le L.filtration (show d ≤ c + d - i by omega) hd).eq_of_src
           (L.filtration.ι.app (op (c + d - i))) 0, cochain_tensor_zero]
-    show IsZero (imageSubobject (tensorFiltrationSumι K L (c + d)) :
+    change IsZero (imageSubobject (tensorFiltrationSumι K L (c + d)) :
       CochainComplex (ModuleCat R) ℤ)
     rw [hzero, imageSubobject_zero]
     exact (isZero_zero _).of_iso Subobject.botCoeIsoZero
@@ -439,7 +439,7 @@ private lemma graded_mapMap_mono {I J C : Type*} [Category C] [Abelian C]
     Discrete.natTrans (fun i => f i.as.1)
   have : ∀ i, Mono (t.app i) := fun i => by dsimp [t]; infer_instance
   have : Mono t := NatTrans.mono_of_mono_app t
-  show Mono (colim.map t)
+  change Mono (colim.map t)
   infer_instance
 
 /-- The tensor product of two monomorphisms of modules is monic if the target of the first
@@ -459,7 +459,7 @@ private lemma cochain_tensorHom_mono
     Mono (f ⊗ₘ g) := by
   apply HomologicalComplex.mono_of_mono_f
   intro n
-  show Mono (GradedObject.mapMap
+  change Mono (GradedObject.mapMap
     (fun ij : ℤ × ℤ => (f.f ij.1 ▷ S.X ij.2) ≫ (Q.X ij.1 ◁ g.f ij.2))
       (fun ij => ij.1 + ij.2) n)
   have (ij : ℤ × ℤ) : Mono ((f.f ij.1 ▷ S.X ij.2) ≫ (Q.X ij.1 ◁ g.f ij.2)) := by
@@ -720,7 +720,7 @@ private lemma imageSubobject_sigma_desc_isLUB
     (A : I → C) [HasCoproduct A] {X : C} (f : ∀ i, A i ⟶ X) :
     IsLUB (Set.range (fun i => imageSubobject (f i))) (imageSubobject (Sigma.desc f)) := by
   have : HasCoproduct (fun i => (𝟭 C).obj (A i)) := by
-    show HasCoproduct A
+    change HasCoproduct A
     infer_instance
   have h (Q : Subobject X) : imageSubobject (Sigma.desc f) ≤ Q ↔
       ∀ i, imageSubobject (f i) ≤ Q :=
@@ -1055,7 +1055,7 @@ private lemma moduleCat_tensor_isPullback
   have := moduleCat_mono_tensorHom (𝟙 B) g
   apply moduleCat_isPullback_of_range _ _ _ _
     (by simp only [tensorHom_comp_tensorHom, Category.id_comp, Category.comp_id])
-  show (g.hom.lTensor B).range ⊓ (f.hom.rTensor D).range =
+  change (g.hom.lTensor B).range ⊓ (f.hom.rTensor D).range =
     ((g.hom.lTensor B).comp (f.hom.rTensor C)).range
   rw [inf_comm, LinearMap.lTensor_comp_rTensor]
   exact range_rTensor_inf_range_lTensor _ _ _ h
@@ -1090,7 +1090,7 @@ private lemma cochain_tensor_isPullback
   apply cochain_isPullback_of_f _ _ _ _
     (by simp only [tensorHom_comp_tensorHom, Category.id_comp, Category.comp_id])
   intro n
-  show IsPullback
+  change IsPullback
     (GradedObject.mapMap (fun ij : ℤ × ℤ => (f.f ij.1 ▷ S.X ij.2) ≫ (Q.X ij.1 ◁ 𝟙 (S.X ij.2)))
       (fun ij => ij.1 + ij.2) n)
     (GradedObject.mapMap (fun ij : ℤ × ℤ => (𝟙 (P.X ij.1) ▷ S.X ij.2) ≫ (P.X ij.1 ◁ g.f ij.2))
@@ -1250,7 +1250,7 @@ private lemma quasiIso_biprod_map {A B A' B' : CochainComplex C ℤ}
   have := preservesBinaryBiproducts_of_preservesBiproducts H
   have : IsIso (biprod.map (H.map f) (H.map g)) :=
     inferInstanceAs (IsIso (biprod.mapIso (asIso (H.map f)) (asIso (H.map g))).hom)
-  show IsIso (H.map (biprod.map f g))
+  change IsIso (H.map (biprod.map f g))
   have he : H.map (biprod.map f g) =
       (H.mapBiprod A B).hom ≫ biprod.map (H.map f) (H.map g) ≫
         (H.mapBiprod A' B').inv := by
@@ -1510,7 +1510,7 @@ private lemma quasiIso_iSup_of_filtered
   have hfac (j : J) : H.map (Subobject.ofLE (P.obj j) Q (le_iSup _ j)) ≫
       H.map Q.arrow = H.map (P.obj j).arrow := by
     rw [← H.map_comp, Subobject.ofLE_arrow]
-  show IsIso (H.map Q.arrow)
+  change IsIso (H.map Q.arrow)
   rw [ConcreteCategory.isIso_iff_bijective]
   constructor
   · apply (injective_iff_map_eq_zero _).mpr
@@ -1519,7 +1519,7 @@ private lemma quasiIso_iSup_of_filtered
     change H.map (Subobject.ofLE (P.obj j) Q (le_iSup _ j)) y = x at hy
     have hy0 : H.map (P.obj j).arrow y = 0 := by
       rw [← hfac]
-      show H.map Q.arrow (H.map (Subobject.ofLE (P.obj j) Q (le_iSup _ j)) y) = 0
+      change H.map Q.arrow (H.map (Subobject.ofLE (P.obj j) Q (le_iSup _ j)) y) = 0
       rwa [hy]
     have : y = 0 := (ModuleCat.mono_iff_injective _).mp inferInstance (hy0.trans (map_zero _).symm)
     simpa [this] using hy.symm
@@ -1528,7 +1528,7 @@ private lemma quasiIso_iSup_of_filtered
     obtain ⟨y, hy⟩ := (ModuleCat.epi_iff_surjective _).mp
       (inferInstance : Epi (H.map (P.obj j).arrow)) x
     refine ⟨H.map (Subobject.ofLE (P.obj j) Q (le_iSup _ j)) y, ?_⟩
-    show (H.map (Subobject.ofLE (P.obj j) Q (le_iSup _ j)) ≫ H.map Q.arrow) y = x
+    change (H.map (Subobject.ofLE (P.obj j) Q (le_iSup _ j)) ≫ H.map Q.arrow) y = x
     rwa [hfac]
 
 set_option backward.isDefEq.respectTransparency false in
@@ -1596,11 +1596,11 @@ private lemma preservesColimitsOfShape_cochain_tensorRight
       intro X Y f
       dsimp
       simp only [Category.id_comp, Category.comp_id]
-      show GradedObject.mapMap
+      change GradedObject.mapMap
         (fun ij : ℤ × ℤ => (f.f ij.1 ▷ P.X ij.2) ≫ (Y.X ij.1 ◁ 𝟙 (P.X ij.2)))
         (fun ij => ij.1 + ij.2) n = _
       simp only [whiskerLeft_id, Category.comp_id]
-      show GradedObject.mapMap (fun ij : ℤ × ℤ => f.f ij.1 ▷ P.X ij.2)
+      change GradedObject.mapMap (fun ij : ℤ × ℤ => f.f ij.1 ▷ P.X ij.2)
         (fun ij => ij.1 + ij.2) n =
           Limits.Sigma.map
             (g := GradedObject.mapObjFun
@@ -1644,11 +1644,11 @@ private lemma preservesColimitsOfShape_cochain_tensorLeft
       intro X Y f
       dsimp
       simp only [Category.id_comp, Category.comp_id]
-      show GradedObject.mapMap
+      change GradedObject.mapMap
         (fun ij : ℤ × ℤ => (𝟙 (P.X ij.1) ▷ X.X ij.2) ≫ (P.X ij.1 ◁ f.f ij.2))
         (fun ij => ij.1 + ij.2) n = _
       simp only [id_whiskerRight, Category.id_comp]
-      show GradedObject.mapMap (fun ij : ℤ × ℤ => P.X ij.1 ◁ f.f ij.2)
+      change GradedObject.mapMap (fun ij : ℤ × ℤ => P.X ij.1 ◁ f.f ij.2)
         (fun ij => ij.1 + ij.2) n =
           Limits.Sigma.map
             (g := GradedObject.mapObjFun
@@ -1818,7 +1818,7 @@ private lemma existsUnique_desc_iSup_of_interval_intersections
       ι :=
         { app m := g m
           naturality {m n} e := by
-            show Subobject.ofLE (U.obj m) (U.obj n) _ ≫ g n = g m
+            change Subobject.ofLE (U.obj m) (U.obj n) _ ≫ g n = g m
             apply finsetSup_hom_ext P (Finset.Icc (-m.down) m.down) (U.obj m) rfl
             intro i hi
             have hin : i ∈ Finset.Icc (-(n.down : ℤ)) n.down := by
@@ -1842,7 +1842,7 @@ private lemma existsUnique_desc_iSup_of_interval_intersections
   intro v hv
   apply hc.hom_ext
   intro m
-  show Subobject.ofLE (U.obj m) Q (hle m) ≫ v =
+  change Subobject.ofLE (U.obj m) Q (hle m) ≫ v =
     Subobject.ofLE (U.obj m) Q (hle m) ≫ u
   apply finsetSup_hom_ext P (Finset.Icc (-m.down) m.down) (U.obj m) rfl
   intro i hi
@@ -1858,7 +1858,7 @@ set_option backward.isDefEq.respectTransparency false in
 private lemma tensorStepQuotient_left (i j : ℤ) :
     (K.filtration.diagram.map (homOfLE (Int.le_add_one le_rfl) : i ⟶ i + 1).op ▷
       L.filtration.obj (op j)) ≫ tensorStepQuotient K L i j = 0 := by
-  show (_ ⊗ₘ 𝟙 _) ≫ (_ ⊗ₘ _) = 0
+  change (_ ⊗ₘ 𝟙 _) ≫ (_ ⊗ₘ _) = 0
   rw [tensorHom_comp_tensorHom, cokernel.condition, cochain_zero_tensor]
 
 set_option backward.isDefEq.respectTransparency false in
@@ -1866,7 +1866,7 @@ private lemma tensorStepQuotient_right (i j : ℤ) :
     (K.filtration.obj (op i) ◁
       L.filtration.diagram.map (homOfLE (Int.le_add_one le_rfl) : j ⟶ j + 1).op) ≫
         tensorStepQuotient K L i j = 0 := by
-  show (𝟙 _ ⊗ₘ _) ≫ (_ ⊗ₘ _) = 0
+  change (𝟙 _ ⊗ₘ _) ≫ (_ ⊗ₘ _) = 0
   rw [tensorHom_comp_tensorHom, cokernel.condition, cochain_tensor_zero]
 
 set_option backward.isDefEq.respectTransparency false in
@@ -1941,7 +1941,7 @@ private lemma tensorStepImageQuotient_left
           (K.filtration.ι.app (op i) ⊗ₘ L.filtration.ι.app (op j)) := by
     apply (cancel_mono (tensorStepImage K L i j).arrow).mp
     simp only [Category.assoc, Subobject.ofLE_arrow, imageSubobject_arrow_comp]
-    show _ = (_ ⊗ₘ 𝟙 _) ≫ (_ ⊗ₘ _)
+    change _ = (_ ⊗ₘ 𝟙 _) ≫ (_ ⊗ₘ _)
     rw [tensorHom_comp_tensorHom, Filtration.diagram_map_comp_ι_app, Category.id_comp]
   rw [← Category.assoc, he, Category.assoc, factor_tensorStepImageQuotient,
     tensorStepQuotient_left, comp_zero]
@@ -1963,7 +1963,7 @@ private lemma tensorStepImageQuotient_right
           (K.filtration.ι.app (op i) ⊗ₘ L.filtration.ι.app (op j)) := by
     apply (cancel_mono (tensorStepImage K L i j).arrow).mp
     simp only [Category.assoc, Subobject.ofLE_arrow, imageSubobject_arrow_comp]
-    show _ = (𝟙 _ ⊗ₘ _) ≫ (_ ⊗ₘ _)
+    change _ = (𝟙 _ ⊗ₘ _) ≫ (_ ⊗ₘ _)
     rw [tensorHom_comp_tensorHom, Filtration.diagram_map_comp_ι_app, Category.id_comp]
   rw [← Category.assoc, he, Category.assoc, factor_tensorStepImageQuotient,
     tensorStepQuotient_right, comp_zero]
@@ -2050,7 +2050,7 @@ private lemma tensorConvolution_gradedPieceIso
   have hB (i : ℤ) : B i ≤ P i := tensorStepImage_antitone K L (by omega) le_rfl
   have hB' (i : ℤ) : B i ≤ P (i + 1) := tensorStepImage_antitone K L le_rfl (by omega)
   have hcap (s t : ℤ) (hst : s ≤ t) : (Finset.Icc s t).sup P ⊓ P (t + 1) = B t := by
-    show tensorFiltrationInterval K L p s t ⊓ tensorStepImage K L (t + 1) (p - (t + 1)) = _
+    change tensorFiltrationInterval K L p s t ⊓ tensorStepImage K L (t + 1) (p - (t + 1)) = _
     rw [congrArg (tensorStepImage K L (t + 1)) (show p - (t + 1) = p - t - 1 by omega)]
     exact tensorFiltrationInterval_inf_next K L hK hFK hgrK hFL p s t hst
   let q (i : ℤ) := tensorStepImageQuotient K L hK hFL i (p - i)
@@ -2102,7 +2102,7 @@ private lemma tensorConvolution_gradedPieceIso
       rw [← Category.assoc]
       apply comp_cokernel_of_image_le S T hTS
       rw [Category.assoc, hf]
-      show imageSubobject ((_ ⊗ₘ 𝟙 _) ≫ (_ ⊗ₘ _)) ≤ T
+      change imageSubobject ((_ ⊗ₘ 𝟙 _) ≫ (_ ⊗ₘ _)) ≤ T
       simp only [tensorHom_comp_tensorHom, Filtration.diagram_map_comp_ι_app, Category.id_comp]
       exact tensorStepImage_le_convolution K L (p + 1) (i + 1) (p - i) (by omega)
     have hright : (K.filtration.obj (op i) ◁ L.filtration.diagram.map
@@ -2110,7 +2110,7 @@ private lemma tensorConvolution_gradedPieceIso
       rw [← Category.assoc]
       apply comp_cokernel_of_image_le S T hTS
       rw [Category.assoc, hf]
-      show imageSubobject ((𝟙 _ ⊗ₘ _) ≫ (_ ⊗ₘ _)) ≤ T
+      change imageSubobject ((𝟙 _ ⊗ₘ _) ≫ (_ ⊗ₘ _)) ≤ T
       simp only [tensorHom_comp_tensorHom, Filtration.diagram_map_comp_ι_app, Category.id_comp]
       exact tensorStepImage_le_convolution K L (p + 1) i (p - i + 1) (by omega)
     obtain ⟨ψ, hψ, _⟩ := tensorStepQuotient_universal K L i (p - i) (f ≫ π) hleft hright
@@ -2128,15 +2128,15 @@ private lemma tensorConvolution_gradedPieceIso
     apply tensorConvolution_image_hom_ext K L p
     intro i
     rw [← Category.assoc, hgS, Category.assoc]
-    show q i ≫ Sigma.ι G i ≫ Sigma.desc ψ = _
-    rw [Sigma.ι_desc, hψ]
+    change q i ≫ Sigma.ι G i ≫ Sigma.desc ψ = _
+    rw [Sigma.ι_comp_desc, hψ]
   have hΨΦ : Ψ ≫ Φ = 𝟙 _ := by
     apply Sigma.hom_ext
     intro i
     apply (cancel_epi (q i)).mp
     simp only [Category.comp_id]
-    show q i ≫ Sigma.ι G i ≫ Sigma.desc ψ ≫ Φ = _
-    rw [Sigma.ι_desc_assoc, ← Category.assoc, hψ, Category.assoc, hΦ, hgS]
+    change q i ≫ Sigma.ι G i ≫ Sigma.desc ψ ≫ Φ = _
+    rw [Sigma.ι_comp_desc_assoc, ← Category.assoc, hψ, Category.assoc, hΦ, hgS]
   exact ⟨{ hom := Φ, inv := Ψ, hom_inv_id := hΦΨ, inv_hom_id := hΨΦ }⟩
 
 private lemma tensorConvolution_graded_homologyIso
@@ -2257,7 +2257,7 @@ public theorem exists_kunneth_convolution_spectral_sequence
         (Category.comp_id (K.filtration.ι.app (op i) ⊗ₘ L.filtration.ι.app (op j)))
     constructor
     · intro h ij
-      show imageSubobject (((K.filtration.ι.app (op ij.1.1) ⊗ₘ
+      change imageSubobject (((K.filtration.ι.app (op ij.1.1) ⊗ₘ
         L.filtration.ι.app (op ij.1.2)) ≫ 𝟙 (K.X ⊗ L.X)).f n) ≤ Q
       rw [hcomp]
       exact (tensorConvolution_le_iff K L p n Q).mp h ij

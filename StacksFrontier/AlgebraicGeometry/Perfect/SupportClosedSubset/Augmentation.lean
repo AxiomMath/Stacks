@@ -86,9 +86,9 @@ public theorem augmentation_natural {F G : X.Modules} (φ : F ⟶ G) :
           (HomologicalComplex.single X.Modules (ComplexShape.up ℤ) 0).map φ := by
     let e := ComplexShape.embeddingUpNat
     have hzero : e.f 0 = 0 := by
-      show ComplexShape.embeddingUpNat.f 0 = 0
+      change ComplexShape.embeddingUpNat.f 0 = 0
       rfl
-    show HomologicalComplex.extendMap ((CochainComplex.single₀ X.Modules).map φ) e ≫
+    change HomologicalComplex.extendMap ((CochainComplex.single₀ X.Modules).map φ) e ≫
           (HomologicalComplex.extendSingleIso e G 0 0 hzero).hom =
         (HomologicalComplex.extendSingleIso e F 0 0 hzero).hom ≫
           (HomologicalComplex.single X.Modules (ComplexShape.up ℤ) 0).map φ

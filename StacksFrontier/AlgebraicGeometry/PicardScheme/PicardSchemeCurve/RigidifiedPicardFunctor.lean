@@ -238,7 +238,7 @@ theorem map_mem_rankOneLocus_iff
       rw [h1, Over.w g]
       exact IsPullback.of_hasPullback f T'.hom
     · simp only [baseChangeMap, pullback.map, pullback.lift_snd, fT]
-  show _ ↔ ∃ h : T'.left ⟶ (ProperFlatRankOpen.rankOpen fT L.obj 0 1).toScheme,
+  change _ ↔ ∃ h : T'.left ⟶ (ProperFlatRankOpen.rankOpen fT L.obj 0 1).toScheme,
     h ≫ (ProperFlatRankOpen.rankOpen fT L.obj 0 1).ι = g.left
   rw [ProperFlatRankOpen.factorsThrough_rankOpen_iff_of_isPullback hPerfBC hRankOpen fT hfT
     inferInstance L.obj hLfp hLflat 0 1 g.left (pullback.snd f T'.hom) (baseChangeMap f g) hsq]

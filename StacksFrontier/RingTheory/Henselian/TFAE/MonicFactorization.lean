@@ -21,8 +21,8 @@ import all StacksFrontier.RingTheory.Henselian.TFAE.Decompositions
 # Characterisations of henselian local rings: lifting monic factorisations
 
 This file continues the proof of Lemma 04GG (the statement and the plan of the proof are in the
-module docstring of `StacksFrontier.RingTheory.Henselian.TFAE.Factorization`) with two ingredients of
-1 ⇒ 6:
+module docstring of `StacksFrontier.RingTheory.Henselian.TFAE.Factorization`) with two ingredients
+of 1 ⇒ 6:
 
 * a coprime factorisation `f̄ = g₀h₀` of the reduction of a monic `f` into monic factors lifts to
   `R[T]` when item (8) holds (`exists_monic_mul_map_eq_of_isCoprime`): the factorisation exists

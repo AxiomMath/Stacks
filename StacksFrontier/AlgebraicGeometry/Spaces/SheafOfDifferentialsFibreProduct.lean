@@ -197,7 +197,7 @@ theorem isSheafOfDifferentialsMap_comp_toRelativeDifferentials (f : X' ⟶ X) (p
     IsSheafOfDifferentialsMap B S hS f p m (c ≫ toRelativeDifferentials B S hS m n) := by
   intro U t
   rw [Adjunction.homEquiv_naturality_right]
-  show ((smallEtaleDirectImage B S hS f).map
+  change ((smallEtaleDirectImage B S hS f).map
       ((Sheaf.moduleSheafFunctor (structureRingSheaf B S hS X')).map
         (toRelativeDifferentials B S hS m n))).hom.app U
       ((((modulePullbackAdjunction B S hS f).homEquiv (sheafOfDifferentials B S hS p)

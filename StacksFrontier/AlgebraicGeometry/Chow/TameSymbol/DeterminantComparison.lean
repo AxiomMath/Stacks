@@ -143,7 +143,7 @@ theorem dvrTameSymbol_eq_tameSymbol (hdim : ringKrullDim A = 1) {ϖ : A}
     apply Additive.ofMul.injective
     simp only [ofMul_mul, ofMul_inv]
     abel
-  show _ = T.toFun f g
+  change _ = T.toFun f g
   rw [expand, hval a c, hval a d, hval b c, hval b d, dvrTameSymbol,
     (dvrRegularTameSymbol hϖ).extend_eq K a b c d hf hg]
 

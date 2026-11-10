@@ -235,14 +235,14 @@ theorem specOrigin_comp_galoisAction (σ : K ≃ₐ[k] K) :
 open subscheme of it. -/
 theorem dense_puncturedCover : Dense ((puncturedCover K : Set (cover K))) := by
   have : PreirreducibleSpace (cover K) := by
-    show PreirreducibleSpace (PrimeSpectrum (Polynomial K)); infer_instance
+    change PreirreducibleSpace (PrimeSpectrum (Polynomial K)); infer_instance
   refine (puncturedCover K).isOpen.dense ⟨⟨⊥, inferInstance⟩, ?_⟩
   exact Polynomial.X_ne_zero
 
 /-- The origin does not lie in the puncture: the coordinate pulls back to `0` along it. -/
 theorem specOrigin_preimage_puncturedCover : specOrigin K ⁻¹ᵁ puncturedCover K = ⊥ := by
   rw [specOrigin, SpecMap_preimage_basicOpen]
-  show PrimeSpectrum.basicOpen ((Polynomial.evalRingHom (0 : K)) Polynomial.X) = ⊥
+  change PrimeSpectrum.basicOpen ((Polynomial.evalRingHom (0 : K)) Polynomial.X) = ⊥
   simp
 
 /-- **The doubled line has two distinct origins.** The two sheets do not agree at the origin of
@@ -277,9 +277,9 @@ theorem exists_descentDatum_specExtension_not_isEffective (hdegree : Module.finr
     (σ : K ≃ₐ[k] K) (hσ : σ ≠ 1) :
     ∃ D : DescentDatum (specExtension k K), ¬ DescentData.IsEffective D := by
   have hred : IsReduced (cover K) := by
-    show IsReduced (Spec (.of (Polynomial K))); infer_instance
+    change IsReduced (Spec (.of (Polynomial K))); infer_instance
   have hsub : Subsingleton (Spec (.of K)) := by
-    show Subsingleton (PrimeSpectrum K); infer_instance
+    change Subsingleton (PrimeSpectrum K); infer_instance
   refine exists_descentDatum_not_isEffective_of_semilinear
     (isPullback_specExtension_split k K hdegree σ hσ)
     (specGaloisAction_involutive k K hdegree σ)

@@ -70,7 +70,7 @@ theorem IsTopologicallyNilpotent.of_pow {R : Type*} [CommRing R] [TopologicalSpa
   refine (IsLinearTopology.hasBasis_ideal.tendsto_right_iff).2 fun I hI => ?_
   obtain ⟨k, hk⟩ := h.exists_pow_mem_of_mem_nhds hI
   refine Filter.eventually_atTop.2 ⟨n * k, fun m hm => ?_⟩
-  show a ^ m ∈ I
+  change a ^ m ∈ I
   rw [← Nat.sub_add_cancel hm, pow_add, pow_mul]
   exact I.mul_mem_left _ hk
 
@@ -305,7 +305,7 @@ theorem exists_thickeningPullbackFst_eq (J : WeakIdealsOfDefinition A) (z : Z)
     rw [← Scheme.Hom.comp_apply, hi.rep.lift'_snd _ _ htpb, Scheme.Hom.comp_apply, hw, hy]
   refine ⟨w, ?_⟩
   rw [← hi.rep.lift'_fst _ _ htpb, Scheme.Hom.comp_apply]
-  show thickeningPullbackFst A hA χ hi L (t w) = z
+  change thickeningPullbackFst A hA χ hi L (t w) = z
   rw [htw, hl]
 
 include hA χ hi in
@@ -405,7 +405,7 @@ theorem exists_weakIdeal_ker_eq_of_isThickening :
         (schemeToLTRS.map (thickeningPullbackSnd A hA χ hi J') ≫ spfwQuotientPoint A hA J') _
         ((Category.assoc _ _ _).trans (thickeningPullback_w A hA χ hi J').symm) a).2 ?_
       rw [spfPointGammaHomOn_comp_spfwQuotientPoint]
-      show (thickeningPullbackSnd A hA χ hi J').appTop
+      change (thickeningPullbackSnd A hA χ hi J').appTop
         ((Scheme.ΓSpecIso _).inv (Ideal.Quotient.mk J'.1 a)) = 0
       rw [← hxa]
       exact hx

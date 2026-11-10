@@ -93,7 +93,7 @@ theorem finrank_sections_eq_finrank_functionField {X Y : Scheme.{u}} [IsIntegral
     IsScalarTower.of_algebraMap_eq fun _ => rfl
   have : IsScalarTower Γ(Y, V) Y.functionField X.functionField := by
     refine IsScalarTower.of_algebraMap_eq fun d => ?_
-    show (X.germToFunctionField (π ⁻¹ᵁ V)) (π.app V d) =
+    change (X.germToFunctionField (π ⁻¹ᵁ V)) (π.app V d) =
       functionFieldMap π (Y.germToFunctionField V d)
     rw [functionFieldMap_eq_hom_functionFieldMap,
       π.functionFieldMap_germToFunctionField (U := V) (V := π ⁻¹ᵁ V) le_rfl]

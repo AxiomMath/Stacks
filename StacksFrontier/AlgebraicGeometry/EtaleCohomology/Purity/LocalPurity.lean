@@ -140,7 +140,7 @@ theorem coordinateSubspaceEmbedding_succ (S : Scheme.{u}) (m n : ℕ) :
     coordinateSubspaceEmbedding S m (n + 1) =
       coordinateSubspaceEmbedding S m n ≫ coordinateSubspaceEmbedding S (m + n) 1 := by
   ext1
-  · show _ = _ ≫ _ ≫ (𝔸(ULift.{u} (Fin (m + n + 1)); S) ↘ S)
+  · change _ = _ ≫ _ ≫ (𝔸(ULift.{u} (Fin (m + n + 1)); S) ↘ S)
     rw [coordinateSubspaceEmbedding_over S m (n + 1), coordinateSubspaceEmbedding_over S (m + n) 1,
       coordinateSubspaceEmbedding_over S m n]
   · rename_i i

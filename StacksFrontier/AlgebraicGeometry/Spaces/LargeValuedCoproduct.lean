@@ -271,7 +271,7 @@ theorem exists_shrink_isColimit_cofan_of_small {I : Type v} [Small.{u} I]
       (ι i).hom.app T ((eF i).hom.app T (ULift.up z))
         = eG.hom.app T (ULift.up ((ιsh i).hom.app T z)) := by
     intro i T z
-    show (ι i).hom.app T ((equivShrink ((Fᵢ i).obj.obj T)).symm z)
+    change (ι i).hom.app T ((equivShrink ((Fᵢ i).obj.obj T)).symm z)
       = (equivShrink (G.obj.obj T)).symm
         ((equivShrink (G.obj.obj T))
           ((ι i).hom.app T ((equivShrink ((Fᵢ i).obj.obj T)).symm z)))
@@ -280,7 +280,7 @@ theorem exists_shrink_isColimit_cofan_of_small {I : Type v} [Small.{u} I]
       (ιsh i).hom.app T ((eF i).inv.app T y).down
         = (eG.inv.app T ((ι i).hom.app T y)).down := by
     intro i T y
-    show (equivShrink (G.obj.obj T))
+    change (equivShrink (G.obj.obj T))
         ((ι i).hom.app T ((equivShrink ((Fᵢ i).obj.obj T)).symm
           ((equivShrink ((Fᵢ i).obj.obj T)) y)))
       = (equivShrink (G.obj.obj T)) ((ι i).hom.app T y)

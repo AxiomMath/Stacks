@@ -108,7 +108,7 @@ theorem ideal_locallyFiniteProd (U : X.affineOpens) (s : Finset ι)
     (hs : ∀ i, ((F i).support ∩ (U : Set X) : Set X).Nonempty → i ∈ s) :
     (locallyFiniteProd F hF).ideal U = ∏ i ∈ s, (F i).ideal U := by
   classical
-  show ∏ i ∈ supportMeets F hF U, (F i).ideal U = _
+  change ∏ i ∈ supportMeets F hF U, (F i).ideal U = _
   rw [← prod_ideal_eq_of_subset F U (s := supportMeets F hF U)
     (fun i hi => (mem_supportMeets F hF).2 hi) (Finset.subset_union_left (s₂ := s)),
     prod_ideal_eq_of_subset F U hs (Finset.subset_union_right (s₁ := supportMeets F hF U))]
@@ -152,7 +152,7 @@ affine opens are finitely generated, has finitely generated ideals on affine ope
 theorem fg_ideal_locallyFiniteProd (h : ∀ i (U : X.affineOpens), ((F i).ideal U).FG)
     (U : X.affineOpens) : ((locallyFiniteProd F hF).ideal U).FG := by
   classical
-  show (∏ i ∈ supportMeets F hF U, (F i).ideal U).FG
+  change (∏ i ∈ supportMeets F hF U, (F i).ideal U).FG
   exact Finset.prod_induction _ _ (fun I J hI hJ => hI.mul hJ) ⟨{1}, by simp⟩ fun i _ => h i U
 
 end AlgebraicGeometry.Scheme.IdealSheafData

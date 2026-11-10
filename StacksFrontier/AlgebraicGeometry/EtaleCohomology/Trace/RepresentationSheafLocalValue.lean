@@ -194,7 +194,7 @@ theorem exists_finiteEtale_inverseImage_representationSheaf_iso_constant_of_iso
   have : Etale W.hom := W.prop.2
   let t : GeometricPoint W.left := ⟨x.residueField, w.1⟩
   have ht : x = t.map W.hom := by
-    show x = ⟨x.residueField, w.1 ≫ W.hom⟩
+    change x = ⟨x.residueField, w.1 ≫ W.hom⟩
     rw [w.2]
   have : ConnectedSpace ((𝟭 Scheme).obj W.left) := inferInstanceAs (ConnectedSpace W.left)
   have : ConnectedSpace ((Functor.fromPUnit X.obj).obj W.right) :=

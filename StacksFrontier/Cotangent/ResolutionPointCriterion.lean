@@ -75,7 +75,8 @@ sets in their own right. Instead the decomposition is applied directly to a lift
 assemble into `Δ[n] ⟶ S_•` because an `A`-algebra map out of `A[E]` is a function on `E`. The
 passage from the trivial Kan fibration to the homotopy equivalence of simplicial objects is
 Tag 08NS (`SSet.trivialKanFibrations_isHomotopyEquiv`) followed by Mathlib's
-`SSet.Homotopy.toSimplicialObjectHomotopy`, exactly as in `StacksFrontier/Cotangent/Resolution.lean`.
+`SSet.Homotopy.toSimplicialObjectHomotopy`, exactly as in
+`StacksFrontier/Cotangent/Resolution.lean`.
 
 **Why `CommAlgCat.resolutionMor` is defined.** The simplicial set of the criterion is
 `U.op ⋙ yoneda.obj W` for `U` the cosimplicial object, whose sections are morphisms of a full
@@ -372,7 +373,8 @@ object `CommAlgCat.resolutionCosimplicialObject` of the resolution. -/
 @[stacks 08PS "the hypothesis of the criterion of Tag 08Q9 for the cosimplicial object of a \
   resolution: each `Mor_C((P_•, ε), W)` is homotopy equivalent to a singleton. The conclusion \
   `Lπ_!(ℱ) = ℱ(P_•, ε)` in `D(Ab)`, resp. `D(B)`, functorially in `ℱ`, is not asserted: the \
-  criterion as formalized asks for a small site, and `CommAlgCat.polynomialSite` is large — see the \
+  criterion as formalized asks for a small site, and `CommAlgCat.polynomialSite` is large — see \
+  the \
   first implementation note"]
 theorem exists_homotopyEquivalences_resolutionMor
     (hε : SSet.trivialKanFibrations (Functor.whiskerRight ε (forget (CommAlgCat.{u} A))))

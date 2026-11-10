@@ -212,7 +212,7 @@ lemma restrict_eval {V V' : C} (f : V' ⟶ V) (β : Hom R G V) (W : Over V')
 lemma restrict_smul {V V' : C} (f : V' ⟶ V) (a : R.obj (op V)) (β : Hom R G V) :
     restrict R G f (a • β) = R.map f.op a • restrict R G f β := by
   ext W r
-  show β.eval (Over.mk (W.hom ≫ f)) (r * R.map (W.hom ≫ f).op a) =
+  change β.eval (Over.mk (W.hom ≫ f)) (r * R.map (W.hom ≫ f).op a) =
     β.eval (Over.mk (W.hom ≫ f)) (r * R.map W.hom.op (R.map f.op a))
   rw [op_comp, R.map_comp, RingCat.comp_apply]
 
@@ -298,7 +298,7 @@ lemma isSheaf_presheaf {J : GrothendieckTopology C} (hG : Presheaf.IsSheaf J G) 
   exact Presieve.isSheaf_of_nat_equiv (P₁ := presheafHom (ab R) G)
     (fun V => (sectionsEquiv R G (op V)).toEquiv.symm)
     (fun {V V'} f (x : Hom R G V') => by
-      show (sectionsEquiv R G (op V)).symm (restrict R G f x) =
+      change (sectionsEquiv R G (op V)).symm (restrict R G f x) =
         (presheaf R G).map f.op ((sectionsEquiv R G (op V')).symm x)
       apply (sectionsEquiv R G (op V)).injective
       rw [sectionsEquiv_map, LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply]

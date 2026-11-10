@@ -169,7 +169,7 @@ public theorem pullbackSectionsAt_factor {S A B : Scheme.{u}} (M : S.Modules) {a
           (pullbackSectionsAt b M hb t)) =
       pullbackSectionsAt a M ha t := by
   have hgb : (g ≫ b) ⁻¹ᵁ U = ⊤ := by rw [hg]; exact ha
-  show ((Scheme.Modules.pullbackCongr hg).hom.app M).app ⊤
+  change ((Scheme.Modules.pullbackCongr hg).hom.app M).app ⊤
       (((Scheme.Modules.pullbackComp g b).hom.app M).app ⊤
         (pullbackGlobalSections g ((Scheme.Modules.pullback b).obj M)
           (pullbackSectionsAt b M hb t))) = pullbackSectionsAt a M ha t

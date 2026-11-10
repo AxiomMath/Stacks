@@ -42,20 +42,15 @@ private lemma moduleExtension_preservesFlatBaseChange (A : Type z) [CommRing A]
   intro hflat
   refine ⟨TensorProduct.AlgebraTensorModule.cancelBaseChange A B C C M, ?_⟩
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero =>
-      show (TensorProduct.AlgebraTensorModule.cancelBaseChange A B C C M)
-          (1 ⊗ₜ[B] (0 : TensorProduct A B M)) =
-        (TensorProduct.map f.toLinearMap LinearMap.id) 0
-      simp
+  induction x using TensorProduct.inductionOn with
   | tmul b m =>
-      show (TensorProduct.AlgebraTensorModule.cancelBaseChange A B C C M)
+      change (TensorProduct.AlgebraTensorModule.cancelBaseChange A B C C M)
           (1 ⊗ₜ[B] (b ⊗ₜ[A] m)) = f b ⊗ₜ[A] m
       rw [TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul]
       simp only [Algebra.smul_def, mul_one]
       rw [show algebraMap B C b = f b from rfl]
   | add x y hx hy =>
-      show (TensorProduct.AlgebraTensorModule.cancelBaseChange A B C C M)
+      change (TensorProduct.AlgebraTensorModule.cancelBaseChange A B C C M)
           (1 ⊗ₜ[B] (x + y)) =
         (TensorProduct.map f.toLinearMap LinearMap.id) (x + y)
       change (TensorProduct.AlgebraTensorModule.cancelBaseChange A B C C M)
@@ -91,21 +86,20 @@ private lemma moduleExtension_hom_ext_atBase {A : Type u} [CommRing A]
   let B : CommAlgCat.{u} A := X.unop.unop
   let g : baseAlgebraObject (A := A) ⟶ X :=
     (CommAlgCat.ofHom (Algebra.ofId A (B : Type u))).op.op
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul b m =>
       have hη := PresheafOfModules.naturality_apply η g (1 ⊗ₜ[A] m)
       have hθ := PresheafOfModules.naturality_apply θ g (1 ⊗ₜ[A] m)
       have hm : ((moduleExtensionFunctor.{u, u} A).obj M).map g
           (1 ⊗ₜ[A] m) = 1 ⊗ₜ[A] m := by
-        show algebraMap A B 1 ⊗ₜ[A] m = 1 ⊗ₜ[A] m
+        change algebraMap A B 1 ⊗ₜ[A] m = 1 ⊗ₜ[A] m
         simp
       have hη' := hη
       rw [hm] at hη'
       have hθ' := hθ
       rw [hm] at hθ'
       have ht : b • (1 ⊗ₜ[A] m) = b ⊗ₜ[A] m := by
-        show (b * 1) ⊗ₜ[A] m = b ⊗ₜ[A] m
+        change (b * 1) ⊗ₜ[A] m = b ⊗ₜ[A] m
         simp
       rw [← ht]
       rw [(η.app X).hom.map_smul, (θ.app X).hom.map_smul, hη', hθ', h]
@@ -130,11 +124,10 @@ private lemma moduleExtensionHom_matrixOfNaturalMap {n m : ℕ} (A : Type u)
   apply moduleExtension_hom_ext_atBase
   apply ModuleCat.hom_ext
   ext x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a v =>
       apply (TensorProduct.lid A (Fin m → A)).injective
-      show (TensorProduct.lid A (Fin m → A))
+      change (TensorProduct.lid A (Fin m → A))
           ((d.app (baseAlgebraObject (A := A))).hom (a ⊗ₜ[A] v)) =
         (TensorProduct.lid A (Fin m → A))
           (a ⊗ₜ[A] (matrixOfNaturalMap A d v))
@@ -145,7 +138,7 @@ private lemma moduleExtensionHom_matrixOfNaturalMap {n m : ℕ} (A : Type u)
         (TensorProduct.lid A (Fin m → A))
             ((d.app (baseAlgebraObject (A := A))).hom (a ⊗ₜ[A] v)) =
           matrixOfNaturalMap A d (a • v) := by
-            show (TensorProduct.lid A (Fin m → A))
+            change (TensorProduct.lid A (Fin m → A))
                 ((d.app (baseAlgebraObject (A := A))).hom (a ⊗ₜ[A] v)) =
               (TensorProduct.lid A (Fin m → A))
                 ((d.app (baseAlgebraObject (A := A))).hom
@@ -366,7 +359,7 @@ private theorem exists_lift_from_finite_free_kernel_small
   have hS : S.Exact := by simpa [S] using h
   have hx : (d.app X₀).hom x = 0 := by
     rw [moduleExtensionHom_matrixOfNaturalMap A d]
-    show f.baseChange B x = 0
+    change f.baseChange B x = 0
     exact universalSolution_tuple_in_ker A f
   obtain ⟨ℓ, hℓ⟩ := exact_component_preimage A S hS X₀ x hx
   let Y : ((CommAlgCat.{u} A)ᵒᵖ)ᵒᵖ :=
@@ -378,7 +371,7 @@ private theorem exists_lift_from_finite_free_kernel_small
   have hvars (j : Fin n) : g (universalSolutionVariable A f j) =
       (LaurentPolynomial.T (1 : ℤ) : LaurentPolynomial B) *
         c (universalSolutionVariable A f j) := by
-    show Laurent.gradedLaurentMap A B
+    change Laurent.gradedLaurentMap A B
         (symmetricPower A (universalSolutionModule A f))
         (SymmetricAlgebra.ι A (universalSolutionModule A f)
           (Submodule.mkQ (LinearMap.range (transposeLinearMap A f)) (Pi.single j 1))) =
@@ -387,20 +380,20 @@ private theorem exists_lift_from_finite_free_kernel_small
           (SymmetricAlgebra.ι A (universalSolutionModule A f)
             (Submodule.mkQ (LinearMap.range (transposeLinearMap A f)) (Pi.single j 1)))
     rw [gradedLaurentMap_symmetricAlgebra_generator]
-    show LaurentPolynomial.C _ * LaurentPolynomial.T (1 : ℤ) =
+    change LaurentPolynomial.C _ * LaurentPolynomial.T (1 : ℤ) =
       LaurentPolynomial.T (1 : ℤ) * LaurentPolynomial.C _
     exact mul_comm _ _
   have hscale : (smallModuleExtension A (Fin n → A)).map uG x =
       (LaurentPolynomial.T (1 : ℤ) : LaurentPolynomial B) •
         (smallModuleExtension A (Fin n → A)).map uC x := by
-    show (TensorProduct.map g.toLinearMap LinearMap.id) x =
+    change (TensorProduct.map g.toLinearMap LinearMap.id) x =
       (LaurentPolynomial.T (1 : ℤ) : LaurentPolynomial B) •
         (TensorProduct.map c.toLinearMap LinearMap.id) x
     simp only [x, tupleTensor, map_sum, TensorProduct.map_tmul]
     rw [Finset.smul_sum]
     apply Finset.sum_congr rfl
     intro j hj
-    show g (universalSolutionVariable A f j) ⊗ₜ[A] Pi.single j 1 =
+    change g (universalSolutionVariable A f j) ⊗ₜ[A] Pi.single j 1 =
       (LaurentPolynomial.T (1 : ℤ) : LaurentPolynomial B) •
         (c (universalSolutionVariable A f j) ⊗ₜ[A] Pi.single j 1)
     rw [hvars j, TensorProduct.smul_tmul']
@@ -421,7 +414,7 @@ private theorem exists_lift_from_finite_free_kernel_small
   let y : TensorProduct A B M := (φ.app X₀).hom ℓ
   have hyWeight : y ∈ Laurent.weightSpace A B (smallModuleExtension A M)
       (symmetricPower A (universalSolutionModule A f)) 1 := by
-    show (LaurentPolynomial.T (1 : ℤ) : LaurentPolynomial B) •
+    change (LaurentPolynomial.T (1 : ℤ) : LaurentPolynomial B) •
         (smallModuleExtension A M).map uC y = (smallModuleExtension A M).map uG y
     let T : LaurentPolynomial B := LaurentPolynomial.T 1
     have hLscale' : (L.map uG ℓ : L.obj Y) =
@@ -490,15 +483,15 @@ private theorem exists_lift_from_finite_free_kernel_small
     rfl
   have hzRep : y = ∑ i, universalSolutionVariable A f i ⊗ₜ[A] mvec i := by
     rw [hz.symm, hz']
-    show TensorProduct.map (symmetricPower A Q 1).subtype LinearMap.id
+    change TensorProduct.map (symmetricPower A Q 1).subtype LinearMap.id
       (TensorProduct.map ρ LinearMap.id (TensorProduct.map q LinearMap.id zV)) = _
     rw [TensorProduct.map_map, TensorProduct.map_map, hcomp, hzVrep]
     simp [universalSolutionVariable, Q, q]
   let mMap := linearMapOfTuple A M mvec
   let ψ := smallModuleExtensionHom A mMap
   have hψx : (ψ.app X₀).hom x = y := by
-    show (TensorProduct.map LinearMap.id mMap) x = y
-    show (TensorProduct.map LinearMap.id mMap) (tupleTensor A B
+    change (TensorProduct.map LinearMap.id mMap) x = y
+    change (TensorProduct.map LinearMap.id mMap) (tupleTensor A B
       (universalSolutionVariable A f)) = y
     dsimp [tupleTensor]
     simp only [map_sum, TensorProduct.map_tmul]
@@ -524,7 +517,7 @@ private theorem exists_lift_from_finite_free_kernel_small
       (smallModuleExtension A (Fin n → A)).map u x := by
     have hFmap : (smallModuleExtension A (Fin n → A)).map u x =
         tupleTensor A C xC := by
-      show (TensorProduct.map e.toLinearMap LinearMap.id)
+      change (TensorProduct.map e.toLinearMap LinearMap.id)
           (tupleTensor A B (universalSolutionVariable A f)) = tupleTensor A C xC
       dsimp [tupleTensor]
       simp [hvarsC]
@@ -579,7 +572,7 @@ lemma lift_eq_of_eq_at_universalSolution
   have htuple : tupleTensor A C xC = ξ₀ := tupleTensor_piScalarRight A ξ₀
   have hiξ : tupleTensorFiniteFree A C xC = (i.app XC).hom ξ := by
     apply (TensorProduct.congr (LinearEquiv.refl A C) eₙ).injective
-    show TensorProduct.map (LinearMap.id : C →ₗ[A] C) eₙ.toLinearMap
+    change TensorProduct.map (LinearMap.id : C →ₗ[A] C) eₙ.toLinearMap
         (tupleTensorFiniteFree A C xC) =
       TensorProduct.map (LinearMap.id : C →ₗ[A] C) eₙ.toLinearMap ((i.app XC).hom ξ)
     rw [tupleTensorFiniteFree_down]
@@ -598,8 +591,7 @@ lemma lift_eq_of_eq_at_universalSolution
       (TensorProduct.map (LinearMap.id : C →ₗ[A] C)
         ((ModuleCat.uliftFunctor.{w, u} A).map (ModuleCat.ofHom f)).hom)
         ((i.app XC).hom ξ) := by
-    induction ((i.app XC).hom ξ) using TensorProduct.induction_on with
-    | zero => simp
+    induction ((i.app XC).hom ξ) using TensorProduct.inductionOn with
     | tmul b z =>
         rw [moduleExtensionFunctor_map_app_tmul.{max u w, v}
           A ((ModuleCat.uliftFunctor.{w, u} A).map (ModuleCat.ofHom f)) XC b z]
@@ -671,12 +663,12 @@ lemma lift_eq_of_eq_at_universalSolution
       (moduleExtensionOfCarrier A (finiteFreeModule.{w} A n)).map u x := by
     have hFmap : (moduleExtensionOfCarrier A (finiteFreeModule.{w} A n)).map u x =
         tupleTensorFiniteFree A C xC := by
-      show (TensorProduct.map e.toLinearMap LinearMap.id)
+      change (TensorProduct.map e.toLinearMap LinearMap.id)
           (tupleTensorFiniteFree A B vars) = tupleTensorFiniteFree A C xC
       simp only [tupleTensorFiniteFree, map_sum]
       apply Finset.sum_congr rfl
       intro j hj
-      show e (vars j) ⊗ₜ[A] (⟨Pi.single j 1⟩ : finiteFreeModule.{w} A n) =
+      change e (vars j) ⊗ₜ[A] (⟨Pi.single j 1⟩ : finiteFreeModule.{w} A n) =
         xC j ⊗ₜ[A] (⟨Pi.single j 1⟩ : finiteFreeModule.{w} A n)
       rw [hvarsC j]
     exact hiξ.symm.trans hFmap.symm

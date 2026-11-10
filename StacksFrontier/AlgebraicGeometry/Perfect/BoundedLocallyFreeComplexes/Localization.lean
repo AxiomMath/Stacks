@@ -11,7 +11,7 @@ import StacksCore.Tactic.EgaSgaAttribute
 The last clause of [Stacks, Tag 0F8I] is that the canonical functor `K^b(A) ⥤ D_perf(𝒪_X)`
 factors through an equivalence `S⁻¹K^b(A) ⥤ D_perf(𝒪_X)`, which is
 `CategoryTheory.Functor.IsLocalization` for the system `S` of quasi-isomorphisms.
-`StacksFrontier/AlgebraicGeometry/Perfect/BoundedLocallyFreeComplexes/LocalizationFromComplexes.lean`
+`StacksFrontier.AlgebraicGeometry.Perfect.BoundedLocallyFreeComplexes.LocalizationFromComplexes`
 reduces it to the complex-level forms of [Stacks, Tag 0F8F], [Stacks, Tag 0F8G] and
 [Stacks, Tag 0F8H]; this file discharges those.
 
@@ -47,7 +47,9 @@ diagonal a closed immersion, hence affine; the Noetherian case of [Stacks, Tag 0
 affine diagonal outright; and an ample invertible module gives quasi-compactness, the resolution
 property ([Stacks, Tag 0F87]) and separatedness at once.  Nothing is restated here — the three
 complex-level inputs are the `_of_affineDiagonal` forms in
-`StacksFrontier/AlgebraicGeometry/Perfect/BoundedLocallyFreeComplexes/PerfectRepresentative.lean`, `StacksFrontier/AlgebraicGeometry/Perfect/BoundedLocallyFreeComplexes/DerivedRoof.lean` and `StacksFrontier/AlgebraicGeometry/Perfect/BoundedLocallyFreeComplexes/DerivedHomotopy.lean`.
+`StacksFrontier/AlgebraicGeometry/Perfect/BoundedLocallyFreeComplexes/PerfectRepresentative.lean`,
+`StacksFrontier/AlgebraicGeometry/Perfect/BoundedLocallyFreeComplexes/DerivedRoof.lean` and
+`StacksFrontier/AlgebraicGeometry/Perfect/BoundedLocallyFreeComplexes/DerivedHomotopy.lean`.
 
 ## References
 

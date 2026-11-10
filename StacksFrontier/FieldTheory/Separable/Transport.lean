@@ -55,7 +55,7 @@ theorem of_ringEquiv {k K k' K' : Type*} [Field k] [Field K] [Field k'] [Field K
   have hh := hp'.map_of_surjective_injectiveₛ e E.toAddMonoidHom e.surjective
     E.injective hsmul
   change LinearIndependent k' (fun x : s => E (E.symm x.1 ^ p)) at hh
-  show LinearIndependent k' (fun x : s => x.1 ^ p)
+  change LinearIndependent k' (fun x : s => x.1 ^ p)
   simpa only [map_pow, E.apply_symm_apply] using hh
 
 /-- **Isomorphic field extensions are separable together.** For ring isomorphisms

@@ -206,11 +206,11 @@ theorem open_cover_jointly_surjective
     apply J.superset_covering _ hR
     intro W b hb
     obtain ⟨i, w, hw⟩ := hr b hb
-    show F.map (b ≫ a).op (yonedaEquiv t) ∈ A.obj (Opposite.op W)
+    change F.map (b ≫ a).op (yonedaEquiv t) ∈ A.obj (Opposite.op W)
     rw [Subfunctor.iSup_obj]
     apply Set.mem_iUnion.mpr
     refine ⟨i, w, ?_⟩
-    show g.app _ ((ι i).hom.app _ w) = _
+    change g.app _ ((ι i).hom.app _ w) = _
     rw [hw, NatTrans.naturality_apply, hz, ← Functor.map_comp_apply]
     rfl
   obtain ⟨V, a, ha, z, hz⟩ := exists_preimage_of_covering_sieve B S hS hA x

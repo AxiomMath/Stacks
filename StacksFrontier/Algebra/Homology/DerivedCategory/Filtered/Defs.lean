@@ -65,7 +65,8 @@ morphism of either kind is a morphism of complexes respecting `F`; so
 `FilteredObject (CochainComplex 𝒜 ℤ) ℤᵒᵖ` is the source's category of complexes of `Fil(𝒜)`, with
 `ℤᵒᵖ` recording that the filtration decreases. Its graded pieces are the complexes
 `(FilteredObject.gr p).obj K`, with `FilteredObject.gr p` the functor `gr^p` of
-`StacksCore.CategoryTheory.Filtration.GradedPieces`. The category `Fil(𝒜)` is preadditive with a zero
+`StacksCore.CategoryTheory.Filtration.GradedPieces`. The category `Fil(𝒜)` is preadditive with a
+zero
 object and binary biproducts ([Stacks, Tag 0122]), but the triangulated structure of the homotopy
 category `K(Fil^f(𝒜))` is not available, so the exactness of the functors induced on `DF(𝒜)`
 cannot yet be stated, only their existence.

@@ -49,7 +49,7 @@ private lemma isPullback_image_preimage_eq
   · rintro ⟨x, hx, hxy⟩
     obtain ⟨z, hzy, hzx⟩ := Scheme.Pullback.exists_preimage_pullback y x hxy.symm
     refine ⟨hp.isoPullback.inv z, ?_, ?_⟩
-    · show i₁ (hp.isoPullback.inv z) ∈ V
+    · change i₁ (hp.isoPullback.inv z) ∈ V
       rw [← Scheme.Hom.comp_apply, hp.isoPullback_inv_snd]
       simpa only [hzx] using hx
     · rw [← Scheme.Hom.comp_apply, hp.isoPullback_inv_fst]
@@ -63,8 +63,7 @@ private lemma tensor_eq_sum_of_span_generators
     (z : C ⊗[A] B) :
     ∃ a : Fin d → C, z = ∑ i, a i ⊗ₜ[A] b i := by
   classical
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy =>
       obtain ⟨a, rfl⟩ := hx
       obtain ⟨a', rfl⟩ := hy
@@ -116,25 +115,25 @@ private lemma eval_polynomial_square_isPushout
   let : IsScalarTower R C D := IsScalarTower.of_compHom R C D
   let : IsScalarTower B S D :=
     IsScalarTower.of_algebraMap_eq' (R := B) (S := S) (A := D) <| RingHom.ext fun x ↦ by
-      show (Algebra.TensorProduct.includeRight : B →ₐ[A] D) x = q (MvPolynomial.C x)
+      change (Algebra.TensorProduct.includeRight : B →ₐ[A] D) x = q (MvPolynomial.C x)
       rw [MvPolynomial.eval₂Hom_C]
       rfl
   let : IsScalarTower A S D :=
     IsScalarTower.of_algebraMap_eq (R := A) (S := S) (A := D) fun x => by
       rw [IsScalarTower.algebraMap_apply A B S x]
-      show (algebraMap A D) x = q (MvPolynomial.C (algebraMap A B x))
+      change (algebraMap A D) x = q (MvPolynomial.C (algebraMap A B x))
       rw [MvPolynomial.eval₂Hom_C]
       exact (Algebra.TensorProduct.includeRight.commutes x).symm
   let : IsScalarTower R S D :=
     IsScalarTower.of_algebraMap_eq' (R := R) (S := S) (A := D) <| by
-      show ((Algebra.TensorProduct.includeLeft : C →ₐ[A] D).toRingHom.comp
+      change ((Algebra.TensorProduct.includeLeft : C →ₐ[A] D).toRingHom.comp
         φ.toRingHom) = q.comp (MvPolynomial.map (algebraMap A B))
       apply MvPolynomial.ringHom_ext
       · intro r
         dsimp [φ, q]
         rw [MvPolynomial.aeval_C, MvPolynomial.map_C,
           MvPolynomial.eval₂Hom_C]
-        show (Algebra.TensorProduct.includeLeft : C →ₐ[A] D)
+        change (Algebra.TensorProduct.includeLeft : C →ₐ[A] D)
             (algebraMap A C r) =
           (Algebra.TensorProduct.includeRight : B →ₐ[A] D) (algebraMap A B r)
         rw [Algebra.TensorProduct.includeLeft.commutes,
@@ -186,7 +185,7 @@ theorem universallyOpen_iff_isOpen_image_basicOpen_linearCombination
       isPullback_SpecMap_of_isPushout f₁ g₁ i₁ j₁ hpush
     have hopen : IsOpenMap (Spec.map i₁) :=
       h.universally_isOpenMap (Spec.map j₁) (Spec.map f₁) (Spec.map i₁) hp
-    show IsOpen (PrimeSpectrum.comap (MvPolynomial.map (algebraMap A B)) ''
+    change IsOpen (PrimeSpectrum.comap (MvPolynomial.map (algebraMap A B)) ''
         (PrimeSpectrum.basicOpen
           (∑ i : Fin d, MvPolynomial.C (b i) * MvPolynomial.X i) :
             Set (PrimeSpectrum (MvPolynomial (Fin d) B))))
@@ -206,7 +205,7 @@ theorem universallyOpen_iff_isOpen_image_basicOpen_linearCombination
     convert_to! topologically _ (Spec.map (CommRingCat.ofHom
       (Algebra.TensorProduct.includeLeft : C →ₐ[A] C ⊗[A] B).toRingHom))
     · exact pullbackSpecIso_inv_fst ..
-    show IsOpenMap (PrimeSpectrum.comap
+    change IsOpenMap (PrimeSpectrum.comap
       (Algebra.TensorProduct.includeLeft : C →ₐ[A] C ⊗[A] B).toRingHom)
     rw [PrimeSpectrum.isTopologicalBasis_basic_opens.isOpenMap_iff]
     rintro _ ⟨g, rfl⟩
@@ -227,7 +226,7 @@ theorem universallyOpen_iff_isOpen_image_basicOpen_linearCombination
       simp only [p, q, map_sum, map_mul]
       refine Finset.sum_congr rfl fun i _ ↦ ?_
       rw [MvPolynomial.eval₂Hom_C, MvPolynomial.eval₂Hom_X']
-      show ((Algebra.TensorProduct.includeRight : B →ₐ[A] D) (b i)) *
+      change ((Algebra.TensorProduct.includeRight : B →ₐ[A] D) (b i)) *
         ((Algebra.TensorProduct.includeLeft : C →ₐ[A] D) (a i)) = a i ⊗ₜ[A] b i
       rw [Algebra.TensorProduct.includeRight_apply,
         Algebra.TensorProduct.includeLeft_apply, Algebra.TensorProduct.tmul_mul_tmul,

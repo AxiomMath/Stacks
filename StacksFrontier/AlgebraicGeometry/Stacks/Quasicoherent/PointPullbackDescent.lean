@@ -81,8 +81,7 @@ theorem span_range_hom_app_one_tmul (M : quasicoherentModules B S hS 𝒳) :
   obtain ⟨z, hz⟩ := (ConcreteCategory.bijective_of_isIso (θ.hom.app M)).2 m
   rw [← hz]
   clear hz
-  induction z using TensorProduct.induction_on with
-  | zero => exact (congrArg (· ∈ _) (map_zero (θ.hom.app M).hom)).mpr (Submodule.zero_mem _)
+  induction z using TensorProduct.inductionOn with
   | tmul t f =>
     have ht := ModuleCat.ExtendScalars.smul_tmul π (M := F.obj M) (show T from t) (1 : T) f
     rw [mul_one] at ht
@@ -131,7 +130,7 @@ theorem linearMap_ext_of_restrict_hom_app_one_tmul
           (congrArg L₂ (map_add _ x y)).symm)))
     | smul t x _ hx =>
       rw [map_smul]
-      show L₁ (g t • (show (pointPullback B S hS 𝒳 z e).obj M from
+      change L₁ (g t • (show (pointPullback B S hS 𝒳 z e).obj M from
           ((pointPullbackRestriction B S hS 𝒳 g eT e χ hχ).app M).hom x)) =
         L₂ (g t • (show (pointPullback B S hS 𝒳 z e).obj M from
           ((pointPullbackRestriction B S hS 𝒳 g eT e χ hχ).app M).hom x))
@@ -141,12 +140,9 @@ theorem linearMap_ext_of_restrict_hom_app_one_tmul
     ((pointPullbackBaseChange B S hS 𝒳 g eT e χ hχ).app M)).2 m
   rw [← hw]
   clear hw
-  induction w using TensorProduct.induction_on with
-  | zero =>
-    exact (congrArg L₁ (map_zero _)).trans ((map_zero L₁).trans
-      ((map_zero L₂).symm.trans (congrArg L₂ (map_zero _)).symm))
+  induction w using TensorProduct.inductionOn with
   | tmul s n =>
-    show L₁ (((pointPullbackBaseChange B S hS 𝒳 g eT e χ hχ).app M).hom (s ⊗ₜ[T, g] n)) =
+    change L₁ (((pointPullbackBaseChange B S hS 𝒳 g eT e χ hχ).app M).hom (s ⊗ₜ[T, g] n)) =
       L₂ (((pointPullbackBaseChange B S hS 𝒳 g eT e χ hχ).app M).hom (s ⊗ₜ[T, g] n))
     exact (congrArg L₁ (pointPullbackBaseChange_app_tmul B S hS 𝒳 g eT e χ hχ M s n)).trans
       ((map_smul L₁ _ _).trans ((congrArg ((show S' from s) • ·) (hρ n)).trans
@@ -595,16 +591,7 @@ theorem exists_iso_pointPullback_of_gluing (hπ : π.FaithfullyFlat) {x : 𝒳.v
         (M.obj.val.map φ₂.op).hom
           (((pointPullbackBaseChange B S hS 𝒳 π e eT ψ hψ).app M).hom w) := by
     intro M w
-    induction w using TensorProduct.induction_on with
-    | zero =>
-      have l0 : (TensorProduct.congr eL (LinearEquiv.refl R ((pointPullback B S hS 𝒳 x e).obj M)))
-          ((Algebra.TensorProduct.includeRight : T →ₐ[R] T ⊗[R] T).toLinearMap.rTensor _ 0) =
-            0 := by
-        rw [map_zero, map_zero]
-      have r0 : ((pointPullbackBaseChange B S hS 𝒳 π e eT ψ hψ).app M).hom 0 = 0 := map_zero _
-      exact (congrArg ((pointPullbackBaseChange B S hS 𝒳 (algebraMap R (T ⊗[R] T)) e e₂
-          (φ₂ ≫ ψ) hκ).app M).hom l0).trans ((map_zero _).trans
-        ((congrArg (M.obj.val.map φ₂.op).hom r0).trans (map_zero _)).symm)
+    induction w using TensorProduct.inductionOn with
     | add w w' hw hw' =>
       exact (congrArg (fun w => ((pointPullbackBaseChange B S hS 𝒳 (algebraMap R (T ⊗[R] T)) e e₂
           (φ₂ ≫ ψ) hκ).app M).hom ((TensorProduct.congr eL
@@ -637,16 +624,7 @@ theorem exists_iso_pointPullback_of_gluing (hπ : π.FaithfullyFlat) {x : 𝒳.v
         (M.obj.val.map a.inv.op).hom ((M.obj.val.map φ₁.op).hom
           (((pointPullbackBaseChange B S hS 𝒳 π e eT ψ hψ).app M).hom w)) := by
     intro M w
-    induction w using TensorProduct.induction_on with
-    | zero =>
-      have l0 : (TensorProduct.congr eL (LinearEquiv.refl R ((pointPullback B S hS 𝒳 x e).obj M)))
-          ((Algebra.TensorProduct.includeLeft : T →ₐ[R] T ⊗[R] T).toLinearMap.rTensor _ 0) = 0 := by
-        rw [map_zero, map_zero]
-      have r0 : ((pointPullbackBaseChange B S hS 𝒳 π e eT ψ hψ).app M).hom 0 = 0 := map_zero _
-      exact (congrArg ((pointPullbackBaseChange B S hS 𝒳 (algebraMap R (T ⊗[R] T)) e e₂
-          (φ₂ ≫ ψ) hκ).app M).hom l0).trans ((map_zero _).trans
-        ((congrArg (fun v => (M.obj.val.map a.inv.op).hom ((M.obj.val.map φ₁.op).hom v)) r0).trans
-          ((congrArg (M.obj.val.map a.inv.op).hom (map_zero _)).trans (map_zero _))).symm)
+    induction w using TensorProduct.inductionOn with
     | add w w' hw hw' =>
       exact (congrArg (fun w => ((pointPullbackBaseChange B S hS 𝒳 (algebraMap R (T ⊗[R] T)) e e₂
           (φ₂ ≫ ψ) hκ).app M).hom ((TensorProduct.congr eL

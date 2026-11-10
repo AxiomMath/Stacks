@@ -514,7 +514,7 @@ private theorem homOfTensorLinear_comp (N : Bimodule A B) (X : DifferentialGrade
     intro y
     rw [homogeneousMap_cast_val hcast,
       pureHom_apply N X (DifferentialGradedModule.Hom.comp g f) p x hx]
-    show g.toFun (f.toFun (((tensorDGFunctor N).pure X).toLinearMap x y)) =
+    change g.toFun (f.toFun (((tensorDGFunctor N).pure X).toLinearMap x y)) =
       (cocycleOfHom B g).1.1 (((homPresentation N Y).homogeneousEquiv p u).1 y)
     rw [cocycleOfHom_val, hu, pureHom_apply N X f p x hx]
   rw [homOfTensorLinear_apply N X (DifferentialGradedModule.Hom.comp g f) p x hx, key,
@@ -870,7 +870,7 @@ private theorem tensorHomUncurry_pure (N : Bimodule A B) (M : DifferentialGraded
     (y : N.rightModule.M) :
     (tensorHomUncurry N M n f).1 (((tensorDGFunctor N).pure M).toLinearMap x y) =
       homEval N P (f.1 x) y := by
-  show (evalHomogeneous N P).1 (((tensorDGFunctor N).functor.map f).1
+  change (evalHomogeneous N P).1 (((tensorDGFunctor N).functor.map f).1
     (((tensorDGFunctor N).pure M).toLinearMap x y)) = _
   rw [(tensorDGFunctor N).map_pure f x y]
   exact evalHom_pure N P (f.1 x) y

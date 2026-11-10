@@ -321,13 +321,13 @@ theorem exists_basicOpen_subset_of_finite {X : Scheme.{u}} {E : Set X} (hE : E.F
     exact ((X.mem_basicOpen_iff_notMem_toSpecΓ _ _).mp (hr i hi).1) (hle (hmem i hi))
   obtain ⟨g, hgI, hgnot⟩ := Set.not_subset.mp hnot
   refine ⟨g, fun x hx => ?_, fun y hy => ?_⟩
-  · show x ∈ X.basicOpen g
+  · change x ∈ X.basicOpen g
     rw [X.mem_basicOpen_iff_notMem_toSpecΓ]
     intro hcon
     exact hgnot (Set.mem_biUnion (by simpa using hx) hcon)
   · replace hy : y ∈ X.basicOpen g := hy
     rw [X.mem_basicOpen_iff_notMem_toSpecΓ] at hy
-    show y ∈ W
+    change y ∈ W
     by_contra hyW
     refine hy (Ideal.span_le.mpr ?_ hgI)
     rintro _ ⟨x, hx, rfl⟩

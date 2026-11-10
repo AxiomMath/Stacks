@@ -45,7 +45,7 @@ namespace AlgebraicGeometry.WeilBound
 open Stacks.EtaleCohomology IntermediateField
 
 /-- An algebraic closure of a finite field of characteristic `p` is algebraic over `𝔽_p`. -/
-theorem isAlgebraic_zmod_algebraicClosure (k : Type u) [Field k] [Fintype k] (p : ℕ)
+theorem isAlgebraic_zmod_algebraicClosure (k : Type u) [Field k] [Finite k] (p : ℕ)
     [Fact p.Prime] [CharP k p] [CharP (AlgebraicClosure k) p] :
     letI := ZMod.algebra (AlgebraicClosure k) p
     Algebra.IsAlgebraic (ZMod p) (AlgebraicClosure k) := by
@@ -79,7 +79,7 @@ private theorem abs_natCast_sub_pow_sub_one_le {r m N q : ℕ} {c : ℝ} (z : Fi
         Finset.sum_le_sum fun i _ => pow_le_pow_left₀ (norm_nonneg _) (hz i) m
     _ = r * c ^ m := by simp
 
-variable {k : Type u} [Field k] [Fintype k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k))
+variable {k : Type u} [Field k] [Finite k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k))
 
 /-- **The Weil bound** (the Riemann hypothesis for curves over a finite field). For a smooth,
 proper, geometrically irreducible curve `X` of genus `g` over a finite field `k` and a finite
@@ -88,6 +88,7 @@ theorem abs_natCard_fieldValuedPoints_sub_le [IsProper f] [Smooth f] [Geometrica
     [IsCurve k f] (K : Type u) [Field K] [Fintype K] [Algebra k K] :
     |(Nat.card (fieldValuedPoints f K) : ℝ) - Fintype.card K - 1| ≤
       2 * genus f * Real.sqrt (Fintype.card K) := by
+  have := Fintype.ofFinite k
   obtain ⟨p, hchar⟩ := CharP.exists k
   have : Fact p.Prime := ⟨CharP.char_is_prime k p⟩
   obtain ⟨e, -, he⟩ := FiniteField.card k p

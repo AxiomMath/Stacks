@@ -189,9 +189,9 @@ theorem infinitesimalAutomorphisms_schemeDeformation_eq_top
     (schemeDeformationCategoryProjection_cofiberedInGroupoids X) g e hpair.split i hi).1 with hr
   have hrs : x₀.1.specialMap ≫ r.map = xε.1.specialMap := r.special_compat
   apply SchemeDeformationCategory.Hom.ext
-  · show a.asIso.hom.val.base ≫ r.base = r.base
+  · change a.asIso.hom.val.base ≫ r.base = r.base
     rw [schemeDeformationFiberAut_base_eq_id a.asIso.hom, Category.id_comp]
-  · show r.map ≫ a.asIso.hom.val.map = r.map
+  · change r.map ≫ a.asIso.hom.val.map = r.map
     refine (cancel_epi x₀.1.specialMap).mp ?_
     calc x₀.1.specialMap ≫ r.map ≫ a.asIso.hom.val.map
         = xε.1.specialMap ≫ a.asIso.hom.val.map := by rw [← Category.assoc, hrs]

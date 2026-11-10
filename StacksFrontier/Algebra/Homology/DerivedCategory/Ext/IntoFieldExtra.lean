@@ -181,7 +181,7 @@ theorem homologyMapToInjectiveEquivAnyModel_naturality
     homologyMapToInjectiveEquivAnyModel X' I i (g ≫ α) =
       ((DerivedCategory.homologyFunctor (ModuleCat.{v} k) (-i)).map g) ≫
         homologyMapToInjectiveEquivAnyModel X I i α := by
-  show (DerivedCategory.homologyFunctor (ModuleCat.{v} k) 0).shiftMap
+  change (DerivedCategory.homologyFunctor (ModuleCat.{v} k) 0).shiftMap
       (g ≫ α) (-i) 0 (by omega) ≫ _ =
     ((DerivedCategory.homologyFunctor (ModuleCat.{v} k) 0).shift (-i)).map g ≫
       ((DerivedCategory.homologyFunctor (ModuleCat.{v} k) 0).shiftMap
@@ -210,12 +210,12 @@ theorem homologyMapToInjectiveEquivAnyModel_postcomp
     dsimp [H, eK]
     simp only [DerivedCategory.shift_homologyFunctor]
     exact (DerivedCategory.singleFunctorCompHomologyFunctorIso (ModuleCat.{v} k) 0).hom.naturality m
-  show ((DerivedCategory.homologyFunctor (ModuleCat.{v} k) 0).shiftMap
+  change ((DerivedCategory.homologyFunctor (ModuleCat.{v} k) 0).shiftMap
       (α ≫ β) a 0 (by omega)) ≫ eK.hom =
     (((DerivedCategory.homologyFunctor (ModuleCat.{v} k) 0).shiftMap
       α a 0 (by omega)) ≫ eK.hom) ≫ m
   rw [Functor.shiftMap_comp']
-  show (H.shift a).map α ≫ (H.shift a).map β ≫
+  change (H.shift a).map α ≫ (H.shift a).map β ≫
       ((H.shiftIso i a 0 (by omega)).hom.app Y) ≫ eK.hom =
     (H.shift a).map α ≫ ((H.shiftIso i a 0 (by omega)).hom.app Y) ≫ eK.hom ≫ m
   have hshift : (H.shift a).map β ≫ (H.shiftIso i a 0 (by omega)).hom.app Y =

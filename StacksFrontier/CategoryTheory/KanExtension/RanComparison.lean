@@ -219,7 +219,7 @@ lemma ranObjIso_hom_comp (P : Cᵒᵖ ⥤ A) (Z : O) (s : StructuredArrow (op (m
   simp only [ranObjIso, Iso.trans_hom, Iso.symm_hom, Category.assoc,
     Functor.ranObjObjIsoLimit_inv_π]
   rw [HasLimit.isoOfEquivalence_hom_π]
-  show (κ.op.ranObjObjIsoLimit P (op (W.obj Z))).hom ≫
+  change (κ.op.ranObjObjIsoLimit P (op (W.obj Z))).hom ≫
       limit.π (StructuredArrow.proj (op (W.obj Z)) κ.op ⋙ P)
           ((h.structuredArrowEquiv Z).inverse.obj s) ≫
         𝟙 ((StructuredArrow.proj (op (W.obj Z)) κ.op ⋙ P).obj

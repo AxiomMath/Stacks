@@ -53,7 +53,7 @@ theorem secHom_comp {F G : SheafOfModules.{u} (structureRingSheaf X.toRingedSpac
     (x : F.val.obj (op ⊤)) : secHom F x ≫ e = secHom G (e.val.app (op ⊤) x) := by
   apply SheafOfModules.hom_ext
   refine PresheafOfModules.hom_ext fun V => ModuleCat.hom_ext (LinearMap.ext fun r => ?_)
-  show e.val.app V ((secHom F x).val.app V r) = (secHom G (e.val.app (op ⊤) x)).val.app V r
+  change e.val.app V ((secHom F x).val.app V r) = (secHom G (e.val.app (op ⊤) x)).val.app V r
   rw [secHom_app F x V r, secHom_app G _ V r]
   have hn : (e.val.app V).hom (F.val.restrictₛₗ (topRes X V) x) =
       G.val.restrictₛₗ (topRes X V) (e.val.app (op ⊤) x) :=

@@ -82,7 +82,7 @@ theorem derivedCompleteSheaves_isWeakSerreClass_of_slicedObjectsSituation
     intro U hU
     let R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U)
     let : IsMulCommutative R := by
-      show IsMulCommutative (X.O.obj.obj (op U))
+      change IsMulCommutative (X.O.obj.obj (op U))
       infer_instance
     let : CommRing R := inferInstance
     let G := SheafOfModules.evaluation (Stacks.SheafOfModules.Tensor.ringSheaf X.O) (op U)
@@ -122,11 +122,11 @@ theorem derivedCompleteSheaves_isWeakSerreClass_of_slicedObjectsSituation
     intro U hU
     let R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U)
     let : IsMulCommutative R := by
-      show IsMulCommutative (X.O.obj.obj (op U))
+      change IsMulCommutative (X.O.obj.obj (op U))
       infer_instance
     let : CommRing R := inferInstance
     let J : Ideal R := by
-      show Submodule R R
+      change Submodule R R
       exact I.toSubmodule.obj (op U)
     let G := SheafOfModules.evaluation (Stacks.SheafOfModules.Tensor.ringSheaf X.O) (op U)
     have h0 := (isDerivedComplete_iff_derivedSections_of_slicedObjectsSituation X B I
@@ -143,7 +143,7 @@ theorem derivedCompleteSheaves_isWeakSerreClass_of_slicedObjectsSituation
       R J).1
     let : Q.IsWeakSerreClass := hQ
     have hQ (i : Fin 5) (hi : P (T.obj' i)) : Q (G.obj (T.obj' i)) := by
-      show ∀ f ∈ J, IsDerivedCompleteAt
+      change ∀ f ∈ J, IsDerivedCompleteAt
         ((DerivedCategory.singleFunctor (ModuleCat R) 0).obj (G.obj (T.obj' i))) f
       intro f hf
       rw [isDerivedCompleteAt_iff_isIso]
@@ -159,13 +159,13 @@ theorem derivedCompleteSheaves_isWeakSerreClass_of_slicedObjectsSituation
     let f₂ := T'.map' 2 3
     let f₃ := T'.map' 3 4
     have w₀ : f₀ ≫ f₁ = 0 := by
-      show G.map (T.map' 0 1) ≫ G.map (T.map' 1 2) = 0
+      change G.map (T.map' 0 1) ≫ G.map (T.map' 1 2) = 0
       rw [← Functor.map_comp, hT.toIsComplex.zero' 0 1 2, Functor.map_zero]
     have w₁ : f₁ ≫ f₂ = 0 := by
-      show G.map (T.map' 1 2) ≫ G.map (T.map' 2 3) = 0
+      change G.map (T.map' 1 2) ≫ G.map (T.map' 2 3) = 0
       rw [← Functor.map_comp, hT.toIsComplex.zero' 1 2 3, Functor.map_zero]
     have w₂ : f₂ ≫ f₃ = 0 := by
-      show G.map (T.map' 2 3) ≫ G.map (T.map' 3 4) = 0
+      change G.map (T.map' 2 3) ≫ G.map (T.map' 3 4) = 0
       rw [← Functor.map_comp, hT.toIsComplex.zero' 2 3 4, Functor.map_zero]
     let S012 := T.sc' hT.toIsComplex 0 1 2
     let S123 := T.sc' hT.toIsComplex 1 2 3
@@ -196,7 +196,7 @@ theorem derivedCompleteSheaves_isWeakSerreClass_of_slicedObjectsSituation
       simpa [T'] using hQ2'
     refine ⟨hAdd, hLim, hColim, hProd, ?_⟩
     intro f hf
-    show IsDerivedCompleteAt ((G.mapDerivedCategory).obj
+    change IsDerivedCompleteAt ((G.mapDerivedCategory).obj
       ((DerivedCategory.singleFunctor
         (SheafOfModules.{max u v} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) 0).obj
           (T.obj' 2))) f

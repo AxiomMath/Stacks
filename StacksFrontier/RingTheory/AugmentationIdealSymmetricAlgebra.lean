@@ -149,11 +149,11 @@ theorem augmentationIdeal_le_range_ι_sup_sq :
       rw [key]
       refine add_mem (Submodule.mem_sup_left (LinearMap.mem_range_self _ _))
         (Submodule.mem_sup_right (add_mem ?_ ?_))
-      · show _ ∈ augmentationIdeal A K ^ 2
+      · change _ ∈ augmentationIdeal A K ^ 2
         rw [pow_two]
         exact Ideal.mul_mem_mul (sub_algebraMap_algebraMapInv_mem_augmentationIdeal s)
           (ι_mem_augmentationIdeal k)
-      · show _ ∈ augmentationIdeal A K ^ 2
+      · change _ ∈ augmentationIdeal A K ^ 2
         exact Ideal.mul_mem_left _ _ hv'
 
 /-- **A degree-one element lying in the square of the augmentation ideal is zero.**

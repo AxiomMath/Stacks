@@ -85,7 +85,7 @@ of `𝒪^{⊕ 1}`. -/
 theorem coproductUniqueIso_inv_comp_closedImmersionQuotient :
     (coproductUniqueIso _).inv ≫ closedImmersionQuotient φ =
       Stacks.AffineClosedUnion.unitToPushforwardStructureSheaf φ :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The inverse of an isomorphism of modules undoes it on sections. -/
 private theorem Scheme.Modules.Iso.inv_app_hom_app {Y : Scheme.{u}} {M N : Y.Modules} (e : M ≅ N)
@@ -133,7 +133,7 @@ theorem exists_idealTwistIncl_app_top_eq_iff (d : ℤ) (t : Γ(twistOver n (Spec
     have h2 := congrArg (fun g => Scheme.Modules.Hom.app g ⊤ a) hzero
     simp only [Scheme.Modules.Hom.comp_app, Scheme.Modules.Hom.zero_app] at h2
     rw [CategoryTheory.comp_apply] at h2
-    show (Stacks.AffineClosedUnion.twistPushforwardIso φ L).hom.app ⊤
+    change (Stacks.AffineClosedUnion.twistPushforwardIso φ L).hom.app ⊤
       ((T.map (ε.inv ≫ q)).app ⊤ ((Stacks.AffineClosedUnion.twistUnitIso L).inv.app ⊤
         ((Stacks.AffineClosedUnion.twistUnitIso L).hom.app ⊤ ((T.map (idealIncl φ)).app ⊤ a)))) = 0
     rw [Scheme.Modules.Iso.inv_app_hom_app (Stacks.AffineClosedUnion.twistUnitIso L), h2]
@@ -155,7 +155,7 @@ theorem exists_idealTwistIncl_app_top_eq_iff (d : ℤ) (t : Γ(twistOver n (Spec
       (projectiveSpaceOverRing n (.of k) ↘ Spec (.of k)) (hS.map_of_exact T) y hy
     change (T.map (kernel.ι q)).app ⊤ a = y at ha
     refine ⟨a, ?_⟩
-    show (Stacks.AffineClosedUnion.twistUnitIso L).hom.app ⊤
+    change (Stacks.AffineClosedUnion.twistUnitIso L).hom.app ⊤
       ((T.map (kernel.ι q ≫ ε.hom)).app ⊤ a) = t
     rw [T.map_comp, Scheme.Modules.Hom.comp_app, CategoryTheory.comp_apply, ha,
       ← CategoryTheory.comp_apply (Scheme.Modules.Hom.app (T.map ε.inv) ⊤),

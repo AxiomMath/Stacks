@@ -208,7 +208,7 @@ theorem spacePointMap_comp (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u)
   funext q
   refine Quot.inductionOn q ?_
   intro p
-  show spacePointMap B S hS F 𝒴 (f.comp g) (p.class B S hS F) =
+  change spacePointMap B S hS F 𝒴 (f.comp g) (p.class B S hS F) =
     pointsMap B S hS 𝒳.val 𝒳.property 𝒴.property g
       (spacePointMap B S hS F 𝒳 f (p.class B S hS F))
   rw [spacePointMap_class B S hS F 𝒴 (f.comp g) p, spacePointMap_class B S hS F 𝒳 f p,
@@ -467,7 +467,7 @@ theorem isOpenMap_spacePointMap (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u)
     (congrFun (spacePointMap_comp B S hS F Fcfg 𝒳 (BasedFunctor.id Fcfg.val) f) z).symm
   have hcomm : ∀ z, gp (pA z) = fp (pF z) := by
     intro z
-    show pointsMap B S hS Acfg.val Acfg.property 𝒳.property gb
+    change pointsMap B S hS Acfg.val Acfg.property 𝒳.property gb
         (pointsMap B S hS Q.pt.val Q.pt.property Acfg.property Q.fst.hom z) =
       pointsMap B S hS Fcfg.val Fcfg.property 𝒳.property f
         (pointsMap B S hS Q.pt.val Q.pt.property Fcfg.property Q.snd.hom z)

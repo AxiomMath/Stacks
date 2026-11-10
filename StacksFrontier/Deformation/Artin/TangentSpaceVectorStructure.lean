@@ -102,7 +102,7 @@ def tangentSpaceModuleOfSatisfiesRS : ModuleCat.{max (u + 1) v w} k :=
   let hD := isDeformationCategory_predeformationCategory B S hS p hp hRS iΛ x₀ hx₀ hfinite hqc
   letI : Fact (IsPredeformationCategory (BasedCategory.ofFunctor D.projection).p) :=
     ⟨hD.predeformation⟩
-  letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+  letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (BasedCategory.ofFunctor D.projection) hD.predeformation.cofibered))) :=
     ⟨tangentConditionS2 hD⟩
   ModuleCat.of k (tangentSpaceArtinian Λ k

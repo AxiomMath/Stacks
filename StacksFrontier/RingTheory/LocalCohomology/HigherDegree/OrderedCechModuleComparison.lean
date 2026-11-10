@@ -2,7 +2,7 @@ module
 
 public import StacksFrontier.RingTheory.LocalCohomology.HigherDegree.ComplementCechModuleComparison
 public import
-  StacksFrontier.Topology.Sheaves.Cohomology.CechOfSheavesOfModules.ModuleValuedAlternatingComparison
+StacksFrontier.Topology.Sheaves.Cohomology.CechOfSheavesOfModules.ModuleValuedAlternatingComparison
 
 /-!
 # The ordered Čech complex of the standard covering is the algebraic one, `A`-linearly

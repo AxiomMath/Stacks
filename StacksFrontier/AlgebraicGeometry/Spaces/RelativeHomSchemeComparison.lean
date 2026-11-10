@@ -146,6 +146,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 variable {V Zs Xs : BigFppfOver B S hS}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_RelativeHomSchemeComparison :
@@ -288,7 +289,7 @@ theorem homOfFibreSection_comp (z : Zs ⟶ V) (x : Xs ⟶ V) {T : BigFppfOver B 
       Over.mk ((BigFppfOver.toScheme B S hS).map x)) :
     homOfFibreSection z x a m ≫ x = pullback.snd a z ≫ z := by
   refine BigFppfOver.map_toScheme_injective B S hS ?_
-  show (BigFppfOver.toScheme B S hS).map (homOfFibreSection z x a m ≫ x) =
+  change (BigFppfOver.toScheme B S hS).map (homOfFibreSection z x a m ≫ x) =
     (BigFppfOver.toScheme B S hS).map (pullback.snd a z ≫ z)
   rw [Functor.map_comp, toScheme_map_homOfFibreSection, Category.assoc]
   exact (congrArg (fun k => (prodLeftIso z a).hom ≫ k)
@@ -394,7 +395,7 @@ theorem relativeMorphismOfSigma_surj (z : Zs ⟶ V) (x : Xs ⟶ V) {T : BigFppfO
     simp
   refine ⟨⟨a, b, hb⟩, RelativeMorphism.ext_of_base_eq ha ?_⟩
   rw [relativeMorphismOfSigma_morphism]
-  show (PreservesPullback.iso (yoneda (C := BigFppfOver B S hS)) a z).inv ≫ yoneda.map b = _
+  change (PreservesPullback.iso (yoneda (C := BigFppfOver B S hS)) a z).inv ≫ yoneda.map b = _
   rw [hbm, Iso.inv_hom_id_assoc]
   rfl
 
@@ -472,7 +473,7 @@ theorem restrict_relativeMorphismOfSigma (z : Zs ⟶ V) (x : Xs ⟶ V)
   have hbase : yoneda.map t ≫ yoneda.map a = yoneda.map (t ≫ a) := (yoneda.map_comp t a).symm
   refine RelativeMorphism.ext_of_base_eq hbase ?_
   rw [RelativeMorphism.restrict_morphism_mapFst]
-  show pullback.mapFst (yoneda.map t) (yoneda.map a) (yoneda.map z) ≫
+  change pullback.mapFst (yoneda.map t) (yoneda.map a) (yoneda.map z) ≫
       (PreservesPullback.iso (yoneda (C := BigFppfOver B S hS)) a z).inv ≫ yoneda.map b =
     (pullback.congrHom hbase (rfl : yoneda.map z = yoneda.map z)).hom ≫
       (PreservesPullback.iso (yoneda (C := BigFppfOver B S hS)) (t ≫ a) z).inv ≫
@@ -569,7 +570,7 @@ theorem sigma_overHom_ext {T : BigFppfOver B S hS}
   have hwk' : k'.left ≫ W.hom = (BigFppfOver.toScheme B S hS).map a' := Over.w k'
   have ha : a = a' := by
     refine BigFppfOver.map_toScheme_injective B S hS ?_
-    show (BigFppfOver.toScheme B S hS).map a = (BigFppfOver.toScheme B S hS).map a'
+    change (BigFppfOver.toScheme B S hS).map a = (BigFppfOver.toScheme B S hS).map a'
     rw [← hwk, ← hwk', h']
   subst ha
   exact congrArg (Sigma.mk a) (Over.OverMorphism.ext h')

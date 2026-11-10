@@ -172,7 +172,7 @@ theorem isScalarTower_sections_stalkAlgebraOver {U : X.Opens} (_hU : IsAffineOpe
   let : Algebra k (X.presheaf.stalk x) := stalkAlgebraOver (Over.mk f) x
   let := TopCat.Presheaf.algebra_section_stalk X.presheaf ⟨x, hx⟩
   refine IsScalarTower.of_algebraMap_eq fun a => ?_
-  show (f.stalkMap x) (StructureSheaf.toStalk k (f.base x) a) =
+  change (f.stalkMap x) (StructureSheaf.toStalk k (f.base x) a) =
     X.presheaf.germ U x hx ((f.appLE ⊤ U _) ((Scheme.ΓSpecIso (.of k)).inv a))
   rw [Scheme.Hom.appLE, CommRingCat.comp_apply, TopCat.Presheaf.germ_res_apply]
   refine Eq.trans ?_ (Scheme.Hom.germ_stalkMap_apply f ⊤ x trivial
@@ -293,7 +293,7 @@ theorem moduleFinite_kaehler_stalkAlgebra_and_fittingIdeal_eq [LocallyOfFiniteTy
   let : Algebra K A := ρ.toRingHom.toAlgebra
   have : IsScalarTower K A (Y.presheaf.stalk y) := by
     refine IsScalarTower.of_algebraMap_eq fun r => ?_
-    show ((g.appLE ⊤ U.1 _ ≫ Y.presheaf.germ U.1 y hy)).hom r =
+    change ((g.appLE ⊤ U.1 _ ≫ Y.presheaf.germ U.1 y hy)).hom r =
       ((Scheme.ΓSpecIso (.of A)).inv ≫ g.appTop ≫ Y.presheaf.germ ⊤ y (by simp)).hom
         ((Scheme.ΓSpecIso (.of A)).hom r)
     rw [appTop_germ_eq_appLE_germ A g y hy, ← CommRingCat.comp_apply, Iso.hom_inv_id_assoc]
@@ -336,7 +336,7 @@ theorem appLE_mem_fittingIdeal_relativeDifferentials_of_forall_stalk [LocallyOfF
       ((g.appLE ⊤ U.1 (SmoothingCriterion.le_preimage_top g U.1))
         ((Scheme.ΓSpecIso (.of A)).inv a)) =
       algebraMap A (Y.presheaf.stalk y) a := by
-    show _ = ((Scheme.ΓSpecIso (.of A)).inv ≫ g.appTop ≫ Y.presheaf.germ ⊤ y (by simp)).hom a
+    change _ = ((Scheme.ΓSpecIso (.of A)).inv ≫ g.appTop ≫ Y.presheaf.germ ⊤ y (by simp)).hom a
     rw [appTop_germ_eq_appLE_germ A g y hy]
     rfl
   rw [hga]
@@ -363,7 +363,7 @@ theorem essFiniteType_stalk [LocallyOfFiniteType g] (y : Y) :
   let := stalkAlgebra A g y
   rw [← RingHom.essFiniteType_algebraMap]
   convert h using 1
-  show ((Scheme.ΓSpecIso (.of A)).inv ≫ g.appTop ≫ Y.presheaf.germ ⊤ y (by simp)).hom = _
+  change ((Scheme.ΓSpecIso (.of A)).inv ≫ g.appTop ≫ Y.presheaf.germ ⊤ y (by simp)).hom = _
   rw [appTop_germ_eq_appLE_germ A g y hyU]
   rfl
 
@@ -385,7 +385,7 @@ theorem algebraMap_stalkAlgebra_comp_specMap {L A : Type u} [CommRing L] [CommRi
   have hnat := congrArg (fun φ => φ.hom a)
     (Scheme.ΓSpecIso_inv_naturality (CommRingCat.ofHom ψ))
   simp only [CommRingCat.hom_comp, RingHom.comp_apply, CommRingCat.hom_ofHom] at hnat
-  show (Y.presheaf.germ ⊤ y _) ((f ≫ Spec.map (CommRingCat.ofHom ψ)).appTop
+  change (Y.presheaf.germ ⊤ y _) ((f ≫ Spec.map (CommRingCat.ofHom ψ)).appTop
     ((Scheme.ΓSpecIso (.of A)).inv a)) = _
   rw [Scheme.Hom.comp_appTop, CommRingCat.comp_apply, ← hnat]
   refine (Scheme.Hom.germ_stalkMap_apply f ⊤ y trivial _).symm.trans ?_
@@ -399,7 +399,7 @@ equal. -/
 theorem stalkAlgebraOver_eq_stalkAlgebra (x : X) :
     (stalkAlgebraOver (Over.mk f) x : Algebra k (X.presheaf.stalk x)) = stalkAlgebra k f x := by
   refine Algebra.algebra_ext _ _ fun a => ?_
-  show (f.stalkMap x) (StructureSheaf.toStalk k (f.base x) a) =
+  change (f.stalkMap x) (StructureSheaf.toStalk k (f.base x) a) =
     (X.presheaf.germ ⊤ x _) (f.appTop ((Scheme.ΓSpecIso (.of k)).inv a))
   refine Eq.trans ?_ (Scheme.Hom.germ_stalkMap_apply f ⊤ x trivial
     ((Scheme.ΓSpecIso (.of k)).inv a))

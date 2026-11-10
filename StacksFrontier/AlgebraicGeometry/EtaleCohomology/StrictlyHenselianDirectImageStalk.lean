@@ -63,10 +63,10 @@ variable (B : BigEtaleSite.{u}) (R : Type u) [CommRing R]
 inclusion of the final object, viewed as an étale neighbourhood of `s`. -/
 public def sectionsToEtaleStalk {A : Type*} [Category A]
     (F : (SmallEtale B (Spec (.of R)) hS)ᵒᵖ ⥤ A)
-    [HasColimit ((CategoryOfElements.π (geometricPointFiber B (Spec (.of R)) hS s)).op ⋙ F)] :
+    [HasColimit ((Functor.Elements.π (geometricPointFiber B (Spec (.of R)) hS s)).op ⋙ F)] :
     F.obj (op (SmallEtale.final B (Spec (.of R)) hS)) ⟶
       etaleStalk B (Spec (.of R)) hS s F :=
-  colimit.ι ((CategoryOfElements.π (geometricPointFiber B (Spec (.of R)) hS s)).op ⋙ F)
+  colimit.ι ((Functor.Elements.π (geometricPointFiber B (Spec (.of R)) hS s)).op ⋙ F)
     (op (finalNeighborhood B R hS s))
 
 /-- Over a strictly henselian local ring the germ at a geometric point lying over the closed
@@ -74,7 +74,7 @@ point is an isomorphism from global sections onto the stalk, for arbitrary coeff
 public theorem isIso_sectionsToEtaleStalk [StrictlyHenselianLocalRing R]
     (hs : s.LiesOver (IsLocalRing.closedPoint R)) {A : Type*} [Category A]
     (F : (SmallEtale B (Spec (.of R)) hS)ᵒᵖ ⥤ A)
-    [HasColimit ((CategoryOfElements.π (geometricPointFiber B (Spec (.of R)) hS s)).op ⋙ F)] :
+    [HasColimit ((Functor.Elements.π (geometricPointFiber B (Spec (.of R)) hS s)).op ⋙ F)] :
     IsIso (sectionsToEtaleStalk B R hS s F) := by
   obtain ⟨h⟩ := nonempty_isInitial_finalNeighborhood B R hS s hs
   exact (colimit.isColimit _).isIso_ι_app_of_isTerminal _ (IsInitial.op _ h)

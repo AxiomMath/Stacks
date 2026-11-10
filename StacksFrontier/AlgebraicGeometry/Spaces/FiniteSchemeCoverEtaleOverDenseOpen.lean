@@ -145,7 +145,7 @@ theorem exists_finiteSchemeCover_of_isEtaleSectionClosed (hZ : B.Contains (⊤_ 
       (pointsMap B S hS _ (Subfunctor.homOfLe hCT) c)
     refine ⟨y, ?_⟩
     rw [pointsMap_comp_apply, hy, ← pointsMap_comp_apply, ← hc]
-    show pointsMap B S hS _ (Subfunctor.homOfLe hCT ≫ T.1.ι ≫ q) c = _
+    change pointsMap B S hS _ (Subfunctor.homOfLe hCT ≫ T.1.ι ≫ q) c = _
     rw [← Category.assoc, Subfunctor.homOfLe_ι]
   · exact isFinite_comp B S hS (isFinite_of_isIso B S hS _) hTfin
   · refine isFinitePresentation_comp B S hS hYalg T.2.1 hX _ _
@@ -220,7 +220,7 @@ theorem exists_finiteSchemeCover_of_closedSubspace (hZ : B.Contains (⊤_ Scheme
     obtain ⟨x, hxt, hyx⟩ := Set.mem_iUnion₂.1 (ht hy)
     refine Set.mem_iUnion.2 ⟨t.equivFin ⟨x, hxt⟩, ?_⟩
     have hσ : σ (t.equivFin ⟨x, hxt⟩) = x := by simp only [σ, Equiv.symm_apply_apply]
-    show y ∈ Set.range (pointsMap B S hS _ (g (σ (t.equivFin ⟨x, hxt⟩))))
+    change y ∈ Set.range (pointsMap B S hS _ (g (σ (t.equivFin ⟨x, hxt⟩))))
     rw [hσ]
     exact hyx
   obtain ⟨Vt, ψt, hVtaff, -, hψte⟩ :=

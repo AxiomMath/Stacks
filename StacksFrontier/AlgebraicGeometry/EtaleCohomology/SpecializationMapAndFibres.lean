@@ -121,7 +121,7 @@ theorem mapHomotopyCategoryCompIso_refl_hom_app (G : A₂ ⥤ A₃) (H : A₃ �
     [H.Additive] (Y : HomotopyCategory A₂ (ComplexShape.up ℤ)) :
     (Functor.mapHomotopyCategoryCompIso (Iso.refl (G ⋙ H)) (ComplexShape.up ℤ)).hom.app Y =
       𝟙 _ := by
-  show (HomotopyCategory.quotient A₄ (ComplexShape.up ℤ)).map (𝟙 _) = 𝟙 _
+  change (HomotopyCategory.quotient A₄ (ComplexShape.up ℤ)).map (𝟙 _) = 𝟙 _
   exact CategoryTheory.Functor.map_id _ _
 
 /-- The degreewise action on homotopy categories of a transformation whiskered by a functor is
@@ -555,6 +555,7 @@ variable (B : BigEtaleSite.{u}) {X S : Scheme.{u}} (hS : B.Contains S) (f : X �
   (s : GeometricPoint S) (t : GeometricPoint (strictHenselization B S hS s))
 
 set_option maxHeartbeats 1600000 in
+-- the closing `ext`/`simp` unfold composites of small-étale pullback and sections functors
 /-- The sheaf-level square of Stacks 0GJ8 in the vocabulary of the original maps, with the
 restriction of sections along `id_X × c` written out as restriction of global sections followed
 by the composition isomorphism for inverse images. -/

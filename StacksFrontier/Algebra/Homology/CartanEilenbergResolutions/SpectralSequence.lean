@@ -433,7 +433,7 @@ private lemma exists_homologyIso_column (q : ℤ) :
         (derivedHomology F q).map ((singleFunctorPlus A 0).map (K.d p p')) ≫
         (derivedHomology F q).map (augmentation I p') := by
     rw [← Functor.map_comp, ← augmentation_comm, Functor.map_comp, IsIso.inv_hom_id_assoc]
-  show (mapHomology F q).map (columnD I p p') ≫ (E₁Iso F I q p').hom = _
+  change (mapHomology F q).map (columnD I p p') ≫ (E₁Iso F I q p').hom = _
   rw [E₁Iso_hom, E₁Iso_hom]
   simp only [Category.assoc]
   rw [← Category.assoc, hu, hd]

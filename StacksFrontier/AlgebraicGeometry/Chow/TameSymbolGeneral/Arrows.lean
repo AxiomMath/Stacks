@@ -148,6 +148,7 @@ def pointClosureTameSymbol (hN : N.PreservesGrading) (x : X) {x' : X}
 
 variable (δ : X → ℤ) (hδ : ∀ ⦃x y : X⦄, x ⤳ y → x ≠ y → δ y < δ x)
 
+omit [IsLocallyNoetherian X] in
 include hδ in
 /-- The drop of one along `x ⇝ x'` between the two levels of the arrow. -/
 theorem ringKrullDim_eq_one_of_mem (j : ℤ) {x : {x : X | δ x = j + 1}}
@@ -179,7 +180,7 @@ theorem dimMilnorChainBoundaryTerm_of_specializes (hN : N.PreservesGrading) (i :
     dimMilnorChainBoundaryTerm δ hδ hN i j ξ x x' =
       pointClosureTameSymbol hN x.1 (specializes_iff_mem_closure.mp h)
         (ringKrullDim_eq_one_of_mem δ hδ j h) i (ξ.1 x) := by
-  rw [dimMilnorChainBoundaryTerm, dif_pos h]
+  rw [dimMilnorChainBoundaryTerm, dite_eq_left h]
 
 open Classical in
 /-- When `x` does not specialize to `x'`, the contribution of `x` at `x'` is zero. -/
@@ -187,7 +188,7 @@ theorem dimMilnorChainBoundaryTerm_of_not_specializes (hN : N.PreservesGrading) 
     (j : ℤ) (ξ : DimMilnorChainGroup X δ (j + 1) (i + 1)) (x : {x : X | δ x = j + 1})
     (x' : {x : X | δ x = j}) (h : ¬(x.1 : X) ⤳ (x'.1 : X)) :
     dimMilnorChainBoundaryTerm δ hδ hN i j ξ x x' = 0 := by
-  rw [dimMilnorChainBoundaryTerm, dif_neg h]
+  rw [dimMilnorChainBoundaryTerm, dite_eq_right h]
 
 open Classical in
 /-- A point `x` at which the chain vanishes contributes zero at every `x'`. -/
@@ -294,7 +295,7 @@ theorem finite_dimMilnorChainBoundaryTerm_ne_zero (hN : N.PreservesGrading) (i :
       specializes_iff_mem_closure.mp hspec
     refine ⟨⟨pointClosurePoint x.1 hmem, ringKrullDim_eq_one_of_mem δ hδ j hspec⟩, ⟨?_, ?_⟩,
       subschemeι_pointClosurePoint x.1 hmem⟩
-    · show (integralComponentAt x.1).subschemeι (pointClosurePoint x.1 hmem) ∈ (U : Set X)
+    · change (integralComponentAt x.1).subschemeι (pointClosurePoint x.1 hmem) ∈ (U : Set X)
       rw [subschemeι_pointClosurePoint x.1 hmem]
       exact hx'U
     · intro hzero

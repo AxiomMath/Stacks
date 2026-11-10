@@ -151,7 +151,7 @@ theorem rightAcyclic_of_injective {A B : Type*} [Category* A] [Category* B] [Abe
     intro m
     exact inferInstanceAs
       (Injective (((HomologicalComplex.single A (ComplexShape.up ℤ) 0).obj I).X m))
-  show IsIso _
+  change IsIso _
   infer_instance
 
 section

@@ -120,7 +120,8 @@ theorem sheafCompose_map_trans_hom_app {𝒜 : Type uu''} [Category.{vv''} 𝒜]
         (sheafCompose J (forget AddCommGrpCat.{ww})).map (e'.hom.app X) :=
   Functor.map_comp _ _ _
 
-omit [J.HasSheafCompose (forget RingCat.{ww})] in
+omit [J.HasSheafCompose (forget RingCat.{ww})]
+  [J.HasSheafCompose (forget AddCommGrpCat.{ww})] in
 /-- The isomorphism `Stacks.Sheaves.ToposPullback.compRestrictScalarsToSheafIso` absorbing a
 restriction of scalars has identity components. -/
 theorem compRestrictScalarsToSheafIso_hom_app {R R' : Sheaf J RingCat.{ww}}

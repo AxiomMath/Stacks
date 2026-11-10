@@ -716,7 +716,7 @@ of A^*(Y) to the unit of A^*(Y') -- at the Gysin system of the first Chern class
 nothing assumed beyond the tag's own hypotheses"]
 theorem chowCohomologyTotalRestrictionRingOfInvertible_map_one :
     chowCohomologyTotalRestrictionRingOfInvertible C sY f 1 = 1 := by
-  show chowCohomologyTotalRestrictionOfInvertible C sY f
+  change chowCohomologyTotalRestrictionOfInvertible C sY f
       (DirectSum.of _ 0 (bivariantIdentityClassOfInvertible C sY)) = _
   rw [chowCohomologyTotalRestrictionOfInvertible_of,
     chowCohomologyRestrictionOfInvertible_bivariantIdentityClass]

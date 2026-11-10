@@ -91,7 +91,7 @@ private lemma isReduced_of_isOpenCover_sections {X : Scheme.{u}} {ι : Type*}
     (U : ι → X.Opens) (htop : (⨆ i, U i) = ⊤) (haff : ∀ i, IsAffineOpen (U i))
     (hred : ∀ i, _root_.IsReduced Γ(X, U i)) : IsReduced X := by
   have hi : ∀ i, IsReduced ((X.openCoverOfIsOpenCover U htop).X i) := fun i => by
-    show IsReduced (U i).toScheme
+    change IsReduced (U i).toScheme
     have := hred i
     have : IsReduced (Spec Γ(X, U i)) := inferInstance
     exact isReduced_of_isOpenImmersion (haff i).isoSpec.hom
@@ -151,7 +151,7 @@ private lemma isIso_affineWeakNormalizationToBase_iff
       Function.Bijective (algebraMap Γ(X, U)
         (relativeWeakNormalization Γ(X, U) Γ(Y, f ⁻¹ᵁ U))) := by
   let := (f.app U).hom.toAlgebra
-  show IsIso (Spec.map (CommRingCat.ofHom (algebraMap Γ(X, U)
+  change IsIso (Spec.map (CommRingCat.ofHom (algebraMap Γ(X, U)
       (relativeWeakNormalization Γ(X, U) Γ(Y, f ⁻¹ᵁ U)))) ≫ hU.isoSpec.inv) ↔ _
   rw [isIso_comp_right_iff]
   exact isIso_specMap_ofHom_iff _
@@ -294,7 +294,7 @@ private lemma isWeaklyNormal_of_affine_cover {X : Scheme.{u}}
   have : IsReduced X :=
     isReduced_of_isOpenCover_sections (fun i => (U i).1) htop (fun i => (U i).2)
       fun i => seminormalRing_isReduced (hring i).1
-  show MorphismProperty.isomorphisms Scheme (Scheme.weakNormalization X hX)
+  change MorphismProperty.isomorphisms Scheme (Scheme.weakNormalization X hX)
   rw [IsZariskiLocalAtTarget.iff_of_iSup_eq_top
     (P := MorphismProperty.isomorphisms Scheme) (fun i => (U i).1) htop]
   exact fun i => (isIso_weakNormalization_restrict_iff hX (U i).2).mpr (hring i)

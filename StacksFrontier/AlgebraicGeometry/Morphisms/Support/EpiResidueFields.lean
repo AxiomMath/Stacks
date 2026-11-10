@@ -44,7 +44,7 @@ public theorem isZero_of_forall_isZero_pullback_fromSpecResidueField (M : X.Modu
     (Set.eq_empty_iff_forall_notMem.mpr fun x hx => ?_)
   let s : Spec (X.residueField x) := IsLocalRing.closedPoint (X.residueField x)
   have hz : s ∈ (X.fromSpecResidueField x).base ⁻¹' SheafOfModules.supp M := by
-    show (X.fromSpecResidueField x).base s ∈ SheafOfModules.supp M
+    change (X.fromSpecResidueField x).base s ∈ SheafOfModules.supp M
     rwa [Scheme.fromSpecResidueField_apply]
   rwa [← SheafOfModules.supp_pullback (X.fromSpecResidueField x) M,
     _root_.SheafOfModules.supp_eq_empty_of_isZero (h x)] at hz

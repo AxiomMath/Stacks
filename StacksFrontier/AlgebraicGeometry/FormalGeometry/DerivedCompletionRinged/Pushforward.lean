@@ -80,7 +80,7 @@ theorem map_globalSectionToEnd
       (globalSectionToEnd S t).asHom.app ((_root_.SheafOfModules.pushforward.{m} φ).obj M) := by
   ext U x
   let y : M.val.obj (op (F.obj (unop U))) := x
-  show s.val (op (F.obj (unop U))) • y = _
+  change s.val (op (F.obj (unop U))) • y = _
   rw [← h U]
   rfl
 
@@ -94,7 +94,7 @@ theorem terminalSection_over_val {C : Type u₁} [Category.{v₁} C] {J : Grothe
   have key : ∀ k : (unop W) ⟶ Over.mk (𝟙 V), k.left = (unop W).hom →
       (R.over V).obj.map k.op g = R.obj.map ((unop W).hom).op g := by
     intro k hk
-    show R.obj.map (k.left).op g = _
+    change R.obj.map (k.left).op g = _
     rw [hk]
   exact key _ (Over.mkIdTerminal_from_left _)
 
@@ -138,7 +138,7 @@ theorem map_smul_id_mapHomologicalComplex
     (F.mapHomologicalComplex c).map (a • 𝟙 E) =
       b • 𝟙 ((F.mapHomologicalComplex c).obj E) := by
   refine HomologicalComplex.hom_ext _ _ fun n => ?_
-  show F.map ((a • 𝟙 E).f n) = _
+  change F.map ((a • 𝟙 E).f n) = _
   rw [HomologicalComplex.smul_f_apply, HomologicalComplex.smul_f_apply,
     HomologicalComplex.id_f, HomologicalComplex.id_f]
   exact h (E.X n)
@@ -154,7 +154,7 @@ theorem map_smul_id_mapHomotopyCategory
     (F.mapHomotopyCategory c).map (a • 𝟙 M) =
       b • 𝟙 ((F.mapHomotopyCategory c).obj M) := by
   obtain ⟨E⟩ := M
-  show (F.mapHomotopyCategory c).map (a • 𝟙 ((HomotopyCategory.quotient A c).obj E)) =
+  change (F.mapHomotopyCategory c).map (a • 𝟙 ((HomotopyCategory.quotient A c).obj E)) =
     b • 𝟙 ((F.mapHomotopyCategory c).obj ((HomotopyCategory.quotient A c).obj E))
   rw [← map_smul_id_eq (HomotopyCategory.quotient A c) a E,
     CategoryTheory.Functor.mapHomotopyCategory_map,
@@ -169,7 +169,7 @@ theorem map_smul_id_comp
     (F : A ⥤ B) (G : B ⥤ C) [Functor.Linear S G] (a : R) (b : S)
     (h : ∀ M : A, F.map (a • 𝟙 M) = b • 𝟙 (F.obj M)) (M : A) :
     (F ⋙ G).map (a • 𝟙 M) = b • 𝟙 ((F ⋙ G).obj M) := by
-  show G.map (F.map (a • 𝟙 M)) = _
+  change G.map (F.map (a • 𝟙 M)) = _
   rw [h M, map_smul_id_eq]
   rfl
 
@@ -197,7 +197,7 @@ theorem map_smul_id_rightDerived
   have hτ : τ₁ = τ₂ := by
     refine Functor.rightDerived_ext RF α W RF τ₁ τ₂ ?_
     ext M
-    show α.app M ≫ RF.map (a • 𝟙 (L.obj M)) = α.app M ≫ (b • 𝟙 (RF.obj (L.obj M)))
+    change α.app M ≫ RF.map (a • 𝟙 (L.obj M)) = α.app M ≫ (b • 𝟙 (RF.obj (L.obj M)))
     have hn : G.map (a • 𝟙 M) ≫ α.app M = α.app M ≫ RF.map (L.map (a • 𝟙 M)) :=
       α.naturality (a • 𝟙 M)
     rw [← map_smul_id_eq L a M, ← hn, h M, Linear.smul_comp, Category.id_comp, Linear.comp_smul]

@@ -48,7 +48,7 @@ theorem NatTrans.ext_of_app_moduleCat_self {α β : Φ ⟶ Φ}
     rw [ModuleCat.epi_iff_surjective]
     intro m
     refine ⟨(Sigma.ι (fun _ : M => ModuleCat.of A A) m).hom (1 : A), ?_⟩
-    show (Sigma.ι (fun _ : M => ModuleCat.of A A) m ≫ p).hom (1 : A) = m
+    change (Sigma.ι (fun _ : M => ModuleCat.of A A) m ≫ p).hom (1 : A) = m
     simp [p]
   have : Epi (Φ.map p) := by
     have : PreservesColimitsOfSize.{0, 0} Φ := preservesColimitsOfSize_shrink Φ
@@ -58,7 +58,7 @@ theorem NatTrans.ext_of_app_moduleCat_self {α β : Φ ⟶ Φ}
   have hsum :
       α.app (∐ fun _ : M => ModuleCat.of A A) = β.app (∐ fun _ : M => ModuleCat.of A A) := by
     refine hcoprod.hom_ext fun ⟨m⟩ => ?_
-    show Φ.map (Sigma.ι _ m) ≫ _ = Φ.map (Sigma.ι _ m) ≫ _
+    change Φ.map (Sigma.ι _ m) ≫ _ = Φ.map (Sigma.ι _ m) ≫ _
     rw [α.naturality, β.naturality, h]
   rw [← cancel_epi (Φ.map p), α.naturality, β.naturality, hsum]
 
@@ -140,7 +140,7 @@ theorem map_smul_id_eq_globalSmul (a : A) (M : ModuleCat.{w} A) :
       naturality M N f := comp_globalSmul R _ (Φ.map f) }
   have hαβ : α = β := by
     refine NatTrans.ext_of_app_moduleCat_self Φ ?_
-    show Φ.map (a • 𝟙 (ModuleCat.of A A)) =
+    change Φ.map (a • 𝟙 (ModuleCat.of A A)) =
       globalSmul R (unitIsoRingHom R Φ e a) (Φ.obj (ModuleCat.of A A))
     have h₁ := comp_globalSmul R (unitIsoRingHom R Φ e a) e.hom
     rw [globalSmul_unit, unitEnd_unitIsoRingHom, unitIsoEnd, Iso.hom_inv_id_assoc] at h₁

@@ -238,7 +238,7 @@ theorem coe_support_specIdealSheaf (I : Ideal A) :
         Set (Spec (CommRingCat.of A))) = PrimeSpectrum.zeroLocus (I : Set A) := by
   rw [Stacks.Blowup.AffineModel.specIdealSheaf,
     Scheme.IdealSheafData.coe_support_ofIdealTop, AlgebraicGeometry.Spec_zeroLocus]
-  show PrimeSpectrum.zeroLocus
+  change PrimeSpectrum.zeroLocus
     ((Ideal.comap (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom
       (Ideal.map (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom I) : Ideal A) : Set A) = _
   have hb := ConcreteCategory.bijective_of_isIso (Scheme.ΓSpecIso (CommRingCat.of A)).inv

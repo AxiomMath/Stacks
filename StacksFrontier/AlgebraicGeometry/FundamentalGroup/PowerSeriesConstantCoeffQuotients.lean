@@ -121,14 +121,14 @@ public theorem ker_truncTotalAlgHom {σ : Type*} [Finite σ] (R : Type u) [CommR
       (J ^ n • (⊤ : Submodule P (AdicCompletion J P))).comap e.toLinearMap := by
     rw [AdicCompletion.pow_smul_top_eq_ker_eval hJ]
     ext f
-    show Ideal.Quotient.mk (J ^ n) (truncTotal n f) = 0 ↔
+    change Ideal.Quotient.mk (J ^ n) (truncTotal n f) = 0 ↔
       Ideal.Quotient.mk (J ^ n • (⊤ : Ideal P)) (truncTotal n f) = 0
     simp only [Ideal.Quotient.eq_zero_iff_mem]
-    show _ ↔ truncTotal n f ∈ J ^ n * (⊤ : Ideal P)
+    change _ ↔ truncTotal n f ∈ J ^ n * (⊤ : Ideal P)
     rw [Ideal.mul_top]
   have he : (J ^ n • (⊤ : Submodule P (AdicCompletion J P))).comap e.toLinearMap =
       J ^ n • (⊤ : Submodule P B) := by
-    show (J ^ n • (⊤ : Submodule P (AdicCompletion J P))).comap
+    change (J ^ n • (⊤ : Submodule P (AdicCompletion J P))).comap
       e.symm.toLinearEquiv.symm.toLinearMap = _
     rw [← Submodule.map_equiv_eq_comap_symm, Submodule.map_smul'', Submodule.map_top,
       LinearEquiv.range]
@@ -148,7 +148,7 @@ public theorem map_idealOfVars_eq_ker_constantCoeff {σ : Type*} [Finite σ] (R 
       RingHom.ker (constantCoeff : MvPowerSeries σ R →+* R) := by
   rw [← pow_one ((MvPolynomial.idealOfVars σ R).map _), ← ker_truncTotalAlgHom R 1]
   ext f
-  show Ideal.Quotient.mk (MvPolynomial.idealOfVars σ R ^ 1) (truncTotal 1 f) = 0 ↔
+  change Ideal.Quotient.mk (MvPolynomial.idealOfVars σ R ^ 1) (truncTotal 1 f) = 0 ↔
     constantCoeff f = 0
   rw [Ideal.Quotient.eq_zero_iff_mem, MvPolynomial.mem_pow_idealOfVars_iff']
   refine ⟨fun h => by simpa [coeff_truncTotal] using h 0 (by simp), fun h a ha => ?_⟩
@@ -171,7 +171,7 @@ private theorem le_ker_truncTotalSelf (σ : Type*) [Finite σ] (R : Type u) [Com
   intro f hf
   apply MvPolynomial.ext
   intro a
-  show (truncTotal n (f : MvPowerSeries σ R)).coeff a = (0 : MvPolynomial σ R).coeff a
+  change (truncTotal n (f : MvPowerSeries σ R)).coeff a = (0 : MvPolynomial σ R).coeff a
   rw [coeff_truncTotal_eq_ite]
   split_ifs with ha
   · simpa using (MvPolynomial.mem_pow_idealOfVars_iff' n f).mp hf a ha

@@ -99,7 +99,7 @@ lemma curryFun_homMap_structureSheafHomIso_inv (n : ℤ) (U : X.C)
         (k' : ((structureSheafComplex X).X 0).val.obj (op W)) = k := ⟨k, rfl⟩
     have hks : (k • structureSheafOne X W :
         ((structureSheafComplex X).X 0).val.obj (op W)) = k := by
-      show k * 1 = k
+      change k * 1 = k
       exact mul_one _
     rw [← hks, tensorComplexSection_smul_right, applyHomSectionOver_smul_right,
       applyHomSectionOver_smul_right, applyHomSectionOver_curryFun,

@@ -54,11 +54,11 @@ def ofAb : AddCommGrpCat.{v} ⥤ ModuleCat.{v} ℤ where
 the additive maps. -/
 def ofAbAdj : ofAb ⊣ forget₂ (ModuleCat.{v} ℤ) AddCommGrpCat.{v} :=
   Adjunction.mkOfHomEquiv
-    { homEquiv := fun A M =>
+    { homEquiv := fun _ _ =>
         { toFun := fun f => AddCommGrpCat.ofHom f.hom.toAddMonoidHom
           invFun := fun g => ModuleCat.ofHom (StacksDraft.Perfect.intLinearMapOfAddHom g.hom)
-          left_inv := fun f => rfl
-          right_inv := fun g => rfl }
+          left_inv := fun _ => rfl
+          right_inv := fun _ => rfl }
       homEquiv_naturality_left_symm := fun _ _ => rfl
       homEquiv_naturality_right := fun _ _ => rfl }
 
@@ -113,6 +113,8 @@ abbrev sheafForget : Sheaf J (ModuleCat.{max r v} Λ) ⥤ Sheaf J AddCommGrpCat.
 def sheafExtendScalarsAdj : sheafExtendScalars J Λ ⊣ sheafForget J Λ :=
   Sheaf.adjunction J (extendScalarsAbAdj.{v} Λ)
 
+omit [J.HasSheafCompose (ModuleCat.restrictScalars.{max r v} (Int.castRingHom Λ) ⋙
+    forget₂ (ModuleCat.{max r v} ℤ) AddCommGrpCat.{max r v})] in
 /-- **Sheafified extension of scalars keeps the inclusion of a short exact sequence with
 sectionwise torsion-free quotient a monomorphism.** -/
 lemma mono_sheafExtendScalars_map (S : ShortComplex (Sheaf J AddCommGrpCat.{max r v}))
@@ -134,7 +136,7 @@ lemma mono_sheafExtendScalars_map (S : ShortComplex (Sheaf J AddCommGrpCat.{max 
         ((AddCommGrpCat.mono_iff_injective _).mp hEm)
         ((ShortComplex.ab_exact_iff_function_exact (S.map E)).mp hE)
     exact @NatTrans.mono_of_mono_app _ _ _ _ _ _ _ this
-  show Mono ((presheafToSheaf J _).map (Functor.whiskerRight S.f.hom
+  change Mono ((presheafToSheaf J _).map (Functor.whiskerRight S.f.hom
     (extendScalarsAb Λ : AddCommGrpCat.{max r v} ⥤ ModuleCat.{max r v} Λ)))
   infer_instance
 
@@ -161,7 +163,7 @@ lemma subsingleton_H_forget₂ (I : Sheaf J (ModuleCat.{max r v} Λ)) [Injective
       (((constantSheaf J AddCommGrpCat.{max r v}).obj
         (AddCommGrpCat.of (ULift ℤ))).obj.obj U) :=
     ModuleSheafCohomology.isTorsionFree_sheafify J _ (fun U => by
-      show Module.IsTorsionFree ℤ (ULift ℤ)
+      change Module.IsTorsionFree ℤ (ULift ℤ)
       exact Function.Injective.moduleIsTorsionFree (fun x : ULift ℤ => x.down)
         ULift.down_injective (fun _ _ => rfl))
   rw [ext_forget₂_eq_zero_of_isTorsionFree J Λ I _ hX n a,

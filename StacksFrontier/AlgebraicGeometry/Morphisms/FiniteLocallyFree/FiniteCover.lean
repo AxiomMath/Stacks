@@ -162,7 +162,7 @@ private theorem finite_free_monicRelationQuotient {R : Type u} [CommRing R]
       set hCoeff := monicRelationPolynomialCoeffEquiv tail with hCoeffDef
       have hgen : (hCoeff : Polynomial Q →+* Polynomial A ⧸ I₀) q =
           Ideal.Quotient.mkₐ R I₀ f := by
-        show Ideal.polynomialQuotientEquivQuotientPolynomial J _ = _
+        change Ideal.polynomialQuotientEquivQuotientPolynomial J _ = _
         exact Ideal.polynomialQuotientEquivQuotientPolynomial_map_mk J f
       have heqCoeff : Ideal.map (hCoeff : Polynomial Q →+* Polynomial A ⧸ I₀)
           (Ideal.span {q}) = Ideal.map (Ideal.Quotient.mkₐ R I₀) I₁ := by
@@ -269,7 +269,7 @@ theorem exists_finiteLocallyFree_cover_closedImmersion
     obtain ⟨y, hy⟩ := RingHom.IsIntegral.comap_surjective
       (RingHom.finite_algebraMap.mpr hAfinite).to_isIntegral hAinj (X.isoSpec.hom x)
     refine ⟨y, X.isoSpec.hom.homeomorph.injective ?_⟩
-    show (X.isoSpec.inv ≫ X.isoSpec.hom) (gSpec y) = X.isoSpec.hom x
+    change (X.isoSpec.inv ≫ X.isoSpec.hom) (gSpec y) = X.isoSpec.hom x
     rw [X.isoSpec.inv_hom_id]
     exact hy
   refine ⟨X', g, hgSurj, hgFLF, ?_, ?_, ?_⟩
@@ -335,11 +335,11 @@ theorem exists_finiteLocallyFree_cover_closedImmersion
       rw [hJ]
       refine Ideal.span_le.mpr ?_
       rintro z ⟨i, rfl⟩
-      show MvPolynomial.aeval (fun j ↦ α j (k j))
+      change MvPolynomial.aeval (fun j ↦ α j (k j))
         (∏ j : Fin (d i), (MvPolynomial.X i - MvPolynomial.C (α i j))) = 0
       rw [map_prod]
       refine Finset.prod_eq_zero (Finset.mem_univ (k i)) ?_
-      show MvPolynomial.aeval (fun j ↦ α j (k j))
+      change MvPolynomial.aeval (fun j ↦ α j (k j))
         (MvPolynomial.X i - MvPolynomial.C (α i (k i))) = 0
       rw [map_sub, MvPolynomial.aeval_X, MvPolynomial.aeval_C]
       simp [Algebra.algebraMap_self]
@@ -349,7 +349,7 @@ theorem exists_finiteLocallyFree_cover_closedImmersion
     have hevCsurj (k : K) : Function.Surjective (evC k) := by
       intro a
       refine ⟨Ideal.Quotient.mk (monicRelationIdeal P) (MvPolynomial.C a), ?_⟩
-      show MvPolynomial.aeval (fun i ↦ α i (k i)) (MvPolynomial.C a) = a
+      change MvPolynomial.aeval (fun i ↦ α i (k i)) (MvPolynomial.C a) = a
       rw [MvPolynomial.aeval_C]
       rfl
     have hsK (k : K) : IsClosedImmersion (sK k) ∧ sK k ≫ p = 𝟙 X' := by
@@ -376,7 +376,7 @@ theorem exists_finiteLocallyFree_cover_closedImmersion
           Ideal.Quotient.eq_zero_iff_mem.mpr (by
             rw [← hrel i]
             exact Ideal.subset_span ⟨i, rfl⟩)
-        show θ (Ideal.Quotient.mk (monicRelationIdeal P)
+        change θ (Ideal.Quotient.mk (monicRelationIdeal P)
           (∏ j : Fin (d i), (MvPolynomial.X i - MvPolynomial.C (α i j)))) = 0
         rw [hi]
         simp
@@ -389,28 +389,28 @@ theorem exists_finiteLocallyFree_cover_closedImmersion
       have hcomp : ψ.comp (ev k).toRingHom = φ := by
         apply MvPolynomial.ringHom_ext
         · intro a
-          show ψ (ev k (MvPolynomial.C a)) = φ (MvPolynomial.C a)
+          change ψ (ev k (MvPolynomial.C a)) = φ (MvPolynomial.C a)
           rw [MvPolynomial.aeval_C]
-          show θ (algebraMap A' C (algebraMap A' A' a)) =
+          change θ (algebraMap A' C (algebraMap A' A' a)) =
             θ (Ideal.Quotient.mk (monicRelationIdeal P) (MvPolynomial.C a))
           simp only [Algebra.algebraMap_self, RingHom.id_apply]
           rw [← MvPolynomial.algebraMap_eq]
           exact congrArg θ (RingHom.congr_fun hcoeff a).symm
         · intro i
-          show ψ (ev k (MvPolynomial.X i)) = φ (MvPolynomial.X i)
+          change ψ (ev k (MvPolynomial.X i)) = φ (MvPolynomial.X i)
           rw [MvPolynomial.aeval_X, ← hk i]
-          show θ (algebraMap A' C (α i (k i))) =
+          change θ (algebraMap A' C (α i (k i))) =
             θ (Ideal.Quotient.mk (monicRelationIdeal P) (MvPolynomial.C (α i (k i))))
           rw [← MvPolynomial.algebraMap_eq]
           exact congrArg θ (RingHom.congr_fun hcoeff (α i (k i))).symm
       have hfac : ψ.comp (evC k).toRingHom = θ := Ideal.Quotient.ringHom_ext hcomp
       refine ⟨k, PrimeSpectrum.comap ψ ⟨⊥, Ideal.isPrime_bot⟩, ?_⟩
       apply PrimeSpectrum.ext
-      show Ideal.comap (evC k).toRingHom
+      change Ideal.comap (evC k).toRingHom
         (PrimeSpectrum.comap ψ ⟨⊥, Ideal.isPrime_bot⟩).asIdeal = z.asIdeal
       ext a
       rw [PrimeSpectrum.comap_asIdeal, Ideal.mem_comap]
-      show (ψ.comp (evC k).toRingHom) a = 0 ↔ a ∈ z.asIdeal
+      change (ψ.comp (evC k).toRingHom) a = 0 ↔ a ∈ z.asIdeal
       rw [hfac]
       simp [θ, Ideal.Quotient.eq_zero_iff_mem]
     refine ⟨Z', p, i, hiClosed, hip, hpFLF, Fintype.card K,

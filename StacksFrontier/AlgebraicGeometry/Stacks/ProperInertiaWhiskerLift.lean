@@ -98,7 +98,7 @@ theorem exists_lift_of_isProper {U V : BigFppfOver B S hS} (j : V ⟶ U)
   let iK : K₀ ≅ V := Over.isoMk
     (ObjectProperty.isoMk _ eV.symm) (by
       apply ObjectProperty.hom_ext
-      show eV.inv ≫ V.hom.hom = _
+      change eV.inv ≫ V.hom.hom = _
       have h := congrArg (fun k => k.hom) (Over.w j)
       change j.left.hom ≫ U.hom.hom = V.hom.hom at h
       rw [← h, ← Category.assoc, hinc]
@@ -119,7 +119,7 @@ theorem exists_lift_of_isProper {U V : BigFppfOver B S hS} (j : V ⟶ U)
       generic := yoneda.map iK.hom ≫ x
       special := yoneda.map iR.hom ≫ y
       comm := by
-        show (yoneda.map iK.hom ≫ x) ≫ p =
+        change (yoneda.map iK.hom ≫ x) ≫ p =
           yoneda.map j₀ ≫ yoneda.map iR.hom ≫ y
         rw [Category.assoc, hxy, ← Category.assoc, ← yoneda.map_comp, hj₀,
           yoneda.map_comp, Category.assoc] }
@@ -134,7 +134,7 @@ theorem exists_lift_of_isProper {U V : BigFppfOver B S hS} (j : V ⟶ U)
     simpa only [Category.assoc, ← yoneda.map_comp_assoc, Iso.hom_inv_id,
       CategoryTheory.Functor.map_id, Category.id_comp, Category.comp_id] using hl
   · rw [Category.assoc, l.special_comm]
-    show yoneda.map iR.inv ≫ yoneda.map iR.hom ≫ y = y
+    change yoneda.map iR.inv ≫ yoneda.map iR.hom ≫ y = y
     simp [← yoneda.map_comp_assoc]
 
 /-- **The relocalised form of `AlgebraicGeometry.Stack.exists_lift_of_isProper`.** If the algebraic
@@ -165,12 +165,13 @@ theorem exists_section_of_isProper {U V : BigFppfOver B S hS} (j : V ⟶ U)
   let x : yoneda.obj V ⟶ (G.obj A).1.left := yonedaEquiv.symm (i.inv.app _ s₀)
   have hx : x ≫ p = yoneda.map j := by
     apply yonedaEquiv.injective
-    show p.app (.op V) ((G.obj A).1.left.map (𝟙 V).op (i.inv.app (.op V) s₀)) = j
+    change p.app (.op V) ((G.obj A).1.left.map (𝟙 V).op (i.inv.app (.op V) s₀)) = j
     rw [op_id, CategoryTheory.Functor.map_id]
     exact spacesOverSmallerBaseFunctor_hom_app_forgetIso_inv_app B U.left.1 S U.left.2 hS
       U.hom A (.op V) s₀
   obtain ⟨l, hl, hlp⟩ := exists_lift_of_isProper B S hS j R eU eV hj (G.obj A).property
-    (isAlgebraicSpace_yoneda B S hS (Over.mk U.hom)) p hp x (𝟙 _) (by rw [Category.comp_id]; exact hx)
+    (isAlgebraicSpace_yoneda B S hS (Over.mk U.hom)) p hp x (𝟙 _)
+    (by rw [Category.comp_id]; exact hx)
   let t₀ := i.hom.app (.op U) (yonedaEquiv l)
   have ht : (Over.homMk t₀.1.1 t₀.2 : U ⟶ U) = 𝟙 _ := by
     have ht := spacesOverSmallerBaseFunctor_hom_app_forgetIso_inv_app B U.left.1 S U.left.2 hS
@@ -187,11 +188,11 @@ theorem exists_section_of_isProper {U V : BigFppfOver B S hS} (j : V ⟶ U)
     rw [Category.id_comp] at hl'
     dsimp only [t₀]
     rw [← NatTrans.naturality_apply]
-    show i.hom.app (.op V) ((G.obj A).1.left.map j.op (l.app (.op U) (𝟙 U))) = s₀
+    change i.hom.app (.op V) ((G.obj A).1.left.map j.op (l.app (.op U) (𝟙 U))) = s₀
     rw [← l.naturality_apply]
-    show i.hom.app (.op V) (l.app (.op V) (j ≫ 𝟙 U)) = s₀
+    change i.hom.app (.op V) (l.app (.op V) (j ≫ 𝟙 U)) = s₀
     rw [Category.comp_id, hl']
-    show i.hom.app (.op V) ((G.obj A).1.left.map (𝟙 V).op (i.inv.app (.op V) s₀)) = s₀
+    change i.hom.app (.op V) ((G.obj A).1.left.map (𝟙 V).op (i.inv.app (.op V) s₀)) = s₀
     rw [op_id, CategoryTheory.Functor.map_id]
     exact i.inv_hom_id_app_apply _ s₀
   clear_value t₀
@@ -242,14 +243,14 @@ theorem exists_extension_of_presheaf_section
     { base := eqToHom (Functor.congr_obj e.hom.w z) ≫ j
       fiber := eqToHom (by
         apply Discrete.ext
-        show (e.hom.functor.obj z).fiber.as =
+        change (e.hom.functor.obj z).fiber.as =
           F.map (eqToHom (Functor.congr_obj e.hom.w z) ≫ j).op t
         rw [op_comp, F.map_comp, types_comp_apply, ht]
         exact ((map_op_eqToHom_comp F _ _ _).trans
           (map_op_eqToHom_self F _ (e.hom.functor.obj z).fiber.as)).symm) }
   have hτ : (presheafOfCategories (F ⋙ typeToCat)).p.IsHomLift j τ :=
     IsHomLift.of_fac' _ j τ (Functor.congr_obj e.hom.w z) rfl (by
-      show _ ≫ j = _ ≫ j ≫ 𝟙 T
+      change _ ≫ j = _ ≫ j ≫ 𝟙 T
       simp)
   have hmap : p.IsHomLift j (e.inv.functor.map τ) :=
     Functor.isHomLift_map_of_comp_eq e.inv.w j τ
@@ -358,7 +359,7 @@ theorem exists_whiskerLeft_of_isProper_inertiaProjection
   let V₀ : (schemeFibredCategory B S hS V).val.obj := Over.mk (𝟙 V)
   have hjobj : j.hom.obj V₀ = Over.mk inc := by
     rw [show j.hom.toFunctor = Over.map inc from hj]
-    show Over.mk (𝟙 V ≫ inc) = Over.mk inc
+    change Over.mk (𝟙 V ≫ inc) = Over.mk inc
     rw [Category.id_comp]
   let yf := back ⋙ y.hom.toFunctor
   have hyf : yf ⋙ 𝒴.val.val.p = Over.map W.hom :=
@@ -367,7 +368,8 @@ theorem exists_whiskerLeft_of_isProper_inertiaProjection
   have hτiso : IsIso (τ.hom.toNatTrans.app V₀) :=
     Functor.isIso_of_fiber_isGroupoid (𝒴.val.isFiberedInGroupoids.fiber_isGroupoid V)
       (τ.hom.toNatTrans.app V₀) hτ
-  let τAut : Aut (y.hom.obj (j.hom.obj V₀)) := Aut.of (@asIso _ _ _ _ (τ.hom.toNatTrans.app V₀) hτiso)
+  let τAut : Aut (y.hom.obj (j.hom.obj V₀)) :=
+    Aut.of (@asIso _ _ _ _ (τ.hom.toNatTrans.app V₀) hτiso)
   let A : RelativeInertia 𝒴.val.val.p :=
     { obj := y.hom.obj (j.hom.obj V₀)
       auto := τAut
@@ -375,20 +377,20 @@ theorem exists_whiskerLeft_of_isProper_inertiaProjection
   have hA : 𝒴.val.val.p.obj A.obj = V :=
     obj_eq_of_isHomLift_id 𝒴.val.val.p (τ.hom.toNatTrans.app V₀) hτ
   have hgx : (Over.map W.hom).obj (Over.mk inc.left) = V := by
-    show Over.mk (inc.left ≫ W.hom) = V
+    change Over.mk (inc.left ≫ W.hom) = V
     rw [Over.w inc]
     rfl
   let c₀ : back.obj (Over.mk inc.left) ≅ Over.mk inc :=
     Over.isoMk (Over.isoMk (Iso.refl V.left) (by
-          show 𝟙 V.left ≫ V.hom = inc.left ≫ W.hom
+          change 𝟙 V.left ≫ V.hom = inc.left ≫ W.hom
           rw [Category.id_comp]
           exact (Over.w inc).symm)) (by
         apply Over.OverMorphism.ext
-        show 𝟙 V.left ≫ inc.left = inc.left
+        change 𝟙 V.left ≫ inc.left = inc.left
         rw [Category.id_comp])
   let c : back.obj (Over.mk inc.left) ≅ j.hom.obj V₀ := c₀ ≪≫ eqToIso hjobj.symm
   have hc₀ : (schemeFibredCategory B S hS W).val.p.IsHomLift (𝟙 V) c₀.hom := by
-    show (Over.forget W).IsHomLift (𝟙 V) c₀.hom
+    change (Over.forget W).IsHomLift (𝟙 V) c₀.hom
     refine IsHomLift.of_fac' _ _ _ hgx rfl ?_
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
@@ -426,9 +428,9 @@ theorem exists_whiskerLeft_of_isProper_inertiaProjection
       simp [back, Over.iteratedSliceBackward, T₀]
       rfl)
   have he : (schemeFibredCategory B S hS W).val.p.IsHomLift (𝟙 W) e.hom := by
-    show (Over.forget W).IsHomLift (𝟙 W) e.hom
+    change (Over.forget W).IsHomLift (𝟙 W) e.hom
     refine IsHomLift.of_fac' _ _ _ rfl ?_ ?_
-    · show Over.mk (𝟙 W.left ≫ W.hom) = W
+    · change Over.mk (𝟙 W.left ≫ W.hom) = W
       rw [Category.id_comp]
       cases W
       rfl
@@ -478,7 +480,7 @@ theorem exists_whiskerLeft_of_isProper_inertiaProjection
     simp [← reassoc_of% hDtDe]
   refine CatFiberedInGroupoids.exists_whiskerLeft_of_unitHom inc hj τ
     (E.hom ≫ qiso.hom ≫ au ≫ qiso.inv ≫ E.inv) hδ₀ (Eq.symm ?_)
-  show t ≫ E.hom ≫ qiso.hom ≫ au ≫ qiso.inv ≫ E.inv = τ₀ ≫ t
+  change t ≫ E.hom ≫ qiso.hom ≫ au ≫ qiso.inv ≫ E.inv = τ₀ ≫ t
   rw [← hbt]
   simp [reassoc_of% hbcomm]
 

@@ -177,7 +177,7 @@ theorem isRegularSection_chartFunctionSections (f : GlobalFunctions B S hS X hX)
       e ((Scheme.Hom.appTop V.ι).hom a) =
         (etaleChartScheme B S hS C).presheaf.map
           (homOfLE (show V ≤ ⊤ from le_top)).op a := by
-    show ((etaleChartScheme B S hS C).presheaf.map (eqToHom V.ι_image_top.symm).op)
+    change ((etaleChartScheme B S hS C).presheaf.map (eqToHom V.ι_image_top.symm).op)
         (((etaleChartScheme B S hS C).presheaf.map
           (homOfLE (x := V.ι ''ᵁ (⊤ : V.toScheme.Opens))
             (show V.ι ''ᵁ (⊤ : V.toScheme.Opens) ≤ ⊤ from le_top)).op) a) =
@@ -249,7 +249,7 @@ theorem etaleLocalRingGerm_chartValue_eq_of_hom (f : GlobalFunctions B S hS X hX
   have hw := CategoryTheory.Limits.colimit.w D (op g)
   have hw' := congrArg
     (fun q ↦ q.hom (ULift.up (chartValue B S hS X hX f V.chart))) hw
-  show (CategoryTheory.Limits.colimit.ι D (op U)).hom
+  change (CategoryTheory.Limits.colimit.ι D (op U)).hom
       (ULift.up (chartValue B S hS X hX f U.chart)) =
     (CategoryTheory.Limits.colimit.ι D (op V)).hom
       (ULift.up (chartValue B S hS X hX f V.chart))
@@ -306,7 +306,7 @@ theorem isRegularSection_iff_etaleLocalRing (f : GlobalFunctions B S hS X hX) :
     let N : SmallEtaleNeighborhood x := ⟨U, p.1, p.2⟩
     let _ : Field x.val.carrier := x.val.field
     let _ : Unique ((BigFppfOver.toScheme B S hS).obj x.val.siteObject) := by
-      show Unique (Spec (.of x.val.carrier))
+      change Unique (Spec (.of x.val.carrier))
       infer_instance
     obtain rfl : z' = closedPoint (chartGeometricPoint N).residueField := Subsingleton.elim _ _
     subst z

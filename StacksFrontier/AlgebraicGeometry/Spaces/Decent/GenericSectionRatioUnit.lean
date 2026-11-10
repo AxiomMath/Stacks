@@ -107,7 +107,7 @@ theorem PrimeDivisor.exists_isUnit_genericToMeromorphicFunctions_eq_of_generates
   obtain ⟨v, hv : v • t = t'⟩ := ht.2 t'
   obtain ⟨w, hw : w • t' = t⟩ := ht'bij.2 t
   have hwv : w * v = 1 := ht.1 <| by
-    show (w * v) • t = (1 : R) • t
+    change (w * v) • t = (1 : R) • t
     rw [mul_smul, hv, hw, one_smul]
   refine ⟨v, ⟨⟨v, w, (mul_comm v w).trans hwv, hwv⟩, rfl⟩,
     (Z.bijective_smul_toMeromorphicSectionValue B S hS hX hdec hInt hN R hR L hL t ht).1 ?_⟩

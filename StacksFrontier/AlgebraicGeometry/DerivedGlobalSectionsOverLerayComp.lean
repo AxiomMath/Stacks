@@ -232,7 +232,7 @@ theorem _root_.StacksDraft.DerivedInverseLimit.derivedRestrictScalarsComp_factor
     ((Fg.mapHomologicalComplex (ComplexShape.up ℤ)).obj K)
   have hD := StacksDraft.DerivedInverseLimit.derivedRestrictScalarsComp_factors.{u, u} φ ψ χ w K
   have hU := Fh.quotientCompQhIso_inv_app_comp_Qh_map_comp_mapDerivedCategory_map c
-  show Ff.mapDerivedCategoryFactorsh.inv.app
+  change Ff.mapDerivedCategoryFactorsh.inv.app
         ((HomotopyCategory.quotient _ _).obj
           ((Fg.mapHomologicalComplex (ComplexShape.up ℤ)).obj K)) ≫
       Ff.mapDerivedCategory.map

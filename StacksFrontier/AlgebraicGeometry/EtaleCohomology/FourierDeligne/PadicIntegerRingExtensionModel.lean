@@ -90,7 +90,7 @@ variable (ℓ) (E L : Type) [Field E] [Algebra ℚ_[ℓ] E] [Field L] [Algebra E
 /-- `ℤ_ℓ → E → L` is a scalar tower for the `ℤ_ℓ`-algebra structures through `ℚ_ℓ`. -/
 theorem isScalarTower_padicInt_padicIntAlgebraOfRat : IsScalarTower ℤ_[ℓ] E L :=
   IsScalarTower.of_algebraMap_eq fun z => by
-    show algebraMap ℚ_[ℓ] L (algebraMap ℤ_[ℓ] ℚ_[ℓ] z) =
+    change algebraMap ℚ_[ℓ] L (algebraMap ℤ_[ℓ] ℚ_[ℓ] z) =
       algebraMap E L (algebraMap ℚ_[ℓ] E (algebraMap ℤ_[ℓ] ℚ_[ℓ] z))
     exact IsScalarTower.algebraMap_apply ℚ_[ℓ] E L _
 
@@ -147,7 +147,7 @@ private theorem isOpen_ker_map_padicIntegerRingMap_modelRep {m : ℕ} (σ : G �
         exact Set.mem_iInter.1 (Set.mem_iInter.1 hg p) q) i j
     simpa [Ideal.map_span] using h
   rw [SetLike.mem_coe, MonoidHom.mem_ker, Units.ext_iff, Units.val_one]
-  show ((σ' g).val.map ι).map (Ideal.Quotient.mk _) = 1
+  change ((σ' g).val.map ι).map (Ideal.Quotient.mk _) = 1
   ext i j
   have h1 : (1 : Matrix (Fin m) (Fin m)
       (integralClosure ℤ_[ℓ] L ⧸ Ideal.span {((ℓ : ℕ) : integralClosure ℤ_[ℓ] L) ^ n})) i j =
@@ -188,7 +188,7 @@ theorem exists_padicIntegerRing_model {m : ℕ} (σ : G →* GL (Fin m) E)
       (b' := std) (c := v) (c' := std), LinearMap.toMatrix_eq_toMatrix', LinearMap.toMatrix'_toLin']
   refine ⟨(GeneralLinearGroup.map ι).comp σ', T, fun g => ?_,
     isOpen_ker_map_padicIntegerRingMap_modelRep b L σ hσ⟩
-  show ((σ' g).val.map ι).map (algebraMap (integralClosure ℤ_[ℓ] L) L) = A'.map f * _ * A.map f
+  change ((σ' g).val.map ι).map (algebraMap (integralClosure ℤ_[ℓ] L) L) = A'.map f * _ * A.map f
   rw [Matrix.map_map, show (algebraMap (integralClosure ℤ_[ℓ] L) L) ∘ ι =
       f ∘ (algebraMap (integralClosure ℤ_[ℓ] E) E) from rfl, ← Matrix.map_map, hconj,
     Matrix.map_mul, Matrix.map_mul]

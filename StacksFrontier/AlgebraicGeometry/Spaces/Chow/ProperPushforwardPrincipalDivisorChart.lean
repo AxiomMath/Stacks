@@ -136,7 +136,7 @@ theorem exists_isPullback_chartFibre (hpB : p ≫ sY = sX)
         (pointsMap D.site D.base D.base_mem X p
           (genericPoint D.site D.base D.base_mem hX.1 hintX)) := by
     rw [← fieldMorphism_map_yoneda]
-    show _ = yoneda.map f ≫ yonedaEquiv.symm _
+    change _ = yoneda.map f ≫ yonedaEquiv.symm _
     rw [yonedaEquiv_symm_naturality_left, hf]
     rfl
   obtain ⟨a, ha1, -, ha⟩ := exists_isPullback_baseChange_of_isPullback hα hd hgf hcomm

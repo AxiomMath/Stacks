@@ -83,7 +83,7 @@ def Cone.ofOver {D : I ⥤ C} (f : (i : I) → D.obj i ⟶ S)
   pt := K.pt.left
   π :=
     { app i := (K.π.app i).left
-      naturality := fun i j g => congrArg Over.Hom.left (K.π.naturality g) }
+      naturality := by intros; exact congrArg Over.Hom.left (K.π.naturality ‹_›) }
 
 /-- The vertex of `Cone.ofOver f hf K` is the underlying object `K.pt.left` of the vertex of
 `K`. -/

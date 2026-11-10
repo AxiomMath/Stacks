@@ -68,7 +68,7 @@ theorem inheritedEtaleStructureHom_app (X : 𝒳) :
     (inheritedEtaleStructureHom B S hS r r' hr hr' K hK).hom.app (op X) =
       (BigFppfOver.structureSheaf B S hS).obj.map
         (eqToHom (Functor.congr_obj hK.comp_eq X)).op := by
-  show (BigFppfOver.structureSheaf B S hS).obj.map ((eqToHom hK.comp_eq).app X).op = _
+  change (BigFppfOver.structureSheaf B S hS).obj.map ((eqToHom hK.comp_eq).app X).op = _
   rw [eqToHom_app]
 
 /-- **The inverse image of modules on the inherited étale sites along a 1-morphism `K`**:
@@ -112,12 +112,12 @@ theorem etaleChartStructureHom_comp_inheritedEtaleStructureHom :
             (FibredSite.ringStructureSheafCore B S hS r' hr' .etale)) =
       etaleChartStructureHom B S hS p r' hp hr' eU (f ⋙ K) hfK := by
   refine Sheaf.hom_ext (NatTrans.ext (funext fun W ↦ RingCat.hom_ext (RingHom.ext fun ρ ↦ ?_)))
-  show (inheritedEtaleStructureHom B S hS r r' hr hr' K hK).hom.app
+  change (inheritedEtaleStructureHom B S hS r r' hr hr' K hK).hom.app
       (op ((etaleChartToFibred B S hS p eU f).obj W.unop))
       ((etaleChartStructureHom B S hS p r hp hr eU f hf).hom.app W ρ) =
     (etaleChartStructureHom B S hS p r' hp hr' eU (f ⋙ K) hfK).hom.app W ρ
   rw [inheritedEtaleStructureHom_app, etaleChartStructureHom_app, etaleChartStructureHom_app]
-  show ((BigFppfOver.structureSheaf B S hS).obj.map _ ≫
+  change ((BigFppfOver.structureSheaf B S hS).obj.map _ ≫
     (BigFppfOver.structureSheaf B S hS).obj.map _) ρ = _
   rw [← Functor.map_comp, ← op_comp, eqToHom_trans]
   rfl
@@ -211,7 +211,7 @@ theorem comparisonAlgebraicSpacesModules_inheritedEtalePullback
     comparisonAlgebraicSpacesModules_adjoint, comparisonAlgebraicSpacesModules_adjoint]
   refine (modulePushforwardHomEquiv B S hS aSpace _ _).injective ?_
   refine ModuleFMap.ext B S hS (funext fun d ↦ funext fun s ↦ ?_)
-  show (modulePushforwardHomFMap B S hS aSpace _ _ (_ ≫ _)).app d s =
+  change (modulePushforwardHomFMap B S hS aSpace _ _ (_ ≫ _)).app d s =
     (modulePushforwardHomFMap B S hS aSpace _ _ (_ ≫ _)).app d s
   rw [modulePushforwardHomFMap_comp_map, modulePushforwardHomFMap_precomp]
   unfold moduleComparisonPushforwardHom

@@ -9,7 +9,8 @@ public import StacksFrontier.CategoryTheory.Sites.Modules.Localization.Represent
 Stacks 04IX localizes a ringed site `(C, J, O)` at an object `U`, and Stacks 04IE localizes the
 ringed topos `(Sh(C, J), O)` at a sheaf `F`. Taking `F` to be the sheaf `h_U^#` associated to
 the presheaf represented by `U` gives two localizations of the same ringed topos. The module
-`StacksFrontier.CategoryTheory.Sites.Modules.Localization.RepresentableLocalization` identifies their
+`StacksFrontier.CategoryTheory.Sites.Modules.Localization.RepresentableLocalization` identifies
+their
 underlying topoi, their inverse images and their structure sheaves; this module proves the last
 compatibility of Stacks 04J3, that the two localization morphisms have the same structure map
 under that identification.

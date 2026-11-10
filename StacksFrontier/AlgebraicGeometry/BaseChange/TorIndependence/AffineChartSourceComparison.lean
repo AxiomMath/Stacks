@@ -1,19 +1,19 @@
 module
 
 public import
-  StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.AffineChartSourceComparison.Mates
+StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.AffineChartSourceComparison.Mates
 public import
-  StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.AffineChartSourceComparison.PastedSquare
+StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.AffineChartSourceComparison.PastedSquare
 public import
-  StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.AffineChartSourceComparison.UnitRestrict
+StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.AffineChartSourceComparison.UnitRestrict
 public import
-  StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.AffineChartSourceComparison.OuterSquare
+StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.AffineChartSourceComparison.OuterSquare
 public import
-  StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.AffineChartSourceComparison.SourceBridge
+StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.AffineChartSourceComparison.SourceBridge
 public import
-  StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.AffineChartSourceComparison.MergeCounit
+StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.AffineChartSourceComparison.MergeCounit
 public import
-  StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.AffineChartSourceComparison.SpecCorner
+StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.AffineChartSourceComparison.SpecCorner
 
 /-!
 # The cube at a chart, read against the comparison of the four local rings

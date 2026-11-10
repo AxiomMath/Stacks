@@ -94,14 +94,14 @@ theorem Intertwines.add {a b : GradedCapFamily G} {a' b' : GradedCapFamily H}
     (ha : Intertwines pull a a') (hb : Intertwines pull b b') :
     Intertwines pull (a + b) (a' + b') := by
   intro k i x
-  show pull _ (a k i x + b k i x) = gradedDegreeCast H _ (a' _ i _ + b' _ i _)
+  change pull _ (a k i x + b k i x) = gradedDegreeCast H _ (a' _ i _ + b' _ i _)
   rw [map_add, ha k i x, hb k i x, map_add]
 
 /-- An intertwiner of two families intertwines their negatives. -/
 theorem Intertwines.neg {a : GradedCapFamily G} {a' : GradedCapFamily H}
     (ha : Intertwines pull a a') : Intertwines pull (-a) (-a') := by
   intro k i x
-  show pull _ (-a k i x) = gradedDegreeCast H _ (-a' _ i _)
+  change pull _ (-a k i x) = gradedDegreeCast H _ (-a' _ i _)
   rw [map_neg, ha k i x, map_neg]
 
 /-- An intertwiner of two pairs of families intertwines their products. -/

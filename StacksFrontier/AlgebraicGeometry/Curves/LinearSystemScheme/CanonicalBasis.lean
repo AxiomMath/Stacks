@@ -170,7 +170,7 @@ theorem coordMor_comp_inv_eq_pointOfClosedPoint (φ : Module.Dual k V) (hφ : φ
     rw [hpt]
     rfl
   refine Subtype.ext ?_
-  show (coordMor (𝟙 (Spec (.of k))) c hc ≫
+  change (coordMor (𝟙 (Spec (.of k))) c hc ≫
       (projectiveSpaceOfModuleIsoProjMvPolynomial bV).inv) (IsLocalRing.closedPoint k) = _
   set q := (coordMor (𝟙 (Spec (.of k))) c hc ≫
       (projectiveSpaceOfModuleIsoProjMvPolynomial bV).inv) (IsLocalRing.closedPoint k)
@@ -193,7 +193,7 @@ theorem coordMor_comp_inv_eq_pointOfClosedPoint (φ : Module.Dual k V) (hφ : φ
         coordGrading k n 1 :=
       SymPow.gradedMvPolynomialHom_apply bV _ ▸ (SymPow.gradedMvPolynomialHom bV).map_mem
         (show SymmetricAlgebra.ι k V v ∈ SymPow.symmetricPower 1 k V by
-          show _ ∈ LinearMap.range (SymmetricAlgebra.ι k V) ^ 1
+          change _ ∈ LinearMap.range (SymmetricAlgebra.ι k V) ^ 1
           rw [pow_one]
           exact LinearMap.mem_range_self _ _)
     rw [coordMor, Proj.fromOfGlobalSections_preimage_basicOpen _ _ _ one_pos hdeg] at hpre

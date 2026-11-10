@@ -209,15 +209,11 @@ theorem invertible_of_rankAtStalk_eq_one [Module.Finite R P]
   let d : (Module.Dual R P ⊗[R] P) →ₗ[R] Module.End R P := dualTensorHom R P P
   let s : R →+* Module.End R P := Module.toModuleEnd R (S := R) P
   have hrel (t : Module.Dual R P ⊗[R] P) : s (c t) = d t := by
-    induction t using TensorProduct.induction_on with
-    | zero =>
-      apply LinearMap.ext
-      intro y
-      simp [c, d, s]
+    induction t using TensorProduct.inductionOn with
     | tmul φ x =>
       apply LinearMap.ext
       intro y
-      show (φ x) • y = (φ y) • x
+      change (φ x) • y = (φ y) • x
       exact rank_one_dual_smul_commutes h φ x y
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
   have hd : Function.Bijective d := dualTensorHom_bijective
@@ -313,7 +309,7 @@ public theorem component_finite_projective [Module.Finite R M]
   have hfinW : Module.Finite R W :=
     (exteriorPower_finite_projective (R := R) (M := M) n).1
   have hfg : (component (R := R) (M := M) n).FG := by
-    show ((⋀[R]^n M).map sE).FG
+    change ((⋀[R]^n M).map sE).FG
     exact Submodule.FG.map sE (Module.Finite.iff_fg.mp hfinW)
   have hprojW : Module.Projective R W := (exteriorPower_finite_projective (R := R) (M := M) n).2
   have hprojP : Module.Projective R P := by
@@ -423,7 +419,7 @@ public theorem submodule_eq_iSup_finset_cover [Module.Finite R M]
     (hs : (Set.univ : Set (PrimeSpectrum R)) ⊆
       ⋃ n ∈ s, rankLocus (R := R) M n) :
     submodule (R := R) (M := M) = ⨆ n : s, component (R := R) (M := M) n := by
-  show (⨆ n : ℕ, component (R := R) (M := M) n) = _
+  change (⨆ n : ℕ, component (R := R) (M := M) n) = _
   apply le_antisymm
   · refine iSup_le fun n => ?_
     by_cases hn : n ∈ s

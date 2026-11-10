@@ -286,7 +286,7 @@ public theorem exists_longExactSequence_of_isPullback_of_cohomologyCommutesWithB
         rw [← etaleDerivedCohomologyShiftEquiv_comp] at h
         simp only [AddMonoidHom.coe_comp, Function.comp_apply, AddEquiv.trans_apply,
           AddEquiv.neg_apply, Preadditive.rightComp, AddMonoidHom.mk'_apply,
-          Preadditive.comp_neg, map_neg, neg_neg, AddMonoidHom.prod_apply, AddMonoidHom.coe_coe]
+          Preadditive.comp_neg, map_neg, neg_neg, AddMonoidHom.prod_apply, AddMonoidHom.coe_ofClass]
         rw [h])).2
       (exact_rightComp_of_distTriang _ (rot_of_distTriang _ (rot_of_distTriang _ hT')) _)
 

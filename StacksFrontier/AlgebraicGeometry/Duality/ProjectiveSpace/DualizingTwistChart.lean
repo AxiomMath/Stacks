@@ -124,6 +124,7 @@ attribute [local instance 10000] HasDerivedCategory.standard
 
 variable (R : CommRingCat.{u}) [IsNoetherianRing R]
 
+omit [IsNoetherianRing R] in
 /-- On `Spec R`, the canonical isomorphism of the affine open `⊤` with `Spec Γ(Spec R, ⊤)`,
 followed by `Spec` of the ring isomorphism `R ≅ Γ(Spec R, ⊤)`, is the inclusion of `⊤`. -/
 theorem isoSpec_hom_specMap_ΓSpecIso_inv :

@@ -55,7 +55,7 @@ theorem desuspendD_comp (K : CochainComplex C ℕ) (n : ℕ) :
   cases n with
   | zero => exact zero_comp
   | succ p =>
-    show (-K.d p (p + 1)) ≫ (-K.d (p + 1) (p + 1 + 1)) = 0
+    change (-K.d p (p + 1)) ≫ (-K.d (p + 1) (p + 1 + 1)) = 0
     rw [Preadditive.neg_comp_neg]
     exact K.d_comp_d _ _ _
 
@@ -101,10 +101,12 @@ theorem desuspendMap_f_zero {K L : CochainComplex C ℕ} (φ : K ⟶ L) :
     (desuspendMap φ).f 0 = 0 :=
   rfl
 
+omit [HasZeroObject C] in
 private theorem iso_inv_comp_neg_one_smul {A B D : C} (e : A ≅ B) (g : B ⟶ D) :
     e.inv ≫ ((-1 : ℤˣ) • (e.hom ≫ g)) = -g := by
   simp [Units.smul_def]
 
+omit [Preadditive C] [HasZeroObject C] in
 private theorem comp_iso_cancel {P Q R T A B : C} (x : P ⟶ Q) (a : A ≅ Q) (g : Q ⟶ R)
     (b : B ≅ R) (c : R ⟶ T) :
     x ≫ (g ≫ b.inv) ≫ b.hom ≫ c = (x ≫ a.inv) ≫ a.hom ≫ g ≫ c := by
@@ -211,6 +213,7 @@ theorem desuspendLift_f_succ {L : CochainComplex C₂ ℕ} {K : CochainComplex C
     (desuspendLift F ν).f (p + 1) = ν.f p :=
   rfl
 
+omit [Preadditive C] [HasZeroObject C] [Preadditive C₂] [HasZeroObject C₂] [F.Additive] in
 private theorem desuspendLift_extend_aux {P Q Q' R' : C₂} {U V' W' : C} (a : P ⟶ Q)
     (e : Q' ≅ Q) (n : Q ⟶ F.obj U) (b : R' ≅ F.obj U) (c : V' ≅ U) (d : U ⟶ W') :
     a ≫ (n ≫ b.inv) ≫ b.hom ≫ F.map c.inv ≫ F.map (c.hom ≫ d) ≫ 𝟙 (F.obj W') =

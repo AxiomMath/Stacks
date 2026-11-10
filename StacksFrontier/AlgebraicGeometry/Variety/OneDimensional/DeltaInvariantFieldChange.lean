@@ -94,8 +94,7 @@ private lemma tensorFractionRingToFractionRing_baseChange_mem_integralClosure
     (tensorFractionRingToFractionRing A B).toLinearMap.comp
         ((integralClosure A (FractionRing A)).val.toLinearMap.baseChange B) z ∈
       integralClosure B (FractionRing B) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z w hz hw =>
     rw [map_add]
     exact add_mem hz hw
@@ -128,7 +127,7 @@ private lemma baseChangeIntegralClosureMap_injective
     Function.Injective (baseChangeIntegralClosureMap A B) := fun _ _ h =>
   ((tensorFractionRingToFractionRing_injective A B).comp
     (by
-      rw [LinearMap.baseChange_eq_ltensor]
+      rw [LinearMap.baseChange_eq_lTensor]
       exact Module.Flat.lTensor_preserves_injective_linearMap _ Subtype.coe_injective))
     (congrArg Subtype.val h)
 
@@ -158,7 +157,7 @@ private lemma baseChangeIntegralClosureMap_comp_lTensor
         (Algebra.TensorProduct.includeRight (algebraMap A NA a)) =
           algebraMap B (B ⊗[A] FractionRing A) (algebraMap A B a) := by
       simp [LinearMap.baseChange_tmul]
-    show tensorFractionRingToFractionRing A B (NA.val.toLinearMap.baseChange B _) = _
+    change tensorFractionRingToFractionRing A B (NA.val.toLinearMap.baseChange B _) = _
     rw [hsrc]
     exact (tensorFractionRingToFractionRing A B).commutes _
   have hsmul : Algebra.TensorProduct.includeLeft (R := A) (S := A) (A := B) (B := NA) b *
@@ -204,7 +203,7 @@ private lemma length_baseChange_quotient_range_le_of_injective {A B M N : Type*}
       ((LinearMap.range fA).subtype.restrictScalars A))
   have hP : Pbase = P := by
     rw [← (Submodule.restrictScalars_injective A _ _).eq_iff]
-    show LinearMap.range (LinearMap.lTensor B
+    change LinearMap.range (LinearMap.lTensor B
       (Submodule.subtype (LinearMap.range fA))) = LinearMap.range (LinearMap.lTensor B fA)
     exact (LinearMap.lTensor_range (Q := B) (g := fA)).symm
   let et : B ⊗[A] (M ⧸ LinearMap.range fA) ≃ₗ[B] (B ⊗[A] M) ⧸ P :=

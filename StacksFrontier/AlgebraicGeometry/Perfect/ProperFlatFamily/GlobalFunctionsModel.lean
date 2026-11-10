@@ -87,7 +87,7 @@ theorem unitSectionsEquiv_smul (c : B)
     (s : Γ((Scheme.Modules.pullback g').obj (Scheme.unitModule X), ⊤)) :
     unitSectionsEquiv g' ((Stacks.Cech.baseRingHom f' ⊤ c) • s) =
       Stacks.Cech.globalRingHom f' c * unitSectionsEquiv g' s := by
-  show (Scheme.Modules.pullbackUnitIso g').hom.app ⊤ ((Stacks.Cech.baseRingHom f' ⊤ c) • s) = _
+  change (Scheme.Modules.pullbackUnitIso g').hom.app ⊤ ((Stacks.Cech.baseRingHom f' ⊤ c) • s) = _
   rw [baseRingHom_top, Scheme.Modules.Hom.app_smul]
   rfl
 
@@ -131,7 +131,7 @@ theorem unitSectionsEquiv_pullbackSectionHom {X'' : Scheme.{u}} (g'' : X'' ⟶ X
       pullbackGlobalSections g'' (Scheme.unitModule X') := by
     unfold pullbackSectionHom pullbackGlobalSections
     congr 2
-  show ((((Scheme.Modules.pullbackComp g'' g').hom.app (Scheme.unitModule X)) ≫
+  change ((((Scheme.Modules.pullbackComp g'' g').hom.app (Scheme.unitModule X)) ≫
       (Scheme.Modules.pullbackUnitIso (g'' ≫ g')).hom).app ⊤)
       (pullbackSectionHom g'' ((Scheme.Modules.pullback g').obj (Scheme.unitModule X)) ⊤ ⊤ hle
         ((Scheme.Modules.pullbackUnitIso g').inv.app ⊤ a)) = g''.appTop a
@@ -151,7 +151,7 @@ theorem globalRingHom_naturality {B B' : Type u} [CommRing B] [CommRing B'] (ψ'
     Stacks.Cech.globalRingHom f'' (ψ' c) = g''.appTop (Stacks.Cech.globalRingHom f' c) := by
   have h : CommRingCat.ofHom ψ' ≫ Stacks.Cech.globalRingHom f'' =
       Stacks.Cech.globalRingHom f' ≫ g''.appTop := by
-    show CommRingCat.ofHom ψ' ≫ (Scheme.ΓSpecIso (.of B')).inv ≫ f''.appTop =
+    change CommRingCat.ofHom ψ' ≫ (Scheme.ΓSpecIso (.of B')).inv ≫ f''.appTop =
       ((Scheme.ΓSpecIso (.of B)).inv ≫ f'.appTop) ≫ g''.appTop
     rw [Scheme.ΓSpecIso_inv_naturality_assoc, Category.assoc, ← Scheme.Hom.comp_appTop,
       ← Scheme.Hom.comp_appTop, w]
@@ -203,7 +203,7 @@ theorem appTop_kernelFunctionsEquiv {B B' : Type u} [CommRing B] [CommRing B'] (
   have key := kernelModelEquiv_comp α (Scheme.unitModule X) U hU hUaff hflat u b hP e₀ e₁ M hM ψ ψ'
     hsq hsq' hsq'' v hv
   set y := kernelModelEquiv α (Scheme.unitModule X) U hU hUaff hflat u b hP e₀ e₁ M hM ψ hsq v
-  show g''.appTop (unitSectionsEquiv g' y) = unitSectionsEquiv (g'' ≫ g') _
+  change g''.appTop (unitSectionsEquiv g' y) = unitSectionsEquiv (g'' ≫ g') _
   refine Eq.trans ?_ (congrArg (unitSectionsEquiv (g'' ≫ g')) key)
   have h := unitSectionsEquiv_pullbackSectionHom g' g'' (unitSectionsEquiv g' y)
   have e : (Scheme.Modules.pullbackUnitIso g').inv.app ⊤ (unitSectionsEquiv g' y) = y :=
@@ -248,13 +248,14 @@ theorem appTop_freeFunctionsEquiv {B B' : Type u} [CommRing B] [CommRing B'] (ψ
   appTop_kernelFunctionsEquiv α U hU hUaff hflat u b hP e₀ e₁ M hM ψ ψ' hsq hsq' hsq''
     ⟨v, by rw [ker_mulVecLin_map_eq_top M ψ hψ]; trivial⟩ _
 
+omit [Fintype I] in
 include U hU hUaff hflat u b hP e₀ e₁ hM in
 /-- **When `M ⊗ B` vanishes, the formation of the global functions commutes with every further
 base change**: for a `B`-algebra `B'` and a cartesian square exhibiting `X''` as the base change
 of `X'` to `B'`, the map `B' ⊗_B Γ(X', 𝒪_{X'}) ⟶ Γ(X'', 𝒪_{X''})`, `b' ⊗ a ↦ b' · g''^* a`, is
 bijective. -/
-theorem bijective_lift_appTop_of_matrix_map_eq_zero {B B' : Type u} [CommRing B] [CommRing B']
-    [Algebra B B'] (ψ : R →+* B) (hψ : M.map ψ = 0) {X' X'' : Scheme.{u}}
+theorem bijective_lift_appTop_of_matrix_map_eq_zero [Finite I] {B B' : Type u} [CommRing B]
+    [CommRing B'] [Algebra B B'] (ψ : R →+* B) (hψ : M.map ψ = 0) {X' X'' : Scheme.{u}}
     {f' : X' ⟶ Spec (.of B)} {f'' : X'' ⟶ Spec (.of B')} {g' : X' ⟶ X} {g'' : X'' ⟶ X'}
     (hsq : IsPullback g' f' f (Spec.map (CommRingCat.ofHom (ψ.comp α))))
     (hsq' : IsPullback g'' f'' f' (Spec.map (CommRingCat.ofHom (algebraMap B B'))))
@@ -270,6 +271,7 @@ theorem bijective_lift_appTop_of_matrix_map_eq_zero {B B' : Type u} [CommRing B]
       (Algebra.TensorProduct.algHomOfLiesOver (B := B) (B' := B') g''.appTop.hom
         (fun c => (globalRingHom_naturality (algebraMap B B') f' f'' g'' hsq'.w c).symm))
       fun _ _ => Commute.all _ _) := by
+  have := Fintype.ofFinite I
   let : Algebra B Γ(X', ⊤) :=
     ((Stacks.Cech.globalRingHom f').hom : B →+* Γ(X', ⊤)).toAlgebra
   let : Algebra B' Γ(X'', ⊤) :=

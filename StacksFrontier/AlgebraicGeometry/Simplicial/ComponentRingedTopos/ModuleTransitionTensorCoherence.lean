@@ -30,8 +30,8 @@ once.
 ## Implementation notes
 
 *What the mathematics is.* Both sides of `TransitionTensorCoherence` are rewritten by the two
-changes of presentation that
-`StacksFrontier/AlgebraicGeometry/Simplicial/ComponentRingedTopos/ModuleTransitionTensorPullback.lean`
+changes of presentation that `…/ModuleTransitionTensorPullback.lean` (in
+`StacksFrontier/AlgebraicGeometry/Simplicial/ComponentRingedTopos/`)
 and `…/ComponentRestrictionTensor.lean` provide — the transition of Stacks 09WF in its pullback
 presentation, and the comparison of Stacks 03EL at a component split into the identification of
 Stacks 0D72 and Stacks 03EL at the component morphism of ringed topoi — and then meet at one

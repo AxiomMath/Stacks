@@ -142,7 +142,7 @@ lemma endoIterCommIso_hom_frobIso (E : Y.Vect) : ∀ j,
     let x := (frobIso p hY hX f (vectIsoX f p hY E) j).hom
     let P := (Scheme.Modules.pullbackComp FX (frobPow p hY f j)).hom.app E.obj
     let γ := (frobPullbackComp f p hY j).hom.app E.obj
-    show eM.app A ≫ (Scheme.Modules.pullback FX).map c ≫ (Scheme.Modules.pullback FX).map x ≫ P =
+    change eM.app A ≫ (Scheme.Modules.pullback FX).map c ≫ (Scheme.Modules.pullback FX).map x ≫ P =
       (Scheme.Modules.pullback f).map ((Scheme.Modules.pullback FY).map g ≫
         (Scheme.Modules.pullbackComp FY (frobPow p hY (𝟙 Y) j)).hom.app E.obj) ≫
       (Scheme.Modules.pullbackComp f (FY ≫ frobPow p hY (𝟙 Y) j)).hom.app E.obj ≫

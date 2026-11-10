@@ -149,7 +149,7 @@ theorem leKerAtDvrPoints_of_mul_pow_eq_bot {A : Type u} [CommRing A] [Topologica
     (h : I * J ^ n = ⊥) : LeKerAtDvrPoints J := by
   intro R _ _ _ φ hadic
   obtain ⟨hne, -⟩ := hadic I hI
-  rw [Ne, Ideal.map_eq_bot_iff_le_ker, SetLike.not_le_iff_exists] at hne
+  rw [Ne, Ideal.map_eq_bot_iff_le_ker, IsConcreteLE.not_le_iff_exists] at hne
   obtain ⟨a, haI, haker⟩ := hne
   intro b hb
   have hab : a * b ^ n = 0 := by
@@ -248,7 +248,7 @@ private theorem exists_dvr_ker_le_of_isPrime {A : Type u} [CommRing A] [Topologi
     Ideal.map_isPrime_of_surjective Ideal.Quotient.mk_surjective
       (by simpa [Ideal.mk_ker] using le_sup_left.trans hmle)
   have hjm : Ideal.jacobson (⊥ : Ideal A) ≤ m := sInf_le ⟨bot_le, hm⟩
-  obtain ⟨x₀, hx₀I, hx₀p⟩ := SetLike.not_le_iff_exists.mp hpI
+  obtain ⟨x₀, hx₀I, hx₀p⟩ := IsConcreteLE.not_le_iff_exists.mp hpI
   have hqne : m.map (Ideal.Quotient.mk p) ≠ ⊥ := by
     intro hbot
     refine hx₀p (Ideal.Quotient.eq_zero_iff_mem.mp ?_)

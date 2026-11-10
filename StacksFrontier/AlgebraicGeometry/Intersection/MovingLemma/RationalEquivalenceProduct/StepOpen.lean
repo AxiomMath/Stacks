@@ -151,7 +151,7 @@ end Family
 
 section ZeroSectionSum
 
-variable (k : Type u) [Field k] [IsAlgClosed k] {X : Scheme.{u}} (p : X ⟶ Spec (.of k))
+variable (k : Type u) [Field k] {X : Scheme.{u}} (p : X ⟶ Spec (.of k))
   [IsVariety k p]
 
 open scoped Classical in

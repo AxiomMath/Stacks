@@ -48,8 +48,7 @@ public theorem isAdic_isomorphismInvariant
       (fun {B A : Type u} [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
         [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] (φ : B →+* A) ↦
         RingHom.IsAdic φ) C := by
-  intro B A B' A' _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-  intro eB eA heB heBs heA heAs f _ _ _ _ _
+  intro B A B' A' _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ eB eA heB heBs heA heAs f _ _ _ _ _
   exact RingHom.isAdic_comp_ringEquiv_iff eB eA heB heBs heA heAs f
 
 /-- Being adic and topologically of finite type is independent of the presentations of the source
@@ -90,8 +89,8 @@ public theorem adicTopologicallyFiniteType_isStableUnderComposition' :
         [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] (φ : B →+* A) ↦
         RingHom.IsAdic φ ∧ IsTopologicallyOfFiniteType φ) where
   isLocal := adicTopologicallyFiniteType_isLocal'
-  comp _ _ _ _ _ _ f g hf_cont hg_cont hf hg :=
-    isAdic_and_isTopologicallyOfFiniteType_comp f g hf_cont hg_cont hf hg
+  comp _ _ _ _ _ _ f g hf_cont _ hf hg :=
+    isAdic_and_isTopologicallyOfFiniteType_comp f g hf_cont hf hg
 
 end
 

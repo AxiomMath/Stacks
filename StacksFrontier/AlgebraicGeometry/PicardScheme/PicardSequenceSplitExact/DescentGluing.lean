@@ -165,12 +165,12 @@ theorem nonempty_iso_of_pullHom_hom_eq
   obtain ⟨φ', hφ'⟩ := exists_map_eq_of_pullHom_eq u hNM (fun i => (ψ i).inv) hinv
   refine ⟨⟨φ, φ', hMM.injective ?_, hNN.injective ?_⟩⟩
   · refine Pseudofunctor.DescentData.hom_ext fun i => ?_
-    show (F.map (u i).op.toLoc).toFunctor.map (φ ≫ φ') =
+    change (F.map (u i).op.toLoc).toFunctor.map (φ ≫ φ') =
       (F.map (u i).op.toLoc).toFunctor.map (𝟙 M)
     rw [CategoryTheory.Functor.map_comp, CategoryTheory.Functor.map_id, hφ i, hφ' i,
       Iso.hom_inv_id]
   · refine Pseudofunctor.DescentData.hom_ext fun i => ?_
-    show (F.map (u i).op.toLoc).toFunctor.map (φ' ≫ φ) =
+    change (F.map (u i).op.toLoc).toFunctor.map (φ' ≫ φ) =
       (F.map (u i).op.toLoc).toFunctor.map (𝟙 N)
     rw [CategoryTheory.Functor.map_comp, CategoryTheory.Functor.map_id, hφ i, hφ' i,
       Iso.inv_hom_id]
@@ -659,7 +659,7 @@ theorem isInvertible_of_pullback_fpqcCover {Y : Scheme.{u}} (M : Y.Modules)
       (R := LocallyFreeRank.toRingSheaf (𝒰.X i).toTopCat (𝒰.X i).sheaf)
       ((Scheme.Modules.pullback (𝒰.f i)).obj M) := hflf'
   have hzU : z ∈ (𝒰.f i) ⁻¹ᵁ U := by
-    show (𝒰.f i).base z ∈ U
+    change (𝒰.f i).base z ∈ U
     rw [hz]
     exact hyU
   have h₁ := finiteLocallyFreeRank_eq_card' ((Scheme.Modules.pullback (𝒰.f i)).obj M)

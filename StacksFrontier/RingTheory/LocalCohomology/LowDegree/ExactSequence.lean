@@ -371,7 +371,7 @@ theorem localizationBoundary_naturality
     (D.triangleMap f) 0 1 rfl
   have hs := D.sectionsIso_naturality f ((D.sectionsIso M).symm s)
   simp only [LinearEquiv.apply_symm_apply] at hs
-  show (DerivedCategory.HomologySequence.δ (D.triangle N) 0 1)
+  change (DerivedCategory.HomologySequence.δ (D.triangle N) 0 1)
       ((D.sectionsIso N).symm _) = _
   rw [← hs, LinearEquiv.symm_apply_apply]
   exact ConcreteCategory.congr_hom h ((D.sectionsIso M).symm s)

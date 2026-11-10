@@ -167,7 +167,7 @@ private theorem exists_le_map_inclusion'_eq (W : Opens (subspace X U)) :
       (⟨Subtype.val '' W.carrier, U.isOpenEmbedding'.isOpenMap W.carrier W.2⟩ : Opens X) ↔
         z ∈ W := by
     intro z
-    show (Subtype.val z) ∈ Subtype.val '' W.carrier ↔ z ∈ W
+    change (Subtype.val z) ∈ Subtype.val '' W.carrier ↔ z ∈ W
     exact Subtype.val_injective.mem_set_image
   refine ⟨⟨Subtype.val '' W.carrier, U.isOpenEmbedding'.isOpenMap W.carrier W.2⟩, ?_, ?_, hmemV⟩
   · rintro _ ⟨b, -, rfl⟩
@@ -243,7 +243,7 @@ private theorem jpExtendStalkToStalk_injective (G : TopCat.Presheaf (Type u) (su
     ← TopCat.Presheaf.germ_res_apply (jpExtend X U G) (homOfLE hVb) x hxV pb]
   congr 1
   apply Subtype.ext
-  show (CategoryTheory.ConcreteCategory.hom (G.map
+  change (CategoryTheory.ConcreteCategory.hom (G.map
           ((Opens.map U.inclusion').op.map (homOfLE hVa).op)) pa.1)
       = (CategoryTheory.ConcreteCategory.hom (G.map
           ((Opens.map U.inclusion').op.map (homOfLE hVb).op)) pb.1)
@@ -294,7 +294,7 @@ theorem stalkFunctor_map_toSheafify_isIso (P : TopCat.Presheaf (Type u) X) (x : 
     apply TopCat.Presheaf.stalk_hom_ext
     intro U hxU
     ext s
-    show (CategoryTheory.ConcreteCategory.hom (P.stalkToFiber x))
+    change (CategoryTheory.ConcreteCategory.hom (P.stalkToFiber x))
         ((CategoryTheory.ConcreteCategory.hom
             ((TopCat.Presheaf.stalkFunctor (Type u) x).map P.toSheafify))
           ((CategoryTheory.ConcreteCategory.hom (P.germ U x hxU)) s)) =
@@ -444,7 +444,7 @@ theorem exists_jExtendConst_hom_germ
       naturality := by
         intro W W' i
         ext p
-        show F.presheaf.map (homOfLE _).op σ
+        change F.presheaf.map (homOfLE _).op σ
             = (CategoryTheory.ConcreteCategory.hom (F.presheaf.map i.unop.op))
                 (F.presheaf.map (homOfLE _).op σ)
         rw [← CategoryTheory.ConcreteCategory.comp_apply, ← F.presheaf.map_comp]
@@ -461,7 +461,7 @@ theorem exists_jExtendConst_hom_germ
   -- the stalk element t = germ of (toSheafify p₀) at x
   refine ⟨ψ, P.sheafify.presheaf.germ V x hx (P.toSheafify.app (op V) p₀), ?_⟩
   -- compute the stalk map
-  show (CategoryTheory.ConcreteCategory.hom ((TopCat.Presheaf.stalkFunctor (Type u) x).map ψ.hom))
+  change (CategoryTheory.ConcreteCategory.hom ((TopCat.Presheaf.stalkFunctor (Type u) x).map ψ.hom))
       ((CategoryTheory.ConcreteCategory.hom (P.sheafify.presheaf.germ V x hx))
         (CategoryTheory.ConcreteCategory.hom (P.toSheafify.app (op V)) p₀)) = _
   rw [TopCat.Presheaf.stalkFunctor_map_germ_apply]
@@ -473,7 +473,7 @@ theorem exists_jExtendConst_hom_germ
       hlift
   rw [happ]
   -- fp.app (op V) p₀ = F.map (homOfLE (le_refl V)).op σ ; germ of that = germ σ
-  show (CategoryTheory.ConcreteCategory.hom (F.presheaf.germ V x hx))
+  change (CategoryTheory.ConcreteCategory.hom (F.presheaf.germ V x hx))
       (CategoryTheory.ConcreteCategory.hom (F.presheaf.map (homOfLE p₀.2).op) σ) = _
   rw [TopCat.Presheaf.germ_res_apply]
 
@@ -529,9 +529,9 @@ theorem exists_epi_from_coproduct_jExtendConst
       (TopCat.Presheaf.stalkFunctor (Type u) x).map (ψ ⟨x, s⟩).hom := by
     rw [← Functor.map_comp]
     congr 1
-    show (Limits.Sigma.ι (fun i => jExtendConst X (U i) PUnit.{u + 1}) ⟨x, s⟩ ≫
+    change (Limits.Sigma.ι (fun i => jExtendConst X (U i) PUnit.{u + 1}) ⟨x, s⟩ ≫
         Limits.Sigma.desc ψ).hom = (ψ ⟨x, s⟩).hom
-    rw [Limits.Sigma.ι_desc]
+    rw [Limits.Sigma.ι_comp_desc]
   have happ := congrArg (fun (g : (jExtendConst X (U ⟨x, s⟩) PUnit.{u + 1}).presheaf.stalk x ⟶ _)
       => (CategoryTheory.ConcreteCategory.hom g) (t ⟨x, s⟩)) key
   simp only [CategoryTheory.ConcreteCategory.comp_apply] at happ

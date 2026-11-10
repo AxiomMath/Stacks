@@ -121,7 +121,7 @@ theorem range_chart :
     exact ⟨(affineBlowupStandardOpenIso I U a).hom w, rfl⟩
   · rintro ⟨w, rfl⟩
     refine ⟨(affineBlowupStandardOpenIso I U a).inv w, ?_⟩
-    show ((Proj.basicOpen ((reesSituation I).sectionRingGrading U.1)
+    change ((Proj.basicOpen ((reesSituation I).sectionRingGrading U.1)
       (reesDegreeOne I U a).1).ι ≫
         Stacks.RelativeProj.Situation.relativeProjChart (reesSituation I) U)
           ((affineBlowupStandardOpenIso I U a).hom

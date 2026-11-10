@@ -66,7 +66,7 @@ private theorem isAffineHom_diagonal_of_affineOpenCover {X : Scheme.{u}}
     IsAffineHom (pullback.diagonal (terminal.from X)) := by
   let Q : AffineTargetMorphismProperty := fun T _ _ => IsAffine T
   have : HasAffineProperty @IsAffineHom Q := by
-    show HasAffineProperty @IsAffineHom (fun T _ _ _ => IsAffine T)
+    change HasAffineProperty @IsAffineHom (fun T _ _ _ => IsAffine T)
     exact instHasAffinePropertyIsAffineHomIsAffine
   have : Q.IsLocal := HasAffineProperty.isLocal_affineProperty (P := @IsAffineHom)
   have : ∀ i, IsAffine (𝒰.openCover.X i) := Scheme.isAffine_affineOpenCover X 𝒰
@@ -79,7 +79,7 @@ private theorem isAffineHom_diagonal_of_affineOpenCover {X : Scheme.{u}}
       TopologicalSpace.Opens.ext (IsOpenImmersion.range_pullback_to_base_of_left _ _)
     have : IsAffine (pullback (𝒰.f i ≫ terminal.from X) (𝒰.f j ≫ terminal.from X)) :=
       inferInstance
-    show IsAffine (pullback (𝒰.f i) (𝒰.f j))
+    change IsAffine (pullback (𝒰.f i) (𝒰.f j))
     have : IsAffine g.opensRange := by
       rw [hg]
       exact h𝒰 i j

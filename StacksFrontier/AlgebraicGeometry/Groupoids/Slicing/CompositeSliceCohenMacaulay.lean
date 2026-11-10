@@ -115,7 +115,7 @@ private theorem descend_to_flatImage (P : MorphismProperty Scheme.{u})
     obtain ⟨x, hx⟩ : (flatImageOpens h).ι.base v ∈ Set.range h.base := by
       rw [← range_ι_flatImageOpens h]; exact ⟨v, rfl⟩
     refine ⟨x, (flatImageOpens h).ι.isEmbedding.injective ?_⟩
-    show ((IsOpenImmersion.lift (flatImageOpens h).ι h hsubh) ≫
+    change ((IsOpenImmersion.lift (flatImageOpens h).ι h hsubh) ≫
       (flatImageOpens h).ι).base x = _
     rw [hqfac]; exact hx
   have hcover : Presieve.singleton (IsOpenImmersion.lift (flatImageOpens h).ι h hsubh) ∈

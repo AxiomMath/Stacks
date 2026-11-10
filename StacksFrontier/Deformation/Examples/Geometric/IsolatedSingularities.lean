@@ -374,7 +374,7 @@ public theorem algebraMap_adicCompletionIInfPiEquiv (a : k) :
       (map_iInf_le_maximalIdeal m i))
     (algebraMap k P a)
   simp only [RingHom.coe_comp, Function.comp_apply] at hcomp
-  show adicCompletionMap (algebraMap P (localRingAt (m i))) (⨅ j, (m j).asIdeal)
+  change adicCompletionMap (algebraMap P (localRingAt (m i))) (⨅ j, (m j).asIdeal)
       (IsLocalRing.maximalIdeal (localRingAt (m i))) (map_iInf_le_maximalIdeal m i)
       (algebraMap k (AdicCompletion (⨅ j, (m j).asIdeal) P) a) = _
   rw [IsScalarTower.algebraMap_apply k P (AdicCompletion (⨅ j, (m j).asIdeal) P), hcomp,

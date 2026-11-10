@@ -97,7 +97,7 @@ theorem DifferentialGradedAlgebra.Hom.oneHom_comp_of_isUnital
   refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun U => ModuleCat.hom_ext
     (LinearMap.ext fun r => ?_))
   let r' : (toRingCat J Osharp).obj.obj U := r
-  show (φ.toHomologicalComplex.f 0).val.app U (r' • A.one.eval U) = r' • B.one.eval U
+  change (φ.toHomologicalComplex.f 0).val.app U (r' • A.one.eval U) = r' • B.one.eval U
   exact (map_smul (ConcreteCategory.hom ((φ.toHomologicalComplex.f 0).val.app U)) r'
     (A.one.eval U)).trans (congrArg (fun z => r' • z) (hφ U))
 
@@ -210,7 +210,7 @@ include hψ' hφ₀ in
 /-- The composite `A ⟶ G(A') ⟶ G(B')` of two unital homomorphisms is unital. -/
 theorem isUnital_compPushforwardHom : (compPushforwardHom G ψ' φ₀).IsUnital := by
   intro U
-  show ((DifferentialGradedAlgebra.transportHom G _ _ φ₀).toHomologicalComplex.f 0).val.app U
+  change ((DifferentialGradedAlgebra.transportHom G _ _ φ₀).toHomologicalComplex.f 0).val.app U
       ((ψ'.toHomologicalComplex.f 0).val.app U (A.one.eval U)) = _
   rw [hψ' U]
   exact DifferentialGradedAlgebra.isUnital_transportHom G _ _ φ₀ hφ₀ U
@@ -308,7 +308,7 @@ noncomputable def corepresentableByExtension (P : DifferentialGradedModule.{w, w
       rw [CategoryTheory.Functor.map_comp, Category.assoc]
     have h2 := e.homEquiv_comp ((restriction φ₀ hφ₀).map k)
       (extensionUnit φ₀ hφ₀ Dt Kb ≫ (restriction φ₀ hφ₀).map g)
-    show (e.homEquiv (extensionUnit φ₀ hφ₀ Dt Kb ≫
+    change (e.homEquiv (extensionUnit φ₀ hφ₀ Dt Kb ≫
           (restriction φ₀ hφ₀).map (g ≫ k))).toHomologicalComplex.f q =
       (e.homEquiv (extensionUnit φ₀ hφ₀ Dt Kb ≫
           (restriction φ₀ hφ₀).map g)).toHomologicalComplex.f q ≫

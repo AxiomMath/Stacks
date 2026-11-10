@@ -143,7 +143,7 @@ theorem functorPushforward_functorPullback_singleFunctor (A : SingleSite B S hS 
       ((smallEtalePostcomp B S hS g hg).map (twistHonest B S hS g hg (W := A.2) q)),
     (twistIso B S hS g hg (W := A.2) q).hom, ?_,
     twist_factorization B S hS g hg (W := A.2) q⟩
-  show T.arrows ((smallEtalePostcomp B S hS g hg).map (twistHonest B S hS g hg (W := A.2) q))
+  change T.arrows ((smallEtalePostcomp B S hS g hg).map (twistHonest B S hS g hg (W := A.2) q))
   rw [← twistIso_inv_comp B S hS g hg (W := A.2) q]
   exact T.downward_closed hq _
 
@@ -174,7 +174,7 @@ theorem functorPullback_mem_topology {W : SmallEtale B S hS Y.1}
     (SmallEtale.smallEtalePostcomp_cover_lift B S hS g hg W _
       (functorPushforward_mem_topology B S hS g hg T hT))
   rintro V h ⟨A, t, a, ht, hfac⟩
-  show T.arrows ((singleInclusion B S hS g hg).map h)
+  change T.arrows ((singleInclusion B S hS g hg).map h)
   rw [show (singleInclusion B S hS g hg).map h =
       (InducedCategory.homMk a : singleObj B S hS g hg V ⟶ A) ≫ t from
     InducedCategory.hom_ext hfac]

@@ -107,7 +107,7 @@ theorem cochainSelfShiftEquiv_delta
     CochainComplex.HomComplex.negOnePowLinearEquiv,
     CochainComplex.HomComplex.Cochain.rightShiftLinearEquiv_apply,
     CochainComplex.HomComplex.Cochain.leftShiftLinearEquiv_apply]
-  show CochainComplex.HomComplex.δ k (k + 1)
+  change CochainComplex.HomComplex.δ k (k + 1)
     ((n * (n - 1) / 2).negOnePow •
       ((z.rightShift n (k - n) (by omega)).leftShift n k (by omega))) =
     (n * (n - 1) / 2).negOnePow •
@@ -190,7 +190,7 @@ theorem isDerivedHomothetyQuasiIso_of_shift
       congr 1
       ext a
       change ULift.{v} R at a
-      show (e.hom.f 0).hom (ULift.up
+      change (e.hom.f 0).hom (ULift.up
         (a.down • CochainComplex.HomComplex.Cochain.ofHom (𝟙 I))) =
         ULift.up (a.down • CochainComplex.HomComplex.Cochain.ofHom (𝟙 (I⟦-n⟧)))
       exact congrArg ULift.up

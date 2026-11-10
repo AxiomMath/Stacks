@@ -124,7 +124,7 @@ theorem mul_hodgeClass_eq_zero_of_pull_eq_zero (i : Y ⟶ X)
           (hodgeCohomologyComponent (formsAlgebras X.obj.hom) j.1.1 (j.1.2 : ℤ) : Type u))
           bidegreeOneOne c) = 0 := by
     intro n x hx
-    rw [← DirectSum.sum_support_of x, map_sum, AddMonoidHom.finset_sum_apply]
+    rw [← DirectSum.sum_support_of x, map_sum, AddMonoidHom.finsetSum_apply]
     refine Finset.sum_eq_zero fun j _ => ?_
     have hxj : hodgePullback i.hom.left Y.obj.hom X.obj.hom (𝟙 _) (hodgeSquare_w i) j.1.1
         (j.1.2 : ℤ) (x j) = 0 := by
@@ -135,7 +135,7 @@ theorem mul_hodgeClass_eq_zero_of_pull_eq_zero (i : Y ⟶ X)
       (hodgePullback_subschemeι_eq_zero i D e he j.1.1 (j.1.2 : ℤ) (x j) hxj) c hc
     have h2 : AlgebraicGeometry.SheafOfModules.hodgeCohomologyCup (formsAlgebras X.obj.hom)
         j.1.1 bidegreeOneOne.1.1 (j.1.2 : ℤ) (bidegreeOneOne.1.2 : ℤ) (x j) c = 0 := by
-      show ((((j.1.2 : ℤ) * ((1 : ℕ) : ℤ)).negOnePow : ℤ)) •
+      change ((((j.1.2 : ℤ) * ((1 : ℕ) : ℤ)).negOnePow : ℤ)) •
         AlgebraicGeometry.SheafOfModules.hodgeComponentCup (formsAlgebras X.obj.hom)
           (AlgebraicGeometry.SheafOfModules.exteriorProductComponent (formsAlgebras X.obj.hom)
             j.1.1 1) (j.1.2 : ℤ) 1 (x j) c = 0

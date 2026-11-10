@@ -141,7 +141,7 @@ end Derived
 
 section Twist
 
-variable {R : Type t} [Ring R] {G : Type u} [Group G] [TopologicalSpace G]
+variable {R : Type t} [Ring R] {G : Type u} [Group G]
   {V : Type w} [AddCommGroup V] [Module R V]
 
 /-- The identity of `G` acts as the identity. -/
@@ -199,7 +199,7 @@ private theorem twistRepresentation_apply_inl (ρ : Representation R G V) (β : 
     (hβ : ∀ g h : G, β (g * h) = ρ g (β h) + β g) (g : G) (x : V) :
     twistRepresentation ρ β hβ g (x, 0) = (ρ g x, 0) := by
   refine Prod.ext ?_ rfl
-  show ρ g x + (0 : R) • β g = ρ g x
+  change ρ g x + (0 : R) • β g = ρ g x
   rw [zero_smul, add_zero]
 
 /-- The twisted action moves `(0, 1)` by the cocycle: this one computation is what makes the
@@ -208,15 +208,18 @@ private theorem twistRepresentation_apply_inr (ρ : Representation R G V) (β : 
     (hβ : ∀ g h : G, β (g * h) = ρ g (β h) + β g) (g : G) :
     twistRepresentation ρ β hβ g ((0 : V), (1 : R)) = (β g, (1 : R)) := by
   refine Prod.ext ?_ rfl
-  show ρ g 0 + (1 : R) • β g = β g
+  change ρ g 0 + (1 : R) • β g = β g
   rw [map_zero, one_smul, zero_add]
 
+omit [Module R V] in
 private theorem inr_split (v : V) : ((v, (1 : R)) : V × R) = (v, 0) + (0, 1) := by
   refine Prod.ext ?_ ?_
-  · show v = v + 0
+  · change v = v + 0
     rw [add_zero]
-  · show (1 : R) = 0 + 1
+  · change (1 : R) = 0 + 1
     rw [zero_add]
+
+variable [TopologicalSpace G]
 
 /-- **The twisted action is continuous** when `β` is locally constant and the orbit maps of the
 original action are: the stabilizer of `(v, n)` is a fibre of the locally constant function

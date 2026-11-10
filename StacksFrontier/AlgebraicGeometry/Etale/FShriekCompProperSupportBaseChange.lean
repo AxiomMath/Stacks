@@ -71,7 +71,7 @@ private theorem properSupportStalkEval_colim_map_germ
     (y : GeometricFiberPoint B g s) (W : SmallEtale B Z.obj Z.property)
     (w : (geometricPointFiber B Z.obj Z.property s).obj W) (σ : A.obj.obj (op W)) :
     properSupportStalkEval.{u, v} B g G s y
-        (colim.map (Functor.whiskerLeft (CategoryOfElements.π
+        (colim.map (Functor.whiskerLeft (Functor.Elements.π
           (geometricPointFiber B Z.obj Z.property s)).op ψ.hom)
           (etaleGerm B Z.obj Z.property s A.obj W w σ)) =
       etaleGerm B Y.obj Y.property (y.toGeometricPoint B g s) G.obj (baseChange B g W)
@@ -83,12 +83,12 @@ private theorem properSupportStalkEval_colim_map_germ
 public theorem properSupportStalkEval_natural
     {G H : Sheaf (SmallEtale.topology B Y.obj Y.property) AddCommGrpCat.{max (u + 1) v}}
     (φ : G ⟶ H) (s : GeometricPoint Z.obj) (y : GeometricFiberPoint B g s) :
-    colim.map (Functor.whiskerLeft (CategoryOfElements.π
+    colim.map (Functor.whiskerLeft (Functor.Elements.π
         (geometricPointFiber B Z.obj Z.property s)).op
         ((properSupportFunctor.{u, max (u + 1) v} B g).map φ).hom) ≫
         properSupportStalkEval.{u, v} B g H s y =
       properSupportStalkEval.{u, v} B g G s y ≫
-        colim.map (Functor.whiskerLeft (CategoryOfElements.π
+        colim.map (Functor.whiskerLeft (Functor.Elements.π
           (geometricPointFiber B Y.obj Y.property (y.toGeometricPoint B g s))).op φ.hom) := by
   apply colimit.hom_ext
   rintro ⟨@⟨W, w⟩⟩
@@ -111,10 +111,10 @@ public theorem properSupportFunctor_hom_ext_stalk
     {A : Sheaf (SmallEtale.topology B Z.obj Z.property) AddCommGrpCat.{max (u + 1) v}}
     {ψ₁ ψ₂ : A ⟶ (properSupportFunctor.{u, max (u + 1) v} B g).obj G}
     (h : ∀ (s : GeometricPoint Z.obj) (y : GeometricFiberPoint B g s),
-      colim.map (Functor.whiskerLeft (CategoryOfElements.π
+      colim.map (Functor.whiskerLeft (Functor.Elements.π
           (geometricPointFiber B Z.obj Z.property s)).op ψ₁.hom) ≫
           properSupportStalkEval.{u, v} B g G s y =
-        colim.map (Functor.whiskerLeft (CategoryOfElements.π
+        colim.map (Functor.whiskerLeft (Functor.Elements.π
           (geometricPointFiber B Z.obj Z.property s)).op ψ₂.hom) ≫
           properSupportStalkEval.{u, v} B g G s y) :
     ψ₁ = ψ₂ := by
@@ -278,7 +278,7 @@ public theorem sepCompShriekMap_baseChange
     (fiberPointBaseChange B b' g₁ g b sq₂ s y) (fiberPointBaseChange B a f₁ f b' sq₁ y' x) t₀
   let IG := etaleStalkSmallEtalePullObjIso B b s AddCommGrpCat.{u + 1}
     ((properSupportFunctor.{u, u + 1} B g).obj ((fShriekFunctor.{u, u + 1} B f).obj F))
-  let w := colim.map (Functor.whiskerLeft (CategoryOfElements.π
+  let w := colim.map (Functor.whiskerLeft (Functor.Elements.π
     (geometricPointFiber B Z₁.obj Z₁.property s)).op ((abPullback.{u, u + 1} B b).map c).hom) t
   have hw : IG.inv t₁ = w := (congrArg IG.inv r1.symm).trans (Iso.hom_inv_id_apply IG w)
   rw [colim_map_whiskerLeft_comp, colim_map_whiskerLeft_comp, colim_map_whiskerLeft_comp]

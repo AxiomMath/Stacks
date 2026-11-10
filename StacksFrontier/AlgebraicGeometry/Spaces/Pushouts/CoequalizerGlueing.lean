@@ -175,8 +175,9 @@ theorem leftProjection_comp_glueMap :
 
 /-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
 times out under Lean v4.35.0. -/
-local instance (priority := high) hasPullback_presheaf_CoequalizerGlueing {B : BigFppfSite.{u}} {S : Scheme.{u}}
-    {hS : B.Contains S} {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+local instance (priority := high) hasPullback_presheaf_CoequalizerGlueing {B : BigFppfSite.{u}}
+    {S : Scheme.{u}} {hS : B.Contains S} {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z)
+    (g : Y ⟶ Z) :
     HasLimit (cospan f g) :=
   (Limits.functorCategoryHasLimitsOfShape :
     HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u)).has_limit _

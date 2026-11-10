@@ -139,7 +139,7 @@ def hodgeComponentPullbackOverFieldEquiv (e : X' ≅ X) (w : e.hom ≫ fX = fX' 
     (q : ℤ) :
     hodgeCohomologyComponent (formsAlgebras fX) p q ≃ₗ[k]
       hodgeCohomologyComponent (formsAlgebras fX') p q :=
-  LinearEquiv.ofLinear (hodgeComponentPullbackOverField e.hom fX fX' w p q)
+  LinearEquiv.ofLinearMap (hodgeComponentPullbackOverField e.hom fX fX' w p q)
     (hodgeComponentPullbackOverField e.inv fX' fX (hodgeSquare_iso_inv fX fX' e w) p q)
     (hodgeComponentPullbackOverField_hom_comp_inv fX fX' e w _ p q)
     (hodgeComponentPullbackOverField_hom_comp_inv fX' fX e.symm
@@ -354,7 +354,7 @@ theorem bijective_hodgeSchemeKunnethMap_iso_iff (h : p ≫ fX = q ≫ fY) (e : P
     (Category.comp_id _).symm (hodgeSchemeSquare_snd h) ((e.hom ≫ p) ≫ fX) e.hom we
     (Category.comp_id _).symm (hodgeSchemeSquare_snd (by rw [Category.assoc, Category.assoc, h]))
     rs
-  show Function.Bijective (hodgeKunnethBidegreeMapOfSquares fX fY ((e.hom ≫ p) ≫ fX)
+  change Function.Bijective (hodgeKunnethBidegreeMapOfSquares fX fY ((e.hom ≫ p) ≫ fX)
     (e.hom ≫ p) (e.hom ≫ q) _ _ rs) ↔ _
   rw [hcomp, LinearMap.coe_comp]
   exact Function.Bijective.of_comp_iff' (hodgeComponentPullbackOverFieldEquiv (p ≫ fX)

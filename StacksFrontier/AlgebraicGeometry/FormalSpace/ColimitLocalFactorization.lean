@@ -232,7 +232,7 @@ private theorem exists_representable_etale_pullback_of_openImmersion_over_affine
     have hfac : 𝒰.f i ≫ (BigFppfOver.toScheme B S hS).map m =
         (BigFppfOver.toScheme B S hS).map (p i) ≫
           (BigFppfOver.toScheme B S hS).map (j i) := by
-      show (BigFppfOver.toScheme B S hS).map (jw i) ≫ _ = _
+      change (BigFppfOver.toScheme B S hS).map (jw i) ≫ _ = _
       rw [← Functor.map_comp, ← Functor.map_comp, hmfac i]
     rw [hfac]
     have _ : _root_.AlgebraicGeometry.IsOpenImmersion
@@ -263,7 +263,7 @@ private theorem exists_representable_etale_pullback_of_openImmersion_over_affine
     have h3 : J.uliftYoneda.{u + 1}.map (jw i) ≫ J.uliftYoneda.{u + 1}.map m =
         J.uliftYoneda.{u + 1}.map (p i) ≫ J.uliftYoneda.{u + 1}.map (j i) := by
       rw [← Functor.map_comp, ← Functor.map_comp, hmfac i]
-    show J.uliftYoneda.{u + 1}.map (jw i) ≫ eW.hom ≫ pullback.fst ξV Φ =
+    change J.uliftYoneda.{u + 1}.map (jw i) ≫ eW.hom ≫ pullback.fst ξV Φ =
       J.uliftYoneda.{u + 1}.map (jw i) ≫ J.uliftYoneda.{u + 1}.map m
     rw [h2, h3]
   -- read the sheaf-level square at the level of presheaves
@@ -275,7 +275,7 @@ private theorem exists_representable_etale_pullback_of_openImmersion_over_affine
     congrArg (fun t : J.uliftYoneda.{u + 1}.obj Wt ⟶ J.uliftYoneda.{u + 1}.obj V ↦ t.hom) hfstm
   have h5 : hPpre.isoPullback.hom ≫ pullback.fst ((uliftYoneda.{u + 1}).map q ≫ ξ) Φ.hom =
       (pullback.fst ξV Φ).hom := hPpre.isoPullback_hom_fst
-  show eW.hom.hom ≫ hPpre.isoPullback.hom ≫
+  change eW.hom.hom ≫ hPpre.isoPullback.hom ≫
       pullback.fst ((uliftYoneda.{u + 1}).map q ≫ ξ) Φ.hom = (uliftYoneda.{u + 1}).map m
   rw [h5]
   exact h4

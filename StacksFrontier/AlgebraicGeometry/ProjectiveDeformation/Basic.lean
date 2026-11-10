@@ -66,7 +66,8 @@ them contains the uniformity of `d₀`:
   with a finite locally free module in degree `0`; and [Stacks, Tag 0BDK] transports that back up
   along `j`, which is surjective on points.  The perfection half of [Stacks, Tag 0B91] is absent
   outright — see the attribute strings of
-  `StacksFrontier/AlgebraicGeometry/Perfect/ProperFlatPushforwardBaseChange.lean` — and the universal
+  `StacksFrontier/AlgebraicGeometry/Perfect/ProperFlatPushforwardBaseChange.lean` — and the
+  universal
   property of [Stacks, Tag 0BDK] is proved only along open immersions, see the docstring of
   `StacksFrontier/AlgebraicGeometry/Perfect/SingleDegreeRankOpen.lean`, whereas a thickening is a
   closed immersion.  The granted statement quantifies over an arbitrary invertible module on the
@@ -117,7 +118,8 @@ need `𝒜'` generated in degree one: the truncated algebra of this tag is gener
 **Which `IsFiniteLocallyFree`.**  The repository carries two classes of this name with the same
 body.  The one used here is `AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree` of
 `StacksFrontier/Topology/Sheaves/Modules/LocallyFree.lean`, which is the conclusion of
-[Stacks, Tag 0D4E] as formalized, read over `AlgebraicGeometry.Scheme.Modules` of the *deformed* base
+[Stacks, Tag 0D4E] as formalized, read over `AlgebraicGeometry.Scheme.Modules` of the *deformed*
+base
 `S'`.  The other, `Stacks.FiniteLocallyFree.IsFiniteLocallyFree`, appears only inside the proofs
 of the side conditions.
 

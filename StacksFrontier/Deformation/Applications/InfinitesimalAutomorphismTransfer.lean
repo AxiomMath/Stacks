@@ -248,7 +248,7 @@ public theorem squareZeroUnder_hom_comp_baseIso {x y : F} (ρ : p.obj x ⟶ p.ob
         (squareZeroUnderBaseIso.{u, w} (p := p) x y M).hom =
       ρ ≫ (squareZeroUnder.{u, w, w} p y M).hom := by
   refine ArtinianLocalAlgCat.hom_ext (AlgHom.ext fun a => ?_)
-  show TrivSqZeroExt.inl ((p.obj x).residueEquiv (residue (p.obj x) a)) =
+  change TrivSqZeroExt.inl ((p.obj x).residueEquiv (residue (p.obj x) a)) =
     TrivSqZeroExt.inl ((p.obj y).residueEquiv (residue (p.obj y) (ρ.hom a)))
   rw [ρ.residue_comm a]
 

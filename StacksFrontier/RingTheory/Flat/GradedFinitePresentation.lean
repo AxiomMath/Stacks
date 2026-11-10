@@ -4,7 +4,7 @@ public import Mathlib.Algebra.Lie.OfAssociative
 public import Mathlib.Algebra.Module.StablyFree.Basic
 public import Mathlib.Algebra.Order.Ring.Star
 public import Mathlib.Analysis.Normed.Ring.Lemmas
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Order.CompletePartialOrder
 public import Mathlib.RingTheory.MvPolynomial.IrreducibleQuadratic
 public import Mathlib.RingTheory.PicardGroup
@@ -77,7 +77,7 @@ lemma descent_image_mod_jacobson_le
   have htor : Module.IsTorsionBySet S (P ⧸ Q) (↑J) := by
     intro q j
     refine Quotient.inductionOn' q fun p => ?_
-    show (j : S) • (Submodule.Quotient.mk p : P ⧸ Q) = 0
+    change (j : S) • (Submodule.Quotient.mk p : P ⧸ Q) = 0
     rw [← Submodule.Quotient.mk_smul, Submodule.Quotient.mk_eq_zero]
     exact Submodule.smul_mem_smul j.2 trivial
   let inst1 : Module (S ⧸ J) (P ⧸ Q) := htor.module
@@ -463,7 +463,7 @@ lemma descent_Kpiece_finite
         MvPolynomial (Fin n) R), SetLike.coe_mem _⟩, ?_⟩
     apply Subtype.ext
     rw [LinearMap.codRestrict_apply, hF0]
-    show (∑ i : Fin r, (DirectSum.decompose (weightedHomogeneousSubmodule R w) (c i) (d - deg i) :
+    change (∑ i : Fin r, (DirectSum.decompose (weightedHomogeneousSubmodule R w) (c i) (d - deg i) :
         MvPolynomial (Fin n) R) • m i) = x
     rw [← hπx x hx, ← hc, map_sum]
     exact Finset.sum_congr rfl fun i _ => (key (deg i) (m i) (hm i) (c i)).symm
@@ -482,7 +482,7 @@ lemma descent_Kpiece_finite
   have hpmem : ∀ x : (Π i : Fin r, weightedHomogeneousSubmodule R w (d - deg i)),
       pmap x ∈ LinearMap.ker φ := by
     intro x
-    show φ (pmap x) = 0
+    change φ (pmap x) = 0
     rw [show pmap x = x - σ (φ x) from rfl, map_sub]
     have : φ (σ (φ x)) = φ x := by
       rw [← LinearMap.comp_apply, hσ, LinearMap.id_apply]
@@ -494,7 +494,7 @@ lemma descent_Kpiece_finite
     refine ⟨y, ?_⟩
     apply Subtype.ext
     rw [LinearMap.codRestrict_apply]
-    show y - σ (φ y) = y
+    change y - σ (φ y) = y
     have hφy : φ y = 0 := by rwa [LinearMap.mem_ker] at hy
     rw [hφy, map_zero, sub_zero]
   have hkerfin : Module.Finite R (LinearMap.ker φ) := Module.Finite.of_surjective p hpsurj
@@ -662,7 +662,7 @@ lemma descentProj_smul_homog (R : Type*) [CommRing R]
   have hφ : ∀ x, φ x = (DirectSum.decompose (weightedHomogeneousSubmodule R w) x (e - deg i) :
       MvPolynomial (Fin n) R) :=
     fun x => rfl
-  show φ ((c • h) i) = (DirectSum.decompose (weightedHomogeneousSubmodule R w) c (e - δ) :
+  change φ ((c • h) i) = (DirectSum.decompose (weightedHomogeneousSubmodule R w) c (e - δ) :
       MvPolynomial (Fin n) R) * h i
   have hci : (c • h) i = c * h i := rfl
   rw [hci]
@@ -900,7 +900,7 @@ lemma descent_nakayama_fg
     have hbdd : ∀ d, d < d₀ → Qg d = ⊥ := by
       intro d hd
       rw [hQgdef]
-      show (KR ⊓ shiftPiece R n w deg d).map mk = ⊥
+      change (KR ⊓ shiftPiece R n w deg d).map mk = ⊥
       rw [hd₀ d hd, inf_bot_eq, Submodule.map_bot]
     have hnak : ∀ d, Qg d ≤ IsLocalRing.maximalIdeal R • Qg d ⊔ (⨆ e ∈ Set.Iio d, Qg e) := by
       intro d
@@ -968,7 +968,7 @@ lemma gradedKernel_fg_descent
     refine Submodule.sum_mem _ fun e he => ?_
     apply Submodule.subset_span
     refine ⟨eqv.symm ⟨j, ⟨e, he⟩⟩, ?_⟩
-    show g'' (eqv (eqv.symm ⟨j, ⟨e, he⟩⟩)) = descentProj R n w deg e (g j)
+    change g'' (eqv (eqv.symm ⟨j, ⟨e, he⟩⟩)) = descentProj R n w deg e (g j)
     rw [Equiv.apply_symm_apply]
   have hle' : LinearMap.ker (Fintype.linearCombination (MvPolynomial (Fin n) R) m)
       ≤ Submodule.span (MvPolynomial (Fin n) R) (Set.range g')

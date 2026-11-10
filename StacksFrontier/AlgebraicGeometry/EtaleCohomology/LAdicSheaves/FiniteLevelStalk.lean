@@ -269,7 +269,7 @@ private theorem finiteLevelStalkTransition_eq_scalarReductionMap (F : LAdicSheaf
   let k := Functor.whiskerLeft π (a ≫ r.hom)
   have hmap : finiteLevelStalkScalarReductionMap B X ℓ F s n =
       (preservesColimitIso E A).hom ≫ colim.map k := by
-    show (preservesColimitIso E A).hom ≫ colim.map (Functor.whiskerLeft π a) ≫
+    change (preservesColimitIso E A).hom ≫ colim.map (Functor.whiskerLeft π a) ≫
       colim.map (Functor.whiskerLeft π r.hom) ≫ 𝟙 _ = _
     simp only [k, Functor.whiskerLeft_comp, Functor.map_comp, Category.comp_id]
   rw [hmap]
@@ -309,7 +309,7 @@ private theorem zmod_castHom_ker {m n : ℕ} (h : m ∣ n) :
       (CharP.intCast_eq_zero_iff (ZMod m) m z).mp (by simpa [RingHom.mem_ker] using hx)
     exact ⟨k, by simp [hk]⟩
   · rintro ⟨y, rfl⟩
-    show (ZMod.castHom h (ZMod m)) ((m : ZMod n) * y) = 0
+    change (ZMod.castHom h (ZMod m)) ((m : ZMod n) * y) = 0
     rw [map_mul, map_natCast]
     simp
 
@@ -323,13 +323,12 @@ private theorem scalarExtensionUnit_surjective {R S : Type} [CommRing R] [CommRi
   let _ : Module R S := Module.compHom S f
   let SR : ModuleCat R := (ModuleCat.restrictScalars f).obj (ModuleCat.of S S)
   let one : ↑SR := (1 : S)
-  show ∃ m : (M : Type (u + 1)), one ⊗ₜ[R] m = z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, TensorProduct.tmul_zero _ _⟩
+  change ∃ m : (M : Type (u + 1)), one ⊗ₜ[R] m = z
+  induction z using TensorProduct.inductionOn with
   | tmul s m =>
     obtain ⟨r, rfl⟩ := hf s
     refine ⟨r • m, ?_⟩
-    show (1 : S) ⊗ₜ[R] (r • m) = f r ⊗ₜ[R] m
+    change (1 : S) ⊗ₜ[R] (r • m) = f r ⊗ₜ[R] m
     rw [← TensorProduct.smul_tmul, show (r • (1 : S) : S) = f r from mul_one (f r)]
   | add x y hx hy =>
     obtain ⟨a, rfl⟩ := hx
@@ -356,13 +355,13 @@ private theorem scalarExtensionUnit_ker {R S : Type} [CommRing R] [CommRing S] (
   have hη (x : M) : η.hom x = (1 : S) ⊗ₜ[R,f] x :=
     ModuleCat.extendRestrictScalarsAdj_unit_app_apply f M x
   have he (x : M) : e ((1 : S) ⊗ₜ[R,f] x) = Submodule.Quotient.mk x := by
-    show TensorProduct.quotTensorEquivQuotSMul (M : Type (u + 1)) I
+    change TensorProduct.quotTensorEquivQuotSMul (M : Type (u + 1)) I
       (qeq.symm 1 ⊗ₜ[R] x) = _
     have hq : qeq.symm (1 : S) = Ideal.Quotient.mk I (1 : R) := by simp [qeq]
     rw [hq]
     exact TensorProduct.quotTensorEquivQuotSMul_mk_one_tmul I x
   ext x
-  show η.hom x = 0 ↔ x ∈ I • (⊤ : Submodule R (M : Type (u + 1)))
+  change η.hom x = 0 ↔ x ∈ I • (⊤ : Submodule R (M : Type (u + 1)))
   constructor
   · intro hx
     have hη0 : (1 : S) ⊗ₜ[R,f] x = 0 := by
@@ -396,7 +395,7 @@ public theorem finite_finiteLevelStalk (F : LAdicSheaf B X ℓ) (s : GeometricPo
         (F.level n)) :=
     Module.finite_of_finite (ZMod (ℓ ^ (n + 1)))
   simpa [finiteLevelStalk, etaleModuleStalkFunctor, etaleStalkPresheafFunctor, etaleStalk,
-    CategoryOfElements.π]
+    Functor.Elements.π]
     using htype
 
 /-- Each transition between consecutive finite-level stalks is surjective. -/
@@ -418,7 +417,7 @@ public theorem finiteLevelStalkTransition_surjective (F : LAdicSheaf B X ℓ)
   obtain ⟨x, hx⟩ := hunit z
   refine ⟨x, ?_⟩
   rw [htransition]
-  show (ModuleCat.Hom.hom g) ((ModuleCat.Hom.hom (adj.unit.app M)) x) = y
+  change (ModuleCat.Hom.hom g) ((ModuleCat.Hom.hom (adj.unit.app M)) x) = y
   rw [hx, hz]
 
 /-- The transition identifies the quotient of the level-`n+1` stalk by `ℓⁿ⁺¹` with the

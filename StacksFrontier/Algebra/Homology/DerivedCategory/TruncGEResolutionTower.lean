@@ -87,7 +87,7 @@ theorem exists_iso_truncGE_Q_obj (K : CochainComplex A ℤ) (n : ℤ) :
     (DerivedCategory.triangleOfSES_distinguished hS) (Iso.refl _) (n - 1) n
     (by infer_instance) (by infer_instance)
     (by
-      show DerivedCategory.TStructure.t.IsLE
+      change DerivedCategory.TStructure.t.IsLE
         (DerivedCategory.Q.obj (K.truncLE (n - 1))) (n - 1)
       infer_instance) h₃
   have he := Classical.choose_spec hex
@@ -234,7 +234,7 @@ theorem quasiIso_to_limit_of_truncGE_resolutions_of_isIso
       a (n + 1) ≫ H.map (homOfLE (Nat.le_succ n)).op := by
     have := ha n
     have h₀ : DerivedCategory.TStructure.t.IsGE (G.obj ⟨n⟩) (-(n : ℤ)) := by
-      show DerivedCategory.TStructure.t.IsGE
+      change DerivedCategory.TStructure.t.IsGE
         ((DerivedCategory.TStructure.t.truncGE (-(n : ℤ))).obj E) (-(n : ℤ))
       infer_instance
     have h₁ : DerivedCategory.TStructure.t.IsGE (H.obj ⟨n⟩) (-(n : ℤ)) :=
@@ -317,7 +317,7 @@ theorem exists_quasiIso_isKInjective_map_isKInjective
   have : PreservesLimitsOfShape ℕᵒᵖ T := by
     apply HomologicalComplex.preservesLimitsOfShape_of_eval
     intro i
-    show PreservesLimitsOfShape ℕᵒᵖ ((HomologicalComplex.eval C (.up ℤ) i) ⋙ F)
+    change PreservesLimitsOfShape ℕᵒᵖ ((HomologicalComplex.eval C (.up ℤ) i) ⋙ F)
     infer_instance
   have : ObjectProperty.ContainsZero (C := C) (fun X ↦ Injective X) :=
     ⟨⟨0, isZero_zero _, inferInstance⟩⟩
@@ -350,7 +350,7 @@ theorem exists_quasiIso_isKInjective_map_isKInjective
         dsimp only [Functor.const_obj_map]
         refine (Category.id_comp _).trans ?_
         rw [hmap n]
-        show K.πTruncGE (-(n : ℤ)) ≫ f n =
+        change K.πTruncGE (-(n : ℤ)) ≫ f n =
           (K.πTruncGE (-((n + 1 : ℕ) : ℤ)) ≫ f (n + 1)) ≫ g n
         exact (hladder n).symm.trans (Category.assoc _ _ _).symm) }
   let γ := limit.lift tower c

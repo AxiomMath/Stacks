@@ -142,7 +142,7 @@ private lemma size_coproduct_le {α β : Type s} (X : E) (e : α ↪ β)
     refine ⟨⟨Sigma.desc (fun j => if h : ∃ i, e i = j then
       Sigma.ι (fun (_ : α) => X) h.choose else 0), ?_⟩⟩
     refine Sigma.hom_ext _ _ fun i => ?_
-    simp only [g, Sigma.ι_desc_assoc, Sigma.ι_desc, Category.comp_id]
+    simp only [g, Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc, Category.comp_id]
     have hi : ∃ a, e a = e i := ⟨i, rfl⟩
     rw [dite_eq_left hi]
     congr 1
@@ -449,7 +449,7 @@ private lemma le_gen {s : Set (HomIdx M)} {i : HomIdx M} (hi : i ∈ s) :
   have h : hom M i = Sigma.ι (fun (_ : s) =>
       separator (DifferentialGradedModule.{t, a, max u v a w} A)) ⟨i, hi⟩ ≫
       Sigma.desc (fun j : s => hom M j.1) :=
-    (Sigma.ι_desc (fun j : s => hom M j.1) ⟨i, hi⟩).symm
+    (Sigma.ι_comp_desc (fun j : s => hom M j.1) ⟨i, hi⟩).symm
   rw [gen, h]
   exact imageSubobject_comp_le _ _
 
@@ -459,7 +459,7 @@ private lemma gen_le {s : Set (HomIdx.{w, a, t, v, u} M)} {T : Subobject M}
   refine imageSubobject_le _ (Sigma.desc (fun i : s =>
     factorThruImageSubobject (hom M i.1) ≫ Subobject.ofLE _ _ (h i.1 i.2))) ?_
   refine Sigma.hom_ext _ _ fun i => ?_
-  rw [Sigma.ι_desc_assoc, Sigma.ι_desc, Category.assoc, Subobject.ofLE_arrow,
+  rw [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc, Category.assoc, Subobject.ofLE_arrow,
     imageSubobject_arrow_comp]
 
 omit [IsGrothendieckAbelian.{max u v a w} (SheafOfModules.{max u v a w} R)] in
@@ -500,7 +500,7 @@ private lemma iSup_imageSubobject_hom_f (n : ℤ) :
     have h1 : Sigma.ι (fun (_ : HomIdx.{w, a, t, v, u} M) =>
         separator (DifferentialGradedModule.{t, a, max u v a w} A))
         ((equivShrink _) φ) ≫ e = φ := by
-      rw [Sigma.ι_desc]
+      rw [Sigma.ι_comp_desc]
       simp
     rw [← h1, Category.assoc, hgh, Category.assoc]
   have hepif : Epi (e.toHomologicalComplex.f n) := epi_toHomologicalComplex_f e n
@@ -515,13 +515,13 @@ private lemma iSup_imageSubobject_hom_f (n : ℤ) :
   rw [Cofan.IsColimit.fac_assoc, Category.assoc, Subobject.ofLE_arrow,
     imageSubobject_arrow_comp]
   symm
-  show ((Sigma.ι (fun (_ : HomIdx.{w, a, t, v, u} M) =>
+  change ((Sigma.ι (fun (_ : HomIdx.{w, a, t, v, u} M) =>
       separator (DifferentialGradedModule.{t, a, max u v a w} A)) i).toHomologicalComplex.f n) ≫
     e.toHomologicalComplex.f n = _
   rw [← HomologicalComplex.comp_f]
-  show (Sigma.ι (fun (_ : HomIdx.{w, a, t, v, u} M) =>
+  change (Sigma.ι (fun (_ : HomIdx.{w, a, t, v, u} M) =>
     separator (DifferentialGradedModule.{t, a, max u v a w} A)) i ≫ e).toHomologicalComplex.f n = _
-  rw [Sigma.ι_desc]
+  rw [Sigma.ι_comp_desc]
 
 /-- In an acyclic module every cycle of every submodule is covered by the boundaries coming
 from the morphisms out of the separator. -/
@@ -812,7 +812,7 @@ theorem exists_small_acyclic_submodule (hM : M.complex.Acyclic)
     hasCardinalLT_iUnion _ hZ fun k =>
       (sig_hasCardinalLT M hM i₀ k.down).of_le (le_of_lt (kap_lt_kapTop A k.down))
   obtain ⟨e⟩ := nonempty_embedding_out_of_hasCardinalLT hcard
-  show size.{max u v a w} (genTop M hM i₀ : DifferentialGradedModule.{t, a, max u v a w} A) ≤ _
+  change size.{max u v a w} (genTop M hM i₀ : DifferentialGradedModule.{t, a, max u v a w} A) ≤ _
   exact (size_imageSubobject_le _).trans
     (size_coproduct_le (separator (DifferentialGradedModule.{t, a, max u v a w} A)) e)
 

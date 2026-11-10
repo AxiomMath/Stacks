@@ -87,7 +87,7 @@ theorem smul_top_eq_comap :
     I • (⊤ : Submodule R ↥(I ^ n)) = Submodule.comap (I ^ n).subtype (I ^ (n + 1)) := by
   ext a
   rw [Submodule.mem_smul_top_iff]
-  show (a : R) ∈ I * I ^ n ↔ (a : R) ∈ I ^ (n + 1)
+  change (a : R) ∈ I * I ^ n ↔ (a : R) ∈ I ^ (n + 1)
   rw [pow_succ']
 
 /-- `I ^ n`, as a submodule of `R`, is the degree-`n` term of the `I`-adic filtration of `R`. -/

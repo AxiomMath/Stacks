@@ -123,7 +123,7 @@ public lemma idealPowerMultiple_le_comap {X : Scheme.{u}} (I : X.IdealSheafData)
       _ ≤ (J • (⊤ : Submodule Γ(X, U) Γ(N, U))).comap fU :=
         Submodule.smul_comap_le_comap_smul fU _ _
       _ ≤ (Q.toSubmodule.obj (op U.1)).comap fU := Submodule.comap_mono hqU
-  show I.ideal U ^ n • (⊤ : Submodule Γ(X, U) Γ(M, U)) ≤
+  change I.ideal U ^ n • (⊤ : Submodule Γ(X, U) Γ(M, U)) ≤
     (Q.toSubmodule.obj (op U.1)).comap fU
   simpa [J] using hgen
 

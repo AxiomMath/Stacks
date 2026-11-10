@@ -141,7 +141,7 @@ theorem henselianLocalRingHomOfIso_comp_symm (hx : pointsMap B S hS X e.hom x = 
       (ElementaryEtaleNeighborhood.mapIso (hX' := hX) e.symm hx' U.unop) :=
     { hom := 𝟙 _
       over := by
-        show yoneda.map (𝟙 U.unop.scheme) ≫ U.unop.toSpace ≫ e.inv ≫ e.hom = U.unop.toSpace
+        change yoneda.map (𝟙 U.unop.scheme) ≫ U.unop.toSpace ≫ e.inv ≫ e.hom = U.unop.toSpace
         simp
       map_point := rfl }
   have h₁ := henselianLocalRingHomOfIso_sectionHom (hX' := hX') hdec hdec' e hx

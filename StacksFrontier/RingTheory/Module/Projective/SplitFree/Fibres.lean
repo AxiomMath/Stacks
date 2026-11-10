@@ -301,7 +301,7 @@ theorem linearIndependent_mkQ_sectionAt_of_splitsAfterInverting
       exact (mem_canonicalKernel_iff x y).mp hy (φ i))
   have hd (i j : Fin r) :
       d i ((canonicalKernel M x).mkQ (sectionAt x (s j))) = if i = j then 1 else 0 := by
-    show (q (t i).1)⁻¹ * fiberFunctional x (φ i) (sectionAt x (s j)) = _
+    change (q (t i).1)⁻¹ * fiberFunctional x (φ i) (sectionAt x (s j)) = _
     rw [fiberFunctional_sectionAt, ht_eval i j]
     split_ifs <;> simp [(hSf (t i)).ne_zero]
   exact LinearIndependent.of_pairwise_dual_eq_zero_one _ d
@@ -326,11 +326,11 @@ theorem exists_splitsAfterInverting_of_linearIndependent
   let f : R := A.det
   have hmapA : A.map (Ideal.Quotient.mk x.1.asIdeal) = 1 := by
     ext i j
-    show Ideal.Quotient.mk x.1.asIdeal (φ i (s j)) = _
+    change Ideal.Quotient.mk x.1.asIdeal (φ i (s j)) = _
     rw [← fiberFunctional_sectionAt x (φ i), hφ i]
     simpa only [LinearMap.comp_apply, qv, Matrix.one_apply] using hg i j
   have ho : Ideal.Quotient.mk x.1.asIdeal f = 1 := by
-    show Ideal.Quotient.mk x.1.asIdeal A.det = 1
+    change Ideal.Quotient.mk x.1.asIdeal A.det = 1
     rw [RingHom.map_det, RingHom.mapMatrix_apply, hmapA, Matrix.det_one]
   refine ⟨f, fun hf ↦ zero_ne_one ((Ideal.Quotient.eq_zero_iff_mem.mpr hf).symm.trans ho), ?_⟩
   let S := Submonoid.powers f
@@ -340,7 +340,7 @@ theorem exists_splitsAfterInverting_of_linearIndependent
       (LocalizedModule.mkLinearMap S M) (Algebra.linearMap R L) L (φ i)
   let AL : Matrix (Fin r) (Fin r) L := A.map (algebraMap R L)
   have hdet : IsUnit AL.det := by
-    show IsUnit ((algebraMap R L).mapMatrix A).det
+    change IsUnit ((algebraMap R L).mapMatrix A).det
     rw [← RingHom.map_det]
     exact IsLocalization.map_units L ⟨f, Submonoid.mem_powers f⟩
   refine ⟨AL⁻¹.mulVecLin.comp Φ, ?_⟩
@@ -425,7 +425,7 @@ theorem pi_canonicalQuotient_mkQ_sectionAt_surjective
       simp [hij]
   refine ⟨∑ i, coefficient i • lifts i, funext fun j ↦ ?_⟩
   have hsum : sectionAt (x j) (∑ i, coefficient i • lifts i) = fibers j := by
-    show Submodule.Quotient.mk (∑ i, coefficient i • lifts i) = fibers j
+    change Submodule.Quotient.mk (∑ i, coefficient i • lifts i) = fibers j
     rw [← Submodule.mkQ_apply, map_sum]
     simp_rw [Submodule.mkQ_apply, hsection]
     simp

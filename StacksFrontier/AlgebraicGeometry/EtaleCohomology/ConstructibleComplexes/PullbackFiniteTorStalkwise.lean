@@ -113,7 +113,8 @@ The source's own proof of Tag 0963 goes through Tag 03TT instead, reducing to fi
 flat constructible sheaves; that route is not the one taken here. The direction (2) ⟹ (1) of
 03TT is available, as
 `Stacks.EtaleCohomology.constructibleFiniteTorDerivedCategoryOfConstructibleFlatComplex` of
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/ConstructibleComplexes/ConstructibleFlatFiniteTor.lean`,
+`ConstructibleFlatFiniteTor.lean` in
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/ConstructibleComplexes/`,
 and taking the source's route would want two further things: the direction (1) ⟹ (2) of 03TT on
 `Y`, and the stability of `AlgebraicGeometry.IsConstructibleFlatModuleSheaf` under inverse
 image.
@@ -180,10 +181,12 @@ variable (B : BigEtaleSite.{u}) {X Y : B.Scheme} (f : X ⟶ Y) (Λ : Type r) [Co
     HasDerivedCategory.{d} (RingedSite.Modules.{u + 1, u, max (u + 1) w r}
       ((constantCoefficientRingedSite.{u, max (u + 1) w, r} B Y Λ).over U))]
   [∀ U : (constantCoefficientRingedSite.{u, max (u + 1) w, r} B X Λ).C,
-    (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) w r, max (u + 1) w r, max (u + 1) w r}
+    (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) w r, max (u + 1) w r,
+        max (u + 1) w r}
       ((constantCoefficientRingedSite.{u, max (u + 1) w, r} B X Λ).over U).O).Additive]
   [∀ (U : (constantCoefficientRingedSite.{u, max (u + 1) w, r} B X Λ).C) M,
-    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) w r, max (u + 1) w r, max (u + 1) w r}
+    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) w r, max (u + 1) w r,
+        max (u + 1) w r}
       ((constantCoefficientRingedSite.{u, max (u + 1) w, r} B X Λ).over U).O).obj M).Additive]
   [∀ (U : (constantCoefficientRingedSite.{u, max (u + 1) w, r} B X Λ).C)
     (K L : CochainComplex (RingedSite.Modules.{u + 1, u, max (u + 1) w r}
@@ -193,10 +196,12 @@ variable (B : BigEtaleSite.{u}) {X Y : B.Scheme} (f : X ⟶ Y) (Λ : Type r) [Co
         ((constantCoefficientRingedSite.{u, max (u + 1) w, r} B X Λ).over U).O)
       (ComplexShape.up ℤ)]
   [∀ U : (constantCoefficientRingedSite.{u, max (u + 1) w, r} B Y Λ).C,
-    (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) w r, max (u + 1) w r, max (u + 1) w r}
+    (Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) w r, max (u + 1) w r,
+        max (u + 1) w r}
       ((constantCoefficientRingedSite.{u, max (u + 1) w, r} B Y Λ).over U).O).Additive]
   [∀ (U : (constantCoefficientRingedSite.{u, max (u + 1) w, r} B Y Λ).C) M,
-    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) w r, max (u + 1) w r, max (u + 1) w r}
+    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, max (u + 1) w r, max (u + 1) w r,
+        max (u + 1) w r}
       ((constantCoefficientRingedSite.{u, max (u + 1) w, r} B Y Λ).over U).O).obj M).Additive]
   [∀ (U : (constantCoefficientRingedSite.{u, max (u + 1) w, r} B Y Λ).C)
     (K L : CochainComplex (RingedSite.Modules.{u + 1, u, max (u + 1) w r}
@@ -221,6 +226,9 @@ attribute [local instance] AlgebraicGeometry.SheafOfModules.hasSheafify_commRing
   Stacks.SheafOfModules.DerivedTensorProduct.sliceDerived
 
 open Stacks.DerivedCategoryComparisons in
+omit [IsNoetherianRing Λ] [∀ (T : B.Scheme) (V : SmallEtale B T.obj T.property),
+    HasWeakSheafify ((SmallEtale.topology B T.obj T.property).over V)
+      (ModuleCat.{max (u + 1) w} Λ)] in
 /-- **The finite-Tor-dimension half of Stacks 0963**, at an arbitrary morphism `f : X ⟶ Y` of
 `B.Scheme`. If the image under the change of coefficients of Tag 03TR of an object `K` of
 `D(Y_étale, Λ)` locally has finite Tor dimension against the family `T` of derived tensor
@@ -262,10 +270,10 @@ public theorem pullbackPreservesLocallyFiniteTorDimension
       Stacks.SheafOfModules.DerivedTensorProduct.{u + 1, u, max (u + 1) w r, d}
         ((constantCoefficientRingedSite.{u, max (u + 1) w, r} B X Λ).over U)) :
     PullbackPreservesLocallyFiniteTorDimension.{u, w, r, d} B f Λ T T' := by
-  letI : HasProducts.{u} (ModuleCat.{max (u + 1) w} Λ) := fun _ => ModuleCat.hasLimitsOfShape
-  letI : LocallySmall.{max (u + 1) w r} (SmallEtale B X.obj X.property) :=
+  let : HasProducts.{u} (ModuleCat.{max (u + 1) w} Λ) := fun _ => ModuleCat.hasLimitsOfShape
+  let : LocallySmall.{max (u + 1) w r} (SmallEtale B X.obj X.property) :=
     ⟨fun _ _ => small_max.{max (u + 1) w r} _⟩
-  letI : LocallySmall.{max (u + 1) w r} (SmallEtale B Y.obj Y.property) :=
+  let : LocallySmall.{max (u + 1) w r} (SmallEtale B Y.obj Y.property) :=
     ⟨fun _ _ => small_max.{max (u + 1) w r} _⟩
   intro K hK
   refine Stacks.SheafOfModules.DerivedTensorProduct.locallyHasFiniteTorDimension_of_stalkwise_family

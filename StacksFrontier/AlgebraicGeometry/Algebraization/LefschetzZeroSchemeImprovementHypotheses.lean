@@ -86,7 +86,7 @@ theorem ringKrullDim_quotient_le_one_of_forall_prime_eq {R : Type*} [CommRing R]
     · obtain ⟨hQ'prime, haQ'⟩ := hQ'
       have hQ := h (Q'.comap (Ideal.Quotient.mk p)) (Ideal.IsPrime.comap _)
         (fun x hx => by
-          show Ideal.Quotient.mk p x ∈ Q'
+          change Ideal.Quotient.mk p x ∈ Q'
           rw [Ideal.Quotient.eq_zero_iff_mem.mpr hx]; exact Q'.zero_mem)
         (haQ' (Ideal.mem_span_singleton_self _))
       rw [hM, ← hQ, Ideal.map_comap_of_surjective _ Ideal.Quotient.mk_surjective]
@@ -252,7 +252,7 @@ variable [IsLocallyNoetherian P] (F : Stacks.Coherent.CoherentAdicSystems (zeroS
         krullDimToEInt (ringKrullDim (completedLocalRing (zeroScheme P L s) q ⧸ p.asIdeal)) +
         krullDimToEInt (dimClosureAt P q))
 
-omit [IsProper fP] in
+omit [IsProper fP] [IsLocallyNoetherian P] in
 /-- A prime `𝔭 ≠ 𝔪^∧` whose closed fibre is `{𝔪^∧}` does not contain the completed ideal. -/
 theorem not_completedLocalIdeal_le_of_adicClosedFibreThrough_eq (q : P)
     (p : PrimeSpectrum (completedLocalRing (zeroScheme P L s) q))
@@ -323,7 +323,7 @@ theorem zeroScheme_hypothesis_d :
   exact (ENat.add_lt_add_iff_right ENat.one_ne_top).mp h2
 
 include hdepth in
-omit [IsProper fP] in
+omit [IsProper fP] [IsLocallyNoetherian P] in
 /-- **Hypothesis (c) of Stacks 0EJF for `T'` with `d = 1`.** At a closed point of the zero scheme
 and a prime `𝔭` off the completed ideal, `depth((𝓕_q^∧)_𝔭) + dim(𝒪^∧/𝔭) > 2`. -/
 theorem zeroScheme_hypothesis_c :

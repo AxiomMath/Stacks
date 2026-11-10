@@ -73,8 +73,7 @@ theorem span_one_tmul_eq_top (s : Set M) (hs : Submodule.span A s = ⊤) :
     Submodule.span B ((fun m => (1 : B) ⊗ₜ[A] m) '' s) = ⊤ := by
   rw [eq_top_iff]
   rintro x -
-  induction x using TensorProduct.induction_on with
-  | zero => exact Submodule.zero_mem _
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => exact Submodule.add_mem _ hx hy
   | tmul b m =>
     have hm : m ∈ Submodule.span A s := hs ▸ Submodule.mem_top
@@ -131,8 +130,7 @@ omit [IsDirectedOrder J] [Nonempty J] in
 theorem transMod_trans (htrans : TransitionSystem φ) (P : Type*) [AddCommGroup P] [Module A P]
     {i j k : J} (hij : i ≤ j) (hjk : j ≤ k) (y : S i ⊗[A] P) :
     transMod φ P hjk (transMod φ P hij y) = transMod φ P (hij.trans hjk) y := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul r x => simp [transMod_tmul, htrans.trans hij hjk r]
   | add x y hx hy => simp [map_add, hx, hy]
 
@@ -141,8 +139,7 @@ omit [IsDirectedOrder J] [Nonempty J] in
 theorem transMod_smul (P : Type*) [AddCommGroup P] [Module A P] {i j : J} (hij : i ≤ j)
     (t : S i) (y : S i ⊗[A] P) :
     transMod φ P hij (t • y) = φ hij t • transMod φ P hij y := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul r x =>
     rw [TensorProduct.smul_tmul', smul_eq_mul, transMod_tmul, transMod_tmul,
       TensorProduct.smul_tmul', smul_eq_mul, map_mul]
@@ -185,8 +182,7 @@ theorem cancelBaseChange_tmul_eq_smul_transMod {i k : J} (hik : i ≤ k)
     (t : S k) (z : S i ⊗[A] P) :
     TensorProduct.AlgebraTensorModule.cancelBaseChange A (S i) (S k) (S k) P (t ⊗ₜ z) =
       t • transMod φ P hik z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul r x =>
     rw [TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul, transMod_tmul,
       TensorProduct.smul_tmul', smul_eq_mul]
@@ -217,7 +213,7 @@ theorem exists_projective_of_directed (f : ∀ i j : J, i ≤ j → S i →ₐ[A
     hsurj hinj M
   obtain ⟨n, p, hp⟩ := Module.Finite.exists_fin' A M
   have hPsurj : Function.Surjective (p.baseChange Rc) := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact LinearMap.lTensor_surjective Rc hp
   obtain ⟨g, hg⟩ := (Module.Projective.iff_split_of_projective (p.baseChange Rc) hPsurj).mp ‹_›
   obtain ⟨i, gi, hgi⟩ := statement_three φ ψ htrans hcocone
@@ -242,8 +238,7 @@ theorem exists_projective_of_directed (f : ∀ i j : J, i ≤ j → S i →ₐ[A
   have hmain : ∀ w : S k ⊗[S i] (S i ⊗[A] M),
       (p.baseChange (S k)) (eN (LinearMap.baseChange (S k) gi w)) = eM w := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | tmul t y =>
       rw [LinearMap.baseChange_tmul, heN, cancelBaseChange_tmul_eq_smul_transMod φ hik halg,
         map_smul, ← transMod_baseChange φ p hik, heM,
@@ -289,16 +284,16 @@ theorem exists_projective_tensor_of_isColimit (hd : IsColimit d)
   have hds : DirectedSystem (fun j : J => (G.obj (GJ.obj j) : Type u))
       (fun i j h => (f i j h : G.obj (GJ.obj i) → G.obj (GJ.obj j))) := by
     refine ⟨fun i x => ?_, fun {i j k} hij hjk x => ?_⟩
-    · show G.map (GJ.map (homOfLE (le_refl i))) x = x
+    · change G.map (GJ.map (homOfLE (le_refl i))) x = x
       rw [Subsingleton.elim (homOfLE (le_refl i)) (𝟙 i), GJ.map_id, G.map_id]
       rfl
-    · show G.map (GJ.map (homOfLE hjk)) (G.map (GJ.map (homOfLE hij)) x) = _
+    · change G.map (GJ.map (homOfLE hjk)) (G.map (GJ.map (homOfLE hij)) x) = _
       rw [← ConcreteCategory.comp_apply, ← G.map_comp, ← GJ.map_comp]
       rfl
   have hf : ∀ (i j : J) (h : i ≤ j) (x : G.obj (GJ.obj i)),
       algebraMap (G.obj (GJ.obj j)) d.pt (f i j h x) = algebraMap (G.obj (GJ.obj i)) d.pt x := by
     intro i j h x
-    show d.ι.app (GJ.obj j) (G.map (GJ.map (homOfLE h)) x) = d.ι.app (GJ.obj i) x
+    change d.ι.app (GJ.obj j) (G.map (GJ.map (homOfLE h)) x) = d.ι.app (GJ.obj i) x
     rw [← ConcreteCategory.comp_apply, d.w]
   have hdJ : IsColimit (d.whisker GJ) := (Functor.Final.isColimitWhiskerEquiv GJ d).symm hd
   have hsurj : ∀ r : d.pt, ∃ (j : J) (s : G.obj (GJ.obj j)),
@@ -310,13 +305,13 @@ theorem exists_projective_tensor_of_isColimit (hd : IsColimit d)
       ∃ (k : J) (hjk : j ≤ k), f j k hjk s = 0 := by
     intro j s hs
     have h0 : (d.whisker GJ).ι.app j s = (d.whisker GJ).ι.app j 0 := by
-      show d.ι.app (GJ.obj j) s = d.ι.app (GJ.obj j) 0
+      change d.ι.app (GJ.obj j) s = d.ι.app (GJ.obj j) 0
       rwa [map_zero]
     obtain ⟨k, g₁, g₂, hg⟩ := Concrete.isColimit_exists_of_rep_eq (GJ ⋙ G) hdJ s 0 h0
     refine ⟨k, leOfHom g₁, ?_⟩
     have hg₁ : homOfLE (leOfHom g₁) = g₁ := Subsingleton.elim _ _
     have hg' : G.map (GJ.map g₁) s = G.map (GJ.map g₂) (0 : G.obj (GJ.obj j)) := hg
-    show G.map (GJ.map (homOfLE (leOfHom g₁))) s = 0
+    change G.map (GJ.map (homOfLE (leOfHom g₁))) s = 0
     rw [hg₁, hg', map_zero]
   obtain ⟨j, hj⟩ := exists_projective_of_directed f hf hsurj hinj M
   exact ⟨GJ.obj j, hj⟩

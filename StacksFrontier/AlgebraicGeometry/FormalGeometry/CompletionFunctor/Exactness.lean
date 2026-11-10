@@ -135,7 +135,7 @@ public theorem hom_eq_zero_of_affineOpens_app {X : Scheme.{u}} {M N : X.Modules}
     (h : ∀ (U : X.affineOpens) (s : Γ(M, U.1)), φ.app U.1 s = 0) : φ = 0 := by
   refine Scheme.Modules.hom_ext _ _ fun V => ?_
   ext s
-  show φ.app V s = 0
+  change φ.app V s = 0
   refine TopCat.Presheaf.section_ext
     (⟨N.presheaf, N.isSheaf⟩ : TopCat.Sheaf Ab.{u} X) V (φ.app V s) 0 fun x hx => ?_
   obtain ⟨W, hW, hxW, hWV⟩ := Opens.isBasis_iff_nbhd.mp X.isBasis_affineOpens (U := V) hx

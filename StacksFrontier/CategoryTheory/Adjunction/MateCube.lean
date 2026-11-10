@@ -101,21 +101,21 @@ theorem isIso_map_map_mateEquiv_symm_app_of_cube
     (cube : cb ≫ₕ θf =
       ((θf' ≫ₕ cs).whiskerBottom (conjugateEquiv (cX.comp aX') (aX.comp bX) ρg)).whiskerTop
         (conjugateEquiv (aY.comp bY) (cY.comp aY') ρg'))
-    (hcb : IsIso ((mateEquiv bY bX).symm cb).natTrans)
-    (hcs : IsIso ((mateEquiv cY cX).symm cs).natTrans) [IsIso ρg] [IsIso ρg']
-    (hθf' : ∀ M, IsIso (PX'.map (((mateEquiv aY' aX').symm θf').natTrans.app M))) (K : Ys) :
-    IsIso (PX'.map (qX'.map (((mateEquiv aY aX).symm θf).natTrans.app K))) := by
-  have e := congrArg (fun t => PX'.map (t.natTrans.app K))
+    (hcb : IsIso ((mateEquiv bY bX).symm cb))
+    (hcs : IsIso ((mateEquiv cY cX).symm cs)) [IsIso ρg] [IsIso ρg']
+    (hθf' : ∀ M, IsIso (PX'.map (((mateEquiv aY' aX').symm θf').app M))) (K : Ys) :
+    IsIso (PX'.map (qX'.map (((mateEquiv aY aX).symm θf).app K))) := by
+  have e := congrArg (fun t => PX'.map (t.app K))
     (mateEquiv_symm_vComp_eq_of_cube aY aX aY' aX' bY bX cY cX θf θf' cs cb ρg ρg' cube)
   simp only [vComp_app, TwoSquare.whiskerLeft_app, TwoSquare.whiskerRight_app,
     Functor.comp_obj, Functor.map_comp] at e
   have := hθf' (rY.obj K)
-  have h : IsIso (PX'.map (qX'.map (((mateEquiv aY aX).symm θf).natTrans.app K)) ≫
-      PX'.map (((mateEquiv bY bX).symm cb).natTrans.app (pY.obj K))) := by
+  have h : IsIso (PX'.map (qX'.map (((mateEquiv aY aX).symm θf).app K)) ≫
+      PX'.map (((mateEquiv bY bX).symm cb).app (pY.obj K))) := by
     rw [e]
     infer_instance
   exact IsIso.of_isIso_comp_right _
-    (PX'.map (((mateEquiv bY bX).symm cb).natTrans.app (pY.obj K)))
+    (PX'.map (((mateEquiv bY bX).symm cb).app (pY.obj K)))
 
 end Cube
 
@@ -132,10 +132,10 @@ description of the mate (`CategoryTheory.unit_mateEquiv_symm`), the unit of `adj
 `R₂` of the mate at `c` is `H₁` of the unit of `adj₁` at `c` followed by the square, and the
 other three maps are isomorphisms. -/
 theorem isIso_map_mateEquiv_symm_app_of_isIso_unit (θ : TwoSquare R₁ H₂ H₁ R₂)
-    [IsIso θ.natTrans] [IsIso adj₁.unit] [IsIso adj₂.unit] (c : C) :
-    IsIso (R₂.map (((mateEquiv adj₁ adj₂).symm θ).natTrans.app c)) := by
-  have e : R₂.map (((mateEquiv adj₁ adj₂).symm θ).natTrans.app c) =
-      inv (adj₂.unit.app (H₁.obj c)) ≫ H₁.map (adj₁.unit.app c) ≫ θ.natTrans.app (L₁.obj c) := by
+    [IsIso θ] [IsIso adj₁.unit] [IsIso adj₂.unit] (c : C) :
+    IsIso (R₂.map (((mateEquiv adj₁ adj₂).symm θ).app c)) := by
+  have e : R₂.map (((mateEquiv adj₁ adj₂).symm θ).app c) =
+      inv (adj₂.unit.app (H₁.obj c)) ≫ H₁.map (adj₁.unit.app c) ≫ θ.app (L₁.obj c) := by
     rw [IsIso.eq_inv_comp]
     exact (unit_mateEquiv_symm adj₁ adj₂ θ c).symm
   rw [e]

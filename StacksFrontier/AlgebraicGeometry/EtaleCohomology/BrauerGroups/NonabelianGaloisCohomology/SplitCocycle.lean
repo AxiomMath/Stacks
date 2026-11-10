@@ -147,8 +147,7 @@ private theorem tensorAlgEquivOfAlgEquiv_commutes_galois (K : Type u) [Field K]
         (AlgEquiv.restrictScalars K (tensorAlgEquivOfAlgEquiv K Ksep A B f)) := by
   apply AlgEquiv.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy =>
       rw [map_add, map_add, hx, hy]
   | tmul x a => simp [tensorAlgEquivOfAlgEquiv, tensorGaloisAut]

@@ -93,10 +93,10 @@ public theorem exists_ringEquiv_completedBaseChangedAlgebra_of_algEquiv
   refine ⟨(e.toRingEquiv.trans rid.symm.toRingEquiv).trans
     (AdicCompletion.ofAlgEquiv
       (baseChangedIdeal (A₂ := A) (I₂ := I) C)).toRingEquiv, fun a => ?_, fun x => ?_⟩
-  · show (AdicCompletion.ofAlgEquiv _) (rid.symm (e (algebraMap A B.carrier a))) = _
+  · change (AdicCompletion.ofAlgEquiv _) (rid.symm (e (algebraMap A B.carrier a))) = _
     rw [e.commutes, hrid]
     rfl
-  · show (AdicCompletion.ofAlgEquiv _) (rid.symm (e (algebraMap C.carrier B.carrier x))) = _
+  · change (AdicCompletion.ofAlgEquiv _) (rid.symm (e (algebraMap C.carrier B.carrier x))) = _
     rw [halg, e.apply_symm_apply, Algebra.TensorProduct.rid_symm_apply]
     rfl
 

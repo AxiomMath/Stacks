@@ -124,32 +124,32 @@ noncomputable def relationBaseChange (h : U' ⟶ U) (s t : R ⟶ U) : AlgebraicS
   pullback (pullback.snd h t ≫ s) h
 
 /-- The **intermediate stage** `A = U' ×_{h, U, t} R` of the doubled base change. -/
-noncomputable def relationBaseChangeMid (h : U' ⟶ U) (s t : R ⟶ U) : AlgebraicSpaces B S hS :=
+noncomputable def relationBaseChangeMid (h : U' ⟶ U) (t : R ⟶ U) : AlgebraicSpaces B S hS :=
   pullback h t
 
 /-- The **first leg** `R' ⟶ A` of the doubled base change: the base change of `h` along
 `s ∘ pr₂ : A ⟶ U`. -/
 noncomputable def relationBaseChangeFst (h : U' ⟶ U) (s t : R ⟶ U) :
-    relationBaseChange B S hS h s t ⟶ relationBaseChangeMid B S hS h s t :=
+    relationBaseChange B S hS h s t ⟶ relationBaseChangeMid B S hS h t :=
   pullback.fst (pullback.snd h t ≫ s) h
 
 /-- The **second leg** `A ⟶ R` of the doubled base change: the base change of `h` along
 `t : R ⟶ U`. -/
-noncomputable def relationBaseChangeSnd (h : U' ⟶ U) (s t : R ⟶ U) :
-    relationBaseChangeMid B S hS h s t ⟶ R :=
+noncomputable def relationBaseChangeSnd (h : U' ⟶ U) (t : R ⟶ U) :
+    relationBaseChangeMid B S hS h t ⟶ R :=
   pullback.snd h t
 
 /-- The projection `p : R' ⟶ R` of the doubled base change, through the intermediate
 `U' ×_{h, U, t} R`. -/
 noncomputable def relationBaseChangeProj (h : U' ⟶ U) (s t : R ⟶ U) :
     relationBaseChange B S hS h s t ⟶ R :=
-  relationBaseChangeFst B S hS h s t ≫ relationBaseChangeSnd B S hS h s t
+  relationBaseChangeFst B S hS h s t ≫ relationBaseChangeSnd B S hS h t
 
 /-- The **second leg is smooth when `h` is**: it is the base change of `h` along `t`
 (Stacks 03ZE). -/
-theorem isSmooth_relationBaseChangeSnd (h : U' ⟶ U) (s t : R ⟶ U)
+theorem isSmooth_relationBaseChangeSnd (h : U' ⟶ U) (t : R ⟶ U)
     (hh : IsSmooth B S hS h.hom) :
-    IsSmooth B S hS (relationBaseChangeSnd B S hS h s t).hom :=
+    IsSmooth B S hS (relationBaseChangeSnd B S hS h t).hom :=
   MorphismProperty.pullback_snd (P := smoothMorphismProperty B S hS) h t hh
 
 /-- The **first leg is smooth when `h` is**: it is the base change of `h` along `s ∘ pr₂`
@@ -167,20 +167,20 @@ theorem isSmooth_relationBaseChangeProj (h : U' ⟶ U) (s t : R ⟶ U)
     (hh : IsSmooth B S hS h.hom) :
     IsSmooth B S hS (relationBaseChangeProj B S hS h s t).hom :=
   isSmooth_comp B S hS (relationBaseChange B S hS h s t).property
-    (relationBaseChangeMid B S hS h s t).property R.property _ _
+    (relationBaseChangeMid B S hS h t).property R.property _ _
     (isSmooth_relationBaseChangeFst B S hS h s t hh)
-    (isSmooth_relationBaseChangeSnd B S hS h s t hh)
+    (isSmooth_relationBaseChangeSnd B S hS h t hh)
 
 /-- Local Noetherianity passes from `R` to the intermediate stage `A = U' ×_{h, U, t} R`, the
 second leg being smooth hence locally of finite type (Stacks 04ZK). -/
 theorem hasEtaleLocalProperty_isLocallyNoetherian_relationBaseChangeMid (h : U' ⟶ U)
-    (s t : R ⟶ U) (hh : IsSmooth B S hS h.hom)
+    (t : R ⟶ U) (hh : IsSmooth B S hS h.hom)
     (hN : HasEtaleLocalProperty B S hS R.obj (fun T : Scheme.{u} => IsLocallyNoetherian T)) :
-    HasEtaleLocalProperty B S hS (relationBaseChangeMid B S hS h s t).obj
+    HasEtaleLocalProperty B S hS (relationBaseChangeMid B S hS h t).obj
       (fun T : Scheme.{u} => IsLocallyNoetherian T) :=
   isLocallyNoetherian_of_isLocallyOfFiniteType B S hS
-    (relationBaseChangeMid B S hS h s t).property R.property _
-    (isLocallyOfFiniteType_of_isSmooth B S hS (isSmooth_relationBaseChangeSnd B S hS h s t hh))
+    (relationBaseChangeMid B S hS h t).property R.property _
+    (isLocallyOfFiniteType_of_isSmooth B S hS (isSmooth_relationBaseChangeSnd B S hS h t hh))
     hN
 
 /-- **The dimension formula along the projection of the doubled base change.** At a geometric
@@ -232,24 +232,24 @@ theorem ringKrullDim_etaleLocalRing_relationBaseChange_split (h : U' ⟶ U) (s t
     (r : GeometricPoint B S hS (relationBaseChange B S hS h s t).obj) :
     ringKrullDim (etaleLocalRing B S hS (relationBaseChange B S hS h s t).obj r) =
       ringKrullDim (etaleLocalRing B S hS R.obj
-            (geometricPointMap (relationBaseChangeSnd B S hS h s t).hom
+            (geometricPointMap (relationBaseChangeSnd B S hS h t).hom
               (geometricPointMap (relationBaseChangeFst B S hS h s t).hom r))) +
           ringKrullDim (closedFibreEtaleLocalRing B S hS
-            (relationBaseChangeMid B S hS h s t).property
-            (relationBaseChangeSnd B S hS h s t).hom
+            (relationBaseChangeMid B S hS h t).property
+            (relationBaseChangeSnd B S hS h t).hom
             (geometricPointMap (relationBaseChangeFst B S hS h s t).hom r)) +
         ringKrullDim (closedFibreEtaleLocalRing B S hS
           (relationBaseChange B S hS h s t).property
           (relationBaseChangeFst B S hS h s t).hom r) := by
-  have hNmid : HasEtaleLocalProperty B S hS (relationBaseChangeMid B S hS h s t).obj
+  have hNmid : HasEtaleLocalProperty B S hS (relationBaseChangeMid B S hS h t).obj
       (fun T : Scheme.{u} => IsLocallyNoetherian T) :=
-    hasEtaleLocalProperty_isLocallyNoetherian_relationBaseChangeMid B S hS h s t hh hN
+    hasEtaleLocalProperty_isLocallyNoetherian_relationBaseChangeMid B S hS h t hh hN
   rw [ringKrullDim_etaleLocalRing_eq_add_closedFibre_of_isSmooth B S hS
-      (relationBaseChange B S hS h s t).property (relationBaseChangeMid B S hS h s t).property
+      (relationBaseChange B S hS h s t).property (relationBaseChangeMid B S hS h t).property
       _ (isSmooth_relationBaseChangeFst B S hS h s t hh) hNmid r,
     ringKrullDim_etaleLocalRing_eq_add_closedFibre_of_isSmooth B S hS
-      (relationBaseChangeMid B S hS h s t).property R.property
-      _ (isSmooth_relationBaseChangeSnd B S hS h s t hh) hN
+      (relationBaseChangeMid B S hS h t).property R.property
+      _ (isSmooth_relationBaseChangeSnd B S hS h t hh) hN
       (geometricPointMap (relationBaseChangeFst B S hS h s t).hom r)]
 
 /-- **The Step C identity of Stacks 0DS9, reduced to the two base-change facts.** In the
@@ -310,14 +310,14 @@ theorem ringKrullDim_etaleLocalRing_stepC_of_closedFibre_eq (h : U' ⟶ U) (s t 
         (relationBaseChangeFst B S hS h s t).hom r) =
       ringKrullDim (closedFibreEtaleLocalRing B S hS U'.property h.hom x'))
     (hsnd : ringKrullDim (closedFibreEtaleLocalRing B S hS
-        (relationBaseChangeMid B S hS h s t).property
-        (relationBaseChangeSnd B S hS h s t).hom
+        (relationBaseChangeMid B S hS h t).property
+        (relationBaseChangeSnd B S hS h t).hom
         (geometricPointMap (relationBaseChangeFst B S hS h s t).hom r)) =
       ringKrullDim (closedFibreEtaleLocalRing B S hS U'.property h.hom x')) :
     ringKrullDim (etaleLocalRing B S hS U'.obj x') +
           ringKrullDim (etaleLocalRing B S hS U'.obj x') +
         ringKrullDim (etaleLocalRing B S hS R.obj
-          (geometricPointMap (relationBaseChangeSnd B S hS h s t).hom
+          (geometricPointMap (relationBaseChangeSnd B S hS h t).hom
             (geometricPointMap (relationBaseChangeFst B S hS h s t).hom r))) =
       ringKrullDim (etaleLocalRing B S hS U.obj (geometricPointMap h.hom x')) +
             ringKrullDim (etaleLocalRing B S hS U.obj (geometricPointMap h.hom x')) +

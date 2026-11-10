@@ -338,7 +338,7 @@ theorem val_app_trans₃_apply {D₀ : AlgebraicSpaces B S hS}
 /-- The étale restriction of a morphism of modules, read on a section over a chart of the source:
 restriction along an étale morphism is restriction of charts, so it is that morphism read over
 the composite chart.  Stated on variables. -/
-theorem etaleModulePullback_map_val_app_apply {C₁ T T' : AlgebraicSpaces B S hS} (w : T' ⟶ T)
+theorem etaleModulePullback_map_val_app_apply {T T' : AlgebraicSpaces B S hS} (w : T' ⟶ T)
     (hw : IsEtale B S hS w.hom) {P Q : Modules.{u, u} B S hS T.1 T.2} (θ : P ⟶ Q)
     (U : SmallEtale B S hS T'.1) (m : P.val.obj (.op ((smallEtalePostcomp B S hS w hw).obj U))) :
     ((etaleModulePullback.{u, u} B S hS w hw).map θ).val.app (.op U) m =

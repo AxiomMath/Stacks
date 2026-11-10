@@ -220,7 +220,7 @@ private theorem add_residueFieldTrdeg_le_topologicalKrullDim (f : X ⟶ Y)
   have hsum : (Order.height Q : WithBot ℕ∞) + (Order.coheight Q : WithBot ℕ∞) ≤
       topologicalKrullDim X := by
     have _ : Nonempty (IrreducibleCloseds X) := ⟨Q⟩
-    show _ ≤ Order.krullDim (IrreducibleCloseds X)
+    change _ ≤ Order.krullDim (IrreducibleCloseds X)
     rw [Order.krullDim_eq_iSup_height_add_coheight_of_nonempty]
     exact WithBot.coe_mono
       (le_iSup (fun Z : IrreducibleCloseds X => Order.height Z + Order.coheight Z) Q)

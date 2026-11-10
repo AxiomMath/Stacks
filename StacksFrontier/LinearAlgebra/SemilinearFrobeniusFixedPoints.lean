@@ -201,13 +201,13 @@ theorem exists_fixed_of_krylov (hT : Function.Injective T) (v : V) (k' : ℕ)
     abel
   have hTw : T w = w := by
     rw [hwdef, map_sum, Fin.sum_univ_castSucc]
-    simp only [map_smul_pow, hTe, Fin.coe_castSucc, Fin.val_last, hyk]
+    simp only [map_smul_pow, hTe, Fin.val_castSucc, Fin.val_last, hyk]
     rw [← hwdef, hw, add_comm]
   refine ⟨w, fun h0 => ?_, hTw⟩
   -- `w ≠ 0`, its last coordinate being `y ≠ 0`
   have hsplit : w = ∑ i : Fin k', x i • e i + y • e k' := by
     rw [hwdef, Fin.sum_univ_castSucc]
-    simp only [Fin.coe_castSucc, Fin.val_last, hyk]
+    simp only [Fin.val_castSucc, Fin.val_last, hyk]
   have hlast : y • e k' = -∑ i : Fin k', x i • e i := by
     rw [← sub_eq_zero, sub_neg_eq_add, add_comm, ← hsplit, h0]
   have hmem : y • e k' ∈ Submodule.span Ω (Set.range fun i : Fin k' => e i) := by
@@ -440,7 +440,7 @@ theorem natCard_stable_mul (hT : Function.Injective T) :
     fun x => Equiv.ofBijective
     (fun a => ⟨⟨a.1 • r x, by rw [map_smul_pow, hr, a.2.1], smul_ne_zero a.2.2 (hr0 x)⟩,
       Subtype.ext (by
-        show Projectivization.mk Ω (a.1 • r x) _ = x.1
+        change Projectivization.mk Ω (a.1 • r x) _ = x.1
         rw [← hrx x, Projectivization.mk_eq_mk_iff']
         exact ⟨a.1, rfl⟩)⟩)
     ⟨fun a b hab => Subtype.ext (smul_left_injective Ω (hr0 x)

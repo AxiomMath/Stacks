@@ -411,7 +411,7 @@ theorem targetPairsPullbackIso_naturality {M N : QuasicoherentModule B S hS G}
       (targetPairsPullbackIso' G M).hom ≫
         (QuasicoherentModule.forgetQuasicoherent G ⋙ targetPairsBase G).map g := by
   refine QuasicoherentModule.Hom.ext ?_
-  show (modulePullback B S hS (targetPairsHom G).objectsMap).map g.hom ≫ targetPairsAlphaInv G N =
+  change (modulePullback B S hS (targetPairsHom G).objectsMap).map g.hom ≫ targetPairsAlphaInv G N =
     targetPairsAlphaInv G M ≫
       (@modulePullback B S hS (targetPairsGroupoid G).objects G.objects G.target).map g.hom
   exact inv_alpha_naturality G g (Y := (targetPairsGroupoid G).objects) rfl

@@ -80,7 +80,7 @@ instance translatedQuotient_flat (V : Γ.left.Opens) {X : Scheme.{u}} (π : V.to
 /-- The unit lies in `λ_g⁻¹ V` when `g` lies in `V`. -/
 lemma unit_mem_translatedOpen (V : Γ.left.Opens) (p : (𝟙_ (Over S)).left)
     (hg : g.left p ∈ V) : (η[Γ]).left p ∈ translatedOpen Γ g V := by
-  show ((η[Γ]).left ≫ (leftTranslation Γ g).left) p ∈ V
+  change ((η[Γ]).left ≫ (leftTranslation Γ g).left) p ∈ V
   rw [← Over.comp_left, unit_leftTranslation]
   exact hg
 

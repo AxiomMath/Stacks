@@ -50,7 +50,7 @@ theorem isUnramifiedAt_of_isLocalization_integralClosure (M : Submonoid D)
     IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
   have : IsScalarTower D (integralClosure D N) (integralClosure Rf N) :=
     IsScalarTower.of_algebraMap_eq fun x ↦ Subtype.ext (by
-      show algebraMap (integralClosure Rf N) N (algebraMap D (integralClosure Rf N) x) =
+      change algebraMap (integralClosure Rf N) N (algebraMap D (integralClosure Rf N) x) =
         algebraMap D N x
       exact (IsScalarTower.algebraMap_apply D (integralClosure Rf N) N x).symm)
   have : IsLocalization (Algebra.algebraMapSubmonoid N M) N :=
@@ -83,7 +83,7 @@ theorem isUnramifiedAt_of_isLocalization_integralClosure (M : Submonoid D)
   have hsub : ((P.map (algebraMap (integralClosure D N) (integralClosure Rf N))).comap
       (algebraMap (integralClosure D N) (integralClosure Rf N))).primeCompl = P.primeCompl := by
     ext x
-    show x ∉ _ ↔ x ∉ _
+    change x ∉ _ ↔ x ∉ _
     rw [hcomap]
   have h1 : IsLocalization P.primeCompl
       (Localization.AtPrime (P.map (algebraMap (integralClosure D N) (integralClosure Rf N)))) :=

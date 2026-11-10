@@ -125,7 +125,7 @@ theorem locallyOfFinitePresentation_of_isColimit_cofan {I : Type u}
   have hdesc : e.hom ≫ B.inclusion.map V.hom =
       Sigma.desc fun i => B.inclusion.map (T i).hom := by
     refine Sigma.hom_ext _ _ fun i => ?_
-    rw [Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc]
     calc Sigma.ι (fun i => (BigFppfOver.toScheme B S hS).obj (T i)) i ≫ e.hom ≫
           B.inclusion.map V.hom
         = (BigFppfOver.toScheme B S hS).map (c i) ≫ B.inclusion.map V.hom := by
@@ -149,7 +149,9 @@ def IsCoproductOfAffines {B : BigFppfSite.{u}} {hZ : B.Contains (⊤_ Scheme.{u}
     Nonempty (IsColimit (Cofan.mk V₀ c))
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance synthesis for limits and coproducts of presheaves on the big fppf site is expensive
 set_option maxHeartbeats 1600000 in
+-- instance search for limits and coproducts of presheaves on the big fppf site
 /-- **The gluing step of Stacks 09DS.** Over `Spec ℤ`, let `f : X ⟶ Y` be separated and of finite
 presentation, with `Y` the presheaf represented by an object `V` of the site which is a coproduct
 of affine objects `Tᵢ`, indexed by a type of size below the cutoff of the site. If `Coh_{X₀/V₀}` is
@@ -267,7 +269,7 @@ theorem isAlgebraicStack_of_coproductAffine {B : BigFppfSite.{u}}
   have hsq₀ : ∀ i, IsPullback (Sigma.ι Xs i).hom (fj' i) f₀s.hom (yc i) := fun i =>
     isPullback_hom_of_sheaf (IsVanKampenColimit.isPullback_inj hX₀
       (isVanKampenColimit_of_isColimit_sheafOfTypes J hcG₀) fs f₀s
-      (fun i => Sigma.ι_desc _ i) i)
+      (fun i => Sigma.ι_comp_desc _ i) i)
   have hmono₀ : ∀ i, Mono (yc i) := fun i =>
     Sheaf.mono_hom_cofan_inj (fun i => J.yoneda.map (c₀ i)) hcG₀ i
   have hf₀sep : IsSeparated B _ hZ f₀s.hom :=

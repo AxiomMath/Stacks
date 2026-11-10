@@ -254,7 +254,7 @@ noncomputable def evaluationEquiv (J : GrothendieckTopology C)
       (fun i => F.obj.obj (op (T.obj i)))).injective
     ext i
     simp only [Concrete.productEquiv_apply_apply, Concrete.productEquiv_symm_apply_π,
-      Sigma.ι_desc, evalι, Category.assoc, Iso.inv_hom_id_assoc]
+      Sigma.ι_comp_desc, evalι, Category.assoc, Iso.inv_hom_id_assoc]
     exact Equiv.apply_symm_apply _ _
 
 /-- The components of `evaluationEquiv` are the restrictions along the inclusions of the
@@ -400,10 +400,10 @@ lemma evalι_naturality {U T : FormalCoproduct.{w} C}
   simp only [presheafULift, Functor.whiskeringRight_obj_obj, associatedPresheafFunctor,
     Functor.comp_obj, evalι, evalCoproductIso, Discrete.functor_obj_eq_as, Iso.trans_inv,
     Category.assoc, Functor.mapIso_inv, eqToIso.inv, Functor.whiskeringRight_obj_map,
-    HasColimit.isoOfNatIso_ι_inv_assoc, Function.comp_apply, Discrete.natIso_inv_app,
+    HasColimit.ι_isoOfNatIso_inv_assoc, Function.comp_apply, Discrete.natIso_inv_app,
     Iso.refl_inv, Discrete.compNatIsoDiscrete_inv_app, ι_preservesColimitIso_inv_assoc,
     Category.id_comp, Functor.comp_map, FormalCoproduct.eval_obj_map]
-  show G.map (colimit.ι
+  change G.map (colimit.ι
         (Discrete.functor (fun j : U.I => uliftYoneda.{w}.obj (U.obj j))) ⟨i⟩) ≫
       G.map (Sigma.desc (fun j => uliftYoneda.{w}.map (f.φ j) ≫
         Sigma.ι (fun j : T.I => uliftYoneda.{w}.obj (T.obj j)) (f.f j))) =
@@ -420,7 +420,7 @@ lemma yonedaEquiv_naturality {X Y : C} (f : X ⟶ Y)
     F.map f.op (yonedaEquiv.{q, w, v, u} (C := C) Y F g) =
       yonedaEquiv.{q, w, v, u} (C := C) X F
         ((presheafULift.{q, w, v, u} (C := C)).map (uliftYoneda.{w}.map f) ≫ g) := by
-  show F.map f.op
+  change F.map f.op
       (uliftYonedaEquiv.{max (max u v) (max q w)}
         ((nestedYonedaIso.{q, w, v, u} (C := C) Y).inv ≫ g)) =
     uliftYonedaEquiv.{max (max u v) (max q w)}
@@ -452,7 +452,7 @@ lemma sectionsEquiv_naturality (J : GrothendieckTopology C)
           ((sheafificationAdjunction J AddCommGrpCat.{max (max u v) (max q w)}).homEquiv _ _
             (freeAbelianSheafMap.{q, w, v, u} (C := C) J f ≫ g)) =
       (presheafULift.{q, w, v, u} (C := C)).map (uliftYoneda.{w}.map (f.φ i)) ≫ k := by
-    show evalι.{q, w, v, u} (C := C) U i ≫
+    change evalι.{q, w, v, u} (C := C) U i ≫
         (AddCommGrpCat.adj.whiskerRight Cᵒᵖ).homEquiv _ _
           ((sheafificationAdjunction J AddCommGrpCat.{max (max u v) (max q w)}).homEquiv _ _
             ((presheafToSheaf J AddCommGrpCat.{max (max u v) (max q w)}).map
@@ -508,7 +508,7 @@ lemma sectionsEquiv_sectionsDegreeIso (J : GrothendieckTopology C)
     ConcreteCategory.hom
       (evalOpProductIso.{q, w, v, u} (C := C) J
         (K.obj (op (SimplexCategory.mk n))) F).hom z := by
-  show sectionsEquiv.{q, w, v, u} (C := C) J
+  change sectionsEquiv.{q, w, v, u} (C := C) J
       (K.obj (op (SimplexCategory.mk n))) F
       ((sectionsEquiv.{q, w, v, u} (C := C) J
         (K.obj (op (SimplexCategory.mk n))) F).symm
@@ -530,7 +530,7 @@ lemma sectionsComplex_d (J : GrothendieckTopology C)
         ((FormalCoproduct.cosimplicialObjectFunctor K).obj F.obj).δ j :
           (sectionsComplex.{q, w, v, u} J K F).X n ⟶
             (sectionsComplex.{q, w, v, u} J K F).X (n + 1)) := by
-  show CochainComplex.of.d
+  change CochainComplex.of.d
       (fun m => ((FormalCoproduct.cosimplicialObjectFunctor K).obj F.obj).obj
         (SimplexCategory.mk m))
       (AlgebraicTopology.AlternatingCofaceMapComplex.objD
@@ -552,7 +552,7 @@ lemma homFreeAbelianSheafComplex_d (J : GrothendieckTopology C)
             (associatedSimplicialPresheaf.{max (max u v) (max q w)} K)).δ j)).unop :
           (homFreeAbelianSheafComplex.{q, w, v, u} J K F).X n ⟶
             (homFreeAbelianSheafComplex.{q, w, v, u} J K F).X (n + 1)) := by
-  show (((preadditiveYoneda.obj F).rightOp.mapHomologicalComplex (ComplexShape.down ℕ)).obj
+  change (((preadditiveYoneda.obj F).rightOp.mapHomologicalComplex (ComplexShape.down ℕ)).obj
       ((_root_.CategoryTheory.SimplicialObject.freeAbelianSheafComplexFunctor J).obj
         (associatedSimplicialPresheaf.{max (max u v) (max q w)} K))).unop.d n (n + 1) = _
   rw [HomologicalComplex.unop_d, Functor.mapHomologicalComplex_obj_d]
@@ -613,7 +613,7 @@ lemma sectionsDegreeIso_comm_face (J : GrothendieckTopology C)
           (sectionsDegreeIso.{q, w, v, u} (C := C) J K F i).hom z) =
       freeAbelianSheafMap.{q, w, v, u} (C := C) J (K.δ j) ≫ g := by
     rw [hface]
-    show ConcreteCategory.hom
+    change ConcreteCategory.hom
         ((preadditiveYoneda.obj F).rightOp.map
           (freeAbelianSheafMap.{q, w, v, u} (C := C) J (K.δ j))).unop
         (ConcreteCategory.hom
@@ -632,7 +632,7 @@ lemma sectionsDegreeIso_comm_face (J : GrothendieckTopology C)
           (Pi.π (fun l => F.obj.obj (op ((K.obj (op (SimplexCategory.mk i))).obj l)))
             ((K.δ j).f k))
           ((sectionsEquiv.{q, w, v, u} (C := C) J T F).toFun g)) := by
-      show ConcreteCategory.hom
+      change ConcreteCategory.hom
           (Pi.π (fun l => F.obj.obj
             (op ((K.obj (op (SimplexCategory.mk (i + 1)))).obj l))) k)
           ((sectionsEquiv.{q, w, v, u} (C := C) J U F).toFun
@@ -643,12 +643,12 @@ lemma sectionsDegreeIso_comm_face (J : GrothendieckTopology C)
       rw [hmap]
       simpa [T] using hn
     _ = _ := by
-      show _ = ConcreteCategory.hom
+      change _ = ConcreteCategory.hom
         (Pi.π (fun k => F.obj.obj
           (op ((K.obj (op (SimplexCategory.mk (i + 1)))).obj k))) k)
         ((sectionsEquiv.{q, w, v, u} (C := C) J U F).toFun h)
       rw [hT, hU]
-      show ConcreteCategory.hom (F.obj.map ((K.δ j).φ k).op)
+      change ConcreteCategory.hom (F.obj.map ((K.δ j).φ k).op)
           (ConcreteCategory.hom
             (Pi.π (fun l => F.obj.obj (op ((K.obj (op (SimplexCategory.mk i))).obj l)))
               ((K.δ j).f k)) z) =
@@ -657,7 +657,7 @@ lemma sectionsDegreeIso_comm_face (J : GrothendieckTopology C)
             (op ((K.obj (op (SimplexCategory.mk (i + 1)))).obj l))) k)
           (ConcreteCategory.hom
             (((FormalCoproduct.cosimplicialObjectFunctor K).obj F.obj).δ j) z)
-      refine Eq.trans ?_ (Pi.lift_π_apply
+      refine Eq.trans ?_ (Pi.lift_comp_π_apply
         (fun l => Pi.π (fun m => F.obj.obj (op ((K.obj (op (SimplexCategory.mk i))).obj m)))
             ((K.δ j).f l) ≫ F.obj.map ((K.δ j).φ l).op) k z).symm
       rfl

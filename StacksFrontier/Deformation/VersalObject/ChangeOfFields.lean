@@ -85,7 +85,7 @@ private theorem isSmooth_cast_restricted
       (BasedCategory.ofFunctor p))
     (hφ : IsSmooth φ) : IsSmooth (h ▸ φ) := by
   cases h
-  show IsSmooth φ
+  change IsSmooth φ
   exact hφ
 
 /-- Transporting a subtype element along an equality of the constrained value does not change
@@ -176,9 +176,9 @@ private theorem comparison_maximalIdeal_pow_eq_bot (S : ChangeOfFieldsSituation.
     have h2 : ((cf.pullbackEquiv B) a).val.2 = 0 := by
       rw [← cf.residue_snd B a, h0, map_zero]
     have h3 : B.residueEquiv (residue B (φ a)) = 0 := by
-      show residueMap S B (φ a) = 0
+      change residueMap S B (φ a) = 0
       rw [hφ, hprop, h2, map_zero]
-    show φ a ∈ maximalIdeal B
+    change φ a ∈ maximalIdeal B
     rw [← IsLocalRing.residue_eq_zero_iff]
     exact (map_eq_zero_iff _ B.residueEquiv.injective).mp h3
   rw [eq_bot_iff]
@@ -422,7 +422,7 @@ private theorem pushforward_levels (S : ChangeOfFieldsSituation.{u, v, w})
     intro n
     have ha : (newMap.obj (eT n)).iso.hom =
         eqToHom (Functor.congr_obj ξMap.toBasedFunctor.w (αR n)) := by
-      show (eqToIso ξMap.toBasedFunctor.w.symm).inv.app (αR n) ≫ 𝟙 _ ≫ 𝟙 _ = _
+      change (eqToIso ξMap.toBasedFunctor.w.symm).inv.app (αR n) ≫ 𝟙 _ ≫ 𝟙 _ = _
       rw [Category.comp_id, Category.comp_id, eqToIso.inv]
       exact eqToHom_app _ _
     have := E.levelIso_over newMap n
@@ -473,7 +473,7 @@ private theorem pushforward_levels (S : ChangeOfFieldsSituation.{u, v, w})
     have hfac := DFunLike.congr_fun (ξMap.factor_spec (αR n)).2.2 r
     have htr := DFunLike.congr_fun ht r
     rw [← hc] at hfac
-    show (cf.pullbackEquiv (AdicTruncation.obj T n)
+    change (cf.pullbackEquiv (AdicTruncation.obj T n)
       (c.hom (t.hom (Ideal.Quotient.mk _ r)))).val.1 = _
     change t.hom (Ideal.Quotient.mk _ r) = Ideal.Quotient.mk _ r at htr
     rw [htr]
@@ -505,7 +505,7 @@ private theorem exists_lift_of_formallySmoothNAdic {R : Type u₁} {T : Type v�
     rw [Ideal.map_pow] at hm
     have hm' := pow_le_pow_left' (IsLocalRing.map_maximalIdeal_le α) (n + 1) hm
     rw [hn', Ideal.mem_bot] at hm'
-    show eπ.symm (α a) = 0
+    change eπ.symm (α a) = 0
     rw [hm', map_zero]
   let _ : TopologicalSpace R := ⊥
   let _ : DiscreteTopology R := ⟨rfl⟩
@@ -533,7 +533,7 @@ private theorem exists_lift_of_formallySmoothNAdic {R : Type u₁} {T : Type v�
     le_antisymm ((pow_le_pow_left' hJmax (m + 1)).trans hm.le) bot_le
   have hcomm : ψ.comp f = (Ideal.Quotient.mk J).comp g₀ := by
     ext r
-    show eπ.symm (α (f r)) = _
+    change eπ.symm (α (f r)) = _
     rw [hg₀]
     exact DFunLike.congr_fun (RingHom.quotientKerEquivOfSurjective_symm_comp hπ) (g₀ r)
   obtain ⟨lift, -, hliftF, hliftψ⟩ :=
@@ -609,7 +609,7 @@ private theorem exists_point_lift (S : ChangeOfFieldsSituation.{u, v, w})
           lift (algebraMap S.Λ T a) = lift (fΛ (algebraMap S.Λ R a)) := by rw [fΛ.commutes a]
           _ = g0 (algebraMap S.Λ R a) := DFunLike.congr_fun hliftF _
           _ = algebraMap S.Λ B a := by
-            show ((cf.pullbackEquiv B) (γ.hom (algebraMap S.Λ R a))).val.1 = _
+            change ((cf.pullbackEquiv B) (γ.hom (algebraMap S.Λ R a))).val.1 = _
             rw [γ.hom.commutes]
             exact cf.algebraMap_fst B a }
   have hliftLocal : IsLocalHom lift :=
@@ -674,7 +674,7 @@ private theorem isSmooth_pointToChangedFunctor (S : ChangeOfFieldsSituation.{u, 
   let πR := Functor.Elements.π reprR
   let q := changeOfFieldsProjection.{u, v, w, max x v w} S πR
   let pointToChanged := pointToChangedFunctor.{u, v, w, x} S R T pointAt pointAt_natural
-  show IsSmooth pointToChanged
+  change IsSmooth pointToChanged
   intro B A f₀ hsurj y xx g hg
   let _ : q.IsHomLift f₀ g := hg
   rcases xx with @⟨A₀, α⟩
@@ -707,29 +707,29 @@ private theorem isSmooth_pointToChangedFunctor (S : ChangeOfFieldsSituation.{u, 
     apply CompleteLocalAlgCat.Hom.ext
     apply AlgHom.ext
     intro r
-    show yIso.inv.hom ((pointAt yB α').hom r) = yF.2.hom r
+    change yIso.inv.hom ((pointAt yB α').hom r) = yF.2.hom r
     rw [hpointLift]
     have hcancel : yIso.inv.hom.comp yIso.hom.hom = AlgHom.id S.Λ (πR.obj yF) := by
       simpa only [ArtinianLocalAlgCat.comp_hom, ArtinianLocalAlgCat.id_hom] using
         congrArg (fun m : πR.obj yF ⟶ πR.obj yF => m.hom) yIso.hom_inv_id
-    show (yIso.inv.hom.comp yIso.hom.hom) (yF.2.hom r) = yF.2.hom r
+    change (yIso.inv.hom.comp yIso.hom.hom) (yF.2.hom r) = yF.2.hom r
     rw [hcancel]
     rfl
   let a : pointToChanged.obj x' ⟶ ⟨yF, yB, yIso⟩ :=
     { fst := Functor.Elements.homMk (x := aBase) (y := yF) yIso.inv hpointEq
       snd := 𝟙 yB
       w := by
-        show yIso.inv ≫ yIso.hom = 𝟙 (πR.obj aBase) ≫ cf.functor.map (𝟙 yB)
+        change yIso.inv ≫ yIso.hom = 𝟙 (πR.obj aBase) ≫ cf.functor.map (𝟙 yB)
         rw [cf.functor.map_id]
-        show yIso.inv ≫ yIso.hom = 𝟙 (cf.functor.obj yB)
+        change yIso.inv ≫ yIso.hom = 𝟙 (cf.functor.obj yB)
         exact yIso.inv_hom_id }
   have haLift : (BasedCategory.ofFunctor q).p.IsHomLift (𝟙 yB) a := IsHomLift.map (p := q) a
   refine ⟨x', h, a, hhLift, haLift, CategoricalPullback.Hom.ext ?_ ?_⟩
   · apply Functor.Elements.hom_ext
-    show cf.functor.map f₀ = yIso.inv ≫ g.fst.hom
+    change cf.functor.map f₀ = yIso.inv ≫ g.fst.hom
     rw [hgbase]
     exact (yIso.inv_hom_id_assoc _).symm
-  · show f₀ = 𝟙 yB ≫ g.snd
+  · change f₀ = 𝟙 yB ≫ g.snd
     rw [hgf]
     exact (Category.id_comp _).symm
 
@@ -755,7 +755,7 @@ private theorem exists_formallySmooth_changeOfFields_lift (S : ChangeOfFieldsSit
       e.symm.toRingEquiv (RingEquiv.refl B)
       (by
         ext b
-        show (algebraMap S.k (B : Type _)) (e (e.symm b)) = _
+        change (algebraMap S.k (B : Type _)) (e (e.symm b)) = _
         simp
         rfl)
       (by simp; rfl)
@@ -781,7 +781,7 @@ private theorem exists_formallySmooth_changeOfFields_lift (S : ChangeOfFieldsSit
   let _ : IsScalarTower S.Λ S.k B := IsScalarTower.of_algebraMap_eq' rfl
   let _ : IsScalarTower S.Λ (ResidueField R) B := IsScalarTower.of_algebraMap_eq' (by
     ext a
-    show (algebraMap S.k B) ((algebraMap S.Λ S.k) a) =
+    change (algebraMap S.k B) ((algebraMap S.Λ S.k) a) =
       (algebraMap S.k B) (e ((algebraMap S.Λ (ResidueField R)) a))
     rw [e.commutes])
   let eFiberΛ : D ≃ₐ[S.Λ] B := eFiber.restrictScalars S.Λ
@@ -811,7 +811,7 @@ private theorem exists_formallySmooth_changeOfFields_lift (S : ChangeOfFieldsSit
   have hBscalar (z : ResidueField R) :
       eULift (B.residueEquiv (residue B ((algebraMap (ResidueField R) B) z))) =
         algebraMap S.k S.l (e z) := by
-    show eULift (B.residueEquiv (residue B ((algebraMap S.k B) (e z)))) = _
+    change eULift (B.residueEquiv (residue B ((algebraMap S.k B) (e z)))) = _
     rw [← IsLocalRing.ResidueField.algebraMap_eq,
       ← IsScalarTower.algebraMap_apply S.k B (ResidueField B) (e z), B.residueEquiv.commutes]
     rfl
@@ -821,20 +821,20 @@ private theorem exists_formallySmooth_changeOfFields_lift (S : ChangeOfFieldsSit
     have hjf : j (f r) = algebraMap (ResidueField R) D (residue R r) := by
       calc
         j (f r) = algebraMap R D r := by
-          show j (algebraMap R T r) = _
+          change j (algebraMap R T r) = _
           exact j.commutes r
         _ = algebraMap (ResidueField R) D (residue R r) := by
           rw [IsScalarTower.algebraMap_apply R (ResidueField R) D r]
           simp [IsLocalRing.ResidueField.algebraMap_eq]
     have hResT : eResT (residue T (f r)) = residue D (j (f r)) := by
-      show IsLocalRing.ResidueField.mapAlgHom jΛ (residue T (f r)) = _
+      change IsLocalRing.ResidueField.mapAlgHom jΛ (residue T (f r)) = _
       rw [IsLocalRing.ResidueField.mapAlgHom_residue]
       rfl
     have hResFiber : eResFiber (residue D (j (f r))) = residue B (eFiber (j (f r))) := by
-      show IsLocalRing.ResidueField.mapAlgEquiv eFiberΛ (residue D (j (f r))) = _
+      change IsLocalRing.ResidueField.mapAlgEquiv eFiberΛ (residue D (j (f r))) = _
       rw [IsLocalRing.ResidueField.mapAlgEquiv_residue]
       rfl
-    show eULift (eResB (eResFiber (eResT (residue T (f r))))) = _
+    change eULift (eResB (eResFiber (eResT (residue T (f r))))) = _
     rw [hResT, hResFiber, hjf, eFiber.commutes]
     simpa [eResB] using hBscalar (residue R r)
   exact ⟨Tcat, IsScalarTower.toAlgHom S.Λ R T, hfLocal, hresf, hfSmooth⟩
@@ -939,12 +939,12 @@ private theorem changeOfFieldsPoint_natural
   let reprT := restrictedCoyoneda T
   apply CompleteLocalAlgCat.Hom.ext
   refine pullback_algHom_ext.{u, v, w, x} S C (fun r => ?_) (fun r => ?_)
-  · show ((cf.pullbackEquiv C) ((pointAt C (reprT.map g α)).hom r)).val.1 =
+  · change ((cf.pullbackEquiv C) ((pointAt C (reprT.map g α)).hom r)).val.1 =
       ((cf.pullbackEquiv C) (((cf.functor.map g).hom.comp (pointAt A α).hom) r)).val.1
     rw [changeOfFieldsPoint_fst, AlgHom.comp_apply, cf.map_fst, changeOfFieldsPoint_fst,
       restrictedCoyoneda_map_hom g α]
     rfl
-  · show ((cf.pullbackEquiv C) ((pointAt C (reprT.map g α)).hom r)).val.2 =
+  · change ((cf.pullbackEquiv C) ((pointAt C (reprT.map g α)).hom r)).val.2 =
       ((cf.pullbackEquiv C) (((cf.functor.map g).hom.comp (pointAt A α).hom) r)).val.2
     rw [changeOfFieldsPoint_snd, AlgHom.comp_apply, cf.map_snd, changeOfFieldsPoint_snd]
 

@@ -71,7 +71,7 @@ theorem basicOpenXAtUniverse_le_preimage (i : ULift.{u} (Fin (n + 1))) :
     basicOpenXAtUniverse S n i ≤
       (Opens.map (projModelRingedHom φ n).hom.base).obj (basicOpenXAtUniverse R n i) := by
   refine le_of_eq ?_
-  show _ = projModelMap n φ ⁻¹ᵁ AlgebraicGeometry.Proj.basicOpen (polyGrading R n)
+  change _ = projModelMap n φ ⁻¹ᵁ AlgebraicGeometry.Proj.basicOpen (polyGrading R n)
     (MvPolynomial.X i.down)
   rw [projModelMap, AlgebraicGeometry.Proj.map_preimage_basicOpen]
   exact congrArg (AlgebraicGeometry.Proj.basicOpen (polyGrading S n))
@@ -128,7 +128,7 @@ theorem rep_homologyZeroIso (R : Type u) [CommRing R] {N : ℕ} {d : ℤ}
   refine h1.symm.trans ?_
   refine ((ConcreteCategory.comp_apply _ _ _).trans
     (congrArg _ (Iso.hom_inv_id_apply _ _))).trans ?_
-  show ConcreteCategory.hom ((laurentCechComplex R (N + 1) d).iCycles 0)
+  change ConcreteCategory.hom ((laurentCechComplex R (N + 1) d).iCycles 0)
       (ConcreteCategory.hom ((laurentCechComplex R (N + 1) d).isoHomologyπ 0 0 (by simp)
         ((laurentCechComplex R (N + 1) d).shape 0 0 (by simp))).inv
         (ConcreteCategory.hom ((laurentCechComplex R (N + 1) d).isoHomologyπ 0 0 (by simp)
@@ -213,11 +213,11 @@ theorem chartAwayTransport_awayModuleMap_smul_laurentFrac (T : Finset (Fin (n + 
       (polyGrading S n) (polyGradedMap (Fin (n + 1)) φ) _ _ _ hs)).trans ?_
   refine (chartAwayTransport_mk φ n T _ _).trans (Eq.trans ?_ h2.symm)
   congr 1
-  · show MvPolynomial.map φ (MvPolynomial.C r * MvPolynomial.monomial _ 1) =
+  · change MvPolynomial.map φ (MvPolynomial.C r * MvPolynomial.monomial _ 1) =
       MvPolynomial.C (φ r) * MvPolynomial.monomial _ 1
     rw [map_mul, MvPolynomial.map_C, MvPolynomial.map_monomial, map_one]
   · exact Subtype.ext (by
-      show MvPolynomial.map φ (chartDenom R n T ^ clearDen T e) = chartDenom S n T ^ _
+      change MvPolynomial.map φ (chartDenom R n T ^ clearDen T e) = chartDenom S n T ^ _
       rw [map_pow, map_chartDenom])
 
 /-- **Base change of the monomial identification of the sections over a chart.** -/

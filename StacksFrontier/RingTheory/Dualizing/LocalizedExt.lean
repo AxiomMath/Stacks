@@ -122,7 +122,7 @@ private theorem localization_derivedHomBaseChange_isIso
   let X := (DerivedCategory.singleFunctor (ModuleCat.{max v u} A) 0).obj
     (ModuleCat.of A M)
   have hXpc : StacksDraft.PseudoCoherence.IsPseudoCoherent X := by
-    show StacksDraft.PseudoCoherence.IsModulePseudoCoherent (R := A) M
+    change StacksDraft.PseudoCoherence.IsModulePseudoCoherent (R := A) M
     exact (StacksDraft.PseudoCoherence.pseudoCoherent_iff_boundedAbove_finite_homology
       X 0 M).2.2.mpr inferInstance
   exact Stacks.DerivedHom.BaseChangeIso.isIso_derivedHomBaseChange.{u, u, v}
@@ -162,7 +162,7 @@ theorem localized_ext_nontrivial_iff
   let HA := (Dualizing.dualizingDerivedHomFunctor.{u, max u v} A K).obj (.op X)
   let eA : DerivedCategory.Ext X K i ≃ₗ[A]
       ((DerivedCategory.homologyFunctor (ModuleCat.{max v u} A) i).obj HA) := by
-    show (X ⟶ K⟦i⟧) ≃ₗ[A] _
+    change (X ⟶ K⟦i⟧) ≃ₗ[A] _
     exact Dualizing.extIntoOmegaAtLinearEquiv.{u, max u v} A K i (ModuleCat.of A M)
   let eX : D.functor.obj X ≅ Xloc :=
     localizationDerivedIso T D X ≪≫
@@ -180,7 +180,7 @@ theorem localized_ext_nontrivial_iff
   let Hloc := (Dualizing.dualizingDerivedHomFunctor.{u, max u v}
     (Localization T) Kloc).obj (.op Xloc)
   let eHom : D.functor.obj HA ≅ Hloc := by
-    show D.functor.obj ((Stacks.DerivedHom.ScalarTransportedInternalHom.hom A).obj
+    change D.functor.obj ((Stacks.DerivedHom.ScalarTransportedInternalHom.hom A).obj
       (.op X, K)) ≅ _
     exact asIso β ≪≫
       (Stacks.DerivedHom.ScalarTransportedInternalHom.hom (Localization T)).mapIso
@@ -201,7 +201,7 @@ theorem localized_ext_nontrivial_iff
         ((DerivedCategory.homologyFunctor (ModuleCat.{max v u} A) i).obj HA)) (Localization T) eA
   let eB : DerivedCategory.Ext Xloc Kloc i ≃ₗ[(Localization T)]
       ((DerivedCategory.homologyFunctor (ModuleCat.{max v u} (Localization T)) i).obj Hloc) := by
-    show (Xloc ⟶ Kloc⟦i⟧) ≃ₗ[(Localization T)] _
+    change (Xloc ⟶ Kloc⟦i⟧) ≃ₗ[(Localization T)] _
     exact Dualizing.extIntoOmegaAtLinearEquiv.{u, max u v} (Localization T) Kloc i
       (G.obj (ModuleCat.of A M))
   exact (eA_loc.toEquiv.trans (eH.symm.toLinearEquiv.toEquiv.trans
@@ -340,7 +340,7 @@ public theorem localizedDerivedHomIso_naturality {A : Type u} [CommRing A] [IsNo
         (Localization T)).map_comp _ _))
   refine Prod.ext ?_ ?_
   · exact congrArg Quiver.Hom.op (localizedSingleIso_inv_naturality.{u} T D f)
-  · show D.functor.map (𝟙 K) ≫ _ = _ ≫ 𝟙 _
+  · change D.functor.map (𝟙 K) ≫ _ = _ ≫ 𝟙 _
     exact Eq.trans (congrArg (fun z => CategoryStruct.comp z
           (localizationDerivedIso.{u, u} T D K).hom) (D.functor.map_id K))
       (Eq.trans (Category.id_comp _) (Category.comp_id _).symm)

@@ -287,7 +287,7 @@ theorem isSubstackWith_of_forall_isSubspaceWith (𝒳 : AlgebraicStacks.{u, w} B
   set Z := fullSubcategoryBaseChangeSubfunctor 𝒳 hinh z
   obtain ⟨eZ⟩ := nonempty_equivalenceOver_fullSubcategoryBaseChange 𝒳 hinh z hz
   refine (prop_algebraicSpaceMap_iff B S hS (Space.propertyWith B S hS Q) W F hF).mpr ?_
-  show (Q.inverseImage (BigFppfOver.toScheme B S hS)).presheaf
+  change (Q.inverseImage (BigFppfOver.toScheme B S hS)).presheaf
     (OverShriek.relocalizeToYoneda W.hom F)
   have hΛ : (Q.inverseImage (BigFppfOver.toScheme B S hS)).presheaf
       ((OverShriek.relocalizePresheafFunctor W.hom).map Z.ι) :=

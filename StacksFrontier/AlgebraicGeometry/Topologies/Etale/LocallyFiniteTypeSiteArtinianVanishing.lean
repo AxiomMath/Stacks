@@ -116,7 +116,7 @@ theorem ringKrullDim_stalk_le_of_etaleCohomologyBound_lt {X S : Scheme.{u}} (f :
       induction a using ENat.recTopCoe with
       | top =>
         rw [hx, ← WithBot.coe_natCast] at hrd
-        exact absurd (top_le_iff.1 (WithBot.coe_le_coe.1 hrd)) (ENat.coe_ne_top p)
+        exact absurd (top_le_iff.1 (WithBot.coe_le_coe.1 hrd)) (ENat.natCast_ne_top p)
       | coe r => exact ⟨r, rfl⟩
   rw [hr] at hlt ⊢
   have : 1 + 2 * r < p := by exact_mod_cast hlt

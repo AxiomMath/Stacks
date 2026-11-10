@@ -190,9 +190,10 @@ def closureSieve (L m : ℤ) {V : C} {κ : Type*} (deg : κ → ℤ)
 along a covering sieve. This is local generation of each term of `P` by its marked generators,
 intersected over the finitely many given sections. -/
 theorem closureSieve_base_mem (hc : ∀ n, IsColimit (cofanTerm O P U ιP n)) (L : ℤ) {V : C}
-    {κ : Type*} [Fintype κ] (deg : κ → ℤ) (s : ∀ i, (P.X (deg i)).val.obj (op V))
+    {κ : Type*} [Finite κ] (deg : κ → ℤ) (s : ∀ i, (P.X (deg i)).val.obj (op V))
     (hL : ∀ i, L ≤ deg i) : closureSieve O P U ιP L (L - 1) deg s ∈ J V := by
   classical
+  have := Fintype.ofFinite κ
   refine J.superset_covering ?_ (finset_inf_mem (J := J) (Finset.univ : Finset κ)
     (fun i => Stacks.SheafOfModules.spanSieve (cofanTerm O P U ιP (deg i)).pt
       (genSections O (U (deg i)) (cofanTerm O P U ιP (deg i))) (s i))
@@ -276,7 +277,7 @@ sheaves of slices, with `P^n = 0` for `n > b`, and let finitely many sections of
 restrictions of the given sections and such that the differential of each generator of `S` lies
 in the span of the generators of `S` of the next degree. -/
 theorem exists_sieve_closedSpan (hc : ∀ n, IsColimit (cofanTerm O P U ιP n)) (b L : ℤ)
-    (hb : ∀ n, b < n → IsZero (P.X n)) {V : C} {κ : Type*} [Fintype κ] (deg : κ → ℤ)
+    (hb : ∀ n, b < n → IsZero (P.X n)) {V : C} {κ : Type*} [Finite κ] (deg : κ → ℤ)
     (s : ∀ i, (P.X (deg i)).val.obj (op V)) (hL : ∀ i, L ≤ deg i) :
     ∃ R : Sieve V, R ∈ J V ∧ ∀ ⦃W : C⦄ (f : W ⟶ V), R.arrows f →
       ∃ S : Finset (MarkedT U W), (∀ x ∈ S, L ≤ x.1) ∧

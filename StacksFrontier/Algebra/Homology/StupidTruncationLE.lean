@@ -192,7 +192,7 @@ lemma π_stupidTruncLEMapLE {a b : ℤ} (h : a ≤ b) :
   by_cases hn : n ≤ b
   · have hi := embeddingUpIntLE_f_toNat b n hn
     have := CochainComplex.isStrictlyLE_of_le (K.stupidTrunc (embeddingUpIntLE a)) a b h
-    show (K.πStupidTrunc (embeddingUpIntLE b)).f n ≫
+    change (K.πStupidTrunc (embeddingUpIntLE b)).f n ≫
       (descStupidTrunc K (embeddingUpIntLE b) (K.πStupidTrunc (embeddingUpIntLE a))).f n = _
     rw [descStupidTrunc_f K (embeddingUpIntLE b) _ hi, πStupidTrunc_f K _ hi]
     simp
@@ -204,7 +204,7 @@ lemma stupidTruncLEMapLE_f {a b : ℤ} (h : a ≤ b) (n : ℤ) (hn : n ≤ a) :
     (stupidTruncLEMapLE K h).f n = (stupidTruncLEXIso K b n (hn.trans h)).hom ≫
       (stupidTruncLEXIso K a n hn).inv := by
   have := CochainComplex.isStrictlyLE_of_le (K.stupidTrunc (embeddingUpIntLE a)) a b h
-  show (descStupidTrunc K (embeddingUpIntLE b)
+  change (descStupidTrunc K (embeddingUpIntLE b)
     (K.πStupidTrunc (embeddingUpIntLE a))).f n = _
   rw [descStupidTrunc_f K (embeddingUpIntLE b) _ (embeddingUpIntLE_f_toNat b n (hn.trans h)),
     πStupidTrunc_f K _ (embeddingUpIntLE_f_toNat a n hn)]
@@ -300,17 +300,17 @@ lemma stupidTruncLEShortComplex_shortExact (p p' : ℤ) (hp : p' + 1 = p) :
   apply shortExact_of_degreewise_shortExact
   intro n
   let S := (stupidTruncLEShortComplex K p p' hp).map (eval C (.up ℤ) n)
-  show S.ShortExact
+  change S.ShortExact
   by_cases hn : n = p
   · subst n
     apply (ShortComplex.Splitting.ofIsIsoOfIsZero S ?_ ?_).shortExact
-    · show IsIso ((stupidTruncLEι K p).f p)
+    · change IsIso ((stupidTruncLEι K p).f p)
       rw [stupidTruncLEι_f]
       infer_instance
     · exact isZero_stupidTruncLE_X K p' p (by omega)
   · apply (ShortComplex.Splitting.ofIsZeroOfIsIso S ?_ ?_).shortExact
     · exact isZero_single_obj_X (.up ℤ) p (K.X p) n hn
-    · show IsIso ((stupidTruncLEMapLE K (show p' ≤ p by omega)).f n)
+    · change IsIso ((stupidTruncLEMapLE K (show p' ≤ p by omega)).f n)
       by_cases hpn : n < p
       · exact isIso_stupidTruncLEMapLE_f K _ n (by omega)
       · exact IsZero.isIso

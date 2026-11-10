@@ -114,7 +114,7 @@ public lemma exists_linearRepresentation_smallCarrier_large {A : Type u} [CommRi
   refine ⟨N ⧸ K, inferInstance, inferInstance, Module.FinitePresentation.of_equiv eqv,
     fun B => (e B).trans (homCongrLeftLarge eqv.symm (B : Type (max u v))), ?_⟩
   intro B C f x
-  show (e C (algebraMapValueLarge L f.hom x)).comp eqv.symm.toLinearMap =
+  change (e C (algebraMapValueLarge L f.hom x)).comp eqv.symm.toLinearMap =
     f.hom.toLinearMap.comp ((e B x).comp eqv.symm.toLinearMap)
   rw [he B C f x, LinearMap.comp_assoc]
 
@@ -145,7 +145,7 @@ public lemma exists_section_of_linearRepresentation_large {A : Type u} {M : Type
     rw [hnat, heξ]
   have hwξ : ξ ∈ LaurentLarge.weightSpace A (SymmetricAlgebra A M) L
       (symmetricPower A M) 1 := by
-    show (LaurentPolynomial.T 1 : LaurentPolynomial (SymmetricAlgebra A M)) •
+    change (LaurentPolynomial.T 1 : LaurentPolynomial (SymmetricAlgebra A M)) •
       algebraMapValueLarge L (constantLaurentMapLarge A (SymmetricAlgebra A M)) ξ =
       algebraMapValueLarge L (gradedLaurentMapLarge A (SymmetricAlgebra A M)
         (symmetricPower A M)) ξ
@@ -154,7 +154,7 @@ public lemma exists_section_of_linearRepresentation_large {A : Type u} {M : Type
       key _ (CommAlgCat.ofHom (gradedLaurentMapLarge A _ _))]
     apply LinearMap.ext
     intro m
-    show LaurentPolynomial.T 1 * LaurentPolynomial.C (SymmetricAlgebra.ι A M m) =
+    change LaurentPolynomial.T 1 * LaurentPolynomial.C (SymmetricAlgebra.ι A M m) =
       gradedLaurentMapLarge A (SymmetricAlgebra A M) (symmetricPower A M)
         (SymmetricAlgebra.ι A M m)
     rw [gradedLaurentMapLarge_symmetricAlgebra_eq_degreeOne A M (symmetricPower A M)
@@ -175,7 +175,7 @@ public lemma exists_section_of_linearRepresentation_large {A : Type u} {M : Type
       key C (CommAlgCat.ofHom (symmetricMapLarge _))]
     apply LinearMap.ext
     intro m
-    show symmetricMapLarge _ (SymmetricAlgebra.ι A M m) =
+    change symmetricMapLarge _ (SymmetricAlgebra.ι A M m) =
       symmetricMapLarge _ (SymmetricAlgebra.ι A M m) +
         symmetricMapLarge _ (SymmetricAlgebra.ι A M m)
     simp only [symmetricMapLarge, SymmetricAlgebra.lift_ι_apply, LinearMap.comp_apply,
@@ -210,7 +210,7 @@ public lemma exists_section_of_linearRepresentation_large {A : Type u} {M : Type
         intro D x a
         rcases D with ⟨⟨D⟩⟩
         change Units D at a
-        show s D ((a : D) • x) = (a : D) • s D x
+        change s D ((a : D) • x) = (a : D) • s D x
         dsimp only [s]
         rw [map_smul]
         exact weightOne_unit_evaluation_large E θ hθ _ a)
@@ -221,9 +221,9 @@ public lemma exists_section_of_linearRepresentation_large {A : Type u} {M : Type
   ext D x
   have hsx := congrArg (fun τ => (τ.app D).hom x) hs'
   change s'.app D x = s D.unop.unop x at hsx
-  show p.app D (s'.app D x) = x
+  change p.app D (s'.app D x) = x
   rw [hsx]
-  show p.app D (algebraMapValueLarge E
+  change p.app D (algebraMapValueLarge E
     (SymmetricAlgebra.lift (e D.unop.unop x)) θ) = x
   rw [algebraMapValueLarge_naturality, hpθ]
   apply (e D.unop.unop).injective

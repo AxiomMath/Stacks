@@ -174,7 +174,7 @@ theorem mem_idealOfClosedSubscheme_map_of_mem_ker
     (hgen : Algebra.adjoin (𝒮 0) (𝒮 1 : Set S) = ⊤) {n : ℕ} (b : 𝒮 n)
     (hb : (b : S) ∈ RingHom.ker (ψ : S →+* B)) :
     (b : S) ∈ idealOfClosedSubscheme 𝒮 (Proj.map ψ hq) := by
-  have hb1 : (b : S) ∈ 𝒮 (n • 1) := by simpa using b.2
+  have hb1 : (b : S) ∈ 𝒮 (n • 1) := by simp
   refine mem_idealOfClosedSubscheme_of_forall_chartFraction_mem_ker 𝒮 Nat.one_pos
     (fun g : 𝒮 1 => (g : S)) (fun g => g.2)
     (Stacks.AlgebraicGeometry.ProjDegreeOne.iSup_basicOpen_degreeOne_eq_top 𝒮 hgen)
@@ -212,7 +212,7 @@ theorem mem_idealOfClosedSubscheme_map_iff [IsNoetherianRing S]
   have inst : ∀ k : ℤ, SheafOfModules.IsInvertible (Proj 𝒮).sheaf.obj
       (Proj 𝒮).ringCatSheaf.property (twistingSheaf 𝒮 k) :=
     algebraicGeometry_isInvertible_twistingSheaf 𝒮 hgen
-  have hb1 : (b : S) ∈ 𝒮 (n • 1) := by simpa using b.2
+  have hb1 : (b : S) ∈ 𝒮 (n • 1) := by simp
   constructor
   · intro hb
     refine exists_degree_mul_mem_of_forall_exists_pow_mul_mem 𝒮 hgen

@@ -310,7 +310,7 @@ public theorem isInternal_gradedQuotientPiece {K : Submodule A M} (hK : K.IsHomo
     obtain ⟨x, rfl⟩ := K.mkQ_surjective z
     refine ⟨(DirectSum.decompose ℳ x).support, fun d => K.mkQ ((DirectSum.decompose ℳ x d : M)),
       fun d => mkQ_mem_gradedQuotientPiece ℳ (DirectSum.decompose ℳ x d).2, fun d hd => ?_, ?_⟩
-    · show K.mkQ ((DirectSum.decompose ℳ x d : M)) = 0
+    · change K.mkQ ((DirectSum.decompose ℳ x d : M)) = 0
       rw [DFinsupp.notMem_support_iff.1 hd, ZeroMemClass.coe_zero, map_zero]
     · rw [← map_sum, DirectSum.sum_support_decompose ℳ x]
 

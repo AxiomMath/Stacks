@@ -293,7 +293,7 @@ private lemma presheaf_map_basicOpen_eq_zero
     have hz : (CommRingCat.Hom.hom
         (f.appTop ≫ (openComplement k).toScheme.presheaf.map
           ((TopologicalSpace.Opens.map f.base).map i.unop).op)) s = 0 := by
-      show ((openComplement k).toScheme.presheaf.map
+      change ((openComplement k).toScheme.presheaf.map
         ((TopologicalSpace.Opens.map f.base).map i.unop).op).hom
           ((f.appTop).hom s) = 0
       rw [show (f.appTop).hom s = 0 by simpa [f] using hs]
@@ -316,31 +316,31 @@ private lemma algebraMap_away_eq_zero_of_restrict (a : coordinateRing k) (n : �
   let g := StructureSheaf.globalSectionsIso R
   let V : X.Opens := PrimeSpectrum.basicOpen (z k n)
   let i : Opposite.op ⊤ ⟶ Opposite.op V := (homOfLE (le_top : V ≤ ⊤)).op
-  show algebraMap R (Localization.Away (z k n)) a = 0
+  change algebraMap R (Localization.Away (z k n)) a = 0
   let _ : Algebra R Γ(X, V) := by
-    show Algebra R ((Spec.structureSheaf R).obj.obj (Opposite.op V))
+    change Algebra R ((Spec.structureSheaf R).obj.obj (Opposite.op V))
     exact StructureSheaf.openAlgebra R (Opposite.op V)
   let _ : IsLocalization (Submonoid.powers (z k n)) (Γ(X, V)) := by
-    show IsLocalization (Submonoid.powers (z k n)) ((Spec.structureSheaf R).obj.obj
+    change IsLocalization (Submonoid.powers (z k n)) ((Spec.structureSheaf R).obj.obj
       (Opposite.op (PrimeSpectrum.basicOpen (z k n))))
     exact StructureSheaf.IsLocalization.to_basicOpen R (z k n)
   let e := IsLocalization.algEquiv (Submonoid.powers (z k n))
     (Localization.Away (z k n)) (Γ(X, V))
   have hg : g.hom = CommRingCat.ofHom (algebraMap R
       ((Spec.structureSheaf R).obj.obj (Opposite.op ⊤))) := by
-    show (StructureSheaf.globalSectionsIso (CommRingCat.of R)).hom = _
+    change (StructureSheaf.globalSectionsIso (CommRingCat.of R)).hom = _
     exact StructureSheaf.globalSectionsIso_hom (CommRingCat.of R)
   have hmap : g.hom ≫ X.presheaf.map i =
       CommRingCat.ofHom (algebraMap R Γ(X, V)) := by
     rw [hg]
-    show CommRingCat.ofHom (algebraMap R ((Spec.structureSheaf R).obj.obj
+    change CommRingCat.ofHom (algebraMap R ((Spec.structureSheaf R).obj.obj
       (Opposite.op ⊤))) ≫ (Spec.structureSheaf R).obj.map i =
         CommRingCat.ofHom (algebraMap R ((Spec.structureSheaf R).obj.obj
           (Opposite.op V)))
     exact StructureSheaf.algebraMap_self_map R (Opposite.op V) (Opposite.op ⊤) i
   have hsecAlg : (X.presheaf.map i).hom (g.hom.hom a) =
       algebraMap R Γ(X, V) a := by
-    show (g.hom ≫ X.presheaf.map i).hom a = algebraMap R Γ(X, V) a
+    change (g.hom ≫ X.presheaf.map i).hom a = algebraMap R Γ(X, V) a
     exact congrArg (fun φ : CommRingCat.of R ⟶ Γ(X, V) => φ.hom a) hmap
   have hlocalSec : algebraMap R Γ(X, V) a = 0 := hsecAlg.symm.trans h
   have heq : e (algebraMap R (Localization.Away (z k n)) a) =
@@ -356,12 +356,12 @@ private lemma appTop_eq_zero_of_eq_zero
   let g := StructureSheaf.globalSectionsIso (coordinateRing k)
   let a : coordinateRing k := g.inv.hom s
   have hglobal : g.hom.hom a = s := by
-    show g.hom.hom (g.inv.hom s) = s
+    change g.hom.hom (g.inv.hom s) = s
     exact congrArg (fun φ : Γ(exampleScheme k, ⊤) →+* Γ(exampleScheme k, ⊤) => φ s)
       (congrArg CommRingCat.Hom.hom g.inv_hom_id)
   have ha : a = 0 := injective_localizationProduct k (by
     funext n
-    show (algebraMap (coordinateRing k) (Localization.Away (z k n))) a =
+    change (algebraMap (coordinateRing k) (Localization.Away (z k n))) a =
       (algebraMap (coordinateRing k) (Localization.Away (z k n))) 0
     rw [algebraMap_away_eq_zero_of_restrict k a n
       (by rw [hglobal]; exact presheaf_map_basicOpen_eq_zero k s hs n)]
@@ -391,7 +391,7 @@ public theorem surjective_xProjection : Function.Surjective (xProjection k).base
   intro q
   refine ⟨PrimeSpectrum.comap (xRetraction k) q, ?_⟩
   let q' : PrimeSpectrum (xRing k) := q
-  show PrimeSpectrum.comap (xInclusion k) (PrimeSpectrum.comap (xRetraction k) q') = q'
+  change PrimeSpectrum.comap (xInclusion k) (PrimeSpectrum.comap (xRetraction k) q') = q'
   rw [← PrimeSpectrum.comap_comp_apply, xRetraction_comp_xInclusion]
   rfl
 

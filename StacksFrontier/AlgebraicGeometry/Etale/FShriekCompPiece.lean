@@ -123,6 +123,7 @@ public abbrev compChartImage (W : SmallEtale B Z.obj Z.property)
     Set ((SmallEtale.toScheme B Y.obj Y.property).obj (compChartBase B g jY W)) :=
   (B.inclusion.map (compChartMap B g sq W)).base '' T.1
 
+omit [IsOpenImmersion (B.inclusion.map jX)] in
 /-- The image of a support finite over `W` is closed in `W ×_Z Y'` and proper over `W`, the
 morphism `W ×_Z Y' ⟶ W` being separated. -/
 public theorem exists_isProperOver_compChartImage (W : SmallEtale B Z.obj Z.property)
@@ -146,11 +147,11 @@ public theorem exists_isProperOver_compChartImage (W : SmallEtale B Z.obj Z.prop
       ((B.inclusion.map_comp _ _).symm.trans
         (congrArg B.inclusion.map (compChartMap_fst B g sq W))))
   have hZ : IsProperOver p ⊤ := by
-    show IsProper ((Scheme.IdealSheafData.vanishingIdeal ⊤).subschemeι ≫ p)
+    change IsProper ((Scheme.IdealSheafData.vanishingIdeal ⊤).subschemeι ≫ p)
     infer_instance
   have himg := isProperOver_image p q r hfg ⊤ hZ
   have hset : r.base '' ((⊤ : Closeds Zs) : Set Zs) = compChartImage B g sq W T := by
-    show r.base '' Set.univ = _
+    change r.base '' Set.univ = _
     rw [Set.image_univ, Scheme.Hom.comp_base, TopCat.coe_comp, Set.range_comp, hrange]
     rfl
   have hC := hset ▸ isClosed_image_of_isProperOver p q r hfg ⊤ hZ
@@ -218,7 +219,7 @@ public theorem supportSection_toSheafify_generator_subset (W' : SmallEtale B Y.o
   refine (congrArg ((toSheafify (SmallEtale.topology B Y.obj Y.property)
     ((finiteSupportPushforward.{u, max (u + 1) v} B f
       (fun _ => inferInstance)).val.obj F)).app (op _)) hr).trans ?_
-  show ((toSheafify (SmallEtale.topology B Y.obj Y.property)
+  change ((toSheafify (SmallEtale.topology B Y.obj Y.property)
     ((finiteSupportPushforward.{u, max (u + 1) v} B f
       (fun _ => inferInstance)).val.obj F)).app (op _))
       ((finiteSupportPushforwardGenerator B f F _ d.support) (d.sectionsMap s)) = 0
@@ -260,11 +261,11 @@ public theorem supportSection_compChartRestrict_subset (W : SmallEtale B Z.obj Z
   have hsupp : supportSection B Y.obj Y.property ((fShriekFunctor.{u, v} B f).obj F)
       (compChartBase B g jY W) ((colimit.ι _ T ≫ compChartApp B g sq hsq F W) a) ⊆
         compChartImage B g sq W T := by
-    show supportSection B Y.obj Y.property ((fShriekFunctor.{u, v} B f).obj F)
+    change supportSection B Y.obj Y.property ((fShriekFunctor.{u, v} B f).obj F)
       (compChartBase B g jY W) ((colimit.ι _ T ≫ colimit.desc _
         (compChartCocone B g sq hsq F W)) a) ⊆ _
     rw [colimit.ι_desc]
-    show supportSection B Y.obj Y.property ((fShriekFunctor.{u, v} B f).obj F)
+    change supportSection B Y.obj Y.property ((fShriekFunctor.{u, v} B f).obj F)
       (compChartBase B g jY W) ((finiteSupportPushforwardGenerator B f F _
         (compChartSupport B g sq hsq W T) ≫ (toSheafify (SmallEtale.topology B Y.obj Y.property)
           ((finiteSupportPushforward.{u, max (u + 1) v} B f
@@ -274,7 +275,7 @@ public theorem supportSection_compChartRestrict_subset (W : SmallEtale B Z.obj Z
     refine supportSection_toSheafify_generator_subset B F _ _ _ _ hC ?_
     rw [compChartSupport_coe, imageFiniteSupport_coe, compChartInclusion_preimage_image]
     rintro _ ⟨x, hx, rfl⟩
-    show B.inclusion.map (baseChangeObjProjection B f _)
+    change B.inclusion.map (baseChangeObjProjection B f _)
       (B.inclusion.map (compChartHom B g sq W).hom.left x) ∈ compChartImage B g sq W T
     rw [← Scheme.Hom.comp_apply, ← Functor.map_comp, compChartHom_proj]
     exact ⟨x, hx, rfl⟩
@@ -305,7 +306,7 @@ public theorem properSupportSections_compChartApp (W : SmallEtale B Z.obj Z.prop
   let H := (properSupportSubgroup B (jY ≫ g)
     ((openRestriction.{u, v} B jY).obj ((fShriekFunctor.{u, v} B f).obj F)) W).comap
       ((compChartRestrict B g F W).hom.comp (compChartApp B g sq hsq F W).hom)
-  show x ∈ H
+  change x ∈ H
   rw [hx]
   exact H.sum_mem fun i _ => properSupportSections_compChartApp_ι B g sq hsq F W (E i) (t i)
 

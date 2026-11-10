@@ -198,7 +198,7 @@ public theorem exists_lift_killChain (M : X.Modules) :
       change φ' ≫ sectionSmul b (killChain M l) = sectionSmul b P ≫ φ' at hnat
       rw [hnat, h b List.mem_cons_self, zero_comp]
     refine ⟨kernel.lift _ φ' hzero, ?_⟩
-    show kernel.lift _ φ' hzero ≫ (kernel.ι _ ≫ killChainι M l) = φ
+    change kernel.lift _ φ' hzero ≫ (kernel.ι _ ≫ killChainι M l) = φ
     rw [← Category.assoc, kernel.lift_ι, hφ']
 
 /-- The stalks of the iterated kernel have depth at least `min(depth(M_y), 2)`. -/
@@ -252,7 +252,7 @@ private theorem exists_mem_isUnit_germ (k : ℕ) (t : Finset S.A)
     exact hIp (Ideal.IsPrime.le_of_pow_le (ht ▸ Ideal.span_le.mpr hcon))
   refine ⟨g, hgt, ?_⟩
   rw [← Scheme.mem_basicOpen_top]
-  show y ∈ S.U.toScheme.basicOpen (S.U.ι.appTop ((Scheme.ΓSpecIso (.of S.A)).inv g))
+  change y ∈ S.U.toScheme.basicOpen (S.U.ι.appTop ((Scheme.ΓSpecIso (.of S.A)).inv g))
   rw [← Scheme.preimage_basicOpen_top, basicOpen_eq_of_affine]
   exact hgp
 

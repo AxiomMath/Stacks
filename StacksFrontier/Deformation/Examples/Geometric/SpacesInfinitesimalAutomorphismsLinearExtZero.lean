@@ -77,7 +77,7 @@ theorem naiveCotangentExtZeroAddEquiv_smul (r : R)
     (ξ : naiveCotangentExt.{v, u, w, z, t} J A B a G 0) :
     naiveCotangentExtZeroAddEquiv.{v, u, w, z, t} J A B a G (r • ξ) =
       r • naiveCotangentExtZeroAddEquiv.{v, u, w, z, t} J A B a G ξ := by
-  show (canonicalConormalCokernelIsoDifferentials.{v, u, w, z} J A B a).inv ≫
+  change (canonicalConormalCokernelIsoDifferentials.{v, u, w, z} J A B a).inv ≫
       StacksDraft.TwoTermExt.twoTermExtZeroHom _ G (r • ξ) =
     r • ((canonicalConormalCokernelIsoDifferentials.{v, u, w, z} J A B a).inv ≫
       StacksDraft.TwoTermExt.twoTermExtZeroHom _ G ξ)
@@ -116,6 +116,7 @@ def naiveCotangentModulesLinear : Linear R (NaiveCotangentModules B S hS X) :=
     (S := GlobalSectionRing
       (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedTopos B S hS X).O)) ψ
 
+omit [HasDerivedCategory.{w} (NaiveCotangentModules B S hS X)] in
 /-- Reading a map out of the module of differentials of Stacks 04BN at the universe of `NL_{X/Y}`
 as a derivation into `F` is linear over the global functions. -/
 theorem derivationULiftAddEquiv_siteDifferentialsHomAddEquiv_smul (f : X ⟶ Y)

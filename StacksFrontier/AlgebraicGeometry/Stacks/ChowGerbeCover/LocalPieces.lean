@@ -145,7 +145,7 @@ theorem hasSectionCoverOver_of_localIsos (hW : Space.IsOpenSubspace B S hS W) {m
     intro i j k T v
     have := isIso_fiberHom B S hS 𝒳 ((ψ' j).1 T v)
     simp only [IsomFamily.comp_apply, Category.assoc]
-    show _ ≫ (ψ' j).1 T v ≫ CategoryTheory.inv ((ψ' j).1 T v) ≫ _ = _
+    change _ ≫ (ψ' j).1 T v ≫ CategoryTheory.inv ((ψ' j).1 T v) ≫ _ = _
     rw [IsIso.hom_inv_id_assoc]
   choose N hN hyN hNc using hnbhd
   -- finitely many pieces cover `V₁`

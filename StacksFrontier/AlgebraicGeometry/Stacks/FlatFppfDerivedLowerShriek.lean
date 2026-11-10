@@ -43,10 +43,10 @@ their tag notes:
 * `AlgebraicGeometry.Stack.FlatFppf.AbelianLowerShriekAcyclic`, the acyclicity statement of
   Stacks 07AC for this inclusion: `g_!` carries a bounded above acyclic complex of abelian
   sheaves whose terms are direct sums of the extensions by zero `j_{U!} ℤ_U` to an acyclic
-  complex. `StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriek/AbelianDerivedExistence.lean` is what leaves it open, and
-  `abelianLowerShriekAcyclic_of_ext_vanishing` below reduces it to the object-level vanishing
-  `Ext^{≥1}(j_{U!} ℤ_U, g⁻¹ I) = 0` of Stacks 0D6X for an injective abelian sheaf `I` on
-  `𝒳_{fppf}`. The library's form of 0D6X,
+  complex. `StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriek/AbelianDerivedExistence.lean`
+  is what leaves it open, and `abelianLowerShriekAcyclic_of_ext_vanishing` below reduces it to the
+  object-level vanishing `Ext^{≥1}(j_{U!} ℤ_U, g⁻¹ I) = 0` of Stacks 0D6X for an injective abelian
+  sheaf `I` on `𝒳_{fppf}`. The library's form of 0D6X,
   `Stacks.CechSite.injective_sheaf_sheafCohomology_isZero_of_functor`, does not yet apply to
   this site: it requires the source site's morphism universe to be the coefficient universe,
   whereas the flat-fppf site has morphisms in `Type u` and coefficients in `Type (u + 1)`.
@@ -87,8 +87,9 @@ named in the note.
 The coefficient category is `AbCat.{u, u + 1} = Ab.{u + 1}`, as in `FlatFppfInclusion.lean`:
 the two sites live in `Type (u + 1)` with morphisms in `Type u`, and that is the universe in
 which sheafification of abelian presheaves on them is available. In the language of
-`StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriek/AbelianDerivedExistence.lean` this is the instance `w = u + 1` of its coefficient convention
-`AddCommGrpCat.{max v₁ w}`, with `v₁ = u` the morphism universe of the flat-fppf site.
+`StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriek/AbelianDerivedExistence.lean` this is
+the instance `w = u + 1` of its coefficient convention `AddCommGrpCat.{max v₁ w}`, with `v₁ = u` the
+morphism universe of the flat-fppf site.
 
 Each statement opens with the same block of local instances: continuity and cocontinuity of the
 inclusion from the closure property, sheafification on the two sites and Grothendieck
@@ -207,7 +208,8 @@ functor on abelian sheaves carries every bounded above acyclic complex whose ter
 sums of the extensions by zero `j_{U!} ℤ_U` of the constant sheaf `ℤ` on the localizations of
 the flat-fppf site to an acyclic complex.
 
-This is the one input of Stacks 07AS (3) that is open: `StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriek/AbelianDerivedExistence.lean` reduces
+This is the one input of Stacks 07AS (3) that is open:
+`StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriek/AbelianDerivedExistence.lean` reduces
 the whole of Stacks 07AC for abelian sheaves to it. -/
 abbrev AbelianLowerShriekAcyclic : Prop :=
   haveI := isContinuous_inclusion B S hS 𝒳 flatClosure

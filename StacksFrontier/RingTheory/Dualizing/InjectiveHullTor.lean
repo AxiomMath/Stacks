@@ -97,7 +97,7 @@ theorem isNormalizedDualizingComplex_single_shift_of_isGorensteinLocalRing
           rw [IsLocalRing.maximalIdeal_height_eq_ringKrullDim, hdim]
         exact_mod_cast hcast
       have hld : localRingDimension A = d := by
-        show (IsLocalRing.maximalIdeal A : Ideal A).height.toNat = d
+        change (IsLocalRing.maximalIdeal A : Ideal A).height.toNat = d
         rw [hheight]
         simp
       have h' : IsCohenMacaulayLocalRing A ↔
@@ -246,7 +246,7 @@ private theorem residueField_isIPowerTorsion (A : Type u) [CommRing A] [IsLocalR
   have ham : a ∈ IsLocalRing.maximalIdeal A := by simpa using ha
   have hres : IsLocalRing.residue A a = 0 :=
     IsLocalRing.residue_eq_zero_iff a |>.2 ham
-  show IsLocalRing.residue A a * x = 0
+  change IsLocalRing.residue A a * x = 0
   simp [hres]
 
 /-- A shifted single complex has zero cohomology away from the shift degree. -/
@@ -268,7 +268,7 @@ private theorem residueField_derivedPowerTorsion
   · subst i
     let e := (DerivedCategory.singleFunctorCompHomologyFunctorIso (ModuleCat.{u} A) 0).app
       (ModuleCat.of A (IsLocalRing.ResidueField A))
-    show IsIPowerTorsion A
+    change IsIPowerTorsion A
       ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) 0).obj
         ((DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).obj
           (ModuleCat.of A (IsLocalRing.ResidueField A))))
@@ -277,7 +277,7 @@ private theorem residueField_derivedPowerTorsion
       (residueField_isIPowerTorsion A)
   · let K := (DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).obj
       (ModuleCat.of A (IsLocalRing.ResidueField A))
-    show IsIPowerTorsion A ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) i).obj K)
+    change IsIPowerTorsion A ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) i).obj K)
       (IsLocalRing.maximalIdeal A)
     have hsub : Subsingleton ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) i).obj K) :=
       ModuleCat.isZero_iff_subsingleton.mp

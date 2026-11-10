@@ -101,7 +101,7 @@ theorem Scheme.map_comp_restrictOpenToSubset {X : Scheme.{u}} (E : Set X) {U W :
         (Stacks.subsetInclusion (TopCat.of X) E)).obj
         X.toSheafedSpace.sheaf).obj.map i at hnat
   dsimp [Scheme.restrictOpenToSubset]
-  show X.toSheafedSpace.sheaf.obj.map i ≫
+  change X.toSheafedSpace.sheaf.obj.map i ≫
       (η.unit.app X.toSheafedSpace.sheaf).hom.app (op U) ≫
         (G.obj X.toSheafedSpace.sheaf).obj.map aU =
     (η.unit.app X.toSheafedSpace.sheaf).hom.app (op W) ≫

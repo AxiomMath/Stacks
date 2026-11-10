@@ -97,7 +97,7 @@ lemma epi_sigmaDesc_iff {A : Type*} [Category* A] {ι : Type*} {X : ι → A} {Y
     Epi (Sigma.desc f) ↔ ∀ ⦃Z : A⦄ (g h : Y ⟶ Z), (∀ i, f i ≫ g = f i ≫ h) → g = h := by
   refine ⟨fun _ Z g h hgh => (cancel_epi (Sigma.desc f)).1 (Sigma.hom_ext _ _ fun i => by
     simpa using hgh i), fun h => ⟨fun g g' hg => h g g' fun i => ?_⟩⟩
-  rw [← Sigma.ι_desc f i, Category.assoc, Category.assoc, hg]
+  rw [← Sigma.ι_comp_desc f i, Category.assoc, Category.assoc, hg]
 
 /-- A morphism to the terminal object is an epimorphism as soon as some epimorphism from the same
 source to some terminal object exists. -/

@@ -10,7 +10,8 @@ public import StacksFrontier.CategoryTheory.Graded.TwistedKaroubiAdditive
 
 Stacks 0FGF: the category `M_k` of Chow motives over a field `k` is additive. It is preadditive,
 being `ℚ`-linear (Stacks 0FGA), and it has a zero object and direct sums of motives with equal
-twists (`StacksFrontier.AlgebraicGeometry.WeilCohomology.Concrete.MotivesAdditive`, the direct sum of
+twists (`StacksFrontier.AlgebraicGeometry.WeilCohomology.Concrete.MotivesAdditive`, the direct sum
+of
 `(Y, p, m)` and `(Z, q, m)` being `(Y ⨿ Z, p + q, m)`). For motives `(Y, p, m)` and `(Z, q, n)`
 with `n < m` the source reduces to equal twists by
 `(Z, q, n) ≅ (Z, q, m) ⊗ (X, c₂, 0)^{⊗ (m - n)}`, `X = P¹_k`, using that the Lefschetz motive

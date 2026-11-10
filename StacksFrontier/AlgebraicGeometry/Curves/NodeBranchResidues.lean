@@ -196,7 +196,7 @@ theorem exists_branchResidues_of_quadraticAlgebra_algEquiv_prod
   have hθt : θ t = (1, 0) := by
     rw [hθ]
     have : e (π t) = (1, 0) := by
-      show e (Ideal.Quotient.mk J t) = _
+      change e (Ideal.Quotient.mk J t) = _
       rw [ht, e.apply_symm_apply]
     rw [this]
     simp
@@ -351,7 +351,7 @@ theorem algebraMap_directImageStalkFieldAlgebra (ν : Y ⟶ X) (hX : X ⟶ Spec 
   let : Algebra k (X.presheaf.stalk x) := (fieldToStalk hX x).hom.toAlgebra
   let := directImageStalkAlgebra ν x
   let := directImageStalkFieldAlgebra ν hX x
-  show (ν.base _* Y.presheaf).germ (hX ⁻¹ᵁ ⊤) x trivial
+  change (ν.base _* Y.presheaf).germ (hX ⁻¹ᵁ ⊤) x trivial
       ((ν.app (hX ⁻¹ᵁ ⊤)).hom ((hX.app ⊤).hom ((Scheme.ΓSpecIso (.of k)).inv.hom c))) =
     ((TopCat.Presheaf.stalkFunctor CommRingCat.{u} x).map ν.c).hom
       (X.presheaf.germ ⊤ x trivial
@@ -380,7 +380,7 @@ theorem exists_branchResidues_of_algEquiv {k : Type u} {A S T : Type*} [Field k]
     exact ε.commutes c
   refine ⟨AlgHom.mk (ε₁.toRingHom.comp E.toAlgHom.toRingHom) (key ε₁),
     AlgHom.mk (ε₂.toRingHom.comp E.toAlgHom.toRingHom) (key ε₂), fun a => ?_, ?_⟩
-  · show ε₁ (E (algebraMap A S a)) = ε₂ (E (algebraMap A S a))
+  · change ε₁ (E (algebraMap A S a)) = ε₂ (E (algebraMap A S a))
     rw [E.commutes]
     exact hres a
   · intro hcon

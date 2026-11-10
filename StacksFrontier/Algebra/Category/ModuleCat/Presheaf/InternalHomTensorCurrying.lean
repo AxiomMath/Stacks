@@ -330,8 +330,7 @@ theorem restrTensor_hom_ext {X : (Over U)ᵒᵖ} {Z : ModuleCat ((ORestr O U).ob
       φ.hom (restrTmulAt O F G U X x y) = ψ.hom (restrTmulAt O F G U X x y)) :
     φ = ψ := by
   refine ModuleCat.hom_ext (LinearMap.ext fun t ↦ ?_)
-  induction t using TensorProduct.induction_on with
-  | zero => exact (map_zero φ.hom).trans (map_zero ψ.hom).symm
+  induction t using TensorProduct.inductionOn with
   | tmul x y => exact h x y
   | add t t' ht ht' =>
       have hsum : φ.hom t + φ.hom t' = ψ.hom t + ψ.hom t' := by rw [ht, ht']
@@ -373,7 +372,7 @@ private theorem uncurryTensorMap_restrict_tmul
   have hr := homRestr_section O G H k (restrHomApplyLinear O F G H U b p x) (𝟙 S') y
   rw [Category.id_comp] at hr
   rw [uncurryTensorMap_tmul]
-  show sectionOfRestr O H S' (𝟙 S')
+  change sectionOfRestr O H S' (𝟙 S')
       (((restrHomApplyLinear O F G H U b (k ≫ p) (F.restrictₛₗ k.op x)).app
         (op (Over.mk (𝟙 S')))).hom (restrSection O G S' (𝟙 S') y)) = _
   rw [restrHomApplyLinear_nat]
@@ -423,10 +422,10 @@ theorem uncurrySection_currySection
   intro X
   refine restrTensor_hom_ext O F G U ?_
   intro x y
-  show uncurryTensorMap O F G H U (currySection O F G H U a) X.unop.hom (x ⊗ₜ y) =
+  change uncurryTensorMap O F G H U (currySection O F G H U a) X.unop.hom (x ⊗ₜ y) =
     restrTensorHom O F G H U a X.unop.hom (x ⊗ₜ y)
   rw [uncurryTensorMap_tmul]
-  show curryValueMap O F G H U a X.unop.hom x (𝟙 X.unop.left) y = _
+  change curryValueMap O F G H U a X.unop.hom x (𝟙 X.unop.left) y = _
   rw [curryValueMap_apply, Category.id_comp, op_id, restrictₛₗ_id]
 
 /-- Two morphisms `F|_U ⟶ Hom_O(G, H)|_U` are equal as soon as, for every plain section `x` of

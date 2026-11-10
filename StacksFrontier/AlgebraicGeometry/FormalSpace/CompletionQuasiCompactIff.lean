@@ -155,7 +155,7 @@ theorem exists_hom_completionSheaf_of_mem {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Ty
         Space.completionSheafInclusion B S hS X T :
           yonedaSheaf B S hS T₀ ⟶ Space.sheafifiedULift B S hS X).hom =
       uliftYonedaEquiv.symm z ≫ C.ι ≫ J.toSheafify (X ⋙ uliftFunctor.{u + 1}) := by
-    show uliftYonedaEquiv.symm z ≫ J.toSheafify C.toFunctor ≫ J.sheafifyMap C.ι = _
+    change uliftYonedaEquiv.symm z ≫ J.toSheafify C.toFunctor ≫ J.sheafifyMap C.ι = _
     rw [J.toSheafify_naturality]
   have hiso : J.toSheafify (X ⋙ uliftFunctor.{u + 1}) ≫
       (Space.sheafifiedULiftIso B S hS X hX.isSheaf).inv = 𝟙 _ :=
@@ -382,7 +382,7 @@ theorem isQuasiCompactSpace_pullback_of_isQuasiCompact_completionSheafMap
           s (hs s) (hAs s)) fun x ↦ ?_
   rcases mem_zeroLocus_or_exists_mem_basicOpen ht x with hx | ⟨s, hst, hsx⟩
   · refine ⟨none, ?_⟩
-    show _ ∈ Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk I))
+    change _ ∈ Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk I))
     rwa [_root_.range_comap_of_surjective (A ⧸ I) (Ideal.Quotient.mk I)
       Ideal.Quotient.mk_surjective, Ideal.mk_ker]
   · exact ⟨some ⟨s, hst⟩, (Set.ext_iff.mp (PrimeSpectrum.localization_away_comap_range

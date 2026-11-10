@@ -47,7 +47,7 @@ theorem C1573.ker_ι_comp {Y Z : Scheme.{u}} (W : Y.Opens)
     (hW : Scheme.Opens.IsSchemeTheoreticallyDense W) (q : Y ⟶ Z) : (W.ι ≫ q).ker = q.ker := by
   have : IsSchemeTheoreticallyDominant W.ι := by
     let i : (⊤ : Y.Opens).toScheme ⟶ Y := (⊤ : Y.Opens).ι
-    have : IsIso i := by show IsIso (Scheme.topIso Y).hom; infer_instance
+    have : IsIso i := by change IsIso (Scheme.topIso Y).hom; infer_instance
     have hq : IsSchemeTheoreticallyDominant ((⊤ : Y.Opens).ι ⁻¹ᵁ W).ι := hW ⊤
     apply IsSchemeTheoreticallyDominant.mk
     rw [← Scheme.Hom.ker_comp_of_isIso (i.preimageIso W).hom W.ι,
@@ -142,11 +142,11 @@ theorem C1573.exists_iso_blowUp_comap_centreSheaf {T : Scheme.{u}} (hU : IsCompa
   have hht : h ≫ t = π := by rw [← hct, ← Category.assoc, hh, pullback.lift_fst]
   -- the comparison morphisms, by the universal property of the two blowups
   have hcH : Stacks.Blowup.IsCartierOver (J.comap t) (Over.mk h) := by
-    show Stacks.Divisors.IsEffectiveCartierDivisor ((J.comap t).comap h)
+    change Stacks.Divisors.IsEffectiveCartierDivisor ((J.comap t).comap h)
     rw [← Scheme.IdealSheafData.comap_comp, hht]
     exact hJπ
   have hcK : Stacks.Blowup.IsCartierOver J (Over.mk (p ≫ t)) := by
-    show Stacks.Divisors.IsEffectiveCartierDivisor (J.comap (p ≫ t))
+    change Stacks.Divisors.IsEffectiveCartierDivisor (J.comap (p ≫ t))
     rw [Scheme.IdealSheafData.comap_comp]
     exact hJp
   set h' : blowUp J ⟶ blowUp (J.comap t) :=
@@ -163,9 +163,9 @@ theorem C1573.exists_iso_blowUp_comap_centreSheaf {T : Scheme.{u}} (hU : IsCompa
   have hYdense : ((p ≫ t) ⁻¹ᵁ U).IsSchemeTheoreticallyDense := by
     have heq : (p ≫ t) ⁻¹ᵁ U = (J.comap (p ≫ t)).support.compl := by
       ext y
-      show (p ≫ t) y ∈ U ↔ y ∉ (J.comap (p ≫ t)).support
+      change (p ≫ t) y ∈ U ↔ y ∉ (J.comap (p ≫ t)).support
       rw [Scheme.IdealSheafData.support_comap]
-      show (p ≫ t) y ∈ U ↔ ¬ (p ≫ t) y ∈ J.support
+      change (p ≫ t) y ∈ U ↔ ¬ (p ≫ t) y ∈ J.support
       have key := mem_support_centreSheaf_iff U I g hU hU' hIle hIU hg ((p ≫ t) y)
       exact ⟨fun h1 h2 => key.1 h2 h1, fun h1 => by_contra fun h2 => h1 (key.2 h2)⟩
     rw [heq, Scheme.IdealSheafData.comap_comp]
@@ -178,7 +178,7 @@ theorem C1573.exists_iso_blowUp_comap_centreSheaf {T : Scheme.{u}} (hU : IsCompa
   have hr2 : Set.range (Y.ι ≫ k).base ⊆ Set.range (π ⁻¹ᵁ U).ι.base := by
     rw [Scheme.Opens.range_ι]
     rintro _ ⟨y, rfl⟩
-    show (Y.ι ≫ k ≫ π).base y ∈ U
+    change (Y.ι ≫ k ≫ π).base y ∈ U
     rw [hk]
     exact y.2
   set a₁ := IsOpenImmersion.lift (t ⁻¹ᵁ U).ι (Y.ι ≫ p) hr1 with ha₁

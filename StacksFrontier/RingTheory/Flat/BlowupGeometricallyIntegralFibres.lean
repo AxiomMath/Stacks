@@ -297,11 +297,11 @@ private theorem coefficientIdeal_baseChange_le {R S A : Type u} [CommRing R] [Co
       hJ (Ideal.mem_map_of_mem (algebraMap S B) hj)
     have hΦj : Φ (algebraMap S B j) = algebraMap R A ((s j) i) := by
       have he : eAB.symm (algebraMap S B j) = (1 : A) ⊗ₜ[R] j := rfl
-      show (TensorProduct.AlgebraTensorModule.rid R A A)
+      change (TensorProduct.AlgebraTensorModule.rid R A A)
         ((φ.baseChange A) (eAB.symm (algebraMap S B j))) = _
       rw [he, LinearMap.baseChange_tmul]
       simp [φ, Finsupp.lapply_apply, Algebra.smul_def]
-    show algebraMap R A ((s j) i) ∈ K
+    change algebraMap R A ((s j) i) ∈ K
     rw [← hΦj]
     exact hΦK _ hjB
   have hjK : j ∈ K₀ • (⊤ : Submodule R S) := by
@@ -334,7 +334,7 @@ private theorem exists_fg_localized_eq_top {R M : Type u} [CommRing R] [AddCommG
   rw [← hg]
   refine Submodule.span_le.mpr ?_
   rintro x ⟨i, rfl⟩
-  show g i ∈ (Submodule.span R (Set.range fun i : Fin n ↦ (w i).1)).localized' (Localization T)
+  change g i ∈ (Submodule.span R (Set.range fun i : Fin n ↦ (w i).1)).localized' (Localization T)
     T (LocalizedModule.mkLinearMap T M)
   rw [Submodule.mem_localized']
   exact ⟨(w i).1, Submodule.subset_span ⟨i, rfl⟩, (w i).2, hw i⟩
@@ -366,12 +366,12 @@ private theorem localized_map_subtype_eq {A F : Type u} [CommRing A] [AddCommGro
     (hK₀ : K₀.localized T = ⊤) :
     (K₀.map N.subtype).localized T = N.localized T := by
   refine le_antisymm ?_ ?_
-  · show (K₀.map N.subtype).localized' (Localization T) T
+  · change (K₀.map N.subtype).localized' (Localization T) T
       (LocalizedModule.mkLinearMap T F) ≤
       N.localized' (Localization T) T (LocalizedModule.mkLinearMap T F)
     rw [Submodule.localized'_eq_span, Submodule.localized'_eq_span]
     exact Submodule.span_mono (Set.image_mono (Submodule.map_subtype_le N K₀))
-  · show N.localized' (Localization T) T (LocalizedModule.mkLinearMap T F) ≤
+  · change N.localized' (Localization T) T (LocalizedModule.mkLinearMap T F) ≤
       (K₀.map N.subtype).localized' (Localization T) T (LocalizedModule.mkLinearMap T F)
     rw [Submodule.localized'_eq_span]
     refine Submodule.span_le.mpr ?_
@@ -382,7 +382,7 @@ private theorem localized_map_subtype_eq {A F : Type u} [CommRing A] [AddCommGro
       K₀.localized' (Localization T) T (LocalizedModule.mkLinearMap T N) at hzloc
     rw [Submodule.mem_localized'] at hzloc
     obtain ⟨k, hk, t, hkt⟩ := hzloc
-    show (LocalizedModule.mkLinearMap T F) z ∈
+    change (LocalizedModule.mkLinearMap T F) z ∈
       (K₀.map N.subtype).localized' (Localization T) T (LocalizedModule.mkLinearMap T F)
     rw [Submodule.mem_localized']
     refine ⟨(k : F), ⟨k, hk, rfl⟩, t, ?_⟩
@@ -395,7 +395,7 @@ private theorem localized_map_subtype_eq {A F : Type u} [CommRing A] [AddCommGro
             ((LocalizedModule.mkLinearMap T N) ⟨z, hz⟩) :=
         congrArg (LocalizedModule.map T N.subtype) hkt
       _ = (LocalizedModule.mkLinearMap T F) z := by
-        show ((IsLocalizedModule.map T (LocalizedModule.mkLinearMap T N)
+        change ((IsLocalizedModule.map T (LocalizedModule.mkLinearMap T N)
           (LocalizedModule.mkLinearMap T F)) N.subtype)
             ((LocalizedModule.mkLinearMap T N) ⟨z, hz⟩) =
           (LocalizedModule.mkLinearMap T F) z
@@ -437,7 +437,7 @@ private theorem bijective_localizedModule_map_liftQ {A F : Type u} {M : Type v} 
       IsLocalizedModule.mk'_surjective T (LocalizedModule.mkLinearMap T F) x
     simp [LocalizedModule.map, IsLocalizedModule.map_mk']
   have hkerπ : (LocalizedModule.map T K.mkQ).ker = K.localized T := by
-    show ((IsLocalizedModule.map T (LocalizedModule.mkLinearMap T F)
+    change ((IsLocalizedModule.map T (LocalizedModule.mkLinearMap T F)
       (LocalizedModule.mkLinearMap T (F ⧸ K)) K.mkQ).extendScalarsOfIsLocalization
         T (Localization T)).ker = K.localized T
     simpa only [Submodule.ker_mkQ] using
@@ -485,12 +485,12 @@ private theorem bijective_localizedModule_map_of_le {A : Type u} {X : Type v} {Y
     (LocalizedModule.mkLinearMap U Y) t).mp hqzero
   have hTzero : (LocalizedModule.mkLinearMap T Y) (q (w • x)) = 0 := by
     rw [show q (w • x) = 0 from by
-      show q ((w : A) • x) = 0
+      change q ((w : A) • x) = 0
       rw [map_smul, show (w : A) • q x = 0 from hw], map_zero]
   have hxT : (LocalizedModule.mkLinearMap T X) (w • x) = 0 := by
     refine hqT.1 ?_
     rw [map_zero]
-    show ((IsLocalizedModule.map T (LocalizedModule.mkLinearMap T X)
+    change ((IsLocalizedModule.map T (LocalizedModule.mkLinearMap T X)
       (LocalizedModule.mkLinearMap T Y)) q)
         ((LocalizedModule.mkLinearMap T X) (w • x)) = 0
     simpa only [IsLocalizedModule.map_apply] using hTzero
@@ -579,7 +579,7 @@ private theorem mkLinearMap_atPrime_eq_zero_of_atExtended_eq_zero {R S : Type u}
       ((LinearMap.lsmul S S (s : S)).restrictScalars R))
         (LocalizedModule.mkLinearMap p.primeCompl S x) =
       LocalizedModule.mkLinearMap p.primeCompl S ((s : S) * x) := by
-    show (IsLocalizedModule.map p.primeCompl (LocalizedModule.mkLinearMap p.primeCompl S)
+    change (IsLocalizedModule.map p.primeCompl (LocalizedModule.mkLinearMap p.primeCompl S)
       (LocalizedModule.mkLinearMap p.primeCompl S)
       ((LinearMap.lsmul S S (s : S)).restrictScalars R))
       (LocalizedModule.mk x 1) = LocalizedModule.mk ((s : S) * x) 1
@@ -820,7 +820,7 @@ theorem exists_fg_ideal_forall_blowup_chart_exists_away_basis_of_projective
   let N := (Fin n → S) ⧸ K
   let : Module.FinitePresentation S N :=
     Module.finitePresentation_of_free_of_surjective K.mkQ K.mkQ_surjective (by
-      show (LinearMap.ker (Submodule.mkQ K)).FG
+      change (LinearMap.ker (Submodule.mkQ K)).FG
       rw [Submodule.ker_mkQ]
       exact hKfg)
   let J := fittingIdeal (R := S) (M := N) (r : ℤ)
@@ -919,7 +919,7 @@ theorem exists_fg_ideal_forall_blowup_chart_exists_away_basis_of_projective
       refine smul_eq_zero_of_quotient_torsion'
         (Submonoid.powers (algebraMap S B (algebraMap R S (f * b))))
         ⟨algebraMap S B (algebraMap R S (f * b)), Submonoid.mem_powers _⟩ x ?_
-      show algebraMap S B (algebraMap R S (f * b)) • x = 0
+      change algebraMap S B (algebraMap R S (f * b)) • x = 0
       calc
         algebraMap S B (algebraMap R S (f * b)) • x =
             algebraMap A B (algebraMap R A (f * b)) • x :=

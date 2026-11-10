@@ -109,7 +109,7 @@ theorem toTop_algebraMap_rest07Q9 {B : DividedPowerRing.{u}} [Algebra A (B : Typ
     rest.toTop (algebraMap A (completedPrimeStep07Q9 B p hp hB lam : Type u) a) =
       algebraMap A (rest.top : Type u) a := by
   refine Eq.trans ?_ (hc a)
-  show _ = rest.toTop (completedPrimeStepι07Q9 B p hp hB lam (algebraMap A (B : Type u) a))
+  change _ = rest.toTop (completedPrimeStepι07Q9 B p hp hB lam (algebraMap A (B : Type u) a))
   congr 1
 
 variable (A) in

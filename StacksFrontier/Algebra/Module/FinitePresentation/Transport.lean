@@ -121,7 +121,7 @@ theorem fp_transport {S T X : Type*} [CommRing S] [CommRing T]
   @finitePresentation_of_ringEquiv T S _ _ e.symm X _ _ X _
     (Module.compHom X (e : S →+* T)) (AddEquiv.refl X)
     (fun t x => by
-      show (t • x : X) = e (e.symm t) • x
+      change (t • x : X) = e (e.symm t) • x
       rw [e.apply_symm_apply])
     inferInstance
 

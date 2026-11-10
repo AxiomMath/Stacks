@@ -88,7 +88,7 @@ theorem exists_splitCoverFiberPoint_eq
   have hlift := IsOpenImmersion.lift_fac (Sigma.ι (fun _ : ι ↦ X) i) y.1 hrange
   have h1 : IsOpenImmersion.lift (Sigma.ι (fun _ : ι ↦ X) i) y.1 hrange ≫ 𝟙 X = x.hom := by
     have e := (congrArg (fun k ↦ k ≫ Sigma.desc (fun _ : ι ↦ (𝟙 X : X ⟶ X))) hlift).trans y.2
-    rwa [Category.assoc, Sigma.ι_desc] at e
+    rwa [Category.assoc, Sigma.ι_comp_desc] at e
   have hx : IsOpenImmersion.lift (Sigma.ι (fun _ : ι ↦ X) i) y.1 hrange = x.hom :=
     (Category.comp_id _).symm.trans h1
   exact (congrArg (fun k ↦ k ≫ Sigma.ι (fun _ : ι ↦ X) i) hx).symm.trans hlift

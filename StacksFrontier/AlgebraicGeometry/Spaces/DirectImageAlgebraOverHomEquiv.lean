@@ -235,7 +235,7 @@ theorem exists_pushforwardAlgebraMap_eq_of_affineOver {X : AlgebraicSpaces B S h
     let t' : objectPointOver T (yoneda.map s ≫ a) ⟶ objectPointOver T a :=
       Over.homMk (ObjectProperty.homMk (yoneda.map t)) (by
         refine ObjectProperty.hom_ext _ ?_
-        show yoneda.map t ≫ a ≫ T.hom.hom = (yoneda.map s ≫ a) ≫ T.hom.hom
+        change yoneda.map t ≫ a ≫ T.hom.hom = (yoneda.map s ≫ a) ≫ T.hom.hom
         rw [← Category.assoc, hR.w])
     have hst : s' ≫ objectPointOverHom T a = t' ≫ objectPointOverHom T a :=
       Over.OverMorphism.ext (ObjectProperty.hom_ext _ hR.w)

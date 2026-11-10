@@ -138,8 +138,7 @@ private theorem bijective_liftBaseChange_of_addEquiv {R A P Q : Type*} [CommRing
     (he : ∀ a x, e (a ⊗ₜ x) = a • φ x) : Function.Bijective (LinearMap.liftBaseChange A φ) := by
   have hfun : (⇑(LinearMap.liftBaseChange A φ) : TensorProduct R A P → Q) = ⇑e := by
     refine funext fun z => ?_
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul a x => rw [LinearMap.liftBaseChange_tmul, he]
     | add z w hz hw => rw [map_add, map_add, hz, hw]
   rw [hfun]
@@ -322,14 +321,11 @@ theorem bijective_sectionsBaseChange_kerSubmodule_of_isPushout
           (IsScalarTower.toAlgHom (chartRing B S hS F hF U) P Q).toLinearMap
           (LinearMap.lTensor (chartRing B S hS F hF V) φU z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero =>
-        simp only [map_zero]
-        exact (congrArg φV (map_zero cG)).trans (map_zero φV)
+    induction z using TensorProduct.inductionOn with
     | tmul b x =>
         have hx : q (pU x) = pV (chartRestrict (hF := hF) f x) := RingHom.congr_fun hsq x
         rw [LinearMap.lTensor_tmul, LinearMap.liftBaseChange_tmul, Algebra.smul_def]
-        show pV (b * chartRestrict (hF := hF) f x) = pV b * q (pU x)
+        change pV (b * chartRestrict (hF := hF) f x) = pV b * q (pU x)
         rw [hx]
         exact map_mul pV b _
     | add z w hz hw =>

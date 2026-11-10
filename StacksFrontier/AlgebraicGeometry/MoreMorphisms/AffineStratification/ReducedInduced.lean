@@ -88,15 +88,15 @@ theorem exists_lift_reducedInduced {X Y : Scheme.{u}} (T : Set X)
   let fO : Y ⟶ O.toScheme := IsOpenImmersion.lift O.ι f hsub
   have hfac : fO ≫ O.ι = f := IsOpenImmersion.lift_fac _ _ _
   have hsupport : Set.range fO ⊆ (J.support : Set O.toScheme) := by
-    show Set.range fO ⊆ Set.preimage Subtype.val T
+    change Set.range fO ⊆ Set.preimage Subtype.val T
     rintro x ⟨y, rfl⟩
-    show O.ι (fO y) ∈ T
+    change O.ι (fO y) ∈ T
     rw [apply_eq_of_comp_eq hfac]
     exact hf ⟨y, rfl⟩
   obtain ⟨g, hg⟩ :=
     (Scheme.IdealSheafData.exists_lift_subschemeι_iff_range_subset_support J fO).2 hsupport
   refine ⟨g, ?_⟩
-  show g ≫ J.subschemeι ≫ O.ι = f
+  change g ≫ J.subschemeι ≫ O.ι = f
   rw [← Category.assoc, hg, hfac]
 
 private lemma isAffine_reducedInduced_of_range_eq_of_isReduced {X Y : Scheme.{u}}
@@ -108,7 +108,7 @@ private lemma isAffine_reducedInduced_of_range_eq_of_isReduced {X Y : Scheme.{u}
     dsimp [incl, reducedInducedInclusion]
     infer_instance
   have : IsReduced (reducedInducedScheme T hT) := by
-    show IsReduced (Scheme.IdealSheafData.vanishingIdeal (reducedInducedClosed T hT)).subscheme
+    change IsReduced (Scheme.IdealSheafData.vanishingIdeal (reducedInducedClosed T hT)).subscheme
     infer_instance
   obtain ⟨g, hg⟩ := exists_lift_reducedInduced T hT f hrange.le
   have hgPre : IsPreimmersion g := by
@@ -130,7 +130,7 @@ private lemma isAffine_reducedInduced_of_range_eq_of_isReduced {X Y : Scheme.{u}
     rw [← hg]
     simp [e, incl]
   refine ⟨IsAffine.of_isIso e.inv, ?_⟩
-  show IsAffineHom incl
+  change IsAffineHom incl
   rw [← hcomp]
   infer_instance
 
@@ -146,7 +146,7 @@ theorem isAffine_reducedInduced_of_range_eq {X Y : Scheme.{u}}
   let J := Scheme.IdealSheafData.vanishingIdeal (⊤ : Closeds Y)
   have := isAffine_subscheme_vanishingIdeal (⊤ : Closeds Y)
   have hJrange : Set.range (J.subschemeι ≫ f) = T := by
-    show Set.range (f.base ∘ J.subschemeι.base) = T
+    change Set.range (f.base ∘ J.subschemeι.base) = T
     rw [Set.range_comp, Scheme.IdealSheafData.range_subschemeι_vanishingIdeal]
     simpa using hrange
   exact isAffine_reducedInduced_of_range_eq_of_isReduced T hT (J.subschemeι ≫ f) hJrange

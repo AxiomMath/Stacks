@@ -82,7 +82,7 @@ theorem ofHom_comp_adicQuotient_transitionMap
   refine ModuleCat.hom_ext (LinearMap.ext fun z => ?_)
   induction z using Submodule.Quotient.induction_on with
   | _ x =>
-    show ((adicQuotientModuleSystem Λ I M).map (homOfLE (Nat.le_add_right n 1)).op).hom
+    change ((adicQuotientModuleSystem Λ I M).map (homOfLE (Nat.le_add_right n 1)).op).hom
         (e (Submodule.Quotient.mk x)) =
       tr n e (((adicQuotientModuleSystem Λ I M).map
         (homOfLE (Nat.le_add_right n 1)).op).hom (Submodule.Quotient.mk x))

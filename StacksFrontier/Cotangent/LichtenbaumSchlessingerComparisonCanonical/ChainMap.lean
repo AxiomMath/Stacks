@@ -94,7 +94,7 @@ theorem objD_two_eq :
         CommAlgCat.faceAsTermMap A (CommAlgCat.of A B) 2 3 := by
   rw [CommAlgCat.faceAsTermMap_eq, CommAlgCat.faceAsTermMap_eq, CommAlgCat.faceAsTermMap_eq,
     CommAlgCat.faceAsTermMap_eq]
-  show ∑ i : Fin 4, ((-1 : ℤ) ^ (i : ℕ)) • _ = _
+  change ∑ i : Fin 4, ((-1 : ℤ) ^ (i : ℕ)) • _ = _
   rw [Fin.sum_univ_four]
   simp [SimplicialObject.δ, CommAlgCat.cotangentSimplicialModule, sub_eq_add_neg]
   abel
@@ -353,23 +353,23 @@ def lsChainComponent (i : ℤ) : (cotangentComplexULift.{u, v, w} A B).X i ⟶
 
 /-- The component of the comparison in degree `0` is `lsChainZero`. -/
 theorem lsChainComponent_zero : P.lsChainComponent 0 = P.lsChainZero := by
-  rw [lsChainComponent, dif_pos rfl, eqToHom_refl, eqToHom_refl, Category.id_comp,
+  rw [lsChainComponent, dite_eq_left rfl, eqToHom_refl, eqToHom_refl, Category.id_comp,
     Category.comp_id]
 
 /-- The component of the comparison in degree `-1` is `lsChainOne`. -/
 theorem lsChainComponent_negOne : P.lsChainComponent (-1) = P.lsChainOne := by
-  rw [lsChainComponent, dif_neg (by decide), dif_pos rfl, eqToHom_refl, eqToHom_refl,
-    Category.id_comp, Category.comp_id]
+  rw [lsChainComponent, dite_eq_right (by decide), dite_eq_left rfl, eqToHom_refl,
+    eqToHom_refl, Category.id_comp, Category.comp_id]
 
 /-- The component of the comparison in degree `-2` is `lsChainTwo`. -/
 theorem lsChainComponent_negTwo : P.lsChainComponent (-2) = P.lsChainTwo := by
-  rw [lsChainComponent, dif_neg (by decide), dif_neg (by decide), dif_pos rfl, eqToHom_refl,
-    eqToHom_refl, Category.id_comp, Category.comp_id]
+  rw [lsChainComponent, dite_eq_right (by decide), dite_eq_right (by decide), dite_eq_left rfl,
+    eqToHom_refl, eqToHom_refl, Category.id_comp, Category.comp_id]
 
 /-- The component of the comparison vanishes outside degrees `0`, `-1` and `-2`. -/
 theorem lsChainComponent_eq_zero (i : ℤ) (h0 : i ≠ 0) (h1 : i ≠ -1) (h2 : i ≠ -2) :
     P.lsChainComponent i = 0 := by
-  rw [lsChainComponent, dif_neg h0, dif_neg h1, dif_neg h2]
+  rw [lsChainComponent, dite_eq_right h0, dite_eq_right h1, dite_eq_right h2]
 
 /-- **The comparison map `L_{B/A} → L` of [Stacks, Tag 09CG]**, as a map of complexes: in
 degrees `0`, `-1`, `-2` it is `dψ ⊗ 1`, `λ̄` and `q`, built from the choices `ψ : P₀ → P` and

@@ -108,8 +108,8 @@ open its image passes.
 
 This is the hypothesis of
 `Stacks.SectionExtensionNoAmple.exists_tensorSection_of_hasPointwiseNonvanishing`,
-and it holds **without any ampleness of `f^* M`**, which is the circularity that blocks the library's two
-ample forms of Stacks Tag 01PW at part (1) of [Stacks, Tag 0892]. The two inputs are
+and it holds **without any ampleness of `f^* M`**, which is the circularity that blocks the
+library's two ample forms of Stacks Tag 01PW at part (1) of [Stacks, Tag 0892]. The two inputs are
 `Stacks.Ample.IsAmple.exists_affine_nonvanishingOpen` for `M` and [Stacks, Tag 0H78] in the form
 `Stacks.AmplePullback.powNonvanishingOpen_pullbackPowSection`; the affineness of `S_t` is not used.
 -/

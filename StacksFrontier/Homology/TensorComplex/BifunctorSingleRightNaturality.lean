@@ -53,7 +53,7 @@ lemma mapBifunctorSingleRightIso_hom_naturality_right {N N' : C₂}
       intro M _ _
       have h := (mapBifunctorSingleRightXIso F K M a).inv_hom_id
       rw [mapBifunctorSingleRightXIso_inv, Category.assoc] at h
-      show singleRightι F K M a ≫ (mapBifunctorSingleRightXIso F K M a).hom = _
+      change singleRightι F K M a ≫ (mapBifunctorSingleRightXIso F K M a).hom = _
       rw [← cancel_epi ((F.obj (K.X a)).map (singleObjXSelf (ComplexShape.up ℤ) 0 M).inv), h,
         ← CategoryTheory.Functor.map_comp, Iso.inv_hom_id, CategoryTheory.Functor.map_id]
     rw [HomologicalComplex.comp_f, HomologicalComplex.comp_f, ι_mapBifunctorMap_assoc, h₁,
@@ -62,7 +62,7 @@ lemma mapBifunctorSingleRightIso_hom_naturality_right {N N' : C₂}
       Category.id_comp, NatTrans.mapHomologicalComplex_app_f, Functor.flip_map_app]
     rw [← CategoryTheory.Functor.map_comp, ← CategoryTheory.Functor.map_comp]
     congr 1
-    show ((HomologicalComplex.single C₂ (ComplexShape.up ℤ) 0).map g).f 0 ≫ _ = _
+    change ((HomologicalComplex.single C₂ (ComplexShape.up ℤ) 0).map g).f 0 ≫ _ = _
     simp [HomologicalComplex.single_map_f_self]
   · exact (isZero_obj_obj_single_obj_X_right F K N a b hb).eq_of_src _ _
 

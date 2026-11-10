@@ -457,7 +457,7 @@ private theorem mem_kernelIdeal_pairPresentation (U : (Opens X.carrier)ᵒᵖ)
     (x : (pairAlgebra P₁ P₂).obj.obj U)
     (hx : ((fstLift P₁ P₂).hom.app U).hom x ∈ kernelIdeal P₁.reduction.hom U) :
     x ∈ kernelIdeal (pairPresentation P₁ P₂).hom U := by
-  show ((pairPresentation P₁ P₂).hom.app U).hom x = 0
+  change ((pairPresentation P₁ P₂).hom.app U).hom x = 0
   rw [← reduction_lift_fst P₁ P₂ U x]
   exact hx
 
@@ -524,7 +524,7 @@ theorem exists_hom_of_extClass_eq (P₁ P₂ : AlgebraSquareZeroExtension f G)
     refine Stacks.Sites.RingDescent.hom_ext_of_isLocallySurjective (fstLift P₁ P₂) ?_
     refine Sheaf.hom_ext (NatTrans.ext (funext fun U => CommRingCat.hom_ext
       (RingHom.ext fun x => ?_)))
-    show (P₂.reduction.hom.app U).hom ((φ.hom.app U).hom (((fstLift P₁ P₂).hom.app U).hom x)) =
+    change (P₂.reduction.hom.app U).hom ((φ.hom.app U).hom (((fstLift P₁ P₂).hom.app U).hom x)) =
       (P₁.reduction.hom.app U).hom (((fstLift P₁ P₂).hom.app U).hom x)
     rw [hφU, twistFun, map_add, reduction_idealIncl, add_zero, reduction_lift_snd,
       reduction_lift_fst]
@@ -551,7 +551,7 @@ theorem exists_hom_of_extClass_eq (P₁ P₂ : AlgebraSquareZeroExtension f G)
     have hl := P₁.ideal.app_map k.op y
     have hr := P₂.ideal.app_map k.op ⟨φ.hom.app V y, kernelIdeal_le_comap P₁.reduction.hom
       P₂.reduction.hom φ.hom (hom_of_comp_eq hred) V y.2⟩
-    show G.val.map k.op _ = G.val.map k.op _
+    change G.val.map k.op _ = G.val.map k.op _
     rw [← hl, ← hr]
     have hy : (⟨(P₁.sheaf.obj.map k.op).hom (y : P₁.sheaf.obj.obj V),
         Stacks.Sites.Conormal.map_kernel P₁.reduction.hom k.op y.2⟩ :
@@ -632,7 +632,7 @@ theorem injective_hom_app (V : (Opens X.carrier)ᵒᵖ) :
     Function.Injective (θ.hom.app V).hom := by
   refine (injective_iff_map_eq_zero _).2 fun y hy => ?_
   have hk : y ∈ kernelIdeal P₁.reduction.hom V := by
-    show (P₁.reduction.hom.app V).hom y = 0
+    change (P₁.reduction.hom.app V).hom y = 0
     rw [← reduction_hom_app θ hred V y, hy, map_zero]
   have h0 : P₁.ideal.app V ⟨y, hk⟩ = 0 := by
     rw [← hideal V ⟨y, hk⟩]
@@ -650,7 +650,7 @@ theorem isLocallySurjective_hom :
     rintro W k ⟨y, hy⟩
     have hz : (P₂.sheaf.obj.map k.op).hom z - (θ.hom.app (op W)).hom y ∈
         kernelIdeal P₂.reduction.hom (op W) := by
-      show (P₂.reduction.hom.app (op W)).hom ((P₂.sheaf.obj.map k.op).hom z -
+      change (P₂.reduction.hom.app (op W)).hom ((P₂.sheaf.obj.map k.op).hom z -
         (θ.hom.app (op W)).hom y) = 0
       rw [map_sub, reduction_hom_app θ hred, hy, NatTrans.naturality_apply P₂.reduction.hom k.op z,
         sub_self]

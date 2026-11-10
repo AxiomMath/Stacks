@@ -244,6 +244,7 @@ theorem isLocallySurjective_fibrePresentationFst [Presheaf.IsLocallySurjective J
 
 end FibrePresentation
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The comparison class of a presentation pulled back along a morphism of presentations
 `h` is the two-term class of the pulled-back conormal map. -/
 private theorem comparison_comp_eq_conormalExtClass

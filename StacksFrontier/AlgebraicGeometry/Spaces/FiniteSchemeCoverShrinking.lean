@@ -137,7 +137,7 @@ theorem IsFiniteSchemeCoverFiniteEtaleOverDenseOpen.exists_shrink
   set W : Set (points B S hS (yoneda.obj Y)) := e ⁻¹' V
   have hEW : E ⊆ W := fun y hy => by
     obtain ⟨i, hi⟩ := hEη y hy
-    show e y ∈ V
+    change e y ∈ V
     rw [← hi]
     exact hV i
   have hCcl : IsClosed (φ '' Wᶜ) :=
@@ -154,7 +154,7 @@ theorem IsFiniteSchemeCoverFiniteEtaleOverDenseOpen.exists_shrink
   obtain ⟨U', hU', hU'K⟩ := exists_isOpenSubspace_range_pointsMap_eq B S hS hX K hKopen
   refine ⟨U', hU', isQuasiCompactSpace_of_isCompact_range B S hS hX hU' (hU'K ▸ hKcpt), ?_,
     le_of_range_pointsMap_ι_subset B S hS hU (hU'K ▸ fun x hx => (hKsub hx).1), ?_⟩
-  · show Dense (Set.range (pointsMap B S hS U'.toFunctor U'.ι))
+  · change Dense (Set.range (pointsMap B S hS U'.toFunctor U'.ι))
     rw [hU'K]
     exact (dense_iff_closure_eq.2 genericPoints.closure).mono hGK
   · intro y hy

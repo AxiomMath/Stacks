@@ -105,8 +105,7 @@ theorem baseChangeMap_comp_augmentation {X Y : Over B} (f : X ⟶ Y) :
   apply CommAlgCat.hom_ext
   apply AlgHom.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x y =>
       have h : (Y.hom.hom) (f.left.hom y) = (X.hom.hom) y :=
         congrArg (fun k : X.left ⟶ B => k.hom y) f.w
@@ -124,8 +123,7 @@ def baseChangeOver : Over B ⥤ Over B' where
     apply CommAlgCat.hom_ext
     apply AlgHom.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul x y => simp
     | add x y hx hy => simp only [map_add, hx, hy]
   map_comp {X Y Z} f g := by
@@ -133,8 +131,7 @@ def baseChangeOver : Over B ⥤ Over B' where
     apply CommAlgCat.hom_ext
     apply AlgHom.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul x y => simp
     | add x y hx hy => simp only [map_add, hx, hy]
 

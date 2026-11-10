@@ -573,7 +573,7 @@ include h₁ h₂ hsD in
 /-- **The last sentence of the case `W ⊆ D` of [Stacks, Tag 0F98], half way: `[W₁ ∩ W₂]` against
 `j_*π^*(c₁(L₂|_{D'}) ∩ [D'])`.** The two differ by a cycle rationally equivalent to zero on `D₁`
 witnessed inside the preimage of `W`. -/
-theorem cycleAssociatedToClosedSubscheme_comap_branch₁_sub_properPushforward_isRationallyEquivalentToZeroWithin
+theorem cycleAssociatedToClosedSubscheme_comap_branch₁_sub_properPushforward_isRatEquivZeroWithin
     (k : ℤ) :
     Stacks.Chow.IsRationallyEquivalentToZeroWithin C
       (R.normalize.D₁.subschemeι ≫ R.normalize.p ≫ sY) (k + 1)
@@ -934,7 +934,7 @@ include h₁ h₂ hsD in
 /-- **The last sentence of the case `W ⊆ D` of [Stacks, Tag 0F98]: `[W₁ ∩ W₂]` against
 `p₁^*(c₁(L₂|_D) ∩ [W|_D])`.** The two differ by a cycle rationally equivalent to zero on `D₁`
 witnessed inside the preimage of `W`. -/
-theorem cycleAssociatedToClosedSubscheme_comap_branch₁_sub_flatPullback_isRationallyEquivalentToZeroWithin
+theorem cycleAssociatedToClosedSubscheme_comap_branch₁_sub_flatPullback_isRatEquivZeroWithin
     (k : ℤ)
     (hbotInt : IsIntegral (⊥ : (branchSituation W.subscheme
      ((Scheme.Modules.pullback W.subschemeι).obj L₁)
@@ -969,7 +969,7 @@ theorem cycleAssociatedToClosedSubscheme_comap_branch₁_sub_flatPullback_isRati
             (W.comap (zeroIdeal Y L₁ L₂ s).subschemeι) hWDint hWDdim))
       ((R.normalize.D₁.subschemeι ≫ R.normalize.p).base ⁻¹' (W.support : Set Y)) :=
   isRationallyEquivalentToZeroWithin_sub_add_sub C
-      (cycleAssociatedToClosedSubscheme_comap_branch₁_sub_properPushforward_isRationallyEquivalentToZeroWithin
+      (cycleAssociatedToClosedSubscheme_comap_branch₁_sub_properPushforward_isRatEquivZeroWithin
         L₁ L₂ s R W C sY sD hsD k)
       (properPushforward_flatPullback_sub_flatPullback_isRationallyEquivalentToZeroWithin
         L₁ L₂ s R W C sY sD hsD k hbotInt hbotDim hWDint hWDdim)
@@ -1023,7 +1023,7 @@ theorem leftRule_cycle_sub_rightRule_cycle_isRationallyEquivalentToZeroWithin_of
       (R.normalize.D₁.subschemeι ≫ R.normalize.p ≫ sY) (k + 1)
       (gysinRuleBranch₁_cycle_sub_flatPullback_isRationallyEquivalentToZeroWithin_of_le
         C Y L₁ L₂ s R sY k W hW₁int hW₁dim hWDint hWDdim hVint hVdim)
-      (cycleAssociatedToClosedSubscheme_comap_branch₁_sub_flatPullback_isRationallyEquivalentToZeroWithin
+      (cycleAssociatedToClosedSubscheme_comap_branch₁_sub_flatPullback_isRatEquivZeroWithin
         L₁ L₂ s R W C sY sD hsD k hbotInt hbotDim hWDint hWDdim))
     (Stacks.Chow.isRationallyEquivalentToZeroWithin_neg C
       (R.normalize.D₁.subschemeι ≫ R.normalize.p ≫ sY) (k + 1)

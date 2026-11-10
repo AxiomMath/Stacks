@@ -104,7 +104,7 @@ theorem exists_minimal_above (c B : ℤ) :
       have hlt : ∑ j ∈ Finset.Icc c B, C'.rank j < m := by
         rw [← hm]
         refine Finset.sum_lt_sum (fun j _ => hle j) ⟨i, hmemi, ?_⟩
-        rw [hrank i, if_pos rfl]
+        rw [hrank i, ite_eq_left rfl]
         omega
       have hB' : ∀ j : ℤ, B < j → C'.rank j = 0 := fun j hj =>
         Nat.eq_zero_of_le_zero ((hle j).trans_eq (hB j hj))

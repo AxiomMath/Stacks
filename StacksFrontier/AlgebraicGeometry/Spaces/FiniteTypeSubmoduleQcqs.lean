@@ -331,7 +331,10 @@ theorem exists_isFiniteType_submodule_mem_of_qcqs (hZ : B.Contains (⊤_ Scheme.
   hasFiniteTypeSubmoduleCapture_of_qcqs hZ X hqc hqs M hM ι T hT s
 
 set_option maxHeartbeats 800000 in
+-- elaboration over the module sheaves of the small étale site, with their default abelian and
+-- Grothendieck instances removed and the Grothendieck structure rebuilt in the proof
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search over the same module sheaves, with those instances removed
 attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesAbelian
   Stacks.Cohomology.SiteModules.moduleSheavesGrothendieck in
 /-- **Stacks 0829.** On a quasi-compact quasi-separated algebraic space `X`, a quasi-coherent
@@ -356,7 +359,7 @@ theorem isFiltered_and_nonempty_isColimit_finiteTypeQuasicoherentSubobjectCocone
   classical
   have hfil := finiteTypeQuasicoherentSubobject_isFiltered B S hS X.1 X.2 F
   have hes : EssentiallySmall.{u} (smallEtaleRingedSite B S hS X.1 X.2).C := by
-    show EssentiallySmall.{u} (SmallEtale B S hS X.1)
+    change EssentiallySmall.{u} (SmallEtale B S hS X.1)
     infer_instance
   have hgr : IsGrothendieckAbelian.{u} (Modules.{u, u} B S hS X.1 X.2) :=
     SheafOfModules.isGrothendieckAbelian_of_essentiallySmall _

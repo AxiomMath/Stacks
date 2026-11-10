@@ -62,7 +62,7 @@ variable {k : Type u} [Field k] [Fintype k] {U V : Scheme.{u}} (fU : U ⟶ Spec 
   {g : V ⟶ U} [IsFinite g] [Etale g] [ConnectedSpace V]
   (C : CoverCompactification k j.toBase j.immersion g)
 
-omit [LocallyOfFiniteType fU] [QuasiCompact fU] [IsSeparated fU] in
+omit [LocallyOfFiniteType fU] [QuasiCompact fU] [IsSeparated fU] [IsFinite g] [Etale g] in
 include hcard in
 /-- **`H²_c(U_k̄, g_* ℤ/m) ≅ ℤ/m`** for a connected finite étale cover `g : V ⟶ U` with smooth
 projective compactification `V̄` over `Ū`, `V` geometrically irreducible over `k` and `m`

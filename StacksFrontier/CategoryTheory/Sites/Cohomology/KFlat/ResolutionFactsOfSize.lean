@@ -110,15 +110,15 @@ terms, out of a K-flat `L` with flat terms.  Then the kernel sequence
 (Stacks 0G7B) and is acyclic. -/
 theorem kernelSequence_resolution_facts_ofSize
     {K L : CochainComplex (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R)) ℤ}
-    (hK : Stacks.SheafOfModules.KFlat.KFlat R K)
+    (hK : Stacks.SheafOfModules.KFlat R K)
     (hflatK : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{v, u, w, w} (O := R) (K.X i))
     (hΛflat : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{v, u, w, w} (O := R) (L.X i))
-    (hΛkflat : Stacks.SheafOfModules.KFlat.KFlat R L)
+    (hΛkflat : Stacks.SheafOfModules.KFlat R L)
     (α : L ⟶ K) (hqis : QuasiIso α) (hαepi : Epi α) :
     (ShortComplex.kernelSequence α).ShortExact ∧
       (∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{v, u, w, w} (O := R)
         ((ShortComplex.kernelSequence α).X₁.X i)) ∧
-      Stacks.SheafOfModules.KFlat.KFlat R (ShortComplex.kernelSequence α).X₁ ∧
+      Stacks.SheafOfModules.KFlat R (ShortComplex.kernelSequence α).X₁ ∧
       (ShortComplex.kernelSequence α).X₁.Acyclic := by
   have hS : (ShortComplex.kernelSequence α).ShortExact :=
     ShortComplex.ShortExact.mk' (ShortComplex.kernelSequence_exact α) inferInstance hαepi

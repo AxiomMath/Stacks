@@ -68,7 +68,7 @@ presheaf underlying `AlgebraicGeometry.SmallEtale.structureSheaf`. -/
 public theorem commRingStructurePresheaf_comp_forget₂ :
     SmallEtale.commRingStructurePresheaf B S hS ⋙ forget₂ CommRingCat RingCat =
       (SmallEtale.structureSheaf B S hS).obj := by
-  show (SmallEtale.toScheme B S hS).op ⋙ Scheme.Γ ⋙ forget₂ CommRingCat RingCat =
+  change (SmallEtale.toScheme B S hS).op ⋙ Scheme.Γ ⋙ forget₂ CommRingCat RingCat =
     ((SmallEtale.inclusion B S hS ⋙ Over.post B.inclusion) ⋙ Over.forget S).op ⋙
       Scheme.Γ ⋙ forget₂ CommRingCat RingCat
   rw [toScheme_eq_post_comp_forget]
@@ -108,12 +108,12 @@ public def commRingEtaleStalkForgetIso (s : GeometricPoint S) :
     (forget₂ CommRingCat RingCat).obj
         (etaleStalk B S hS s (SmallEtale.commRingStructurePresheaf B S hS)) ≅
       etaleLocalRing B S hS s := by
-  let D := (CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+  let D := (Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
     SmallEtale.commRingStructurePresheaf B S hS
   have hD : D ⋙ forget₂ CommRingCat RingCat =
-      (CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+      (Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
         (SmallEtale.structureSheaf B S hS).obj := by
-    change (CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+    change (Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
       (SmallEtale.commRingStructurePresheaf B S hS ⋙ forget₂ CommRingCat RingCat) = _
     rw [commRingStructurePresheaf_comp_forget₂]
   let : IsFiltered (geometricPointFiber B S hS s).Elementsᵒᵖ := inferInstance

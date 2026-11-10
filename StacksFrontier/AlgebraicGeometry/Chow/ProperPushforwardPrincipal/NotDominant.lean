@@ -121,7 +121,7 @@ theorem eq_genericPoint_or_isClosed (C : ChowSituation.{u})
   rw [← closure_eq_iff_isClosed]
   apply Set.Subset.antisymm _ subset_closure
   intro y hy
-  show y = x
+  change y = x
   by_contra hyx
   have hlt := d.strictAnti_specializes (specializes_iff_mem_closure.mpr hy) (Ne.symm hyx)
   have := hnonneg y
@@ -181,7 +181,7 @@ theorem isEmpty_subscheme_comap_of_constant {X Y : Scheme.{u}} [IsIntegral X] (q
     exact Set.mem_range_self z
   apply hη
   rw [Scheme.IdealSheafData.support_comap] at hz ⊢
-  show q.base (genericPoint X) ∈ ((D.support : Set Y))
+  change q.base (genericPoint X) ∈ ((D.support : Set Y))
   change q.base ((D.comap q).subschemeι.base z) ∈ ((D.support : Set Y)) at hz
   rwa [hq] at hz
 

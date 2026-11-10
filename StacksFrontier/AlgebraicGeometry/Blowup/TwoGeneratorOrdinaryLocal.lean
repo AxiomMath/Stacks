@@ -73,7 +73,7 @@ theorem CategoryTheory.Limits.CategoricalPullback.nonempty_iso_of_iso_of_iso
   obtain ⟨β, hβ⟩ := hrig (F.mapIso u₀.symm ≪≫ x.iso ≪≫ G.mapIso v ≪≫ y.iso.symm)
   refine ⟨CategoricalPullback.mkIso (u₀ ≪≫ β) v ?_⟩
   simp only [Iso.trans_hom, Functor.map_comp, hβ, Functor.mapIso_hom, Iso.symm_hom,
-    Functor.mapIso_inv, Category.assoc, Iso.inv_hom_id, Category.comp_id]
+    Category.assoc, Iso.inv_hom_id, Category.comp_id]
   simp [← Functor.map_comp_assoc]
 
 namespace AlgebraicGeometry
@@ -406,10 +406,10 @@ theorem range_centerToBase_subset_preimage_stage (k : Over (initialIndex A)) :
   refine (Ideal.span_le (I := (PrimeSpectrum.comap (noetherianStage A f₁ f₂ k.left.unop).subtype
     (PrimeSpectrum.comap (Ideal.Quotient.mk (centerIdeal A f₁ f₂)) y)).asIdeal)).mpr ?_
   rintro _ (rfl | rfl)
-  · show Ideal.Quotient.mk (centerIdeal A f₁ f₂) f₁ ∈ y.asIdeal
+  · change Ideal.Quotient.mk (centerIdeal A f₁ f₂) f₁ ∈ y.asIdeal
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.subset_span (by simp))]
     exact y.asIdeal.zero_mem
-  · show Ideal.Quotient.mk (centerIdeal A f₁ f₂) f₂ ∈ y.asIdeal
+  · change Ideal.Quotient.mk (centerIdeal A f₁ f₂) f₂ ∈ y.asIdeal
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.subset_span (by simp))]
     exact y.asIdeal.zero_mem
 

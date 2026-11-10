@@ -78,7 +78,7 @@ theorem isCompositeCentre_sumClosedSubspaces {W W₁ : AlgebraicSpaces B S hS}
     (Z' : ClosedSubspaces B S hS W.1) :
     IsCompositeCentre B S hS c Z (preimageClosedSubspace c Z')
       (sumClosedSubspaces B S hS W Z Z') := by
-  show subspacePointSet B S hS W.1 (sumClosedSubspaces B S hS W Z Z').1 =
+  change subspacePointSet B S hS W.1 (sumClosedSubspaces B S hS W Z Z').1 =
     subspacePointSet B S hS W.1 Z.1 ∪
       pointsMap B S hS W₁.1 c.hom '' Set.range (pointsMap B S hS _ (Z'.1.preimage c.hom).ι)
   rw [subspacePointSet_sumClosedSubspaces, range_pointsMap_preimage_ι,

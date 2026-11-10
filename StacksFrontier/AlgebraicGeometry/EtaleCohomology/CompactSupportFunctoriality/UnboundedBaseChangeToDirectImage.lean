@@ -1,13 +1,11 @@
 module
 
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.CompactSupportFunctoriality.UnboundedToDirectImage
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.CompactSupportFunctoriality.UnboundedToDirectImage
 public import
   StacksFrontier.AlgebraicGeometry.EtaleCohomology.DerivedLowerShriek.ProperBaseChangeUnbounded
 public import
   StacksFrontier.AlgebraicGeometry.EtaleCohomology.DerivedLowerShriek.UnderivedBaseChangePasting
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.DerivedLowerShriek.UnderivedExtensionByZeroPasting
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.DerivedLowerShriek.UnderivedExtensionByZeroPasting
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.ModuleDerivedBaseChangeUnboundedResolution
 import StacksCore.Tactic.StacksAttribute
 

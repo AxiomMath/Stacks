@@ -83,12 +83,6 @@ open scoped Topology
 
 universe u v w
 
-add_to_stacks 07E8 "(1), topological rings" IsTopologicalRing
-add_to_stacks 07E8 "(1), topological modules" TopModuleCat
-add_to_stacks 07E8 "(2), homomorphisms of topological modules" ContinuousLinearMap
-add_to_stacks 07E8 "(2), homomorphisms of topological rings" StacksTopologicalRingHom
-add_to_stacks 07E8 "(3), linear topologies" IsLinearTopology
-
 end
 
 end

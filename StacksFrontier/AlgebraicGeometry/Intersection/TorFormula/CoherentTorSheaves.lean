@@ -129,8 +129,8 @@ level of complexes: `Tot(P ⊗_{𝒪_X} Q)` represents the derived tensor produc
 `P` and of `Q`, and the cohomology of the class of a complex is the cohomology of the complex. -/
 theorem isQuasicoherent_homology_totalTensorComplex (X : Scheme.{u})
     (P Q : Stacks.Duality.TensorComplex X)
-    (hP : Stacks.SheafOfModules.KFlat.KFlat.{u, u, u} X.sheaf P)
-    (hQ : Stacks.SheafOfModules.KFlat.KFlat.{u, u, u} X.sheaf Q)
+    (hP : Stacks.SheafOfModules.KFlat.{u, u, u} X.sheaf P)
+    (hQ : Stacks.SheafOfModules.KFlat.{u, u, u} X.sheaf Q)
     (hPq : ∀ j : ℤ, (P.homology j).IsQuasicoherent)
     (hQq : ∀ j : ℤ, (Q.homology j).IsQuasicoherent)
     (i : ℤ) :
@@ -174,7 +174,7 @@ def torSheaf (X : Scheme.{u}) (F G : X.Modules) (p : ℕ) : X.Modules :=
 resolutions ([Stacks, Tag 06YS]) and the invertibility of a quasi-isomorphism in the derived
 category. -/
 theorem exists_kFlatComplex_iso (X : Scheme.{u}) (E : DerivedCategory X.Modules) :
-    ∃ P : Stacks.Duality.TensorComplex X, Stacks.SheafOfModules.KFlat.KFlat.{u, u, u} X.sheaf P ∧
+    ∃ P : Stacks.Duality.TensorComplex X, Stacks.SheafOfModules.KFlat.{u, u, u} X.sheaf P ∧
       Nonempty ((DerivedCategory.Q.obj P : DerivedCategory X.Modules) ≅ E) := by
   obtain ⟨P, p, hP, hp⟩ := Stacks.DerivedTensor.RingedSite.exists_kFlat_quasiIso X.sheaf
     (DerivedCategory.Q.objPreimage E)
@@ -321,8 +321,8 @@ at `x` of `Tor_p^{𝒪_X}(ℱ, 𝒢)` is the `(-p)`-th cohomology module of the 
 `Tot(P ⊗_{𝒪_X} Q)`. -/
 def stalkTorSheafIso (X : Scheme.{u}) (F G : X.Modules) (p : ℕ) (x : X)
     (P Q : Stacks.Duality.TensorComplex X)
-    (hP : Stacks.SheafOfModules.KFlat.KFlat.{u, u, u} X.sheaf P)
-    (hQ : Stacks.SheafOfModules.KFlat.KFlat.{u, u, u} X.sheaf Q)
+    (hP : Stacks.SheafOfModules.KFlat.{u, u, u} X.sheaf P)
+    (hQ : Stacks.SheafOfModules.KFlat.{u, u, u} X.sheaf Q)
     (eP : (DerivedCategory.Q.obj P : DerivedCategory X.Modules) ≅
       (DerivedCategory.singleFunctor X.Modules 0).obj F)
     (eQ : (DerivedCategory.Q.obj Q : DerivedCategory X.Modules) ≅
@@ -386,8 +386,8 @@ K-flat representatives `P` and `Q`. -/
 private theorem isZero_stalk_torSheaf_of_acyclic (X : Scheme.{u}) (F G : X.Modules) (p : ℕ)
     (x : X)
     (h : ∀ P Q : Stacks.Duality.TensorComplex X,
-      Stacks.SheafOfModules.KFlat.KFlat.{u, u, u} X.sheaf P →
-      Stacks.SheafOfModules.KFlat.KFlat.{u, u, u} X.sheaf Q →
+      Stacks.SheafOfModules.KFlat.{u, u, u} X.sheaf P →
+      Stacks.SheafOfModules.KFlat.{u, u, u} X.sheaf Q →
       ((DerivedCategory.Q.obj P : DerivedCategory X.Modules) ≅
         (DerivedCategory.singleFunctor X.Modules 0).obj F) →
       ((DerivedCategory.Q.obj Q : DerivedCategory X.Modules) ≅

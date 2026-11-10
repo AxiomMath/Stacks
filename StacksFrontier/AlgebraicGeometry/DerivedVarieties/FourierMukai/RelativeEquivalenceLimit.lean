@@ -73,7 +73,7 @@ account.
 * `hbc` is the pair of base-change isomorphisms that the source's proof of [Stacks, Tag 0G0K]
   establishes: that the diagonal kernel of [Stacks, Tag 0FYV] and the convolution kernel of
   [Stacks, Tag 0FYS] both commute with base change. They are proved in
-  `StacksFrontier/AlgebraicGeometry/DerivedVarieties/FourierMukai/RelativeEquivalenceBaseChange.lean`
+`StacksFrontier/AlgebraicGeometry/DerivedVarieties/FourierMukai/RelativeEquivalenceBaseChange.lean`
   as `diagonalKernelBaseChangeIso` (line 404) and `convolutionBaseChangeIso` (line 427), but both
   are `private` there, and only their combination
   `AlgebraicGeometry.isRelativeEquivalenceKernel_derivedPullback` (line 518, the public
@@ -135,12 +135,12 @@ def baseChangeStage (x : X₀ ⟶ S₀) (hu : u ≫ s = s') : pullback x s' ⟶ 
 @[reassoc (attr := simp)]
 lemma baseChangeStage_fst (x : X₀ ⟶ S₀) (hu : u ≫ s = s') :
     baseChangeStage x hu ≫ pullback.fst x s = pullback.fst x s' := by
-  simp [baseChangeStage, pullback.map, pullback.lift_fst]
+  simp [baseChangeStage, pullback.map]
 
 @[reassoc (attr := simp)]
 lemma baseChangeStage_snd (x : X₀ ⟶ S₀) (hu : u ≫ s = s') :
     baseChangeStage x hu ≫ pullback.snd x s = pullback.snd x s' ≫ u := by
-  simp [baseChangeStage, pullback.map, pullback.lift_snd]
+  simp [baseChangeStage, pullback.map]
 
 /-- The comparison morphisms of a tower of base changes compose. -/
 lemma baseChangeStage_comp (x : X₀ ⟶ S₀) (hu : u ≫ s = s') (hv : v ≫ s' = s'')
@@ -160,13 +160,13 @@ def baseChangeProduct (x : X₀ ⟶ S₀) (y : Y₀ ⟶ S₀) (hu : u ≫ s = s'
 lemma baseChangeProduct_fst (x : X₀ ⟶ S₀) (y : Y₀ ⟶ S₀) (hu : u ≫ s = s') :
     baseChangeProduct x y hu ≫ pullback.fst (pullback.snd x s) (pullback.snd y s) =
       pullback.fst (pullback.snd x s') (pullback.snd y s') ≫ baseChangeStage x hu := by
-  simp [baseChangeProduct, pullback.map, pullback.lift_fst]
+  simp [baseChangeProduct, pullback.map]
 
 @[reassoc (attr := simp)]
 lemma baseChangeProduct_snd (x : X₀ ⟶ S₀) (y : Y₀ ⟶ S₀) (hu : u ≫ s = s') :
     baseChangeProduct x y hu ≫ pullback.snd (pullback.snd x s) (pullback.snd y s) =
       pullback.snd (pullback.snd x s') (pullback.snd y s') ≫ baseChangeStage y hu := by
-  simp [baseChangeProduct, pullback.map, pullback.lift_snd]
+  simp [baseChangeProduct, pullback.map]
 
 /-- **The cocycle identity of the tower of fibre products.** -/
 lemma baseChangeProduct_comp (x : X₀ ⟶ S₀) (y : Y₀ ⟶ S₀) (hu : u ≫ s = s') (hv : v ≫ s' = s'')
@@ -544,7 +544,9 @@ base-change isomorphisms established inside the proof of Tag 0G0K but private th
 (RelativeEquivalenceBaseChange.lean:404 and :427, exported only in the opposite direction as \
 :518); hperf, perfectness of the diagonal kernel (Tag 0FDP with Tag 0B6G, whose tree form \
 the proper direct image theorem grants its own Tor-dimension input) and of the convolution kernel \
-(Tag 0B91, whose tree form StacksFrontier/AlgebraicGeometry/Perfect/ProperFlatPushforwardBaseChange.lean:263 proves only the base-change \
+(Tag 0B91, whose tree form \
+StacksFrontier/AlgebraicGeometry/Perfect/ProperFlatPushforwardBaseChange.lean:263 proves \
+only the base-change \
 half in tensor form). No hypothesis mentions relative equivalences, so nothing of the conclusion \
 is assumed; the affineness of the transitions and the qcqs hypothesis on every stage enter \
 through DescentSituation, and smoothness and properness of X_0 -> S_0 and Y_0 -> S_0 are \

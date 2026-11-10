@@ -146,14 +146,14 @@ theorem isPrincipalDivisorCycle_zsmul (sY : Y ⟶ D.space) (k : ℤ) {c : CycleG
       a • (c : IntegralClosedSubspace D.site D.base D.base_mem Y → ℤ) := rfl
   rw [hcoe, heq]
   funext Z
-  show a • principalDivisorCycleCoefficients D sY hY hdec emb _ _ Z = _
+  change a • principalDivisorCycleCoefficients D sY hY hdec emb _ _ Z = _
   by_cases hcod : codimension
       (integralClosedSubspaceSupport D.site D.base D.base_mem hY.1 Z) = 1
-  · simp only [principalDivisorCycleCoefficients, dif_pos hcod]
+  · simp only [principalDivisorCycleCoefficients, dite_eq_left hcod]
     exact (PrimeDivisor.ord_zpow_of_ringHom D.site D.base D.base_mem hY.1 hdec
       (Z.toPrimeDivisor D.site D.base D.base_mem hY.1 hcod)
       (emb (Z.toPrimeDivisor D.site D.base D.base_mem hY.1 hcod)) g a).symm
-  · simp only [principalDivisorCycleCoefficients, dif_neg hcod, smul_zero]
+  · simp only [principalDivisorCycleCoefficients, dite_eq_right hcod, smul_zero]
 
 end Zsmul
 

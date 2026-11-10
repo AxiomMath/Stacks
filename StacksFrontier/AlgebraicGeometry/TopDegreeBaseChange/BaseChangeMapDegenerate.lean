@@ -113,7 +113,7 @@ theorem isZero_rightDerivedPlus_of_isZero_homologyFunctor_obj (F : A ⥤ B) [F.A
     (h : IsZero ((homologyFunctor B i).obj (R.obj ((singleFunctor A 0).obj M)))) :
     IsZero ((F.rightDerivedPlus i).obj M) := by
   have hE : ((DerivedCategory.Plus.singleFunctor A 0).obj M).obj.IsGE 0 := by
-    show ((singleFunctor A 0).obj M).IsGE 0
+    change ((singleFunctor A 0).obj M).IsGE 0
     infer_instance
   obtain ⟨e⟩ := Stacks.Perfect.CechAugmentation.nonempty_obj_iso_rightDerivedFunctorPlus F R β hβ
     ((DerivedCategory.Plus.singleFunctor A 0).obj M) 0 hE

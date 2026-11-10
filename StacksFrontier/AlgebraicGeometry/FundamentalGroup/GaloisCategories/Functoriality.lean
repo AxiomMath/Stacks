@@ -102,28 +102,28 @@ private theorem mono_split_from_connected_decomp (F : D ⥤ Type wX)
     (Types.binaryCoproductIso (F.obj X) (F.obj Z)).symm ≪≫ PreservesColimitPair.iso F X Z
   let m : F.obj X ⊕ F.obj Z → F.obj Y := fun z => F.map g (eXZ.hom z)
   have eXZ_inl (x : F.obj X) : (eXZ.hom) (Sum.inl x) = F.map coprod.inl x := by
-    show (↾Sum.inl ≫ eXZ.hom) x = _
+    change (↾Sum.inl ≫ eXZ.hom) x = _
     have hh : (↾Sum.inl) ≫ eXZ.hom = F.map coprod.inl := by
       dsimp [eXZ]
       rw [← Category.assoc, Types.binaryCoproductIso_inl_comp_inv]
-      exact coprodComparison_inl (F := F) (A := X) (B := Z)
+      exact inl_coprodComparison (F := F) (A := X) (B := Z)
     rw [hh]
   have eXZ_inr (z : F.obj Z) : (eXZ.hom) (Sum.inr z) = F.map coprod.inr z := by
-    show (↾Sum.inr ≫ eXZ.hom) z = _
+    change (↾Sum.inr ≫ eXZ.hom) z = _
     have hh : (↾Sum.inr) ≫ eXZ.hom = F.map coprod.inr := by
       dsimp [eXZ]
       rw [← Category.assoc, Types.binaryCoproductIso_inr_comp_inv]
-      exact coprodComparison_inr (F := F) (A := X) (B := Z)
+      exact inr_coprodComparison (F := F) (A := X) (B := Z)
     rw [hh]
   have hm_inl (x : F.obj X) : m (Sum.inl x) = F.map i x := by
-    show F.map g (eXZ.hom (Sum.inl x)) = _
+    change F.map g (eXZ.hom (Sum.inl x)) = _
     rw [eXZ_inl, ← ConcreteCategory.comp_apply, ← F.map_comp, coprod.inl_desc]
   have hm_inr (z : F.obj Z) : m (Sum.inr z) = F.map uX z := by
-    show F.map g (eXZ.hom (Sum.inr z)) = _
+    change F.map g (eXZ.hom (Sum.inr z)) = _
     rw [eXZ_inr, ← ConcreteCategory.comp_apply, ← F.map_comp, coprod.inr_desc]
   have hu_component (j : J) (a : F.obj (A j.1)) :
       F.map uX (F.map (Sigma.ι (fun j : J => A j.1) j) a) = F.map (f j.1) a := by
-    rw [← ConcreteCategory.comp_apply, ← F.map_comp, Sigma.ι_desc]
+    rw [← ConcreteCategory.comp_apply, ← F.map_comp, Sigma.ι_comp_desc]
   have hm_component (j : J) (a : F.obj (A j.1)) :
       m (Sum.inr (F.map (Sigma.ι (fun j : J => A j.1) j) a)) = eY ⟨j.1, a⟩ := by
     rw [hm_inr, hu_component, eY_apply]
@@ -169,7 +169,7 @@ private theorem mono_split_from_connected_decomp (F : D ⥤ Type wX)
     · let j : J := ⟨q.1, hq⟩
       refine ⟨Sum.inr (F.map (Sigma.ι (fun j : J => A j.1) j) q.2), ?_⟩
       rw [hm_component]
-      show eY ⟨q.1, q.2⟩ = y
+      change eY ⟨q.1, q.2⟩ = y
       exact eY.apply_symm_apply y
     · have hp : Nonempty (F.obj (P q.1)) := not_isEmpty_iff.mp hq
       let hs := snd_iso_of_nonempty q.1 hp
@@ -408,7 +408,7 @@ public theorem nonempty_galoisFunctorData_of_fiberIso
         (continuous_apply (H.obj X)).comp continuous_induced_dom
       have hconj : Continuous (fun a : Aut (F'.obj (H.obj X)) => (t.app X).conjAut a) :=
         continuous_of_discreteTopology
-      show Continuous (fun σ : Aut F' => (t.app X).conjAut
+      change Continuous (fun σ : Aut F' => (t.app X).conjAut
         (CategoryTheory.PreGaloisCategory.autEmbedding F' σ (H.obj X)))
       exact hconj.comp heval
   }
@@ -417,9 +417,9 @@ public theorem nonempty_galoisFunctorData_of_fiberIso
     refine NatIso.ofComponents (fun X => ?_) (fun f => ?_)
     · refine ObjectProperty.isoMk _ (Action.mkIso (t.app X).symm ?_)
       intro g
-      show (inducedHom F F' H t g).asIso.hom.app X ≫ t.inv.app X =
+      change (inducedHom F F' H t g).asIso.hom.app X ≫ t.inv.app X =
         t.inv.app X ≫ g.asIso.hom.app (H.obj X)
-      simp [inducedHom, Iso.conjAut_hom, Iso.conj_apply, Functor.mapAut]
+      simp [inducedHom, Iso.conjAut_hom, Functor.mapAut]
     · apply ObjectProperty.hom_ext
       apply Action.Hom.ext
       simp only [ContAction.res, ObjectProperty.lift, Action.res, Functor.comp_map]
@@ -458,7 +458,7 @@ public theorem galoisFunctorData_hom_innerConjugate
   let g : Aut F := .of (t₁.symm ≪≫ t₂)
   refine ⟨g, fun x => ?_⟩
   rw [d₂.hom_toMonoidHom, d₁.hom_toMonoidHom]
-  show t₂.conjAut
+  change t₂.conjAut
       (((Functor.whiskeringLeft C C' FintypeCat).obj H).mapAut F' x) =
     g *
       (t₁.conjAut (((Functor.whiskeringLeft C C' FintypeCat).obj H).mapAut F' x)) *
@@ -524,7 +524,7 @@ public theorem nonempty_exactFunctorInducingData
       comp_preservesFiniteColimits E.functor (R ⋙ E'.inverse)⟩
   let t : H ⋙ F' ≅ F := by
     refine NatIso.ofComponents (fun X => ?_) ?_
-    · show F'.obj (E'.inverse.obj (R.obj (E.functor.obj X))) ≅ F.obj X
+    · change F'.obj (E'.inverse.obj (R.obj (E.functor.obj X))) ≅ F.obj X
       exact U'.mapIso (E'.counitIso.app (R.obj (E.functor.obj X)))
     · intro X Y f
       exact congrArg (fun g => U'.map g)
@@ -533,7 +533,7 @@ public theorem nonempty_exactFunctorInducingData
   refine ⟨⟨H, hHexact, t, d, ?_⟩⟩
   apply ContinuousMonoidHom.ext
   intro a
-  show d.hom.toMonoidHom a = h.toMonoidHom a
+  change d.hom.toMonoidHom a = h.toMonoidHom a
   rw [d.hom_toMonoidHom]
   apply Aut.ext
   ext X x
@@ -541,17 +541,17 @@ public theorem nonempty_exactFunctorInducingData
   let c := E'.counitIso.app A
   let y := (U'.mapIso c).inv.hom x
   change ((E'.inverse ⋙ E'.functor).obj A).obj.V at y
-  show ConcreteCategory.hom (c.hom.hom.hom)
+  change ConcreteCategory.hom (c.hom.hom.hom)
       (ConcreteCategory.hom (((E'.inverse ⋙ E'.functor).obj A).obj.ρ a).asHom y) =
     ((h a).asIso.hom.app X).hom x
   rw [← FintypeCat.comp_apply, ConcreteCategory.congr_hom (c.hom.hom.comm a) y,
     FintypeCat.comp_apply]
   have hy : ConcreteCategory.hom (c.hom.hom.hom) y = x := by
-    show ConcreteCategory.hom (U'.mapIso c).hom.hom y = x
+    change ConcreteCategory.hom (U'.mapIso c).hom.hom y = x
     exact ConcreteCategory.congr_hom ((U'.mapIso c).inv_hom_id) x
   rw [hy]
-  show ConcreteCategory.hom ((E.functor.obj X).obj.ρ (h a)).asHom x = (h a).asIso.hom.app X x
-  show (h a) • x = (h a).asIso.hom.app X x
+  change ConcreteCategory.hom ((E.functor.obj X).obj.ρ (h a)).asHom x = (h a).asIso.hom.app X x
+  change (h a) • x = (h a).asIso.hom.app X x
   exact PreGaloisCategory.mulAction_def F (h a) x
 
 /-- The exact functor and fibre-functor isomorphism induced by a specified continuous

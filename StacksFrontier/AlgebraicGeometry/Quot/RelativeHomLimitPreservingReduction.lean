@@ -189,7 +189,7 @@ theorem limitPreserving_homFunctor_of_stages
         { app := fun A => Over.homMk (c.π.app A.left) (c.w A.hom)
           naturality := fun A A' k => by
             apply Over.OverMorphism.ext
-            show 𝟙 c.pt ≫ c.π.app A'.left = c.π.app A.left ≫ E.map k.left
+            change 𝟙 c.pt ≫ c.π.app A'.left = c.π.app A.left ≫ E.map k.left
             rw [Category.id_comp, c.w k.left] } }
   let E' := Over.post E ⋙ s.overStageSection T₀
   let c' := (s.overStageSection T₀).mapCone K
@@ -200,13 +200,13 @@ theorem limitPreserving_homFunctor_of_stages
     (s.homFunctorBaseChange T₀.hom) E c i₀ E' c'
     (Functor.associator _ _ _ ≪≫ Functor.isoWhiskerLeft (Over.post E) (s.overStageSectionIso T₀))
     (CostructuredArrow.isoMk (Iso.refl _) ?_) ?_ hcol
-  · show (schemeSpaceFunctor B S hS).map (𝟙 _) ≫ c.pt.hom =
+  · change (schemeSpaceFunctor B S hS).map (𝟙 _) ≫ c.pt.hom =
       (schemeSpaceFunctor B S hS).map (c.π.app i₀).left ≫ T₀.hom
     rw [CategoryTheory.Functor.map_id, Category.id_comp]
     exact (CostructuredArrow.w (c.π.app i₀)).symm
   · intro A
     refine CostructuredArrow.hom_ext _ _ ?_
-    show (c.π.app A.left).left ≫ 𝟙 _ = 𝟙 _ ≫ (c.π.app A.left).left
+    change (c.π.app A.left).left ≫ 𝟙 _ = 𝟙 _ ≫ (c.π.app A.left).left
     rw [Category.comp_id, Category.id_comp]
 
 end Stages

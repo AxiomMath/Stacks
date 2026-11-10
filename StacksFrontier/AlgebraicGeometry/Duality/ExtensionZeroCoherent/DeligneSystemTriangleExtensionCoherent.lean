@@ -227,7 +227,7 @@ public lemma isIso_restrict_Q_map_inclusion (n : ℕ) :
         R.map (Stacks.AlgebraicGeometry.IdealPower.idealPowerMultiple D.idealSheaf n
           (D.complex.X k)).ι :=
       ((R.map_comp _ _).symm.trans (congrArg R.map (D.powers.include_f n k))).symm
-    show IsIso (R.map (i.f k))
+    change IsIso (R.map (i.f k))
     rw [h₂]
     exact IsIso.comp_isIso' (R.mapIso (D.powers.termIso n k)).isIso_hom h₁
   set q := (R.mapHomologicalComplex (ComplexShape.up ℤ)).map i
@@ -366,7 +366,7 @@ public lemma mem_essImage_ι_mapTriangle {C : Type*} [Category C] [HasZeroObject
       (⟨Y₁, hY₁⟩ : P.FullSubcategory) ⟶ ⟨Y₂, hY₂⟩)
   exact ⟨_, ⟨isoTriangleOfIso₁₂ _ _ (P.ι.map_distinguished _ H) hT e₁.symm e₂.symm
     (by
-      show (e₁.inv ≫ T.mor₁ ≫ e₂.hom) ≫ e₂.inv = e₁.inv ≫ T.mor₁
+      change (e₁.inv ≫ T.mor₁ ≫ e₂.hom) ≫ e₂.inv = e₁.inv ≫ T.mor₁
       simp)⟩⟩
 
 /-- **A system of distinguished triangles whose first two vertices lie in a triangulated

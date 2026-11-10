@@ -87,7 +87,7 @@ private theorem residue_powerSeries_C {k : Type*} [Field k] (a : k) :
       IsLocalRing.residue (PowerSeries k) (PowerSeries.C a) := by
   apply PowerSeries.residueFieldOfPowerSeries.injective
   simp only [RingEquiv.apply_symm_apply]
-  show a = (((Ideal.quotEquivOfEq (PowerSeries.ker_coeff_eq_max_ideal).symm).trans
+  change a = (((Ideal.quotEquivOfEq (PowerSeries.ker_coeff_eq_max_ideal).symm).trans
     (RingHom.quotientKerEquivOfSurjective PowerSeries.constantCoeff_surj))
     (Ideal.Quotient.mk (IsLocalRing.maximalIdeal (PowerSeries k)) (PowerSeries.C a)))
   rw [RingEquiv.trans_apply, Ideal.quotEquivOfEq_mk,
@@ -152,7 +152,7 @@ private theorem exists_basis_lift_powerSeries {k B : Type*} [Field k] [CommRing 
       intro c x
       rw [show ρ.symm c = IsLocalRing.residue R (PowerSeries.C c) from residue_powerSeries_C c]
       obtain ⟨y, rfl⟩ := Ideal.Quotient.mk_surjective x
-      show Ideal.Quotient.mk m (PowerSeries.C c) • Ideal.Quotient.mk J y = _
+      change Ideal.Quotient.mk m (PowerSeries.C c) • Ideal.Quotient.mk J y = _
       rw [Ideal.Quotient.mk_smul_mk_quotient_map_quotient]
       rw [show algebraMap R B (PowerSeries.C c) = algebraMap k B c from
         (IsScalarTower.algebraMap_apply k R B c).symm]
@@ -163,7 +163,7 @@ private theorem exists_basis_lift_powerSeries {k B : Type*} [Field k] [CommRing 
     Algebra.TensorProduct.quotIdealMapEquivQuotTensor B m
   let bT := bκ.map eT.toLinearEquiv
   have hbT : (1 : IsLocalRing.ResidueField R) ⊗ₜ[R] (1 : B) = bT 0 := by
-    show 1 ⊗ₜ[R] (1 : B) = eT (bκ 0)
+    change 1 ⊗ₜ[R] (1 : B) = eT (bκ 0)
     simp only [bκ, Module.Basis.mapCoeffs_apply, bQ, Module.Basis.map_apply,
       AlgEquiv.toLinearEquiv_apply, hb, map_one]
     rfl
@@ -171,10 +171,10 @@ private theorem exists_basis_lift_powerSeries {k B : Type*} [Field k] [CommRing 
   refine ⟨b', hb', fun i ↦ ?_⟩
   have h' : Ideal.Quotient.mk J (b' i) = bQ i := by
     apply eT.injective
-    show (1 : IsLocalRing.ResidueField R) ⊗ₜ[R] b' i = eT (bQ i)
+    change (1 : IsLocalRing.ResidueField R) ⊗ₜ[R] b' i = eT (bQ i)
     simpa [bT, bκ, Module.Basis.map_apply, Module.Basis.mapCoeffs_apply,
       AlgEquiv.toLinearEquiv_apply] using hlift i
-  show eQ (Ideal.Quotient.mk J (b' i)) = b i
+  change eQ (Ideal.Quotient.mk J (b' i)) = b i
   rw [h']
   exact eQ.apply_symm_apply (b i)
 
@@ -204,7 +204,7 @@ private theorem spec_map_bot_specializes {R K : Type u} [CommRing R] [Field K] [
     Spec.map (CommRingCat.ofHom (algebraMap R K))
       (⟨⊥, inferInstance⟩ : Spec (CommRingCat.of K)) ⤳ p := by
   apply (PrimeSpectrum.le_iff_specializes _ _).mp
-  show RingHom.ker (algebraMap R K) ≤ p.asIdeal
+  change RingHom.ker (algebraMap R K) ≤ p.asIdeal
   rw [(RingHom.injective_iff_ker_eq_bot _).mp h]
   exact bot_le
 
@@ -340,7 +340,7 @@ theorem universalEtaleOpen_le_universalSyntomicOpen :
     universalEtaleOpen.{u} d ≤ universalSyntomicOpen.{u} d := by
   intro x hx
   change x ∈ (universalEtaleOpen.{u} d : Set (scheme.{u} d)) at hx
-  show x ∈ (universalSyntomicOpen.{u} d : Set (scheme.{u} d))
+  change x ∈ (universalSyntomicOpen.{u} d : Set (scheme.{u} d))
   rw [universalEtaleOpen_coe_eq.{u} d] at hx
   rw [universalSyntomicOpen_coe_eq.{u} d]
   exact fun y hy ↦ syntomicAt_of_etaleAt _ y (hx y hy)
@@ -417,7 +417,7 @@ private theorem mem_closure_universalEtaleOpen_of_etale_genericFiber
   let bK := b.baseChange K
   let bG : Module.Basis (Fin d) Γ(TK, ⊤) C := bK.mapCoeffs ρK.symm (by
     intro c y
-    show ρK (ρK.symm c) • y = c • y
+    change ρK (ρK.symm c) • y = c • y
     rw [RingEquiv.apply_symm_apply])
   have hbG : bG 0 = 1 := by
     simp only [bG, Module.Basis.mapCoeffs_apply, bK, Module.Basis.baseChange_apply, hb]
@@ -426,7 +426,7 @@ private theorem mem_closure_universalEtaleOpen_of_etale_genericFiber
   have hqG (r : Γ(TR, ⊤)) : qG (algebraMap Γ(TR, ⊤) B r) =
       algebraMap Γ(TK, ⊤) C (η.appTop.hom r) := by
     rw [hB]
-    show Algebra.TensorProduct.includeRight (algebraMap R B (ρR r)) =
+    change Algebra.TensorProduct.includeRight (algebraMap R B (ρR r)) =
       algebraMap K C (ρK (η.appTop.hom r))
     rw [hη]
     exact Algebra.TensorProduct.includeRight.commutes (ρR r)
@@ -467,7 +467,7 @@ private theorem apply_mem_closure_universalEtaleOpen_of_syntomic {T : Scheme.{u}
   let : Algebra Γ(TR, ⊤) B := Algebra.compHom B ρR.toRingHom
   let bR : Module.Basis (Fin d) Γ(TR, ⊤) B := b.mapCoeffs ρR.symm (by
     intro c y
-    show ρR (ρR.symm c) • y = c • y
+    change ρR (ρR.symm c) • y = c • y
     rw [RingEquiv.apply_symm_apply])
   have hbR : bR 0 = 1 := by simpa [bR, Module.Basis.mapCoeffs_apply] using hb
   have hbRb (j : Fin d) : bR j = b j := Module.Basis.mapCoeffs_apply _ _ _ _
@@ -483,7 +483,7 @@ private theorem apply_mem_closure_universalEtaleOpen_of_syntomic {T : Scheme.{u}
   let q : B →+* A := eSpecial.toRingHom.comp (Ideal.Quotient.mk J)
   have hq (r : Γ(TR, ⊤)) :
       q (algebraMap Γ(TR, ⊤) B r) = algebraMap k A (i.appTop.hom r) := by
-    show eSpecial (Ideal.Quotient.mk J (algebraMap R B (ρR r))) = _
+    change eSpecial (Ideal.Quotient.mk J (algebraMap R B (ρR r))) = _
     rw [quotient_powerSeries_algebraMap, eSpecial.commutes, hi]
   have hqb (j : Fin d) : q (bR j) = bA j := by
     rw [hbRb]

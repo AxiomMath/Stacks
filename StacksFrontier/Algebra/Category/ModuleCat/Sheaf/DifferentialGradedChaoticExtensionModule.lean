@@ -97,6 +97,9 @@ def restriction_sectionModuleIso (M : DifferentialGradedModule.{u, u, u} A) (U' 
         (M.sectionModule (F.op.obj U')) :=
   ((ofAlong F A).obj ((restrictFunctor F A).obj ((sectionSystemFunctor A).obj M))).sectionsIso U'
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [∀ U : C, IsCofiltered (StructuredArrow U F)] in
 /-- The identification of the sections of a restriction is natural in the module. -/
 theorem restriction_sectionModuleIso_naturality {M N : DifferentialGradedModule.{u, u, u} A}
     (f : M ⟶ N) (U' : C'ᵒᵖ) :
@@ -135,10 +138,10 @@ instance isIso_moduleAdjunction_unit_app [F.Full] [F.Faithful]
   simp only [moduleAdjunction, Adjunction.comp_unit_app, Equivalence.toAdjunction_unit]
   refine IsIso.comp_isIso' (IsIso.comp_isIso' (IsIso.comp_isIso' ?_ ?_) ?_) ?_
   · exact isIso_equivalence_unit_app _ _
-  · haveI := isIso_equivalence_unit_app (alongEquivalence F A)
+  · have := isIso_equivalence_unit_app (alongEquivalence F A)
       ((sectionSystemEquivalence (A.restrict F)).functor.obj M)
     infer_instance
-  · haveI : IsIso ((adjunction (F := F) (A := A)).unit.app
+  · have : IsIso ((adjunction (F := F) (A := A)).unit.app
         (((sectionSystemEquivalence (A.restrict F)).functor ⋙ (alongEquivalence F A).functor).obj
           M)) := isIso_unit _
     infer_instance
@@ -147,11 +150,14 @@ instance isIso_moduleAdjunction_unit_app [F.Full] [F.Faithful]
 
 /-! ### Homotopies -/
 
+omit [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [∀ U : C, IsCofiltered (StructuredArrow U F)] in
 /-- Restriction along `F` carries homotopic morphisms to homotopic morphisms. -/
 theorem preservesHomotopic_restriction : PreservesHomotopic (restriction F A) :=
   fun _ _ ⟨h⟩ => SectionSystem.realizeMap_homotopic
     (ofAlongHomotopy (restrictHomotopy (sectionSystemHomotopy h)))
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The extension along `F` carries homotopic morphisms to homotopic morphisms. -/
 theorem preservesHomotopic_extension : PreservesHomotopic (extension F A) :=
   fun _ _ ⟨h⟩ => SectionSystem.realizeMap_homotopic
@@ -171,6 +177,8 @@ theorem quasiIso_of_isIso' {B : DifferentialGradedAlgebra.{u, u}
       congrArg Hom.toHomologicalComplex (IsIso.inv_hom_id f)⟩
   infer_instance
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [∀ U : C, IsCofiltered (StructuredArrow U F)] in
 attribute [local irreducible] DifferentialGradedAlgebra.sectionAlgebra in
 /-- **Restriction is exact**: it carries quasi-isomorphisms to quasi-isomorphisms. -/
 theorem quasiIso_restriction_map {M N : DifferentialGradedModule.{u, u, u} A} (f : M ⟶ N)
@@ -178,6 +186,9 @@ theorem quasiIso_restriction_map {M N : DifferentialGradedModule.{u, u, u} A} (f
     QuasiIso ((restriction F A).map f).toHomologicalComplex :=
   SectionSystem.quasiIso_realizeMap _ fun U' => quasiIso_sectionMap f (F.op.obj U') hf
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [∀ U : C, IsCofiltered (StructuredArrow U F)] in
 attribute [local irreducible] DifferentialGradedAlgebra.sectionAlgebra in
 /-- **Restriction preserves goodness.** -/
 theorem restriction_isSectionGood {P : DifferentialGradedModule.{u, u, u} A}
@@ -193,6 +204,7 @@ theorem restriction_isSectionGood {P : DifferentialGradedModule.{u, u, u} A}
       (A.restrictSectionInv F U') (A.restrictSectionHom F U') (A.restrictSectionHom_inv F U')
       (A.restrictSectionInv_hom F U') _ (hP (F.op.obj U')))
 
+omit [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 attribute [local irreducible] DifferentialGradedAlgebra.sectionAlgebra in
 /-- **The extension carries a quasi-isomorphism between good modules to a quasi-isomorphism.** -/
 theorem quasiIso_extension_map {M N : DifferentialGradedModule.{u, u, u} (A.restrict F)}
@@ -225,7 +237,8 @@ theorem SectionSystem.isIso_app_of_isIso {B : DifferentialGradedAlgebra.{u, u}
   ⟨(inv f).app U, congrArg (fun g => SectionSystem.Hom.app g U) (IsIso.hom_inv_id f),
     congrArg (fun g => SectionSystem.Hom.app g U) (IsIso.inv_hom_id f)⟩
 
-omit [∀ U : C, IsCofiltered (StructuredArrow U F)] in
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [∀ U : C, IsCofiltered (StructuredArrow U F)] in
 /-- The counit of the composite of the adjunctions given by `sectionSystemEquivalence` and
 `alongEquivalence` is an isomorphism at every object of `AlongSystem F A`. -/
 theorem isIso_alongCounit (Z : AlongSystem F A) :
@@ -253,7 +266,7 @@ theorem quasiIso_moduleAdjunction_counit_app (N : DifferentialGradedModule.{u, u
   have e := Adjunction.comp_counit_app (adj.comp adjunction) (SectionSystem.realizeAdjunction A) N
   have e2 := Adjunction.comp_counit_app adj (adjunction (F := F) (A := A))
     ((sectionSystemFunctor A).obj N)
-  show QuasiIso (((adj.comp adjunction).comp
+  change QuasiIso (((adj.comp adjunction).comp
     (SectionSystem.realizeAdjunction A)).counit.app N).toHomologicalComplex
   rw [e]
   have : IsIso ((SectionSystem.realizeAdjunction A).counit.app N) :=
@@ -272,7 +285,7 @@ theorem quasiIso_moduleAdjunction_counit_app (N : DifferentialGradedModule.{u, u
       (fun {U} (b : StructuredArrow U.unop F) =>
         (Chaotic.isIso_sectionComparison_iff_quasiIso N b.hom.op (hgood _)).1 (hqc b.hom.op)) U
     exact @quasiIso_comp _ _ _ _ _ _ _ _ _ _ _ _ _ h1 h2
-  show QuasiIso (((SectionSystem.realizeFunctor A).map _).toHomologicalComplex ≫
+  change QuasiIso (((SectionSystem.realizeFunctor A).map _).toHomologicalComplex ≫
     ((SectionSystem.realizeAdjunction A).counit.app N).toHomologicalComplex)
   infer_instance
 

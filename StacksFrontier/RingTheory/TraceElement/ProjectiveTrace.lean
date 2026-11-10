@@ -132,13 +132,13 @@ theorem finiteProjectiveTrace_lmul_of_prodEquiv [Module.Finite S C] [Module.Proj
         exact Prod.ext (by simp [hact, mul_comm]) (by simp) }
   have hpi : p.comp i = LinearMap.id := by
     ext c
-    show algebraMap S C (e.symm (c, 0)) = c
+    change algebraMap S C (e.symm (c, 0)) = c
     rw [hact]
     simp
   have hcomp : i.comp ((Algebra.lmul S C c).comp p) = Algebra.lmul S S (e.symm (c, 0)) := by
     apply LinearMap.ext
     intro s
-    show e.symm (c * algebraMap S C s, 0) = e.symm (c, 0) * s
+    change e.symm (c * algebraMap S C s, 0) = e.symm (c, 0) * s
     refine e.injective ?_
     rw [map_mul]
     exact Prod.ext (by simp [hact]) (by simp)
@@ -172,12 +172,12 @@ theorem finiteProjectiveTrace_congr_ringEquiv
   let pR : (Fin n → R) →ₗ[R] C :=
     { toFun := fun v => p (fun j => e (v j))
       map_add' := fun v v' => by
-        show p (fun j => e (v j + v' j)) = _
+        change p (fun j => e (v j + v' j)) = _
         rw [show (fun j => e (v j + v' j)) = (fun j => e (v j)) + (fun j => e (v' j)) by
           ext j; simp]
         exact p.map_add _ _
       map_smul' := fun r v => by
-        show p (fun j => e (r • v j)) = r • p (fun j => e (v j))
+        change p (fun j => e (r • v j)) = r • p (fun j => e (v j))
         rw [show (fun j => e (r • v j)) = (e r) • (fun j => e (v j)) by ext j; simp, p.map_smul]
         exact (hsmul r (p (fun j => e (v j)))).symm }
   let iR : C →ₗ[R] (Fin n → R) :=
@@ -185,12 +185,12 @@ theorem finiteProjectiveTrace_congr_ringEquiv
       map_add' := fun c d => by ext j; simp [i.map_add]
       map_smul' := fun r c => by
         ext j
-        show e.symm (i (r • c) j) = r * e.symm (i c j)
+        change e.symm (i (r • c) j) = r * e.symm (i c j)
         rw [hsmul, i.map_smul]
         simp }
   have hpiR : pR.comp iR = LinearMap.id := by
     ext c
-    show p (fun j => e (e.symm (i c j))) = c
+    change p (fun j => e (e.symm (i c j))) = c
     simpa using LinearMap.congr_fun hpi c
   have hdiag (v : Fin n → R) (j : Fin n) :
       e ((iR.comp (fR.comp pR)) v j) = (i.comp (fS.comp p)) (fun k => e (v k)) j := by
@@ -231,10 +231,10 @@ theorem exists_finiteProjectiveTrace_of_prodEquiv
       map_zero' := map_zero e.symm
       map_add' := fun x y => by simpa using map_add e.symm (x, 0) (y, 0) }
   have hprojinc (r : R) : project (inclusion r) = r := by
-    show (e (e.symm (r, 0))).1 = r
+    change (e (e.symm (r, 0))).1 = r
     simp
   have hincmul (x y : R) : inclusion (x * y) = inclusion x * inclusion y := by
-    show e.symm (x * y, 0) = e.symm (x, 0) * e.symm (y, 0)
+    change e.symm (x * y, 0) = e.symm (x, 0) * e.symm (y, 0)
     simpa using map_mul e.symm (x, 0) (y, 0)
   have hsmul (k : K) (x : P) : k • x = project k • x := by
     rw [Algebra.smul_def, Algebra.smul_def, hmap]
@@ -250,7 +250,7 @@ theorem exists_finiteProjectiveTrace_of_prodEquiv
     have heq (k : K) : inclusion (project k) = inclusion 1 * k := by
       refine e.injective ?_
       rw [map_mul]
-      show e (e.symm (project k, 0)) = e (e.symm (1, 0)) * e k
+      change e (e.symm (project k, 0)) = e (e.symm (1, 0)) * e k
       rw [e.apply_symm_apply, e.apply_symm_apply]
       exact Prod.ext (by simp [project]) (by simp)
     rw [heq]
@@ -258,14 +258,14 @@ theorem exists_finiteProjectiveTrace_of_prodEquiv
   let projectionR : (Fin size → R) →ₗ[R] P :=
     { toFun := fun v => projection (fun index => inclusion (v index))
       map_add' := fun x y => by
-        show projection (fun index => inclusion (x index + y index)) = _
+        change projection (fun index => inclusion (x index + y index)) = _
         simp_rw [map_add]
         exact projection.map_add _ _
       map_smul' := fun r v => by
-        show projection (fun index => inclusion (r * v index)) =
+        change projection (fun index => inclusion (r * v index)) =
           r • projection (fun index => inclusion (v index))
         simp_rw [hincmul]
-        show projection (inclusion r • (fun index => inclusion (v index))) = _
+        change projection (inclusion r • (fun index => inclusion (v index))) = _
         rw [projection.map_smul, hincsmul] }
   let injectionR : P →ₗ[R] (Fin size → R) :=
     { toFun := fun x index => project (injection x index)
@@ -273,11 +273,11 @@ theorem exists_finiteProjectiveTrace_of_prodEquiv
       map_smul' := fun r x => by
         ext index
         rw [← hincsmul r x, injection.map_smul]
-        show project (inclusion r * injection x index) = r * project (injection x index)
+        change project (inclusion r * injection x index) = r * project (injection x index)
         rw [map_mul, hprojinc] }
   have hsplitR : projectionR.comp injectionR = LinearMap.id := by
     ext x
-    show projection (fun index => inclusion (project (injection x index))) = x
+    change projection (fun index => inclusion (project (injection x index))) = x
     simp_rw [hinjection]
     exact hsection x
   have hfinite : Module.Finite R P :=
@@ -296,7 +296,7 @@ theorem exists_finiteProjectiveTrace_of_prodEquiv
           (Pi.basisFun K (Fin size) index) index =
         inclusion ((injectionR.comp ((Algebra.lmul R P x).comp projectionR))
           (Pi.basisFun R (Fin size) index) index) := by
-    show injection (x * projection (Pi.basisFun K (Fin size) index)) index =
+    change injection (x * projection (Pi.basisFun K (Fin size) index)) index =
       inclusion (project (injection
         (x * projection (fun other => inclusion (Pi.basisFun R (Fin size) index other)))
           index))
@@ -329,23 +329,22 @@ theorem dualBaseChange_finiteProjectiveTrace_lmul :
   let : Algebra S (S ⊗[R] P) := Algebra.TensorProduct.leftAlgebra
   apply LinearMap.ext
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp [hx, hy]
   | tmul s b =>
       have hb : (Algebra.lmul R P b).baseChange S = Algebra.lmul S (S ⊗[R] P) (1 ⊗ₜ[R] b) := by
         ext z
-        show (1 : S) ⊗ₜ[R] (b * z) = ((1 : S) ⊗ₜ[R] b) * ((1 : S) ⊗ₜ[R] z)
+        change (1 : S) ⊗ₜ[R] (b * z) = ((1 : S) ⊗ₜ[R] b) * ((1 : S) ⊗ₜ[R] z)
         rw [Algebra.TensorProduct.tmul_mul_tmul]
         simp
       have hs : Algebra.lmul S (S ⊗[R] P) (s ⊗ₜ[R] b) =
           s • Algebra.lmul S (S ⊗[R] P) (1 ⊗ₜ[R] b) := by
         ext z
-        show (s ⊗ₜ[R] b) * ((1 : S) ⊗ₜ[R] z) =
+        change (s ⊗ₜ[R] b) * ((1 : S) ⊗ₜ[R] z) =
           s • (((1 : S) ⊗ₜ[R] b) * ((1 : S) ⊗ₜ[R] z))
         simp [Algebra.TensorProduct.tmul_mul_tmul, TensorProduct.smul_tmul']
       rw [Module.Dual.baseChange_apply_tmul]
-      show finiteProjectiveTrace R P (Algebra.lmul R P b) • s =
+      change finiteProjectiveTrace R P (Algebra.lmul R P b) • s =
         finiteProjectiveTrace S (S ⊗[R] P) (Algebra.lmul S (S ⊗[R] P) (s ⊗ₜ[R] b))
       rw [hs, map_smul, ← hb, finiteProjectiveTrace_baseChange]
       simp [Algebra.smul_def, smul_eq_mul, mul_comm]
@@ -371,18 +370,17 @@ theorem finiteProjectiveTrace_lmul_algebraMap
       e.toLinearMap.comp ((Algebra.lmul R C c).baseChange S) := by
     apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' =>
         simp only [LinearMap.comp_apply, map_add]
         exact congrArg₂ (· + ·) hz hz'
     | tmul s x =>
-        show Algebra.lmul S C c (e (s ⊗ₜ[R] x)) = e ((Algebra.lmul R C c).baseChange S
+        change Algebra.lmul S C c (e (s ⊗ₜ[R] x)) = e ((Algebra.lmul R C c).baseChange S
           (s ⊗ₜ[R] x))
         rw [he]
         simp only [LinearMap.baseChange_tmul, Algebra.coe_lmul_eq_mul]
         rw [he]
-        show c * (algebraMap S C s * x) = algebraMap S C s * (c * x)
+        change c * (algebraMap S C s * x) = algebraMap S C s * (c * x)
         ring
   have hconj : e.conj ((Algebra.lmul R C c).baseChange S) = Algebra.lmul S C c := by
     ext x
@@ -402,7 +400,7 @@ theorem exists_sum_smul_eq_of_flat {R : Type u} {M : Type v} {N : Type w}
   classical
   obtain ⟨n, a, y, h⟩ := Module.Flat.exists_factorization_of_finitePresentation q
   refine ⟨n, fun i => (Finsupp.lapply i).comp a, fun i => y (Finsupp.single i 1), fun x => ?_⟩
-  show ∑ i, a x i • y (Finsupp.single i 1) = q x
+  change ∑ i, a x i • y (Finsupp.single i 1) = q x
   simp_rw [← y.map_smul]
   rw [← map_sum, h]
   refine congrArg y ?_
@@ -463,7 +461,7 @@ theorem finiteProjectiveTrace_lmul_eq_sum_of_tower
   rw [finiteProjectiveTrace_eq_sum p v hp, map_sum]
   refine Finset.sum_congr rfl fun j _ => ?_
   congr 2
-  show (b i * c) * v j = c * (b i * v j)
+  change (b i * c) * v j = c * (b i * v j)
   ring
 
 end DualFamily

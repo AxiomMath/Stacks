@@ -126,7 +126,7 @@ theorem tensorGlobalSection_naturality {G' : X.Modules} (φ : G ⟶ G') (s : Γ(
       tensorGlobalSection F G' (Scheme.Modules.Hom.app φ ⊤ s) := by
   refine Scheme.Modules.hom_ext _ _ fun W => ?_
   ext x
-  show (((((Stacks.SheafOfModules.Tensor.sheafTensor
+  change (((((Stacks.SheafOfModules.Tensor.sheafTensor
       ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).obj F).map φ)).val.app (op W)).hom
       (toTensorSheafSection X.toRingedSpace F G (op W)
         (x ⊗ₜ[X.presheaf.obj (op W)] (globalRestrict G s W))) = _
@@ -141,7 +141,7 @@ theorem tensorGlobalSection_unit :
       tensorUnitInv F := by
   refine Scheme.Modules.hom_ext _ _ fun W => ?_
   ext x
-  show toTensorSheafSection X.toRingedSpace F (Scheme.unitModule X) (op W)
+  change toTensorSheafSection X.toRingedSpace F (Scheme.unitModule X) (op W)
       (x ⊗ₜ[X.presheaf.obj (op W)]
         (globalRestrict (Scheme.unitModule X) (1 : ↑(X.presheaf.obj (op ⊤))) W)) = _
   refine Eq.trans ?_ (tensorUnitInv_app_apply F (op W) x).symm

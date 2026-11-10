@@ -379,9 +379,9 @@ attribute [local instance] CartesianMonoidalCategory.ofHasFiniteProducts
 /-- The Frobenius endomorphism of the Jacobian is a homomorphism. -/
 instance isMonHom_jacobianFrobenius :
     IsMonHom (jacobianFrobenius B hX hk f p hS n Ψ hΨ σ hσ) := by
-  haveI := preservesFiniteProducts_overPost_bigFppfInclusion B (Spec (.of k)) hk
-  letI := jacobianGrpObj B hX hk f σ hσ
-  haveI := isMonHom_twistedJacobianHom B hX hk f p hS n Ψ hΨ σ hσ
+  have := preservesFiniteProducts_overPost_bigFppfInclusion B (Spec (.of k)) hk
+  let := jacobianGrpObj B hX hk f σ hσ
+  have := isMonHom_twistedJacobianHom B hX hk f p hS n Ψ hΨ σ hσ
   exact Functor.map.instIsMonHom (F := Over.post (X := B.obj hk) B.inclusion)
     (f := twistedJacobianHom B hX hk f p hS n Ψ hΨ σ hσ)
 

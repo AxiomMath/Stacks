@@ -66,6 +66,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 /-- The projection of the cone to a stage, with its source written as the vertex. -/
 abbrev conePr (j : I) : c.pt ⟶ V.obj j := c.π.app j
 
+omit [IsCofiltered I] in
 /-- The projections of the cone commute with the transition morphisms. -/
 theorem conePr_comp {j k : I} (e : j ⟶ k) : conePr B S hS V c j ≫ V.map e = conePr B S hS V c k :=
   c.w e
@@ -169,7 +170,7 @@ theorem affineSpaceβ_coherence {T'' T' T : BigFppfOver B S hS} (h : T'' ⟶ T')
   have key := representedModulePullbackIso_comp_inv B S hS h g
     (relativelyRepresentable_yoneda_map B S hS h) (relativelyRepresentable_yoneda_map B S hS g)
     (relativelyRepresentable_yoneda_map B S hS (h ≫ g)) M
-  show ((reprInv B S hS T'').mapIso
+  change ((reprInv B S hS T'').mapIso
       ((representedModulePullbackCompIso B S hS h g).app M)).inv = _
   symm
   refine (Iso.comp_hom_eq_id _).mp ?_
@@ -278,6 +279,7 @@ abbrev etalePullbackSystem : Stacks.ModuleColimit.PullbackSystem.{u, u, u + 1, u
   P _ M := M.IsFinitePresentation
   PL M := M.IsFinitePresentation
 
+omit [IsCofiltered I] in
 /-- `AlgebraicGeometry.Space.etalePullbackSystem` is the pullback system of the small étale sites
 of `AlgebraicGeometry.Space.etaleDiagram` and `AlgebraicGeometry.Space.etaleCone`. -/
 theorem etalePullbackSystem_eq : etalePullbackSystem B S hS V c =
@@ -290,6 +292,7 @@ projections of the pullback systems are matched with them without unfolding them
 attribute [local irreducible] modulePullback modulePullbackTriangle SheafOfModules.pullback
   _root_.AlgebraicGeometry.SmallEtale.smallEtalePullbackCompIso
 
+omit [IsCofiltered I] in
 /-- The pasting coherence of `AlgebraicGeometry.Space.affineSpaceβ` with the comparisons of the
 pullback systems `AlgebraicGeometry.Space.etalePullbackSystem` and
 `AlgebraicGeometry.Space.affineSpacePullbackSystem`, in the spelling of their projections. -/
@@ -400,7 +403,7 @@ theorem affineSpacePullbackSystem_essSurj :
   (affineSpaceTransfer B S hS V c).essSurj (etaleClauses B S hS V c hV hc).2.2
     (fun M hM => by
       have : M.IsFinitePresentationOnSite := hM
-      show M.IsQuasicoherentOnSite
+      change M.IsQuasicoherentOnSite
       infer_instance)
 
 end AlgebraicGeometry.Space

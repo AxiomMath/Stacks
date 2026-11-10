@@ -399,12 +399,12 @@ theorem chernClassKGroup_pullback {P : Scheme.{u}} {sP : P ⟶ C.S} [LocallyOfFi
     pb i (chernClassKGroup D β i) = chernClassKGroup DP (pK β) i := by
   let pbHom : UnitalSeries R →* UnitalSeries RP :=
     MonoidHom.mk' (fun a : UnitalSeries R => ⟨fun n => pb n (a.1 n), by
-        show pb 0 (a.1 0) = RP.one 0
+        change pb 0 (a.1 0) = RP.one 0
         rw [a.2]
         exact pbOne 0⟩)
       (fun a b => Subtype.ext (by
         funext n
-        show pb n (chowSeriesMul R.gradedMul a.1 b.1 n) =
+        change pb n (chowSeriesMul R.gradedMul a.1 b.1 n) =
           chowSeriesMul RP.gradedMul (fun k => pb k (a.1 k)) (fun k => pb k (b.1 k)) n
         rw [chowSeriesMul, chowSeriesMul, map_sum]
         refine Finset.sum_congr rfl ?_
@@ -417,7 +417,7 @@ theorem chernClassKGroup_pullback {P : Scheme.{u}} {sP : P ⟶ C.S} [LocallyOfFi
       (chernClassKGroupHom DP).comp
         (pK : VectorBundleKZero X →+ VectorBundleKZero P) := by
     refine AlgebraicGeometry.VectorBundleKZero.addHom_ext fun E' hE' => ?_
-    show MonoidHom.toAdditive pbHom (chernClassKGroupHom D (classOf X E')) =
+    change MonoidHom.toAdditive pbHom (chernClassKGroupHom D (classOf X E')) =
       chernClassKGroupHom DP (pK (classOf X E'))
     rw [chernClassKGroupHom_classOf, pKClassOf E' hE', chernClassKGroupHom_classOf]
     refine congrArg Additive.ofMul (Subtype.ext ?_)

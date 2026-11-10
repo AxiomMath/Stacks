@@ -173,7 +173,7 @@ theorem elementaryDistinguishedSquare_of_etale_neighborhood
   let g : Z.toFunctor ⟶ Y := l ≫ q
   have hl : l ≫ p = b := by simp [l]
   have hgf : g ≫ f = a := by
-    show (l ≫ q) ≫ f = a
+    change (l ≫ q) ≫ f = a
     rw [Category.assoc, ← pullback.condition, ← Category.assoc, hl, hb]
   have hgin : Set.range (AlgebraicGeometry.Space.pointsMap B S hS Z.toFunctor g) ⊆
       Set.range (AlgebraicGeometry.Space.pointsMap B S hS Y' j) := by
@@ -193,7 +193,7 @@ theorem elementaryDistinguishedSquare_of_etale_neighborhood
     obtain ⟨r, hrp, hrq⟩ := AlgebraicGeometry.Space.exists_point_of_isPullback B S hS hpb
       (AlgebraicGeometry.Space.pointsMap B S hS Z.toFunctor b z)
       (AlgebraicGeometry.Space.pointsMap B S hS Y' j v) (by
-        show AlgebraicGeometry.Space.pointsMap B S hS T.toFunctor T.ι
+        change AlgebraicGeometry.Space.pointsMap B S hS T.toFunctor T.ι
           (AlgebraicGeometry.Space.pointsMap B S hS Z.toFunctor b z) =
           AlgebraicGeometry.Space.pointsMap B S hS Y f
             (AlgebraicGeometry.Space.pointsMap B S hS Y' j v)
@@ -231,7 +231,7 @@ theorem elementaryDistinguishedSquare_of_etale_neighborhood
     let : Mono j := mono_of_isOpenImmersion B S hS j hj
     apply (cancel_mono j).mp
     rw [Category.assoc, hg']
-    show n ≫ (l ≫ q) = N.ι ≫ j
+    change n ≫ (l ≫ q) = N.ι ≫ j
     rw [← Category.assoc, ← hk, hkq]
   have hIso : IsIso n := isIso_fromPreimage_of_section f' Z g' hg'f hnG
   have hfX : AlgebraicGeometry.Space.IsEtale B S hS (j ≫ f ≫ A.ι) :=
@@ -267,7 +267,7 @@ private lemma sieve_mem_of_fppf
     Precoverage.generate_mem_toGrothendieck
       (show D'.presieve₀ ∈ B.precoverage V.left from ⟨D', rfl, hD'⟩)
   apply (B.topology.mem_over_iff E.sieve₀).mpr
-  show Sieve.overEquiv V (Sieve.ofArrows E.X E.f) ∈ _
+  change Sieve.overEquiv V (Sieve.ofArrows E.X E.f) ∈ _
   rw [Sieve.overEquiv_ofArrows]
   exact B.topology.superset_covering hle hD'top
 
@@ -339,13 +339,13 @@ theorem binary_coproduct_cover
         cases x with
         | inl a =>
           refine ⟨⟨true⟩, a, ?_⟩
-          show T.map i a = _
+          change T.map i a = _
           rw [← hi]
           simp only [coprodMk_inl, Scheme.Hom.comp_apply]
           rfl
         | inr d =>
           refine ⟨⟨false⟩, d, ?_⟩
-          show T.map j d = _
+          change T.map j d = _
           rw [← hj]
           simp only [coprodMk_inr, Scheme.Hom.comp_apply]
           rfl
@@ -392,7 +392,7 @@ private theorem relative_etale_of_isEtale
   have hid : P.presheaf (𝟙 (yoneda.obj E)) := by
     rw [← yoneda.map_id]
     apply MorphismProperty.relative_map
-    show Etale (T.map (𝟙 E))
+    change Etale (T.map (𝟙 E))
     rw [T.map_id]
     infer_instance
   simpa using hf E (𝟙 _) hid
@@ -442,7 +442,7 @@ theorem isEtale_of_scheme_openCover
   let a : R ⟶ E := hr.fst' g
   let b : R ⟶ Q := hr.snd g
   have hs : IsPullback (yoneda.map a) (yoneda.map b) f g := by
-    show IsPullback (yoneda.map (hr.fst' g)) (yoneda.map (hr.snd g)) f g
+    change IsPullback (yoneda.map (hr.fst' g)) (yoneda.map (hr.snd g)) f g
     rw [Functor.relativelyRepresentable.map_fst']
     exact hr.isPullback g
   let R' (i : I) := pullback a (j i)
@@ -466,7 +466,7 @@ theorem isEtale_of_scheme_openCover
       obtain ⟨i, y, hy⟩ := hcover (T.map a x)
       obtain ⟨z, hz, -⟩ := Scheme.exists_preimage_of_isPullback (hsqi i) x y hy.symm
       exact ⟨i, z, hz⟩ }
-  show Etale (T.map b)
+  change Etale (T.map b)
   let : HasRingHomProperty (@Etale.{u}) RingHom.Etale := inferInstance
   let : IsZariskiLocalAtSource (@Etale.{u}) :=
     HasRingHomProperty.instIsZariskiLocalAtSource (Q := RingHom.Etale)

@@ -169,13 +169,12 @@ private lemma piRight_baseChange_mulFamily
     TensorProduct.piRightHom R S S (fun _ : ι => M)
       ((multiplicationFamily R M x).baseChange S z) i = y i • z := by
   classical
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul a m =>
-      show (TensorProduct.piRightHom R S S (fun _ : ι => M)
+      change (TensorProduct.piRightHom R S S (fun _ : ι => M)
         (a ⊗ₜ[R] multiplicationFamily R M x m)) i = y i • (a ⊗ₜ[R] m)
       rw [TensorProduct.piRightHom_tmul]
-      show a ⊗ₜ[R] (x i • m) = y i • (a ⊗ₜ[R] m)
+      change a ⊗ₜ[R] (x i • m) = y i • (a ⊗ₜ[R] m)
       rw [TensorProduct.tmul_smul]
       apply congrArg (fun c : S => c ⊗ₜ[R] m)
       calc
@@ -211,7 +210,7 @@ private theorem essentialMono_nonzero_multiple
   intro x hx
   let e := ModuleCat.subobjectModule (ModuleCat.of R E)
   have hImage : e (Subobject.mk i) = LinearMap.range i.hom := by
-    show LinearMap.range (Subobject.mk i).arrow.hom = LinearMap.range i.hom
+    change LinearMap.range (Subobject.mk i).arrow.hom = LinearMap.range i.hom
     rw [← ModuleCat.hom_ext_iff.mp (Subobject.underlyingIso_hom_comp_eq_mk i), ModuleCat.hom_comp]
     exact LinearEquiv.range_comp (Subobject.underlyingIso i).toLinearEquiv i.hom
   let P : Submodule R E := R ∙ x
@@ -327,7 +326,7 @@ private theorem exists_injective_to_directSum_hull
     let q : J →₀ K := z.toFinsupp.mapRange root hr0
     have hgq : g0 q = z := by
       ext j
-      show iK (root (z j)) = z j
+      change iK (root (z j)) = z j
       obtain ⟨k, hk⟩ := hcoord j
       rw [← hk]
       exact Function.apply_invFun_apply
@@ -404,7 +403,7 @@ private lemma exists_tensor_torsion_equiv_finsupp
   exact ⟨J, ⟨LinearEquiv.baseChange R B _ _ (e.restrictScalars R) ≪≫ₗ
     TensorProduct.finsuppRight R B B _ _ ≪≫ₗ
     Finsupp.mapRange.linearEquiv
-      (Ideal.qoutMapEquivTensorQout B (I := IsLocalRing.maximalIdeal R)).symm⟩⟩
+      (Ideal.quotMapEquivTensorQuot B (I := IsLocalRing.maximalIdeal R)).symm⟩⟩
 
 private lemma surjective_of_injective_torsion_kernels
     {A : Type u} [CommRing A] (m : Ideal A)
@@ -585,7 +584,7 @@ private lemma exists_injective_frobenius_kernel
     have hae : e a ∈ IsLocalRing.maximalIdeal A := by
       rw [IsLocalRing.mem_maximalIdeal, mem_nonunits_iff] at ha ⊢
       exact fun h => ha (by simpa using h.map e.symm.toMonoidHom)
-    show g a ∈ (IsLocalRing.maximalIdeal A) ^ (p ^ n)
+    change g a ∈ (IsLocalRing.maximalIdeal A) ^ (p ^ n)
     rw [hgpow]
     exact Ideal.pow_mem_pow hae (p ^ n)
   let : Nontrivial (A ⧸ I) := Ideal.Quotient.nontrivial_iff.mpr hIproper

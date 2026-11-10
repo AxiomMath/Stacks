@@ -257,7 +257,7 @@ lemma moduleCat_length_eq_sum_of_filtration (a b : ℤ) (hab : a ≤ b) (ha : F 
     moduleCat_length_eq_zero_of_eq_bot _ hb, add_zero]
   let g : ℤ → ℕ∞ := fun p =>
     Module.length R (cokernel (C := ModuleCat.{v} R) (ofLE (F (p + 1)) (F p) (hF (by omega))))
-  show ∑ i ∈ Finset.range k, g (a + i) = ∑ p ∈ s, g p
+  change ∑ i ∈ Finset.range k, g (a + i) = ∑ p ∈ s, g p
   rw [← Finset.sum_image (s := Finset.range k) (g := fun i : ℕ => a + (i : ℤ)) (f := g)
     (fun i _ j _ hij => by simpa using hij)]
   refine Finset.sum_subset ?_ ?_

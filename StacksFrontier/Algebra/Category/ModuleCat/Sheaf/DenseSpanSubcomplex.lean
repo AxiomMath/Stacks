@@ -99,7 +99,7 @@ theorem mem_closure_of_mem_span {n : ℤ} {V : Cᵒᵖ} {x : (K.X n).val.obj V}
 theorem mem_closure_of_mem {n : ℤ} {i : ι} {s : (K.X n).val.obj (op (c i))}
     (hs : ⟨n, i, s⟩ ∈ G) : s ∈ (closure G n).obj (op (c i)) := by
   refine mem_closure_of_mem_span G (Submodule.subset_span ⟨i, s, 𝟙 _, hs, ?_⟩)
-  show (K.X n).val.map (𝟙 (op (c i))) s = s
+  change (K.X n).val.map (𝟙 (op (c i))) s = s
   rw [(K.X n).val.map_id]
   rfl
 
@@ -134,7 +134,7 @@ theorem d_mem_span (hG : IsDClosed G) (m n : ℤ) (V : Cᵒᵖ) (x : (K.X m).val
 theorem d_mem_closure (hG : IsDClosed G) (m n : ℤ) (V : Cᵒᵖ) (x : (K.X m).val.obj V)
     (hx : x ∈ (closure G m).obj V) : (K.d m n).val.app V x ∈ (closure G n).obj V := by
   refine J.superset_covering (fun W f hf => ?_) hx
-  show (K.X n).val.map f.op ((K.d m n).val.app V x) ∈ (span G n).obj (op W)
+  change (K.X n).val.map f.op ((K.d m n).val.app V x) ∈ (span G n).obj (op W)
   rw [← PresheafOfModules.naturality_apply]
   exact d_mem_span hG m n _ _ hf
 
@@ -237,7 +237,7 @@ theorem injective_restrictSpan (n : ℤ) (i : ι) :
     (fun j a ha => ⟨⊤, J.top_mem _, fun W b _ => by
       have hj := congrFun hxy ⟨j, a⟩
       have ha' : (K.X n).val.map a.op x.1 ∈ (span G n).obj (op (c j)) := ha
-      simp only [restrictSpan, dif_pos ha'] at hj
+      simp only [restrictSpan, dite_eq_left ha'] at hj
       split_ifs at hj with hy
       · simp only [Option.some.injEq] at hj
         rw [op_comp, PresheafOfModules.map_comp_apply, PresheafOfModules.map_comp_apply]
@@ -280,7 +280,7 @@ theorem quasiIso_incl (hG : IsDClosed G)
       (((closure G j).map b.op) ht), ?_⟩⟩
     rw [op_comp, PresheafOfModules.map_comp_apply]
     apply val_injective hG n
-    show (K.X n).val.map b.op ((K.X n).val.map a.op (val hG z')) =
+    change (K.X n).val.map b.op ((K.X n).val.map a.op (val hG z')) =
       (K.d j n).val.app (op W) ((K.X j).val.map b.op t)
     exact (d_map_eq_of_d_eq b.op hdt).symm
 

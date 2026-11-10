@@ -101,7 +101,7 @@ theorem isScalarTower_baseChange :
     IsScalarTower p.ResidueField (p.Fiber S) (p'.Fiber S') :=
   .of_algebraMap_eq fun x ↦ by
     rw [IsScalarTower.algebraMap_apply p.ResidueField p'.ResidueField (p'.Fiber S') x]
-    show _ = baseChangeAlgEquiv R R' S S' p p' (1 ⊗ₜ[p.ResidueField] _)
+    change _ = baseChangeAlgEquiv R R' S S' p p' (1 ⊗ₜ[p.ResidueField] _)
     simp [baseChangeAlgEquiv_tmul_tmul, Algebra.TensorProduct.algebraMap_apply,
       Algebra.smul_def]
 
@@ -115,7 +115,7 @@ theorem algebraMap_baseChange_comp_includeRight :
       = (Algebra.TensorProduct.includeRight : S' →ₐ[R'] p'.Fiber S').toRingHom.comp
           (algebraMap S S') := by
   ext s
-  show baseChangeAlgEquiv R R' S S' p p' (1 ⊗ₜ[p.ResidueField] (1 ⊗ₜ[R] s)) = _
+  change baseChangeAlgEquiv R R' S S' p p' (1 ⊗ₜ[p.ResidueField] (1 ⊗ₜ[R] s)) = _
   simp [baseChangeAlgEquiv_tmul_tmul]
 
 /-- The map of fibres of `Ideal.Fiber.baseChangeAlgebra` on an element of `S`: the pointwise form

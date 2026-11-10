@@ -254,7 +254,7 @@ theorem pushforwardStructureSheafRestrict_app_eq_sharp (U : (Opens X.carrier)ᵒ
     (rfl : g ≫ i = g ≫ i) U.unop x
   rw [Scheme.Hom.appLE] at h
   refine h.trans ?_
-  show (CommRingCat.Hom.hom (W.presheaf.map (𝟙 (g ⁻¹ᵁ (i ⁻¹ᵁ U.unop))).op))
+  change (CommRingCat.Hom.hom (W.presheaf.map (𝟙 (g ⁻¹ᵁ (i ⁻¹ᵁ U.unop))).op))
       ((CommRingCat.Hom.hom (g.app (i ⁻¹ᵁ U.unop))) x) = _
   simp
   rfl
@@ -361,7 +361,7 @@ theorem unitRestrict_app_smul_pullbackUnit (U : (Opens X.carrier)ᵒᵖ)
           (pullbackUnit i.toLRSHom.toShHom L U y)) =
       pullbackUnit (g ≫ i).toLRSHom.toShHom L U y :=
     unitRestrict_app_pullbackUnit g i L U y
-  show Hom.app (pullbackCompHom g i L).val
+  change Hom.app (pullbackCompHom g i L).val
       ((opensMap g.toLRSHom.toShHom).op.obj ((opensMap i.toLRSHom.toShHom).op.obj U))
       (pullbackUnit g.toLRSHom.toShHom ((pullbackFunctor i.toLRSHom.toShHom).obj L)
         ((opensMap i.toLRSHom.toShHom).op.obj U)

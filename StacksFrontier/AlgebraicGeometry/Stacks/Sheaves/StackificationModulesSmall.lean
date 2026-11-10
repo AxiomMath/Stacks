@@ -150,7 +150,8 @@ theorem exists_ofArrows_mem_inheritedTopology.{w₀, u₀, u₁, v₁, u₂, v�
   have hbase : Sieve.ofArrows (fun i : I => q.obj (F.obj (xx i).1)) (fun i => q.map (g i)) =
       Sieve.ofArrows V k := by
     apply le_antisymm
-    · refine ofArrows_le_of_forall_mem fun i => ?_
+    · rw [Sieve.ofArrows, Sieve.generate_le_iff, Presieve.ofArrows_le_iff]
+      intro i
       rw [hmap i]
       exact (Sieve.ofArrows V k).downward_closed (hk i) (eqToHom (hbaseObj i))
     · intro W a ha
@@ -163,7 +164,7 @@ theorem exists_ofArrows_mem_inheritedTopology.{w₀, u₀, u₁, v₁, u₂, v�
     · obtain ⟨i⟩ := hz
       exact hq.isStronglyCartesian (g i)
     rw [Presieve.map_ofArrows, GrothendieckTopology.mem_toPrecoverage_iff]
-    show Sieve.ofArrows (fun i : I => q.obj (F.obj (xx i).1)) (fun i => q.map (g i)) ∈
+    change Sieve.ofArrows (fun i : I => q.obj (F.obj (xx i).1)) (fun i => q.map (g i)) ∈
       J (q.obj y)
     rwa [hbase]
   rw [Functor.inheritedTopology_eq]
@@ -357,7 +358,7 @@ theorem isDenseSubsite_of_full_of_faithful [f.Full] [f.Faithful]
   refine Functor.isDenseSubsite_of_isCocontinuous f J K (CoverPreserving.of_isContinuous f J K)
     (fun U' U a b hab => ?_) (fun U' U c => ?_)
   · refine J.superset_covering (fun Z g _ => ?_) (J.top_mem U')
-    show g ≫ a = g ≫ b
+    change g ≫ a = g ≫ b
     rw [f.map_injective hab]
   · exact J.superset_covering (fun Z g _ => ⟨g ≫ f.preimage c, by simp⟩) (J.top_mem U')
 

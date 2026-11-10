@@ -166,14 +166,14 @@ theorem minorIdeal_mul_rect_le {l m o : Type*} [Fintype m]
       ext i k
       simp [Matrix.mul_apply, Matrix.submatrix]
     rw [h1]
-    show (Matrix.detRowAlternating) (fun i k => ∑ j, C (f i) j * A j (g k)) = _
+    change (Matrix.detRowAlternating) (fun i k => ∑ j, C (f i) j * A j (g k)) = _
     have h2 : (fun i => (fun k => ∑ j, C (f i) j * A j (g k)))
         = (fun i => ∑ j, C (f i) j • (fun k => A j (g k))) := by
       funext i
       funext k
       simp [Finset.sum_apply]
     rw [h2]
-    show (Matrix.detRowAlternating).toMultilinearMap
+    change (Matrix.detRowAlternating).toMultilinearMap
         (fun i => ∑ j, C (f i) j • (fun k => A j (g k))) = _
     rw [MultilinearMap.map_sum (Matrix.detRowAlternating).toMultilinearMap
         (fun i j => C (f i) j • (fun k => A j (g k)))]
@@ -262,7 +262,7 @@ theorem minorIdeal_fromBlocks_diag_isUnit_det {r s : ℕ} {ι κ : Type*}
       Finset.HasAntidiagonal.mem_antidiagonal.mpr rfl
     set F : ℕ × ℕ → Ideal R := fun p => minorIdeal P p.1 * minorIdeal T p.2
     have hval : F (r, s) = minorIdeal T s := by
-      show minorIdeal P r * minorIdeal T s = minorIdeal T s
+      change minorIdeal P r * minorIdeal T s = minorIdeal T s
       rw [minorIdeal_eq_top_of_isUnit_det P hP (by simp), Ideal.top_mul]
     exact hval ▸ Finset.single_le_sum (f := F) (fun _ _ => bot_le) hmem
 

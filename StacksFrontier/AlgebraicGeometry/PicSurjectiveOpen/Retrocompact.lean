@@ -123,7 +123,7 @@ theorem exists_isInvertible_modulePullback_iso_of_isRetrocompact
     (W := Sum.elim (fun z : U.toScheme.carrier => U.ι ''ᵁ Wu z)
       (fun y : ((U : Set X)ᶜ : Set X) => Vc y)) (N := N) ?_ ?_ ?_
   · rintro (z | y)
-    · show GeneratorSections U.toScheme.toRingedSpace N (U.ι ⁻¹ᵁ (U.ι ''ᵁ Wu z))
+    · change GeneratorSections U.toScheme.toRingedSpace N (U.ι ⁻¹ᵁ (U.ι ''ᵁ Wu z))
       rw [U.ι.preimage_image_eq (Wu z)]
       exact (hgenu z).some
     · exact (hgenc y).some

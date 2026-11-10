@@ -310,7 +310,7 @@ theorem isCoverDense_chartedPointFunctor :
   refine ⟨fun y => ?_⟩
   rw [Functor.mem_inheritedTopology_iff_functorPushforward (quotientStack G).p
     (BigFppfOver.baseOverTopology C S hS .fppf) (isFiberedInGroupoids_quotientStack G)]
-  show _ ∈ BigFppfOver.topology C S hS _
+  change _ ∈ BigFppfOver.topology C S hS _
   obtain ⟨R, hR, hess⟩ := essImage_toQuotientStack G ((quotientStack G).p.obj y) ⟨y, rfl⟩
   refine (BigFppfOver.topology C S hS).superset_covering ?_
     ((BigFppfOver.topology C S hS).bind_covering
@@ -378,7 +378,7 @@ theorem pointwiseSections_ext
   obtain ⟨f', ⟨-, hf'⟩, -⟩ := @Functor.IsStronglyCartesian.universal_property' _ _ _ _
     (quotientStack G).p _ _ _ _ k m
     ((isFiberedInGroupoids_quotientStack G).isStronglyCartesian_homLift k m) z e f hl
-  show H.val.map f.op σ = H.val.map f.op τ
+  change H.val.map f.op σ = H.val.map f.op τ
   rw [← hf']
   exact (H.val.map_comp_apply m.op f'.op σ).trans
     ((congrArg (H.val.map f'.op) (h k hk)).trans (H.val.map_comp_apply m.op f'.op τ).symm)
@@ -468,7 +468,7 @@ theorem ChartedPoint.special_restrict (c : ChartedPoint G) {T' : BigFppfOver C S
   · rfl
   · refine (pointwiseComp_arrow_of_left_identity G.toGroupoidInFunctors _ _ ?_).trans ?_
     · exact evaluationArrow_eqToHom_identity G.toGroupoidInFunctors _ rfl
-    · show G.toGroupoidInFunctors.arrows.map k.op
+    · change G.toGroupoidInFunctors.arrows.map k.op
           (G.toGroupoidInFunctors.evaluationArrowEquiv _ _ _ (eqToHom c.hpt)).1 =
         (G.toGroupoidInFunctors.evaluationArrowEquiv _ _ _ (eqToHom (c.restrict k hT').hpt)).1
       refine (congrArg (G.toGroupoidInFunctors.arrows.map k.op)
@@ -513,7 +513,7 @@ theorem quotientStackSource_comparisonMorphism (d : Space.ChartDiagram C S hS G.
     (pointwiseToQuotientStack G).map (chartDiagramPoint G G.source.hom d.U d.V d.g d.comm) := by
   unfold Space.comparisonMorphism Space.comparisonChartHom
   simp only [Iso.refl_inv, NatTrans.id_app, Category.id_comp]
-  show (pointwiseToQuotientStack G).map ((pointwiseObjectInclusion G).map _) = _
+  change (pointwiseToQuotientStack G).map ((pointwiseObjectInclusion G).map _) = _
   congr 1
 
 /-- **The comparison morphism of the triangle through the target**, on a commutative square of

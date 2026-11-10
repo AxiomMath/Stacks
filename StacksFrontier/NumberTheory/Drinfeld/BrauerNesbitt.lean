@@ -74,7 +74,7 @@ theorem exists_smul_eq_projection [IsSemisimpleModule A P] [Module.Finite k P]
     { toFun := C.projection D h
       map_add' := map_add _
       map_smul' := fun φ p => by
-        show C.projection D h (φ p) = φ (C.projection D h p)
+        change C.projection D h (φ p) = φ (C.projection D h p)
         have h1 : φ (C.projection D h p) ∈ C := hC φ (Submodule.projection_apply_mem h p)
         have h2 : p - C.projection D h p ∈ D := by
           rw [← Submodule.projection_apply_eq_zero_iff h, map_sub,
@@ -93,7 +93,7 @@ theorem exists_smul_eq_projection [IsSemisimpleModule A P] [Module.Finite k P]
 theorem isCompl_sSup_isotypicComponents_diff [IsSemisimpleModule A P] {C : Submodule A P}
     (hC : C ∈ isotypicComponents A P) : IsCompl C (sSup (isotypicComponents A P \ {C})) :=
   ⟨sSupIndep_isotypicComponents A P hC, codisjoint_iff.2 <| by
-    rw [← sSup_insert, Set.insert_diff_singleton, Set.insert_eq_of_mem hC,
+    rw [← sSup_insert, Set.insert_sdiff_singleton, Set.insert_eq_of_mem hC,
       sSup_isotypicComponents]⟩
 
 /-- A submodule of a semisimple module none of whose simple submodules lies in `C` is contained in
@@ -195,7 +195,7 @@ theorem exists_injective_of_trace_eq [IsSemisimpleModule A M] [IsSemisimpleModul
     rw [actionLin_prod, trace_prodMap', htr a, haN, map_zero, add_zero]
   have hidem : IsIdempotentElem (actionLin k P a) := by
     refine LinearMap.ext fun p => ?_
-    show a • a • p = a • p
+    change a • a • p = a • p
     rw [ha p, ha (C.projection D hcompl p),
       Submodule.projection_apply_of_mem_left hcompl (Submodule.projection_apply_mem hcompl p)]
   have h0 := hidem.eq_zero_of_trace_eq_zero hP
@@ -378,7 +378,7 @@ theorem exists_conj_of_trace_eq (ρ σ : G →* Matrix.GeneralLinearGroup (Fin n
       by rw [← LinearMap.toMatrix'_comp]; simp,
       by rw [← LinearMap.toMatrix'_comp]; simp⟩
   refine ⟨P, fun g => Units.ext (Matrix.toLin'.injective ?_)⟩
-  show Matrix.toLin' (σ g : Matrix (Fin n) (Fin n) k) =
+  change Matrix.toLin' (σ g : Matrix (Fin n) (Fin n) k) =
     Matrix.toLin' (LinearMap.toMatrix' L.toLinearMap * (ρ g : Matrix (Fin n) (Fin n) k) *
       LinearMap.toMatrix' L.symm.toLinearMap)
   rw [Matrix.toLin'_mul, Matrix.toLin'_mul, Matrix.toLin'_toMatrix', Matrix.toLin'_toMatrix',

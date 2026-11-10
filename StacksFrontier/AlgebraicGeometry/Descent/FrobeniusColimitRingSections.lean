@@ -87,7 +87,7 @@ lemma frobeniusRingPresheafDiagram_map_app_apply (n d : ℕ) (V : X.Opens) (a : 
   | zero =>
       rw [Subsingleton.elim (homOfLE (Nat.le_add_right n 0) : n ⟶ n + 0) (𝟙 n),
         CategoryTheory.Functor.map_id]
-      show a = a ^ p ^ 0
+      change a = a ^ p ^ 0
       simp
   | succ d ih =>
       have hstep := frobeniusRingPresheafDiagram_map_succ X p hX (n + d)
@@ -225,7 +225,7 @@ theorem exists_pow_eq_of_frobeniusStructureSheafι_app_eq (U : X.Opens)
   refine TopCat.Sheaf.eq_of_locally_eq' (F := X.ringSheafOnOpens)
     (fun i : (t : Finset (U : Set X)) ↦ W i.1) U (fun i ↦ f i.1) ht _ _ ?_
   · intro i
-    show X.presheaf.map (f i.1).op (a ^ p ^ t.sup k) = X.presheaf.map (f i.1).op (b ^ p ^ t.sup k)
+    change X.presheaf.map (f i.1).op (a ^ p ^ t.sup k) = X.presheaf.map (f i.1).op (b ^ p ^ t.sup k)
     rw [map_pow, map_pow]
     exact pow_pow_eq_of_le p (Finset.le_sup i.2) (hk i.1)
 
@@ -295,7 +295,7 @@ theorem exists_frobeniusStructureSheafι_app_eq [QuasiSeparatedSpace X] (U : X.O
       le_trans (Finset.le_sup (f := fun j ↦ kk i.1 j) j.2)
         (Finset.le_sup (f := fun i ↦ tfin.sup (fun j ↦ kk i j)) i.2)
     have h := pow_pow_eq_of_le p hle (hkk i.1 i.2 j.1 j.2)
-    show X.presheaf.map (TopologicalSpace.Opens.infLELeft (W i.1) (W j.1)).op
+    change X.presheaf.map (TopologicalSpace.Opens.infLELeft (W i.1) (W j.1)).op
           ((aa i.1 ^ p ^ (n - nn i.1)) ^ p ^ K)
         = X.presheaf.map (TopologicalSpace.Opens.infLERight (W i.1) (W j.1)).op
           ((aa j.1 ^ p ^ (n - nn j.1)) ^ p ^ K)

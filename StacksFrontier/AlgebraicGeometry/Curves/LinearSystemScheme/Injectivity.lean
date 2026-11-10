@@ -51,7 +51,7 @@ theorem coordMor_eq_of_coordDivisor_eq {V : Scheme.{u}} [IsAffine V] (h : V ⟶ 
     (hc' : Ideal.span (Set.range c') = ⊤)
     (hZ : coordDivisor k f L w h c = coordDivisor k f L w h c') :
     coordMor h c hc = coordMor h c' hc' := by
-  have := isQuasicoherent_of_curve k f L
+  have := isQuasicoherent_of_curve L
   have := compactSpace_of_curve k f
   have := quasiSeparatedSpace_of_curve k f
   obtain ⟨u, hu, hs⟩ := exists_isUnit_smul_eq_of_zeroScheme_eq _ hZ

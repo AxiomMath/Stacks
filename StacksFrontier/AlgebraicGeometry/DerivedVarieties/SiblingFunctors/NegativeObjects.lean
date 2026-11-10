@@ -61,7 +61,7 @@ private lemma epi_homology_mapFromCycles_chain
     apply (cancel_mono (K.iCycles b)).1
     simp only [HomologicalComplex.cyclesMap_i, u, mapFromCycles,
       HomologicalComplex.mkHomFromSingle_f, Category.assoc]
-    show ((HomologicalComplex.singleObjCyclesSelfIso (ComplexShape.up ℤ) b N).inv ≫
+    change ((HomologicalComplex.singleObjCyclesSelfIso (ComplexShape.up ℤ) b N).inv ≫
       ((HomologicalComplex.single A (ComplexShape.up ℤ) b).obj N).iCycles b ≫
         (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) b N).hom ≫
           q ≫ K.iCycles b) = q ≫ K.iCycles b
@@ -170,7 +170,7 @@ public theorem exists_negative_epimorphic_lift_comp_eq_zero
   have hsub : Subsingleton (H.obj X.obj ⟶ N) :=
     ⟨fun a a' => (cancel_epi p).1 (hqsub.elim (p ≫ a) (p ≫ a'))⟩
   refine ⟨N, g, h_epi, hsub, ?_⟩
-  show g ≫ f₀ = 0
+  change g ≫ f₀ = 0
   have hkill : α ≫ f₀ = 0 :=
     Pretriangulated.comp_distTriang_mor_zero₁₂ T hT
   simp [g, hkill]

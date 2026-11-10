@@ -144,7 +144,7 @@ theorem ker_ringMap_le_nilradical {n m : ℕ} (h : n ≤ m) :
 /-- `Spec R_n ⟶ Spec R_m`, `n ≤ m`, is a thickening. -/
 theorem isThickening_baseMap {n m : ℕ} (h : n ≤ m) : IsThickening (T.baseMap h) := by
   refine ⟨IsClosedImmersion.spec_of_surjective _ (T.surjective_ringMap h), ?_⟩
-  show Function.Surjective (PrimeSpectrum.comap (T.ringMap h).hom)
+  change Function.Surjective (PrimeSpectrum.comap (T.ringMap h).hom)
   let e := RingHom.quotientKerEquivOfSurjective (T.surjective_ringMap h)
   have hf : (T.ringMap h).hom = e.toRingHom.comp (Ideal.Quotient.mk _) := RingHom.ext fun _ ↦ rfl
   rw [hf, PrimeSpectrum.comap_comp]

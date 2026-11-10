@@ -129,7 +129,7 @@ theorem of_extensionByZero_sub {ℓ : ℕ} (hℓ : ℓ.Prime)
   have hv : ∀ q, 0 < q → Subsingleton (Sheaf.H.{u + 1} Q q) := fun q hq =>
     subsingleton_sheafH_of_isZero_etaleRestriction_of_affine_closedPoints i j hij hcl hsep Q hQ q hq
   have h₁ : ℓ • 𝟙 (openClosedShortComplex.{u, u + 1} i j hij F).X₁ = 0 := by
-    show ℓ • 𝟙 ((extensionByZero.{u, u + 1} j).obj ((etaleRestriction.{u, u + 1} j).obj F)) = 0
+    change ℓ • 𝟙 ((extensionByZero.{u, u + 1} j).obj ((etaleRestriction.{u, u + 1} j).obj F)) = 0
     exact nsmul_id_obj_eq_zero _ (nsmul_id_obj_eq_zero _ hℓF)
   refine of_shortExact_X₁_of_nsmul f hℓ hS h₁ hℓF h hv
     (fun _ => ⟨hF, finite_sheafH_zero_directImage_inverseImage i hF⟩) (fun k' _ _ _ _ q => ?_)

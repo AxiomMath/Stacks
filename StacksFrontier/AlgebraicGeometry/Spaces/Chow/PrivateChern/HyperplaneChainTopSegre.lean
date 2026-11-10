@@ -78,7 +78,7 @@ theorem isIntegralSpace_of_iso {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (e 
     isDecentSpace_of_iso B S hS e hdec, ?_⟩
   have hs := pointsMap_surjective_of_isIso B S hS e.hom
   refine (irreducibleSpace_def _).2 ?_
-  show IsIrreducible Set.univ
+  change IsIrreducible Set.univ
   rw [← hs.range_eq, ← Set.image_univ]
   exact (IrreducibleSpace.isIrreducible_univ _).image _
     (continuous_pointsMap B S hS e.hom).continuousOn
@@ -119,15 +119,15 @@ theorem properCyclePushforward_integralCycle_of_isClosedImmersion
     IntegralClosedSubspace.degreeOverClosureImage_eq_one_of_isClosedImmersion D.site D.base
       D.base_mem hX.1 (D.isDecentSpace_of_isGood sX hX) (D.isDecentSpace_of_isGood sY hY) hf V
   have hdeg : properCycleDegree D sY hY sX hX f V = 1 := by
-    rw [properCycleDegree, if_pos hdim, hone, Nat.cast_one]
+    rw [properCycleDegree, ite_eq_left hdim, hone, Nat.cast_one]
   refine Subtype.ext (funext fun W => ?_)
   rw [properPushforward_apply, integralCycle_coe,
     finsum_eq_single _ V fun V' hV' => by rw [integralCycleCoeff_eq_zero D _ hV', zero_mul],
     integralCycleCoeff_self, one_mul, integralCycle_coe, properCycleMult, hdeg, hcl]
   by_cases hW : IntegralClosedSubspace.pushforward D.site D.base D.base_mem hX.1 hY.1
       (D.isDecentSpace_of_isGood sX hX) hf V = W
-  · rw [if_pos hW, ← hW, integralCycleCoeff_self]
-  · rw [if_neg hW, integralCycleCoeff_eq_zero D _ (Ne.symm hW)]
+  · rw [ite_eq_left hW, ← hW, integralCycleCoeff_self]
+  · rw [ite_eq_right hW, integralCycleCoeff_eq_zero D _ (Ne.symm hW)]
 
 /-- Cycles of equal integral closed subspaces are equal. -/
 theorem integralCycle_congr {X : (BigFppfOver D.site D.base D.base_mem)ᵒᵖ ⥤ Type u}

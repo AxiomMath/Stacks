@@ -70,7 +70,7 @@ theorem isZero_rightDerived_toSheaf_obj_of_injective (U : C)
   have htf : ∀ X : Cᵒᵖ,
       Module.IsTorsionFree ℤ (((freeYoneda.{max u r m} J).obj U).obj.obj X) :=
     ModuleSheafCohomology.isTorsionFree_sheafify J _ (fun Y ↦ by
-      show Module.IsTorsionFree ℤ (FreeAbelianGroup (ULift.{max u r m} (Y.unop ⟶ U)))
+      change Module.IsTorsionFree ℤ (FreeAbelianGroup (ULift.{max u r m} (Y.unop ⟶ U)))
       exact Module.Flat.isTorsionFree)
   rw [AddCommGrpCat.isZero_iff_subsingleton]
   have h := ModuleSheafCohomology.Univ.ext_eq_zero_of_isTorsionFree.{max v m} J R I _ htf k

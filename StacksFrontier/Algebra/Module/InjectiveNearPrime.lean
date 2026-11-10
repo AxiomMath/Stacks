@@ -43,12 +43,10 @@ private theorem injective_lTensor_baseChange_of_injective
     TensorProduct.AlgebraTensorModule.cancelBaseChange R A S S N
   have hcomm : ∀ x, eN ((b.baseChange A).lTensor S x) = b.baseChange S (eM x) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul c y =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | add y z hy hz => simp only [tmul_add, map_add, hy, hz]
       | tmul a m =>
         simp [eM, eN, TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul]
@@ -102,8 +100,7 @@ theorem exists_notMem_injective_baseChange_of_injective_residueField
     have key : ∀ z : B ⊗[R] M, (((t : R) * s : R) • z) =
         (t : R) • ((h.baseChange B) ((b.baseChange B) z)) := by
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add z w hz hw => simp only [smul_add, map_add, hz, hw]
       | tmul c m =>
         have := congrArg (fun φ => φ m) ht
@@ -141,7 +138,7 @@ theorem exists_ne_zero_injective_baseChange_of_injective_field
     exact (isUnit_iff_ne_zero.mpr hx' : IsUnit (χ x)))
   let : Algebra κ K := ι.toAlgebra
   have : IsScalarTower R κ K := IsScalarTower.of_algebraMap_eq fun r => by
-    show χ r = ι (algebraMap R κ r)
+    change χ r = ι (algebraMap R κ r)
     exact (Ideal.ResidueField.lift_algebraMap q χ le_rfl _ r).symm
   have : Module.FaithfullyFlat κ K := inferInstance
   have hinjK : Function.Injective ((b.baseChange κ).lTensor K) :=

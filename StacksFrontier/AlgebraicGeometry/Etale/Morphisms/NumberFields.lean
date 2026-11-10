@@ -74,7 +74,7 @@ private theorem specMap_stalk_unramified_iff
   have : Q.IsPrime := q.isPrime
   let : Algebra (Localization.AtPrime p) (Localization.AtPrime Q) :=
     Localization.AtPrime.algebraOfLiesOver p Q
-  let : Localization.AtPrime.IsLiesOverAlgebra p Q := inferInstance
+  let : IsScalarTower R (Localization.AtPrime p) (Localization.AtPrime Q) := inferInstance
   trans Algebra.FormallyUnramified (Localization.AtPrime p) (Localization.AtPrime Q)
   · let := (Scheme.Spec.map f.op).stalkMap q |>.hom.toAlgebra
     rw [← RingHom.formallyUnramified_algebraMap]
@@ -129,7 +129,8 @@ theorem unramifiedAt_iff_ramificationIdx_eq_one_and_isSeparable
   let : PerfectField p.ResidueField := inferInstance
   let : Algebra (Localization.AtPrime p) (Localization.AtPrime q.asIdeal) :=
     Localization.AtPrime.algebraOfLiesOver p q.asIdeal
-  let : Localization.AtPrime.IsLiesOverAlgebra p q.asIdeal := inferInstance
+  let : IsScalarTower (RingOfIntegers K) (Localization.AtPrime p)
+      (Localization.AtPrime q.asIdeal) := inferInstance
   rw [stalkwiseUnramifiedAt_ringOfIntegersSpecMap_iff K L q]
   refine ⟨fun h ↦ ?_, fun h ↦ (Ideal.ramificationIdx_eq_one_iff (q := q.asIdeal)).1 h.1⟩
   have : Algebra.IsUnramifiedAt (RingOfIntegers K) q.asIdeal := h

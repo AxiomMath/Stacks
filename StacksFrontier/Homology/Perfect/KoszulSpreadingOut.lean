@@ -95,7 +95,7 @@ theorem nonempty_seqComplex_extendScalars_iso {A B : Type u} [CommRing A] [CommR
   simp only [Functor.mapHomologicalComplex_obj_d, Koszul.seqComplex_d]
   apply ModuleCat.ExtendScalars.hom_ext
   intro z
-  show Koszul.d (Koszul.seqDual fun k => q (f k)) j (β (j + 1) (1 ⊗ₜ[A] z)) =
+  change Koszul.d (Koszul.seqDual fun k => q (f k)) j (β (j + 1) (1 ⊗ₜ[A] z)) =
     β j (1 ⊗ₜ[A] Koszul.d (Koszul.seqDual f) j z)
   exact (KoszulC.d_baseChange_comm f β hβ j z).symm
 
@@ -108,7 +108,7 @@ theorem projective_extend_seqComplex_X {A : Type u} [CommRing A] {r : ℕ} (f : 
   by_cases h : ∃ j : ℕ, ComplexShape.embeddingDownNat.f j = i
   · obtain ⟨j, hj⟩ := h
     have hPJ : Projective ((Koszul.seqComplex f).X j) := by
-      show Projective (ModuleCat.of A (⋀[A]^j (Fin r → A)))
+      change Projective (ModuleCat.of A (⋀[A]^j (Fin r → A)))
       have : Module.Projective A (⋀[A]^j (Fin r → A)) :=
         Module.Projective.of_basis (Module.Free.chooseBasis _ _)
       infer_instance
@@ -153,7 +153,7 @@ theorem isPerfect_extend_koszul {A : Type u} [CommRing A] {r : ℕ} (f : Fin r �
     by_cases h : ∃ j : ℕ, ComplexShape.embeddingDownNat.f j = i
     · obtain ⟨j, hj⟩ := h
       have hF : Module.Finite A ((Koszul.seqComplex f).X j) := by
-        show Module.Finite A (⋀[A]^j (Fin r → A))
+        change Module.Finite A (⋀[A]^j (Fin r → A))
         infer_instance
       exact Module.Finite.equiv
         (((Koszul.seqComplex f).extendXIso ComplexShape.embeddingDownNat
@@ -450,7 +450,7 @@ theorem exists_away_koszul_description {R S : Type u} [CommRing R] [CommRing S] 
     nonempty_koszul_derived_baseChange_iso (B := Localization.AtPrime q) f₀
   have hseq : (fun i => ψ (f₀ i)) = f := by
     funext i
-    show Localization.awayLeg a (f₀ i) = f i
+    change Localization.awayLeg a (f₀ i) = f i
     rw [Localization.awayLeg_eq_localizationAwayToAtPrime q a]
     exact hf₀ i
   rw [hψ, hseq] at eKoszul
@@ -467,9 +467,9 @@ theorem exists_away_koszul_description {R S : Type u} [CommRing R] [CommRing S] 
     intro i
     have hleg : (Localization.awayLeg j.right).comp τ = ψ :=
       congrArg CommRingCat.Hom.hom (c.w j.hom)
-    show (localizationAwayToAtPrime g q hg) (τ (f₀ i)) = f i
+    change (localizationAwayToAtPrime g q hg) (τ (f₀ i)) = f i
     rw [← Localization.awayLeg_eq_localizationAwayToAtPrime q j.right]
-    show ((Localization.awayLeg j.right).comp τ) (f₀ i) = f i
+    change ((Localization.awayLeg j.right).comp τ) (f₀ i) = f i
     rw [hleg]
     exact congrFun hseq i
   have hφτ : τ.comp φ = algebraMap S (Localization.Away g) := by
@@ -537,7 +537,7 @@ theorem exists_away_koszul_description {R S : Type u} [CommRing R] [CommRing S] 
       | _ y =>
         induction z using Quotient.inductionOn' with
         | _ z =>
-          show Ideal.Quotient.mk J
+          change Ideal.Quotient.mk J
               (algebraMap (Localization.Away g₀) (Localization.Away g) (x • y) * z) =
             Ideal.Quotient.mk J
               (x • (algebraMap (Localization.Away g₀) (Localization.Away g) y * z))
@@ -550,7 +550,7 @@ theorem exists_away_koszul_description {R S : Type u} [CommRing R] [CommRing S] 
     let lcLater := comp φ τ ≪≫ StacksDraft.Perfect.derivedExtensionScalarsCongr E hφτ
     obtain ⟨eKoszulLater⟩ :=
       nonempty_koszul_derived_baseChange_iso (B := Localization.Away g) f₀
-    show Nonempty ((E κ).functor.obj K ≅
+    change Nonempty ((E κ).functor.obj K ≅
       DerivedCategory.Q.obj ((Koszul.seqComplex f').extend ComplexShape.embeddingDownNat))
     rw [hτ] at eKoszulLater
     exact ⟨(lcLater.app K).symm ≪≫ eLater ≪≫ eKoszulLater⟩

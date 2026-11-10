@@ -167,7 +167,7 @@ theorem groupoid_target : D.groupoid.target = pullback.fst D.proj G.target := rf
 
 /-- The source of the twisted base change groupoid is the action. -/
 theorem groupoid_source : D.groupoid.source = D.act := by
-  show pullback.lift (pullback.fst D.proj G.target) (pullback.snd D.proj G.target) _ ≫
+  change pullback.lift (pullback.fst D.proj G.target) (pullback.snd D.proj G.target) _ ≫
     D.descentIso.hom ≫ pullback.snd G.source D.proj = D.act
   rw [descentIso_hom_snd, pullback.lift_fst_snd, Category.id_comp]
 

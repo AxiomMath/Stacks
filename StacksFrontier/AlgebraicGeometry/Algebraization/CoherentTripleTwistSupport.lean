@@ -114,13 +114,13 @@ exact sequence of coherent triples whose left member has vanishing punctured-spe
 differ by a constant**, namely the Euler characteristic of the left member. -/
 public theorem CoherentTriple.eulerCharacteristic_twistZ_eq_add_of_shortExact_isZero {A : Type u}
     [CommRing A] [IsLocalRing A] [IsNoetherianRing A] {f : A} (hf : f ∈ maximalIdeal A)
-    (hreg : IsRegular f) {K T S : CoherentTriple A f} {φ : K.Hom T} {ψ : T.Hom S}
+    {K T S : CoherentTriple A f} {φ : K.Hom T} {ψ : T.Hom S}
     (hse : CoherentTriple.ShortExact φ ψ) (hK : IsZero K.F) (L : CoherentTriple A f)
     (hL : IsInvertibleTriple L) (n : ℤ) :
-    (T.twistZ L hL n).eulerCharacteristic hf hreg =
-      K.eulerCharacteristic hf hreg + (S.twistZ L hL n).eulerCharacteristic hf hreg := by
-  rw [CoherentTriple.eulerCharacteristic_add_of_shortExact hf hreg (hse.twistZ L hL n),
-    K.eulerCharacteristic_twistZ_eq_of_isZero hf hreg L hL hK n]
+    (T.twistZ L hL n).eulerCharacteristic =
+      K.eulerCharacteristic + (S.twistZ L hL n).eulerCharacteristic := by
+  rw [CoherentTriple.eulerCharacteristic_add_of_shortExact hf (hse.twistZ L hL n),
+    K.eulerCharacteristic_twistZ_eq_of_isZero hf L hL hK n]
 
 /-- **Polynomiality of a given degree transfers across a short exact sequence of coherent
 triples whose left member has vanishing punctured-spectrum member.** This is the reduction with
@@ -128,17 +128,16 @@ which the induction step of [Stacks, Tag 0F27] opens: the triple may be replaced
 of it by the sections of its closed-fibre member supported at the closed point. -/
 public theorem exists_polynomial_eulerCharacteristic_twistZ_of_shortExact_isZero {A : Type u}
     [CommRing A] [IsLocalRing A] [IsNoetherianRing A] {f : A} (hf : f ∈ maximalIdeal A)
-    (hreg : IsRegular f) {K T S : CoherentTriple A f} {φ : K.Hom T} {ψ : T.Hom S}
+    {K T S : CoherentTriple A f} {φ : K.Hom T} {ψ : T.Hom S}
     (hse : CoherentTriple.ShortExact φ ψ) (hK : IsZero K.F) (L : CoherentTriple A f)
     (hL : IsInvertibleTriple L) {d : ℕ} {P : Polynomial ℚ} (hP : P.natDegree ≤ d)
-    (hS : ∀ n : ℤ, (((S.twistZ L hL n).eulerCharacteristic hf hreg : ℤ) : ℚ) = P.eval (n : ℚ)) :
+    (hS : ∀ n : ℤ, (((S.twistZ L hL n).eulerCharacteristic : ℤ) : ℚ) = P.eval (n : ℚ)) :
     ∃ Q : Polynomial ℚ, Q.natDegree ≤ d ∧
-      ∀ n : ℤ, (((T.twistZ L hL n).eulerCharacteristic hf hreg : ℤ) : ℚ) = Q.eval (n : ℚ) := by
-  refine ⟨Polynomial.C ((K.eulerCharacteristic hf hreg : ℤ) : ℚ) + P, ?_, fun n => ?_⟩
+      ∀ n : ℤ, (((T.twistZ L hL n).eulerCharacteristic : ℤ) : ℚ) = Q.eval (n : ℚ) := by
+  refine ⟨Polynomial.C ((K.eulerCharacteristic : ℤ) : ℚ) + P, ?_, fun n => ?_⟩
   · exact (Polynomial.natDegree_add_le _ _).trans
       (max_le (le_trans (Polynomial.natDegree_C _).le (Nat.zero_le d)) hP)
-  · rw [CoherentTriple.eulerCharacteristic_twistZ_eq_add_of_shortExact_isZero hf hreg hse hK L
-      hL n]
+  · rw [CoherentTriple.eulerCharacteristic_twistZ_eq_add_of_shortExact_isZero hf hse hK L hL n]
     simp only [Polynomial.eval_add, Polynomial.eval_C]
     rw [← hS n]
     push_cast

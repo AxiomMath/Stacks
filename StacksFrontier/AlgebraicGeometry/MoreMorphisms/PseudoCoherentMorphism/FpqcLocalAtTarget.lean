@@ -101,7 +101,7 @@ private lemma faithfullyFlat_mvPolynomialMap {R T : Type u} {σ : Type v} [CommR
   have : Module.FaithfullyFlat P (TensorProduct R P T) := inferInstance
   have : Module.FaithfullyFlat P Q := Module.FaithfullyFlat.of_linearEquiv P (TensorProduct R P T)
     (Algebra.IsPushout.equiv R P T Q).toLinearEquiv.symm
-  show (algebraMap P Q).FaithfullyFlat
+  change (algebraMap P Q).FaithfullyFlat
   exact faithfullyFlat_algebraMap_iff.mpr inferInstance
 
 open StacksDraft.PseudoCoherence in

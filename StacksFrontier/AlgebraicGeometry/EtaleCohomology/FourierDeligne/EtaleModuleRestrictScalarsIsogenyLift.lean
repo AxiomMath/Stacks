@@ -55,7 +55,7 @@ theorem pow_nsmul_smul_of_almostLinear {A B : EtaleModules.{u, 0} Λ' X} {ℓ t 
     (etaleModuleRestrictScalars ρ X).obj B => (φ.hom.app U).hom x) (hF l)
   change ℓ ^ t • (F.hom.app U).hom (l • x) =
     ℓ ^ t • (l • (show B.obj.obj U from (F.hom.app U).hom x)) at h
-  show ℓ ^ t • (F.hom.app U).hom (l • x) =
+  change ℓ ^ t • (F.hom.app U).hom (l • x) =
     l • (show B.obj.obj U from ℓ ^ t • (F.hom.app U).hom x)
   rw [h, smul_comm]
   rfl

@@ -125,7 +125,7 @@ public theorem exists_ringEquiv_henselization_localization_atMaximalIdeal
   have hgf : g.comp f = RingHom.id H := by
     apply henselization_ringHom_eq_id
     rw [RingHom.comp_assoc, hf.1]
-    show (g.comp (algebraMap L K)).comp (algebraMap R L) = algebraMap R H
+    change (g.comp (algebraMap L K)).comp (algebraMap R L) = algebraMap R H
     rw [hg.1, ht]
   have hft : f.comp t = algebraMap L K := by
     apply IsLocalization.ringHom_ext m.primeCompl
@@ -197,7 +197,7 @@ public theorem exists_ringEquiv_henselization_iInf_pi_localization
     let d := RingEquiv.piCongrLeft (fun i => (henselization R (m i) : Type u)) b.symm
     refine ⟨(a.trans d).trans (RingEquiv.piCongrRight c), ?_⟩
     intro r i
-    show c i (d (a (algebraMap R H r)) i) = _
+    change c i (d (a (algebraMap R H r)) i) = _
     rw [← hc i r]
     congr 1
     have har : a (algebraMap R H r) =

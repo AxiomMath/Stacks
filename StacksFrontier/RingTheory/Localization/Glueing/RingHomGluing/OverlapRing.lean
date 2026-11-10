@@ -193,7 +193,7 @@ theorem overlapEquivRight_canonicalAlphaIJ (i j : Fin r)
       (IsLocalizedModule.map_units
         (LocalizedModule.mkLinearMap (cechSub x ({i} ∪ {j})) (ULift.{t} A))) ?_
     ext a
-    show overlapEquivRight x i j (canonicalAlphaIJ x (liftedBase.{u, t} A) i j
+    change overlapEquivRight x i j (canonicalAlphaIJ x (liftedBase.{u, t} A) i j
       (LocalizedModule.mkLinearMap (cechSub x ({j} : Finset (Fin r))) _
         (canonicalLocalMk x (liftedBase.{u, t} A) i a))) = _
     rw [canonicalAlphaIJ_mk]

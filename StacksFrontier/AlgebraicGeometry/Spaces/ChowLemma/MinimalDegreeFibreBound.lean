@@ -110,7 +110,7 @@ theorem subsingleton_points_yoneda_of_isoSpec_toScheme (T : BigFppfOver B S hS)
     (eT : (BigFppfOver.toScheme B S hS).obj T ≅ Spec (CommRingCat.of K)) :
     Subsingleton (points B S hS (yoneda.obj T)) := by
   have h1 : Subsingleton (Spec (CommRingCat.of K)) := by
-    show Subsingleton (PrimeSpectrum K); infer_instance
+    change Subsingleton (PrimeSpectrum K); infer_instance
   have h2 : Subsingleton ((BigFppfOver.toScheme B S hS).obj T) :=
     ⟨fun x y ↦ eT.hom.injective (h1.elim _ _)⟩
   exact (pointsEquivScheme B S hS T).subsingleton

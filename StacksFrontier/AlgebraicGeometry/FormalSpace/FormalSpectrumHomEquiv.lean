@@ -130,7 +130,7 @@ public theorem stageSection_desc_stageCocone
     (hx : IsCompatibleStageFamily D F x)
     (J : { I : Ideal A // TopologicalRing.IsWeakIdealOfDefinition I }) :
     stageSection D F (colimit.desc (formalSpectrumDiagram D) (stageCocone D F hx)) J = x J := by
-  show Sheaf.sectionEquiv (BigFppfOver.topology B S hS)
+  change Sheaf.sectionEquiv (BigFppfOver.topology B S hS)
       (formalSpectrumInclusion D (OrderDual.toDual J) ≫
         colimit.desc (formalSpectrumDiagram D) (stageCocone D F hx)) = x J
   rw [colimit.ι_desc]

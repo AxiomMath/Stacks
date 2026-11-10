@@ -273,11 +273,11 @@ theorem etaleLocalRingModelEval_algebraMap
   let T := chartHenselizationTower B S hS Y.1 (affineEtaleNeighborhood Y y)
   let k := ResidueField (chartLocalRing B S hS Y.1 (affineEtaleNeighborhood Y y))
   let K := (chartGeometricPoint (affineEtaleNeighborhood Y y)).residueField
-  show ((T.strictHenselizationResidueEquiv.symm
+  change ((T.strictHenselizationResidueEquiv.symm
     (residue T.strictHenselization (algebraMap _ T.strictHenselization r)) : separableClosure k K) :
       K) = _
   rw [← T.strictHenselizationResidueEquiv_residue r, RingEquiv.symm_apply_apply]
-  show algebraMap k K (residue _ r) = _
+  change algebraMap k K (residue _ r) = _
   exact congrArg (fun φ : (chartScheme (affineEtaleNeighborhood Y y).chart).presheaf.stalk
       (chartPoint B S hS Y.1 (affineEtaleNeighborhood Y y)) ⟶ CommRingCat.of K => φ r)
     (Scheme.residue_descResidueField
@@ -304,7 +304,7 @@ theorem etaleLocalRingSpecGeometricPoint_comp :
     exact etaleLocalRingModelEval_algebraMap Y y _
   rw [etaleLocalRingSpecGeometricPoint, etaleLocalRingSpecToChartScheme, ← Spec.map_comp_assoc,
     hring, Spec.map_comp, Category.assoc, ← IsAffineOpen.fromSpec_top]
-  show Spec.map (Scheme.stalkClosedPointTo h) ≫ (isAffineOpen_top U).fromSpecStalk trivial = h
+  change Spec.map (Scheme.stalkClosedPointTo h) ≫ (isAffineOpen_top U).fromSpecStalk trivial = h
   exact (congrArg (Spec.map (Scheme.stalkClosedPointTo h) ≫ ·)
     (IsAffineOpen.fromSpecStalk_eq_fromSpecStalk _ _)).trans
     (Scheme.Spec_stalkClosedPointTo_fromSpecStalk h)

@@ -99,7 +99,7 @@ public theorem exists_small_colimit_of_injective {I : Type v} [Preorder I] [None
     apply Types.FilteredColimit.isColimitOf'
     · intro y
       refine ⟨a (Sum.inr ⟨k, y⟩), ?_⟩
-      show ∃ z : (A k).obj (e (a (Sum.inr ⟨k, y⟩))),
+      change ∃ z : (A k).obj (e (a (Sum.inr ⟨k, y⟩))),
         y = ((c k).ι.app (e (a (Sum.inr ⟨k, y⟩)))).hom z
       rw [show e (a (Sum.inr ⟨k, y⟩)) = s k y from congrFun ha (Sum.inr ⟨k, y⟩)]
       exact ⟨x k y, (hx k y).symm⟩
@@ -165,7 +165,7 @@ public theorem exists_small_limit_of_affine_of_dominant
   let E := e.monotone.functor.op
   let (i : Jᵒᵖ) (j : Jᵒᵖ) (b : i ⟶ j) :
       IsAffineHom (((E ⋙ D) ⋙ Over.forget S).map b) := by
-    show IsAffineHom ((D.map (E.map b)).left)
+    change IsAffineHom ((D.map (E.map b)).left)
     have : IsAffineHom ((D.map (E.map b)).left ≫ (D.obj (E.obj j)).hom) := by
       rw [(D.map (E.map b)).w]
       infer_instance

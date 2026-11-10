@@ -773,7 +773,8 @@ private theorem koszulIdealComparison_homology_proInverse_zero
     (ModuleCat.of R ↥(I ^ (n + 1)))
   let ε := fun n ↦ koszulIdealComparison (fun i ↦ f i ^ (n + 1))
     (I ^ (n + 1)) (generatorPower_mem_idealPower f n)
-  obtain ⟨k, hnk, hk⟩ := NoetherianKoszulProIso.koszulPowerTransition_homologyMap_eq_zero_pos f n 1 (by omega)
+  obtain ⟨k, hnk, hk⟩ :=
+    NoetherianKoszulProIso.koszulPowerTransition_homologyMap_eq_zero_pos f n 1 (by omega)
   obtain ⟨t, ht⟩ := exists_factor_koszulIdealHomology
     (NoetherianKoszulProIso.koszulPowerTransition f k n hnk) hk
   obtain ⟨m, hkm, hm⟩ := exists_idealPower_le_generatorPowers f k
@@ -818,7 +819,8 @@ private theorem koszulIdealComparison_homology_proInverse_zero
     ext x
     rfl
   have hUT : U ≫ T =
-      koszulIdealComplexMap (NoetherianKoszulProIso.koszulPowerTransition f m n (hnk.trans hkm)) := by
+      koszulIdealComplexMap
+        (NoetherianKoszulProIso.koszulPowerTransition f m n (hnk.trans hkm)) := by
     dsimp only [U, T]
     rw [← koszulIdealComplexMap_comp, koszulPowerTransition_comp]
   refine ⟨m, hnk.trans hkm, inv (homologyZeroπ (L m)) ≫ c ≫ t, ?_, ?_⟩
@@ -914,7 +916,8 @@ private theorem koszulIdealComplexSystem_homology_transition_eq_zero_neg
   let j : ℕ := (-i).toNat
   have hj : 0 < j := by dsimp [j]; omega
   have hji : i = -(j : ℤ) := by dsimp [j]; omega
-  obtain ⟨m, h, hzero⟩ := NoetherianKoszulProIso.koszulPowerTransition_homologyMap_eq_zero_pos f n (j + 1) (by omega)
+  obtain ⟨m, h, hzero⟩ :=
+    NoetherianKoszulProIso.koszulPowerTransition_homologyMap_eq_zero_pos f n (j + 1) (by omega)
   refine ⟨m, h, ?_⟩
   rw [hji, koszulIdealComplexSystem_map_homOfLE]
   exact derivedExtendHomology_map_eq_zero _ j
@@ -2243,7 +2246,6 @@ lemma singleQuotientTensorIsoReduction_naturality
       (singleQuotientTensorIsoReduction I P).hom ≫
         (NatTrans.mapHomologicalComplex (reductionNatTrans h) (ComplexShape.up ℤ)).app P := by
   have hn := singleQuotientTensorIsoReduction_inv_naturality h (𝟙 P)
-  try simp only [Functor.map_id, Category.comp_id] at hn
   change HomologicalComplex.tensorHom
       ((CochainComplex.singleFunctor _ 0).map (quotientModuleMap h)) (𝟙 P) ≫ _ = _
   apply (cancel_epi (singleQuotientTensorIsoReduction I P).inv).1
@@ -2311,8 +2313,10 @@ private noncomputable def quotientPowerTensorIsoReduction
         (generatorPowers_antitone f) P :=
     NatTrans.ofOpSequence (fun n => (quotientTensorDerivedIsoReduction _ P hP).hom)
       (fun n => by
-        change (tensorRightDerived P hP).map ((NoetherianKoszulProIso.quotientPowerSystem f).map _) ≫ _ = _
-        simp only [NoetherianKoszulProIso.quotientPowerSystem, Functor.ofOpSequence_map_homOfLE_succ]
+        change (tensorRightDerived P hP).map
+          ((NoetherianKoszulProIso.quotientPowerSystem f).map _) ≫ _ = _
+        simp only [NoetherianKoszulProIso.quotientPowerSystem,
+          Functor.ofOpSequence_map_homOfLE_succ]
         rw [quotientPowerTransition_eq]
         exact quotientTensorDerivedIsoReduction_naturality _ P hP)
   have : ∀ n, IsIso (η.app n) := fun n => (quotientTensorDerivedIsoReduction _ P hP).isIso_hom
@@ -2421,7 +2425,8 @@ private noncomputable def koszulAdicComparison
     {r : ℕ} (f : Fin r → A) (P : CochainComplex (ModuleCat.{u} A) ℤ) (hP : P.KFlat) :
     NoetherianKoszulProIso.koszulPowerSystem f ⋙ tensorRightDerived P hP ⟶
       adicReductionSystem (Ideal.span (Set.range f)) P :=
-  Functor.whiskerRight (NoetherianKoszulProIso.koszulQuotientComparison f) (tensorRightDerived P hP) ≫
+  Functor.whiskerRight (NoetherianKoszulProIso.koszulQuotientComparison f)
+      (tensorRightDerived P hP) ≫
     (quotientPowerTensorIsoReduction f P hP).hom ≫
       idealReductionComparison (generatorPowers_antitone f)
         (fun _ _ h => Ideal.pow_le_pow_right (Nat.add_le_add_right h 1))
@@ -3703,8 +3708,7 @@ private lemma range_idealPowerMultiplication_f
       I ^ (n + 1) • (⊤ : Submodule A (M.X i)) := by
   apply le_antisymm
   · rintro x ⟨t, rfl⟩
-    induction t using TensorProduct.induction_on with
-    | zero => exact Submodule.zero_mem _
+    induction t using TensorProduct.inductionOn with
     | tmul x r => exact Submodule.smul_mem_smul r.property (Submodule.mem_top)
     | add x y hx hy => simpa only [_root_.map_add] using Submodule.add_mem _ hx hy
   · refine Submodule.smul_le.mpr fun r hr x _ => ?_

@@ -344,7 +344,7 @@ theorem isOpenImmersion_toScheme_affineNhdsSiteSystem_map (s : S)
     {i j : (Scheme.AffineNhds S s)ᵒᵖ} (g : i ⟶ j) :
     AlgebraicGeometry.IsOpenImmersion
       ((BigFppfOver.toScheme B S hS).map ((affineNhdsSiteSystem B S hS s).map g)) := by
-  show AlgebraicGeometry.IsOpenImmersion
+  change AlgebraicGeometry.IsOpenImmersion
     (S.homOfLE (show i.unop.opens ≤ j.unop.opens from leOfHom g.unop))
   infer_instance
 
@@ -391,7 +391,7 @@ theorem schematicLocus_eq_top_of_forall_mem_range_points (hX : IsAlgebraicSpace 
     (𝟙 X)).2 (fun q _ => hcov q)
   refine top_unique fun T x _ => ?_
   have hval : (g.app T x).val = x := congrArg (fun α : X ⟶ X => α.app T x) hg
-  show x ∈ (schematicLocus B S hS X).obj T
+  change x ∈ (schematicLocus B S hS X).obj T
   rw [← hval]
   exact (g.app T x).property
 

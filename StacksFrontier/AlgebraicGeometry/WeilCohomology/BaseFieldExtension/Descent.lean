@@ -123,7 +123,7 @@ theorem pull_κ_γ_diagonalClass (X : (SmoothProjectiveScheme k).FullSubcategory
   change 𝔚'.γ _ d _ = _ at h1
   rw [Φ.γ_codimensionChowBaseChange] at h1
   rw [← FirstChernClassData.κ_pullTw]
-  show 𝔚'.κ _ d (𝔚'.pullTw (baseChangeProdIso X X).hom d (𝔚'.γ _ d _)) = _
+  change 𝔚'.κ _ d (𝔚'.pullTw (baseChangeProdIso X X).hom d (𝔚'.γ _ d _)) = _
   rw [← h1, κ_twist]
 
 include Φ in

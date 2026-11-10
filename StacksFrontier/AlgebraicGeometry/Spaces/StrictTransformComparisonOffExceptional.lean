@@ -262,7 +262,7 @@ theorem preimage_exceptionalPreimage_eq_preimage_centre {Y : AlgebraicSpaces B S
       (strictTransformPullbackToBlowUp B S hS f b).hom ≫ b.hom :=
     congrArg (·.hom) (AlgebraicSpaces.isPullback_fiberProduct B S hS f b).w
   rw [hsq]
-  show ((Z.1.preimage b.hom).preimage
+  change ((Z.1.preimage b.hom).preimage
     (strictTransformPullbackToBlowUp B S hS f b).hom).preimage g = _
   rw [← Subfunctor.preimage_comp, ← Subfunctor.preimage_comp, Category.assoc]
 
@@ -410,7 +410,7 @@ theorem isIso_fromPreimage_exceptionalPreimageComplement_of_isBlowupAlong
   -- The section lands in the inverse image of the complement.
   have hrange : Subfunctor.range k.hom ≤ U.1.preimage i.hom := by
     rintro T x ⟨v, rfl⟩
-    show i.hom.app T (k.hom.app T v) ∈ U.1.obj T
+    change i.hom.app T (k.hom.app T v) ∈ U.1.obj T
     exact (congrArg (fun φ => φ.app T v) hkhom) ▸ v.2
   set inv : (exceptionalPreimageComplementSpace B S hS f b Z).1 ⟶ P.1 :=
     Subfunctor.lift k.hom hrange with hinv
@@ -426,7 +426,7 @@ theorem isIso_fromPreimage_exceptionalPreimageComplement_of_isBlowupAlong
   have hyP : ((ObjectProperty.homMk (U.1.preimage i.hom).ι : P ⟶ X'') ≫ b'').hom =
       ((U.1.preimage i.hom).ι ≫ i.hom) ≫
         (strictTransformPullbackToSource B S hS f b).hom := by
-    show (U.1.preimage i.hom).ι ≫ b''.hom = _
+    change (U.1.preimage i.hom).ι ≫ b''.hom = _
     rw [Category.assoc, hb''hom]
   have hPcart : IsPullbackDefined B S hS
       ((ObjectProperty.homMk (U.1.preimage i.hom).ι : P ⟶ X'') ≫ b'')
@@ -441,7 +441,7 @@ theorem isIso_fromPreimage_exceptionalPreimageComplement_of_isBlowupAlong
     have h₁ : (ObjectProperty.homMk (p ≫ k.hom) : P ⟶ X'') ≫ b'' =
         (ObjectProperty.homMk (U.1.preimage i.hom).ι : P ⟶ X'') ≫ b'' := by
       refine ObjectProperty.hom_ext _ ?_
-      show (p ≫ k.hom) ≫ b''.hom = (U.1.preimage i.hom).ι ≫ b''.hom
+      change (p ≫ k.hom) ≫ b''.hom = (U.1.preimage i.hom).ι ≫ b''.hom
       rw [← hb''hom, Category.assoc, ← Category.assoc k.hom, hkhom, ← Category.assoc p, hfac,
         Category.assoc]
     exact congrArg (·.hom) ((huniq _ h₁).trans (huniq _ rfl).symm)

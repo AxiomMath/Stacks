@@ -14,6 +14,7 @@ This module re-exports its three parts:
   that of the canonical map of [Stacks, Tag 07J6];
 * `StacksFrontier.AlgebraicGeometry.Crystalline.FirstOrderIdealAffine.AmbientComparison` — the
   comparison map `p₀^* F_T ⟶ F_{T'}` on ambient schemes and the two spellings of `D' ⊗_D Mod`;
-* `StacksFrontier.AlgebraicGeometry.Crystalline.FirstOrderIdealAffine.AffineChain` — the affine chain
+* `StacksFrontier.AlgebraicGeometry.Crystalline.FirstOrderIdealAffine.AffineChain` — the affine
+  chain
   and the bijectivity of the base-change map on an object with affine ambient scheme.
 -/

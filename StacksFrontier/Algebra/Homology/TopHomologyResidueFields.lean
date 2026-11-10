@@ -83,7 +83,7 @@ theorem epi_of_forall_epi_extendScalars_residueField {N M : ModuleCat.{u} A} [Mo
           map_add' := fun _ _ => rfl
           map_smul' := by
             intro r c
-            show algebraMap A k r * (show k from c) = r • (show k from c)
+            change algebraMap A k r * (show k from c) = r • (show k from c)
             exact (Algebra.smul_def r (show k from c)).symm }
       have : Subsingleton ((ModuleCat.restrictScalars (algebraMap A k)).obj (ModuleCat.of k k) ⊗[A]
           Q) := ModuleCat.subsingleton_of_isZero hQ

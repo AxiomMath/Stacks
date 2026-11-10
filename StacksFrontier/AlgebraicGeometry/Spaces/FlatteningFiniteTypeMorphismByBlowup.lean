@@ -143,7 +143,7 @@ theorem
       has
   have hcomm : u ≫ f = subspaceInclusion B S hS Y W ≫ g := by
     refine ObjectProperty.hom_ext _ ?_
-    show (e.inv ≫ a) ≫ f.hom = W.1.ι ≫ g₀
+    change (e.inv ≫ a) ≫ f.hom = W.1.ι ≫ g₀
     rw [Category.assoc, ← hig, ← Category.assoc, he]
   -- `W_U ⟶ U` is flat and locally of finite presentation: it is étale over `X_U ⟶ U`
   have hWU := (preimageClosedSubspace (restrictOverι g U) W).2.1

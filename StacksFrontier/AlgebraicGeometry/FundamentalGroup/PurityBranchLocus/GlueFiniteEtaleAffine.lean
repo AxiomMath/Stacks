@@ -108,14 +108,14 @@ private lemma exists_finiteEtale_map_of_fullyFaithful {V W T D : Scheme.{u}} (j 
   let p : D ≅ pullback (pullback.snd B.hom k) j :=
     hb.isoPullback ≪≫ (pullbackLeftPullbackSndIso B.hom k j).symm
   have hp : p.hom ≫ pullback.snd (pullback.snd B.hom k) j = s := by
-    show (hb.isoPullback.hom ≫ (pullbackLeftPullbackSndIso B.hom k j).inv) ≫ _ = s
+    change (hb.isoPullback.hom ≫ (pullbackLeftPullbackSndIso B.hom k j).inv) ≫ _ = s
     rw [Category.assoc, pullbackLeftPullbackSndIso_inv_snd_snd, hb.isoPullback_hom_snd]
   have hp' : p.hom ≫ pullback.fst (pullback.snd B.hom k) j ≫ pullback.fst B.hom k = b := by
-    show (hb.isoPullback.hom ≫ (pullbackLeftPullbackSndIso B.hom k j).inv) ≫ _ = b
+    change (hb.isoPullback.hom ≫ (pullbackLeftPullbackSndIso B.hom k j).inv) ≫ _ = b
     rw [Category.assoc, pullbackLeftPullbackSndIso_inv_fst, hb.isoPullback_hom_fst]
   let e : (finiteEtaleBaseChange j).obj A ≅ (finiteEtaleBaseChange j).obj F :=
     MorphismProperty.Over.isoMk (ha.isoPullback.symm ≪≫ p) (by
-      show (ha.isoPullback.inv ≫ p.hom) ≫ pullback.snd (pullback.snd B.hom k) j =
+      change (ha.isoPullback.inv ≫ p.hom) ≫ pullback.snd (pullback.snd B.hom k) j =
         pullback.snd A.hom j
       rw [Category.assoc, hp, ha.isoPullback_inv_snd])
   let e' := H.preimageIso e
@@ -123,7 +123,7 @@ private lemma exists_finiteEtale_map_of_fullyFaithful {V W T D : Scheme.{u}} (j 
   let f : A.left ⟶ B.left := v ≫ pullback.fst B.hom k
   have hv : v ≫ pullback.snd B.hom k = A.hom := e'.hom.w
   have hf : f ≫ B.hom = A.hom ≫ k := by
-    show (v ≫ pullback.fst B.hom k) ≫ B.hom = A.hom ≫ k
+    change (v ≫ pullback.fst B.hom k) ≫ B.hom = A.hom ≫ k
     rw [Category.assoc, pullback.condition, ← Category.assoc, hv]
   let eS : A.left ≅ pullback B.hom k :=
     (MorphismProperty.Over.forget finiteEtale ⊤ V ⋙ Over.forget V).mapIso e'
@@ -160,7 +160,7 @@ private lemma finiteEtale_toBase_of_relativeGluingData {X : Scheme.{u}} {𝒰 : 
   have key (P : MorphismProperty Scheme.{u}) [IsZariskiLocalAtTarget P]
       (hP : ∀ i, P (d.natTrans.app i)) : P d.toBase := by
     refine IsZariskiLocalAtTarget.of_openCover (P := P) 𝒰 fun i ↦ ?_
-    show P (pullback.snd d.toBase (𝒰.f i))
+    change P (pullback.snd d.toBase (𝒰.f i))
     obtain ⟨e, he⟩ := hloc i
     rw [← MorphismProperty.cancel_left_of_respectsIso P e.hom _, he]
     exact hP i
@@ -321,7 +321,7 @@ private lemma exists_isPullback_of_relativeGluingData {X : Scheme.{u}} (U : X.Op
   have hcompat {i l : (infAffineCoverPullback U g).I₀} (h : i ⟶ l) :
       (infAffineCoverPullback U g).trans h ≫ (a l ≫ d.cover.f l) =
         a i ≫ d.cover.f i := by
-    show infAffineTrans U g (leOfHom h) ≫ (a l ≫ d.cover.f l) = _
+    change infAffineTrans U g (leOfHom h) ≫ (a l ≫ d.cover.f l) = _
     calc infAffineTrans U g (leOfHom h) ≫ (a l ≫ d.cover.f l)
         = (infAffineTrans U g (leOfHom h) ≫ a l) ≫ d.cover.f l := (Category.assoc _ _ _).symm
       _ = (a i ≫ d.functor.map (homOfLE (leOfHom h))) ≫ d.cover.f l :=
@@ -337,7 +337,7 @@ private lemma exists_isPullback_of_relativeGluingData {X : Scheme.{u}} (U : X.Op
   refine ⟨d.glued, d.toBase, v, finiteEtale_toBase_of_relativeGluingData d hd, ?_⟩
   apply Scheme.isPullback_of_openCover g v U.ι d.toBase (infAffineCover U)
   intro i
-  show IsPullback (pullback.snd g (X.homOfLE (inf_le_left : U ⊓ i.1 ≤ U)))
+  change IsPullback (pullback.snd g (X.homOfLE (inf_le_left : U ⊓ i.1 ≤ U)))
     (pullback.fst g (X.homOfLE (inf_le_left : U ⊓ i.1 ≤ U)) ≫ v)
     (X.homOfLE (inf_le_left : U ⊓ i.1 ≤ U) ≫ U.ι) d.toBase
   rw [hv i, show X.homOfLE (inf_le_left : U ⊓ i.1 ≤ U) ≫ U.ι =

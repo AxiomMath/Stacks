@@ -176,7 +176,7 @@ morphism of the blowup gives `Spec` of `R → R[I/a]`. -/
 theorem blowUpSpecChart_toSpec (a : R) (ha : a ∈ I) :
     blowUpSpecChart I a ha ≫ toSpec I =
       Spec.map (CommRingCat.ofHom (algebraMap R (affineBlowup I a))) := by
-  show Spec.map (reesAwayEquivAffineBlowup I a ha).toCommRingCatIso.hom ≫
+  change Spec.map (reesAwayEquivAffineBlowup I a ha).toCommRingCatIso.hom ≫
       Proj.awayι (reesGrading I) (reesDegOne I ha) (reesDegOne_mem_reesGrading I ha) Nat.one_pos ≫
       (Proj.toSpecZero (reesGrading I) ≫
         Spec.map (CommRingCat.ofHom (reesGradingZeroEquiv I).toRingHom)) = _
@@ -252,7 +252,7 @@ theorem smul_homology_extendScalars_eq_zero (M : ModuleCat.{u} A) (i : ℕ) (r :
     (algebraMap A B r) • x = 0 := by
   have e := restrictHomologyExtendScalarsTorIso A B M i
   apply (ConcreteCategory.bijective_of_isIso e.hom).1
-  show e.hom.hom ((algebraMap A B r) • x) = e.hom.hom 0
+  change e.hom.hom ((algebraMap A B r) • x) = e.hom.hom 0
   exact (e.hom.hom.map_smul r x).trans
     ((Module.mem_annihilator.mp hr (e.hom x)).trans (map_zero _).symm)
 
@@ -318,7 +318,7 @@ theorem appLE_appTop_ΓSpecIso_inv (hι' : ι ≫ p = Spec.map φ) (r : R) (V : 
     rw [← ConcreteCategory.comp_apply, ← Scheme.Hom.comp_appTop, hι',
       ← ConcreteCategory.comp_apply, ← Scheme.ΓSpecIso_inv_naturality,
       ConcreteCategory.comp_apply]
-  show (Spec S).presheaf.map _ (ι.appTop (p.appTop _)) = _
+  change (Spec S).presheaf.map _ (ι.appTop (p.appTop _)) = _
   rw [h2]
   rfl
 
@@ -334,7 +334,7 @@ theorem tilde_smul_section_eq_zero {R : CommRingCat.{u}} (M : ModuleCat.{u} R) (
     (ha : ∀ m : M, a • m = 0) (U : (Spec R).Opens) (x : Γ(tilde M, U)) : a • x = 0 := by
   apply Subtype.ext
   funext q
-  show (algebraMap R (Localization.AtPrime q.val.asIdeal) a) • x.val q = 0
+  change (algebraMap R (Localization.AtPrime q.val.asIdeal) a) • x.val q = 0
   rw [algebraMap_smul]
   induction x.val q using LocalizedModule.induction_on with
   | h m s => simp [LocalizedModule.smul'_mk, ha]
@@ -398,7 +398,7 @@ theorem exists_pow_le_annihilator_tor_affineBlowup {n : ℕ} (g : Fin (n + 1) �
   have hrange : Set.range g' = Set.range g := by
     have hg'eq : g' = g ∘ e := by
       funext j
-      show (if (j : ℕ) = 0 then g k else g (e j)) = g (e j)
+      change (if (j : ℕ) = 0 then g k else g (e j)) = g (e j)
       by_cases hj : (j : ℕ) = 0
       · obtain rfl : j = 0 := Fin.ext hj
         simp [he]

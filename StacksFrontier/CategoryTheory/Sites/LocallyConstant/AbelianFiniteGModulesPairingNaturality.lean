@@ -169,7 +169,7 @@ theorem sectionsPairing_map_left {R R' S T : CommGrp (Sheaf J (Type w))} (φ : R
       Sites.AbelianSheaf.sectionsPairing hβ' U x y := by
   let : (sheafToPresheaf J (Type w)).Braided := .ofChosenFiniteProducts _
   subst h
-  show ((Functor.LaxMonoidal.μ (sheafToPresheaf J (Type w)) R.X S.X ≫
+  change ((Functor.LaxMonoidal.μ (sheafToPresheaf J (Type w)) R.X S.X ≫
       (sheafToPresheaf J (Type w)).map β).app U _) =
     ((Functor.LaxMonoidal.μ (sheafToPresheaf J (Type w)) R'.X S.X ≫
       (sheafToPresheaf J (Type w)).map (φ.hom.hom.hom ▷ S.X ≫ β)).app U _)
@@ -188,7 +188,7 @@ theorem sectionsPairing_map_right {R S S' T : CommGrp (Sheaf J (Type w))} (φ : 
       Sites.AbelianSheaf.sectionsPairing hβ' U x y := by
   let : (sheafToPresheaf J (Type w)).Braided := .ofChosenFiniteProducts _
   subst h
-  show ((Functor.LaxMonoidal.μ (sheafToPresheaf J (Type w)) R.X S.X ≫
+  change ((Functor.LaxMonoidal.μ (sheafToPresheaf J (Type w)) R.X S.X ≫
       (sheafToPresheaf J (Type w)).map β).app U _) =
     ((Functor.LaxMonoidal.μ (sheafToPresheaf J (Type w)) R.X S'.X ≫
       (sheafToPresheaf J (Type w)).map (R.X ◁ φ.hom.hom.hom ≫ β)).app U _)

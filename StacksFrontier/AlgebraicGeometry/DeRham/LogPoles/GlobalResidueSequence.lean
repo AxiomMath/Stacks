@@ -116,8 +116,8 @@ exterior-algebra package on `Ω` and an arbitrary
 `AlgebraicGeometry.SheafOfModules.DeRhamDifferential`, hence available for `Ω^•_{X/S}` through
 `AlgebraicGeometry.Scheme.Hom.deRhamAlgebras`. The anticommutation `d (dc ∧ ω) = − dc ∧ dω` is
 `AlgebraicGeometry.SheafOfModules.d_formProduct_exactOne_left`
-(`StacksFrontier/AlgebraicGeometry/DeRham/Gysin/WedgeDifferentialLeft.lean`), the sheaf-level form of
-the ring-level `KaehlerDifferential.deRhamDifferential_wedgeLeft_D`; it comes from the graded
+(`StacksFrontier/AlgebraicGeometry/DeRham/Gysin/WedgeDifferentialLeft.lean`), the sheaf-level form
+of the ring-level `KaehlerDifferential.deRhamDifferential_wedgeLeft_D`; it comes from the graded
 Leibniz rule `AlgebraicGeometry.SheafOfModules.d_formProduct` with a closed left factor together
 with the closedness `AlgebraicGeometry.SheafOfModules.d_exactOne_eq_zero` of an exact one-form.
 

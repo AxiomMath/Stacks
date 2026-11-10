@@ -369,7 +369,7 @@ def pullbackCrisToComma :
     CostructuredArrow.mk (S := SmallSite.crisToBig S S' fS fX hf)
       (Y := (SmallSite.pullbackSmallChangeBase S S' fS fX hf A').obj B)
       (pullbackCommaProj S S' fS fX hf A' B.obj)
-  map {B C} k :=
+  map k :=
     CostructuredArrow.homMk ((SmallSite.pullbackSmallChangeBase S S' fS fX hf A').map k)
       (Thickening.Hom.ext
         ((Category.assoc _ _ _).symm.trans
@@ -392,7 +392,7 @@ instance faithful_pullbackCrisToComma : (pullbackCrisToComma S S' fS fX hf A').F
 the big crystalline categories, so a morphism of the comma category has the same two components,
 and the universal properties turn their two compatibilities into one. -/
 instance full_pullbackCrisToComma : (pullbackCrisToComma S S' fS fX hf A').Full where
-  map_surjective {B C} m :=
+  map_surjective m :=
     ⟨ObjectProperty.homMk
       { sourceHom := m.left.hom.sourceHom
         targetHom := m.left.hom.targetHom
@@ -419,7 +419,7 @@ theorem isCrystalline_pullbackCommaObj
   have : IsOpenImmersion (pullback.fst fX A'.obj.toX) :=
     isOpenImmersion_pullbackSituationToX S S' fX A'
   have hz : IsOpenImmersion Z.left.obj.toX := Z.left.property
-  show IsOpenImmersion
+  change IsOpenImmersion
     (pullback.lift Z.left.obj.toX Z.hom.sourceHom Z.hom.toX_naturality.symm)
   have e : pullback.lift Z.left.obj.toX Z.hom.sourceHom Z.hom.toX_naturality.symm ≫
       pullback.fst fX A'.obj.toX = Z.left.obj.toX := pullback.lift_fst _ _ _

@@ -903,7 +903,7 @@ theorem lowerHom_liftDgHom (φ : (forgetToGradedModule A).obj M ⟶ N) :
 theorem liftDgHom_lowerHom (ψ : M ⟶ cofree N) : liftDgHom N (lowerHom N ψ) = ψ := by
   refine DifferentialGradedModule.Hom.ext fun n => ?_
   refine homSections_ext fun U z => ?_
-  show homSections (liftHom N (lowerHom N ψ) n) U z = homSections (ψ.toHomologicalComplex.f n) U z
+  change homSections (liftHom N (lowerHom N ψ) n) U z = homSections (ψ.toHomologicalComplex.f n) U z
   have hcomm : homSections (d N n) U (homSections (ψ.toHomologicalComplex.f n) U z)
       = homSections (ψ.toHomologicalComplex.f (n + 1)) U
           (homSections (M.complex.d n (n + 1)) U z) := by
@@ -940,7 +940,7 @@ theorem homEquiv_naturality (M' M : DifferentialGradedModule.{t, a, m} A)
     homEquiv M' N ((forgetToGradedModule A).map f ≫ g) = f ≫ homEquiv M N g := by
   refine DifferentialGradedModule.Hom.ext fun n => ?_
   refine homSections_ext fun U z => ?_
-  show homSections (liftHom N ((forgetToGradedModule A).map f ≫ g) n) U z
+  change homSections (liftHom N ((forgetToGradedModule A).map f ≫ g) n) U z
     = homSections (f.toHomologicalComplex.f n ≫ liftHom N g n) U z
   have hcomm : homSections (M.complex.d n (n + 1)) U
         (homSections (f.toHomologicalComplex.f n) U z)

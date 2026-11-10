@@ -183,7 +183,7 @@ def deRhamComplexInt :
 by `ℕ`, so it is concentrated in nonnegative degrees. -/
 theorem plus_deRhamComplexInt : CochainComplex.plus _ (deRhamComplexInt φ) :=
   ⟨0, by
-    show CochainComplex.IsStrictlyGE
+    change CochainComplex.IsStrictlyGE
       ((deRhamComplexNat φ).extend ComplexShape.embeddingUpNat) 0
     infer_instance⟩
 

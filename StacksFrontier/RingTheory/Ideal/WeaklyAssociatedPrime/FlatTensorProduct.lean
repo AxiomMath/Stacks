@@ -253,7 +253,7 @@ theorem exists_smul_pow_eq_zero_localizedModule_of_tensorProduct
   have hr : r ∈ p := (IsLocalization.AtPrime.mk'_mem_maximal_iff _ p r s).mp hc
   obtain ⟨n, x, hx, hrx⟩ := exists_smul_pow_eq_zero_localizedModule_of_mem hz p hpq hr
   refine ⟨n, x, hx, ?_⟩
-  show IsLocalization.mk' (Localization.AtPrime p) r s ^ n • x = 0
+  change IsLocalization.mk' (Localization.AtPrime p) r s ^ n • x = 0
   rw [IsLocalization.mk'_eq_mul_mk'_one, mul_pow, mul_comm, mul_smul, ← map_pow,
     algebraMap_smul, hrx, smul_zero]
 

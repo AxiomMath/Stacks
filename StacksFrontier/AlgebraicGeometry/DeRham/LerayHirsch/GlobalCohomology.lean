@@ -71,10 +71,10 @@ theorem shiftHomologyIsoU_zero_hom (T : C) (k : ℤ) (h : 0 + k = k) :
         (shiftFunctorZero (DerivedCategory B) ℤ).inv.app (F.obj T) := by
     simp [Functor.commShiftIso_zero]
   have h₃ := Functor.shiftIso_zero_hom_app (DerivedCategory.homologyFunctor B 0) k (F.obj T)
-  show (DerivedCategory.homologyFunctor B k).map ((F.commShiftIso (0 : ℤ)).hom.app T) ≫
+  change (DerivedCategory.homologyFunctor B k).map ((F.commShiftIso (0 : ℤ)).hom.app T) ≫
       ((DerivedCategory.homologyFunctor B 0).shiftIso 0 k k h).hom.app (F.obj T) = _
   rw [h₂, h₃]
-  show (DerivedCategory.homologyFunctor B k).map (F.map ((shiftFunctorZero C ℤ).hom.app T) ≫
+  change (DerivedCategory.homologyFunctor B k).map (F.map ((shiftFunctorZero C ℤ).hom.app T) ≫
         (shiftFunctorZero (DerivedCategory B) ℤ).inv.app (F.obj T)) ≫
       (DerivedCategory.homologyFunctor B k).map
         ((shiftFunctorZero (DerivedCategory B) ℤ).hom.app (F.obj T)) = _
@@ -104,13 +104,14 @@ end Stacks.Cohomology.RealizationShift
 namespace CategoryTheory.Limits
 
 variable {C : Type*} [Category* C] [Preadditive C] {R : Type*} [Ring R] {J : Type} [Fintype J]
-  [DecidableEq J] (Z : J → C) [HasBiproduct Z] (G : C ⥤ ModuleCat.{u} R) [G.Additive]
+  (Z : J → C) [HasBiproduct Z] (G : C ⥤ ModuleCat.{u} R) [G.Additive]
 
 /-- **An additive functor into modules carries a finite biproduct to a product**: the map
 `(x_j) ↦ ∑ G(ι_j)(x_j)` from `∏ G(Z_j)` to `G(⨁ Z_j)` is bijective, with inverse
 `y ↦ (G(π_j)(y))_j`. -/
 theorem bijective_sum_map_biproduct_ι :
     Function.Bijective (fun x : ∀ j, G.obj (Z j) => ∑ j, (G.map (biproduct.ι Z j)).hom (x j)) := by
+  classical
   refine Function.bijective_iff_has_inverse.2 ⟨fun y j => (G.map (biproduct.π Z j)).hom y,
     fun x => ?_, fun y => ?_⟩
   · funext j

@@ -44,7 +44,7 @@ def mkElt {T : Over (Spec (.of k))} (c : Stacks.Picard.ofScheme (bc f T))
     (functor f σ hσ ⋙ forget GrpCat).obj (op T) :=
   Multiplicative.ofAdd (mkGroup f σ hσ c hc)
 
-omit [GeometricallyIrreducible f] in
+omit [IsProper f] [Smooth f] [GeometricallyIrreducible f] [SmoothOfRelativeDimension 1 f] in
 /-- The rigidified class underlying `mkElt f σ hσ c hc` is `c`. -/
 theorem classOfElt_mkElt {T : Over (Spec (.of k))} (c : Stacks.Picard.ofScheme (bc f T))
     (hc : Stacks.Picard.schemePullbackClass (bcSection f σ hσ T) c = 0) :
@@ -181,7 +181,7 @@ theorem isIso_toBcId : IsIso (toBcId f) := by
 def pointClassOf (r : Over.mk (𝟙 (Spec (.of k))) ⟶ P.X) : Stacks.Picard.ofScheme X :=
   Stacks.Picard.schemePullbackClass (toBcId f) (classOfElt f σ hσ (homElt f σ hσ P e r))
 
-omit [GeometricallyIrreducible f] in
+omit [GeometricallyIrreducible f] [SmoothOfRelativeDimension 1 f] in
 /-- The fibrewise degree of the class of a rational point `r` of `P` equals the degree on `X` of
 `pointClassOf f σ hσ P e r`. -/
 theorem degree_pointClassOf (r : Over.mk (𝟙 (Spec (.of k))) ⟶ P.X)
@@ -201,7 +201,7 @@ theorem degree_pointClassOf (r : Over.mk (𝟙 (Spec (.of k))) ⟶ P.X)
   rw [hc, relativeInvertibleDegreeHomAt_fst f hdim _ _ s, relativeInvertibleDegreeHomAt_spec f
     hdimX hdim]
 
-omit [GeometricallyIrreducible f] in
+omit [GeometricallyIrreducible f] [SmoothOfRelativeDimension 1 f] in
 include hdimX in
 /-- **[Stacks, Tag 0BA0] (2): the `k`-rational points of `P^d` are the invertible modules of
 degree `d` on `X`**: `r ↦ [r^*𝒫_univ]` is a bijection from the rational points of `P` landing in
@@ -213,7 +213,7 @@ theorem bijOn_pointClassOf (d : ℤ) :
   have hiso := isIso_toBcId f
   obtain ⟨s₀⟩ := nonempty_left_mk_id (k := k)
   refine ⟨fun r hr => ?_, fun r _ r' _ h => ?_, fun c hc => ?_⟩
-  · rw [Set.mem_setOf_eq, ← degree_pointClassOf f hdimX hdim σ hσ P e r s₀]
+  · rw [Set.mem_ofPred_eq, ← degree_pointClassOf f hdimX hdim σ hσ P e r s₀]
     exact (range_subset_degreeLocus_iff f hdim σ hσ P e r d).1 hr s₀
   · apply homElt_injective f σ hσ P e
     refine ext_functor f σ hσ ?_
@@ -230,7 +230,7 @@ theorem bijOn_pointClassOf (d : ℤ) :
         toBcId_fst, Stacks.Picard.schemePullbackClass_id]
     refine ⟨eltHom f σ hσ P e (mkElt f σ hσ c' hc'), ?_, hpc⟩
     refine (range_subset_degreeLocus_iff f hdim σ hσ P e _ d).2 fun s => ?_
-    show relativeInvertibleDegreeHomAt _ _ s (classOfElt f σ hσ (homElt f σ hσ P e
+    change relativeInvertibleDegreeHomAt _ _ s (classOfElt f σ hσ (homElt f σ hσ P e
       (eltHom f σ hσ P e (mkElt f σ hσ c' hc')))) = d
     rw [degree_pointClassOf f hdimX hdim σ hσ P e _ s, hpc]
     exact hc

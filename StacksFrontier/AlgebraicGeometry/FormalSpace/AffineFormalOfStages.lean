@@ -75,7 +75,7 @@ theorem isAffineFormalAlgebraicSpace_of_isColimit_of_isAffine_stages
   have hDmap : ∀ {μ ν : Λ} (g : μ ⟶ ν), F'.map (D.map g) = (e μ).inv ≫ G.map g ≫ (e ν).hom :=
     fun g ↦ hF'.map_preimage _
   let α : D ⋙ F' ≅ G := NatIso.ofComponents (fun μ ↦ (e μ).symm) fun {μ ν} g ↦ by
-    show F'.map (D.map g) ≫ (e ν).inv = (e μ).inv ≫ G.map g
+    change F'.map (D.map g) ≫ (e ν).inv = (e μ).inv ≫ G.map g
     rw [hDmap]
     simp
   -- the lifted transition morphisms are thickenings

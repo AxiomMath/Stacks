@@ -210,7 +210,7 @@ private theorem isLocalAtTarget_fpqc_universallyInjective :
     have hmem : Presieve.ofArrows W k ∈ (Topology.precoverage.{u, v} .fpqc B S hS) Z :=
       ⟨I, W, k, rfl, Z.property, fun i ↦ (W i).property,
         isFpqcCovering_pullback B S hS gi q hcover.2.2⟩
-    show surjectiveMorphismProperty B S hS d
+    change surjectiveMorphismProperty B S hS d
     refine MorphismProperty.IsLocalAtTarget.of_forall_pullbackSnd
       (K := Topology.precoverage.{u, v} .fpqc B S hS) hmem ?_
     rintro U g _ ⟨i⟩

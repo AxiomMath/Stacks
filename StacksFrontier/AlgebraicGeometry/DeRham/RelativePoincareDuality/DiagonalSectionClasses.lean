@@ -94,7 +94,7 @@ theorem isPullback_diagonal_section' :
   refine (isPullback_section_diagonal f σ hσ).of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _)
     (pullbackSymmetry f f) (by simp) (by simp) ?_ ?_
   · apply pullback.hom_ext <;> simp
-  · apply pullback.hom_ext <;> simp [pullback.lift_fst, pullback.lift_snd]
+  · apply pullback.hom_ext <;> simp
 
 end Squares
 

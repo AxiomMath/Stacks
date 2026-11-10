@@ -133,7 +133,7 @@ theorem coord_eq_of_sum (he : IsFrame N e) {V : C} (h : V ⟶ W) (x : N.obj (op 
   subst hc
   have : ∑ a, c a • res N h (e a) = ∑ a, c a • he.basis h a := by simp only [basis_apply]
   funext a
-  show (he.basis h).repr _ a = c a
+  change (he.basis h).repr _ a = c a
   rw [this, Module.Basis.repr_sum_self]
 
 /-- A frame restricts to a frame. -/
@@ -299,7 +299,7 @@ theorem trans_comp {T : C} {k l m : K} (α : T ⟶ W k) (β : T ⟶ W l)
     ∑ x, trans he α β a x * trans he β γ x c = trans he α γ a c := by
   simp only [trans]
   conv_rhs => rw [← (he l).sum_coord β (res N γ (e m c))]
-  simp only [IsFrame.coord, map_sum, map_smul, Finsupp.coe_finset_sum, Finset.sum_apply,
+  simp only [IsFrame.coord, map_sum, map_smul, Finsupp.coe_finsetSum, Finset.sum_apply,
     Finsupp.smul_apply, smul_eq_mul]
   exact Finset.sum_congr rfl fun x _ => mul_comm _ _
 
@@ -355,7 +355,7 @@ theorem localValues_compatible (F : PresheafOfModules.{t} (O ⋙ forget₂ CommR
     {s : ∀ k, Fin (n k) → F.obj (op (W k))} (hs : Compat he F s) (V : C) (x : N.obj (op V)) :
     (localValues he F s V x).Compatible := by
   intro T₁ T₂ Z f₁ f₂ g₁ g₂ hg₁ hg₂ hcomm
-  show res F f₁ (localValues he F s V x g₁ hg₁) = res F f₂ (localValues he F s V x g₂ hg₂)
+  change res F f₁ (localValues he F s V x g₁ hg₁) = res F f₂ (localValues he F s V x g₂ hg₂)
   rw [localValues_eq he F hs x g₁ hg₁ _ hg₁.choose_spec.some,
     localValues_eq he F hs x g₂ hg₂ _ hg₂.choose_spec.some, ← lift_res, ← lift_res,
     ← res_comp, ← res_comp, hcomm]
@@ -449,7 +449,7 @@ omit [Fintype K] in
 theorem compat_of_hom (F : PresheafOfModules.{t} (O ⋙ forget₂ CommRingCat RingCat))
     (φ : N ⟶ F) : Compat he F (fun k a => φ.app (op (W k)) (e k a)) := by
   intro V k l h h' b
-  show res F h' (φ.app _ (e l b)) = lift F (he k) _ h (res N h' (e l b))
+  change res F h' (φ.app _ (e l b)) = lift F (he k) _ h (res N h' (e l b))
   rw [← app_res, app_eq_lift φ (he k) h]
 
 include he in
@@ -491,7 +491,7 @@ theorem compat_map {F G : PresheafOfModules.{t} (O ⋙ forget₂ CommRingCat Rin
     (ψ : F ⟶ G) {s : ∀ k, Fin (n k) → F.obj (op (W k))} (hs : Compat he F s) :
     Compat he G (fun k a => ψ.app (op (W k)) (s k a)) := by
   intro V k l h h' b
-  show res G h' (ψ.app _ (s l b)) = lift G (he k) _ h (res N h' (e l b))
+  change res G h' (ψ.app _ (s l b)) = lift G (he k) _ h (res N h' (e l b))
   rw [← app_res, hs V k l h h' b, app_lift]
 
 omit [Fintype K] in

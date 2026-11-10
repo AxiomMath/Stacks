@@ -86,7 +86,7 @@ private theorem underlyingModuleMap_pushforwardAlgebraHomOfEq_comp {C C' : Schem
   ext x
   have h1 := AdicFiniteAlgebra.pushforwardAlgebraHomOfEq_app (p ≫ V.ι) (p' ≫ V.ι) t hqt U
   have h2 := AdicFiniteAlgebra.pushforwardAlgebraHomOfEq_app p p' t ht (V.ι ⁻¹ᵁ U)
-  show ((C.presheaf.map (eqToHom rfl).op) ((AdicFiniteAlgebra.pushforwardAlgebraHomOfEq
+  change ((C.presheaf.map (eqToHom rfl).op) ((AdicFiniteAlgebra.pushforwardAlgebraHomOfEq
       (p ≫ V.ι) (p' ≫ V.ι) t hqt).right.hom.app (op U) x) : Γ(C, p ⁻¹ᵁ V.ι ⁻¹ᵁ U)) =
     (AdicFiniteAlgebra.pushforwardAlgebraHomOfEq p p' t ht).right.hom.app (op (V.ι ⁻¹ᵁ U))
       (C'.presheaf.map (eqToHom rfl).op x)
@@ -114,7 +114,7 @@ public theorem restrictModuleIso_naturality (n : ℕ) :
       (toBase_eq_toOpen_ι i A V hV (n + 1)) (step_toBase i A n)
   let R := Scheme.Modules.restrictFunctor V.ι
   let ε := (Scheme.Modules.restrictFunctorAdjCounitIso V.ι).hom
-  show R.map (moduleStep i A n) ≫ R.map (moduleIsoPushforwardOpenModule i A V hV n).hom ≫
+  change R.map (moduleStep i A n) ≫ R.map (moduleIsoPushforwardOpenModule i A V hV n).hom ≫
       ε.app _ = (R.map (moduleIsoPushforwardOpenModule i A V hV (n + 1)).hom ≫ ε.app _) ≫
         openModuleStep i A V hV n
   calc R.map (moduleStep i A n) ≫ R.map (moduleIsoPushforwardOpenModule i A V hV n).hom ≫

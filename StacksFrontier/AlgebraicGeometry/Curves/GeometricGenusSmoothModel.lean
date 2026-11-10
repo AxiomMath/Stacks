@@ -332,19 +332,13 @@ theorem geometricGenusOfModel_eq_geometricGenusOfCurve (K : Type u) [Field K] [A
     geometricGenusOfModel k K sX M = geometricGenusOfCurve k sX :=
   (geometricGenusOfCurve_eq_genus_of_smooth k sX K M hM).symm
 
-open Stacks.AmpleNoetherianDimensionOne in
 /-- **Stacks Project, Tag 0BY4 (2), as used by Tag 0BYF.** A proper geometrically irreducible
 curve over `k` has a smooth projective model over a finite purely inseparable extension of `k`, so
-its geometric genus is the genus of an actual model. Tag 09NZ, which the library's Tag 0BY4 (2)
-states as an assumption, is supplied by
-`Stacks.AmpleNoetherianDimensionOne.exists_isAmple_of_isNoetherian_of_topologicalKrullDim_le_one`.
--/
+its geometric genus is the genus of an actual model. -/
 theorem nonempty_smoothModelOverExtension_of_isProper [IsProper sX] :
     Nonempty (SmoothModelOverExtension k sX) := by
-  have hAmple : Stacks.HQuasiProjectiveDimensionOne.AmpleOfNoetherianSeparatedDimLEOne.{u} :=
-    fun Y _ _ h => exists_isAmple_of_isNoetherian_of_topologicalKrullDim_le_one Y h
   obtain ⟨K, _, _, _, _, M, hM⟩ :=
-    exists_isPurelyInseparable_smooth_nonsingularProjectiveModel hAmple k sX
+    exists_isPurelyInseparable_smooth_nonsingularProjectiveModel k sX
   exact ⟨⟨K, M, hM⟩⟩
 
 end AlgebraicGeometry

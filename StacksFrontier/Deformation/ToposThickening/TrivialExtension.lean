@@ -100,8 +100,10 @@ noncomputable def idealSection (U : Y.Cᵒᵖ) (a : hi.I.val.obj U) :
   hi.incl.val.app U a
 
 /-- The structure map `q : O' ⟶ O`, on sections. -/
-noncomputable def structureApp (i : RingedToposHom X Y) (U : Y.Cᵒᵖ) (r : (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.obj U) :
-    (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj.obj U :=
+noncomputable def structureApp (i : RingedToposHom X Y) (U : Y.Cᵒᵖ)
+    (r : (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.obj U) :
+    (Stacks.SheafOfModules.Tensor.ringSheaf
+      ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj.obj U :=
   ((show Stacks.SheafOfModules.Tensor.ringSheaf Y.O ⟶
       Stacks.SheafOfModules.Tensor.ringSheaf
         ((pushforwardCommRingFunctor i.toToposHom).obj X.O) from
@@ -176,7 +178,8 @@ theorem structureApp_idealSection (U : Y.Cᵒᵖ) (a : hi.I.val.obj U) :
   (hi.kernel U _).2 ⟨a, rfl⟩
 
 /-- The remainder `r - π^♯(q r)` of a section under the splitting lies in the ideal. -/
-theorem exists_idealSection_eq_sub (U : Y.Cᵒᵖ) (r : (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.obj U) :
+theorem exists_idealSection_eq_sub (U : Y.Cᵒᵖ)
+    (r : (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.obj U) :
     ∃ b : hi.I.val.obj U, idealSection hi U b = r - splitApp hi π U (structureApp i U r) := by
   refine (hi.kernel U _).1 ?_
   change structureApp i U (r - splitApp hi π U (structureApp i U r)) = 0
@@ -206,11 +209,13 @@ theorem trivializationDerivation_one (U : Y.Cᵒᵖ) : trivializationDerivation 
   rw [idealSection_trivializationDerivation, idealSection_zero, structureApp, map_one,
     splitApp, map_one, sub_self]
 
-theorem trivializationDerivation_add (U : Y.Cᵒᵖ) (r s : (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.obj U) :
+theorem trivializationDerivation_add (U : Y.Cᵒᵖ)
+    (r s : (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.obj U) :
     trivializationDerivation hi π U (r + s) =
       trivializationDerivation hi π U r + trivializationDerivation hi π U s := by
   refine idealSection_injective hi U ?_
-  rw [idealSection_add, idealSection_trivializationDerivation, idealSection_trivializationDerivation,
+  rw [idealSection_add, idealSection_trivializationDerivation,
+    idealSection_trivializationDerivation,
     idealSection_trivializationDerivation, structureApp, map_add, splitApp, map_add]
   abel
 
@@ -238,7 +243,8 @@ theorem trivializationDerivation_mul (U : Y.Cᵒᵖ)
 theorem trivializationDerivation_naturality {U V : Y.Cᵒᵖ} (f : U ⟶ V)
     (r : (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.obj U) :
     hi.I.val.map f (trivializationDerivation hi π U r) =
-      trivializationDerivation hi π V (((Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.map f).hom r) := by
+      trivializationDerivation hi π V
+        (((Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.map f).hom r) := by
   refine idealSection_injective hi V ?_
   rw [idealSection_naturality, idealSection_trivializationDerivation,
     idealSection_trivializationDerivation, map_sub, structureApp_naturality, splitApp_naturality]
@@ -355,7 +361,8 @@ theorem extensionPairing_zero_left (U : Y.Cᵒᵖ) (m : F.val.obj U) :
   extensionPairing_eq_zero hi F K c (TensorProduct.zero_tmul _ m)
 
 theorem extensionPairing_smul_left (U : Y.Cᵒᵖ)
-    (r : (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj.obj U)
+    (r : (Stacks.SheafOfModules.Tensor.ringSheaf
+      ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj.obj U)
     (a : hi.I.val.obj U) (m : F.val.obj U) :
     extensionPairing hi F K c U (r • a) m = r • extensionPairing hi F K c U a m :=
   extensionPairing_eq_smul hi F K c
@@ -363,7 +370,8 @@ theorem extensionPairing_smul_left (U : Y.Cᵒᵖ)
       (R' := ((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj U) r a m).symm
 
 theorem extensionPairing_smul_right (U : Y.Cᵒᵖ)
-    (r : (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj.obj U)
+    (r : (Stacks.SheafOfModules.Tensor.ringSheaf
+      ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj.obj U)
     (a : hi.I.val.obj U) (m : F.val.obj U) :
     extensionPairing hi F K c U a (r • m) = r • extensionPairing hi F K c U a m :=
   extensionPairing_eq_smul hi F K c
@@ -425,7 +433,8 @@ noncomputable def trivialExtensionModule :
 
 /-- The sections of the trivial extension over `U` are the pairs `F(U) × K(U)`, on which a
 section `r` of `O'` acts by `r · (m, k) = (q r · m, q r · k + c(d r ⊗ m))`. -/
-theorem trivialExtensionModule_smul (U : Y.Cᵒᵖ) (r : (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.obj U)
+theorem trivialExtensionModule_smul (U : Y.Cᵒᵖ)
+    (r : (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.obj U)
     (z : (trivialExtensionModule hi π F K c).val.obj U) :
     r • z = (structureApp i U r • z.1, structureApp i U r • z.2 +
       extensionPairing hi F K c U (trivializationDerivation hi π U r) z.1) :=
@@ -464,7 +473,8 @@ noncomputable def trivialExtensionInr :
         map_add' := fun a b => Prod.ext (add_zero 0).symm rfl
         map_smul' := fun r k => ?_ }
     naturality := ?_ }⟩
-  · refine (Prod.ext (smul_zero _).symm ?_).trans (trivialExtensionModule_smul hi π F K c U r _).symm
+  · refine (Prod.ext (smul_zero _).symm ?_).trans
+      (trivialExtensionModule_smul hi π F K c U r _).symm
     change @HSMul.hSMul _ (K.val.obj U) (K.val.obj U) instHSMul (structureApp i U r) k =
       @HSMul.hSMul _ (K.val.obj U) (K.val.obj U) instHSMul (structureApp i U r) k +
         extensionPairing hi F K c U (trivializationDerivation hi π U r) 0
@@ -682,7 +692,8 @@ trivialization it is a split short exact sequence, and a short exact sequence wh
 a retraction `ρ` has zero class, the class being killed by precomposition with that map. -/
 theorem underlyingExtensionClass_trivialExtension
     [HasExt.{e} (SheafOfModules.{w'}
-      (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O)))] :
+      (Stacks.SheafOfModules.Tensor.ringSheaf
+        ((pushforwardCommRingFunctor i.toToposHom).obj X.O)))] :
     underlyingExtensionClass i hi π F K (trivialExtension hi π F K c) = 0 := by
   let S := splitExtension i hi π F K (trivialExtension hi π F K c)
   have hS : S.ShortExact := splitExtension_shortExact i hi π F K (trivialExtension hi π F K c)
@@ -718,7 +729,8 @@ variable [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w'}] [HasWeakSheafify Y.J A
     (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O)))]
   [HasExt.{e} (SheafOfModules.{w'} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))]
 
-omit [HasSheafify Y.J AddCommGrpCat.{w'}]
+omit [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w'}] [HasWeakSheafify Y.J AddCommGrpCat.{w'}]
+  [HasSheafify Y.J AddCommGrpCat.{w'}]
   [HasExt.{e} (SheafOfModules.{w'}
     (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O)))]
   [HasExt.{e} (SheafOfModules.{w'} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))] in
@@ -782,8 +794,10 @@ theorem splitRestrictionExtHom_extClass_of_hom
       (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O))}
     {f : K ⟶ N} {g : N ⟶ F} {w' : f ≫ g = 0}
     (hS : (ShortComplex.mk f g w').ShortExact) (v : (splitRestriction i hi π).obj H ⟶ N)
-    (hv : (splitRestriction i hi π).map a ≫ v = (splitRestrictionRestrictScalarsIso i hi π K).hom ≫ f)
-    (hv' : v ≫ g = (splitRestriction i hi π).map b ≫ (splitRestrictionRestrictScalarsIso i hi π F).hom) :
+    (hv : (splitRestriction i hi π).map a ≫ v =
+      (splitRestrictionRestrictScalarsIso i hi π K).hom ≫ f)
+    (hv' : v ≫ g =
+      (splitRestriction i hi π).map b ≫ (splitRestrictionRestrictScalarsIso i hi π F).hom) :
     splitRestrictionExtHom hi π F K hT.extClass = hS.extClass := by
   have hnat := ShortComplex.ShortExact.extClass_naturality
     (hT.map_of_exact (splitRestriction i hi π)) hS
@@ -944,8 +958,8 @@ theorem trivialExtension_bijective_underlyingExtensionClass
     underlyingExtensionClass_eq_splitRestrictionExtHom hi π F K E
   have hact := trivialExtension_extensionActionMap hi π F K c
   have htriv := underlyingExtensionClass_trivialExtension.{e} hi π F K c
-  have hinj : Function.Injective (fun ξ : FixedActionExtensionClass.{_, _, _, _, _, _, e} hi F K c =>
-      Φ ξ.1) := by
+  have hinj : Function.Injective
+      (fun ξ : FixedActionExtensionClass.{_, _, _, _, _, _, e} hi F K c => Φ ξ.1) := by
     rintro ⟨x₁, hx₁⟩ ⟨x₂, hx₂⟩ h
     change Φ x₁ = Φ x₂ at h
     obtain ⟨a, ha⟩ := (exists_extensionActionMap_eq_iff_exists_add_mapExtAddHom hi ⟨x₁, hx₁⟩ x₂).1

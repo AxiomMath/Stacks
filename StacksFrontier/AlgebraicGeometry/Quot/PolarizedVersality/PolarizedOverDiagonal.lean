@@ -159,7 +159,7 @@ theorem hasRepresentableDiagonal_stack : Stack.HasRepresentableDiagonal B S hS (
   refine (Stack.hasRepresentableDiagonal_iff_isAlgebraicSpaceIsomPresheaf B S hS _).2 ?_
   intro U x y
   have hZ : B.Contains (Spec (CommRingCat.of (ULift.{u} ℤ))) := by
-    show (Spec (CommRingCat.of (ULift.{u} ℤ))).size < B.cutoff
+    change (Spec (CommRingCat.of (ULift.{u} ℤ))).size < B.cutoff
     rw [Scheme.size_Spec]
     simpa using B.aleph0_lt_cutoff
   let hT := isTerminal_obj_specULiftZ B hZ

@@ -114,7 +114,7 @@ private lemma closedSubscheme_overPullback_iff (P : MorphismProperty Scheme.{u})
       ((J.comap a).subschemeι ≫ ((Over.pullback h).map f).left) =
       ((Over.pullback h).map z).left :=
     hz.isoIsPullback_hom_snd _ _ (hs.flip.paste_vert (overPullback_isPullback h X Y f))
-  show P ((Over.pullback h).map z).left ↔ _
+  change P ((Over.pullback h).map z).left ↔ _
   rw [← he]
   exact P.cancel_left_of_respectsIso _ _
 
@@ -152,7 +152,7 @@ of `X ×_S Y`, pointwise. -/
 public lemma pullback_snd_pullbackSymmetry_hom_apply {X Y S : Scheme.{u}} (f : X ⟶ S)
     (g : Y ⟶ S) (x : (pullback f g : Scheme.{u})) :
     pullback.snd g f ((pullbackSymmetry f g).hom x) = pullback.fst f g x := by
-  show ((pullbackSymmetry f g).hom ≫ pullback.snd g f) x = _
+  change ((pullbackSymmetry f g).hom ≫ pullback.snd g f) x = _
   rw [pullbackSymmetry_hom_comp_snd]
 
 /-- The first projection of `Y ×_S X` after the symmetry isomorphism is the second projection
@@ -160,7 +160,7 @@ of `X ×_S Y`, pointwise. -/
 public lemma pullback_fst_pullbackSymmetry_hom_apply {X Y S : Scheme.{u}} (f : X ⟶ S)
     (g : Y ⟶ S) (x : (pullback f g : Scheme.{u})) :
     pullback.fst g f ((pullbackSymmetry f g).hom x) = pullback.snd f g x := by
-  show ((pullbackSymmetry f g).hom ≫ pullback.fst g f) x = _
+  change ((pullbackSymmetry f g).hom ≫ pullback.fst g f) x = _
   rw [pullbackSymmetry_hom_comp_fst]
 
 /-- An open of a compact scheme over a stage of a cofiltered inverse system with affine
@@ -191,7 +191,7 @@ public lemma exists_forall_pullback_fst_mem_of_isLimit
   have {j k : Over i₁} (g : j ⟶ k) : IsAffineHom (DX.map g) := by
     dsimp [DX, H]
     refine MorphismProperty.overPullbackMap (P := @IsAffineHom) X₁.hom ((Over.post D).map g) ?_
-    show IsAffineHom (D.map g.left)
+    change IsAffineHom (D.map g.left)
     infer_instance
   -- at the identity stage the system is `X₁` itself
   let idI : Over i₁ := Over.mk (𝟙 i₁)
@@ -206,7 +206,7 @@ public lemma exists_forall_pullback_fst_mem_of_isLimit
         pullback.snd ((Over.conePost D i₁).obj c).pt.hom X₁.hom :=
       ((Over.pullback X₁.hom).map (((Over.conePost D i₁).obj c).π.app idI)).w
     refine SetLike.ext fun x => iff_of_true ?_ trivial
-    show (cX.π.app idI ≫ eX₁.hom) x ∈ V
+    change (cX.π.app idI ≫ eX₁.hom) x ∈ V
     rw [hproj, ← pullback_fst_pullbackSymmetry_hom_apply]
     exact hV _
   obtain ⟨j, g, hj⟩ := exists_map_eq_top (I := Over i₁) DX cX
@@ -214,7 +214,7 @@ public lemma exists_forall_pullback_fst_mem_of_isLimit
   refine ⟨j.left, j.hom, fun x => ?_⟩
   let z : DX.obj j := (pullbackSymmetry X₁.hom (D.map j.hom)).hom x
   have hz : DX.map g z ∈ eX₁.hom ⁻¹ᵁ V := by
-    show z ∈ DX.map g ⁻¹ᵁ (eX₁.hom ⁻¹ᵁ V)
+    change z ∈ DX.map g ⁻¹ᵁ (eX₁.hom ⁻¹ᵁ V)
     rw [hj]
     trivial
   have hproj : DX.map g ≫ eX₁.hom = pullback.snd (D.map j.hom) X₁.hom :=
@@ -323,7 +323,7 @@ public theorem exists_isAtWorstNodalOfRelativeDimensionOne_baseChange_of_limitBa
     exact (overPullback_map_comp_iff (@SyntomicOfRelativeDimension 1) (D.map g₁) (D.map a) f₀).mpr
       (MorphismProperty.overPullbackMap (P := @SyntomicOfRelativeDimension 1) _ _ hrel)
   · refine (unramified_relativeSingular_overPullback_iff (D.map (a ≫ g₁)) X₀ Y₀ f₀).mp ?_
-    show Unramified ((Over.pullback (D.map (a ≫ g₁))).map z₀).left
+    change Unramified ((Over.pullback (D.map (a ≫ g₁))).map z₀).left
     rw [hab, D.map_comp]
     exact (overPullback_map_comp_iff (@Unramified) (D.map g₂) (D.map b) z₀).mpr
       (MorphismProperty.overPullbackMap (P := @Unramified) _ _ hunr)

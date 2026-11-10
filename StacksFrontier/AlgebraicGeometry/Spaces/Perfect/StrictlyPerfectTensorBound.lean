@@ -80,14 +80,20 @@ theorem isGE_smallEtaleDerivedTensor_tensor_single_of_isRetractOfFiniteFree
       (smallEtaleDerivedTensor B S hS X).flip.obj H ⋙
       (smallEtaleDerivedTensor B S hS X).flip.obj L ⋙
       DerivedCategory.homologyFunctor _ k).Additive := by
-    letI := T.commShift_left H
-    letI := T.commShift_left L
+    let := T.commShift_left H
+    let := T.commShift_left L
     have : ((smallEtaleDerivedTensor B S hS X).flip.obj H).Additive := by
       have := T.exact_left H
       exact (inferInstance : (T.tensor.flip.obj H).Additive)
     have : ((smallEtaleDerivedTensor B S hS X).flip.obj L).Additive := by
       have := T.exact_left L
       exact (inferInstance : (T.tensor.flip.obj L).Additive)
+    have : (DerivedCategory.singleFunctor
+        (SheafOfModules.{u} (ringedToposStructureRingSheaf B S hS X)) 0).Additive :=
+      inferInstance
+    have : (DerivedCategory.homologyFunctor
+        (SheafOfModules.{u} (ringedToposStructureRingSheaf B S hS X)) k).Additive :=
+      inferInstance
     infer_instance
   exact isZero_obj_of_isRetractOfFiniteFree (DerivedCategory.singleFunctor
     (SheafOfModules.{u} (ringedToposStructureRingSheaf B S hS X)) 0 ⋙

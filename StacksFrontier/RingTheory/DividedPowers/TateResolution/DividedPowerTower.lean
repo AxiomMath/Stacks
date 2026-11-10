@@ -247,7 +247,7 @@ public theorem towerColimit_existsUnique_lift (D : GradedDPAlgebra.{u, z} R)
         have hF''step : ∀ x : (towerStage A₀ Jdx k).carrier,
             F''.hom ((towerStep A₀ Jdx k).hom x) = (G k).hom x := by
           intro x
-          show F'.hom ((towerInclusion A₀ Jdx (k + 1)).hom ((towerStep A₀ Jdx k).hom x)) = _
+          change F'.hom ((towerInclusion A₀ Jdx (k + 1)).hom ((towerStep A₀ Jdx k).hom x)) = _
           rw [chainColimitInclusion_step (towerStage A₀ Jdx) (towerStep A₀ Jdx) k x]
           exact ih x
         have hF''gen : ∀ j : Jdx k, F''.hom (towerGenerator A₀ Jdx k j) = t k j :=

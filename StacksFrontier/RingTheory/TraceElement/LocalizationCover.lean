@@ -117,7 +117,7 @@ theorem eq_of_forall_isArtinianRing_quotient_eq {R : Type*} [CommRing R] [IsNoet
       Submodule.smul_mem_smul hz' (show (1 : R) ∈ (⊤ : Submodule R R) from Submodule.mem_top)
   obtain ⟨a, ha⟩ := (m.mem_iInf_smul_pow_eq_bot_iff z).mp hall
   have hsub : 1 - (a : R) ∈ J := by
-    show z * (1 - (a : R)) = 0
+    change z * (1 - (a : R)) = 0
     change (a : R) * z = z at ha
     rw [mul_sub, mul_one, mul_comm z, ha, sub_self]
   have h1 : (1 : R) ∈ m := by simpa using m.add_mem (hJm hsub) a.2
@@ -136,7 +136,7 @@ theorem finiteProjectiveTrace_eq_of_split {R : Type u} [CommRing R]
   have hi : (p.comp p₀).comp (i₀.comp i) = LinearMap.id := by
     apply LinearMap.ext
     intro x
-    show p ((p₀.comp i₀) (i x)) = x
+    change p ((p₀.comp i₀) (i x)) = x
     rw [h₀]
     exact LinearMap.congr_fun hpi x
   rw [finiteProjectiveTrace_eq_trace_of_split R P (Fin n → R) (p.comp p₀) (i₀.comp i) hi,
@@ -165,16 +165,15 @@ theorem finiteProjectiveTrace_lmul_baseChange
     intro x
     have key (y : S ⊗[R] C) :
         algebraMap C T c * e y = e ((Algebra.lmul R C c).baseChange S y) := by
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | add y y' hy hy' => simp only [map_add, mul_add, hy, hy']
       | tmul a b =>
           rw [LinearMap.baseChange_tmul, hval, hval]
-          show algebraMap C T c * (algebraMap S T a * algebraMap C T b) =
+          change algebraMap C T c * (algebraMap S T a * algebraMap C T b) =
             algebraMap S T a * algebraMap C T (c * b)
           rw [map_mul]
           exact mul_left_comm _ _ _
-    show algebraMap C T c * x = e ((Algebra.lmul R C c).baseChange S (e.symm x))
+    change algebraMap C T c * x = e ((Algebra.lmul R C c).baseChange S (e.symm x))
     have hx := key (e.symm x)
     rwa [e.apply_symm_apply] at hx
   rw [hconj, finiteProjectiveTrace_conj S (S ⊗[R] C) T e, finiteProjectiveTrace_baseChange]
@@ -196,7 +195,7 @@ theorem finiteProjectiveTrace_lmul_of_retract
   apply congrArg (finiteProjectiveTrace R C)
   apply LinearMap.ext
   intro c
-  show i (x * algebraMap C E c) = i x * c
+  change i (x * algebraMap C E c) = i x * c
   rw [mul_comm x, ← Algebra.smul_def, i.map_smul, smul_eq_mul, mul_comm]
 
 /-! ### Scalar towers through a universe shrinking -/
@@ -242,9 +241,9 @@ theorem isLocalization_away_prod {C : Type*} {D : Type*} [CommRing C] [CommRing 
     obtain ⟨⟨b, _, l, rfl⟩, hy⟩ := IsLocalization.surj (Submonoid.powers d) y
     refine ⟨⟨(a * c ^ l, b * d ^ k), ⟨(c, d) ^ (k + l), ⟨k + l, rfl⟩⟩⟩, ?_⟩
     apply Prod.ext
-    · show x * algebraMap C _ (c ^ (k + l)) = algebraMap C _ (a * c ^ l)
+    · change x * algebraMap C _ (c ^ (k + l)) = algebraMap C _ (a * c ^ l)
       rw [pow_add, map_mul, map_mul, ← mul_assoc, hx]
-    · show y * algebraMap D _ (d ^ (k + l)) = algebraMap D _ (b * d ^ k)
+    · change y * algebraMap D _ (d ^ (k + l)) = algebraMap D _ (b * d ^ k)
       rw [Nat.add_comm k l, pow_add, map_mul, map_mul, ← mul_assoc, hy]
   · intro x y h
     obtain ⟨⟨_, k, rfl⟩, hx⟩ :=
@@ -255,9 +254,9 @@ theorem isLocalization_away_prod {C : Type*} {D : Type*} [CommRing C] [CommRing 
     change d ^ l * x.2 = d ^ l * y.2 at hy
     refine ⟨⟨(c, d) ^ (k + l), ⟨k + l, rfl⟩⟩, ?_⟩
     apply Prod.ext
-    · show c ^ (k + l) * x.1 = c ^ (k + l) * y.1
+    · change c ^ (k + l) * x.1 = c ^ (k + l) * y.1
       rw [Nat.add_comm k l, pow_add, mul_assoc, mul_assoc, hx]
-    · show d ^ (k + l) * x.2 = d ^ (k + l) * y.2
+    · change d ^ (k + l) * x.2 = d ^ (k + l) * y.2
       rw [pow_add, mul_assoc, mul_assoc, hy]
 
 /-- A product decomposition `A₁ ⊗_A B ≃ C × D` localizes: `A₁ ⊗_A B_g` decomposes as the product
@@ -347,8 +346,7 @@ theorem baseChangeProdEquiv_map
       ((1 : A₂) ⊗ₜ[A₁] (e x).1, (1 : A₂) ⊗ₜ[A₁] (e x).2) := by
   have hmap : Algebra.TensorProduct.map (IsScalarTower.toAlgHom A A₁ A₂) (AlgHom.id A B) x =
       Algebra.TensorProduct.cancelBaseChange A A₁ A₂ A₂ B ((1 : A₂) ⊗ₜ[A₁] x) := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, TensorProduct.tmul_add, hx, hy]
     | tmul a b =>
         simp only [Algebra.TensorProduct.map_tmul, IsScalarTower.toAlgHom_apply,
@@ -414,7 +412,7 @@ theorem localized_dual_eq_of_retraction
   have hi1 : algebraMap C Cg (i 1) = 1 := LinearMap.congr_fun hi 1
   have hs : i 1 • f = i 1 • h := by
     ext x
-    show f (i 1 * x) = h (i 1 * x)
+    change f (i 1 * x) = h (i 1 * x)
     have hx : i (algebraMap C Cg x) = i 1 * x := by
       simpa [Algebra.smul_def, mul_comm] using i.map_smul x (1 : Cg)
     simpa only [hx] using heq (algebraMap C Cg x)
@@ -535,14 +533,13 @@ theorem finiteFactorRestriction_baseChange
   set ρ₂ := finiteFactorRestriction F A₂ C₂ D₂ e₂ he₂ h₂f h₂p h₂mf h₂mp
   refine dualizingModule.induction_on F (motive := fun τ =>
     ρ₂.1 (dualizingModule.baseChange F A₂ τ) (algebraMap C C₂ c) =
-      algebraMap A₁ A₂ (ρ.1 (dualizingModule.baseChange F A₁ τ) c)) τ ?_ ?_ ?_
-  · simp
+      algebraMap A₁ A₂ (ρ.1 (dualizingModule.baseChange F A₁ τ) c)) τ ?_ ?_
   · intro f b
     rw [dualizingModule.baseChange_tmul F A₂ f b, dualizingModule.baseChange_tmul F A₁ f b]
     refine (ρ₂.2 (f.baseChange A₂) ((1 : A₂) ⊗ₜ[A] b) (algebraMap C C₂ c)).trans ?_
     refine Eq.trans ?_
       (congrArg (algebraMap A₁ A₂) (ρ.2 (f.baseChange A₁) ((1 : A₁) ⊗ₜ[A] b) c)).symm
-    show (f.baseChange A₂) (finiteProjectiveTrace
+    change (f.baseChange A₂) (finiteProjectiveTrace
         (FiniteOpenFactorization.baseChange F A₂).middle C₂
         (Algebra.lmul _ C₂ ((e₂ ((1 : A₂) ⊗ₜ[A] b)).1 * algebraMap C C₂ c))) = _
     rw [hmap, ← map_mul, finiteProjectiveTrace_lmul_baseChange hbase, hdual]
@@ -607,8 +604,7 @@ theorem finiteFactorRestriction_localize_of_retract
   refine dualizingModule.induction_on F (motive := fun τ =>
     ρg.1 (dualizingModule.baseChange (locFact (Bg := Localization.Away g) g F) A₁
         (localizationDualizingMap F g τ)) c =
-      ρ.1 (dualizingModule.baseChange F A₁ τ) (i c)) τ ?_ ?_ ?_
-  · simp
+      ρ.1 (dualizingModule.baseChange F A₁ τ) (i c)) τ ?_ ?_
   · intro f b
     rw [localizationDualizingMap_tmul,
       dualizingModule.baseChange_tmul (locFact (Bg := Localization.Away g) g F) A₁ f,
@@ -616,7 +612,7 @@ theorem finiteFactorRestriction_localize_of_retract
     refine (ρg.2 (f.baseChange A₁)
       ((1 : A₁) ⊗ₜ[A] algebraMap B (Localization.Away g) b) c).trans ?_
     refine Eq.trans ?_ (ρ.2 (f.baseChange A₁) ((1 : A₁) ⊗ₜ[A] b) (i c)).symm
-    show (f.baseChange A₁)
+    change (f.baseChange A₁)
         (finiteProjectiveTrace (FiniteOpenFactorization.baseChange F A₁).middle Cg
           (Algebra.lmul _ Cg
             ((eg ((1 : A₁) ⊗ₜ[A] algebraMap B (Localization.Away g) b)).1 * c))) =
@@ -636,8 +632,7 @@ private theorem tensorProduct_apply_eq_of_tmul {R M N P : Type*} [CommSemiring R
     [AddCommMonoid M] [AddCommMonoid N] [Module R M] [Module R N] [AddCommMonoid P]
     (f g : M ⊗[R] N →+ P) (h : ∀ m n, f (m ⊗ₜ[R] n) = g (m ⊗ₜ[R] n)) (x : M ⊗[R] N) :
     f x = g x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul m n => exact h m n
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -665,8 +660,7 @@ theorem baseChangeLocalizationProdEquiv_algebraMap
     (e.toRingHom.comp
       (algebraMap (FiniteOpenFactorization.baseChange F A₁).middle (A₁ ⊗[A] B)))
   change L x = R x
-  induction x using TensorProduct.induction_on with
-  | zero => exact L.map_zero.trans R.map_zero.symm
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy =>
       exact (L.map_add x y).trans ((congrArg₂ (· + ·) hx hy).trans (R.map_add x y).symm)
   | tmul a b => exact baseChangeLocalizationProdEquiv_tmul g A₁ e a (algebraMap F.middle B b)
@@ -732,7 +726,7 @@ theorem finiteFactorRestriction_eq_of_artinian_cover
   let Dg := Localization.Away (e ((1 : A₁) ⊗ₜ[A] g j)).2
   let eg := baseChangeLocalizationProdEquiv (g j) A₁ e
   have : IsLocalization.Away (γ (g j)) Cg := by
-    show IsLocalization.Away (e ((1 : A₁) ⊗ₜ[A] g j)).1 Cg
+    change IsLocalization.Away (e ((1 : A₁) ⊗ₜ[A] g j)).1 Cg
     infer_instance
   have hsurj : Function.Surjective (algebraMap C Cg) :=
     IsArtinianRing.localization_surjective (Submonoid.powers (γ (g j))) Cg
@@ -746,7 +740,7 @@ theorem finiteFactorRestriction_eq_of_artinian_cover
   have : IsScalarTower (FiniteOpenFactorization.baseChange F A₁).middle C Cg := by
     apply IsScalarTower.of_algebraMap_eq
     intro a
-    show (eg (algebraMap Hg.middle (A₁ ⊗[A] Localization.Away (g j)) a)).1 =
+    change (eg (algebraMap Hg.middle (A₁ ⊗[A] Localization.Away (g j)) a)).1 =
       algebraMap C Cg (algebraMap _ C a)
     rw [he]
     exact congrArg Prod.fst (baseChangeLocalizationProdEquiv_algebraMap F (g j) A₁ e a)
@@ -817,7 +811,7 @@ theorem isTraceElement_of_localization_cover
   have : IsScalarTower A₁ F₁.middle C := by
     apply IsScalarTower.of_algebraMap_eq
     intro a
-    show (algebraMap A₁ C) a =
+    change (algebraMap A₁ C) a =
       (RingHom.fst C D) (e (algebraMap F₁.middle (A₁ ⊗[A] B) ((algebraMap A₁ F₁.middle) a)))
     rw [← F₁.scalarTower.algebraMap_apply, e.commutes]
     rfl
@@ -826,7 +820,7 @@ theorem isTraceElement_of_localization_cover
   have : IsScalarTower A₁ F₁.middle D := by
     apply IsScalarTower.of_algebraMap_eq
     intro a
-    show (algebraMap A₁ D) a =
+    change (algebraMap A₁ D) a =
       (RingHom.snd C D) (e (algebraMap F₁.middle (A₁ ⊗[A] B) ((algebraMap A₁ F₁.middle) a)))
     rw [← F₁.scalarTower.algebraMap_apply, e.commutes]
     rfl
@@ -837,7 +831,7 @@ theorem isTraceElement_of_localization_cover
       map_add' := e.map_add
       map_smul' := by
         intro a x
-        show e ((algebraMap F₁.middle (A₁ ⊗[A] B) a) * x) =
+        change e ((algebraMap F₁.middle (A₁ ⊗[A] B) a) * x) =
           (algebraMap F₁.middle (C × D) a) * e x
         exact e.map_mul _ _ }
   have : Module.Flat F₁.middle (A₁ ⊗[A] B) := flat_of_finiteOpenFactorization F₁
@@ -873,7 +867,7 @@ theorem isTraceElement_of_localization_cover
   have : IsScalarTower A₁ F₁.middle (A₂ ⊗[A₁] C) := by
     apply IsScalarTower.of_algebraMap_eq
     intro a
-    show algebraMap A₁ (A₂ ⊗[A₁] C) a =
+    change algebraMap A₁ (A₂ ⊗[A₁] C) a =
       algebraMap C (A₂ ⊗[A₁] C) (algebraMap F₁.middle C (algebraMap A₁ F₁.middle a))
     rw [← IsScalarTower.algebraMap_apply A₁ F₁.middle C,
       ← IsScalarTower.algebraMap_apply A₁ C (A₂ ⊗[A₁] C)]
@@ -906,7 +900,7 @@ theorem isTraceElement_of_localization_cover
     ((RingHom.fst C₂ D₂).comp (e₂.toRingHom.comp F₂.algebraTarget.algebraMap)).toAlgebra
   have hemap (b : A₁ ⊗[A] B) :
       e₂ (ψ b) = (algebraMap C C₂ (e b).1, algebraMap D D₂ (e b).2) := by
-    show (eC ((baseChangeProdEquiv A₁ A₂ e (ψ b)).1),
+    change (eC ((baseChangeProdEquiv A₁ A₂ e (ψ b)).1),
       eD ((baseChangeProdEquiv A₁ A₂ e (ψ b)).2)) = _
     rw [baseChangeProdEquiv_map]
     rfl
@@ -921,14 +915,14 @@ theorem isTraceElement_of_localization_cover
   have : IsScalarTower A₂ F₂.middle C₂ := by
     apply IsScalarTower.of_algebraMap_eq
     intro a
-    show algebraMap A₂ C₂ a =
+    change algebraMap A₂ C₂ a =
       (e₂ (algebraMap F₂.middle (A₂ ⊗[A] B) (algebraMap A₂ F₂.middle a))).1
     rw [← IsScalarTower.algebraMap_apply, e₂.commutes]
     rfl
   have : IsScalarTower F₁.middle F₂.middle C₂ := by
     apply IsScalarTower.of_algebraMap_eq
     intro a
-    show algebraMap F₁.middle C₂ a = (e₂ (algebraMap F₂.middle (A₂ ⊗[A] B) (φ a))).1
+    change algebraMap F₁.middle C₂ a = (e₂ (algebraMap F₂.middle (A₂ ⊗[A] B) (φ a))).1
     rw [hφ, hemap]
     exact IsScalarTower.algebraMap_apply F₁.middle C C₂ a
   have : IsScalarTower A₁ F₂.middle C₂ := by
@@ -965,7 +959,7 @@ theorem isTraceElement_of_localization_cover
     (fun _ => rfl) (fun b => congrArg Prod.fst (hemap ((1 : A₁) ⊗ₜ[A] b)))
     hdual hbase hfinite hprojective hmfinite hmprojective
     hC₂finite hC₂projective inferInstance inferInstance τ c
-  show algebraMap A₁ A₂ _ = algebraMap A₁ A₂ _
+  change algebraMap A₁ A₂ _ = algebraMap A₁ A₂ _
   rw [← hrestriction, htrace]
   exact @finiteProjectiveTrace_lmul_baseChange A₁ A₂ C C₂
     _ _ _ _ _ _ _ _ _ hC₂tower _ hfinite hprojective hC₂finite hC₂projective hpushoutC.out c

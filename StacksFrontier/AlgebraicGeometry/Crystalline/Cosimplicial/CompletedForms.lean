@@ -117,7 +117,7 @@ public lemma pow_smul_top_le_comap (g : P →ₛₗ[σ] Q) (h : I.map σ ≤ J) 
     I ^ n • (⊤ : Submodule R P) ≤ (J ^ n • (⊤ : Submodule S Q)).comap g := by
   apply Submodule.smul_le.mpr
   intro r hr x _
-  show g (r • x) ∈ J ^ n • (⊤ : Submodule S Q)
+  change g (r • x) ∈ J ^ n • (⊤ : Submodule S Q)
   rw [g.map_smulₛₗ]
   refine Submodule.smul_mem_smul ?_ Submodule.mem_top
   have hr' : σ r ∈ (I.map σ) ^ n := by
@@ -164,7 +164,7 @@ public lemma adicCompletionMapₛₗ_continuous (g : P →ₛₗ[σ] Q) (h : I.m
     SemilinearCosimplicialModule.AdicContinuous I J (adicCompletionMapₛₗ g h) := by
   intro n
   refine ⟨n, fun x hx => ?_⟩
-  show adicQuotientMap g h n (AdicCompletion.eval I P n x) = 0
+  change adicQuotientMap g h n (AdicCompletion.eval I P n x) = 0
   rw [hx, map_zero]
 
 public lemma adicCompletionMapₛₗ_comp_apply {T V : Type*} [CommRing T] [AddCommGroup V]
@@ -175,7 +175,7 @@ public lemma adicCompletionMapₛₗ_comp_apply {T V : Type*} [CommRing T] [AddC
     adicCompletionMapₛₗ l hl x = adicCompletionMapₛₗ k hk (adicCompletionMapₛₗ g hg x) := by
   apply AdicCompletion.ext
   intro n
-  show adicQuotientMap l hl n (x.val n) =
+  change adicQuotientMap l hl n (x.val n) =
     adicQuotientMap k hk n (adicQuotientMap g hg n (x.val n))
   obtain ⟨a, ha⟩ := Submodule.mkQ_surjective _ (x.val n)
   rw [← ha, adicQuotientMap_mkQ, adicQuotientMap_mkQ, adicQuotientMap_mkQ, hcomp]
@@ -185,7 +185,7 @@ public lemma adicCompletionMapₛₗ_id_apply {ρ : R →+* R} (g : P →ₛₗ[
     adicCompletionMapₛₗ g hg x = x := by
   apply AdicCompletion.ext
   intro n
-  show adicQuotientMap g hg n (x.val n) = x.val n
+  change adicQuotientMap g hg n (x.val n) = x.val n
   obtain ⟨a, ha⟩ := Submodule.mkQ_surjective _ (x.val n)
   rw [← ha, adicQuotientMap_mkQ, hid]
 
@@ -215,7 +215,7 @@ public lemma adicCompletionMapLinear_zero (I : Ideal R) :
   intro x
   apply AdicCompletion.ext
   intro n
-  show adicQuotientMap (0 : P' →ₗ[R] Q') _ n (x.val n) = 0
+  change adicQuotientMap (0 : P' →ₗ[R] Q') _ n (x.val n) = 0
   obtain ⟨a, ha⟩ := Submodule.mkQ_surjective _ (x.val n)
   rw [← ha, adicQuotientMap_mkQ, LinearMap.zero_apply, map_zero]
 
@@ -241,7 +241,7 @@ public lemma adicCompletion_addMonoidHom_ext {F G : AdicCompletion I P →+ Adic
   have hF0 := hmF _ (key _ (Nat.le_max_left mF mG))
   have hG0 := hmG _ (key _ (Nat.le_max_right mF mG))
   simp only [map_sub] at hF0 hG0
-  show AdicCompletion.eval J Q n (F x) = AdicCompletion.eval J Q n (G x)
+  change AdicCompletion.eval J Q n (F x) = AdicCompletion.eval J Q n (G x)
   exact (sub_eq_zero.mp hF0).trans <| (congrArg (AdicCompletion.eval J Q n) (h y)).trans <|
     (sub_eq_zero.mp hG0).symm
 
@@ -364,7 +364,7 @@ public lemma completion_naturality (I : CosimplicialIdeal A) {K M : Cosimplicial
     adicContinuous_of_comp (adicCompletionMapLinear_continuous f (I.obj (unop (unop X))))
       (adicCompletionMapₛₗ_continuous (M.restrictₛₗ φ) (I.map_le φ.unop.unop)) (fun _ => rfl)
   have h : F = G := adicCompletion_addMonoidHom_ext hF hG (fun y => by
-    show adicCompletionMapLinear g _
+    change adicCompletionMapLinear g _
         (adicCompletionMapₛₗ (K.restrictₛₗ φ) _ (AdicCompletion.of _ _ y)) =
       adicCompletionMapₛₗ (M.restrictₛₗ φ) _
         (adicCompletionMapLinear f _ (AdicCompletion.of _ _ y))
@@ -451,7 +451,7 @@ public lemma exteriorPowerFunctor_map_zero {K M : CosimplicialModule A} {i : ℕ
   apply ModuleCat.exteriorPower.hom_ext
   apply ModuleCat.AlternatingMap.ext
   intro x
-  show ModuleCat.exteriorPower.map (0 : K.obj X ⟶ M.obj X) i
+  change ModuleCat.exteriorPower.map (0 : K.obj X ⟶ M.obj X) i
       (ModuleCat.exteriorPower.mk x) = 0
   rw [ModuleCat.exteriorPower.map_mk]
   exact _root_.AlternatingMap.map_coord_zero
@@ -481,7 +481,7 @@ public theorem homotopic_id_tensor {K M : CosimplicialModule A} {φ ψ : K ⟶ M
   · intro n m g α
     apply ModuleCat.MonoidalCategory.tensor_ext
     intro y z
-    show L.map g.op.op y ⊗ₜ hab.app m α (K.map g.op.op z) =
+    change L.map g.op.op y ⊗ₜ hab.app m α (K.map g.op.op z) =
       L.map g.op.op y ⊗ₜ M.map g.op.op (hab.app n ((Δ[1] : SSet.{0}).map g.op α) z)
     congr 1
     exact ConcreteCategory.congr_hom (hab.naturality g α) z
@@ -502,7 +502,7 @@ public theorem homotopic_id_tensor_zero {K : CosimplicialModule A} (h : Homotopi
     intro X
     apply ModuleCat.MonoidalCategory.tensor_ext
     intro y z
-    show y ⊗ₜ (0 : K.obj X) = 0
+    change y ⊗ₜ (0 : K.obj X) = 0
     exact TensorProduct.tmul_zero _ _
   rw [MonoidalCategory.id_tensorHom_id] at hh
   simpa only [hz] using hh

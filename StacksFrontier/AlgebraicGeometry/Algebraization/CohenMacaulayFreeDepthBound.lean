@@ -33,7 +33,7 @@ theorem natCast_lt_enatToEInt_add_krullDimToEInt_add_enatToEInt {a c : ℕ∞} {
   have hm := krullDimToEInt_mono h1
   rw [krullDimToEInt_add, krullDimToEInt_add, krullDimToEInt_coe, krullDimToEInt_coe] at hm
   refine lt_of_lt_of_le ?_ hm
-  show ((n : ℤ) : EInt) < (((n + 1 : ℕ) : ℤ) : EInt)
+  change ((n : ℤ) : EInt) < (((n + 1 : ℕ) : ℤ) : EInt)
   exact WithBotTop.coe_lt_coe.mpr (by omega)
 
 /-- A Krull-dimension value that is neither `⊥` nor `⊤` is a natural number. -/
@@ -90,7 +90,7 @@ private theorem natCast_lt_add_add_of_le_of_toNat_le {NA Na Nq Nw d : ℕ} {a c 
     push_cast at h3 ⊢
     exact h3
   rw [← WithBot.coe_add, ← WithBot.coe_add]
-  show (((d + 2 : ℕ) : ℕ∞) : WithBot ℕ∞) < _
+  change (((d + 2 : ℕ) : ℕ∞) : WithBot ℕ∞) < _
   exact WithBot.coe_lt_coe.mpr h2
 
 /-- **The depth bound of Stacks 0EJP at a point of `U ∩ Y`.** In Situation 0EHC assume that `A` is
@@ -162,7 +162,7 @@ public theorem depthAddDimAddDistance_gt_of_isCohenMacaulay_of_free
     rw [show q.asIdeal = (S.Yι.base z : PrimeSpectrum S.A).asIdeal from
       congrArg PrimeSpectrum.asIdeal hx₀]
     intro x hx
-    show Ideal.Quotient.mk S.I x ∈ (z : PrimeSpectrum (S.A ⧸ S.I)).asIdeal
+    change Ideal.Quotient.mk S.I x ∈ (z : PrimeSpectrum (S.A ⧸ S.I)).asIdeal
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr hx]
     exact Submodule.zero_mem _
   have hIne : S.I ≠ ⊤ := fun h => q.isPrime.ne_top (top_le_iff.mp (h ▸ hqI))
@@ -237,7 +237,7 @@ public theorem depthAddDimAddDistance_gt_of_isCohenMacaulay_of_free
       rw [htop]
       exact natCast_lt_add_add_top hb _ _
   have h := natCast_lt_enatToEInt_add_krullDimToEInt_add_enatToEInt (d + 2) hgoal
-  show ((d + 2 : ℤ) : EInt) < _
+  change ((d + 2 : ℤ) : EInt) < _
   exact_mod_cast h
 
 /-- **The example in hypothesis (6) of Stacks 0EJP.** If every term `ℱₙ` of an object of

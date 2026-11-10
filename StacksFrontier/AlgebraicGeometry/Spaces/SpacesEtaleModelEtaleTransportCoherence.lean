@@ -391,14 +391,14 @@ theorem leftAdjointCompIso_pushforwardPushforwardAdj_hom_app_val_app
   let W := u₂.obj (u₁.obj V.unop)
   let P := M.val.presheaf
   have h := he N (op W) (P.map (adj₃.counit.app W).op x)
-  show (P.map (u₃.map (v₁.map (adj₂.unit.app (u₁.obj V.unop)))).op ≫
+  change (P.map (u₃.map (v₁.map (adj₂.unit.app (u₁.obj V.unop)))).op ≫
     P.map (u₃.map (adj₁.unit.app V.unop)).op) ((e.inv.app N).val.app (op W)
       (P.map (adj₃.counit.app W).op x)) = _
   rw [h]
-  show (P.map (adj₃.counit.app W).op ≫ P.map (u₃.map (η.app W)).op ≫
+  change (P.map (adj₃.counit.app W).op ≫ P.map (u₃.map (η.app W)).op ≫
     P.map (u₃.map (v₁.map (adj₂.unit.app (u₁.obj V.unop)))).op ≫
     P.map (u₃.map (adj₁.unit.app V.unop)).op) x = _
-  show _ = (P.map ((u₃.map ((adj₁.comp adj₂).unit.app V.unop) ≫ u₃.map (η.app W) ≫
+  change _ = (P.map ((u₃.map ((adj₁.comp adj₂).unit.app V.unop) ≫ u₃.map (η.app W) ≫
     adj₃.counit.app W).op)) x
   rw [Adjunction.comp_unit_app]
   have key : u₃.map (adj₁.unit.app V.unop ≫ v₁.map (adj₂.unit.app (u₁.obj V.unop)) ≫ η.app W) ≫
@@ -506,12 +506,12 @@ theorem restrictionSquareIso_comp {pfg : DX ⥤ DZ} [pfg.IsContinuous JDX JDZ]
         ((pushforward.{u} ιZ).obj M) := by
   ext U x
   let P := M.val.presheaf
-  show P.map (αfg.inv.app U.unop).op ((c.hom.app M).val.app (Opposite.op (eX.obj U.unop)) x) =
+  change P.map (αfg.inv.app U.unop).op ((c.hom.app M).val.app (Opposite.op (eX.obj U.unop)) x) =
     (P.map (pg.map (αf.inv.app U.unop)).op ≫ P.map (αg.inv.app (qf.obj U.unop)).op ≫
       P.map (eZ.map (β.inv.app U.unop)).op) x
   refine (congrArg (fun y => P.map (αfg.inv.app U.unop).op y)
     (hc M (Opposite.op (eX.obj U.unop)) x)).trans ?_
-  show (P.map (γ (eX.obj U.unop)).op ≫ P.map (αfg.inv.app U.unop).op) x = _
+  change (P.map (γ (eX.obj U.unop)).op ≫ P.map (αfg.inv.app U.unop).op) x = _
   rw [← P.map_comp, ← P.map_comp, ← P.map_comp, ← op_comp, ← op_comp, ← op_comp, Category.assoc,
     hm]
 
@@ -674,7 +674,7 @@ theorem smallModelPostcompPushforwardComp_hom_app_val_app
   refine (congrArg (fun t => t.val.app V x) h1).trans ?_
   let W := (smallModelPostcomp B S hS g hg).obj ((smallModelPostcomp B S hS f hf).obj V.unop)
   let P := M.val.presheaf
-  show (P.map ((smallModelPostcompAdjunction B S hS (f ≫ g) hfg).counit.app W).op ≫
+  change (P.map ((smallModelPostcompAdjunction B S hS (f ≫ g) hfg).counit.app W).op ≫
     P.map ((smallModelPostcomp B S hS (f ≫ g) hfg).map
       ((smallModelBaseChangeComp B S hS f g).hom.app W)).op ≫
     P.map ((smallModelPostcomp B S hS (f ≫ g) hfg).map ((smallModelBaseChange B S hS f).map
@@ -772,7 +772,7 @@ theorem smallEtaleModelPostcompSharp_comp :
     let A := (smallEtalePostcomp B S hS f hf).obj
         ((smallEtaleModelEquiv B S hS X).inverse.obj T.unop)
     have hm := smallEtaleModelPostcompComp_inv_app_op_comp B S hS f g hf hg hfg T.unop
-    show (O.map ((smallEtalePostcomp B S hS g hg).map
+    change (O.map ((smallEtalePostcomp B S hS g hg).map
         ((smallEtaleModelEquiv B S hS Y).unitIso.inv.app A)).op ≫
       O.map ((smallEtaleModelEquiv B S hS Z).unitIso.inv.app ((smallEtalePostcomp B S hS g hg).obj
         ((smallEtaleModelEquiv B S hS Y).inverse.obj

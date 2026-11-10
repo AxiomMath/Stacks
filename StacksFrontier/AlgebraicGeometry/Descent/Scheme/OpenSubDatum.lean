@@ -383,7 +383,7 @@ the morphism it is built from. -/
 lemma overRestrictOpenIso_hom_comp (i : E ⟶ D) [IsOpenImmersion (i.hom ()).left] :
     (overRestrictOpenIso i).hom ≫ D.restrictOpenι (i.hom ()).left.opensRange = i.hom () := by
   ext
-  show (overLeftRestrictOpenIso i).hom ≫
+  change (overLeftRestrictOpenIso i).hom ≫
     ((i.hom ()).left.opensRange : D.over.left.Opens).ι = (i.hom ()).left
   exact overLeftRestrictOpenIso_hom_comp_ι i
 

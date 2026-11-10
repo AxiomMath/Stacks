@@ -68,7 +68,7 @@ theorem isIso_stalkToSections (η : genericPoints X) {U : X.Opens} (hη : (η : 
 theorem subsingleton_stalkPresheaf_obj {η : genericPoints X} {U : X.Opens} (hη : (η : X) ∉ U) :
     Subsingleton ((stalkPresheaf X η).obj (op U)) := by
   have h : (X.fromSpecStalk η.1) ⁻¹ᵁ U = ⊥ := fromSpecStalk_preimage_eq_bot η.2 hη
-  show Subsingleton
+  change Subsingleton
     ((Spec (X.presheaf.stalk η.1)).presheaf.obj (op ((X.fromSpecStalk η.1) ⁻¹ᵁ U)))
   rw [h]
   infer_instance

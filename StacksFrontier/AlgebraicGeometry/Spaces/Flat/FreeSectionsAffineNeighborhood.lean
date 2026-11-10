@@ -56,7 +56,7 @@ theorem Scheme.Pullback.eq_of_fst_eq_of_snd_eq_of_isIso_residueFieldMap
   have : IsIso (g.residueFieldMap T.y) := hiso
   have : IsIso ((S.residueFieldCongr T.hy).inv ≫ g.residueFieldMap T.y) := inferInstance
   have : IsIso T.tensorInl := by
-    show IsIso (pushout.inl
+    change IsIso (pushout.inl
       ((S.residueFieldCongr T.hx).inv ≫ f.residueFieldMap T.x)
       ((S.residueFieldCongr T.hy).inv ≫ g.residueFieldMap T.y))
     infer_instance

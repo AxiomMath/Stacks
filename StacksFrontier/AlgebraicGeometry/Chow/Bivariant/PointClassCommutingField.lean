@@ -457,7 +457,7 @@ theorem chowClassesGeneratedByBaseFlatPullbacks_field :
       rw [Function.locallyFinsuppWithin.negPart_apply, h, negPart_zero])⟩
     have ha : a = P - N := by
       refine Subtype.ext (Function.locallyFinsuppWithin.ext fun x ↦ ?_)
-      show a.1 x = (a.1 x)⁺ - (a.1 x)⁻
+      change a.1 x = (a.1 x)⁺ - (a.1 x)⁻
       exact (posPart_sub_negPart (a.1 x)).symm
     have hmk :
         QuotientAddGroup.mk' (rationalEquivalences (fieldChowSituation k) sX (-p)) a ∈ H := by

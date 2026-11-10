@@ -124,7 +124,7 @@ lemma isCompact_preimage_of_le_opensRange (f : Y ⟶ X) [IsOpenImmersion f] {W :
     IsCompact ((f ⁻¹ᵁ W : Y.Opens) : Set Y) := by
   rw [f.isOpenEmbedding.isEmbedding.isCompact_iff]
   convert hc using 1
-  show (f.base) '' ((f.base) ⁻¹' (W : Set X)) = _
+  change (f.base) '' ((f.base) ⁻¹' (W : Set X)) = _
   rw [Set.image_preimage_eq_inter_range]
   exact Set.inter_eq_self_of_subset_left hW
 
@@ -257,7 +257,7 @@ theorem isFiniteType_of_restrict_of_isQuasicoherent (M : X.Modules) [M.IsQuasico
 private lemma isOpenCover_preimage_sup (U V : X.Opens) :
     IsOpenCover (fun b : Bool => if b then (U ⊔ V).ι ⁻¹ᵁ U else (U ⊔ V).ι ⁻¹ᵁ V) := by
   rw [IsOpenCover, iSup_bool_eq]
-  show (U ⊔ V).ι ⁻¹ᵁ U ⊔ (U ⊔ V).ι ⁻¹ᵁ V = ⊤
+  change (U ⊔ V).ι ⁻¹ᵁ U ⊔ (U ⊔ V).ι ⁻¹ᵁ V = ⊤
   ext x
   simp only [Opens.coe_sup, Set.mem_union, Opens.coe_top, Set.mem_univ, iff_true]
   exact x.2

@@ -127,7 +127,7 @@ theorem finiteType_and_isPushout_of_fibreProduct
     RingHom.codRestrict ((BtoD.hom.comp base.pullbackCone.fst.hom).prod
         (A'toC'.hom.comp base.pullbackCone.snd.hom))
       (RingHom.pullback DtoC.hom C'toC.hom) (fun x ↦ by
-        show DtoC.hom (BtoD.hom (base.pullbackCone.fst.hom x)) =
+        change DtoC.hom (BtoD.hom (base.pullbackCone.fst.hom x)) =
           C'toC.hom (A'toC'.hom (base.pullbackCone.snd.hom x))
         have hd : DtoC.hom.comp BtoD.hom = AtoC.hom.comp toBase.hom :=
           congrArg CommRingCat.Hom.hom hD.w
@@ -192,18 +192,18 @@ theorem finiteType_and_isPushout_of_fibreProduct
     ?_, ?_⟩
   · exact hp.2.of_iso eSource.symm eTarget.symm (Iso.refl _) (Iso.refl _)
       hmap (by
-        show sourceCone.snd ≫ 𝟙 _ = eSource.inv ≫ toA'
+        change sourceCone.snd ≫ 𝟙 _ = eSource.inv ≫ toA'
         simpa only [Category.comp_id] using hSourceInvSnd.symm)
       (by
-        show targetCone.snd ≫ 𝟙 _ = eTarget.inv ≫ PtoC'
+        change targetCone.snd ≫ 𝟙 _ = eTarget.inv ≫ PtoC'
         simpa only [Category.comp_id] using hTargetSnd)
       (by simp only [Iso.refl_hom, Category.id_comp, Category.comp_id]; rfl)
   · exact hp.1.of_iso eSource.symm eTarget.symm (Iso.refl _) (Iso.refl _)
       hmap (by
-        show sourceCone.fst ≫ 𝟙 _ = eSource.inv ≫ toB
+        change sourceCone.fst ≫ 𝟙 _ = eSource.inv ≫ toB
         simpa only [Category.comp_id] using hSourceInvFst.symm)
       (by
-        show targetCone.fst ≫ 𝟙 _ = eTarget.inv ≫ PtoD
+        change targetCone.fst ≫ 𝟙 _ = eTarget.inv ≫ PtoD
         simpa only [Category.comp_id] using hTargetFst)
       (by simp only [Iso.refl_hom, Category.id_comp, Category.comp_id]; rfl)
 
@@ -256,7 +256,7 @@ public theorem isPullback_of_forall_exists_restrict
     (fun x => (V x).ι) (fun x => ⟨x, ⟨x, hx x⟩, rfl⟩)
   apply Scheme.isPullback_of_openCover p q f g cov
   intro x
-  show IsPullback (Limits.pullback.snd p (V x).ι)
+  change IsPullback (Limits.pullback.snd p (V x).ι)
     (Limits.pullback.fst p (V x).ι ≫ q) ((V x).ι ≫ f) g
   let e := (isPullback_morphismRestrict p (V x)).flip.isoPullback
   apply (hV x).of_iso e (Iso.refl _) (Iso.refl _) (Iso.refl _)
@@ -451,10 +451,10 @@ private theorem pushoutMap_appLE_properties
   have hLeftOpen : Vz = d.i' ⁻¹ᵁ Vx ⊓ d.h ⁻¹ᵁ Uz := by
     refine le_antisymm (le_inf ?_ hVzh) fun z hz => ?_
     · intro z hz
-      show z ∈ s'.i ⁻¹ᵁ Vx
+      change z ∈ s'.i ⁻¹ᵁ Vx
       rw [he']
       exact hz
-    · show z ∈ Vz
+    · change z ∈ Vz
       rw [← he']
       exact hz.1
   have hD : IsPushout (d.g.appLE Uy Vy hVyle) (s.j.appLE Uy Uz hUzle)

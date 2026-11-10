@@ -101,7 +101,7 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
 private lemma terminalSectionToEnd_one_ofSize :
     Stacks.SheafOfModules.terminalSectionToEnd.{v, u, max u v w, max u v w} R T hT 1 = 1 := by
   ext M V x
-  show (ConcreteCategory.hom (R.obj.map (hT.from (unop V)).op) 1) • x = x
+  change (ConcreteCategory.hom (R.obj.map (hT.from (unop V)).op) 1) • x = x
   rw [map_one, one_smul]
 
 /-- Multiplication by a product of sections over a terminal object composes the two
@@ -111,7 +111,7 @@ private lemma terminalSectionToEnd_mul_ofSize (f g : R.obj.obj (op T)) :
       Stacks.SheafOfModules.terminalSectionToEnd.{v, u, max u v w, max u v w} R T hT f *
         Stacks.SheafOfModules.terminalSectionToEnd.{v, u, max u v w, max u v w} R T hT g := by
   ext M V x
-  show (ConcreteCategory.hom (R.obj.map (hT.from (unop V)).op) (f * g)) • x =
+  change (ConcreteCategory.hom (R.obj.map (hT.from (unop V)).op) (f * g)) • x =
     (ConcreteCategory.hom (R.obj.map (hT.from (unop V)).op) f) •
       (ConcreteCategory.hom (R.obj.map (hT.from (unop V)).op) g) • x
   rw [map_mul, mul_smul]
@@ -120,7 +120,7 @@ private lemma terminalSectionToEnd_mul_ofSize (f g : R.obj.obj (op T)) :
 private lemma terminalSectionToEnd_zero_ofSize :
     Stacks.SheafOfModules.terminalSectionToEnd.{v, u, max u v w, max u v w} R T hT 0 = 0 := by
   ext M V x
-  show (ConcreteCategory.hom (R.obj.map (hT.from (unop V)).op) 0) • x = 0
+  change (ConcreteCategory.hom (R.obj.map (hT.from (unop V)).op) 0) • x = 0
   rw [map_zero, zero_smul]
 
 /-- Multiplication by a sum of sections over a terminal object is the sum of the two
@@ -130,7 +130,7 @@ private lemma terminalSectionToEnd_add_ofSize (f g : R.obj.obj (op T)) :
       Stacks.SheafOfModules.terminalSectionToEnd.{v, u, max u v w, max u v w} R T hT f +
         Stacks.SheafOfModules.terminalSectionToEnd.{v, u, max u v w, max u v w} R T hT g := by
   ext M V x
-  show (ConcreteCategory.hom (R.obj.map (hT.from (unop V)).op) (f + g)) • x =
+  change (ConcreteCategory.hom (R.obj.map (hT.from (unop V)).op) (f + g)) • x =
     (ConcreteCategory.hom (R.obj.map (hT.from (unop V)).op) f) • x +
       (ConcreteCategory.hom (R.obj.map (hT.from (unop V)).op) g) • x
   rw [map_add, add_smul]
@@ -166,13 +166,15 @@ private theorem terminalScalarHomOfSize_evaluation
     ((((SheafOfModules.evaluation (R.over U) (op V)).map
       ((terminalScalarHomOfSize R U f).app M)).hom) x) =
       ((R.over U).obj.map (Over.mkIdTerminal.from V).op f) • x := by
-  show ((((SheafOfModules.evaluation (R.over U) (op V)).map
+  change ((((SheafOfModules.evaluation (R.over U) (op V)).map
       ((Stacks.SheafOfModules.terminalSectionToEnd (R.over U) (Over.mk (𝟙 U))
         Over.mkIdTerminal f).asHom.app M)).hom) x) = _
   exact Stacks.SheafOfModules.terminalSectionToEnd_apply (R.over U) (Over.mk (𝟙 U))
     Over.mkIdTerminal f M (op V) x
 
 set_option maxHeartbeats 1000000 in
+-- the statement and proof stack local `Linear`/`Algebra` instances and `change` steps through
+-- `SheafOfModules.evaluation` on the slice site
 private theorem overEvaluation_linear_ofSize
     {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
     (R : Sheaf J RingCat.{max u v w}) (U : C)
@@ -197,10 +199,10 @@ private theorem overEvaluation_linear_ofSize
   let B := (R.over U).obj.obj (op V)
   let ρ : A →+* B := ((R.over U).obj.map (Over.mkIdTerminal.from V).op).hom
   let : IsMulCommutative A := by
-    show IsMulCommutative ((R.over U).obj.obj (op (Over.mk (𝟙 U))))
+    change IsMulCommutative ((R.over U).obj.obj (op (Over.mk (𝟙 U))))
     infer_instance
   let : IsMulCommutative B := by
-    show IsMulCommutative ((R.over U).obj.obj (op V))
+    change IsMulCommutative ((R.over U).obj.obj (op V))
     infer_instance
   let : CommSemiring A := inferInstance
   let : CommSemiring B := inferInstance
@@ -209,7 +211,7 @@ private theorem overEvaluation_linear_ofSize
   let : Linear A (SheafOfModules.{max u v w} (R.over U)) :=
     Linear.ofRingMorphism (terminalScalarHomOfSize R U)
   let E := SheafOfModules.evaluation (R.over U) (op V)
-  show Functor.Linear A E
+  change Functor.Linear A E
   refine ⟨fun {M N} g a => ?_⟩
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
   change ((E.map (((terminalScalarHomOfSize R U a).app M) ≫ g)).hom x) = _
@@ -351,7 +353,7 @@ private theorem overFunctor_preservesFiniteColimits_of_sliceTestingFamily
     evaluation_preservesFiniteColimits_of_sliceTestingFamily (R.over U) hOver V.1 V.2
   let : ∀ V, PreservesFiniteColimits (SheafOfModules.overFunctor.{max u v w} R U ⋙ E V) :=
     fun V => by
-      show PreservesFiniteColimits (SheafOfModules.evaluation R (op V.1.left))
+      change PreservesFiniteColimits (SheafOfModules.evaluation R (op V.1.left))
       exact evaluation_preservesFiniteColimits_of_sliceTestingFamily R h V.1.left V.2
   exact preservesFiniteColimits_of_jointlyReflects (SheafOfModules.overFunctor.{max u v w} R U) E
     (evaluationFamily_jointlyReflectsIsomorphisms_of_sliceTestingFamily (R.over U) hOver)
@@ -373,7 +375,7 @@ private theorem overFunctor_preservesFiniteLimits_of_sliceTestingFamily
     apply (Stacks.WeaklyContractible.SliceTestingFamily.exact_iff_exact_sections (J.over U) hOver
       (R.over U) (complex.map F)).mpr
     intro V hV
-    show Function.Exact (complex.f.val.app (op V.left))
+    change Function.Exact (complex.f.val.app (op V.left))
       (complex.g.val.app (op V.left))
     exact (Stacks.WeaklyContractible.SliceTestingFamily.exact_iff_exact_sections J h R
       complex).mp hExact hV
@@ -434,7 +436,7 @@ public theorem isDerivedComplete_iff_derivedSections_of_sliceTestingFamily
   · intro hCompleteAll U hU
     let R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U)
     let : IsMulCommutative R := by
-      show IsMulCommutative (X.O.obj.obj (op U))
+      change IsMulCommutative (X.O.obj.obj (op U))
       infer_instance
     let : CommSemiring R := inferInstance
     let E := SheafOfModules.evaluation
@@ -458,12 +460,12 @@ public theorem isDerivedComplete_iff_derivedSections_of_sliceTestingFamily
     let F := SheafOfModules.overFunctor (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U
     let hOver := Stacks.WeaklyContractible.SliceTestingFamily.over X.J h U
     let : ∀ V : (Over U)ᵒᵖ, IsMulCommutative (ROver.obj.obj V) := fun V => by
-      show IsMulCommutative (X.O.obj.obj (op V.unop.left))
+      change IsMulCommutative (X.O.obj.obj (op V.unop.left))
       infer_instance
     let terminal : Over U := Over.mk (𝟙 U)
     let : ∀ W : (Over terminal)ᵒᵖ,
         IsMulCommutative ((ROver.over terminal).obj.obj W) := fun W => by
-      show IsMulCommutative (ROver.obj.obj (op W.unop.left))
+      change IsMulCommutative (ROver.obj.obj (op W.unop.left))
       infer_instance
     let : Linear (CatCenter A) A :=
       Linear.ofRingMorphism (RingHom.id (CatCenter A))
@@ -519,7 +521,7 @@ public theorem isDerivedComplete_iff_derivedSections_of_sliceTestingFamily
     let : ∀ V : {V : Over U // hOver.B V}, PreservesFiniteColimits (Eval V) := fun V =>
       evaluation_preservesFiniteColimits_of_sliceTestingFamily ROver hOver V.1 V.2
     let : ∀ V : {V : Over U // hOver.B V}, Functor.Linear R (Eval V) := fun V => by
-      show Functor.Linear R
+      change Functor.Linear R
         (SheafOfModules.evaluation
           ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U) (op V.1))
       exact overEvaluation_linear_ofSize (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U V.1
@@ -576,7 +578,7 @@ public theorem isDerivedComplete_iff_derivedSections_of_sliceTestingFamily
           terminalLinear ModuleCat.instLinear f f ?_ Y Z morphism
         intro M N map
         ext x
-        show (show R from ROver.obj.map (Over.mkIdTerminal.from terminal).op f) •
+        change (show R from ROver.obj.map (Over.mkIdTerminal.from terminal).op f) •
           map.hom x = f • map.hom x
         have hid : Over.mkIdTerminal.from terminal = 𝟙 terminal :=
           Over.mkIdTerminal.hom_ext _ _
@@ -603,10 +605,10 @@ public theorem isDerivedComplete_iff_derivedSections_of_sliceTestingFamily
     refine ⟨inferInstance, inferInstance, inferInstance, inferInstance, ?_⟩
     let R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U)
     let : IsMulCommutative R := by
-      show IsMulCommutative (X.O.obj.obj (op U))
+      change IsMulCommutative (X.O.obj.obj (op U))
       infer_instance
     let : ∀ V : (Over U)ᵒᵖ, IsMulCommutative (ROver.obj.obj V) := fun V => by
-      show IsMulCommutative (X.O.obj.obj (op V.unop.left))
+      change IsMulCommutative (X.O.obj.obj (op V.unop.left))
       infer_instance
     let φ := terminalScalarHomOfSize (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U
     let : Linear (CatCenter A) A := Linear.ofRingMorphism (RingHom.id (CatCenter A))
@@ -663,7 +665,7 @@ public theorem isDerivedComplete_iff_derivedSections_of_sliceTestingFamily
       have hmem := I.toSubmodule.map_mem V.1.hom.op hf
       change (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.map V.1.hom.op f ∈
         I.toSubmodule.obj (op V.1.left) at hmem
-      show (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.map
+      change (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.map
         ((Over.mkIdTerminal.from V.1).left).op f ∈ I.toSubmodule.obj (op V.1.left)
       rw [Over.mkIdTerminal_from_left]
       exact hmem

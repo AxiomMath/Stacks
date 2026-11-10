@@ -231,8 +231,8 @@ theorem exists_denseRange_isRepresentable_isOpenSubspace_of_isReasonableSpace
     have hfac : (Limits.Sigma.map fun i => ψ i) ≫ (Sigma.desc fun i => (Y i).ι) =
         Sigma.desc φ := by
       refine Sigma.hom_ext _ _ fun i => ?_
-      rw [← Category.assoc, Limits.Sigma.ι_map, Category.assoc, Sigma.ι_desc, Sigma.ι_desc,
-        hψfac i]
+      rw [← Category.assoc, Limits.Sigma.ι_map, Category.assoc, Sigma.ι_comp_desc,
+        Sigma.ι_comp_desc, hψfac i]
     have _ := hloc
     exact points_cover_of_isLocallySurjective_sigma_desc B S hS X I Y
       (Presheaf.isLocallySurjective_of_isLocallySurjective_fac _ hfac)

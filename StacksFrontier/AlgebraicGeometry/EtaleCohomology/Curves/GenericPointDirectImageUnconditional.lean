@@ -15,7 +15,8 @@ public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.KummerTheory.Mult
 # GenericPointDirectImageUnconditional
 
 Stronger forms of declarations of
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Curves.GenericPointDirectImage`, stated as separate
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Curves.GenericPointDirectImage`, stated as
+separate
 declarations beside the ones there: over more general coefficient universes, or with inputs that
 are carried there as hypotheses discharged, together with the new results built on them.
 -/

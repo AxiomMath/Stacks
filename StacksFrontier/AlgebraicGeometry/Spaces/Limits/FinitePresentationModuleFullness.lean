@@ -42,6 +42,7 @@ universe u
 namespace AlgebraicGeometry.Space
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_FinitePresentationModuleFullness
@@ -159,7 +160,7 @@ theorem chartStageMap_naturality {k k' : Over i} (e : k ⟶ k') :
   have hnat : yoneda.map (C.siteDiagram.map e) ≫ C.iso.hom.app k' =
       C.iso.hom.app k ≫ (stageBaseChangeDiagram B S hS i D U₀ f₀).map e :=
     C.iso.hom.naturality e
-  show yoneda.map (C.siteDiagram.map e) ≫ C.iso.hom.app k' ≫
+  change yoneda.map (C.siteDiagram.map e) ≫ C.iso.hom.app k' ≫
       stageBaseChangeFst B S hS i D U₀ f₀ k' =
     (C.iso.hom.app k ≫ stageBaseChangeFst B S hS i D U₀ f₀ k) ≫ D.map e.left
   rw [← Category.assoc, hnat, Category.assoc, stageBaseChangeDiagram_map_comp_fst,
@@ -313,6 +314,7 @@ noncomputable def pairStageProj (j : Over l.left) :
         _ = _ := by simp only; try rfl))
 
 include hpr in
+omit [IsCofiltered I] in
 /-- The projection `pairStageProj`, followed by the chart of `j'`, is the first projection of the
 base change `X_j ×_{X_l} (U_l ×_{X_l} U_l)`. -/
 theorem pairStageProj_comp_stageMap (j : Over l.left) :
@@ -345,6 +347,7 @@ theorem pullback_comp_eq_aux {C' : Type*} [Category C'] {P A Uj Ul Xj Xl Xi V : 
   · rw [Category.assoc, n2, hv2, Category.assoc]
 
 include hpr in
+omit [IsCofiltered I] in
 /-- The projection of the base change, followed by the chart transition to `l`, is the
 projection of the kernel pair. -/
 theorem pairStageProj_comp_transition (j : Over l.left) :
@@ -400,6 +403,7 @@ theorem comp_assoc_aux {C' : Type*} [Category C'] {T P A Ul : C'} (v : T ⟶ P) 
     v ≫ snd ≫ pr = w := by
   rw [← Category.assoc, h1, h2]
 
+omit [IsCofiltered I] in
 /-- **Every pair of morphisms into the chart of `j'` with equal composites to the stage factors
 through the base change of the kernel pair.** -/
 theorem exists_factor_pairStageProj (j : Over l.left) (T : AlgebraicSpaces B S hS)
@@ -481,6 +485,7 @@ theorem comp_eq_aux₃ {C' : Type*} [Category C'] {R Uj Ul A Xl Xi : C'} (P : R 
   rw [← h2, ← Category.assoc, h1, ← hpr]
   simp only [Category.assoc]
 
+omit [IsCofiltered I] in
 /-- The two projections of the base change of the kernel pair to the chart of `j'`, read on a
 morphism over the chart of `l`. -/
 theorem moduleHomRestrict_pairStageProj_eq {M N : Modules.{u, u} B S hS
@@ -511,6 +516,7 @@ theorem moduleHomRestrict_pairStageProj_eq {M N : Modules.{u, u} B S hS
   rw [moduleHomRestrict_homRestrict' _ _ _ (pairStageProj_comp_transition B S hS D hD C l pr hpr j),
     moduleHomRestrict_homRestrict' _ _ _ rfl, homConj_homRestrict', homConj_homConjInv]
 
+omit [IsCofiltered I] in
 /-- **The descent condition at the stage `j'`**, from the agreement of the two restrictions to the
 base change of the kernel pair. -/
 theorem descent_condition_of_pair {M N : Modules.{u, u} B S hS

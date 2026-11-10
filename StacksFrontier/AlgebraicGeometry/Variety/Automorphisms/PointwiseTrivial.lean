@@ -297,12 +297,12 @@ private lemma dense_coprime_power_loci (k : Type u) [Field k] [Finite k] (n : �
       · change Polynomial.aeval (R := k) b P = 0 at hb
         simpa only [Polynomial.eval_map, Polynomial.aeval_def] using hb
       · refine ⟨m, hmn, ?_⟩
-        show Polynomial.aeval (R := k) b (Polynomial.X ^ (Nat.card k ^ m) - Polynomial.X) = 0
+        change Polynomial.aeval (R := k) b (Polynomial.X ^ (Nat.card k ^ m) - Polynomial.X) = 0
         simp only [map_sub, map_pow, Polynomial.aeval_X]
         rw [← FiniteField.natCard_extension k p m, ← Fintype.card_eq_nat_card]
         exact sub_eq_zero.mpr (FiniteField.pow_card b)
     · rw [Finset.card_univ, Fintype.card_eq_nat_card]
-      show (P.map (algebraMap k L)).natDegree < Nat.card (FiniteField.Extension k p m)
+      change (P.map (algebraMap k L)).natDegree < Nat.card (FiniteField.Extension k p m)
       rw [Polynomial.natDegree_map, FiniteField.natCard_extension]
       have hdm : P.natDegree < m := by
         rw [hm]
@@ -390,7 +390,7 @@ private lemma comap_quotientMapₐ_eq {k : Type u} {A : Type v} [Field k] [CommR
   refine PrimeSpectrum.ext
     (Ideal.comap_injective_of_surjective _ Ideal.Quotient.mk_surjective ?_)
   ext b
-  show b ∈ Ideal.comap φ.toRingHom (Ideal.comap (Ideal.Quotient.mk p) Q.asIdeal) ↔ _
+  change b ∈ Ideal.comap φ.toRingHom (Ideal.comap (Ideal.Quotient.mk p) Q.asIdeal) ↔ _
   rw [key]
 
 /-- The iterate of the endomorphism induced on the quotient by an invariant prime ideal is
@@ -480,13 +480,13 @@ theorem AlgHom.exists_comap_eq_ne_id_of_finite_field (p : ℕ) [hp : Fact p.Prim
   let φ : Polynomial (ZMod p) →ₐ[ZMod p] Polynomial (ZMod p) :=
     { toRingHom := frobenius (Polynomial (ZMod p)) p
       commutes' := fun c ↦ by
-        show (algebraMap (ZMod p) (Polynomial (ZMod p)) c) ^ p
+        change (algebraMap (ZMod p) (Polynomial (ZMod p)) c) ^ p
           = algebraMap (ZMod p) (Polynomial (ZMod p)) c
         rw [← map_pow, ZMod.pow_card] }
   have hφ : ∀ g : Polynomial (ZMod p), φ g = g ^ p := fun _ ↦ rfl
   refine ⟨φ, fun P ↦ ?_, ?_, ?_, ?_⟩
   · refine PrimeSpectrum.ext (Ideal.ext fun g ↦ ?_)
-    show g ^ p ∈ P.asIdeal ↔ g ∈ P.asIdeal
+    change g ^ p ∈ P.asIdeal ↔ g ∈ P.asIdeal
     exact P.isPrime.pow_mem_iff_mem p hp.out.pos
   · have hone := ringKrullDim_succ_le_ringKrullDim_polynomial (R := ZMod p)
     rw [ringKrullDim_eq_zero_of_isField (Field.toIsField _), zero_add] at hone
@@ -510,7 +510,7 @@ namespace AlgebraicGeometry
 lemma preimage_eq_of_apply_eq {X : Scheme.{u}} (f : X ⟶ X)
     (hpoints : ∀ x : X, f x = x) (U : X.Opens) : f ⁻¹ᵁ U = U := by
   ext x
-  show f x ∈ U ↔ x ∈ U
+  change f x ∈ U ↔ x ∈ U
   rw [hpoints x]
 
 /-- The restriction of a point-fixing endomorphism to an open subset fixes every point. -/

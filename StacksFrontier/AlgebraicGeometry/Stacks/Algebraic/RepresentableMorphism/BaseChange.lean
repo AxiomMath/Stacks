@@ -182,11 +182,11 @@ private theorem baseChangeTestToOriginal_compIso
   let b : (e ⋙ d) ⋙ sndA ≅ sndA := Iso.refl _
   have ha : ∀ x, (Over.forget U).IsHomLift (𝟙 (pA.obj x)) (a.hom.app x) := by
     intro x
-    show (Over.forget U).IsHomLift (𝟙 x.base) (𝟙 x.x)
+    change (Over.forget U).IsHomLift (𝟙 x.base) (𝟙 x.x)
     exact IsHomLift.id x.hx
   have hb : ∀ x, p𝒳.IsHomLift (𝟙 (pA.obj x)) (b.hom.app x) := by
     intro x
-    show p𝒳.IsHomLift (𝟙 x.base) (𝟙 x.y)
+    change p𝒳.IsHomLift (𝟙 x.base) (𝟙 x.y)
     exact IsHomLift.id x.hy
   have hab : Functor.whiskerRight a.hom (H ⋙ G) ≫
       (TwoFibreProductOver.psiIso (Over.forget U) p𝒳 p𝒴 (H ⋙ G) F).hom =
@@ -210,7 +210,7 @@ private theorem baseChangeTestToOriginal_compIso
   apply (IsHomLift.id_iff_exists_eqToHom fstA (iso.hom.app x)).2
   have hx := congrArg (fun k : A ⥤ Over U => k.obj x) h₁
   refine ⟨hx, ?_⟩
-  show (iso.hom.app x).a = eqToHom hx
+  change (iso.hom.app x).a = eqToHom hx
   simp [iso, a, b, TwoFibreProductOver.liftIso, TwoFibreProductOver.fst,
     TwoFibreProductOver.lift]
 
@@ -310,10 +310,9 @@ private noncomputable def baseChangeTestFromOriginal_sndIso :
     · change H.map f.a ≫ c.iso.hom = b.iso.hom ≫ fstW.map f.b
       exact f.w
     · suffices h : (sndB.map (q.map f)).b = (sndB.map f).b by
-        simpa [wHom, baseChangeTestFromOriginal_sndHom, d, e, baseChangeTestFromOriginal,
+        simp [wHom, baseChangeTestFromOriginal_sndHom, baseChangeTestFromOriginal,
           baseChangeTestToOriginal, TwoFibreProductOver.lift, TwoFibreProductOver.fst,
-          TwoFibreProductOver.snd, TwoFibreProductOver.structureFunctor,
-          TwoFibreProductOver.snd_map, Functor.comp_map] using h
+          TwoFibreProductOver.snd, TwoFibreProductOver.structureFunctor, Functor.comp_map]
       rfl)
 
 attribute [local implicit_reducible] baseChangeTestFromOriginal_sndIso
@@ -395,7 +394,7 @@ private theorem baseChangeTestFromOriginal_compIso
     let := hqIso b; asIso (qHom b)) (by
     intro b c f
     apply TwoFibreProductOver.Hom.ext'
-    · show (q.map f).a ≫ 𝟙 c.x = 𝟙 b.x ≫ f.a
+    · change (q.map f).a ≫ 𝟙 c.x = 𝟙 b.x ≫ f.a
       refine (Category.comp_id ((q.map f).a)).trans (Eq.trans ?_ (Category.id_comp f.a).symm)
       simpa [Functor.comp_map, fstB, TwoFibreProductOver.fst] using Functor.congr_hom hprojB f
     · simpa [qHom, wIso, q, d, e, baseChangeTestFromOriginal_compHom, Functor.comp_map, sndB,
@@ -404,7 +403,7 @@ private theorem baseChangeTestFromOriginal_compIso
   apply (IsHomLift.id_iff_exists_eqToHom fstB (iso.hom.app b)).2
   have hb := congrArg (fun k : B ⥤ Over U => k.obj b) hprojB
   refine ⟨hb, ?_⟩
-  show (iso.hom.app b).a = eqToHom hb
+  change (iso.hom.app b).a = eqToHom hb
   simp [iso, qHom, baseChangeTestFromOriginal_compHom, q, d, e, baseChangeTestFromOriginal,
     baseChangeTestToOriginal, TwoFibreProductOver.lift, TwoFibreProductOver.fst,
     TwoFibreProductOver.snd, TwoFibreProductOver.structureFunctor, fstB]

@@ -57,9 +57,10 @@ Stacks 0720.
 each is a cited result other than Stacks 08AR itself.
 
 * `h0720` is quasi-coherence of the higher direct images, Stacks 0720.  This development does
-  not prove it: `StacksFrontier/AlgebraicGeometry/Spaces/HigherPushforwardQuasicoherentReduction.lean`
-  carries out the reduction to an affine base and records which of the three inputs of the
-  remaining step are missing.
+  not prove it:
+  `StacksFrontier/AlgebraicGeometry/Spaces/HigherPushforwardQuasicoherentReduction.lean` carries out
+  the reduction to an affine base and records which of the three inputs of the remaining step are
+  missing.
 * `h08AN` is the dévissage of Stacks 08AN for the property at hand, with the local
   Noetherianity of `X` in place of the source's Noetherianity: the source reaches a Noetherian
   `X` by first localizing étale on `Y`, and the étale-local test for coherence of a higher

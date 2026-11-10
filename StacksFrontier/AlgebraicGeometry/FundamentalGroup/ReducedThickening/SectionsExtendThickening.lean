@@ -129,7 +129,7 @@ theorem morphismRestrict_image_comp_homOfLE {V : Neighborhood X Y} {V' : Neighbo
     (i ∣_ Neighborhood.open X Y (Neighborhood.image hi Y Y' jY hjY hjYt V')) ≫ X.homOfLE hWle
       = X'.homOfLE (Neighborhood.preimage_open_image hi Y Y' jY hjY hjYt V').le ≫
           X'.homOfLE hV' ≫ (i ∣_ Neighborhood.open X Y V) :=
-  (morphismRestrict_comp_homOfLE hi Y Y' jY hjY hjYt hWle).trans
+  (morphismRestrict_comp_homOfLE (i := i) hWle).trans
     ((congrArg (fun k => k ≫ (i ∣_ Neighborhood.open X Y V))
         (X'.homOfLE_homOfLE (Neighborhood.preimage_open_image hi Y Y' jY hjY hjYt V').le
           hV').symm).trans (Category.assoc _ _ _))
@@ -171,7 +171,7 @@ theorem sectionsExtendNearSubscheme_exists_of_isThickening
         s'' ≫ finiteEtaleBaseChangeProj (i ∣_ Neighborhood.open X Y V) U) ≫ U.hom
       = (i ∣_ Neighborhood.open X Y (Neighborhood.image hi Y Y' jY hjY hjYt V'')) ≫
         X.homOfLE hWle := by
-    rw [morphismRestrict_comp_homOfLE hi Y Y' jY hjY hjYt hWle, Category.assoc,
+    rw [morphismRestrict_comp_homOfLE (i := i) hWle, Category.assoc,
       Category.assoc, finiteEtaleBaseChangeProj_comp_hom, ← Category.assoc s'', hs''hom',
       ← Category.assoc, Scheme.homOfLE_homOfLE]
   obtain ⟨⟨s, hs⟩, hsval⟩ := (bijective_restrictSection_of_isThickening (X.homOfLE hWle)
@@ -265,7 +265,7 @@ theorem sectionsExtendNearSubscheme_eq_of_isThickening
         = X'.homOfLE (opens_preimage_mono i iVV'.le) ≫ (i ∣_ Neighborhood.open X Y V) :=
     fun s hsU => (Category.assoc _ _ _).trans
       ((congrArg (fun k => (i ∣_ Neighborhood.open X Y V') ≫ k) hsU).trans
-        (morphismRestrict_comp_homOfLE hi Y Y' jY hjY hjYt iVV'.le))
+        (morphismRestrict_comp_homOfLE (i := i) iVV'.le))
   obtain ⟨V'', j, hju⟩ := huniq (Neighborhood.preimage hi Y Y' jY hjY hjYt V)
     (Neighborhood.preimage hi Y Y' jY hjY hjYt V')
     (homOfLE (Neighborhood.preimage_le_preimage hi Y Y' jY hjY hjYt iVV'.le))

@@ -138,7 +138,8 @@ public theorem exists_finiteSubcoproduct_restriction {A B : Type a} (X : A → E
   refine ⟨t, Sigma.desc fun i => q i ≫ e i, ?_⟩
   apply Sigma.hom_ext
   intro i
-  rw [← Category.assoc, Sigma.ι_desc, ← Category.assoc, Sigma.ι_desc, Category.assoc, he, hq]
+  rw [← Category.assoc, Sigma.ι_comp_desc, ← Category.assoc, Sigma.ι_comp_desc, Category.assoc,
+    he, hq]
 
 end Compact
 
@@ -156,7 +157,7 @@ public theorem isSplitMono_finiteSubcoproductsCocone_ι {A : Type a} (Y : A → 
     Sigma.desc fun i => if h : Discrete.mk i ∈ s then
       Sigma.ι (fun i : s => Y i.1.as) ⟨Discrete.mk i, h⟩ else 0
   refine ⟨⟨r, Sigma.hom_ext _ _ fun i => ?_⟩⟩
-  show Sigma.ι (fun j : s => Y j.1.as) i ≫
+  change Sigma.ι (fun j : s => Y j.1.as) i ≫
       Sigma.desc (fun j : s => Sigma.ι Y j.1.as) ≫ r =
     Sigma.ι (fun j : s => Y j.1.as) i ≫ 𝟙 (∐ fun j : s => Y j.1.as)
   simp [r, i.2]
@@ -212,7 +213,7 @@ private theorem exists_isColimit_cokernel_of_isColimit {I : Type a} [SmallCatego
       apply hn.hom_ext
       intro i
       rw [hn.fac]
-      show n.ι.app i ≫ cokernel.π g ≫ m = cokernel.π (f i) ≫ s.ι.app i
+      change n.ι.app i ≫ cokernel.π g ≫ m = cokernel.π (f i) ≫ s.ι.app i
       calc
         n.ι.app i ≫ cokernel.π g ≫ m = cokernel.π (f i) ≫ c.ι.app i ≫ m := by
           rw [← Category.assoc, ← Category.assoc]

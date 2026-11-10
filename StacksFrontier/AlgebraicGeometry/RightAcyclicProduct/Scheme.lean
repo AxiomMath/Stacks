@@ -14,9 +14,10 @@ that every term of the absolute Čech resolution `𝔠 ⁿ(𝒰, ℱ)` is right 
 This is the hypothesis `∀ n, F.rightAcyclic (K.X n)` of Leray's acyclicity lemma
 ([Stacks, Tag 015E], `CategoryTheory.Functor.isIso_totalRightDerivedUnit_app_of_rightAcyclic`),
 and it is the last of the three steps of the fourth label of [Stacks, Tag 01XL] that was a
-*product* obstruction rather than mathematics: what is available independently of this file is acyclicity of
-each **factor** (`Stacks.AlgebraicGeometry.RelativeCechAcyclic.rightAcyclic_relativeCechFactor`),
-and 015E consumes the **term**.
+*product* obstruction rather than mathematics: what is available independently of this file is
+acyclicity of each **factor**
+(`Stacks.AlgebraicGeometry.RelativeCechAcyclic.rightAcyclic_relativeCechFactor`), and 015E consumes
+the **term**.
 
 ## Main results
 

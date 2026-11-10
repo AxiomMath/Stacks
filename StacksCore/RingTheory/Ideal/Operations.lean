@@ -89,7 +89,7 @@ theorem vadd_coe_subset_iff {I p : Ideal R} {x : R} :
 theorem exists_add_mem_notMem_of_not_le {I p : Ideal R} (h : ¬I ≤ p) (x : R) :
     ∃ y ∈ I, x + y ∉ p := by
   by_cases hx : x ∈ p
-  · obtain ⟨u, huI, hup⟩ := SetLike.not_le_iff_exists.1 h
+  · obtain ⟨u, huI, hup⟩ := IsConcreteLE.not_le_iff_exists.1 h
     exact ⟨u, huI, fun hm => hup (by simpa using p.sub_mem hm hx)⟩
   · exact ⟨0, I.zero_mem, by simpa using hx⟩
 
@@ -111,14 +111,14 @@ private theorem exists_add_mem_notMem_of_inf_not_le [DecidableEq ι] {s : Finset
     (h : ∃ y ∈ I, ∀ j ∈ s.erase k, x + y ∉ p j) : ∃ y ∈ I, ∀ j ∈ s, x + y ∉ p j := by
   obtain ⟨y, hyI, hy⟩ := h
   by_cases hxk : x + y ∈ p k
-  · obtain ⟨z, hz, hzk⟩ := SetLike.not_le_iff_exists.1 hnotle
+  · obtain ⟨z, hz, hzk⟩ := IsConcreteLE.not_le_iff_exists.1 hnotle
     refine ⟨y + z, I.add_mem hyI hz.1, fun j hj => ?_⟩
     rcases eq_or_ne j k with rfl | hjk
     · intro hmem
       rw [← add_assoc] at hmem
       exact hzk (by simpa using (p j).sub_mem hmem hxk)
     · have hje : j ∈ s.erase k := Finset.mem_erase.2 ⟨hjk, hj⟩
-      have hzj : z ∈ p j := SetLike.le_def.1 (Finset.inf_le hje) hz.2
+      have hzj : z ∈ p j := IsConcreteLE.le_iff.1 (Finset.inf_le hje) hz.2
       intro hmem
       rw [← add_assoc] at hmem
       exact hy j hje (by simpa using (p j).sub_mem hmem hzj)

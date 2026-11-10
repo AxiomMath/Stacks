@@ -58,18 +58,19 @@ here. None of the three steps —
 
 ## Implementation notes
 
-*Which of the two spellings the match needs.* Factor (1) of [Stacks, Tag 089W] is matched at `q := f' ∣_ V` — that is the
-morphism `…AffineComparison.cohomologyIsoPushforward_inv_eq_lerayComparison` is instantiated at,
-and the one `…TopDegreeBaseChange.restrictScalars_singleCompDerivedSectionsTop_inv_app_eq` and
+*Which of the two spellings the match needs.* Factor (1) of [Stacks, Tag 089W] is matched at
+`q := f' ∣_ V` — that is the morphism
+`…AffineComparison.cohomologyIsoPushforward_inv_eq_lerayComparison` is instantiated at, and the one
+`…TopDegreeBaseChange.restrictScalars_singleCompDerivedSectionsTop_inv_app_eq` and
 `…prefix_eq_factorOneFive_comp_rightDerivedCompNatIso_inv` carry. So the crossing between the
 `((f' ∣_ V), ⊤)` and `(f', V)` readings of the `γ⁺` prefix is
 `…TopDegreeBaseChange.openSubschemeSectionsComparison`, the **non-`LE`** crossing of
-`LerayOpenSubschemeDerived.lean`, and not `…openSubschemeSectionsComparisonLE` at `e = le_rfl`.
-The two differ by `AlgebraicGeometry.Scheme.Hom.resLE_eq_morphismRestrict`, which is not `rfl`,
-so neither is an instance of the other and both are
-proved here — the second by the same six lines at the other spelling, the one duplication this
-file contains and the cheapest available: a shared brick would have to restate the unit and the
-homotopy splitting generically, duplicating three existing `def`s instead of one proof.
+`LerayOpenSubschemeDerived.lean`, and not `…openSubschemeSectionsComparisonLE` at `e = le_rfl`. The
+two differ by `AlgebraicGeometry.Scheme.Hom.resLE_eq_morphismRestrict`, which is not `rfl`, so
+neither is an instance of the other and both are proved here — the second by the same six lines at
+the other spelling, the one duplication this file contains and the cheapest available: a shared
+brick would have to restate the unit and the homotopy splitting generically, duplicating three
+existing `def`s instead of one proof.
 
 *Why none of the three steps is `inferInstance`.*
 `…DerivedSectionsLeray.sectionsOverOpenRestrictLE X h` is
@@ -284,7 +285,7 @@ theorem isRightDerivedFunctor_openSubschemeUnitOfNatTransUnit
   have h1 : IsIso ((NatTrans.mapHomotopyCategory α (ComplexShape.up ℤ)).app
       ((HomotopyCategory.quotient (SheafOfModules.{u} (structureSheafRing X.toRingedSpace))
         (ComplexShape.up ℤ)).obj I)) := by
-    show IsIso ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
+    change IsIso ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
       ((NatIso.mapHomologicalComplex (asIso α) (ComplexShape.up ℤ)).hom.app I))
     infer_instance
   have h3 : IsIso (u.app
@@ -409,7 +410,7 @@ theorem isRightDerivedFunctor_openSubschemeUnitOfIsoUnit
   have h1 : IsIso ((NatTrans.mapHomotopyCategory α.hom (ComplexShape.up ℤ)).app
       ((HomotopyCategory.quotient (SheafOfModules.{u} (structureSheafRing X.toRingedSpace))
         (ComplexShape.up ℤ)).obj I)) := by
-    show IsIso ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
+    change IsIso ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
       ((NatIso.mapHomologicalComplex α (ComplexShape.up ℤ)).hom.app I))
     infer_instance
   have h3 : IsIso (u.app

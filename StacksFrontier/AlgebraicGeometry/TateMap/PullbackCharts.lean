@@ -116,7 +116,7 @@ theorem isScalarTower_appLE_restrict {O : T.Opens} {W W' : S.Opens} (e : W ≤ g
   let : Algebra Γ(S, W) Γ(S, W') := (S.presheaf.map (homOfLE h).op).hom.toAlgebra
   let : Algebra Γ(T, O) Γ(S, W') := (g.appLE O W' (h.trans e)).hom.toAlgebra
   refine IsScalarTower.of_algebraMap_eq' ?_
-  show (g.appLE O W' _).hom = (S.presheaf.map (homOfLE h).op).hom.comp (g.appLE O W e).hom
+  change (g.appLE O W' _).hom = (S.presheaf.map (homOfLE h).op).hom.comp (g.appLE O W e).hom
   rw [← CommRingCat.hom_comp, Scheme.Hom.appLE_map]
 
 /-- A map on sections after restricting is a scalar tower. -/
@@ -130,7 +130,7 @@ theorem isScalarTower_restrict_appLE {O O' : T.Opens} {W : S.Opens} (h : O' ≤ 
   let : Algebra Γ(T, O') Γ(S, W) := (g.appLE O' W e).hom.toAlgebra
   let : Algebra Γ(T, O) Γ(S, W) := (g.appLE O W (e.trans (g.preimage_mono h))).hom.toAlgebra
   refine IsScalarTower.of_algebraMap_eq' ?_
-  show (g.appLE O W _).hom = (g.appLE O' W e).hom.comp (T.presheaf.map (homOfLE h).op).hom
+  change (g.appLE O W _).hom = (g.appLE O' W e).hom.comp (T.presheaf.map (homOfLE h).op).hom
   rw [← CommRingCat.hom_comp, Scheme.Hom.map_appLE]
 
 end towers

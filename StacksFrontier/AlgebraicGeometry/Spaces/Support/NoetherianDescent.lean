@@ -103,7 +103,7 @@ theorem isLocallyNoetherian_of_surjective_affine_flat
   obtain ⟨U, u, huSurjective, huEtale⟩ := hTSpace.exists_atlas
   refine ⟨U, u, huSurjective, huEtale, ?_⟩
   let X := (BigFppfOver.toScheme B S hS).obj U
-  show IsLocallyNoetherian X
+  change IsLocallyNoetherian X
   rw [isLocallyNoetherian_iff_of_iSup_eq_top (S := fun i : X.affineOpens => i)
     (iSup_affineOpens_eq_top X)]
   intro i
@@ -127,7 +127,7 @@ theorem isLocallyNoetherian_of_surjective_affine_flat
     MorphismProperty.relative_isStableUnderComposition QEtale
   have hvUEtale : QEtale.presheaf (yoneda.map vU) := by
     apply MorphismProperty.relative_map
-    show Etale (B.inclusion.map ab)
+    change Etale (B.inclusion.map ab)
     rw [B.inclusion.map_preimage]
     infer_instance
   have hgEtale : QEtale.presheaf (yoneda.map vU ≫ u) :=

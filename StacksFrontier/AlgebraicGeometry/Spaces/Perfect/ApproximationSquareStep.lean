@@ -51,6 +51,7 @@ attribute [local instance 10000] HasDerivedCategory.standard smallEtaleRingedSit
   smallEtaleRingedSite_wEqualsLocallyBijective_over
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site times out otherwise
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_ApproximationSquareStep :

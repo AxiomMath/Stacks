@@ -426,7 +426,7 @@ theorem relHomDegreeZero_naturality {j i : I} (g : j ⟶ i) {G : M a₀}
       Functor.map_id, Category.comp_id]
   rw [degreeZeroCompare_relHom, ← Category.assoc, ← Category.assoc, ← Category.assoc,
     Category.assoc _ _ (degreeZeroBaseChange P L c (π.map g) _), key]
-  show _ = (P.triangle (κ.w g)).hom.app F ≫ (P.pull (π.map g)).map _ ≫
+  change _ = (P.triangle (κ.w g)).hom.app F ≫ (P.pull (π.map g)).map _ ≫
     (P.triangle (κ.w g)).inv.app G
   simp only [Functor.map_comp, Category.assoc]
 

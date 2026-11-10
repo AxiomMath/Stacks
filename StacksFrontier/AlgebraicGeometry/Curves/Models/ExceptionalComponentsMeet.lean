@@ -892,18 +892,13 @@ theorem fibreEuler_reducedSpecialFibre_eq_weight_of_isExceptionalCurveOfFirstKin
     S.reducedSpecialFibre_eq_mul_of_isExceptionalCurveOfFirstKind hij hi hj hmeet
   have hECi : Stacks.Divisors.IsEffectiveCartierDivisor Ci :=
     S.isEffectiveCartierDivisor_specialFiberComponent i
-  have hECj : Stacks.Divisors.IsEffectiveCartierDivisor Cj :=
-    S.isEffectiveCartierDivisor_specialFiberComponent j
-  have hEDred : Stacks.Divisors.IsEffectiveCartierDivisor Dred :=
-    isEffectiveCartierDivisor_reducedSpecialFibre Finset.univ S.specialFiberComponentIdeal
-      S.specialFiberMultiplicity fun Z _ => S.isEffectiveCartierDivisor_specialFiberComponent Z
   have hsub : Dred ≤ Ci := hsum ▸ Scheme.IdealSheafData.mul_le_left _ _
   have hleCi := S.specialFiberIdeal_le_specialFiberComponentIdeal i
   have hleCj := S.specialFiberIdeal_le_specialFiberComponentIdeal j
   have hleD := specialFiberIdeal_le_reducedSpecialFibre S Finset.univ
     S.specialFiberComponentIdeal S.specialFiberMultiplicity S.specialFiberIdeal_eq_prod
   obtain ⟨f, hz, hex⟩ := Stacks.Divisors.addEffectiveCartierDivisor_shortExact
-    Ci Dred Cj hECi hEDred hECj hsub hsum
+    Ci Dred Cj hECi hsub hsum
   have : IsLocallyNoetherian Cj.subscheme :=
     Stacks.AlgebraicGeometry.CurveEulerBridge.isLocallyNoetherian_of_isProper_over_field
       S.k (S.specialFiberComponentToSpec j)

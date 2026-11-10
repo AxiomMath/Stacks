@@ -83,7 +83,7 @@ private theorem image_mem_irreducibleComponents {A B : Type*} [TopologicalSpace 
     [TopologicalSpace B] (e : A ≃ₜ B) {Z : Set A} (hZ : Z ∈ irreducibleComponents A) :
     e '' Z ∈ irreducibleComponents B := by
   change Maximal IsIrreducible Z at hZ
-  show Maximal IsIrreducible (e '' Z)
+  change Maximal IsIrreducible (e '' Z)
   refine ⟨hZ.1.image e e.continuous.continuousOn, fun T hT hsub y hy => ?_⟩
   have hZsub : Z ⊆ e.symm '' T := fun a ha => ⟨e a, hsub ⟨a, ha, rfl⟩, by simp⟩
   exact ⟨e.symm y, hZ.2 (hT.image e.symm e.symm.continuous.continuousOn) hZsub

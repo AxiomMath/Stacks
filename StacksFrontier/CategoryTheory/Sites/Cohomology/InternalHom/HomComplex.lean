@@ -214,7 +214,7 @@ private theorem internalHomPre_zero (X : RingedSite.{u, v, w})
     intro x
     rfl
   ext U a
-  show (restrFun X.O.obj (unop U)).map (0 : valOf X A ⟶ valOf X B) ≫
+  change (restrFun X.O.obj (unop U)).map (0 : valOf X A ⟶ valOf X B) ≫
     (a : (restrFun X.O.obj (unop U)).obj (valOf X B) ⟶
       (restrFun X.O.obj (unop U)).obj (valOf X C)) = 0
   rw [hzero]
@@ -466,7 +466,7 @@ private theorem localTermIso_hom_apply (X : RingedSite.{u, v, w})
   simp only [Functor.mapHomologicalComplex_obj_X, Functor.comp_obj, ObjectProperty.ι_obj,
     evaluation_obj_obj, CommRingCat.forgetToRingCat_obj, AddEquiv.toEquiv_eq_coe,
     Equiv.toFun_as_coe, EquivLike.coe_coe]
-  show (AddCommGrpCat.Hom.hom (addCommGrpPiIso _).hom _ ) _ = _
+  change (AddCommGrpCat.Hom.hom (addCommGrpPiIso _).hom _ ) _ = _
   rw [addCommGrpPiIso_hom_apply]
   simp only [addCommGrpCat_hom'_eq]
   rw [← AddCommGrpCat.comp_apply, Pi.mapIso_hom_π]
@@ -483,7 +483,7 @@ private lemma sheafModuleHom_zsmul_val {C : Type*} [Category C]
     {J : GrothendieckTopology C} {R : Sheaf J RingCat.{w}}
     {A B : SheafOfModules.{m} R} (f : A ⟶ B) (k : ℤ) :
     (k • f).val = k • f.val := by
-  show (SheafOfModules.forget R).map (k • f) = _
+  change (SheafOfModules.forget R).map (k • f) = _
   rw [Functor.map_zsmul]
   rfl
 
@@ -574,7 +574,7 @@ private theorem localHomComplexIso_component_apply (X : RingedSite.{u, v, w})
         t.p t.q t.hpq).val.app (op (Over.mk g))) x =
       (((localHomSectionEquiv X U (L.X t.p) (M.X t.q) hs).val.app
         (op (Over.mk g))) x) := by
-  show (((AddCommGrpCat.Hom.hom (localTermIso X L M U n).hom s) t).val.app
+  change (((AddCommGrpCat.Hom.hom (localTermIso X L M U n).hom s) t).val.app
       (op (Over.mk g))) x = _
   rw [localTermIso_hom_apply]
   rfl
@@ -775,7 +775,7 @@ private theorem moduleΓ_preservesProduct
   let : PreservesLimit (Discrete.functor F)
       (SheafOfModules.toSheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O) ⋙ sheafToPresheaf X.J
           AddCommGrpCat) := by
-    show PreservesLimit (Discrete.functor F)
+    change PreservesLimit (Discrete.functor F)
       (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf X.O) ⋙
           PresheafOfModules.toPresheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
     exact comp_preservesLimit _ _
@@ -826,7 +826,7 @@ private theorem globalTermIso_hom_apply (X : RingedSite.{u, v, w})
           (Pi.π (fun a : Triplet n => internalHomSheaf X (L.X a.p) (M.X a.q)) t) s)).down := by
   dsimp only [globalTermIso, Iso.trans_hom]
   simp only [AddCommGrpCat.comp_apply]
-  show (AddCommGrpCat.Hom.hom
+  change (AddCommGrpCat.Hom.hom
     (addCommGrpPiIso (fun t : Triplet n =>
       AddCommGrpCat.of (ULift.{v} (L.X t.p ⟶ M.X t.q)))).hom _ t).down = _
   rw [addCommGrpPiIso_hom_apply]

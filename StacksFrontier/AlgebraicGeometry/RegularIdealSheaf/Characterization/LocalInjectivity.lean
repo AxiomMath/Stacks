@@ -86,7 +86,7 @@ private lemma symmetricMap_comp {R S T : Type u} [CommRing R] [CommRing S] [Comm
     (hχ' : I ≤ L.comap χ) (n : ℕ) (z : SymmetricPower I n) :
     symmetricMap K L ψ hψ n (symmetricMap I K φ hφ n z) = symmetricMap I L χ hχ' n z := by
   induction z using Submodule.Quotient.induction_on with | _ z =>
-  show Submodule.Quotient.mk (wordsMap K L ψ hψ n (wordsMap I K φ hφ n z)) =
+  change Submodule.Quotient.mk (wordsMap K L ψ hψ n (wordsMap I K φ hφ n z)) =
     Submodule.Quotient.mk (wordsMap I L χ hχ' n z)
   rw [wordsMap_comp I K L φ ψ χ hχ hφ hψ hχ' n z]
 
@@ -94,7 +94,7 @@ private lemma symmetricMap_comp {R S T : Type u} [CommRing R] [CommRing S] [Comm
 its letters. -/
 private lemma canonicalMap_wordClass {R : Type u} [CommRing R] (I : Ideal R) (n : ℕ)
     (a : Fin n → I) : canonicalMap I n (wordClass I n a) = productClass I n a := by
-  show productMap I n (word I a) = _
+  change productMap I n (word I a) = _
   exact productMap_word I a
 
 end Construction
@@ -140,7 +140,7 @@ private lemma exists_sections_of_germInRestriction (X : RingedSpace.{u}) (U : Op
     (fun k => (X.toPresheafedSpace.restrictStalkIso U.isOpenEmbedding ⟨y, hyU⟩).hom
       (a (e.symm k)))
   refine ⟨W, hWV, hyW, fun i => b (e i), fun i => ?_⟩
-  show (X.toPresheafedSpace.restrictStalkIso U.isOpenEmbedding ⟨y, hyU⟩).inv
+  change (X.toPresheafedSpace.restrictStalkIso U.isOpenEmbedding ⟨y, hyU⟩).inv
     (X.presheaf.germ W y hyW (b (e i))) = a i
   rw [hb (e i), Equiv.symm_apply_apply]
   exact (X.toPresheafedSpace.restrictStalkIso U.isOpenEmbedding ⟨y, hyU⟩).hom_inv_id_apply _
@@ -390,7 +390,7 @@ lemma exists_coords_of_conormal_independent {R : Type u} [CommRing R] {r : ℕ}
     have hb : (Module.Basis.mk hli (span_conormalClass_idealGenerator f).ge) i =
         conormalClass (Jid f) (idealGenerator f i) := Module.Basis.mk_apply _ _ i
     rw [LinearMap.comp_apply, LinearMap.restrictScalars_apply, LinearMap.comp_apply]
-    show (Finsupp.linearCombination (qrRbar f)
+    change (Finsupp.linearCombination (qrRbar f)
         (fun j => (MvPolynomial.X j : MvPolynomial (Fin r) (qrRbar f))))
         ((Module.Basis.mk hli (span_conormalClass_idealGenerator f).ge).repr
           (conormalClass (Jid f) (idealGenerator f i))) = _

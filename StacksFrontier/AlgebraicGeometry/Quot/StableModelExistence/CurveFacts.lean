@@ -44,7 +44,7 @@ theorem specMap_algebraMap_closedPoint_eq_bot :
     (Spec.map (CommRingCat.ofHom (algebraMap R K))) (IsLocalRing.closedPoint K) =
       (⊥ : PrimeSpectrum R) := by
   apply PrimeSpectrum.ext
-  show Ideal.comap (algebraMap R K) (IsLocalRing.maximalIdeal K) = ⊥
+  change Ideal.comap (algebraMap R K) (IsLocalRing.maximalIdeal K) = ⊥
   rw [IsLocalRing.maximalIdeal_eq_bot, ← RingHom.ker_eq_comap_bot]
   exact (RingHom.injective_iff_ker_eq_bot _).1 (IsFractionRing.injective R K)
 

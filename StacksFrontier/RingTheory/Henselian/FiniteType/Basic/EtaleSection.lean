@@ -208,7 +208,7 @@ lemma closedFibre_localization_isArtinian
       q) := by
     apply IsScalarTower.of_algebraMap_eq
     intro r
-    show (algebraMap R (Localization.AtPrime q)) r = f0 (algebraMap R (IsLocalRing.maximalIdeal
+    change (algebraMap R (Localization.AtPrime q)) r = f0 (algebraMap R (IsLocalRing.maximalIdeal
         R).ResidueField r)
     rw [hf0, Ideal.ResidueField.lift_algebraMap]
   -- Ψ : (the fibre κ' ⊗_R S_𝔮) →ₐ[κ'] T_q, surjective onto T_q
@@ -474,7 +474,7 @@ lemma henselian_etale_standardChart_hasMap
     exact hmem
   · -- pinning: algebraMap R K a = ψ pres.x = ā
     -- φ a = g (residue R a) = g b = ā
-    show φ a = ā
+    change φ a = ā
     have hφa : φ a = g b := by
       rw [← hg_residue, RingHom.comp_apply, hres_a]
     rw [hφa, hgb]
@@ -536,12 +536,12 @@ lemma henselian_etale_section_residue_compat
   let Φ_lift : pres.Ring →ₐ[R] K := (Algebra.ofId R K).comp (pres.lift a ha)
   -- they agree on X
   have hagreeX : Φ_res pres.X = Φ_lift pres.X := by
-    show ψA (pres.equivRing.symm pres.X) = (Algebra.ofId R K) ((pres.lift a ha) pres.X)
+    change ψA (pres.equivRing.symm pres.X) = (Algebra.ofId R K) ((pres.lift a ha) pres.X)
     rw [pres.lift_X]
     have hsymm : pres.equivRing.symm pres.X = pres.x := by
       rw [← pres.equivRing_x]; exact pres.equivRing.symm_apply_apply pres.x
     rw [hsymm]
-    show ψ pres.x = algebraMap R K a
+    change ψ pres.x = algebraMap R K a
     rw [← hpin]
   -- so Φ_res = Φ_lift
   have hΦ : Φ_res = Φ_lift := StandardEtalePair.hom_ext hagreeX
@@ -561,10 +561,10 @@ lemma henselian_etale_section_residue_compat
   have hback : pres.equivRing.symm y = (IsScalarTower.toAlgHom R R' L) r' := by
     rw [hy]; exact pres.equivRing.symm_apply_apply _
   have e1 : ψ ((IsScalarTower.toAlgHom R R' L) r') = Φ_res y := by
-    show ψ ((IsScalarTower.toAlgHom R R' L) r') = ψA (pres.equivRing.symm y)
+    change ψ ((IsScalarTower.toAlgHom R R' L) r') = ψA (pres.equivRing.symm y)
     rw [hback]; rfl
   rw [e1, hΦ]
-  show Φ_lift y = algebraMap R K ((pres.lift a ha) y)
+  change Φ_lift y = algebraMap R K ((pres.lift a ha) y)
   rfl
 
 /-- Henselian splitting of a residue-rational étale point — the ring-theoretic content of Stacks

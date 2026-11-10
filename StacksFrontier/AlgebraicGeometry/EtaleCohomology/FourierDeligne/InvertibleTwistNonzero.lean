@@ -49,7 +49,7 @@ theorem eq_zero_of_whiskerRight_eq_zero_of_tensor_iso {P G L L' : EtaleModules.{
       L hL).1
   have h2 : φ ▷ (L' ⊗ L) = 0 := by
     rw [whiskerRight_tensor, h]
-    show (α_ _ _ _).inv ≫ (MonoidalCategory.tensorRight L).map 0 ≫ (α_ _ _ _).hom = 0
+    change (α_ _ _ _).inv ≫ (MonoidalCategory.tensorRight L).map 0 ≫ (α_ _ _ _).hom = 0
     rw [Functor.map_zero, zero_comp, comp_zero]
   have h3 : φ ▷ 𝟙_ _ = 0 := by
     have hx := whisker_exchange (W := P) (X := G) (Y := L' ⊗ L) (Z := 𝟙_ _) φ e.hom

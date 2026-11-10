@@ -141,13 +141,13 @@ variable {A : Type u₁} [Category.{v₁} A] {B : Type u₂} [Category.{v₂} B]
 /-- An uncurried bifunctor on a morphism whose second component is an identity. -/
 private theorem uncurryMap_prodIdRight (T : A ⥤ B ⥤ E) {Z Z' : A} (u : Z ⟶ Z') (W : B) :
     (Functor.uncurry.obj T).map (u ×ₘ 𝟙 W) = (T.map u).app W := by
-  show (T.map u).app W ≫ (T.obj Z').map (𝟙 W) = _
+  change (T.map u).app W ≫ (T.obj Z').map (𝟙 W) = _
   rw [CategoryTheory.Functor.map_id, Category.comp_id]
 
 /-- An uncurried bifunctor on a morphism whose first component is an identity. -/
 private theorem uncurryMap_idProdLeft (T : A ⥤ B ⥤ E) (Z : A) {W W' : B} (v : W ⟶ W') :
     (Functor.uncurry.obj T).map (𝟙 Z ×ₘ v) = (T.obj Z).map v := by
-  show (T.map (𝟙 Z)).app W ≫ (T.obj Z).map v = _
+  change (T.map (𝟙 Z)).app W ≫ (T.obj Z).map v = _
   rw [CategoryTheory.Functor.map_id, NatTrans.id_app, Category.id_comp]
 
 end Uncurry

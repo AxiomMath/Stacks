@@ -176,7 +176,7 @@ public lemma siteChangeH1_torsorPushoutClass_of_embedding
     ((torsorPushoutComplex_shortExact H F).map_of_exact Φ)
     ((sheafificationAdjunction K AddCommGrpCat.{t}).homEquiv _ _ e.inv) G i hi hiFiber
   rw [Equiv.symm_apply_apply] at hbdry
-  show (Abelian.Ext.mk₀ e.inv).comp
+  change (Abelian.Ext.mk₀ e.inv).comp
       ((torsorPushoutComplex_shortExact H F).extClass.mapExactFunctor Φ) (Nat.zero_add 1) =
     (torsorPushoutComplex_shortExact (Φ.obj H) G).extClass
   rw [Abelian.Ext.mapExactFunctor_extClass Φ (torsorPushoutComplex_shortExact H F), hbdry]

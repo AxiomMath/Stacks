@@ -72,7 +72,7 @@ the co-Yoneda lemma. -/
 public lemma homConstEquiv_comp {P P' : ProSeq 𝒟} {L : 𝒟} (f : P ⟶ P')
     (g : P' ⟶ const.obj L) :
     homConstEquiv P L (f ≫ g) = f.unop.hom.app L (homConstEquiv P' L g) := by
-  show coyonedaEquiv (g.unop.hom ≫ f.unop.hom) = _
+  change coyonedaEquiv (g.unop.hom ≫ f.unop.hom) = _
   exact coyonedaEquiv_comp _ _
 
 section Sequences
@@ -126,7 +126,7 @@ public lemma constHom_ext {y y' : const.obj L ⟶ of N}
   refine (cancel_epi (Pro.seqHomColimIso N).inv).1 ?_
   refine colimit.hom_ext fun n => ?_
   ext M g
-  show y.unop.hom.app M ((Pro.seqHomColimIso N).inv.app M (Pro.seqStage N (n := n.unop.unop) g)) =
+  change y.unop.hom.app M ((Pro.seqHomColimIso N).inv.app M (Pro.seqStage N (n := n.unop.unop) g)) =
     y'.unop.hom.app M ((Pro.seqHomColimIso N).inv.app M (Pro.seqStage N (n := n.unop.unop) g))
   rw [constHom_app_seqStage, constHom_app_seqStage, h]
 
@@ -167,7 +167,7 @@ public noncomputable def constHomDesc (x : ∀ n : ℕ, L ⟶ N.obj (op n))
 /-- `CategoryTheory.ProSeq.constHomDesc x hx` sends the class of `g : N_n ⟶ M` to `x_n ≫ g`. -/
 public lemma constHomDesc_app_seqStage {M : 𝒟} {n : ℕ} (g : N.obj (op n) ⟶ M) :
     (constHomDesc x hx).app M (Pro.seqStage N g) = x n ≫ g := by
-  show (colimit.ι (N.op ⋙ coyoneda) (op (op n)) ≫ constHomDesc x hx).app M g = _
+  change (colimit.ι (N.op ⋙ coyoneda) (op (op n)) ≫ constHomDesc x hx).app M g = _
   rw [constHomDesc, colimit.ι_desc]
   rfl
 
@@ -182,7 +182,7 @@ public noncomputable def constHomMk (x : ∀ n : ℕ, L ⟶ N.obj (op n))
 /-- The components of `CategoryTheory.ProSeq.constHomMk x hx` are the `x_n`. -/
 public lemma constHomComponent_constHomMk (n : ℕ) :
     constHomComponent (constHomMk x hx) n = x n := by
-  show (constHomDesc x hx).app _ ((Pro.seqHomColimIso N).hom.app _
+  change (constHomDesc x hx).app _ ((Pro.seqHomColimIso N).hom.app _
     ((Pro.seqHomColimIso N).inv.app _ (Pro.seqStage N (𝟙 (N.obj (op n)))))) = _
   rw [Iso.inv_hom_id_app_apply, constHomDesc_app_seqStage, Category.comp_id]
 

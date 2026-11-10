@@ -304,7 +304,7 @@ theorem exists_etale_pullback_iso_of_descendedOpens_cover [UniversalHomeomorphis
     have hset : (Set.range fun A : 𝒰.I₀ ↦ (𝒰.f A).opensRange) = descendedOpens f p := by
       refine Set.eq_of_subset_of_subset ?_ fun A hA ↦ ⟨⟨A, hA⟩, hrange ⟨A, hA⟩⟩
       rintro - ⟨A, rfl⟩
-      show (𝒰.f A).opensRange ∈ descendedOpens f p
+      change (𝒰.f A).opensRange ∈ descendedOpens f p
       rw [hrange]
       exact A.2
     rw [hset]

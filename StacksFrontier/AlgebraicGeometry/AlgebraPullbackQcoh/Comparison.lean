@@ -45,8 +45,8 @@ that is not bookkeeping".
 ## What is not done
 
 **No clause of [Stacks, Tag 01SA] is proved here, and no project tag attribute is attached.**
-The statement of Tag 01SA is a single unqualified tag on a nine-field structure; fields 4, 8 and 9 are
-open, and the types of the last two take field 4 as an argument.
+The statement of Tag 01SA is a single unqualified tag on a nine-field structure; fields 4, 8 and 9
+are open, and the types of the last two take field 4 as an argument.
 
 The clause is `IsIso (Stacks.ModuleStalkTensor.comparison g A)`.  What this file supplies is
 the comparison's effect on germs; what is still missing, after it and after

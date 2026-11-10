@@ -170,7 +170,7 @@ theorem exists_iso_pi_of_henselian_of_isSepClosed
         (algebraMap R (ULift.{u} (Fin n) → R))) = Y.hom := by
   let : IsFinite Y.hom := Y.prop.1
   let : IsAffine ((Functor.fromPUnit (Spec (CommRingCat.of R))).obj Y.right) := by
-    show IsAffine (Spec (CommRingCat.of R))
+    change IsAffine (Spec (CommRingCat.of R))
     infer_instance
   let : IsAffine Y.left := isAffine_of_isAffineHom Y.hom
   let : Etale Y.hom := Y.prop.2
@@ -200,13 +200,13 @@ theorem exists_iso_pi_of_henselian_of_isSepClosed
   simp only [← Category.assoc, Iso.inv_hom_id, Category.id_comp]
   have hf : inv f = Spec.map i.inv := by
     apply IsIso.inv_eq_of_hom_inv_id
-    show Spec.map i.hom ≫ Spec.map i.inv = 𝟙 _
+    change Spec.map i.hom ≫ Spec.map i.inv = 𝟙 _
     rw [← Spec.map_comp]
     simp
   rw [hf, ← Spec.map_comp, ← Spec.map_preimage (Y.left.isoSpec.inv ≫ Y.hom)]
   refine Spec.map_inj.mpr (CommRingCat.hom_ext ?_)
   ext r
-  show e.symm ((algebraMap R (ULift.{u} (Fin n) → R)) r) =
+  change e.symm ((algebraMap R (ULift.{u} (Fin n) → R)) r) =
     (algebraMap R Γ(Y.left, ⊤)) r
   exact e.symm.commutes r
 

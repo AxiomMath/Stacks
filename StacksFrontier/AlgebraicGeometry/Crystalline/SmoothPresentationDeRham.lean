@@ -370,7 +370,7 @@ public theorem ideal_map_le :
     (s.A).ideal.map (algebraMap (s.A : Type u) T.ring) ≤ T.kernel := by
   rw [Ideal.map_le_iff_le_comap]
   intro a ha
-  show T.toTarget (algebraMap (s.A : Type u) T.ring a) = 0
+  change T.toTarget (algebraMap (s.A : Type u) T.ring a) = 0
   have h : T.toTarget (algebraMap (s.A : Type u) T.ring a) =
       algebraMap (s.A : Type u) s.C a :=
     RingHom.congr_fun T.toTarget_comp_algebraMap a

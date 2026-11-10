@@ -48,7 +48,7 @@ variable {B S hS T'}
 /-- `Spec C` of a small `Γ(T')`-algebra `C` is contained in the site. -/
 theorem contains_spec (C : SmallAlg (ringOf B S hS T') B.cutoff) :
     B.Contains (Spec (CommRingCat.of C.obj)) := by
-  show (Spec (CommRingCat.of C.obj)).size < B.cutoff
+  change (Spec (CommRingCat.of C.obj)).size < B.cutoff
   rw [Scheme.size_Spec]
   exact max_lt B.aleph0_lt_cutoff C.property
 
@@ -253,7 +253,7 @@ theorem relChart_isFormallyEtale {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     rw [comp_eq_iff_specOverMap_comp_eq, hf]
     exact hg₁'
   refine ⟨f.hom.hom, ⟨congrArg (fun k ↦ k.hom.hom) hfq, Subtype.ext ?_⟩, ?_⟩
-  · show X.map (specOverMap (SmallAlg.homMk f.hom.hom)).op p.1 = z.1
+  · change X.map (specOverMap (SmallAlg.homMk f.hom.hom)).op p.1 = z.1
     rw [show SmallAlg.homMk f.hom.hom = f from rfl, hf, hg₂']
   · rintro ℓ ⟨hℓ₁, hℓ₂⟩
     have hgℓ : specOverMap (SmallAlg.homMk ℓ) = g := by

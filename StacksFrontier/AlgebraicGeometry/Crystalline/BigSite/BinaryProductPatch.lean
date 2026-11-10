@@ -142,7 +142,7 @@ is injective. -/
 theorem preimage_imageOpen (V : D.source.Opens) :
     D.immersion ⁻¹ᵁ D.imageOpen V = V := by
   ext x
-  show D.immersion x ∈ D.immersion '' (V : Set D.source) ↔ x ∈ V
+  change D.immersion x ∈ D.immersion '' (V : Set D.source) ↔ x ∈ V
   refine ⟨?_, fun hx ↦ ⟨x, hx, rfl⟩⟩
   rintro ⟨y, hy, h⟩
   exact D.immersion.isClosedEmbedding.injective h ▸ hy
@@ -175,7 +175,7 @@ theorem exists_affineOpen_ambient_le (A : Thickening S) (x : A.thickening.source
     refine ⟨hxZ, ?_, ⟨x, hxV, rfl⟩⟩
     have h := congrArg (fun f ↦ f x) A.over_base
     change A.toBase.hom (A.thickening.immersion x) = sourceToBase S (A.toX x) at h
-    show A.toBase.hom (A.thickening.immersion x) ∈ W
+    change A.toBase.hom (A.thickening.immersion x) ∈ W
     rw [h]
     exact hxW
   obtain ⟨_, ⟨U, hU, rfl⟩, hxU, hUP⟩ :=

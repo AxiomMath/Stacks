@@ -180,7 +180,7 @@ theorem essImage_comparisonFunctor_iff (X : AlgebraicSpaces B S hS)
   · rintro ⟨U, ⟨e⟩⟩
     have hrep : ((spacesEtalePresheaf B S hS X).obj
         ((comparisonFunctor B S hS X).obj U)).IsRepresentable := by
-      show (yoneda.obj ((SmallEtale.toOver B S hS X.1).obj U)).IsRepresentable
+      change (yoneda.obj ((SmallEtale.toOver B S hS X.1).obj U)).IsRepresentable
       infer_instance
     exact isRepresentable_of_natIso _ ((spacesEtalePresheaf B S hS X).mapIso e)
   · intro hV

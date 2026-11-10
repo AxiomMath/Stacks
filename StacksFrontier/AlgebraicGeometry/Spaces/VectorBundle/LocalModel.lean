@@ -137,7 +137,7 @@ theorem vectorBundleChartIsoOfRingEquiv_hom_over {n : Type u}
     Iso.symm_hom, Category.assoc, AffineSpace.isoOfIsAffine_inv_over, specChartMap,
     ← Category.assoc]
   congr 1
-  show Spec.map _ ≫ Spec.map _ = _
+  change Spec.map _ ≫ Spec.map _ = _
   rw [← Spec.map_comp]
   congr 1
   ext r
@@ -176,7 +176,7 @@ theorem vectorBundleChartIso_hom_over {n : Type u} (ε : ι ≃ n) :
     (vectorBundleChartIso B S hS W F V e ε).hom ≫ 𝔸(n; chartScheme V) ↘ chartScheme V =
       (BigFppfOver.toScheme B S hS).map (vectorBundleChartHom B S hS W F V) :=
   vectorBundleChartIsoOfRingEquiv_hom_over B S hS W F V _ fun r => by
-    rw [RingEquiv.trans_apply, AlgEquiv.toRingEquiv_eq_coe, AlgEquiv.coe_ringEquiv,
+    rw [RingEquiv.trans_apply, AlgEquiv.coe_toRingEquiv,
       MvPolynomial.renameEquiv_apply, MvPolynomial.rename_C]
     exact polynomialChartRingEquiv_C B S hS W F V e r
 

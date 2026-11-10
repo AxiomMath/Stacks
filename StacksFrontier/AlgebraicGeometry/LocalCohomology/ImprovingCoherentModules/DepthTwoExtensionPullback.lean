@@ -88,7 +88,7 @@ public theorem depthTwoExtension_pullback
     have hdepthEq : Module.depth S (IsLocalRing.maximalIdeal S) N =
         Module.depth S (IsLocalRing.maximalIdeal S) (TensorProduct R S M) :=
       Module.depth_eq_depth_of_linearEquiv (IsLocalRing.maximalIdeal S) E
-    show 2 ≤ Module.depth S (IsLocalRing.maximalIdeal S) N
+    change 2 ≤ Module.depth S (IsLocalRing.maximalIdeal S) N
     rw [hdepthEq, Module.depth_tensorProduct_of_flat (R := R) (S := S) (M := M) (N := S)]
     exact le_trans hdepth (le_add_of_nonneg_right (by positivity))
 

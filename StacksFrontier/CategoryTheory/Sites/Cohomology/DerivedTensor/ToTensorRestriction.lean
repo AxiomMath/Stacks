@@ -198,8 +198,8 @@ lemma toTensor_restrict_square_models (m : tensorRestrictModels X) :
 /-- **The derived-to-total comparison of Stacks 06YU commutes with restriction to a slice, at a
 pair of K-flat complexes**, with the K-flatness carried as hypotheses rather than in a model. -/
 lemma toTensor_restrict_square_kFlat (A B : CochainComplex (Modules X.O) ℤ)
-    (hA : Stacks.SheafOfModules.KFlat.KFlat X.O A)
-    (hB : Stacks.SheafOfModules.KFlat.KFlat X.O B) :
+    (hA : Stacks.SheafOfModules.KFlat X.O A)
+    (hB : Stacks.SheafOfModules.KFlat X.O B) :
     (restriction X U).mapDerivedCategory.map (T.toTensor A B) ≫
         ((restriction X U).mapDerivedCategoryFactors.app
           (((tensorComplex X.O).obj A).obj B)).hom ≫

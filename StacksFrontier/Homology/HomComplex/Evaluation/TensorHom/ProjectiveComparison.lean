@@ -42,7 +42,6 @@ attribute [local instance] HasDerivedCategory.standard
 universe u v w w'
 
 set_option maxRecDepth 4096
-set_option synthInstance.maxHeartbeats 200000
 
 namespace Stacks.DerivedTensorHomDiagonal
 
@@ -57,6 +56,8 @@ both complexes and agrees with the defining K-injective comparison on K-injectiv
 namespace ProjectiveComparison
 
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 /-- The natural comparison with the `R`-linear Hom complex for bounded-above projective
 sources. The derived-Hom bifunctor is the fixed construction of 0A63, not extra data supplied
 as a hypothesis. The target complex has no boundedness, flatness, or injectivity hypothesis. -/
@@ -88,6 +89,8 @@ namespace ProjectiveHomComparison
 
 variable {R : Type u} [CommRing R] [HasDerivedCategory.{w} (ModuleCat.{u} R)]
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 /-- The comparison square used in the source proof, for a map to a K-injective target.
 In particular it applies to every K-injective resolution of the arbitrary target complex. -/
 private theorem resolution_comparison (e : ProjectiveHomComparison R)
@@ -101,6 +104,8 @@ private theorem resolution_comparison (e : ProjectiveHomComparison R)
   simpa only [e.iso_eq_homIso, DerivedCategory.Q.map_id P, op_id] using
     (e.naturality P P L I d d (𝟙 P) f).symm
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 /-- Hom out of a bounded-above projective complex preserves quasi-isomorphisms.
 This includes the map to a K-injective resolution used in the proof of Stacks 0A66. -/
 private theorem quasiIso_homCxMap (e : ProjectiveHomComparison R)
@@ -130,10 +135,14 @@ end ProjectiveHomComparison
 /-! The comparison is constructed using K-injective resolutions. We first check the
 quasi-isomorphism on Hom complexes through their explicit cohomology classes. -/
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 private abbrev C (R : Type u) [CommRing R] := CochainComplex (ModuleCat.{u} R) ℤ
 
 open CochainComplex HomComplex
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 private lemma postcomp_quasiIso_of_isKProjective {R : Type u} [CommRing R]
     {P L L' : C R} [P.IsKProjective] (f : L ⟶ L') [QuasiIso f] :
     QuasiIso (Stacks.HomComplex.TensorHomMap.postcomp R P L L' f) := by
@@ -151,6 +160,8 @@ private lemma postcomp_quasiIso_of_isKProjective {R : Type u} [CommRing R]
     StacksDraft.DerivedHom.Construction.homClassesMap_postcomp_toHom] using
     (hP _ hf).comp (CohomologyClass.toHom_bijective P L n)
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 set_option backward.isDefEq.respectTransparency false in
 private lemma homCxMap_eq_precomp_postcomp {R : Type u} [CommRing R]
     (P P' L L' : C R) (f : P' ⟶ P) (g : L ⟶ L') :
@@ -163,12 +174,14 @@ private lemma homCxMap_eq_precomp_postcomp {R : Type u} [CommRing R]
   intro z
   apply Cochain.ext
   intro p q hpq
-  show (Stacks.HomComplex.TensorHomComparison.HomCxMapDeg P P' L L' f g n z).v p q hpq =
+  change (Stacks.HomComplex.TensorHomComparison.HomCxMapDeg P P' L L' f g n z).v p q hpq =
     (((Cochain.ofHom f).comp z (zero_add n)).comp (Cochain.ofHom g) (add_zero n)).v p q hpq
   rw [Stacks.HomComplex.TensorHomComparison.HomCxMapDeg_v]
   simp only [Cochain.comp_zero_cochain_v, Cochain.zero_cochain_comp_v,
     Cochain.ofHom_v, Category.assoc]
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 set_option backward.isDefEq.respectTransparency false in
 private lemma homCxMap_id_left {R : Type u} [CommRing R]
     (P L L' : C R) (g : L ⟶ L') :
@@ -176,18 +189,24 @@ private lemma homCxMap_id_left {R : Type u} [CommRing R]
       Stacks.HomComplex.TensorHomMap.postcomp R P L L' g := by
   rw [homCxMap_eq_precomp_postcomp, Stacks.HomComplex.TensorHomMap.precomp_id, Category.id_comp]
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 private lemma homCxMap_quasiIso {R : Type u} [CommRing R]
     (P : C R) [P.IsKProjective] {L I : C R} (i : L ⟶ I) [QuasiIso i] :
     QuasiIso (Stacks.HomComplex.TensorHomComparison.HomCxMap P P L I (𝟙 P) i) := by
   rw [homCxMap_id_left]
   exact postcomp_quasiIso_of_isKProjective i
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 private def homTargetFunctor {R : Type u} [CommRing R] (P : C R) : C R ⥤ C R where
   obj L := HomComplexR R P L
   map {L L'} g := Stacks.HomComplex.TensorHomComparison.HomCxMap P P L L' (𝟙 P) g
   map_id L := Stacks.HomComplex.TensorHomComparison.HomCxMap_id P L
   map_comp f g := by rw [← Stacks.HomComplex.TensorHomComparison.HomCxMap_comp, Category.id_comp]
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 private lemma homTargetFunctor_inverts {R : Type u} [CommRing R]
     [HasDerivedCategory.{w} (ModuleCat.{u} R)] (P : C R) [P.IsKProjective] :
     (HomologicalComplex.quasiIso (ModuleCat R) (.up ℤ)).IsInvertedBy
@@ -197,6 +216,8 @@ private lemma homTargetFunctor_inverts {R : Type u} [CommRing R]
   exact (DerivedCategory.isIso_Q_map_iff_quasiIso (ModuleCat R) _).mpr
     (homCxMap_quasiIso P g)
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 /-- After localization, postcomposition depends only on the derived morphism. -/
 private lemma Q_homCxMap_eq {R : Type u} [CommRing R]
     [HasDerivedCategory.{w} (ModuleCat.{u} R)] (P : C R) [P.IsKProjective]
@@ -205,15 +226,17 @@ private lemma Q_homCxMap_eq {R : Type u} [CommRing R]
       DerivedCategory.Q.map (Stacks.HomComplex.TensorHomComparison.HomCxMap P P L L' (𝟙 P) g) := by
   let F := homTargetFunctor P ⋙ DerivedCategory.Q (C := ModuleCat R)
   let e := Localization.fac F (homTargetFunctor_inverts P) DerivedCategory.Q
-  show F.map f = F.map g
+  change F.map f = F.map g
   apply (cancel_epi (e.hom.app L)).1
   rw [← e.hom.naturality f, ← e.hom.naturality g]
-  show (Localization.lift F (homTargetFunctor_inverts P) DerivedCategory.Q).map
+  change (Localization.lift F (homTargetFunctor_inverts P) DerivedCategory.Q).map
       (DerivedCategory.Q.map f) ≫ _ =
     (Localization.lift F (homTargetFunctor_inverts P) DerivedCategory.Q).map
       (DerivedCategory.Q.map g) ≫ _
   rw [h]
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 private structure InjectiveResolution {R : Type u} [CommRing R] (L : C R) where
   I : C R
   ι : L ⟶ I
@@ -222,11 +245,15 @@ private structure InjectiveResolution {R : Type u} [CommRing R] (L : C R) where
 
 attribute [local instance] InjectiveResolution.quasiIso InjectiveResolution.isKInjective
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 private def injectiveResolution {R : Type u} [CommRing R] (L : C R) :
     InjectiveResolution L := Classical.choice (by
   obtain ⟨I, i, hi, hI⟩ := CochainComplex.exists_quasiIso_isKInjective L
   exact ⟨⟨I, i, hi, hI⟩⟩)
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 private def comparisonIso {R : Type u} [CommRing R]
     [HasDerivedCategory.{w} (ModuleCat.{u} R)] (P L : C R) [P.IsKProjective] :
     (StacksDraft.DerivedHom.derivedHomAdjunction (R := R)).hom.obj
@@ -240,6 +267,8 @@ private def comparisonIso {R : Type u} [CommRing R]
     (asIso (DerivedCategory.Q.map (Stacks.HomComplex.TensorHomComparison.HomCxMap P P L r.I (𝟙 P)
       r.ι))).symm
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 /-- The chosen comparison commutes with its chosen resolution map. -/
 private lemma comparisonIso_resolution {R : Type u} [CommRing R]
     [HasDerivedCategory.{w} (ModuleCat.{u} R)] (P L : C R) [P.IsKProjective] :
@@ -254,6 +283,8 @@ private lemma comparisonIso_resolution {R : Type u} [CommRing R]
   have := homCxMap_quasiIso P (injectiveResolution L).ι
   simp [comparisonIso]
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 private lemma homIso_naturality {R : Type u} [CommRing R]
     [HasDerivedCategory.{w} (ModuleCat.{u} R)] {P P' I I' : C R}
     [I.IsKInjective] [I'.IsKInjective] (f : P' ⟶ P) (g : I ⟶ I') :
@@ -265,6 +296,8 @@ private lemma homIso_naturality {R : Type u} [CommRing R]
   rw [homCxMap_eq_precomp_postcomp]
   exact (StacksDraft.DerivedHom.derivedHomAdjunction (R := R)).homIso_naturality f g
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 set_option backward.isDefEq.respectTransparency false in
 private lemma comparisonIso_eq_homIso {R : Type u} [CommRing R]
     [HasDerivedCategory.{w} (ModuleCat.{u} R)] (P I : C R)
@@ -279,6 +312,8 @@ private lemma comparisonIso_eq_homIso {R : Type u} [CommRing R]
   simpa only [DerivedCategory.Q.map_id P, op_id] using
     homIso_naturality (𝟙 P) (injectiveResolution I).ι
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 set_option backward.isDefEq.respectTransparency false in
 private lemma comparisonIso_naturality {R : Type u} [CommRing R]
     [HasDerivedCategory.{w} (ModuleCat.{u} R)] (P P' L L' : C R)
@@ -316,7 +351,7 @@ private lemma comparisonIso_naturality {R : Type u} [CommRing R]
     rw [← Functor.map_comp, ← Functor.map_comp]
     congr 1
     refine Prod.ext (by simp) ?_
-    show DerivedCategory.Q.map g ≫ DerivedCategory.Q.map s.ι =
+    change DerivedCategory.Q.map g ≫ DerivedCategory.Q.map s.ι =
       DerivedCategory.Q.map r.ι ≫ DerivedCategory.Q.map k
     simpa only [← Functor.map_comp] using hsq.symm
   have := homCxMap_quasiIso P' s.ι
@@ -367,6 +402,8 @@ private lemma comparisonIso_naturality {R : Type u} [CommRing R]
       rw [Category.assoc, ← Functor.map_comp, ← Stacks.HomComplex.TensorHomComparison.HomCxMap_comp,
         Category.id_comp]
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 /-- **Stacks 0A66.** A bounded-above complex of projective modules computes the derived
 internal Hom against every target complex. The comparison is natural in both variables,
 recovers the defining K-injective model, and hence is the comparison induced by a
@@ -393,6 +430,8 @@ namespace CurryingAux
 
 open CochainComplex HomComplex HomologicalComplex TensorProduct
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 /-- The cochain `Φ^n(β)` sends `y` to the image of `β ⊗ y` in the total complex. -/
 private lemma Phiv_v_apply (R : Type u) [CommRing R]
     (K L : CochainComplex (ModuleCat.{u} R) ℤ) (n : ℤ) (β : K.X n)
@@ -403,6 +442,8 @@ private lemma Phiv_v_apply (R : Type u) [CommRing R]
   simp only [ModuleCat.hom_comp, LinearMap.coe_comp, Function.comp_apply]
   congr 1
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 /-- The degree-zero transpose of a morphism of complexes, evaluated on a pure tensor. -/
 private lemma curryIso_zero_apply {R : Type u} [CommRing R]
     (K L M : CochainComplex (ModuleCat.{u} R) ℤ)
@@ -427,6 +468,8 @@ namespace DerivedInternalHom.Model
 
 set_option backward.isDefEq.respectTransparency false
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 /-- Composition of derived internal Homs, precomposed with the tensor product of `a` and `b`, is
 the transpose of the composite of `a`, precomposition with the transpose of `b`, and the inverse of
 the currying isomorphism. -/
@@ -466,6 +509,8 @@ open CochainComplex HomComplex
 
 variable {R : Type u} [CommRing R]
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 /-- The morphism of complexes `K ⊗ L ⟶ M` corresponding to a morphism `K ⟶ Hom(L, M)` under
 currying. -/
 def uncurry {K L M : CochainComplex (ModuleCat R) ℤ}
@@ -481,6 +526,8 @@ def uncurry {K L M : CochainComplex (ModuleCat R) ℤ}
         ((Stacks.HomComplex.Currying.curryIso K L M).hom.f 1).hom (δ 0 1 (Cochain.ofHom f)) at h
       simpa only [δ_ofHom, map_zero] using h))
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 /-- The components of the cochain of a morphism `K ⟶ Hom(L, M)`, evaluated at `x`, are those of
 the image of `x` in degree `n`. -/
 lemma ofHom_apply_v {K L M : CochainComplex (ModuleCat R) ℤ}
@@ -492,6 +539,8 @@ lemma ofHom_apply_v {K L M : CochainComplex (ModuleCat R) ℤ}
   subst hm
   rw [Cochain.ofHom_v]
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 /-- The uncurried morphism `uncurry f` sends the image of `x ⊗ y` to `f(x)(y)`. -/
 lemma uncurry_apply {K L M : CochainComplex (ModuleCat R) ℤ}
     (f : K ⟶ HomComplexR R L M) (r s t : ℤ) (h : r + s = t)
@@ -504,6 +553,8 @@ lemma uncurry_apply {K L M : CochainComplex (ModuleCat R) ℤ}
     (ofHom_apply_v f r (r + 0) rfl x s t (by omega)).symm
 
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 /-- Postcomposition with `f : M ⟶ M'` sends a cochain `a` to the cochain with components
 `a.v p q ≫ f.f q`. -/
 lemma postcomp_apply {L M M' : CochainComplex (ModuleCat R) ℤ}
@@ -512,6 +563,8 @@ lemma postcomp_apply {L M M' : CochainComplex (ModuleCat R) ℤ}
       a.v p q hpq ≫ f.f q :=
   Cochain.comp_zero_cochain_v _ _ _ _ _
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 /-- Precomposition with `f : L' ⟶ L` sends a cochain `a` to the cochain with components
 `f.f p ≫ a.v p q`. -/
 lemma precomp_apply {L' L M : CochainComplex (ModuleCat R) ℤ}
@@ -520,6 +573,8 @@ lemma precomp_apply {L' L M : CochainComplex (ModuleCat R) ℤ}
       f.f p ≫ a.v p q hpq :=
   Cochain.zero_cochain_comp_v _ _ _ _ _
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 /-- The unit `K ⟶ Hom(L, K ⊗ L)` followed by postcomposition with `uncurry f` is `f`. -/
 lemma Phi_postcomp_uncurry {K L M : CochainComplex (ModuleCat R) ℤ}
     (f : K ⟶ HomComplexR R L M) :
@@ -534,13 +589,15 @@ lemma Phi_postcomp_uncurry {K L M : CochainComplex (ModuleCat R) ℤ}
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro y
-  show ((((Stacks.HomComplex.TensorHomMap.postcomp R L (K ⊗ L) M (uncurry f)).f n).hom
+  change ((((Stacks.HomComplex.TensorHomMap.postcomp R L (K ⊗ L) M (uncurry f)).f n).hom
     (Stacks.HomComplex.TensorHomMap.Phiv R K L n x)).v p q hpq).hom y = _
   rw [postcomp_apply]
   simp only [ModuleCat.hom_comp, LinearMap.comp_apply,
     Stacks.DerivedTensorHomDiagonal.CurryingAux.Phiv_v_apply,
     uncurry_apply]
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 /-- The tensor product `f ⊗ₘ g` sends the image of `x ⊗ y` to the image of `f x ⊗ g y`. -/
 lemma tensorHom_apply {K K' L L' : CochainComplex (ModuleCat R) ℤ}
     (f : K ⟶ K') (g : L ⟶ L') (p q n : ℤ) (h : p + q = n)
@@ -551,6 +608,8 @@ lemma tensorHom_apply {K K' L L' : CochainComplex (ModuleCat R) ℤ}
   congrArg (fun k => k.hom (x ⊗ₜ[R] y))
     (CochainComplex.ιTensorObj_tensorHom R f g p q n h)
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 /-- The composition map `Hom(L, M) ⊗ Hom(K, L) ⟶ Hom(K, M)` sends the image of `a ⊗ b` to the
 composite cochain `b.comp a`. -/
 lemma compMor_apply (K L M : CochainComplex (ModuleCat R) ℤ)
@@ -560,11 +619,15 @@ lemma compMor_apply (K L M : CochainComplex (ModuleCat R) ℤ)
           p q n h).hom (a ⊗ₜ[R] b)) = b.comp a (by omega) :=
   compMor_tmul K L M p q n h a b
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 /-- Postcomposition with the identity of `L` is the identity of `Hom(K, L)`. -/
 lemma postcomp_id (K L : CochainComplex (ModuleCat R) ℤ) :
     Stacks.HomComplex.TensorHomMap.postcomp R K L L (𝟙 L) = 𝟙 _ :=
   Stacks.HomComplex.TensorHomMap.postcomp_id R K L
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 /-- For `f : B ⟶ Hom(K, L)`, the unit `Hom(L, M) ⟶ Hom(B, Hom(L, M) ⊗ B)`, followed by
 postcomposition with `(𝟙 ⊗ₘ f) ≫ compMor K L M` and the currying isomorphism, is precomposition
 with `uncurry f : B ⊗ K ⟶ L`. -/
@@ -587,7 +650,7 @@ lemma Phi_postcomp_compMor_currying
   apply ModuleCat.hom_ext
   apply TensorProduct.ext'
   intro x y
-  show ((((Stacks.HomComplex.Currying.curryIso B K M).hom.f n).hom
+  change ((((Stacks.HomComplex.Currying.curryIso B K M).hom.f n).hom
     (((Stacks.HomComplex.TensorHomMap.postcomp R B (HomComplexR R L M ⊗ B) (HomComplexR R K M)
       ((𝟙 (HomComplexR R L M) ⊗ₘ f) ≫ compMor K L M)).f n).hom
         (Stacks.HomComplex.TensorHomMap.Phiv R (HomComplexR R L M) B n a))).v p q hpq).hom
@@ -603,6 +666,8 @@ lemma Phi_postcomp_compMor_currying
   erw [compMor_apply, Cochain.comp_v _ _ _ s p q (by omega) hpq]
   rfl
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 set_option maxHeartbeats 800000 in
 -- Tensor generators require reducing the total-complex module instances.
 private lemma compMor_precomp (K K' L I : CochainComplex (ModuleCat R) ℤ)
@@ -615,7 +680,7 @@ private lemma compMor_precomp (K K' L I : CochainComplex (ModuleCat R) ℤ)
   apply ModuleCat.hom_ext
   apply TensorProduct.ext'
   intro a b
-  show (compMor K' L I).f n
+  change (compMor K' L I).f n
     ((𝟙 (HomComplexR R L I) ⊗ₘ Stacks.HomComplex.TensorHomMap.precomp R K' K L f).f n
       ((HomologicalComplex.ιTensorObj (HomComplexR R L I) (HomComplexR R K L)
         p q n hpq).hom (a ⊗ₜ[R] b))) =
@@ -628,6 +693,8 @@ private lemma compMor_precomp (K K' L I : CochainComplex (ModuleCat R) ℤ)
   erw [compMor_apply, compMor_apply]
   exact Cochain.comp_assoc_of_first_is_zero_cochain (Cochain.ofHom f) b a (by omega)
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- formerly a file-wide option; which declarations need it was not determined
 /-- The tensor--Hom chain map `theta` is the unit `K ⟶ Hom(L, K ⊗ L)`, tensored with
 `Hom(M, L)`, followed by composition. -/
 lemma Phi_tensor_compMor (K L M : CochainComplex (ModuleCat R) ℤ) :
@@ -639,7 +706,7 @@ lemma Phi_tensor_compMor (K L M : CochainComplex (ModuleCat R) ℤ) :
   apply ModuleCat.hom_ext
   apply TensorProduct.ext'
   intro x a
-  show (compMor M L (K ⊗ L)).f n
+  change (compMor M L (K ⊗ L)).f n
     ((Stacks.HomComplex.TensorHomMap.Phi R K L ⊗ₘ 𝟙 (HomComplexR R M L)).f n
       ((HomologicalComplex.ιTensorObj K (HomComplexR R M L) p q n hpq).hom
         (x ⊗ₜ[R] a))) =
@@ -655,7 +722,7 @@ lemma Phi_tensor_compMor (K L M : CochainComplex (ModuleCat R) ℤ) :
   apply LinearMap.ext
   intro y
   rw [Cochain.comp_v _ _ _ r (s - p) s (by omega) (by omega)]
-  show ((Stacks.HomComplex.TensorHomMap.Phiv R K L p x).v (s - p) s (by omega)).hom
+  change ((Stacks.HomComplex.TensorHomMap.Phiv R K L p x).v (s - p) s (by omega)).hom
     ((a.v r (s - p) (by omega)).hom y) = _
   rw [Stacks.DerivedTensorHomDiagonal.CurryingAux.Phiv_v_apply]
   exact (Stacks.HomComplex.TensorHomComparison.theta_apply K L M n p q hpq x a r s hrs y).symm

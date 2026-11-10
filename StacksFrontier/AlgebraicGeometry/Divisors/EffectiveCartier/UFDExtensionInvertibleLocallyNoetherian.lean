@@ -217,8 +217,8 @@ noncomputable def data (p : Sys X U N) :
       (fun V : p.opens => (p.chartOf V).opn) :=
   Stacks.SheafOfModules.OModuleGlueData.ofModules (fun V => (p.chartOf V).mod)
     (fun i j {Z} hi hj => p.tr _ (p.chartOf_mem i) _ (p.chartOf_mem j) Z hi hj)
-    (fun i j {_Z _W} hi hj hWV s => p.tr_map _ _ _ _ _ _ hi hj hWV s)
-    (fun i j k {_Z} hi hj hk s => p.tr_trans _ _ _ _ _ _ _ hi hj hk s)
+    (fun i j {Z W} => p.tr_map _ (p.chartOf_mem i) _ (p.chartOf_mem j) Z W)
+    (fun i j k {Z} => p.tr_trans _ (p.chartOf_mem i) _ (p.chartOf_mem j) _ (p.chartOf_mem k) Z)
 
 /-- **The sheaf of modules a extension datum glues to.** -/
 noncomputable def glued (p : Sys X U N) : X.Modules := p.data.gluedModules
@@ -352,7 +352,7 @@ theorem insTau_apply_of_eq {d : Chart X} (hd : d ∈ insert (⟨V, A⟩ : Chart 
     (s : Sec p.glued Z) :
     p.insTau V A τ d hd Z hZd hZS s = secEquiv (congrArg Chart.mod hdn.symm) Z
       (τ Z (hZd.trans (le_of_eq (congrArg Chart.opn hdn))) hZS s) := by
-  rw [insTau, dif_pos hdn]; rfl
+  rw [insTau, dite_eq_left hdn]; rfl
 
 open Classical in
 /-- On a chart other than the new one the comparison with the glued module is the one `p` already
@@ -360,14 +360,14 @@ had. -/
 theorem insTau_of_ne {d : Chart X} (hd : d ∈ insert (⟨V, A⟩ : Chart X) p.charts)
     (hdn : d ≠ (⟨V, A⟩ : Chart X)) (Z : X.Opens) (hZd : Z ≤ d.opn) (hZS : Z ≤ p.support) :
     p.insTau V A τ d hd Z hZd hZS = p.sigma (hd.resolve_left hdn) Z hZd :=
-  dif_neg hdn
+  dite_eq_right hdn
 
 include hVnew in
 /-- On an old chart the comparison with the glued module is the one `p` already had. -/
 theorem insTau_of_mem {d : Chart X} (hd : d ∈ insert (⟨V, A⟩ : Chart X) p.charts)
     (hd' : d ∈ p.charts) (Z : X.Opens) (hZd : Z ≤ d.opn) (hZS : Z ≤ p.support) :
     p.insTau V A τ d hd Z hZd hZS = p.sigma hd' Z hZd :=
-  dif_neg fun h => hVnew d hd' (congrArg Chart.opn h)
+  dite_eq_right fun h => hVnew d hd' (congrArg Chart.opn h)
 
 include hτ in
 /-- The comparison of the glued module with a chart commutes with the restriction maps. -/
@@ -401,7 +401,7 @@ theorem insTr_pos {d e : Chart X} (hd : d ∈ insert (⟨V, A⟩ : Chart X) p.ch
     (hZe : Z ≤ e.opn) (hZS : Z ≤ p.support) (s : Sec d.mod Z) :
     p.insTr V A τ d hd e he Z hZd hZe s
       = p.insTau V A τ e he Z hZe hZS ((p.insTau V A τ d hd Z hZd hZS).symm s) := by
-  rw [insTr, dif_pos hZS]; rfl
+  rw [insTr, dite_eq_left hZS]; rfl
 
 open Classical in
 theorem insTr_neg {d e : Chart X} (hd : d ∈ insert (⟨V, A⟩ : Chart X) p.charts)
@@ -409,7 +409,7 @@ theorem insTr_neg {d e : Chart X} (hd : d ∈ insert (⟨V, A⟩ : Chart X) p.ch
     (hZe : Z ≤ e.opn) (hZS : ¬ Z ≤ p.support) (s : Sec d.mod Z) :
     p.insTr V A τ d hd e he Z hZd hZe s
       = secEquiv (congrArg Chart.mod (p.eq_of_not_le_support V A hd he hZd hZe hZS)) Z s := by
-  rw [insTr, dif_neg hZS]
+  rw [insTr, dite_eq_right hZS]
 
 /-- The comparison of a chart with itself is the identity. -/
 @[simp] theorem insTr_self (d : Chart X) (hd hd' : d ∈ insert (⟨V, A⟩ : Chart X) p.charts)
@@ -472,7 +472,7 @@ theorem le_insertChart : Le p (p.insertChart V A τ hτ hVnew hA) where
   subset := Set.subset_insert _ _
   tr_eq d hd e he Z hZd hZe := by
     refine LinearEquiv.ext fun s => ?_
-    show p.insTr V A τ d _ e _ Z hZd hZe s = _
+    change p.insTr V A τ d _ e _ Z hZd hZe s = _
     rw [p.insTr_pos V A τ _ _ Z hZd hZe (hZd.trans (p.le_support hd)) s,
       p.insTau_of_mem V A τ hVnew _ hd, p.insTau_of_mem V A τ hVnew _ he]
     exact LinearEquiv.congr_fun (p.sigma_symm_trans hd he Z hZd hZe) s
@@ -554,9 +554,9 @@ noncomputable def chainBound (hC : IsChain Le C) {p₀ : Sys X U N} (hp₀ : p�
 
 theorem le_chainBound (hC : IsChain Le C) {p₀ : Sys X U N} (hp₀ : p₀ ∈ C) {p : Sys X U N}
     (hp : p ∈ C) : Le p (chainBound hC hp₀) where
-  subset d hd := ⟨p, hp, hd⟩
+  subset d hd := ⟨p, hp, (hd : d ∈ p.charts)⟩
   tr_eq d hd e he Z hZd hZe :=
-    chainTr_eq hC hp hd he ⟨p, hp, hd⟩ ⟨p, hp, he⟩ Z hZd hZe
+    chainTr_eq (d := d) (e := e) hC hp hd he ⟨p, hp, hd⟩ ⟨p, hp, he⟩ Z hZd hZe
 
 end Chain
 

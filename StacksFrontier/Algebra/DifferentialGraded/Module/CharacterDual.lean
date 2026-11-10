@@ -169,7 +169,7 @@ theorem charIsScalarTower (M : LeftModule A) :
   IsScalarTower.of_algebraMap_smul (fun r l => by
     ext x
     rw [charModule_smul_apply]
-    show l ((algebraMap R A.Aᵐᵒᵖ r).unop • x) = l (r • x)
+    change l ((algebraMap R A.Aᵐᵒᵖ r).unop • x) = l (r • x)
     rw [show (algebraMap R A.Aᵐᵒᵖ r).unop = algebraMap R A.A r from rfl,
       IsScalarTower.algebraMap_smul])
 
@@ -528,7 +528,7 @@ theorem dualPieceRestrict_surjective (M : LeftModule A) (n : ℤ) :
   refine ⟨⟨extendChar M n μ, extendChar_mem M n μ⟩, ?_⟩
   ext x
   rw [dualPieceRestrict_apply]
-  show extendChar M n μ (x : M.M) = μ x
+  change extendChar M n μ (x : M.M) = μ x
   rw [extendChar_apply,
     show ((DirectSum.decompose M.grading (x : M.M)) (-n)) = x from
       Subtype.ext (DirectSum.decompose_of_mem_same M.grading x.2)]
@@ -688,7 +688,7 @@ theorem dualMap_surjective {M N : LeftModule A} (f : M ⟶ N)
         obtain ⟨y', hy'⟩ := ihz'
         exact ⟨y + y', fun w => by
           rw [dualChar_add]
-          show dualChar y (f.toFun w) + dualChar y' (f.toFun w) = _
+          change dualChar y (f.toFun w) + dualChar y' (f.toFun w) = _
           rw [hy, hy']
           rfl⟩
   obtain ⟨y, hy⟩ := key (dualChar x) (dualChar_mem x)

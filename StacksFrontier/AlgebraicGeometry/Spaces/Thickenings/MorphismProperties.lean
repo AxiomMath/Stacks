@@ -96,6 +96,7 @@ attribute [local instance] pointTopology
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullbacks` for presheaves on the big fppf site is found only by a deep instance search
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_ThickeningsMorphismProperties :
@@ -155,8 +156,7 @@ variable {X X' Y Y' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 `a ≫ j = i ≫ b` of morphisms of algebraic spaces over `S` whose vertical arrows are closed
 immersions, the left one surjective, `a` is affine if and only if `b` is. -/
 theorem isAffineHom_iff_isAffineHom_of_isClosedImmersion_square_unconditional
-    (hX : IsAlgebraicSpace B S hS X) (hX' : IsAlgebraicSpace B S hS X')
-    (hY' : IsAlgebraicSpace B S hS Y')
+    (hX' : IsAlgebraicSpace B S hS X') (hY' : IsAlgebraicSpace B S hS Y')
     {i : X ⟶ X'} {j : Y ⟶ Y'} (a : X ⟶ Y) (b : X' ⟶ Y')
     (hi : IsClosedImmersion B S hS i) (hisurj : IsSurjective B S hS i)
     (hj : IsClosedImmersion B S hS j) (hw : a ≫ j = i ≫ b) :
@@ -208,7 +208,7 @@ theorem isIntegralHom_iff_isIntegralHom_of_isClosedImmersion_square_unconditiona
     IsIntegralHom B S hS a ↔ IsIntegralHom B S hS b := by
   rw [isIntegralHom_iff_isAffineHom_and_universallyClosed B S hS hX hY,
     isIntegralHom_iff_isAffineHom_and_universallyClosed B S hS hX' hY',
-    isAffineHom_iff_isAffineHom_of_isClosedImmersion_square_unconditional B S hS hX hX' hY' a b
+    isAffineHom_iff_isAffineHom_of_isClosedImmersion_square_unconditional B S hS hX' hY' a b
       hi hisurj hj hw,
     universallyClosed_iff_universallyClosed_of_isClosedImmersion_square B S hS hX hX' hY hY' a b
       hi hisurj hj hw]
@@ -310,7 +310,7 @@ theorem isAffineHom_iff_isAffineHom_of_isThickening_unconditional
     (hG : IsThickening B S hS X G) (hH : IsThickening B S hS Y H)
     (f : Arrow.mk G.ι ⟶ Arrow.mk H.ι) :
     IsAffineHom B S hS f.left ↔ IsAffineHom B S hS f.right :=
-  isAffineHom_iff_isAffineHom_of_isClosedImmersion_square_unconditional B S hS hG.1.1 X.2 Y.2
+  isAffineHom_iff_isAffineHom_of_isClosedImmersion_square_unconditional B S hS X.2 Y.2
     f.left f.right hG.1.2 hG.2 hH.1.2 (Arrow.w f)
 
 /-- **Stacks 09ZY, part (5).** In a morphism of thickenings of algebraic spaces over `S` the

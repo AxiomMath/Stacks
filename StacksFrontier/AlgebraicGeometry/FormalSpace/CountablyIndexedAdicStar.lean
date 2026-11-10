@@ -95,7 +95,7 @@ theorem idealSequenceLimit_isOpen_ker {A : Type u} [CommRing A] (J : ℕ → Ide
   let : TopologicalSpace (IdealSequenceLimit A J hJ) := idealSequenceLimitTopology A J hJ
   let : ∀ k, TopologicalSpace (A ⧸ J k) := fun _ => ⊥
   let : ∀ k, DiscreteTopology (A ⧸ J k) := fun _ => ⟨rfl⟩
-  show IsOpen ((fun x : IdealSequenceLimit A J hJ => x.1 n) ⁻¹' ({0} : Set (A ⧸ J n)))
+  change IsOpen ((fun x : IdealSequenceLimit A J hJ => x.1 n) ⁻¹' ({0} : Set (A ⧸ J n)))
   exact (isOpen_discrete ({0} : Set (A ⧸ J n))).preimage
     ((continuous_apply n).comp continuous_subtype_val)
 
@@ -108,7 +108,7 @@ theorem idealSequenceLimit_isClosed_ker {A : Type u} [CommRing A] (J : ℕ → I
   let : TopologicalSpace (IdealSequenceLimit A J hJ) := idealSequenceLimitTopology A J hJ
   let : ∀ k, TopologicalSpace (A ⧸ J k) := fun _ => ⊥
   let : ∀ k, DiscreteTopology (A ⧸ J k) := fun _ => ⟨rfl⟩
-  show IsClosed ((fun x : IdealSequenceLimit A J hJ => x.1 n) ⁻¹' ({0} : Set (A ⧸ J n)))
+  change IsClosed ((fun x : IdealSequenceLimit A J hJ => x.1 n) ⁻¹' ({0} : Set (A ⧸ J n)))
   exact isClosed_singleton.preimage ((continuous_apply n).comp continuous_subtype_val)
 
 /-- An open set of the inverse limit containing `x` contains every element agreeing with `x` at
@@ -339,7 +339,7 @@ private lemma exists_positive_power_sequence
     exact Nat.succ_pos _
   · intro n
     have hk := Classical.choose_spec (hpow (stage n) n)
-    show f n ^ (Classical.choose (hpow (stage n) n) + 1) ∈ J (stage n)
+    change f n ^ (Classical.choose (hpow (stage n) n) + 1) ∈ J (stage n)
     rw [pow_succ]
     exact Ideal.mul_mem_right (f n) (J (stage n)) hk
   · ext p
@@ -379,7 +379,7 @@ theorem idealSequenceLimitProj_surjective {A : Type u} [CommRing A] (J : ℕ →
     intro b
     obtain ⟨a, ha⟩ := Ideal.Quotient.mk_surjective b
     exact ⟨a, by
-      show (idealSequenceLimitDiagonal J hJ a).1 n = b
+      change (idealSequenceLimitDiagonal J hJ a).1 n = b
       simp [idealSequenceLimitDiagonal, ha]⟩
   exact Function.Surjective.of_comp hcomp
 
@@ -416,7 +416,7 @@ private theorem exists_stage_gap_of_not_open_prefix
     let : DiscreteTopology (A ⧸ J m) := ⟨rfl⟩
     have hc : Continuous (fun x : Q => x.1 m) :=
       (continuous_apply m).comp continuous_subtype_val
-    show IsOpen ((fun x : Q => x.1 m) ⁻¹' ({0} : Set (A ⧸ J m)))
+    change IsOpen ((fun x : Q => x.1 m) ⁻¹' ({0} : Set (A ⧸ J m)))
     exact (isOpen_discrete ({0} : Set (A ⧸ J m))).preimage hc
   have hgapAll : ∀ n, m ≤ n → J n ≤ L ⊔ J (n + 1) := by
     intro n hmn
@@ -441,7 +441,7 @@ private theorem exists_stage_gap_of_not_open_prefix
       exact h' (mem_of_proj_eq_zero J hJ hmk hx ha)
     obtain ⟨b, hb, c, hc, hbc⟩ := Submodule.mem_sup.mp hak
     refine ⟨q b, hk _ ?_, Ideal.mem_map_of_mem q hb⟩
-    show Ideal.Quotient.mk (J k) b = x.1 k
+    change Ideal.Quotient.mk (J k) b = x.1 k
     rw [← ha]
     apply (Ideal.Quotient.mk_eq_mk_iff_sub_mem b a).2
     rw [← hbc]
@@ -499,7 +499,7 @@ private lemma no_gap_at_every_finite_prefix
       have hmi : m ≤ i := by omega
       have hst : phi m + 1 ≤ stage i + 1 := Nat.succ_le_succ (hstage m i hmi)
       exact (antitone_nat_of_succ_le hJ.1 hst) (heJ i)
-  obtain ⟨x, hxJ, hxnot⟩ := SetLike.not_le_iff_exists.mp
+  obtain ⟨x, hxJ, hxnot⟩ := IsConcreteLE.not_le_iff_exists.mp
     (Classical.choose_spec (hgap m)).2
   have hxK : x ∈ K := hnK
     ((antitone_nat_of_succ_le hJ.1 (hphi m)) hxJ)
@@ -554,7 +554,7 @@ theorem isAdic_and_exists_fg_idealOfDefinition_of_squareCofinal
   let L : Ideal Q := idealSequenceLimitPrefixIdeal J' hJ'dec f m
   let C : Ideal Q := L.topologicalClosure
   have hCopen : IsOpen (C : Set Q) := by
-    show IsOpen (closure (L : Set Q))
+    change IsOpen (closure (L : Set Q))
     exact hprefixOpen
   let π (n : ℕ) : Q →+* A ⧸ J' n := idealSequenceLimitProj J' hJ'dec n
   let K (n : ℕ) : Ideal Q := RingHom.ker (π n)
@@ -580,9 +580,9 @@ theorem isAdic_and_exists_fg_idealOfDefinition_of_squareCofinal
     apply Ideal.mem_radical_iff.mpr
     obtain ⟨k, hk⟩ := hpow' n i
     refine ⟨k, ?_⟩
-    show (π n) (idealSequenceLimitDiagonal J' hJ'dec (f i) ^ k) = 0
+    change (π n) (idealSequenceLimitDiagonal J' hJ'dec (f i) ^ k) = 0
     rw [map_pow]
-    show Ideal.Quotient.mk (J' n) (f i ^ k) = 0
+    change Ideal.Quotient.mk (J' n) (f i ^ k) = 0
     exact Ideal.Quotient.eq_zero_iff_mem.mpr hk
   have hLpow (n : ℕ) : ∃ r, L ^ r ≤ K n :=
     Ideal.exists_pow_le_of_le_radical_of_fg (hLrad n) hLfg
@@ -690,7 +690,7 @@ theorem isAdic_and_exists_fg_idealOfDefinition_of_squareCofinal
     obtain ⟨c, hc⟩ := p.mkQ_surjective z
     let O : Set Q := {x | (c : Q) - x ∈ (C ^ 2).topologicalClosure}
     have hOopen : IsOpen O := by
-      show IsOpen ((fun x : Q => (c : Q) - x) ⁻¹'
+      change IsOpen ((fun x : Q => (c : Q) - x) ⁻¹'
         ((C ^ 2).topologicalClosure : Set Q))
       exact hI2open.preimage (continuous_const.sub continuous_id)
     have hcO : (c : Q) ∈ O := by simp [O]
@@ -699,12 +699,12 @@ theorem isAdic_and_exists_fg_idealOfDefinition_of_squareCofinal
         O hOopen hcO
     let lC : C := ⟨l, hLC hlL⟩
     have hdiff : c - lC ∈ p := by
-      show ((c - lC : C) : Q) ∈ (C ^ 2).topologicalClosure
+      change ((c - lC : C) : Q) ∈ (C ^ 2).topologicalClosure
       exact hlO
     have hquot : Submodule.mkQ p c = Submodule.mkQ p lC :=
       (Submodule.Quotient.eq p).2 hdiff
     refine ⟨⟨l, hlL⟩, ?_⟩
-    show Submodule.mkQ p lC = z
+    change Submodule.mkQ p lC = z
     rw [← hc]
     exact hquot.symm
   have hcotangentFinite : Module.Finite Q cotangent := by
@@ -884,15 +884,15 @@ private theorem isThickening_countableNeighbourhood_map (B : BigFppfSite.{u}) (S
     ker_factor_le_nilradical hle ((hJ'zero n.down).trans (hJ'zero m.down).symm)
   have hqSurj : Function.Surjective q := Ideal.Quotient.factor_surjective hle
   have hsurj : Function.Surjective (Spec.map (CommRingCat.ofHom q)).base := by
-    show Function.Surjective (PrimeSpectrum.comap q)
+    change Function.Surjective (PrimeSpectrum.comap q)
     intro p
     refine ⟨⟨p.asIdeal.map q, Ideal.map_isPrime_of_surjective hqSurj
       (hker.trans (nilradical_le_prime p.asIdeal))⟩, ?_⟩
     apply PrimeSpectrum.ext
-    show (p.asIdeal.map q).comap q = p.asIdeal
+    change (p.asIdeal.map q).comap q = p.asIdeal
     rw [Ideal.comap_map_of_surjective q hqSurj p.asIdeal, ← RingHom.ker_eq_comap_bot,
       sup_eq_left.mpr (hker.trans (nilradical_le_prime p.asIdeal))]
-  show Stacks.Thickenings.IsThickening (Spec.map (CommRingCat.ofHom q))
+  change Stacks.Thickenings.IsThickening (Spec.map (CommRingCat.ofHom q))
   exact ⟨IsClosedImmersion.spec_of_surjective (CommRingCat.ofHom q) hqSurj, hsurj⟩
 
 /-- The completion of `Spec A` along `T`, presented by a countable cofinal sequence of ideals,
@@ -955,10 +955,10 @@ private theorem countableCompletionQuotientEquiv_comp_mk_comp_diagonal (J' : ℕ
         (Ideal.Quotient.mk (countableCompletionKernel J' hJ'dec n))).comp
       (idealSequenceLimitDiagonal J' hJ'dec) = Ideal.Quotient.mk (J' n) := by
   refine RingHom.ext fun a ↦ ?_
-  show countableCompletionQuotientEquiv J' hJ'dec n
+  change countableCompletionQuotientEquiv J' hJ'dec n
     (Ideal.Quotient.mk _ (idealSequenceLimitDiagonal J' hJ'dec a)) = _
   rw [countableCompletionQuotientEquiv_mk]
-  show (idealSequenceLimitDiagonal J' hJ'dec a).1 n = Ideal.Quotient.mk (J' n) a
+  change (idealSequenceLimitDiagonal J' hJ'dec a).1 n = Ideal.Quotient.mk (J' n) a
   simp [idealSequenceLimitDiagonal]
 
 /-- The inverse limit of a decreasing sequence of ideals of `A` all cutting out the same closed
@@ -1083,7 +1083,7 @@ theorem countableKernelStageIso_naturality (B : BigFppfSite.{u}) (S : Scheme.{u}
   apply ObjectProperty.hom_ext
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor hle)) ≫
+  change Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor hle)) ≫
       Spec.map (CommRingCat.ofHom
         (countableCompletionQuotientEquiv J' hJ'dec m.down).toRingHom) =
     Spec.map (CommRingCat.ofHom
@@ -1094,7 +1094,7 @@ theorem countableKernelStageIso_naturality (B : BigFppfSite.{u}) (S : Scheme.{u}
   apply CommRingCat.hom_ext
   refine RingHom.ext fun y ↦ ?_
   obtain ⟨c, rfl⟩ := Ideal.Quotient.mk_surjective y
-  show Ideal.Quotient.factor hle (countableCompletionQuotientEquiv J' hJ'dec m.down
+  change Ideal.Quotient.factor hle (countableCompletionQuotientEquiv J' hJ'dec m.down
       (Ideal.Quotient.mk _ c)) =
     countableCompletionQuotientEquiv J' hJ'dec n.down
       (Ideal.Quotient.factor hK (Ideal.Quotient.mk _ c))

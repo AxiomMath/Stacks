@@ -44,8 +44,8 @@ global-sections comparison gives a retraction of `kaehlerToSections`, and the id
 
 Choosing `Spec Γ(X, U)` as the model of the affine open, through `hU.fromSpec`, rather than `U`
 as an open subscheme, is what keeps the statement in the coordinate ring `Γ(X, U)` of the tag's
-statement itself: the Kähler differentials are formed on `f.appLE V U hUV` directly and no comparison of
-rings has to be transported through them. The one comparison that does appear is the
+statement itself: the Kähler differentials are formed on `f.appLE V U hUV` directly and no
+comparison of rings has to be transported through them. The one comparison that does appear is the
 global-sections comparison `Scheme.ΓSpecIso`, and the single lemma `fromSpec_appLE_top`
 identifies it with the comorphism, which is where the two bookkeeping facts
 `hU.fromSpec_app_self` and `hU.fromSpec_preimage_self` are used.

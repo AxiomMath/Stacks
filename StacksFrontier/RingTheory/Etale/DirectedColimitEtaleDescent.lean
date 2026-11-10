@@ -134,7 +134,7 @@ theorem exists_ge_surjective_comap_quotient_of_algEquiv [IsDirectedOrder ι]
     (e.symm.toAlgHom.toRingHom.comp (Ideal.quotientMap
       (Ideal.span (Set.range fun k ↦ map (φ i) (q k))) (MvPolynomial.map (φ i)) hle)) ?_ hD
   refine RingHom.ext fun x ↦ ?_
-  show algebraMap A D (φ i x) =
+  change algebraMap A D (φ i x) =
     e.symm (Ideal.quotientMap (Ideal.span (Set.range fun k ↦ map (φ i) (q k)))
       (MvPolynomial.map (φ i)) hle (Ideal.Quotient.mk (Ideal.span (Set.range q)) (C x)))
   rw [Ideal.quotientMap_mk, map_C]

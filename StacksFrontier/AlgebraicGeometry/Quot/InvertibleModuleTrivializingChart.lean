@@ -149,7 +149,7 @@ theorem exists_etaleCover_modulePullback_iso_structureModule (U : BigFppfOver B 
     obtain ⟨k, w, hw⟩ := (Scheme.ofArrows_mem_etalePrecoverage_iff.mp (hzet A)).1 ⟨y, hA⟩
     refine ⟨⟨A, k⟩, w, ?_⟩
     have h2 := toScheme_map_toOver_map_openChartInclusion B S hS (schemeSpace U).1 t A.1
-    show ((BigFppfOver.toScheme B S hS).map ((SmallEtale.toOver B S hS _).map
+    change ((BigFppfOver.toScheme B S hS).map ((SmallEtale.toOver B S hS _).map
       (openChartInclusion B S hS (schemeSpace U).1 t A.1))) (((BigFppfOver.toScheme B S hS).map
       ((SmallEtale.toOver B S hS _).map (φ A k))) w) = y
     rw [hw, h2]
@@ -244,14 +244,14 @@ theorem exists_surjective_etale_modulePullback_iso_of_etaleCover (U : BigFppfOve
     have : IsZariskiLocalAtSource (@Etale.{u}) :=
       HasRingHomProperty.instIsZariskiLocalAtSource (P := @Etale.{u}) (Q := RingHom.Etale)
     refine IsZariskiLocalAtSource.of_openCover 𝒰 fun i => ?_
-    show Etale ((BigFppfOver.toScheme B S hS).map (j i) ≫ _)
+    change Etale ((BigFppfOver.toScheme B S hS).map (j i) ≫ _)
     rw [hfac i]
     exact hg i
   · classical
     have hmono : ∀ i, Mono (j i) := fun i => by
       apply (Over.forget (B.obj hS)).mono_of_mono_map
       apply B.inclusion.mono_of_mono_map
-      show Mono ((BigFppfOver.toScheme B S hS).map (j i))
+      change Mono ((BigFppfOver.toScheme B S hS).map (j i))
       have := hjopen i
       infer_instance
     set Ys : ι → Scheme.{u} := fun k => (BigFppfOver.toScheme B S hS).obj (X k) with hYs

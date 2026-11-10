@@ -69,7 +69,7 @@ theorem determinantAutomorphism_eq_det (e : M ≃ₗ[R] M) (hM : IsFiniteLength 
     rw [Cmp.equiv_symbol, hL]
     convert b.det_self using 2
     funext i
-    show b (Fin.cast hLen (Fin.cast _ i)) = b i
+    change b (Fin.cast hLen (Fin.cast _ i)) = b i
     rfl
   have hFs : L (Cmp.equiv (F (symbol s))) = LinearMap.det eK := by
     rw [DF.map_symbol eMor s, Cmp.equiv_symbol, hL]
@@ -77,7 +77,7 @@ theorem determinantAutomorphism_eq_det (e : M ≃ₗ[R] M) (hM : IsFiniteLength 
         (s.1 (Fin.cast (DF.map_length eMor).symm
           (Fin.cast Cmp.length_eq_finrank.symm i)))) = eK ∘ b := by
       funext i
-      show e (b (Fin.cast hLen (Fin.cast _ (Fin.cast _ i)))) = eK (b i)
+      change e (b (Fin.cast hLen (Fin.cast _ (Fin.cast _ i)))) = eK (b i)
       rw [he]
       rfl
     rw [hv, b.det_comp, b.det_self, mul_one]

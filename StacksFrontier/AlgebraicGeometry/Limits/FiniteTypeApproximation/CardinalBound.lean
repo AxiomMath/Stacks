@@ -112,7 +112,7 @@ private theorem exists_card_aux (S : Scheme.{u}) (hS : CompactSpace S)
       obtain ⟨j, hj⟩ := hQ₂ j₁
       exact ⟨j, hj₁.trans (Q₁.index.monotone hj)⟩
     · have hVS : (V : Scheme.{u}).size ≤ S.size := S.size_coe_opens_le V
-      show Cardinal.mk Q₂.indexType ≤ _
+      change Cardinal.mk Q₂.indexType ≤ _
       exact hc₂.trans (max_le (hc₁.trans (max_le_max le_rfl hVS)) (le_max_right _ _))
 
 end Scheme.FiniteTypeApproximation

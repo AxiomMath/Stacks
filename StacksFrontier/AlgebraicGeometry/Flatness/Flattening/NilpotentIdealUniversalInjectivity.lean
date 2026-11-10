@@ -105,7 +105,7 @@ theorem rTensor_injective_of_annihilated_pow {R : Type u₁} [CommRing R]
     have hK : ∀ a ∈ I ^ n, ∀ x : K, a • x = 0 := by
       intro a ha x
       refine Subtype.ext ?_
-      show a • (x : Q) = 0
+      change a • (x : Q) = 0
       refine Submodule.smul_induction_on x.2 ?_ ?_
       · intro b hb y _
         rw [smul_smul]
@@ -115,7 +115,7 @@ theorem rTensor_injective_of_annihilated_pow {R : Type u₁} [CommRing R]
     have hquot : Function.Injective (f.rTensor (Q ⧸ K)) := by
       refine hkill _ fun a ha x => ?_
       obtain ⟨y, rfl⟩ := K.mkQ_surjective x
-      show K.mkQ (a • y) = 0
+      change K.mkQ (a • y) = 0
       rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
       exact Submodule.smul_mem_smul ha Submodule.mem_top
     rw [injective_iff_map_eq_zero]

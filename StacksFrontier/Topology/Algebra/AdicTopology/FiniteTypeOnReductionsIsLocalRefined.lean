@@ -121,8 +121,7 @@ public theorem isFiniteTypeOnReductions_isomorphismInvariant :
         [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] (φ : B →+* A) ↦
         FiniteTypeOnReductionsProperty φ)
       IsCountablyWeaklyAdmissible := by
-  intro B A B' A' _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-  intro eB eA heB heBs heA heAs f hf _ _ _ _
+  intro B A B' A' _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ eB eA heB heBs heA heAs f hf _ _ _ _
   constructor
   · intro h _ _
     obtain ⟨_, hred⟩ := h

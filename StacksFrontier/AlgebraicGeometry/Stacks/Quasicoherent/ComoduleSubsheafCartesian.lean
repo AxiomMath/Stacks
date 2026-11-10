@@ -159,10 +159,10 @@ theorem comoduleSubmodule_le_span (hF : F.IsQuasicoherentOnSite) {x z w : 𝒳}
     IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   have : IsScalarTower C C' (F.val.obj (op w')) := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   have : IsScalarTower A A' (F.val.obj (op w')) := IsScalarTower.of_algebraMap_smul fun r m => by
-    show algebraMap A' C' (algebraMap A A' r) • m = algebraMap A C' r • m
+    change algebraMap A' C' (algebraMap A A' r) • m = algebraMap A C' r • m
     rw [← IsScalarTower.algebraMap_apply]
   have : IsScalarTower A C (F.val.obj (op w')) := IsScalarTower.of_algebraMap_smul fun r m => by
-    show algebraMap C C' (algebraMap A C r) • m = algebraMap A C' r • m
+    change algebraMap C C' (algebraMap A C r) • m = algebraMap A C' r • m
     rw [← IsScalarTower.algebraMap_apply]
   let rM := restrictionLinear F φ
   let S₀ := restrictedSpan F pr₂ H
@@ -173,7 +173,7 @@ theorem comoduleSubmodule_le_span (hF : F.IsQuasicoherentOnSite) {x z w : 𝒳}
   let ψ' : F.val.obj (op z) →ₗ[A'] F.val.obj (op w') ⧸ N' := N'.mkQ ∘ₗ restrictionLinear F q
   let rP : F.val.obj (op w) →ₗ[A] F.val.obj (op w') := (restrictionLinear F k').restrictScalars A
   have hNN' : ∀ n ∈ N, rP n ∈ N' := fun n hn => by
-    show F.val.restrictₛₗ k'.op n ∈ restrictedSpan F (k' ≫ pr₂) H
+    change F.val.restrictₛₗ k'.op n ∈ restrictedSpan F (k' ≫ pr₂) H
     rw [restrictedSpan_comp]
     exact map_mem_restrictedSpan F k' hn
   let τ : (F.val.obj (op w) ⧸ N) →ₗ[A] (F.val.obj (op w') ⧸ N') :=
@@ -188,7 +188,7 @@ theorem comoduleSubmodule_le_span (hF : F.IsQuasicoherentOnSite) {x z w : 𝒳}
   have hτinj := LinearMap.injective_liftBaseChange_of_quotient rP hβ N N' hN τ fun _ => rfl
   have hcomm : ∀ m, ψ' (rM m) = τ (ψ m) := by
     intro m
-    show N'.mkQ (F.val.restrictₛₗ q.op (F.val.restrictₛₗ φ.op m)) =
+    change N'.mkQ (F.val.restrictₛₗ q.op (F.val.restrictₛₗ φ.op m)) =
       N'.mkQ (F.val.restrictₛₗ k'.op (F.val.restrictₛₗ pr₁.op m))
     rw [← restrictₛₗ_comp_apply, ← restrictₛₗ_comp_apply, hcond]
   have hker := LinearMap.ker_le_span_image_ker_of_flat rM

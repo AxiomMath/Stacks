@@ -147,7 +147,8 @@ def pointSmallEtaleIdElement :
 `Spec Ω`-scheme is itself the unique morphism of neighbourhoods out of this one. -/
 def isInitialPointSmallEtaleIdElement :
     IsInitial (show (pointSmallEtale (𝟙 (Spec (.of Ω)))).fiber.Elements from
-      (Functor.Elements.mk (obj := Scheme.Etale.mk (𝟙 (Spec (.of Ω)))) (pointSmallEtaleIdElement Ω))) := by
+      (Functor.Elements.mk (obj := Scheme.Etale.mk (𝟙 (Spec (.of Ω))))
+        (pointSmallEtaleIdElement Ω))) := by
   apply IsInitial.ofUniqueHom
     (fun U : (pointSmallEtale (𝟙 (Spec (.of Ω)))).fiber.Elements ↦
       Functor.Elements.homMk
@@ -180,7 +181,8 @@ def presheafFiberIdIsoSections :
       (pointSmallEtale (𝟙 (Spec (.of Ω)))).presheafFiber := by
   letI : ∀ P, IsIso ((sectionsToPresheafFiberId.{u, v} Ω).app P) := fun P ↦
     ((pointSmallEtale (𝟙 (Spec (.of Ω)))).isColimitPresheafFiberCocone P).isIso_ι_app_of_isTerminal
-      (op (Functor.Elements.mk (obj := Scheme.Etale.mk (𝟙 (Spec (.of Ω)))) (pointSmallEtaleIdElement Ω)))
+      (op (Functor.Elements.mk (obj := Scheme.Etale.mk (𝟙 (Spec (.of Ω))))
+        (pointSmallEtaleIdElement Ω)))
       (isInitialPointSmallEtaleIdElement Ω).op
   letI := NatIso.isIso_of_isIso_app (sectionsToPresheafFiberId.{u, v} Ω)
   exact asIso (sectionsToPresheafFiberId.{u, v} Ω)
@@ -311,7 +313,7 @@ theorem eq_of_etale_section_of_comp_eq {T : Scheme.{u}} (g : T ⟶ Spec (.of R))
       congrArg (fun k : Spec (.of Ω) ⟶ T ↦ k (default : Spec (.of Ω))) hcomp
   have hoi : IsOpenImmersion t' := isOpenImmersion_of_etale_section g t' ht'
   have hclosed : IsLocalRing.closedPoint R ∈ t ⁻¹ᵁ t'.opensRange := by
-    show t (IsLocalRing.closedPoint R) ∈ t'.opensRange
+    change t (IsLocalRing.closedPoint R) ∈ t'.opensRange
     rw [Scheme.Hom.mem_opensRange]
     exact ⟨IsLocalRing.closedPoint R, hpt.symm⟩
   have htop : t ⁻¹ᵁ t'.opensRange = ⊤ := IsLocalRing.closed_point_mem_iff.mp hclosed
@@ -344,7 +346,8 @@ that lift, and only one. -/
 @[ega "IV 18.5.11" "special case", sga "3 X 4.5" "special case"]
 def isInitialPointSmallEtaleClosedPointElement :
     IsInitial (show (pointSmallEtale x).fiber.Elements from
-      (Functor.Elements.mk (obj := Scheme.Etale.mk (𝟙 (Spec (.of R)))) (pointSmallEtaleClosedPointElement x))) := by
+      (Functor.Elements.mk (obj := Scheme.Etale.mk (𝟙 (Spec (.of R))))
+        (pointSmallEtaleClosedPointElement x))) := by
   classical
   have hsec : ∀ U : (pointSmallEtale x).fiber.Elements,
       ∃ t : Spec (.of R) ⟶ U.obj.left,
@@ -385,7 +388,8 @@ def presheafFiberClosedPointIsoSections :
       (pointSmallEtale x).presheafFiber := by
   letI : ∀ P, IsIso ((sectionsToPresheafFiberClosedPoint.{u, v} x).app P) := fun P ↦
     ((pointSmallEtale x).isColimitPresheafFiberCocone P).isIso_ι_app_of_isTerminal
-      (op (Functor.Elements.mk (obj := Scheme.Etale.mk (𝟙 (Spec (.of R)))) (pointSmallEtaleClosedPointElement x)))
+      (op (Functor.Elements.mk (obj := Scheme.Etale.mk (𝟙 (Spec (.of R))))
+        (pointSmallEtaleClosedPointElement x)))
       (isInitialPointSmallEtaleClosedPointElement x hx).op
   letI := NatIso.isIso_of_isIso_app (sectionsToPresheafFiberClosedPoint.{u, v} x)
   exact asIso (sectionsToPresheafFiberClosedPoint.{u, v} x)

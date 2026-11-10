@@ -286,13 +286,13 @@ theorem flatPullbackChow_iteratedChernCapOnChow_replicate {X Y : Scheme.{u}} (sX
       (iteratedChernCapOnChow_replicate_zero_heq C sY _ _ y)
   | succ s ih =>
     rw [iteratedChernCapOnChow_replicate_succ_heq C sY _ s j y
-        (chowGroupCast C sY (by simp only [List.length_replicate] <;> omega) y)
+        (chowGroupCast C sY (by simp only [List.length_replicate] ; omega) y)
         (chowGroupCast_heq C sY _ y).symm,
       iteratedChernCapOnChow_replicate_succ_heq C sX _ s (j + (e : ℤ)) y'
-        (chowGroupCast C sX (by simp only [List.length_replicate] <;> omega) y')
+        (chowGroupCast C sX (by simp only [List.length_replicate] ; omega) y')
         (chowGroupCast_heq C sX _ y').symm]
-    have hIH := ih (j + 1) (chowGroupCast C sY (by simp only [List.length_replicate] <;> omega) y)
-      (chowGroupCast C sX (by simp only [List.length_replicate] <;> omega) y')
+    have hIH := ih (j + 1) (chowGroupCast C sY (by simp only [List.length_replicate] ; omega) y)
+      (chowGroupCast C sX (by simp only [List.length_replicate] ; omega) y')
       (chowGroupCast_heq_flatPullbackChow_cast C sX sY f hf e he hfac _ _ y y' hy)
     refine flatPullbackChow_firstChernClassCapChow_heq C sX sY f hf e he hfac L L' eL j _ _ ?_
     refine HEq.trans ?_ hIH.symm
@@ -343,11 +343,11 @@ def RecoversByCaps {d : ℕ} (T : SplittingMorphism C sX d) (Os : List (ChernCap
 theorem recoversByCaps_id (C : ChowSituation.{u}) {X : Scheme.{u}} (sX : X ⟶ C.S)
     [LocallyOfFiniteType sX] : (SplittingMorphism.id C sX).RecoversByCaps [] := by
   intro k h α
-  show properChowPushforward C sX sX (𝟙 X) (Category.id_comp sX) k
+  change properChowPushforward C sX sX (𝟙 X) (Category.id_comp sX) k
     (properPushforwardFactorsThroughRationalEquivalence_of_isProper C sX sX (𝟙 X)
       (Category.id_comp sX) k) _ = α
   rw [properChowPushforward_id]
-  show iteratedChernCapOnChow C sX [] k (chowGroupCast C sX h
+  change iteratedChernCapOnChow C sX [] k (chowGroupCast C sX h
     (flatPullbackChow C sX sX (𝟙 X) (Category.id_comp sX) 0 (relativeDimension_identity X) k
       (flatPullbackFactorsThroughRationalEquivalence_id C sX k) α)) = α
   refine chowGroup_eq_of_heq C sX ((iteratedChernCapOnChow_nil_heq C sX k _).trans
@@ -382,13 +382,13 @@ theorem recoversByCaps_compStep {E : X.Modules} {r : ℕ} (D : BundleStep C sX E
   have hB := flatPullbackChow_iteratedChernCapOnChow_replicate C T.sP D.sP T.π T.hsP n T.relDim
     T.hfac L.1 (L.pullback T.π).1 (Iso.refl _) r k
     (chowGroupCast C D.sP (by simp only [List.length_replicate]) (D.pullbackChow k α))
-    (chowGroupCast C T.sP (by simp only [List.length_replicate] <;> omega)
+    (chowGroupCast C T.sP (by simp only [List.length_replicate] ; omega)
       (T.pullbackChow (k + (r : ℤ)) (D.pullbackChow k α)))
     (chowGroupCast_heq_flatPullbackChow_cast C T.sP D.sP T.π T.hsP n T.relDim T.hfac _ _ _ _
       HEq.rfl)
   have hinner : iteratedChernCapOnChow C T.sP (List.replicate r (invCap C T.sP (L.pullback T.π).1))
         (k + (Os.length : ℤ))
-        (chowGroupCast C T.sP (by simp only [List.length_replicate, hOs] <;> omega)
+        (chowGroupCast C T.sP (by simp only [List.length_replicate, hOs] ; omega)
           (T.pullbackChow (k + (r : ℤ)) (D.pullbackChow k α))) ≍
       T.pullbackChow k β := by
     refine HEq.trans ?_ (HEq.trans hB.symm ?_)
@@ -404,7 +404,7 @@ theorem recoversByCaps_compStep {E : X.Modules} {r : ℕ} (D : BundleStep C sX E
   have hsplit := iteratedChernCapOnChow_append C T.sP Os
     (List.replicate r (invCap C T.sP (L.pullback T.π).1)) k
     (chowGroupCast C T.sP h ((SplittingMorphism.compStep D T).pullbackChow k α))
-    (chowGroupCast C T.sP (by simp only [List.length_replicate, hOs] <;> omega)
+    (chowGroupCast C T.sP (by simp only [List.length_replicate, hOs] ; omega)
       (T.pullbackChow (k + (r : ℤ)) (D.pullbackChow k α)))
     ((chowGroupCast_heq C T.sP _ _).trans (hpull.trans (chowGroupCast_heq C T.sP _ _).symm))
   have hT' := hT k (by rw [hOs]) β
@@ -445,7 +445,7 @@ theorem projectiveBundleStep_recoversByCaps :
   intro k h α
   have key := projectiveBundle_projection_self E (m + 1) C sX k α
   refine Eq.trans ?_ key
-  show properChowPushforward C (bundleProj E ≫ sX) sX (bundleProj E) rfl k
+  change properChowPushforward C (bundleProj E ≫ sX) sX (bundleProj E) rfl k
       (properPushforwardFactorsThroughRationalEquivalence_of_isProper C _ sX _ rfl k) _ =
     properChowPushforward C (bundleProj E ≫ sX) sX (bundleProj E) rfl k
       (properPushforwardFactorsThroughRationalEquivalence_of_isProper C _ sX _ rfl k)
@@ -517,9 +517,9 @@ private theorem exists_splittingMorphism_isProjectiveBundleTower_aux (C : ChowSi
           @AlgebraicGeometry.isFiniteLocallyFreeOfRank_pullback _ _ D.π (E j) (r j) (hE j)
     have hchoose : (m + 1).choose 2 + (m + 1) = (r i).choose 2 := by
       have key : (m + 1 + 1).choose 2 = (m + 1).choose 2 + (m + 1) := by
-        show Nat.choose (m + 1 + 1) (1 + 1) = _
+        change Nat.choose (m + 1 + 1) (1 + 1) = _
         rw [Nat.choose_succ_succ, Nat.choose_one_right]
-        show m + 1 + Nat.choose (m + 1) 2 = Nat.choose (m + 1) 2 + (m + 1)
+        change m + 1 + Nat.choose (m + 1) 2 = Nat.choose (m + 1) 2 + (m + 1)
         omega
       rw [hm, key]
     have hA : (∑ j, (Function.update r i (m + 1) j).choose 2) =

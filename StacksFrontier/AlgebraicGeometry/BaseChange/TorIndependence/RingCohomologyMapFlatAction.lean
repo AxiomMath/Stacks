@@ -63,14 +63,14 @@ theorem IsBaseChangeOfActions.of_equiv {α : A →+* AddMonoid.End M} {β : A₁
     (hθ : ∀ m, eN (θ m) = θ' (eM m)) (h : IsBaseChangeOfActions α β θ) :
     IsBaseChangeOfActions α' β' θ' := by
   obtain ⟨h₀, hb⟩ := h
-  letI : Module A M := Module.compHom M α
-  letI : Module A₁ N := Module.compHom N β
-  letI : Module A N := Module.compHom N (algebraMap A A₁)
-  haveI : IsScalarTower A A₁ N := IsScalarTower.of_compHom _ _ _
-  letI : Module A M' := Module.compHom M' α'
-  letI : Module A₁ N' := Module.compHom N' β'
-  letI : Module A N' := Module.compHom N' (algebraMap A A₁)
-  haveI : IsScalarTower A A₁ N' := IsScalarTower.of_compHom _ _ _
+  let : Module A M := Module.compHom M α
+  let : Module A₁ N := Module.compHom N β
+  let : Module A N := Module.compHom N (algebraMap A A₁)
+  have : IsScalarTower A A₁ N := IsScalarTower.of_compHom _ _ _
+  let : Module A M' := Module.compHom M' α'
+  let : Module A₁ N' := Module.compHom N' β'
+  let : Module A N' := Module.compHom N' (algebraMap A A₁)
+  have : IsScalarTower A A₁ N' := IsScalarTower.of_compHom _ _ _
   have h₁ : ∀ (x : A) (m : M'), θ' (α' x m) = β' (algebraMap A A₁ x) (θ' m) := by
     intro x m'
     obtain ⟨m, rfl⟩ := eM.surjective m'
@@ -106,12 +106,12 @@ private theorem isBaseChangeOfActions_iff_isBaseChange [instM : Module A M]
   have e1 : Module.compHom M α = instM := Module.ext' _ _ fun x m => hα x m
   have e2 : Module.compHom N β = instN₁ := Module.ext' _ _ fun y n => hβ y n
   subst e1 e2
-  letI : Module A M := Module.compHom M α
-  letI : Module A₁ N := Module.compHom N β
+  let : Module A M := Module.compHom M α
+  let : Module A₁ N := Module.compHom N β
   have e3 : (Module.compHom N (algebraMap A A₁) : Module A N) = instN :=
     Module.ext' _ _ fun x n => (algebraMap_smul A₁ x n)
   subst e3
-  letI : Module A N := Module.compHom N (algebraMap A A₁)
+  let : Module A N := Module.compHom N (algebraMap A A₁)
   have hθ' : ∀ (x : A) (m : M), θ (α x m) = β (algebraMap A A₁ x) (θ m) := by
     intro x m
     rw [hα, hθ, hθ, θl.map_smul, hβ, algebraMap_smul]

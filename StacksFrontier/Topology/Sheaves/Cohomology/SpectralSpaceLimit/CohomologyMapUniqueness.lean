@@ -490,7 +490,7 @@ theorem restrictSections_app_comp
       (restrictSections.{u, u} (f₁ ≫ f₂) U₃ U₁ h₃).app W := by
   have hopens : (homOfLE h₁ : U₁ ⟶ (Opens.map f₁).obj U₂) ≫
       (Opens.map f₁).map (homOfLE h₂) = homOfLE h₃ := Subsingleton.elim _ _
-  show W.obj.map ((Opens.map f₁).map (homOfLE h₂)).op ≫ W.obj.map (homOfLE h₁).op =
+  change W.obj.map ((Opens.map f₁).map (homOfLE h₂)).op ≫ W.obj.map (homOfLE h₁).op =
     W.obj.map (homOfLE h₃).op
   rw [← Functor.map_comp, ← op_comp, hopens]
   exact rfl

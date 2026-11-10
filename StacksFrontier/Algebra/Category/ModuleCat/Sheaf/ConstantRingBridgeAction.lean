@@ -284,7 +284,7 @@ theorem constantTensorAction_comp_eq_zero
         (constantToRingAsModule_app_toSheafify J (associatedRingMap J a) φ (op V) m)
       refine Eq.trans (PresheafOfModules.naturality_apply (constantScalarMap J a φ) h.op i).symm ?_
       exact congrArg (fun x => ((constantScalarMap J a φ).app (op V)) x) hm.symm
-    show Z.val.map h.op ((g.val.app U) _) = Z.val.map h.op 0
+    change Z.val.map h.op ((g.val.app U) _) = Z.val.map h.op 0
     rw [map_zero]
     refine Eq.trans (PresheafOfModules.naturality_apply g.val h.op _).symm ?_
     refine Eq.trans (congrArg (fun z => (g.val.app (op V)) z)

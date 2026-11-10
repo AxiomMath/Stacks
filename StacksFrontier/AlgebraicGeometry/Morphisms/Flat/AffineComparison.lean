@@ -65,7 +65,7 @@ theorem isFlatAt_iff_flat_localizedModule_appLE {X S : Scheme.{u}} (f : X ⟶ S)
   let q := (hV.primeIdealOf ⟨x, hx⟩).asIdeal
   have : q.LiesOver p :=
     ⟨congr($(IsAffineOpen.comap_primeIdealOf_appLE U hU V hV hVU hx).1).symm⟩
-  show (f.stalkMap x).hom.Flat ↔ _
+  change (f.stalkMap x).hom.Flat ↔ _
   rw [RingHom.Flat.respectsIso.arrow_mk_iso_iff
     (IsAffineOpen.arrowStalkMapIso f U hU V hV hVU hx)]
   exact (Module.flat_localizationAtPrime_iff_flat_localRingHom p q).symm
@@ -107,7 +107,7 @@ theorem isFlatOverAt_spec_tilde_iff_flat_localizedModule {A B : CommRingCat.{u}}
   let : IsScalarTower (A : Type u) ((Spec A).presheaf.stalk ⟨p, hp⟩)
       ((tilde M).presheaf.stalk q) :=
     IsScalarTower.of_algebraMap_smul fun r n => by
-      show ((Spec.map φ).stalkMap q).hom
+      change ((Spec.map φ).stalkMap q).hom
         (algebraMap (A : Type u) ((Spec A).presheaf.stalk ⟨p, hp⟩) r) • n = r • n
       rw [hbase r, hB, hφ]
       exact IsScalarTower.algebraMap_smul (B : Type u) r n
@@ -115,7 +115,7 @@ theorem isFlatOverAt_spec_tilde_iff_flat_localizedModule {A B : CommRingCat.{u}}
       ((tilde M).presheaf.stalk q) :=
     IsLocalizedModule.linearEquiv q.asIdeal.primeCompl
       (LocalizedModule.mkLinearMap _ (M : Type u)) (tilde.toStalk M q).hom
-  show Module.Flat ((Spec A).presheaf.stalk ⟨p, hp⟩) ((tilde M).presheaf.stalk q) ↔ _
+  change Module.Flat ((Spec A).presheaf.stalk ⟨p, hp⟩) ((tilde M).presheaf.stalk q) ↔ _
   rw [Module.flat_iff_of_isLocalization ((Spec A).presheaf.stalk ⟨p, hp⟩) p.primeCompl]
   exact (Module.Flat.equiv_iff (e.restrictScalars (A : Type u))).symm
 

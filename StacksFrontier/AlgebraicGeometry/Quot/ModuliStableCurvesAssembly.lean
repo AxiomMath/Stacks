@@ -93,7 +93,8 @@ abbrev IsSmoothGenusCurveFamily (g : ℕ) (X : CurveFamily B hZ) : Prop :=
 
 variable (h : Stack.IsAlgebraicStack.{u, w} B integerBase hZ (curvesFiberedCategory B hZ).val)
 
-/-- **The assembly of Stacks 0E9C.** Let `g ≥ 2`, and let `𝓜̄_g` and `𝓜_g` be the open substacks
+/-- **The assembly of Stacks 0E9C.** Let `g` be a natural number (the source takes `g ≥ 2`; the
+proof from the inputs below does not use it), and let `𝓜̄_g` and `𝓜_g` be the open substacks
 of the small model of the stack of curves cut out by `IsStableGenusCurveFamily g` and
 `IsSmoothGenusCurveFamily g`. Then `𝓜̄_g` is a Deligne–Mumford stack, proper and smooth over
 `Spec(ℤ)`, and `𝓜_g` is an open substack of `𝓜̄_g` whose points are dense in `|𝓜̄_g|`.
@@ -104,7 +105,7 @@ The inputs are the results the source cites (see the module documentation): `hP`
 Stacks 0CQM takes it), and `hlift`, the hypothesis of Stacks 0CQM for `𝓜_g ⟶ 𝓜̄_g ⟶ Spec(ℤ)`,
 which the source reads off the stable reduction theorem (Stacks 0E98). Properness is proved from
 them by Stacks 0CQM. -/
-theorem moduliStableCurves_isDeligneMumford_proper_smooth_of (g : ℕ) (hg : 2 ≤ g)
+theorem moduliStableCurves_isDeligneMumford_proper_smooth_of (g : ℕ)
     (hP : IsOpenCurvesLocus B hZ (IsStableGenusCurveFamily B hZ g))
     (hQ : IsOpenCurvesLocus B hZ (IsSmoothGenusCurveFamily B hZ g))
     (hcurves : Stack.AlgebraicStacks.IsQuasiSeparated B integerBase hZ

@@ -94,7 +94,7 @@ theorem aeval_coeff_prod_X_add_C_ne_zero [IsDomain R] {n d : ℕ}
   have hrev : c ∘ Fin.castSucc =
       (fun i : Fin (n + 1) => esymm (Fin (n + 1)) R ((i : ℕ) + 1)) ∘ Fin.rev := by
     funext j
-    simp only [Function.comp_apply, hc, Fin.coe_castSucc, Fin.val_rev]
+    simp only [Function.comp_apply, hc, Fin.val_castSucc, Fin.val_rev]
     rw [coeff_prod_X_add_C_X n (by omega)]
     congr 1
     omega

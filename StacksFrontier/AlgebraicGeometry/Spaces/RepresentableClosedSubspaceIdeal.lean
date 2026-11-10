@@ -98,7 +98,7 @@ theorem ker_le_of_mem_range_yoneda_map {R V : BigFppfOver B S hS} (j : R ⟶ V)
     ((BigFppfOver.toScheme B S hS).map j).ker ≤
       ((BigFppfOver.toScheme B S hS).map k).ker := by
   obtain ⟨ψ, rfl⟩ := hk
-  show ((BigFppfOver.toScheme B S hS).map j).ker ≤
+  change ((BigFppfOver.toScheme B S hS).map j).ker ≤
       ((BigFppfOver.toScheme B S hS).map (ψ ≫ j)).ker
   rw [Functor.map_comp]
   exact Scheme.Hom.le_ker_comp _ _

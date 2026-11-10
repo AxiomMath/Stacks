@@ -98,7 +98,7 @@ theorem mem_homogeneousIdealOfClosedSubscheme_iff (d : ℕ)
     Stacks.ClosedSubschemeProjQuotient.quotientMk_coe_eq_zero_iff
       (Stacks.AlgebraicGeometry.ProjPolyChart.polyGrading k n) (projModelEmbedding φ) d b,
     ← canonicalTwistGammaTopIso_hom_formsLinearEquivTwistOverSections k n d b]
-  show pullbackGlobalSections (projModelEmbedding φ) _
+  change pullbackGlobalSections (projModelEmbedding φ) _
       ((Scheme.Modules.gammaTopIsoOfPullbackIso (Stacks.ProjectiveCohomology.projModelIso k n).hom
         (Stacks.ProjectiveCohomology.canonicalPullbackProjModelIsoHomTwistOverIso k n d)).hom
           (formsLinearEquivTwistOverSections k n d b)) = 0 ↔ _
@@ -207,14 +207,14 @@ theorem exists_iso_proj_formsGrading_of_isMRegular (m : ℕ)
   obtain ⟨s, hs, hspan⟩ := exists_fin_isHomogeneous_span_eq (T := equationsOfDegree φ m) m
     fun _ ⟨hb, _⟩ => hb
   have h_le : Stacks.UniversalForms.formsIdeal k s hs ≤ IX := by
-    show Ideal.span (Set.range s) ≤ IX.toIdeal
+    change Ideal.span (Set.range s) ≤ IX.toIdeal
     rw [hspan]
     exact Ideal.span_le.2 fun b ⟨hb, hb0⟩ =>
       (mem_homogeneousIdealOfClosedSubscheme_iff φ m ⟨b, hb⟩).2 hb0
   have hm : ∀ d, m ≤ d → ∀ a ∈ 𝒮 d, a ∈ IX.toIdeal →
       a ∈ (Stacks.UniversalForms.formsIdeal k s hs).toIdeal := by
     intro d hd a ha haX
-    show a ∈ Ideal.span (Set.range s)
+    change a ∈ Ideal.span (Set.range s)
     rw [hspan]
     exact mem_span_equationsOfDegree_of_isMRegular φ m hreg d hd a
       ⟨ha, (mem_homogeneousIdealOfClosedSubscheme_iff φ d ⟨a, ha⟩).1 haX⟩

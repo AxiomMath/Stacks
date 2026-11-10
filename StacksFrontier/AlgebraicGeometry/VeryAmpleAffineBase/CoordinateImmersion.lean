@@ -565,7 +565,7 @@ theorem projCoordinateImmersion : ProjCoordinateImmersion.{u} := by
     obtain ⟨j, hj⟩ := hcovff x
     obtain ⟨i, hi⟩ := hcovy₀ x
     refine TopologicalSpace.Opens.mem_iSup.mpr ⟨(i, j), ?_⟩
-    show α.base x ∈ AlgebraicGeometry.Proj.basicOpen
+    change α.base x ∈ AlgebraicGeometry.Proj.basicOpen
       ((symAlgebra E).grading (⊤ : S.Opens)) (y₀ i * ff j)
     rw [AlgebraicGeometry.Proj.basicOpen_mul]
     exact ⟨hi, hj⟩

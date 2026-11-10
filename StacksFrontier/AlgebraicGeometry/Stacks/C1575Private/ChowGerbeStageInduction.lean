@@ -145,7 +145,7 @@ theorem StageData.mem_infOpen (D : StageData hY f W V n) :
         t ∈ Space.subspacePointSet B S hS D.Y'.1 (D.infOpen j)
   | 0, _, ht, _ => ht
   | j + 1, t, ht, hk => by
-    show t ∈ Space.subspacePointSet B S hS D.Y'.1 (D.infOpen j ⊓ (D.Wi j).1)
+    change t ∈ Space.subspacePointSet B S hS D.Y'.1 (D.infOpen j ⊓ (D.Wi j).1)
     rw [Space.subspacePointSet_inf]
     exact ⟨D.mem_infOpen j t ht fun k hk' => hk k (Nat.lt_succ_of_lt hk'),
       hk j (Nat.lt_succ_self j)⟩
@@ -213,7 +213,7 @@ theorem StageData.sectionCover (hf : IsSeparated B S hS f)
     have hs : skipIdx i (if (k : ℕ) < i then (k : ℕ) else (k : ℕ) - 1) = k := by
       unfold skipIdx
       split_ifs <;> omega
-    show y ∈ Set.range (Space.pointsMap B S hS ((Di i).Wi (skipIdx i _)).1.toFunctor
+    change y ∈ Set.range (Space.pointsMap B S hS ((Di i).Wi (skipIdx i _)).1.toFunctor
       ((Di i).Wi (skipIdx i _)).1.ι)
     rw [hs]
     exact hk
@@ -230,7 +230,7 @@ theorem StageData.sectionCover (hf : IsSeparated B S hS f)
   by_cases hall : ∀ k < m + 1, t ∈ Space.subspacePointSet B S hS D.Y'.1 (D.Wi k).1
   · obtain ⟨v₀, hv₀⟩ := D.mem_infOpen (m + 1) t ⟨v, rfl⟩ hall
     refine Set.mem_iUnion.2 ⟨none, v₀, ?_⟩
-    show Space.pointsMap B S hS _ ((D.infOpen (m + 1)).ι ≫ D.p) v₀ = _
+    change Space.pointsMap B S hS _ ((D.infOpen (m + 1)).ι ≫ D.p) v₀ = _
     rw [Space.pointsMap_comp_apply, hv₀, ← Space.pointsMap_comp_apply]
   · push Not at hall
     obtain ⟨i, hi, hti⟩ := hall
@@ -244,7 +244,7 @@ theorem StageData.sectionCover (hf : IsSeparated B S hS f)
       exact ⟨v, (hs.trans ht).symm⟩
     obtain ⟨s', rfl⟩ := hs'
     refine Set.mem_iUnion.2 ⟨some ⟨⟨i, hi⟩⟩, s', ?_⟩
-    show Space.pointsMap B S hS _ ((D.V'.1.preimage (C i).ι).ι ≫ (C i).ι ≫ D.p) s' = _
+    change Space.pointsMap B S hS _ ((D.V'.1.preimage (C i).ι).ι ≫ (C i).ι ≫ D.p) s' = _
     rw [Space.pointsMap_comp_apply, Space.pointsMap_comp_apply, hs, ht,
       ← Space.pointsMap_comp_apply]
 

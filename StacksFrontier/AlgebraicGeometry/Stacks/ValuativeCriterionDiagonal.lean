@@ -289,7 +289,7 @@ theorem diagonalCellFst_eq :
   have h := congrArg (fun η => (η.hom.app z).a) d.compat
   change (D.γ.hom.app z).a
     = (d.β.hom.app (D.j.hom.obj z)).a ≫ 𝟙 _ ≫ d.α.hom.app z at h
-  show (D.γ.hom.app z).a = (d.β.hom.app (D.j.hom.obj z)).a ≫ d.α.hom.app z
+  change (D.γ.hom.app z).a = (d.β.hom.app (D.j.hom.obj z)).a ≫ d.α.hom.app z
   exact (eq_comp_id_comp_iff _ _ _).1 h
 
 /-- **The second projection of a dotted arrow of the diagonal square relates `α₂` to its own `α`.**
@@ -301,7 +301,7 @@ theorem diagonalCellSnd_eq :
   have h := congrArg (fun η => (η.hom.app z).b) d.compat
   change (D.γ.hom.app z).b
     = (d.β.hom.app (D.j.hom.obj z)).b ≫ 𝟙 _ ≫ d.α.hom.app z at h
-  show (D.γ.hom.app z).b = (d.β.hom.app (D.j.hom.obj z)).b ≫ d.α.hom.app z
+  change (D.γ.hom.app z).b = (d.β.hom.app (D.j.hom.obj z)).b ≫ d.α.hom.app z
   exact (eq_comp_id_comp_iff _ _ _).1 h
 
 /-- **The comparison `φ` becomes trivial on the projections of a dotted arrow of the diagonal
@@ -381,7 +381,7 @@ variable {d₁ d₂ : CategoryTheory.DottedArrow D.x D.j (relativeDiagonal B S h
 /-- Along a morphism of dotted arrows of the diagonal square, the first projections compose. -/
 theorem diagonalFillerFst_comp (ψ : d₁ ⟶ d₂) :
     diagonalFillerFst B S hS D d₂ = diagonalFillerFst B S hS D d₁ ≫ ψ.θ := by
-  show d₂.β ▷ (twoFibreProductSquare B S hS f f).fst.hom
+  change d₂.β ▷ (twoFibreProductSquare B S hS f f).fst.hom
     = (d₁.β ▷ (twoFibreProductSquare B S hS f f).fst.hom) ≫ ψ.θ
   rw [ψ.cond_β, comp_whiskerRight, whiskerRight_relativeDiagonal_whiskerRight_fst]
   rfl
@@ -389,7 +389,7 @@ theorem diagonalFillerFst_comp (ψ : d₁ ⟶ d₂) :
 /-- Along a morphism of dotted arrows of the diagonal square, the second projections compose. -/
 theorem diagonalFillerSnd_comp (ψ : d₁ ⟶ d₂) :
     diagonalFillerSnd B S hS D d₂ = diagonalFillerSnd B S hS D d₁ ≫ ψ.θ := by
-  show d₂.β ▷ (twoFibreProductSquare B S hS f f).snd.hom
+  change d₂.β ▷ (twoFibreProductSquare B S hS f f).snd.hom
     = (d₁.β ▷ (twoFibreProductSquare B S hS f f).snd.hom) ≫ ψ.θ
   rw [ψ.cond_β, comp_whiskerRight, whiskerRight_relativeDiagonal_whiskerRight_snd]
   rfl
@@ -402,11 +402,11 @@ theorem beta_eq_of_fillers (θ : d₁.a ⟶ d₂.a)
     d₂.β = d₁.β ≫ (θ ▷ (relativeDiagonal B S hS f).hom) := by
   refine CatFiberedInGroupoids.hom₂_ext_of_whiskerRight_twoFibreProductSquare.{u, u, u + 1,
     u + 1} ?_ ?_
-  · show diagonalFillerFst B S hS D d₂
+  · change diagonalFillerFst B S hS D d₂
       = (d₁.β ≫ (θ ▷ (relativeDiagonal B S hS f).hom))
           ▷ (twoFibreProductSquare B S hS f f).fst.hom
     rwa [comp_whiskerRight, whiskerRight_relativeDiagonal_whiskerRight_fst]
-  · show diagonalFillerSnd B S hS D d₂
+  · change diagonalFillerSnd B S hS D d₂
       = (d₁.β ≫ (θ ▷ (relativeDiagonal B S hS f).hom))
           ▷ (twoFibreProductSquare B S hS f f).snd.hom
     rwa [comp_whiskerRight, whiskerRight_relativeDiagonal_whiskerRight_snd]
@@ -415,7 +415,7 @@ theorem beta_eq_of_fillers (θ : d₁.a ⟶ d₂.a)
 theorem diagonalDottedArrowHom_congr (ψ : d₁ ⟶ d₂) :
     diagonalDottedArrowHom B S hS D d₁ = diagonalDottedArrowHom B S hS D d₂ := by
   refine CategoryTheory.DottedArrow.Hom.ext ?_
-  show diagonalFillerCell B S hS D d₁ = diagonalFillerCell B S hS D d₂
+  change diagonalFillerCell B S hS D d₁ = diagonalFillerCell B S hS D d₂
   simp only [diagonalFillerCell, diagonalFillerFst_comp B S hS D ψ,
     diagonalFillerSnd_comp B S hS D ψ, IsIso.inv_comp]
   simp
@@ -467,7 +467,7 @@ theorem exists_diagonalDottedArrowHom_eq
       funext z
       have h := congrArg (fun η => η.hom.app z) m.cond_β
       change (D.y.hom.obj z).iso.hom = 𝟙 _ ≫ f.hom.hom.map (m.θ.hom.app z) at h
-      show (𝟙 _ ≫ (D.y.hom.obj z).iso.hom ≫ 𝟙 _) ≫ f.hom.hom.map (𝟙 _)
+      change (𝟙 _ ≫ (D.y.hom.obj z).iso.hom ≫ 𝟙 _) ≫ f.hom.hom.map (𝟙 _)
         = f.hom.hom.map (m.θ.hom.app z) ≫ 𝟙 _ ≫ 𝟙 _ ≫ 𝟙 _
       simpa using h)
   obtain ⟨θ, hθ₁, hθ₂⟩ := hex

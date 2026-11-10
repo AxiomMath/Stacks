@@ -144,7 +144,7 @@ theorem exists_fin_generatesStalks_of_finset {ι : Type*} (t : ι → Γ(L, ⊤)
   refine ⟨m, s, Stacks.AmpleImmersionReduction.generatesStalks_of_forall_exists_mem s fun x => ?_⟩
   obtain ⟨i, hiT, hx⟩ := hT x
   refine ⟨(eqv ⟨i, hiT⟩).castSucc, ?_⟩
-  show x ∈ nvOpen L (s (eqv ⟨i, hiT⟩).castSucc)
+  change x ∈ nvOpen L (s (eqv ⟨i, hiT⟩).castSucc)
   rw [hsval i hiT]
   exact hx
 
@@ -333,8 +333,8 @@ all by `Stacks.CoordinateChoice.isAffineOpen_preimage_basicOpen`,
 of an overlap is needed: the refined charts are charts of the same family.
 
 The comparison of `AlgebraicGeometry.Proj.awayToSection 𝒜 g_j` with
-`AlgebraicGeometry.Proj.awayToSection 𝒜 y_i` on the overlap, which that step needs, **is available as
-well**: `ProjectiveSpectrum.degreeZeroRingMap` is the restriction
+`AlgebraicGeometry.Proj.awayToSection 𝒜 y_i` on the overlap, which that step needs, **is available
+as well**: `ProjectiveSpectrum.degreeZeroRingMap` is the restriction
 `A₍f₎ ⟶ A₍h₎` attached to `D₊(h) ⊆ D₊(f)`,
 `ProjectiveSpectrum.awayToSection_degreeZeroRingMap` identifies it with the restriction map of the
 structure sheaf of `Proj`, and `ProjectiveSpectrum.isLocalizationAway_degreeZeroRingMap` says that
@@ -465,10 +465,10 @@ needs the coordinates to be chosen twice.
    a point of `α⁻¹(D₊(f_j))` ⊓ `α⁻¹(D₊(y⁰_i))` in the product's chart — and the family of target
    opens `(ℙⁿ_S)_{t_{i,j}}`.
 
-The [Stacks, Tag 01MY] machinery for the route through `r_ψ ∘ α` is also available — the open `U(ψ)`, the morphism and its comparison maps on the twists are
-`Stacks.AlgebraicGeometry.ProjShared.mapDomain`,
-`Stacks.AlgebraicGeometry.ProjTwistChain.mapHom` and
-`Stacks.AlgebraicGeometry.ProjTwistCompare.twistMap`, bundled as
+The [Stacks, Tag 01MY] machinery for the route through `r_ψ ∘ α` is also available — the open
+`U(ψ)`, the morphism and its comparison maps on the twists are
+`Stacks.AlgebraicGeometry.ProjShared.mapDomain`, `Stacks.AlgebraicGeometry.ProjTwistChain.mapHom`
+and `Stacks.AlgebraicGeometry.ProjTwistCompare.twistMap`, bundled as
 `Stacks.AlgebraicGeometry.ProjTwistCompare.projMapData`, and the inverse images of the standard
 opens, which identify `r_ψ⁻¹(D₊(F_j))` with `D₊(f_j)`, are Tag 01MY part (2) in
 `StacksFrontier/AlgebraicGeometry/ProjTwistChain/MY.lean` — but that route still owes the passage

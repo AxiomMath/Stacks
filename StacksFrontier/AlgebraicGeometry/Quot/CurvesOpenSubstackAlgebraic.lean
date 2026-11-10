@@ -82,7 +82,7 @@ private theorem exists_isOpenCurvesLocus_open_over {P : ObjectProperty (CurveFam
   let j' : V ⟶ U := j ≫ β.hom
   let V' : BigFppfOver B U.left.1 U.left.2 := Over.mk j'.left
   have hj' : IsOpenImmersion ((BigFppfOver.toScheme B integerBase hZ).map j') := by
-    show IsOpenImmersion ((BigFppfOver.toScheme B integerBase hZ).map (j ≫ β.hom))
+    change IsOpenImmersion ((BigFppfOver.toScheme B integerBase hZ).map (j ≫ β.hom))
     rw [Functor.map_comp]
     have : IsOpenImmersion ((BigFppfOver.toScheme B integerBase hZ).map j) := hj
     infer_instance

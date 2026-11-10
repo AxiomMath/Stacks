@@ -80,6 +80,8 @@ open Stacks.Cohomology.DerivedBaseChangeComparison (baseChangeSheafHomComparison
 open Stacks.Cohomology.DerivedPullbackTensor (derivedPullbackNatTrans pullbackComplex)
 open Stacks.SheafOfModules (derivedSheafHom derivedDual)
 open Stacks.DerivedTensor.RingedSite (derivedTensorProductFunctor)
+open Stacks.Cohomology.DerivedInternalHomPullback
+  (map_dualTensorToSheafHom_comp_baseChangeSheafHomComparison)
 
 universe u
 
@@ -150,7 +152,7 @@ public theorem isIso_sheafHomFlatBaseChangeMap_of_isPerfect
   exact (isIso_derivedBaseChangeComp_iff_of_iso f g f' g' hsq.w _ _ _ _
     (Stacks.Cohomology.DerivedInternalHomPullback.isIso_dualTensorToSheafHom _ _ _ _)
     (Stacks.Cohomology.DerivedInternalHomPullback.isIso_dualTensorToSheafHom _ _ _ _)
-    (Stacks.Cohomology.DerivedInternalHomPullback.map_dualTensorToSheafHom_comp_baseChangeSheafHomComparison
+    (map_dualTensorToSheafHom_comp_baseChangeSheafHomComparison
       g'.toLRSHom.toShHom E (derivedDual X.sheaf E) (DerivedCategory.Q.obj G)
       (DerivedCategory.Q.obj ((pullbackComplex g'.toLRSHom.toShHom).obj G))
       ((derivedPullbackNatTrans g'.toLRSHom.toShHom).app G))).1 k₂

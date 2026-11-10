@@ -41,9 +41,3 @@ Composition is diagrammatic throughout, so `j ≫ y` is the source's `y ∘ j`.
 add_to_stacks 0CLA "dotted arrows" CategoryTheory.DottedArrow
 add_to_stacks 0CLA "morphisms of dotted arrows" CategoryTheory.DottedArrow.Hom
 add_to_stacks 0CLC "groupoid" CategoryTheory.instGroupoidDottedArrow
-add_to_stacks 0CLF "equivalence with the intermediate category"
-  CategoryTheory.DottedArrow.toWithFactorization_isEquivalence
-add_to_stacks 0CLF "fibration over the lower dotted-arrow category"
-  CategoryTheory.DottedArrow.compose_isFiberedInGroupoids
-add_to_stacks 0CLF "fibre categories are upper dotted-arrow categories"
-  CategoryTheory.DottedArrow.fiber_categoryIso

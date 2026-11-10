@@ -125,7 +125,7 @@ theorem isIso_counit_app_app_of_isColimit {I : Type u} [SmallCategory I] [IsCofi
       (adj.right_triangle_components H)
     have hnat := (adj.counit.app H).hom.naturality (c.π.app j.unop).op
     dsimp at htri hnat
-    show ((adj.unit.app (R.obj H)).hom.app (op (Y.obj j.unop)) ≫
+    change ((adj.unit.app (R.obj H)).hom.app (op (Y.obj j.unop)) ≫
       ((etaleTypeInverseImage.{v} X).obj (R.obj H)).obj.map (c.π.app j.unop).op) ≫
         (adj.counit.app H).hom.app (op c.pt) = H.obj.map (c.π.app j.unop).op
     exact (Category.assoc _ _ _).trans

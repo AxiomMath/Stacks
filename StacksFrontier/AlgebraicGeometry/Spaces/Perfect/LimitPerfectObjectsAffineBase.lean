@@ -70,8 +70,8 @@ own hypothesis "`X` is the limit of the `X_i`" in the affine case, an input of t
 and not a clause of its conclusion: it mentions no derived category, no perfect object and no
 comparison functor, only the rings of global functions.  The scheme-level affine base case
 `AlgebraicGeometry.AffinePerfectLimit.exists_isPerfect_stage` of
-`StacksFrontier/AlgebraicGeometry/Perfect/LimitPerfectObjectsSupplement.lean` takes the same input in
-the same shape, as does the ring-level Stacks 0BC7 itself.
+`StacksFrontier/AlgebraicGeometry/Perfect/LimitPerfectObjectsSupplement.lean` takes the same input
+in the same shape, as does the ring-level Stacks 0BC7 itself.
 
 A route to discharging `hc` from a limit taken in schemes rather than in algebraic spaces exists
 in Mathlib: `AlgebraicGeometry.nonempty_isColimit_Γ_mapCocone` turns a limit cone of qcqs schemes

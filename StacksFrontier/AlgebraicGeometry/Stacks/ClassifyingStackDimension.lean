@@ -55,7 +55,7 @@ theorem dimensionAtPoint_of_eq_terminalSpace {F : (BigFppfOver C (Spec (.of k)) 
       (isAlgebraicSpace_yoneda C (Spec (.of k)) hk (Space.baseTerminal C (Spec (.of k)) hk)) =
         0 := by
     rw [Space.dimension_yoneda_eq_topologicalKrullDim]
-    show topologicalKrullDim (PrimeSpectrum k) = 0
+    change topologicalKrullDim (PrimeSpectrum k) = 0
     rw [PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim, ringKrullDim_eq_zero_of_field]
   have hdim : Space.dimension C (Spec (.of k)) hk _ hF = 0 := hdim'
   have hle : Space.dimensionAtPoint C (Spec (.of k)) hk _ hF x ≤ 0 :=
@@ -138,7 +138,6 @@ theorem isPseudoCatenary_classifyingModel :
 
 /-- The points of the stack of an algebraic space equal to `Spec k` form a singleton. -/
 theorem unique_stackPoints_of_eq_terminalSpace {F : (BigFppfOver C (Spec (.of k)) hk)ᵒᵖ ⥤ Type u}
-    (hF : IsAlgebraicSpace C (Spec (.of k)) hk F)
     (h : F = (Space.terminalSpace C (Spec (.of k)) hk).obj) :
     Nonempty (points C (Spec (.of k)) hk (fibredCategory C (Spec (.of k)) hk F).val
         (fibredCategory C (Spec (.of k)) hk F).property) ∧
@@ -150,13 +149,13 @@ theorem unique_stackPoints_of_eq_terminalSpace {F : (BigFppfOver C (Spec (.of k)
   exact ⟨⟨spacePointMap C (Spec (.of k)) hk F (fibredCategory C (Spec (.of k)) hk F)
     (BasedFunctor.id (fibredCategory C (Spec (.of k)) hk F).val) x⟩, hb.2.subsingleton⟩
 
-include hG e in
+include e in
 /-- **The classifying stack has exactly one point**: it is the image of the single point of
 `Spec k` under its surjective chart. -/
 theorem nonempty_points_classifyingModel :
     Nonempty (points C (Spec (.of k)) hk 𝒬.val.val 𝒬.val.property) := by
   obtain ⟨⟨x⟩, -⟩ := unique_stackPoints_of_eq_terminalSpace C hk
-    (classifyingGroupoid C hk G).objects.property (classifyingGroupoid_objects_obj C hk G)
+    (classifyingGroupoid_objects_obj C hk G)
   exact ⟨AlgebraicStacks.pointsMap C (Spec (.of k)) hk (classifyingChart C hk G 𝒬 e) x⟩
 
 include hG e in
@@ -164,7 +163,7 @@ include hG e in
 theorem subsingleton_points_classifyingModel :
     Subsingleton (points C (Spec (.of k)) hk 𝒬.val.val 𝒬.val.property) := by
   obtain ⟨-, hsub⟩ := unique_stackPoints_of_eq_terminalSpace C hk
-    (classifyingGroupoid C hk G).objects.property (classifyingGroupoid_objects_obj C hk G)
+    (classifyingGroupoid_objects_obj C hk G)
   exact (isSurjective_classifyingChart C hk G 𝒬 e hG).subsingleton
 
 include hG e in
@@ -198,7 +197,7 @@ theorem dimension_classifyingModel (n : ℕ)
     (hn : Space.dimension C (Spec (.of k)) hk G.obj.X.left G.property = (n : WithBot ℕ∞)) :
     dimension C (Spec (.of k)) hk 𝒬 (isLocallyNoetherianStack_classifyingModel C hk G hG 𝒬 e) =
       ((-(n : ℤ) : ℤ) : EInt) := by
-  obtain ⟨x⟩ := nonempty_points_classifyingModel C hk G hG 𝒬 e
+  obtain ⟨x⟩ := nonempty_points_classifyingModel C hk G 𝒬 e
   have := subsingleton_points_classifyingModel C hk G hG 𝒬 e
   rw [← dimensionAtPoint_classifyingModel C hk G hG 𝒬 e n hn x]
   exact le_antisymm (iSup_le fun y => (Subsingleton.elim y x) ▸ le_rfl) (le_iSup _ x)

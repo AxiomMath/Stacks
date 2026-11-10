@@ -379,7 +379,7 @@ theorem exists_pointsMap_siteMapOver_eq {W : BigFppfOver B S hS} {R : CommRingCa
     (Spec.map a ≫ ((BigFppfOver.toScheme B S hS).obj W).isoSpec.inv)) u
   refine ⟨z, hz, injective_pointsToScheme B S hS W ?_⟩
   rw [pointsToScheme_pointsMap_yoneda, hz]
-  show ((BigFppfOver.toScheme B S hS).obj W).isoSpec.inv (Spec.map a u) =
+  change ((BigFppfOver.toScheme B S hS).obj W).isoSpec.inv (Spec.map a u) =
     pointsToScheme B S hS W w
   rw [hu, ← Scheme.Hom.comp_apply, Iso.hom_inv_id]
   rfl
@@ -482,8 +482,7 @@ The proof follows Stacks 0E0D: by Stacks 0E1C the base change of `π` to an affi
 through `y` has finite fibres with finite residue field extensions, and Stacks 0BSR splits it
 after a further étale base change. -/
 theorem exists_split_affine_chart
-    {X Y Y' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hX : IsAlgebraicSpace B S hS X)
-    (hY : IsAlgebraicSpace B S hS Y) (hY' : IsAlgebraicSpace B S hS Y')
+    {X Y Y' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hY : IsAlgebraicSpace B S hS Y)
     (f' : X ⟶ Y') (π : Y' ⟶ Y) (hπint : IsIntegralHom B S hS π)
     (hqc : IsQuasiCompact B S hS (f' ≫ π)) (hlft : IsLocallyOfFiniteType B S hS (f' ≫ π))
     (hsurj : IsSurjective B S hS f') (y : points B S hS Y) :

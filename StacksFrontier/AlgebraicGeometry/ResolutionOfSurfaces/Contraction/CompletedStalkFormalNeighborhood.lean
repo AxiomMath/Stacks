@@ -177,7 +177,7 @@ public theorem appTop_thickeningToInfinitesimal_infinitesimalBaseRingHom [IsRedu
     (thickeningToInfinitesimal D f y hmaps n).appTop.hom
         (infinitesimalBaseRingHom f y (n + 1) a) =
       (stalkToThickening D f y hmaps n).hom a := by
-  obtain ⟨U, hyU, t, rfl⟩ := TopCat.Presheaf.germ_exist _ a
+  obtain ⟨U, hyU, t, rfl⟩ := TopCat.Presheaf.exists_germ_eq _ a
   have hle : (⊤ : (infinitesimalNeighbourhood f y (n + 1)).Opens) ≤
       (infinitesimalι f y (n + 1) ≫ f) ⁻¹ᵁ U :=
     top_le_preimage_infinitesimalι f y (n + 1) U hyU
@@ -405,7 +405,7 @@ public theorem completionToFormalNeighborhood_of [IsReduced D.subscheme]
     completionToFormalNeighborhood D f y hmaps (AdicCompletion.of _ _ a) =
       stalkToFormalNeighborhood D f y hmaps a :=
   Subtype.ext (funext fun n ↦ by
-    show (thickeningToStalkQuotient D f y hmaps n).hom (AdicCompletion.evalₐ _ (n + 1)
+    change (thickeningToStalkQuotient D f y hmaps n).hom (AdicCompletion.evalₐ _ (n + 1)
       (AdicCompletion.of _ _ a)) = _
     rw [AdicCompletion.evalₐ_of, thickeningToStalkQuotient_mk]
     rfl)
@@ -438,7 +438,7 @@ public theorem completionToFormalNeighborhood_eq [IsReduced D.subscheme] [IsIso 
         ∀ k, infinitesimalFunctions f y k) (n + 1)) =
       infinitesimalStalkRestrict f y (n + 1) ((toPushforwardStalk f y).hom (s.val (n + 1))) :=
     rfl
-  show (thickeningToStalkQuotient D f y hmaps n).hom
+  change (thickeningToStalkQuotient D f y hmaps n).hom
       (AdicCompletion.evalₐ _ (n + 1) (AdicCompletion.mk _ _ s)) =
     (thickeningToInfinitesimal D f y hmaps n).appTop.hom _
   rw [hC, AdicCompletion.evalₐ_mk, thickeningToStalkQuotient_mk]

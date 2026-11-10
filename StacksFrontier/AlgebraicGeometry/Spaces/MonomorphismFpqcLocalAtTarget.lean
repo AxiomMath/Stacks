@@ -108,7 +108,7 @@ private theorem mono_of_mono_pullback_snd_ofArrows {C : Type v} [Category.{u, v}
     have hαβ : (yonedaEquiv (F := P)).symm (P.map a.op x)
         = (yonedaEquiv (F := P)).symm (P.map a.op y) := by
       rw [← pullback.lift_fst _ _ hα, ← pullback.lift_fst _ _ hβ, heq]
-    show P.map a.op x = P.map a.op y
+    change P.map a.op x = P.map a.op y
     simpa using congrArg (yonedaEquiv (F := P)) hαβ
   have hsep : Presieve.IsSeparated J (P ⋙ forget (Type u)) :=
     ((isSheaf_iff_isSheaf_of_type J P).1 hP).isSeparated

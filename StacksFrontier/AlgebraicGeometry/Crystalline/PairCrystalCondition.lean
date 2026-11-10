@@ -13,7 +13,8 @@ assignment sending an affine object `(U, T, δ)` of `Cris(X/S)` with `T = Spec(B
 > `f' = f ∘ a` it is clear that there exists a canonical isomorphism `a^*ℱ_T → ℱ_{T'}`.
 
 `Crystalline.pointedRestriction` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/PairToCrystal.lean` is that canonical map.  This module
+`StacksFrontier/AlgebraicGeometry/Crystalline/PairToCrystal.lean` is that canonical map.  This
+module
 proves that it **is** an isomorphism — the crystal condition proper for the assignment — in the
 form that does not require the base change `a^*ℱ_T = B' ⊗_B ℱ_T` to be built: that
 `Crystalline.pointedSections M T'` together with the restriction map has the universal property of
@@ -22,7 +23,8 @@ that base change.
 ## Why this is unconditional
 
 The module documentation of
-`StacksFrontier/AlgebraicGeometry/Crystalline/PairToCrystal.lean` records this as not proved and adds
+`StacksFrontier/AlgebraicGeometry/Crystalline/PairToCrystal.lean` records this as not proved and
+adds
 that "over the pointed site that is flatness-free only when `u` is an isomorphism".  That caveat
 belongs to the comparison with the pullback of *sheaves* of modules, where sheafification and
 quasi-coherence enter.  At the level of the modules themselves no flatness is involved and no
@@ -82,7 +84,8 @@ over to the unpointed algebraic site `CRIS(C/A)` in
 `Crystalline.PointedComparisonSystem.existsUnique_descendedRestrict`, and the sheaf-level
 condition on `Cris(X/S)` needs beyond that the identification of the affine site with the small
 site and the quasi-coherence clause, both recorded in the "What is and is not proved" section of
-`StacksFrontier/AlgebraicGeometry/Crystalline/PairToCrystal.lean`.  Nor are the four conditions of the
+`StacksFrontier/AlgebraicGeometry/Crystalline/PairToCrystal.lean`.  Nor are the four conditions of
+the
 pair used: as that module records, the object assignment and so this condition exist for a pair
 with no conditions at all.
 
@@ -163,8 +166,7 @@ theorem span_range_pointedRestriction_eq_top {T T' : PointedThickening Dt} (u : 
   have key : ∀ z : pointedSections M T', z ∈ Submodule.span T'.right.ring.carrier
       (Set.range (pointedRestriction M u)) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact Submodule.zero_mem _
+    induction z using TensorProduct.inductionOn with
     | tmul b m =>
         rw [pointedSections_tmul_eq_smul M T' b m, ← pointedRestriction_pointedUnitSection M u m]
         exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨_, rfl⟩)
@@ -218,8 +220,7 @@ theorem semilinearBaseChange_pointedRestrictionUnitDatum {T T' : PointedThickeni
     (u : T ⟶ T') {N : Type w'} [AddCommGroup N] [Module T'.right.ring.carrier N]
     (s : pointedSections M T →ₛₗ[pointedHomRingHom u] N) (z : pointedSections M T) :
     semilinearBaseChange (pointedRestrictionUnitDatum M u s) (pointedRestriction M u z) = s z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul b m =>
       rw [pointedRestriction_tmul, semilinearBaseChange_tmul, pointedScalarsMap_val,
         pointedSections_tmul_eq_smul M T b m, map_smulₛₗ s]

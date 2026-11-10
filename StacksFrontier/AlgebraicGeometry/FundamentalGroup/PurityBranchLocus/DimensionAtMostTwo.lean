@@ -120,7 +120,7 @@ public lemma isMaximalCohenMacaulay_of_isNormalRing_of_le_two (B : Type u) [Comm
   have hmin : ringKrullDim B ≤ (Module.depth B (maximalIdeal B) B : WithBot ℕ∞) := by
     rw [← hd]
     exact_mod_cast hS2
-  show (Module.depth B (maximalIdeal B) B : WithBot ℕ∞) = ringKrullDim B
+  change (Module.depth B (maximalIdeal B) B : WithBot ℕ∞) = ringKrullDim B
   exact le_antisymm ((Module.depth_le_supportDim B _ B
     (Module.maximalIdeal_smul_top_ne_top B)).trans_eq
       (Module.supportDim_self_eq_ringKrullDim B)) hmin

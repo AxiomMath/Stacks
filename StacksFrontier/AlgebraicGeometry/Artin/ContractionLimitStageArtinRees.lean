@@ -30,7 +30,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 attribute [local instance]
   AlgebraicGeometry.Artin.FormalDictionary.instTopologicalSpaceAdicCompletion
 
-variable {c : ContractionSituation B S hS} {I : Type u} [Category.{u} I] [IsCofiltered I]
+variable {c : ContractionSituation B S hS} {I : Type u} [Category.{u} I]
   {D : I ⥤ LocallyNoetherianOver B S hS} {κ : Cone D} {ξ : Triple c κ.pt.obj}
   {w : CompatibilityWitness c κ.pt.obj ξ.Z ξ.u ξ.xhat} {k₀ : I}
   [hD : ∀ j, IsAffine ((BigFppfOver.toScheme B S hS).obj (D.obj j).obj)]

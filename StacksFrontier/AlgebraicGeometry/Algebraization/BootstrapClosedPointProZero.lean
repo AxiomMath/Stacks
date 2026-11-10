@@ -356,7 +356,7 @@ theorem hasStableImageIdealPowerCohomology_of_range_le
           (((localCohomologyWithSupportInModuleFunctor.{u, u} A T j).map
             ((idealPowerTower.{u, u} I M).map (homOfLE hmk).op)).hom x) = 0 := hx
     rw [h1, Functor.map_comp, Functor.map_comp]
-    show ((localCohomologyWithSupportInModuleFunctor.{u, u} A T j).map
+    change ((localCohomologyWithSupportInModuleFunctor.{u, u} A T j).map
         (idealPowerInclusion.{u, u} I M m₀)).hom
         (((localCohomologyWithSupportInModuleFunctor.{u, u} A T j).map
           ((idealPowerTower.{u, u} I M).map (homOfLE hm₀m).op)).hom
@@ -366,7 +366,7 @@ theorem hasStableImageIdealPowerCohomology_of_range_le
   obtain ⟨y, hy⟩ := (ShortComplex.moduleCat_exact_iff _).mp
     (localCohomology_exact₁.{u, u} T
       (idealPowerShortComplex_shortExact.{u, u} I M k) (j - 1) j hji) x hα
-  show ((localCohomologyWithSupportInModuleFunctor.{u, u} A T j).map
+  change ((localCohomologyWithSupportInModuleFunctor.{u, u} A T j).map
       ((idealPowerTower.{u, u} I M).map (homOfLE hmk).op)).hom x = 0
   rw [← hy]
   exact map_idealPowerTower_localCohomologyδ_eq_zero T I M (j - 1) j hji hmk y

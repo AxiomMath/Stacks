@@ -132,7 +132,7 @@ theorem ampleModelMap_comp (m : Space.PicardHom A C) (n : Space.PicardHom C D) :
       schemeSpaceMap (ampleModelMap hA hC m) ≫ schemeSpaceMap (ampleModelMap hC hD n) := by
     rw [schemeSpaceMap_ampleModelMap, schemeSpaceMap_ampleModelMap,
       schemeSpaceMap_ampleModelMap]
-    show _ ≫ Space.baseChangeMap _ (m.base ≫ n.base) ≫ _ = _
+    change _ ≫ Space.baseChangeMap _ (m.base ≫ n.base) ≫ _ = _
     rw [Space.baseChangeMap_comp]
     simp only [Category.assoc, Iso.inv_hom_id_assoc]
   exact (congrArg (fun k => k.hom) h1).trans (yoneda.map_comp _ _).symm
@@ -250,7 +250,7 @@ theorem amplePolarizedHom_comp (m : Space.PicardHom A C) (n : Space.PicardHom C 
   · exact (congrArg (fun k : ampleModel hA ⟶ ampleModel hD =>
       SmallEtale.schemeHom (associatedBigEtaleSite B) k.left) (ampleModelMap_comp m n)).trans
       (B.inclusion.map_comp _ _)
-  · show ampleLineBundleIso hA hD (Space.PicardHom.comp m n) ≍
+  · change ampleLineBundleIso hA hD (Space.PicardHom.comp m n) ≍
       ((Scheme.Modules.pullbackComp
           (SmallEtale.schemeHom (associatedBigEtaleSite B) (ampleModelMap hA hC m).left)
           (SmallEtale.schemeHom (associatedBigEtaleSite B)

@@ -350,7 +350,7 @@ public theorem fShriekBaseChangePushforwardMap_natural
   refine sheaf_hom_ext_of_toSheafify.{u} B (NatTrans.ext (funext fun W => ?_))
   obtain ⟨V⟩ := W
   rw [NatTrans.comp_app, NatTrans.comp_app]
-  show (toSheafify (SmallEtale.topology B Y.obj Y.property)
+  change (toSheafify (SmallEtale.topology B Y.obj Y.property)
         ((finiteSupportPushforward.{u, u + 1} B f (fun _ => inferInstance)).1.obj F)).app
         (op V) ≫
       (sheafifyMap (SmallEtale.topology B Y.obj Y.property)

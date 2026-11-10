@@ -149,7 +149,7 @@ private theorem overPullback_toId_iff
   have hcomp : ((Over.pullback baseMap).map
         (Over.homMk morphism (by simp) : Over.mk morphism ⟶ Over.mk (𝟙 Y))).left ≫
         pullback.snd (𝟙 Y) baseMap = pullback.snd morphism baseMap := by
-    show pullback.lift _ _ _ ≫ pullback.snd (𝟙 Y) baseMap = _
+    change pullback.lift _ _ _ ≫ pullback.snd (𝟙 Y) baseMap = _
     exact pullback.lift_snd _ _ _
   rw [← hcomp, P.cancel_right_of_respectsIso]
 
@@ -190,7 +190,7 @@ private theorem exists_finite_pullback
   have : IsFinite ((Over.pullback (cone.π.app initial)).map model).left := by
     apply (overPullback_comp_iff (@IsFinite) firstMap (cone.π.app initial) original).mp
     apply (overPullback_toId_iff (@IsFinite) morphism _).mpr
-    show IsFinite (pullback.snd morphism (cone.π.app initial ≫ structureMap.app initial))
+    change IsFinite (pullback.snd morphism (cone.π.app initial ≫ structureMap.app initial))
     rwa [hlimit]
   obtain ⟨stage, arrow, hstage⟩ :=
     exists_isFinite_baseChange_of_isLimit diagram cone hc initial _ _ model
@@ -263,7 +263,7 @@ private theorem size_limit_le_of_affine
       Cardinal.mk (↑(colimit R)) = Cardinal.mk (colimit G) := Cardinal.mk_congr e.toEquiv
       _ = Cardinal.mk G.ColimitType := Cardinal.mk_congr (Types.colimitEquivColimitType G)
       _ ≤ Cardinal.mk (Σ j, G.obj j) := by
-        show Cardinal.mk (Quot G.ColimitTypeRel) ≤ _
+        change Cardinal.mk (Quot G.ColimitTypeRel) ≤ _
         exact Cardinal.mk_quot_le
       _ = Cardinal.sum (fun j => Cardinal.mk (G.obj j)) := Cardinal.mk_sigma _
       _ ≤ Cardinal.mk Kᵒᵖ * (⨆ j, Cardinal.mk (G.obj j)) := Cardinal.sum_le_mk_mul_iSup _
@@ -282,7 +282,7 @@ private theorem size_limit_le_of_affine
               Cardinal.bddAbove_of_small Cardinal.bddAbove_of_small
               (fun j => j) (fun j => by
                 rw [Cardinal.lift_id, Cardinal.lift_id]
-                show Cardinal.mk (Scheme.Γ.obj (op (E.obj j.unop))) ≤ _
+                change Cardinal.mk (Scheme.Γ.obj (op (E.obj j.unop))) ≤ _
                 rw [Scheme.size_of_isAffine (E.obj j.unop)]
                 exact le_max_right _ _)
             simpa only [Cardinal.lift_id] using hLift
@@ -323,6 +323,7 @@ private theorem finite_of_square
     targetMap sourceMap represented hsquare
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out otherwise
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 private instance hasPullbacks_presheaf_descendingFiniteMorphism {B : BigFppfSite.{u}}
@@ -511,7 +512,7 @@ private theorem exists_isFinite_of_isAffineHom_map₀
       apply MorphismProperty.relative.of_exists
       intro test arrow
       refine ⟨test, arrow, 𝟙 _, IsPullback.of_id_snd, ?_⟩
-      show Etale (T.map (𝟙 test))
+      change Etale (T.map (𝟙 test))
       rw [T.map_id]
       infer_instance
     simpa only [Category.id_comp] using hetale U (𝟙 _) hid
@@ -647,7 +648,7 @@ private theorem exists_isFinite_of_isAffineHom_map₀
     app := fun stage => T.map (q stage)
     naturality := by
       intro first second arrow
-      show T.map (A.map arrow) ≫ T.map (q second) = T.map (q first) ≫ 𝟙 _
+      change T.map (A.map arrow) ≫ T.map (q second) = T.map (q first) ≫ 𝟙 _
       rw [Category.comp_id, ← T.map_comp]
       congr 1
       apply yoneda.map_injective
@@ -656,11 +657,11 @@ private theorem exists_isFinite_of_isAffineHom_map₀
         from yoneda.map_preimage _]
       rw [← hiso]
       simp only [Category.assoc, Iso.inv_hom_id_assoc]
-      show (iso first).hom ≫ (G.map arrow).left ≫ (G.obj second).hom = _
+      change (iso first).hom ≫ (G.map arrow).left ≫ (G.obj second).hom = _
       rw [Over.w, hiso] }
   have hlimit (stage : K) : (T.mapCone siteCone).π.app stage ≫ structureMap.app stage =
       T.map qLimit := by
-    show T.map (siteCone.π.app stage) ≫ T.map (q stage) = T.map qLimit
+    change T.map (siteCone.π.app stage) ≫ T.map (q stage) = T.map qLimit
     refine (T.map_comp (siteCone.π.app stage) (q stage)).symm.trans (congrArg T.map ?_)
     exact yoneda.map_injective ((hcone stage).symm.trans hqLimit)
   have : IsAffine (T.obj U) := hU

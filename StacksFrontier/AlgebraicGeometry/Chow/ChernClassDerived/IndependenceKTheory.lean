@@ -102,7 +102,7 @@ theorem chernFamily_commute (F G : T.Modules) (r s : ℕ)
     Commute (chernFamily C q F r) (chernFamily C q G s) := by
   have := isFiniteLocallyFreeOfRank_biprod F G r s
   have := isFiniteLocallyFreeOfRank_biprod G F s r
-  show chernFamily C q F r * chernFamily C q G s = chernFamily C q G s * chernFamily C q F r
+  change chernFamily C q F r * chernFamily C q G s = chernFamily C q G s * chernFamily C q F r
   rw [← chernFamily_biprod C q F G r s, ← chernFamily_biprod C q G F s r]
   exact chernFamily_congr C q (G ⊞ F) (s + r) (biprod.braiding F G) (Nat.add_comm r s)
 
@@ -189,7 +189,7 @@ theorem chernKFun_eq (M : T.Modules) (r : ℕ)
     chernKFun C q M = Additive.ofMul (chernUnitGroupElem C q M r) := by
   have h : ∃ r : ℕ, AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u} M r :=
     ⟨r, ‹_›⟩
-  rw [chernKFun, dif_pos h]
+  rw [chernKFun, dite_eq_left h]
   obtain ⟨x⟩ : Nonempty T := inferInstance
   have := h.choose_spec
   exact congrArg Additive.ofMul (chernUnitGroupElem_congr C q (Iso.refl M)
@@ -208,7 +208,7 @@ omit [IsIntegral T] in
 theorem chernKFun_eq_zero (M : T.Modules)
     (hM : ¬ Stacks.FiniteLocallyFree.IsFiniteLocallyFree.{u, u, u} (R := T.ringCatSheaf) M) :
     chernKFun C q M = 0 :=
-  dif_neg fun ⟨r, hr⟩ ↦ hM (have := hr; isFiniteLocallyFree_of_isFiniteLocallyFreeOfRank M r)
+  dite_eq_right fun ⟨r, hr⟩ ↦ hM (have := hr; isFiniteLocallyFree_of_isFiniteLocallyFreeOfRank M r)
 
 /-- **The total Chern class through `K_0(Vect(T))`.** On an integral scheme `T`, the
 homomorphism `K_0(Vect(T)) ⟶ ⟨c(ℰ)⟩` sending the class of a finite locally free module `ℰ` to

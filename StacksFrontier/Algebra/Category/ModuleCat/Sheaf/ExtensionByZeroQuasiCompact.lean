@@ -171,7 +171,7 @@ theorem epi_sigmaDesc_extensionByZeroUnitMap {U : C}
     Epi (Sigma.desc fun i => extensionByZeroUnitMap.{u₁, v₁, w, t} R (𝒰.f i)) :=
   ⟨fun {N} p₁ p₂ hp =>
     extensionByZeroUnit_hom_ext_of_sieve₀_mem R 𝒰 h𝒰 p₁ p₂ fun i => by
-      rw [← Sigma.ι_desc (fun j => extensionByZeroUnitMap.{u₁, v₁, w, t} R (𝒰.f j)) i,
+      rw [← Sigma.ι_comp_desc (fun j => extensionByZeroUnitMap.{u₁, v₁, w, t} R (𝒰.f j)) i,
         Category.assoc, Category.assoc, hp]⟩
 
 /-- **Stacks Project, Tag 0G1W**, the surjectivity half. If `U` is a quasi-compact object of a

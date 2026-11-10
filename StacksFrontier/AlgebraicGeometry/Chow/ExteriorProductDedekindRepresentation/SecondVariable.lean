@@ -103,7 +103,7 @@ theorem exteriorProductWeight_testBaseChangeMapOfEq_of_isClosedImmersion [IsClos
     rw [← hfst, Scheme.Hom.ker_comp_of_isIso, Scheme.IdealSheafData.ker_fst_of_isClosedImmersion]
     refine le_trans (Scheme.IdealSheafData.comap_mono _ ?_) le_sup_right
     rw [← Scheme.IdealSheafData.le_support_iff_le_vanishingIdeal]
-    show closure ({v.base y} : Set T) ⊆ (v.ker.support : Set T)
+    change closure ({v.base y} : Set T) ⊆ (v.ker.support : Set T)
     rw [Scheme.Hom.support_ker]
     exact closure_mono (Set.singleton_subset_iff.mpr ⟨y, rfl⟩)
   unfold exteriorProductWeight
@@ -156,7 +156,7 @@ theorem cycleGroupRestrict_exteriorProductDedekindCycles [IsOpenImmersion v] (n 
   classical
   set B := testBaseChangeMapOfEq f g v m hm with hB
   refine Subtype.ext (Function.locallyFinsuppWithin.ext fun w ↦ ?_)
-  show (exteriorProductDedekindCycles C f g n k a b).1 (B.base w) =
+  change (exteriorProductDedekindCycles C f g n k a b).1 (B.base w) =
     (exteriorProductDedekindCycles C f m n k a (cycleGroupRestrict C g m v hm k b)).1 w
   rw [exteriorProductDedekindCycles_apply, exteriorProductDedekindCycles_apply]
   have hinj : Function.Injective (Prod.map (id : X → X) v.base) :=
@@ -397,13 +397,13 @@ theorem exteriorProductDedekindCycles_apply_eq_finsum_of_points (a : CycleGroup 
       by_contra hne
       refine hq ?_
       unfold exteriorProductDedekindTerm
-      rw [hβ, if_neg (Ne.symm hne)]
+      rw [hβ, ite_eq_right (Ne.symm hne)]
       simp
     rw [finsum_eq_finsum_comp_of_support_subset_range _ hinj hsupp]
     refine finsum_congr fun x ↦ ?_
     rw [hF]
     unfold exteriorProductDedekindTerm
-    rw [hβ, if_pos rfl]
+    rw [hβ, ite_eq_left rfl]
   simp_rw [hpart]
   rw [exteriorProductDedekindCycles_apply, ← hF]
   have hinj : Function.Injective fun q : I × X ↦ (q.2, pt q.1) := by
@@ -441,13 +441,13 @@ theorem properPushforward_exteriorProductDedekindCycles_sigmaDesc_apply {I : Typ
         (exteriorProductDedekindCycles C sX (Sigma.desc v ≫ u) n k a γ)).1 z =
       ∑ᶠ i, (exteriorProductDedekindCycles C sX u n k a
         (properPushforward C (Sigma.ι Z i ≫ Sigma.desc v ≫ u) u (v i)
-          (by rw [← Category.assoc, Sigma.ι_desc]) k
+          (by rw [← Category.assoc, Sigma.ι_comp_desc]) k
           (cycleGroupRestrict C (Sigma.desc v ≫ u) (Sigma.ι Z i ≫ Sigma.desc v ≫ u) (Sigma.ι Z i)
             rfl k γ))).1 z := by
   set π := Sigma.desc v with hπdef
   set π' := testBaseChangeMapOfEq sX u π (π ≫ u) rfl with hπ'
   have hvi : ∀ i, v i ≫ u = Sigma.ι Z i ≫ π ≫ u := fun i ↦ by
-    rw [← Category.assoc, hπdef, Sigma.ι_desc]
+    rw [← Category.assoc, hπdef, Sigma.ι_comp_desc]
   set B := fun i ↦ testBaseChangeMapOfEq sX (π ≫ u) (Sigma.ι Z i) (Sigma.ι Z i ≫ π ≫ u) rfl
     with hB
   have hBC : ∀ i, B i ≫ π' = testBaseChangeMapOfEq sX u (v i) (Sigma.ι Z i ≫ π ≫ u) (hvi i) := by

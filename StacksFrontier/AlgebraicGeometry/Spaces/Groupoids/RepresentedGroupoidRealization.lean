@@ -83,7 +83,7 @@ theorem representedRealization_compose (T : (BigFppfOver B S hS)ᵒᵖ)
       rw [← yonedaSchemePointEquiv_map B hS hR hU (representedGroupoidScheme s t c hG).source T a,
         ← yonedaSchemePointEquiv_map B hS hR hU (representedGroupoidScheme s t c hG).target T b]
       exact congrArg (yonedaSchemePointEquiv B hS hU T) h)).trans ?_
-  show pullback.lift (F.map a) (F.map b) _ ≫
+  change pullback.lift (F.map a) (F.map b) _ ≫
       ((isPullback_map_representedPairs s t).isoPullback.inv ≫ F.map (representedCompMap s t c)) =
     F.map (c.app T ⟨(a, b), h⟩)
   have hw : F.map a ≫ F.map s = F.map b ≫ F.map t := by

@@ -150,7 +150,7 @@ private theorem equation_ne_zero {r s t : ℕ} (hs : 0 < s) (ht : 0 < t) :
   have hψ : ψ (brieskornEquation ℂ r s t) = PowerSeries.X ^ r := by
     simp only [brieskornEquation, map_add, map_pow]
     simp only [ψ, MvPowerSeries.substAlgHom_X]
-    show (PowerSeries.X : PowerSeries ℂ) ^ r + 0 ^ s + 0 ^ t = _
+    change (PowerSeries.X : PowerSeries ℂ) ^ r + 0 ^ s + 0 ^ t = _
     simp [hs.ne', ht.ne']
   intro h
   exact pow_ne_zero r PowerSeries.X_ne_zero (by rw [← hψ, h]; simp)
@@ -378,11 +378,11 @@ private theorem frobenius_correction_bound {r s t : ℕ}
   have ⟨hc, hct⟩ := frobenius_branch_exponent hineq
   have hsum : r + s < r * s := by omega
   have hceq : c + r + s = r * s := by
-    show r * s - r - s + r + s = r * s
+    change r * s - r - s + r + s = r * s
     omega
   have hdeq : d + r * s = c * t := frobenius_degree_add_eq hineq
   have hs : 1 < s := by omega
-  show (s - 1) * (c - 1) ≤ d
+  change (s - 1) * (c - 1) ≤ d
   by_cases hr2 : r = 2
   · subst r
     by_cases hs3 : s = 3
@@ -600,7 +600,7 @@ private theorem frobenius_correction_degree {r s t a b k : ℕ}
   let d := c * t - r * s
   have hdeq : d + r * s = c * t := frobenius_degree_add_eq hineq
   refine ⟨hdeq, ?_⟩
-  show a * s + b * c = d
+  change a * s + b * c = d
   have htc := congrArg (· * c) ht
   have har := congrArg (· * s) ha
   nlinarith [htc, har, hdeq]
@@ -654,7 +654,7 @@ private theorem exists_brieskorn_curve_hom_dual_lifted {r s t : ℕ}
   have hβM : β (MvPowerSeries.X 0 ^ a * MvPowerSeries.X 2 ^ b) =
       PowerSeries.X ^ d := by
     simp only [map_mul, map_pow, β, MvPowerSeries.substAlgHom_X]
-    show (PowerSeries.X ^ s) ^ a * (PowerSeries.X ^ c) ^ b = _
+    change (PowerSeries.X ^ s) ^ a * (PowerSeries.X ^ c) ^ b = _
     rw [← pow_mul, ← pow_mul, ← pow_add]
     congr 1
     simpa [c, d, mul_comm] using hab
@@ -730,9 +730,9 @@ private theorem frobenius_gap_add_eq {r s : ℕ} (hr : 1 ≤ r) (hs : 1 ≤ s)
     r * s - r - s + r = s * (r - 1) ∧ r * s - r - s + s = r * (s - 1) := by
   let c := r * s - r - s
   have hceq : c + r + s = r * s := by
-    show r * s - r - s + r + s = r * s
+    change r * s - r - s + r + s = r * s
     omega
-  show c + r = s * (r - 1) ∧ c + s = r * (s - 1)
+  change c + r = s * (r - 1) ∧ c + s = r * (s - 1)
   constructor
   · have hmul := congrArg (s * ·) (Nat.sub_add_cancel hr)
     nlinarith [hceq]
@@ -772,20 +772,20 @@ private theorem exists_curve_kernel_equation_mem_maximal_mul {r s t : ℕ}
     (by have ⟨hc, _⟩ := frobenius_branch_exponent hineq; omega)
   have hC : ψ (MvPowerSeries.C α) = PowerSeries.C α := ψ.commutes α
   have hg1 : z * y - αB * x ^ (r - 1) * Q ∈ I := by
-    show ψ (z * y - αB * x ^ (r - 1) * Q) = 0
+    change ψ (z * y - αB * x ^ (r - 1) * Q) = 0
     simp only [x, y, z, αB, map_sub, map_mul, map_pow, hx, hy, hz, hC]
-    show PowerSeries.X ^ c * (PowerSeries.C α * PowerSeries.X ^ r * ψ Q) -
+    change PowerSeries.X ^ c * (PowerSeries.C α * PowerSeries.X ^ r * ψ Q) -
       PowerSeries.C α * (PowerSeries.X ^ s) ^ (r - 1) * ψ Q = 0
     rw [← pow_mul, ← hcr, pow_add]
     ring
   have hg2 : z * x * Q ^ (s - 1) + αB * y ^ (s - 1) ∈ I := by
-    show ψ (z * x * Q ^ (s - 1) + αB * y ^ (s - 1)) = 0
+    change ψ (z * x * Q ^ (s - 1) + αB * y ^ (s - 1)) = 0
     simp only [x, y, z, αB, map_add, map_mul, map_pow, hx, hy, hz, hC]
-    show PowerSeries.X ^ c * PowerSeries.X ^ s * (ψ Q) ^ (s - 1) +
+    change PowerSeries.X ^ c * PowerSeries.X ^ s * (ψ Q) ^ (s - 1) +
       PowerSeries.C α * (PowerSeries.C α * PowerSeries.X ^ r * ψ Q) ^ (s - 1) = 0
     exact dual_curve_second_relation (by omega) hcs hα (ψ Q)
   have hg3 : z ^ s - x ^ c ∈ I := by
-    show ψ (z ^ s - x ^ c) = 0
+    change ψ (z ^ s - x ^ c) = 0
     simp only [x, z, map_sub, map_pow, hx, hz, ← pow_mul]
     rw [Nat.mul_comm c s, sub_self]
   have hcorrection : z ^ t - x ^ r * (x ^ a * z ^ b) ∈ m * I :=
@@ -894,11 +894,11 @@ private theorem dual_curve_prime_properties {r s t : ℕ}
       (MvPowerSeries.X (0 : Fin 3) ^ c - MvPowerSeries.X (2 : Fin 3) ^ s)
   have hv : v ≠ 0 := dual_curve_relation_ne_zero (by omega) (by omega) hc hst
   have hvker : v ∈ RingHom.ker φ := by
-    show ψ (MvPowerSeries.X (0 : Fin 3) ^ c -
+    change ψ (MvPowerSeries.X (0 : Fin 3) ^ c -
       MvPowerSeries.X (2 : Fin 3) ^ s) = 0
     rw [map_sub, map_pow, map_pow, hx, hz]
     simp only [← pow_mul]
-    show (PowerSeries.X : PowerSeries ℂ) ^ (s * c) -
+    change (PowerSeries.X : PowerSeries ℂ) ^ (s * c) -
       PowerSeries.X ^ (c * s) = 0
     rw [mul_comm s c, sub_self]
   have hnzero : RingHom.ker φ ≠ ⊥ := by

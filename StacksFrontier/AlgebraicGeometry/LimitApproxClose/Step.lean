@@ -443,7 +443,7 @@ theorem exists_approximation {K : Type u} [Preorder K] [Nonempty K] [IsDirected 
     refine ⟨OrderDual.ofDual i.unop, homOfLE (leOfHom v.unop), ?_⟩
     have hvv : (preorderToOpDual K).map (homOfLE (leOfHom v.unop)) = v :=
       Quiver.Hom.unop_inj (Subsingleton.elim _ _)
-    show (FibreProduct.diagram (sec (Dv := Dv) W hW) (tau pv W hW hT)
+    change (FibreProduct.diagram (sec (Dv := Dv) W hW) (tau pv W hW hT)
       (str (V := V) (Y := Y))).map ((preorderToOpDual K).map
         (homOfLE (leOfHom v.unop))) y = _
     rw [hvv]

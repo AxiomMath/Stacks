@@ -117,7 +117,7 @@ private theorem baseChangeComponent_coface
   apply ((qYp.op.ranAdjunction AddCommGrpCat.{max uU uX vX uV uY vY w}).homEquiv
     _ _).symm.injective
   simp only [Adjunction.homEquiv_counit, Functor.map_comp, Category.assoc]
-  show Functor.whiskerLeft qYp.op
+  change Functor.whiskerLeft qYp.op
         (baseChangeComponent pX f e g h α hα F n) ≫
       (Functor.whiskerLeft qYp.op
           (reindexMap.{vV, vY, vC, uV, uY, uC, max uU uX vX w}
@@ -226,7 +226,7 @@ public theorem baseChangeComponent_comm
   dsimp only
   rintro i _ rfl
   simp only [complex_X]
-  show baseChangeComponent pX f e g h α hα F i ≫
+  change baseChangeComponent pX f e g h α hα F i ≫
       (complex (e ⋙ pX) g (e.op ⋙ F)).d i (i + 1) =
     ((Functor.whiskeringLeft Yᵒᵖ Xᵒᵖ
       AddCommGrpCat.{max uU uX vX uV uY vY w}).obj e.op).map

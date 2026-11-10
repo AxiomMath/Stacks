@@ -141,6 +141,7 @@ theorem isIso_derivedEpsilonAdjunction_unit_app_of_tower
         ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj Z))) := inferInstance
   exact @IsIso.of_isIso_comp_right _ _ _ _ _ _ _ this hrhs
 
+omit [HasSheafify J AddCommGrpCat] [J.WEqualsLocallyBijective AddCommGrpCat] in
 /-- **A sheaf of modules with vanishing higher cohomology over every object is acyclic for the
 forgetful functor to presheaves of modules.** The right derived functors of the forgetful functor
 are computed sectionwise, evaluation of presheaves of modules being exact, and over an object

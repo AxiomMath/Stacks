@@ -155,11 +155,10 @@ theorem Tan.bijective_linMap (hμ : Function.Bijective (conormalLinMap f hJ N g)
   let μ := LinearEquiv.ofBijective (conormalLinMap f hJ N g) hμ
   have hμs : ∀ (a : P.obj ⧸ J) (t : J.Cotangent ⊗[R] N),
       μ (a • t) = Ideal.quotientMapₐ J' (BoundedAlg.toAlgHom f) hJ a • μ t := fun a t => by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | add s t hs ht => rw [smul_add, _root_.map_add, _root_.map_add, hs, ht, smul_add]
     | tmul m n =>
-      show conormalLinMap f hJ N g ((a • m) ⊗ₜ n) = _ • conormalLinMap f hJ N g (m ⊗ₜ n)
+      change conormalLinMap f hJ N g ((a • m) ⊗ₜ n) = _ • conormalLinMap f hJ N g (m ⊗ₜ n)
       rw [conormalLinMap_tmul, conormalLinMap_tmul, mapCotangent_smul, smul_comm]
   let comp : Derivation.along ρ₀.hom (J.Cotangent ⊗[R] N) →ₗ[R]
       Derivation.along (ρ₀ ≫ (quotMap f hJ).hom).hom J'.Cotangent :=

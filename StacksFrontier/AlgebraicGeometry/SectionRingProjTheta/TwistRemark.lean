@@ -185,6 +185,7 @@ open Stacks.SectionExtension (powSec)
 attribute [local implicit_reducible] Stacks.TensorPowers.natTensorPow
   Stacks.TwistedSections.twistPow
 
+omit [Ample.IsInvertibleModule X L] in
 /-- **Multiplication by `aᵏ` is multiplication by the section `aᵏ`**, in the grouped form. -/
 theorem powMul_eq_smulRight (F : X.Modules) {d : ℕ} (a : powSections L d) (k : ℕ) :
     powMul L F a k = smulRight F (powSec L a k) := by
@@ -214,6 +215,7 @@ theorem mul_powSec_powSec {d : ℕ} (a : powSections L d) (k l : ℕ) :
     ← pow_add, add_comm]
   all_goals ring
 
+omit [Ample.IsInvertibleModule X L] in
 /-- **Division by powers of a section is multiplicative for the external product**: multiplying
 `F` by `aᵏ` and `G` by `aˡ` and taking the external product is multiplying `F ⊗ G` by
 `a^{k + l}`. -/

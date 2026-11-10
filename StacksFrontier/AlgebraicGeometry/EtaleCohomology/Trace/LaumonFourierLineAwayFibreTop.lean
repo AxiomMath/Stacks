@@ -2,7 +2,7 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.LaumonFourierLineAwayFibreOffTop
 public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.FourierDeligne.FourierGenericCoinvariantFibreSplit
+ StacksFrontier.AlgebraicGeometry.EtaleCohomology.FourierDeligne.FourierGenericCoinvariantFibreSplit
 
 /-!
 # The top degree of the fibres of the Fourier family away from `a = 0`
@@ -105,7 +105,8 @@ public def LaumonFourierLineAwayFibreNoConstantQuotient : Prop :=
     (jV' : V' ⟶ Stacks.ArtinSchreier.specObject (Polynomial k') B hL)
     (jU : U' ⟶ Stacks.ArtinSchreier.specObject (Polynomial (Polynomial k')) B hS) (g' : U' ⟶ V')
     [LocallyOfFiniteType (B.inclusion.map g')] [QuasiCompact (B.inclusion.map g')]
-    [IsSeparated (B.inclusion.map g')] (jg' : CompactificationOf (Over.mk (B.inclusion.map g'))),
+    [IsSeparated (B.inclusion.map g')],
+    CompactificationOf (Over.mk (B.inclusion.map g')) →
     IsOpenImmersion (B.inclusion.map jV') →
     IsPullback (B.inclusion.map jU) (B.inclusion.map g')
       (B.inclusion.map (laumonFamilyProjection k' B hS hL)) (B.inclusion.map jV') →
@@ -185,6 +186,7 @@ theorem laumonFourierLineAwayFibreTopVanishing_of_halves
       ((derivedLowerShriek.{u, 0} h jc Λ₀).obj ((DerivedCategory.Plus.singleFunctor _ 0).obj N))))
     (Category.id_comp f') (hC Ω Λ₀ f' ⟨eA, heA⟩ (𝟙 _) N hNlc hNy) j'
 
+omit [Fintype k] in
 /-- **The fibres of the Fourier family have no `H^q_c`, `q ≠ 1`, from the curve half and the
 inertia half.** -/
 theorem laumonFourierLineAwayFibreVanishing_of_halves

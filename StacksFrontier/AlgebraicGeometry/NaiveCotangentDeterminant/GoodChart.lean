@@ -55,7 +55,7 @@ theorem IsAffineOpen.isLocalization_away_appLE_preimage_basicOpen {Y' P : Scheme
       (algebraMap Γ(P, Z) Γ(P, P.basicOpen g)) =
       (j.appLE Z (j ⁻¹ᵁ P.basicOpen g) (j.preimage_mono (P.basicOpen_le g))).hom := by
     ext x
-    show (P.presheaf.map (homOfLE (P.basicOpen_le g)).op ≫ j.app (P.basicOpen g)) x = _
+    change (P.presheaf.map (homOfLE (P.basicOpen_le g)).op ≫ j.app (P.basicOpen g)) x = _
     rw [Scheme.Hom.app_eq_appLE, Scheme.Hom.map_appLE]
   rwa [e] at h
 
@@ -75,7 +75,7 @@ theorem exists_isGoodChartSquare {X Y X' Y' : Scheme.{u}} {f : Y ⟶ X} {f' : Y'
       IsGoodChartSquare f w e e' hU hV ∧ y' ∈ V'.1 ∧ V'.1 ≤ W := by
   set j := pullback.lift b f' w with hj
   have hfy : f' y' ∈ a ⁻¹ᵁ U.1 := by
-    show a (f' y') ∈ U.1
+    change a (f' y') ∈ U.1
     rw [← Scheme.Hom.comp_apply, ← w, Scheme.Hom.comp_apply]
     exact e hy
   obtain ⟨_, ⟨U', hU'aff, rfl⟩, hyU', hU'le⟩ :=
@@ -91,10 +91,10 @@ theorem exists_isGoodChartSquare {X Y X' Y' : Scheme.{u}} {f : Y ⟶ X} {f' : Y'
     (isIso_pushoutSection_of_isAffineOpen H hU'le e rfl U.2 hU'aff V.2)
   have hjy : j y' ∈ Z := by
     refine ⟨?_, ?_⟩
-    · show (pullback.fst f a) (j y') ∈ V.1
+    · change (pullback.fst f a) (j y') ∈ V.1
       rw [← Scheme.Hom.comp_apply, hj, pullback.lift_fst]
       exact hy
-    · show (pullback.snd f a) (j y') ∈ U'
+    · change (pullback.snd f a) (j y') ∈ U'
       rw [← Scheme.Hom.comp_apply, hj, pullback.lift_snd]
       exact hyU'
   let O : (pullback f a).Opens := j ''ᵁ (W ⊓ f' ⁻¹ᵁ U' ⊓ b ⁻¹ᵁ V.1)
@@ -136,7 +136,7 @@ theorem exists_isGoodChartSquare {X Y X' Y' : Scheme.{u}} {f : Y ⟶ X} {f' : Y'
     refine ⟨?_, ?_⟩ <;> ext x <;>
     · simp only [ψ, ε, RingHom.comp_apply, Algebra.TensorProduct.includeLeftRingHom_apply,
         AlgHom.toRingHom_eq_coe, RingHom.coe_coe, Algebra.TensorProduct.includeRight_apply,
-        RingEquiv.toRingHom_eq_coe, AlgEquiv.coe_ringEquiv, Algebra.IsPushout.equiv_tmul,
+        RingEquiv.toRingHom_eq_coe, AlgEquiv.coe_toRingEquiv, Algebra.IsPushout.equiv_tmul,
         map_one, one_mul, mul_one, RingHom.algebraMap_toAlgebra]
       rw [← CommRingCat.comp_apply, Scheme.Hom.appLE_comp_appLE]
       simp only [hj, pullback.lift_fst, pullback.lift_snd]

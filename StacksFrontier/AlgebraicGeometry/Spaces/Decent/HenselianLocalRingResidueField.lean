@@ -175,7 +175,7 @@ theorem exists_ringEquiv_residueField_neighborhood (hDecent : IsDecentSpace B S 
   obtain ⟨e, he⟩ := iso_of_mono_of_point_eq B S hS X hX p q hcls
   have hover : yoneda.map e.hom ≫ fieldMorphism B S hS X q =
       residueFieldMorphism B S hS X hDecent x := by
-    show yoneda.map e.hom ≫ yonedaEquiv.symm q.value = yonedaEquiv.symm p.value
+    change yoneda.map e.hom ≫ yonedaEquiv.symm q.value = yonedaEquiv.symm p.value
     rw [yonedaEquiv_symm_naturality_left e.hom X q.value, he]
   have hleftIso : IsIso (B.inclusion.map e.hom.left) := by
     have h₁ : IsIso ((Over.forget (B.obj hS)).map e.hom) := inferInstance

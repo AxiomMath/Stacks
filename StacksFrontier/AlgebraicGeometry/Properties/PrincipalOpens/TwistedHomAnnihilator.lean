@@ -175,8 +175,12 @@ private lemma exists_pow_smul_tensorHomSection_eq_zero
     {U V : Y.Opens} (hU : IsAffineOpen U) (hUq : U ≤ q.nhd) (hUV : U ≤ V)
     (e : P.over V ≅ _root_.SheafOfModules.unit
       ((structureSheafRing Y.toRingedSpace).over V)) (r : Γ(Y, U))
-    (t : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨sectionSiteRing Y, Y.toRingedSpace.IsSheaf⟩).obj ((sheafHomSpace Y.toRingedSpace F G))).obj (P))).val.obj (op U))
-    (ht : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨sectionSiteRing Y, Y.toRingedSpace.IsSheaf⟩).obj ((sheafHomSpace Y.toRingedSpace F G))).obj (P))).val.map
+    (t : ((((Stacks.SheafOfModules.Tensor.sheafTensor
+          ⟨sectionSiteRing Y, Y.toRingedSpace.IsSheaf⟩).obj
+          ((sheafHomSpace Y.toRingedSpace F G))).obj (P))).val.obj (op U))
+    (ht : ((((Stacks.SheafOfModules.Tensor.sheafTensor
+          ⟨sectionSiteRing Y, Y.toRingedSpace.IsSheaf⟩).obj
+          ((sheafHomSpace Y.toRingedSpace F G))).obj (P))).val.map
         (homOfLE (Y.basicOpen_le r)).op t = 0) :
     ∃ N : ℕ, r ^ N • t = 0 := by
   let E := tensorOverUnitIso (sheafHomSpace Y.toRingedSpace F G) P V e
@@ -263,14 +267,23 @@ annihilated near every point by a power of a local equation for `s`. -/
 theorem exists_pow_smul_internalHomTwist_restrict_eq_zero
     (F G : X.Modules) [F.IsQuasicoherent] [G.IsQuasicoherent] [F.IsFiniteType]
     (s : L.sections) (n : ℕ)
-    (t : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨sectionSiteRing X, X.toRingedSpace.IsSheaf⟩).obj ((sheafHomSpace X.toRingedSpace F G))).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ))))).val.obj
+    (t : ((((Stacks.SheafOfModules.Tensor.sheafTensor
+          ⟨sectionSiteRing X, X.toRingedSpace.IsSheaf⟩).obj
+          ((sheafHomSpace X.toRingedSpace F G))).obj
+          ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ))))).val.obj
         (op (⊤_ (Opens X.toRingedSpace.toPresheafedSpace))))
-    (hv : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨sectionSiteRing X, X.toRingedSpace.IsSheaf⟩).obj ((sheafHomSpace X.toRingedSpace F G))).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ))))).val.map
+    (hv : ((((Stacks.SheafOfModules.Tensor.sheafTensor
+          ⟨sectionSiteRing X, X.toRingedSpace.IsSheaf⟩).obj
+          ((sheafHomSpace X.toRingedSpace F G))).obj
+          ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ))))).val.map
         (terminal.from (nonvanishingOpen L s)).op t = 0)
     (x : X) :
     ∃ (e : ℕ) (U : Opens X.toRingedSpace) (r : (sectionSiteRing X).obj (op U))
         (l : L.val.obj (op U)), x ∈ U ∧ s.eval (op U) = r • l ∧
-      r ^ e • ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨sectionSiteRing X, X.toRingedSpace.IsSheaf⟩).obj ((sheafHomSpace X.toRingedSpace F G))).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ))))).val.map
+      r ^ e • ((((Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨sectionSiteRing X, X.toRingedSpace.IsSheaf⟩).obj
+        ((sheafHomSpace X.toRingedSpace F G))).obj
+        ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ))))).val.map
           (terminal.from U).op t = 0 := by
   obtain ⟨q⟩ := nonempty_localGenerators F x
   obtain ⟨W, V', r, l, hxW, hWaff, hWq, hWV', hs, hr, ⟨eP⟩⟩ :=

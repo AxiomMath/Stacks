@@ -85,7 +85,7 @@ lemma mk_idx_le [∀ a, LocallyOfFiniteType (terminal.from (Dv.obj a))] [IsAffin
     · intro A B h
       exact Subtype.ext (Subtype.mk.inj h)
     · exact (Subalgebra.mk_fg_le ℤ _).trans (max_le hS0 (hrng k))
-  show Cardinal.mk (Σ k : K, {A : Subalgebra ℤ ((rng pv W hW hT).obj k) //
+  change Cardinal.mk (Σ k : K, {A : Subalgebra ℤ ((rng pv W hW hT).obj k) //
     pred pv W hW hT g f hf k A}) ≤ _
   rw [Cardinal.mk_sigma]
   refine (Cardinal.sum_le_sum _ (fun _ => S.size) hsub).trans ?_
@@ -254,7 +254,7 @@ theorem exists_approximation_card {K : Type u} [Preorder K] [Nonempty K] [IsDire
     refine ⟨OrderDual.ofDual i.unop, homOfLE (leOfHom v.unop), ?_⟩
     have hvv : (preorderToOpDual K).map (homOfLE (leOfHom v.unop)) = v :=
       Quiver.Hom.unop_inj (Subsingleton.elim _ _)
-    show (FibreProduct.diagram (sec (Dv := Dv) W hW) (tau pv W hW hT)
+    change (FibreProduct.diagram (sec (Dv := Dv) W hW) (tau pv W hW hT)
       (str (V := V) (Y := Y))).map ((preorderToOpDual K).map
         (homOfLE (leOfHom v.unop))) y = _
     rw [hvv]

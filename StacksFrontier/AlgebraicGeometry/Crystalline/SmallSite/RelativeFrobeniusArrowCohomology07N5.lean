@@ -265,6 +265,8 @@ private lemma map_comm_of_eq {𝒦 𝒦' : Type*} [Category* 𝒦] [Category* �
   rw [← G.map_comp, ← G.map_comp, ← Category.assoc, h, Category.assoc, Category.assoc,
     f.hom_inv_id, Category.comp_id, G.map_comp]
 
+omit [HasDerivedCategory.{w'} (Sheaf (opensTopology S) AddCommGrpCat.{u + 1})]
+  [HasDerivedCategory.{w'} (Sheaf (opensTopology S') AddCommGrpCat.{u + 1})] in
 /-- **The kernel and the cokernel of the cohomology of the derived comparison along a change of
 divided power base are annihilated by `m` as soon as those of the map of [Stacks, Tag 07QA]
 are**, for a sheaf of modules `N` at which `lowerShriekCounitPullback` is invertible. -/
@@ -395,6 +397,9 @@ theorem isIso_lowerShriekCounitPullback_sigmaModulePullback (E : Crystalline.FCr
   exact @IsIso.comp_isIso _ _ _ _ _ _ _ (@IsIso.comp_isIso _ _ _ _ _ _ _ h₁ this)
     ((crisRestrictModulesIsoModuleRestrictι T.global).app _).isIso_hom
 
+omit [HasDerivedCategory.{w'} (Sheaf (opensTopology T.global) AddCommGrpCat.{u + 1})]
+  [HasDerivedCategory.{w'}
+    (Sheaf (opensTopology (T.global.frobeniusTwistSituation T.prime_mem)) AddCommGrpCat.{u + 1})] in
 /-- **Arrow 2 in a nonnegative degree `i`**: the kernel and the cokernel of the map of abelian
 groups underlying `H^i` of `...SmallSite.relativeFrobeniusArrow07N6` are annihilated by `m` as soon
 as those of the map of [Stacks, Tag 07QA] for the relative Frobenius at `E^{(1)}` are. -/
@@ -433,6 +438,9 @@ theorem annihilatedKerCoker_homology_relativeFrobeniusArrow07N6 (E : Crystalline
       ((frobeniusBigModulePullbackIso T).app _)))
       (Iso.isIso_hom (derivedRestrictModuleGlobalSectionsULiftIso T.global _)))
 
+omit [HasDerivedCategory.{w'} (Sheaf (opensTopology T.global) AddCommGrpCat.{u + 1})]
+  [HasDerivedCategory.{w'}
+    (Sheaf (opensTopology (T.global.frobeniusTwistSituation T.prime_mem)) AddCommGrpCat.{u + 1})] in
 /-- **Arrow 2 of the proof of [Stacks, Tag 07N5] inherits the bound of [Stacks, Tag 07QB].**  If
 in every degree some power of `p` annihilates the kernel and the cokernel of the map of
 [Stacks, Tag 07QA] for the relative Frobenius `F_{X/S₀} : X ⟶ X^{(1)}` at the restriction of

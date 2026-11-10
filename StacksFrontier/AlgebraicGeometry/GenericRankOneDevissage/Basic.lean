@@ -193,7 +193,7 @@ theorem property_terminal_of_genericRankOne (X : Scheme.{u}) (P : X.Modules → 
   let S : ShortComplex X.Modules := ShortComplex.mk (𝟙 G) (0 : G ⟶ T) (by simp [T])
   have hepi : Epi (0 : G ⟶ T) := ⟨fun f g _ => hT.eq_of_src f g⟩
   have hExact : S.Exact :=
-    (S.exact_iff_epi (by show (0 : G ⟶ T) = 0; rfl)).2 (by dsimp [S]; infer_instance)
+    (S.exact_iff_epi (by change (0 : G ⟶ T) = 0; rfl)).2 (by dsimp [S]; infer_instance)
   have hShort : S.ShortExact := ShortComplex.ShortExact.mk' hExact
     (by dsimp [S]; infer_instance) (by dsimp [S]; infer_instance)
   have hparts := hexact S hShort hG hG CoherentDevissage.isCoherent_terminal

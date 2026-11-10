@@ -150,7 +150,7 @@ private noncomputable abbrev presentationHom {R A : Type*} [CommRing R] [CommRin
 
 private theorem presentationHom_relation {R A : Type*} [CommRing R] [CommRing A] [Algebra R A]
     (P : Presentation R A) (j : Fin P.m) : presentationHom P (P.f j) = 0 := by
-  show P.iso.symm (Ideal.Quotient.mk _ (P.f j)) = 0
+  change P.iso.symm (Ideal.Quotient.mk _ (P.f j)) = 0
   rw [Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.subset_span (Set.mem_range_self j)), map_zero]
 
 /-- A strictly standard element `a` has a presentation together with a matrix that, after
@@ -211,7 +211,7 @@ private theorem exists_presentation_section_lifts
   have hrel (j) : eval r (P.f j) ∈ Ideal.span {π ^ 4} := by
     apply Ideal.Quotient.eq_zero_iff_mem.mp
     rw [← heval]
-    show ρ (qA (presentationHom P (P.f j))) = 0
+    change ρ (qA (presentationHom P (P.f j))) = 0
     rw [presentationHom_relation, map_zero, map_zero]
   have hl (i : Fin P.n) : ∃ l : Λ,
       f (P.lift (X i)) = algebraMap R Λ (r i) + (algebraMap R Λ π) ^ 4 * l := by
@@ -240,7 +240,7 @@ private theorem exists_jacobian_matrix_lifts {R A : Type*} [CommRing R] [CommRin
   choose s hs using fun k i => Ideal.Quotient.mk_surjective (e (B k i))
   refine ⟨s, fun k j => ?_⟩
   apply Ideal.Quotient.eq_zero_iff_mem.mp
-  show q _ = 0
+  change q _ = 0
   rw [map_sub, sub_eq_zero, map_sum]
   have h := congrArg e (hB k j)
   simp only [map_sum, map_mul, he] at h
@@ -259,7 +259,7 @@ private theorem eval₂Hom_firstOrder (R : Type u) (T : Type v) (n : ℕ) [CommR
   let E : MvPolynomial (Fin n) R →+* T := eval₂Hom φ r
   let Ez : MvPolynomial (Fin n) R →+* T := eval₂Hom φ (fun i => r i + z i)
   let D := fun q : MvPolynomial (Fin n) R => ∑ i : Fin n, E (pderiv i q) * z i
-  show Ez p = E p + D p
+  change Ez p = E p + D p
   induction p using MvPolynomial.induction_on with
   | C a => simp [E, Ez, D]
   | add p q hp hq =>
@@ -326,7 +326,7 @@ private theorem eval₂Hom_firstOrder_mod {R S : Type*} [CommRing R] [CommRing S
   have hTaylor := eval₂Hom_firstOrder R (S ⧸ I) n (q.comp φ) (fun i => q (r i))
     (fun i => q (z i)) hzQ p
   apply Ideal.Quotient.eq_zero_iff_mem.mp
-  show q _ = 0
+  change q _ = 0
   simp only [map_sub, map_add, map_sum, map_mul, heval]
   simpa only [map_add, sub_eq_zero] using hTaylor
 
@@ -373,9 +373,9 @@ private theorem exists_divided_relation {R S : Type*} [CommRing R] [CommRing S] 
     convert I.add_mem (I.add_mem ht hconst) hlin using 1; ring
   obtain ⟨t, ht'⟩ := Ideal.mem_span_singleton.mp hdiff
   refine ⟨L + a * t, ?_, ?_⟩
-  · show eval₂Hom φ (fun i => r i + z i) p = _
+  · change eval₂Hom φ (fun i => r i + z i) p = _
     linear_combination ht'
-  · show (L + a * t) - L ∈ Ideal.span {a}
+  · change (L + a * t) - L ∈ Ideal.span {a}
     rw [add_sub_cancel_left]
     exact Ideal.mem_span_singleton.mpr ⟨t, rfl⟩
 
@@ -434,13 +434,13 @@ private theorem deformation_relation_mem_square {R : Type*} [CommRing R] (n c : 
     rw [map_add, show q _ = 0 from Ideal.Quotient.eq_zero_iff_mem.mpr (hz i), add_zero]
     exact q.commutes (r i)
   apply Ideal.Quotient.eq_zero_iff_mem.mp
-  show q (deformationSubstitution n c π r s p) = 0
+  change q (deformationSubstitution n c π r s p) = 0
   rw [show q (deformationSubstitution n c π r s p) = algebraMap R (S ⧸ I) (eval r p) from
     DFunLike.congr_fun he p]
   obtain ⟨t, ht⟩ := Ideal.mem_span_singleton.mp hp
   rw [ht, map_mul, map_pow]
   have hπ : (algebraMap R (S ⧸ I) π) ^ 2 = 0 := by
-    show q (C π) ^ 2 = 0
+    change q (C π) ^ 2 = 0
     rw [← map_pow]
     exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.subset_span (Set.mem_singleton _))
   rw [show (4 : ℕ) = 2 * 2 from rfl, pow_mul, hπ, zero_pow (by decide), zero_mul]
@@ -462,7 +462,7 @@ private theorem map_relIdeal_mul_le_square {R A T : Type*} [CommRing R] [CommRin
     rintro _ ⟨j, rfl⟩
     exact hfirst j
   have hmap : Ideal.map θ.toRingHom (P.firstRelIdeal c hcm + P.relIdeal ^ 2) = J ^ 2 := by
-    show Ideal.map θ.toRingHom (P.firstRelIdeal c hcm ⊔ P.relIdeal ^ 2) = J ^ 2
+    change Ideal.map θ.toRingHom (P.firstRelIdeal c hcm ⊔ P.relIdeal ^ 2) = J ^ 2
     rw [Ideal.map_sup, Ideal.map_pow, hmapfirst, bot_sup_eq]
   rw [Ideal.span_singleton_mul_le_iff]
   have hgen (j : Fin P.m) : algebraMap R T π * θ (P.f j) ∈ J ^ 2 := by
@@ -655,7 +655,7 @@ private theorem smoothAt_of_surjective_of_localized_kernel {R S B : Type*} [Comm
     apply IsLocalization.algHom_ext q.primeCompl
     ext b
     obtain ⟨c, rfl⟩ := hf b
-    show F (G (algebraMap B V (f c))) = algebraMap B V (f c)
+    change F (G (algebraMap B V (f c))) = algebraMap B V (f c)
     rw [show G (algebraMap B V (f c)) = g (f c) from IsLocalization.lift_eq hgu (f c), hg]
     exact IsLocalization.lift_eq hfu c
   have : Algebra.FormallySmooth R U := Algebra.isSmoothAt_of_smoothAt R S hsm
@@ -705,7 +705,7 @@ private theorem smoothAt_quotient_of_linear_relations_mod {R : Type*} [CommRing 
   have hdet : Ideal.Quotient.mk q D = 1 := by
     let M : Matrix (Fin c) (Fin c) (MvPolynomial (Fin (c + n)) R) :=
       fun j i => pderiv (Fin.castAdd n i) (g j)
-    show ψ (Matrix.det M) = 1
+    change ψ (Matrix.det M) = 1
     calc
       ψ M.det = (M.map ψ).det := RingHom.map_det ψ M
       _ = (1 : Matrix (Fin c) (Fin c) T).det := by
@@ -807,12 +807,12 @@ private theorem smoothAt_deformation_quotient_of_notMem {R A : Type*} [CommRing 
     have hEθ : E.comp θ = α.comp (presentationHom P) := by
       apply MvPolynomial.algHom_ext
       intro i
-      show E (θ (X i)) = α (presentationHom P (X i))
+      change E (θ (X i)) = α (presentationHom P (X i))
       rw [show θ (X i) = C (r i) + (C π ^ 2 * ∑ j, C (s j i) * X (Fin.castAdd P.n j) +
         C π ^ 3 * X (Fin.natAdd c i)) from aeval_X _ _]
       simp only [map_add, map_mul, map_pow, map_sum, hEC, hEX, Fin.addCases_left,
         Fin.addCases_right]
-      show algebraMap R D (r i) + (b ^ 2 * (∑ j, algebraMap R D (s j i) * v j) +
+      change algebraMap R D (r i) + (b ^ 2 * (∑ j, algebraMap R D (s j i) * v j) +
         b ^ 3 * (z * (α (presentationHom P (X i)) - algebraMap R D (r i) -
           b ^ 2 * ∑ j, algebraMap R D (s j i) * v j))) = _
       rw [← mul_assoc, hbz, one_mul]
@@ -825,7 +825,7 @@ private theorem smoothAt_deformation_quotient_of_notMem {R A : Type*} [CommRing 
       refine Fin.addCases (fun j => ?_) (fun j => ?_) i
       · simpa only [AlgHom.comp_apply, E, aeval_X, Fin.addCases_left] using hv j
       · simp only [AlgHom.comp_apply, E, aeval_X, Fin.addCases_right]
-        show k (w j) = ψ (X (Fin.natAdd c j))
+        change k (w j) = ψ (X (Fin.natAdd c j))
         apply ((hπD.map k).pow 3).mul_right_inj.mp
         have h := congrArg k (hE j)
         simp only [map_mul, map_pow, map_sub, map_sum, hα, k.commutes, hv] at h
@@ -835,7 +835,7 @@ private theorem smoothAt_deformation_quotient_of_notMem {R A : Type*} [CommRing 
         rw [hθ'] at h
         simp only [θ, deformationSubstitution, aeval_X, map_add, map_mul, map_pow, map_sum,
           hψC] at h
-        show (k b) ^ 3 * k (w j) = (k b) ^ 3 * ψ (X (Fin.natAdd c j))
+        change (k b) ^ 3 * k (w j) = (k b) ^ 3 * ψ (X (Fin.natAdd c j))
         simpa only [b, k.commutes, add_sub_cancel_left, add_sub_cancel_right] using h
     have hErel (j : Fin P.m) : E (θ (P.f j)) = 0 := by
       rw [show E (θ (P.f j)) = α (presentationHom P (P.f j)) from DFunLike.congr_fun hEθ _]
@@ -857,7 +857,7 @@ private theorem smoothAt_deformation_quotient_of_notMem {R A : Type*} [CommRing 
     refine ⟨IsLocalization.liftAlgHom hLu, ?_⟩
     apply IsLocalization.algHom_ext q.primeCompl
     ext x
-    show k (IsLocalization.lift hLu (algebraMap B T x)) = φ (κ x)
+    change k (IsLocalization.lift hLu (algebraMap B T x)) = φ (κ x)
     rw [IsLocalization.lift_eq]
     exact hL x
   have : Algebra.FinitePresentation R B :=
@@ -914,24 +914,24 @@ private theorem smoothAt_deformation_quotient_of_mem {R A : Type*} [CommRing R] 
   have : IsNoetherianRing Clin := inferInstance
   have : IsNoetherianRing T := inferInstance
   have hg0 (j : Fin c) : β (g j) = 0 := by
-    show α (qC (g j)) = 0
+    change α (qC (g j)) = 0
     rw [show qC (g j) = 0 from
       Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.subset_span (Set.mem_range_self j)), map_zero]
   have hfirst (j : Fin c) : (β.comp θ) (P.f (Fin.castLE hcm j)) = 0 := by
-    show β (θ _) = 0
+    change β (θ _) = 0
     rw [hg, map_mul, hg0, mul_zero]
   have hdiv (j : Fin P.m) : (β.comp θ) (P.f j) ∈ Ideal.span {(algebraMap R T π) ^ 2} := by
     obtain ⟨z, hz⟩ := Ideal.mem_span_singleton.mp
       (deformation_relation_mem_square P.n c π r s (P.f j) (hf j))
     refine Ideal.mem_span_singleton.mpr ⟨β z, ?_⟩
-    show β (θ (P.f j)) = _
+    change β (θ (P.f j)) = _
     rw [hz, map_mul, map_pow, show β (C π) = algebraMap R T π from β.commutes π]
   have hπ : algebraMap R T π ∈ (⊥ : Ideal T).jacobson := by
     rw [IsScalarTower.algebraMap_apply R Clin T]
     exact algebraMap_mem_jacobson_atPrime p _ hpπ
   have hau : IsUnit (algebraMap R T a) := by
     refine isUnit_algebraMap_atPrime p a ?_
-    show τ (algebraMap R Clin a) ∉ q
+    change τ (algebraMap R Clin a) ∉ q
     rwa [τ.commutes]
   have hzero := map_relIdeal_eq_bot_of_flat_of_defect (A := A) (T := T) (θ := β.comp θ)
     P π a c hcm hcond hfirst hdiv hπ ha hau
@@ -985,7 +985,7 @@ theorem exists_finitePresentation_factorization_singularIdeal
     rw [show e.comp θ = _ from eval_deformationSubstitution P.n c π r s l]
     ext i
     rw [aeval_X]
-    show algebraMap R Λ (r i) + (algebraMap R Λ π) ^ 4 * l i = f (P.lift (X i))
+    change algebraMap R Λ (r i) + (algebraMap R Λ π) ^ 4 * l i = f (P.lift (X i))
     exact (hl i).symm
   have heθ (j : Fin P.m) : e (θ (P.f j)) = 0 :=
     (DFunLike.congr_fun hcomp (P.f j)).trans

@@ -170,10 +170,11 @@ theorem spacesEtaleSitePointStalkIsoComponent_toPresheafFiber
       (spacesNeighborhoodSections x P).ιColimitType
         (Opposite.op (etaleNeighborhoodOfSitePoint B S hS X x V v.1 v.2)) a := by
   let D := (Functor.Elements.π (spacesGeometricFiber x)).op ⋙ P
-  show (show D.ColimitType → spacesStalkSet x P from
+  change (show D.ColimitType → spacesStalkSet x P from
       Functor.colimitTypePrecomp (spacesFiberElementsEquiv x).functor.op
         (spacesNeighborhoodSections x P))
-      ((Types.colimitEquivColimitType D) (colimit.ι D (Opposite.op ((spacesGeometricFiber x).elementsMk V v)) a)) = _
+      ((Types.colimitEquivColimitType D)
+        (colimit.ι D (Opposite.op ((spacesGeometricFiber x).elementsMk V v)) a)) = _
   rw [Types.colimitEquivColimitType_apply]
   rfl
 

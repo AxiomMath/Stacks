@@ -88,7 +88,7 @@ variable (hdisj : ∀ i j, i ≠ j → ∀ {T : BigFppfOver B S hS} (z : Z.obj (
 private theorem isHomLift_dite_of_not {C D : Type*} [Category C] [Category D] {p : D ⥤ C} {R : C}
     {a b : D} {c : Prop} [Decidable c] (t : c → (a ⟶ b)) (e : ¬c → (a ⟶ b)) (h : ¬c)
     (he : p.IsHomLift (𝟙 R) (e h)) : p.IsHomLift (𝟙 R) (dite c t e) := by
-  rwa [dif_neg h]
+  rwa [dite_eq_right h]
 
 open Classical in
 /-- **The transition morphisms for a cover whose members meet only over pointless objects.** On
@@ -110,7 +110,7 @@ theorem disjointTransition_self (i : ι) (a : (fibredCategory B S hS Z).val.obj)
     (hi hi' : a.fiber.as ∈ (U i).obj (op a.base)) :
     disjointTransition U hU x hdisj i i a hi hi' = 𝟙 _ := by
   unfold disjointTransition
-  exact (dif_pos rfl).trans (eqToHom_refl _ _)
+  exact (dite_eq_left rfl).trans (eqToHom_refl _ _)
 
 /-- Each transition morphism `disjointTransition U hU x hdisj i j a hi hj` lies over the identity
 of `a.base`. -/
@@ -154,7 +154,7 @@ theorem exists_algebraicSpaceStack_hom_of_disjoint (hZ : IsAlgebraicSpace B S hS
         intro k hak hbk
         have h2 : (fibredCategory B S hS (U k).toFunctor).val.p.IsHomLift n.base
             (fibredCategorySubfunctorHom (U k) n hak hbk) := by
-          show (fibredCategory B S hS (U k).toFunctor).val.p.IsHomLift
+          change (fibredCategory B S hS (U k).toFunctor).val.p.IsHomLift
             ((fibredCategory B S hS (U k).toFunctor).val.p.map
               (fibredCategorySubfunctorHom (U k) n hak hbk))
             (fibredCategorySubfunctorHom (U k) n hak hbk)
@@ -259,7 +259,7 @@ theorem HasSectionCoverOverPoints.iUnion_of_finite {I : Type u} [Finite I]
     (Space.isOpenSubspace_preimage B S hS (p i ≫ q₀) W hY (hY' i) hW).1
   have hmemZ : ∀ i, Subfunctor.range ((Zi i).ι ≫ (ιs i).hom) ≤ Z := by
     rintro i T _ ⟨w, rfl⟩
-    show ((ιs i).hom ≫ π ≫ q₀).app T ((Zi i).ι.app T w) ∈ W.obj T
+    change ((ιs i).hom ≫ π ≫ q₀).app T ((Zi i).ι.app T w) ∈ W.obj T
     rw [hfac' i]
     exact w.2
   let m : ∀ i, (Zi i).toFunctor ⟶ Z.toFunctor := fun i => Z.lift _ (hmemZ i)
@@ -298,9 +298,9 @@ theorem HasSectionCoverOverPoints.iUnion_of_finite {I : Type u} [Finite I]
     rw [Subfunctor.iSup_obj, Set.mem_iUnion] at hg'
     obtain ⟨i, w, hw⟩ := hg'
     have hwZ : w ∈ (Zi i).obj (op V) := by
-      show (p i ≫ q₀).app (op V) w ∈ W.obj (op V)
+      change (p i ≫ q₀).app (op V) w ∈ W.obj (op V)
       rw [← hfac' i]
-      show (π ≫ q₀).app (op V) ((ιs i).hom.app (op V) w) ∈ W.obj (op V)
+      change (π ≫ q₀).app (op V) ((ιs i).hom.app (op V) w) ∈ W.obj (op V)
       rw [hw]
       exact (Z.toFunctor.map g.op z).2
     exact ⟨i, ⟨w, hwZ⟩, Subtype.ext hw⟩

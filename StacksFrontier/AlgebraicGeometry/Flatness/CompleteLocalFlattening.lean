@@ -191,9 +191,9 @@ private lemma forall_isFlatOverAt_tensorProduct_iff (A R' : Type u) [CommRing A]
           IsLocalRing.closedPoint R' ↔
         (IsLocalRing.maximalIdeal R').map (algebraMap R' (S ⊗[A] R')) ≤ z.asIdeal := by
     rw [Ideal.map_le_iff_le_comap]
-    show PrimeSpectrum.comap (algebraMap R' (S ⊗[A] R')) z = IsLocalRing.closedPoint R' ↔ _
+    change PrimeSpectrum.comap (algebraMap R' (S ⊗[A] R')) z = IsLocalRing.closedPoint R' ↔ _
     rw [PrimeSpectrum.ext_iff]
-    show z.asIdeal.comap (algebraMap R' (S ⊗[A] R')) = IsLocalRing.maximalIdeal R' ↔ _
+    change z.asIdeal.comap (algebraMap R' (S ⊗[A] R')) = IsLocalRing.maximalIdeal R' ↔ _
     exact ⟨fun hz => hz.ge, fun hz =>
       le_antisymm (IsLocalRing.le_maximalIdeal (Ideal.comap_ne_top _ z.isPrime.ne_top)) hz⟩
   have hfl (z : PrimeSpectrum (S ⊗[A] R')) :

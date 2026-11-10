@@ -127,7 +127,7 @@ private theorem app_eq_of_left_resolutions (Q : C₀ ⥤ D) (W : MorphismPropert
   have e := Localization.natTrans_ext (τ := (⟨a, ha⟩ : F ⟶ G)) (τ' := ⟨b, hb⟩) Q W (fun X => by
     obtain ⟨Y, hY, p, hp⟩ := hP X
     have : IsIso (Q.map p) := Localization.inverts Q W p hp
-    show a (Q.obj X) = b (Q.obj X)
+    change a (Q.obj X) = b (Q.obj X)
     rw [← cancel_epi (F.map (Q.map p)), ha, hb, h Y hY])
   exact congrArg (fun t => NatTrans.app t M) e
 
@@ -239,7 +239,7 @@ theorem ringHomSquareComparison_app_comp_counit (P : CochainComplex (ModuleCat.{
           (((ModuleCat.restrictScalars.{u} f).mapHomologicalComplex (ComplexShape.up ℤ)).obj P) ≫
         DerivedCategory.Q.map ((NatTrans.mapHomologicalComplex
           (ringHomSquareComparisonData f g h i sq).1 (ComplexShape.up ℤ)).app P) := by
-  exact @derivedBaseChangeComparison_snd_app_comp_counit R A R' A' _ _ _ _ _ _ _ _ f g h i _ _
+  exact @derivedBaseChangeComparison_snd_app_comp_counit R A R' A' _ _ _ _ _ _ _ _ f g h i
     sq _ _ _ _
     (CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u}
       g).isLeftDerived
@@ -305,7 +305,7 @@ theorem ringHomSquareComparisonLS_app_comp_counit (P : CochainComplex (ModuleCat
           (((ModuleCat.restrictScalars.{u} f).mapHomologicalComplex (ComplexShape.up ℤ)).obj P) ≫
         DerivedCategory.Q.map ((NatTrans.mapHomologicalComplex
           (ringHomSquareComparisonLSData f g h i sq).1 (ComplexShape.up ℤ)).app P) := by
-  exact @derivedBaseChangeComparison_snd_app_comp_counit R A R' A' _ _ _ _ _ _ _ _ f g h i _ _
+  exact @derivedBaseChangeComparison_snd_app_comp_counit R A R' A' _ _ _ _ _ _ _ _ f g h i
     sq _ _ _ _
     (CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u, u, u}
       g).isLeftDerived

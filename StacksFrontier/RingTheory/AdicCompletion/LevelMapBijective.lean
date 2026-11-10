@@ -183,7 +183,8 @@ theorem bijective_levelMap_congr (R' : Type u) [CommRing R'] [Module R' X]
     (S' : Type u') [CommRing S'] [Module S' Y] (f : X →+ Y) (n : ℕ)
     (h : Function.Bijective (levelMap p R S f n)) :
     Function.Bijective (levelMap p R' S' f n) := by
-  rwa [bijective_levelMap_iff] at h ⊢
+  rw [bijective_levelMap_iff] at h ⊢
+  exact h
 
 /-- Conversely to `Crystalline.PAdicCompletion.bijective_levelMap_of_reduceModIdeal`, the additive
 reduction gives the linear one. -/
@@ -240,7 +241,7 @@ theorem bijective_mapAddHom_of_levelMap (f : X →+ Y) (N : ℕ)
         rw [← hx, transitionMap_mk, transitionMap_mk, transitionMap_mk, transitionMap_mk]
       rw [h1, hstep h]
     · refine AdicCompletion.ext fun n ↦ ?_
-      show levelMap p R S f n (AdicCompletion.transitionMap (pAdicIdeal (A := R) p) X
+      change levelMap p R S f n (AdicCompletion.transitionMap (pAdicIdeal (A := R) p) X
         (Nat.le_add_left n N) (u n)) = w.val n
       rw [← transitionMap_levelMap p R S f (Nat.le_add_left n N) (u n), hu, w.property]
 

@@ -177,8 +177,7 @@ noncomputable def amitsurComponentEquiv (Y : Over A) :
   · change _ = (O.map (((Over.mkIdTerminal (X := A)).from Y).left).op).hom c • e₂ (e₁ x)
     rw [hto]
     rfl
-  induction e₁ x using TensorProduct.induction_on with
-  | zero => rw [smul_zero, smul_zero]
+  induction e₁ x using TensorProduct.inductionOn with
   | tmul b n => rfl
   | add y z hy hz => rw [smul_add, smul_add, hy, hz]
 
@@ -198,9 +197,8 @@ lemma amitsurComponentEquiv_apply (Y : Over A) (b : (sliceAlgebras O A).obj (op 
       (((baseChangePresheaf.{t} O hX).obj M).obj (op Y.left)) :=
     (DistribSMul.toAddMonoidHom _ (show O.obj (op Y.left) from b)).comp
       (((baseChangePresheaf.{t} O hX).obj M).map Y.hom.op).hom.toAddMonoidHom
-  show φ n = ψ n
-  induction n using TensorProduct.induction_on with
-  | zero => exact (map_zero φ).trans (map_zero ψ).symm
+  change φ n = ψ n
+  induction n using TensorProduct.inductionOn with
   | add n₁ n₂ h₁ h₂ =>
     exact (map_add φ _ _).trans ((congrArg₂ (· + ·) h₁ h₂).trans (map_add ψ _ _).symm)
   | tmul a m =>
@@ -217,8 +215,7 @@ noncomputable def amitsurIso :
   NatIso.ofComponents (fun Y => (amitsurComponentEquiv (A := A) hX M Y.unop).toModuleIso) (by
     intro Y Y' f
     ext x
-    induction x using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero _).symm
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => exact (map_add _ _ _).trans ((congrArg₂ (· + ·) hx hy).trans
         (map_add _ _ _).symm)
     | tmul b n =>

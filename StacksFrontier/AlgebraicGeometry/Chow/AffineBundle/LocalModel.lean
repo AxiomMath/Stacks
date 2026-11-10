@@ -72,7 +72,7 @@ private theorem mkL_X_mul_X_mul (p : MvPolynomial (Fin 2) B) :
     mkL B f (X 0 * X 1 * p) = f • mkL B f p := by
   have h : (X (0 : Fin 2) * X 1 * p : MvPolynomial (Fin 2) B)
       = C f * p + localRelation B f * p := by rw [localRelation]; ring
-  show (Ideal.Quotient.mk (Ideal.span {localRelation B f})) _ = _
+  change (Ideal.Quotient.mk (Ideal.span {localRelation B f})) _ = _
   rw [h, map_add, map_mul, map_mul, mk_localRelation, Algebra.smul_def]
   simp
   rfl
@@ -113,7 +113,7 @@ private theorem retraction_monomial (m : Fin 2 →₀ ℕ) (b : B) :
     retraction B f (monomial m b) =
       (b * f ^ min (m 0) (m 1)) • Finsupp.single ((m 0 : ℤ) - (m 1 : ℤ)) (1 : B) := by
   have h : (monomial m b : MvPolynomial (Fin 2) B) = b • (basisMonomials (Fin 2) B) m := by
-    show _ = b • (monomial m (1 : B))
+    change _ = b • (monomial m (1 : B))
     simp [smul_monomial]
   rw [h, map_smul, retraction, Module.Basis.constr_basis, smul_smul]
 
@@ -121,7 +121,7 @@ private theorem retraction_mul_localRelation (p : MvPolynomial (Fin 2) B) :
     retraction B f (p * localRelation B f) = 0 := by
   have h : (retraction B f).comp (LinearMap.mulRight B (localRelation B f)) = 0 := by
     refine (basisMonomials (Fin 2) B).ext fun m => ?_
-    show retraction B f (monomial m (1 : B) * localRelation B f) = 0
+    change retraction B f (monomial m (1 : B) * localRelation B f) = 0
     rw [localRelation, mul_sub, X, X, monomial_mul_monomial, monomial_mul_monomial,
       show (C f : MvPolynomial (Fin 2) B) = monomial 0 f from rfl, monomial_mul_monomial,
       map_sub, retraction_monomial, retraction_monomial]
@@ -229,9 +229,9 @@ def basis : Module.Basis ℤ B (LocalModel B f) :=
 theorem basis_apply (n : ℤ) :
     basis B f n = coord B f 0 ^ n.toNat * coord B f 1 ^ (-n).toNat := by
   rw [basis, Module.Basis.map_apply]
-  show toLocalModel B f (Finsupp.single n 1) = _
+  change toLocalModel B f (Finsupp.single n 1) = _
   rw [toLocalModel_single, monomialOfInt]
-  show (Ideal.Quotient.mk (Ideal.span {localRelation B f})) _ = _
+  change (Ideal.Quotient.mk (Ideal.span {localRelation B f})) _ = _
   rw [map_mul, map_pow, map_pow]
   rfl
 

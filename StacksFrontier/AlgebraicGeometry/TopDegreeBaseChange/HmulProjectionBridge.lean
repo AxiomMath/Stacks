@@ -70,15 +70,15 @@ over `Γ(W, ⊤)`, hence central, which crosses the restriction-pullback compari
 indexing is crossed by the naturality of `Stacks.DerivedIndexing.rightDerivedIso`. -/
 theorem preimageScalar_comp_restrictPullbackRightDerivedPlusIso_inv
     {X' Y' X'' Y'' : Scheme.{u}} {f' : X' ⟶ Y'} (h' : X'' ⟶ X') {f'' : X'' ⟶ Y''}
-    {h : Y'' ⟶ Y'} {V : Y'.Opens} {W : Y''.Opens}
+    {V : Y'.Opens} {W : Y''.Opens}
     (hle : f'' ⁻¹ᵁ W ≤ h' ⁻¹ᵁ (f' ⁻¹ᵁ V)) (F' : X'.Modules) (d : ℕ)
     (r : Γ((W : Scheme), ⊤)) :
     ((moduleGlobalSections (f'' ⁻¹ᵁ W : Scheme)).rightDerived d).map
           (preimageScalar f'' W r
             ((Scheme.Modules.pullback (h'.resLE (f' ⁻¹ᵁ V) (f'' ⁻¹ᵁ W) hle)).obj
               ((Scheme.Modules.restrictFunctor (f' ⁻¹ᵁ V).ι).obj F'))) ≫
-        (restrictPullbackRightDerivedPlusIso (h := h) h' hle F' d).inv =
-      (restrictPullbackRightDerivedPlusIso (h := h) h' hle F' d).inv ≫
+        (restrictPullbackRightDerivedPlusIso h' hle F' d).inv =
+      (restrictPullbackRightDerivedPlusIso h' hle F' d).inv ≫
         ((moduleGlobalSections (f'' ⁻¹ᵁ W : Scheme)).rightDerivedPlus (d : ℤ)).map
           (preimageScalar f'' W r
             ((Scheme.Modules.restrictFunctor (f'' ⁻¹ᵁ W).ι).obj

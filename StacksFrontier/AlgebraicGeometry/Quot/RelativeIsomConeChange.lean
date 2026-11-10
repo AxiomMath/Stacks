@@ -132,7 +132,7 @@ isomorphisms. -/
 theorem isIso_relHomConeChange_iff (M N : D a₀) (i : I) (α : P.relHomObj κ' M N i) :
     IsIso (P.relHomConeChange κ κ' e he M N i α) ↔ IsIso α := by
   rw [relHomConeChange_apply]
-  show IsIso ((P.triangle (he i)).hom.app M ≫ (P.pull (e.hom.app i)).map α ≫
+  change IsIso ((P.triangle (he i)).hom.app M ≫ (P.pull (e.hom.app i)).map α ≫
     (P.triangle (he i)).inv.app N) ↔ _
   rw [isIso_comp_left_iff, isIso_comp_right_iff]
   refine ⟨fun h => ?_, fun _ => Functor.map_isIso _ _⟩

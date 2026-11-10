@@ -106,7 +106,7 @@ def awayTensorEquiv :
           Algebra.TensorProduct.algebraMap_apply'] }
   have hFG : Fφ.comp G = AlgHom.id (Localization.Away φ) C := by
     apply Algebra.TensorProduct.ext
-    · apply AlgHom.coe_ringHom_injective
+    · apply AlgHom.toRingHom_injective
       refine IsLocalization.ringHom_ext (Submonoid.powers (algebraMap R T φ))
         (RingHom.ext fun t ↦ ?_)
       change F (G (algebraMap T Tφ t ⊗ₜ 1)) = algebraMap T Tφ t ⊗ₜ 1
@@ -123,8 +123,8 @@ def awayTensorEquiv :
         rw [Algebra.TensorProduct.algebraMap_apply, hG, hGφ, ← Algebra.TensorProduct.one_def,
           mul_one] }
   exact AlgEquiv.ofAlgHom F GT
-    (AlgHom.coe_ringHom_injective (congrArg AlgHom.toRingHom hFG))
-    (AlgHom.coe_ringHom_injective (congrArg AlgHom.toRingHom hGF))
+    (AlgHom.toRingHom_injective (congrArg AlgHom.toRingHom hFG))
+    (AlgHom.toRingHom_injective (congrArg AlgHom.toRingHom hGF))
 
 /-- An isomorphism `∏ᵢ T[x]/(x^{eᵢ} - φ)_φ ≅ T_φ ⊗_{R_φ} B` over `T`, read as
 `T ⊗_R ∏ᵢ R[x]/(x^{eᵢ} - φ)_φ ≅ T ⊗_R B`. -/
@@ -156,8 +156,7 @@ theorem bijective_lTensor_of_bijective_lTensor {A A' A'' B C : Type u} [CommRing
   have key : ∀ z, Algebra.TensorProduct.lTensor (S := A'') A'' u z =
       cB (c (cC.symm z)) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a x =>
       simp [cC, cB, c, e, Algebra.TensorProduct.cancelBaseChange_symm_tmul]
     | add z₁ z₂ h₁ h₂ => simp only [map_add, h₁, h₂]
@@ -192,7 +191,7 @@ private theorem isScalarTower_awayMap {R A : Type u} [CommRing R] [CommRing A] [
     IsScalarTower R (Localization.Away φ) (Localization.Away (algebraMap R A φ)) :=
   let := (Localization.awayMap (algebraMap R A) φ).toAlgebra
   IsScalarTower.of_algebraMap_eq fun r ↦ by
-    show _ = Localization.awayMap (algebraMap R A) φ _
+    change _ = Localization.awayMap (algebraMap R A) φ _
     exact (IsScalarTower.algebraMap_apply R A _ r).trans (IsLocalization.map_eq _ _).symm
 
 /-- The descended isomorphism in its final form: a bijective base change to `A'` of an `A`-algebra
@@ -235,8 +234,7 @@ private theorem bijective_lTensor_of_rTensor_comp_eq {R A L P B : Type u} [CommR
       Algebra.TensorProduct.cancelBaseChange R A L L X (1 ⊗ₜ w) =
         Algebra.TensorProduct.rTensor X (IsScalarTower.toAlgHom R A L) w := by
     intro X _ _ w
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | tmul t x =>
       rw [Algebra.TensorProduct.cancelBaseChange_tmul, Algebra.smul_def, mul_one]
       rfl
@@ -246,8 +244,7 @@ private theorem bijective_lTensor_of_rTensor_comp_eq {R A L P B : Type u} [CommR
     fun w ↦ congrArg (fun F ↦ F w) hsq
   have key : ∀ z, cB (Algebra.TensorProduct.lTensor (S := L) L v z) = τ (cP z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul l w =>
       have h₁ : ∀ {X : Type u} [CommRing X] [Algebra R X] (y : A ⊗[R] X),
           l ⊗ₜ[A] y = algebraMap L (L ⊗[A] (A ⊗[R] X)) l * (1 ⊗ₜ y) := by

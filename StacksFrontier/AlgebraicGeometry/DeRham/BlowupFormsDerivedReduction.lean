@@ -134,7 +134,7 @@ theorem isIso_formsRestrictionHomology_iff [Flat g] [QuasiCompact b] [QuasiSepar
     H (Scheme.Hom.relativeDifferentialForms p (a : ℤ)) q
   have hBG := isIso_homologyDerivedPushforwardBaseChange
     H ((Scheme.Modules.pushforward j).obj (Scheme.Hom.relativeDifferentialForms (j ≫ p) (a : ℤ))) q
-  show IsIso ((Scheme.Modules.pullback g).map (formsRestrictionHomology b j p a q)) ↔
+  change IsIso ((Scheme.Modules.pullback g).map (formsRestrictionHomology b j p a q)) ↔
     IsIso (Φ.map (Scheme.Hom.formsDirectImageComparison j' p' (a : ℤ)))
   rw [← isIso_comp_right_iff _ (homologyDerivedPushforwardBaseChange H
       ((Scheme.Modules.pushforward j).obj

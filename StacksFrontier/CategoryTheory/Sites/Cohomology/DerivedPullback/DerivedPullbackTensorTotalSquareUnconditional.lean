@@ -15,8 +15,8 @@ cochain complexes of `O_D`-modules. **Stacks 0FPH** asserts that the square whos
 
 commutes.
 
-`Stacks.Sheaves.DerivedPullback.derivedPullback_toTensor_square` of
-`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/DerivedPullbackTensorTotalSquare.lean`
+`Stacks.Sheaves.DerivedPullback.derivedPullback_toTensor_square` of the module
+`StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.DerivedPullbackTensorTotalSquare`
 proves exactly that, but in a binder context carrying seven instance arguments beyond the data of
 the source: the existence of the left derived functor `Lf^*`, the additivity of `⊗_O` in each
 variable on either side, and the existence of the total tensor complexes on either side.

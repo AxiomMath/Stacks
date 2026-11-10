@@ -80,7 +80,7 @@ public noncomputable def sigmaObj {ι : Type u} (hι : #ι ≤ ℵ₀) (V : ι �
 public noncomputable def sigmaι {ι : Type u} (hι : #ι ≤ ℵ₀) (V : ι → SmallEtale B S hS)
     (i : ι) : V i ⟶ sigmaObj B S hS hι V :=
   homMk B S hS (X := V i) (Y := sigmaObj B S hS hι V)
-    (Sigma.ι (fun i ↦ (toScheme B S hS).obj (V i)) i) (Sigma.ι_desc _ _)
+    (Sigma.ι (fun i ↦ (toScheme B S hS).obj (V i)) i) (Sigma.ι_comp_desc _ _)
 
 /-- On underlying schemes, the inclusion of a member of a disjoint union is the coproduct
 injection. -/
@@ -160,9 +160,9 @@ public theorem exists_affine_sigma_refinement (T : SmallEtale B S hS)
   have hdesc : (Sigma.desc fun i ↦ (toScheme B S hS).map (𝒱.f i)) ≫ T.obj.hom.hom =
       (sigmaObj B S hS hcard 𝒱.X).obj.hom.hom := by
     refine Sigma.hom_ext _ _ fun i ↦ ?_
-    rw [← Category.assoc, Sigma.ι_desc]
-    show _ = Sigma.ι _ i ≫ Sigma.desc fun i ↦ (𝒱.X i).obj.hom.hom
-    rw [Sigma.ι_desc]
+    rw [← Category.assoc, Sigma.ι_comp_desc]
+    change _ = Sigma.ι _ i ≫ Sigma.desc fun i ↦ (𝒱.X i).obj.hom.hom
+    rw [Sigma.ι_comp_desc]
     exact congrArg (fun k ↦ k.hom)
       (CategoryTheory.Over.w ((inclusion B S hS).map (𝒱.f i)))
   refine ⟨𝒱, sigmaObj B S hS hcard 𝒱.X,
@@ -177,7 +177,7 @@ public theorem exists_affine_sigma_refinement (T : SmallEtale B S hS)
   apply ObjectProperty.hom_ext
   apply CategoryTheory.Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  exact Sigma.ι_desc _ _
+  exact Sigma.ι_comp_desc _ _
 
 end AlgebraicGeometry.SmallEtale
 

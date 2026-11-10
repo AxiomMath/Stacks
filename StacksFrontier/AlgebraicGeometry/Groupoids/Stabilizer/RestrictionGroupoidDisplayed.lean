@@ -98,8 +98,7 @@ theorem restrictionComposition_lift_comp_arrowsToArrows (G : GroupoidScheme S) {
     compose, ← Category.assoc]
   congr 1
   apply pullback.hom_ext <;>
-    simp [restrictionAmbientLift_comp_fst, restrictionAmbientLift_comp_snd,
-      pullback.lift_fst_assoc, pullback.lift_snd_assoc, pullback.lift_fst, pullback.lift_snd]
+    simp [restrictionAmbientLift_comp_fst, restrictionAmbientLift_comp_snd]
 
 /-- The ambient lift of the composable pairs of a restriction is the map induced by the
 projection to the arrows of `G` on the schemes of composable pairs. -/

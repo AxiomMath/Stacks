@@ -53,7 +53,8 @@ are representability by algebraic spaces and the monomorphy clause of Stacks 04X
 
 The equivalent conditions of **Stacks 06MP** are read in the shape of its condition (2), the
 existence of a surjective flat 1-morphism locally of finite presentation from the spectrum of a
-field: that condition is the one **Stacks 06MQ** consumes. Since the conditions of Stacks 06MP are equivalent,
+field: that condition is the one **Stacks 06MQ** consumes. Since the conditions of Stacks 06MP are
+equivalent,
 the class of object properties quantified over is the same one the source quantifies over. The
 hypothesis on `𝒵` is condition (1) of **Stacks 06MN**, the source's hypothesis; only its
 singleton clause is used, through

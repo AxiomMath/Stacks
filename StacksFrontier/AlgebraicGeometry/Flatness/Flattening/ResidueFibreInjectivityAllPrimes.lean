@@ -152,7 +152,7 @@ private theorem universallyInjective_baseChange_of_flat_of_fibres
       (injective_lTensor_baseChange_iff f).mpr
         (injective_lTensor_field_of_fibres f J hf p.ResidueField hJ')
     have h' := (LinearMap.lTensor_inj_iff_rTensor_inj p.ResidueField (f.baseChange S)).mp h
-    show Function.Injective ((f.baseChange S ∘ₗ eN.toLinearMap).rTensor p.ResidueField)
+    change Function.Injective ((f.baseChange S ∘ₗ eN.toLinearMap).rTensor p.ResidueField)
     rw [LinearMap.rTensor_comp]
     exact h'.comp (eN.rTensor p.ResidueField).injective
   have h := universallyInjective_of_flat_of_fibres (B₀ := B₀') (B := B') W' f' hf'
@@ -364,7 +364,7 @@ theorem rTensor_residueField_injective_of_claims
       map_add' := fun _ _ => rfl
       map_smul' := by
         intro r n
-        show (algebraMap (MvPolynomial (Fin P.variableCount) S.A) S.B
+        change (algebraMap (MvPolynomial (Fin P.variableCount) S.A) S.B
           (algebraMap S.A (MvPolynomial (Fin P.variableCount) S.A) r)) • n.down =
             r • n.down
         rw [← IsScalarTower.algebraMap_apply S.A

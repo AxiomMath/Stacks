@@ -117,7 +117,7 @@ theorem restrictedSectionChernRule_of_le
     (hW : deltaDimension D p W = k + 1)
     (hWE : W.subspace ≤ (vanishingLocus D p hp L s).1) :
     restrictedSectionChernRule D p hp L s hL k chern W hW = chern W hW := by
-  rw [restrictedSectionChernRule, dif_pos hWE]
+  rw [restrictedSectionChernRule, dite_eq_left hWE]
 
 /-- On `W ⊄ D` the rule is the Weil divisor of the restricted global section, whose coefficient
 family is that of `AlgebraicGeometry.Space.sectionWeilDivisor` on `W`. -/
@@ -142,7 +142,7 @@ theorem restrictedSectionChernRule_of_not_le_coe
             ⟨W.subspace, W.isClosedSubspace⟩ hL)
           (closedSubspaceRestrictSection_ne_zero D p hp L s hL
             ⟨W.subspace, W.isClosedSubspace⟩ hWE))).1 := by
-  rw [restrictedSectionChernRule, dif_neg hWE]
+  rw [restrictedSectionChernRule, dite_eq_right hWE]
   exact (sectionWeilDivisor_eq_canonicalDivisorCycleAt D (W.subspace.ι ≫ p) _
     W.isIntegralSpace _ _ _ _ _ _).symm
 
@@ -208,7 +208,7 @@ theorem cycleClosedPushforward_gysinCycleMap_eq_firstChernCapCycleMap
             (isGood_vanishingLocus D p hp L s) k chern) α) =
       firstChernCapCycleMap D p hp k (restrictedSectionChernRule D p hp L s hL k chern) α := by
   refine Subtype.ext (funext fun V => ?_)
-  show cycleClosedPushforward D hp.1 (vanishingLocus D p hp L s).2.1
+  change cycleClosedPushforward D hp.1 (vanishingLocus D p hp L s).2.1
       (D.isDecentSpace_of_isGood p hp) (vanishingLocus D p hp L s).2.2
       (gysinCycleMap D p (vanishingLocus D p hp L s) (isGood_vanishingLocus D p hp L s) k
         (canonicalGysinComponentRule D p hp (vanishingLocus D p hp L s)

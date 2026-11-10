@@ -431,7 +431,7 @@ public theorem DeterminantTheory.existsUnique_comparison {R : Type u} [CommRing 
     intro η
     refine and_congr Iff.rfl (and_congr Iff.rfl (forall_congr' fun M ↦ forall_congr' fun hM ↦ ?_))
     let := residueFieldModule hM
-    show η M = (D.residueComparison M hM).trans
+    change η M = (D.residueComparison M hM).trans
         ((DeterminantTheory.canonical R).residueComparison M hM).symm ↔
       (η M).trans ((DeterminantTheory.canonical R).residueComparison M hM) =
         D.residueComparison M hM

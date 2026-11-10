@@ -393,7 +393,7 @@ lemma derivedCenterValue_centerToCatCenterDerived (a : Subalgebra.center R A) :
       (centerToCatCenterDerived R A a) = centerToCatCenter R A a :=
     CatCenter.ext _ _ fun M => (singleFunctor (ModuleCat.{u} A) 0).map_injective (by
       rw [CatCenter.map_app_ofFull, centerToCatCenterDerived_app_single])
-  show (ModuleCat.centerAlgEquiv R A).symm (CatCenter.ofFull _ _) = a
+  change (ModuleCat.centerAlgEquiv R A).symm (CatCenter.ofFull _ _) = a
   rw [h, ← centerAlgEquiv_apply, AlgEquiv.symm_apply_apply]
 
 /-- **The centre of `A` is a direct factor of the shift-compatible centre of `D(A)`.** The
@@ -418,7 +418,7 @@ lemma derivedCenterValue_eq_zero (z : CatCenter (DerivedCategory (ModuleCat.{u} 
   have h : CatCenter.ofFull (singleFunctor (ModuleCat.{u} A) 0) z = 0 :=
     CatCenter.ext _ _ fun M =>
       (singleFunctor (ModuleCat.{u} A) 0).map_injective (by simp [hz M])
-  show (ModuleCat.centerAlgEquiv R A).symm (CatCenter.ofFull _ _) = 0
+  change (ModuleCat.centerAlgEquiv R A).symm (CatCenter.ofFull _ _) = 0
   rw [h, map_zero]
 
 /-- **A shift-compatible central element of `D(A)` is the degreewise action of a central element

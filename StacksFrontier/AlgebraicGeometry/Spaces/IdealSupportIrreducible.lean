@@ -80,7 +80,7 @@ theorem toSubmodule_bot {C : Type*} [Category* C] {J : GrothendieckTopology C}
           fun V' g hg ↦ ?_
         have hsection : M.val.map g.op s ∈ (⊥ : M.val.Submodule).obj (op V') := hg
         have hzero : M.val.map g.op s = 0 := (_root_.Submodule.mem_bot _).1 hsection
-        show M.val.map g.op s = M.val.map g.op 0
+        change M.val.map g.op s = M.val.map g.op 0
         simpa using hzero }
   exact le_antisymm (SheafOfModules.Submodule.le_iff.1 (bot_le (a := N))) bot_le
 

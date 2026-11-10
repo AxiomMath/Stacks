@@ -92,7 +92,7 @@ theorem resExt_res {U V W : Opens X} (h₁ : V ≤ U) (h₂ : W ≤ V) (r n : �
   congr 1
   refine RingHom.ext fun s => ?_
   rw [RingHom.comp_apply]
-  show (X.presheaf.map (homOfLE h₁).op ≫ X.presheaf.map (homOfLE h₂).op) s = _
+  change (X.presheaf.map (homOfLE h₁).op ≫ X.presheaf.map (homOfLE h₂).op) s = _
   rw [← X.presheaf.map_comp]
   rfl
 

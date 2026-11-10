@@ -106,7 +106,7 @@ base**, for `f` locally of finite type. -/
 lemma essFiniteType_stalkAlgebraOfSpecHom [LocallyOfFiniteType f] :
     letI := stalkAlgebraOfSpecHom f x
     Algebra.EssFiniteType (Localization.AtPrime (f.base x).asIdeal) (X.presheaf.stalk x) := by
-  show RingHom.EssFiniteType (localizationAtPrimeToStalk f x).hom
+  change RingHom.EssFiniteType (localizationAtPrimeToStalk f x).hom
   rw [localizationAtPrimeToStalk, CommRingCat.hom_comp]
   exact (RingHom.EssFiniteType.respectsIso.cancel_left_isIso
     (Spec.stalkIso (.of A) (f.base x)).inv (f.stalkMap x)).mpr

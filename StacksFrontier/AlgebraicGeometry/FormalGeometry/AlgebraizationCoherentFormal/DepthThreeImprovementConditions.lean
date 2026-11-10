@@ -133,7 +133,7 @@ public theorem zero_le_cohomologicalDimension_of_mem_support (y : S.U.toScheme)
   have hIq : S.I ≤ (S.U.ι.base y : PrimeSpectrum S.A).asIdeal := by
     rw [hyz]
     intro a ha
-    show Ideal.Quotient.mk S.I a ∈ (z : PrimeSpectrum (S.A ⧸ S.I)).asIdeal
+    change Ideal.Quotient.mk S.I a ∈ (z : PrimeSpectrum (S.A ⧸ S.I)).asIdeal
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr ha]
     exact Ideal.zero_mem _
   let q : PrimeSpectrum S.A := S.U.ι.base y
@@ -237,7 +237,7 @@ public theorem one_lt_completedStalkDepth_of_satisfiesDepthInequalities (b : ℤ
   rw [hj] at hgt
   rcases enatToEInt_add_natCast_gt hgt with htop | ⟨i, hi, hlt⟩
   · rw [htop]
-    exact ENat.coe_lt_top 1
+    exact ENat.natCast_lt_top 1
   · rw [hi]
     exact_mod_cast (by omega : 1 < i)
 

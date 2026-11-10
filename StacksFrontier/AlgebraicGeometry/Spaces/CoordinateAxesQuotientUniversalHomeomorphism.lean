@@ -94,7 +94,7 @@ theorem sumAlgHom_isIntegral : (sumAlgHom S).toRingHom.IsIntegral := by
         have hC : Ideal.Quotient.mk (nodalRelationIdeal S.k) (MvPolynomial.C r) =
             algebraMap R N (MvPolynomial.C r) := by
           rw [hφ]
-          show _ = MvPolynomial.aeval _ (MvPolynomial.C r)
+          change _ = MvPolynomial.aeval _ (MvPolynomial.C r)
           rw [MvPolynomial.aeval_C]
           rfl
         rw [hC]
@@ -127,22 +127,23 @@ theorem coordinateSumMap_left_eq :
       (AffineSpace.SpecIso PUnit.{u + 1} (.of S.k)).inv := by
   refine (AffineSpace.hom_ext ?_ ?_).symm
   · rw [Category.assoc, AffineSpace.SpecIso_inv_over, ← Spec.map_comp]
-    show _ = AffineSpace.homOfVector (baseMap S) _ ≫ _
+    change _ = AffineSpace.homOfVector (baseMap S) _ ≫ _
     rw [AffineSpace.homOfVector_over, baseMap]
     refine congrArg Spec.map ?_
     ext r
-    show sumAlgHom S (MvPolynomial.C r) = algebraMap S.k (NodalRing S.k) r
+    change sumAlgHom S (MvPolynomial.C r) = algebraMap S.k (NodalRing S.k) r
     exact MvPolynomial.aeval_C _ r
   · intro i
     cases i
-    show (Spec.map (CommRingCat.ofHom (sumAlgHom S).toRingHom)).appTop
+    change (Spec.map (CommRingCat.ofHom (sumAlgHom S).toRingHom)).appTop
         ((AffineSpace.SpecIso PUnit.{u + 1} (.of S.k)).inv.appTop
           (AffineSpace.coord _ PUnit.unit)) =
       (AffineSpace.homOfVector (baseMap S) _).appTop (AffineSpace.coord _ PUnit.unit)
     rw [AffineSpace.SpecIso_inv_appTop_coord, AffineSpace.homOfVector_appTop_coord,
       ← CommRingCat.comp_apply, ← Scheme.ΓSpecIso_inv_naturality, CommRingCat.comp_apply]
-    show (Scheme.ΓSpecIso (.of (NodalRing S.k))).inv (sumAlgHom S (MvPolynomial.X _)) = _
-    rw [sumAlgHom, MvPolynomial.aeval_X, RingHom.map_add (Scheme.ΓSpecIso (.of (NodalRing S.k))).inv.hom]
+    change (Scheme.ΓSpecIso (.of (NodalRing S.k))).inv (sumAlgHom S (MvPolynomial.X _)) = _
+    rw [sumAlgHom, MvPolynomial.aeval_X,
+      RingHom.map_add (Scheme.ΓSpecIso (.of (NodalRing S.k))).inv.hom]
     rfl
 
 /-- The sum map `U ⟶ 𝔸¹_k` is an integral morphism of schemes. -/
@@ -225,13 +226,13 @@ theorem universallyClosed_quotientMap_comp_sumMap :
     rw [quotientMap_comp_sumMap]
     rw [← cancel_epi eU.inv, Iso.inv_hom_id_assoc]
     ext X y
-    show F.map y ≫ coordinateSumMap S = F.map (y ≫ sumChart B S hS)
+    change F.map y ≫ coordinateSumMap S = F.map (y ≫ sumChart B S hS)
     rw [Functor.map_comp, post_map_sumChart]
     rfl
   rw [hfac]
   have hsq : AlgebraicGeometry.UniversallyClosed
       ((BigFppfOver.toScheme B (Spec (.of S.k)) hS).map (sumChart B S hS)) := by
-    show AlgebraicGeometry.UniversallyClosed (coordinateSumMap S).left
+    change AlgebraicGeometry.UniversallyClosed (coordinateSumMap S).left
     infer_instance
   have hyon := (Space.presheaf_yoneda_map_iff B (Spec (.of S.k)) hS
     AlgebraicGeometry.universallyClosed_isStableUnderBaseChange (sumChart B S hS)).mpr hsq

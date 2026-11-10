@@ -105,7 +105,8 @@ So the degreewise half of the identification exists, and so does the **multiplic
 morphism of graded algebras: that is
 `Stacks.AlgebraicGeometry.ThetaMul.thetaInt_mul` of
 `StacksFrontier.AlgebraicGeometry.TwistTensor.ThetaIntegerBidegree`, extending
-`StacksFrontier.AlgebraicGeometry.TwistTensor.ThetaIntegerMul`, which has only the bidegrees `(n, 0)` for an integer `n` and `(n, m)` for natural `n`, `m`.
+`StacksFrontier.AlgebraicGeometry.TwistTensor.ThetaIntegerMul`, which has only the bidegrees
+`(n, 0)` for an integer `n` and `(n, m)` for natural `n`, `m`.
 
 The relative statement — the glued twists of Tag 01NR on `Proj_S(𝒜)` in place of the twists on an
 absolute `Proj` — is available too. A twist datum of Tag 01NR exists on
@@ -424,7 +425,8 @@ the module docstring for what identifying it with `r^*(⨁_n 𝒪_{Proj_S(𝒜)}
 --   (`PullbackTwistPower.tensorPowerModule_eq_laurent_piece`, by rfl). The MULTIPLICATIVITY of
 --   thetaInt in an arbitrary INTEGER bidegree, without which that degreewise family would not be a
 --   morphism of graded algebras, is `Stacks.AlgebraicGeometry.ThetaMul.thetaInt_mul`
---   (StacksFrontier.AlgebraicGeometry.TwistTensor.ThetaIntegerBidegree). The RELATIVE statement, the
+--   (StacksFrontier.AlgebraicGeometry.TwistTensor.ThetaIntegerBidegree).
+--   The RELATIVE statement, the
 --   twists of Tag 01NR on Proj_S(A) in place of the twists on the absolute Proj of a graded ring:
 --   a twist datum exists for every quasi-coherent graded algebra
 --   (GluedTwistAlgebra.twistDataOfGradedAlgebra), the tag's own source r^*(⨁_n O(nd)) is
@@ -435,8 +437,8 @@ the module docstring for what identifying it with `r^*(⨁_n 𝒪_{Proj_S(𝒜)}
 --   affine open; both hold on the degree-d locus with NO such hypothesis, as
 --   `RelativeVeroneseTwists.isIso_mulSheaf_pullbackTwistVeronese_of_mem_degreeOpen` and
 --   `isInvertible_pullbackTwistVeronese_piece_zero`
---   (StacksFrontier.AlgebraicGeometry.TwistTensor.DegreeOpenTwistComparison), and the theta-assertion
---   at the tag's source with no generation hypothesis is
+--   (StacksFrontier.AlgebraicGeometry.TwistTensor.DegreeOpenTwistComparison), and the
+--   theta-assertion at the tag's source with no generation hypothesis is
 --   `RelativeVeroneseTwists.existsUnique_theta_of_degreeOpen` there. Multiplicativity in an
 --   arbitrary integer bidegree of the comparison R_n ≅ L^{⊗n} for a graded algebra with invertible
 --   multiplications is `GradedLaurentRecognition.pieceIso_mul`, the resulting isomorphism of

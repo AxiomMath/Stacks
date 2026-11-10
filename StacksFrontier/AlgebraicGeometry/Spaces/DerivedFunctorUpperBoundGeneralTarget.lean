@@ -184,7 +184,7 @@ theorem isLE_rightDerivedFunctor_obj_of_isZero_rightDerivedPlus
   have hTri := DerivedCategory.TStructure.t.triangleLEGE_distinguished (b - 1) b (by omega) E
   have h₁ : (RF.obj Tri.obj₁).IsLE (b + (N : ℤ) - 1) := by
     have hLE : Tri.obj₁.IsLE (b - 1) := by
-      show ((DerivedCategory.TStructure.t.truncLE (b - 1)).obj E).IsLE (b - 1)
+      change ((DerivedCategory.TStructure.t.truncLE (b - 1)).obj E).IsLE (b - 1)
       infer_instance
     have h := hweak Tri.obj₁
       (prop_homologyFunctor_truncLE_obj (P) E hcoh (b - 1)) (b - 1) hLE
@@ -192,10 +192,10 @@ theorem isLE_rightDerivedFunctor_obj_of_isZero_rightDerivedPlus
     omega
   have h₃ : (RF.obj Tri.obj₃).IsLE (b + (N : ℤ) - 1) := by
     have h₃a : Tri.obj₃.IsGE b := by
-      show ((DerivedCategory.TStructure.t.truncGE b).obj E).IsGE b
+      change ((DerivedCategory.TStructure.t.truncGE b).obj E).IsGE b
       infer_instance
     have h₃b : Tri.obj₃.IsLE b := by
-      show ((DerivedCategory.TStructure.t.truncGE b).obj E).IsLE b
+      change ((DerivedCategory.TStructure.t.truncGE b).obj E).IsLE b
       infer_instance
     have h := isLE_obj_of_isGE_of_isLE_self (P) RF
       ((N : ℤ) - 1) hSingle Tri.obj₃

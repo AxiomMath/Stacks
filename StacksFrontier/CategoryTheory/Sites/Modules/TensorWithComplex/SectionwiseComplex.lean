@@ -6,7 +6,8 @@ import all StacksFrontier.CategoryTheory.Sites.Modules.TensorWithComplex.Section
 /-!
 # The sectionwise tensor complex and the evaluation of the regular module
 
-Part of `StacksFrontier.CategoryTheory.Sites.Modules.TensorWithComplex` (see there for the overview).
+Part of `StacksFrontier.CategoryTheory.Sites.Modules.TensorWithComplex` (see there for the
+overview).
 This file constructs the differential of the sectionwise tensor product, obeying the signed
 Leibniz rule, assembles the complex of presheaves `M ⊗_E K(-)`, and builds the sectionwise
 evaluation map from the tensor product of the regular module `E = Hom(K, K)` with `K` to `K`.
@@ -363,7 +364,9 @@ private lemma tensorDegreeMap_d
   rw [mul_comm (p.negOnePow : ℤ) (n.negOnePow : ℤ)]
   abel
 
-private noncomputable def regularEvalMap (K : CochainComplex (ModO.{u, v, w, t} X) ℤ)
+/-- The sectionwise evaluation map: a degree-`p` element `x` of the regular module
+`Hom(K, K)` acts on the sections over `U` of `K` in degree `q`, landing in degree `d = p + q`. -/
+noncomputable def regularEvalMap (K : CochainComplex (ModO.{u, v, w, t} X) ℤ)
     (d p q : ℤ) (h : p + q = d) (U : X.Cᵒᵖ)
     (x : ((Rep.{u, v, w, t, s, o} X R K).functor.obj (liftComplex.{u, v, w, t, s} X K)).grading p) :
     (((liftComplex.{u, v, w, t, s} X K).X q).val.obj U)

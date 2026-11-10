@@ -184,7 +184,7 @@ theorem levelMatrix_map_castHom (N : ℕ)
     simp [b]
   have key : ∀ y, levelMap u n (Φ y) = Φ (A'.mulVec y) := fun y => by
     apply Subtype.ext
-    show u (Φ y : P) = _
+    change u (Φ y : P) = _
     rw [hΦ, hΦ, ← coe_levelMatrix_mulVec]
     congr 3
     funext i
@@ -215,7 +215,7 @@ theorem coe_aeval_levelMap_apply (N : ℕ) (R : ℤ[X]) (x : Submodule.torsionBy
     rfl
   | monomial k a =>
     rw [aeval_monomial, aeval_monomial, Module.End.mul_apply]
-    show _ = (algebraMap ℤ (AddMonoid.End P) a) (((asEnd u) ^ k) (x : P))
+    change _ = (algebraMap ℤ (AddMonoid.End P) a) (((asEnd u) ^ k) (x : P))
     rw [← coe_levelMap_pow_apply, Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one,
       LinearMap.smul_apply, Submodule.coe_smul_of_tower]
     rfl
@@ -229,7 +229,7 @@ theorem aeval_levelMatrix_mulVec (N : ℕ)
       (aeval (asEnd u) R) (E.symm z : P) := by
   have hR : aeval (levelMatrix u N E) R = LinearMap.toMatrix (levelBasis N E) (levelBasis N E)
       (aeval (levelMap u N) R) := by
-    show aeval ((LinearMap.toMatrixAlgEquiv (levelBasis N E)) (levelMap u N)) R =
+    change aeval ((LinearMap.toMatrixAlgEquiv (levelBasis N E)) (levelMap u N)) R =
       (LinearMap.toMatrixAlgEquiv (levelBasis N E)) (aeval (levelMap u N) R)
     exact aeval_algHom_apply
       ((LinearMap.toMatrixAlgEquiv (levelBasis N E)).toAlgHom.restrictScalars ℤ) (levelMap u N) R
@@ -241,7 +241,7 @@ theorem aeval_levelMatrix_mulVec (N : ℕ)
 omit [∀ n : ℕ, Module (ZMod (ℓ ^ n)) (Submodule.torsionBy ℤ P ((ℓ : ℤ) ^ n))] in
 /-- Ultrametric: `‖x‖ = ‖y‖` if `‖x - y‖ < ‖y‖`, in `ℤ_ℓ`. -/
 theorem padicInt_norm_eq_of_norm_sub_lt {x y : ℤ_[ℓ]} (h : ‖x - y‖ < ‖y‖) : ‖x‖ = ‖y‖ := by
-  rw [← PadicInt.padic_norm_e_of_padicInt, ← PadicInt.padic_norm_e_of_padicInt] at h ⊢
+  rw [← PadicInt.norm_coe, ← PadicInt.norm_coe] at h ⊢
   rw [PadicInt.coe_sub] at h
   have := Padic.add_eq_max_of_ne h.ne'
   rw [add_sub_cancel] at this
@@ -383,7 +383,7 @@ private theorem norm_resultant_eq_of_natCard_ker
       Stacks.Polynomial.det_aeval_eq_resultant_charpoly_int,
       show (PadicInt.toZModPow N).comp ιZ = Int.castRingHom (ZMod (ℓ ^ N)) from
         RingHom.ext_int _ _]
-    show A.charpoly.resultant _ r R.natDegree = _
+    change A.charpoly.resultant _ r R.natDegree = _
     rw [← hB, Matrix.charpoly_map, resultant_map_map, eq_intCast]
   have hsub : ‖F.resultant (R.map ιZ) r R.natDegree - (BR.det : ℤ_[ℓ])‖ ≤
       (ℓ : ℝ) ^ (-(N : ℤ)) := by
@@ -453,15 +453,15 @@ theorem charpoly_levelMatrix_eq (p : ℕ) (hp : p.Prime) (hpℓ : p ≠ ℓ)
     rw [one_mul, hχres] at hres
     have hres' : χ.resultant R ≠ 0 := fun h0 => hres (by rw [h0, map_zero])
     rw [hχres, hFres]
-    show ‖((F.resultant (R.map ιZ) r R.natDegree : ℤ_[ℓ]) : ℚ_[ℓ])‖ =
+    change ‖((F.resultant (R.map ιZ) r R.natDegree : ℤ_[ℓ]) : ℚ_[ℓ])‖ =
       ‖((χ.resultant R : ℤ) : ℚ_[ℓ])‖
-    rw [PadicInt.padic_norm_e_of_padicInt,
+    rw [PadicInt.norm_coe,
       norm_resultant_eq_of_natCard_ker u E' F hF R hres' (hker R hR0 hres'),
-      ← PadicInt.padic_norm_e_of_padicInt, PadicInt.coe_intCast]
+      ← PadicInt.norm_coe, PadicInt.coe_intCast]
   rw [← charpoly_levelMatrix_map u n (E' n) (le_refl n) E,
     show ZMod.castHom (pow_dvd_pow ℓ (le_refl n)) (ZMod (ℓ ^ n)) = RingHom.id _ from
       ZMod.castHom_self, Polynomial.map_id]
-  show c n = _
+  change c n = _
   rw [← hF n, hFχ, Polynomial.map_map,
     show (PadicInt.toZModPow n).comp ιZ = Int.castRingHom (ZMod (ℓ ^ n)) from RingHom.ext_int _ _]
 

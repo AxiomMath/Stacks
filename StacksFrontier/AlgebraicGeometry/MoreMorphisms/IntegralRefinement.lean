@@ -198,7 +198,7 @@ public theorem exists_isAffine_etale_surjective (p : U ⟶ X) [Etale p] [Surject
   have hcomp : Sigma.ι (fun i : (t : Set U.affineCover.I₀) => U.affineCover.X i.1) ⟨i, hi⟩ ≫
       (Sigma.desc (fun i : (t : Set U.affineCover.I₀) => U.affineCover.f i.1) ≫ p)
       = U.affineCover.f i ≫ p := by
-    rw [← Category.assoc, Sigma.ι_desc]
+    rw [← Category.assoc, Sigma.ι_comp_desc]
   rw [← Scheme.Hom.comp_apply, hcomp]
   exact hv
 
@@ -532,7 +532,7 @@ public theorem preimage_openImmersionGraphCompl [IsOpenImmersion j] [IsIntegralH
     [Etale (j ≫ ν)] [IsSeparated (j ≫ ν)] :
     graphComparison j ν ⁻¹ᵁ openImmersionGraphCompl j ν = diagonalComplement (j ≫ ν) := by
   refine TopologicalSpace.Opens.ext ?_
-  show (graphComparison j ν).base ⁻¹' ((Set.range (openImmersionGraph j ν).base)ᶜ) = _
+  change (graphComparison j ν).base ⁻¹' ((Set.range (openImmersionGraph j ν).base)ᶜ) = _
   rw [Set.preimage_compl, preimage_range_openImmersionGraph]
   rfl
 

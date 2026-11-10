@@ -337,8 +337,8 @@ end CategoryTheory.Sites.InverseSystem.InverseSystemOfFiniteSites
 /-! ### The small étale site of a limit of schemes, at abelian coefficients
 
 The two crossings of
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/SmallEtaleLimitColimitSheaf.lean`, carried
-out at the coefficients `AddCommGrpCat.{max u v + 1}` instead of at sheaves of sets. The
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/SmallEtaleLimitColimitSheaf.lean`,
+carried out at the coefficients `AddCommGrpCat.{max u v + 1}` instead of at sheaves of sets. The
 `CategoryTheory.AsSmall` half is coefficient-free already; the half of [Stacks, Tag 04HR] is
 `Stacks.EtaleCohomology.BaseChangeAlgebraSystem.restrictToAffineEtale_isEquivalence`, the
 abelian counterpart of `AlgebraicGeometry.SmallAffineEtale.sheafEquiv`, which the tree carries only

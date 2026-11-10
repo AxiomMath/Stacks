@@ -235,7 +235,7 @@ theorem countable_isomorphismClasses_derivedEquivalent_of_relativeEquivalenceFam
                e.functor.IsTriangulated))
     X₀ S hS X Y hX hY M hM fun Z ⟨hZs, hZp, hZe⟩ => by
       obtain ⟨i, s, ⟨eX⟩, ⟨eY⟩⟩ := hacc X₀ Z inferInstance inferInstance hZs hZp hZe
-      exact ⟨i, s.left, by simpa using Over.w s, ⟨eX.symm⟩, ⟨eY.symm⟩⟩
+      exact ⟨i, s.left, by simp, ⟨eX.symm⟩, ⟨eY.symm⟩⟩
   refine hc.mono ?_
   rintro c ⟨Z, hZs, hZp, hZe, rfl⟩
   exact ⟨Z, ⟨hZs, hZp, hZe⟩, rfl⟩

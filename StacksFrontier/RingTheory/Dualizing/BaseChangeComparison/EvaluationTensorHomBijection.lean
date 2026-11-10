@@ -145,7 +145,7 @@ theorem tensorHomBijective_evaluationTensorMap
   have hnat := d.homEquiv_naturality_left (K := d.hom.obj (op K, M)) (K' := Z) (L := K) (M := M)
     a (𝟙 _)
   rw [Category.comp_id] at hnat
-  show a ▷ K ≫ (monoidalTensorObjIso.{u, v} _ K).hom ≫ d.evaluation K M = _
+  change a ▷ K ≫ (monoidalTensorObjIso.{u, v} _ K).hom ≫ d.evaluation K M = _
   rw [← Category.assoc, whiskerRight_monoidalTensorObjIso a K, Category.assoc]
   exact congrArg ((monoidalTensorObjIso.{u, v} Z K).hom ≫ ·) hnat.symm
 

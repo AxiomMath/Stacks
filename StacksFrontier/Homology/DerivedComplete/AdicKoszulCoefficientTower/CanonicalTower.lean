@@ -127,7 +127,7 @@ private theorem koszulStageBasis_apply
           1)))
           ComplexShape.embeddingDownNat (i := exteriorDegree) rfl).inv
           ((Pi.basisFun A (Fin rank)).exteriorPower exteriorDegree subset)) := by
-  show (koszulStageXIso family cutoff power exteriorDegree survives).inv
+  change (koszulStageXIso family cutoff power exteriorDegree survives).inv
     ((Pi.basisFun A (Fin rank)).exteriorPower exteriorDegree subset) = _
   cases cutoff with
   | none => rfl
@@ -215,7 +215,7 @@ private theorem tensorKoszulCoordinate_ι_tmul
           (totalDegree + exteriorDegree) (-(exteriorDegree : ℤ)) totalDegree (by omega)
           (left ⊗ₜ[A] right)) =
       (koszulStageBasis family cutoff power exteriorDegree survives).repr right subset • left := by
-  show (HomologicalComplex.ιTensorObj coefficient (standardKoszulStage family cutoff power)
+  change (HomologicalComplex.ιTensorObj coefficient (standardKoszulStage family cutoff power)
     (totalDegree + exteriorDegree) (-(exteriorDegree : ℤ)) totalDegree (by omega) ≫
       tensorKoszulCoordinate family cutoff power coefficient totalDegree exteriorDegree survives
         subset)
@@ -277,7 +277,7 @@ private theorem tensorKoszulCoordinate_basis_ne
       exact different (congrArg Subtype.val equality)
     rw [(koszulStageBasis family cutoff power exteriorDegree survives).repr_self_apply]
     simp only [ite_eq_right subtypeDifferent, zero_smul]
-  · show (HomologicalComplex.ιTensorObj coefficient (standardKoszulStage family cutoff power)
+  · change (HomologicalComplex.ιTensorObj coefficient (standardKoszulStage family cutoff power)
       (totalDegree + source.card) (-(source.card : ℤ)) totalDegree (by omega) ≫
         tensorKoszulCoordinate family cutoff power coefficient totalDegree exteriorDegree survives
           target)
@@ -337,11 +337,11 @@ private theorem tensorKoszulSynthesis_coordinate
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro elements
-  show (tensorKoszulCoordinate family cutoff power coefficient totalDegree subset.card survives
+  change (tensorKoszulCoordinate family cutoff power coefficient totalDegree subset.card survives
     ⟨subset, rfl⟩)
     (tensorKoszulSynthesis family cutoff power coefficient totalDegree elements) = elements subset
   rw [tensorKoszulSynthesis_apply]
-  show (tensorKoszulCoordinate family cutoff power coefficient totalDegree subset.card survives
+  change (tensorKoszulCoordinate family cutoff power coefficient totalDegree subset.card survives
     ⟨subset, rfl⟩).hom
     (∑ source, _) = _
   rw [map_sum, Finset.sum_eq_single subset]
@@ -418,7 +418,7 @@ private theorem tensorKoszulSynthesis_epi
     intro subset
     rcases subset with ⟨subset, cardinality⟩
     subst exteriorDegree
-    show first (HomologicalComplex.ιTensorObj coefficient (standardKoszulStage family cutoff
+    change first (HomologicalComplex.ιTensorObj coefficient (standardKoszulStage family cutoff
       power)
       (totalDegree + subset.card) (-(subset.card : ℤ)) totalDegree (by omega)
       (element ⊗ₜ[A] koszulStageBasis family cutoff power subset.card supported.2 ⟨subset, rfl⟩)) =
@@ -510,7 +510,7 @@ private theorem comparisonTerm_epi
       (fun supported => survives supported.2)
     have basisZero : koszulBasisVector liftedFamily cutoff power subset = 0 :=
       (ModuleCat.subsingleton_of_isZero zeroTerm).elim _ _
-    show HomologicalComplex.ιTensorObj lifted (standardKoszulStage liftedFamily cutoff power)
+    change HomologicalComplex.ιTensorObj lifted (standardKoszulStage liftedFamily cutoff power)
       (degree + subset.card) (-(subset.card : ℤ)) degree (by omega)
       (_ ⊗ₜ[ULift.{v} A] koszulBasisVector liftedFamily cutoff power subset) =
       HomologicalComplex.ιTensorObj lifted (standardKoszulStage liftedFamily cutoff power)
@@ -526,7 +526,7 @@ private theorem comparison_isIso_complete
     IsIso (laws.comparisonMap cutoff power coefficient) := by
   have components (degree : ℤ) : IsIso ((laws.comparisonMap cutoff power coefficient).f degree) :=
     by
-    show IsIso (comparisonTerm family cutoff power coefficient degree)
+    change IsIso (comparisonTerm family cutoff power coefficient degree)
     have := comparisonTerm_mono family cutoff power coefficient degree
     have := comparisonTerm_epi family cutoff power coefficient degree
     exact isIso_of_mono_of_epi _
@@ -668,7 +668,7 @@ public theorem coefficientKoszulTower_d {r : ℕ} (f : Fin r → A)
     (K : CochainComplex (ModuleCat.{v} A) ℤ) (n : ℕ) (t : ℤ) :
     (((coefficientKoszulTower f).obj K).obj ⟨n⟩).d t (t + 1) =
       coefficientKoszulDifferential f n K t := by
-  show filteredDifferential f none n K t (t + 1) = _
+  change filteredDifferential f none n K t (t + 1) = _
   simp only [filteredDifferential, dite_eq_ite, eqToHom_refl, Category.comp_id]
   rfl
 

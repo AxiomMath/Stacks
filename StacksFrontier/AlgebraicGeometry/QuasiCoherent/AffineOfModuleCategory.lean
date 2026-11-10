@@ -131,7 +131,7 @@ theorem isFiniteLocallyFreeOfRank_of_closedPoint_stalks
     (Opens X) _ (Opens.grothendieckTopology X) R _ _ M r ⟨q, ?_, ?_⟩
   · constructor
     intro i
-    show IsIso ((SheafOfModules.free.generatingSections
+    change IsIso ((SheafOfModules.free.generatingSections
       (ULift.{u} (Fin r))).ofEpi (e i).inv).π
     simp only [SheafOfModules.GeneratingSections.ofEpi_π,
       SheafOfModules.free.generatingSections_π]
@@ -139,7 +139,8 @@ theorem isFiniteLocallyFreeOfRank_of_closedPoint_stalks
   · intro i
     exact ⟨Equiv.ulift⟩
 
-private alias isFiniteLocallyFreeOfRank_of_closed_stalks := isFiniteLocallyFreeOfRank_of_closedPoint_stalks
+private alias isFiniteLocallyFreeOfRank_of_closed_stalks :=
+    isFiniteLocallyFreeOfRank_of_closedPoint_stalks
 
 attribute [local implicit_reducible] TopCat.Sheaf
 
@@ -196,9 +197,9 @@ private theorem free_of_residueField_dual_lifts
     apply c.ext
     intro j
     ext i
-    show IsLocalRing.residue R (l i (g (c j))) = IsLocalRing.residue R (c j i)
+    change IsLocalRing.residue R (l i (g (c j))) = IsLocalRing.residue R (c j i)
     rw [show g (c j) = v j from c.constr_basis R v j, hl i]
-    show b.coord i (t (v j)) = _
+    change b.coord i (t (v j)) = _
     rw [hv j]
     by_cases hij : j = i <;> simp [c, Module.Basis.coord_apply,
       Module.Basis.repr_self, Pi.basisFun_apply, hij]
@@ -216,7 +217,7 @@ private theorem free_of_residueField_dual_lifts
       IsLocalRing.residue_surjective z
     refine ⟨y, ?_⟩
     apply (TensorProduct.piScalarRight R k k ι).injective
-    show TensorProduct.piScalarRight R k k ι (t' (f (g y))) =
+    change TensorProduct.piScalarRight R k k ι (t' (f (g y))) =
       TensorProduct.piScalarRight R k k ι (t' y)
     rw [hqm, hqm]
     exact DFunLike.congr_fun hcomp y
@@ -369,7 +370,7 @@ private theorem annihilator_mono_of_separator (R : Type v) [CommRing R]
   have hf (g : Q ⟶ M) : g ≫ φ = g ≫ 0 := by
     apply ModuleCat.hom_ext
     ext q
-    show r • g.hom q = 0
+    change r • g.hom q = 0
     rw [← g.hom.map_smul, (Module.mem_annihilator.mp hr q)]
     simp
   have hφ : φ = 0 := hQ.def φ 0 hf
@@ -783,12 +784,12 @@ private theorem fieldModuleSheaf_isLocalizing {k : Type u} [Field k]
     · intro y
       refine ⟨(0, ⟨0, ?_⟩), ?_⟩
       · exact ⟨1, by simp⟩
-      · show (0 : k) • y = _
+      · change (0 : k) • y = _
         exact hz'.elim _ _
     · intro x y _
       refine ⟨⟨0, ?_⟩, ?_⟩
       · exact ⟨1, by simp⟩
-      · show (0 : k) • x = (0 : k) • y
+      · change (0 : k) • x = (0 : k) • y
         simp
   · have hu : IsUnit f := isUnit_iff_ne_zero.mpr hf
     have htop : PrimeSpectrum.basicOpen f = ⊤ := by
@@ -815,7 +816,7 @@ private theorem fieldModuleSheaf_isLocalizing {k : Type u} [Field k]
     let e : N ≃ₗ[k] N :=
       (asIso ((AlgebraicGeometry.modulesSpecToSheaf.obj M).obj.map
         (TopologicalSpace.Opens.leTop (⊤ : (Spec (.of k)).Opens)).op)).toLinearEquiv
-    show IsLocalizedModule (Submonoid.powers f) (e.toLinearMap.comp LinearMap.id)
+    change IsLocalizedModule (Submonoid.powers f) (e.toLinearMap.comp LinearMap.id)
     exact IsLocalizedModule.of_linearEquiv (S := Submonoid.powers f) (f := LinearMap.id) e
 
 private theorem fieldModuleSheaf_isQuasicoherent {k : Type u} [Field k]
@@ -826,7 +827,7 @@ private theorem fieldModuleSheaf_isQuasicoherent {k : Type u} [Field k]
 
 private lemma mem_preimage_residue (X : Scheme.{u}) (x : X) (U : X.Opens)
     (y : Spec (X.residueField x)) : y ∈ (X.fromSpecResidueField x) ⁻¹ᵁ U ↔ x ∈ U := by
-  show (X.fromSpecResidueField x) y ∈ U ↔ x ∈ U
+  change (X.fromSpecResidueField x) y ∈ U ↔ x ∈ U
   rw [Scheme.fromSpecResidueField_apply]
 
 private lemma residue_germ_stalkClosedPointIso (X : Scheme.{u}) (x : X)
@@ -932,7 +933,7 @@ private theorem epi_skyscraperHomEquiv_symm (X : Scheme.{u}) (x : X)
     obtain ⟨V, hxV, s, rfl⟩ := TopCat.Presheaf.exists_germ_eq M.val.presheaf m
     refine ⟨U ⊓ V, inf_le_left, ⟨M.val.map (homOfLE inf_le_right).op s, ?_⟩, hy, hxV⟩
     funext h
-    show f (TopCat.Presheaf.germ M.val.presheaf (U ⊓ V) x h.down
+    change f (TopCat.Presheaf.germ M.val.presheaf (U ⊓ V) x h.down
       (M.val.map (homOfLE inf_le_right).op s)) = t _
     exact (congrArg f (TopCat.Presheaf.germ_res_apply M.val.presheaf
       (homOfLE (inf_le_right : U ⊓ V ≤ V)) x h.down s)).trans hm
@@ -1015,7 +1016,7 @@ private theorem quasicoherentResidueAdjunction_unit_epi (X : Scheme.{u}) (x : X)
     ext U s
     funext h
     rfl
-  show Epi ((quasicoherentResidueAdjunction X x hx).unit.app P).hom
+  change Epi ((quasicoherentResidueAdjunction X x hx).unit.app P).hom
   rw [h]
   exact residueAdjunction_unit_epi X x hx P.obj
 
@@ -1055,7 +1056,7 @@ private theorem residueField_dual_lifts_of_projective (X : Scheme.{u}) (x : X)
     (Projective.factorThru_comp f' q)
   change qLin (TopCat.Presheaf.germ O.obj.val.presheaf U x hU
     (s.hom.val.app (op U) z)) = f (TopCat.Presheaf.germ P.obj.val.presheaf U x hU z) at h
-  show qLin (Stacks.Modules.stalkLinearMap s.hom.val
+  change qLin (Stacks.Modules.stalkLinearMap s.hom.val
     (TopCat.Presheaf.germ P.obj.val.presheaf U x hU z)) = _
   rw [Stacks.Modules.stalkLinearMap_germ]
   exact h

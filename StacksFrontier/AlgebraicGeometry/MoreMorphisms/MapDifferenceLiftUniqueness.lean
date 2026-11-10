@@ -92,7 +92,7 @@ theorem eq_of_liftDiffSection_eq_zero [AlgebraicGeometry.IsClosedImmersion i]
   have hgoal := key hL inf_le_right inf_le_left hdiff
   rw [Scheme.Hom.appLE_eq_app] at hgoal
   rw [Scheme.Hom.appLE] at hgoal
-  show (X'.presheaf.map _).hom ((b'.app U).hom s) = _
+  change (X'.presheaf.map _).hom ((b'.app U).hom s) = _
   rw [hgoal, CommRingCat.comp_apply]
   exact congrArg (fun z : (a' ⁻¹ᵁ U) ⟶ (b' ⁻¹ᵁ U) =>
     (X'.presheaf.map z.op).hom ((b'.app U).hom s)) (Subsingleton.elim _ _)

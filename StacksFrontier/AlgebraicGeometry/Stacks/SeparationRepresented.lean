@@ -121,7 +121,8 @@ with `Over.map g`, which is the category of elements of the Yoneda presheaf of `
 
 **An inlined one-liner.** The derivation of unramifiedness of an immersion of schemes from
 **Stacks 02HE** (`AlgebraicGeometry.unramified_iff_locallyOfFiniteType_and_formallyUnramified`)
-is `private` in `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/Unramified.lean`, so that one line
+is `private` in `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/Unramified.lean`, so that one
+line
 is repeated inside `AlgebraicGeometry.Stack.isUnramified_yoneda_map_diagonal` rather than reused.
 
 **No tag is claimed.** Stacks 04YW is tagged on `AlgebraicGeometry.Stack.IsDM` and

@@ -85,7 +85,7 @@ theorem exists_restrict_map_isIso_stalkMap_iff (n : ℤ)
   refine (isIso_stalkMap_iff_isIso_stalkAb x _).trans (Iff.trans ?_
     (((isIso_stalkMap_iff_isIso_stalkAb x φ).symm.trans (hφ x)).trans
       (InfinitesimalLifting.smoothAt_comp_iff_of_etale j.left f.left x)))
-  show IsIso (F.map _) ↔ IsIso (F.map φ)
+  change IsIso (F.map _) ↔ IsIso (F.map φ)
   rw [F.map_comp, F.map_comp, isIso_comp_left_iff, isIso_comp_right_iff]
 
 end Stacks.Duality.ClosedOpenProperFactorization

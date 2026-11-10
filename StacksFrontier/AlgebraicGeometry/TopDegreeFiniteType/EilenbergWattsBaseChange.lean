@@ -44,7 +44,7 @@ The `A`-linearity computation is the identity
 
 together with functoriality of `Φ`, so `hsmul` is used exactly once. Additivity of the two
 `A`-actions extends the pure-tensor case to all of `A ⊗_{R₀} Φ(R₀)` by
-`TensorProduct.induction_on`.
+`TensorProduct.inductionOn`.
 
 No `@[stacks]` attribute is attached: nothing here is a statement the source makes. It is the
 `R`-linearity step that the source's "`= H ᵈ (X₀, F₀) ⊗_{R₀} R`" leaves implicit.
@@ -97,8 +97,7 @@ noncomputable def algebraLinearEquiv
   map_add' := map_add _
   map_smul' := by
     intro a z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a' x =>
       have hcomp : LinearMap.toSpanSingleton R₀ A (a * a') =
           (LinearMap.mulLeft R₀ a).comp (LinearMap.toSpanSingleton R₀ A a') := by

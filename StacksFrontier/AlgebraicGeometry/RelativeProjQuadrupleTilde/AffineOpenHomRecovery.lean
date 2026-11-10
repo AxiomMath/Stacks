@@ -95,7 +95,7 @@ theorem pullbackIso_hom_pullbackSection (x : M.val.obj (op U)) :
     (Scheme.Modules.pullbackSection U.ι M U ⊤ (Scheme.Opens.ι_preimage_self U).ge x)
   have h4 := Scheme.Modules.restrictFunctorIsoPullback_inv_pullbackSection U.ι M U ⊤
     (Scheme.Opens.ι_preimage_self U).ge (Scheme.Opens.ι_image_le U ⊤) x
-  show ((Scheme.Modules.pullback (lift f U hf)).map
+  change ((Scheme.Modules.pullback (lift f U hf)).map
       ((Scheme.Modules.restrictFunctorIsoPullback U.ι).inv.app M)).val.app (op ⊤)
       (((Scheme.Modules.pullbackComp (lift f U hf) U.ι).inv.app M).val.app (op ⊤)
         (((Scheme.Modules.pullbackCongr (lift_ι f U hf).symm).hom.app M).val.app (op ⊤)
@@ -109,7 +109,7 @@ theorem pullbackIso_hom_pullbackSection (x : M.val.obj (op U)) :
       Scheme.Modules.pullbackSection (lift f U hf) ((Scheme.Modules.pullback U.ι).obj M) ⊤ ⊤
           le_top (Scheme.Modules.pullbackSection U.ι M U ⊤
             (Scheme.Opens.ι_preimage_self U).ge x) := by
-    show (((Scheme.Modules.pullbackComp (lift f U hf) U.ι).hom.app M ≫
+    change (((Scheme.Modules.pullbackComp (lift f U hf) U.ι).hom.app M ≫
       (Scheme.Modules.pullbackComp (lift f U hf) U.ι).inv.app M).val.app (op ⊤)) _ = _
     rw [Iso.hom_inv_id_app]
     rfl
@@ -158,6 +158,7 @@ theorem appLE_congr_hom {g₁ g₂ : T ⟶ S} (e : g₁ = g₂) (h₁ : (⊤ : T
   subst e
   rfl
 
+omit [M.IsQuasicoherent] in
 /-- The action of the global functions of `U` on the global sections of `ℳ|_U` is the action of
 the functions on `U.ι ''ᵁ ⊤` on the sections of `ℳ` there. -/
 theorem restrict_ι_smul (r : Γ(U.toScheme, ⊤)) (y : Γ(M.restrict U.ι, ⊤)) :
@@ -180,11 +181,13 @@ theorem module_map_map_of_le_of_le {X : Scheme.{u}} (F : X.Modules) {V W : X.Ope
   rw [← PresheafOfModules.map_comp_apply, hid, PresheafOfModules.map_id]
   rfl
 
+omit [M.IsQuasicoherent] in
 /-- `restrictBack` is a left inverse of `restrictTop`. -/
 theorem restrictBack_restrictTop (x : M.val.obj (op U)) :
     restrictBack U M (restrictTop U M x) = x :=
   module_map_map_of_le_of_le M (V := U) _ _ x
 
+omit [M.IsQuasicoherent] in
 /-- `restrictBack` is a right inverse of `restrictTop`. -/
 theorem restrictTop_restrictBack (y : (M.restrict U.ι).val.obj (op ⊤)) :
     restrictTop U M (restrictBack U M y) = y :=
@@ -256,7 +259,7 @@ theorem homOfSections_pullbackSection (x : M.val.obj (op U)) :
     (liftLinear f U hf M N ℓ hℓ) with hφ₀
   have hh := (AffineHomRecovery.homEquiv (lift f U hf) (M.restrict U.ι) N).apply_symm_apply
     (liftLinear f U hf M N ℓ hℓ)
-  show φ₀.val.app (op ⊤) (((pullbackIso f U hf M).hom.val.app (op ⊤))
+  change φ₀.val.app (op ⊤) (((pullbackIso f U hf M).hom.val.app (op ⊤))
     (Scheme.Modules.pullbackSection f M U ⊤ hf x)) = ℓ x
   rw [pullbackIso_hom_pullbackSection]
   exact (app_pullbackSection_top_eq_sectionsMap _ _ _ φ₀ _).trans
@@ -284,7 +287,7 @@ theorem hom_ext [M.IsQuasicoherent] {φ ψ : (Scheme.Modules.pullback f).obj M �
     refine (app_pullbackSection_top_eq_sectionsMap (lift f U hf) (M.restrict U.ι) N
       ((pullbackIso f U hf M).inv ≫ χ) y).symm.trans ?_
     rw [← hy]
-    show ((pullbackIso f U hf M).hom ≫ (pullbackIso f U hf M).inv ≫ χ).val.app (op ⊤) _ = _
+    change ((pullbackIso f U hf M).hom ≫ (pullbackIso f U hf M).inv ≫ χ).val.app (op ⊤) _ = _
     rw [Iso.hom_inv_id_assoc]
   exact (key φ).trans ((h _).trans (key ψ).symm)
 
@@ -329,14 +332,7 @@ theorem hom_ext_tensor (F G : S.Modules) [F.IsQuasicoherent] [G.IsQuasicoherent]
   refine hom_ext f U hf _ hU N fun z => ?_
   obtain ⟨t, rfl⟩ :=
     (Stacks.AlgebraicGeometry.AffineOpenTensorSections.bijective_gammaTensorMap hU F G).surjective z
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    rw [map_zero]
-    have h0 := pullbackSection_add f
-      (Stacks.AlgebraicGeometry.AffineOpenTensorSections.tensorMod F G) U ⊤ hf 0 0
-    rw [add_zero, left_eq_add] at h0
-    exact (congrArg (fun w => φ.val.app (op ⊤) w) h0).trans ((map_zero _).trans
-      ((map_zero _).symm.trans (congrArg (fun w => ψ.val.app (op ⊤) w) h0.symm)))
+  induction t using TensorProduct.inductionOn with
   | tmul a b => exact h a b
   | add x y hx hy =>
     have e := pullbackSection_add f

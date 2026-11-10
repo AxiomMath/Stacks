@@ -62,7 +62,7 @@ theorem hasSerreCondition_one_of_isDomain {A : Type*} [CommRing A] [IsDomain A] 
   let L := Localization.AtPrime p
   have : IsDomain L := IsLocalization.isDomain_localization p.primeCompl_le_nonZeroDivisors
   by_cases hd : ringKrullDim L = 0
-  · show min (1 : WithBot ℕ∞) (ringKrullDim L) ≤
+  · change min (1 : WithBot ℕ∞) (ringKrullDim L) ≤
       (Module.depth L (maximalIdeal L) L : WithBot ℕ∞)
     rw [hd]
     norm_num
@@ -74,7 +74,7 @@ theorem hasSerreCondition_one_of_isDomain {A : Type*} [CommRing A] [IsDomain A] 
     have hdepth : (1 : WithBot ℕ∞) ≤ (Module.depth L (maximalIdeal L) L : WithBot ℕ∞) := by
       exact_mod_cast Module.one_le_depth_of_isSMulRegular (maximalIdeal L) t ht
         (IsSMulRegular.of_ne_zero htnz)
-    show min (1 : WithBot ℕ∞) (ringKrullDim L) ≤
+    change min (1 : WithBot ℕ∞) (ringKrullDim L) ≤
       (Module.depth L (maximalIdeal L) L : WithBot ℕ∞)
     exact (min_le_left _ _).trans hdepth
 
@@ -88,7 +88,7 @@ theorem hasSerreCondition_one_adicCompletion_of_formalFibres
         (AdicCompletion (maximalIdeal A) A ⊗[A] q.asIdeal.ResidueField) 1) :
     HasSerreCondition (AdicCompletion (maximalIdeal A) A) 1 := by
   let B := AdicCompletion (maximalIdeal A) A
-  show ∀ (q : Ideal B) [q.IsPrime],
+  change ∀ (q : Ideal B) [q.IsPrime],
     min (1 : WithBot ℕ∞) (ringKrullDim (Localization.AtPrime q)) ≤
       (Module.depth (Localization.AtPrime q)
         (maximalIdeal (Localization.AtPrime q)) (Localization.AtPrime q) : WithBot ℕ∞)

@@ -190,7 +190,7 @@ lemma objShiftIso_conj' (F : C ⥤ C) (n m k : ℕ) (hnm : n + (m + k) = m + (n 
   rw [objShiftIso_inv_eq F n (m + k) E hp,
     stageCastIso_hom_eq F ((F.endoIter (n + k)).obj G) hnm hc,
     objShiftIso_hom_eq F m (n + k) G hr, stageHomOf]
-  show Hom.of (n + (m + k) + 0 + (n + (m + k) + 0 + (m + (n + k) + 0 + 0))) _ = _
+  change Hom.of (n + (m + k) + 0 + (n + (m + k) + 0 + (m + (n + k) + 0 + 0))) _ = _
   refine Hom.of_eq_of _ _ 0 (3 * n + 3 * m + 2 * k) (by omega) ?_
   simp only [compHom, endoRaise_zero, endoRaise_comp, endoRaise_endoHomCast,
     endoRaise_eqToHom, endoRaise_endoIter_map, endoHomCast_comp_rfl, endoHomCast_endoHomCast,
@@ -206,7 +206,7 @@ lemma Hom.of_comp_stageHomOf (F : C ⥤ C) (n m k : ℕ) {E G H : C}
     (f : (F.endoIter (m + k)).obj E ⟶ (F.endoIter (n + k)).obj G) (g : G ⟶ H) :
     (Hom.of k f : (⟨E, n⟩ : EndoColim F) ⟶ ⟨G, m⟩) ≫ stageHomOf F m g =
       (Hom.of k (f ≫ (F.endoIter (n + k)).map g) : (⟨E, n⟩ : EndoColim F) ⟶ ⟨H, m⟩) := by
-  show Hom.of (m + k + 0) _ = _
+  change Hom.of (m + k + 0) _ = _
   refine Hom.of_eq_of _ _ 0 m (by omega) ?_
   simp only [compHom, endoRaise_zero, endoRaise_comp, endoRaise_endoIter_map,
     endoHomCast_comp_rfl, endoHomCast_endoHomCast]
@@ -219,7 +219,7 @@ lemma stageHomOf_comp_Hom_of (F : C ⥤ C) (n m k : ℕ) {E G H : C} (g : E ⟶ 
     (f : (F.endoIter (m + k)).obj G ⟶ (F.endoIter (n + k)).obj H) :
     stageHomOf F n g ≫ (Hom.of k f : (⟨G, n⟩ : EndoColim F) ⟶ ⟨H, m⟩) =
       (Hom.of k ((F.endoIter (m + k)).map g ≫ f) : (⟨E, n⟩ : EndoColim F) ⟶ ⟨H, m⟩) := by
-  show Hom.of (n + 0 + k) _ = _
+  change Hom.of (n + 0 + k) _ = _
   refine Hom.of_eq_of _ _ 0 n (by omega) ?_
   simp only [compHom, endoRaise_zero, endoRaise_comp, endoRaise_endoIter_map,
     endoHomCast_comp_rfl, endoHomCast_endoHomCast]
@@ -319,13 +319,13 @@ lemma squareIter_compComm : ∀ (k : ℕ) (E : C),
     (squareIter F F'' (Φ ⋙ Ψ) (compComm F F' F'' Φ Ψ α β) k E).hom =
       (squareIter F' F'' Ψ β k (Φ.obj E)).hom ≫ Ψ.map (squareIter F F' Φ α k E).hom
   | 0, E => by
-      show 𝟙 _ = 𝟙 _ ≫ Ψ.map (𝟙 _)
+      change 𝟙 _ = 𝟙 _ ≫ Ψ.map (𝟙 _)
       rw [Ψ.map_id, Category.comp_id]
   | k + 1, E => by
       have ih := squareIter_compComm k E
       have hnat := β.inv.naturality (squareIter F F' Φ α k E).hom
       simp only [Functor.comp_map] at hnat
-      show F''.map (squareIter F F'' (Φ ⋙ Ψ) (compComm F F' F'' Φ Ψ α β) k E).hom ≫
+      change F''.map (squareIter F F'' (Φ ⋙ Ψ) (compComm F F' F'' Φ Ψ α β) k E).hom ≫
             (compComm F F' F'' Φ Ψ α β).inv.app ((F.endoIter k).obj E) =
           (F''.map (squareIter F' F'' Ψ β k (Φ.obj E)).hom ≫
               β.inv.app ((F'.endoIter k).obj (Φ.obj E))) ≫
@@ -355,7 +355,7 @@ lemma transportHom'_comp (a b : ℕ) {E G : C}
       transportHom' F' F'' Ψ β a b (transportHom' F F' Φ α a b f) := by
   rw [transportHom', transportHom', transportHom', squareIter_compComm,
     squareIter_compComm_inv]
-  show _ ≫ Ψ.map (Φ.map f) ≫ _ = _ ≫ Ψ.map ((squareIter F F' Φ α a E).hom ≫
+  change _ ≫ Ψ.map (Φ.map f) ≫ _ = _ ≫ Ψ.map ((squareIter F F' Φ α a E).hom ≫
     Φ.map f ≫ (squareIter F F' Φ α b G).inv) ≫ _
   rw [Ψ.map_comp, Ψ.map_comp]
   simp only [Category.assoc]
@@ -445,7 +445,7 @@ lemma squareIter_congr
   | k + 1, E => by
       have ih := squareIter_congr hc k E
       have key := congr_inv_app F F' Φ Φ' α α' c hc ((F.endoIter k).obj E)
-      show F'.map ((F'.endoIter k).map (c.hom.app E)) ≫
+      change F'.map ((F'.endoIter k).map (c.hom.app E)) ≫
             (F'.map (squareIter F F' Φ' α' k E).hom ≫ α'.inv.app ((F.endoIter k).obj E)) =
           (F'.map (squareIter F F' Φ α k E).hom ≫ α.inv.app ((F.endoIter k).obj E)) ≫
             c.hom.app (F.obj ((F.endoIter k).obj E))

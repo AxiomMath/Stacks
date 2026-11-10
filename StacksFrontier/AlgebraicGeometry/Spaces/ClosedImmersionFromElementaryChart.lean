@@ -85,12 +85,12 @@ theorem exists_isOpen_isClosedImmersion_of_elementaryChart
     (BigFppfOver.presheaf_inverseImage_yoneda_map_iff B S hS @Unramified j).2 inferInstance
   have hunU : (MorphismProperty.inverseImage @Unramified (𝒯)).presheaf eU :=
     MorphismProperty.relative_monotone (fun _ _ _ h => by
-      show Unramified _
+      change Unramified _
       have : Etale _ := h
       infer_instance) _ heU
   have : (MorphismProperty.inverseImage @Unramified (𝒯)).IsStableUnderComposition :=
     ⟨fun f g hf hg => by
-      show Unramified _
+      change Unramified _
       rw [Functor.map_comp]
       exact MorphismProperty.comp_mem @Unramified _ _ hf hg⟩
   have hun : (MorphismProperty.inverseImage @Unramified (𝒯)).presheaf (yoneda.map j ≫ eU) :=

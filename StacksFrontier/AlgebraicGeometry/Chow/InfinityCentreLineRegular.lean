@@ -167,7 +167,7 @@ theorem preimage_opensRange_infinityChartOver_eq (U : X.affineOpens) :
   ext p
   have hmem : ∀ q, q ∈ (infinityChartOver U).opensRange ↔ q ∈ (infinityChartAffineOpen U).1 :=
     fun q => ⟨fun ⟨a, ha⟩ => ⟨a, trivial, ha⟩, fun ⟨a, _, ha⟩ => ⟨a, ha⟩⟩
-  show projectiveLineBaseChange ℐ.subschemeι p ∈ (infinityChartOver U).opensRange ↔
+  change projectiveLineBaseChange ℐ.subschemeι p ∈ (infinityChartOver U).opensRange ↔
     lineToBlowupAtInfinity ℐ p ∈ Set.range (blowupAtInfinityChartS ℐ U)
   rw [hmem, lineToBlowupAtInfinity_mem_range_chartS_iff]
 
@@ -186,7 +186,7 @@ theorem isPullback_lineToBlowupAtInfinity_chartS (U : X.affineOpens) :
       (X_mem_infinityChartIdeal _), ← pullback.condition_assoc, lineToBlowupAtInfinity_comp]
   · rw [preimage_opensRange_infinityChartOver_eq]
     ext p
-    show _ ↔ p ∈ Set.range (pullback.fst (lineToBlowupAtInfinity ℐ)
+    change _ ↔ p ∈ Set.range (pullback.fst (lineToBlowupAtInfinity ℐ)
       (blowupAtInfinityChartS ℐ U)).base
     rw [Scheme.Pullback.range_fst]
     rfl
@@ -276,7 +276,7 @@ theorem ker_app_image_top_eq_map {T W : Scheme.{u}} (i : T ⟶ W) [IsClosedImmer
   have hk2 : RingHom.ker ((pullback.snd i χ).appTop.hom.comp (Scheme.ΓSpecIso R).inv.hom) =
       (RingHom.ker (i.app (χ ''ᵁ ⊤)).hom).comap e.toRingHom := by
     rw [← RingHom.comap_ker]
-    show Ideal.comap _ (RingHom.ker ((pullback.snd i χ).app ⊤).hom) = _
+    change Ideal.comap _ (RingHom.ker ((pullback.snd i χ).app ⊤).hom) = _
     rw [hk1, Ideal.comap_comap, he]
     rfl
   rw [hk2, Ideal.map_comap_of_surjective e.toRingHom e.surjective]
@@ -360,7 +360,7 @@ theorem isRegularClosedImmersionOfCodim_lineToBlowupAtInfinity_of_subschemeι {c
       have := congrArg (fun φ => φ y) (congrArg (fun g => (g.base : _ → _))
         (specMap_evalZero_infinityChartOver U))
       simp only [Scheme.Hom.comp_base, TopCat.coe_comp, Function.comp_apply] at this
-      show (infinityChartOver U) _ = _
+      change (infinityChartOver U) _ = _
       rw [this, hy, hx₀]
     have hw := (lineToBlowupAtInfinity_mem_range_chartS_iff ℐ U p).mpr hqU
     have hI : ℐ.ideal U = Ideal.span (Set.range f) := by

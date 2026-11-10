@@ -103,7 +103,7 @@ theorem isGeneratedByGlobalSections_and_isZero_cohomology_one_of_two_le_genus (k
     hdim.le
   have hpos : 0 < invertibleCurveDegree S.k S.f S.dimension_one.le
       (Stacks.Duality.dualizingSheafOverField S.f) := by
-    show 0 < invertibleCurveDegree k (Y ↘ Spec (.of k)) hdim.le
+    change 0 < invertibleCurveDegree k (Y ↘ Spec (.of k)) hdim.le
       (Stacks.Duality.dualizingSheafOverField (Y ↘ Spec (.of k)))
     rw [hdeg]
     omega

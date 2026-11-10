@@ -74,7 +74,7 @@ theorem isIso_comparison_of_elements
     rfl
   · obtain ⟨x, hx⟩ := hsurj (fun n => limit.π (ambientCohomologyTower J hJ F i) (op n) t)
       fun n m h => by
-        show (limit.π (ambientCohomologyTower J hJ F i) (op m) ≫
+        change (limit.π (ambientCohomologyTower J hJ F i) (op m) ≫
           (ambientCohomologyTower J hJ F i).map (homOfLE h).op) t = _
         rw [limit.w]
     refine ⟨x, Concrete.limit_ext _ _ _ fun n => ?_⟩

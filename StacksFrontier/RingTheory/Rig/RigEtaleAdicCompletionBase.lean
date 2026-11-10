@@ -103,7 +103,7 @@ theorem isRigEtaleOver_of_isRigEtale_adicCompletion {R : Type v} [CommRing R]
   have hIn : ∀ n : ℕ, (I ^ n).map α = I' ^ n := fun n ↦ by rw [hI', Ideal.map_pow]
   have hmap : ∀ n : ℕ, (I ^ n).map (algebraMap A R) = (I' ^ n).map (algebraMap _ R) := by
     intro n
-    show (I ^ n).map ψ = (I' ^ n).map φ
+    change (I ^ n).map ψ = (I' ^ n).map φ
     rw [← hIn n, Ideal.map_map]
   have hmap1 : I.map (algebraMap A R) = I'.map (algebraMap _ R) := by
     simpa only [pow_one] using hmap 1
@@ -145,7 +145,7 @@ theorem isRigEtaleOver_of_isRigEtale_adicCompletion {R : Type v} [CommRing R]
     Ideal.quotEquivOfEq (hmap n)
   let β' : A ⧸ I ^ n ≃+* AdicCompletion I A ⧸ I' ^ n := β.trans (Ideal.quotEquivOfEq (hIn n))
   have hβ' : ∀ x : A, β' (Ideal.Quotient.mk _ x) = Ideal.Quotient.mk _ (α x) := fun x ↦ by
-    show Ideal.quotEquivOfEq (hIn n) (β (Ideal.Quotient.mk _ x)) = _
+    change Ideal.quotEquivOfEq (hIn n) (β (Ideal.Quotient.mk _ x)) = _
     rw [hβ, Ideal.quotEquivOfEq_mk]
   have he : ∀ r : A ⧸ I ^ n, e (algebraMap (A ⧸ I ^ n) (R ⧸ (I ^ n).map (algebraMap A R)) r) =
       algebraMap (AdicCompletion I A ⧸ I' ^ n) (R ⧸ (I' ^ n).map (algebraMap _ R)) (β' r) := by

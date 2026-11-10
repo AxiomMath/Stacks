@@ -136,8 +136,7 @@ public theorem Submodule.span_range_eq_top_of_baseChange {A B W W' : Type*} [Com
     Submodule.span B {y | ∃ x, y = ρ x} = ⊤ := by
   have key : ∀ z : B ⊗[A] W, e z ∈ Submodule.span B {y | ∃ x, y = ρ x} := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z₁ z₂ h₁ h₂ => exact (map_add e z₁ z₂) ▸ add_mem h₁ h₂
     | tmul b x =>
         have hb : b ⊗ₜ[A] x = b • (1 : B) ⊗ₜ[A] x := by

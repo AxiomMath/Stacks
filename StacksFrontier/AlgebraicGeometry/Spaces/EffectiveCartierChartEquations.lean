@@ -113,8 +113,8 @@ theorem exists_regular_equation_of_isEffectiveCartierDivisor {W P : BigFppfOver 
   obtain ⟨iso, hiso⟩ := key _ hcomap'
   refine ⟨U, pullback j ι, ι, pullback.fst j ι, pullback.snd j ι, ⟨x, hxA⟩, ?_, hA, ?_, rfl,
     IsPullback.of_hasPullback j ι, f, iso, hfreg, hiso⟩
-  · show _root_.AlgebraicGeometry.IsOpenImmersion A.ι; infer_instance
-  · show Set.range A.ι ⊆ O; rw [Scheme.Opens.range_ι]; exact hAO
+  · change _root_.AlgebraicGeometry.IsOpenImmersion A.ι; infer_instance
+  · change Set.range A.ι ⊆ O; rw [Scheme.Opens.range_ι]; exact hAO
 
 open Stacks.Divisors in
 /-- **The range of a closed immersion through an étale chart which is an effective Cartier divisor

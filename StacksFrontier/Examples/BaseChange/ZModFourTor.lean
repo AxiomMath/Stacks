@@ -89,7 +89,7 @@ theorem periodic_exactAt_succ (m : ℕ) : periodic.ExactAt (m + 1) := by
   change x + x = 0 at hx
   obtain ⟨y, hy⟩ := (by decide : ∀ x : ZMod 4, x + x = 0 → ∃ y : ZMod 4, y + y = x) x hx
   refine ⟨y, ?_⟩
-  show (periodic.d (m + 2) (m + 1)).hom y = x
+  change (periodic.d (m + 2) (m + 1)).hom y = x
   rwa [periodic_d]
 
 /-- The augmentation `periodic ⟶ ℤ/2[0]` is a quasi-isomorphism. -/
@@ -134,20 +134,20 @@ abbrev reducedPeriodic : ChainComplex (ModuleCat.{0} (ZMod 2)) ℕ :=
 /-- In a `ℤ/2`-module, `𝟙 + 𝟙 = 0`. -/
 theorem id_add_id_eq_zero (M : ModuleCat.{0} (ZMod 2)) : 𝟙 M + 𝟙 M = 0 :=
   ModuleCat.hom_ext (LinearMap.ext fun x => by
-    show x + x = 0
+    change x + x = 0
     rw [← two_smul (ZMod 2) x, show (2 : ZMod 2) = 0 by decide, zero_smul])
 
 /-- The differentials of the reduced periodic complex vanish. -/
 theorem reducedPeriodic_d (n : ℕ) : reducedPeriodic.d (n + 1) n = 0 := by
   have h : (ModuleCat.extendScalars.{0, 0, 0} toTwo).map (𝟙 four + 𝟙 four) = 0 := by
     rw [Functor.map_add, CategoryTheory.Functor.map_id, id_add_id_eq_zero]
-  show (ModuleCat.extendScalars.{0, 0, 0} toTwo).map (periodic.d (n + 1) n) = 0
+  change (ModuleCat.extendScalars.{0, 0, 0} toTwo).map (periodic.d (n + 1) n) = 0
   rw [periodic_d]
   exact h
 
 /-- The terms of the reduced periodic complex are nonzero: `ℤ/2 ⊗_{ℤ/4} ℤ/4 ≅ ℤ/2`. -/
 theorem nontrivial_reducedPeriodic_X (n : ℕ) : Nontrivial (reducedPeriodic.X n) := by
-  show Nontrivial (TensorProduct (ZMod 4)
+  change Nontrivial (TensorProduct (ZMod 4)
     ((ModuleCat.restrictScalars toTwo).obj (ModuleCat.of (ZMod 2) (ZMod 2))) (ZMod 4))
   have : Nontrivial ((ModuleCat.restrictScalars toTwo).obj (ModuleCat.of (ZMod 2) (ZMod 2))) :=
     inferInstanceAs (Nontrivial (ZMod 2))
@@ -164,12 +164,12 @@ theorem not_isZero_reducedPeriodic_homology_one : ¬ IsZero (reducedPeriodic.hom
   have := nontrivial_reducedPeriodic_X 1
   obtain ⟨x, hx⟩ := exists_ne (0 : reducedPeriodic.X 1)
   obtain ⟨y, hy⟩ := hex x (by
-    show (reducedPeriodic.d 1 0).hom x = 0
+    change (reducedPeriodic.d 1 0).hom x = 0
     rw [reducedPeriodic_d]
     rfl)
   apply hx
   rw [← hy]
-  show (reducedPeriodic.d 2 1).hom y = 0
+  change (reducedPeriodic.d 2 1).hom y = 0
   rw [reducedPeriodic_d]
   rfl
 
@@ -302,7 +302,7 @@ theorem evalOne_cochainOf (c : ZMod 2) :
   simp only [evalOne, cochainOf, Cochain.single_v]
   simp only [ModuleCat.hom_comp, LinearMap.comp_apply, ModuleCat.hom_ofHom, LinearMap.smul_apply,
     smul_eq_mul]
-  show ((ZMod.val c : ℕ) : ZMod 4) * twoToFour 1 = _
+  change ((ZMod.val c : ℕ) : ZMod 4) * twoToFour 1 = _
   simp only [twoToFour, LinearMap.coe_mk, AddHom.coe_mk]
   revert c
   decide

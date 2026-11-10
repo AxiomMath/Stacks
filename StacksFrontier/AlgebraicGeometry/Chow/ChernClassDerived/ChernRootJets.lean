@@ -186,7 +186,7 @@ theorem rootSumTwo_rootMap (l : List (ℤˣ × A)) :
   induction l with
   | nil => simp
   | cons t l ih =>
-    show rootSumTwo ((t.1, f t.2) :: rootMap f l) = _
+    change rootSumTwo ((t.1, f t.2) :: rootMap f l) = _
     rw [rootSumTwo_cons, rootSumTwo_cons, ih, rootSum_rootMap]
     split_ifs <;> simp
 
@@ -217,12 +217,12 @@ theorem ringChoose_unit_add_two (ε : ℤˣ) (r : ℤ) :
   rcases Int.units_eq_one_or ε with rfl | rfl
   · have h := Ring.choose_succ_succ r 1
     rw [Ring.choose_one_right] at h
-    simp only [Units.val_one, if_true, add_zero, one_mul]
+    simp only [Units.val_one, ite_true, add_zero, one_mul]
     rw [add_comm (1 : ℤ) r, h]
     ring
   · have h := Ring.choose_succ_succ (-1 + r) 1
     rw [Ring.choose_one_right] at h
-    simp only [Units.val_neg, Units.val_one, show ((-1 : ℤ) = 1) = False by decide, if_false,
+    simp only [Units.val_neg, Units.val_one, show ((-1 : ℤ) = 1) = False by decide, ite_false,
       neg_one_mul]
     rw [show -1 + r + 1 = r by ring] at h
     rw [h]
@@ -262,7 +262,7 @@ theorem rootSumTwo_map_tensor (ε : ℤˣ) (x : K) (l' : List (ℤˣ × K)) :
       rootRank_cons, ringChoose_unit_add_two]
     rcases Int.units_eq_one_or ε with rfl | rfl <;> rcases Int.units_eq_one_or t.1 with h | h <;>
       simp only [h, Units.val_one, Units.val_neg, mul_one, mul_neg, neg_neg, one_mul, neg_mul,
-        if_true, if_false, show ((-1 : ℤ) = 1) = False by decide] <;> push_cast <;> ring
+        ite_true, ite_false, show ((-1 : ℤ) = 1) = False by decide] <;> push_cast <;> ring
 
 /-- **The formal computation of Stacks 0FAG in degree one**: for the tensor product of two lists
 of signed roots of ranks `r` and `s`, `c₁ = s c₁ + r c₁'`. -/
@@ -295,7 +295,7 @@ theorem rootSumTwo_rootTensor (l l' : List (ℤˣ × K)) :
       rootSum_rootTensor, ih, rootSumTwo_cons, rootSum_cons, rootRank_cons,
       ringChoose_unit_add_two]
     rcases Int.units_eq_one_or t.1 with h | h <;>
-      simp only [h, Units.val_one, Units.val_neg, if_true, if_false,
+      simp only [h, Units.val_one, Units.val_neg, ite_true, ite_false,
         show ((-1 : ℤ) = 1) = False by decide] <;> push_cast
     · linear_combination (-(t.2 * rootSum l)) * h2
     · linear_combination (t.2 * rootSum l) * h2
@@ -342,7 +342,7 @@ theorem exists_rootMap_eq_of_mem (R : Subring A) :
   | t :: l, h => by
     obtain ⟨lR, hlR⟩ := exists_rootMap_eq_of_mem R l fun t' ht' ↦ h t' (List.mem_cons_of_mem _ ht')
     refine ⟨(t.1, ⟨t.2, h t List.mem_cons_self⟩) :: lR, ?_⟩
-    show List.map _ (_ :: lR) = _
+    change List.map _ (_ :: lR) = _
     rw [List.map_cons]
     exact congrArg₂ List.cons rfl hlR
 
@@ -421,7 +421,7 @@ def oneAddUnit (x : TotalChowClass C sY) : (TotalChowClass C sY)ˣ := by
 /-- For `x` homogeneous of degree one, the unit `oneAddUnit x` is `1 + x`. -/
 theorem val_oneAddUnit {x : TotalChowClass C sY} (hx : x.IsHomogeneous 1) :
     (oneAddUnit x : TotalChowClass C sY) = 1 + x := by
-  rw [oneAddUnit, dif_pos (isUnit_one_add_of_isHomogeneous_one hx)]
+  rw [oneAddUnit, dite_eq_left (isUnit_one_add_of_isHomogeneous_one hx)]
   rfl
 
 /-- **The total Chern class `∏ (1 + x_a)^{ε_a}` of a list of signed roots**, as a unit, the
@@ -475,7 +475,7 @@ theorem homComponent_oneAddUnit_zpow {x : TotalChowClass C sY} (hx : x.IsHomogen
   rcases Int.units_eq_one_or ε with rfl | rfl
   · simp [val_oneAddUnit hx, h1]
   · simp only [Units.val_neg, Units.val_one, zpow_neg, zpow_one,
-      show ((-1 : ℤ) = 1) = False by decide, if_false]
+      show ((-1 : ℤ) = 1) = False by decide, ite_false]
     have h0 := homComponent_zero_of_apply_zero (inv_apply_zero_eq_one hu)
     have hinv1 := homComponent_inv_eq hu 1
     have hinv2 := homComponent_inv_eq hu 2
@@ -519,7 +519,7 @@ theorem commute_homComponent_one_add {x y : TotalChowClass C sY} (hx : x.IsHomog
 /-- For `x` homogeneous of degree one, the degree-zero component of `1 + x` is `1`. -/
 theorem homComponent_zero_one_add {x : TotalChowClass C sY} (hx : x.IsHomogeneous 1) :
     homComponent 0 (1 + x) = 1 := by
-  rw [homComponent_one_add_of_isHomogeneous_one hx, if_pos rfl]
+  rw [homComponent_one_add_of_isHomogeneous_one hx, ite_eq_left rfl]
 
 /-- The components of `(1 + x)^{±1}` commute with every class commuting with `x`. -/
 theorem commute_homComponent_oneAddUnit_zpow {x y : TotalChowClass C sY}

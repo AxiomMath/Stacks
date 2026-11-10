@@ -219,14 +219,14 @@ theorem neron_affineBlowup_localization
   have hA (x : S.A) :
       e' (algebraMap A' (Localization.Away (algebraMap S.A A' a)) (algebraMap S.A A' x)) =
       algebraMap Sa B' (algebraMap S.A Sa x) := by
-    show f (eLoc.symm (algebraMap A' _ (algebraMap S.A A' x))) = _
+    change f (eLoc.symm (algebraMap A' _ (algebraMap S.A A' x))) = _
     rw [eLoc.symm.commutes]
     rw [← algebraMap_tensor_comm, f.commutes]
   refine ⟨e', hA, ?_⟩
   have hlocalized : e'.toRingHom.comp
       (Localization.awayMap (algebraMap S.A A') a) = algebraMap Sa B' := by
     refine IsLocalization.ringHom_ext (Submonoid.powers a) (RingHom.ext fun x => ?_)
-    show e' (Localization.awayMap (algebraMap S.A A') a (algebraMap S.A Sa x)) = _
+    change e' (Localization.awayMap (algebraMap S.A A') a (algebraMap S.A Sa x)) = _
     rw [Localization.awayMap, IsLocalization.Away.map, IsLocalization.map_eq]
     exact hA x
   exact RingHom.congr_fun hlocalized
@@ -259,7 +259,7 @@ private lemma map_torsionIdeal_algEquiv
   have hc : Ideal.comap e.toRingEquiv (torsionIdeal B (algebraMap R B a)) =
       torsionIdeal A (algebraMap R A a) := by
     ext x
-    show (∃ n : ℕ, algebraMap R B a ^ n * e x = 0) ↔ ∃ n : ℕ, algebraMap R A a ^ n * x = 0
+    change (∃ n : ℕ, algebraMap R B a ^ n * e x = 0) ↔ ∃ n : ℕ, algebraMap R A a ^ n * x = 0
     refine exists_congr fun n => ?_
     rw [← e.commutes a, ← map_pow, ← map_mul, map_eq_zero_iff _ e.injective]
   rw [← hc, Ideal.map_comap_of_surjective e.toRingEquiv e.surjective]
@@ -294,7 +294,7 @@ private theorem nonempty_blowupBaseChangeAlgEquiv (S : NeronSituation) (π : S.R
   let A' := affineBlowupAlgebra S.maximalIdealPreimage (algebraMap S.R S.A π)
     (Localization.Away (algebraMap S.R S.A π))
   have hmap' : Ideal.map (algebraMap B S.A) pB = S.maximalIdealPreimage := by
-    show Ideal.map f.toRingHom pB = S.maximalIdealPreimage
+    change Ideal.map f.toRingHom pB = S.maximalIdealPreimage
     exact Ideal.map_comap_of_surjective f.toRingHom hf _
   have hπmap : algebraMap B S.A (algebraMap S.R B π) = algebraMap S.R S.A π :=
     (IsScalarTower.algebraMap_apply S.R B S.A π).symm
@@ -308,7 +308,7 @@ private theorem nonempty_blowupBaseChangeAlgEquiv (S : NeronSituation) (π : S.R
     affineBlowupAlgebra_eq_affineBlowup0BIP pB _ ha
   have hA : A' = affineBlowup0BIP S.maximalIdealPreimage (algebraMap S.R S.A π) haA :=
     affineBlowupAlgebra_eq_affineBlowup0BIP _ _ haA
-  show (TensorProduct B S.A B' ⧸ torsionIdeal (TensorProduct B S.A B') (algebraMap S.R _ π))
+  change (TensorProduct B S.A B' ⧸ torsionIdeal (TensorProduct B S.A B') (algebraMap S.R _ π))
     ≃ₐ[S.A] A'
   rw [hB, hA]
   have hmapmem : (algebraMap B S.A) ((algebraMap S.R B) π) ∈
@@ -358,7 +358,7 @@ lemma blowup_quotient_by_surjection (S : NeronSituation) (π : S.R)
     (algebraMap S.R S.A π) (Localization.Away (algebraMap S.R S.A π))
   let _ : Algebra B S.A := f.toRingHom.toAlgebra
   have ha : algebraMap S.R B π ∈ pB := by
-    show f (algebraMap S.R B π) ∈ S.maximalIdealPreimage
+    change f (algebraMap S.R B π) ∈ S.maximalIdealPreimage
     rw [f.commutes]
     apply Ideal.mem_comap.mpr
     rw [← IsScalarTower.algebraMap_apply S.R S.A S.Λ, IsLocalRing.mem_maximalIdeal]

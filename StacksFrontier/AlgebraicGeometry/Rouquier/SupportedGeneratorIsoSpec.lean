@@ -84,10 +84,10 @@ change the spelling of its conclusion and so of its four call sites. The two pro
 as well: the one below reads the stalk comparison
 `Stacks.Duality.OpenImmersion.stalkRestrictHomologyIso` off, where the existing one builds it.
 
-**The model is the locally small one** of `StacksFrontier/Homology/DerivedCategory/LocallySmall.lean`:
-no `CategoryTheory.HasDerivedCategory` binder appears below, so instance search supplies the
-global instances. This is forced by the affine base case this file transports; see the
-implementation notes of
+**The model is the locally small one** of
+`StacksFrontier/Homology/DerivedCategory/LocallySmall.lean`: no `CategoryTheory.HasDerivedCategory`
+binder appears below, so instance search supplies the global instances. This is forced by the affine
+base case this file transports; see the implementation notes of
 `StacksFrontier/AlgebraicGeometry/Rouquier/AffineSupportedGenerator.lean`.
 
 ## References
@@ -188,8 +188,8 @@ theorem isZero_of_forall_hom_derivedRestrict_of_iso {Y Z : Scheme.{u}} (e : Y �
 theorem preimage_hom_preimage_inv {Y Z : Scheme.{u}} (e : Y ≅ Z) (T : Set Y) :
     e.hom.base ⁻¹' (e.inv.base ⁻¹' T) = T := by
   ext y
-  show e.inv.base (e.hom.base y) ∈ T ↔ y ∈ T
-  show (e.hom ≫ e.inv).base y ∈ T ↔ y ∈ T
+  change e.inv.base (e.hom.base y) ∈ T ↔ y ∈ T
+  change (e.hom ≫ e.inv).base y ∈ T ↔ y ∈ T
   rw [e.hom_inv_id]
   rfl
 

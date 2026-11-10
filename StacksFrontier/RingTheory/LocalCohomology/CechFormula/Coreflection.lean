@@ -96,26 +96,26 @@ theorem exists_normalized_coreflectionIso
     homEquiv := E
     homEquiv_naturality_left_symm := by
       intro Y' Y X g k
-      show P.ι.map (g ≫ k) ≫ ε.app X = P.ι.map g ≫ (P.ι.map k ≫ ε.app X)
+      change P.ι.map (g ≫ k) ≫ ε.app X = P.ι.map g ≫ (P.ι.map k ≫ ε.app X)
       rw [P.ι.map_comp, Category.assoc]
     homEquiv_naturality_right := by
       intro Y X X' g k
       apply (hb Y X').injective
-      show P.ι.map (E Y X' (g ≫ k)) ≫ ε.app X' =
+      change P.ι.map (E Y X' (g ≫ k)) ≫ ε.app X' =
         P.ι.map (E Y X g ≫ G.map k) ≫ ε.app X'
       rw [hE, P.ι.map_comp, Category.assoc]
-      show g ≫ k = P.ι.map (E Y X g) ≫ F.map k ≫ ε.app X'
+      change g ≫ k = P.ι.map (E Y X g) ≫ F.map k ≫ ε.app X'
       rw [ε.naturality, ← Category.assoc, hE]
       rfl }
   refine ⟨Functor.isoWhiskerRight (adj.rightAdjointUniq adjG) P.ι ≪≫ P.liftCompιIso F hF, ?_⟩
   ext X
   have h := adj.rightAdjointUniq_hom_app_counit adjG X
   have hεG : adjG.counit.app X = ε.app X := by
-    show P.ι.map (𝟙 (G.obj X)) ≫ ε.app X = ε.app X
+    change P.ι.map (𝟙 (G.obj X)) ≫ ε.app X = ε.app X
     simp
   rw [hεG] at h
   refine Eq.trans ?_ h
-  show (P.ι.map ((adj.rightAdjointUniq adjG).hom.app X) ≫
+  change (P.ι.map ((adj.rightAdjointUniq adjG).hom.app X) ≫
     (P.liftCompιIso F hF).hom.app X) ≫ ε.app X = _
   rw [Category.assoc,
     show (P.liftCompιIso F hF).hom.app X ≫ ε.app X = ε.app X from Category.id_comp _]

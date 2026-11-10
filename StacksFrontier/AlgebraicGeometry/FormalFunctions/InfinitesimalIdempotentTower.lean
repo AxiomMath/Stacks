@@ -80,7 +80,7 @@ public theorem exists_isIdempotentElem_res_eq_one_res_eq_zero (X : Scheme.{u})
       (X.presheaf.map (homOfLE (le_top : V ≤ ⊤)).op).hom a = 0 := by
   let W : Bool → X.Opens := fun b => if b then V else U
   have hW : ⊤ ≤ iSup W := by
-    rw [SetLike.le_def]
+    rw [IsConcreteLE.le_iff]
     intro x hx
     rcases hcover hx with hxU | hxV
     · exact TopologicalSpace.Opens.mem_iSup.mpr ⟨false, by simpa [W] using hxU⟩
@@ -101,7 +101,7 @@ public theorem exists_isIdempotentElem_res_eq_one_res_eq_zero (X : Scheme.{u})
   obtain ⟨a, ha, -⟩ := X.sheaf.existsUnique_gluing'
     (U := W) (V := ⊤) (iUV := fun _ => homOfLE le_top) hW sf hcompat
   refine ⟨a, ?_, ha false, ha true⟩
-  show a * a = a
+  change a * a = a
   refine X.sheaf.eq_of_locally_eq' W ⊤ (fun _ => homOfLE le_top) hW _ _ fun b => ?_
   rw [map_mul, ha b]
   cases b
@@ -160,7 +160,7 @@ public theorem exists_isIdempotentElem_appTop_eq_of_isHomeomorph {Z W : Scheme.{
   have hpre : ∀ T : Z.Opens, i ⁻¹ᵁ (⟨h '' (T : Set Z), h.isOpenMap _ T.2⟩ : W.Opens) = T := by
     intro T
     ext z
-    show i z ∈ h '' (T : Set Z) ↔ z ∈ T
+    change i z ∈ h '' (T : Set Z) ↔ z ∈ T
     refine ⟨fun hz => ?_, fun hz => ⟨z, hz, by simp [h]⟩⟩
     obtain ⟨w, hw, hwi⟩ := hz
     have hwz : w = z := h.injective (by simpa [h] using hwi)
@@ -252,7 +252,7 @@ public theorem range_infinitesimalBase {Y : Scheme.{u}} (y : Y) {n : ℕ} (hn : 
       Ideal.Quotient.mk_surjective
   have hbase : ∀ p : Spec (stalkQuotient y n), (infinitesimalBase y n).base p = y := by
     intro p
-    show (Y.fromSpecStalk y).base ((Spec.map (toStalkQuotient y n)).base p) = y
+    change (Y.fromSpecStalk y).base ((Spec.map (toStalkQuotient y n)).base p) = y
     rw [specMap_toStalkQuotient_eq_closedPoint y hn p]
     exact Y.fromSpecStalk_closedPoint
   refine Set.eq_singleton_iff_unique_mem.mpr
@@ -367,7 +367,7 @@ public theorem infinitesimalIdempotent_zero {X Y : Scheme.{u}} (f : X ⟶ Y) (y 
   have hh : (fiberIsoInfinitesimalNeighbourhoodOne f y).inv.appTop ≫
       (fiberIsoInfinitesimalNeighbourhoodOne f y).hom.appTop = 𝟙 _ := by
     rw [← Scheme.Hom.comp_appTop, Iso.hom_inv_id, Scheme.Hom.id_appTop]
-  show ((fiberIsoInfinitesimalNeighbourhoodOne f y).inv.appTop ≫
+  change ((fiberIsoInfinitesimalNeighbourhoodOne f y).inv.appTop ≫
     (fiberIsoInfinitesimalNeighbourhoodOne f y).hom.appTop).hom e = e
   rw [hh]
   rfl

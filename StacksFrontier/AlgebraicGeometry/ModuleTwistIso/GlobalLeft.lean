@@ -114,7 +114,7 @@ public theorem isIso_twistSheafMultiplicationMap_of_isIso_twistMultiplicationMap
   let tensorProduct := Functor.uncurry.obj
     (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       (ProjectiveSpectrum.Proj.structureSheaf 𝒮))
-  show IsIso (_ ≫ _ ≫ _ ≫ _)
+  change IsIso (_ ≫ _ ≫ _ ≫ _)
   have firstIso : IsIso (tensorProductAssociator O hO (L n) F (L m)).inv := inferInstance
   have secondIso : IsIso (tensorProduct.map
       (((tensorProductBraiding O hO (L n) F).hom, 𝟙 (L m)) : (_, _) ⟶ (_, _))) :=

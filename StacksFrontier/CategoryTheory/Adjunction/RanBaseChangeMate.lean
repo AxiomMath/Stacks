@@ -57,7 +57,7 @@ noncomputable def ranCompSquare
     TwoSquare (L.ran (H := H)) T.ran B.ran R.ran :=
   TwoSquare.mk _ _ _ _
     (conjugateEquiv (Functor.ranCompAdjunction H L B) (Functor.ranCompAdjunction H T R)
-      ((whiskeringLeft C₁ C₄ H).map w.natTrans))
+      ((whiskeringLeft C₁ C₄ H).map w))
 
 section
 
@@ -72,9 +72,9 @@ a single right Kan extension: it is the contravariant functoriality of `Ran` app
 This is the shape in which the comparison arises in practice, the composition comparisons being
 how a commuting square of site functors produces a 2-cell. -/
 theorem ranCompIso_hom_comp_ranCompSquare (w : TwoSquare T L R B) :
-    (Functor.ranCompIsoOfAdjunctions H L B).hom ≫ (ranCompSquare H w).natTrans =
+    (Functor.ranCompIsoOfAdjunctions H L B).hom ≫ (ranCompSquare H w) =
       conjugateEquiv ((L ⋙ B).ranAdjunction H) ((T ⋙ R).ranAdjunction H)
-          ((whiskeringLeft C₁ C₄ H).map w.natTrans) ≫
+          ((whiskeringLeft C₁ C₄ H).map w) ≫
         (Functor.ranCompIsoOfAdjunctions H T R).hom := by
   change conjugateEquiv _ _ (𝟙 _) ≫ conjugateEquiv _ _ _ = conjugateEquiv _ _ _ ≫
     conjugateEquiv _ _ (𝟙 _)
@@ -83,7 +83,7 @@ theorem ranCompIso_hom_comp_ranCompSquare (w : TwoSquare T L R B) :
 /-- **The base change of right Kan extensions is the mate of the comparison of the two
 composites.** -/
 theorem mateEquiv_symm_ranCompSquare (w : TwoSquare T L R B) :
-    ((mateEquiv (L.ranAdjunction H) (R.ranAdjunction H)).symm (ranCompSquare H w)).natTrans =
+    ((mateEquiv (L.ranAdjunction H) (R.ranAdjunction H)).symm (ranCompSquare H w)) =
       w.ranBaseChange (D := H) := by
   refine NatTrans.ext (funext fun Y => ?_)
   have key := Stacks.CategoryTheory.homEquiv_mate (B.ranAdjunction H) (L.ranAdjunction H)
@@ -109,7 +109,7 @@ this one invertible is that it *is* the base change, by
 theorem isIso_mateEquiv_symm_ranCompSquare [∀ F : C₃ ⥤ H, B.HasPointwiseRightKanExtension F]
     (w : TwoSquare T L R B) [w.GuitartExact] :
     IsIso ((mateEquiv (L.ranAdjunction H) (R.ranAdjunction H)).symm
-      (ranCompSquare H w)).natTrans := by
+      (ranCompSquare H w)) := by
   rw [mateEquiv_symm_ranCompSquare]
   infer_instance
 

@@ -54,13 +54,13 @@ theorem etaleAt_of_inter_eq_support {P T Z : Scheme.{u}} (g : P ⟶ T) [IsReduce
   let U' : P.Opens := U ⊓ ⟨O', hO'⟩
   have hzU' : i z ∈ U' := ⟨hzU, by
     rw [← hz']
-    show J.subschemeι z' ∈ O'
+    change J.subschemeι z' ∈ O'
     have : z' ∈ (U₀ : Set J.subscheme) := hzU₀
     rw [← hO'eq] at this
     exact this⟩
   let JU := J.subschemeι ⁻¹ᵁ U'
   have hJU : JU ≤ U₀ := fun y hy => by
-    show y ∈ (U₀ : Set J.subscheme)
+    change y ∈ (U₀ : Set J.subscheme)
     rw [← hO'eq]
     exact hy.2
   have : Etale (JU.ι ≫ J.subschemeι ≫ g) := by
@@ -78,7 +78,7 @@ theorem etaleAt_of_inter_eq_support {P T Z : Scheme.{u}} (g : P ⟶ T) [IsReduce
   have hm₁r : Set.range m₁.base ⊆ Set.range JU.ι.base := by
     rintro _ ⟨y, rfl⟩
     rw [Scheme.Opens.range_ι]
-    show J.subschemeι (m₁ y) ∈ U'
+    change J.subschemeι (m₁ y) ∈ U'
     rw [← Scheme.Hom.comp_apply, hm₁]
     exact y.2
   let m₁' : ZU.toScheme ⟶ JU.toScheme := IsOpenImmersion.lift JU.ι m₁ hm₁r
@@ -101,7 +101,7 @@ theorem etaleAt_of_inter_eq_support {P T Z : Scheme.{u}} (g : P ⟶ T) [IsReduce
   have hm₂r : Set.range m₂.base ⊆ Set.range ZU.ι.base := by
     rintro _ ⟨y, rfl⟩
     rw [Scheme.Opens.range_ι]
-    show i (m₂ y) ∈ U'
+    change i (m₂ y) ∈ U'
     rw [← Scheme.Hom.comp_apply, hm₂]
     exact y.2
   let m₂' : JU.toScheme ⟶ ZU.toScheme := IsOpenImmersion.lift ZU.ι m₂ hm₂r

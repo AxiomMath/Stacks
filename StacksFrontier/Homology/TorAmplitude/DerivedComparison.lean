@@ -81,9 +81,9 @@ hypotheses on `K` are spent: bounded above and termwise flat, transported to `UL
 064K, `CochainComplex.KFlat.kFlat_of_flat` of `StacksFrontier.Homology.KFlat.Flat`, used through
 `CochainComplex.KFlat` at the lifted coefficient ring; Stacks 06Y0 enters through
 `StacksDraft.TorAmplitude.quasiIso_tensorRight_map` of
-`StacksFrontier.Homology.TorAmplitude.Comparison`, and the derived-functor input is that same module,
-which stands in for Stacks 0BYI. No `@[stacks]` attribute other than 0653 is attached in this
-file.
+`StacksFrontier.Homology.TorAmplitude.Comparison`, and the derived-functor input is that same
+module, which stands in for Stacks 0BYI. No `@[stacks]` attribute other than 0653 is attached in
+this file.
 
 ## References
 
@@ -174,8 +174,7 @@ public noncomputable def tensorScalarLiftIso (M : ModuleCat.{max u v} R) :
       (N : Type (max u v)) (M : Type (max u v))).toModuleIso) ?_
   intro N N' f
   refine ModuleCat.hom_ext (LinearMap.ext fun z => ?_)
-  induction z using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction z using TensorProduct.inductionOn with
   | tmul x y => rfl
   | add x y hx hy => exact (map_add _ x y).trans ((congrArg₂ (· + ·) hx hy).trans
       (map_add _ x y).symm)
@@ -509,7 +508,7 @@ public theorem cokernel_flat_of_torAmplitude
     exact ⟨N, fun j hj => (scalarLift.{u, v} (R := R)).map_isZero (hN j hj)⟩
   have hf' : ∀ j : ℤ, Module.Flat (ULift.{v} R) (((liftCx.{u, v} (R := R)).obj K).X j) := by
     intro j
-    show Module.Flat (ULift.{v} R) (K.X j)
+    change Module.Flat (ULift.{v} R) (K.X j)
     rw [Module.Flat.ulift_left_iff]
     exact hflat j
   have hsplit : IsSplitEpi ((scalarLiftDerived.{u, v} (R := R)).map ((comparison M).app K)) :=

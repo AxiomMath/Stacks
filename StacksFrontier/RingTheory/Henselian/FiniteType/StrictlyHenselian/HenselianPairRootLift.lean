@@ -389,11 +389,11 @@ theorem rootlift_rank1_cyclic_faithful (R : Type) [CommRing R] [IsLocalRing R] (
         rw [hbx]; exact hclosed b _ hx
     have hN_e : ∀ z : AdjoinRoot g, z ∈ N → z * e = z := by
       rintro z ⟨w, rfl⟩
-      show (w * e) * e = w * e
+      change (w * e) * e = w * e
       rw [mul_assoc, he_idem]
     have hkey : N ≤ M ⊔ I • N := by
       rintro n ⟨y, rfl⟩
-      show y * e ∈ M ⊔ I • N
+      change y * e ∈ M ⊔ I • N
       obtain ⟨r, hr⟩ := hgen_mod y
       set c : AdjoinRoot g := y * e - (algebraMap A (AdjoinRoot g) r) * e with hc
       have hcN : c ∈ N := by
@@ -435,14 +435,14 @@ theorem rootlift_rank1_cyclic_faithful (R : Type) [CommRing R] [IsLocalRing R] (
     obtain ⟨r, hr⟩ := hcyc y
     refine ⟨r, ?_⟩
     apply Subtype.ext
-    show ψ r = y * e
+    change ψ r = y * e
     rw [hψa, Algebra.smul_def, hr]
   obtain ⟨ginv, hginv⟩ := LinearMap.exists_rightInverse_of_surjective φ hφsurj
   set q : A →ₗ[A] A := ginv.comp φ with hq
   set K : Submodule A A := LinearMap.ker ψ with hK
   have hkerφ : LinearMap.ker φ = K := by
     ext a
-    show φ a = 0 ↔ ψ a = 0
+    change φ a = 0 ↔ ψ a = 0
     constructor
     · intro ha; have := congrArg (Subtype.val) ha; simpa [hφ] using this
     · intro ha; apply Subtype.ext; simpa [hφ] using ha
@@ -469,7 +469,7 @@ theorem rootlift_rank1_cyclic_faithful (R : Type) [CommRing R] [IsLocalRing R] (
     rw [hjp_apply, this, sub_zero]
   have hrange_jp : LinearMap.range jp ≤ K := by
     rintro x ⟨a, rfl⟩
-    show ψ (jp a) = 0
+    change ψ (jp a) = 0
     rw [hjp_apply]
     have hψq : ψ (q a) = ψ a := by
       have hφq : φ (q a) = φ a := LinearMap.congr_fun hginv (φ a)
@@ -499,7 +499,7 @@ theorem rootlift_rank1_cyclic_faithful (R : Type) [CommRing R] [IsLocalRing R] (
   have hKbot : K = ⊥ := Submodule.eq_bot_of_le_smul_of_le_jacobson_bot I K hKfg hKIK hIjac
   intro r hr
   have hrK : r ∈ K := by
-    show ψ r = 0; rw [hψa, Algebra.smul_def]; exact hr
+    change ψ r = 0; rw [hψa, Algebra.smul_def]; exact hr
   rw [hKbot] at hrK
   simpa using hrK
 

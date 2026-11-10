@@ -54,11 +54,11 @@ theorem mateEquiv_eq_of_counit_rightDerived (adj₁ : L₁ ⊣ R₁) (adj₂ : L
     (α : TwoSquare G L₁ L₂ H) (β : TwoSquare R₁ H G R₂) {L : C ⥤ B} {F₀ : C ⥤ E}
     (γ : F₀ ⟶ L ⋙ (R₁ ⋙ G)) (W : MorphismProperty C) [L.IsLocalization W]
     [(R₁ ⋙ G).IsRightDerivedFunctor γ W]
-    (h : ∀ X : C, L₂.map (γ.app X) ≫ α.natTrans.app (R₁.obj (L.obj X)) ≫
+    (h : ∀ X : C, L₂.map (γ.app X) ≫ α.app (R₁.obj (L.obj X)) ≫
           H.map (adj₁.counit.app (L.obj X)) =
-        L₂.map (γ.app X ≫ β.natTrans.app (L.obj X)) ≫ adj₂.counit.app (H.obj (L.obj X))) :
+        L₂.map (γ.app X ≫ β.app (L.obj X)) ≫ adj₂.counit.app (H.obj (L.obj X))) :
     mateEquiv adj₁ adj₂ α = β := by
-  have key : (mateEquiv adj₁ adj₂ α).natTrans = β.natTrans := by
+  have key : mateEquiv adj₁ adj₂ α = β := by
     refine Functor.rightDerived_ext (R₁ ⋙ G) γ W (H ⋙ R₂) _ _ (NatTrans.ext (funext fun X => ?_))
     have hmate := mateEquiv_counit adj₁ adj₂ α (L.obj X)
     apply (adj₂.homEquiv (F₀.obj X) (H.obj (L.obj X))).symm.injective

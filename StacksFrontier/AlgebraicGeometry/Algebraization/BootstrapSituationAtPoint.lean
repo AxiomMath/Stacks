@@ -70,7 +70,7 @@ namespace Stacks.Algebraization
 public theorem setOf_asIdeal_eq_maximalIdeal (A : Type u) [CommRing A] [IsLocalRing A] :
     {q : PrimeSpectrum A | q.asIdeal = maximalIdeal A} = {closedPoint A} := by
   ext q
-  simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
   exact ⟨fun h => PrimeSpectrum.ext h, fun h => by rw [h]; rfl⟩
 
 variable (S : AlgebraizationSituation.{u})
@@ -182,7 +182,7 @@ public theorem exists_bootstrapSituation_closedPoint
     HEq.rfl, hBs, hBd⟩
   have hT : bT = {q : PrimeSpectrum (completedLocalRing (idealOnOpen S) y) |
       q.asIdeal = completedMaximalIdeal (idealOnOpen S) y} := eq_of_heq hBT
-  show bT = {closedPoint (completedLocalRing (idealOnOpen S) y)}
+  change bT = {closedPoint (completedLocalRing (idealOnOpen S) y)}
   rw [hT, completedMaximalIdeal_eq_maximalIdeal S y z hyz]
   exact setOf_asIdeal_eq_maximalIdeal _
 

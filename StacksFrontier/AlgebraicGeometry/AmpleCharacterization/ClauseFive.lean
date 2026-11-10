@@ -105,7 +105,8 @@ universe u
 namespace Stacks.AmpleCharacterization
 
 attribute [local instance] Stacks.SheafOfModules.monoidalCategoryPresheafOfModules
-  Stacks.SheafOfModules.symmetricCategoryPresheafOfModules Stacks.SheafInternalHom.isMonoidal_localIso
+  Stacks.SheafOfModules.symmetricCategoryPresheafOfModules
+  Stacks.SheafInternalHom.isMonoidal_localIso
   Stacks.SheafInternalHom.isLocalization_sheafify Stacks.SheafInternalHom.monoidalCategory
   Stacks.SheafInternalHom.sheafifyMonoidal Stacks.SheafInternalHom.braidedCategory
   Stacks.SheafInternalHom.schemeMonoidalCategory
@@ -189,7 +190,7 @@ theorem whiskerRight_twistHom (F : X.Modules) (n : ℤ)
     (m : Γ(F ⊗ tensorPowModule X L n, ⊤)) :
     twistHom L F n m ▷ tensorPowModule X L n =
       (negTensorCancelIso L n).hom ≫ unitHom (F ⊗ tensorPowModule X L n) m := by
-  haveI := Stacks.AmpleGlobalGeneration.isEquivalence_tensorRight L n
+  have := Stacks.AmpleGlobalGeneration.isEquivalence_tensorRight L n
   exact (CategoryTheory.MonoidalCategory.tensorRight (tensorPowModule X L n)).map_preimage _
 
 /-! ### Stalk bookkeeping -/
@@ -291,7 +292,7 @@ theorem iSup_range_twistHom_eq_top_of_isAmple (hL : IsAmple X L) :
       (⨆ (n : ℕ) (_ : 1 ≤ n) (m : Γ(F ⊗ tensorPowModule X L (n : ℤ), ⊤)),
         LinearMap.range (Stacks.ModuleStalk.map (twistHom L F (n : ℤ) m) x)) = ⊤ := by
   intro F hF x
-  haveI := hF
+  have := hF
   refine eq_top_iff.mpr fun g _ => ?_
   obtain ⟨n, hn, m, hmem⟩ := exists_mem_range_twistHom L hL F x g
   exact Submodule.mem_iSup_of_mem n

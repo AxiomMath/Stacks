@@ -91,7 +91,7 @@ theorem exists_primeIdealOf_eq (hU : IsAffineOpen U) (m : Ideal Γ(X, U)) (hm : 
 theorem notMem_primeIdealOf_of_mem_basicOpen (hU : IsAffineOpen U) (g : Γ(X, U)) (y : U)
     (hyg : (y : X) ∈ X.basicOpen g) : g ∉ (hU.primeIdealOf y).asIdeal := by
   have h₁ : hU.primeIdealOf y ∈ hU.fromSpec ⁻¹ᵁ X.basicOpen g := by
-    show hU.fromSpec (hU.primeIdealOf y) ∈ X.basicOpen g
+    change hU.fromSpec (hU.primeIdealOf y) ∈ X.basicOpen g
     rw [hU.fromSpec_primeIdealOf y]
     exact hyg
   rw [hU.fromSpec_preimage_basicOpen] at h₁

@@ -140,6 +140,7 @@ private theorem isFinitePresentation_pullback_snd {X Y Z : (AlgebraicGeometry.Bi
 
 include hD hAffine hQc hQs
 
+omit hD hQc hQs in
 private theorem eventually_etale_over_affine_chart_of_limitFacts
     (hFacts : LimitFacts B S hS D) (i : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS) (p₀ : yoneda.obj U₀.obj ⟶ D.obj i)
@@ -172,6 +173,7 @@ private theorem eventually_etale_over_affine_chart_of_limitFacts
     ‹Etale ((Over.pullback (Q.map q)).obj X).hom›
   exact scheme_eventually_etale_pullback E' sc hsc X hX
 
+omit hD hQc hQs in
 private theorem exists_finitePresentation_atlas_model_of_limitFacts
     (hFacts : LimitFacts B S hS D) (i : I)
     (U₀ : AlgebraicGeometry.BigAffineFppf B S hS) (p₀ : yoneda.obj U₀.obj ⟶ D.obj i)
@@ -199,10 +201,11 @@ private theorem exists_finitePresentation_atlas_model_of_limitFacts
           ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (c.π.app j).left)).obj Wj) := by
   obtain ⟨W, w, g, hws, hwe, hw, hg⟩ := exists_affine_finitePresentation_chart B S hS
     (hFacts.limAlg) hY Y.hom hf U p hs he
-  obtain ⟨j, Wj, hWj, hmodel⟩ := exists_model_over_affine_chart_of_limitFacts B S hS hZ D hD hAffine
-    hQc hQs hFacts i U₀ p₀ U p q hp W.obj g hg
+  obtain ⟨j, Wj, hWj, hmodel⟩ := exists_model_over_affine_chart_of_limitFacts B S hS D hAffine
+    hFacts i U₀ p₀ U p q hp W.obj g hg
   exact ⟨W, w, g, j, Wj, hws, hwe, hw, hWj, hmodel.2⟩
 
+omit hQc hQs in
 private theorem eventually_eq_on_quasiCompact_source_of_limitFacts
     (hFacts : LimitFacts B S hS D) (i : I)
     {Y Z G : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -227,7 +230,7 @@ private theorem eventually_eq_on_quasiCompact_source_of_limitFacts
       (pullback.fst (limit.π D i) (q₀ ≫ r))
       (by simp only [Category.assoc, pullback.condition])
     simpa [k] using congrArg (fun t => k ≫ t) hfg
-  obtain ⟨j, hj⟩ := eventually_eq_on_affine_chart_over_of_limitFacts B S hS hZ D hD hAffine hQc hQs
+  obtain ⟨j, hj⟩ := eventually_eq_on_affine_chart_over_of_limitFacts B S hS D hAffine
     hFacts i U (q₀ ≫ r) hG b hZalg a ha
     (q₀ ≫ f) (q₀ ≫ g) (by simp [hf]) (by simp [hg]) hh
   refine ⟨j.left, j.hom, ?_⟩
@@ -241,6 +244,7 @@ private theorem eventually_eq_on_quasiCompact_source_of_limitFacts
   rw [← hp.w_assoc, ← hp.w_assoc]
   exact hj
 
+omit hQc hQs in
 private theorem exists_stage_atlas_factorization_of_limitFacts
     (hFacts : LimitFacts B S hS D) (i : I)
     (Y : Over (D.obj i))
@@ -274,7 +278,7 @@ private theorem exists_stage_atlas_factorization_of_limitFacts
   let k : pullback (limit.π D i) (q₀ ≫ Y.hom) ⟶ pullback Y.hom (limit.π D i) :=
     pullback.lift (pullback.snd _ _ ≫ q₀) (pullback.fst _ _)
       (by simp only [Category.assoc, pullback.condition])
-  obtain ⟨j, g, hg, hgf⟩ := exists_hom_on_affine_chart_of_limitFacts B S hS hZ D hD hAffine hQc hQs
+  obtain ⟨j, g, hg, hgf⟩ := exists_hom_on_affine_chart_of_limitFacts B S hS D hD hAffine
     hFacts i U (q₀ ≫ Y.hom) hZalg a ha (k ≫ f) (by
       rw [Category.assoc, hf]
       simpa [k, Category.assoc] using (pullback.condition (f := limit.π D i)
@@ -312,7 +316,7 @@ private theorem exists_stage_atlas_factorization_of_limitFacts
 
 /-- A morphism between base changes of finite-presentation algebraic spaces
 is defined at a sufficiently late stage. -/
-private theorem exists_morphism_after_baseChange_aux
+theorem exists_morphism_after_baseChange_aux
     (hFacts : LimitFacts B S hS D)
     (i : I) (Yᵢ Zᵢ : Over (D.obj i))
     (hY : AlgebraicGeometry.IsAlgebraicSpace B S hS Yᵢ.left)
@@ -349,7 +353,7 @@ private theorem exists_morphism_after_baseChange_aux
         pullback.snd Yᵢ.hom (limit.π D i) := f.w
     rw [← Category.assoc, hw]
   obtain ⟨j, U, p, g, hs, he, hg, hgf⟩ := exists_stage_atlas_factorization_of_limitFacts
-    B S hS hZ D hD hAffine hQc hQs hFacts i Yᵢ hY hYqc hZ' Zᵢ.hom hZfp.1 f₀ hf₀
+    B S hS D hD hAffine hFacts i Yᵢ hY hYqc hZ' Zᵢ.hom hZfp.1 f₀ hf₀
   let Yj := (Over.pullback (D.map j.hom)).obj Yᵢ
   have hYj := AlgebraicGeometry.isAlgebraicSpace_pullback B S hS Yᵢ.hom (D.map j.hom)
     hY (hD j.left) (hD i)
@@ -363,8 +367,8 @@ private theorem exists_morphism_after_baseChange_aux
   have hlim := equalizes_kernelPair_after_baseChange p Yj.hom (limit.π D j.left)
     ((iteratedBaseChangeIso (D.map j.hom) (limit.π D j.left) (limit.π D i)
       (limit.w D j.hom) Yᵢ).hom.left ≫ f₀) g hgf
-  obtain ⟨k, e, hkg⟩ := eventually_eq_on_quasiCompact_source_of_limitFacts B S hS hZ D hD hAffine
-    hQc hQs hFacts j.left hR hZ' (hD i) hRqc
+  obtain ⟨k, e, hkg⟩ := eventually_eq_on_quasiCompact_source_of_limitFacts B S hS D hD hAffine
+    hFacts j.left hR hZ' (hD i) hRqc
     (pullback.fst p p ≫ p ≫ Yj.hom) Zᵢ.hom (D.map j.hom) hZfp.1
     (pullback.fst p p ≫ g) (pullback.snd p p ≫ g)
     (by simpa only [Yj, Over.pullback_obj_hom, Category.assoc] using
@@ -433,7 +437,7 @@ private theorem exists_morphism_after_baseChange_aux
           iteratedBaseChangeIso_inv_left, Over.mk_hom, Category.assoc]
     have hqse := presheaf_surjective_etale_of_isPullback B S hS hq hs he
     have hEq : q ≫ A.hom.left ≫ (m ≫ raw) = q ≫ A.hom.left ≫ f₀ := by
-      show q ≫ A.hom.left ≫ m ≫ η.inv.left ≫ gK = _
+      change q ≫ A.hom.left ≫ m ≫ η.inv.left ≫ gK = _
       have hh := congrArg (fun t => t ≫ gK) hl
       simp only [Category.assoc, hgK] at hh
       rw [hh]
@@ -468,9 +472,10 @@ private theorem exists_morphism_after_baseChange_aux
       (Over.w (α.hom ≫ f)).trans
         (Over.w ((Over.pullback (limit.π D k)).map g' ≫ β.hom)).symm
 
+omit hQs in
 /-- Two finite-stage morphisms that agree over the limit agree at a sufficiently
 late stage. -/
-private theorem eventually_eq_of_baseChange_eq_aux
+theorem eventually_eq_of_baseChange_eq_aux
     (hFacts : LimitFacts B S hS D)
     (i : I) (Yᵢ Zᵢ : Over (D.obj i))
     (hY : AlgebraicGeometry.IsAlgebraicSpace B S hS Yᵢ.left)
@@ -490,7 +495,7 @@ private theorem eventually_eq_of_baseChange_eq_aux
   let U : AlgebraicGeometry.BigAffineFppf B S hS := ⟨U₀, hU₀⟩
   have hf : (q₀ ≫ f.left) ≫ Zᵢ.hom = q₀ ≫ Yᵢ.hom := by simp
   have hg : (q₀ ≫ g.left) ≫ Zᵢ.hom = q₀ ≫ Yᵢ.hom := by simp
-  obtain ⟨j, hj⟩ := eventually_eq_on_affine_chart_of_limitFacts B S hS hZ D hD hAffine hQc hQs
+  obtain ⟨j, hj⟩ := eventually_eq_on_affine_chart_of_limitFacts B S hS D hD hAffine
     hFacts i U (q₀ ≫ Yᵢ.hom) hZ' Zᵢ.hom hZfp.1
     (q₀ ≫ f.left) (q₀ ≫ g.left) hf hg
     (precomp_eq_of_baseChange_eq (limit.π D i) Yᵢ Zᵢ f g hfg q₀)
@@ -511,7 +516,7 @@ private theorem eventually_eq_of_baseChange_eq_aux
   · simpa [Over.pullback_map_left] using heq
   · simp [Over.pullback_map_left]
 
-private theorem exists_isIso_after_baseChange_of_limitFacts
+theorem exists_isIso_after_baseChange_of_limitFacts
     (hFacts : LimitFacts B S hS D)
     (i : I) (Y Z : Over (D.obj i))
     (hY : AlgebraicGeometry.IsAlgebraicSpace B S hS Y.left)
@@ -548,9 +553,9 @@ private theorem exists_isIso_after_baseChange_of_limitFacts
       IsIso.inv_hom_id, Category.comp_id]
     rw [(Over.pullback (limit.π D j)).map_id Zj, Category.id_comp]
   obtain ⟨k, e', hk₁, hk₂⟩ := exists_common_stage_baseChange_eq D
-    (eventually_eq_of_baseChange_eq_aux B S hS hZ D hD hAffine hQc hQs hFacts j Yj Yj hYj hYj hYjfp
+    (eventually_eq_of_baseChange_eq_aux B S hS D hD hAffine hQc hFacts j Yj Yj hYj hYj hYjfp
       hYjfp (fj ≫ g) (𝟙 Yj) hfg)
-    (eventually_eq_of_baseChange_eq_aux B S hS hZ D hD hAffine hQc hQs hFacts j Zj Zj hZj hZj hZjfp
+    (eventually_eq_of_baseChange_eq_aux B S hS D hD hAffine hQc hFacts j Zj Zj hZj hZj hZjfp
       hZjfp (g ≫ fj) (𝟙 Zj) hgf)
   let : IsIso ((Over.pullback (D.map e')).map fj) :=
     ⟨⟨(Over.pullback (D.map e')).map g,
@@ -569,7 +574,7 @@ private theorem exists_isIso_after_baseChange_of_limitFacts
   rw [hf']
   infer_instance
 
-private theorem exists_mono_after_baseChange_of_limitFacts
+theorem exists_mono_after_baseChange_of_limitFacts
     (hFacts : LimitFacts B S hS D)
     (i : I) (Y Z : Over (D.obj i))
     (hY : AlgebraicGeometry.IsAlgebraicSpace B S hS Y.left)
@@ -593,11 +598,11 @@ private theorem exists_mono_after_baseChange_of_limitFacts
       (Over.pullback (limit.π D i)).map c.snd := by
     apply (cancel_mono ((Over.pullback (limit.π D i)).map f)).mp
     rw [← Functor.map_comp, ← Functor.map_comp, c.condition]
-  obtain ⟨j, e, hj⟩ := eventually_eq_of_baseChange_eq_aux B S hS hZ D hD hAffine hQc hQs
+  obtain ⟨j, e, hj⟩ := eventually_eq_of_baseChange_eq_aux B S hS D hD hAffine hQc
     hFacts i c.pt Y hR hY hRfp hYfp c.fst c.snd heq
   exact ⟨j, e, IsKernelPair.mono_of_eq_fst_snd (hc.map (Over.pullback (D.map e))) hj⟩
 
-private theorem exists_lift_pair_after_baseChange_of_limitFacts
+theorem exists_lift_pair_after_baseChange_of_limitFacts
     (hFacts : LimitFacts B S hS D)
     (i : I) (A R W : Over (D.obj i))
     (hA : AlgebraicGeometry.IsAlgebraicSpace B S hS A.left)
@@ -636,9 +641,9 @@ private theorem exists_lift_pair_after_baseChange_of_limitFacts
   obtain ⟨hWj, hWjfp⟩ := isFinitePresentation_pullback_snd B S hS W.hom (D.map e) hW (hD j)
     (hD i) hWfp
   obtain ⟨k, e', hk₁, hk₂⟩ := exists_common_stage_baseChange_eq D
-    (eventually_eq_of_baseChange_eq_aux B S hS hZ D hD hAffine hQc hQs hFacts j Aj Wj hAj hWj hAjfp
+    (eventually_eq_of_baseChange_eq_aux B S hS D hD hAffine hQc hFacts j Aj Wj hAj hWj hAjfp
       hWjfp (g ≫ (Over.pullback (D.map e)).map s) ((Over.pullback (D.map e)).map a) (heq s a hu₁))
-    (eventually_eq_of_baseChange_eq_aux B S hS hZ D hD hAffine hQc hQs hFacts j Aj Wj hAj hWj hAjfp
+    (eventually_eq_of_baseChange_eq_aux B S hS D hD hAffine hQc hFacts j Aj Wj hAj hWj hAjfp
       hWjfp (g ≫ (Over.pullback (D.map e)).map t) ((Over.pullback (D.map e)).map b) (heq t b hu₂))
   let δ (Z : Over (D.obj i)) := iteratedBaseChangeIso (D.map e) (D.map e')
     (D.map (e' ≫ e)) (D.map_comp _ _).symm Z

@@ -279,7 +279,8 @@ theorem intersectionNumber_eq_of_sub_eulerCharacteristic_eq (D : AlgebraicSpaces
     (hdD : dimension B (Spec (.of k)) hk D.1 D.2 = d)
     (L : Fin (d + 1) → Modules.{u, u} B (Spec (.of k)) hk X.1 X.2)
     [∀ j, Stacks.SheafOfModules.IsInvertible (structurePresheaf B (Spec (.of k)) hk X.1)
-      ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B (Spec (.of k)) hk X.1 X.2).O)).property (L j)]
+      ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B (Spec (.of k)) hk X.1
+        X.2).O)).property (L j)]
     [∀ n : Fin (d + 1) → ℤ, IsCoherent B (Spec (.of k)) hk X.1 X.2
       (twistedModuleUlift.{u, w} B (Spec (.of k)) hk X.1 X.2
         (structureSheafPushforward B (Spec (.of k)) hk i) L n)]

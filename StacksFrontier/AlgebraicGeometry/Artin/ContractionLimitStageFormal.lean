@@ -72,7 +72,7 @@ theorem subset_stageToBase (k : Over k₀) :
     Space.pointsMap B S hS _ (stageQ W k) ⁻¹' (W.baseChange k.hom).Z ⊆
       Space.pointsMap B S hS _ (stageToBase W k) ⁻¹' (Space.pointsMap B S hS W.Y W.q ⁻¹' W.Z) := by
   intro x hx
-  show Space.pointsMap B S hS _ W.q (Space.pointsMap B S hS _ (stageToBase W k) x) ∈ W.Z
+  change Space.pointsMap B S hS _ W.q (Space.pointsMap B S hS _ (stageToBase W k) x) ∈ W.Z
   rw [← Space.pointsMap_comp_apply, ← pullback.condition, Space.pointsMap_comp_apply]
   exact hx
 
@@ -93,7 +93,7 @@ theorem subset_stageHom {k k' : Over k₀} (f : k' ⟶ k) :
       Space.pointsMap B S hS _ (stageHom W f) ⁻¹'
         (Space.pointsMap B S hS _ (stageQ W k) ⁻¹' (W.baseChange k.hom).Z) := by
   intro x hx
-  show Space.pointsMap B S hS _ (stageQ W k) (Space.pointsMap B S hS _ (stageHom W f) x) ∈
+  change Space.pointsMap B S hS _ (stageQ W k) (Space.pointsMap B S hS _ (stageHom W f) x) ∈
     Space.pointsMap B S hS _ (yoneda.map (D.map k.hom).hom) ⁻¹' W.Z
   rw [← Space.pointsMap_comp_apply, stageHom_q, Space.pointsMap_comp_apply, Set.mem_preimage,
     ← Space.pointsMap_comp_apply, ← Functor.map_comp, map_left_hom_comp]
@@ -108,6 +108,7 @@ theorem completionSheafRestrict_stageHom_stageFormal {k k' : Over k₀} (f : k' 
   rw [stageFormal, stageFormal, ← Category.assoc,
     completionSheafRestrict_comp_congr (stageHom_stageToBase W f)]
 
+omit [IsCofiltered I] in
 /-- The map `V' ⟶ V'_k` from the limit maps the preimage of `ξ.Z` into the closed subset of
 `V'_k` over `Z_k`. -/
 theorem subset_stageA (k : Over k₀) :
@@ -116,6 +117,7 @@ theorem subset_stageA (k : Over k₀) :
         (Space.pointsMap B S hS _ (stageQ W k) ⁻¹' (W.baseChange k.hom).Z) :=
   (W.baseChange k.hom).toStageModel.subset_preimage_preimage
 
+omit [IsCofiltered I] in
 /-- Restricting `stageFormal W ℓ k` along `V' ⟶ V'_k` agrees with restricting `ℓ` along
 `V' ⟶ V'_{k₀}`. -/
 theorem completionSheafRestrict_stageA_stageFormal (k : Over k₀) :
@@ -154,11 +156,12 @@ theorem stage_Z_subset {k k' : Over k₀} (f : k' ⟶ k) :
     (W.baseChange k'.hom).Z ⊆
       Space.pointsMap B S hS _ (yoneda.map (D.map f.left).hom) ⁻¹' (W.baseChange k.hom).Z := by
   intro x hx
-  show Space.pointsMap B S hS _ (yoneda.map (D.map k.hom).hom)
+  change Space.pointsMap B S hS _ (yoneda.map (D.map k.hom).hom)
     (Space.pointsMap B S hS _ (yoneda.map (D.map f.left).hom) x) ∈ W.Z
   rw [← Space.pointsMap_comp_apply, ← Functor.map_comp, map_left_hom_comp]
   exact hx
 
+omit [IsCofiltered I] in
 /-- **The image of `ψ` in `C^∧` is `α ∘ φ`** for the ring map `φ : B → A^∧` of `x₀`. -/
 theorem limitAlpha_continuousHomEquiv_symm
     {x₀ : Space.completionSheaf B S hS (yoneda.obj κ.pt.obj) ξ.Z ⟶ W₀}
@@ -184,6 +187,7 @@ theorem limitAlpha_continuousHomEquiv_symm
   rw [h3] at h4
   exact h5.symm.trans h4.symm
 
+omit [IsCofiltered I] hpt in
 /-- **A continuous `φ_k : B → A_k^∧` with `α ∘ φ_k = ψ` restricts on `V'_k` to the lift `ℓ`.** -/
 theorem completionSheafRestrict_comp_continuousHomEquiv_eq (k : Over k₀)
     (φc : FormalSpace.ContinuousHom DB

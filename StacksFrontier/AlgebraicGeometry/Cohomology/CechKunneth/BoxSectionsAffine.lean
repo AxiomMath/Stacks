@@ -372,10 +372,9 @@ theorem ofChartTensor_toChartTensor (hψ : Function.Bijective ψ)
     (y : (sectionsK X (baseRingHom ψ a) F).obj (op Z.fst) ⊗[k]
       (sectionsK Y (baseRingHom ψ b) G).obj (op Z.snd)) :
     ofChartTensor ψ a b F G Z hA hB hψ (toChartTensor ψ a b F G Z hA hB y) = y := by
-  induction y using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction y using TensorProduct.inductionOn with
   | tmul s t =>
-    show leftUnitInv ψ a b F Z hA hB (leftUnit ψ a b F Z hA hB s) ⊗ₜ
+    change leftUnitInv ψ a b F Z hA hB (leftUnit ψ a b F Z hA hB s) ⊗ₜ
       rightUnitInv ψ a b G Z hA hB (rightUnit ψ a b G Z hA hB t) = s ⊗ₜ t
     rw [leftUnitInv_leftUnit, rightUnitInv_rightUnit]
   | add y y' hy hy' => rw [map_add, map_add, hy, hy']
@@ -386,10 +385,9 @@ theorem toChartTensor_ofChartTensor (hψ : Function.Bijective ψ)
         (topChart a b Z hA hB).base)]
         Γ((Scheme.Modules.pullback (topChart a b Z hA hB).fromSpecRight).obj G, ⊤)) :
     toChartTensor ψ a b F G Z hA hB (ofChartTensor ψ a b F G Z hA hB hψ z) = z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul m n =>
-    show leftUnit ψ a b F Z hA hB (leftUnitInv ψ a b F Z hA hB m) ⊗ₜ
+    change leftUnit ψ a b F Z hA hB (leftUnitInv ψ a b F Z hA hB m) ⊗ₜ
       rightUnit ψ a b G Z hA hB (rightUnitInv ψ a b G Z hA hB n) = m ⊗ₜ n
     rw [leftUnit_leftUnitInv, rightUnit_rightUnitInv]
   | add z z' hz hz' => rw [map_add, map_add, hz, hz']
@@ -410,14 +408,7 @@ theorem restrict_boxMap_app [F.IsQuasicoherent] [G.IsQuasicoherent]
         (homOfLE (image_topChart a b Z hA hB).le).op (((boxMap ψ a b F G).app (op Z)).hom y) =
       (topChart a b Z hA hB).boxSectionOfTensor (topChart_hl a b Z hA hB)
         (topChart_hr a b Z hA hB) F G (toChartTensor ψ a b F G Z hA hB y) := by
-  induction y using TensorProduct.induction_on with
-  | zero =>
-    refine ((congrArg ((externalTensorProduct a b F G).presheaf.map
-      (homOfLE (image_topChart a b Z hA hB).le).op)
-      (map_zero ((boxMap ψ a b F G).app (op Z)).hom)).trans (map_zero _)).trans ?_
-    refine Eq.trans ?_ (congrArg ((topChart a b Z hA hB).boxSectionOfTensor _ _ F G)
-      (map_zero (toChartTensor ψ a b F G Z hA hB))).symm
-    exact ((topChart a b Z hA hB).boxSectionOfTensor_zero _ _ F G).symm
+  induction y using TensorProduct.inductionOn with
   | tmul s t =>
     refine (externalTensorSection_presheaf_map a b F G (U := Z.fst) (V := Z.snd) s t _ _
       ((image_topChart a b Z hA hB).le.trans (boxOpen_le_fst a b Z))

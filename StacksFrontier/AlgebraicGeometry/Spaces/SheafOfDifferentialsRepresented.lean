@@ -554,7 +554,7 @@ theorem resLE_appTop_topIso_inv {X₀ Y₀ : Scheme.{u}} (f : X₀ ⟶ Y₀) (W 
     ((f.resLE W (f ⁻¹ᵁ W) le_rfl).appTop).hom ((W.topIso.inv).hom b) =
       (((f ⁻¹ᵁ W).topIso.inv).hom ((f.app W).hom b)) := by
   rw [Scheme.Hom.appTop, Scheme.Hom.resLE_app_top, Scheme.Hom.appLE_eq_app]
-  show ((f ⁻¹ᵁ W).topIso.inv).hom ((f.app W).hom ((W.topIso.hom).hom
+  change ((f ⁻¹ᵁ W).topIso.inv).hom ((f.app W).hom ((W.topIso.hom).hom
     ((W.topIso.inv).hom b))) = _
   rw [show (W.topIso.hom).hom ((W.topIso.inv).hom b) = b from
     ConcreteCategory.congr_hom W.topIso.inv_hom_id b]
@@ -826,7 +826,8 @@ instance faithful_representedModulePushforward (C : BigFppfOver B S hS) :
 private theorem derivation_ext_of_d_eq {C : Type u₁} [Category.{v₁} C] {D : Type u₂}
     [Category.{v₂} D] {F : C ⥤ D} {R : Dᵒᵖ ⥤ CommRingCat.{u}} {S₀ : Cᵒᵖ ⥤ CommRingCat.{u}}
     {M : PresheafOfModules.{u} (R ⋙ forget₂ CommRingCat RingCat)} {φ : S₀ ⟶ F.op ⋙ R}
-    {d d' : PresheafOfModulesOfCommRing.Derivation M φ} (h : ∀ (Z : Dᵒᵖ) (x : R.obj Z), d.d x = d'.d x) : d = d' :=
+    {d d' : PresheafOfModulesOfCommRing.Derivation M φ}
+    (h : ∀ (Z : Dᵒᵖ) (x : R.obj Z), d.d x = d'.d x) : d = d' :=
   PresheafOfModulesOfCommRing.Derivation.ext (funext fun Z ↦ AddMonoidHom.ext (h Z))
 
 /-- **A morphism out of `(Ω_{U/V})^a` is determined by its values on the canonical differentials

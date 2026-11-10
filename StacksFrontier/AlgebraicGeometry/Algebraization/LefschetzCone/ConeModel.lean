@@ -64,6 +64,7 @@ attribute [local instance] ProjectiveSpectrum.isPrime
 
 variable {X : Scheme.{u}} (L : X.Modules) [Stacks.Ample.IsInvertibleModule X L] (s : Γ(L, ⊤))
 
+omit [Stacks.Ample.IsInvertibleModule X L] in
 /-- The section `f` lies in the irrelevant ideal. -/
 theorem sectionElt_mem_irrelevant :
     sectionElt L s ∈ (HomogeneousIdeal.irrelevant (grading L)).toIdeal :=

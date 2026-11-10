@@ -568,10 +568,10 @@ theorem functionFieldMap_functionFieldAlgebraMap (V W : Variety k)
     rw [← hg, Scheme.Hom.comp_appTop]
   have hV := DFunLike.congr_fun (functionFieldAlgebraMap_eq_germToFunctionField V) a
   have hW := DFunLike.congr_fun (functionFieldAlgebraMap_eq_germToFunctionField W) a
-  show (Scheme.Hom.functionFieldMap g).hom (functionFieldAlgebraMap W a) =
+  change (Scheme.Hom.functionFieldMap g).hom (functionFieldAlgebraMap W a) =
     functionFieldAlgebraMap V a
   rw [hV, hW]
-  show (Scheme.Hom.functionFieldMap g)
+  change (Scheme.Hom.functionFieldMap g)
       (W.toScheme.germToFunctionField ⊤ ((W.structureMap.appTop).hom
         (((Scheme.ΓSpecIso (.of k)).inv).hom a))) = _
   rw [Scheme.Hom.functionFieldMap_germToFunctionField g hle, happ, hstruct]

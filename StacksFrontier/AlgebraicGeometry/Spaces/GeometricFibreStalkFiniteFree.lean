@@ -132,7 +132,8 @@ tautological ones under the inverse of the trivializing isomorphism, so that str
 that inverse.
 
 **Freeness modulo an ideal.**  `Module.Free.quotient_smul_top` is the freeness analogue of
-`Module.Flat.quotient_smul_top` of `StacksFrontier/RingTheory/Flat/FibreCriterionNilpotent.lean` and is proved the
+`Module.Flat.quotient_smul_top` of `StacksFrontier/RingTheory/Flat/FibreCriterionNilpotent.lean` and
+is proved the
 same way, through the `A ⧸ J`-linear comparison
 `TensorProduct.quotTensorEquivQuotSMulBase` of
 `StacksFrontier/RingTheory/Flat/ProjectiveOfIntegralFibresQuotient.lean`; it is what turns freeness

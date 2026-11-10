@@ -189,6 +189,11 @@ public def representationLevelInverseImageAdjoint (k : ℕ) :
                     (SmallEtale.topology B X.1 X.2) (SmallEtale.topology B Y.1 Y.2)).map_comp _
                       _)))))) })
 
+omit [∀ (n : ℕ) (S T : B.Scheme) (f : T ⟶ S),
+    ((smallEtaleBaseChange B f).sheafPushforwardContinuous
+      (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))
+      (SmallEtale.topology B S.obj S.property)
+      (SmallEtale.topology B T.obj T.property)).IsRightAdjoint] in
 /-- The adjoint has the abelian adjoint as underlying map. -/
 public theorem forget₂_representationLevelInverseImageAdjoint (k : ℕ) :
     (sheafCompose (SmallEtale.topology B X.1 X.2)
@@ -301,6 +306,11 @@ private theorem unit_comp_map_hom_naturality {G G' : _} (g : G ⟶ G') :
             (SmallEtale.topology B X.1 X.2) (SmallEtale.topology B Y.1 Y.2)).map_comp _
               _))))))
 
+omit [∀ (n : ℕ) (S T : B.Scheme) (f : T ⟶ S),
+    ((smallEtaleBaseChange B f).sheafPushforwardContinuous
+      (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))
+      (SmallEtale.topology B S.obj S.property)
+      (SmallEtale.topology B T.obj T.property)).IsRightAdjoint] in
 /-- The abelian adjoints commute with reduction, by naturality of the unit and of `β`. -/
 public theorem representationLevelInverseImageAbelianAdjoint_reduction (k : ℕ) :
     ((canonicalFiniteLocallyConstantAbelianSheafEquivalence B X (y.map f.hom)).inverse.map
@@ -323,6 +333,12 @@ local instance hasWeakSheafify_smallEtale_levels (n : ℕ) (T : B.Scheme) :
       (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1)))) :=
   inferInstance
 
+omit [∀ (n : ℕ) (S T : B.Scheme) (f : T ⟶ S),
+    ((smallEtaleBaseChange B f).sheafPushforwardContinuous
+      (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))
+      (SmallEtale.topology B S.obj S.property)
+      (SmallEtale.topology B T.obj T.property)).IsRightAdjoint]
+    [AlgebraicGeometry.IsNoetherian X.1] [AlgebraicGeometry.IsNoetherian Y.1] in
 /-- **Module adjoints lifting the abelian ones commute with the transition maps.** -/
 public theorem representationLevelInverseImage_adjoint_transition
     (θ : ∀ k : ℕ, representationLevelSheaf B X (y.map f.hom)
@@ -348,13 +364,13 @@ public theorem representationLevelInverseImage_adjoint_transition
           (hρ.comp (etaleFundamentalGroupMap f.hom y).continuous) (n + 1)) := by
   apply (sheafCompose (SmallEtale.topology B X.1 X.2)
     (forget₂ (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1 + 1)))) AddCommGrpCat.{u + 1})).map_injective
-  simp only [Functor.map_comp, LAdicSheaf.levelPushforwardRestrictIso, NatIso.ofComponents_inv_app,
-    Iso.refl_inv, Functor.map_id, Category.comp_id]
+  simp only [Functor.map_comp, LAdicSheaf.levelPushforwardRestrictIso]
   refine Eq.trans ?_ ((representationLevelInverseImageAbelianAdjoint_reduction B f y β ρ hρ
     (n + 1)).trans ?_)
   · exact congrArg₂ (· ≫ ·) rfl (hθ (n + 1))
   · exact congrArg₂ (· ≫ ·) (hθ (n + 1 + 1)).symm rfl
 
+omit [AlgebraicGeometry.IsNoetherian Y.1] in
 /-- The level comparisons commute with the transition maps, for any family of module adjoints
 lifting the abelian ones. -/
 public theorem representationLevelInverseImage_transition_of_adjoint
@@ -449,6 +465,7 @@ public theorem representationLevelInverseImage_transition_of_adjoint
     ((representationLevelInverseImage_adjoint_transition B f y β ρ hρ θ hθ n).symm.trans
       (hR.trans hM).symm)
 
+omit [AlgebraicGeometry.IsNoetherian Y.1] in
 /-- **The level comparisons commute with the transition maps.** -/
 public theorem representationLevelInverseImageHom_transition (n : ℕ) :
     representationLevelInverseImageHom B f y β ρ hρ (n + 1) ≫
@@ -496,6 +513,12 @@ variable {r' : ℕ} {ρ' : EtaleFundamentalGroup X.1 (y.map f.hom) →* GL (Fin 
   (hρ' : Continuous ρ') (A : Matrix (Fin r') (Fin r) ℤ_[ℓ])
   (hA : ∀ g, A * (ρ g).val = (ρ' g).val * A)
 
+omit [∀ (n : ℕ) (S T : B.Scheme) (f : T ⟶ S),
+    ((smallEtaleBaseChange B f).sheafPushforwardContinuous
+      (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))
+      (SmallEtale.topology B S.obj S.property)
+      (SmallEtale.topology B T.obj T.property)).IsRightAdjoint]
+    [AlgebraicGeometry.IsNoetherian X.1] [AlgebraicGeometry.IsNoetherian Y.1] in
 /-- The abelian adjoints commute with the maps induced by an intertwiner. -/
 public theorem representationLevelInverseImageAbelianAdjoint_levelAbelianMap (k : ℕ) :
     ((canonicalFiniteLocallyConstantAbelianSheafEquivalence B X (y.map f.hom)).inverse.map
@@ -509,9 +532,10 @@ public theorem representationLevelInverseImageAbelianAdjoint_levelAbelianMap (k 
             (ρ' := ρ'.comp (etaleFundamentalGroupMap f.hom y).toMonoidHom)
             (hρ.comp (etaleFundamentalGroupMap f.hom y).continuous)
             (hρ'.comp (etaleFundamentalGroupMap f.hom y).continuous) A
-            (fun g => hA _) k)).hom := by
+            (fun g => hA (etaleFundamentalGroupMap f.hom y g)) k)).hom := by
   exact unit_comp_map_hom_naturality B f y β (levelAbelianMap hρ hρ' A hA k)
 
+omit [AlgebraicGeometry.IsNoetherian X.1] [AlgebraicGeometry.IsNoetherian Y.1] in
 /-- **The level comparisons are natural in intertwiners.** -/
 public theorem representationLevelInverseImageHom_representationLevelMap (n : ℕ) :
     representationLevelInverseImageHom B f y β ρ hρ n ≫
@@ -519,7 +543,8 @@ public theorem representationLevelInverseImageHom_representationLevelMap (n : �
           (ρ := ρ.comp (etaleFundamentalGroupMap f.hom y).toMonoidHom)
           (ρ' := ρ'.comp (etaleFundamentalGroupMap f.hom y).toMonoidHom)
           (hρ.comp (etaleFundamentalGroupMap f.hom y).continuous)
-          (hρ'.comp (etaleFundamentalGroupMap f.hom y).continuous) A (fun g => hA _) (n + 1) =
+          (hρ'.comp (etaleFundamentalGroupMap f.hom y).continuous) A
+          (fun g => hA (etaleFundamentalGroupMap f.hom y g)) (n + 1) =
       (LAdicSheaf.levelPullback f n).map (representationLevelMap B X (y.map f.hom)
           (canonicalFiniteLocallyConstantAbelianSheafEquivalence B X (y.map f.hom)) hρ hρ' A hA
           (n + 1)) ≫
@@ -548,7 +573,8 @@ public theorem representationLAdicSheafInverseImageHom_naturality :
           (ρ := ρ.comp (etaleFundamentalGroupMap f.hom y).toMonoidHom)
           (ρ' := ρ'.comp (etaleFundamentalGroupMap f.hom y).toMonoidHom)
           (hρ.comp (etaleFundamentalGroupMap f.hom y).continuous)
-          (hρ'.comp (etaleFundamentalGroupMap f.hom y).continuous) A (fun g => hA _) =
+          (hρ'.comp (etaleFundamentalGroupMap f.hom y).continuous) A
+          (fun g => hA (etaleFundamentalGroupMap f.hom y g)) =
       LAdicSheaf.inverseImageMap f (representationLAdicSheafMap B X (y.map f.hom)
           (canonicalFiniteLocallyConstantAbelianSheafEquivalence B X (y.map f.hom)) hρ hρ' A hA) ≫
         representationLAdicSheafInverseImageHom B f y β ρ' hρ' :=

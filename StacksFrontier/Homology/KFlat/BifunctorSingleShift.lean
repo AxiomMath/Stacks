@@ -42,9 +42,9 @@ identifications in the same degree and the same `q` carries it on both sides, wh
 **The index of the nonvanishing summand is written out.**  Both statements name the first index
 of that summand as `n + -q`, which is the spelling the degree-`n` term of a shift by `-q` carries
 on the nose (`CochainComplex.shiftFunctor_obj_X'`).  Taking it as a separate variable together
-with the equation it satisfies, as
-`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/DerivedPullbackTensorRightUnitor.lean`
-does for the comparison of a single row, is not possible here: the source of the identification
+with the equation it satisfies, as `DerivedPullbackTensorRightUnitor.lean` (in
+`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/`) does for the comparison of a
+single row, is not possible here: the source of the identification
 is the degree-`n` term of that shift, so a variable index makes the statement ill-typed.
 
 ## References

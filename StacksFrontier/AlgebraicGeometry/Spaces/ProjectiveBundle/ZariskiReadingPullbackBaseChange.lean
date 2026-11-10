@@ -35,9 +35,12 @@ attribute [local implicit_reducible] AlgebraicGeometry.Space.smallEtaleRingedSit
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} {T T' : BigFppfOver B S hS}
   (h : T' ⟶ T)
 
+set_option maxHeartbeats 400000 in
+-- Checking the proof term against the statement, which states the type of the same term, unfolds
+-- the categories of modules involved and takes more than the default budget.
 /-- The description of the transposed base change of the Zariski reading, as a term whose type
 fixes the spelling of the categories of modules. -/
-def zariskiReadingPullbackHomAppAux := fun (hH : _)
+theorem zariskiReadingPullbackHomAppAux : type_of% fun (hH : _)
     (N : Modules.{u, u} B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T))
     (hN : N.IsQuasicoherentOnSite) =>
   Adjunction.comp_homEquiv_symm_eq_of_equivalenceMate _ (representedReindexEquivalence B S hS T) _
@@ -68,7 +71,39 @@ def zariskiReadingPullbackHomAppAux := fun (hH : _)
     hH N _
     (_root_.AlgebraicGeometry.SmallEtale.homEquiv_restrictModulePullbackObjIso_hom
       (associatedBigEtaleSite B) h.left _
-      (isQuasicoherentOnSite_representedSmallEtaleInverse B S hS T N hN))
+      (isQuasicoherentOnSite_representedSmallEtaleInverse B S hS T N hN)) :=
+  (fun (hH : _)
+    (N : Modules.{u, u} B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T))
+    (hN : N.IsQuasicoherentOnSite) =>
+  Adjunction.comp_homEquiv_symm_eq_of_equivalenceMate _ (representedReindexEquivalence B S hS T) _
+    (Stacks.RingedSpace.pullbackAdjunction (ringedSpaceHom ((BigFppfOver.toScheme B S hS).map h)))
+    (representedReindexEquivalence B S hS T') _
+    (_root_.AlgebraicGeometry.SmallEtale.restrictModule (associatedBigEtaleSite B)
+      ((BigFppfOver.toScheme B S hS).obj T) T.left.property)
+    (_root_.AlgebraicGeometry.SmallEtale.restrictModule (associatedBigEtaleSite B)
+      ((BigFppfOver.toScheme B S hS).obj T') T'.left.property)
+    (zariskiReadingIso T) (zariskiReadingIso T')
+    (Functor.whiskerRight
+      (smallEtaleRingedToposHom B S hS (representedSpaceMap B S hS h)).pushforwardModulesIso.hom
+      (SheafOfModules.pushforward.{u} (selfOpensStructureMap B S hS T)) ≫
+      zariskiDirectImageNatTrans h)
+    (SheafOfModules.pushforwardSquareIso.{u}
+      (_root_.AlgebraicGeometry.SmallEtale.schemeHom (associatedBigEtaleSite B)
+        h.left).toRingCatSheafHom
+      (_root_.AlgebraicGeometry.SmallEtale.structureMap (associatedBigEtaleSite B) _
+        T'.left.property)
+      (_root_.AlgebraicGeometry.SmallEtale.structureMap (associatedBigEtaleSite B) _
+        T.left.property)
+      (_root_.AlgebraicGeometry.SmallEtale.smallEtaleStructureMapRing (associatedBigEtaleSite B)
+        h.left)
+      (_root_.AlgebraicGeometry.SmallEtale.baseChangeOpensIso (associatedBigEtaleSite B) h.left)
+      (_root_.AlgebraicGeometry.SmallEtale.structureMap_comp_baseChangeOpensIso
+        (associatedBigEtaleSite B) h.left)) _
+    (conjugateEquiv_representedSquareFactorizationIso_hom_eq_comp h)
+    hH N _
+    (_root_.AlgebraicGeometry.SmallEtale.homEquiv_restrictModulePullbackObjIso_hom
+      (associatedBigEtaleSite B) h.left _
+      (isQuasicoherentOnSite_representedSmallEtaleInverse B S hS T N hN)) :)
 
 /-- **The base change of the Zariski reading through the comparisons of Stacks 04M0**, granted
 the sections comparison `AlgebraicGeometry.Space.zariskiDirectImageNatTrans` against the conjugate

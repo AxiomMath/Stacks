@@ -147,7 +147,7 @@ theorem isIdealActionMono (F' : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor
     (key.2 (key.1.mp hflat)).2
   have := isIso_reductionTensorMap_thickening i hi (pullbackModuleOverThickened i F') F'
     (i.pullbackAdjPushforwardModulesViaComparison.unit.app F') hq hqex
-  show Mono (multiplicationMap i.fSharp hi.I F' hi.incl)
+  change Mono (multiplicationMap i.fSharp hi.I F' hi.incl)
   rw [← reductionTensorMap_comp_canonicalSecondFactor i hi (pullbackModuleOverThickened i F') F'
     (i.pullbackAdjPushforwardModulesViaComparison.unit.app F') hq hqex]
   infer_instance
@@ -293,7 +293,7 @@ theorem relativeModuleMapObstructionClass_eq_zero_iff
       (idealProductTensorIso i t f f' hi ht comm G' hstrict hG).symm ≪≫
       (Stacks.SheafOfModules.FlatSquareZero.tensorLeftIsoTensorRight X.O
         (basePullbackIdeal t f ht)).app (L.obj G')
-  show hLP.extClass.comp (Abelian.Ext.mk₀ ξ.hom) (add_zero 1) = 0 ↔ _
+  change hLP.extClass.comp (Abelian.Ext.mk₀ ξ.hom) (add_zero 1) = 0 ↔ _
   rw [extClass_comp_mk₀_eq_zero_iff hLP ξ.hom]
   exact (exists_comp_eq_iso_iff_exists_retraction _ ξ).trans
     ((exists_retraction_map_iff adj _).trans

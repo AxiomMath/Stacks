@@ -155,10 +155,10 @@ theorem ringKrullDim_eq_of_local_quasiFinite {A B : Type u} [CommRing A] [CommRi
   let P := (IsLocalRing.maximalIdeal B).under C
   have hM : Algebra.EssFiniteType.submonoid A B = P.primeCompl := by
     ext c
-    show IsUnit (algebraMap C B c) ↔ algebraMap C B c ∉ IsLocalRing.maximalIdeal B
+    change IsUnit (algebraMap C B c) ↔ algebraMap C B c ∉ IsLocalRing.maximalIdeal B
     exact IsLocalRing.notMem_maximalIdeal.symm
   have _ : IsLocalization.AtPrime B P := by
-    show IsLocalization P.primeCompl B
+    change IsLocalization P.primeCompl B
     rw [← hM]
     exact Algebra.EssFiniteType.isLocalization A B
   let e := (IsLocalization.algEquiv P.primeCompl B (Localization.AtPrime P)).restrictScalars A
@@ -187,7 +187,7 @@ theorem ringKrullDim_eq_of_local_quasiFinite {A B : Type u} [CommRing A] [CommRi
       (inferInstance : Algebra (IsLocalRing.maximalIdeal A).ResidueField P.ResidueField) := by
     refine Algebra.algebra_ext _ _ fun a ↦ ?_
     obtain ⟨a, rfl⟩ := (IsLocalRing.maximalIdeal A).algebraMap_residueField_surjective a
-    show Ideal.ResidueField.map (IsLocalRing.maximalIdeal A) P (algebraMap A C)
+    change Ideal.ResidueField.map (IsLocalRing.maximalIdeal A) P (algebraMap A C)
       Ideal.LiesOver.over (algebraMap A (IsLocalRing.maximalIdeal A).ResidueField a) = _
     rw [Ideal.ResidueField.map_algebraMap, ← IsScalarTower.algebraMap_apply A
       (IsLocalRing.maximalIdeal A).ResidueField P.ResidueField,

@@ -53,7 +53,7 @@ public abbrev smallSiteInSchemesOver (X : B.Schemes) :
 
 private theorem baseChange_openImmersion (X : SmallZariski B S.1 S.property) :
     IsOpenImmersion (B.inclusion.map ((Over.pullback f).obj X.obj).hom) := by
-  show IsOpenImmersion (B.inclusion.map (pullback.snd X.obj.hom f))
+  change IsOpenImmersion (B.inclusion.map (pullback.snd X.obj.hom f))
   rw [← PreservesPullback.iso_hom_snd B.inclusion X.obj.hom f]
   let : IsOpenImmersion (B.inclusion.map X.obj.hom) := X.property
   infer_instance
@@ -143,7 +143,7 @@ private lemma isCovering_of_isPullback
   let : (Scheme.zariskiPrecoverage : Precoverage Scheme.{u}).IsStableUnderBaseChange :=
     Scheme.zariskiPrecoverage_isStableUnderBaseChange
   refine ⟨?_, hE.2⟩
-  show (PreZeroHypercover.mk E.I₀ P p₁ |>.map B.inclusion).presieve₀ ∈
+  change (PreZeroHypercover.mk E.I₀ P p₁ |>.map B.inclusion).presieve₀ ∈
     Scheme.zariskiPrecoverage (B.inclusion.obj Y)
   let : (Scheme.zariskiPretopology.toPrecoverage).IsStableUnderBaseChange :=
     Scheme.zariskiPrecoverage_isStableUnderBaseChange.{u}
@@ -167,7 +167,7 @@ private lemma isCovering_overPullback
     (fun i => ((Over.pullback f).map (E.f i)).left)
     (fun i => pullback.fst (E.X i).hom f)
   intro i
-  show IsPullback
+  change IsPullback
     (pullback.lift (pullback.fst (E.X i).hom f ≫ (E.f i).left)
       (pullback.snd (E.X i).hom f) _)
     (pullback.fst (E.X i).hom f) (pullback.fst X.hom f) (E.f i).left

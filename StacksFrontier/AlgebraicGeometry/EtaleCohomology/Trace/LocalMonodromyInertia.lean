@@ -55,7 +55,7 @@ public theorem isClosed_inertia
         {σ : Gal(L/K) | σ (b : L) = (c : L)} := by
     ext σ
     simp only [SetLike.mem_coe, Ideal.mem_inertia, Set.mem_iInter, Set.mem_iUnion,
-      Set.mem_setOf_eq, exists_prop]
+      Set.mem_ofPred_eq, exists_prop]
     refine forall_congr' fun b => ⟨fun h => ⟨σ • b, h, ?_⟩, fun ⟨c, hc, hσc⟩ => ?_⟩
     · exact (algebraMap_galRestrict_apply A σ b).symm
     · have : σ • b = c := Subtype.ext ((algebraMap_galRestrict_apply A σ b).trans hσc)
@@ -80,7 +80,7 @@ public theorem isClosed_inertia
         {z : L | ∃ c : integralClosure A L, c - b ∈ P ∧ (c : L) = z},
         {σ : Gal(L/K) | σ (b : L) = z} := by
     ext σ
-    simp only [Set.mem_iUnion, Set.mem_setOf_eq, exists_prop, Set.mem_inter_iff,
+    simp only [Set.mem_iUnion, Set.mem_ofPred_eq, exists_prop, Set.mem_inter_iff,
       Set.mem_range]
     constructor
     · rintro ⟨c, hc, h⟩

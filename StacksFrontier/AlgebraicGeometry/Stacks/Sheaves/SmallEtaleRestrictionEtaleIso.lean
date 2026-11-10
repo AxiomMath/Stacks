@@ -72,7 +72,7 @@ private theorem smallEtalePostcompose_isContinuous {U V : E.Scheme} (j : U ⟶ V
     reflectsLimitsOfShape_of_reflectsIsomorphisms
   have hUScheme : PreservesLimitsOfShape WalkingCospan
       (iU ⋙ (Over.forget (E.obj U.1 U.property) ⋙ E.inclusion)) := by
-    show PreservesLimitsOfShape WalkingCospan (SmallEtale.toScheme E U.1 U.property)
+    change PreservesLimitsOfShape WalkingCospan (SmallEtale.toScheme E U.1 U.property)
     exact preservesPullbacks_smallEtaleToScheme E U.1 U.property
   have : PreservesLimitsOfShape WalkingCospan
       ((iU ⋙ Over.forget (E.obj U.1 U.property)) ⋙ E.inclusion) :=
@@ -87,7 +87,7 @@ private theorem smallEtalePostcompose_isContinuous {U V : E.Scheme} (j : U ⟶ V
     simp only [Functor.assoc, Over.mapForget_eq]
     infer_instance
   have : PreservesLimitsOfShape WalkingCospan (M ⋙ iV) := by
-    show PreservesLimitsOfShape WalkingCospan (iU ⋙ Over.map j)
+    change PreservesLimitsOfShape WalkingCospan (iU ⋙ Over.map j)
     exact preservesLimitsOfShape_of_reflects_of_preserves
       (iU ⋙ Over.map j) (Over.forget (E.obj V.1 V.property))
   have : PreservesLimitsOfShape WalkingCospan M :=
@@ -141,7 +141,7 @@ private theorem smallEtalePostcomposeAdjunction_counit_map {U V : E.Scheme} (j :
   let comm1 : iU ⋙ Over.map j ≅ M ⋙ iV := eqToIso (by rfl)
   let comm2 : iV ⋙ Over.pullback j ≅ N ⋙ iU :=
     eqToIso (smallEtaleBaseChange_comp_inclusion E j).symm
-  show iV.map (((Over.mapPullbackAdj j).restrictFullyFaithful
+  change iV.map (((Over.mapPullbackAdj j).restrictFullyFaithful
       (Functor.FullyFaithful.ofFullyFaithful iU)
       (Functor.FullyFaithful.ofFullyFaithful iV) comm1 comm2).counit.app W) = _
   rw [Adjunction.map_restrictFullyFaithful_counit_app]
@@ -210,7 +210,7 @@ theorem isIso_restrictionInverseImageComparison {𝒳 : Type v} [Category.{w} �
       NatTrans.isIso_iff_isIso_app]
     intro T'
     let T := T'.unop
-    show IsIso (gamma.hom.app (Opposite.op T))
+    change IsIso (gamma.hom.app (Opposite.op T))
     have : (Over.post (X := x) (p ⋙ Over.forget (B.obj hS))).IsEquivalence :=
       isEquivalence_overPost B S hS p hp x
     have : (Over.post (X := y) (p ⋙ Over.forget (B.obj hS))).IsEquivalence :=
@@ -234,7 +234,7 @@ theorem isIso_restrictionInverseImageComparison {𝒳 : Type v} [Category.{w} �
     let eX : Px.obj xNW ≅ Ix.obj NW := ePx.counitIso.app (Ix.obj NW)
     let eY : Py.obj yW ≅ Iy.obj W := ePy.counitIso.app (Iy.obj W)
     have hz : Py.obj z = (Over.map jB).obj (Px.obj xNW) := by
-      show Over.mk ((p.map (xNW.hom ≫ φ)).left) =
+      change Over.mk ((p.map (xNW.hom ≫ φ)).left) =
         (Over.map jB).obj (Over.mk ((p.map xNW.hom).left))
       apply congrArg Over.mk
       simp [jB, Functor.map_comp]
@@ -250,7 +250,7 @@ theorem isIso_restrictionInverseImageComparison {𝒳 : Type v} [Category.{w} �
         etaP.app (Opposite.op W) ≫ Fx.map (Opposite.op (siteAdj.unit.app T)) := by
       dsimp [gamma]
       rw [postAdj.homEquiv_counit]
-      show etaP.app (Opposite.op W) ≫ (postAdj.counit.app Sx).hom.app (Opposite.op T) =
+      change etaP.app (Opposite.op W) ≫ (postAdj.counit.app Sx).hom.app (Opposite.op T) =
         etaP.app (Opposite.op W) ≫ Fx.map (Opposite.op (siteAdj.unit.app T))
       congr 1
     have hAlphaBase : (p.map alpha).left ≫ eY.hom.left =
@@ -314,7 +314,7 @@ theorem isIso_restrictionInverseImageComparison {𝒳 : Type v} [Category.{w} �
           exact Category.comp_id _
         rw [← Category.assoc, htransport]
         have ht' := congrArg (fun g => (Iy.map g).left) ht
-        show (Iy.map (M.map (siteAdj.unit.app T) ≫ siteAdj.counit.app W)).left =
+        change (Iy.map (M.map (siteAdj.unit.app T) ≫ siteAdj.counit.app W)).left =
           (Iy.map (𝟙 W)).left
         exact ht'
       have hd : (p.map delta).left = (p.map beta).left ≫ (p.map alpha).left :=
@@ -325,7 +325,7 @@ theorem isIso_restrictionInverseImageComparison {𝒳 : Type v} [Category.{w} �
       have : IsIso ((p.map delta).left ≫ eY.hom.left) := by
         rw [hconj]; exact isIso_left_hom_of_iso eT
       exact IsIso.of_isIso_comp_right _ eY.hom.left
-    show IsIso (F.obj.map alpha.op ≫ F.obj.map beta.op)
+    change IsIso (F.obj.map alpha.op ≫ F.obj.map beta.op)
     have hmap_eq : F.obj.map delta.op = F.obj.map alpha.op ≫ F.obj.map beta.op :=
       F.obj.map_comp alpha.op beta.op
     rw [← hmap_eq]

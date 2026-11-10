@@ -210,7 +210,7 @@ public lemma weightOne_eq_add_images {M : Type (max u v)}
     apply PresheafOfModules.injective_of_mono η Y
     refine Eq.trans ?_ (map_add (ConcreteCategory.hom (η.app Y))
       (F.map (algMor Q p₁ hS hT) x) (F.map (algMor Q p₂ hS hT) y)).symm
-    show η.app Y z = η.app Y (F.map (algMor Q p₁ hS hT) x) +
+    change η.app Y z = η.app Y (F.map (algMor Q p₁ hS hT) x) +
       η.app Y (F.map (algMor Q p₂ hS hT) y)
     rw [PresheafOfModules.naturality_apply η (algMor Q p₁ hS hT) x,
       PresheafOfModules.naturality_apply η (algMor Q p₂ hS hT) y]

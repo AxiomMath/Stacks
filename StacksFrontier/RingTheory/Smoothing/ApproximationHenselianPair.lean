@@ -96,7 +96,7 @@ private theorem underSmooth_le_finitePresentation {A : Type u} [CommRing A] :
   intro X hX
   let : Algebra A X.right := X.hom.hom.toAlgebra
   change Algebra.Smooth A X.right at hX
-  show Algebra.FinitePresentation A X.right
+  change Algebra.FinitePresentation A X.right
   exact hX.finitePresentation
 
 /-- Every map to an ind-smooth `I`-adic completion from a finitely presented `A`-algebra factors
@@ -159,8 +159,8 @@ each of the source's three alternative hypotheses, and those three statements ar
 `Stacks.Smoothing.exists_etale_neighbourhood_algHom_approximation`
 (`StacksFrontier/RingTheory/Smoothing/ApproximationOfCompletionMaps.lean`) and
 `Rig.exists_finiteType_adicCompletion_algEquiv_of_isRigSmooth'`
-(`StacksFrontier/RingTheory/Rig/Algebraization/RigSmoothAlgebraizationOfGRing.lean`) consume it with a
-presentation of their own, so it cannot be made `private`. -/
+(`StacksFrontier/RingTheory/Rig/Algebraization/RigSmoothAlgebraizationOfGRing.lean`) consume it with
+a presentation of their own, so it cannot be made `private`. -/
 public theorem exists_solution_of_henselianPair
     {A : Type u} [CommRing A] {I : Ideal A} [IsNoetherianRing A]
     (hAI : HenselianPair A I) (hind : IsIndSmoothAdicCompletion A I)
@@ -221,7 +221,7 @@ public theorem exists_solution_of_henselianPair
   set ρ : A' →ₐ[A] A ⧸ I :=
     ⟨(Ideal.Quotient.factor hIN).comp (e.symm.toRingHom.comp (Ideal.Quotient.mk J')), by
       intro r
-      show (Ideal.Quotient.factor hIN) (e.symm (Ideal.Quotient.mk J' (algebraMap A A' r))) = _
+      change (Ideal.Quotient.factor hIN) (e.symm (Ideal.Quotient.mk J' (algebraMap A A' r))) = _
       rw [show Ideal.Quotient.mk J' (algebraMap A A' r) = qm (Ideal.Quotient.mk (I ^ N) r) from
         (Ideal.quotientMap_mk).symm, ← hqme, e.symm_apply_apply, Ideal.Quotient.factor_mk]
       rfl⟩ with hρdef

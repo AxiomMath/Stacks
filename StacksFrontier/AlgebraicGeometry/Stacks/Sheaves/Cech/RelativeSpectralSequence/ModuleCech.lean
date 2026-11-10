@@ -184,7 +184,7 @@ private lemma comp_alternatingCofaceMapComplex_d_zero {C : Type*} [Category C] [
     (h : a ≫ X.δ 0 = a ≫ X.δ 1) :
     a ≫ ((AlgebraicTopology.alternatingCofaceMapComplex C).obj X).d 0 (0 + 1) = 0 := by
   rw [alternatingCofaceMapComplex_obj_d X 0]
-  show a ≫ (∑ i : Fin 2, (-1 : ℤ) ^ (i : ℕ) • X.δ i) = 0
+  change a ≫ (∑ i : Fin 2, (-1 : ℤ) ^ (i : ℕ) • X.δ i) = 0
   rw [Fin.sum_univ_two, Preadditive.comp_add, Preadditive.comp_zsmul,
     Preadditive.comp_zsmul, h]
   simp
@@ -212,7 +212,7 @@ private lemma cechModuleAugmentation_comp_d
     (cechModuleAugmentation.{u, v₁, v₂, w₁, w₂, t} B S hS p q f τ hp hq hf).app 𝓕 ≫
         ((cechModuleComplexFunctor.{u, v₁, v₂, w₁, w₂, t} B S hS p q f τ hp hq hf).obj 𝓕).d
           0 1 = 0 := by
-  show (cechModuleAugmentation.{u, v₁, v₂, w₁, w₂, t} B S hS p q f τ hp hq hf).app 𝓕 ≫
+  change (cechModuleAugmentation.{u, v₁, v₂, w₁, w₂, t} B S hS p q f τ hp hq hf).app 𝓕 ≫
       ((AlgebraicTopology.alternatingCofaceMapComplex _).obj
         ((cechModuleCosimplicial.{u, v₁, v₂, w₁, w₂, t}
           B S hS p q f τ hp hq hf).flip.obj 𝓕)).d 0 (0 + 1) = 0

@@ -97,7 +97,7 @@ theorem smoothAt_of_formallySmoothNAdic_localizationAtPrime_germ {R : CommRingCa
     (CommRingCat.hom_ext_iff.mp (germ_structureMap_eq g y)) a
   have hloc : eloc (algebraMap R (Localization.AtPrime (q.comap (algebraMap R T))) a) =
       algebraMap R (Localization.AtPrime (g.base y).asIdeal) a := eloc.commutes a
-  simp only [RingEquiv.trans_apply, AlgEquiv.coe_ringEquiv, hloc]
+  simp only [RingEquiv.trans_apply, AlgEquiv.coe_toRingEquiv, hloc]
   refine Eq.trans ?_ (congrArg φ.symm (hφ a))
   · rw [RingEquiv.symm_apply_apply]
     exact hgerm.symm

@@ -331,7 +331,7 @@ theorem chartValue_deltaNL (c : detNL f hf ≅ omega f hf)
         (c.hom.app ⊤ (deltaNL f hf)) :=
     congr($(c.hom.mapPresheaf.naturality (homOfLE (le_top : V.1 ≤ ⊤)).op) (deltaNL f hf))
   rw [← detNLChartEquiv_deltaNL f hf U V hVU]
-  show (omegaData f hf).localEquiv U V hVU F
+  change (omegaData f hf).localEquiv U V hVU F
     (c.hom.app V.1 ((detNLChartEquiv f hf U V hVU).symm (detNLChartEquiv f hf U V hVU
       ((detNL f hf).presheaf.map (homOfLE (le_top : V.1 ≤ ⊤)).op (deltaNL f hf))))) = _
   rw [LinearEquiv.symm_apply_apply, hnat, hc]
@@ -448,7 +448,7 @@ theorem specCBCFwd_comm (a : A) :
         ((Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom a) =
       (Scheme.ΓSpecIso (CommRingCat.of B)).inv.hom (algebraMap A B a) := by
   rw [specMap_appLE_top]
-  show (Scheme.ΓSpecIso (CommRingCat.of B)).inv.hom (algebraMap A B
+  change (Scheme.ΓSpecIso (CommRingCat.of B)).inv.hom (algebraMap A B
     ((Scheme.ΓSpecIso (CommRingCat.of A)).hom.hom
       ((Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom a))) = _
   rw [(Scheme.ΓSpecIso (CommRingCat.of A)).inv_hom_id_apply]
@@ -642,7 +642,7 @@ theorem ringValue_pullback (c : TateRule.{u}) (hc : IsTateRuleOnCharts c) {A B A
   have e1 := pullbackTate_comp (specCBCInv A B) D (D.comp (specCBCInv A B)) cv G G'
   have e2 := pullbackTate_comp (specSquareCBC D) (specCBCInv A' B') (D.comp (specCBCInv A B))
     cv G₀' G'
-  show pullbackTate (specCBCInv A' B') (chartValue (c _ _ (specHom A' B')
+  change pullbackTate (specCBCInv A' B') (chartValue (c _ _ (specHom A' B')
       (isQuasiFiniteSyntomic_specHom A' B')) (topAffine _) (topAffine _) (specHom_top A' B') G₀')
       G' = pullbackTate D (pullbackTate (specCBCInv A B) cv G) G'
   rw [← h2, ← e2, e1]

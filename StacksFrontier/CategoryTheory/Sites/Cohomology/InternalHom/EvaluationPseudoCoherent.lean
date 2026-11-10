@@ -307,7 +307,7 @@ theorem isIso_homologyMap_derivedSheafHomEvaluation_of_approximation_of_isLE
           (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) i).map α))
     (hepi : Epi ((DerivedCategory.homologyFunctor (SheafOfModules.{u}
         (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) m).map α))
-    (b d : ℤ) (hL : L.IsGE b)
+    (b d : ℤ)
     (hE : (((derivedSheafHomBifunctor X).obj (op L)).obj M).IsLE (d - b))
     (hZ : ∀ (Z : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))
       (g : K ⟶ Z)
@@ -338,8 +338,7 @@ theorem isIso_homologyMap_derivedSheafHomEvaluation_of_approximation_of_isLE
 /-- **The evaluation morphism is invertible on cohomology in one degree when a truncation of its
 source is approximated by a strictly perfect complex and four cohomological bounds hold.** Let
 `N` be an integer, let `α : Q(P) ⟶ τ_{≤ N} K` be a morphism from a strictly perfect complex,
-invertible on cohomology above `m` and surjective in degree `m`, and let `L` have no cohomology
-below `b`. If
+invertible on cohomology above `m` and surjective in degree `m`, and let `b` be an integer. If
 
 * `RSheafHom(L, M)` has no cohomology above `d - b`,
 * `RSheafHom(RSheafHom(Z, L), M)` has no cohomology above `d - b + m - 1` for `Z` a cone of `α`,
@@ -370,7 +369,7 @@ theorem isIso_homologyMap_derivedSheafHomEvaluation_of_truncLE_approximation
           (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) i).map α))
     (hepi : Epi ((DerivedCategory.homologyFunctor (SheafOfModules.{u}
         (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) m).map α))
-    (b d : ℤ) (hL : L.IsGE b)
+    (b d : ℤ)
     (hE : (((derivedSheafHomBifunctor X).obj (op L)).obj M).IsLE (d - b))
     (hZ : ∀ (Z : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))
       (g : ((DerivedCategory.TStructure.t
@@ -397,7 +396,7 @@ theorem isIso_homologyMap_derivedSheafHomEvaluation_of_truncLE_approximation
       (derivedSheafHomEvaluation X (Stacks.SheafOfModules.canonicalDerivedTensorProduct X)
         (derivedInternalHomOfBifunctor X) K L M)) := by
   have hK' := isIso_homologyMap_derivedSheafHomEvaluation_of_approximation_of_isLE X _ L M hP α m
-    hiso hepi b d hL hE hZ n hn
+    hiso hepi b d hE hZ n hn
   exact isIso_homologyMap_derivedSheafHomEvaluation_of_triangle X _ K L M _ _ _
     ((DerivedCategory.TStructure.t (C := SheafOfModules.{u}
         (Stacks.SheafOfModules.Tensor.ringSheaf X.O))).triangleLEGE_distinguished
@@ -543,6 +542,8 @@ variable (X : RingedSite.{u, u, u})
       (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O)) ℤ),
     HomologicalComplex.HasMapBifunctor K₁ K₂ (sheafTensor.{u, u, u, u, u} X.O) (ComplexShape.up ℤ)]
 
+omit [∀ V : X.C, (X.J.over V).HasSheafCompose (forget₂ RingCat.{u} AddCommGrpCat.{u})]
+  [∀ V : X.C, (X.J.over V).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The restriction of the evaluation morphism of Stacks 0A92 to a slice is invertible on
 cohomology in one degree as soon as the evaluation morphism formed over that slice is.** This is
 `quasiIso_restrictComplexMap_evaluationMap` one degree at a time: the square
@@ -629,6 +630,7 @@ theorem isIso_homologyMap_restrictComplexMap_evaluationMap (U : X.C)
                 (CategoryTheory.Functor.map_comp _ _ _))))))
   exact @IsIso.of_isIso_fac_right _ _ _ _ _ _ _ _ hHcm hHR hfac
 
+omit [∀ V : X.C, (X.J.over V).HasSheafCompose (forget₂ RingCat.{u} AddCommGrpCat.{u})] in
 /-- **Invertibility of the evaluation morphism of derived internal Homs may be checked one
 cohomological degree at a time, locally, with a covering family depending on the degree.** If for
 every integer `n` there is a family of objects covering the final object over each member `V` of
@@ -722,6 +724,7 @@ def IsIsoHomologyMapEvaluationOver
       ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
           V).mapDerivedCategory.obj M)))
 
+omit [∀ V : X.C, (X.J.over V).HasSheafCompose (forget₂ RingCat.{u} AddCommGrpCat.{u})] in
 /-- **The degreewise local criterion, with the covering taken at the restrictions themselves.**
 This is `isIso_derivedSheafHomEvaluation_of_coversTop_degreewise` phrased at
 `IsIsoHomologyMapEvaluationOver`: the three identity isomorphisms the criterion asks for are
@@ -737,6 +740,14 @@ theorem isIso_derivedSheafHomEvaluation_of_coversTop_isIsoHomologyMapEvaluationO
   exact ⟨κ, V, hV, fun k =>
     ⟨_, _, _, ⟨Iso.refl _⟩, ⟨Iso.refl _⟩, ⟨Iso.refl _⟩, hiso k⟩⟩
 
+omit [∀ V : X.C, (X.J.over V).HasSheafCompose (forget₂ RingCat.{u} AddCommGrpCat.{u})]
+  [∀ V : X.C, (X.J.over V).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [∀ (K₁ K₂ : CochainComplex
+      (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor K₁ K₂ (sheafTensor.{u, u, u, u, u} X.O)
+      (ComplexShape.up ℤ)]
+  [(sheafTensor.{u, u, u, u, u} X.O).Additive]
+  [∀ A, ((sheafTensor.{u, u, u, u, u} X.O).obj A).Additive] in
 /-- Restricting a K-injective complex of `O|_U`-modules concentrated in degrees `[c, d]` along
 an arrow `f : W ⟶ U` of the site gives a K-injective complex of `O|_W`-modules concentrated in
 degrees `[c, d]`, whose class is the restriction to `W` of any object of `D(O)` whose restriction
@@ -817,6 +828,7 @@ private theorem isGE_overFunctor_obj (Y : RingedSite.{u, u, u})
   have := isGE_Q_obj_restrictComplex Y W (kInjectiveModel Y E) b hJGE
   exact DerivedCategory.TStructure.t.isGE_of_iso (restrictModelIso Y W (kInjectiveModelIso Y E)) b
 
+omit [∀ V : X.C, (X.J.over V).HasSheafCompose (forget₂ RingCat.{u} AddCommGrpCat.{u})] in
 /-- **The evaluation morphism of derived internal Homs is an isomorphism at a pseudo-coherent
 source, a cohomologically bounded-below intermediate object and a target of finite injective
 dimension locally.** Let `K`, `L`, `M` be objects of `D(O)` with `K` pseudo-coherent
@@ -878,6 +890,7 @@ theorem isIso_derivedSheafHomEvaluation_of_isPseudoCoherent
     exact isIso_homologyMap_evaluation_of_approximation_of_complexes (X.over W) _ hP α₀
       (n - d i + b - 1) hαiso hαepi b hLW (d i) n (by omega)
 
+omit [∀ V : X.C, (X.J.over V).HasSheafCompose (forget₂ RingCat.{u} AddCommGrpCat.{u})] in
 /-- **The evaluation morphism of derived internal Homs is an isomorphism when the intermediate
 and target objects have finite injective dimension locally and the derived internal Hom between
 them has Tor amplitude bounded below.** Let `K`, `L`, `M` be objects of `D(O)` with every

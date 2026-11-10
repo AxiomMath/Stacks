@@ -163,7 +163,7 @@ private theorem quotientPow_closedPoint
   have hmaxMapA' : m.map qA = maximalIdeal (A ⧸ m ^ 2) :=
     IsLocalRing.eq_maximalIdeal hmaxMapA
   apply PrimeSpectrum.ext
-  show (maximalIdeal (A ⧸ m ^ 2)).comap qA = m
+  change (maximalIdeal (A ⧸ m ^ 2)).comap qA = m
   rw [← hmaxMapA', Ideal.comap_map_mk hpowA]
 
 /-- A comparison through the second infinitesimal neighborhoods identifies
@@ -295,7 +295,7 @@ private theorem exists_formalHom_of_level_one
           rw [← Category.assoc, ← hnat]
           simp
         rw [← h]
-        show p.IsHomLift _ (X.transition (n + 1) ≫ app (n + 1) ≫
+        change p.IsHomLift _ (X.transition (n + 1) ≫ app (n + 1) ≫
           inv (Y.transition (n + 1)))
         have hright : p.IsHomLift
             (Deformation.AdicTruncation.map a (n + 1) ≫
@@ -316,7 +316,7 @@ private theorem exists_formalHom_of_level_one
   cases n with
   | zero => exact h₀
   | succ n =>
-    show X.transition (n + 1) ≫ app (n + 1) =
+    change X.transition (n + 1) ≫ app (n + 1) =
       (X.transition (n + 1) ≫ app (n + 1) ≫ inv (Y.transition (n + 1))) ≫
         Y.transition (n + 1)
     simp
@@ -334,7 +334,7 @@ private theorem isIso_transition_of_maximalIdeal_sq_eq_bot
   let t := Deformation.AdicTruncation.transition Y.base (n + 1)
   have ht : Function.Bijective t.hom := by
     constructor
-    · show Function.Injective (Ideal.Quotient.factor
+    · change Function.Injective (Ideal.Quotient.factor
         (Ideal.pow_le_pow_right (I := maximalIdeal Y.base) (Nat.le_succ (n + 2))))
       rw [RingHom.injective_iff_ker_eq_bot, Ideal.Quotient.factor_ker]
       apply Ideal.map_mk_eq_bot_of_le
@@ -445,7 +445,7 @@ theorem formalObjectIsoOfRealizations
     ((CategoryTheory.conj_eqToHom_iff_heq' _ _ (hθ n).symm (hθ (n + 1))).2 (tθ n).symm).symm
   refine ⟨formalObjectIsoOfLevelwise ξ ζ en (fun n => ?_)⟩
   rw [← hηt n, ← hθt n]
-  show (eqToHom (hη n).symm ≫ G.map (η.transition n).op ≫
+  change (eqToHom (hη n).symm ≫ G.map (η.transition n).op ≫
       eqToHom (hη (n + 1))) ≫
       (eqToHom (hη (n + 1)).symm ≫ G.map (e.inv.app (n + 1)).op ≫
         eqToHom (hθ (n + 1))) =

@@ -140,10 +140,10 @@ private lemma not_smulRegular_of_mem_maximalIdeal_of_finiteLength
     (hfg : Module.Finite R M) (hM : IsFiniteLength R M) [Nontrivial M]
     {a : R} (ha : a ∈ IsLocalRing.maximalIdeal R)
     (hreg : IsSMulRegular M a) : False := by
-  letI := hfg
+  let := hfg
   have hfin := isFiniteLength_iff_isNoetherian_isArtinian.mp hM
-  letI : IsNoetherian R M := hfin.1
-  letI : IsArtinian R M := hfin.2
+  let : IsNoetherian R M := hfin.1
+  let : IsArtinian R M := hfin.2
   let f : M →ₗ[R] M := LinearMap.lsmul R M a
   have hlen : Module.length R f.range = Module.length R M :=
     (LinearEquiv.ofInjective f hreg).length_eq.symm
@@ -169,17 +169,23 @@ private lemma stalk_tensorSheafMap_right
     {X : AlgebraicGeometry.RingedSpace.{u, u}}
     {F G G' : SheafOfModules.{u} (structureSheafRing X)}
     (ψ : G ⟶ G') (idF : F ⟶ F) (x : X.carrier)
-    (hid : Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X F.val F.val idF.val x = LinearMap.id)
+    (hid : Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X F.val F.val idF.val x =
+      LinearMap.id)
     (z : Stacks.SheafOfModules.TensorStalkRingedSpace.grpStalk X
-      ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj (G))).val x) :
+      ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj
+        (F)).obj (G))).val x) :
     LinearMap.lTensor (Stacks.SheafOfModules.TensorStalkRingedSpace.grpStalk X F.val x)
         (Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X G.val G'.val ψ.val x)
         ((Stacks.SheafOfModules.TensorStalkRingedSpace.tensorStalkIso X x F G) z) =
       Stacks.SheafOfModules.TensorStalkRingedSpace.tensorStalkIso X x F G'
         (Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X
-          ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj (G))).val
-          ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj (G'))).val
-          (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩)).map ((idF, ψ) : (_, _) ⟶ (_, _)))).val x z) := by
+          ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj
+            (F)).obj (G))).val
+          ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj
+            (F)).obj (G'))).val
+          (((Functor.uncurry.obj
+              (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩)).map
+            ((idF, ψ) : (_, _) ⟶ (_, _)))).val x z) := by
   have h := Stacks.SheafOfModules.TensorStalkRingedSpace.tensorStalkIso_natural X x F G F G' idF ψ
   have hz := congrArg (fun morphism => morphism z) h
   rw [LinearMap.comp_apply, LinearMap.comp_apply] at hz
@@ -191,41 +197,67 @@ private lemma lTensor_stalkMap_injective_of_tensorSheafMap_mono
     {X : AlgebraicGeometry.RingedSpace.{u, u}}
     {F G G' : SheafOfModules.{u} (structureSheafRing X)}
     (ψ : G ⟶ G') (x : X.carrier)
-    [hmono : Mono (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩)).map (((𝟙 F), ψ) : (_, _) ⟶ (_, _))))] :
+    [hmono : Mono (((Functor.uncurry.obj
+      (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩)).map
+        (((𝟙 F), ψ) : (_, _) ⟶ (_, _))))] :
     Function.Injective
       (LinearMap.lTensor (Stacks.SheafOfModules.TensorStalkRingedSpace.grpStalk X F.val x)
         (Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X G.val G'.val ψ.val x)) := by
-  let f := ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩)).map (((𝟙 F), ψ) : (_, _) ⟶ (_, _)))
+  let f := ((Functor.uncurry.obj
+      (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩)).map
+      (((𝟙 F), ψ) : (_, _) ⟶ (_, _)))
   let idF : F ⟶ F := 𝟙 F
   have hf : Function.Injective
-      (Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj (G))).val
-        ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj (G'))).val f.val x) :=
+      (Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X
+        ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj
+          (F)).obj (G))).val
+        ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj
+          (F)).obj (G'))).val f.val x) :=
     @Stacks.IdealTorsion.stalkMapL_injective_of_mono X
-      ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj (G))) ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj (G'))) f hmono x
-  have hid : Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X F.val F.val idF.val x = LinearMap.id := by
+      ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj
+        (F)).obj (G)))
+      ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj
+        (F)).obj (G'))) f hmono x
+  have hid : Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X F.val F.val idF.val x =
+      LinearMap.id := by
     ext z
-    simp [idF, Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL, Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMap]
+    simp [idF, Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL,
+      Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMap]
     rfl
   let e := Stacks.SheafOfModules.TensorStalkRingedSpace.tensorStalkIso X x F G
   let e' := Stacks.SheafOfModules.TensorStalkRingedSpace.tensorStalkIso X x F G'
   intro z z' hzz
-  have heq : Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj (G))).val
-      ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj (G'))).val f.val x (e.symm z) =
-      Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj (G))).val
-        ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj (G'))).val f.val x (e.symm z') := by
+  have heq : Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X
+      ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj
+        (F)).obj (G))).val
+      ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj
+        (F)).obj (G'))).val f.val x (e.symm z) =
+      Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X
+        ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj
+          (F)).obj (G))).val
+        ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj
+          (F)).obj (G'))).val f.val x (e.symm z') := by
     apply e'.injective
     calc
-      e' (Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj (G))).val
-        ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj (G'))).val f.val x (e.symm z)) =
+      e' (Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X
+          ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj
+            (F)).obj (G))).val
+          ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj
+            (F)).obj (G'))).val f.val x (e.symm z)) =
         LinearMap.lTensor (Stacks.SheafOfModules.TensorStalkRingedSpace.grpStalk X F.val x)
-          (Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X G.val G'.val ψ.val x) (e (e.symm z)) :=
+          (Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X G.val G'.val ψ.val x)
+            (e (e.symm z)) :=
         (stalk_tensorSheafMap_right ψ idF x hid (e.symm z)).symm
       _ = LinearMap.lTensor (Stacks.SheafOfModules.TensorStalkRingedSpace.grpStalk X F.val x)
-          (Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X G.val G'.val ψ.val x) (e (e.symm z')) := by
+          (Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X G.val G'.val ψ.val x)
+            (e (e.symm z')) := by
         rw [LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply]
         exact hzz
-      _ = e' (Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj (G))).val
-        ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj (G'))).val f.val x (e.symm z')) :=
+      _ = e' (Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X
+          ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj
+            (F)).obj (G))).val
+          ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj
+            (F)).obj (G'))).val f.val x (e.symm z')) :=
         stalk_tensorSheafMap_right ψ idF x hid (e.symm z')
   have hsEq : e.symm z = e.symm z' := hf heq
   exact e.symm.injective hsEq
@@ -535,7 +567,9 @@ injective on `F`. -/
 private lemma injective_smul_frameCoordinate_of_mono_section
     (X : AlgebraicGeometry.RingedSpace.{u, u})
     (F L : SheafOfModules.{u} (structureSheafRing X)) (s : L.sections)
-    (hs : Mono (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩)).map (((𝟙 F), (L.unitHomEquiv.symm s)) : (_, _) ⟶ (_, _)))))
+    (hs : Mono (((Functor.uncurry.obj
+      (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩)).map
+        (((𝟙 F), (L.unitHomEquiv.symm s)) : (_, _) ⟶ (_, _)))))
     (U : TopologicalSpace.Opens X.carrier)
     (eU : L.over U ≅ SheafOfModules.unit ((structureSheafRing X).over U))
     (x : X.carrier) (hxU : x ∈ U) :
@@ -559,7 +593,10 @@ private lemma smulRegular_frameCoordinate_of_mono_section
     (X : Scheme.{u}) (F L : X.Modules)
     [AlgebraicGeometry.SheafOfModules.IsInvertible X.sheaf.obj X.ringCatSheaf.property L]
     (s : L.sections)
-    (hs : Mono (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩)).map (((𝟙 F), (L.unitHomEquiv.symm s)) : (_, _) ⟶ (_, _)))))
+    (hs : Mono (((Functor.uncurry.obj
+      (Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩)).map
+        (((𝟙 F), (L.unitHomEquiv.symm s)) : (_, _) ⟶ (_, _)))))
     (U : X.affineOpens)
     (eU : L.over U.1 ≅ SheafOfModules.unit (X.ringCatSheaf.over U.1))
     (x : X) (hxU : x ∈ U.1) :
@@ -593,7 +630,7 @@ private lemma supportDim_eq_one_of_regular_of_finiteLength_quotient
     [AddCommGroup M] [Module R M] [Module.Finite R M] [Nontrivial M]
     (a : R) (ha : IsSMulRegular M a) (ham : a ∈ IsLocalRing.maximalIdeal R)
     (hQ : IsFiniteLength R (QuotSMulTop a M)) : Module.supportDim R M = 1 := by
-  letI : Nontrivial (QuotSMulTop a M) :=
+  let : Nontrivial (QuotSMulTop a M) :=
     nontrivial_quotSMulTop_of_mem_maximalIdeal M ham
   have h := Module.supportDim_quotSMulTop_succ_eq_supportDim ha ham
   rw [supportDim_eq_zero_of_isFiniteLength hQ, zero_add] at h
@@ -695,23 +732,26 @@ private lemma not_mem_zeroScheme_support_of_top_dimension
     (hF : schemeDeltaDimension C
       ((reducedSupport F).subschemeι ≫ p) ≤
         ((k + 1 : ℤ) : EInt))
-    (hs : Mono (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩)).map (((𝟙 F), (L.unitHomEquiv.symm s)) : (_, _) ⟶ (_, _))))) (x : X)
+    (hs : Mono (((Functor.uncurry.obj
+      (Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩)).map
+        (((𝟙 F), (L.unitHomEquiv.symm s)) : (_, _) ⟶ (_, _))))) (x : X)
     (hx : x ∈ SheafOfModules.supp F)
     (hδ : relativeDimension C.dimensionFunction p x = k + 1) :
     x ∉ (Stacks.Divisors.zeroScheme X L (s.eval (.op ⊤))).support := by
   classical
-  letI : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian p
+  let : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian p
   intro hxD
   obtain ⟨Z, hZ⟩ := isGenericPoint_component_supp_of_relativeDimension_eq
     C p F (k + 1) x hF hx hδ
-  letI : F.IsFiniteType := (inferInstance : F.IsCoherent).isFiniteType
+  let : F.IsFiniteType := (inferInstance : F.IsCoherent).isFiniteType
   have hfg : Module.Finite (X.presheaf.stalk x) (F.presheaf.stalk x) :=
     _root_.SheafOfModules.finite_stalk X.sheaf F x
-  letI := hfg
+  let := hfg
   have hlength := isFiniteLength_stalk_of_isGenericPoint_component_supp F Z x hZ
-  letI : Nontrivial (F.presheaf.stalk x) :=
+  let : Nontrivial (F.presheaf.stalk x) :=
     (nontrivial_iff_exists_ne (0 : F.presheaf.stalk x)).mpr hx
-  letI : IsNoetherian (X.presheaf.stalk x) (F.presheaf.stalk x) :=
+  let : IsNoetherian (X.presheaf.stalk x) (F.presheaf.stalk x) :=
     (isFiniteLength_iff_isNoetherian_isArtinian.mp hlength).1
   obtain ⟨U, eU, _, hxU, _⟩ := exists_affine_frame_subset X L x ⊤ trivial
   exact not_smulRegular_of_mem_maximalIdeal_of_finiteLength hfg hlength
@@ -728,7 +768,7 @@ private lemma intersection_cycle_nonzero_mem_pullback_support
     (h : (cycleAssociatedToClosedSubscheme C (D.subschemeι ≫ p)
       (((reducedPointClosure y).comap D.subschemeι).subschemeι) k).1 x ≠ 0) :
     x ∈ SheafOfModules.supp ((Scheme.Modules.pullback D.subschemeι).obj F) := by
-  letI : F.IsFiniteType := (inferInstance : F.IsCoherent).isFiniteType
+  let : F.IsFiniteType := (inferInstance : F.IsCoherent).isFiniteType
   have hx := closedSubscheme_cycle_nonzero_mem_support C (D.subschemeι ≫ p)
     (((reducedPointClosure y).comap D.subschemeι).subschemeι) k x h
   rw [Scheme.IdealSheafData.range_subschemeι] at hx
@@ -750,7 +790,10 @@ private lemma gysin_coherent_cycle_representative
     (hF : schemeDeltaDimension C
       ((reducedSupport F).subschemeι ≫ p) ≤
         ((k + 1 : ℤ) : EInt))
-    (hs : Mono (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩)).map (((𝟙 F), (L.unitHomEquiv.symm s)) : (_, _) ⟶ (_, _))))) :
+    (hs : Mono (((Functor.uncurry.obj
+      (Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩)).map
+        (((𝟙 F), (L.unitHomEquiv.symm s)) : (_, _) ⟶ (_, _))))) :
     let α := cycleAssociatedToCoherentSheaf C p F (k + 1) hF
     let D := Stacks.Divisors.zeroScheme X L (s.eval (.op ⊤))
     ∃ β : CycleGroup C (D.subschemeι ≫ p) k,
@@ -803,25 +846,25 @@ private lemma length_stalk_fromSpecStalk_eq_length_localized
   obtain ⟨_, ⟨U, hU, rfl⟩, hzU, -⟩ :=
     X.isBasis_affineOpens.exists_subset_of_mem_open (Set.mem_univ z) isOpen_univ
   have hyU : X.fromSpecStalk z q ∈ U := (specializes_fromSpecStalk z q).mem_open U.2 hzU
-  letI : Algebra Γ(X, U) (X.presheaf.stalk z) := (X.presheaf.germ U z hzU).hom.toAlgebra
-  letI : Algebra Γ(X, U) (X.presheaf.stalk (X.fromSpecStalk z q)) :=
+  let : Algebra Γ(X, U) (X.presheaf.stalk z) := (X.presheaf.germ U z hzU).hom.toAlgebra
+  let : Algebra Γ(X, U) (X.presheaf.stalk (X.fromSpecStalk z q)) :=
     (X.presheaf.germ U (X.fromSpecStalk z q) hyU).hom.toAlgebra
-  haveI : IsLocalization.AtPrime (X.presheaf.stalk z)
+  have : IsLocalization.AtPrime (X.presheaf.stalk z)
       (hU.primeIdealOf ⟨z, hzU⟩).asIdeal := hU.isLocalization_stalk ⟨z, hzU⟩
-  haveI : IsLocalization.AtPrime (X.presheaf.stalk (X.fromSpecStalk z q))
+  have : IsLocalization.AtPrime (X.presheaf.stalk (X.fromSpecStalk z q))
       (hU.primeIdealOf ⟨X.fromSpecStalk z q, hyU⟩).asIdeal :=
     hU.isLocalization_stalk ⟨X.fromSpecStalk z q, hyU⟩
-  letI : Module Γ(X, U) (F.presheaf.stalk z) := affineStalkModule F U z hzU
-  letI : Module Γ(X, U) (F.presheaf.stalk (X.fromSpecStalk z q)) :=
+  let : Module Γ(X, U) (F.presheaf.stalk z) := affineStalkModule F U z hzU
+  let : Module Γ(X, U) (F.presheaf.stalk (X.fromSpecStalk z q)) :=
     affineStalkModule F U (X.fromSpecStalk z q) hyU
-  haveI : IsScalarTower Γ(X, U) (X.presheaf.stalk z) (F.presheaf.stalk z) :=
+  have : IsScalarTower Γ(X, U) (X.presheaf.stalk z) (F.presheaf.stalk z) :=
     IsScalarTower.of_algebraMap_smul fun _ _ => rfl
-  haveI : IsScalarTower Γ(X, U) (X.presheaf.stalk (X.fromSpecStalk z q))
+  have : IsScalarTower Γ(X, U) (X.presheaf.stalk (X.fromSpecStalk z q))
       (F.presheaf.stalk (X.fromSpecStalk z q)) :=
     IsScalarTower.of_algebraMap_smul fun _ _ => rfl
-  haveI hz' : IsLocalizedModule (hU.primeIdealOf ⟨z, hzU⟩).asIdeal.primeCompl
+  have hz' : IsLocalizedModule (hU.primeIdealOf ⟨z, hzU⟩).asIdeal.primeCompl
       (affineGerm F U z hzU) := affineGerm_isLocalized F U hU z hzU
-  haveI hy' : IsLocalizedModule
+  have hy' : IsLocalizedModule
       (hU.primeIdealOf ⟨X.fromSpecStalk z q, hyU⟩).asIdeal.primeCompl
       (affineGerm F U (X.fromSpecStalk z q) hyU) :=
     affineGerm_isLocalized F U hU (X.fromSpecStalk z q) hyU
@@ -900,7 +943,7 @@ private lemma cycleAssociatedToCoherentSheaf_fromSpecStalk
       ((Module.length (Localization.AtPrime q.asIdeal)
         (LocalizedModule q.asIdeal.primeCompl (F.presheaf.stalk z))).toNat : ℤ)) := by
   classical
-  letI : F.IsQuasicoherent := isQuasicoherent_of_isCoherent F
+  let : F.IsQuasicoherent := isQuasicoherent_of_isCoherent F
   have hysupp : X.fromSpecStalk z q ∈ SheafOfModules.supp F :=
     (mem_supp_fromSpecStalk_iff F z q).mpr hq
   have hne : X.fromSpecStalk z q ≠ z := by
@@ -915,7 +958,7 @@ private lemma cycleAssociatedToCoherentSheaf_fromSpecStalk
         (X.fromSpecStalk z q)).isIrreducible.genericPoint = X.fromSpecStalk z q :=
       irreducibleSetEquivPoints.apply_symm_apply _
     simpa only [deltaDimension, hg] using hrel
-  rw [cycleAssociatedToCoherentSheaf_apply, if_pos ⟨hysupp, hrel⟩]
+  rw [cycleAssociatedToCoherentSheaf_apply, ite_eq_left ⟨hysupp, hrel⟩]
   change ((Module.length (X.presheaf.stalk (X.fromSpecStalk z q))
     (F.presheaf.stalk (X.fromSpecStalk z q))).toNat : ℤ) = _
   rw [length_stalk_fromSpecStalk_eq_length_localized F z q]
@@ -955,9 +998,9 @@ private lemma gysin_sum_eq_sum_minimalSupport
             (LocalizedModule q.asIdeal.primeCompl
               (F.presheaf.stalk (D.subschemeι x)))).toNat : ℤ)) := by
   classical
-  letI : F.IsQuasicoherent := isQuasicoherent_of_isCoherent F
-  letI : F.IsFiniteType := (inferInstance : F.IsCoherent).isFiniteType
-  letI : Module.Finite (X.presheaf.stalk (D.subschemeι x))
+  let : F.IsQuasicoherent := isQuasicoherent_of_isCoherent F
+  let : F.IsFiniteType := (inferInstance : F.IsCoherent).isFiniteType
+  let : Module.Finite (X.presheaf.stalk (D.subschemeι x))
       (F.presheaf.stalk (D.subschemeι x)) :=
         _root_.SheafOfModules.finite_stalk X.sheaf F (D.subschemeι x)
   have hzrel : relativeDimension C.dimensionFunction p (D.subschemeι x) = k := by
@@ -1087,7 +1130,10 @@ theorem schemeDeltaDimension_pullback_support_le_of_mono_section
     (hF : schemeDeltaDimension C
       ((reducedSupport F).subschemeι ≫ p) ≤
         ((k + 1 : ℤ) : EInt))
-    (hs : Mono (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩)).map (((𝟙 F), (L.unitHomEquiv.symm s)) : (_, _) ⟶ (_, _))))) :
+    (hs : Mono (((Functor.uncurry.obj
+      (Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩)).map
+        (((𝟙 F), (L.unitHomEquiv.symm s)) : (_, _) ⟶ (_, _))))) :
     schemeDeltaDimension C
       ((@reducedSupport _
           ((Scheme.Modules.pullback
@@ -1100,13 +1146,13 @@ theorem schemeDeltaDimension_pullback_support_le_of_mono_section
             inferInstance)).subschemeι ≫
         (Stacks.Divisors.zeroScheme X L (s.eval (.op ⊤))).subschemeι ≫ p) ≤ (k : EInt) := by
   classical
-  letI : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian p
-  letI : F.IsFiniteType := (inferInstance : F.IsCoherent).isFiniteType
+  let : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian p
+  let : F.IsFiniteType := (inferInstance : F.IsCoherent).isFiniteType
   let D := Stacks.Divisors.zeroScheme X L (s.eval (.op ⊤))
   let G := (Scheme.Modules.pullback D.subschemeι).obj F
-  letI : IsLocallyNoetherian D.subscheme :=
+  let : IsLocallyNoetherian D.subscheme :=
     LocallyOfFiniteType.isLocallyNoetherian (D.subschemeι ≫ p)
-  letI : G.IsCoherent := AlgebraicGeometry.isCoherent_pullback D.subschemeι F
+  let : G.IsCoherent := AlgebraicGeometry.isCoherent_pullback D.subschemeι F
   apply dimension_pullback_support_le_of_avoid C p D.subschemeι F G k
     (le_of_eq (SheafOfModules.supp_pullback D.subschemeι F)) hF
   intro x hx hδ hxD
@@ -1127,7 +1173,10 @@ theorem gysinHomomorphismOfInvertible_cycleAssociatedToCoherentSheaf
     (hF : schemeDeltaDimension C
       ((reducedSupport F).subschemeι ≫ p) ≤
         ((k + 1 : ℤ) : EInt))
-    (hs : Mono (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩)).map (((𝟙 F), (L.unitHomEquiv.symm s)) : (_, _) ⟶ (_, _))))) :
+    (hs : Mono (((Functor.uncurry.obj
+      (Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩)).map
+        (((𝟙 F), (L.unitHomEquiv.symm s)) : (_, _) ⟶ (_, _))))) :
     gysinHomomorphismOfInvertible C p k L (s.eval (.op ⊤))
         (cycleAssociatedToCoherentSheaf C p F
           (k + 1) hF) =
@@ -1158,10 +1207,10 @@ theorem gysinHomomorphismOfInvertible_cycleAssociatedToCoherentSheaf
   by_cases hd : relativeDimension C.dimensionFunction
       ((Stacks.Divisors.zeroScheme X L (s.eval (.op ⊤))).subschemeι ≫ p) x = k
   · by_cases hxG : x ∈ SheafOfModules.supp G
-    · rw [if_pos ⟨hxG, hd⟩]
-      letI : IsLocallyNoetherian D.subscheme :=
+    · rw [ite_eq_left ⟨hxG, hd⟩]
+      let : IsLocallyNoetherian D.subscheme :=
         LocallyOfFiniteType.isLocallyNoetherian (D.subschemeι ≫ p)
-      letI : G.IsCoherent := AlgebraicGeometry.isCoherent_pullback D.subschemeι F
+      let : G.IsCoherent := AlgebraicGeometry.isCoherent_pullback D.subschemeι F
       have hbound : schemeDeltaDimension C
           ((reducedSupport G).subschemeι ≫
             D.subschemeι ≫ p) ≤ (k : EInt) := by
@@ -1176,9 +1225,9 @@ theorem gysinHomomorphismOfInvertible_cycleAssociatedToCoherentSheaf
           IsFiniteLength (D.subscheme.presheaf.stalk x) (G.presheaf.stalk x) :=
         isFiniteLength_stalk_of_isGenericPoint_component_supp G Z x hZ
       let z := D.subschemeι x
-      letI : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian p
-      letI : F.IsFiniteType := (inferInstance : F.IsCoherent).isFiniteType
-      letI : Module.Finite (X.presheaf.stalk z) (F.presheaf.stalk z) :=
+      let : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian p
+      let : F.IsFiniteType := (inferInstance : F.IsCoherent).isFiniteType
+      let : Module.Finite (X.presheaf.stalk z) (F.presheaf.stalk z) :=
         _root_.SheafOfModules.finite_stalk X.sheaf F z
       obtain ⟨U, eU, _, hzU, _⟩ := exists_affine_frame_subset X L z ⊤ trivial
       let a : X.presheaf.stalk z := (X.presheaf.germ U.1 z hzU).hom
@@ -1186,7 +1235,7 @@ theorem gysinHomomorphismOfInvertible_cycleAssociatedToCoherentSheaf
           (L.presheaf.map (homOfLE le_top).op (s.eval (.op ⊤))))
       have hker : RingHom.ker (D.subschemeι.stalkMap x).hom = Ideal.span {a} :=
         ker_zeroScheme_stalkMap_of_frame X L s U eU x hzU
-      letI : Algebra (X.presheaf.stalk z) (D.subscheme.presheaf.stalk x) :=
+      let : Algebra (X.presheaf.stalk z) (D.subscheme.presheaf.stalk x) :=
         (D.subschemeι.stalkMap x).hom.toAlgebra
       let e : G.presheaf.stalk x ≃ₗ[D.subscheme.presheaf.stalk x]
           (D.subscheme.presheaf.stalk x) ⊗[X.presheaf.stalk z]
@@ -1205,7 +1254,7 @@ theorem gysinHomomorphismOfInvertible_cycleAssociatedToCoherentSheaf
       have hxF : z ∈ SheafOfModules.supp F := by
         rw [SheafOfModules.supp_pullback] at hxG
         exact hxG
-      letI : Nontrivial (F.presheaf.stalk z) :=
+      let : Nontrivial (F.presheaf.stalk z) :=
         (nontrivial_iff_exists_ne (0 : F.presheaf.stalk z)).mpr hxF
       have haReg : IsSMulRegular (F.presheaf.stalk z) a :=
         smulRegular_frameCoordinate_of_mono_section X F L s hs U eU z hzU
@@ -1249,7 +1298,7 @@ theorem gysinHomomorphismOfInvertible_cycleAssociatedToCoherentSheaf
       exact gysin_sum_eq_sum_minimalSupport C p k F hF D x hδ a hker haReg haMax
         (fun y hy hr => not_mem_zeroScheme_support_of_top_dimension
           C p k L s F hF hs y hy hr)
-    · rw [if_neg (fun h => hxG h.1)]
+    · rw [ite_eq_right (fun h => hxG h.1)]
       apply finsum_eq_zero_of_forall_eq_zero
       intro y
       have hyF := mem_supp_of_cycleAssociatedToCoherentSheaf_ne_zero C p k F hF y.2
@@ -1259,7 +1308,7 @@ theorem gysinHomomorphismOfInvertible_cycleAssociatedToCoherentSheaf
       · rw [hcy, mul_zero]
       · exact (hxG (intersection_cycle_nonzero_mem_pullback_support
           C p k D F y.1 hyF x hcy)).elim
-  · rw [if_neg (fun h => hd h.2), ← hcoeff x]
+  · rw [ite_eq_right (fun h => hd h.2), ← hcoeff x]
     by_contra hne
     have hδ := cycle_dimension_at_support C
       ((Stacks.Divisors.zeroScheme X L (s.eval (.op ⊤))).subschemeι ≫ p) k β x hne

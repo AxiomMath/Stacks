@@ -9,8 +9,8 @@ Let `(A, I)` be a henselian pair, write `q : Spec (A ⧸ I) ⟶ Spec A` for the 
 `f : X ⟶ Spec A` be proper with closed fibre `X ×_{Spec A} Spec (A ⧸ I)`.  Tag 0GS2 asserts that
 base change along the first projection of that closed fibre is an equivalence on finite étale
 covers; the essential-surjectivity half of it is reduced to Grothendieck existence in
-`StacksFrontier.AlgebraicGeometry.FundamentalGroup.FiniteEtaleProperEquivalence` and is proved for the
-*finite* morphisms in
+`StacksFrontier.AlgebraicGeometry.FundamentalGroup.FiniteEtaleProperEquivalence` and is proved for
+the *finite* morphisms in
 `StacksFrontier.AlgebraicGeometry.FundamentalGroup.FiniteEtaleProperFiniteCase`.  This file adds the
 two statements about that situation that need no algebraization at all.
 

@@ -212,11 +212,11 @@ private theorem piece_le_preimage {U : (pushout S.i S.j).Opens} {V : S.sourcePus
       (pushout.inr S.toX' S.toY' ⁻¹ᵁ V ≤ S.g ⁻¹ᵁ (pushout.inr S.i S.j ⁻¹ᵁ U)) := by
   constructor
   · intro x hx
-    show (S.f ≫ pushout.inl S.i S.j) x ∈ U
+    change (S.f ≫ pushout.inl S.i S.j) x ∈ U
     rw [← S.inl_comp_induced]
     exact e hx
   · intro y hy
-    show (S.g ≫ pushout.inr S.i S.j) y ∈ U
+    change (S.g ≫ pushout.inr S.i S.j) y ∈ U
     rw [← S.inr_comp_induced]
     exact e hy
 
@@ -265,7 +265,7 @@ private theorem appLE_induced_iff
   set q := pullback.snd S.f S.i
   have eZ : Vz ≤ q ⁻¹ᵁ Uz := by
     intro z hz
-    show S.j (q z) ∈ Uy
+    change S.j (q z) ∈ Uy
     rw [← Scheme.Hom.comp_apply, ← S.isPullback_toY'.w, Scheme.Hom.comp_apply]
     exact eY hz
   have hVzinf : Vz = S.toY' ⁻¹ᵁ Vy ⊓ q ⁻¹ᵁ Uz := (inf_eq_left.mpr eZ).symm

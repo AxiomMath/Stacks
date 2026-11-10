@@ -285,7 +285,7 @@ instance isIso_quotientStackModuleOfGroupoidHom :
     IsIso (quotientStackModuleOfGroupoidHom G M) := by
   have h : (affineChartRestriction G).map (quotientStackModuleOfGroupoidHom G M) =
       affineChartModuleHom G M := Functor.map_preimage _ _
-  haveI : IsIso ((affineChartRestriction G).map (quotientStackModuleOfGroupoidHom G M)) := by
+  have : IsIso ((affineChartRestriction G).map (quotientStackModuleOfGroupoidHom G M)) := by
     rw [h]
     infer_instance
   exact isIso_of_fully_faithful (affineChartRestriction G) _

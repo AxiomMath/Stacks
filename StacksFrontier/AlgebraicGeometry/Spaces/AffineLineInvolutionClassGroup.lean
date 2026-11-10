@@ -93,12 +93,12 @@ theorem not_mono_involutionRelation_of_two_eq_zero (h2 : (2 : k) = 0) :
         (affineLine k).left ⨿ (puncturedAffineLine k).left) ≫
       coprodComparison (Over.forget (Spec (.of k))) (affineLine k) (puncturedAffineLine k) =
       (coprod.inl : affineLine k ⟶ relationScheme k).left :=
-    coprodComparison_inl (Over.forget (Spec (.of k))) _ _
+    inl_coprodComparison (Over.forget (Spec (.of k))) _ _
   have hr : (coprod.inr : (puncturedAffineLine k).left ⟶
         (affineLine k).left ⨿ (puncturedAffineLine k).left) ≫
       coprodComparison (Over.forget (Spec (.of k))) (affineLine k) (puncturedAffineLine k) =
       (coprod.inr : puncturedAffineLine k ⟶ relationScheme k).left :=
-    coprodComparison_inr (Over.forget (Spec (.of k))) _ _
+    inr_coprodComparison (Over.forget (Spec (.of k))) _ _
   have h' := congrArg (fun f => f.left) h
   simp only [Over.comp_left, puncturedAffineLineInclusion_left] at h'
   rw [← hl, ← hr, ← Category.assoc] at h'

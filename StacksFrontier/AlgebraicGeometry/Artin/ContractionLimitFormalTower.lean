@@ -106,7 +106,7 @@ theorem sectionEquiv_sheafifiedULiftIsoYoneda_inv (V : BigFppfOver B S hS) :
       (Type (u + 1))).mapIso (sheafifiedULiftIsoYoneda V))).mpr
         (toSheafify_plusPlusIsoSheafify_hom (BigFppfOver.topology B S hS) (Type (u + 1))
           (yoneda.obj V ⋙ uliftFunctor.{u + 1})).symm
-  show (toSheafify (BigFppfOver.topology B S hS) (yoneda.obj V ⋙ uliftFunctor.{u + 1}) ≫
+  change (toSheafify (BigFppfOver.topology B S hS) (yoneda.obj V ⋙ uliftFunctor.{u + 1}) ≫
     (sheafifiedULiftIsoYoneda V).inv.hom).app (op V) ⟨𝟙 V⟩ = _
   rw [h]
   rfl
@@ -181,15 +181,12 @@ def powStageRingHom' (n : ℕ) :
     (adicCompletionPowStageIdeal I I.fg_of_isNoetherianRing n).1))).inv.hom.comp
     (Ideal.Quotient.mk _)
 
-variable {Bt : Type u} [CommRing Bt] [TopologicalSpace Bt] [IsTopologicalRing Bt]
-  [IsLinearTopology Bt Bt] (hB : TopologicalRing.IsWeaklyAdmissible Bt)
-  {DB : QuotientSystem B S hS Bt}
-
-include hB in
 /-- For a continuous ring map `φ : B → A^∧` with `B` weakly admissible, every weak ideal of
 definition `K` of `A^∧` contains the image of a weak ideal of definition `J` of `B`, that is,
 `J ≤ φ⁻¹ K`. -/
-theorem exists_weakIdeal_le_comap (φ : ContinuousHom DB (completionQuotientSystem V I))
+theorem exists_weakIdeal_le_comap {Bt : Type u} [CommRing Bt] [TopologicalSpace Bt]
+    [IsTopologicalRing Bt] [IsLinearTopology Bt Bt] (hB : TopologicalRing.IsWeaklyAdmissible Bt)
+    {DB : QuotientSystem B S hS Bt} (φ : ContinuousHom DB (completionQuotientSystem V I))
     (K : { J : Ideal (AdicCompletion I Γ((BigFppfOver.toScheme B S hS).obj V, ⊤)) //
       TopologicalRing.IsWeakIdealOfDefinition J }) :
     ∃ J : { J : Ideal Bt // TopologicalRing.IsWeakIdealOfDefinition J },
@@ -197,8 +194,12 @@ theorem exists_weakIdeal_le_comap (φ : ContinuousHom DB (completionQuotientSyst
   obtain ⟨J₀, hJ₀⟩ := hB.1
   refine ⟨⟨J₀ ⊓ Ideal.comap φ.toRingHom K.1, ?_, fun x hx => hJ₀.2 x (Ideal.mem_inf.mp hx).1⟩,
     inf_le_right⟩
-  show IsOpen ((J₀ : Set Bt) ∩ φ.toRingHom ⁻¹' (K.1 : Set _))
+  change IsOpen ((J₀ : Set Bt) ∩ φ.toRingHom ⁻¹' (K.1 : Set _))
   exact hJ₀.1.inter (K.2.1.preimage φ.continuous)
+
+variable {Bt : Type u} [CommRing Bt] [TopologicalSpace Bt] [IsTopologicalRing Bt]
+  [IsLinearTopology Bt Bt] (hB : TopologicalRing.IsWeaklyAdmissible Bt)
+  {DB : QuotientSystem B S hS Bt}
 
 include hZI in
 /-- **The ring map of `X ⟶ V_{/Z} ⟶ Spf B`** for `X ⟶ V` factoring through the quotient stage
@@ -231,7 +232,7 @@ theorem formalRingHom_toCompletion_comp_continuousHomEquiv (X : AlgebraicSpaces 
   refine RingHom.ext fun b => ?_
   refine (pullbackRingHom_homMk_comp X s sm _).trans ?_
   refine congrArg (pullbackRingHom B _ (ObjectProperty.homMk s)) ?_
-  show (Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1 φ.toRingHom hJ))).appTop
+  change (Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1 φ.toRingHom hJ))).appTop
       ((Scheme.ΓSpecIso _).inv (Ideal.Quotient.mk _ b)) =
     (Scheme.ΓSpecIso _).inv (Ideal.Quotient.mk _ (φ.toRingHom b))
   have := congrArg (fun ψ => ψ.hom (Ideal.Quotient.mk _ b))

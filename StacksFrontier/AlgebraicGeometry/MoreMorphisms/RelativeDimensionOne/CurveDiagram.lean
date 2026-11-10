@@ -106,7 +106,7 @@ theorem exists_fin_curveDiagram_of_single {V XV : Scheme.{u}} (pV : XV ⟶ V)
       IsZariskiLocalAtTarget.restrict (P := MorphismProperty.isomorphisms _)
         (inferInstanceAs (IsIso e.hom)) _
     have : IsClosedImmersion (e.hom ∣_ ν ⁻¹ᵁ W) := inferInstance
-    show IsClosedImmersion ((e.hom ≫ ν) ∣_ W)
+    change IsClosedImmersion ((e.hom ≫ ν) ∣_ W)
     rw [morphismRestrict_comp]
     exact MorphismProperty.comp_mem _ _ _ this hW
   · rintro ⟨x, hx⟩
@@ -146,10 +146,10 @@ theorem exists_limitCurveData {L Xk T Ybar Y : Scheme.{u}} (k' : Type u) [Field 
   let OW := Over.mk (W.ι ≫ pr ≫ eK.hom)
   have hYfac : jY ≫ qbar ≫ t ≫ eK.hom = ν ≫ pr ≫ eK.hom := by rw [reassoc_of% hcomm]
   let mν : OY ⟶ XL := Over.homMk (ν ≫ eX.hom) (by
-    show (ν ≫ eX.hom) ≫ XL.hom = jY ≫ qbar ≫ t ≫ eK.hom
+    change (ν ≫ eX.hom) ≫ XL.hom = jY ≫ qbar ≫ t ≫ eK.hom
     rw [Category.assoc, heX, hYfac])
   let mw : OW ⟶ XL := Over.homMk (W.ι ≫ eX.hom) (by
-    show (W.ι ≫ eX.hom) ≫ XL.hom = W.ι ≫ pr ≫ eK.hom
+    change (W.ι ≫ eX.hom) ≫ XL.hom = W.ι ≫ pr ≫ eK.hom
     rw [Category.assoc, heX])
   have hsq := isPullback_pullback_comp_iso ν W.ι eX
   have hφs := hsq.isoIsPullback_inv_snd _ _ (IsPullback.of_hasPullback (ν ≫ eX.hom) (W.ι ≫ eX.hom))
@@ -162,17 +162,17 @@ theorem exists_limitCurveData {L Xk T Ybar Y : Scheme.{u}} (k' : Type u) [Field 
     inferInstanceAs (Etale (t ≫ eK.hom)), hqs, hqp, hqc, hqd, hj,
     inferInstanceAs (IsFinite (ν ≫ eX.hom)), inferInstanceAs (Surjective (ν ≫ eX.hom)),
     inferInstanceAs (IsOpenImmersion (W.ι ≫ eX.hom)), ?_, ?_⟩
-  · show FinitePresentation (jY ≫ qbar ≫ t ≫ eK.hom)
+  · change FinitePresentation (jY ≫ qbar ≫ t ≫ eK.hom)
     rw [hYfac]
     exact finitePresentation_of_finiteType (ν ≫ pr ≫ eK.hom)
-  · show IsClosedImmersion (pullback.snd (ν ≫ eX.hom) (W.ι ≫ eX.hom))
+  · change IsClosedImmersion (pullback.snd (ν ≫ eX.hom) (W.ι ≫ eX.hom))
     rw [← hφs]
     have : IsClosedImmersion (pullback.snd ν W.ι) := by
       rw [prop_snd_iff_morphismRestrict @IsClosedImmersion (IsPullback.of_hasPullback ν W.ι),
         Scheme.Opens.opensRange_ι]
       exact hW
     infer_instance
-  · show Surjective (pullback.fst (ν ≫ eX.hom) (W.ι ≫ eX.hom) ≫ jY ≫ qbar)
+  · change Surjective (pullback.fst (ν ≫ eX.hom) (W.ι ≫ eX.hom) ≫ jY ≫ qbar)
     rw [← hφf, Category.assoc]
     have : Surjective (pullback.fst ν W.ι ≫ jY ≫ qbar) := by
       refine ⟨fun s => ?_⟩
@@ -213,7 +213,7 @@ theorem exists_curveDiagram_of_isReduced {X S : Scheme.{u}} (f : X ⟶ S) [IsSep
   have hξη : ∀ o : Spec (.of K), ξ o = η := fun o => by
     have ho : o = IsLocalRing.closedPoint K := Subsingleton.elim _ _
     rw [ho, ← hpη]
-    show α (Spec.map (CommRingCat.ofHom (algebraMap R K)) (IsLocalRing.closedPoint K)) = α 𝔭
+    change α (Spec.map (CommRingCat.ofHom (algebraMap R K)) (IsLocalRing.closedPoint K)) = α 𝔭
     congr 1
     exact PrimeSpectrum.ext (IsLocalization.AtPrime.under_maximalIdeal K 𝔭.asIdeal)
   have hdimK : topologicalKrullDim (pullback f ξ : Scheme.{u}) ≤ 1 := by
@@ -227,7 +227,7 @@ theorem exists_curveDiagram_of_isReduced {X S : Scheme.{u}} (f : X ⟶ S) [IsSep
     have h₂ := congrFun (Scheme.Hom.fiberDimension_eq_of_isPullback
       (IsPullback.of_hasPullback f ξ)) o
     rw [h₁, ← IsHomeomorph.topologicalKrullDim_eq _ (fη.fiberHomeo o).isHomeomorph]
-    show fη.fiberDimension o ≤ 1
+    change fη.fiberDimension o ≤ 1
     rw [h₂, Function.comp_apply, hξη]
     exact hdim
   obtain ⟨k', hfield, halg, hfin, hpi, T, Ybar, Y, t, qbar, jY, ν, W, hcomm, htf, hte, hqs, hqp,
@@ -254,7 +254,7 @@ theorem exists_curveDiagram_of_isReduced {X S : Scheme.{u}} (f : X ⟶ S) [IsSep
   have : ∀ {i j : I} (h : i ⟶ j), IsAffineHom (D₀.map h) :=
     fun h => Stacks.SmoothStrata.PrincipalLocalization.diagram_map_isAffine 𝔭.asIdeal (F₀.map h)
   have hD₀aff : ∀ i : I, IsAffine (D₀.obj i) := fun i => by
-    show IsAffine (Spec (.of (Localization.Away (i.unop : R))))
+    change IsAffine (Spec (.of (Localization.Away (i.unop : R))))
     infer_instance
   have hVfin : IsFinite Vo.hom :=
     ((Stacks.Morphisms.isFiniteLocallyFree_iff_isFinite_flat_locallyOfFinitePresentation
@@ -273,7 +273,7 @@ theorem exists_curveDiagram_of_isReduced {X S : Scheme.{u}} (f : X ⟶ S) [IsSep
       (inferInstanceAs (IsAffineHom (D₀.map h.left)))
   have : ∀ a : Over i₀, IsAffine (E.obj a) := fun a => by
     have := hD₀aff a.left
-    show IsAffine (pullback (D₀.map a.hom) Vo.hom)
+    change IsAffine (pullback (D₀.map a.hom) Vo.hom)
     infer_instance
   let β := Stacks.SmoothStrata.PrincipalLocalization.baseMap 𝔭.asIdeal i ≫ α
   let v := Vo.hom ≫ β
@@ -284,15 +284,15 @@ theorem exists_curveDiagram_of_isReduced {X S : Scheme.{u}} (f : X ⟶ S) [IsSep
   let eK : Spec (.of k') ≅ cF.pt.left :=
     (Over.forget _).mapIso eV ≪≫ pullbackSymmetry Vo.hom (c₀.π.app i₀)
   have heK : eK.hom ≫ cF.pt.hom ≫ v = gK ≫ ξ := by
-    show ((Over.forget _).mapIso eV ≪≫
+    change ((Over.forget _).mapIso eV ≪≫
       pullbackSymmetry Vo.hom (c₀.π.app i₀)).hom ≫
       pullback.snd (c₀.π.app i₀) Vo.hom ≫ Vo.hom ≫ β = _
     simp only [Iso.trans_hom, Functor.mapIso_hom, Over.forget_map, Category.assoc,
       pullbackSymmetry_hom_comp_snd_assoc]
-    show eV.hom.left ≫ pullback.fst Vo.hom (c₀.π.app i₀) ≫ Vo.hom ≫ β = _
+    change eV.hom.left ≫ pullback.fst Vo.hom (c₀.π.app i₀) ≫ Vo.hom ≫ β = _
     rw [pullback.condition_assoc, ← Category.assoc,
       show eV.hom.left ≫ pullback.snd Vo.hom (c₀.π.app i₀) = gK from Over.w eV.hom]
-    show gK ≫ (Stacks.SmoothStrata.PrincipalLocalization.cone 𝔭.asIdeal).π.app i ≫
+    change gK ≫ (Stacks.SmoothStrata.PrincipalLocalization.cone 𝔭.asIdeal).π.app i ≫
       Stacks.SmoothStrata.PrincipalLocalization.baseMap 𝔭.asIdeal i ≫ α = gK ≫ ξ
     rw [← Category.assoc ((Stacks.SmoothStrata.PrincipalLocalization.cone 𝔭.asIdeal).π.app i),
       Stacks.SmoothStrata.PrincipalLocalization.cone_comp_baseMap]
@@ -320,7 +320,7 @@ theorem exists_curveDiagram_of_isReduced {X S : Scheme.{u}} (f : X ⟶ S) [IsSep
         pullback.snd gK fη ≫ pullback.fst f ξ := by
       simp only [φ, ψ, pullback.lift_snd_assoc, pullback.lift_fst]
     have e₂ : cE.π.app a₀ ≫ (F.obj a₀).hom ≫ v = cF.pt.hom ≫ v := by
-      show (cF.π.app a₀).left ≫ (F.obj a₀).hom ≫ v = _
+      change (cF.π.app a₀).left ≫ (F.obj a₀).hom ≫ v = _
       rw [← Category.assoc, hw₀]
     refine IsPullback.of_right ?_ (pullback.lift_fst _ _ _) hsq₂
     rw [e₁, e₂]
@@ -347,7 +347,7 @@ theorem exists_curveDiagram_of_isReduced {X S : Scheme.{u}} (f : X ⟶ S) [IsSep
       Stacks.SmoothStrata.PrincipalLocalization.baseMap_mem_range 𝔭 (F₀.obj a.left)
     rw [← hpη]
     exact ⟨z, by
-      show α (Stacks.SmoothStrata.PrincipalLocalization.baseMap 𝔭.asIdeal (F₀.obj a.left) z) =
+      change α (Stacks.SmoothStrata.PrincipalLocalization.baseMap 𝔭.asIdeal (F₀.obj a.left) z) =
         α 𝔭
       rw [hz]⟩
   let v' : (F.obj a).left ⟶ D₀.obj a.left := pullback.fst (D₀.map a.hom) Vo.hom
@@ -370,11 +370,11 @@ theorem exists_curveDiagram_of_isReduced {X S : Scheme.{u}} (f : X ⟶ S) [IsSep
     dsimp [vU]
     rw [Category.assoc, Scheme.Hom.isoOpensRange_hom_ι]
     have hn : D₀.map a.hom ≫ β = β' := by
-      show (Stacks.SmoothStrata.PrincipalLocalization.diagram 𝔭.asIdeal).map (F₀.map a.hom) ≫
+      change (Stacks.SmoothStrata.PrincipalLocalization.diagram 𝔭.asIdeal).map (F₀.map a.hom) ≫
         Stacks.SmoothStrata.PrincipalLocalization.baseMap 𝔭.asIdeal i ≫ α = _
       rw [← Category.assoc, Stacks.SmoothStrata.PrincipalLocalization.baseMap_naturality]
     rw [← hn, ← Category.assoc]
-    show (pullback.fst (D₀.map a.hom) Vo.hom ≫ D₀.map a.hom) ≫ β =
+    change (pullback.fst (D₀.map a.hom) Vo.hom ≫ D₀.map a.hom) ≫ β =
       pullback.snd (D₀.map a.hom) Vo.hom ≫ Vo.hom ≫ β
     rw [pullback.condition, Category.assoc]
   let XV := (Over.pullback (E.map g)).obj X₀
@@ -426,7 +426,7 @@ theorem exists_curveDiagram_single {X S : Scheme.{u}} (f : X ⟶ S) [IsSeparated
     FinitePresentation.of_isPullback (IsPullback.of_hasPullback f r) hf
   have : LocallyOfFiniteType f := by have := hf.1; infer_instance
   have hdimr : topologicalKrullDim (fr.fiber η') ≤ 1 := by
-    show fr.fiberDimension η' ≤ 1
+    change fr.fiberDimension η' ≤ 1
     rw [Scheme.Hom.fiberDimension_eq_of_isPullback (IsPullback.of_hasPullback f r)]
     exact hdim
   obtain ⟨U', hηU', V, v, hvf, hvs, hvi, XV, a, pV, hsq, T, Ybar, Y, t, qbar, jY, ν, W, hrest⟩ :=
@@ -434,7 +434,7 @@ theorem exists_curveDiagram_single {X S : Scheme.{u}} (f : X ⟶ S) [IsSeparated
   let U : S.Opens := ⟨r '' U', h.isOpenMap _ U'.isOpen⟩
   have hU' : r ⁻¹ᵁ U = U' := by
     ext x
-    show r x ∈ r '' (U' : Set S.nilradical.subscheme) ↔ x ∈ U'
+    change r x ∈ r '' (U' : Set S.nilradical.subscheme) ↔ x ∈ U'
     exact r.isClosedEmbedding.injective.mem_set_image
   let ρ : U'.toScheme ⟶ U.toScheme := (S.nilradical.subscheme.isoOfEq hU'.symm).hom ≫ r ∣_ U
   have hρ : ρ ≫ U.ι = U'.ι ≫ r := by
@@ -446,7 +446,7 @@ theorem exists_curveDiagram_single {X S : Scheme.{u}} (f : X ⟶ S) [IsSeparated
     refine ⟨fun y => ?_⟩
     obtain ⟨x', hx'U, hx'⟩ := y.2
     refine ⟨⟨x', hx'U⟩, U.ι.isOpenEmbedding.injective ?_⟩
-    show (ρ ≫ U.ι) ⟨x', hx'U⟩ = U.ι y
+    change (ρ ≫ U.ι) ⟨x', hx'U⟩ = U.ι y
     rw [hρ]
     exact hx'
   have hcompS : MorphismProperty.IsStableUnderComposition @Surjective.{u} :=

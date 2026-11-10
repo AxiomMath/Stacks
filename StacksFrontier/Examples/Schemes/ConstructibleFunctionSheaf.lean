@@ -1107,7 +1107,7 @@ private lemma constructible_levels_of_membership_pattern
   classical
   have hp (p : A → Bool) :
       IsConstructible {x | ∀ a, decide (x ∈ E a) = p a} := by
-    rw [Set.setOf_forall]
+    rw [Set.ofPred_forall]
     refine IsConstructible.iInter fun a => ?_
     cases h : p a with
     | false =>

@@ -71,7 +71,7 @@ private theorem exists_point_over_openImmersion {X Y : Scheme.{u}} (e : X ⟶ Y)
     exact (Scheme.Hom.coe_opensRange e).symm ▸ hy
   refine ⟨IsOpenImmersion.lift e _ hrange (IsLocalRing.closedPoint _), ?_⟩
   have hfac := IsOpenImmersion.lift_fac e (Y.fromSpecResidueField y) hrange
-  show (IsOpenImmersion.lift e _ hrange ≫ e).base (IsLocalRing.closedPoint _) = y
+  change (IsOpenImmersion.lift e _ hrange ≫ e).base (IsLocalRing.closedPoint _) = y
   rw [hfac]
   exact Scheme.fromSpecResidueField_apply y _
 
@@ -122,7 +122,7 @@ private theorem exists_h1RegularImmersion_restrict_of_koszulAt {X Y P : Scheme.{
   set W' : P.Opens := ⟨W, hW⟩ with hW'
   have hWeq : i ⁻¹ᵁ W' = O := TopologicalSpace.Opens.ext hpre
   refine ⟨W', ?_, ?_⟩
-  · show x ∈ i ⁻¹ᵁ W'
+  · change x ∈ i ⁻¹ᵁ W'
     rw [hWeq]
     exact hxO
   · have hcomp : IsH1RegularImmersion ((i ⁻¹ᵁ W').ι ≫ i) := by rw [hWeq]; exact hXreg
@@ -150,11 +150,11 @@ private theorem isPullback_baseChange_map {X Y S T : Scheme.{u}} (f : X ⟶ Y) (
         (by simpa only [Category.comp_id] using h.symm) (by simp))
       f (pullback.fst q g) := by
   refine IsPullback.flip (IsPullback.of_right ?_
-    (by simp [pullback.map, pullback.lift_fst]) ((IsPullback.of_hasPullback q g).flip))
+    (by simp [pullback.map]) ((IsPullback.of_hasPullback q g).flip))
   have hsnd : pullback.map p g q g f (𝟙 _) (𝟙 _)
       (by simpa only [Category.comp_id] using h.symm) (by simp) ≫ pullback.snd q g =
       pullback.snd p g := by
-    simp [pullback.map, pullback.lift_snd]
+    simp [pullback.map]
   rw [hsnd, h]
   exact (IsPullback.of_hasPullback p g).flip
 
@@ -287,12 +287,12 @@ private theorem koszulAt_baseChange_forward {X Y S S' : Scheme.{u}}
       pullback.snd (pullback.snd g r) i := by
     dsimp [wIso, wHom]
     simp [pullback.map, Category.assoc, pullbackRightPullbackFstIso_hom_fst,
-      pullbackSymmetry_hom_comp_fst, pullback.lift_fst]
+      pullbackSymmetry_hom_comp_fst]
   have hWsnd : wIso.hom ≫ pullback.snd (i ≫ r) g =
       pullback.fst (pullback.snd g r) i ≫ pullback.fst g r := by
     dsimp [wIso, wHom]
     simp [pullback.map, Category.assoc, pullbackRightPullbackFstIso_hom_snd,
-      pullbackSymmetry_hom_comp_snd, pullback.lift_snd_assoc]
+      pullbackSymmetry_hom_comp_snd]
   have hmFst : midIso.hom ≫ pullback.fst (U.ι ≫ p) g =
       pullback.fst (i ≫ r) g := by
     dsimp [midIso, pullback.congrHom]
@@ -312,7 +312,7 @@ private theorem koszulAt_baseChange_forward {X Y S S' : Scheme.{u}}
     dsimp [e]
     simp only [eIso, Iso.trans_hom, Category.assoc]
     rw [hvFst]
-    show wIso.hom ≫ (midIso.hom ≫ pullback.fst (U.ι ≫ p) g) ≫ U.ι = _
+    change wIso.hom ≫ (midIso.hom ≫ pullback.fst (U.ι ≫ p) g) ≫ U.ι = _
     rw [hmFst]
     exact congrArg (fun k => k ≫ U.ι) hWfst
   have heSnd : e ≫ pullback.snd p g =
@@ -320,7 +320,7 @@ private theorem koszulAt_baseChange_forward {X Y S S' : Scheme.{u}}
     dsimp [e]
     simp only [eIso, Iso.trans_hom, Category.assoc]
     rw [hvSnd]
-    show wIso.hom ≫ (midIso.hom ≫ pullback.snd (U.ι ≫ p) g) = _
+    change wIso.hom ≫ (midIso.hom ≫ pullback.snd (U.ι ≫ p) g) = _
     rw [hmSnd, hWsnd]
   have : IsOpenImmersion e := by
     dsimp [e]
@@ -328,10 +328,10 @@ private theorem koszulAt_baseChange_forward {X Y S S' : Scheme.{u}}
   rcases exists_point_over_open_in_pullback p g U x' hxU with ⟨zV, hzV⟩
   let z := eIso.inv zV
   have hz : e.base z = x' := by
-    show (eIso.hom ≫ pullback.fst (pullback.fst p g) U.ι).base
+    change (eIso.hom ≫ pullback.fst (pullback.fst p g) U.ι).base
       (eIso.inv zV) = x'
     rw [Scheme.Hom.comp_base]
-    show (pullback.fst (pullback.fst p g) U.ι).base
+    change (pullback.fst (pullback.fst p g) U.ι).base
       ((eIso.inv ≫ eIso.hom).base zV) = x'
     simp [hzV]
   let U' : (pullback p g).Opens := e.opensRange
@@ -361,9 +361,9 @@ private theorem koszulAt_baseChange_forward {X Y S S' : Scheme.{u}}
       (MorphismProperty.RespectsIso.precomp (@Smooth)
         (pullbackRightPullbackFstIso q g π).inv _ hπ)
   have hf'fst : f' ≫ pullback.fst q g = pullback.fst p g ≫ f := by
-    simp [f', pullback.map, pullback.lift_fst]
+    simp [f', pullback.map]
   have hf'snd : f' ≫ pullback.snd q g = pullback.snd p g := by
-    simp [f', pullback.map, pullback.lift_snd]
+    simp [f', pullback.map]
   have hπfst : π' ≫ pullback.fst q g = pullback.snd g r ≫ π := by
     dsimp [π', r]
     simp only [Category.assoc]
@@ -489,7 +489,7 @@ private theorem koszulAt_of_fiber_quasiRegular {X Y P S : Scheme.{u}} (f : X ⟶
     simp
   have hz : e ⟨⟨i x, hxW⟩, by rw [Scheme.IdealSheafData.support_comap]; exact hxI⟩ = x := by
     refine i.isEmbedding.injective ?_
-    show (e ≫ i) _ = i x
+    change (e ≫ i) _ = i x
     rw [he]
     rfl
   have hresult := koszulAt_of_openImmersion_factorization f e (i.ker.comap W.ι).subschemeι
@@ -636,7 +636,7 @@ private theorem exists_quasiRegularImmersion_restrict_of_flat_open
   have hsource : i' ⁻¹ᵁ V = a ⁻¹ᵁ (i ⁻¹ᵁ U) ⊓ i' ⁻¹ᵁ V := by
     apply (inf_eq_right.mpr _).symm
     intro z hz
-    show i (a z) ∈ U
+    change i (a z) ∈ U
     have hz' : b (i' z) ∈ U := hVU hz
     simpa only [← Scheme.Hom.comp_apply, sq.w] using hz'
   have sq' := Scheme.Hom.isPullback_resLE sq hVU le_rfl hsource
@@ -723,7 +723,7 @@ private theorem exists_quasiRegularImmersion_restrict_fiber_descend
       (h₂₂ := r.fiberι (g s'))
     · simpa only [d, pullback.lift_fst, hc] using
         ((IsPullback.of_hasPullback i' (r'.fiberι s')).paste_horiz sq)
-    · simp [d, j, pullback.lift_snd]
+    · simp [d, j]
     · exact IsPullback.of_hasPullback i (r.fiberι (g s'))
   have hf : ∃ V : (r'.fiber s').Opens, r'.asFiber y' ∈ V ∧
       Stacks.AlgebraicGeometry.RegularIdealSheaf.IsQuasiRegularImmersion (j' ∣_ V) :=
@@ -754,12 +754,12 @@ private theorem koszulAt_of_closed_baseChange {X Y P S X' Y' P' S' : Scheme.{u}}
       (Spec.map (g.residueFieldMap (r' (i' x')))) g sr.w.symm (by simp))
       (r'.asFiber (i' x'))
   have hy : r.fiberι (g (r' (i' x'))) y = i (a x') := by
-    show (pullback.map r' (S'.fromSpecResidueField (r' (i' x'))) r
+    change (pullback.map r' (S'.fromSpecResidueField (r' (i' x'))) r
         (S.fromSpecResidueField (g (r' (i' x')))) b
         (Spec.map (g.residueFieldMap (r' (i' x')))) g sr.w.symm (by simp) ≫
       r.fiberι (g (r' (i' x')))) (r'.asFiber (i' x')) = _
     simp only [Scheme.Hom.fiberι, pullback.map, pullback.lift_fst]
-    show b (r'.fiberι (r' (i' x')) (r'.asFiber (i' x'))) = i (a x')
+    change b (r'.fiberι (r' (i' x')) (r'.asFiber (i' x'))) = i (a x')
     rw [Scheme.Hom.fiberι_asFiber]
     exact (congrArg (fun k : X' ⟶ P => k x') sq.w).symm
   have hs : g (r' (i' x')) = r (i (a x')) := by
@@ -781,7 +781,7 @@ private theorem koszulAt_baseChange_backward {X Y S S' : Scheme.{u}} (f : X ⟶ 
   have hf'snd : pullback.map p g q g f (𝟙 _) (𝟙 _)
       (by simpa only [Category.comp_id] using h.symm) (by simp) ≫ pullback.snd q g =
       pullback.snd p g := by
-    simp [pullback.map, pullback.lift_snd]
+    simp [pullback.map]
   have : LocallyOfFiniteType (pullback.map p g q g f (𝟙 _) (𝟙 _)
       (by simpa only [Category.comp_id] using h.symm) (by simp)) :=
     locallyOfFiniteType_of_common_base _ (pullback.snd p g) (pullback.snd q g) hf'snd
@@ -817,7 +817,7 @@ private theorem koszulAt_baseChange_backward {X Y S S' : Scheme.{u}} (f : X ⟶ 
   set z' := se.flip.isoPullback.inv w with hz'def
   have hz' : (pullback.map (e ≫ p) g p g e (𝟙 _) (𝟙 _) (by simp) (by simp)) z' = x' := by
     rw [hz'def]
-    show (se.flip.isoPullback.inv ≫ _) w = x'
+    change (se.flip.isoPullback.inv ≫ _) w = x'
     rw [se.flip.isoPullback_inv_fst]
     exact hw
   have hfac' : (pullback.map (e ≫ p) g (π ≫ q) g i (𝟙 _) (𝟙 _)
@@ -832,13 +832,13 @@ private theorem koszulAt_baseChange_backward {X Y S S' : Scheme.{u}} (f : X ⟶ 
       simp only [← Category.assoc]
       rw [← si.w, ← se.w]
       simp only [Category.assoc, hfac]
-    · simp [pullback.map, pullback.lift_snd, Category.assoc]
+    · simp [pullback.map, Category.assoc]
   have hflat : Flat (i ≫ (π ≫ q)) := by rw [hit]; infer_instance
   have hfp : LocallyOfFinitePresentation (i ≫ (π ≫ q)) := by rw [hit]; infer_instance
   have hisnd : (pullback.map (e ≫ p) g (π ≫ q) g i (𝟙 _) (𝟙 _)
       (by simpa only [Category.comp_id] using hit.symm) (by simp)) ≫
       pullback.snd (π ≫ q) g = pullback.snd (e ≫ p) g := by
-    simp [pullback.map, pullback.lift_snd]
+    simp [pullback.map]
   have hflat' : Flat ((pullback.map (e ≫ p) g (π ≫ q) g i (𝟙 _) (𝟙 _)
       (by simpa only [Category.comp_id] using hit.symm) (by simp)) ≫
       pullback.snd (π ≫ q) g) := by rw [hisnd]; infer_instance
@@ -852,9 +852,9 @@ private theorem koszulAt_baseChange_backward {X Y S S' : Scheme.{u}} (f : X ⟶ 
   have hresult := koszulAt_of_precomp_openImmersion f e
     ((pullback.fst (e ≫ p) g) z') hloc
   have hpoint : e ((pullback.fst (e ≫ p) g) z') = (pullback.fst p g) x' := by
-    show (pullback.fst (e ≫ p) g ≫ e) z' = _
+    change (pullback.fst (e ≫ p) g ≫ e) z' = _
     rw [se.w]
-    show (pullback.fst p g) ((pullback.map (e ≫ p) g p g e (𝟙 _) (𝟙 _)
+    change (pullback.fst p g) ((pullback.map (e ≫ p) g p g e (𝟙 _) (𝟙 _)
       (by simp) (by simp)) z') = _
     rw [hz']
   rwa [hpoint] at hresult

@@ -41,7 +41,7 @@ theorem rootsOfUnitySection_add (U : X.Etaleᵒᵖ)
     (s t : ToType ((rootsOfUnitySheaf.{u, v} X n).obj.obj U)) :
     (rootsOfUnitySection.{u, v} X n U (s + t)).1 =
       (rootsOfUnitySection.{u, v} X n U s).1 * (rootsOfUnitySection.{u, v} X n U t).1 := by
-  show Additive.toMul (((rootsOfUnityι.{u, v} X n).hom.app U (s + t)).down) = _
+  change Additive.toMul (((rootsOfUnityι.{u, v} X n).hom.app U (s + t)).down) = _
   rw [map_add]
   rfl
 
@@ -126,7 +126,7 @@ theorem rootsOfUnityι_comparison_unit (s : ToType ((rootsOfUnitySheaf.{u, v} Y 
         pullback.snd (Scheme.Etale.mk (𝟙 Y)).hom π ≫ π :=
       (Category.comp_id _).symm.trans pullback.condition
     refine (congrArg (fun h => b.left ≫ h) hc).trans ?_
-    show (b.left ≫ pullback.snd (Scheme.Etale.mk (𝟙 Y)).hom π) ≫ π = π
+    change (b.left ≫ pullback.snd (Scheme.Etale.mk (𝟙 Y)).hom π) ≫ π = π
     rw [hw]
     exact Category.id_comp π
   refine h1.trans ?_
@@ -139,7 +139,7 @@ theorem rootsOfUnityι_comparison_unit (s : ToType ((rootsOfUnitySheaf.{u, v} Y 
   refine (map_ofUnit.{u, v} b _).trans ?_
   congr 1
   ext
-  show (b.left.appTop.hom ((pullback.fst (Scheme.Etale.mk (𝟙 Y)).hom π).appTop.hom _)) =
+  change (b.left.appTop.hom ((pullback.fst (Scheme.Etale.mk (𝟙 Y)).hom π).appTop.hom _)) =
     π.appTop.hom _
   exact congrArg (fun f : X ⟶ Y => f.appTop.hom
     (Units.val (α := Γ(Y, ⊤)) (rootsOfUnitySection.{u, v} Y n _ s).1)) hb
@@ -187,7 +187,7 @@ theorem units_map_globalPrimitiveRoot (φ : X ⟶ X) (w : φ ≫ g = g) :
     Units.map (φ.appTop.hom : Γ(X, ⊤) →* Γ(X, ⊤)) (globalPrimitiveRoot g hζ) =
       globalPrimitiveRoot g hζ := by
   ext
-  show φ.appTop.hom (g.appTop.hom ((Scheme.ΓSpecIso (.of K)).inv.hom ζ)) =
+  change φ.appTop.hom (g.appTop.hom ((Scheme.ΓSpecIso (.of K)).inv.hom ζ)) =
     g.appTop.hom ((Scheme.ΓSpecIso (.of K)).inv.hom ζ)
   rw [← CommRingCat.comp_apply, ← Scheme.Hom.comp_appTop, w]
 

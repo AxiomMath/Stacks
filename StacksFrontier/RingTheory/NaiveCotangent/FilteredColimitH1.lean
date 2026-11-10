@@ -204,7 +204,7 @@ theorem exists_h1CotangentMapOfSquare_eq_zero_of_isColimit (i : I)
       algebraMap cR.pt cS.pt (eR r) := by
     intro r
     obtain ⟨b, x, rfl⟩ := Ring.DirectLimit.exists_of r
-    show eS (sys.gInf (sys.toRinf b x)) = gInf.hom (eR (sys.toRinf b x))
+    change eS (sys.gInf (sys.toRinf b x)) = gInf.hom (eR (sys.toRinf b x))
     rw [← sys.toSinf_g b x]
     refine (heS b _).trans ?_
     refine Eq.trans ?_ (congrArg gInf.hom (heR b x).symm)

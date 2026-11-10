@@ -104,6 +104,8 @@ variable {U V U' V' : BigFppfOver B S hS} [IsAffine ((BigFppfOver.toScheme B S h
   [IsAffine ((BigFppfOver.toScheme B S hS).obj V')]
   (f₀ : U ⟶ V) (g₀ : V' ⟶ V) (f₀' : U' ⟶ V') (g₀' : U' ⟶ U) (w₀ : g₀' ≫ f₀ = f₀' ≫ g₀)
 
+omit [IsAffine ((BigFppfOver.toScheme B S hS).obj V)]
+  [IsAffine ((BigFppfOver.toScheme B S hS).obj V')] in
 /-- **The map of condition (2) of Stacks 0DJ8 on an affine square is invariant under
 isomorphism**: for `e : K₁ ≅ K₂`, `e' : K₁' ≅ K₂'` carrying `φ₁` to `φ₂`, the composite of
 Stacks 065Z with the map induced by `φ₁` is invertible exactly when the one for `φ₂` is. -/

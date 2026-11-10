@@ -49,7 +49,7 @@ private theorem milnorProjection_naturality
   intro n
   rw [Category.assoc, limMap_π, ← Category.assoc, hqE n.unop,
     Category.assoc, hqF n.unop]
-  show _ ≫ (homologyFunctor (ModuleCat.{v} A) p).map (Q.map (α.app n)) = _
+  change _ ≫ (homologyFunctor (ModuleCat.{v} A) p).map (Q.map (α.app n)) = _
   rw [← Functor.map_comp, ← Functor.map_comp]
   congr 1
   rw [← Category.assoc, ← (milnorTriangleMap α).comm₁, milnorTriangleMap_hom₂]
@@ -200,7 +200,7 @@ private theorem milnorTriangleMap_isIso
       (CompletionSequences.milnorTriangle_distinguished A F) h₂ h₃) h₂ h₃
 
 /-- Transport the square `v ≫ pZ = pX ≫ b` along the isomorphisms `u` and `a`. -/
-private theorem inv_comp_comp_eq_of_square
+theorem inv_comp_comp_eq_of_square
     {C : Type*} [Category C] {X Y Z X' Y' Z' : C}
     (u : X ⟶ Y) (v : X ⟶ Z) (a : X' ⟶ Y') (b : X' ⟶ Z')
     (pX : X ⟶ X') (pY : Y ⟶ Y') (pZ : Z ⟶ Z') [IsIso u] [IsIso a]
@@ -256,7 +256,7 @@ private theorem principalTriangles_naturality
   have hinv₁ (n : ℕ) : (inv (ψs n)).hom₁ = inv (Q.map s) := Functor.map_inv Triangle.π₁ (ψs n)
   have hinv₂ (n : ℕ) : (inv (ψs n)).hom₂ = inv (Q.map s) := Functor.map_inv Triangle.π₂ (ψs n)
   have hinv₃ (n : ℕ) : (inv (ψs n)).hom₃ = (inv αs).app ⟨n⟩ := by
-    show (Triangle.π₃).map (inv (ψs n)) = _
+    change (Triangle.π₃).map (inv (ψs n)) = _
     rw [Functor.map_inv]
     exact (Functor.map_inv ((evaluation ℕᵒᵖ _).obj ⟨n⟩) αs).symm
   have hst : ∀ {D'} (h : B ⟶ D') (n : ℕ),
@@ -278,14 +278,14 @@ private theorem principalTriangles_naturality
       TriangleMorphism.comp_hom₃, hinv₁, hinv₂, hinv₃, NatTrans.comp_app]
     rfl
   · intro n
-    show ((inv φs).hom₂ ≫ φt.hom₂) ≫ _ = _
+    change ((inv φs).hom₂ ≫ φt.hom₂) ≫ _ = _
     have : IsIso φs.hom₂ := inferInstanceAs (IsIso (Triangle.π₂.map φs))
     rw [hα, show (inv φs).hom₂ = inv φs.hom₂ from Functor.map_inv Triangle.π₂ φs]
     exact inv_comp_comp_eq_of_square _ _ _ _ _ _ _
       ((congrArg (· ≫ _) (milnorTriangleMap_hom₂ _)).trans (hst s n))
       ((congrArg (· ≫ _) (milnorTriangleMap_hom₂ _)).trans (hst t n))
   · intro n
-    show ((inv φs).hom₃ ≫ φt.hom₃) ≫ _ = _
+    change ((inv φs).hom₃ ≫ φt.hom₃) ≫ _ = _
     have : IsIso φs.hom₃ := inferInstanceAs (IsIso (Triangle.π₃.map φs))
     rw [hα, show (inv φs).hom₃ = inv φs.hom₃ from Functor.map_inv Triangle.π₃ φs]
     exact inv_comp_comp_eq_of_square _ _ _ _ _ _ _
@@ -297,11 +297,11 @@ private theorem principalTriangles_naturality
     simp only [← Functor.map_comp_assoc, IsIso.hom_inv_id_assoc]
     rw [← Category.assoc, completionComparison_naturality f adj c s]
     simp only [triangleCategory_comp, TriangleMorphism.comp_hom₁, Category.assoc]
-    show _ = (c.iso B).hom ≫ φs.hom₁ ≫ (inv φs).hom₁ ≫ φt.hom₁
+    change _ = (c.iso B).hom ≫ φs.hom₁ ≫ (inv φs).hom₁ ≫ φt.hom₁
     rw [← Category.assoc φs.hom₁, hinv, Category.id_comp]
     exact completionComparison_naturality f adj c t
 
-private theorem cochain_XIsoOfEq_hom_comp_v
+theorem cochain_XIsoOfEq_hom_comp_v
     {C : Type*} [Category C] [Preadditive C]
     {K L : CochainComplex C ℤ} {n : ℤ}
     (γ : CochainComplex.HomComplex.Cochain K L n)
@@ -445,7 +445,7 @@ private theorem principalComplexSystemShiftMap_isIso
     (C : CochainComplex (ModuleCat.{v} A) ℤ) (m : ℤ) :
     IsIso (principalComplexSystemShiftMap f C m) := by
   have hi (n : ℕᵒᵖ) : IsIso ((principalComplexSystemShiftMap f C m).app n) := by
-    show IsIso (CochainComplex.mappingCone.shiftIso (f ^ (n.unop + 1) • 𝟙 C) m).hom
+    change IsIso (CochainComplex.mappingCone.shiftIso (f ^ (n.unop + 1) • 𝟙 C) m).hom
     infer_instance
   exact NatIso.isIso_of_isIso_app _
 
@@ -657,14 +657,14 @@ private theorem singleHomology_shift_complex
     (HomologicalComplex.singleObjHomologySelfIso (ComplexShape.up ℤ) a M).hom := by
   apply (cancel_epi (((CochainComplex.singleFunctor C a).obj M).homologyπ a)).1
   rw [HomologicalComplex.homologyπ_naturality_assoc]
-  show _ ≫ _ ≫ (CochainComplex.ShiftSequence.shiftIso C m a a' h).hom.app _ ≫ _ = _
+  change _ ≫ _ ≫ (CochainComplex.ShiftSequence.shiftIso C m a a' h).hom.app _ ≫ _ = _
   rw [CochainComplex.ShiftSequence.shiftIso_hom_app]
   erw [ShortComplex.homologyπ_naturality_assoc]
   erw [HomologicalComplex.homologyπ_singleObjHomologySelfIso_hom,
     HomologicalComplex.homologyπ_singleObjHomologySelfIso_hom]
   simp only [HomologicalComplex.singleObjCyclesSelfIso_hom]
   erw [ShortComplex.cyclesMap_i_assoc, HomologicalComplex.cyclesMap_i_assoc]
-  simp [CochainComplex.singleFunctors, HomologicalComplex.singleObjXSelf,
+  simp [HomologicalComplex.singleObjXSelf,
     CochainComplex.shiftShortComplexFunctorIso_hom_app_τ₂,
     HomologicalComplex.singleObjXIsoOfEq, HomologicalComplex.XIsoOfEq]
 set_option backward.defeqAttrib.useBackward true in
@@ -678,7 +678,7 @@ private theorem singleHomology_shift
       (singleFunctorCompHomologyFunctorIso C a').hom.app M =
     (singleFunctorCompHomologyFunctorIso C a).hom.app M := by
   simp only [DerivedCategory.singleFunctors, SingleFunctors.postcomp_shiftIso_inv_app]
-  show (homologyFunctor C a).map
+  change (homologyFunctor C a).map
     (Q.map (((CochainComplex.singleFunctors C).shiftIso m a a' h).inv.app M) ≫
       (Q.commShiftIso m).hom.app ((CochainComplex.singleFunctor C a').obj M)) ≫ _ = _
   erw [Functor.map_comp, Category.assoc, ← Category.assoc _

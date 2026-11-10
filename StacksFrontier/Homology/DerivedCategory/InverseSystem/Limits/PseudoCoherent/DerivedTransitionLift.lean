@@ -279,16 +279,16 @@ lemma exists_distTriang_of_degreewise_surjective
   refine ⟨e.inv ≫ DerivedCategory.triangleOfSESδ hS, ?_⟩
   apply Pretriangulated.isomorphic_distinguished _ (DerivedCategory.triangleOfSES_distinguished hS)
   refine Pretriangulated.Triangle.isoMk _ _ (Iso.refl _) e.symm e.symm ?_ ?_ ?_
-  · show (Pi.lift fun n ↦ DerivedCategory.Q.map (limit.π M (op n))) ≫ e.inv =
+  · change (Pi.lift fun n ↦ DerivedCategory.Q.map (limit.π M (op n))) ≫ e.inv =
       𝟙 _ ≫ DerivedCategory.Q.map p
     rw [Category.id_comp, Iso.comp_inv_eq]
     apply Pi.hom_ext
     intro n
     simp only [Category.assoc, Pi.lift_comp_π]
-    show _ = DerivedCategory.Q.map p ≫ piComparison DerivedCategory.Q N ≫ Pi.π X n
+    change _ = DerivedCategory.Q.map p ≫ piComparison DerivedCategory.Q N ≫ Pi.π X n
     rw [piComparison_comp_π, ← Functor.map_comp]
     simp [p, N, X]
-  · show (Pi.lift fun n ↦ Pi.π X n - Pi.π X (n + 1) ≫
+  · change (Pi.lift fun n ↦ Pi.π X n - Pi.π X (n + 1) ≫
       DerivedCategory.Q.map (M.map (homOfLE (Nat.le_succ n)).op)) ≫ e.inv =
       e.inv ≫ DerivedCategory.Q.map d
     apply (cancel_mono e.hom).mp
@@ -299,7 +299,7 @@ lemma exists_distTriang_of_degreewise_surjective
       map_pi_difference_comp_piComparison DerivedCategory.Q N _]
     simp only [← Category.assoc, e.inv_hom_id]
     exact (Category.comp_id _).trans (Category.id_comp _).symm
-  · show (e.inv ≫ DerivedCategory.triangleOfSESδ hS) ≫
+  · change (e.inv ≫ DerivedCategory.triangleOfSESδ hS) ≫
       (shiftFunctor (DerivedCategory (ModuleCat.{max u v} R)) (1 : ℤ)).map
         (𝟙 (DerivedCategory.Q.obj (limit M))) = e.inv ≫ DerivedCategory.triangleOfSESδ hS
     rw [CategoryTheory.Functor.map_id]
@@ -328,7 +328,7 @@ private lemma finiteFree_restrictScalars_ringEquiv
     { Equiv.refl M with
       map_add' := fun _ _ => rfl
       map_smul' := fun s x => by
-        show s • x = e (e.symm s) • x
+        change s • x = e (e.symm s) • x
         rw [e.apply_symm_apply] }
   exact ⟨Module.Finite.of_surjective l.toLinearMap l.surjective, Module.Free.of_equiv l⟩
 
@@ -389,7 +389,7 @@ public lemma exists_finiteFree_lift_of_surjective_reduction
         ℤ)).homEquiv
         _ _ k := by
     ext i x
-    show k.f i ((extendScalarsQuotientKerIso.{u, v, w} f hf).hom.app (V.X i)
+    change k.f i ((extendScalarsQuotientKerIso.{u, v, w} f hf).hom.app (V.X i)
       ((ModuleCat.extendRestrictScalarsAdj.{max u v w} q).unit.app (V.X i) x)) =
       k.f i ((ModuleCat.extendRestrictScalarsAdj.{max u v w} f).unit.app (V.X i) x)
     exact congrArg (fun x => k.f i x)
@@ -458,7 +458,6 @@ private lemma exists_lift_of_derived_transition_of_lift
   let D := CochainComplex.DerivedExtensionScalars.derivedExtensionScalarsGeneral.{u, v, w} f
   let adjD := @CochainComplex.DerivedExtensionScalars.derivedExtensionScalarsAdjunction.{u, w, v}
     R S _ _ f _ _ D.functor D.comparison D.isLeftDerived
-
   obtain ⟨g, hg⟩ := exists_chainMap_of_isKProjective T _
     (eT.hom ≫ φ ≫ G.mapDerivedCategory.map eE.inv ≫ G.mapDerivedCategoryFactors.hom.app E)
   let a := (adj.homEquiv _ _).symm g
@@ -470,15 +469,15 @@ private lemma exists_lift_of_derived_transition_of_lift
       a).mp
     rw [hga, hqg, Adjunction.homEquiv_naturality_left_symm,
       Adjunction.homEquiv_naturality_right_symm]
-    show IsIso (D.functor.map eT.hom ≫ derivedBaseChangeComparison.{u, v, w} f φ ≫ eE.inv)
+    change IsIso (D.functor.map eT.hom ≫ derivedBaseChangeComparison.{u, v, w} f φ ≫ eE.inv)
     infer_instance
   obtain ⟨P, hbP, hP, eRed, ePT, hePT⟩ := hlift a hqa
   let gP := adj.homEquiv _ _ eRed.hom
   refine ⟨P, hbP, hP, ePT ≪≫ eT, gP, ?_, ?_⟩
-  · show IsIso ((adj.homEquiv _ _).symm (adj.homEquiv _ _ eRed.hom))
+  · change IsIso ((adj.homEquiv _ _).symm (adj.homEquiv _ _ eRed.hom))
     rw [Equiv.symm_apply_apply]
     infer_instance
-  · show DerivedCategory.Q.map gP ≫ G.mapDerivedCategoryFactors.inv.app E ≫
+  · change DerivedCategory.Q.map gP ≫ G.mapDerivedCategoryFactors.inv.app E ≫
         G.mapDerivedCategory.map eE.hom = (ePT.hom ≫ eT.hom) ≫ φ
     rw [show DerivedCategory.Q.map gP = ePT.hom ≫ DerivedCategory.Q.map g from by
       change DerivedCategory.Q.map (adj.homEquiv _ _ eRed.hom) =
@@ -568,7 +567,7 @@ private lemma exists_projective_lift_representing_iso_with_bound
       intro z
       obtain ⟨x, hx⟩ := (I • (⊤ : Submodule R M)).mkQ_surjective (qM z)
       refine ⟨x, qM.injective ?_⟩
-      show qM ((1 : R ⧸ I) ⊗ₜ[R] x) = qM z
+      change qM ((1 : R ⧸ I) ⊗ₜ[R] x) = qM z
       simpa [qM] using hx
     intro y
     obtain ⟨z, hz⟩ := hf (q.symm y)
@@ -703,7 +702,7 @@ public lemma exists_projective_lift_of_surjective_reduction
         ℤ)).homEquiv
         _ _ k := by
     ext i x
-    show k.f i ((extendScalarsQuotientKerIso.{u, v, w} f hf).hom.app (V.X i)
+    change k.f i ((extendScalarsQuotientKerIso.{u, v, w} f hf).hom.app (V.X i)
       ((ModuleCat.extendRestrictScalarsAdj.{max u v w} q).unit.app (V.X i) x)) =
       k.f i ((ModuleCat.extendRestrictScalarsAdj.{max u v w} f).unit.app (V.X i) x)
     exact congrArg (fun x => k.f i x)

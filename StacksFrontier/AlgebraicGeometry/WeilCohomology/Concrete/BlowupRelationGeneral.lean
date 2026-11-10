@@ -795,7 +795,7 @@ theorem heq_of_neg {T : Scheme.{u}} (q : T ⟶ (fieldChowSituation k).S) [Locall
   subst hn
   have h0 : ∀ a : CycleGroup (fieldChowSituation k) q n, a = 0 := fun a ↦ by
     refine Subtype.ext (Function.locallyFinsuppWithin.ext fun x ↦ ?_)
-    show a.1 x = 0
+    change a.1 x = 0
     by_contra hx
     have h1 := (mem_cyclesOfDimension_iff_forall_point _ q n a.1).1 a.2 x hx
     have h2 := relativeDimension_fieldChowSituation_nonneg k q x

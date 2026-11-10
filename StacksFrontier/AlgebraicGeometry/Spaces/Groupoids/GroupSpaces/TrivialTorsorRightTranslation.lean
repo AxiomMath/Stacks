@@ -91,7 +91,7 @@ theorem isModHom_mulRight {C : Type u₁} [Category.{v₁} C] [CartesianMonoidal
     letI := ModObj.regular H; IsModHom H (GrpObj.mulRight g).hom := by
   let := ModObj.regular H
   constructor
-  show μ[H] ≫ _ = H ◁ _ ≫ μ[H]
+  change μ[H] ≫ _ = H ◁ _ ≫ μ[H]
   have hw (f : H ⟶ H) : H ◁ f =
       CartesianMonoidalCategory.lift (CartesianMonoidalCategory.fst H H)
         (CartesianMonoidalCategory.snd H H ≫ f) := by
@@ -115,6 +115,7 @@ variable {𝒞 : BigFppfSite.{u}} {S : Scheme.{u}} {hS : 𝒞.Contains S}
 variable {U U' U'' : BigFppfOver 𝒞 S hS}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullbacks` instance search on presheaves over the big fppf site is slow
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_TrivialTorsorRightTranslation :
@@ -477,7 +478,7 @@ theorem trivialTorsorRightTranslation_isPullback (b : yoneda.obj U ⟶ B)
     IsPullback (trivialTorsorRightTranslation hB G b b' f hb g hg)
       (pullback.snd G.obj.X.hom b) (pullback.snd G.obj.X.hom b') (yoneda.map f) := by
   have : IsIso (rawMulRight hB G b g hg) := by
-    show IsIso ((Over.forget (yoneda.obj U)).map
+    change IsIso ((Over.forget (yoneda.obj U)).map
       (GrpObj.mulRight (trivialTorsorInvSection hB G b g hg)).hom)
     infer_instance
   have hsq : IsPullback (rawMulRight hB G b g hg) (pullback.snd G.obj.X.hom b)

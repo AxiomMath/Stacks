@@ -185,7 +185,7 @@ private lemma nerveColimit_simplex_family_stage
   refine ⟨j, z, fun a => ?_⟩
   have hz1 : e0.inv.hom ((colimit.ι H j) (z a)) = s a := by
     have hh := congrArg e0.inv.hom (hz a)
-    show e0.inv.hom
+    change e0.inv.hom
       ((colimit.ι ((F ⋙ nerveFunctor) ⋙
         (CategoryTheory.evaluation (SimplexCategoryᵒᵖ) (Type w)).obj k) j)
         (z a)) = s a
@@ -303,14 +303,14 @@ private lemma nerveColimit_spine_natural {X Y : SSet}
     simp only [SSet.Path.map_vertex]
     let d : kₙ ⟶ k₀ :=
       (SimplexCategory.const (SimplexCategory.mk 0) (SimplexCategory.mk n) i).op
-    show Y.map d (g.app (op ⦋n⦌) x) =
+    change Y.map d (g.app (op ⦋n⦌) x) =
       g.app k₀ (X.map d x)
     exact (NatTrans.naturality_apply g d x).symm
   · funext i
     simp only [SSet.Path.map_arrow]
     let d : kₙ ⟶ k₁ :=
       (SimplexCategory.mkOfSucc i).op
-    show Y.map d (g.app (op ⦋n⦌) x) =
+    change Y.map d (g.app (op ⦋n⦌) x) =
       g.app k₁ (X.map d x)
     exact (NatTrans.naturality_apply g d x).symm
 
@@ -390,12 +390,12 @@ private lemma strictSegal_comp_unique {V : SSet.Truncated 2} [V.IsStrictSegal]
     intro i
     fin_cases i
     · have h₀ : SimplexCategory.mkOfSucc (0 : Fin 2) = SimplexCategory.δ 2 := by decide
-      show V.map (Hom.tr (SimplexCategory.mkOfSucc (0 : Fin 2))).op s.simplex =
+      change V.map (Hom.tr (SimplexCategory.mkOfSucc (0 : Fin 2))).op s.simplex =
         V.map (Hom.tr (SimplexCategory.mkOfSucc (0 : Fin 2))).op t.simplex
       rw [h₀]
       exact s.d₂.trans t.d₂.symm
     · have h₁ : SimplexCategory.mkOfSucc (1 : Fin 2) = SimplexCategory.δ 0 := by decide
-      show V.map (Hom.tr (SimplexCategory.mkOfSucc (1 : Fin 2))).op s.simplex =
+      change V.map (Hom.tr (SimplexCategory.mkOfSucc (1 : Fin 2))).op s.simplex =
         V.map (Hom.tr (SimplexCategory.mkOfSucc (1 : Fin 2))).op t.simplex
       rw [h₁]
       exact s.d₀.trans t.d₀.symm
@@ -453,13 +453,13 @@ private lemma pathMap_bijective {n : ℕ} {V W : SSet.Truncated (n + 1)}
     refine ⟨⟨v, e, ?_, ?_⟩, ?_⟩
     · intro i
       apply h₀.injective
-      show f.app _ (V.map (Hom.tr (SimplexCategory.δ 1)).op (e i)) =
+      change f.app _ (V.map (Hom.tr (SimplexCategory.δ 1)).op (e i)) =
         f.app _ (v i.castSucc)
       rw [NatTrans.naturality_apply, he, hv]
       exact p.arrow_src i
     · intro i
       apply h₀.injective
-      show f.app _ (V.map (Hom.tr (SimplexCategory.δ 0)).op (e i)) =
+      change f.app _ (V.map (Hom.tr (SimplexCategory.δ 0)).op (e i)) =
         f.app _ (v i.succ)
       rw [NatTrans.naturality_apply, he, hv]
       exact p.arrow_tgt i
@@ -518,7 +518,7 @@ omit [UnivLE.{v, w}] [UnivLE.{wJ, w}] in
 private lemma strictSegal_unit_isIso (V : SSet.Truncated 2)
     [V.Quasicategory₂] [V.IsStrictSegal] :
     IsIso (SSet.Truncated.nerve₂Adj.unit.app V) := by
-  show IsIso (SSet.Truncated.HomotopyCategory.homToNerveMk (𝟭 V.HomotopyCategory))
+  change IsIso (SSet.Truncated.HomotopyCategory.homToNerveMk (𝟭 V.HomotopyCategory))
   apply strictSegal_isIso
   · constructor
     · intro x y h
@@ -526,7 +526,7 @@ private lemma strictSegal_unit_isIso (V : SSet.Truncated 2)
     · intro x
       obtain ⟨y, hy⟩ := SSet.Truncated.HomotopyCategory.mk_surjective (nerveEquiv x)
       refine ⟨y, ?_⟩
-      show nerveEquiv.symm (SSet.Truncated.HomotopyCategory.mk y) = x
+      change nerveEquiv.symm (SSet.Truncated.HomotopyCategory.mk y) = x
       rw [hy]
       exact nerveEquiv.symm_apply_apply x
   · exact strictSegal_unit_one_bijective V
@@ -548,7 +548,7 @@ private theorem isColimit_map_of_unit_iso
   refine ⟨d, ⟨hd⟩, ⟨?_⟩⟩
   refine IsColimit.ofIsoColimit hc (Cocone.ext (asIso (adj.unit.app c.pt)) ?_)
   intro j
-  show c.ι.app j ≫ adj.unit.app c.pt =
+  change c.ι.app j ≫ adj.unit.app c.pt =
     R.map (β.inv.app j ≫ L.map (c.ι.app j))
   rw [R.map_comp, show c.ι.app j ≫ adj.unit.app c.pt =
     adj.unit.app ((G ⋙ R).obj j) ≫ R.map (L.map (c.ι.app j)) from
@@ -601,7 +601,7 @@ private lemma filteredCat_hom_eq_eventually (j : J) {x y : F.obj j}
     (Nerve.nerveFunctor₂.map (colimit.ι F j)).app (op ⦋1⦌₂)
       (ComposableArrows.mk₁ g) := by
     apply ComposableArrows.arrowEquiv.injective
-    show Arrow.mk ((colimit.ι F j).toFunctor.map f) =
+    change Arrow.mk ((colimit.ι F j).toFunctor.map f) =
       Arrow.mk ((colimit.ι F j).toFunctor.map g)
     rw [h]
   obtain ⟨k, u, hu⟩ := (Types.FilteredColimit.isColimit_eq_iff'

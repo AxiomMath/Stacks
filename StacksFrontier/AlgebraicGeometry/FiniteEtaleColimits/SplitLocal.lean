@@ -65,13 +65,13 @@ theorem isPullback_sigmaDesc_id {ι : Type*} [Finite ι] {S T : Scheme.{u}} (g :
       Cofan.IsColimit.desc (coproductIsCoproduct (fun _ : ι => T)) q = Sigma.desc q := by
     intro B q
     refine Sigma.hom_ext _ _ fun i => ?_
-    rw [Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc]
     exact Cofan.IsColimit.fac (coproductIsCoproduct (fun _ : ι => T)) q i
   have key := (FinitaryPreExtensive.isUniversal_finiteCoproducts
       (coproductIsCoproduct (fun _ : ι => S))).isPullback_of_isColimit_left
     (fun _ => 𝟙 S) (Sigma.desc (fun _ : ι => 𝟙 S)) g (fun _ : ι => 𝟙 T) (fun _ : ι => g)
     (fun _ => IsPullback.of_id_fst) (coproductIsCoproduct (fun _ : ι => T))
-    (fun i => Sigma.ι_desc _ _)
+    (fun i => Sigma.ι_comp_desc _ _)
   rwa [hdesc, hdesc] at key
 
 /-- A split covering stays a split covering after base change. -/
@@ -296,7 +296,7 @@ theorem splitCoverBaseChangeIso_comp {κ : Type u} [Finite κ] (ρ : κ → ι) 
     (splitCoverBaseChangeIso h κ).hom ≫ splitCoverMap V ρ =
       (finiteEtaleBaseChange h).map (splitCoverMap P ρ) ≫ (splitCoverBaseChangeIso h ι).hom := by
   refine MorphismProperty.Over.Hom.ext ?_
-  show (splitCoverPullbackIso h κ).hom ≫ sigmaIndexMap V ρ =
+  change (splitCoverPullbackIso h κ).hom ≫ sigmaIndexMap V ρ =
     ((Over.pullback h).map ((finiteEtaleOverForgetOver P).map (splitCoverMap P ρ))).left ≫
       (splitCoverPullbackIso h ι).hom
   have key : (splitCoverPullbackIso h κ).inv ≫
@@ -312,10 +312,10 @@ theorem splitCoverBaseChangeIso_comp {κ : Type u} [Finite κ] (ρ : κ → ι) 
         splitCoverPullbackIso_inv_fst]
       refine Eq.trans (Category.assoc _ _ _).symm ?_
       refine Eq.trans (congrArg (fun t => t ≫ sigmaIndexMap P ρ)
-        (Sigma.ι_desc (fun i : κ => h ≫ Sigma.ι (fun _ : κ => P) i) b)) ?_
+        (Sigma.ι_comp_desc (fun i : κ => h ≫ Sigma.ι (fun _ : κ => P) i) b)) ?_
       refine Eq.trans (Category.assoc _ _ _) ?_
       refine Eq.trans (congrArg (fun t => h ≫ t) (ι_sigmaIndexMap P ρ b)) ?_
-      exact (Sigma.ι_desc (fun i : ι => h ≫ Sigma.ι (fun _ : ι => P) i) (ρ b)).symm
+      exact (Sigma.ι_comp_desc (fun i : ι => h ≫ Sigma.ι (fun _ : ι => P) i) (ρ b)).symm
     refine pullback.hom_ext ?_ ?_
     · simp only [Category.assoc, Over.pullback_map_left, pullback.lift_fst]
       exact Sigma.hom_ext _ _ hfst

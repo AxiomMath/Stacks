@@ -199,7 +199,7 @@ lemma koszul_d_wedge_add_wedge_d {R M : Type*} [CommRing R]
     Koszul.d φ (j + 1) (koszulWedge e (j + 1) x) +
       koszulWedge e j (Koszul.d φ j x) = φ e • x := by
   apply Subtype.ext
-  show CliffordAlgebra.contractLeft φ
+  change CliffordAlgebra.contractLeft φ
         (ExteriorAlgebra.ι R e * (x : ExteriorAlgebra R M)) +
       ExteriorAlgebra.ι R e *
         CliffordAlgebra.contractLeft φ (x : ExteriorAlgebra R M) =
@@ -228,7 +228,7 @@ lemma variableExteriorBasis_apply
       ⟨ExteriorAlgebra.ιMulti (MvPolynomial E A) j
         (fun k ↦ Finsupp.single (s.1.orderEmbOfFin s.2 k) 1),
         Koszul.ιMulti_mem j _⟩ := by
-  show (Finsupp.basisSingleOne (R := MvPolynomial E A) (ι := E)).exteriorPower j
+  change (Finsupp.basisSingleOne (R := MvPolynomial E A) (ι := E)).exteriorPower j
     (⟨s.1, s.2⟩ : Set.powersetCard E j) = _
   rw [exteriorPower.basis_apply]
   apply Subtype.ext
@@ -364,7 +364,7 @@ lemma variableWedge_exteriorBasis_eq_zero_of_mem
   have hk := orderEmbOfFin_orderIsoOfFin_symm s.2 he
   apply Subtype.ext
   rw [variableExteriorBasis_apply]
-  show ExteriorAlgebra.ι (MvPolynomial E A)
+  change ExteriorAlgebra.ι (MvPolynomial E A)
       (Finsupp.single e (1 : MvPolynomial E A)) *
       ExteriorAlgebra.ιMulti (MvPolynomial E A) (q + 1)
         (fun i ↦ Finsupp.single (s.1.orderEmbOfFin s.2 i)

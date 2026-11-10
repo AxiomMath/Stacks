@@ -178,7 +178,7 @@ theorem exists_pointsMap_eq_of_isSurjective_sigmaDesc
     simpa using hs
   refine ⟨j.as, (⟨q.carrier, q.contained, q.toBase, s⟩ :
     FieldValuedPoint B S hS (yoneda.obj (V j.as))).class B S hS _, ?_⟩
-  rw [← Sigma.ι_desc ψ j.as, pointsMap_comp_apply, pointsMap_class]
+  rw [← Sigma.ι_comp_desc ψ j.as, pointsMap_comp_apply, pointsMap_class]
   refine hz.symm ▸ congrArg (pointsMap B S hS _ (Sigma.desc ψ)) ?_
   show (FieldValuedPoint.map B S hS (yoneda.obj (V j.as))
     (Sigma.ι (fun i => yoneda.obj (V i)) j.as)
@@ -356,7 +356,7 @@ theorem exists_etaleCover_finite_chartFibre
       (by rw [pointsToScheme_pointsMap_yoneda B S hS (j i) a, ha, hw])
   refine ⟨pointsMap B S hS (yoneda.obj (W i))
     (Sigma.ι (fun k => yoneda.obj (W k)) i) a, ?_⟩
-  rwa [← pointsMap_comp_apply, Sigma.ι_desc, pointsMap_comp_apply, hau]
+  rwa [← pointsMap_comp_apply, Sigma.ι_comp_desc, pointsMap_comp_apply, hau]
 
 end Space
 

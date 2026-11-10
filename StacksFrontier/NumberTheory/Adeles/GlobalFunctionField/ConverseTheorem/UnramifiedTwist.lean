@@ -51,7 +51,7 @@ there. -/
 public theorem val_det_apply (x : GL (Fin 2) (AdeleRing K)) (w : Place K) :
     ((GeneralLinearGroup.det x : (AdeleRing K)ˣ) : AdeleRing K) w =
       ((evalAt K w).mapMatrix (x : Matrix (Fin 2) (Fin 2) (AdeleRing K))).det := by
-  show (evalAt K w) (x : Matrix (Fin 2) (Fin 2) (AdeleRing K)).det = _
+  change (evalAt K w) (x : Matrix (Fin 2) (Fin 2) (AdeleRing K)).det = _
   exact RingHom.map_det (evalAt K w) _
 
 /-- At its own place `v`, a local matrix at `v` with component `m` evaluates to `m`. -/
@@ -141,8 +141,8 @@ public theorem idelDiv_det_of_isLocalMatrixAt {v : Place K}
   rw [idelDiv_apply, val_det_apply, Finsupp.single_apply]
   by_cases hw : w = v
   · subst hw
-    rw [mapMatrix_evalAt_self_of_isLocalMatrixAt h, if_pos rfl]
-  · rw [mapMatrix_evalAt_ne_of_isLocalMatrixAt h hw, det_one, if_neg (Ne.symm hw), ordC_one k]
+    rw [mapMatrix_evalAt_self_of_isLocalMatrixAt h, ite_eq_left rfl]
+  · rw [mapMatrix_evalAt_ne_of_isLocalMatrixAt h hw, det_one, ite_eq_right (Ne.symm hw), ordC_one k]
 
 /-- An idele which is a unit of the integral adeles has divisor `0`. -/
 public theorem idelDiv_units_map_integralAdeles (o : (integralAdeles K)ˣ) :

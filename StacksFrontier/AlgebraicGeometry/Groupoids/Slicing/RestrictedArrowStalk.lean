@@ -142,7 +142,7 @@ public noncomputable def targetOnSourceFiber : G.source.left.fiber u ⟶ G.objec
 /-- The identity arrow at `u`, viewed as a point of the source fibre at `u`, has target `u`. -/
 public theorem targetOnSourceFiber_sourceFiberIdentity :
     targetOnSourceFiber G u (sourceFiberIdentity G u) = u := by
-  show G.target.left (G.source.left.fiberι u (sourceFiberIdentity G u)) = u
+  change G.target.left (G.source.left.fiberι u (sourceFiberIdentity G u)) = u
   rw [fiberι_sourceFiberIdentity]
   simpa using congrArg (fun f : G.objects.left ⟶ G.objects.left => f u)
     (identity_left_comp_target_left G)

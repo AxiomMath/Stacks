@@ -297,7 +297,7 @@ noncomputable def componentShriekSigmaHomEquiv (F : SheafOverFormalCoproduct J K
     simp
   right_inv _ := by
     funext i
-    simp only [Limits.Sigma.ι_desc]
+    simp only [Limits.Sigma.ι_comp_desc]
     exact Equiv.apply_symm_apply _ _
 
 /-- `componentShriekSigmaHomEquiv` evaluated at a component. -/
@@ -328,7 +328,7 @@ noncomputable def componentShriekSigmaAdjunction :
         apply Limits.Sigma.hom_ext
         intro i
         rw [componentShriekSigmaHomEquiv_symm_apply, componentShriekSigmaHomEquiv_symm_apply]
-        simp only [Limits.Sigma.ι_desc, Limits.Sigma.ι_map_assoc, Pi.comp_apply]
+        simp only [Limits.Sigma.ι_comp_desc, Limits.Sigma.ι_map_assoc, Pi.comp_apply]
         exact (componentShriekAdjunction J K i).homEquiv_naturality_left_symm (f i) (g i)
       homEquiv_naturality_right := by
         intro F G G' f g

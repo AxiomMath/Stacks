@@ -176,11 +176,11 @@ theorem coe_algebraMap_integralClosureCompositumOfBase (b : ↥(integralClosure 
   let := tensorProductFractionRingAlgebra R O K F ↥(integralClosure R K₁) K₁
   let := integralClosureTensorProductAlgebra R O K F ↥(integralClosure R K₁) K₁
   let := algebraIntegralClosureCompositumOfBase R O K F K₁
-  show Ideal.Quotient.mk _ (algebraMap (O ⊗[R] ↥(integralClosure R K₁)) (F ⊗[K] K₁)
+  change Ideal.Quotient.mk _ (algebraMap (O ⊗[R] ↥(integralClosure R K₁)) (F ⊗[K] K₁)
     ((Algebra.TensorProduct.includeRight :
       ↥(integralClosure R K₁) →ₐ[R] O ⊗[R] ↥(integralClosure R K₁)) b)) = _
   congr 1
-  show (Algebra.TensorProduct.lift _ _ _).toRingHom (1 ⊗ₜ[R] b) = _
+  change (Algebra.TensorProduct.lift _ _ _).toRingHom (1 ⊗ₜ[R] b) = _
   simp [Algebra.TensorProduct.lift_tmul]
 
 /-- **The two `integralClosure R K₁`-algebra structures on the integral closure of the compositum

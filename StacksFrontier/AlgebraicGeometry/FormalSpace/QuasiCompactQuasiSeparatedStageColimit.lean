@@ -80,11 +80,13 @@ noncomputable def stageSubsheafDiagram : I ⥤ FppfSheaf B S hS where
   map_id _ := rfl
   map_comp _ _ := rfl
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- The object of `stageSubsheafDiagram` at `i` is the image subsheaf of `z i ≫ c`. -/
 @[simp]
 theorem stageSubsheafDiagram_obj (i : I) :
     (stageSubsheafDiagram B S hS c Z z hle).obj i = Sheaf.image (z i ≫ c) := rfl
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- The transition morphisms of `stageSubsheafDiagram` commute with the inclusions of the stage
 subsheaves into `X`. -/
 theorem stageSubsheafDiagram_map_comp_imageι {i j : I} (g : i ⟶ j) :
@@ -92,12 +94,13 @@ theorem stageSubsheafDiagram_map_comp_imageι {i j : I} (g : i ⟶ j) :
       Sheaf.imageι (z i ≫ c) :=
   Sheaf.hom_ext (Subfunctor.homOfLe_ι (hle g))
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- The transition morphisms of `stageSubsheafDiagram` are monomorphisms. -/
 theorem mono_stageSubsheafDiagram_map {i j : I} (g : i ⟶ j) :
     Mono ((stageSubsheafDiagram B S hS c Z z hle).map g) := by
   refine (sheafToPresheaf (BigFppfOver.topology B S hS) (Type (u + 1))).mono_of_mono_map
     (f := (stageSubsheafDiagram B S hS c Z z hle).map g) ?_
-  show Mono (Subfunctor.homOfLe (hle g))
+  change Mono (Subfunctor.homOfLe (hle g))
   infer_instance
 
 /-- The cocone on the diagram of stage subsheaves whose vertex is `X`. -/

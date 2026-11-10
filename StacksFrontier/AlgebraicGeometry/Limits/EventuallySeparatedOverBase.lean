@@ -261,7 +261,7 @@ theorem eventually_isSeparated_app {I : Type v} [Preorder I] [IsDirected I (· �
       naturality := fun _ _ f => t.naturality (e.inverse.map f) }
   obtain ⟨j⟩ := IsCofiltered.nonempty (C := SmallModel.{u} Iᵒᵖ)
   have hsep' : IsSeparated (c.π.app j ≫ t'.app j) := by
-    show IsSeparated (d.limitCone.π.app (e.inverse.obj j) ≫ t.app (e.inverse.obj j))
+    change IsSeparated (d.limitCone.π.app (e.inverse.obj j) ≫ t.app (e.inverse.obj j))
     rw [limitHom_app_eq d.limitCone t (e.inverse.obj j) (op d.base)]
     exact hsep
   obtain ⟨b, hb⟩ := exists_isSeparated_app_stage c hc t' j hsep'

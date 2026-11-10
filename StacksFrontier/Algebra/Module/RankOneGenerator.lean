@@ -94,5 +94,5 @@ theorem exists_unit_smul_eq_of_bijective_of_semilinear {N₁ : Type*} [AddCommGr
   have hone := mul_repr_eq_one_of_smul_eq b t _ h'
   refine ⟨⟨s, t, by rw [mul_comm]; exact hone, hone⟩, ?_⟩
   rw [Units.smul_def, ht, smul_smul]
-  show α m₀ = (s * t) • α m₀
+  change α m₀ = (s * t) • α m₀
   rw [mul_comm, hone, one_smul]

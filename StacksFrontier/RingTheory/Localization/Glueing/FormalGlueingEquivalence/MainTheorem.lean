@@ -74,8 +74,7 @@ private theorem tensor_smul_injective_of_isUnit {M : Type*} [AddCommGroup M] [Mo
     ((Module.End.isUnit_iff _).mp ha)
   have he : ∀ y : S ⊗[R] M, LinearEquiv.lTensor S e y = a • y := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul s m => simp [e, TensorProduct.tmul_smul]
     | add y z hy hz => simp only [map_add, hy, hz, smul_add]
   intro y z hyz
@@ -91,7 +90,7 @@ private noncomputable def awayInvPowSMul (i : Fin r) (n : ℕ)
 private theorem pow_smul_awayInvPowSMul (i : Fin r) (n : ℕ)
     (N : ModuleCat.{w} (Localization.Away (f i))) (y : restrictFromAway f i N) :
     (f i) ^ n • awayInvPowSMul f i n N y = y := by
-  show (algebraMap R (Localization.Away (f i)) ((f i) ^ n)) •
+  change (algebraMap R (Localization.Away (f i)) ((f i) ^ n)) •
     ((IsLocalization.Away.invSelf (f i) ^ n : Localization.Away (f i)) • (show N from y)) = y
   rw [smul_smul, map_pow, ← mul_pow, IsLocalization.Away.mul_invSelf, one_pow, one_smul]
 
@@ -162,7 +161,7 @@ private theorem exists_pow_smul_mem_range_genericCounit
     Finset.single_le_sum (fun j _ ↦ Nat.zero_le (n j)) (Finset.mem_univ i)
   rw [← Nat.sub_add_cancel hle, pow_add, mul_smul]
   apply Submodule.smul_mem
-  show algebraMap R S (f i ^ n i) • (show X.generic from x) ∈
+  change algebraMap R S (f i ^ n i) • (show X.generic from x) ∈
     LinearMap.range (genericCounit S f X)
   rw [map_pow]
   exact hn i
@@ -254,7 +253,7 @@ private theorem genericCounit_surjective (hflat : Module.Flat R S)
       simp only [LinearMap.coe_comp, Function.comp_apply, TensorProduct.mk_apply,
         LinearMap.restrictScalars_apply] at this
       rw [this]
-      show FormalGlueing.sectionsGenericCounit S f X ((1 : S) ⊗ₜ[R] y) = _
+      change FormalGlueing.sectionsGenericCounit S f X ((1 : S) ⊗ₜ[R] y) = _
       rw [FormalGlueing.sectionsGenericCounit_tmul, one_smul]
     apply mem_range_genericCounit_of_pow_smul S f X (c e) n h
     · intro i
@@ -441,7 +440,7 @@ private lemma eq_of_comp_eq_of_torsion {A : Type*} [CommRing A]
   ext y
   obtain ⟨n, x, hx⟩ := pow_smul_mem_range_of_torsion hC ha y
   apply hinj n
-  show a ^ n • h y = a ^ n • k y
+  change a ^ n • h y = a ^ n • k y
   rw [← map_smul, ← map_smul, ← hx]
   exact LinearMap.congr_fun he x
 
@@ -537,7 +536,7 @@ private lemma torsion_kernel_cokernel_of_localized_bijective
     intro x i
     have hx : LocalizedModule.mkLinearMap (Submonoid.powers (a i)) M x = 0 := by
       apply (hg i).1
-      show LocalizedModule.map _ g.hom (LocalizedModule.mk x.val 1) = _
+      change LocalizedModule.map _ g.hom (LocalizedModule.mk x.val 1) = _
       rw [LocalizedModule.map_mk, x.property, LocalizedModule.zero_mk, map_zero]
     obtain ⟨⟨b, ⟨k, rfl⟩⟩, hb⟩ :=
       (IsLocalizedModule.eq_zero_iff (Submonoid.powers (a i))
@@ -690,7 +689,7 @@ private lemma descend_incoming (a : R →+* S) (f : Fin r → R)
     have hi : canonicalLocalMap f ψ i = ((localFunctor S f i).mapIso e).hom := by
       have hh := congrArg (fun k ↦ k.localPiece i) hψ
       change canonicalLocalMap f ψ i = e.hom.localPiece i ≫ 𝟙 _ at hh
-      show canonicalLocalMap f ψ i = e.hom.localPiece i
+      change canonicalLocalMap f ψ i = e.hom.localPiece i
       exact hh.trans (Category.comp_id _)
     have hb := ConcreteCategory.bijective_of_isIso ((localFunctor S f i).mapIso e).hom
     rw [← hi] at hb
@@ -733,7 +732,7 @@ private lemma descend_outgoing (a : R →+* S) (f : Fin r → R)
     have hi : canonicalLocalMap f ψ i = ((localFunctor S f i).mapIso e).inv := by
       have hh := congrArg (fun k ↦ k.localPiece i) hψ
       change canonicalLocalMap f ψ i = 𝟙 _ ≫ e.inv.localPiece i at hh
-      show canonicalLocalMap f ψ i = e.inv.localPiece i
+      change canonicalLocalMap f ψ i = e.inv.localPiece i
       exact hh.trans (Category.id_comp _)
     have hb := ConcreteCategory.bijective_of_isIso ((localFunctor S f i).mapIso e).inv
     rw [← hi] at hb
@@ -783,7 +782,7 @@ public theorem exists_descent_of_idealPowerTorsion_kernel_cokernel
     obtain ⟨M, ψ, e, he, hψ⟩ := descend_incoming a f hflat' hq N M' φ hK hC
     obtain ⟨⟨eK⟩, ⟨eC⟩⟩ := kernel_cokernel_iso_of_localized_bijective
       a f hflat' hq ψ hψ φ e (Iso.refl _) (by
-        show _ ≫ 𝟙 _ = _
+        change _ ≫ 𝟙 _ = _
         rw [Category.comp_id]
         exact he.symm)
     exact ⟨M, ψ, e, eK, eC, he⟩
@@ -791,7 +790,7 @@ public theorem exists_descent_of_idealPowerTorsion_kernel_cokernel
     obtain ⟨N, ψ, e, he, hψ⟩ := descend_outgoing a f hflat' hq M N' φ hK hC
     obtain ⟨⟨eK⟩, ⟨eC⟩⟩ := kernel_cokernel_iso_of_localized_bijective
       a f hflat' hq ψ hψ φ (Iso.refl _) e (by
-        show _ = 𝟙 _ ≫ _
+        change _ = 𝟙 _ ≫ _
         rw [Category.id_comp]
         exact he)
     exact ⟨N, ψ, e, eK, eC, he⟩

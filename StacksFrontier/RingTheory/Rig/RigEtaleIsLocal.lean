@@ -78,7 +78,7 @@ public theorem isRigEtale_canonicalMap [IsLinearTopology (CompletionOver f) (Com
       RingHom.IsRigEtale (CompletionOver.canonicalMap f) := by
   obtain ⟨-, hcont, hadic, htft, -⟩ := canonicalMap_facts f hB hC hf
   have hft : FiniteTypeAdicAlgebraForEveryIdeal (CompletionOver.canonicalMap f) :=
-    ((adicFiniteType_tfae _ hcont hB hC (exists_idealOfDefinition_fg hB inferInstance)
+    ((adicFiniteType_tfae _ hB hC (exists_idealOfDefinition_fg hB inferInstance)
       (exists_idealOfDefinition_fg hC inferInstance)).out 1 6).mp (And.intro hadic htft)
   obtain ⟨I, hI, hIadic⟩ := hB.1
   obtain ⟨Q, hQ⟩ := exists_presentation_bijective_canonicalMap f hf hft hI hIadic
@@ -186,7 +186,7 @@ public theorem isRigEtale_ringEquiv {R R' : Type u} [CommRing R] [TopologicalSpa
       RingHom.FiniteType.of_surjective _
         (Ideal.quotientMap_surjective e.surjective)⟩⟩
   have hft : FiniteTypeAdicAlgebraForEveryIdeal (e : R →+* R') :=
-    ((adicFiniteType_tfae (e : R →+* R') he hR hR'
+    ((adicFiniteType_tfae (e : R →+* R') hR hR'
       (exists_idealOfDefinition_fg hR inferInstance)
       (exists_idealOfDefinition_fg hR' inferInstance)).out 3 6).mp hsome
   refine ⟨hft, I, hI, isRigEtaleOver_of_isRigEtale _ hft I hI ?_⟩
@@ -360,7 +360,7 @@ public theorem rigEtale_faithfullyFlatDescent :
   have hsmoothI := hsm.forall_idealOfDefinition hmapcont
     (weaklyAdmissible_of_isAdicRing hB.1) (weaklyAdmissible_of_isAdicRing hA.1) hft I hI
   have hftβ : Rig.FiniteTypeAdicAlgebraForEveryIdeal (CompletionOver.canonicalMap D.toA') :=
-    ((Rig.adicFiniteType_tfae _ hβcont hA.1 hA'.1 (exists_idealOfDefinition_fg hA.1 hA.2)
+    ((Rig.adicFiniteType_tfae _ hA.1 hA'.1 (exists_idealOfDefinition_fg hA.1 hA.2)
       (exists_idealOfDefinition_fg hA'.1 hA'.2)).out 1 6).mp (And.intro hβadic hβft)
   have hJadic : _root_.IsAdic (I.map D.map) := (hft I hI).1
   have hJ := Rig.isIdealOfDefinition_of_isAdic hJadic
@@ -505,7 +505,7 @@ public theorem rigEtale_finiteProductPreserves :
     rw [show e i = e i * e i ^ n by rw [← pow_succ', hidem'.pow_succ_eq], mul_smul]
     exact (congrArg _ hn).trans (smul_zero _)
   have hsum : ∑ i, e i = 1 := Finset.univ_sum_single (1 : ∀ j, A j)
-  show z = 0
+  change z = 0
   rw [← one_smul base.carrier z, ← hsum, Finset.sum_smul]
   exact Finset.sum_eq_zero fun i _ ↦ hcomp i
 
@@ -564,16 +564,17 @@ public theorem isRigEtaleArrow_of_finite_etale_family {B A : Type u} [CommRing B
     [TopologicalSpace B] [IsTopologicalRing B] [IsLinearTopology B B] [CommRing A]
     [TopologicalSpace A] [IsTopologicalRing A] [IsLinearTopology A A]
     (hB : TopologicalRing.IsNoetherianAdic B) (hA : TopologicalRing.IsNoetherianAdic A)
-    (g : B →+* A) (hg : Continuous g) {σ : Type u} [Fintype σ] (A' : σ → Type u)
+    (g : B →+* A) (hg : Continuous g) {σ : Type u} [Finite σ] (A' : σ → Type u)
     [∀ s, CommRing (A' s)] [∀ s, Algebra A (A' s)] [∀ s, Algebra.Etale A (A' s)]
     (hff : Module.FaithfullyFlat A (∀ s, A' s))
     (hP : ∀ s, RingHom.IsRigEtaleArrow
       ((CompletionOver.canonicalMap (algebraMap A (A' s))).comp g)) :
     RingHom.IsRigEtaleArrow g := by
+  have : Fintype σ := Fintype.ofFinite σ
   have : IsNoetherianRing A := hA.2
   have : IsNoetherianRing B := hB.2
   have : ∀ s, IsNoetherianRing (A' s) := fun s ↦ Algebra.FiniteType.isNoetherianRing A (A' s)
-  let f : A →+* ∀ s, A' s := Pi.ringHom fun s ↦ algebraMap A (A' s)
+  let f : A →+* ∀ s, A' s := RingHom.pi fun s ↦ algebraMap A (A' s)
   have hT : ∀ s, TopologicalRing.IsNoetherianAdic (CompletionOver (algebraMap A (A' s))) :=
     fun s ↦ TopologicalRing.completionOver_isNoetherianAdic _ hA inferInstance
   have hTf : TopologicalRing.IsNoetherianAdic (CompletionOver f) :=

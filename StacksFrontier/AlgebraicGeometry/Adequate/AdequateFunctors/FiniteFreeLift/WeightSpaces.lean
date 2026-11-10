@@ -41,8 +41,7 @@ noncomputable def smallModuleExtensionMap (A : Type u) [CommRing A]
       map_add' := map_add _
       map_smul' := ?_ }
   intro b x
-  induction x using TensorProduct.induction_on with
-  | zero => change (0 : TensorProduct A (C : Type u) M) = 0; rfl
+  induction x using TensorProduct.inductionOn with
   | tmul c m =>
     rw [TensorProduct.smul_tmul', TensorProduct.map_tmul]
     change f.hom (b * c) ⊗ₜ[A] m = (f.hom b * f.hom c) ⊗ₜ[A] m
@@ -59,8 +58,7 @@ private lemma smallModuleExtensionMap_id (A : Type u) [CommRing A]
         (congrArg CommRingCat.Hom.hom
           ((forget₂ (CommAlgCat.{u} A) CommRingCat.{u}).map_id B))).inv.app _ := by
   ext x
-  induction x using TensorProduct.induction_on with
-  | zero => change (0 : TensorProduct A (B : Type u) M) = 0; rfl
+  induction x using TensorProduct.inductionOn with
   | tmul b m => change b ⊗ₜ[A] m = b ⊗ₜ[A] m; rfl
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -73,8 +71,7 @@ noncomputable def smallModuleExtension (A : Type u) [CommRing A]
     apply smallModuleExtensionMap_id
   map_comp f g := by
     ext x
-    induction x using TensorProduct.induction_on with
-    | zero => change 0 = 0; rfl
+    induction x using TensorProduct.inductionOn with
     | tmul b m =>
       change g.unop.unop.hom (f.unop.unop.hom b) ⊗ₜ[A] m =
         g.unop.unop.hom (f.unop.unop.hom b) ⊗ₜ[A] m
@@ -87,7 +84,7 @@ private lemma moduleExtensionMap_tupleTensor {n : ℕ} (A B C : Type u)
     (f : B →ₐ[A] C) (x : Fin n → B) :
     smallModuleExtensionMap A (Fin n → A) (CommAlgCat.ofHom f) (tupleTensor A B x) =
       tupleTensor A C (fun i => f (x i)) := by
-  show (TensorProduct.map f.toLinearMap LinearMap.id)
+  change (TensorProduct.map f.toLinearMap LinearMap.id)
       (∑ i, x i ⊗ₜ[A] Pi.single i 1) = _
   simp [tupleTensor]
 
@@ -104,7 +101,7 @@ lemma gradedLaurentMap_symmetricPower_mem (A V : Type u) [CommRing A]
     (hx : x ∈ symmetricPower A V d) :
     Laurent.gradedLaurentMap A (SymmetricAlgebra A V) (symmetricPower A V) x =
       LaurentPolynomial.C x * LaurentPolynomial.T (d : ℤ) := by
-  show (DirectSum.liftRingHom _) (DirectSum.decompose (symmetricPower A V) x) = _
+  change (DirectSum.liftRingHom _) (DirectSum.decompose (symmetricPower A V) x) = _
   rw [DirectSum.decompose_of_mem (symmetricPower A V) hx]
   simp [DirectSum.liftRingHom_apply]
 
@@ -122,41 +119,36 @@ private lemma moduleExtension_range_weightSpace (A B M : Type u)
     (hz : z ∈ LinearMap.range ((𝒜 d).subtype.rTensor M)) :
     z ∈ Laurent.weightSpace A B (smallModuleExtension A M) 𝒜 (d : ℤ) := by
   obtain ⟨w, rfl⟩ := hz
-  show (LaurentPolynomial.T (d : ℤ) : LaurentPolynomial B) •
+  change (LaurentPolynomial.T (d : ℤ) : LaurentPolynomial B) •
       (smallModuleExtension A M).map
         ((CommAlgCat.ofHom (Laurent.constantLaurentMap A B)).op.op)
         ((𝒜 d).subtype.rTensor M w) =
     (smallModuleExtension A M).map
       ((CommAlgCat.ofHom (Laurent.gradedLaurentMap A B 𝒜)).op.op)
       ((𝒜 d).subtype.rTensor M w)
-  induction w using TensorProduct.induction_on with
-  | zero =>
-      show (LaurentPolynomial.T (d : ℤ) : LaurentPolynomial B) •
-          (TensorProduct.map (Laurent.constantLaurentMap A B).toLinearMap LinearMap.id) 0 =
-        (TensorProduct.map (Laurent.gradedLaurentMap A B 𝒜).toLinearMap LinearMap.id) 0
-      simp
+  induction w using TensorProduct.inductionOn with
   | tmul x m =>
-      show (LaurentPolynomial.T (d : ℤ) : LaurentPolynomial B) •
+      change (LaurentPolynomial.T (d : ℤ) : LaurentPolynomial B) •
           (TensorProduct.map (Laurent.constantLaurentMap A B).toLinearMap LinearMap.id)
             ((x : B) ⊗ₜ[A] m) =
         (TensorProduct.map (Laurent.gradedLaurentMap A B 𝒜).toLinearMap LinearMap.id)
           ((x : B) ⊗ₜ[A] m)
       rw [TensorProduct.map_tmul, TensorProduct.map_tmul]
-      show (LaurentPolynomial.T (d : ℤ) : LaurentPolynomial B) •
+      change (LaurentPolynomial.T (d : ℤ) : LaurentPolynomial B) •
           (Laurent.constantLaurentMap A B (x : B) ⊗ₜ[A] m) =
         Laurent.gradedLaurentMap A B 𝒜 (x : B) ⊗ₜ[A] m
       rw [hg x.val x.property]
       rw [TensorProduct.smul_tmul']
       rw [mul_comm]
       rw [smul_eq_mul]
-      show (LaurentPolynomial.T (d : ℤ) * LaurentPolynomial.C (x : B)) ⊗ₜ[A] m =
+      change (LaurentPolynomial.T (d : ℤ) * LaurentPolynomial.C (x : B)) ⊗ₜ[A] m =
         (LaurentPolynomial.T (d : ℤ) * LaurentPolynomial.C (x : B)) ⊗ₜ[A] m
       rfl
   | add w₁ w₂ h₁ h₂ =>
       have hr : (𝒜 d).subtype.rTensor M (w₁ + w₂) =
           (𝒜 d).subtype.rTensor M w₁ + (𝒜 d).subtype.rTensor M w₂ := map_add _ _ _
       rw [hr]
-      show (LaurentPolynomial.T (d : ℤ) : LaurentPolynomial B) •
+      change (LaurentPolynomial.T (d : ℤ) : LaurentPolynomial B) •
           (TensorProduct.map (Laurent.constantLaurentMap A B).toLinearMap LinearMap.id)
             ((𝒜 d).subtype.rTensor M w₁ + (𝒜 d).subtype.rTensor M w₂) =
         (TensorProduct.map (Laurent.gradedLaurentMap A B 𝒜).toLinearMap LinearMap.id)
@@ -187,10 +179,9 @@ public lemma moduleExtension_range_weightSpace_large (A : Type u) (B : Type v)
         (TensorProduct.map (constantLaurentMapLarge A B).toLinearMap LinearMap.id) y =
       (TensorProduct.map (gradedLaurentMapLarge A B 𝒜).toLinearMap LinearMap.id) y := by
   obtain ⟨w, rfl⟩ := hy
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul x m =>
-      show (LaurentPolynomial.T (d : ℤ) : LaurentPolynomial B) •
+      change (LaurentPolynomial.T (d : ℤ) : LaurentPolynomial B) •
           (constantLaurentMapLarge A B x.1 ⊗ₜ[A] m) =
         gradedLaurentMapLarge A B 𝒜 x.1 ⊗ₜ[A] m
       rw [hg x.1 x.2, TensorProduct.smul_tmul', mul_comm, smul_eq_mul]
@@ -211,7 +202,7 @@ private lemma exists_finsupp_decompose_eq_sum {A N : Type*} [CommRing A] [AddCom
   let S : (ℤ →₀ N) →ₗ[A] N := Finsupp.lsum A (fun _ : ℤ => LinearMap.id)
   have hGof (d : ℕ) (x : E d) :
       G (DirectSum.of (fun d : ℕ => E d) d x) = Finsupp.single (d : ℤ) (x : N) := by
-    show DirectSum.toAddMonoid
+    change DirectSum.toAddMonoid
       (fun e : ℕ => (Finsupp.singleAddHom (e : ℤ)).comp
         (E e).subtype.toAddMonoidHom)
       (DirectSum.of (fun d : ℕ => E d) d x) = _
@@ -240,7 +231,7 @@ private lemma exists_finsupp_decompose_eq_sum {A N : Type*} [CommRing A] [AddCom
     | add z z' hz hz' => simp only [map_add, hz, hz']
   refine ⟨G (DirectSum.decompose E y), fun d => hGval _ _,
     fun k hk => hGneg _ _ hk, ?_⟩
-  show S (G (DirectSum.decompose E y)) = y
+  change S (G (DirectSum.decompose E y)) = y
   rw [hcomp]
   exact DirectSum.Decomposition.left_inv (ℳ := E) y
 
@@ -269,7 +260,7 @@ lemma moduleExtension_weightOne_mem_degreeOne (A B M : Type u)
       rw [← DirectSum.decomposeTensor_apply]
       exact (DirectSum.decompose E y d).property
     · rw [hneg k fun d hd => hk ⟨d, hd⟩]
-      show (LaurentPolynomial.T k : LaurentPolynomial B) •
+      change (LaurentPolynomial.T k : LaurentPolynomial B) •
           (0 : TensorProduct A (LaurentPolynomial B) M) = 0
       simp
   let w₁ : ℤ →₀ (TensorProduct A B M) := Finsupp.single 1 y
@@ -280,7 +271,7 @@ lemma moduleExtension_weightOne_mem_degreeOne (A B M : Type u)
       simpa [w₁] using hy
     · have hzero : w₁ k = 0 := by simp [w₁, hk]
       rw [hzero]
-      show (LaurentPolynomial.T k : LaurentPolynomial B) •
+      change (LaurentPolynomial.T k : LaurentPolynomial B) •
           (0 : TensorProduct A (LaurentPolynomial B) M) = 0
       simp
   have hsum₁ : w₁.sum (fun _ z => z) = y := by simp [w₁]

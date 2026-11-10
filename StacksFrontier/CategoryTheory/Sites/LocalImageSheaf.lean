@@ -55,7 +55,7 @@ private def localImageSubfunctor :
 omit [HasSheafify J AddCommGrpCat.{w}] in
 private theorem localImage_zero (U : Cᵒᵖ) :
     (0 : G.obj.obj U) ∈ (localImageSubfunctor J f).obj U := by
-  show Presheaf.imageSieve f 0 ∈ J U.unop
+  change Presheaf.imageSieve f 0 ∈ J U.unop
   convert J.top_mem U.unop
   exact eq_top_iff.2 fun _ _ _ => ⟨0, by simp⟩
 
@@ -64,7 +64,7 @@ private theorem localImage_add (U : Cᵒᵖ) (s t : G.obj.obj U)
     (hs : s ∈ (localImageSubfunctor J f).obj U)
     (ht : t ∈ (localImageSubfunctor J f).obj U) :
     s + t ∈ (localImageSubfunctor J f).obj U := by
-  show Presheaf.imageSieve f (s + t) ∈ J U.unop
+  change Presheaf.imageSieve f (s + t) ∈ J U.unop
   change Presheaf.imageSieve f s ∈ J U.unop at hs
   change Presheaf.imageSieve f t ∈ J U.unop at ht
   apply J.superset_covering _ (J.intersection_covering hs ht)
@@ -75,7 +75,7 @@ omit [HasSheafify J AddCommGrpCat.{w}] in
 private theorem localImage_neg (U : Cᵒᵖ) (s : G.obj.obj U)
     (hs : s ∈ (localImageSubfunctor J f).obj U) :
     -s ∈ (localImageSubfunctor J f).obj U := by
-  show Presheaf.imageSieve f (-s) ∈ J U.unop
+  change Presheaf.imageSieve f (-s) ∈ J U.unop
   change Presheaf.imageSieve f s ∈ J U.unop at hs
   apply J.superset_covering _ hs
   rintro _ _ ⟨x, hx⟩
@@ -112,7 +112,7 @@ private theorem localImagePresheaf_isSheaf :
     Presheaf.IsSheaf J (localImagePresheaf J f) := by
   apply Presheaf.isSheaf_of_isSheaf_comp J (s := forget AddCommGrpCat.{w})
   rw [isSheaf_iff_isSheaf_of_type]
-  show Presieve.IsSheaf J (localImageSubfunctor J f).toFunctor
+  change Presieve.IsSheaf J (localImageSubfunctor J f).toFunctor
   apply Subfunctor.sheafify_isSheaf
   rw [← isSheaf_iff_isSheaf_of_type]
   exact GrothendieckTopology.HasSheafCompose.isSheaf G.obj G.2
@@ -145,7 +145,7 @@ private theorem toLocalImageSheaf_fac :
 omit [HasSheafify J AddCommGrpCat.{w}] in
 private theorem localImageSheafι_mono : Mono (localImageSheafι J f) := by
   apply (sheafToPresheaf J AddCommGrpCat.{w}).mono_of_mono_map
-  show Mono (localImagePresheafι J f)
+  change Mono (localImagePresheafι J f)
   have (U : Cᵒᵖ) : Mono ((localImagePresheafι J f).app U) :=
     (AddCommGrpCat.mono_iff_injective _).mpr Subtype.val_injective
   exact NatTrans.mono_of_mono_app _

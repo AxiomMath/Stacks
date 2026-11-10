@@ -100,7 +100,7 @@ theorem subsingleton_unitObject_hom_twistSingle (e m : ℤ)
       (twistSingle k n e)⟦m⟧) := by
   rcases lt_or_ge m 0 with hm | hm
   · refine ((twistSingleZeroIso k n).homFromEquiv.subsingleton_congr).1 ?_
-    show Subsingleton (twistSingle k n 0 ⟶ (shiftFunctor (DerivedCategory
+    change Subsingleton (twistSingle k n 0 ⟶ (shiftFunctor (DerivedCategory
       (projectiveSpaceOverRing n (CommRingCat.of k)).Modules) m).obj (twistSingle k n e))
     have := (DerivedCategory.TStructure.t).isGE_shift (twistSingle k n e) 0 m (-m) (by omega)
     refine ⟨fun f g => ?_⟩

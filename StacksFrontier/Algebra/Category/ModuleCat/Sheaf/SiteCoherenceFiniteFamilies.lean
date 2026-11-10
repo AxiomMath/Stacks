@@ -142,6 +142,7 @@ theorem isCoherentOnSite_zero {Z : SheafOfModules.{m} R} (hZ : IsZero Z) :
   ⟨isFiniteType_presheaf_of_isZero hZ, isFiniteType_relations_of_isZero hZ⟩
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasColimitsOfShape (Discrete (Fin n))` on sheaves of modules
 /-- Coproducts of shape `Fin n` of sheaves of modules.  Instance search finds this, but only
 past the default `synthInstance.maxHeartbeats`, so it is synthesized once here and made a local
 instance. -/
@@ -183,6 +184,7 @@ private theorem splitTotal {n : ℕ} (M : Fin (n + 1) → SheafOfModules.{w} R) 
     simp [splitFst, splitSnd, splitInr]
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the finite coproducts `∐ M` of sheaves of modules
 /-- **Stacks Project, Tag 01BY (3), for a finite direct sum, on a site.**  A coproduct of
 finitely many coherent sheaves of modules on a site is coherent.
 

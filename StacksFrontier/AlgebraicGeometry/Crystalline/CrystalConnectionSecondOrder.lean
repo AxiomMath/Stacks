@@ -7,11 +7,13 @@ public import StacksFrontier.AlgebraicGeometry.Crystalline.SecondOrderThickening
 /-!
 # The second-order universal thickening as a datum for the canonical connection
 
-`StacksFrontier/AlgebraicGeometry/Crystalline/CrystalConnectionGeneral.lean` carries the second-order
+`StacksFrontier/AlgebraicGeometry/Crystalline/CrystalConnectionGeneral.lean` carries the
+second-order
 universal thickening `(U, T'', δ'')` of [Stacks, Tag 07J3] as the hypothesis structure
 `Crystalline.GlobalCrystallineSituation.SecondOrderThickeningSiteData`, on the ground that the
 library had `(U, T'', δ'')` only on structure sheaves and not as an *object* of `CRIS(X/S)`.  That
-is no longer the case: `StacksFrontier/AlgebraicGeometry/Crystalline/SecondOrderThickeningScheme.lean`
+is no longer the case:
+`StacksFrontier/AlgebraicGeometry/Crystalline/SecondOrderThickeningScheme.lean`
 builds the object `Crystalline.GlobalCrystallineSituation.secondOrderThickeningObject`, the three
 morphisms `q₀, q₁, q₂` to `(U, T, δ)`, the three morphisms `q₀₁, q₀₂, q₁₂` to the first-order
 thickening `(U, T', δ')`, and all six composition relations of the tag, in `CRIS(X/S)`.

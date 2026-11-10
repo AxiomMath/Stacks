@@ -242,14 +242,14 @@ private lemma isZero_homology_zero_iff (X : SimplicialObject (ModuleCat.{max v w
     IsZero (((alternatingFaceMapComplex (ModuleCat.{max v w} B)).obj X).homology 0) ↔
       Function.Surjective ((X.δ (0 : Fin 2)).hom - (X.δ (1 : Fin 2)).hom) := by
   let D := (alternatingFaceMapComplex (ModuleCat.{max v w} B)).obj X
-  show IsZero (D.homology 0) ↔ _
+  change IsZero (D.homology 0) ↔ _
   rw [← D.exactAt_iff_isZero_homology,
     D.exactAt_iff' 1 0 ((ComplexShape.down ℕ).next 0) (by simp) rfl,
     ShortComplex.exact_iff_epi _ (by
-      show D.d 0 _ = 0
+      change D.d 0 _ = 0
       exact D.shape _ _ (by simp)),
     ModuleCat.epi_iff_surjective]
-  show Function.Surjective ((AlternatingFaceMapComplex.obj X).d 1 0).hom ↔ _
+  change Function.Surjective ((AlternatingFaceMapComplex.obj X).d 1 0).hom ↔ _
   rw [AlternatingFaceMapComplex.obj_d_eq X 0]
   simp [Fin.sum_univ_two, sub_eq_add_neg]
 
@@ -489,12 +489,11 @@ public lemma isZero_homology_zero_tensor_of_right (M N : SimplicialObject (Modul
   apply (isZero_homology_zero_iff _).mpr
   have hsurj := (isZero_homology_zero_iff N).mp hN
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction x using TensorProduct.inductionOn with
   | tmul x y =>
     obtain ⟨z, hz⟩ := hsurj y
     refine ⟨M.σ (0 : Fin 1) x ⊗ₜ[B] z, ?_⟩
-    show M.δ (0 : Fin 2) (M.σ (0 : Fin 1) x) ⊗ₜ[B] N.δ (0 : Fin 2) z -
+    change M.δ (0 : Fin 2) (M.σ (0 : Fin 1) x) ⊗ₜ[B] N.δ (0 : Fin 2) z -
       M.δ (1 : Fin 2) (M.σ (0 : Fin 1) x) ⊗ₜ[B] N.δ (1 : Fin 2) z = x ⊗ₜ[B] y
     rw [show M.δ (0 : Fin 2) (M.σ (0 : Fin 1) x) = x from
       ConcreteCategory.congr_hom (M.δ_comp_σ_self (i := (0 : Fin 1))) x,
@@ -538,7 +537,7 @@ public theorem quasiIso_whiskerLeft_of_quasiIso (M : SimplicialObject (ModuleCat
       ((kerSES_shortExact f hf).acyclic_X₁ (hg := hq) i)
   have hMK := isZero_homology_tensor_of_acyclic M (simpKer f) hMflat hK
   have hSM := tensorKerSES_shortExact M hMflat f hf
-  show QuasiIso (mooreSES (tensorKerSES M f)).g
+  change QuasiIso (mooreSES (tensorKerSES M f)).g
   refine (_root_.quasiIso_iff _).mpr fun i => ?_
   rw [_root_.quasiIsoAt_iff_isIso_homologyMap]
   have : Mono (HomologicalComplex.homologyMap (mooreSES (tensorKerSES M f)).g i) :=

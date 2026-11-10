@@ -116,7 +116,7 @@ private theorem projective_unitComplex_X {R : Type u} [CommRing R] (i : ℤ) :
 /-- The unit complex is concentrated in degrees `≤ 0`. -/
 private theorem isStrictlyLE_unitComplex (R : Type u) [CommRing R] :
     (unitComplex R).IsStrictlyLE 0 := by
-  show ((CochainComplex.singleFunctor (ModuleCat.{u} R) 0).obj
+  change ((CochainComplex.singleFunctor (ModuleCat.{u} R) 0).obj
     (ModuleCat.of R R)).IsStrictlyLE 0
   infer_instance
 
@@ -149,14 +149,14 @@ private theorem exists_unit_map_ne_zero_of_cycle {L : Type u} [Field L]
     apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro x
-    show P.d 0 1 (x • z) = 0
+    change P.d 0 1 (x • z) = 0
     rw [map_smul, hz0, smul_zero])
   have hzt : zt.f 0 (unitGen A) = z := by
-    show ((HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 (ModuleCat.of A A)).hom ≫ φ)
+    change ((HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 (ModuleCat.of A A)).hom ≫ φ)
       ((HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 (ModuleCat.of A A)).inv
         (1 : A)) = z
     rw [← ModuleCat.comp_apply, Iso.inv_hom_id_assoc]
-    show (1 : A) • z = z
+    change (1 : A) • z = z
     rw [one_smul]
   have : (unitComplex A).IsStrictlyLE 0 := isStrictlyLE_unitComplex A
   have := projective_unitComplex_X (R := A)
@@ -186,7 +186,7 @@ private theorem exists_unit_map_ne_zero_of_cycle {L : Type u} [Field L]
         (fibreComplex χ (unitComplex A)))).1 (h2.symm.trans comp_zero.symm)
   have hUd : ∀ i j, (fibreComplex χ (unitComplex A)).d i j = 0 := by
     intro i j
-    show (ModuleCat.extendScalars χ).map ((unitComplex A).d i j) = 0
+    change (ModuleCat.extendScalars χ).map ((unitComplex A).d i j) = 0
     rw [HomologicalComplex.single_obj_d, Functor.map_zero]
   have hPd := fibreComplex_d_eq_zero χ P r hX hH
   have hnat := zeroDiffHomologyIso_hom_naturality hUd hPd (fibreMap χ zt) 0
@@ -327,7 +327,7 @@ private theorem exists_eq_smul_notMem_of_valuationRing {M : ModuleCat.{u} A} {n 
     rw [map_zero]
     ext i
     obtain ⟨q, hq⟩ := hj i (Finset.mem_univ _)
-    show y.down i = 0
+    change y.down i = 0
     rw [hq, h0, zero_mul]
   choose q hq using fun i => hj i (Finset.mem_univ _)
   let x' : M := e₀.inv (ULift.up q)
@@ -335,14 +335,14 @@ private theorem exists_eq_smul_notMem_of_valuationRing {M : ModuleCat.{u} A} {n 
     rw [← ModuleCat.comp_apply, e₀.inv_hom_id, ModuleCat.id_apply]
   refine ⟨y.down j, x', hj0, ?_, fun hmem => ?_⟩
   · apply e₀.toLinearEquiv.injective
-    show e₀.hom x = e₀.hom (y.down j • x')
+    change e₀.hom x = e₀.hom (y.down j • x')
     rw [map_smul, hinv]
     ext i
     exact hq i
   have hmap : e₀.hom x' ∈ IsLocalRing.maximalIdeal A •
       (⊤ : Submodule A (ULift.{u} (Fin n → A))) := by
     refine Submodule.smul_induction_on hmem (fun a ha m _ => ?_) (fun m₁ m₂ h₁ h₂ => ?_)
-    · show e₀.hom (a • m) ∈ _
+    · change e₀.hom (a • m) ∈ _
       rw [map_smul]
       exact Submodule.smul_mem_smul ha Submodule.mem_top
     · rw [map_add]
@@ -351,9 +351,9 @@ private theorem exists_eq_smul_notMem_of_valuationRing {M : ModuleCat.{u} A} {n 
       (⊤ : Submodule A (ULift.{u} (Fin n → A))), w.down j ∈ IsLocalRing.maximalIdeal A := by
     intro w hw
     refine Submodule.smul_induction_on hw (fun a ha m _ => ?_) (fun m₁ m₂ h₁ h₂ => ?_)
-    · show a * m.down j ∈ _
+    · change a * m.down j ∈ _
       exact Ideal.mul_mem_right _ _ ha
-    · show m₁.down j + m₂.down j ∈ _
+    · change m₁.down j + m₂.down j ∈ _
       exact Ideal.add_mem _ h₁ h₂
   have hx'j : (e₀.hom x').down j = q j := congrArg (fun w => w.down j) hinv
   have := hcoord _ hmap
@@ -377,9 +377,9 @@ theorem exists_cycle_notMem_of_valuationRing {K : Type u} [Field K] (ι : A →+
   have hdx : F.d 0 1 x = 0 := by
     refine (fibreElt_eq_zero_iff_of_injective ι hι (F.X 1) _).1 ?_
     rw [← map_fibreElt, ← hx]
-    show ((fibreComplex ι F).d 0 1).hom (ι c • v) = 0
+    change ((fibreComplex ι F).d 0 1).hom (ι c • v) = 0
     rw [map_smul]
-    show ι c • ((fibreComplex ι F).d 0 1) v = 0
+    change ι c • ((fibreComplex ι F).d 0 1) v = 0
     rw [hv, smul_zero]
   have hx0 : x ≠ 0 := by
     rintro rfl

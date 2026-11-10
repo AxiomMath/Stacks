@@ -66,8 +66,8 @@ in `StacksFrontier.AlgebraicGeometry.ConormalUnitTransport.Basic`. What this fil
 *different* obstruction, which has to be removed first: that the affine open `V` of the
 statement and the open `i.coborderRange` of the construction had no recorded relation at all, so
 `Stacks.Conormal.Locality.conormalSheafRestrictIso` — whose second open argument ranges over
-opens of the factorization's target — cannot be pointed at `V` without it. With `V ≤ i.coborderRange` it
-can, via `i.coborderRange.ι ⁻¹ᵁ V`.
+opens of the factorization's target — cannot be pointed at `V` without it. With
+`V ≤ i.coborderRange` it can, via `i.coborderRange.ι ⁻¹ᵁ V`.
 
 ## Vocabulary
 

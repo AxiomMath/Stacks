@@ -59,7 +59,7 @@ public theorem dualEvalEquiv_stalkHom_doubleDualMap {E F : X.Modules}
       = Module.Dual.transpose (Module.Dual.transpose (stalkHom f x))
           (dualEvalEquiv E x Φ) := by
   refine LinearMap.ext fun ψ => ?_
-  show dualStalkEquiv (dualSheaf F) x (stalkHom (dualMap (dualMap f)) x Φ)
+  change dualStalkEquiv (dualSheaf F) x (stalkHom (dualMap (dualMap f)) x Φ)
       ((dualStalkEquiv F x).symm ψ)
     = dualStalkEquiv (dualSheaf E) x Φ
       ((dualStalkEquiv E x).symm (Module.Dual.transpose (stalkHom f x) ψ))

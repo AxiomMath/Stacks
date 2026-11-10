@@ -41,7 +41,8 @@ of `Stacks.AlgebraicGeometry.RelativeProj.relativeProj`.
 
 ## Implementation notes
 
-**What this does not do, and why Tag 01O4 is not yet proved.** These are morphisms into relative Proj
+**What this does not do, and why Tag 01O4 is not yet proved.** These are morphisms into relative
+Proj
 built from data over *one* affine open of the base and from *one* homogeneous section inverted on
 all of the test scheme. Tag 01O4's bijection needs, in addition: the dehomogenization that turns
 an invertible degree-one quotient into such a ring map (which is where the hypothesis that `A` is

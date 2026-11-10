@@ -336,7 +336,7 @@ private theorem formallySmoothTop_int_of_cohenRing.{u, w} (p : ℕ) (Λ : Type w
     simp
   obtain ⟨N, -, hN⟩ := (Ideal.hasBasis_nhds_zero_adic m).mem_iff.mp (htΛ ▸ hopen)
   have hp_mem : (p : Λ) ∈ m := by
-    show (p : Λ) ∈ IsLocalRing.maximalIdeal Λ
+    change (p : Λ) ∈ IsLocalRing.maximalIdeal Λ
     rw [hm]
     exact Ideal.mem_span_singleton_self _
   have hNzero : gbar ((p : Λ) ^ N) = 0 := by simpa using hN (Ideal.pow_mem_pow hp_mem N)
@@ -359,7 +359,7 @@ private theorem formallySmoothTop_int_of_cohenRing.{u, w} (p : ℕ) (Λ : Type w
   let Λq := Λ ⧸ IΛ
   let rho : ZMod q →+* Λq := zmodLiftInt q (Int.castRingHom Λq) (by
     apply Ideal.Quotient.eq_zero_iff_mem.mpr
-    show ((q : ℤ) : Λ) ∈ IΛ
+    change ((q : ℤ) : Λ) ∈ IΛ
     simpa only [q, Int.cast_natCast, Nat.cast_pow, Int.cast_pow, IΛ] using
       (Ideal.mem_span_singleton_self ((p : Λ) ^ e)))
   let fQ : ZMod q →+* A := zmodLiftInt q f hkillNat
@@ -391,7 +391,7 @@ private theorem formallySmoothTop_int_of_cohenRing.{u, w} (p : ℕ) (Λ : Type w
     have hx' : x ∈ m ^ e := (Ideal.pow_le_pow_right (le_max_left _ _)) hx
     have hxI : x ∈ IΛ := by
       have hpow : m ^ e = IΛ := by
-        show (IsLocalRing.maximalIdeal Λ) ^ e = Ideal.span {(p : Λ) ^ e}
+        change (IsLocalRing.maximalIdeal Λ) ^ e = Ideal.span {(p : Λ) ^ e}
         rw [hm, Ideal.span_singleton_pow]
       rw [← hpow]
       exact hx'
@@ -480,7 +480,7 @@ private theorem formallySmoothTop_mvPowerSeries.{u, v, w} {R₀ : Type v} {R : T
       nhds_discrete, comap_pure]
     congr 1
     ext x
-    show x.2 + -x.1 = 0 ↔ x.1 = x.2
+    change x.2 + -x.1 = 0 ↔ x.1 = x.2
     rw [← sub_eq_add_neg, sub_eq_zero, eq_comm]
   have : CompleteSpace A := by infer_instance
   let : UniformSpace R := IsTopologicalAddGroup.rightUniformSpace R
@@ -503,7 +503,7 @@ private theorem formallySmoothTop_mvPowerSeries.{u, v, w} {R₀ : Type v} {R : T
       uniformity_eq_comap_nhds_zero' (A ⧸ J), nhds_discrete, comap_pure]
     congr 1
     ext x
-    show x.2 + -x.1 = 0 ↔ x.1 = x.2
+    change x.2 + -x.1 = 0 ↔ x.1 = x.2
     rw [← sub_eq_add_neg, sub_eq_zero, eq_comm]
   have : CompleteSpace (A ⧸ J) := by infer_instance
   have : T2Space (A ⧸ J) := by infer_instance
@@ -515,11 +515,11 @@ private theorem formallySmoothTop_mvPowerSeries.{u, v, w} {R₀ : Type v} {R : T
         rw [MvPolynomial.coe_C, MvPolynomial.eval₂_C]
         exact (DFunLike.congr_fun hqc r).symm
     | add p q hp hq =>
-        show gbar ((p + q : MvPolynomial (Fin n) R) : MvPowerSeries (Fin n) R) =
+        change gbar ((p + q : MvPolynomial (Fin n) R) : MvPowerSeries (Fin n) R) =
           MvPolynomial.eval₂ cq aq (p + q)
         rw [MvPolynomial.coe_add, map_add, MvPolynomial.eval₂_add, hp, hq]
     | mul_X p i hp =>
-        show gbar ((p * MvPolynomial.X i : MvPolynomial (Fin n) R) :
+        change gbar ((p * MvPolynomial.X i : MvPolynomial (Fin n) R) :
           MvPowerSeries (Fin n) R) = MvPolynomial.eval₂ cq aq (p * MvPolynomial.X i)
         rw [MvPolynomial.coe_mul, map_mul, MvPolynomial.eval₂_mul, hp, MvPolynomial.coe_X,
           MvPolynomial.eval₂_X, ← ha i]
@@ -554,7 +554,7 @@ private theorem formallySmoothTop_mvPowerSeries.{u, v, w} {R₀ : Type v} {R : T
     obtain ⟨k, hk, hkmap⟩ :=
       (RingHom.continuous_adic_iff gbar
         (maximalIdeal (MvPowerSeries (Fin n) R)) ⊥).1 (by
-          show @Continuous (MvPowerSeries (Fin n) R) (A ⧸ J)
+          change @Continuous (MvPowerSeries (Fin n) R) (A ⧸ J)
             (maximalIdeal (MvPowerSeries (Fin n) R)).adicTopology
             (⊥ : Ideal (A ⧸ J)).adicTopology gbar
           rw [← ht, ← hQ]
@@ -578,7 +578,7 @@ private theorem formallySmoothTop_mvPowerSeries.{u, v, w} {R₀ : Type v} {R : T
   · rw [ht]
     exact hcont
   · ext x
-    show g (MvPowerSeries.C (φ x)) = f x
+    change g (MvPowerSeries.C (φ x)) = f x
     rw [show g (MvPowerSeries.C (φ x)) = c (φ x) by
       simp only [g, MvPowerSeries.coe_eval₂Hom, MvPowerSeries.eval₂_C]]
     exact DFunLike.congr_fun hcφ x
@@ -607,7 +607,7 @@ private theorem isFormallySmooth_mvPowerSeries_of_coefficient.{u, v, w}
   let : IsTopologicalRing (MvPowerSeries (Fin n) R) :=
     (maximalIdeal (MvPowerSeries (Fin n) R)).ringFilterBasis.isTopologicalRing
   change Continuous φ ∧ RingHom.FormallySmoothTop.{u, v, w} φ at hφ
-  show Continuous ((MvPowerSeries.C : R →+* MvPowerSeries (Fin n) R).comp φ) ∧
+  change Continuous ((MvPowerSeries.C : R →+* MvPowerSeries (Fin n) R).comp φ) ∧
     RingHom.FormallySmoothTop.{u, v, w}
       ((MvPowerSeries.C : R →+* MvPowerSeries (Fin n) R).comp φ)
   have hC : Continuous (MvPowerSeries.C : R → MvPowerSeries (Fin n) R) :=
@@ -652,7 +652,7 @@ public theorem isFormallySmooth_mvPowerSeries.{u} (n p : ℕ)
     let : IsTopologicalRing ℚ := (⊥ : Ideal ℚ).ringFilterBasis.isTopologicalRing
     let : TopologicalSpace K := (maximalIdeal K).adicTopology
     let : IsTopologicalRing K := (maximalIdeal K).ringFilterBasis.isTopologicalRing
-    show Continuous (algebraMap ℚ K) ∧ RingHom.FormallySmoothTop.{u} (algebraMap ℚ K)
+    change Continuous (algebraMap ℚ K) ∧ RingHom.FormallySmoothTop.{u} (algebraMap ℚ K)
     constructor
     · have : DiscreteTopology ℚ := (is_bot_adic_iff (A := ℚ)).1 rfl
       exact continuous_of_discreteTopology
@@ -673,7 +673,7 @@ public theorem isFormallySmooth_mvPowerSeries.{u} (n p : ℕ)
       (⊥ : Ideal (ZMod p)).ringFilterBasis.isTopologicalRing
     let : TopologicalSpace L := (maximalIdeal L).adicTopology
     let : IsTopologicalRing L := (maximalIdeal L).ringFilterBasis.isTopologicalRing
-    show Continuous (algebraMap (ZMod p) L) ∧
+    change Continuous (algebraMap (ZMod p) L) ∧
       RingHom.FormallySmoothTop.{u} (algebraMap (ZMod p) L)
     constructor
     · have : DiscreteTopology (ZMod p) := (is_bot_adic_iff (A := ZMod p)).1 rfl
@@ -690,7 +690,7 @@ public theorem isFormallySmooth_mvPowerSeries.{u} (n p : ℕ)
     let : IsTopologicalRing ℤ := (⊥ : Ideal ℤ).ringFilterBasis.isTopologicalRing
     let : TopologicalSpace Λ := (maximalIdeal Λ).adicTopology
     let : IsTopologicalRing Λ := (maximalIdeal Λ).ringFilterBasis.isTopologicalRing
-    show Continuous (algebraMap ℤ Λ) ∧ RingHom.FormallySmoothTop.{u} (algebraMap ℤ Λ)
+    change Continuous (algebraMap ℤ Λ) ∧ RingHom.FormallySmoothTop.{u} (algebraMap ℤ Λ)
     constructor
     · have : DiscreteTopology ℤ := (is_bot_adic_iff (A := ℤ)).1 rfl
       exact continuous_of_discreteTopology
@@ -1281,7 +1281,7 @@ private theorem isAdicComplete_of_exact {A : Type q} [CommRing A] [IsNoetherianR
     have hgy : g y = 0 := by
       apply AdicCompletion.of_injective I Q
       rw [← AdicCompletion.map_of, hy]
-      show (AdicCompletion.map I g ∘ₗ AdicCompletion.map I f) x = _
+      change (AdicCompletion.map I g ∘ₗ AdicCompletion.map I f) x = _
       rw [AdicCompletion.map_comp, hex.linearMap_comp_eq_zero]
       simp
     obtain ⟨z, hz⟩ := (hex y).mp hgy
@@ -1390,11 +1390,11 @@ private theorem isAdicComplete_pullback_of_surjective {R S T : Type*}
   let diff : S × T →ₗ[P] R := {
     toFun := fun x => f x.1 - g x.2
     map_add' x y := by
-      show f (x.1 + y.1) - g (x.2 + y.2) = (f x.1 - g x.2) + (f y.1 - g y.2)
+      change f (x.1 + y.1) - g (x.2 + y.2) = (f x.1 - g x.2) + (f y.1 - g y.2)
       rw [map_add, map_add]
       abel
     map_smul' a x := by
-      show f (α a * x.1) - g (β a * x.2) = h a * (f x.1 - g x.2)
+      change f (α a * x.1) - g (β a * x.2) = h a * (f x.1 - g x.2)
       rw [map_mul, map_mul, show g (β a) = h a from a.property.symm,
         show f (α a) = h a from rfl]
       ring

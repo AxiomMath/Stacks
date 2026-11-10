@@ -127,7 +127,7 @@ theorem exists_finrank_eq_disjoint_linearSubspace [IsAlgClosed k] [FiniteDimensi
       intro C hC
       have hne : C.Nonempty :=
         (hfin.mem_toFinset.mp hC).1.nonempty
-      simp only [Wc, dif_pos hne]
+      simp only [Wc, hne, ↓reduceDIte]
       intro htop
       obtain ⟨x, hx⟩ := exists_ι_notMem k V hne.some.1
       exact hx ((mem_pointSubmodule_iff k V _ x).mp (htop ▸ Submodule.mem_top))
@@ -142,7 +142,7 @@ theorem exists_finrank_eq_disjoint_linearSubspace [IsAlgClosed k] [FiniteDimensi
       have hmem : (hne.some : Z).1 ∈ H := (hCA ⟨hne.some, hne.some_mem, rfl⟩).2
       rw [hH, mem_linearSubspace_iff, Submodule.span_singleton_le_iff_mem] at hmem
       have := hv C (hfin.mem_toFinset.mpr hC)
-      simp only [Wc, dif_pos hne] at this
+      simp only [Wc, hne, ↓reduceDIte] at this
       exact this hmem
     have hAdim : topologicalKrullDim A < (e : WithBot ℕ∞) := by
       have h1 := hnd.topologicalKrullDim_add_one_le (hAclosed.preimage continuous_subtype_val)
@@ -158,7 +158,7 @@ theorem exists_finrank_eq_disjoint_linearSubspace [IsAlgClosed k] [FiniteDimensi
     obtain ⟨u, hu, hsub⟩ : ∃ u, u ∉ W' ∧
         linearSubspace k V W' ∩ linearSubspace k V (k ∙ u) ⊆ H := by
       by_cases hvW' : v ∈ W'
-      · obtain ⟨u, -, hu⟩ := SetLike.exists_of_lt hW'top
+      · obtain ⟨u, -, hu⟩ := IsConcreteLE.exists_of_lt hW'top
         exact ⟨u, hu, fun q hq => linearSubspace_antitone k V
           ((Submodule.span_singleton_le_iff_mem v W').mpr hvW') hq.1⟩
       · exact ⟨v, hvW', fun q hq => hq.2⟩

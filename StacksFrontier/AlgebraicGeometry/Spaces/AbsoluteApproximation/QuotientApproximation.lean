@@ -150,6 +150,7 @@ lemma isAbsolutelyQuasiSeparated_quotient (j : A.Iᵒᵖ) :
   exact AlgebraicGeometry.Space.isAbsolutelyQuasiSeparated_quotient B (⊤_ Scheme.{u}) hZ hZ _ _
     (quasiSeparatedSpace_of_locallyOfFiniteType_terminal _) (A.hrel j)
 
+omit [HasSheafify (BigFppfOver.topology B (⊤_ Scheme.{u}) hZ) (Type u)] in
 include A in
 /-- **A presentation can be taken with a small index set**, smaller than the size cutoff of the
 site (`AlgebraicGeometry.Space.EtaleRelationSystem.exists_small_reindex`). -/

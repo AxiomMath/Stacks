@@ -169,7 +169,7 @@ theorem exists_derivedAdjunction_unit_compat_of_exact (adj : G₀ ⊣ H₀)
     have : IsIso (Q.map s.hom) := (Localization.inverts Q W) s.hom s.prop
     have : IsIso (RF.map (Q.map s.hom)) := by infer_instance
     have he' : e.hom = β.app t₀.right ≫ eRF.inv := by
-      show (eβ ≪≫ eRF.symm).hom = β.app t₀.right ≫ eRF.inv
+      change (eβ ≪≫ eRF.symm).hom = β.app t₀.right ≫ eRF.inv
       simp only [Iso.trans_hom, Iso.symm_hom, eβ, asIso_hom]
     have hComp : RF.map (Q.map s.hom) ≫
         RF.map (Q.map ((ht.from s).right)) = eRF.hom := by
@@ -231,7 +231,7 @@ theorem exists_derivedAdjunction_unit_compat_of_exact (adj : G₀ ⊣ H₀)
       simpa [LG, Q', α, G, Q, Functor.comp_map] using
         G₀.mapDerivedCategoryFactorsh.hom.naturality t.hom
     dsimp [d, Stacks.Injectives.coneOfInvertedMorphisms]
-    show LG.map (Q'.map t.hom) ≫ α.app M ≫ inv ((G ⋙ Q).map t.hom) = α.app t.left
+    change LG.map (Q'.map t.hom) ≫ α.app M ≫ inv ((G ⋙ Q).map t.hom) = α.app t.left
     calc
       LG.map (Q'.map t.hom) ≫ α.app M ≫ inv ((G ⋙ Q).map t.hom) =
           (α.app t.left ≫ (G ⋙ Q).map t.hom) ≫ inv ((G ⋙ Q).map t.hom) := by
@@ -288,7 +288,7 @@ private lemma isIso_unit_app_qh_quotient_of_isKInjective (adj : G₀ ⊣ H₀) [
         ((HomotopyCategory.quotient B (ComplexShape.up ℤ)).obj J))) := by
     have hdeg : ∀ n : ℤ, IsIso (((Adjunction.mapHomologicalComplexAdjunction adj
         (ComplexShape.up ℤ)).unit.app J).f n) := fun n => by
-      show IsIso (adj.unit.app (J.X n))
+      change IsIso (adj.unit.app (J.X n))
       infer_instance
     have hu : IsIso ((Adjunction.mapHomologicalComplexAdjunction adj
         (ComplexShape.up ℤ)).unit.app J) := HomologicalComplex.Hom.isIso_of_components _
@@ -604,7 +604,7 @@ theorem isZero_rightDerivedPlus_supportedSectionsOnClosed_modulePushforward
       ((DerivedCategory.Plus.singleFunctor (_root_.SheafOfModules.{u} (structureSheafRing X)) 0).obj
         ((modulePushforward (closedSubsetInclusion X Z)).obj G)) 0
       (by
-        show ((DerivedCategory.singleFunctor
+        change ((DerivedCategory.singleFunctor
             (_root_.SheafOfModules.{u} (structureSheafRing X)) 0).obj
           ((modulePushforward (closedSubsetInclusion X Z)).obj G)).IsGE 0
         infer_instance)

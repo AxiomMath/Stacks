@@ -133,7 +133,7 @@ theorem gamma_injective_of_etale_surjection
 theorem gamma_map_comp {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z) (s : Γ(Z, ⊤)) :
     (Scheme.Γ.map f.op).hom ((Scheme.Γ.map g.op).hom s) =
       (Scheme.Γ.map (f ≫ g).op).hom s := by
-  show (Scheme.Γ.map g.op ≫ Scheme.Γ.map f.op).hom s = _
+  change (Scheme.Γ.map g.op ≫ Scheme.Γ.map f.op).hom s = _
   rw [← Functor.map_comp, ← op_comp]
 
 variable (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u)
@@ -206,7 +206,7 @@ theorem chartFunctionsToSmall_injective (hF : IsAlgebraicSpace B S hS F) :
   let jW : CostructuredArrow yoneda F := j.unop
   let gAP : jP ⟶ jA := CostructuredArrow.homMk pHom (by simp [jP, jA])
   let gPW : jP ⟶ jW := CostructuredArrow.homMk α (by
-    show yoneda.map α ≫ jW.hom = yoneda.map pHom ≫ q
+    change yoneda.map α ≫ jW.hom = yoneda.map pHom ≫ q
     rw [hpHom]
     exact hpb.w.symm)
   have hA : s.val (Opposite.op jA) = t.val (Opposite.op jA) :=
@@ -251,7 +251,7 @@ theorem atlasPullback_sections_match
   have hrHom : yoneda.map rHom = r := Yoneda.fullyFaithful.map_preimage r
   let gR₁ : RChart ⟶ AChart := ObjectProperty.homMk <|
     CostructuredArrow.homMk rHom (by
-      show yoneda.map rHom ≫ q = r ≫ q
+      change yoneda.map rHom ≫ q = r ≫ q
       rw [hrHom])
   let gR₂ : RChart ⟶ AChart := ObjectProperty.homMk <| CostructuredArrow.homMk β hR.w.symm
   have hsR₁ : (Scheme.Γ.map (Tscheme.map rHom).op).hom
@@ -446,7 +446,7 @@ theorem atlas_extension_restrict_small
     ⟨CostructuredArrow.mk (yoneda.map ext.pHom ≫ q), hPChart'⟩
   let hα : PChart ⟶ c := ObjectProperty.homMk <|
     CostructuredArrow.homMk ext.α (by
-      show yoneda.map ext.α ≫ c.1.hom = yoneda.map ext.pHom ≫ q
+      change yoneda.map ext.α ≫ c.1.hom = yoneda.map ext.pHom ≫ q
       rw [ext.hpHom]; exact ext.hpb.w.symm)
   let hp : PChart ⟶ AChart := ObjectProperty.homMk <| CostructuredArrow.homMk ext.pHom rfl
   have hsα : (Scheme.Γ.map (Tscheme.map ext.α).op).hom (s.val (Opposite.op c)) =

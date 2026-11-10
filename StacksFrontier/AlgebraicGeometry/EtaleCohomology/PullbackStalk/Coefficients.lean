@@ -49,19 +49,19 @@ variable {C : Type v} [Category.{w} C] {P Q : C ⥤ Type u}
 /-- The stalk functor on presheaves given by a colimit over a category of elements depends on the
 indexing functor only through its isomorphism class. -/
 public def presheafColimIsoOfNatIsoOfCoefficients (e : P ≅ Q) :
-    (Functor.whiskeringLeft P.Elementsᵒᵖ Cᵒᵖ A).obj (CategoryOfElements.π P).op ⋙ colim ≅
-      (Functor.whiskeringLeft Q.Elementsᵒᵖ Cᵒᵖ A).obj (CategoryOfElements.π Q).op ⋙ colim :=
+    (Functor.whiskeringLeft P.Elementsᵒᵖ Cᵒᵖ A).obj (Functor.Elements.π P).op ⋙ colim ≅
+      (Functor.whiskeringLeft Q.Elementsᵒᵖ Cᵒᵖ A).obj (Functor.Elements.π Q).op ⋙ colim :=
   Functor.isoWhiskerLeft
-    ((Functor.whiskeringLeft Q.Elementsᵒᵖ Cᵒᵖ A).obj (CategoryOfElements.π Q).op)
+    ((Functor.whiskeringLeft Q.Elementsᵒᵖ Cᵒᵖ A).obj (Functor.Elements.π Q).op)
     (Functor.Final.colimIso (equivalenceOfNatIso e).op.functor)
 
 /-- The stalk functor on sheaves given by a colimit over a category of elements depends on the
 indexing functor only through its isomorphism class. -/
 public def sheafColimIsoOfNatIsoOfCoefficients (J : GrothendieckTopology C) (e : P ≅ Q) :
     (sheafToPresheaf J A ⋙
-      (Functor.whiskeringLeft _ _ _).obj (CategoryOfElements.π P).op ⋙ colim) ≅
+      (Functor.whiskeringLeft _ _ _).obj (Functor.Elements.π P).op ⋙ colim) ≅
     (sheafToPresheaf J A ⋙
-      (Functor.whiskeringLeft _ _ _).obj (CategoryOfElements.π Q).op ⋙ colim) :=
+      (Functor.whiskeringLeft _ _ _).obj (Functor.Elements.π Q).op ⋙ colim) :=
   Functor.isoWhiskerLeft (sheafToPresheaf J A) (presheafColimIsoOfNatIsoOfCoefficients e)
 
 end CategoryTheory.CategoryOfElements

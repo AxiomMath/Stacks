@@ -94,7 +94,7 @@ theorem isLocallyConstructible_numGeometricConnectedComponents {X Y : Scheme.{u}
         (pullback.snd f (Y.affineCover.f i)) y = n} =
       {y | (numGeometricConnectedComponents f ∘ (Y.affineCover.f i)) y = n} := by
     ext y
-    show numGeometricConnectedComponents (pullback.snd f (Y.affineCover.f i)) y = n ↔
+    change numGeometricConnectedComponents (pullback.snd f (Y.affineCover.f i)) y = n ↔
       (numGeometricConnectedComponents f ∘ (Y.affineCover.f i)) y = n
     rw [congrFun hfun y]
   have h : IsLocallyConstructible
@@ -103,7 +103,7 @@ theorem isLocallyConstructible_numGeometricConnectedComponents {X Y : Scheme.{u}
   have h' := h.preimage_of_isOpenEmbedding (Y.affineCover.f i).isoOpensRange.inv.isOpenEmbedding
   convert! h' using 1
   ext y
-  show (numGeometricConnectedComponents f y.1 = n) ↔
+  change (numGeometricConnectedComponents f y.1 = n) ↔
     (numGeometricConnectedComponents f
       ((Y.affineCover.f i) ((Y.affineCover.f i).isoOpensRange.inv y)) = n)
   have he := congrArg (fun k : (Y.affineCover.f i).opensRange.toScheme ⟶ Y => k y)

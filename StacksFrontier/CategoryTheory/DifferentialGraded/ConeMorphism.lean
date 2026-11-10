@@ -94,7 +94,7 @@ private theorem shifted_obstruction_is_boundary (S : ConeSituationIso A)
       (A.compCocycle b' f₁').1 - (A.compCocycle f₂' a').1 =
           F.map (A.comp (by omega : (0 : ℤ) + 0 = 0) b.1 f₁.1) -
             F.map (A.comp (by omega : (0 : ℤ) + 0 = 0) f₂.1 a.1) := by
-        show A.comp (by omega : (0 : ℤ) + 0 = 0) (F.map b.1) (F.map f₁.1) -
+        change A.comp (by omega : (0 : ℤ) + 0 = 0) (F.map b.1) (F.map f₁.1) -
           A.comp (by omega : (0 : ℤ) + 0 = 0) (F.map f₂.1) (F.map a.1) = _
         rw [F.map_comp, F.map_comp]
       _ = F.map ((A.compCocycle b f₁).1 - (A.compCocycle f₂ a).1) := by
@@ -231,19 +231,19 @@ theorem ConeSituationIso.exists_coneTriangleMorphism (S : ConeSituationIso A)
     abel_nf
   let c : A.Cocycle (S.cone f₁) (S.cone f₂) := ⟨c₀, hc⟩
   refine ⟨c, ?_, ?_⟩
-  · show A.compK (Quotient.mk (A.homotopySetoid (S.cone f₁) (S.cone f₂)) c)
+  · change A.compK (Quotient.mk (A.homotopySetoid (S.cone f₁) (S.cone f₂)) c)
       (Quotient.mk (A.homotopySetoid y₁ (S.cone f₁)) E₁.a) = _
     apply congrArg (Quotient.mk _)
     apply Subtype.ext
-    show A.comp (by omega : (0 : ℤ) + 0 = 0) c₀ E₁.a.1 =
+    change A.comp (by omega : (0 : ℤ) + 0 = 0) c₀ E₁.a.1 =
       A.comp (by omega : (0 : ℤ) + 0 = 0) E₂.a.1 b.1
     simp [c₀, A.comp_add_left, ← A.assoc, E₁.π_a,
       GradedSplitShortExact.comp_zero E₁, A.comp_id]
-  · show A.compK (Quotient.mk (A.homotopySetoid (S.cone f₂) _) E₂.b)
+  · change A.compK (Quotient.mk (A.homotopySetoid (S.cone f₂) _) E₂.b)
       (Quotient.mk (A.homotopySetoid (S.cone f₁) (S.cone f₂)) c) = _
     apply congrArg (Quotient.mk _)
     apply Subtype.ext
-    show A.comp (by omega : (0 : ℤ) + 0 = 0) E₂.b.1 c₀ =
+    change A.comp (by omega : (0 : ℤ) + 0 = 0) E₂.b.1 c₀ =
       A.comp (by omega : (0 : ℤ) + 0 = 0) a'.1 E₁.b.1
     simp [c₀, A.comp_add_right, A.assoc, E₂.b_s,
       GradedSplitShortExact.comp_zero E₂, A.id_comp]
@@ -389,11 +389,11 @@ theorem ConeSituationIso.id_cone_homotopic_zero (S : ConeSituationIso A) (x : A.
             simp only [A.comp_zero_left, zero_add]
       _ = E.b.1 := A.id_comp E.b.1
   have hdQ : A.d p = E.b.1 := by rw [← hQb, A.comp_id]
-  show A.Homotopic (⟨A.id c, A.d_id c⟩ : A.Cocycle c c) (⟨0, A.d_zero⟩ : A.Cocycle c c)
-  show ∃ h : A.Hom c c (-1), (A.id c - 0) = A.d' (show (-1 : ℤ) + 1 = 0 by omega) h
+  change A.Homotopic (⟨A.id c, A.d_id c⟩ : A.Cocycle c c) (⟨0, A.d_zero⟩ : A.Cocycle c c)
+  change ∃ h : A.Hom c c (-1), (A.id c - 0) = A.d' (show (-1 : ℤ) + 1 = 0 by omega) h
   refine ⟨A.comp (show (0 : ℤ) + (-1) = -1 by omega) E.s p, ?_⟩
   rw [sub_zero]
-  show A.id c = A.d (A.comp (show (0 : ℤ) + (-1) = -1 by omega) E.s p)
+  change A.id c = A.d (A.comp (show (0 : ℤ) + (-1) = -1 by omega) E.s p)
   rw [A.leibniz (show (0 : ℤ) + (-1) = -1 by omega) E.s p]
   simp only [show (-1 : R) ^ (Int.natAbs 0) = 1 by norm_num, one_smul]
   rw [hDp, hdQ]

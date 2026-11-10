@@ -114,7 +114,7 @@ theorem preservesFiniteLimits_moduleULift_modules :
   let R := ringSheaf (smallEtaleRingedSite B (Spec (.of A)) hA X hX).O
   let G := _root_.SheafOfModules.forget.{max (u + 1) w} R ⋙ PresheafOfModules.toPresheaf R.obj
   have hG : PreservesFiniteLimits (Stacks.SheafOfModules.moduleULift.{max (u + 1) w, u} R ⋙ G) := by
-    show PreservesFiniteLimits
+    change PreservesFiniteLimits
       ((_root_.SheafOfModules.forget.{u} R ⋙ PresheafOfModules.toPresheaf R.obj) ⋙
         (Functor.whiskeringRight _ AddCommGrpCat.{u} AddCommGrpCat.{max (u + 1) w}).obj
           AddCommGrpCat.uliftFunctor.{max (u + 1) w, u})

@@ -211,7 +211,7 @@ theorem moduleStalkLargeDescOfCompatibleFamily_germ (U : C) (x : p.fiber.obj U)
         (p.toPresheafFiber U x (liftedSectionPresheaf.{m} O F) (ULift.up s))) =
       p.toPresheafFiber U x (liftedSectionPresheaf.{m} O F) (ULift.up s) :=
     ConcreteCategory.congr_hom (moduleStalkLargeFinalIso.{m} p O F).inv_hom_id _
-  show liftedPresheafFiberDesc (Q := F.val.presheaf) p φ hφ
+  change liftedPresheafFiberDesc (Q := F.val.presheaf) p φ hφ
     ((moduleStalkLargeFinalIso.{m} p O F).hom
       ((moduleStalkLargeFinalIso.{m} p O F).inv
         (p.toPresheafFiber U x (liftedSectionPresheaf.{m} O F) (ULift.up s)))) = _
@@ -309,7 +309,7 @@ theorem liftedPresheafFiberEquiv_toPresheafFiber (U : C) (x : p.fiber.obj U)
     liftedPresheafFiberEquiv p O F ψ
         (p.toPresheafFiber U x (M₀.presheaf ⋙ AddCommGrpCat.uliftFunctor.{w}) (ULift.up s)) =
       p.toPresheafFiber U x (liftedSectionPresheaf.{m} O F) (ULift.up (ψ.app (op U) s)) := by
-  show ((p.presheafFiber (A := AddCommGrpCat.{max w m})).map
+  change ((p.presheafFiber (A := AddCommGrpCat.{max w m})).map
       (Functor.whiskerRight ψ AddCommGrpCat.uliftFunctor.{w}))
       (p.toPresheafFiber U x (M₀.presheaf ⋙ AddCommGrpCat.uliftFunctor.{w}) (ULift.up s)) = _
   exact ConcreteCategory.congr_hom
@@ -337,7 +337,7 @@ theorem moduleStalkLargeDescOfLocallyBijective_germ (U : C) (x : p.fiber.obj U)
           (ULift.up (ψ.app (op U) s)))) =
       p.toPresheafFiber U x (liftedSectionPresheaf.{m} O F) (ULift.up (ψ.app (op U) s)) :=
     ConcreteCategory.congr_hom (moduleStalkLargeFinalIso.{m} p O F).inv_hom_id _
-  show liftedPresheafFiberDesc (Q := M₀.presheaf) p φ hφ
+  change liftedPresheafFiberDesc (Q := M₀.presheaf) p φ hφ
     ((liftedPresheafFiberEquiv p O F ψ).symm
       ((moduleStalkLargeFinalIso.{m} p O F).hom
         ((moduleStalkLargeFinalIso.{m} p O F).inv

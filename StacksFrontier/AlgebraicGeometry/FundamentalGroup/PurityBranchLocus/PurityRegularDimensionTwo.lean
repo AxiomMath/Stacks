@@ -86,7 +86,7 @@ public lemma mem_essImage_finiteEtaleBaseChange_of_isPullback {X : Scheme.{u}} (
     (finiteEtaleBaseChange U.ι).essImage E := by
   refine ⟨MorphismProperty.Over.mk ⊤ p ⟨hfin, het⟩, ⟨?_⟩⟩
   refine MorphismProperty.Over.isoMk h.flip.isoPullback.symm ?_
-  show h.flip.isoPullback.inv ≫ E.hom = pullback.snd p U.ι
+  change h.flip.isoPullback.inv ≫ E.hom = pullback.snd p U.ι
   exact h.flip.isoPullback_inv_snd
 
 /-- Conversely, an object of the essential image of `FÉt_X ⟶ FÉt_U` is the base change of a
@@ -100,7 +100,7 @@ public lemma exists_isPullback_of_mem_essImage {X : Scheme.{u}} (U : X.Opens)
     (MorphismProperty.Over.forget (finiteEtale : MorphismProperty Scheme.{u}) ⊤
         U.toScheme).mapIso i.symm ≪≫
       Over.isoMk (pullbackSymmetry y.hom U.ι) (by
-        show (pullbackSymmetry y.hom U.ι).hom ≫ pullback.fst U.ι y.hom =
+        change (pullbackSymmetry y.hom U.ι).hom ≫ pullback.fst U.ι y.hom =
           pullback.snd y.hom U.ι
         exact pullbackSymmetry_hom_comp_fst y.hom U.ι)
   exact ⟨y.left, y.hom, eOver.hom.left ≫ pullback.snd U.ι y.hom, y.prop.1, y.prop.2,

@@ -94,8 +94,7 @@ theorem range_lTensor_subtype_smul_top (J : Ideal A) :
       J • (⊤ : Submodule A (Nmod ⊗[A] X)) := by
   refine le_antisymm ?_ ?_
   · rintro _ ⟨w, rfl⟩
-    induction w using TensorProduct.induction_on with
-    | zero => rw [map_zero]; exact Submodule.zero_mem _
+    induction w using TensorProduct.inductionOn with
     | tmul q z =>
         rw [LinearMap.lTensor_tmul]
         refine Submodule.smul_induction_on
@@ -111,8 +110,7 @@ theorem range_lTensor_subtype_smul_top (J : Ideal A) :
   · rw [Submodule.smul_le]
     intro a ha w hw
     clear hw
-    induction w using TensorProduct.induction_on with
-    | zero => rw [smul_zero]; exact Submodule.zero_mem _
+    induction w using TensorProduct.inductionOn with
     | tmul q x =>
         refine ⟨q ⊗ₜ[A] ⟨a • x, Submodule.smul_mem_smul ha Submodule.mem_top⟩, ?_⟩
         rw [LinearMap.lTensor_tmul]

@@ -150,7 +150,7 @@ public theorem isFlatOver_pullback_opens_baseChange_iff {S T : Scheme.{u}} (b : 
   · refine (isFlatOverAt_pullback_opens_baseChange_iff b X F V x).mp (h _ ?_)
     have heq : (pullback.fst X.hom b) (a x) = V.ι ((pullback.fst Z.hom b) x) :=
       congrArg (fun k : ((Over.pullback b).obj Z).left ⟶ X.left => k x) hpb.w.symm
-    show (pullback.fst X.hom b) (a x) ∈ V
+    change (pullback.fst X.hom b) (a x) ∈ V
     rw [heq]
     exact ((pullback.fst Z.hom b) x).property
 
@@ -255,7 +255,7 @@ from one finite stage. -/
 public theorem exists_stage_model_with_opens {I : Type u} [Preorder I] [Nonempty I]
     [IsDirected I (· ≤ ·)] (D : Iᵒᵖ ⥤ Scheme.{u}) (c : Cone D) (hc : IsLimit c)
     [∀ k : Iᵒᵖ, IsAffine (D.obj k)] (X : Over c.pt) (hf : FinitePresentation X.hom)
-    (F : X.left.Modules) (hFqc : F.IsQuasicoherent) (hFfp : F.IsFinitePresentation)
+    (F : X.left.Modules) (hFfp : F.IsFinitePresentation)
     (U : X.left.Opens) (hU : IsCompact (U : Set X.left)) :
     ∃ (i : I) (Xᵢ : Over (D.obj (op i))) (Fᵢ : Xᵢ.left.Modules),
       FinitePresentation Xᵢ.hom ∧ Fᵢ.IsQuasicoherent ∧ Fᵢ.IsFinitePresentation ∧
@@ -291,7 +291,7 @@ public theorem exists_stage_model_with_opens {I : Type u} [Preorder I] [Nonempty
   have hXdiagAff : ∀ {a b : Over i₀} (g : a ⟶ b), IsAffineHom (Xdiag.map g) := by
     intro a b g
     have hbase : IsAffineHom ((Over.post D).map g).left := by
-      show IsAffineHom (D.map g.left)
+      change IsAffineHom (D.map g.left)
       infer_instance
     exact MorphismProperty.overPullbackMap (P := @IsAffineHom) X₀.hom ((Over.post D).map g) hbase
   have hXdiagCpt (a : Over i₀) : CompactSpace (Xdiag.obj a) := by
@@ -459,10 +459,10 @@ public theorem isFlatOverAt_model_pullback {S T : Scheme.{u}} (b : S ⟶ T) (X :
   intro y hy
   have hqx : q (α.inv.left y) = y := by
     rw [← Scheme.Hom.comp_apply]
-    show ((Over.forget S).map (α.inv ≫ α.hom)) y = y
+    change ((Over.forget S).map (α.inv ≫ α.hom)) y = y
     simp
   have hx : α.inv.left y ∈ (q ≫ pullback.fst Y.hom b) ⁻¹ᵁ V := by
-    show (pullback.fst Y.hom b) (q (α.inv.left y)) ∈ V
+    change (pullback.fst Y.hom b) (q (α.inv.left y)) ∈ V
     rwa [hqx]
   have h := (isFlatOverAt_iff_of_moduleIso X.hom.toLRSHom.toShHom e (α.inv.left y)).mp
     (hflat (α.inv.left y) hx)
@@ -500,7 +500,7 @@ public theorem exists_stage_isFlatOverAt_fiber_of_isLimit {I : Type u} [Preorder
   obtain ⟨U, hU, hcover, hUflat⟩ := exists_isCompact_opens_isFlatOverAt_of_fiber f F s hflat
   -- Tags 01ZM (1), 01ZR (1) and 01Z4 (1): descend the morphism, the module and the open.
   obtain ⟨i, Xᵢ, Fᵢ, hfᵢ, hqcᵢ, hfpᵢ, α, V, hVcpt, hVpre, ⟨eF⟩⟩ :=
-    exists_stage_model_with_opens D c hc (Over.mk f) hf F hFqc hFfp U hU
+    exists_stage_model_with_opens D c hc (Over.mk f) hf F hFfp U hU
   have hVcover : Set.range (Xᵢ.hom.fiberι (c.π.app (op i) s)) ⊆ (V : Set Xᵢ.left) := by
     refine range_fiberι_subset_of_isPullback
       (isPullback_of_model_iso (c.π.app (op i)) (Over.mk f) Xᵢ α) s _ fun x hx => ?_
@@ -523,11 +523,11 @@ public theorem exists_stage_isFlatOverAt_fiber_of_isLimit {I : Type u} [Preorder
     intro x
     refine he _ (hVcover ?_)
     rw [Xᵢ.hom.range_fiberι]
-    show Xᵢ.hom ((pullback.fst Xᵢ.hom (D.map e)) (Y.hom.fiberι (c.π.app j s) x)) =
+    change Xᵢ.hom ((pullback.fst Xᵢ.hom (D.map e)) (Y.hom.fiberι (c.π.app j s) x)) =
       c.π.app (op i) s
     have hpb := congrArg (fun k : Y.left ⟶ D.obj (op i) => k (Y.hom.fiberι (c.π.app j s) x))
       (pullback.condition (f := Xᵢ.hom) (g := D.map e))
-    show Xᵢ.hom ((pullback.fst Xᵢ.hom (D.map e)) (Y.hom.fiberι (c.π.app j s) x)) =
+    change Xᵢ.hom ((pullback.fst Xᵢ.hom (D.map e)) (Y.hom.fiberι (c.π.app j s) x)) =
       c.π.app (op i) s
     rw [show Xᵢ.hom ((pullback.fst Xᵢ.hom (D.map e)) (Y.hom.fiberι (c.π.app j s) x)) =
         D.map e (Y.hom (Y.hom.fiberι (c.π.app j s) x)) from hpb,

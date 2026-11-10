@@ -62,7 +62,7 @@ public theorem isFiniteTypeOnAffine_restrictScalars {X : Scheme.{u}}
   intro U
   obtain ⟨G, hG⟩ := hft U
   refine ⟨G, fun n => ?_⟩
-  show AddSubgroup.closure
+  change AddSubgroup.closure
       { t : (M.piece n).val.obj (op U.1) |
         ∃ s : Σ d : ℤ, (M.piece d).val.obj (op U.1), s ∈ G ∧
           ∃ (m : ℤ) (a : (P.piece m).val.obj (op U.1)) (h : s.1 + m = n),

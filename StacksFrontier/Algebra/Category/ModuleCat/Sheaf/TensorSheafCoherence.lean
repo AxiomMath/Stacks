@@ -151,8 +151,10 @@ noncomputable def tensorSheafLeftUnitor
 noncomputable def tensorSheafAssocLeft
     (M N P : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj ((M.val ⊗ N.val) ⊗ P.val) ≅
-      (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂
-        CommRingCat RingCat) (hO)⟩).obj ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} (J := J)
+      (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O)
+        (forget₂
+        CommRingCat RingCat) (hO)⟩).obj ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
+          (J := J)
         ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat
           RingCat) hO⟩).obj M).obj N))).obj (P)) :=
   @asIso _ _ _ _ ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
@@ -163,15 +165,19 @@ noncomputable def tensorSheafAssocLeft
         N.val)))
 
 set_option maxHeartbeats 1600000 in
+-- elaborating `asIso` against the nested `sheafTensor` types in the statement is expensive
 /-- The comparison identifying the sheafification of `M ⊗ (N ⊗ P)` with
 `M ⊗_O (N ⊗_O P)`. -/
 noncomputable def tensorSheafAssocRight
     (M N P : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj (M.val ⊗ N.val ⊗ P.val) ≅
-      (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂
-        CommRingCat RingCat) (hO)⟩).obj (M)).obj ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w,
+      (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O)
+        (forget₂
+        CommRingCat RingCat) (hO)⟩).obj (M)).obj
+          ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w,
         w} (J := J)
-        ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).obj N).obj P))) :=
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).obj N).obj
+          P))) :=
   @asIso _ _ _ _ ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
       (M.val ◁ Stacks.SheafOfModules.TensorSheafification.toSheafify O hO (N.val ⊗ P.val)))
     (Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_whiskerLeft O hO M.val
@@ -183,12 +189,17 @@ noncomputable def tensorSheafAssocRight
 noncomputable def tensorSheafAssociator
     (M N P : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂
-      CommRingCat RingCat) (hO)⟩).obj ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} (J := J)
-        ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).obj M).obj N))).obj (P)) ≅
-      (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂
-        CommRingCat RingCat) (hO)⟩).obj (M)).obj ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w,
+      CommRingCat RingCat) (hO)⟩).obj ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
+        (J := J)
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).obj M).obj
+          N))).obj (P)) ≅
+      (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O)
+        (forget₂
+        CommRingCat RingCat) (hO)⟩).obj (M)).obj
+          ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w,
         w} (J := J)
-        ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).obj N).obj P))) :=
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).obj N).obj
+          P))) :=
   (tensorSheafAssocLeft O hO M N P).symm ≪≫
     (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).mapIso (α_ M.val N.val P.val) ≪≫
       tensorSheafAssocRight O hO M N P
@@ -355,7 +366,8 @@ end Braided
 /-- **Step one of the associator comparison.** -/
 theorem assoc_step_left
     (M N P : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
-    (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map (TensorSheafification.toSheafify O hO (M.val ⊗
+    (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
+      (TensorSheafification.toSheafify O hO (M.val ⊗
       N.val) ▷ P.val) ≫
         (tensorObjIso O hO
           ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj (M.val ⊗ N.val)) P).inv =
@@ -458,7 +470,8 @@ tensor product sheaf is the associator of the localized monoidal structure, conj
 `Stacks.SheafOfModules.tensorObjIso`. -/
 theorem assoc_key
     (M N P : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
-    (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map (TensorSheafification.toSheafify O hO (M.val ⊗
+    (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
+      (TensorSheafification.toSheafify O hO (M.val ⊗
       N.val) ▷ P.val) ≫
         (tensorObjIso O hO
             ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj (M.val ⊗ N.val)) P).inv
@@ -484,6 +497,7 @@ theorem assoc_key
 section AssociatorData
 
 set_option maxHeartbeats 1600000 in
+-- the `rfl` steps `leftHom` and `rightHom` unfold the sheafified associator comparisons
 /-- **The associativity constraint of the tensor product sheaf is the associator of the strict
 monoidal structure.** -/
 theorem Strict_associator_eq
@@ -822,21 +836,26 @@ theorem tensorSheafAssociator_pentagon
           (TensorPower.tensorSheafMapIso O hO (Iso.refl M)
             (tensorSheafAssociator O hO N P Q)).hom =
       (tensorSheafAssociator O hO ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O,
-        Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj (M)).obj (N)))
+        Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj (M)).obj
+          (N)))
         P Q).hom ≫
         (tensorSheafAssociator O hO M N ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O,
           Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat
           RingCat) (hO)⟩).obj (P)).obj (Q)))).hom := by
-
   have firstAssoc := (congrArg Iso.hom (associator_eq_tensorSheafAssociator O hO M N P)).symm
   have lastAssoc := (congrArg Iso.hom (associator_eq_tensorSheafAssociator O hO N P Q)).symm
   have firstMap := tensorSheafMapIso_refl_right_hom O hO _ Q firstAssoc
-  have middleMap := (congrArg Iso.hom (associator_eq_tensorSheafAssociator O hO M (@MonoidalCategoryStruct.tensorObj _ _ (Strict.monoidalCategoryStruct O hO) N P) Q)).symm
+  have middleMap := (congrArg Iso.hom (associator_eq_tensorSheafAssociator O hO M
+      (@MonoidalCategoryStruct.tensorObj _ _ (Strict.monoidalCategoryStruct O hO) N P) Q)).symm
   have lastMap := tensorSheafMapIso_refl_left_hom O hO M _ lastAssoc
-  have rightFirst := (congrArg Iso.hom (associator_eq_tensorSheafAssociator O hO (@MonoidalCategoryStruct.tensorObj _ _ (Strict.monoidalCategoryStruct O hO) M N) P Q)).symm
-  have rightLast := (congrArg Iso.hom (associator_eq_tensorSheafAssociator O hO M N (@MonoidalCategoryStruct.tensorObj _ _ (Strict.monoidalCategoryStruct O hO) P Q))).symm
-  exact (congrArg₂ (fun first second => first ≫ second) firstMap (congrArg₂ (fun first second => first ≫ second) middleMap lastMap)).trans
-    ((@MonoidalCategory.pentagon _ _ (Strict.monoidalCategory O hO) M N P Q).trans (congrArg₂ (fun first second => first ≫ second) rightFirst rightLast).symm)
+  have rightFirst := (congrArg Iso.hom (associator_eq_tensorSheafAssociator O hO
+      (@MonoidalCategoryStruct.tensorObj _ _ (Strict.monoidalCategoryStruct O hO) M N) P Q)).symm
+  have rightLast := (congrArg Iso.hom (associator_eq_tensorSheafAssociator O hO M N
+      (@MonoidalCategoryStruct.tensorObj _ _ (Strict.monoidalCategoryStruct O hO) P Q))).symm
+  exact (congrArg₂ (fun first second => first ≫ second) firstMap (congrArg₂ (fun first second =>
+      first ≫ second) middleMap lastMap)).trans
+    ((@MonoidalCategory.pentagon _ _ (Strict.monoidalCategory O hO) M N P Q).trans (congrArg₂
+      (fun first second => first ≫ second) rightFirst rightLast).symm)
 
 /-- **The triangle identity for the constraints of the tensor product sheaf.** -/
 theorem tensorSheafAssociator_triangle
@@ -848,8 +867,8 @@ theorem tensorSheafAssociator_triangle
           (tensorSheafLeftUnitor O hO N)).hom =
       (TensorPower.tensorSheafMapIso O hO
         (tensorLeftFunctorObjUnitIso O hO M) (Iso.refl N)).hom := by
-
-  have associatorMap := (congrArg Iso.hom (associator_eq_tensorSheafAssociator O hO M (SheafOfModules.unit (TensorSheafification.structureSheaf O hO)) N)).symm
+  have associatorMap := (congrArg Iso.hom (associator_eq_tensorSheafAssociator O hO M
+      (SheafOfModules.unit (TensorSheafification.structureSheaf O hO)) N)).symm
   have leftUnit := (congrArg Iso.hom (leftUnitor_eq_tensorSheafLeftUnitor O hO N)).symm
   have rightUnit := (congrArg Iso.hom (rightUnitor_eq_tensorSheafRightUnitor O hO M)).symm
   have leftMap := tensorSheafMapIso_refl_left_hom O hO M _ leftUnit
@@ -863,35 +882,41 @@ sheaf. -/
 theorem tensorSheafLeftUnitor_tensor
     (M N : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     (tensorSheafLeftUnitor O hO ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O,
-      Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj (M)).obj (N)))).hom =
+      Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj (M)).obj
+        (N)))).hom =
       (tensorSheafAssociator O hO
             (SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) M
               N).inv ≫
         (TensorPower.tensorSheafMapIso O hO (tensorSheafLeftUnitor O hO M) (Iso.refl N)).hom := by
-
-  have sourceUnit := (congrArg Iso.hom (leftUnitor_eq_tensorSheafLeftUnitor O hO (@MonoidalCategoryStruct.tensorObj _ _ (Strict.monoidalCategoryStruct O hO) M N))).symm
+  have sourceUnit := (congrArg Iso.hom (leftUnitor_eq_tensorSheafLeftUnitor O hO
+      (@MonoidalCategoryStruct.tensorObj _ _ (Strict.monoidalCategoryStruct O hO) M N))).symm
   have targetUnit := (congrArg Iso.hom (leftUnitor_eq_tensorSheafLeftUnitor O hO M)).symm
-  have associatorMap := (congrArg Iso.inv (associator_eq_tensorSheafAssociator O hO (SheafOfModules.unit (TensorSheafification.structureSheaf O hO)) M N)).symm
+  have associatorMap := (congrArg Iso.inv (associator_eq_tensorSheafAssociator O hO
+      (SheafOfModules.unit (TensorSheafification.structureSheaf O hO)) M N)).symm
   have tensorMap := tensorSheafMapIso_refl_right_hom O hO _ N targetUnit
-  exact sourceUnit.trans ((@MonoidalCategory.leftUnitor_tensor_hom _ _ (Strict.monoidalCategory O hO) M N).trans
+  exact sourceUnit.trans ((@MonoidalCategory.leftUnitor_tensor_hom _ _
+      (Strict.monoidalCategory O hO) M N).trans
     (congrArg₂ (fun first second => first ≫ second) associatorMap tensorMap).symm)
 
 /-- **The right-handed counterpart of `tensorSheafLeftUnitor_tensor`.** -/
 theorem tensorSheafRightUnitor_tensor
     (M N : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     (tensorLeftFunctorObjUnitIso O hO ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O,
-      Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj (M)).obj (N)))).hom =
+      Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj (M)).obj
+        (N)))).hom =
       (tensorSheafAssociator O hO M N
             (SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf O
               hO))).hom ≫
         (TensorPower.tensorSheafMapIso O hO (Iso.refl M)
           (tensorLeftFunctorObjUnitIso O hO N)).hom := by
-
-  have sourceUnit := (congrArg Iso.hom (rightUnitor_eq_tensorSheafRightUnitor O hO (@MonoidalCategoryStruct.tensorObj _ _ (Strict.monoidalCategoryStruct O hO) M N))).symm
+  have sourceUnit := (congrArg Iso.hom (rightUnitor_eq_tensorSheafRightUnitor O hO
+      (@MonoidalCategoryStruct.tensorObj _ _ (Strict.monoidalCategoryStruct O hO) M N))).symm
   have targetUnit := (congrArg Iso.hom (rightUnitor_eq_tensorSheafRightUnitor O hO N)).symm
-  have associatorMap := (congrArg Iso.hom (associator_eq_tensorSheafAssociator O hO M N (SheafOfModules.unit (TensorSheafification.structureSheaf O hO)))).symm
+  have associatorMap := (congrArg Iso.hom (associator_eq_tensorSheafAssociator O hO M N
+      (SheafOfModules.unit (TensorSheafification.structureSheaf O hO)))).symm
   have tensorMap := tensorSheafMapIso_refl_left_hom O hO M _ targetUnit
-  exact sourceUnit.trans ((@MonoidalCategory.rightUnitor_tensor_hom _ _ (Strict.monoidalCategory O hO) M N).trans
+  exact sourceUnit.trans ((@MonoidalCategory.rightUnitor_tensor_hom _ _
+      (Strict.monoidalCategory O hO) M N).trans
     (congrArg₂ (fun first second => first ≫ second) associatorMap tensorMap).symm)
 
 /-- **The forward hexagon identity for the constraints of the tensor product sheaf.** -/
@@ -906,43 +931,50 @@ theorem tensorSheafBraiding_hexagon_forward
         (tensorSheafAssociator O hO N M P).hom ≫
           (TensorPower.tensorSheafMapIso O hO (Iso.refl N)
             (tensorSheafBraiding O hO M P)).hom := by
-
   have leftFirst := (congrArg Iso.hom (associator_eq_tensorSheafAssociator O hO M N P)).symm
-  have leftMiddle := (congrArg Iso.hom (braiding_eq_tensorSheafBraiding O hO M (@MonoidalCategoryStruct.tensorObj _ _ (Strict.monoidalCategoryStruct O hO) N P))).symm
+  have leftMiddle := (congrArg Iso.hom (braiding_eq_tensorSheafBraiding O hO M
+      (@MonoidalCategoryStruct.tensorObj _ _ (Strict.monoidalCategoryStruct O hO) N P))).symm
   have leftLast := (congrArg Iso.hom (associator_eq_tensorSheafAssociator O hO N P M)).symm
   have firstBraid := (congrArg Iso.hom (braiding_eq_tensorSheafBraiding O hO M N)).symm
   have lastBraid := (congrArg Iso.hom (braiding_eq_tensorSheafBraiding O hO M P)).symm
   have rightFirst := tensorSheafMapIso_refl_right_hom O hO _ P firstBraid
   have rightMiddle := (congrArg Iso.hom (associator_eq_tensorSheafAssociator O hO N M P)).symm
   have rightLast := tensorSheafMapIso_refl_left_hom O hO N _ lastBraid
-  exact (congrArg₂ (fun first second => first ≫ second) leftFirst (congrArg₂ (fun first second => first ≫ second) leftMiddle leftLast)).trans
-    ((@BraidedCategory.hexagon_forward _ _ (Strict.monoidalCategory O hO) (Strict.braidedCategory O hO) M N P).trans
-      (congrArg₂ (fun first second => first ≫ second) rightFirst (congrArg₂ (fun first second => first ≫ second) rightMiddle rightLast)).symm)
+  exact (congrArg₂ (fun first second => first ≫ second) leftFirst (congrArg₂ (fun first second =>
+      first ≫ second) leftMiddle leftLast)).trans
+    ((@BraidedCategory.hexagon_forward _ _ (Strict.monoidalCategory O hO)
+      (Strict.braidedCategory O hO) M N P).trans
+      (congrArg₂ (fun first second => first ≫ second) rightFirst (congrArg₂ (fun first second =>
+        first ≫ second) rightMiddle rightLast)).symm)
 
 /-- **The reverse hexagon identity for the constraints of the tensor product sheaf.** -/
 theorem tensorSheafBraiding_hexagon_reverse
     (M N P : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     (tensorSheafAssociator O hO M N P).inv ≫
         (tensorSheafBraiding O hO ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O,
-          Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj (M)).obj (N)))
+          Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂ CommRingCat RingCat) (hO)⟩).obj (M)).obj
+            (N)))
           P).hom ≫
           (tensorSheafAssociator O hO P M N).inv =
       (TensorPower.tensorSheafMapIso O hO (Iso.refl M) (tensorSheafBraiding O hO N P)).hom ≫
         (tensorSheafAssociator O hO M P N).inv ≫
           (TensorPower.tensorSheafMapIso O hO
             (tensorSheafBraiding O hO M P) (Iso.refl N)).hom := by
-
   have leftFirst := (congrArg Iso.inv (associator_eq_tensorSheafAssociator O hO M N P)).symm
-  have leftMiddle := (congrArg Iso.hom (braiding_eq_tensorSheafBraiding O hO (@MonoidalCategoryStruct.tensorObj _ _ (Strict.monoidalCategoryStruct O hO) M N) P)).symm
+  have leftMiddle := (congrArg Iso.hom (braiding_eq_tensorSheafBraiding O hO
+      (@MonoidalCategoryStruct.tensorObj _ _ (Strict.monoidalCategoryStruct O hO) M N) P)).symm
   have leftLast := (congrArg Iso.inv (associator_eq_tensorSheafAssociator O hO P M N)).symm
   have firstBraid := (congrArg Iso.hom (braiding_eq_tensorSheafBraiding O hO N P)).symm
   have lastBraid := (congrArg Iso.hom (braiding_eq_tensorSheafBraiding O hO M P)).symm
   have rightFirst := tensorSheafMapIso_refl_left_hom O hO M _ firstBraid
   have rightMiddle := (congrArg Iso.inv (associator_eq_tensorSheafAssociator O hO M P N)).symm
   have rightLast := tensorSheafMapIso_refl_right_hom O hO _ N lastBraid
-  exact (congrArg₂ (fun first second => first ≫ second) leftFirst (congrArg₂ (fun first second => first ≫ second) leftMiddle leftLast)).trans
-    ((@BraidedCategory.hexagon_reverse _ _ (Strict.monoidalCategory O hO) (Strict.braidedCategory O hO) M N P).trans
-      (congrArg₂ (fun first second => first ≫ second) rightFirst (congrArg₂ (fun first second => first ≫ second) rightMiddle rightLast)).symm)
+  exact (congrArg₂ (fun first second => first ≫ second) leftFirst (congrArg₂ (fun first second =>
+      first ≫ second) leftMiddle leftLast)).trans
+    ((@BraidedCategory.hexagon_reverse _ _ (Strict.monoidalCategory O hO)
+      (Strict.braidedCategory O hO) M N P).trans
+      (congrArg₂ (fun first second => first ≫ second) rightFirst (congrArg₂ (fun first second =>
+        first ≫ second) rightMiddle rightLast)).symm)
 
 /-- The two unit constraints of the tensor product sheaf agree at the structure sheaf itself.
 This is the base case, at exponent `0`, of the left unit normalisation of Tag 01CU. -/
@@ -965,18 +997,22 @@ theorem tensorSheafLeftUnitor_whiskerLeft
             O hO)))
           (tensorSheafLeftUnitor O hO M) =
       tensorSheafLeftUnitor O hO
-        ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O) (forget₂
+        ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ (O)
+          (forget₂
           CommRingCat RingCat) (hO)⟩).obj ((SheafOfModules.unit
           (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)))).obj (M)))
             := by
-
   apply Iso.ext
   have unitMap := (congrArg Iso.hom (leftUnitor_eq_tensorSheafLeftUnitor O hO M)).symm
   have tensorMap := tensorSheafMapIso_refl_left_hom O hO
     (SheafOfModules.unit (TensorSheafification.structureSheaf O hO)) _ unitMap
-  have naturality := (cancel_mono (@MonoidalCategoryStruct.leftUnitor _ _ (Strict.monoidalCategoryStruct O hO) M).hom).mp
-    (@MonoidalCategory.leftUnitor_naturality _ _ (Strict.monoidalCategory O hO) _ _ (@MonoidalCategoryStruct.leftUnitor _ _ (Strict.monoidalCategoryStruct O hO) M).hom)
-  have targetUnit := (congrArg Iso.hom (leftUnitor_eq_tensorSheafLeftUnitor O hO (@MonoidalCategoryStruct.tensorObj _ _ (Strict.monoidalCategoryStruct O hO) (SheafOfModules.unit (TensorSheafification.structureSheaf O hO)) M))).symm
+  have naturality := (cancel_mono (@MonoidalCategoryStruct.leftUnitor _ _
+      (Strict.monoidalCategoryStruct O hO) M).hom).mp
+    (@MonoidalCategory.leftUnitor_naturality _ _ (Strict.monoidalCategory O hO) _ _
+      (@MonoidalCategoryStruct.leftUnitor _ _ (Strict.monoidalCategoryStruct O hO) M).hom)
+  have targetUnit := (congrArg Iso.hom (leftUnitor_eq_tensorSheafLeftUnitor O hO
+      (@MonoidalCategoryStruct.tensorObj _ _ (Strict.monoidalCategoryStruct O hO)
+      (SheafOfModules.unit (TensorSheafification.structureSheaf O hO)) M))).symm
   exact tensorMap.trans (naturality.trans targetUnit.symm)
 
 end Payoff
@@ -998,20 +1034,24 @@ statement that `(powFunctorIsoTensorRight O hO L n).app` at the structure sheaf 
 theorem tensorPowerMulIso_zero_left_eq
     (L : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO))
     [((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
-      ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).flip.obj L).IsEquivalence] (n : ℤ) :
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).flip.obj
+        L).IsEquivalence] (n : ℤ) :
     tensorPowerMulIso O hO L 0 n ≪≫ tensorPowerReindex O hO L (Int.zero_add n) =
       ((powFunctorIsoTensorRight O hO L n).app
         (SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO))).symm
           := by
-  have hz : (CategoryTheory.Equivalence.powAdd ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
-      ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).flip.obj L).asEquivalence 0 n
+  have hz : (CategoryTheory.Equivalence.powAdd
+      ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).flip.obj
+        L).asEquivalence 0 n
         (0 + n) rfl).app (SheafOfModules.unit
           (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) ≪≫
       tensorPowerReindex O hO L (Int.zero_add n) = Iso.refl _ := by
     rw [tensorPowerReindex_eq_eqToIso]
     have h := Stacks.Equivalence.powAdd_app_cast
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
-      ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).flip.obj L).asEquivalence 0 n n (Int.zero_add n)
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp J O (forget₂ CommRingCat RingCat) hO⟩).flip.obj
+        L).asEquivalence 0 n n (Int.zero_add n)
       (SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO))
     rw [CategoryTheory.Equivalence.powAdd_zero_left] at h
     exact h.symm

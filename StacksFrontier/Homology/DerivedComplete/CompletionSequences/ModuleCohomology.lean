@@ -109,8 +109,8 @@ private lemma milnorTriangle_homology_shortExact
       H.map T.mor₁ ≫ H.map (DerivedCategory.Q.map (Pi.π (fun n : ℕ => E.obj ⟨n⟩) n)) := by
     have h := congrArg (fun f => f ≫
       Pi.π (fun n : ℕ => H.obj (DerivedCategory.Q.obj (E.obj ⟨n⟩))) n) hq
-    simpa only [H, Functor.comp_obj, Category.assoc, Pi.lift_comp_π, e₀, complexHomologyProductIso_π]
-      using h
+    simpa only [H, Functor.comp_obj, Category.assoc, Pi.lift_comp_π, e₀,
+      complexHomologyProductIso_π] using h
   have hiq : i ≫ q = 0 := by
     rw [← cancel_epi (cokernel.π δ₁)]
     apply limit.hom_ext
@@ -128,7 +128,7 @@ private lemma milnorTriangle_homology_shortExact
   have : Epi q₀ := hcurr.epi_kernelLift
   have : Epi q := by dsimp [q]; infer_instance
   refine ⟨i, q, hiq, ?_, ?_, ?_⟩
-  · show e₁.hom ≫ cokernel.π δ₁ ≫ i = c
+  · change e₁.hom ≫ cokernel.π δ₁ ≫ i = c
     rw [hi, Iso.hom_inv_id_assoc]
   · intro n
     simpa only [Functor.map_comp] using hqn n
@@ -329,7 +329,7 @@ private lemma moduleQuotientStageIso_naturality (A : Type u) [CommRing A]
     π_powerQuotientTransition]
   have h := (moduleConeTransition A f M n).comm₂
   have h₂ : (moduleConeTransition A f M n).hom₂ = 𝟙 _ := by
-    show DerivedCategory.Q.map (𝟙 (moduleComplex A M)) = 𝟙 _
+    change DerivedCategory.Q.map (𝟙 (moduleComplex A M)) = 𝟙 _
     exact DerivedCategory.Q.map_id _
   rw [h₂, Category.id_comp] at h
   have hm : (moduleConeTriangle A f M (n + 1)).mor₂ ≫
@@ -337,7 +337,7 @@ private lemma moduleQuotientStageIso_naturality (A : Type u) [CommRing A]
         (moduleConeTriangle A f M n).mor₂ := by
     simpa [moduleConeTransition, moduleTower, principalComplexSystem,
       Functor.ofOpSequence_map_homOfLE_succ, CategoryTheory.Functor.map_id] using h
-  show (singleHomology A 0 M).inv ≫ (homology A 0).map _ ≫
+  change (singleHomology A 0 M).inv ≫ (homology A 0).map _ ≫
       (homology A 0).map _ ≫ _ = _
   rw [← Functor.map_comp_assoc, hm, moduleQuotientStageIso_π]
 
@@ -520,9 +520,9 @@ private lemma moduleDifference_epi (A : Type u) [CommRing A]
   refine ⟨(ModuleCat.piIsoPi X).inv x, ?_⟩
   apply (ModuleCat.piIsoPi X).toLinearEquiv.injective
   funext n
-  show ((moduleDifference A E ≫ Pi.π X n) ((ModuleCat.piIsoPi X).inv x)) = _
+  change ((moduleDifference A E ≫ Pi.π X n) ((ModuleCat.piIsoPi X).inv x)) = _
   rw [moduleDifference, Pi.lift_comp_π]
-  show (Pi.π X n) ((ModuleCat.piIsoPi X).inv x) -
+  change (Pi.π X n) ((ModuleCat.piIsoPi X).inv x) -
     (t n) ((Pi.π X (n + 1)) ((ModuleCat.piIsoPi X).inv x)) =
       (ModuleCat.piIsoPi X).hom y n
   rw [ModuleCat.piIsoPi_inv_kernel_ι_apply, ModuleCat.piIsoPi_inv_kernel_ι_apply]

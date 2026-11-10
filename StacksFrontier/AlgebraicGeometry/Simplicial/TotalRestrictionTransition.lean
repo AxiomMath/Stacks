@@ -112,7 +112,7 @@ theorem totalRestriction_transition_fixesSections {m n : SimplexCategory} (φ : 
         (Stacks.SheafOfModules.Tensor.ringSheaf X.O) N).obj).map
       ((Grothendieck.ιNatTrans (F := (simplicialSite X.J K).underlying) φ.op).app (unop V)).op =
         𝟙 _ := by
-    show (Sheaf.moduleSheaf.{u, u, u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) N).obj.map
+    change (Sheaf.moduleSheaf.{u, u, u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) N).obj.map
       ((totalForget K).map
         ((Grothendieck.ιNatTrans (F := (simplicialSite X.J K).underlying) φ.op).app
           (unop V))).op = 𝟙 _

@@ -184,7 +184,7 @@ private theorem bijective_precomp_unit
       (fun k ↦ η.app (F.obj X) ≫ k) hm
   · intro a
     refine ⟨F.map a ≫ inv (η.app E), ?_⟩
-    show η.app X ≫ F.map a ≫ inv (η.app E) = a
+    change η.app X ≫ F.map a ≫ inv (η.app E) = a
     rw [← Category.assoc, ← η.naturality]
     simp
 
@@ -486,9 +486,11 @@ private theorem subsingleton_single_away_hom_of_isDerivedComplete
 private theorem subsingleton_map_directSum_hom
     {R : Type u} [Ring R] {C : Type v} [Category C] [Preadditive C]
     [HasFiniteBiproducts C] (F : ModuleCat.{max u w} R ⥤ C) [F.Additive]
-    {ι : Type w} [Fintype ι] [DecidableEq ι] (M : ι → ModuleCat.{max u w} R) (E : C)
+    {ι : Type w} [Finite ι] (M : ι → ModuleCat.{max u w} R) (E : C)
     (h : ∀ i, Subsingleton (F.obj (M i) ⟶ E)) :
     Subsingleton (F.obj (ModuleCat.of R (DirectSum ι (fun i => (M i : Type (max u w))))) ⟶ E) := by
+  classical
+  have := Fintype.ofFinite ι
   constructor
   intro a b
   apply (cancel_epi (F.mapIso (ModuleCat.coprodIsoDirectSum M)).hom).mp
@@ -505,7 +507,7 @@ private theorem subsingleton_single_cechTerm_hom_of_isDerivedComplete
     Subsingleton ((DerivedCategory.singleFunctor (ModuleCat A) n).obj
       ((Cech.cechComplex f A).X p) ⟶ E) := by
   classical
-  show Subsingleton ((DerivedCategory.singleFunctor (ModuleCat A) n).obj
+  change Subsingleton ((DerivedCategory.singleFunctor (ModuleCat A) n).obj
     (ModuleCat.of A (Cech.cechTerm f A p)) ⟶ E)
   refine subsingleton_map_directSum_hom (DerivedCategory.singleFunctor (ModuleCat A) n)
     (fun s : { s : Finset (Fin r) // s.card = p } =>
@@ -582,7 +584,7 @@ private theorem bijective_precomp_to_single
   constructor
   · intro f g hfg
     have hfg' : T.mor₂ ≫ (f - g) = 0 := by
-      show DerivedCategory.Q.map π ≫ (f - g) = 0
+      change DerivedCategory.Q.map π ≫ (f - g) = 0
       simpa only [Preadditive.comp_sub, sub_eq_zero] using hfg
     obtain ⟨b, hb⟩ := T.yoneda_exact₃ hT (f - g) hfg'
     apply sub_eq_zero.mp
@@ -591,7 +593,7 @@ private theorem bijective_precomp_to_single
     rw [hb, hbzero, comp_zero]
   · intro f
     have hfzero : T.mor₁ ≫ f = 0 := by
-      show DerivedCategory.Q.map (kernel.ι π) ≫ f = 0
+      change DerivedCategory.Q.map (kernel.ι π) ≫ f = 0
       exact Subsingleton.elim _ _
     obtain ⟨g, hg⟩ := T.yoneda_exact₂ hT f hfzero
     exact ⟨g, hg.symm⟩
@@ -621,7 +623,7 @@ private theorem isIso_ιTensorObj_single
   let L := (CochainComplex.singleFunctor (ModuleCat R) n).obj M
   let Z := ((GradedObject.mapBifunctor (curriedTensor (ModuleCat R)) ℤ ℤ).obj K.X).obj L.X
   let p : ℤ × ℤ → ℤ := fun x => x.1 + x.2
-  show IsIso ((Z.cofanMapObj p i).inj ⟨(i-n,n), sub_add_cancel i n⟩)
+  change IsIso ((Z.cofanMapObj p i).inj ⟨(i-n,n), sub_add_cancel i n⟩)
   apply isIso_cofan_inj_of_isZero _ (Z.isColimitCofanMapObj p i)
   intro b hb
   have hbn : b.1.2 ≠ n := by
@@ -631,7 +633,7 @@ private theorem isIso_ιTensorObj_single
     apply Prod.ext
     · have hh := b.2
       change b.1.1 + b.1.2 = i at hh
-      show b.1.1 = i - n
+      change b.1.1 = i - n
       omega
     · exact h
   exact (tensorLeft (K.X b.1.1)).map_isZero
@@ -926,9 +928,9 @@ private theorem isIso_of_bijective_single_tests
       (by omega)).app (ModuleCat.of A A)
     have hh : e.inv ≫ (adj.homEquiv S X).symm a = 0 := by
       apply (h (n + 1)).injective
-      show (e.inv ≫ (adj.homEquiv S X).symm a) ≫ f = 0 ≫ f
+      change (e.inv ≫ (adj.homEquiv S X).symm a) ≫ f = 0 ≫ f
       rw [Category.assoc, ← adj.homEquiv_naturality_right_symm]
-      show e.inv ≫ (adj.homEquiv S Y).symm (a ≫ f⟦(1 : ℤ)⟧') = 0 ≫ f
+      change e.inv ≫ (adj.homEquiv S Y).symm (a ≫ f⟦(1 : ℤ)⟧') = 0 ≫ f
       rw [ha]
       simp only [adj.homAddEquiv_symm_zero, comp_zero, zero_comp]
     have hh' : (adj.homEquiv S X).symm a = 0 := by

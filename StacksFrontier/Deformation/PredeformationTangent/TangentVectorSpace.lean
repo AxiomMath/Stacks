@@ -368,8 +368,8 @@ theorem elements_bijective_of_schlessingerConditionS2
     (d : A ⟶ X) (e : B ⟶ X) (g : P ⟶ A) (h : P ⟶ B)
     (hPB : IsPullback h g e d)
     (hsq : IsSquareZeroProjection (V := V) e)
-    (hcof : IsCofiberedInGroupoids (CategoryOfElements.π F))
-    (hS2 : SchlessingerConditionS2 (CategoryOfElements.π F))
+    (hcof : IsCofiberedInGroupoids (Functor.Elements.π F))
+    (hS2 : SchlessingerConditionS2 (Functor.Elements.π F))
     (hcompat : ∀ x : F.obj A, ∀ y : F.obj B, F.map d x = F.map e y) :
     Function.Bijective (fun z : F.obj P ↦ (F.map g z, F.map h z)) := by
   classical
@@ -568,7 +568,7 @@ noncomputable def squareZeroZeroIso :
 `k[M × N]` a bijection onto the product. -/
 theorem associatedClasses_product_bijective
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))
     (M N : FGModuleCat.{max v w} k) :
     Function.Bijective (fun z : (isomorphismClasses 𝓕 h𝓕.cofibered).obj
         ((squareZeroExtensionArtinian.{u, w, max v w} Λ k).obj (prodModule M N)) ↦
@@ -602,7 +602,7 @@ theorem associatedClasses_product_bijective
 functor. -/
 theorem associatedSquareZeroFunctor_conditions
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) :
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) :
     let L := squareZeroExtensionArtinian.{u, w, max v w} Λ k ⋙
       isomorphismClasses 𝓕 h𝓕.cofibered
     Nonempty (L.obj (FGModuleCat.of k PUnit.{max v w + 1})) ∧
@@ -637,7 +637,7 @@ associated functor at finite-dimensional square-zero extensions. In particular i
 @[stacks 06IH "natural vector space structure"]
 noncomputable def associatedTangentSpaceModuleStructure
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) :
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) :
     LinearFunctorLift k
       (squareZeroExtensionArtinian.{u, w, max v w} Λ k ⋙
         isomorphismClasses 𝓕 h𝓕.cofibered) :=
@@ -650,7 +650,7 @@ noncomputable def associatedTangentSpaceModuleStructure
 of the associated functor. -/
 theorem associatedTangentSpaceModuleStructure_carrier
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) :
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) :
     (((associatedTangentSpaceModuleStructure.{u, v, w} 𝓕 h𝓕 hS2).functor.obj
       (FGModuleCat.of k (ULift.{v} k)) : ModuleCat.{u₁} k) : Type u₁) =
       tangentSpaceArtinian.{u, w, v} Λ k (isomorphismClasses 𝓕 h𝓕.cofibered) :=
@@ -667,7 +667,7 @@ noncomputable def associatedTangentSpaceModuleStructureUnlifted
     (𝓖 : BasedCategory.{v₁, u₁} (ArtinianLocalAlgCat.{u, w, w} Λ k))
     (h𝓖 : IsPredeformationCategory 𝓖.p)
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) :
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) :
     LinearFunctorLift k
       (tangentSpaceSetFunctor Λ k (artinianLocalOver Λ k)
         (squareZeroExtension_mem_artinianLocalOver Λ k)
@@ -680,7 +680,7 @@ theorem associatedTangentSpaceModuleStructure_carrierUnlifted
     (𝓖 : BasedCategory.{v₁, u₁} (ArtinianLocalAlgCat.{u, w, w} Λ k))
     (h𝓖 : IsPredeformationCategory 𝓖.p)
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) :
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) :
     (((associatedTangentSpaceModuleStructureUnlifted 𝓖 h𝓖 hS2).functor.obj
       (FGModuleCat.of k k) : ModuleCat.{u₁} k) : Type u₁) =
       artinianTangentSpace Λ k (isomorphismClasses 𝓖 h𝓖.cofibered) :=
@@ -693,7 +693,7 @@ noncomputable def associatedTangentSpaceModuleDataUnlifted
     (𝓖 : BasedCategory.{v₁, u₁} (ArtinianLocalAlgCat.{u, w, w} Λ k))
     [h𝓖 : Fact (IsPredeformationCategory 𝓖.p)]
     [hS2 : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.out.cofibered)))] :
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.out.cofibered)))] :
     Σ G : AddCommGroup (artinianTangentSpace Λ k
       (isomorphismClasses 𝓖 h𝓖.out.cofibered)),
         letI := G
@@ -714,7 +714,7 @@ noncomputable instance associatedTangentSpaceAddCommGroupUnlifted
     (𝓖 : BasedCategory.{v₁, u₁} (ArtinianLocalAlgCat.{u, w, w} Λ k))
     [h𝓖 : Fact (IsPredeformationCategory 𝓖.p)]
     [hS2 : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.out.cofibered)))] :
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.out.cofibered)))] :
     AddCommGroup (artinianTangentSpace Λ k
       (isomorphismClasses 𝓖 h𝓖.out.cofibered)) :=
   (associatedTangentSpaceModuleDataUnlifted 𝓖).1
@@ -724,7 +724,7 @@ noncomputable instance associatedTangentSpaceModuleUnlifted
     (𝓖 : BasedCategory.{v₁, u₁} (ArtinianLocalAlgCat.{u, w, w} Λ k))
     [h𝓖 : Fact (IsPredeformationCategory 𝓖.p)]
     [hS2 : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.out.cofibered)))] :
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.out.cofibered)))] :
     Module k (artinianTangentSpace Λ k
       (isomorphismClasses 𝓖 h𝓖.out.cofibered)) :=
   (associatedTangentSpaceModuleDataUnlifted 𝓖).2
@@ -737,7 +737,7 @@ noncomputable def associatedTangentSpaceModuleData
     (𝓕 : BasedCategory.{v₁, u₁} (ArtinianLocalAlgCat.{u, max v w, w} Λ k))
     [h𝓕 : Fact (IsPredeformationCategory.{u, v, w} 𝓕.p)]
     [hS2 : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.out.cofibered)))] :
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.out.cofibered)))] :
     Σ G : AddCommGroup (tangentSpaceArtinian.{u, w, v} Λ k
       (isomorphismClasses 𝓕 h𝓕.out.cofibered)),
         letI := G
@@ -757,7 +757,7 @@ noncomputable instance associatedTangentSpaceAddCommGroup
     (𝓕 : BasedCategory.{v₁, u₁} (ArtinianLocalAlgCat.{u, max v w, w} Λ k))
     [h𝓕 : Fact (IsPredeformationCategory.{u, v, w} 𝓕.p)]
     [hS2 : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.out.cofibered)))] :
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.out.cofibered)))] :
     AddCommGroup (tangentSpaceArtinian.{u, w, v} Λ k
       (isomorphismClasses 𝓕 h𝓕.out.cofibered)) :=
   (associatedTangentSpaceModuleData.{u, v, w} 𝓕).1
@@ -767,7 +767,7 @@ noncomputable instance associatedTangentSpaceModule
     (𝓕 : BasedCategory.{v₁, u₁} (ArtinianLocalAlgCat.{u, max v w, w} Λ k))
     [h𝓕 : Fact (IsPredeformationCategory.{u, v, w} 𝓕.p)]
     [hS2 : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.out.cofibered)))] :
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.out.cofibered)))] :
     Module k (tangentSpaceArtinian.{u, w, v} Λ k
       (isomorphismClasses 𝓕 h𝓕.out.cofibered)) :=
   (associatedTangentSpaceModuleData.{u, v, w} 𝓕).2
@@ -802,16 +802,16 @@ noncomputable def eqRecModuleDataLinearEquiv {α β : Type u₁} (e : α = β)
 module-valued lift at the rank-one module. -/
 noncomputable def associatedTangentSpaceCarrierLinearEquiv
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))
     [h𝓕' : Fact (IsPredeformationCategory.{u, v, w} 𝓕.p)]
     [hS2' : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))] :
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))] :
     (((associatedTangentSpaceModuleStructure.{u, v, w} 𝓕 h𝓕 hS2).functor.obj
       (FGModuleCat.of k (ULift.{v} k)) : ModuleCat.{u₁} k) : Type u₁) ≃ₗ[k]
       tangentSpaceArtinian.{u, w, v} Λ k (isomorphismClasses 𝓕 h𝓕.cofibered) := by
   letI : Fact (IsPredeformationCategory.{u, v, w} 𝓕.p) := ⟨h𝓕⟩
   letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2⟩
   let M := (associatedTangentSpaceModuleStructure.{u, v, w} 𝓕 h𝓕 hS2).functor.obj
     (FGModuleCat.of k (ULift.{v} k))
   let e := associatedTangentSpaceModuleStructure_carrier.{u, v, w} 𝓕 h𝓕 hS2
@@ -824,11 +824,11 @@ noncomputable def associatedTangentSpaceCarrierLinearEquiv
 /-- The tensor equivalence exists with the prescribed pure-tensor formula. -/
 theorem exists_associatedTangentTensorEquiv
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) :
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) :
     let L := (associatedTangentSpaceModuleStructure.{u, v, w} 𝓕 h𝓕 hS2).functor
     letI : Fact (IsPredeformationCategory.{u, v, w} 𝓕.p) := ⟨h𝓕⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2⟩
     let T := tangentSpaceArtinian.{u, w, v} Λ k (isomorphismClasses 𝓕 h𝓕.cofibered)
     ∃ E : ∀ V : FGModuleCat.{max v w} k,
         TensorProduct k T V ≃ₗ[k] ((L.obj V : ModuleCat.{u₁} k) : Type u₁),
@@ -840,7 +840,7 @@ theorem exists_associatedTangentTensorEquiv
               𝓕 h𝓕 hS2).symm t) := by
   let : Fact (IsPredeformationCategory.{u, v, w} 𝓕.p) := ⟨h𝓕⟩
   let : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2⟩
   let L := (associatedTangentSpaceModuleStructure.{u, v, w} 𝓕 h𝓕 hS2).functor
   let T := tangentSpaceArtinian.{u, w, v} Λ k (isomorphismClasses 𝓕 h𝓕.cofibered)
   let e := associatedTangentSpaceCarrierLinearEquiv.{u, v, w} 𝓕 h𝓕 hS2
@@ -862,11 +862,11 @@ with `V` to the associated functor evaluated on `k[V]`. -/
 @[stacks 06IH "tensor equivalence", sga "7 VI 1.3(c)" "T ⊗ V ≅ [A(k[V])]", sga "7 VI 1.18" "(1)"]
 noncomputable def associatedTangentSpaceFunctor_iso_tensorLeft
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) :
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) :
     let L := (associatedTangentSpaceModuleStructure.{u, v, w} 𝓕 h𝓕 hS2).functor
     letI : Fact (IsPredeformationCategory.{u, v, w} 𝓕.p) := ⟨h𝓕⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2⟩
     let T := tangentSpaceArtinian.{u, w, v} Λ k (isomorphismClasses 𝓕 h𝓕.cofibered)
     ∀ V : FGModuleCat.{max v w} k,
       LinearEquiv (RingHom.id k) (TensorProduct k T V)
@@ -878,11 +878,11 @@ map `ULift k → V` carrying `1` to `v`. -/
 @[stacks 06IH "pure-tensor formula"]
 theorem associatedTangentSpaceFunctor_iso_tensorLeft_pure
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) :
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) :
     let L := (associatedTangentSpaceModuleStructure.{u, v, w} 𝓕 h𝓕 hS2).functor
     letI : Fact (IsPredeformationCategory.{u, v, w} 𝓕.p) := ⟨h𝓕⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2⟩
     let T := tangentSpaceArtinian.{u, w, v} Λ k (isomorphismClasses 𝓕 h𝓕.cofibered)
     ∀ (V : FGModuleCat.{max v w} k) (t : T) (v : V),
       associatedTangentSpaceFunctor_iso_tensorLeft.{u, v, w} 𝓕 h𝓕 hS2 V (t ⊗ₜ[k] v) =
@@ -905,11 +905,11 @@ map between finite-dimensional vector spaces. -/
 @[stacks 06IH "naturality"]
 theorem associatedTangentSpaceFunctor_iso_tensorLeft_naturality
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) :
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) :
     let L := (associatedTangentSpaceModuleStructure.{u, v, w} 𝓕 h𝓕 hS2).functor
     letI : Fact (IsPredeformationCategory.{u, v, w} 𝓕.p) := ⟨h𝓕⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2⟩
     let T := tangentSpaceArtinian.{u, w, v} Λ k (isomorphismClasses 𝓕 h𝓕.cofibered)
     ∀ (V W : FGModuleCat.{max v w} k) (f : V ⟶ W) (z : TensorProduct k T V),
       (L.map f).hom
@@ -920,10 +920,9 @@ theorem associatedTangentSpaceFunctor_iso_tensorLeft_naturality
   intro V W f z
   let : Fact (IsPredeformationCategory.{u, v, w} 𝓕.p) := ⟨h𝓕⟩
   let : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2⟩
   let L := (associatedTangentSpaceModuleStructure.{u, v, w} 𝓕 h𝓕 hS2).functor
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul t v =>
       rw [TensorProduct.map_tmul, LinearMap.id_apply,
         associatedTangentSpaceFunctor_iso_tensorLeft_pure,
@@ -944,16 +943,16 @@ variable (𝓖 : BasedCategory.{v₁, u₁} (ArtinianLocalAlgCat.{u, w, w} Λ k)
 module-valued lift at the rank-one module. -/
 noncomputable def associatedTangentSpaceCarrierLinearEquivUnlifted
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered)))
     [h𝓖' : Fact (IsPredeformationCategory 𝓖.p)]
     [hS2' : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered)))] :
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered)))] :
     (((associatedTangentSpaceModuleStructureUnlifted 𝓖 h𝓖 hS2).functor.obj
       (FGModuleCat.of k k) : ModuleCat.{u₁} k) : Type u₁) ≃ₗ[k]
       artinianTangentSpace Λ k (isomorphismClasses 𝓖 h𝓖.cofibered) := by
   letI : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖⟩
   letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2⟩
   let M := (associatedTangentSpaceModuleStructureUnlifted 𝓖 h𝓖 hS2).functor.obj
     (FGModuleCat.of k k)
   let e := associatedTangentSpaceModuleStructure_carrierUnlifted 𝓖 h𝓖 hS2
@@ -966,11 +965,11 @@ noncomputable def associatedTangentSpaceCarrierLinearEquivUnlifted
 /-- The unlifted tensor equivalence exists with the prescribed pure-tensor formula. -/
 theorem exists_associatedTangentTensorEquivUnlifted
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) :
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) :
     let L := (associatedTangentSpaceModuleStructureUnlifted 𝓖 h𝓖 hS2).functor
     letI : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2⟩
     let T := artinianTangentSpace Λ k (isomorphismClasses 𝓖 h𝓖.cofibered)
     ∃ E : ∀ V : FGModuleCat.{w} k,
         TensorProduct k T V ≃ₗ[k] ((L.obj V : ModuleCat.{u₁} k) : Type u₁),
@@ -982,7 +981,7 @@ theorem exists_associatedTangentTensorEquivUnlifted
               𝓖 h𝓖 hS2).symm t) := by
   let : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖⟩
   let : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2⟩
   let L := (associatedTangentSpaceModuleStructureUnlifted 𝓖 h𝓖 hS2).functor
   let T := artinianTangentSpace Λ k (isomorphismClasses 𝓖 h𝓖.cofibered)
   let e := associatedTangentSpaceCarrierLinearEquivUnlifted 𝓖 h𝓖 hS2
@@ -1002,11 +1001,11 @@ theorem exists_associatedTangentTensorEquivUnlifted
 associated functor evaluated on `k[V]`. -/
 noncomputable def associatedTangentSpaceFunctor_iso_tensorLeftUnlifted
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) :
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) :
     let L := (associatedTangentSpaceModuleStructureUnlifted 𝓖 h𝓖 hS2).functor
     letI : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2⟩
     let T := artinianTangentSpace Λ k (isomorphismClasses 𝓖 h𝓖.cofibered)
     ∀ V : FGModuleCat.{w} k,
       LinearEquiv (RingHom.id k) (TensorProduct k T V)
@@ -1017,11 +1016,11 @@ noncomputable def associatedTangentSpaceFunctor_iso_tensorLeftUnlifted
 to `v`. -/
 theorem associatedTangentSpaceFunctor_iso_tensorLeft_pureUnlifted
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) :
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) :
     let L := (associatedTangentSpaceModuleStructureUnlifted 𝓖 h𝓖 hS2).functor
     letI : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2⟩
     let T := artinianTangentSpace Λ k (isomorphismClasses 𝓖 h𝓖.cofibered)
     ∀ (V : FGModuleCat.{w} k) (t : T) (v : V),
       associatedTangentSpaceFunctor_iso_tensorLeftUnlifted 𝓖 h𝓖 hS2 V (t ⊗ₜ[k] v) =
@@ -1035,11 +1034,11 @@ theorem associatedTangentSpaceFunctor_iso_tensorLeft_pureUnlifted
 finite-dimensional vector spaces. -/
 theorem associatedTangentSpaceFunctor_iso_tensorLeft_naturalityUnlifted
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) :
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) :
     let L := (associatedTangentSpaceModuleStructureUnlifted 𝓖 h𝓖 hS2).functor
     letI : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2⟩
     let T := artinianTangentSpace Λ k (isomorphismClasses 𝓖 h𝓖.cofibered)
     ∀ (V W : FGModuleCat.{w} k) (f : V ⟶ W) (z : TensorProduct k T V),
       (L.map f).hom
@@ -1050,10 +1049,9 @@ theorem associatedTangentSpaceFunctor_iso_tensorLeft_naturalityUnlifted
   intro V W f z
   let : Fact (IsPredeformationCategory 𝓖.p) := ⟨h𝓖⟩
   let : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2⟩
   let L := (associatedTangentSpaceModuleStructureUnlifted 𝓖 h𝓖 hS2).functor
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul t v =>
       rw [TensorProduct.map_tmul, LinearMap.id_apply,
         associatedTangentSpaceFunctor_iso_tensorLeft_pureUnlifted,

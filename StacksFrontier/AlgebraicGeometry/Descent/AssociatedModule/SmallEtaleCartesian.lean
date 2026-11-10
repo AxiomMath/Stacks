@@ -100,7 +100,7 @@ theorem faithfullyFlat_pi_affineChartRings {U : SmallAffineEtale B S hS}
     (RingHom.pi
       (fun i => ((affineChartRings B S hS).map (g i).op).hom)).FaithfullyFlat := by
   have _ := hflat
-  show (RingHom.pi
+  change (RingHom.pi
     (fun i => (((SmallAffineEtale.toScheme B S hS).map (g i)).appTop).hom)).FaithfullyFlat
   exact AlgebraicGeometry.Scheme.faithfullyFlat_pi_appTop
     (fun i => (SmallAffineEtale.toScheme B S hS).obj (V i))

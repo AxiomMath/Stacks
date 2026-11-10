@@ -158,7 +158,7 @@ theorem tensorShiftBack_naturality (N : Bimodule A B)
       tensorObj N (shift M k) ⟶ shift (tensorObj N P) k) =
       tensorShiftBack N M k ≫ shiftMap ((tensorCompFunctor N).map g) k := by
   refine tensorObj_hom_ext N (shift M k) _ _ fun x y => ?_
-  show (tensorShiftBack N P k).toFun
+  change (tensorShiftBack N P k).toFun
       (((tensorCompFunctor N).map (shiftMap g k)).toFun
         ((tensorPure N (shift M k)).toLinearMap x y)) =
     ((tensorCompFunctor N).map g).toFun
@@ -287,7 +287,7 @@ tensors of the two coordinates of `z` with `y`. -/
     (z : (coneObject f).M) (y : N.rightModule.M) :
     coneBilinearMap N f z y =
       ((tensorPure N L).toLinearMap z.1 y, (tensorPure N K).toLinearMap z.2 y) := by
-  show ((tensorPure N L).toLinearMap z.1 y, (0 : (tensorObj N K).M)) +
+  change ((tensorPure N L).toLinearMap z.1 y, (0 : (tensorObj N K).M)) +
     ((0 : (tensorObj N L).M), (tensorPure N K).toLinearMap z.2 y) = _
   simp
 
@@ -403,12 +403,12 @@ theorem coneSection_d (f : K ⟶ L) :
   rw [dgCategory_d_val, dgCategory_comp_val]
   refine LinearMap.ext fun x => ?_
   simp only [LinearMap.comp_apply, gradedSign_neg_one, neg_smul, one_smul, sub_neg_eq_add]
-  show (coneD f ((0 : L.M), x)) + ((0 : L.M), K.d x) = ((f.toFun x), (0 : K.M))
+  change (coneD f ((0 : L.M), x)) + ((0 : L.M), K.d x) = ((f.toFun x), (0 : K.M))
   rw [coneD_apply]
   refine Prod.ext ?_ ?_
-  · show L.d (0 : L.M) + f.toFun x + (0 : L.M) = f.toFun x
+  · change L.d (0 : L.M) + f.toFun x + (0 : L.M) = f.toFun x
     rw [map_zero, zero_add, add_zero]
-  · show -K.d x + K.d x = (0 : K.M)
+  · change -K.d x + K.d x = (0 : K.M)
     rw [neg_add_cancel]
 
 /-- The image under the tensor functor of the graded section of the cone, as a linear map. -/
@@ -513,7 +513,7 @@ theorem tensorConeFwd_comp_incl (N : Bimodule A B) (f : K ⟶ L) :
   have h : (tensorModuleMap N (coneIncl f)).toFun ((tensorPure N L).toLinearMap x y) =
       (tensorPure N (coneObject f)).toLinearMap (x, (0 : K.M)) y :=
     tensorCompFunctor_map_pure N (coneIncl f) x y
-  show (tensorConeFwd N f).toFun
+  change (tensorConeFwd N f).toFun
       ((tensorModuleMap N (coneIncl f)).toFun ((tensorPure N L).toLinearMap x y)) =
     ((tensorPure N L).toLinearMap x y, (0 : (tensorObj N K).M))
   rw [h, tensorConeFwd_pure]
@@ -615,7 +615,7 @@ theorem tensorConeFwd_section_apply (N : Bimodule A B) (f : K ⟶ L) (v : (tenso
         tensorConeInr N f ((tensorPure N K).toLinearMap x y) := by
       rw [tensorConeSectionMap_pure, tensorConeFwd_pure, tensorConeInr_apply]
       exact Prod.ext (by simp) rfl
-    show (tensorConeFwd N f).toFun
+    change (tensorConeFwd N f).toFun
         (tensorConeSectionMap N f ((tensorPure N K).toLinearMap x y)) -
         tensorConeInr N f ((tensorPure N K).toLinearMap x y) =
       (0 : tensorObj N K ⟶ shift (coneObject (tensorModuleMap N f)) (-1)).toFun
@@ -632,13 +632,13 @@ theorem tensorConeBwd_fwd (N : Bimodule A B) (f : K ⟶ L) :
     (tensorConeBwd N f ≫ tensorConeFwd N f) = 𝟙 (coneObject (tensorModuleMap N f)) := by
   apply DifferentialGradedModule.Hom.ext
   refine LinearMap.ext fun w => ?_
-  show (tensorConeFwd N f).toFun
+  change (tensorConeFwd N f).toFun
       ((tensorModuleMap N (coneIncl f)).toFun w.1 + tensorConeSectionMap N f w.2) = w
   rw [map_add, tensorConeFwd_incl_apply, tensorConeFwd_section_apply, tensorConeInr_apply]
   refine Prod.ext ?_ ?_
-  · show w.1 + 0 = w.1
+  · change w.1 + 0 = w.1
     rw [add_zero]
-  · show (0 : (tensorObj N K).M) + w.2 = w.2
+  · change (0 : (tensorObj N K).M) + w.2 = w.2
     rw [zero_add]
 
 /-- The two comparisons are mutually inverse on the tensor product of the cone. -/
@@ -647,18 +647,18 @@ theorem tensorConeFwd_bwd (N : Bimodule A B) (f : K ⟶ L) :
   refine tensorObj_hom_ext N (coneObject f) _ _ fun z y => ?_
   have hz : ((z.1, (0 : K.M)) + ((0 : L.M), z.2) : (coneObject f).M) = z := by
     refine Prod.ext ?_ ?_
-    · show z.1 + 0 = z.1
+    · change z.1 + 0 = z.1
       rw [add_zero]
-    · show (0 : K.M) + z.2 = z.2
+    · change (0 : K.M) + z.2 = z.2
       rw [zero_add]
   have hincl : (tensorModuleMap N (coneIncl f)).toFun ((tensorPure N L).toLinearMap z.1 y) =
       (tensorPure N (coneObject f)).toLinearMap ((z.1, (0 : K.M)) : (coneObject f).M) y :=
     tensorCompFunctor_map_pure N (coneIncl f) z.1 y
-  show (tensorConeBwd N f).toFun
+  change (tensorConeBwd N f).toFun
       ((tensorConeFwd N f).toFun ((tensorPure N (coneObject f)).toLinearMap z y)) =
     (tensorPure N (coneObject f)).toLinearMap z y
   rw [tensorConeFwd_pure, tensorConeBwd_apply]
-  show (tensorModuleMap N (coneIncl f)).toFun ((tensorPure N L).toLinearMap z.1 y) +
+  change (tensorModuleMap N (coneIncl f)).toFun ((tensorPure N L).toLinearMap z.1 y) +
       tensorConeSectionMap N f ((tensorPure N K).toLinearMap z.2 y) =
     (tensorPure N (coneObject f)).toLinearMap z y
   rw [hincl, tensorConeSectionMap_pure, ← LinearMap.add_apply, ← map_add, hz]
@@ -683,7 +683,7 @@ theorem tensorConeFwd_comp_proj (N : Bimodule A B) (f : K ⟶ L) :
       ((tensorPure N (coneObject f)).toLinearMap z y) =
       (tensorPure N (shift K 1)).toLinearMap z.2 y :=
     tensorCompFunctor_map_pure N (coneProj f) z y
-  show (coneProj (tensorModuleMap N f)).toFun
+  change (coneProj (tensorModuleMap N f)).toFun
       ((tensorConeFwd N f).toFun ((tensorPure N (coneObject f)).toLinearMap z y)) =
     (tensorShiftBack N K 1).toFun
       ((tensorModuleMap N (coneProj f)).toFun ((tensorPure N (coneObject f)).toLinearMap z y))
@@ -721,7 +721,7 @@ theorem tensorComp_map_eq_of_homotopyRel (N : Bimodule A B)
   have n₂ := (tensorCompFunctor_quotient N).hom.naturality f₂
   have hmid : (toHomotopyCategory A ⋙ tensorHomotopyFunctor N).map f₁ =
       (toHomotopyCategory A ⋙ tensorHomotopyFunctor N).map f₂ := by
-    show (tensorHomotopyFunctor N).map ((toHomotopyCategory A).map f₁) =
+    change (tensorHomotopyFunctor N).map ((toHomotopyCategory A).map f₁) =
       (tensorHomotopyFunctor N).map ((toHomotopyCategory A).map f₂)
     rw [hq]
   rw [hmid] at n₁

@@ -60,7 +60,7 @@ theorem flat_and_ker_eq_of_dualNumbers (ψ : TrivSqZeroExt k k →+* C) (π : C 
     rw [TrivSqZeroExt.inl_mul_inr, smul_eq_mul, mul_one]
   have hsqr : π.comp ψ = dd.comp qR := by
     ext r
-    show π (ψ r) = π (ψ (TrivSqZeroExt.inl r.fst))
+    change π (ψ r) = π (ψ (TrivSqZeroExt.inl r.fst))
     conv_lhs => rw [← TrivSqZeroExt.inl_fst_add_inr_snd_eq r, hinr]
     rw [map_add, map_mul, map_add, map_mul, hε, mul_zero, add_zero]
   have hR : Function.Surjective qR := fun a => ⟨TrivSqZeroExt.inl a, rfl⟩
@@ -86,7 +86,7 @@ theorem flat_and_ker_eq_of_dualNumbers (ψ : TrivSqZeroExt k k →+* C) (π : C 
       map_add' := fun n n' => Subtype.ext (TrivSqZeroExt.inr_add k n n')
       map_smul' := fun r n => by
         refine Subtype.ext ?_
-        show TrivSqZeroExt.inr (r.fst * n) = r * TrivSqZeroExt.inr n
+        change TrivSqZeroExt.inr (r.fst * n) = r * TrivSqZeroExt.inr n
         exact TrivSqZeroExt.ext (by simp) (by simp [mul_comm]) }
   let := dd.toAlgebra
   let incl' : D ≃+ RingHom.ker π :=
@@ -101,7 +101,7 @@ theorem flat_and_ker_eq_of_dualNumbers (ψ : TrivSqZeroExt k k →+* C) (π : C 
       ((TensorProduct.rid k D).toAddEquiv.trans incl')
   refine flat_and_ker_eq_of_extendScalars_chart ψ qR π dd hsqr hR hπ hflat hJ2 hI2 hN w Θ ?_
   intro b n
-  show incl (n • π b) = b * ψ (TrivSqZeroExt.inr n)
+  change incl (n • π b) = b * ψ (TrivSqZeroExt.inr n)
   rw [hinr n, map_mul, mul_comm (ψ _), ← mul_assoc, mul_comm b, mul_assoc, hmul, map_mul,
     Algebra.smul_def, mul_comm (π b)]
   rfl

@@ -226,7 +226,7 @@ theorem surjective_flatPullbackChowMapCanonical_vectorBundle (k n : ℤ) (hkn : 
     (isQuasiCompact_vectorBundleProjection D W F)
     (hasAffineSpaceFibres_vectorBundleProjection D W F sW hW r) k α
   refine ⟨chowClassCanonical.{u + 1} D sW hW k β, ?_⟩
-  show chowClassCanonical.{u + 1} D _ (isGood_vectorBundle D W F sW hW) (k + (r : ℤ))
+  change chowClassCanonical.{u + 1} D _ (isGood_vectorBundle D W F sW hW) (k + (r : ℤ))
       (flatPullbackMap D _ (isGood_vectorBundle D W F sW hW) sW hW
         (vectorBundleProjection D.site D.base D.base_mem W F).hom rfl r
         (isFlat_vectorBundleProjection D.site D.base D.base_mem W F)
@@ -324,7 +324,7 @@ theorem injective_flatPullbackChowMapCanonical_vectorBundle (k : ℤ) :
   rw [flatPullbackChowMapCanonical_chowClassCanonical,
     flatPullbackChowMapCanonical_chowClassCanonical,
     chowClassCanonical_eq_iff_rationallyEquivalentCanonical] at hab
-  show chowClassCanonical.{u + 1} D sW hW k α = chowClassCanonical.{u + 1} D sW hW k β
+  change chowClassCanonical.{u + 1} D sW hW k α = chowClassCanonical.{u + 1} D sW hW k β
   rw [chowClassCanonical_eq_iff_rationallyEquivalentCanonical]
   unfold RationallyEquivalentCanonical at hab ⊢
   rw [← map_sub] at hab

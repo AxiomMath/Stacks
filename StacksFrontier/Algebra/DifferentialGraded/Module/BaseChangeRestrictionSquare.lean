@@ -177,10 +177,6 @@ theorem absUnbalance_baseChangeStructureRightHom (M : DifferentialGradedModule.{
       absUnbalance (degreeZero R R) (degreeZero R R')
         ((restrictScalarsFunctor (baseHom A)).obj M) x y := by
   induction y using gradedTensor_induction with
-  | zero =>
-    rw [map_zero ((tensorHomPair (baseHom A)
-      (idHom (degreeZero R R'))).toAlgebraHom), map_zero, map_zero]
-    rfl
   | tmul r c =>
     rw [tensorHomPair_tmul, absUnbalance_tmul]
     exact (absUnbalance_tmul (degreeZero R R) (degreeZero R R')
@@ -215,7 +211,7 @@ theorem baseChangeStructureTensorTrans_app_comp_absBalance
         ((restrictScalarsFunctor (baseHom A)).obj M)).hom := by
   refine tensorObj_hom_ext' (baseChangeBimodule (degreeZero R R) (degreeZero R R'))
     ((restrictScalarsFunctor (baseHom A)).obj M) _ _ fun x y => ?_
-  show (absBalanceForward A (degreeZero R R') M).toFun
+  change (absBalanceForward A (degreeZero R R') M).toFun
       (((baseChangeStructureTensorTrans A R').app M).toFun
         (absRelativePureBilinear (degreeZero R R) (degreeZero R R')
           ((restrictScalarsFunctor (baseHom A)).obj M) x y)) =

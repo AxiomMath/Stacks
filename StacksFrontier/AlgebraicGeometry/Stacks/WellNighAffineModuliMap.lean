@@ -75,7 +75,7 @@ theorem contains_invariantSpectrum :
     B.Contains (Spec (.of (invariantRing K.groupoidScheme))) := by
   refine lt_of_le_of_lt ?_ K.U.left.2
   rw [Scheme.size_Spec]
-  show _ ≤ Scheme.size K.groupoidScheme.objects.left
+  change _ ≤ Scheme.size K.groupoidScheme.objects.left
   rw [Scheme.size_of_isAffine K.groupoidScheme.objects.left]
   exact max_le_max le_rfl (Cardinal.mk_le_of_injective Subtype.val_injective)
 

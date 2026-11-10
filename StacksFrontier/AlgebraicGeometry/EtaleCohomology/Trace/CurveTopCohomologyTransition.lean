@@ -39,7 +39,7 @@ attribute [local instance] HasDerivedCategory.standard moduleCat_hasLimitsOfSize
 section Naturality
 
 variable {Λ Λ' : Type} [CommRing Λ] [CommRing Λ'] (ρ : Λ →+* Λ')
-  {k : Type u} [Field k] [Fintype k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k))
+  {k : Type u} [Field k] [Finite k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k))
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
 
 /-- **The comparison of `Hⁱ_c` with restriction of scalars is natural** in the complex. -/
@@ -82,8 +82,8 @@ variable [∀ n : ℕ, HasWeakSheafify
   (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
 variable [IsNoetherian X.1] [Fact ℓ.Prime]
 
-variable {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
-  [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
+variable {k : Type u} [Field k] [Finite k] (f : X.1 ⟶ Spec (.of k))
+  [LocallyOfFiniteType f] [QuasiCompact f]
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
   [IsAlgClosed kbar]
 
@@ -118,10 +118,10 @@ theorem LAdicSheaf.surjective_geometricCompactlySupportedCohomologySystem_map_tw
       rw [(Iso.eq_comp_inv _).2 hsq]
       simp only [Category.assoc]
       rfl
-    show H.map (C.map ((padicCoefficientComplex B X ℓ).map
+    change H.map (C.map ((padicCoefficientComplex B X ℓ).map
       (LAdicSheaf.padicTransition B X ℓ F n))) = _
     rw [h]
-    simp only [Functor.map_comp, Category.assoc]
+    simp only [Functor.map_comp]
   rw [hmap]
   -- the middle factor, through the comparison with restriction of scalars
   have hnat := compactSupportFrobeniusCohomologyGroupRestrictScalarsIso_naturality ρ' f j kbar

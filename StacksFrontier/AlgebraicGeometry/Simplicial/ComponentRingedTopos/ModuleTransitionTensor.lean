@@ -140,7 +140,8 @@ owed alongside it is not owed any more: `componentModuleTransition` is the trans
 unconditional. The unitor half is the mirror of
 `Stacks.Sheaves.DerivedPullback.PullbackToposRightUnitorCoherence`; that proposition itself is now
 proved, by `Stacks.Sheaves.DerivedPullback.pullbackToposRightUnitorCoherence` of
-`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/PullbackToposRightUnitorCoherence.lean`, but the mirror here is not an
+`PullbackToposRightUnitorCoherence.lean` in
+`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/`, but the mirror here is not an
 instance of it: it is the *left* unitor, and the comparison of Stacks 03EL is accompanied by no
 compatibility with the braiding that would turn one into the other. See
 `TransitionUnitorCoherence` below for what that leaves owed.
@@ -236,8 +237,9 @@ This is the unit half of the assertion that the comparison of Stacks 03EL at `f_
 It is the mirror of `Stacks.Sheaves.DerivedPullback.PullbackToposRightUnitorCoherence`, and that
 one is now proved —
 `Stacks.Sheaves.DerivedPullback.pullbackToposRightUnitorCoherence` of
-`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/PullbackToposRightUnitorCoherence.lean` — but this one is not an instance of
-it; it is proved separately, as
+`PullbackToposRightUnitorCoherence.lean` in
+`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/` — but this one is not an
+instance of it; it is proved separately, as
 `CategoryTheory.SimplicialSiteSituation.transitionUnitorCoherence` of
 `…/ModuleTransitionUnitor.lean`. Two things stand between the two statements.  First, the *side*:
 what is available is the

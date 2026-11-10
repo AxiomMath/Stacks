@@ -99,7 +99,7 @@ theorem sections_flat [F.IsQuasicoherent] (hflat : IsFlatOver f.toLRSHom.toShHom
     (asIso (toSpecΓ (CommRingCat.of A))).commRingCatIsoToRingEquiv
   refine Stacks.RingTheory.Flat.flat_of_ringEquiv e.symm fun b x => ?_
   have key : (toSpecΓ (CommRingCat.of A)).hom (e.symm b) = b := e.apply_symm_apply b
-  show (f.appLE ⊤ W (by simp)).hom b • x =
+  change (f.appLE ⊤ W (by simp)).hom b • x =
     (f.appLE ⊤ W (by simp)).hom ((toSpecΓ (CommRingCat.of A)).hom (e.symm b)) • x
   rw [key]
 

@@ -90,7 +90,7 @@ theorem homOfLE_projHom_eq_chartToProj {e : ℕ} (s : powSections L e) (he : 0 <
     ← Stacks.SectionRingChartOpen.chartHomOn_self L s he,
     Stacks.SectionRingChartOpen.homOfLE_chartHomOn L s he le_rfl hV' hV',
     Stacks.SectionRingChartOpen.chartHomOn_val L s he hV']
-  show _ = V.toSpecΓ ≫ Spec.map (CommRingCat.ofHom
+  change _ = V.toSpecΓ ≫ Spec.map (CommRingCat.ofHom
       (((canonicalSections L).homogeneousRatios hf hV).lift he)) ≫
     AlgebraicGeometry.Proj.awayι (grading L) _ hf he
   rw [lift_eq_chartRingMap L s he hf hV hV']

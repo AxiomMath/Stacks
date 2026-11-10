@@ -28,7 +28,8 @@ names, and with no `set_option maxHeartbeats`: the two expensive declarations
 ## The blowup used
 
 The library blowup
-`AlgebraicGeometry.blowUp` (`StacksFrontier/AlgebraicGeometry/Blowup/ReesAlgebra/BlowUp.lean`) is the
+`AlgebraicGeometry.blowUp` (`StacksFrontier/AlgebraicGeometry/Blowup/ReesAlgebra/BlowUp.lean`) is
+the
 relative `Proj` of the Rees algebra outright, with no choice of data, so the statement below
 depends on no unproved choice of Rees algebra data.
 
@@ -48,7 +49,8 @@ Everything the source's proof does *itself* is proved here with no hypothesis:
   `isFiniteLocallyFreeOfRank_of_generated_of_dense_open`, the heart of the argument.
 
 Three inputs of the source's proof are named as hypotheses rather than assumed silently. The
-third of them is discharged, in `StacksFrontier/AlgebraicGeometry/StrictTransformFittingRank/Quasicoherent.lean`,
+third of them is discharged, in
+`StacksFrontier/AlgebraicGeometry/StrictTransformFittingRank/Quasicoherent.lean`,
 which also restates the main theorem below without it
 (`Stacks.StrictTransformFittingRank.isFiniteLocallyFreeOfRank_strictTransform_fittingBlowUp'`);
 the first two are not yet available in the library.
@@ -74,7 +76,8 @@ the first two are not yet available in the library.
 * `StrictTransformQuasicoherent` is the quasi-coherence of the strict transform (the subsheaf half
   is Tag 07ZP). **It is discharged**, as
   `Stacks.StrictTransformFittingRank.strictTransformQuasicoherent` in
-  `StacksFrontier/AlgebraicGeometry/StrictTransformFittingRank/Quasicoherent.lean`: the subsheaf half
+  `StacksFrontier/AlgebraicGeometry/StrictTransformFittingRank/Quasicoherent.lean`: the subsheaf
+  half
   is `supportedSectionsSubmodule_isQuasicoherent`
   (`StacksFrontier/AlgebraicGeometry/Divisors/SupportedSections/Basic.lean`, Tag 07ZP) and cokernels
   of quasi-coherent modules are quasi-coherent
@@ -173,7 +176,7 @@ theorem ideal_eq_top_of_stalk_eq_top {X : Scheme.{u}} (I : X.IdealSheafData)
     intro hxU
     rw [Ideal.map_le_iff_le_comap]
     intro a ha
-    show X.presheaf.germ U.1 x hxU a ∈ IsLocalRing.maximalIdeal _
+    change X.presheaf.germ U.1 x hxU a ∈ IsLocalRing.maximalIdeal _
     rw [IsLocalRing.mem_maximalIdeal]
     intro haunit
     have hzero := (I.mem_support_iff.mp hx) U
@@ -222,7 +225,7 @@ theorem restrict_supportedSectionsSubmodule_ι_eq_zero {X : Scheme.{u}} (F : X.M
     (Scheme.Modules.restrictFunctor U.ι).map
       (Scheme.Modules.supportedSectionsSubmodule Z F).ι = 0 := by
   ext V s
-  show (s.1 : Γ(F, U.ι ''ᵁ V)) = 0
+  change (s.1 : Γ(F, U.ι ''ᵁ V)) = 0
   apply TopCat.Presheaf.section_ext ⟨F.val.presheaf, F.isSheaf⟩
   intro x hx
   have hxZ : x ∉ Z := by

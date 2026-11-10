@@ -45,7 +45,7 @@ private lemma finset_prod_le_of_infinite {n : ℕ} (μ : Cardinal.{u})
     (hμ : ℵ₀ ≤ μ) (f : Fin n → Cardinal.{u}) (hf : ∀ k, f k ≤ μ) :
     ∏ k : Fin n, f k ≤ μ :=
   calc ∏ k : Fin n, f k
-      ≤ ∏ _ : Fin n, μ := Finset.prod_le_prod' fun i _ => hf i
+      ≤ ∏ _ : Fin n, μ := Finset.prod_le_prod fun i _ => hf i
     _ = μ ^ n := by simp
     _ ≤ μ := power_nat_le hμ
 

@@ -124,7 +124,8 @@ in the paragraph above.
 
 *Why the unconditional composition formula is restated.* Not because of the model: this file used
 to say that
-`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPullback/CompositionUnconditional.lean` opens with
+`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPullback/CompositionUnconditional.lean` opens
+with
 a file-level `attribute [local instance] HasDerivedCategory.standard`, and it does not — that file
 contains no `attribute` command at all, its own module documentation says that everything in it
 carrying a derived category carries the `HasDerivedCategory` binders, and

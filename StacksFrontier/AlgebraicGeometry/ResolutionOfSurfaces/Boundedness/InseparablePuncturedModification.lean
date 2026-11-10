@@ -144,7 +144,7 @@ theorem exists_mul_eq_of_mem_puncturedPreimage (x : X) (hx : x ∈ puncturedPrei
     StructureSheaf.IsLocalization.to_stalk A q
   have key : ∀ r : A, f.stalkMap x (algebraMap A ((Spec (.of A)).presheaf.stalk (f x)) r) =
       X.presheaf.germ ⊤ x trivial (baseSection X f r) := fun r => by
-    show f.stalkMap x ((Spec (.of A)).presheaf.germ ⊤ (f x) trivial
+    change f.stalkMap x ((Spec (.of A)).presheaf.germ ⊤ (f x) trivial
       ((Scheme.ΓSpecIso (.of A)).inv r)) = _
     rw [Scheme.Hom.germ_stalkMap_apply f ⊤ x trivial]
     rfl

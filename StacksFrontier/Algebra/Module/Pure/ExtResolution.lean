@@ -200,7 +200,7 @@ public lemma diagonalFinite_homBicomplex (P : ChainComplex (ModuleCat.{v} A) ℕ
   intro n
   refine (Set.finite_Icc (0 : ℤ) n).subset ?_
   intro p hp
-  simp only [Set.mem_setOf_eq] at hp
+  simp only [Set.mem_ofPred_eq] at hp
   refine Set.mem_Icc.2 ⟨?_, ?_⟩
   · by_contra h
     exact hp (Module.isZero_homBicomplex_X_X P I p (n - p) (Or.inl (by omega)))
@@ -223,7 +223,7 @@ public lemma diagonalFinite_homBicomplex_flip (P : ChainComplex (ModuleCat.{v} A
   intro n
   refine (Set.finite_Icc (0 : ℤ) n).subset ?_
   intro q hq
-  simp only [Set.mem_setOf_eq] at hq
+  simp only [Set.mem_ofPred_eq] at hq
   refine Set.mem_Icc.2 ⟨?_, ?_⟩
   · by_contra h
     exact hq (Module.isZero_homBicomplex_X_X P I (n - q) q (Or.inr (by omega)))
@@ -704,7 +704,7 @@ public lemma homComplexZeroCochain_comp_d (M : Type v) [AddCommGroup M] [Module 
     (hη : (I.d 0 1).hom.comp η = 0) :
     Module.homComplexZeroCochain M η ≫ (Module.homComplex M I).d 0 1 = 0 := by
   refine ModuleCat.hom_ext (LinearMap.ext fun f => ?_)
-  show ((Module.homComplex M I).d 0 1).hom (LinearMap.compRight A η f) = 0
+  change ((Module.homComplex M I).d 0 1).hom (LinearMap.compRight A η f) = 0
   rw [show ((Module.homComplex M I).d 0 1).hom
       = LinearMap.compRight A (I.d 0 1).hom from by simpa using Module.homComplex_d M I 0]
   exact LinearMap.ext fun x => congr($hη (f x))
@@ -798,7 +798,7 @@ public theorem isIso_homComplexZeroHom
     rw [CochainComplex.isIso_liftCycles_iff]
     refine ⟨?_, ?_⟩
     · rw [ShortComplex.moduleCat_exact_iff_range_eq_ker]
-      show LinearMap.range (LinearMap.compRight A η)
+      change LinearMap.range (LinearMap.compRight A η)
         = LinearMap.ker ((Module.homComplex M I).d 0 1).hom
       rw [hd]
       exact (Module.homComplex_augmentation_exact η (I.d 0 1).hom hI.injective_augmentation

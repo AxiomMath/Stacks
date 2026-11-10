@@ -119,7 +119,7 @@ public theorem globalSmul_comp_cokernelπ {X : Scheme.{u}} {c : ℕ} (f : Fin c 
     (F : X.Modules) (i : Fin c) :
     globalSmul (f i) F ≫ cokernel.π (equationsMultiplication f F) = 0 := by
   have hι : Sigma.ι (fun _ : Fin c => F) i ≫ equationsMultiplication f F = globalSmul (f i) F :=
-    Sigma.ι_desc _ _
+    Sigma.ι_comp_desc _ _
   rw [← hι, Category.assoc, cokernel.condition, comp_zero]
 
 /-! ### Morphisms between associated sheaves -/
@@ -171,7 +171,7 @@ public def equationsMul (f : Fin (d + 1) → R) (M : ModuleCat.{u} R) :
 private theorem ι_comp_equationsMul (f : Fin (d + 1) → R) (M : ModuleCat.{u} R) (i : Fin (d + 1)) :
     Sigma.ι (fun _ : Fin (d + 1) => M) i ≫ equationsMul f M =
       ModuleCat.ofHom (f i • LinearMap.id : M →ₗ[R] M) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The comparison between a coproduct of associated sheaves and the associated sheaf of the
 coproduct. -/
@@ -186,7 +186,8 @@ public theorem equationsMultiplication_eq (f : Fin (d + 1) → R) (M : ModuleCat
     equationsMultiplication (specFun f) (tilde M) =
       sigmaTildeComparison M ≫ tilde.map (equationsMul f M) := by
   refine Sigma.hom_ext _ _ fun i => ?_
-  rw [equationsMultiplication, Sigma.ι_desc, ← Category.assoc, sigmaTildeComparison, Sigma.ι_desc]
+  rw [equationsMultiplication, Sigma.ι_comp_desc, ← Category.assoc, sigmaTildeComparison,
+    Sigma.ι_comp_desc]
   refine (globalSmul_eq_tilde_map (f i) M).trans ?_
   refine Eq.trans (congrArg (tilde.functor R).map (ι_comp_equationsMul f M i).symm) ?_
   exact (tilde.functor R).map_comp (Sigma.ι (fun _ : Fin (d + 1) => M) i) (equationsMul f M)
@@ -203,7 +204,7 @@ public instance isIso_sigmaTildeComparison (M : ModuleCat.{u} R) :
       (IsColimit.coconePointUniqueUpToIso
         (coproductIsCoproduct (fun _ : Fin (d + 1) => tilde M)) hc).hom := by
     refine Sigma.hom_ext _ _ fun i => ?_
-    rw [sigmaTildeComparison, Sigma.ι_desc]
+    rw [sigmaTildeComparison, Sigma.ι_comp_desc]
     exact (IsColimit.comp_coconePointUniqueUpToIso_hom
       (coproductIsCoproduct (fun _ : Fin (d + 1) => tilde M)) hc ⟨i⟩).symm
   rw [heq]
@@ -425,7 +426,7 @@ public theorem supportedFraction_eq_of_targetComparison (f : Fin (d + 1) → R)
       τ ∘ₗ Cech.supportedFraction f (M : Type u) := by
   refine LinearMap.ext fun z => ?_
   obtain ⟨s, rfl⟩ := Submodule.Quotient.mk_surjective _ z
-  show (supportedFractionClass (specFun f) (tilde M)).app ⊤
+  change (supportedFractionClass (specFun f) (tilde M)).app ⊤
       (affineSourceComparison f M (Submodule.Quotient.mk s)) =
     τ (Cech.supportedFraction f (M : Type u) (Submodule.Quotient.mk s))
   refine Eq.trans (congrArg (fun x => (supportedFractionClass (specFun f) (tilde M)).app ⊤ x)

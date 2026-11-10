@@ -304,7 +304,7 @@ theorem relativeDimension_of_irreducibleSpace {P T : Scheme.{u}} (q : P ⟶ T)
     rw [irreducibleComponents_eq_singleton]; rfl⟩
   have hWgen : W.2.1.genericPoint = genericPoint P :=
     (W.2.1.isGenericPoint_genericPoint isClosed_univ).eq (by
-      show closure _ = _
+      change closure _ = _
       exact genericPoint_spec P)
   have hzero := ringKrullDim_stalk_fiber_genericPoint q W
   rw [hWgen] at hzero
@@ -312,7 +312,7 @@ theorem relativeDimension_of_irreducibleSpace {P T : Scheme.{u}} (q : P ⟶ T)
   rw [hzero, zero_add] at hfx
   rw [hfx]
   have hlt := residueTrdeg_lt_aleph0 q (genericPoint P)
-  show ((Cardinal.toENat (residueTrdeg q (genericPoint P)) : ℕ∞) : WithBot ℕ∞) = _
+  change ((Cardinal.toENat (residueTrdeg q (genericPoint P)) : ℕ∞) : WithBot ℕ∞) = _
   rw [Cardinal.toENat_eq_natCast.mpr (Cardinal.cast_toNat_of_lt_aleph0 hlt).symm]
   norm_cast
 

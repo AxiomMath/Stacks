@@ -212,7 +212,7 @@ private theorem isRelativelySmooth_openSubHom
       hasRelativeProperty_schemeFibredCategoryMap B S hS
         (Space.smoothMorphismProperty B S hS) _ ?_⟩ ha
   apply Space.isSmooth_yoneda_map
-  show Smooth A.ι
+  change Smooth A.ι
   infer_instance
 
 /-- An affine open of a scheme locally of finite type over `S` has size at most that of `S`. -/
@@ -308,14 +308,14 @@ theorem isAlgebraicStack_of_boundedCharts
       (W i).left.obj.isBasis_affineOpens.exists_subset_of_mem_open (Set.mem_univ w) isOpen_univ
     let r : Rr := ⟨i, ⟨A, hA⟩⟩
     have : IsOpenImmersion (T.map (incl r)) := by
-      show IsOpenImmersion (Scheme.Opens.ι (X := (W i).left.obj) A); infer_instance
+      change IsOpenImmersion (Scheme.Opens.ι (X := (W i).left.obj) A); infer_instance
     have hrange : Set.range (T.map x.hom) ⊆ Set.range (T.map (incl r)) := by
       rintro _ ⟨z, rfl⟩
       have hz : z = eL.inv (IsLocalRing.closedPoint L) := by
         have h1 : eL.inv (eL.hom z) = z := by
           rw [← Scheme.Hom.comp_apply, Iso.hom_inv_id]; rfl
         rw [← h1, Subsingleton.elim (eL.hom z) (IsLocalRing.closedPoint L)]
-      show T.map x.hom z ∈ Set.range (Scheme.Opens.ι (X := (W i).left.obj) A)
+      change T.map x.hom z ∈ Set.range (Scheme.Opens.ι (X := (W i).left.obj) A)
       rw [Scheme.Opens.range_ι, hz]
       exact hwA
     let xr : T.obj x.left ⟶ T.obj (V r) :=
@@ -354,7 +354,7 @@ theorem isAlgebraicStack_of_boundedCharts
     have hVhom : B.inclusion.map (V r).hom = T.map (incl r) ≫ B.inclusion.map (W i).hom := rfl
     let g : x.left ⟶ U d := BigFppfOver.homMk B S hS (contains_spec_smallFieldData B S hS d) d.2 gs
       (by
-        show gs ≫ ts ≫ B.inclusion.map (V r).hom = _
+        change gs ≫ ts ≫ B.inclusion.map (V r).hom = _
         rw [← Category.assoc, hgt, hVhom, ← Category.assoc, hxr]
         exact hxw)
     -- the kept chart for the class of `(r, d, t)`
@@ -363,7 +363,7 @@ theorem isAlgebraicStack_of_boundedCharts
     let j : J' := (equivShrink J) c
     have hspec : cls (σ (e j)) = cls q := by
       rw [hσ]
-      show ((equivShrink J).symm ((equivShrink J) c)).1 = cls q
+      change ((equivShrink J).symm ((equivShrink J) c)).1 = cls q
       rw [Equiv.symm_apply_apply]
     have key : ∀ q' : Q, cls q' = cls q → ∃ V₁ : BigFppfOver B S hS, IsFieldObject B S hS V₁ ∧
         ∃ (f₁ : V₁ ⟶ U0) (x₁ : (schemeFibredCategory B S hS (V q'.1)).val.obj),
@@ -401,7 +401,7 @@ theorem isAlgebraicStack_of_boundedCharts
       have hχ : 𝒳.val.p.IsHomLift (𝟙 x.left) χ := inferInstance
       have hμw : (𝟙 x.left ≫ x.hom : x.left ⟶ W i) = (g ≫ t) ≫ incl r := by
         apply BigFppfOver.map_toScheme_injective B S hS
-        show 𝟙 _ ≫ T.map x.hom = (gs ≫ ts) ≫ T.map (incl r)
+        change 𝟙 _ ≫ T.map x.hom = (gs ≫ ts) ≫ T.map (incl r)
         rw [Category.id_comp, hgt, hxr]
       let μ : (Over.mk ((g ≫ t) ≫ incl r) : Over (W i)) ⟶ x := Over.homMk (𝟙 x.left) hμw
       let δ := (CatFiberedInGroupoids.homFunctor (a i)).map μ
@@ -506,7 +506,7 @@ theorem isAlgebraicStack_of_boundedCharts_largeHoms
     intro i
     have hid : Functor.IsEquivalence
         (BasedFunctor.id (schemeFibredCategory B S hS (W i)).val).toFunctor := by
-      show Functor.IsEquivalence (𝟭 _)
+      change Functor.IsEquivalence (𝟭 _)
       infer_instance
     exact ⟨h₃' _ _, relativeProperty_of_equivalences B S hS (Space.smoothMorphismProperty B S hS)
       (𝒳' := schemeFibredCategory B S hS (W i)) (𝒴' := 𝒴)

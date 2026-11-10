@@ -82,7 +82,8 @@ theorem Fiber.fiberInclusion_map_mapOfComp_map (p : S ⥤ C) (p' : S' ⥤ C) (G 
   rfl
 
 -- `CategoryTheory.Functor.Fiber.isoMk`, in the module
--- `StacksFrontier.CategoryTheory.Sites.Descent.IsStack.FiberIso`, has the same content; that module is
+-- `StacksFrontier.CategoryTheory.Sites.Descent.IsStack.FiberIso`, has the same content; that module
+-- is
 -- not imported here, and a second public declaration of the name would clash in any file importing
 -- both, so this copy is private.
 /-- An isomorphism of `S` lying over the identity of `U`, read as an isomorphism of the fibre

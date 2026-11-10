@@ -204,7 +204,7 @@ theorem comp_unit_app_comp_map_hom_app_eq (σ : Lj ⋙ Lf ≅ Lf' ⋙ Li) (M' : 
     have h₂ := unit_conjugateEquiv (adjJ.comp adjF) (adjF'.comp adjI) σ.inv M'
     dsimp only [Functor.comp_map, Functor.comp_obj] at h₁ h₂ ⊢
     rw [h₁, ← Category.assoc]
-    show ((adjJ.comp adjF).unit.app M' ≫
+    change ((adjJ.comp adjF).unit.app M' ≫
       (conjugateEquiv (adjJ.comp adjF) (adjF'.comp adjI) σ.inv).app (Lf.obj (Lj.obj M'))) ≫ _ = _
     rw [h₂, Category.assoc, ← Functor.map_comp, ← Functor.map_comp, Iso.inv_hom_id_app]
     simp

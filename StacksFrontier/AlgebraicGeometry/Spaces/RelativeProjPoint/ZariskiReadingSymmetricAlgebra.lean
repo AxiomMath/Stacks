@@ -116,7 +116,7 @@ theorem bijective_zariskiReadingSymmetricAlgebraHom_app_of_isAffineOpen
   have hφψ : ∀ s, φ (e.symm s) = s := e.apply_symm_apply
   have hW' :
       IsAffine (smallEtaleScheme B S hS (yoneda.obj T) ((selfOpensFunctor B S hS T).obj W)) := by
-    show IsAffine (chartScheme ((selfOpensFunctor B S hS T).obj W))
+    change IsAffine (chartScheme ((selfOpensFunctor B S hS T).obj W))
     rw [selfOpensFunctor_obj B S hS T W]
     exact hW
   have hunitZ := Stacks.SymGraded.AffinePieces.bijective_sheafifyUnit_image_top
@@ -146,7 +146,7 @@ theorem bijective_zariskiReadingSymmetricAlgebraHom_app_of_isAffineOpen
     (fun s => (congrArg (fun t => ((zariskiReadingSymmetricAlgebraHom T N).app 1).val.app (op W) t)
         (@Stacks.SymGraded.AffinePieces.symmetricAlgebraGen_app_eq
           ((BigFppfOver.toScheme B S hS).obj T)
-          ((SheafOfModules.pushforward.{u} (selfOpensStructureMap B S hS T)).obj N) hqc W
+          ((SheafOfModules.pushforward.{u} (selfOpensStructureMap B S hS T)).obj N) W
           s).symm).trans
       ((congrArg (fun f => f.val.app (op W) s)
         (symmetricAlgebraGen_comp_zariskiReadingSymmetricAlgebraHom_app_one T N)).trans

@@ -130,7 +130,7 @@ function to the `i`-th variable. -/
 @[simp]
 theorem ΓIso_hom_coord (i : n) :
     (ΓIso n S).hom (coord S i) = MvPolynomial.X i := by
-  show (Scheme.ΓSpecIso _).hom ((isoOfIsAffine n S).inv.appTop (coord S i)) = _
+  change (Scheme.ΓSpecIso _).hom ((isoOfIsAffine n S).inv.appTop (coord S i)) = _
   rw [isoOfIsAffine_inv_appTop_coord, ← CommRingCat.comp_apply, Iso.inv_hom_id]
   rfl
 
@@ -142,7 +142,7 @@ theorem appTop_comp_ΓIso_hom :
   have hinvmor : S.isoSpec.inv.appTop = (Scheme.ΓSpecIso Γ(S, ⊤)).inv := by
     rw [← cancel_mono (Scheme.ΓSpecIso Γ(S, ⊤)).hom, Iso.inv_hom_id, ← Scheme.toSpecΓ_appTop,
       ← Scheme.Hom.comp_appTop, Scheme.toSpecΓ_isoSpec_inv, Scheme.Hom.id_appTop]
-  show (𝔸(n; S) ↘ S).appTop ≫ (isoOfIsAffine n S).inv.appTop ≫ (Scheme.ΓSpecIso _).hom = _
+  change (𝔸(n; S) ↘ S).appTop ≫ (isoOfIsAffine n S).inv.appTop ≫ (Scheme.ΓSpecIso _).hom = _
   rw [← Category.assoc, ← Scheme.Hom.comp_appTop, isoOfIsAffine_inv_over,
     Scheme.Hom.comp_appTop, hinvmor, Category.assoc, Scheme.ΓSpecIso_naturality,
     ← Category.assoc, Iso.inv_hom_id, Category.id_comp]

@@ -76,7 +76,7 @@ public theorem pairsDomainClosed_site {κ : Cardinal.{u}} (hκ : ℵ₀ < κ)
   dualNumberPair_mem X hX := by
     refine ⟨schemeSizeBelow_spec_trivSqZeroExt hκ X.algebra X.algebra hX.1
       ((schemeSizeBelow_spec_iff hκ X.algebra).1 hX.1), ?_⟩
-    show #(X.module × X.module) < κ
+    change #(X.module × X.module) < κ
     rw [mk_prod, lift_id]
     exact mul_lt_of_lt hκ.le hX.2 hX.2
 

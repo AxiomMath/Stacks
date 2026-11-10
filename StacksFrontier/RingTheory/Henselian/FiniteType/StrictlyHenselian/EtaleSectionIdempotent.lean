@@ -217,12 +217,12 @@ theorem standardEtale_pres_residue_hasMap_linked (R : Type u) [CommRing R] [IsLo
         obtain ⟨n, hn⟩ := y.property
         simp only [IsScalarTower.coe_toAlgHom']
         rw [← hn]
-        show IsUnit ((algebraMap R' P.ResidueField) (f ^ n))
+        change IsUnit ((algebraMap R' P.ResidueField) (f ^ n))
         rw [map_pow]; exact hu.pow n)
   have hρ'comm :
     ∀ y : R', ρ' (algebraMap R' (Localization.Away f) y) = algebraMap R' P.ResidueField y := by
     intro y
-    show IsLocalization.liftAlgHom _ _ = _
+    change IsLocalization.liftAlgHom _ _ = _
     rw [IsLocalization.liftAlgHom_apply, IsLocalization.lift_eq]; rfl
   -- g₂ : Localization.Away f →ₐ[R] ResidueField R
   let g₂ : Localization.Away f →ₐ[R] ResidueField R :=
@@ -240,7 +240,7 @@ theorem standardEtale_pres_residue_hasMap_linked (R : Type u) [CommRing R] [IsLo
       change
         (Algebra.ofId R (ResidueField R)) ((pres.P.lift a ha) (pres.equivRing pres.x)) = g₂ pres.x
       rw [pres.equivRing_x, StandardEtalePair.lift_X]
-      show algebraMap R (ResidueField R) a = g₂ pres.x
+      change algebraMap R (ResidueField R) a = g₂ pres.x
       rw [hax]
     -- evaluate Φ₁ at loc y
     have hΦ₁eval :
@@ -253,7 +253,7 @@ theorem standardEtale_pres_residue_hasMap_linked (R : Type u) [CommRing R] [IsLo
     have hg₂eval :
       g₂ (algebraMap R' (Localization.Away f) y) =
         βAlg.symm (φ.symm (algebraMap R' P.ResidueField y)) := by
-      show βAlg.symm.toAlgHom (φ.symm.toAlgHom (ρ' (algebraMap R' (Localization.Away f) y))) = _
+      change βAlg.symm.toAlgHom (φ.symm.toAlgHom (ρ' (algebraMap R' (Localization.Away f) y))) = _
       rw [hρ'comm]; rfl
     -- key equality
     have key :
@@ -453,7 +453,7 @@ theorem etale_section_to_idempotent (R : Type) [CommRing R] [IsLocalRing R] (R' 
     have : IsScalarTower R R' R := by
       apply IsScalarTower.of_algebraMap_eq
       intro x
-      show algebraMap R R x = σ₀ (algebraMap R R' x)
+      change algebraMap R R x = σ₀ (algebraMap R R' x)
       simp
     have : Algebra.FormallyEtale R' R :=
       Algebra.FormallyEtale.of_restrictScalars (R := R) (A := R') (B := R)
@@ -577,7 +577,7 @@ theorem exists_isIdempotentElem_notMem_of_etale_section (R : Type) [CommRing R] 
             apply σ.injective
             rw [σ.apply_symm_apply, AlgEquiv.commutes]; simp
           rw [hh]
-          show σ.symm (ρ r') = algebraMap R' (Localization.Away ε) r'
+          change σ.symm (ρ r') = algebraMap R' (Localization.Away ε) r'
           have : ρ r' = σ (algebraMap R' (Localization.Away ε) r') := rfl
           rw [this, σ.symm_apply_apply]
         rw [hstep, sub_self]
@@ -611,8 +611,7 @@ theorem exists_isIdempotentElem_notMem_of_etale_section (R : Type) [CommRing R] 
     have hdesc :
       ∀ x : TensorProduct R R' S, Algebra.TensorProduct.includeRight (Φ x) - x ∈ P' := by
       intro x
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul r'
         s =>
         have hΦ : Φ (r' ⊗ₜ s) = algebraMap R S (ρ r') * s := by
@@ -667,7 +666,7 @@ theorem exists_isIdempotentElem_notMem_of_etale_section (R : Type) [CommRing R] 
       have hz : mk (1 - c) = 0 :=
         Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.subset_span (Set.mem_singleton _))
       rw [map_sub, map_one, sub_eq_zero] at hz
-      show IsUnit (mk c)
+      change IsUnit (mk c)
       exact hz ▸ isUnit_one
     let Φbar : Localization.Away e →+* (S ⧸ Ideal.span {1 - c}) :=
       IsLocalization.Away.lift (S := Localization.Away e) e hunit
@@ -828,7 +827,7 @@ theorem finite_setOf_quasiFiniteAt_liesOver_maximalIdeal (R : Type) [CommRing R]
           clear_value e
           subst hc
           exact hopen0
-        show IsOpen ({e ⟨qS, hmem⟩} : Set (PrimeSpectrum F))
+        change IsOpen ({e ⟨qS, hmem⟩} : Set (PrimeSpectrum F))
         simpa [Set.image_singleton] using e.isOpenMap _ hopen⟩)
   intro w₁ w₂ h
   simp only [Subtype.mk.injEq] at h

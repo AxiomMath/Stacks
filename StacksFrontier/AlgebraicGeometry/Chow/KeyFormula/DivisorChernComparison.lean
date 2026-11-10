@@ -250,7 +250,7 @@ theorem gysinHomomorphismOfInvertible_eq_firstChernClassCapOfInvertible
         (Stacks.Divisors.zeroScheme X L s).subschemeι.continuous
     refine (h0.comp_injective Subtype.val_injective).subset fun i z hz ↦ ?_
     rw [coe_support_integralComponentAt] at hz
-    show (Stacks.Divisors.zeroScheme X L s).subschemeι.base z ∈
+    change (Stacks.Divisors.zeroScheme X L s).subschemeι.base z ∈
       (((integralComponentAt (ℱ.componentPoint i.1)).support) : Set X)
     rw [coe_support_integralComponentAt, ← hzPtEq i]
     exact specializes_iff_mem_closure.mp ((specializes_iff_mem_closure.mpr hz).map
@@ -379,7 +379,7 @@ theorem gysinHomomorphismOfInvertible_eq_firstChernClassCapOfInvertible
           (integralComponentAt (ℱ.componentPoint i.1)).subschemeι rfl k _ hy)
       rw [Function.notMem_support.1 hsupp, mul_zero]
   -- the Gysin comparison, descended into the divisor
-  have hwithin := isRationallyEquivalentToZeroWithin_properPushforward_gysinCycle_sub C p hn s hs
+  have hwithin := isRationallyEquivalentToZeroWithin_properPushforward_gysinCycle_sub C p hn s
     ℱ hratio hgenL β hβ (properPushforward C
       ((Stacks.Divisors.zeroScheme X L s).subschemeι ≫ p) p
       (Stacks.Divisors.zeroScheme X L s).subschemeι rfl k γ) hδ

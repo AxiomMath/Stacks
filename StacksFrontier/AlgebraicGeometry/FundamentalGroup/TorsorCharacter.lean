@@ -147,11 +147,11 @@ public theorem character_etaleFundamentalGroupMulEquiv {s x : GeometricPoint X}
   apply Multiplicative.toAdd.injective
   refine T.character_eq_of_smul x q₀ _ (t.hom.app T.cover p₀) ?_
   have h1 := T.smul_eq_character s p₀ σ p₀
-  show (t.hom.app T.cover)
+  change (t.hom.app T.cover)
     ((σ.asIso.hom.app T.cover) ((t.inv.app T.cover) ((t.hom.app T.cover) p₀))) = _
   rw [show (t.inv.app T.cover) ((t.hom.app T.cover) p₀) = p₀ from
     ConcreteCategory.congr_hom (t.hom_inv_id_app T.cover) p₀]
-  show (t.hom.app T.cover) (σ • p₀) = _
+  change (t.hom.app T.cover) (σ • p₀) = _
   rw [h1]
   exact ConcreteCategory.congr_hom (t.hom.naturality _) p₀
 
@@ -186,7 +186,7 @@ public theorem continuous_character [TopologicalSpace (Multiplicative K)]
   have : T.character x p₀ ⁻¹' S = ⋃ a ∈ S, {σ : EtaleFundamentalGroup X x |
       σ • p₀ = (finiteEtaleFiberFunctor x).map (T.τ (Multiplicative.toAdd a)) p₀} := by
     ext σ
-    simp only [Set.mem_preimage, Set.mem_iUnion, Set.mem_setOf_eq, exists_prop]
+    simp only [Set.mem_preimage, Set.mem_iUnion, Set.mem_ofPred_eq, exists_prop]
     exact ⟨fun h ↦ ⟨_, h, T.smul_eq_character x p₀ σ p₀⟩, fun ⟨a, ha, h⟩ ↦
       Multiplicative.toAdd.injective (T.character_eq_of_smul x p₀ σ p₀ h) ▸ ha⟩
   rw [this]

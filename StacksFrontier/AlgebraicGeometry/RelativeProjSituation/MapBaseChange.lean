@@ -191,7 +191,7 @@ theorem isOpenImmersion_map (hf : ℬ₊ ≤ 𝒜₊.map f)
   refine IsZariskiLocalAtTarget.of_openCover (affineOpenCover 𝒜).openCover ?_
   rintro ⟨i, a⟩
   have hsq := (isPullback_awayι_map f hf i.2 (a : A) a.2).flip
-  show IsOpenImmersion (pullback.snd (Proj.map f hf) (awayι 𝒜 (a : A) a.2 i.2))
+  change IsOpenImmersion (pullback.snd (Proj.map f hf) (awayι 𝒜 (a : A) a.2 i.2))
   exact prop_pullback_snd_of_isPullback (P := @IsOpenImmersion) hsq
     (isOpenImmersion_SpecMap_awayMap H i.2 (a : A) a.2)
 
@@ -251,12 +251,12 @@ theorem isPullback_toSpecZero_map (hf : ℬ₊ ≤ 𝒜₊.map f) (H : IsBaseCha
   have hcsnd : c ≫ pullback.snd (Spec.map (CommRingCat.ofHom f.gradedZeroRingHom))
       (toSpecZero 𝒜) = Proj.map f hf := pullback.lift_snd _ _ _
   have hiso : IsIso c := by
-    show (MorphismProperty.isomorphisms Scheme) c
+    change (MorphismProperty.isomorphisms Scheme) c
     refine IsZariskiLocalAtTarget.of_openCover
       (((affineOpenCover 𝒜).openCover).pullback₁ (pullback.snd
         (Spec.map (CommRingCat.ofHom f.gradedZeroRingHom)) (toSpecZero 𝒜))) ?_
     rintro ⟨i, a⟩
-    show (MorphismProperty.isomorphisms Scheme)
+    change (MorphismProperty.isomorphisms Scheme)
       (pullback.snd c (pullback.fst (pullback.snd
         (Spec.map (CommRingCat.ofHom f.gradedZeroRingHom)) (toSpecZero 𝒜))
         (awayι 𝒜 (a : A) a.2 i.2)))

@@ -108,9 +108,9 @@ theorem isSchemeTheoreticallyDense_inf {X : Scheme.{u}} (U V : X.Opens)
   let iso : T.toScheme ≅ B.toScheme := IsOpenImmersion.isoOfRangeEq fX gX hrange
   have hfac : iso.hom ≫ g = f := by
     apply (cancel_mono W.ι).1
-    show iso.hom ≫ gX = fX
+    change iso.hom ≫ gX = fX
     simp [iso, IsOpenImmersion.isoOfRangeEq_hom_fac]
-  show IsSchemeTheoreticallyDominant f
+  change IsSchemeTheoreticallyDominant f
   rw [← hfac]
   infer_instance
 

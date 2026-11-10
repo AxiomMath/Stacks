@@ -315,8 +315,7 @@ public lemma homologyComparisonOnHomotopy_naturality_natTrans {G : A ⥤ B} [G.A
       (F.mapHomotopyCategoryFactors (ComplexShape.up ℤ)).hom.app K ≫
         (HomotopyCategory.quotient B (ComplexShape.up ℤ)).map
           ((NatTrans.mapHomologicalComplex α (ComplexShape.up ℤ)).app K) := by
-    simp only [Functor.mapHomotopyCategoryFactors, Quotient.lift.isLift_hom,
-      NatTrans.mapHomotopyCategory_app, HomotopyCategory.quotient_obj_as]
+    simp only [Functor.mapHomotopyCategoryFactors, Quotient.lift.isLift_hom]
     exact (Category.comp_id _).trans (Category.id_comp _).symm
   have hnatalpha := α.naturality
     ((HomotopyCategory.homologyFunctorFactors A (ComplexShape.up ℤ) q).inv.app K)

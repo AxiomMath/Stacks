@@ -5,8 +5,7 @@ public import
 public import
   StacksFrontier.AlgebraicGeometry.EtaleCohomology.ModelBridges.AbelianULiftIntConstructible
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.ModuleBaseChangeMap
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.TorsionModulesCurves.ConstructibleCurves.Annihilator
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.TorsionModulesCurves.ConstructibleCurves.Annihilator
 public import StacksCore.Tactic.StacksAttribute
 
 /-!
@@ -99,12 +98,12 @@ theorem exists_isConstructibleEtaleAbelianSheaf_etaleAbelianInverseImage_iso
   have hP : P.map φ = 0 := by
     rw [show P.map φ = e.hom ≫ (n • 𝟙 G) ≫ e.inv by simp [φ, P], hnG, zero_comp, comp_zero]
   let eK : P.obj (kernel φ) ≅ G :=
-    PreservesKernel.iso P φ ≪≫ kernel.congr hP ≪≫ kernelZeroIsoSource ≪≫ e
+    PreservesKernel.iso P φ ≪≫ kernelIsoOfEq hP ≪≫ kernelZeroIsoSource ≪≫ e
   exact ⟨i, (etaleModuleForgetAb.{u, u + 1} (ULift.{u + 1} ℤ) (D.obj i)).obj (kernel φ),
     isConstructibleEtaleAbelianSheaf_etaleModuleForget_uliftInt _ hK
       (isTorsionEtaleModule_of_nsmul_id_eq_zero (ULift.{u + 1} ℤ) hn hnK),
     ⟨asIso ((etaleModuleInverseImageForget.{u, u + 1} (ULift.{u + 1} ℤ)
-        (c.π.app i)).natTrans.app (kernel φ)) ≪≫
+        (c.π.app i)).app (kernel φ)) ≪≫
       (etaleModuleForgetAb.{u, u + 1} (ULift.{u + 1} ℤ) c.pt).mapIso eK ≪≫ E.counitIso.app F⟩⟩
 
 end Stacks.EtaleCohomology

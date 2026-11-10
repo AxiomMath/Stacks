@@ -125,7 +125,7 @@ public lemma bijective_comp_mor₁_of_isLE_of_isGE (t : TStructure C) (T : Trian
     rw [← sub_eq_zero]
     obtain ⟨h, hh⟩ := Triangle.coyoneda_exact₂ T.invRotate (inv_rot_of_distTriang _ hT)
       (g₁ - g₂) (by
-        show (g₁ - g₂) ≫ T.mor₁ = 0
+        change (g₁ - g₂) ≫ T.mor₁ = 0
         rw [Preadditive.sub_comp, hg, sub_self])
     have : t.IsGE T.invRotate.obj₁ (b + 2) := t.isGE_shift T.obj₃ (b + 1) (-1) (b + 2)
     rw [hh, t.zero h b (b + 2)]

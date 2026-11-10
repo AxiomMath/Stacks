@@ -210,7 +210,8 @@ private theorem relativeDimensionLE_of_dense_open_of_locallyOfFinitePresentation
       (topologicalKrullDimAt_eq_topologicalKrullDim_of_closure_eq (S.residueField s)
         (f.fiber s) (f.fiberToSpecResidueField s) hZ hηZ).symm
     _ = topologicalKrullDimAt (f.fiber (f y)) (f.asFiber y) := hdimη
-    _ = (d : WithBot ℕ∞) := topologicalKrullDimAt_fiber_eq_of_relativeDimension f (V d) d (hVdim d) y hηd
+    _ = (d : WithBot ℕ∞) :=
+      topologicalKrullDimAt_fiber_eq_of_relativeDimension f (V d) d (hVdim d) y hηd
     _ ≤ (e : WithBot ℕ∞) := by exact_mod_cast hd
 
 /-- **Stacks Project, Tag 081L.** A relative-dimension bound for a flat morphism locally of finite

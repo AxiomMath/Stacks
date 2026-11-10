@@ -86,6 +86,7 @@ variable (B : BigFppfSite.{u}) (W W' : Scheme.{u}) (hW : B.Contains W) (hW' : B.
   (m : B.obj hW' ⟶ B.obj hW)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves of sets times out at the default budget
 /-- Pullbacks of presheaves on the big fppf site over `W` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_EtaleChartRestrictBaseChange :

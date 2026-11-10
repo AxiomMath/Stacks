@@ -195,7 +195,7 @@ theorem smallEtaleInternalHomChartAssociatedLinearEquiv_add
     smallEtaleInternalHomChartAssociatedLinearEquiv B S hS X G G' A M₀ N₀ eG eG' (α + β) =
       smallEtaleInternalHomChartAssociatedLinearEquiv B S hS X G G' A M₀ N₀ eG eG' α +
         smallEtaleInternalHomChartAssociatedLinearEquiv B S hS X G G' A M₀ N₀ eG eG' β := by
-  show representedAssociatedModuleHomEquivLinearMap B S hS
+  change representedAssociatedModuleHomEquivLinearMap B S hS
       ((SmallEtale.toOver B S hS X.1).obj A) (chartSpace B S hS X A).2 M₀ N₀
       ((CategoryTheory.Iso.homCongr eG eG')
         (smallEtaleInternalHomChartPullbackHomEquiv B S hS X G G' A (α + β))) = _

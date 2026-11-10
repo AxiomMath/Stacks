@@ -185,7 +185,7 @@ ambient scheme there is an étale chart on which the normalization of the pullba
 finite disjoint union of open subschemes, each mapping to the chart by a closed immersion. -/
 public theorem exists_etaleChart_closedCover_divisorNormalization
     [Unramified (divisorNormalization D)] (p : X) :
-    ∃ (U : Scheme.{u}) (f : U ⟶ X) (hU : IsLocallyNoetherian U) (hf : Etale f) (u : U),
+    ∃ (U : Scheme.{u}) (f : U ⟶ X) (hU : IsLocallyNoetherian U), Etale f ∧ ∃ u : U,
       f.base u = p ∧
       ∃ (m : ℕ) (A : Fin m → Scheme.{u})
         (ε : ∀ j, A j ⟶ @divisorNormalizationScheme U hU (D.comap f)),

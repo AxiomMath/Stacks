@@ -133,6 +133,7 @@ universe u
 namespace AlgebraicGeometry.Space
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullbacks` search for presheaves on the big fppf site
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_Radicial (B : BigFppfSite.{u}) (S : Scheme.{u})
@@ -258,6 +259,7 @@ private theorem exists_lift_reducedClosedSubspace_yoneda
     exact Set.mem_univ _)
 
 set_option maxHeartbeats 1000000 in
+-- pullbacks and Yoneda lifts of presheaves on the big fppf site, closed by `simp`/`simpa`
 set_option synthInstance.maxHeartbeats 400000 in
 /-- Two sections of the source of a radicial morphism over a field spectrum in the site with
 the same image in the target are equal.
@@ -303,7 +305,7 @@ private theorem eq_of_isRadicial_section
   let p₂ : yoneda.obj T ⟶ P := pullback.lift (𝟙 _) iy (by simp [hcomp, g, iy])
   have liftZ (p : yoneda.obj T ⟶ P) : ∃ r : yoneda.obj T ⟶ Z.toFunctor, r ≫ Z.ι = p :=
     exists_lift_reducedClosedSubspace_yoneda B S hS hP (by
-      show IsReduced (Spec (.of K))
+      change IsReduced (Spec (.of K))
       infer_instance) p
   obtain ⟨r₁, hr₁⟩ := liftZ p₁
   obtain ⟨r₂, hr₂⟩ := liftZ p₂
@@ -321,8 +323,8 @@ private theorem eq_of_isRadicial_section
       simpa [Category.assoc] using hr
     have hr : r₁ = r₂ := (Iso.cancel_iso_hom_right _ _ e).mp <|
       eq_of_comp_yoneda_map_eq_id B S hS m eT eU hstruct
-        (hsection r₁ (by rw [hr₁]; simp [p₁, pullback.lift_fst]))
-        (hsection r₂ (by rw [hr₂]; simp [p₂, pullback.lift_fst]))
+        (hsection r₁ (by rw [hr₁]; simp [p₁]))
+        (hsection r₂ (by rw [hr₂]; simp [p₂]))
     have hp : p₁ = p₂ := by rw [← hr₁, ← hr₂, hr]
     have hix : ix = iy := by
       simpa [p₁, p₂, pullback.lift_snd] using congrArg (fun q => q ≫ pullback.snd g f) hp
@@ -405,7 +407,7 @@ private theorem subsingleton_points_yoneda_of_isoSpec
     (eT : (BigFppfOver.toScheme B S hS).obj T ≅ Spec (.of k)) :
     Subsingleton (points B S hS (yoneda.obj T)) := by
   have h1 : Subsingleton (Spec (.of k)) := by
-    show Subsingleton (PrimeSpectrum k); infer_instance
+    change Subsingleton (PrimeSpectrum k); infer_instance
   have h2 : Subsingleton ((BigFppfOver.toScheme B S hS).obj T) :=
     ⟨fun x y => eT.hom.injective (h1.elim _ _)⟩
   exact (pointsEquivScheme B S hS T).subsingleton
@@ -437,7 +439,7 @@ private theorem isClosedImmersion_of_isImmersion_of_isSurjective
   have : Surjective ((BigFppfOver.toScheme B S hS).map snd) :=
     ((presheafSurjective_iff_isSurjective B S hS hF hG h himm.rep).2
       hsurj).property g fst snd hp
-  show _root_.AlgebraicGeometry.IsClosedImmersion
+  change _root_.AlgebraicGeometry.IsClosedImmersion
     ((BigFppfOver.toScheme B S hS).map snd)
   rw [_root_.AlgebraicGeometry.IsClosedImmersion.iff_isPreimmersion]
   refine ⟨inferInstance, ?_⟩
@@ -459,7 +461,7 @@ private theorem universallyInjective_map_of_universallyInjective_yoneda
     intro y
     obtain ⟨x, hx⟩ := hd (pointsMap B S hS _ (PreservesPullback.iso yoneda m m).hom y)
     refine ⟨x, (pointsEquivOfIso B S hS (PreservesPullback.iso yoneda m m)).injective ?_⟩
-    show pointsMap B S hS _ (PreservesPullback.iso yoneda m m).hom
+    change pointsMap B S hS _ (PreservesPullback.iso yoneda m m).hom
       (pointsMap B S hS _ (yoneda.map (pullback.diagonal m)) x) = _
     rw [← pointsMap_comp_apply, map_diagonal_comp_preservesPullbackIso]
     exact hx
@@ -533,6 +535,7 @@ private theorem exists_isPurelyInseparable_of_mono_pullback
   exact ⟨_, inst, hpure, hm, hstr⟩
 
 set_option maxHeartbeats 1000000 in
+-- pullbacks and the reduced closed subspace of presheaves on the big fppf site
 set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 0484, part (1).** A universally injective decent morphism of algebraic spaces over
 `S` is radicial.
@@ -555,7 +558,7 @@ theorem isRadicial_of_universallyInjective_of_isDecent
   let hP : IsAlgebraicSpace B S hS P :=
     isAlgebraicSpace_pullback B S hS g f (isAlgebraicSpace_yoneda B S hS T) hX hY
   let Z := reducedClosedSubspace B S hS P hP Set.univ isClosed_univ
-  show IsEmpty (points B S hS Z.toFunctor) ∨ _
+  change IsEmpty (points B S hS Z.toFunctor) ∨ _
   have hPsub := subsingleton_points_pullback_of_universallyInjective B S hS f hinj eT g
   have hZalg : IsAlgebraicSpace B S hS Z.toFunctor :=
     (isClosedSubspace_reducedClosedSubspace B S hS P hP Set.univ isClosed_univ).1
@@ -575,8 +578,8 @@ theorem isRadicial_of_universallyInjective_of_isDecent
   right
   obtain ⟨M, L, hL, ⟨eU⟩, ⟨e⟩⟩ :=
     exists_iso_yoneda_spec_of_subsingleton_points B S hS hZalg hZdec hne hZsub hZred
-  haveI hZι : Mono Z.ι := inferInstance
-  haveI : Mono (e.inv ≫ Z.ι) := mono_comp _ _
+  have hZι : Mono Z.ι := inferInstance
+  have : Mono (e.inv ≫ Z.ι) := mono_comp _ _
   obtain ⟨m, inst, hpure, hm, hstr⟩ :=
     exists_isPurelyInseparable_of_mono_pullback B S hS hX hY f hinj eU eT g (e.inv ≫ Z.ι)
   exact ⟨L, hL, inst, hpure, M, m, eU, e, by simpa using hm.symm, hstr⟩
@@ -677,7 +680,7 @@ theorem isSurjective_of_isWeaklyRadicial
     rw [pointsMap_class]
     refine FieldValuedPoint.class_eq_class_of_hasCommonExtension B S hS Y
       ⟨p, ⟨𝟙 _, ?_⟩, FieldValuedPoint.dominates_refl B S hS Y p⟩
-    show Y.map (𝟙 (Opposite.op T)) (g.app (Opposite.op T) (𝟙 T)) = p.value
+    change Y.map (𝟙 (Opposite.op T)) (g.app (Opposite.op T) (𝟙 T)) = p.value
     simpa using hval
   calc pointsMap B S hS X f (pointsMap B S hS (pullback g f) (pullback.snd g f) z)
       = pointsMap B S hS (pullback g f) (pullback.snd g f ≫ f) z := by
@@ -833,7 +836,7 @@ theorem exists_universallyInjective_hasPropertyBeta_not_isWeaklyRadicial
     exact max_lt B.aleph0_lt_cutoff (lt_of_le_of_lt (by simp) B.aleph0_lt_cutoff)
   let E : BigFppfOver B S hS := Over.mk (⟨e ≫ s⟩ : B.obj hE ⟶ B.obj hS)
   have hEmpty : IsEmpty ((BigFppfOver.toScheme B S hS).obj E) := by
-    show IsEmpty (PrimeSpectrum PUnit.{u + 1})
+    change IsEmpty (PrimeSpectrum PUnit.{u + 1})
     infer_instance
   let m : E ⟶ T := Over.homMk (ObjectProperty.homMk e) rfl
   refine ⟨yoneda.obj E, yoneda.obj T, isAlgebraicSpace_yoneda B S hS E,

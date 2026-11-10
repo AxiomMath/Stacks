@@ -133,7 +133,7 @@ theorem infinityCap_eq_of_isLift {T : Scheme.{u}} {g : T ⟶ X} [LocallyOfFinite
     infinityCap C f π j hU L s hcompl htriv g k α =
       chowGroupDegreeEquiv C _ (by ring : k + 1 - 1 = k - 0)
         (divisorMiddleCap C f π L s g (k + 1) β) := by
-  show chowGroupDegreeEquiv C _ _ (divisorMiddleCap C f π L s g (k + 1) _) = _
+  change chowGroupDegreeEquiv C _ _ (divisorMiddleCap C f π L s g (k + 1) _) = _
   rw [divisorMiddleCap_eq_of_isLift C f π j hU L s hcompl htriv
     (isLift_chosenLift C f π j hU g k α) hβ]
 

@@ -302,7 +302,7 @@ theorem codimensionToRationalChow_codimensionGysin [CompactSpace X] [CompactSpac
     rw [← DirectSum.lof_eq_of ℚ, rationalIncludePart_lof, includePart, LinearMap.baseChange_tmul,
       AddMonoidHom.coe_toIntLinearMap, DirectSum.lof_eq_of, lciGysinRational_of_tmul, map_sum]
     simp only [rationalChowMap_of_tmul]
-    show ∑ q ∈ S, DirectSum.of (fun j : ℤ => ℚ ⊗[ℤ] chowGroup (fieldChowSituation k)
+    change ∑ q ∈ S, DirectSum.of (fun j : ℤ => ℚ ⊗[ℤ] chowGroup (fieldChowSituation k)
         (partBase sX d) j) ((e : ℤ) - i - q)
         ((1 : ℚ) ⊗ₜ[ℤ] partGysinTerm sX sY hf d e q ((e : ℤ) - i) (b e)) = _
     rw [directSum_of_one_tmul_chowGroupDegreeEquiv]

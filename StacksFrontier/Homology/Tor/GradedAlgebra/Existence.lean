@@ -44,16 +44,14 @@ private theorem zeroBaseChange_naturality
     ModuleCat.moduleTensorLarge]
   apply TensorProduct.AlgebraTensorModule.ext
   intro x y
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [TensorProduct.zero_tmul, map_zero]
+  induction x using TensorProduct.inductionOn with
   | add x x' hx hx' => simp only [TensorProduct.add_tmul, map_add, hx, hx']
   | tmul a x =>
-    induction y using TensorProduct.induction_on with
-    | zero => simp only [TensorProduct.tmul_zero, map_zero]
+    induction y using TensorProduct.inductionOn with
     | add y y' hy hy' => simp only [TensorProduct.tmul_add, map_add, hy, hy']
     | tmul b y =>
       simp only [ModuleCat.hom_comp, LinearMap.comp_apply, ModuleCat.hom_ofHom]
-      show (TensorProduct.AlgebraTensorModule.distribBaseChange R A M' N').symm
+      change (TensorProduct.AlgebraTensorModule.distribBaseChange R A M' N').symm
           ((a ⊗ₜ[R] g x) ⊗ₜ[A] (b ⊗ₜ[R] h y)) =
         (LinearMap.baseChange A ((h.hom.lTensor M').comp (g.hom.rTensor N)))
           ((TensorProduct.AlgebraTensorModule.distribBaseChange R A M N).symm
@@ -132,9 +130,9 @@ private theorem scalarTensorX_d
   let FL := extC.{uR, uA, v} f L
   apply HomologicalComplex.mapBifunctor.hom_ext
   intro p q hpq
-  show HomologicalComplex.ιTensorObj FK FL p q (n + 1) hpq ≫ _ = _
+  change HomologicalComplex.ιTensorObj FK FL p q (n + 1) hpq ≫ _ = _
   erw [← Category.assoc, scalarTensorX_ι, Category.assoc, ← F.map_comp]
-  show _ = HomologicalComplex.ιTensorObj FK FL p q (n + 1) hpq ≫
+  change _ = HomologicalComplex.ιTensorObj FK FL p q (n + 1) hpq ≫
     (FK ⊗ FL).d (n + 1) n ≫ _
   erw [HomologicalComplex.mapBifunctor.d_eq K L,
     HomologicalComplex.mapBifunctor.d_eq FK FL,
@@ -275,7 +273,7 @@ private lemma scalarProductMap_tmul
         (ModuleCat.moduleTensorLarge.{uR, max uA v} R) (ComplexShape.down ℕ) p q n h
         (x ⊗ₜ[R] y)) := by
   let := f.toAlgebra
-  show (scalarComplexMap R A f μ).f n
+  change (scalarComplexMap R A f μ).f n
     (scalarTensorSummand R A f K K p q n h ((a ⊗ₜ[R] x) ⊗ₜ[A] (b ⊗ₜ[R] y))) = _
   rw [scalarTensorSummand_tmul]
   rfl
@@ -301,7 +299,7 @@ private theorem scalarTensorComplexMap_naturality
   funext n
   apply HomologicalComplex.mapBifunctor.hom_ext
   intro p q hpq
-  show HomologicalComplex.ιTensorObj (extC.{uR, uA, v} f K) (extC.{uR, uA, v} f L)
+  change HomologicalComplex.ιTensorObj (extC.{uR, uA, v} f K) (extC.{uR, uA, v} f L)
     p q n hpq ≫ (scalarComplexMap R A f g ⊗ₘ scalarComplexMap R A f h).f n ≫
       scalarTensorX R A f K' L' n =
     HomologicalComplex.ιTensorObj (extC.{uR, uA, v} f K) (extC.{uR, uA, v} f L)
@@ -310,7 +308,7 @@ private theorem scalarTensorComplexMap_naturality
     Category.assoc, Category.assoc, scalarTensorX_ι]
   conv_rhs => rw [← Category.assoc, scalarTensorX_ι, Category.assoc, ← F.map_comp]
   rw [← Category.assoc]
-  show TorCrossProduct.moduleTensorMap.{uR,uA,v} (F.map (g.f p)) (F.map (h.f q)) ≫
+  change TorCrossProduct.moduleTensorMap.{uR,uA,v} (F.map (g.f p)) (F.map (h.f q)) ≫
     TorCrossProduct.zeroBaseChange R A f (K'.X p) (L'.X q) ≫
       F.map (HomologicalComplex.ιTensorObj K' L' p q n hpq) = _
   rw [← Category.assoc, zeroBaseChange_naturality, Category.assoc, ← F.map_comp]
@@ -342,12 +340,11 @@ private lemma scalarProductMap_one_left
   let : MonoidalCategory (ModuleCat.{max uR uA v} R) :=
     ModuleCat.liftedModuleMonoidal.{uR, max uA v}
   intro μ η n x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp_all only [TensorProduct.tmul_add, map_add]
   | tmul a x =>
     rw [scalarProductMap_tmul, one_mul, scalarComplexMap_tmul]
-    show _ = a ⊗ₜ[R] μ.f n ((η ⊗ₘ 𝟙 K).f n ((λ_ K).inv.f n x))
+    change _ = a ⊗ₜ[R] μ.f n ((η ⊗ₘ 𝟙 K).f n ((λ_ K).inv.f n x))
     rw [leftUnitor_inv_f_apply.{uR, max uA v}, tensorHom_ι_apply.{uR, max uA v}]
     rfl
 
@@ -368,12 +365,11 @@ private lemma scalarProductMap_one_right
   let : MonoidalCategory (ModuleCat.{max uR uA v} R) :=
     ModuleCat.liftedModuleMonoidal.{uR, max uA v}
   intro μ η n x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp_all only [TensorProduct.add_tmul, map_add]
   | tmul a x =>
     rw [scalarProductMap_tmul, mul_one, scalarComplexMap_tmul]
-    show _ = a ⊗ₜ[R] μ.f n ((𝟙 K ⊗ₘ η).f n ((ρ_ K).inv.f n x))
+    change _ = a ⊗ₜ[R] μ.f n ((𝟙 K ⊗ₘ η).f n ((ρ_ K).inv.f n x))
     rw [rightUnitor_inv_f_apply.{uR, max uA v}, tensorHom_ι_apply.{uR, max uA v}]
     rfl
 
@@ -398,21 +394,18 @@ private lemma scalarProductMap_assoc_left
     ModuleCat.liftedModuleMonoidal.{uR, max uA v}
   intro μ p q r t h x y z
   subst t
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x x' hx hx' => simp_all only [TensorProduct.add_tmul, map_add]
   | tmul a x =>
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | add y y' hy hy' => simp_all only [TensorProduct.tmul_add, TensorProduct.add_tmul, map_add]
     | tmul b y =>
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add z z' hz hz' => simp_all only [TensorProduct.tmul_add, map_add]
       | tmul c z =>
         rw [scalarProductMap_tmul, scalarProductMap_tmul,
           scalarTensorSummand_tmul, scalarTensorSummand_tmul, scalarComplexMap_tmul]
-        show _ = _ ⊗ₜ[R] μ.f (p+q+r)
+        change _ = _ ⊗ₜ[R] μ.f (p+q+r)
           ((μ ⊗ₘ 𝟙 K).f (p+q+r)
             (HomologicalComplex.ιTensorObj (K ⊗ K) K (p+q) r (p+q+r) rfl
               (HomologicalComplex.ιTensorObj K K p q (p+q) rfl (x ⊗ₜ[R] y) ⊗ₜ[R] z)))
@@ -439,16 +432,13 @@ private lemma scalarProductMap_assoc_right
     ModuleCat.liftedModuleMonoidal.{uR, max uA v}
   intro μ p q r t h x y z
   subst t
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x x' hx hx' => simp_all only [TensorProduct.add_tmul, map_add]
   | tmul a x =>
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | add y y' hy hy' => simp_all only [TensorProduct.tmul_add, TensorProduct.add_tmul, map_add]
     | tmul b y =>
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add z z' hz hz' => simp_all only [TensorProduct.tmul_add, map_add]
       | tmul c z =>
         change A at a b c
@@ -460,7 +450,7 @@ private lemma scalarProductMap_assoc_right
         erw [scalarTensorSummand_tmul R A f (K ⊗ K) K (p+q) r (p+q+r) rfl
           (a*b) c (HomologicalComplex.ιTensorObj K K p q (p+q) rfl (x ⊗ₜ[R] y)) z]
         rw [scalarComplexMap_tmul]
-        show _ = _ ⊗ₜ[R] μ.f (p+q+r)
+        change _ = _ ⊗ₜ[R] μ.f (p+q+r)
           ((𝟙 K ⊗ₘ μ).f (p+q+r) ((α_ K K K).hom.f (p+q+r)
             (HomologicalComplex.ιTensorObj (K ⊗ K) K (p+q) r (p+q+r) rfl
               (HomologicalComplex.ιTensorObj K K p q (p+q) rfl (x ⊗ₜ[R] y) ⊗ₜ[R] z))))
@@ -482,7 +472,7 @@ variable (R : Type uR) (A : Type uA) [CommRing R] [CommRing A] [_root_.Algebra R
 
 private lemma torPiece_neg_subsingleton (B : AlgCat.{v, uR} R) (n : ℕ) :
     Subsingleton (torPiece.{uR, uA, v} R A B (Int.negSucc n)) := by
-  show Subsingleton (ULift (Fin 0 → A))
+  change Subsingleton (ULift (Fin 0 → A))
   infer_instance
 
 private noncomputable def gradedMul (B : AlgCat.{v, uR} R) (i j : ℤ) :
@@ -561,8 +551,7 @@ private lemma hom_eq_of_subsingleton {M N T : ModuleCat.{max uA v} A}
   apply LinearMap.ext
   intro z
   have hz : z = 0 := by
-    induction z using TensorProduct.induction_on with
-    | zero => rfl
+    induction z using TensorProduct.inductionOn with
     | tmul x y =>
       rcases h with h | h
       · rw [Subsingleton.elim x 0, TensorProduct.zero_tmul]
@@ -628,7 +617,7 @@ private lemma torRep_of_cycle (B : AlgCat.{v, uR} R)
   obtain ⟨a, ha⟩ := homologyRep_of_cycle.{uA, max uR v} x hx
   let e := P.isoLeftDerivedObj (extensionScalars (algebraMap R A)) n
   refine ⟨e.inv a, ?_⟩
-  show homologyRep.{uA, max uR v} _ n (e.hom (e.inv a)) x
+  change homologyRep.{uA, max uR v} _ n (e.hom (e.inv a)) x
   have he : e.hom (e.inv a) = a := congrArg (fun t => t a) e.inv_hom_id
   rw [he]
   exact ha
@@ -647,7 +636,7 @@ private lemma resolution_multiplication_exists (B : AlgCat.{v, uR} R)
     ((RingTheory.TorProducts.tensorBifunctor.{uR, max uA v} R).obj (M, M))
   obtain ⟨c⟩ := RingTheory.TorProducts.torProduct_resolution R A 0 0 M M P P T
   refine ⟨c.μ ≫ ProjectiveResolution.lift (multiplicationMap R A B) T P, ?_⟩
-  show _ ≫ (c.μ.f 0 ≫ (ProjectiveResolution.lift (multiplicationMap R A B) T P).f 0) ≫
+  change _ ≫ (c.μ.f 0 ≫ (ProjectiveResolution.lift (multiplicationMap R A B) T P).f 0) ≫
     P.π.f 0 = _
   rw [Category.assoc, ProjectiveResolution.lift_commutes_zero]
   simpa only [Category.assoc] using congrArg (fun t => t ≫ multiplicationMap R A B) c.μ_zero
@@ -693,7 +682,7 @@ private lemma torRep_product (B : AlgCat.{v, uR} R)
     HomologicalComplex.homologyMap (c.baseChange ≫ scalarComplexMap R A (algebraMap R A) μ) (p+q)
       (c.cohomologyProduct.map
         ((P.isoLeftDerivedObj F p).hom a ⊗ₜ[A] (P.isoLeftDerivedObj F q).hom b)) at he
-  show homologyRep.{uA, max uR v} _ (p+q) _ _
+  change homologyRep.{uA, max uR v} _ (p+q) _ _
   erw [he]
   have ht := homologyRep_map.{uA, max uR v} (c.baseChange ≫ scalarComplexMap R A (algebraMap R A) μ)
     (homologyRep_product.{uR, uA, v} c.cohomologyProduct ha hb)

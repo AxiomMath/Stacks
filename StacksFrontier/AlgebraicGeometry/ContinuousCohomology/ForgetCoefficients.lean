@@ -324,8 +324,7 @@ lemma actionExtendScalars_isContinuous (X : Action (ModuleCat.{max u v w} ℤ) G
       ((actionExtendScalars.{u, v, w} R G).obj X).V) := ⟨continuous_of_discreteTopology⟩
   rw [Action.isContinuous_def, continuous_prod_of_discrete_right]
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact continuous_const
+  induction z using TensorProduct.inductionOn with
   | tmul a m =>
     have hm := continuous_action_apply.{v, max u v w} G X hX m
     let hmap : (forget₂ (Action (ModuleCat.{max u v w} ℤ) G) TopCat).obj X →
@@ -446,7 +445,7 @@ lemma freeAction_isContinuous (X : Action (ModuleCat.{w} ℤ) G)
   have : DiscreteTopology ((freeAction.{v, w} G X).V : Type w) := ⟨rfl⟩
   rw [Action.isContinuous_def, continuous_prod_of_discrete_right]
   intro f
-  show Continuous fun g : G => ((freeAction.{v, w} G X).ρ g).asHom.hom f
+  change Continuous fun g : G => ((freeAction.{v, w} G X).ρ g).asHom.hom f
   induction f using Finsupp.induction_linear with
   | zero => exact continuous_const
   | add f₁ f₂ hf₁ hf₂ =>
@@ -477,7 +476,7 @@ lemma flatCoverActionAugmentation_epi
   have hs : Function.Surjective (freeActionAugmentation.{v, w} G X.obj.obj).hom.hom := by
     intro x
     refine ⟨Finsupp.single x 1, ?_⟩
-    show Finsupp.linearCombination ℤ (fun y : X.obj.obj.V => y) (Finsupp.single x 1) = x
+    change Finsupp.linearCombination ℤ (fun y : X.obj.obj.V => y) (Finsupp.single x 1) = x
     rw [Finsupp.linearCombination_single]
     exact (Int.cast_smul_eq_zsmul (R := ℤ) (1 : ℤ) x).trans (one_zsmul x)
   have he : Epi (freeActionAugmentation.{v, w} G X.obj.obj) := by
@@ -488,7 +487,7 @@ lemma flatCoverActionAugmentation_epi
 /-- The underlying abelian group of the free cover is flat over `ℤ`. -/
 lemma flatCoverAction_flat (X : ContinuousGModule.{v, w} G) :
     Module.Flat ℤ ((flatCoverAction.{v, w} G X).obj.obj.V) := by
-  show Module.Flat ℤ (X.obj.obj.V →₀ ℤ)
+  change Module.Flat ℤ (X.obj.obj.V →₀ ℤ)
   exact Module.Flat.finsupp _
 
 /-- Continuous discrete `G`-modules whose underlying abelian group is flat over `ℤ`, i.e.
@@ -510,7 +509,7 @@ underlying group. -/
 lemma flatUnderlyingProperty_subobject
     {X Y : ContinuousGModule.{v, w} G} (f : X ⟶ Y) [Mono f]
     (hY : flatUnderlyingProperty.{v, w} G Y) : flatUnderlyingProperty.{v, w} G X := by
-  show Module.Flat ℤ X.obj.obj.V
+  change Module.Flat ℤ X.obj.obj.V
   have : Module.Flat ℤ Y.obj.obj.V := hY
   have : Module.IsTorsionFree ℤ Y.obj.obj.V := Module.Flat.isTorsionFree
   have hf : Function.Injective ((continuousGModuleUnderlying.{v, w} G).map f).hom :=

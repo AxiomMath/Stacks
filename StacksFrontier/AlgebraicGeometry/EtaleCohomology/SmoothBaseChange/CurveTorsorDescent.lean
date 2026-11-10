@@ -86,7 +86,7 @@ theorem exists_finite_stage_class [CompactSpace X] [QuasiSeparatedSpace X] (L : 
   have hx' : etaleCohomologyMapTo π c q x = Sheaf.H.map cL.inv q ζ := hx
   refine ⟨E, Sheaf.H.map cE.hom q x, (etaleAbelianInverseImage.{u, u + 1} π).map cE.inv ≫ c ≫
     cL.hom, ?_⟩
-  show etaleCohomologyMapTo π ((etaleAbelianInverseImage.{u, u + 1} π).map cE.inv ≫ c ≫
+  change etaleCohomologyMapTo π ((etaleAbelianInverseImage.{u, u + 1} π).map cE.inv ≫ c ≫
     cL.hom) q (Sheaf.H.map cE.hom q x) = ζ
   rw [etaleCohomologyMapTo_sheafH_map, ← Functor.map_comp_assoc, Iso.hom_inv_id,
     CategoryTheory.Functor.map_id, Category.id_comp, ← sheafH_map_etaleCohomologyMapTo, hx',

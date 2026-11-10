@@ -171,7 +171,7 @@ theorem cokernelPowShortComplex_shortExact (j : ℕ)
       rwa [← Functor.map_comp, π_cokernelPowq] at hy
     obtain ⟨z, rfl⟩ := exists_eq_of_map_cokernel_π_eq_zero Φ i _ x hx
     refine ⟨(Φ i).map (cokernel.π s.asHom) z, ?_⟩
-    show ((Φ i).map (cokernel.π s.asHom) ≫ (Φ i).map (cokernelPowι s j)) z = _
+    change ((Φ i).map (cokernel.π s.asHom) ≫ (Φ i).map (cokernelPowι s j)) z = _
     rw [← Functor.map_comp, π_cokernelPowι, Functor.map_comp]
     rfl
   mono_f := by
@@ -193,7 +193,7 @@ theorem cokernelPowShortComplex_shortExact (j : ℕ)
     have hx : x = (Φ i).map s.asHom (w + z) := by
       rw [map_add, hw, sub_add_cancel]
     rw [hx]
-    show ((Φ i).map s.asHom ≫ (Φ i).map (cokernel.π s.asHom)) (w + z) = 0
+    change ((Φ i).map s.asHom ≫ (Φ i).map (cokernel.π s.asHom)) (w + z) = 0
     rw [← Functor.map_comp, cokernel.condition, Functor.map_zero]
     rfl
   epi_g := by

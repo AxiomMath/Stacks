@@ -26,8 +26,8 @@ proved from naturality alone. The cup product of the source is the term
 `StacksFrontier.AlgebraicGeometry.DeRham.HodgeFiltration.CanonicalCupProduct`, built from the
 canonical global cup product of Cohomology, Section 0FKU; the statements of Section 50.7 and of
 Remark 50.9.2 for *that* cup product, with no parameter, are in that file and in
-`StacksFrontier.AlgebraicGeometry.DeRham.FirstChernClass.CanonicalChernCupProduct`, and they carry the
-tags. Nothing in this file is registered: a statement quantified over all natural pairings —
+`StacksFrontier.AlgebraicGeometry.DeRham.FirstChernClass.CanonicalChernCupProduct`, and they carry
+the tags. Nothing in this file is registered: a statement quantified over all natural pairings —
 the zero pairing among them — is a lemma about the source's cup product only once it is
 specialised to it.
 
@@ -352,7 +352,7 @@ theorem brutalTruncationPlus_ι (k : ℕ) (p : ℤ) (hp : p ≤ (k : ℤ)) :
     brutalTruncationPlus B D k p hp ≫ ιDeRhamAbelianTruncationPlus B D p =
       modulePlusMap (A := A) (CochainComplex.ιBrutal (deRhamComplex B D) k) := by
   apply (CochainComplex.Plus.ι (AbelianSheaf X.carrier)).map_injective
-  show ((deRhamBrutalAbelianIso B D k).hom ≫
+  change ((deRhamBrutalAbelianIso B D k).hom ≫
       StacksDraft.StupidTruncation.stupidTruncGEMapLE (deRhamAbelianComplexInt B D) hp) ≫
       HomologicalComplex.ιStupidTrunc (deRhamAbelianComplexInt B D) (embeddingUpIntGE p) = _
   rw [Category.assoc, StacksDraft.StupidTruncation.stupidTruncGEMapLE_ι]
@@ -551,7 +551,7 @@ theorem brutalTruncationPlus_gradedPieceProjectionPlus (k : ℕ) :
     brutalTruncationPlus B D k (k : ℤ) le_rfl ≫ gradedPieceProjectionPlus B D (k : ℤ) =
       modulePlusMap (A := A) (deRhamBrutalπ B D k) ≫ (gradedPiecePlusIso B D k).hom := by
   apply (CochainComplex.Plus.ι (AbelianSheaf X.carrier)).map_injective
-  show ((deRhamBrutalAbelianIso B D k).hom ≫
+  change ((deRhamBrutalAbelianIso B D k).hom ≫
       StacksDraft.StupidTruncation.stupidTruncGEMapLE (deRhamAbelianComplexInt B D)
         (le_refl (k : ℤ))) ≫
       StacksDraft.StupidTruncation.stupidTruncGEπ (deRhamAbelianComplexInt B D) (k : ℤ) =
@@ -741,7 +741,7 @@ theorem TruncationCupProduct.truncationMap_cup (s : TruncationCupProduct (A := A
         (truncatedDeRhamCohomologyAbelianMap B D r n).hom z := by
     intro r n hr z
     rw [moduleHypercohomologyMap_ιBrutal B D r.toNat r hr n]
-    show (truncatedDeRhamCohomologyAbelianMap B D r n).hom
+    change (truncatedDeRhamCohomologyAbelianMap B D r n).hom
       ((brutalTruncationCohomologyMap B D r.toNat r hr n).hom
         ((brutalTruncationCohomologyIso B D r n).inv.hom z)) = _
     rw [brutalTruncationCohomologyMap_apply_inv B D r n hr z]
@@ -754,7 +754,7 @@ theorem TruncationCupProduct.truncationMap_cup (s : TruncationCupProduct (A := A
     intro z
     rw [moduleHypercohomologyMap_ιBrutal B D (p.toNat + q.toNat) (p + q) hpq (i + j)]
     rfl
-  show (truncatedDeRhamCohomologyAbelianMap B D (p + q) (i + j)).hom
+  change (truncatedDeRhamCohomologyAbelianMap B D (p + q) (i + j)).hom
       ((brutalTruncationCohomologyMap B D (p.toNat + q.toNat) (p + q) hpq (i + j)).hom
         (s.pair (hodgeFiltrationWedge B D p.toNat q.toNat) i j
           ((brutalTruncationCohomologyIso B D p i).inv.hom x)
@@ -839,7 +839,7 @@ theorem TruncationCupProduct.gradedPieceMap_cup (s : TruncationCupProduct (A := 
     rw [← key]
     simp
   rw [TruncationCupProduct.cupGradedPiece_natCast]
-  show (gradedPieceProjectionCohomologyMap B D ((a + b : ℕ) : ℤ) (i + j)).hom
+  change (gradedPieceProjectionCohomologyMap B D ((a + b : ℕ) : ℤ) (i + j)).hom
       ((brutalTruncationCohomologyMap B D (a + b) ((a + b : ℕ) : ℤ) le_rfl (i + j)).hom
         (s.pair (hodgeFiltrationWedge B D a b) i j
           ((brutalTruncationCohomologyIso B D (a : ℤ) i).inv.hom x)
@@ -1150,7 +1150,7 @@ theorem TruncationCupProduct.truncatedDeRhamCohomologyAbelianMap_filteredChernPr
   induction k generalizing L with
   | zero => exact (deRhamFirstChernClassAbelian_eq B D (L 0)).symm
   | succ k ih =>
-    show (truncatedDeRhamCohomologyAbelianMap B D (1 + cupLength k) (2 + cupDegree k)).hom
+    change (truncatedDeRhamCohomologyAbelianMap B D (1 + cupLength k) (2 + cupDegree k)).hom
         (TruncationCupProduct.cup B D s 1 (cupLength k) 2 (cupDegree k)
           (filteredFirstChernClass B D (L 0))
           (TruncationCupProduct.filteredChernProduct B D s k (fun i => L (i + 1)))) =
@@ -1188,7 +1188,7 @@ theorem TruncationCupProduct.gradedPieceProjectionCohomologyMap_filteredChernPro
   induction k generalizing L with
   | zero => exact gradedPieceProjectionCohomologyMap_filteredFirstChernClass B D (L 0)
   | succ k ih =>
-    show (gradedPieceProjectionCohomologyMap B D (1 + cupLength k) (2 + cupDegree k)).hom
+    change (gradedPieceProjectionCohomologyMap B D (1 + cupLength k) (2 + cupDegree k)).hom
         (cupOfPair B D s.pair 1 (cupLength k) 2 (cupDegree k)
           (filteredFirstChernClass B D (L 0))
           (TruncationCupProduct.filteredChernProduct B D s k (fun i => L (i + 1)))) =

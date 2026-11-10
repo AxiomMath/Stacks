@@ -134,8 +134,8 @@ def dRestrictScalarsSquare {R₁ R₂ S₁ S₂ : RingCat.{r}} (α : R₁ ⟶ R�
       (ModuleCat.restrictScalarsComp'.{t} γ.hom δ.hom (γ ≫ δ).hom rfl)).symm ≪≫
     mapDerivedCategoryIsoOfNatIso _ _
       (ModuleCat.restrictScalarsComp'.{t} α.hom β.hom (γ ≫ δ).hom (by rw [h]; rfl)) ≪≫
-    Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso (ModuleCat.restrictScalars.{t} β.hom)
-      (ModuleCat.restrictScalars.{t} α.hom)
+    Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso
+      (ModuleCat.restrictScalars.{t} β.hom) (ModuleCat.restrictScalars.{t} α.hom)
 
 end RestrictScalars
 
@@ -244,8 +244,7 @@ is determined by the commuting square of rings alone, with no choice of base cha
 theorem mate_restrictionMate (sbc : StructureBaseChange F O O' φ)
     (bc : BaseChangeData.{max u' v'} O) (bc' : BaseChangeData.{max u v} O')
     {U' V' : C'ᵒᵖ} (a' : V' ⟶ U') :
-    (mateEquiv (sbc.adj U') (sbc.adj V')
-        (restrictionMate sbc bc bc' a')).natTrans =
+    mateEquiv (sbc.adj U') (sbc.adj V') (restrictionMate sbc bc bc' a') =
       (structureSquare F O O' φ a').inv :=
   (iterated_mateEquiv_conjugateEquiv (bc.baseChangeAdj (F.op.map a'))
       (bc'.baseChangeAdj a') (sbc.adj V') (sbc.adj U')

@@ -119,7 +119,7 @@ private theorem restrictStalk_smul {X Y : Scheme.{u}}
   let e := (asIso (j.stalkMap x)).symm.commRingCatIsoToRingEquiv
   let t : (G.restrict j).presheaf.stalk x ≃+ G.presheaf.stalk (j x) :=
     ((Scheme.Modules.restrictStalkNatIso j x).app G).addCommGroupIsoToAddEquiv
-  show t (r • m) = e r • t m
+  change t (r • m) = e r • t m
   obtain ⟨U₁, hx₁, a, ha⟩ := X.presheaf.exists_germ_eq r
   obtain ⟨U₂, hx₂, b, hb⟩ := (G.restrict j).presheaf.exists_germ_eq m
   let U := U₁ ⊓ U₂
@@ -139,7 +139,7 @@ private theorem restrictStalk_smul {X Y : Scheme.{u}}
       Y.presheaf.germ (j ''ᵁ U) (j x) (by simpa) ((j.appIso U).inv a') := by
     apply e.symm.injective
     simp only [e.symm_apply_apply]
-    show X.presheaf.germ U x hx a' = j.stalkMap x _
+    change X.presheaf.germ U x hx a' = j.stalkMap x _
     rw [j.germ_stalkMap_apply, Scheme.Hom.appIso_inv_app_apply]
     exact (X.presheaf.germ_res_apply _ _ _ _).symm
   have hM : X.presheaf.germ U x hx a' • (G.restrict j).presheaf.germ U x hx b' =
@@ -166,7 +166,7 @@ theorem fromSpec_stalkMap_germ {X : Scheme.{u}}
           (fromSpec_mem U y) r) =
       StructureSheaf.toStalk Γ(X, U.1) y r := by
   rw [Scheme.Hom.germ_stalkMap_apply, U.2.fromSpec_app_self]
-  show (Spec Γ(X, U.1)).presheaf.germ _ y _
+  change (Spec Γ(X, U.1)).presheaf.germ _ y _
       ((Spec Γ(X, U.1)).presheaf.map
         (eqToHom U.2.fromSpec_preimage_self).op
         ((Scheme.ΓSpecIso Γ(X, U.1)).inv r)) = _
@@ -248,7 +248,7 @@ theorem affineModuleGermMap_isLocalized {X : Scheme.{u}} (F : X.Modules)
   have heRing (r : A) : eRing (algebraMap A C r) = algebraMap A B r := by
     apply eRing.symm.injective
     simp only [RingEquiv.symm_apply_apply]
-    show StructureSheaf.toStalk A y r = j.stalkMap y
+    change StructureSheaf.toStalk A y r = j.stalkMap y
       (X.presheaf.germ U.1 x (fromSpec_mem U y) r)
     exact (fromSpec_stalkMap_germ U y r).symm
   let : IsLocalization y.asIdeal.primeCompl C :=
@@ -267,7 +267,7 @@ theorem affineModuleGermMap_isLocalized {X : Scheme.{u}} (F : X.Modules)
     { eAdd with
       map_smul' := by
         intro r m
-        show t (q (r • m)) = r • t (q m)
+        change t (q (r • m)) = r • t (q m)
         rw [← IsScalarTower.algebraMap_smul C r m, q.map_smul,
           restrictStalk_smul, heRing]
         rfl }
@@ -275,13 +275,13 @@ theorem affineModuleGermMap_isLocalized {X : Scheme.{u}} (F : X.Modules)
   let g := e.toLinearMap.comp ((tilde.toStalk M y).hom.comp es.symm.toLinearMap)
   have hg : g = affineModuleGermMap F U y := by
     ext s
-    show t (q ((tilde.toStalk M y).hom (es.symm s))) = affineModuleGermMap F U y s
+    change t (q ((tilde.toStalk M y).hom (es.symm s))) = affineModuleGermMap F U y s
     have hq (v : M) :
         q ((tilde.toStalk M y).hom v) =
           G.presheaf.germ ⊤ y (by simp) v := by
       dsimp [q, squareZero_stalkLinearEquiv, tilde.toStalk,
         StructureSheaf.toStalkₗ]
-      show ConcreteCategory.hom
+      change ConcreteCategory.hom
           ((TopCat.Presheaf.stalkFunctor Ab y).map
             ((Scheme.Modules.toPresheaf (Spec A)).map G.fromTildeΓ))
           (TopCat.Presheaf.germ
@@ -319,7 +319,7 @@ theorem affineModuleGermMap_isLocalized {X : Scheme.{u}} (F : X.Modules)
       let e₁ := Scheme.Modules.restrictAppIso (f := j) F ⊤
       let e₂ := F.presheaf.mapIso (eqToIso hU).op
       have he : ConcreteCategory.hom (e₁.hom ≫ e₂.symm.hom) v = s := by
-        show es v = s
+        change es v = s
         exact es.apply_symm_apply s
       have hh := congrArg (fun w => ConcreteCategory.hom e₂.hom w) he
       have hcomp : ConcreteCategory.hom e₁.hom v =

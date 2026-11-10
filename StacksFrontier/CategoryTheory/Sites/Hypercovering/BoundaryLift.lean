@@ -110,7 +110,7 @@ theorem boundaryLiftSieve_mem (J : Pretopology C) (H : HypercoveringOfTerminal.{
     rw [hA.homEquiv_comp, hA.homEquiv_comp, Equiv.apply_symm_apply,
       Equiv.apply_symm_apply] at h₁
     refine Eq.trans ?_ h₁
-    show _ = ((SSet.boundary (n + 2)).ι ≫ (representableByStdSimplex L (n + 2)).homEquiv
+    change _ = ((SSet.boundary (n + 2)).ι ≫ (representableByStdSimplex L (n + 2)).homEquiv
       (𝟙 (L.obj (op ⦋n + 2⦌)))) ≫ Functor.whiskerLeft L (coyoneda.map t.op)
     rw [Category.assoc]
     congr 1

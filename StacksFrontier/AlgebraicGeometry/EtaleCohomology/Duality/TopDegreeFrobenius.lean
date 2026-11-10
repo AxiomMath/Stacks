@@ -70,8 +70,8 @@ theorem absoluteFrobenius_pow_base_apply (Z : Scheme.{u}) (hZ : IsInCharacterist
   induction m with
   | zero => rfl
   | succ m ih =>
-    rw [pow_succ, End.mul_def]
-    show (End.asHom (End.of (absoluteFrobenius Z p hZ) ^ m)).base
+    rw [pow_succ, End.mul_asHom]
+    change (End.asHom (End.of (absoluteFrobenius Z p hZ) ^ m)).base
       ((absoluteFrobenius Z p hZ).base z) = z
     rw [absoluteFrobenius_apply, ih]
 
@@ -84,7 +84,7 @@ theorem absoluteFrobenius_pow_naturality {A B : Scheme.{u}} (g : A ⟶ B)
   induction m with
   | zero => simp
   | succ m ih =>
-    simp only [pow_succ, End.mul_def]
+    simp only [pow_succ, End.mul_asHom]
     show (absoluteFrobenius A p hA ≫ End.asHom (End.of (absoluteFrobenius A p hA) ^ m)) ≫ g =
       g ≫ (absoluteFrobenius B p hB ≫ End.asHom (End.of (absoluteFrobenius B p hB) ^ m))
     rw [Category.assoc, ih, ← Category.assoc, absoluteFrobenius_naturality g p hA hB,
@@ -103,7 +103,7 @@ theorem preimage_fieldBaseChangeProj_geometricFrobeniusBaseChange (V : X.Opens) 
     Scheme.Hom.comp_preimage]
   congr 1
   ext x
-  show (End.asHom (End.of (absoluteFrobenius X p (isInCharacteristic_of_over (Over.mk f))) ^
+  change (End.asHom (End.of (absoluteFrobenius X p (isInCharacteristic_of_over (Over.mk f))) ^
     q)).base x ∈ V ↔ x ∈ V
   rw [absoluteFrobenius_pow_base_apply]
 
@@ -217,7 +217,7 @@ private theorem irreducibleSpace_preimage_fieldBaseChangeProj [QuasiCompact f]
   obtain ⟨y₀, hy₀, -⟩ := Scheme.Pullback.exists_preimage_pullback (V.ι.base v₀)
     (default : Spec (.of kbar)) (f := f) (g := specAlgebraMap k kbar) (Subsingleton.elim _ _)
   have hy₀U : y₀ ∈ fieldBaseChangeProj (Over.mk f) kbar ⁻¹ᵁ V := by
-    show (pullback.fst f (specAlgebraMap k kbar)).base y₀ ∈ V
+    change (pullback.fst f (specAlgebraMap k kbar)).base y₀ ∈ V
     rw [hy₀]
     exact v₀.2
   exact Subtype.irreducibleSpace ((IrreducibleSpace.isIrreducible_univ _).2.subset_irreducible
@@ -323,7 +323,7 @@ theorem constantExtRestriction_geometricFrobeniusBaseChange_top [Fintype k] [IsA
     rw [Nat.cast_pow]
     exact hℓ.pow _
   have : NeZero (((ℓ ^ (n + 1) : ℕ)) : kbar) := ⟨hN.ne_zero⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot kbar (ℓ ^ (n + 1))
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot kbar (ℓ ^ (n + 1))
   have : SmoothOfRelativeDimension d (pullback.snd f (specAlgebraMap k kbar)) :=
     ‹SmoothOfRelativeDimension d (pullback.snd (Over.mk f).hom (specAlgebraMap k kbar))›
   obtain ⟨V, hV, π, hπ, hover, ⟨v₀, hv₀⟩, hiff⟩ :=

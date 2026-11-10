@@ -109,7 +109,7 @@ theorem hasProjectiveJacobianParametrizations_of (K : Type u) [Field K] [IsAlgCl
   have : IsVariety K f := ⟨⟩
   have : IsCurve K f := ⟨hdim⟩
   have : Subsingleton (Spec (CommRingCat.of K)) := by
-    show Subsingleton (PrimeSpectrum K); infer_instance
+    change Subsingleton (PrimeSpectrum K); infer_instance
   have : IrreducibleSpace X := GeometricallyIrreducible.irreducibleSpace_of_subsingleton f
   have : Nonempty (Over.mk f).left := (inferInstance : Nonempty X)
   have : SmoothOfRelativeDimension 1 (Over.mk f).hom := ‹SmoothOfRelativeDimension 1 f›

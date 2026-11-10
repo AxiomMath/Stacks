@@ -125,7 +125,7 @@ the unit section, is `c` again. -/
 theorem degZeroRingHom_sectionRingZeroHom (c : Γ(X, ⊤)) :
     degZeroRingHom L ⟨Stacks.SectionRingZero.sectionRingZeroHom X L c,
       Stacks.ExternalGrading.of_mem_summand 0 _⟩ = c := by
-  show Stacks.SectionRingChartMap.ratioR L (unitSec L) _
+  change Stacks.SectionRingChartMap.ratioR L (unitSec L) _
     (DirectSum.of (powSections L) 0 ((Stacks.SectionRingGeometric.unitScalarAddEquiv X).symm c))
     = c
   rw [Stacks.SectionRingChartMap.ratioR_of]
@@ -337,7 +337,7 @@ theorem stalkRingEquivAtPrime_germ (x : X) (c : Γ(X, ⊤)) :
     exact h.trans (degZeroRingHom_sectionRingZeroHom L c)
   have hgerm := Scheme.Hom.germ_stalkMap_apply (projHomOfIsAmple L hL) ⊤ x trivial t
   rw [← hc]
-  show Proj.stalkIso' (grading L) _ ((inv ((projHomOfIsAmple L hL).stalkMap x)) _) = _
+  change Proj.stalkIso' (grading L) _ ((inv ((projHomOfIsAmple L hL).stalkMap x)) _) = _
   rw [show X.presheaf.germ ⊤ x trivial ((projHomOfIsAmple L hL).appTop t) =
       (projHomOfIsAmple L hL).stalkMap x
         ((AlgebraicGeometry.Proj (grading L)).presheaf.germ ⊤ _ trivial t) from hgerm.symm,
@@ -375,7 +375,7 @@ theorem dimClosureAt_eq_trdeg_residueField_atPrime (x : X)
       (AtPrime (grading L) ((projHomOfIsAmple L hL) x).asHomogeneousIdeal.toIdeal) :=
     AlgEquiv.ofRingEquiv (f := e) fun c => by
       rw [hk c]
-      show IsLocalRing.ResidueField.map _
+      change IsLocalRing.ResidueField.map _
           (IsLocalRing.residue _ (X.presheaf.germ ⊤ x trivial (specAlgebraRingHom k g c))) = _
       rw [IsLocalRing.ResidueField.map_residue]
       exact congrArg (IsLocalRing.residue _) (stalkRingEquivAtPrime_germ L k g hL x _)
@@ -399,7 +399,7 @@ theorem dimClosureAt_eq_trdeg_residueField_atPrime_baseField (x : X) :
     ((IsLocalRing.residue _).comp
       ((fromZeroRingHom (grading L) _).comp (baseFieldToDegreeZero L k g))).toAlgebra
   refine dimClosureAt_eq_trdeg_residueField_atPrime L k g hL x fun c => ?_
-  show IsLocalRing.residue _ (fromZeroRingHom (grading L) _ (baseFieldToDegreeZero L k g c)) = _
+  change IsLocalRing.residue _ (fromZeroRingHom (grading L) _ (baseFieldToDegreeZero L k g c)) = _
   congr 2
   exact Subtype.ext (coe_baseFieldToDegreeZero L k g c)
 

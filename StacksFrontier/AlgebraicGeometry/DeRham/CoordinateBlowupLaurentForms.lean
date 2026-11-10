@@ -73,7 +73,7 @@ def frameOp (s : Fin m ⊕ Fin n) : Lau R m n →ₗ[R] Lau R m n where
 /-- The frame operator at `s` sends the monomial `r z^w` to `(w s) r z^(w - frameShift s)`. -/
 theorem frameOp_single (s : Fin m ⊕ Fin n) (w : (Fin m ⊕ Fin n) →₀ ℤ) (r : R) :
     frameOp s (single w r) = single (w - frameShift s) ((w s) • r) := by
-  show ofCoeff (frameOpCoeff s (Finsupp.single w r)) = _
+  change ofCoeff (frameOpCoeff s (Finsupp.single w r)) = _
   simp [frameOpCoeff, Finsupp.lsum_single]
 
 /-- **The frame operators are derivations**: the Leibniz rule. -/
@@ -696,7 +696,7 @@ def wt0 : Lau R m n →+ Lau R m n where
 zero in the `y`'s, and zero otherwise. -/
 theorem coeff_wt0 (f : Lau R m n) (v : (Fin m ⊕ Fin n) →₀ ℤ) :
     (wt0 R m n f).coeff v = if yDegree m n v = 0 then f.coeff v else 0 := by
-  show (f.coeff.filter fun v => yDegree m n v = 0) v = _
+  change (f.coeff.filter fun v => yDegree m n v = 0) v = _
   rw [Finsupp.filter_apply]
 
 /-- The weight-zero part of a monomial is the monomial if its exponent has degree zero in the

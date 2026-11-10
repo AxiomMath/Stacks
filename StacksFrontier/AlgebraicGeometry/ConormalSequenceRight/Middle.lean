@@ -81,7 +81,7 @@ theorem sectionOfGlobal_eval {Y : Scheme.{u}} (M : Y.Modules) {V : Y.Opens}
     (hV : ∀ W : Y.Opens, W ≤ V) (m : M.val.obj (op V)) :
     (sectionOfGlobal M hV m).eval (op V) = m := by
   refine (M.val.congr_map_apply (Subsingleton.elim _ (𝟙 (op V))) m).trans ?_
-  show (ConcreteCategory.hom (M.val.presheaf.map (𝟙 (op V)))) m = m
+  change (ConcreteCategory.hom (M.val.presheaf.map (𝟙 (op V)))) m = m
   rw [M.val.presheaf.map_id]
   rfl
 
@@ -296,8 +296,7 @@ theorem equationDifferentialsComplex_exact (i : Z ⟶ X) [SurjectiveOnStalks i] 
       exact ihy (a • b)
   have hBridge : ∀ w : C ⊗[A] M, E (eT w) = eC (stalkC (ePull'.symm w)) := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | tmul b m =>
       have h := hspan (eA m) b
       rwa [LinearEquiv.symm_apply_apply] at h

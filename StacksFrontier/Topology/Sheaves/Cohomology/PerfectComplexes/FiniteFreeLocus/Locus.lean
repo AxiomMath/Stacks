@@ -296,7 +296,7 @@ lemma isFiniteLocallyFree_iff_exists_local_free
           rw [Equiv.symm_apply_apply]
           infer_instance } }
     refine ⟨⟨q, ⟨fun y => ?_⟩, ⟨fun y => ?_⟩⟩⟩
-    · show IsIso ((M.over (U y)).freeHomEquiv.symm
+    · change IsIso ((M.over (U y)).freeHomEquiv.symm
         ((M.over (U y)).freeHomEquiv (e y).some.inv))
       rw [Equiv.symm_apply_apply]
       infer_instance
@@ -405,7 +405,7 @@ lemma finite_free_stalk_restrict_iff
   let (j : (OpenNhds (restrictPoint U x))ᵒᵖ) :
       Module ((G ⋙ A).obj j) ((F ⋙ N.val.presheaf).obj j) := (N.val.obj (F.obj j)).isModule
   let : Module ↑(colimit A) ↑(colimit B) := by
-    show Module (structureSheafStalk X x) (moduleSheafStalk M x)
+    change Module (structureSheafStalk X x) (moduleSheafStalk M x)
     infer_instance
   exact finite_free_colimit_whisker_iff G A B (F ⋙ N.val.presheaf)
     (NatIso.ofComponents (fun _ => Iso.refl _))
@@ -549,15 +549,15 @@ private lemma projective_opcycles_of_boundedAbove (K : CochainComplex C ℤ)
   · intro j _ ih
     let : Projective (K.opcycles j) := ih
     have hprev : (ComplexShape.up ℤ).prev j = j - 1 :=
-      (ComplexShape.up ℤ).prev_eq' (by show j - 1 + 1 = j; omega)
+      (ComplexShape.up ℤ).prev_eq' (by change j - 1 + 1 = j; omega)
     have hnext : (ComplexShape.up ℤ).next (j - 1) = j :=
-      (ComplexShape.up ℤ).next_eq' (by show j - 1 + 1 = j; omega)
+      (ComplexShape.up ℤ).next_eq' (by change j - 1 + 1 = j; omega)
     have hp : Projective (cokernel (K.d (j - 1) j)) := by
       have he := Projective.of_iso (K.sc j).opcyclesIsoCokernel ih
       change Projective (cokernel (K.d ((ComplexShape.up ℤ).prev j) j)) at he
       rwa [hprev] at he
     let : Projective (cokernel ((K.sc (j - 1)).g)) := by
-      show Projective (cokernel (K.d (j - 1) ((ComplexShape.up ℤ).next (j - 1))))
+      change Projective (cokernel (K.d (j - 1) ((ComplexShape.up ℤ).next (j - 1))))
       rwa [hnext]
     let : Projective ((K.sc (j - 1)).X₃) := inferInstanceAs
       (Projective (K.X ((ComplexShape.up ℤ).next (j - 1))))

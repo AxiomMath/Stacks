@@ -11,8 +11,8 @@ Let `(C, O)` be a ringed site, let `R` be a commutative ring with a sheaf of com
 quasi-coherent and let `(E, d) = Hom_{Comp^dg(O)}(K, K)` be its endomorphism differential graded
 `R`-algebra. Then `- ⊗_E^𝐋 K : D(E, d) ⥤ D(O)`, formed over `R`, has image in `D_QCoh(O)`
 (Tag 09M3 for a scheme). The argument is the dévissage of
-`StacksFrontier.CategoryTheory.Sites.Modules.TensorWithComplexQuasicoherentAdjoint`, which carries it
-out for the base ring `ℤ`; nothing in it depends on the base ring.
+`StacksFrontier.CategoryTheory.Sites.Modules.TensorWithComplexQuasicoherentAdjoint`, which carries
+it out for the base ring `ℤ`; nothing in it depends on the base ring.
 
 ## Main results
 
@@ -93,6 +93,7 @@ theorem derivedCategoryB_tensorWithComplexDerived_obj_regularOver
 
 /-! ### Cone triangles with left-orthogonal vertices -/
 
+omit [ScalarSections.{u, v, w, t, s, o} X R] in
 /-- Every distinguished triangle of `D(E, d)` is isomorphic to the image of a cone triangle of
 `K(Mod_(E, d))` whose three vertices are orthogonal on the left to the acyclic modules: its first
 arrow comes from an arrow between such objects, and a cone leaves the third vertex of that kind. -/

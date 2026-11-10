@@ -56,22 +56,23 @@ attribute [local implicit_reducible]
   SheafOfModules.toSheaf
   SheafOfModules.forget
 
-variable (X : RingedSite.{u, u, u}) [HasWeakSheafify X.J CommRingCat.{u}]
+variable (X : RingedSite.{u, u, u})
   [HasSheafify X.J AddCommGrpCat.{u}] (U : X.C)
-  [HasWeakSheafify (X.over U).J CommRingCat.{u}]
-  [HasSheafify (X.over U).J AddCommGrpCat.{u}]
-  {K : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ} (a : K ⟶ structureSheafComplex X)
+  {K : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ}
+    (a : K ⟶ structureSheafComplex X)
 
 /-- The restriction of `Q(a)`, read through the identifications of the restricted classes with
 the classes of the restricted complexes, is `Q(a|_U)`: the naturality of
 `AlgebraicGeometry.RingedSite.restrictionComparison`. -/
 theorem overFunctor_mapDerivedCategory_map_Q_map_comp :
-    (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
+    (SheafOfModules.overFunctor.{u}
+        (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
           (DerivedCategory.Q.map a) ≫ (derivedStructureSheafRestrictIso X U).hom =
       (restrictionComparison X U K).hom ≫
         DerivedCategory.Q.map (restrictStructureSheafMap X U a) := by
   have h : DerivedCategory.Q.map
-          (((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapHomologicalComplex
+          (((SheafOfModules.overFunctor.{u}
+              (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapHomologicalComplex
             (ComplexShape.up ℤ)).map a) ≫
         DerivedCategory.Q.map (restrictStructureSheafComplexOverIso X U).hom =
       DerivedCategory.Q.map (restrictStructureSheafMap X U a) :=
@@ -86,11 +87,14 @@ theorem overFunctor_mapDerivedCategory_map_Q_map_comp :
 /-- `overFunctor_mapDerivedCategory_map_Q_map_comp` with both identifications inverted. -/
 theorem restrictionComparison_inv_comp_overFunctor_map_Q_map :
     (restrictionComparison X U K).inv ≫
-        (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
+        (SheafOfModules.overFunctor.{u}
+            (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
           (DerivedCategory.Q.map a) =
       DerivedCategory.Q.map (restrictStructureSheafMap X U a) ≫
         (derivedStructureSheafRestrictIso X U).inv :=
   inv_comp_eq_comp_inv_of _ _ (overFunctor_mapDerivedCategory_map_Q_map_comp X U a)
+
+variable [HasSheafify (X.over U).J AddCommGrpCat.{u}]
 
 /-- **The completion map of `a` restricts to the completion map of `a|_U`.** Under the
 isomorphism `R𝑆heafHom_𝒪(K, E)|_U ≅ R𝑆heafHom_{𝒪_U}(K|_U, E|_U)` of [Stacks, Tag 08JB], the
@@ -98,51 +102,67 @@ restriction of the completion map `E ⟶ R𝑆heafHom_𝒪(K, E)` attached to `a
 attached to `a|_U`. -/
 theorem overFunctor_map_completionUnitOfComplex_comp
     (E : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))) :
-    (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
+    (SheafOfModules.overFunctor.{u}
+        (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
           ((completionUnitOfComplex X a).app E) ≫
         (completionFunctorOfComplexOverIso X U K E).hom =
       (completionUnitOfComplex (X.over U) (restrictStructureSheafMap X U a)).app
-        ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj E) := by
+        ((SheafOfModules.overFunctor.{u}
+            (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj E) := by
   have hii : ((derivedHomRestriction X U).iso
             (DerivedCategory.Q.obj (structureSheafComplex X)) E).hom ≫
         ((derivedSheafHomBifunctor (X.over U)).map
             (derivedStructureSheafRestrictIso X U).inv.op).app
-          ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj E) =
-      (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
+          ((SheafOfModules.overFunctor.{u}
+              (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj E) =
+      (SheafOfModules.overFunctor.{u}
+          (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
           (derivedStructureSheafHomIso X E).hom ≫
-        (@Iso.inv _ _ _ _ (derivedStructureSheafHomIso (X.over U) ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj E))) :=
+        (@Iso.inv _ _ _ _ (derivedStructureSheafHomIso (X.over U)
+          ((SheafOfModules.overFunctor.{u}
+            (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj E))) :=
     comp_eq_comp_inv_of_comp_comp _ (derivedStructureSheafHomIso_restrict X U E)
   have haug : ((derivedSheafHomBifunctor (X.over U)).map
-            ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
+            ((SheafOfModules.overFunctor.{u}
+                (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
               (DerivedCategory.Q.map a)).op).app
-          ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj E) ≫
+          ((SheafOfModules.overFunctor.{u}
+              (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj E) ≫
         ((derivedSheafHomBifunctor (X.over U)).map
             (restrictionComparison X U K).inv.op).app
-          ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj E) =
+          ((SheafOfModules.overFunctor.{u}
+              (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj E) =
       ((derivedSheafHomBifunctor (X.over U)).map
             (derivedStructureSheafRestrictIso X U).inv.op).app
-          ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj E) ≫
+          ((SheafOfModules.overFunctor.{u}
+              (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj E) ≫
         ((derivedSheafHomBifunctor (X.over U)).map
             (DerivedCategory.Q.map (restrictStructureSheafMap X U a)).op).app
-          ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj E) := by
+          ((SheafOfModules.overFunctor.{u}
+              (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj E) := by
     rw [← NatTrans.comp_app, ← NatTrans.comp_app, ← CategoryTheory.Functor.map_comp,
       ← CategoryTheory.Functor.map_comp, ← op_comp, ← op_comp,
       restrictionComparison_inv_comp_overFunctor_map_Q_map X U a]
-  show (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
+  change (SheafOfModules.overFunctor.{u}
+      (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
           ((derivedStructureSheafHomIso X E).inv ≫
             ((derivedSheafHomBifunctor X).map (DerivedCategory.Q.map a).op).app E) ≫
         (((derivedHomRestriction X U).iso (DerivedCategory.Q.obj K) E).hom ≫
           ((derivedSheafHomBifunctor (X.over U)).map
               (restrictionComparison X U K).inv.op).app
-            ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj E)) =
-      (@Iso.inv _ _ _ _ (derivedStructureSheafHomIso (X.over U) ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj E))) ≫
+            ((SheafOfModules.overFunctor.{u}
+                (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj E)) =
+      (@Iso.inv _ _ _ _ (derivedStructureSheafHomIso (X.over U)
+        ((SheafOfModules.overFunctor.{u}
+          (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj E))) ≫
         ((derivedSheafHomBifunctor (X.over U)).map
             (DerivedCategory.Q.map (restrictStructureSheafMap X U a)).op).app
-          ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj E)
+          ((SheafOfModules.overFunctor.{u}
+              (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj E)
   rw [CategoryTheory.Functor.map_comp]
   simp only [Category.assoc]
   rw [reassoc_of% ((derivedHomRestriction X U).natural_left (DerivedCategory.Q.map a)),
-    haug, reassoc_of% hii, Iso.map_inv_hom_id_assoc]
+    haug, reassoc_of% hii, Iso.inv_hom_id_map_assoc]
 
 /-- `overFunctor_map_completionUnitOfComplex_comp` with the isomorphism inverted: the completion
 map of `a|_U`, followed by the identification
@@ -151,9 +171,11 @@ of `a`. -/
 theorem completionUnitOfComplex_comp_completionFunctorOfComplexOverIso_inv
     (E : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))) :
     (completionUnitOfComplex (X.over U) (restrictStructureSheafMap X U a)).app
-          ((SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj E) ≫
+          ((SheafOfModules.overFunctor.{u}
+              (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj E) ≫
         (completionFunctorOfComplexOverIso X U K E).inv =
-      (SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
+      (SheafOfModules.overFunctor.{u}
+          (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.map
         ((completionUnitOfComplex X a).app E) :=
   (Iso.comp_inv_eq (completionFunctorOfComplexOverIso X U K E)).2
     (overFunctor_map_completionUnitOfComplex_comp X U a E).symm

@@ -59,7 +59,7 @@ theorem isLocallyInjective_of_isIso_app (h𝒲 : CoversByProperty 𝒲 J)
     have hb : P.map b.op x = P.map b.op y := by
       apply (ConcreteCategory.bijective_of_isIso (f.app (op W))).1
       rw [NatTrans.naturality_apply, NatTrans.naturality_apply, hxy]
-    show P.map (a ≫ b).op x = P.map (a ≫ b).op y
+    change P.map (a ≫ b).op x = P.map (a ≫ b).op y
     rw [op_comp, Functor.map_comp_apply, Functor.map_comp_apply, hb]
 
 /-- A morphism of presheaves of abelian groups surjective on the sections over enough objects is

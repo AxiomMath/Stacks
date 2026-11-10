@@ -80,7 +80,7 @@ theorem surjective_toSheafify_const_app_of_forall_exists_refinement_addCommGrpCa
           ((toSheafify J ((Functor.const Cᵒᵖ).obj M)).app (op Y') v) =
         (toSheafify J ((Functor.const Cᵒᵖ).obj M)).app (op Z) v :=
     fun k v => (NatTrans.naturality_apply (toSheafify J ((Functor.const Cᵒᵖ).obj M)) k.op v).symm
-  show (sheafify J ((Functor.const Cᵒᵖ).obj M)).map g.op
+  change (sheafify J ((Functor.const Cᵒᵖ).obj M)).map g.op
       ((toSheafify J ((Functor.const Cᵒᵖ).obj M)).app (op T) a₀) = _
   rw [hres g a₀]
   obtain ⟨a, ha⟩ := hg

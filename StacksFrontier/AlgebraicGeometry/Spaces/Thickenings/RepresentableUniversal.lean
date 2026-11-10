@@ -95,7 +95,7 @@ theorem isUniversalFirstOrderThickening_representedClosedHom {T U : BigFppfOver 
     exact mono_comp (Zc.2.2.rep.fst (idEtaleChart B S hS T).1.hom) Zc.1.ι
   have hfu' : FormallyUnramified
       ((schemeSpaceFunctor B S hS).map (representedClosedHom B S hS T Zc ≫ r)).hom := by
-    show FormallyUnramified (yoneda.map (representedClosedHom B S hS T Zc ≫ r))
+    change FormallyUnramified (yoneda.map (representedClosedHom B S hS T Zc ≫ r))
     rw [yoneda.map_comp]
     exact formallyUnramified_comp _ _
       (formallyUnramified_of_mono (yoneda.map (representedClosedHom B S hS T Zc)))
@@ -114,7 +114,7 @@ theorem isUniversalFirstOrderThickening_representedClosedHom {T U : BigFppfOver 
       sourceIso := @asIso _ _ _ _ (representedClosedMap B S hS T Zc).hom
         (isIso_representedClosedMap_hom B S hS T Zc)
       sourceIso_ι_toBase := by
-        show (Zc.2.2.rep.fst (idEtaleChart B S hS T).1.hom ≫ Zc.1.ι) ≫ yoneda.map r = _
+        change (Zc.2.2.rep.fst (idEtaleChart B S hS T).1.hom ≫ Zc.1.ι) ≫ yoneda.map r = _
         rw [← yoneda_map_representedClosedHom]
         exact (yoneda.map_comp _ _).symm }
   have ht := isUniversal_siteThickening B S hS (representedClosedHom B S hS T Zc ≫ r)

@@ -386,7 +386,7 @@ theorem exists_noetherianProductModel (hX : IsAlgebraicSpace B (Spec (.of A)) hA
     ObjectProperty.isoMk _ ((OverShriek.relocalizePresheafFunctor g).mapIso e ≪≫
       OverShriek.relocalizeRestrictIsoProduct g X₀)
   have hψ : (ψ.hom ≫ productSpaceFst X₀s cT.pt).hom = OverShriek.viewStructureMap g X := by
-    show ((OverShriek.relocalizePresheafFunctor g).map e.hom ≫
+    change ((OverShriek.relocalizePresheafFunctor g).map e.hom ≫
       (OverShriek.relocalizeRestrictIsoProduct g X₀).hom) ≫ prod.fst = _
     rw [Category.assoc, OverShriek.relocalizeRestrictIsoProduct_hom_fst,
       OverShriek.relocalize_map_viewStructureMap]

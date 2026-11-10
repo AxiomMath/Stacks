@@ -130,7 +130,7 @@ theorem smallEtaleSheaf_eq_of_map_eq_of_isIso_baseChange
   let β := (mateEquiv adj
     (smallEtaleSheafPseudofunctorAdjunctionGeneral B (tripleBaseChangeProj B f g i))
     (Pseudofunctor.commSqTwoSquare (smallEtaleSheafPullbackSystemGeneral B).pseudofunctor
-      (isPullback_tripleBaseChangeProj B f g i).w)).natTrans
+      (isPullback_tripleBaseChangeProj B f g i).w))
   have : ∀ M, Mono (β.app M) := fun M ↦ by
     have hβ : β = smallEtaleBaseChangeNatTransUniv.{u, 0} B _ _ _ _
         (isPullback_tripleBaseChangeProj B f g i).w :=

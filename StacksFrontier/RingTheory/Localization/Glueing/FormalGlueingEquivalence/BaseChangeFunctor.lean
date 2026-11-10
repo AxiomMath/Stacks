@@ -55,8 +55,7 @@ private theorem cechBaseChangeEquiv_mk_apply
     cechBaseChangeEquiv B f M s (LocalizedModule.mkLinearMap
       (Cech.cechSub (fun i ↦ algebraMap A B (f i)) s) _ z) =
       (LocalizedModule.mkLinearMap (Cech.cechSub f s) M).baseChange B z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => simpa only [map_add] using congrArg₂ (· + ·) hz hz'
   | tmul b m => exact cechBaseChangeEquiv_mk B f M s b m
 
@@ -104,8 +103,7 @@ private theorem cechTransportEquiv_naturality
     FormalGlueing.localizedMap_mk, cechTransportEquiv_mk]
   rw [h]
   generalize e z = y
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | add y y' hy hy' => simpa only [map_add] using congrArg₂ (· + ·) hy hy'
   | tmul b m => simp only [LinearMap.baseChange_tmul, FormalGlueing.localizedMap_mk]
 
@@ -144,8 +142,7 @@ private theorem cechTransportEquiv_iterated
   simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.apply_symm_apply,
     FormalGlueing.iterated_mk, cechTransportEquiv_mk]
   generalize e z = y
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | add y y' hy hy' => simpa only [map_add] using congrArg₂ (· + ·) hy hy'
   | tmul b m => simp only [LinearMap.baseChange_tmul, LinearEquiv.coe_coe,
       FormalGlueing.iterated_mk]
@@ -160,7 +157,7 @@ private theorem cechTransportEquiv_congr
       ((FormalGlueing.cechModCongr f h).toLinearMap.baseChange B).comp
         (cechTransportEquiv B f e s).toLinearMap := by
   subst t
-  show _ = (LinearMap.id.baseChange B).comp _
+  change _ = (LinearMap.id.baseChange B).comp _
   simp only [LinearMap.baseChange_id, LinearMap.id_comp]
   rfl
 
@@ -180,7 +177,7 @@ private theorem cechTransportEquiv_iterated_symm
     ((d.iterated L s t).symm z)
   simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.apply_symm_apply] at h
   rw [h]
-  show _ = (AlgebraTensorModule.congr (LinearEquiv.refl B B) (c.iterated M s t)).symm
+  change _ = (AlgebraTensorModule.congr (LinearEquiv.refl B B) (c.iterated M s t)).symm
     ((AlgebraTensorModule.congr (LinearEquiv.refl B B) (c.iterated M s t)) _)
   simp only [LinearEquiv.symm_apply_apply]
 
@@ -234,7 +231,7 @@ private theorem baseChangeAlphaIJ_cocycle
   apply (LinearMap.cancel_left (E k ({j} ∪ {i})).injective).mp
   ext z
   dsimp only [LinearMap.comp_apply, LinearEquiv.coe_coe]
-  show E k ({j} ∪ {i}) _ = E k ({j} ∪ {i}) _
+  change E k ({j} ∪ {i}) _ = E k ({j} ∪ {i}) _
   simp only [hi, hs, hc, hn]
   have h := LinearMap.congr_fun (congrArg (LinearMap.baseChange B) (X.cocycle i j k))
     (E i ({j} ∪ {k}) z)
@@ -264,15 +261,13 @@ private theorem tensorTransportEquiv_naturality
     tensorTransportEquiv R S B P d (TensorProduct.map LinearMap.id g' z) =
       TensorProduct.map LinearMap.id (g.baseChange S)
         (tensorTransportEquiv R S B P e z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => simpa only [map_add] using congrArg₂ (· + ·) hz hz'
   | tmul p l =>
     simp only [TensorProduct.map_tmul, LinearMap.id_apply, tensorTransportEquiv,
       LinearEquiv.trans_apply, AlgebraTensorModule.congr_tmul, LinearEquiv.refl_apply, h]
     generalize e l = y
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | add y y' hy hy' => simpa only [map_add, tmul_add] using congrArg₂ (· + ·) hy hy'
     | tmul b m =>
       simp only [LinearMap.baseChange_tmul, AlgebraTensorModule.cancelBaseChange_tmul,
@@ -306,16 +301,15 @@ private theorem baseChangeAlpha_compatibility
     (LocalizedModule.mkLinearMap (Cech.cechSub (fun i ↦ algebraMap R B (f i)) {n}) _)
     (cechTransportEquiv_mk B f (e l) {n})
   rw [hmk i j, hmk j i]
-  show TensorProduct.map _ _ (TensorProduct.map _ _
+  change TensorProduct.map _ _ (TensorProduct.map _ _
     (genericLocalTensorEquiv S B (f i) (X.localPiece i) _)) =
       TensorProduct.map _ _ (genericLocalTensorEquiv S B (f j) (X.localPiece j) _)
   rw [baseChangeAlpha_commutes, baseChangeAlpha_commutes]
   obtain ⟨z, rfl⟩ := (extendScalarsEquiv (S ⊗[R] B) X.generic).symm.surjective m
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add m n hm hn => simpa only [map_add] using congrArg₂ (· + ·) hm hn
   | tmul t m =>
-    show TensorProduct.map _ _ (TensorProduct.map _ _ (TensorProduct.map _ _
+    change TensorProduct.map _ _ (TensorProduct.map _ _ (TensorProduct.map _ _
       (genericLocalizationEquiv S B (f i) X.generic (LocalizedModule.mkLinearMap _ _
         (t ⊗ₜ[S, Algebra.TensorProduct.includeLeftRingHom] m))))) =
       TensorProduct.map _ _ (TensorProduct.map _ _
@@ -343,16 +337,15 @@ private theorem awayTensorEquiv_naturality {R : Type*} (B : Type*)
     awayTensorEquiv B a N ((ModuleCat.extendScalars (awayMap B a)).map g z) =
       (((ModuleCat.restrictScalars (algebraMap R (Localization.Away a))).map g).hom.baseChange B)
         (awayTensorEquiv B a M z) := by
-  show awayTensorEquiv B a N
+  change awayTensorEquiv B a N
     ((((ModuleCat.restrictScalars (algebraMap B (Localization.Away (algebraMap R B a)))).map
       ((ModuleCat.extendScalars (awayMap B a)).map g)).hom) z) = _
   obtain ⟨y, rfl⟩ := (awayTensorEquiv B a M).symm.surjective z
-  induction y using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction y using TensorProduct.inductionOn with
   | add y y' hy hy' => simpa only [map_add] using congrArg₂ (· + ·) hy hy'
   | tmul b m =>
     rw [awayTensorEquiv_symm_tmul]
-    show awayTensorEquiv B a N
+    change awayTensorEquiv B a N
       (algebraMap B (Localization.Away (algebraMap R B a)) b ⊗ₜ[Localization.Away a, awayMap B a] g
         m) = _
     rw [awayTensorEquiv_tmul, awayTensorEquiv_tmul, LinearMap.baseChange_tmul]
@@ -423,7 +416,7 @@ private theorem genericBaseEquiv_symm_tmul
       (algebraMap B (S ⊗[R] B) b) ⊗ₜ[S, Algebra.TensorProduct.includeLeftRingHom] m := by
   let : Module R M := Module.compHom M (algebraMap R S)
   let : IsScalarTower R S M := restrictScalars_tower M
-  show (extendScalarsEquiv (S ⊗[R] B) M).symm
+  change (extendScalarsEquiv (S ⊗[R] B) M).symm
     ((pushoutTensorEquiv R S B (S ⊗[R] B) M).symm (b ⊗ₜ[R] m)) = _
   exact congrArg (extendScalarsEquiv (S ⊗[R] B) M).symm
     (pushoutTensorEquiv_symm_tmul R S B (S ⊗[R] B) M b m)
@@ -563,7 +556,7 @@ private theorem flatKernelEquiv_tmul
     (e : L ≃ₗ[B] B ⊗[R] M) (d : K ≃ₗ[B] B ⊗[R] N)
     (h : ∀ z, d (g' z) = g.baseChange B (e z)) (b : B) (z : g.ker) :
     (flatKernelEquiv B g g' e d h (b ⊗ₜ[R] z)).1 = e.symm (b ⊗ₜ[R] z.1) := by
-  show e.symm ((g.tensorKerEquiv B B (b ⊗ₜ[R] z)).1) = _
+  change e.symm ((g.tensorKerEquiv B B (b ⊗ₜ[R] z)).1) = _
   rw [LinearMap.tensorKerEquiv_apply, LinearMap.tensorKer_tmul]
 
 private theorem ambientBaseEquiv_symm_tmul
@@ -714,8 +707,7 @@ private noncomputable def baseChangeMap
             (morphism.localPiece index))).hom)
         (baseChangeAlpha targetRing extensionRing family source index (LocalizedModule.mkLinearMap _
           _ element))
-    induction element using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction element using TensorProduct.inductionOn with
     | add left right left_eq right_eq =>
       simpa only [map_add] using congrArg₂ (· + ·) left_eq right_eq
     | tmul coefficient original =>
@@ -732,7 +724,7 @@ private noncomputable def baseChangeMap
       convert congrArg (fun value =>
         (show targetRing ⊗[baseRing] extensionRing from coefficient) ⊗ₜ[targetRing] value)
         (morphism.alpha_compatibility index original) using 1
-      simp only [LinearMap.baseChange_eq_ltensor]
+      simp only [LinearMap.baseChange_eq_lTensor]
       rfl
   alphaIJ_compatibility index otherIndex element := by
     change baseChangeAlphaIJ targetRing extensionRing family target index otherIndex
@@ -751,8 +743,7 @@ private noncomputable def baseChangeMap
     obtain ⟨value, rfl⟩ :=
       (awayTensorEquiv extensionRing (family index) (source.localPiece index)).symm.surjective
         element
-    induction value using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction value using TensorProduct.inductionOn with
     | add left right left_eq right_eq =>
       simpa only [map_add] using congrArg₂ (· + ·) left_eq right_eq
     | tmul coefficient original =>

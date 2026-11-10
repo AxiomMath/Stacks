@@ -12,7 +12,8 @@ of Tag 08R9 at the object `(A → B)` of `C_{B/A}`*. This file proves that closi
 comparison map at that object is an isomorphism on `H^{-1}`, so it produces the identification
 itself.
 
-The route is the one of `StacksFrontier/Cotangent/NaiveComparisonQuasiIso.lean`, which carries it out
+The route is the one of `StacksFrontier/Cotangent/NaiveComparisonQuasiIso.lean`, which carries it
+out
 at the object `(A[B] → B)`. The two-term complex `NL(A → B)` is concentrated in cohomological
 degree `-1`, where it is `I/I²`, because `Ω[A⁄A] = 0`; and the cone of `Ker(d) ⟶ 0` is likewise
 concentrated there, where it is `Ker(d)` in simplicial degree `0`. The comparison between the two
@@ -355,13 +356,13 @@ def kernelConeToNaiveSurjectionComponent (i : ℤ) :
 theorem kernelConeToNaiveSurjectionComponent_negOne :
     kernelConeToNaiveSurjectionComponent A B h hom (-1) =
       kernelConeToNaiveSurjectionNegOne A B h hom := by
-  rw [kernelConeToNaiveSurjectionComponent, dif_pos rfl, eqToHom_refl, eqToHom_refl,
+  rw [kernelConeToNaiveSurjectionComponent, dite_eq_left rfl, eqToHom_refl, eqToHom_refl,
     Category.id_comp, Category.comp_id]
 
 /-- In every degree `i ≠ -1`, `kernelConeToNaiveSurjectionComponent` is zero. -/
 theorem kernelConeToNaiveSurjectionComponent_eq_zero (i : ℤ) (hi : i ≠ -1) :
     kernelConeToNaiveSurjectionComponent A B h hom i = 0 := by
-  rw [kernelConeToNaiveSurjectionComponent, dif_neg hi]
+  rw [kernelConeToNaiveSurjectionComponent, dite_eq_right hi]
 
 /-- **The comparison from the cone of `Ker(d) ⟶ 0` into the two-term complex at `A → B`.** -/
 def kernelConeToNaiveSurjection :

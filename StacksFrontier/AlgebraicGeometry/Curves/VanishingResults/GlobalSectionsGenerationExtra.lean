@@ -83,6 +83,7 @@ public theorem isZero_firstCohomology_of_mono_of_supp_dim_le_zero_of_isCoherent
     rw [← hπj, hzQ.eq_of_tgt (cokernel.π α') 0, zero_comp]
 
 set_option maxHeartbeats 400000 in
+-- long proof elaborating many kernel and cokernel lifts in `S.X.Modules`
 /-- Variant of `epi_globalSectionsHom_comp` in which the last hypothesis is asked only of coherent
 submodules of `F`: the composite `globalSectionsHom F ≫ β` is an epimorphism. -/
 public theorem epi_globalSectionsHom_comp_of_isCoherent {ω F Q : S.X.Modules}

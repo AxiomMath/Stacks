@@ -181,7 +181,7 @@ theorem isEquivalence_toCurvesTwoFibreProduct :
         (schemeSpaceFunctor B integerBase hZ).map m.b.left :=
       congrArg (schemeSpaceFunctor B integerBase hZ).map hbase
     refine ⟨{ left := m.a, right := 𝟙 X.right, w := ?_ }, ?_⟩
-    · show (curveBaseSpace B hZ).map m.a ≫ Y.hom = X.hom
+    · change (curveBaseSpace B hZ).map m.a ≫ Y.hom = X.hom
       rw [hspace]
       exact m.b.w
     · apply TwoFibreProductOver.Hom.ext'
@@ -197,7 +197,7 @@ theorem isEquivalence_toCurvesTwoFibreProduct :
       simp [eqToHom_map]
     let bIso : ((toCurvesTwoFibreProduct B hZ A).obj Z).y ≅ P.y :=
       CostructuredArrow.isoMk (eqToIso hbase) (by
-        show (schemeSpaceFunctor B integerBase hZ).map (eqToHom hbase) ≫ P.y.hom =
+        change (schemeSpaceFunctor B integerBase hZ).map (eqToHom hbase) ≫ P.y.hom =
           eqToHom hspace ≫ P.y.hom
         rw [hmap])
     have hbmap : (CostructuredArrow.proj (schemeSpaceFunctor B integerBase hZ) A).map bIso.hom =
@@ -211,14 +211,14 @@ theorem isEquivalence_toCurvesTwoFibreProduct :
               eqToHom P.hy =
           eqToHom ((toCurvesTwoFibreProduct B hZ A).obj Z).hx.symm ≫
             (curvesProjectionOver B hZ).map (𝟙 P.x) ≫ eqToHom P.hx := by
-      show (CostructuredArrow.proj (schemeSpaceFunctor B integerBase hZ) A).map bIso.hom ≫
+      change (CostructuredArrow.proj (schemeSpaceFunctor B integerBase hZ) A).map bIso.hom ≫
         eqToHom P.hy = eqToHom P.hx
       rw [hbmap]
       exact eqToHom_trans _ _
     have hw : (curvesProjectionOver B hZ).map (𝟙 P.x) ≫ P.iso.hom =
         ((toCurvesTwoFibreProduct B hZ A).obj Z).iso.hom ≫
           (CostructuredArrow.proj (schemeSpaceFunctor B integerBase hZ) A).map bIso.hom := by
-      show P.iso.hom =
+      change P.iso.hom =
         (CostructuredArrow.proj (schemeSpaceFunctor B integerBase hZ) A).map bIso.hom
       rw [hvertical, hbmap]
       exact eqToHom_trans _ _

@@ -147,9 +147,9 @@ public theorem tensorSheafMap_id_zero {X : RingedSpace.{u, u}}
   intro U x y
   obtain ⟨U⟩ := U
   rw [tensorSheafMap_app_toTensorSheafSection X A B A B' (𝟙 A) (0 : B ⟶ B') U x y]
-  show toTensorSheafSection X A B' (op U) (x ⊗ₜ (0 : B'.val.obj (op U))) = _
+  change toTensorSheafSection X A B' (op U) (x ⊗ₜ (0 : B'.val.obj (op U))) = _
   rw [TensorProduct.tmul_zero]
-  show ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X
+  change ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X
     ((PresheafOfModules.tensorObj (O := (X).presheaf) (A.val) (B'.val)))).app
       (op U)).hom 0 = _
   rw [map_zero]
@@ -215,9 +215,9 @@ public theorem homogeneousMul_mem_twistGrading (i : ℕ) (n k : ℤ) (hk : (i : 
     LinearMap.mul S S (a : S) m ∈ twistGrading (S := S) 𝒮 k j := by
   have h := SetLike.GradedSMul.smul_mem (A := 𝒮) (B := twistGrading (S := S) 𝒮 n) a.2 hm
   have hdeg : twistGrading (S := S) 𝒮 n ((i : ℕ) +ᵥ j) = twistGrading (S := S) 𝒮 k j := by
-    show integerGrading (S := S) 𝒮 (((i : ℕ) +ᵥ j) + n) = integerGrading (S := S) 𝒮 (j + k)
+    change integerGrading (S := S) 𝒮 (((i : ℕ) +ᵥ j) + n) = integerGrading (S := S) 𝒮 (j + k)
     congr 1
-    show (i : ℤ) + j + n = j + k
+    change (i : ℤ) + j + n = j + k
     omega
   rw [hdeg] at h
   simpa only [smul_eq_mul, LinearMap.mul_apply'] using h
@@ -263,7 +263,7 @@ private theorem associatedModuleSheafMap_twist_add (n k : ℤ) (φ ψ : S →ₗ
   ext s
   apply Subtype.ext
   funext x
-  show LocalizedModule.map x.1.asHomogeneousIdeal.toIdeal.primeCompl (φ + ψ) (s.1 x) = _
+  change LocalizedModule.map x.1.asHomogeneousIdeal.toIdeal.primeCompl (φ + ψ) (s.1 x) = _
   rw [map_add]
   rfl
 
@@ -415,7 +415,7 @@ public theorem homogeneousScalarTwistedSections_add_left (i : ℕ) (n : ℤ) (a 
     homogeneousScalarTwistedSections 𝒮 F i n (a + b) s =
       homogeneousScalarTwistedSections 𝒮 F i n a s +
         homogeneousScalarTwistedSections 𝒮 F i n b s := by
-  show ((twistSheafScalarMap 𝒮 F i n ((i : ℤ) + n) rfl (a + b)).val.app (op ⊤)).hom s = _
+  change ((twistSheafScalarMap 𝒮 F i n ((i : ℤ) + n) rfl (a + b)).val.app (op ⊤)).hom s = _
   rw [twistSheafScalarMap_add 𝒮 F i n ((i : ℤ) + n) rfl a b]
   rfl
 
@@ -423,7 +423,7 @@ public theorem homogeneousScalarTwistedSections_add_left (i : ℕ) (n : ℤ) (a 
 public theorem homogeneousScalarTwistedSections_zero_left (i : ℕ) (n : ℤ)
     (s : twistedSectionsComponent 𝒮 F n) :
     homogeneousScalarTwistedSections 𝒮 F i n 0 s = 0 := by
-  show ((twistSheafScalarMap 𝒮 F i n ((i : ℤ) + n) rfl 0).val.app (op ⊤)).hom s = _
+  change ((twistSheafScalarMap 𝒮 F i n ((i : ℤ) + n) rfl 0).val.app (op ⊤)).hom s = _
   rw [twistSheafScalarMap_zero 𝒮 F i n ((i : ℤ) + n) rfl]
   rfl
 

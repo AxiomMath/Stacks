@@ -94,11 +94,11 @@ variable [HasDerivedCategory.{w} (Sheaf (smallTopology (overSituation T f)) AddC
   [HasDerivedCategory.{w'} (Sheaf (opensTopology T) AddCommGrpCat.{u + 1})]
 
 /-- **Stacks Project, Lemma 60.26.3, Tag 07Q9.**  Let `p = T.p` be the prime of the global
-crystalline situation `T`, whose divided power scheme `(S, 𝓘, γ)` lies over `ℤ_(p)`, and assume
-`p ∈ 𝓘` (`hpI`).  Let `f : X' ⟶ X` be an iterated `α_p`-cover (`hf`) of schemes over
-`S₀ = V(𝓘)` — `X'` lies over `S₀` through `f`, which is the situation `overSituation T f` — of
-constant degree `q` (`hq`).  Let `ℱ` be a crystal in quasi-coherent sheaves on `Cris(X/S)` (`hF`)
-and `ℱ' = f_cris^*ℱ` (`crisModuleInverseImage` of `ℱ`).  Then in every distinguished triangle
+crystalline situation `T`, whose divided power scheme `(S, 𝓘, γ)` lies over `ℤ_(p)`.  Let
+`f : X' ⟶ X` be an iterated `α_p`-cover (`hf`) of schemes over `S₀ = V(𝓘)` — `X'` lies over
+`S₀` through `f`, which is the situation `overSituation T f` — of constant degree `q` (`hq`).
+Let `ℱ` be a crystal in quasi-coherent sheaves on `Cris(X/S)` (`hF`) and `ℱ' = f_cris^*ℱ`
+(`crisModuleInverseImage` of `ℱ`).  Then in every distinguished triangle
 
 `Ru_{X/S, *}ℱ ⟶ f_*Ru_{X'/S, *}ℱ' ⟶ E ⟶ Ru_{X/S, *}ℱ[1]`
 
@@ -106,19 +106,17 @@ on the canonical map `moduleComparison07Q9` (in the derived category of abelian 
 `f_*` is the derived direct image of the Zariski topoi, which is `f_*` since `f` is a
 homeomorphism), the object `E` has every cohomology sheaf annihilated by `q` (`Annihilation07Q9`).
 
-The hypothesis `p ∈ 𝓘` of the source is stated; the argument only uses that `p` is nilpotent on
-`X`, which every global crystalline situation carries. -/
+The hypothesis `p ∈ 𝓘` of the source is not needed: the argument only uses that `p` is nilpotent
+on `X`, which every global crystalline situation carries. -/
 @[stacks 07Q9 "for an iterated α_p-cover f : X' → X over S_0 of constant degree q and a crystal \
 in quasi-coherent modules F on Cris(X/S), with F' = f_cris^* F, the cone E of \
 Ru_{X/S,*}F → f_* Ru_{X'/S,*}F' has all cohomology sheaves annihilated by q"]
 theorem annihilation07Q9_of_isIteratedAlphaPCover
-    (hpI : (T.p : Γ(T.S.scheme, ⊤)) ∈ T.S.ideal.obj (op ⊤)) {q : ℕ}
-    (hf : IsIteratedAlphaPCover T.p f) (hq : HasConstantDegree f q)
+    {q : ℕ} (hf : IsIteratedAlphaPCover T.p f) (hq : HasConstantDegree f q)
     (F : SheafOfModules.{u} (structureSheaf T)) (hF : IsQuasiCoherentCrystal T F) :
     Annihilation07Q9 T q
       (moduleComparison07Q9 (overSituation T f) T (𝟙 T.S) f (overSituation_compat T f)
         ((moduleULift T).obj F)) := by
-  clear hpI
   exact annihilation07Q9_of_chainConeAnnihilation hf hq _ fun n W hW =>
     chainConeAnnihilation_isChainOpen07Q9 T f F hF hW
 

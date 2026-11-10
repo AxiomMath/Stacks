@@ -177,11 +177,21 @@ public theorem smallEtalePostcomposeBaseChangeAdjunction_unit_app {T' T : B.Sche
     show (eqToIso (smallEtaleBaseChange_comp_inclusion B f).symm).hom = 𝟙 _ from rfl]
   simp only [NatTrans.id_app]
   apply Over.OverMorphism.ext
-  apply pullback.hom_ext <;>
-    simp [smallEtaleBaseChangeLift, smallEtalePostcompose, smallEtaleBaseChange] <;>
-    first
-      | exact (pullback.lift_fst _ _ _).symm
-      | exact (pullback.lift_snd _ _ _).symm
+  apply pullback.hom_ext
+  · simp only [ObjectProperty.ι_obj, Functor.id_obj, smallEtalePostcompose, Over.mk_left,
+      Over.mk_hom, ObjectProperty.lift_obj_obj, Functor.comp_obj, Over.map_obj_left,
+      Over.map_obj_hom, smallEtaleBaseChange, Over.mapPullbackAdj_unit_app,
+      CategoryTheory.Functor.map_id, Category.comp_id, Over.homMk_left, limit.lift_π,
+      PullbackCone.mk_pt, PullbackCone.mk_π_app, smallEtaleBaseChangeLift, ObjectProperty.ι_map,
+      ObjectProperty.homMk_hom]
+    exact (pullback.lift_fst _ _ _).symm
+  · simp only [ObjectProperty.ι_obj, Functor.id_obj, Over.mk_left, smallEtalePostcompose,
+      Over.mk_hom, ObjectProperty.lift_obj_obj, Functor.comp_obj, Over.map_obj_left,
+      Over.map_obj_hom, smallEtaleBaseChange, Over.mapPullbackAdj_unit_app,
+      CategoryTheory.Functor.map_id, Category.comp_id, Over.homMk_left, limit.lift_π,
+      PullbackCone.mk_pt, PullbackCone.mk_π_app, smallEtaleBaseChangeLift, ObjectProperty.ι_map,
+      ObjectProperty.homMk_hom]
+    exact (pullback.lift_snd _ _ _).symm
 
 /-- The adjunction of direct images on sheaves induced by the adjunction between composition
 with an étale morphism and base change along it. -/
@@ -243,7 +253,7 @@ public theorem smallInverseImageIsoPostcomposePushforward_inv_app_comp {T' T : B
       (adj.homEquiv _ _).symm
         ((B.smallPullbackAdjunction f (Type u₁)).homEquiv _ _ c) := by
     rw [Equiv.eq_symm_apply]
-    show adj.homEquiv _ _
+    change adj.homEquiv _ _
       ((Adjunction.leftAdjointUniq (B.smallPullbackAdjunction f (Type u₁)) adj).inv.app _ ≫ _) = _
     rw [Adjunction.leftAdjointUniq_inv_app]
     exact Adjunction.homEquiv_leftAdjointUniq_hom_app_comp adj

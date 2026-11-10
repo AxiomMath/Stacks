@@ -99,7 +99,7 @@ theorem localTrace_formsMap_of_isPullback [IsAffineHom f] {W : X.Opens} {W' : X'
     IsScalarTower.of_algebraMap_eq fun _ => rfl
   have : IsScalarTower Γ(X, W) Γ(Y, f ⁻¹ᵁ W) Γ(Y', f' ⁻¹ᵁ W') :=
     IsScalarTower.of_algebraMap_eq fun x => by
-      show (a.appLE W W' hW'W ≫ f'.app W').hom x =
+      change (a.appLE W W' hW'W ≫ f'.app W').hom x =
         (f.app W ≫ b.appLE (f ⁻¹ᵁ W) (f' ⁻¹ᵁ W') eW).hom x
       rw [hpo.w]
   have : Algebra.IsPushout Γ(X, W) Γ(Y, f ⁻¹ᵁ W) Γ(X', W') Γ(Y', f' ⁻¹ᵁ W') :=

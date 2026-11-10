@@ -77,10 +77,12 @@ theorem mem_span_singleton_smul_top_iff {R M : Type*} [CommRing R] [AddCommGroup
 /-- The section `s`, read in degree one of the section ring. -/
 abbrev sectionElt : sectionRing L := DirectSum.of (powSections L) 1 (degreeOneSection L s)
 
+omit [Stacks.Ample.IsInvertibleModule X L] in
 /-- The element `sectionElt L s` is homogeneous of degree one. -/
 theorem sectionElt_mem : sectionElt L s ∈ grading L 1 :=
   Stacks.ExternalGrading.of_mem_summand _ _
 
+omit [Stacks.Ample.IsInvertibleModule X L] in
 /-- The ideal `(f)` of the section ring is homogeneous. -/
 public theorem isHomogeneous_span_sectionElt :
     (Ideal.span {sectionElt L s}).IsHomogeneous (grading L) :=
@@ -174,7 +176,7 @@ public theorem ker_eq_idealPowerMultiple (N : GradedModuleCat.{u, u, u} (grading
 /-- The map `Ñ|_X ⟶ (N / fᵏN)~|_X` is an epimorphism. -/
 public instance epi_map_powQuotientπ (N : GradedModuleCat.{u, u, u} (grading L)) (k : ℕ) :
     Epi ((restrictedTildeFunctor L hL).map (powQuotientπ L s N k)) := by
-  haveI : Epi ((Stacks.SectionRingProjQuasicoherent.associatedSchemeFunctor L).map
+  have : Epi ((Stacks.SectionRingProjQuasicoherent.associatedSchemeFunctor L).map
       (powQuotientπ L s N k)) :=
     epi_map_associatedModuleSheafFunctor (grading L) _ (Submodule.mkQ_surjective _)
   exact (inferInstance : (Scheme.Modules.restrictFunctor

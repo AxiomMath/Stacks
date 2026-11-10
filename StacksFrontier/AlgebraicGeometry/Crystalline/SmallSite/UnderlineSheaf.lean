@@ -72,7 +72,8 @@ halves use repeatedly that the hom sets of `X.Opens` are subsingletons, which is
 diagram of opens commute.
 
 The module documentation of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/ZariskiRingedComparison.lean` explains why the
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/ZariskiRingedComparison.lean` explains why
+the
 ring comparison runs from `𝒪_{X/S}` to `G_a̲` and not the other way, and therefore why `F̲` is an
 `𝒪_{X/S}`-module rather than `𝒪_{X/S}` being a `G_a̲`-algebra.
 

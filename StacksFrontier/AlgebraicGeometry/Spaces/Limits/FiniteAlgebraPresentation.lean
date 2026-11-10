@@ -73,7 +73,7 @@ theorem mem_genSub (x : Gen K) (h : IsAffine (chartScheme (chartOf x.1))) :
     x.2 ∈ (genSub hK hP x).obj (chartOf x.1) (chartOf x.1).1.hom (Category.comp_id _) := by
   classical
   unfold genSub
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact Classical.choose_spec (hP (chartOf x.1) (chartOf x.1).1.hom (Category.comp_id _) h x.2)
 
 /-- The module underlying the chosen submodule of a generator. -/

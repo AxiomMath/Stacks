@@ -137,11 +137,11 @@ theorem exact_mapComposableArrows {C D : Type*} [Category C] [Category D]
     ((F.mapComposableArrows n).obj T).Exact := by
   refine ⟨⟨?_⟩, ?_⟩
   · intro i hi
-    show F.map (T.map' i (i + 1)) ≫ F.map (T.map' (i + 1) (i + 2)) = 0
+    change F.map (T.map' i (i + 1)) ≫ F.map (T.map' (i + 1) (i + 2)) = 0
     rw [← Functor.map_comp, hT.toIsComplex.zero' i (i + 1) (i + 2)]
     simp
   · intro i hi
-    show ((T.sc hT.toIsComplex i).map F).Exact
+    change ((T.sc hT.toIsComplex i).map F).Exact
     exact (hT.exact i hi).map F
 
 /-- **The four lemma for a natural transformation.** If a natural transformation between exact
@@ -268,7 +268,7 @@ theorem abelianFiberTransition_isIso_iff (F : Sheaf S.totalTopology Ab.{u}) :
     rw [hEq, isIso_comp_left_iff, isIso_comp_right_iff]
   rw [hstep, isIso_iff_of_reflects_iso g EN]
   let : (Grp.forget (Sheaf (S.componentTopology n) (Type u))).ReflectsIsomorphisms := by
-    show (Grp.forget₂Mon _ ⋙ Mon.forget _).ReflectsIsomorphisms
+    change (Grp.forget₂Mon _ ⋙ Mon.forget _).ReflectsIsomorphisms
     infer_instance
   rw [← isIso_iff_of_reflects_iso g (CommGrp.forget₂Grp _ ⋙ Grp.forget _),
     groupFiberTransition_forget_app]

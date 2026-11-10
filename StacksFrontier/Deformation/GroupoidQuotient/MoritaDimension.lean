@@ -148,7 +148,7 @@ public theorem isSmooth_restrictedRepresentableMap_targetPoint
   have hS := comp_hom_app_eq_of_restrictedCoyonedaMap eA' eB' H.source sH hsH
   have hT := comp_hom_app_eq_of_restrictedCoyonedaMap eA' eB' H.target tH htH
   have hΦ := comp_hom_app_eq_of_restrictedCoyonedaMap eA' eA F.mapObjects φ hφ
-  show Deformation.IsSmooth (elementsBasedFunctor (restrictedCoyonedaMap (tH ≫ ρ)))
+  change Deformation.IsSmooth (elementsBasedFunctor (restrictedCoyonedaMap (tH ≫ ρ)))
   apply (isSmooth_elementsBasedFunctor_iff _).2
   intro T₁ T f hf q a₁ hqa
   let x : A ⟶ artinianToComplete.obj T := mvPowerSeriesCoeffMap A n ≫ q
@@ -223,19 +223,19 @@ public theorem isSmooth_restrictedRepresentableMap_targetPoint
       rw [CompleteLocalAlgCat.comp_hom, AlgHom.comp_apply, hρc, mvPowerSeriesLift_hom_X]
   refine ⟨q₁, ?_, ?_⟩
   · apply mvPowerSeriesObject_hom_ext
-    · show mvPowerSeriesCoeffMap A n ≫ q₁ ≫ artinianToComplete.map f = x
+    · change mvPowerSeriesCoeffMap A n ≫ q₁ ≫ artinianToComplete.map f = x
       rw [← Category.assoc, mvPowerSeriesCoeffMap_comp_lift]
       exact hom_app_comp_map_eq eA f x₁ x hx₁
     · intro i
-      show (artinianToComplete.map f).hom (q₁.hom (MvPowerSeries.X i)) = q.hom (MvPowerSeries.X i)
+      change (artinianToComplete.map f).hom (q₁.hom (MvPowerSeries.X i)) = q.hom (MvPowerSeries.X i)
       rw [mvPowerSeriesLift_hom_X]
       have h1 := hom_app_comp_map_eq eB' f b₂ b hb₂map
       have h2 := congrArg (fun g : B' ⟶ artinianToComplete.obj T => g.hom (c i)) h1
       simp only [CompleteLocalAlgCat.comp_hom, AlgHom.comp_apply] at h2
       rw [h2]
-      show (ρ ≫ q).hom (c i) = _
+      change (ρ ≫ q).hom (c i) = _
       rw [CompleteLocalAlgCat.comp_hom, AlgHom.comp_apply, hρc]
-  · show (tH ≫ ρ) ≫ q₁ = a₁
+  · change (tH ≫ ρ) ≫ q₁ = a₁
     rw [Category.assoc, hρq₁, hT, hb₂t, Iso.inv_hom_id_app_apply]
 
 /-- **The arrows of `G` form a power series ring over `A`.** In the situation of the
@@ -255,7 +255,7 @@ public theorem isIso_arrowsPowerSeriesMap
     (htH : restrictedCoyonedaMap tH = eB'.inv ≫ H.target ≫ eA'.hom)
     (φ : A' ⟶ A) (hφ : restrictedCoyonedaMap φ = eA.inv ≫ F.mapObjects ≫ eA'.hom)
     (χ : B' ⟶ B) (hχ : restrictedCoyonedaMap χ = eB.inv ≫ F.mapArrows ≫ eB'.hom)
-    {n : ℕ} (c : Fin n → B') (hc : ∀ i, c i ∈ maximalIdeal B')
+    {n : ℕ} (c : Fin n → B')
     (huniq : ∀ {T : CompleteLocalAlgCat.{u, v, w} Λ k} (b b' : B' ⟶ T), sH ≫ b = sH ≫ b' →
       (∀ i, b.hom (c i) = b'.hom (c i)) → b = b')
     (ρ : B' ⟶ mvPowerSeriesObject A n) (hρs : sH ≫ ρ = φ ≫ mvPowerSeriesCoeffMap A n)
@@ -284,13 +284,13 @@ public theorem isIso_arrowsPowerSeriesMap
     apply (restrictedCoyonedaMap_bijective A' B).1
     ext T g
     obtain ⟨p, rfl⟩ := iso_hom_app_surjective eB T g
-    show (sH ≫ χ) ≫ eB.hom.app T p = (φ ≫ sG) ≫ eB.hom.app T p
+    change (sH ≫ χ) ≫ eB.hom.app T p = (φ ≫ sG) ≫ eB.hom.app T p
     rw [Category.assoc, Category.assoc, hX, hSH, hSG, hΦ, F.map_source]
   have htχ : tH ≫ χ = φ ≫ tG := by
     apply (restrictedCoyonedaMap_bijective A' B).1
     ext T g
     obtain ⟨p, rfl⟩ := iso_hom_app_surjective eB T g
-    show (tH ≫ χ) ≫ eB.hom.app T p = (φ ≫ tG) ≫ eB.hom.app T p
+    change (tH ≫ χ) ≫ eB.hom.app T p = (φ ≫ tG) ≫ eB.hom.app T p
     rw [Category.assoc, Category.assoc, hX, hTH, hTG, hΦ, F.map_target]
   -- `θ` restricts to `χ` along `ρ`
   have hρθ : ρ ≫ θ = χ := by
@@ -309,7 +309,7 @@ public theorem isIso_arrowsPowerSeriesMap
     apply mvPowerSeriesObject_hom_ext
     · rw [← Category.assoc, hθC, h1]
     · intro i
-      show g.hom (θ.hom (MvPowerSeries.X i)) = q.hom (MvPowerSeries.X i)
+      change g.hom (θ.hom (MvPowerSeries.X i)) = q.hom (MvPowerSeries.X i)
       rw [hθX]
       simpa only [CompleteLocalAlgCat.comp_hom, AlgHom.comp_apply, hρc] using
         congrArg (fun φ : B' ⟶ T => φ.hom (c i)) h2
@@ -355,7 +355,7 @@ public theorem isIso_arrowsPowerSeriesMap
         (by simp only [bb, ← Category.assoc, hq])
     obtain ⟨p, hps, hpt, hFp⟩ := Hom.exists_arrow_of_full F T _ _ _ hbs hbt
     refine ⟨eB.hom.app T p, ?_⟩
-    show L ≫ eB.hom.app T p = a
+    change L ≫ eB.hom.app T p = a
     have hθq : θ ≫ eB.hom.app T p = q := by
       apply hθext
       · rw [hSG, hps, Iso.inv_hom_id_app_apply]
@@ -363,7 +363,7 @@ public theorem isIso_arrowsPowerSeriesMap
     apply mvPowerSeriesObject_hom_ext
     · rw [← Category.assoc, mvPowerSeriesCoeffMap_comp_lift, hTG, hpt, Iso.inv_hom_id_app_apply]
     · intro j
-      show (eB.hom.app T p).hom (L.hom (MvPowerSeries.X j)) = a.hom (MvPowerSeries.X j)
+      change (eB.hom.app T p).hom (L.hom (MvPowerSeries.X j)) = a.hom (MvPowerSeries.X j)
       rw [mvPowerSeriesLift_hom_X, ← hqd j, ← hθq]
       rfl
 
@@ -401,7 +401,7 @@ public theorem twoMul_ringKrullDim_sub_eq_of_quotientMap
   let θ : mvPowerSeriesObject A n ⟶ B := mvPowerSeriesLift sG (fun i => χ.hom (c i))
     (fun i => CompleteLocalAlgCat.Hom.hom_mem_maximalIdeal χ (hc i))
   have hL := isIso_arrowsPowerSeriesMap G H eA eB eA' eB' F sG tG hsG htG sH tH hsH htH φ hφ χ hχ
-    c hc huniq ρ hρs hρc d hd huniqψ hexistψ θ (mvPowerSeriesCoeffMap_comp_lift _ _ _)
+    c huniq ρ hρs hρc d hd huniqψ hexistψ θ (mvPowerSeriesCoeffMap_comp_lift _ _ _)
     (fun i => mvPowerSeriesLift_hom_X _ _ _ i)
   have hdimB : ringKrullDim B = ringKrullDim A + m :=
     (ringKrullDim_eq_of_isIso (mvPowerSeriesLift tG (fun j => θ.hom (d j))

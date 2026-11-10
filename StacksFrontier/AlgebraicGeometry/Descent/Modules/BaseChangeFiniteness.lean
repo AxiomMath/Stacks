@@ -173,7 +173,7 @@ private theorem finitePresentation_descends_same_universe
   let qS := q.baseChange S
   let gS := g.baseChange S
   have hqSsurj : Function.Surjective qS := by
-    simpa only [qS, LinearMap.baseChange_eq_ltensor] using LinearMap.lTensor_surjective S hqsurj
+    simpa only [qS, LinearMap.baseChange_eq_lTensor] using LinearMap.lTensor_surjective S hqsurj
   have hkerq : LinearMap.ker qS = K'.baseChange S := by
     rw [ker_baseChange_of_surjective S q hqsurj, Submodule.ker_mkQ]
   have hcomp : gS.comp qS = fS := by
@@ -194,12 +194,12 @@ private theorem finitePresentation_descends_same_universe
     · intro x y hxy
       apply (TensorProduct.comm R (P ⧸ K') S).injective
       apply hgSinj
-      simpa only [gS, ← LinearMap.lTensor_comm, LinearMap.baseChange_eq_ltensor] using
+      simpa only [gS, ← LinearMap.lTensor_comm, LinearMap.baseChange_eq_lTensor] using
         congrArg (TensorProduct.comm R M S) hxy
     · intro y
       obtain ⟨x, hx⟩ := hgSsurj ((TensorProduct.comm R M S) y)
       refine ⟨(TensorProduct.comm R S (P ⧸ K')) x, ?_⟩
-      rw [LinearMap.rTensor_comm, ← LinearMap.baseChange_eq_ltensor, hx]
+      rw [LinearMap.rTensor_comm, ← LinearMap.baseChange_eq_lTensor, hx]
       exact (TensorProduct.comm R S M).apply_symm_apply y
   exact Module.FinitePresentation.of_equiv
     (LinearEquiv.ofBijective g (reflects_isomorphisms hRS g hbijRT))

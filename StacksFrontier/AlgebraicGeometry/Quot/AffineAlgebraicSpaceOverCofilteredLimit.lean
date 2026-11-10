@@ -233,7 +233,7 @@ theorem stripUlift_comp {C : Type*} [Category* C] {F G J : C ⥤ Type u}
     (γ : G ⋙ uliftFunctor.{u + 1, u} ⟶ J ⋙ uliftFunctor.{u + 1, u}) :
     stripUlift (β ≫ γ) = stripUlift β ≫ stripUlift γ := by
   refine NatTrans.ext (funext fun T ↦ ConcreteCategory.hom_ext _ _ fun x ↦ ?_)
-  show ((γ.app T) ((β.app T) ⟨x⟩)).down = ((γ.app T) ⟨((β.app T) ⟨x⟩).down⟩).down
+  change ((γ.app T) ((β.app T) ⟨x⟩)).down = ((γ.app T) ⟨((β.app T) ⟨x⟩).down⟩).down
   rfl
 
 /-- The identity of a universe lift, stripped, is the identity. -/

@@ -125,6 +125,7 @@ theorem smallerBasePresheafEquivalence_obj_hom (F : (BigFppfOver B W hW)ᵒᵖ �
   exact Over.OverMorphism.ext rfl
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for presheaf categories over `BigFppfOver` and their `Over` slices is deep
 /-- **`Λ_h` is full over `h_W`**: a morphism `Λ_h F ⟶ Λ_h G` of presheaves over `S` compatible with
 the structural morphisms to the representable presheaf of `h` is `Λ_h` of a morphism `F ⟶ G`. This
 is the fullness of the equivalence of Stacks 04SG on presheaves. -/

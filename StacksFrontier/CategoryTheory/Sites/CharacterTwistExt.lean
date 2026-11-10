@@ -78,8 +78,7 @@ lemma twistTensor_hom_ext {F : Cᵒᵖ ⥤ AddCommGrpCat.{u + 1}} {A : AddCommGr
     a = b := by
   apply AddCommGrpCat.hom_ext
   refine AddMonoidHom.ext fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' =>
       exact (map_add _ z z').trans ((congrArg₂ (· + ·) hz hz').trans (map_add _ z z').symm)
   | tmul t x =>
@@ -235,7 +234,7 @@ lemma twistSquareCompare_app_gen {V : Cᵒᵖ} (t : F.obj V) (φ : V.unop ⟶ W)
         (AddCommGrpCat.tensorGen t (twistedGenerator W act (1 : G →* ℤˣ) φ)) =
       AddCommGrpCat.tensorGen
         (AddCommGrpCat.tensorGen t (twistedGenerator W act χ φ)) (twistedGenerator W act χ φ) := by
-  show (twistSquareOuter W act χ F V).flip t (twistedGenerator W act (1 : G →* ℤˣ) φ) = _
+  change (twistSquareOuter W act χ F V).flip t (twistedGenerator W act (1 : G →* ℤˣ) φ) = _
   rw [AddMonoidHom.flip_apply, twistSquareOuter_twistedGenerator, twistSquareGen_apply]
 
 /-- **The comparison with the doubly twisted tensor product**, as a natural transformation
@@ -483,9 +482,6 @@ theorem exists_sieve_tensorGen (F : Cᵒᵖ ⥤ AddCommGrpCat.{u + 1}) {V : C} (
         (AddCommGrpCat.presheafTensor F (characterTwistPresheaf W act χ)).map f.op y =
           AddCommGrpCat.tensorGen t (twistedGenerator W act χ (f ≫ p)) := by
   induction y using AddCommGrpCat.presheafTensor_induction_on with
-  | zero =>
-      refine ⟨⊤, J.top_mem V, fun V' f _ => ⟨0, ?_⟩⟩
-      rw [map_zero, AddCommGrpCat.tensorGen_zero_left]
   | gen a x =>
       obtain ⟨S, hS, hfam⟩ := h.exists_sieve_twistedGenerator_zsmul χ p x
       refine ⟨S, hS, fun V' f hf => ?_⟩
@@ -514,9 +510,6 @@ theorem exists_sieve_twistSquareCompare (F : Cᵒᵖ ⥤ AddCommGrpCat.{u + 1}) 
         (twistSquareCompare W act χ F).app (op V') y =
           (twistSquarePresheaf W act χ F).map g.op z := by
   induction z using AddCommGrpCat.presheafTensor_induction_on with
-  | zero =>
-      refine ⟨⊤, J.top_mem V, fun V' g _ => ⟨0, ?_⟩⟩
-      rw [map_zero, map_zero]
   | gen a x =>
       obtain ⟨S₁, hS₁, hfam₁⟩ := h.exists_sieve_tensorGen χ F p a
       obtain ⟨S₂, hS₂, hfam₂⟩ := h.exists_sieve_twistedGenerator_zsmul χ p x
@@ -574,7 +567,7 @@ theorem isLocallyInjective_twistSquareCompare (F : Cᵒᵖ ⥤ AddCommGrpCat.{u 
   rw [hcomp, twistSquareCompare_app_gen] at himg
   have hinner : AddCommGrpCat.tensorGen t (twistedGenerator W act χ (g ≫ q)) = 0 := by
     refine h.injective_tmul_twistedGenerator χ (g ≫ q) hbot ?_
-    show AddCommGrpCat.tensorGen
+    change AddCommGrpCat.tensorGen
         (AddCommGrpCat.tensorGen t (twistedGenerator W act χ (g ≫ q)))
         (twistedGenerator W act χ (g ≫ q)) =
       AddCommGrpCat.tensorGen (0 : (AddCommGrpCat.presheafTensor F
@@ -583,7 +576,7 @@ theorem isLocallyInjective_twistSquareCompare (F : Cᵒᵖ ⥤ AddCommGrpCat.{u 
     rw [himg, AddCommGrpCat.tensorGen_zero_left]
   have ht0 : t = 0 := by
     refine h.injective_tmul_twistedGenerator χ (g ≫ q) hbot ?_
-    show AddCommGrpCat.tensorGen t (twistedGenerator W act χ (g ≫ q)) =
+    change AddCommGrpCat.tensorGen t (twistedGenerator W act χ (g ≫ q)) =
       AddCommGrpCat.tensorGen (0 : F.obj (op V'')) (twistedGenerator W act χ (g ≫ q))
     rw [hinner, AddCommGrpCat.tensorGen_zero_left]
   have hzero : (AddCommGrpCat.presheafTensor F

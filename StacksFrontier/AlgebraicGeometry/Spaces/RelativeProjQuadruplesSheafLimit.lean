@@ -145,7 +145,7 @@ theorem sieve_compactOpens_mem (Y : BigFppfOver B S hS) :
     ((BigFppfOver.toScheme B S hS).obj Y).isBasis_affineOpens.exists_subset_of_mem_open
       (Set.mem_univ x) isOpen_univ
   refine ⟨⟨(U : ((BigFppfOver.toScheme B S hS).obj Y).Opens), hU.isCompact⟩, ?_⟩
-  show x ∈ Set.range (Scheme.Opens.ι (U : ((BigFppfOver.toScheme B S hS).obj Y).Opens)).base
+  change x ∈ Set.range (Scheme.Opens.ι (U : ((BigFppfOver.toScheme B S hS).obj Y).Opens)).base
   rw [Scheme.Opens.range_ι]
   exact hxU
 

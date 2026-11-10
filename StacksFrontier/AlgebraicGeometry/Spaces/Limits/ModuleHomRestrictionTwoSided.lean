@@ -101,7 +101,7 @@ theorem moduleHomRestrict₂_moduleHomRestrict₂ {P Q R : AlgebraicSpaces B S h
         (by rw [← hk, Category.assoc, h', hr']) x := by
   subst hk h h' hr hr'
   rw [moduleHomRestrict₂_rfl, moduleHomRestrict₂_rfl]
-  show _ = moduleHomRestrict₂ M N (g' ≫ g) p p' ((g' ≫ g) ≫ p) ((g' ≫ g) ≫ p') rfl rfl x
+  change _ = moduleHomRestrict₂ M N (g' ≫ g) p p' ((g' ≫ g) ≫ p) ((g' ≫ g) ≫ p') rfl rfl x
   rw [moduleHomRestrict₂_rfl]
   have hnat := (modulePullbackCompIso B S hS g' g).hom.naturality x
   simp only [Functor.comp_map] at hnat
@@ -186,7 +186,7 @@ theorem moduleHomRestrict₂_pullbackComparison_hom {V P T : AlgebraicSpaces B S
         (pullbackComparison B S hS f p fp hfp M).hom =
       (pullbackComparison B S hS t p tp htp' M).hom := by
   subst hfp ht htp
-  show _ = (pullbackComparison B S hS (s ≫ f) p ((s ≫ f) ≫ p) rfl M).hom
+  change _ = (pullbackComparison B S hS (s ≫ f) p ((s ≫ f) ≫ p) rfl M).hom
   rw [moduleHomRestrict₂_rfl, pullbackComparison_rfl, pullbackComparison_rfl]
   have hM := (modulePullbackCompIsoAssoc B S hS).inv_app s f p M
   simp only [Iso.symm_hom, Iso.app_inv]

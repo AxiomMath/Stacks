@@ -85,7 +85,7 @@ theorem ker_appTop_pow_eq_bot {X Y : Scheme.{u}} (f : X ⟶ Y) (hqc : QuasiCompa
       exact Ideal.pow_right_mono hmap n
     exact hle (Ideal.mem_map_of_mem _ hs)
   refine le_antisymm (fun s hs => ?_) bot_le
-  show s = 0
+  change s = 0
   refine Y.IsSheaf.section_ext (U := op (⊤ : Y.Opens)) ?_
   intro x _
   obtain ⟨V, ⟨U, hU, rfl⟩, hxU, -⟩ :=

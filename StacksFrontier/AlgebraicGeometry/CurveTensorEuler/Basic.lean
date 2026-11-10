@@ -68,8 +68,8 @@ did not already have. The rest is already present:
 * coherence of `E` and of the structure sheaf over a proper base, in
   `StacksFrontier/AlgebraicGeometry/CurveEulerBridge/Basic.lean`.
 
-With `fiberRank` the equation of the statement is a well-formed statement of this repository, with no
-extra hypothesis. What it still owes is the theory, not the vocabulary:
+With `fiberRank` the equation of the statement is a well-formed statement of this repository, with
+no extra hypothesis. What it still owes is the theory, not the vocabulary:
 
 * coherence of a tensor product. No statement combining coherence with a tensor product is
   available, so even the existential witness of the statement is unavailable.

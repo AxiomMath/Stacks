@@ -65,7 +65,7 @@ theorem free_localizedModule_of_free_quotient
     IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   have : IsScalarTower A (Localization.AtPrime p) N :=
     IsScalarTower.of_algebraMap_smul fun a n => by
-      show algebraMap (Localization.AtPrime p) S
+      change algebraMap (Localization.AtPrime p) S
         (algebraMap A (Localization.AtPrime p) a) • n = a • n
       rw [← IsScalarTower.algebraMap_apply, IsScalarTower.algebraMap_smul]
   have : Module.Flat A N := Module.Flat.of_isLocalizedModule_of_tower q.primeCompl

@@ -356,8 +356,8 @@ theorem isHomotopyColimitWith_approximationTower :
     rw [approximationTowerFunctor_map_comp_ι, sub_self]
   obtain ⟨b, hb⟩ := Triangle.yoneda_exact₂ _ hT₀ (Sigma.desc c) hφ
   have hιb : ∀ n, Sigma.ι F.obj n ≫ p₀ ≫ b = c n := fun n => by
-    show Sigma.ι F.obj n ≫ (Triangle.mk φ p₀ q₀).mor₂ ≫ b = c n
-    rw [← hb, Sigma.ι_desc]
+    change Sigma.ι F.obj n ≫ (Triangle.mk φ p₀ q₀).mor₂ ≫ b = c n
+    rw [← hb, Sigma.ι_comp_desc]
   have hbiso : IsIso b := by
     rw [DerivedCategory.isIso_iff]
     intro i
@@ -367,7 +367,7 @@ theorem isHomotopyColimitWith_approximationTower :
         e.hom ≫ H.map b := by
       refine colimit.hom_ext fun n => ?_
       rw [colimit.ι_desc]
-      show H.map (c n) = colimit.ι (F ⋙ H) n ≫ e.hom ≫ H.map b
+      change H.map (c n) = colimit.ι (F ⋙ H) n ≫ e.hom ≫ H.map b
       rw [reassoc_of% (he n), ← H.map_comp, Category.assoc, hιb]
     have h₁ : IsIso (colimit.desc (F ⋙ H) (approximationTowerHomologyCocone start step i)) :=
       inferInstanceAs (IsIso ((colimit.isColimit _).coconePointUniqueUpToIso

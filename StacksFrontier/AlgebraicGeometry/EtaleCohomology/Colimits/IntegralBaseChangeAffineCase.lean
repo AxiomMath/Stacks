@@ -125,8 +125,8 @@ vertical pasting of `Stacks.EtaleCohomology.smallEtaleSquarePushforwardIsoAt`, w
 associativity pentagon. That law is
 `Stacks.EtaleCohomology.smallEtaleSetsBaseChange_vpaste_app'`, and the identity above is its
 instance at the limit presentation,
-`Stacks.EtaleCohomology.stageComparison_comp_stageLeg`, proved in
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/IntegralBaseChangeAffineCaseColimit.lean`.
+`Stacks.EtaleCohomology.stageComparison_comp_stageLeg`, proved in the module
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Colimits.IntegralBaseChangeAffineCaseColimit`.
 Granted it, invertibility of the given comparison is equivalent to
 invertibility of `stageLeg i`, and that is what the two colimit statements — the second half of
 [Stacks, Tag 0EYN] and the interchange of `f'_*` with the colimit — deliver, the diagram
@@ -161,7 +161,7 @@ variable {X' X Y' Y : Scheme.{u}}
 
 /-- A big étale site containing the four corners of a square of schemes. The four schemes form a
 four-element, hence `Small.{u}`, set, so `AlgebraicGeometry.BigEtaleSite.ofSet` applies. -/
-theorem exists_bigEtaleSite_square (g' : X' ⟶ X) (f' : X' ⟶ Y') (f : X ⟶ Y) (g : Y' ⟶ Y) :
+theorem exists_bigEtaleSite_square (X' X Y' Y : Scheme.{u}) :
     ∃ B : BigEtaleSite.{u},
       B.Contains X' ∧ B.Contains X ∧ B.Contains Y' ∧ B.Contains Y := by
   have := small_single.{u} Y
@@ -189,7 +189,7 @@ containing the four corners, and the two site transfers
 theorem isIso_smallEtaleSetsBaseChange_of_isFinite (g' : X' ⟶ X) (f' : X' ⟶ Y') (f : X ⟶ Y)
     (g : Y' ⟶ Y) (sq : IsPullback g' f' f g) [IsFinite f] :
     IsIso (smallEtaleSetsBaseChange.{u, 0} g' f' f g sq.w) := by
-  obtain ⟨B, hX', hX, hY', hY⟩ := exists_bigEtaleSite_square g' f' f g
+  obtain ⟨B, hX', hX, hY', hY⟩ := exists_bigEtaleSite_square X' X Y' Y
   let bg' : B.obj X' hX' ⟶ B.obj X hX := ObjectProperty.homMk g'
   let bf' : B.obj X' hX' ⟶ B.obj Y' hY' := ObjectProperty.homMk f'
   let bf : B.obj X hX ⟶ B.obj Y hY := ObjectProperty.homMk f

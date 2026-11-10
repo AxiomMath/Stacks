@@ -171,6 +171,7 @@ public theorem exists_finitePresentation_of_comparisonPushforward
     (comparisonPullbackUnitIso h R).symm).ofIsIso
       (comparisonPullbackObjIso.{u, v, w, w} h R M).hom, inferInstance⟩
 
+omit [HasWeakSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- **Finite presentation for a coarser topology implies finite presentation for a finer one.**
 For `K ≤ J` two topologies on one category and `M` a sheaf of modules for `J`: if the reading of
 `M` for `K` is of finite presentation on `(C, K)`, then `M` is of finite presentation on

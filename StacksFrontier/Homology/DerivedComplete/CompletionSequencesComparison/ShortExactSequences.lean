@@ -147,7 +147,7 @@ private theorem mappingCoconeTriangleMap_hom₂
     (a : K₁ ⟶ K₂) (b : L₁ ⟶ L₂) (h : d₁ ≫ b = a ≫ d₂) :
     (mappingCoconeTriangleMap d₁ d₂ a b h).hom₂ = a := by
   exact (congrArg TriangleMorphism.hom₁ (rotate_mappingCoconeTriangleMap d₁ d₂ a b h)).trans (by
-    show 𝟙 _ ≫ a ≫ 𝟙 _ = a
+    change 𝟙 _ ≫ a ≫ 𝟙 _ = a
     simp)
 
 set_option backward.isDefEq.respectTransparency false in
@@ -158,7 +158,7 @@ private theorem mappingCoconeTriangleMap_hom₃
     (a : K₁ ⟶ K₂) (b : L₁ ⟶ L₂) (h : d₁ ≫ b = a ≫ d₂) :
     (mappingCoconeTriangleMap d₁ d₂ a b h).hom₃ = b := by
   exact (congrArg TriangleMorphism.hom₂ (rotate_mappingCoconeTriangleMap d₁ d₂ a b h)).trans (by
-    show 𝟙 _ ≫ b ≫ 𝟙 _ = b
+    change 𝟙 _ ≫ b ≫ 𝟙 _ = b
     simp)
 
 set_option backward.isDefEq.respectTransparency false in
@@ -208,7 +208,7 @@ private theorem mappingCoconeTriangleMap_snd
     Int.negOnePow_even 2 ⟨1, rfl⟩, one_smul, CochainComplex.shiftFunctorObjXIso,
     HomologicalComplex.XIsoOfEq_rfl, Iso.refl_hom]
   erw [Category.id_comp, Category.id_comp]
-  show (CochainComplex.mappingCone.map d₁ d₂ a b h).f (p + -1) ≫
+  change (CochainComplex.mappingCone.map d₁ d₂ a b h).f (p + -1) ≫
       (CochainComplex.mappingCone.snd d₂).v (p + -1) (p + -1) (by omega) = _
   simp [CochainComplex.mappingCone.ext_from_iff _ p (p + -1) (by omega),
     CochainComplex.mappingCone.map]
@@ -270,7 +270,7 @@ private theorem milnorTriangleMap_hom₂
     {A : Type u} [CommRing A]
     {E F : ℕᵒᵖ ⥤ CochainComplex (ModuleCat.{v} A) ℤ} (α : E ⟶ F) :
     (milnorTriangleMap α).hom₂ = Q.map (Limits.Pi.map (fun n : ℕ ↦ α.app ⟨n⟩)) := by
-  show Q.map (mappingCoconeTriangleMap (C := ModuleCat.{v} A) _ _ _ _ _).hom₂ = _
+  change Q.map (mappingCoconeTriangleMap (C := ModuleCat.{v} A) _ _ _ _ _).hom₂ = _
   rw [mappingCoconeTriangleMap_hom₂]
 
 set_option backward.isDefEq.respectTransparency false in
@@ -278,7 +278,7 @@ private theorem milnorTriangleMap_hom₃
     {A : Type u} [CommRing A]
     {E F : ℕᵒᵖ ⥤ CochainComplex (ModuleCat.{v} A) ℤ} (α : E ⟶ F) :
     (milnorTriangleMap α).hom₃ = Q.map (Limits.Pi.map (fun n : ℕ ↦ α.app ⟨n⟩)) := by
-  show Q.map (mappingCoconeTriangleMap (C := ModuleCat.{v} A) _ _ _ _ _).hom₃ = _
+  change Q.map (mappingCoconeTriangleMap (C := ModuleCat.{v} A) _ _ _ _ _).hom₃ = _
   rw [mappingCoconeTriangleMap_hom₃]
 
 set_option backward.isDefEq.respectTransparency false in
@@ -295,10 +295,10 @@ private theorem completionComparison_naturality
   apply reflector_hom_ext adj
   simp only [Category.assoc]
   erw [adj.unit_naturality_assoc]
-  show Q.map g ≫ adj.unit.app (Q.obj D) ≫ (c.iso D).hom ≫ (c.iso D).inv = _
+  change Q.map g ≫ adj.unit.app (Q.obj D) ≫ (c.iso D).hom ≫ (c.iso D).inv = _
   rw [← Category.assoc _ (c.iso D).hom, c.unit_iso]
   rw [← Category.assoc (adj.unit.app _) (c.iso C).hom, c.unit_iso]
-  show Q.map g ≫ Q.map (CompletionSequences.principalCompletionUnit A f D) ≫ (c.iso D).inv =
+  change Q.map g ≫ Q.map (CompletionSequences.principalCompletionUnit A f D) ≫ (c.iso D).inv =
     Q.map (CompletionSequences.principalCompletionUnit A f C) ≫ Q.map _ ≫ (c.iso D).inv
   rw [← Functor.map_comp_assoc, ← Functor.map_comp_assoc]
   exact congrArg (fun k ↦ Q.map k ≫ (c.iso D).inv)
@@ -310,7 +310,7 @@ private theorem powerMultiplication_naturality
     {A : Type u} [CommRing A] (r : A) {M N : ModuleCat.{v} A} (g : M ⟶ N) :
     PrincipalTorsionTower.powerMultiplication A M r ≫ g =
       g ≫ PrincipalTorsionTower.powerMultiplication A N r := by
-  show (r • 𝟙 M) ≫ g = g ≫ (r • 𝟙 N)
+  change (r • 𝟙 M) ≫ g = g ≫ (r • 𝟙 N)
   simp [smul_comp, comp_smul]
 
 set_option backward.isDefEq.respectTransparency false in
@@ -392,7 +392,7 @@ private theorem principalCone_inclusion_naturality
   funext n
   apply (cancel_epi (cokernel.π (PrincipalTorsionTower.powerMultiplication A
     ((homologyFunctor (ModuleCat.{v} A) p).obj K) (f ^ (n.unop + 1))))).1
-  show _ ≫ ((powerQuotientSystemMap f _).app n ≫ iD.app n) =
+  change _ ≫ ((powerQuotientSystemMap f _).app n ≫ iD.app n) =
     _ ≫ (iC.app n ≫ (homologyFunctor (ModuleCat.{v} A) p).map
       (Q.map ((principalComplexSystemMap f g).app n)))
   rw [← Category.assoc, π_powerQuotientSystemMap, Category.assoc, hiD n.unop]
@@ -434,7 +434,7 @@ private theorem principalCone_projection_naturality
   funext n
   apply (cancel_mono (kernel.ι (PrincipalTorsionTower.powerMultiplication A
     ((homologyFunctor (ModuleCat.{v} A) q).obj L) (f ^ (n.unop + 1))))).1
-  show ((homologyFunctor (ModuleCat.{v} A) p).map
+  change ((homologyFunctor (ModuleCat.{v} A) p).map
     (Q.map ((principalComplexSystemMap f g).app n)) ≫ sD.app n) ≫ _ =
       (sC.app n ≫ (powerTorsionSystemMap f _).app n) ≫ _
   rw [Category.assoc, hsD n.unop, Category.assoc, powerTorsionSystemMap_ι,
@@ -443,7 +443,7 @@ private theorem principalCone_projection_naturality
     (f ^ (n.unop + 1) • 𝟙 C) (f ^ (n.unop + 1) • 𝟙 D) g g
       (by simp [smul_comp, comp_smul]))
   have h := (homologyFunctor (ModuleCat.{v} A) 0).homologySequenceδ_naturality φ p q hpq
-  show (homologyFunctor (ModuleCat.{v} A) p).map φ.hom₃ ≫ _ = _
+  change (homologyFunctor (ModuleCat.{v} A) p).map φ.hom₃ ≫ _ = _
   erw [← Category.assoc, h, Category.assoc]
   have h₁ : φ.hom₁ = Q.map g := rfl
   rw [h₁]
@@ -515,7 +515,7 @@ private theorem principalCone_shortExact
   let b (n : ℕ) := (H 0).homologySequenceδ (T n) p q hpq ≫ (H q).map e.hom
   let m (j : ℤ) (n : ℕ) := PrincipalTorsionTower.powerMultiplication A ((H j).obj K) (f ^ (n + 1))
   have hm (j : ℤ) (n : ℕ) : (H j).map (T n).mor₁ = f ^ (n + 1) • 𝟙 _ := by
-    show (H j).map (Q.map (f ^ (n + 1) • 𝟙 C)) = _
+    change (H j).map (Q.map (f ^ (n + 1) • 𝟙 C)) = _
     simp [H, T, Functor.map_smul]
   have hm' (j : ℤ) (n : ℕ) : m j n = f ^ (n + 1) • 𝟙 _ := rfl
   have ha (n : ℕ) : m p n ≫ a n = 0 := by
@@ -542,7 +542,7 @@ private theorem principalCone_shortExact
   have ha_exact (n : ℕ) : (ShortComplex.mk (m p n) (a n) (ha n)).Exact := by
     apply ShortComplex.exact_of_iso _ ((H 0).homologySequence_exact₂ (T n) (hT n) p)
     refine ShortComplex.isoMk ((H p).mapIso e) ((H p).mapIso e) (Iso.refl _) ?_ ?_
-    · show (H _).map e.hom ≫ m _ _ = (H _).map (T _).mor₁ ≫ (H _).map e.hom
+    · change (H _).map e.hom ≫ m _ _ = (H _).map (T _).mor₁ ≫ (H _).map e.hom
       simp only [hm, hm', comp_smul, smul_comp, Category.comp_id, Category.id_comp]
     · simp [a, H, shift_homologyFunctor, ← Functor.map_comp]
   have hab_exact (n : ℕ) : (ShortComplex.mk (a n) (b n) (hab n)).Exact := by
@@ -556,7 +556,7 @@ private theorem principalCone_shortExact
       ((H 0).homologySequence_exact₁ (T n) (hT n) p q hpq)
     refine ShortComplex.isoMk (Iso.refl _) ((H q).mapIso e) ((H q).mapIso e) ?_ ?_
     · simp [b]
-    · show (H _).map e.hom ≫ m _ _ = (H _).map (T _).mor₁ ≫ (H _).map e.hom
+    · change (H _).map e.hom ≫ m _ _ = (H _).map (T _).mor₁ ≫ (H _).map e.hom
       simp only [hm, hm', comp_smul, smul_comp, Category.comp_id, Category.id_comp]
   let φ (n : ℕ) : T (n + 1) ⟶ T n :=
     Q.mapTriangle.map (CochainComplex.mappingCone.triangleMap _ _
@@ -576,12 +576,12 @@ private theorem principalCone_shortExact
     erw [hE, ← Category.assoc,
       (H 0).homologySequenceδ_naturality (φ n) p q hpq, Category.assoc]
     have h₁ : (H q).map (φ n).hom₁ = f • 𝟙 _ := by
-      show (H q).map (Q.map (f • 𝟙 C)) = _
+      change (H q).map (Q.map (f • 𝟙 C)) = _
       simp [H, T, Functor.map_smul]
-    show (H 0).homologySequenceδ (T (n + 1)) p q hpq ≫
+    change (H 0).homologySequenceδ (T (n + 1)) p q hpq ≫
       (H q).map (φ n).hom₁ ≫ (H q).map e.hom = _
     rw [h₁]
-    show _ = b (n + 1) ≫ (f • 𝟙 _)
+    change _ = b (n + 1) ≫ (f • 𝟙 _)
     simp [b, H, T, shift_homologyFunctor, comp_smul, smul_comp]
   let i : CompletionSequences.powerQuotientSystem A ((H p).obj K) f ⟶ E :=
     NatTrans.ofOpSequence (fun n ↦ cokernel.desc (m p n) (a n) (ha n)) (by
@@ -605,7 +605,7 @@ private theorem principalCone_shortExact
   have hz : i ≫ s = 0 := by
     apply NatTrans.ext
     funext n
-    show i.app n ≫ s.app n = 0
+    change i.app n ≫ s.app n = 0
     apply (cancel_epi (cokernel.π (m p n.unop))).1
     apply (cancel_mono (kernel.ι (m q n.unop))).1
     simpa [Category.assoc, reassoc_of% hi n.unop, hs n.unop] using hab n.unop
@@ -649,10 +649,10 @@ private theorem milnorTriangle_homology_shortExact
     apply Pi.hom_ext
     intro n
     erw [Category.assoc, he]
-    show (H q).map (Q.map (CompletionSequences.complexDifference A E)) ≫ _ = _
+    change (H q).map (Q.map (CompletionSequences.complexDifference A E)) ≫ _ = _
     rw [← Functor.map_comp, ← Functor.map_comp]
     simp only [CompletionSequences.complexDifference, Pi.lift_comp_π]
-    show _ = (e q).hom ≫ CompletionSequences.moduleDifference A (V q) ≫
+    change _ = (e q).hom ≫ CompletionSequences.moduleDifference A (V q) ≫
       Pi.π (fun n : ℕ ↦ (V q).obj ⟨n⟩) n
     rw [CompletionSequences.moduleDifference, Pi.lift_comp_π, comp_sub, ← Category.assoc,
       he, he]
@@ -697,7 +697,7 @@ private theorem milnorTriangle_homology_shortExact
     dsimp only [q]
     rw [← Category.assoc, hz, zero_comp]
   refine ⟨e (p - 1), i, q, hiq, he (p - 1), ?_, ?_, ?_⟩
-  · show (e (p - 1)).hom ≫ cokernel.π (d (p - 1)) ≫ i =
+  · change (e (p - 1)).hom ≫ cokernel.π (d (p - 1)) ≫ i =
       (H 0).homologySequenceδ T (p - 1) p (by omega)
     simp [i, c]
   · intro n
@@ -705,7 +705,7 @@ private theorem milnorTriangle_homology_shortExact
       rw [← heLim]
       simp [q]
     have h := congrArg (fun g ↦ g ≫ Pi.π (fun n : ℕ ↦ (V p).obj ⟨n⟩) n) hq
-    show q ≫ limit.π (V p) ⟨n⟩ = (H p).map (T.mor₁ ≫ Q.map (Pi.π (fun n : ℕ ↦ E.obj ⟨n⟩) n))
+    change q ≫ limit.π (V p) ⟨n⟩ = (H p).map (T.mor₁ ≫ Q.map (Pi.π (fun n : ℕ ↦ E.obj ⟨n⟩) n))
     simpa [Category.assoc, a, he, Functor.map_comp] using h
   · apply ShortComplex.shortExact_of_iso _ hse
     exact ShortComplex.isoMk (Iso.refl _) (Iso.refl _) eLim.symm (by simp [i]) (by simp [q])
@@ -719,7 +719,7 @@ private theorem powerQuotientSystem_isMittagLeffler
   let π : (Functor.const ℕᵒᵖ).obj M ⟶ Q := NatTrans.ofOpSequence
     (fun n ↦ cokernel.π (PrincipalTorsionTower.powerMultiplication A M (f ^ (n + 1)))) (by
       intro n
-      show 𝟙 M ≫ cokernel.π (PrincipalTorsionTower.powerMultiplication A M (f ^ (n + 1))) = _
+      change 𝟙 M ≫ cokernel.π (PrincipalTorsionTower.powerMultiplication A M (f ^ (n + 1))) = _
       rw [Category.id_comp, CompletionSequences.powerQuotientSystem_map_succ]
       exact (CompletionSequences.π_powerQuotientTransition A M f n).symm)
   have hπ (n : ℕᵒᵖ) : Epi (π.app n) := by dsimp [π]; infer_instance
@@ -777,7 +777,7 @@ private theorem product_shortExact
       Discrete.natTrans fun n ↦ (S n.as).g
     have : ∀ n : Discrete ℕ, Epi (α.app n) := fun n ↦ hg n.as
     have : Epi α := NatTrans.epi_of_epi_app α
-    show Epi (lim.map α)
+    change Epi (lim.map α)
     infer_instance
   refine ⟨hfg, { mono_f := inferInstance, epi_g := inferInstance, exact := ?_ }⟩
   apply ShortComplex.exact_of_f_is_kernel

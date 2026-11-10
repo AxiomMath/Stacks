@@ -334,9 +334,9 @@ lemma colimitPullback_map_germ_one (ψ : A ⟶ B) {U : Dᵒᵖ} (T : Costructure
     (a : A.obj T.left) :
     Hom.app ((colimitPullback F R).map ψ) U (germ F R A T 1 a)
       = germ F R B T 1 (Hom.app ψ T.left a) := by
-  show descMap F R (ψ ≫ homEquiv F R B (obj F R B) (𝟙 _)) U (germ F R A T 1 a) = _
+  change descMap F R (ψ ≫ homEquiv F R B (obj F R B) (𝟙 _)) U (germ F R A T 1 a) = _
   rw [descMap_germ]
-  show (obj F R B).map T.hom (PullbackColimit.unit F R B T.left (Hom.app ψ T.left a)) = _
+  change (obj F R B).map T.hom (PullbackColimit.unit F R B T.left (Hom.app ψ T.left a)) = _
   rw [PullbackColimit.unit, obj_map_germ, map_one]
   exact germ_congr F R B (Category.id_comp T.hom) 1 (Hom.app ψ T.left a)
 
@@ -410,7 +410,7 @@ lemma tmulGerm_restrict {U U' : Dᵒᵖ} (g : U ⟶ U') (T : CostructuredArrow F
       = tmulGerm F R A B U' (CostructuredArrow.mk (T.hom ≫ g)) ((R.map g).hom r) a b := by
   refine Eq.trans (tensorObj_restrictₛₗ_tmul (F := obj F R A) (G := obj F R B) g
     (germ F R A T r a) (germ F R B T 1 b)) ?_
-  show (obj F R A).map g (germ F R A T r a) ⊗ₜ (obj F R B).map g (germ F R B T 1 b) = _
+  change (obj F R A).map g (germ F R A T r a) ⊗ₜ (obj F R B).map g (germ F R B T 1 b) = _
   rw [obj_map_germ, obj_map_germ, map_one]
   rfl
 

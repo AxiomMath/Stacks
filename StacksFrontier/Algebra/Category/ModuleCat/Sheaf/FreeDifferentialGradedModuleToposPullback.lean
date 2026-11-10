@@ -184,7 +184,7 @@ theorem toposDegreeStep_apply (Q : DifferentialGradedModule.{w, w, w} B) (i : �
       f.adj.homEquiv (degreeFiberSheaf S i) (closedSectionSheaf Q i)
           ((inverseImageDegreeFiberIso f S i).hom ≫ F) ≫
         (closedSectionToposPushforwardIso G f ν ψ hψ Q i).hom := by
-  show (Iso.refl (degreeFiberSheaf S i)).inv ≫
+  change (Iso.refl (degreeFiberSheaf S i)).inv ≫
       (f.adj.homEquiv (degreeFiberSheaf S i) (closedSectionSheaf Q i)
         ((inverseImageDegreeFiberIso f S i).hom ≫ F ≫
           (Iso.refl (closedSectionSheaf Q i)).inv)) ≫

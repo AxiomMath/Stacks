@@ -95,7 +95,7 @@ public theorem valuativeCriterionExistence_comp
       have : IsLocalHom e₂.ringMap := e₂.isLocalHom
       exact RingHom.isLocalHom_comp e₂.ringMap e₁.ringMap
     fraction_comm := by
-      show (algebraMap e₂.square.R e₂.square.K).comp (e₂.ringMap.comp e₁.ringMap) = _
+      change (algebraMap e₂.square.R e₂.square.K).comp (e₂.ringMap.comp e₁.ringMap) = _
       rw [← RingHom.comp_assoc, e₂.fraction_comm, RingHom.comp_assoc, e₁.fraction_comm]
       simp only [compSquare, RingHom.comp_assoc]
     base_comm := by
@@ -103,18 +103,18 @@ public theorem valuativeCriterionExistence_comp
         ← CommRingCat.ofHom_comp]
     genericOver := e₂.genericOver ≫ e₁.genericOver
     genericOver_left := by
-      show (B.inclusion).map (e₂.genericOver.left ≫ e₁.genericOver.left) = _
+      change (B.inclusion).map (e₂.genericOver.left ≫ e₁.genericOver.left) = _
       rw [Functor.map_comp, e₂.genericOver_left, e₁.genericOver_left, ← Spec.map_comp,
         ← CommRingCat.ofHom_comp]
     specialOver := e₂.specialOver ≫ e₁.specialOver
     specialOver_left := by
-      show (B.inclusion).map (e₂.specialOver.left ≫ e₁.specialOver.left) = _
+      change (B.inclusion).map (e₂.specialOver.left ≫ e₁.specialOver.left) = _
       rw [Functor.map_comp, e₂.specialOver_left, e₁.specialOver_left, ← Spec.map_comp,
         ← CommRingCat.ofHom_comp]
     generic_comm := by
       simpa only [qfinal, qf, yoneda.map_comp, Category.assoc] using e₂.generic_comm
     special_comm := by
-      show e₂.square.special ≫ g = _
+      change e₂.square.special ≫ g = _
       rw [e₂.special_comm, Category.assoc, l₁.special_comm, e₁.special_comm]
       simp only [compSquare, yoneda.map_comp, Category.assoc]
   }

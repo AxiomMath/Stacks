@@ -200,6 +200,7 @@ namespace AlgebraicGeometry.SmallEtale
 variable (B : BigEtaleSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the coproduct `∐ F` of sheaves of modules on the small étale site
 /-- A finite direct sum of quasi-coherent sheaves of modules on the small étale site of a scheme
 is quasi-coherent.  This is the finite case of the direct-sum clause of Stacks 0GNB. -/
 theorem isQuasicoherentOnSite_coproduct {ι : Type*} [Finite ι]

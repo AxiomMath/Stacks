@@ -127,7 +127,7 @@ theorem IsLocallyOfFiniteType.of_comp_of_locallySurjective {X Y U : FppfSheaf B 
   have hrepf : Space.IsRepresentableByAlgebraicSpacesULift.{u + 1} B S hS f.hom :=
     isRepresentableByAlgebraicSpacesULift_of_comp_of_locallySurjective B S hS f p hp hsurj hcrep
   refine ⟨hrepf, fun T ξ ↦ ?_⟩
-  show Space.IsLocallyOfFiniteTypeULift.{u + 1} B S hS (pullback.fst ξ f.hom)
+  change Space.IsLocallyOfFiniteTypeULift.{u + 1} B S hS (pullback.fst ξ f.hom)
   obtain ⟨Z, β, hβE, hcs, hce⟩ :=
     exists_schemeChart_pullback_of_locallySurjective B S hS f p hp hsurj hcrep T ξ
   have hfac : pullback.fst (pullback.snd ξ f.hom) p.hom ≫ pullback.fst ξ f.hom =

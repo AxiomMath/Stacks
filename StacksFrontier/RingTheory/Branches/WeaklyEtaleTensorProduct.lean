@@ -82,7 +82,7 @@ private theorem residue_apply_eq_of_ker_eq_maximalIdeal {k A C : Type*} [Field k
     residue C (f a) = residue C (g (res a)) := by
   have hmem : a - algebraMap k A (res a) ∈ maximalIdeal A := by
     rw [← hres, RingHom.mem_ker]
-    show res (a - algebraMap k A (res a)) = 0
+    change res (a - algebraMap k A (res a)) = 0
     rw [map_sub, AlgHom.commutes, Algebra.algebraMap_self, RingHom.id_apply, sub_self]
   have h0 := (residue_eq_zero_iff _).mpr (map_nonunit f _ hmem)
   rw [map_sub, map_sub, hfg, sub_eq_zero] at h0
@@ -133,15 +133,14 @@ theorem minimalPrimes_bijOn_of_weaklyEtale_tensorProduct
       (fun c ↦ congrArg φ (Algebra.TensorProduct.includeRight.commutes c)) b
   have hres : ∀ d : D, residue C (φ d) = χ (L d) := by
     intro d
-    induction d using TensorProduct.induction_on with
-    | zero => simp
+    induction d using TensorProduct.inductionOn with
     | tmul a b =>
       have hab : (a ⊗ₜ[k] b : D) = iA a * iB b := by
-        show a ⊗ₜ[k] b = (a ⊗ₜ[k] (1 : B)) * ((1 : A) ⊗ₜ[k] b)
+        change a ⊗ₜ[k] b = (a ⊗ₜ[k] (1 : B)) * ((1 : A) ⊗ₜ[k] b)
         rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
       rw [hab, map_mul, map_mul, hleft, hright, map_mul, ← map_mul]
       congr 1
-      show resA a * resB b = L (a ⊗ₜ[k] 1) * L (1 ⊗ₜ[k] b)
+      change resA a * resB b = L (a ⊗ₜ[k] 1) * L (1 ⊗ₜ[k] b)
       rw [Algebra.TensorProduct.lift_tmul, Algebra.TensorProduct.lift_tmul, map_one, map_one,
         mul_one, one_mul]
     | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
@@ -155,12 +154,12 @@ theorem minimalPrimes_bijOn_of_weaklyEtale_tensorProduct
   have : P.IsPrime := RingHom.ker_isPrime _
   have hMP : M = P.primeCompl := by
     ext d
-    show L d ∈ nonZeroDivisors k ↔ d ∉ RingHom.ker L.toRingHom
+    change L d ∈ nonZeroDivisors k ↔ d ∉ RingHom.ker L.toRingHom
     rw [mem_nonZeroDivisors_iff_ne_zero, RingHom.mem_ker]
     rfl
   let R := Localization M
   have : IsLocalization.AtPrime R P := by
-    show IsLocalization P.primeCompl R
+    change IsLocalization P.primeCompl R
     rw [← hMP]
     infer_instance
   have : IsLocalRing R := IsLocalization.AtPrime.isLocalRing R P

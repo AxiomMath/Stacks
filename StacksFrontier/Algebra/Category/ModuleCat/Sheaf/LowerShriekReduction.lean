@@ -225,7 +225,7 @@ lemma restrictionMap_ι_apply {X Y : Dᵒᵖ} (f : X ⟶ Y) (s : R.idx X.unop) (
   obtain rfl : R.red (StructuredArrow.mk (f.unop ≫ (R.pt s).hom)) = s' := R.red_eq g
   obtain rfl : R.lift (StructuredArrow.mk (f.unop ≫ (R.pt s).hom)) = g := R.hom_ext _ _
   exact ConcreteCategory.congr_hom
-    (Sigma.ι_desc (f := summands R M X)
+    (Sigma.ι_comp_desc (f := summands R M X)
       (fun s => transport R M f (R.lift (StructuredArrow.mk (f.unop ≫ (R.pt s).hom))) ≫
         (ModuleCat.restrictScalars (O.map f).hom).map
           (Sigma.ι (summands R M Y)
@@ -409,7 +409,7 @@ lemma transport_comp_descComponent {N : PresheafOfModules.{max i t} O}
   have hα : α.app (op (R.pt s').right) (M.map g.right.op x) =
       N.map (u.map g.right).op (α.app (op (R.pt s).right) x) :=
     ConcreteCategory.congr_hom (α.naturality g.right.op) x
-  show N.map (R.pt s').hom.op (α.app (op (R.pt s').right) (M.map g.right.op x)) =
+  change N.map (R.pt s').hom.op (α.app (op (R.pt s').right) (M.map g.right.op x)) =
     N.map f (N.map (R.pt s).hom.op (α.app (op (R.pt s).right) x))
   refine (congrArg (fun z => N.map (R.pt s').hom.op z) hα).trans ?_
   have hop : (u.map g.right).op ≫ (R.pt s').hom.op = (R.pt s).hom.op ≫ f :=
@@ -423,7 +423,7 @@ lemma desc_ι_apply {N : PresheafOfModules.{max i t} O}
     (s : R.idx X.unop) (y : M.obj (op (R.pt s).right)) :
     Sigma.desc (descComponent R M α X) (Sigma.ι (summands R M X) s y) =
       descComponent R M α X s y :=
-  ConcreteCategory.congr_hom (Sigma.ι_desc (descComponent R M α X) s) y
+  ConcreteCategory.congr_hom (Sigma.ι_comp_desc (descComponent R M α X) s) y
 
 /-- The map `extensionObj M ⟶ N` determined by a map `M ⟶ u^* N`. -/
 noncomputable def homBackward {N : PresheafOfModules.{max i t} O}
@@ -452,7 +452,7 @@ lemma ι_comp_homBackward {N : PresheafOfModules.{max i t} O}
     (α : M ⟶ (PresheafOfModules.pushforward₀.{max i t} u O).obj N) (X : Dᵒᵖ)
     (s : R.idx X.unop) :
     Sigma.ι (summands R M X) s ≫ (homBackward R M α).app X = descComponent R M α X s :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- On the summand indexed by `s`, the map determined by the adjunct `homForward R M β` agrees
 with `β`. -/
@@ -529,7 +529,7 @@ lemma homEquiv_naturality (N N' : PresheafOfModules.{max i t} O) (g : N ⟶ N')
     (h : extensionObj R M ⟶ N) :
     homEquiv R M N' (h ≫ g) =
       homEquiv R M N h ≫ (PresheafOfModules.pushforward₀.{max i t} u O).map g := by
-  show extensionUnit R M ≫ (PresheafOfModules.pushforward₀.{max i t} u O).map (h ≫ g) =
+  change extensionUnit R M ≫ (PresheafOfModules.pushforward₀.{max i t} u O).map (h ≫ g) =
     (extensionUnit R M ≫ (PresheafOfModules.pushforward₀.{max i t} u O).map h) ≫
       (PresheafOfModules.pushforward₀.{max i t} u O).map g
   rw [Functor.map_comp, Category.assoc]

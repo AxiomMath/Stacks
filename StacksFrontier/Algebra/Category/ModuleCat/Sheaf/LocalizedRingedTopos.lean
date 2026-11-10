@@ -146,7 +146,7 @@ elements depends only on the site, its topology and the sheaf, never on the stru
 instance essentiallySmall_elementSite [EssentiallySmall.{v} C] (F : Sheaf J (Type v)) :
     EssentiallySmall.{v} (elementSite F) :=
   (essentiallySmall_congr.{v}
-    (CategoryOfElements.costructuredArrowYonedaEquivalence F.obj)).1 inferInstance
+    (Functor.Elements.costructuredArrowYonedaEquivalence F.obj)).1 inferInstance
 
 variable {F : Sheaf J (Type v)}
 

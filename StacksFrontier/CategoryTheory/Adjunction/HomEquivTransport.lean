@@ -80,8 +80,8 @@ It is determined by `ν`, so appending it is not a choice: it is the unique corr
 which the two hom-set bijections of the square correspond, which is
 `Stacks.CategoryTheory.homEquiv_transport`. -/
 noncomputable def transportMate (ν : La ⋙ Lb ≅ Lc ⋙ Ld) : Ra ⋙ Lc ⟶ Lb ⋙ Rd :=
-  ((mateEquiv b c).symm (TwoSquare.mk Rb Rd Ra Rc
-    (conjugateEquiv (a.comp b) (c.comp d) ν.inv))).natTrans
+  (mateEquiv b c).symm (TwoSquare.mk Rb Rd Ra Rc
+    (conjugateEquiv (a.comp b) (c.comp d) ν.inv))
 
 /-- **The two hom-set bijections of a square of adjunctions correspond.**  Let
 `ν : La ⋙ Lb ≅ Lc ⋙ Ld` compare the two composites round the square.  For a morphism

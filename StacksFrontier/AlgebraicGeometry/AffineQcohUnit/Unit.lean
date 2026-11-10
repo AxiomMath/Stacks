@@ -48,8 +48,8 @@ but it lives on the slice site `Over V` rather than on the opens of the open sub
 `presentationOfIsoSpec` is the `Opens V` form of the same statement, obtained by replaying the
 argument over an open subscheme rather than by identifying the two sites; it is proved in
 `StacksFrontier/AlgebraicGeometry/RestrictEquivalence/Basic.lean`, which
-`StacksFrontier/AlgebraicGeometry/PushforwardColimits/Counit.lean` itself imports.  So no identification of `Over V` with the opens of `V` is needed
-for Tag 01SB, and none is made here.
+`StacksFrontier/AlgebraicGeometry/PushforwardColimits/Counit.lean` itself imports.  So no
+identification of `Over V` with the opens of `V` is needed for Tag 01SB, and none is made here.
 
 ## References
 

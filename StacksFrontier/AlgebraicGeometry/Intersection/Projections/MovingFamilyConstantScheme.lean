@@ -142,7 +142,7 @@ public theorem comap_vanishingIdeal_lineProductPoint
   refine Scheme.IdealSheafData.eq_vanishingIdeal_of_isReduced_subscheme _ _ ?_
   refine Closeds.ext ?_
   rw [Scheme.IdealSheafData.support_comap]
-  show (lineProductPoint k V W).base ⁻¹'
+  change (lineProductPoint k V W).base ⁻¹'
       ((Scheme.IdealSheafData.vanishingIdeal
         (⟨X, hX⟩ : Closeds (projectiveSpaceOfModule k V))).support :
           Set (projectiveSpaceOfModule k V)) =

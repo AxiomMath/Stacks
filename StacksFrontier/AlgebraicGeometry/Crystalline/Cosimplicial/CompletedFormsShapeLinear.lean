@@ -108,7 +108,7 @@ public theorem algebraMap_sub_mem_map_pow (hI : I.FG) (k : ℕ) (r : AdicComplet
       I.map (algebraMap R (AdicCompletion I R)) ^ k := by
   have hker : algebraMap R (AdicCompletion I R) a - r ∈ (AdicCompletion.eval I R k).ker := by
     rw [LinearMap.mem_ker, map_sub, sub_eq_zero]
-    show AdicCompletion.eval I R k (AdicCompletion.of I R a) = AdicCompletion.eval I R k r
+    change AdicCompletion.eval I R k (AdicCompletion.of I R a) = AdicCompletion.eval I R k r
     rw [AdicCompletion.eval_of, AdicCompletion.eval_apply, ← ha]
     rfl
   rwa [← AdicCompletion.pow_smul_top_eq_ker_eval hI, Ideal.smul_top_eq_map,

@@ -93,7 +93,8 @@ add_to_stacks 02ZE Pseudofunctor.DescentData.pullFunctor
 /- A near-match for Stacks 0GEA, with the local hypotheses (3) and (4) replaced by a global one.
 This is intentionally not registered with `add_to_stacks`: the two hypothesis sets are not
 comparable, and the exact tag is formalized by
-`Functor.isEquivalence_toFamilyDescentDatum_of_homOver` in `StacksFrontier/CategoryTheory/Sites/Descent/OfRefinement.lean`. The refinement
+`Functor.isEquivalence_toFamilyDescentDatum_of_homOver` in
+`StacksFrontier/CategoryTheory/Sites/Descent/OfRefinement.lean`. The refinement
 `𝒱 → 𝒰` of Stacks, given by `α : J → I` and `f_j : V_j → U_{α(j)}` over `id : U → U`, is here the
 inequality `h₂` of generated sieves, and `h₁` says `𝒱` is a covering family. Stacks' hypothesis
 (2), that `𝒮_U → DD(𝒱)` is an equivalence, is the instance argument; the conclusion that

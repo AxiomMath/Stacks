@@ -143,7 +143,7 @@ theorem inverseImage_twistNegOneTransition_comp
         etaleModuleRestrictScalarsHomPrecomp ρ pX Gx := by
     rw [hτx, moduleSheafHomMap_comp_moduleSheafHomMap, moduleSheafHomMap_comp_moduleSheafHomMap,
       moduleSheafHomMap_comp_moduleSheafHomMap, ← hS₂]
-    simp only [Category.id_comp, Category.comp_id, Category.assoc]
+    simp only [Category.id_comp, Category.comp_id]
   have := hmono
   rw [← cancel_mono (etaleModuleRestrictScalarsHomPrecomp ρ pX Gx)]
   exact twist_square_chain (etaleModuleRestrictScalars ρ X) _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -169,6 +169,13 @@ theorem tower_square_chain {C D E : Type*} [Category* C] [Category* D] [Category
 
 attribute [local instance] neZero_pow_of_fact_prime neZero_natCast_pow moduleCat_hasLimitsOfSize
 
+/-- `ℓⁿ⁺¹` is invertible on `X`. -/
+theorem LAdicSheaf.isUnit_pow_globalSections {B : BigEtaleSite.{u}} {ℓ : ℕ} {X : B.Scheme}
+    {k : Type u} [Field k] (fX : X.1 ⟶ Spec (.of k)) [NeZero (ℓ : k)] (n : ℕ) :
+    IsUnit (((ℓ ^ (n + 1) : ℕ) : ℕ) : Γ(X.1, ⊤)) :=
+  Kummer.isUnit_natCast_globalSections_of_isUnit_field fX (ℓ ^ (n + 1))
+    (isUnit_iff_ne_zero.2 (NeZero.ne _))
+
 section Tower
 
 variable {B : BigEtaleSite.{u}} {ℓ : ℕ} [Fact ℓ.Prime]
@@ -185,13 +192,6 @@ variable {B : BigEtaleSite.{u}} {ℓ : ℕ} [Fact ℓ.Prime]
   {X Y : B.Scheme} [IsNoetherian X.1] [IsNoetherian Y.1] (g : Y ⟶ X)
   {k : Type u} [Field k] (fX : X.1 ⟶ Spec (.of k)) [NeZero (ℓ : k)]
   (F : LAdicSheaf.{u, u + 1} B X ℓ)
-
-include fX in
-/-- `ℓⁿ⁺¹` is invertible on `X`. -/
-theorem LAdicSheaf.isUnit_pow_globalSections (n : ℕ) :
-    IsUnit (((ℓ ^ (n + 1) : ℕ) : ℕ) : Γ(X.1, ⊤)) :=
-  Kummer.isUnit_natCast_globalSections_of_isUnit_field fX (ℓ ^ (n + 1))
-    (isUnit_iff_ne_zero.2 (NeZero.ne _))
 
 /-- **Level `n` of the Tate twist commutes with inverse image**:
 `g⁻¹ 𝓗om(μ_{ℓⁿ⁺¹}, Fₙ) ≅ 𝓗om(g⁻¹ μ_{ℓⁿ⁺¹}, g⁻¹ Fₙ) ≅ 𝓗om(μ_{ℓⁿ⁺¹}, (g⁻¹F)ₙ)`, the comparison (an

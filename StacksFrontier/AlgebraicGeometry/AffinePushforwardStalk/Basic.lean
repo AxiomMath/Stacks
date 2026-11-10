@@ -70,7 +70,7 @@ public theorem IsAffineOpen.isLocalization_pushforwardStalk {X Y : Scheme.{u}} (
       ((Opens.map f.base).map (homOfLE (X.basicOpen_le r))) (Scheme.preimage_basicOpen f r)
   refine ⟨?_, ?_, ?_⟩
   · rintro ⟨-, s, hs, rfl⟩
-    show IsUnit ((f.base _* Y.presheaf).germ U x hx ((f.app U) s))
+    change IsUnit ((f.base _* Y.presheaf).germ U x hx ((f.app U) s))
     rw [← TopCat.Presheaf.stalkFunctor_map_germ_apply U x hx f.c s]
     exact ((X.mem_basicOpen s x hx).mp
       ((hU.mem_primeCompl_iff_mem_basicOpen hx s).mp hs)).map _

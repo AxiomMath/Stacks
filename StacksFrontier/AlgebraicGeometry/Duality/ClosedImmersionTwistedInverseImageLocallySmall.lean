@@ -89,9 +89,10 @@ have to be split, part (1) from part (2), because its part (2) genuinely uses th
 **None of it was re-pinned.** Instead part (1) of [Stacks, Tag 0A78] is restated with no derived
 category in it at all — for `s : K ⟶ J` a K-injective resolution, the complex `ℰom(𝒪_Z, J)` has
 quasi-coherent cohomology vanishing in low degrees — proved in that form from the standard-model
-statement, and read back at an arbitrary model, in
-`StacksFrontier/AlgebraicGeometry/Duality/RightAdjointLemmas/ExactSupportQuasicoherentAnyModel.lean`.
-A statement about complexes and quasi-isomorphisms only is model-agnostic and crosses for free;
+statement, and read back at an arbitrary model; the file is
+`StacksFrontier/AlgebraicGeometry/Duality/RightAdjointLemmas/ExactSupportQuasicoherentAnyModel.lean`
+(this library). A statement about complexes and quasi-isomorphisms only is model-agnostic and
+crosses for free;
 this is the route part (2) of [Stacks, Tag 08D5] was transported by in
 `StacksFrontier/AlgebraicGeometry/Duality/DerivedPushforward/UniformBoundAnyModel.lean`. The
 mathematics of [Stacks, Tag 06Z0] at this model is in the tree independently, as
@@ -195,7 +196,8 @@ The abstract input `Stacks.DerivedFunctor.derivedAdjunction` is stated at a free
 model itself. -/
 @[stacks 0A76 "at the locally small derived categories, the model at which the direct-sum and \
   Brown-representability statements about D(O_X) have content; the standard-model form is \
-  RingedSpaceModuleAdjunction.ClosedQuotientMorphismOfRingedSpaces.derivedModulePushforwardSheafHomExactSupportAdjunction, \
+  RingedSpaceModuleAdjunction.ClosedQuotientMorphismOfRingedSpaces.\
+  derivedModulePushforwardSheafHomExactSupportAdjunction, \
   which is about a different pair of categories"]
 def derivedModulePushforwardSheafHomExactSupportAdjunction :
     (modulePushforward (closedQuotient i).i).mapDerivedCategory ⊣ derivedSheafHomExactSupport i :=
@@ -394,13 +396,13 @@ theorem exists_isDerivedSheafHomRightAdjoint_of_fts_of_isAffine
     (h0A9X : Tag0A9XHypothesis.{u})
     {S : Scheme.{u}} [IsNoetherian S] {X Y : FTS S} (i : X ⟶ Y)
     [IsClosedImmersion i.left] [IsAffine X.left] :
-    ∃ (a : quasiCoherentDerivedCategory Y.left ⥤ quasiCoherentDerivedCategory X.left)
-      (adj : affineHomQuasiCoherentDerivedPushforward i.left ⊣ a),
+    ∃ (a : quasiCoherentDerivedCategory Y.left ⥤ quasiCoherentDerivedCategory X.left),
+      Nonempty (affineHomQuasiCoherentDerivedPushforward i.left ⊣ a) ∧
       IsDerivedSheafHomRightAdjoint i.left a := by
   obtain ⟨a, ⟨adj⟩⟩ :=
     Stacks.Duality.AffineGeneration.isLeftAdjoint_qcqsRestrictedDerivedPushforward_of_isAffine
       (f := i.left)
-  exact ⟨a, adj, isDerivedSheafHomRightAdjoint_of_fts h0A9X i a adj⟩
+  exact ⟨a, ⟨adj⟩, isDerivedSheafHomRightAdjoint_of_fts h0A9X i a adj⟩
 
 end Stacks.Duality.LocallySmall
 

@@ -167,8 +167,9 @@ theorem isIso_unit_of_isKilledBy
       ((Space.essImage_modulePushforward_iff B S hS (fibrePresentationMap q) hq G).2
         (annihilatedByKerIdeal_of_isKilledBy Vb f p v q hpb hp G hG))
 
-include hpb in
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search through module sheaves on the small étale ringed site of a space is heavy
+include hpb in
 /-- **`H¹` of a module killed by the ideal of the point.**  Let `F` be quasi-coherent with
 `H¹(W, q^* F) = 0`, the fibre `W` having Noetherian underlying space of dimension at most one.
 Then `H¹(X, G) = 0` for every quasi-coherent quotient `G` of a finite sum of copies of `F` killed
@@ -206,8 +207,9 @@ theorem isZero_cohomology_one_of_isKilledBy_fibreIdeal
   have h1 := (Functor.map_isZero (forget₂ _ AddCommGrpCat.{u + 1}) hN).of_iso e.symm
   exact IsZero.of_iso (isZero_of_isZero_forget₂ _ h1) (Functor.mapIso _ (asIso (adj.unit.app G)))
 
-include hpb in
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search through module sheaves on the small étale ringed site of a space is heavy
+include hpb in
 /-- **Sections over the fibre are sections of `F / 𝔪 F`.**  If `H⁰(X, F) ⟶ H⁰(X, F / 𝔪 F)` is
 onto, so is restriction of global sections `Γ(X, F) ⟶ Γ(W, q^* F)`. -/
 theorem surjective_globalSectionsPullbackMap_of_epi
@@ -235,7 +237,7 @@ theorem surjective_globalSectionsPullbackMap_of_epi
     refine Space.idealMultiple_hom_ext φ F (m ^ 1) fun a ha => ?_
     rw [comp_zero, ← Category.assoc, Space.idealMultipleFactor_ι, ← comp_globalSmul]
     rw [pow_one] at ha
-    show adj.unit.app F ≫ globalSmul O (φ a) (R.obj (L.obj F)) = 0
+    change adj.unit.app F ≫ globalSmul O (φ a) (R.obj (L.obj F)) = 0
     rw [isKilledBy_modulePushforward_fibre Vb f p v q hpb (L.obj F) a ha, comp_zero]
   have hLι : L.map (Space.idealMultipleι φ F (m ^ 1)) = 0 := by
     apply (adj.homEquiv _ _).injective

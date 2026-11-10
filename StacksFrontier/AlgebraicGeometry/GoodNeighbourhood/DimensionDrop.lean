@@ -50,7 +50,7 @@ theorem relativeDimension_le_sub_one_of_mem_zeroScheme [LocallyOfFiniteType p]
   have hsp' : T.subschemeι η ⤳ T.subschemeι w := hsp.map T.subschemeι.continuous
   have hne : T.subschemeι w ≠ T.subschemeι η := fun he => hZ η hηgen (he ▸ hyZ)
   have hηT : T.subschemeι η ∈ T.support := by
-    show T.subschemeι η ∈ (T.support : Set X)
+    change T.subschemeι η ∈ (T.support : Set X)
     rw [← Scheme.IdealSheafData.range_subschemeι]
     exact ⟨η, rfl⟩
   have h1 := hdim _ hηT

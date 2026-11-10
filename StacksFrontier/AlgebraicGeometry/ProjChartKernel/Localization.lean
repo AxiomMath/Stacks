@@ -160,7 +160,7 @@ theorem chartFraction_eq_of_cross (hf : f ∈ 𝒮 d) (a b : ℕ) (u : 𝒮 (a �
     (HomogeneousLocalization.val_injective (Submonoid.powers f) ?_)
   rw [HomogeneousLocalization.Away.val_mk, HomogeneousLocalization.Away.val_mk]
   refine Localization.mk_eq_mk_iff.mpr (Localization.r_of_eq ?_)
-  show f ^ b * (u : S) = f ^ a * (v : S)
+  change f ^ b * (u : S) = f ^ a * (v : S)
   rw [mul_comm (f ^ b), mul_comm (f ^ a)]
   exact huv
 
@@ -175,7 +175,7 @@ theorem chartFraction_mul (hf : f ∈ 𝒮 d) (a b : ℕ) (u : 𝒮 (a • d)) (
     HomogeneousLocalization.Away.val_mk, HomogeneousLocalization.Away.val_mk,
     Localization.mk_mul, hw]
   refine Localization.mk_eq_mk_iff.mpr (Localization.r_of_eq ?_)
-  show f ^ a * f ^ b * ((u : S) * (v : S)) = f ^ (a + b) * ((u : S) * (v : S))
+  change f ^ a * f ^ b * ((u : S) * (v : S)) = f ^ (a + b) * ((u : S) * (v : S))
   rw [pow_add]
 
 /-- The chart function of a power of a homogeneous element of degree `d` is the corresponding
@@ -188,7 +188,7 @@ theorem chartFraction_pow (hf : f ∈ 𝒮 d) (a k : ℕ) (u : 𝒮 (a • d)) (
   rw [HomogeneousLocalization.Away.val_mk, HomogeneousLocalization.val_pow,
     HomogeneousLocalization.Away.val_mk, Localization.mk_pow, hw]
   refine Localization.mk_eq_mk_iff.mpr (Localization.r_of_eq ?_)
-  show ((f ^ a) ^ k) * (u : S) ^ k = f ^ (k * a) * (u : S) ^ k
+  change ((f ^ a) ^ k) * (u : S) ^ k = f ^ (k * a) * (u : S) ^ k
   rw [← pow_mul, Nat.mul_comm a k]
 
 /-- **Every section of the structure sheaf over a standard open is a chart function.** The ring of

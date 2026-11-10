@@ -760,7 +760,7 @@ private theorem item7_imp_item1 : Item7 R → Item1 R := by
     refine ⟨algebraMap R _ r, ?_⟩
     rw [Ideal.ResidueField.map_algebraMap, ← hs]
     have hmem : s - algebraMap R S r ∈ q := by
-      show θ (s - algebraMap R S r) = 0
+      change θ (s - algebraMap R S r) = 0
       rw [map_sub, hθalg r, hr, sub_self]
     have h0 := Ideal.algebraMap_residueField_eq_zero.mpr hmem
     rw [map_sub, sub_eq_zero] at h0

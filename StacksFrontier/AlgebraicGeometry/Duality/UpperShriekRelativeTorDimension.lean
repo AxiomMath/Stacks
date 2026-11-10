@@ -106,18 +106,18 @@ theorem affineGermRingHom_eq_germ {X : Scheme.{u}} {U : X.Opens} (hU : IsAffineO
     refine (TopCat.Presheaf.germ_res_apply U.toScheme.presheaf (homOfLE hle) xU hx
       (U.topIso.inv.hom a)).symm.trans (congrArg _ ?_)
     simp only [Scheme.Opens.topIso, Scheme.Opens.ι_app_self]
-    show (X.presheaf.map _ ≫ X.presheaf.map _).hom a = (X.presheaf.map _).hom a
+    change (X.presheaf.map _ ≫ X.presheaf.map _).hom a = (X.presheaf.map _).hom a
     have hm : ∀ {V W W' : (X.Opens)ᵒᵖ} (f : V ⟶ W) (g : W ⟶ W') (h : V ⟶ W'),
         X.presheaf.map f ≫ X.presheaf.map g = X.presheaf.map h := fun f g h =>
       (X.presheaf.map_comp f g).symm.trans (congrArg X.presheaf.map (Subsingleton.elim _ _))
     exact ConcreteCategory.congr_hom (hm _ _ _) a
   ext a
-  show (affineStalkRingEquiv hU x hx).symm _ = _
+  change (affineStalkRingEquiv hU x hx).symm _ = _
   rw [RingEquiv.symm_apply_eq]
   have := isIso_stalkMap_of_isOpenImmersion hU.isoSpec.hom xU
   apply (ConcreteCategory.bijective_of_isIso (hU.isoSpec.hom.stalkMap xU)).1
   refine (key a).trans ?_
-  show _ = (hU.isoSpec.hom.stalkMap xU).hom ((inv (hU.isoSpec.hom.stalkMap xU)).hom
+  change _ = (hU.isoSpec.hom.stalkMap xU).hom ((inv (hU.isoSpec.hom.stalkMap xU)).hom
     ((U.ι.stalkMap xU).hom _))
   exact (ConcreteCategory.congr_hom (IsIso.inv_hom_id (hU.isoSpec.hom.stalkMap xU)) _).symm
 

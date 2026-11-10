@@ -625,9 +625,9 @@ theorem isKoszulRegularImmersion_of_flat_pullback {Z W X P T : Scheme.{u}} [IsAf
   have hcomp : (j.stalkMap (k z)).hom.comp (γ.comp ρ.appTop.hom)
       = (W.presheaf.germ (⊤ : W.Opens) (k z) trivial).hom.comp q.appTop.hom := by
     ext g
-    show (j.stalkMap (k z)).hom (γ (ρ.appTop.hom g)) = _
+    change (j.stalkMap (k z)).hom (γ (ρ.appTop.hom g)) = _
     rw [hγ, Scheme.Hom.germ_stalkMap_apply j (⊤ : T.Opens) (k z) trivial (ρ.appTop g)]
-    show (W.presheaf.germ (j ⁻¹ᵁ (⊤ : T.Opens)) (k z) trivial).hom
+    change (W.presheaf.germ (j ⁻¹ᵁ (⊤ : T.Opens)) (k z) trivial).hom
       (j.appTop.hom (ρ.appTop.hom g)) = _
     rw [show j.appTop.hom (ρ.appTop.hom g) = q.appTop.hom g from by
       rw [← hbase, Scheme.Hom.comp_appTop, CommRingCat.hom_comp]; rfl]
@@ -744,7 +744,7 @@ private theorem conormal_retraction_of_ideal_intersection
         change η.app ⊤ (@SMul.smul Γ(W, ⊤) Γ(F, ⊤) _ (j.appTop r) x) =
           @SMul.smul Γ(Z, ⊤) Γ(A, ⊤) _ ((k ≫ j).appTop r) (η.app ⊤ x)
         have hh := Scheme.Modules.Hom.app_smul η (U := ⊤) (j.appTop r) x
-        convert hh using 1 <;> rfl }
+        convert hh using 1; rfl }
   let u1 : J →ₗ[R] Γ(A, ⊤) := u0 ∘ₗ eF.inv.hom ∘ₗ J.toCotangent
   obtain ⟨v, hv⟩ := exists_cotangent_extension_of_inf_le I J hIJ u1 (by
     intro a ha m
@@ -762,7 +762,7 @@ private theorem conormal_retraction_of_ideal_intersection
     (F := B) (G := A) r1
   refine ⟨r, ?_⟩
   refine (adj.homEquiv F A).injective ?_
-  show (adj.homEquiv F A) (α ≫ r) = (adj.homEquiv F A) (𝟙 A)
+  change (adj.homEquiv F A) (α ≫ r) = (adj.homEquiv F A) (𝟙 A)
   have h2 : (adj.homEquiv F A) (𝟙 A) = adj.unit.app F := by
     rw [Adjunction.homEquiv_unit, CategoryTheory.Functor.map_id]
     exact Category.comp_id _
@@ -793,13 +793,13 @@ private theorem conormal_retraction_of_ideal_intersection
         (eF.inv (J.toCotangent a))
       = eB.inv ((I ⊔ J).toCotangent (Submodule.inclusion le_sup_right a)) :=
     (val_map_eq_self B _ _).symm.trans hc
-  show (Scheme.Modules.Hom.app ((Scheme.Modules.pushforward k).map r) ⊤)
+  change (Scheme.Modules.Hom.app ((Scheme.Modules.pushforward k).map r) ⊤)
       ((Scheme.Modules.Hom.app (adj.unit.app F ≫ (Scheme.Modules.pushforward k).map α) ⊤)
         (eF.inv (J.toCotangent a))) =
     (Scheme.Modules.Hom.app (adj.unit.app F) ⊤) (eF.inv (J.toCotangent a))
   rw [hc']
   refine (hr _).trans ?_
-  show v (eB.hom (eB.inv ((I ⊔ J).toCotangent (Submodule.inclusion le_sup_right a)))) = _
+  change v (eB.hom (eB.inv ((I ⊔ J).toCotangent (Submodule.inclusion le_sup_right a)))) = _
   rw [CategoryTheory.Iso.inv_hom_id_apply]
   exact hv a
 

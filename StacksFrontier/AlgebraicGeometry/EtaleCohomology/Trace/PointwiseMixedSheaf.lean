@@ -81,6 +81,12 @@ public theorem LAdicSheaf.isPointwiseMixedOfWeightLE_mono {F : LAdicSheaf B X �
 
 section Representation
 
+omit [∀ (n : ℕ) (T : B.Scheme) (V : SmallEtale B T.1 T.property),
+    HasWeakSheafify ((SmallEtale.topology B T.1 T.property).over V)
+      (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
+  [∀ n : ℕ, HasWeakSheafify (SmallEtale.topology B X.1 X.property)
+    (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
+
 variable [ConnectedSpace X.1] (x : GeometricPoint X.1) {r : ℕ}
   (ρ : EtaleFundamentalGroup X.1 x →* GL (Fin r) ℚ_[ℓ]) (hρ : Continuous ρ)
 

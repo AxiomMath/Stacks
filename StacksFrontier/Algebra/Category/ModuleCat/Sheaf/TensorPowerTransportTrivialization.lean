@@ -54,9 +54,10 @@ The content is the chain
 Both the chain and the purely monoidal step inside the last of those are stated as identities of
 an abstract monoidal category — `transportTriv_tensor_core` and `tensorHom_rightUnitor_unit` —
 exactly as the two monoidal identities of
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorPowerTransportTensorProduct.lean` are, and for
-the same reason: there the objects carry no projections of a ringed site, so `rw` on the monoidal
-lemmas fires, and the sheaf case is reached by `exact`, which elaborates at default transparency.
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorPowerTransportTensorProduct.lean` are, and
+for the same reason: there the objects carry no projections of a ringed site, so `rw` on the
+monoidal lemmas fires, and the sheaf case is reached by `exact`, which elaborates at default
+transparency.
 Everything the functor is applied to enters the core as an opaque morphism of the target
 category, so the core needs one category and one monoidal structure; and the monoidal unit enters
 as an *arbitrary* object with an arbitrary contraction `U ⊗ U ⟶ U`.  That last point is not
@@ -249,7 +250,7 @@ private theorem map_tensorTriv_hom
     F.map (tensorTriv X₁ L M n al bl).hom =
       F.map (tpowTensorIso X₁ L M n).hom ≫ F.map (tensorIsoOfModules X₁ al bl).hom ≫
         F.map (ρ_ (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X₁.O))).hom := by
-  show F.map (((tpowTensorIso X₁ L M n).hom ≫ (tensorIsoOfModules X₁ al bl).hom) ≫
+  change F.map (((tpowTensorIso X₁ L M n).hom ≫ (tensorIsoOfModules X₁ al bl).hom) ≫
       (ρ_ (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X₁.O))).hom) = _
   refine Eq.trans (F.map_comp _ _) ?_
   refine Eq.trans (congrArg (fun z =>

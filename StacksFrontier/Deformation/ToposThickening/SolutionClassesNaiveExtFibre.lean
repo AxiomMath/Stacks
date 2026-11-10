@@ -203,6 +203,7 @@ def invBaseIdealToIdeal : invIdeal S.f (F := S.baseIdeal) ⟶ S.I :=
       S.invBaseReduction).preimage
     S.invBaseIdealToIdealRestricted
 
+omit [HasSheafify B.J AddCommGrpCat] [B.J.WEqualsLocallyBijective AddCommGrpCat] in
 /-- The comparison `f⁻¹𝒥 ⟶ S.I` is compatible with the two inclusions into `f⁻¹𝒪_{ℬ'}`. -/
 theorem idealInclusion_invBaseIdealToIdeal (U : X.Cᵒᵖ)
     (x : (invIdeal S.f (F := S.baseIdeal)).val.obj U) :
@@ -228,6 +229,7 @@ def prescribedPullbackMap :
     (Stacks.SheafOfModules.Tensor.ringSheaf X.O).property).homEquiv _ _).symm
     (S.invBaseIdealToIdeal ≫ S.c)
 
+omit [HasSheafify B.J AddCommGrpCat] [B.J.WEqualsLocallyBijective AddCommGrpCat] in
 /-- The adjoint of `prescribedPullbackMap` is `f⁻¹𝒥 ≅ S.I ⟶ 𝒢`. -/
 theorem prescribedAdjoint_prescribedPullbackMap :
     prescribedAdjoint S.f S.prescribedPullbackMap = S.invBaseIdealToIdeal ≫ S.c :=
@@ -239,6 +241,7 @@ def idealKernelSection (U : X.Cᵒᵖ) (x : S.I.val.obj U) :
       ((invImage S.f).map S.baseThickeningSolution.reduction).hom U :=
   ⟨S.idealInclusion.val.app U x, S.idealZero U x⟩
 
+omit [HasSheafify B.J AddCommGrpCat] [B.J.WEqualsLocallyBijective AddCommGrpCat] in
 /-- **`c` on the kernel of `f⁻¹(t^♯)` is the prescribed map of the problem.** -/
 theorem prescribedAdjoint_invIdealPreimage (U : X.Cᵒᵖ) (x : S.I.val.obj U) :
     (prescribedAdjoint S.f S.prescribedPullbackMap).val.app U
@@ -323,6 +326,7 @@ def ofCompatibleHom (Q : S.compProblem.CompatibleFirstOrderThickening)
     rw [S.prescribedAdjoint_invIdealPreimage]
     rfl
 
+omit [HasSheafify B.J AddCommGrpCat] [B.J.WEqualsLocallyBijective AddCommGrpCat] in
 /-- The map from `f⁻¹𝒪_{ℬ'}` of a lift, read through `compBaseIso`, is the structure map of the
 extension of `(t ∘ f)⁻¹𝒪_{ℬ'}`-algebras. -/
 theorem compBaseIso_hom_comp_compatibleHom (Q : S.compProblem.CompatibleFirstOrderThickening)
@@ -412,12 +416,16 @@ def classesEquivCompClasses :
         (Quotient.exact (congrArg Subtype.val h))),
     fun ⟨q, P, hP⟩ => ⟨Quotient.mk _ P, Subtype.ext hP⟩⟩
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat)] [B.J.HasSheafCompose (forget AddCommGrpCat)]
+  [HasSheafify B.J AddCommGrpCat] [B.J.WEqualsLocallyBijective AddCommGrpCat]
+  [HasWeakSheafify X.J AddCommGrpCat] [X.J.WEqualsLocallyBijective AddCommGrpCat] in
 /-- The class of a solution goes to the class of its underlying extension. -/
 theorem classesEquivCompClasses_mk (P : S.CompatibleFirstOrderThickening) :
     (S.classesEquivCompClasses (Quotient.mk _ P)).1 =
       Quotient.mk (CompatibleFirstOrderThickening.isomorphicSetoid _) (S.toCompSolution P) :=
   rfl
 
+omit [HasSheafify B.J AddCommGrpCat] [B.J.WEqualsLocallyBijective AddCommGrpCat] in
 /-- **"Of course this is the same thing as saying `𝒪'` is a solution of (08UF)."** The class of a
 square-zero extension `𝒪'` of `(t ∘ f)⁻¹𝒪_{ℬ'}`-algebras contains a solution if and only if
 there is a morphism `(Sh(𝒞), 𝒪') ⟶ (Sh(ℬ), 𝒪_{ℬ'})` over `(Sh(ℬ), 𝒪_{ℬ'})` compatible with `f`

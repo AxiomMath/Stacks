@@ -84,7 +84,7 @@ theorem puncturedConeAlgebraSectionsRingEquiv_symm_of (m : ℤ) (d : ℕ) (hf : 
       (DirectSum.of (fun k : ℤ => ↥(puncturedGrading 𝒜 d hf k)) m y) =
       (y : HomogeneousLocalization.Away (grading 𝒜) (sigmaMulPsi 𝒜 f)) :=
     DirectSum.decompose_symm_of _ y
-  show (eqToIso (puncturedConeAlgebra_sections_basicOpen 𝒜 d hf
+  change (eqToIso (puncturedConeAlgebra_sections_basicOpen 𝒜 d hf
           hd)).commRingCatIsoToRingEquiv.symm
       ((AlgebraicGeometry.Proj.basicOpenIsoAway (grading 𝒜) (sigmaMulPsi 𝒜 f)
           (sigmaMulPsi_mem_grading 𝒜 d hf) hd).commRingCatIsoToRingEquiv

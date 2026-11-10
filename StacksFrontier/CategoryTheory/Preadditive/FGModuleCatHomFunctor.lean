@@ -81,13 +81,13 @@ def homFunctorOfAdditive : FGModuleCat.{u} k ⥤ ModuleCat.{w} k where
     letI := F.homModuleOfAdditive X W
     ModuleCat.ofHom (F.homMapOfAdditive X g)
   map_id V := by
-    letI := F.homModuleOfAdditive X V
+    let := F.homModuleOfAdditive X V
     refine ModuleCat.hom_ext (LinearMap.ext fun e => ?_)
     change (e : X ⟶ F.obj V) ≫ F.map (𝟙 V) = e
     rw [F.map_id, Category.comp_id]
   map_comp {V W Z} g h := by
-    letI := F.homModuleOfAdditive X V
-    letI := F.homModuleOfAdditive X Z
+    let := F.homModuleOfAdditive X V
+    let := F.homModuleOfAdditive X Z
     refine ModuleCat.hom_ext (LinearMap.ext fun e => ?_)
     change (e : X ⟶ F.obj V) ≫ F.map (g ≫ h) = ((e : X ⟶ F.obj V) ≫ F.map g) ≫ F.map h
     rw [F.map_comp, Category.assoc]
@@ -100,8 +100,8 @@ theorem homFunctorOfAdditive_map_apply {V W : FGModuleCat.{u} k} (g : V ⟶ W) (
 /-- The functor `V ↦ Hom(X, F(V))` is additive. -/
 instance : (F.homFunctorOfAdditive X).Additive where
   map_add {V W g h} := by
-    letI := F.homModuleOfAdditive X V
-    letI := F.homModuleOfAdditive X W
+    let := F.homModuleOfAdditive X V
+    let := F.homModuleOfAdditive X W
     refine ModuleCat.hom_ext (LinearMap.ext fun e => ?_)
     change (e : X ⟶ F.obj V) ≫ F.map (g + h) =
       (e : X ⟶ F.obj V) ≫ F.map g + (e : X ⟶ F.obj V) ≫ F.map h
@@ -111,8 +111,8 @@ instance : (F.homFunctorOfAdditive X).Additive where
 /-- The functor `V ↦ Hom(X, F(V))` is `k`-linear. -/
 instance : (F.homFunctorOfAdditive X).Linear k where
   map_smul {V W} g c := by
-    letI := F.homModuleOfAdditive X V
-    letI := F.homModuleOfAdditive X W
+    let := F.homModuleOfAdditive X V
+    let := F.homModuleOfAdditive X W
     refine ModuleCat.hom_ext (LinearMap.ext fun e => ?_)
     have key : ∀ e' : X ⟶ F.obj V, e' ≫ F.map (c • g) = (e' ≫ F.map g) ≫ F.map (c • 𝟙 W) :=
       fun e' => by rw [Category.assoc, ← F.map_comp, Linear.comp_smul, Category.comp_id]

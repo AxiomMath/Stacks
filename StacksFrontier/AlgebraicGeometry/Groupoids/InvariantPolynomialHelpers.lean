@@ -81,7 +81,7 @@ theorem idempotent_mul_det_lmul_algebraMap {R B : Type u} [CommRing R] [CommRing
   let Q := LocalizedModule P.primeCompl B
   let : Module.Free Rp Q := Module.free_of_flat_of_isLocalRing
   have heP : IsIdempotentElem (algebraMap R Rp e) := by
-    show algebraMap R Rp e * algebraMap R Rp e = algebraMap R Rp e
+    change algebraMap R Rp e * algebraMap R Rp e = algebraMap R Rp e
     rw [← map_mul, he]
   have hmap : LocalizedModule.map P.primeCompl (x • (LinearMap.id : B →ₗ[R] B)) =
       algebraMap R Rp x • (LinearMap.id : Q →ₗ[Rp] Q) := by

@@ -133,9 +133,9 @@ theorem IsZariskiLocalAtSource.of_isPushout {Q : MorphismProperty Scheme.{u}}
     · exact Or.inl ⟨y, rfl⟩
     · exact Or.inr ⟨y, rfl⟩
   · rintro (_ | _)
-    · simpa only [cond_false, ← Scheme.Hom.isoOpensRange_inv_comp, Category.assoc,
+    · simpa only [Bool.cond_false, ← Scheme.Hom.isoOpensRange_inv_comp, Category.assoc,
         Q.cancel_left_of_respectsIso] using hb
-    · simpa only [cond_true, ← Scheme.Hom.isoOpensRange_inv_comp, Category.assoc,
+    · simpa only [Bool.cond_true, ← Scheme.Hom.isoOpensRange_inv_comp, Category.assoc,
         Q.cancel_left_of_respectsIso] using ha
 
 /-- The glueing of two quasi-compact schemes along a common open is quasi-compact. -/

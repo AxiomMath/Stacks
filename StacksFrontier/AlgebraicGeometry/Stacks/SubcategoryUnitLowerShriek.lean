@@ -60,7 +60,8 @@ content of the source and is carried as a named hypothesis; see the implementati
 ## Implementation notes
 
 The hypothesis of `AlgebraicGeometry.Stack.isIso_subsiteUnitLowerShriekMap` is the universal
-property which `StacksFrontier/AlgebraicGeometry/Topologies/SubcategoryStructureSheafLowerShriek.lean`
+property which
+`StacksFrontier/AlgebraicGeometry/Topologies/SubcategoryStructureSheafLowerShriek.lean`
 establishes for full subcategories of the big fppf category over a *scheme* `X`
 (`AlgebraicGeometry.bijective_whiskerLeft_bigOverPresheafAb`, the presheaf half of
 **Stacks 07AJ** (b)): there the structure presheaf is *represented* by the affine line over `X`
@@ -110,9 +111,11 @@ The pullback of sheaves of modules along the morphism of ringed topoi of a full 
 the structure sheaf of `𝒳` to the structure sheaf of `𝒳'`, both read as the free module of rank
 one over themselves. -/
 abbrev subsiteUnitPullbackIso :
-    SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf (subsiteRingedTopos B S hS p hp τ hτ P).O) ≅
+    SheafOfModules.unit
+        (Stacks.SheafOfModules.Tensor.ringSheaf (subsiteRingedTopos B S hS p hp τ hτ P).O) ≅
       (subsiteModulePullback B S hS p hp τ hτ P).obj
-        (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf (associatedRingedTopos B S hS p hp τ hτ).O)) :=
+        (SheafOfModules.unit
+          (Stacks.SheafOfModules.Tensor.ringSheaf (associatedRingedTopos B S hS p hp τ hτ).O)) :=
   pullbackModulesObjUnitIso (subsiteRingedToposHom B S hS p hp τ hτ P).toModulesHom
 
 /-- **The canonical map `g_!O_{𝒳'} ⟶ O_𝒳`** for a full subsite: the transpose, under the
@@ -120,8 +123,10 @@ adjunction `g_! ⊣ g^*` of **Stacks 0789**, of the identification `O_{𝒳'} = 
 **Stacks 0788** (f). This is the map **Stacks 078A** asserts to be an isomorphism. -/
 def subsiteUnitLowerShriekMap :
     (subsiteModuleLowerShriek B S hS p hp τ hτ P).obj
-        (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf (subsiteRingedTopos B S hS p hp τ hτ P).O)) ⟶
-      SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf (associatedRingedTopos B S hS p hp τ hτ).O) :=
+        (SheafOfModules.unit
+          (Stacks.SheafOfModules.Tensor.ringSheaf (subsiteRingedTopos B S hS p hp τ hτ P).O)) ⟶
+      SheafOfModules.unit
+        (Stacks.SheafOfModules.Tensor.ringSheaf (associatedRingedTopos B S hS p hp τ hτ).O) :=
   ((subsiteModuleLowerShriekAdjunction B S hS p hp τ hτ P).homEquiv _ _).symm
     (subsiteUnitPullbackIso B S hS p hp τ hτ P).hom
 
@@ -145,8 +150,10 @@ lemma subsiteUnitLowerShriekMap_eq :
 /-- Postcomposition with the canonical map is restriction of morphisms out of `O_𝒳` along `g`,
 read through the adjunction `g_! ⊣ g^*` and the identification `O_{𝒳'} = g^{-1}O_𝒳`. -/
 lemma comp_subsiteUnitLowerShriekMap
-    (T : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf (associatedRingedTopos B S hS p hp τ hτ).O))
-    (x : SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf (associatedRingedTopos B S hS p hp τ hτ).O) ⟶ T) :
+    (T : SheafOfModules.{u}
+      (Stacks.SheafOfModules.Tensor.ringSheaf (associatedRingedTopos B S hS p hp τ hτ).O))
+    (x : SheafOfModules.unit
+      (Stacks.SheafOfModules.Tensor.ringSheaf (associatedRingedTopos B S hS p hp τ hτ).O) ⟶ T) :
     subsiteUnitLowerShriekMap B S hS p hp τ hτ P ≫ x =
       ((subsiteModuleLowerShriekAdjunction B S hS p hp τ hτ P).homEquiv _ T).symm
         ((subsiteUnitPullbackIso B S hS p hp τ hτ P).hom ≫
@@ -188,7 +195,8 @@ differs from the counit at `O_𝒳` by `g_!` of an isomorphism. -/
 theorem isIso_subsiteUnitLowerShriekMap_iff_mem_essImage :
     IsIso (subsiteUnitLowerShriekMap B S hS p hp τ hτ P) ↔
       (subsiteModuleLowerShriek B S hS p hp τ hτ P).essImage
-        (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf (associatedRingedTopos B S hS p hp τ hτ).O)) := by
+        (SheafOfModules.unit
+          (Stacks.SheafOfModules.Tensor.ringSheaf (associatedRingedTopos B S hS p hp τ hτ).O)) := by
   have := isIso_subsiteModuleLowerShriekAdjunction_unit B S hS p hp τ hτ P
   obtain ⟨_, _⟩ := full_and_faithful_subsiteModuleLowerShriek B S hS p hp τ hτ P
   rw [← Adjunction.isIso_counit_app_iff_mem_essImage

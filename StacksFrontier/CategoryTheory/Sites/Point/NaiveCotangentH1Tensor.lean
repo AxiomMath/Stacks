@@ -169,6 +169,7 @@ abbrev restrictTensor {X Y : C} (g : Y ⟶ X) :=
   Point.restrictTensor B ε hε (H1Cotangent R Γ) g
 
 include hρ in
+omit [LocallySmall.{w} C] in
 /-- **`τ` commutes with restriction.** -/
 theorem h1Tensor_restrict {X Y : C} (g : Y ⟶ X)
     (t : letI := algΓ B Γ ε X; ToType (B.obj (op X)) ⊗[Γ] H1Cotangent R Γ) :
@@ -178,8 +179,7 @@ theorem h1Tensor_restrict {X Y : C} (g : Y ⟶ X)
   let := algΓ B Γ ε Y
   let := algX A B a X
   let := algX A B a Y
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul s h =>
     rw [Point.restrictTensor_tmul, h1Tensor_tmul, h1Tensor_tmul]
     refine Eq.trans ?_ (NaiveCotangent.h1CotangentMapOfSquare_smul _ _ _ s _).symm
@@ -291,6 +291,7 @@ theorem stalkBaseChange_tmul (X : C) (x : Φ.fiber.obj X)
 abbrev germTensor (X : C) (x : Φ.fiber.obj X) :=
   Point.germTensor Φ B ε εΦ hεΦ (H1Cotangent R Γ) X x
 
+omit [LocallySmall.{w} C] in
 /-- **`τ` at the point is the base change map of the point.** -/
 theorem germH1_h1Tensor (X : C) (x : Φ.fiber.obj X)
     (t : letI := algΓ B Γ ε X; ToType (B.obj (op X)) ⊗[Γ] H1Cotangent R Γ) :
@@ -301,8 +302,7 @@ theorem germH1_h1Tensor (X : C) (x : Φ.fiber.obj X)
   let := algX A B a X
   let := εΦ.toAlgebra
   let := algΦ A B a Φ
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul s h =>
     rw [h1Tensor_tmul, Point.germTensor_tmul, stalkBaseChange_tmul]
     refine (NaiveCotangent.h1CotangentMapOfSquare_smul _ _ _ s _).trans ?_
@@ -337,8 +337,7 @@ theorem stalkBaseChange_bijective (X : C) (x : Φ.fiber.obj X)
     (ToType ((Φ.presheafFiber (A := CommRingCat.{w})).obj B)) hA hB
   convert hbij using 1
   funext t
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul s h =>
     rw [stalkBaseChange_tmul, LinearMap.liftBaseChange_tmul,
       NaiveCotangent.h1Cotangent_map_eq_h1CotangentMapOfSquare]

@@ -77,8 +77,6 @@ theorem cechH1ToSliceH_injective (hE : E.sieve₀ ∈ K U) (G : Sheaf K AddCommG
   (rightDerivedSectionsOneEquivSliceH.{a, w} K U G).injective.comp
     (injective_cechH1ToCohomology.{a} K E hE G)
 
-variable [HasExt.{max a u v w} (Sheaf K AddCommGrpCat.{max a u v w})]
-
 /-- **The bijection of Stacks 03AJ on a torsor trivial over the members of `𝒰` is the image of its
 Čech class under the comparison `Ȟ¹(𝒰, G) → H¹(U, G)`.** -/
 theorem torsorIsoClassesEquivH1_eq_cechH1ToSliceH_cechClass (hE : E.sieve₀ ∈ K U)
@@ -101,7 +99,7 @@ theorem torsorIsoClassesEquivH1_eq_cechH1ToSliceH_cechClass (hE : E.sieve₀ ∈
   obtain ⟨q, hq⟩ := exists_cechAugmentationPre_eq_pushCochain.{a, w, v, u} E hE S z b hb
   have hA := cechCohomologyToCohomology_one_cls_eq_rightDerivedPlusδ.{a} K E hE S hS z b hb q hq
   have hΦ := rightDerivedSectionsOneEquivSliceH_δ.{a, w} K U S hS q
-  have hX := mk₀_comp_extClass_map_overPullback_eq.{max a u v w, a, w, v, u} E hE S hS z b hb q hq
+  have hX := mk₀_comp_extClass_map_overPullback_eq.{a, w, v, u} E hE S hS z b hb q hq
   have hT := torsorIsoClassesEquivH1_cocycleTorsor.{max a u v w} E S hS hE z b hb
   let T := cocycleTorsor E S hS hE z b hb
   have hiso : Quotient.mk (torsorSetoid (G.over U)) F = Quotient.mk (torsorSetoid (G.over U)) T :=
@@ -131,7 +129,7 @@ theorem injective_cechH1ToSliceH_and_range_eq (hE : E.sieve₀ ∈ K U)
   ext y
   constructor
   · rintro ⟨x, rfl⟩
-    obtain ⟨c, rfl⟩ := cechClass_surjective.{max a u v w, a, w, v, u} E hE G x
+    obtain ⟨c, rfl⟩ := cechClass_surjective.{a, w, v, u} E hE G x
     obtain ⟨F, hFc, hF⟩ := c.2
     exact ⟨c.1, ⟨F, hFc, (isTrivialOnMembers_iff E G F).2 hF⟩,
       torsorIsoClassesEquivH1_eq_cechH1ToSliceH_cechClass.{a} K E hE G c⟩

@@ -125,7 +125,7 @@ theorem dividedPowerFormsBaseRingEquiv_ιMulti (i : ℕ) (f : Fin i → B) :
     dividedPowerFormsBaseRingEquiv R₁ R₂ B hR hJ i
         (exteriorPower.ιMulti B i fun j ↦ dividedPowerDifferential (A := R₁) hJ (f j)) =
       exteriorPower.ιMulti B i fun j ↦ dividedPowerDifferential (A := R₂) hJ (f j) := by
-  show exteriorPower.map i _ _ = _
+  change exteriorPower.map i _ _ = _
   rw [exteriorPower.map_apply_ιMulti]
   congr 1
   funext j
@@ -149,7 +149,7 @@ theorem dividedPowerFormsBaseRingEquiv_deRham (i : ℕ)
       (span_range_smul_ιMulti_eq_top (R := ℤ) (dividedPowerDifferential (A := R₁) hJ)
         (dividedPowerDifferentials_span hJ) i) ?_
     rintro _ ⟨f, rfl⟩
-    show dividedPowerFormsBaseRingEquiv R₁ R₂ B hR hJ (i + 1)
+    change dividedPowerFormsBaseRingEquiv R₁ R₂ B hR hJ (i + 1)
         (dividedPowerDeRham (A := R₁) hJ i
           (f 0 • exteriorPower.ιMulti B i fun j ↦ dividedPowerDifferential (A := R₁) hJ
             (f j.succ))) =
@@ -194,7 +194,7 @@ theorem completedFormsBaseRingEquiv_deRham (i : ℕ) (x : completedDividedPowerF
       (completedFormsBaseRingEquiv R₁ R₂ B hR hJ p i).toLinearMap.toAddMonoidHom
   have hFG : F = G := by
     refine adicCompletion_addMonoidHom_ext_of_of p fun x ↦ ?_
-    show completedFormsBaseRingEquiv R₁ R₂ B hR hJ p (i + 1)
+    change completedFormsBaseRingEquiv R₁ R₂ B hR hJ p (i + 1)
         (completedDividedPowerDeRham p R₁ hJ i (AdicCompletion.of _ _ x)) =
       completedDividedPowerDeRham p R₂ hJ i (AdicCompletion.of _ _
         (dividedPowerFormsBaseRingEquiv R₁ R₂ B hR hJ i x))
@@ -214,13 +214,13 @@ theorem completedFormsBaseRingEquiv_differential (b : completedDividedPowerRing 
     PAdicCompletion.mapAddHom p B B (dividedPowerOneForm R₂ hJ)
   have hFG : F = G := by
     refine adicCompletion_addMonoidHom_ext_of_of p fun x ↦ ?_
-    show completedFormsBaseRingEquiv R₁ R₂ B hR hJ p 1
+    change completedFormsBaseRingEquiv R₁ R₂ B hR hJ p 1
         (completedFormsDifferential p R₁ hJ (AdicCompletion.of _ _ x)) =
       completedFormsDifferential p R₂ hJ (AdicCompletion.of _ _ x)
     rw [completedFormsDifferential_of, completedFormsDifferential_of,
       completedFormsBaseRingEquiv_of, dividedPowerOneForm_apply, dividedPowerOneForm_apply]
     congr 1
-    show exteriorPower.map 1 _ _ = _
+    change exteriorPower.map 1 _ _ = _
     rw [← dividedPowerDifferentialsBaseRingEquiv_differential R₁ R₂ B hR hJ x]
     simp only [exteriorPower.oneEquiv_symm_apply]
     rw [exteriorPower.map_apply_ιMulti]

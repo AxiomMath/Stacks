@@ -224,7 +224,7 @@ theorem exists_isFlatOver_baseChange_of_chartLimitsInSite
         M)).trans (isFlatOver_modulePullback_iff_of_isPullback h₁
           ((IsPullback.of_hasPullback C.chartMap q).map H) M)
   have hqL : cone.π.app j₀ ≫ st₀ = H.map limitChart := by
-    show H.map (L.cone.π.app j₀) ≫ _ = _
+    change H.map (L.cone.π.app j₀) ≫ _ = _
     rw [← Functor.map_comp, cone_π_comp_stageChart j₀]
   have hXlim := isAlgebraicSpace_pullback B S hS (limit.π D i) X.hom
     (isAlgebraicSpace_limit_of_chartLimitsInSite B S hS D hconv hD hAffine i hB₀qc) hX (hD i)
@@ -266,7 +266,7 @@ theorem exists_isFlatOver_baseChange_of_chartLimitsInSite
   obtain ⟨j, e, hj⟩ := exists_isFlatOver_modulePullback_pullback_snd diagram cone
     L.schemeIsLimit j₀ g N hlimit
   have hqj : diagram.map e ≫ st₀ = H.map (stageChart j) := by
-    show H.map (Sys.siteDiagram.map e) ≫ _ = _
+    change H.map (Sys.siteDiagram.map e) ≫ _ = _
     rw [← Functor.map_comp, siteDiagram_map_comp_stageChart e]
   exact ⟨j.left, j.hom,
     (isFlatOver_modulePullback_baseChange_iff C F₀ _ _ _ (Sys.stageMap j) (stageChart j)

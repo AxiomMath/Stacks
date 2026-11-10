@@ -81,7 +81,7 @@ theorem _root_.Algebra.IsStandardSmooth.localizationAway_of_isUnit [IsStandardSm
   let e : Localization.Away f ⊗[R] S ≃ₐ[Localization.Away f] S :=
     AlgEquiv.ofRingEquiv
       (f := (Algebra.TensorProduct.comm R _ S).toRingEquiv.trans e₀.symm.toRingEquiv) fun a ↦ by
-      show ((e₀.symm.toRingHom.comp (Algebra.TensorProduct.comm R _ S).toRingHom).comp
+      change ((e₀.symm.toRingHom.comp (Algebra.TensorProduct.comm R _ S).toRingHom).comp
         (algebraMap _ _)) a = algebraMap (Localization.Away f) S a
       congr 1
       refine IsLocalization.ringHom_ext (Submonoid.powers f) (RingHom.ext fun r ↦ ?_)
@@ -92,7 +92,7 @@ theorem _root_.Algebra.IsStandardSmooth.localizationAway_of_isUnit [IsStandardSm
       simp only [RingHom.comp_apply, Algebra.TensorProduct.algebraMap_apply,
         Algebra.algebraMap_self, RingHom.id_apply, RingHom.algebraMap_toAlgebra,
         IsLocalization.Away.lift_eq]
-      show e₀.symm (Algebra.TensorProduct.comm R _ S _) = _
+      change e₀.symm (Algebra.TensorProduct.comm R _ S _) = _
       rw [Algebra.TensorProduct.comm_tmul, h1, AlgEquiv.commutes]
       rfl
   exact .of_algEquiv e

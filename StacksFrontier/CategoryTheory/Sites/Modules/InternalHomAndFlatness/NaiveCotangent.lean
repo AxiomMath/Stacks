@@ -139,7 +139,7 @@ theorem naiveCotangentComplex_isZero_X
   have : HasZeroObject
       (_root_.SheafOfModules.{max w u v z} (Stacks.SheafOfModules.Tensor.ringSheaf B)) :=
     hasZeroObject_of_hasTerminal_object
-  show IsZero
+  change IsZero
     ((HomologicalComplex.double
       (canonicalConormalSequence.{v, u, w, z} J A B a).f
       (show (ComplexShape.up ℤ).Rel (-1) 0 from by decide)).X i)
@@ -274,7 +274,7 @@ theorem presentationNaiveCotangentComplex_isZero_X
   have : HasZeroObject
       (_root_.SheafOfModules.{max w u v z} (Stacks.SheafOfModules.Tensor.ringSheaf B)) :=
     hasZeroObject_of_hasTerminal_object
-  show IsZero
+  change IsZero
     ((HomologicalComplex.double
       (presentationConormalSequence.{v, u, w, z} J A B a E α).f
       (show (ComplexShape.up ℤ).Rel (-1) 0 from by decide)).X i)
@@ -303,7 +303,7 @@ theorem presentationNaiveCotangentComplex_d_zero
   have : HasZeroObject
       (_root_.SheafOfModules.{max w u v z} (Stacks.SheafOfModules.Tensor.ringSheaf B)) :=
     hasZeroObject_of_hasTerminal_object
-  show (HomologicalComplex.double
+  change (HomologicalComplex.double
     (presentationConormalSequence.{v, u, w, z} J A B a E α).f
     (show (ComplexShape.up ℤ).Rel (-1) 0 from by decide)).d 0 k = 0
   exact HomologicalComplex.double_d_eq_zero₀ _ _ 0 k (by decide)
@@ -418,6 +418,7 @@ noncomputable abbrev presentationTensorMap :
     (freeAlgebraMap_comp_presentation J A E₁ E₂ h B a α₁ α₂ hα)
     (freeAlgebraSheafCoefficientMap_comp_freeAlgebraMap J A E₁ E₂ h)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The square expressing that the maps induced by a morphism of presentations commute with
 the differentials of `NL(α₁)` and `NL(α₂)`. -/
 theorem presentationConormalMap_comm :
@@ -442,6 +443,7 @@ theorem presentationConormalMap_comm :
       (freeAlgebraMap_comp_presentation J A E₁ E₂ h B a α₁ α₂ hα)
       (freeAlgebraSheafCoefficientMap_comp_freeAlgebraMap J A E₁ E₂ h)).symm
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The degree `0` component of the induced maps is killed by every differential out of
 degree `0`, since `NL(α₂)` has none. -/
 theorem presentationTensorMap_comp_d (k : ℤ) :
@@ -467,6 +469,7 @@ noncomputable def presentationNaiveCotangentComplexMap :
     (presentationConormalMap_comm.{v, u, w, z} J A E₁ E₂ h B a α₁ α₂ hα)
     (fun k _ ↦ presentationTensorMap_comp_d.{v, u, w, z} J A E₁ E₂ h B a α₁ α₂ hα k)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- In degree `-1` the chain map is the map of conormal sheaves. -/
 theorem presentationNaiveCotangentComplexMap_f_negOne :
     (presentationNaiveCotangentComplexMap.{v, u, w, z} J A E₁ E₂ h B a α₁ α₂ hα).f (-1) =
@@ -481,6 +484,7 @@ theorem presentationNaiveCotangentComplexMap_f_negOne :
     (presentationConormalMap_comm.{v, u, w, z} J A E₁ E₂ h B a α₁ α₂ hα)
     (fun k _ ↦ presentationTensorMap_comp_d.{v, u, w, z} J A E₁ E₂ h B a α₁ α₂ hα k)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- In degree `0` the chain map is the map on the scalar extensions of the differentials. -/
 theorem presentationNaiveCotangentComplexMap_f_zero :
     (presentationNaiveCotangentComplexMap.{v, u, w, z} J A E₁ E₂ h B a α₁ α₂ hα).f 0 =
@@ -593,6 +597,7 @@ theorem presentationTensorMap_id :
       (presentation J A B a E α)
   exact key _ _ _ (freeAlgebraMap_id J A E)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The chain map induced by the identity morphism of a presentation is the identity. -/
 theorem presentationNaiveCotangentComplexMap_id :
     presentationNaiveCotangentComplexMap.{v, u, w, z} J A E E (𝟙 E) B a α α
@@ -605,6 +610,7 @@ theorem presentationNaiveCotangentComplexMap_id :
       Category.id_comp, eqToHom_trans, eqToHom_refl]
     exact (HomologicalComplex.id_f _ _).symm
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **Stacks 08TY**, normalisation at the canonical presentation. The canonical presentation is
 the one whose family of generators is the identity of `B`, and there the comparison map
 `NL(α) ⟶ NL_{B/A}` is the identity; so the identification of `NL(α)` with `NL_{B/A}` is the
@@ -707,6 +713,7 @@ theorem presentationTensorMap_comp :
     (freeAlgebraSheafCoefficientMap_comp_freeAlgebraMap J A E₂ E₃ k)) ?_
   exact key _ _ _ (freeAlgebraMap_comp J A E₁ E₂ h E₃ k)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 include hα hβ in
 /-- The chain maps of two composable morphisms of presentations compose. -/
 theorem presentationNaiveCotangentComplexMap_comp :
@@ -726,6 +733,7 @@ theorem presentationNaiveCotangentComplexMap_comp :
     simp only [Category.assoc, eqToHom_trans_assoc, eqToHom_refl, Category.id_comp]
     rw [presentationTensorMap_comp_assoc]
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 include hα in
 /-- **Stacks 08TY**, compatibility with functorialities. The comparison maps `NL(α) ⟶ NL_{B/A}`
 of two polynomial presentations of `B` over `A` are compatible with every morphism of

@@ -113,7 +113,7 @@ theorem formsBaseChangeHom_comp_retraction (p : ℕ) :
   have hcongr := Stacks.Gysin.relativeDifferentialFormsPullback_congrMor hi f f (𝟙 S) h₃
     (by simp) p U.unop ω
   have hid := Scheme.Hom.relativeDifferentialFormsPullback_id f (by simp) p U.unop ω
-  show _ = ω
+  change _ = ω
   refine Eq.trans ?_ (hcongr.trans hid)
   have hK := toShHom_comp_eq_id hi
   refine (eqToHom_modulePushforward_val_app hK _ U (le_of_eq (by rw [hK])) _).trans ?_

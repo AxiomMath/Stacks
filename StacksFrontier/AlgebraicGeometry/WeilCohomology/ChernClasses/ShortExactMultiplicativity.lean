@@ -111,7 +111,7 @@ theorem chernSeries_mul_of_invertibleSub_of_rank_succ (X : C) (T : ShortComplex 
         have hq1 : q.1 ≠ 0 := by
           intro h0
           refine hne (Prod.ext h0 ?_)
-          show q.2 = k
+          change q.2 = k
           omega
         rw [hcL (q.1 + 1), ite_eq_right (Nat.succ_ne_zero _), ite_eq_right (by omega), zero_mul]
       rw [Finset.Nat.sum_antidiagonal_succ, hcL 0, ite_eq_left rfl, one_mul,

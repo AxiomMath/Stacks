@@ -126,9 +126,9 @@ private theorem exists_model_of_finitePresentation_aux
   let : IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj W.obj) := W.property
   obtain ⟨j, Wj, wj, aw, hwj, hWjaff, hWmodel⟩ :=
     exists_affine_site_model_over_affine_chart_of_limitFacts
-      B S hS hZ D hD hAffine hQc hQs hFacts i U₀' p₀ hp₀ U p q hp W.obj g hg
+      B S hS hZ D hD hAffine hQs hFacts i U₀' p₀ hp₀ U p q hp W.obj g hg
   obtain ⟨k, Rk, rk, ar, hrk, -, hRmodel⟩ := exists_site_model_over_affine_chart_of_limitFacts
-    B S hS hZ D hD hAffine hQc hQs hFacts i U₀' p₀ hp₀ U p q hp
+    B S hS hZ D hD hAffine hQs hFacts i U₀' p₀ hp₀ U p q hp
       K.R (K.s ≫ g) hKg
   let l := IsCofiltered.min j.left k.left
   let ej : l ⟶ j.left := IsCofiltered.minToLeft _ _
@@ -181,7 +181,7 @@ private theorem exists_model_of_finitePresentation_aux
       (Over.pullback (limit.π D l)).obj target :=
     Over.homMk (pullback.lift (er.inv.left ≫ b)
       (pullback.snd rl (limit.π D l)) (by
-        show (er.inv.left ≫ b) ≫ vKW = _
+        change (er.inv.left ≫ b) ≫ vKW = _
         rw [Category.assoc, hb, ← Category.assoc]
         exact congrArg (fun t => t ≫ limit.π D l) er.inv.w)) (by simp [source, target])
   obtain ⟨m, em, gm, αm, βm, hαm, hβm, hgm⟩ := exists_morphism_after_baseChange_aux
@@ -283,13 +283,13 @@ private theorem exists_model_of_finitePresentation_aux
       rw [← Category.assoc, ht]
     · simp only [Functor.map_comp, Category.assoc, sm, yoneda.map_preimage,
         IsPullback.isoPullback_inv_fst]
-      show yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫
+      change yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫
         (gm ≫ (Over.pullback (D.map em)).map st).left ≫
           pullback.fst wl (D.map em) =
         yoneda.map K.s ≫ yoneda.map awm ≫ yoneda.map (hmAffine.1.snd wl)
       simp only [Over.comp_left, Over.pullback_map_left, Category.assoc,
         pullback.lift_fst, hawm, source, target, st, Over.mk_hom, Over.homMk_left]
-      show yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫ gm.left ≫
+      change yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫ gm.left ≫
         pullback.fst vKW (D.map em) ≫ yoneda.map KW.s = _
       rw [reassoc_of% hgm']
       simp [b]
@@ -301,13 +301,13 @@ private theorem exists_model_of_finitePresentation_aux
       rw [← Category.assoc, hs]
     · simp only [Functor.map_comp, Category.assoc, tm, yoneda.map_preimage,
         IsPullback.isoPullback_inv_fst]
-      show yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫
+      change yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫
         (gm ≫ (Over.pullback (D.map em)).map tt).left ≫
           pullback.fst wl (D.map em) =
         yoneda.map K.t ≫ yoneda.map awm ≫ yoneda.map (hmAffine.1.snd wl)
       simp only [Over.comp_left, Over.pullback_map_left, Category.assoc,
         pullback.lift_fst, hawm, source, target, tt, Over.mk_hom, Over.homMk_left]
-      show yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫ gm.left ≫
+      change yoneda.map arm ≫ hRm.flip.isoPullback.hom ≫ gm.left ≫
         pullback.fst vKW (D.map em) ≫ yoneda.map KW.t = _
       rw [reassoc_of% hgm']
       simp [b]
@@ -329,10 +329,10 @@ private theorem exists_model_of_finitePresentation_aux
   let : Etale ((Over.pullback (Q.map awm)).obj (Over.mk (Q.map tm))).hom :=
     (etale_iff_pullback_of_isPullback (htmSquare.map Q)).mp
       (hwe.property w (yoneda.map K.s) K.t K.kernelPair)
-  obtain ⟨js, hjs⟩ := eventually_etale_over_affine_chart_of_limitFacts B S hS hZ D hD hAffine
-    hQc hQs hFacts m WmA wm W pW awm hWlim.flip (Over.mk (Q.map sm)) (hFpOfOver sm hsm)
-  obtain ⟨jt, hjt⟩ := eventually_etale_over_affine_chart_of_limitFacts B S hS hZ D hD hAffine
-    hQc hQs hFacts m WmA wm W pW awm hWlim.flip (Over.mk (Q.map tm)) (hFpOfOver tm htm)
+  obtain ⟨js, hjs⟩ := eventually_etale_over_affine_chart_of_limitFacts B S hS D hAffine
+    hFacts m WmA wm W pW awm hWlim.flip (Over.mk (Q.map sm)) (hFpOfOver sm hsm)
+  obtain ⟨jt, hjt⟩ := eventually_etale_over_affine_chart_of_limitFacts B S hS D hAffine
+    hFacts m WmA wm W pW awm hWlim.flip (Over.mk (Q.map tm)) (hFpOfOver tm htm)
   let n := IsCofiltered.min js jt
   let as' := IsCofiltered.minToLeft js jt
   let at' := IsCofiltered.minToRight js jt
@@ -397,7 +397,7 @@ private theorem exists_model_of_finitePresentation_aux
     apply yoneda.map_injective
     apply Cn.isPullback.hom_ext
     · simp only [Functor.map_comp, Category.assoc]
-      show yoneda.map arn ≫ rn = yoneda.map K.s ≫ yoneda.map awn ≫ wn
+      change yoneda.map arn ≫ rn = yoneda.map K.s ≫ yoneda.map awn ≫ wn
       rw [hRnlim.w, hWnlim.w, ← Category.assoc, ht]
     · simp only [Functor.map_comp, Category.assoc]
       have hsn : sn ≫ Cn.toChart = br ≫ sm := pullback.condition.symm
@@ -408,7 +408,7 @@ private theorem exists_model_of_finitePresentation_aux
     apply yoneda.map_injective
     apply Cn.isPullback.hom_ext
     · simp only [Functor.map_comp, Category.assoc]
-      show yoneda.map arn ≫ yoneda.map tn ≫ wn =
+      change yoneda.map arn ≫ yoneda.map tn ≫ wn =
         yoneda.map K.t ≫ yoneda.map awn ≫ wn
       rw [htn, hRnlim.w, hWnlim.w, ← Category.assoc, hs]
     · simp only [Functor.map_comp, Category.assoc]
@@ -556,6 +556,7 @@ theorem exists_morphism_after_baseChange_of_affineChartLimitsInSchemes
     (limitFacts_of_affineChartLimitsInSchemes B S hS D hL hπ hC)
     i Yᵢ Zᵢ hY hZ' hYfp hZfp f
 
+omit hQs in
 /-- **Stacks 07SK, faithfulness, without a bound on the index category**, under the hypotheses
 of `AlgebraicGeometry.Space.exists_morphism_after_baseChange_of_affineChartLimitsInSchemes`. -/
 theorem eventually_eq_of_baseChange_eq_of_affineChartLimitsInSchemes
@@ -573,7 +574,7 @@ theorem eventually_eq_of_baseChange_eq_of_affineChartLimitsInSchemes
     ∃ (j : I) (e : j ⟶ i),
       (Over.pullback (D.map e)).map f =
         (Over.pullback (D.map e)).map g :=
-  eventually_eq_of_baseChange_eq_aux B S hS hZ D hD hAffine hQc hQs
+  eventually_eq_of_baseChange_eq_aux B S hS D hD hAffine hQc
     (limitFacts_of_affineChartLimitsInSchemes B S hS D hL hπ hC)
     i Yᵢ Zᵢ hY hZ' hYfp hZfp f g hfg
 

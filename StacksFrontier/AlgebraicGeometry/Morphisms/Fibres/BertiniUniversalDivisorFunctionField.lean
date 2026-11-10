@@ -95,7 +95,7 @@ theorem isFractionRing_residueField_chartDivisorRing (c : D.Chart)
   refine ⟨_, (IsFractionRing.isFractionRing_iff_of_base_ringEquiv
     (S := D.universalDivisorScheme.residueField (genericPoint D.universalDivisorScheme)) e).mp
       hfr, fun a ↦ ?_⟩
-  show algebraMap (Γ(D.universalDivisorScheme, D.chartDivisorOpen c.U) ⧸
+  change algebraMap (Γ(D.universalDivisorScheme, D.chartDivisorOpen c.U) ⧸
       nilradical Γ(D.universalDivisorScheme, D.chartDivisorOpen c.U)) _
     (e.symm (e (Ideal.Quotient.mk _ a))) = _
   rw [e.symm_apply_apply]

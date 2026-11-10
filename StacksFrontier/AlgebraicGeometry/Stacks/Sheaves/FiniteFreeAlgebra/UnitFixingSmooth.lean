@@ -102,7 +102,7 @@ theorem mk_comp_unitFixingSubstitution :
     split <;> simp
   · have hL : (unitFixingSubstitution.{u} d) (MvPolynomial.X (i, j)) =
         MvPolynomial.X (i, j) := by
-      simp only [unitFixingSubstitution, MvPolynomial.aeval_X, if_neg hj]
+      simp only [unitFixingSubstitution, MvPolynomial.aeval_X, ite_eq_right hj]
     simp only [AlgHom.comp_apply, hL]
 
 /-- **The coordinate ring of the unit-fixing subgroup is formally smooth over the integers.** -/
@@ -166,7 +166,7 @@ theorem formallySmooth_unitFixingCoordinateRing :
       refine IsLocalization.ringHom_ext
         (Submonoid.powers (generalLinearDeterminant.{u} d)) ?_
       refine RingHom.ext fun p => ?_
-      show f.kerSquareLift (σ (algebraMap _ _ p)) = f (algebraMap _ _ p)
+      change f.kerSquareLift (σ (algebraMap _ _ p)) = f (algebraMap _ _ p)
       rw [hσalg p]
       exact hτ p
     exact congrFun (congrArg (fun q : generalLinearCoordinateRing.{u} d →+*
@@ -181,7 +181,7 @@ theorem formallySmooth_unitFixingCoordinateRing :
         algebraMap (MvPolynomial (Fin d × Fin d) (ULift.{u} ℤ))
           (generalLinearCoordinateRing.{u} d) (MvPolynomial.X (k, (0 : Fin d))) from rfl,
         hσalg]
-      show (Ideal.Quotient.mkₐ (ULift.{u} ℤ) (RingHom.ker f.toRingHom ^ 2))
+      change (Ideal.Quotient.mkₐ (ULift.{u} ℤ) (RingHom.ker f.toRingHom ^ 2))
         ((IsScalarTower.toAlgHom (ULift.{u} ℤ) _ _)
           ((unitFixingSubstitution.{u} d) (MvPolynomial.X (k, (0 : Fin d))))) = _
       rw [unitFixingSubstitution_X_zero]
@@ -190,7 +190,7 @@ theorem formallySmooth_unitFixingCoordinateRing :
         (if k = 0 then (1 : generalLinearCoordinateRing.{u} d ⧸ RingHom.ker f.toRingHom ^ 2)
           else 0) := by
       split <;> simp only [map_one, map_zero]
-    show σ _ = 0
+    change σ _ = 0
     rw [map_sub, hX, hite, sub_self]
   have hI0 : ∀ a ∈ Ideal.span (unitFixingRelations.{u} d), σ a = 0 := fun _ ha => hIker ha
   rw [Algebra.FormallySmooth.iff_split_surjection f hfsurj]

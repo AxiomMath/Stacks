@@ -54,8 +54,6 @@ universe u
 
 namespace AlgebraicGeometry
 
-add_to_stacks 0BLF "the punctured spectra" Stacks.Divisors.puncturedSpectrum
-
 /-- The standing data of the local Lefschetz situation: a Noetherian local ring `A` together
 with an element `f` of its maximal ideal. -/
 @[stacks 0BLF]
@@ -136,7 +134,7 @@ spectrum of `A / fA`: the quotient map is local, so it identifies the closed poi
 lemma U₀Open_eq_puncturedSpectrumOpen :
     S.U₀Open = Stacks.Divisors.puncturedSpectrum S.quotientRing := by
   ext x
-  show PrimeSpectrum.comap (Ideal.Quotient.mk S.principalIdeal) x ≠
+  change PrimeSpectrum.comap (Ideal.Quotient.mk S.principalIdeal) x ≠
       IsLocalRing.closedPoint S.A ↔
     x ≠ IsLocalRing.closedPoint S.quotientRing
   rw [← IsLocalRing.comap_closedPoint (Ideal.Quotient.mk S.principalIdeal)]

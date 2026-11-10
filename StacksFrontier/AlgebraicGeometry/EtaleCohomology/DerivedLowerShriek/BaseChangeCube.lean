@@ -119,7 +119,7 @@ theorem rightDerivedFunctorPlusIsoOfCompIso_eq {C D E : Type*} [Category* C] [Ca
   have : mapHomotopyCategoryPlusIsoOfCompIso F G H e = Functor.mapHomotopyCategoryPlusNatIso e := by
     refine Iso.ext (NatTrans.ext (funext fun K => ?_))
     apply (HomotopyCategory.Plus.ι E).map_injective
-    show 𝟙 _ ≫ (Functor.mapHomotopyCategoryCompIso e (ComplexShape.up ℤ)).hom.app K.obj =
+    change 𝟙 _ ≫ (Functor.mapHomotopyCategoryCompIso e (ComplexShape.up ℤ)).hom.app K.obj =
         (NatTrans.mapHomotopyCategory e.hom (ComplexShape.up ℤ)).app K.obj
     rw [Category.id_comp, Functor.mapHomotopyCategoryCompIso_hom_app_eq]
   rw [rightDerivedFunctorPlusIsoOfCompIso, this]

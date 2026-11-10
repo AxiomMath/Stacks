@@ -133,7 +133,7 @@ theorem isIso_homEquiv_symm_of_isBaseChangeAlong {R S : Type u} [CommRing R] [Co
     have h₁ := ModuleCat.extendRestrictScalarsAdj_homEquiv_apply v m
     rw [Equiv.apply_symm_apply] at h₁
     exact h₁.symm.trans ((hg.equiv_tmul (1 : S) m).trans (one_smul _ _)).symm
-  show IsIso v
+  change IsIso v
   rw [hv]
   infer_instance
 

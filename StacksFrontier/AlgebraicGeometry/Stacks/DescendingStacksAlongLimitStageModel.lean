@@ -72,7 +72,7 @@ theorem nonempty_quotientStackModel {Y : AlgebraicSpaces B S hS}
     equivOver := { equiv := E, compIso := ?_ } }⟩
   refine BasedNatIso.mkNatIso (NatIso.ofComponents (fun x => Iso.refl _) ?_) ?_
   · intro x y f
-    show (quotientStackToBase G).toFunctor.map
+    change (quotientStackToBase G).toFunctor.map
         ((equivShrink (x ⟶ y)).symm (equivShrink (x ⟶ y) f)) ≫ 𝟙 _ = 𝟙 _ ≫ _
     simp
   · intro a

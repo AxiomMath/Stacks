@@ -104,7 +104,7 @@ noncomputable def actPAlg : B →ₐ[A] Module.End A (N ⊗[A] P) where
 /-- The actions `actNAlg` and `actPAlg` commute. -/
 lemma actNAlg_commute_actPAlg (x y : B) :
     Commute (actNAlg A B N P x) (actPAlg A B N P y) := by
-  show actNAlg A B N P x * actPAlg A B N P y = actPAlg A B N P y * actNAlg A B N P x
+  change actNAlg A B N P x * actPAlg A B N P y = actPAlg A B N P y * actNAlg A B N P x
   refine LinearMap.ext fun t => ?_
   simp only [actNAlg, actPAlg, AlgHom.coe_mk, RingHom.coe_mk, MonoidHom.coe_mk,
     OneHom.coe_mk, Module.End.mul_apply]
@@ -206,7 +206,7 @@ lemma qmap_actAlg (r : B ⊗[A] B) (x : N ⊗[A] P) :
     | add x₁ x₂ hx₁ hx₂ => simp [map_add, hx₁, hx₂, smul_add]
     | tmul n p =>
       rw [actAlg_tmul, qmap_tmul, qmap_tmul, hμ]
-      show (b₁ • n) ⊗ₜ[B] (b₂ • p) = (b₁ * b₂) • (n ⊗ₜ[B] p)
+      change (b₁ • n) ⊗ₜ[B] (b₂ • p) = (b₁ * b₂) • (n ⊗ₜ[B] p)
       rw [← TensorProduct.smul_tmul' b₁ n (b₂ • p), TensorProduct.tmul_smul b₂ n p,
         smul_smul]
 
@@ -331,7 +331,7 @@ lemma psiAdd_phiAdd (z : (letI := alg; letI := moduleBB A B N P; (N ⊗[A] P) �
     | tmul n p =>
       rw [qmap_tmul, ← TensorProduct.tmul_smul, psiAdd_tmul A B alg hμ N P n (b • p)]
       rw [tmul_smul_eq_one_tmul_smul A B N P, TensorProduct.smul_tmul]
-      show (n ⊗ₜ[A] p) ⊗ₜ[B ⊗[A] B] (((1:B) ⊗ₜ[A] b) • (1:B)) = (n ⊗ₜ[A] p) ⊗ₜ[B ⊗[A] B] b
+      change (n ⊗ₜ[A] p) ⊗ₜ[B ⊗[A] B] (((1:B) ⊗ₜ[A] b) • (1:B)) = (n ⊗ₜ[A] p) ⊗ₜ[B ⊗[A] B] b
       rw [tmul_smul_one_eq_mul A B alg hμ, one_mul]
 
 end Maps
@@ -371,7 +371,7 @@ lemma lTensorBB_tmul (n : N) (n' : N') :
     (letI := moduleBB A B N N'; letI := moduleBB A B N N'';
       lTensorBB A B N N' N'' f (n ⊗ₜ[A] n')) = n ⊗ₜ[A] (f n') := by
   let := moduleBB A B N N'; let := moduleBB A B N N''
-  show LinearMap.lTensor N (f.restrictScalars A) (n ⊗ₜ[A] n') = _
+  change LinearMap.lTensor N (f.restrictScalars A) (n ⊗ₜ[A] n') = _
   rw [LinearMap.lTensor_tmul]
   rfl
 

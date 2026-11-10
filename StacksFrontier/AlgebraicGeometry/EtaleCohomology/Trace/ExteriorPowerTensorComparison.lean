@@ -52,7 +52,7 @@ public def tensorIndexEquiv (r : ℕ) : (k : ℕ) → Fin (r ^ k) ≃ (Fin k →
 
 public theorem tensorIndexEquiv_succ_apply {r k : ℕ} (a : Fin (r ^ k)) (i : Fin r) :
     tensorIndexEquiv r (k + 1) (finProdFinEquiv (a, i)) = Fin.snoc (tensorIndexEquiv r k a) i := by
-  show (finProdFinEquiv.symm.trans (((tensorIndexEquiv r k).prodCongr (Equiv.refl (Fin r))).trans
+  change (finProdFinEquiv.symm.trans (((tensorIndexEquiv r k).prodCongr (Equiv.refl (Fin r))).trans
       ((Equiv.prodComm _ _).trans (Fin.snocEquiv fun _ => Fin r)))) (finProdFinEquiv (a, i)) = _
   rw [Equiv.trans_apply, Equiv.symm_apply_apply]
   rfl
@@ -87,7 +87,7 @@ public theorem tensorPowerRepresentation_val {Γ : Type*} [Group Γ] {r : ℕ} (
   induction k with
   | zero => rfl
   | succ k ih =>
-    show (kroneckerRepresentation (tensorPowerRepresentation τ k) τ g).val = _
+    change (kroneckerRepresentation (tensorPowerRepresentation τ k) τ g).val = _
     rw [kroneckerRepresentation_val, ih]
     rfl
 

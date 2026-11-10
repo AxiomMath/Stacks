@@ -96,18 +96,18 @@ private theorem pullback_module_flatOverAt
   let : Algebra A C := (pX.stalkMap t).hom.toAlgebra
   let : Algebra B C := (pY.stalkMap t).hom.toAlgebra
   let : IsScalarTower A T C := IsScalarTower.of_algebraMap_eq' (by
-    show (pX.stalkMap t).hom = φ.comp Algebra.TensorProduct.includeLeftRingHom
+    change (pX.stalkMap t).hom = φ.comp Algebra.TensorProduct.includeLeftRingHom
     exact hleft.symm)
   let : IsScalarTower B T C := IsScalarTower.of_algebraMap_eq' (by
-    show (pY.stalkMap t).hom = φ.comp Algebra.TensorProduct.includeRight.toRingHom
+    change (pY.stalkMap t).hom = φ.comp Algebra.TensorProduct.includeRight.toRingHom
     exact hright.symm)
   let : Algebra R C := ((algebraMap A C).comp (algebraMap R A)).toAlgebra
   let : IsScalarTower R A C := IsScalarTower.of_algebraMap_eq' rfl
   let : IsScalarTower R B C := IsScalarTower.of_algebraMap_eq' (by
     ext z
-    show (algebraMap A C) ((algebraMap R A) z) =
+    change (algebraMap A C) ((algebraMap R A) z) =
       (algebraMap B C) ((algebraMap R B) z)
-    show (pX.stalkMap t).hom ((f.stalkMap x).hom z) =
+    change (pX.stalkMap t).hom ((f.stalkMap x).hom z) =
       (pY.stalkMap t).hom (((eqToHom (congrArg S.presheaf.stalk hxy) ≫
         g.stalkMap y).hom) z)
     have heq := Scheme.Hom.stalkMap_congr_hom (pX ≫ f) (pY ≫ g)
@@ -155,7 +155,7 @@ private theorem pullback_module_flatOverAt
   let : Module C P := inferInstance
   let : Module B P := Module.compHom P (pY.stalkMap t).hom
   let : IsScalarTower B C P := IsScalarTower.of_algebraMap_smul (fun _ _ => rfl)
-  show Module.Flat B
+  change Module.Flat B
     (TopCat.Presheaf.stalk (C := AddCommGrpCat.{u}) Ppre.presheaf t)
   exact (Module.Flat.equiv_iff (e.restrictScalars B)).mpr hN
 

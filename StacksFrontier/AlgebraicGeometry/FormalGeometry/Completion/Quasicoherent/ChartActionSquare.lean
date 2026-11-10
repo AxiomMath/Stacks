@@ -163,7 +163,7 @@ public theorem ΓSpecIso_inv_comp_affineBaseChart_appTop (V : Y.affineOpens) :
       V.1.topIso.inv := by
     rw [V.2.isoSpec_hom_appTop]
     exact Iso.inv_hom_id_assoc _ _
-  show (Scheme.ΓSpecIso (.of ↥Γ(Y, V.1))).inv ≫
+  change (Scheme.ΓSpecIso (.of ↥Γ(Y, V.1))).inv ≫
       ((f ∣_ V.1) ≫ V.2.isoSpec.hom).appTop = _
   rw [Scheme.Hom.comp_appTop, ← Category.assoc, hmap]
 

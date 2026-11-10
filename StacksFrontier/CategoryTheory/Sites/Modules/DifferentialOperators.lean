@@ -107,7 +107,7 @@ lemma postcomp_isDiffOpOfOrder (phi : O₁ ⟶ O₂) (k : ℕ)
     {F G H : _root_.SheafOfModules.{m} O₂} (D : DiffOp.GlobalOp F G)
     (hD : DiffOp.IsGlobalDiffOpOfOrder phi k D) (f : G ⟶ H) :
     DiffOp.IsGlobalDiffOpOfOrder phi k (postcomp D f) := by
-  show DiffOp.IsGlobalDiffOpOfOrder phi k ((homGlobalOp f).comp D)
+  change DiffOp.IsGlobalDiffOpOfOrder phi k ((homGlobalOp f).comp D)
   exact DiffOp.isGlobalDiffOpOfOrder_comp phi D (homGlobalOp f) hD
     (homGlobalOp_isOrderZero phi f)
 
@@ -153,7 +153,7 @@ private lemma freeSectionMap_single (F : _root_.SheafOfModules.{m} O₂)
     {X Y : Cᵒᵖ} (f : X ⟶ Y) (s : F.val.obj X) (r : O₂.obj.obj X) :
     freeSectionMap F f (Finsupp.single s r) =
       Finsupp.single (α := F.val.obj Y) (F.val.map f s) (O₂.obj.map f r) := by
-  show Finsupp.mapDomain (fun t ↦ F.val.map f t)
+  change Finsupp.mapDomain (fun t ↦ F.val.map f t)
     (Finsupp.mapRange (O₂.obj.map f).hom (map_zero _) (Finsupp.single s r)) = _
   simp; rfl
 
@@ -316,7 +316,7 @@ private lemma sectionEvaluation_generator {phi : O₁ ⟶ O₂}
     {F : _root_.SheafOfModules.{m} O₂} {k : ℕ} (i : OperatorTarget phi F k)
     (X : Cᵒᵖ) (s : F.val.obj X) :
     sectionEvaluation i X (principalGenerator phi F k X s) = i.2.1 X s := by
-  show sectionEvaluation i X (Submodule.Quotient.mk (Finsupp.single s 1)) = _
+  change sectionEvaluation i X (Submodule.Quotient.mk (Finsupp.single s 1)) = _
   simp [sectionEvaluation_mk, freeEvaluation]
 
 /-- The sectionwise recursive order condition, stated for presheaves of modules. -/

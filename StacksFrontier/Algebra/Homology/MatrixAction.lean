@@ -111,7 +111,7 @@ lemma realizeMap_id (X : C) (M : Mat_ (SingleObj A)) :
 omit [Linear A C] in
 /-- An entry of a composite of two morphisms between finite biproducts is the sum over the
 middle index of the products of the entries. -/
-lemma ι_comp_π_eq_sum {ι κ μ : Type} [Fintype ι] [Fintype κ] [Fintype μ]
+lemma ι_comp_π_eq_sum {ι κ μ : Type} [Finite ι] [Fintype κ] [Finite μ]
     {f : ι → C} {g : κ → C} {h : μ → C} (φ : (⨁ f) ⟶ ⨁ g) (ψ : (⨁ g) ⟶ ⨁ h) (i : ι) (k : μ) :
     biproduct.ι f i ≫ (φ ≫ ψ) ≫ biproduct.π h k =
       ∑ j, (biproduct.ι f i ≫ φ ≫ biproduct.π g j) ≫ (biproduct.ι g j ≫ ψ ≫ biproduct.π h k) := by

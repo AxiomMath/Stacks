@@ -118,7 +118,7 @@ theorem isDenseSubsite_comp {C : Type u₁} [Category.{v₁} C] {D : Type u₂} 
     [G.IsDenseSubsite K L] : (F ⋙ G).IsDenseSubsite J L := by
   have push {X : C} {S : Sieve X} : S.functorPushforward (F ⋙ G) ∈ L _ ↔ S ∈ J _ := by
     rw [Sieve.functorPushforward_comp]
-    show (S.functorPushforward F).functorPushforward G ∈ L (G.obj (F.obj X)) ↔ _
+    change (S.functorPushforward F).functorPushforward G ∈ L (G.obj (F.obj X)) ↔ _
     rw [G.functorPushforward_mem_iff K L, F.functorPushforward_mem_iff J K]
   refine { isCoverDense' := ⟨fun X => ?_⟩
            isLocallyFull' := ⟨fun {_ _} f => push.mpr ?_⟩
@@ -212,7 +212,7 @@ theorem morphismOfTopoi_pushforward_isEquivalence {C : Type u} [SmallCategory C]
     [SmallCategory D] (J : GrothendieckTopology C) (K : GrothendieckTopology D) (w : C ⥤ D)
     [w.IsDenseSubsite J K] :
     (morphismOfTopoi J K w).pushforward.IsEquivalence := by
-  show (w.sheafPushforwardCocontinuous (Type u) J K).IsEquivalence
+  change (w.sheafPushforwardCocontinuous (Type u) J K).IsEquivalence
   exact Adjunction.isEquivalence_right_of_isEquivalence_left
     (w.sheafAdjunctionCocontinuous (Type u) J K)
 

@@ -209,7 +209,7 @@ theorem immersionCoborderLiftLeft_comp_left (j : R ⟶ V)
         (openSubHom V ((BigFppfOver.toScheme B S hS).map j).coborderRange).left = j.left := by
   apply B.inclusion.map_injective
   rw [B.inclusion.map_comp]
-  show _ ≫ (BigFppfOver.toScheme B S hS).map
+  change _ ≫ (BigFppfOver.toScheme B S hS).map
       (openSubHom V ((BigFppfOver.toScheme B S hS).map j).coborderRange) =
     (BigFppfOver.toScheme B S hS).map j
   rw [toScheme_map_openSubHom]

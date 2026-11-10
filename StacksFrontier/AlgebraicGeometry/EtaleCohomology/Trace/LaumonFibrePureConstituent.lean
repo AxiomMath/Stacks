@@ -53,6 +53,7 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) [ConnectedSpace X.1] (x : Geometr
   [IsScalarTower ℚ_[ℓ] E E'] {d d' : ℕ} (b : Module.Basis (Fin d) ℚ_[ℓ] E)
   (b' : Module.Basis (Fin d') ℚ_[ℓ] E')
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **Roots of the Frobenius characteristic polynomial of a twisted representation which becomes
 a block sum over `E'`.**  If `M ((σ ⊗ E') ⊗ eqv) M⁻¹ = ⨁ σₜ` and `χ' = χ ⊗ E'`, every root along
 `ι'` of the `E`-linear Frobenius characteristic polynomial on `Hⁱ_c(ℱ_{Res_b (σ ⊗ χ)})` is a root
@@ -87,7 +88,7 @@ theorem isRoot_charpoly_twist_of_blockConj {m : ℕ} (σ : EtaleFundamentalGroup
       Matrix.blockDiagonal' fun t => (characterTwist (σs t) χ' g).val := fun g => by
     have h1 : (((Matrix.GeneralLinearGroup.map (algebraMap E E')).comp (characterTwist σ χ))
         g).val = (χ' g : E') • (σ g).val.map (algebraMap E E') := by
-      show ((characterTwist σ χ g).val).map (algebraMap E E') = _
+      change ((characterTwist σ χ g).val).map (algebraMap E E') = _
       rw [characterTwist_val, hχ]
       ext a a'
       simp

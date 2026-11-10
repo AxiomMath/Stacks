@@ -61,7 +61,7 @@ def fiberPoint {Y : TameCover k} (χ : Γ(Y.obj.left, ⊤) →+* Omega k)
 /-- The ring map of `fiberPoint χ hχ` is `χ`. -/
 theorem fiberRingHom_fiberPoint {Y : TameCover k} (χ : Γ(Y.obj.left, ⊤) →+* Omega k)
     (hχ : χ.comp (strHom Y.obj).hom = baseHom k) : fiberRingHom (fiberPoint χ hχ) = χ := by
-  show (pointRingHom (pointOfRingHom (CommRingCat.ofHom χ))).hom = χ
+  change (pointRingHom (pointOfRingHom (CommRingCat.ofHom χ))).hom = χ
   rw [pointRingHom_pointOfRingHom]
   rfl
 
@@ -74,7 +74,7 @@ theorem fiberRingHom_comp_strHom {Y : TameCover k} (y : (tameFiberFunctor k).obj
 global sections. -/
 theorem fiberRingHom_map {Y Y' : TameCover k} (g : Y ⟶ Y') (y : (tameFiberFunctor k).obj Y) :
     fiberRingHom ((tameFiberFunctor k).map g y) = (fiberRingHom y).comp g.hom.left.appTop.hom := by
-  show (pointRingHom (y.1 ≫ g.hom.left)).hom = _
+  change (pointRingHom (y.1 ≫ g.hom.left)).hom = _
   rw [pointRingHom_comp]
   rfl
 
@@ -151,6 +151,7 @@ abbrev autApply (σ : tameFundamentalGroup k) (Y : TameCover k) (y : (tameFiberF
 theorem autApply_tameAut (γ : Gamma (inverseCharacter (Fintype.card k))) (Y : TameCover k)
     (y : (tameFiberFunctor k).obj Y) : autApply (tameAut γ) Y y = fiberAct γ Y y := rfl
 
+omit [Fintype k] in
 /-- Two elements of `π₁ᵗ` agreeing at every point of every fibre are equal. -/
 theorem tameFundamentalGroup_ext {σ τ : tameFundamentalGroup k}
     (h : ∀ Y y, autApply σ Y y = autApply τ Y y) : σ = τ :=
@@ -158,11 +159,13 @@ theorem tameFundamentalGroup_ext {σ τ : tameFundamentalGroup k}
     ext y
     exact h Y y)))
 
+omit [Fintype k] in
 /-- The value of a product `σ * τ` at a point is that of `σ` at the value of `τ`. -/
 theorem autApply_mul (σ τ : tameFundamentalGroup k) (Y : TameCover k)
     (y : (tameFiberFunctor k).obj Y) : autApply (σ * τ) Y y = autApply σ Y (autApply τ Y y) :=
   rfl
 
+omit [Fintype k] in
 /-- The value of an element of `π₁ᵗ` commutes with the maps induced by maps of covers. -/
 theorem autApply_map (σ : tameFundamentalGroup k) {Y Y' : TameCover k} (g : Y ⟶ Y')
     (y : (tameFiberFunctor k).obj Y) :
@@ -197,7 +200,7 @@ theorem pointRingHom_basePoint (m : ℕ) :
       (Scheme.ΓSpecIso _).hom ≫ CommRingCat.ofHom (towerPoint k m) := by
   apply Spec.map_injective
   rw [specMap_pointRingHom]
-  show Spec.map (CommRingCat.ofHom (towerPoint k m)) ≫
+  change Spec.map (CommRingCat.ofHom (towerPoint k m)) ≫
     (Spec (CommRingCat.of (Ring (towerField k m)))).isoSpec.hom = _
   rw [Scheme.isoSpec_Spec_hom]
   exact (Spec.map_comp _ _).symm
@@ -225,8 +228,9 @@ def factorRingHom {Y : TameCover k} (y : (tameFiberFunctor k).obj Y) (m : ℕ)
 /-- Composing `factorRingHom y m hm` with `towerPoint k m` recovers the ring map of `y`. -/
 theorem towerPoint_factorRingHom {Y : TameCover k} (y : (tameFiberFunctor k).obj Y) (m : ℕ)
     (hm : ∀ c, fiberRingHom y c ∈ (towerPoint k m).range) :
-    (towerPoint k m).comp (factorRingHom y m hm) = fiberRingHom y :=
-  RingHom.ext fun c ↦ towerPoint_rangeEquiv_symm k m _
+    (towerPoint k m).comp (factorRingHom y m hm) = fiberRingHom y := by
+  ext
+  exact towerPoint_rangeEquiv_symm k m _
 
 /-- `factorRingHom y m hm` lies over the Kummer map of the `m`-th layer. -/
 theorem factorRingHom_comp_strHom {Y : TameCover k} (y : (tameFiberFunctor k).obj Y) (m : ℕ)
@@ -276,7 +280,7 @@ theorem map_factorMap_basePoint {Y : TameCover k} (y : (tameFiberFunctor k).obj 
   refine fiber_ext (RingHom.ext fun c ↦ ?_)
   have h1 : fiberRingHom ((tameFiberFunctor k).map (factorMap y m hm) (basePoint k m)) =
       (fiberRingHom (basePoint k m)).comp (factorTheta y m hm).hom := by
-    show (pointRingHom ((basePoint k m).1 ≫
+    change (pointRingHom ((basePoint k m).1 ≫
       (homOfRingHom (factorTheta y m hm) (strHom_comp_factorTheta y m hm)).left)).hom = _
     rw [pointRingHom_homOfRingHom]
     rfl

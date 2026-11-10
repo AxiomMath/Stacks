@@ -184,7 +184,7 @@ theorem FieldValuedPoint.toSpace_map {Y' : AlgebraicSpaces B S hS} (g : Y' ⟶ Y
     (p : FieldValuedPoint B S hS Y'.1) :
     (p.map B S hS Y'.1 g.hom).toSpace = p.toSpace ≫ g := by
   apply ObjectProperty.hom_ext
-  show yonedaEquiv.symm (g.hom.app _ p.value) = yonedaEquiv.symm p.value ≫ g.hom
+  change yonedaEquiv.symm (g.hom.app _ p.value) = yonedaEquiv.symm p.value ≫ g.hom
   rw [yonedaEquiv_symm_naturality_right]
 
 /-- The comparison `L(f ≫ g)^* ≅ Lg^* ⋙ Lf^*` of derived pullbacks along a composite of morphisms
@@ -205,7 +205,7 @@ theorem derivedFibreBettiAt_derivedPullback {Y' : AlgebraicSpaces B S hS} (g : Y
       derivedFibreBettiAt Y K n (p.map B S hS Y'.1 g.hom) := by
   unfold derivedFibreBettiAt
   have h := FieldValuedPoint.toSpace_map Y g p
-  show _ = Module.finrank p.carrier
+  change _ = Module.finrank p.carrier
     ((ModuleCat.restrictScalars p.fieldToSections.hom).obj
       ((SheafOfModules.evaluation
           (ringedToposStructureRingSheaf B S hS (schemeSpace p.siteObject))

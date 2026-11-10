@@ -319,26 +319,26 @@ theorem truncPerfect_succ (p e : ℤ) (hpe : p + 1 + e = d)
     (negOnePowK i) 1 1 (negOnePowK (i + 1)) ?_ ?_ ?_ ?_
     (hIH (i - 1) (j + 1) (by omega)) (hgr i j hij) (hIH i j hij) (hgr (i + 1) (j - 1) (by omega))
   · refine fun (a : hypercohomology O S.X₃ (i - 1)) (b : hypercohomology O T.X₃ j) => ?_
-    show t (cup O hc₁ hd₃ γ₁ i j N hij (boundary O S hS (i - 1) i (by omega) a) b) =
+    change t (cup O hc₁ hd₃ γ₁ i j N hij (boundary O S hS (i - 1) i (by omega) a) b) =
       _ * t (cup O hc₃ hd₁ γ₃ (i - 1) (j + 1) N (by omega) a (boundary O T hT j (j + 1) rfl b))
     exact apply_eq_negOnePowK_mul t _ (cup_boundary_truncLESC_truncSC K hK γ d hd N p e hpe
       (i - 1) i j (j + 1) (by omega) rfl hij (by omega) a b)
   · refine fun (a : hypercohomology O S.X₁ i) (b : hypercohomology O T.X₂ j) => ?_
-    show t (cup O hc₂ hd₂ γ₂ i j N hij (hypercohomologyMap O S.f i a) b) =
+    change t (cup O hc₂ hd₂ γ₂ i j N hij (hypercohomologyMap O S.f i a) b) =
       _ * t (cup O hc₁ hd₃ γ₁ i j N hij a (hypercohomologyMap O T.g j b))
     simp only [Units.val_one, one_mul]
     exact congrArg t (cup_map_left_eq_cup_map_right O hc₁ hc₂ hd₂ hd₃ S.f T.g γ₂ γ₁
       (ComplexPairing.ext' fun a b n hn => (gradedPairing_compat K γ d hd p e hpe a b n hn).symm)
       i j N hij a b)
   · refine fun (a : hypercohomology O S.X₂ i) (b : hypercohomology O T.X₁ j) => ?_
-    show t (cup O hc₃ hd₁ γ₃ i j N hij (hypercohomologyMap O S.g i a) b) =
+    change t (cup O hc₃ hd₁ γ₃ i j N hij (hypercohomologyMap O S.g i a) b) =
       _ * t (cup O hc₂ hd₂ γ₂ i j N hij a (hypercohomologyMap O T.f j b))
     simp only [Units.val_one, one_mul]
     exact congrArg t (cup_map_left_eq_cup_map_right O hc₂ hc₃ hd₁ hd₂ S.g T.f γ₃ γ₂
       (ComplexPairing.ext' fun a b n hn =>
         (truncLEGEPairing_compat K γ d hd p e hpe a b n hn).symm) i j N hij a b)
   · refine fun (a : hypercohomology O S.X₃ i) (b : hypercohomology O T.X₃ (j - 1)) => ?_
-    show t (cup O hc₁ hd₃ γ₁ (i + 1) (j - 1) N (by omega) (boundary O S hS i (i + 1) rfl a) b) =
+    change t (cup O hc₁ hd₃ γ₁ (i + 1) (j - 1) N (by omega) (boundary O S hS i (i + 1) rfl a) b) =
       _ * t (cup O hc₃ hd₁ γ₃ i j N hij a (boundary O T hT (j - 1) j (by omega) b))
     exact apply_eq_negOnePowK_mul t _ (cup_boundary_truncLESC_truncSC K hK γ d hd N p e hpe
       i (i + 1) (j - 1) j rfl (by omega) (by omega) hij a b)
@@ -430,7 +430,7 @@ theorem isPerfPair_cupK_of_gradedPerfect (h0 : ∀ n, n < 0 → IsZero (K.obj.X 
     have h₃ :
         hypercohomologyMap O (ιTruncPlus O K 0) j (hypercohomologyMap O eι.inv j b') = b' := by
       rw [← ConcreteCategory.comp_apply, ← hypercohomologyMap_comp]
-      show hypercohomologyMap O (eι.inv ≫ eι.hom) j b' = b'
+      change hypercohomologyMap O (eι.inv ≫ eι.hom) j b' = b'
       rw [eι.inv_hom_id, hypercohomologyMap_id]
       rfl
     exact h₁.symm.trans (h₂.trans (congrArg _ h₃))

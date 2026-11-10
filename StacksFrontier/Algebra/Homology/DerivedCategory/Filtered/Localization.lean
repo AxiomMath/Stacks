@@ -84,9 +84,9 @@ private theorem isZero_Q_obj (hZ : IsZero Z) : IsZero (W.Q.obj Z) := by
       ⟨fun f g hf hg => by simp only [P, ← Category.assoc, hf] at *; exact hg⟩
     have htop : P = ⊤ := Localization.Construction.morphismProperty_eq_top P hfac
       (fun {X Y} w hw => by
-        show qFrom W hZ (W.Q.obj Y) ≫ (Localization.Construction.wIso w hw).inv = _
+        change qFrom W hZ (W.Q.obj Y) ≫ (Localization.Construction.wIso w hw).inv = _
         rw [← hfac w, Category.assoc]
-        show _ ≫ (Localization.Construction.wIso w hw).hom ≫ _ = _
+        change _ ≫ (Localization.Construction.wIso w hw).hom ≫ _ = _
         rw [Iso.hom_inv_id, Category.comp_id])
     have hP : P f := by simp [htop]
     have h2 : qFrom W hZ (W.Q.obj Z) = 𝟙 _ := by
@@ -105,9 +105,9 @@ private theorem isZero_Q_obj (hZ : IsZero Z) : IsZero (W.Q.obj Z) := by
       ⟨fun f g hf hg => by simp only [P, Category.assoc, hg] at *; exact hf⟩
     have htop : P = ⊤ := Localization.Construction.morphismProperty_eq_top P hfac
       (fun {X Y} w hw => by
-        show (Localization.Construction.wIso w hw).inv ≫ qTo W hZ (W.Q.obj X) = _
+        change (Localization.Construction.wIso w hw).inv ≫ qTo W hZ (W.Q.obj X) = _
         rw [← hfac w, ← Category.assoc]
-        show ((Localization.Construction.wIso w hw).inv ≫
+        change ((Localization.Construction.wIso w hw).inv ≫
           (Localization.Construction.wIso w hw).hom) ≫ _ = _
         rw [Iso.inv_hom_id, Category.id_comp])
     have hP : P f := by simp [htop]

@@ -99,11 +99,11 @@ instance natTransCommShift_abelianSectionsComparison :
 /-- **The comparison of Stacks 01F1 for bounded below complexes commutes with the shift.** -/
 instance natTransCommShift_rightDerivedFunctorPlus_sections_forget_iso :
     NatTrans.CommShift (rightDerivedFunctorPlus_sections_forget_iso X U).hom ℤ := by
-  haveI h₁ : NatTrans.CommShift (asIso (moduleSectionsComparison X U)).hom ℤ :=
+  have h₁ : NatTrans.CommShift (asIso (moduleSectionsComparison X U)).hom ℤ :=
     natTransCommShift_moduleSectionsComparison X U
-  haveI h₂ : NatTrans.CommShift (asIso (moduleSectionsComparison X U)).symm.hom ℤ :=
+  have h₂ : NatTrans.CommShift (asIso (moduleSectionsComparison X U)).symm.hom ℤ :=
     NatTrans.CommShift.of_iso_symm _ _
-  haveI h₃ : NatTrans.CommShift (asIso (abelianSectionsComparison X U)).hom ℤ :=
+  have h₃ : NatTrans.CommShift (asIso (abelianSectionsComparison X U)).hom ℤ :=
     natTransCommShift_abelianSectionsComparison X U
   exact NatTrans.CommShift.comp _ _ _
 

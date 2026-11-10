@@ -157,7 +157,7 @@ private theorem nonempty_algEquiv_mvPowerSeries (R : Type u) [CommRing R] [IsReg
       (by rw [← hd]; exact ((IsRegularLocalRing.iff_finrank_cotangentSpace R).1 ‹_›).le)
   refine ⟨(AlgEquiv.ofRingEquiv (f := RingEquiv.ofBijective F ⟨hinj, hFsurj⟩) ?_).symm⟩
   intro c
-  show F (algebraMap k (MvPowerSeries (Fin d) k) c) = algebraMap k R c
+  change F (algebraMap k (MvPowerSeries (Fin d) k) c) = algebraMap k R c
   simpa [MvPowerSeries.algebraMap_apply] using hFC c
 
 /-- A complete local ring containing a field has a coefficient field: a ring map from its residue

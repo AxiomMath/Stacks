@@ -152,7 +152,7 @@ theorem zeroCycleToCodimension_injective {X : Scheme.{u}} (sX : X ⟶ (fieldChow
   by_cases he : e = n
   · subst he
     have h' := congrFun h e
-    simp only [zeroCycleToCodimension, AddMonoidHom.pi_apply, sub_self, dif_pos,
+    simp only [zeroCycleToCodimension, AddMonoidHom.pi_apply, sub_self, dite_eq_left,
       AddMonoidHom.coe_comp, Function.comp_apply, AddEquiv.coe_toAddMonoidHom] at h'
     rw [chowGroupDimPartEquiv_apply, chowGroupDimPartEquiv_apply]
     exact (chowGroupDegreeEquiv _ _ _).injective h'

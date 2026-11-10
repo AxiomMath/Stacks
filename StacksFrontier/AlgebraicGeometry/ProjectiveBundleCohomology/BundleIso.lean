@@ -145,7 +145,7 @@ public theorem bundleMap_comp_bundleMap (e : E ≅ E') :
   refine colimit.hom_ext
     (F := (RelativeProjGlue.relativeGluingData (bundleAlgebra E hfree).toGradedAlgebra).functor)
     fun V => ?_
-  show (relativeProj (bundleAlgebra E hfree)).chart V.toOpens V.2 ≫ _ =
+  change (relativeProj (bundleAlgebra E hfree)).chart V.toOpens V.2 ≫ _ =
     (relativeProj (bundleAlgebra E hfree)).chart V.toOpens V.2 ≫ 𝟙 _
   rw [chart_comp_bundleMap_assoc, chart_comp_bundleMap, ← Category.assoc, Category.comp_id,
     ← Proj.map_comp]

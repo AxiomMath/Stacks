@@ -328,7 +328,7 @@ theorem upperShriekFunctor_unit_isIso_derivedHomothety_of_isPerfectModule [IsNoe
   obtain ⟨I, hIge, hIinj, ⟨eI⟩⟩ := exists_injectiveRepresentative ωP 0
   have hbid : IsIso (dualizingBidualityMor.{u, max v u} p.Poly ωP
       (targetSingle.{u, v} p.toRingHom)) := by
-    show IsIso (bidualityMor
+    change IsIso (bidualityMor
       (StacksDraft.DerivedHom.derivedHomAdjunctionOverRing.{u, max v u} p.Poly) ωP
       (targetSingle.{u, v} p.toRingHom))
     refine isIso_bidualityMor_of_iso_dualizing _ eU.symm _ ?_

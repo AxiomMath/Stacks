@@ -100,7 +100,7 @@ theorem tensorUnitMap_comp_sheafTensorRightUnitIso_hom :
   refine (congrArg ((adj.counit.app (RestrictedRingModule φ)).val.app X).hom
     (hnat (x ⊗ₜ[O.obj.obj X] restrictedOne φ X)).symm).trans ?_
   refine (htri _).trans ?_
-  show (φ.hom.app X).hom x * (1 : O'.obj.obj X) = (φ.hom.app X).hom x
+  change (φ.hom.app X).hom x * (1 : O'.obj.obj X) = (φ.hom.app X).hom x
   exact mul_one _
 
 /-- The extension-of-scalars map `x ↦ x ⊗ 1` applied to the system `S ↦ O_{f_S}`. -/
@@ -151,7 +151,8 @@ theorem awayModuleCoconeι_comp_cechSystemBaseChangeMap_app (S : Finset (Fin r))
       ((Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) hleg').trans
         ((Category.assoc _ _ _).symm.trans (congrArg (· ≫ _) e2)))))
 
-omit [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify J AddCommGrpCat.{u}] in
+omit [HasWeakSheafify J CommRingCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify J AddCommGrpCat.{u}] in
 /-- Multiplication by a monomial in the `f_i` commutes with `O ⟶ O'`, where on the target it is
 multiplication by the monomial in the images of the `f_i`. -/
 theorem koszulScalar_comp_structureMap (e : Fin r → ℕ) :
@@ -231,7 +232,8 @@ theorem restrictScalars_map_awaySmul_pow
       restrictScalars_map_awaySmul]
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
-  [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify J AddCommGrpCat.{u}] in
+  [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify J AddCommGrpCat.{u}]
+  [HasWeakSheafify J CommRingCat.{u}] in
 /-- Restriction of scalars along `φ` carries multiplication by `f'_S` to multiplication by
 `f_S`. -/
 theorem restrictScalars_map_awaySmul_pow_prodGlobalSection (S : Finset (Fin r))
@@ -340,7 +342,7 @@ theorem tensorUnitComplexMap_comp_tensorExtendedAlternatingCechIso_hom :
     Functor.additive_of_preserves_binary_products _
   refine HomologicalComplex.hom_ext _ _ fun p => ?_
   refine Pi.hom_ext _ _ fun A => ?_
-  show ((tensorUnitMap φ
+  change ((tensorUnitMap φ
       (AlternatingCech.term (awayLocalizationFunctor (ringedSite O) f) p)).val ≫
       (AlternatingCech.mapTermIso
           (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} O).flip.obj

@@ -164,7 +164,7 @@ theorem tensorHomOfBimoduleHom_comp {N N' N'' : Bimodule A B} (f : N ⟶ N') (g 
       DifferentialGradedModule.Hom.comp (tensorHomOfBimoduleHom g M)
         (tensorHomOfBimoduleHom f M) :=
   tensorObj_hom_ext' N M _ _ fun x y => by
-    show _ = (tensorHomOfBimoduleHom g M).toFun
+    change _ = (tensorHomOfBimoduleHom g M).toFun
       ((tensorHomOfBimoduleHom f M).toFun (((tensorDGFunctor N).pure M).toLinearMap x y))
     rw [tensorHomOfBimoduleHom_pure, tensorHomOfBimoduleHom_pure, tensorHomOfBimoduleHom_pure]
     rfl
@@ -244,7 +244,7 @@ theorem tensorHomotopyNatTrans_app {N N' : Bimodule A B} (f : N ⟶ N')
       (tensorCompFunctor_quotient N).inv.app M ≫
         (toHomotopyCategory B).map ((tensorModuleNatTrans f).app M) ≫
           (tensorCompFunctor_quotient N').hom.app M := by
-  show (tensorHomotopyNatTransAux f).app M = _
+  change (tensorHomotopyNatTransAux f).app M = _
   rfl
 
 /-- `1 ⊗ f` on the homotopy categories is the identity for the identity of a bimodule. -/

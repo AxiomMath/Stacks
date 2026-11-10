@@ -10,7 +10,7 @@ public import StacksFrontier.AlgebraicGeometry.ProjectiveBundleQuotients.Basic
 /-!
 # The flattening of the universal family over the Grassmannian
 
-Let `m = regularityIndex n r hr P`, `N = freeRank n r m`, `p = quotRank n r hr P` and
+Let `m = regularityIndex n r P`, `N = freeRank n r m`, `p = quotRank n r P` and
 `G = G(N - p, N)`. The universal quotient `q_G` gives the twisted family
 `ℱ_G = ℱ^{(m)}_{q_G} = coker(u_m)` on `ℙⁿ_G`, of finite presentation. By Stacks 05UH(3) (universal
 flattening for a proper morphism of finite presentation) there is a monomorphism of finite
@@ -62,93 +62,93 @@ theorem isFlatOver_modulePullback_of_isPullback {X S X₁ X₂ S' : Scheme.{u}} 
   exact isFlatOver_of_moduleIso _ ((schemeModulePullbackCompIso e.hom h₁).app F)
     (modulePullback_isFlatOver hsq _ hF)
 
-variable (n r : ℕ) (hr : 1 ≤ r) (P : Polynomial ℚ)
+variable (n r : ℕ) (P : Polynomial ℚ)
 
 /-- **The Grassmannian `G = G(N - p, N)`** of the proof of Stacks 0DPA, with
-`N = freeRank n r m`, `p = quotRank n r hr P` and `m = regularityIndex n r hr P`. -/
+`N = freeRank n r m`, `p = quotRank n r P` and `m = regularityIndex n r P`. -/
 abbrev quotGrassmannian : Scheme.{u} :=
   Grassmannian.scheme.{u}
-    (freeRank.{u} n r (regularityIndex.{u} n r hr P) - quotRank.{u} n r hr P)
-    (freeRank.{u} n r (regularityIndex.{u} n r hr P))
+    (freeRank.{u} n r (regularityIndex.{u} n r P) - quotRank.{u} n r P)
+    (freeRank.{u} n r (regularityIndex.{u} n r P))
 
 /-- **The universal family `ℱ_G = ℱ^{(m)}_{q_G}`** on `ℙⁿ_G`. -/
-def universalFamily : (projectiveSpaceOver n (quotGrassmannian.{u} n r hr P)).Modules :=
-  presentationCokernel (regularityIndex.{u} n r hr P) (Grassmannian.universalPresentation _ _)
+def universalFamily : (projectiveSpaceOver n (quotGrassmannian.{u} n r P)).Modules :=
+  presentationCokernel (regularityIndex.{u} n r P) (Grassmannian.universalPresentation _ _)
 
 /-- The universal family `ℱ_G` is of finite presentation. -/
-instance : (universalFamily.{u} n r hr P).IsFinitePresentation :=
+instance : (universalFamily.{u} n r P).IsFinitePresentation :=
   isFinitePresentation_presentationCokernel _ _
 
 /-- The universal family `ℱ_G` is quasi-coherent. -/
-instance : (universalFamily.{u} n r hr P).IsQuasicoherent :=
+instance : (universalFamily.{u} n r P).IsQuasicoherent :=
   isQuasicoherent_presentationCokernel _ _
 
 /-- The flatness situation of `ℱ_G` over `G` (Stacks 05MW). -/
 def flatnessSituation : FlatnessSituation.{u} where
-  S := quotGrassmannian.{u} n r hr P
-  X := projectiveSpaceOver n (quotGrassmannian.{u} n r hr P)
-  f := projectiveSpaceOver n (quotGrassmannian.{u} n r hr P) ↘ quotGrassmannian.{u} n r hr P
-  F := universalFamily.{u} n r hr P
+  S := quotGrassmannian.{u} n r P
+  X := projectiveSpaceOver n (quotGrassmannian.{u} n r P)
+  f := projectiveSpaceOver n (quotGrassmannian.{u} n r P) ↘ quotGrassmannian.{u} n r P
+  F := universalFamily.{u} n r P
   isQuasicoherent := isQuasicoherent_presentationCokernel _ _
 
 /-- **Stacks 05UH(3) for `ℱ_G`**: the universal flattening exists and is a monomorphism of
 finite presentation. -/
 theorem exists_flatLocus :
-    ∃ Z : Over (quotGrassmannian.{u} n r hr P), Mono Z.hom ∧ FinitePresentation Z.hom ∧
-      Nonempty ((flatnessSituation.{u} n r hr P).flatFunctor.RepresentableBy Z) := by
-  have := isProper_projectiveSpaceOver n (quotGrassmannian.{u} n r hr P)
+    ∃ Z : Over (quotGrassmannian.{u} n r P), Mono Z.hom ∧ FinitePresentation Z.hom ∧
+      Nonempty ((flatnessSituation.{u} n r P).flatFunctor.RepresentableBy Z) := by
+  have := isProper_projectiveSpaceOver n (quotGrassmannian.{u} n r P)
   exact exists_mono_finitePresentation_representableBy_of_isProper _
-    (universalFamily.{u} n r hr P)
+    (universalFamily.{u} n r P)
 
 /-- **The flat locus `Z ⟶ G`** of `ℱ_G`. -/
-def flatLocus : Over (quotGrassmannian.{u} n r hr P) :=
-  (exists_flatLocus.{u} n r hr P).choose
+def flatLocus : Over (quotGrassmannian.{u} n r P) :=
+  (exists_flatLocus.{u} n r P).choose
 
 /-- The flat locus `Z ⟶ G` is a monomorphism. -/
-instance mono_flatLocus_hom : Mono (flatLocus.{u} n r hr P).hom :=
-  (exists_flatLocus.{u} n r hr P).choose_spec.1
+instance mono_flatLocus_hom : Mono (flatLocus.{u} n r P).hom :=
+  (exists_flatLocus.{u} n r P).choose_spec.1
 
 /-- The flat locus `Z ⟶ G` is of finite presentation. -/
-theorem finitePresentation_flatLocus_hom : FinitePresentation (flatLocus.{u} n r hr P).hom :=
-  (exists_flatLocus.{u} n r hr P).choose_spec.2.1
+theorem finitePresentation_flatLocus_hom : FinitePresentation (flatLocus.{u} n r P).hom :=
+  (exists_flatLocus.{u} n r P).choose_spec.2.1
 
 /-- The representability of the flatness functor by `Z`. -/
 def flatLocusRepresentableBy :
-    (flatnessSituation.{u} n r hr P).flatFunctor.RepresentableBy (flatLocus.{u} n r hr P) :=
-  (exists_flatLocus.{u} n r hr P).choose_spec.2.2.some
+    (flatnessSituation.{u} n r P).flatFunctor.RepresentableBy (flatLocus.{u} n r P) :=
+  (exists_flatLocus.{u} n r P).choose_spec.2.2.some
 
-variable {n r hr P}
+variable {n r P}
 
 /-- The base-change condition of the flatness situation at `t : T ⟶ G`, read on `ℙⁿ_T`. -/
-theorem isFlatAfterBaseChange_iff {T : Scheme.{u}} (t : T ⟶ quotGrassmannian.{u} n r hr P) :
-    (flatnessSituation.{u} n r hr P).IsFlatAfterBaseChange (Over.mk t) ↔
+theorem isFlatAfterBaseChange_iff {T : Scheme.{u}} (t : T ⟶ quotGrassmannian.{u} n r P) :
+    (flatnessSituation.{u} n r P).IsFlatAfterBaseChange (Over.mk t) ↔
       IsFlatOver (projectiveSpaceOver n T ↘ T).toLRSHom.toShHom
         ((Scheme.Modules.pullback (projectiveSpaceOverMap n t)).obj
-          (universalFamily.{u} n r hr P)) := by
+          (universalFamily.{u} n r P)) := by
   have H₁ := IsPullback.of_hasPullback
-    (projectiveSpaceOver n (quotGrassmannian.{u} n r hr P) ↘ quotGrassmannian.{u} n r hr P) t
+    (projectiveSpaceOver n (quotGrassmannian.{u} n r P) ↘ quotGrassmannian.{u} n r P) t
   have H₂ := isPullback_projectiveSpaceOverMap n t
   have e := (Stacks.ProjectiveBundleQuotients.pullbackIso (projectiveSpaceOverMap n t)).app
-    (universalFamily.{u} n r hr P)
-  have hq := (flatnessSituation.{u} n r hr P).isQuasicoherent
+    (universalFamily.{u} n r P)
+  have hq := (flatnessSituation.{u} n r P).isQuasicoherent
   exact ⟨fun h ↦ (isFlatOver_iff_of_iso _ e).2
       (@isFlatOver_modulePullback_of_isPullback _ _ _ _ _ _ _ _ _ _ _ H₁ H₂
-        (flatnessSituation.{u} n r hr P).F hq h),
+        (flatnessSituation.{u} n r P).F hq h),
     fun h ↦ @isFlatOver_modulePullback_of_isPullback _ _ _ _ _ _ _ _ _ _ _ H₂ H₁
-      (flatnessSituation.{u} n r hr P).F hq ((isFlatOver_iff_of_iso _ e).1 h)⟩
+      (flatnessSituation.{u} n r P).F hq ((isFlatOver_iff_of_iso _ e).1 h)⟩
 
 /-- **`t : T ⟶ G` factors through the flat locus `Z` iff `(ℙⁿ_t)^* ℱ_G` is flat over `T`.** -/
-theorem exists_lift_flatLocus_iff {T : Scheme.{u}} (t : T ⟶ quotGrassmannian.{u} n r hr P) :
-    (∃ z : T ⟶ (flatLocus.{u} n r hr P).left, z ≫ (flatLocus.{u} n r hr P).hom = t) ↔
+theorem exists_lift_flatLocus_iff {T : Scheme.{u}} (t : T ⟶ quotGrassmannian.{u} n r P) :
+    (∃ z : T ⟶ (flatLocus.{u} n r P).left, z ≫ (flatLocus.{u} n r P).hom = t) ↔
       IsFlatOver (projectiveSpaceOver n T ↘ T).toLRSHom.toShHom
         ((Scheme.Modules.pullback (projectiveSpaceOverMap n t)).obj
-          (universalFamily.{u} n r hr P)) := by
+          (universalFamily.{u} n r P)) := by
   rw [← isFlatAfterBaseChange_iff]
   constructor
   · rintro ⟨z, hz⟩
-    exact ((flatLocusRepresentableBy n r hr P).homEquiv (Over.homMk z hz : Over.mk t ⟶ _)).down
+    exact ((flatLocusRepresentableBy n r P).homEquiv (Over.homMk z hz : Over.mk t ⟶ _)).down
   · intro h
-    let w := (flatLocusRepresentableBy n r hr P).homEquiv.symm (PLift.up h)
+    let w := (flatLocusRepresentableBy n r P).homEquiv.symm (PLift.up h)
     exact ⟨w.left, Over.w w⟩
 
 end AlgebraicGeometry.ProjectiveQuot

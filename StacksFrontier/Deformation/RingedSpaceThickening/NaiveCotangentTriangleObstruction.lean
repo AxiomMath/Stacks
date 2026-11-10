@@ -110,7 +110,7 @@ public theorem baseInverseImageRingMap_comp (f : X ⟶ S) (t : S ⟶ S') :
   apply ((sheafAdjunction (f ≫ t)).homEquiv S'.sheaf X.sheaf).injective
   rw [Adjunction.homEquiv_naturality_right, homEquiv_inverseImageStructureMap,
     baseInverseImageRingMap, Equiv.apply_symm_apply]
-  show (structureSheafMap t ≫ (TopCat.Sheaf.pushforward CommRingCat.{u} t.hom.base).map
+  change (structureSheafMap t ≫ (TopCat.Sheaf.pushforward CommRingCat.{u} t.hom.base).map
         ((sheafAdjunction f).unit.app S.sheaf)) ≫
       (TopCat.Sheaf.pushforward CommRingCat.{u} t.hom.base).map
         ((TopCat.Sheaf.pushforward CommRingCat.{u} f.hom.base).map

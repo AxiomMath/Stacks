@@ -100,7 +100,7 @@ public theorem isLocalization_atPrime_pointStalk (S : AlgebraizationSituation.{u
     { e.symm with
       commutes' := fun a => by
         apply e.injective
-        show e (e.symm (algebraMap S.A (Localization.AtPrime q) a)) = _
+        change e (e.symm (algebraMap S.A (Localization.AtPrime q) a)) = _
         rw [e.apply_symm_apply, hcomp a] }
   exact IsLocalization.isLocalization_of_algEquiv q.primeCompl eAlg
 
@@ -118,7 +118,7 @@ public theorem stalkSpecializes_comp_baseToPointStalk (S : AlgebraizationSituati
     (S.U.toScheme.presheaf.stalkSpecializes hxy).hom.comp (baseToPointStalk S y) =
       baseToPointStalk S x := by
   ext a
-  show (S.U.toScheme.presheaf.stalkSpecializes hxy).hom
+  change (S.U.toScheme.presheaf.stalkSpecializes hxy).hom
       ((S.U.ι.stalkMap y).hom ((S.X.presheaf.germ ⊤ (S.U.ι.base y) (Set.mem_univ _)).hom
         ((Scheme.ΓSpecIso (.of S.A)).inv.hom a))) = _
   rw [← Scheme.Hom.stalkSpecializes_stalkMap_apply S.U.ι x y hxy,
@@ -145,7 +145,7 @@ public theorem comap_under_maximalIdeal_stalk_eq (S : AlgebraizationSituation.{u
     (S.U.toScheme.presheaf.stalkSpecializes hxy).hom.toAlgebra
   let _ : Algebra S.A (S.U.toScheme.presheaf.stalk x) := (baseToPointStalk S x).toAlgebra
   have hloc := isLocalization_atPrime_pointStalk_toAlgebra S x
-  show ((maximalIdeal (S.U.toScheme.presheaf.stalk x)).comap
+  change ((maximalIdeal (S.U.toScheme.presheaf.stalk x)).comap
     (algebraMap (S.U.toScheme.presheaf.stalk y) (S.U.toScheme.presheaf.stalk x))).comap
       (baseToPointStalk S y) = _
   rw [Ideal.comap_comap,

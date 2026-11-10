@@ -119,20 +119,21 @@ lemma compactificationFieldBaseChangeImmersion_comp_fieldBaseChangeMap :
       compactificationFieldBaseChangeImmersion f l kbar := by
   refine pullback.hom_ext ?_ ?_
   · simp only [Category.assoc, fieldBaseChangeMap, pullback.lift_fst, Over.homMk_left]
-    show compactificationFieldBaseChangeImmersion f j kbar ≫
+    change compactificationFieldBaseChangeImmersion f j kbar ≫
         pullback.fst j.toBase (specAlgebraMap k kbar) ≫ CompactificationOf.Hom.map g =
       compactificationFieldBaseChangeImmersion f l kbar ≫
         pullback.fst l.toBase (specAlgebraMap k kbar)
     rw [compactificationFieldBaseChange_immersion_comp_fst_assoc,
       compactificationFieldBaseChange_immersion_comp_fst, CompactificationOf.immersion_comp_map]
   · simp only [Category.assoc, fieldBaseChangeMap, pullback.lift_snd, Category.comp_id]
-    show compactificationFieldBaseChangeImmersion f j kbar ≫
+    change compactificationFieldBaseChangeImmersion f j kbar ≫
         pullback.snd j.toBase (specAlgebraMap k kbar) =
       compactificationFieldBaseChangeImmersion f l kbar ≫
         pullback.snd l.toBase (specAlgebraMap k kbar)
     rw [compactificationFieldBaseChange_immersion_comp_snd,
       compactificationFieldBaseChange_immersion_comp_snd]
 
+omit [Fintype k] in
 /-- **The restrictions to `X̄_{j,k̄}` of the terms of `j_! K` are acyclic for `ḡ_k̄`**, when every
 term of `K` is annihilated by a positive integer: the restriction of `j_! Kⁿ` is
 `(j_k̄)_!(Kⁿ|_{X_k̄})` ([Stacks, Tag 03S6]), a torsion sheaf extended by zero along the open
@@ -184,6 +185,7 @@ def compactSupportFrobeniusCohomologyHomIso (K : CochainComplex.Plus (EtaleModul
         ((fieldBaseChangeRestrictionFunctor.{u, 0} Λ (Over.mk l.toBase) kbar).mapIso
           (refinementPlusIso Λ f g K)))
 
+omit [Fintype k] in
 /-- **The identification is natural in `K`.** -/
 theorem compactSupportFrobeniusCohomologyHomIso_hom_naturality
     {K K' : CochainComplex.Plus (EtaleModules.{u, 0} Λ X)} (x : K ⟶ K')
@@ -246,7 +248,7 @@ theorem nsmul_id_sheafSingleComplex_X (G : EtaleModules.{u, 0} Λ X) (m : ℕ) (
   by_cases hn : n = 0
   · subst hn
     let e := HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 G
-    show m • 𝟙 (((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).obj G).X 0) = 0
+    change m • 𝟙 (((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).obj G).X 0) = 0
     have : m • 𝟙 (((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).obj G).X 0) =
         e.hom ≫ (m • 𝟙 G) ≫ e.inv := by
       rw [Preadditive.nsmul_comp, Preadditive.comp_nsmul, Category.id_comp, e.hom_inv_id]
@@ -336,6 +338,7 @@ theorem LAdicSheaf.padicTowerCompactSupportHomIso_hom_frobenius (i : ℤ) :
         (LAdicSheaf.exists_nsmul_id_sheafSingleComplex_padicTower B ℓ F n))).trans
       (Functor.map_comp _ _ _))
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- The isomorphism of inverse systems intertwines the geometric Frobenius through `j` and `l`. -/
 theorem LAdicSheaf.geometricCompactlySupportedCohomologySystemHomIso_hom_frobenius (i : ℤ) :
     LAdicSheaf.geometricCompactlySupportedCohomologySystemPullback B X ℓ f j kbar F i
@@ -358,6 +361,7 @@ theorem LAdicSheaf.geometricCompactlySupportedCohomologySystemHomIso_hom_frobeni
     Iso.symm_hom, Category.assoc]
   rw [reassoc_of% hj', reassoc_of% hT, hl]
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The isomorphism `Hⁱ_c(X_k̄, F ⊗ ℚ_ℓ)` through `j` `≅` through `l` intertwines the geometric
 Frobenius.** -/
 theorem LAdicSheaf.rationalGeometricCompactlySupportedCohomologyHomIso_hom_frobenius (i : ℤ) :
@@ -371,27 +375,32 @@ theorem LAdicSheaf.rationalGeometricCompactlySupportedCohomologyHomIso_hom_frobe
   simp only [Functor.map_comp] at h
   exact h
 
+omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 include g in
 /-- `Hⁱ_c(X_k̄, F ⊗ ℚ_ℓ)` through `l` is finite dimensional when it is through `j`. -/
 theorem LAdicSheaf.finiteDimensional_rationalGeometricCompactlySupportedCohomology_of_hom
-    (i : ℤ) [FiniteDimensional ℚ_[ℓ]
+    [Finite k] (i : ℤ) [FiniteDimensional ℚ_[ℓ]
       (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B X ℓ f j kbar F i)] :
     FiniteDimensional ℚ_[ℓ]
       (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B X ℓ f l kbar F i) :=
+  have := Fintype.ofFinite k
   LinearEquiv.finiteDimensional
     (LAdicSheaf.rationalGeometricCompactlySupportedCohomologyHomIso B ℓ f g kbar F i).toLinearEquiv
 
+omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 include g in
 /-- `Hⁱ_c(X_k̄, F ⊗ ℚ_ℓ)` through `j` is finite dimensional when it is through `l`. -/
 theorem LAdicSheaf.finiteDimensional_rationalGeometricCompactlySupportedCohomology_of_hom'
-    (i : ℤ) [FiniteDimensional ℚ_[ℓ]
+    [Finite k] (i : ℤ) [FiniteDimensional ℚ_[ℓ]
       (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B X ℓ f l kbar F i)] :
     FiniteDimensional ℚ_[ℓ]
       (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B X ℓ f j kbar F i) :=
+  have := Fintype.ofFinite k
   LinearEquiv.finiteDimensional
     (LAdicSheaf.rationalGeometricCompactlySupportedCohomologyHomIso B ℓ f g kbar F
       i).symm.toLinearEquiv
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 include g in
 /-- **Along a morphism of compactifications, the Frobenius on `Hⁱ_c(X_k̄, F ⊗ ℚ_ℓ)` keeps its
 characteristic polynomial.** -/

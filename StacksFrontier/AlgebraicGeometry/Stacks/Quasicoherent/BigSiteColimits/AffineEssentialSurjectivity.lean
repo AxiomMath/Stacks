@@ -268,7 +268,7 @@ theorem isLocallySpannedBySectionsAt_of_sieve {T : C} (hT : IsTerminal T)
   · refine J.transitive hSv _ fun {Z} {f} hf => ?_
     obtain ⟨Sz, hSz, hmem⟩ := h f hf (N.val.restrictₛₗ f.op n)
     refine J.superset_covering (fun {W} c hc => ?_) hSz
-    show N.val.restrictₛₗ (c ≫ f).op n ∈ N.globalSectionSpan hT W
+    change N.val.restrictₛₗ (c ≫ f).op n ∈ N.globalSectionSpan hT W
     rw [N.restrictₛₗ_comp_apply f c n]
     exact hmem c hc
 

@@ -61,10 +61,10 @@ public theorem CoherentTriple.shortExact_zero_of_isZero {A : Type u} [CommRing A
 
 /-- **The Euler characteristic of a coherent triple with both members zero vanishes.** -/
 public theorem CoherentTriple.eulerCharacteristic_eq_zero_of_isZero {A : Type u} [CommRing A]
-    [IsLocalRing A] [IsNoetherianRing A] {f : A} (hf : f ∈ maximalIdeal A) (hreg : IsRegular f)
+    [IsLocalRing A] [IsNoetherianRing A] {f : A} (hf : f ∈ maximalIdeal A)
     {T : CoherentTriple A f} (hF : IsZero T.F) (hF₀ : IsZero T.F₀) :
-    T.eulerCharacteristic hf hreg = 0 := by
-  have h := CoherentTriple.eulerCharacteristic_add_of_shortExact hf hreg
+    T.eulerCharacteristic = 0 := by
+  have h := CoherentTriple.eulerCharacteristic_add_of_shortExact hf
     (CoherentTriple.shortExact_zero_of_isZero hF hF₀)
   omega
 

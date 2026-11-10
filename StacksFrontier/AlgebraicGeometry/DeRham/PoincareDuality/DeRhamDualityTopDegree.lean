@@ -177,7 +177,7 @@ theorem bijective_hypercohomologyMap_truncLEι_deRham (d : ℕ) [NoetherianSpace
       _ y).1 ((ModuleCat.subsingleton_of_isZero (hz _ _ (by omega))).elim _ _)
     obtain ⟨J, V, hV, c, hc, rfl⟩ := exists_cechCocycleClassAt_eq ((deRhamPlus f).obj.X (e : ℤ))
       (e : ℤ) (cechComputes_deRhamPlus_X f (e : ℤ)) (e + 1) z
-    show boundary (inverseImageRingSheaf f)
+    change boundary (inverseImageRingSheaf f)
         (truncLESC (inverseImageRingSheaf f) (deRhamPlus f) ((e + 1 : ℕ) : ℤ) (e : ℤ)
           (by push_cast; rfl))
         (truncLESC_shortExact (inverseImageRingSheaf f) (deRhamPlus f) ((e + 1 : ℕ) : ℤ) (e : ℤ)

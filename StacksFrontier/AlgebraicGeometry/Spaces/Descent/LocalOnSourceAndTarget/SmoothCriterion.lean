@@ -125,10 +125,10 @@ theorem isSmoothLocalOnSourceAndTarget
       refine ⟨points B S hS X, UA, aa, rfl, hX, hU, hX, hU, ha, ?_⟩
       exact Set.eq_univ_iff_forall.mpr fun z =>
         Set.mem_iUnion.mpr ⟨z, Set.mem_range.mpr ⟨u z, hu z⟩⟩
-    show Q (ObjectProperty.homMk f : X' ⟶ Y')
+    change Q (ObjectProperty.homMk f : X' ⟶ Y')
     apply MorphismProperty.IsLocalAtSource.of_forall_comp hR
     rintro U₀ a₀ ⟨x⟩
-    show P (a x ≫ f)
+    change P (a x ≫ f)
     rw [← hcomm x]
     exact hcomp (hU x) (hV x) hY (h x) (b x) (hh x) (hb x)
 

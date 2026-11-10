@@ -295,7 +295,7 @@ theorem exists_chart_iso_biprod_single_free (f : X ⟶ schemeSpace V₀)
     have ha : yoneda.map (yonedaEquiv V.obj.hom) = V.obj.hom :=
       yonedaEquiv.injective (yonedaEquiv_yoneda_map _)
     refine InducedCategory.hom_ext ?_
-    show yoneda.map g₀ ≫ V.obj.hom = yoneda.map (V.obj.hom.app _ g₀)
+    change yoneda.map g₀ ≫ V.obj.hom = yoneda.map (V.obj.hom.app _ g₀)
     rw [← ha]
     exact (yoneda.map_comp _ _).symm
   -- the fibre over the geometric point, and cohomology and base change along it
@@ -342,11 +342,11 @@ theorem exists_chart_iso_biprod_single_free (f : X ⟶ schemeSpace V₀)
     exact yonedaEquiv.injective (by rw [Equiv.apply_symm_apply]; exact yonedaEquiv_yoneda_map _)
   have h1 := pointsMap_yonedaEquiv_symm_comp_tautological t' (𝟙 _)
   rw [← hc'] at h1
-  show pointsMap B S hS _ (W₀.1.hom ≫ V.1.hom) w = t.image
+  change pointsMap B S hS _ (W₀.1.hom ≫ V.1.hom) w = t.image
   refine (pointsMap_comp_apply B S hS W₀.1.hom V.1.hom w).trans ?_
   rw [hw]
   refine (congrArg (pointsMap B S hS _ V.1.hom) h1).trans ?_
-  show _ = t.val.class B S hS _
+  change _ = t.val.class B S hS _
   rw [← ht']
   rfl
 

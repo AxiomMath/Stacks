@@ -74,7 +74,7 @@ theorem idealLocalCohomology_isZero_of_isIPowerTorsion
     (powerTorsionComparisonCompInclusionIso.{u, max u v} A I hI).app
         ((derivedPowerTorsion.{u, v} A I hI).obj X) ≪≫
       @asIso _ _ _ _ ((derivedPowerTorsionCounit.{u, v} A I hI).app X) hiso
-  show IsZero ((DerivedCategory.homologyFunctor (ModuleCat.{max u v} A) p).obj
+  change IsZero ((DerivedCategory.homologyFunctor (ModuleCat.{max u v} A) p).obj
     (P.ι.obj ((powerTorsionComparison.{u, max u v} A I hI).obj
       ((derivedPowerTorsion.{u, v} A I hI).obj X))))
   refine IsZero.of_iso ?_

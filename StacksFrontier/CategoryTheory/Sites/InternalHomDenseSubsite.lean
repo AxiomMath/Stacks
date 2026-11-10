@@ -180,7 +180,7 @@ lemma internalHomSheafPrecomp_comp_internalHomSheafCongr
   apply Sheaf.hom_ext
   ext X α
   refine NatTrans.ext (funext fun Y ↦ AddCommGrpCat.hom_ext (AddMonoidHom.ext fun x ↦ ?_))
-  show b.hom.hom.app _ (α.app Y (w.hom.app _ (a'.inv.hom.app _ x))) =
+  change b.hom.hom.app _ (α.app Y (w.hom.app _ (a'.inv.hom.app _ x))) =
     b.hom.hom.app _ (α.app Y (a.inv.hom.app _ (w₁.hom.app _ x)))
   have h := ConcreteCategory.congr_hom
     (congrArg (fun φ : 𝒢₁' ⟶ 𝒢 ↦ φ.hom.app (op Y.unop.left)) hw') x

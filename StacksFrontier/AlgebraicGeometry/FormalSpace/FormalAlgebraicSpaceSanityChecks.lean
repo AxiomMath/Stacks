@@ -127,7 +127,7 @@ theorem isLocallySurjective_sigmaDesc_of_isSurjectiveOnSchemeBaseChanges
   have hsurj : IsSurjective B S hS (Sigma.desc f) :=
     isSurjective_of_isSurjectiveOnAffineBaseChanges B S hS _ fun T _ g W p q sq ↦ hf T g W p q sq
   have hid : Sigma.desc (fun i ↦ Sigma.ι Xi i) = 𝟙 (∐ Xi) :=
-    Sigma.hom_ext _ _ fun i ↦ by rw [Sigma.ι_desc, Category.comp_id]
+    Sigma.hom_ext _ _ fun i ↦ by rw [Sigma.ι_comp_desc, Category.comp_id]
   have hιsurj : Sheaf.IsLocallySurjective (Sigma.desc (fun i ↦ Sigma.ι Xi i)) := by
     rw [hid]
     infer_instance
@@ -138,7 +138,7 @@ theorem isLocallySurjective_sigmaDesc_of_isSurjectiveOnSchemeBaseChanges
     (fun i ↦ Sigma.ι Xi i) hιsurj z
   refine ⟨i, w, ?_⟩
   have hcomp : (f i).hom = (Sigma.ι Xi i).hom ≫ (Sigma.desc f).hom :=
-    congrArg (fun k : Xi i ⟶ X ↦ k.hom) (Sigma.ι_desc f i).symm
+    congrArg (fun k : Xi i ⟶ X ↦ k.hom) (Sigma.ι_comp_desc f i).symm
   rw [hcomp, Space.pointsMapULift_comp]
   rfl
 

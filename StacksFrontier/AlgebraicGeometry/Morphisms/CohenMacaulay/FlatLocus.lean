@@ -253,7 +253,7 @@ theorem germ_spec_comp_stalkMap
             rw [germ_fromSpec_stalkMap hU (Spec.map φ q) hq]
     _ = _ := by
       rw [Category.assoc, Scheme.Hom.germ_stalkMap]
-      show (Scheme.ΓSpecIso Γ(S, U)).inv ≫
+      change (Scheme.ΓSpecIso Γ(S, U)).inv ≫
         (Spec.map φ).appTop ≫
           (Spec B).presheaf.germ ⊤ q (by simp) =
         φ ≫ (Scheme.ΓSpecIso B).inv ≫
@@ -271,7 +271,7 @@ private theorem isOpen_flatOverAt_spec
       IsFlatOverAt (Spec.map φ ≫ hU.fromSpec).toLRSHom.toShHom F q} := by
   let M := (modulesSpecToSheaf.obj F).presheaf.obj (.op ⊤)
   have : Module.FinitePresentation B M := finitePresentation_sections_of_affine F
-  show IsOpen {q : PrimeSpectrum B |
+  change IsOpen {q : PrimeSpectrum B |
     IsFlatOverAt (Spec.map φ ≫ hU.fromSpec).toLRSHom.toShHom F q}
   have heq : {q : PrimeSpectrum B |
       IsFlatOverAt (Spec.map φ ≫ hU.fromSpec).toLRSHom.toShHom F q} =
@@ -282,11 +282,11 @@ private theorem isOpen_flatOverAt_spec
     ext q
     let _ : Module Γ(S, U) ((tilde M).presheaf.stalk q) :=
       Module.compHom _ φ.hom
-    show IsFlatOverAt (Spec.map φ ≫ hU.fromSpec).toLRSHom.toShHom F q ↔
+    change IsFlatOverAt (Spec.map φ ≫ hU.fromSpec).toLRSHom.toShHom F q ↔
       Module.Flat Γ(S, U) ((tilde M).presheaf.stalk q)
     rw [flatOverAt_iff_of_iso (Spec.map φ ≫ hU.fromSpec) (asIso F.fromTildeΓ).symm q]
     have hx : (Spec.map φ ≫ hU.fromSpec) q ∈ U := by
-      show (Spec.map φ q) ∈ hU.fromSpec ⁻¹ᵁ U
+      change (Spec.map φ q) ∈ hU.fromSpec ⁻¹ᵁ U
       rw [hU.fromSpec_preimage_self]
       trivial
     rw [flatOverAt_iff_flat_sectionsStalk
@@ -312,7 +312,7 @@ private theorem isOpen_flatOverAt_spec
     have hmodule : moduleLeft = moduleRight := by
       apply Module.ext'
       intro a m
-      show ((Spec.map φ ≫ hU.fromSpec).stalkMap q).hom
+      change ((Spec.map φ ≫ hU.fromSpec).stalkMap q).hom
         ((S.presheaf.germ U _ hx).hom a) • m = (φ.hom a) • m
       have hval := congrArg
         (fun t : Γ(S, U) ⟶ (Spec B).presheaf.stalk q => t a) hr
@@ -320,7 +320,7 @@ private theorem isOpen_flatOverAt_spec
         ((S.presheaf.germ U _ hx).hom a) =
           algebraMap B ((Spec B).presheaf.stalk q) (φ.hom a) at hval
       rw [hval, hB]
-    show @Module.Flat Γ(S, U) N _ _ moduleLeft ↔
+    change @Module.Flat Γ(S, U) N _ _ moduleLeft ↔
       @Module.Flat Γ(S, U) N _ _ moduleRight
     rw [hmodule]
   exact heq ▸ isOpen_flat_tilde_stalk φ M hφ

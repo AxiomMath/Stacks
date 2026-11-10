@@ -84,7 +84,7 @@ lemma geometricallyIrreducible_resLE [GeometricallyIrreducible f] (V : S.Opens) 
     MorphismProperty.IsStableUnderBaseChange.of_isPullback
       (isPullback_morphismRestrict f V).flip inferInstance
   have : Surjective (X.homOfLE hUV ≫ f ∣_ V) := ‹Surjective (f.resLE V U hUV)›
-  show GeometricallyIrreducible (X.homOfLE hUV ≫ f ∣_ V)
+  change GeometricallyIrreducible (X.homOfLE hUV ≫ f ∣_ V)
   infer_instance
 
 end ResLE
@@ -218,7 +218,7 @@ lemma restrictedSupportDimension {X S : Scheme.{u}} (f : X ⟶ S) (F : X.Modules
       p.val ∈ SheafOfModules.supp F} ≃ₜ (U.ι ⁻¹' P) :=
     Homeomorph.setCongr (by
       ext p
-      show (f p.val = ((f.resLE V U hUV) ⟨x, hx⟩).val ∧ _) ↔ (f p.val = f x ∧ _)
+      change (f p.val = ((f.resLE V U hUV) ⟨x, hx⟩).val ∧ _) ↔ (f p.val = f x ∧ _)
       rw [hs]
       rfl) with he''
   have hj : Topology.IsOpenEmbedding (e.symm ∘ P.restrictPreimage U.ι ∘ e'' ∘ e') :=
@@ -230,9 +230,9 @@ lemma restrictedSupportDimension {X S : Scheme.{u}} (f : X ⟶ S) (F : X.Modules
       ⟨(f.resLE V U hUV).asFiber ⟨x, hx⟩, hm'⟩ = ⟨f.asFiber x, hm⟩ := by
     apply Subtype.ext
     apply (f.fiberι (f x)).isEmbedding.injective
-    show f.fiberι (f x) ((f.fiberHomeo (f x)).symm _) = _
+    change f.fiberι (f x) ((f.fiberHomeo (f x)).symm _) = _
     rw [Scheme.Hom.fiberι_fiberHomeo_symm]
-    show U.ι ((f.resLE V U hUV).fiberι ((f.resLE V U hUV) ⟨x, hx⟩)
+    change U.ι ((f.resLE V U hUV).fiberι ((f.resLE V U hUV) ⟨x, hx⟩)
       ((f.resLE V U hUV).asFiber ⟨x, hx⟩)) = _
     refine Eq.trans (congrArg (fun p : U.toScheme ↦ U.ι p)
       ((f.resLE V U hUV).fiberι_asFiber ⟨x, hx⟩)) ?_
@@ -306,7 +306,7 @@ lemma purelyTranscendental_of_ringEquiv {k K k' K' : Type*} [Field k] [Field K] 
         E.toRingHom := by
     refine IntermediateField.adjoin_le_subfield _ _ ?_ ?_
     · rintro _ ⟨a, rfl⟩
-      show E (algebraMap k K a) ∈
+      change E (algebraMap k K a) ∈
         IntermediateField.adjoin k' (Set.range (E ∘ (Subtype.val : s → K)))
       have hc' : algebraMap k' K' (e a) = E (algebraMap k K a) := RingHom.congr_fun hc a
       rw [← hc']
@@ -338,7 +338,7 @@ lemma purelyTranscendental_resLE' {X S : Scheme.{u}} (f : X ⟶ S) (V : S.Opens)
     (f.residueFieldMap x.val).hom.toAlgebra
   let := ((f.resLE V U hUV).residueFieldMap x).hom.toAlgebra
   have hH : PurelyTranscendental (S.residueField (f x.val)) (X.residueField (U.ι x)) := H
-  show PurelyTranscendental (V.toScheme.residueField ((f.resLE V U hUV) x))
+  change PurelyTranscendental (V.toScheme.residueField ((f.resLE V U hUV) x))
     (U.toScheme.residueField x)
   refine purelyTranscendental_of_ringEquiv
     ((S.residueFieldCongr (Scheme.Hom.coe_resLE_apply f hUV x)).symm ≪≫
@@ -349,7 +349,7 @@ lemma purelyTranscendental_resLE' {X S : Scheme.{u}} (f : X ⟶ S) (V : S.Opens)
   have hcomm := Scheme.Hom.residueFieldMap_congr (Scheme.Hom.resLE_comp_ι f hUV) x
   rw [Scheme.residueFieldMap_comp, Scheme.residueFieldMap_comp] at hcomm
   refine congrArg CommRingCat.Hom.hom ?_
-  show ((S.residueFieldCongr (Scheme.Hom.coe_resLE_apply f hUV x)).inv ≫
+  change ((S.residueFieldCongr (Scheme.Hom.coe_resLE_apply f hUV x)).inv ≫
       V.ι.residueFieldMap ((f.resLE V U hUV) x)) ≫ (f.resLE V U hUV).residueFieldMap x =
     f.residueFieldMap (U.ι x) ≫ U.ι.residueFieldMap x
   exact (Category.assoc _ _ _).trans

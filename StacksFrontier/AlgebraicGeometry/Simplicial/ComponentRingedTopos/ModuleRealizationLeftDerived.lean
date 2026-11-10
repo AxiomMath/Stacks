@@ -362,8 +362,8 @@ noncomputable def leftDerivedModuleRealizationComponentComparison
   app n := Limits.Sigma.desc fun φ => leftDerivedModuleRealizationComponentInclusion T hT φ
   naturality _ _ ψ := by
     refine Limits.Sigma.hom_ext _ _ fun φ => ?_
-    simp only [simplexCopower, Limits.Sigma.ι_desc_assoc, Limits.Sigma.ι_desc, Functor.comp_map,
-      leftDerivedModuleRealizationSimplicial]
+    simp only [simplexCopower, Limits.Sigma.ι_comp_desc_assoc, Limits.Sigma.ι_comp_desc,
+      Functor.comp_map, leftDerivedModuleRealizationSimplicial]
     exact (leftDerivedModuleRealizationComponentInclusion_comp T hT ψ.unop φ).symm
 
 /-- The `φ`th summand of the comparison is the transpose of the transition along `φ`. -/
@@ -372,7 +372,7 @@ theorem leftDerivedModuleRealizationComponentComparison_ι (T : SimplicialDerive
     Limits.Sigma.ι (fun _ : n.unop ⟶ m => T.obj m) φ ≫
         (leftDerivedModuleRealizationComponentComparison T hT m).app n =
       leftDerivedModuleRealizationComponentInclusion T hT φ :=
-  Limits.Sigma.ι_desc _ _
+  Limits.Sigma.ι_comp_desc _ _
 
 /-- **The comparison of the copower with the restriction of the realization is an
 isomorphism.** -/
@@ -395,7 +395,7 @@ theorem leftDerivedModuleRealizationComponentComparison_isIso
       leftDerivedModuleRealizationComponentInclusion,
       leftDerivedModuleRealizationTermMap_homEquiv]
     simp only [Limits.Sigma.ι_mapIso_hom_assoc, Iso.symm_hom, asIso_inv,
-      Limits.biproduct.isoCoproduct_inv, Limits.Sigma.ι_desc_assoc]
+      Limits.biproduct.isoCoproduct_inv, Limits.Sigma.ι_comp_desc_assoc]
     exact congrArg (fun k => @inv _ _ _ _ (T.map φ) (hT φ) ≫ k)
       (S.ι_derivedModuleSumComparison O φ (T.obj n.unop)).symm
   rw [he]

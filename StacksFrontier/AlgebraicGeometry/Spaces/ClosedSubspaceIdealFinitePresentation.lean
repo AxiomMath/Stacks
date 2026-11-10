@@ -147,7 +147,7 @@ theorem locallyOfFinitePresentation_rep_snd_of_forall_fg_definingIdealAt
     have : (BigFppfOver.toScheme B S hS).obj (openSiteObject B S hS V A.1) =
         (A.1 : ((BigFppfOver.toScheme B S hS).obj V).Opens).toScheme := rfl
     rw [hU']
-    show IsAffine ((BigFppfOver.toScheme B S hS).obj (openSiteObject B S hS V A.1))
+    change IsAffine ((BigFppfOver.toScheme B S hS).obj (openSiteObject B S hS V A.1))
     rw [this]
     exact A.2
   have hP' := locallyOfFinitePresentation_rep_snd_of_fg_definingIdealAt B S hS X Z U'

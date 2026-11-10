@@ -60,7 +60,7 @@ structure CurveStatements {k : Type u} [Field k] {X : Scheme.{u}} (π : X ⟶ Sp
   affineVanishing : IsAffineVanishingAboveDegreeOne.{u, v, w} F
   /-- **Statement (3), Tag 0A55.** `H^q(X, F) = 0` for `q > 1` if `p = char(k) > 0` and `F` is
   `p`-power torsion. -/
-  primePowerVanishing : ∀ (p : ℕ) [CharP k p], IsPrimePowerTorsionVanishing.{u, v, w} π p F
+  primePowerVanishing : ∀ (p : ℕ) [CharP k p], IsPrimePowerTorsionVanishing.{u, v, w} k p F
   /-- **Statement (4), Tag 0A56.** `H^q(X, F)` is finite if `F` is constructible and torsion
   prime to `char(k)`. -/
   finite_of_isPrimeToCharacteristicTorsion :
@@ -136,7 +136,7 @@ theorem isAffineVanishingAboveDegreeOne_of_curveStatements
 `p` of its base field. -/
 theorem isPrimePowerTorsionVanishing_of_curveStatements
     (h : CurveStatements.{u, v, w} S.structureMorphism S.F) (p : ℕ) [CharP S.k p] :
-    IsPrimePowerTorsionVanishing.{u, v, w} S.structureMorphism p S.F :=
+    IsPrimePowerTorsionVanishing.{u, v, w} S.k p S.F :=
   h.primePowerVanishing p
 
 /-- The bundle gives statement (4), Tag 0A56, for the situation, for every ambient big étale
@@ -199,7 +199,7 @@ theorem curveStatements_iff :
     CurveStatements.{u, v, w} S.structureMorphism S.F ↔
       IsVanishingAboveDegreeTwo.{u, v, w} S.F ∧
       IsAffineVanishingAboveDegreeOne.{u, v, w} S.F ∧
-      (∀ (p : ℕ) [CharP S.k p], IsPrimePowerTorsionVanishing.{u, v, w} S.structureMorphism p S.F) ∧
+      (∀ (p : ℕ) [CharP S.k p], IsPrimePowerTorsionVanishing.{u, v, w} S.k p S.F) ∧
       (∀ (B : BigEtaleSite.{u}) (hX : B.Contains S.X)
         [∀ (T T' : B.Scheme) (f : T' ⟶ T),
           ((AlgebraicGeometry.smallEtaleBaseChange B f).sheafPushforwardContinuous

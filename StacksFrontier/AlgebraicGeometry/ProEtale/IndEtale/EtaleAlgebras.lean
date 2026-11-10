@@ -99,7 +99,7 @@ private theorem finitePresentationUnder_essentiallySmall (A : Type u) [CommRing 
   let hr : M.right ≅ X.right := eI.toRingEquiv.toCommRingCatIso
   have hw : X.hom ≫ hr.symm.hom = M.hom := by
     ext a
-    show eI.symm.toRingEquiv (X.hom.hom a) = M.hom.hom a
+    change eI.symm.toRingEquiv (X.hom.hom a) = M.hom.hom a
     exact eI.symm.commutes a
   exact ⟨M, ⟨idx⟩, ⟨Under.isoMk hr.symm hw⟩⟩
 
@@ -135,9 +135,9 @@ public theorem etaleUnder_quotient_lift (A : Type u) [CommRing A] (I : Ideal A)
     etale_lift_along_surjection A (A ⧸ I) X.right Ideal.Quotient.mk_surjective
   let Y : Under (CommRingCat.of A) := Under.mk (CommRingCat.ofHom (algebraMap A C))
   refine ⟨Y, ?_, ψ.toRingHom, hsurj, ?_, ?_⟩
-  · show RingHom.Etale (algebraMap A C)
+  · change RingHom.Etale (algebraMap A C)
     exact RingHom.etale_algebraMap.mpr hC
-  · show RingHom.ker (ψ : C →+* X.right) = I.map (algebraMap A C)
+  · change RingHom.ker (ψ : C →+* X.right) = I.map (algebraMap A C)
     have hq : RingHom.ker (algebraMap A (A ⧸ I)) = I := by
       ext x
       simp

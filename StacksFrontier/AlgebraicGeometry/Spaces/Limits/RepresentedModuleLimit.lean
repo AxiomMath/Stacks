@@ -313,7 +313,8 @@ alias exists_modulePullback_map_eq_of_isLimit := exists_modulePullback_map_eq_of
 quasi-coherent modules of finite presentation on `h_{E i}` is, for some transition `e : j ⟶ i`,
 the inverse image of a morphism over `h_{E j}`, read through every comparison of iterated inverse
 images. -/
-alias exists_descendsAlong_modulePullback_of_isLimit' := exists_descendsAlong_modulePullback_of_isLimit_aux'
+alias exists_descendsAlong_modulePullback_of_isLimit' :=
+  exists_descendsAlong_modulePullback_of_isLimit_aux'
 
 end AlgebraicGeometry.Space
 

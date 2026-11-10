@@ -133,7 +133,7 @@ theorem isClosedImmersion_iff (S : CartesianFiniteTypeMorphism.{u}) :
       symm
       rw [hi.image_eq_preimage_symm]
       ext x'
-      show hj (S.f (hi.symm x')) ∈ U ↔ S.f' x' ∈ U
+      change hj (S.f (hi.symm x')) ∈ U ↔ S.f' x' ∈ U
       rw [← hcomm (hi.symm x'), hi.apply_symm_apply]
     have _ : IsClosedImmersion (pullback.snd S.f' S.j) :=
       (MorphismProperty.arrow_mk_iso_iff @IsClosedImmersion (f := S.f)
@@ -163,7 +163,7 @@ theorem isImmersion_iff (S : CartesianFiniteTypeMorphism.{u}) :
     have hf_range : Set.range S.f'.base ⊆ (V' : Set S.Y') := by
       rintro y' ⟨x', rfl⟩
       obtain ⟨x, rfl⟩ := hi.surjective x'
-      show S.f' (hi x) ∈ V'
+      change S.f' (hi x) ∈ V'
       rw [hcomm x]
       exact ⟨S.f x, hfV x, rfl⟩
     have hf'pre : S.f' ⁻¹ᵁ V' = ⊤ := top_unique fun x _ ↦ hf_range ⟨x, rfl⟩
@@ -212,7 +212,7 @@ theorem isImmersion_iff (S : CartesianFiniteTypeMorphism.{u}) :
                 (fun z : S.X' => S.X'.topIso.inv z)
                 (fun z : (⊤ : S.X'.Opens).toScheme => S.X'.topIso.hom z) := by
               intro z
-              show S.X'.topIso.inv (S.X'.topIso.hom z) = z
+              change S.X'.topIso.inv (S.X'.topIso.hom z) = z
               exact congrArg
                 (fun f : (⊤ : S.X'.Opens).toScheme ⟶ (⊤ : S.X'.Opens).toScheme => f z)
                 S.X'.topIso.hom_inv_id
@@ -220,7 +220,7 @@ theorem isImmersion_iff (S : CartesianFiniteTypeMorphism.{u}) :
             refine ⟨S.X.topIso.inv x, ?_⟩
             apply hinj
             rw [hi₀_eq]
-            show S.X'.topIso.hom (S.X'.topIso.inv
+            change S.X'.topIso.hom (S.X'.topIso.inv
               (S.i (S.X.topIso.hom (S.X.topIso.inv x)))) = S.X'.topIso.hom y'
             have hX (z : S.X) : S.X.topIso.hom (S.X.topIso.inv z) = z :=
               congrArg (fun f : S.X ⟶ S.X => f z) S.X.topIso.inv_hom_id
@@ -236,7 +236,7 @@ theorem isImmersion_iff (S : CartesianFiniteTypeMorphism.{u}) :
               rw [Scheme.Opens.range_ι, IsOpenImmersion.range_pullbackSnd,
                 Scheme.Opens.opensRange_ι]
               ext y
-              show y ∈ V ↔ S.j y ∈ V'
+              change y ∈ V ↔ S.j y ∈ V'
               refine ⟨fun hy ↦ ⟨y, hy, hj_apply y⟩, fun hy ↦ ?_⟩
               change S.j y ∈ hj '' (V : Set S.Y) at hy
               obtain ⟨z, hz, hzy⟩ := hy

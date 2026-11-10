@@ -81,7 +81,7 @@ theorem equivalent_mapIso (e : X ≅ X') {f g : PartialMap B S hS hX Y}
   obtain ⟨W, hW, hWf, hWg, hfg⟩ := h
   refine ⟨W.preimage e.inv, isDenseOpenSubspace_preimage_inv hX' e hW,
     fun T y hy => hWf T hy, fun T y hy => hWg T hy, ?_⟩
-  show W.fromPreimage e.inv ≫ Subfunctor.homOfLe hWf ≫ f.hom =
+  change W.fromPreimage e.inv ≫ Subfunctor.homOfLe hWf ≫ f.hom =
     W.fromPreimage e.inv ≫ Subfunctor.homOfLe hWg ≫ g.hom
   rw [hfg]
 
@@ -206,9 +206,9 @@ theorem evalSiteRingHom_rationalFunctionsMapIso (e : X ≅ X') {W : BigFppfOver 
   obtain ⟨j, hj⟩ := hm f.domain f.dense_open_domain
   have hrange : Subfunctor.range (m ≫ e.hom) ≤ f.domain.preimage e.inv := by
     rintro T - ⟨t, rfl⟩
-    show e.inv.app T (e.hom.app T (m.app T t)) ∈ f.domain.obj T
+    change e.inv.app T (e.hom.app T (m.app T t)) ∈ f.domain.obj T
     rw [← hj]
-    simpa using (j.app T t).2
+    simp
   rw [rationalFunctionsMapIso_apply, RationalMap.mapIso_toRationalMap,
     evalSiteRingHom_eq B S hS hX' hm' (f.mapIso hX' e) (Subfunctor.lift (m ≫ e.hom) hrange)
       (Subfunctor.lift_ι _ _),
@@ -216,10 +216,10 @@ theorem evalSiteRingHom_rationalFunctionsMapIso (e : X ≅ X') {W : BigFppfOver 
   congr 2
   refine NatTrans.ext (funext fun T => ?_)
   ext t
-  show f.hom.app T _ = f.hom.app T _
+  change f.hom.app T _ = f.hom.app T _
   congr 1
   refine Subtype.ext ?_
-  show e.inv.app T (e.hom.app T (m.app T t)) = (j.app T t).1
+  change e.inv.app T (e.hom.app T (m.app T t)) = (j.app T t).1
   rw [← hj]
   simp
 

@@ -119,7 +119,7 @@ lemma singleMapHomologicalComplex_hom_naturality (c : ComplexShape ι) (j : ι)
       (τ.naturality (singleObjXSelf c i X).hom).symm
     rw [comp_f, comp_f, singleMapHomologicalComplex_hom_app_self,
       singleMapHomologicalComplex_hom_app_self, single_map_f_self]
-    show τ.app (((single W₁ c i).obj X).X i) ≫ _ = _
+    change τ.app (((single W₁ c i).obj X).X i) ≫ _ = _
     rw [← Category.assoc, hτ]
     simp only [Category.assoc, Iso.inv_hom_id_assoc]
   · exact (Functor.map_isZero F (isZero_single_obj_X c j X i hi)).eq_of_src _ _

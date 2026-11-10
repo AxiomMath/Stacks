@@ -60,7 +60,7 @@ faithfully flat over `R`. -/
 @[stacks 00MC "Stated as the class `Module.FaithfullyFlat R (AdicCompletion I R)`, the shape of the
 flatness half `AdicCompletion.flat_of_isNoetherian`; the `in particular` is the case `I = 𝔪`. See
 the module docstring.", ega "0 7.3.5" "(a) => (b)", sga "1 IV 3.2" "if direction", sga "1 IV 3.1"
-  "flatness, I ⊆ rad", sga "1 IV 3.1" "flatness, I ⊆ rad", sga "3 VIIB 5.5.2" "partial"]
+  "flatness, I ⊆ rad", sga "3 VIIB 5.5.2" "partial"]
 public theorem AdicCompletion.faithfullyFlat_of_le_ringJacobson {R : Type*} [CommRing R]
     [IsNoetherianRing R] (I : Ideal R) (hI : I ≤ Ring.jacobson R) :
     Module.FaithfullyFlat R (AdicCompletion I R) := by
@@ -136,7 +136,7 @@ private theorem tensorTower_successor_surjective
       (M.map (homOfLE (Nat.le_succ n)).op))
     (n : ℕ) : Function.Surjective
       ((tensorTower Q M).map (homOfLE (Nat.le_succ n)).op) := by
-  show Function.Surjective
+  change Function.Surjective
     (LinearMap.lTensor (Q : Type u) (M.map (homOfLE (Nat.le_succ n)).op).hom)
   exact LinearMap.lTensor_surjective _ (hsurj n)
 
@@ -154,8 +154,7 @@ private theorem finiteFreeTensorEquiv_natural
     (x : TensorProduct A (Fin r → A) N) :
     finiteFreeTensorEquiv r P (LinearMap.lTensor (Fin r → A) f.hom x) =
       fun i => f (finiteFreeTensorEquiv r N x i) := by
-  induction x using TensorProduct.induction_on with
-  | zero => ext; simp
+  induction x using TensorProduct.inductionOn with
   | tmul a n => ext; simp [finiteFreeTensorEquiv, TensorProduct.piScalarRightHom_tmul]
   | add x y hx hy => ext; simp [map_add, hx, hy]
 
@@ -196,7 +195,7 @@ private theorem torOneTower_prozero
   have heq : (homOfLE hmn).op =
       (homOfLE hmk).op ≫ (homOfLE hkn).op := Subsingleton.elim _ _
   rw [heq, (torOneTower I Q).map_comp]
-  show ((Tor (ModuleCat.{u} A) 1).obj Q).map
+  change ((Tor (ModuleCat.{u} A) 1).obj Q).map
       (torProZeroTransition I hmk) ≫ _ = 0
   rw [hc m (by omega)]
   exact zero_comp
@@ -216,7 +215,7 @@ private theorem tensorPairTower_prozero_left
   intro n
   obtain ⟨m, h, hz⟩ := hzero n
   refine ⟨m, h, ?_⟩
-  show MonoidalCategoryStruct.tensorHom
+  change MonoidalCategoryStruct.tensorHom
     (F.map (homOfLE h).op) (G.map (homOfLE h).op) = 0
   rw [hz, MonoidalPreadditive.zero_tensor]
 
@@ -281,7 +280,7 @@ private theorem tower_isMittagLeffler
     (M ⋙ forget (ModuleCat.{u} A)).IsMittagLeffler := by
   apply CategoryTheory.Functor.isMittagLeffler_of_surjective
   intro i j f
-  show Function.Surjective (M.map f)
+  change Function.Surjective (M.map f)
   rw [show f = (homOfLE (leOfHom f.unop)).op from Subsingleton.elim _ _]
   exact transition_surjective M hsurj (leOfHom f.unop)
 
@@ -346,7 +345,7 @@ private theorem fiberTower_successor_surjective
   refine ⟨⟨t + z, ?_⟩, ?_⟩
   · rw [map_add, ht, hz0, add_zero]
   · apply Subtype.ext
-    show (F.map f) (t + z) = x.1
+    change (F.map f) (t + z) = x.1
     rw [map_add, hz]
     abel
 
@@ -371,7 +370,7 @@ private theorem fiberTower_isMittagLeffler_of_prozero_kernel
   have hconst (x : (fiberTower α g).obj (Opposite.op m)) :
       ((fiberTower α g).map f) x = ((fiberTower α g).map f) a₀ := by
     apply Subtype.ext
-    show (F.map f) x.1 = (F.map f) a₀.1
+    change (F.map f) x.1 = (F.map f) a₀.1
     have hd : (α.app (Opposite.op m)) (x.1 - a₀.1) = 0 := by
       rw [map_sub, x.2, a₀.2, sub_self]
     have hz := hzero (x.1 - a₀.1) hd
@@ -440,7 +439,7 @@ private theorem fiberTower_isMittagLeffler_of_prozero_homology
   refine ⟨⟨w.1 + (β.app k) c, ?_⟩, ?_⟩
   · rw [map_add, w.2, hβzero, add_zero]
   · apply Subtype.ext
-    show (F.map (g ≫ f)) (w.1 + (β.app k) c) = (F.map f) x.1
+    change (F.map (g ≫ f)) (w.1 + (β.app k) c) = (F.map f) x.1
     rw [map_add, hnatβ, hc, hb, map_sub, F.map_comp]
     simp only [comp_apply]
     abel

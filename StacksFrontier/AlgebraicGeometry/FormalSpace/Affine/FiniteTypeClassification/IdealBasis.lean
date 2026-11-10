@@ -340,7 +340,7 @@ private theorem transitionKernel_isNil
       (J.ideal i).map q ≤ (⊥ : Ideal (P.B.obj (Opposite.op j))).radical := by
     rw [Ideal.map_le_iff_le_comap]
     intro a ha
-    show q a ∈ (⊥ : Ideal (P.B.obj (Opposite.op j))).radical
+    change q a ∈ (⊥ : Ideal (P.B.obj (Opposite.op j))).radical
     rw [Ideal.mem_radical_iff]
     obtain ⟨n, hn⟩ := exists_pow_quotient_mk_eq_zero
       (J.ideal i) (J.ideal j) (J.weak i) (J.weak j) ha

@@ -73,7 +73,7 @@ public theorem exists_notMem_range_sup_span_singleton_eq_top_of_isSimpleModule
       LinearMap.range (Algebra.linearMap A S) ⊔ Submodule.span A {t} = ⊤ := by
   have hco : IsCoatom (LinearMap.range (Algebra.linearMap A S)) :=
     isSimpleModule_iff_isCoatom.mp h
-  obtain ⟨t, -, ht⟩ := SetLike.exists_of_lt hco.lt_top
+  obtain ⟨t, -, ht⟩ := IsConcreteLE.exists_of_lt hco.lt_top
   refine ⟨t, ht, hco.2 _ (lt_of_le_of_ne le_sup_left fun hc => ht ?_)⟩
   exact hc ▸ (le_sup_right (b := Submodule.span A {t})
     (Submodule.mem_span_singleton_self t))

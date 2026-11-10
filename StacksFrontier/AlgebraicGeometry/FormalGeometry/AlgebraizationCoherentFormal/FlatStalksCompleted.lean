@@ -63,14 +63,14 @@ theorem flat_of_isAdicComplete_of_flat_quotient {R : Type u} [CommRing R] [IsNoe
   have hscalar : ∀ n : ℕ, let := qmod n
       IsScalarTower R (R ⧸ I ^ n) (F.obj (.op n)) := by
     intro n
-    show IsScalarTower R (R ⧸ I ^ n) (M ⧸ (I ^ n • (⊤ : Submodule R M)))
+    change IsScalarTower R (R ⧸ I ^ n) (M ⧸ (I ^ n • (⊤ : Submodule R M)))
     infer_instance
   have hflat' : ∀ n : ℕ, let := qmod n
       Module.Flat (R ⧸ I ^ n) (F.obj (.op n)) := by
     intro n
     cases n with
     | zero =>
-      show Module.Flat (R ⧸ I ^ 0) (M ⧸ (I ^ 0 • (⊤ : Submodule R M)))
+      change Module.Flat (R ⧸ I ^ 0) (M ⧸ (I ^ 0 • (⊤ : Submodule R M)))
       have : Subsingleton (M ⧸ (I ^ 0 • (⊤ : Submodule R M))) := by
         rw [pow_zero, Ideal.one_eq_top, Submodule.top_smul]
         infer_instance
@@ -187,7 +187,7 @@ theorem flat_completedStalk {Y : Scheme.{u}} [IsLocallyNoetherian Y] (K : Y.Idea
   let e₅ : completedStalk K G y ≃ₗ[R] M :=
     { e₄.symm.toAddEquiv with
       map_smul' := fun r c => by
-        show e₄.symm (algebraMap (Y.presheaf.stalk y) (completedLocalRing K y) (θ r) • c) =
+        change e₄.symm (algebraMap (Y.presheaf.stalk y) (completedLocalRing K y) (θ r) • c) =
           θ r • e₄.symm c
         rw [algebraMap_smul, map_smul] }
   exact Module.Flat.of_linearEquiv e₅

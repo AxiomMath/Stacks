@@ -104,7 +104,7 @@ public theorem levelAbelianMulPow_comp_levelAbelianReduction (k : ℕ) :
   apply finiteContinuousAbelianHom_ext
   ext y
   refine ULift.ext ?_
-  show levelReduction k (((ℓ ^ k : ℕ) : ZMod (ℓ ^ (k + 1))) • y.down) = 0
+  change levelReduction k (((ℓ ^ k : ℕ) : ZMod (ℓ ^ (k + 1))) • y.down) = 0
   rw [levelReduction_eq_zero_iff]
   exact ⟨y.down, by rw [Nat.cast_smul_eq_nsmul]⟩
 
@@ -358,7 +358,7 @@ public theorem representationLevelTransition_comp_bijective (k : ℕ)
       ext U y
       have h1 := (h.hom.app U).hom.map_smul ((ℓ ^ k : ℕ) : ZMod (ℓ ^ (k + 1))) y
       have h2 : ((ℓ ^ k : ℕ) : ZMod (ℓ ^ (k + 1))) • (h.hom.app U).hom y = 0 := by
-        show (levelRingHom k ((ℓ ^ k : ℕ) : ZMod (ℓ ^ (k + 1)))) •
+        change (levelRingHom k ((ℓ ^ k : ℕ) : ZMod (ℓ ^ (k + 1)))) •
           (show ToType (T.obj.obj U) from (h.hom.app U).hom y) = (0 : ToType (T.obj.obj U))
         rw [map_natCast, ZMod.natCast_self, zero_smul]
       exact h1.trans h2
@@ -380,7 +380,7 @@ public theorem representationLevelTransition_comp_bijective (k : ℕ)
       intro b
       let a : ZMod (ℓ ^ (k + 1)) := ((b.val : ℕ) : ZMod (ℓ ^ (k + 1)))
       have ha : levelRingHom k a = b := by
-        show levelRingHom k ((b.val : ℕ) : ZMod (ℓ ^ (k + 1))) = b
+        change levelRingHom k ((b.val : ℕ) : ZMod (ℓ ^ (k + 1))) = b
         rw [map_natCast, ZMod.natCast_zmod_val]
       apply (epi_representationLevelAbelianReduction B X x e ρ hρ k).left_cancellation
       have hred := (e.inverse.map_comp _ _).symm.trans ((congrArg e.inverse.map
@@ -422,7 +422,7 @@ public theorem representationLevelTransition_comp_bijective (k : ℕ)
           (ZMod (ℓ ^ k))).fullyFaithfulFunctor.map_preimage θ)
     refine ⟨ψ, ?_⟩
     apply (F (k + 1)).map_injective
-    show (e.inverse.map (levelAbelianReduction ρ hρ k)).hom ≫
+    change (e.inverse.map (levelAbelianReduction ρ hρ k)).hom ≫
       (F k).map ψ = hab
     rw [hψ, hd]
 
@@ -530,7 +530,7 @@ public def representationLAdicSheaf : LAdicSheaf.{u, u + 1} B X ℓ where
 public theorem representationLAdicSheaf_isLisse :
     (representationLAdicSheaf B X x e ρ hρ).IsLisse := fun n => by
   have := isFiniteLocallyConstant_representationLevelSheaf B X x e ρ hρ (n + 1)
-  show IsLocallyConstant _ (representationLevelSheaf B X x e ρ hρ (n + 1))
+  change IsLocallyConstant _ (representationLevelSheaf B X x e ρ hρ (n + 1))
   infer_instance
 
 /-- **The lisse ℓ-adic sheaf `ℱ_ρ` of a continuous `ρ : π₁(X, x̄) → GL_r(ℚ_ℓ)`**, the sheaf of

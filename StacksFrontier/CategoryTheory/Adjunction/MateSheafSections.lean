@@ -87,7 +87,7 @@ variable {C₁ C₂ C₃ C₄ : Type*} [Category C₁] [Category C₂] [Category
 /-- The unit square of a mate of sheaves of modules, on sections. -/
 theorem SheafOfModules.mateEquiv_symm_unit_val_app (adj₁ : L₁ ⊣ Q₁) (adj₂ : L₂ ⊣ Q₂)
     (θ : Q₁ ⋙ G ⟶ H ⋙ Q₂) (K : SheafOfModules R₁) (W : C₃ᵒᵖ) (s : (G.obj K).val.obj W) :
-    (Q₂.map (((mateEquiv adj₁ adj₂).symm (TwoSquare.mk _ _ _ _ θ)).natTrans.app K)).val.app W
+    (Q₂.map (((mateEquiv adj₁ adj₂).symm (TwoSquare.mk _ _ _ _ θ)).app K)).val.app W
         ((adj₂.unit.app (G.obj K)).val.app W s) =
       (θ.app (L₁.obj K)).val.app W ((G.map (adj₁.unit.app K)).val.app W s) := by
   exact congrArg (fun m => m.val.app W s)
@@ -109,7 +109,7 @@ variable {C₁ C₂ C₃ C₄ : Type*} [Category C₁] [Category C₂] [Category
 /-- The unit square of a mate of sheaves of types, on sections. -/
 theorem Sheaf.mateEquiv_symm_unit_hom_app (adj₁ : L₁ ⊣ Q₁) (adj₂ : L₂ ⊣ Q₂)
     (θ : Q₁ ⋙ G ⟶ H ⋙ Q₂) (K : Sheaf J₁ (Type t)) (W : C₃ᵒᵖ) (s : (G.obj K).obj.obj W) :
-    (Q₂.map (((mateEquiv adj₁ adj₂).symm (TwoSquare.mk _ _ _ _ θ)).natTrans.app K)).hom.app W
+    (Q₂.map (((mateEquiv adj₁ adj₂).symm (TwoSquare.mk _ _ _ _ θ)).app K)).hom.app W
         ((adj₂.unit.app (G.obj K)).hom.app W s) =
       (θ.app (L₁.obj K)).hom.app W ((G.map (adj₁.unit.app K)).hom.app W s) := by
   exact congrArg (fun m => m.hom.app W s)

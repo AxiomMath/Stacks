@@ -93,12 +93,12 @@ theorem localEquiv_restrict_eq_omegaBaseChange (Dω : RelativeDualizingModuleDat
   let : IsLocalization.Away a Γ(X, Ua.1) := U.2.isLocalization_basicOpen a
   let : IsScalarTower Γ(X, U.1) Γ(Y, V.1) Γ(Y, Vb.1) :=
     IsScalarTower.of_algebraMap_eq' (by
-      show (f.appLE U Vb hVbU).hom =
+      change (f.appLE U Vb hVbU).hom =
         ((Y.presheaf.map (homOfLE (Y.basicOpen_le b)).op).hom).comp (f.appLE U V hVU).hom
       rw [← CommRingCat.hom_comp, ← f.appLE_map hVU (homOfLE (Y.basicOpen_le b)).op])
   let : IsScalarTower Γ(X, U.1) Γ(X, Ua.1) Γ(Y, Vb.1) :=
     IsScalarTower.of_algebraMap_eq' (by
-      show (f.appLE U Vb hVbU).hom =
+      change (f.appLE U Vb hVbU).hom =
         ((f.appLE Ua Vb hba).hom).comp
           (X.presheaf.map (homOfLE (X.basicOpen_le a)).op).hom
       rw [← CommRingCat.hom_comp, f.map_appLE hba (homOfLE (X.basicOpen_le a)).op])
@@ -111,7 +111,6 @@ theorem localEquiv_restrict_eq_omegaBaseChange (Dω : RelativeDualizingModuleDat
   rw [Dω.localEquiv_baseBasicOpen U Vb hVbU a hba F₁ G, hrestrict]
   generalize Dω.localEquiv U V hVU F t = x
   induction x using dualizingModule.induction_on F with
-  | zero => simp
   | add x y hx hy => rw [map_add, map_add, TensorProduct.tmul_add, map_add, hx, hy]
   | tmul φ c => ?_
   have h₁ : r (dualizingModule.tmul F φ c) =
@@ -139,10 +138,10 @@ theorem localEquiv_restrict_eq_omegaBaseChange (Dω : RelativeDualizingModuleDat
     have hloc := IsLocalization.tensorRight (R := Γ(X, U.1)) (S := F.middle) Γ(X, Ua.1)
       (Submonoid.powers a)
     rwa [Algebra.algebraMapSubmonoid, Submonoid.map_powers] at hloc
-  · show algebraMap H.middle Γ(Y, Vb.1) (omegaTmul D F 1 c) = _
+  · change algebraMap H.middle Γ(Y, Vb.1) (omegaTmul D F 1 c) = _
     rw [algebraMap_omegaFactorization, map_one, one_mul]
     rfl
-  · show omegaDual D F φ (omegaTmul D F 1 c) = _
+  · change omegaDual D F φ (omegaTmul D F 1 c) = _
     rw [omegaDual_tmul, Algebra.algebraMap_eq_smul_one]
     rfl
 

@@ -107,7 +107,7 @@ public theorem reesMultiple_comap_ι [F.IsQuasicoherent] (n : ℤ) :
   rw [reesMultiple_natCast_eq_idealPowerMultiple (K.comap U.ι) m (F.restrict U.ι),
     reesMultiple_natCast_eq_idealPowerMultiple K m F]
   refine le_antisymm (fun W s hs => ?_) (fun W s hs => ?_)
-  · show s ∈ (Stacks.Algebraization.idealPowerMultiple K m F).toSubmodule.obj
+  · change s ∈ (Stacks.Algebraization.idealPowerMultiple K m F).toSubmodule.obj
       (op (U.ι ''ᵁ W.unop))
     refine mem_submodule_of_cover _ (U.ι ''ᵁ W.unop) s ?_
     rintro x ⟨y, hyW, rfl⟩

@@ -79,8 +79,7 @@ theorem eq_zero_of_tensor_squares
     ⟨2, hd x y⟩
   have ht' : E t ∈ I.radical := by
     clear ht
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul x y => exact hmem x y
     | add x y hx hy => simpa only [map_add] using I.radical.add_mem hx hy
   have htop : I = ⊤ := Ideal.radical_eq_top.mp (Ideal.eq_top_of_isUnit_mem _
@@ -151,7 +150,7 @@ theorem tensor_unit_end_eq_id_of_squares
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro x
-  show d.val.app U x = x
+  change d.val.app U x = x
   suffices h1 : d.val.app U (1 : O.obj U) = (1 : O.obj U) by
     have h := (d.val.app U).hom.map_smul x (1 : O.obj U)
     change d.val.app U (x * 1) = x * d.val.app U (1 : O.obj U) at h
@@ -161,7 +160,7 @@ theorem tensor_unit_end_eq_id_of_squares
   apply (SheafOfModules.unit (TensorSheafification.structureSheaf O hO)).isSheaf.isSeparated _ _
     (Presheaf.imageSieve_mem J ((PresheafOfModules.toPresheaf _).map E) (1 : O.obj U))
   rintro V f ⟨t, ht⟩
-  show (O.map f.op) (d.val.app U (1 : O.obj U)) = (O.map f.op) 1
+  change (O.map f.op) (d.val.app U (1 : O.obj U)) = (O.map f.op) 1
   have hn := PresheafOfModules.naturality_apply d.val f.op (1 : O.obj U) |>.symm
   change (O.map f.op) (d.val.app U (1 : O.obj U)) =
     d.val.app (Opposite.op V) ((O.map f.op) 1) at hn
@@ -180,7 +179,7 @@ theorem tensor_unit_end_eq_id_of_squares
   have hs := dl.map_smul (a0 ^ 2) 1
   change dl (a0 ^ 2 * 1) = a0 ^ 2 * d0 at hs
   rw [mul_one] at hs
-  show (d0 - 1) * a0 ^ 2 = 0
+  change (d0 - 1) * a0 ^ 2 = 0
   rw [sub_mul, one_mul, mul_comm d0 (a0 ^ 2), hs.symm.trans h]
   exact sub_self _
 
@@ -208,7 +207,7 @@ theorem tensorProductBraiding_self
     rw [Functor.map_comp]
     infer_instance
   have hW : J.W ((PresheafOfModules.toPresheaf _).map E) := by
-    show (J.W.inverseImage (PresheafOfModules.toPresheaf _)) E
+    change (J.W.inverseImage (PresheafOfModules.toPresheaf _)) E
     rw [PresheafOfModules.inverseImage_W_toPresheaf_eq_inverseImage_isomorphisms
       (𝟙 (TensorSheafification.structureSheaf O hO).obj)]
     exact inferInstanceAs (IsIso (F.map E))

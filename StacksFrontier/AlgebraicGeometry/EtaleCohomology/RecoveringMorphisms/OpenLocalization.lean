@@ -273,8 +273,8 @@ noncomputable def localizationSheafEquivalence :
 /-- **Stacks 04IE for the small étale site: the small étale topos of an object `U` of the small
 étale site of `S` is the localization of the small étale topos of `S` at the sheaf `h_U^#`.**
 
-The three steps of the identification are each proved elsewhere and none of them is rebuilt here. The
-small étale site of the scheme of `U` is the slice `(S_étale)/U`, so their topoi agree
+The three steps of the identification are each proved elsewhere and none of them is rebuilt here.
+The small étale site of the scheme of `U` is the slice `(S_étale)/U`, so their topoi agree
 (`AlgebraicGeometry.SmallEtale.localizationSheafEquivalence`, which is
 `AlgebraicGeometry.SmallEtale.localizationEquivalence` read on sheaves); the topos of a slice
 site is the slice of the topos at the represented sheaf, which is Stacks 00Y1

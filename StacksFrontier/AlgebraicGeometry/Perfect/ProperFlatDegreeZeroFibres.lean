@@ -108,13 +108,13 @@ theorem hasDerivedPushforwardRank_zero_of_fibres {Y T : Scheme.{u}} (π : Y ⟶ 
     rw [DerivedFibreBetti.derivedFiberBetti_apply] at hβ
     refine hβ.symm.trans ?_
     rcases lt_or_ge j 0 with hj | hj
-    · rw [if_neg hj.ne, fibreBetti_eq_zero_of_neg hfam t πt ιt hsqt hj]
+    · rw [ite_eq_right hj.ne, fibreBetti_eq_zero_of_neg hfam t πt ιt hsqt hj]
     · obtain ⟨k, rfl⟩ := Int.eq_ofNat_of_zero_le hj
       rw [fibreBetti_eq_finrank_cohomologyOverField hfam t πt ιt hsqt k]
       rcases Nat.eq_zero_or_pos k with rfl | hk
       · rw [h0]
         simp
-      · rw [hpos k hk, if_neg (by omega)]
+      · rw [hpos k hk, ite_eq_right (by omega)]
   have hrange : Set.range h.base ⊆
       Set.range
         (Scheme.Modules.singleDegreeRankOpen (derivedPushforwardModule π F) 0 d).ι.base := by

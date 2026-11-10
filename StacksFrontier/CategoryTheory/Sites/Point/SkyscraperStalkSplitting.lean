@@ -229,7 +229,7 @@ theorem stalkSkyscraperAbFunctorIsoBiprod_inl
       (stalkSkyscraperAbFunctorIsoBiprod p).hom = biprod.inl := by
   simp only [stalkSkyscraperAbFunctorIsoBiprod, stalkSkyscraperAbFunctorIsoBiprodAux,
     Iso.trans_hom, biprod.uniqueUpToIso_hom, biprod.braiding_hom]
-  show (stalkSkyscraperAbFunctorSplitBicone p).inr ≫
+  change (stalkSkyscraperAbFunctorSplitBicone p).inr ≫
     (biprod.lift (stalkSkyscraperAbFunctorSplitBicone p).fst
       (stalkSkyscraperAbFunctorSplitBicone p).snd ≫
       biprod.lift biprod.snd biprod.fst) = _

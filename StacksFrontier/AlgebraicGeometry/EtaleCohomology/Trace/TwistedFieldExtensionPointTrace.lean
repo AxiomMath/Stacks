@@ -40,9 +40,9 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) (ℓ : ℕ) [Fact ℓ.Prime]
       (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
   [∀ (n : ℕ) (T : B.Scheme), HasWeakSheafify (SmallEtale.topology B T.obj T.property)
     (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
-  {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k)) [LocallyOfFiniteType f]
+  {k : Type u} [Field k] [Finite k] (f : X.1 ⟶ Spec (.of k)) [LocallyOfFiniteType f]
   [QuasiCompact f]
-  (k' : Type u) [Field k'] [Fintype k'] [Algebra k k'] [Module.Finite k k']
+  (k' : Type u) [Field k'] [Finite k'] [Algebra k k'] [Module.Finite k k']
   [IsNoetherian X.1] [IsNoetherian (fieldExtensionScheme B X f k').1]
 
 /-- If `k'` is an extension of `k` of degree `n`, `X' = X ×_k k'` and `g : X' ⟶ X` is the
@@ -66,6 +66,8 @@ public theorem LAdicSheaf.finsum_rationalStalkMap_comp_rationalStalkFrobenius_fi
           (LAdicSheaf.rationalStalkMap ψ (geometricPointAt X.1 x.1) ∘ₗ
             LAdicSheaf.rationalStalkFrobenius B X ℓ F x.1 (finite_residueField f x.1 x.2) ^
             (n / residueDegree f x.1)) := by
+  have := Fintype.ofFinite k
+  have := Fintype.ofFinite k'
   set f' := pullback.snd f (specAlgebraMap k k')
   have : Fintype (rationalPoints f') := @Fintype.ofFinite _ (finite_rationalPoints f')
   rw [finsum_residueDegree_eq_one_eq_sum f']
@@ -77,7 +79,7 @@ public theorem LAdicSheaf.finsum_rationalStalkMap_comp_rationalStalkFrobenius_fi
     obtain ⟨hc, hd⟩ := isClosed_and_dvd_of_residueEmbeddings f k' x σ
     rw [hn] at hd
     refine ⟨hc, Finset.mem_filter.2 ⟨?_, hd⟩⟩
-    simp only [closedPointsDegreeLE, Set.Finite.mem_toFinset, Set.mem_setOf_eq]
+    simp only [closedPointsDegreeLE, Set.Finite.mem_toFinset, Set.mem_ofPred_eq]
     exact Nat.le_of_dvd hpos hd
   let e : (Σ x : X.1, residueEmbeddings f k' x) ≃ Σ y : S, residueEmbeddings f k' y.1.1 :=
     { toFun := fun c => ⟨⟨⟨c.1, (hmem c.1 c.2).1⟩, (hmem c.1 c.2).2⟩, c.2⟩
@@ -92,7 +94,7 @@ public theorem LAdicSheaf.finsum_rationalStalkMap_comp_rationalStalkFrobenius_fi
   have hdeg : ∀ y : S, 0 < residueDegree f y.1.1 := fun y => Nat.pos_of_dvd_of_pos (hS y) hpos
   have hfin : ∀ y : S, Finite (residueEmbeddings f k' y.1.1) := fun y =>
     Nat.finite_of_card_ne_zero <| by
-      rw [natCard_residueEmbeddings, hn, if_pos (hS y)]
+      rw [natCard_residueEmbeddings, hn, ite_eq_left (hS y)]
       exact (hdeg y).ne'
   let : ∀ y : S, Fintype (residueEmbeddings f k' y.1.1) := fun y =>
     @Fintype.ofFinite _ (hfin y)
@@ -128,9 +130,9 @@ public theorem LAdicSheaf.finsum_rationalStalkMap_comp_rationalStalkFrobenius_fi
   refine Eq.trans ?_ (finsum_cond_eq_sum_of_cond_iff (t := S) _ fun {x} _ => ?_).symm
   · rw [← Finset.sum_coe_sort S]
     refine Finset.sum_congr rfl fun y _ => ?_
-    rw [Fintype.card_eq_nat_card, natCard_residueEmbeddings, hn, if_pos (hS y)]
+    rw [Fintype.card_eq_nat_card, natCard_residueEmbeddings, hn, ite_eq_left (hS y)]
   · rw [Finset.mem_filter]
-    simp only [closedPointsDegreeLE, Set.Finite.mem_toFinset, Set.mem_setOf_eq]
+    simp only [closedPointsDegreeLE, Set.Finite.mem_toFinset, Set.mem_ofPred_eq]
     exact ⟨fun hx => ⟨Nat.le_of_dvd hpos hx, hx⟩, And.right⟩
 
 end Stacks.EtaleCohomology

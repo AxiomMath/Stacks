@@ -80,10 +80,10 @@ theorem exists_fppf_hypercover_refining_sieve
         obtain ⟨E, hE, hle⟩ := ih
         obtain ⟨P, p₁, p₂, hpb, hP⟩ := site.coverings_isSite.2.2 ⟨X, E⟩ hE Y f
         refine ⟨⟨E.I₀, P, p₂⟩, hP, ?_⟩
-        show Presieve.ofArrows P p₂ ≤ (Sieve.pullback f V).arrows
+        change Presieve.ofArrows P p₂ ≤ (Sieve.pullback f V).arrows
         rw [Presieve.ofArrows_le_iff]
         intro i
-        show V (p₂ i ≫ f)
+        change V (p₂ i ≫ f)
         rw [← (hpb i).w]
         exact V.downward_closed (hle _ _ ⟨i⟩) (p₁ i)
     | @transitive X V Z hV hstep ih ihstep =>
@@ -95,7 +95,7 @@ theorem exists_fppf_hypercover_refining_sieve
         have hcomp := site.coverings_isSite.2.1 ⟨X, E⟩ hE
           (fun i => ⟨E.X i, F i⟩) hF (fun _ => rfl)
         refine ⟨E.bind (fun i => (F i).pushforward (eqToHom rfl)), hcomp, ?_⟩
-        show Presieve.ofArrows (fun ij : Σ i, (F i).I₀ => (F ij.1).X ij.2)
+        change Presieve.ofArrows (fun ij : Σ i, (F i).I₀ => (F ij.1).X ij.2)
           (fun ij => (F ij.1).f ij.2 ≫ E.f ij.1) ≤ Z.arrows
         rw [Presieve.ofArrows_le_iff]
         exact fun ij => hFle ij.1 _ _ ⟨ij.2⟩
@@ -105,10 +105,10 @@ theorem exists_fppf_hypercover_refining_sieve
   let Eover : PreZeroHypercover.{u + 1} T :=
     ⟨E.I₀, (fun i => Over.mk (E.f i ≫ T.hom)), (fun i => Over.homMk (E.f i))⟩
   refine ⟨Eover, ?_, ?_⟩
-  · show site.IsCovering ⟨(BigFppfOver.forget site S hS).obj T,
+  · change site.IsCovering ⟨(BigFppfOver.forget site S hS).obj T,
       (Eover.map (BigFppfOver.forget site S hS))⟩
     exact hE
-  · show Presieve.ofArrows Eover.X Eover.f ≤ W.arrows
+  · change Presieve.ofArrows Eover.X Eover.f ≤ W.arrows
     rw [Presieve.ofArrows_le_iff]
     exact fun i => (Sieve.overEquiv_iff W (E.f i)).mp (hle _ _ (show E.presieve₀ (E.f i) from ⟨i⟩))
 
@@ -249,14 +249,14 @@ theorem toQuotientSheaf_eq_iff_locally_related (T : BigFppfOver site S hS)
     have hW : W ∈ BigFppfOver.topology site S hS T := by
       refine sieve_mem_topology_of_forall_f hS T E hE _ fun i => ?_
       obtain ⟨r, ha, hb⟩ := hrel i
-      show (quotientSheaf j).obj.map (E.f i).op (q.app (op T) a) =
+      change (quotientSheaf j).obj.map (E.f i).op (q.app (op T) a) =
         (quotientSheaf j).obj.map (E.f i).op (q.app (op T) b)
       rw [← NatTrans.naturality_apply q (E.f i).op a,
         ← NatTrans.naturality_apply q (E.f i).op b, ha, hb]
       exact (congrArg (fun f => f.app (op (E.X i)) r) (target_toQuotientSheaf_eq_source j)).symm
     have hsep := (isSheaf_iff_isSheaf_of_type (BigFppfOver.topology site S hS)
       (quotientSheaf j).obj).1 (quotientSheaf j).property
-    show q.app (op T) a = q.app (op T) b
+    change q.app (op T) a = q.app (op T) b
     exact (hsep W hW).isSeparatedFor.ext (fun Y f hf => hf)
 
 /-- **Stacks 046O.** The relation covers the fibre square of the quotient projection, as a map of

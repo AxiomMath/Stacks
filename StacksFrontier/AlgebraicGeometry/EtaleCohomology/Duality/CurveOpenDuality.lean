@@ -160,7 +160,7 @@ theorem isDualityPerfect_extensionByZeroOfRestriction_unitSheaf_of_curve (hℓ :
       intro x hx
       have hx' : x ∈ (V : Set Y) := hx
       rw [hV] at hx'
-      show x ∈ (↑s : Set Y)ᶜ
+      change x ∈ (↑s : Set Y)ᶜ
       simp only [Finset.coe_insert, Set.mem_compl_iff, Set.mem_insert_iff, not_or] at hx'
       exact hx'.2
     obtain ⟨x₀, hx₀⟩ := (‹Nonempty V›)
@@ -193,7 +193,7 @@ theorem isDualityPerfect_extensionByZeroOfRestriction_unitSheaf_of_curve (hℓ :
     let n : (N : Scheme) ⟶ Y := N.ι ≫ V'.ι
     have hiN : i ⁻¹ᵁ N = ⊤ := by
       refine eq_top_iff.2 fun a _ => ?_
-      show i.base a ∈ N
+      change i.base a ∈ N
       rwa [Subsingleton.elim a (Classical.arbitrary _)]
     let g : (i ⁻¹ᵁ N : Scheme) ⟶ Spec (.of k) := (i ⁻¹ᵁ N).ι
     have : IsIso g := isIso_of_isOpenImmersion_of_opensRange_eq_top g
@@ -237,8 +237,8 @@ theorem isDualityPerfect_extensionByZeroOfRestriction_unitSheaf_of_curve (hℓ :
     have hiz' : Set.range (i' ≫ n).base = Set.range n.base \ (Vz : Set Y) := by
       rw [hrange]
       ext y
-      simp only [Set.mem_singleton_iff, Set.mem_diff, Vz]
-      show y = z ↔ y ∈ Set.range n.base ∧ ¬ y ∈ ({z}ᶜ : Set Y)
+      simp only [Set.mem_singleton_iff, Set.mem_sdiff, Vz]
+      change y = z ↔ y ∈ Set.range n.base ∧ ¬ y ∈ ({z}ᶜ : Set Y)
       simp only [Set.mem_compl_iff, Set.mem_singleton_iff, not_not]
       exact ⟨fun h => ⟨h ▸ hzn, h⟩, fun h => h.2⟩
     have htopz : Vz ⊔ n.opensRange = ⊤ := by
@@ -252,7 +252,7 @@ theorem isDualityPerfect_extensionByZeroOfRestriction_unitSheaf_of_curve (hℓ :
     have hiV : Set.range (i' ≫ n).base = Set.range n.base \ (V : Set Y) := by
       rw [hrange]
       ext y
-      simp only [Set.mem_singleton_iff, Set.mem_diff]
+      simp only [Set.mem_singleton_iff, Set.mem_sdiff]
       constructor
       · rintro rfl
         exact ⟨hzn, hzV⟩
@@ -272,7 +272,7 @@ theorem isDualityPerfect_extensionByZeroOfRestriction_unitSheaf_of_curve (hℓ :
       by_cases hyz : y = z
       · exact Or.inr (hyz ▸ hzn)
       · refine Or.inl ?_
-        show y ∈ (V : Set Y)
+        change y ∈ (V : Set Y)
         rw [hV]
         simp only [Finset.coe_insert, Set.mem_compl_iff, Set.mem_insert_iff, not_or]
         exact ⟨hyz, hy⟩
@@ -398,7 +398,7 @@ theorem bijective_comp_counit_ext_two_of_curve (hℓ : IsUnit (ℓ : k)) (hpurit
       simpa [smul_smul, inv_mul_cancel₀ (sub_ne_zero.2 hne)] using this
     obtain ⟨a, rfl⟩ := (hinj.bijective_of_nat_card_le (by rw [hcard, Nat.card_zmod])).2 g
     refine ⟨a.val, ?_⟩
-    show Stacks.ExtAdjunction.extMap adj A ΛY 0 (Ext.mk₀ (a • 𝟙 A)) = _
+    change Stacks.ExtAdjunction.extMap adj A ΛY 0 (Ext.mk₀ (a • 𝟙 A)) = _
     have hval : a • (Ext.mk₀ (𝟙 A) : Ext A A 0) = a.val • Ext.mk₀ (𝟙 A) := by
       rw [← Nat.cast_smul_eq_nsmul (ZMod ℓ), ZMod.natCast_zmod_val]
     rw [Ext.mk₀_smul, hval, map_nsmul, Stacks.ExtAdjunction.extMap_apply, Ext.mapExactFunctor_mk₀,
@@ -406,7 +406,7 @@ theorem bijective_comp_counit_ext_two_of_curve (hℓ : IsUnit (ℓ : k)) (hpurit
   have : Finite (Ext ΛY ((𝟭 _).obj ΛY) 2) := ‹Finite (Ext ΛY ΛY 2)›
   refine (Function.Injective.bijective_of_nat_card_le ?_
     (by rw [hc2, show Nat.card (Ext ΛY ((𝟭 _).obj ΛY) 2) = ℓ from hY2]))
-  show Function.Injective ((Ext.mk₀ c).postcomp ΛY (add_zero 2))
+  change Function.Injective ((Ext.mk₀ c).postcomp ΛY (add_zero 2))
   rw [injective_iff_map_eq_zero]
   intro x hx
   change x.comp (Ext.mk₀ c) (add_zero 2) = 0 at hx

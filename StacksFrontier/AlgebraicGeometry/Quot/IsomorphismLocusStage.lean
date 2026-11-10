@@ -114,7 +114,7 @@ theorem exists_opens_range_subset_iff_isIso_pullbackLift {T W V : Scheme.{u}}
     (isLocallyOfFinitePresentation_yoneda_map B T hT aa ‹_›) (isFlat_yoneda_map B T hT aa ‹_›)
     (universallyClosed_yoneda_map B T hT aa ‹_›)
     ((isLocallyOfFiniteType_yoneda_map_iff B T hT bb).2
-      (by show LocallyOfFiniteType b; infer_instance))
+      (by change LocallyOfFiniteType b; infer_instance))
     (isClosed_of_universallyClosed B T hT (isAlgebraicSpace_yoneda B T hT tT) _ hbb.2.2) hbb.1
   obtain ⟨V', s, hs, hfac⟩ := exists_isOpenImmersion_forall_factorsThrough_iff B T hT Wsub hWsub.2
   have hs' : _root_.AlgebraicGeometry.IsOpenImmersion ((BigFppfOver.toScheme B T hT).map s) := hs
@@ -135,12 +135,12 @@ theorem exists_opens_range_subset_iff_isIso_pullbackLift {T W V : Scheme.{u}}
           rwa [Scheme.Hom.coe_opensRange] at hx')
       have hl : l ≫ (BigFppfOver.toScheme B T hT).map s = g := IsOpenImmersion.lift_fac _ _ _
       refine ⟨Over.homMk (ObjectProperty.homMk l) (ObjectProperty.hom_ext _ ?_), ?_⟩
-      · show l ≫ V'.hom.hom = g
+      · change l ≫ V'.hom.hom = g
         rw [hV'hom, hl]
       · exact Over.OverMorphism.ext (ObjectProperty.hom_ext _ hl)
     · rintro ⟨t, ht⟩ x ⟨y, rfl⟩
       refine ⟨((BigFppfOver.toScheme B T hT).map t) y, ?_⟩
-      show ((BigFppfOver.toScheme B T hT).map s) (((BigFppfOver.toScheme B T hT).map t) y) =
+      change ((BigFppfOver.toScheme B T hT).map s) (((BigFppfOver.toScheme B T hT).map t) y) =
         ((BigFppfOver.toScheme B T hT).map hh) y
       rw [← Scheme.Hom.comp_apply, ← Functor.map_comp, ht]
   rw [step1, hfac tT' hh,

@@ -226,7 +226,6 @@ theorem finite_stalkMilnorBoundary_ne_zero (V : W.Opens) (hV : IsCompact (V : Se
     {z : {z : W // ringKrullDim (W.presheaf.stalk z) = 1} |
       (z : W) ∈ (V : Set W) ∧ stalkMilnorBoundary e z.1 z.2 α ≠ 0}.Finite := by
   induction α using milnorKTwo_induction with
-  | h0 => exact Set.finite_empty.subset fun z hz ↦ hz.2 (map_zero _)
   | hsymb f g =>
     obtain ⟨Of, hOf, hOfu⟩ := exists_isOpen_forall_isUnit_stalk e (f : K) f.ne_zero
     obtain ⟨Og, hOg, hOgu⟩ := exists_isOpen_forall_isUnit_stalk e (g : K) g.ne_zero

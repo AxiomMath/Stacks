@@ -164,7 +164,7 @@ theorem becomesIsoAfterInvertingPrime_of_homology_annihilation
       (S.p ^ k) • 𝟙 (cokernel ((DerivedCategory.homologyFunctor
         (ModuleCat.{u + 1} ↥Γ(S.S.scheme, ⊤)) n).map φ)) = 0) :
     BecomesIsoAfterInvertingPrime S φ := by
-  show IsIso ((invertPrime S).map φ)
+  change IsIso ((invertPrime S).map φ)
   rw [invertPrime, Functor.isIso_mapDerivedCategory_map_iff]
   intro n
   obtain ⟨k, hker, hcoker⟩ := h n

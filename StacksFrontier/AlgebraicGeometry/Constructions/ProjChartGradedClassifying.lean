@@ -324,7 +324,7 @@ theorem lift_comapVeronese :
   have hfn : (f : A) ^ n ∈ 𝒜 (n * d) := HomogeneousRatios.pow_mem hf n
   have hpn : (φ f : B) ^ n ∈ ℬ (n * d) := HomogeneousRatios.pow_mem (map_mem φ hf) n
   rw [HomogeneousRatios.lift_mk _ hd n x hx ⟨x, hxm⟩ rfl]
-  show _ = ((ψ.homogeneousRatios (map_mem φ hf) hV').lift hd)
+  change _ = ((ψ.homogeneousRatios (map_mem φ hf) hV').lift hd)
     (HomogeneousLocalization.Away.map φ f (HomogeneousLocalization.Away.mk 𝒜 hf n x hx))
   rw [HomogeneousLocalization.Away.map_mk,
     HomogeneousRatios.lift_mk _ hd n (φ x) hmem ⟨φ x, map_mem φ hxm⟩ rfl]

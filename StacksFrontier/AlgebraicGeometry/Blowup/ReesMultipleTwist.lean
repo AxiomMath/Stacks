@@ -61,12 +61,13 @@ the ideal-power layers of the twisted module come out on the nose. That does not
 obstruction is a quantifier order, not a convenience. Part (2) of [Stacks, Tag 0897] quantifies
 its exponent `d₀` *after* the whole graded module has been fixed; a graded module whose
 definition already mentions `d` would therefore make the choice of `d` depend on a `d₀` that is
-only produced once `d` has been chosen — the choice of `d` would precede itself. The same quantifier order
-is what makes Serre vanishing in the form of [Stacks, Tag 0B5T] clause (4) useless here: there
+only produced once `d` has been chosen — the choice of `d` would precede itself. The same
+quantifier order is what makes Serre vanishing in the form of [Stacks, Tag 0B5T] clause (4)
+useless here: there
 the `∃ d₀` stands after the coherent module, so applying it to each graded piece separately
 yields a `d₀(n)` for every `n` rather than one `d₀` serving all `n` at once. This is the
-reason the commutation has to be proved as a statement about subsheaves of `F(d)`, and not an accident
-of how the filtration happens to be spelled.
+reason the commutation has to be proved as a statement about subsheaves of `F(d)`, and not an
+accident of how the filtration happens to be spelled.
 
 **The second, sharper reason: the twist sits on the wrong side of the layer.** The consumer of
 [Stacks, Tag 0D2M] has a hypothesis about the ideal-power layer of the *twisted* module,

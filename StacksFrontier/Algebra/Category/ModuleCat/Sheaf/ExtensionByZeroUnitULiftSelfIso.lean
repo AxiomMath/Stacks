@@ -12,7 +12,8 @@ import all StacksFrontier.Algebra.Category.ModuleCat.Sheaf.ExtensionByZeroUnitUL
 # Additions to `StacksFrontier.Algebra.Category.ModuleCat.Sheaf.ExtensionByZeroUnitULift`
 
 Further declarations about
-`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.ExtensionByZeroUnitULift`, kept in their own module.
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.ExtensionByZeroUnitULift`, kept in their own
+module.
 -/
 
 @[expose] public section

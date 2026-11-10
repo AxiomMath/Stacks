@@ -167,7 +167,7 @@ invertible on the target, granted Tag 0GKV for primes invertible on the base.** 
 schemes, `j` a compactification of `f`, `Λ` a Noetherian ring in which the integer `n > 0`
 vanishes, with `n` invertible on `Y`. Then `Rf_!` carries `D⁺_{tors, c}(X_étale, Λ)` into
 `D⁺_{tors, c}(Y_étale, Λ)`. -/
-theorem isTorsionConstructibleEtaleComplexPlus_derivedLowerShriekUnbounded_of_isUnit_natCast_of_directImageZMod
+theorem isTorsionConstructiblePlus_derivedLowerShriekUnbounded_of_isUnit_natCast_of_directImageZMod
     (h0GKV : ∀ {X S : Scheme.{u}} (f : X ⟶ S) [IsProper f] [Smooth f] [GeometricallyConnected f],
       (∀ s : S, topologicalKrullDim (f.fiber s) ≤ ((1 : ℕ) : WithBot ℕ∞)) →
       ∀ (ℓ : ℕ) [Fact ℓ.Prime], IsUnit ((ℓ : ℕ) : Γ(S, ⊤)) → ∀ (q : ℤ),

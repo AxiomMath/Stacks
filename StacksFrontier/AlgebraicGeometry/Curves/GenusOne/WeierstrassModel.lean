@@ -66,7 +66,7 @@ functions**: the function `r`, read as a degree-zero element of `Γ_*(X, L)`, is
 `r`. -/
 theorem degZeroRingHom_degreeZeroHom (r : Γ(X, ⊤)) :
     degZeroRingHom L ⟨degreeZeroHom L r, ⟨_, rfl⟩⟩ = r := by
-  show Stacks.SectionRingChartMap.ratioR L (unitSec L) _
+  change Stacks.SectionRingChartMap.ratioR L (unitSec L) _
     (DirectSum.of (powSections L) 0 ((Stacks.SectionRingGeometric.unitScalarEquiv X).symm r)) = r
   rw [Stacks.SectionRingChartMap.ratioR_of]
   refine Stacks.SectionRingChartMap.ratio_unique L _ _ _ r ?_
@@ -111,7 +111,7 @@ def weierstrassModelHom : X ⟶ projOf C :=
 /-- **The morphism `X ⟶ projOf C` lies over `k`.** -/
 theorem weierstrassModelHom_projectionOf :
     weierstrassModelHom L k hL C φ hker hv hsurj ≫ projectionOf C = X ↘ Spec (.of k) := by
-  show (projHomOfIsAmple L hL ≫ (Proj.map (weierstrassGradedHom
+  change (projHomOfIsAmple L hL ≫ (Proj.map (weierstrassGradedHom
       (Stacks.AmpleFiniteAvoidance.grading L) C φ hker (algebraMap_mem_grading_zero L k) hv)
       (Proj.irrelevant_le_map_of_surjective _ (bijective_weierstrassRingHom C φ hker hsurj).2) :
         Proj (Stacks.AmpleFiniteAvoidance.grading L) ⟶ Proj (gradingOf C))) ≫
@@ -121,13 +121,13 @@ theorem weierstrassModelHom_projectionOf :
     Category.assoc, ← Spec.map_comp, ← Spec.map_comp, over_eq_toSpecΓ_comp k]
   congr 2
   refine CommRingCat.hom_ext (RingHom.ext fun c => ?_)
-  show degZeroRingHom L (GradedRingHom.gradedZeroRingHom _ (toGradingZeroOf C c)) =
+  change degZeroRingHom L (GradedRingHom.gradedZeroRingHom _ (toGradingZeroOf C c)) =
     baseRingHom k X c
   have h : GradedRingHom.gradedZeroRingHom (weierstrassGradedHom
       (Stacks.AmpleFiniteAvoidance.grading L) C φ hker (algebraMap_mem_grading_zero L k) hv)
         (toGradingZeroOf C c) = ⟨degreeZeroHom L (baseRingHom k X c), ⟨_, rfl⟩⟩ := by
     apply Subtype.ext
-    show φ (MvPolynomial.C c) = _
+    change φ (MvPolynomial.C c) = _
     rw [MvPolynomial.algHom_C]
     rfl
   rw [h, degZeroRingHom_degreeZeroHom]
@@ -154,7 +154,7 @@ lies in `D(r)` exactly when `β r ≠ 0`. -/
 theorem SpecMap_closedPoint_mem_basicOpen_iff {R : Type u} [CommRing R] (β : R →+* k) (r : R) :
     Spec.map (CommRingCat.ofHom β) (IsLocalRing.closedPoint k) ∈
         PrimeSpectrum.basicOpen r ↔ β r ≠ 0 := by
-  show r ∉ (PrimeSpectrum.comap β (IsLocalRing.closedPoint k)).asIdeal ↔ _
+  change r ∉ (PrimeSpectrum.comap β (IsLocalRing.closedPoint k)).asIdeal ↔ _
   rw [PrimeSpectrum.comap_asIdeal, Ideal.mem_comap, IsLocalRing.closedPoint,
     IsLocalRing.mem_maximalIdeal, mem_nonunits_iff, not_not, isUnit_iff_ne_zero]
 
@@ -189,7 +189,7 @@ theorem eq_zeroOf_of_notMem_basicOpenOf (C' : WeierstrassCurve k) (σ : Spec (.o
     by_contra hne
     apply hpt
     rw [← hτσ]
-    show τ (IsLocalRing.closedPoint k) ∈ chartY C' ⁻¹ᵁ basicOpenOf C' (coordOf C' 2)
+    change τ (IsLocalRing.closedPoint k) ∈ chartY C' ⁻¹ᵁ basicOpenOf C' (coordOf C' 2)
     rw [chartY, specPoint_preimage_basicOpenOf C' _ _ one_pos (coordOf_mem C' 2),
       chartYHom_coordOf_two, hτβ]
     exact (SpecMap_closedPoint_mem_basicOpen_iff β _).mpr hne
@@ -198,11 +198,11 @@ theorem eq_zeroOf_of_notMem_basicOpenOf (C' : WeierstrassCurve k) (σ : Spec (.o
     exact RingHom.mem_ker.mp (chartYX_mem_of_chartYZ_mem C' _ (RingHom.mem_ker.mpr hZ))
   have hβε : β = chartYEvalZero C' := by
     refine AdjoinRoot.ringHom_ext (Polynomial.ringHom_ext (fun a => ?_) ?_) ?_
-    · show β (AdjoinRoot.of _ (Polynomial.C a)) = chartYEvalZero C' (AdjoinRoot.of _ _)
+    · change β (AdjoinRoot.of _ (Polynomial.C a)) = chartYEvalZero C' (AdjoinRoot.of _ _)
       rw [← algebraMap_chartYRing, halg, chartYEvalZero_algebraMap]
-    · show β (chartYZ C') = chartYEvalZero C' (chartYZ C')
+    · change β (chartYZ C') = chartYEvalZero C' (chartYZ C')
       rw [hZ, chartYEvalZero_chartYZ]
-    · show β (chartYX C') = chartYEvalZero C' (chartYX C')
+    · change β (chartYX C') = chartYEvalZero C' (chartYX C')
       rw [hX, chartYEvalZero_chartYX]
   rw [← hτσ, hτβ, hβε, zeroOf_eq_chartY]
 

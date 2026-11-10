@@ -95,7 +95,7 @@ theorem isRegular_fiber_comp_of_isOpenImmersion {Y : Scheme.{u}} (i : Y ⟶ X)
   convert hrF using 1
   rw [List.map_map, List.map_ofFn]
   refine congrArg List.ofFn (funext fun j => ?_)
-  show _ = (quotientStalkEquivFiberStalk (i ≫ f) y)
+  change _ = (quotientStalkEquivFiberStalk (i ≫ f) y)
     (Ideal.Quotient.mk J ((i.stalkMap y).hom (h j)))
   rw [quotientStalkEquivFiberStalk_mk, stalkCongr_hom_apply_eq_cast]
 

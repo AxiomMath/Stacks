@@ -58,7 +58,7 @@ private lemma zsmul_id_sheafCompose_forget₂ {C : Type*} [Category* C] (J : Gro
   apply Sheaf.hom_ext
   ext U x
   let y : M.obj.obj U := x
-  show (n : ℤ) • y = 0
+  change (n : ℤ) • y = 0
   exact intCast_zsmul_eq_zero_of_module_ulift_zmod n y
 
 /-- **A torsion sheaf on a reduced scheme is a filtered colimit of sheaves constant near the
@@ -89,7 +89,7 @@ public theorem exists_isColimit_isConstant_near_genericPoints (X : Scheme.{u}) [
   refine ⟨I, hI, hfilt, D ⋙ SmallEtale.moduleSheafToEtale B XB _, ι, hc, fun i => ⟨?_, ?_⟩⟩
   · let E := SmallEtale.sheafEquiv B X (BigEtaleSite.contains_containing X) AddCommGrpCat.{u + 1}
     have : E.functor.Additive := Functor.additive_of_preserves_binary_products _
-    show (n : ℤ) • 𝟙 (E.functor.obj _) = 0
+    change (n : ℤ) • 𝟙 (E.functor.obj _) = 0
     rw [← E.functor.map_id, ← Functor.map_zsmul, zsmul_id_sheafCompose_forget₂, Functor.map_zero]
   · intro η hη
     obtain ⟨O, o, ho, hηo, hlc⟩ :=
@@ -102,11 +102,11 @@ public theorem exists_isColimit_isConstant_near_genericPoints (X : Scheme.{u}) [
     have : Etale (B.inclusion.map V.obj.hom) := V.property
     have : IsOpenImmersion (B.inclusion.map o) := ho
     refine ⟨V.obj.left.obj, B.inclusion.map v, ?_, hVa, ?_, ?_⟩
-    · show Etale (B.inclusion.map V.obj.hom ≫ B.inclusion.map o)
+    · change Etale (B.inclusion.map V.obj.hom ≫ B.inclusion.map o)
       infer_instance
     · obtain ⟨y, hy⟩ := hxV
       refine ⟨y, ?_⟩
-      show (B.inclusion.map o).base ((B.inclusion.map V.obj.hom).base y) = η
+      change (B.inclusion.map o).base ((B.inclusion.map V.obj.hom).base y) = η
       rw [hy, hx]
     · have : Module.Finite (ULift.{u + 1} (ZMod n)) E := (ModuleCat.isFG_iff E).mp hE
       have : Finite (ULift.{u + 1} (ZMod n)) := Finite.of_equiv _ Equiv.ulift.symm

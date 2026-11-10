@@ -117,7 +117,7 @@ theorem isPushout_toScheme_of_etale_of_charts
       obtain ⟨y, hy⟩ := pointsMap_surjective_of_isIso B S hS e.hom.hom z
       obtain ⟨x, hx⟩ := hg.surjective_pointsMap y
       refine ⟨x, ?_⟩
-      show pointsMap B S hS Y.1 ((pushout.inr i f).hom ≫ e.hom.hom) x = z
+      change pointsMap B S hS Y.1 ((pushout.inr i f).hom ≫ e.hom.hom) x = z
       rw [pointsMap_comp]
       simp only [Function.comp_apply]
       rw [hx]

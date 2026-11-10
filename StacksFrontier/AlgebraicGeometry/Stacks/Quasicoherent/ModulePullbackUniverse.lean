@@ -13,7 +13,8 @@ categories.  The section universe of the modules on an algebraic stack is the un
 the schemes, which is below the universe `u + 1` of the objects of its fibred category.  This
 file proves **Stacks 06WH** at every section universe.
 
-The proof transports the single-universe statement along the universe lift of the sections.  The lift
+The proof transports the single-universe statement along the universe lift of the sections.  The
+lift
 preserves and reflects quasi-coherence, and it commutes with the inverse image *definitionally*:
 the inverse image is objectwise restriction with a transport of scalars, which leaves the
 carriers of the sections unchanged.

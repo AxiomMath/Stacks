@@ -145,7 +145,7 @@ theorem isZero_of_forall_isZero_summandRestriction (n : SimplexCategory)
   rw [IsZero.iff_id_eq_zero]
   apply (Functor.pi' (summandRestriction X K n)).map_injective
   funext i
-  show (summandRestriction X K n i).map (𝟙 Z) = (summandRestriction X K n i).map 0
+  change (summandRestriction X K n i).map (𝟙 Z) = (summandRestriction X K n i).map 0
   rw [Functor.map_id, Functor.map_zero]
   exact (h i).eq_of_src _ _
 
@@ -211,7 +211,7 @@ local instance (priority := 100) bbdGlueingLocallyBijective.{uM, w, v}
 
 section Transport
 
-variable {X : RingedSite.{u, u, u}} [X.J.toCoverage.HasPullbacks]
+variable {X : RingedSite.{u, u, u}}
   (G : LocallyGiven.{0, u, u, u, uB, vB} X)
 
 /-- **The comparisons `(F|_{C/U})|_{C/V} = F|_{C/V}` compose**: along `b : W ⟶ V` and `c : V ⟶ U`
@@ -349,7 +349,7 @@ theorem SummandIdentification.isCartesian
       σ.systemIso
   have : IsIso (((situation X.J (G.image L)).derivedModuleSystem (structureSheaf X (G.image L))
       E).map φ ≫ en.hom) := by
-    show IsIso (((situation X.J (G.image L)).derivedModuleSystem (structureSheaf X (G.image L))
+    change IsIso (((situation X.J (G.image L)).derivedModuleSystem (structureSheaf X (G.image L))
       E).map φ ≫ σ.systemIso.hom.app n)
     rw [hn]
     have : IsIso (((situation X.J (G.image L)).derivedTransitionPullback
@@ -463,7 +463,7 @@ theorem nonempty_solution_of_structurePullback_iso
   have hΘ : ∀ {m n : SimplexCategory} (φ : m ⟶ n) {W : G.B}
       (γ : (FormalCoproduct.incl G.B).obj W ⟶ L.obj (op n)), Θ (γ ≫ L.map φ.op) = Θ γ := by
     intro m n φ W γ
-    show G.transport (γ.φ PUnit.unit ≫ (L.map φ.op).φ (γ.f PUnit.unit))
+    change G.transport (γ.φ PUnit.unit ≫ (L.map φ.op).φ (γ.f PUnit.unit))
         (τ m ((L.map φ.op).f (γ.f PUnit.unit))) =
       G.transport (γ.φ PUnit.unit) (τ n (γ.f PUnit.unit))
     exact (G.transport_comp _ _ _).trans (congrArg (G.transport (γ.φ PUnit.unit)) (hT φ _).symm)
@@ -471,7 +471,7 @@ theorem nonempty_solution_of_structurePullback_iso
   obtain ⟨e, he₀, he₁⟩ := hc a
   have h₁ : Θ (c V) = G.transport a (Θ (c U)) := by
     rw [← he₁, hΘ, ← hΘ (SimplexCategory.δ 0) e, he₀]
-    show G.transport (a ≫ (c U).φ PUnit.unit) (τ _ ((c U).f PUnit.unit)) = _
+    change G.transport (a ≫ (c U).φ PUnit.unit) (τ _ ((c U).f PUnit.unit)) = _
     exact G.transport_comp _ _ _
   rw [h₁]
   rfl
@@ -546,7 +546,7 @@ theorem existsUnique_compatibleIso_of_hypercovering
             (structureSheaf (pretopologyRingedSite PC O) (G.image L)) n).map
               ((G.structurePullback L).map e.hom)) ≫ (σ'.iso n i).hom = (σ.iso n i).hom := by
     intro e he n i
-    show _ ≫ (G.pullbackSummandIso L n i).hom.app S'.obj ≫ (S'.iso _).hom =
+    change _ ≫ (G.pullbackSummandIso L n i).hom.app S'.obj ≫ (S'.iso _).hom =
       (G.pullbackSummandIso L n i).hom.app S.obj ≫ (S.iso _).hom
     rw [reassoc_of% hn e.hom n i, he]
   refine ⟨hff.preimageIso ε, fun U ↦ ?_, fun e he ↦ ?_⟩

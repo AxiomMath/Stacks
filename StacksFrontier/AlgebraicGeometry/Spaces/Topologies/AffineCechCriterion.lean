@@ -148,13 +148,13 @@ private theorem exists_represented_widePullback
         change Fin 1 at i
         have hi : i = 0 := Subsingleton.elim _ _
         subst i
-        show t.π 0 ≫ F.map (p 0) = t.π 0
+        change t.π 0 ≫ F.map (p 0) = t.π 0
         simp [p]
       · intro t m hb hm
         change t.pt ⟶ F.obj (Y 0) at m
         have hm0 := hm 0
         change m ≫ F.map (p 0) = t.π 0 at hm0
-        show m = t.π 0
+        change m = t.π 0
         simpa [p] using hm0
     · simpa [p] using M.id_mem (Y 0)
   | succ n ih =>
@@ -293,7 +293,7 @@ private theorem affineOpenInclusion_map
         (affineOpenInclusion B S hS T V) = V.1.ι := by
   let vhom : B.inclusion.obj (B.obj (contains_affineOpen B S hS T V)) ⟶
     B.inclusion.obj T.left := V.1.ι
-  show B.inclusion.map (B.inclusion.preimage vhom) = vhom
+  change B.inclusion.map (B.inclusion.preimage vhom) = vhom
   exact B.inclusion.map_preimage vhom
 
 private theorem affineOpen_fieldPoint_factors
@@ -344,7 +344,7 @@ private theorem affineOpen_fieldPoint_factors
       (show B.inclusion.obj A.left ⟶
         B.inclusion.obj (affineOpenObject B S hS T V).left from ψ)
   have hk : B.inclusion.map k = ψ := by
-    show B.inclusion.map
+    change B.inclusion.map
       (B.inclusion.preimage
         (show B.inclusion.obj A.left ⟶
           B.inclusion.obj (affineOpenObject B S hS T V).left from ψ)) = ψ
@@ -354,11 +354,11 @@ private theorem affineOpen_fieldPoint_factors
     rw [B.inclusion.map_comp]
     have hj : Q.map (affineOpenInclusion B S hS T V) ≫
         B.inclusion.map T.hom = B.inclusion.map (affineOpenObject B S hS T V).hom := by
-      show B.inclusion.map (affineOpenInclusion B S hS T V).left ≫
+      change B.inclusion.map (affineOpenInclusion B S hS T V).left ≫
         B.inclusion.map T.hom = B.inclusion.map (affineOpenObject B S hS T V).hom
       rw [← B.inclusion.map_comp, (affineOpenInclusion B S hS T V).w]
     have hpv : Q.map p.value ≫ B.inclusion.map T.hom = B.inclusion.map A.hom := by
-      show B.inclusion.map p.value.left ≫ B.inclusion.map T.hom =
+      change B.inclusion.map p.value.left ≫ B.inclusion.map T.hom =
         B.inclusion.map A.hom
       rw [← B.inclusion.map_comp, p.value.w]
       rfl
@@ -369,7 +369,7 @@ private theorem affineOpen_fieldPoint_factors
     have hleft : k ≫ (affineOpenInclusion B S hS T V).left = p.value.left := by
       apply B.inclusion.map_injective
       rw [B.inclusion.map_comp, hk]
-      show ψ ≫ Q.map (affineOpenInclusion B S hS T V) = Q.map p.value
+      change ψ ≫ Q.map (affineOpenInclusion B S hS T V) = Q.map p.value
       exact hψ
     exact hleft
   let q : AlgebraicGeometry.Space.FieldValuedPoint B S hS
@@ -409,9 +409,9 @@ private theorem affineOpen_yoneda_cover
     MorphismProperty Scheme.{u}) G
   refine ⟨?_, ?_⟩
   · intro V
-    show Q.presheaf (yoneda.map (affineOpenInclusion B S hS T V))
+    change Q.presheaf (yoneda.map (affineOpenInclusion B S hS T V))
     apply (MorphismProperty.relative_map_iff (P := Q)).2
-    show AlgebraicGeometry.IsOpenImmersion (G.map (affineOpenInclusion B S hS T V))
+    change AlgebraicGeometry.IsOpenImmersion (G.map (affineOpenInclusion B S hS T V))
     exact (affineOpenInclusion_map B S hS T V).symm ▸
       (inferInstance : AlgebraicGeometry.IsOpenImmersion V.1.ι)
   · intro x
@@ -495,13 +495,13 @@ private theorem bounded_representative_over
     X j := Over.mk (Rfamily.f j ≫ E.1.hom)
     f j := Over.homMk (Rfamily.f j) (by simp) }⟩
   refine ⟨F, rfl, ?_, β', ?_, ?_⟩
-  · show T.IsCovering
+  · change T.IsCovering
       ⟨(Over.forget X).obj E.1, Rfamily⟩
     exact hR
   · intro j
     let eL : (F.2.X j).left ≅ (E.2.X (β' j)).left := eqToIso (hX'' j)
     refine Over.isoMk eL ?_
-    show eqToHom (hX'' j) ≫ (E.2.X (β' j)).hom =
+    change eqToHom (hX'' j) ≫ (E.2.X (β' j)).hom =
       Rfamily.f j ≫ E.1.hom
     calc
       eqToHom (hX'' j) ≫ (E.2.X (β' j)).hom =
@@ -511,7 +511,7 @@ private theorem bounded_representative_over
         rw [← Category.assoc, ← hf'' j]
   · intro j
     apply Over.OverMorphism.ext
-    show (eqToHom (hX'' j) ≫ (E.2.f (β' j)).left) = Rfamily.f j
+    change (eqToHom (hX'' j) ≫ (E.2.f (β' j)).left) = Rfamily.f j
     rw [← hf'' j]
 
 private theorem cech_of_covering
@@ -668,7 +668,7 @@ private theorem cech_of_affineOpen_cover
   · intro i
     apply (MorphismProperty.cancel_right_of_respectsIso _ _ e.inv).2
     apply MorphismProperty.relative_map
-    show M ((AlgebraicGeometry.BigFppfOver.toScheme T.schemeSite S T.scheme_mem).map _)
+    change M ((AlgebraicGeometry.BigFppfOver.toScheme T.schemeSite S T.scheme_mem).map _)
     rw [affineOpenInclusion_map]
     exact hM i.down
   · intro Z i g hg

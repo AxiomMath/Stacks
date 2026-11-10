@@ -108,9 +108,7 @@ public def baseChangeCompositeSection :
 public theorem baseChangeCompositeSection_carrierTensorMap (v : D' ⊗[D] M) :
     baseChangeCompositeSection p D D' D'' M (carrierTensorMap D D' D'' M v) =
       (1 : D'') ⊗ₜ[D'] AdicCompletion.of (pAdicIdeal (A := D') p) (D' ⊗[D] M) v := by
-  induction v using TensorProduct.induction_on with
-  | zero =>
-    rw [_root_.map_zero, _root_.map_zero, _root_.map_zero, TensorProduct.tmul_zero]
+  induction v using TensorProduct.inductionOn with
   | tmul b' m =>
     rw [carrierTensorMap_tmul, baseChangeCompositeSection_tmul,
       show AdicCompletion.of (pAdicIdeal (A := D') p) (D' ⊗[D] M) (b' ⊗ₜ[D] m) =
@@ -126,8 +124,7 @@ public theorem liftBaseChange_baseChangeCompositeSection (x : D'' ⊗[D] M) :
     (carrierMapLinear p D D' D'' M).liftBaseChange D''
         (baseChangeCompositeSection p D D' D'' M x) =
       AdicCompletion.of (pAdicIdeal (A := D'') p) (D'' ⊗[D] M) x := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [_root_.map_zero, _root_.map_zero, _root_.map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul b'' m =>
     rw [baseChangeCompositeSection_tmul, LinearMap.liftBaseChange_tmul, carrierMapLinear_apply,
       carrierMap_of, carrierTensorMap_tmul, map_one, ← _root_.map_smul,
@@ -172,13 +169,7 @@ public theorem exists_rep_liftBaseChange (n : ℕ)
         baseChangeCompositeSection p D D' D'' M a - x ∈ pAdicIdeal (A := D'') p ^ n •
           (⊤ : Submodule D'' (D'' ⊗[D'] baseChangeCarrier p D D' M)) := by
   classical
-  induction x using TensorProduct.induction_on with
-  | zero =>
-    refine ⟨0, ?_, ?_⟩
-    · rw [_root_.map_zero]
-      exact (Submodule.Quotient.mk_zero _).symm
-    · rw [_root_.map_zero, sub_zero]
-      exact Submodule.zero_mem _
+  induction x using TensorProduct.inductionOn with
   | tmul b'' z =>
     obtain ⟨v, hv⟩ := Submodule.Quotient.mk_surjective
       (pAdicIdeal (A := D') p ^ n • (⊤ : Submodule D' (D' ⊗[D] M))) (z.val n)
@@ -199,7 +190,7 @@ public theorem exists_rep_liftBaseChange (n : ℕ)
           pAdicIdeal (A := D') p ^ n • (⊤ : Submodule D' (baseChangeCarrier p D D' M)) := by
         rw [AdicCompletion.pow_smul_top_eq_ker_eval (pAdicIdeal_fg p D'), LinearMap.mem_ker,
           _root_.map_sub]
-        show Submodule.Quotient.mk v - z.val n = 0
+        change Submodule.Quotient.mk v - z.val n = 0
         rw [hv, sub_self]
       rw [hsec, ← TensorProduct.tmul_sub]
       exact tmul_mem_pow_smul_top p D D' D'' M n b'' hmem
@@ -264,7 +255,7 @@ public theorem adicQuotientMap_liftBaseChange_bijective (n : ℕ) :
       Submodule.Quotient.eq,
       AdicCompletion.pow_smul_top_eq_ker_eval (pAdicIdeal_fg p D''), LinearMap.mem_ker,
       _root_.map_sub]
-    show Submodule.Quotient.mk a - y.val n = 0
+    change Submodule.Quotient.mk a - y.val n = 0
     rw [ha, sub_self]
 
 /-- **The comparison of the twice base-changed module with the once base-changed one is

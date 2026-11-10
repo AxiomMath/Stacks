@@ -88,7 +88,7 @@ public lemma generatesStalks_congr {X : Scheme.{u}} {M N : X.Modules}
 public lemma pullbackGlobalSections_eq_pullbackGlobalSection {X Y : Scheme.{u}} (h : Y ⟶ X)
     (M : X.Modules) (t : Γ(M, ⊤)) :
     pullbackGlobalSections h M t = Stacks.NonvanishingPullback.pullbackGlobalSection h M t := by
-  show ((Scheme.Modules.pullback h).obj M).presheaf.map
+  change ((Scheme.Modules.pullback h).obj M).presheaf.map
       (eqToHom (show h ⁻¹ᵁ (⊤ : X.Opens) = ⊤ from rfl)).op
       (Stacks.NonvanishingPullback.pullbackGlobalSection h M t) = _
   exact Functor.map_id_apply _ _ _

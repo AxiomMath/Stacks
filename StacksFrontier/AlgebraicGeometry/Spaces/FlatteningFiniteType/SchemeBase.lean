@@ -157,14 +157,14 @@ theorem flattensByBlowup_of_iso {A A₂ X : AlgebraicSpaces B S hS} (e : A ≅ A
     isFinitePresentation_ι_preimage e.hom Z₂ hfp, ?_, hb, ?_⟩
   · have h1 := range_pointsMap_preimage_ι B S hS e.hom.hom U₂.1
     have h2 := range_pointsMap_preimage_ι B S hS e.hom.hom Z₂.1
-    show Disjoint (Set.range (pointsMap B S hS U.1.toFunctor U.1.ι))
+    change Disjoint (Set.range (pointsMap B S hS U.1.toFunctor U.1.ι))
       (Set.range (pointsMap B S hS (Z₂.1.preimage e.hom.hom).toFunctor
         (Z₂.1.preimage e.hom.hom).ι))
     rw [hU, h1, h2]
     exact hdisj.preimage _
   · have hE : (preimageClosedSubspace e.hom Z₂).1.preimage (b₂ ≫ e.inv).hom =
         Z₂.1.preimage b₂.hom := by
-      show (Z₂.1.preimage e.hom.hom).preimage (b₂.hom ≫ e.inv.hom) = _
+      change (Z₂.1.preimage e.hom.hom).preimage (b₂.hom ≫ e.inv.hom) = _
       rw [← Subfunctor.preimage_comp, Category.assoc, ← ObjectProperty.FullSubcategory.comp_hom,
         e.inv_hom_id]
       simp
@@ -307,23 +307,23 @@ theorem flattensByBlowup_of_iso_schemeSpace (Q : BigFppfOver B S hS)
   obtain ⟨hC1, hC2⟩ := isFlat_and_isLocallyOfFinitePresentation_strictTransform_schemeSpaceMap g ℐ
     hb₀ hstfl hlfpst
   refine flattensByBlowup_of_iso e f U ⟨U₂, hU₂⟩ ?_ ?_
-  · show U.1 = (U.1.preimage eF.inv).preimage eF.hom
+  · change U.1 = (U.1.preimage eF.inv).preimage eF.hom
     rw [← Subfunctor.preimage_comp, eF.hom_inv_id, Subfunctor.preimage_id]
   refine ⟨_, schemeSpaceMap (blowUpObjHom Q ℐ), closedSubspaceOfIdeal Q ℐ,
     isFinitePresentation_closedSubspaceOfIdeal Q ℐ hℐfp, ?_, hb₀, ?_⟩
-  · show Disjoint (Set.range (pointsMap B S hS U₂.toFunctor U₂.ι))
+  · change Disjoint (Set.range (pointsMap B S hS U₂.toFunctor U₂.ι))
       (subspacePointSet B S hS (yoneda.obj Q) (closedSubspaceOfIdeal Q ℐ).1)
     rw [subspacePointSet_closedSubspaceOfIdeal, hO, range_pointsMap_ι_openSubspaceOfPoints]
     exact hdisj.preimage _
   · have : Mono (𝟙 (schemeSpace Q) : schemeSpace Q ⟶ schemeSpace Q).hom := by
-      show Mono (𝟙 (yoneda.obj Q))
+      change Mono (𝟙 (yoneda.obj Q))
       infer_instance
     exact isFlat_and_isLocallyOfFinitePresentation_strictTransform_of_etaleCover (f ≫ e.hom)
       (schemeSpaceMap (blowUpObjHom Q ℐ)) (schemeSpaceMap g) (schemeSpaceMap (blowUpObjHom Q ℐ))
       (𝟙 (schemeSpace Q)) (ObjectProperty.homMk a : schemeSpace V₀ ⟶ X) hae
       ((presheafSurjective_iff_isSurjective_yoneda B S hS X.1 X.2 V₀ a).1 has)
       (by
-        show yoneda.map g ≫ 𝟙 _ = a ≫ f.hom ≫ eF.hom
+        change yoneda.map g ≫ 𝟙 _ = a ≫ f.hom ≫ eF.hom
         rw [Category.comp_id, hg])
       rfl (preimageClosedSubspace (schemeSpaceMap (blowUpObjHom Q ℐ)) (closedSubspaceOfIdeal Q ℐ))
       hb₀.isPullbackDefined hC1 hC2

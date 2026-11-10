@@ -151,6 +151,7 @@ end CategoryTheory.Limits
 namespace AlgebraicGeometry.Space
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullbacks` instance search on presheaves over the big fppf site
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_SeparatedMorphismDiagonalDescent
@@ -165,6 +166,7 @@ local instance (priority := high) hasPullback_presheaf_SeparatedMorphismDiagonal
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the pullbacks of presheaves over the big fppf site in the statement
 /-- **Separatedness of a base change, read on the base change of the diagonal.** If
 `F : Z₁ ×_{Z₀} X₀ ⟶ Z₁ ×_{Z₀} Y₀` is the base change of `f : X₀ ⟶ Y₀` along `t : Z₁ ⟶ Z₀`,
 then `F` is separated exactly when the base change along `t` of the diagonal of `f` is a closed

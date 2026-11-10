@@ -110,13 +110,13 @@ theorem encard_minimalPrimes_eq_numberOfGeometricBranchesOfLocalRing (R : Type u
   let pA : A →ₐ[R] L :=
     { toRingHom := eA.symm.toRingHom.comp (residue A)
       commutes' := fun r ↦ by
-        show eA.symm (residue A (algebraMap R A r)) =
+        change eA.symm (residue A (algebraMap R A r)) =
           algebraMap (ResidueField R) L (residue R r)
         rw [← heA, RingEquiv.symm_apply_apply] }
   let pD : D →ₐ[R] L :=
     { toRingHom := eL.symm.toRingHom.comp (eD.symm.toRingHom.comp (residue D))
       commutes' := fun r ↦ by
-        show eL.symm (eD.symm (residue D (algebraMap R D r))) =
+        change eL.symm (eD.symm (residue D (algebraMap R D r))) =
           algebraMap (ResidueField R) L (residue R r)
         rw [← heD, RingEquiv.symm_apply_apply, AlgEquiv.commutes] }
   obtain ⟨e, -⟩ := HenselianLocalRing.existsUnique_algEquiv_of_ind_etale
@@ -144,7 +144,7 @@ theorem GermOfScheme.isEtaleLocal_numberOfGeometricBranches_eq (n : ℕ∞) :
       ⟨X.point, g.mem_source⟩).symm.trans
     (numberOfGeometricBranches_eq_of_smooth g.hom ⟨X.point, g.mem_source⟩)
   rw [show Scheme.Opens.ι g.source ⟨X.point, g.mem_source⟩ = X.point from rfl, g.map_point] at h
-  show (numberOfGeometricBranches Y.scheme Y.point = n) ↔
+  change (numberOfGeometricBranches Y.scheme Y.point = n) ↔
     (numberOfGeometricBranches X.scheme X.point = n)
   rw [h]
 
@@ -491,7 +491,7 @@ private theorem exists_geometricPoint_numberOfGeometricBranches_eq (x : points B
   let g : GeometricPoint B S hS F :=
     ⟨FieldValuedPoint.map B S hS (yoneda.obj U) a q, AlgebraicClosure.isAlgClosed p.carrier⟩
   have hg : GeometricPoint.LiesOver g x := by
-    show (FieldValuedPoint.map B S hS (yoneda.obj U) a q).class B S hS F = x
+    change (FieldValuedPoint.map B S hS (yoneda.obj U) a q).class B S hS F = x
     rwa [← pointsMap_class, hclass]
   let V : SmallEtaleNeighborhood g :=
     { chart := ⟨CostructuredArrow.mk a, ha⟩
@@ -502,13 +502,13 @@ private theorem exists_geometricPoint_numberOfGeometricBranches_eq (x : points B
   have hmap : B.inclusion.map e' = e :=
     B.inclusion.map_preimage
       (show B.inclusion.obj (B.obj hK) ⟶ B.inclusion.obj p.siteObject.left from e)
-  show numberOfGeometricBranches ((BigFppfOver.toScheme B S hS).obj U)
+  change numberOfGeometricBranches ((BigFppfOver.toScheme B S hS).obj U)
       (schemePoint B S hS U p) =
     numberOfGeometricBranches ((BigFppfOver.toScheme B S hS).obj U)
       (B.inclusion.map (e' ≫ p.value.left) (closedPoint K))
   have hpoint : B.inclusion.map (e' ≫ p.value.left) (closedPoint K) =
       schemePoint B S hS U p := by
-    show (B.inclusion.map p.value.left) ((B.inclusion.map e') (closedPoint K)) = _
+    change (B.inclusion.map p.value.left) ((B.inclusion.map e') (closedPoint K)) = _
     rw [hmap, he]
     rfl
   exact congrArg _ hpoint.symm

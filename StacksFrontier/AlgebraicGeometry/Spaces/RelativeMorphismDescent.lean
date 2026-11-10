@@ -177,7 +177,7 @@ theorem existsUnique_restrict_of_isFppfCovering
         AlgebraicSpaces.fiberProduct B S hS (cA i) (cA j) ⟶ Vi j) ≫ kA j := by
     intro i j
     refine ObjectProperty.hom_ext _ ?_
-    show pullback.fst (cA i).hom (cA j).hom ≫ kHom i =
+    change pullback.fst (cA i).hom (cA j).hom ≫ kHom i =
       pullback.snd (cA i).hom (cA j).hom ≫ kHom j
     have hπ : pullback.fst (cA i).hom (cA j).hom ≫ (cA i).hom =
         pullback.snd (cA i).hom (cA j).hom ≫ (cA j).hom := pullback.condition
@@ -216,7 +216,7 @@ theorem existsUnique_restrict_of_isFppfCovering
   obtain ⟨dObj, hd, hduniq⟩ :=
     existsUnique_desc_of_fpqcCovering B S hS cA hfpqcV Ta (fun i => cA i ≫ gA)
       (fun i j => ObjectProperty.hom_ext _ (by
-        show pullback.fst (cA i).hom (cA j).hom ≫ ((cA i).hom ≫ pullback.fst a z) =
+        change pullback.fst (cA i).hom (cA j).hom ≫ ((cA i).hom ≫ pullback.fst a z) =
           pullback.snd (cA i).hom (cA j).hom ≫ ((cA j).hom ≫ pullback.fst a z)
         rw [← Category.assoc, ← Category.assoc, pullback.condition]))
   have hkfstP : k ≫ pullback.fst a x = pullback.fst a z := by
@@ -224,7 +224,7 @@ theorem existsUnique_restrict_of_isFppfCovering
         cA i ≫ gA := by
       intro i
       refine ObjectProperty.hom_ext _ ?_
-      show (cA i).hom ≫ (k ≫ pullback.fst a x) = (cA i).hom ≫ pullback.fst a z
+      change (cA i).hom ≫ (k ≫ pullback.fst a x) = (cA i).hom ≫ pullback.fst a z
       rw [← Category.assoc, hki i, hkfst i]
     exact congrArg (fun m : Pb ⟶ Ta => m.hom)
       ((hduniq _ h1).trans (hduniq _ fun _ => rfl).symm)
@@ -279,7 +279,7 @@ theorem existsUnique_restrict_of_isFppfCovering
         (pullback.lift (pullback.fst a z) rm hlcond) : Pb ⟶ Wb) = kA i := by
       intro i
       refine ObjectProperty.hom_ext _ ?_
-      show (cA i).hom ≫ pullback.lift (pullback.fst a z) rm hlcond = kHom i
+      change (cA i).hom ≫ pullback.lift (pullback.fst a z) rm hlcond = kHom i
       refine pullback.hom_ext ?_ ?_
       · rw [Category.assoc, hlfst, hkfst i]
       · rw [Category.assoc, hlsnd, hksnd i]

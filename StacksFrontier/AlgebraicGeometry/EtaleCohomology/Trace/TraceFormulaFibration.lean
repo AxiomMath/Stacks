@@ -96,7 +96,7 @@ theorem exists_canonicalTraceFormula_fibre (h₁ : TraceFormulaUpToDim B Λ kbar
     (hfib : ∀ z, topologicalKrullDim (g.fiber z) ≤ 1) (y : Spec (.of k) ⟶ P)
     (hy : y ≫ πP = 𝟙 _) (K : CochainComplex.Plus (EtaleModules.{u, 0} Λ U.obj))
     (hK : IsCtf B U Λ (DerivedCategory.Q.obj K.obj)) :
-    ∃ hUy : B.Contains (fibreScheme j' gb y),
+    B.Contains (fibreScheme j' gb y) ∧
       CanonicalTraceFormula Λ kbar p q hcard (fibreStructure j' gb y)
         (fibreCompactification j' gb y)
         ((etaleModuleInverseImage.{u, 0} Λ

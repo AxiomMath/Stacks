@@ -100,7 +100,7 @@ private theorem squareZero_affineChartInclusion_Γ_comp
   let h := U.ι.isOpenEmbedding
   have htop : h.functor.obj ⊤ = U := U.ι_image_top
   have hnat := E.π.hom.naturality (eqToHom htop).op
-  show E.A.obj.map (eqToHom htop).op ≫
+  change E.A.obj.map (eqToHom htop).op ≫
       E.π.hom.app (Opposite.op (h.functor.obj ⊤)) ≫
       X.sheaf.obj.map ((eqToIso htop).op.inv) = E.π.hom.app (Opposite.op U)
   calc
@@ -219,7 +219,7 @@ private theorem squareZero_affineChartToSpec_base_isHomeomorph
     squareZero_affineChartInclusion_base E U
   have hspec : IsHomeomorph
       (Spec.toLocallyRingedSpace.map (LocallyRingedSpace.Γ.map f₀.op).op).base := by
-    show IsHomeomorph (PrimeSpectrum.comap
+    change IsHomeomorph (PrimeSpectrum.comap
       (LocallyRingedSpace.Γ.map f₀.op).hom)
     exact specComap_isHomeomorph_of_surjective_squareZero _
       (squareZero_affineChartInclusion_Γ_surjective E U hU)
@@ -227,7 +227,7 @@ private theorem squareZero_affineChartToSpec_base_isHomeomorph
   have hs : IsHomeomorph s.base := by
     have : IsAffine (X.restrict U.ι.isOpenEmbedding) := hU
     have hsIso : IsIso s := by
-      show IsIso (Scheme.forgetToLocallyRingedSpace.map
+      change IsIso (Scheme.forgetToLocallyRingedSpace.map
         (X.restrict U.ι.isOpenEmbedding).toSpecΓ)
       infer_instance
     let : IsIso s := hsIso
@@ -243,7 +243,7 @@ private theorem squareZero_affineChartToSpec_base_isHomeomorph
     change t.base (f₀.base x) =
       (Spec.toLocallyRingedSpace.map (LocallyRingedSpace.Γ.map f₀.op).op).base (s.base x) at hx
     rwa [hfbase] at hx
-  show IsHomeomorph (fun x : U => t.base x)
+  change IsHomeomorph (fun x : U => t.base x)
   rw [funext hcomp']
   exact hspec.comp hs
 
@@ -311,7 +311,7 @@ private theorem isLocalization_of_exact_comparison
     change s'.val • m = 0 at hs'
     obtain ⟨r', hr'⟩ := hπ s'.val
     refine ⟨⟨r' * r, ?_⟩, ?_⟩
-    · show π (r' * r) ∈ S
+    · change π (r' * r) ∈ S
       rw [map_mul, hr', hr]
       exact S.mul_mem s'.property s.property
     · calc
@@ -331,12 +331,12 @@ private theorem isLocalization_of_exact_comparison
     change s'.val • z = k m at hm
     obtain ⟨r', hr'⟩ := hπ s'.val
     refine ⟨⟨r' * a + ι m, ⟨r * r', ?_⟩⟩, ?_⟩
-    · show π (r * r') ∈ S
+    · change π (r * r') ∈ S
       rw [map_mul, hr, hr']
       exact S.mul_mem s.property s'.property
     · have he : f r' * (f r * t - f a) = f (ι m) := by
         rw [← hz, ← hjsmul, hr', hm, hjk]
-      show t * f (r * r') = f (r' * a + ι m)
+      change t * f (r * r') = f (r' * a + ι m)
       rw [map_add, map_mul, map_mul, ← he]
       ring
   · intro a b hab
@@ -359,7 +359,7 @@ private theorem squareZero_kernelStalkInclusion_germ
       TopCat.Presheaf.germ E.A.presheaf U x hx (E.ι (Opposite.op U) m) := by
   have he := ConcreteCategory.congr_hom
     (commRingStalkToAddCommGrpStalkIso_germ E.A x U hx) (E.ι (Opposite.op U) m)
-  show (commRingStalkToAddCommGrpStalkIso E.A x).inv
+  change (commRingStalkToAddCommGrpStalkIso E.A x).inv
     (((TopCat.Presheaf.stalkFunctor AddCommGrpCat x).map
       (squareZero_kernelSheafInclusion E).hom) (E.I.presheaf.germ U x hx m)) = _
   rw [show ((TopCat.Presheaf.stalkFunctor AddCommGrpCat x).map
@@ -513,7 +513,7 @@ private theorem squareZero_affine_germ_isLocalization
   · exact affineModuleGermMap_isLocalized E.I U y
   · intro s
     apply (isUnit_map_iff p _).mp
-    show IsUnit (p (γ s.val))
+    change IsUnit (p (γ s.val))
     rw [show p (γ s.val) = g (π s.val) from
       TopCat.Presheaf.stalkFunctor_map_germ_apply U.1 x hx E.π.hom s.val]
     exact IsLocalization.map_units (M := y.asIdeal.primeCompl)
@@ -532,13 +532,13 @@ private theorem isLocalization_of_ringEquivs
   apply (isLocalization_iff (M.map eR) T').2
   refine ⟨?_, ?_, ?_⟩
   · rintro ⟨s, r, hr, rfl⟩
-    show IsUnit (g (eR r))
+    change IsUnit (g (eR r))
     rw [h]
     exact (IsLocalization.map_units T ⟨r, hr⟩).map eT.toRingHom
   · intro t
     obtain ⟨⟨r, s⟩, hs⟩ := IsLocalization.surj M (eT.symm t)
     refine ⟨⟨eR r, ⟨eR s.val, ⟨s.val, s.property, rfl⟩⟩⟩, ?_⟩
-    show t * g (eR s.val) = g (eR r)
+    change t * g (eR s.val) = g (eR r)
     rw [h, h, ← eT.apply_symm_apply t, ← map_mul]
     exact congrArg eT hs
   · intro a b hab
@@ -578,7 +578,7 @@ private theorem toΓSpec_stalkMap_isIso_of_isLocalization
     ext r
     exact (locallyRingedSpace_toΓSpec_stalk_germ T x r).trans (e.commutes r).symm
   apply (ConcreteCategory.isIso_iff_bijective _).mpr
-  show Function.Bijective q
+  change Function.Bijective q
   rw [he]
   exact e.bijective
 
@@ -615,10 +615,10 @@ private theorem squareZero_affineChartToSpec_isIso
   intro a
   apply ((ConcreteCategory.bijective_of_isIso
     ((thickenedLocallyRingedSpace E).restrictStalkIso U.ι.isOpenEmbedding x).hom).1)
-  show (((thickenedLocallyRingedSpace E).restrictStalkIso
+  change (((thickenedLocallyRingedSpace E).restrictStalkIso
     U.ι.isOpenEmbedding x).hom) (T.presheaf.Γgerm x (eR a)) = _
   refine Eq.trans (thickenedAffineChart_restrictStalkIso_germ E U x (eR a)) ?_
-  show TopCat.Presheaf.germ E.A.presheaf _ (U.ι x) _
+  change TopCat.Presheaf.germ E.A.presheaf _ (U.ι x) _
     (E.A.presheaf.map (eqToHom U.ι_image_top).op a) = _
   refine Eq.trans (TopCat.Presheaf.germ_res_apply E.A.presheaf
     (eqToHom U.ι_image_top) (U.ι x) _ a) ?_
@@ -654,10 +654,10 @@ private theorem squareZeroExtensionImmersion_isClosedImmersion
       IsIso (thickenedAffineChartToSpec E U)) :
     IsClosedImmersion (squareZeroExtensionImmersion E hchart) where
   isClosedEmbedding := by
-    show Topology.IsClosedEmbedding (fun x : X => x)
+    change Topology.IsClosedEmbedding (fun x : X => x)
     exact Homeomorph.isClosedEmbedding (Homeomorph.refl X)
   stalkMap_surjective x := by
-    show Function.Surjective
+    change Function.Surjective
       (((canonicalInclusionLocallyRingedSpace E).stalkMap x).hom)
     rw [canonicalInclusionLocallyRingedSpace_stalkMap]
     exact squareZero_stalkMap_surjective E x
@@ -682,7 +682,7 @@ private theorem squareZeroExtensionImmersion_ker_sq
   apply Scheme.IdealSheafData.ext_of_iSup_eq_top
     (fun U : Y.affineOpens => U) (iSup_affineOpens_eq_top Y)
   intro U
-  show (i.ker.ideal U) ^ 2 = ⊥
+  change (i.ker.ideal U) ^ 2 = ⊥
   rw [Scheme.Hom.ker_apply i U]
   rw [pow_two]
   apply le_antisymm
@@ -735,7 +735,7 @@ private theorem squareZeroExtension_realization_of_chart_isos
     over_base := hover
     inclusion_eq := ?_
     toBase_eq := ?_ }⟩
-  · show (canonicalInclusionLocallyRingedSpace E).toShHom = E.inclusion
+  · change (canonicalInclusionLocallyRingedSpace E).toShHom = E.inclusion
     exact canonicalInclusionSheafedSpace_eq E
   · rfl
 

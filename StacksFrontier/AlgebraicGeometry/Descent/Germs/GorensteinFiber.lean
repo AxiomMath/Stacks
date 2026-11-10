@@ -117,7 +117,6 @@ public lemma noetherianGorenstein_iff_of_etale
   let : Algebra.Etale A B := hEtale.toAlgebra
   let : Algebra (Localization.AtPrime p) (Localization.AtPrime q) :=
     Localization.AtPrime.algebraOfLiesOver p q
-  let : Localization.AtPrime.IsLiesOverAlgebra p q := inferInstance
   let : Algebra A (Localization.AtPrime q) := inferInstance
   let : Algebra B (Localization.AtPrime q) := inferInstance
   let : IsScalarTower A B (Localization.AtPrime q) := inferInstance
@@ -210,7 +209,7 @@ private lemma noetherianGorenstein_fiber_iff_of_eq
   let m : f.fiber (f x) ⟶ f.fiber y :=
     CategoryTheory.Limits.pullback.map f (Y.fromSpecResidueField (f x))
       f (Y.fromSpecResidueField y) (𝟙 X) σ (𝟙 Y) (by simp) (by
-        show Y.fromSpecResidueField (f x) =
+        change Y.fromSpecResidueField (f x) =
           Spec.map (Scheme.residueFieldCongr h.symm).hom ≫
             Y.fromSpecResidueField y
         exact (Y.residueFieldCongr_fromSpecResidueField h.symm).symm)
@@ -218,7 +217,7 @@ private lemma noetherianGorenstein_fiber_iff_of_eq
     dsimp [m, σ, Scheme.Hom.fiber]
     infer_instance
   have hfst : m ≫ f.fiberι y = f.fiberι (f x) := by
-    show (CategoryTheory.Limits.pullback.map f (Y.fromSpecResidueField (f x))
+    change (CategoryTheory.Limits.pullback.map f (Y.fromSpecResidueField (f x))
       f (Y.fromSpecResidueField y) (𝟙 X) σ (𝟙 Y) _ _ :
         f.fiber (f x) ⟶ f.fiber y) ≫
         CategoryTheory.Limits.pullback.fst f (Y.fromSpecResidueField y) =
@@ -247,7 +246,7 @@ private lemma fiberMap_asFiber
       Spec.map (b.residueFieldMap (h' x')) ≫ V.fromSpecResidueField y :=
     (Scheme.Hom.SpecMap_residueFieldMap_fromSpecResidueField b (h' x')).symm
   have hfst : f ≫ h.fiberι y = h'.fiberι (h' x') ≫ a := by
-    show (CategoryTheory.Limits.pullback.map h'
+    change (CategoryTheory.Limits.pullback.map h'
       (V'.fromSpecResidueField (h' x')) h (V.fromSpecResidueField y)
       a (Spec.map (b.residueFieldMap (h' x'))) b hcomm.symm hsecond :
         h'.fiber (h' x') ⟶ h.fiber y) ≫
@@ -380,13 +379,13 @@ private lemma representativeHasGorenstein_iff_comp_precomp
     infer_instance
   have hx : a ⟨X.point, c.mem_source⟩ = ⟨Y.point, g.mem_source⟩ := by
     apply Subtype.ext
-    show g.source.ι ((f.hom ∣_ g.source)
+    change g.source.ι ((f.hom ∣_ g.source)
       ((f.source.ι.isoImage _).inv ⟨X.point, c.mem_source⟩)) = Y.point
     rw [← f.map_point, ← Scheme.Hom.comp_apply, morphismRestrict_ι]
-    show (((f.source.ι.isoImage _).inv ≫
+    change (((f.source.ι.isoImage _).inv ≫
       (f.hom ⁻¹ᵁ g.source).ι ≫ f.hom) ⟨X.point, c.mem_source⟩) = _
     rw [← Category.assoc, Scheme.Opens.isoImage_ι_inv_ι]
-    show f.hom (X.scheme.homOfLE _ ⟨X.point, _⟩) =
+    change f.hom (X.scheme.homOfLE _ ⟨X.point, _⟩) =
       f.hom ⟨X.point, f.mem_source⟩
     apply congrArg (fun p : f.source.toScheme ↦ f.hom p)
     apply Subtype.ext
@@ -394,7 +393,7 @@ private lemma representativeHasGorenstein_iff_comp_precomp
   have hlocal := noetherianGorenstein_fiber_iff_of_etale_square_at
     a (𝟙 Z.scheme) c.hom g.hom hcomm ⟨X.point, c.mem_source⟩
       ⟨Y.point, g.mem_source⟩ hx
-  show representativeHasGorenstein c ↔ representativeHasGorenstein g
+  change representativeHasGorenstein c ↔ representativeHasGorenstein g
   unfold representativeHasGorenstein
   exact hlocal
 
@@ -478,7 +477,7 @@ public theorem hasGorensteinFiberLocalRing_isEtaleLocalOnSourceAndTarget :
     _ ↔ HasGorensteinFiberLocalRing (compG a h) :=
       (hasGorensteinFiberLocalRing_iff_rep (compG a h) ca hca).symm
     _ ↔ HasGorensteinFiberLocalRing (compG h' b) := by
-      show HasGorensteinFiberLocalRing (MorphismOfGerms.comp a h) ↔
+      change HasGorensteinFiberLocalRing (MorphismOfGerms.comp a h) ↔
         HasGorensteinFiberLocalRing (MorphismOfGerms.comp h' b)
       rw [← hsq]
     _ ↔ representativeHasGorenstein cb :=

@@ -203,7 +203,7 @@ theorem smallSelfProductConormalSheafComparison_sheafApp
       (presheafD B.obj.thickening.target S.S.scheme B.obj.toBase.hom V).d b :=
     (dpDifferentialsSheafSectionsEquiv hV hle hVS).symm_apply_eq.mpr
       (dpDifferentialsSheafSectionsEquiv_d hV hle hVS b).symm
-  show (smallSelfProductConormalComparison h V).hom
+  change (smallSelfProductConormalComparison h V).hom
     ((dpDifferentialsSheafSectionsEquiv hV hle hVS).symm _) = _
   rw [he]
   exact smallSelfProductConormalComparison_d h V b
@@ -218,7 +218,7 @@ theorem smallSelfProductConormalInverse_sheafComparison
       B.obj.toBase.hom).obj (op V))) :
     smallSelfProductConormalInverse h V
         (smallSelfProductConormalSheafComparison hV hle hVS h x) = x := by
-  show smallSelfProductConormalInverse h V ((smallSelfProductConormalComparison h V).hom
+  change smallSelfProductConormalInverse h V ((smallSelfProductConormalComparison h V).hom
     ((dpDifferentialsSheafSectionsEquiv hV hle hVS).symm x)) = x
   rw [smallSelfProductConormalInverse_comp_comparison h V]
   exact (dpDifferentialsSheafSectionsEquiv hV hle hVS).apply_symm_apply x
@@ -433,7 +433,7 @@ theorem smallSelfProductFirstOrderPullback_ker_le_of_factorization
   rw [← smallSelfProductGraphRingHom_ker h W, ← hψ]
   intro x hx
   refine RingHom.mem_ker.mpr ?_
-  show ψ (smallSelfProductFirstOrderPullback h W x) = 0
+  change ψ (smallSelfProductFirstOrderPullback h W x) = 0
   rw [RingHom.mem_ker.mp hx, map_zero]
 
 /-- **If `q^♯` kills only the divided square then the inverse comparison is injective.**  A class

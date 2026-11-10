@@ -107,9 +107,11 @@ theorem isGrothendieckAbelian_fppfSheaves :
       (Sheaf (BigFppfOver.associatedTopology B S hS 𝒳.val.val.p .fppf) AddCommGrpCat.{u}) :=
   Sheaf.isGrothendieckAbelian_of_essentiallySmall _ _
 
--- Lean v4.35.0: the `HasProducts` searches behind `hasExt_of_enoughInjectives` exceed the default.
-set_option maxHeartbeats 800000 in
 set_option synthInstance.maxHeartbeats 400000 in
+-- Lean v4.35.0: the `HasProducts` instance searches behind `hasExt_of_enoughInjectives`
+-- exceed the default instance-synthesis limit.
+set_option maxHeartbeats 800000 in
+-- Lean v4.35.0: the `HasProducts` searches behind `hasExt_of_enoughInjectives` exceed the default.
 /-- **Stacks 0GQI's affine acyclicity on an algebraic stack**: a module on the fppf site of an
 algebraic stack which is cartesian along flat morphisms of affines has no higher cohomology over
 an object lying over an affine scheme. -/
@@ -311,7 +313,7 @@ theorem lqcohSheafFbcFppfModules_fppfModulesPushforward (F : fppfModules B S hS 
     lqcohSheafFbcFppfModules.{u, w, u} B E h S hS 𝒴 ((fppfModulesPushforward B S hS f).obj F) :=
   have hl := isLocallyQuasicoherent_fppfModulesPushforward B E h S hS f hf F hF
   ⟨hl, hasSheafFlatBaseChangeProperty_of_isIso_restrictionBaseChange B E h S hS 𝒴.val.val.p
-    𝒴.val.isFiberedInGroupoids _ hl fun φ hy hy' hfl =>
+    𝒴.val.isFiberedInGroupoids _ fun φ hy hy' hfl =>
       isCartesianAlongFlatAffine_fppfModulesPushforward B S hS f hf F hF φ hfl hy hy'⟩
 
 include hf hcart in

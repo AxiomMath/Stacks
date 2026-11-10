@@ -117,15 +117,15 @@ theorem transportedBidualIso_hom_naturality
   simp only [Functor.map_comp, Functor.FullyFaithful.preimageIso_hom,
     Functor.FullyFaithful.map_preimage, Iso.trans_hom, Iso.app_hom, Functor.mapIso_hom,
     Iso.symm_hom, asIso_inv, Iso.op_inv, Category.assoc]
-  show _ ≫ (DI _).hom ≫ dM (DI K').inv ≫ _ = (DI _).hom ≫ dM (DI K).inv ≫ _ ≫ _
+  change _ ≫ (DI _).hom ≫ dM (DI K').inv ≫ _ = (DI _).hom ≫ dM (DI K).inv ≫ _ ≫ _
   rw [← Category.assoc, transportedDualIso_hom_naturality e H O OM s du, Category.assoc]
-  show (DI _).hom ≫ dM (e.functor.map du) ≫ dM (DI K').inv ≫ _ = _
+  change (DI _).hom ≫ dM (e.functor.map du) ≫ dM (DI K').inv ≫ _ = _
   rw [← Category.assoc (dM _), ← hdM, hEu, Iso.inv_hom_id_assoc, hdM]
   simp only [Category.assoc]
   congr 2
   have h := hb (e.functor.map u)
   rw [IsIso.eq_inv_comp, ← Category.assoc]
-  show (b (e.functor.obj K) ≫ (H.map ((H.map (e.functor.map u).op).app OM).op).app OM) ≫ _ = _
+  change (b (e.functor.obj K) ≫ (H.map ((H.map (e.functor.map u).op).app OM).op).app OM) ≫ _ = _
   rw [← h, Category.assoc, IsIso.hom_inv_id, Category.comp_id]
 
 end Transport

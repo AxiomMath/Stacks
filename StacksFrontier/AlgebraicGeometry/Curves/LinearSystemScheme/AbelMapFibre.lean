@@ -58,7 +58,7 @@ theorem nonempty_iso_pullback_iff {Y W X : Scheme.{u}} (j : Y ⟶ W) (q : Y ⟶ 
     (Stacks.Divisors.invertibleSheaf' Z) (Stacks.Divisors.isInvertible_invertibleSheaf_picard Z)
   have h2 := Stacks.Picard.pullbackClass_classOf q.toLRSHom.toShHom
     (Stacks.Divisors.invertibleSheaf' D) (Stacks.Divisors.isInvertible_invertibleSheaf_picard D)
-  show _ ↔ Stacks.Picard.pullbackClass j.toLRSHom.toShHom _ =
+  change _ ↔ Stacks.Picard.pullbackClass j.toLRSHom.toShHom _ =
     Stacks.Picard.pullbackClass q.toLRSHom.toShHom _
   rw [h1, h2]
   exact (Stacks.SheafOfModules.picardClass_eq_iff _ _ _ _ _ _).symm
@@ -206,7 +206,7 @@ theorem abelFibre_eq_abelMapFibre (d : ℕ) (T : BigFppfOver B (Spec (.of k)) hk
         (pullback.fst (B.inclusion.map g) ((BigFppfOver.toOver B (Spec (.of k)) hk).obj T).hom)
         (Stacks.Divisors.picardClass D) with hx
   have hiff : Z ∈ abelMapFibre B hX k g D d T ↔ toPicardFunctorHom B hX hk g T x = 0 := by
-    show _ = _ ↔ _
+    change _ = _ ↔ _
     rw [map_divisorPoint, ← sub_eq_zero, hx]
     exact iff_of_eq (congrArg (· = 0) ((toPicardFunctorHom B hX hk g T).map_sub _ _).symm)
   rw [hiff]
@@ -226,7 +226,7 @@ theorem abelFibre_eq_abelMapFibre (d : ℕ) (T : BigFppfOver B (Spec (.of k)) hk
       have hrest := (nonempty_iso_restrict_iff (B.inclusion.map g) (V (β i)) Z.ideal
         D).1 (hVi (β i))
       have he' : e.hom ≫ (V (β i)).ι = B.inclusion.map (W.f i) := he
-      show Stacks.Picard.schemePullbackClass (Stacks.Hilbert.familyBaseChangeMap
+      change Stacks.Picard.schemePullbackClass (Stacks.Hilbert.familyBaseChangeMap
         (curveOver (B.inclusion.map g))
         (restrictHom (T := (BigFppfOver.toOver B (Spec (.of k)) hk).obj T)
           (B.inclusion.map (W.f i)))) x = 0
@@ -261,7 +261,7 @@ theorem abelFibre_eq_abelMapFibre (d : ℕ) (T : BigFppfOver B (Spec (.of k)) hk
     refine ⟨V, hV, htV, ?_⟩
     refine (nonempty_iso_restrict_iff (T := (BigFppfOver.toOver B (Spec (.of k)) hk).obj T)
       (B.inclusion.map g) V Z.ideal D).2 ?_
-    show Stacks.Picard.schemePullbackClass _ x = 0
+    change Stacks.Picard.schemePullbackClass _ x = 0
     refine (congrArg (Stacks.Picard.schemePullbackClass _) hN.symm).trans ?_
     refine (Stacks.Picard.schemePullbackClass_comp _ _ N).trans ?_
     refine (congrArg (fun m => Stacks.Picard.schemePullbackClass m N)

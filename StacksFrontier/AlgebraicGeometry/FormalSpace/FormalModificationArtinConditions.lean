@@ -59,7 +59,8 @@ prove, so none of them is a formalization of the remark.
 * `AlgebraicGeometry.FormalSpace.isRigSurjective_diagonal_iff_hasAnnihilatedKer` is the second
   half of that assertion. It restates the library's Stacks 0GD6
   (`AlgebraicGeometry.FormalSpace.isRigSmooth_and_isRigSurjective_tfae_of_isClosedImmersion'`)
-  at `Δ_f`, and so has the hypothesis of Stacks 0GD6 that the morphism be a closed immersion. The latter is separatedness of `f`, which for
+  at `Δ_f`, and so has the hypothesis of Stacks 0GD6 that the morphism be a closed immersion.
+  The latter is separatedness of `f`, which for
   a proper morphism of formal algebraic spaces no declaration of this library proves.
 * `AlgebraicGeometry.FormalSpace.factorsAdicCompleteDvrPoints_iff_isRigSurjective_of_isProper`
   is the third assertion. It restates the library's Stacks 0GDA
@@ -158,7 +159,8 @@ theorem isRigEtale_diagonal_of_isRigEtale
   exact hid
 
 /-- The second half of Ad (ii) of Stacks 0GDL, on the hypothesis `hdiagClosed`, which this
-library states and does not prove. Let `f : X ⟶ Y` be a morphism of formal algebraic spaces over `S` whose relative diagonal `Δ_f : X ⟶ X ×_Y X` is a
+library states and does not prove. Let `f : X ⟶ Y` be a morphism of formal algebraic spaces over
+`S` whose relative diagonal `Δ_f : X ⟶ X ×_Y X` is a
 rig-étale closed immersion, with `X` and `X ×_Y X` locally Noetherian. Then Artin's
 condition (ii), that on every affine representable étale chart of `X ×_Y X` the diagonal be a
 surjection of `WAdm^{Noeth}` whose kernel is annihilated by an ideal of definition of the
@@ -180,23 +182,14 @@ theorem isRigSurjective_diagonal_iff_hasAnnihilatedKer' {X Y : FppfSheaf B S hS}
         IsRigSurjective B S hS (pullback.diagonal f) := ⟨hdiagEtale, hsurj⟩
     exact (h0GD6.out 2 3).mp h
 
-/-- The second half of Ad (ii) of Stacks 0GDL, stated with the chart condition of Stacks 0AQI
-and both directions of Stacks 0AR0 available.
-
-None of them is used, since the library's Stacks 0GD6 needs none of them; the statement
-without them is `isRigSurjective_diagonal_iff_hasAnnihilatedKer'`. -/
+/-- The second half of Ad (ii) of Stacks 0GDL. The library's Stacks 0GD6 needs neither the chart
+condition of Stacks 0AQI nor Stacks 0AR0, so this has the same hypotheses as
+`isRigSurjective_diagonal_iff_hasAnnihilatedKer'`. -/
 theorem isRigSurjective_diagonal_iff_hasAnnihilatedKer {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hX : IsLocallyNoetherian B S hS X)
     (hXX : IsLocallyNoetherian B S hS (pullback f f))
     (hdiagClosed : IsClosedImmersion B S hS (pullback.diagonal f))
-    (hdiagEtale : IsRigEtale B S hS (pullback.diagonal f))
-    (hAQI : HasAdicQuotientOnPullbackCharts B S hS (pullback.diagonal f))
-    (hGCZ : HasRigEtaleOnPullbackCharts B S hS (pullback.diagonal f) →
-      IsRigEtale B S hS (pullback.diagonal f))
-    (hAQV : IsRigSurjective B S hS (pullback.diagonal f) ↔
-      HasRigSurjectiveOnPullbackCharts B S hS (pullback.diagonal f))
-    (hAR0 : HasRigSurjectiveOnPullbackCharts B S hS (pullback.diagonal f) ↔
-      HasDvrFactorizationOnPullbackCharts B S hS (pullback.diagonal f)) :
+    (hdiagEtale : IsRigEtale B S hS (pullback.diagonal f)) :
     HasAnnihilatedKerOnPullbackCharts B S hS (pullback.diagonal f) ↔
       IsRigSurjective B S hS (pullback.diagonal f) :=
   isRigSurjective_diagonal_iff_hasAnnihilatedKer' B S hS f hX hXX hdiagClosed hdiagEtale

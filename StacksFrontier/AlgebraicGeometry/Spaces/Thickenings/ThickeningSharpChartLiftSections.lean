@@ -316,7 +316,7 @@ theorem exists_hom_eq_thickeningLiftChartSiteHom {Bas : AlgebraicSpaces B S hS}
   have hmem : ∀ d : ObjectProperty.FullSubcategory (HasChartHomToAffineChartDiagram B S hS c r),
       yonedaEquiv (sec d) ∈ (liftsSubfunctor B S hS p qb az).obj (op d.obj) := by
     intro d
-    show IsChartLift B S hS p qb az d.obj (yonedaEquiv.symm (yonedaEquiv (sec d)))
+    change IsChartLift B S hS p qb az d.obj (yonedaEquiv.symm (yonedaEquiv (sec d)))
     rw [Equiv.symm_apply_apply]
     exact hsecLift d
   have hprop : ∀ {d₁ d₂ : (ObjectProperty.FullSubcategory
@@ -330,7 +330,7 @@ theorem exists_hom_eq_thickeningLiftChartSiteHom {Bas : AlgebraicSpaces B S hS}
           W.1.obj (op ((SmallEtale.toOver B S hS X.1).obj d₂.unop.obj))), hmem d₂.unop⟩ := by
     intro d₁ d₂ f
     refine Subtype.ext ?_
-    show W.1.map ((SmallEtale.toOver B S hS X.1).map f.unop.hom).op (yonedaEquiv (sec d₁.unop)) =
+    change W.1.map ((SmallEtale.toOver B S hS X.1).map f.unop.hom).op (yonedaEquiv (sec d₁.unop)) =
       yonedaEquiv (sec d₂.unop)
     rw [yonedaEquiv_naturality]
     exact congrArg yonedaEquiv

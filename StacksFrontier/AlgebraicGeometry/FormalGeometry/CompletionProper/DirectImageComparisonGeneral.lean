@@ -229,7 +229,7 @@ public theorem hasProperSupport_pullback_of_isProper {Y X S : Scheme.{u}} (π : 
   obtain ⟨Z, hZeq, hZproper⟩ := hF
   refine ⟨Z.preimage π.continuous, ?_, isProperOver_preimage_of_isProper π f Z hZproper⟩
   rw [Stacks.Modules.supp_pullback π F]
-  show π ⁻¹' (Z : Set X) = _
+  change π ⁻¹' (Z : Set X) = _
   rw [hZeq]
 
 /-! ### Reflecting an isomorphism from bijectivity at two objects -/

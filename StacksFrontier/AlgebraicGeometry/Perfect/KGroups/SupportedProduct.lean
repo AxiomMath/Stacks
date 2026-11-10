@@ -77,7 +77,7 @@ theorem cohomologySupportedOn_iff_supp_subset (T : Set X) (E : DerivedCategory X
     exact ha ((AddCommGrpCat.isZero_iff_subsingleton.1 (hE n x hxT)).elim a 0)
   · have hx' : x ∉ SheafOfModules.supp
         ((DerivedCategory.homologyFunctor X.Modules n).obj E) := fun h ↦ hx (hE n h)
-    simp only [SheafOfModules.supp, Set.mem_setOf_eq, not_exists, not_not] at hx'
+    simp only [SheafOfModules.supp, Set.mem_ofPred_eq, not_exists, not_not] at hx'
     refine (AddCommGrpCat.isZero_iff_subsingleton).2 ⟨fun a b ↦ ?_⟩
     rw [hx' a, hx' b]
 

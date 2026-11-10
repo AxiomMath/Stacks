@@ -148,7 +148,7 @@ def stalkAddEquiv (y : Y) :
 presheaf of types: both are the colimit injection at the open neighbourhood `V`. -/
 lemma stalkEquiv_symm_germ (y : Y) (V : Opens Y) (hy : y ∈ V) (s : 𝒢.obj (op V)) :
     (stalkEquiv 𝒢 y).symm (𝒢.germ V y hy s) = (typePresheaf 𝒢).germOfSize V y hy s := by
-  show (stalkIso 𝒢 y).hom _ = _
+  change (stalkIso 𝒢 y).hom _ = _
   exact congrFun (congrArg (fun f ↦ (ConcreteCategory.hom f : _ → _))
     (ι_preservesColimitIso_hom (forget AddCommGrpCat.{u}) (nhdsDiagram 𝒢 y) (op ⟨V, hy⟩))) s
 
@@ -331,7 +331,7 @@ lemma fibrePred_add {W : Opens Z} {f₁ f₂ : ∀ z : W, (typePresheaf 𝒢).st
   obtain ⟨W₂, hz₂, i₂, V₂, hV₂, s₂, hs₂⟩ := h₂ z
   refine ⟨W₁ ⊓ W₂, ⟨hz₁, hz₂⟩, homOfLE inf_le_left ≫ i₁, V₁ ⊓ V₂,
     fun x ↦ ⟨hV₁ ⟨x.1, x.2.1⟩, hV₂ ⟨x.1, x.2.2⟩⟩, resAdd 𝒢 s₁ s₂, fun x ↦ ?_⟩
-  show (⟨g x.1, f₁ (i₁ ⟨x.1, x.2.1⟩) + f₂ (i₂ ⟨x.1, x.2.2⟩)⟩ :
+  change (⟨g x.1, f₁ (i₁ ⟨x.1, x.2.1⟩) + f₂ (i₂ ⟨x.1, x.2.2⟩)⟩ :
     Germs.{u, u} (typePresheaf 𝒢)) = _
   rw [snd_eq_of_mk_eq 𝒢 (hs₁ ⟨x.1, x.2.1⟩), snd_eq_of_mk_eq 𝒢 (hs₂ ⟨x.1, x.2.2⟩),
     germ_resAdd 𝒢 s₁ s₂ (hV₁ ⟨x.1, x.2.1⟩) (hV₂ ⟨x.1, x.2.2⟩)]
@@ -342,7 +342,7 @@ lemma fibrePred_zero {W : Opens Z} :
     FibrePred g 𝒢 (0 : ∀ z : W, (typePresheaf 𝒢).stalkOfSize (g z.1)) := by
   intro z
   refine ⟨W, z.2, 𝟙 W, ⊤, fun _ ↦ trivial, (0 : 𝒢.obj (op (⊤ : Opens Y))), fun x ↦ ?_⟩
-  show (⟨g x.1, (0 : (typePresheaf 𝒢).stalkOfSize (g x.1))⟩ : Germs.{u, u} (typePresheaf 𝒢)) = _
+  change (⟨g x.1, (0 : (typePresheaf 𝒢).stalkOfSize (g x.1))⟩ : Germs.{u, u} (typePresheaf 𝒢)) = _
   refine congrArg (Sigma.mk (g x.1)) ?_
   exact (germ_zero 𝒢 ⊤ (trivial : g x.1 ∈ (⊤ : Opens Y))).symm
 
@@ -352,7 +352,7 @@ lemma fibrePred_neg {W : Opens Z} {f : ∀ z : W, (typePresheaf 𝒢).stalkOfSiz
   intro z
   obtain ⟨W₀, hz₀, i, V, hV, s, hs⟩ := h z
   refine ⟨W₀, hz₀, i, V, hV, -s, fun x ↦ ?_⟩
-  show (⟨g x.1, -f (i x)⟩ : Germs.{u, u} (typePresheaf 𝒢)) = _
+  change (⟨g x.1, -f (i x)⟩ : Germs.{u, u} (typePresheaf 𝒢)) = _
   rw [snd_eq_of_mk_eq 𝒢 (hs x)]
   exact congrArg (Sigma.mk (g x.1)) (germ_neg 𝒢 V (hV x) s).symm
 

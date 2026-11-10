@@ -80,8 +80,8 @@ example {Z : Scheme.{u}} (i : Z ⟶ Proj 𝒮) [IsClosedImmersion i] :
     (idealOfClosedSubscheme 𝒮 i).IsHomogeneous 𝒮 :=
   idealOfClosedSubscheme_isHomogeneous 𝒮 i
 
-/-- Tag 03GL's assertion `"the degreewise kernels"`, in the binder order of the reference statement and with the
-ideal written out as the span of the homogeneous equations. -/
+/-- Tag 03GL's assertion `"the degreewise kernels"`, in the binder order of the reference statement
+and with the ideal written out as the span of the homogeneous equations. -/
 example {Z : Scheme.{u}} (i : Z ⟶ Proj 𝒮) [IsClosedImmersion i] (a : S) :
     a ∈ Ideal.span {b : S | ∃ (n : ℕ) (c : 𝒮 n), (c : S) = b ∧
         pullbackGlobalSections i (twistingSheaf 𝒮 (n : ℤ)) (degreeSection 𝒮 n c) = 0} ↔

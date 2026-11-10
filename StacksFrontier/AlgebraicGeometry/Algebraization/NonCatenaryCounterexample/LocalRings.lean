@@ -48,7 +48,7 @@ theorem coheight_comap_of_surjective {R S : Type*} [CommRing R] [CommRing S] {f 
   have hg : StrictMono g := by
     intro a b h
     have hab : a.asIdeal < b.asIdeal := h
-    show a.asIdeal.comap f < b.asIdeal.comap f
+    change a.asIdeal.comap f < b.asIdeal.comap f
     refine lt_of_le_of_ne (Ideal.comap_mono hab.le) fun he => hab.ne ?_
     calc a.asIdeal = (a.asIdeal.comap f).map f := (Ideal.map_comap_of_surjective f hf _).symm
       _ = (b.asIdeal.comap f).map f := by rw [he]
@@ -60,7 +60,7 @@ theorem coheight_comap_of_surjective {R S : Type*} [CommRing R] [CommRing S] {f 
     rw [Ideal.comap_map_of_surjective f hf, sup_eq_left.mpr hker]
   refine ⟨⟨b.asIdeal.map f, Ideal.map_isPrime_of_surjective hf
     (by rwa [RingHom.ker_eq_comap_bot])⟩, ?_, PrimeSpectrum.ext hcm⟩
-  show a.asIdeal < b.asIdeal.map f
+  change a.asIdeal < b.asIdeal.map f
   refine lt_of_le_of_ne ?_ fun he => h'.ne ?_
   · rw [← Ideal.map_comap_of_surjective f hf a.asIdeal]
     exact Ideal.map_mono h'.le
@@ -115,7 +115,7 @@ variable (K : Type u) [Field K] (e : K ≃+* FractionRing (MvPolynomial (Fin 3) 
 theorem mapQ0_surjective : Function.Surjective (mapQ0 K) := by
   intro q
   refine ⟨aeval ![X 0, X 1, X 2, X 5] q, ?_⟩
-  show ((mapQ0 K).comp (aeval ![X 0, X 1, X 2, X 5])) q = q
+  change ((mapQ0 K).comp (aeval ![X 0, X 1, X 2, X 5])) q = q
   have : (mapQ0 K).comp (aeval (R := K) ![(X 0 : R6 K), X 1, X 2, X 5]) = AlgHom.id K _ := by
     refine MvPolynomial.algHom_ext fun j => ?_
     fin_cases j <;> simp [mapQ0]
@@ -158,7 +158,7 @@ theorem height_idealMQ0 : (idealMQ0 K).height = 4 := by
       (idealMQ0 K).under (R6 K ⧸ idealQ0 K) := by
     rw [Ideal.map_le_iff_le_comap]
     intro r hr
-    show algebraMap (R6 K ⧸ idealQ0 K) (RingBQ0 K) (Ideal.Quotient.mk _ r) ∈ idealMQ0 K
+    change algebraMap (R6 K ⧸ idealQ0 K) (RingBQ0 K) (Ideal.Quotient.mk _ r) ∈ idealMQ0 K
     rw [Ideal.Quotient.algebraMap_quotient_map_quotient]
     exact Ideal.mem_map_of_mem _ (Ideal.mem_map_of_mem _ hr)
   have hmax : ((idealM K).map (Ideal.Quotient.mk (idealQ0 K))).IsMaximal :=
@@ -217,7 +217,7 @@ theorem isRegularLocalRing_and_ringKrullDim_eq_three (Q : Ideal (RingB K)) [Q.Is
     algebraMapSubmonoid_primeCompl_quotient _ _ hQ0
   have : IsLocalization.AtPrime (Localization.AtPrime Q ⧸
       (ext K (idealQ0 K)).map (algebraMap (RingB K) (Localization.AtPrime Q))) Q' := by
-    show IsLocalization Q'.primeCompl _
+    change IsLocalization Q'.primeCompl _
     rw [← hsub]
     infer_instance
   refine ⟨IsRegularRing.isRegularLocalRing_of_isLocalization Q' _, ?_⟩
@@ -343,7 +343,7 @@ theorem exists_annihilatedPrime_primePpp :
     have hf : elemF K e ∈ 𝔮.comap ψ := hJ (Ideal.mem_sup_right (Ideal.mem_span_singleton_self _))
     rw [← Localization.AtPrime.map_eq_maximalIdeal]
     refine (Ideal.map_mono ?_).trans Ideal.map_comap_le
-    show (primeA K e (idealP K)).map π ≤ _
+    change (primeA K e (idealP K)).map π ≤ _
     rw [Ideal.map_le_iff_le_comap, Ideal.comap_comap]
     exact primeA_P_le K e _ hq0 hf
 

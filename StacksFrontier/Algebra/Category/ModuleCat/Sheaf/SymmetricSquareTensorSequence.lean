@@ -244,7 +244,7 @@ theorem _root_.SymPow.symMap_sqMul {S N P : Type*} [CommRing S] [AddCommGroup N]
   have hlin : SymPow.symMap (1 + 1) h ∘ₗ SymPow.sqMul LinearMap.id =
       SymPow.sqMul LinearMap.id ∘ₗ TensorProduct.map h h := by
     refine TensorProduct.ext' fun e e' => Subtype.ext ?_
-    show SymPow.symAlgMap h (SymmetricAlgebra.ι S N e * SymmetricAlgebra.ι S N e') =
+    change SymPow.symAlgMap h (SymmetricAlgebra.ι S N e * SymmetricAlgebra.ι S N e') =
       SymmetricAlgebra.ι S P (h e) * SymmetricAlgebra.ι S P (h e')
     rw [map_mul, SymPow.symAlgMap_ι, SymPow.symAlgMap_ι]
   exact DFunLike.congr_fun hlin u

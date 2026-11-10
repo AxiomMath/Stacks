@@ -378,7 +378,7 @@ theorem isLeftAdjoint_ι_iff_extensionProduct_rightOrthogonal_eq_top_and_isSatur
       have hT'' : T.rotate.rotate ∈ distTriang C :=
         rot_of_distTriang _ (rot_of_distTriang _ hT)
       have hzero : T.rotate.rotate.mor₃ = 0 := by
-        show -(T.mor₂⟦(1 : ℤ)⟧') = 0
+        change -(T.mor₂⟦(1 : ℤ)⟧') = 0
         rw [hv, Functor.map_zero, neg_zero]
       have := T.rotate.rotate.epi₂ hT'' hzero
       have := isSplitEpi_of_epi T.rotate.rotate.mor₂
@@ -448,7 +448,7 @@ private lemma leftOrthogonal_obj₁_of_bijective (hT : T ∈ distTriang C)
   obtain ⟨g', hg'⟩ := hbij.2 g
   refine (shiftFunctor C (1 : ℤ)).map_injective ?_
   rw [Functor.map_zero, hg, ← hg']
-  show (-(T.mor₁⟦(1 : ℤ)⟧')) ≫ T.mor₂⟦(1 : ℤ)⟧' ≫ g' = 0
+  change (-(T.mor₁⟦(1 : ℤ)⟧')) ≫ T.mor₂⟦(1 : ℤ)⟧' ≫ g' = 0
   rw [Preadditive.neg_comp, ← Functor.map_comp_assoc, comp_distTriang_mor_zero₁₂ T hT,
     Functor.map_zero, zero_comp, neg_zero]
 
@@ -462,7 +462,7 @@ private lemma isZero_obj₁_of_rightOrthogonal_obj₂ (hT : T ∈ distTriang C)
     (hT₃ : B T.obj₃) : IsZero T.obj₁ := by
   have hmor₁ : T.mor₁ = 0 := hT₂ T.mor₁ hT₁
   have : Epi T.mor₃ := T.rotate.epi₂ (rot_of_distTriang _ hT) (by
-    show -(T.mor₁⟦(1 : ℤ)⟧') = 0
+    change -(T.mor₁⟦(1 : ℤ)⟧') = 0
     rw [hmor₁, Functor.map_zero, neg_zero])
   have := isSplitEpi_of_epi T.mor₃
   have hsec : section_ T.mor₃ = 0 := B.leftOrthogonal.le_shift 1 _ hT₁ _ hT₃
@@ -1167,7 +1167,7 @@ theorem orthShift (B : D → Prop) (hB : ShiftInvariant B) (X : D)
   have hadj := (shiftEquiv D n).toAdjunction
   have heq := hadj.homEquiv X b
   have hbinv : B ((shiftEquiv D n).inverse.obj b) := by
-    show B ((shiftFunctor D (-n)).obj b)
+    change B ((shiftFunctor D (-n)).obj b)
     exact hB b hb (-n)
   have h1 : heq β = 0 := hX _ hbinv _
   have h0 : heq (0 : (shiftEquiv D n).functor.obj X ⟶ b) = 0 := hX _ hbinv _

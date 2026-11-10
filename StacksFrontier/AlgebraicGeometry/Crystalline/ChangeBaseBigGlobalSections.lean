@@ -239,7 +239,7 @@ theorem changeBaseSectionRingHom_comp_bigBaseRingHom :
     (changeBaseSectionRingHom S S' f g h).comp (SmallSite.bigBaseRingHom S') =
       (SmallSite.bigBaseRingHom S).comp (SmallSite.baseChangeRingHom f) := by
   refine RingHom.ext fun a => Subtype.ext (funext fun A => ?_)
-  show (Scheme.Γ.map (A.unop.toBase ≫ f).hom.op).hom a =
+  change (Scheme.Γ.map (A.unop.toBase ≫ f).hom.op).hom a =
     (Scheme.Γ.map A.unop.toBase.hom.op).hom ((Scheme.Γ.map f.hom.op).hom a)
   rw [DividedPowerScheme.Hom.comp_hom, op_comp, Functor.map_comp]
   rfl

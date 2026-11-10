@@ -64,14 +64,14 @@ private theorem injective_of_range_eq_of_injective
     intro x
     obtain ⟨y, hy⟩ := (show b x ∈ LinearMap.range a from h.symm ▸ LinearMap.mem_range_self b x)
     refine ⟨y, ?_⟩
-    show e.symm ⟨a y, _⟩ = x
+    change e.symm ⟨a y, _⟩ = x
     apply e.injective
     rw [e.apply_symm_apply]
     exact Subtype.ext hy
   have hi := OrzechProperty.injective_of_surjective_endomorphism t ht
   intro x y hxy
   apply hi
-  show e.symm ⟨a x, _⟩ = e.symm ⟨a y, _⟩
+  change e.symm ⟨a x, _⟩ = e.symm ⟨a y, _⟩
   congr 1
   exact Subtype.ext hxy
 
@@ -85,7 +85,7 @@ private theorem srcMono_mem_homogeneousSource (f : Fin c → R)
     unfold srcMono
     rw [TensorProduct.smul_tmul', TensorProduct.smul_tmul]
     congr 1
-    show Submodule.Quotient.mk m = Submodule.Quotient.mk (m • (1 : R))
+    change Submodule.Quotient.mk m = Submodule.Quotient.mk (m • (1 : R))
     simp
   rw [h]
   exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨e, rfl, rfl⟩)
@@ -96,7 +96,7 @@ private theorem homogeneousSource_fg (f : Fin c → R) (n : ℕ) :
   apply Set.Finite.image
   have h : {e : Fin c →₀ ℕ | qrMdeg e = n} = {e | e.degree = n} := by
     ext e
-    show (∑ i, e i) = n ↔ e.sum (fun _ k => k) = n
+    change (∑ i, e i) = n ↔ e.sum (fun _ k => k) = n
     rw [Finsupp.sum_fintype _ _ (fun _ => rfl)]
   rw [h]
   exact Finsupp.finite_of_degree_eq n
@@ -107,7 +107,7 @@ private theorem map_homogeneousSource (f : Fin c → R) (n : ℕ) :
   apply le_antisymm
   · rw [Submodule.map_le_iff_le_comap, homogeneousSource, Submodule.span_le]
     rintro _ ⟨e, he, rfl⟩
-    show quasiRegularCanonicalMap f (srcMono f e (1 : R)) ∈ tgtDeg f n
+    change quasiRegularCanonicalMap f (srcMono f e (1 : R)) ∈ tgtDeg f n
     rw [canonicalMap_srcMono, imgTargetLin_eq_degLift f e 1 n he
       (he ▸ fpow_smul_mem f e 1)]
     exact LinearMap.mem_range_self _ _
@@ -128,18 +128,18 @@ private theorem map_homogeneousSource (f : Fin c → R) (n : ℕ) :
         · exact he ▸ srcMono_mem_homogeneousSource f e m
         · exact (canonicalMap_srcMono f e m).trans (imgTargetLin_eq_degLift f e m n he h)
       · intro h
-        show degLift (M := R) f n 0 ∈ _
+        change degLift (M := R) f n 0 ∈ _
         rw [map_zero]
         exact Submodule.zero_mem _
       · intro a b ha hb iha ihb h
         have ham : a ∈ JpowM R f n := by rwa [JpowM_eq_span]
         have hbm : b ∈ JpowM R f n := by rwa [JpowM_eq_span]
-        show degLift f n (⟨a, ham⟩ + ⟨b, hbm⟩) ∈ _
+        change degLift f n (⟨a, ham⟩ + ⟨b, hbm⟩) ∈ _
         rw [map_add]
         exact Submodule.add_mem _ (iha ham) (ihb hbm)
       · intro r a ha iha h
         have ham : a ∈ JpowM R f n := by rwa [JpowM_eq_span]
-        show degLift f n (r • ⟨a, ham⟩) ∈ _
+        change degLift f n (r • ⟨a, ham⟩) ∈ _
         rw [map_smul]
         exact Submodule.smul_mem _ r (iha ham)
 
@@ -193,12 +193,12 @@ private theorem homogeneousSource_injective_of_eq_span (f g : Fin c → R)
       exact hg
     exact (haux I h.symm).comp Subtype.val_injective
   have hr : LinearMap.range a = LinearMap.range b := by
-    show LinearMap.range (_ ∘ₗ S.subtype) = LinearMap.range (_ ∘ₗ S.subtype)
+    change LinearMap.range (_ ∘ₗ S.subtype) = LinearMap.range (_ ∘ₗ S.subtype)
     simp only [LinearMap.range_comp, Submodule.range_subtype]
     exact (canonicalMapOverIdeal_range I f rfl n).trans
       (canonicalMapOverIdeal_range I g h.symm n).symm
   have : Module.Finite R S := Module.Finite.of_fg (homogeneousSource_fg f n)
-  show Function.Injective a
+  change Function.Injective a
   exact injective_of_range_eq_of_injective (R := R) (A := S) (B := targetOverIdeal I) a b hr hb
 
 private theorem canonicalMap_injective_of_eq_span (f g : Fin c → R)
@@ -338,7 +338,7 @@ private theorem koszul_d_map (φ : Module.Dual R E) (ψ : Module.Dual R F)
 private theorem koszul_d_smul (s : R) (φ : Module.Dual R E) (n : ℕ)
     (x : ⋀[R]^(n + 1) E) : Koszul.d (s • φ) n x = s • Koszul.d φ n x := by
   apply Subtype.ext
-  show (CliffordAlgebra.contractLeft (Q := (0 : QuadraticForm R E)) (s • φ))
+  change (CliffordAlgebra.contractLeft (Q := (0 : QuadraticForm R E)) (s • φ))
     (x : ExteriorAlgebra R E) = s • (CliffordAlgebra.contractLeft φ) (x : ExteriorAlgebra R E)
   rw [map_smul, LinearMap.smul_apply]
 
@@ -349,7 +349,7 @@ private theorem isZero_homology_iff (f : Fin c → R) (n : ℕ) :
   rw [← HomologicalComplex.exactAt_iff_isZero_homology,
     HomologicalComplex.exactAt_iff' _ (n + 2) (n + 1) n (by simp) (by simp),
     ShortComplex.moduleCat_exact_iff_ker_sub_range]
-  show LinearMap.ker ((Koszul.seqComplex f).d (n + 1) n).hom ≤
+  change LinearMap.ker ((Koszul.seqComplex f).d (n + 1) n).hom ≤
     LinearMap.range ((Koszul.seqComplex f).d (n + 2) (n + 1)).hom ↔ _
   simp only [Koszul.seqComplex_d, ModuleCat.hom_ofHom]
   rfl
@@ -370,7 +370,7 @@ private theorem smul_cycle_mem_range (f : Fin c → R) (a : R) (ha : a ∈ Jid f
   apply Subtype.ext
   have hz' : Koszul.contraction (Koszul.seqDual f) (z : ExteriorAlgebra R (Fin c → R)) = 0 :=
     congrArg Subtype.val hz
-  show Koszul.contraction (Koszul.seqDual f)
+  change Koszul.contraction (Koszul.seqDual f)
       (ExteriorAlgebra.ι R v * (z : ExteriorAlgebra R (Fin c → R))) =
     a • (z : ExteriorAlgebra R (Fin c → R))
   rw [CliffordAlgebra.contractLeft_ι_mul, hz', mul_zero, sub_zero, hv']
@@ -398,7 +398,7 @@ private theorem homology_isZero_of_change_matrix
     rw [← Matrix.toLin'_mul, Matrix.adjugate_mul, map_smul, Matrix.toLin'_one]
   have hB : (Koszul.seqDual f).comp b = s • Koszul.seqDual g := by
     rw [← hA, LinearMap.comp_assoc]
-    show (Koszul.seqDual g).comp (a.comp b) = _
+    change (Koszul.seqDual g).comp (a.comp b) = _
     rw [hab, LinearMap.comp_smul, LinearMap.comp_id]
   apply (isZero_homology_iff f n).2
   intro z hz

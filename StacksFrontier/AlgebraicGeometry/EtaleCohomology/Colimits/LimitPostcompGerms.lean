@@ -752,7 +752,7 @@ theorem wholeSections_colimit_of_qcqs [CompactSpace (lvl D c B hD hX hc (bottom 
 omit [OrderBot I] [∀ {i j : Iᵒᵖ} (a : i ⟶ j), Etale (D.map a)] in
 /-- The scheme at the level `Lv i` is `X_i`. -/
 theorem lvl_Lv (i : I) : lvl D c B hD hX hc (Lv D c B hD hX hc i) = D.obj (op i) := by
-  show D.obj (op i) = D.obj (op i)
+  change D.obj (op i) = D.obj (op i)
   rfl
 
 omit [OrderBot I] [∀ {i j : Iᵒᵖ} (a : i ⟶ j), Etale (D.map a)] in
@@ -760,14 +760,14 @@ omit [OrderBot I] [∀ {i j : Iᵒᵖ} (a : i ⟶ j), Etale (D.map a)] in
 theorem lvlMap_arr {i j : I} (d : i ≤ j) :
     lvlMap D c B hD hX hc (arr D c B hD hX hc d) =
       eqToHom (lvl_Lv j) ≫ D.map (homOfLE d).op ≫ eqToHom (lvl_Lv i).symm := by
-  show D.map (homOfLE d).op = 𝟙 _ ≫ D.map (homOfLE d).op ≫ 𝟙 _
+  change D.map (homOfLE d).op = 𝟙 _ ≫ D.map (homOfLE d).op ≫ 𝟙 _
   simp
 
 omit [OrderBot I] [∀ {i j : Iᵒᵖ} (a : i ⟶ j), Etale (D.map a)] in
 /-- The projection of the system to the level `Lv i` is the limit projection `X ⟶ X_i`. -/
 theorem lvlπ_Lv (i : I) :
     lvlπ D c B hD hX hc (Lv D c B hD hX hc i) = c.π.app (op i) ≫ eqToHom (lvl_Lv i).symm := by
-  show c.π.app (op i) = c.π.app (op i) ≫ 𝟙 _
+  change c.π.app (op i) = c.π.app (op i) ≫ 𝟙 _
   simp
 
 omit [∀ {i j : Iᵒᵖ} (a : i ⟶ j), Etale (D.map a)] in
@@ -775,7 +775,7 @@ omit [∀ {i j : Iᵒᵖ} (a : i ⟶ j), Etale (D.map a)] in
 theorem toBottom_Lv (i : I) :
     toBottom D c B hD hX hc (Lv D c B hD hX hc i) ≫ eqToHom (lvl_bottom D c B hD hX hc) =
       eqToHom (lvl_Lv i) ≫ D.map (homOfLE (bot_le : ⊥ ≤ i)).op := by
-  show D.map (homOfLE (bot_le : ⊥ ≤ i)).op ≫ 𝟙 _ = 𝟙 _ ≫ D.map (homOfLE (bot_le : ⊥ ≤ i)).op
+  change D.map (homOfLE (bot_le : ⊥ ≤ i)).op ≫ 𝟙 _ = 𝟙 _ ≫ D.map (homOfLE (bot_le : ⊥ ≤ i)).op
   simp
 
 omit [∀ {i j : Iᵒᵖ} (a : i ⟶ j), Etale (D.map a)] in
@@ -783,7 +783,7 @@ omit [∀ {i j : Iᵒᵖ} (a : i ⟶ j), Etale (D.map a)] in
 theorem lvlπ_bottom :
     lvlπ D c B hD hX hc (bottom D c B hD hX hc) ≫ eqToHom (lvl_bottom D c B hD hX hc) =
       c.π.app (op ⊥) := by
-  show c.π.app (op ⊥) ≫ 𝟙 _ = c.π.app (op ⊥)
+  change c.π.app (op ⊥) ≫ 𝟙 _ = c.π.app (op ⊥)
   simp
 
 end Stacks.EtaleCohomology.LimitSiteBridge

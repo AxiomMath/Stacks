@@ -173,10 +173,10 @@ theorem det_piEnd {ι : Type v} [Fintype ι] (M : ι → Type w) [∀ i, AddComm
       apply LinearMap.ext
       intro x
       apply E.symm.injective
-      show E.symm (E (piEnd (fun a => M (e a)) φ' x)) = E.symm (piEnd M φ (E x))
+      change E.symm (E (piEnd (fun a => M (e a)) φ' x)) = E.symm (piEnd M φ (E x))
       rw [LinearEquiv.symm_apply_apply]
       funext a
-      show φ' a (x a) = φ (e a) ((Equiv.piCongrLeft M e) x (e a))
+      change φ' a (x a) = φ (e a) ((Equiv.piCongrLeft M e) x (e a))
       rw [Equiv.piCongrLeft_apply_apply]
     have hdet := det_congr_linearEquiv (isFiniteLength_pi _ hM')
       (isFiniteLength_pi M hM) _ _ E hcomm
@@ -302,7 +302,7 @@ theorem map_norm_pow_length_eq_prod_norm_pow_length_support
         Ideal.Quotient.mk_surjective⟩
   let toSupport : MaximalSpectrum Q → tensorSupport A S π := fun p =>
     ⟨q p, (hIle (q p)).mp fun x hx => by
-      show Ideal.Quotient.mk I x ∈ p.asIdeal
+      change Ideal.Quotient.mk I x ∈ p.asIdeal
       rw [Ideal.Quotient.eq_zero_iff_mem.mpr hx]
       exact p.asIdeal.zero_mem⟩
   let Rq (p : MaximalSpectrum Q) :=
@@ -312,7 +312,7 @@ theorem map_norm_pow_length_eq_prod_norm_pow_length_support
       I.map (algebraMap T (Localization.AtPrime (q p).asIdeal)) =
         Ideal.span {(algebraMap T (Localization.AtPrime (q p).asIdeal)
           (Algebra.TensorProduct.includeRight π))} := by
-    show (Ideal.map (algebraMap T (Localization.AtPrime (q p).asIdeal))
+    change (Ideal.map (algebraMap T (Localization.AtPrime (q p).asIdeal))
       (Ideal.map (Algebra.TensorProduct.includeRight (A := S)) (Ideal.span {π}))) = _
     rw [Ideal.map_span, Ideal.map_span]
     simp
@@ -330,7 +330,7 @@ theorem map_norm_pow_length_eq_prod_norm_pow_length_support
       { toRingHom := algebraMap Q (∀ p : MaximalSpectrum Q, Rq p)
         commutes' := fun s => by
           ext p
-          show algebraMap Q (Rq p) (algebraMap S Q s) = algebraMap S (Rq p) s
+          change algebraMap Q (Rq p) (algebraMap S Q s) = algebraMap S (Rq p) s
           exact (congrArg (fun f : S →+* Rq p => f s)
             (IsScalarTower.algebraMap_eq S Q (Rq p))).symm } hbij
   have hRqS (p : MaximalSpectrum Q) : IsFiniteLength S (Rq p) := by
@@ -385,7 +385,7 @@ theorem map_norm_pow_length_eq_prod_norm_pow_length_support
     apply LinearMap.ext
     intro x
     funext p
-    show algebraMap Q (Rq p) (z * x) =
+    change algebraMap Q (Rq p) (z * x) =
       algebraMap (Localization.AtPrime (q p).asIdeal) (Rq p)
         (algebraMap T (Localization.AtPrime (q p).asIdeal)
           (Algebra.TensorProduct.includeRight u)) * algebraMap Q (Rq p) x
@@ -402,13 +402,12 @@ theorem map_norm_pow_length_eq_prod_norm_pow_length_support
       ψQ.comp eQ.toLinearMap := by
     apply LinearMap.ext
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp only [LinearMap.map_add, hx, hy]
     | tmul s n =>
       obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective n
       simp only [LinearMap.comp_apply, LinearMap.baseChange_tmul]
-      show eQ (s ⊗ₜ[A] (Ideal.Quotient.mk (Ideal.span {π}) u *
+      change eQ (s ⊗ₜ[A] (Ideal.Quotient.mk (Ideal.span {π}) u *
           Ideal.Quotient.mk (Ideal.span {π}) b)) =
         z * eQ (s ⊗ₜ[A] Ideal.Quotient.mk (Ideal.span {π}) b)
       have hfactor : s ⊗ₜ[A]
@@ -417,7 +416,7 @@ theorem map_norm_pow_length_eq_prod_norm_pow_length_support
             (s ⊗ₜ[A] Ideal.Quotient.mk (Ideal.span {π}) b) := by
         simp [Algebra.TensorProduct.tmul_mul_tmul]
       have hz : eQ (1 ⊗ₜ[A] Ideal.Quotient.mk (Ideal.span {π}) u) = z := by
-        show Algebra.TensorProduct.tensorQuotientEquiv S B S (Ideal.span {π})
+        change Algebra.TensorProduct.tensorQuotientEquiv S B S (Ideal.span {π})
             (1 ⊗ₜ[A] Ideal.Quotient.mk (Ideal.span {π}) u) =
           Ideal.Quotient.mk (Ideal.map (Algebra.TensorProduct.includeRight (A := S))
             (Ideal.span {π})) (Algebra.TensorProduct.includeRight u)
@@ -446,7 +445,7 @@ theorem map_norm_pow_length_eq_prod_norm_pow_length_support
         Ideal.IsMaximal.map_of_surjective_of_ker_le Ideal.Quotient.mk_surjective (by
           rwa [Ideal.mk_ker])
       refine ⟨⟨JQ, hJQ⟩, Subtype.ext (MaximalSpectrum.ext ?_)⟩
-      show JQ.comap (Ideal.Quotient.mk I) = r.1.asIdeal
+      change JQ.comap (Ideal.Quotient.mk I) = r.1.asIdeal
       dsimp only [JQ]
       rwa [Ideal.comap_map_of_surjective _ Ideal.Quotient.mk_surjective,
         ← RingHom.ker_eq_comap_bot, Ideal.mk_ker, sup_eq_left]

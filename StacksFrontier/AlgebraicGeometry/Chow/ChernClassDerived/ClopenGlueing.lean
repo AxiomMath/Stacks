@@ -132,7 +132,7 @@ theorem isZero_restriction_pushforward_of_disjoint {U V : Y.Opens} (h : Disjoint
       ((ψ[V]).obj M)) := by
   refine (IsZero.iff_id_eq_zero _).2 ?_
   ext W s
-  show s = 0
+  change s = 0
   refine (show TopCat.Presheaf.IsSheaf M.val.presheaf from M.isSheaf).section_ext
     (s := s) (t := 0) ?_
   intro x hx

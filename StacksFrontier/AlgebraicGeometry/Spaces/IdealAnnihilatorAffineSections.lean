@@ -141,7 +141,7 @@ theorem mem_annihilatorSubmodule_obj_of_isAffine
       refine (map_smulₛₗ (G.val.restrictₛₗ (p j).op) b _).trans ?_
       refine Eq.trans ?_ haff
       exact congrArg _ (G.val.map_comp_apply g (p j).op s).symm
-    show G.val.map (k' ≫ p j).op _ = G.val.map (k' ≫ p j).op 0
+    change G.val.map (k' ≫ p j).op _ = G.val.map (k' ≫ p j).op 0
     rw [map_zero]
     exact (G.val.map_comp_apply (p j).op k'.op _).trans
       ((congrArg (G.val.map k'.op).hom hYj).trans (map_zero _))

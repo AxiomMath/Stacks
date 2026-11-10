@@ -119,7 +119,7 @@ theorem etalePullback_isEquivalence_of_universalHomeomorphism_of_essSurj
     ⟨fun pb hg ↦ MorphismProperty.IsStableUnderBaseChange.of_isPullback pb hg⟩
   let F : Y.Etale ⥤ X.Etale :=
     MorphismProperty.Over.pullback (@Etale : MorphismProperty Scheme.{u}) ⊤ f
-  show F.IsEquivalence
+  change F.IsEquivalence
   let : F.Full := etalePullback_full_of_universalHomeomorphism f
   let : F.Faithful := etalePullback_faithful_of_universalHomeomorphism f
   let : F.EssSurj := hsurj
@@ -150,7 +150,7 @@ theorem essSurj_etalePullback_of_forall_exists_pullback_iso (f : X ⟶ Y)
     ⟨fun pb hg ↦ MorphismProperty.IsStableUnderBaseChange.of_isPullback pb hg⟩
   let F : Y.Etale ⥤ X.Etale :=
     MorphismProperty.Over.pullback (@Etale : MorphismProperty Scheme.{u}) ⊤ f
-  show F.EssSurj
+  change F.EssSurj
   refine ⟨fun A => ?_⟩
   obtain ⟨V, q, hq, e, he⟩ := hex A.left A.hom A.prop
   refine ⟨MorphismProperty.Over.mk ⊤ q hq, ⟨?_⟩⟩

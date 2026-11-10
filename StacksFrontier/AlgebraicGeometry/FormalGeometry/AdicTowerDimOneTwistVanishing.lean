@@ -63,7 +63,7 @@ theorem epi_freeHomEquiv_symm_of_mem_span {X : Scheme.{u}} (F : X.Modules) {ι :
   rw [Stacks.AlgebraicGeometry.FlatBaseChange.generates_iff_span_germTop_eq_top]
   intro x
   refine eq_top_iff.mpr fun y _ => ?_
-  obtain ⟨V, hxV, m, rfl⟩ := TopCat.Presheaf.germ_exist F.val.presheaf y
+  obtain ⟨V, hxV, m, rfl⟩ := TopCat.Presheaf.exists_germ_eq F.val.presheaf y
   obtain ⟨_, ⟨W, hW, rfl⟩, hxW, hWV⟩ :=
     X.isBasis_affineOpens.exists_subset_of_mem_open hxV V.2
   rw [← TopCat.Presheaf.germ_res_apply F.val.presheaf (homOfLE hWV) x hxW m]
@@ -77,7 +77,7 @@ theorem epi_freeHomEquiv_symm_of_mem_span {X : Scheme.{u}} (F : X.Modules) {ι :
     | mem z hz =>
       obtain ⟨i, rfl⟩ := hz
       refine Submodule.subset_span ⟨i, ?_⟩
-      show (TopCat.Presheaf.germ F.val.presheaf ⊤ x trivial) ((s i).eval (op ⊤)) = _
+      change (TopCat.Presheaf.germ F.val.presheaf ⊤ x trivial) ((s i).eval (op ⊤)) = _
       rw [← TopCat.Presheaf.germ_res_apply F.val.presheaf (homOfLE le_top) x hxW]
       congr 1
       exact (s i).2 (homOfLE (le_top : W ≤ ⊤)).op
@@ -170,7 +170,7 @@ theorem idealInclusionApp_idealGeneratorSections [IsNoetherianRing A] (n : ℕ)
   refine (PresheafOfModules.naturality_apply
     (kernel.ι (SheafOfModules.unitToPushforwardObjUnit (t n).toRingCatSheafHom)).val
     (homOfLE (le_top : U ≤ ⊤)).op _).trans ?_
-  show (Xn (n + 1)).presheaf.map _ (idealInclusionApp t n ⊤ _) = _
+  change (Xn (n + 1)).presheaf.map _ (idealInclusionApp t n ⊤ _) = _
   rw [(exists_idealSection q t hcart n g).choose_spec]
   rfl
 

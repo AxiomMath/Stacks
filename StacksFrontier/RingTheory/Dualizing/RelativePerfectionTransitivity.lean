@@ -108,7 +108,7 @@ theorem isIso_alphaF_of_kFlat_restrictScalars {A B : Type u} [CommRing A] [CommR
     (W := HomologicalComplex.quasiIso (ModuleCat.{u} A) (ComplexShape.up ℤ)) ?_
   intro X Y g hg
   have hgq : QuasiIso g := hg
-  show IsIso (DerivedCategory.Q.map (T.directTensor.map g))
+  change IsIso (DerivedCategory.Q.map (T.directTensor.map g))
   rw [DerivedCategory.isIso_Q_map_iff_quasiIso]
   rw [← quasiIso_restrictScalarsLarge_map_iff.{u, u, u} f (T.directTensor.map g)]
   have hsq := T.directTensorUnderlying.hom.naturality g
@@ -142,14 +142,14 @@ private def coprodIsoOfIsZero (F : ι → ModuleCat.{u} B) [HasCoproduct F]
       inv_hom_id := ?_ }
   · apply Sigma.hom_ext
     intro j
-    simp only [Sigma.ι_desc_assoc, Sigma.ι_desc, Category.comp_id]
-    rw [dif_pos j.2]
+    simp only [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc, Category.comp_id]
+    rw [dite_eq_left j.2]
   · apply Sigma.hom_ext
     intro j
-    simp only [Sigma.ι_desc_assoc, Category.comp_id]
+    simp only [Sigma.ι_comp_desc_assoc, Category.comp_id]
     by_cases h : j ∈ s
-    · rw [dif_pos h, Sigma.ι_desc]
-    · rw [dif_neg h]
+    · rw [dite_eq_left h, Sigma.ι_comp_desc]
+    · rw [dite_eq_right h]
       exact (hs j h).eq_of_src _ _
 
 /-- A coproduct of finitely presented modules all but finitely many of which vanish is finitely
@@ -186,7 +186,7 @@ private lemma tensorLeftLarge_finitePresentation {B : Type u} [CommRing B]
   let F : {pq : ℤ × ℤ // pq.1 + pq.2 = i} → ModuleCat.{u} B :=
     fun pq => E.X pq.1.1 ⊗ X.X pq.1.2
   have hF : ∀ j, Module.FinitePresentation B (F j) := fun j => hEX j.1.1 j.1.2
-  show Module.FinitePresentation B (∐ F : ModuleCat.{u} B)
+  change Module.FinitePresentation B (∐ F : ModuleCat.{u} B)
   let s : Finset {pq : ℤ × ℤ // pq.1 + pq.2 = i} :=
     (Finset.Icc (i - b) a).map
       ⟨fun p => ⟨(p, i - p), by omega⟩, fun p q h => by exact congrArg (fun z => z.1.1) h⟩

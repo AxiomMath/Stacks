@@ -61,7 +61,7 @@ private lemma isCoprime_X_pow_X_sub_one_pow {R : Type*} [CommRing R] (d : ℕ) :
 private lemma idempotent_of_bezout_of_mul_eq_zero {R : Type*} [CommRing R]
     (G H K L : R) (hzero : G * H = 0) (hbez : K * G + L * H = 1) :
     IsIdempotentElem (G * K) := by
-  show (G * K) * (G * K) = G * K
+  change (G * K) * (G * K) = G * K
   linear_combination (G * K) * hbez - K * L * hzero
 
 private lemma eq_mul_of_bezout {R : Type*} [CommRing R] (e G H K L : R)
@@ -123,12 +123,12 @@ theorem exists_etale_baseChange_idempotent_lift
   let K : T := (k.map ρ).eval z
   let L : T := (l.map ρ).eval z
   have hGH : G * H = 0 := by
-    show (g.map ρ).eval z * (h.map ρ).eval z = 0
+    change (g.map ρ).eval z * (h.map ρ).eval z = 0
     rw [← Polynomial.eval_mul, ← Polynomial.map_mul, ← hfac, Polynomial.map_map]
     have hscalar : ρ.comp (algebraMap A A') = ι.comp (algebraMap A B) := RingHom.ext hρι
     rw [hscalar, ← Polynomial.map_map, Polynomial.eval_map, Polynomial.eval₂_at_apply,
       Polynomial.eval_map, ← Polynomial.aeval_def]
-    show ι ((aeval b) f) = 0
+    change ι ((aeval b) f) = 0
     rw [hfb, map_zero]
   have hKL : K * G + L * H = 1 := by
     simpa only [Polynomial.map_add, Polynomial.map_mul, Polynomial.map_one, Polynomial.eval_add,
@@ -141,13 +141,13 @@ theorem exists_etale_baseChange_idempotent_lift
   let qT : T →+* T ⧸ J := Ideal.Quotient.mk J
   have hker : I.map (algebraMap A A') ≤ RingHom.ker (qT.comp ρ) :=
     Ideal.map_le_iff_le_comap.mpr fun a ha => Ideal.Quotient.eq_zero_iff_mem.mpr <| by
-      show ρ (algebraMap A A' a) ∈ J
+      change ρ (algebraMap A A' a) ∈ J
       rw [hρι a]
       exact Ideal.mem_map_of_mem ι (Ideal.mem_map_of_mem (algebraMap A B) ha)
   let s : A' ⧸ I.map (algebraMap A A') →+* T ⧸ J :=
     Ideal.Quotient.lift _ (qT.comp ρ) hker
   have hGbar : qT G = qB (Ideal.Quotient.mk _ b) := by
-    show qT ((g.map ρ).eval z) = _
+    change qT ((g.map ρ).eval z) = _
     rw [map_eval_map, Polynomial.map_map]
     have hρ : qT.comp ρ = s.comp (Ideal.Quotient.mk _) := by ext; rfl
     rw [hρ, ← Polynomial.map_map, ← hgbar]
@@ -158,7 +158,7 @@ theorem exists_etale_baseChange_idempotent_lift
     rw [← hGbar, ← map_mul, mul_comm H G, hGH, map_zero]
   have hKLG : qT K * qT G + qT L * qT H = 1 := by
     simpa only [map_add, map_mul, map_one] using congrArg qT hKL
-  show qB (Ideal.Quotient.mk _ b) = qT (G * K)
+  change qB (Ideal.Quotient.mk _ b) = qT (G * K)
   rw [map_mul]
   exact eq_mul_of_bezout _ _ _ _ _ (he.map qB) hGbar hHbar_mul_e hKLG
 
@@ -200,7 +200,7 @@ private theorem exists_isIdempotentElem_matrix_of_finiteProjective
     rw [he_def, LinearMap.comp_assoc, ← LinearMap.comp_assoc f i f, hi, LinearMap.id_comp]
   have hsymm : Matrix.toLin' (Matrix.toLin'.symm e) = e := LinearEquiv.apply_symm_apply _ _
   refine ⟨n, Matrix.toLin'.symm e, ?_, ?_⟩
-  · show Matrix.toLin'.symm e * Matrix.toLin'.symm e = Matrix.toLin'.symm e
+  · change Matrix.toLin'.symm e * Matrix.toLin'.symm e = Matrix.toLin'.symm e
     apply Matrix.toLin'.injective
     rw [Matrix.toLin'_mul, hsymm, he_idem]
   · rw [hsymm, he_def]
@@ -221,7 +221,7 @@ private theorem Module.Projective_range_toLin'_of_isIdempotentElem
     (he : IsIdempotentElem e) :
     Module.Projective R (LinearMap.range (Matrix.toLin' e)) := by
   have hf : IsIdempotentElem (Matrix.toLin' e) := by
-    show Matrix.toLin' e * Matrix.toLin' e = Matrix.toLin' e
+    change Matrix.toLin' e * Matrix.toLin' e = Matrix.toLin' e
     rw [show Matrix.toLin' e * Matrix.toLin' e = Matrix.toLin' e ∘ₗ Matrix.toLin' e from rfl,
         ← Matrix.toLin'_mul, he]
   have hproj := LinearMap.IsIdempotentElem.isProj_range (Matrix.toLin' e) hf
@@ -263,7 +263,7 @@ private theorem quotient_range_toLin'_equiv_of_map
     intro v
     ext i
     rw [hred_apply, ← hpe]
-    show Ideal.Quotient.mk I ((Matrix.toLin' e) v i)
+    change Ideal.Quotient.mk I ((Matrix.toLin' e) v i)
       = (Matrix.toLin' (e.map (Ideal.Quotient.mk I))) (red v) i
     rw [Matrix.toLin'_apply, Matrix.toLin'_apply,
         Matrix.mulVec, Matrix.mulVec, dotProduct, dotProduct, map_sum]
@@ -289,10 +289,10 @@ private theorem quotient_range_toLin'_equiv_of_map
     rw [LinearMap.mem_ker, map_smul]
     apply Subtype.ext
     rw [Submodule.coe_smul_of_tower]
-    show r • (φ x : Fin n → R ⧸ I) = (0 : LinearMap.range (Matrix.toLin' pbar))
+    change r • (φ x : Fin n → R ⧸ I) = (0 : LinearMap.range (Matrix.toLin' pbar))
     ext i
     rw [hφ_apply]
-    show (r • red (x : Fin n → R)) i = 0
+    change (r • red (x : Fin n → R)) i = 0
     rw [Pi.smul_apply, hred_apply, hmk_smul]
     rw [Ideal.Quotient.eq_zero_iff_mem]
     exact Ideal.mul_mem_right _ _ hr
@@ -313,7 +313,7 @@ private theorem quotient_range_toLin'_equiv_of_map
     rw [hlift_mk]
     apply Subtype.ext
     rw [hφ_apply]
-    show red (Matrix.toLin' e v) = Matrix.toLin' pbar w
+    change red (Matrix.toLin' e v) = Matrix.toLin' pbar w
     rw [hcomm, hredv]
   -- injectivity
   -- key: ker φ ≤ I • ⊤
@@ -411,9 +411,9 @@ private theorem etale_lift_matrix
   let b : B := ⟨φ, Algebra.subset_adjoin rfl⟩
   let ι : B →ₐ[A] Matrix (Fin n) (Fin n) A := B.val
   have hred : (ι (b - b ^ 2)).map (Ideal.Quotient.mk I) = 0 := by
-    show ((Ideal.Quotient.mk I).mapMatrix) (φ - φ ^ 2) = 0
+    change ((Ideal.Quotient.mk I).mapMatrix) (φ - φ ^ 2) = 0
     rw [map_sub, map_pow]
-    show φ.map (Ideal.Quotient.mk I) - (φ.map (Ideal.Quotient.mk I)) ^ 2 = 0
+    change φ.map (Ideal.Quotient.mk I) - (φ.map (Ideal.Quotient.mk I)) ^ 2 = 0
     rw [hφ, pow_two, hpbar.eq, sub_self]
   let J : Ideal B := I.map (algebraMap A B)
   let qb : B →+* B ⧸ J := Ideal.Quotient.mk J
@@ -453,8 +453,8 @@ private theorem etale_lift_matrix
   have hkill : JT ≤ RingHom.ker redT := by
     rw [hJTeq, Ideal.map_le_iff_le_comap]
     intro a ha
-    show redT (algebraMap A T a) = 0
-    show ((Ideal.Quotient.mk JA').mapMatrix) (ψ (algebraMap A T a)) = 0
+    change redT (algebraMap A T a) = 0
+    change ((Ideal.Quotient.mk JA').mapMatrix) (ψ (algebraMap A T a)) = 0
     rw [AlgHom.commutes]
     -- scalar matrices of elements of I reduce to zero.
     ext i j
@@ -471,12 +471,12 @@ private theorem etale_lift_matrix
     Ideal.quotientMap JA' (algebraMap A A') Ideal.le_comap_map
   have hbase : redQ (qT (qb b)) = pbar.map qA := by
     have hψ : ψ (ιT b) = φ.map (algebraMap A A') := by
-      show ψ' ((Algebra.TensorProduct.comm A B A') (b ⊗ₜ (1 : A'))) = _
+      change ψ' ((Algebra.TensorProduct.comm A B A') (b ⊗ₜ (1 : A'))) = _
       rw [Algebra.TensorProduct.comm_tmul, show ψ' (1 ⊗ₜ[A] b) = (1 : A') • incA' b from
         AlgHom.liftEquiv_tmul incA' 1 b, one_smul]
       rfl
-    show redT (ιT b) = pbar.map qA
-    show (ψ (ιT b)).map (Ideal.Quotient.mk JA') = pbar.map qA
+    change redT (ιT b) = pbar.map qA
+    change (ψ (ιT b)).map (Ideal.Quotient.mk JA') = pbar.map qA
     rw [hψ, ← hφ]
     ext i j
     simp [qA, Matrix.map_apply]
@@ -492,7 +492,7 @@ private theorem etale_lift_matrix
     exact hcorr
   have hmap_e : e.map (Ideal.Quotient.mk JA') = pbar.map
       (Ideal.quotientMap JA' (algebraMap A A') Ideal.le_comap_map) := by
-    show redT e' = pbar.map qA
+    change redT e' = pbar.map qA
     calc
       redT e' = redQ (Ideal.Quotient.mk JT e') := rfl
       _ = redQ (qT eb) := congrArg redQ heq'.symm

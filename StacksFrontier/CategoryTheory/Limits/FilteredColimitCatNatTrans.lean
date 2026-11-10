@@ -37,7 +37,7 @@ universe u v w uD vD
 
 section Stages
 
-variable {I : Type v} [Category.{w} I] [IsFiltered I]
+variable {I : Type v} [Category.{w} I]
   {X : I ⥤ Cat.{max u v w, max u v w}} [HasColimit X]
   [HasColimit (X ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})]
   {D : Type uD} [Category.{vD} D] {F G : ↑(colimit X) ⥤ D}

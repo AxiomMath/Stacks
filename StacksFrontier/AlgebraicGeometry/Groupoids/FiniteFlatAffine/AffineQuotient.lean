@@ -89,10 +89,10 @@ private theorem finite_maximalSpectrum_of_orbit {A B : Type u} [CommRing A] [Com
       simpa only [PrimeSpectrum.comap_asIdeal, MaximalSpectrum.toPrimeSpectrum] using
         congrArg PrimeSpectrum.asIdeal q.2
     have _ : q.1.asIdeal.IsMaximal := by
-      refine Ideal.isMaximal_of_isIntegral_of_isMaximal_comap' t htint q.1.asIdeal ?_
+      refine Ideal.isMaximal_of_isIntegral_of_isMaximal_comap t htint q.1.asIdeal ?_
       rw [hqt]
       exact p₀.isMaximal
-    exact Ideal.isMaximal_comap_of_isIntegral_of_isMaximal' s hsint q.1.asIdeal
+    exact Ideal.isMaximal_comap_of_isIntegral_of_isMaximal s hsint q.1.asIdeal
   · intro p
     obtain ⟨q, hqt, hqs⟩ := horbit p
     exact ⟨⟨q, hqt⟩, MaximalSpectrum.ext (congrArg PrimeSpectrum.asIdeal hqs)⟩
@@ -126,8 +126,7 @@ private theorem span_range_eq_top_of_lift_surjective {C A B : Type u} [CommRing 
   let _ : Algebra A B := f.toRingHom.toAlgebra
   have hmem (x : A ⊗[C] A) : Algebra.TensorProduct.lift f g (fun _ _ ↦ Commute.all _ _) x ∈
       Submodule.span A (Set.range g) := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy =>
         rw [map_add]
         exact Submodule.add_mem _ hx hy
@@ -135,7 +134,7 @@ private theorem span_range_eq_top_of_lift_surjective {C A B : Type u} [CommRing 
         rw [Algebra.TensorProduct.lift_tmul]
         have hg : g a' ∈ Submodule.span A (Set.range g) :=
           Submodule.subset_span (Set.mem_range_self a')
-        show algebraMap A B a * g a' ∈ Submodule.span A (Set.range g)
+        change algebraMap A B a * g a' ∈ Submodule.span A (Set.range g)
         simpa [Algebra.smul_def] using Submodule.smul_mem _ a hg
   refine top_unique fun b _ ↦ ?_
   obtain ⟨x, rfl⟩ := hfg b
@@ -283,7 +282,7 @@ private theorem objectsToInvariantSpectrum_base_eq_of_maximal {S : Scheme.{u}}
       Ideal.comap (invariantRing G).subtype p.asIdeal =
         IsLocalRing.maximalIdeal (invariantRing G) := by
     let _ : p.asIdeal.IsMaximal := p.isMaximal
-    exact IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal' _
+    exact IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal _
       (isIntegral_invariantRing G) p.asIdeal)
   have he (p : PrimeSpectrum Γ(G.objects.left, ⊤)) :
       G.objects.left.isoSpec.hom.base (G.objects.left.isoSpec.inv.base p) = p :=
@@ -325,7 +324,7 @@ private theorem exists_basis_tensorEquiv_of_local_invariants {S : Scheme.{u}}
       refine ⟨G.source.left.finrank (G.objects.left.isoSpec.inv.base P₀.toPrimeSpectrum),
         fun P ↦ ?_⟩
       rw [finrank_quotient_tensor_eq_rankAtStalk]
-      show G.source.left.appTop.hom.finrank P.toPrimeSpectrum = _
+      change G.source.left.appTop.hom.finrank P.toPrimeSpectrum = _
       refine (finrank_appTop G.source.left P.toPrimeSpectrum).trans ?_
       obtain ⟨a, ht, hs⟩ := (base_objectsToInvariantSpectrum_eq_iff G
         (G.objects.left.isoSpec.inv.base P.toPrimeSpectrum)
@@ -344,7 +343,7 @@ private theorem exists_basis_tensorEquiv_of_local_invariants {S : Scheme.{u}}
       Submodule (invariantRing G) Γ(G.arrows.left, ⊤)) : Set Γ(G.arrows.left, ⊤)) =
       Set.range (targetMap G) := by
     ext b
-    show (∃ y, targetAlgHom G y = b) ↔ ∃ y, targetMap G y = b
+    change (∃ y, targetAlgHom G y = b) ↔ ∃ y, targetMap G y = b
     rfl
   obtain ⟨n, b, hb⟩ := contains_sBasis_of_generates (R := invariantRing G)
     (S := Γ(G.objects.left, ⊤)) (M := Γ(G.arrows.left, ⊤))
@@ -384,10 +383,10 @@ private theorem isPullback_objectsToInvariantSpectrum_of_tensorEquiv {S : Scheme
       Γ(G.objects.left, ⊤)).of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) e.toCommRingCatIso
       rfl rfl (CommRingCat.hom_ext ?_) (CommRingCat.hom_ext ?_)
     · ext a
-      show e (a ⊗ₜ[invariantRing G] 1) = sourceMap G a
+      change e (a ⊗ₜ[invariantRing G] 1) = sourceMap G a
       rw [he, map_one, mul_one]
     · ext a
-      show e (1 ⊗ₜ[invariantRing G] a) = targetMap G a
+      change e (1 ⊗ₜ[invariantRing G] a) = targetMap G a
       rw [he, map_one, one_mul]
   refine IsPullback.flip ?_
   refine (isPullback_SpecMap_of_isPushout _ _ _ _ hpush).of_iso' G.arrows.left.isoSpec
@@ -452,7 +451,7 @@ private theorem objectsToInvariantSpectrum_comp_specMap_canonicalMap {S : Scheme
         Spec.map (CommRingCat.ofHom H.canonicalMapToInvariantFunctions) =
       H.groupoid.objects.hom := by
   rw [objectsToInvariantSpectrum, Category.assoc, ← Spec.map_comp]
-  show H.groupoid.objects.left.toSpecΓ ≫
+  change H.groupoid.objects.left.toSpecΓ ≫
     Spec.map ((Scheme.ΓSpecIso (.of C')).inv ≫ H.groupoid.objects.hom.appTop) = _
   rw [Spec.map_comp, ← Scheme.toSpecΓ_naturality_assoc]
   simp
@@ -482,7 +481,7 @@ private theorem baseChange_finiteLocallyFree_and_isPullback {S : Scheme.{u}}
     Infinite.of_injective (IsLocalRing.ResidueField.map e.toRingHom) (RingHom.injective _)
   obtain ⟨hf, hp⟩ := finiteLocallyFree_and_isPullback_of_local_invariants H.groupoid
   let _ : IsIso (Spec.map (CommRingCat.ofHom H.canonicalMapToInvariantFunctions)) := by
-    show IsIso (Spec.map e.toCommRingCatIso.hom)
+    change IsIso (Spec.map e.toCommRingCatIso.hom)
     infer_instance
   have hcomp := objectsToInvariantSpectrum_comp_specMap_canonicalMap H
   refine ⟨?_, ?_⟩
@@ -576,12 +575,10 @@ private theorem injective_map_lift_of_isPushout {C A B D : Type u} [CommRing C] 
     ext c
     simp
   refine Function.LeftInverse.injective (g := hp.desc _ _ hw) fun z ↦ ?_
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul d c =>
-      induction d using TensorProduct.induction_on with
-      | zero => simp
+      induction d using TensorProduct.inductionOn with
       | add x y hx hy => simp only [TensorProduct.add_tmul, map_add, hx, hy]
       | tmul a b =>
           have hab : Algebra.TensorProduct.map
@@ -681,7 +678,7 @@ private theorem one_tmul_eq_zero_of_lift_eq_zero {S : Scheme.{u}} (G : GroupoidS
   have hz : x ⊗ₜ[invariantRing G] (1 : C') = 0 := by
     refine baseChange_tensorMap_injective H ?_
     rw [map_zero]
-    show Algebra.TensorProduct.map _ (AlgHom.id (invariantRing G) C')
+    change Algebra.TensorProduct.map _ (AlgHom.id (invariantRing G) C')
       (x ⊗ₜ[invariantRing G] 1) = 0
     rw [Algebra.TensorProduct.map_tmul, hx, AlgHom.id_apply, TensorProduct.zero_tmul]
   have hz' : (1 : C') ⊗ₜ[invariantRing G] x = 0 := by
@@ -737,7 +734,7 @@ private theorem flat_objectsToInvariantSpectrum {S : Scheme.{u}} (G : GroupoidSc
     [IsFiniteLocallyFree G.target.left] [IsEquivalenceRelation G.target G.source] :
     Flat (objectsToInvariantSpectrum G) := by
   have := flat_specMap_invariantRing G
-  show Flat (G.objects.left.isoSpec.hom ≫
+  change Flat (G.objects.left.isoSpec.hom ≫
     Spec.map (CommRingCat.ofHom (Subring.subtype (invariantRing G))))
   infer_instance
 
@@ -774,7 +771,7 @@ private theorem isFinite_objectsToInvariantSpectrum {S : Scheme.{u}} (G : Groupo
   let _ : IsFinite (Spec.map (CommRingCat.ofHom (Subring.subtype (invariantRing G)))) :=
     (IsFinite.SpecMap_iff _).mpr (show Module.Finite (invariantRing G) Γ(G.objects.left, ⊤) from
       inferInstance)
-  show IsFinite (G.objects.left.isoSpec.hom ≫
+  change IsFinite (G.objects.left.isoSpec.hom ≫
     Spec.map (CommRingCat.ofHom (Subring.subtype (invariantRing G))))
   infer_instance
 
@@ -936,7 +933,7 @@ theorem isIso_quotientSheafToInvariantSpectrum {S : Scheme.{u}} (G : GroupoidSch
     rw [← he]
     infer_instance
   let _ : IsIso k.left := by
-    show IsIso ((Over.forget S).map k)
+    change IsIso ((Over.forget S).map k)
     infer_instance
   exact isIso_quotientSheafToPoints (BigFppfOver.topology B S hS) (Over.post B.inclusion) j
     (toInvariantSpectrumOver G) hf _

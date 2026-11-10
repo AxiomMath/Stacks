@@ -62,10 +62,7 @@ variable {C₁ : Type u₁} [Category.{v₁} C₁] {J₁ : GrothendieckTopology 
   (O₂ : C₂ᵒᵖ ⥤ CommRingCat.{w}) (hO₂ : Presheaf.IsSheaf J₂ (structureRingPresheaf O₂))
   [J₂.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J₂ AddCommGrpCat.{w}]
   (F : SheafOfModules.{w} (structureSheaf O₁ hO₁) ⥤ SheafOfModules.{w} (structureSheaf O₂ hO₂))
-  [∀ V : C₁, (J₁.over V).WEqualsLocallyBijective AddCommGrpCat.{w}]
-  [∀ V : C₂, (J₂.over V).WEqualsLocallyBijective AddCommGrpCat.{w}]
 
-omit [∀ (V : C₁), (J₁.over V).WEqualsLocallyBijective AddCommGrpCat] in
 /-- **A tensor inverse of an invertible module is invertible.**  If `L ⊗ N ≅ O`, then
 `N ⊗ L ≅ O` by the braiding of the tensor product sheaf. -/
 theorem isInvertible_of_tensor_iso_unit

@@ -148,7 +148,7 @@ theorem isCompactObject_stdDerived (X : Scheme.{u}) [CompactSpace X] [QuasiSepar
     (G : stdDerived X) (hG : IsPerfectStd (show Dstd X from G))
     (hGP : qcohDerivedProperty X G) :
     IsCompactObject.{u} (⟨G, hGP⟩ : (qcohDerivedProperty X).FullSubcategory) := by
-  show IsCompactObject.{u}
+  change IsCompactObject.{u}
     (⟨G, hGP⟩ : @Stacks.Duality.quasiCoherentDerivedCategory X
       (HasDerivedCategory.standard X.Modules))
   let e := Stacks.Duality.StandardModel.quasiCoherentModelEquiv X

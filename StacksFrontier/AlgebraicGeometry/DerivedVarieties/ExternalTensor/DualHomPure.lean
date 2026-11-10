@@ -274,7 +274,7 @@ theorem externalTensorDualTensorHomEquiv_eq_coevaluation_comp (E : X.Modules) (G
           (externalTensorProductExactPairing f g E G hE hG) ≫
         MonoidalCategory.whiskerRight q
           (externalTensorProduct f g (dualSheaf E) (dualSheaf G)) := by
-  show dualTensorHomEquiv (Limits.pullback f g) (externalTensorProduct f g E G) F
+  change dualTensorHomEquiv (Limits.pullback f g) (externalTensorProduct f g E G) F
         (isFiniteLocallyFree_externalTensorProduct f g E G hE hG) q ≫
       MonoidalCategory.whiskerLeft F (externalTensorProductDualIso f g E G hE hG).hom = _
   rw [dualTensorHomEquiv_eq_coevaluation_comp]
@@ -471,7 +471,7 @@ theorem whiskerLeft_comp_tensorSheafBraiding_hom (W : AlgebraicGeometry.RingedSp
         (leftUnitor_inv_apply W B U (r • b)) (whiskerRight_tmul W t B U _ (r • b))
     refine hl.trans (Eq.trans ?_ hr.symm)
     have hone : (unitSection W U r) = r • (unitSection W U 1) := by
-      show r = r • (1 : W.presheaf.obj U)
+      change r = r • (1 : W.presheaf.obj U)
       rw [smul_eq_mul, mul_one]
     rw [hone, map_smul, ← tensorObjTmul_smul_right]
   exact tensor_hom_ext W fun U c d => key U c d

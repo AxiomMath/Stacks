@@ -89,7 +89,7 @@ theorem exists_flat_quotient_localization
   let : Algebra P' C := ((algebraMap B C).comp π.toRingHom).toAlgebra
   have : IsScalarTower P' Q' C := IsScalarTower.of_algebraMap_eq fun x => (hghP x).symm
   have : IsScalarTower A' P' C := IsScalarTower.of_algebraMap_eq fun a => by
-    show algebraMap A C (algebraMap A' A a) = algebraMap B C (π (algebraMap A' P' a))
+    change algebraMap A C (algebraMap A' A a) = algebraMap B C (π (algebraMap A' P' a))
     rw [π.commutes, IsScalarTower.algebraMap_apply A' A B, ← IsScalarTower.algebraMap_apply A B C]
   have hunit : ∀ t ∈ T, IsUnit (algebraMap P' C t) := fun t ht =>
     IsLocalization.map_units C (⟨π t, ht⟩ : S)
@@ -108,7 +108,7 @@ theorem exists_flat_quotient_localization
     obtain ⟨p, rfl⟩ := hπ b₀
     obtain ⟨t, ht⟩ := hπ s.1
     have htT : t ∈ T := by
-      show π t ∈ S
+      change π t ∈ S
       rw [ht]; exact s.2
     refine ⟨IsLocalization.mk' Q' p ⟨t, htT⟩, ?_⟩
     rw [IsLocalization.map_mk']
@@ -123,7 +123,7 @@ theorem exists_flat_quotient_localization
     obtain ⟨t', rfl⟩ := hπ s
     have ht'T : t' ∈ T := hs
     have hmem : t' * p ∈ 𝔧 := by
-      show π (t' * p) = 0
+      change π (t' * p) = 0
       rw [map_mul]; exact hsp
     have heq : IsLocalization.mk' Q' p t =
         algebraMap P' Q' (t' * p) * IsLocalization.mk' Q' (1 : P') (⟨t', ht'T⟩ * t) := by
@@ -176,7 +176,7 @@ theorem exists_flat_quotient_localization
       rw [this]
       refine Ideal.add_mem _ (Ideal.mem_sup_left ?_) (Ideal.mem_sup_right hy)
       rw [RingHom.mem_ker, map_sub]
-      show ψ x - ψ y = 0
+      change ψ x - ψ y = 0
       rw [show ψ y = ψ x from hxy, sub_self]
 
 end Localization
@@ -246,7 +246,7 @@ theorem hasFlatAlgebraLift_of_hasFlatAlgebraLift_localization_of_syntomic
     refine isUnit_quotient_mk_of_forall_isPrime (𝔭 ^ N) t fun q hq hle htq => ?_
     have h𝔭q : 𝔭 ≤ q := hq.le_of_pow_le hle
     have hkq : RingHom.ker π.toRingHom ≤ q := fun x hx => h𝔭q (by
-      show π x ∈ b
+      change π x ∈ b
       rw [show π x = 0 from hx]; exact b.zero_mem)
     have hqprime : (q.map π.toRingHom).IsPrime := Ideal.map_isPrime_of_surjective hπ hkq
     have hbq : b ≤ q.map π.toRingHom := by
@@ -307,7 +307,7 @@ theorem syntomic_away_of_mem_span_syntomic {R S : Type*} [CommRing R] [CommRing 
   let e := (IsLocalization.algEquiv q.primeCompl
     (Localization.AtPrime q) (Localization.AtPrime q')).restrictScalars R
   have hp : q.under R = q'.under R := by
-    show (q'.comap (algebraMap S (Localization.Away s))).comap (algebraMap R S) = _
+    change (q'.comap (algebraMap S (Localization.Away s))).comap (algebraMap R S) = _
     rw [Ideal.comap_comap, ← IsScalarTower.algebraMap_eq]
   exact ⟨Module.Flat.of_linearEquiv e.symm.toLinearEquiv, IsCompleteIntersection.fiber_congr hp
     (hci.of_algEquiv (Algebra.TensorProduct.congr AlgEquiv.refl e))⟩

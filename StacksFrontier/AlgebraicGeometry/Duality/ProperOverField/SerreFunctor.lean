@@ -155,7 +155,7 @@ theorem inverseImage_tensorRight_isPerfect (Z : DerivedCategory X.Modules)
   have hZi :=
     isPerfect_of_exactPairing_canonical hZ.inv Z (BraidedCategory.exactPairing_swap Z hZ.inv)
   funext A
-  show Stacks.Cohomology.PerfectComplexes.IsPerfect (X := X.toRingedSpace)
+  change Stacks.Cohomology.PerfectComplexes.IsPerfect (X := X.toRingedSpace)
       (show DerivedCategory X.Modules from A ⊗ Z) = _
   refine propext ⟨fun h => ?_, fun h => isPerfect_tensorObj_canonical h hZp⟩
   have h' := isPerfect_tensorObj_canonical h hZi
@@ -309,7 +309,7 @@ theorem monoidalLinear_canonicalDerivedMonoidal (Z : Over (Spec (CommRingCat.of 
   -- every object is the class of a K-flat complex
   have hres : ∀ K : DerivedCategory Z.left.Modules, ∃ L : CochainComplex
       (Stacks.DerivedTensor.RingedSite.Modules Z.left.sheaf) ℤ,
-      Stacks.SheafOfModules.KFlat.KFlat Z.left.sheaf L ∧ Nonempty (Q.obj L ≅ K) := by
+      Stacks.SheafOfModules.KFlat Z.left.sheaf L ∧ Nonempty (Q.obj L ≅ K) := by
     intro K
     have : Q.EssSurj := Localization.essSurj _ (HomologicalComplex.quasiIso _ (ComplexShape.up ℤ))
     obtain ⟨L, p, hL, -, hp, -⟩ :=
@@ -322,7 +322,7 @@ theorem monoidalLinear_canonicalDerivedMonoidal (Z : Over (Spec (CommRingCat.of 
     obtain ⟨L, hL, ⟨e⟩⟩ := hres K
     have : ((F.map₂HomologicalComplex (ComplexShape.up ℤ) (ComplexShape.up ℤ)
         (ComplexShape.up ℤ)).flip.obj L).Linear k := ⟨fun {K₁ L₁} f r => by
-      show HomologicalComplex.mapBifunctorMap (r • f) (𝟙 L) F (ComplexShape.up ℤ) =
+      change HomologicalComplex.mapBifunctorMap (r • f) (𝟙 L) F (ComplexShape.up ℤ) =
         r • HomologicalComplex.mapBifunctorMap f (𝟙 L) F (ComplexShape.up ℤ)
       refine HomologicalComplex.hom_ext _ _ fun j =>
         HomologicalComplex.mapBifunctor.hom_ext fun i₁ i₂ h => ?_
@@ -338,7 +338,7 @@ theorem monoidalLinear_canonicalDerivedMonoidal (Z : Over (Spec (CommRingCat.of 
         (T.tensor.flip.obj (DerivedCategory.Q.obj L)) :=
       ⟨NatIso.ofComponents (fun K' => T.comparisonRight K' L hL) (fun {K' K''} f => by
         have h := T.comparisonRight_naturality f (𝟙 L) hL hL
-        simp only [CategoryTheory.Functor.map_id, NatTrans.id_app, Category.id_comp] at h
+        simp only [CategoryTheory.Functor.map_id, Category.id_comp] at h
         exact h)⟩
     have : (T.tensor.flip.obj (Q.obj L)).Linear k :=
       (Localization.functor_linear_iff DerivedCategory.Q

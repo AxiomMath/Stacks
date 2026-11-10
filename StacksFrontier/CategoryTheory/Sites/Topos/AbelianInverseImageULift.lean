@@ -83,7 +83,7 @@ def abelianInverseImageULiftHom :
       Sites.abelianInverseImage f ⋙ uliftSheafFunctor.{s, t} JB :=
   ((mateEquiv (abelianInverseImageAdjRestriction v JA JB f α)
     (abelianInverseImageAdjRestriction v JA JB f' α')).symm
-      (TwoSquare.mk _ _ _ _ (sheafPushforwardContinuousULiftIso JA JB v).hom)).natTrans
+      (TwoSquare.mk _ _ _ _ (sheafPushforwardContinuousULiftIso JA JB v).hom))
 
 /-- The component of the comparison, as the mate formula computes it. -/
 theorem abelianInverseImageULiftHom_app (F : Sheaf JA AddCommGrpCat.{t}) :
@@ -132,13 +132,17 @@ theorem isIso_abelianInverseImageAdjRestriction_unit_app (hunit : IsIso f.adj.un
   rw [h]
   infer_instance
 
-include α' in
+omit [(v.sheafPushforwardContinuous (Type t) JA JB).IsRightAdjoint]
+  [(v.sheafPushforwardContinuous (Type (max t s)) JA JB).IsRightAdjoint] in
 /-- The counit of the abelian adjunction of `f'` is invertible at an abelian sheaf whose
 underlying sheaf of sets lies in the essential image of the inverse image of `f'`, when that
 inverse image is fully faithful. -/
-theorem isIso_abelianInverseImageAdjRestriction_counit_app [f'.inverseImage.Full]
-    [f'.inverseImage.Faithful] (M : Sheaf JB AddCommGrpCat.{max t s})
-    (hM : f'.inverseImage.essImage ((sheafCompose JB (forget AddCommGrpCat.{max t s})).obj M)) :
+theorem isIso_abelianInverseImageAdjRestriction_counit_app
+    [(v.sheafPushforwardContinuous (Type w) JA JB).IsRightAdjoint]
+    (f' : MorphismOfTopoi (Sheaf JB (Type w)) (Sheaf JA (Type w)))
+    (α' : f'.pushforward ≅ v.sheafPushforwardContinuous (Type w) JA JB) [f'.inverseImage.Full]
+    [f'.inverseImage.Faithful] (M : Sheaf JB AddCommGrpCat.{w})
+    (hM : f'.inverseImage.essImage ((sheafCompose JB (forget AddCommGrpCat.{w})).obj M)) :
     IsIso ((abelianInverseImageAdjRestriction v JA JB f' α').counit.app M) := by
   have h : (abelianInverseImageAdjRestriction v JA JB f' α').counit.app M =
       (Sites.abelianInverseImage f').map
@@ -147,12 +151,12 @@ theorem isIso_abelianInverseImageAdjRestriction_counit_app [f'.inverseImage.Full
     rw [← Adjunction.homEquiv_symm_id, abelianInverseImageAdjRestriction,
       Adjunction.homEquiv_ofNatIsoRight_symm_apply, Category.id_comp,
       Adjunction.homEquiv_counit]
-  have : IsIso ((sheafCompose JB (forget AddCommGrpCat.{max t s})).map
+  have : IsIso ((sheafCompose JB (forget AddCommGrpCat.{w})).map
       ((abelianInverseImageAdjPushforward JB f').counit.app M)) := by
     rw [abelianInverseImageAdjPushforward_counit_app_forget]
     exact (f'.adj.isIso_counit_app_iff_mem_essImage).2 hM
   have : IsIso ((abelianInverseImageAdjPushforward JB f').counit.app M) :=
-    isIso_of_reflects_iso _ (sheafCompose JB (forget AddCommGrpCat.{max t s}))
+    isIso_of_reflects_iso _ (sheafCompose JB (forget AddCommGrpCat.{w}))
   rw [h]
   infer_instance
 

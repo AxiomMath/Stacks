@@ -115,14 +115,14 @@ theorem mem_ideal_smul_top_iff_of_linearEquiv
       (I • (⊤ : Submodule R N)) := by
     rw [Submodule.smul_le]
     intro r hr m _
-    show e (r • m) ∈ I • (⊤ : Submodule R N)
+    change e (r • m) ∈ I • (⊤ : Submodule R N)
     rw [e.map_smul]
     exact Submodule.smul_mem_smul hr Submodule.mem_top
   have h₂ : I • (⊤ : Submodule R N) ≤ Submodule.comap e.symm.toLinearMap
       (I • (⊤ : Submodule R M)) := by
     rw [Submodule.smul_le]
     intro r hr n _
-    show e.symm (r • n) ∈ I • (⊤ : Submodule R M)
+    change e.symm (r • n) ∈ I • (⊤ : Submodule R M)
     rw [e.symm.map_smul]
     exact Submodule.smul_mem_smul hr Submodule.mem_top
   exact ⟨fun hx => by simpa using h₁ hx, fun h => by simpa using h₂ h⟩
@@ -150,7 +150,7 @@ unit of `f^* ⊣ f_*`. -/
 theorem modulePullbackSection_eval_top (s : L.sections) :
     (modulePullbackSection f L s).eval (op ⊤) =
       pullbackUnit f.toShHom L (op ⊤) (s.eval (op ⊤)) := by
-  show ((modulePullback f.toShHom).obj L).val.map
+  change ((modulePullback f.toShHom).obj L).val.map
       (homOfLE (le_top : (⊤ : Opens Y.carrier) ≤ ⊤)).op
       (pullbackUnit f.toShHom L (op ⊤) (s.eval (op ⊤))) = _
   rw [show (homOfLE (le_top : (⊤ : Opens Y.carrier) ≤ ⊤)).op =

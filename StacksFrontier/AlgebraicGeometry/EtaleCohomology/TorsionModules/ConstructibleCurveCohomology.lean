@@ -95,7 +95,7 @@ theorem section_eq_zero_of_forall_sieve_map_eq_zero
     (GrothendieckTopology.HasSheafCompose.isSheaf G.obj G.2
       (F := forget AddCommGrpCat.{max (u + 1) r}))
   refine (hG.isSeparated _ hR).ext fun W f hf => ?_
-  show G.obj.map f.op x = G.obj.map f.op 0
+  change G.obj.map f.op x = G.obj.map f.op 0
   exact (hx W f hf).trans (map_zero _).symm
 
 /-- If `n i` kills `y`, then so does the product `∏ j, n j`. -/
@@ -208,7 +208,7 @@ theorem isConstructibleEtaleModule_etaleModuleShriekConstant [CompactSpace X.obj
   have := isWeakSerreClass_isBigSiteConstructibleEtaleModule B X Λ
   refine (IsBigSiteConstructibleEtaleModule B X Λ).prop_of_iso
     (etaleModuleShriekConstantSheafEquivIso B X Λ U).symm ?_
-  show IsConstructibleModuleSheaf B X Λ ((etaleModulesToSmallEtale B X Λ).obj _)
+  change IsConstructibleModuleSheaf B X Λ ((etaleModulesToSmallEtale B X Λ).obj _)
   exact isConstructibleModuleSheaf_congr B Λ X
     ((SmallEtale.sheafEquiv B X.obj X.property (ModuleCat.{max (u + 1) r} Λ)).unitIso.app _)
     (isConstructibleModuleSheaf_moduleShriekConstant B X Λ U)
@@ -249,12 +249,12 @@ theorem exists_nsmul_eq_zero_of_hom_etaleModuleShriekConstant [CompactSpace X]
   refine ⟨N, hN, hNp, (adj.homEquiv _ _).injective (h1.trans (Eq.trans ?_ h0.symm))⟩
   refine ModuleCat.hom_ext (LinearMap.ext fun l => ?_)
   obtain ⟨l⟩ := l
-  show N • ĝ (ULift.up l) = 0
+  change N • ĝ (ULift.up l) = 0
   have hl : (ULift.up l : ULift.{max (u + 1) r} Λ) = l • ULift.up 1 := by
     ext
     simp
   rw [hl, map_smul, smul_comm]
-  show l • (N • ĝ (ULift.up 1)) = 0
+  change l • (N • ĝ (ULift.up 1)) = 0
   rw [show N • ĝ (ULift.up 1) = 0 from hx, smul_zero]
 
 end Exponent
@@ -482,7 +482,7 @@ theorem exists_epi_sigma_cokernel_nsmul_smallEtaleShriekGenerator [CompactSpace 
   let Φ : (∐ Q) ⟶ G := Sigma.desc φ'
   have hfac : Limits.Sigma.map (fun i => cokernel.π (N i • 𝟙 (P i))) ≫ Φ = φ := by
     refine Sigma.hom_ext _ _ fun i => ?_
-    rw [Sigma.ι_map_assoc, Sigma.ι_desc, cokernel.π_desc]
+    rw [Sigma.ι_map_assoc, Sigma.ι_comp_desc, cokernel.π_desc]
   refine ⟨n, V, N, hV, hN0, hNp, Φ, ?_⟩
   rw [← hfac] at hφ
   exact epi_of_epi (Limits.Sigma.map fun i => cokernel.π (N i • 𝟙 (P i))) Φ

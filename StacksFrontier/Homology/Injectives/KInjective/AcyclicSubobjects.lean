@@ -170,7 +170,7 @@ theorem acyclic_of_filtered_colimit.{t, q}
     have hF : JointlyReflectIsomorphisms F := ⟨by
       intro X Y f
       exact (NatTrans.isIso_iff_isIso_app f).2 (fun j => by
-        show IsIso ((F j).map f)
+        change IsIso ((F j).map f)
         infer_instance)⟩
     apply (hF.exact_iff S).2
     intro j
@@ -202,7 +202,7 @@ theorem acyclic_of_filtered_colimit.{t, q}
   have hcol := Limits.colim.exact_mapShortComplex (S := S) hS hc₁
     (c₂ := c₂) hc₂ (c₃ := c₃) hc₃ f g hf hg
   rw [HomologicalComplex.exactAt_iff' (c.pt) (n - 1) n (n + 1) (by simp) (by simp)]
-  show (Limits.colim.mapShortComplex S hc₁ c₂ c₃ f g hf hg).Exact
+  change (Limits.colim.mapShortComplex S hc₁ c₂ c₃ f g hf hg).Exact
   exact hcol
 
 end Stacks.Injectives

@@ -356,8 +356,8 @@ theorem exists_finiteType_le_forall_iso_quotientProjHom_of_gradedIdeal
           (Stacks.AlgebraicGeometry.GluedTwistAlgebra.twistDataOfGradedAlgebra _)
           (chartClosedSubscheme i hi T f)).piece n).toSubmodule.obj (op W) ↔
         ((I.quotientHomPoints.hom T f).app n).app W a = 0) :
-    ∃ d : ℕ, 0 < d ∧ ∃ (F₁ : (s.algebra.piece (d : ℤ)).Submodule)
-      (hF₁ : F₁.toSheafOfModules.IsQuasicoherentOnSite), F₁.toSheafOfModules.IsFiniteType ∧
+    ∃ d : ℕ, 0 < d ∧ ∃ F₁ : (s.algebra.piece (d : ℤ)).Submodule,
+      F₁.toSheafOfModules.IsQuasicoherentOnSite ∧ F₁.toSheafOfModules.IsFiniteType ∧
         F₁ ≤ I.piece (d : ℤ) ∧
         ∀ (F : (s.algebra.piece (d : ℤ)).Submodule)
           (hF : F.toSheafOfModules.IsQuasicoherentOnSite), F₁ ≤ F → F ≤ I.piece (d : ℤ) →

@@ -21,8 +21,7 @@ The point of having it is the residue fields.  The chase that proves clause (2) 
 `R'` consumes, at every prime `𝔭` of `R`, the vanishing of the cohomology of
 `RHom_{B_𝔭}(A_𝔭, K_𝔭 ⊗ᴸ_{A_𝔭} B_𝔭)` outside degree zero, where the subscript is base change along
 `R → κ(𝔭)`.  Each `κ(𝔭)` is Noetherian, so the statement below applies at `R' = κ(𝔭)` and the
-vanishing follows, with nothing carried beyond the projection-formula compatibility that
-`Dualizing.UpperShriekInputs` already bundles.
+vanishing follows, with nothing carried.
 
 ## Main results
 
@@ -135,8 +134,8 @@ theorem baseChangeComm_comp_includeRight :
           (RingEquiv.refl A).toRingHom)) =
       (Algebra.TensorProduct.includeLeftRingHom : A →+* A ⊗[R] R') := by
   ext a
-  show (baseChangeComm R A R') ((1 : R') ⊗ₜ[R] a) = a ⊗ₜ[R] (1 : R')
-  show (Algebra.TensorProduct.comm R R' A) ((1 : R') ⊗ₜ[R] a) = a ⊗ₜ[R] (1 : R')
+  change (baseChangeComm R A R') ((1 : R') ⊗ₜ[R] a) = a ⊗ₜ[R] (1 : R')
+  change (Algebra.TensorProduct.comm R R' A) ((1 : R') ⊗ₜ[R] a) = a ⊗ₜ[R] (1 : R')
   rw [Algebra.TensorProduct.comm_tmul]
 
 /-- **The Noetherian case of [stacks 0E2F] (2), at the upper shriek complex.**  For `R` and `R'`
@@ -145,16 +144,10 @@ change along `R → R'` of `ω^•_{A/R} = φ^!(R)` is a relative dualizing comp
 `R' → A ⊗_R R'`.
 
 This is the case of clause (2) the source settles by [stacks 0BZV] and [stacks 0E2E] rather than
-by the degreewise chase, and it carries exactly what those two carry in this library: the
-projection-formula compatibility of [stacks 0E2A] at the square of a presentation, quantified
-here over every presentation and every target ring, which is the second conjunct of
-`Dualizing.UpperShriekInputs`. -/
+by the degreewise chase; like those two in this library, it carries no further hypothesis. -/
 theorem isRelativeDualizingComplex_baseChange_upperShriek [IsNoetherianRing R]
     [IsNoetherianRing R'] (p : PolynomialPresentation (algebraMap R A))
-    (hflat : (algebraMap R A).Flat)
-    (hProj : ∀ (S B : Type u) [CommRing S] [CommRing B] [Algebra S B]
-      (q : PolynomialPresentation (algebraMap S B)) (S' : Type u) [CommRing S'] [Algebra S S'],
-      q.ProjectionCompatibility S') :
+    (hflat : (algebraMap R A).Flat) :
     letI : Module.Flat R A := RingHom.flat_algebraMap_iff.mp hflat
     letI : Algebra.FinitePresentation R A :=
       Algebra.FinitePresentation.of_finiteType.mp (RingHom.finiteType_algebraMap.mp p.finiteType)
@@ -190,8 +183,6 @@ theorem isRelativeDualizingComplex_baseChange_upperShriek [IsNoetherianRing R]
   have hflatq : (algebraMap R' (TensorProduct R R' A)).Flat :=
     RingHom.flat_algebraMap_iff.mpr inferInstance
   have hqRDC := q.relativeDualizingComplex_isRelativeDualizingComplex_of_flat hflatq
-    (fun t => hProj R' (TensorProduct R R' A) q t.asIdeal.ResidueField)
-    (hProj R' (TensorProduct R R' A) q (TensorProduct R R' A))
   have hDω : IsRelativeDualizingComplex R' (TensorProduct R R' A) (D.functor.obj ω) :=
     isRelativeDualizingComplex_of_iso R' (TensorProduct R R' A) hqRDC e₀.symm
   have hC := RelativeExistence.isRelativeDualizingComplex_of_algEquiv
@@ -239,9 +230,6 @@ This is the hypothesis `hres` of
 `Dualizing.isRelativeDualizingComplex_baseChange_of_residueFieldVanishing`. -/
 theorem isZero_homology_derivedHom_diagonalBaseChangeTarget_upperShriek [IsNoetherianRing R]
     (p : PolynomialPresentation (algebraMap R A)) (hflat : (algebraMap R A).Flat)
-    (hProj : ∀ (S B : Type u) [CommRing S] [CommRing B] [Algebra S B]
-      (q : PolynomialPresentation (algebraMap S B)) (S' : Type u) [CommRing S'] [Algebra S S'],
-      q.ProjectionCompatibility S')
     (t : Ideal R) [t.IsPrime] (j : ℤ) (hj : j ≠ 0) :
     letI : Module.Flat R A := RingHom.flat_algebraMap_iff.mp hflat
     letI : Algebra.FinitePresentation R A :=
@@ -271,7 +259,7 @@ theorem isZero_homology_derivedHom_diagonalBaseChangeTarget_upperShriek [IsNoeth
     Algebra.FinitePresentation.equiv
       (baseChangeComm R A (StacksDraft.DegreewiseChase.ResidueFieldAt R t))
   have h := isRelativeDualizingComplex_baseChange_upperShriek R A
-    (StacksDraft.DegreewiseChase.ResidueFieldAt R t) p hflat hProj
+    (StacksDraft.DegreewiseChase.ResidueFieldAt R t) p hflat
   exact (isZero_homology_singleFunctor
       (ModuleCat.of (A ⊗[R] StacksDraft.DegreewiseChase.ResidueFieldAt R t)
         (A ⊗[R] StacksDraft.DegreewiseChase.ResidueFieldAt R t)) j hj).of_iso
@@ -284,14 +272,10 @@ discharged.**  This is `Dualizing.isRelativeDualizingComplex_baseChange_of_resid
 read at `K = ω^•_{A/R} = φ^!(R)` over a Noetherian base: both of its hypotheses about the complex
 itself are supplied here, `hK` by [stacks 0E2E] and `hres` by
 `Dualizing.isZero_homology_derivedHom_diagonalBaseChangeTarget_upperShriek`, so what is left is
-the representation data of [stacks 0E1U] and the projection-formula compatibility that
-`Dualizing.UpperShriekInputs` bundles. -/
+the representation data of [stacks 0E1U]. -/
 theorem isRelativeDualizingComplex_baseChange_upperShriek_of_representation
     [Module.Flat R A] [Algebra.FinitePresentation R A] [IsNoetherianRing R] [IsNoetherianRing A]
     [IsNoetherianRing (A ⊗[R] A)] (pres : PolynomialPresentation (algebraMap R A))
-    (hProj : ∀ (S B : Type u) [CommRing S] [CommRing B] [Algebra S B]
-      (q : PolynomialPresentation (algebraMap S B)) (S' : Type u) [CommRing S'] [Algebra S S'],
-      q.ProjectionCompatibility S')
     (P : CochainComplex (ModuleCat.{u} (A ⊗[R] A)) ℤ) (dP : ℤ) [P.IsStrictlyLE dP]
     [∀ i : ℤ, Projective (P.X i)] (hP : CochainComplex.KFlat.{u, u} P)
     (eP : DerivedCategory.Q.obj P ≅
@@ -321,11 +305,10 @@ theorem isRelativeDualizingComplex_baseChange_upperShriek_of_representation
           ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj (ModuleCat.of R R)))) := by
   have hflat : (algebraMap R A).Flat := RingHom.flat_algebraMap_iff.mpr inferInstance
   exact isRelativeDualizingComplex_baseChange_of_residueFieldVanishing R A R' _
-    (pres.relativeDualizingComplex_isRelativeDualizingComplex_of_flat hflat
-      (fun t => hProj R A pres t.asIdeal.ResidueField) (hProj R A pres A))
+    (pres.relativeDualizingComplex_isRelativeDualizingComplex_of_flat hflat)
     P dP hP eP F d hflatF eF E hE hEflat hEfin
     (fun t _ j hj =>
-      isZero_homology_derivedHom_diagonalBaseChangeTarget_upperShriek R A pres hflat hProj t j hj)
+      isZero_homology_derivedHom_diagonalBaseChangeTarget_upperShriek R A pres hflat t j hj)
 
 end
 

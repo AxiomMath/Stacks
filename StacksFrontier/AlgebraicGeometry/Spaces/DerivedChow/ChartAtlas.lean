@@ -117,7 +117,7 @@ theorem exists_derivedChowDatum_of_affine_chart (X : AlgebraicSpaces B (Spec (.o
         (OverShriek.relocalizeRestrict g).map (overOpenToOpen D₀.i D₀.v).hom := by
       rw [← DerivedChowDatum.bcOverOpenIso_hom_toOpen, Iso.inv_hom_id_assoc]
     have h₂ : eW₀.hom ≫ (overOpenToOpen D₀.i D₀.v).hom ≫ eV₀'.hom = yoneda.map jA := by
-      show eW₀.hom ≫ (overOpenToOpen D₀.i D₀.v).hom ≫ eV₀.hom.hom = _
+      change eW₀.hom ≫ (overOpenToOpen D₀.i D₀.v).hom ≫ eV₀.hom.hom = _
       rw [hjAc]
       exact Iso.hom_inv_id_assoc eW₀ (yoneda.map jA)
     have h₃ := OverShriek.restrictYonedaIso_naturality g jA
@@ -167,14 +167,14 @@ theorem exists_derivedChowDatum_of_affine_chart (X : AlgebraicSpaces B (Spec (.o
   let D' := D.restrictOpen j hj (pointsMap B _ hA _ eWp.hom u)
   refine ⟨_, D', V₀, hV₀, Iso.refl _, ObjectProperty.isoMk _ eWp, gU, ?_, ?_, ?_, ?_, hgU⟩
   · refine ObjectProperty.hom_ext _ ?_
-    show yoneda.map gU = eWp.hom ≫ (overOpenToOpen D.i (j ≫ D.v)).hom ≫ 𝟙 _
+    change yoneda.map gU = eWp.hom ≫ (overOpenToOpen D.i (j ≫ D.v)).hom ≫ 𝟙 _
     rw [Category.comp_id, heWp₂]
   · have h₁ : (overOpenι D.i (j ≫ D.v)).hom =
         (DerivedChowDatum.restrictOpenMap D j).hom ≫ (overOpenι D.i D.v).hom :=
       (pullback.lift_fst _ _ _).symm
-    show eWp.hom ≫ (overOpenι D.i (j ≫ D.v)).hom ≫ (D.i ≫ productFst X D.n D.contains).hom = b
+    change eWp.hom ≫ (overOpenι D.i (j ≫ D.v)).hom ≫ (D.i ≫ productFst X D.n D.contains).hom = b
     rw [h₁, Category.assoc, reassoc_of% heWp₁]
-    show yoneda.map cU ≫ ιW.inv ≫ (overOpenι (DerivedChowDatum.bcI g D₀ eX)
+    change yoneda.map cU ≫ ιW.inv ≫ (overOpenι (DerivedChowDatum.bcI g D₀ eX)
       (DerivedChowDatum.bcV g D₀) ≫ DerivedChowDatum.bcI g D₀ eX ≫
         productFst X D₀.n (DerivedChowDatum.bcContains D₀ g)).hom = b
     rw [← hιW, Iso.inv_hom_id_assoc, hcUp]

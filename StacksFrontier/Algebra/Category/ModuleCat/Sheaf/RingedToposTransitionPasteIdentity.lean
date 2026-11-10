@@ -77,6 +77,7 @@ variable {En Em Cn Cm Ts T Zt : RingedTopos.{v, u, w}}
   [HasWeakSheafify T.J AddCommGrpCat.{w}] [T.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [HasWeakSheafify Zt.J AddCommGrpCat.{w}] [Zt.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
 
+omit [HasWeakSheafify Cn.J AddCommGrpCat.{w}] [Cn.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- The conjugate of the inverse of the pullback isomorphism of a 2-isomorphism is its
 direct-image isomorphism. -/
 theorem TwoIso.conjugateEquiv_pullbackModulesIso_inv {f g : RingedToposHom En Cn}
@@ -99,6 +100,7 @@ theorem TwoMorphism.conjugateEquiv_pullbackAdj_pullbackModulesMap {f g : RingedT
         t.pullbackModulesMap = t.pushforwardModulesMap :=
   (conjugateEquiv _ _).apply_symm_apply _
 
+omit [HasWeakSheafify Ts.J AddCommGrpCat.{w}] [Ts.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- The degreewise comparison `g^* ⋙ sc^* ⟶ e^* ⋙ d^*` of a 2-isomorphism `e ∘ d ≅ g ∘ sc`,
 as the mate of the corresponding comparison of direct images. -/
 theorem pullbackModules_squareComparison_eq (sc : RingedToposHom En Cn)
@@ -115,6 +117,7 @@ theorem pullbackModules_squareComparison_eq (sc : RingedToposHom En Cn)
     conjugateEquiv_pullbackModulesCompIso_hom, TwoIso.conjugateEquiv_pullbackModulesIso_inv,
     conjugateEquiv_pullbackModulesCompIso_inv, Category.assoc]
 
+omit [HasWeakSheafify Zt.J AddCommGrpCat.{w}] [Zt.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- A 2-isomorphism `s : g ∘ f ≅ h` read as `g^* ⋙ f^* ⟶ h^*`, as a mate. -/
 theorem pullbackModules_compTwoIso_eq (f : RingedToposHom En T) (g : RingedToposHom T Zt)
     (h : RingedToposHom En Zt) (s : TwoIso (g.comp f) h) :
@@ -126,6 +129,7 @@ theorem pullbackModules_compTwoIso_eq (f : RingedToposHom En T) (g : RingedTopos
     TwoIso.conjugateEquiv_pullbackModulesIso_hom, conjugateEquiv_pullbackModulesCompIso_inv]
 
 
+omit [HasWeakSheafify Ts.J AddCommGrpCat.{w}] [Ts.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- A 2-isomorphism `s : g ∘ sc ≅ e ∘ d` read as `g^* ⋙ sc^* ⟶ e^* ⋙ d^*`, as a mate. -/
 theorem pullbackModules_squareComparison_hom_eq (sc : RingedToposHom En Cn)
     (g : RingedToposHom Cn Ts) (d : RingedToposHom En T) (e : RingedToposHom T Ts)
@@ -153,6 +157,7 @@ theorem pullbackModules_twoMorphismComp_eq (f : RingedToposHom En Cn) (g : Ringe
     TwoMorphism.conjugateEquiv_pullbackAdj_pullbackModulesMap,
     conjugateEquiv_pullbackModulesCompIso_inv]
 
+omit [HasWeakSheafify Zt.J AddCommGrpCat.{w}] [Zt.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- The comparison `b^* ⋙ g^* ⋙ sc^* ⟶ a^*` assembled from `e ∘ d ≅ g ∘ sc`, `b ∘ e ≅ aug` and
 `aug ∘ d ≅ a`, as a mate. -/
 theorem pullbackModules_degreeComparison_eq (sc : RingedToposHom En Cn)
@@ -372,6 +377,7 @@ theorem pushforwardModules_transitionPaste_eq
   exact transitionPaste_underlying scn scm gn gm f x dn dm e b aug an am τ In Im sA sDn sDm sT sX
     hS M
 
+omit [HasWeakSheafify Zt.J AddCommGrpCat.{w}] [Zt.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- **The pasting identity, as an identity of transformations of pullbacks**, from the
 corresponding identity of direct images of sheaves of sets `hS`. -/
 theorem pullbackModules_transitionPaste_natTrans
@@ -463,6 +469,7 @@ theorem pullbackModules_transitionPaste_natTrans
   exact pushforwardModules_transitionPaste_eq scn scm gn gm f x dn dm e b aug an am τ In Im sA sDn
     sDm sT sX hS
 
+omit [HasWeakSheafify Zt.J AddCommGrpCat.{w}] [Zt.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- **The pasting identity of pullbacks of sheaves of modules.** Let `R_k` be functors with
 `g_k^* ≅ R_k` and `t : R_m ⋙ f^* ⟶ R_n` the transition of `τ` read through these isomorphisms.
 Then, at every `F`, the transition `sc_n^* t` at `b^*F` read through the comparisons of degree `n`

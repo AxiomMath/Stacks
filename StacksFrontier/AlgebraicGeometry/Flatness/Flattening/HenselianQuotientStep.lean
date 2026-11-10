@@ -74,11 +74,9 @@ private lemma rTensor_injective_of_quotient {A : Type*} [CommRing A] (I : Ideal 
   let eY := AlgebraTensorModule.cancelBaseChange A (A ⧸ I) (A ⧸ I) Y Q
   have hnat : ∀ z, eY (f.rTensor ((A ⧸ I) ⊗[A] Q) z) = (f.restrictScalars A).rTensor Q (eX z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul x w =>
-      induction w using TensorProduct.induction_on with
-      | zero => simp
+      induction w using TensorProduct.inductionOn with
       | tmul r q =>
         simp [eX, eY, AlgebraTensorModule.cancelBaseChange_tmul]
       | add w w' hw hw' => simp only [TensorProduct.tmul_add, map_add, hw, hw']
@@ -161,7 +159,7 @@ theorem rTensor_mapQ_injective_of_henselian_of_flat_quotient
   have : IsScalarTower (S.A ⧸ I) (S.B ⧸ J) N' := IsScalarTower.of_algebraMap_smul fun _ _ ↦ rfl
   have hAN' : IsScalarTower S.A (S.A ⧸ I) N' := IsScalarTower.of_algebraMap_smul fun a x ↦ by
     obtain ⟨n, rfl⟩ := Submodule.Quotient.mk_surjective _ x
-    show Submodule.Quotient.mk (algebraMap S.A S.B a • n) = Submodule.Quotient.mk (a • n)
+    change Submodule.Quotient.mk (algebraMap S.A S.B a • n) = Submodule.Quotient.mk (a • n)
     rw [algebraMap_smul]
   have hAM' : IsScalarTower S.A (S.A ⧸ I) M' := IsScalarTower.of_algebraMap_smul fun a x ↦ by
     obtain ⟨m, rfl⟩ := Submodule.Quotient.mk_surjective _ x
@@ -205,7 +203,7 @@ theorem rTensor_mapQ_injective_of_henselian_of_flat_quotient
     rw [mem_maximalIdeal_quotient_smul_top_iff, ← mem_smul_top_equiv_iff φL]
     obtain ⟨n, hn⟩ := Submodule.Quotient.mk_surjective _ (φL x)
     have hux : u' x = (I • ⊤ : Submodule S.A S.M).mkQ (S.u n) := by
-      show ubar (φL x) = _
+      change ubar (φL x) = _
       rw [← hn]
       rfl
     rw [hux, mkQ_mem_smul_top_iff _ _ (Submodule.smul_mono_left hI)] at hx
@@ -219,9 +217,9 @@ theorem rTensor_mapQ_injective_of_henselian_of_flat_quotient
     (inferInstanceAs (HenselianLocalRing (S.A ⧸ I))) (inferInstanceAs (Module.Flat (S.A ⧸ I) N'))
   have hfac : ubar = (u'.restrictScalars S.A) ∘ₗ φL.symm.toLinearMap := by
     refine LinearMap.ext fun y ↦ ?_
-    show _ = ubar (φL (φL.symm y))
+    change _ = ubar (φL (φL.symm y))
     rw [LinearEquiv.apply_symm_apply]
-  show Function.Injective (ubar.rTensor Q)
+  change Function.Injective (ubar.rTensor Q)
   rw [hfac, LinearMap.rTensor_comp, LinearMap.coe_comp]
   exact (rTensor_injective_of_quotient I u' Q (hUI ((S.A ⧸ I) ⊗[S.A] Q))).comp
     (LinearEquiv.rTensor Q φL.symm).injective

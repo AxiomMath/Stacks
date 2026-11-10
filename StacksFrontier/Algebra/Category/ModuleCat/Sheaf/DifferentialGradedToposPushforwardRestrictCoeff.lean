@@ -327,20 +327,11 @@ theorem prodObjMk_inverseImageRingedToposHom
 
 /-- The `(Sh(X), f⁻¹O_Y) ⟶ Y` half of `tensoratorApp_chain`. -/
 theorem map_pushforward_map_eq_tensoratorApp_inverseImageRingedToposHom
-    (laxf : (pushforwardModules f).LaxMonoidal)
-    (hf : laxf = Stacks.SheafOfModules.RingedToposPullback.pushforwardModulesLaxMonoidal f)
     (laxg : (pushforwardModules (inverseImageRingedToposHom f)).LaxMonoidal)
     (hg : laxg = Stacks.SheafOfModules.RingedToposPullback.pushforwardModulesLaxMonoidal
       (inverseImageRingedToposHom f))
-    {M N P : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)} (m : M ⊗ N ⟶ P)
+    {M N P : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)}
     (m' : restrictCoeffMod f M ⊗ restrictCoeffMod f N ⟶ restrictCoeffMod f P)
-    (hm : ∀ (U : X.Cᵒᵖ) (a : (restrictCoeffMod f M).val.obj U)
-        (b : (restrictCoeffMod f N).val.obj U),
-      m.val.app U ((PresheafOfModules.tensorSheafUnit (Osharp := X.O) M N).app U
-          ((show M.val.obj U from a) ⊗ₜ (show N.val.obj U from b))) =
-        m'.val.app U ((PresheafOfModules.tensorSheafUnit
-          (Osharp := inverseImageStructureSheaf f) (restrictCoeffMod f M)
-          (restrictCoeffMod f N)).app U (a ⊗ₜ b)))
     (V : Y.Cᵒᵖ)
     (x : (Sheaf.sectionsFunctor Y.J V).obj
       (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
@@ -370,9 +361,6 @@ theorem map_pushforward_map_eq_tensoratorApp_inverseImageRingedToposHom
 theorem tensoratorApp_eq_map_pushforward_map
     (laxf : (pushforwardModules f).LaxMonoidal)
     (hf : laxf = Stacks.SheafOfModules.RingedToposPullback.pushforwardModulesLaxMonoidal f)
-    (laxg : (pushforwardModules (inverseImageRingedToposHom f)).LaxMonoidal)
-    (hg : laxg = Stacks.SheafOfModules.RingedToposPullback.pushforwardModulesLaxMonoidal
-      (inverseImageRingedToposHom f))
     {M N P : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)} (m : M ⊗ N ⟶ P)
     (m' : restrictCoeffMod f M ⊗ restrictCoeffMod f N ⟶ restrictCoeffMod f P)
     (hm : ∀ (U : X.Cᵒᵖ) (a : (restrictCoeffMod f M).val.obj U)
@@ -443,8 +431,8 @@ theorem tensoratorApp_chain
           Functor.prodObjMk x y) :
     tensoratorApp f (lax := laxf) m V x y =
       tensoratorApp (inverseImageRingedToposHom f) (lax := laxg) m' V x y :=
-  (tensoratorApp_eq_map_pushforward_map f laxf hf laxg hg m m' hm V x y z hz).trans
-    (map_pushforward_map_eq_tensoratorApp_inverseImageRingedToposHom f laxf hf laxg hg m m' hm
+  (tensoratorApp_eq_map_pushforward_map f laxf hf m m' hm V x y z hz).trans
+    (map_pushforward_map_eq_tensoratorApp_inverseImageRingedToposHom f laxg hg m'
       V x y z hz)
 
 /-- **The tensorator of the direct image along `f`, through the restriction of scalars to

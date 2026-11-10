@@ -45,7 +45,7 @@ theorem mem_nonZeroDivisors_iff_forall_notMem
       (SheafOfModules.unit X.ringCatSheaf) y := by
     apply (AlgebraicGeometry.isWeaklyAssociatedPrime_iff_isWeaklyAssociatedPoint
       (SheafOfModules.unit X.ringCatSheaf) U hU y y.2).mp
-    show IsWeaklyAssociatedPrime Γ(X, U) Γ(X, U) (hU.primeIdealOf y).asIdeal
+    change IsWeaklyAssociatedPrime Γ(X, U) Γ(X, U) (hU.primeIdealOf y).asIdeal
     rw [hyp]
     exact ⟨z, hq⟩
   refine hr ⟨⟨(y : X), hass hw⟩, y.2⟩ ?_

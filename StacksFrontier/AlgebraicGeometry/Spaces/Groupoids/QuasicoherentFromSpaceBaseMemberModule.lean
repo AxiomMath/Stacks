@@ -161,7 +161,7 @@ theorem memberTestMap_comp_chartLegSnd {p q r : SingleSite B S hS φ hφet} (k :
     memberTestMap B S hS G φ hφet k ≫ chartLegSnd B S hS φ hφet l.hom =
       chartLegSnd B S hS φ hφet (k ≫ l).hom := by
   apply ObjectProperty.hom_ext
-  show yoneda.map k.hom.hom.left ≫ yoneda.map l.hom.hom.left ≫ r.2.1.hom =
+  change yoneda.map k.hom.hom.left ≫ yoneda.map l.hom.hom.left ≫ r.2.1.hom =
     yoneda.map (k.hom.hom.left ≫ l.hom.hom.left) ≫ r.2.1.hom
   rw [yoneda.map_comp]
   exact (Category.assoc _ _ _).symm

@@ -66,7 +66,7 @@ theorem exists_epi_tensorObj_kernel (A L : X.Modules)
       _ = A ◁ q ≫ q ▷ L := by rw [hβL, Category.comp_id, whisker_exchange]
   let κ' : A ⊗ A ⟶ A ⊗ L := A ◁ q - (β_ A A).hom ≫ A ◁ q
   have hκ' : κ' ≫ q ▷ L = 0 := by
-    show (A ◁ q - (β_ A A).hom ≫ A ◁ q) ≫ q ▷ L = 0
+    change (A ◁ q - (β_ A A).hom ≫ A ◁ q) ≫ q ▷ L = 0
     rw [Preadditive.sub_comp, Category.assoc, e, sub_self]
   -- tensoring with `ℒ` is an equivalence, so it carries the kernel of `q` to that of `q ⊗ ℒ`
   let G : X.Modules ⥤ X.Modules := (Stacks.SheafOfModules.Tensor.sheafTensor
@@ -81,7 +81,7 @@ theorem exists_epi_tensorObj_kernel (A L : X.Modules)
   have hl' : l ≫ kernel.ι q ▷ L = κ' := by rw [← hG]; exact hl
   -- on `𝒦 ⊗ 𝒜` the Koszul map is `𝒦 ⊗ q`
   have hK : kernel.ι q ▷ A ≫ κ' = kernel q ◁ q ≫ kernel.ι q ▷ L := by
-    show kernel.ι q ▷ A ≫ (A ◁ q - (β_ A A).hom ≫ A ◁ q) = _
+    change kernel.ι q ▷ A ≫ (A ◁ q - (β_ A A).hom ≫ A ◁ q) = _
     rw [Preadditive.comp_sub, ← Category.assoc,
       BraidedCategory.braiding_naturality_left (kernel.ι q) A, Category.assoc,
       ← MonoidalCategory.whiskerLeft_comp, kernel.condition, MonoidalPreadditive.whiskerLeft_zero,

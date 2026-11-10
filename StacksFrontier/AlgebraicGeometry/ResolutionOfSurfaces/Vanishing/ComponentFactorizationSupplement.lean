@@ -152,7 +152,7 @@ theorem exists_ne_zero_mem_maximalIdeal_factorization_of_le_topologicalKrullDim_
     rw [map_prod]
     exact (Finset.mul_prod_erase Finset.univ (fun j => ρ i (a₀ j))
       (Finset.mem_univ i)).symm
-  show ρ i a = g i * hi i
+  change ρ i a = g i * hi i
   calc
     ρ i a = ρ i c * ρ i (∏ j : Fin V.numberOfComponents, a₀ j) := by
       simp [a]

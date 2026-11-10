@@ -31,8 +31,8 @@ of scalars inside `DerivedCategory.Q`, and
 predicates at an arbitrary object. Only then is the complex-level engine applied.
 
 **Why this avoids the obstruction recorded for `stalkOverBase`.** The implementation notes of
-`StacksFrontier.AlgebraicGeometry.Perfect.RelativeTorDimensionStalkObject` record that the descent of
-`AlgebraicGeometry.Scheme.Hom.stalkOverBase` to the derived categories cannot be formed, because
+`StacksFrontier.AlgebraicGeometry.Perfect.RelativeTorDimensionStalkObject` record that the descent
+of `AlgebraicGeometry.Scheme.Hom.stalkOverBase` to the derived categories cannot be formed, because
 `CategoryTheory.Functor.mapDerivedCategory` of that three-fold composite needs exactness instances
 that instance search rejects at the two spellings of the stalk ring's `NonAssocSemiring`. Nothing
 here forms the derived functor of a composite: the statement mentions `ModuleCat.restrictScalars`

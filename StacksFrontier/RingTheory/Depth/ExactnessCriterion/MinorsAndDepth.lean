@@ -416,7 +416,7 @@ intersection, and `q` being prime it lies outside `q`. -/
 @[ega "0 1.7.4" "partial"]
 lemma iInf_not_le_of_forall_not_le {N : ℕ} (I : Fin N → Ideal R) (q : Ideal R)
     [q.IsPrime] (h : ∀ k, ¬ I k ≤ q) : ¬ (⨅ k, I k) ≤ q := by
-  choose a ha hna using fun k => SetLike.not_le_iff_exists.mp (h k)
+  choose a ha hna using fun k => IsConcreteLE.not_le_iff_exists.mp (h k)
   intro hle
   have hmem : ∏ k, a k ∈ ⨅ k, I k := by
     refine (Submodule.mem_iInf _).mpr fun k => ?_

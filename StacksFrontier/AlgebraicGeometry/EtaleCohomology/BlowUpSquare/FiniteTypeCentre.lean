@@ -78,7 +78,7 @@ public theorem isPullback_exceptionalDivisor :
       I.subschemeι := by
   refine IsPullback.of_iso_pullback ⟨?_⟩ (I.comapIso (blowUpToBase I))
     (Scheme.IdealSheafData.comapIso_hom_fst _ _) rfl
-  show _ = ((I.comapIso (blowUpToBase I)).hom ≫
+  change _ = ((I.comapIso (blowUpToBase I)).hom ≫
     pullback.snd (blowUpToBase I) I.subschemeι) ≫ I.subschemeι
   rw [Category.assoc, ← pullback.condition, ← Category.assoc,
     Scheme.IdealSheafData.comapIso_hom_fst]

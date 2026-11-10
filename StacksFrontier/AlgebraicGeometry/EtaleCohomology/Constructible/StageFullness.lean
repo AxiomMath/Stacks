@@ -672,7 +672,7 @@ public theorem exists_stage_smallEtaleBaseChange_hom (hc : IsLimit c)
         B.inclusion.map (pullback.fst V.obj.hom pj) ≫
           (SmallEtale.toScheme B (Dg.obj (op j)).obj (Dg.obj (op j)).property).map g := by
     intro V V' g
-    show B.inclusion.map (((Over.pullback pj).map g.hom).left) ≫
+    change B.inclusion.map (((Over.pullback pj).map g.hom).left) ≫
         B.inclusion.map (pullback.fst V'.obj.hom pj) =
       B.inclusion.map (pullback.fst V.obj.hom pj) ≫ B.inclusion.map g.hom.left
     rw [← B.inclusion.map_comp, ← B.inclusion.map_comp]
@@ -769,7 +769,7 @@ public theorem exists_stage_smallEtaleBaseChange_hom (hc : IsLimit c)
     have hθW : θW' ≫ B.inclusion.map (pullback.fst W.obj.hom (coneStageHom B Dg c hX i)) =
         B.inclusion.map (pullback.fst ((smallEtaleBaseChange B t).obj W).obj.hom pj) ≫
           B.inclusion.map (pullback.fst W.obj.hom t) := hθ W
-    show (ψ' ≫ θW') ≫ B.inclusion.map (pullback.fst W.obj.hom (coneStageHom B Dg c hX i)) =
+    change (ψ' ≫ θW') ≫ B.inclusion.map (pullback.fst W.obj.hom (coneStageHom B Dg c hX i)) =
       (θU' ≫ w') ≫ B.inclusion.map (pullback.fst W.obj.hom (coneStageHom B Dg c hX i))
     rw [Category.assoc, Category.assoc, hθW, reassoc_of% hψfst]
     calc (B.inclusion.map (pullback.fst ((smallEtaleBaseChange B t).obj U).obj.hom pj) ≫ m) ≫
@@ -804,7 +804,7 @@ public theorem epi_pullback_fst_sheaf_of_epi {C : Type*} [Category* C]
   have hsq := (IsPullback.of_hasPullback f g).map
     (sheafToPresheaf J (Type uw) ⋙ (evaluation Cᵒᵖ (Type uw)).obj (op V))
   obtain ⟨z, hz, -⟩ := Types.exists_of_isPullback hsq (E.obj.map h.op x) y (by
-    show f.hom.app (op V) (E.obj.map h.op x) = g.hom.app (op V) y
+    change f.hom.app (op V) (E.obj.map h.op x) = g.hom.app (op V) y
     rw [hy]
     exact NatTrans.naturality_apply f.hom h.op x)
   exact ⟨z, hz⟩
@@ -948,7 +948,7 @@ public theorem smallEtaleVertexHomLifts_sheafifiedYoneda (hc : IsLimit c)
       (smallEtaleSheafifiedYonedaPullbackIso B (systemStageHom B Dg h) W).inv, ?_⟩
   rw [Iso.inv_comp_eq, hK U, hK W, Functor.map_comp, Functor.map_comp]
   simp only [Category.assoc]
-  rw [Iso.map_inv_hom_id_assoc]
+  rw [Iso.inv_hom_id_map_assoc]
   congr 1
   have hn := smallEtaleSheafifiedYonedaPullbackIso_hom_naturality B (coneStageHom B Dg c hX j) ψ
   have h2 : (Sheaf.sheafifiedYoneda (SmallEtale.topology B c.pt hX)).map

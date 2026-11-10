@@ -98,7 +98,7 @@ theorem Homotopy.exists_comp {K L : DifferentialGradedModule.{u, v, w} A} (f g :
        exact c.map_grading (n - 1) _ (h.map_grading n _ (a.map_grading n x hx))
      homotopy_eq := by
        intro x
-       show c.toFun (f.toFun (a.toFun x)) - c.toFun (g.toFun (a.toFun x)) =
+       change c.toFun (f.toFun (a.toFun x)) - c.toFun (g.toFun (a.toFun x)) =
          N.d (c.toFun (h.toLinearMap (a.toFun x))) +
            c.toFun (h.toLinearMap (a.toFun (K.d x)))
        have hc := LinearMap.congr_fun c.map_d (h.toLinearMap (a.toFun x))

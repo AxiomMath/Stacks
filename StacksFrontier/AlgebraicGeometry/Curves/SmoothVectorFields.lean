@@ -157,7 +157,7 @@ theorem germ_onSections_mem_maximalIdeal_of_fixes [IsAlgClosed k] [LocallyOfFini
     rw [onSections_restrict, show D.onSections b = 0 from onSections_app D ⊤ _, map_zero]
   have heval : X.evaluation V x hxV (res.hom a - resb.hom b) = 0 := by
     rw [map_sub, sub_eq_zero]
-    show (X.presheaf.germ V x hxV ≫ X.residue x).hom (res.hom a) =
+    change (X.presheaf.germ V x hxV ≫ X.residue x).hom (res.hom a) =
       (X.presheaf.germ V x hxV ≫ X.residue x).hom (resb.hom b)
     rw [CommRingCat.comp_apply, CommRingCat.comp_apply, TopCat.Presheaf.germ_res_apply,
       TopCat.Presheaf.germ_res_apply, ← CommRingCat.comp_apply, ← CommRingCat.comp_apply,
@@ -196,7 +196,7 @@ theorem not_surjective_of_fixes [IsAlgClosed k] [LocallyOfFiniteType g]
       have key : ψ (((Scheme.Modules.presheaf (Scheme.Hom.relativeDifferentials g)).germ U x
           hxU).hom ((Scheme.Hom.universalRelativeDerivation g).d (X := op U) a)) ∈
           maximalIdeal (X.presheaf.stalk x) := by
-        show (Stacks.UnitStalk.unitStalkLinearEquiv X x).symm (mapFun D.differentialsHom x _) ∈ _
+        change (Stacks.UnitStalk.unitStalkLinearEquiv X x).symm (mapFun D.differentialsHom x _) ∈ _
         rw [mapFun_differentialsHom_germ, LinearEquiv.symm_apply_apply]
         exact germ_onSections_mem_maximalIdeal_of_fixes D x hx hfix U hxU a
       exact (congrArg (· ∈ maximalIdeal (X.presheaf.stalk x))
@@ -208,7 +208,7 @@ theorem not_surjective_of_fixes [IsAlgClosed k] [LocallyOfFiniteType g]
   intro hsurj
   obtain ⟨ω, hω⟩ := hsurj (Stacks.UnitStalk.unitStalkLinearEquiv X x 1)
   have h1 : ψ ω = 1 := by
-    show (Stacks.UnitStalk.unitStalkLinearEquiv X x).symm (mapFun D.differentialsHom x ω) = 1
+    change (Stacks.UnitStalk.unitStalkLinearEquiv X x).symm (mapFun D.differentialsHom x ω) = 1
     rw [hω, LinearEquiv.symm_apply_apply]
   exact (maximalIdeal.isMaximal (X.presheaf.stalk x)).ne_top
     ((Ideal.eq_top_iff_one _).mpr (h1 ▸ hψ ω))
@@ -329,7 +329,7 @@ theorem eq_zero_of_restrictOpens_eq_zero {ι : Type*} {U : ι → Scheme.{u}} (j
     [∀ i, IsOpenImmersion (j i)] (hcov : ∀ x : X, ∃ i, x ∈ Set.range (j i))
     (h : ∀ i, D.restrictOpens (j i) = 0) : D = 0 := by
   refine ext' fun W a => ?_
-  show D.onSections a = 0
+  change D.onSections a = 0
   refine TopCat.Presheaf.section_ext X.sheaf W (D.onSections a) 0 fun x hx => ?_
   obtain ⟨i, y, rfl⟩ := hcov x
   have hle : j i ''ᵁ j i ⁻¹ᵁ W ≤ W := Set.image_preimage_subset _ _

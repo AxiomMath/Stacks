@@ -101,7 +101,8 @@ isomorphisms themselves, so that the identification of the first pages is an iso
 the assertion that one exists.
 
 The derived categories are those of `CategoryTheory.HasDerivedCategory.standard`, whose priority
-is raised for the file, matching `StacksFrontier/AlgebraicGeometry/DeRham/SmoothSpectralSequence.lean`
+is raised for the file, matching
+`StacksFrontier/AlgebraicGeometry/DeRham/SmoothSpectralSequence.lean`
 and `StacksFrontier/AlgebraicGeometry/DeRham/DerivedDirectImage.lean`: the locally small model
 arrives with the imports as a competing instance of the same priority, and the objects used here
 are baked at the standard one.

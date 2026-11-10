@@ -249,7 +249,7 @@ theorem constantInverseImageTransition (X : TopCat.{u})
     (constantSpace X) X (𝟙 _) F φ V
   have ht : (augmentationPullbackTransition (constantSpace X) X (𝟙 _) F φ).app V =
       𝟙 (((TopCat.Sheaf.pullback (Type u) (𝟙 X)).obj F).obj.obj V) := by
-    show (((TopCat.Sheaf.pullbackPushforwardAdjunction (Type u) (𝟙 X)).homEquiv F
+    change (((TopCat.Sheaf.pullbackPushforwardAdjunction (Type u) (𝟙 X)).homEquiv F
       ((TopCat.Sheaf.pullback (Type u) (𝟙 X)).obj F)).symm
         ((TopCat.Sheaf.pullbackPushforwardAdjunction (Type u) (𝟙 X)).unit.app F ≫
           eqToHom (by rfl))).hom.app V = _

@@ -213,7 +213,7 @@ theorem mono_colimitDesc_of_exact (htu : ∀ i, t i ≫ u i = 0) (huv : ∀ i, u
   Abelian.mono_of_epi_of_mono_of_mono'
     (rowHom hT₁ hT₂ hT₃ hT₄ hψ₁ hψ₂ hψ₃ hψ₄ t u v ht hu hv t' u' v' ht' hu' hv')
     (by
-      show colim.map _ ≫ colim.map _ = 0
+      change colim.map _ ≫ colim.map _ = 0
       rw [← Functor.map_comp, liftNatTrans_comp_eq_zero hT₁ hT₂ hT₃ t u ht hu htu,
         Functor.map_zero])
     (exact_colim_map_liftNatTrans hT₂ hT₃ hT₄ u v hu hv huv hA).exact_toComposableArrows

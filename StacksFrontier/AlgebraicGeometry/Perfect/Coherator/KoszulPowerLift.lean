@@ -104,7 +104,7 @@ private theorem moduleCat_hom_eq_zero_of_apply_one {A : Type u} [CommRing A]
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro x
-  show φ.hom x = 0
+  change φ.hom x = 0
   calc
     _ = φ.hom (x • (1 : A)) := by congr 1; simp
     _ = x • φ.hom 1 := map_smul _ _ _
@@ -167,13 +167,13 @@ private theorem exists_power_kills_single_map
     simpa [Category.assoc, Iso.inv_hom_id] using hnat
   have hαone : ((e.inv ≫ H.map (g ≫ t)) : ModuleCat.of A A ⟶ H.obj E) 1 = 0 := by
     rw [Functor.map_comp, ← Category.assoc, hsource, Category.assoc]
-    show α.hom (a ^ k • (1 : A)) = 0
+    change α.hom (a ^ k • (1 : A)) = 0
     rw [map_smul]
     exact hk
   have hαzero := moduleCat_hom_eq_zero_of_apply_one (e.inv ≫ H.map (g ≫ t)) hαone
   have hzero : g ≫ t = 0 := by
     apply (StacksDraft.Perfect.single_derived_homology_bijective (ModuleCat.of A A) E n).injective
-    show e.inv ≫ H.map (g ≫ t) = e.inv ≫ H.map 0
+    change e.inv ≫ H.map (g ≫ t) = e.inv ≫ H.map 0
     rw [Functor.map_zero, hαzero]
     simp
   refine ⟨k, ?_⟩
@@ -245,7 +245,7 @@ private theorem derivedKoszul_snoc_chain_triangle {A : Type u} [CommRing A]
       simp [HomologicalComplex.extendMap_f _ _ (rfl : E.f n = E.f n)]
     · exact (C.isZero_extend_X E i (fun n hn => hi ⟨n, hn⟩)).eq_of_src _ _
   have hmul : DerivedCategory.Q.map q₁ = a • 𝟙 (koszulObject f) := by
-    show DerivedCategory.Q.map (HomologicalComplex.extendMap (a • 𝟙 C) E) = _
+    change DerivedCategory.Q.map (HomologicalComplex.extendMap (a • 𝟙 C) E) = _
     rw [hExt, Functor.map_smul, DerivedCategory.Q.map_id]
   let T' := Triangle.mk (a • 𝟙 (koszulObject f)) (DerivedCategory.Q.map q₂) c₀
   have hinv : DerivedCategory.Q.map eC.hom ≫ DerivedCategory.Q.map eC.inv =
@@ -254,14 +254,14 @@ private theorem derivedKoszul_snoc_chain_triangle {A : Type u} [CommRing A]
   have eT : T ≅ T' := Triangle.isoMk T T'
     (Iso.refl _) (Iso.refl _) (DerivedCategory.Q.mapIso eC)
     (by
-      show DerivedCategory.Q.map q₁ ≫ 𝟙 _ = 𝟙 _ ≫ (a • 𝟙 (koszulObject f))
+      change DerivedCategory.Q.map q₁ ≫ 𝟙 _ = 𝟙 _ ≫ (a • 𝟙 (koszulObject f))
       rw [Category.comp_id, Category.id_comp, hmul])
     (by
-      show DerivedCategory.Q.map (CochainComplex.mappingCone.triangle q₁).mor₂ ≫
+      change DerivedCategory.Q.map (CochainComplex.mappingCone.triangle q₁).mor₂ ≫
         DerivedCategory.Q.map eC.hom = DerivedCategory.Q.map q₂
       exact (DerivedCategory.Q.map_comp _ _).symm)
     (by
-      show δ ≫ (CategoryTheory.shiftFunctor (DerivedCategory (ModuleCat.{u} A))
+      change δ ≫ (CategoryTheory.shiftFunctor (DerivedCategory (ModuleCat.{u} A))
           (1 : ℤ)).map (𝟙 (koszulObject f)) =
         DerivedCategory.Q.map eC.hom ≫ DerivedCategory.Q.map eC.inv ≫ δ
       rw [CategoryTheory.Functor.map_id, Category.comp_id, ← Category.assoc, hinv,
@@ -351,7 +351,7 @@ private theorem koszulPowerUnit_eq_koszulUnitChain {A : Type u} [CommRing A] {r 
         Koszul.ιMulti_mem 0 Fin.elim0⟩ := by
     apply (exteriorPower.zeroEquiv A (Fin r → A)).injective
     rw [LinearEquiv.apply_symm_apply, map_smul]
-    show x = x * (exteriorPower.zeroEquiv A (Fin r → A))
+    change x = x * (exteriorPower.zeroEquiv A (Fin r → A))
       ⟨ExteriorAlgebra.ιMulti A 0 Fin.elim0,
         Koszul.ιMulti_mem 0 Fin.elim0⟩
     have hι : (⟨ExteriorAlgebra.ιMulti A 0 Fin.elim0,
@@ -364,7 +364,7 @@ private theorem koszulPowerUnit_eq_koszulUnitChain {A : Type u} [CommRing A] {r 
     HomologicalComplex.singleObjXSelf, HomologicalComplex.singleObjXIsoOfEq]
   let xA : A := (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0
     (ModuleCat.of A A)).hom a
-  show ((Koszul.seqComplex (fun i => f i ^ (e + 1))).extendXIso
+  change ((Koszul.seqComplex (fun i => f i ^ (e + 1))).extendXIso
       ComplexShape.embeddingDownNat (i := 0) rfl).inv.hom
         (((AdicKoszul.koszulPowerUnitChain f e).f 0).hom xA) =
     ((Koszul.seqComplex (fun i => f i ^ (e + 1))).extendXIso
@@ -550,7 +550,7 @@ private theorem exists_snoc_koszulUnitChain_factor {A : Type u} [CommRing A] {r 
   obtain ⟨q, c, hT⟩ := derivedKoszul_snoc_chain_triangle
     (fun i => g i ^ (m + 1)) (a ^ (m + 1))
   obtain ⟨v, hv⟩ := Triangle.yoneda_exact₂ _ hT t' (by
-    show (a ^ (m + 1) • 𝟙 (koszulObject (fun i => g i ^ (m + 1)))) ≫ t' = 0
+    change (a ^ (m + 1) • 𝟙 (koszulObject (fun i => g i ^ (m + 1)))) ≫ t' = 0
     rw [Linear.smul_comp, Category.id_comp, hk'])
   let v₀ : koszulObject (Fin.snoc (fun i => g i ^ (m + 1)) (a ^ (m + 1))) ⟶ E := v
   have hv₀ : t' = DerivedCategory.Q.map q ≫ v₀ := hv
@@ -563,7 +563,7 @@ private theorem exists_snoc_koszulUnitChain_factor {A : Type u} [CommRing A] {r 
     DerivedCategory.Q.map_comp _ _
   have hs : s = DerivedCategory.Q.map uq ≫ v₀ := by
     rw [hmapq, Category.assoc, ← hv₀]
-    show s = qUnit m ≫ p₀ ≫ t₀
+    change s = qUnit m ≫ p₀ ≫ t₀
     rw [← Category.assoc, htr]
     exact ht₀
   obtain ⟨w, hw⟩ := factor_through_koszulUnit

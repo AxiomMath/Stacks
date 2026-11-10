@@ -335,7 +335,7 @@ private theorem rebasePredeformation_projection_comm :
         (P₁.object_projection a).symm)
   refine CategoryTheory.Functor.hext hobj ?_
   intro a b f
-  show P₀.projection.map ((rebasePredeformationCategory iΛ q hx₀ hx₁ i hi P₀ P₁).map f) ≍ _
+  change P₀.projection.map ((rebasePredeformationCategory iΛ q hx₀ hx₁ i hi P₀ P₁).map f) ≍ _
   rw [deformationHom_projection iΛ P₀, deformationHom_projection iΛ P₁,
     rebasePredeformationCategory_morphisms_map, rebaseMorphismData_ringHom]
   refine HEq.trans (eqToHom_comp_heq _ _) ?_
@@ -455,7 +455,7 @@ private theorem deformationArrow_base
   apply Over.OverMorphism.ext
   have hm := (P.objects c).arrow_base
   simp only [Over.comp_left, Over.eqToHom_left]
-  show _ = eqToHom _ ≫ Spec.map _ ≫ eqToHom _
+  change _ = eqToHom _ ≫ Spec.map _ ≫ eqToHom _
   rw [← hm]
   simp
 
@@ -654,7 +654,7 @@ private theorem isHomLift_map
   apply IsHomLift.of_fac' q r (H.map f)
     ((Functor.congr_obj h a).trans (IsHomLift.domain_eq p r f))
     ((Functor.congr_obj h b).trans (IsHomLift.codomain_eq p r f))
-  show (H ⋙ q).map f = _
+  change (H ⋙ q).map f = _
   rw [Functor.congr_hom h f, IsHomLift.fac' p r f]
   simp
 
@@ -1139,8 +1139,8 @@ private theorem nonempty_fibreProductOfPredeformationCategories (hG : G ⋙ qY =
     have ecb : ec.inv.hbase = eqToHom
         ((deformationBase iΛ (pW) c).trans
           (congrArg (fun R => J.obj (Opposite.op R)) cr)).symm := by
-      show ei.inv.hbase ≫ (L.map (eqToHom cp.symm)).hbase = _
-      show ei.inv.hbase ≫ qW.map (eqToHom cp.symm) = _
+      change ei.inv.hbase ≫ (L.map (eqToHom cp.symm)).hbase = _
+      change ei.inv.hbase ≫ qW.map (eqToHom cp.symm) = _
       rw [ei_base, eqToHom_map, eqToHom_trans]
     have ecax : qX.IsHomLift (𝟙 (J.obj (Opposite.op R))) ec.inv.a := by
       have hh := ec.inv.ha
@@ -1237,7 +1237,7 @@ private theorem nonempty_fibreProductOfPredeformationCategories (hG : G ⋙ qY =
       (pX).projection (pZ).projection (pY).projection mF right f
       (by dsimp [f]; infer_instance) (by dsimp [f]; infer_instance)
     exact ⟨c, ⟨asIso f⟩⟩
-  show M.IsEquivalence
+  change M.IsEquivalence
   exact {}
 
 /-- Let `𝒲` be a 2-fibre product of `𝒳 ⟶ 𝒴` and `𝒵 ⟶ 𝒴` in categories fibred in groupoids over

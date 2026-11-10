@@ -128,8 +128,7 @@ all, their two sides being separated by exactly this definition — clear togeth
 
 /-- **The derived pullback is additive.**  Found by instance search here, before the local
 reducibility attribute below changes the keys under `structureSheafRing`. -/
-@[instance_reducible]
-def derivedPullbackAdditive {X Y : RingedSpace.{u, u}} (f : X ⟶ Y) :
+theorem derivedPullbackAdditive {X Y : RingedSpace.{u, u}} (f : X ⟶ Y) :
     (Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces.derivedPullback f).Additive :=
   inferInstance
 

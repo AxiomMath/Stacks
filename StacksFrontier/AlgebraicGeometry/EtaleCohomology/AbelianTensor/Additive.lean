@@ -55,10 +55,10 @@ attribute [local instance] AddCommGrpCat.monoidalCategory
 equivalence with modules over a copy of `ℤ` is monoidal, faithful and additive, and the tensor
 product of modules is additive in each variable. -/
 instance monoidalPreadditive_general : MonoidalPreadditive AddCommGrpCat.{w} := by
-  letI : (uliftIntEquivalence.{w}).inverse.Monoidal := by
+  let : (uliftIntEquivalence.{w}).inverse.Monoidal := by
     change (Monoidal.equivalenceTransported (uliftIntEquivalence.{w})).inverse.Monoidal
     infer_instance
-  letI : (uliftIntEquivalence.{w}).inverse.Additive :=
+  let : (uliftIntEquivalence.{w}).inverse.Additive :=
     (uliftIntEquivalence.{w}).inverse.additive_of_preserves_binary_products
   exact monoidalPreadditive_of_faithful (uliftIntEquivalence.{w}).inverse
 

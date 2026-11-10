@@ -99,7 +99,7 @@ theorem cechι_mk_pow {s s' : Finset (Fin r)} (hsu : s ⊆ s') (x : M) (n : ℕ)
     have hprod : (∏ i ∈ s, f i) * (∏ i ∈ t \ s, f i) = ∏ i ∈ t, f i := by
       rw [mul_comm]; exact Finset.prod_sdiff ht
     rw [IsLocalizedModule.mk'_eq_iff]
-    show LocalizedModule.mk x 1 = _
+    change LocalizedModule.mk x 1 = _
     rw [Submonoid.smul_def, LocalizedModule.smul'_mk, smul_smul, ← mul_pow, hprod]
     refine LocalizedModule.mk_eq.2 ⟨1, ?_⟩
     simp [Submonoid.smul_def]
@@ -132,7 +132,7 @@ theorem mem_gradedPiece_cechι {c : Fin r → ℕ} (hc : ∀ i, f i ∈ 𝒜 (c 
     (SetLike.pow_mem_graded n hd) hx
   have hdeg : (n • (∑ i ∈ s' \ s, c i) : ℕ) +ᵥ (e + n • ((∑ i ∈ s, c i : ℕ) : ℤ)) =
       e + n • ((∑ i ∈ s', c i : ℕ) : ℤ) := by
-    show ((n • (∑ i ∈ s' \ s, c i) : ℕ) : ℤ) + (e + n • ((∑ i ∈ s, c i : ℕ) : ℤ)) = _
+    change ((n • (∑ i ∈ s' \ s, c i) : ℕ) : ℤ) + (e + n • ((∑ i ∈ s, c i : ℕ) : ℤ)) = _
     rw [← Finset.sum_sdiff hsu]
     simp only [nsmul_eq_mul]
     push_cast

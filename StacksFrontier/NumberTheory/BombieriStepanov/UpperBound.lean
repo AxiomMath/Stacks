@@ -170,7 +170,7 @@ theorem sum_mem_poleSpace {a : ℕ} {T : Type*} (s : Finset T) {f : T → K}
       (ih fun u hu => hf u (Finset.mem_insert_of_mem hu))
 
 /-- If `f ∈ L(a P₀)` and `c ∈ k`, then `c f ∈ L(a P₀)`. -/
-theorem smul_mem_poleSpace [Fintype k] {a : ℕ} {f : K} (hf : f ∈ poleSpace v P₀ a) (c : k) :
+theorem smul_mem_poleSpace [Finite k] {a : ℕ} {f : K} (hf : f ∈ poleSpace v P₀ a) (c : k) :
     algebraMap k K c * f ∈ poleSpace v P₀ a :=
   ⟨hf.1.trans (le_val_algebraMap_mul _ c f),
     fun P hP => (hf.2 P hP).trans (le_val_algebraMap_mul _ c f)⟩

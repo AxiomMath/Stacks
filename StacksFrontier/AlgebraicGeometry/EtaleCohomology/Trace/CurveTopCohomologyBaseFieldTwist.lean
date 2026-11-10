@@ -35,7 +35,7 @@ namespace Stacks.EtaleCohomology
 attribute [local instance] HasDerivedCategory.standard
 
 variable {k : Type u} [Field k] [Fintype k] {X : Scheme.{u}} (g : X ⟶ Spec (.of k))
-  [LocallyOfFiniteType g] [QuasiCompact g] [IsSeparated g] [IsProper g]
+  [IsProper g]
   (kbar : Type u) [Field kbar] [Algebra k kbar] (m : ℕ) [NeZero m] (p q : ℕ) [Fact p.Prime]
   [CharP k p] (hcard : Fintype.card k = p ^ q)
   [IsAlgClosed kbar] [IsCurve k g]
@@ -144,11 +144,11 @@ theorem exists_addEquiv_compactSupportSheafCohomology_two_inverseImage_of_twist
   have hv' : e₂ (e₁' t) = Φ v := hv.symm
   simp only [AddEquiv.trans_apply, AddEquiv.apply_symm_apply]
   rw [he₁', hv', AddEquiv.symm_apply_apply, map_nsmul]
-  show (T.map ι.hom).hom ((T.map (Gg.map Bs)).hom ((π.app _).hom (e₁' t))) = _
+  change (T.map ι.hom).hom ((T.map (Gg.map Bs)).hom ((π.app _).hom (e₁' t))) = _
   rw [hBs, hnat]
-  show (T.map Bx).hom ((π.app _).hom (e₂ (e₁' t))) = _
+  change (T.map Bx).hom ((π.app _).hom (e₂ (e₁' t))) = _
   rw [hv']
-  show (T.map Bx).hom ((π.app _).hom (constantTopCohomologyMap g kbar m c₀ Q v)) =
+  change (T.map Bx).hom ((π.app _).hom (constantTopCohomologyMap g kbar m c₀ Q v)) =
     (p ^ q : ℕ) • constantTopCohomologyMap g kbar m c₀ Q (B.hom v)
   rw [compactSupportSheafFrobenius_constantTopCohomologyMap, hc₀, constantTopCohomologyMap_apply,
     map_nsmul, map_nsmul, ← constantTopCohomologyMap_apply]

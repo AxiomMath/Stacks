@@ -265,7 +265,7 @@ theorem hasOpenStabilizers_sub (N : AddSubgroup M)
   intro x
   have hset : {g : G | g • x = x} = {g : G | g • (x : M) = (x : M)} := by
     ext g
-    rw [Set.mem_setOf_eq, Set.mem_setOf_eq, Subtype.ext_iff,
+    rw [Set.mem_ofPred_eq, Set.mem_ofPred_eq, Subtype.ext_iff,
       subDistribMulAction_smul_coe N hN]
   rw [hset]
   exact h _

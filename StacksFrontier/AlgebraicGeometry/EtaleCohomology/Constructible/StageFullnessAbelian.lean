@@ -321,7 +321,7 @@ public theorem forgetLift_comp_map {Z : Sheaf J (Type u₂)} {G H : Sheaf J AddC
         (sheafCompose J (forget AddCommGrpCat.{u₂})).obj G) :
     forgetLift i₁ i₂ α β ≫ (sheafCompose J (forget AddCommGrpCat.{u₂})).map p = α := by
   ext V z
-  show p.hom.app V (i₁.hom.app V (forgetHomApp' α V z) + i₂.hom.app V (forgetHomApp' β V z)) =
+  change p.hom.app V (i₁.hom.app V (forgetHomApp' α V z) + i₂.hom.app V (forgetHomApp' β V z)) =
     forgetHomApp' α V z
   rw [map_add, hom_app_hom_app_of_comp_eq h₁, hom_app_hom_app_of_comp_eq h₂]
   simp
@@ -332,7 +332,7 @@ public theorem forgetLift_comp_map' {Z : Sheaf J (Type u₂)} {G H : Sheaf J Add
         (sheafCompose J (forget AddCommGrpCat.{u₂})).obj G) :
     forgetLift i₁ i₂ α β ≫ (sheafCompose J (forget AddCommGrpCat.{u₂})).map p = β := by
   ext V z
-  show p.hom.app V (i₁.hom.app V (forgetHomApp' α V z) + i₂.hom.app V (forgetHomApp' β V z)) =
+  change p.hom.app V (i₁.hom.app V (forgetHomApp' α V z) + i₂.hom.app V (forgetHomApp' β V z)) =
     forgetHomApp' β V z
   rw [map_add, hom_app_hom_app_of_comp_eq h₁, hom_app_hom_app_of_comp_eq h₂]
   simp
@@ -354,7 +354,7 @@ public theorem forget_hom_ext_of_total {Z : Sheaf J (Type u₂)}
     hom_app_apply_congr h₁ V z
   have e₂ : p₂.hom.app V (forgetHomApp' x V z) = p₂.hom.app V (forgetHomApp' y V z) :=
     hom_app_apply_congr h₂ V z
-  show forgetHomApp' x V z = forgetHomApp' y V z
+  change forgetHomApp' x V z = forgetHomApp' y V z
   rw [t (forgetHomApp' x V z), t (forgetHomApp' y V z), e₁, e₂]
 
 /-- The first of the two maps whose equality expresses additivity of `ψ`: `ψ` precomposed with the
@@ -851,7 +851,7 @@ public theorem smallEtaleUnderlyingSetTransport_of_realizes {i j : I} (h : i ≤
     smallEtaleUnderlyingSetSheaf_map_stageComparison_hom,
     smallEtaleUnderlyingSetSheaf_map_stageComparison_hom]
   rw [Iso.inv_comp_eq] at hb
-  simp only [Functor.map_comp, Category.assoc, Iso.hom_inv_id_assoc, Iso.map_hom_inv_id_assoc]
+  simp only [Functor.map_comp, Category.assoc, Iso.hom_inv_id_assoc, Iso.hom_inv_id_map_assoc]
   rw [reassoc_of% hb]
   simp
 
@@ -885,7 +885,7 @@ public theorem realizes_of_smallEtaleUnderlyingSetTransport {j k : I} (h : j ≤
     exact (smallEtaleSheafPullbackCompIso' B _ _ _ _
       (coneStageHom_comp B Dg c hX h)).hom.naturality ψ
   rw [Functor.map_comp, Functor.map_comp]
-  show (smallEtaleUnderlyingSetSheaf B (B.obj c.pt hX)).map
+  change (smallEtaleUnderlyingSetSheaf B (B.obj c.pt hX)).map
       ((smallEtaleSheafPullback B AddCommGrpCat.{u + 1} (coneStageHom B Dg c hX k)).map d) ≫
       (smallEtaleUnderlyingSetSheaf B (B.obj c.pt hX)).map
         (smallEtaleStageComparison B AddCommGrpCat.{u + 1} Dg c hX h G).hom =
@@ -896,7 +896,7 @@ public theorem realizes_of_smallEtaleUnderlyingSetTransport {j k : I} (h : j ≤
     smallEtaleUnderlyingSetSheaf_map_stageComparison_hom,
     smallEtaleUnderlyingSetSheaf_map_stageComparison_hom]
   simp only [smallEtaleUnderlyingSetTransport, Functor.map_comp, Category.assoc,
-    Iso.hom_inv_id_assoc, Iso.map_hom_inv_id_assoc]
+    Iso.hom_inv_id_assoc, Iso.hom_inv_id_map_assoc]
   rw [reassoc_of% hnat]
 
 /-- **Stacks 09YU, clause (2), the fullness assertion.** Let `X = lim X_i` be the limit of a
@@ -990,9 +990,9 @@ public theorem smallEtaleStagesEssSurj_isConstructibleAbelianSheaf [Nonempty I]
   have hP' := isConstructibleFiniteSheaf_pullback B (systemStageHom B Dg him) P hP
   have hQ' := isConstructibleFiniteSheaf_pullback B (systemStageHom B Dg hlm) Q hQ
   have : Finite (AddCommGrpCat.of (ULift.{u + 1} (ZMod N₁))) := by
-    show Finite (ULift (ZMod N₁)); infer_instance
+    change Finite (ULift (ZMod N₁)); infer_instance
   have : Finite (AddCommGrpCat.of (ULift.{u + 1} (ZMod N₂))) := by
-    show Finite (ULift (ZMod N₂)); infer_instance
+    change Finite (ULift (ZMod N₂)); infer_instance
   have hA₁ := isConstructibleAbelianSheaf_composeAndSheafify_copower B (Dg.obj (op m))
     (AddCommGrpCat.of (ULift.{u + 1} (ZMod N₁))) _ hP'
   have hA₂ := isConstructibleAbelianSheaf_composeAndSheafify_copower B (Dg.obj (op m))

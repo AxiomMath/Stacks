@@ -158,7 +158,7 @@ private theorem modificationMap_isBirational :
   have : IsIntegral V.subscheme := modificationSubscheme_isIntegral f g hcd
   have hηV : V.subschemeι (genericPoint V.subscheme) = z := closureSubscheme_genericPoint z
   have hηW : modificationMap f g hcd (genericPoint V.subscheme) = genericPoint W := by
-    show pullback.snd f g (V.subschemeι (genericPoint V.subscheme)) = _
+    change pullback.snd f g (V.subschemeι (genericPoint V.subscheme)) = _
     rw [hηV]
     exact Stacks.Chow.envelopePointLift_map _ _ _
   have hres : IsIso ((modificationMap f g hcd).residueFieldMap
@@ -168,7 +168,7 @@ private theorem modificationMap_isBirational :
       rw [hηV]
       exact Stacks.Chow.envelopePointLift_residueFieldMap_isIso (pullback.snd f g)
         (isCompletelyDecomposed_pullback f g hcd) (genericPoint W)
-    show IsIso ((V.subschemeι ≫ pullback.snd f g).residueFieldMap (genericPoint V.subscheme))
+    change IsIso ((V.subschemeι ≫ pullback.snd f g).residueFieldMap (genericPoint V.subscheme))
     rw [Scheme.residueFieldMap_comp]
     exact IsIso.comp_isIso' hq (isIso_residueFieldMap_of_isPreimmersion V.subschemeι _)
   refine isBirational_of_bijOn_of_isIso_stalkMap (modificationMap f g hcd) ?_ ?_

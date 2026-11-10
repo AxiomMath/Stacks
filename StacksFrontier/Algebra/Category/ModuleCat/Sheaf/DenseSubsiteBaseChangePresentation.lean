@@ -142,7 +142,7 @@ instance freeElementsπ_epi {A : RingCat.{w}} (M : ModuleCat.{w} A) : Epi (freeE
   intro m
   refine ⟨(Sigma.ι (fun _ : M ↦ ModuleCat.of A A) m).hom (1 : A), ?_⟩
   exact (congrArg (fun φ ↦ φ.hom (1 : A))
-    (Sigma.ι_desc (fun m ↦ ModuleCat.ofHom (LinearMap.toSpanSingleton A M m)) m)).trans
+    (Sigma.ι_comp_desc (fun m ↦ ModuleCat.ofHom (LinearMap.toSpanSingleton A M m)) m)).trans
     (one_smul A m)
 
 /-- The kernel of `freeElementsπ`. -/

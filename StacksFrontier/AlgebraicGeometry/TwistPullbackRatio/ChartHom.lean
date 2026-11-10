@@ -76,7 +76,7 @@ public theorem pullbackSection_res {X Y : Scheme.{u}} (f : Y ⟶ X) (F : X.Modul
       show ((Opens.map f.base).map (homOfLE hU)).op ≫ (homOfLE h).op =
         (homOfLE (h.trans ((Opens.map f.base).map (homOfLE hU)).le)).op from
           Subsingleton.elim _ _]
-  show ((Scheme.Modules.pullback f).obj F).presheaf.map (homOfLE h).op
+  change ((Scheme.Modules.pullback f).obj F).presheaf.map (homOfLE h).op
       (((Scheme.Modules.pullbackPushforwardAdjunction f).unit.app F).val.app (op U')
         (F.presheaf.map (homOfLE hU).op a)) = _
   rw [hnat]

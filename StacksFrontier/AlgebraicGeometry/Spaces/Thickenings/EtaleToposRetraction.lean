@@ -151,7 +151,6 @@ end Retraction
 variable {i : X ⟶ X'} (hi : IsThickeningHom B S hS i) {q : X' ⟶ X} (h : i ≫ q = 𝟙 X)
   (hq : yoneda.relativelyRepresentable q.hom)
 
-include hi in
 /-- Base change of étale scheme charts along a retraction of a thickening is continuous. -/
 theorem isContinuous_smallBaseChange_retraction :
     (smallBaseChange B S hS q hq).IsContinuous (SmallEtale.topology B S hS X.1)

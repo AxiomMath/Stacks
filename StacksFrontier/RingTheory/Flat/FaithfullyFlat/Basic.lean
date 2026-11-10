@@ -211,7 +211,6 @@ add_to_sga "1 IV 2.1" Module.FaithfullyFlat.iff_zero_iff_lTensor_zero
 add_to_ega "0 6.4.1" Module.FaithfullyFlat.iff_zero_iff_lTensor_zero
 add_to_ega "0 6.6.1" "more general" Module.FaithfullyFlat.iff_zero_iff_lTensor_zero
 add_to_ega "IV 2.2.7" "special case" Module.FaithfullyFlat.iff_zero_iff_lTensor_zero
-add_to_ega "0 6.4.1" "(a) <=> (c)" Module.FaithfullyFlat.iff_zero_iff_rTensor_zero
 add_to_stacks 00HR Module.FaithfullyFlat.of_flat_of_isLocalHom
 add_to_sga "1 IV 2.6" "(i), special case" Module.FaithfullyFlat.of_flat_of_isLocalHom
 add_to_ega "0 6.6.1" "(e) ⇒ (a), special case" Module.FaithfullyFlat.of_flat_of_isLocalHom

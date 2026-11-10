@@ -109,7 +109,7 @@ theorem toRelativeSpecPoint_map {T T' : BigFppfOver B S hS} (g : T' ⟶ T)
     (x : X.1.obj (op T)) :
     toRelativeSpecPoint B S hS f (X.1.map g.op x) =
       (toRelativeSpecPoint B S hS f x).map B S hS g := by
-  show _ = (⟨Y.1.map g.op (f.hom.app (op T) x), compPushforwardAlgebraMap B S hS
+  change _ = (⟨Y.1.map g.op (f.hom.app (op T) x), compPushforwardAlgebraMap B S hS
     (compPushforwardAlgebraMap B S hS (𝟙 _) (pointHomOver B S hS f x (f.hom.app (op T) x) rfl))
     (specPointOverMap B S hS g (f.hom.app (op T) x))⟩ :
       RelativeSpecPoint B S hS (pushforwardAlgebra B S hS (Over.mk f)) T')
@@ -117,7 +117,7 @@ theorem toRelativeSpecPoint_map {T T' : BigFppfOver B S hS} (g : T' ⟶ T)
   refine RelativeSpecPoint.mk_comp_eq B S hS (𝟙 _)
     (NatTrans.naturality_apply f.hom g.op x) _ _ ?_
   refine ObjectProperty.hom_ext _ ?_
-  show yonedaEquiv.symm (X.1.map g.op x) = yoneda.map g ≫ yonedaEquiv.symm x
+  change yonedaEquiv.symm (X.1.map g.op x) = yoneda.map g ≫ yonedaEquiv.symm x
   rw [yonedaEquiv_symm_naturality_left]
 
 /-- **The morphism `X ⟶ \underline{Spec}_Y(f_* 𝒪_X)`** sending a point of `X` to its image in `Y`
@@ -150,7 +150,7 @@ theorem relativeSpecPointsEquiv_toRelativeSpecPoints_app (T : BigFppfOver B S hS
 theorem toRelativeSpecPoints_comp_π :
     toRelativeSpecPoints B S hS f ≫ relativeSpecPointsπ B S hS _ = f.hom := by
   refine NatTrans.ext (funext fun T => ConcreteCategory.hom_ext _ _ fun x => ?_)
-  show (relativeSpecPointsπ B S hS _).app T ((toRelativeSpecPoints B S hS f).app T x) =
+  change (relativeSpecPointsπ B S hS _).app T ((toRelativeSpecPoints B S hS f).app T x) =
     f.hom.app T x
   rw [relativeSpecPointsπ_app, relativeSpecPointsEquiv_toRelativeSpecPoints_app]
   rfl
@@ -266,7 +266,7 @@ theorem isPullback_pullbackFst_comp_of_existsUnique (π₁ : Z₁ ⟶ Y') (π₂
     obtain ⟨z₂, hz₂, -⟩ := huniq T z₁ (h ▸ v.2)
     obtain ⟨x, hx₁, hx₂⟩ := ex z₂ v (by rw [← hq', hz₂, h])
     refine ⟨x, ?_, hx₂⟩
-    show q.app T ((pullback.fst π₂ V.ι).app T x) = z₁
+    change q.app T ((pullback.fst π₂ V.ι).app T x) = z₁
     rw [hx₁, hz₂]
 
 end Preimage
@@ -357,7 +357,7 @@ theorem existsUnique_toRelativeSpecPoints_comp_app (hf : IsAffineHom B S hS f.ho
       rw [← relativeSpecPointsEquiv_relativeSpecPointsMap_app]
       exact congrArg _ h
     · apply (relativeSpecPointsEquiv B S hS A T).injective
-      show relativeSpecPointsEquiv B S hS A T ((relativeSpecPointsMap B S hS a).app (op T)
+      change relativeSpecPointsEquiv B S hS A T ((relativeSpecPointsMap B S hS a).app (op T)
         ((toRelativeSpecPoints B S hS f).app (op T) x')) = _
       rw [relativeSpecPointsEquiv_relativeSpecPointsMap_app, h, hp₂]
   refine ⟨x, (key x).2 (by rw [hx, Equiv.apply_symm_apply]), fun x' hx' => hbij.1 ?_⟩
@@ -403,7 +403,7 @@ theorem isLimit_toRelativeSpecPointsCone_and_isPullback (hf : IsAffineHom B S hS
   refine ⟨⟨(isLimitMapConeRelativeSpecPointsFunctor B S hS hι).ofIsoLimit
     (Cone.ext (asIso (toRelativeSpecPoints B S hS f)).symm fun j => ?_)⟩, hcomp,
     fun j => ?_⟩
-  · show relativeSpecPointsMap B S hS (ι.app j.unop) =
+  · change relativeSpecPointsMap B S hS (ι.app j.unop) =
       inv (toRelativeSpecPoints B S hS f) ≫ toRelativeSpecPoints B S hS f ≫
         relativeSpecPointsMap B S hS (ι.app j.unop)
     rw [IsIso.inv_hom_id_assoc]

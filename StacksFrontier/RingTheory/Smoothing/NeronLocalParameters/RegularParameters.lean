@@ -54,7 +54,7 @@ private lemma maximalIdealPreimage_comap (S : NeronSituation) :
     S.maximalIdealPreimage.comap (algebraMap S.R S.A) =
       IsLocalRing.maximalIdeal S.R := by
   have : IsLocalHom (algebraMap S.R S.Λ) := S.extension.2
-  show (Ideal.comap (algebraMap S.A S.Λ) (IsLocalRing.maximalIdeal S.Λ)).comap
+  change (Ideal.comap (algebraMap S.A S.Λ) (IsLocalRing.maximalIdeal S.Λ)).comap
     (algebraMap S.R S.A) = _
   rw [Ideal.comap_comap, ← IsScalarTower.algebraMap_eq S.R S.A S.Λ]
   exact IsLocalRing.maximalIdeal_comap (algebraMap S.R S.Λ)
@@ -62,7 +62,7 @@ private lemma maximalIdealPreimage_comap (S : NeronSituation) :
 private lemma uniformizer_mem_maximalIdealPreimage (S : NeronSituation) (π : S.R)
     (hπ : IsLocalRing.maximalIdeal S.R = Ideal.span ({π} : Set S.R)) :
     algebraMap S.R S.A π ∈ S.maximalIdealPreimage := by
-  show π ∈ S.maximalIdealPreimage.comap (algebraMap S.R S.A)
+  change π ∈ S.maximalIdealPreimage.comap (algebraMap S.R S.A)
   rw [maximalIdealPreimage_comap S, hπ]
   exact Ideal.subset_span (by simp)
 
@@ -154,10 +154,10 @@ private lemma closedFibre_atPrime_isRegularLocalRing_of_smoothAt
   let p : Ideal B := S.maximalIdealPreimage.map (algebraMap S.A B)
   have : p.IsPrime := isPrime_map_algebraMap_of_notMem S.maximalIdealPreimage hf
   have hpunder : p.comap (algebraMap S.R B) = IsLocalRing.maximalIdeal S.R := by
-    show Ideal.comap (algebraMap S.R B)
+    change Ideal.comap (algebraMap S.R B)
       (Ideal.map (algebraMap S.A B) S.maximalIdealPreimage) = _
     rw [IsScalarTower.algebraMap_eq S.R S.A B, ← Ideal.comap_comap]
-    show Ideal.comap (algebraMap S.R S.A)
+    change Ideal.comap (algebraMap S.R S.A)
       (Ideal.under S.A (Ideal.map (algebraMap S.A B) S.maximalIdealPreimage)) = _
     rw [IsLocalization.under_map_of_isPrime_disjoint (Submonoid.powers f) B
       (I := S.maximalIdealPreimage) inferInstance
@@ -535,7 +535,7 @@ private lemma blowupChart_algEquiv_fraction
     let J : Ideal (MvPolynomial (Fin c) B) :=
       Ideal.span (Set.range fun j : Fin c =>
         MvPolynomial.C π * MvPolynomial.X j - MvPolynomial.C (g j))
-    show Ideal.Quotient.mk J (MvPolynomial.X i) *
+    change Ideal.Quotient.mk J (MvPolynomial.X i) *
         Ideal.Quotient.mk J (MvPolynomial.C π) =
       Ideal.Quotient.mk J (MvPolynomial.C (g i))
     rw [← map_mul, mul_comm (MvPolynomial.X i) (MvPolynomial.C π)]

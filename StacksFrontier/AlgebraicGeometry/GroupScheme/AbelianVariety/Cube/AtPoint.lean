@@ -9,8 +9,8 @@ public import Mathlib.RingTheory.TensorProduct.IsBaseChangePi
 For a rational point `z` of an affine chart `V`, the restriction maps to the fibre at `z` identify
 the base change of the chart complex along evaluation at `z` with the Čech complex of the fibre,
 compatibly with the face maps. The cone conditions and the vanishing of `H⁰` on the fibre, computed
-in `StacksFrontier/AlgebraicGeometry/GroupScheme/AbelianVariety/Cube/BaseCase.lean`, therefore transfer
-to the base-changed chart complex.
+in `StacksFrontier/AlgebraicGeometry/GroupScheme/AbelianVariety/Cube/BaseCase.lean`, therefore
+transfer to the base-changed chart complex.
 
 ## Main results
 
@@ -50,7 +50,7 @@ theorem θC_d (p : ℕ) (c : CX hV U N p) :
       θC z hzk hV hzV U N (p + 1) (((chartComplex hV U N).d p (p + 1)).hom c) := by
   apply Subtype.ext
   rw [fd_val]
-  show _ = Stacks.Cech.cochainBaseChange (jzV z hzk hzV) (chartCover U V) (coverB U)
+  change _ = Stacks.Cech.cochainBaseChange (jzV z hzk hzV) (chartCover U V) (coverB U)
     (Equiv.refl _) (chartModule N V) (coverB_eq_preimage z hzk hzV U) (p + 1)
     (((chartComplex hV U N).d p (p + 1)).hom c).1
   rw [d_apply_val]
@@ -75,6 +75,7 @@ def NormX : Prop :=
     pulledGen₂ N (faceXB A) (jzV z hzk hzV ≫ (PV V).ι)
       (g₂ := Scheme.Modules.Hom.app (restrictPullbackIso (jzV z hzk hzV) (PV V).ι N).hom ⊤ σX)
 
+omit [Fintype ι] [DecidableEq ι] in
 /-- Restriction to the fibre intertwines the face map along `e × A` with its fibre analogue. -/
 theorem θD_phiY (hnY : NormY z hzk hzV N (g₁ := g₁) (σY := σY)) (p : ℕ) (c : CX hV U N p) :
     θD z hzk hzV U p (phiY hV U ha₀ N hg₁ p c) =
@@ -83,6 +84,7 @@ theorem θD_phiY (hnY : NormY z hzk hzV N (g₁ := g₁) (σY := σY)) (p : ℕ)
   exact compat_aux z hzk hzV N (face₁ A) (τz z hzk) (faceYB A) (hcommY z hzk hzV) hg₁ hσY hnY
     _ _ _ _ _ _ _ _ (c.1 _)
 
+omit [Fintype ι] [DecidableEq ι] in
 /-- Restriction to the fibre intertwines the face map along `A × e` with its fibre analogue. -/
 theorem θD_phiX (hnX : NormX z hzk hzV N (g₂ := g₂) (σX := σX)) (p : ℕ) (c : CX hV U N p) :
     θD z hzk hzV U p (phiX hV U ha₀ N hg₂ p c) =
@@ -91,6 +93,7 @@ theorem θD_phiX (hnX : NormX z hzk hzV N (g₂ := g₂) (σX := σX)) (p : ℕ)
   exact compat_aux z hzk hzV N (face₂ A) (τz z hzk) (faceXB A) (hcommX z hzk hzV) hg₂ hσX hnX
     _ _ _ _ _ _ _ _ (c.1 _)
 
+omit [Fintype ι] [DecidableEq ι] in
 include hg₁ hg₂ hσY hσX in
 /-- **The cone conditions after base change to a rational point with trivial fibre.** -/
 theorem transfer_at [Finite ι] [IsSeparated (chartMap hV)] [(chartModule N V).IsQuasicoherent]
@@ -106,6 +109,8 @@ theorem transfer_at [Finite ι] [IsSeparated (chartMap hV)] [(chartModule N V).I
     (SurjZero (d₀ hV U N) (targetD V U ha₀) (phi₀ hV U ha₀ N hg₁ hg₂) k ∧
       InjOne (d₀ hV U N) (d₁ hV U N) (targetD V U ha₀) (phi₁ hV U ha₀ N hg₁ hg₂) k) ∧
     LinearMap.ker ((coneD₀ (d₀ hV U N) (phi₀ hV U ha₀ N hg₁ hg₂)).baseChange k) = ⊥ := by
+  classical
+  have := Fintype.ofFinite ι
   let : Algebra (chartRing V) k := (evz z hzV).toAlgebra
   let := fibMod U (G := fibreModule z hzk hzV N) 0
   let := fibMod U (G := fibreModule z hzk hzV N) 1
@@ -148,7 +153,7 @@ theorem transfer_at [Finite ι] [IsSeparated (chartMap hV)] [(chartModule N V).I
     refine LinearMap.ext fun uw => Prod.ext ?_ (Prod.ext ?_ ?_)
     · exact (θD_faceD z hzk hzV U 0 uw.1).symm
     · exact (θD_faceD z hzk hzV U 0 uw.2).symm
-    · show evE U ha₀ (θD z hzk hzV U 0 uw.1) - evE U ha₀ (θD z hzk hzV U 0 uw.2) =
+    · change evE U ha₀ (θD z hzk hzV U 0 uw.1) - evE U ha₀ (θD z hzk hzV U 0 uw.2) =
         evz z hzV (evalE V U ha₀ uw.1 - evalE V U ha₀ uw.2)
       rw [map_sub, evz_evalE z hzk hzV U ha₀, evz_evalE z hzk hzV U ha₀]
   have hφ₀ : ((fibφ₀ U ha₀ hσY hσX).restrictScalars (chartRing V)) ∘ₗ θC z hzk hV hzV U N 0 =
@@ -162,7 +167,7 @@ theorem transfer_at [Finite ι] [IsSeparated (chartMap hV)] [(chartModule N V).I
     refine LinearMap.ext fun c => Prod.ext ?_ (Prod.ext ?_ ?_)
     · exact (θD_phiY z hzk hV hzV U N ha₀ hg₁ hσY hnY 1 c).symm
     · exact (θD_phiX z hzk hV hzV U N ha₀ hg₂ hσX hnX 1 c).symm
-    · show (0 : k) = evz z hzV 0
+    · change (0 : k) = evz z hzV 0
       rw [map_zero]
   have hR := phi₁_comp_d₀ hV U ha₀ N hg₁ hg₂ hnorm
   have hchain : ∀ x, fibδ U ha₀ (fibφ₀ U ha₀ hσY hσX x) =
@@ -184,14 +189,13 @@ theorem transfer_at [Finite ι] [IsSeparated (chartMap hV)] [(chartModule N V).I
     Stacks.ConeTransfer.injOne_of hC0 hC1 hC2 hD0 hD1 hd₀ hd₁ hδ₀ hφ₁
     (fib_injOne U ha₀ hσY hσX hAc hU hUcov hchain)⟩,
     Stacks.ConeTransfer.ker_coneD₀_baseChange_eq_bot_of hC0 hC1 hD0 hd₀ hφ₀
-    (fib_injZero U ha₀ hσY hσX hAc hUcov hBc)⟩
+    (fib_injZero U ha₀ hσY hσX hUcov hBc)⟩
 
 omit [GrpObj A] [Fintype ι] [DecidableEq ι] in
 /-- **Vanishing of `H⁰` after base change to a rational point whose fibre has no sections.** -/
 theorem ker_d₀_evz [Finite ι] [IsSeparated (chartMap hV)] [(chartModule N V).IsQuasicoherent]
     (hUaff : ∀ ab, IsAffineOpen (chartCover U V ab))
     (hUcov : (⊤ : A.left.Opens) = ⨆ a, U a)
-    (hAc : Function.Surjective ((Scheme.ΓSpecIso (.of k)).inv ≫ A.hom.appTop))
     (h0 : ∀ s : Γ(fibreModule z hzk hzV N, ⊤), s = 0) :
     letI : Algebra (chartRing V) k := (evz z hzV).toAlgebra
     LinearMap.ker ((d₀ hV U N).baseChange k) = ⊥ := by
@@ -212,7 +216,7 @@ theorem ker_d₀_evz [Finite ι] [IsSeparated (chartMap hV)] [(chartModule N V).
       θC z hzk hV hzV U N 0 = θC z hzk hV hzV U N 1 ∘ₗ d₀ hV U N :=
     LinearMap.ext fun c => θC_d z hzk hV hzV U N 0 c
   exact Stacks.ConeTransfer.ker_baseChange_eq_bot_of hC0 hC1 hd₀
-    (fib_kerZero U hAc hUcov h0)
+    (fib_kerZero U hUcov h0)
 
 end Stacks.Cube
 

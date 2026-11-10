@@ -594,11 +594,7 @@ theorem exists_eq_algebraMap_of_chartHom (k j : ℕ) {U A : SmallEtale T.B T.S T
   obtain ⟨t, rfl⟩ := hK.2 κ
   clear ha
   let := chartAlgebra (hF := T.hX) e
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    refine ⟨0, Ideal.zero_mem _, ?_⟩
-    rw [map_zero, map_zero]
-    exact map_zero _
+  induction t using TensorProduct.inductionOn with
   | tmul c κ' =>
     have h1 : φ.val.app (op U) ((kernel.ι φ).val.app (op U) κ') = 0 :=
       congrArg (fun m => (m.val.app (op U)) κ') (kernel.condition φ)

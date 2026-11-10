@@ -131,12 +131,10 @@ lemma tensorBaseChange_hom_ext {P : Type w} [AddCommGroup P]
     (hpure : ∀ (a : H) (s : S) (x : G),
       φ (a ⊗ₜ[S] (s ⊗ₜ[R] x)) = ψ (a ⊗ₜ[S] (s ⊗ₜ[R] x))) (t : H ⊗[S] (S ⊗[R] G)) :
     φ t = ψ t := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add a b ha hb => simpa only [map_add] using congrArg₂ (· + ·) ha hb
   | tmul a q =>
-    induction q using TensorProduct.induction_on with
-    | zero => rw [TensorProduct.tmul_zero, map_zero, map_zero]
+    induction q using TensorProduct.inductionOn with
     | add c d hc hd =>
       rw [TensorProduct.tmul_add, map_add, map_add]
       exact congrArg₂ (· + ·) hc hd
@@ -238,7 +236,7 @@ lemma baseChange_naturality {H H' : PresheafOfModules.{w} (ringPresheaf O₂.obj
         ((PresheafOfModules.restrictScalars (ringPresheafMap f)).map φ)).app X).hom.toAddMonoidHom
   refine tensorBaseChange_hom_ext L R ?_
   intro a s x
-  show tensorBaseChange
+  change tensorBaseChange
       ((show H'.obj X from φ.app X a) ⊗ₜ[O₂.obj.obj X] (s ⊗ₜ[O₁.obj.obj X] x)) =
     (show H'.obj X from φ.app X (s • a)) ⊗ₜ[O₁.obj.obj X] x
   rw [tensorBaseChange_tmul, (φ.app X).hom.map_smul]

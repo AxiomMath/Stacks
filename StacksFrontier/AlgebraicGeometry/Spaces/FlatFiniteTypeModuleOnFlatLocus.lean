@@ -327,7 +327,7 @@ theorem isFinitePresentationOnCharts_flatLocusRestrict (f : Xs ⟶ Ys)
       V₀ hV₀ h₀
   have hwa : HasLocallyFiniteWeaklyAssociatedPointsOnCharts B S hS Ys.1 :=
     hasLocallyFiniteWeaklyAssociatedPointsOnCharts_of_isSurjectiveChart B S hS V₀ hV₀ h₀
-  show IsFinitePresentationOnCharts B S hS (flatLocusSpace B S hS f F hopen).2
+  change IsFinitePresentationOnCharts B S hS (flatLocusSpace B S hS f F hopen).2
     (flatLocusRestrict B S hS f F hopen)
   have hMqc : (flatLocusRestrict B S hS f F hopen).IsQuasicoherentOnSite :=
     isQuasicoherentOnSite_modulePullback_of_isQuasicoherentOnSite B S hS _ F hqc
@@ -393,7 +393,7 @@ theorem isFlatOver_flatLocusRestrict (f : Xs ⟶ Ys) (F : Modules.{u, u} B S hS 
   have hopen : IsOpenSubspace B S hS (flatLocusOpenSubspace B S hS Xs.2 f.hom F) :=
     isOpenSubspace_flatLocusOpenSubspace_of_isSurjectiveChart B S hS Xs f.hom F hf hqc hft
       V₀ hV₀ h₀
-  show IsFlatOver B S hS (flatLocusSpace B S hS f F hopen).2
+  change IsFlatOver B S hS (flatLocusSpace B S hS f F hopen).2
     ((flatLocusSpaceι B S hS f F hopen).hom ≫ f.hom) (flatLocusRestrict B S hS f F hopen)
   intro d u
   refine (_root_.AlgebraicGeometry.isFlatOverAt_iff_of_moduleIso _

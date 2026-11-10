@@ -66,10 +66,10 @@ theorem exists_closedImmersion_grassmannian (X : (SmoothProjectiveScheme k).Full
     (pullback.lift_fst _ _ _).trans (Category.comp_id _)
   refine ⟨n + 1, n + 2, Nat.succ_pos n, Nat.lt_succ_self _,
     SmoothProjectiveScheme.homMk (j ≫ e) ?_, ?_⟩
-  · show (j ≫ e) ≫ pullback.fst _ _ = X.obj.hom
+  · change (j ≫ e) ≫ pullback.fst _ _ = X.obj.hom
     rw [Category.assoc, hef]
     exact hjf
-  · show IsClosedImmersion (j ≫ e)
+  · change IsClosedImmersion (j ≫ e)
     infer_instance
 
 end Stacks.WeilCohomology.SmoothProjectiveScheme

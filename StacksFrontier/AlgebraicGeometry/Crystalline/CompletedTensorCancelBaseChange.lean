@@ -124,7 +124,7 @@ public theorem completedTensorCancelBaseChange_of_tmul (d : D') (m : M) (omega :
     (LinearEquiv.symm_apply_eq _).2
       (adicCompletionLinearEquivMapModule_of (pAdicIdeal (A := D) p) D' (Omega ⊗[D] M)
         (pAdicIdeal_eq_map_algebraMap p D D') ((d • omega) ⊗ₜ m)).symm
-  show AdicCompletion.congr (pAdicIdeal (A := D) p) (TensorProduct.comm D Omega M)
+  change AdicCompletion.congr (pAdicIdeal (A := D) p) (TensorProduct.comm D Omega M)
       ((adicCompletionLinearEquivMapModule (pAdicIdeal (A := D) p) D' (Omega ⊗[D] M)
           (pAdicIdeal_eq_map_algebraMap p D D')).symm
         (AdicCompletion.congr (pAdicIdeal (A := D') p) (tensorCancelBaseChange D D' Omega M)

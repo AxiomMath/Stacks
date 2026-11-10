@@ -236,7 +236,7 @@ public theorem hom_ringObject_residueObject_eq_zero (m : Ideal A) [m.IsMaximal] 
   let κA := ModuleCat.of A m.ResidueField
   let f : (DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).obj P ⟶
       (DerivedCategory.singleFunctor (ModuleCat.{u} A) n).obj κA := h.hom
-  show f = 0
+  change f = 0
   rcases lt_or_gt_of_ne hn with hn | hn
   · let _ : Projective P := ModuleCat.projective_of_categoryTheory_projective P
     exact DerivedCategory.from_singleFunctor_obj_eq_zero_of_isLE_of_projective hn _ f

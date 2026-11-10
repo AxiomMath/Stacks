@@ -140,7 +140,7 @@ private theorem dgOnComp_map_eqToHom
   let _ : Category A.Comp := DGCategory.instCategoryComp A
   cases h
   apply Subtype.ext
-  show F.map (A.id x) = A.id (F.obj x)
+  change F.map (A.id x) = A.id (F.obj x)
   rw [F.map_id]
 
 private theorem eqToIso_hom_square {C : Type*} [Category C]
@@ -357,7 +357,7 @@ theorem rotatedAssociatedTriangle_iso_connectingConeTriangle
       simpa using S.toShift_comp_right (n := 1) (x := z) (y := z₁)
         (z := x) (l := 0) (m := 0) δ' q.1
     rw [hcomp']
-    show A.comp (by lia : (0 : ℤ) + 0 = 0)
+    change A.comp (by lia : (0 : ℤ) + 0 = 0)
         ((S.toShift 1 z₁ x 0) δ') q.1 = (S.toShift 1 z x 0) δ
     rw [show (S.toShift 1 z₁ x 0) δ' =
         (S.shiftFunctor 1).map f.1 by
@@ -381,7 +381,7 @@ theorem rotatedAssociatedTriangle_iso_connectingConeTriangle
     let m₀ : A.Cocycle z₁ ((S.shiftFunctor 1).obj x₀) := FPlus.map fMinus
     have hmap₂' : HEq m₀.1 g.1 := by
       dsimp [m₀, FPlus, FMinus, fMinus, DGCategory.DGFunctor.onComp]
-      show HEq ((S.shiftFunctor 1).map ((S.shiftFunctor (-1)).map g.1)) g.1
+      change HEq ((S.shiftFunctor 1).map ((S.shiftFunctor (-1)).map g.1)) g.1
       exact hmap₂
     have hm₀heq : HEq m₀ g := cocycle_heq_of_val_heq m₀ g hz ht hmap₂'
     have hm₀ : (m₀ : (show A.Comp from z₁) ⟶
@@ -398,7 +398,7 @@ theorem rotatedAssociatedTriangle_iso_connectingConeTriangle
         FPlus.map fMinus ≫ FPlus.map (eqToHom hxComp) :=
       FPlus.map_comp fMinus (eqToHom hxComp)
     have hmStart : m = FPlus.map fMinus ≫ FPlus.map (eqToHom hxComp) := by
-      show FPlus.map f = _
+      change FPlus.map f = _
       rw [hf, hmapcomp]
     have hmStep : FPlus.map fMinus ≫ FPlus.map (eqToHom hxComp) =
         m₀ ≫ eqToHom ht := by
@@ -456,7 +456,7 @@ theorem rotatedAssociatedTriangle_iso_connectingConeTriangle
     have hcat : q ≫ m = (g : (show A.Comp from z) ⟶
         (show A.Comp from (S.shiftFunctor 1).obj x)) := by
       have hqq : q ≫ qinv = (𝟙 (show A.Comp from z)) := by
-        show eqToHom hzComp.symm ≫ eqToHom hzComp = 𝟙 (show A.Comp from z)
+        change eqToHom hzComp.symm ≫ eqToHom hzComp = 𝟙 (show A.Comp from z)
         rw [eqToHom_trans]
         have hp : hzComp.symm.trans hzComp = rfl := Subsingleton.elim _ _
         rw [hp, eqToHom_refl]
@@ -471,7 +471,7 @@ theorem rotatedAssociatedTriangle_iso_connectingConeTriangle
         _ = g := by
           exact Category.id_comp (self := (inferInstance : Category A.Comp))
             (g : (show A.Comp from z) ⟶ (show A.Comp from (S.shiftFunctor 1).obj x))
-    show A.comp (by lia : (0 : ℤ) + 0 = 0)
+    change A.comp (by lia : (0 : ℤ) + 0 = 0)
         ((S.shiftFunctor 1).map f.1) q.1 =
       (S.toShift 1 z x 0) δ
     have hval := congrArg (fun h : (show A.Comp from z) ⟶
@@ -488,7 +488,7 @@ theorem rotatedAssociatedTriangle_iso_connectingConeTriangle
   let u : A.Cocycle y (C.cone f) := ⟨uVal, huClosed⟩
   have hqinvq : A.comp (by lia : (0 : ℤ) + 0 = 0) q.1 qinv.1 = A.id z₁ := by
     have hc : qinv ≫ q = 𝟙 (show A.Comp from z₁) := by
-      show eqToHom hzComp ≫ eqToHom hzComp.symm = 𝟙 _
+      change eqToHom hzComp ≫ eqToHom hzComp.symm = 𝟙 _
       rw [eqToHom_trans]
       have hp : hzComp.trans hzComp.symm = rfl := Subsingleton.elim _ _
       rw [hp, eqToHom_refl]
@@ -509,7 +509,7 @@ theorem rotatedAssociatedTriangle_iso_connectingConeTriangle
   let v : A.Cocycle (C.cone f) y := ⟨vVal, hvClosed⟩
   have hqqRaw : A.comp (by lia : (0 : ℤ) + 0 = 0) qinv.1 q.1 = A.id z := by
     have hc : q ≫ qinv = 𝟙 (show A.Comp from z) := by
-      show eqToHom hzComp.symm ≫ eqToHom hzComp = 𝟙 _
+      change eqToHom hzComp.symm ≫ eqToHom hzComp = 𝟙 _
       rw [eqToHom_trans]
       have hp : hzComp.symm.trans hzComp = rfl := Subsingleton.elim _ _
       rw [hp, eqToHom_refl]
@@ -567,11 +567,11 @@ theorem rotatedAssociatedTriangle_iso_connectingConeTriangle
     hom := (DGCategory.compToK A).map u
     inv := (DGCategory.compToK A).map v
     hom_inv_id := by
-      show Quotient.mk _ (A.compCocycle v u) = Quotient.mk _
+      change Quotient.mk _ (A.compCocycle v u) = Quotient.mk _
         (⟨A.id y, A.d_id y⟩ : A.Cocycle y y)
       exact congrArg (Quotient.mk _) (Subtype.ext hvuRaw)
     inv_hom_id := by
-      show Quotient.mk _ (A.compCocycle u v) = Quotient.mk _
+      change Quotient.mk _ (A.compCocycle u v) = Quotient.mk _
         (⟨A.id (C.cone f), A.d_id (C.cone f)⟩ : A.Cocycle (C.cone f) (C.cone f))
       exact congrArg (Quotient.mk _) (Subtype.ext huvRaw)
   }
@@ -588,22 +588,22 @@ theorem rotatedAssociatedTriangle_iso_connectingConeTriangle
     rfl
   · have hUA_K : (DGCategory.compToK A).map E.a ≫ (DGCategory.compToK A).map u =
         (DGCategory.compToK A).map F.a := by
-      show Quotient.mk _ (A.compCocycle u E.a) = Quotient.mk _ F.a
+      change Quotient.mk _ (A.compCocycle u E.a) = Quotient.mk _ F.a
       exact congrArg (Quotient.mk _) (Subtype.ext hUA)
     have hi₂ : (Iso.refl (show A.K from x)).hom = (eqToIso hobj₂).hom := rfl
     rw [hi₂]
     apply eqToIso_hom_left_square hobj₂ _ _
-    show HEq ((DGCategory.compToK A).map E.a ≫ (DGCategory.compToK A).map u)
+    change HEq ((DGCategory.compToK A).map E.a ≫ (DGCategory.compToK A).map u)
       ((DGCategory.compToK A).map F.a)
     exact heq_of_eq hUA_K
   · have htermK :
         ((DGCategory.compToK A).map u ≫ (DGCategory.compToK A).map F.b) ≫
           (DGCategory.compToK A).map qinv = (DGCategory.compToK A).map E.b := by
-      show Quotient.mk _ (A.compCocycle qinv (A.compCocycle F.b u)) = Quotient.mk _ E.b
+      change Quotient.mk _ (A.compCocycle qinv (A.compCocycle F.b u)) = Quotient.mk _ E.b
       exact congrArg (Quotient.mk _) (Subtype.ext htermUB)
     have hqinvK : (DGCategory.compToK A).map qinv =
         (eqToHom hzK : (show A.K from z₁) ⟶ (show A.K from z)) := by
-      show (DGCategory.compToK A).map (eqToHom hzComp) = _
+      change (DGCategory.compToK A).map (eqToHom hzComp) = _
       rw [eqToHom_map]
       congr 1
     have hbefore :

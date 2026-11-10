@@ -94,8 +94,7 @@ private theorem glueingTermTensorEquiv_differential
     (N : Type v) [AddCommGroup N] [Module R N] (p : ℕ) (y : GlueingTerm f M p ⊗[R] N) :
     glueingTermTensorEquiv f M N (p + 1) ((glueingDifferential f M p).rTensor N y) =
       glueingDifferential f (M ⊗[R] N) p (glueingTermTensorEquiv f M N p y) := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul x n =>
     funext T
     rw [LinearMap.rTensor_tmul, glueingTermTensorEquiv_tmul_apply, glueingDifferential_apply,
@@ -237,10 +236,10 @@ public theorem glueingComplex_exact_third
     rw [← glueingTermTensorEquiv_diagonal, ht, map_sub, LinearEquiv.apply_symm_apply,
       glueingTermTensorEquiv_unit_deg]
   refine ⟨(t, -w - v), Prod.ext ?_ ?_⟩
-  · show localizationDiagonal f (M ⊗[R] S) t - localizationTensorMap S f M 1 (-w - v) = y
+  · change localizationDiagonal f (M ⊗[R] S) t - localizationTensorMap S f M 1 (-w - v) = y
     rw [ht', map_sub, map_neg]
     abel
-  · show -(glueingDifferential f M 1 (-w - v)) = x
+  · change -(glueingDifferential f M 1 (-w - v)) = x
     rw [map_sub, map_neg, hv, sub_zero, neg_neg, hw]
 
 public theorem singleton_subset_pair_left' {r : ℕ} (a b : Fin r) :
@@ -432,14 +431,14 @@ public theorem glueing_exact_middle_of_models
       rw [hsing s]
       set i := oneIndex s
       apply (Ψ i).injective
-      show Ψ i (LocalizedModule.mkLinearMap _ (M ⊗[R] S) y' -
+      change Ψ i (LocalizedModule.mkLinearMap _ (M ⊗[R] S) y' -
         LocalizedModule.map (cechSub f {i}) ((TensorProduct.mk R M S).flip 1)
           (x' (singletonIndex i))) = Ψ i 0
       rw [map_sub, hΨ, hΨκ, hx', LinearMap.comp_apply, LinearEquiv.coe_coe,
         LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply, h₁, sub_self, map_zero]
     · funext ⟨T, hT⟩
       obtain ⟨a, b, hab, rfl⟩ := exists_lt_eq_of_card_eq_two_aux hT
-      show -(glueingDifferential f M 1 x' (pairIndex hab.ne)) = 0
+      change -(glueingDifferential f M 1 x' (pairIndex hab.ne)) = 0
       rw [glueingDifferential_apply_pair f x' hab, hpair a b hab.ne, sub_self, neg_zero]
   obtain ⟨m, hm⟩ := ((glueingComplex_exact R S f M hflat hq).2 (y', x')).mp hβ
   refine ⟨m, ?_, fun i ↦ ?_⟩
@@ -471,11 +470,11 @@ public theorem glueing_injective_of_models
   apply (glueingComplex_exact R S f M hflat hq).1
   rw [map_zero]
   refine Prod.ext ?_ ?_
-  · show m ⊗ₜ (1 : S) = 0
+  · change m ⊗ₜ (1 : S) = 0
     apply θ.injective
     rw [hθ, h₀, map_zero]
   · funext s
-    show LocalizedModule.mkLinearMap (cechSub f s.1) M m = 0
+    change LocalizedModule.mkLinearMap (cechSub f s.1) M m = 0
     have hloc : IsLocalizedModule (cechSub f s.1) (l₁ (oneIndex s)) := by
       rw [cechSub_eq_powers_of_eq_singleton f (oneIndex_spec s)]; infer_instance
     obtain ⟨Φ, hΦ⟩ := exists_cechMod_equiv_aux f (l₁ (oneIndex s)) s.1
@@ -636,7 +635,7 @@ public theorem glueing_exact_third_of_models
     refine Prod.ext ?_ ?_
     · funext ⟨T, hT⟩
       obtain ⟨a, b, hab, rfl⟩ := exists_lt_eq_of_card_eq_two hT
-      show glueingDifferential f (M ⊗[R] S) 1 y' (pairIndex hab.ne) -
+      change glueingDifferential f (M ⊗[R] S) 1 y' (pairIndex hab.ne) -
         LocalizedModule.map (cechSub f {a, b}) ((TensorProduct.mk R M S).flip 1)
           (x' (pairIndex hab.ne)) = 0
       rw [glueingDifferential_apply_pair f y' hab, hy', hy', hx' a b hab]
@@ -647,7 +646,7 @@ public theorem glueing_exact_third_of_models
         hy a b hab, sub_self]
     · funext ⟨T, hT⟩
       obtain ⟨a, b, c, hab, hbc, rfl⟩ := exists_lt_lt_eq_of_card_eq_three hT
-      show glueingDifferential f M 2 x' ⟨{a, b, c}, hT⟩ = 0
+      change glueingDifferential f M 2 x' ⟨{a, b, c}, hT⟩ = 0
       rw [glueingDifferential_apply_triple f x' hab hbc, hx' b c hbc, hx' a c (hab.trans hbc),
         hx' a b hab]
       apply (Φ {a, b, c} (Finset.insert_nonempty a _)).injective

@@ -337,11 +337,11 @@ theorem galoisBaseChange_comp_fieldStageProj_eq (σ : K ≃ₐ[k] K) (E : FExt k
     galoisBaseChange Y K σ ≫ fieldStageProj Y K (op E) =
       fieldStageProj Y K (op (fextMap K σ E)) ≫ (fieldStageGaloisMap Y K σ E).left := by
   apply pullback.hom_ext
-  · show _ = fieldStageProj Y K (op (fextMap K σ E)) ≫ fextMapStageMap Y K σ E ≫ pullback.fst _ _
+  · change _ = fieldStageProj Y K (op (fextMap K σ E)) ≫ fextMapStageMap Y K σ E ≫ pullback.fst _ _
     rw [Category.assoc, fieldStageProj_fst, galoisBaseChange_comp_snd_assoc, fextMapStageMap,
       pullback.lift_fst, fieldStageProj_fst_assoc, ← Spec.map_comp, ← Spec.map_comp]
     rfl
-  · show _ = fieldStageProj Y K (op (fextMap K σ E)) ≫ fextMapStageMap Y K σ E ≫ pullback.snd _ _
+  · change _ = fieldStageProj Y K (op (fextMap K σ E)) ≫ fextMapStageMap Y K σ E ≫ pullback.snd _ _
     rw [Category.assoc, fieldStageProj_snd, galoisBaseChange_comp_fst, fextMapStageMap,
       pullback.lift_snd, fieldStageProj_snd]
 

@@ -447,7 +447,7 @@ theorem ringKrullDim_quotient_eq_one_of_supportDim_eq_one {R : Type u} [CommRing
   have hlt : Q < IsLocalRing.closedPoint R :=
     lt_of_le_of_ne (IsLocalRing.le_maximalIdeal Q.isPrime.ne_top) hQ
   refine le_antisymm ((supportDim_le_of_support_subset hsub).trans hM.le) ?_
-  show (1 : WithBot ℕ∞) ≤ Order.krullDim (Module.support R (R ⧸ Q.asIdeal))
+  change (1 : WithBot ℕ∞) ≤ Order.krullDim (Module.support R (R ⧸ Q.asIdeal))
   exact Order.one_le_krullDim_iff.mpr
     ⟨⟨Q, hQQ⟩, ⟨IsLocalRing.closedPoint R, Module.mem_support_mono hlt.le hQQ⟩, hlt⟩
 

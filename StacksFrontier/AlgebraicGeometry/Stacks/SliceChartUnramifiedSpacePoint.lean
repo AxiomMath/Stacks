@@ -145,7 +145,8 @@ subspace — read twice:
   image in `|U|` of the point of the ambient chart in the point set of `V` — and *that* is the
   first conjunct of
   `Stack.exists_openSubspace_isFlat_isLocallyOfFinitePresentation_zeroLocus_of_isRegular`,
-  the theorem tagged `@[stacks 06MD]`, whose statement already reads it at the level of algebraic spaces,
+  the theorem tagged `@[stacks 06MD]`, whose statement
+  already reads it at the level of algebraic spaces,
   at the image of the geometric point of the slicing datum. That second reading is a bare
   instantiation of the transfer and is not wrapped here.
 
@@ -182,17 +183,18 @@ the assembly — is done elsewhere. The fibre identification is
 `StacksFrontier.AlgebraicGeometry.Spaces.FibreSliceChartZeroScheme`, read at the chart by
 `StacksFrontier.AlgebraicGeometry.Stacks.ChartSliceUnramifiedFieldPoint` and carried to the fibre
 hypothesis of **Stacks 06N2** by
-`StacksFrontier.AlgebraicGeometry.Stacks.SliceFibreSubspaceComparison`; and the assembly is complete,
+`StacksFrontier.AlgebraicGeometry.Stacks.SliceFibreSubspaceComparison`; and the
+assembly is complete,
 `AlgebraicGeometry.Stack.isAbsolutelyDM_iff_isDeligneMumfordStack` of
-`StacksFrontier.AlgebraicGeometry.Stacks.AbsolutelyDMEtaleChartAssembly` stating **Stacks 06N3** with
-no hypothesis at all. The reading of the membership conclusion of **Stacks 06N2** costs neither
+`StacksFrontier.AlgebraicGeometry.Stacks.AbsolutelyDMEtaleChartAssembly` stating **Stacks 06N3**
+with no hypothesis at all. The reading of the membership conclusion of **Stacks 06N2** costs neither
 the bijectivity of `AlgebraicGeometry.Stack.spacePointMap` nor a comparison of
 `AlgebraicGeometry.Stack.fibreProjection` on points with
 `AlgebraicGeometry.Stack.fibreSpaceProjection`:
 `AlgebraicGeometry.Stack.exists_isOpenSubspace_isEtale_mem_range_pointsMap` of
-`StacksFrontier.AlgebraicGeometry.Stacks.EtaleChartStackPointMembership` reads the membership off the
-singleton range of the field-valued point instead. No `@[stacks 06N3]` attribute is claimed by
-anything in this file.
+`StacksFrontier.AlgebraicGeometry.Stacks.EtaleChartStackPointMembership` reads the membership
+off the singleton range of the field-valued point instead. No `@[stacks 06N3]` attribute is
+claimed by anything in this file.
 
 ## Implementation notes
 

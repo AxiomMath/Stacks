@@ -82,7 +82,7 @@ theorem vanishingLocus_zero : (vanishingLocus D p hp L 0).1 = ⊤ := by
   rw [sectionEvaluationIdealAt]
   refine (Ideal.span_le.2 ?_).trans bot_le
   rintro _ ⟨l, rfl⟩
-  show l 0 ∈ (⊥ : Ideal _)
+  change l 0 ∈ (⊥ : Ideal _)
   rw [map_zero]
   exact Submodule.zero_mem _
 
@@ -190,7 +190,7 @@ theorem BivariantClassCanonical.cap_chowGroupCanonicalProperPushforward
   subst hg₂
   obtain ⟨α, rfl⟩ := QuotientAddGroup.mk'_surjective _ x
   obtain ⟨β, h₁, h₂⟩ := c.proper_naturality g hY' hX' h hY'' hX'' hh h' sq hfst hh' k α
-  show c.cap g hY' hX' k (chowGroupCanonicalProperPushforward.{u + 1} D _ hY'' _ hY' _ hh k
+  change c.cap g hY' hX' k (chowGroupCanonicalProperPushforward.{u + 1} D _ hY'' _ hY' _ hh k
       (chowClassCanonical.{u + 1} D _ hY'' k α)) =
     chowGroupCanonicalProperPushforward.{u + 1} D _ hX'' _ hX' _ hh' (k - p)
       (c.cap (h ≫ g) hY'' hX'' k (chowClassCanonical.{u + 1} D _ hY'' k α))
@@ -241,7 +241,7 @@ theorem BivariantClassCanonical.cap_canonicalFirstChernCapCanonicalChowMap
         (chowGroupCanonicalDegreeCongr D (pullback.fst f g ≫ sX) hX' (by omega)
           (c.cap g hY' hX' (k + 1) x)) := by
   obtain ⟨α, rfl⟩ := QuotientAddGroup.mk'_surjective _ x
-  show c.cap g hY' hX' k (canonicalFirstChernCapCanonicalChowMap D (g ≫ sY) hY' k M hM
+  change c.cap g hY' hX' k (canonicalFirstChernCapCanonicalChowMap D (g ≫ sY) hY' k M hM
       (chowClassCanonical.{u + 1} D (g ≫ sY) hY' (k + 1) α)) =
     canonicalFirstChernCapCanonicalChowMap D (pullback.fst f g ≫ sX) hX' (k - p)
       (bivariantPullbackSheaf D sX sY f g hY' hX' M)
@@ -293,7 +293,7 @@ theorem BivariantClassCanonical.cap_canonicalFirstChernCapCanonicalChowMap
     refine (congrArg Subtype.val (pullbackDivisor_eq_vanishingLocus D (g ≫ sY) hY'
       (pullback.fst f g ≫ sX) hX' (bivariantTestProjection D sX sY f g hY' hX') M 0 hMs)).symm.trans
       ?_
-    show (vanishingLocus D (g ≫ sY) hY' M 0).1.preimage (pullback.snd f g) = ⊤
+    change (vanishingLocus D (g ≫ sY) hY' M 0).1.preimage (pullback.snd f g) = ⊤
     rw [hE]
     rfl
   have : IsIso (bivariantPullbackVanishingLocus D sX sY f g hY' hX' M 0).1.ι :=

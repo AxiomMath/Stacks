@@ -98,7 +98,7 @@ def extensionByZeroCoefficientIso :
     preservesColimitsOfShape_pempty_of_preservesInitial (G := Gf)
   haveI : Gf.PreservesLeftKanExtensions (Scheme.Etale.smallEtaleCompose j).op := inferInstance
   asIso (coefficientPullbackTwoSquare (Scheme.Etale.smallEtaleCompose j) U.smallEtaleTopology
-    X.smallEtaleTopology Gf).natTrans
+    X.smallEtaleTopology Gf)
 
 end Stacks.EtaleCohomology
 

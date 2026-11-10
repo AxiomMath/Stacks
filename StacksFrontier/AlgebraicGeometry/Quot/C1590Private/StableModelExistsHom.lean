@@ -76,7 +76,7 @@ theorem ofArrows_comp_mem_topology {X Y : BigFppfOver B integerBase hZ} (b : X �
         (BigFppfOver.toScheme B integerBase hZ).map b = 𝟙 _ := by
       rw [← CategoryTheory.Functor.map_comp, IsIso.inv_hom_id, CategoryTheory.Functor.map_id]
     rw [CategoryTheory.Functor.map_comp]
-    show ((BigFppfOver.toScheme B integerBase hZ).map (e i) ≫
+    change ((BigFppfOver.toScheme B integerBase hZ).map (e i) ≫
       (BigFppfOver.toScheme B integerBase hZ).map b) x = y
     rw [Scheme.Hom.comp_apply, hx, ← Scheme.Hom.comp_apply, hb]
     rfl
@@ -145,7 +145,7 @@ theorem IsStableModel.eq_of_forall_lift_comp (h₁ : IsStableModel B hZ g b₁ c
       pullback.fst c₁.hom sD.hom ≫ c₁.hom := (congrArg (fun k => k.hom) hXW.w).symm
   have hl : pullback.snd c₁.hom sD.hom = pullback.lift _ _ hw :=
     pullback.hom_ext (pullback.lift_fst _ _ _).symm (hc.trans (pullback.lift_snd _ _ _).symm)
-  show pullback.snd c₁.hom sD.hom ≫ u = pullback.snd c₁.hom sD.hom ≫ u'
+  change pullback.snd c₁.hom sD.hom ≫ u = pullback.snd c₁.hom sD.hom ≫ u'
   rw [hl]
   exact hk _ _ hw
 
@@ -326,11 +326,11 @@ theorem IsStableModel.exists_totalMap_of_local (h₁ : IsStableModel B hZ g b₁
       _ _
   refine ⟨inv b₁ ≫ b₂, ObjectProperty.homMk m₀, by simp, ?_, ?_⟩
   · apply ObjectProperty.hom_ext
-    show m₀ ≫ t₂ = z ≫ yoneda.map (inv b₁ ≫ b₂)
+    change m₀ ≫ t₂ = z ≫ yoneda.map (inv b₁ ≫ b₂)
     rw [← hm₀, Category.assoc, Category.assoc, ← Functor.map_comp]
     simp
   · apply ObjectProperty.hom_ext
-    show c₁.hom ≫ m₀ = c₂.hom
+    change c₁.hom ≫ m₀ = c₂.hom
     refine hom_ext_of_local Y₂.total.2.isSheaf (c₁.hom ≫ z) U v hv fun s => ?_
     have hw : pullback.fst (yoneda.map (v s)) (c₁.hom ≫ z) ≫ yoneda.map (v s) =
         (pullback.snd _ _ ≫ c₁.hom) ≫ z := by

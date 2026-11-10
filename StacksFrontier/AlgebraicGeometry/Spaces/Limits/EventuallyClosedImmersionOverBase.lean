@@ -398,7 +398,7 @@ theorem eventually_isClosedImmersion_app_of_isRepresentable_stage
     { app := fun j => T.map (stageToU j)
       naturality := by
         intro j k g
-        show T.map (VTail.map g) ≫ T.map (stageToU k) = 𝟙 _ ≫ T.map (stageToU j)
+        change T.map (VTail.map g) ≫ T.map (stageToU k) = 𝟙 _ ≫ T.map (stageToU j)
         rw [Category.id_comp, ← T.map_comp, hstageToU_nat g] }
   let coneTail : Cone schemeTail := T.mapCone cVTail
   let limitToU : limObj ⟶ U := yoneda.preimage (limRepr.hom ≫ sndLim)
@@ -411,7 +411,7 @@ theorem eventually_isClosedImmersion_app_of_isRepresentable_stage
       heConeTailSnd, hlimitToU]
   have hconeTailComm : coneTail.π ≫ mapTail = (Functor.const Tailᵒᵖ).map mapLimit := by
     ext j
-    show T.map (cVTail.π.app j) ≫ T.map (stageToU j) = T.map limitToU
+    change T.map (cVTail.π.app j) ≫ T.map (stageToU j) = T.map limitToU
     rw [← T.map_comp]
     exact congrArg T.map (hkey j)
   -- Finite type, closedness, compactness and quasi-separatedness on the scheme side.
@@ -447,12 +447,12 @@ theorem eventually_isClosedImmersion_app_of_isRepresentable_stage
     exact (MorphismProperty.relative_map_iff (F := yoneda) (P := P)).mp hrel
   have hTailCompact : ∀ j : Tailᵒᵖ, CompactSpace (schemeTail.obj j) := by
     intro j
-    show CompactSpace (T.obj (VTail.obj j))
+    change CompactSpace (T.obj (VTail.obj j))
     exact compactSpace_of_isQuasiCompactSpace_yoneda_obj B S hS
       (isQuasiCompactSpace_of_iso B S hS (repE.app j).symm (hEqc (inclOp.obj j).unop))
   have hTailQsep : ∀ j : Tailᵒᵖ, QuasiSeparatedSpace (schemeTail.obj j) := by
     intro j
-    show QuasiSeparatedSpace (T.obj (VTail.obj j))
+    change QuasiSeparatedSpace (T.obj (VTail.obj j))
     have hsnd : IsQuasiSeparated B S hS (sndE (inclOp.obj j)) :=
       isQuasiSeparated_of_isAbsolutelyQuasiSeparated_source B S hS hZ
         (hEalg (inclOp.obj j).unop) (hEqs (inclOp.obj j).unop) _

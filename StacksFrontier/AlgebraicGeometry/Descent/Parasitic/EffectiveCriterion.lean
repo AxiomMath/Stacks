@@ -145,7 +145,7 @@ private theorem cechLeg_zero_surjective :
     apply Arrow.cech_hom_ext
     intro i
     have hi : i = Fin.last 0 := by
-      show i = (0 : Fin 1)
+      change i = (0 : Fin 1)
       exact @Subsingleton.elim (Fin 1) (inferInstance : Subsingleton (Fin 1)) i 0
     subst hi
     rw [← Category.assoc, cechι_comp_cechLegRetraction, Category.id_comp, Category.comp_id]
@@ -170,18 +170,17 @@ private theorem cechGeneratorRetraction_generator (N : ModuleCat.{w} A)
     (n : SimplexCategory) (i : Fin (n.len + 1))
     (x : ModuleCat.restrictModule R A N) :
     cechGeneratorRetraction R A N n i (ModuleCat.cechGenerator R A N n i x) = x := by
-  show cechAugmentation R A n 1 • (x : N) = x
+  change cechAugmentation R A n 1 • (x : N) = x
   simp
 
 private theorem cechGenerator_zero_bijective (N : ModuleCat.{w} A) :
     Function.Bijective (ModuleCat.cechGenerator R A N ⟨0⟩ (Fin.last 0)) := by
   refine ⟨fun x y h => ?_, fun x => ?_⟩
   · have := congrArg (cechGeneratorRetraction R A N ⟨0⟩ (Fin.last 0)) h
-    show (x : N) = (y : N)
+    change (x : N) = (y : N)
     exact (cechGeneratorRetraction_generator R A N ⟨0⟩ (Fin.last 0) x).symm.trans
       (this.trans (cechGeneratorRetraction_generator R A N ⟨0⟩ (Fin.last 0) y))
-  · induction x using TensorProduct.induction_on with
-    | zero => exact ⟨0, map_zero _⟩
+  · induction x using TensorProduct.inductionOn with
     | add x y hx hy =>
       obtain ⟨a, rfl⟩ := hx
       obtain ⟨b, rfl⟩ := hy
@@ -275,8 +274,7 @@ private noncomputable def cechDegreeOneRetraction :
 private theorem cechDegreeOneRetraction_transitionGen
     (z : A ⊗[R] ModuleCat.restrictModule R A D.module) :
     cechDegreeOneRetraction R A D (ModuleCat.transitionGen D ⟨1⟩ 0 (Fin.last 1) z) = z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul a n =>
     rw [ModuleCat.transitionGen_tmul]
@@ -285,7 +283,7 @@ private theorem cechDegreeOneRetraction_transitionGen
         (M := ModuleCat.liftedModule A D.module)
         (ModuleCat.cechLeg R A ⟨1⟩ 0 (ULift.up a)) (ULift.up (n : D.module)) _
         (ModuleCat.cechGenerator_eq_tmul R A D.module ⟨1⟩ (Fin.last 1) n))).trans ?_
-    show cechTensorRingMap R A (ModuleCat.cechLeg R A ⟨1⟩ 0 (ULift.up a)) •
+    change cechTensorRingMap R A (ModuleCat.cechLeg R A ⟨1⟩ 0 (ULift.up a)) •
       ((1 : A) ⊗ₜ[R] n) = _
     rw [cechTensorRingMap_leg]
     simp only [ite_true, ModuleCat.targetTensor_smul_tmul, mul_one]
@@ -365,7 +363,7 @@ private theorem coface_equalizer_iff (x : ModuleCat.restrictModule R A D.module)
   have he : ModuleCat.transitionGen D ⟨1⟩ 0 (Fin.last 1) ((1 : A) ⊗ₜ[R] x) =
       ModuleCat.cechGenerator R A D.module ⟨1⟩ (Fin.last 1) x := by
     rw [ModuleCat.transitionGen_tmul]
-    show ModuleCat.cechLeg R A ⟨1⟩ 0 1 • _ = _
+    change ModuleCat.cechLeg R A ⟨1⟩ 0 1 • _ = _
     rw [map_one, one_smul]
   refine ⟨fun h => ?_, fun h => ?_⟩
   · have hh := eq_of_heq (h₀.symm.trans (h.trans h₁))
@@ -376,7 +374,7 @@ private theorem coface_equalizer_iff (x : ModuleCat.restrictModule R A D.module)
   · change D.transitionRestrictScalars R A (x ⊗ₜ[R] (1 : A)) = (1 : A) ⊗ₜ[R] x at h
     have hh : ModuleCat.transitionBase D ⟨1⟩ 0 (Fin.last 1) x =
         ModuleCat.cechGenerator R A D.module ⟨1⟩ (Fin.last 1) x := by
-      show ModuleCat.transitionGen D ⟨1⟩ 0 (Fin.last 1)
+      change ModuleCat.transitionGen D ⟨1⟩ 0 (Fin.last 1)
         (D.transitionRestrictScalars R A (x ⊗ₜ[R] (1 : A))) = _
       rw [h, he]
     exact h₀.trans ((heq_of_eq hh.symm).trans h₁.symm)
@@ -500,7 +498,7 @@ private theorem transition_smul_tmul_invariant (a b : A)
       (1 : A) ⊗ₜ[R] m.1 := by
     simpa only [DescentData.transitionRestrictScalars_apply] using hinv₀
   rw [hsource]
-  show D.transition ((a ⊗ₜ[R] b : A ⊗[R] A) •
+  change D.transition ((a ⊗ₜ[R] b : A ⊗[R] A) •
       ((m.1 : ModuleCat.restrictModule R A D.module) ⊗ₜ[R] (1 : A))) = _
   rw [D.transition.map_smul, hinv, ModuleCat.targetTensor_smul_tmul, mul_one]
   congr 1
@@ -535,11 +533,10 @@ private theorem canonicalMap_bijective_of_faithfullyFlat
       (descentCounitLinearEquiv R A h D).toLinearMap := by
     apply LinearMap.ext
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp [map_add, hx, hy]
     | tmul a m =>
-      show a • (show D.module from m.val) =
+      change a • (show D.module from m.val) =
         descentCounitLinearEquiv R A h D (a ⊗ₜ[R] m)
       exact (descentCounitLinearEquiv_tmul R A h D a
         (show ModuleCat.invariantSubmodule R A D from m)).symm

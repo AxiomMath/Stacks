@@ -197,7 +197,7 @@ theorem range_toX_openSystem07Q9 (n e : ℕ) :
     Set.range (((openSystem07Q9 S hV hW hVW g hg).obj (op ⦋n⦌)).obj e).obj.toX.base =
       (W : Set S.X) := by
   have := isIso_toX_openLocalSystem07Q9 S hV hW hVW g hg n e
-  show Set.range ((((openLocalSystem07Q9 S hV hW hVW g hg).obj (op ⦋n⦌)).obj e).obj.toX ≫
+  change Set.range ((((openLocalSystem07Q9 S hV hW hVW g hg).obj (op ⦋n⦌)).obj e).obj.toX ≫
     restrictXι S V W hVW).base = _
   rw [Scheme.Hom.comp_base, TopCat.coe_comp, Set.range_comp,
     (ConcreteCategory.bijective_of_isIso

@@ -97,7 +97,7 @@ theorem exists_small_affine_refinement (X : Scheme.{u}) (𝒞 : FppfCovering.{v}
       rw [hVcov ⟨W, hW⟩]; exact htW
     obtain ⟨k, x, hxV, hxt⟩ := Set.mem_iUnion.mp htU
     exact ⟨⟨⟨W, hW⟩, k⟩, ⟨x, hxV⟩, hxt⟩
-  · show #(Σ U : X.affineOpens, Fin (n U)) ≤ X.size
+  · change #(Σ U : X.affineOpens, Fin (n U)) ≤ X.size
     rw [Cardinal.mk_sigma]
     refine (sum_le_sum _ (fun _ => (ℵ₀ : Cardinal.{0})) fun _ => mk_lt_aleph0.le).trans ?_
     rw [sum_const, lift_uzero, lift_aleph0]

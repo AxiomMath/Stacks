@@ -162,7 +162,7 @@ theorem isPullbackDefined_of_iso_over {X Y Y' : AlgebraicSpaces B S hS} (e : Y �
     isPullbackDefined_of_isFlat B S hS e.hom _ hD
       (isFlat_of_isEtale B S hS (isEtale_of_isIso B S hS e.hom.hom))
   refine isEffectiveCartierDivisor_of_subfunctor_eq ?_ hpull
-  show D.1.preimage f.hom = (D.1.preimage g.hom).preimage e.hom.hom
+  change D.1.preimage f.hom = (D.1.preimage g.hom).preimage e.hom.hom
   rw [← Subfunctor.preimage_comp D.1 e.hom.hom g.hom,
     ← ObjectProperty.FullSubcategory.comp_hom, he]
 

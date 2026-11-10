@@ -224,7 +224,7 @@ public theorem bijective_modulePushforwardMap_app {W W' : s.base.affineOpens} (h
   refine bijective_sectionsMap_sectionModuleRestrict ℳ h W.2 W'.2 _ fun x => ?_
   obtain ⟨z, hz⟩ := hV x.2
   refine ⟨z, (relativeProjChart s W').isOpenEmbedding.injective ?_⟩
-  show relativeProjChart s W' (projInclusionMap s W.1 W'.1 h W.2 W'.2 z) = _
+  change relativeProjChart s W' (projInclusionMap s W.1 W'.1 h W.2 W'.2 z) = _
   rwa [← Scheme.Hom.comp_apply, relativeProjChart_transition s h]
 
 omit [∀ n : ℤ, (ℳ.piece n).IsQuasicoherent] in

@@ -85,7 +85,7 @@ theorem ordTotalFracInt_ringEquivOfRingEquiv {A B : Type*} [CommRing A] [CommRin
       exact hx.mul (IsLocalization.map_units KA b)
     exact mem_nonZeroDivisors_of_injective (IsFractionRing.injective A KA) hu.mem_nonZeroDivisors
   let a : nonZeroDivisors A := ⟨a₀, ha₀⟩
-  show ordTotalFracInt B (IsFractionRing.ringEquivOfRingEquiv φ
+  change ordTotalFracInt B (IsFractionRing.ringEquivOfRingEquiv φ
     (IsLocalization.mk' KA (a : A) b) : KB) _ =
       ordTotalFracInt A (IsLocalization.mk' KA (a : A) b) hx
   have hloc : IsLocalHom (φ : A →+* B) := inferInstance
@@ -359,7 +359,7 @@ theorem isRationallyEquivalentToZero_of_coe_eq_canonicalPrincipalCycleCoefficien
     let := EX.isNoetherianRing
     let := EX.krullDimLE
     funext Z'
-    show α.1 (push Z') = _
+    change α.1 (push Z') = _
     rw [hα]
     by_cases h' : codimension
         (integralClosedSubspaceSupport D.site D.base D.base_mem hYg.1 Z') = 1
@@ -374,7 +374,7 @@ theorem isRationallyEquivalentToZero_of_coe_eq_canonicalPrincipalCycleCoefficien
         show canonicalPrincipalCycleCoefficients D sX hX hint f (push Z') = 0 from
           dite_eq_right ((not_congr (hcod Z')).1 h')]
   · refine Subtype.ext (funext fun Z => ?_)
-    show α.1 Z = ∑ᶠ _ : PUnit.{v + 1},
+    change α.1 Z = ∑ᶠ _ : PUnit.{v + 1},
       (integralClosedSubspacePushforward D sX hX T (n - 1) c).1 Z
     rw [finsum_unique, hpush]
 

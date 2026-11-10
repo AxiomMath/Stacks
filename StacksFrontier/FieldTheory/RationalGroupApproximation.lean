@@ -72,7 +72,7 @@ theorem definedOver_mono [IsDomain (K ⊗[k] K)] {K' K'' : IntermediateField k K
     (h : K' ≤ K'') : definedOver K' ≤ definedOver K'' := by
   rintro _ ⟨z, rfl⟩
   refine ⟨fractionRingMap K (IntermediateField.inclusion h) z, ?_⟩
-  show ((fractionRingMap K K''.val).comp (fractionRingMap K (IntermediateField.inclusion h))) z =
+  change ((fractionRingMap K K''.val).comp (fractionRingMap K (IntermediateField.inclusion h))) z =
     fractionRingMap K K'.val z
   congr 1
   refine IsLocalization.ringHom_ext (nonZeroDivisors (K' ⊗[k] K)) (RingHom.ext fun p => ?_)
@@ -187,8 +187,7 @@ multiplication by `1 ⊗ d` for a nonzero `d`. -/
 theorem exists_mul_eq_map (z : K ⊗[k] Sq k K) :
     ∃ d ∈ nonZeroDivisors (K ⊗[k] K), ∃ w : K ⊗[k] (K ⊗[k] K),
       (1 ⊗ₜ toSq k K d) * z = Algebra.TensorProduct.map (AlgHom.id k K) (toSq k K) w := by
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨1, one_mem _, 0, by simp⟩
+  induction z using TensorProduct.inductionOn with
   | tmul a v =>
     obtain ⟨p, q, hq, rfl⟩ := IsFractionRing.div_surjective (A := K ⊗[k] K) v
     refine ⟨q, hq, a ⊗ₜ p, ?_⟩
@@ -197,7 +196,7 @@ theorem exists_mul_eq_map (z : K ⊗[k] Sq k K) :
     rw [Algebra.TensorProduct.tmul_mul_tmul, one_mul, Algebra.TensorProduct.map_tmul,
       AlgHom.id_apply]
     congr 1
-    show algebraMap _ (Sq k K) q * (algebraMap _ _ p / algebraMap _ _ q) = algebraMap _ _ p
+    change algebraMap _ (Sq k K) q * (algebraMap _ _ p / algebraMap _ _ q) = algebraMap _ _ p
     rw [mul_comm]
     exact div_mul_cancel₀ _ hq'
   | add z₁ z₂ h₁ h₂ =>
@@ -225,12 +224,10 @@ theorem firstLastTwo_map (w : K ⊗[k] (K ⊗[k] K)) :
     firstLastTwo k K (Algebra.TensorProduct.map (AlgHom.id k K) (toSq k K) w) =
       algebraMap _ (Cube k K) (Algebra.TensorProduct.map (toSq k K) (AlgHom.id k K)
         ((Algebra.TensorProduct.assoc k k k K K K).symm w)) := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add, map_add]
   | tmul a v =>
-    induction v using TensorProduct.induction_on with
-    | zero => simp
+    induction v using TensorProduct.inductionOn with
     | add x y hx hy => rw [TensorProduct.tmul_add, map_add, map_add, hx, hy, map_add, map_add,
         map_add]
     | tmul b c =>
@@ -291,7 +288,7 @@ theorem comulLastTwo_algebraMap_tmul (a b : K) :
     comulLastTwo Δ (algebraMap (K ⊗[k] K) (Sq k K) (a ⊗ₜ[k] b)) =
       firstHom k K a * lastTwo k K (Δ b) := by
   rw [comulLastTwo, IsFractionRing.liftAlgHom_apply, IsFractionRing.lift_algebraMap]
-  show firstLastTwo k K (a ⊗ₜ Δ b) = _
+  change firstLastTwo k K (a ⊗ₜ Δ b) = _
   exact firstLastTwo_tmul a (Δ b)
 
 end Coassociativity
@@ -350,8 +347,7 @@ private theorem map_tmul_mem_subfield {M N L : Type*} [AddCommMonoid M] [Module 
     [AddCommMonoid N] [Module k N] [Field L] {F : Type*} [FunLike F (M ⊗[k] N) L]
     [AddMonoidHomClass F (M ⊗[k] N) L] (f : F) (Q : Subfield L)
     (h : ∀ m n, f (m ⊗ₜ[k] n) ∈ Q) (x : M ⊗[k] N) : f x ∈ Q := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero]; exact Subfield.zero_mem _
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add]; exact Subfield.add_mem _ hx hy
   | tmul m n => exact h m n
 
@@ -371,7 +367,7 @@ theorem lastTwo_mem (K' : IntermediateField k K) (w : Sq k K) :
     lastTwo k K w ∈ Set.range (fractionRingMap K (definedOverField (K := K) K').val) := by
   refine map_mem_of_forall_algebraMap_mem (A := K ⊗[k] K) (lastTwo k K).toRingHom
     (definedOverField (K := K) (definedOverField (K := K) K')).toSubfield (fun q => ?_) w
-  show lastTwo k K (algebraMap _ _ q) ∈ _
+  change lastTwo k K (algebraMap _ _ q) ∈ _
   rw [lastTwo_algebraMap]
   refine map_tmul_mem_subfield (lastTwoHom k K) _ (fun c d => ?_) q
   rw [lastTwoHom_tmul]
@@ -388,9 +384,9 @@ theorem comulLastTwo_mem (K' : IntermediateField k K) {z : Sq k K}
     (definedOverField (K := K) (definedOverField (K := K) K')).toSubfield (fun p => ?_) w
   refine map_tmul_mem_subfield (((comulLastTwo Δ).toRingHom.comp (fractionRingMap K K'.val)).comp
     (algebraMap (K' ⊗[k] K) _)) _ (fun a b => ?_) p
-  show comulLastTwo Δ (fractionRingMap K K'.val (algebraMap _ _ (a ⊗ₜ[k] b))) ∈ _
+  change comulLastTwo Δ (fractionRingMap K K'.val (algebraMap _ _ (a ⊗ₜ[k] b))) ∈ _
   rw [fractionRingMap_val_algebraMap]
-  show comulLastTwo Δ (algebraMap (K ⊗[k] K) (Sq k K) ((a : K) ⊗ₜ[k] b)) ∈ _
+  change comulLastTwo Δ (algebraMap (K ⊗[k] K) (Sq k K) ((a : K) ⊗ₜ[k] b)) ∈ _
   rw [comulLastTwo_algebraMap_tmul]
   refine Subfield.mul_mem _ ?_ (lastTwo_mem K' (Δ b) : _)
   rw [firstHom_apply]

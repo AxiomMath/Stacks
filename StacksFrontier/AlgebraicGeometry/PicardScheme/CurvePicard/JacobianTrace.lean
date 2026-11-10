@@ -137,7 +137,7 @@ theorem toZModPow_jacobianTateTrace (hdim : topologicalKrullDim C ≤ 1) (φ : C
     (picardDegreeZeroPullback f hdim φ w) (picardDegreeZeroTorsionEquiv f hdim ℓ n) g
     fun x => ?_
   apply Subtype.ext
-  show Stacks.Picard.schemePullbackClass φ
+  change Stacks.Picard.schemePullbackClass φ
       ((Stacks.GluePicard.picardModelAddEquiv C.toRingedSpace).symm x.1.1) =
     (Stacks.GluePicard.picardModelAddEquiv C.toRingedSpace).symm
       (schemePicardPullbackHom φ x.1.1)
@@ -205,7 +205,7 @@ theorem trace_tateModuleMap_jacobianPullback (hdim : topologicalKrullDim X ≤ 1
       eT.symm.conj (Stacks.AbelianGroup.tateModuleMap ℓ p) := by
     refine LinearMap.ext fun x => Stacks.AbelianGroup.tateModule_ext fun n => ?_
     rw [LinearEquiv.conj_apply, Stacks.Groupoids.tateModuleMap_seq]
-    show _ = E.symm (p (E ((x : ℕ → _) n)))
+    change _ = E.symm (p (E ((x : ℕ → _) n)))
     rw [AddEquiv.eq_symm_apply, jacobianPointsAddEquiv_jacobianPullback B hX hk f Ψ hΨ σ hσ hdim]
     rfl
   rw [key, LinearMap.trace_conj']

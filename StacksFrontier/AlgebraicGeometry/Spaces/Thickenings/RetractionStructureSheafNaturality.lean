@@ -55,7 +55,8 @@ variable {C : Type u} [Category.{v} C]
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
   (𝓕 : SheafOfModules.{w} (ringSheaf J O)) (θ : constantRingPresheaf (C := C) R ⟶ O.obj)
 
-omit [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}] in
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}] in
 /-- **The comparison is natural**: for `f : M ⟶ N` and `ψ : G ⟶ G'` with `σ' (f m) = σ m ≫ ψ`,
 the comparisons of `σ` and `σ'` commute with `𝓕 ⊗_R f` and `ψ`, at the level of presheaves. -/
 theorem comparisonOfHom_naturality_of_compatible {M N : ModuleCat.{w} R} (f : M ⟶ N)
@@ -85,7 +86,7 @@ theorem comparisonOfHom_naturality_of_compatible {M N : ModuleCat.{w} R} (f : M 
           (comparisonApp R J O 𝓕 θ M P σ hadd hsmul X).hom.toAddMonoidHom by
     exact congrFun (congrArg DFunLike.coe h) t
   refine addHom_ext_tmul_tmul fun x a m => ?_
-  show (comparisonApp R J O 𝓕 θ N P' σ' hadd' hsmul' X).hom
+  change (comparisonApp R J O 𝓕 θ N P' σ' hadd' hsmul' X).hom
       ((((tensorByBaseModulePresheafOfHom R J O 𝓕 θ).map f).app X).hom
         ((x ⊗ₜ[O.obj.obj X] (a ⊗ₜ[R] m) :
           𝓕.val.obj X ⊗[O.obj.obj X] (O.obj.obj X ⊗[R] M)))) =
@@ -93,6 +94,7 @@ theorem comparisonOfHom_naturality_of_compatible {M N : ModuleCat.{w} R} (f : M 
   rw [(ψ.app X).hom.map_smul, ← hσ]
   rfl
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **The gluing of a comparison is natural**: for `f : M ⟶ N` and `ψ : G ⟶ G'` with
 `σ' (f m) = σ m ≫ ψ`, the isomorphisms `𝓕 ⊗_R M ≅ G` and `𝓕 ⊗_R N ≅ G'` of
 `Stacks.TensorByBaseModule.tensorByBaseModuleIsoOfComparisonOfHom` commute with `𝓕 ⊗_R f` and
@@ -158,13 +160,9 @@ namespace Deformation.ComplexLift
 open PresheafOfModules
 
 variable {C : Type (u + 1)} [Category.{u} C] {J : GrothendieckTopology C}
-variable [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
-variable [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
 variable {O₀ A A' : Sheaf J CommRingCat.{u}} {s : O₀ ⟶ A} {r : A ⟶ O₀} {s' : O₀ ⟶ A'}
   {r' : A' ⟶ O₀} (G : A ⟶ A') (hGs : s ≫ G = s') (hGr : G ≫ r' = r)
 
-omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] [HasSheafify J AddCommGrpCat.{u}]
-  [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 include hGs in
 /-- `G` carries `s(a) · x` to `s'(a) · G x`. -/
 theorem splitIdealMap_smul_aux (U : Cᵒᵖ) (a : O₀.obj.obj U) (x : A.obj.obj U) :
@@ -209,7 +207,7 @@ theorem splitSqZeroExtHom_naturality :
     splitSqZeroExtHom s r hsq ≫ G =
       sqZeroExtSheafAnySiteMap (splitIdealMap G hGs hGr) ≫ splitSqZeroExtHom s' r' hsq' := by
   ext U x
-  show G.hom.app U (s.hom.app U (sqZeroExtFstAnySite (M := (splitIdeal s r).val) x) +
+  change G.hom.app U (s.hom.app U (sqZeroExtFstAnySite (M := (splitIdeal s r).val) x) +
       splitIdealVal s r (sqZeroExtSndAnySite (M := (splitIdeal s r).val) x)) =
     s'.hom.app U (sqZeroExtFstAnySite (M := (splitIdeal s r).val) x) +
       G.hom.app U (splitIdealVal s r (sqZeroExtSndAnySite (M := (splitIdeal s r).val) x))
@@ -225,7 +223,6 @@ theorem splitSqZeroExtIso_inv_naturality :
   rw [Iso.eq_inv_comp, ← Category.assoc, Iso.comp_inv_eq]
   exact splitSqZeroExtHom_naturality G hGs hGr hsq hsq'
 
-omit [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- Two isomorphisms of sheaves of modules intertwining `φ` and `ψ` induce, on the trivial
 square-zero extensions, inverses intertwining `ψ` and `φ`. -/
 theorem sqZeroExtSheafAnySiteMap_inv_naturality
@@ -344,7 +341,7 @@ theorem thickeningRetractionRingMap_baseFunction {TV TW : BigFppfOver B S hS} {e
         retractionChartToBase B S hS hqW (p' := p'W) U.unop ≫ e := by
     apply Yoneda.fullyFaithful.map_injective
     rw [Functor.map_comp, Functor.map_comp]
-    show yoneda.map (thickeningRetractionChartMap B S hS hqV hqW hg U.unop) ≫
+    change yoneda.map (thickeningRetractionChartMap B S hS hqV hqW hg U.unop) ≫
         yoneda.map (Yoneda.fullyFaithful.preimage (hqV.fst U.unop.1.hom ≫ p'V)) =
       yoneda.map (Yoneda.fullyFaithful.preimage (hqW.fst U.unop.1.hom ≫ p'W)) ≫ yoneda.map e
     rw [Functor.FullyFaithful.map_preimage, Functor.FullyFaithful.map_preimage,
@@ -457,7 +454,7 @@ theorem retractionComparisonFamily_naturality (m : M) (U : (SmallEtale B S hS X.
         U).hom (((retractionComparisonFamily B S hS hiV hV hqV hipV R jV hjβV m).app U).hom x) := by
   apply splitIdealVal_injective (thickeningRetractionSection B S hS hqW)
     (thickeningRetractionRestriction B S hS hiW hW hqW)
-  show (thickeningRetractionSection B S hS hqW).hom.app U
+  change (thickeningRetractionSection B S hS hqW).hom.app U
       (show (structureSheaf B S hS X.1 X.2).obj.obj U from x) *
         retractionBaseFunction B S hS hqW (p' := p'W) U.unop (jW (f m)) =
     (thickeningRetractionRingMap B S hS hqV hqW hg).hom.app U

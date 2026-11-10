@@ -40,7 +40,7 @@ public lemma pullback_functorPushforward_le {C : Type u₁} [Category.{v₁} C]
   let h := (IsPullback.of_hasPullback a f).map F
   let l := h.lift b g (by simpa using he.symm)
   refine ⟨pullback a f, pullback.snd a f, l, ?_, ?_⟩
-  · show R (pullback.snd a f ≫ f)
+  · change R (pullback.snd a f ≫ f)
     rw [← pullback.condition]
     exact R.downward_closed ha (pullback.fst a f)
   · exact (h.lift_snd _ _ _).symm
@@ -71,7 +71,7 @@ public lemma coverPreserving_of_generators {C : Type u₁} [Category.{v₁} C]
       intro W q hq
       have hq' := (Sieve.functorPushforward_pullback_le F g Q) (q ≫ k) hq
       change (Q.functorPushforward F) ((q ≫ k) ≫ F.map g) at hq'
-      show (Q.functorPushforward F) (q ≫ f)
+      change (Q.functorPushforward F) (q ≫ f)
       rw [he]
       simpa only [Category.assoc] using hq'
 

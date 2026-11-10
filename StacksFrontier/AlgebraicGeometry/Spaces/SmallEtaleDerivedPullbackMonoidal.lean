@@ -112,9 +112,6 @@ theorem isIso_smallEtaleDerivedPullbackOplaxMonoidal_η (g : X' ⟶ X) :
     (ringedToposStructureRingSheaf B S hS X'))) := smallEtaleDerivedMonoidal X'
   OplaxOfAssoc.isIso_counit (smallEtaleDerivedModulePullback B S hS g)
     (fun K L => (smallEtaleDerivedPullbackTensorIso g).hom.app (K, L))
-    (fun f L => smallEtaleDerivedPullbackTensorIso_naturality_left g f L)
-    (fun K f => smallEtaleDerivedPullbackTensorIso_naturality_right g K f)
-    (fun A A' A'' => (smallEtaleDerivedPullbackTensorIso_associativity g A A' A'').symm)
     (smallEtaleDerivedModulePullbackUnitIso g)
 
 /-- **Derived pullback is a monoidal functor on `D(𝒪)`**, with the isomorphisms of Stacks 07A4 as

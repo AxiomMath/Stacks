@@ -111,7 +111,7 @@ theorem restrictTensorDifferentialFormsPresheafIso_hom_comp_ambientD_hom (i : �
     (restrictTensorDifferentialFormsPresheafIso F A i).hom ≫ (data.ambientD A i).hom =
       Functor.whiskerLeft (CrystallineThickening.restrictOpenFunctor A).op (data.d i).hom ≫
         (restrictTensorDifferentialFormsPresheafIso F A (i + 1)).hom := by
-  show (restrictTensorDifferentialFormsPresheafIso F A i).hom ≫
+  change (restrictTensorDifferentialFormsPresheafIso F A i).hom ≫
       (restrictTensorDifferentialFormsPresheafIso F A i).inv ≫
         Functor.whiskerLeft (CrystallineThickening.restrictOpenFunctor A).op (data.d i).hom ≫
           (restrictTensorDifferentialFormsPresheafIso F A (i + 1)).hom = _
@@ -306,7 +306,7 @@ theorem truncation_comp_comparison07LP (hqc : IsLocallyQuasiCoherent F)
         (CrystallineThickening.derivedAmbientGlobalSectionsFunctor A).map
           (data.derivedRestrictComplexIso A).hom := by
   have := data.isIso_derivedGlobalSections_map_truncation hqc hsurj
-  show _ ≫ _ ≫ (data.derivedGlobalSectionsIsoDeRham hqc hsurj).hom ≫ _ = _
+  change _ ≫ _ ≫ (data.derivedGlobalSectionsIsoDeRham hqc hsurj).hom ≫ _ = _
   rw [derivedGlobalSectionsIsoDeRham_hom]
   simp only [Category.assoc]
   rw [← Functor.map_comp_assoc (derivedGlobalSectionsFunctor S)

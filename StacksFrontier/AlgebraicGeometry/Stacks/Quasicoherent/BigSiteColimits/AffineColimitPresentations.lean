@@ -250,8 +250,9 @@ theorem HasGlobalPresentation.of_isColimit
     {c : Cocone D} (hc : IsColimit c) (hD : ∀ k, (D.obj k).HasGlobalPresentation) :
     c.pt.HasGlobalPresentation := by
   have : ∀ I : Type (max m r), HasColimitsOfShape (Discrete I) (SheafOfModules.{max r m} R) :=
-    fun I ↦ @SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
-      _ _ _ R _ _ (Discrete I) _ (PresheafOfModules.hasColimitsOfShape _ _)
+    fun I ↦
+      @SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
+        _ _ _ R _ _ (Discrete I) _ (PresheafOfModules.hasColimitsOfShape _ _)
   have hf : ∀ q : Σ k₁ k₂ : K, k₁ ⟶ k₂,
       Sigma.ι (fun q : Σ k₁ k₂ : K, k₁ ⟶ k₂ ↦ D.obj q.1) q ≫
           Sigma.desc (fun q : Σ k₁ k₂ : K, k₁ ⟶ k₂ ↦

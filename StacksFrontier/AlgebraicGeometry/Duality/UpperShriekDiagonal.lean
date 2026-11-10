@@ -108,7 +108,7 @@ abbrev sndRestrict : openFTS f D ⟶ X := ιHom f D ≫ sndHom f
 /-- `Δ` followed by `pr₂|_W` is the identity of `X`. -/
 theorem diagHom_comp_sndRestrict : diagHom f D ≫ sndRestrict f D = 𝟙 X := by
   ext1
-  show D.diag ≫ D.ι ≫ pullback.snd f.left f.left = 𝟙 X.left
+  change D.diag ≫ D.ι ≫ pullback.snd f.left f.left = 𝟙 X.left
   rw [← Category.assoc, D.fac, pullback.diagonal_snd]
 
 /-- The composite `Δ ≫ pr₂|_W : X ⟶ X` is proper. -/

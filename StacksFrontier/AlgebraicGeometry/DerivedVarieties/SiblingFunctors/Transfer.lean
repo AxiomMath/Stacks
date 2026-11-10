@@ -186,7 +186,7 @@ private lemma triangle_mor₃_naturality
   have hc₀ : e.inv.app Z ≫ c = 𝟙 (b'.obj Z) := by
     apply cancel_map_epi b' g
     rw [Category.comp_id, ← Category.assoc, e.inv.naturality g, Category.assoc]
-    show e.inv.app Y ≫ (G.map (b.map g) ≫ c) = _
+    change e.inv.app Y ≫ (G.map (b.map g) ≫ c) = _
     rw [hc]
     simp
   have hc₁ : c = e.hom.app Z := by
@@ -250,11 +250,11 @@ private lemma ext_operation_eq_id [HasExt.{w} 𝒜]
     refine ⟨fun B A E h hS => ?_, fun B A C m E E' p h hS ψ w₁ w₂ => ?_⟩
     · have h0 : extClassMap.{w} 0 E = hS.extClass :=
         isExtClassMap_extClassMap.1 B A E h hS
-      show φ (extClassMap.{w} 0 E) = hS.extClass
+      change φ (extClassMap.{w} 0 E) = hS.extClass
       rw [h0, hδ]
     · have h1 : extClassMap.{w} (m + 1) E = (extClassMap.{w} m E').comp hS.extClass rfl :=
         isExtClassMap_extClassMap.2 B A C m E E' p h hS ψ w₁ w₂
-      show φ (extClassMap.{w} (m + 1) E) =
+      change φ (extClassMap.{w} (m + 1) E) =
         (φ (extClassMap.{w} m E')).comp hS.extClass rfl
       rw [h1, hcomp, hδ]
   have hφ := eq_extClassMap_of_isExtClassMap _ hmap
@@ -442,11 +442,11 @@ private lemma bijective_shiftedHom_map_boundedSingle
         DerivedCategory.TStructure.t.isGE_shift _ 0 q (-q) (by omega)
       have : DerivedCategory.TStructure.t.IsLE
           (DerivedCategory.Bounded.ι.obj ((boundedSingleFunctor A).obj X)) 0 := by
-        show DerivedCategory.TStructure.t.IsLE ((DerivedCategory.singleFunctor A 0).obj X) 0
+        change DerivedCategory.TStructure.t.IsLE ((DerivedCategory.singleFunctor A 0).obj X) 0
         infer_instance
       have : DerivedCategory.TStructure.t.IsGE
           ((DerivedCategory.Bounded.ι.obj ((boundedSingleFunctor A).obj Y))⟦q⟧) (-q) := by
-        show DerivedCategory.TStructure.t.IsGE
+        change DerivedCategory.TStructure.t.IsGE
           (((DerivedCategory.singleFunctor A 0).obj Y)⟦q⟧) (-q)
         infer_instance
       exact DerivedCategory.TStructure.t.zero (f.map DerivedCategory.Bounded.ι) 0 (-q) (by omega)
@@ -557,7 +557,7 @@ private lemma bijective_map_triangle_middle
     obtain ⟨x₂, hx₂⟩ := T.coyoneda_exact₃ hT x₃ hx₃'
     obtain ⟨y₁, hy₁⟩ := (G.mapTriangle.obj T).coyoneda_exact₂
       (G.map_distinguished _ hT) (y₂ - G.map x₂) (by
-        show (y₂ - G.map x₂) ≫ G.map T.mor₂ = 0
+        change (y₂ - G.map x₂) ≫ G.map T.mor₂ = 0
         rw [Preadditive.sub_comp, ← CategoryTheory.Functor.map_comp, ← hx₂, hx₃, sub_self])
     dsimp only [Functor.mapTriangle, Triangle.mk_obj₁, Triangle.mk_mor₁] at y₁ hy₁
     obtain ⟨x₁, hx₁⟩ := h₁.2 y₁
@@ -644,7 +644,7 @@ private lemma bijective_map_triangle_middle_left
     change x₁ = T.mor₁ ≫ x₂ at hx₂
     obtain ⟨y₃, hy₃⟩ := (G.mapTriangle.obj T).yoneda_exact₂
       (G.map_distinguished _ hT) (y₂ - G.map x₂) (by
-        show G.map T.mor₁ ≫ (y₂ - G.map x₂) = 0
+        change G.map T.mor₁ ≫ (y₂ - G.map x₂) = 0
         rw [Preadditive.comp_sub, ← CategoryTheory.Functor.map_comp, ← hx₂, hx₁, sub_self])
     dsimp only [Functor.mapTriangle, Triangle.mk_obj₃, Triangle.mk_mor₂] at y₃ hy₃
     obtain ⟨x₃, hx₃⟩ := h₃.2 y₃

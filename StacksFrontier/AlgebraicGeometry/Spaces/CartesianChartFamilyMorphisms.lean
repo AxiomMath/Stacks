@@ -89,7 +89,7 @@ theorem isIso_of_isPullback_of_isLocallySurjective {A Y X W W' : Cᵒᵖ ⥤ Typ
   have hinj : Sheaf.IsLocallyInjective Ψs := by
     refine ⟨fun {T} x₁ x₂ hx => J.superset_covering ?_ (hc.imageSieve_mem (a.app T x₁))⟩
     rintro T' f ⟨v, hv⟩
-    show A.map f.op x₁ = A.map f.op x₂
+    change A.map f.op x₁ = A.map f.op x₂
     let xh₁ : yoneda.obj T' ⟶ A := yonedaEquiv.symm (A.map f.op x₁)
     let xh₂ : yoneda.obj T' ⟶ A := yonedaEquiv.symm (A.map f.op x₂)
     let vh : yoneda.obj T' ⟶ W := yonedaEquiv.symm v
@@ -104,12 +104,12 @@ theorem isIso_of_isPullback_of_isLocallySurjective {A Y X W W' : Cᵒᵖ ⥤ Typ
       · rw [← Category.assoc, hφ.lift_fst, ← Category.assoc, hφ.lift_fst]
         apply yonedaEquiv.injective
         rw [yonedaEquiv_comp, yonedaEquiv_comp, Equiv.apply_symm_apply, Equiv.apply_symm_apply]
-        show (Ψ.app _ (A.map f.op x₁)) = Ψ.app _ (A.map f.op x₂)
+        change (Ψ.app _ (A.map f.op x₁)) = Ψ.app _ (A.map f.op x₂)
         rw [Ψ.naturality_apply, Ψ.naturality_apply]
         exact congrArg (Y.map f.op) hx
       · rw [hφ.lift_snd, hφ.lift_snd]
     refine yonedaEquiv.symm.injective ?_
-    show xh₁ = xh₂
+    change xh₁ = xh₂
     rw [← hφ.lift_fst xh₁ vh hw₁, hl, hφ.lift_fst]
   have : IsIso Ψs := (Sheaf.isLocallyBijective_iff_isIso Ψs).1 ⟨hinj, hsurj⟩
   exact (sheafToPresheaf J (Type v)).map_isIso Ψs
@@ -173,7 +173,7 @@ theorem quotientChart_comp_quotientDesc (Y : AlgebraicSpaces B S hS)
     (φ : yoneda.obj (F.site V₂) ⟶ Y.1)
     (hφ : yoneda.map (F.siteMap pr₁) ≫ φ = yoneda.map (F.siteMap pr₂) ≫ φ) :
     F.quotientChart pr₁ pr₂ hsq ≫ (F.quotientDesc pr₁ pr₂ hsq Y φ hφ).hom = φ := by
-  show Stacks.Groupoids.yonedaToPoints (Over.post B.inclusion) (F.site V₂) ≫
+  change Stacks.Groupoids.yonedaToPoints (Over.post B.inclusion) (F.site V₂) ≫
       (Stacks.Groupoids.toQuotientSheaf (BigFppfOver.topology B S hS) (Over.post B.inclusion)
         (relation B S hS (F.siteMap pr₂) (F.siteMap pr₁)) ≫
         (Stacks.Groupoids.quotientSheafDesc (BigFppfOver.topology B S hS) (Over.post B.inclusion)
@@ -218,7 +218,7 @@ theorem hom_ext_quotient {Y : AlgebraicSpaces B S hS} (m₁ m₂ : F.quotient pr
 @[reassoc]
 theorem quotientChart_comp_quotientHom :
     F.quotientChart pr₁ pr₂ hsq ≫ (F.quotientHom pr₁ pr₂ hsq).hom = F.siteToSpace V₂ := by
-  show Stacks.Groupoids.yonedaToPoints (Over.post B.inclusion) (F.site V₂) ≫
+  change Stacks.Groupoids.yonedaToPoints (Over.post B.inclusion) (F.site V₂) ≫
       (Stacks.Groupoids.toQuotientSheaf (BigFppfOver.topology B S hS) (Over.post B.inclusion)
         (relation B S hS (F.siteMap pr₂) (F.siteMap pr₁)) ≫
         (F.quotientHom pr₁ pr₂ hsq).hom) = F.siteToSpace V₂
@@ -231,7 +231,7 @@ theorem quotientDesc_comp (Y : AlgebraicSpaces B S hS) (φ : yoneda.obj (F.site 
     (hq : φ ≫ q.hom = F.siteToSpace V₂) :
     F.quotientDesc pr₁ pr₂ hsq Y φ hφ ≫ q = F.quotientHom pr₁ pr₂ hsq := by
   apply F.hom_ext_quotient pr₁ pr₂ hsq
-  show F.quotientChart pr₁ pr₂ hsq ≫ ((F.quotientDesc pr₁ pr₂ hsq Y φ hφ).hom ≫ q.hom) = _
+  change F.quotientChart pr₁ pr₂ hsq ≫ ((F.quotientDesc pr₁ pr₂ hsq Y φ hφ).hom ≫ q.hom) = _
   rw [quotientChart_comp_quotientDesc_assoc, hq, quotientChart_comp_quotientHom]
 
 /-- **The isomorphism criterion.** An algebraic space `Y` over `X` whose restriction to the
@@ -273,7 +273,7 @@ theorem siteMap_comp_quotientChart :
   have h := Stacks.Groupoids.sourceMap_toQuotientSheaf (BigFppfOver.topology B S hS)
     (Over.post (X := B.obj hS) B.inclusion) (relation B S hS (F.siteMap pr₂) (F.siteMap pr₁))
   rw [Stacks.Groupoids.sourceMap, Stacks.Groupoids.targetMap, hsrc, htgt] at h
-  show yoneda.map (F.siteMap pr₁) ≫ (Stacks.Groupoids.yonedaToPoints (Over.post B.inclusion)
+  change yoneda.map (F.siteMap pr₁) ≫ (Stacks.Groupoids.yonedaToPoints (Over.post B.inclusion)
         (F.site V₂) ≫ Stacks.Groupoids.toQuotientSheaf (BigFppfOver.topology B S hS)
           (Over.post B.inclusion) (relation B S hS (F.siteMap pr₂) (F.siteMap pr₁))) =
     yoneda.map (F.siteMap pr₂) ≫ (Stacks.Groupoids.yonedaToPoints (Over.post B.inclusion)

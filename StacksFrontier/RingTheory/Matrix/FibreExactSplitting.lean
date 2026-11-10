@@ -94,10 +94,10 @@ theorem exists_split_of_free_cokernel {n₁ n₀ : ℕ} (D : Matrix (Fin n₁) (
       LinearMap.range D.vecMulLinear := by
     intro i
     refine (Submodule.Quotient.mk_eq_zero _).mp ?_
-    show π _ = 0
+    change π _ = 0
     rw [map_sub, hq, hs]
     have := b.sum_equivFun (π (Pi.single i 1))
-    show π (Pi.single i 1) - ∑ j, Q (Pi.single i 1) j • b j = 0
+    change π (Pi.single i 1) - ∑ j, Q (Pi.single i 1) j • b j = 0
     rw [show (fun j => Q (Pi.single i 1) j • b j) = fun j => b.equivFun (π (Pi.single i 1)) j • b j
       from rfl, this, sub_self]
   choose y hy using hmem
@@ -107,13 +107,13 @@ theorem exists_split_of_free_cokernel {n₁ n₀ : ℕ} (D : Matrix (Fin n₁) (
     rw [← Matrix.single_one_vecMul, ← Matrix.vecMul_vecMul, hq]
     have : π (Pi.single i 1 ᵥ* D) = 0 :=
       (Submodule.Quotient.mk_eq_zero _).mpr ⟨Pi.single i 1, rfl⟩
-    show b.equivFun (π _) = 0
+    change b.equivFun (π _) = 0
     rw [this, map_zero]
   · refine Matrix.ext fun j k => congrFun
       (?_ : (s * q).row j = (1 : Matrix (Fin r) (Fin r) R).row j) k
     rw [← Matrix.single_one_vecMul, ← Matrix.single_one_vecMul, ← Matrix.vecMul_vecMul,
       Matrix.vecMul_one, Matrix.single_one_vecMul, hq]
-    show b.equivFun (π (x j)) = _
+    change b.equivFun (π (x j)) = _
     rw [hx]
     funext k
     rw [b.equivFun_self]
@@ -125,7 +125,7 @@ theorem exists_split_of_free_cokernel {n₁ n₀ : ℕ} (D : Matrix (Fin n₁) (
       Matrix.single_one_vecMul i t]
     have := hy i
     rw [Matrix.vecMulLinear_apply] at this
-    show _ + y i ᵥ* D = _
+    change _ + y i ᵥ* D = _
     rw [this]
     abel
 
@@ -135,8 +135,7 @@ theorem piScalarRight_lTensor_vecMulLinear {m n : ℕ} (k : Type*) [CommRing k] 
     (D : Matrix (Fin m) (Fin n) R) (z : k ⊗[R] (Fin m → R)) :
     piScalarRight R k k (Fin n) ((D.vecMulLinear.lTensor k) z) =
       piScalarRight R k k (Fin m) z ᵥ* D.map (algebraMap R k) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul a v =>
     funext j
     simp [Matrix.vecMul, dotProduct, piScalarRightHom_tmul, Algebra.smul_def, mul_comm,
@@ -161,7 +160,7 @@ theorem free_rowCokernel_of_fibre_exact [IsLocalRing R] {n₂ n₁ n₀ : ℕ}
     LinearMap.subtype_comp_codRestrict _ _ _
   have hzero : D₁.vecMulLinear.rangeRestrict ∘ₗ D₂.vecMulLinear = 0 := by
     refine LinearMap.ext fun y => Subtype.ext ?_
-    show (y ᵥ* D₂) ᵥ* D₁ = 0
+    change (y ᵥ* D₂) ᵥ* D₁ = 0
     rw [Matrix.vecMul_vecMul, h, Matrix.vecMul_zero]
   rw [← LinearMap.ker_eq_bot, LinearMap.ker_eq_bot']
   intro w hw
@@ -178,11 +177,13 @@ theorem free_rowCokernel_of_fibre_exact [IsLocalRing R] {n₂ n₁ n₀ : ℕ}
     LinearMap.zero_apply]
 
 /-- A matrix whose entries vanish in a localization is killed by one element of the submonoid. -/
-theorem exists_mem_smul_eq_zero_of_map_eq_zero {m n : Type*} [Fintype m] [Fintype n]
+theorem exists_mem_smul_eq_zero_of_map_eq_zero {m n : Type*} [Finite m] [Finite n]
     (M : Submonoid R) (S : Type*) [CommRing S] [Algebra R S] [IsLocalization M S]
     (X : Matrix m n R) (hX : X.map (algebraMap R S) = 0) :
     ∃ c ∈ M, c • X = 0 := by
   classical
+  have := Fintype.ofFinite m
+  have := Fintype.ofFinite n
   have h : ∀ i j, ∃ c : M, (c : R) * X i j = 0 := fun i j =>
     (IsLocalization.map_eq_zero_iff M S (X i j)).mp (congrFun (congrFun hX i) j)
   choose c hc using h

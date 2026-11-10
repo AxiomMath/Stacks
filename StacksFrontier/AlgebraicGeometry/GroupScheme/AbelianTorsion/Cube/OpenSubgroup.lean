@@ -45,7 +45,7 @@ theorem exists_comp_mem_of_nonempty [LocallyOfFiniteType A.hom] (U : A.left.Open
   have hqx : q.1 (IsLocalRing.closedPoint k) = x := by
     simpa [q, pointEquivClosedPoint] using
       congrArg Subtype.val ((pointEquivClosedPoint A.hom).apply_symm_apply ⟨x, hxc⟩)
-  show q.1 (IsLocalRing.closedPoint k) ∈ U
+  change q.1 (IsLocalRing.closedPoint k) ∈ U
   rwa [hqx]
 
 /-- **An open subset of a scheme locally of finite type over an algebraically closed field
@@ -91,7 +91,7 @@ theorem forall_of_mul_of_isOpen [AlgebraicGeometry.IsAbelianVariety k A]
     rw [← hs b]; rfl
   let V : A.left.Opens := s.left ⁻¹ᵁ U
   have haV : a.left (IsLocalRing.closedPoint k) ∈ V := by
-    show s.left (a.left (IsLocalRing.closedPoint k)) ∈ U
+    change s.left (a.left (IsLocalRing.closedPoint k)) ∈ U
     rw [hpt, mul_inv_cancel, Hom.one_def, Subsingleton.elim (toUnit _) (𝟙 _), Category.id_comp]
     exact he
   obtain ⟨x, hxU, hxV⟩ := nonempty_preirreducible_inter U.2 V.2 ⟨_, he⟩ ⟨_, haV⟩

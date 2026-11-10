@@ -415,7 +415,7 @@ theorem full_glueingFunctor_of_mono (hT : (glueingFunctor B S hS wT).Full) :
         ((Over.pullback_map_map_eq_transportAlong hdeg h.hom).symm.trans
           (congrArg (fun t => t.hom.right.hom) hh₀)))
 
-include hj hk H hm hn in
+include hk H hm hn in
 /-- **The comparison functor over `Z` is essentially surjective when the one over `T` is.** A
 glueing datum `(A, Bm, φ)` over `Z` is extended to the datum `(A', Bm, φ')` over `T`, with `A'`
 the extension of `A` along `U ⟶ U'`; a space of finite presentation over `T` realising it
@@ -479,7 +479,7 @@ theorem essSurj_glueingFunctor_of_mono (hT : (glueingFunctor B S hS wT).EssSurj)
             (baseChange B S hS nM).map (G₃.inv.app X') := by
       rw [reassoc_of% CB, ← Functor.map_comp, Iso.hom_inv_id_app,
         CategoryTheory.Functor.map_id, Category.comp_id]
-    show (baseChange B S hS nU).map α.hom ≫ φ =
+    change (baseChange B S hS nU).map α.hom ≫ φ =
       (baseChangeSquareIso B S hS wZ).hom.app Y ≫ (baseChange B S hS nM).map β.hom
     simp only [α, β, Iso.trans_hom, Iso.symm_hom, Functor.mapIso_hom, Iso.app_inv, Iso.app_hom,
       Functor.map_comp, Category.assoc]
@@ -499,7 +499,7 @@ theorem isEquivalence_glueingFunctor_of_mono (hT : (glueingFunctor B S hS wT).Is
       (wT := wT) inferInstance,
     full_glueingFunctor_of_mono B S hS (hj := hj) (H := H) (hm := hm) (hn := hn)
       (wZ := wZ) (wT := wT) inferInstance,
-    essSurj_glueingFunctor_of_mono B S hS (hj := hj) (hk := hk) (H := H) (hm := hm)
+    essSurj_glueingFunctor_of_mono B S hS (hk := hk) (H := H) (hm := hm)
       (hn := hn) (wZ := wZ) (wT := wT) inferInstance⟩
 
 end AlongMono

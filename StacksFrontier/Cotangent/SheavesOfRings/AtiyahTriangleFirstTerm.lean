@@ -1,8 +1,7 @@
 module
 
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.TensorRestrictScalarsTransitivity
-public import
-  StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.MixedDerivedTensor.UnderivedTensorInverseImage
+public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.MixedDerivedTensor.UnderivedTensorInverseImage
 public import StacksFrontier.Cotangent.SheavesOfRings.AtiyahTriangleThirdTerm
 public import StacksFrontier.Cotangent.SheavesOfRings.AugmentationDifferentialsUncurry
 public import StacksFrontier.Cotangent.SheavesOfRings.TensorUncurry
@@ -102,6 +101,7 @@ abbrev atiyahFirstTermCoefficients (F : SheafOfModules.{u} (targetRing J (B := B
         ((SheafOfModules.forget _).obj
           ((extendAugmentationScalars J f).obj (simplicialDifferentials J f)))))
 
+omit [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)] in
 /-- **The first term of the sequence of principal parts is the sheafification of an objectwise
 tensor product.** -/
 theorem simplicialPrincipalPartsX₁_eq (F : SheafOfModules.{u} (targetRing J (B := B))) :

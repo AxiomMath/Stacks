@@ -289,7 +289,7 @@ theorem submodule_obj_eq_bot_of_le_affine {M : X.Modules} [M.IsQuasicoherent] (P
     have h2 : M.val.map (CategoryTheory.homOfLE hgle).op s ∈
         P.toSubmodule.obj (op (X.basicOpen g)) := val_map_mem_submodule P _ hs
     rw [submodule_obj_basicOpen_eq_bot P hP hW hPW g] at h2
-    show M.val.map (CategoryTheory.homOfLE hgle).op s ∈
+    change M.val.map (CategoryTheory.homOfLE hgle).op s ∈
       (Stacks.Algebraization.kernelSubmodule (𝟙 M)).toSubmodule.obj (op (X.basicOpen g))
     rw [kernelSubmodule_id_obj]
     exact h2
@@ -384,7 +384,7 @@ theorem mem_comapOpen_of_mem_inf (K : M.Submodule) {V V' W : X.Opens} (hV : V �
     le_inf (le_inf inf_le_left (inf_le_right.trans hV)) inf_le_right
   have h2 := val_map_mem_submodule K (CategoryTheory.homOfLE hle).op h
   rw [val_map_map _ _ s (CategoryTheory.homOfLE (inf_le_left : W ⊓ V ≤ W)).op] at h2
-  show M.val.map (CategoryTheory.homOfLE (inf_le_left : W ⊓ V ≤ W)).op s ∈
+  change M.val.map (CategoryTheory.homOfLE (inf_le_left : W ⊓ V ≤ W)).op s ∈
     K.toSubmodule.obj (op (W ⊓ V))
   exact h2
 
@@ -421,7 +421,7 @@ theorem isIso_restrictFunctor_map_of_range_le {Z : Scheme.{u}} {M N : X.Modules}
     IsIso ((Scheme.Modules.restrictFunctor f).map g) := by
   apply isIso_of_isIso_app
   intro W
-  show IsIso (g.app (f ''ᵁ W))
+  change IsIso (g.app (f ''ᵁ W))
   refine h _ fun x hx => ?_
   obtain ⟨y, -, rfl⟩ := hx
   exact hf ⟨y, rfl⟩

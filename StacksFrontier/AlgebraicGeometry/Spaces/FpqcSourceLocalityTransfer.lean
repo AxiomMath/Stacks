@@ -98,7 +98,7 @@ theorem points_jointly_surjective_of_isFpqcCovering
   refine Set.eq_univ_iff_forall.mpr fun p ↦ ?_
   obtain ⟨p, rfl⟩ := Quot.exists_rep p
   let T : BigAffineFppf B S hS := ⟨p.siteObject, by
-    show IsAffine (Spec (.of p.carrier))
+    change IsAffine (Spec (.of p.carrier))
     infer_instance⟩
   let Vmap : p.siteObject ⟶ V := p.value
   obtain ⟨W, _, hW, hfactor⟩ := hc.2 T (yoneda.map Vmap)
@@ -128,8 +128,8 @@ theorem points_jointly_surjective_of_isFpqcCovering
   let rV := FieldValuedPoint.map B S hS (yoneda.obj (U i)) (yoneda.map (f i)) rUi
   have hdom : FieldValuedPoint.Dominates B S hS (yoneda.obj V) rV p := by
     refine ⟨rT.value, ?_⟩
-    show rT.value ≫ Vmap = rV.value
-    show (rW.value ≫ dsite) ≫ Vmap = rW.value ≫ asite ≫ f i
+    change rT.value ≫ Vmap = rV.value
+    change (rW.value ≫ dsite) ≫ Vmap = rW.value ≫ asite ≫ f i
     rw [Category.assoc, ← hcomp]
   have hclass := FieldValuedPoint.class_eq_class_of_hasCommonExtension B S hS (yoneda.obj V)
       ⟨rV, FieldValuedPoint.dominates_refl B S hS (yoneda.obj V) rV, hdom⟩
@@ -181,19 +181,19 @@ theorem isFpqcCovering_yoneda_of_isCovering
     refine ⟨fun {O} hO => ?_⟩
     let W : (T.obj V).affineOpens := ⟨O, hO⟩
     let hW : B.Contains W.1.toScheme := by
-      show W.1.toScheme.size < B.cutoff
+      change W.1.toScheme.size < B.cutoff
       exact (Scheme.size_coe_opens_le (T.obj V) W.1).trans_lt V.left.2
     let j : B.inclusion.obj (B.obj hW) ⟶ B.inclusion.obj V.left := by
-      show W.1.toScheme ⟶ T.obj V
+      change W.1.toScheme ⟶ T.obj V
       exact W.1.ι
     let m : B.obj hW ⟶ V.left := B.inclusion.preimage j
     let Tsite : BigFppfOver B S hS := Over.mk (m ≫ V.hom)
     let Taff : BigAffineFppf B S hS := ⟨Tsite, by
-      show IsAffine W.1.toScheme
+      change IsAffine W.1.toScheme
       exact W.2⟩
     let qsite : Tsite ⟶ V := Over.homMk m (by simp [Tsite])
     have hq : T.map qsite = W.1.ι := by
-      show B.inclusion.map (B.inclusion.preimage j) = j
+      change B.inclusion.map (B.inclusion.preimage j) = j
       exact B.inclusion.map_preimage j
     obtain ⟨R, hfinite, hR, hfactor⟩ := hc.2 Taff (yoneda.map qsite)
     let A := BigAffineFppf.toScheme B S hS
@@ -248,10 +248,10 @@ theorem isFpqcCovering_yoneda_of_isCovering
     have hrange : Set.range (T.map qsite).base = (W.1 : Set (T.obj V)) := by
       rw [hq]
       exact Scheme.Opens.range_ι W.1
-    show IsCompactOpenCovered (fun i => (gi i).base) (↑O : Set (T.obj V))
+    change IsCompactOpenCovered (fun i => (gi i).base) (↑O : Set (T.obj V))
     rwa [← hrange]
   let C' := C.ofQuasiCompactCover
-  show Presieve.ofArrows Xi gi ∈ Scheme.fpqcPrecoverage (T.obj V)
+  change Presieve.ofArrows Xi gi ∈ Scheme.fpqcPrecoverage (T.obj V)
   simpa [C, C', Xi, gi, T, Scheme.fpqcPrecoverage, Scheme.propQCPrecoverage,
     Scheme.Cover.ofQuasiCompactCover, Scheme.Cover.mkOfCovers] using C'.mem₀
 
@@ -366,7 +366,7 @@ theorem holdsOnEveryEtaleChart_respectsIso (P : MorphismProperty Scheme.{u}) :
   let : E.RespectsIso := MorphismProperty.relative_respectsIso E0
   refine MorphismProperty.RespectsIso.mk Q ?_ ?_
   · intro F G H e f hf
-    show HoldsOnEveryEtaleChart B S hS P (e.hom ≫ f).hom
+    change HoldsOnEveryEtaleChart B S hS P (e.hom ≫ f).hom
     intro U V a b h ha hb hh
     have ha' : E (a ≫ Cobj.ι.map e.hom) :=
       MorphismProperty.RespectsIso.postcomp E (Cobj.ι.map e.hom) a ha
@@ -374,7 +374,7 @@ theorem holdsOnEveryEtaleChart_respectsIso (P : MorphismProperty Scheme.{u}) :
     change yoneda.map h ≫ b = a ≫ (Cobj.ι.map e.hom ≫ f.hom) at hh
     simpa [Category.assoc] using hh
   · intro F G H e f hf
-    show HoldsOnEveryEtaleChart B S hS P (f ≫ e.hom).hom
+    change HoldsOnEveryEtaleChart B S hS P (f ≫ e.hom).hom
     intro U V a b h ha hb hh
     have hb' : E (b ≫ Cobj.ι.map e.inv) :=
       MorphismProperty.RespectsIso.postcomp E (Cobj.ι.map e.inv) b hb
@@ -422,7 +422,7 @@ theorem isLocalAtSource_fpqc_of_schemes
       obtain ⟨d, hd, hschemeCover⟩ :=
         exists_scheme_cover_of_atlases B S hS T0 Ai qi hAi Wi wi hsurjWi hetaleWi
       have hPbranch (p : Σ _ : I, PUnit.{v + 1}) : P (T.map (d p ≫ alpha)) := by
-        show P (T.map (d p) ≫ T.map alpha)
+        change P (T.map (d p) ≫ T.map alpha)
         exact hlocal.comp hschemeCover (T.map (d p)) (by exact ⟨p⟩) hPalpha
       let c : yoneda.obj (Wi j) ⟶ (Zi j).1 := wi j ≫ (projZ j).hom
       have hcEtale' := presheaf_etale_comp_of_isPullback B S hS T0 (Wi j) t (gi j) (qi j)
@@ -459,7 +459,7 @@ theorem isLocalAtSource_fpqc_of_schemes
       simpa only [hpres] using hmem)
     let e : E.toPreZeroHypercover.2 i ⟶ Zi j := eqToHom hobj.symm
     let : IsIso e := inferInstance
-    show Q (E.f i ≫ f)
+    change Q (E.f i ≫ f)
     rw [hindex]
     exact MorphismProperty.RespectsIso.precomp Q e (gi j ≫ f) (hgiQ j)
   · intro hall U V a b h ha hb hcomm
@@ -493,7 +493,7 @@ theorem isLocalAtSource_fpqc_of_schemes
       let e : Zi i ⟶ E.toPreZeroHypercover.2 j := eqToHom hobj.symm
       let : IsIso e := inferInstance
       have hi' : HoldsOnEveryEtaleChart B S hS P ((gi i).hom ≫ f.hom) := by
-        show Q (gi i ≫ f)
+        change Q (gi i ≫ f)
         rw [hgi]
         exact MorphismProperty.RespectsIso.precomp Q e (E.f j ≫ f) hi
       have hPi := hi' (Wi i) V wz b hV hwzEtale' hb hchartComm

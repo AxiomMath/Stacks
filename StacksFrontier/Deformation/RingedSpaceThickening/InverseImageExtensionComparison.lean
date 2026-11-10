@@ -479,10 +479,10 @@ theorem comparisonSqZero_app_graphSection (h : d.CompatibleHom) (X : Cᵒᵖ)
     (g : ↥(kernelIdeal d.π.hom X)) :
     (d.comparisonSqZero h).app X (graphSection d.π d.N d.c X g) = 0 := by
   refine fibreVal_injective d.p d.q X (Prod.ext ?_ ?_)
-  · show h.hom.hom.app X (sqZeroExtFst (M := modules d.N) (graphSection d.π d.N d.c X g))
+  · change h.hom.hom.app X (sqZeroExtFst (M := modules d.N) (graphSection d.π d.N d.c X g))
         + d.inr X (sqZeroExtSnd (M := modules d.N) (graphSection d.π d.N d.c X g)) = 0
     rw [graphSection_fst, graphSection_snd, h.kernel_comm X g, map_neg, add_neg_cancel]
-  · show d.π.hom.app X (sqZeroExtFst (M := modules d.N) (graphSection d.π d.N d.c X g)) = 0
+  · change d.π.hom.app X (sqZeroExtFst (M := modules d.N) (graphSection d.π d.N d.c X g)) = 0
     rw [graphSection_fst]
     exact g.2
 
@@ -535,10 +535,10 @@ theorem comparisonHom_app_pushoutInr (h : d.CompatibleHom) (X : Cᵒᵖ)
       = fibreInr d.p d.q d.ι X n := by
   refine (d.comparisonHom_app_pushoutMk h X (inrSection d.N X n)).trans ?_
   refine fibreVal_injective d.p d.q X (Prod.ext ?_ ?_)
-  · show h.hom.hom.app X (sqZeroExtFst (M := modules d.N) (inrSection d.N X n))
+  · change h.hom.hom.app X (sqZeroExtFst (M := modules d.N) (inrSection d.N X n))
         + d.inr X (sqZeroExtSnd (M := modules d.N) (inrSection d.N X n)) = d.inr X n
     rw [inrSection_fst, inrSection_snd, map_zero, zero_add]
-  · show d.π.hom.app X (sqZeroExtFst (M := modules d.N) (inrSection d.N X n)) = 0
+  · change d.π.hom.app X (sqZeroExtFst (M := modules d.N) (inrSection d.N X n)) = 0
     rw [inrSection_fst, map_zero]
 
 /-- Composing `g^{-1}𝒪_{X'} ⟶ 𝒪'₁ ⟶ 𝒪'₂` with the projection onto `𝒪_{Y'}` returns `h`. -/
@@ -547,7 +547,7 @@ theorem pushoutMap_comp_comparisonHom_comp_fibreFst (h : d.CompatibleHom) :
   refine sheaf_hom_ext_app fun X a => ?_
   refine Eq.trans (congrArg ((fibreFst d.p d.q).hom.app X)
     (d.comparisonHom_app_pushoutMap h X a)) ?_
-  show h.hom.hom.app X a + d.inr X (0 : ↥((modules d.N).obj X)) = h.hom.hom.app X a
+  change h.hom.hom.app X a + d.inr X (0 : ↥((modules d.N).obj X)) = h.hom.hom.app X a
   rw [map_zero, add_zero]
 
 /-- Composing `g^{-1}𝒪_{X'} ⟶ 𝒪'₁ ⟶ 𝒪'₂` with the projection onto `g^{-1}𝒪_X` returns `π`. -/
@@ -725,12 +725,12 @@ theorem mul_trivialInrHom (X : Cᵒᵖ) (b : ↥((sqZeroExtSheaf R N).obj.obj X)
     b * trivialInrHom R N X n
       = trivialInrHom R N X (sqZeroExtFst (M := modules N) b • n) := by
   refine sqZeroExt_ext ?_ ?_
-  · show sqZeroExtFst (M := modules N) b * sqZeroExtFst (M := modules N)
+  · change sqZeroExtFst (M := modules N) b * sqZeroExtFst (M := modules N)
         (trivialInrHom R N X n)
       = sqZeroExtFst (M := modules N)
         (trivialInrHom R N X (sqZeroExtFst (M := modules N) b • n))
     rw [trivialInrHom_fst, trivialInrHom_fst, mul_zero]
-  · show sqZeroExtFst (M := modules N) b • sqZeroExtSnd (M := modules N)
+  · change sqZeroExtFst (M := modules N) b • sqZeroExtSnd (M := modules N)
           (trivialInrHom R N X n)
         + sqZeroExtFst (M := modules N) (trivialInrHom R N X n) • sqZeroExtSnd (M := modules N) b
       = sqZeroExtSnd (M := modules N)

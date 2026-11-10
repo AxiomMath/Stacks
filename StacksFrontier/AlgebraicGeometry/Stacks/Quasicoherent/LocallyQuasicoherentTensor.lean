@@ -163,7 +163,7 @@ theorem isContinuous_and_isCocontinuous_overPost_ιOfLE {κ κ' : Cardinal.{u}} 
   dsimp only
   let J := ((Scheme.etalePrecoverage.comap (schemeBelowInclusion κ)).toGrothendieck).over
     (⟨U, hU⟩ : SchemeBelow κ)
-  show (𝟭 (Over (⟨U, hU⟩ : SchemeBelow κ))).IsContinuous J J ∧
+  change (𝟭 (Over (⟨U, hU⟩ : SchemeBelow κ))).IsContinuous J J ∧
     (𝟭 (Over (⟨U, hU⟩ : SchemeBelow κ))).IsCocontinuous J J
   exact ⟨inferInstance, inferInstance⟩
 

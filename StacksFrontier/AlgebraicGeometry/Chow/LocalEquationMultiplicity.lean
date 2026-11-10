@@ -105,7 +105,7 @@ theorem ord_eq_ringOrd_germ {Y : Scheme.{u}} [IsIntegral Y] [IsLocallyNoetherian
   have hff : Y.germToFunctionField V t ≠ 0 := fun h =>
     ht (Scheme.germToFunctionField_injective Y V (by simpa using h))
   rw [Scheme.ord_eq_iff hco hff]
-  show (Ring.ordFrac (Y.presheaf.stalk ξ)) _ = _
+  change (Ring.ordFrac (Y.presheaf.stalk ξ)) _ = _
   rw [← Scheme.algebraMap_germ_eq_germToFunctionField Y hξV t,
     Ring.ordFrac_eq_ord _ hgerm,
     Ring.ordMonoidWithZeroHom_eq_coe _ (mem_nonZeroDivisors_of_ne_zero hgerm) hn]

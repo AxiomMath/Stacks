@@ -272,7 +272,7 @@ include hij
 images in `X`. -/
 theorem isEmpty_smallEtaleBaseChange_smallEtaleCompose (W : U.Etale) :
     IsEmpty ((smallEtaleBaseChange i).obj ((smallEtaleCompose j).obj W)).left := by
-  show IsEmpty (Limits.pullback (C := Scheme.{u}) (W.hom ≫ j) i)
+  change IsEmpty (Limits.pullback (C := Scheme.{u}) (W.hom ≫ j) i)
   refine Scheme.isEmpty_pullback _ _ (Set.disjoint_left.2 ?_)
   rintro x ⟨w, rfl⟩ ⟨z, hz⟩
   exact hij.subset ⟨W.hom.base w, by simp⟩ ⟨z, hz⟩
@@ -343,11 +343,11 @@ public theorem iUnion_range_complementPoint :
   by_cases hx : x ∈ Set.range i.base
   · obtain ⟨z, rfl⟩ := hx
     refine Set.mem_iUnion.2 ⟨Sum.inl z, default, ?_⟩
-    show i.base ((residueGeometricPoint Z z).base default) = i.base z
+    change i.base ((residueGeometricPoint Z z).base default) = i.base z
     rw [residueGeometricPoint_apply]
   · obtain ⟨w, rfl⟩ : x ∈ Set.range j.base := by rwa [hij]
     refine Set.mem_iUnion.2 ⟨Sum.inr w, default, ?_⟩
-    show j.base ((residueGeometricPoint U w).base default) = j.base w
+    change j.base ((residueGeometricPoint U w).base default) = j.base w
     rw [residueGeometricPoint_apply]
 
 omit hij [Etale j] in

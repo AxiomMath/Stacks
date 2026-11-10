@@ -47,9 +47,8 @@ There are no new definitions.
   polynomial presentation of `φ`, with nothing carried.
 * `Dualizing.PolynomialPresentation.relativeDualizingComplex_diagonalDerivedHom_of_flat` and
   `Dualizing.PolynomialPresentation.relativeDualizingComplex_isRelativeDualizingComplex_of_flat`
-  — the same two statements by the earlier route through [stacks 0BZV] and the fibrewise
-  criterion, which carries `Dualizing.PolynomialPresentation.ProjectionCompatibility`; they are
-  subsumed and keep no tag.
+  — the same two statements for `φ` flat, by the earlier route through [stacks 0BZV]; they
+  carry nothing either, are subsumed and keep no tag.
 
 ## Implementation notes
 
@@ -100,10 +99,8 @@ of [stacks 0BZJ] (`Dualizing.polynomialEvalDuality`) are all proved.
 The earlier statements
 `Dualizing.PolynomialPresentation.relativeDualizingComplex_diagonalDerivedHom_of_flat` and
 `Dualizing.PolynomialPresentation.relativeDualizingComplex_isRelativeDualizingComplex_of_flat`
-reach the same conclusions through the Tor-independent base change [stacks 0BZV] and the
-fibrewise criterion [stacks 0GHJ], and carry the projection-formula compatibility
-`Dualizing.PolynomialPresentation.ProjectionCompatibility` of [stacks 0E2A] that those routes
-need.  They are kept for their callers and are subsumed.
+reach the same conclusions for `φ` flat through the Tor-independent base change [stacks 0BZV],
+and carry nothing either.  They are kept for their callers and are subsumed.
 
 ## References
 
@@ -193,14 +190,13 @@ derived Hom along the identity is the identity.  The passage from the right copr
 the left one that [stacks 0E2C] is written with is `Dualizing.derivedHomIncludeRightIso`.
 
 The one input of [stacks 0BZJ] used here is `Dualizing.PolynomialEvalDuality`, supplied by
-`Dualizing.polynomialEvalDuality` and so not a hypothesis.  The hypothesis `_hProj` is not used
-by the proof; the same conclusion without it, through flat base change [stacks 0BZN], is
+`Dualizing.polynomialEvalDuality` and so not a hypothesis.  The same conclusion, through flat
+base change [stacks 0BZN], is
 `Dualizing.PolynomialPresentation.relativeDualizingComplex_diagonalDerivedHom`.
 -/
 theorem relativeDualizingComplex_diagonalDerivedHom_of_flat
     [IsNoetherianRing R] [IsNoetherianRing A]
-    (p : PolynomialPresentation (algebraMap R A)) (hflat : (algebraMap R A).Flat)
-    (_hProj : p.ProjectionCompatibility A) :
+    (p : PolynomialPresentation (algebraMap R A)) (hflat : (algebraMap R A).Flat) :
     letI : Module.Flat R A := RingHom.flat_algebraMap_iff.mp hflat
     Nonempty
       ((derivedHom.{u, u}
@@ -243,7 +239,7 @@ theorem relativeDualizingComplex_diagonalDerivedHom_of_flat
   exact (eΔ.app (q.upperShriekFunctor.{u, 0}.obj X)).symm ≪≫ eComp.app X ≪≫ eVars.app X ≪≫
     eNoVars.app X ≪≫ eId.app X
 
-/-- **[stacks 0E2E] along the fibrewise route, carrying the projection-formula compatibility.**
+/-- **[stacks 0E2E] along the route through [stacks 0BZV], for `φ` flat.**
 Let `φ : R → A` be a flat homomorphism of finite type of Noetherian rings.  Then the relative
 dualizing complex `ω^•_{A/R} = φ^!(R)` is a relative dualizing complex in the sense of
 [stacks 0E2C].  The tag is registered on
@@ -258,17 +254,13 @@ assumes any part of the conclusion.  Finite presentation of `φ` is not a hypoth
 finite type of Noetherian rings is of finite presentation, and a polynomial presentation exists
 only for a map of finite type.
 
-One hypothesis is carried: `hProjFib` and `hProjSelf` are the projection-formula compatibility
-of [stacks 0E2A] at the square of `p`, read at the residue fields of `R` and at `A`, which is
-what every case of [stacks 0BZV] carries here.  The other input,
+Nothing is carried.  The one input,
 `Dualizing.PolynomialEvalDuality` — [stacks 0BZH] at the evaluation
 surjections, the one input of [stacks 0BZJ] — is discharged by `Dualizing.polynomialEvalDuality`.
 See this module's documentation. -/
 theorem relativeDualizingComplex_isRelativeDualizingComplex_of_flat
     [IsNoetherianRing R] [IsNoetherianRing A]
-    (p : PolynomialPresentation (algebraMap R A)) (hflat : (algebraMap R A).Flat)
-    (hProjFib : ∀ t : PrimeSpectrum R, p.ProjectionCompatibility t.asIdeal.ResidueField)
-    (hProjSelf : p.ProjectionCompatibility A) :
+    (p : PolynomialPresentation (algebraMap R A)) (hflat : (algebraMap R A).Flat) :
     letI : Module.Flat R A := RingHom.flat_algebraMap_iff.mp hflat
     letI : Algebra.FinitePresentation R A :=
       Algebra.FinitePresentation.of_finiteType.mp (RingHom.finiteType_algebraMap.mp p.finiteType)
@@ -278,8 +270,8 @@ theorem relativeDualizingComplex_isRelativeDualizingComplex_of_flat
   let : Module.Flat R A := RingHom.flat_algebraMap_iff.mp hflat
   let : Algebra.FinitePresentation R A :=
     Algebra.FinitePresentation.of_finiteType.mp (RingHom.finiteType_algebraMap.mp p.finiteType)
-  exact ⟨p.relativeDualizingComplex_isRelativelyPerfect_of_flat hflat hProjFib,
-    p.relativeDualizingComplex_diagonalDerivedHom_of_flat hflat hProjSelf⟩
+  exact ⟨p.relativeDualizingComplex_isRelativelyPerfect_of_flat hflat,
+    p.relativeDualizingComplex_diagonalDerivedHom_of_flat hflat⟩
 
 /-- **The diagonal condition of [stacks 0E2C] for `ω^•_{A/R} = φ^!(R)`, with nothing carried.**
 For `φ : R → A` flat of finite type with `R` Noetherian and `p` any polynomial presentation of

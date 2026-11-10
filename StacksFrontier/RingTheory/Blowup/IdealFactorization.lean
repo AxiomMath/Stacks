@@ -135,7 +135,7 @@ theorem algebraMap_pow_mul_fraction (d : ℕ) (x : ↥(I ^ d)) :
     algebraMap R (affineBlowupAlgebra I a S) a ^ d * fraction I a d x =
       algebraMap R (affineBlowupAlgebra I a S) x := by
   refine Subtype.ext ?_
-  show algebraMap R S a ^ d * (IsLocalization.Away.invSelf a ^ d * algebraMap R S x) = _
+  change algebraMap R S a ^ d * (IsLocalization.Away.invSelf a ^ d * algebraMap R S x) = _
   rw [← mul_assoc, algebraMap_pow_mul_invSelf_pow, one_mul]
   rfl
 
@@ -210,7 +210,7 @@ theorem normalize_self (ha : a ∈ I) (d : ℕ) :
     normalize I (I ^ d) a d le_rfl = (⊤ : Ideal (affineBlowupAlgebra I a S)) := by
   refine Ideal.eq_top_of_isUnit_mem _
     (Ideal.subset_span ⟨⟨a ^ d, Ideal.pow_mem_pow ha d⟩, rfl⟩) ?_
-  show IsUnit (fraction (S := S) I a d ⟨a ^ d, Ideal.pow_mem_pow ha d⟩)
+  change IsUnit (fraction (S := S) I a d ⟨a ^ d, Ideal.pow_mem_pow ha d⟩)
   rw [fraction_pow_self I a ha d]
   exact isUnit_one
 

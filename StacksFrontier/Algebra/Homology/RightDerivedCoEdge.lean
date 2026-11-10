@@ -409,7 +409,7 @@ theorem secondEdge_app_eq (n : ℕ) {X : A} (I : InjectiveResolution X) :
         Q.map (I.isoRightDerivedObj P n).inv := by
   have h := mapCycles_comp_homologyπ_comp_homologyFunctorToMapHomology Q
     ((P.mapHomologicalComplex (ComplexShape.up ℕ)).obj I.cocomplex) n
-  show mapCycles Q _ n ≫ _ ≫ (RightDerivedEdge.isoRightDerivedObjComp P Q I n).inv ≫
+  change mapCycles Q _ n ≫ _ ≫ (RightDerivedEdge.isoRightDerivedObjComp P Q I n).inv ≫
     secondEdgeApp P Q n X = _
   rw [isoRightDerivedObjComp_inv_comp_secondEdgeApp P Q n I]
   exact comp_comp_comp_eq _ _ _ _ _ h

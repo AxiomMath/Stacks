@@ -89,6 +89,7 @@ open CategoryTheory CategoryTheory.Limits Opposite
 universe u w
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance AlgebraicGeometry.Space.hasPullbacks_presheaf_groupoidTranslate
@@ -406,7 +407,7 @@ theorem translateBwd_identityHom {a : T ⟶ G.objects}
     simp only [Category.assoc, identityHom_comp_target, Category.comp_id]
   have hcond : pullback.fst a.hom G.source.hom ≫ (a ≫ identityHom G).hom =
       pullback.snd a.hom G.source.hom ≫ G.source.hom ≫ (identityHom G).hom := by
-    show pullback.fst a.hom G.source.hom ≫ a.hom ≫ (identityHom G).hom = _
+    change pullback.fst a.hom G.source.hom ≫ a.hom ≫ (identityHom G).hom = _
     rw [← Category.assoc, pullback.condition, Category.assoc]
   apply pullback.hom_ext
   · rw [translateBwd_fst, Category.id_comp]
@@ -462,7 +463,7 @@ theorem translatePairOf_identityHom (p : Space.FiniteOpenSubspace C S hS G.sourc
     (hzt : (p.toBase ≫ identityHom G).hom ≫ G.target.hom = p.toBase.hom) :
     translatePairOf p (p.toBase ≫ identityHom G) hzs p.toBase hzt = p := by
   refine Space.FiniteOpenSubspace.eq_of_subspace_eq C S hS rfl (heq_of_eq ?_)
-  show p.subspace.preimage (translateBwd (p.toBase ≫ identityHom G) hzs hzt) = p.subspace
+  change p.subspace.preimage (translateBwd (p.toBase ≫ identityHom G) hzs hzt) = p.subspace
   rw [translateBwd_identityHom hzs hzt, Subfunctor.preimage_id]
 
 /-- **The cocycle identity for the target.** Translating by a composite is translating twice:
@@ -477,7 +478,7 @@ theorem translatePairOf_composeArrow (p : Space.FiniteOpenSubspace C S hS G.sour
     translatePairOf p (composeArrow z₁ z₂ hc) hzs b₁ hzt =
       translatePairOf (translatePairOf p z₂ hzs₂ b₂ hzt₂) z₁ hzs₁ b₁ hzt₁ := by
   refine Space.FiniteOpenSubspace.eq_of_subspace_eq C S hS rfl (heq_of_eq ?_)
-  show p.subspace.preimage (translateBwd (composeArrow z₁ z₂ hc) hzs hzt) =
+  change p.subspace.preimage (translateBwd (composeArrow z₁ z₂ hc) hzs hzt) =
     (p.subspace.preimage (translateBwd z₂ hzs₂ hzt₂)).preimage (translateBwd z₁ hzs₁ hzt₁)
   rw [← Subfunctor.preimage_comp,
     translateBwd_comp z₁ z₂ hzs₂ hzt₂ hzs₁ hzt₁ hc hzs hzt]
@@ -538,7 +539,7 @@ theorem baseChangePair_translatePairOf (p : Space.FiniteOpenSubspace C S hS G.so
       rw [← Category.assoc, Space.baseChangeAmbientMap_comp_fst, Category.assoc]
       rfl
   refine Space.FiniteOpenSubspace.eq_of_subspace_eq C S hS rfl (heq_of_eq ?_)
-  show (p.subspace.preimage (translateBwd z hzs hzt)).preimage
+  change (p.subspace.preimage (translateBwd z hzs hzt)).preimage
       (Space.baseChangeAmbientMap C S hS G.source b k) =
     (p.subspace.preimage (Space.baseChangeAmbientMap C S hS G.source p.toBase k)).preimage
       (translateBwd (k ≫ z) hzs' hzt')

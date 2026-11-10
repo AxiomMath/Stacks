@@ -127,7 +127,7 @@ private theorem quasicoherentSections_unique_of_universalEffectiveEpiFamily
           (pullbackGlobalSections q F₀ m) =
           pullbackGlobalSections (q ≫ eX.inv) F (a - b) := by
         simpa [m, F₀] using pullbackGlobalSections_comp q eX.inv F (a - b)
-      show ((Scheme.Modules.pullbackComp q eX.inv).hom.app F).app ⊤
+      change ((Scheme.Modules.pullbackComp q eX.inv).hom.app F).app ⊤
           (pullbackGlobalSections q F₀ m) =
         ((Scheme.Modules.pullbackComp q eX.inv).hom.app F).app ⊤ 0
       calc
@@ -269,11 +269,11 @@ private lemma chartPullbackSectionsEquiv_global
   refine ((isoPullbackSectionsEquiv eY
     ((Scheme.Modules.pullback f).obj F)).apply_symm_apply _).trans ?_
   apply (moduleSectionsEquiv ((Scheme.Modules.pullbackComp eY.hom f).app F)).injective
-  show (moduleSectionsEquiv ((Scheme.Modules.pullbackComp eY.hom f).app F))
+  change (moduleSectionsEquiv ((Scheme.Modules.pullbackComp eY.hom f).app F))
     ((moduleSectionsEquiv ((Scheme.Modules.pullbackComp eY.hom f).app F)).symm _) = _
   refine ((moduleSectionsEquiv
     ((Scheme.Modules.pullbackComp eY.hom f).app F)).apply_symm_apply _).trans ?_
-  show ((Scheme.Modules.pullbackCongr hq).hom.app F).app ⊤
+  change ((Scheme.Modules.pullbackCongr hq).hom.app F).app ⊤
     (((Scheme.Modules.pullbackComp q eX.hom).hom.app F).app ⊤ _) =
     ((Scheme.Modules.pullbackComp eY.hom f).hom.app F).app ⊤
       (pullbackGlobalSections eY.hom ((Scheme.Modules.pullback f).obj F)
@@ -294,7 +294,7 @@ private lemma chartPullbackSectionsEquiv_smul
   let c₂ := moduleSectionsEquiv ((Scheme.Modules.pullbackCongr hq).app F)
   let c₃ := moduleSectionsEquiv ((Scheme.Modules.pullbackComp eY.hom f).symm.app F)
   let c₄ := isoPullbackSectionsEquiv eY ((Scheme.Modules.pullback f).obj F)
-  show c₄.symm (c₃ (c₂ (c₁ (eY.hom.appTop r • s)))) =
+  change c₄.symm (c₃ (c₂ (c₁ (eY.hom.appTop r • s)))) =
     r • c₄.symm (c₃ (c₂ (c₁ s)))
   calc
     _ = c₄.symm (c₃ (c₂ (eY.hom.appTop r • c₁ s))) :=
@@ -337,11 +337,11 @@ private lemma tensorChartSectionsEquiv_tmul
   refine (congrArg (fun z => chartPullbackSectionsEquiv eX eY f (Spec.map ρ) hρ F z)
     (affinePullbackSectionsIso_tmul R S ρ ((Scheme.Modules.pullback eX.hom).obj F) s
       (pullbackGlobalSections eX.hom F t))).trans ?_
-  show chartPullbackSectionsEquiv eX eY f (Spec.map ρ) hρ F
+  change chartPullbackSectionsEquiv eX eY f (Spec.map ρ) hρ F
     ((Scheme.ΓSpecIso S).inv s • _) = _
   have he : eY.hom.appTop (eY.inv.appTop ((Scheme.ΓSpecIso S).inv s)) =
       (Scheme.ΓSpecIso S).inv s := by
-    show (eY.hom ≫ eY.inv).appTop _ = _
+    change (eY.hom ≫ eY.inv).appTop _ = _
     simp
   conv_lhs => rw [← he]
   rw [chartPullbackSectionsEquiv_smul, chartPullbackSectionsEquiv_global]
@@ -362,7 +362,7 @@ private theorem affineSections_induction
     {X Y : Scheme.{u}} [IsAffine X] [IsAffine Y] (f : Y ⟶ X)
     (F : X.Modules) [F.IsQuasicoherent]
     (P : Γ((Scheme.Modules.pullback f).obj F, ⊤) → Prop)
-    (hzero : P 0) (hadd : ∀ x y, P x → P y → P (x + y))
+    (hadd : ∀ x y, P x → P y → P (x + y))
     (hgen : ∀ (s : Γ(Y, ⊤)) (m : Γ(F, ⊤)), P (s • pullbackGlobalSections f F m))
     (x : Γ((Scheme.Modules.pullback f).obj F, ⊤)) : P x := by
   let : ((Scheme.Modules.pullback X.isoSpec.symm.hom).obj F).IsQuasicoherent :=
@@ -371,8 +371,7 @@ private theorem affineSections_induction
     (Scheme.isoSpec_inv_naturality f) F
   obtain ⟨z, rfl⟩ := e.surjective x
   let := f.appTop.hom.toAlgebra
-  induction z using TensorProduct.induction_on with
-  | zero => exact (congrArg P (map_zero e)).mpr hzero
+  induction z using TensorProduct.inductionOn with
   | add a b ha hb => exact (congrArg P (map_add e a b)).mpr (hadd _ _ ha hb)
   | tmul s m =>
     obtain ⟨t, rfl⟩ := (pullbackGlobalSections_bijective_of_isIso X.isoSpec.inv F).2 m
@@ -390,9 +389,9 @@ private lemma chartCoefficient_naturality
     rw [← cancel_epi eZ.hom]
     simp only [← Category.assoc, ha]
     simp
-  show (a ≫ eY.inv).appTop ((Scheme.ΓSpecIso S).inv s) = _
+  change (a ≫ eY.inv).appTop ((Scheme.ΓSpecIso S).inv s) = _
   rw [hcomp, Scheme.Hom.comp_appTop]
-  show eZ.inv.appTop ((Spec.map α).appTop ((Scheme.ΓSpecIso S).inv s)) = _
+  change eZ.inv.appTop ((Spec.map α).appTop ((Scheme.ΓSpecIso S).inv s)) = _
   rw [specMap_appTop_ΓSpecIso_inv]
 
 private noncomputable def tensorExtendScalarsEquiv (R S : CommRingCat.{u}) [Algebra R S]
@@ -465,8 +464,7 @@ private lemma tensorChartSectionsEquiv_naturality
       (TensorProduct.map α.toLinearMap LinearMap.id z) =
       pullbackSectionsMap F g
         (tensorChartSectionsAlgEquiv eX eY Y.hom hY F z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul s m =>
     obtain ⟨t, rfl⟩ := (pullbackGlobalSections_bijective_of_isIso eX.hom F).2 m
@@ -590,7 +588,7 @@ private lemma compatibleSections_cone
   let l : Z ⟶ pairwiseOver X U f i j := Over.homMk
     (pullback.lift a.left b.left ((Over.w a).trans (Over.w b).symm))
     (by
-      show (pullback.lift a.left b.left _) ≫ (pullback.fst _ _ ≫ (f i).hom) = Z.hom
+      change (pullback.lift a.left b.left _) ≫ (pullback.fst _ _ ≫ (f i).hom) = Z.hom
       exact ((Category.assoc _ _ _).symm.trans
         (congrArg (fun k => k ≫ (f i).hom)
           (pullback.lift_fst a.left b.left _))).trans (Over.w a))
@@ -639,14 +637,14 @@ private theorem quasicoherentSectionsEqualizer_of_isUniversalEffectiveEpiFamily
       (Spec.map (CommRingCat.ofHom (Algebra.TensorProduct.includeLeftRingHom
         (R := R) (A := S i) (B := S j))) ≫ (U i).obj.isoSpec.inv)
       (by
-        show (_ ≫ _) ≫ (f i).hom = p
+        change (_ ≫ _) ≫ (f i).hom = p
         rw [Category.assoc, ← Scheme.isoSpec_inv_naturality, ← Category.assoc]
         exact congrArg (fun k => k ≫ eX.hom) (specMap_tensor_left_comp R (S i) (S j)))
     let b : W ⟶ affineOver X U f j := Over.homMk
       (Spec.map (CommRingCat.ofHom (Algebra.TensorProduct.includeRight
         (R := R) (A := S i) (B := S j)).toRingHom) ≫ (U j).obj.isoSpec.inv)
       (by
-        show (_ ≫ _) ≫ (f j).hom = p
+        change (_ ≫ _) ≫ (f j).hom = p
         rw [Category.assoc, ← Scheme.isoSpec_inv_naturality, ← Category.assoc]
         exact congrArg (fun k => k ≫ eX.hom) (specMap_tensor_right_comp R (S i) (S j)))
     have hP : Spec.map (CommRingCat.ofHom (algebraMap R P)) ≫ eX.hom =
@@ -699,13 +697,12 @@ private lemma affineBaseChangeSectionsIso_naturality
   let c₂ := (affineBaseChangeSectionsIso d₂).hom
   let L := c₁.hom.comp (pullbackSectionsMap G a).hom
   let K := (pullbackSectionsMap F b).hom.comp c₂.hom
-  show L s = K s
-  apply affineSections_induction g₂ G (fun z => L z = K z) ?_ ?_ ?_ s
-  · simp only [map_zero]
+  change L s = K s
+  apply affineSections_induction g₂ G (fun z => L z = K z) ?_ ?_ s
   · intro x y hx hy
     simp only [map_add, hx, hy]
   · intro r t
-    show c₁ (pullbackSectionsMap G a (r • pullbackGlobalSections g₂ G t)) =
+    change c₁ (pullbackSectionsMap G a (r • pullbackGlobalSections g₂ G t)) =
       pullbackSectionsMap F b (c₂ (r • pullbackGlobalSections g₂ G t))
     calc
       _ = c₁ (a.left.appTop r • pullbackGlobalSections g₁ G t) :=

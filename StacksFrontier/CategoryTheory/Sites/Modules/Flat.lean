@@ -279,7 +279,8 @@ This is part (3) of tag 03ER for the native tensor bifunctor, and part (4) just 
 is stated in terms of it. `Stacks.SheafOfModules.IsFlat` uses the same native tensor
 functor. -/
 @[stacks 05ND "the definition: F is flat when G ↦ G ⊗_{O_X} F is exact",
-  stacks 03ER "part (3), over Stacks.SheafOfModules.Tensor.ringSheaf; cf. Stacks.SheafOfModules.IsFlat",
+  stacks 03ER "part (3), over Stacks.SheafOfModules.Tensor.ringSheaf; \
+    cf. Stacks.SheafOfModules.IsFlat",
   stacks 08M5 "flatness over a morphism of ringed topoi: this predicate for the pullback ring",
   sga "4 V 1.1" "commutative case"]
 abbrev IsFlat {O : Sheaf J CommRingCat.{w}}

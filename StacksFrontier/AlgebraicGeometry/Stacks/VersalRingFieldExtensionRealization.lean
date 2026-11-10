@@ -369,14 +369,14 @@ private theorem exists_versal_ofPredeformation_hom_fieldExtension_of_finite
   rw [formalObjectMapOfCompEq_obj_eq] at hv
   refine ⟨_, f, hv, hloc, hres, hsmooth, ⟨fun n => Fn.restriction (ξ'.level n) ≫
     (C₀.morphisms _ _ (g n)).arrow, fun n => ?_⟩, ?_⟩
-  · show (Cₗ.morphisms _ _ (Fn.toFunctor.map (ξ'.transition n))).arrow ≫
+  · change (Cₗ.morphisms _ _ (Fn.toFunctor.map (ξ'.transition n))).arrow ≫
         Fn.restriction (ξ'.level (n + 1)) ≫ (C₀.morphisms _ _ (g (n + 1))).arrow =
       (Fn.restriction (ξ'.level n) ≫ (C₀.morphisms _ _ (g n)).arrow) ≫
         (C₀.morphisms _ _ (ξ.transition n)).arrow
     rw [← Category.assoc, Fn.restriction_natural, Category.assoc, ← C₀.reversed_composition,
       hg, C₀.reversed_composition, Category.assoc]
   · refine ⟨?_, fun n => ?_⟩
-    · show Spec.map (CommRingCat.ofHom f.toRingHom) ≫
+    · change Spec.map (CommRingCat.ofHom f.toRingHom) ≫
           Spec.map (CommRingCat.ofHom (algebraMap Λ ξ.base)) ≫ iΛ =
         Spec.map (CommRingCat.ofHom (algebraMap Λ ξ'.base)) ≫ iΛ
       rw [← Category.assoc, ← Spec.map_comp, ← CommRingCat.ofHom_comp]
@@ -450,7 +450,7 @@ private theorem exists_versal_ofPredeformation_hom_fieldExtension
   have : Module.Finite R k := RingHom.finite_algebraMap.mp hψ₀finite
   have hΛRl : (algebraMap R l).comp (algebraMap Λ R) = algebraMap Λ l := by
     rw [IsScalarTower.algebraMap_eq Λ k l]
-    show ((algebraMap k l).comp ψ₀).comp (algebraMap Λ R) = _
+    change ((algebraMap k l).comp ψ₀).comp (algebraMap Λ R) = _
     rw [RingHom.comp_assoc, hψ₀]
   let iR : Spec (.of R) ⟶ D.S := Spec.map (CommRingCat.ofHom (algebraMap Λ R)) ≫ iΛ
   have hiR : _root_.AlgebraicGeometry.IsOpenImmersion iR := by

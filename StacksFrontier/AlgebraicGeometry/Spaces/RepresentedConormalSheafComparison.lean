@@ -18,7 +18,7 @@ on the small étale site of `V` as soon as the conormal sheaf of Stacks 04F4 of 
 morphism of *schemes* is finite locally free in the sense of Stacks 01C6 (2).
 
 That implication is the comparison which clause (2) of Stacks 06CB was granted as a hypothesis;
-the file `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/LocalCompleteIntersection/Conormal.lean` under
+the file `Conormal.lean` under
 `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/LocalCompleteIntersection/`
 discharges that hypothesis with the main result below.
 

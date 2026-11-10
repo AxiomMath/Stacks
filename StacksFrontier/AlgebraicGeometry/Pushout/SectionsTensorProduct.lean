@@ -177,8 +177,7 @@ theorem sectionsTensor_hom_ext (H : IsPullback g iY iX f)
         (RingEquiv.refl Γ(T, UT)) (RingEquiv.refl Γ(X, UX)) hD hB⟩
   have key : ∀ z : TensorProduct Γ(S, US) Γ(T, UT) Γ(X, UX), φ (e.symm z) = ψ (e.symm z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp [hz, hw]
     | tmul d b =>
         have hd : e.symm ((Algebra.TensorProduct.includeLeftRingHom :

@@ -143,7 +143,7 @@ public theorem curveChernDegree_eq_cycleDegree_zeroScheme
             (t.eval (op ⊤))).subschemeι ≫ 𝟙 X) 0) := by
   have h02SQ := Stacks.ChernCap42.firstChernClassCapOfInvertible_closedSubscheme_eq_zeroScheme
     (fieldChowSituation k) p (𝟙 X) 0 L t hY hD hs
-  show chowDegree (fieldChowSituation k) (fieldChowSituation_dimensionFunction_eq_zero k) p
+  change chowDegree (fieldChowSituation k) (fieldChowSituation_dimensionFunction_eq_zero k) p
       (IsLocalRing.closedPoint k)
       (firstChernClassCapOfInvertible (fieldChowSituation k) p 0 L
         (cycleAssociatedToClosedSubscheme (fieldChowSituation k) p (𝟙 X) (0 + 1))) = _

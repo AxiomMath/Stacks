@@ -77,7 +77,7 @@ theorem retractMapBiproduct_i_desc [Preadditive C] [Preadditive D] {J : Type} [F
     (q : (⨁ c) ⟶ Z) :
     (F.retractMapBiproduct c).i ≫ biproduct.desc (fun j => F.map (biproduct.ι c j ≫ q)) =
       F.map q := by
-  show F.biproductComparison c ≫
+  change F.biproductComparison c ≫
     biproduct.desc (fun j => F.map (biproduct.ι c j ≫ q)) = F.map q
   rw [CategoryTheory.Functor.biproductComparison, biproduct.lift_desc,
     Finset.sum_congr rfl fun j (_ : j ∈ Finset.univ) =>
@@ -162,7 +162,7 @@ theorem unitHomEquiv_symm_sectionsRestrictModules_comp
   refine PresheafOfModules.sections_ext _ _ fun V => ?_
   have hle : U.isOpenEmbedding.functor.obj V.unop ≤ W :=
     (isOpenEmbedding_functor_obj_le U V.unop).trans hUW
-  show p.val.app (op (U.isOpenEmbedding.functor.obj V.unop)) (G.val.map (homOfLE hle).op a) =
+  change p.val.app (op (U.isOpenEmbedding.functor.obj V.unop)) (G.val.map (homOfLE hle).op a) =
     g.val.app (op (U.isOpenEmbedding.functor.obj V.unop))
       (1 : (StrictlyPerfect.structureSheafOfRings X).obj.obj
         (op (U.isOpenEmbedding.functor.obj V.unop)))
@@ -187,7 +187,7 @@ theorem exists_local_lift_biproduct_structureModule {F G : StrictlyPerfect.OXMod
   choose V hxV a ha using fun j : Fin n => exists_local_section_of_epi p
     (F.unitHomEquiv (biproduct.ι (fun _ : Fin n => StrictlyPerfect.structureModule X) j ≫ q)) x
   have hxU : x ∈ (⨅ j, V j : Opens X.carrier) := by
-    show x ∈ (↑(⨅ j, V j) : Set X.carrier)
+    change x ∈ (↑(⨅ j, V j) : Set X.carrier)
     rw [Opens.coe_iInf, Set.mem_iInter]
     exact hxV
   obtain ⟨b, hb⟩ : ∃ b : ∀ j : Fin n,
@@ -212,7 +212,8 @@ Writing `ℰ` as a retract `(i, r)` of `𝒪_X^{⊕ n}`, it is enough to lift `r
 the lift with `i`, since `i ≫ r = 𝟙`. -/
 @[stacks 08C6 "all three universes collapsed (space = ring = module), stated through \
 `restrictModules`. The module-universe-free form is in \
-`StacksFrontier/Algebra/Homology/StrictlyPerfectLiftModuleUniverse.lean`; neither subsumes the other."]
+`StacksFrontier/Algebra/Homology/StrictlyPerfectLiftModuleUniverse.lean`; neither subsumes \
+the other."]
 theorem exists_local_lift_of_isDirectSummandOfFiniteFree
     {E F G : StrictlyPerfect.OXMod.{u, u, u} X} (f : E ⟶ F) (p : G ⟶ F) [Epi p]
     (hE : StrictlyPerfect.IsDirectSummandOfFiniteFree E) :

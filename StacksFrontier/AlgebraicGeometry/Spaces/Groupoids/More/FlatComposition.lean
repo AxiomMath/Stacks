@@ -87,6 +87,7 @@ variable {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
   {B : AlgebraicSpaces C S hS}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` for pullbacks of presheaves on the big fppf site times out at the default budget
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_FlatComposition :
@@ -130,7 +131,7 @@ private theorem isFlat_target_of_objects_eq_spec_field {k : Type u} [Field k]
   let q : yoneda.obj V ⟶ yoneda.obj V := 𝟙 _
   let _ : HasPullbacks (BigFppfOver C S hS) := inferInstance
   let _ : PreservesLimitsOfShape WalkingCospan T := by
-    show PreservesLimitsOfShape WalkingCospan ((Over.forget (C.obj hS)) ⋙ C.inclusion)
+    change PreservesLimitsOfShape WalkingCospan ((Over.forget (C.obj hS)) ⋙ C.inclusion)
     exact comp_preservesLimitsOfShape _ _
   have hq : ∀ (P : MorphismProperty Scheme.{u}) [P.IsStableUnderBaseChange],
       P (T.map (𝟙 V)) → (MorphismProperty.inverseImage P T).presheaf q := by
@@ -151,10 +152,10 @@ private theorem isFlat_target_of_objects_eq_spec_field {k : Type u} [Field k]
       G.arrows.property (isAlgebraicSpace_yoneda C S hS V) f).2
     refine ⟨U, V, p, q, α, hp_etale, hq_etale, hp_surj, hcomm.symm, ?_⟩
     have : Subsingleton ((BigFppfOver.toScheme C S hS).obj V) := by
-      show Subsingleton (Spec (.of k))
+      change Subsingleton (Spec (.of k))
       infer_instance
     have : IsIntegral ((BigFppfOver.toScheme C S hS).obj V) := by
-      show IsIntegral (Spec (.of k))
+      change IsIntegral (Spec (.of k))
       infer_instance
     infer_instance
   have htarget := isFlat_conjugate (Iso.refl G.arrows.obj) ei.symm f hf

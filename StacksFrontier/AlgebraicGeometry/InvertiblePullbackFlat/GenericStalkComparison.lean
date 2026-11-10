@@ -55,6 +55,7 @@ namespace AlgebraicGeometry
 
 variable {X Y : Scheme.{u}} (f : X ⟶ Y) [Flat f] [IsIntegral X] [IsIntegral Y] (x : X)
 
+omit [IsIntegral Y] in
 /-- **The local ring of the base embeds in the function field of the source.** The map
 `𝒪_{Y, f x} → 𝒪_{X, x}` is faithfully flat for a flat `f`, hence injective, and
 `𝒪_{X, x} → K(X)` is a fraction-field embedding for an integral `X`. -/
@@ -115,7 +116,7 @@ theorem stalkFiberBotToGenericStalk_algebraMap_stalk (a : ↑(X.presheaf.stalk x
       (algebraMap ↑(Y.presheaf.stalk (f x)) ↑(X.presheaf.stalk x))).toAlgebra
   have : IsScalarTower ↑(Y.presheaf.stalk (f x)) ↑(X.presheaf.stalk x) X.functionField :=
     IsScalarTower.of_algebraMap_eq' rfl
-  show (Algebra.TensorProduct.lift _ _ _) (1 ⊗ₜ[↑(Y.presheaf.stalk (f x))] a) = _
+  change (Algebra.TensorProduct.lift _ _ _) (1 ⊗ₜ[↑(Y.presheaf.stalk (f x))] a) = _
   rw [Algebra.TensorProduct.lift_tmul, map_one, one_mul]
   rfl
 
@@ -137,7 +138,7 @@ theorem stalkFiberBotToGenericStalk_algebraMap_base (b : ↑(Y.presheaf.stalk (f
       (algebraMap ↑(Y.presheaf.stalk (f x)) ↑(X.presheaf.stalk x))).toAlgebra
   have : IsScalarTower ↑(Y.presheaf.stalk (f x)) ↑(X.presheaf.stalk x) X.functionField :=
     IsScalarTower.of_algebraMap_eq' rfl
-  show (Algebra.TensorProduct.lift _ _ _)
+  change (Algebra.TensorProduct.lift _ _ _)
     (algebraMap ↑(Y.presheaf.stalk (f x))
       (⊥ : Ideal ↑(Y.presheaf.stalk (f x))).ResidueField b ⊗ₜ[↑(Y.presheaf.stalk (f x))] 1) = _
   rw [Algebra.TensorProduct.lift_tmul, map_one, mul_one]

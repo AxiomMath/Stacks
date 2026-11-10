@@ -58,8 +58,8 @@ transport: the identification `isLimit_restrictOpenFan` already names the produc
 
 `CategoryTheory.Limits.HasPullbacks` for the ambient category of divided power thickenings is a
 known gap — see the discussion in
-`StacksFrontier.AlgebraicGeometry.Crystalline.SelfProductDiagonal` — and it is not needed here.  This
-file routes around it by giving the pullbacks of *restriction* morphisms directly: every square
+`StacksFrontier.AlgebraicGeometry.Crystalline.SelfProductDiagonal` — and it is not needed here.
+This file routes around it by giving the pullbacks of *restriction* morphisms directly: every square
 exhibited below is proved from the universal property
 `SmallSite.CrystallineThickening.exists_comp_restrictOpenHom_eq` of a restriction together with the
 fact that its structure morphism is a monomorphism,

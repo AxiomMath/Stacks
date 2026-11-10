@@ -393,10 +393,10 @@ theorem transposeLocus_ext₂ (hS₁ : S₁.IsWeaklyTriangulated) (hS₂ : S₂.
     (fun x hx ↦ hS₁.exists_eq_comp _ hI x hx) (fun x hx ↦ hS₂.exists_eq_comp _ hR x hx)
     (fun x hx ↦ hS₂.exists_eq_comp T hT x hx) (fun x ↦ ?_)
     (h₁' Y).2 (h₃ Y) (h₁ Y) (h₃' Y).1
-  · show S₁.map T.mor₂ ≫ S₁.map T.mor₃ ≫ x = 0
+  · change S₁.map T.mor₂ ≫ S₁.map T.mor₃ ≫ x = 0
     rw [← Category.assoc, show S₁.map T.mor₂ ≫ S₁.map T.mor₃ = 0 from
       hS₁.map_comp_eq_zero _ hR, zero_comp]
-  · show S₂.map T.invRotate.mor₁ ≫ S₂.map T.mor₁ ≫ x = 0
+  · change S₂.map T.invRotate.mor₁ ≫ S₂.map T.mor₁ ≫ x = 0
     rw [← Category.assoc, show S₂.map T.invRotate.mor₁ ≫ S₂.map T.mor₁ = 0 from
       hS₂.map_comp_eq_zero _ hI, zero_comp]
 

@@ -183,7 +183,7 @@ theorem exists_universallyInjective_away
     let : Module Γ(stage.oneStep.Y, ⊤) Γ(stage.oneStep.G, ⊤) :=
       Module.compHom Γ(stage.oneStep.G, ⊤) stage.oneStep.π.appTop.hom
     have hb := stage.fiber_bijective_sectionsAlpha r rfl
-    rw [LinearMap.baseChange_eq_ltensor] at hb
+    rw [LinearMap.baseChange_eq_lTensor] at hb
     have hb' := (LinearMap.lTensor_bij_iff_rTensor_bij _ _).1 hb
     have heq : a' = (OneStepDevissage.pushforwardSectionsEquiv stage.oneStep.π
         stage.oneStep.G).symm.toLinearMap ∘ₗ stage.sectionsAlpha ∘ₗ

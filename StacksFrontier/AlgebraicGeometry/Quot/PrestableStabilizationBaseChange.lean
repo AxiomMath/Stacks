@@ -65,9 +65,9 @@ variable {X Y : CurveFamily B hZ} {hb : Y.base = X.base} {c : X.total ⟶ Y.tota
   {pX : X' ⟶ X.total} {fX : X' ⟶ schemeSpace T} {pY : Y' ⟶ Y.total} {fY : Y' ⟶ schemeSpace T}
   (sqX : IsPullback pX fX X.toBase (schemeSpaceMap t))
   (sqY : IsPullback pY fY (Y.toBase ≫ eqToHom (congrArg schemeSpace hb)) (schemeSpaceMap t))
-  {c' : X' ⟶ Y'} (hc₁ : c' ≫ pY = pX ≫ c) (hc₂ : c' ≫ fY = fX)
+  {c' : X' ⟶ Y'} (hc₁ : c' ≫ pY = pX ≫ c)
 
-include sqX sqY hc₁ hc₂ in
+include sqX sqY hc₁ in
 /-- **Condition (1) of Stacks 0E8A passes to base changes.** If `c : X ⟶ Y` over `S` satisfies
 `𝒪 = c_*𝒪` and `R¹c_*𝒪 = 0` after every base change, so does its base change `c' : X_T ⟶ Y_T`
 along any `T ⟶ S`, every base change of `c'` being a base change of `c`. -/
@@ -87,7 +87,7 @@ theorem isUniversalStructureContraction_ofIsPullback
   refine h T' (h' ≫ t) X'' Y'' (pX'' ≫ pX) fX'' (pY'' ≫ pY) fY'' c'' hX hY ?_ e₂
   rw [← Category.assoc, e₁, Category.assoc, hc₁, Category.assoc]
 
-include sqX sqY hc₁ hc₂ in
+include sqX sqY hc₁ in
 /-- **Condition (2) of Stacks 0E8A passes to base changes.** A field-valued point of `T` is,
 through `t`, a field-valued point of `S`, and presentations of the fibres of `X_T` and `Y_T` there
 are presentations of the fibres of `X` and `Y`. -/

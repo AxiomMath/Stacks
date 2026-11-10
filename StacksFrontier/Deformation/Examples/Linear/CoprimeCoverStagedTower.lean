@@ -113,7 +113,8 @@ lifts over a ring in which `J` is **square-zero**; for `J = I^(k+1)/I^(k+1+m)` i
 `k = 0`, this permits exactly one extra stage — which is the one the variation formula already
 gives — and the doubling `k + 1 ↦ 2k + 2` never gets started. So the deeper coefficients are
 available and the operation that would use them is not, and that, concretely, is the gap. It is the
-same place the cup-square term lives: `StacksFrontier/Deformation/ObstructionVariationQuadratic.lean`
+same place the cup-square term lives:
+`StacksFrontier/Deformation/ObstructionVariationQuadratic.lean`
 records that the quadratic term dies from the second filtration step on and is present at the
 first.
 

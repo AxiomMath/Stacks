@@ -109,7 +109,7 @@ public theorem associatedModuleSheafMap_add (φ ψ : M →ₗ[S] N)
   ext U a
   apply Subtype.ext
   funext y
-  show LocalizedModule.map y.1.asHomogeneousIdeal.toIdeal.primeCompl (φ + ψ) (a.1 y) =
+  change LocalizedModule.map y.1.asHomogeneousIdeal.toIdeal.primeCompl (φ + ψ) (a.1 y) =
     LocalizedModule.map y.1.asHomogeneousIdeal.toIdeal.primeCompl φ (a.1 y) +
       LocalizedModule.map y.1.asHomogeneousIdeal.toIdeal.primeCompl ψ (a.1 y)
   induction a.1 y using LocalizedModule.induction_on with
@@ -123,7 +123,7 @@ public theorem associatedModuleSheafMap_zero
   ext U a
   apply Subtype.ext
   funext y
-  show LocalizedModule.map y.1.asHomogeneousIdeal.toIdeal.primeCompl 0 (a.1 y) = 0
+  change LocalizedModule.map y.1.asHomogeneousIdeal.toIdeal.primeCompl 0 (a.1 y) = 0
   induction a.1 y using LocalizedModule.induction_on with
   | _ m s => simp
 

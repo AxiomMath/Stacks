@@ -218,6 +218,7 @@ def smallEtaleRingSheafEquiv_of_isThickening (hG : IsThickening B S hS X G) :
     (thickeningChartBaseChange B S hS hG) CommRingCat.{u + 1}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search through the two `sheafPushforwardContinuous` equivalences is heavy
 /-- **The fundamental equivalence of a thickening, at sheaves of rings.**  For a thickening
 `G ⊂ X` of algebraic spaces the sheaves of commutative rings on the spaces-étale site of `X`
 and those on the spaces-étale site of `G` are canonically equivalent. -/

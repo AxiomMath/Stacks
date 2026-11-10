@@ -87,8 +87,8 @@ file in hand — the gluing of the charts into a single morphism
 `𝒪_X(n) ⟶ (r_{L, ψ})_* (L^{⊗ n}|_{U(ψ)})` on `Proj 𝒜` by
 `Stacks.AlgebraicGeometry.ModuleHomGlue.existsUnique_hom_of_restrict_cover`, the multiplicativity
 of the resulting family over an *arbitrary* open of `Proj 𝒜`, and the adjoint transpose — are all
-taken in `StacksFrontier.AlgebraicGeometry.Constructions.ProjChartGradedThetaBuild`, which builds `θ`
-and carries the tag. The transpose used there is the non-unital companion of
+taken in `StacksFrontier.AlgebraicGeometry.Constructions.ProjChartGradedThetaBuild`, which builds
+`θ` and carries the tag. The transpose used there is the non-unital companion of
 `Stacks.RingedSpace.transposeUnitalHom`; that namespace is `Stacks.RingedSpace`, with no
 `SymmetricPullback` component.
 

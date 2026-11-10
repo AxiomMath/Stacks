@@ -70,7 +70,7 @@ theorem fibreRestrict_fibreRestrict_comp [LocallyOfFiniteType sE] {z : B} {x : V
       fibreRestrict C sE q z j n c := by
   have hset : q.base ⁻¹' {z} ∩ (q ≫ p).base ⁻¹' {x} = q.base ⁻¹' {z} := by
     refine Set.inter_eq_left.mpr fun w hw ↦ ?_
-    show p.base (q.base w) = x
+    change p.base (q.base w) = x
     rw [show q.base w = z from hw, hz]
   rw [fibreRestrict, fibreRestrict, milnorChainRestrict_milnorChainRestrict, hset]
 
@@ -357,7 +357,7 @@ theorem exists_fibreRestrict_comp_closed (k : ℤ)
   refine ⟨F.sum, ?_, ?_⟩
   · refine milnorChainRestrict_eq_self _ fun w hw ↦ ?_
     refine (hgood (q.base w.1) fun h0 ↦ hw ?_).1
-    show (ch (q.base w.1)).1 w = 0
+    change (ch (q.base w.1)).1 w = 0
     rw [h0]
     rfl
   · refine eq_of_forall_fibreRestrict_eq C sE q p (by
@@ -367,7 +367,7 @@ theorem exists_fibreRestrict_comp_closed (k : ℤ)
     rw [map_add, map_add, fibreRestrict_boundary_fibreFamily_sum_sub_eq_zero C sE sB sV q p hp hbp
       k hζ hζdim F (fun w hw ↦ ⟨(hgood w hw).1, (hgood w hw).2.1⟩) hz, zero_add] at hsplit
     rw [fibreRestrict_fibreRestrict_comp C sE q p hz, ← hsplit]
-    show fibreRestrict C sE q z (k + 1) 1 (pointwiseMilnorBoundary C sE k (ch z)) = _
+    change fibreRestrict C sE q z (k + 1) 1 (pointwiseMilnorBoundary C sE k (ch z)) = _
     by_cases hgz : good z
     · rw [hch z hgz]
       exact (hpiece z hgz.1 hgz.2.1).choose_spec.2

@@ -45,7 +45,7 @@ theorem isDualizingRingModule_of_ringEquiv {C C' : Type u} [CommRing C] [CommRin
   let gl : (E.functor.obj (ModuleCat.of C M)) ≃ₗ[C'] M' :=
     { g with
       map_smul' := fun c' m => by
-        show g (σ.symm c' • (show M from m)) = c' • g m
+        change g (σ.symm c' • (show M from m)) = c' • g m
         rw [hg, RingEquiv.apply_symm_apply] }
   refine ⟨?_, n, ?_⟩
   · classical

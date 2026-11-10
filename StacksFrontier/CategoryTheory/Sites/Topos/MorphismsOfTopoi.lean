@@ -440,7 +440,7 @@ private lemma mem_top_iff_sheafify_eq_top {X : D} (S : Sieve X) :
   constructor
   · intro hS U s _
     obtain ⟨g, rfl⟩ := (hom e X U.unop).surjective s
-    show (sub e X S).sieveOfSection _ ∈ J _
+    change (sub e X S).sieveOfSection _ ∈ J _
     rw [sieveOfSection_sub]
     exact hS U.unop g
   · intro h U g

@@ -99,6 +99,7 @@ attribute [local instance] SheafOfModules.hasSheafify_commRingCat
 
 /-! ### The conservative family of points of a slice -/
 
+set_option linter.checkUnivs false in
 /-- **The lifts to a slice of the universe lifts of the geometric points of `X` are a
 conservative family of points of that slice.**
 

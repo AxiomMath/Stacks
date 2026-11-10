@@ -87,7 +87,7 @@ theorem isOpenImmersion_and_dense_toSchemeTheoreticImage_of_qc_or_reduced
     isOpenSubspace_range_toSchemeTheoreticImage_of_qc_or_reduced B S hS hZ hX h hh hq_or_hr,
     isSchemeTheoreticallyDense_range_toSchemeTheoreticImage_of_qc_or_reduced B S hS hZ hX h hh
       hq_or_hr,
-    denseRange_pointsMap_toSchemeTheoreticImage_of_qc_or_reduced B S hS hZ hX h hh hq_or_hr⟩
+    denseRange_pointsMap_toSchemeTheoreticImage_of_qc_or_reduced B S hS hZ hX h hq_or_hr⟩
 
 end AlgebraicGeometry.Space
 

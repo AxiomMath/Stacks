@@ -194,7 +194,7 @@ public theorem range_locallyClosedSubschemeι {L : Set X} (hL : IsLocallyClosed 
   rw [show (locallyClosedSubschemeι hL).base = ⇑(locallyClosedSubschemeι hL) from rfl, hfun,
     Set.range_comp, IdealSheafData.range_subschemeι,
     IdealSheafData.coe_support_vanishingIdeal]
-  show ⇑(coborderOpens hL).ι '' (⇑(coborderOpens hL).ι ⁻¹' L) = L
+  change ⇑(coborderOpens hL).ι '' (⇑(coborderOpens hL).ι ⁻¹' L) = L
   rw [Set.image_preimage_eq_inter_range, (coborderOpens hL).range_ι]
   exact Set.inter_eq_left.mpr subset_coborder
 

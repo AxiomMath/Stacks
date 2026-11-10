@@ -222,7 +222,7 @@ theorem range_affineChart_eq_compl_support_lineInfinityDivisor (S : Scheme.{u}) 
   refine hP ?_
   rw [range_integralInfinitySection, range_specMap_evalRingHom_zero]
   refine ⟨y, ?_, rfl⟩
-  show ((RingHom.ker (Polynomial.evalRingHom (0 : ULift.{u} ℤ)) :
+  change ((RingHom.ker (Polynomial.evalRingHom (0 : ULift.{u} ℤ)) :
       Ideal (Polynomial (ULift.{u} ℤ))) : Set (Polynomial (ULift.{u} ℤ))) ⊆ _
   rw [Polynomial.ker_evalRingHom, map_zero, sub_zero]
   exact (Ideal.span_singleton_le_iff_mem _).2 hXy

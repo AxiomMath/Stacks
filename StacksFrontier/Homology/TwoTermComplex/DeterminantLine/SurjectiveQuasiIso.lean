@@ -321,8 +321,7 @@ public noncomputable def determinantEquivOfSurjectiveQuasiIso
     apply tensorEquiv.injective
     apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul x y =>
         apply kz.injective
         rw [tensorEquiv_apply, tensorEquiv_apply]

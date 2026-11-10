@@ -77,7 +77,7 @@ theorem zeroScheme_ideal_nvOpen_eq_span [Stacks.Ample.IsInvertibleModule X L] (a
     rintro x ⟨φ, rfl⟩
     have hφ : φ (resT V a) = r * φ (resT V b) := by
       rw [← hr, map_smul, smul_eq_mul]
-    show φ (resT V a) ∈ _
+    change φ (resT V a) ∈ _
     rw [hφ]
     exact Ideal.mul_mem_right _ _ (Ideal.mem_span_singleton_self r)
   · rw [Ideal.span_singleton_le_iff_mem]
@@ -88,7 +88,7 @@ theorem zeroScheme_ideal_nvOpen_eq_span [Stacks.Ample.IsInvertibleModule X L] (a
       rfl
     let e := LinearEquiv.ofBijective _ hbij
     refine Ideal.subset_span ⟨e.symm.toLinearMap, ?_⟩
-    show r = e.symm (resT V a)
+    change r = e.symm (resT V a)
     rw [eq_comm, LinearEquiv.symm_apply_eq]
     exact hr.symm
 
@@ -171,7 +171,7 @@ theorem finrank_quotient_span_ratio_eq_of_sections [IsProper f] [IsIntegral X]
   have hcomm : ∀ c : k,
       h.hom (algebraMap k Γ(X, (nvOpen L b)) c) = algebraMap k Γ(D.subscheme, ⊤) c :=
     fun c => by
-      show h.hom (((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫
+      change h.hom (((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫
         X.presheaf.map (homOfLE (le_top : (nvOpen L b) ≤ ⊤)).op).hom c) =
           ((Scheme.ΓSpecIso (.of k)).inv ≫ (D.subschemeι ≫ f).appTop).hom c
       rw [← hmor]
@@ -182,7 +182,7 @@ theorem finrank_quotient_span_ratio_eq_of_sections [IsProper f] [IsIntegral X]
       map_smul' := fun c x => by
         induction x using Submodule.Quotient.induction_on with
         | H y =>
-          show eR (Ideal.Quotient.mk _ (c • y)) = c • eR (Ideal.Quotient.mk _ y)
+          change eR (Ideal.Quotient.mk _ (c • y)) = c • eR (Ideal.Quotient.mk _ y)
           rw [hmk, hmk, Algebra.smul_def, Algebra.smul_def, map_mul, hcomm] }
   have hfinΓ : FiniteDimensional k Γ(D.subscheme, ⊤) :=
     (cohomologyOverFieldZeroIsoSections k (D.subschemeι ≫ f)

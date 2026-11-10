@@ -57,7 +57,7 @@ theorem smul_id_constantAdicQuotientTower_obj (M : ModuleCat.{w} Λ) (n : ℕ) {
     ext y
     obtain ⟨m, rfl⟩ := Submodule.Quotient.mk_surjective (I ^ n • (⊤ : Submodule Λ M)) y
     exact (Submodule.Quotient.mk_eq_zero _).2 (Submodule.smul_mem_smul hx Submodule.mem_top)
-  show x • 𝟙 ((constantSheaf J (ModuleCat.{w} Λ)).obj
+  change x • 𝟙 ((constantSheaf J (ModuleCat.{w} Λ)).obj
     ((AlgebraicGeometry.ProEtale.adicQuotientModuleSystem Λ I M).obj ⟨n⟩)) = 0
   rw [← (constantSheaf J (ModuleCat.{w} Λ)).map_id, ← constantSheaf_map_smul, h,
     Functor.map_zero]

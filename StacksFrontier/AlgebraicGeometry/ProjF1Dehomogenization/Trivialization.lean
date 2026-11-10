@@ -205,7 +205,7 @@ the caller nothing and lets the statement be applied at any of them. -/
 public theorem ofPushforwardUnit_smul_of_eq_one (U : T.Opens) (r : Γ(T, U))
     (x : Γ(pushforwardUnit g, U)) (hx : ofPushforwardUnit g x = 1) :
     ofPushforwardUnit g (r • x) = (g.app U).hom r := by
-  show (show X.ringCatSheaf.obj.obj (op (g ⁻¹ᵁ U)) from (g.app U).hom r)
+  change (show X.ringCatSheaf.obj.obj (op (g ⁻¹ᵁ U)) from (g.app U).hom r)
       * ofPushforwardUnit g x = _
   rw [hx, mul_one]
 

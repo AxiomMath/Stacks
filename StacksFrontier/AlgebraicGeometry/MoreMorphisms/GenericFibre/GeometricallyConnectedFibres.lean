@@ -230,7 +230,7 @@ private theorem geomIrred_comap_map_of_isEmbedding
   apply geomIrred_subscheme_of_support_eq k p I ((I.map i).comap i) ?_ hI
   rw [Scheme.IdealSheafData.support_comap, Scheme.IdealSheafData.support_map]
   ext x
-  show x ∈ (I.support : Set A) ↔ x ∈ i ⁻¹' closure (i '' (I.support : Set A))
+  change x ∈ (I.support : Set A) ↔ x ∈ i ⁻¹' closure (i '' (I.support : Set A))
   rw [← hi.isInducing.closure_eq_preimage_closure_image]
   simp [I.support.isClosed.closure_eq]
 
@@ -556,7 +556,7 @@ private theorem exists_open_intersection_closure_fiber_nonempty
     exact hw
   obtain ⟨z, hz⟩ := Set.mem_range.mp hrange
   have hηz : q z = η := by
-    show f (K.subschemeι z) = η
+    change f (K.subschemeι z) = η
     rw [hz]
     exact (f.fiberHomeo η (Classical.choose hCD)).property
   have hgeneric : Nonempty (q.fiber η) := by
@@ -688,7 +688,7 @@ private theorem exists_open_geometricallyConnected_restrict_of_geometricComponen
     have hw' : qCD w' = y := by
       exact (qCD.fiberHomeo y w).property
     let x : f.fiber y := (f.fiberHomeo y).symm ⟨KCD.subschemeι w', by
-      show f (KCD.subschemeι w') = y
+      change f (KCD.subschemeι w') = y
       exact hw'⟩
     have hx : f.fiberι y x = KCD.subschemeι w' := by
       simp [x]
@@ -812,14 +812,14 @@ public theorem exists_open_geometricallyConnected_restrict
   have : IrreducibleSpace Y₀ := eRed.irreducibleSpace_iff.mpr inferInstance
   let η₀ : Y₀ := eRed.symm η
   have hη₀ : IsGenericPoint η₀ Set.univ := by
-    show closure ({η₀} : Set Y₀) = Set.univ
+    change closure ({η₀} : Set Y₀) = Set.univ
     calc
       closure ({η₀} : Set Y₀) = eRed.symm '' closure ({η} : Set Y) := by
         rw [eRed.symm.image_closure]
         simp [η₀]
       _ = Set.univ := by rw [hη.def]; simp
   have hrη : r η₀ = η := by
-    show eRed η₀ = η
+    change eRed η₀ = η
     exact eRed.apply_symm_apply η
   let f₀ := pullback.snd f r
   have hpbRed : IsPullback (pullback.fst f r) f₀ f r :=
@@ -847,7 +847,7 @@ public theorem exists_open_geometricallyConnected_restrict
     obtain ⟨y, hy⟩ := hV₀ne
     exact ⟨⟨y, hy⟩⟩
   have : IrreducibleSpace V₀.toScheme := by
-    show IrreducibleSpace (V₀ : Set Y₀)
+    change IrreducibleSpace (V₀ : Set Y₀)
     exact V₀.2.isOpenEmbedding_subtypeVal.irreducibleSpace
   let : IsFinite g := hgFinite
   let : Etale g := hgEtale
@@ -867,7 +867,7 @@ public theorem exists_open_geometricallyConnected_restrict
       let : Surjective g := hgSurj
       obtain ⟨z, hz⟩ := g.surjective ⟨y, hy⟩
       refine ⟨z, ?_⟩
-      show V₀.ι (g z) = y
+      change V₀.ι (g z) = y
       exact congrArg V₀.ι hz
   have hηV₀ : η₀ ∈ V₀ := mem_opens_of_isGenericPoint_univ hη₀ V₀ hV₀ne.to_subtype
   have hV₀dense : closure (V₀ : Set Y₀) = Set.univ := by

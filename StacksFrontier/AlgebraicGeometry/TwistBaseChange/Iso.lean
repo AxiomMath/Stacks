@@ -174,7 +174,7 @@ public theorem surjective_imageIndex (V : (mapDomain 𝒜 ℬ ψ).toScheme.Opens
   have hlift : liftPt 𝒜 ℬ ψ
       (⟨(y.1 : AlgebraicGeometry.Proj ℬ), mem_image_of_mem 𝒜 ℬ ψ y hyV⟩ :
         ↑((mapDomain 𝒜 ℬ ψ).ι ''ᵁ V)) = y := Subtype.ext rfl
-  show basePoint 𝒜 ℬ ψ (liftPt 𝒜 ℬ ψ _) = x
+  change basePoint 𝒜 ℬ ψ (liftPt 𝒜 ℬ ψ _) = x
   rwa [hlift]
 
 end

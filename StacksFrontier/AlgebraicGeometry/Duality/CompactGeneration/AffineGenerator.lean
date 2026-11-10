@@ -77,7 +77,8 @@ quasi-separated scheme, at the locally small model, as
 induction itself and the perfection of the generator.
 
 **The model is the locally small one.** No `HasDerivedCategory` binder appears below, so the
-global instances of `StacksFrontier/Homology/DerivedCategory/LocallySmall.lean` are in force. This is
+global instances of `StacksFrontier/Homology/DerivedCategory/LocallySmall.lean` are in force. This
+is
 forced rather than chosen: the proof passes through the affine derived Spec–Γ equivalence of
 [Stacks, Tag 06Z0], which is available at that model and no other, and it is also the only model
 at which [Stacks, Tag 09IS] has content — see the implementation notes of

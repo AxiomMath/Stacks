@@ -187,7 +187,7 @@ public theorem restrictionArrowDataEquiv_arrow
   have h₁ := pullbackAppEquiv_snd g.hom G.target.hom T
     ((pullback.fst p q).app T z)
   unfold restrictionArrowDataEquiv
-  show (e₁ ((e₀ z).1.1)).1.2 = _
+  change (e₁ ((e₀ z).1.1)).1.2 = _
   calc
     _ = (pullback.snd g.hom G.target.hom).app T
         ((pullback.fst p q).app T z) := by

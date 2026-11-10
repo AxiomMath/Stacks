@@ -93,7 +93,7 @@ private lemma completionLevelMap_lift_compatible {R S : Type*} [CommRing R] [Com
   ext x
   induction x using AdicCompletion.induction_on with
   | h a =>
-    show Ideal.Quotient.factorPow I hmn
+    change Ideal.Quotient.factorPow I hmn
         (completionLevelMap f J I hf n
           (Ideal.Quotient.mk (J ^ n) (a.val n))) =
       completionLevelMap f J I hf m (Ideal.Quotient.mk (J ^ m) (a.val m))
@@ -110,7 +110,7 @@ private lemma adicCompletionMap_eval {R S : Type*} [CommRing R] [CommRing S]
     (n : ℕ) (x : AdicCompletion J R) :
     AdicCompletion.evalₐ I n (adicCompletionMap f J I hf x) =
       completionLevelMap f J I hf n (AdicCompletion.evalₐ J n x) := by
-  show (AdicCompletion.evalₐ I n).toRingHom
+  change (AdicCompletion.evalₐ I n).toRingHom
       ((AdicCompletion.liftRingHom I
         (fun m ↦ (completionLevelMap f J I hf m).comp
           (AdicCompletion.evalₐ J m).toRingHom)
@@ -129,7 +129,7 @@ private lemma adicCompletionMap_comp {R S T : Type*} [CommRing R] [CommRing S] [
         rw [← Ideal.map_map]
         exact (Ideal.map_mono hf).trans hg) := by
   refine RingHom.ext fun x => AdicCompletion.ext_evalₐ fun n => ?_
-  show AdicCompletion.evalₐ K n
+  change AdicCompletion.evalₐ K n
       (adicCompletionMap g I K hg (adicCompletionMap f J I hf x)) = _
   rw [adicCompletionMap_eval, adicCompletionMap_eval, adicCompletionMap_eval]
   have hlevel : (completionLevelMap g I K hg n).comp
@@ -170,7 +170,7 @@ private theorem range_map_ideal_subtype {R : Type u} [CommRing R] [IsNoetherianR
     intro a ha x hx
     refine ⟨x • AdicCompletion.of J (I : Submodule R R) ⟨a, ha⟩, ?_⟩
     rw [map_smul, AdicCompletion.map_of]
-    show x * AdicCompletion.of J R a =
+    change x * AdicCompletion.of J R a =
       algebraMap R (AdicCompletion J R) a * x
     rw [AdicCompletion.algebraMap_apply, mul_comm]
     simp
@@ -205,7 +205,7 @@ private theorem regular_adicCompletion_closedFiber
   let F := S ⧸ I
   let q : S →+* F := Ideal.Quotient.mk I
   have hmaxF : (maximalIdeal S).map (algebraMap S F) = maximalIdeal F := by
-    show (maximalIdeal S).map q = maximalIdeal F
+    change (maximalIdeal S).map q = maximalIdeal F
     exact IsLocalRing.map_maximalIdeal_of_surjective q Ideal.Quotient.mk_surjective
   have : IsRegularLocalRing (AdicCompletion ((maximalIdeal S).map (algebraMap S F)) F) := by
     rw [hmaxF]
@@ -293,12 +293,12 @@ private theorem adicCompletionMap_algebraMap_apply
       AdicCompletion.mk (J.map (algebraMap S B)) B cB := by
     apply AdicCompletion.ext
     intro n
-    show quotEquivMapPow J B n
+    change quotEquivMapPow J B n
         ((AdicCompletion.map J (Algebra.linearMap S B) (AdicCompletion.mk J S c)).val n) =
       Submodule.Quotient.mk (g (c n))
     simp only [AdicCompletion.map_mk, AdicCompletion.mk_apply_coe,
       AdicCauchySequence.map_apply_coe]
-    show quotEquivMapPow J B n (Submodule.Quotient.mk (g (c n))) = _
+    change quotEquivMapPow J B n (Submodule.Quotient.mk (g (c n))) = _
     rw [quotEquivMapPow_mk]
     rfl
   refine AdicCompletion.ext_evalₐ fun n => ?_
@@ -355,7 +355,7 @@ public theorem adicCompletionMap_ker_eq_map_ker_of_surjective
       map_add' := e.map_add
       map_smul' := by
         intro r x
-        show e (q r * x) = g r * e x
+        change e (q r * x) = g r * e x
         rw [map_mul, RingHom.quotientKerEquivOfSurjective_apply_mk] }
   have hcomp : (AdicCompletion.map J eL.toLinearMap).comp
       (AdicCompletion.map J (Algebra.linearMap S Q)) =
@@ -381,7 +381,7 @@ public theorem adicCompletionMap_ker_eq_map_ker_of_surjective
         ((RingHom.ker g).map (algebraMap S (AdicCompletion J S))) := by
     rw [hkerMaps, hkerMapQ, hkerqI]
   ext x
-  show _ ↔ x ∈ Submodule.restrictScalars S
+  change _ ↔ x ∈ Submodule.restrictScalars S
     ((RingHom.ker g).map (algebraMap S (AdicCompletion J S)))
   rw [← hkerMap, RingHom.mem_ker]
   exact (iff_of_eq (congrArg (· = 0) (adicCompletionMap_algebraMap_apply (B := B) J x))).trans
@@ -465,12 +465,12 @@ private lemma regularGenerators_equiv {S T B : Type*}
   constructor
   · rintro ⟨rs, hr, hi⟩
     refine ⟨rs.map e, (e.toSemilinearEquiv.isRegular_congr' rs).mp hr, ?_⟩
-    show Ideal.ofList (rs.map e.toRingHom) = _
+    change Ideal.ofList (rs.map e.toRingHom) = _
     rw [← Ideal.map_ofList, hi, ← RingHom.comap_ker,
       Ideal.map_comap_of_surjective e.toRingHom e.surjective]
   · rintro ⟨rs, hr, hi⟩
     refine ⟨rs.map e.symm, (e.symm.toSemilinearEquiv.isRegular_congr' rs).mp hr, ?_⟩
-    show Ideal.ofList (rs.map e.symm.toRingHom) = _
+    change Ideal.ofList (rs.map e.symm.toRingHom) = _
     rw [← Ideal.map_ofList, hi, ← RingHom.comap_ker]
     exact Ideal.map_symm e
 
@@ -482,7 +482,7 @@ private lemma isRegularIdeal_of_regular_generators {R : Type*} [CommRing R]
   intro p hp
   refine ⟨1, p.asIdeal.ne_top_iff_one.mp p.isPrime.ne_top, rs.length,
     fun i => e (rs.get i), ?_, ?_⟩
-  · show IsRegular _ (List.ofFn (e ∘ rs.get))
+  · change IsRegular _ (List.ofFn (e ∘ rs.get))
     rw [← List.map_ofFn, List.ofFn_get]
     exact hreg
   · rw [Ideal.ofList, Ideal.map_span]
@@ -549,7 +549,7 @@ public theorem isGeneratedByRegularSequence_ker_iff_isCompleteIntersectionHom
       (∃ rs : List Sc, IsRegular Sc rs ∧ Ideal.ofList rs = RingHom.ker gc) ↔
         IsCompleteIntersectionHom hc :=
     (regularGenerators_equiv gc e).symm.trans hcriterion
-  show _ ↔ IsCompleteIntersectionHom hc
+  change _ ↔ IsCompleteIntersectionHom hc
   rw [← hregularc]
   constructor
   · rintro ⟨rs, hreg, hspan⟩

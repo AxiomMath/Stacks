@@ -64,7 +64,7 @@ theorem relative_completionSheafMap_yoneda_map (P : MorphismProperty Scheme.{u})
     J.isoSheafify hXlarge.isSheaf
   have hcomm : (Space.sheafifiedULiftMap B S hS f).hom ≫ eX.inv = eX'.inv ≫ H.map f := by
     have hn' : H.map f ≫ eX.hom = eX'.hom ≫ (Space.sheafifiedULiftMap B S hS f).hom := by
-      show (Functor.whiskerRight f uliftFunctor.{u + 1}) ≫
+      change (Functor.whiskerRight f uliftFunctor.{u + 1}) ≫
           J.toSheafify (yoneda.obj U ⋙ uliftFunctor.{u + 1}) =
         J.toSheafify (yoneda.obj U' ⋙ uliftFunctor.{u + 1}) ≫
           J.sheafifyMap (Functor.whiskerRight f uliftFunctor.{u + 1})

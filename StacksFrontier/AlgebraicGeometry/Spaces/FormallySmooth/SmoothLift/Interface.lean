@@ -72,8 +72,8 @@ theorem isPushout_quotient (R : Alg D) :
   · rfl
   · rfl
   · ext a
-    show e (1 ⊗ₜ[D.A] Ideal.Quotient.mk _ a) = Ideal.Quotient.mk _ (algebraMap D.A R.R a)
-    show Ideal.quotEquivOfEq hI ((Algebra.TensorProduct.quotIdealMapEquivTensorQuot R.R
+    change e (1 ⊗ₜ[D.A] Ideal.Quotient.mk _ a) = Ideal.Quotient.mk _ (algebraMap D.A R.R a)
+    change Ideal.quotEquivOfEq hI ((Algebra.TensorProduct.quotIdealMapEquivTensorQuot R.R
       (sqIdeal D.C (baseAlg D).R)).symm (1 ⊗ₜ[D.A] (Ideal.Quotient.mk _ a))) = _
     have h1 : (1 : R.R) ⊗ₜ[D.A] (Ideal.Quotient.mk (sqIdeal D.C (baseAlg D).R) a) =
         (1 : R.R) ⊗ₜ[D.A] (a • (1 : D.A ⧸ sqIdeal D.C (baseAlg D).R)) := by
@@ -84,7 +84,7 @@ theorem isPushout_quotient (R : Alg D) :
       AlgEquiv.symm_apply_apply, Algebra.algebraMap_eq_smul_one]
     rfl
   · ext r
-    show Ideal.quotEquivOfEq hI ((Algebra.TensorProduct.quotIdealMapEquivTensorQuot R.R
+    change Ideal.quotEquivOfEq hI ((Algebra.TensorProduct.quotIdealMapEquivTensorQuot R.R
       (sqIdeal D.C (baseAlg D).R)).symm (r ⊗ₜ[D.A] 1)) = _
     rw [← Algebra.TensorProduct.quotIdealMapEquivTensorQuot_mk, AlgEquiv.symm_apply_apply]
     rfl
@@ -187,7 +187,7 @@ theorem surjective_appTop : Function.Surjective ((BigFppfOver.toScheme B S hS).m
 theorem sqIdeal_baseOf :
     sqIdeal (baseOf i hi).C (baseAlg (baseOf i hi)).R =
       RingHom.ker ((BigFppfOver.toScheme B S hS).map i).appTop.hom := by
-  show Ideal.map (RingHom.id _) _ = _
+  change Ideal.map (RingHom.id _) _ = _
   rw [Ideal.map_id]
 
 /-- `Γ(T) = Γ(T') ⧸ C`. -/
@@ -203,7 +203,7 @@ theorem appTop_psiT_inv :
   apply (cancel_mono (psiT i hi).hom).mp
   rw [Category.assoc, Iso.inv_hom_id, Category.comp_id]
   ext a
-  show _ = (RingHom.quotientKerEquivOfSurjective (surjective_appTop i hi))
+  change _ = (RingHom.quotientKerEquivOfSurjective (surjective_appTop i hi))
     (Ideal.quotEquivOfEq (sqIdeal_baseOf i hi) (Ideal.Quotient.mk _ a))
   rw [Ideal.quotEquivOfEq_mk, RingHom.quotientKerEquivOfSurjective_apply_mk]
 
@@ -403,12 +403,13 @@ end AffineOver
 
 /-- A finite product of flat `A`-algebras whose spectra jointly cover `Spec A` is faithfully flat
 over `A`. -/
-theorem faithfullyFlat_pi {A : Type u} [CommRing A] {K : Type u} [Fintype K] (Bk : K → Type u)
+theorem faithfullyFlat_pi {A : Type u} [CommRing A] {K : Type u} [Finite K] (Bk : K → Type u)
     [∀ k, CommRing (Bk k)] [∀ k, Algebra A (Bk k)] [∀ k, Module.Flat A (Bk k)]
     (h : ∀ p : PrimeSpectrum A, ∃ k, ∃ q : PrimeSpectrum (Bk k),
       PrimeSpectrum.comap (algebraMap A (Bk k)) q = p) :
     Module.FaithfullyFlat A (∀ k, Bk k) := by
   classical
+  have := Fintype.ofFinite K
   have : Module.Flat A (∀ k, Bk k) :=
     Module.Flat.of_linearEquiv (DirectSum.linearEquivFunOnFintype A K Bk).symm
   refine Module.FaithfullyFlat.of_comap_surjective fun p => ?_

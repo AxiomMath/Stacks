@@ -79,8 +79,8 @@ commuting squares of cycle groups and of Chow groups — are
   `StacksFrontier.AlgebraicGeometry.Chow.FlatPullback.GeneralRationalEquivalence`, proved
   unconditionally and carrying the `@[stacks 02S1]` attribute. That file imports this one, which is
   the only reason the hypothesis is threaded here; it is substituted in
-  `StacksFrontier.AlgebraicGeometry.Chow.Gysin42.FlatPullbackDischarge`. For an **open immersion** in
-  relative dimension zero the attribute sits on it in two further places:
+  `StacksFrontier.AlgebraicGeometry.Chow.Gysin42.FlatPullbackDischarge`. For an **open immersion**
+  in relative dimension zero the attribute sits on it in two further places:
   `Stacks.Chow.flatPullbackFactorsThroughRationalEquivalence_of_opensι` in
   `StacksFrontier.AlgebraicGeometry.Chow.FlatPullback.OpenImmersionRationalEquivalence` for the
   inclusion of an open, and
@@ -502,7 +502,7 @@ theorem gysinHomomorphism_flatPullback
       flatPullbackChow C ((pullbackZeroScheme f L s).subschemeι ≫ (f ≫ p))
         ((Stacks.Divisors.zeroScheme X L s).subschemeι ≫ p) g hbase r hg k hfac
         (gysinHomomorphism C p k L s chern α) := by
-  show QuotientAddGroup.mk ((gysinRule C (f ≫ p) (k + (r : ℤ))
+  change QuotientAddGroup.mk ((gysinRule C (f ≫ p) (k + (r : ℤ))
     ((Scheme.Modules.pullback f).obj L)
     (AlgebraicGeometry.pullbackGlobalSections f L s) chern').extendCycleGroup
       (hcast ▸ flatPullback C (f ≫ p) p f rfl r hf (k + 1) α)) = _

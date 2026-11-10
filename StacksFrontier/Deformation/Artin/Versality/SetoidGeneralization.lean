@@ -180,7 +180,7 @@ theorem exists_open_localRetraction_comp (hp : p.IsFiberedInGroupoids) [p.Faithf
   have hm : m ≫ V.map (p.map cw) = V.map (p.map (s ≫ e)) := IsOpenImmersion.lift_fac _ _ _
   let mS : p.obj z ⟶ p.obj w := Over.homMk (ObjectProperty.homMk m) (by
     apply ObjectProperty.hom_ext
-    show m ≫ B.inclusion.map (p.obj w).hom = B.inclusion.map (p.obj z).hom
+    change m ≫ B.inclusion.map (p.obj w).hom = B.inclusion.map (p.obj z).hom
     rw [← map_comp_inclusion_hom B S hS (p.map cw), ← Category.assoc, hm,
       map_comp_inclusion_hom B S hS (p.map (s ≫ e))])
   have hmS : mS ≫ p.map cw = p.map (s ≫ e) := by
@@ -245,7 +245,7 @@ theorem isVersalAt_of_specializes_of_faithful (hp : p.IsFiberedInGroupoids) [p.F
   let j : W ⟶ p.obj y := AlgebraicGeometry.BigFppfOver.siteMapOver B S hS (p.obj y) hWc Wsch.ι
   have hu_mem : (V.map i).base u ∈ Wsch := by
     have h1 := (hspec.map (V.map (p.map (r ≫ e))).continuous).mem_open O'.isOpen hO'₀
-    show (V.map (p.map e)).base ((V.map i).base u) ∈ O'
+    change (V.map (p.map e)).base ((V.map i).base u) ∈ O'
     rwa [Functor.map_comp, Functor.map_comp, hr', Scheme.Hom.comp_apply] at h1
   obtain ⟨z, s, hs⟩ := hp.exists_lift j y rfl
   have hz : p.obj z = W := IsHomLift.domain_eq p j s
@@ -271,7 +271,7 @@ theorem isVersalAt_of_specializes_of_faithful (hp : p.IsFiberedInGroupoids) [p.F
     AlgebraicGeometry.BigFppfOver.siteMapOver B S hS (p.obj x) hPc Pop.ι
   let g : P ⟶ W := Over.homMk (ObjectProperty.homMk (V.map i ∣_ Wsch)) (by
     apply ObjectProperty.hom_ext
-    show (V.map i ∣_ Wsch) ≫ Wsch.ι ≫ B.inclusion.map (p.obj y).hom =
+    change (V.map i ∣_ Wsch) ≫ Wsch.ι ≫ B.inclusion.map (p.obj y).hom =
       Pop.ι ≫ B.inclusion.map (p.obj x).hom
     rw [← Category.assoc, morphismRestrict_ι, Category.assoc,
       map_comp_inclusion_hom B S hS i])

@@ -360,7 +360,7 @@ public theorem structureSheafCompare_counit :
       (D.structureSheafCompare').hom ≫
         (D.sitesEquiv).inverse.op.whiskerLeft (D.structureSheafCompare).hom := by
   ext Z : 2
-  show (forget₂ CommRingCat.{u} RingCat.{u}).map (X.presheaf.map _) =
+  change (forget₂ CommRingCat.{u} RingCat.{u}).map (X.presheaf.map _) =
     (forget₂ CommRingCat.{u} RingCat.{u}).map (X.presheaf.map _) ≫
       (forget₂ CommRingCat.{u} RingCat.{u}).map (X.presheaf.map _)
   exact map_presheaf_comp _ _ _
@@ -374,7 +374,7 @@ public theorem structureSheafCompare_unit :
             (structureSheafOfRings (D.basespace)).obj =
       𝟙 (structureSheafOfRings (D.basespace)).obj := by
   ext Z : 2
-  show (forget₂ CommRingCat.{u} RingCat.{u}).map (X.presheaf.map _) ≫
+  change (forget₂ CommRingCat.{u} RingCat.{u}).map (X.presheaf.map _) ≫
       ((forget₂ CommRingCat.{u} RingCat.{u}).map (X.presheaf.map _) ≫
         (forget₂ CommRingCat.{u} RingCat.{u}).map (X.presheaf.map _)) = 𝟙 _
   exact map_presheaf_comp_three_id _ _ _

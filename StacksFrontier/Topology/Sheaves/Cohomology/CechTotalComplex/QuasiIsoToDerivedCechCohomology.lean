@@ -498,7 +498,7 @@ lemma inducesIsoKernel_cechBetaRow (K : CochainComplex (Modules.{u} O) ℤ) {F :
         (((cechComplexIntFunctor.{u} O 𝒰).map ξ).f p) hβ) := by
   have hβ : ((cechComplexIntFunctor.{u} O 𝒰).map ξ).f p ≫
       (((cechBicomplex.{u} O 𝒰 K).flip).X p).d 0 1 = 0 := by
-    show ((cechComplexIntFunctor.{u} O 𝒰).map ξ).f p ≫
+    change ((cechComplexIntFunctor.{u} O 𝒰).map ξ).f p ≫
       ((cechComplexIntFunctor.{u} O 𝒰).map (K.d 0 1)).f p = 0
     rw [← HomologicalComplex.comp_f, ← Functor.map_comp, hz, Functor.map_zero,
       HomologicalComplex.zero_f]

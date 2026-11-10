@@ -64,7 +64,7 @@ theorem algHom_eq_of_isLocalRing {k : Type u} {A : Type v} [Field k] [CommRing A
   refine AlgHom.ext fun a => ?_
   have hmem : a - algebraMap k A (φ a) ∈ RingHom.ker (φ : A →+* k) := by
     rw [RingHom.mem_ker]
-    show φ (a - algebraMap k A (φ a)) = 0
+    change φ (a - algebraMap k A (φ a)) = 0
     simp
   rw [hker φ, ← hker ψ, RingHom.mem_ker] at hmem
   have h : ψ (a - algebraMap k A (φ a)) = 0 := hmem
@@ -140,7 +140,7 @@ theorem forall_fixes_of_extend_of_algEquiv [IsLocalRing A]
       intro χ
       refine ⟨{ toRingHom := (χ : S →+* k).comp (algebraMap A S)
                 commutes' := fun c => ?_ }, fun _ => rfl⟩
-      show χ (algebraMap A S (algebraMap k A c)) = c
+      change χ (algebraMap A S (algebraMap k A c)) = c
       rw [← htow c]
       exact χ.commutes c
     obtain ⟨ρ, hρ⟩ := key δ
@@ -168,7 +168,7 @@ theorem forall_fixes_of_extend_of_algEquiv [IsLocalRing A]
     rwa [hEs] at h
   have hresT : ∀ a : A, ε (algebraMap A T a) = ε' (algebraMap A T a) := by
     intro a
-    show δ (E.symm (algebraMap A T a)) = δ' (E.symm (algebraMap A T a))
+    change δ (E.symm (algebraMap A T a)) = δ' (E.symm (algebraMap A T a))
     rw [← hE a, hEs]
     exact hrestrict δ δ' a
   obtain ⟨G, ⟨hGext, hGfix, -⟩, -⟩ := hext ε ε' hneT hresT D
@@ -177,13 +177,13 @@ theorem forall_fixes_of_extend_of_algEquiv [IsLocalRing A]
     huniq D _ G (congrDerivation_extends E hE D F hF) hGext
   intro s hs
   have hεs : ε (E s) = 0 := by
-    show δ (E.symm (E s)) = 0
+    change δ (E.symm (E s)) = 0
     rwa [hEs]
   have := hGfix (E s) hεs
   rw [← hFG, congrDerivation_apply, hEs] at this
-  show δ (F s) = 0
+  change δ (F s) = 0
   have hback : ε (E (F s)) = δ (F s) := by
-    show δ (E.symm (E (F s))) = δ (F s)
+    change δ (E.symm (E (F s))) = δ (F s)
     rw [hEs]
   rwa [hback] at this
 
@@ -209,7 +209,7 @@ theorem forall_fixes_of_extend_of_algEquivTower [IsLocalRing A] [IsScalarTower k
     ∀ δ : S →ₐ[k] k, NodalVectorFields.Fixes δ F :=
   forall_fixes_of_extend_of_algEquiv htow
     (AlgEquiv.ofRingEquiv (f := E.toRingEquiv) fun c => by
-      show E (algebraMap k S c) = algebraMap k T c
+      change E (algebraMap k S c) = algebraMap k T c
       rw [htow c, E.commutes, ← IsScalarTower.algebraMap_apply k A T])
     E.commutes hpair hext huniq D F hF
 

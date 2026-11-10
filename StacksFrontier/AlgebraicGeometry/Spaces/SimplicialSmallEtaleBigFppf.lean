@@ -289,7 +289,7 @@ theorem exists_eq_map_comp_reducedArrowHom
       pullback.snd d.right.obj.1.hom (U.map d.hom.base.unop.op) = c.right.1.hom :=
     pullback.lift_snd _ _ _
   refine ⟨StructuredArrow.homMk (cartesianLift s.right hk) (Over.OverMorphism.ext ?_), ?_⟩
-  · show c.hom.left ≫ (cartesianLift s.right hk).hom.left = (reducedHom d).left
+  · change c.hom.left ≫ (cartesianLift s.right hk).hom.left = (reducedHom d).left
     apply pullback.hom_ext
     · exact (Category.assoc _ _ _).trans ((whisker_eq _ l₁).trans
         (sw₁.trans (pullback.lift_fst _ _ _).symm))

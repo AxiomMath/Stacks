@@ -121,8 +121,8 @@ as a definition of its own: `Module.projectiveDimension R M` (Stacks 00O4) is `�
 item 1 holds, by `CategoryTheory.projectiveDimension_le_iff`.
 
 A resolution is this project's `CategoryTheory.ObjectProperty.LeftResolution` for the class of
-projective objects (Stacks 00LQ) — the notion in which the companion statements Stacks 00O7, 0CXD and
-0CXE state resolutions by free, by finite free and by finite projective modules. It is
+projective objects (Stacks 00LQ) — the notion in which the companion statements Stacks 00O7, 0CXD
+and 0CXE state resolutions by free, by finite free and by finite projective modules. It is
 `CategoryTheory.ProjectiveResolution` in another spelling, field for field, so items 3 and 4 are
 witnessed by, and apply to, the resolution that `HasProjectiveResolution X` provides. In
 particular the augmentation `P₀ → M` is named — it is the field `F.π`, not the mere existence of

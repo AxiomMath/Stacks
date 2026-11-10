@@ -179,7 +179,7 @@ public theorem ArtinianLocalFactorization.ofAlg_toBase
     (ArtinianLocalFactorization.ofAlg (x := x) iΛ hiΛ A).toBase =
       Spec.map (CommRingCat.ofHom (algebraMap Λ A)) ≫ iΛ := rfl
 
-omit [IsLocallyNoetherian S] in
+omit [IsLocallyNoetherian S] [IsOpenImmersion iΛ] in
 /-- The spectrum of a morphism of `𝒞_Λ` is a morphism over `S`. -/
 public theorem spec_algebraMap_comm {A B : ArtinianLocalAlgCat.{u, u, u} Λ k} (f : A ⟶ B) :
     Spec.map (CommRingCat.ofHom f.hom.toRingHom) ≫
@@ -225,6 +225,7 @@ public def ArtinianLocalFactorization.homOfAlg
   over_base := spec_algebraMap_comm iΛ f
   over_point := spec_residueMap_comm f
 
+omit [IsOpenImmersion iΛ] in
 /-- The middle-term morphism attached to a morphism of `𝒞_Λ` is its spectrum. -/
 @[simp]
 public theorem ArtinianLocalFactorization.homOfAlg_base
@@ -232,11 +233,13 @@ public theorem ArtinianLocalFactorization.homOfAlg_base
     (ArtinianLocalFactorization.homOfAlg (x := x) iΛ hiΛ f).base =
       Spec.map (CommRingCat.ofHom f.hom.toRingHom) := rfl
 
+omit [IsOpenImmersion iΛ] in
 /-- The construction takes identities to identities. -/
 public theorem ArtinianLocalFactorization.homOfAlg_id (A : ArtinianLocalAlgCat.{u, u, u} Λ k) :
     ArtinianLocalFactorization.homOfAlg (x := x) iΛ hiΛ (𝟙 A) = 𝟙 _ :=
   ArtinianLocalFactorization.Hom.ext (spec_id_hom A)
 
+omit [IsOpenImmersion iΛ] in
 /-- The construction reverses composition. -/
 public theorem ArtinianLocalFactorization.homOfAlg_comp
     {A B C : ArtinianLocalAlgCat.{u, u, u} Λ k} (f : A ⟶ B) (g : B ⟶ C) :
@@ -287,7 +290,7 @@ public theorem isLocalHom_of_comp_residueMap {A B : ArtinianLocalAlgCat.{u, u, u
 the arrows out of `Spec k` is the spectrum of a morphism of `𝒞_Λ`. -/
 public instance : (factorizationComparison (x := x) iΛ hiΛ).Full where
   map_surjective {A B} y := by
-    haveI : Mono iΛ := IsOpenImmersion.mono iΛ
+    have : Mono iΛ := IsOpenImmersion.mono iΛ
     set g := y.unop
     let ψ : CommRingCat.of A.carrier ⟶ CommRingCat.of B.carrier :=
       (Spec.fullyFaithful.preimage g.base).unop
@@ -341,7 +344,7 @@ carries the `Λ`-algebra structure given by the factorization of `Spec A ⟶ S` 
 chosen affine open, and that makes it an object of `𝒞_Λ` with the given factorization. -/
 public instance : (factorizationComparison (x := x) iΛ hiΛ).EssSurj where
   mem_essImage Y := by
-    haveI : Mono iΛ := IsOpenImmersion.mono iΛ
+    have : Mono iΛ := IsOpenImmersion.mono iΛ
     set a := Y.unop
     let l : Spec (CommRingCat.of a.carrier) ⟶ Spec (CommRingCat.of Λ) :=
       IsOpenImmersion.lift iΛ a.toBase (range_toBase_subset iΛ hiΛ a)
@@ -349,7 +352,7 @@ public instance : (factorizationComparison (x := x) iΛ hiΛ).EssSurj where
     let φ : CommRingCat.of Λ ⟶ CommRingCat.of a.carrier :=
       (Spec.fullyFaithful.preimage l).unop
     have hφ : Spec.map φ = l := Spec.map_preimage_unop l
-    letI : Algebra Λ a.carrier := φ.hom.toAlgebra
+    let : Algebra Λ a.carrier := φ.hom.toAlgebra
     have hbase : Spec.map (CommRingCat.ofHom (algebraMap Λ a.carrier)) ≫ iΛ = a.toBase := by
       change Spec.map (CommRingCat.ofHom φ.hom) ≫ iΛ = a.toBase
       rw [CommRingCat.ofHom_hom, hφ, hl]

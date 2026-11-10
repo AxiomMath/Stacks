@@ -658,14 +658,14 @@ public theorem secondOrderThickeningQ₁₂_isDPMorphism (W : (Opens ↑T.scheme
         (T.dividedPowers.dividedPowers W).dpow (k + 1) (sqZeroExtFst x) :=
       (congrArg sqZeroExtFst
         (firstOrderThickeningDividedPowers_dpow_succ T Y f W k hx)).trans (sqZeroExtFst_mk _ _)
-    show dpDerivationHom T Y f W
+    change dpDerivationHom T Y f W
       (sqZeroExtFst ((firstOrderThickeningDividedPowers T Y f W).dpow (k + 1) x)) = _
     rw [h]
     exact dpDerivationHom_dpow_succ T Y f W k hx
   · intro k x hx
     exact sqZeroExtSnd_dpow_succ T Y f W k hx
   · intro k x hx
-    show dpDeRham T Y f W
+    change dpDeRham T Y f W
       (sqZeroExtSnd ((firstOrderThickeningDividedPowers T Y f W).dpow (k + 2) x)) = _
     rw [sqZeroExtSnd_dpow_succ T Y f W (k + 1) hx]
     exact dpDeRham_dpow_smul T Y f W k hx (sqZeroExtSnd x)

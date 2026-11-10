@@ -297,7 +297,7 @@ public theorem exists_isOpen_inter_projectionCone_eq_of_isClosed [IsAlgClosed k]
     · exact closure_minimal (fun x hx => hx.1.1) hY
     · -- the dimension bound
       have hSlc : IsLocallyClosed ((Y ∩ C) \ Z) := by
-        rw [Set.diff_eq]
+        rw [Set.sdiff_eq]
         exact (hY.inter hCclosed).isLocallyClosed.inter hZ.isOpen_compl.isLocallyClosed
       have hsub : ((Y ∩ C) \ Z) ∩ closedPoints (projectiveSpaceOfModule k V) ⊆
           h.base '' (g.base ⁻¹' {p}) := by

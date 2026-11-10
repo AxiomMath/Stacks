@@ -240,7 +240,7 @@ theorem freeAlgebraSheafRestrictionIso_hom_comp_canonicalPresentation
   refine Sheaf.hom_ext (sheafify_hom_ext J₀ _ _
     ((G.sheafPushforwardContinuous CommRingCat.{w} J₀ J).obj B).property ?_)
   refine Eq.trans ?_ h₂.symm
-  show toSheafify J₀ (G.op ⋙ polynomialPresheaf J A (underlyingPresheaf J B)) ≫
+  change toSheafify J₀ (G.op ⋙ polynomialPresheaf J A (underlyingPresheaf J B)) ≫
       (((G.pushforwardContinuousSheafificationCompatibility CommRingCat.{w} J₀ J).hom.app
           (polynomialPresheaf J A (underlyingPresheaf J B))).hom ≫
         Functor.whiskerLeft G.op (canonicalPresentation J A B a).hom) = _
@@ -537,7 +537,8 @@ def naiveCotangentComplexRestrictionZeroIso :
       (coefficientMap_comp_restrictionPresentationIso_hom J₀ J G A B)).symm ≪≫
     (naiveCotangentComplexXZeroIso.{u₀, v₀, w, max u v z} J₀ _ _ _).symm
 
-omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [J₀.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The two comparisons commute with the differentials. -/
 theorem naiveCotangentComplexRestriction_comm :
     (naiveCotangentComplexRestrictionNegOneIso J₀ J G A B a).hom ≫

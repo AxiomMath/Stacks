@@ -99,7 +99,7 @@ public theorem iso_paste_pair {A A1 A2 A3 A4 B2 B1 B0 Ca Cb : C₀}
   have e1 := congrArg Iso.hom h1
   have e2 := congrArg Iso.hom h2
   have e3 := congrArg Iso.hom h3
-  simp only [Iso.trans_hom, Iso.symm_hom, Category.assoc] at e1 e2 e3 ⊢
+  simp only [Iso.trans_hom, Iso.symm_hom] at e1 e2 e3 ⊢
   rw [reassoc_of% e1, reassoc_of% e3, (Iso.eq_inv_comp Kb).mpr e2.symm]
   simp
 

@@ -78,6 +78,7 @@ attribute [local implicit_reducible] CategoryTheory.Functor.Fiber
 universe u u₁ u₂ v₁ v₂ v w z
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site exceeds the default limit
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_IsomorphismSheafAlgebraic
@@ -178,6 +179,7 @@ noncomputable def isomPresheafIsoOfIso
     exact m.hom.naturality_apply f z.1
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site exceeds the default limit
 private theorem isAlgebraicSpace_iteratedSliceFiber
     (C : BigFppfSite.{u}) (S : Scheme.{u}) (hS : C.Contains S)
     (V : BigFppfOver C S hS)
@@ -287,10 +289,10 @@ theorem pullbackFiberCompIso_naturality
     (Functor.IsPreFibered.pullbackMap x.property (A'.hom ≫ f))
     (by infer_instance) _ _ g.left _ _ hleft hright ?_
   rw [Category.assoc]
-  show _ ≫ _ ≫ Functor.IsPreFibered.pullbackMap x.property
+  change _ ≫ _ ≫ Functor.IsPreFibered.pullbackMap x.property
       (((Over.map f).obj A').hom) = _
   rw [Functor.pullbackFiberMap_fac]
-  show Functor.Fiber.fiberInclusion.map (Functor.pullbackFiberCompIso x f A.hom).hom ≫
+  change Functor.Fiber.fiberInclusion.map (Functor.pullbackFiberCompIso x f A.hom).hom ≫
       Functor.IsPreFibered.pullbackMap x.property (A.hom ≫ f) = _
   rw [Functor.pullbackFiberCompIso_hom_fac, Category.assoc,
     Functor.pullbackFiberCompIso_hom_fac, ← Category.assoc,
@@ -425,7 +427,7 @@ private theorem exists_covering_arrowFiberOver_iso
     C S hS G V x' y' xV yV hxV hyV
   let eXY := isomPresheafIsoOfIso (quotientStack G).p e₁ e₂
   refine ⟨x', y', fun h => by
-    show quotientPrestackFiberSection G V z₁ = quotientPrestackFiberSection G V z₂
+    change quotientPrestackFiberSection G V z₁ = quotientPrestackFiberSection G V z₂
     rw [hz h], ?_⟩
   let ecanon := Functor.isoWhiskerLeft (Over.iteratedSliceBackward V).op e₄₄
   let epullback := isomPresheafPullbackCompIso
@@ -541,7 +543,7 @@ lemma exists_coproduct_of_contains
       C.inclusion.preimage (show C.inclusion.obj (U i).left ⟶
         C.inclusion.obj Vobj from Sigma.ι X i) ≫ vmap = (U i).hom := by
     apply C.inclusion.map_injective
-    simp only [Functor.map_comp, vmap, Functor.map_preimage, Sigma.ι_desc]
+    simp only [Functor.map_comp, vmap, Functor.map_preimage, Sigma.ι_comp_desc]
   let j : ∀ i, U i ⟶ V := fun i => Over.homMk
     (C.inclusion.preimage (show C.inclusion.obj (U i).left ⟶
       C.inclusion.obj Vobj from Sigma.ι X i)) (hw i)
@@ -554,31 +556,31 @@ lemma exists_coproduct_of_contains
       simp only [Functor.map_comp, m, Functor.map_preimage, vmap]
       apply Sigma.hom_ext
       intro i
-      simp only [m₀, Sigma.ι_desc_assoc, Sigma.ι_desc]
+      simp only [m₀, Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc]
       rw [← Functor.map_comp, Over.w]
     exact Over.homMk m hm
   · intro c i
     apply Over.OverMorphism.ext
     apply C.inclusion.map_injective
-    show C.inclusion.map (C.inclusion.preimage (X := (U i).left) (Y := Vobj) (Sigma.ι X i) ≫
+    change C.inclusion.map (C.inclusion.preimage (X := (U i).left) (Y := Vobj) (Sigma.ι X i) ≫
       C.inclusion.preimage (X := Vobj) (Y := c.pt.left)
         (Sigma.desc (fun i => C.inclusion.map (c.inj i).left))) = _
-    rw [Functor.map_comp, Functor.map_preimage, Functor.map_preimage, Sigma.ι_desc]
+    rw [Functor.map_comp, Functor.map_preimage, Functor.map_preimage, Sigma.ι_comp_desc]
   · intro c m hm
     apply Over.OverMorphism.ext
     apply C.inclusion.map_injective
     apply Sigma.hom_ext
     intro i
     have hi := congrArg (fun f : U i ⟶ c.pt => C.inclusion.map f.left) (hm i)
-    show Sigma.ι X i ≫ C.inclusion.map m.left = Sigma.ι X i ≫
+    change Sigma.ι X i ≫ C.inclusion.map m.left = Sigma.ι X i ≫
       C.inclusion.map (C.inclusion.preimage (X := Vobj) (Y := c.pt.left)
         (Sigma.desc (fun i => C.inclusion.map (c.inj i).left)))
-    rw [Functor.map_preimage, Sigma.ι_desc]
+    rw [Functor.map_preimage, Sigma.ι_comp_desc]
     change C.inclusion.map (C.inclusion.preimage (X := (U i).left) (Y := Vobj)
       (Sigma.ι X i) ≫ m.left) = _ at hi
     simpa only [Functor.map_comp, Functor.map_preimage] using hi
   · intro i
-    show Sigma.ι X i ≫ 𝟙 _ = C.inclusion.map
+    change Sigma.ι X i ≫ 𝟙 _ = C.inclusion.map
       (C.inclusion.preimage (X := (U i).left) (Y := Vobj) (Sigma.ι X i))
     rw [Category.comp_id, Functor.map_preimage]
 
@@ -590,7 +592,7 @@ private lemma isFppfCovering_of_presieve₀_mem
     (hE : (E.map (BigFppfOver.toScheme C S hS)).presieve₀ ∈
       Scheme.fppfPrecoverage ((BigFppfOver.toScheme C S hS).obj V)) :
     IsFppfCovering (κ := C.cutoff) ⟨V.left, E.map (Over.forget (C.obj hS))⟩ := by
-  show (E.map (Over.forget (C.obj hS))).presieve₀ ∈
+  change (E.map (Over.forget (C.obj hS))).presieve₀ ∈
     Scheme.fppfPrecoverage.comap C.inclusion V.left
   rw [Precoverage.mem_comap_iff, ← PreZeroHypercover.presieve₀_map]
   exact hE
@@ -614,7 +616,7 @@ lemma sieve_mem_of_fppf
     rw [hf i]
     exact D.sieve₀.downward_closed (D.sieve₀_f (β i)) (eqToHom (hX i))
   apply (C.topology.mem_over_iff E.sieve₀).mpr
-  show Sieve.overEquiv V (Sieve.ofArrows E.X E.f) ∈ _
+  change Sieve.overEquiv V (Sieve.ofArrows E.X E.f) ∈ _
   rw [Sieve.overEquiv_ofArrows]
   exact C.topology.superset_covering hle
     (Precoverage.generate_mem_toGrothendieck ⟨D', rfl, hD'⟩)
@@ -649,11 +651,11 @@ lemma coproduct_cover
         obtain ⟨t, rfl⟩ := e.hom.homeomorph.surjective t
         obtain ⟨⟨i, x⟩, rfl⟩ := (sigmaMk A).surjective t
         refine ⟨ULift.up i, x, ?_⟩
-        show T.map (j i) x = _
+        change T.map (j i) x = _
         rw [← he i, Scheme.Hom.comp_apply, sigmaMk_mk]
         rfl
       · intro i
-        show Flat (T.map (j i.down)) ∧ LocallyOfFinitePresentation (T.map (j i.down))
+        change Flat (T.map (j i.down)) ∧ LocallyOfFinitePresentation (T.map (j i.down))
         rw [← he i.down]
         constructor <;> infer_instance
     have hh := sieve_mem_of_fppf C S hS E hE
@@ -739,7 +741,7 @@ theorem exists_small_fppf_refinement_in_sieve
   have hg' : (C.inclusion.preimage (X := C.obj hWsite) (Y := E₀.X i) g) ≫ E₀.f i =
       C.inclusion.preimage (X := C.obj hWsite) (W.f j) := by
     apply C.inclusion.map_injective
-    show C.inclusion.map (C.inclusion.preimage (X := C.obj hWsite) (Y := E₀.X i) g) ≫
+    change C.inclusion.map (C.inclusion.preimage (X := C.obj hWsite) (Y := E₀.X i) g) ≫
       C.inclusion.map (E₀.f i) = C.inclusion.map
         (C.inclusion.preimage (X := C.obj hWsite) (Y := T.left) (W.f j))
     rw [Functor.map_preimage,
@@ -784,7 +786,7 @@ private theorem small_of_locally_small_on_sieve_essentiallySmall_atTarget
     have hn' : a ≫ e.unitIso.hom.app X = e.unitIso.hom.app Y ≫ e.inverse.map g := by
       simp [g, a]
     have hg : R' g := by
-      show R (e.inverse.map g ≫ e.unitIso.inv.app X)
+      change R (e.inverse.map g ≫ e.unitIso.inv.app X)
       have hfactor : e.unitIso.hom.app Y ≫ e.inverse.map g ≫ e.unitIso.inv.app X = a := by
         calc
           e.unitIso.hom.app Y ≫ e.inverse.map g ≫ e.unitIso.inv.app X =
@@ -893,7 +895,7 @@ theorem exists_iso_of_disjoint_cover
   have hj' : Sieve.ofArrows Z k ∈ (J.over V) W := by
     apply (J.mem_over_iff _).mpr
     rw [Sieve.overEquiv_ofArrows]
-    show Sieve.ofArrows X j ∈ J V
+    change Sieve.ofArrows X j ∈ J V
     exact hj
   have hd' : ∀ {i l}, i ≠ l → ∀ {Y : Over V} (a : Y ⟶ Z i) (b : Y ⟶ Z l),
       a ≫ k i = b ≫ k l → ⊥ ∈ (J.over V) Y := by
@@ -1015,10 +1017,10 @@ theorem exists_single_cover_presented_pair
     apply Sigma.hom_ext
     intro i
     rw [← Category.assoc, he i]
-    show C.inclusion.map (j i).left ≫ C.inclusion.map f.left = _
+    change C.inclusion.map (j i).left ≫ C.inclusion.map f.left = _
     rw [← C.inclusion.map_comp]
-    show C.inclusion.map (j i ≫ f).left = _
-    rw [hfac, Sigma.ι_desc]
+    change C.inclusion.map (j i ≫ f).left = _
+    rw [hfac, Sigma.ι_comp_desc]
     exact C.inclusion.map_preimage (X := C.obj (hW i)) (Y := T.left) (W.f i)
   let : ∀ i, Flat (W.f i) := W.flat
   let : ∀ i, LocallyOfFinitePresentation (W.f i) := W.lfp
@@ -1044,7 +1046,7 @@ theorem exists_single_cover_presented_pair
     refine ⟨e.hom ((Sigma.ι W.X i) a), ?_⟩
     have hh := congrArg (fun q : W.X i ⟶ T.left.obj => q a)
       (show Sigma.ι W.X i ≫ e.hom ≫ C.inclusion.map f.left = W.f i by
-        rw [hmap, Sigma.ι_desc])
+        rw [hmap, Sigma.ι_comp_desc])
     exact hh.trans ha
   obtain ⟨a, ha⟩ := presented_pullback_of_disjoint_cover C S hS G Wi V T j hm hj hd
     f fi hfac x (fun i => hx (fi i) (hfi i).1)
@@ -1139,13 +1141,13 @@ theorem exists_shrunk_isomPresheaf
     (fun U => (Equiv.ulift.trans (equivShrink (I.obj U)).symm).toIso) (by
       intro U V f
       ext z
-      show (equivShrink (I.obj V)).symm
+      change (equivShrink (I.obj V)).symm
         (equivShrink (I.obj V) (I.map f ((equivShrink (I.obj U)).symm z.down))) = _
       simp only [Equiv.symm_apply_apply]
       rfl)
   let J' := BigFppfOver.topology C T.left.obj T.left.property
   let : (Over.iteratedSliceBackward T).IsContinuous J' (J.over T) := by
-    show T.iteratedSliceBackward.IsContinuous (C.topology.over T.left)
+    change T.iteratedSliceBackward.IsContinuous (C.topology.over T.left)
       ((C.topology.over (C.obj hS)).over T)
     infer_instance
   have hI : Presheaf.IsSheaf J' I :=
@@ -1155,7 +1157,7 @@ theorem exists_shrunk_isomPresheaf
     uliftFunctor.{u + 1, u} ((Presheaf.isSheaf_of_iso_iff eF).mpr hI)
   refine ⟨F, hFsheaf, ⟨e, ?_⟩, ?_⟩
   · intro U V f z
-    show equivShrink (I.obj V) (I.map f z) =
+    change equivShrink (I.obj V) (I.map f z) =
       equivShrink (I.obj V) (I.map f ((equivShrink (I.obj U)).symm (equivShrink (I.obj U) z)))
     simp
   · intro V f a b ex ey
@@ -1185,6 +1187,7 @@ theorem exists_shrunk_isomPresheaf
       V.left.property T.left.property f.left F).mp hres
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site exceeds the default limit
 /-- The sheaf `Isom(x, y)` of isomorphisms between two objects of the quotient stack of a groupoid
 in algebraic spaces, read on the big fppf site of the scheme the test object lies over, is an
 algebraic space over that scheme.

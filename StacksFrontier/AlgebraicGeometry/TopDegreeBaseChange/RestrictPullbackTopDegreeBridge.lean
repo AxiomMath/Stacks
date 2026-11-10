@@ -83,7 +83,7 @@ commutation of restriction with pullback, settled by
 `Stacks.Modules.restrictPullbackObjIso`. -/
 def restrictPullbackRightDerivedPlusIso
     {X' Y' X'' Y'' : Scheme.{u}} {f' : X' ⟶ Y'} (h' : X'' ⟶ X') {f'' : X'' ⟶ Y''}
-    {h : Y'' ⟶ Y'} {V : Y'.Opens} {W : Y''.Opens}
+    {V : Y'.Opens} {W : Y''.Opens}
     (hle : f'' ⁻¹ᵁ W ≤ h' ⁻¹ᵁ (f' ⁻¹ᵁ V)) (F' : X'.Modules) (d : ℕ) :
     ((moduleGlobalSections (f'' ⁻¹ᵁ W : Scheme)).rightDerivedPlus (d : ℤ)).obj
         ((Scheme.Modules.restrictFunctor (f'' ⁻¹ᵁ W).ι).obj

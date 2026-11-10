@@ -222,7 +222,8 @@ noncomputable def pullbackCommRingSheafComp (O : Sheaf K CommRingCat.{ww}) :
   (fullyFaithfulForgetCommRingSheaf J₂).preimageIso
     (pullbackRingSheafComp J₁ J₂ Φ₁ Φ₂ (SheafOfModules.Tensor.ringSheaf O))
 
-omit [J₂.HasSheafCompose (forget RingCat.{ww})] in
+omit [J₂.HasSheafCompose (forget RingCat.{ww})] [J₁.HasSheafCompose (forget₂ CommRingCat RingCat)]
+  [K.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- Forgetting commutativity carries the comparison to the ring-valued comparison. -/
 @[simp]
 lemma forgetCommRingSheaf_map_pullbackCommRingSheafComp_hom (O : Sheaf K CommRingCat.{ww}) :
@@ -249,7 +250,8 @@ noncomputable def pullbackCommRingSheafFunctorComp :
   NatIso.ofComponents (fun O ↦ pullbackCommRingSheafComp J₁ J₂ Φ₁ Φ₂ O)
     (fun a ↦ pullbackCommRingSheafComp_naturality J₁ J₂ Φ₁ Φ₂ a)
 
-omit [J₂.HasSheafCompose (forget RingCat.{ww})] in
+omit [J₂.HasSheafCompose (forget RingCat.{ww})] [J₁.HasSheafCompose (forget₂ CommRingCat RingCat)]
+  [K.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The comparison of the two iterated inverse images is the identity on underlying sheaves of
 sets. -/
 @[simp]
@@ -261,7 +263,7 @@ lemma forget_map_pullbackCommRingSheafComp_hom
       𝟙 ((sheafCompose J₂ (forget CommRingCat.{ww})).obj
         (pullbackCommRingSheaf J₂ (Φ₁ ⋙ Φ₂) O)) := by
   refine Sheaf.hom_ext_sections fun X s ↦ ?_
-  show RingCat.Hom.hom
+  change RingCat.Hom.hom
     ((((Stacks.forgetCommRingSheaf J₂).map
       (pullbackCommRingSheafComp J₁ J₂ Φ₁ Φ₂ O).hom).hom.app X)) s = s
   rw [forgetCommRingSheaf_map_pullbackCommRingSheafComp_hom]

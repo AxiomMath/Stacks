@@ -190,9 +190,9 @@ private theorem exists_indEtale_localization_tensorProduct
   let : IsScalarTower S (A ⊗[R] S) U := inferInstance
   have hSUC : IsScalarTower S U C := by
     refine IsScalarTower.of_algebraMap_eq' (RingHom.ext fun s => ?_)
-    show algebraMap S C s = algebraMap U C (algebraMap (A ⊗[R] S) U (algebraMap S (A ⊗[R] S) s))
+    change algebraMap S C s = algebraMap U C (algebraMap (A ⊗[R] S) U (algebraMap S (A ⊗[R] S) s))
     rw [← RingHom.comp_apply, hcomp]
-    show algebraMap S C s = g ((1 : A) ⊗ₜ[R] s)
+    change algebraMap S C s = g ((1 : A) ⊗ₜ[R] s)
     simp [g]
   let := hSUC
   obtain ⟨algB, hBU, hSBU⟩ :=

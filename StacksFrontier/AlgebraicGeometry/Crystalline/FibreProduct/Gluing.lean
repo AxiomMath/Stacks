@@ -196,11 +196,11 @@ private theorem DividedPowerPullbackChart.toBase_fst
     {T T' S : DividedPowerScheme.{u}} {f : T ⟶ S} {g : T' ⟶ S}
     (a : DividedPowerPullbackChart f g) :
     a.toBase ≫ pullback.fst f.hom g.hom = a.fst.hom := by
-  show (coneSchemeComparison a.data.cone ≫ a.isPullback.isoPullback.inv ≫ a.open.ι) ≫ _ = _
+  change (coneSchemeComparison a.data.cone ≫ a.isPullback.isoPullback.inv ≫ a.open.ι) ≫ _ = _
   rw [Category.assoc, Category.assoc,
     ← Scheme.Hom.resLE_comp_ι _ (inf_le_left : a.open ≤ _),
     IsPullback.isoPullback_inv_fst_assoc]
-  show coneSchemeComparison a.data.cone ≫ pullback.fst _ _ ≫ a.left.1.ι = _
+  change coneSchemeComparison a.data.cone ≫ pullback.fst _ _ ≫ a.left.1.ι = _
   simp only [← Category.assoc, coneSchemeComparison, pullback.lift_fst]
   rfl
 
@@ -208,11 +208,11 @@ private theorem DividedPowerPullbackChart.toBase_snd
     {T T' S : DividedPowerScheme.{u}} {f : T ⟶ S} {g : T' ⟶ S}
     (a : DividedPowerPullbackChart f g) :
     a.toBase ≫ pullback.snd f.hom g.hom = a.snd.hom := by
-  show (coneSchemeComparison a.data.cone ≫ a.isPullback.isoPullback.inv ≫ a.open.ι) ≫ _ = _
+  change (coneSchemeComparison a.data.cone ≫ a.isPullback.isoPullback.inv ≫ a.open.ι) ≫ _ = _
   rw [Category.assoc, Category.assoc,
     ← Scheme.Hom.resLE_comp_ι _ (inf_le_right : a.open ≤ _),
     IsPullback.isoPullback_inv_snd_assoc]
-  show coneSchemeComparison a.data.cone ≫ pullback.snd _ _ ≫ a.right.1.ι = _
+  change coneSchemeComparison a.data.cone ≫ pullback.snd _ _ ≫ a.right.1.ι = _
   simp only [← Category.assoc, coneSchemeComparison, pullback.lift_snd]
   rfl
 
@@ -242,7 +242,7 @@ private theorem exists_dividedPowerPullbackChart_refinement
   obtain ⟨C, hC, hxC, hCW⟩ := TopologicalSpace.Opens.isBasis_iff_nbhd.mp
     T'.scheme.isBasis_affineOpens (U := W ⊓ g.hom ⁻¹ᵁ A)
       ⟨hW, by
-        show g.hom (pullback.snd f.hom g.hom x) ∈ A
+        change g.hom (pullback.snd f.hom g.hom x) ∈ A
         rw [← he]
         exact hxA⟩
   exact ⟨⟨⟨A, hA⟩, ⟨B, hB⟩, ⟨C, hC⟩, hBV.trans inf_le_right, hCW.trans inf_le_right⟩,
@@ -333,7 +333,7 @@ private theorem DividedPowerPullbackChart.map_isInducedOpen_and_range
   have hlr : l ≫ r = 𝟙 Q := by
     apply DividedPowerScheme.Hom.ext
     apply (cancel_mono W.ι).mp
-    show ((l ≫ r) ≫ q).hom = ((𝟙 Q) ≫ q).hom
+    change ((l ≫ r) ≫ q).hom = ((𝟙 Q) ≫ q).hom
     rw [Category.assoc, hr, hl, Category.id_comp]
   have : IsIso r := ⟨l, hrl, hlr⟩
   refine ⟨hr ▸ (isInducedOpen_of_isIso r).comp hq, ?_⟩
@@ -359,7 +359,7 @@ private theorem DividedPowerPullbackChart.isPullback_toOpen
     simpa only [Category.assoc, Scheme.homOfLE_ι] using
       DividedPowerPullbackChart.map_toBase h
   · apply TopologicalSpace.Opens.coe_inj.mp
-    show b.toOpen ⁻¹' Set.range ((pullback f.hom g.hom).homOfLE
+    change b.toOpen ⁻¹' Set.range ((pullback f.hom g.hom).homOfLE
       (DividedPowerPullbackChart.open_le_open (leOfHom h))) =
       Set.range (DividedPowerPullbackChart.map h).hom
     rw [(DividedPowerPullbackChart.map_isInducedOpen_and_range h).2]
@@ -367,7 +367,7 @@ private theorem DividedPowerPullbackChart.isPullback_toOpen
     constructor
     · rintro ⟨z, hz⟩
       have hz' := congrArg Subtype.val hz
-      show b.toBase y ∈ a.open
+      change b.toBase y ∈ a.open
       have hv : z.val = b.toBase y :=
         (Scheme.homOfLE_apply _ z).symm.trans hz'
       exact hv ▸ z.property
@@ -568,7 +568,7 @@ private theorem dividedPowerPullback_condition
     dividedPowerPullbackFst f g ≫ f = dividedPowerPullbackSnd f g ≫ g := by
   apply (dividedPowerPullbackPresentation f g).isColimit.hom_ext
   intro a
-  show (dividedPowerPullbackPresentation f g).gluedι a ≫ _ =
+  change (dividedPowerPullbackPresentation f g).gluedι a ≫ _ =
     (dividedPowerPullbackPresentation f g).gluedι a ≫ _
   rw [← Category.assoc, ← Category.assoc,
     dividedPowerPullback_ι_fst, dividedPowerPullback_ι_snd]
@@ -631,7 +631,7 @@ private theorem dividedPowerPullbackCone_comparison
     {T T' S : DividedPowerScheme.{u}} (f : T ⟶ S) (g : T' ⟶ S) :
     coneSchemeComparison (dividedPowerPullbackCone f g) =
       (dividedPowerPullbackGluing f g).toBase := by
-  show dividedPowerPullbackComparison f g = _
+  change dividedPowerPullbackComparison f g = _
   apply (dividedPowerPullbackGluing f g).cover.hom_ext
   intro a
   rw [relativeGluing_cover_f_toBase (dividedPowerPullbackGluing f g) a]
@@ -809,7 +809,7 @@ theorem nonempty_dividedPowerPullbackData
   refine PullbackCone.IsLimit.mk (dividedPowerPullback_condition f g) dividedPowerConeLift ?_ ?_ ?_
   · intro c
     apply DividedPowerScheme.Hom.ext
-    show (dividedPowerConeLift c).hom ≫ (dividedPowerPullbackFst f g).hom = c.fst.hom
+    change (dividedPowerConeLift c).hom ≫ (dividedPowerPullbackFst f g).hom = c.fst.hom
     have he := congrArg (fun k => k ≫ pullback.fst f.hom g.hom)
       (dividedPowerConeLift_comparison c)
     simp only [← dividedPowerPullbackCone_comparison, Category.assoc,
@@ -817,7 +817,7 @@ theorem nonempty_dividedPowerPullbackData
     exact he
   · intro c
     apply DividedPowerScheme.Hom.ext
-    show (dividedPowerConeLift c).hom ≫ (dividedPowerPullbackSnd f g).hom = c.snd.hom
+    change (dividedPowerConeLift c).hom ≫ (dividedPowerPullbackSnd f g).hom = c.snd.hom
     have he := congrArg (fun k => k ≫ pullback.snd f.hom g.hom)
       (dividedPowerConeLift_comparison c)
     simp only [← dividedPowerPullbackCone_comparison, Category.assoc,

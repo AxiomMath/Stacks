@@ -111,12 +111,12 @@ private theorem changedBaseToDeformation_base
       eqToHom (congrArg Over.left hPostA) ≫
         Spec.map (CommRingCat.ofHom (deformationProjection T iΛ B hS p x₀ hx₀ a)) ≫
         eqToHom (congrArg Over.left d.base).symm := by
-    show (P.map (q ≫ e.hom)).left = _
+    change (P.map (q ≫ e.hom)).left = _
     rw [Functor.map_comp, Over.comp_left]
     have hqP : (P.map q).left = g := hq
     rw [hqP, he', hPostA_left, hPost₀_left]
     cat_disch
-  show eqToHom (congrArg Over.left hPostA).symm ≫ (P.map fA).left ≫
+  change eqToHom (congrArg Over.left hPostA).symm ≫ (P.map fA).left ≫
     eqToHom (congrArg Over.left d.base) = _
   rw [hfA]
   simp
@@ -142,7 +142,7 @@ private theorem changedBaseRestriction_baseFactor
   apply Functor.map_injective (Over.post B.inclusion)
   rw [Functor.map_comp]
   apply CostructuredArrow.hom_ext
-  show ((p ⋙ Over.post B.inclusion).map η).left ≫
+  change ((p ⋙ Over.post B.inclusion).map η).left ≫
       ((p ⋙ Over.post B.inclusion).map d.arrow).left =
     ((Over.post B.inclusion).map
       ((siteObjectOverExtendedPointIso T B S hS iΛ p xₗ hxₗ).inv ≫
@@ -391,7 +391,7 @@ private theorem changedBaseRestriction_base
   let := L.isHomLift
   have h := IsHomLift.fac' p
     (siteObjectOverChangedBaseToDeformation T iΛ B hS p x₀ hx₀ a) L.arrow
-  show eqToHom _ ≫ ((Over.post B.inclusion).map (p.map L.arrow)).left ≫ eqToHom _ = _
+  change eqToHom _ ≫ ((Over.post B.inclusion).map (p.map L.arrow)).left ≫ eqToHom _ = _
   rw [h]
   simp only [Functor.map_comp, Over.comp_left, eqToHom_map, Over.eqToHom_left]
   dsimp only [siteObjectOverChangedBaseToDeformation]
@@ -504,10 +504,10 @@ private theorem changedBase_morphism_exists {a b : A} (f : a ⟶ b) :
   have hfactor : p.map (R b ≫ m.arrow) = g ≫ p.map (R a) := by
     apply (P).map_injective
     apply (schemeMap_eq_iff P db.base ((C₀).objects a.fst).base _ _).mp
-    show schemeMap q db.base ((C₀).objects a.fst).base (R b ≫ m.arrow) = _
+    change schemeMap q db.base ((C₀).objects a.fst).base (R b ≫ m.arrow) = _
     rw [schemeMap_comp q db.base ((C₀).objects b.fst).base,
       schemeMap_comp P db.base da.base]
-    show schemeMap q db.base ((C₀).objects b.fst).base (R b) ≫
+    change schemeMap q db.base ((C₀).objects b.fst).base (R b) ≫
       schemeMap q ((C₀).objects b.fst).base ((C₀).objects a.fst).base m.arrow =
       schemeMap P db.base da.base g ≫ schemeMap q da.base ((C₀).objects a.fst).base (R a)
     rw [changedBaseRestriction_base, changedBaseRestriction_base, hg]
@@ -523,7 +523,7 @@ private theorem changedBase_morphism_exists {a b : A} (f : a ⟶ b) :
   have hχmap : p.map χ = g := by simpa using IsHomLift.fac' p g χ
   have hχbase : schemeMap q db.base da.base χ =
       Spec.map (CommRingCat.ofHom f.snd.hom.toRingHom) := by
-    show schemeMap P db.base da.base (p.map χ) = _
+    change schemeMap P db.base da.base (p.map χ) = _
     rw [hχmap]
     exact hg
   have htri : db.arrow ≫ χ = da.arrow := by
@@ -607,7 +607,7 @@ private theorem outputHom_ext {a b : A} {f g : O a ⟶ O b}
   apply cartesian_cancel p hp (r a) _ hr
   apply (P).map_injective
   apply (schemeMap_eq_iff q ((Cₗ).objects (O b)).base ((Cₗ).objects (O a)).base _ _).mp
-  show eqToHom _ ≫ _ ≫ eqToHom _ = eqToHom _ ≫ _ ≫ eqToHom _
+  change eqToHom _ ≫ _ ≫ eqToHom _ = eqToHom _ ≫ _ ≫ eqToHom _
   rw [((Cₗ).morphisms (O a) (O b) f).arrow_base,
     ((Cₗ).morphisms (O a) (O b) g).arrow_base, hring]
 

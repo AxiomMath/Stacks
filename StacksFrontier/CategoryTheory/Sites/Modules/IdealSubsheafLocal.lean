@@ -216,7 +216,7 @@ attribute [local implicit_reducible] CategoryTheory.sheafCompose
 section Powers
 
 variable {C : Type u₁} [Category.{v₁} C] {J : GrothendieckTopology C}
-  [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] {O : Sheaf J CommRingCat.{u}}
+  {O : Sheaf J CommRingCat.{u}}
 
 /-- **The product of a sheaf of ideals with one of its powers lands in the next power.** -/
 theorem idealSmul_idealPow_le_idealPow_succ (I : IdealSubsheaf O) (n : ℕ) :

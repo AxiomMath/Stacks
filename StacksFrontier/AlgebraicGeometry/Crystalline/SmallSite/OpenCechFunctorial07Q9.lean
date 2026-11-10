@@ -123,7 +123,6 @@ variable (hW₂ : IsAffineOpen (f ⁻¹ᵁ W)) {ι κ : Type u}
   (hg₂ : Function.Surjective g₂)
   (r : MvPolynomial ι (openAffineSituation07Q9 S hW hVW).A →+*
     MvPolynomial κ (openAffineSituation₂07Q9 S hVW f hW₂).A)
-  (hrC : ∀ b, r (MvPolynomial.C b) = MvPolynomial.C b)
   (hr : g₂.toRingHom.comp r = (restrictMap07Q9 S hVW f).appTop.hom.comp g.toRingHom)
 
 /-- **The shift of the levels**: the uniform cutoff of the levels of the system of `X'/S`. -/
@@ -148,15 +147,15 @@ def levelRingMap07Q9 (n e : ℕ) :
     (isPAdicLevel_uniformLevel_add (tensorPowerEnvelopeThickening _ g hg n).thickening
       (e + openSystemShift07Q9 S hVW f hW₂))
     (isPAdicLevel_uniformLevel_add (tensorPowerEnvelopeThickening _ g₂ hg₂ n).thickening e)
-    (envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n)
+    (envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n)
     ((Nat.add_comm _ _).le.trans (Nat.le_add_left _ _))
 
 /-- The maps of finite levels commute with the level drops. -/
 theorem levelRingMap07Q9_tower (n : ℕ) {e e' : ℕ} (h : e ≤ e') :
     (((affineLevelSystem _ g hg).obj ⦋n⦌).map
         (homOfLE (Nat.add_le_add_right h (openSystemShift07Q9 S hVW f hW₂))).op).hom.hom ≫
-        levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e =
-      levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e' ≫
+        levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n e =
+      levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n e' ≫
         (((affineLevelSystem _ g₂ hg₂).obj ⦋n⦌).map (homOfLE h).op).hom.hom := by
   ext x
   obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x
@@ -166,13 +165,13 @@ theorem levelRingMap07Q9_tower (n : ℕ) {e e' : ℕ} (h : e ≤ e') :
 theorem levelRingMap07Q9_simplicial {n m : ℕ} (φ : ⦋n⦌ ⟶ ⦋m⦌) (e : ℕ) :
     (((affineLevelSystem _ g hg).map φ).app
         (op (e + openSystemShift07Q9 S hVW f hW₂))).hom.hom ≫
-        levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr m e =
-      levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e ≫
+        levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr m e =
+      levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n e ≫
         (((affineLevelSystem _ g₂ hg₂).map φ).app (op e)).hom.hom := by
   ext x
   obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x
   exact congrArg (Ideal.Quotient.mk _) (congrArg (fun q : DividedPowers.DPMorphism _ _ ↦ q a)
-    (envelopeRingMap07Q9_comp_map S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr φ))
+    (envelopeRingMap07Q9_comp_map S hW hVW f hW₂ g hg g₂ hg₂ r hr φ))
 
 /-! ### The morphisms of the restricted systems -/
 
@@ -219,20 +218,20 @@ def levelAffineHom07Q9 (n e : ℕ) :
       @wholeThickeningToAffine _ (isNilpotent_prime_openSituation07Q9 S hW hVW)
         (sourceObj07Q9 S hV hVW f hW₂ g₂ hg₂ n e)
         (isAffine_sourceObj07Q9 S hV hVW f hW₂ g₂ hg₂ n e) :=
-  { hom := levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e ≫
+  { hom := levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n e ≫
       (levelCounit₂07Q9 S hV hVW f hW₂ g₂ hg₂ n e).hom
     fromBase_comp := by
       apply DividedPowers.DPMorphism.ext
       funext a
-      have h1 : levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e
+      have h1 : levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n e
           ((levelObj07Q9 S hW hVW g hg n (e + openSystemShift07Q9 S hVW f hW₂)).obj.fromBase a) =
           (levelObj₂07Q9 S hVW f hW₂ g₂ hg₂ n e).obj.fromBase a := by
-        change Ideal.Quotient.mk _ (envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n
+        change Ideal.Quotient.mk _ (envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n
             ((tensorPowerEnvelopeThickening _ g hg n).thickening.fromBase a)) =
           Ideal.Quotient.mk _ ((tensorPowerEnvelopeThickening _ g₂ hg₂ n).thickening.fromBase a)
         rw [envelopeRingMap07Q9_fromBase]
       change (levelCounit₂07Q9 S hV hVW f hW₂ g₂ hg₂ n e).hom
-          (levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e
+          (levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n e
             ((levelObj07Q9 S hW hVW g hg n (e + openSystemShift07Q9 S hVW f hW₂)).obj.fromBase
               a)) =
         globalSectionsDPMorphism (((CrystallineThickening.ι _).obj
@@ -248,7 +247,7 @@ def levelAffineHom07Q9 (n e : ℕ) :
         ((tensorPowerEnvelopeThickening _ g hg n).thickening.toQuotient x)
       have key : (levelObj₂07Q9 S hVW f hW₂ g₂ hg₂ n e).obj.toQuotient
           ((restrictMap07Q9 S hVW f).appTop.hom x) =
-          Ideal.Quotient.mk _ (levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e
+          Ideal.Quotient.mk _ (levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n e
             (Ideal.Quotient.mk _ d)) := by
         change levelQuotientMap _ _ _ _
           ((tensorPowerEnvelopeThickening _ g₂ hg₂ n).thickening.toQuotient
@@ -275,27 +274,27 @@ def localSystemMap07Q9 (n e : ℕ) :
   (@exists_levelBridge_eq (restrict S V W hVW) (isAffine_restrictX07Q9 S hW hVW)
     (isAffine_restrictS07Q9 S hV hVW) (isNilpotent_prime_openSituation07Q9 S hW hVW) _
     (isAffine_sourceObj07Q9 S hV hVW f hW₂ g₂ hg₂ n e) _
-    (levelAffineHom07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e)).choose
+    (levelAffineHom07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e)).choose
 
 /-- `localSystemMap07Q9` induces `levelAffineHom07Q9` on global sections. -/
 theorem levelBridge_localSystemMap07Q9 (n e : ℕ) :
     @levelBridge (restrict S V W hVW) (isAffine_restrictX07Q9 S hW hVW)
       (isAffine_restrictS07Q9 S hV hVW) (isNilpotent_prime_openSituation07Q9 S hW hVW) _
       (isAffine_sourceObj07Q9 S hV hVW f hW₂ g₂ hg₂ n e) _
-      (localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e) =
-      levelAffineHom07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e :=
+      (localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e) =
+      levelAffineHom07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e :=
   (@exists_levelBridge_eq (restrict S V W hVW) (isAffine_restrictX07Q9 S hW hVW)
     (isAffine_restrictS07Q9 S hV hVW) (isNilpotent_prime_openSituation07Q9 S hW hVW) _
     (isAffine_sourceObj07Q9 S hV hVW f hW₂ g₂ hg₂ n e) _
-    (levelAffineHom07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e)).choose_spec
+    (levelAffineHom07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e)).choose_spec
 
 /-- **Naturality of `localSystemMap07Q9` in the tower direction.** -/
 theorem localSystemMap07Q9_tower (n : ℕ) {e e' : ℕ} (h : e ≤ e') :
     (restrictChangeBase07Q9 S hVW f).map ((CrystallineThickening.ι _).map
         (((openLocalSystem07Q9 (overSituation S f) hV hW₂ (preimage_le_overSituation07Q9 S hVW f)
           g₂ hg₂).obj (op ⦋n⦌)).map (homOfLE h))) ≫
-        localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e' =
-      localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e ≫
+        localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e' =
+      localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e ≫
         (CrystallineThickening.ι _).map (((openLocalSystem07Q9 S hV hW hVW g hg).obj
           (op ⦋n⦌)).map (homOfLE (Nat.add_le_add_right h (openSystemShift07Q9 S hVW f hW₂)))) := by
   have := isAffine_restrictX07Q9 S hW hVW
@@ -314,34 +313,34 @@ theorem localSystemMap07Q9_tower (n : ℕ) {e e' : ℕ} (h : e ≤ e') :
     (((openLocalSystem07Q9 (overSituation S f) hV hW₂ (preimage_le_overSituation07Q9 S hVW f)
       g₂ hg₂).obj (op ⦋n⦌)).map (homOfLE h))
   have e1 : levelBridge hp _ _ ((restrictChangeBase07Q9 S hVW f).map x ≫
-      localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e') =
-      levelAffineHom07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e' ≫
+      localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e') =
+      levelAffineHom07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e' ≫
         wholeHomToAffine hp ((restrictChangeBase07Q9 S hVW f).map x) :=
     (levelBridge_comp _ _).trans
       (congrArg (· ≫ _)
-        (levelBridge_localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e'))
-  have e2 : levelBridge hp _ _ (localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e ≫
+        (levelBridge_localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e'))
+  have e2 : levelBridge hp _ _ (localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e ≫
       (CrystallineThickening.ι _).map (((openLocalSystem07Q9 S hV hW hVW g hg).obj
         (op ⦋n⦌)).map (homOfLE (Nat.add_le_add_right h (openSystemShift07Q9 S hVW f hW₂))))) =
-      ψ.hom ≫ levelAffineHom07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e :=
+      ψ.hom ≫ levelAffineHom07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e :=
     (levelBridge_comp_inverse_map _ ψ).trans
       (congrArg (ψ.hom ≫ ·)
-        (levelBridge_localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e))
+        (levelBridge_localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e))
   have hn := congrArg (fun y ↦ y.hom.hom)
     ((wholeSiteEquivLittleAffine hp₂).counitIso.inv.naturality ψ₂)
-  have e3 : levelAffineHom07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e' ≫
+  have e3 : levelAffineHom07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e' ≫
         wholeHomToAffine hp ((restrictChangeBase07Q9 S hVW f).map x) =
-      ψ.hom ≫ levelAffineHom07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e := by
+      ψ.hom ≫ levelAffineHom07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e := by
     apply DividedPowerThickening.Hom.ext
-    show (levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e' ≫
+    change (levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n e' ≫
         (levelCounit₂07Q9 S hV hVW f hW₂ g₂ hg₂ n e').hom) ≫
           ((wholeSiteEquivLittleAffine hp₂).functor.map
             ((wholeSiteEquivLittleAffine hp₂).inverse.map ψ₂)).hom.hom =
-      ψ.hom.hom ≫ (levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e ≫
+      ψ.hom.hom ≫ (levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n e ≫
         (levelCounit₂07Q9 S hV hVW f hW₂ g₂ hg₂ n e).hom)
     exact (Category.assoc _ _ _).trans ((congrArg _ hn.symm).trans
       ((Category.assoc _ _ _).symm.trans ((congrArg (· ≫ _)
-        (levelRingMap07Q9_tower S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n h).symm).trans
+        (levelRingMap07Q9_tower S hW hVW f hW₂ g hg g₂ hg₂ r hr n h).symm).trans
           (Category.assoc _ _ _))))
   exact levelBridge_injective (hp := hp) _ _ (e1.trans (e3.trans e2.symm))
 
@@ -350,8 +349,8 @@ theorem localSystemMap07Q9_simplicial {n m : ℕ} (φ : ⦋n⦌ ⟶ ⦋m⦌) (e 
     (restrictChangeBase07Q9 S hVW f).map ((CrystallineThickening.ι _).map
         (((openLocalSystem07Q9 (overSituation S f) hV hW₂ (preimage_le_overSituation07Q9 S hVW f)
           g₂ hg₂).map φ.op).app e)) ≫
-        localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e =
-      localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr m e ≫
+        localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e =
+      localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr m e ≫
         (CrystallineThickening.ι _).map (((openLocalSystem07Q9 S hV hW hVW g hg).map φ.op).app
           (e + openSystemShift07Q9 S hVW f hW₂)) := by
   have := isAffine_restrictX07Q9 S hW hVW
@@ -369,33 +368,33 @@ theorem localSystemMap07Q9_simplicial {n m : ℕ} (φ : ⦋n⦌ ⟶ ⦋m⦌) (e 
     (((openLocalSystem07Q9 (overSituation S f) hV hW₂ (preimage_le_overSituation07Q9 S hVW f)
       g₂ hg₂).map φ.op).app e)
   have e1 : levelBridge hp _ _ ((restrictChangeBase07Q9 S hVW f).map x ≫
-      localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e) =
-      levelAffineHom07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e ≫
+      localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e) =
+      levelAffineHom07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e ≫
         wholeHomToAffine hp ((restrictChangeBase07Q9 S hVW f).map x) :=
     (levelBridge_comp _ _).trans
-      (congrArg (· ≫ _) (levelBridge_localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e))
-  have e2 : levelBridge hp _ _ (localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr m e ≫
+      (congrArg (· ≫ _) (levelBridge_localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e))
+  have e2 : levelBridge hp _ _ (localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr m e ≫
       (CrystallineThickening.ι _).map (((openLocalSystem07Q9 S hV hW hVW g hg).map φ.op).app
         (e + openSystemShift07Q9 S hVW f hW₂))) =
-      ψ.hom ≫ levelAffineHom07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr m e :=
+      ψ.hom ≫ levelAffineHom07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr m e :=
     (levelBridge_comp_inverse_map _ ψ).trans
       (congrArg (ψ.hom ≫ ·)
-        (levelBridge_localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr m e))
+        (levelBridge_localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr m e))
   have hn := congrArg (fun y ↦ y.hom.hom)
     ((wholeSiteEquivLittleAffine hp₂).counitIso.inv.naturality ψ₂)
-  have e3 : levelAffineHom07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e ≫
+  have e3 : levelAffineHom07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e ≫
         wholeHomToAffine hp ((restrictChangeBase07Q9 S hVW f).map x) =
-      ψ.hom ≫ levelAffineHom07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr m e := by
+      ψ.hom ≫ levelAffineHom07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr m e := by
     apply DividedPowerThickening.Hom.ext
-    show (levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e ≫
+    change (levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n e ≫
         (levelCounit₂07Q9 S hV hVW f hW₂ g₂ hg₂ n e).hom) ≫
           ((wholeSiteEquivLittleAffine hp₂).functor.map
             ((wholeSiteEquivLittleAffine hp₂).inverse.map ψ₂)).hom.hom =
-      ψ.hom.hom ≫ (levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr m e ≫
+      ψ.hom.hom ≫ (levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr m e ≫
         (levelCounit₂07Q9 S hV hVW f hW₂ g₂ hg₂ m e).hom)
     exact (Category.assoc _ _ _).trans ((congrArg _ hn.symm).trans
       ((Category.assoc _ _ _).symm.trans ((congrArg (· ≫ _)
-        (levelRingMap07Q9_simplicial S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr φ e).symm).trans
+        (levelRingMap07Q9_simplicial S hW hVW f hW₂ g hg g₂ hg₂ r hr φ e).symm).trans
           (Category.assoc _ _ _))))
   exact levelBridge_injective (hp := hp) _ _ (e1.trans (e3.trans e2.symm))
 
@@ -414,7 +413,7 @@ def openSystemMap07Q9 (n e : ℕ) :
       (CrystallineThickening.ι S).obj (((openSystem07Q9 S hV hW hVW g hg).obj (op ⦋n⦌)).obj
         (e + openSystemShift07Q9 S hVW f hW₂)) :=
   extendChangeBaseHom07Q9 S hVW f _ ≫
-    (extend S V W hVW).map (localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e)
+    (extend S V W hVW).map (localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e)
 
 /-- **Naturality of the morphism of systems in the tower direction**: it commutes with the tower
 maps `T'(n)_e ⟶ T'(n)_{e'}` and `T(n)_{e + N'} ⟶ T(n)_{e' + N'}`. -/
@@ -423,15 +422,15 @@ theorem openSystemMap07Q9_naturality_tower (n : ℕ) {e e' : ℕ} (h : e ≤ e')
         ((CrystallineThickening.ι (overSituation S f)).map
           (((openSystem07Q9 (overSituation S f) hV hW₂ (preimage_le_overSituation07Q9 S hVW f)
             g₂ hg₂).obj (op ⦋n⦌)).map (homOfLE h))) ≫
-        openSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e' =
-      openSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e ≫
+        openSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e' =
+      openSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e ≫
         (CrystallineThickening.ι S).map (((openSystem07Q9 S hV hW hVW g hg).obj (op ⦋n⦌)).map
           (homOfLE (Nat.add_le_add_right h (openSystemShift07Q9 S hVW f hW₂)))) := by
   have h1 := extendChangeBaseHom07Q9_naturality S hVW f ((CrystallineThickening.ι _).map
     (((openLocalSystem07Q9 (overSituation S f) hV hW₂ (preimage_le_overSituation07Q9 S hVW f)
       g₂ hg₂).obj (op ⦋n⦌)).map (homOfLE h)))
   have h2 := congrArg (extend S V W hVW).map
-    (localSystemMap07Q9_tower S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n h)
+    (localSystemMap07Q9_tower S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n h)
   rw [Functor.map_comp, Functor.map_comp] at h2
   exact (Category.assoc _ _ _).symm.trans ((congrArg (· ≫ _) h1).trans
     ((Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) h2).trans (Category.assoc _ _ _).symm)))
@@ -444,15 +443,15 @@ theorem openSystemMap07Q9_naturality_simplicial {n m : ℕ} (φ : ⦋n⦌ ⟶ �
         ((CrystallineThickening.ι (overSituation S f)).map
           (((openSystem07Q9 (overSituation S f) hV hW₂ (preimage_le_overSituation07Q9 S hVW f)
             g₂ hg₂).map φ.op).app e)) ≫
-        openSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e =
-      openSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr m e ≫
+        openSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e =
+      openSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr m e ≫
         (CrystallineThickening.ι S).map (((openSystem07Q9 S hV hW hVW g hg).map φ.op).app
           (e + openSystemShift07Q9 S hVW f hW₂)) := by
   have h1 := extendChangeBaseHom07Q9_naturality S hVW f ((CrystallineThickening.ι _).map
     (((openLocalSystem07Q9 (overSituation S f) hV hW₂ (preimage_le_overSituation07Q9 S hVW f)
       g₂ hg₂).map φ.op).app e))
   have h2 := congrArg (extend S V W hVW).map
-    (localSystemMap07Q9_simplicial S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr φ e)
+    (localSystemMap07Q9_simplicial S hV hW hVW f hW₂ g hg g₂ hg₂ r hr φ e)
   rw [Functor.map_comp, Functor.map_comp] at h2
   exact (Category.assoc _ _ _).symm.trans ((congrArg (· ≫ _) h1).trans
     ((Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) h2).trans (Category.assoc _ _ _).symm)))

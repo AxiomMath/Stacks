@@ -112,7 +112,7 @@ private lemma isGRing_iff_isPRing_geometricallyRegular
           (Localization.AtPrime p.asIdeal)))
   · rintro ⟨_, h⟩
     refine ⟨inferInstance, fun p => ⟨?_, fun q _ => ?_⟩⟩
-    · show Module.Flat (Localization.AtPrime p)
+    · change Module.Flat (Localization.AtPrime p)
         (AdicCompletion (IsLocalRing.maximalIdeal (Localization.AtPrime p))
           (Localization.AtPrime p))
       infer_instance
@@ -497,7 +497,7 @@ private theorem isGRing_of_finiteFree_formalFibers_isRegularRing
   let C := AdicCompletion (maximalIdeal A) A
   rw [isRegularRingHom_algebraMap_iff]
   refine ⟨?_, fun q hq => ?_⟩
-  · show Module.Flat A C
+  · change Module.Flat A C
     infer_instance
   · have hgeo : Algebra.IsGeometricallyRegular q.ResidueField (q.Fiber C) := by
       constructor
@@ -525,7 +525,7 @@ private theorem isGRing_of_finiteFree_formalFibers_isRegularRing
       have : IsScalarTower R q₀.ResidueField L := by
         apply IsScalarTower.of_algebraMap_eq
         intro r
-        show algebraMap q.ResidueField L (algebraMap A q.ResidueField (algebraMap R A r)) =
+        change algebraMap q.ResidueField L (algebraMap A q.ResidueField (algebraMap R A r)) =
           algebraMap q.ResidueField L (e (algebraMap R q₀.ResidueField r))
         rw [e.commutes, IsScalarTower.algebraMap_apply R A q.ResidueField]
       have := isRegularRing_tensor_completion_of_finiteFree R h q₀ p L
@@ -779,7 +779,7 @@ private theorem isRegularRing_tensor_adjoinRoot_of_isUnit_derivation
     (algebraMap R T f) D hD ((Polynomial.X : Polynomial ℤ) ^ n)
   have : IsRegularRing (AdjoinRoot
       ((Polynomial.X ^ n - Polynomial.C f).map (algebraMap R T))) := by
-    show IsRegularRing (Polynomial T ⧸ Ideal.span
+    change IsRegularRing (Polynomial T ⧸ Ideal.span
       {(Polynomial.X ^ n - Polynomial.C f).map (algebraMap R T)})
     have hP : (Polynomial.X ^ n - Polynomial.C f).map (algebraMap R T) =
         (Polynomial.X : Polynomial T) ^ n - Polynomial.C (algebraMap R T f) := by simp
@@ -797,10 +797,10 @@ private theorem exists_derivation_ringEquiv_extends
   let F := E.toLinearMap.comp (D.toLinearMap.comp E.symm.toLinearMap)
   have hF : ∀ x y, F (x * y) = x • F y + y • F x := by
     intro x y
-    show e (D (e.symm (x * y))) = x * e (D (e.symm y)) + y * e (D (e.symm x))
+    change e (D (e.symm (x * y))) = x * e (D (e.symm y)) + y * e (D (e.symm x))
     simp only [map_mul, Derivation.leibniz, smul_eq_mul, map_add, e.apply_symm_apply]
   refine ⟨Derivation.mk' F hF, fun x => ?_⟩
-  show e (D (e.symm (e x))) = e (D x)
+  change e (D (e.symm (e x))) = e (D x)
   rw [e.symm_apply_apply]
 
 private theorem isRegularRing_formalFiber_adjoinRoot
@@ -879,7 +879,7 @@ private theorem isGeometricallyRegular_formalFiber_of_finite_isPurelyInseparable
   let e : T ≃ₐ[K] K ⊗[A] C :=
     { (Algebra.TensorProduct.comm A C K).toRingEquiv with
       commutes' := fun k => by
-        show (Algebra.TensorProduct.comm A C K) (1 ⊗ₜ[A] k) = k ⊗ₜ[A] 1
+        change (Algebra.TensorProduct.comm A C K) (1 ⊗ₜ[A] k) = k ⊗ₜ[A] 1
         exact Algebra.TensorProduct.comm_tmul A 1 k }
   constructor
   apply (Algebra.forall_isRegularRing_tensorProduct_essFiniteType_iff_finite_isPurelyInseparable
@@ -1013,7 +1013,7 @@ private theorem intermediateField_induction_of_pth_root
       by_cases htop : F = ⊤
       · simpa [htop] using hF
       obtain ⟨x, hx⟩ : ∃ x : L, x ∉ F := by
-        simpa only [eq_top_iff, SetLike.le_def, IntermediateField.mem_top,
+        simpa only [eq_top_iff, IsConcreteLE.le_iff, IntermediateField.mem_top,
           true_implies, not_forall] using htop
       obtain ⟨m, hm⟩ := IsPurelyInseparable.pow_mem F p x
       replace hm : x ^ p ^ m ∈ F := by
@@ -1036,7 +1036,7 @@ private theorem intermediateField_induction_of_pth_root
       let E := IntermediateField.adjoin F {y}
       have hFE : Module.finrank F E ≠ 1 :=
         IntermediateField.bot_eq_top_iff_finrank_eq_one.not.mp <| by
-          simpa [E, eq_top_iff, SetLike.le_def,
+          simpa [E, eq_top_iff, IsConcreteLE.le_iff,
             IntermediateField.mem_bot, Subtype.ext_iff]
             using ⟨y, IntermediateField.subset_adjoin F {y} (by simp), hy⟩
       have hlt : Module.finrank E L < n := by
@@ -1085,7 +1085,7 @@ private theorem isRegularRing_formalFiber_finite_isPurelyInseparable
       apply IntermediateField.adjoin_eq_top_of_algebra
       simpa only [IntermediateField.adjoin.powerBasis_gen] using
         (IntermediateField.adjoin.powerBasis (Algebra.IsIntegral.isIntegral x)).adjoin_gen_eq_top
-    show IsRegularRing (C ⊗[A] E)
+    change IsRegularRing (C ⊗[A] E)
     exact isRegularRing_formalFiber_of_primitive_pow (R := R) (K := K) q y f hf hy hgen hF)
   have : IsRegularRing (C ⊗[A] (⊤ : IntermediateField K L)) := htop
   let eTop :=
@@ -1221,7 +1221,7 @@ private theorem isGeometricallyRegular_tensorProduct_of_algEquiv
   let : Algebra R E := ((algebraMap L E).comp (algebraMap R L)).toAlgebra
   have : IsScalarTower R L E := IsScalarTower.of_algebraMap_eq' rfl
   have : IsScalarTower R K E := IsScalarTower.of_algebraMap_eq fun r => by
-    show algebraMap L E (algebraMap R L r) = algebraMap L E (e (algebraMap R K r))
+    change algebraMap L E (algebraMap R L r) = algebraMap L E (e (algebraMap R K r))
     rw [e.commutes]
   have : Algebra.FiniteType K L := Algebra.FiniteType.of_surjective
     (Algebra.ofId K L) e.surjective
@@ -1298,7 +1298,7 @@ private theorem isGeometricallyRegular_genericFormalFiber_of_finite
     (R := A) (S := B) (⊥ : Ideal B) p bot_le).1
   have hbot : Ideal.under A (⊥ : Ideal B) = ⊥ := by
     ext x
-    show algebraMap A B x = 0 ↔ x = 0
+    change algebraMap A B x = 0 ↔ x = 0
     exact ⟨fun hx => hinj (hx.trans (map_zero _).symm), fun hx => hx ▸ map_zero _⟩
   have hfraction : ∀ (q : Ideal A) [q.IsPrime], q = ⊥ → IsFractionRing A q.ResidueField := by
     rintro q _ rfl

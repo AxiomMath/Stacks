@@ -455,7 +455,7 @@ theorem exists_hom_of_spfPointOn_comp_eq (I₀ : SpfIndex A P)
   rw [← spfGluePointOn_eq A g (spfGlueBaseOn A g I₀)
     (spfOfQuotientOn_comp_spfGlueBaseOn A g hg I₀) I]
   refine PresheafedSpace.hext _ _ rfl (heq_of_eq ?_)
-  show c ≫ (TopCat.Presheaf.pushforward TopCommRingCat.{u} _).map
+  change c ≫ (TopCat.Presheaf.pushforward TopCommRingCat.{u} _).map
     (spfProjectionOn A I ≫ spfComponentPDcOn A I) = spfGlueCOn A g _ _ I
   rw [Functor.map_comp, ← Category.assoc, hc I, spfGlueLegOn, Category.assoc, ← Functor.map_comp,
     spfComponentPDIsoOn_hom_comp_spfComponentPDcOn, CategoryTheory.Functor.map_id,

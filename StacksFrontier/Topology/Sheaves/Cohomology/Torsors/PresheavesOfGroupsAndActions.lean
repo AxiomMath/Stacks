@@ -276,7 +276,7 @@ theorem torsor_trivial_iff_global_section
     naturality := ?_
     map_act := fun {U} g h => a.mul_act g h (sU U) }, fun U => ?_⟩
   · intro U V hVU g
-    show a.act (G.toPresheafOfGroups.res hVU g) (sU V)
+    change a.act (G.toPresheafOfGroups.res hVU g) (sU V)
       = F.toPresheafOfSets.res hVU (a.act g (sU U))
     rw [a.res_act hVU g (sU U), hres hVU]
   · obtain ⟨_, hst⟩ := htorsor.1 U ⟨sU U⟩

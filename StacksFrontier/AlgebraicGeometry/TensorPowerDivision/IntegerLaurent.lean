@@ -61,7 +61,6 @@ attribute [local instance] Stacks.SheafOfModules.monoidalCategoryPresheafOfModul
 variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   (O : Cᵒᵖ ⥤ CommRingCat.{w})
   (hO : Presheaf.IsSheaf J (structureRingPresheaf O))
-  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [HasWeakSheafify J AddCommGrpCat.{w}]
   (L : SheafOfModules.{w} (structureSheaf O hO))

@@ -93,15 +93,15 @@ theorem isFiniteLocallyFreeOfRank_subschemeι_comp_iff {Y T : Scheme.{u}} [IsAff
     (I.subschemeObjIso U).commRingCatIsoToRingEquiv
   have he : ∀ y : Γ(Y, ⊤), e (I.subschemeι.appTop y) = Ideal.Quotient.mk _ y := by
     intro y
-    show e (I.subschemeι.app U y) = _
+    change e (I.subschemeι.app U y) = _
     rw [I.subschemeι_app U]
-    show (I.subschemeObjIso U).hom ((I.subschemeObjIso U).inv _) = _
+    change (I.subschemeObjIso U).hom ((I.subschemeObjIso U).inv _) = _
     rw [← CommRingCat.comp_apply, Iso.inv_hom_id, CommRingCat.id_apply]
     rfl
   let e' : Γ(I.subscheme, ⊤) ≃ₗ[Γ(T, ⊤)] Γ(Y, ⊤) ⧸ I.ideal U :=
     { e with
       map_smul' := fun r x => by
-        show e ((I.subschemeι ≫ π).appTop r * x) = algebraMap Γ(T, ⊤) _ r * e x
+        change e ((I.subschemeι ≫ π).appTop r * x) = algebraMap Γ(T, ⊤) _ r * e x
         rw [map_mul, Scheme.Hom.comp_appTop, CommRingCat.comp_apply, he]
         rfl }
   exact ⟨fun h => h.of_linearEquiv e', fun h => h.of_linearEquiv e'.symm⟩

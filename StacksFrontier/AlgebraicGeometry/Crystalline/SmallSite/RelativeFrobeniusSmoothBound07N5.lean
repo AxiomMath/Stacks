@@ -74,7 +74,7 @@ theorem exists_bound_crisModuleCohomologyMap_relativeFrobeniusToTwist_of_smooth
     (annihilated_ker_coker_crisModuleCohomologyMap_of_annihilation07Q9
       (T.frobeniusTwistSituation hp) (T.relativeFrobeniusToTwist hp) hcov G hG (T.p ^ D)
       (annihilation07Q9_of_isIteratedAlphaPCover_localDegree (T.frobeniusTwistSituation hp)
-        (T.relativeFrobeniusToTwist hp) hp hcov D hD G hG) i)
+        (T.relativeFrobeniusToTwist hp) hcov D hD G hG) i)
   rw [natCast_pow_pow_succ] at hk hc
   exact ⟨zsmul_id_kernel_eq_zero _ _ hk, zsmul_id_cokernel_eq_zero _ _ hc⟩
 

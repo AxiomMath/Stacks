@@ -88,7 +88,7 @@ private theorem regularLocal_hasFiniteInjectiveDimension (A : Type u) [CommRing 
     rw [← hgl]
     exact le_iSup (fun N : ModuleCat.{u} A ↦ projectiveDimension N) M
   have hpdlt : projectiveDimension M < ((d + 1 : ℕ) : WithBot ℕ∞) := by
-    show projectiveDimension M < (d : WithBot ℕ∞) + 1
+    change projectiveDimension M < (d : WithBot ℕ∞) + 1
     exact (ENat.WithBot.lt_add_one_iff (n := projectiveDimension M) (m := d)).2 hpd
   let : HasProjectiveDimensionLT M (d + 1) :=
     (projectiveDimension_lt_iff).mp hpdlt
@@ -143,12 +143,12 @@ private theorem base_homology_class {A : Type u} [CommRing A]
     simp only [Category.assoc, hd.cyclesIso_hom_comp_i,
       HomologicalComplex.cyclesIsoSc'_hom_iCycles]
     have hcyc := HomologicalComplex.cyclesMap_i (homothetyBase I) 0
-    show ((HomologicalComplex.singleObjCyclesSelfIso (ComplexShape.up ℤ) 0
+    change ((HomologicalComplex.singleObjCyclesSelfIso (ComplexShape.up ℤ) 0
         (AddCommGrpCat.of A)).inv ≫
       (HomologicalComplex.cyclesMap (homothetyBase I) 0 ≫
         (I.HomComplex I).iCycles 0)) = _
     rw [hcyc, ← Category.assoc]
-    show ((HomologicalComplex.singleObjCyclesSelfIso (ComplexShape.up ℤ) 0
+    change ((HomologicalComplex.singleObjCyclesSelfIso (ComplexShape.up ℤ) 0
         (AddCommGrpCat.of A)).inv ≫
       ((HomologicalComplex.single AddCommGrpCat (ComplexShape.up ℤ) 0).obj
         (AddCommGrpCat.of A)).iCycles 0) ≫ (homothetyBase I).f 0 = _
@@ -162,7 +162,7 @@ private theorem base_homology_class {A : Type u} [CommRing A]
   rw [← HomologicalComplex.singleObjCyclesSelfIso_inv_homologyπ]
   simp only [← ConcreteCategory.comp_apply]
   rw [Category.assoc, HomologicalComplex.homologyπ_naturality]
-  show AddCommGrpCat.Hom.hom
+  change AddCommGrpCat.Hom.hom
       (HomologicalComplex.homologyπ (I.HomComplex I) 0 ≫ iso.hom ≫ hd.homologyIso.hom)
       (AddCommGrpCat.Hom.hom
         (((HomologicalComplex.singleObjCyclesSelfIso (ComplexShape.up ℤ) 0
@@ -177,13 +177,13 @@ private theorem base_homology_class {A : Type u} [CommRing A]
           ((ComplexShape.up ℤ).prev 0) 0 ((ComplexShape.up ℤ).next 0) (by simp) (by simp)).hom ≫
         hd.cyclesIso.hom) x =
       ⟨x • CochainComplex.HomComplex.Cochain.ofHom (𝟙 I), by
-        show CochainComplex.HomComplex.δ 0 1
+        change CochainComplex.HomComplex.δ 0 1
           (x • CochainComplex.HomComplex.Cochain.ofHom (𝟙 I)) = 0
         simp⟩ := by
     apply CochainComplex.HomComplex.Cocycle.ext
     have hval := congrArg (fun f : AddCommGrpCat.of A ⟶
         AddCommGrpCat.of (CochainComplex.HomComplex.Cochain I I 0) ↦ f.hom x) hmap
-    show (AddCommGrpCat.Hom.hom
+    change (AddCommGrpCat.Hom.hom
       ((HomologicalComplex.singleObjCyclesSelfIso (ComplexShape.up ℤ) 0
           (AddCommGrpCat.of A)).inv ≫ HomologicalComplex.cyclesMap (homothetyBase I) 0 ≫
         (HomologicalComplex.cyclesIsoSc' (I.HomComplex I)
@@ -191,7 +191,7 @@ private theorem base_homology_class {A : Type u} [CommRing A]
         hd.cyclesIso.hom ≫ hd.i)) x = _
     exact hval
   rw [ConcreteCategory.comp_apply]
-  show (AddCommGrpCat.Hom.hom hd.π)
+  change (AddCommGrpCat.Hom.hom hd.π)
     ((AddCommGrpCat.Hom.hom
       ((HomologicalComplex.singleObjCyclesSelfIso (ComplexShape.up ℤ) 0
           (AddCommGrpCat.of A)).inv ≫ HomologicalComplex.cyclesMap (homothetyBase I) 0 ≫
@@ -268,7 +268,7 @@ private theorem homothety_cocycle_shift0 {A : Type u} [CommRing A]
           (x • CochainComplex.HomComplex.Cochain.ofHom (𝟙 I)) = 0
         simp⟩ : CochainComplex.HomComplex.Cocycle I I 0) =
       x • ((shiftFunctorZero (CochainComplex (ModuleCat.{u} A) ℤ) ℤ).inv.app I) := by
-  show CochainComplex.HomComplex.Cocycle.equivHomShift.symm
+  change CochainComplex.HomComplex.Cocycle.equivHomShift.symm
     (CochainComplex.HomComplex.Cocycle.mk
       (x • CochainComplex.HomComplex.Cochain.ofHom (𝟙 I)) 1 (zero_add 1) (by simp)) = _
   rw [CochainComplex.HomComplex.Cocycle.equivHomShift_symm_apply]
@@ -366,10 +366,10 @@ private theorem homothetyBase_quasiIso {A : Type u} [CommRing A]
       rw [derivedHomEquiv_apply, base_homology_class]
       let c : CochainComplex.HomComplex.Cocycle I I 0 :=
         ⟨x • CochainComplex.HomComplex.Cochain.ofHom (𝟙 I), by
-          show CochainComplex.HomComplex.δ 0 1
+          change CochainComplex.HomComplex.δ 0 1
             (x • CochainComplex.HomComplex.Cochain.ofHom (𝟙 I)) = 0
           simp⟩
-      show (Iso.homCongr eSrc eTgt)
+      change (Iso.homCongr eSrc eTgt)
         (DerivedCategory.Qh.map
           (CochainComplex.HomComplex.CohomologyClass.toHom
             (CochainComplex.HomComplex.CohomologyClass.mk c))) = _
@@ -386,7 +386,7 @@ private theorem homothetyBase_quasiIso {A : Type u} [CommRing A]
       constructor
       · intro x y hxy
         apply regularModuleDerivedScalar_bijective.injective
-        show (DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).map
+        change (DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).map
             (regularModuleScalarEnd x) =
           (DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).map
             (regularModuleScalarEnd y)
@@ -438,7 +438,7 @@ private lemma finiteCohomology_single_regularModule (A : Type u) [CommRing A]
     let f : A →ₗ[A] ↑M := ModuleCat.homEquiv e.inv
     have hf : Function.Surjective f := by
       intro x; refine ⟨ModuleCat.homEquiv e.hom x, ?_⟩
-      show e.inv (e.hom x) = x
+      change e.inv (e.hom x) = x
       exact congrArg (fun g : M ⟶ M ↦ g x) e.hom_inv_id
     let : Module.Finite A A := Module.Finite.self A
     exact Module.Finite.of_surjective f hf
@@ -456,7 +456,7 @@ private lemma finiteCohomology_single_regularModule (A : Type u) [CommRing A]
     have hzero : ∀ x : ↑N, x = 0 := fun x ↦ by
       simpa using (congrArg (fun f : N ⟶ N ↦ f x) (hz.eq_of_tgt (0 : N ⟶ N) (𝟙 N))).symm
     have htop : (⊤ : Submodule A (↑N)) = ⊥ := by ext x; simp [hzero x]
-    show Module.Finite A (↑N)
+    change Module.Finite A (↑N)
     exact Module.Finite.of_fg_top (htop.symm ▸ Submodule.fg_bot)
 
 /-- A regular local ring is Gorenstein. -/
@@ -482,7 +482,7 @@ public theorem IsRegularLocalRing.isGorensteinLocalRing (A : Type u) [CommRing A
       let : HasInjectiveDimensionLT (L.X i) 0 :=
         Limits.IsZero.hasInjectiveDimensionLT_zero hzero
       refine ⟨0, ?_⟩
-      show HasInjectiveDimensionLT (L.X i) 1
+      change HasInjectiveDimensionLT (L.X i) 1
       exact hasInjectiveDimensionLT_of_ge (L.X i) 0 1 (by omega)
   have hfid₀ : StacksDraft.InjectiveDimension.HasFiniteInjectiveDimension K :=
     (StacksDraft.InjectiveDimension.hasFiniteInjectiveDimension_of_bounded K).2
@@ -506,7 +506,7 @@ public theorem IsRegularLocalRing.isGorensteinLocalRing (A : Type u) [CommRing A
   have hmap : transported = Dualizing.homothety I := by
     apply HomologicalComplex.from_single_hom_ext
     ext a
-    show ULift.up (a.down • CochainComplex.HomComplex.Cochain.ofHom (𝟙 I)) =
+    change ULift.up (a.down • CochainComplex.HomComplex.Cochain.ofHom (𝟙 I)) =
       ULift.up (a.down • CochainComplex.HomComplex.Cochain.ofHom (𝟙 I))
     rfl
   have htransported : QuasiIso transported := by
@@ -686,12 +686,12 @@ private theorem regularHomMap_quasiIso {A : Type u} [CommRing A]
       intro a
       let e₀ := HomologicalComplex.singleObjXSelf (.up ℤ) 0 (ModuleCat.of A A)
       let aa : A := e₀.hom a
-      show (single_hom_eval_equiv I 0
+      change (single_hom_eval_equiv I 0
         (LinearMap.toSpanSingleton A
           (↑((CochainComplex.HomComplexR A
             ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj (ModuleCat.of A A)) I).X 0))
           (CochainComplex.HomComplex.Cochain.ofHom f) aa)) = f.f 0 aa
-      show ((ModuleCat.Hom.hom
+      change ((ModuleCat.Hom.hom
           ((HomologicalComplex.singleObjXSelf (.up ℤ) 0 (ModuleCat.of A A)).inv ≫
             ((aa • CochainComplex.HomComplex.Cochain.ofHom f).v 0 0 (by omega))))
           ((HomologicalComplex.singleObjXSelf (.up ℤ) 0 (ModuleCat.of A A)).inv (1 : A))) =
@@ -705,7 +705,7 @@ private theorem regularHomMap_quasiIso {A : Type u} [CommRing A]
       simp only [HomologicalComplex.single, ↓dreduceIte, HomologicalComplex.singleObjXSelf,
         HomologicalComplex.singleObjXIsoOfEq, CochainComplex.HomComplex.Cochain.smul_v,
         CochainComplex.HomComplex.Cochain.ofHom_v]
-      show aa • (f.f 0).hom (e₀.inv (1 : A)) = (f.f 0).hom a
+      change aa • (f.f 0).hom (e₀.inv (1 : A)) = (f.f 0).hom a
       rw [← harg]
       exact (LinearMap.map_smul (f.f 0).hom aa (e₀.inv (1 : A))).symm
     · exact (HomologicalComplex.isZero_single_obj_X (.up ℤ) 0
@@ -752,7 +752,7 @@ private theorem liftedSourceIso_inv_zero_apply {A : Type u} [CommRing A]
   let F := moduleForget A
   let eF := F.mapCochainComplexSingleFunctor 0
   let eU := U.mapCochainComplexSingleFunctor 0
-  show ((eU.app (F.obj (ModuleCat.of A A))).inv.f 0)
+  change ((eU.app (F.obj (ModuleCat.of A A))).inv.f 0)
     (((U.mapHomologicalComplex (ComplexShape.up ℤ)).map
       ((eF.app (ModuleCat.of A A)).inv)).f 0 a) = a
   simp [eF, eU, Functor.mapCochainComplexSingleFunctor,
@@ -820,7 +820,7 @@ private theorem liftedRegularHomMap_quasiIso {A : Type u} [CommRing A]
     (HomologicalComplex.quasiIso_map_iff_of_preservesHomology
       ((F.mapHomologicalComplex (ComplexShape.up ℤ)).map (regularHomMap I f)) U).2 hF
   let : QuasiIso ((liftedSourceIso (A := A)).inv) := inferInstance
-  show QuasiIso ((liftedSourceIso (A := A)).inv ≫
+  change QuasiIso ((liftedSourceIso (A := A)).inv ≫
     ((U.mapHomologicalComplex (ComplexShape.up ℤ)).map
       ((F.mapHomologicalComplex (ComplexShape.up ℤ)).map (regularHomMap I f))))
   exact quasiIso_comp _ _
@@ -837,7 +837,7 @@ private theorem homothety_comp_liftedPrecomp {A : Type u} [CommRing A]
     ext a
     let aa : A := ((HomologicalComplex.singleObjXSelf (.up ℤ) 0
       (AddCommGrpCat.of (ULift.{u} A))).hom a).down
-    show ULift.up ((CochainComplex.HomComplex.Cochain.ofHom f).comp
+    change ULift.up ((CochainComplex.HomComplex.Cochain.ofHom f).comp
         (aa • CochainComplex.HomComplex.Cochain.ofHom (𝟙 I)) (zero_add 0)) =
       _
     apply ULift.ext
@@ -887,7 +887,7 @@ public theorem isGorensteinLocalRing_iff_residueField_ext_vanishing
         StacksDraft.InjectiveDimension.HasFiniteInjectiveDimension
           (DerivedCategory.Plus.ι.obj Kplus) :=
     finiteInjectiveDimension_plus_single_iff A K Kplus rfl
-  show Dualizing.IsDualizingComplex K ↔
+  change Dualizing.IsDualizingComplex K ↔
     ∃ b : ℤ, ∀ i : ℤ, b < i →
       Subsingleton
         (DerivedCategory.Ext

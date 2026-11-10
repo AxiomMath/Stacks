@@ -140,11 +140,11 @@ theorem noetherDifferent_eq_span_det_of_square_presentation [Algebra.QuasiFinite
           (localizedCompleteIntersection A n 1 P.relation) p := rfl
     have heS : eS.symm (Ideal.Quotient.mk (Ideal.span (Set.range P.relation)) p) =
         MvPolynomial.aeval P.val p := by
-      show (((P.quotientEquiv.restrictScalars A).symm.trans
+      change (((P.quotientEquiv.restrictScalars A).symm.trans
         (Ideal.quotientEquivAlgOfEq A P.span_range_relation_eq_ker.symm)).symm
           (Ideal.Quotient.mk (Ideal.span (Set.range P.relation)) p)) = _
       simp [Ideal.quotientEquivAlgOfEq]
-    show E (eS (MvPolynomial.aeval P.val p)) = _
+    change E (eS (MvPolynomial.aeval P.val p)) = _
     rw [← heS, eS.apply_symm_apply, hEmk]
   have hqf : Algebra.QuasiFinite A (localizedCompleteIntersection A n 1 P.relation) :=
     (Algebra.QuasiFinite.iff_of_algEquiv E').mp inferInstance

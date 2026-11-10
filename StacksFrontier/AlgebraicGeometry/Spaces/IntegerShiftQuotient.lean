@@ -182,7 +182,7 @@ theorem shiftAction_appTop_coord (n : ℤ) :
   let c := coord K
   have hgen : a.asIso.hom.left.appTop c = c - 1 := shiftByOne_appTop_coord K
   have hgen_inv : a.asIso.symm.hom.left.appTop c = c + 1 := shiftByOne_symm_appTop_coord K
-  show ((a ^ n).asIso.hom.left).appTop c = c - (n : Γ((shiftSource K).left, ⊤))
+  change ((a ^ n).asIso.hom.left).appTop c = c - (n : Γ((shiftSource K).left, ⊤))
   induction n using Int.induction_on with
   | zero =>
       rw [zpow_zero]
@@ -191,14 +191,14 @@ theorem shiftAction_appTop_coord (n : ℤ) :
       simp
   | succ i ih =>
       rw [add_comm (i : ℤ) 1, zpow_add, zpow_one, Aut.mul_asIso]
-      show ((a ^ (i : ℤ)).asIso.hom.left ≫ a.asIso.hom.left).appTop c = _
+      change ((a ^ (i : ℤ)).asIso.hom.left ≫ a.asIso.hom.left).appTop c = _
       rw [Scheme.Hom.comp_appTop, CommRingCat.comp_apply, hgen, map_sub, map_one, ih]
       simp only [Int.cast_add, Int.cast_one]
       ring
   | pred i ih =>
       rw [show -(i : ℤ) - 1 = -1 + (-(i : ℤ)) by omega, zpow_add, zpow_neg_one,
         Aut.mul_asIso]
-      show ((a ^ (-(i : ℤ))).asIso.hom.left ≫ a.asIso.symm.hom.left).appTop c = _
+      change ((a ^ (-(i : ℤ))).asIso.hom.left ≫ a.asIso.symm.hom.left).appTop c = _
       rw [Scheme.Hom.comp_appTop, CommRingCat.comp_apply, hgen_inv, map_add, map_one, ih]
       simp only [Int.cast_add, Int.cast_neg, Int.cast_one]
       ring
@@ -239,7 +239,7 @@ tail points lie in a single orbit of the integer action. -/
 theorem shiftByOne_shiftPoint (n : ℤ) :
     (shiftByOne K).asIso.hom.left (shiftPoint K n) = shiftPoint K (n + 1) := by
   rw [shiftByOne_hom_left]
-  show PrimeSpectrum.comap (shiftDown K).toRingHom (tailPrime K n) = tailPrime K (n + 1)
+  change PrimeSpectrum.comap (shiftDown K).toRingHom (tailPrime K n) = tailPrime K (n + 1)
   exact comap_shiftDown_tailPrime K n
 
 /-- **Stacks 06UK.** A later tail point specializes to an earlier one. -/
@@ -257,7 +257,7 @@ theorem shiftPoint_injective : Function.Injective (shiftPoint K) :=
 cardinality at most `max ℵ₀ #K`. -/
 theorem contains_shiftSource (B : BigFppfSite.{u}) (hS : B.Contains (Spec (.of K))) :
     B.Contains (shiftSource K).left := by
-  show (Spec (CommRingCat.of (MvPolynomial (Option ℤ) K))).size < B.cutoff
+  change (Spec (CommRingCat.of (MvPolynomial (Option ℤ) K))).size < B.cutoff
   refine Scheme.size_Spec_lt_of_mk_le_max B.aleph0_lt_cutoff B.cutoff_isStrongPrelimit hS ?_
   rw [mk_congr (MvPolynomial.renameEquiv K (Equiv.ulift.{u, 0} (α := Option ℤ)).symm).toEquiv]
   refine (MvPolynomial.cardinalMk_le_max (σ := ULift.{u, 0} (Option ℤ)) (R := K)).trans ?_

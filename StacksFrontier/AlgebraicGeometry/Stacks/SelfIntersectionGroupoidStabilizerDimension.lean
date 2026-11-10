@@ -159,6 +159,7 @@ namespace AlgebraicGeometry.Stack
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the limits of presheaves on the big fppf site times out at the default limit
 /-- Pullbacks of presheaves on the big fppf site of `S` (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_SelfIntersectionGroupoidStabilizerDimension :
@@ -238,7 +239,7 @@ private theorem inverseImageEtale_presheaf_of_isIso
   intro A D g fst snd hpb
   have : IsIso (yoneda.map snd) := hpb.isIso_snd_of_isIso
   let : IsIso snd := Functor.FullyFaithful.isIso_of_isIso_map Yoneda.fullyFaithful snd
-  show AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map snd)
+  change AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map snd)
   infer_instance
 
 /-- **The groupoid in algebraic spaces of Stacks 04T4 (4) carried by a point of an algebraic

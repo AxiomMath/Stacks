@@ -148,9 +148,9 @@ theorem map_qProj_comp_quotIso {T' T : SchemesOver D.Y} (h : T' ⟶ T)
   have h₂ : D.quotientProjection T' (D.quotientPullback h K) =
       D.quotientPullbackProjection h K ≫ (D.quotientPullbackCokernelIso h K).inv :=
     (Iso.eq_comp_inv _).2 (D.quotientProjection_comp_quotientPullbackCokernelIso_hom h K)
-  show _ = _ ≫ D.quotientProjection T' (D.quotientPullback h K)
+  change _ = _ ≫ D.quotientProjection T' (D.quotientPullback h K)
   rw [h₂, ← cancel_epi ((D.baseChangeComparison h).hom.app D.F), Iso.hom_inv_id_app_assoc]
-  show _ = ((D.baseChangeComparison h).hom.app D.F ≫
+  change _ = ((D.baseChangeComparison h).hom.app D.F ≫
     (modulePullback B S hS (D.relativeMap h)).map (D.quotientProjection T K)) ≫ _
   rw [Category.assoc]
   rfl

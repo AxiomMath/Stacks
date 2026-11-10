@@ -218,7 +218,7 @@ theorem exists_map_comp_eq_of_isLocallyOfFinitePresentation {j : J}
   let x : Y.1.obj (op (F.obj j)) := yonedaEquiv (show yoneda.obj (F.obj j) ⟶ Y.1 from g.hom)
   let x' : Y.1.obj (op (F.obj j)) := yonedaEquiv (show yoneda.obj (F.obj j) ⟶ Y.1 from g'.hom)
   have hx : (Y.1.mapCocone c.op).ι.app (op j) x = (Y.1.mapCocone c.op).ι.app (op j) x' := by
-    show Y.1.map (c.π.app j).op x = Y.1.map (c.π.app j).op x'
+    change Y.1.map (c.π.app j).op x = Y.1.map (c.π.app j).op x'
     rw [← yonedaEquiv_schemeSpaceMap_comp, ← yonedaEquiv_schemeSpaceMap_comp, h]
   obtain ⟨k, m, hm⟩ := (Types.FilteredColimit.isColimit_eq_iff' hcol x x').1 hx
   refine ⟨unop k, m.unop, schemeSpace_hom_ext_of_yonedaEquiv_eq ?_⟩

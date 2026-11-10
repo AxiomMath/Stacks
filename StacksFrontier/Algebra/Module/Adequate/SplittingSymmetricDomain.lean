@@ -152,7 +152,7 @@ public lemma weightOne_unit_evaluation {M : Type (max u v)} {B : Type (max u v)}
       SymmetricAlgebra.lift f := by
     apply AlgHom.ext
     intro b
-    show LaurentPolynomial.eval₂ _ t (LaurentPolynomial.C b) = _
+    change LaurentPolynomial.eval₂ _ t (LaurentPolynomial.C b) = _
     exact LaurentPolynomial.eval₂_C _ _ _
   have hG : ev.comp (gradedLaurentMapLarge A (SymmetricAlgebra A M)
       (symmetricPower A M)) = SymmetricAlgebra.lift ((t : B) • f) := by
@@ -161,11 +161,11 @@ public lemma weightOne_unit_evaluation {M : Type (max u v)} {B : Type (max u v)}
     apply SymmetricAlgebra.algHom_ext
     apply LinearMap.ext
     intro m
-    show ev (symmetricAlgebraLaurentDegreeOneMapLarge A M (SymmetricAlgebra.ι A M m)) =
+    change ev (symmetricAlgebraLaurentDegreeOneMapLarge A M (SymmetricAlgebra.ι A M m)) =
       SymmetricAlgebra.lift ((t : B) • f) (SymmetricAlgebra.ι A M m)
     rw [symmetricAlgebraLaurentDegreeOneMapLarge, SymmetricAlgebra.lift_ι_apply,
       SymmetricAlgebra.lift_ι_apply]
-    show LaurentPolynomial.eval₂ (SymmetricAlgebra.lift f).toRingHom t
+    change LaurentPolynomial.eval₂ (SymmetricAlgebra.lift f).toRingHom t
       (LaurentPolynomial.C (SymmetricAlgebra.ι A M m) * LaurentPolynomial.T 1) =
         (t : B) * f m
     simp only [map_mul, LaurentPolynomial.eval₂_C, LaurentPolynomial.eval₂_T,
@@ -214,17 +214,17 @@ public lemma weightOne_symmetricMap {V W : Type (max u v)}
     apply SymmetricAlgebra.algHom_ext
     apply LinearMap.ext
     intro v
-    show symmetricAlgebraLaurentDegreeOneMapLarge A W
+    change symmetricAlgebraLaurentDegreeOneMapLarge A W
         (symmetricMapLarge f (SymmetricAlgebra.ι A V v)) =
       SymmetricAlgebra.lift ((t : LaurentPolynomial (SymmetricAlgebra A W)) • g)
         (SymmetricAlgebra.ι A V v)
     simp only [symmetricMapLarge, symmetricAlgebraLaurentDegreeOneMapLarge,
       SymmetricAlgebra.lift_ι_apply, LinearMap.coe_comp, Function.comp_apply,
       LinearMap.mulRight_apply, LinearMap.smul_apply]
-    show LaurentPolynomial.C (SymmetricAlgebra.ι A W (f v)) * LaurentPolynomial.T 1 =
+    change LaurentPolynomial.C (SymmetricAlgebra.ι A W (f v)) * LaurentPolynomial.T 1 =
       LaurentPolynomial.T 1 * LaurentPolynomial.C (SymmetricAlgebra.ι A W (f v))
     exact mul_comm _ _
-  show (LaurentPolynomial.T 1 : LaurentPolynomial (SymmetricAlgebra A W)) •
+  change (LaurentPolynomial.T 1 : LaurentPolynomial (SymmetricAlgebra A W)) •
     algebraMapValue F (constantLaurentMapLarge A (SymmetricAlgebra A W)) hSW hSWL
       (algebraMapValue F (symmetricMapLarge f) hSV hSW x) =
     algebraMapValue F (gradedLaurentMapLarge A (SymmetricAlgebra A W)
@@ -290,7 +290,7 @@ public lemma weightOne_eq_zero_of_projections {M : Type (max u v)}
     algebraMapValue_symmetricMapLarge_comp, hsi, weightOne_zeroMap hS hSL hSLL F hflat x hx,
     zero_add] at h₂
   subst x y
-  show algebraMapValue F (symmetricMapLarge (LinearMap.inl A M M)) hS hT 0 +
+  change algebraMapValue F (symmetricMapLarge (LinearMap.inl A M M)) hS hT 0 +
     algebraMapValue F (symmetricMapLarge (LinearMap.inr A M M)) hS hT 0 = 0
   simp only [map_zero, add_zero]
 
@@ -358,7 +358,7 @@ public lemma weightOne_lift_additive {M : Type (max u v)}
     apply PresheafOfModules.injective_of_mono i (algObj Q (SymmetricAlgebra A M) hS)
     rw [algebraMapValue_naturality i (symmetricMapLarge q) hT hS z,
       (i.app (algObj Q (SymmetricAlgebra A M) hS)).hom.map_zero, hz]
-    show algebraMapValue E (symmetricMapLarge q) hT hS (_ - _ - _) = 0
+    change algebraMapValue E (symmetricMapLarge q) hT hS (_ - _ - _) = 0
     rw [map_sub, map_sub, algebraMapValue_symmetricMapLarge_comp, hqa,
       algebraMapValue_symmetricMapLarge_comp, algebraMapValue_symmetricMapLarge_comp]
     rcases hq with ⟨ha, hb⟩ | ⟨ha, hb⟩ <;>
@@ -393,7 +393,7 @@ public lemma evaluate_primitive_add {M : Type (max u v)} {B : Type (max u v)}
     apply SymmetricAlgebra.algHom_ext
     apply LinearMap.ext
     intro m
-    show h (symmetricMapLarge j (SymmetricAlgebra.ι A M m)) =
+    change h (symmetricMapLarge j (SymmetricAlgebra.ι A M m)) =
       SymmetricAlgebra.lift ((f.coprod g).comp j) (SymmetricAlgebra.ι A M m)
     simp only [h, symmetricMapLarge, SymmetricAlgebra.lift_ι_apply, LinearMap.comp_apply]
   have hsum : (f.coprod g).comp (LinearMap.inl A M M + LinearMap.inr A M M) = f + g := by

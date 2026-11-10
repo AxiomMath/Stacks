@@ -103,7 +103,7 @@ theorem isFinite_isEtale_pullback_fst_of_preimage_eq_range {X : (BigFppfOver B S
   have he : (C.1.preimage φ).ι ≫ yoneda.map π = e.hom ≫ yoneda.map (m ≫ π) := by
     rw [Functor.map_comp, ← Category.assoc]
     congr 1
-    show _ = (Subfunctor.homOfLe hC.le ≫ inv (Subfunctor.toRange (yoneda.map m))) ≫ yoneda.map m
+    change _ = (Subfunctor.homOfLe hC.le ≫ inv (Subfunctor.toRange (yoneda.map m))) ≫ yoneda.map m
     rw [Category.assoc, hinv, Subfunctor.homOfLe_ι]
   have hsnd : pullback.snd (pullback.fst U.ι (C.1.ι ≫ q)) u₀ =
       sq.isoPullback.inv ≫ e.hom ≫ yoneda.map (m ≫ π) := by

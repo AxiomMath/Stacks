@@ -70,7 +70,8 @@ assumed.
 `hVcompat` itself is not proved in this file, but it IS proved, in
 `QuasiCoherent/ReconstructionOverlapCompatible.lean:256`, out of what this file supplies.  That an
 invertible sheaf on an affine scheme is the sheaf of an invertible module is proved in
-`QuasiCoherent/AffineInvertiblePresentation.lean:162`.  Nor is covering the overlap by affine opens necessary: `Scheme.affineCover` together
+`QuasiCoherent/AffineInvertiblePresentation.lean:162`.  Nor is covering the overlap by affine opens
+necessary: `Scheme.affineCover` together
 with `Scheme.Cover.hom_ext` suffices, which is why
 `AlgebraicGeometry.eq_of_iso_pullbackTensorFunctor_of_isInvertible`
 (`ReconstructionOverlapCompatible.lean:169`) can drop both the affine-source and the

@@ -136,7 +136,7 @@ lemma ι_fromFreePresentation (M : PresheafOfModules.{v} R) (i : I) (x : M.obj (
     Sigma.ι (freePresentationDiagram R ι M) (⟨i, x⟩ : freePresentationIndex R ι M) ≫
         fromFreePresentation R ι M =
       fromFreeYonedaShrink R x :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 omit [∀ X, Small.{v} (R.obj X)] [LocallySmall.{v} C] in
 /-- Two morphisms of presheaves of modules out of `M` agree as soon as they agree on the

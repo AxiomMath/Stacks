@@ -590,7 +590,7 @@ private lemma cone_pi_s (P : ConePackage f) :
   apply underlyingCochain_injective
   rw [underlyingCochain_comp, categoryHomOfActionLinear_cochain,
     categoryHomOfActionLinear_cochain]
-  show _ = (Equiv.cast ((dgCategoryData A).homs _ _ 0) 0).val
+  change _ = (Equiv.cast ((dgCategoryData A).homs _ _ 0) 0).val
   rw [moduleDGCategory_zero_underlyingCochain]
   apply Cochain.ext
   intro p q h
@@ -603,7 +603,7 @@ private lemma cone_b_a (P : ConePackage f) :
   apply underlyingCochain_injective
   rw [underlyingCochain_comp, categoryCocycleOfModuleHom_cochain,
     categoryCocycleOfModuleHom_cochain]
-  show _ = (Equiv.cast ((dgCategoryData A).homs _ _ 0) 0).val
+  change _ = (Equiv.cast ((dgCategoryData A).homs _ _ 0) 0).val
   rw [moduleDGCategory_zero_underlyingCochain]
   apply Cochain.ext
   intro p q h

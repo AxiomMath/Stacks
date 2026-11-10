@@ -48,7 +48,8 @@ projective space over the base is relatively ample. What that statement wants is
    supplies the universal closedness, and
    `AlgebraicGeometry.projectiveSpaceOver_isLocallyNoetherian` the local Noetherianness.
 
-2. **`(ℙⁿ_Y ↘ Y)⁻¹V ≅ ℙⁿ_V`, and `𝒪(1)` across it — both already in the library, and neither is built
+2. **`(ℙⁿ_Y ↘ Y)⁻¹V ≅ ℙⁿ_V`, and `𝒪(1)` across it — both already in the library, and neither is
+   built
    here.** The identification is
    `Stacks.AlgebraicGeometry.ProjectiveSpaceHigherDirectImage.preimageProjectiveSpaceIso`, with
    its two compatibilities `preimageProjectiveSpaceIso_hom_comp_structureMorphism` (the structure
@@ -145,7 +146,7 @@ isomorphisms and are stable under composition. -/
 theorem isAffineHom_restrictToProjectiveSpaceOver
     [IsAffineHom (φ ∣_ ((projectiveSpaceOver n S ↘ S) ⁻¹ᵁ V))] :
     IsAffineHom (restrictToProjectiveSpaceOver n φ V) := by
-  show IsAffineHom (φ ∣_ ((projectiveSpaceOver n S ↘ S) ⁻¹ᵁ V) ≫
+  change IsAffineHom (φ ∣_ ((projectiveSpaceOver n S ↘ S) ⁻¹ᵁ V) ≫
     (preimageProjectiveSpaceIso n V).hom)
   infer_instance
 

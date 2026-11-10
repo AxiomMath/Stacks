@@ -118,7 +118,7 @@ theorem spaceFamilyHomOfIso_comp :
     spaceFamilyHomOfIso B hΛ hSpec X hX toK x x' f hstr ≫ x'.1.hom = x.1.hom := by
   apply FlatAlgebraicSpaceFamily.Hom.ext
   · exact isTerminal_residueFieldBase.hom_ext _ _
-  · show x'.1.hom.map ≫ f.inv.hom = x.1.hom.map
+  · change x'.1.hom.map ≫ f.inv.hom = x.1.hom.map
     have h := congrArg (fun g => (g ≫ f.inv).hom) harr
     simp only [Category.assoc, Iso.hom_inv_id, Category.comp_id] at h
     exact h.symm

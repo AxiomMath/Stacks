@@ -178,7 +178,7 @@ theorem picardDegree_pointClass (x : ClosedPoint C) :
   have h1 : Module.finrank Ω Γ(D.subscheme, ⊤) = 1 := by
     rw [← (LinearEquiv.ofBijective (Algebra.linearMap Ω Γ(D.subscheme, ⊤)) hbij).finrank_eq,
       Module.finrank_self]
-  show Stacks.Picard.picardDegree g _ (Stacks.Divisors.picardClass D) = 1
+  change Stacks.Picard.picardDegree g _ (Stacks.Divisors.picardClass D) = 1
   rw [hdeg, h1, Nat.cast_one]
 
 /-- **The degree of a divisor class is the degree of the divisor.** -/
@@ -222,7 +222,7 @@ theorem pointIdeal_comap (Ψ : C ≅ C) (x : ClosedPoint C) :
     (pointIdeal x).comap Ψ.hom = pointIdeal ((closedPointPerm Ψ).symm x) := by
   have key := Stacks.Chow.comap_vanishingIdeal_closure_singleton_of_isIso Ψ.hom (Ψ.inv.base x.1)
   have hx : Ψ.hom.base (Ψ.inv.base x.1) = x.1 := by
-    show (Ψ.inv ≫ Ψ.hom).base x.1 = x.1
+    change (Ψ.inv ≫ Ψ.hom).base x.1 = x.1
     rw [Ψ.inv_hom_id]; rfl
   have hcl (y : ClosedPoint C) : Closeds.closure ({y.1} : Set C) = ⟨{y.1}, y.2⟩ :=
     Closeds.ext y.2.closure_eq

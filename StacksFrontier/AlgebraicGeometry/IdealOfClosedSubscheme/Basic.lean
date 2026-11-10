@@ -192,7 +192,7 @@ private theorem equationHom_mul_left {Z : Scheme.{u}}
     intro j y hy
     have h := SetLike.GradedSMul.smul_mem (A := 𝒮) (B := M) hb hy
     have hidx : M ((m : ℕ) +ᵥ j) = N j := by
-      show integerGrading (S := S) 𝒮 ((m : ℤ) + j + (p : ℤ)) =
+      change integerGrading (S := S) 𝒮 ((m : ℤ) + j + (p : ℤ)) =
         integerGrading (S := S) 𝒮 (j + (k : ℤ))
       congr 1
       omega
@@ -239,11 +239,11 @@ private theorem componentsVanish_mul_homogeneous {Z : Scheme.{u}} (i : Z ⟶ Pro
   by_cases hle : m ≤ n
   · refine equationHom_mul_left 𝒮 i b m (n - m) n hb (Nat.sub_add_cancel hle)
       ((DirectSum.decompose 𝒮 a) (n - m)) _ ?_ (ha (n - m))
-    show GradedRing.proj 𝒮 n (b * a) = b * GradedRing.proj 𝒮 (n - m) a
+    change GradedRing.proj 𝒮 n (b * a) = b * GradedRing.proj 𝒮 (n - m) a
     rw [mul_comm b a, proj_mul_of_le 𝒮 a b m n hb hle, mul_comm]
   · have hcomp : (DirectSum.decompose 𝒮 (b * a)) n = 0 := by
       apply Subtype.ext
-      show GradedRing.proj 𝒮 n (b * a) = 0
+      change GradedRing.proj 𝒮 n (b * a) = 0
       rw [mul_comm b a]
       exact proj_mul_of_lt 𝒮 a b m n hb (by omega)
     rw [hcomp]

@@ -72,13 +72,14 @@ part (2) for the morphism `pr_{S₁} : X ×_S S₁ ⟶ S₁`, the centre `J` and
 divisor `AlgebraicGeometry.exceptionalIdeal I` (an effective Cartier divisor by
 `Stacks.Blowup.isEffectiveCartierDivisor_exceptionalIdeal`), but it is not an application of it.
 080H part (2) is `Stacks.StrictTransform.exists_baseChange_iso_sheaf_iso_mul`
-(`StacksFrontier/AlgebraicGeometry/StrictTransform/DifferentCentres.lean`); it concludes an existential with a `Nonempty`
+(`StacksFrontier/AlgebraicGeometry/StrictTransform/DifferentCentres.lean`); it concludes an
+existential with a `Nonempty`
 isomorphism where `hQJ` is a vanishing statement, and its own statement *takes* the isomorphism
 of blowups as a hypothesis, so that route would need 080H part (1) as well. Instead `hQJ`
 follows from 02OS(1), `supportedSectionsSubmodule_union_eq`, and the defining properties of the
 two strict transforms, as `supportedSections_sheaf_blowUp_union_eq_zero`
-(`StacksFrontier/AlgebraicGeometry/StrictTransform/CompositionBlowUp.lean`), and 080I part (1) does not depend on 080H: it
-is proved unconditionally and tagged in `CompositionBlowUp.lean`.
+(`StacksFrontier/AlgebraicGeometry/StrictTransform/CompositionBlowUp.lean`), and 080I part (1) does
+not depend on 080H: it is proved unconditionally and tagged in `CompositionBlowUp.lean`.
 
 The statements are given for an arbitrary module `F`, with no quasi-coherence hypothesis, which
 is more general than the tag: `Stacks.StrictTransform.sheaf` is a cokernel and needs none. Where
@@ -319,7 +320,8 @@ tag 080I part (1) is proved unconditionally as
 (`StacksFrontier/AlgebraicGeometry/StrictTransform/CompositionBlowUp.lean`). Because `hQJ` is a
 hypothesis *here* rather than a theorem, **no `@[stacks 080I]` attribute is attached to this
 declaration**: the tag asserts the comparison unconditionally and sits on the theorem in that
-file. `hQJ` is **not** an application of [Stacks, Tag 080H] part (2): the two propositions have different shapes
+file. `hQJ` is **not** an application of [Stacks, Tag 080H] part (2): the two propositions have
+different shapes
 (080H part (2) concludes an existential with an isomorphism, `hQJ` is a vanishing statement), and
 080H part (2)'s own statement takes the isomorphism of blowups as a hypothesis. See the
 implementation notes of this file. -/

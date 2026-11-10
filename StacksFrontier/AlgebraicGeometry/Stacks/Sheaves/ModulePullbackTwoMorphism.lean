@@ -130,7 +130,7 @@ theorem whiskerRight_op_ringStructureSheafCore :
   have hqmap : q.map (t.app x.unop) =
       eqToHom ((Functor.congr_obj hf x.unop).trans (Functor.congr_obj hg x.unop).symm) := by
     simpa using CategoryTheory.IsHomLift.fac' q (𝟙 (p.obj x.unop)) (t.app x.unop)
-  show (BigFppfOver.structureSheaf B S hS).obj.map (q.map (t.app x.unop)).op = _
+  change (BigFppfOver.structureSheaf B S hS).obj.map (q.map (t.app x.unop)).op = _
   rw [hqmap, eqToHom_op, eqToHom_map, eqToHom_app]
   rfl
 

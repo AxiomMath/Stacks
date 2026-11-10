@@ -203,7 +203,7 @@ private lemma pullback_snd_sigmaDesc [IsZariskiLocalAtTarget P]
     P (pullback.snd f (Sigma.desc g)) := by
   have key : ∀ i : ι, P (pullback.snd (pullback.snd f (Sigma.desc g)) (Sigma.ι W i)) := by
     intro i
-    rw [pullback_snd_comp_iff P, Sigma.ι_desc]
+    rw [pullback_snd_comp_iff P, Sigma.ι_comp_desc]
     exact h i
   exact MorphismProperty.IsLocalAtTarget.of_zeroHypercover
     (K := Scheme.zariskiPrecoverage) (sigmaOpenCover W) key

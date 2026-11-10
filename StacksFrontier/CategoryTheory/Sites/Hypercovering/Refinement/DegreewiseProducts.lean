@@ -357,17 +357,17 @@ private noncomputable def pullbackProdFstIso {D : Type u} [Category.{v} D]
     · apply prod.hom_ext
       · simpa [Category.assoc, pullback.lift_fst, prod.lift_fst] using
           (pullback.condition (f := (prod.fst : A ⨯ B ⟶ A)) (g := f)).symm
-      · simp [Category.assoc, pullback.lift_fst]
+      · simp [Category.assoc]
     · calc
         _ = (prod.lift (pullback.snd (prod.fst : A ⨯ B ⟶ A) f)
               (pullback.fst _ _ ≫ prod.snd)) ≫
               (pullback.lift (prod.lift (prod.fst ≫ f) prod.snd) prod.fst (by simp) ≫
                 pullback.snd (prod.fst : A ⨯ B ⟶ A) f) := by
                 simp [Category.assoc]
-        _ = _ := by simp [pullback.lift_snd]
+        _ = _ := by simp
   inv_hom_id := by
     apply prod.hom_ext
-    · simp [pullback.lift_snd]
+    · simp
     · calc
         _ = pullback.lift (prod.lift (prod.fst ≫ f) prod.snd) prod.fst (by simp) ≫
               pullback.fst (prod.fst : A ⨯ B ⟶ A) f ≫ prod.snd := by

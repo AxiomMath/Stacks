@@ -65,6 +65,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on `BigFppfOver B S hS` is deep
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_RelativeReasonablePermanence :
@@ -76,6 +77,7 @@ local instance (priority := high) hasPullback_presheaf_RelativeReasonablePermane
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on `BigFppfOver B S hS` is deep
 /-- Small discrete limits of presheaves on the big fppf site over `S` (instance search times
 out without this shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discrete_presheaf_RelativeReasonablePermanence
@@ -276,7 +278,7 @@ theorem isReasonableSpace_of_isReasonable (hX : IsAlgebraicSpace B S hS X)
     have hv : (φ i).app (op Q₁) v = Y.map g₁.op (f.app (op Q) x) := by
       rw [← hσ] at hs
       change ((Sigma.ι (fun i ↦ yoneda.obj (V i)) i ≫ Sigma.desc φ).app (op Q₁)) v = _ at hs
-      simpa only [Sigma.ι_desc, NatTrans.comp_app] using hs
+      simpa only [Sigma.ι_comp_desc, NatTrans.comp_app] using hs
     have hpbV := IsPullback.of_hasPullback (φ i) f
     have hcomm : yonedaEquiv.symm v ≫ φ i = yonedaEquiv.symm (X.map g₁.op x) ≫ f := by
       apply yonedaEquiv.injective
@@ -296,9 +298,9 @@ theorem isReasonableSpace_of_isReasonable (hX : IsAlgebraicSpace B S hS X)
       rw [← hσ₂] at hs₂
       change ((Sigma.ι (fun j ↦ yoneda.obj (U i j)) j ≫ Sigma.desc (ψ i)).app (op Q₂)) w = _
         at hs₂
-      simpa only [Sigma.ι_desc, NatTrans.comp_app] using hs₂
+      simpa only [Sigma.ι_comp_desc, NatTrans.comp_app] using hs₂
     have hwX : (p' ⟨i, j⟩).app (op Q₂) w = X.map g₂.op (X.map g₁.op x) := by
-      show (pullback.snd (φ i) f).app (op Q₂) ((ψ i j).app (op Q₂) w) = _
+      change (pullback.snd (φ i) f).app (op Q₂) ((ψ i j).app (op Q₂) w) = _
       rw [hw]
       have hqpoint : (pullback.snd (φ i) f).app (op Q₁) a = X.map g₁.op x := by
         rw [← yonedaEquiv_comp, hqX]
@@ -308,8 +310,8 @@ theorem isReasonableSpace_of_isReasonable (hX : IsAlgebraicSpace B S hS X)
           NatTrans.naturality_apply (pullback.snd (φ i) f) g₂.op a
         _ = _ := by rw [hqpoint]
     refine ⟨(Sigma.ι (fun z : I' ↦ yoneda.obj (U' z)) ⟨i, j⟩).app (op Q₂) w, ?_⟩
-    show ((Sigma.ι (fun z : I' ↦ yoneda.obj (U' z)) ⟨i, j⟩ ≫ Sigma.desc p').app (op Q₂)) w = _
-    rw [Sigma.ι_desc]
+    change ((Sigma.ι (fun z : I' ↦ yoneda.obj (U' z)) ⟨i, j⟩ ≫ Sigma.desc p').app (op Q₂)) w = _
+    rw [Sigma.ι_comp_desc]
     simpa [Functor.map_comp] using hwX
   refine (isReasonableSpace_iff_exists_boundedEtaleCover B S hS X hX).2
     ⟨I', U', p', hcoverX, fun z ↦ ⟨?_, ?_⟩⟩

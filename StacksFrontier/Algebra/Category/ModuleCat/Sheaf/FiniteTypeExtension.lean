@@ -126,7 +126,7 @@ noncomputable def mkOver (t : M.val.presheaf.obj (op V)) : (M.over V).sections :
 @[simp]
 lemma evalOver_mkOver (t : M.val.presheaf.obj (op V)) :
     evalOver (mkOver (M := M) (V := V) t) = t := by
-  show M.val.presheaf.map (𝟙 V).op t = t
+  change M.val.presheaf.map (𝟙 V).op t = t
   rw [op_id, CategoryTheory.Functor.map_id]
   rfl
 
@@ -282,7 +282,7 @@ lemma evalOver_freeHomEquiv_restrictFreeHom (f : W ⟶ V) (p : free I ⟶ M.over
   have h1 : (M.over W).freeHomEquiv (restrictFreeHom f p) i
       = (M.over W).unitHomEquiv ((overMapUnitIso (R := R) f).symm.hom ≫
         (overMap R f).map (ιFree i ≫ p) ≫ ((overFunctorMap R f).app M).hom) := by
-    show (M.over W).unitHomEquiv (ιFree i ≫ restrictFreeHom f p) = _
+    change (M.over W).unitHomEquiv (ιFree i ≫ restrictFreeHom f p) = _
     congr 1
     rw [restrictFreeHom, ← Category.assoc, ιFree_mapFreeIso_hom]
     simp [Functor.map_comp]

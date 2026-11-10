@@ -138,7 +138,7 @@ theorem chartBaseChangeMap_comp_comm {X' X : AlgebraicSpaces B S hS} (j : X' ⟶
     idx.right.unop.1.hom ≫ (j ≫ g).hom =
       yoneda.map (chartBaseChangeMap B S hS j V idx ≫ β) := by
   have hc := chartBaseChangeMap_comm B S hS j idx.right.unop V idx.hom.unop
-  show idx.right.unop.1.hom ≫ j.hom ≫ g.hom = _
+  change idx.right.unop.1.hom ≫ j.hom ≫ g.hom = _
   rw [← Category.assoc, hc, Category.assoc, hβ, Functor.map_comp]
   rfl
 

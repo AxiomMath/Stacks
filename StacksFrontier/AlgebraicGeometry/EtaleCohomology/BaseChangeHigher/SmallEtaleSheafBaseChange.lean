@@ -150,7 +150,7 @@ theorem smallEtaleSheafPullbackCompApp_assoc {T X Y Z : Scheme.{u}} (f : T ⟶ X
         (smallEtaleSheafPullbackCompApp A f gh fgh h₂ M).hom := by
   have h0 := congrArg (fun z : _ ≅ _ => NatTrans.app z.hom M)
     (smallEtaleSheafPullbackComp'_assoc A f g h fg hfg gh hgh fgh h₁ h₂)
-  show (smallEtaleSheafPullbackComp' A f g fg hfg).hom.app ((smallEtaleSheafPullback A h).obj M) ≫
+  change (smallEtaleSheafPullbackComp' A f g fg hfg).hom.app ((smallEtaleSheafPullback A h).obj M) ≫
       (smallEtaleSheafPullbackComp' A fg h fgh h₁).hom.app M =
     (smallEtaleSheafPullback A f).map ((smallEtaleSheafPullbackComp' A g h gh hgh).hom.app M) ≫
       (smallEtaleSheafPullbackComp' A f gh fgh h₂).hom.app M
@@ -351,7 +351,7 @@ theorem smallEtaleSheafBaseChange_paste :
     conjugateEquiv_smallEtaleSheafPullbackComp'_inv,
     mateEquiv_smallEtaleSheafBaseChange, mateEquiv_smallEtaleSheafBaseChange,
     mateEquiv_smallEtaleSheafBaseChange]
-  refine TwoSquare.ext _ _ fun 𝓖 => ?_
+  refine NatTrans.ext (funext fun 𝓖 => ?_)
   simpa using smallEtaleSheafSquarePushforwardComp_paste_app A g₀ g₁ g₂ u₁ u₂ v₁ v₂ w₁ w₂ 𝓖
 
 include w₁ w₂ in

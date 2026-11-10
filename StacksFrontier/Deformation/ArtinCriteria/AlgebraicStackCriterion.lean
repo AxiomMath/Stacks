@@ -319,7 +319,7 @@ private theorem colimit_obj_represented {I : Type uI} [Category.{w} I] [IsFilter
   obtain ⟨i, a, ha⟩ := Concrete.colimit_exists_rep G (e.hom.hom x)
   refine ⟨i, a, ?_⟩
   have hi : Cat.objects.map (colimit.ι F i) ≫ e.hom = colimit.ι G i := by
-    show Cat.objects.map (colimit.ι F i) ≫ hc.desc (colimit.cocone G) = _
+    change Cat.objects.map (colimit.ι F i) ≫ hc.desc (colimit.cocone G) = _
     exact hc.fac (colimit.cocone G) i
   exact (isIso_iff_bijective e.hom).1 inferInstance |>.1 <|
     (congrArg (fun f : TypeCat.Hom _ _ => f.hom a) hi).trans ha
@@ -368,7 +368,7 @@ private theorem isLimitPreservingOnObjects_of_object_descends
     exact Functor.isFiberedInGroupoids_id.isStronglyCartesian_homLift
       (inc.map (D.map j)) γ'
   refine ⟨i', j, x', xU, δ, β, γ', hdelta, hbeta, hbetaIso, hgamma', ?_⟩
-  show p.map δ ≫ γ' = p.map β ≫ gamma
+  change p.map δ ≫ γ' = p.map β ≫ gamma
   have hδfac : p.map δ =
       eqToHom xU.2 ≫ inc.map (c.π.app i') ≫ eqToHom x'.2.symm := by
     simpa using IsHomLift.fac' p (inc.map (c.π.app i')) δ
@@ -652,12 +652,12 @@ private theorem formalObjectOfPredeformation_closedPointArrow
   intro η n
   induction n with
   | zero =>
-      show (D.objects (η.level 0)).arrow ≫
+      change (D.objects (η.level 0)).arrow ≫
         𝟙 (D.objects (η.level 0)).point = _
       simp
   | succ n ih =>
       rw [FormalObject.closedPointArrow, ← Category.assoc, ih]
-      show (D.objects (η.level n)).arrow ≫
+      change (D.objects (η.level n)).arrow ≫
         (D.morphisms _ _ (η.transition n)).arrow = _
       exact (D.morphisms _ _ (η.transition n)).triangle
 
@@ -842,7 +842,7 @@ public theorem exists_versal_finiteTypePoint
           letI : Fact (Deformation.IsPredeformationCategory 𝓕.p) :=
             ⟨hD.predeformation⟩
           letI : Fact (Deformation.SchlessingerConditionS2
-            (CategoryOfElements.π
+            (Functor.Elements.π
               (Deformation.isomorphismClasses 𝓕 hD.predeformation.cofibered))) :=
             ⟨hS2⟩
           let F := Deformation.isomorphismClasses 𝓕 hD.predeformation.cofibered
@@ -898,7 +898,7 @@ public theorem exists_versal_finiteTypePoint
   let hS2 := schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory 𝓕 hD
   let : Fact (Deformation.IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
   let : Fact (Deformation.SchlessingerConditionS2
-    (CategoryOfElements.π
+    (Functor.Elements.π
       (Deformation.isomorphismClasses 𝓕 hD.predeformation.cofibered))) := ⟨hS2⟩
   let F := Deformation.isomorphismClasses 𝓕 hD.predeformation.cofibered
   let T := @Deformation.artinianTangentSpace _ k _ _ hAlg F
@@ -928,7 +928,7 @@ public theorem exists_versal_finiteTypePoint
     exact η.base.residueEquiv.commutes r
   have hΛkLocal : IsLocalHom (algebraMap (S.presheaf.stalk s) k) := by
     cases hs
-    show IsLocalHom (Scheme.stalkClosedPointTo i₀).hom
+    change IsLocalHom (Scheme.stalkClosedPointTo i₀).hom
     infer_instance
   have : IsLocalHom (algebraMap (S.presheaf.stalk s) η.base) := by
     have : IsLocalHom (gη.comp (algebraMap (S.presheaf.stalk s) η.base)) :=

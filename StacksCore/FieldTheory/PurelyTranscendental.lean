@@ -70,7 +70,7 @@ theorem AlgEquiv.purelyTranscendental {k F E : Type*}
     (e : F ≃ₐ[k] E) [PurelyTranscendental k F] : PurelyTranscendental k E := by
   obtain ⟨s, hsi, hsa⟩ := PurelyTranscendental.exists_basis k F
   refine ⟨e '' s, .image hsi (f := e.toAlgHom) e.injective, ?_⟩
-  rw [← AlgHom.coe_coe, ← adjoin_map, hsa, map_top_of_surjective e.surjective]
+  rw [← AlgHom.coe_ofClass, ← adjoin_map, hsa, map_top_of_surjective e.surjective]
 
 /-- **Stacks 030E** (part 3, a part of the correctness).
 The reverse-direction transport: if `F ≃ₐ[k] E` and `E/k` is purely transcendental,

@@ -130,8 +130,7 @@ theorem tensorLiftAlgebraHom_map_d {f : C.Hom E} {g : D.Hom E} (h : Anticommutes
     tensorLiftAlgebraHom h (tensorProductDifferential C D x) =
       E.d (tensorLiftAlgebraHom h x) := by
   obtain ⟨t, rfl⟩ := (GradedTensorProduct.of R C.grading D.grading).surjective x
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add y z hy hz => simp only [map_add, hy, hz]
   | tmul a b =>
     induction a using DirectSum.Decomposition.inductionOn C.grading with
@@ -165,7 +164,7 @@ theorem tensorLiftAlgebraHom_comp_includeLeft {f : C.Hom E} {g : D.Hom E}
     (tensorLiftAlgebraHom h).comp (GradedTensorProduct.includeLeft C.grading D.grading) =
       f.toAlgebraHom :=
   AlgHom.ext fun a => by
-    show tensorLiftAlgebraHom h (a ᵍ⊗ₜ[R] (1 : D.A)) = f.toAlgebraHom a
+    change tensorLiftAlgebraHom h (a ᵍ⊗ₜ[R] (1 : D.A)) = f.toAlgebraHom a
     rw [tensorLiftAlgebraHom_tmul, map_one, mul_one]
 
 /-- The lift restricts to `g` along the inclusion `b ↦ 1 ⊗ b` of the right factor. -/
@@ -174,7 +173,7 @@ theorem tensorLiftAlgebraHom_comp_includeRight {f : C.Hom E} {g : D.Hom E}
     (tensorLiftAlgebraHom h).comp (GradedTensorProduct.includeRight C.grading D.grading) =
       g.toAlgebraHom :=
   AlgHom.ext fun b => by
-    show tensorLiftAlgebraHom h ((1 : C.A) ᵍ⊗ₜ[R] b) = g.toAlgebraHom b
+    change tensorLiftAlgebraHom h ((1 : C.A) ᵍ⊗ₜ[R] b) = g.toAlgebraHom b
     rw [tensorLiftAlgebraHom_tmul, map_one, one_mul]
 
 /-- Two homomorphisms out of `C ⊗_R D` that agree on both inclusions are equal. -/

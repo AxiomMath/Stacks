@@ -54,7 +54,7 @@ public lemma RestrictionLifting.of_fullyFaithful_comp {𝒟' : Type u''} [Catego
   · intro n g
     obtain ⟨m, hm, f, hf⟩ := h.lift n g
     refine ⟨m, hm, ι.preimage f, ?_⟩
-    show R'.map (ι.map (ι.preimage f)) = R'.map (ι.map (tr F hm)) ≫ g
+    change R'.map (ι.map (ι.preimage f)) = R'.map (ι.map (tr F hm)) ≫ g
     rwa [ι.map_preimage]
   · intro n f g hfg
     obtain ⟨m, hm, he⟩ := h.eq n (ι.map f) (ι.map g) hfg

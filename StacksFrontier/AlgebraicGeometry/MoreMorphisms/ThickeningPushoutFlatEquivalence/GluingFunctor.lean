@@ -158,10 +158,10 @@ theorem exists_tensorEquiv_of_isPushout
     (congrArg CommRingCat.Hom.hom h'.w).symm
   let : Algebra.IsPushout R' S T Q := CommRingCat.isPushout_iff_isPushout.mp h'
   refine ⟨(Algebra.IsPushout.equiv R' S T Q).toRingEquiv, fun x ↦ ?_, fun y ↦ ?_⟩
-  · show Algebra.IsPushout.equiv R' S T Q (x ⊗ₜ[R'] (1 : T)) = α x
+  · change Algebra.IsPushout.equiv R' S T Q (x ⊗ₜ[R'] (1 : T)) = α x
     rw [Algebra.IsPushout.equiv_tmul, map_one, mul_one]
     rfl
-  · show Algebra.IsPushout.equiv R' S T Q ((1 : S) ⊗ₜ[R'] y) = β y
+  · change Algebra.IsPushout.equiv R' S T Q ((1 : S) ⊗ₜ[R'] y) = β y
     rw [Algebra.IsPushout.equiv_tmul, map_one, one_mul]
     rfl
 

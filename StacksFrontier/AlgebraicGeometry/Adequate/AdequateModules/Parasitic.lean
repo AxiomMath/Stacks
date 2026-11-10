@@ -205,23 +205,23 @@ public theorem open_vanishing_of_isParasiticFor (B : BigSite τ S)
       | Sum.inl _ => 𝟙 T
       | Sum.inr _ => g }⟩
   have hE : IsIso ((B.toOver.obj E.1).hom) := by
-    show IsIso (𝟙 S)
+    change IsIso (𝟙 S)
     infer_instance
   have hcover : isTauCovering.{u, w} B E := by
-    show (E.2.map (B.toOver ⋙ Over.forget S)).presieve₀ ∈
+    change (E.2.map (B.toOver ⋙ Over.forget S)).presieve₀ ∈
       Scheme.precoverage (coveringMorphismProperty τ) S
     refine (Scheme.ofArrows_mem_precoverage_iff (coveringMorphismProperty τ)).2 ⟨?_, ?_⟩
     · intro x
       refine ⟨Sum.inl PUnit.unit, ⟨x, ?_⟩⟩
-      show ((B.toOver.map (𝟙 T)).left) x = x
+      change ((B.toOver.map (𝟙 T)).left) x = x
       rfl
     · intro i
       cases i with
       | inl _ =>
-          show coveringMorphismProperty τ (𝟙 S)
+          change coveringMorphismProperty τ (𝟙 S)
           exact coveringMorphismProperty_of_isOpenImmersion τ (𝟙 S)
       | inr _ =>
-          show coveringMorphismProperty τ ((B.toOver.map g).left)
+          change coveringMorphismProperty τ ((B.toOver.map g).left)
           rw [show (B.toOver.map g).left = (B.toOver.obj U).hom from rfl]
           exact @coveringMorphismProperty_of_isOpenImmersion τ _ _
             ((B.toOver.obj U).hom) hU
@@ -307,7 +307,7 @@ public theorem subsingleton_obj_of_flat_of_isAffine (B : BigSite τ S)
       have hw' : e.hom.left ≫ g.left.hom =
           (Spec.map (CommRingCat.ofHom (algebraMap A R₀.unop)) : _ ⟶ Spec A) ≫ eU.inv :=
         (Iso.eq_comp_inv eU).2 ((Category.assoc _ _ _).trans hw)
-      show e.hom.left ≫ V.hom.hom =
+      change e.hom.left ≫ V.hom.hom =
         Spec.map (CommRingCat.ofHom (algebraMap A R₀.unop)) ≫ eU.inv ≫ U.hom.hom
       rw [← gw, ← Category.assoc, hw']
       exact Category.assoc _ _ _)

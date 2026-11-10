@@ -282,14 +282,14 @@ theorem mem_grade_of_bundleFormula (𝔚 : ChernSetup.{u, v, v₁, w} C S) (X : 
   have hbval : ∀ (d : ℕ) (i : Fin (r + 1)), (i : ℕ) ≤ d →
       b d i = ((D i (d - (i : ℕ)) : 𝔚.grade X (d - (i : ℕ))) : 𝔚.A X) := by
     intro d i hid
-    simp only [hb, if_pos hid]
+    simp only [hb, ite_eq_left hid]
   have hbmem : ∀ (d : ℕ) (i : Fin (r + 1)), (i : ℕ) ≤ d → b d i ∈ 𝔚.grade X (d - (i : ℕ)) := by
     intro d i hid
     rw [hbval d i hid]
     exact (D i (d - (i : ℕ))).2
   have hb0 : ∀ (d : ℕ) (i : Fin (r + 1)), ¬ (i : ℕ) ≤ d → b d i = 0 := by
     intro d i hid
-    simp only [hb, if_neg hid]
+    simp only [hb, ite_eq_right hid]
   have hNn : n < N := lt_of_lt_of_le (Nat.lt_succ_self n) (le_max_right _ _)
   have hFb : ∀ d : ℕ, 𝔚.bundleFormula X E r hE (b d) ∈
       𝔚.grade (𝔚.bundleDatum X E r hE).bundle d := by
@@ -348,7 +348,7 @@ theorem mem_grade_of_bundleFormula (𝔚 : ChernSetup.{u, v, v₁, w} C S) (X : 
     have h2 := Finset.sum_eq_single m
       (fun d _ hdm => DirectSum.decompose_of_mem_ne (𝔚.grade (𝔚.bundleDatum X E r hE).bundle)
         (hFb d) hdm) (fun hmm => absurd hm hmm)
-    rw [← hadd, DirectSum.decompose_sum, DFinsupp.finset_sum_apply,
+    rw [← hadd, DirectSum.decompose_sum, DFinsupp.finsetSum_apply,
       AddSubmonoidClass.coe_finsetSum, h2,
       DirectSum.decompose_of_mem_same _ (hFb m)] at h1
     exact h1
@@ -566,7 +566,7 @@ theorem chernClass_mem_grade (X : C) (E : (S.obj X).Modules) (r : ℕ)
   have htuple : ∀ (i : Fin (r + 1)) (k : ℕ), (i : ℕ) + k = r + 1 →
       𝔗.chernTuple X E r hE i ∈ 𝔗.grade X k := by
     refine 𝔗.mem_grade_of_bundleFormula X E r hE (𝔗.chernTuple X E r hE) (r + 1) ?_
-    show 𝔗.bundleFormula X E r hE (𝔗.chernTuple X E r hE) ∈ _
+    change 𝔗.bundleFormula X E r hE (𝔗.chernTuple X E r hE) ∈ _
     rw [𝔗.bundleFormula_chernTuple X E r hE]
     exact htop
   rcases Nat.eq_zero_or_pos j with rfl | hj
@@ -670,13 +670,14 @@ theorem chernSeries_coeff_invertible (X : C) (L : (S.obj X).Modules)
     rfl
   rw [𝔗.chernSeries_coeff_succ X L 0 h1 n]
   rcases Nat.eq_zero_or_pos n with rfl | hn
-  · rw [𝔗.chernClass_zero X L 0 h1, if_pos rfl]
+  · rw [𝔗.chernClass_zero X L 0 h1, ite_eq_left rfl]
   rcases le_or_gt n 1 with hle | hgt
   · have hn1 : n = 1 := by omega
     subst hn1
-    rw [𝔗.chernClass_of_le X L 0 h1 (by omega) (by omega), if_neg one_ne_zero, if_pos rfl]
+    rw [𝔗.chernClass_of_le X L 0 h1 (by omega) (by omega), ite_eq_right one_ne_zero,
+      ite_eq_left rfl]
     simpa using hkey
-  · rw [𝔗.chernClass_of_gt X L 0 h1 (by omega), if_neg (by omega), if_neg (by omega)]
+  · rw [𝔗.chernClass_of_gt X L 0 h1 (by omega), ite_eq_right (by omega), ite_eq_right (by omega)]
 
 end ChernSituation
 

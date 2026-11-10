@@ -50,8 +50,7 @@ theorem surjective_of_comp_eq_includeLeft_includeRight {R S B C : Type*} [CommRi
     (hg : φ.comp g = (Algebra.TensorProduct.includeRight : S →ₐ[R] S ⊗[R] S).toRingHom.comp q) :
     Function.Surjective φ := by
   intro t
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero φ⟩
+  induction t using TensorProduct.inductionOn with
   | tmul x y =>
     obtain ⟨b, rfl⟩ := hq x
     obtain ⟨c, rfl⟩ := hq y
@@ -110,7 +109,7 @@ theorem formallyUnramified_quotient_of_isIdempotentElem_ker
     simp only [β, RingHom.comp_apply, hcos b k hk]
   have hαβ : α.comp (algebraMap A B) = β.comp (algebraMap A B) := by
     ext x
-    show mk (algebraMap A B x) ⊗ₜ[A ⧸ I] (1 : B ⧸ K) = (1 : B ⧸ K) ⊗ₜ[A ⧸ I] mk (algebraMap A B x)
+    change mk (algebraMap A B x) ⊗ₜ[A ⧸ I] (1 : B ⧸ K) = (1 : B ⧸ K) ⊗ₜ[A ⧸ I] mk (algebraMap A B x)
     rw [show mk (algebraMap A B x) = algebraMap (A ⧸ I) (B ⧸ K) (Ideal.Quotient.mk I x) from rfl,
       Algebra.algebraMap_eq_smul_one, TensorProduct.smul_tmul]
   let φ := completedTensorProductLift α β hα hβ hαβ

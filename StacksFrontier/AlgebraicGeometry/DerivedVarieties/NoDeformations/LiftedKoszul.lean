@@ -65,7 +65,7 @@ private noncomputable def koszulAugmentationCochain
 private theorem koszulAugmentationCochain_quasiIso
     {A : Type u} [CommRing A] {r : ℕ} (f : Fin r → A)
     (hf : Koszul.IsKoszulRegular f) : QuasiIso (koszulAugmentationCochain f) := by
-  show QuasiIso (HomologicalComplex.extendMap (Koszul.koszulAugmentation f)
+  change QuasiIso (HomologicalComplex.extendMap (Koszul.koszulAugmentation f)
     ComplexShape.embeddingDownNat ≫
       (HomologicalComplex.extendSingleIso ComplexShape.embeddingDownNat
         (ModuleCat.of A (A ⧸ Ideal.span (Set.range f))) 0 0 rfl).hom)
@@ -165,7 +165,7 @@ private theorem koszul_seqComplex_extendScalars_iso
   simp only [Functor.mapHomologicalComplex_obj_d, Koszul.seqComplex_d]
   apply ModuleCat.ExtendScalars.hom_ext
   intro z
-  show Koszul.d (Koszul.seqDual (fun k => q (f k))) j
+  change Koszul.d (Koszul.seqDual (fun k => q (f k))) j
       (β (j + 1) (1 ⊗ₜ[A] z)) =
     β j (1 ⊗ₜ[A] Koszul.d (Koszul.seqDual f) j z)
   exact (KoszulC.d_baseChange_comm f β hβ j z).symm
@@ -190,7 +190,7 @@ private lemma end_eq_smul_id {A : Type u} [CommRing A]
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro x
-  show l x = (l 1) • x
+  change l x = (l 1) • x
   simpa [smul_eq_mul, mul_comm] using l.map_smul x (1 : A)
 
 /-- A scalar acting invertibly on the ring is a unit. -/
@@ -267,7 +267,7 @@ private lemma koszul_zero_d {A : Type u} [CommRing A] (r : ℕ) (i j : ℕ) :
     apply LinearMap.ext
     intro x
     apply Subtype.ext
-    show Koszul.contraction (Koszul.seqDual (0 : Fin r → A)) _ = 0
+    change Koszul.contraction (Koszul.seqDual (0 : Fin r → A)) _ = 0
     have hdual : Koszul.seqDual (0 : Fin r → A) = 0 := by
       ext x
       simp [Koszul.seqDual_apply]
@@ -279,7 +279,7 @@ private lemma extend_zero_d {C : Type*} [Category C] [HasZeroMorphisms C] [HasZe
     {ι ι' : Type*} {c : ComplexShape ι} {c' : ComplexShape ι'}
     (K : HomologicalComplex C c) (e : c.Embedding c')
     (hK : ∀ i j, K.d i j = 0) (i j : ι') : (K.extend e).d i j = 0 := by
-  show HomologicalComplex.extend.d K (e.r i) (e.r j) = 0
+  change HomologicalComplex.extend.d K (e.r i) (e.r j) = 0
   cases e.r i <;> cases e.r j <;> first | rfl | exact hK _ _
 
 /-- A complex isomorphic to one with zero differentials has zero differentials. -/
@@ -407,7 +407,7 @@ private lemma isUnit_one_add_span_of_regular
   apply isUnit_one_add_of_le_maximalIdeal
   apply IsLocalRing.le_maximalIdeal
   have heq : Ideal.ofList (List.ofFn f) = Ideal.span (Set.range f) := by
-    show Ideal.span {x | x ∈ List.ofFn f} = _
+    change Ideal.span {x | x ∈ List.ofFn f} = _
     congr 1
     exact Set.ext fun x => List.mem_ofFn
   intro h
@@ -526,7 +526,7 @@ public lemma derivedIso_koszulOfLift
       dsimp [α, koszulAugmentationCochain]
       rw [HomologicalComplex.extendMap_f _ _ (show ComplexShape.embeddingDownNat.f 0 = 0 by simp)]
       have : Epi ((Koszul.koszulAugmentation f).f 0) := by
-        show Epi (ModuleCat.ofHom ((Ideal.span (Set.range f)).mkQ.comp
+        change Epi (ModuleCat.ofHom ((Ideal.span (Set.range f)).mkQ.comp
           (exteriorPower.zeroEquiv S.A (Fin S.r → S.A)).toLinearMap))
         rw [ModuleCat.epi_iff_surjective]
         intro y

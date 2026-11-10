@@ -109,7 +109,7 @@ theorem chartToProj_comp_projInclusionToOpen_ι
           Spec.map (A.toGradedAlgebra.strZero ⟨V, hV⟩) ≫ hV.fromSpec :=
     GradedAlgebra.toOpen_ι _ _
   rw [hR, hL]
-  show ((ψ.homogeneousRatios hg hW).toSpecAway he ≫
+  change ((ψ.homogeneousRatios hg hW).toSpecAway he ≫
       AlgebraicGeometry.Proj.awayι (A.grading V) g hg he) ≫ _ = _
   rw [Category.assoc, ← Category.assoc (AlgebraicGeometry.Proj.awayι _ _ _ _),
     AlgebraicGeometry.Proj.awayι_toSpecZero,
@@ -125,7 +125,7 @@ theorem chartToProj_comp_projInclusionToOpen_ι
   have hW1 : W ≤ nonvanishingOpen Y (natTensorPow L 0) (ψ.toFun 0 ⟨1, h1⟩) :=
     (ψ.le_nonvanishingOpen_pow hg hW 0).trans
       (le_of_eq (ψ.nonvanishingOpen_congr _ h1 (Nat.zero_mul e) (pow_zero g)))
-  show (ψ.homogeneousRatios hg hW).lift he
+  change (ψ.homogeneousRatios hg hW).lift he
       (fromZeroRingHom (A.grading V) (Submonoid.powers g)
         (A.toGradedAlgebra.strZero ⟨V, hV⟩ s)) = F.appLE V W hWF s
   rw [hstr, Stacks.AlgebraicGeometry.ProjTripleStructureMorphism.fromZeroRingHom_eq_awayMk
@@ -220,14 +220,14 @@ theorem affineDatum_toFun_gradeZeroHom (V : S.Opens) (s : Γ(S, V)) :
       = ((f ⁻¹ᵁ V).ι ≫ f).appLE V ⊤ (preimage_ι_comp_eq_top f V).ge s •
           (P.affineDatum V).toFun 0 ⟨1, SetLike.one_mem_graded _⟩ := by
   have hc : A.componentEquiv V 0 (A.gradeZeroHom V s) = s • A.one V := by
-    show (DirectSum.of (A.sectionPieces V) 0 (s • A.one V)) 0 = s • A.one V
+    change (DirectSum.of (A.sectionPieces V) 0 (s • A.one V)) 0 = s • A.one V
     exact DirectSum.of_eq_same _ _
   have h1 : A.componentEquiv V 0 ⟨1, SetLike.one_mem_graded _⟩ = A.one V := by
-    show (1 : A.sectionRing V) 0 = A.one V
+    change (1 : A.sectionRing V) 0 = A.one V
     rw [DirectSum.one_def]
     exact DirectSum.of_eq_same _ _
   rw [affineDatum_toFun_apply, affineDatum_toFun_apply, hc, h1]
-  show Stacks.AlgebraicGeometry.ProjChartRatioPullbackLocalMul.restrictPowSection P.L
+  change Stacks.AlgebraicGeometry.ProjChartRatioPullbackLocalMul.restrictPowSection P.L
       (f ⁻¹ᵁ V) 0 (P.value 0 V (s • A.one V)) = _
   rw [P.value_smul 0 V s (A.one V), restrictPowSection_smul]
   congr 1

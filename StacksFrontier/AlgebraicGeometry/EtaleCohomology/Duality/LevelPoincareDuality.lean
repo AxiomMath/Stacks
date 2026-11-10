@@ -113,7 +113,7 @@ theorem isDualityPerfect_levelPow_of_isFiniteTypeLocallyConstant (hℓ : IsUnit 
       have hred := LevelChange.reduction_comp_inclusion Y (LevelChange.pow_pred_mul_self ℓ (n + 1))
       have hinc := LevelChange.map_unitSheafCoextendIso_comp_torsionCounit Y ℓ (n + 1)
       rw [LevelChange.extMap_apply] at hz
-      show LevelChange.levelTrace Y hdv t ((Ext.mk₀ (𝟙 _)).comp
+      change LevelChange.levelTrace Y hdv t ((Ext.mk₀ (𝟙 _)).comp
         (z.comp (Ext.mk₀ eD.hom) (add_zero _)) (zero_add _)) = _
       rw [LevelChange.levelTrace_apply, Ext.mk₀_id_comp, Stacks.ExtAdjunction.extMap_apply,
         Ext.mapExactFunctor_comp, Ext.mapExactFunctor_mk₀, Ext.comp_assoc_of_third_deg_zero,
@@ -147,7 +147,7 @@ theorem isDualityPerfect_levelPow_of_isFiniteTypeLocallyConstant (hℓ : IsUnit 
       _ (by omega)) F hF
   refine (Ext.isDualityPerfect_transport_iff (LevelChange.levelTrace Y hdv t) (Iso.refl _)
     eD.symm _).2 ?_
-  show Ext.IsDualityPerfect _ _ _ t₀ _
+  change Ext.IsDualityPerfect _ _ _ t₀ _
   rw [← ht'']
   refine (Ext.isDualityPerfect_comp_iff_of_injective t'' _
     (LevelChange.injective_zmodPowEmbedding ℓ (n + 1)) _ fun j φ =>

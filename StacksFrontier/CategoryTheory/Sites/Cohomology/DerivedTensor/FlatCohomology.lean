@@ -202,7 +202,7 @@ theorem isGE_tensor_singleFunctor_of_isFlat (A : DerivedModules R) [A.IsGE 0] (G
   rw [zero_add] at this
   have h : (Q.obj (((Stacks.SheafOfModules.Tensor.tensorComplex R).obj P).obj
       ((HomologicalComplex.single _ (ComplexShape.up ℤ) c).obj G))).IsGE c := by
-    show (Q.obj (HomologicalComplex.mapBifunctor P
+    change (Q.obj (HomologicalComplex.mapBifunctor P
       ((HomologicalComplex.single _ (ComplexShape.up ℤ) c).obj G)
       (Stacks.SheafOfModules.Tensor.sheafTensor R) (ComplexShape.up ℤ))).IsGE c
     infer_instance

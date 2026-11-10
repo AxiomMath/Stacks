@@ -113,7 +113,7 @@ theorem fittingIdeal_zero_smul_eq_zero
   have hsep := (Presieve.isSheafFor_iff_generate (Presieve.ofArrows V f)).mpr (hsheaf _ hcov)
   refine hsep.isSeparatedFor.ext fun Y g hg ↦ ?_
   obtain ⟨i⟩ := hg
-  show G.val.map (f i).op (a • t) = G.val.map (f i).op 0
+  change G.val.map (f i).op (a • t) = G.val.map (f i).op 0
   rw [map_zero]
   refine (G.val.map_smul (f i).op a t).trans ?_
   exact fittingIdeal_zero_smul_eq_zero_of_isAffine B S hS X G hG hfin (hVaff i) _

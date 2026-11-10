@@ -99,13 +99,13 @@ def tensorLift (q : B →ₐ[A] C) (φ : Dm.M →ₗ[A] N) :
   map_add' := map_add _
   map_smul' b x := by
     change TensorProduct.lift _ (b • x) = q b • TensorProduct.lift _ x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => rw [smul_add, map_add, hx, hy, map_add, smul_add]
     | tmul b' m =>
       rw [smul_tmul', TensorProduct.lift.tmul, TensorProduct.lift.tmul, LinearMap.mk₂_apply,
         LinearMap.mk₂_apply, smul_eq_mul, map_mul, mul_smul]
 
+omit [IsScalarTower A' R B] in
 /-- `tensorLift q φ (b ⊗ m) = q b • φ m`. -/
 @[simp] lemma tensorLift_tmul (q : B →ₐ[A] C) (φ : Dm.M →ₗ[A] N) (b : B) (m : Dm.M) :
     Dm.tensorLift q φ (b ⊗ₜ[A] m) = q b • φ m := TensorProduct.lift.tmul _ _
@@ -141,7 +141,7 @@ abbrev incl₂ : B →ₐ[A] B ⊗[A] B := Algebra.TensorProduct.includeRight
 /-- `frameMap q φ (e (a ⊗ m)) = q a • φ m`, for `q : B → B ⊗[A] B`. -/
 lemma frameMap_e_tmul (q : B →ₐ[A] B ⊗[A] B) (φ : Dm'.M →ₗ[A] N) (a : B) (m : Dm'.M) :
     Dm'.frameMap q φ (Dm'.e (a ⊗ₜ[A] m)) = q a • φ m := by
-  show Dm'.tensorLift q φ (Dm'.e.symm (Dm'.e _)) = _
+  change Dm'.tensorLift q φ (Dm'.e.symm (Dm'.e _)) = _
   rw [LinearEquiv.symm_apply_apply, tensorLift_tmul]
 
 /-- The two linear extensions of `φ` agree through the transition. -/
@@ -151,16 +151,15 @@ lemma extendLeft_eq_extendRight_comp (φ : Dm'.M →ₗ[A] N) :
         (transition R Φ hC₂ hpt hE₁ hE₂).toLinearMap := by
   refine ext_left R fun n ↦ ?_
   obtain ⟨x, rfl⟩ := Dm'.e.surjective n
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, map_add, hx, hy, map_add]
   | tmul a m =>
     rw [extendLeft_ι₁, frameMap_e_tmul, LinearMap.comp_apply, LinearEquiv.coe_coe]
-    show _ = extendRight R _ (transition R Φ hC₂ hpt hE₁ hE₂
+    change _ = extendRight R _ (transition R Φ hC₂ hpt hE₁ hE₂
       ((show restrictModule A B (frameModuleCat (A' := A') R B) from Dm'.e (a ⊗ₜ[A] m)) ⊗ₜ[A]
         (1 : B)))
     rw [Dm'.compat]
-    show _ = extendRight R _ (a ⊗ₜ[A] toRM R A (Dm'.e ((1 : B) ⊗ₜ[A] m)))
+    change _ = extendRight R _ (a ⊗ₜ[A] toRM R A (Dm'.e ((1 : B) ⊗ₜ[A] m)))
     rw [extendRight_tmul, frameMap_e_tmul, map_one, one_smul]
     rfl
 
@@ -177,7 +176,7 @@ theorem transportFun_psi (φ : Dm'.M →ₗ[A] N) :
     show Φ.transportFun (C := C₂ A B hC₂) hE₁ hpt (d₁ R hC₂) = ψ₁₂ R Φ hC₂ hpt hE₁ from rfl,
     ← postcomp_transitionInvMap_d₂ R Φ hC₂ hpt hE₁]
   refine DerAlong.ext (funext fun r ↦ ?_)
-  show extendRight R (Dm'.frameMap (incl₂ (A := A) (B := B)) φ)
+  change extendRight R (Dm'.frameMap (incl₂ (A := A) (B := B)) φ)
     (transition R Φ hC₂ hpt hE₁ hE₂ ((transition R Φ hC₂ hpt hE₁ hE₂).symm
       (ι₂ R (frameDiff (A' := A') R B r)))) = _
   rw [LinearEquiv.apply_symm_apply, extendRight_ι₂]
@@ -185,6 +184,7 @@ theorem transportFun_psi (φ : Dm'.M →ₗ[A] N) :
 
 end Untwist
 
+omit [Algebra A' A] [Algebra A' B] [IsScalarTower A' A B] [IsScalarTower A' R B] in
 /-- **The descended module is projective** when the differentials of the chart are, by
 [Stacks Project, Tag 05A9]. -/
 theorem projective [Module.FaithfullyFlat A B] [Module.Projective R Ω[R⁄A']] :
@@ -198,12 +198,14 @@ section PsiProps
 variable {C : Type u} [CommRing C] [Algebra A C] [Algebra A' C] [IsScalarTower A' A C]
   {N : Type u} [AddCommGroup N] [Module C N] [Module A N] [IsScalarTower A C N]
 
+omit [IsScalarTower A' R B] in
 /-- `frameMap q φ (e (a ⊗ m)) = q a • φ m`. -/
 lemma frameMap_e (q : B →ₐ[A] C) (φ : Dm.M →ₗ[A] N) (a : B) (m : Dm.M) :
     Dm.frameMap q φ (Dm.e (a ⊗ₜ[A] m)) = q a • φ m := by
-  show Dm.tensorLift q φ (Dm.e.symm (Dm.e _)) = _
+  change Dm.tensorLift q φ (Dm.e.symm (Dm.e _)) = _
   rw [LinearEquiv.symm_apply_apply, tensorLift_tmul]
 
+omit [IsScalarTower A' R B] in
 /-- **Compatibility of `frameMap` with a map of coefficients.** -/
 lemma map_frameMap {C₀ : Type u} [CommRing C₀] [Algebra A C₀] [Algebra A' C₀]
     [IsScalarTower A' A C₀] {N₀ : Type u} [AddCommGroup N₀] [Module C₀ N₀] [Module A N₀]
@@ -212,22 +214,22 @@ lemma map_frameMap {C₀ : Type u} [CommRing C₀] [Algebra A C₀] [Algebra A' 
     (y : FrameModule (A' := A') R B) :
     g (Dm.frameMap q₀ φ y) = Dm.frameMap q (g.comp φ) y := by
   obtain ⟨x, rfl⟩ := Dm.e.surjective y
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction x using TensorProduct.inductionOn with
   | add x x' hx hx' => rw [map_add, map_add, map_add, hx, hx', map_add]
   | tmul b m => rw [frameMap_e, frameMap_e, hg, LinearMap.comp_apply]
 
+omit [IsScalarTower A' R B] in
 /-- `frameMap` is determined by its values on `e (b ⊗ m)`. -/
 lemma frameMap_ext {q : B →ₐ[A] C} {φ : Dm.M →ₗ[A] N}
     {l : FrameModule (A' := A') R B →+ N}
     (h : ∀ (b : B) (m : Dm.M), l (Dm.e (b ⊗ₜ[A] m)) = q b • φ m)
     (y : FrameModule (A' := A') R B) : Dm.frameMap q φ y = l y := by
   obtain ⟨x, rfl⟩ := Dm.e.surjective y
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction x using TensorProduct.inductionOn with
   | add x x' hx hx' => rw [map_add, map_add, map_add, hx, hx']
   | tmul b m => rw [frameMap_e, h]
 
+omit [IsScalarTower A' R B] in
 /-- `frameMap q (φ - φ') = frameMap q φ - frameMap q φ'`. -/
 lemma frameMap_sub (q : B →ₐ[A] C) (φ φ' : Dm.M →ₗ[A] N) (y : FrameModule (A' := A') R B) :
     Dm.frameMap q (φ - φ') y = Dm.frameMap q φ y - Dm.frameMap q φ' y :=
@@ -262,10 +264,10 @@ lemma psi_phiOf (q : B →ₐ[A] C) (δ : DerAlong ((q.restrictScalars A').comp 
       have hb : (b ⊗ₜ[A] m : B ⊗[A] Dm.M) = b • ((1 : B) ⊗ₜ[A] m) := by
         rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
       rw [LinearMap.toAddMonoidHom_coe, hb, LinearEquiv.map_smul, LinearMap.map_smulₛₗ]
-      show q b • _ = q b • _
+      change q b • _ = q b • _
       rfl
   refine DerAlong.ext (funext fun r ↦ ?_)
-  show Dm.frameMap q _ _ = δ r
+  change Dm.frameMap q _ _ = δ r
   rw [h, frameLift_frameDiff]
 
 /-- The semilinear extension of `Ψ_q φ` to the frame module is `frameMap q φ`. -/
@@ -276,7 +278,7 @@ lemma frameLift_psi (q : B →ₐ[A] C) (φ : Dm.M →ₗ[A] N) :
 /-- `phiOf q` is a left inverse of `φ ↦ Ψ_q φ`. -/
 lemma phiOf_psi (q : B →ₐ[A] C) (φ : Dm.M →ₗ[A] N) : Dm.phiOf q (Dm.psi q φ) = φ := by
   ext m
-  show frameLift _ (Dm.psi q φ) (Dm.e ((1 : B) ⊗ₜ[A] m)) = φ m
+  change frameLift _ (Dm.psi q φ) (Dm.e ((1 : B) ⊗ₜ[A] m)) = φ m
   rw [frameLift_psi, frameMap_e, map_one, one_smul]
 
 /-- `φ ↦ Ψ_q φ` is injective. -/
@@ -285,6 +287,7 @@ lemma psi_injective (q : B →ₐ[A] C) {φ φ' : Dm.M →ₗ[A] N}
   rw [← Dm.phiOf_psi q φ, ← Dm.phiOf_psi q φ', show Dm.psi q φ = Dm.psi q φ' from
     DerAlong.ext (funext h)]
 
+omit [IsScalarTower A' R B] in
 /-- `frameMap q (φ + φ') = frameMap q φ + frameMap q φ'`. -/
 lemma frameMap_add (q : B →ₐ[A] C) (φ φ' : Dm.M →ₗ[A] N) (y : FrameModule (A' := A') R B) :
     Dm.frameMap q (φ + φ') y = Dm.frameMap q φ y + Dm.frameMap q φ' y :=
@@ -349,7 +352,7 @@ theorem transportFun_psi_pair (a b : B →ₐ[A] C.obj) (hN : P (CommAlgCat.of A
   let f : B ⊗[A] B →ₐ[A] C.obj := Algebra.TensorProduct.lift a b (fun _ _ ↦ Commute.all _ _)
   let : Module (B ⊗[A] B) N := Module.compHom N f.toRingHom
   have : IsScalarTower A (B ⊗[A] B) N := ⟨fun a' c n ↦ by
-    show f (a' • c) • n = a' • (f c • n)
+    change f (a' • c) • n = a' • (f c • n)
     rw [map_smul, smul_assoc]⟩
   let fm : C₂ A B hC₂ ⟶ C := ObjectProperty.homMk (CommAlgCat.ofHom (f.restrictScalars A'))
   let g : N →ₛₗ[((f.restrictScalars A' : B ⊗[A] B →ₐ[A'] C.obj) : B ⊗[A] B →+* C.obj)] N :=

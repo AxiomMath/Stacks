@@ -373,7 +373,7 @@ theorem dualD0_charSMul (M : DifferentialGradedModule A) {m : ℤ}
       = l (MulOpposite.op (A.d a) • z)
         + -((j.negOnePow : ℤ) • l (MulOpposite.op a • M.d z)
             + l (MulOpposite.op (A.d a) • z)) := by
-    show charSMul M (A.d a) l z + ((m.negOnePow : ℤ) • charSMul M a (dualD0 M l)) z = _
+    change charSMul M (A.d a) l z + ((m.negOnePow : ℤ) • charSMul M a (dualD0 M l)) z = _
     rw [zsmul_char_apply]
     simp only [charSMul_apply, dualD0_apply]
     rw [signedDifferential_apply_mem M (M.smul_mem j m z a hz ha),

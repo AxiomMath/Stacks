@@ -341,7 +341,7 @@ private theorem isRegularLocalRing_and_stalk_eq_prod_take
     obtain ⟨j, z, hz⟩ := hcover y
     refine ⟨j, (hmemS j).2 (Scheme.Hom.range_subset_ker_support _ ⟨z, ?_⟩)⟩
     rw [Scheme.Hom.comp_apply, hz]
-    show (divisorNormalization E ≫ E.subschemeι).base y = x
+    change (divisorNormalization E ≫ E.subschemeι).base y = x
     rw [Scheme.Hom.comp_apply, hy]
     exact hy₀
   obtain ⟨n, hn⟩ : ∃ n, S.card = n + 1 :=

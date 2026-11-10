@@ -217,7 +217,7 @@ theorem finiteEtaleFiberRestrict_inv_finiteEtaleFiberRestrict
   have hinc : finiteEtaleComposeFiberInclusion hf t W (finiteEtaleFiberRestrict hf t σ W g)
       = ((σ : EtaleFundamentalGroup S (t.map f)).asIso.app ((finiteEtaleCompose hf).obj W)).hom
           (finiteEtaleComposeFiberInclusion hf t W g) := Subtype.ext rfl
-  show (((σ⁻¹ : EtaleFundamentalGroup S (t.map f)).asIso.app
+  change (((σ⁻¹ : EtaleFundamentalGroup S (t.map f)).asIso.app
       ((finiteEtaleCompose hf).obj W)).hom
       (finiteEtaleComposeFiberInclusion hf t W (finiteEtaleFiberRestrict hf t σ W g))).1 = g.1
   rw [hinc]

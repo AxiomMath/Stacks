@@ -226,7 +226,7 @@ complex, which is where the right-exactness assertion of Tag 03OJ starts. -/
 public theorem associatedModuleMap_zero : associatedModuleMap S toOver (0 : F ⟶ G) = 0 := by
   refine PresheafOfModules.Hom.ext ?_
   ext X x
-  show ((Scheme.Modules.pullback (toOver.obj X.unop).hom).map (0 : F ⟶ G)).app ⊤ x = 0
+  change ((Scheme.Modules.pullback (toOver.obj X.unop).hom).map (0 : F ⟶ G)).app ⊤ x = 0
   rw [Functor.map_zero]
   rfl
 

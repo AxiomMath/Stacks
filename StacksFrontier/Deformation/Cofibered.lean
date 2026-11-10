@@ -111,7 +111,7 @@ public lemma isStronglyCocartesian_of_isCofiberedInGroupoids
   cases hf
   refine ⟨fun {b'} g φ hφ ↦ ?_⟩
   have hcomm : g.op ≫ p.op.map f.op = p.op.map φ.op := by
-    show (p.map f ≫ g).op = (p.map φ).op
+    change (p.map f ≫ g).op = (p.map φ).op
     exact congrArg Quiver.Hom.op (IsHomLift.eq_of_isHomLift p _ φ)
   obtain ⟨χ, ⟨hχ, hfac⟩, huniq⟩ := hp.unique_lift f.op φ.op g.op hcomm
   refine ⟨χ.unop, ⟨?_, ?_⟩, ?_⟩
@@ -216,7 +216,7 @@ public lemma pushforwardDesc_lift
   let := isStronglyCocartesian_chosenPushforwardMap hp f x hx
   let := hψ
   unfold pushforwardDesc
-  show p.IsHomLift g
+  change p.IsHomLift g
     (Functor.IsStronglyCocartesian.map p f (chosenPushforwardMap hp f x hx)
       (g := g) (f' := f ≫ g) rfl ψ)
   infer_instance

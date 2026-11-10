@@ -345,7 +345,7 @@ private theorem descendedDifferential_leibniz
     RestrictScalars.moduleOrig A B (⋀[B]^p Omega)
   let _ : Module B (RestrictScalars A B (⋀[B]^(p + 1) Omega)) :=
     RestrictScalars.moduleOrig A B (⋀[B]^(p + 1) Omega)
-  show e (dΩ p (ei.symm (b • ω))) = b • e (dΩ p (ei.symm ω)) +
+  change e (dΩ p (ei.symm (b • ω))) = b • e (dΩ p (ei.symm ω)) +
     leftWedge p (SourceDeRham.targetD π b) ω
   classical
   have hmem : ω ∈ Submodule.span A
@@ -363,7 +363,7 @@ private theorem descendedDifferential_leibniz
           ei.symm (SourceDeRham.tgtGen π p c') := by
         apply ei.injective
         exact hmul
-      show e (dΩ p (ei.symm (b • SourceDeRham.tgtGen π p c))) =
+      change e (dΩ p (ei.symm (b • SourceDeRham.tgtGen π p c))) =
         b • e (dΩ p (ei.symm (SourceDeRham.tgtGen π p c))) +
           leftWedge p (SourceDeRham.targetD π b) (SourceDeRham.tgtGen π p c)
       rw [hmul', show ei.symm (SourceDeRham.tgtGen π p c') =
@@ -371,7 +371,7 @@ private theorem descendedDifferential_leibniz
         show ei.symm (SourceDeRham.tgtGen π p c) =
           SourceDeRham.tgtGen π p c from rfl]
       rw [hrule p c', hrule p c]
-      show SourceDeRham.tgtGenRes π p c' =
+      change SourceDeRham.tgtGenRes π p c' =
         b • SourceDeRham.tgtGenRes π p c +
           leftWedge p (SourceDeRham.targetD π b) (SourceDeRham.tgtGen π p c)
       apply Subtype.ext
@@ -462,7 +462,7 @@ public theorem connectionFormPair_balance
     RestrictScalars.moduleOrig A B (⋀[B]^p Omega)
   let _ : Module B (RestrictScalars A B (⋀[B]^(p + 1) Omega)) :=
     RestrictScalars.moduleOrig A B (⋀[B]^(p + 1) Omega)
-  show TensorProduct.map LinearMap.id ((leftWedge p).flip ω) (nabla (b • m)) +
+  change TensorProduct.map LinearMap.id ((leftWedge p).flip ω) (nabla (b • m)) +
         (b • m) ⊗ₜ[B] descendedDifferential dΩ p ω =
       TensorProduct.map LinearMap.id ((leftWedge p).flip (b • ω)) (nabla m) +
         m ⊗ₜ[B] descendedDifferential dΩ p (b • ω)
@@ -491,7 +491,7 @@ public theorem connectionFormPair_algebraMap_smul
     RestrictScalars.moduleOrig A B (⋀[B]^p Omega)
   let _ : Module B (RestrictScalars A B (⋀[B]^(p + 1) Omega)) :=
     RestrictScalars.moduleOrig A B (⋀[B]^(p + 1) Omega)
-  show TensorProduct.map LinearMap.id ((leftWedge p).flip (algebraMap A B a • ω))
+  change TensorProduct.map LinearMap.id ((leftWedge p).flip (algebraMap A B a • ω))
         (nabla m) + m ⊗ₜ[B] descendedDifferential dΩ p (algebraMap A B a • ω) =
       algebraMap A B a •
         (TensorProduct.map LinearMap.id ((leftWedge p).flip ω) (nabla m) +
@@ -501,7 +501,7 @@ public theorem connectionFormPair_algebraMap_smul
     TensorProduct.map_smul_right, LinearMap.smul_apply]
   have hd : descendedDifferential dΩ p (algebraMap A B a • ω) =
       algebraMap A B a • descendedDifferential dΩ p ω := by
-    show RestrictScalars.addEquiv A B _ (dΩ p ((RestrictScalars.addEquiv A B
+    change RestrictScalars.addEquiv A B _ (dΩ p ((RestrictScalars.addEquiv A B
         (⋀[B]^p Omega)).symm (algebraMap A B a • ω))) =
       algebraMap A B a • RestrictScalars.addEquiv A B _
         (dΩ p ((RestrictScalars.addEquiv A B (⋀[B]^p Omega)).symm ω))
@@ -538,8 +538,7 @@ private theorem connectionFormAddMap_algebraMap_smul
     (a : A) (x : M ⊗[B] (⋀[B]^p Omega)) :
     connectionFormAddMap π dΩ hπ hrule nabla p (algebraMap A B a • x) =
       algebraMap A B a • connectionFormAddMap π dΩ hπ hrule nabla p x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp [connectionFormAddMap]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy =>
       simp only [smul_add, map_add, hx, hy]
   | tmul m ω =>

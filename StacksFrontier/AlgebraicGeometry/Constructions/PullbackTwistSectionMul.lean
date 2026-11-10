@@ -74,7 +74,8 @@ powers of Tag 01CU in nonnegative degrees, as
 `Stacks.RelativeVeryAmple.pullbackTensorPowModuleIso_tensorPowModuleAddIso`.
 
 **Why `exists_pullbackTwistIso_succ` is legitimate and the corresponding step for `res` is not.**
-`StacksFrontier/AlgebraicGeometry/Variety/Projective/HyperplaneRestrictionPackageConstruction.lean` records that `c_{d+1}` cannot be *defined* from
+`StacksFrontier/AlgebraicGeometry/Variety/Projective/HyperplaneRestrictionPackageConstruction.lean`
+records that `c_{d+1}` cannot be *defined* from
 `c_d` by the square of that file, because solving for it would need multiplication by `σ` to be
 epi or split and it is neither. Solving the *regrouping* square for `θ_{d+1}` is a different
 matter: every arrow in it — the pullback of the regrouping, the comparison of Tag 01CD, the
@@ -98,7 +99,8 @@ A family of identifications over all of `ℤ` *is* available, as
 `Stacks.AlgebraicGeometry.HyperplaneTwistSequence.pullbackTwistOverIso`, built from the
 degree-one input of [Stacks, Tag 089Z] through `𝒪(1)^{⊗ d} ≅ 𝒪(d)` and
 `…HyperplaneTwistSequence.pullbackTensorPowModuleIntIso`. It is still not proved that *that*
-family satisfies the regrouping square `hθ` below, and proving it would run into the following obstruction:
+family satisfies the regrouping square `hθ` below, and proving it would run into the following
+obstruction:
 the multiplicativity of `pullbackTensorPowModuleIntIso` against
 `Stacks.Ample.tensorPowModuleAddIso` is proved in the nonnegative degrees only
 (`Stacks.RelativeVeryAmple.pullbackTensorPowModuleIso_tensorPowModuleAddIso`), while the negative
@@ -432,7 +434,8 @@ identification of twists, with no module in it, so the same `θ_{d+1}` serves ev
 This is what makes the hypothesis of
 `Stacks.AlgebraicGeometry.PullbackTwistSectionMul.pullback_twistSectionMul` satisfiable, by
 induction, from any single degree upwards. It is *not* the step that
-`StacksFrontier/AlgebraicGeometry/Variety/Projective/HyperplaneRestrictionPackageConstruction.lean` records as unavailable: that one asks for the
+`StacksFrontier/AlgebraicGeometry/Variety/Projective/HyperplaneRestrictionPackageConstruction.lean`
+records as unavailable: that one asks for the
 square of multiplication by a section to be solved, and multiplication by a section is neither
 epi nor split. -/
 theorem exists_pullbackTwistIso_succ (d : ℤ)

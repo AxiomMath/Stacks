@@ -70,7 +70,7 @@ theorem exists_comp_eq_nsmul_of_whiskerRight {A B M S S' : C}
       Category.comp_id, Preadditive.nsmul_comp, Category.id_comp]
   have h₂ : χ.hom ▷ S ≫ r₁ ▷ S ≫ (κ ▷ S') ▷ S = n • 𝟙 _ := by
     rw [← comp_whiskerRight, ← comp_whiskerRight, h₁]
-    show (MonoidalCategory.tensorRight S).map (n • 𝟙 _) = _
+    change (MonoidalCategory.tensorRight S).map (n • 𝟙 _) = _
     rw [Functor.map_nsmul, CategoryTheory.Functor.map_id]
     rfl
   have key : (α_ A S' S).hom ≫ A ◁ e.hom ≫ (ρ_ A).hom ≫ κ =

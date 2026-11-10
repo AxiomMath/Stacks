@@ -171,7 +171,7 @@ private lemma injective_stalkMapL_idealPowerIncl_zero
           (idealPowerIncl X I ι 0 M).val x) ∘ₗ (tensorStalkIso X x M I).symm.toLinearMap)
       (f • E.toLinearMap) ?_ t
     intro m a
-    show stalkMapL X (idealPowerTerm X I (0 + 1) M).val (idealPowerTerm X I 0 M).val
+    change stalkMapL X (idealPowerTerm X I (0 + 1) M).val (idealPowerTerm X I 0 M).val
         (idealPowerIncl X I ι 0 M).val x
         ((tensorStalkIso X x M I).symm (m ⊗ₜ[ringStalk X x] a)) = f • E (m ⊗ₜ[ringStalk X x] a)
     refine Eq.trans (idealPowerIncl_zero_stalk_tmul X I ι M x m a) ?_

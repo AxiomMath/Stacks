@@ -320,7 +320,7 @@ def infinitesimalSectionAgreementSieve (δ₁ δ₂ : InfinitesimalSections G U�
   arrows {Y} p := (structureRingSheaf C S hS G.arrows).obj.map p.op x ∈
     Ideal.span (infinitesimalSectionAgreement G U₀ δ₁ δ₂ Y)
   downward_closed {Y Z} {f} hf g := by
-    show (structureRingSheaf C S hS G.arrows).obj.map (f.op ≫ g.op) x ∈
+    change (structureRingSheaf C S hS G.arrows).obj.map (f.op ≫ g.op) x ∈
       Ideal.span (infinitesimalSectionAgreement G U₀ δ₁ δ₂ Z)
     rw [(structureRingSheaf C S hS G.arrows).obj.map_comp_apply f.op g.op x]
     exact map_mem_span_infinitesimalSectionAgreement G U₀ δ₁ δ₂ g hf
@@ -363,7 +363,7 @@ theorem definingIdealAt_preimage_le_span_infinitesimalSectionAgreement
     definingIdealAt C S hS G.arrows (preimageSubspace C S hS G.source U₀) (op d.U) ≤
       Ideal.span (infinitesimalSectionAgreement G U₀ δ₁ δ₂ d.U) :=
   (definingIdealAt_preimage_eq_map_chartDiagram C S hS G.source U₀ d).le.trans
-    (Ideal.map_le_iff_le_comap.2 (fun y hy => Ideal.mem_comap.2 (Ideal.subset_span
+    (Ideal.map_le_iff_le_comap.2 (fun _ hy => Ideal.mem_comap.2 (Ideal.subset_span
       (chartDiagramPullback_mem_infinitesimalSectionAgreement G U₀ δ₁ δ₂ d hy))))
 
 /-- **The commutative diagram of étale scheme charts over `s` carried by a chart with an affine

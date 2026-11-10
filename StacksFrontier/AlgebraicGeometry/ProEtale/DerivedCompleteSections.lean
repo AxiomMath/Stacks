@@ -96,10 +96,10 @@ theorem preservesProducts_of_comp_of_essSurj
   have : IsIso (piComparison F (fun j => L.obj (Y j))) :=
     IsIso.of_isIso_comp_left (F.map (piComparison L Y)) _
   have hi : IsIso (Limits.Pi.map (fun j => (e j).hom)) := by
-    show IsIso (Limits.Pi.mapIso e).hom
+    change IsIso (Limits.Pi.mapIso e).hom
     infer_instance
   have hj : IsIso (Limits.Pi.map (fun j => F.map (e j).hom)) := by
-    show IsIso (Limits.Pi.mapIso (fun j => F.mapIso (e j))).hom
+    change IsIso (Limits.Pi.mapIso (fun j => F.mapIso (e j))).hom
     infer_instance
   have hc : IsIso (F.map (Limits.Pi.map (fun j => (e j).hom)) ≫ piComparison F X) := by
     rw [← Stacks.DerivedProducts.piComparison_naturality]
@@ -179,7 +179,7 @@ private theorem jointlyReflectsIsomorphisms_mapDerivedCategory
       intro i
       have hi : IsIso (((F i).mapDerivedCategory ⋙
           DerivedCategory.homologyFunctor (D i) n).map g) := by
-        show IsIso ((DerivedCategory.homologyFunctor (D i) n).map
+        change IsIso ((DerivedCategory.homologyFunctor (D i) n).map
           ((F i).mapDerivedCategory.map g))
         infer_instance
       exact (NatIso.isIso_map_iff (e i) g).mp hi
@@ -293,7 +293,7 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
 private lemma terminalSectionToEnd_one :
     Stacks.SheafOfModules.terminalSectionToEnd.{v, u, max u v, max u v} R T hT 1 = 1 := by
   ext M V x
-  show (ConcreteCategory.hom (R.obj.map (hT.from (unop V)).op) 1) • x = x
+  change (ConcreteCategory.hom (R.obj.map (hT.from (unop V)).op) 1) • x = x
   rw [map_one, one_smul]
 
 /-- Multiplication by a product of sections over a terminal object composes the two
@@ -303,7 +303,7 @@ private lemma terminalSectionToEnd_mul (f g : R.obj.obj (op T)) :
       Stacks.SheafOfModules.terminalSectionToEnd.{v, u, max u v, max u v} R T hT f *
         Stacks.SheafOfModules.terminalSectionToEnd.{v, u, max u v, max u v} R T hT g := by
   ext M V x
-  show (ConcreteCategory.hom (R.obj.map (hT.from (unop V)).op) (f * g)) • x =
+  change (ConcreteCategory.hom (R.obj.map (hT.from (unop V)).op) (f * g)) • x =
     (ConcreteCategory.hom (R.obj.map (hT.from (unop V)).op) f) •
       (ConcreteCategory.hom (R.obj.map (hT.from (unop V)).op) g) • x
   rw [map_mul, mul_smul]
@@ -312,7 +312,7 @@ private lemma terminalSectionToEnd_mul (f g : R.obj.obj (op T)) :
 private lemma terminalSectionToEnd_zero :
     Stacks.SheafOfModules.terminalSectionToEnd.{v, u, max u v, max u v} R T hT 0 = 0 := by
   ext M V x
-  show (ConcreteCategory.hom (R.obj.map (hT.from (unop V)).op) 0) • x = 0
+  change (ConcreteCategory.hom (R.obj.map (hT.from (unop V)).op) 0) • x = 0
   rw [map_zero, zero_smul]
 
 /-- Multiplication by a sum of sections over a terminal object is the sum of the two
@@ -322,7 +322,7 @@ private lemma terminalSectionToEnd_add (f g : R.obj.obj (op T)) :
       Stacks.SheafOfModules.terminalSectionToEnd.{v, u, max u v, max u v} R T hT f +
         Stacks.SheafOfModules.terminalSectionToEnd.{v, u, max u v, max u v} R T hT g := by
   ext M V x
-  show (ConcreteCategory.hom (R.obj.map (hT.from (unop V)).op) (f + g)) • x =
+  change (ConcreteCategory.hom (R.obj.map (hT.from (unop V)).op) (f + g)) • x =
     (ConcreteCategory.hom (R.obj.map (hT.from (unop V)).op) f) • x +
       (ConcreteCategory.hom (R.obj.map (hT.from (unop V)).op) g) • x
   rw [map_add, add_smul]
@@ -358,7 +358,7 @@ private theorem terminalScalarHom_evaluation
     ((((SheafOfModules.evaluation (R.over U) (op V)).map
       ((terminalScalarHom R U f).app M)).hom) x) =
       ((R.over U).obj.map (Over.mkIdTerminal.from V).op f) • x := by
-  show ((((SheafOfModules.evaluation (R.over U) (op V)).map
+  change ((((SheafOfModules.evaluation (R.over U) (op V)).map
       ((Stacks.SheafOfModules.terminalSectionToEnd (R.over U) (Over.mk (𝟙 U))
         Over.mkIdTerminal f).asHom.app M)).hom) x) = _
   exact Stacks.SheafOfModules.terminalSectionToEnd_apply (R.over U) (Over.mk (𝟙 U))
@@ -388,10 +388,10 @@ private theorem overEvaluation_linear
   let B := (R.over U).obj.obj (op V)
   let ρ : A →+* B := ((R.over U).obj.map (Over.mkIdTerminal.from V).op).hom
   let : IsMulCommutative A := by
-    show IsMulCommutative ((R.over U).obj.obj (op (Over.mk (𝟙 U))))
+    change IsMulCommutative ((R.over U).obj.obj (op (Over.mk (𝟙 U))))
     infer_instance
   let : IsMulCommutative B := by
-    show IsMulCommutative ((R.over U).obj.obj (op V))
+    change IsMulCommutative ((R.over U).obj.obj (op V))
     infer_instance
   let : CommSemiring A := inferInstance
   let : CommSemiring B := inferInstance
@@ -400,14 +400,14 @@ private theorem overEvaluation_linear
   let : Linear A (SheafOfModules.{max u v} (R.over U)) :=
     Linear.ofRingMorphism (terminalScalarHom R U)
   let E := SheafOfModules.evaluation (R.over U) (op V)
-  show Functor.Linear A E
+  change Functor.Linear A E
   exact ⟨fun {M N} g a => by
     ext x
-    show ((E.map (((terminalScalarHom R U a).app M) ≫ g)).hom x) = _
+    change ((E.map (((terminalScalarHom R U a).app M) ≫ g)).hom x) = _
     rw [Functor.map_comp]
-    show (E.map g).hom ((E.map ((terminalScalarHom R U a).app M)).hom x) = _
+    change (E.map g).hom ((E.map ((terminalScalarHom R U a).app M)).hom x) = _
     rw [terminalScalarHom_evaluation R U a M V x]
-    show (E.map g).hom (ρ a • x) =
+    change (E.map g).hom (ρ a • x) =
       ρ a • (E.map g).hom x
     exact map_smul _ _ _⟩
 
@@ -437,7 +437,7 @@ private theorem evaluationFamily_jointlyReflectsIsomorphisms_of_weaklyContractib
     let : IsIso (E.map g) := hg ⟨V, hV⟩
     have hinj : Function.Injective (E.map g).hom :=
       (ModuleCat.mono_iff_injective _).1 inferInstance
-    show Function.Exact (E.map (0 : 0 ⟶ M)).hom (E.map g).hom
+    change Function.Exact (E.map (0 : 0 ⟶ M)).hom (E.map g).hom
     intro x
     constructor
     · intro hx
@@ -459,7 +459,7 @@ private theorem evaluationFamily_jointlyReflectsIsomorphisms_of_weaklyContractib
     let : IsIso (E.map g) := hg ⟨V, hV⟩
     have hsurj : Function.Surjective (E.map g).hom :=
       (ModuleCat.epi_iff_surjective _).1 inferInstance
-    show Function.Exact (E.map g).hom (E.map (0 : N ⟶ 0)).hom
+    change Function.Exact (E.map g).hom (E.map (0 : N ⟶ 0)).hom
     intro z
     let z' : E.obj N := z
     constructor
@@ -498,7 +498,7 @@ theorem evaluation_preservesFiniteColimits_of_weaklyContractibleObjectsSituation
       (Stacks.WeaklyContractible.exact_iff_exact_sections_of_weaklyContractibleObjectsSituation
         J (h.withRing R) S).1 hS (U := U) hU
     apply (ShortComplex.ShortExact.moduleCat_exact_iff_function_exact (S.map E)).2
-    show Function.Exact (S.f.val.app (op U)).hom (S.g.val.app (op U)).hom
+    change Function.Exact (S.f.val.app (op U)).hom (S.g.val.app (op U)).hom
     exact hsec
   have hFinite : PreservesFiniteLimits E ∧ PreservesFiniteColimits E :=
     ((Functor.exact_tfae E).out 2 4).mp hExact
@@ -556,7 +556,7 @@ private theorem overFunctor_preservesFiniteColimits_of_slicedObjectsSituation
       V.1 V.2
   let : ∀ V, PreservesFiniteColimits (SheafOfModules.overFunctor.{max u v} R U ⋙ E V) :=
     fun V => by
-      show PreservesFiniteColimits (SheafOfModules.evaluation R (op V.1.left))
+      change PreservesFiniteColimits (SheafOfModules.evaluation R (op V.1.left))
       exact evaluation_preservesFiniteColimits_of_weaklyContractibleObjectsSituation R
         h.toWeaklyContractibleObjectsSituation
         V.1.left V.2
@@ -588,7 +588,7 @@ private theorem overFunctor_preservesFiniteLimits_of_slicedObjectsSituation
     apply (Stacks.WeaklyContractible.exact_iff_exact_sections_of_weaklyContractibleObjectsSituation
       (J.over U) hOver S').mpr
     intro V hV
-    show Function.Exact (complex.f.val.app (op V.left))
+    change Function.Exact (complex.f.val.app (op V.left))
       (complex.g.val.app (op V.left))
     exact (Stacks.WeaklyContractible.exact_iff_exact_sections_of_weaklyContractibleObjectsSituation
       J (h.withRing R) complex).mp hExact hV
@@ -626,7 +626,7 @@ private theorem derivedCategory_smul_eq
     apply CatCenter.ext_of_localization DerivedCategory.Q
       (HomologicalComplex.quasiIso C (ComplexShape.up ℤ))
     intro complex
-    show a • 𝟙 (DerivedCategory.Q.obj complex) =
+    change a • 𝟙 (DerivedCategory.Q.obj complex) =
       b • 𝟙 (DerivedCategory.Q.obj complex)
     calc
       a • 𝟙 (DerivedCategory.Q.obj complex) =
@@ -707,7 +707,7 @@ public theorem isDerivedComplete_iff_derivedSections_of_slicedObjectsSituation
   · intro hCompleteAll U hU
     let R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U)
     let : IsMulCommutative R := by
-      show IsMulCommutative (X.O.obj.obj (op U))
+      change IsMulCommutative (X.O.obj.obj (op U))
       infer_instance
     let : CommSemiring R := inferInstance
     let E := SheafOfModules.evaluation
@@ -736,12 +736,12 @@ public theorem isDerivedComplete_iff_derivedSections_of_slicedObjectsSituation
       RingedSite.wEqualsLocallyBijectiveAddCommGroup (X.J.over U)
     let hOver := h.over U ROver
     let : ∀ V : (Over U)ᵒᵖ, IsMulCommutative (ROver.obj.obj V) := fun V => by
-      show IsMulCommutative (X.O.obj.obj (op V.unop.left))
+      change IsMulCommutative (X.O.obj.obj (op V.unop.left))
       infer_instance
     let terminal : Over U := Over.mk (𝟙 U)
     let : ∀ W : (Over terminal)ᵒᵖ,
         IsMulCommutative ((ROver.over terminal).obj.obj W) := fun W => by
-      show IsMulCommutative (ROver.obj.obj (op W.unop.left))
+      change IsMulCommutative (ROver.obj.obj (op W.unop.left))
       infer_instance
     let : Linear (CatCenter A) A :=
       Linear.ofRingMorphism (RingHom.id (CatCenter A))
@@ -793,7 +793,7 @@ public theorem isDerivedComplete_iff_derivedSections_of_slicedObjectsSituation
     let : ∀ V : {V : Over U // hOver.B V}, PreservesFiniteColimits (Eval V) := fun V =>
       evaluation_preservesFiniteColimits_of_weaklyContractibleObjectsSituation ROver hOver V.1 V.2
     let : ∀ V : {V : Over U // hOver.B V}, Functor.Linear R (Eval V) := fun V => by
-      show Functor.Linear R
+      change Functor.Linear R
         (SheafOfModules.evaluation
           ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U) (op V.1))
       exact overEvaluation_linear (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U V.1
@@ -845,7 +845,7 @@ public theorem isDerivedComplete_iff_derivedSections_of_slicedObjectsSituation
           terminalLinear ModuleCat.instLinear _ f f ?_ _).mp hAt
         intro M N map
         ext x
-        show (show R from ROver.obj.map (Over.mkIdTerminal.from terminal).op f) •
+        change (show R from ROver.obj.map (Over.mkIdTerminal.from terminal).op f) •
           map.hom x = f • map.hom x
         have hid : Over.mkIdTerminal.from terminal = 𝟙 terminal :=
           Over.mkIdTerminal.hom_ext _ _
@@ -876,10 +876,10 @@ public theorem isDerivedComplete_iff_derivedSections_of_slicedObjectsSituation
     refine ⟨inferInstance, inferInstance, inferInstance, inferInstance, ?_⟩
     let R := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U)
     let : IsMulCommutative R := by
-      show IsMulCommutative (X.O.obj.obj (op U))
+      change IsMulCommutative (X.O.obj.obj (op U))
       infer_instance
     let : ∀ V : (Over U)ᵒᵖ, IsMulCommutative (ROver.obj.obj V) := fun V => by
-      show IsMulCommutative (X.O.obj.obj (op V.unop.left))
+      change IsMulCommutative (X.O.obj.obj (op V.unop.left))
       infer_instance
     let φ := terminalScalarHom (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U
     let : Linear (CatCenter A) A := Linear.ofRingMorphism (RingHom.id (CatCenter A))
@@ -934,7 +934,7 @@ public theorem isDerivedComplete_iff_derivedSections_of_slicedObjectsSituation
       have hmem := I.toSubmodule.map_mem V.1.hom.op hf
       change (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.map V.1.hom.op f ∈
         I.toSubmodule.obj (op V.1.left) at hmem
-      show (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.map
+      change (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.map
         ((Over.mkIdTerminal.from V.1).left).op f ∈ I.toSubmodule.obj (op V.1.left)
       rw [Over.mkIdTerminal_from_left]
       exact hmem

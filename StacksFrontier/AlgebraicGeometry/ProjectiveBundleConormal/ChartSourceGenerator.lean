@@ -42,8 +42,8 @@ does to them.
 Nothing is rewritten, and no composite is split at more than two folds inside a larger term:
 `restrictIsoSpecTilde_inv_val_app` and `restrictKernelIsoTilde_inv_val_app` name the splits so
 that the generator formulas quote them instead of performing them. See the implementation notes of
-`StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.ChartRatio` for why no `rw` occurs on this
-layer, and those of
+`StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.ChartRatio` for why no `rw` occurs on
+this layer, and those of
 `StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.ChartKernelTilde` for the split.
 
 **Every morphism handed to `PresheafOfModules.congr_map_apply` and

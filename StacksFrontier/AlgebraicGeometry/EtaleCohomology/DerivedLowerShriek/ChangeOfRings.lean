@@ -207,9 +207,10 @@ theorem isConstructibleEtaleModule_homology_derivedLowerShriek_of_quotient (B : 
     (j : CompactificationOf (Over.mk f))
     (h : ∀ (Λ' : Type) [CommRing Λ'] [IsNoetherianRing Λ'] (m : ℕ), 0 < m → (m : Λ') = 0 →
       ∀ G : EtaleModules.{u, 0} Λ' X.obj, IsBigSiteConstructibleEtaleModule B X Λ' G → ∀ p : ℕ,
-        IsBigSiteConstructibleEtaleModule B Y Λ' ((DerivedCategory.Plus.homologyFunctor _ (p : ℤ)).obj
-          ((derivedLowerShriek.{u, 0} f j Λ').obj ((DerivedCategory.Plus.singleFunctor _ 0).obj
-              G))))
+        IsBigSiteConstructibleEtaleModule B Y Λ'
+          ((DerivedCategory.Plus.homologyFunctor _ (p : ℤ)).obj
+            ((derivedLowerShriek.{u, 0} f j Λ').obj ((DerivedCategory.Plus.singleFunctor _ 0).obj
+                G))))
     (Λ : Type) [CommRing Λ] [IsNoetherianRing Λ] (F : EtaleModules.{u, 0} Λ X.obj)
     (hF : IsBigSiteConstructibleEtaleModule B X Λ F) (ht : IsTorsionEtaleModule Λ X.obj F) (n : ℤ) :
     IsBigSiteConstructibleEtaleModule B Y Λ ((DerivedCategory.Plus.homologyFunctor _ n).obj
@@ -218,8 +219,9 @@ theorem isConstructibleEtaleModule_homology_derivedLowerShriek_of_quotient (B : 
   refine isConstructibleEtaleModule_homology_derivedLowerShriek_of_forall_sheaf B f j Λ
     (fun G hG hGt p => ?_) _ (fun q => ⟨isConstructibleEtaleModule_homology_singleFunctor hF q,
       ?_⟩) n
-  · obtain ⟨N, hN, -, hNG⟩ := exists_nsmul_id_eq_zero_of_isBigSiteConstructibleEtaleModule B X Λ 1 G hG
-      (isPrimeToCharacteristicTorsion_one_of_isTorsionEtaleModule Λ G hGt)
+  · obtain ⟨N, hN, -, hNG⟩ :=
+      exists_nsmul_id_eq_zero_of_isBigSiteConstructibleEtaleModule B X Λ 1 G hG
+        (isPrimeToCharacteristicTorsion_one_of_isTorsionEtaleModule Λ G hGt)
     let I : Ideal Λ := Ideal.span {(N : Λ)}
     let ρ : Λ →+* Λ ⧸ I := Ideal.Quotient.mk I
     have hρ : Function.Surjective ρ := Ideal.Quotient.mk_surjective

@@ -163,7 +163,7 @@ theorem whereInvertible_one_eq_top (hgen : Algebra.adjoin (𝒜 0) ((𝒜 1 : Se
   obtain ⟨g, hg⟩ := ProjDegreeOneTriv.exists_mem_basicOpen_degreeOne 𝒜 hgen x
   rw [GoodOpenClose.whereInvertible_eq_iSup_basicOpen_mul 𝒜 1]
   refine Opens.mem_iSup.mpr ⟨0, Opens.mem_iSup.mpr
-    ⟨⟨(g : S), by simpa using g.2⟩, Opens.mem_iSup.mpr
+    ⟨⟨(g : S), by simp⟩, Opens.mem_iSup.mpr
       ⟨⟨1, SetLike.one_mem_graded 𝒜⟩, ?_⟩⟩⟩
   simpa using (AlgebraicGeometry.Proj.mem_basicOpen 𝒜 (g : S) x).mp hg
 

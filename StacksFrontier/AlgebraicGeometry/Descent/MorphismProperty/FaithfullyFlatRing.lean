@@ -84,7 +84,7 @@ private theorem finitePresentation_of_comp_of_faithfullyFlat_sameUniverse
     Algebra.FinitePresentation.equiv (Algebra.IsPushout.equiv A₀ B₀ A B).symm
   have hA : Algebra.FinitePresentation A₀ A :=
     Algebra.FinitePresentation.of_finitePresentation_tensorProduct_of_faithfullyFlat B₀
-  show (algebraMap R A).FinitePresentation
+  change (algebraMap R A).FinitePresentation
   rw [IsScalarTower.algebraMap_eq R A₀ A]
   exact (RingHom.finitePresentation_algebraMap.mpr hA).comp
     (RingHom.finitePresentation_algebraMap.mpr hA₀)
@@ -153,7 +153,7 @@ private theorem finiteType_of_comp_of_faithfullyFlat_of_finitePresentation_sameU
       (Algebra.IsPushout.equiv A₀ B₀ A B).symm
   have : Algebra.FiniteType A₀ A :=
     Algebra.FiniteType.of_finiteType_tensorProduct_of_faithfullyFlat B₀
-  show (algebraMap R A).FiniteType
+  change (algebraMap R A).FiniteType
   rw [RingHom.finiteType_algebraMap]
   exact (Algebra.FiniteType.of_finitePresentation (R := R) (A := A₀)).trans inferInstance
 

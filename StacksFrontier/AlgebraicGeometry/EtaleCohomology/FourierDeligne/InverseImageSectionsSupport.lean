@@ -52,7 +52,7 @@ theorem exists_mem_sieve_mem_range_left {X : Scheme.{u}} {U : X.Etale} {R : Siev
   let pt : Spec (.of (AlgebraicClosure (U.left.residueField x))) := default
   refine ⟨W, g, hg, yW.left pt, ?_⟩
   have hw : yW.left ≫ g.left = a := congrArg (fun φ => φ.left) hyW
-  show (yW.left ≫ g.left) pt = x
+  change (yW.left ≫ g.left) pt = x
   rw [hw]
   exact Scheme.fromSpecResidueField_apply x _
 
@@ -68,7 +68,7 @@ theorem sheafAb_section_eq_zero_of_mem {X : Scheme.{u}}
       (forget Ab.{u + 1})).1 G.property)
   refine ((hG S hS).isSeparatedFor).ext (t₁ := t) (t₂ := (0 : ToType (G.obj.obj (op V))))
     fun W g hg => ?_
-  show G.obj.map g.op t = G.obj.map g.op 0
+  change G.obj.map g.op t = G.obj.map g.op 0
   rw [h g hg, map_zero]
 
 /-- **A section of an abelian sheaf vanishing near every point vanishes.** -/
@@ -130,7 +130,7 @@ theorem exists_map_smallEtalePullbackAbUnitApp_eq_zero
   let m₂ : U'' ⟶ B.obj W' := MorphismProperty.Over.homMk lf (pullback.lift_snd _ _ _) trivial
   have hsq : c ≫ m = m₂ ≫ B.map q := by
     refine MorphismProperty.Over.Hom.ext ?_
-    show pullback.fst φ ql ≫ mL = lf ≫ bq
+    change pullback.fst φ ql ≫ mL = lf ≫ bq
     apply pullback.hom_ext
     · rw [Category.assoc, Category.assoc, hb₁, ← hφ, ← Category.assoc, pullback.lift_fst]
       exact h1.symm
@@ -138,7 +138,7 @@ theorem exists_map_smallEtalePullbackAbUnitApp_eq_zero
   obtain ⟨p, hp, -⟩ := Scheme.Pullback.exists_preimage_pullback (f := φ) (g := ql) u w'
     hw'.symm
   refine ⟨U'', c, ⟨p, hp⟩, ?_⟩
-  show G.obj.map c.op (G.obj.map m.op (smallEtalePullbackAbUnitApp f F W h)) = 0
+  change G.obj.map c.op (G.obj.map m.op (smallEtalePullbackAbUnitApp f F W h)) = 0
   rw [← ConcreteCategory.comp_apply, ← G.obj.map_comp, ← op_comp, hsq, op_comp,
     G.obj.map_comp, ConcreteCategory.comp_apply,
     ← smallEtalePullbackAbUnitApp_naturality f F q h, hq, map_zero, map_zero]
@@ -186,9 +186,9 @@ theorem exists_map_eq_zero_of_dense (F : Sheaf (smallEtaleTopology Y) Ab.{u + 1}
   have hb : (B.map q).left ≫ pullback.fst W.hom f = pullback.fst W'.hom f ≫ q.left :=
     pullback.lift_fst _ _ _
   rw [hb] at hl
-  show (q.left) ((pullback.fst W'.hom f) (m'.left p)) = φ o
+  change (q.left) ((pullback.fst W'.hom f) (m'.left p)) = φ o
   refine hl.trans ?_
-  show φ (O'.ι (d.left p)) = φ o
+  change φ (O'.ι (d.left p)) = φ o
   rw [hp, hp₀]
 
 /-- **A section of `f⁻¹ F` vanishing over a dense open vanishes**, when the vanishing loci of the

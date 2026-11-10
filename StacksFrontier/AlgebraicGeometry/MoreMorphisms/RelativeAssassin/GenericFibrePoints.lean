@@ -235,7 +235,7 @@ private theorem mem_genericPoints_fiber_of_injective {W X T S : Scheme.{u}} (f :
   · apply (g.fiberι t).isEmbedding.injective
     apply hm
     simpa only [hψι] using congrArg (f.fiberι s) h
-  · show f.fiberι s (ψ z) ∈ E
+  · change f.fiberι s (ψ z) ∈ E
     rw [hψι]
     exact hE z hz
 
@@ -287,7 +287,7 @@ private theorem fiberι_mem_relativeAssassin_of_subset_flatLocus {X S T : Scheme
     (continuous_induced_rng.mpr (k.continuous.comp (g.fiberι t).continuous))
   have hφa : e a = φ zη := congrArg e (Subtype.ext (hy.symm.trans (congrArg k hzη).symm))
   have hzη' : (k ≫ j) (g.fiberι t zη) = f.fiberι (f x) η.1.1 := by
-    show j (k _) = _
+    change j (k _) = _
     rw [hzη, hy, hpη']
   have hgen := mem_genericPoints_fiber_of_injective f g (k ≫ j) i
     (k ≫ j).isClosedEmbedding.injective (fun w => hcond (k w)) t (f x) hbase η zη hzη'
@@ -339,7 +339,7 @@ public theorem exists_open_closure_genericPoints_fibre_mem_relativeAssassin
   have hxpoint : f' x' = t₀ := by simpa [f'] using hxt
   have hxrel : x' ∈ Stacks.Divisors.relativeAssassin f' F' := by
     rw [← AlgebraicGeometry.preimage_relativeAssassin_eq_pullback_of_locallyQuasiFinite f i F]
-    show j x' ∈ Stacks.Divisors.relativeAssassin f F
+    change j x' ∈ Stacks.Divisors.relativeAssassin f F
     exact hxj ▸ hξ
   obtain ⟨U, hx'U, hUflat⟩ :=
     exists_open_subset_flatLocus_of_isIntegral_base f' F' x' (by rwa [hxpoint])
@@ -361,7 +361,7 @@ private theorem exists_open_subset_image_of_isGenericPoint {Z Y : Scheme.{u}} (h
     exists_isAffineOpen_mem_and_subset (X := Y) (x := η) (U := ⊤) trivial
   have hz₀mem : z₀ ∈ O ⊓ h ⁻¹ᵁ V' := by
     refine ⟨hz₀O, ?_⟩
-    show h z₀ ∈ V'
+    change h z₀ ∈ V'
     rwa [hz₀]
   obtain ⟨W, hWaff, hz₀W, hWle⟩ :=
     exists_isAffineOpen_mem_and_subset (X := Z) (x := z₀) hz₀mem
@@ -469,7 +469,7 @@ public theorem exists_open_forall_not_associatedPoints_fibre_subset {X Y : Schem
     exact QuasiSober.inter_of_isClosed_of_quasiSober_left _
       (isClosed_closure.preimage (f.fiberι y).continuous)
   have hbS : b ∈ ((f.fiberι y) ⁻¹' (Subtype.val '' V₀) : Set (f.fiber y)) := by
-    show f.fiberι y b ∈ Subtype.val '' V₀
+    change f.fiberι y b ∈ Subtype.val '' V₀
     rw [hb, hV₀eq]
     exact ⟨hx₁O, hx₁cl⟩
   obtain ⟨c, hc⟩ := genericPoints_nonempty

@@ -191,7 +191,7 @@ public theorem canonicalMap_on_affineOpen {T S : Scheme.{u}} (f : T ⟶ S)
           Stacks.RelativeSpec.RelativeSpecPair.pullback_eq,
           Under.Hom.right, Under.comp_right]
         rw [Scheme.Opens.toSpecΓ_appTop]
-        show _ = (Scheme.ΓSpecIso (Γ(T, V))).inv ≫
+        change _ = (Scheme.ΓSpecIso (Γ(T, V))).inv ≫
           (Scheme.ΓSpecIso (Γ(T, V))).hom ≫ V.topIso.inv
         simp only [Iso.inv_hom_id_assoc]
         simp only [NatTrans.comp_app]

@@ -85,12 +85,10 @@ theorem homTensor_bijective [Module.Finite P Ω] [Module.Projective P Ω] :
   have hcomm : (homTensor A' P Ω M F) ∘ₗ (LinearEquiv.rTensor F eA).toLinearMap =
       (as.trans eB).toLinearMap := by
     refine LinearMap.ext fun x ↦ ?_
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul φ m =>
-      induction φ using TensorProduct.induction_on with
-      | zero => simp
+      induction φ using TensorProduct.inductionOn with
       | add x y hx hy => simp only [TensorProduct.add_tmul, map_add, hx, hy]
       | tmul g n =>
         ext ω
@@ -115,8 +113,7 @@ theorem homTensor_preComp {X Y : Type u} [AddCommGroup X] [Module P X] [AddCommG
     [Module P Y] (h : X →ₗ[P] Y) (z : (Y →ₗ[P] M) ⊗[A'] F) :
     homTensor A' P X M F ((preComp A' P M h).rTensor F z) =
       preComp A' P (M ⊗[A'] F) h (homTensor A' P Y M F z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul φ f => rfl
 
@@ -233,7 +230,7 @@ noncomputable def derToHom : sqDer J ref →ₗ[A'] (Ω[P⁄A'] →ₗ[P] RefMod
 theorem derToHom_D (D : sqDer J ref) (x : P) :
     RefMod.val J ref (derToHom J ref D (KaehlerDifferential.D A' P x)) =
       (D : P →ₗ[A'] N) x := by
-  show RefMod.val J ref ((toDerivation J ref D).liftKaehlerDifferential
+  change RefMod.val J ref ((toDerivation J ref D).liftKaehlerDifferential
     (KaehlerDifferential.D A' P x)) = _
   rw [Derivation.liftKaehlerDifferential_comp_D]
   rfl
@@ -252,14 +249,14 @@ theorem derToHom_bijective : Function.Bijective (derToHom J ref) := by
         map_smul' := fun a x ↦ by
           rw [Derivation.map_smul, RefMod.val_smul_A', RingHom.id_apply, Algebra.smul_def] }
     have hL : L ∈ sqDer J ref := ⟨fun x ↦ RefMod.val_mem J ref (δ x), fun x y ↦ by
-      show RefMod.val J ref (δ (x * y)) = _
+      change RefMod.val J ref (δ (x * y)) = _
       rw [δ.leibniz x y, RefMod.val_add, RefMod.val_smul, RefMod.val_smul]
       rfl⟩
     refine ⟨⟨L, hL⟩, ?_⟩
     have hδ : toDerivation J ref ⟨L, hL⟩ = δ := by
       ext x
       exact Subtype.ext rfl
-    show (KaehlerDifferential.linearMapEquivDerivation A' P).symm
+    change (KaehlerDifferential.linearMapEquivDerivation A' P).symm
       (toDerivation J ref ⟨L, hL⟩) = φ
     rw [hδ, LinearEquiv.symm_apply_apply]
 
@@ -332,8 +329,7 @@ end RefMod
 noncomputable def refTensor :
     RefMod A' J ref ⊗[A'] F →ₗ[P] RefMod A' (extIdeal F J) (extRef F ref) :=
   { toFun := fun z ↦ RefMod.mk _ _ ⟨TensorProduct.map (RefMod.valₗ J ref) LinearMap.id z, by
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul j f => exact tmul_mem_extIdeal J (RefMod.val_mem J ref j) f
       | add x y hx hy =>
         rw [map_add]
@@ -343,8 +339,7 @@ noncomputable def refTensor :
       apply Subtype.ext
       change TensorProduct.map (RefMod.valₗ J ref) LinearMap.id (p • z) =
         (ref p ⊗ₜ[A'] (1 : F)) * TensorProduct.map (RefMod.valₗ J ref) LinearMap.id z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul j f =>
         rw [TensorProduct.smul_tmul', TensorProduct.map_tmul, TensorProduct.map_tmul,
           Algebra.TensorProduct.tmul_mul_tmul, one_mul]
@@ -367,12 +362,10 @@ theorem refTensor_bijective [Module.Flat A' F] : Function.Bijective (refTensor J
       { S.toAddSubmonoid with
         smul_mem' := by
           rintro c _ ⟨a, rfl⟩
-          induction c using TensorProduct.induction_on with
-          | zero => simp
+          induction c using TensorProduct.inductionOn with
           | add c d hc hd => rw [add_smul]; exact S.add_mem hc hd
           | tmul n f =>
-            induction a using TensorProduct.induction_on with
-            | zero => simp
+            induction a using TensorProduct.inductionOn with
             | add a b ha hb => rw [map_add, smul_add]; exact S.add_mem ha hb
             | tmul j g =>
               refine ⟨(RefMod.mk J ref ⟨n * RefMod.val J ref j,

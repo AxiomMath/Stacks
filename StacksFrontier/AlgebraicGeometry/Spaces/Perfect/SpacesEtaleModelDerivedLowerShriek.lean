@@ -93,7 +93,7 @@ theorem isIso_mateEquiv_symm_spacesEtaleModelDerivedLowerShriekAdjunction
     (hj : IsEtale B S hS j.hom) (hj' : IsEtale B S hS j'.hom) (sq : IsPullback j' h g j) :
     IsIso ((mateEquiv (spacesEtaleModelDerivedLowerShriekAdjunction B S hS j hj)
       (spacesEtaleModelDerivedLowerShriekAdjunction B S hS j' hj')).symm
-        (spacesEtaleModelDerivedPullbackSquare B S hS g h j j' comm)).natTrans :=
+        (spacesEtaleModelDerivedPullbackSquare B S hS g h j j' comm)) :=
   (Adjunction.isIso_mateEquiv_symm_iff_isIso_mateEquiv _ _ _
     (derivedAdjunction (spacesEtaleModelHom B S hS h)
       (isMorphismOfSites_spacesEtaleModelHom B S hS h))

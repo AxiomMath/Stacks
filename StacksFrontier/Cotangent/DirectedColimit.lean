@@ -366,14 +366,14 @@ theorem mvPolynomialSystemMap_eventually_eq
     · intro a
       simp [mvPolynomialSystemMap]
     · intro x
-      show MvPolynomial.rename (fX i m (le_trans hil hml))
+      change MvPolynomial.rename (fX i m (le_trans hil hml))
           (MvPolynomial.map (fR i m (le_trans hil hml))
             (MvPolynomial.rename (fun y : S => y.1) (MvPolynomial.X x))) =
         MvPolynomial.rename xbarM
           (MvPolynomial.map (fR i m (le_trans hil hml))
             (MvPolynomial.rename (fun y : S => Quotient.mk rel y) (MvPolynomial.X x)))
       simp only [MvPolynomial.rename_X, MvPolynomial.map_X]
-      show MvPolynomial.X (R := R m) (fX i m (le_trans hil hml) x.1) =
+      change MvPolynomial.X (R := R m) (fX i m (le_trans hil hml) x.1) =
         MvPolynomial.X (R := R m) (fX l m hml (fX i l hil x.1))
       exact congrArg (fun z : X m => MvPolynomial.X (R := R m) z)
         (hX.map_comp i l m hil hml x.1).symm
@@ -662,7 +662,7 @@ theorem KaehlerDifferential.basisOfMvPolynomialAlgEquiv_apply
   let : IsScalarTower A Q P := IsScalarTower.of_algebraMap_eq fun a => (E.symm.commutes a).symm
   simp only [KaehlerDifferential.basisOfMvPolynomialAlgEquiv, Module.Basis.map_apply,
     Module.Basis.mapCoeffs_apply, KaehlerDifferential.mvPolynomialBasis_apply]
-  show KaehlerDifferential.map A A Q P
+  change KaehlerDifferential.map A A Q P
     (KaehlerDifferential.D A Q (MvPolynomial.X x)) = _
   rw [KaehlerDifferential.map_D]
   rfl
@@ -699,7 +699,7 @@ theorem CommAlgCat.cotangentTermBasisZero_apply
   let P := (CommAlgCat.standardResolution.{u, v} A B).left.obj (op ⦋0⦌)
   let E := CommAlgCat.standardResolutionZeroAlgEquiv.{u, v} A B
   let : Algebra P B := (CommAlgCat.standardResolutionAugmentationHom A B (op ⦋0⦌)).toAlgebra
-  show (KaehlerDifferential.basisOfMvPolynomialAlgEquiv (A := A) E).baseChange B b = _
+  change (KaehlerDifferential.basisOfMvPolynomialAlgEquiv (A := A) E).baseChange B b = _
   rw [Module.Basis.baseChange_apply, KaehlerDifferential.basisOfMvPolynomialAlgEquiv_apply]
   rfl
 
@@ -714,7 +714,7 @@ theorem CommAlgCat.cotangentTermBasisSucc_apply
   let P := (CommAlgCat.standardResolution.{u, v} A B).left.obj (op ⦋n + 1⦌)
   let E := CommAlgCat.standardResolutionSuccAlgEquiv.{u, v} A B n
   let : Algebra P B := (CommAlgCat.standardResolutionAugmentationHom A B (op ⦋n + 1⦌)).toAlgebra
-  show (KaehlerDifferential.basisOfMvPolynomialAlgEquiv (A := A) E).baseChange B p = _
+  change (KaehlerDifferential.basisOfMvPolynomialAlgEquiv (A := A) E).baseChange B p = _
   rw [Module.Basis.baseChange_apply, KaehlerDifferential.basisOfMvPolynomialAlgEquiv_apply]
   rfl
 
@@ -810,7 +810,7 @@ theorem finsuppSystemCocone_jointly_surjective
       obtain ⟨k, hik, hjk⟩ := exists_ge_ge i j
       refine ⟨k, finsuppSystemMap fR fX hik pi + finsuppSystemMap fR fX hjk qj, ?_⟩
       rw [map_add]
-      show ((finsuppSystemCocone gR gX k).comp (finsuppSystemMap fR fX hik)) pi +
+      change ((finsuppSystemCocone gR gX k).comp (finsuppSystemMap fR fX hik)) pi +
         ((finsuppSystemCocone gR gX k).comp (finsuppSystemMap fR fX hjk)) qj = _
       rw [finsuppSystemCocone_comp fR gR fX gX hR hX hik,
         finsuppSystemCocone_comp fR gR fX gX hR hX hjk, hpi, hqj]
@@ -835,7 +835,7 @@ noncomputable def mvPolynomialOfFinsupp {R X : Type*} [CommRing R] :
 `c`. -/
 theorem mvPolynomialOfFinsupp_single {R X : Type*} [CommRing R] (x : X) (c : R) :
     mvPolynomialOfFinsupp (Finsupp.single x c) = MvPolynomial.monomial (Finsupp.single x 1) c := by
-  show AddMonoidAlgebra.ofCoeff (Finsupp.embDomain _ (Finsupp.single x c)) = _
+  change AddMonoidAlgebra.ofCoeff (Finsupp.embDomain _ (Finsupp.single x c)) = _
   rw [Finsupp.embDomain_single]
   rfl
 
@@ -974,13 +974,13 @@ theorem CommAlgCat.cotangentComplexBasis_map
   cases n with
   | zero =>
       change B at x
-      show (CommAlgCat.cotangentComplex_degreeIso A' B' 0).toLinearEquiv
+      change (CommAlgCat.cotangentComplex_degreeIso A' B' 0).toLinearEquiv
         ((CommAlgCat.cotangentComplexAbMap s).f 0 (CommAlgCat.cotangentComplexBasis A B 0 x)) =
         (CommAlgCat.cotangentComplex_degreeIso A' B' 0).toLinearEquiv
           (CommAlgCat.cotangentComplexBasis A' B' 0 (s.map x))
       rw [CommAlgCat.cotangentComplexBasis_zero_apply, CommAlgCat.cotangentComplexBasis_zero_apply]
       rw [CommAlgCat.cotangentTermBasisZero_apply, CommAlgCat.cotangentTermBasisZero_apply]
-      show (CommAlgCat.cotangentComplex_degreeIso A' B' 0).hom
+      change (CommAlgCat.cotangentComplex_degreeIso A' B' 0).hom
         ((CommAlgCat.squareFunctoriality s).complexMap.f 0
           ((CommAlgCat.cotangentComplex_degreeIso A B 0).inv
             (CommAlgCat.cotangentTermDifferential A B (op ⦋0⦌)
@@ -991,7 +991,7 @@ theorem CommAlgCat.cotangentComplexBasis_map
         (CommAlgCat.cotangentComplex_degreeIso A' B' 0)).apply_symm_apply _ |>.symm
   | succ n =>
       change (CommAlgCat.standardResolution.{u, max w v} A B).left.obj (op ⦋n⦌) at x
-      show (CommAlgCat.cotangentComplex_degreeIso A' B' (n + 1)).toLinearEquiv
+      change (CommAlgCat.cotangentComplex_degreeIso A' B' (n + 1)).toLinearEquiv
         ((CommAlgCat.cotangentComplexAbMap s).f (-(n + 1 : ℕ) : ℤ)
           (CommAlgCat.cotangentComplexBasis A B (n + 1) x)) =
         (CommAlgCat.cotangentComplex_degreeIso A' B' (n + 1)).toLinearEquiv
@@ -999,7 +999,7 @@ theorem CommAlgCat.cotangentComplexBasis_map
             ((CommAlgCat.squareFunctoriality s).resolution (op ⦋n⦌) x))
       rw [CommAlgCat.cotangentComplexBasis_succ_apply, CommAlgCat.cotangentComplexBasis_succ_apply]
       rw [CommAlgCat.cotangentTermBasisSucc_apply, CommAlgCat.cotangentTermBasisSucc_apply]
-      show (CommAlgCat.cotangentComplex_degreeIso A' B' (n + 1)).hom
+      change (CommAlgCat.cotangentComplex_degreeIso A' B' (n + 1)).hom
         ((CommAlgCat.squareFunctoriality s).complexMap.f (-(n + 1 : ℕ) : ℤ)
           ((CommAlgCat.cotangentComplex_degreeIso A B (n + 1)).inv
             (CommAlgCat.cotangentTermDifferential A B (op ⦋n + 1⦌)

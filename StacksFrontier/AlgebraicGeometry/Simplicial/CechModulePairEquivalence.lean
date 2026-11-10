@@ -235,7 +235,7 @@ theorem cechIso_comm_iff {M₁ M₂ : CechObj f} (γ₁ : CechHom f M₁ M₁) (
         γ₁ ≫ (modulePullbackPseudofunctor.map
           (cechSq f PUnit.unit PUnit.unit).p₂.op.toLoc).toFunctor.map φ := by
   rw [cechIso_hom, cechIso_hom]
-  show (Scheme.Modules.pullback ((simplicialScheme f).map (SimplexCategory.δ (1 : Fin 2)).op)).map
+  change (Scheme.Modules.pullback ((simplicialScheme f).map (SimplexCategory.δ (1 : Fin 2)).op)).map
       ((Scheme.Modules.pullback (proj f 0 0)).map (toSchXHom φ)) ≫ cechTransport (schemeHomX γ₂) =
     cechTransport (schemeHomX γ₁) ≫
       (Scheme.Modules.pullback ((simplicialScheme f).map (SimplexCategory.δ (0 : Fin 2)).op)).map

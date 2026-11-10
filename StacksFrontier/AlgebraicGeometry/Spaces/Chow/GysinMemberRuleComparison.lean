@@ -343,7 +343,7 @@ theorem isPrincipalDivisorCycleOfGood_canonicalFirstChernRule_sub_memberGenerato
   have hcod := codimension_integralClosedSubspaceSupport_eq_one D (V.subspace.ι ≫ p)
     (isGood_integralClosedSubspace D p hp V) V.isIntegralSpace
     (deltaDimensionClosed_member D p hp k V hVdim) hT₀
-  rw [show memberGeneratorChernRule D p hp L σ hL k V hVdim T₀ hT₀ = _ from dif_pos hcod]
+  rw [show memberGeneratorChernRule D p hp L σ hL k V hVdim T₀ hT₀ = _ from dite_eq_left hcod]
   exact isPrincipalDivisorCycleOfGood_canonicalDivisorCycleAt_sub D _ _ T₀.isIntegralSpace
     _ _ _ _ _ _ _
 

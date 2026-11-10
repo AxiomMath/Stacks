@@ -117,15 +117,14 @@ noncomputable def pullbackCommRingSheafIterate (O : Sheaf K CommRingCat.{w}) :
 
 variable [J₂.HasSheafCompose (forget CommRingCat.{w₂})]
 
-omit [J₂.HasSheafCompose (forget RingCat)] [J₂.HasSheafCompose (forget₂ CommRingCat RingCat)] in
+omit [J₂.HasSheafCompose (forget RingCat)] [J₁.HasSheafCompose (forget₂ CommRingCat RingCat)]
+  [J₂.HasSheafCompose (forget₂ CommRingCat RingCat)]
+  [K.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The composition comparison is the identity on underlying sheaves of sets. -/
 lemma forget_map_pullbackCommRingSheafIterate_hom (O : Sheaf K CommRingCat.{w}) :
     (sheafCompose J₂ (forget CommRingCat.{w₂})).map
         (pullbackCommRingSheafIterate J₁ J₂ Φ₁ Φ₂ O).hom = 𝟙 _ :=
   rfl
-
-variable [J₁.HasSheafCompose (forget CommRingCat.{w₁})]
-  [K.HasSheafCompose (forget CommRingCat.{w})]
 
 /-- The composition comparison is natural in the sheaf of commutative rings. -/
 lemma pullbackCommRingSheafIterate_naturality {O O' : Sheaf K CommRingCat.{w}} (a : O ⟶ O') :
@@ -241,8 +240,7 @@ noncomputable def pullbackCommRingSheafULift (O : Sheaf J CommRingCat.{w}) :
   hom_inv_id := rfl
   inv_hom_id := rfl
 
-variable [J.HasSheafCompose (forget CommRingCat.{w})]
-  [J.HasSheafCompose (forget CommRingCat.{max w u₁ v₁})]
+variable [J.HasSheafCompose (forget CommRingCat.{max w u₁ v₁})]
 
 /-- The comparison with the universe lift is natural in the sheaf of commutative rings. -/
 lemma pullbackCommRingSheafULift_naturality {O O' : Sheaf J CommRingCat.{w}} (a : O ⟶ O') :

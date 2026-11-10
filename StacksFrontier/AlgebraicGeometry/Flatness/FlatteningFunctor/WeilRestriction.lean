@@ -195,7 +195,7 @@ theorem kernelι_structureSheafHom_eq_zero_iff_isIso (i : Y ⟶ X) [IsClosedImme
     refine IsClosedImmersion.isIso_iff_ker_eq_bot.mpr (Scheme.IdealSheafData.ext ?_)
     funext U
     rw [Scheme.Hom.ker_apply]
-    show RingHom.ker (CommRingCat.Hom.hom (i.app U)) = ⊥
+    change RingHom.ker (CommRingCat.Hom.hom (i.app U)) = ⊥
     rw [← RingHom.injective_iff_ker_eq_bot]
     intro a b hab
     exact ((ConcreteCategory.isIso_iff_bijective (Scheme.Modules.Hom.app
@@ -252,7 +252,7 @@ theorem isIsomorphismAfterBaseChange_iff_map_kernelι_eq_zero :
     hpcs.preservesColimitsOfShape.preservesColimit
   have key := isIso_map_cokernelπ_iff_map_eq_zero (kernel.ι (structureQuotientMap i))
     (Scheme.Modules.pullback (pullback.fst f T.hom)) hpz hpc
-  show IsIso ((Scheme.Modules.pullback (pullback.fst f T.hom)).map
+  change IsIso ((Scheme.Modules.pullback (pullback.fst f T.hom)).map
     (structureQuotientMap i)) ↔ _
   rw [hmap, isIso_comp_right_iff]
   exact key
@@ -315,7 +315,7 @@ theorem isIso_closedSubschemeBaseChange_iff_isIso_pullbackSnd :
       (pullbackRightPullbackFstIso f T.hom i).inv ≫
         pullback.snd i (pullback.fst f T.hom) := by
     refine pullback.hom_ext ?_ ?_ <;>
-      simp [closedSubschemeBaseChange, Over.pullback, pullback.lift_fst, pullback.lift_snd,
+      simp [closedSubschemeBaseChange, Over.pullback,
         pullbackRightPullbackFstIso_inv_snd_fst, pullbackRightPullbackFstIso_inv_snd_snd]
   rw [hp, isIso_comp_left_iff]
 

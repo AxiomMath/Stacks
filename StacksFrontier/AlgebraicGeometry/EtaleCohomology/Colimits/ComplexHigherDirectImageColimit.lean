@@ -90,8 +90,12 @@ theorem iff_of_isoSystem (θ : ∀ i, A i ≅ A' i) (e : B ≅ B')
 
 /-- **A system of zero objects has the zero object as colimit.** -/
 theorem of_isZero [HasZeroMorphisms 𝒞] (hA : ∀ i, IsZero (A i)) (hB : IsZero B) :
-    IsSystemColimit A T B ψ := fun G τ _ =>
-  ⟨0, fun i => (hA i).eq_of_src _ _, fun χ _ => hB.eq_of_src _ _⟩
+    IsSystemColimit A T B ψ := by
+  unfold IsSystemColimit
+  intros
+  refine ⟨0, fun i => (hA i).eq_of_src _ _, ?_⟩
+  intros
+  exact hB.eq_of_src _ _
 
 end CategoryTheory.Limits.IsSystemColimit
 
@@ -556,13 +560,13 @@ abbrev double (G : EtaleSheafSystem D Ab.{u + 1}) {i₀ i₁ : ℤ} (hi : (Compl
       simp only [Functor.comp_map] at hnat
       simp only [HomologicalComplex.comp_f, NatIso.mapHomologicalComplex_inv_app_f,
         Functor.mapHomologicalComplex_map_f, CochainComplex.doubleIdMap_f₀, Functor.map_comp,
-        Category.assoc, Iso.map_inv_hom_id_assoc, ← h, reassoc_of% hnat]
+        Category.assoc, Iso.inv_hom_id_map_assoc, ← h, reassoc_of% hnat]
     · have hnat := (systemPullbackComp D Ab.{u + 1} a c).inv.naturality
         (HomologicalComplex.doubleXIso₁ (𝟙 (G.obj k)) hi (CochainComplex.ne_of_rel_up hi)).hom
       simp only [Functor.comp_map] at hnat
       simp only [HomologicalComplex.comp_f, NatIso.mapHomologicalComplex_inv_app_f,
         Functor.mapHomologicalComplex_map_f, CochainComplex.doubleIdMap_f₁, Functor.map_comp,
-        Category.assoc, Iso.map_inv_hom_id_assoc, ← h, reassoc_of% hnat]
+        Category.assoc, Iso.inv_hom_id_map_assoc, ← h, reassoc_of% hnat]
 
 end Stacks.EtaleCohomology.EtaleComplexSystem
 

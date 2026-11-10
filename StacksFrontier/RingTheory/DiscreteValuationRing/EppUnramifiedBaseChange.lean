@@ -26,9 +26,9 @@ in addition that it is finite-dimensional, it is a finite separable extension, h
 single element `α` whose minimal polynomial `q = minpoly κ_A α` is monic, irreducible and
 separable.  Lifting `q` to a monic `P ∈ A[X]` — possible because `A → κ_A` is surjective — puts us
 in the situation of
-`StacksFrontier.RingTheory.DiscreteValuationRing.MonicResidueIrreducible`: `A₁ = A[X] ⧸ (P)` is again
-a discrete valuation ring, the extension `A₁ / A` is weakly unramified (`e = 1`), and its residue
-field is `κ_A[X] ⧸ (q) ≅ perfectCore κ_B p`.
+`StacksFrontier.RingTheory.DiscreteValuationRing.MonicResidueIrreducible`: `A₁ = A[X] ⧸ (P)` is
+again a discrete valuation ring, the extension `A₁ / A` is weakly unramified (`e = 1`), and its
+residue field is `κ_A[X] ⧸ (q) ≅ perfectCore κ_B p`.
 
 No completeness of `A` is used anywhere: the monogenic construction of
 `MonicResidueIrreducible` is available over an arbitrary discrete valuation ring, so the

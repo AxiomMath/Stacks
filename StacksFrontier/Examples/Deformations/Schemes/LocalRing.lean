@@ -167,7 +167,7 @@ theorem stalkMorphismRingHom_id
     (P : SchemeDeformationCategory (Λ := Λ) (k := k) X) :
     stalkMorphismRingHom X x (𝟙 P) = RingHom.id _ := by
   ext a
-  show ((𝟙 P.scheme : P.scheme ⟶ P.scheme).stalkMap (P.specialMap x)).hom a = a
+  change ((𝟙 P.scheme : P.scheme ⟶ P.scheme).stalkMap (P.specialMap x)).hom a = a
   rw [Scheme.Hom.stalkMap_id]
   rfl
 
@@ -208,7 +208,7 @@ theorem stalkMorphismRingHom_base
       FlatAlgebraCategory.baseMap f.base ≫
         FlatAlgebraCategory.structureMap (stalkFlatAlgebra X x Q) := by
   have hp := map_specialMap_apply X x f
-  show (StructureSheaf.toStalk P.base (P.toBase (P.specialMap x)) ≫
+  change (StructureSheaf.toStalk P.base (P.toBase (P.specialMap x)) ≫
       P.toBase.stalkMap (P.specialMap x)) ≫
       (eqToHom (congrArg P.scheme.presheaf.stalk hp.symm) ≫
         f.map.stalkMap (Q.specialMap x)) =
@@ -351,7 +351,7 @@ theorem localRingDeformationFunctor_map
       ((X.hom.stalkMap x).hom.comp (algebraMap k _)).toAlgebra
     HEq ((localRingDeformationFunctor X x).map f).left.map.hom
       (f.map.stalkMap (Q.specialMap.base x)).hom := by
-  show HEq (stalkMorphismRingHom X x f)
+  change HEq (stalkMorphismRingHom X x f)
     (f.map.stalkMap (Q.specialMap.base x)).hom
   unfold stalkMorphismRingHom
   exact ringHom_comp_eqToHom_heq _ _

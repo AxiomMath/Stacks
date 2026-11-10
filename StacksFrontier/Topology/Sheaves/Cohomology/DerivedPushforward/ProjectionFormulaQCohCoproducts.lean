@@ -238,11 +238,11 @@ theorem preservesColimitsOfShape_tensorComplex_obj (Z : RingedSpace.{u, u}) (I :
     (A : CochainComplex (Stacks.DerivedTensor.RingedSite.Modules Z.sheaf) ℤ) :
     PreservesColimitsOfShape (Discrete I)
       ((Stacks.SheafOfModules.Tensor.tensorComplex Z.sheaf).obj A) := by
-  haveI hcol : HasColimitsOfShape (Discrete I)
+  have hcol : HasColimitsOfShape (Discrete I)
       (Stacks.DerivedTensor.RingedSite.Modules Z.sheaf) := inferInstance
-  haveI hcop : HasCoproducts.{0} (Stacks.DerivedTensor.RingedSite.Modules Z.sheaf) :=
+  have hcop : HasCoproducts.{0} (Stacks.DerivedTensor.RingedSite.Modules Z.sheaf) :=
     fun _ ↦ inferInstance
-  haveI hF : ∀ M : Stacks.DerivedTensor.RingedSite.Modules Z.sheaf,
+  have hF : ∀ M : Stacks.DerivedTensor.RingedSite.Modules Z.sheaf,
       PreservesColimitsOfShape (Discrete I)
         ((Stacks.SheafOfModules.Tensor.sheafTensor Z.sheaf).obj M) := fun M ↦
     (Stacks.SheafOfModules.preservesColimits_sheafTensorObj Z.sheaf M).preservesColimitsOfShape

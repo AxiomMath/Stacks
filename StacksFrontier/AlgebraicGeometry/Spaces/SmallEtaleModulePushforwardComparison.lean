@@ -179,6 +179,7 @@ private theorem modulePushforwardChartIso_hom_app_eq (f : X ⟶ Y)
   rfl
 
 set_option maxHeartbeats 800000 in
+-- the closing `rfl` is a definitional check through the three restrictions of scalars
 /-- The identification of functors which collapses the three restrictions of scalars is the
 identity on underlying sheaves of sets: the scalars being forgotten, the two functors agree on
 the nose, so the `CategoryTheory.eqToHom` it induces is an identity. -/

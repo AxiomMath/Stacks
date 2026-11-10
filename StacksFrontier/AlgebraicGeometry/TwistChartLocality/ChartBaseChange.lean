@@ -44,7 +44,8 @@ isomorphism.
 ## What this does not prove
 
 **No project tag attribute is attached here.** This is one input to the chart-local statement of
-`StacksFrontier/AlgebraicGeometry/TwistChartLocality/AwayChart.lean`. Of the steps that file records,
+`StacksFrontier/AlgebraicGeometry/TwistChartLocality/AwayChart.lean`. Of the steps that file
+records,
 the transpose identification is discharged in
 `StacksFrontier/AlgebraicGeometry/TwistChartLocality/ChartTranspose.lean`, the quasi-coherence in
 `StacksFrontier/AlgebraicGeometry/TwistChartLocality/ChartQcoh.lean`, and the identification of the

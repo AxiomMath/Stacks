@@ -140,6 +140,7 @@ theorem exists_irrelevant_pow_smul_eq_zero_of_degreeNToGlobalSections_eq_zero
   obtain ⟨N, hN⟩ := Ideal.exists_pow_le_of_le_radical_of_fg hrad (Ideal.fg_of_isNoetherianRing _)
   exact ⟨N, fun a ha => (Submodule.mem_annihilator_span_singleton _ _).1 (hN ha)⟩
 
+omit [Decomposition 𝒨] in
 /-- **If every degree-one element of `S` annihilates `m` after raising it to a power, then the
 canonical section of `M(n)~` attached to `m` vanishes.** -/
 theorem degreeNToGlobalSections_eq_zero_of_forall_exists_pow_smul_eq_zero
@@ -158,6 +159,7 @@ theorem degreeNToGlobalSections_eq_zero_of_forall_exists_pow_smul_eq_zero
   exact (degreeNToGlobalSections_apply 𝒮 𝒨 i m x.1).trans <| mk_eq_zero_of_smul_eq_zero
     ⟨(f : S) ^ k, x.1.asHomogeneousIdeal.toIdeal.primeCompl.pow_mem hxf k⟩ 1 hk
 
+omit [Decomposition 𝒨] in
 /-- **If a power of the irrelevant ideal annihilates a homogeneous element `m`, then the
 canonical section of `M(n)~` attached to `m` vanishes.** -/
 theorem degreeNToGlobalSections_eq_zero_of_irrelevant_pow_smul_eq_zero
@@ -302,7 +304,7 @@ theorem exists_pow_smul_mem_range_degreeNToGlobalSections
   have hxcover : x ∈ ⨆ i, ProjectiveSpectrum.basicOpen 𝒮 (g i) := by
     rw [hcov]; exact Set.mem_univ _
   obtain ⟨i, hxi⟩ := TopologicalSpace.Opens.mem_iSup.mp hxcover
-  show f ^ (B + j) •
+  change f ^ (B + j) •
       (((associatedModuleSheafSectionsEquiv 𝒮 (shiftedGrading 𝒨 n) ⊤).toFun s).1 ⟨x, trivial⟩) =
       LocalizedModule.mk (f ^ B • m₀) (1 : x.asHomogeneousIdeal.toIdeal.primeCompl)
   rw [show (((associatedModuleSheafSectionsEquiv 𝒮 (shiftedGrading 𝒨 n) ⊤).toFun s).1
@@ -381,7 +383,7 @@ theorem exists_irrelevant_pow_smul_mem_range_degreeNToGlobalSections [IsNoetheri
       rw [← proj_eq_self_of_mem 𝒮 ha, ← hsum, map_sum]
       exact Finset.sum_congr rfl fun t _ => by rw [smul_eq_mul]
     rw [hproj, Finset.sum_smul, Finset.sum_congr rfl fun t _ => hy t x,
-      AddSubmonoidClass.coe_finset_sum]
+      AddSubmonoidClass.coe_finsetSum]
     exact (map_sum (LocalizedModule.mkLinearMap
       x.asHomogeneousIdeal.toIdeal.primeCompl M) (fun t => ((y t : M))) Finset.univ).symm
   have hrad : (HomogeneousIdeal.irrelevant 𝒮).toIdeal ≤ (Ideal.span W).radical := by

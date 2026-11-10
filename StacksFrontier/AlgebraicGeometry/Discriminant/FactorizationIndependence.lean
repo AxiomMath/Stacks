@@ -81,7 +81,7 @@ theorem finiteOpenFactorization_epi
   have hEpi : Epi (CommRingCat.ofHom fU) := by
     apply (op_mono_iff _).mp
     apply (Functor.mono_map_iff_mono AlgebraicGeometry.Scheme.Spec _).mp
-    show Mono (AlgebraicGeometry.Scheme.Spec.map (CommRingCat.ofHom fU).op)
+    change Mono (AlgebraicGeometry.Scheme.Spec.map (CommRingCat.ofHom fU).op)
     rw [AlgebraicGeometry.Scheme.Spec_map]
     exact inferInstanceAs (Mono (AlgebraicGeometry.Spec.map (CommRingCat.ofHom fU)))
   let : Algebra (ULift.{max v w} F.middle) (ULift.{max v w} B) :=

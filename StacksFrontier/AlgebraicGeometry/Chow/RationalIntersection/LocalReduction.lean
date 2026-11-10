@@ -337,7 +337,7 @@ theorem rationalCapFundamentalClass_tmul_apply (p : ℤ) (q : ℚ)
       q ⊗ₜ[ℤ] chowGroupDegreeEquiv C sZ (by ring : j + p - p = j)
         (capFundamentalClassAt C G sZ sY i hi p (j + p) c) := by
   classical
-  rw [rationalCapFundamentalClass_tmul, DFinsupp.finset_sum_apply]
+  rw [rationalCapFundamentalClass_tmul, DFinsupp.finsetSum_apply]
   by_cases hn : j + p ∈ (fundamentalClassDegrees_finite C sY).toFinset
   · rw [Finset.sum_eq_single_of_mem (j + p) hn fun n _ hne =>
       DirectSum.of_eq_of_ne _ _ _ (by omega),
@@ -416,7 +416,7 @@ theorem chernCharacterCapFundamentalClass_apply_eq_lTensor [IsNoetherian X]
         (chowGroupPullbackIdEquiv C sZ i k).toAddMonoidHom).toIntLinearMap.lTensor ℚ
         (capFundamentalClassDegreePart C (gysinSystemOfInvertible C) sZ sX i hi
           (Finset.range (N + 1)) (fun p => ((Nat.factorial p : ℚ)⁻¹)) d (𝟙 X) k) := by
-  rw [chernCharacterCapFundamentalClass_eq_sum C sX lo hlo N hN a, DFinsupp.finset_sum_apply,
+  rw [chernCharacterCapFundamentalClass_eq_sum C sX lo hlo N hN a, DFinsupp.finsetSum_apply,
     capFundamentalClassDegreePart, map_sum]
   refine Finset.sum_congr rfl fun p hp => ?_
   rw [chernCharacterVectorBundle_apply, rationalCapFundamentalClass_tmul_apply, hd p hp,
@@ -605,7 +605,7 @@ theorem isDiagonalOnIntegral_coherentChernCharacterCapFundamentalClass_of_near [
       (integralComponentDimLE C sX _ ξ rfl).obj
   have heq' : (regularVectorBundleKZeroAddEquiv X hX).symm
       (KZero.mk _ (integralComponentDimLE C sX _ ξ rfl).obj) = eulerCharComplex X E := heq
-  show chernCharacterCapFundamentalClass C sX ((regularVectorBundleKZeroAddEquiv X hX).symm
+  change chernCharacterCapFundamentalClass C sX ((regularVectorBundleKZeroAddEquiv X hX).symm
     (KZero.mk _ (integralComponentDimLE C sX _ ξ rfl).obj)) _ = _
   rw [heq']
   obtain ⟨hi, hhi⟩ := exists_relativeDimension_le C sX

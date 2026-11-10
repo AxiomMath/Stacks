@@ -5,9 +5,9 @@ public import StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.ObjRestr
 /-!
 # The agreement of the local isomorphisms of Stacks 03DX (1) over a fibre product
 
-`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/ObjRestrictRestrFunBridgeEffectivity.lean`
-reduces the essential surjectivity of Stacks 03DX (1) to **one** statement: that the local
-isomorphisms
+The file `ObjRestrictRestrFunBridgeEffectivity.lean` (in
+`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/`) reduces the essential
+surjectivity of Stacks 03DX (1) to **one** statement: that the local isomorphisms
 
     `𝓕^a|_{(Sch/X_i)_fppf} ≅ 𝒢|_{(Sch/X_i)_fppf}`
 

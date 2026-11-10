@@ -268,11 +268,7 @@ theorem eq_of_isIso_restrictionBaseChange {X Y : Cᵒᵖ} (f : X ⟶ Y)
   ext y
   obtain ⟨t, rfl⟩ := (asIso (restrictionBaseChange M f)).toLinearEquiv.surjective y
   change g₁ (restrictionBaseChange M f t) = g₂ (restrictionBaseChange M f t)
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    exact (congrArg g₁ (restrictionBaseChange M f).hom.map_zero).trans
-      (g₁.map_zero.trans (g₂.map_zero.symm.trans
-        (congrArg g₂ (restrictionBaseChange M f).hom.map_zero).symm))
+  induction t using TensorProduct.inductionOn with
   | tmul a x =>
     exact (congrArg g₁ (restrictionBaseChange_tmul M f a x)).trans
       ((h₁ a _).trans ((congrArg (ψ a • ·) (h x)).trans

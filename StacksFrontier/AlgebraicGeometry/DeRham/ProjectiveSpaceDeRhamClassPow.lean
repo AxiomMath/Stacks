@@ -82,7 +82,7 @@ theorem exists_basis_directSum_of_lines {ι : Type*} (d : ι → ℤ) (hd : Func
     · rw [map_smul, DirectSum.component.lof_self] at h
       exact (smul_eq_zero.mp h).resolve_right (hv0 i)
     · intro j _ hji
-      rw [map_smul, DirectSum.component.of, dif_neg (fun e => hji (hd e)), smul_zero]
+      rw [map_smul, DirectSum.component.of, dite_eq_right (fun e => hji (hd e)), smul_zero]
     · intro his
       exact absurd hi his
   have hsp : ⊤ ≤ Submodule.span K (Set.range fun i => DirectSum.lof K ℤ M (d i) (v i)) := by

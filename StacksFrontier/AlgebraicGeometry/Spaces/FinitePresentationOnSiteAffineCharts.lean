@@ -122,14 +122,14 @@ theorem hasFiniteGlobalPresentation_over_of_moduleFinitePresentation
       (Fin n → chartRing B S hS F hF P) := (Algebra.linearMap _ _).compLeft (Fin n)
   have hsq : ∀ q, rN (bT q) = bW (rP q) := by
     intro q
-    show rN (Fintype.linearCombination _ s q) = Fintype.linearCombination _ _ (rP q)
+    change rN (Fintype.linearCombination _ s q) = Fintype.linearCombination _ _ (rP q)
     rw [Fintype.linearCombination_apply, map_sum, Fintype.linearCombination_apply]
     exact Finset.sum_congr rfl fun l _ => map_smul rN (q l) (s l)
   have hPbij : Function.Bijective (rP.liftBaseChange (chartRing B S hS F hF P)) := by
     refine Module.BaseChange.bijective_liftBaseChange_of_basis
       (Pi.basisFun (chartRing B S hS F hF C) (Fin n))
       (Pi.basisFun (chartRing B S hS F hF P) (Fin n)) rP fun l => funext fun j => ?_
-    show algebraMap (chartRing B S hS F hF C) (chartRing B S hS F hF P)
+    change algebraMap (chartRing B S hS F hF C) (chartRing B S hS F hF P)
         (Pi.basisFun (chartRing B S hS F hF C) (Fin n) l j) =
       Pi.basisFun (chartRing B S hS F hF P) (Fin n) l j
     rw [Pi.basisFun_apply, Pi.basisFun_apply]
@@ -142,7 +142,7 @@ theorem hasFiniteGlobalPresentation_over_of_moduleFinitePresentation
   -- The relation, restricted to `P`.
   let z : Fin n → chartRing B S hS F hF P := fun i => chartRestrict (hF := hF) ι (τ i)
   have hz : bW z = 0 := by
-    show Fintype.linearCombination _ _ z = 0
+    change Fintype.linearCombination _ _ z = 0
     rw [Fintype.linearCombination_apply]
     have h0 := congrArg (chartRestrictLinear G ι) hτ
     rw [map_zero, map_sum] at h0
@@ -174,12 +174,12 @@ theorem hasFiniteGlobalPresentation_over_of_moduleFinitePresentation
   have hi := congrArg (fun w : Fin n → chartRing B S hS F hF P => chartRestrict (hF := hF) h (w i))
     hd'
   simp only [Finset.sum_apply, Pi.smul_apply, map_sum, smul_eq_mul, map_mul] at hi
-  show ∑ k, chartRestrict (hF := hF) h (d' k) *
+  change ∑ k, chartRestrict (hF := hF) h (d' k) *
       chartRestrict (hF := hF) ((h ≫ ι) ≫ hV) (r k i) =
     chartRestrict (hF := hF) (h ≫ ι) (τ i)
   refine Eq.trans (Finset.sum_congr rfl fun k _ => ?_) (Eq.trans hi ?_)
   · congr 1
-  · show chartRestrict (hF := hF) h (chartRestrict (hF := hF) ι (τ i)) =
+  · change chartRestrict (hF := hF) h (chartRestrict (hF := hF) ι (τ i)) =
       chartRestrict (hF := hF) (h ≫ ι) (τ i)
     exact (RingHom.congr_fun (chartRestrict_comp (hF := hF) ι h) (τ i)).symm
 
@@ -229,7 +229,7 @@ global sections of the chart restriction, linearly over the functions on the cha
 (`AlgebraicGeometry.Space.chartRestrictionSheafTopEquiv`), and on an affine scheme the global
 sections of a module of finite presentation are finitely presented. -/
 theorem moduleFinitePresentation_sections_of_isFinitePresentation_restrictToChart
-    (M : Modules.{u, u} B S hS X.1 X.2) (hqc : M.IsQuasicoherentOnSite)
+    (M : Modules.{u, u} B S hS X.1 X.2)
     (C : SmallEtale B S hS X.1)
     (hC : IsAffine ((SmallEtale.toOver B S hS X.1 ⋙ BigFppfOver.toScheme B S hS).obj C))
     (hfp : (restrictToChart B S hS X.2 M C).IsFinitePresentation) :
@@ -255,7 +255,7 @@ theorem isFinitePresentationOnSite_of_isFinitePresentationOnCharts
     SheafOfModules.IsFinitePresentationOnSite M :=
   (isFinitePresentationOnSite_iff_forall_affine_moduleFinitePresentation B S hS X.1 X.2 M hqc).2
     fun C hC =>
-      moduleFinitePresentation_sections_of_isFinitePresentation_restrictToChart X M hqc C hC
+      moduleFinitePresentation_sections_of_isFinitePresentation_restrictToChart X M C hC
         (hfp C)
 
 /-- **For a quasi-coherent module, finite presentation on the small étale site is finite

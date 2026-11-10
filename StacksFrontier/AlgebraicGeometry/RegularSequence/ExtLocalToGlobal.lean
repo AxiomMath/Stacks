@@ -120,15 +120,15 @@ theorem exact_of_locally_surjective_sections
   let fWU : W ⟶ U := homOfLE hWV ≫ fVU
   have ht : S.g.hom.app (op W) (S.X₂.obj.map fWU.op t) = 0 := by
     rw [← ConcreteCategory.comp_apply, S.g.hom.naturality]
-    show S.X₃.obj.map fWU.op (S.g.hom.app (op U) t) = 0
+    change S.X₃.obj.map fWU.op (S.g.hom.app (op U) t) = 0
     dsimp [fWU]
     rw [Functor.map_comp]
-    show S.X₃.obj.map (homOfLE hWV).op
+    change S.X₃.obj.map (homOfLE hWV).op
       (S.X₃.obj.map fVU.op (S.g.hom.app (op U) t)) = 0
     simpa using congrArg (fun a => S.X₃.obj.map (homOfLE hWV).op a) he
   obtain ⟨v, hv⟩ := hS W hW _ ht
   refine ⟨TopCat.Presheaf.germ S.X₁.obj W x hxW v, ?_⟩
-  show (TopCat.Presheaf.stalkFunctor AddCommGrpCat x).map S.f.hom
+  change (TopCat.Presheaf.stalkFunctor AddCommGrpCat x).map S.f.hom
     (TopCat.Presheaf.germ S.X₁.obj W x hxW v) = _
   rw [TopCat.Presheaf.stalkFunctor_map_germ_apply, hv]
   exact TopCat.Presheaf.germ_res_apply S.X₂.obj fWU x hxW _
@@ -255,10 +255,10 @@ theorem mapDerivedCategory_isEquivalence {C D : Type (u + 1)} [Category.{u} C] [
   have hΦ : Φ.IsLocalizedEquivalence :=
     Φ.isLocalizedEquivalence_of_unit_of_unit Ψ ec.unitIso.hom ec.counitIso.inv
       (fun K => by
-        show QuasiIso (ec.unitIso.app K).hom
+        change QuasiIso (ec.unitIso.app K).hom
         infer_instance)
       (fun K => by
-        show QuasiIso (ec.counitIso.app K).inv
+        change QuasiIso (ec.counitIso.app K).inv
         infer_instance)
   let _ : CatCommSq Φ.functor DerivedCategory.Q DerivedCategory.Q
       e.functor.mapDerivedCategory := ⟨e.functor.mapDerivedCategoryFactors.symm⟩

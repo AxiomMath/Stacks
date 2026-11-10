@@ -124,7 +124,7 @@ theorem eq_one_of_comp_diagonalComplementAut_of_nonempty_points (U : SpacesEtale
     exact mem_diagonalComplementPoints_pointsMap_diagonalComplementι B S hS X U n hsep _
   refine (mem_diagonalComplementPoints_iff B S hS X U n _).1 (hmemW y) i (σ⁻¹ i)
     (Ne.symm hi) ?_
-  show pointsMap B S hS (underlying B S hS X (selfProd B S hS X U n)).1
+  change pointsMap B S hS (underlying B S hS X (selfProd B S hS X U n)).1
       ((toSpaces B S hS X).map (projPair B S hS X U n i (σ⁻¹ i))).hom
       (pointsMap B S hS T.1 ψ.hom y) ∈
     Set.range (pointsMap B S hS (underlying B S hS X U).1

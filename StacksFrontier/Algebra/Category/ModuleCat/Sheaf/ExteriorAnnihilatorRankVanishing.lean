@@ -132,7 +132,7 @@ theorem terminalSection_val_eq_zero {C : Type u} [Category.{v} C] {J : Grothendi
     (R : Sheaf J RingCat.{w}) [∀ U, IsMulCommutative (R.obj.obj U)] (T : C)
     (hT : IsTerminal T) {f : R.obj.obj (op T)} (hf : f = 0) (U : Cᵒᵖ) :
     (terminalSection R T hT f).val U = 0 := by
-  show R.obj.map (hT.from U.unop).op f = 0
+  change R.obj.map (hT.from U.unop).op f = 0
   rw [hf]
   exact map_zero (R.obj.map (hT.from U.unop).op).hom
 

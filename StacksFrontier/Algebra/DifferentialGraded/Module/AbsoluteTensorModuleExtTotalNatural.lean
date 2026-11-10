@@ -135,7 +135,7 @@ theorem absModSummandToGrading_naturality (f : R →+* A) :
   intro N A₁ L L' φ p q n h a x y
   rw [LinearMap.baseChange_tmul,
     absModSummandToGrading_tmul L' N p q n h a (φ.gradedMap p x) y]
-  show _ = (absModLeftMap φ N).toFun
+  change _ = (absModLeftMap φ N).toFun
     ((absModSummandToGrading L N p q n h ((a ⊗ₜ[R] x) ⊗ₜ[A] y) :
       (absoluteTensorModule L N).grading n) : L.M ⊗[R] N.M)
   rw [absModSummandToGrading_tmul L N p q n h a x y, absModLeftMap_tmul]
@@ -157,12 +157,10 @@ theorem absExtSummand_naturality (f : R →+* A) :
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add u v hu hv => simp only [map_add, hu, hv]
   | tmul w y =>
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | add u v hu hv => simp only [TensorProduct.add_tmul, map_add, hu, hv]
     | tmul a x =>
       apply Subtype.ext

@@ -207,7 +207,7 @@ lemma kerFun_smul (d : D) (n : N) :
   obtain ⟨c, rfl⟩ := hπ d
   rw [show π c • t j = t (c • j) from (t.map_smulₛₗ c j).symm, kerFun_t, kerFun_t,
     ← AlgHom.comp_apply e π, ← hqe, AlgHom.comp_apply]
-  show _ = ((π' : C' →+* D') (q c)) • _
+  change _ = ((π' : C' →+* D') (q c)) • _
   rw [← t'.map_smulₛₗ]
   congr 1
   apply Subtype.ext
@@ -525,7 +525,7 @@ theorem exists_lift (x : X.obj (Kc hκ hP A B' hA' hB').O')
         hū u' hu') r
       simp only [AlgHom.comp_apply] at h1 h2 ⊢
       rw [h1]
-      show (e₂₃ₐ A (Bb A' A B')) (ah (Kc hκ hP A B' hA' hB').π₂ _) = _
+      change (e₂₃ₐ A (Bb A' A B')) (ah (Kc hκ hP A B' hA' hB').π₂ _) = _
       rw [h2]; rfl
   have hNf : letI := Module.compHom (J₃b (A' := A') A B') (Algebra.TensorProduct.lift a3 b3
         (fun _ _ ↦ Commute.all _ _) : (Bb A' A B') ⊗[A] (Bb A' A B') →ₐ[A]
@@ -578,7 +578,7 @@ theorem exists_lift (x : X.obj (Kc hκ hP A B' hA' hB').O')
     refine ⟨t₁ (A' := A') A B' ⟨s₀, hs₀⟩, ?_⟩
     rw [← hc0]
     apply Subtype.ext
-    show v₂ (A' := A') A B' (k2 _ - k1 _) = _
+    change v₂ (A' := A') A B' (k2 _ - k1 _) = _
     rw [v₂_sub]
     simp only [k1, k2]
     rw [v₂_kerLin, v₂_kerLin]
@@ -596,7 +596,7 @@ theorem exists_lift (x : X.obj (Kc hκ hP A B' hA' hB').O')
       fun a ↦ by rw [θb.map_algebraMap]; rfl, fun r s ↦ by
         have hu1 : ∀ r, π₁ A' A B' (u' r) = frame R (Bb A' A B') r :=
           fun r ↦ AlgHom.congr_fun hu' r
-        show raw₁ A B' (θb (r * s)) = u' r • raw₁ A B' (θb s) + u' s • raw₁ A B' (θb r)
+        change raw₁ A B' (θb (r * s)) = u' r • raw₁ A B' (θb s) + u' s • raw₁ A B' (θb r)
         rw [raw₁_smul, raw₁_smul, hu1, hu1, ← raw₁_add, θb.leibniz]
         rfl⟩
   -- the twisted coboundary of `θ` is the defect

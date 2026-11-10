@@ -90,7 +90,7 @@ theorem isAlgebraicStack_of_baseChange (g : Y' ⟶ D.Y)
       (ShrinkHoms.inverse (D.baseChange g).coherentCFG.val.obj ⋙ β.hom.toFunctor)
       (ShrinkHoms.equivalence D.coherentCFG.val.obj).unitIso)
       (fun a => by
-        show D.coherentCFG.val.p.IsHomLift (𝟙 _) (𝟙 _)
+        change D.coherentCFG.val.p.IsHomLift (𝟙 _) (𝟙 _)
         exact IsHomLift.id (BasedFunctor.w_obj β.hom _))
   have hq : Stack.IsRepresentableByAlgebraicSpaces B S hS q.hom :=
     (Stack.isRepresentableByAlgebraicSpaces_iff_of_equivalences B S hS q.hom β.hom

@@ -70,12 +70,12 @@ theorem genus_eq_of_isPullback_curveFamilyOfScheme {K : Type u} [Field K]
   have hw : q' ≫ xs = v ≫ pv := by
     apply (schemeSpaceFunctor B integerBase hZ).map_injective
     rw [Functor.map_comp, Functor.map_comp]
-    show schemeSpaceMap q' ≫ schemeSpaceMap xs = schemeSpaceMap v ≫ schemeSpaceMap pv
+    change schemeSpaceMap q' ≫ schemeSpaceMap xs = schemeSpaceMap v ≫ schemeSpaceMap pv
     rw [hq']
     exact hsq.w
   have hsite : IsPullback q' v xs pv := by
     refine IsPullback.of_map (schemeSpaceFunctor B integerBase hZ) hw ?_
-    show IsPullback (schemeSpaceMap q') (schemeSpaceMap v) (schemeSpaceMap xs)
+    change IsPullback (schemeSpaceMap q') (schemeSpaceMap v) (schemeSpaceMap xs)
       (schemeSpaceMap pv)
     rwa [hq']
   have hsch := hsite.map (BigFppfOver.toScheme B integerBase hZ)

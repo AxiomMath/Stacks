@@ -71,7 +71,7 @@ private lemma residueFieldMap_jointly_surjective
   obtain ⟨q', rfl⟩ :=
     (D.map j.unop.hom ⁻¹ᵁ V).topIso.symm.commRingCatIsoToRingEquiv.surjective q
   have hsV : c.π.app j.unop.left s ∈ D.map j.unop.hom ⁻¹ᵁ V := by
-    show (c.π.app j.unop.left ≫ D.map j.unop.hom) s ∈ V
+    change (c.π.app j.unop.left ≫ D.map j.unop.hom) s ∈ V
     rw [c.w]
     exact hsU
   have hUeq : c.π.app j.unop.left ⁻¹ᵁ (D.map j.unop.hom ⁻¹ᵁ V) = c.π.app i ⁻¹ᵁ V := by
@@ -89,7 +89,7 @@ private lemma residueFieldMap_jointly_surjective
       (c.π.app i ⁻¹ᵁ V) hUeq.symm.le) q' := by
     rw [← hres]
     exact (c.π.app i ⁻¹ᵁ V).topIso.commRingCatIsoToRingEquiv.symm_apply_eq.mp hq.symm
-  show c.pt.residue s (c.pt.presheaf.germ _ s _ ((c.π.app j.unop.left).app _ q')) =
+  change c.pt.residue s (c.pt.presheaf.germ _ s _ ((c.π.app j.unop.left).app _ q')) =
     c.pt.residue s (c.pt.presheaf.germ _ s _ t)
   rw [hsec', Scheme.Hom.appLE, ConcreteCategory.comp_apply]
   exact congrArg _ (c.pt.presheaf.germ_res_apply (homOfLE hUeq.symm.le) s hsU _).symm

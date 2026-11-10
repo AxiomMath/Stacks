@@ -258,7 +258,7 @@ public theorem mapHom_preimage_basicOpen (ψ : 𝒜 →+*ᵍ ℬ) (f : A) (d : �
       ((⟨x.1, hxg⟩ : ↥(AlgebraicGeometry.Proj.basicOpen ℬ (ψ g))) ∈
         (AlgebraicGeometry.Proj ℬ).homOfLE (basicOpen_le_mapDomain 𝒜 ℬ ψ he hg) ⁻¹ᵁ U) ↔
       x ∈ U := fun U => by
-    show ((AlgebraicGeometry.Proj ℬ).homOfLE (basicOpen_le_mapDomain 𝒜 ℬ ψ he hg)
+    change ((AlgebraicGeometry.Proj ℬ).homOfLE (basicOpen_le_mapDomain 𝒜 ℬ ψ he hg)
       ⟨x.1, hxg⟩ ∈ U) ↔ x ∈ U
     rw [hyx]
   have h1 : (AlgebraicGeometry.Proj ℬ).homOfLE (basicOpen_le_mapDomain 𝒜 ℬ ψ he hg) ⁻¹ᵁ

@@ -75,7 +75,7 @@ theorem isMaximal_toSpecΓ_base_of_isMaximal (G : GroupoidScheme S) [IsAffine G.
     (G.objects.left.toSpecΓ.base u).asIdeal.IsMaximal := by
   let _ : (G.objects.left.toSpecΓ.base u).asIdeal.IsPrime :=
     (G.objects.left.toSpecΓ.base u).isPrime
-  exact Ideal.isMaximal_of_isIntegral_of_isMaximal_comap'
+  exact Ideal.isMaximal_of_isIntegral_of_isMaximal_comap
     (CommRingCat.ofHom (invariantRing G).subtype).hom (isIntegral_invariantRing G) _ hu
 
 /-- **At a point of `U` over a closed point of `Spec C`, global functions on `U` surject onto the
@@ -172,7 +172,7 @@ theorem isMaximal_asIdeal_of_comap_eq_closedPoint (p' : Spec (.of (invariantRing
     rw [← hu']
     rfl
   rw [hcomp]
-  exact Ideal.isMaximal_comap_of_isIntegral_of_isMaximal'
+  exact Ideal.isMaximal_comap_of_isIntegral_of_isMaximal
     (CommRingCat.ofHom (invariantRing G').subtype).hom (isIntegral_invariantRing G') _
 
 /-! ### The splitting -/

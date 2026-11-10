@@ -75,7 +75,7 @@ lemma deformationFiltrationMap_comp_inclusion
     deformationFiltrationMap iS pX' pY' f' hf' i ≫
       PowerFiltration.totalInclusion iS pY' i =
         PowerFiltration.totalInclusion iS pX' i ≫ f' := by
-  show (pullback.lift _ _ _) ≫ pullback.fst pY' _ = _
+  change (pullback.lift _ _ _) ≫ pullback.fst pY' _ = _
   exact pullback.lift_fst _ _ _
 
 /-- The induced map on levels is a morphism over the corresponding level of the base. -/
@@ -86,7 +86,7 @@ lemma deformationFiltrationMap_comp_projection
     deformationFiltrationMap iS pX' pY' f' hf' i ≫
       PowerFiltration.totalProjection iS pY' i =
         PowerFiltration.totalProjection iS pX' i := by
-  show (pullback.lift _ _ _) ≫ pullback.snd pY' _ = _
+  change (pullback.lift _ _ _) ≫ pullback.snd pY' _ = _
   exact pullback.lift_snd _ _ _
 
 /-- The induced maps on levels commute with the steps of the two filtrations, so consecutive
@@ -366,7 +366,7 @@ theorem lift_of_isFirstOrderThickening
         apply Scheme.IdealSheafData.ext
         funext U
         have hkerU := congrArg (fun J : Scheme.IdealSheafData D.S' => J.ideal U) hker
-        show (D.iS.ker.ideal U) ^ 2 = (⊥ : Scheme.IdealSheafData D.S').ideal U
+        change (D.iS.ker.ideal U) ^ 2 = (⊥ : Scheme.IdealSheafData D.S').ideal U
         rw [hkerU]
         exact Ideal.bot_pow (by decide)
       · have hone : n = 1 := by omega

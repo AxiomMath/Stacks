@@ -192,7 +192,7 @@ private theorem exists_global_maximal_factorization_exponent
   let m := Nat.findGreatest P n
   have hzero : P 0 := by
     refine ⟨A, inferInstance, inferInstance, ?_, ?_, ?_, ?_, ?_, b, ?_⟩
-    · show Module.Finite A A
+    · change Module.Finite A A
       infer_instance
     · simpa using (Function.injective_id : Function.Injective (id : A → A))
     · refine ⟨0, ?_⟩
@@ -352,7 +352,7 @@ private def preparation_snoc_of_pair
             (algebraMap T (Localization.AtPrime q) (algebraMap R T p)) ^ e k := by
       rw [← IsScalarTower.algebraMap_apply R T (Localization.AtPrime q),
         h k, map_mul, map_pow]
-      simp only [RingHom.toMonoidHom_eq_coe, Units.coe_map, MonoidHom.coe_coe]
+      simp only [RingHom.toMonoidHom_eq_coe, Units.coe_map, MonoidHom.coe_ofClass]
       rw [IsScalarTower.algebraMap_apply R T (Localization.AtPrime q) p]
     have hp := Q.factorization q 0
     have hh := transport_power_factorization
@@ -680,10 +680,10 @@ private theorem exists_pair_preparation_by_order
                 (isLocalHom_of_module_finite_local (A := R) (S := S))
                 ⟨k, hk⟩ hquotST
             have haT : IsRegular (algebraMap R T a) := by
-              show IsRegular (algebraMap S T (algebraMap R S a))
+              change IsRegular (algebraMap S T (algebraMap R S a))
               exact haT'
             have hbT : IsRegular (algebraMap R T b) := by
-              show IsRegular (algebraMap S T (algebraMap R S b))
+              change IsRegular (algebraMap S T (algebraMap R S b))
               exact regular_map_of_regular_map_nonunit hdimS haT' hnotaS hbS
             obtain ⟨j, hj⟩ := hquotRT
             rcases finite_modification_order_dichotomy hdim hinjRT haT hnota hj with
@@ -712,7 +712,7 @@ private theorem exists_pair_preparation_by_order
               have hnotcq : ¬ IsUnit cq := by
                 let : IsLocalHom (algebraMap S Q) :=
                   isLocalHom_atPrime_of_module_finite (A := S) (B := T) qT
-                show ¬ IsUnit (algebraMap S Q c)
+                change ¬ IsUnit (algebraMap S Q c)
                 exact (isUnit_map_iff (algebraMap S Q) c).not.mpr hc
               have hnotdq : ¬ IsUnit dq := by
                 let : IsLocalHom (algebraMap T Q) :=

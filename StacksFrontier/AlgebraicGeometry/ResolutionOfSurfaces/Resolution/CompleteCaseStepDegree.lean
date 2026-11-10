@@ -82,7 +82,7 @@ theorem finrank_functionField_baseMap :
     (Scheme.ΓSpecIso (.of B)).symm.commRingCatIsoToRingEquiv
     (Scheme.ΓSpecIso (.of A)).symm.commRingCatIsoToRingEquiv ?_).symm
   ext b
-  show ((baseMap B A).appLE ⊤ ((baseMap B A) ⁻¹ᵁ ⊤) le_rfl).hom
+  change ((baseMap B A).appLE ⊤ ((baseMap B A) ⁻¹ᵁ ⊤) le_rfl).hom
     ((Scheme.ΓSpecIso (.of B)).inv.hom b) = (Scheme.ΓSpecIso (.of A)).inv.hom (algebraMap B A b)
   rw [Scheme.Hom.appLE_eq_app]
   exact (congrArg (fun φ => φ.hom b)

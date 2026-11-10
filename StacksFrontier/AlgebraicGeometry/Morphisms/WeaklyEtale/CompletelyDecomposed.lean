@@ -96,13 +96,13 @@ theorem isCompletelyDecomposedFamily_iff {I : Type v} [Small.{u} I]
     · simpa [← Scheme.Hom.comp_apply] using hz
     · exact IsIso.of_isIso_fac_left
         (hh := isIso_residueFieldMap_comp_of_isIso inferInstance hzIso)
-        (Scheme.Hom.residueFieldMap_congr (Sigma.ι_desc f i) x).symm
+        (Scheme.Hom.residueFieldMap_congr (Sigma.ι_comp_desc f i) x).symm
   · intro h y
     obtain ⟨i, x, hxy, hxIso⟩ := h y
     refine ⟨Sigma.ι X i x, ?_, ?_⟩
     · simpa [← Scheme.Hom.comp_apply] using hxy
     · have htotal : IsIso ((Sigma.ι X i ≫ Sigma.desc f).residueFieldMap x) := by
-        rw [Scheme.Hom.residueFieldMap_congr (Sigma.ι_desc f i) x]
+        rw [Scheme.Hom.residueFieldMap_congr (Sigma.ι_comp_desc f i) x]
         exact IsIso.comp_isIso' (by infer_instance) hxIso
       exact IsIso.of_isIso_fac_right (hh := htotal)
         (Scheme.residueFieldMap_comp (Sigma.ι X i) (Sigma.desc f) x).symm
@@ -155,10 +155,10 @@ private lemma exists_pullback_point_with_isIso_residueFieldMap
   let : IsIso (Y.residueFieldCongr hx).hom := (Y.residueFieldCongr hx).isIso_hom
   let : IsIso (Y.residueFieldCongr T.hx).hom := by infer_instance
   let : IsIso ((Y.residueFieldCongr T.hx).inv ≫ f.residueFieldMap T.x) := by
-    show IsIso ((Y.residueFieldCongr hx).inv ≫ f.residueFieldMap x)
+    change IsIso ((Y.residueFieldCongr hx).inv ≫ f.residueFieldMap x)
     infer_instance
   let : IsIso T.tensorInr := by
-    show IsIso (pushout.inr
+    change IsIso (pushout.inr
       ((Y.residueFieldCongr hx).inv ≫ f.residueFieldMap x)
       (g.residueFieldMap y))
     apply CategoryTheory.Limits.pushout_inr_iso_of_left_iso
@@ -184,7 +184,7 @@ private lemma exists_pullback_point_with_isIso_residueFieldMap
     have hIsoFrom :=
       isIso_residueFieldMap_fromSpecResidueField Y' T.y (Spec.map T.tensorInr p)
     have : IsIso ((Spec.map T.tensorInr).residueFieldMap p) := by infer_instance
-    show IsIso ((Y'.residueFieldCongr hptComp).hom ≫
+    change IsIso ((Y'.residueFieldCongr hptComp).hom ≫
       (Y'.fromSpecResidueField T.y).residueFieldMap ((Spec.map T.tensorInr) p) ≫
       (Spec.map T.tensorInr).residueFieldMap p)
     exact IsIso.comp_isIso' (Y'.residueFieldCongr hptComp).isIso_hom

@@ -64,7 +64,7 @@ theorem natTrans_forget_additive {C : Type u} [Category.{v} C]
   change e.app X (F.map _ z) = G.map _ (e.app (X ⊞ X) z) at hn
   rw [ha] at hn
   rw [hn, G.map_add]
-  show G.map biprod.fst (e.app (X ⊞ X) z) +
+  change G.map biprod.fst (e.app (X ⊞ X) z) +
     G.map biprod.snd (e.app (X ⊞ X) z) = _
   have hn₁ := ConcreteCategory.congr_hom (e.naturality (biprod.fst : X ⊞ X ⟶ X)) z
   have hn₂ := ConcreteCategory.congr_hom (e.naturality (biprod.snd : X ⊞ X ⟶ X)) z

@@ -12,8 +12,8 @@ assertion has two halves, which are separately statable:
 
 * *directedness*: the category of those submodules is filtered. Proved, unconditionally on the
   scheme, as `AlgebraicGeometry.finiteTypeQuasicoherentSubobject_isFiltered`
-  (`StacksFrontier/AlgebraicGeometry/ResolutionsAndBounds/FiniteTypeSubobjects.lean`), and registered
-  against the tag by `StacksFrontier/AlgebraicGeometry/AffineSubsheaf/Directedness.lean`.
+  (`StacksFrontier/AlgebraicGeometry/ResolutionsAndBounds/FiniteTypeSubobjects.lean`), and
+  registered against the tag by `StacksFrontier/AlgebraicGeometry/AffineSubsheaf/Directedness.lean`.
 * *the colimit*: the canonical cocone out of that category, with vertex `F`, is colimiting. Until
   this file **no `CategoryTheory.Limits.IsColimit` statement about
   `AlgebraicGeometry.finiteTypeQuasicoherentSubobjectCocone` existed in either tree** — the

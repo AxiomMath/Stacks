@@ -110,7 +110,7 @@ theorem faithfullyFlat_pi_affineChartRings {U : SmallAffineZariski B S hS}
     (RingHom.pi
       (fun i => ((affineChartRings B S hS).map (g i).op).hom)).FaithfullyFlat := by
   have _ := hflat
-  show (RingHom.pi
+  change (RingHom.pi
     (fun i => (((SmallAffineZariski.toScheme B S hS).map (g i)).appTop).hom)).FaithfullyFlat
   exact AlgebraicGeometry.Scheme.faithfullyFlat_pi_appTop
     (fun i => (SmallAffineZariski.toScheme B S hS).obj (V i))

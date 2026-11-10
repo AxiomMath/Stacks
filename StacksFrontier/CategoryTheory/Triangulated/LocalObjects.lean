@@ -103,11 +103,11 @@ lemma forall_shift_hom_eq_zero_iff (X Y : C) :
   refine ⟨fun h n g ↦ ?_, fun h n f ↦ ?_⟩
   · let q := (shiftEquiv C n).symm.toAdjunction.homEquiv X Y
     rw [← q.apply_symm_apply g, h (-n) (q.symm g)]
-    show q 0 = 0
+    change q 0 = 0
     simp [q, Adjunction.homEquiv_apply]
   · let p := (shiftEquiv C n).toAdjunction.homEquiv X Y
     rw [← p.symm_apply_apply f, h (-n) (p f)]
-    show p.symm 0 = 0
+    change p.symm 0 = 0
     simp [p, Adjunction.homEquiv_symm_apply]
 
 /-- **The criterion for an object to be local.** An object `Y` lies in the right orthogonal of

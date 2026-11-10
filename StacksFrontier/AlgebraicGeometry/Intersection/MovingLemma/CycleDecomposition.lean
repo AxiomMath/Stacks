@@ -97,11 +97,11 @@ public theorem exists_finset_eq_single_add_sum [DecidableEq X] (α : AlgebraicCy
     single_one_apply]
   by_cases hyξ : y = ξ
   · subst hyξ
-    rw [if_pos rfl, if_neg (Finset.notMem_erase y _), add_zero, hξ]
-  · rw [if_neg hyξ, zero_add]
+    rw [ite_eq_left rfl, ite_eq_right (Finset.notMem_erase y _), add_zero, hξ]
+  · rw [ite_eq_right hyξ, zero_add]
     by_cases hy : α y = 0
-    · rw [if_neg fun h => (hα.mem_toFinset.mp (Finset.mem_of_mem_erase h)) hy, hy]
-    · rw [if_pos (Finset.mem_erase.mpr ⟨hyξ, hα.mem_toFinset.mpr hy⟩)]
+    · rw [ite_eq_right fun h => (hα.mem_toFinset.mp (Finset.mem_of_mem_erase h)) hy, hy]
+    · rw [ite_eq_left (Finset.mem_erase.mpr ⟨hyξ, hα.mem_toFinset.mpr hy⟩)]
 
 /-! ### The decomposition indexed by closed subvarieties -/
 

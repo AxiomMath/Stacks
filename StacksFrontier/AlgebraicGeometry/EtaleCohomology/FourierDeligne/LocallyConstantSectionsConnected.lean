@@ -48,7 +48,7 @@ theorem etaleModule_section_eq_zero_of_mem {X : Scheme.{u}} (G : EtaleModules.{u
     ((CategoryTheory.Presheaf.isSheaf_iff_isSheaf_forget X.smallEtaleTopology G.obj
       (forget (ModuleCat.{u + 1} Λ))).1 G.property)
   refine ((hG S hS).isSeparatedFor).ext (t₁ := t) (t₂ := 0) fun W g hg => ?_
-  show (G.obj.map g.op).hom t = (G.obj.map g.op).hom 0
+  change (G.obj.map g.op).hom t = (G.obj.map g.op).hom 0
   rw [h g hg, map_zero]
 
 /-- Sheafification of module presheaves on the slices of the small étale site, at the module
@@ -105,12 +105,12 @@ theorem eq_zero_of_map_eq_zero_of_isLocallyConstantWith (Q : ModuleCat.{u + 1} �
     have hfi : (fi i).left ≫ V.hom = (Vi i).hom := MorphismProperty.Over.w (fi i)
     let toV : ∀ U' : (Vi i).left.Etale, C.obj U' ⟶ V := fun U' =>
       MorphismProperty.Over.homMk (U'.hom ≫ (fi i).left) (by
-        show (U'.hom ≫ (fi i).left) ≫ V.hom = U'.hom ≫ (Vi i).hom
+        change (U'.hom ≫ (fi i).left) ≫ V.hom = U'.hom ≫ (Vi i).hom
         rw [Category.assoc, hfi])
     have htoV : ∀ {U₁ U₂ : (Vi i).left.Etale} (h : U₁ ⟶ U₂), C.map h ≫ toV U₂ = toV U₁ :=
       fun {U₁ U₂} h => by
         apply MorphismProperty.Over.Hom.ext
-        show h.left ≫ U₂.hom ≫ (fi i).left = U₁.hom ≫ (fi i).left
+        change h.left ≫ U₂.hom ≫ (fi i).left = U₁.hom ≫ (fi i).left
         rw [← Category.assoc, MorphismProperty.Over.w h]
     let Θ : ∀ U' : (Vi i).left.Etale,
         G.obj.obj (op (C.obj U')) →ₗ[Λ] LocallyConstant U'.left E :=
@@ -150,12 +150,12 @@ theorem eq_zero_of_map_eq_zero_of_isLocallyConstantWith (Q : ModuleCat.{u + 1} �
         Scheme.Etale.mk (pullback.fst (U₀.ι ≫ (fi i).left) g'.left ≫ U₀.ι)
       let hPW : C.obj P ⟶ W' := MorphismProperty.Over.homMk
         (pullback.snd (U₀.ι ≫ (fi i).left) g'.left) (by
-          show pullback.snd _ _ ≫ W'.hom = (pullback.fst _ _ ≫ U₀.ι) ≫ (Vi i).hom
+          change pullback.snd _ _ ≫ W'.hom = (pullback.fst _ _ ≫ U₀.ι) ≫ (Vi i).hom
           rw [← MorphismProperty.Over.w g', ← hfi, ← Category.assoc, ← pullback.condition,
             Category.assoc, Category.assoc, Category.assoc]) trivial
       have hPV : toV P = hPW ≫ g' := by
         apply MorphismProperty.Over.Hom.ext
-        show (pullback.fst _ _ ≫ U₀.ι) ≫ (fi i).left = pullback.snd _ _ ≫ g'.left
+        change (pullback.fst _ _ ≫ U₀.ι) ≫ (fi i).left = pullback.snd _ _ ≫ g'.left
         rw [Category.assoc, pullback.condition]
       have h0 : (G.obj.map (toV P).op).hom t = 0 := by
         rw [hPV, hmap, show (G.obj.map g'.op).hom t = 0 from hg', map_zero]

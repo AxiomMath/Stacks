@@ -125,7 +125,8 @@ reached in the source by verifying conditions (a), (b) and (c) of [Stacks, Tag 0
     `∃ n, IsFiniteLength A (im(H²_𝔪(Mₙ) ⟶ H²_𝔪(M₁)))` for `Mₙ = H⁰(U, ℱₙ)`.
 
   That step needs `(H⁰(U, ℱₙ)~)|_U ≅ ℱₙ` naturally in `n`, which is
-  `Stacks.Algebraization.tildeGlobalSectionsRestrictIso` ([Stacks, Tag 0EIR]), and no comparison of stalks is needed to use it.  The source's reduction of that
+  `Stacks.Algebraization.tildeGlobalSectionsRestrictIso` ([Stacks, Tag 0EIR]), and no comparison of
+  stalks is needed to use it.  The source's reduction of that
   statement to a vanishing after localization is
   `Stacks.LocalCohomology.isFiniteLength_range_of_forall_exists_smul_eq_zero`.  Matlis duality in
   the direction that returns from the dual to the module is
@@ -452,7 +453,7 @@ theorem two_le_depth_localization_of_depthDimOnDivisor [IsNoetherianRing A] [IsL
     (QuotSMulTop (algebraMap A A[q] f) A[q])) 0 with h0 | h0
   · rw [h0] at h
     simp at h
-  · exact ENat.one_le_iff_ne_zero.mpr h0
+  · exact Order.one_le_iff_ne_zero.mpr h0
 
 /-! ### The dimension formula along a pair of primes -/
 

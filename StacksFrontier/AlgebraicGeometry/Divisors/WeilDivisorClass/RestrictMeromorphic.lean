@@ -155,14 +155,14 @@ theorem stalkCongr_openImmersionStalkRingEquiv_functionFieldEquiv (r : X.functio
   have hval : Stacks.Chow.functionFieldEquiv_openImmersion j r =
       (j.stalkMap (genericPoint U)).hom
         ((eqToHom (congrArg X.presheaf.stalk hη.symm)).hom r) := by
-    show dominantFunctionFieldMap j r = _
-    show (hη ▸ j.stalkMap (genericPoint U)).hom r = _
+    change dominantFunctionFieldMap j r = _
+    change (hη ▸ j.stalkMap (genericPoint U)).hom r = _
     rw [Stacks.Chow.stalkMap_cast_target j (genericPoint U) hη, CommRingCat.comp_apply,
       Stacks.Chow.stalkCongr_eq_eqToHom hη.symm]
   rw [hval]
   have hinv := ConcreteCategory.congr_hom (IsIso.hom_inv_id (j.stalkMap (genericPoint U)))
     ((eqToHom (congrArg X.presheaf.stalk hη.symm)).hom r)
-  show (X.presheaf.stalkCongr (Inseparable.of_eq hη)).hom
+  change (X.presheaf.stalkCongr (Inseparable.of_eq hη)).hom
     ((inv (j.stalkMap (genericPoint U))).hom
       ((j.stalkMap (genericPoint U)).hom
         ((eqToHom (congrArg X.presheaf.stalk hη.symm)).hom r))) = r
@@ -224,7 +224,7 @@ theorem genericStalkRestrictAddEquiv_stalkSpecializes (L : X.Modules) (x : U)
         L.presheaf.germ (j ''ᵁ V) (j y) (by simpa) t :=
     ConcreteCategory.congr_hom (Scheme.Modules.germ_restrictStalkNatIso_hom_app j y L hy) t
   rw [TopCat.Presheaf.germ_stalkSpecializes_apply, genericStalkRestrictAddEquiv_apply]
-  show (L.presheaf.stalkCongr
+  change (L.presheaf.stalkCongr
     (Inseparable.of_eq (genericPoint_eq_of_isOpenImmersion j))).hom
       (Stacks.AlgebraicGeometry.ReflexiveEquivalence.restrictStalkHom j L (genericPoint U)
         ((L.restrict j).presheaf.germ V (genericPoint U) _ t)) = _
@@ -391,7 +391,7 @@ theorem orderOfVanishingMeromorphic_restrict (s : MeromorphicSection X.sheaf L)
     apply (genericStalkRestrictAddEquiv j L).injective
     rw [AddEquiv.apply_symm_apply, genericStalkRestrictAddEquiv_smul,
       genericStalkRestrictAddEquiv_stalkSpecializes]
-    show meromorphicGenericValue X L s =
+    change meromorphicGenericValue X L s =
       a • L.presheaf.stalkSpecializes ((genericPoint_spec X).specializes trivial) (f (f.symm m))
     rwa [f.apply_symm_apply]
   have hh := (orderOfVanishingMeromorphicData U (L.restrict j)

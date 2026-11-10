@@ -46,10 +46,10 @@ namespace AlgebraicGeometry.Abhyankar
 Noetherian scheme, `f : X ⟶ S` quasi-compact and smooth with geometrically connected fibres and a
 section `σ`, and `Z ⟶ X_η` a finite étale Galois cover with group `G` of order invertible on `S`
 with a `κ(η)`-point over `σ(η)`. If `Z` extends over a proper open `U` of `S`, it extends over a
-strictly larger open. The arguments are purity (`h0BMA`, [Stacks, Tag 0BMA] (1)), the tame half
-of [Stacks, Tag 0EYD] (`h0EYD`), both for the discrete valuation ring case; the local claim at
-points of codimension at least two needs no further input. -/
-theorem exists_galoisExtendsOver_gt (h0BMA : PurityAtRegularLocalRings.{u})
+strictly larger open. The argument is the tame half of [Stacks, Tag 0EYD] (`h0EYD`), for the
+discrete valuation ring case; the local claim at points of codimension at least two needs no
+further input. -/
+theorem exists_galoisExtendsOver_gt
     (h0EYD : ∀ S : Stacks.FundamentalGroup.CodimensionOnePullbackSetup.{u},
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne S.U.ι S.f →
       Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne (pullback.fst S.g S.U.ι)
@@ -70,11 +70,11 @@ theorem exists_galoisExtendsOver_gt (h0BMA : PurityAtRegularLocalRings.{u})
   obtain ⟨s, hs, hP⟩ := exists_point_with_punctured_local_open S U hU
   have hP' (p : Spec (S.presheaf.stalk s)) :
       S.fromSpecStalk s p ∈ U ↔ p ≠ IsLocalRing.closedPoint (S.presheaf.stalk s) := by
-    show p ∈ S.fromSpecStalk s ⁻¹ᵁ U ↔ _
+    change p ∈ S.fromSpecStalk s ⁻¹ᵁ U ↔ _
     rw [hP]
     exact Iff.rfl
   obtain ⟨YO, ⟨θ⟩⟩ :=
-    exists_finiteEtale_extension_to_stalk f h0BMA h0EYD σ hσ G hG Z z hz hη Y e s hP'
+    exists_finiteEtale_extension_to_stalk f h0EYD σ hσ G hG Z z hz hη Y e s hP'
   obtain ⟨W, hsW, F, ⟨eF⟩⟩ := exists_finiteEtale_extension_of_stalk f s U hη Y.obj YO θ
   refine ⟨U ⊔ W, lt_of_le_of_ne le_sup_left fun h ↦ hs ?_,
     galoisExtendsOver_of_extension f Z le_sup_left hη Y e he F eF⟩

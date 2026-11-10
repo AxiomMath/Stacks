@@ -50,7 +50,8 @@ vertex of `c` because `cG` lies over `(SheafedSpace.forget _).mapCone c`
 differs between the two systems is only the sheaves, which is the point.
 
 The universes are all equal, as in every statement of this development that mentions
-`SpectralAbelianSheafSystem.typeSystem`; the narrowing is inherited from the inputs. See the universe verdict in the implementation notes of
+`SpectralAbelianSheafSystem.typeSystem`; the narrowing is inherited from the inputs. See the
+universe verdict in the implementation notes of
 `StacksDraft.Ch20.Sec16.Tag0A37ColimitComparison`.
 
 ## References

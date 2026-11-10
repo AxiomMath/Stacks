@@ -147,7 +147,8 @@ What is **not** proved here:
   in `Type u` there would have been nothing to compare them to.
 * The derived tensor product is available.  It is
   `CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars`
-  (`StacksFrontier/Homology/Tor/DerivedExtensionScalars.lean:1463`), instantiated for this chapter as
+  (`StacksFrontier/Homology/Tor/DerivedExtensionScalars.lean:1463`), instantiated for this chapter
+  as
   `...SmallSite.derivedBaseChangeTensor` in
   `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/DerivedTensorBaseChange.lean`.  Condition
   (5) of [Stacks, Tag 07MU] — flatness of `F'` — is rendered as

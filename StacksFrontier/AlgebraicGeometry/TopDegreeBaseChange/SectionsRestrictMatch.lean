@@ -127,7 +127,8 @@ timeout (see below).
    `restrictFunctor V.ι = moduleRestriction Y V` has no free variable on either side, so `subst`
    does not apply to it directly; quantifying over the functor and the equality inside the proof
    makes it a local hypothesis and `subst` then discharges the transport. The `ℤ`-indexed
-   `Stacks.TensorSheafWorld.heq_eqToHom_val_app` (`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorSheafWorldBridge.lean`) is the same
+   `Stacks.TensorSheafWorld.heq_eqToHom_val_app`
+   (`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorSheafWorldBridge.lean`) is the same
    statement for a family indexed by `ℤ`; the family here is indexed by a functor category, so it
    does not serve and nothing is duplicated. The existing
    `…TopDegreeBaseChange.heq_eqToIso_trans_val_app` (`LerayOpenSubschemeSections.lean`) is the

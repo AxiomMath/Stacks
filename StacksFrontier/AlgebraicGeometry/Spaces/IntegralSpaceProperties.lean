@@ -373,7 +373,7 @@ private theorem exists_mul_eq_of_forall_stalk (T : TopCat.{u}) (F : T.Sheaf Comm
     convert ht x using 1
   have h := congrArg (F.presheaf.germ (V x) x (hxV x)).hom (hlocalEq x)
   rw [← ht'] at h
-  show (F.presheaf.germ ⊤ x trivial).hom (b * tΓ) = (F.presheaf.germ ⊤ x trivial).hom a
+  change (F.presheaf.germ ⊤ x trivial).hom (b * tΓ) = (F.presheaf.germ ⊤ x trivial).hom a
   simpa only [map_mul, F.presheaf.germ_res_apply] using h
 
 /-- If an element of the fraction field of a domain `R` is integral over `R` and equals `a / b`,

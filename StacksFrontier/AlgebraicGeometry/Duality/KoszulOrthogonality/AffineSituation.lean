@@ -33,8 +33,8 @@ three geometric inputs it isolates, two are discharged by results already in the
   `StacksFrontier/AlgebraicGeometry/Duality/KoszulVanishing/OpenComplement.lean`;
 * `hcounit`, that `Rj_*` is fully faithful, is the instance
   `Stacks.Duality.OpenImmersion.isIso_derivedRestrictPushforwardAdjunction_counit_app` of
-  `StacksFrontier/AlgebraicGeometry/Duality/OpenImmersion/DerivedRestrictCounit.lean`, so it is found
-  by instance synthesis and appears nowhere below.
+  `StacksFrontier/AlgebraicGeometry/Duality/OpenImmersion/DerivedRestrictCounit.lean`, so it is
+  found by instance synthesis and appears nowhere below.
 
 Consequently the implication **(1) ⟹ (2)** is the formal half: `Hom(K⟦n⟧, Rj_* Z)` is
 `Hom((j^*K)⟦n⟧, Z) = 0` once `j^* K = 0`, and the condition is invariant under the isomorphism

@@ -108,7 +108,7 @@ theorem bijective_quotientOfSemilinear (n : ℕ) :
   · obtain ⟨z, rfl⟩ := Submodule.Quotient.mk_surjective _ z
     obtain ⟨m, hm⟩ := Submodule.Quotient.mk_surjective _ (AdicCompletion.eval I M n z)
     refine ⟨Submodule.Quotient.mk m, ?_⟩
-    show Submodule.Quotient.mk (AdicCompletion.of I M m) = Submodule.Quotient.mk z
+    change Submodule.Quotient.mk (AdicCompletion.of I M m) = Submodule.Quotient.mk z
     rw [Submodule.Quotient.eq, mem_map_pow_smul_top_iff_eval_eq_zero, map_sub,
       AdicCompletion.eval_of, Submodule.mkQ_apply, hm, sub_self]
 
@@ -169,7 +169,7 @@ theorem isIPowerTorsion_idealPowerQuotientTower_obj (n : ℕᵒᵖ) :
   intro x
   obtain ⟨m, rfl⟩ := Submodule.Quotient.mk_surjective _ x
   refine ⟨n.unop + 1, n.unop.succ_pos, fun a ha => ?_⟩
-  show a • (Submodule.Quotient.mk m : M ⧸ I ^ n.unop • (⊤ : Submodule A M)) = 0
+  change a • (Submodule.Quotient.mk m : M ⧸ I ^ n.unop • (⊤ : Submodule A M)) = 0
   rw [← Submodule.Quotient.mk_smul, Submodule.Quotient.mk_eq_zero]
   exact Submodule.smul_mem_smul (Ideal.pow_le_pow_right n.unop.le_succ ha) Submodule.mem_top
 
@@ -219,8 +219,7 @@ instance isIso_completionComparison : IsIso (completionComparison I M) := by
   have : ⇑(completionComparison I M) ∘ ⇑e =
       ⇑(AdicCompletion.ofTensorProductEquivOfFiniteNoetherian I M) := by
     funext t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul b m =>
       change (completionComparison I M) (e (b ⊗ₜ[A] m)) = AdicCompletion.ofTensorProduct I M _
       rw [IPowerTorsion.tensorModuleCatEquiv_tmul, AdicCompletion.ofTensorProduct_tmul]

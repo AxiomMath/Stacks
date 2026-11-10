@@ -76,7 +76,7 @@ theorem exists_isRegular_span_ker_stalkMap_diagonal_of_smooth (y : Y) :
   refine ⟨rs.length, rs.get, ?_, ?_⟩
   · rwa [List.ofFn_get]
   · rw [← hspan]
-    show Ideal.span (Set.range rs.get) = Ideal.span {x | x ∈ rs}
+    change Ideal.span (Set.range rs.get) = Ideal.span {x | x ∈ rs}
     congr 1
     ext x
     simp

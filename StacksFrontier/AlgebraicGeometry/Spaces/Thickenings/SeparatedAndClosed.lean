@@ -72,6 +72,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` for `HasPullbacks` on presheaves over the big fppf site is a deep instance search
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_SeparatedAndClosed :
@@ -133,8 +134,7 @@ theorem isClosedImmersion_pullbackMap {i : X ⟶ X'} {j : Y ⟶ Y'} {a : X ⟶ Y
   have heq : pullback.map a a b b i i j hw hw =
       pullback.mapDesc a a j ≫ pullback.map (a ≫ j) (a ≫ j) b b i i (𝟙 Y') hw' hw' := by
     apply pullback.hom_ext <;>
-      simp [pullback.map, pullback.mapDesc, pullback.lift_fst, pullback.lift_snd,
-        pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+      simp [pullback.map, pullback.mapDesc]
   rw [heq]
   exact MorphismProperty.comp_mem _ _ _ hmd hm
 
@@ -143,7 +143,7 @@ square over the comparison of relative diagonal objects. -/
 theorem pullback_diagonal_comp_pullbackMap {i : X ⟶ X'} {j : Y ⟶ Y'} {a : X ⟶ Y} {b : X' ⟶ Y'}
     (hw : a ≫ j = i ≫ b) :
     pullback.diagonal a ≫ pullback.map a a b b i i j hw hw = i ≫ pullback.diagonal b := by
-  apply pullback.hom_ext <;> simp [pullback.map, pullback.lift_fst, pullback.lift_snd]
+  apply pullback.hom_ext <;> simp [pullback.map]
 
 /-- In a commutative square
 `a ≫ j = i ≫ b` of morphisms of algebraic spaces over `S` whose vertical arrows are closed

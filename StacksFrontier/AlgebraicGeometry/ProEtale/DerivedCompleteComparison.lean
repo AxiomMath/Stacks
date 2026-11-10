@@ -58,7 +58,7 @@ attribute [local instance] HasDerivedCategory.standard
   GrothendieckTopology.hasSheafify_addCommGrpCat
   SheafOfModules.wEqualsLocallyBijective_addCommGrpCat
 
-variable (X : Scheme.{u}) {Λ : Type (max (u + 1) w)} [CommRing Λ] [IsNoetherianRing Λ]
+variable (X : Scheme.{u}) {Λ : Type (max (u + 1) w)} [CommRing Λ]
 
 /-- **The coefficients act through the constant ring sheaf.** The equivalence between sheaves of
 `Λ`-modules and sheaves of `\underline{Λ}`-modules carries multiplication by `l ∈ Λ` to
@@ -91,7 +91,7 @@ theorem isDerivedComplete_derivedModuleEquiv_inverse_obj (I : Ideal Λ)
   obtain ⟨hAdd, hLim, hColim, hProd, hc⟩ := hK T (coefficientSectionsMap X Λ T l)
     (coefficientSectionsMap_mem_constantCoefficientIdealSheaf X Λ I T hl)
   let : ∀ V : X.ProEtᵒᵖ, IsMulCommutative (R.obj.obj V) := fun V ↦ by
-    show IsMulCommutative ((constantCoefficientRingedSite.{u, max (u + 1) w, w} X Λ).O.obj.obj V)
+    change IsMulCommutative ((constantCoefficientRingedSite.{u, max (u + 1) w, w} X Λ).O.obj.obj V)
     infer_instance
   let : ∀ V : (Over T)ᵒᵖ, IsMulCommutative ((R.over T).obj.obj V) := fun V ↦
     inferInstanceAs (IsMulCommutative (R.obj.obj (op V.unop.left)))
@@ -120,7 +120,7 @@ theorem isDerivedComplete_derivedModuleEquiv_inverse_obj (I : Ideal Λ)
         (Stacks.SheafOfModules.globalSectionToEnd R s).asHom.app (E.functor.obj P) := by
       ext W z
       exact constantCoefficientModuleEquiv_functor_map_smul_id_val_app X P l W.unop z
-    show F.map (E.functor.map (l • 𝟙 P)) = aT.app _ ≫ 𝟙 _
+    change F.map (E.functor.map (l • 𝟙 P)) = aT.app _ ≫ 𝟙 _
     rw [Category.comp_id, hE]
     exact Stacks.SheafOfModules.overFunctor_map_globalSectionToEnd R T s _
   have : D.functor.Additive := inferInstanceAs Φ.functor.mapDerivedCategory.Additive

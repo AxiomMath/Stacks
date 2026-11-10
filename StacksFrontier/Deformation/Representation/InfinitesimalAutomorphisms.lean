@@ -212,10 +212,10 @@ theorem map_epsEndo (φ : V →ₗ[κ] V) (mm : M) : ψ (epsEndo h φ mm) = ψ m
 /-- Composing `epsEndo h φ'` with `epsEndo h φ` gives `epsEndo h (φ + φ')`. -/
 theorem epsEndo_epsEndo (φ φ' : V →ₗ[κ] V) (mm : M) :
     epsEndo h φ (epsEndo h φ' mm) = epsEndo h (φ + φ') mm := by
-  show epsEndo h φ' mm + epsLift h (φ (ψ (epsEndo h φ' mm))) =
+  change epsEndo h φ' mm + epsLift h (φ (ψ (epsEndo h φ' mm))) =
     mm + epsLift h ((φ + φ') (ψ mm))
   rw [map_epsEndo h]
-  show mm + epsLift h (φ' (ψ mm)) + epsLift h (φ (ψ mm)) =
+  change mm + epsLift h (φ' (ψ mm)) + epsLift h (φ (ψ mm)) =
     mm + epsLift h ((φ + φ') (ψ mm))
   simp only [LinearMap.add_apply, map_add]
   abel
@@ -278,7 +278,7 @@ theorem exists_epsEndo (χ : M →ₗ[R] M) (hχ : ∀ mm : M, ψ (χ mm) = ψ m
     rw [h.map_smul, hsi, hsi]
   refine ⟨{ toFun := ww, map_add' := hwadd, map_smul' := hwsmul }, fun mm ↦ ?_⟩
   rw [epsEndo_apply]
-  show χ mm = mm + epsLift h (ww (ψ mm))
+  change χ mm = mm + epsLift h (ww (ψ mm))
   rw [hww, hδfac _ mm (hsi _), hδapply]
   abel
 
@@ -464,7 +464,7 @@ theorem RepresentationCategory.exists_isFirstOrderReduction
   let bV : Module.Basis _ k V := (bM.baseChange (k : Type w)).map hbc.equiv
   have hbV : ∀ j, bV j = xε.1.hom.map (bM j) := by
     intro j
-    show hbc.equiv ((bM.baseChange (k : Type w)) j) = _
+    change hbc.equiv ((bM.baseChange (k : Type w)) j) = _
     rw [Module.Basis.baseChange_apply, IsBaseChange.equiv_tmul, one_smul]
     rfl
   exact isFirstOrderReduction_of_basis bM bV hpi hmul
@@ -705,7 +705,7 @@ theorem exists_infinitesimalAutomorphismsLinearEquivH0
   refine ⟨A, Mo, fun a b ↦ eqv.injective ?_, ⟨L, fun a ↦ rfl⟩, ?_⟩
   · have h₁ : eqv (a + b) = eqv a + eqv b := eadd.map_add a b
     have h₂ : eqv (a * b) = eqv a + eqv b := by
-      show Multiplicative.toAdd (E (a * b)) = _
+      change Multiplicative.toAdd (E (a * b)) = _
       rw [E.map_mul]
       rfl
     rw [h₁, h₂]

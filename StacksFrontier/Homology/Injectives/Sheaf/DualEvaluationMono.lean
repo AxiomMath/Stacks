@@ -92,7 +92,7 @@ theorem mono_cokernelDesc {A : Type*} [Category A] [Abelian A] {X Y : A} (t : X 
       (cokernelIsoOfEq (kernelSubobject_arrow' t))
   have hfac : e.inv ≫ q = Abelian.factorThruCoimage t := by
     apply coequalizer.hom_ext
-    show cokernel.π (kernel.ι t) ≫ e.inv ≫ q
+    change cokernel.π (kernel.ι t) ≫ e.inv ≫ q
         = cokernel.π (kernel.ι t) ≫ Abelian.factorThruCoimage t
     rw [Abelian.coimage.fac t, ← Category.assoc]
     show (cokernel.π (kernel.ι t) ≫ e.inv) ≫ q = t
@@ -292,7 +292,7 @@ theorem exists_local_hom_ne_zero (F : SheafOfModules.{u} (underlyingRingSheaf O)
   have hfac : (SheafOfModules.toSheaf (underlyingRingSheaf O)).map q ≫ φ₀ = g :=
     Injective.comp_factorThru _ _
   refine ⟨Functor.whiskerLeft (Over.forget U).op φ₀.hom, ?_⟩
-  show φ₀.hom.app (op U) x ≠ 0
+  change φ₀.hom.app (op U) x ≠ 0
   intro hzero
   let genQ := extensionByZeroUnitHomEquiv.{u, u, u, u} (underlyingRingSheaf O) U
     (cokernel (kernelSubobject s).arrow) π

@@ -97,15 +97,15 @@ theorem overMap_preserves_pullback (A B C : Over Y.left) (f : A ⟶ C) (g : B �
     let lY : TY ⟶ P := pullback.lift aY bY habY
     let l : T ⟶ F.obj P := Over.homMk lY.left (by
       dsimp [F]
-      show lY.left ≫ (P.hom ≫ Y.hom) = T.hom
+      change lY.left ≫ (P.hom ≫ Y.hom) = T.hom
       rw [← Category.assoc, Over.w lY]
       simpa [TY, F, Category.assoc] using (Over.w a))
     refine ⟨l, ?_, ?_⟩
     · apply Over.OverMorphism.ext
-      show lY.left ≫ (pullback.fst f g).left = a.left
+      change lY.left ≫ (pullback.fst f g).left = a.left
       exact congrArg Over.Hom.left (pullback.lift_fst aY bY habY)
     · apply Over.OverMorphism.ext
-      show lY.left ≫ (pullback.snd f g).left = b.left
+      change lY.left ≫ (pullback.snd f g).left = b.left
       exact congrArg Over.Hom.left (pullback.lift_snd aY bY habY)
 
 /-- The source of a composite arrow in the action groupoid is the source of its second

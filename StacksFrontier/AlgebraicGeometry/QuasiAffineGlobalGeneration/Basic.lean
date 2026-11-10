@@ -11,8 +11,8 @@ public import StacksFrontier.AlgebraicGeometry.NonvanishingSpelling.Basic
 every finite `E` inside an open `W`, some global section `s ∈ Γ(X, L)` has `X_s` affine with
 `E ⊆ X_s ⊆ W`.
 
-This is proved outright, from Mathlib and material of this library only. Neither of the two inputs the
-source's own proof needs is an obstacle: Stacks Tag 01PV is not needed at all
+This is proved outright, from Mathlib and material of this library only. Neither of the two inputs
+the source's own proof needs is an obstacle: Stacks Tag 01PV is not needed at all
 (`StacksFrontier/AlgebraicGeometry/QuasiAffineGlobalGeneration/Reduction.lean`), and pointwise
 global generation of `L` on a quasi-affine scheme -- the result the source quotes from Stacks Tags
 01QE and 01Q3 -- is proved in

@@ -82,6 +82,7 @@ variable {K} [IsAlgClosed K] {X P : Scheme.{u}} (sP : P ⟶ Spec (.of K)) [IsVar
   (C' : (projectiveLineProduct sP).IdealSheafData) [IsIntegral C'.subscheme]
 
 open scoped Classical in
+omit [IsAlgClosed K] in
 /-- **The zero fibre of `C'` meets `X` in the expected dimension.** Let `C' ⊆ P × 𝐏¹` be an
 integral closed subscheme of dimension `r + 1` not contained in `P × 0`, and assume that the
 cycle `[C'_0]_r` of its zero fibre meets `X` properly. Then every point `t` of `C'_0 ∩ X`
@@ -148,7 +149,7 @@ theorem relativeDimension_add_le_of_mem_zeroFiber (d p r : ℕ)
     ⟨closure {ι.base (genericPoint X)}, isIrreducible_singleton.closure, isClosed_closure⟩
     (by rw [genericPoint_closure_singleton]; exact hcoef)
     (by rw [genericPoint_closure_singleton, Function.locallyFinsuppWithin.single_apply,
-      if_pos rfl]; exact one_ne_zero)
+      ite_eq_left rfl]; exact one_ne_zero)
   rw [AlgebraicGeometry.intersectProperly_iff] at hprop
   change topologicalKrullDim (↥(closure ({ψ.base ξ} : Set P) ∩ closure {ι.base (genericPoint X)}))
       + topologicalKrullDim P ≤ topologicalKrullDim (closure ({ψ.base ξ} : Set P)) +
@@ -166,6 +167,7 @@ theorem relativeDimension_add_le_of_mem_zeroFiber (d p r : ℕ)
     K sP (isClosed_closure.inter isClosed_closure) (N := r + d) (by exact_mod_cast hprop) hmem
   exact_mod_cast this
 
+omit [IsAlgClosed K] in
 /-- The generic point of `C'` has relative dimension `dim C'`. -/
 theorem relativeDimension_genericPoint_of_topologicalKrullDim (r : ℕ)
     (hC' : topologicalKrullDim (C'.support : Set (projectiveLineProduct sP)) =
@@ -185,6 +187,7 @@ theorem relativeDimension_genericPoint_of_topologicalKrullDim (r : ℕ)
       (C'.subschemeι.base (genericPoint C'.subscheme))).toNat = r + 1 := by exact_mod_cast h
   omega
 
+omit [IsAlgClosed K] in
 /-- `C'` has delta-dimension `dim C'`. -/
 theorem schemeDeltaDimension_familyBase_of_topologicalKrullDim (r : ℕ)
     (hC' : topologicalKrullDim (C'.support : Set (projectiveLineProduct sP)) =
@@ -193,6 +196,7 @@ theorem schemeDeltaDimension_familyBase_of_topologicalKrullDim (r : ℕ)
   rw [schemeDeltaDimension_eq_genericPoint, familyBase, relativeDimension_comp_closedImmersion,
     relativeDimension_genericPoint_of_topologicalKrullDim sP C' r hC']
 
+omit [IsAlgClosed K] [IsVariety K sP] [IsIntegral C'.subscheme] in
 /-- If the zero fibre of `C'` has smaller dimension than `C'`, then `C'` is not contained in
 `P × 0`. -/
 theorem not_range_subset_zeroSection_of_topologicalKrullDim (r : ℕ)
@@ -211,6 +215,7 @@ theorem not_range_subset_zeroSection_of_topologicalKrullDim (r : ℕ)
   omega
 
 open scoped Classical in
+omit [IsAlgClosed K] in
 /-- **The part of `X × 0` meeting a closed subset of `C' ∩ (X × 𝐏¹)` has small dimension.** Let
 `e` be a point of `X × 𝐏¹` whose image in `P × 𝐏¹` lies on `C'`. Then every point `t` of
 `closure {e}` lying on `X × 0` satisfies `δ(t) + dim P ≤ r + dim X`. -/
@@ -246,6 +251,7 @@ theorem relativeDimension_add_le_of_mem_closure_zeroSection (d p r : ℕ)
   exact hEQ
 
 open scoped Classical in
+omit [IsAlgClosed K] in
 /-- The zero fibre of `C'` meets `X` in dimension at most the expected dimension `n`. -/
 theorem topologicalKrullDim_support_zeroFiber_inter_range_le (d p r n : ℕ)
     (hd : topologicalKrullDim X = (d : WithBot ℕ∞)) (hp : topologicalKrullDim P = (p : WithBot ℕ∞))
@@ -659,7 +665,7 @@ theorem intersectionProduct_zeroFibre_eq_properPushforward_zeroSection
     intro W V hW hV
     have hVg : V.isIrreducible.genericPoint = (zeroSection (ι ≫ sP)).base (genericPoint X) := by
       by_contra h
-      rw [Function.locallyFinsuppWithin.single_apply, if_neg h] at hV
+      rw [Function.locallyFinsuppWithin.single_apply, ite_eq_right h] at hV
       exact hV rfl
     rw [AlgebraicGeometry.intersectProperly_iff,
       ReductionToDiagonal.coe_irreducibleCloseds_eq_closure_genericPoint W,

@@ -92,7 +92,7 @@ lemma Pseudococone.homMap_of_equalStage (P : Pseudococone F D) (n k : ℕ) {E G 
     P.homMap (Hom.of k f : (⟨E, n⟩ : EndoColim F) ⟶ ⟨G, n⟩) =
       (P.iterObjIso n (n + k) E).inv ≫ (P.stage (n + (n + k))).map f ≫
         (P.iterObjIso n (n + k) G).hom := by
-  show (P.iterObjIso n (n + k) E).inv ≫ (P.stage (n + (n + k))).map f ≫
+  change (P.iterObjIso n (n + k) E).inv ≫ (P.stage (n + (n + k))).map f ≫
       (P.stageHom (rfl : n + (n + k) = n + (n + k))).app ((F.endoIter (n + k)).obj G) ≫
         (P.iterObjIso n (n + k) G).hom = _
   rw [Pseudococone.stageHom_refl]

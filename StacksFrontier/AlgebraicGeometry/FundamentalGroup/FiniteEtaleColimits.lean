@@ -167,7 +167,7 @@ private lemma desc_ι_comp_desc_id [HasCoproduct (fun _ : κ ↦ A)] [HasCoprodu
     (Sigma.desc fun j ↦ Sigma.ι (fun _ : ι ↦ A) (ρ j)) ≫ (Sigma.desc fun _ : ι ↦ 𝟙 A) =
       Sigma.desc fun _ : κ ↦ 𝟙 A := by
   refine Sigma.hom_ext _ _ fun j ↦ ?_
-  rw [Sigma.ι_desc_assoc, Sigma.ι_desc, Sigma.ι_desc]
+  rw [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc]
 
 /-- The projection onto the coproduct indexed by the coequalizer of the index maps commutes with
 the fold maps. -/
@@ -188,7 +188,7 @@ noncomputable def sigmaIndexMap (ρ : κ → ι) : (∐ fun _ : κ ↦ A) ⟶ (�
 @[simp, reassoc]
 lemma ι_sigmaIndexMap (ρ : κ → ι) (j : κ) :
     Sigma.ι (fun _ : κ ↦ A) j ≫ sigmaIndexMap A ρ = Sigma.ι (fun _ : ι ↦ A) (ρ j) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- An index-induced morphism of coproducts of copies of `A` commutes with the fold maps. -/
 lemma sigmaIndexMap_comp_sigmaDesc_id (ρ : κ → ι) :
@@ -202,7 +202,7 @@ indexed by the coequalizer `IndexCoeq σ τ` of the index maps. -/
 @[reducible] noncomputable def sigmaIndexCofork : Cofork (sigmaIndexMap A σ) (sigmaIndexMap A τ) :=
   Cofork.ofπ (Sigma.desc fun i ↦ Sigma.ι (fun _ : IndexCoeq σ τ ↦ A) (toIndexCoeq σ τ i)) (by
     refine Sigma.hom_ext _ _ fun j ↦ ?_
-    rw [ι_sigmaIndexMap_assoc, ι_sigmaIndexMap_assoc, Sigma.ι_desc, Sigma.ι_desc,
+    rw [ι_sigmaIndexMap_assoc, ι_sigmaIndexMap_assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc,
       toIndexCoeq_comp_eq])
 
 /-- **The combinatorial core of Stacks 0BN9.** The coequalizer of the two morphisms
@@ -221,8 +221,8 @@ noncomputable def isColimitSigmaIndexCofork : IsColimit (sigmaIndexCofork A σ �
     simp [sigmaIndexCofork]
   · refine Sigma.hom_ext _ _ (indexCoeq_ind fun i ↦ ?_)
     have h := Sigma.ι (fun _ : ι ↦ A) i ≫= hm
-    rw [Cofork.π_ofπ, Sigma.ι_desc_assoc] at h
-    rwa [Sigma.ι_desc]
+    rw [Cofork.π_ofπ, Sigma.ι_comp_desc_assoc] at h
+    rwa [Sigma.ι_comp_desc]
 
 end Sigma
 
@@ -331,7 +331,7 @@ noncomputable def sigmaCocone : Cocone D where
   pt := MorphismProperty.Over.mk ⊤ (Sigma.desc fun i ↦ (D.obj ⟨i⟩).hom)
     (finiteEtale_sigmaDesc fun i ↦ (D.obj ⟨i⟩).prop)
   ι := Discrete.natTrans fun i ↦ MorphismProperty.Over.homMk
-    (Sigma.ι (fun i ↦ (D.obj ⟨i⟩).left) i.as) (Sigma.ι_desc _ _)
+    (Sigma.ι (fun i ↦ (D.obj ⟨i⟩).left) i.as) (Sigma.ι_comp_desc _ _)
 
 /-- **Finite coproducts in `FÉt_X`, Stacks 0BN9.** The disjoint union of a finite family of finite
 étale covers of `X` is their coproduct in `FÉt_X`, and it is computed in the category of

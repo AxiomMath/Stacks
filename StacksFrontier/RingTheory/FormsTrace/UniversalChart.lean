@@ -150,7 +150,7 @@ theorem isPushout_universalCarrier (c : universalRing d →+* R) :
       IsScalarTower.of_algebraMap_eq' rfl
   have := IsScalarTower.of_algebraMap_eq (R := ULift.{u} (universalRing d))
     (S := ULift.{u} (UniversalFiniteFreeModule d)) (A := Carrier (tableOfHom c)) fun a => by
-    show algebraMap R (Carrier (tableOfHom c)) (c a.down) =
+    change algebraMap R (Carrier (tableOfHom c)) (c a.down) =
       universalCarrierClassify d s (tableOfHom c) (algebraMap _ _ a.down)
     rw [universalCarrierClassify_algebraMap, classify_tableOfHom]
   have hsmul : ∀ (a : (ULift.{u} (universalRing d))) (x : (ULift.{u} (UniversalFiniteFreeModule
@@ -164,11 +164,11 @@ theorem isPushout_universalCarrier (c : universalRing d →+* R) :
     { toFun := fun x i => ULift.up (x.down.coeff i)
       invFun := fun y => ULift.up ⟨fun i => (y i).down⟩
       map_add' := fun x y => funext fun i => by
-        show ULift.up ((x.down + y.down).coeff i) = _
+        change ULift.up ((x.down + y.down).coeff i) = _
         rw [s.add_coeff]
         rfl
       map_smul' := fun a x => funext fun i => by
-        show ULift.up ((a • x).down.coeff i) = ULift.up (a.down * x.down.coeff i)
+        change ULift.up ((a • x).down.coeff i) = ULift.up (a.down * x.down.coeff i)
         rw [hsmul]
       left_inv := fun x => rfl
       right_inv := fun y => rfl }
@@ -178,7 +178,7 @@ theorem isPushout_universalCarrier (c : universalRing d →+* R) :
       R (Carrier (tableOfHom c)) := by
     refine isPushout_of_bases_one bU (Carrier.basis (tableOfHom c)) fun x => ?_
     refine Carrier.ext fun k => ?_
-    show (tableOfHom c).classify (x.down.coeff k) = _
+    change (tableOfHom c).classify (x.down.coeff k) = _
     rw [classify_tableOfHom, Carrier.sum_apply (s := Finset.univ)]
     have hterm : ∀ i : Fin d,
         (algebraMap (ULift.{u} (universalRing d)) R (bU.repr x i) • Carrier.basis (tableOfHom c) i)
@@ -505,7 +505,7 @@ theorem dense_basicOpen_discr_universalChartBase (hg : IsSyntomicGood.{u} d g) :
     have : t'.asIdeal.IsPrime := t'.isPrime
     have ht : Spec.map (CommRingCat.ofHom ψ) t = q0 := by
       apply PrimeSpectrum.ext
-      show Ideal.comap ψ t'.asIdeal = p.asIdeal
+      change Ideal.comap ψ t'.asIdeal = p.asIdeal
       rw [Ideal.eq_bot_of_prime t'.asIdeal, ← RingHom.ker_eq_comap_bot]
       exact Ideal.ker_algebraMap_residueField _
     rw [specMap_comp_ulift, Scheme.Hom.comp_apply, ht]
@@ -513,7 +513,7 @@ theorem dense_basicOpen_discr_universalChartBase (hg : IsSyntomicGood.{u} d g) :
   have hne := discr_ne_zero_of_etale (Carrier.basis (tableOfHom (ψ.comp
       (universalChartBaseClassify.{u} g))))
   rw [discr_tableOfHom, RingHom.comp_apply] at hne
-  show universalChartBaseClassify.{u} g (universalDiscr d) ∉ p.asIdeal
+  change universalChartBaseClassify.{u} g (universalDiscr d) ∉ p.asIdeal
   exact fun hmem => hne (Ideal.algebraMap_residueField_eq_zero.mpr hmem)
 
 /-- **The discriminant over `N_g` is a nonzerodivisor** for a good element `g`: `N_g` is reduced

@@ -226,14 +226,14 @@ theorem bijective_finiteTypeContinuousModuleCoindEval_comp (hφ : ∀ g, φ g �
         map_add' := fun q q' ↦ by
           funext x; induction x using QuotientGroup.induction_on with
           | H g =>
-            show (M.obj.obj.obj.ρ g).asHom.hom (cL ((Q.obj.obj.obj.ρ g⁻¹).asHom.hom (q + q'))) =
+            change (M.obj.obj.obj.ρ g).asHom.hom (cL ((Q.obj.obj.obj.ρ g⁻¹).asHom.hom (q + q'))) =
               (M.obj.obj.obj.ρ g).asHom.hom (cL ((Q.obj.obj.obj.ρ g⁻¹).asHom.hom q)) +
                 (M.obj.obj.obj.ρ g).asHom.hom (cL ((Q.obj.obj.obj.ρ g⁻¹).asHom.hom q'))
             rw [map_add, map_add, map_add]
         map_smul' := fun r q ↦ by
           funext x; induction x using QuotientGroup.induction_on with
           | H g =>
-            show (M.obj.obj.obj.ρ g).asHom.hom (cL ((Q.obj.obj.obj.ρ g⁻¹).asHom.hom (r • q))) =
+            change (M.obj.obj.obj.ρ g).asHom.hom (cL ((Q.obj.obj.obj.ρ g⁻¹).asHom.hom (r • q))) =
               r • (M.obj.obj.obj.ρ g).asHom.hom (cL ((Q.obj.obj.obj.ρ g⁻¹).asHom.hom q))
             rw [map_smul, map_smul, map_smul] }
     let a : Q ⟶ (finiteTypeContinuousModuleCoind R H).obj M :=
@@ -241,7 +241,7 @@ theorem bijective_finiteTypeContinuousModuleCoindEval_comp (hφ : ∀ g, φ g �
         funext x
         induction x using QuotientGroup.induction_on with
         | H g' =>
-          show (M.obj.obj.obj.ρ g').asHom.hom
+          change (M.obj.obj.obj.ρ g').asHom.hom
               (cL ((Q.obj.obj.obj.ρ g'⁻¹).asHom.hom ((Q.obj.obj.obj.ρ g).asHom.hom q))) =
             (M.obj.obj.obj.ρ g).asHom.hom ((M.obj.obj.obj.ρ (g⁻¹ * g')).asHom.hom
               (cL ((Q.obj.obj.obj.ρ (g⁻¹ * g')⁻¹).asHom.hom q)))
@@ -251,7 +251,7 @@ theorem bijective_finiteTypeContinuousModuleCoindEval_comp (hφ : ∀ g, φ g �
     apply ObjectProperty.hom_ext; apply ObjectProperty.hom_ext; apply ObjectProperty.hom_ext
     apply Action.hom_ext; apply ModuleCat.hom_ext; apply LinearMap.ext; intro q
     refine Eq.trans ?_ (hcL q).symm
-    show (M.obj.obj.obj.ρ 1).asHom.hom (cL ((Q.obj.obj.obj.ρ 1⁻¹).asHom.hom q)) = cL q
+    change (M.obj.obj.obj.ρ 1).asHom.hom (cL ((Q.obj.obj.obj.ρ 1⁻¹).asHom.hom q)) = cL q
     exact (congrArg
       (fun t : G ↦ (M.obj.obj.obj.ρ 1).asHom.hom (cL ((Q.obj.obj.obj.ρ t).asHom.hom q)))
       inv_one).trans ((finiteTypeContinuousModule_ρ_one_apply R M _).trans

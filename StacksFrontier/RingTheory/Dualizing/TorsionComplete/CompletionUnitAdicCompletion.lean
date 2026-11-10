@@ -130,7 +130,7 @@ theorem singleFunctor_adicCompletion_endo_eq_id (N : Type u) [AddCommGroup N] [M
   have htid : tbar = LinearMap.id :=
     AdicCompletion.linearMap_ext_of I hI (htbar.trans (LinearMap.id_comp _).symm)
   rw [← S.map_preimage t, ← ModuleCat.ofHom_hom (S.preimage t)]
-  show S.map (ModuleCat.ofHom tbar) = _
+  change S.map (ModuleCat.ofHom tbar) = _
   rw [htid, ModuleCat.ofHom_id, S.map_id]
 
 /-- Let `c : X ⟶ Y` be a morphism into a derived complete object which factors through the unit
@@ -182,7 +182,7 @@ theorem isIso_derivedCompletion_map_adicCompletionOf (N : Type u) [AddCommGroup 
   let X := S.obj (ModuleCat.of A N)
   let Y := S.obj (ModuleCat.of A (AdicCompletion I N))
   let e : (D ⋙ P.ι).obj X ≅ Y := e'
-  show IsIso (D.map (S.map (ModuleCat.ofHom (AdicCompletion.of I N))))
+  change IsIso (D.map (S.map (ModuleCat.ofHom (AdicCompletion.of I N))))
   let η := (derivedCompletionReflection.{u, u} A I hI).2.unit
   let c : X ⟶ Y := S.map (ModuleCat.ofHom (AdicCompletion.of I N))
   have : IsAdicComplete I (AdicCompletion I N) := AdicCompletion.isAdicComplete (I := I) (M := N) hI
@@ -195,7 +195,7 @@ theorem isIso_derivedCompletion_map_adicCompletionOf (N : Type u) [AddCommGroup 
   -- the module map underlying `η ≫ e`, and its extension over `c`
   let h : N →ₗ[A] AdicCompletion I N := (S.preimage (η.app X ≫ e.hom)).hom
   have hh : S.map (ModuleCat.ofHom h) = η.app X ≫ e.hom := by
-    show S.map (ModuleCat.ofHom (S.preimage (η.app X ≫ e.hom)).hom) = _
+    change S.map (ModuleCat.ofHom (S.preimage (η.app X ≫ e.hom)).hom) = _
     rw [ModuleCat.ofHom_hom, S.map_preimage]
   let hbar : AdicCompletion I N →ₗ[A] AdicCompletion I N :=
     (AdicCompletion.ofLinearEquiv I (AdicCompletion I N)).symm.toLinearMap ∘ₗ
@@ -208,12 +208,12 @@ theorem isIso_derivedCompletion_map_adicCompletionOf (N : Type u) [AddCommGroup 
     refine B.1 ?_
     dsimp only
     rw [reassoc_of% hψ, ← hh]
-    show S.map _ ≫ S.map _ = _
+    change S.map _ ≫ S.map _ = _
     rw [← S.map_comp, ← ModuleCat.ofHom_comp, hbar_of]
   -- the composite the other way round is the identity
   let t : Y ⟶ Y := s ≫ e.inv ≫ ψ
   have ht : ψ ≫ t = ψ := by
-    show ψ ≫ s ≫ e.inv ≫ ψ = ψ
+    change ψ ≫ s ≫ e.inv ≫ ψ = ψ
     rw [← Category.assoc, hs, e.hom_inv_id_assoc]
   have hct : c ≫ t = c := by
     rw [← hψ, Category.assoc, ht]

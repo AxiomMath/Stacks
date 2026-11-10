@@ -193,10 +193,7 @@ lemma tensorStalk_addHom_ext {P : Type u} [AddCommGroup P]
   refine AddMonoidHom.ext fun z ↦ ?_
   obtain ⟨w, rfl⟩ : ∃ w, (tensorStalkEquiv x A B).symm w = z :=
     ⟨tensorStalkEquiv x A B z, (tensorStalkEquiv x A B).symm_apply_apply z⟩
-  induction w using TensorProduct.induction_on with
-  | zero =>
-      exact ((congrArg l (tensorStalkEquiv x A B).symm.map_zero).trans l.map_zero).trans
-        ((congrArg r (tensorStalkEquiv x A B).symm.map_zero).trans r.map_zero).symm
+  induction w using TensorProduct.inductionOn with
   | add a b ha hb => simpa only [map_add] using congrArg₂ (· + ·) ha hb
   | tmul p q =>
       obtain ⟨Up, hUp, sp, hsp⟩ := TopCat.Presheaf.exists_germ_eq A.val.presheaf p
@@ -536,7 +533,7 @@ private lemma comparisonStalkLinearMap_eq (x : X.carrier) :
       (LinearEquiv.symm_apply_eq _).mpr
         (chosenStalkEquiv_germ f hf (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
           ⟨(Y).presheaf, (Y).IsSheaf⟩).obj A).obj B) x V hy _).symm
-    show comparisonStalkLinearMap f A B x (g _) = comparisonStalkEquiv f hf A B x (g _)
+    change comparisonStalkLinearMap f A B x (g _) = comparisonStalkEquiv f hf A B x (g _)
     rw [hsym, comparisonStalkLinearMap_germ f A B x V hx m n,
       comparisonStalkEquiv_germ f hf A B x V hx m n]
   exact DFunLike.congr_fun hlr z
@@ -547,7 +544,7 @@ the canonical comparison `f^*(A ⊗ B) ⟶ f^*A ⊗ f^*B` is an isomorphism. -/
 theorem isIso_comparison_of_pullbackStalkFormula : IsIso (comparison f A B) := by
   refine ExtensionByZeroModules.isIso_of_stalk_isIso _ (comparison f A B) fun x ↦ ?_
   rw [ConcreteCategory.isIso_iff_bijective]
-  show Function.Bijective (comparisonStalkLinearMap f A B x)
+  change Function.Bijective (comparisonStalkLinearMap f A B x)
   rw [comparisonStalkLinearMap_eq f hf A B x]
   exact (comparisonStalkEquiv f hf A B x).bijective
 

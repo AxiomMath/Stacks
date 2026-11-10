@@ -179,7 +179,7 @@ structural map of the algebra sheaf. -/
 theorem specReesSectionsEquiv_algebraMap (r : A) :
     specReesSectionsEquiv I (algebraMap A ↥(reesAlgebra I) r)
       = (specReesAlgebraSheaf I).unitTop.hom (specTopEquiv r) := by
-  show reesSectionsRingEquiv (specIdealSheaf I) ⟨⊤, isAffineOpen_top _⟩
+  change reesSectionsRingEquiv (specIdealSheaf I) ⟨⊤, isAffineOpen_top _⟩
     (reesAlgebraCongr (specTopEquiv (A := A)) (specIdealSheaf_ideal_top I)
       (algebraMap A ↥(reesAlgebra I) r)) = _
   rw [reesAlgebraCongr_algebraMap]
@@ -210,14 +210,14 @@ theorem specReesPushforwardSectionsEquiv_unitTop (r : ↥Γ(Spec (.of A), ⊤)) 
       k.hom (specTopEquiv.symm r))
     (Scheme.ΓSpecIso_inv_naturality
       (CommRingCat.ofHom (algebraMap A ↥(reesAlgebra I))))
-  show (Scheme.ΓSpecIso (.of ↥(reesAlgebra I))).inv.hom
+  change (Scheme.ΓSpecIso (.of ↥(reesAlgebra I))).inv.hom
     ((specReesSectionsEquiv I).symm ((specReesAlgebraSheaf I).unitTop.hom r)) = _
   rw [hsym]
   refine hnat.trans ?_
-  show (reesSpecToBase I).appTop.hom
+  change (reesSpecToBase I).appTop.hom
     ((Scheme.ΓSpecIso (.of A)).inv.hom (specTopEquiv.symm r)) = _
   congr 1
-  show specTopEquiv (A := A) (specTopEquiv.symm r) = r
+  change specTopEquiv (A := A) (specTopEquiv.symm r) = r
   simp
 
 /-- **`B̃` is the pushed-forward structure sheaf of `Spec B ⟶ Spec A`.** -/

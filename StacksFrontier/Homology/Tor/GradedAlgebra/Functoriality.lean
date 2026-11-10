@@ -85,7 +85,7 @@ private lemma map_torMultiplication {B C : AlgCat.{v, uR} R} (g : B ⟶ C)
           (N := GradedTor.torPiece R A B m) (N' := GradedTor.torPiece R A C m)
           (GradedTor.torPieceMap R A g n) (GradedTor.torPieceMap R A g m) ≫
         GradedTor.torMultiplication R A C n m := by
-  show _ ≫ (RingTheory.TorProducts.torBaseChange R A (n + m)).map
+  change _ ≫ (RingTheory.TorProducts.torBaseChange R A (n + m)).map
       (ModuleCat.ofHom (GradedTor.liftedMap R A g).hom.toLinearMap) = _
   simp only [GradedTor.torPieceMap_ofNat]
   unfold GradedTor.torMultiplication
@@ -116,15 +116,14 @@ private lemma zeroBaseChange_mul_one (B : AlgCat.{max uR uA v, uR} R)
       (x ⊗ₜ[A] ((1 : A) ⊗ₜ[R, algebraMap R A] (1 : B))) = x := by
   let f := algebraMap R A
   let := f.toAlgebra
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a b =>
-    show (extensionScalars.{uR, uA, v} (algebraMap R A)).map
+    change (extensionScalars.{uR, uA, v} (algebraMap R A)).map
       (ModuleCat.ofHom (TensorProduct.lift (LinearMap.mul R B)))
       ((TensorProduct.AlgebraTensorModule.distribBaseChange R A B B).symm
         ((a ⊗ₜ[R] b) ⊗ₜ[A] ((1 : A) ⊗ₜ[R, algebraMap R A] (1 : B)))) = _
     simp only [TensorProduct.AlgebraTensorModule.distribBaseChange_symm_tmul, mul_one]
-    show a ⊗ₜ[R] (b * 1) = a ⊗ₜ[R] b
+    change a ⊗ₜ[R] (b * 1) = a ⊗ₜ[R] b
     rw [mul_one]
   | add x y hx hy => simpa only [TensorProduct.add_tmul, map_add] using congrArg₂ (· + ·) hx hy
 
@@ -185,15 +184,15 @@ private lemma torPieceMap_one {B C : AlgCat.{v, uR} R} (g : B ⟶ C) :
     (ModuleCat.extendRestrictScalarsAdj.{max uR v, uR, uA} (algebraMap R A)).isLeftAdjoint
   apply (ModuleCat.mono_iff_injective
     (F.fromLeftDerivedZero.app (GradedTor.liftedModule R A C))).mp inferInstance
-  show ((F.leftDerived 0).map
+  change ((F.leftDerived 0).map
       (ModuleCat.ofHom (GradedTor.liftedMap R A g).hom.toLinearMap) ≫
     F.fromLeftDerivedZero.app (GradedTor.liftedModule R A C)) _ = _
   rw [NatTrans.naturality]
-  show F.map (ModuleCat.ofHom (GradedTor.liftedMap R A g).hom.toLinearMap)
+  change F.map (ModuleCat.ofHom (GradedTor.liftedMap R A g).hom.toLinearMap)
     (F.fromLeftDerivedZero.app (GradedTor.liftedModule R A B)
       (GradedTor.canonicalAlgebra R A B).one) = _
   rw [fromLeftDerivedZero_one, fromLeftDerivedZero_one]
-  show (1 : A) ⊗ₜ[R, algebraMap R A]
+  change (1 : A) ⊗ₜ[R, algebraMap R A]
     ((GradedTor.liftedMap R A g).hom (1 : GradedTor.liftedAlgebra R A B)) = _
   rw [map_one]
 
@@ -223,7 +222,7 @@ private lemma torPieceMap_mul {B C : AlgCat.{v, uR} R} (g : B ⟶ C) :
     | ofNat m =>
       simp only [Int.ofNat_eq_natCast]
       rw [GradedTor.canonical_mul_ofNat, GradedTor.canonical_mul_ofNat]
-      show (GradedTor.torMultiplication R A B n m ≫
+      change (GradedTor.torMultiplication R A B n m ≫
         GradedTor.torPieceMap R A g (n + m)) (x ⊗ₜ[A] y) = _
       rw [map_torMultiplication R A g n m]
       rfl
@@ -283,7 +282,7 @@ public lemma torPieceMap_id (B : AlgCat.{v, uR} R) (i : ℤ) :
     torPieceMap.{uR, uA, v} R A (𝟙 B) i = 𝟙 _ := by
   cases i with
   | ofNat n =>
-    show (RingTheory.TorProducts.torBaseChange R A n).map _ = _
+    change (RingTheory.TorProducts.torBaseChange R A n).map _ = _
     have h : ModuleCat.ofHom (liftedMap R A (𝟙 B)).hom.toLinearMap =
         𝟙 (liftedModule R A B) := by
       ext x
@@ -299,7 +298,7 @@ public lemma torPieceMap_comp {B C D : AlgCat.{v, uR} R} (g : B ⟶ C) (h : C �
       torPieceMap.{uR, uA, v} R A g i ≫ torPieceMap.{uR, uA, v} R A h i := by
   cases i with
   | ofNat n =>
-    show (RingTheory.TorProducts.torBaseChange R A n).map _ =
+    change (RingTheory.TorProducts.torBaseChange R A n).map _ =
       (RingTheory.TorProducts.torBaseChange R A n).map _ ≫
         (RingTheory.TorProducts.torBaseChange R A n).map _
     rw [← CategoryTheory.Functor.map_comp]

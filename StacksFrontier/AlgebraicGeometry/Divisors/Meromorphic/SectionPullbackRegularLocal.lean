@@ -107,7 +107,7 @@ theorem bijective_smul_germ {M : PresheafOfModules.{u} (O ⋙ forget₂ CommRing
     obtain ⟨c, hc⟩ := (h V hVW).surjective n
     have hc' : c • res M hVW g = n := hc
     refine ⟨O.germ V y hyV c, ?_⟩
-    show (O.germ V y hyV c : O.stalk y) • germ M W y hy g = m
+    change (O.germ V y hyV c : O.stalk y) • germ M W y hy g = m
     rw [← germ_res M hVW hyV g, ← presheafGerm_smul M hyV, hc', hn]
 
 end Stacks.ModuleStalk
@@ -217,7 +217,7 @@ theorem pullbackSectionOver_eq_structureSheafHom (V : Opens Y)
     (c : Y.sheaf.presheaf.obj (op V)) :
     pullbackSectionOver f ((Opens.map f.base).obj V) V le_rfl c =
       (RingedSpaceModuleAdjunction.structureSheafHom f.toShHom).hom.app (op V) c := by
-  show X.presheaf.map (homOfLE le_rfl).op (f.c.app (op V) c) = _
+  change X.presheaf.map (homOfLE le_rfl).op (f.c.app (op V) c) = _
   rw [show (homOfLE (le_rfl : (Opens.map f.base).obj V ≤ (Opens.map f.base).obj V)) = 𝟙 _ from
     Subsingleton.elim _ _, op_id, X.presheaf.map_id]
   rfl
@@ -300,7 +300,7 @@ theorem smul_pullbackMeromorphicSection_valOver (s : MeromorphicSection Y.sheaf 
           (op ((Opens.map f.base).obj V))).hom (modulePullbackUnitApp f F V a) := by
   have hbaK : toTotalQuotientOver Y V b • s.valK V =
       ((Stacks.Divisors.toMeromorphicSectionSheaf Y.sheaf F).app (op V)).hom a := hba
-  show toTotalQuotientOver X ((Opens.map f.base).obj V)
+  change toTotalQuotientOver X ((Opens.map f.base).obj V)
       (pullbackSectionOver f ((Opens.map f.base).obj V) V le_rfl b) •
       (pullbackMeromorphicSection f hf F s).valK ((Opens.map f.base).obj V) = _
   rw [pullbackMeromorphicSection_val_preimage f hf F s V,
@@ -488,7 +488,7 @@ theorem isSMulRegular_numerator (ht : IsRegularMeromorphicSection Z.sheaf G t)
   refine Stacks.SheafifyMono.injective_toTotalQuotientSheaf_app Z.sheaf W ?_
   rw [map_zero]
   refine (hunit.mul_right_eq_zero).mp ?_
-  show toTotalQuotientOver Z W rb * toTotalQuotientOver Z W c = 0
+  change toTotalQuotientOver Z W rb * toTotalQuotientOver Z W c = 0
   exact (map_mul ((toTotalQuotientSheaf Z.sheaf).hom.app (op W)).hom rb c).symm.trans hmul
 
 end Numerator
@@ -508,7 +508,7 @@ private theorem eq_zero_of_smul_localized {R M M' : Type*} [CommRing R] [AddComm
   have h3 : (τ : R) * (r * A) = 0 := (hm.eq_iff' (zero_smul _ _)).mp h2
   have h4 : r * A = 0 := (mem_nonZeroDivisors_iff.mp (hS τ.2)).1 _ h3
   refine hA ?_
-  show A • r = A • (0 : R)
+  change A • r = A • (0 : R)
   rw [smul_eq_mul, smul_zero, mul_comm]
   exact h4
 

@@ -117,12 +117,12 @@ theorem exists_iso_pullback_ι_comp_SpecMap_tensorProduct
       pullback.snd (hU.isoSpec.hom ≫ a) b :=
     pullbackRightPullbackFstIso_inv_snd_snd a b hU.isoSpec.hom
   refine ⟨E₃ ≪≫ E₄ ≪≫ E₅ ≪≫ E₆, ?_, ?_⟩
-  · show E₃.hom ≫ E₄.hom ≫ E₅.hom ≫ E₆.hom ≫
+  · change E₃.hom ≫ E₄.hom ≫ E₅.hom ≫ E₆.hom ≫
       Spec.map (CommRingCat.ofHom Algebra.TensorProduct.includeLeftRingHom) = _
     dsimp [E₆]
     simp only [pullbackSpecIso_hom_fst]
     rw [hE4fst, ← Category.assoc, hE3.1]
-  · show E₃.hom ≫ E₄.hom ≫ E₅.hom ≫ E₆.hom ≫
+  · change E₃.hom ≫ E₄.hom ≫ E₅.hom ≫ E₆.hom ≫
       Spec.map (CommRingCat.ofHom (Algebra.TensorProduct.includeRight.toRingHom)) = _
     dsimp [E₆]
     simp only [pullbackSpecIso_hom_snd]
@@ -222,17 +222,17 @@ theorem affineBaseChangeLocalModel
   have hE1snd : E₁.hom ≫ pullback.snd U.ι g = V.ι :=
     (isPullback_morphismRestrict g U).isoPullback_hom_snd
   have hleftRestr : e.hom ≫ Spec.map (CommRingCat.ofHom left) = fV ≫ hU.isoSpec.hom := by
-    show E₁.hom ≫ E₂.hom ≫ E.hom ≫
+    change E₁.hom ≫ E₂.hom ≫ E.hom ≫
       Spec.map (CommRingCat.ofHom Algebra.TensorProduct.includeLeftRingHom) = _
     rw [hEfst, ← Category.assoc E₂.hom, pullbackRightPullbackFstIso_hom_fst, ← Category.assoc,
       hE1fst]
   have hright : e.hom ≫ Spec.map (CommRingCat.ofHom
       (Algebra.TensorProduct.includeRight.toRingHom)) = V.ι ≫ pullback.snd p b := by
-    show E₁.hom ≫ E₂.hom ≫ E.hom ≫
+    change E₁.hom ≫ E₂.hom ≫ E.hom ≫
       Spec.map (CommRingCat.ofHom (Algebra.TensorProduct.includeRight.toRingHom)) = _
     rw [hEsnd, pullbackRightPullbackFstIso_hom_snd, ← Category.assoc, hE1snd]
   have hprime : q.comap left = hU.primeIdealOf xU := by
-    show Spec.map (CommRingCat.ofHom left) (e.hom vV) = hU.isoSpec.hom xU
+    change Spec.map (CommRingCat.ofHom left) (e.hom vV) = hU.isoSpec.hom xU
     rw [← Scheme.Hom.comp_apply, hleftRestr]
     rfl
   refine ⟨hU.preimage g, e, hleftRestr, hright, ?_, ?_⟩
@@ -271,14 +271,14 @@ theorem isLocalization_atPrime_of_SpecMap_comp_eq_fromSpecStalk {A : CommRingCat
     have h : IsIso (Scheme.stalkClosedPointTo (Spec.map φ ≫ w)) := by
       rw [hfac, Scheme.stalkClosedPointTo_fromSpecStalk]
       infer_instance
-    show IsIso (w.stalkMap ((Spec.map φ) (IsLocalRing.closedPoint C)) ≫
+    change IsIso (w.stalkMap ((Spec.map φ) (IsLocalRing.closedPoint C)) ≫
       Scheme.stalkClosedPointTo (Spec.map φ))
     rw [← Scheme.stalkClosedPointTo_comp]
     exact h
   have : IsIso ρ := (isIso_comp_left_iff _ _).mp hρcomp
   let : Algebra A ((Spec A).presheaf.stalk q) := StructureSheaf.stalkAlgebra A q
   have hmap : CommRingCat.ofHom (algebraMap A ((Spec A).presheaf.stalk q)) ≫ ρ = φ := by
-    show ((Scheme.ΓSpecIso A).inv ≫ (Spec A).presheaf.germ ⊤ q trivial) ≫ ρ = φ
+    change ((Scheme.ΓSpecIso A).inv ≫ (Spec A).presheaf.germ ⊤ q trivial) ≫ ρ = φ
     rw [Category.assoc, Scheme.germ_stalkClosedPointTo_Spec]
     simp
   let e : ((Spec A).presheaf.stalk q : Type u) ≃+* C :=

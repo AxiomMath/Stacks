@@ -146,7 +146,7 @@ public theorem isIso_endUnit_of_ne_zero (X : Scheme.{u}) (hX : IsField Γ(X, ⊤
   have hchi : χ = smulHom r (SheafOfModules.unit X.ringCatSheaf) := by
     refine (SheafOfModules.unit X.ringCatSheaf).unitHomEquiv.injective
       (Subtype.ext (funext fun U => ?_))
-    show s.val U = resTop r U • (1 : X.ringCatSheaf.obj.obj U)
+    change s.val U = resTop r U • (1 : X.ringCatSheaf.obj.obj U)
     rw [smul_eq_mul, mul_one, ← hnat U]
     rfl
   have hr0 : r ≠ 0 := by

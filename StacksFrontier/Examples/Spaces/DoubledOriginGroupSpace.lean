@@ -181,7 +181,7 @@ public theorem exists_lift_groupSpaceMap {D D' : SectionCoverData S} (hD : 𝒞.
       z ≫ (groupSpaceMap hS hD hD' f hf hc).hom.hom.hom.left = x := by
   obtain ⟨z₀, hz₀⟩ := hlift (yonedaEquiv (x ≫ prod.snd))
   refine ⟨prod.lift (x ≫ prod.fst) (yonedaEquiv.symm z₀), ?_⟩
-  show _ ≫ prod.map _ _ = x
+  change _ ≫ prod.map _ _ = x
   refine prod.hom_ext ?_ ?_
   · rw [Category.assoc, prod.map_fst, Category.comp_id, prod.lift_fst]
     rfl
@@ -304,11 +304,11 @@ public theorem exists_lift_doubledOriginQuotientMap
   · have hz' : z ≫ (trivialDoubleCover _).proj = e.inv ≫ h.left ≫ (doubledAffineLine k).proj := by
       rw [← (doubledAffineLine k).fromTrivial_comp_proj, ← Category.assoc, hz]
       exact Category.assoc _ _ _
-    show (e.hom ≫ z) ≫ (trivialDoubleCover _).proj = _
+    change (e.hom ≫ z) ≫ (trivialDoubleCover _).proj = _
     rw [Category.assoc, hz']
     exact (Iso.hom_inv_id_assoc e _).trans (Over.w h)
   · refine Over.OverMorphism.ext ?_
-    show (e.hom ≫ z) ≫ (doubledAffineLine k).fromTrivial = h.left
+    change (e.hom ≫ z) ≫ (doubledAffineLine k).fromTrivial = h.left
     exact (Category.assoc _ _ _).trans ((congrArg (e.hom ≫ ·) hz).trans (Iso.hom_inv_id_assoc e _))
 
 end Stacks.Examples

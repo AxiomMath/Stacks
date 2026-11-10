@@ -153,7 +153,7 @@ theorem exists_bundleRestrictedSection (s : Γ(E, ⊤)) :
   have := isFiniteLocallyFreeOfRank_bundleTwist E
   refine SheafOfModules.exists_of_shortExact_sections
     (shortExact_pullback_bundleTautological E (bundleHyperplane E s).subschemeι) (op ⊤) _ ?_
-  show Scheme.Modules.Hom.app ((Scheme.Modules.pullback (bundleHyperplane E s).subschemeι).map
+  change Scheme.Modules.Hom.app ((Scheme.Modules.pullback (bundleHyperplane E s).subschemeι).map
     (bundleTautological E)) ⊤ (bundleHyperplaneRestriction E s) = 0
   rw [bundleHyperplaneRestriction, ← AlgebraicGeometry.pullbackGlobalSections_natural]
   exact Stacks.RegularSectionSequence.pullbackGlobalSections_subschemeι_eq_zero

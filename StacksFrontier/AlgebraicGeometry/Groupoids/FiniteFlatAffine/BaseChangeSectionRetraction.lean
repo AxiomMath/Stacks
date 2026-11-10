@@ -528,7 +528,7 @@ theorem eq_map_of_ker_eq_span_singleton :
     (map_mapObjectsAlgHom_comp_tensorRetraction F g₂ hg₂)
     (map_comp_tensorRetraction_eq F g hg h g₂ hg₂ hcompat) hker₁
   refine hε.eq_of_span_singleton_eq ?_ (hker₂.symm.trans hkey)
-  show _ * _ = _
+  change _ * _ = _
   rw [← map_mul, he₁]
 
 end StageCompatibility

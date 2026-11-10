@@ -239,7 +239,7 @@ abbrev awayTelescopeComplex :
     (HomologicalComplex.single
       (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) (ComplexShape.up ℤ) 0)
 
-omit [HasSheafify X.J AddCommGrpCat] in
+omit [HasWeakSheafify X.J CommRingCat] [HasSheafify X.J AddCommGrpCat] in
 /-- The telescope short complex, read in degree zero, is short exact. -/
 theorem awayTelescopeComplex_shortExact : (awayTelescopeComplex X h).ShortExact :=
   (awayTelescope_shortExact X h).map_of_exact _
@@ -273,10 +273,10 @@ def awaySigmaULiftCofanIsColimit :
           Sigma.ι (fun n : ℕ => (awaySequence X (awaySmulUnit X h)).obj n) i.down)) :=
   Cofan.IsColimit.mk _
     (fun s => Sigma.desc fun n : ℕ => s.inj (ULift.up n))
-    (fun s i => Sigma.ι_desc _ i.down)
+    (fun s i => Sigma.ι_comp_desc _ i.down)
     (fun s m hm => by
       refine Sigma.hom_ext m (Sigma.desc fun n : ℕ => s.inj (ULift.up n)) fun n => ?_
-      rw [Sigma.ι_desc]
+      rw [Sigma.ι_comp_desc]
       exact hm (ULift.up n))
 
 /-- `𝒪^{⊕ ℕ}` is the coproduct of the terms of the diagram `𝒪 --f--> 𝒪 --f--> ⋯`. -/
@@ -511,7 +511,7 @@ lemma derivedSheafHom_awaySequence_map_comp_awaySequenceStructureSheafHomIso (n 
   rw [awaySequence_map_succ]
   exact derivedSheafHom_awaySmulUnit_comp_derivedStructureSheafHomIso X h K
 
-omit [HasSheafify X.J AddCommGrpCat] in
+omit [HasWeakSheafify X.J CommRingCat] [HasSheafify X.J AddCommGrpCat] in
 /-- **The telescope differential read by derived internal Hom into `K` on the `n`-th summand**:
 the `n`-th inclusion minus the `n + 1`-st inclusion composed with the transition map. This is
 the identity `e_n ↦ e_n - f e_{n + 1}` carried through the three additive functors
@@ -546,6 +546,7 @@ lemma derivedSheafHom_awayTelescopeMap_comp_ι (n : ℕ) :
     CategoryTheory.op_sub, Functor.map_sub, Functor.map_comp, Functor.map_comp, op_comp]
   conv_lhs => rw [Functor.map_comp]
 
+omit [HasWeakSheafify X.J CommRingCat] in
 /-- The `n`-th projection of the map induced by the telescope differential, read through the
 identification `R𝑆heafHom_𝒪(𝒪, K) = K`: the `n`-th projection minus `f` times the `n + 1`-st. -/
 lemma derivedSheafHom_awayTelescopeMap_comp_ι_comp_homIso (n : ℕ) :
@@ -575,6 +576,7 @@ lemma derivedSheafHom_awayTelescopeMap_comp_ι_comp_homIso (n : ℕ) :
   rw [derivedSheafHom_awayTelescopeMap_comp_ι, Preadditive.sub_comp, Category.assoc,
     derivedSheafHom_awaySequence_map_comp_awaySequenceStructureSheafHomIso, Linear.comp_smul]
 
+omit [HasWeakSheafify X.J CommRingCat] in
 /-- **The endomorphism of `∏ₙ K` induced by the telescope differential is the Milnor difference
 map `1 - f·shift`.**
 

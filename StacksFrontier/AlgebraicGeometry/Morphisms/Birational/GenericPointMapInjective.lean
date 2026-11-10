@@ -115,11 +115,11 @@ public theorem genericPointMapForRationalMaps_injective
     have hys : C.toBaseTarget y = C.toBaseSource (C.genericPoint i) :=
       (C.genericPointMapForRationalMaps f i).mapsTo
     have hfx : aD.hom q = y := by
-      show aD.hom ⟨C.genericPoint i, memD i⟩ = y
+      change aD.hom ⟨C.genericPoint i, memD i⟩ = y
       simpa [y] using
         (C.genericPointMapForRationalMaps.map_point f aD haD haDBase memD i).symm
     have hgx : bD.hom q = y := by
-      show bD.hom ⟨C.genericPoint i, memD i⟩ = y
+      change bD.hom ⟨C.genericPoint i, memD i⟩ = y
       exact (C.genericPointMapForRationalMaps.map_point g bD hbD hbDBase memD i).symm.trans
         hpoint.symm
     have hstalk : aD.hom.stalkMap q =
@@ -152,7 +152,7 @@ public theorem genericPointMapForRationalMaps_injective
   let V : D.toScheme.Opens := ⨆ i, U i
   let W : C.X.Opens := D.ι ''ᵁ V
   have hWpt (i : Fin C.numberOfComponents) : C.genericPoint i ∈ W := by
-    show C.genericPoint i ∈ D.ι ''ᵁ V
+    change C.genericPoint i ∈ D.ι ''ᵁ V
     exact ⟨⟨C.genericPoint i, memD i⟩,
       TopologicalSpace.Opens.mem_iSup.mpr ⟨i, (Classical.choose_spec (hloc i)).1⟩, rfl⟩
   have hW : Dense (W : Set C.X) := dense_of_generic_points_mem_open C W hWpt

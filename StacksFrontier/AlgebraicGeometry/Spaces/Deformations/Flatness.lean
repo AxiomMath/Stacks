@@ -120,7 +120,7 @@ theorem isFlatAt_target_of_flatDeformationDiagram (D : FlatDeformationDiagram B 
   have hpoint : c.sourcePoint B S hS =
       (Tscheme.map β) ((Tscheme.map p.value) (⟨⊥, inferInstance⟩ :
         Spec (.of p.carrier))) := by
-    show (Tscheme.map (p.value ≫ β)) _ = _
+    change (Tscheme.map (p.value ≫ β)) _ = _
     rw [Tscheme.map_comp]
     rfl
   rw [hpoint]

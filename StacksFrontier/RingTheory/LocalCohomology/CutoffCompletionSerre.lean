@@ -226,7 +226,7 @@ private lemma depth_localized_adicCompletion
     have hsmall : IsBaseChange B (AdicCompletion.of I M₀) :=
       IsBaseChange.of_equiv (AdicCompletion.ofTensorProductEquivOfFiniteNoetherian I M₀)
         (by intro x
-            show (AdicCompletion.ofTensorProduct I M₀) (1 ⊗ₜ[A] x) = _
+            change (AdicCompletion.ofTensorProduct I M₀) (1 ⊗ₜ[A] x) = _
             rw [AdicCompletion.ofTensorProduct_tmul, one_smul])
     exact (IsBaseChange.iff_of_equiv_comm eM (AdicCompletion.congr I eM)
       (LinearMap.ext fun x => (AdicCompletion.map_of I eM.toLinearMap x).symm)).mp hsmall
@@ -290,7 +290,7 @@ private lemma completed_module_depth_formula
   have hdepthmap : Module.depth Ap' (IsLocalRing.maximalIdeal Ap') Fp =
       Module.depth Fp mp Fp := by
     rw [Module.depth_eq_depth_map_algebraMap hsurj]
-    show Module.depth Fp
+    change Module.depth Fp
       ((IsLocalRing.maximalIdeal Ap').map (algebraMap Ap' Fp)) Fp = _
     rw [show (IsLocalRing.maximalIdeal Ap').map (algebraMap Ap' Fp) = mp by
       rw [Ideal.Quotient.algebraMap_eq]]

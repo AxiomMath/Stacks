@@ -144,7 +144,7 @@ theorem injective_depProdCounitApp_of_diagonalComplement (f : V ⟶ W) (T : Subf
       (V.map h.op v₁) v' hcompat
     have hmem : (C ⊔ Subfunctor.range (pullback.diagonal f)).sieveOfSection s
         ∈ BigFppfOver.topology B S hS A' := by
-      show s ∈ ((C ⊔ Subfunctor.range (pullback.diagonal f)).sheafify
+      change s ∈ ((C ⊔ Subfunctor.range (pullback.diagonal f)).sheafify
         (BigFppfOver.topology B S hS)).obj (op A')
       rw [hcov]; trivial
     refine eq_of_locally_eq B S hS hYsheaf
@@ -169,7 +169,7 @@ theorem injective_depProdCounitApp_of_diagonalComplement (f : V ⟶ W) (T : Subf
       rw [NatTrans.comp_app, ConcreteCategory.comp_apply, hrfst] at hmem₀
       refine eq_of_app_eq_of_mem B S hS Y.hom ((openComplement B S hS T).preimage f) hY ?_ ?_
       · rw [p₁.2.over, p₂.2.over]
-      · show f.app (op A'') (Y.hom.app (op A'') _)
+      · change f.app (op A'') (Y.hom.app (op A'') _)
           ∈ (openComplement B S hS T).obj (op A'')
         rwa [p₁.2.over, ← hval]
     · obtain ⟨t, ht⟩ := hkD

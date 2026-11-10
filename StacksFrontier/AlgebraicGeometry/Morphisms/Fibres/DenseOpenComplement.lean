@@ -53,7 +53,7 @@ theorem topologicalKrullDim_nonpos_of_isInducing_of_range_subset {X Z : Type*} [
         hA (b := ⟨s, hs.2, hs.1⟩) hAs⟩
     have hξ := A'.isIrreducible.isGenericPoint_genericPoint A'.isClosed
     have hξgen : A'.isIrreducible.genericPoint ∈ genericPoints X := by
-      show closure {_} ∈ irreducibleComponents X
+      change closure {_} ∈ irreducibleComponents X
       rw [hξ.def]
       exact hcomp
     have hsub : (A' : Set X) ⊆ Dᶜ :=
@@ -144,7 +144,7 @@ theorem sigmaMap_curveFamily {ι : Type} [Finite ι] {T Ybar : ι → Scheme.{u}
   · intro s
     obtain ⟨k, t, rfl⟩ := (sigmaOpenCover T).exists_eq s
     have e := congrFun (Scheme.Hom.fiberDimension_eq_of_isPullback (isPullback_sigmaMap qbar k)) t
-    show (Limits.Sigma.map qbar).fiberDimension (Sigma.ι T k t) ≤ 1
+    change (Limits.Sigma.map qbar).fiberDimension (Sigma.ι T k t) ≤ 1
     exact (e.symm.trans_le ((h k).2.2.2 t) : _)
 
 end AlgebraicGeometry

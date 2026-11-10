@@ -116,7 +116,7 @@ theorem isZero_rightDerived_res_of_injective (hφ : Topology.IsInducing φ) (n :
   have hc : F.map (res.map (ι ≫ Injective.factorThru (𝟙 I) ι)) c = c := by
     rw [hs, res.map_id, F.map_id]; rfl
   rw [← hc, res.map_comp, F.map_comp, ModuleCat.comp_apply]
-  show F.map (res.map (Injective.factorThru (𝟙 I) ι)) (F.map (res.map ι) c) = 0
+  change F.map (res.map (Injective.factorThru (𝟙 I) ι)) (F.map (res.map ι) c) = 0
   rw [show F.map (res.map ι) c = 0 from hU, map_zero]
 
 variable [HasDerivedCategory (Stacks.Injectives.ContinuousModule.{u, v, max u v w} R G)]

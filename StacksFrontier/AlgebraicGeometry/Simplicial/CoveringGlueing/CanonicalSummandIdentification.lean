@@ -26,7 +26,6 @@ theorem moduleSheaf_pushforward_obj_map_apply {C' : Type*} [Category* C'] {D : T
     {J : GrothendieckTopology C'} {K' : GrothendieckTopology D} (F : C' ⥤ D)
     [hF : F.IsContinuous J K'] {S : Sheaf J RingCat.{u}} {R : Sheaf K' RingCat.{u}}
     [hJ : J.HasSheafCompose (CategoryTheory.forget AddCommGrpCat.{u})]
-    [hK : K'.HasSheafCompose (CategoryTheory.forget AddCommGrpCat.{u})]
     (φ : S ⟶ (F.sheafPushforwardContinuous RingCat.{u} J K').obj R) (N : SheafOfModules.{u} R)
     {U V : C'ᵒᵖ} (g : U ⟶ V) (y) :
     (Sheaf.moduleSheaf S ((pushforward.{u} φ).obj N)).obj.map g y =

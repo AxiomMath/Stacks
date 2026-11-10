@@ -137,7 +137,7 @@ theorem eq_id_of_comp_eq_of_isInvertible
   have hreg := (isRegularSection_iff_forall_injective_smul B S hS X M σ).1 hσ
   refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun W => ?_)
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-  show u.val.app W x = x
+  change u.val.app W x = x
   obtain ⟨T, hT, htriv⟩ := Stacks.SheafOfModules.locallyOnCovering_nonempty_over_iso_unit
     (smallEtaleRingedSite B S hS X.1 X.2).O (structureRingSheaf B S hS X).property M
     (smallEtaleRingedSite_isLocallyRinged B S hS X.1 X.2).2 W.unop
@@ -147,7 +147,7 @@ theorem eq_id_of_comp_eq_of_isInvertible
     app_eq_self_of_linearEquiv B S hS X M σ u Y
       ((SheafOfModules.evaluation ((structureRingSheaf B S hS X).over Y)
         (op (Over.mk (𝟙 Y)))).mapIso eY).toLinearEquiv (hreg (op Y)) (hval (op Y))
-  show M.val.map g.op (u.val.app W x) = M.val.map g.op x
+  change M.val.map g.op (u.val.app W x) = M.val.map g.op x
   rw [← PresheafOfModules.naturality_apply u.val g.op x]
   exact hchart (M.val.map g.op x)
 

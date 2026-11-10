@@ -143,7 +143,7 @@ theorem exists_mul_eq_of_sectionOrd_le {j m : ℕ} (u : powSections L j)
     (Stacks.TensorPowerDivision.bijective_app_mulMap L u le_rfl m (V ⊓ W') inf_le_left).1 hb₁ hb₂
   refine ⟨Stacks.AlgebraicGeometry.ProjChartFromRatios.secOf L bt, ?_⟩
   apply (Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv X _).injective
-  show globalSection X _ _ = T
+  change globalSection X _ _ = T
   rwa [Stacks.SectionProduct.globalSection_mul,
     Stacks.AlgebraicGeometry.ProjChartFromRatios.globalSection_secOf]
 

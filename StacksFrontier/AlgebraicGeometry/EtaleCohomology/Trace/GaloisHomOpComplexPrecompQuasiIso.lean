@@ -162,10 +162,10 @@ theorem quasiIso_fieldBaseChangeSections_map_of_stages
     obtain ⟨xK, hxK⟩ := exists_fieldBaseChangeRes_eq (A.X (m + 1)) j x
     obtain ⟨zK, hzK⟩ := exists_fieldBaseChangeRes_eq (B.X m) j z
     refine ⟨xK, ?_, zK, ?_⟩
-    · show (Γ.map (A.d (m + 1) (m + 1 + 1))).hom xK = 0
+    · change (Γ.map (A.d (m + 1) (m + 1 + 1))).hom xK = 0
       apply (fieldBaseChangeRes_bijective (K := K) (A.X (m + 1 + 1))).1
       rw [fieldBaseChangeRes_map _ hxK, hx, fieldBaseChangeRes_zero, fieldStageSection_zero]
-    · show y = (Γ.map (φ.f (m + 1))).hom xK + (Γ.map (B.d m (m + 1))).hom zK
+    · change y = (Γ.map (φ.f (m + 1))).hom xK + (Γ.map (B.d m (m + 1))).hom zK
       apply (fieldBaseChangeRes_bijective (K := K) (B.X (m + 1))).1
       rw [fieldBaseChangeRes_add, fieldBaseChangeRes_map _ hxK, fieldBaseChangeRes_map _ hzK,
         ← fieldStageSection_add, ← hz, ha, fieldStageSection_fieldStageRes]
@@ -201,7 +201,7 @@ theorem quasiIso_fieldBaseChangeSections_map_of_stages
     obtain ⟨w, hw⟩ := hI l m _ hx' _ hz'
     obtain ⟨wK, hwK⟩ := exists_fieldBaseChangeRes_eq (A.X m) l w
     refine ⟨wK, ?_⟩
-    show (Γ.map (A.d m (m + 1))).hom wK = x
+    change (Γ.map (A.d m (m + 1))).hom wK = x
     apply (fieldBaseChangeRes_bijective (K := K) (A.X (m + 1))).1
     rw [fieldBaseChangeRes_map _ hwK, ← hw, ha, fieldStageSection_fieldStageRes]
 

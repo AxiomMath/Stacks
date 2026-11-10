@@ -50,7 +50,7 @@ theorem nonempty_isColimit_finiteTypeQuasicoherentSubobjectCocone_of_isFinitePre
     Nonempty (IsColimit (finiteTypeQuasicoherentSubobjectCocone B S hS F hF G)) := by
   classical
   have hes : EssentiallySmall.{u} (smallEtaleRingedSite B S hS F hF).C := by
-    show EssentiallySmall.{u} (SmallEtale B S hS F)
+    change EssentiallySmall.{u} (SmallEtale B S hS F)
     infer_instance
   have hgr : IsGrothendieckAbelian.{u} (Modules.{u, u} B S hS F hF) :=
     SheafOfModules.isGrothendieckAbelian_of_essentiallySmall _

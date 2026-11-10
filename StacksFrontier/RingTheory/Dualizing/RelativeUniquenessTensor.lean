@@ -74,9 +74,9 @@ theorem IsRelativeDualizingComplex.nonempty_iso {R A : Type u} [CommRing R] [Com
     TensorForm.flat_restrictScalars_dual_tensor_X p₁ N _ fun j ↦
       CrossFlat.flat_restrictScalars_includeLeft_extendScalars_includeRight R A (PL.X j)
         (hLflat j)
-  obtain ⟨fL⟩ := TensorForm.nonempty_iso_derivedHom_tensor Δ p₂ N d p₁ hΔ₂ hΔ₁ hker eN PL PK a
+  obtain ⟨fL⟩ := TensorForm.nonempty_iso_derivedHom_tensor Δ p₂ N d p₁ hΔ₂ hker eN PL PK a
     hflat₂ hL₂ hK₁
-  obtain ⟨fK⟩ := TensorForm.nonempty_iso_derivedHom_tensor Δ p₁ N d p₂ hΔ₁ hΔ₂ hker eN PK PL a
+  obtain ⟨fK⟩ := TensorForm.nonempty_iso_derivedHom_tensor Δ p₁ N d p₂ hΔ₁ hker eN PK PL a
     hflat₁ hK₁ hL₂
   let := CochainComplex.Koszul.koszulSymmetric (A ⊗[R] A)
   exact ⟨eK ≪≫ fK ≪≫ (derivedHom.{u, u} Δ).mapIso (DerivedCategory.Q.mapIso (β_ _ _)) ≪≫

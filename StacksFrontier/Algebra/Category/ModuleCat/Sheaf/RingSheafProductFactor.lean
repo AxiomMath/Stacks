@@ -233,7 +233,7 @@ theorem factorInclusion_comp_factorProjection (n : ι) :
     factorInclusion hp n ≫ factorProjection hp n = 𝟙 (factorModule hp n) := by
   refine _root_.SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun U ↦
     ModuleCat.hom_ext (LinearMap.ext fun a ↦ ?_))
-  show (hp.π n).hom.app U (hp.inclSection n U a) = a
+  change (hp.π n).hom.app U (hp.inclSection n U a) = a
   exact hp.app_inclSection_self n U a
 
 /-- **The `n`-th factor, read as a sheaf of `R`-modules, is a retract of the structure sheaf.** -/
@@ -315,7 +315,8 @@ variable [HasLimitsOfShape (Discrete ι) CommRingCat.{w}]
 
 /-- Products of sheaves of commutative rings, given products in `CommRingCat`, through
 presheaves (instance search no longer finds this unaided; a local instance below). -/
-theorem hasLimitsOfShape_sheaf_discrete' : HasLimitsOfShape (Discrete ι) (Sheaf J CommRingCat.{w}) :=
+theorem hasLimitsOfShape_sheaf_discrete' :
+    HasLimitsOfShape (Discrete ι) (Sheaf J CommRingCat.{w}) :=
   haveI : HasLimitsOfShape (Discrete ι) (Cᵒᵖ ⥤ CommRingCat.{w}) :=
     functorCategoryHasLimitsOfShape
   hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape (sheafToPresheaf J CommRingCat.{w})

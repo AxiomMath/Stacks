@@ -89,7 +89,7 @@ public lemma isLocallyInjective_of_injective_sheafFiber_map
   have ht : Φ.obj.toPresheafFiber X.unop t F.obj x =
       Φ.obj.toPresheafFiber X.unop t F.obj y := by
     apply hf Φ
-    show Φ.obj.presheafFiber.map f.hom (Φ.obj.toPresheafFiber X.unop t F.obj x) =
+    change Φ.obj.presheafFiber.map f.hom (Φ.obj.toPresheafFiber X.unop t F.obj x) =
       Φ.obj.presheafFiber.map f.hom (Φ.obj.toPresheafFiber X.unop t F.obj y)
     rw [GrothendieckTopology.Point.toPresheafFiber_naturality_apply,
       GrothendieckTopology.Point.toPresheafFiber_naturality_apply, h]

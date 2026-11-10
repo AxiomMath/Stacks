@@ -297,10 +297,10 @@ theorem kummerPolyA_eval_piRoot :
   rw [kummerPolyA, eval₂_sub, eval₂_pow, eval₂_X, eval₂_C]
   have htower : (algebraMap A (K1 K π n)) π
       = (AdjoinRoot.of (kummerPoly K π n)) ((algebraMap A K) π) := by
-    show (algebraMap A (K1 K π n)) π = (algebraMap K (K1 K π n)) ((algebraMap A K) π)
+    change (algebraMap A (K1 K π n)) π = (algebraMap K (K1 K π n)) ((algebraMap A K) π)
     rw [← IsScalarTower.algebraMap_apply A K (K1 K π n)]
   rw [htower]
-  show AdjoinRoot.root (kummerPoly K π n) ^ n
+  change AdjoinRoot.root (kummerPoly K π n) ^ n
       - (AdjoinRoot.of (kummerPoly K π n)) ((algebraMap A K) π) = 0
   rw [kummerPoly]
   exact hroot

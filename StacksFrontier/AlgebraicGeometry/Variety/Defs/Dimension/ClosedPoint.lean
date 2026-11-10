@@ -56,7 +56,7 @@ theorem topologicalKrullDimAt_eq_krullDimOfRing_stalk
   change LocallyOfFiniteType (Spec.map _) at hcomp
   rw [AlgebraicGeometry.HasRingHomProperty.Spec_iff (P := @LocallyOfFiniteType)] at hcomp
   let : Algebra.FiniteType k (X.residueField x) := by
-    show RingHom.FiniteType (algebraMap k (X.residueField x))
+    change RingHom.FiniteType (algebraMap k (X.residueField x))
     convert hcomp using 1
     simp only [RingHom.algebraMap_toAlgebra]
     rw [← Scheme.Γevaluation_naturality]

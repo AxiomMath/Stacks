@@ -145,6 +145,7 @@ def laterStageChartDiagramIso :
   NatIso.ofComponents (fun s => stageChartIso B S hS D hD hAffine T s)
     (fun d => (stageChartIso_comp B S hS D hD hAffine T d).symm)
 
+omit [IsCofiltered I] in
 include hD hAffine in
 /-- **Uniformly bounded base changes pass to the base changes of a chart.** -/
 theorem baseChangeSizeBounded_chartDiagram (hB : BaseChangeSizeBounded B S hS D) :
@@ -240,7 +241,7 @@ theorem limToStage_stageToStage {s s' : Over j} (d : s' ⟶ s) :
     limToStage B S hS D hc hD hAffine T s' ≫ stageToStage B S hS D hD hAffine T d =
       limToStage B S hS D hc hD hAffine T s := by
   refine Functor.relativelyRepresentable.hom_ext _ ?_ ?_
-  · show yoneda.map (limToStage B S hS D hc hD hAffine T s' ≫
+  · change yoneda.map (limToStage B S hS D hc hD hAffine T s' ≫
         stageToStage B S hS D hD hAffine T d) ≫ (laterStageChart B S hS D hD hAffine T s).obj.hom =
       yoneda.map (limToStage B S hS D hc hD hAffine T s) ≫
         (laterStageChart B S hS D hD hAffine T s).obj.hom
@@ -476,6 +477,7 @@ variable (hZ : B.Contains (⊤_ Scheme.{u}))
   (hTqc : IsQuasiCompactSpace B S hS (yoneda.obj T.obj.left))
   (hTqs : IsAbsolutelyQuasiSeparated B S hS hZ (yoneda.obj T.obj.left))
 
+omit [IsCofiltered I] in
 include hD hAffine hZ hQc hQs hTqc hTqs in
 /-- The base changes of a quasi-compact and quasi-separated chart to the later stages are
 quasi-compact and quasi-separated schemes, with affine transition morphisms. -/
@@ -492,6 +494,7 @@ theorem laterStageChartDiagram_qcqs (s : Over j) :
         (stageChartIso B S hS D hD hAffine T s)
         (stageChartDiagram_qs B S hS D hD hAffine T hZ hTqs s))⟩
 
+omit [IsCofiltered I] in
 /-- The hypotheses of the limit theorems for schemes, for the base changes of a chart. -/
 private theorem laterStageChartDiagram_hypotheses (hD : ∀ i, IsAlgebraicSpace B S hS (D.obj i))
     (hAffine : ∀ {i j : I} (f : i ⟶ j), IsAffineHom B S hS (D.map f))

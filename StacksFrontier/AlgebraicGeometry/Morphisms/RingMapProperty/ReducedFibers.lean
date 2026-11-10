@@ -162,7 +162,7 @@ theorem reducedFibers_propertyIsLocal :
     have hmap : g.comp (algebraMap R R') = (algebraMap S S').comp f := by
       simp [g, IsLocalization.Away.map]
     have : IsScalarTower R R' S' := IsScalarTower.of_algebraMap_eq' hmap.symm
-    show ∀ (q : Ideal R') [q.IsPrime], IsReduced (q.Fiber S')
+    change ∀ (q : Ideal R') [q.IsPrime], IsReduced (q.Fiber S')
     intro q _
     have he : q.Fiber S' ≃+* (q.comap (algebraMap R R')).Fiber S :=
       fiberAwayEquiv (R := R) (S := S) (R' := R') (S' := S') r q
@@ -180,13 +180,13 @@ theorem reducedFibers_propertyIsLocal :
     have : IsScalarTower R Rf Aa := IsScalarTower.of_algebraMap_eq' rfl
     have : IsScalarTower Rf A Aa := IsScalarTower.of_algebraMap_eq' rfl
     have : IsScalarTower R A Aa := IsScalarTower.of_algebraMap_eq' rfl
-    show ∀ (p : Ideal R) [p.IsPrime], IsReduced (p.Fiber Aa)
+    change ∀ (p : Ideal R) [p.IsPrime], IsReduced (p.Fiber Aa)
     intro p hp
     let : Algebra Aa (p.Fiber Aa) := Algebra.TensorProduct.rightAlgebra
     have : IsScalarTower R Aa (p.Fiber Aa) := by
       apply IsScalarTower.of_algebraMap_eq'
       ext x
-      show algebraMap R p.ResidueField x ⊗ₜ[R] (1 : Aa) =
+      change algebraMap R p.ResidueField x ⊗ₜ[R] (1 : Aa) =
         (1 : p.ResidueField) ⊗ₜ[R] algebraMap R Aa x
       rw [Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one,
         TensorProduct.smul_tmul]

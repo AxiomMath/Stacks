@@ -58,7 +58,7 @@ theorem artinianTruncationIso_mk
     (artinianTruncationIso A n hn).hom.hom
       (Ideal.Quotient.mk (AdicTruncation.ideal (artinianToComplete.obj A) n) r) = r := by
   have hI : AdicTruncation.ideal (artinianToComplete.obj A) n = ⊥ := by
-    show maximalIdeal A ^ (n + 1) = ⊥
+    change maximalIdeal A ^ (n + 1) = ⊥
     exact hn
   have h : artinianAdicQuotient A n ≫ (artinianTruncationIso A n hn).hom = 𝟙 A :=
     (_root_.Deformation.artinianTruncationIso A n hI).hom_inv_id
@@ -86,7 +86,7 @@ theorem artinianTruncationIso_naturality
         (artinianTruncationIso B n hnB).hom =
       (artinianTruncationIso A n hnA).hom ≫ f := by
   refine truncation_hom_ext fun r => ?_
-  show (artinianTruncationIso B n hnB).hom.hom
+  change (artinianTruncationIso B n hnB).hom.hom
       (Ideal.Quotient.mk _ (f.hom r)) =
     f.hom ((artinianTruncationIso A n hnA).hom.hom
       (Ideal.Quotient.mk _ r))
@@ -103,7 +103,7 @@ theorem artinianTruncationIso_transition
       (artinianTruncationIso A n hn).hom =
         (artinianTruncationIso A (n + 1) hn').hom := by
   refine truncation_hom_ext fun r => ?_
-  show (artinianTruncationIso A n hn).hom.hom
+  change (artinianTruncationIso A n hn).hom.hom
       (Ideal.Quotient.mk
         (AdicTruncation.ideal (artinianToComplete.obj A) n) r) =
     (artinianTruncationIso A (n + 1) hn').hom.hom
@@ -220,11 +220,11 @@ theorem _root_.Deformation.artinianAdicQuotient_isIso
     apply ArtinianLocalAlgCat.hom_ext
     apply AlgHom.ext
     intro x
-    show (artinianTruncationIso A n hn).hom.hom
+    change (artinianTruncationIso A n hn).hom.hom
       (Ideal.Quotient.mk
         (AdicTruncation.ideal (artinianToComplete.obj A) n) x) = x
     exact artinianTruncationIso_mk A n hn x
-  show IsIso q
+  change IsIso q
   rw [(Iso.comp_hom_eq_id e).1 hqe]
   infer_instance
 
@@ -308,7 +308,7 @@ theorem artinianTruncationLiftTransition_lift
   let := isStronglyCocartesian_of_isCofiberedInGroupoids
     hp q₁ L₁.arrow L₁.lift
   let : p.IsHomLift q₀ L₀.arrow := L₀.lift
-  show p.IsHomLift t
+  change p.IsHomLift t
     (Functor.IsStronglyCocartesian.map p q₁ L₁.arrow hcomp L₀.arrow)
   exact Functor.IsStronglyCocartesian.map_isHomLift p q₁ L₁.arrow hcomp L₀.arrow
 
@@ -330,7 +330,7 @@ theorem artinianTruncationLiftTransition_fac
   let := isStronglyCocartesian_of_isCofiberedInGroupoids
     hp q₁ L₁.arrow L₁.lift
   let : p.IsHomLift q₀ L₀.arrow := L₀.lift
-  show L₁.arrow ≫
+  change L₁.arrow ≫
       Functor.IsStronglyCocartesian.map p q₁ L₁.arrow hcomp L₀.arrow = L₀.arrow
   exact Functor.IsStronglyCocartesian.fac p q₁ L₁.arrow hcomp L₀.arrow
 
@@ -389,7 +389,7 @@ theorem artinianTruncationLiftMap_lift
   let : p.IsHomLift (p.map f) f := by infer_instance
   let : p.IsHomLift qB LB.arrow := LB.lift
   let : p.IsHomLift (p.map f ≫ qB) (f ≫ LB.arrow) := by infer_instance
-  show p.IsHomLift g
+  change p.IsHomLift g
     (Functor.IsStronglyCocartesian.map p qA LA.arrow hcomm.symm (f ≫ LB.arrow))
   exact Functor.IsStronglyCocartesian.map_isHomLift p qA LA.arrow hcomm.symm (f ≫ LB.arrow)
 
@@ -412,7 +412,7 @@ theorem artinianTruncationLiftMap_fac
   let : p.IsHomLift (p.map f) f := by infer_instance
   let : p.IsHomLift qB LB.arrow := LB.lift
   let : p.IsHomLift (p.map f ≫ qB) (f ≫ LB.arrow) := by infer_instance
-  show LA.arrow ≫
+  change LA.arrow ≫
       Functor.IsStronglyCocartesian.map p qA LA.arrow hcomm.symm (f ≫ LB.arrow) = _
   exact Functor.IsStronglyCocartesian.fac p qA LA.arrow hcomm.symm (f ≫ LB.arrow)
 
@@ -435,7 +435,7 @@ theorem artinianTruncationLiftMap_naturality
   let tA := AdicTruncation.transition (artinianToComplete.obj (p.obj A)) n
   let tB := AdicTruncation.transition (artinianToComplete.obj (p.obj B)) n
   have hbase : gA ≫ tB = tA ≫ gB := by
-    show (AdicTruncation.functor (n + 1)).map
+    change (AdicTruncation.functor (n + 1)).map
           (artinianToComplete.map (p.map f)) ≫
         (AdicTruncation.transitionNat n).app (artinianToComplete.obj (p.obj B)) =
       (AdicTruncation.transitionNat n).app (artinianToComplete.obj (p.obj A)) ≫
@@ -498,7 +498,7 @@ theorem artinianTruncationLiftMap_id
     (artinianToComplete.map (p.map (𝟙 A)))
   have hg : g = 𝟙 (AdicTruncation.obj
       (artinianToComplete.obj (p.obj A)) n) := by
-    show (AdicTruncation.functor n).map
+    change (AdicTruncation.functor n).map
       (artinianToComplete.map (p.map (𝟙 A))) = 𝟙 _
     simp [artinianToComplete]
   have hcomm : p.map (𝟙 A) ≫ q = q ≫ g := by
@@ -518,7 +518,7 @@ theorem artinianTruncationLiftMap_id
     apply IsHomLift.of_fac p _ _ hB hB
     simp
   let : p.IsHomLift g (𝟙 L.object) := hg.symm ▸ hId
-  show Functor.IsStronglyCocartesian.map p q L.arrow hcomm
+  change Functor.IsStronglyCocartesian.map p q L.arrow hcomm
       (𝟙 A ≫ L.arrow) = 𝟙 L.object
   simp [L, q, g]
 
@@ -659,7 +659,7 @@ theorem restrictionPullback_exists_lift
   let Y' := Yo.unop
   let ψ' := ψ.unop
   have hY : Y'.base = artinianToComplete.obj B := by
-    show Opposite.unop (q.op.obj Yo) = artinianToComplete.obj B
+    change Opposite.unop (q.op.obj Yo) = artinianToComplete.obj B
     exact congrArg Opposite.unop (IsHomLift.domain_eq q.op f'.op ψ)
   have hmap : q.map ψ' = f' ≫ eqToHom hY.symm := by
     have h := congrArg Quiver.Hom.unop (IsHomLift.fac' q.op f'.op ψ)
@@ -672,7 +672,7 @@ theorem restrictionPullback_exists_lift
     simp [Y, f', Category.assoc]
   let φ : X ⟶ Y := ⟨f, ψ', hw⟩
   refine ⟨Y, φ, ?_⟩
-  show (CategoricalPullback.π₁ artinianToComplete
+  change (CategoricalPullback.π₁ artinianToComplete
       (FormalObject.projection (p := p))).IsHomLift
     ((CategoricalPullback.π₁ artinianToComplete
       (FormalObject.projection (p := p))).map φ) φ
@@ -691,7 +691,7 @@ theorem restrictionPullback_isCofiberedInGroupoids
   let r := CategoricalPullback.π₁ artinianToComplete q
   have hq : IsCofiberedInGroupoids q :=
     formalObjectProjection_isCofiberedInGroupoids p hp
-  show r.op.IsFiberedInGroupoids
+  change r.op.IsFiberedInGroupoids
   refine ⟨?_, ?_⟩
   · intro V U f X hX
     change Opposite.op (r.obj X.unop) = U at hX
@@ -709,7 +709,7 @@ theorem restrictionPullback_isCofiberedInGroupoids
     let d : Y'.fst ⟶ Z'.fst := f.unop
     have hfst : Φ.fst ≫ d = Ψ.fst := by
       have hcomp' : r.map Φ ≫ d = r.map Ψ := by
-        show (r.op.map φ).unop ≫ f.unop = (r.op.map ψ).unop
+        change (r.op.map φ).unop ≫ f.unop = (r.op.map ψ).unop
         exact congrArg Quiver.Hom.unop hcomp
       change Φ.fst ≫ d = Ψ.fst at hcomp'
       exact hcomp'

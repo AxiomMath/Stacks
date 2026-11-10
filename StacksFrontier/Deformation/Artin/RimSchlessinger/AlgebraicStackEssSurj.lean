@@ -131,7 +131,7 @@ theorem exists_etale_section_of_smooth_of_closedPoint_site {Z T T₀ : BigFppfOv
   have hr' : r' ≫ toS.map m = pullback.fst (toS.map t) (toS.map τ) := hr
   let rs : toS.obj (pullback t τ) ⟶ toS.obj T₀ := e.hom ≫ r'
   have hrs : rs ≫ toS.map m = toS.map (pullback.fst t τ) := by
-    show e.hom ≫ r' ≫ toS.map m = _
+    change e.hom ≫ r' ≫ toS.map m = _
     rw [hr']
     exact PreservesPullback.iso_hom_fst toS t τ
   let rl : (pullback t τ).left ⟶ T₀.left := ObjectProperty.homMk rs
@@ -226,7 +226,7 @@ theorem appTop_specMap_comp_isoSpec_inv {X : Scheme.{u}} [IsAffine X] {R : CommR
   have h₁ : X.isoSpec.inv.appTop = (Scheme.ΓSpecIso Γ(X, ⊤)).inv := by
     rw [← cancel_mono (Scheme.ΓSpecIso Γ(X, ⊤)).hom, Iso.inv_hom_id]
     rw [← Scheme.toSpecΓ_appTop, ← Scheme.Hom.comp_appTop]
-    show (X.isoSpec.hom ≫ X.isoSpec.inv).appTop = _
+    change (X.isoSpec.hom ≫ X.isoSpec.inv).appTop = _
     simp
   rw [Scheme.Hom.comp_appTop, h₁, ← cancel_mono (Scheme.ΓSpecIso R).hom, Category.assoc,
     Scheme.ΓSpecIso_naturality, Iso.inv_hom_id_assoc, Category.assoc, Iso.inv_hom_id,
@@ -475,7 +475,7 @@ theorem nonempty_cocone_of_extension (𝒳 : Stack.AlgebraicStacks.{u, w} B S hS
   · refine hom_ext_explicit hp Q₂.f χx hχx
       (isHomLift_comp_id_right_explicit _ _ _ s₂.isHomLift_α hmxl)
       (isHomLift_comp_id_left_explicit _ _ _ hmul hFα) ?_
-    show (s₂.α ≫ mx) ≫ χx = (mu ≫ F.map αU) ≫ χx
+    change (s₂.α ≫ mx) ≫ χx = (mu ≫ F.map αU) ≫ χx
     calc (s₂.α ≫ mx) ≫ χx = s₂.α ≫ m₂.mx := by rw [Category.assoc, hmx]
       _ = m₂.mu ≫ s₁.α := m₂.comm_α
       _ = mu ≫ F.map ν ≫ θ ≫ s₁.α := by rw [← hmu]; simp only [χu, Category.assoc]
@@ -490,7 +490,7 @@ theorem nonempty_cocone_of_extension (𝒳 : Stack.AlgebraicStacks.{u, w} B S hS
   · refine hom_ext_explicit hp Q₂.g ψ hψ
       (isHomLift_comp_id_right_explicit _ _ _ s₂.isHomLift_β hmyl)
       (isHomLift_comp_id_left_explicit _ _ _ hmul hFμ) ?_
-    show (s₂.β ≫ my) ≫ ψ = (mu ≫ F.map μ) ≫ ψ
+    change (s₂.β ≫ my) ≫ ψ = (mu ≫ F.map μ) ≫ ψ
     calc (s₂.β ≫ my) ≫ ψ = s₂.β ≫ m₂.my := by rw [Category.assoc, hmy]
       _ = m₂.mu ≫ s₁.β := m₂.comm_β
       _ = mu ≫ F.map ν ≫ θ ≫ s₁.β := by rw [← hmu]; simp only [χu, Category.assoc]
@@ -766,7 +766,7 @@ theorem essSurj_fiberSquareComparison_of_residueField (𝒳 : Stack.AlgebraicSta
       (Over.mk (Q₁.f ≫ yv)) (θ ≫ s₁.β) hα₁
   obtain ⟨p₁, hp₁FO, hp₁snd, -⟩ := exists_closedPoint_pullback B S hS (Q.f ≫ Q.i) τ₁ _ c₁ e₁
     hpb₁ pX hpXFO (by
-      show pX ≫ toS.map (j ≫ j') = (pX ≫ toS.map j) ≫ toS.map j'
+      change pX ≫ toS.map (j ≫ j') = (pX ≫ toS.map j) ≫ toS.map j'
       rw [toS.map_comp, ← Category.assoc])
   have hpt₁ : p₁ ≫ toS.map (Q₁.f ≫ Q₁.i) = c₁ := by
     have : Q₁.f ≫ Q₁.i = pullback.snd (Q.f ≫ Q.i) τ₁ := pullback.lift_snd _ _ _

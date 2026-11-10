@@ -116,7 +116,7 @@ theorem directSumSectionsAdd_sectionsToDirectSum (z : (∐ M).totalSections U) :
           AddCommGrpCat.ofHom (DirectSum.of ((∐ M).sectionsPiece U) n) := by
         refine Cofan.IsColimit.hom_ext (isColimit_sectionsPieceCofan M U n) _ _ fun j ↦ ?_
         refine AddCommGrpCat.ext fun y ↦ ?_
-        show directSumSectionsAdd M U ((sectionsPieceToDirectSum M U n).hom
+        change directSumSectionsAdd M U ((sectionsPieceToDirectSum M U n).hom
           (sectionMapApp (Sigma.ι M j) U n y)) = DirectSum.of _ n (sectionMapApp _ U n y)
         rw [sectionsPieceToDirectSum_sectionMapApp, directSumSectionsAdd,
           DirectSum.toAddMonoid_of, sectionMapAdd_of]

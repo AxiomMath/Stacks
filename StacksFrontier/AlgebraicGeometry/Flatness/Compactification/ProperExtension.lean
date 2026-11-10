@@ -85,7 +85,7 @@ theorem exists_isAdmissibleBlowup_properExtension
   have : CompactSpace j.space :=
     (quasiCompact_iff_compactSpace j.toBase).mp inferInstance
   have hWcompact : IsCompact (W : Set j.space) := by
-    show IsCompact (j.immersion.opensRange : Set j.space)
+    change IsCompact (j.immersion.opensRange : Set j.space)
     rw [← Scheme.Hom.image_top_eq_opensRange j.immersion]
     simpa using (isCompact_univ : IsCompact (Set.univ : Set V.toScheme)).image
       j.immersion.continuous
@@ -101,7 +101,7 @@ theorem exists_isAdmissibleBlowup_properExtension
     pullback.lift (eW.hom ≫ j.immersion) (eW.hom ≫ V.ι)
       (by simpa only [Category.assoc] using congrArg (eW.hom ≫ ·) hcomm)
   have hs : s ≫ pullback.fst j.toBase f = W.ι := by
-    show pullback.lift (eW.hom ≫ j.immersion) (eW.hom ≫ V.ι) _ ≫
+    change pullback.lift (eW.hom ≫ j.immersion) (eW.hom ≫ V.ι) _ ≫
       pullback.fst j.toBase f = W.ι
     rw [pullback.lift_fst, heW]
   have hs2 : s ≫ pullback.snd j.toBase f = eW.hom ≫ V.ι := pullback.lift_snd _ _ _
@@ -125,7 +125,7 @@ theorem exists_isAdmissibleBlowup_properExtension
   let C : j.space.Opens := ⟨I.supportᶜ, I.support.isClosed.isOpen_compl⟩
   have hWC : W ≤ C := by
     intro x hx
-    show x ∉ I.support
+    change x ∉ I.support
     exact fun hxI => (Set.disjoint_left.mp hdisj) hx hxI
   have : IsIso (b ∣_ C) := isIso_blowUp_restrict_compl_support I
   have : IsIso (b ∣_ W) := Stacks.RestrictIso.isIso_morphismRestrict_of_le b hWC inferInstance
@@ -138,7 +138,7 @@ theorem exists_isAdmissibleBlowup_properExtension
   have hg₀p₂ : g₀ ≫ p₂ = r := by
     simp [g₀, r, eP, Category.assoc, ← morphismRestrict_ι]
   have hr_b : r ≫ b = W.ι := by
-    show eBW.inv ≫ (b ⁻¹ᵁ W).ι ≫ b = W.ι
+    change eBW.inv ≫ (b ⁻¹ᵁ W).ι ≫ b = W.ι
     rw [← morphismRestrict_ι]
     simp [eBW]
   have hg₀b : g₀ ≫ p₂ ≫ b = W.ι := by rw [← Category.assoc, hg₀p₂, hr_b]
@@ -159,7 +159,7 @@ theorem exists_isAdmissibleBlowup_properExtension
         exact w.2
       exact (Set.disjoint_left.mp hdisj) hW hI
     have hnotExc : p₂.base (g₀.base w) ∉ (exceptionalIdeal I).support := by
-      show p₂.base (g₀.base w) ∉ (I.comap b).support
+      change p₂.base (g₀.base w) ∉ (I.comap b).support
       rw [Scheme.IdealSheafData.support_comap I b]
       exact hnot
     exact ⟨⟨g₀.base w, hnotExc⟩, rfl⟩

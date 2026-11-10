@@ -105,10 +105,10 @@ theorem flatPullbackChow_firstChernClassCapChow_heq {X Y : Scheme.{u}} (sX : X �
   | H α =>
     have h1 := flatPullbackChow_firstChernClassCapOfInvertible_of_invertible C sY f d hd e L
       (hfac e) α
-    show flatPullbackChow C (f ≫ sY) sY f rfl d hd e (hfac e)
+    change flatPullbackChow C (f ≫ sY) sY f rfl d hd e (hfac e)
       (firstChernClassCapOfInvertible C sY e L α) ≍ _
     rw [h1]
-    show firstChernClassCapChow C (e + (d : ℤ)) (f ≫ sY) ((Scheme.Modules.pullback f).obj L)
+    change firstChernClassCapChow C (e + (d : ℤ)) (f ≫ sY) ((Scheme.Modules.pullback f).obj L)
       (QuotientAddGroup.mk' _ _) ≍ _
     congr 1
     exact chowGroup_eq_of_heq C (f ≫ sY)

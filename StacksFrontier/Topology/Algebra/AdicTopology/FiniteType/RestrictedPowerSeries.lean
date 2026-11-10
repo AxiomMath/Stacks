@@ -199,7 +199,7 @@ theorem restrictedPowerSeries_nhds_hasBasis
     letI : TopologicalSpace P := restrictedPolynomialTopology B σ
     let p : P →+* R := polynomialToRestrictedPowerSeries B σ
     (nhds (0 : R)).HasBasis
-      (fun J : { J : Ideal B // IsOpen (J : Set B) } => True)
+      (Function.const { J : Ideal B // IsOpen (J : Set B) } True)
       (fun J => closure ((p : P → R) '' (J.1.map (MvPolynomial.C : B →+* P) : Set P))) := by
   dsimp
   let : UniformSpace (MvPolynomial σ B) := restrictedPolynomialUniformSpace B σ
@@ -237,7 +237,7 @@ theorem idealClosure_map_eq_closure_image_of_denseRange
             (closure (f '' (I : Set P))) := by
           rintro y ⟨z, hz, rfl⟩
           exact hgen r hz
-        show r * x ∈ closure (f '' (I : Set P))
+        change r * x ∈ closure (f '' (I : Set P))
         simpa only [closure_closure] using
           (map_mem_closure (continuous_const_mul r) hx hmap) }
   have hmap : Ideal.map f I ≤ V :=

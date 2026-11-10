@@ -320,8 +320,7 @@ theorem globalTensor_hom_ext
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro t
-  induction t using TensorProduct.induction_on with
-  | zero => exact (map_zero φ.hom).trans (map_zero ψ.hom).symm
+  induction t using TensorProduct.inductionOn with
   | tmul x y => exact h x y
   | add t t' ht ht' =>
       have hsum : φ.hom t + φ.hom t' = ψ.hom t + ψ.hom t' := by rw [ht, ht']
@@ -349,7 +348,7 @@ theorem curryGlobalMap_apply
         (((curryGlobalMap O F G H b U x).app (op (Over.mk q))).hom
           (restrSection O G U q y)) =
       globalTensorHom O F G H b T (F.restrictₛₗ q.op x ⊗ₜ y) := by
-  show curryValueMap O F G H U ((restrFun O U).map b) (𝟙 U) x q y = _
+  change curryValueMap O F G H U ((restrFun O U).map b) (𝟙 U) x q y = _
   rw [curryValueMap_apply, Category.comp_id, restrTensorHom_restrFun_map]
 
 /-- The restriction maps of the internal Hom presheaf are the re-indexing maps `homRestr`. -/

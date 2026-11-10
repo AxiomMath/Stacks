@@ -180,8 +180,8 @@ complete** — `AlgebraicGeometry.Space.ChartLiftPresentation.actionSectionEquiv
 remains before this is an action of sheaves is the glueing of the chartwise actions alone, a lift
 over an arbitrary chart factoring through an affine chart of `Y` only locally.
 
-**The two geometric halves and the two passages of that comparison are all proved.**  Reading a section of
-`AlgebraicGeometry.Space.smallEtaleInternalHom` on a chart is
+**The two geometric halves and the two passages of that comparison are all proved.**  Reading a
+section of `AlgebraicGeometry.Space.smallEtaleInternalHom` on a chart is
 `AlgebraicGeometry.Space.liftActionSheafChartEval`, and with
 `AlgebraicGeometry.Space.firstOrderConormalModuleIso` for the conormal side the *target* is
 identified by `AlgebraicGeometry.Space.liftActionSheafChartKerEval`.  For the *source*:
@@ -237,8 +237,9 @@ compares structure maps whose targets are the two different direct images `(a')_
 `AlgebraicGeometry.Space.structureRingSheafDirectImageIsoOfRestrictEq`
 (`StacksFrontier.AlgebraicGeometry.Spaces.Thickenings.StructureSheafEquivalence`), beside the
 equivalence of spaces-étale sheaf topoi
-`AlgebraicGeometry.Space.spacesEtaleSheafEquiv_of_isThickening`. So the two structure maps of two lifts are parallel
-homomorphisms of sheaves of rings — `AlgebraicGeometry.Space.structureSharpOfRestrictEq` and
+`AlgebraicGeometry.Space.spacesEtaleSheafEquiv_of_isThickening`. So the two structure maps of two
+lifts are parallel homomorphisms of sheaves of rings —
+`AlgebraicGeometry.Space.structureSharpOfRestrictEq` and
 the structure map of the second lift — and their difference can be formed.
 
 **That the two agree after `i^♯` is proved**, as
@@ -462,7 +463,7 @@ theorem exists_appLE_section_of_exists_lift {X S : Scheme.{u}} (f : X ⟶ S) {V�
   have hτW : (⊤ : (Spec Q).Opens) ≤ τ ⁻¹ᵁ W := by
     intro x _
     obtain ⟨y, rfl⟩ := hsurjbase x
-    show τ.base ((Spec.map θ).base y) ∈ W
+    change τ.base ((Spec.map θ).base y) ∈ W
     rw [← Scheme.Hom.comp_apply, hτg]
     exact hg (Set.mem_univ y)
   refine ⟨τ.appLE W ⊤ hτW ≫ (Scheme.ΓSpecIso Q).hom, ?_, ?_⟩

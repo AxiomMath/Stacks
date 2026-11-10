@@ -151,7 +151,7 @@ in. -/
 theorem pullbackSectionHom_top (M : Y.Modules) (t : Γ(M, ⊤)) :
     pullbackSectionHom j M ⊤ ⊤ (top_le_preimage_top j) t
       = Stacks.NonvanishingPullback.pullbackGlobalSection j M t := by
-  show ((Scheme.Modules.pullback j).obj M).presheaf.map _ _ = _
+  change ((Scheme.Modules.pullback j).obj M).presheaf.map _ _ = _
   rw [show (homOfLE (top_le_preimage_top j)).op = 𝟙 _ from Subsingleton.elim _ _]
   simp
   rfl
@@ -188,7 +188,7 @@ theorem nonvanishingOpen_pullSection (n : ℕ) (t : Γ(natTensorPow L n, ⊤)) :
         (pullSection j L n t)
       = j ⁻¹ᵁ nonvanishingOpen Y (natTensorPow L n) t := by
   refine TopologicalSpace.Opens.ext ?_
-  show nonvanishingLocus _ (pullSection j L n t) = _
+  change nonvanishingLocus _ (pullSection j L n t) = _
   rw [pullSection,
     show (pullbackNatTensorPowIso j L n).inv
       = (pullbackNatTensorPowIso j L n).symm.hom from rfl,

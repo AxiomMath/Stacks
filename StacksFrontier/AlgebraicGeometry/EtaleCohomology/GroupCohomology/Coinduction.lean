@@ -116,7 +116,8 @@ theorem hom_ext {X Y : ContinuousGModule.{v, w} G} {f g : X ⟶ Y}
 
 /-- A morphism of discrete `G`-modules commutes with the action. -/
 theorem hom_comm {X Y : ContinuousGModule.{v, w} G} (f : X ⟶ Y) (g : G) (x : X.obj.obj.V) :
-    f.hom.hom.hom.hom ((X.obj.obj.ρ g).asHom.hom x) = (Y.obj.obj.ρ g).asHom.hom (f.hom.hom.hom.hom x) :=
+    f.hom.hom.hom.hom ((X.obj.obj.ρ g).asHom.hom x) =
+      (Y.obj.obj.ρ g).asHom.hom (f.hom.hom.hom.hom x) :=
   ConcreteCategory.congr_hom (f.hom.hom.comm g) x
 
 /-- A short complex of discrete `G`-modules is short exact when it is so on underlying
@@ -504,7 +505,8 @@ omit [IsTopologicalGroup G] in
 /-- An element of a discrete `H`-module is fixed by the elements of `H` lying in some open
 neighbourhood of `1` in `G`. -/
 theorem exists_isOpen_forall_ρ_apply_eq (N : ContinuousGModule.{v, w} H) (s : N.obj.obj.V) :
-    ∃ O : Set G, IsOpen O ∧ (1 : G) ∈ O ∧ ∀ h : H, (h : G) ∈ O → (N.obj.obj.ρ h).asHom.hom s = s := by
+    ∃ O : Set G, IsOpen O ∧ (1 : G) ∈ O ∧
+      ∀ h : H, (h : G) ∈ O → (N.obj.obj.ρ h).asHom.hom s = s := by
   obtain ⟨O, hO, hOeq⟩ := isOpen_induced_iff.mp (isOpen_stabilizer ℤ H N s)
   refine ⟨O, hO, ?_, fun h hh ↦ ?_⟩
   · have : (1 : H) ∈ Subtype.val ⁻¹' O := by
@@ -588,7 +590,8 @@ theorem surjective_coinduction_map {N N'' : ContinuousGModule.{v, max v w} H} (�
   obtain ⟨q, hq, hqeq⟩ := exists_doubleCoset_rep H N₁.toSubgroup
   choose hx nx hnx hxq using hq
   have hwd : ∀ x (h : H), ∀ n ∈ N₁.toSubgroup, x = h * q x * n →
-      (N.obj.obj.ρ (hx x)).asHom.hom (lift (F (q x))) = (N.obj.obj.ρ h).asHom.hom (lift (F (q x))) :=
+      (N.obj.obj.ρ (hx x)).asHom.hom (lift (F (q x))) =
+        (N.obj.obj.ρ h).asHom.hom (lift (F (q x))) :=
     fun x _ _ hn hxe ↦ ρ_apply_eq_of_mul_eq N₁.isNormal'
       (fun k hk ↦ hOfix (F (q x)) k (hN₁O _ hk (q x))) hn (hnx x) (hxe.symm.trans (hxq x))
   let f : G → N.obj.obj.V := fun x ↦ (N.obj.obj.ρ (hx x)).asHom.hom (lift (F (q x)))
@@ -609,9 +612,9 @@ theorem surjective_coinduction_map {N N'' : ContinuousGModule.{v, max v w} H} (�
     simpa only [f, hqx] using this
   refine ⟨⟨f, hf_mul, Subgroup.isOpen_mono (H₁ := N₁.toSubgroup)
     (fun n hn x ↦ hf_right x n hn) N₁.isOpen'⟩, Subtype.ext (funext fun x ↦ ?_)⟩
-  show φ.hom.hom.hom.hom ((N.obj.obj.ρ (hx x)).asHom.hom (lift (F (q x)))) = F x
+  change φ.hom.hom.hom.hom ((N.obj.obj.ρ (hx x)).asHom.hom (lift (F (q x)))) = F x
   rw [hom_comm φ]
-  show (N''.obj.obj.ρ (hx x)).asHom.hom (π (lift (F (q x)))) = F x
+  change (N''.obj.obj.ρ (hx x)).asHom.hom (π (lift (F (q x)))) = F x
   rw [hlift]
   have e1 : F (↑(hx x) * q x * nx x) = F (↑(hx x) * q x) := hN₀ (hN₁N₀ _ (hnx x)) _
   conv_rhs => rw [hxq x]

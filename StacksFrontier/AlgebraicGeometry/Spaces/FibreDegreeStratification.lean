@@ -508,7 +508,7 @@ private theorem degreeGe_snd_comp_iff {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u
     simp [e, hcomp.isoIsPullback_hom_snd _ _ (hf.isPullback (yoneda.map g ≫ a))]
   have he' : (F.mapIso e).hom ≫ F.map (hf.snd (yoneda.map g ≫ a)) =
       F.map (pullback.snd (hf.snd a) g) := by
-    show F.map e.hom ≫ _ = _
+    change F.map e.hom ≫ _ = _
     rw [← Functor.map_comp, he]
   rw [← he']
   exact degreeGe_iff_comp_iso (F.mapIso e) (F.map (hf.snd (yoneda.map g ≫ a))) d
@@ -712,7 +712,7 @@ private theorem pointsMap_yonedaEquiv_symm_class
   refine FieldValuedPoint.class_eq_class_of_hasCommonExtension B S hS X
     ⟨FieldValuedPoint.map B S hS (yoneda.obj p.siteObject) (yonedaEquiv.symm p.value) q,
       FieldValuedPoint.dominates_refl B S hS X _, q.value, ?_⟩
-  show X.map q.value.op p.value = _
+  change X.map q.value.op p.value = _
   simp [FieldValuedPoint.map]
 
 /-- The point set of the tautological chart of a field-valued point is the single point that

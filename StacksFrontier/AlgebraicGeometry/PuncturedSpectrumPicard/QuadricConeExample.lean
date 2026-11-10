@@ -426,7 +426,7 @@ public theorem hypersurface_krullDim (k : Type u) [Field k] :
       (mem_nonZeroDivisors_of_ne_zero (equation_ne_zero k)) (equation_mem_maximalIdeal k)
   rw [mvPowerSeries_fin_krullDim] at hquot
   change ringKrullDim (B ⧸ Ideal.span ({equation k} : Set B)) + 1 = 4 at hquot
-  show ringKrullDim (B ⧸ Ideal.span ({equation k} : Set B)) = 3
+  change ringKrullDim (B ⧸ Ideal.span ({equation k} : Set B)) = 3
   cases hdim : ringKrullDim (B ⧸ Ideal.span ({equation k} : Set B)) with
   | bot =>
     rw [hdim] at hquot
@@ -454,7 +454,7 @@ private lemma mvPowerSeries_X_prime (k : Type u) [Field k] (n : ℕ) (i : Fin (n
     (MvPowerSeries.finSuccEquiv k n)
   apply (MulEquiv.prime_iff e).mp
   have he : e (MvPowerSeries.X i) = PowerSeries.X := by
-    show MvPowerSeries.finSuccEquiv k n
+    change MvPowerSeries.finSuccEquiv k n
       (MvPowerSeries.rename (Equiv.swap i 0) (MvPowerSeries.X i)) = _
     rw [MvPowerSeries.rename_X, Equiv.swap_apply_left, MvPowerSeries.finSuccEquiv_X_zero]
   rw [he]
@@ -912,7 +912,7 @@ private lemma coordinate_one_notMem_coordinateIdeal :
   intro hmem
   have h := hker hmem
   rw [RingHom.mem_ker, toComplementaryPair_coordinate] at h
-  simp only [if_pos] at h
+  simp only [ite_eq_left] at h
   exact mvPowerSeries_X_ne_zero k 2 0 h
 
 /-- **`A/I` has no `y`-torsion.**  `A/I ≅ k⟦y, w⟧` is a domain in which `y` is nonzero, so a
@@ -966,7 +966,7 @@ private abbrev chartTransport (i : Fin 4) :
 
 private lemma chartTransport_chartSection (i : Fin 4) (a : hypersurface k) :
     (chartTransport k i : _ →+* _) (chartSection k i a) = chartSectionAmbient k i a := by
-  show ((ambient k).presheaf.map (eqToHom (image_puncturedChart k i).symm).op).hom
+  change ((ambient k).presheaf.map (eqToHom (image_puncturedChart k i).symm).op).hom
       ((((ambient k).presheaf.map (homOfLE (le_top :
         (Stacks.Divisors.puncturedSpectrum (hypersurface k)).ι ''ᵁ
           puncturedChart k i ≤ ⊤)).op).hom) (toGamma k a)) = _
@@ -1007,7 +1007,7 @@ private lemma exists_pow_mul_mem_of_mem_map_chartSectionAmbient (i : Fin 4)
   obtain ⟨n, rfl⟩ := hm
   refine ⟨n, ?_⟩
   rw [← mem_map_ringEquiv (gammaRingEquiv k) (coordinateIdeal k)]
-  show toGamma k (coordinate k i ^ n * a) ∈ _
+  change toGamma k (coordinate k i ^ n * a) ∈ _
   rw [map_mul, map_pow]
   exact hmem
 
@@ -1090,7 +1090,7 @@ private lemma nonempty_coordinateIdeal_linearEquiv :
           exact (subschemeι_app_top_eq_zero_iff k x.1).2 x.2)
       map_add' := fun x y => by
         refine Stacks.Divisors.kernelSection_injective D ?_
-        show sectionsAsModuleRingMap k (x.1 + y.1) = _
+        change sectionsAsModuleRingMap k (x.1 + y.1) = _
         rw [map_add]
         rfl
       map_smul' := fun c x => by
@@ -1100,7 +1100,7 @@ private lemma nonempty_coordinateIdeal_linearEquiv :
             (by
               rw [RingHom.mem_ker]
               exact (subschemeι_app_top_eq_zero_iff k x.1).2 x.2))
-        show sectionsAsModuleRingMap k (c * x.1) = _
+        change sectionsAsModuleRingMap k (c * x.1) = _
         rw [map_mul]
         exact h.symm }
   have hinj : Function.Injective f := fun x y hxy =>
@@ -1114,7 +1114,7 @@ private lemma nonempty_coordinateIdeal_linearEquiv :
       rw [← subschemeι_app_top_eq_zero_iff, ha]
       exact Stacks.Divisors.kernelSection_mem D z
     refine ⟨⟨a, hmem⟩, Stacks.Divisors.kernelSection_injective D ?_⟩
-    show sectionsAsModuleRingMap k a = Stacks.Divisors.kernelSection D z
+    change sectionsAsModuleRingMap k a = Stacks.Divisors.kernelSection D z
     exact ha
   exact ⟨(LinearEquiv.ofBijective f ⟨hinj, hsurj⟩).trans eK.toLinearEquiv.symm⟩
 

@@ -110,7 +110,7 @@ theorem LAdicSheaf.surjective_finiteLevelStalkMap_of_epi {X : B.Scheme} [IsNoeth
       (ModuleCat.restrictScalars.{u + 1, 0, 0} (PadicInt.toZModPow (p := ℓ) (n + 1)))
     have hΦ : Φ.map a = Φ.map b := by
       refine h1.left_cancellation _ _ ?_
-      show Φ.map (φ.app n) ≫ Φ.map a = Φ.map (φ.app n) ≫ Φ.map b
+      change Φ.map (φ.app n) ≫ Φ.map a = Φ.map (φ.app n) ≫ Φ.map b
       rw [← Φ.map_comp, ← Φ.map_comp, hab]
     apply Sheaf.hom_ext
     ext U x

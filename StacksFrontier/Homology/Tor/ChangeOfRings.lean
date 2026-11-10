@@ -257,13 +257,13 @@ private theorem scalarCone_augmentation_quasiIso {R : Type u} [CommRing R]
     ModuleCat.ofHom (Ideal.Quotient.mkₐ R (Ideal.span {a})).toLinearMap
   have hfg : f ≫ g = 0 := by
     ext
-    show Ideal.Quotient.mk (Ideal.span {a}) (a * 1) = 0
+    change Ideal.Quotient.mk (Ideal.span {a}) (a * 1) = 0
     rw [mul_one, Ideal.Quotient.eq_zero_iff_mem]
     exact Ideal.subset_span (Set.mem_singleton a)
   let S := ShortComplex.mk f g hfg
   have hS : S.ShortExact := ModuleCat.shortComplex_shortExact S (by
     intro r
-    show Ideal.Quotient.mk (Ideal.span {a}) r = 0 ↔ ∃ s, a * s = r
+    change Ideal.Quotient.mk (Ideal.span {a}) r = 0 ↔ ∃ s, a * s = r
     rw [Ideal.Quotient.eq_zero_iff_mem, Ideal.mem_span_singleton]
     exact exists_congr (fun s => eq_comm)) ha (Ideal.Quotient.mk_surjective)
   let S' := S.map (CochainComplex.singleFunctor (ModuleCat R) 0)
@@ -291,7 +291,7 @@ private theorem nodal_augmentation_quasiIso (k : Type u) [CommRing k] :
 private theorem nodalRelationIdeal_le_x (k : Type u) [CommRing k] :
     nodalRelationIdeal k ≤ Ideal.span {xVariable k} := by
   rw [Ideal.span_le, Set.singleton_subset_iff]
-  show xVariable k * yVariable k ∈ Ideal.span {xVariable k}
+  change xVariable k * yVariable k ∈ Ideal.span {xVariable k}
   rw [Ideal.mem_span_singleton]
   exact ⟨yVariable k, rfl⟩
 
@@ -367,7 +367,7 @@ private def xAxisOrigin (k : Type u) [CommRing k] : XAxisModule k →+* k :=
 
 private theorem xAxisOrigin_y_smul (k : Type u) [CommRing k] (n : XAxisModule k) :
     xAxisOrigin k (yClass k • n) = 0 := by
-  show xAxisOrigin k (Ideal.Quotient.mk (xAxisIdeal k) (yClass k) * n) = 0
+  change xAxisOrigin k (Ideal.Quotient.mk (xAxisIdeal k) (yClass k) * n) = 0
   rw [map_mul]
   have h : xAxisOrigin k (Ideal.Quotient.mk (xAxisIdeal k) (yClass k)) = 0 := by
     dsimp only [xAxisOrigin, RingHom.comp_apply, RingEquiv.toRingHom_eq_coe,
@@ -384,7 +384,7 @@ private theorem not_surjective_on_xCycles (k : Type u) [CommRing k] [Nontrivial 
   obtain ⟨b, hb⟩ := Ideal.mem_span_singleton.mp ((x_annihilator k a).mp ha)
   have hzero : xAxisOrigin k (f a) = 0 := by
     rw [hb]
-    show xAxisOrigin k (f (yClass k • b)) = 0
+    change xAxisOrigin k (f (yClass k • b)) = 0
     rw [map_smul]
     exact xAxisOrigin_y_smul k _
   rw [hfa, map_one] at hzero
@@ -416,7 +416,7 @@ private theorem extendScalarsRingIso_scalar {R S : Type u} [CommRing R] [CommRin
   let := φ.toAlgebra
   apply ModuleCat.ExtendScalars.hom_ext
   intro r
-  show φ a * (r • (1 : S)) = (a * r) • (1 : S)
+  change φ a * (r • (1 : S)) = (a * r) • (1 : S)
   simp only [Algebra.smul_def, map_mul, mul_one]
   rfl
 
@@ -510,7 +510,7 @@ private theorem scalarConeNegOneIso_hom_comp {R : Type u} [CommRing R] (a : R) :
   simp only [singleFunctor_obj_d, comp_zero, add_zero] at h
   dsimp only [scalarConeNegOneIso]
   rw [← Category.assoc, h]
-  simp only [scalarMultiplication, singleFunctor, singleFunctors, single_map_f_self,
+  simp only [scalarMultiplication, singleFunctor, single_map_f_self,
     Category.assoc, Iso.inv_hom_id, Category.comp_id]
 
 private theorem surjective_cycles_to_single {R : Type u} [CommRing R]
@@ -563,7 +563,7 @@ private theorem xMultiplication_not_iso_split (k : Type u) [CommRing k]
       dsimp only [i, P, xMultiplicationComplex]
       rw [scalarConeNegOneIso_hom_comp, ← Category.assoc, iCycles_d, zero_comp]
     exact congr($(hz) c)
-  · show (P.iCycles (-1) ≫ i.hom ≫ l) c = n
+  · change (P.iCycles (-1) ≫ i.hom ≫ l) c = n
     simpa only [l, Category.assoc, Iso.hom_inv_id_assoc, ModuleCat.hom_comp] using hc
 
 /-- In the example `R = k[x,y]`, `A = R/(xy)`, and `N = R/(x)`, the objects

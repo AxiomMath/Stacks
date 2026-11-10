@@ -369,8 +369,8 @@ theorem gradedFreeEquiv_mem_iff (n : ℤ) (x : (dualNumberModule k).M) :
         gradedFreeEquiv k x =
           DirectSum.lof (MulOpposite (dualNumberAlgebra k).A) ℤ
             (fun _ => MulOpposite (dualNumberAlgebra k).A) n a := by
-  show (x : dnModuleCarrier k) ∈ dnModuleGrading k n ↔ _
-  show x ∈ LinearMap.range (DirectSum.lof (DualNumber k) ℤ
+  change (x : dnModuleCarrier k) ∈ dnModuleGrading k n ↔ _
+  change x ∈ LinearMap.range (DirectSum.lof (DualNumber k) ℤ
     (fun _ : ℤ => MulOpposite (dualNumberAlgebra k).A) n) ↔ _
   rw [LinearMap.mem_range]
   constructor
@@ -460,13 +460,13 @@ theorem dualNumberModule_acyclic :
     DifferentialGradedModule.acyclic (dualNumberAlgebra k)
       ((DifferentialGradedModule.toHomotopyCategory (dualNumberAlgebra k)).obj
         (dualNumberModule k)) := by
-  show (dualNumberModule k).toCochainComplex.Acyclic
+  change (dualNumberModule k).toCochainComplex.Acyclic
   rw [HomologicalComplex.acyclic_iff]
   intro n
   obtain ⟨m, rfl⟩ : ∃ m : ℤ, n = m + 1 := ⟨n - 1, by omega⟩
   rw [HomologicalComplex.exactAt_iff' _ m (m + 1) (m + 1 + 1) (by simp) (by simp),
     ShortComplex.moduleCat_exact_iff]
-  show ∀ x : (dualNumberModule k).grading (m + 1),
+  change ∀ x : (dualNumberModule k).grading (m + 1),
     (dualNumberModule k).toCochainComplex.d (m + 1) (m + 1 + 1) x = 0 →
       ∃ y : (dualNumberModule k).grading m,
         (dualNumberModule k).toCochainComplex.d m (m + 1) y = x
@@ -487,12 +487,12 @@ private theorem differential_component_fst (n : ℤ) (x : dnModuleCarrier k) :
     by_cases h : i + 1 = n
     · subst h
       simp only [DirectSum.component.lof_self, MulOpposite.unop_mul, MulOpposite.unop_op]
-      show (DualNumber.eps * (MulOpposite.unop a : DualNumber k)).fst = 0
+      change (DualNumber.eps * (MulOpposite.unop a : DualNumber k)).fst = 0
       simp
     · simp [DirectSum.component.of, h]
   | add x y hx hy =>
     simp only [map_add, MulOpposite.unop_add]
-    show (_ + _ : DualNumber k).fst = 0
+    change (_ + _ : DualNumber k).fst = 0
     rw [TrivSqZeroExt.fst_add, hx, hy, add_zero]
 
 /-- The identity of the complex is not homotopic to zero: a contracting homotopy would make
@@ -507,7 +507,7 @@ private theorem not_homotopic_id_zero :
   let h' : dnModuleCarrier k →ₗ[MulOpposite (dualNumberAlgebra k).A]
       dnModuleCarrier k := h.toLinearMap
   have hd : dnModuleDifferential k (x 0) = MulOpposite.op (dnEpsInA k) • x 1 := by
-    show dnModuleDifferentialOpp k (x 0) = _
+    change dnModuleDifferentialOpp k (x 0) = _
     simp [x, dnModuleDifferentialOpp_lof, ← map_smul, smul_eq_mul]
   have hh := h.homotopy_eq (x 0)
   change x 0 - 0 = dnModuleDifferential k (h' (x 0)) +

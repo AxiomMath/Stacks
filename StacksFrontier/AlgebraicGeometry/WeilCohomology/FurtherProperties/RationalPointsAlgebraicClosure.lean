@@ -3,8 +3,7 @@ module
 public import StacksFrontier.AlgebraicGeometry.Chow.ChangeBaseScheme.FiniteFieldExtensionDivisibility
 public import StacksFrontier.AlgebraicGeometry.Variety.Bertini.ProjectiveDivisorReduction
 public import StacksFrontier.AlgebraicGeometry.GroupScheme.AbelianVariety.AlgClosedDivisiblePoints
-public import
-  StacksFrontier.AlgebraicGeometry.WeilCohomology.FurtherProperties.RationalPointsSeparableDivisibility
+public import StacksFrontier.AlgebraicGeometry.WeilCohomology.FurtherProperties.RationalPointsSeparableDivisibility
 
 /-!
 # Stacks Tag 0FH7 through an algebraic closure

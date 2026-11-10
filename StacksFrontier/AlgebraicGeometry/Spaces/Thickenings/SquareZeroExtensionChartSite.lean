@@ -187,7 +187,7 @@ theorem contains_chartSpec_obj_of_mk_ideal_lt_cutoff (U : SmallEtale B S hS X.1)
     lt_of_le_of_lt (mk_app_le_mul_ker_of_isAffine B S hS E U hU)
       (Cardinal.mul_lt_of_lt B.aleph0_lt_cutoff.le hker
         (mk_structureSheaf_app_lt_cutoff_of_isAffine B S hS U hU))
-  show ((chartSpec B S hS E).obj U).size < B.cutoff
+  change ((chartSpec B S hS E).obj U).size < B.cutoff
   rw [chartSpec_obj, Scheme.size_Spec]
   exact max_lt B.aleph0_lt_cutoff hA
 

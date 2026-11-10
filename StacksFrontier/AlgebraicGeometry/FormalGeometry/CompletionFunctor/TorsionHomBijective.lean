@@ -124,7 +124,7 @@ public theorem idealPowerMultiple_sheafHom_eq_bot_of_source {X : Scheme.{u}}
       exact Ideal.mem_map_of_mem _ hr
     have hcomp : (X.presheaf.map i.op).hom (fRestr X.presheaf U.1 r V) =
         (X.presheaf.map (i ≫ V.unop.hom).op).hom r := by
-      show (X.presheaf.map i.op).hom ((X.presheaf.map V.unop.hom.op).hom r) = _
+      change (X.presheaf.map i.op).hom ((X.presheaf.map V.unop.hom.op).hom r) = _
       rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
       rfl
     rw [hcomp]

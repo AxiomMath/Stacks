@@ -286,7 +286,7 @@ theorem IsLocalRing.FiniteEtaleLocalResidueLift.nonempty {R : Type u} [CommRing 
   have hx : algebraMap (ResidueField R) L x = algebraMap (ResidueField Rh) L (e x) := by
     simp [RingHom.algebraMap_toAlgebra]
   obtain ⟨r, hr⟩ := residue_surjective (e x)
-  rw [hx, ← hr, AlgEquiv.coe_ringEquiv, ε.symm.commutes, ResidueField.algebraMap_residue,
+  rw [hx, ← hr, AlgEquiv.coe_toRingEquiv, ε.symm.commutes, ResidueField.algebraMap_residue,
     ResidueField.map_residue]
 
 

@@ -46,6 +46,7 @@ public abbrev baseEmbeddingAlgebra :
   letI := fiberResidueAlgebra (fS B f) y x
   (baseEmbedding B f y hres x).toRingHom.toAlgebra
 
+omit [Finite (Y.1.residueField y)] in
 /-- Through the base embedding, `κ̄(y)` is an algebraic closure of `κ(x)`. -/
 public theorem isAlgClosure_baseEmbedding :
     letI := baseEmbeddingAlgebra B f y hres x
@@ -67,6 +68,7 @@ public def baseClosureEquiv :
   (IsAlgClosure.equiv (X.1.residueField x.1) (AlgebraicClosure (X.1.residueField x.1))
     (AlgebraicClosure (Y.1.residueField y))).toRingEquiv
 
+omit [Finite (Y.1.residueField y)] in
 public theorem baseClosureEquiv_algebraMap (z : X.1.residueField x.1) :
     letI := fiberResidueAlgebra (fS B f) y x
     baseClosureEquiv B f y hres x (algebraMap _ (AlgebraicClosure (X.1.residueField x.1)) z) =
@@ -141,7 +143,7 @@ public theorem homOfComm_comp_baseLiftHom :
       (baseLiftHom B f y hres x).comp (frobeniusPointHom X.1 x.1) := by
   have := hres x
   refine GeometricPoint.Hom.ext_of_hom ?_
-  show Spec.map _ ≫ Spec.map _ = Spec.map _ ≫ Spec.map _
+  change Spec.map _ ≫ Spec.map _ = Spec.map _ ≫ Spec.map _
   rw [← Spec.map_comp, ← Spec.map_comp]
   congr 1
   ext z
@@ -154,6 +156,7 @@ public abbrev baseLiftStalkMap :
   ((geometricPointStalkMap B X.1 X.property (baseLiftHom B f y hres x)
     (ModuleCat.{u + 1} Λ)).app G.obj).hom
 
+omit [Finite (Y.1.residueField y)] in
 public theorem baseLiftStalkMap_bijective :
     Function.Bijective (baseLiftStalkMap B f Λ G y hres x) := by
   let i := Scheme.Spec.mapIso (baseClosureEquiv B f y hres x).toCommRingCatIso.op

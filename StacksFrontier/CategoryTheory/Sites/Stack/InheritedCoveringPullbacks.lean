@@ -158,7 +158,7 @@ theorem generate_cartesianArrows_mem_inheritedTopology {X : 𝒳} (S : Sieve X)
     have hcart : p.IsStronglyCartesian (p.map (pullback.snd g f)) (pullback.snd g f) :=
       isStronglyCartesian_of_isPullback p hgc f (IsPullback.of_hasPullback g f).flip
     have hmem : (Sieve.pullback f S).arrows (pullback.snd g f) := by
-      show S.arrows (pullback.snd g f ≫ f)
+      change S.arrows (pullback.snd g f ≫ f)
       rw [← pullback.condition]
       exact S.downward_closed hgS _
     exact ⟨pullback g f, pullback.lift a h hfac, pullback.snd g f, ⟨hmem, hcart⟩,

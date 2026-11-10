@@ -142,7 +142,7 @@ theorem appTop_specTowerTop_coordinateChartPoleSection :
   rw [CommRingCat.comp_apply, CommRingCat.comp_apply] at hnat
   rw [coordinateChartPoleSection, ← hnat]
   congr 1
-  show Stacks.Kaehler.blowupChartHom R (Fin m) (Fin n) i (X (Sum.inr i) ^ (n - 1)) = _
+  change Stacks.Kaehler.blowupChartHom R (Fin m) (Fin n) i (X (Sum.inr i) ^ (n - 1)) = _
   rw [map_pow, Stacks.Kaehler.blowupChartHom_X_inr_self]
 
 /-- **The chart presentation, as the commutative square it is used through.** There is an

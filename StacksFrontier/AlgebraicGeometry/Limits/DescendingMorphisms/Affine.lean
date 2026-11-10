@@ -153,7 +153,7 @@ private lemma exists_isAffine_preimage [IsCofiltered J] [EssentiallySmall.{u} J]
     convert! ((hV.image_of_isOpenImmersion (E.map k.hom ⁻¹ᵁ U).ι).preimage
       (E.map g.left)).preimage_of_isOpenImmersion (E.map j.hom ⁻¹ᵁ U).ι ?_
     · ext x
-      show _ ∈ V ↔ _
+      change _ ∈ V ↔ _
       refine ⟨fun hx ↦ ⟨⟨(E.map g.left).base x.1, ?_⟩, ?_, rfl⟩, ?_⟩
       · exact (preimage_map_left_preimage_map_hom E U g).ge x.2
       · exact (mem_resLE_apply_iff (E.map g.left) _ x _ V).mp hx
@@ -237,7 +237,7 @@ theorem exists_isAffineHom_of_isLimit
     have hWLimit : IsAffineOpen WLimit := (hV j).preimage qY
     have hfLimitW : IsAffineOpen (fLimit ⁻¹ᵁ WLimit) := hWLimit.preimage fLimit
     have hfac : fLimit ≫ qY = cX.π.app A₀ ≫ h.app A₀ ≫ τY := by
-      show ((pullbackSymmetry (c.π.app i₀) X₀.hom).hom ≫
+      change ((pullbackSymmetry (c.π.app i₀) X₀.hom).hom ≫
             ((Over.pullback (c.π.app i₀)).map f₀).left ≫
               (pullbackSymmetry (c.π.app i₀) Y₀.hom).inv) ≫
             pullback.snd (c.π.app i₀) Y₀.hom =
@@ -246,7 +246,7 @@ theorem exists_isAffineHom_of_isLimit
       simp only [Category.assoc, pullbackSymmetry_inv_comp_snd, overPullback_map_left_fst,
         pullbackSymmetry_hom_comp_fst_assoc, baseChangeMap_snd, baseChangeTransition_snd_assoc]
     have heq : cX.π.app A₀ ⁻¹ᵁ U₀ j = fLimit ⁻¹ᵁ WLimit := by
-      show (cX.π.app A₀ ≫ h.app A₀ ≫ τY) ⁻¹ᵁ V j = (fLimit ≫ qY) ⁻¹ᵁ V j
+      change (cX.π.app A₀ ≫ h.app A₀ ≫ τY) ⁻¹ᵁ V j = (fLimit ≫ qY) ⁻¹ᵁ V j
       rw [hfac]
     rwa [← heq] at hfLimitW
   choose A' hA' hA'U using fun j : C.I₀ =>
@@ -267,7 +267,7 @@ theorem exists_isAffineHom_of_isLimit
     let Z : (FX.obj A).Opens := FX.map h₀ ⁻¹ᵁ U₀ j
     have hW : IsAffineOpen W := (hV₀ j).preimage (FY.map h₀)
     have hZeq : h.app A ⁻¹ᵁ W = Z := by
-      show (h.app A ≫ FY.map h₀) ⁻¹ᵁ V₀ j = (FX.map h₀ ≫ h.app A₀) ⁻¹ᵁ V₀ j
+      change (h.app A ≫ FY.map h₀) ⁻¹ᵁ V₀ j = (FX.map h₀ ≫ h.app A₀) ⁻¹ᵁ V₀ j
       rw [h.naturality h₀]
     have hZ : IsAffineOpen Z := by
       dsimp [Z]
@@ -338,7 +338,7 @@ lemma adjoin_image_eq_top_of_isPushout {R A B X : CommRingCat.{u}} {f : R ⟶ A}
   let : Algebra B X := b.hom.toAlgebra
   have hcomm : a.hom.comp f.hom = b.hom.comp g.hom := congrArg (fun h : R ⟶ X => h.hom) H.w
   let : IsScalarTower R B X := IsScalarTower.of_algebraMap_eq fun r => by
-    show (a.hom.comp f.hom) r = (b.hom.comp g.hom) r
+    change (a.hom.comp f.hom) r = (b.hom.comp g.hom) r
     exact DFunLike.congr_fun hcomm r
   let C := Algebra.adjoin B (a.hom '' (s : Set A))
   have ha : Set.range a.hom ⊆ C := by
@@ -347,7 +347,7 @@ lemma adjoin_image_eq_top_of_isPushout {R A B X : CommRingCat.{u}} {f : R ⟶ A}
     induction hy using Algebra.adjoin_induction with
     | mem y hy => exact Algebra.subset_adjoin ⟨y, hy, rfl⟩
     | algebraMap r =>
-        show (a.hom.comp f.hom) r ∈ C
+        change (a.hom.comp f.hom) r ∈ C
         rw [hcomm]
         exact C.algebraMap_mem (g.hom r)
     | add x y hx hy ihx ihy => simpa only [map_add, SetLike.mem_coe] using C.add_mem ihx ihy

@@ -165,7 +165,7 @@ theorem exists_rightTranslation_mem_range {P W : BigFppfOver B S hS}
   rw [← homEquiv_mul_toUnit] at hF
   refine ⟨(unitIsoTerminalTest (B := B) (hS := hS)).hom ≫ (BigFppfOver.toOver B S hS).map r,
     hrange _ hF ⟨t, ?_⟩⟩
-  show ((BigFppfOver.toOver B S hS).map (x * (toUnit T ≫ r))).left t = _
+  change ((BigFppfOver.toOver B S hS).map (x * (toUnit T ≫ r))).left t = _
   rw [toOver_map_mul_toUnit, Over.comp_left, ← hxt]
   rfl
 

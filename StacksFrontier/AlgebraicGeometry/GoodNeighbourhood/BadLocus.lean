@@ -132,7 +132,7 @@ theorem relativeDimension_add_two_le_of_not_subschemeSmoothAt_bot [IsAlgClosed k
   set e := asIso (⊥ : X.IdealSheafData).subschemeι
   set s := e.inv z
   have hsz : (⊥ : X.IdealSheafData).subschemeι s = z := by
-    show (e.inv ≫ e.hom) z = z
+    change (e.inv ≫ e.hom) z = z
     rw [Iso.inv_hom_id]
     rfl
   have hregS : IsRegularLocalRing ((⊥ : X.IdealSheafData).subscheme.presheaf.stalk s) :=
@@ -153,7 +153,7 @@ theorem relativeDimension_add_two_le_of_not_subschemeSmoothAt_bot [IsAlgClosed k
     rw [irreducibleComponents_eq_singleton] at hη
     have hcl : closure ({η} : Set (⊥ : X.IdealSheafData).subscheme) = Set.univ := hη
     have hgη : IsGenericPoint ((⊥ : X.IdealSheafData).subschemeι η) Set.univ := by
-      show closure {(Scheme.homeoOfIso e) η} = Set.univ
+      change closure {(Scheme.homeoOfIso e) η} = Set.univ
       rw [← Set.image_singleton, ← (Scheme.homeoOfIso e).image_closure, hcl, Set.image_univ,
         (Scheme.homeoOfIso e).range_coe]
     rw [hgη.eq (genericPoint_spec X), hgen]

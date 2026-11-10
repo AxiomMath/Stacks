@@ -110,7 +110,7 @@ theorem mateEquiv_tensorLeftμ (K K' : C) [ExactPairing K K'] :
         F.obj K ◁ μ F K' (K ⊗ X) ≫
           F.obj K ◁ F.map ((tensorLeftAdjunction K K').counit.app X) := by
     simp [mateEquiv_apply]
-  show _ = δ F K X
+  change _ = δ F K X
   rw [e, ← cancel_mono (μ F K X), Functor.Monoidal.δ_μ]
   simpa only [Category.assoc, Functor.id_obj] using key
 
@@ -145,9 +145,9 @@ theorem adjunctionTensorMap_eq_projection_app
 `(K' ⊗ -) ⋙ F ⊣ G ⋙ (K ⊗ -)` and `F ⋙ (F K' ⊗ -) ⊣ (F K ⊗ -) ⋙ G`. -/
 theorem projection_natTrans_eq_conjugateEquiv (K K' : C) [ExactPairing K K'] :
     letI := ExactPairing.map F K K'
-    (projection F adj K).natTrans =
+    (projection F adj K) =
       conjugateEquiv ((tensorLeftAdjunction K K').comp adj)
-        (adj.comp (tensorLeftAdjunction (F.obj K) (F.obj K'))) (tensorLeftμ F K').natTrans := by
+        (adj.comp (tensorLeftAdjunction (F.obj K) (F.obj K'))) (tensorLeftμ F K') := by
   let := ExactPairing.map F K K'
   rw [← iterated_mateEquiv_conjugateEquiv, mateEquiv_tensorLeftμ]
   rfl
@@ -157,22 +157,22 @@ adjunctions `F ⋙ (F K' ⊗ -) ⊣ (F K ⊗ -) ⋙ G` and `(K' ⊗ -) ⋙ F ⊣
 theorem mateEquiv_projection_natTrans_eq_conjugateEquiv (K K' : C) [ExactPairing K K'] :
     letI := ExactPairing.map F K K'
     (mateEquiv (tensorLeftAdjunction (F.obj K) (F.obj K')) (tensorLeftAdjunction K K')
-        (projection F adj K')).natTrans =
+        (projection F adj K')) =
       conjugateEquiv (adj.comp (tensorLeftAdjunction (F.obj K) (F.obj K')))
-        ((tensorLeftAdjunction K K').comp adj) (tensorLeftδ F K').natTrans := by
+        ((tensorLeftAdjunction K K').comp adj) (tensorLeftδ F K') := by
   let := ExactPairing.map F K K'
   exact iterated_mateEquiv_conjugateEquiv adj adj (tensorLeftAdjunction K K')
     (tensorLeftAdjunction (F.obj K) (F.obj K')) (tensorLeftδ F K')
 
 /-- `tensorLeftμ F K` followed by `tensorLeftδ F K` is the identity. -/
 theorem tensorLeftμ_comp_tensorLeftδ (K : C) :
-    (tensorLeftμ F K).natTrans ≫ (tensorLeftδ F K).natTrans = 𝟙 _ := by
+    (tensorLeftμ F K) ≫ (tensorLeftδ F K) = 𝟙 _ := by
   ext X
   simp
 
 /-- `tensorLeftδ F K` followed by `tensorLeftμ F K` is the identity. -/
 theorem tensorLeftδ_comp_tensorLeftμ (K : C) :
-    (tensorLeftδ F K).natTrans ≫ (tensorLeftμ F K).natTrans = 𝟙 _ := by
+    (tensorLeftδ F K) ≫ (tensorLeftμ F K) = 𝟙 _ := by
   ext X
   simp
 
@@ -181,7 +181,7 @@ theorem tensorLeftδ_comp_tensorLeftμ (K : C) :
 theorem mateEquiv_projection_comp_projection (K K' : C) [ExactPairing K K'] :
     letI := ExactPairing.map F K K'
     (mateEquiv (tensorLeftAdjunction (F.obj K) (F.obj K')) (tensorLeftAdjunction K K')
-        (projection F adj K')).natTrans ≫ (projection F adj K).natTrans = 𝟙 _ := by
+        (projection F adj K')) ≫ (projection F adj K) = 𝟙 _ := by
   let := ExactPairing.map F K K'
   rw [mateEquiv_projection_natTrans_eq_conjugateEquiv F adj K K',
     projection_natTrans_eq_conjugateEquiv F adj K K',
@@ -191,9 +191,9 @@ theorem mateEquiv_projection_comp_projection (K K' : C) [ExactPairing K K'] :
 `K`**, on the side of `K ⊗ G -`. -/
 theorem projection_comp_mateEquiv_projection (K K' : C) [ExactPairing K K'] :
     letI := ExactPairing.map F K K'
-    (projection F adj K).natTrans ≫
+    (projection F adj K) ≫
       (mateEquiv (tensorLeftAdjunction (F.obj K) (F.obj K')) (tensorLeftAdjunction K K')
-        (projection F adj K')).natTrans = 𝟙 _ := by
+        (projection F adj K')) = 𝟙 _ := by
   let := ExactPairing.map F K K'
   rw [mateEquiv_projection_natTrans_eq_conjugateEquiv F adj K K',
     projection_natTrans_eq_conjugateEquiv F adj K K',
@@ -201,7 +201,7 @@ theorem projection_comp_mateEquiv_projection (K K' : C) [ExactPairing K K'] :
 
 /-- The projection formula map of a dualizable object is invertible. -/
 theorem isIso_projection (K : C) (K' : C) [ExactPairing K K'] :
-    IsIso (projection F adj K).natTrans := by
+    IsIso (projection F adj K) := by
   let := ExactPairing.map F K K'
   exact ⟨_, projection_comp_mateEquiv_projection F adj K K',
     mateEquiv_projection_comp_projection F adj K K'⟩
@@ -212,7 +212,7 @@ theorem mateEquiv_projection_eq_inv (K K' : C) [ExactPairing K K'] :
     letI := ExactPairing.map F K K'
     haveI := isIso_projection F adj K K'
     (mateEquiv (tensorLeftAdjunction (F.obj K) (F.obj K')) (tensorLeftAdjunction K K')
-        (projection F adj K')).natTrans = inv (projection F adj K).natTrans := by
+        (projection F adj K')) = inv (projection F adj K) := by
   let := ExactPairing.map F K K'
   have := isIso_projection F adj K K'
   rw [← Category.id_comp (inv _), ← mateEquiv_projection_comp_projection F adj K K',

@@ -408,7 +408,7 @@ lemma L_kernel_localizes_to_zero
   have hmval : xs[i] • (m : M ⧸ (I • ⊤ : Submodule R M)) = 0 := m.property
   have hφ0 : φ (m : M ⧸ (I • ⊤ : Submodule R M)) = 0 := by
     apply hsmul'
-    show xs[i] • φ (m : M ⧸ (I • ⊤ : Submodule R M)) = xs[i] • (0 : _)
+    change xs[i] • φ (m : M ⧸ (I • ⊤ : Submodule R M)) = xs[i] • (0 : _)
     rw [smul_zero, ← map_smul, hmval, map_zero]
   rw [IsLocalizedModule.eq_zero_iff p.primeCompl φ] at hφ0
   obtain ⟨s', hs'⟩ := hφ0
@@ -648,7 +648,7 @@ theorem isSMulRegular_of_shortExact {R : Type*} [CommRing R]
   have hxy' : r • x = r • y := hxy
   have hβeq : β x = β y := by
     apply h3
-    show r • β x = r • β y
+    change r • β x = r • β y
     rw [← map_smul, ← map_smul, hxy']
   have hker : x - y ∈ LinearMap.ker β := by
     rw [LinearMap.mem_ker, map_sub, hβeq, sub_self]

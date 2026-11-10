@@ -70,7 +70,7 @@ theorem flatPullbackMap_locallyFiniteCycleSum (m n : ℤ) (hmn : m + (r : ℤ) =
           hflat hr m n hmn (T i) (α i) (hαT i)) := by
   classical
   refine Subtype.ext (funext fun W => ?_)
-  show flatPullbackCoeff D sX hX sY hY f hbase r hflat hr m
+  change flatPullbackCoeff D sX hX sY hY f hbase r hflat hr m
       (locallyFiniteCycleSum D sY m T hT α hαT) W =
     ∑ᶠ i : I, flatPullbackCoeff D sX hX sY hY f hbase r hflat hr m (α i) W
   by_cases hex : ∃ A, flatPullbackMult D sX hX sY hY f hbase r hflat hr A W ≠ 0

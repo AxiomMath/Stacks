@@ -116,6 +116,7 @@ end BaseChangeSnd
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is slow
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_AffineMorphism :
@@ -269,6 +270,7 @@ theorem isAffineSpace_limitBaseChange_of_isAffineHom_mapLimit (hb : IsSiteSmall 
     (D.isAffineSpace_limitChartTarget v hb hV₀)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is slow
 /-- If `v : V₀ ⟶ Y₀` is surjective and étale with `V₀` affine, and the base change
 `B_i ×_{B₀} (X₀ ×_{Y₀} V₀)` is an affine algebraic space, then `f_i` is affine. -/
 theorem isAffineHom_mapAt_of_isAffineSpace_baseChange

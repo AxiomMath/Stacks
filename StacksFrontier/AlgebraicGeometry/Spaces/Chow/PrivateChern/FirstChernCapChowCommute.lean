@@ -45,7 +45,7 @@ theorem firstChernCapChow_commute (L N : Modules.{u, u} D.site D.base D.base_mem
       (firstChernCapChow.{u, u + 1} D sX hX L hL) (firstChernCapChow.{u, u + 1} D sX hX N hN) := by
   refine chowHomology_hom_ext D sX hX fun k b => ?_
   obtain ⟨j, rfl⟩ : ∃ j, k = j + 1 + 1 := ⟨k - 1 - 1, by ring⟩
-  show firstChernCapChow.{u, u + 1} D sX hX L hL (firstChernCapChow.{u, u + 1} D sX hX N hN
+  change firstChernCapChow.{u, u + 1} D sX hX L hL (firstChernCapChow.{u, u + 1} D sX hX N hN
       (DirectSum.of _ (j + 1 + 1) (chowClass.{u + 1} D sX hX _ b))) =
     firstChernCapChow.{u, u + 1} D sX hX N hN (firstChernCapChow.{u, u + 1} D sX hX L hL
       (DirectSum.of _ (j + 1 + 1) (chowClass.{u + 1} D sX hX _ b)))

@@ -109,7 +109,7 @@ private theorem mem_pushforwardSubmodule_of_mem_submoduleIdeal
   have hj' : (chartBaseChangeStructureModule B S hS f hf).val.map (c j).op (t.val.app (op W) x) ∈
       (pushforwardSubmodule B S hS f hf _ I).obj (op (Zc j)) :=
     (PresheafOfModules.naturality_apply (X := op W) (Y := op (Zc j)) t.val (c j).op x) ▸ hj
-  show (chartBaseChangeStructureModule B S hS f hf).val.map ((c j).op ≫ k.op)
+  change (chartBaseChangeStructureModule B S hS f hf).val.map ((c j).op ≫ k.op)
     (t.val.app (op W) x) ∈ (pushforwardSubmodule B S hS f hf _ I).obj (op V)
   exact (congrArg (· ∈ (pushforwardSubmodule B S hS f hf _ I).obj (op V))
     (PresheafOfModules.map_comp_apply (U := op W) (V := op (Zc j)) (W := op V)

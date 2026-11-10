@@ -809,7 +809,7 @@ private theorem equiv_of_surjective_nilker
   exact ⟨AlgEquiv.ofBijective h hh, AlgHom.liftOfSurjective_apply f hf g hfg⟩
 
 private theorem tensor_product_reductions
-    {L M T ι : Type*} [CommRing L] [CommRing M] [CommRing T] [Fintype ι]
+    {L M T ι : Type*} [CommRing L] [CommRing M] [CommRing T] [Finite ι]
     [Algebra L M] [Algebra L T]
     (E U : ι → Type*) [∀ i, CommRing (E i)] [∀ i, CommRing (U i)]
     [∀ i, Algebra L (E i)] [∀ i, Algebra L (U i)] [∀ i, Algebra M (U i)]
@@ -822,6 +822,7 @@ private theorem tensor_product_reductions
       RingHom.ker r.toRingHom ≤ nilradical (M ⊗[L] T) ∧
       ∀ x i, r (1 ⊗ₜ[L] x) i = algebraMap (E i) (U i) (e x i) := by
   classical
+  have := Fintype.ofFinite ι
   let dM (i : ι) : U i ≃ₐ[M] ((M ⊗[L] E i) ⧸ nilradical (M ⊗[L] E i)) :=
     { (d i).toRingEquiv with commutes' := hdM i }
   let p (i : ι) : (M ⊗[L] E i) →ₐ[M] U i :=
@@ -962,7 +963,7 @@ private theorem local_tower_composition
     (a : R →+* S) (b : S →+* T) (c : R →+* R') (d : R' →+* T)
     (e : S →+* S') (f : T →+* T') (g : S' →+* T')
     [IsLocalHom a] [IsLocalHom b] [IsLocalHom d] [IsLocalHom f] [IsLocalHom g]
-    (hc : Function.Bijective c) (he : Function.Bijective e) (hf : Function.Bijective f)
+    (hc : Function.Bijective c) (he : Function.Bijective e)
     (ha : Function.Injective a) (hd : Function.Injective d) (hg : Function.Injective g)
     (hcomm : b.comp a = d.comp c) (hcomm' : f.comp b = g.comp e) :
     letI := a.toAlgebra
@@ -1072,7 +1073,7 @@ private theorem localizations_isExtension
       toIsLocalHom := Localization.isLocalHom_localRingHom _ _ _ _ }⟩
 
 private theorem exists_maximal_of_equiv_pi
-    {R ι : Type*} [CommRing R] [Fintype ι] (S : ι → Type*) [∀ i, CommRing (S i)]
+    {R ι : Type*} [CommRing R] [Finite ι] (S : ι → Type*) [∀ i, CommRing (S i)]
     (e : R ≃+* ∀ i, S i) (Q : Ideal R) [hQ : Q.IsMaximal] :
     ∃ (i : ι) (p : Ideal (S i)), p.IsMaximal ∧
       Q = p.comap ((Pi.evalRingHom S i).comp e.toRingHom) := by
@@ -1185,10 +1186,6 @@ private theorem solutions_compose :
       (Localization.localRingEquiv (q.under DAB.A₁) (Q.under DAC.A₁) eb.toRingEquiv hp).bijective
     have hu' : Function.Bijective u' :=
       localRingHom_eval_comp_equiv_bijective (fun j => (DBC j).A₁) eB.toRingEquiv i qi
-    have hv' : Function.Bijective v' := by
-      dsimp only [v']
-      subst Q
-      exact localRingHom_eval_comp_equiv_bijective (fun j => (DBC j).B₁) eC.toRingEquiv i Qi
     have ha : Function.Injective a := FaithfulSMul.algebraMap_injective _ _
     have hd : Function.Injective d := FaithfulSMul.algebraMap_injective _ _
     have hg : Function.Injective g := FaithfulSMul.algebraMap_injective _ _
@@ -1197,7 +1194,7 @@ private theorem solutions_compose :
     have hcomm' : v'.comp b = g.comp u' :=
       localRingHom_comp_eq _ _ _ _ hsquare' _ _ _ _ hQq.symm hQeq rfl rfl
     obtain ⟨hw, hs⟩ := local_tower_composition _ _ _ _ _ _ a b c d u' v' g
-      hc hu' hv' ha hd hg hcomm hcomm'
+      hc hu' ha hd hg hcomm hcomm'
     exact ⟨fun h => (ramificationIdx_eq_one_iff_isWeaklyUnramified Q).mpr
         (hw ⟨(ramificationIdx_eq_one_iff_isWeaklyUnramified q).mp (h.1 q hq),
           (ramificationIdx_eq_one_iff_isWeaklyUnramified Qi).mp (h.2 i Qi hQi)⟩),

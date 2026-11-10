@@ -3,11 +3,9 @@ module
 import StacksCore.Tactic.StacksAttribute
 public import
   StacksFrontier.CategoryTheory.Sites.Cohomology.CohomologicalDescent.AdjunctionUnboundedEquivalence
-public import
-  StacksFrontier.CategoryTheory.Sites.Cohomology.CohomologicalDescent.BoundedBelowEquivalenceOfToposHom
+public import StacksFrontier.CategoryTheory.Sites.Cohomology.CohomologicalDescent.BoundedBelowEquivalenceOfToposHom
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.CohomologicalDescent.UnboundedEquivalence
-public import
-  StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPushforward.PullbackInvertsQuasiIsoOfToposHom
+public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPushforward.PullbackInvertsQuasiIsoOfToposHom
 
 /-!
 # Derived pullback along a morphism of ringed topoi as an equivalence of unbounded derived

@@ -144,7 +144,7 @@ theorem exists_stalk_homotopyEquiv_mapBifunctorMap
       (ComplexShape.up ℤ) ea eb).trans
       (HomotopyEquiv.ofIso (stalkTensorComplexIso R y K' L').symm)), ?_⟩
   have hnat := stalkTensorComplexIso_hom_naturality R y a b
-  show (stalkTensorComplexIso R y K L).hom ≫
+  change (stalkTensorComplexIso R y K L).hom ≫
       (HomologicalComplex.mapBifunctorMap ea.hom eb.hom _ _ ≫
         (stalkTensorComplexIso R y K' L').inv) = _
   rw [hea, heb, ← Category.assoc]
@@ -882,7 +882,7 @@ theorem cocycleSection_units_smul
   have h1 : (e • z) ≫ (sectionsComplex S K).iCycles i =
       ((e : ℤ) • (z ≫ (sectionsComplex S K).iCycles i)) := by
     rw [Linear.units_smul_comp, Units.smul_def]
-  show ((e • z) ≫ (sectionsComplex S K).iCycles i).hom (1 : baseRing S) = _
+  change ((e • z) ≫ (sectionsComplex S K).iCycles i).hom (1 : baseRing S) = _
   rw [h1, ModuleCat.hom_zsmul, LinearMap.smul_apply, ← Units.smul_def]
   rfl
 

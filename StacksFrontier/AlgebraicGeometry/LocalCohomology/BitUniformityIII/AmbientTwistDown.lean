@@ -247,10 +247,10 @@ theorem X_pow_dvd_of_mem_reesTruncationDown {f : reesAlgebra I}
     exact X_pow_dvd_iff.mpr fun d hd => hzj' d (by omega)
   | zero => simp
   | add x y _ _ hx hy =>
-    show (X : A[X]) ^ (q - q').toNat ∣ ((x : A[X]) + (y : A[X]))
+    change (X : A[X]) ^ (q - q').toNat ∣ ((x : A[X]) + (y : A[X]))
     exact dvd_add hx hy
   | smul c x _ hx =>
-    show (X : A[X]) ^ (q - q').toNat ∣ ((c : A[X]) * (x : A[X]))
+    change (X : A[X]) ^ (q - q').toNat ∣ ((c : A[X]) * (x : A[X]))
     exact hx.mul_left _
 
 /-- Below the cut `-q''` the truncation of `S(q)` is cut off at `q'`: `X^{q-q'}` still divides. -/
@@ -267,8 +267,8 @@ because its source consists of the multiples of `X^{q-q'}`.
 At `q = t + 1`, `q' = t` it is `Stacks.Blowup.reesShift I t`. -/
 def reesShiftDown : reesTruncationDown I q q' →ₗ[reesAlgebra I] reesAlgebra I where
   toFun f := reesDivXIter I (q - q').toNat (f : reesAlgebra I)
-  map_add' f g := Subtype.ext (divX_iterate_add _ _ _)
-  map_smul' c f := Subtype.ext
+  map_add' _ _ := Subtype.ext (divX_iterate_add _ _ _)
+  map_smul' _ f := Subtype.ext
     (divX_iterate_mul_of_X_pow_dvd _ _ (X_pow_dvd_of_mem_reesTruncationDown I q q' f.2))
 
 /-- The underlying polynomial of `reesShiftDown I q q' f` is `divX^{(q - q').toNat}` applied to
@@ -282,7 +282,7 @@ theorem coe_reesShiftDown (f : reesTruncationDown I q q') :
 division by `X` that `Stacks.Blowup.reesShift I t` is. -/
 theorem reesShiftDown_succ (t : ℤ) : reesShiftDown I (t + 1) t = reesShift I t := by
   refine LinearMap.ext fun f => Subtype.ext ?_
-  show divX^[((t + 1) - t).toNat] (((f : reesAlgebra I) : A[X])) =
+  change divX^[((t + 1) - t).toNat] (((f : reesAlgebra I) : A[X])) =
     divX (((f : reesAlgebra I) : A[X]))
   rw [show ((t + 1) - t).toNat = 1 by omega]
   rfl
@@ -515,7 +515,7 @@ theorem reesShiftDown_comp_restrict (hq'' : q'' ≤ q') (hq : q' ≤ q) :
     (reesShiftDown I q' q'').comp (reesShiftDownRestrict I q q' q'' hq'' hq) =
       reesShiftDown I q q'' := by
   refine LinearMap.ext fun f => Subtype.ext ?_
-  show divX^[(q' - q'').toNat] (divX^[(q - q').toNat] (((f : reesAlgebra I) : A[X]))) =
+  change divX^[(q' - q'').toNat] (divX^[(q - q').toNat] (((f : reesAlgebra I) : A[X]))) =
     divX^[(q - q'').toNat] (((f : reesAlgebra I) : A[X]))
   rw [← Function.iterate_add_apply, show (q' - q'').toNat + (q - q').toNat = (q - q'').toNat by
     omega]

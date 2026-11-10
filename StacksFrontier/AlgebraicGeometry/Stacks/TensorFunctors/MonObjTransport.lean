@@ -32,7 +32,7 @@ theorem MonObj.ofIso_whiskerRight_mul {M N : C} [MonObj M] (e : M ≅ N) (κ : M
     letI := MonObj.ofIso e
     (e.inv ≫ κ ≫ e.hom) ▷ N ≫ μ[N] = μ[N] ≫ e.inv ≫ κ ≫ e.hom := by
   let := MonObj.ofIso e
-  show (e.inv ≫ κ ≫ e.hom) ▷ N ≫ (e.inv ⊗ₘ e.inv) ≫ μ[M] ≫ e.hom =
+  change (e.inv ≫ κ ≫ e.hom) ▷ N ≫ (e.inv ⊗ₘ e.inv) ≫ μ[M] ≫ e.hom =
     ((e.inv ⊗ₘ e.inv) ≫ μ[M] ≫ e.hom) ≫ e.inv ≫ κ ≫ e.hom
   have h1 : (e.inv ≫ κ ≫ e.hom) ▷ N ≫ (e.inv ⊗ₘ e.inv) = (e.inv ⊗ₘ e.inv) ≫ κ ▷ M := by
     rw [← tensorHom_id, ← tensorHom_id, tensorHom_comp_tensorHom, tensorHom_comp_tensorHom]
@@ -47,7 +47,7 @@ theorem Functor.map_whiskerRight_mul {D : Type*} [Category* D] [MonoidalCategory
     letI := Functor.monObjObj (F := F) (X := M)
     F.map κ ▷ F.obj M ≫ μ[F.obj M] = μ[F.obj M] ≫ F.map κ := by
   let := Functor.monObjObj (F := F) (X := M)
-  show F.map κ ▷ F.obj M ≫ Functor.LaxMonoidal.μ F M M ≫ F.map μ[M] =
+  change F.map κ ▷ F.obj M ≫ Functor.LaxMonoidal.μ F M M ≫ F.map μ[M] =
     (Functor.LaxMonoidal.μ F M M ≫ F.map μ[M]) ≫ F.map κ
   rw [Functor.LaxMonoidal.μ_natural_left_assoc, ← F.map_comp, hκ, F.map_comp, Category.assoc]
 

@@ -172,7 +172,7 @@ private theorem kernelι_comp {M N : DifferentialGradedModule.{u, v, w} A} (f : 
     kernelι f ≫ f = 0 := by
   apply Hom.ext
   ext x
-  show f.toFun ((kernelι f).toFun x) = (0 : kernelObj f ⟶ N).toFun x
+  change f.toFun ((kernelι f).toFun x) = (0 : kernelObj f ⟶ N).toFun x
   rw [kernelι_toFun_apply, Hom.hom_zero_toFun]
   exact x.2
 
@@ -274,7 +274,7 @@ private theorem quotGrading_iSupIndep {ι : Type t} [DecidableEq ι]
   have hzc : (DirectSum.decompose gM z i : M₀) = 0 :=
     decompose_eq_zero_of_mem_iSup_ne gM i z hz
   rw [DirectSum.decompose_sub, DirectSum.sub_apply, Submodule.coe_sub, hyc, hzc, sub_zero] at hcomp
-  show s.mkQ y = 0
+  change s.mkQ y = 0
   rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
   exact hcomp
 
@@ -441,9 +441,9 @@ private theorem comp_cokernelπ {M N : DifferentialGradedModule.{u, v, w} A} (f 
     f ≫ cokernelπ f = 0 := by
   apply Hom.ext
   ext x
-  show (cokernelπ f).toFun (f.toFun x) = (0 : M ⟶ cokernelObj f).toFun x
+  change (cokernelπ f).toFun (f.toFun x) = (0 : M ⟶ cokernelObj f).toFun x
   rw [cokernelπ_toFun_apply]
-  show Submodule.Quotient.mk (p := rangeSub f) (f.toFun x) = 0
+  change Submodule.Quotient.mk (p := rangeSub f) (f.toFun x) = 0
   rw [Submodule.Quotient.mk_eq_zero]
   exact ⟨x, rfl⟩
 

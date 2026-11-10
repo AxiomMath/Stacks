@@ -94,7 +94,8 @@ theorem isFiniteTypeLocallyConstantModuleSheaf_toModuleSheaf_etaleModulesEquival
     (fun M hM => by
       have := (ModuleCat.isFG_iff _).1 hM
       exact (ModuleCat.isFG_iff _).2
-        (ModuleCat.moduleFinite_restrictScalars_of_ringEquiv (ULift.ringEquiv : ULift.{u + 1} Λ ≃+* Λ) M))
+        (ModuleCat.moduleFinite_restrictScalars_of_ringEquiv
+          (ULift.ringEquiv : ULift.{u + 1} Λ ≃+* Λ) M))
     _ h₁ _ (Iso.refl _)
   exact ObjectProperty.prop_of_iso
     (Stacks.ConstantSheaf.IsFiniteTypeLocallyConstantModuleSheaf.{u + 1, u + 1, 0}

@@ -277,7 +277,7 @@ theorem not_isZero_structureObject_specFppfOver {k : Type u} [Field k]
   let χ : R.obj.obj (Opposite.op (idChart B S hS T)) ⟶ RingCat.of k :=
     (forget₂ CommRingCat RingCat).map (Scheme.ΓSpecIso (.of k)).hom
   have hψχ : ∀ x : k, χ (ψ x) = x := fun x => by
-    show (Scheme.ΓSpecIso (.of k)).hom ((Scheme.ΓSpecIso (.of k)).inv x) = x
+    change (Scheme.ΓSpecIso (.of k)).hom ((Scheme.ΓSpecIso (.of k)).inv x) = x
     simp
   exact zero_ne_one (α := k) ((hψχ 0).symm.trans
     ((congrArg χ (Subsingleton.elim (ψ 0) (ψ 1))).trans (hψχ 1)))
@@ -456,7 +456,7 @@ theorem fieldFibreDualVanishingIsLE : FieldFibreDualVanishingIsLE B S hS := by
     exact DerivedCategory.TStructure.t.isLE_of_iso (e₁.symm ≪≫ eP).symm 0
   have hc : representedSpaceMap B S hS eV.inv ≫ φ = c := by
     refine ObjectProperty.hom_ext _ ?_
-    show yoneda.map eV.inv ≫ yoneda.map eV.hom ≫ c.hom = c.hom
+    change yoneda.map eV.inv ≫ yoneda.map eV.hom ≫ c.hom = c.hom
     exact (Category.assoc _ _ _).symm.trans ((congrArg (· ≫ c.hom)
       ((yoneda.map_comp _ _).symm.trans ((congrArg yoneda.map eV.inv_hom_id).trans
         (yoneda.map_id _)))).trans (Category.id_comp _))

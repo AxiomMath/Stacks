@@ -72,16 +72,16 @@ theorem milnorChainRestrict_apply_of_mem {T : Set X} {m : ℤ} {n : ℕ} (a : Mi
     {x : pointsOfDimension C p m} (hx : (x : X) ∈ T) :
     (milnorChainRestrict C p T m n a).1 x = a.1 x := by
   classical
-  show (if (x : X) ∈ T then a.1 x else 0) = a.1 x
-  rw [if_pos hx]
+  change (if (x : X) ∈ T then a.1 x else 0) = a.1 x
+  rw [ite_eq_left hx]
 
 /-- At a point outside `T`, the restriction of a chain to `T` has class zero. -/
 theorem milnorChainRestrict_apply_of_notMem {T : Set X} {m : ℤ} {n : ℕ}
     (a : MilnorChainGroup C p m n) {x : pointsOfDimension C p m} (hx : (x : X) ∉ T) :
     (milnorChainRestrict C p T m n a).1 x = 0 := by
   classical
-  show (if (x : X) ∈ T then a.1 x else 0) = 0
-  rw [if_neg hx]
+  change (if (x : X) ∈ T then a.1 x else 0) = 0
+  rw [ite_eq_right hx]
 
 /-- Restricting twice is restricting to the intersection. -/
 theorem milnorChainRestrict_milnorChainRestrict (T T' : Set X) (m : ℤ) (n : ℕ)

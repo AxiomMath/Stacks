@@ -196,12 +196,20 @@ lemma categoricalPullback_map_comp_map {𝒜₁ ℬ₁ 𝒞₁ 𝒜₂ ℬ₂ �
         (Functor.isoWhiskerRight b M' ≪≫ Functor.isoWhiskerLeft L b') := by
   refine CategoryTheory.Functor.ext
     (fun P => categoricalPullback_obj_ext rfl rfl ?_) (fun P Q f => ?_)
-  · simp
+  · simp only [Functor.comp_obj, CategoricalPullback.map_obj_fst, CategoricalPullback.map_obj_snd,
+      CategoricalPullback.map_obj_iso_hom, Functor.map_comp, Category.assoc, Iso.trans_inv,
+      Functor.isoWhiskerLeft_inv, Functor.isoWhiskerRight_inv, NatTrans.comp_app,
+      Functor.whiskerLeft_app, Functor.whiskerRight_app, Functor.comp_map, eqToHom_naturality,
+      eqToHom_refl, Category.id_comp]
     exact (Category.id_comp _).symm
   · refine CategoricalPullback.Hom.ext ?_ ?_
-    · simp [categoricalPullback_eqToHom_fst]
+    · simp only [Functor.comp_obj, CategoricalPullback.map_obj_fst, Functor.comp_map,
+        CategoricalPullback.map_map_fst, CategoricalPullback.comp_fst,
+        categoricalPullback_eqToHom_fst, eqToHom_naturality, eqToHom_refl, Category.id_comp]
       exact (Category.id_comp _).symm
-    · simp [categoricalPullback_eqToHom_snd]
+    · simp only [Functor.comp_obj, CategoricalPullback.map_obj_snd, Functor.comp_map,
+        CategoricalPullback.map_map_snd, CategoricalPullback.comp_snd,
+        categoricalPullback_eqToHom_snd, eqToHom_naturality, eqToHom_refl, Category.id_comp]
       exact (Category.id_comp _).symm
 
 /-- The two universe lifts cancel on objects. `CategoryTheory.AsSmall` is a definition rather
@@ -314,7 +322,7 @@ lemma twoFibreProductMap_comp {j k l : J} (s : j ⟶ k) (s' : k ⟶ l) :
         Functor.congr_obj (congrArg Cat.Hom.toFunctor (Z.map_comp s s')) P.snd) ?_
     rw [twoFibreProductMap_obj_iso_hom',
       Functor.congr_hom (congrArg Cat.Hom.toFunctor (Y.map_comp s s')) P.iso.hom]
-    show _ = eqToHom _ ≫ ((twoFibreProductMap α γ s').obj
+    change _ = eqToHom _ ≫ ((twoFibreProductMap α γ s').obj
       ((twoFibreProductMap α γ s).obj P)).iso.hom ≫ eqToHom _
     rw [twoFibreProductMap_obj_iso_hom', twoFibreProductMap_obj_iso_hom']
     simp only [Functor.comp_obj, Hom.comp_toFunctor, Functor.comp_map, Category.assoc,

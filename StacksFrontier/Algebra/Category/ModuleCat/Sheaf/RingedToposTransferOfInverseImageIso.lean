@@ -189,7 +189,7 @@ counit of `g₁⁻¹ ⊣ g₁_*` at `Z`. -/
 theorem transferCompPushforwardIso_hom_app (Z : X.Topos) :
     (transferCompPushforwardIso g₁ g₂ d).hom.app Z =
       g₂.toToposHom.pushforward.map (g₁.toToposHom.adj.counit.app Z) := by
-  show 𝟙 _ ≫ g₂.toToposHom.pushforward.map (g₁.toToposHom.adj.counit.app Z) ≫ 𝟙 _ = _
+  change 𝟙 _ ≫ g₂.toToposHom.pushforward.map (g₁.toToposHom.adj.counit.app Z) ≫ 𝟙 _ = _
   rw [Category.id_comp, Category.comp_id]
 
 omit [g₂.toToposHom.pushforward.IsEquivalence] in

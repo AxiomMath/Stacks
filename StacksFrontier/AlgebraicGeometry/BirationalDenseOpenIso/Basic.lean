@@ -108,7 +108,7 @@ private theorem isIso_morphismRestrict_of_isIso_resLE {X Y : Scheme.{u}} (f : X 
     rw [← f.coe_resLE_apply hUV x]
     exact congrArg Subtype.val hx
   refine ⟨⟨x.1, ?_⟩, ?_⟩
-  · show f x.1 ∈ W
+  · change f x.1 ∈ W
     rw [hxy]
     exact y.2
   · exact Subtype.ext ((morphismRestrict_base_coe f W _).trans hxy)

@@ -102,14 +102,14 @@ theorem componentRestrictionTensorIso_inv_naturality_left {A B : (S.totalRingedT
       ((sheafTensor (S.componentRingedTopos O n).O).map
           ((S.componentModulesRestriction O n).map f)).app
         ((S.componentModulesRestriction O n).obj M) := by
-    show _ ≫ ((sheafTensor (S.componentRingedTopos O n).O).obj _).map
+    change _ ≫ ((sheafTensor (S.componentRingedTopos O n).O).obj _).map
         ((S.componentModulesRestriction O n).map (𝟙 M)) = _
     simp only [Functor.map_id, Category.comp_id]
     rfl
   have e₂ : (Functor.uncurry.obj (sheafTensor (S.totalRingedTopos O).O)).map
         ((f, 𝟙 M) : (A, M) ⟶ (B, M)) =
       ((sheafTensor (S.totalRingedTopos O).O).map f).app M := by
-    show _ ≫ ((sheafTensor (S.totalRingedTopos O).O).obj _).map (𝟙 M) = _
+    change _ ≫ ((sheafTensor (S.totalRingedTopos O).O).obj _).map (𝟙 M) = _
     simp only [Functor.map_id, Category.comp_id]
   have h := (S.componentRestrictionTensorIso O n).inv.naturality
     (X := (A, M)) (Y := (B, M)) (f, 𝟙 M)

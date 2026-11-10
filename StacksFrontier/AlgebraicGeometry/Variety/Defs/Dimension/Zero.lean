@@ -91,7 +91,7 @@ theorem exists_iso_coproduct_spec_local_artinian_of_dimension_zero
       Category.assoc, Scheme.toSpecΓ_naturality f, ← Category.assoc,
       Scheme.fromSpecStalk_toSpecΓ, ← Spec.map_comp, ← SpecMap_ΓSpecIso_hom, ← Spec.map_comp]
     apply congrArg Spec.map
-    show (Scheme.ΓSpecIso (.of k)).hom ≫
+    change (Scheme.ΓSpecIso (.of k)).hom ≫
       ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫ X.presheaf.Γgerm x) = _
     simp [TopCat.Presheaf.Γgerm]
   have hfinite (x : X) : @Module.Finite k (A x) _ _ (instAlgebra x).toModule := by
@@ -108,8 +108,8 @@ theorem exists_iso_coproduct_spec_local_artinian_of_dimension_zero
   apply (cancel_epi (sigmaFromSpecStalk X)).mp
   simp only [Iso.symm_hom, asIso_inv, IsIso.hom_inv_id_assoc]
   apply Sigma.hom_ext; intro x
-  show _ = (Sigma.ι _ x ≫ Sigma.desc (fun x ↦ X.fromSpecStalk x)) ≫ f
-  simpa only [Category.assoc, Sigma.ι_desc] using hspec x
+  change _ = (Sigma.ι _ x ≫ Sigma.desc (fun x ↦ X.fromSpecStalk x)) ≫ f
+  simpa only [Category.assoc, Sigma.ι_comp_desc] using hspec x
 
 /-- A zero-dimensional scheme of finite type over a field is affine. -/
 @[stacks 06LH "affineness in the algebraic case"]

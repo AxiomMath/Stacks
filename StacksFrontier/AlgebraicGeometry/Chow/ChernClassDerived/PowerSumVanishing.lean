@@ -189,7 +189,7 @@ theorem homPart_eq_zero_iff (i : ℕ) (c : TotalChowClass C sX) :
     TotalChowClass.homComponent i c = 0 ↔ c i = 0 := by
   refine ⟨fun h ↦ ?_, fun h ↦ ext fun p ↦ ?_⟩
   · have := congrFun h i
-    rwa [TotalChowClass.homComponent_apply, if_pos rfl] at this
+    rwa [TotalChowClass.homComponent_apply, ite_eq_left rfl] at this
   · rw [TotalChowClass.homComponent_apply]
     split_ifs with hp
     · subst hp

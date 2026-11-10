@@ -309,7 +309,7 @@ private theorem exists_isLocalizationAway_atPrime_of_finite_primeSpectrum
   classical
   let T := {q : PrimeSpectrum A // ¬ q.asIdeal ≤ p}
   have hex (q : T) : ∃ x : A, x ∈ q.1.asIdeal ∧ x ∉ p :=
-    SetLike.not_le_iff_exists.mp q.2
+    IsConcreteLE.not_le_iff_exists.mp q.2
   choose x hx hxp using hex
   have := Fintype.ofFinite T
   let f := ∏ q : T, x q

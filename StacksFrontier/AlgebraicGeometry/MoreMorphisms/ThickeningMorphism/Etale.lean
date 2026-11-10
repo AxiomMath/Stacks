@@ -153,7 +153,7 @@ theorem etale_of_isKerBaseChange {i : X ⟶ X'} {f : X ⟶ Y} {f' : X' ⟶ Y'} {
   have hB : Function.Surjective (algebraMap Γ(X', U') Γ(X, i ⁻¹ᵁ U')) :=
     i.app_surjective U' hU'
   have hI : RingHom.ker (algebraMap Γ(Y', V') Γ(Y, j ⁻¹ᵁ V')) ^ 2 = ⊥ := by
-    show RingHom.ker (j.app V').hom ^ 2 = ⊥
+    change RingHom.ker (j.app V').hom ^ 2 = ⊥
     rw [← j.ker_apply ⟨V', hV'⟩]
     simpa using congrArg (fun K : Y'.IdealSheafData => K.ideal ⟨V', hV'⟩) hj
   let g : ↥(RingHom.ker (j.app V').hom) →ₗ[Γ(Y', V')] ↥(RingHom.ker (i.app U').hom) :=

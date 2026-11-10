@@ -72,7 +72,7 @@ public theorem exists_projection_eq_of_thickeningRestriction_eq_zero (m : ℕ)
       formalNeighborhoodProjection D (m + 1) a = z := by
   obtain ⟨a, ha⟩ := surjective_formalNeighborhoodProjection D hsurj (m + 1) z
   refine ⟨a, (mem_formalNeighborhoodFiltration_succ_iff D m a).2 ?_, ha⟩
-  show formalNeighborhoodProjection D m a = 0
+  change formalNeighborhoodProjection D m a = 0
   rwa [← thickeningRestriction_formalNeighborhoodProjection D m a, ha]
 
 /-! ### The action on a graded piece factors through the residue ring -/

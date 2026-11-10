@@ -348,7 +348,7 @@ theorem _root_.DerivedCategory.exists_isRelativePresentation_homologyFunctor_zer
   rw [map_sum, map_zero]
   have : ∀ j, Φ (c i j ≫ e j) = r i j ≫ s j := fun j => by
     rw [DerivedCategory.homologyFromSingleAddEquiv_apply, CategoryTheory.Functor.map_comp]
-    show ι.inv ≫ H.map (c i j) ≫ H.map (e j) = _
+    change ι.inv ≫ H.map (c i j) ≫ H.map (e j) = _
     rw [← Category.assoc, ← hHc, Category.assoc, hHe]
   simp only [this]
   exact hpres.1 i
@@ -552,11 +552,11 @@ theorem exists_isDegreeZeroPresentation (V : BigFppfOver B S hS)
   have hφ : IsEtale B S hS φ.hom := isEtale_of_isIso B S hS (yoneda.map eV.hom)
   have h₁ : φ ≫ φ' = 𝟙 Ys := by
     refine ObjectProperty.hom_ext _ ?_
-    show yoneda.map eV.hom ≫ yoneda.map eV.inv = 𝟙 _
+    change yoneda.map eV.hom ≫ yoneda.map eV.inv = 𝟙 _
     rw [← yoneda.map_comp, eV.hom_inv_id, yoneda.map_id]
   have h₂ : φ' ≫ φ = 𝟙 Vs := by
     refine ObjectProperty.hom_ext _ ?_
-    show yoneda.map eV.inv ≫ yoneda.map eV.hom = 𝟙 _
+    change yoneda.map eV.inv ≫ yoneda.map eV.hom = 𝟙 _
     rw [← yoneda.map_comp, eV.inv_hom_id, yoneda.map_id]
   let D := smallEtaleDerivedPullbackData B S hS
   let Ψ := D.pull φ

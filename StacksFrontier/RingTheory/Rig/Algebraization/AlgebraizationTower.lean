@@ -274,7 +274,7 @@ noncomputable def toCarrier (T : AlgebraizationTowerData I a B) (ha : a ∈ I) :
 theorem mk_toCarrier (T : AlgebraizationTowerData I a B) (ha : a ∈ I) (n : ℕ)
     (x : T.limit.carrier) :
     Ideal.Quotient.mk ((I.map (algebraMap A B)) ^ n) (T.toCarrier ha x) = T.levelMap ha n x := by
-  show Ideal.Quotient.mk _ ((AdicCompletion.ofAlgEquiv _).symm
+  change Ideal.Quotient.mk _ ((AdicCompletion.ofAlgEquiv _).symm
     (AdicCompletion.liftAlgHom _ (T.levelMap ha) (T.levelMap_compat ha) x)) = _
   rw [AdicCompletion.mk_ofAlgEquiv_symm, AdicCompletion.evalₐ_liftAlgHom]
 

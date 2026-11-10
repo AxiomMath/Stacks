@@ -102,7 +102,7 @@ def smallEtaleStalkAbEtaleModuleInverseImageIso (Λ : Type (u + 1)) [CommRing Λ
       (smallEtaleStalkAb (x.hom ≫ g)).obj
         ((_root_.Stacks.EtaleCohomology.etaleModuleForgetAb.{u, u + 1} Λ X).obj M) :=
   (smallEtaleStalkAb x.hom).mapIso
-      (asIso ((etaleModuleInverseImageForget.{u, u + 1} Λ g).natTrans.app M)).symm ≪≫
+      (asIso ((etaleModuleInverseImageForget.{u, u + 1} Λ g).app M)).symm ≪≫
     (smallEtaleStalkAb x.hom).mapIso
       (((etaleAbelianInverseImageDirectImageAdj.{u, u + 1} g).leftAdjointUniq
         (smallEtaleAdjunctionAb g)).app

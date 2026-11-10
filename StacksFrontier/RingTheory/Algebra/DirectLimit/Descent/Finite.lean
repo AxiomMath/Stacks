@@ -166,7 +166,7 @@ theorem IsDirectedColimit.tensor_right (S : Type*) [CommRing S] [Algebra R S]
       rw [hliftG, Module.DirectLimit.lift_of] at hm
       obtain ⟨j, hij, hfa⟩ := hcolim.exists_eq_zero a hm
       rw [← Module.DirectLimit.of_f (hij := hij)]
-      show (Module.DirectLimit.of R ι A Gf j) (f hij a) = 0
+      change (Module.DirectLimit.of R ι A Gf j) (f hij a) = 0
       rw [hfa, map_zero]
     set e : M ≃ₗ[R] L := LinearEquiv.ofBijective liftG ⟨hinj, hsurj⟩ with he
     have hkey : ∀ i, (e.symm.toLinearMap).comp (g i).toLinearMap
@@ -177,11 +177,11 @@ theorem IsDirectedColimit.tensor_right (S : Type*) [CommRing S] [Algebra R S]
       simp only [LinearMap.comp_apply]
       rw [show (g i).toLinearMap a = liftG (Module.DirectLimit.of R ι A Gf i a) from
         (by rw [hliftG, Module.DirectLimit.lift_of])]
-      show e.symm (e (Module.DirectLimit.of R ι A Gf i a)) = _
+      change e.symm (e (Module.DirectLimit.of R ι A Gf i a)) = _
       rw [e.symm_apply_apply]
     intro i z hz
     have hzg : tensorG S g i z = LinearMap.rTensor S (g i).toLinearMap z := by
-      show (Algebra.TensorProduct.map (g i) (AlgHom.id R S)) z = _
+      change (Algebra.TensorProduct.map (g i) (AlgHom.id R S)) z = _
       exact hmapR (g i) z
     have hstep : (TensorProduct.directLimitLeft Gf S)
         (LinearMap.rTensor S e.symm.toLinearMap (tensorG S g i z))
@@ -193,7 +193,7 @@ theorem IsDirectedColimit.tensor_right (S : Type*) [CommRing S] [Algebra R S]
     simp only [map_zero] at hstep
     obtain ⟨j, hij, hfz⟩ := Module.DirectLimit.of.zero_exact hstep.symm
     refine ⟨j, hij, ?_⟩
-    show (Algebra.TensorProduct.map (f hij) (AlgHom.id R S)) z = 0
+    change (Algebra.TensorProduct.map (f hij) (AlgHom.id R S)) z = 0
     rw [hmapRf (f hij) z]
     rwa [hGf] at hfz
 
@@ -205,7 +205,6 @@ private theorem adjoin_one_tmul_image_baseChange_eq_top (S : Type*) [CommRing S]
     (φ : B →ₐ[R] C) (t : Finset C) (ht' : @Algebra.adjoin B C _ _ φ.toAlgebra (↑t : Set C) = ⊤) :
     letI := (baseChange S φ).toRingHom.toAlgebra
     Algebra.adjoin (TensorProduct R S B) ((fun c => (1 : S) ⊗ₜ[R] c) '' (↑t : Set C)) = ⊤ := by
-
   let algBC : Algebra B C := φ.toAlgebra
   have tower1 : IsScalarTower R B C :=
     IsScalarTower.of_algebraMap_eq (fun r => (φ.commutes r).symm)
@@ -214,7 +213,7 @@ private theorem adjoin_one_tmul_image_baseChange_eq_top (S : Type*) [CommRing S]
   have tower2 : IsScalarTower R B (TensorProduct R S B) :=
     IsScalarTower.of_algebraMap_eq (fun r => by
       rw [RingHom.algebraMap_toAlgebra]
-      show algebraMap R (TensorProduct R S B) r =
+      change algebraMap R (TensorProduct R S B) r =
         Algebra.TensorProduct.includeRight (algebraMap R B r)
       rw [Algebra.TensorProduct.includeRight_apply, Algebra.TensorProduct.algebraMap_apply,
         Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one,
@@ -231,7 +230,7 @@ private theorem adjoin_one_tmul_image_baseChange_eq_top (S : Type*) [CommRing S]
     intro b
     rw [IsScalarTower.algebraMap_apply B (TensorProduct R S B) (TensorProduct R S C),
         RingHom.algebraMap_toAlgebra (R := B) (S := TensorProduct R S B)]
-    show Algebra.TensorProduct.includeRight (algebraMap B C b) =
+    change Algebra.TensorProduct.includeRight (algebraMap B C b) =
       (Algebra.TensorProduct.map (AlgHom.id R S) φ) (Algebra.TensorProduct.includeRight b)
     rw [Algebra.TensorProduct.includeRight_apply, Algebra.TensorProduct.includeRight_apply,
       Algebra.TensorProduct.map_tmul, AlgHom.id_apply]
@@ -252,12 +251,12 @@ private theorem adjoin_one_tmul_image_baseChange_eq_top (S : Type*) [CommRing S]
         refine ⟨(s ⊗ₜ[R] (1:B)) ⊗ₜ[B] c, ?_⟩
         show L ((s ⊗ₜ[R] (1:B)) ⊗ₜ[B] c) = s ⊗ₜ[R] c
         rw [Algebra.TensorProduct.lift_tmul]
-        show (algebraMap (TensorProduct R S B) (TensorProduct R S C)) (s ⊗ₜ[R] (1:B)) *
+        change (algebraMap (TensorProduct R S B) (TensorProduct R S C)) (s ⊗ₜ[R] (1:B)) *
           ((1:S) ⊗ₜ[R] c) = s ⊗ₜ[R] c
         have hsc : (algebraMap (TensorProduct R S B) (TensorProduct R S C)) (s ⊗ₜ[R] (1:B)) =
             s ⊗ₜ[R] (1:C) := by
           rw [RingHom.algebraMap_toAlgebra]
-          show (Algebra.TensorProduct.map (AlgHom.id R S) φ) (s ⊗ₜ[R] (1:B)) = s ⊗ₜ[R] (1:C)
+          change (Algebra.TensorProduct.map (AlgHom.id R S) φ) (s ⊗ₜ[R] (1:B)) = s ⊗ₜ[R] (1:C)
           rw [Algebra.TensorProduct.map_tmul, AlgHom.id_apply, map_one]
         rw [hsc, Algebra.TensorProduct.tmul_mul_tmul, one_mul, mul_one]
     | add x z hx hz =>
@@ -273,9 +272,9 @@ private theorem adjoin_one_tmul_image_baseChange_eq_top (S : Type*) [CommRing S]
     rw [Set.image_image]
     apply Set.image_congr
     intro c _
-    show L ((1 : TensorProduct R S B) ⊗ₜ[B] c) = (1 : S) ⊗ₜ[R] c
+    change L ((1 : TensorProduct R S B) ⊗ₜ[B] c) = (1 : S) ⊗ₜ[R] c
     rw [Algebra.TensorProduct.lift_tmul]
-    show (algebraMap (TensorProduct R S B) (TensorProduct R S C)) (1 : TensorProduct R S B) *
+    change (algebraMap (TensorProduct R S B) (TensorProduct R S C)) (1 : TensorProduct R S B) *
       ((1:S) ⊗ₜ[R] c) = (1:S) ⊗ₜ[R] c
     rw [map_one, one_mul]
   have hmap := AlgHom.map_adjoin L
@@ -373,12 +372,12 @@ theorem descend_isIntegralElem
     intro k
     apply RingHom.ext
     intro x
-    show gT k (ψ k x) = ψL (gS k x)
+    change gT k (ψ k x) = ψL (gS k x)
     rw [hψcomp]
   set e : T i₁ := Polynomial.eval₂ (ψ i₁).toRingHom (fT hi₀i₁ y) Q with he
   have hge : gT i₁ e = 0 := by
     rw [he]
-    show (gT i₁ : T i₁ →+* TL) (Polynomial.eval₂ (ψ i₁).toRingHom (fT hi₀i₁ y) Q) = 0
+    change (gT i₁ : T i₁ →+* TL) (Polynomial.eval₂ (ψ i₁).toRingHom (fT hi₀i₁ y) Q) = 0
     rw [Polynomial.hom_eval₂]
     simp only [AlgHom.toRingHom_eq_coe]
     rw [hcompS i₁]
@@ -391,7 +390,7 @@ theorem descend_isIntegralElem
       = (↑(ψ i) : S i →+* T i).comp (↑(fS hi₁i) : S i₁ →+* S i) := by
     apply RingHom.ext
     intro x
-    show fT hi₁i (ψ i₁ x) = ψ i (fS hi₁i x)
+    change fT hi₁i (ψ i₁ x) = ψ i (fS hi₁i x)
     rw [hψf hi₁i x]
   have hfTy : (↑(fT hi₁i) : T i₁ →+* T i) (fT hi₀i₁ y) = fT (le_trans hi₀i₁ hi₁i) y :=
     hT.map_comp hi₀i₁ hi₁i y
@@ -425,7 +424,7 @@ theorem map_isIntegralElem
       = (↑(ψ i) : S i →+* T i).comp (↑(fS hi) : S i₁ →+* S i) := by
     apply RingHom.ext
     intro x
-    show fT hi (ψ i₁ x) = ψ i (fS hi x)
+    change fT hi (ψ i₁ x) = ψ i (fS hi x)
     rw [hψf hi x]
   rw [Polynomial.eval₂_map]
   simp only [AlgHom.toRingHom_eq_coe]
@@ -569,7 +568,7 @@ theorem finite_baseChange_of_colimit_finite
       rw [Finset.coe_image, Set.image_image]
       apply Set.image_congr
       intro c _
-      show tensorF C f hi ((1 : A (Classical.arbitrary ι)) ⊗ₜ[R] c) = (1 : A i) ⊗ₜ[R] c
+      change tensorF C f hi ((1 : A (Classical.arbitrary ι)) ⊗ₜ[R] c) = (1 : A i) ⊗ₜ[R] c
       rw [tensorF, Algebra.TensorProduct.map_tmul, AlgHom.id_apply, map_one]
     rw [hsetimg]
     exact adjoin_one_tmul_image_baseChange_eq_top (A i) φ t ht'

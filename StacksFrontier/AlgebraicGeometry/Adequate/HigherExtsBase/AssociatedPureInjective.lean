@@ -294,7 +294,7 @@ public theorem exact_associatedAdequate_map {X Y Z : ModuleCat.{u} A} (f : X ⟶
   have := additive_associatedAdequate B
   have hfg0 : f ≫ g = 0 := ModuleCat.hom_ext hfg.linearMap_comp_eq_zero
   let S0 : ShortComplex (ModuleCat.{u} A) := ShortComplex.mk f g hfg0
-  show (S0.map (associatedAdequate B)).Exact
+  change (S0.map (associatedAdequate B)).Exact
   rw [← ShortComplex.exact_map_iff_of_faithful _ (adequateSections B), ← ShortComplex.map_comp]
   exact (ShortComplex.exact_iff_of_iso (S0.mapNatIso (moduleExtensionOnIsoAdequateSections B))).1
     (exact_moduleExtensionOn_map B f g _ hQ)
@@ -341,9 +341,9 @@ public theorem injective_associatedAdequate_obj (I : ModuleCat.{u} A)
   have hr' : φ ≫ ModuleCat.ofHom r = 𝟙 I := ModuleCat.hom_ext hr
   let s : P ⟶ (associatedAdequate B).obj I := m ≫ (associatedAdequate B).map (ModuleCat.ofHom r)
   have hsplit : j ≫ s = 𝟙 _ := by
-    show j ≫ (m ≫ _) = _
+    change j ≫ (m ≫ _) = _
     rw [← Category.assoc]
-    show k ≫ _ = _
+    change k ≫ _ = _
     rw [← hkφ, ← Functor.map_comp, hr']
     exact (associatedAdequate B).map_id I
   refine ⟨pushout.inl f g ≫ s, ?_⟩

@@ -493,7 +493,8 @@ theorem exact_restrictScalars {R S : Type u} [Ring R] [Ring S] (φ : R →+* S) 
     PreservesFiniteLimits (ModuleCat.restrictScalars.{u} φ) ∧
       PreservesFiniteColimits (ModuleCat.restrictScalars.{u} φ) :=
   ((Functor.exact_tfae (ModuleCat.restrictScalars.{u} φ)).out 2 4).mp fun K hK => by
-    rwa [ShortComplex.ShortExact.moduleCat_exact_iff_function_exact] at hK ⊢
+    rw [ShortComplex.ShortExact.moduleCat_exact_iff_function_exact] at hK ⊢
+    assumption
 
 /-- The global sections functor `constMapSections k y hy` is additive. -/
 instance constMapSections_additive : (constMapSections k y hy).Additive := by
@@ -599,7 +600,7 @@ theorem isIso_mapPlus_app_of_components
   have hcomplex : IsIso ((τ.mapHomologicalComplex (ComplexShape.up ℤ)).app K.obj.as) :=
     HomologicalComplex.Hom.isIso_of_components _
   have hhom : IsIso ((τ.mapHomotopyCategory (ComplexShape.up ℤ)).app K.obj) := by
-    show IsIso ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
+    change IsIso ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
       ((τ.mapHomologicalComplex (ComplexShape.up ℤ)).app K.obj.as))
     infer_instance
   have : IsIso ((HomotopyCategory.Plus.ι B).map

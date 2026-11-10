@@ -355,7 +355,7 @@ omit [CompactSpace S] in
 /-- The composite `U ⟶ D₊(T₀) ⟶ Pⁿ_V ⟶ V` is the morphism `U ⟶ V` induced by `f`. -/
 theorem ι_comp : ι f hU hUV p ≫ chartι Γ(Y.left, V) p.variableCount ≫ π f hV hUV p =
     (FTS.homOfAffineOpens f hU hV hUV).left := by
-  show (chartImmersion U hU p ≫ (chartIsoAffineSpace Γ(Y.left, V) p.variableCount).inv) ≫
+  change (chartImmersion U hU p ≫ (chartIsoAffineSpace Γ(Y.left, V) p.variableCount).inv) ≫
       chartι Γ(Y.left, V) p.variableCount ≫ projToSpecCoeff Γ(Y.left, V) p.variableCount ≫
         hV.isoSpec.inv = f.left.resLE V U hUV
   rw [Category.assoc, ← Category.assoc (chartι _ _), ← chartIsoAffineSpace_hom_comp,

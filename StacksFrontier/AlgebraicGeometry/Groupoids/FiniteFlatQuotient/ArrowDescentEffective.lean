@@ -100,7 +100,7 @@ variable {G : GroupoidScheme S} {Ub : Over S} (q : G.objects ⟶ Ub)
 /-- The morphism `U ×_S U ⟶ Ū ×_S Ū` induced by a surjective `q` is surjective. -/
 instance surjective_pairCover [Surjective q.left] : Surjective (pairCover q) :=
   have : MorphismProperty.IsStableUnderComposition (@Surjective.{u}) :=
-    ⟨fun _ _ hf hg ↦ by letI := hf; letI := hg; infer_instance⟩
+    ⟨fun _ _ hf hg ↦ by let := hf; let := hg; infer_instance⟩
   prodMap_left_mem (P := @Surjective.{u}) q q inferInstance inferInstance
 
 /-- The morphism `U ×_S U ⟶ Ū ×_S Ū` induced by a finite locally free `q` is flat. -/

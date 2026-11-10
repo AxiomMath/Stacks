@@ -787,7 +787,6 @@ Mathlib's `CommAlgCat.FiniteEtale.equivOfIsSepClosed`. See the module docstring.
   sga "7 XIII 1.2.1" "the equivalence",
   ega "IV 18.3.2" "local, I = maximal ideal",
   ega "IV 18.5.15" "henselian local ring",
-  sga "1 IX 1.8" "more general",
   sga "3 VIIB 1.6.E" "(b), special case",
   sga "7 IX 2.2.4" "more general"]
 public instance CommAlgCat.FiniteEtale.isEquivalence_baseChange_residueField (R : Type u)

@@ -92,7 +92,7 @@ public lemma idealPowerMultiple_le_iff {X : Scheme.{u}} (I : X.IdealSheafData)
         I.ideal U ^ n • (⊤ : Submodule Γ(X, U) Γ(M, U)) ≤
       N.toSubmodule.obj (op U.1) := by
   refine ⟨fun h U ↦ le_trans ?_ (h (op U.1)), fun h ↦ sInf_le h⟩
-  show _ ≤ (sInf ((fun P : M.Submodule => P.toSubmodule) ''
+  change _ ≤ (sInf ((fun P : M.Submodule => P.toSubmodule) ''
     {P : M.Submodule | ∀ V : X.affineOpens,
       I.ideal V ^ n • (⊤ : Submodule Γ(X, V) Γ(M, V)) ≤
         P.toSubmodule.obj (op V.1)})).obj (op U.1)

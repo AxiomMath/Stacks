@@ -70,7 +70,7 @@ theorem lsBiderivation_neg (x : (𝒫).left.obj (op ⦋1⦌)) :
 theorem lsSection_mem_ker {p : (𝒫).left.obj (op ⦋0⦌)}
     (hp : p ∈ CommAlgCat.augmentationIdeal A (CommAlgCat.of A B) (op ⦋0⦌)) :
     P.lsSection.toRingHom p ∈ P.ker := by
-  show algebraMap P.Ring B (P.lsSection p) = 0
+  change algebraMap P.Ring B (P.lsSection p) = 0
   rw [algebraMap_lsSection]
   exact hp
 
@@ -165,7 +165,7 @@ theorem augmentation_lsRetraction (x : P.Ring) :
 /-- `φ : P → P₀` maps `I` into the augmentation ideal `J₀`. -/
 theorem lsRetraction_mem {x : P.Ring} (hx : x ∈ P.ker) :
     P.lsRetraction.toRingHom x ∈ CommAlgCat.augmentationIdeal A (CommAlgCat.of A B) (op ⦋0⦌) := by
-  show (𝒫).hom.app (op ⦋0⦌) (P.lsRetraction x) = 0
+  change (𝒫).hom.app (op ⦋0⦌) (P.lsRetraction x) = 0
   rw [augmentation_lsRetraction]
   exact hx
 
@@ -177,7 +177,7 @@ theorem kerTensorRelation_idealTensorMap_lsSection_comp (ξ : P.ker ⊗[P.Ring] 
   have h := idealTensorMap_sub_mem_antisymm (P.lsSection.comp P.lsRetraction) (AlgHom.id A P.Ring)
     (fun a ha => P.lsSection_mem_ker (P.lsRetraction_mem ha)) (fun a ha => ha)
     (fun i => by
-      show algebraMap P.Ring B _ = 0
+      change algebraMap P.Ring B _ = 0
       rw [map_sub, AlgHom.comp_apply, algebraMap_lsSection, augmentation_lsRetraction,
         AlgHom.id_apply, sub_self]) ξ hξ
   have h' := kerTensorRelation_antisymm P h
@@ -210,20 +210,20 @@ theorem squareClass_idealTensorMap_lsRetraction_comp
       MvPolynomial.algHom_ext fun b => h b
     simpa using congrArg (fun k => k (e a)) this
   have hE₀ : ∀ a, (𝒫).left.δ 0 (E a) = φ₁ a := hext (((𝒫).left.δ 0).hom.comp E) φ₁ fun b => by
-    show (𝒫).left.δ 0 (E (e.symm (MvPolynomial.X b))) = _
-    simp only [E, AlgHom.comp_apply, AlgEquiv.coe_algHom,
+    change (𝒫).left.δ 0 (E (e.symm (MvPolynomial.X b))) = _
+    simp only [E, AlgHom.comp_apply, AlgEquiv.coe_toAlgHom,
       AlgEquiv.apply_symm_apply, MvPolynomial.aeval_X, map_add, map_sub,
       CommAlgCat.standardResolution_δ_zero_X, hs0]
     abel
   have hE₁ : ∀ a, (𝒫).left.δ 1 (E a) = a := hext (((𝒫).left.δ 1).hom.comp E) (AlgHom.id A _)
     fun b => by
-    show (𝒫).left.δ 1 (E (e.symm (MvPolynomial.X b))) = _
-    simp only [E, AlgHom.comp_apply, AlgEquiv.coe_algHom,
+    change (𝒫).left.δ 1 (E (e.symm (MvPolynomial.X b))) = _
+    simp only [E, AlgHom.comp_apply, AlgEquiv.coe_toAlgHom,
       AlgEquiv.apply_symm_apply, MvPolynomial.aeval_X, map_add, map_sub,
       CommAlgCat.standardResolution_δ_one_X, hs1, AlgHom.id_apply]
     have : CommAlgCat.standardResolutionAugmentationHom A (CommAlgCat.of A B) (op ⦋0⦌) (φ₁ (V b)) =
         CommAlgCat.standardResolutionAugmentationHom A (CommAlgCat.of A B) (op ⦋0⦌) (V b) := by
-      show (𝒫).hom.app (op ⦋0⦌) (P.lsRetraction (P.lsSection (V b))) =
+      change (𝒫).hom.app (op ⦋0⦌) (P.lsRetraction (P.lsSection (V b))) =
         (𝒫).hom.app (op ⦋0⦌) (V b)
       rw [augmentation_lsRetraction, algebraMap_lsSection]
     rw [this, sub_self, zero_add]
@@ -275,7 +275,7 @@ theorem exists_conormal_representative
   rw [conormalMooreComplex_d_two_one] at hc
   have hz : CommAlgCat.faceSumTwo A _ g ∈ CommAlgCat.augmentationIdeal A (CommAlgCat.of A B)
       (op ⦋1⦌) := by
-    show (𝒫).hom.app (op ⦋1⦌) _ = 0
+    change (𝒫).hom.app (op ⦋1⦌) _ = 0
     rw [augmentation_faceSumTwo]
     exact hg
   have e : ((conormalSimplicialModule A (CommAlgCat.of A B)).δ (0 : Fin 3) -
@@ -291,7 +291,7 @@ theorem exists_conormal_representative
       ⟨_, CommAlgCat.delta_mem_augmentationIdeal A _ 1 2 g hg⟩ ⟨_, hz⟩ rfl rfl rfl rfl
   have e' := e.symm.trans hc
   have e'' := (Algebra.Extension.Cotangent.mk_eq_zero_iff _).1 e'
-  show CommAlgCat.faceSumTwo A _ g ∈ (conormalExtension A (CommAlgCat.of A B) (op ⦋1⦌)).ker ^ 2
+  change CommAlgCat.faceSumTwo A _ g ∈ (conormalExtension A (CommAlgCat.of A B) (op ⦋1⦌)).ker ^ 2
   exact e''
 
 local notation "τ" n => CommAlgCat.cotangentTermDifferential A (CommAlgCat.of A B) (op ⦋n⦌)
@@ -312,7 +312,7 @@ theorem cotangentTermDifferential_eq_zero_of_mem_sq (n : ℕ) {u : (𝒫).left.o
   rw [pow_two] at hu
   refine Submodule.mul_induction_on hu (fun a ha b hb => ?_) (fun x y hx hy => ?_)
   · rw [CommAlgCat.cotangentTermDifferential_mul]
-    show (𝒫).hom.app (op ⦋n⦌) a • _ + (𝒫).hom.app (op ⦋n⦌) b • _ = 0
+    change (𝒫).hom.app (op ⦋n⦌) a • _ + (𝒫).hom.app (op ⦋n⦌) b • _ = 0
     rw [show (𝒫).hom.app (op ⦋n⦌) a = 0 from ha, show (𝒫).hom.app (op ⦋n⦌) b = 0 from hb,
       zero_smul, zero_smul, add_zero]
   · rw [CommAlgCat.cotangentTermDifferential_add, hx, hy, add_zero]
@@ -329,7 +329,7 @@ theorem cotangentMooreComplex_d_two_one_differential (p : (𝒫).left.obj (op �
   have hδ : ∀ i : Fin 3, ((CommAlgCat.cotangentSimplicialModule A (CommAlgCat.of A B)).object.δ i)
       ((τ 2) p) = (τ 1) ((𝒫).left.δ i p) := fun i =>
     CommAlgCat.cotangentSimplicialModule_map_differential A _ _ p
-  show ((CommAlgCat.cotangentSimplicialModule A (CommAlgCat.of A B)).object.δ 0) ((τ 2) p) +
+  change ((CommAlgCat.cotangentSimplicialModule A (CommAlgCat.of A B)).object.δ 0) ((τ 2) p) +
       -((CommAlgCat.cotangentSimplicialModule A (CommAlgCat.of A B)).object.δ 1) ((τ 2) p) +
       ((CommAlgCat.cotangentSimplicialModule A (CommAlgCat.of A B)).object.δ 2) ((τ 2) p) = _
   rw [hδ, hδ, hδ, CommAlgCat.faceSumTwo_apply, CommAlgCat.cotangentTermDifferential_add,
@@ -348,7 +348,7 @@ theorem cotangentMooreComplex_d_three_two_differential (p : (𝒫).left.obj (op 
   have hδ : ∀ i : Fin 4, ((CommAlgCat.cotangentSimplicialModule A (CommAlgCat.of A B)).object.δ i)
       ((τ 3) p) = (τ 2) ((𝒫).left.δ i p) := fun i =>
     CommAlgCat.cotangentSimplicialModule_map_differential A _ _ p
-  show (-1 : ℤ) ^ (0 : ℕ) • ((CommAlgCat.cotangentSimplicialModule A _).object.δ 0) ((τ 3) p) +
+  change (-1 : ℤ) ^ (0 : ℕ) • ((CommAlgCat.cotangentSimplicialModule A _).object.δ 0) ((τ 3) p) +
       (-1 : ℤ) ^ (1 : ℕ) • ((CommAlgCat.cotangentSimplicialModule A _).object.δ 1) ((τ 3) p) +
       (-1 : ℤ) ^ (2 : ℕ) • ((CommAlgCat.cotangentSimplicialModule A _).object.δ 2) ((τ 3) p) +
       (-1 : ℤ) ^ (3 : ℕ) • ((CommAlgCat.cotangentSimplicialModule A _).object.δ 3) ((τ 3) p) = _
@@ -449,7 +449,7 @@ theorem exists_cycle_of_relation (r : T →₀ P.Ring) (hr : relationMap P r = 0
   obtain ⟨g, hg⟩ := CommAlgCat.standardResolution_exists_of_delta_sub_delta_eq_zero A _ z hδ
   have hgz : CommAlgCat.faceSumTwo A _ g = z := hg
   refine ⟨g, ?_, hgz ▸ hzJ, ?_⟩
-  · show (𝒫).hom.app (op ⦋2⦌) g = 0
+  · change (𝒫).hom.app (op ⦋2⦌) g = 0
     rw [← augmentation_faceSumTwo, hgz]
     exact Ideal.pow_le_self two_ne_zero hzJ
   · rw [hgz, hz, lsBiderivation_sum_contract, ← hS, ← hξμ,

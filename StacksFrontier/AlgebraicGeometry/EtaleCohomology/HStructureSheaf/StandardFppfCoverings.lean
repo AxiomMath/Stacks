@@ -85,7 +85,7 @@ instance fppfPrecoverage_hasIsos : (fppfPrecoverage B S hS).HasIsos where
     refine ⟨⟨PUnit.{u + 2}, fun _ ↦ X, fun _ ↦ f⟩, Presieve.ofArrows_pUnit _, ?_⟩
     have : IsIso ((BigHOver.toScheme B S hS).map f) := inferInstance
     have h := Scheme.Hom.singleton_mem_fppfPrecoverage ((BigHOver.toScheme B S hS).map f)
-    simpa [PreZeroHypercover.presieve₀, PreZeroHypercover.map, Presieve.ofArrows_pUnit] using h
+    simp [PreZeroHypercover.presieve₀, PreZeroHypercover.map, Presieve.ofArrows_pUnit]
 
 /-- **Covering sieves of the fppf topology.** A sieve of the big h category over `S` covers in the
 fppf topology exactly when it contains the presieve of a family of the site whose underlying
@@ -158,7 +158,7 @@ theorem IsStandardFppf.sieve₀_mem_fppfTopology {U : BigHOver B S hS}
       Scheme.fppfPrecoverage ((BigHOver.toScheme B S hS).obj U) := by
     have h₁ := hstd.ofArrows_mem_precoverage .fppf _ _
     rw [Scheme.ofArrows_mem_precoverage_iff] at h₁
-    show Presieve.ofArrows (fun i : ULift.{u + 1} E.I₀ ↦ (BigHOver.toScheme B S hS).obj
+    change Presieve.ofArrows (fun i : ULift.{u + 1} E.I₀ ↦ (BigHOver.toScheme B S hS).obj
         (E.X i.down)) (fun i ↦ (BigHOver.toScheme B S hS).map (E.f i.down)) ∈
       Scheme.precoverage (coveringMorphismProperty .fppf) _
     rw [Scheme.ofArrows_mem_precoverage_iff]
@@ -228,7 +228,7 @@ theorem exists_isStandardFppf_sieve₀_le {U : BigHOver B S hS}
       have hEj : (E.X j).hom.hom = (E.f j).left.hom ≫ U.hom.hom := by
         rw [← Over.w (E.f j)]
         rfl
-      show r.h₀ (ix i) ≫ (E.X j).hom.hom = W.f (ix i) ≫ U.hom.hom
+      change r.h₀ (ix i) ≫ (E.X j).hom.hom = W.f (ix i) ≫ U.hom.hom
       rw [hEj]
       exact (Category.assoc _ _ _).symm.trans (congrArg (· ≫ (Over.hom U).hom) hw))
   have hfac : a ≫ E.f j = (standardFppfHypercover B S hS hW').f i := by

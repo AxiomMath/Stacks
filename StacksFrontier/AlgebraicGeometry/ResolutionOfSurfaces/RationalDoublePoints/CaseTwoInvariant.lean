@@ -54,6 +54,7 @@ def HasDoubleLineRelationUnit (B : Type*) [CommRing B] [IsLocalRing B] (w : Fin 
   Ideal.span (Set.range w) = maximalIdeal B ∧ ∃ F f : B, IsUnit f ∧
     F - f * (w 1 * w 1) ∈ Ideal.span {w 0, w 2} * maximalIdeal B ∧ w 2 * w 2 = w 0 * F
 
+omit [IsLocalRing B] in
 /-- The span of a family of three elements. -/
 theorem span_range_fin_three (w : Fin 3 → B) :
     Ideal.span (Set.range w) = Ideal.span {w 0, w 1, w 2} := by
@@ -139,6 +140,7 @@ theorem exists_add_mul_sq_mem_of_not_isCaseOne (hII : ¬ IsCaseOne B) (w : Fin 3
     · rw [← residue_eq_zero_iff, map_add, map_mul, hμ, map_ofNat]
       linear_combination h02 + (-(2 * l 0 * (l 2)⁻¹)) * h22 + (-(2 * k * l 0 * l 2)) * hinv
 
+omit [IsLocalRing B] in
 /-- Replacing `w₃` by `w₃ + μw₁` does not change the span. -/
 private theorem span_range_add_mul_eq (w : Fin 3 → B) (μ : B) :
     Ideal.span (Set.range ![w 0, w 1, w 2 + μ * w 0]) = Ideal.span (Set.range w) := by
@@ -207,6 +209,7 @@ theorem isRegularLocalRing_of_span_triple_of_mem_sq [IsNoetherianRing B]
     simp only [Set.insert_subset_iff, Set.singleton_subset_iff, SetLike.mem_coe]
     exact ⟨hz₁, hz₂⟩
 
+omit [IsLocalRing B] in
 /-- An element of `(a, b)·I` is `aα + bβ` with `α, β ∈ I`. -/
 theorem exists_eq_of_mem_span_pair_mul {I : Ideal B} {a b z : B}
     (hz : z ∈ Ideal.span {a, b} * I) : ∃ α ∈ I, ∃ β ∈ I, z = a * α + b * β := by

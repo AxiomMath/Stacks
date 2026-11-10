@@ -132,7 +132,7 @@ theorem mem_range_of_isInducedByPullback (sq : IsPullback i f g i')
         (immersionAmbientι B S hS i' hi').hom =
         (immersionAmbientPreimageι B S hS i' hi' g).hom ≫ g.hom :=
       congrArg (fun k => k.hom) (immersionAmbientPreimageMap_comp_immersionAmbientι B S hS i' hi' g)
-    show (T.1.hom ≫ (immersionAmbientPreimageι B S hS i' hi' g).hom) ≫ g.hom =
+    change (T.1.hom ≫ (immersionAmbientPreimageι B S hS i' hi' g).hom) ≫ g.hom =
       yoneda.map q ≫ V.1.hom ≫ (immersionAmbientι B S hS i' hi').hom
     rw [Category.assoc, ← h₁, ← Category.assoc, ← hq, Category.assoc]
   let d : ChartDiagram B S hS X.1 X'.1 g.hom :=

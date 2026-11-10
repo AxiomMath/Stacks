@@ -56,7 +56,7 @@ theorem representedSpaceMap_chart_comm :
     (yonedaIdentityNeighborhood T x).chart.obj.hom ≫ (representedSpaceMap B S hS g).hom =
       yoneda.map g ≫ (yonedaIdentityNeighborhood T'
         (geometricPointMap (representedSpaceMap B S hS g).hom x)).chart.obj.hom := by
-  show 𝟙 _ ≫ yoneda.map g = yoneda.map g ≫ 𝟙 _
+  change 𝟙 _ ≫ yoneda.map g = yoneda.map g ≫ 𝟙 _
   simp
 
 /-- The identity chart of `yoneda.obj T'`, pointed by the image of the lift of `x̄`. -/
@@ -118,7 +118,7 @@ theorem faithfullyFlat_representedStalkBaseChangeMap :
       etaleLocalRing B S hS (yoneda.obj T) x :=
     { p.toAddEquiv with
       map_smul' := fun r z => by
-        show p ((representedStalkBaseChangeMap x) r * z) = c r * p z
+        change p ((representedStalkBaseChangeMap x) r * z) = c r * p z
         rw [map_mul]
         exact congrArg (· * p z) (p.apply_symm_apply (c r)) }
   exact Module.FaithfullyFlat.of_linearEquiv
@@ -208,7 +208,7 @@ theorem exists_representedPoint_eq
     Spec.map (CommRingCat.ofHom (algebraMap κ (AlgebraicClosure κ))) ≫
       (representedSchemeRepresentedZariskiRingedToposHom B S hS T).fromSpecResidueField y
   refine ⟨geometricPointOfSpecHom B S hS T hΩ (σ ≫ B.inclusion.map T.hom) σ rfl, ?_⟩
-  show σ.base (IsLocalRing.closedPoint (AlgebraicClosure κ)) = y
+  change σ.base (IsLocalRing.closedPoint (AlgebraicClosure κ)) = y
   exact closedPoint_algebraicClosure_residueField_map y
 
 /-- **The étale side of Stacks 0DK7, at the geometric points.**  An object of `D(h⁻¹𝒪)` has Tor
@@ -353,7 +353,7 @@ theorem exists_geometricFiber_chartPoint_eq (V : SmallEtale B S hS (yoneda.obj T
   let x := geometricPointOfSpecHom B S hS T hΩ tb (σ ≫ representedChartSchemeMap V) rfl
   let p₁ : x.val.siteObject ⟶ V.obj.left := Over.homMk (ObjectProperty.homMk σ) (by
     apply ObjectProperty.hom_ext
-    show σ ≫ (V.obj.left.hom).hom = (σ ≫ representedChartSchemeMap V) ≫ (T.hom).hom
+    change σ ≫ (V.obj.left.hom).hom = (σ ≫ representedChartSchemeMap V) ≫ (T.hom).hom
     rw [Category.assoc]
     exact congrArg (fun k => σ ≫ k.hom) (Over.w (representedChartMap V)).symm)
   have hp : V.obj.hom.app (op x.val.siteObject) p₁ = x.val.value := by

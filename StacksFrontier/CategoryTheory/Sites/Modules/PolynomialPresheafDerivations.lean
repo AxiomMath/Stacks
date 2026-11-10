@@ -183,7 +183,7 @@ lemma exists_derivation_comp_of_isLocallyBijective
       (J.intersection_covering (Presheaf.imageSieve_mem J α x)
         (Presheaf.imageSieve_mem J α y))
     rintro Y g ⟨⟨x₀, hx₀⟩, ⟨y₀, hy₀⟩⟩
-    show M.val.map g.op _ = M.val.map g.op _
+    change M.val.map g.op _ = M.val.map g.op _
     have hprod : Q.obj.map g.op (x * y) = α.app _ (x₀ * y₀) := by
       rw [map_mul, ← hx₀, ← hy₀, map_mul]
     have hy' : M.val.map g.op (δ X y) = D.d y₀ :=
@@ -272,7 +272,7 @@ lemma derivation_ext_of_polynomialVariable
   ext X x
   apply M.isSheaf.isSeparated _ _ (Presheaf.imageSieve_mem J α x)
   rintro Y f ⟨p, hpx⟩
-  show M.val.map f.op (D₁.d x) = M.val.map f.op (D₂.d x)
+  change M.val.map f.op (D₁.d x) = M.val.map f.op (D₂.d x)
   exact (D₁.d_map f.op x).symm.trans
     ((congrArg D₁.d hpx.symm).trans ((hp _ p).trans
       ((congrArg D₂.d hpx).trans (D₂.d_map f.op x))))

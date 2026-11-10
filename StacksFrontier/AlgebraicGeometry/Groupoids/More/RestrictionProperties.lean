@@ -163,7 +163,7 @@ public theorem restriction_target_mem {S : Scheme.{u}} (G : GroupoidScheme S) {U
     P R.groupoid.target.left := by
   rw [← R.groupoid.source_inverse]
   have : IsIso R.groupoid.inverse.left := groupoidInverse_left_isIso R.groupoid
-  show P (R.groupoid.inverse.left ≫ R.groupoid.source.left)
+  change P (R.groupoid.inverse.left ≫ R.groupoid.source.left)
   rw [P.cancel_left_of_respectsIso]
   exact restriction_source_mem G g R P hP
 

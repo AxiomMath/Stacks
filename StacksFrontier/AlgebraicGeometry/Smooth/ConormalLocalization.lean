@@ -139,7 +139,7 @@ theorem isLocalizedModule_ker_of_isLocalization_away [IsLocalization.Away g A'g]
     · rw [Submonoid.smul_def]
       refine Subtype.ext ?_
       rw [hψ, coe_smul_ker]
-      show algebraMap A' A'g (g ^ (m + k)) * (y : A'g) = algebraMap A' A'g (g ^ m * x)
+      change algebraMap A' A'g (g ^ (m + k)) * (y : A'g) = algebraMap A' A'g (g ^ m * x)
       rw [map_mul, ← hx, map_pow, map_pow, pow_add]
       ring
   · intro x z hxz

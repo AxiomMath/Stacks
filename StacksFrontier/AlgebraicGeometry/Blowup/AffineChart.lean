@@ -264,7 +264,7 @@ theorem fromZeroRingHom_eq_reesAwayMk (ha : a ∈ I) (z : reesGrading I 0) :
       = reesAwayMk I a ha 0 ⟨((z : reesAlgebra I) : R[X]).coeff 0, (z : reesAlgebra I).2 0⟩ := by
   apply HomogeneousLocalization.val_injective
   rw [reesAwayMk, Away.val_mk]
-  show Localization.mk (z : reesAlgebra I) 1 = _
+  change Localization.mk (z : reesAlgebra I) 1 = _
   congr 1
   refine Subtype.ext ?_
   rw [coe_reesMonomial]
@@ -284,7 +284,7 @@ theorem reesAwayEquivAffineBlowup_fromZeroRingHom (ha : a ∈ I) (z : reesGradin
   refine Subtype.ext ?_
   rw [fromZeroRingHom_eq_reesAwayMk, coe_reesAwayEquivAffineBlowup_reesAwayMk,
     reesGradingZeroEquiv_symm_apply]
-  show _ = algebraMap R (Localization.Away a) _
+  change _ = algebraMap R (Localization.Away a) _
   rw [← Localization.mk_one_eq_algebraMap]
   congr 1
   exact Subtype.ext (by simp)
@@ -320,7 +320,7 @@ theorem affineBlowup_idealMap_eq_span (ha : a ∈ I) :
     refine ⟨⟨Localization.mk y ⟨a, Submonoid.mem_powers a⟩,
       Algebra.subset_adjoin ⟨y, hy, rfl⟩⟩, ?_⟩
     apply Subtype.coe_injective
-    show algebraMap R (Localization.Away a) y
+    change algebraMap R (Localization.Away a) y
       = algebraMap R (Localization.Away a) a * Localization.mk y ⟨a, Submonoid.mem_powers a⟩
     rw [← Localization.mk_one_eq_algebraMap, ← Localization.mk_one_eq_algebraMap,
       Localization.mk_mul, Localization.mk_eq_mk_iff, Localization.r_iff_exists]

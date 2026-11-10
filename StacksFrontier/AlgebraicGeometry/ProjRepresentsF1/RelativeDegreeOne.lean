@@ -149,7 +149,7 @@ public theorem bijective_classifyingHom (hgen : IsGeneratedInDegreeOne A) (W : S
     obtain ⟨ξ, hξ⟩ := (Fd.degreeOpenEquiv A P (k := 1) Nat.one_pos W).surjective
       (g ≫ inv (P.degreeOpen 1).ι)
     refine ⟨ξ, ?_⟩
-    show Fd.homDegreeOpen A P (k := 1) Nat.one_pos ξ ≫ (P.degreeOpen 1).ι = g
+    change Fd.homDegreeOpen A P (k := 1) Nat.one_pos ξ ≫ (P.degreeOpen 1).ι = g
     rw [show Fd.homDegreeOpen A P (k := 1) Nat.one_pos ξ = g ≫ inv (P.degreeOpen 1).ι from hξ,
       Category.assoc, IsIso.inv_hom_id, Category.comp_id]
 

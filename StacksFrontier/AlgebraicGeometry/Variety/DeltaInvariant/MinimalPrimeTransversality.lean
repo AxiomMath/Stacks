@@ -147,7 +147,7 @@ public theorem sup_eq_maximalIdeal_of_deltaInvariant_eq_one
   set I : Ideal A := (p : Ideal A) ⊔ (q : Ideal A) with hIdef
   set M : Submodule A (A ⧸ I) := Submodule.map I.mkQ (IsLocalRing.maximalIdeal A) with hMdef
   have hMbot : M ≠ ⊥ := by
-    obtain ⟨z, hzm, hzI⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨z, hzm, hzI⟩ := IsConcreteLE.exists_of_lt hlt
     intro hM
     have : I.mkQ z ∈ M := Submodule.mem_map_of_mem hzm
     rw [hM, Submodule.mem_bot, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero] at this

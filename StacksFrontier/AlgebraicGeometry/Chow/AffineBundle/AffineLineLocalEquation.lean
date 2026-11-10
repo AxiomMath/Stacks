@@ -238,7 +238,7 @@ private theorem germ_span_eq_maximalIdeal_of_primeIdealOf_eq_span {X : Scheme.{u
         (fun p => hU.fromSpec p) ⁻¹' closure ({x} : Set ↥X) := by
       intro p hp
       obtain rfl : p = hU.primeIdealOf ⟨x, hx⟩ := hp
-      show hU.fromSpec (hU.primeIdealOf ⟨x, hx⟩) ∈ closure ({x} : Set ↥X)
+      change hU.fromSpec (hU.primeIdealOf ⟨x, hx⟩) ∈ closure ({x} : Set ↥X)
       rw [hU.fromSpec_primeIdealOf ⟨x, hx⟩]
       exact subset_closure rfl
     have h₂ : hU.fromSpec (hU.primeIdealOf ⟨z, hz⟩) ∈ closure ({x} : Set ↥X) :=
@@ -311,7 +311,7 @@ theorem exists_opens_germ_span_eq_maximalIdeal (Y : Scheme.{u}) [IsIntegral Y]
   obtain ⟨U, hUaff, hgU, P, Q, hQ0, hPideal, hPw⟩ :=
     exists_affineOpen_point_span_singleton Y w hdom hne
   have hw : w ∈ (𝔸(ULift.{u} (Fin 1); Y) ↘ Y) ⁻¹ᵁ U := by
-    show (𝔸(ULift.{u} (Fin 1); Y) ↘ Y) w ∈ U
+    change (𝔸(ULift.{u} (Fin 1); Y) ↘ Y) w ∈ U
     rwa [hdom]
   have hVaff : IsAffineOpen ((𝔸(ULift.{u} (Fin 1); Y) ↘ Y) ⁻¹ᵁ U) :=
     (IsAffine.iff_of_isIso (affineLinePreimageIso hUaff).hom).mp inferInstance

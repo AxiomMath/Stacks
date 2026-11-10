@@ -204,7 +204,7 @@ theorem exists_finitePresentation_epi_pullback (hepi : AffineCounitEpi.{u})
     { app := fun j => (Scheme.Modules.pullback f).map (φ.app j) ≫ ε
       naturality := by
         intro j k g
-        show (Scheme.Modules.pullback f).map (E.map g) ≫
+        change (Scheme.Modules.pullback f).map (E.map g) ≫
           (Scheme.Modules.pullback f).map (φ.app k) ≫ ε = _
         rw [← Category.assoc, ← Functor.map_comp]
         simp [φ.naturality] }

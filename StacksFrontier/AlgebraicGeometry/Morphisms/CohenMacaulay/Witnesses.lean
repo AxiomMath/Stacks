@@ -70,13 +70,13 @@ Cohen–Macaulay for that reason. -/
 public theorem isCohenMacaulayAt_of_isOpenImmersion {X Y : Scheme.{u}} (i : X ⟶ Y)
     [IsOpenImmersion i] (hf : ∀ y : Y, IsLocallyNoetherian (i.fiber y)) (x : X) :
     Scheme.Hom.IsCohenMacaulayAt i hf x := by
-  show IsFlatAt i.toLRSHom.toShHom x ∧
+  change IsFlatAt i.toLRSHom.toShHom x ∧
     IsCohenMacaulayLocalRing ((i.fiber (i x)).presheaf.stalk (i.asFiber x))
   refine ⟨(Flat.iff_flat_stalkMap i).mp inferInstance x, ?_⟩
   let g := i.fiberToSpecResidueField (i x)
   have : IsIso g := by
     have : IsOpenImmersion g := by
-      show IsOpenImmersion (pullback.snd i (Y.fromSpecResidueField (i x)))
+      change IsOpenImmersion (pullback.snd i (Y.fromSpecResidueField (i x)))
       infer_instance
     have : Epi g.base :=
       (TopCat.epi_iff_surjective _).mpr fun _ => ⟨i.asFiber x, Subsingleton.elim _ _⟩

@@ -263,7 +263,7 @@ lemma sectionEquiv_symm_fromIncl (X : FormalCoproduct.{w} C) (U : C)
     (sectionEquiv X U).symm (FormalCoproduct.Hom.fromIncl i f) =
       ULift.up ((Sigma.ι (fun i : X.I ↦ uliftYoneda.{w}.obj (X.obj i)) i).app (op U)
         (ULift.up f)) := by
-  show ULift.up (((sigmaObjIso (fun i : X.I ↦ uliftYoneda.{w}.obj (X.obj i)) (op U)).inv)
+  change ULift.up (((sigmaObjIso (fun i : X.I ↦ uliftYoneda.{w}.obj (X.obj i)) (op U)).inv)
     ((Types.coproductIso (fun i : X.I ↦ ULift.{w} (U ⟶ X.obj i))).inv ⟨i, ULift.up f⟩)) = _
   have h := types_congr_hom (Types.coproductIso_mk_comp_inv
     (fun i : X.I ↦ ULift.{w} (U ⟶ X.obj i)) i) (ULift.up f)
@@ -288,7 +288,7 @@ lemma sectionEquiv_symm_postcomp (X Y : FormalCoproduct.{w} C) (U : C)
       FormalCoproduct.Hom.fromIncl (f.f s.asSigma.1) (s.asSigma.2 ≫ f.φ s.asSigma.1) := rfl
   rw [h, sectionEquiv_symm_fromIncl, sectionEquiv_symm_fromIncl]
   congr 1
-  show _ = ((Sigma.ι _ _ ≫ FormalCoproduct.uliftYoneda.map f).app (op U)) _
+  change _ = ((Sigma.ι _ _ ≫ FormalCoproduct.uliftYoneda.map f).app (op U)) _
   simp [FormalCoproduct.uliftYoneda, FormalCoproduct.eval, Function.comp_def]
   rfl
 
@@ -420,7 +420,7 @@ theorem homLocallySurjective_unit_comp_of_fullyFaithful
   apply J.superset_covering ?_ (h U a)
   rintro V f ⟨x, hx⟩
   refine ⟨G.map x, ?_⟩
-  show G.map x ≫ _ = G.map (T.map f) ≫ s
+  change G.map x ≫ _ = G.map (T.map f) ≫ s
   have h1 : G.map x ≫ ((SimplicialObject.coskAdj n).unit.app (L ⋙ G)).app t =
       G.map (x ≫ ((SimplicialObject.coskAdj n).unit.app L).app t) ≫
         matchingComparison G L n t := by
@@ -458,10 +458,10 @@ private theorem homLocallySurjective_one_comp_of_fullyFaithful
   intro V f hf
   obtain ⟨x, hx₀, hx₁⟩ := hS' f hf
   refine ⟨G.map x, ?_⟩
-  show G.map x ≫ _ = G.map (T.map f) ≫ s
+  change G.map x ≫ _ = G.map (T.map f) ≫ s
   refine zeroMatching_hom_ext (L ⋙ G) _ _ fun i ↦ ?_
   rw [Category.assoc, Category.assoc, unit_matching_π]
-  show G.map x ≫ G.map (L.δ i) = G.map (T.map f) ≫ s ≫ zeroMatchingπ (L ⋙ G) i
+  change G.map x ≫ G.map (L.δ i) = G.map (T.map f) ≫ s ≫ zeroMatchingπ (L ⋙ G) i
   rw [← G.map_comp]
   have hcases : ∀ j : Fin 2, j = 0 ∨ j = 1 := by decide
   rcases hcases i with rfl | rfl
@@ -520,7 +520,7 @@ theorem homLocallySurjective_incl_of_isCovering (J : Pretopology C)
   obtain ⟨i, k, hk⟩ := (Sieve.mem_ofArrows_iff Xj aj _).mp hf
   refine ⟨FormalCoproduct.Hom.fromIncl i.1 k, FormalCoproduct.hom_ext (funext fun _ ↦ i.2) ?_⟩
   rintro ⟨⟩
-  show (k ≫ p.φ i.1) ≫ eqToHom (congrArg Y.obj i.2) = f ≫ x
+  change (k ≫ p.φ i.1) ≫ eqToHom (congrArg Y.obj i.2) = f ≫ x
   simpa [aj, Category.assoc] using hk.symm
 
 omit [HasEqualizers C] in
@@ -673,7 +673,7 @@ theorem hypercoveringOfTerminal_lift
     let a := hG.preimage (x ≫ e.inv.app (op (SimplexCategory.mk 0)))
     refine ⟨(sectionEquiv (L.obj (op (SimplexCategory.mk 0))) V).symm a, ?_⟩
     have := Types.isTerminalEquivUnique _ (isTerminalLiftedPresheafObj (C := C) V)
-    show (_ : P.obj (op V)) = _
+    change (_ : P.obj (op V)) = _
     exact Subsingleton.elim _ _
   · constructor
     intro U s
@@ -693,14 +693,14 @@ theorem hypercoveringOfTerminal_lift
     · have hx := congrArg (sectionEquiv (L.obj (op (SimplexCategory.mk 0))) V).symm hx₁
       rw [sectionEquiv_symm_postcomp, sectionEquiv_symm_precomp] at hx
       simp only [a, Equiv.symm_apply_apply] at hx
-      show ((oneMatchingMap (associatedSimplicialPresheaf.{v} L)
+      change ((oneMatchingMap (associatedSimplicialPresheaf.{v} L)
         P aug ≫ pullback.fst f f).app (op V)) t = _
       rw [oneMatchingMap_fst, NatTrans.naturality_apply]
       exact hx
     · have hx := congrArg (sectionEquiv (L.obj (op (SimplexCategory.mk 0))) V).symm hx₂
       rw [sectionEquiv_symm_postcomp, sectionEquiv_symm_precomp] at hx
       simp only [b, Equiv.symm_apply_apply] at hx
-      show ((oneMatchingMap (associatedSimplicialPresheaf.{v} L)
+      change ((oneMatchingMap (associatedSimplicialPresheaf.{v} L)
         P aug ≫ pullback.snd f f).app (op V)) t = _
       rw [oneMatchingMap_snd, NatTrans.naturality_apply]
       exact hx
@@ -724,7 +724,7 @@ private theorem homLocallySurjective_comp_of_fullyFaithful
   apply J.superset_covering ?_ (h U (hG.preimage s))
   rintro V f ⟨t, ht⟩
   refine ⟨G.map t, ?_⟩
-  show G.map t ≫ G.map p = G.map (T.map f) ≫ s
+  change G.map t ≫ G.map p = G.map (T.map f) ≫ s
   rw [← G.map_comp, ht, G.map_comp, hG.map_preimage]
 
 omit [HasEqualizers C] in

@@ -57,7 +57,7 @@ lemma inverseImageMapSheafHom_comp (i₁ : Z ⟶ W) (i₂ : W ⟶ V) (j : V ⟶ 
     inverseImageMapSheafHom X i₂ j ≫
         (TopCat.Sheaf.pushforward CommRingCat.{u} i₂).map (inverseImageMapSheafHom X i₁ (i₂ ≫ j)) =
       inverseImageMapSheafHom X (i₁ ≫ i₂) j := by
-  show _ = ((TopCat.Sheaf.pullbackPushforwardAdjunction CommRingCat.{u} j).homEquiv X.sheaf
+  change _ = ((TopCat.Sheaf.pullbackPushforwardAdjunction CommRingCat.{u} j).homEquiv X.sheaf
       ((TopCat.Sheaf.pushforward CommRingCat.{u} i₂).obj
         ((TopCat.Sheaf.pushforward CommRingCat.{u} i₁).obj
           ((TopCat.Sheaf.pullback CommRingCat.{u} (i₁ ≫ i₂ ≫ j)).obj X.sheaf)))).symm

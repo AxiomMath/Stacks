@@ -230,8 +230,7 @@ theorem chartKaehlerTensor_restrict {U₁ U₂ : Over d.U} (g : U₂ ⟶ U₁)
     (smallEtaleRingedTopos B S hS X).O (structureSharpInverseImage B S hS f) (op U₁.left)
   let := Stacks.SheafOfModules.algebraSections _ (inverseImageStructureSheaf B S hS f)
     (smallEtaleRingedTopos B S hS X).O (structureSharpInverseImage B S hS f) (op U₂.left)
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul s ω =>
     rw [Point.restrictTensor_tmul, chartKaehlerTensor_tmul, chartKaehlerTensor_tmul]
     refine (chartSectionsKaehlerRestrict_smul B S hS f d g s _).trans ?_
@@ -317,8 +316,7 @@ theorem chartGermKaehler_chartKaehlerTensor (U : Over d.U)
   let := chartStalkAlgebra B S hS f d p
   let := Stacks.SheafOfModules.algebraSections _ (inverseImageStructureSheaf B S hS f)
     (smallEtaleRingedTopos B S hS X).O (structureSharpInverseImage B S hS f) (op U.left)
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul s ω =>
     rw [chartKaehlerTensor_tmul, Point.germTensor_tmul,
       Stacks.NaiveCotangent.kaehlerBaseChangeOfSquare_tmul]
@@ -362,7 +360,7 @@ theorem exists_chartSectionsKaehlerRestrict_eq_zero (U : Over d.U)
       (chartStalkPoint B S hS f d p).fiber.map g q' = q ∧
         chartSectionsKaehlerRestrict B S hS f d g z = 0 := by
   obtain ⟨j, t, ht⟩ := Stacks.NaiveCotangent.exists_kaehlerMapOfSquare_eq_zero_of_isColimit
-    (Functor.whiskerLeft (CategoryOfElements.π (chartStalkPoint B S hS f d p).fiber).op
+    (Functor.whiskerLeft (Functor.Elements.π (chartStalkPoint B S hS f d p).fiber).op
       (chartSharp B S hS f d))
     (colimit.isColimit _) (colimit.isColimit _)
     (((chartStalkPoint B S hS f d p).presheafFiber (A := CommRingCat.{u})).map

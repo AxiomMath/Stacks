@@ -159,7 +159,7 @@ theorem IsEtaleAt.of_comp_isEtale (hY : IsAlgebraicSpace B S hS Y)
     (Category.assoc _ _ _)⟩
 
 /-- **Étaleness at a point is stable under composition.** -/
-theorem IsEtaleAt.comp (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y)
+theorem IsEtaleAt.comp (hY : IsAlgebraicSpace B S hS Y)
     {f : X ⟶ Y} {g : Y ⟶ Z} {x : points B S hS X}
     (hf : IsEtaleAt B S hS f x) (hg : IsEtaleAt B S hS g (pointsMap B S hS X f x)) :
     IsEtaleAt B S hS (f ≫ g) x := by
@@ -204,7 +204,7 @@ theorem isEtale_pullback_fst_of_forall_isEtaleAt (hX : IsAlgebraicSpace B S hS X
     ⟨pointsMap B S hS _ (pullback.fst Ω.ι f) w, by
       rw [← pointsMap_comp_apply, ← pointsMap_comp_apply, pullback.condition]⟩
   have hcomp : IsEtaleAt B S hS (pullback.snd Ω.ι f ≫ f) w :=
-    IsEtaleAt.comp B S hS hP hY (isEtaleAt_of_isEtale B S hS hP _
+    IsEtaleAt.comp B S hS hY (isEtaleAt_of_isEtale B S hS hP _
       (isEtale_of_isOpenImmersion B S hS hsnd) w) (h _ hy)
   rw [← pullback.condition] at hcomp
   exact hcomp.of_comp_isEtale B S hS hΩ.1 hX (isEtale_ι_of_isOpenSubspace hΩ)
@@ -1001,7 +1001,7 @@ theorem exists_cover_of_openSubspace_cover (hY : IsAlgebraicSpace B S hS Y)
     rcases hcoverY' y' with ⟨w, hw⟩ | ⟨w, hw⟩
     · exact Set.mem_iUnion.2 ⟨⟨false⟩, w, hw⟩
     · refine Set.mem_iUnion.2 ⟨⟨true⟩, pointsMap B S hS (pullback ν j) eP.inv w, ?_⟩
-      show pointsMap B S hS (yoneda.obj (pullback ν j).reprX) (eP.hom ≫ pullback.fst ν j)
+      change pointsMap B S hS (yoneda.obj (pullback ν j).reprX) (eP.hom ≫ pullback.fst ν j)
         (pointsMap B S hS (pullback ν j) eP.inv w) = y'
       rw [← pointsMap_comp_apply, eP.inv_hom_id_assoc]
       exact hw
@@ -1080,7 +1080,7 @@ theorem exists_cover_of_openSubspace_cover (hY : IsAlgebraicSpace B S hS Y)
       rw [← hsq.w] at hcw
       have hν := isEtaleAt_of_isEtaleAt_isOpenImmersion_comp B S hS f' hf'oi ν w hcw
       rw [hw₁] at hν
-      exact IsEtaleAt.comp B S hS (isAlgebraicSpace_yoneda B S hS _) hY'
+      exact IsEtaleAt.comp B S hS hY'
         (isEtaleAt_of_isEtale B S hS (isAlgebraicSpace_yoneda B S hS _) _
           (isEtale_of_isIso B S hS _) z) hν
     · have hzV := hDYsub hz
@@ -1252,7 +1252,7 @@ theorem exists_etaleRefiningCover_of_chart_fibre_le (d : ℕ) :
     · intro z hz
       rw [pointsMap_comp_apply] at hz
       obtain ⟨hzD, hπz⟩ := hDX _ hz
-      exact IsEtaleAt.comp B S hS (isAlgebraicSpace_yoneda B S hS C) hY (hFet z hzD) hπz
+      exact IsEtaleAt.comp B S hS hY (hFet z hzD) hπz
 
 end Induction
 
@@ -1323,7 +1323,7 @@ theorem exists_affine_chart_through {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     obtain ⟨y', rfl⟩ : y ∈ Set.range (O t).ι := by rw [Scheme.Opens.range_ι]; exact hy
     refine ⟨(Sigma.ι Yf ⟨t, ht⟩) y', ?_⟩
     have h1 : ∀ z, a' ((Sigma.ι Yf ⟨t, ht⟩) z) = (O t).ι z := fun z => by
-      rw [← Scheme.Hom.comp_apply, Sigma.ι_desc]
+      rw [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
     rw [Scheme.Hom.comp_apply, h1]
   refine ⟨V, yoneda.map (g ≫ r) ≫ c₀, yoneda.map g ≫ a, hVaff, ?_, ?_, ?_⟩
   · intro x
@@ -1438,7 +1438,7 @@ theorem exists_integralSchemeCover_finiteEtaleOverDenseOpen_and_refining
     have hc : IsSurjective B S hS c := isSurjective_of_presheafSurjective B S hS c hcsurj
     have hce : IsEtale B S hS c := isEtale_of_presheaf_etale B S hS hcet
     have hcp : IsSurjective B S hS (c ≫ p) := by
-      show Function.Surjective (pointsMap B S hS (yoneda.obj V₀) (c ≫ p))
+      change Function.Surjective (pointsMap B S hS (yoneda.obj V₀) (c ≫ p))
       rw [pointsMap_comp B S hS (yoneda.obj V₀) c p]
       exact hp.comp hc
     exact existsIntegralSchemeCoverRefining_of_comp_chart B S hS p V₀ c

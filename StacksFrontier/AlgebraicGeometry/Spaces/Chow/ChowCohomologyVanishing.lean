@@ -117,7 +117,7 @@ theorem deltaDimension_closureImage_of_isClosedImmersion {f : X ⟶ Y} (hfB : f 
     (V : IntegralClosedSubspace D.site D.base D.base_mem X) :
     deltaDimension D sY (IntegralClosedSubspace.closureImage D.site D.base D.base_mem hY.1
       (D.isDecentSpace_of_isGood sY hY) f V) = deltaDimension D sX V := by
-  show D.deltaValue sY (IntegralClosedSubspace.ambientGenericPoint D.site D.base D.base_mem _) =
+  change D.deltaValue sY (IntegralClosedSubspace.ambientGenericPoint D.site D.base D.base_mem _) =
     D.deltaValue sX (V.ambientGenericPoint D.site D.base D.base_mem)
   rw [IntegralClosedSubspace.ambientGenericPoint_closureImage_eq D.site D.base D.base_mem hX.1
     hY.1, ← D.deltaValue_comp_of_isLocallyQuasiFinite hX.1 hY.1 f sY
@@ -138,7 +138,7 @@ theorem properCyclePushforward_integralClosedSubspaceCycle_of_isClosedImmersion 
   classical
   have hdim := deltaDimension_closureImage_of_isClosedImmersion D sX hX sY hY hfB hf V
   have hdeg : properCycleDegree D sX hX sY hY f V = 1 := by
-    rw [properCycleDegree, if_pos hdim]
+    rw [properCycleDegree, ite_eq_left hdim]
     have hone : functionFieldDegree D sX hX sY hY f V = 1 :=
       IntegralClosedSubspace.degreeOverClosureImage_eq_one_of_isClosedImmersion D.site D.base
         D.base_mem hY.1 (D.isDecentSpace_of_isGood sY hY) (D.isDecentSpace_of_isGood sX hX) hf V
@@ -238,12 +238,12 @@ theorem isRationallyEquivalentToZeroCanonical_of_forall_cycleGroupRestrict (k : 
         hYdec (hRc i₀).2 V = Z := by
       rwa [← IntegralClosedSubspace.closureImage_eq_pushforward]
     rw [finsum_eq_single _ (ULift.up i₀)]
-    · show β.1 Z = cycleClosedPushforward D hY.1 (hRc i₀).1 hYdec (hRc i₀).2 (res i₀).1 Z
+    · change β.1 Z = cycleClosedPushforward D hY.1 (hRc i₀).1 hYdec (hRc i₀).2 (res i₀).1 Z
       rw [← hpush, cycleClosedPushforward_apply_pushforward, cycleGroupRestrict_apply,
         IntegralClosedSubspace.closureImage_eq_pushforward D.site D.base D.base_mem hY.1
           (hRc i₀).1 hYdec (hRc i₀).2]
     · intro j hj
-      show cycleClosedPushforward D hY.1 (hRc j.down).1 hYdec (hRc j.down).2
+      change cycleClosedPushforward D hY.1 (hRc j.down).1 hYdec (hRc j.down).2
         (res j.down).1 Z = 0
       refine cycleClosedPushforward_apply_of_forall_ne D hY.1 (hRc j.down).1 hYdec
         (hRc j.down).2 _ Z fun V' hV' => hj ?_
@@ -324,7 +324,7 @@ theorem ChowCohomologyClass.cap_chowClassCanonical_eq_zero (c : ChowCohomologyCl
       (W i).subspace := by
     have h0 := α.2.1.comp_injective hWinj
     refine h0.subset fun i => ?_
-    simp only [Function.comp_apply, if_neg (hWne i), subset_rfl]
+    simp only [Function.comp_apply, ite_eq_right (hWne i), subset_rfl]
   let Z : I → Subfunctor Y := fun i => (W i).subspace
   have hZ : ∀ i, IsClosedSubspace D.site D.base D.base_mem (Z i) := fun i =>
     (W i).isClosedSubspace
@@ -395,7 +395,7 @@ theorem ChowCohomologyClass.cap_chowClassCanonical_eq_zero (c : ChowCohomologyCl
     refine ⟨inferInstance, ?_⟩
     have hRι : (R i).ι = inv (Subfunctor.toRange (ι i)) ≫ ι i :=
       (IsIso.eq_inv_comp _).2 (Subfunctor.toRange_ι _)
-    show (R i).ι ≫ d = _
+    change (R i).ι ≫ d = _
     rw [hRι, Category.assoc]
     exact congrArg _ (closedSubspacesCoproductι_desc Z hZ hY.1 i)
   have hUd : ∀ i, IsClosedImmersion D.site D.base D.base_mem ((U i).subspace.ι ≫ d) := fun i => by
@@ -452,7 +452,7 @@ theorem ChowCohomologyClass.cap_chowClassCanonical_eq_zero (c : ChowCohomologyCl
     refine Subtype.ext (funext fun V => ?_)
     rw [cycleGroupRestrict_apply, IntegralClosedSubspace.closureImage_eq_pushforward
       D.site D.base D.base_mem hP.1 (hRc i).1 hPdec (hRc i).2 V]
-    show ∑ᶠ j, (integralClosedSubspacePushforward D ((d ≫ g) ≫ sX) hP (U j) k (cI j)).1
+    change ∑ᶠ j, (integralClosedSubspacePushforward D ((d ≫ g) ≫ sX) hP (U j) k (cI j)).1
         (IntegralClosedSubspace.pushforward D.site D.base D.base_mem hP.1 (U i).isClosedSubspace.1
           hPdec (U i).isClosedSubspace.2 V) = _
     rw [finsum_eq_single _ i, integralClosedSubspacePushforward_apply_pushforward, ← htop i]

@@ -129,7 +129,7 @@ theorem isGeometricallyIrreducible_globalSections_of_isProper
       ← Set.range_eq_univ.mpr (ProperGeomConnected.surjective_toSpecΓ f)]
     exact isConnected_range X.toSpecΓ.continuous
   have hfac : X.toSpecΓ ≫ Spec.map (ofHom (algebraMap k Γ(X, ⊤))) = f := by
-    show X.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop) = f
+    change X.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop) = f
     rw [Spec.map_comp, ← Category.assoc, ← Scheme.toSpecΓ_naturality, Category.assoc,
       toSpecΓ_SpecMap_ΓSpecIso_inv, Category.comp_id]
   have hgc : GeometricallyConnected

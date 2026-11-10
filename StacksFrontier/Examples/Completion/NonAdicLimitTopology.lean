@@ -486,7 +486,7 @@ theorem mem_basicOpen_structureMap (x : puncturedSpectrum k) (r : exampleRing k)
     ← AlgebraicGeometry.Scheme.preimage_basicOpen_top (puncturedSpectrumOpens k).ι
     ((AlgebraicGeometry.Scheme.ΓSpecIso (CommRingCat.of (exampleRing k))).inv r),
     AlgebraicGeometry.Scheme.Hom.mem_preimage]
-  show (x.1 : AlgebraicGeometry.Spec (CommRingCat.of (exampleRing k))) ∈
+  change (x.1 : AlgebraicGeometry.Spec (CommRingCat.of (exampleRing k))) ∈
       (AlgebraicGeometry.Spec (CommRingCat.of (exampleRing k))).basicOpen
         ((AlgebraicGeometry.Scheme.ΓSpecIso (CommRingCat.of (exampleRing k))).inv r) ↔
       r ∉ x.1.asIdeal
@@ -951,7 +951,7 @@ theorem π_formalSectionG_eq_zero (e : ℕ) (n : ℕᵒᵖ) (hne : n.unop ≤ e)
         (idealSheafNearVanishing (exampleRing k) (adicIdeal k) (puncturingIdeal k))
         (formalModule k) n (nearVanishingOpen k).openSet (sectionGFormal k e)).mpr
       (sectionG_pow_mem_idealPowerMultiple k e n.unop hne)
-  show ConcreteCategory.hom
+  change ConcreteCategory.hom
       (limit.π (formalSections (exampleRing k) (adicIdeal k) (puncturingIdeal k)
         (formalModule k)) n) (ConcreteCategory.hom
         (comparisonAt (exampleRing k) (adicIdeal k) (puncturingIdeal k) (formalModule k)

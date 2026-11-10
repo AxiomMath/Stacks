@@ -160,12 +160,14 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   (hZ : B.Contains (⊤_ Scheme.{u}))
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` on presheaves on the big fppf site exceeds the default limit
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_eventualFiniteness :
     HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasProducts` on presheaves on the big fppf site exceeds the default limit
 /-- Small products of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasProducts_presheaf_eventualFiniteness :
@@ -251,14 +253,14 @@ theorem eventually_isFinite_of_isLimit_of_isIntegral
       (isAbsolutelySeparated_of_isAffineSpace B S hS hZ (isAffineSpace_yoneda B S hS U hU))
   -- The base-changed system is a system of quasi-compact and quasi-separated algebraic spaces.
   have hEalg (i : I) : IsAlgebraicSpace B S hS (E.obj (op i)) := by
-    show IsAlgebraicSpace B S hS (pullback (p.app (op i)) chart)
+    change IsAlgebraicSpace B S hS (pullback (p.app (op i)) chart)
     exact isAlgebraicSpace_pullback B S hS (p.app (op i)) chart (hD i) hUalg hY
   have hEqc (i : I) : IsQuasiCompactSpace B S hS (E.obj (op i)) := by
-    show IsQuasiCompactSpace B S hS (pullback (p.app (op i)) chart)
+    change IsQuasiCompactSpace B S hS (pullback (p.app (op i)) chart)
     exact isQuasiCompactSpace_pullback B S hS hZ (p.app (op i)) chart (hD i) hY
       (hDqc i) hUqc hYqs
   have hEqs (i : I) : IsAbsolutelyQuasiSeparated B S hS hZ (E.obj (op i)) := by
-    show IsAbsolutelyQuasiSeparated B S hS hZ (pullback (p.app (op i)) chart)
+    change IsAbsolutelyQuasiSeparated B S hS hZ (pullback (p.app (op i)) chart)
     exact isAbsolutelyQuasiSeparated_pullback B S hS hZ (p.app (op i)) chart (hD i) hUalg hY
       (hDqs i) hUqs
   -- Each transition morphism of the base-changed system is a base change of one of `D`.
@@ -267,11 +269,11 @@ theorem eventually_isFinite_of_isLimit_of_isIntegral
         (D.map (homOfLE (leOfHom g.unop)).op) (pullback.fst (p.app j) chart) := by
     apply IsPullback.flip
     refine IsPullback.of_right ?_ ?_ (IsPullback.of_hasPullback _ _).flip
-    · show IsPullback (pullback.lift _ _ _ ≫ pullback.snd _ _) (pullback.fst _ _) chart
+    · change IsPullback (pullback.lift _ _ _ ≫ pullback.snd _ _) (pullback.fst _ _) chart
         ((DOver.map g).left ≫ (DOver.obj j).hom)
       rw [pullback.lift_snd, (DOver.map g).w]
       exact (IsPullback.of_hasPullback (DOver.obj i).hom chart).flip
-    · show pullback.lift _ _ _ ≫ pullback.fst _ _ = _
+    · change pullback.lift _ _ _ ≫ pullback.fst _ _ = _
       exact pullback.lift_fst _ _ _
   have hEaff {i j : Iᵒᵖ} (g : i ⟶ j) : IsAffineHom B S hS (E.map g) :=
     isAffineHom_of_isPullback (hEtransitionPB g) (haffine (leOfHom g.unop))
@@ -315,7 +317,7 @@ theorem eventually_isFinite_of_isLimit_of_isIntegral
   have heConeTail : IsLimit eConeTail :=
     (Functor.Initial.isLimitWhiskerEquiv tailOp eCone).symm heCone
   have hETailAff (j : Tailᵒᵖ) : IsAffineSpace B S hS (ETail.obj j) := by
-    show IsAffineSpace B S hS (E.obj (op j.unop.1))
+    change IsAffineSpace B S hS (E.obj (op j.unop.1))
     exact IsAffineHom.isAffineSpace_source (hEaff (homOfLE j.unop.2).op) hi₀aff
   have hETailRep (j : Tailᵒᵖ) : (ETail.obj j).IsRepresentable := by
     obtain ⟨V, -, ⟨e⟩⟩ := hETailAff j
@@ -365,11 +367,11 @@ theorem eventually_isFinite_of_isLimit_of_isIntegral
   have hConeIso : (Cone.postcompose repETail.hom).obj (yoneda.mapCone cVTail) ≅ eConeTail :=
     Cone.ext limRepr (by
       intro j
-      show yoneda.map (limLeg j) ≫ (repETail.app j).hom = limRepr.hom ≫ eConeTail.π.app j
+      change yoneda.map (limLeg j) ≫ (repETail.app j).hom = limRepr.hom ≫ eConeTail.π.app j
       dsimp [limLeg]
       rw [yoneda.map_preimage]
       simp only [Category.assoc, repETail.inv_hom_id_app]
-      show (limRepr.hom ≫ eConeTail.π.app j) ≫ 𝟙 _ = limRepr.hom ≫ eConeTail.π.app j
+      change (limRepr.hom ≫ eConeTail.π.app j) ≫ 𝟙 _ = limRepr.hom ≫ eConeTail.π.app j
       exact Category.comp_id _)
   have hcVTailYon : IsLimit (yoneda.mapCone cVTail) :=
     (IsLimit.equivOfNatIsoOfIso repETail _ eConeTail hConeIso).symm heConeTail
@@ -400,17 +402,17 @@ theorem eventually_isFinite_of_isLimit_of_isIntegral
     { app := fun j => T.map (stageToU j)
       naturality := by
         intro j k g
-        show T.map (VTail.map g) ≫ T.map (stageToU k) = T.map (stageToU j)
+        change T.map (VTail.map g) ≫ T.map (stageToU k) = T.map (stageToU j)
         rw [← Functor.map_comp, hstageToU_natural g] }
   let limitToU : limObj ⟶ U := yoneda.preimage (limRepr.hom ≫ pulledCone.pt.hom)
   have hconeTail_comm :
       coneTail.π ≫ mapTail = (Functor.const Tailᵒᵖ).map (T.map limitToU) := by
     ext j
-    show T.map (cVTail.π.app j) ≫ T.map (stageToU j) = T.map limitToU
+    change T.map (cVTail.π.app j) ≫ T.map (stageToU j) = T.map limitToU
     rw [← T.map_comp]
     apply congrArg T.map
     apply yoneda.map_injective
-    show yoneda.map (limLeg j ≫ stageToU j) = yoneda.map limitToU
+    change yoneda.map (limLeg j ≫ stageToU j) = yoneda.map limitToU
     simp only [Functor.map_comp, limLeg, stageToU, limitToU, yoneda.map_preimage,
       Category.assoc, Iso.inv_hom_id_assoc]
     exact congrArg (fun q => limRepr.hom ≫ q) (pulledCone.π.app (tailOp.obj j)).w

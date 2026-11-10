@@ -131,7 +131,7 @@ instance : IsArtinianRing (specialFibre A B) := by
     rw [← Module.length_ne_top_iff, Module.length_eq_of_surjective (S := B)
       (Ideal.Quotient.mk_surjective (I := (maximalIdeal A).map (algebraMap A B))),
       length_specialFibre]
-    exact ENat.coe_ne_top _
+    exact ENat.natCast_ne_top _
   exact isArtinian_of_tower B (isFiniteLength_iff_isNoetherian_isArtinian.mp this).2
 
 /-- The `κ_A`-algebra structure on the special fibre `B ⧸ m_A B`, where `κ_A = A ⧸ m_A`. -/
@@ -211,10 +211,10 @@ theorem length_quotient_mul (I J : Ideal R) :
     Module.length R (R ⧸ I * J) = Module.length R (R ⧸ I) + Module.length R (R ⧸ J) := by
   obtain ⟨a, rfl⟩ := (IsPrincipalIdealRing.principal I).principal
   obtain ⟨b, rfl⟩ := (IsPrincipalIdealRing.principal J).principal
-  show Module.length R (R ⧸ Ideal.span {a} * Ideal.span {b}) =
+  change Module.length R (R ⧸ Ideal.span {a} * Ideal.span {b}) =
     Ring.ord R a + Ring.ord R b
   rw [Ideal.span_singleton_mul_span_singleton]
-  show Ring.ord R (a * b) = _
+  change Ring.ord R (a * b) = _
   by_cases hb : b = 0
   · rw [hb, mul_zero, Ring.ord_zero, length_self_eq_top, add_top]
   · exact Ring.ord_mul R (mem_nonZeroDivisors_of_ne_zero hb)
@@ -376,7 +376,7 @@ theorem length_quotient_fittingIdeal_eq_iff :
     (CharP.cast_eq_zero_iff (ResidueField A) (ringChar _) _).not
   have hlen : ((Module.length (specialFibre A B) (specialFibre A B)).toNat : ResidueField A) =
       (ramificationIdx A B : ResidueField A) := by
-    rw [length_specialFibre, ENat.toNat_coe]
+    rw [length_specialFibre, ENat.toNat_natCast]
   have hfit := fittingIdeal_kaehlerDifferential_specialFibre (A := A) (B := B)
   have hne_iff {n : ℕ} (hn : fittingIdeal (R := B) (M := Ω[B⁄A]) 0 = Ideal.span {ϖ ^ n}) :
       fittingIdeal (R := specialFibre A B) (M := Ω[specialFibre A B⁄ResidueField A]) 0 ≠ ⊥ ↔
@@ -387,7 +387,7 @@ theorem length_quotient_fittingIdeal_eq_iff :
   · intro hd
     rcases fittingIdeal_eq_bot_or_span_pow (A := A) hϖ with ⟨-, hd'⟩ | ⟨n, hn, hd'⟩
     · rw [hd'] at hd
-      exact absurd hd (ENat.top_ne_coe _)
+      exact absurd hd (ENat.top_ne_natCast _)
     rw [hd', Nat.cast_inj] at hd
     obtain ⟨hsep, hl⟩ :=
       isSeparable_and_length_ne_zero_of_fittingIdeal_ne_bot ((hne_iff hn).mpr (by omega))

@@ -72,7 +72,7 @@ private theorem exists_forall_range_snd_subset_of_mem_image {X Y U : BigFppfOver
     (f := (𝒯).map t) (g := (𝒯).map φ) x u hu.symm
   let w : (𝒯).obj (pullback t φ) := hP.isoPullback.inv.base z
   have hw₂ : ((𝒯).map (pullback.snd t φ)).base w = u := by
-    show (hP.isoPullback.inv ≫ (𝒯).map (pullback.snd t φ)).base z = u
+    change (hP.isoPullback.inv ≫ (𝒯).map (pullback.snd t φ)).base z = u
     rw [IsPullback.isoPullback_inv_snd, hz₂]
   refine ⟨w, fun r hr => ?_⟩
   rintro _ ⟨y, rfl⟩
@@ -83,7 +83,7 @@ private theorem exists_forall_range_snd_subset_of_mem_image {X Y U : BigFppfOver
   have hy : ((𝒯).map r).base y = w := by
     rw [hr, hy₀]
     exact Scheme.fromSpecResidueField_apply _ _
-  show ((𝒯).map (pullback.snd t φ)).base (((𝒯).map r).base y) ∈ W
+  change ((𝒯).map (pullback.snd t φ)).base (((𝒯).map r).base y) ∈ W
   rwa [hy, hw₂]
 
 /-- A pullback square of representables `V₁ → L` obtained by pasting onto a pullback square of
@@ -124,7 +124,7 @@ residue field `L` of a point of `Spec K ×_S U`, the fibre of `F` over `Spec L` 
 the base change to `L` of the fibre over `Spec K`, along which stability descends. -/
 theorem isStableCurveFamily_of_range_subset_image_of_etale
     {G : CurveFamily B hZ} (hG : IsPrestableCurveFamily B hZ G)
-    {U : BigFppfOver B integerBase hZ} (φ : U ⟶ G.base) (hφ : Etale ((𝒯).map φ))
+    {U : BigFppfOver B integerBase hZ} (φ : U ⟶ G.base)
     (W : ((𝒯).obj U).Opens)
     (hW : ∀ (F : CurveFamily B hZ) (a : F ⟶ G) (b : F.base ⟶ U), b ≫ φ = a.baseMap →
       Set.range ((𝒯).map b) ⊆ W → IsStableCurveFamily B hZ F)
@@ -213,7 +213,7 @@ theorem exists_mem_forall_isStableCurveFamily_of_isPullback_of_etale
   obtain ⟨W, huW, hW⟩ := exists_mem_forall_isStableCurveFamily_of_isPullback hG sq u hu
   have := hφ
   exact ⟨⟨((𝒯).map φ).base '' W, ((𝒯).map φ).isOpenMap _ W.isOpen⟩, ⟨u, huW, rfl⟩,
-    fun F a ha => isStableCurveFamily_of_range_subset_image_of_etale hG φ hφ W hW a ha⟩
+    fun F a ha => isStableCurveFamily_of_range_subset_image_of_etale hG φ W hW a ha⟩
 
 end CurveFamily
 

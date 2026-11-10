@@ -78,7 +78,7 @@ theorem isPseudoCoherent_of_forall_isAffineOpen {S : Scheme.{u}} (K : DerivedCat
         (show y ∈ (⊤ : S.Opens) from trivial)
       let W : S.Opens := W₀
       exact ⟨⟨W, hW⟩, by
-        show y ∈ Set.range (W.ι : W.toScheme → S)
+        change y ∈ Set.range (W.ι : W.toScheme → S)
         rwa [Scheme.Opens.range_ι]⟩)
     K fun W => h W.1 W.2
 
@@ -350,7 +350,7 @@ theorem isPseudoCoherent_derivedPushforward_tensor (hf : FinitePresentation f)
     (fun i => @modulePullback_isFlatOver _ _ _ _ _ _ _ _ sq (G.X i) (hGq i) (hflat i))
     (Z.preimage (f ⁻¹ᵁ W).ι.continuous)
     (isProperOver_preimage_baseChange (f ⁻¹ᵁ W).ι (f ∣_ W) f W.ι sq Z hZ) (fun i => ?_) m
-  show SheafOfModules.supp ((Scheme.Modules.pullback (f ⁻¹ᵁ W).ι).obj (G.X i)) ⊆ _
+  change SheafOfModules.supp ((Scheme.Modules.pullback (f ⁻¹ᵁ W).ι).obj (G.X i)) ⊆ _
   rw [@supp_pullback_of_isFinitePresentation _ _ (f ⁻¹ᵁ W).ι (G.X i) (hfp i)]
   exact fun x hx => hsub i hx
 

@@ -79,8 +79,7 @@ def absModLeftMap {L L' : DifferentialGradedModule.{u, u, u} A} (φ : L ⟶ L')
     absoluteTensorModule L N ⟶ absoluteTensorModule L' N where
   toFun := TensorProduct.map φ.toFun LinearMap.id
   map_smul z b := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add u v hu hv => simp only [smul_add, map_add, hu, hv]
     | tmul u v =>
       rw [absMod_smul_tmul, TensorProduct.map_tmul, TensorProduct.map_tmul, LinearMap.id_apply,

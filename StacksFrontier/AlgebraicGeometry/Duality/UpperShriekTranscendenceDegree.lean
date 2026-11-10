@@ -197,7 +197,7 @@ private theorem spec_residueFieldIso_inv_naturality
         (Scheme.Spec.residueFieldIso A a).inv := by
     rw [Scheme.Spec.algebraMap_residueFieldIso_inv_assoc,
       Scheme.Spec.algebraMap_residueFieldIso_inv]
-    show (Scheme.ΓSpecIso R).inv ≫ (Spec R).Γevaluation ((Spec.map φ).base a) ≫
+    change (Scheme.ΓSpecIso R).inv ≫ (Spec R).Γevaluation ((Spec.map φ).base a) ≫
         (Spec.map φ).residueFieldMap a =
       φ ≫ (Scheme.ΓSpecIso A).inv ≫ (Spec A).Γevaluation a
     rw [Scheme.Γevaluation_naturality, Scheme.ΓSpecIso_inv_naturality_assoc]

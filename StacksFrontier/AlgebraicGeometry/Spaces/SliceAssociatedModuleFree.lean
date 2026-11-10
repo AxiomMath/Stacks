@@ -37,7 +37,8 @@ It is *not* directly the conclusion of the differently-shaped `hEss` of
 as the restriction `AlgebraicGeometry.Space.SmallEtale.sliceModule` of a given `𝒪_F`-module and
 so has no slot at which to put a free module of the slice.  Reaching that one additionally needs
 `AlgebraicGeometry.Space.SmallEtale.freeSliceIso` of
-`StacksFrontier.AlgebraicGeometry.Spaces.FreeSliceQuasicoherent`, which identifies the free module of
+`StacksFrontier.AlgebraicGeometry.Spaces.FreeSliceQuasicoherent`, which identifies the
+free module of
 the slice with the restriction of the free `𝒪_F`-module.
 
 ## Main definitions
@@ -215,7 +216,7 @@ theorem bijective_of_single {A Rv N N' : Type u} [CommRing A] [CommRing Rv]
       (g := (σ.liftBaseChange Rv).toAddMonoidHom.comp
         (TensorProduct.finsuppScalarRight A Rv Rv I).symm.toAddMonoidHom) ?_) p
     intro i r
-    show ψ (Finsupp.single i r) =
+    change ψ (Finsupp.single i r) =
       (σ.liftBaseChange Rv) ((TensorProduct.finsuppScalarRight A Rv Rv I).symm
         (Finsupp.single i r))
     rw [hsingle i r, TensorProduct.finsuppScalarRight_symm_apply_single,

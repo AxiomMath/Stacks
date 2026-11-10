@@ -103,7 +103,8 @@ theorem RelativeSpecPoint.comap_comp {A₁ A₂ A₃ : AlgebraSheaf.{u, u} B S h
 
 /-- Precomposition with a morphism of algebras commutes with the composite with a map of direct
 images.  Stated over arbitrary objects of `CategoryTheory.Over X`, where the kernel checks it at
-once; see the implementation notes of `StacksFrontier.AlgebraicGeometry.Spaces.RelativeSpecPoints`. -/
+once; see the implementation notes of
+`StacksFrontier.AlgebraicGeometry.Spaces.RelativeSpecPoints`. -/
 theorem compPushforwardAlgebraMap_comp_left {A₁ A₂ : AlgebraSheaf.{u, u} B S hS X.1 X.2}
     (a : A₁ ⟶ A₂) {P Q : Over X} (α : A₂ ⟶ pushforwardAlgebra B S hS P) (f : Q ⟶ P) :
     compPushforwardAlgebraMap B S hS (a ≫ α) f = a ≫ compPushforwardAlgebraMap B S hS α f := by
@@ -203,7 +204,7 @@ theorem relativeSpecPointsMap_comp_π {A₁ A₂ : AlgebraSheaf.{u, u} B S hS X.
     relativeSpecPointsMap B S hS a ≫ relativeSpecPointsπ B S hS A₁ =
       relativeSpecPointsπ B S hS A₂ := by
   refine NatTrans.ext (funext fun T => ConcreteCategory.hom_ext _ _ fun p => ?_)
-  show (relativeSpecPointsπ B S hS A₁).app T ((relativeSpecPointsMap B S hS a).app T p) =
+  change (relativeSpecPointsπ B S hS A₁).app T ((relativeSpecPointsMap B S hS a).app T p) =
     (relativeSpecPointsπ B S hS A₂).app T p
   exact (relativeSpecPointsπ_app B S hS A₁ T.unop _).trans
     ((congrArg RelativeSpecPoint.pt
@@ -226,7 +227,7 @@ theorem relativeSpecPointsMap_comp {A₁ A₂ A₃ : AlgebraSheaf.{u, u} B S hS 
       relativeSpecPointsMap B S hS b ≫ relativeSpecPointsMap B S hS a := by
   refine NatTrans.ext (funext fun T => ConcreteCategory.hom_ext _ _ fun p => ?_)
   apply (relativeSpecPointsEquiv B S hS A₁ T.unop).injective
-  show relativeSpecPointsEquiv B S hS A₁ T.unop ((relativeSpecPointsMap B S hS (a ≫ b)).app T p) =
+  change relativeSpecPointsEquiv B S hS A₁ T.unop ((relativeSpecPointsMap B S hS (a ≫ b)).app T p) =
     relativeSpecPointsEquiv B S hS A₁ T.unop ((relativeSpecPointsMap B S hS a).app T
       ((relativeSpecPointsMap B S hS b).app T p))
   rw [relativeSpecPointsEquiv_relativeSpecPointsMap_app,
@@ -292,7 +293,7 @@ theorem nonempty_isLimit_evaluation_mapCone_relativeSpecPointsFunctor [IsConnect
   · rintro ⟨j⟩
     apply (relativeSpecPointsEquiv B S hS (D.obj j) T).injective
     rw [hval, Equiv.apply_symm_apply]
-    show (⟨x, c.ι.app j ≫ hc.desc γ⟩ : RelativeSpecPoint B S hS (D.obj j) T) = q j
+    change (⟨x, c.ι.app j ≫ hc.desc γ⟩ : RelativeSpecPoint B S hS (D.obj j) T) = q j
     rw [hc.fac γ j, hβ j]
   · intro (y : (relativeSpecPoints B S hS c.pt).obj (op T)) hy
     apply (relativeSpecPointsEquiv B S hS c.pt T).injective

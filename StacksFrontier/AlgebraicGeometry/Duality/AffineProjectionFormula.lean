@@ -76,7 +76,8 @@ translation is missing:
   declaration is *not* a tag site: the two `@[stacks 01CD]` attributes sit two declarations
   below it, on `Stacks.RingedSpace.comparisonBifunctorIso` (`:500`) and its canonicality clause
   (`:512`), which are the tag's two covering members.  A third declaration carries the same
-  mathematics by the stalk formula (`StacksFrontier/AlgebraicGeometry/PullbackTensor/StalkFormula.lean:103`) — a parallel
+  mathematics by the stalk formula
+  (`StacksFrontier/AlgebraicGeometry/PullbackTensor/StalkFormula.lean:103`) — a parallel
   development, not a third member.
 * Locality of the statement on `S`: compatibility of `modulePullback`, `modulePushforward` and
   the tensor bifunctor with restriction to an open of `S`, together with the resulting

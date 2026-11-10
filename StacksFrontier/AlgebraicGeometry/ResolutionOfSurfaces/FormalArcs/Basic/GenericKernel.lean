@@ -78,7 +78,7 @@ private theorem map_genericPoint_eq_ker {A R : Type u} [CommRing A] [CommRing R]
     Spec.map (CommRingCat.ofHom f) (genericPoint (Spec (.of R))) =
       ⟨RingHom.ker f, RingHom.ker_isPrime f⟩ := by
   apply PrimeSpectrum.ext
-  show (PrimeSpectrum.comap f (genericPoint (Spec (.of R)))).asIdeal = RingHom.ker f
+  change (PrimeSpectrum.comap f (genericPoint (Spec (.of R)))).asIdeal = RingHom.ker f
   rw [genericPoint_eq_bot_of_affine]
   rfl
 
@@ -376,7 +376,7 @@ principalizing their images in the quotient discrete valuation ring. -/
 theorem exists_balanced_power_relations
     {A R ι : Type u} [CommRing A] [IsDomain A] [IsLocalRing A]
     [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
-    [Fintype ι] [Nonempty ι]
+    [Finite ι] [Nonempty ι]
     (f : A →+* R) (hf : Function.Surjective f) (p : Ideal A) [p.IsPrime]
     (hp : RingHom.ker f = p) (a : A)
     (hπ : maximalIdeal R = Ideal.span {f a})
@@ -386,6 +386,7 @@ theorem exists_balanced_power_relations
     ∃ (N : ℕ) (k : ι) (c : ι → A),
       ∀ i, a ^ N * x i - c i * a ^ N * x k ∈ p ^ 2 := by
   classical
+  have := Fintype.ofFinite ι
   have hr (i : ι) : ∃ (n : ℕ) (b : A), a ^ n * x i - b * x k₀ ∈ p ^ 2 :=
     exists_power_relation_from_generic_generator f hf p hp a (x i) (x k₀)
       (hx i) hgen hπ
@@ -402,7 +403,7 @@ theorem exists_balanced_power_relations
         rw [← pow_add, Nat.sub_add_cancel (hn i)]
       convert h using 1
       dsimp [d]
-      rw [if_neg hi, mul_sub, ← mul_assoc, he]
+      rw [ite_eq_right hi, mul_sub, ← mul_assoc, he]
       ring
   let J : Ideal R := Ideal.span (Set.range fun i => f (d i))
   obtain ⟨k, hk⟩ := exists_span_singleton_eq_of_isPrincipal

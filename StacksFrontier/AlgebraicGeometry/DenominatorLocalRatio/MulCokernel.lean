@@ -101,7 +101,7 @@ lemma exists_eq_denominatorIdealMul_app {W : Opens X}
   refine ⟨(eW v * (↑u⁻¹ : Stacks.DenominatorLocalRatio.oScalar X W)) • d₁,
     eW.injective ?_⟩
   rw [hms, map_smul, haW, ← hu']
-  show (eW v * (↑u⁻¹ : Stacks.DenominatorLocalRatio.oScalar X W)) *
+  change (eW v * (↑u⁻¹ : Stacks.DenominatorLocalRatio.oScalar X W)) *
     (↑u : Stacks.DenominatorLocalRatio.oScalar X W) = eW v
   rw [mul_assoc, Units.inv_mul, mul_one]
 

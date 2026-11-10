@@ -100,7 +100,7 @@ theorem map_toAddSubgroup_range_lcomp (d : U →ₗ[R] V) :
   · rintro ⟨g, rfl⟩
     refine ⟨LinearMap.lcomp R M d ((LinearMap.liftBaseChangeEquiv A).symm g),
       ⟨(LinearMap.liftBaseChangeEquiv A).symm g, rfl⟩, ?_⟩
-    show LinearMap.liftBaseChangeEquiv A
+    change LinearMap.liftBaseChangeEquiv A
       (((LinearMap.liftBaseChangeEquiv A).symm g) ∘ₗ d) = g ∘ₗ d.baseChange A
     simpa only [LinearEquiv.apply_symm_apply] using
       liftBaseChangeEquiv_comp (A := A) d ((LinearMap.liftBaseChangeEquiv A).symm g)

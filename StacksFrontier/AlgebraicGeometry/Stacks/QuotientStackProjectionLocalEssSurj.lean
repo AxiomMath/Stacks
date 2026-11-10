@@ -309,7 +309,7 @@ theorem isRepresentableByAlgebraicSpaces_quotientStackProjectionHom
     (ULiftHom.equiv.{u, u + 1, u + 1}
       (C := (fibredCategory C S hS G.objects.obj).val.obj)).isEquivalence_inverse
   let : (BasedFunctor.id (quotientStack G)).toFunctor.IsEquivalence := by
-    show (𝟭 (quotientStack G).obj).IsEquivalence
+    change (𝟭 (quotientStack G).obj).IsEquivalence
     infer_instance
   exact (isRepresentableByAlgebraicSpaces_iff_of_equivalences C S hS
     (𝒳' := liftedObjectSpace G)

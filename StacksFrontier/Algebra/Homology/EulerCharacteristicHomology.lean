@@ -112,7 +112,7 @@ theorem homologyEulerChar_eq_eulerChar_of_rel (σ : ι ≃ ι) (hσ : ∀ i, c.R
     let φ : (K.sc (σ i)).X₁ ≅ (K.sc i).X₂ := K.XIsoOfEq (hprev i)
     let ψ : (K.sc (σ i)).X₂ ≅ (K.sc i).X₃ := K.XIsoOfEq (hnext i).symm
     have hcomm : (K.sc (σ i)).f ≫ ψ.hom = φ.hom ≫ (K.sc i).g := by
-      show K.d _ _ ≫ (K.XIsoOfEq _).hom = (K.XIsoOfEq _).hom ≫ K.d _ _
+      change K.d _ _ ≫ (K.XIsoOfEq _).hom = (K.XIsoOfEq _).hom ≫ K.d _ _
       rw [HomologicalComplex.d_comp_XIsoOfEq_hom, HomologicalComplex.XIsoOfEq_hom_comp_d]
     have hrange : (K.sc (σ i)).f.hom.range.map ψ.toLinearEquiv.toLinearMap =
         (K.sc i).g.hom.range := by
@@ -136,7 +136,7 @@ theorem homologyEulerChar_eq_eulerChar_of_rel (σ : ι ≃ ι) (hσ : ∀ i, c.R
     rw [← finsum_add_distrib hwh hwdp, ← finsum_add_distrib ((hwh.union hwdp).subset
       (Function.support_add _ _)) hwd]
     exact finsum_congr fun i => by rw [← hpoint i]; ring
-  show (∑ᶠ i, sg i * (hr i : ℤ)) = ∑ᶠ i, sg i * (cr i : ℤ)
+  change (∑ᶠ i, sg i * (hr i : ℤ)) = ∑ᶠ i, sg i * (cr i : ℤ)
   linarith
 
 end HomologicalComplex

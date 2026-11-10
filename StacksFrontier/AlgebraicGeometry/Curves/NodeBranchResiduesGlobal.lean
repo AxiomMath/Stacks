@@ -236,7 +236,7 @@ public theorem exists_branchResidues_of_isNodalAlgebra (k : Type u) (A : Type v)
     (minimalPrimes.finite_of_isNoetherianRing A) Rl 𝔪.primeCompl
   let ψ : T →+* Dl := (e : Tl →+* Dl).comp (algebraMap T Tl)
   have hψ : ∀ b : A, ψ (algebraMap A T b) = algebraMap Rl Dl (algebraMap A Rl b) := fun b => by
-    show e (algebraMap T Tl (algebraMap A T b)) = algebraMap Rl Dl (algebraMap A Rl b)
+    change e (algebraMap T Tl (algebraMap A T b)) = algebraMap Rl Dl (algebraMap A Rl b)
     rw [← IsScalarTower.algebraMap_apply A T Tl, IsScalarTower.algebraMap_apply A Rl Tl,
       e.commutes]
   have hψk : ∀ c : k, ψ (algebraMap k T c) = algebraMap k Dl c := by
@@ -261,10 +261,10 @@ public theorem exists_branchResidues_of_isNodalAlgebra (k : Type u) (A : Type v)
     exists_branchResidues_apply_ne_of_quadraticAlgebra_algEquiv_prod k Rl eκ esplit (ψ t) hspanD
   let ψk : T →ₐ[k] Dl := { ψ with commutes' := hψk }
   refine ⟨ε₁.comp ψk, ε₂.comp ψk, fun b => ?_, sub_ne_zero_of_ne hne, fun b => ?_⟩
-  · show ε₁ (ψ (algebraMap A T b)) = ε₂ (ψ (algebraMap A T b))
+  · change ε₁ (ψ (algebraMap A T b)) = ε₂ (ψ (algebraMap A T b))
     rw [hψ b]
     exact hres (algebraMap A Rl b)
-  · show ε₁ (ψ (algebraMap A T b)) = 0 ↔ b ∈ 𝔪
+  · change ε₁ (ψ (algebraMap A T b)) = 0 ↔ b ∈ 𝔪
     rw [hψ b, apply_algebraMap_eq_zero_iff_mem_maximalIdeal k Rl Dl ε₁ (algebraMap A Rl b)]
     exact IsLocalization.AtPrime.to_map_mem_maximal_iff Rl 𝔪 b
 
@@ -406,7 +406,7 @@ public theorem existsUnique_extend_integralClosure_branchResidues_of_isNodalAlge
     obtain ⟨j, hj, hjle⟩ := (hmax i hi).isPrime.prod_le.mp hle
     exact hdistinct j (Finset.mem_of_mem_erase hj) i hi (Finset.ne_of_mem_erase hj)
       ((hmax j (Finset.mem_of_mem_erase hj)).eq_of_le (hmax i hi).ne_top hjle)
-  obtain ⟨α₀, hα₀prod, hα₀notmem⟩ := SetLike.not_le_iff_exists.mp hnotle
+  obtain ⟨α₀, hα₀prod, hα₀notmem⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
   have hcondε : ∀ b : A, ε₁ (algebraMap A ↥(integralClosure A (FractionRing A)) b) = 0 →
       α₀ * b ∈ ∏ j ∈ s, 𝔪 j := by
     intro b hb

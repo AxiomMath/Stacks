@@ -6,7 +6,8 @@ public import StacksFrontier.CategoryTheory.Sites.Simplicial.HypercoveringObject
 /-!
 # Stacks 0D8L from the quasi-isomorphism on the base site, in chain form
 
-`StacksFrontier/CategoryTheory/Sites/Simplicial/HypercoveringObjectDerivedPushforwardFreeYoneda.lean`
+The module
+`StacksFrontier.CategoryTheory.Sites.Simplicial.HypercoveringObjectDerivedPushforwardFreeYoneda`
 reduces Stacks 0D8L for a hypercovering to the statement that the extension by zero `a_!` carries
 the augmentation of the resolution of Stacks 0D78 of `a^{-1}ℤ_V^♯` to a quasi-isomorphism, stated
 on `CategoryTheory.SimplicialSiteSituation.Augmentation.resolutionCochainAugmentation`: the

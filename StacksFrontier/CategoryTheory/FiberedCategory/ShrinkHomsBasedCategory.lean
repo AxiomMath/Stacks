@@ -74,13 +74,13 @@ lemma shrinkHoms_functor_comp_inverse :
   have h : (ShrinkHoms.functor.{w} 𝒳.obj ⋙ ShrinkHoms.inverse.{w} 𝒳.obj).map f = f :=
     (equivShrink (x ⟶ y)).symm_apply_apply f
   rw [h]
-  show f = eqToHom (rfl : x = x) ≫ f ≫ eqToHom (rfl : y = y)
+  change f = eqToHom (rfl : x = x) ≫ f ≫ eqToHom (rfl : y = y)
   simp
 
 /-- The comparison functor into the shrunk category is strictly over `𝒞`. -/
 lemma shrinkHoms_functor_comp :
     ShrinkHoms.functor.{w} 𝒳.obj ⋙ (𝒳.shrinkHoms).p = 𝒳.p := by
-  show ShrinkHoms.functor.{w} 𝒳.obj ⋙ (ShrinkHoms.inverse.{w} 𝒳.obj ⋙ 𝒳.p) = 𝒳.p
+  change ShrinkHoms.functor.{w} 𝒳.obj ⋙ (ShrinkHoms.inverse.{w} 𝒳.obj ⋙ 𝒳.p) = 𝒳.p
   rw [← Functor.assoc, shrinkHoms_functor_comp_inverse, Functor.id_comp]
 
 /-- The comparison functor out of the shrunk category is strictly over `𝒞`. -/

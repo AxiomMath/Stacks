@@ -215,7 +215,7 @@ morphisms. -/
 lemma laterPreimage_compatible {i₀ : I} (V₀ : (D.obj (OrderDual.toDual i₀)).Opens)
     ⦃k l : (↥(Set.Ici i₀))ᵒᵈ⦄ (f : k ⟶ l) :
     (laterDiagram D i₀).map f ⁻¹ᵁ laterPreimage D V₀ l = laterPreimage D V₀ k := by
-  show D.map ((laterStages i₀).monotone.dual.functor.map f) ⁻¹ᵁ
+  change D.map ((laterStages i₀).monotone.dual.functor.map f) ⁻¹ᵁ
     (D.map (laterStageHom l) ⁻¹ᵁ V₀) = D.map (laterStageHom k) ⁻¹ᵁ V₀
   rw [← Scheme.Hom.comp_preimage, ← D.map_comp,
     Subsingleton.elim ((laterStages i₀).monotone.dual.functor.map f ≫ laterStageHom l)
@@ -240,7 +240,7 @@ lemma laterPreimage_preimage_eq {S : Scheme.{u}} (U : S.Opens)
   have hn : p.app ((laterStages i₀).monotone.dual.functor.obj k) ≫ D.map (laterStageHom k) =
       p.app (OrderDual.toDual i₀) :=
     ((Category.id_comp _).symm.trans (p.naturality (laterStageHom k))).symm
-  show p.app ((laterStages i₀).monotone.dual.functor.obj k) ⁻¹ᵁ
+  change p.app ((laterStages i₀).monotone.dual.functor.obj k) ⁻¹ᵁ
     (D.map (laterStageHom k) ⁻¹ᵁ V₀) = T
   rw [← Scheme.Hom.comp_preimage, hn, hT]
 

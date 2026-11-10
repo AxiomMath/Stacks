@@ -327,7 +327,7 @@ private theorem isPseudoCoherentFrom_representedAffineDerivedSections_obj'
   -- the product of the `R_i` is faithfully flat over `R`
   have hff := faithfullyFlat_pi_chartRing B S hS (yoneda.obj U) (isAlgebraicSpace_yoneda B S hS U)
     (isAffineChart_representedAffineFinalChart B S hS U) φ haff hpre
-  have hφ : (Pi.ringHom f).FaithfullyFlat := hff
+  have hφ : (RingHom.pi f).FaithfullyFlat := hff
   let S' : Fin n → Type u := fun j => Γ((BigFppfOver.toScheme B S hS).obj (Ui j), ⊤)
   exact (Stacks.Cohomology.PseudoCoherence.FpqcDescent.isPseudoCoherentFrom_of_faithfullyFlat_pi
     (S := S') f hφ K₀ m hloc).ofIso eK

@@ -93,7 +93,7 @@ theorem isLocallySurjective_of_isRepresentableByAlgebraicSpaces
       (𝟙 (yoneda.obj U)) :=
     presheaf_id_of_iso B S hS _ (fun _ _ f hf => by
       have := hf
-      show Etale (Tscheme.map f)
+      change Etale (Tscheme.map f)
       infer_instance) U
   -- The single morphism of the site through which `x` is lifted.
   let j : V ⟶ U := yoneda.preimage (φ ≫ p)
@@ -143,7 +143,7 @@ theorem isLocallySurjective_of_isRepresentableByAlgebraicSpaces
     rw [PreZeroHypercover.sieve₀, Sieve.ofArrows, Sieve.generate_le_iff,
       Presieve.ofArrows_le_iff]
     intro i
-    show (Sieve.overEquiv U (Presheaf.imageSieve a x)).arrows (E'.f i)
+    change (Sieve.overEquiv U (Presheaf.imageSieve a x)).arrows (E'.f i)
     rw [Sieve.overEquiv_iff]
     let α : Over.mk (E'.f i ≫ U.hom) ⟶ U := Over.homMk (E'.f i) (by simp)
     let b : (Over.mk (E'.f i ≫ U.hom)).left ⟶ (BigFppfOver.forget B S hS).obj V :=
@@ -157,7 +157,7 @@ theorem isLocallySurjective_of_isRepresentableByAlgebraicSpaces
     let β : Over.mk (E'.f i ≫ U.hom) ⟶ V := Over.homMk b (by
       rw [← Over.w j, ← Category.assoc]
       exact congrArg (· ≫ U.hom) hbp)
-    show R α
+    change R α
     rw [← show β ≫ j = α from Over.OverMorphism.ext hbp]
     exact R.downward_closed hjR β
   exact J.superset_covering hle hRcov

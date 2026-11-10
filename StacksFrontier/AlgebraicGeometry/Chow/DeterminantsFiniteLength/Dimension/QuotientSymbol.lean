@@ -128,7 +128,7 @@ private lemma deleted_quotient_sequence_spans
       exact Submodule.subset_span ⟨j, by simp [d, hj]⟩
   have htop : (⊤ : Submodule R M).map q = ⊤ :=
     (Submodule.map_top q).trans (LinearMap.range_eq_top.mpr hq)
-  show T = ⊤
+  change T = ⊤
   apply top_unique
   rwa [← htop, ← hspan]
 
@@ -271,7 +271,7 @@ lemma quotientSymbol_unitChange
       simp [eNewDerived, e0Update, e0, a0, eNew, hi, hnot, hcast]
   have hcut : initialSpan (R := R) e0 (n + 1) =
       initialSpan (R := R) e0Update (n + 1) := by
-    show initialSpan (R := R) e0 (n + 1) =
+    change initialSpan (R := R) e0 (n + 1) =
       initialSpan (R := R) (Function.update e0 a0 replacement) (n + 1)
     exact initialSpan_update_eq e0 a0 unit replacement x ha0 hx0 (by omega)
   have hfull : Submodule.span R (Set.range e0) =

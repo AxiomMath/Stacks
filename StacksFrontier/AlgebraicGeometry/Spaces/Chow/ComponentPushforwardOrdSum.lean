@@ -203,8 +203,8 @@ theorem componentPushforwardCoeff_eq_finsum_subtype
   refine finsum_congr fun V => ?_
   by_cases hV : Z.ambientGenericPoint D.site D.base D.base_mem ∈
       subspacePointSet D.site D.base D.base_mem X V.1.subspace
-  · rw [finsum_eq_if, if_pos hV]
-  · rw [finsum_eq_if, if_neg hV]
+  · rw [finsum_eq_if, ite_eq_left hV]
+  · rw [finsum_eq_if, ite_eq_right hV]
     exact data.componentDivisorPushforward_apply_eq_zero_of_notMem V Z hV
 
 /-- **The right-hand side of Stacks 0EQ2 at `Z`, each term read on the component.** For a

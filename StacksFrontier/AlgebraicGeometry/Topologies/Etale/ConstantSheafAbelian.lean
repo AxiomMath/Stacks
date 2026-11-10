@@ -197,11 +197,11 @@ public theorem constantToLocallyConstantMapsAb_isLocallySurjective (A : Type (ma
   refine (Presheaf.imageSieve
     (constantToLocallyConstantMapsAb.{u, v} B S hS A) s).downward_closed ?_ g
   refine ⟨s₀ (r i), ?_⟩
-  show LocallyConstant.const ((SmallEtale.toScheme B S hS).obj (W i)) (s₀ (r i)) =
+  change LocallyConstant.const ((SmallEtale.toScheme B S hS).obj (W i)) (s₀ (r i)) =
     LocallyConstant.comapAddMonoidHom
       ((SmallEtale.toScheme B S hS).map (a i)).base.hom s₀
   refine LocallyConstant.ext fun y => ?_
-  show s₀ (r i) = s₀ ((SmallEtale.toScheme B S hS).map (a i) y)
+  change s₀ (r i) = s₀ ((SmallEtale.toScheme B S hS).map (a i) y)
   exact (hconst (r i) _ (hmaps i y)).symm
 
 
@@ -293,7 +293,7 @@ public theorem constantSheafIsoLocallyConstantMapsAb_smallEtale_unit
     (toSheafify_sheafifyLift (SmallEtale.topology B S hS)
       (constantToLocallyConstantMapsAb.{u, v} B S hS A)
       (locallyConstantSheafAb.{u, v} B S hS A).property)
-  show (sheafifyLift (SmallEtale.topology B S hS)
+  change (sheafifyLift (SmallEtale.topology B S hS)
       (constantToLocallyConstantMapsAb.{u, v} B S hS A)
       (locallyConstantSheafAb.{u, v} B S hS A).property).app T
     (((toSheafify (SmallEtale.topology B S hS)
@@ -315,7 +315,7 @@ public theorem geometricPointFiber_final_eq
   refine Subtype.ext ?_
   have hid : B.inclusion.map (SmallEtale.final B S hS).obj.hom =
       𝟙 ((SmallEtale.toScheme B S hS).obj (SmallEtale.final B S hS)) := by
-    show B.inclusion.map (𝟙 (B.obj S hS)) = 𝟙 _
+    change B.inclusion.map (𝟙 (B.obj S hS)) = 𝟙 _
     exact B.inclusion.map_id _
   exact (Category.comp_id q.1).symm.trans ((congrArg (q.1 ≫ ·) hid.symm).trans q.2)
 
@@ -347,7 +347,7 @@ public theorem etaleGerm_const_eq (W : SmallEtale B S hS)
         (LocallyConstant.const ((SmallEtale.toScheme B S hS).obj (SmallEtale.final B S hS))
           (s (q.1.base (default : ↥t.source)))) := by
     refine LocallyConstant.ext fun y => ?_
-    show s (((SmallEtale.toScheme B S hS).map (SmallEtale.openObjectι B S hS W W₀)).base y) =
+    change s (((SmallEtale.toScheme B S hS).map (SmallEtale.openObjectι B S hS W W₀)).base y) =
       s (q.1.base (default : ↥t.source))
     rw [SmallEtale.openObjectι_map]
     exact hconst _ y.2

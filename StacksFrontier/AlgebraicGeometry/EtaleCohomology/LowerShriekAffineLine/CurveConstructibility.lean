@@ -257,7 +257,7 @@ theorem isConstructibleEtaleComplex_derivedLowerShriekUnbounded_restrictOpen_ofI
       (constantEtaleComplexRestrictionIso Λ M jU))
     (isConstructibleEtaleComplex_obj₁_of_distinguished Λ _ hT ?_ ?_)
   · -- the middle term: `R(q̄ ≫ t)_* M̲ = t_* Rq̄_* M̲`
-    show IsConstructibleEtaleComplex Λ ((etaleModuleDerivedDirectImageUnbounded.{u, u + 1} Λ
+    change IsConstructibleEtaleComplex Λ ((etaleModuleDerivedDirectImageUnbounded.{u, u + 1} Λ
       (qbar ≫ t)).obj ((etaleModuleDerivedExtensionByZeroUnbounded.{u, u + 1} Λ (𝟙 Ybar)).obj
         (constantEtaleComplex Λ M Ybar)))
     let e₁ : (etaleModuleDerivedExtensionByZeroUnbounded.{u, u + 1} Λ (𝟙 Ybar)).obj
@@ -386,7 +386,7 @@ theorem isConstructibleEtaleComplex_derivedLowerShriekUnbounded_of_curveDiagram
       (etaleModuleDerivedInverseImageGeneral.{u, u + 1} Λ τ).mapIso
           (constantEtaleComplexRestrictionIso Λ M W.ι) ≪≫
         etaleModuleDerivedInverseImageSingleConstantIso Λ τ M
-    show IsConstructibleEtaleComplex Λ ((derivedLowerShriekUnbounded.{u, u + 1} (τ ≫ W.ι ≫ pV)
+    change IsConstructibleEtaleComplex Λ ((derivedLowerShriekUnbounded.{u, u + 1} (τ ≫ W.ι ≫ pV)
       (JW.restrictClosed τ) Λ).obj ((etaleModuleDerivedInverseImageGeneral.{u, u + 1} Λ τ).obj K₁))
     refine isConstructibleEtaleComplex_of_iso Λ
       ((derivedLowerShriekUnbounded.{u, u + 1} _ _ Λ).mapIso e).symm ?_

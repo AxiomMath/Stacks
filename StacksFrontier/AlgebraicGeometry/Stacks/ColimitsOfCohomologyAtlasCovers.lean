@@ -174,7 +174,7 @@ theorem exists_isAffineObject_cover_nonempty_hom_associatedTopology
   refine ⟨F.obj (Over.mk (𝟙 U₀)), ?_, ?_⟩
   · have hproj : 𝒳.val.val.p.obj (F.obj (Over.mk (𝟙 U₀))) = U₀ :=
       Functor.congr_obj hw (Over.mk (𝟙 U₀))
-    show IsAffine ((BigFppfOver.toScheme B S hS).obj
+    change IsAffine ((BigFppfOver.toScheme B S hS).obj
       (𝒳.val.val.p.obj (F.obj (Over.mk (𝟙 U₀)))))
     rwa [hproj]
   · intro z

@@ -84,7 +84,7 @@ private noncomputable def embeddingArrowFunctor (C : Type u) [Category.{v} C]
           Arrow.mk_right] using d.i.naturality (z.map f))
       map_id X := ?_
       map_comp f g := ?_ }
-  all_goals apply Arrow.hom_ext <;> (simp <;> rfl)
+  all_goals apply Arrow.hom_ext <;> simp
 
 /-- In an abelian category whose monomorphisms factor functorially through their right
 lifting property, the injective embeddings can be chosen functorially: factor `A ⟶ 0`
@@ -101,7 +101,7 @@ private theorem hasFunctorialInjectiveEmbeddings_of_functorialFactorization
       let fac := (functorialFactorizationData
         (monomorphisms C) (monomorphisms _).rlp).factorizationData
         ((isZero_zero _).from_ X)
-      show Injective fac.Z
+      change Injective fac.Z
       simpa only [injective_iff_rlp_monomorphisms_zero,
         (isZero_zero _).eq_of_tgt fac.p 0] using fac.hp⟩
 

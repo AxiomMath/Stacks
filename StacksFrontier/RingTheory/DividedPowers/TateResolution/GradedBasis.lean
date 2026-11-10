@@ -711,7 +711,7 @@ public theorem even_decomposition {G : GradedDividedPowerPolynomial Aᵢ γ ι}
       e.injective ((Subtype.ext (by simpa using hzero) : e y = 0).trans (map_zero e).symm)
     have hcoeffsum : y.coeff =
         ∑ i ∈ K, Finsupp.single i (⟨b i, hb i⟩ : ↥(G.stage S)) := by
-      show (show EvenVariableAlgebra ↥(G.stage S) →+ (ℕ →₀ ↥(G.stage S)) from
+      change (show EvenVariableAlgebra ↥(G.stage S) →+ (ℕ →₀ ↥(G.stage S)) from
         { toFun := EvenVariableAlgebra.coeff
           map_zero' := EvenVariableAlgebra.coeff_zero
           map_add' := EvenVariableAlgebra.coeff_add }) y = _

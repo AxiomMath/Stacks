@@ -186,11 +186,11 @@ theorem isIso_derivedBaseChangeMap_comp_of_exact_pushforward_complex
           ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj
             (((modulePushforward ι).mapHomologicalComplex (ComplexShape.up ℤ)).obj W)) ≫
         DerivedCategory.Qh.map ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
-          ((NatTrans.mapHomologicalComplex (moduleBaseChangeSquare k ι' ι l sqA).natTrans
+          ((NatTrans.mapHomologicalComplex (moduleBaseChangeSquare k ι' ι l sqA)
             (ComplexShape.up ℤ)).app W ≫
             ((modulePushforward ι').mapHomologicalComplex (ComplexShape.up ℤ)).map χ)))) := by
   have hq : (HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
-        ((NatTrans.mapHomologicalComplex (moduleBaseChangeSquare k ι' ι l sqA).natTrans
+        ((NatTrans.mapHomologicalComplex (moduleBaseChangeSquare k ι' ι l sqA)
           (ComplexShape.up ℤ)).app W ≫
           ((modulePushforward ι').mapHomologicalComplex (ComplexShape.up ℤ)).map χ) =
       (underivedBaseChangeSquare k ι' ι l sqA).app

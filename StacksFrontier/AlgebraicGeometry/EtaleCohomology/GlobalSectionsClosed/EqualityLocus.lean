@@ -114,7 +114,7 @@ image of `V` in `X`. -/
 public theorem range_smallEtalePairFst (W V : X.Etale) :
     Set.range (smallEtalePairFst W V).left.base
       = (W.hom : W.left ⟶ X).base ⁻¹' (smallEtaleImage V : Set X) := by
-  show Set.range (pullback.fst (W.hom : W.left ⟶ X) (V.hom : V.left ⟶ X)).base = _
+  change Set.range (pullback.fst (W.hom : W.left ⟶ X) (V.hom : V.left ⟶ X)).base = _
   exact Scheme.Pullback.range_fst _ _
 
 variable (F : Sheaf (Scheme.smallEtaleTopology X) (Type w))

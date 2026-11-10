@@ -367,8 +367,8 @@ system of the genuine first Chern class rule, so **no `@[stacks 0FDZ]` attribute
 the tag sits on `Stacks.Chow.bivariantPieceEquivOfInvertible`
 (`StacksFrontier.AlgebraicGeometry.Chow.BivariantDisjoint.PieceGysinSystemOfInvertible`), which is
 this isomorphism at that system. See the implementation notes of
-`StacksFrontier.AlgebraicGeometry.Chow.BivariantDisjoint.PieceAssembly`. Stacks 02S1 and Stacks 02S2,
-both for a general flat or proper morphism and along the legs of a cartesian square, are no
+`StacksFrontier.AlgebraicGeometry.Chow.BivariantDisjoint.PieceAssembly`. Stacks 02S1 and Stacks
+02S2, both for a general flat or proper morphism and along the legs of a cartesian square, are no
 longer among the hypotheses: they are the theorems
 `Stacks.Chow.flatPullbackFactorsThroughRationalEquivalence_general`,
 `Stacks.Chow.flatPullbackFactorsOnPieces`,

@@ -126,7 +126,7 @@ theorem zero_le_curveVal_iff (P : CurvePlace X) (f : X.functionField) :
   · simp only [AddValuation.map_zero, le_top, true_iff]
     exact ⟨0, map_zero _⟩
   rw [← coe_ordZ hf, ordZ_curveVal]
-  show (((0 : ℤ) : WithTop ℤ)) ≤ _ ↔ _
+  change (((0 : ℤ) : WithTop ℤ)) ≤ _ ↔ _
   rw [WithTop.coe_le_coe]
   constructor
   · exact exists_algebraMap_eq_of_ord_nonneg P.2
@@ -209,11 +209,11 @@ theorem exists_curveVal_ringEquiv [UniversallyClosed p] [IsCurve F p]
   refine (addValuation_eq_of_forall_zero_le_iff (v := (curveVal hdvr P').comap
     (τ : X.functionField →+* X.functionField)) (w := curveVal hdvr P) (fun g => ?_) ?_
     (exists_curveVal_eq_one hdvr P) f)
-  · show 0 ≤ curveVal hdvr P' (τ g) ↔ _
+  · change 0 ≤ curveVal hdvr P' (τ g) ↔ _
     rw [zero_le_curveVal_iff hdvr P', ← hP', hV, RingEquiv.symm_apply_apply]
   · obtain ⟨π, hπ⟩ := exists_curveVal_eq_one hdvr P'
     exact ⟨τ.symm π, by
-      show curveVal hdvr P' (τ (τ.symm π)) = _
+      change curveVal hdvr P' (τ (τ.symm π)) = _
       rw [RingEquiv.apply_symm_apply, hπ]⟩
 
 include hdvr in
@@ -270,6 +270,7 @@ theorem surjective_residue_iff (P : CurvePlace X) :
       ← IsLocalRing.residue_eq_zero_iff, map_sub] at hc
     exact (sub_eq_zero.1 hc).symm
 
+omit [IsIntegral X] [IsLocallyNoetherian X] in
 /-- A place whose residue map from `F` is onto has degree one. -/
 theorem curveDeg_eq_one_of_surjective (P : CurvePlace X)
     (hs : Function.Surjective (fun c : F =>

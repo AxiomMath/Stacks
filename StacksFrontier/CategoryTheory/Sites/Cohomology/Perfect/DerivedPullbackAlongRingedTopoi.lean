@@ -194,6 +194,8 @@ private theorem hasStrictlyPerfectModel_of_hom
       (Stacks.SheafOfModules.Tensor.ringSheaf X.O) a).mapDerivedCategoryFactors.app
       (X.restrictComplex K' V) ≪≫ DerivedCategory.Q.mapIso hcmp
 
+omit [∀ U : X.C, (X.J.over U).HasSheafCompose (forget₂ CommRingCat.{0} RingCat.{0})]
+  [∀ U : Y.C, (Y.J.over U).HasSheafCompose (forget₂ CommRingCat.{0} RingCat.{0})] in
 /-- **The pullback of a strictly perfect model is a strictly perfect model over the image
 object.** If `K` carries a strictly perfect derived model over `W`, then a complex
 representative `K'` of `Lf^* E` carries one over `u(W)`.
@@ -245,6 +247,8 @@ private theorem hasStrictlyPerfectModel_image
       (derivedPullback (f.localized W).toRingedToposSiteHom).mapIso
         (α ≪≫ restrictComplexIsoOfIso Y e W) ≪≫ eTot⟩⟩
 
+omit [∀ U : X.C, (X.J.over U).HasSheafCompose (forget₂ CommRingCat.{0} RingCat.{0})]
+  [∀ U : Y.C, (Y.J.over U).HasSheafCompose (forget₂ CommRingCat.{0} RingCat.{0})] in
 /-- **Stacks 08H6.** The derived pullback along a morphism of ringed sites of a perfect object of
 `D(O')` is perfect.
 

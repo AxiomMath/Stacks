@@ -117,7 +117,7 @@ variable {A B C D E W : Type*} [Category A] [Category B] [Category C] [Category 
       ((squareCompositeIso eg ef).hom.app K ⊗ₘ (squareCompositeIso eg ef).hom.app N) =
     (squareCompositeIso eg ef).hom.app (K ⊗ N) ≫ JQ.map (δ Fp K N) ≫
       δ JQ (Fp.obj K) (Fp.obj N))
-  [IsIso (twoSquare adjp adjQ eg ef).natTrans]
+  [IsIso (twoSquare adjp adjQ eg ef)]
   {JX : E ⥤ W} [JX.Monoidal] {Lι : C ⥤ W} [Lι.Monoidal] (ν : Lι ≅ JQ ⋙ JX)
   (hν : ∀ K N : C, δ Lι K N ≫ (ν.hom.app K ⊗ₘ ν.hom.app N) =
     ν.hom.app (K ⊗ N) ≫ δ (JQ ⋙ JX) K N)
@@ -129,33 +129,33 @@ variable {A B C D E W : Type*} [Category A] [Category B] [Category C] [Category 
     Pf.map (κg.inv.app K) ≫ κf.inv.app (JY.obj (Fg.obj K)) ≫
       JX.map ((squareCompositeIso eg ef).hom.app (Fg.obj K) ≫ JQ.map (eP.hom.app K)))
   {UA : A} (hA : 𝟙_ A = UA) {UB : B} (hB : 𝟙_ B = UB) {UD : D} (hD : 𝟙_ D = UD)
-  [IsIso ((rightAdjointBaseChange adjp adjQ adjJY adjJQ eg ef bp bQ).natTrans.app UB)]
-  [IsIso ((rightAdjointBaseChange adjp adjQ adjJY adjJQ eg ef bp bQ).natTrans.app (ag.obj UA))]
+  [IsIso ((rightAdjointBaseChange adjp adjQ adjJY adjJQ eg ef bp bQ).app UB)]
+  [IsIso ((rightAdjointBaseChange adjp adjQ adjJY adjJQ eg ef bp bQ).app (ag.obj UA))]
 
 /-- The comparison `a_P ⟶ a_Q ∘ a_Ȳ` restricted to `X`: `Lι` of `a_P ≅ a_p ∘ a_g`, `Lι ≅ JX ∘ JQ`
 and `JX` of the base change map. -/
 abbrev compRestrictHom (K : A) : Lι.obj (aP.obj K) ⟶ JX.obj (aQ.obj (JY.obj (ag.obj K))) :=
   Lι.map (jP.inv.app K) ≫ ν.hom.app (ap.obj (ag.obj K)) ≫
-    JX.map ((rightAdjointBaseChange adjp adjQ adjJY adjJQ eg ef bp bQ).natTrans.app (ag.obj K))
+    JX.map ((rightAdjointBaseChange adjp adjQ adjJY adjJQ eg ef bp bQ).app (ag.obj K))
 
 omit [IsIso
-    ((rightAdjointBaseChange adjp adjQ adjJY adjJQ eg ef bp bQ).natTrans.app (ag.obj UA))] in
+    ((rightAdjointBaseChange adjp adjQ adjJY adjJQ eg ef bp bQ).app (ag.obj UA))] in
 include hsq in
 /-- [Stacks, Tag 0B6P] solved for the comparison map of `Q ⟶ Y`. -/
 lemma pentagon_baseChange (N : B) :
     adjQ.comparisonMap bQ (JY.obj N) UD ≫ aQ.map (JY.obj N ◁ eqToHom hD.symm ≫ (ρ_ _).hom) =
       ((squareCompositeIso eg ef).hom.app N ⊗ₘ
-          inv ((rightAdjointBaseChange adjp adjQ adjJY adjJQ eg ef bp bQ).natTrans.app UB ≫
+          inv ((rightAdjointBaseChange adjp adjQ adjJY adjJQ eg ef bp bQ).app UB ≫
             aQ.map (JY.map (eqToHom hB.symm) ≫ η JY ≫ eqToHom hD))) ≫
         μ JQ (Fp.obj N) (ap.obj UB) ≫
         JQ.map (adjp.comparisonMap bp N UB ≫ ap.map (N ◁ eqToHom hB.symm ≫ (ρ_ N).hom)) ≫
-        (rightAdjointBaseChange adjp adjQ adjJY adjJQ eg ef bp bQ).natTrans.app N := by
+        (rightAdjointBaseChange adjp adjQ adjJY adjJQ eg ef bp bQ).app N := by
   rw [comparisonMap_unit_baseChange adjp adjQ adjJY adjJQ eg ef hsq bp bQ hB hD N,
     Functor.Monoidal.μ_δ_assoc, MonoidalCategory.tensorHom_comp_tensorHom_assoc,
     Iso.hom_inv_id_app, IsIso.inv_hom_id, MonoidalCategory.id_tensorHom_id, Category.id_comp]
 
-omit [IsIso ((rightAdjointBaseChange adjp adjQ adjJY adjJQ eg ef bp bQ).natTrans.app (ag.obj UA))]
-  [IsIso ((rightAdjointBaseChange adjp adjQ adjJY adjJQ eg ef bp bQ).natTrans.app UB)]
+omit [IsIso ((rightAdjointBaseChange adjp adjQ adjJY adjJQ eg ef bp bQ).app (ag.obj UA))]
+  [IsIso ((rightAdjointBaseChange adjp adjQ adjJY adjJQ eg ef bp bQ).app UB)]
   [MonoidalCategory A] [Fg.OplaxMonoidal] [FP.OplaxMonoidal] in
 include hsq hκf in
 /-- The monoidal coherence of the compatibility with composition, after restriction to `X`. -/
@@ -329,12 +329,12 @@ theorem comparisonMapAlong_comp_pentagon (K : A) :
         compRestrictHom adjp bp jP adjJY adjJQ adjQ bQ eg ef ν K := by
   have BC := fun N => pentagon_baseChange adjp bp adjJY adjJQ adjQ bQ eg ef hsq hB hD N
   have R0 := Adjunction.comparisonMap_unit_comp adjg adjp bg bp adjP bP eP iP jP heP hiP hjP hA hB K
-  have nβ : (rightAdjointBaseChange adjp adjQ adjJY adjJQ eg ef bp bQ).natTrans.app
+  have nβ : (rightAdjointBaseChange adjp adjQ adjJY adjJQ eg ef bp bQ).app
         (Fg.obj K ⊗ ag.obj UA) ≫
       aQ.map (JY.map (adjg.comparisonMap bg K UA ≫ ag.map (K ◁ eqToHom hA.symm ≫ (ρ_ K).hom))) =
       JQ.map (ap.map (adjg.comparisonMap bg K UA ≫ ag.map (K ◁ eqToHom hA.symm ≫ (ρ_ K).hom))) ≫
-        (rightAdjointBaseChange adjp adjQ adjJY adjJQ eg ef bp bQ).natTrans.app (ag.obj K) :=
-    ((rightAdjointBaseChange adjp adjQ adjJY adjJQ eg ef bp bQ).natTrans.naturality
+        (rightAdjointBaseChange adjp adjQ adjJY adjJQ eg ef bp bQ).app (ag.obj K) :=
+    ((rightAdjointBaseChange adjp adjQ adjJY adjJQ eg ef bp bQ).naturality
       (adjg.comparisonMap bg K UA ≫ ag.map (K ◁ eqToHom hA.symm ≫ (ρ_ K).hom))).symm
   have R1 : (adjp.comparisonMap bp (Fg.obj K ⊗ ag.obj UA) UB ≫
         ap.map ((Fg.obj K ⊗ ag.obj UA) ◁ eqToHom hB.symm ≫ (ρ_ (Fg.obj K ⊗ ag.obj UA)).hom)) ≫
@@ -352,10 +352,10 @@ theorem comparisonMapAlong_comp_pentagon (K : A) :
         ap.map ((ag.obj UA) ◁ eqToHom hB.symm ≫ (ρ_ (ag.obj UA)).hom)) ≫ jP.hom.app UA) ≫
       (adjP.comparisonMap bP K UA ≫ aP.map (K ◁ eqToHom hA.symm ≫ (ρ_ K).hom)) ≫
       jP.inv.app K)) ≫
-      JX.map ((rightAdjointBaseChange adjp adjQ adjJY adjJQ eg ef bp bQ).natTrans.app (ag.obj K))))
+      JX.map ((rightAdjointBaseChange adjp adjQ adjJY adjJQ eg ef bp bQ).app (ag.obj K))))
     (pentagon_coreLift (eg := eg) (ef := ef) (hsq := hsq) (κf := κf) (hκf := hκf) (κg := κg)
       (eP := eP) (K := K) (N := ag.obj UA)
-      (t := inv ((rightAdjointBaseChange adjp adjQ adjJY adjJQ eg ef bp bQ).natTrans.app UB ≫
+      (t := inv ((rightAdjointBaseChange adjp adjQ adjJY adjJQ eg ef bp bQ).app UB ≫
         aQ.map (JY.map (eqToHom hB.symm) ≫ η JY ≫ eqToHom hD))) (Z₃ := ap.obj UB))
   refine Eq.trans ?_ (key.trans ?_)
   · rw [comparisonMapAlong_eq_μ adjg bg JY κg hA K,

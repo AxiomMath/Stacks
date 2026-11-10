@@ -227,7 +227,7 @@ theorem internalHomSheafSmallUncurry_curry (b : valOf X Z ⊗ valOf X L ⟶ valO
   intro W
   refine AnyUniverse.globalTensor_hom_ext X.O.obj (valOf X Z) (valOf X L) ?_
   intro x y
-  show internalHomSheafSmallUncurryApp X Z L K (internalHomSheafSmallCurry X Z L K b) W.unop
+  change internalHomSheafSmallUncurryApp X Z L K (internalHomSheafSmallCurry X Z L K b) W.unop
       (x ⊗ₜ y) =
     AnyUniverse.globalTensorHom X.O.obj (valOf X Z) (valOf X L) (valOf X K) b W.unop (x ⊗ₜ y)
   rw [internalHomSheafSmallUncurryApp_tmul, internalHomSheafSmallSectionEquiv_curry,

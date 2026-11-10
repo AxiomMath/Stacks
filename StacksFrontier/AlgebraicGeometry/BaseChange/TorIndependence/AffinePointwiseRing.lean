@@ -86,7 +86,7 @@ theorem bijective_localizedModule_map_of_isIso_local
         (DerivedCategory.Q.map (modelKappa (R := R) (A := A) (R' := R') (A' := A') (R₀ := R₀)
           ε M N ψ₀))).hom) :=
   bijective_localizedModule_map_of_isLocalizedModule (R := R) (A := A) (R' := R') (A' := A')
-    (R₀ := R₀) ε hF n q B hsurj hpush M N ψ₀ Z ζ hζ α hα
+    (R₀ := R₀) ε n q B hsurj hpush M N ψ₀ Z ζ hζ α hα
     ((isIso_local_iff_isLocalizedModule_modelKappa U W V hsurj ε hF hloc₁ eM α α₁ hα₁ n).1 hiso)
 
 /-- **(1) ⟹ (2) of Stacks 0DJ8 over a pushout square of rings, through its localizations.** -/

@@ -368,7 +368,7 @@ theorem existsUnique_tildeKaehlerIso :
     exact sectionsIso_d φ a
   · refine (tilde.adjunction.homEquiv _ _).injective ?_
     rw [Adjunction.homEquiv_unit, Adjunction.homEquiv_unit]
-    show tilde.toTildeΓNatIso.hom.app (CommRingCat.KaehlerDifferential φ) ≫
+    change tilde.toTildeΓNatIso.hom.app (CommRingCat.KaehlerDifferential φ) ≫
         moduleSpecΓFunctor.map e.hom =
       tilde.toTildeΓNatIso.hom.app (CommRingCat.KaehlerDifferential φ) ≫
         moduleSpecΓFunctor.map (tildeKaehlerIso φ).hom

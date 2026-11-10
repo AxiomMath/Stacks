@@ -97,6 +97,7 @@ private lemma complexBraiding_hexagon_reverse
       whiskerRightIso_symm] using congrArg Iso.symm hf
   exact (congrArg Iso.hom hr :)
 
+@[instance_reducible]
 private noncomputable def symmetric :
     SymmetricCategory (CochainComplex (ModuleCat R) ℤ) where
   braiding := CochainComplex.Koszul.complexBraiding
@@ -207,7 +208,7 @@ public theorem homotopyCategory_symmetricMonoidalCategory (R : Type u) [CommRing
   let : Q.IsLocalization W :=
     (ComplexShape.up ℤ).quotient_isLocalization (fun n ↦ ⟨n - 1, by simp⟩) (ModuleCat.{u} R)
   let ε : Q.obj (𝟙_ _) ≅ Q.obj (𝟙_ _) := Iso.refl _
-  show ∃ mK : MonoidalCategory (LocalizedMonoidal Q W ε),
+  change ∃ mK : MonoidalCategory (LocalizedMonoidal Q W ε),
     let := mK
     ∃ sK : SymmetricCategory (LocalizedMonoidal Q W ε),
       let := sK

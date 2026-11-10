@@ -51,7 +51,8 @@ additionally need the naturality of `CochainComplex.HomComplex.homComplexTargetS
 `AlgebraicGeometry.RingedSite.homComplexToGlobalDerivedHom_homology_degree_of_isKFlat` does,
 removes the target shift from the statement and with it that input.
 
-*The associativity obstruction.* The degree-`n` homology of the naturality square is taken by `congrArg`
+*The associativity obstruction.* The degree-`n` homology of the naturality square is taken by
+`congrArg`
 and not by rewriting: the target of the canonical map is spelled with
 `AlgebraicGeometry.RingedSite.globalDerivedHom` while the morphism it is composed with is spelled
 with `AlgebraicGeometry.RingedSite.derivedModuleGlobalSections` applied to the derived internal

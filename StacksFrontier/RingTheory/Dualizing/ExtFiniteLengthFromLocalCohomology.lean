@@ -80,7 +80,8 @@ def linearEquiv_moduleExtInto_of_linearEquiv {A : Type u} [CommRing A] {M N : Ty
     [AddCommGroup M] [Module A M] [AddCommGroup N] [Module A N] (e : M ≃ₗ[A] N)
     (K : DerivedCategory (ModuleCat.{v} A)) (i : ℤ) :
     moduleExtInto N K i ≃ₗ[A] moduleExtInto M K i :=
-  LinearEquiv.ofLinear (objExtPrecomp e.toModuleIso.hom K i) (objExtPrecomp e.toModuleIso.inv K i)
+  LinearEquiv.ofLinearMap (objExtPrecomp e.toModuleIso.hom K i)
+    (objExtPrecomp e.toModuleIso.inv K i)
     (by rw [← objExtPrecomp_comp, Iso.hom_inv_id, objExtPrecomp_id])
     (by rw [← objExtPrecomp_comp, Iso.inv_hom_id, objExtPrecomp_id])
 

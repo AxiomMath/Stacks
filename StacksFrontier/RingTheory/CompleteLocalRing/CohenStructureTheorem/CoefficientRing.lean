@@ -419,7 +419,7 @@ private theorem hasCoefficientRingHom_of_charP (R : Type u) [CommRing R] [IsLoca
   · obtain ⟨z, hz⟩ := e.surjective y
     obtain ⟨w, hw⟩ := Ideal.Quotient.mk_surjective (I := maximalIdeal Λ) z
     refine ⟨w, ?_⟩
-    show residue R (f w) = y
+    change residue R (f w) = y
     rw [key w, show residue Λ w = z from hw, hz]
 
 /-- Every complete local ring carries the datum of `HasCoefficientRingHom`, by cases on the

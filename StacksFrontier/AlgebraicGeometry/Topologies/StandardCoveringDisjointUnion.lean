@@ -200,7 +200,7 @@ theorem IsStandardCovering.sieve_sigmaDesc_mem_topology (τ : CoveringTopology) 
     (Precoverage.generate_mem_toGrothendieck (h.ofArrows_mem_precoverage τ U f))
   rw [Sieve.generate_le_iff]
   rintro V g ⟨i⟩
-  exact ⟨∐ U, Sigma.ι U i, Sigma.desc f, Presieve.singleton.mk, Sigma.ι_desc f i⟩
+  exact ⟨∐ U, Sigma.ι U i, Sigma.desc f, Presieve.singleton.mk, Sigma.ι_comp_desc f i⟩
 
 /-- Slice categories of a finitary extensive category with finite limits are finitary
 extensive. -/
@@ -258,7 +258,7 @@ public theorem extensiveTopology_le_smallEtaleTopology (S : Scheme.{u}) :
   refine Set.eq_univ_iff_forall.mpr fun x ↦ ?_
   have hG : PreservesColimitsOfShape (Discrete I) (Scheme.Etale.forget S) := by
     let P : MorphismProperty Scheme.{u} := @Etale
-    show PreservesColimitsOfShape (Discrete I) (MorphismProperty.Over.forget P ⊤ S)
+    change PreservesColimitsOfShape (Discrete I) (MorphismProperty.Over.forget P ⊤ S)
     infer_instance
   let G := Scheme.Etale.forget S ⋙ Over.forget S ⋙ Scheme.forgetToTop
   obtain ⟨i, y, hy⟩ := Concrete.isColimit_exists_rep _ (isColimitOfPreserves G hc) x
@@ -320,7 +320,7 @@ theorem IsStandardCovering.sieve_sigmaDesc_mem_smallEtaleTopology (S : Scheme.{u
   obtain ⟨i, y, hy⟩ := Set.mem_iUnion.mp hx
   refine ⟨PUnit.unit, (Sigma.ι E.X i).left y, ?_⟩
   have hcomp : (Sigma.ι E.X i).left ≫ (Sigma.desc E.f).left = (E.f i).left :=
-    congrArg (fun g ↦ g.left) (Sigma.ι_desc E.f i)
+    congrArg (fun g ↦ g.left) (Sigma.ι_comp_desc E.f i)
   rw [← Scheme.Hom.comp_apply, hcomp]
   exact hy
 

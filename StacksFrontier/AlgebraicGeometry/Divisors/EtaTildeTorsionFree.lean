@@ -144,7 +144,7 @@ theorem isIdealTorsionFree_of_isGeneratorRegularOn_top {X : RingedSpace.{u, u}}
       (r' • idealSection X ι (op V) ((I.val.map (homOfLE hVU).op).hom a)) • x =
         r' • (idealSection X ι (op V) ((I.val.map (homOfLE hVU).op).hom a) • x) :=
     fun x => smul_assoc _ _ _
-  show idealSection X ι (op V) _ • s = idealSection X ι (op V) _ • t
+  change idealSection X ι (op V) _ • s = idealSection X ι (op V) _ • t
   rw [h3, h4 s, h4 t]
   exact congrArg _ hst
 
@@ -176,7 +176,7 @@ theorem isSMulRegular_tilde_sections (M : ModuleCat.{u} R) {f : R}
     PrimeSpectrum.isTopologicalBasis_basic_opens.exists_subset_of_mem_open hx V.2
   set V' : (Spec R).Opens := PrimeSpectrum.basicOpen g with hV'
   refine ⟨V', hWV, hxW, isSMulRegular_tilde_sections_basicOpen R M hf g V' hV' ?_⟩
-  show f • _ = f • _
+  change f • _ = f • _
   simp only [← AlgebraicGeometry.Scheme.Modules.map_smul_Spec]
   exact congrArg _ hst'
 

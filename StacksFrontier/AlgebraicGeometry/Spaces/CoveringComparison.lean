@@ -234,7 +234,7 @@ theorem reprSchemePoint_eq_of_commonExtension
     refine (AlgebraicGeometry.FieldValuedPoint.hasCommonExtension_iff_point_eq
       (reprSchemePoint r) (reprSchemePoint s)).mp
       ⟨reprSchemePoint r, ⟨𝟙 _, by simp⟩, f.left.hom, ?_⟩
-    show f.left.hom ≫ s.value.left.hom = r.value.left.hom
+    change f.left.hom ≫ s.value.left.hom = r.value.left.hom
     exact congrArg (fun k => k.left.hom) hf'
   exact (key p hp).symm.trans (key q hq)
 
@@ -270,7 +270,7 @@ theorem isFpqcCovering_of_isFppfCovering
   have hpullObj (i : I) : pFst i ≫ h₁ = pSnd i ≫ f₀ i :=
     (AlgebraicSpaces.isPullback_fiberProduct B S hS h₁ (f₀ i)).w
   have hpbFst (i : I) : (pFst i).hom = pullback.fst h (f i) := by
-    show pullback.fst h₁.hom (f₀ i).hom = pullback.fst h (f i)
+    change pullback.fst h₁.hom (f₀ i).hom = pullback.fst h (f i)
     simp [h₁, f₀]
   have hP : IsFppfCovering B S hS (fun i => (P i).1)
       (fun i => pullback.fst h (f i)) := by
@@ -283,12 +283,12 @@ theorem isFpqcCovering_of_isFppfCovering
   let Q := MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
     (BigFppfOver.toScheme B S hS)
   have hidEtale : Q.presheaf (𝟙 (yoneda.obj Tobj)) := by
-    show yoneda.relativelyRepresentable (𝟙 (yoneda.obj Tobj)) ∧ _
+    change yoneda.relativelyRepresentable (𝟙 (yoneda.obj Tobj)) ∧ _
     refine ⟨Functor.relativelyRepresentable.of_isIso yoneda (𝟙 _), ?_⟩
     intro A C g fst snd hpb
     have : IsIso (yoneda.map snd) := hpb.isIso_snd_of_isIso
     have : IsIso snd := Yoneda.fullyFaithful.isIso_of_isIso_map _
-    show Etale ((BigFppfOver.toScheme B S hS).map snd)
+    change Etale ((BigFppfOver.toScheme B S hS).map snd)
     exact inferInstance
   have hflat (i : I) : Flat ((BigFppfOver.toScheme B S hS).map (qsite i)) :=
     hP.flat i (U i) Tobj (a i) (𝟙 _) (qsite i) (haEtale i) hidEtale (by rw [hqmap]; simp)
@@ -304,13 +304,13 @@ theorem isFpqcCovering_of_isFppfCovering
     intro x
     have hSpec : B.Contains (Spec (.of (T₀.residueField x))) :=
       B.residueField_spec_contains (by
-        show B.Contains ((BigFppfOver.toScheme B S hS).obj Tobj)
+        change B.Contains ((BigFppfOver.toScheme B S hS).obj Tobj)
         exact Tobj.left.property) x
     let π : B.inclusion.obj (B.obj hSpec) ⟶
         B.inclusion.obj ((BigFppfOver.forget B S hS).obj Tobj) :=
       T₀.fromSpecResidueField x
     let b : B.inclusion.obj (B.obj hSpec) ⟶ B.inclusion.obj (B.obj hS) := by
-      show Spec (.of (T₀.residueField x)) ⟶ S
+      change Spec (.of (T₀.residueField x)) ⟶ S
       exact π ≫ B.inclusion.map Tobj.hom
     let pt : FieldValuedPoint B S hS (yoneda.obj Tobj) := {
       carrier := T₀.residueField x
@@ -318,11 +318,11 @@ theorem isFpqcCovering_of_isFppfCovering
       toBase := b
       value := Over.homMk (B.inclusion.preimage π) (by
         ext
-        show (B.inclusion.map (B.inclusion.preimage π)) ≫
+        change (B.inclusion.map (B.inclusion.preimage π)) ≫
           B.inclusion.map Tobj.hom = π ≫ B.inclusion.map Tobj.hom
         rw [B.inclusion.map_preimage]) }
     have hpt : (reprSchemePoint pt).point = x := by
-      show ((B.inclusion.map (B.inclusion.preimage π)).base)
+      change ((B.inclusion.map (B.inclusion.preimage π)).base)
         (IsLocalRing.closedPoint (T₀.residueField x)) = x
       rw [B.inclusion.map_preimage]
       exact Scheme.fromSpecResidueField_apply x _
@@ -352,7 +352,7 @@ theorem isFpqcCovering_of_isFppfCovering
     have hschemePt := reprSchemePoint_eq_of_commonExtension
       (FieldValuedPoint.class_eq_class_iff B S hS (yoneda.obj Tobj) rT pt |>.mp hrT)
     refine ⟨i, (reprSchemePoint r).point, ?_⟩
-    show ((BigFppfOver.toScheme B S hS).map (qsite i))
+    change ((BigFppfOver.toScheme B S hS).map (qsite i))
       ((reprSchemePoint r).point) = x
     rw [← hpt, ← hschemePt]
     rfl
@@ -375,7 +375,7 @@ theorem isFpqcCovering_of_isFppfCovering
     Over.mk (openInclSite k ≫ (U (idx k)).hom)
   let Wobj (k : Fin n) : BigAffineFppf B S hS :=
     ⟨Wsite k, by
-      show IsAffine (Scheme.Opens.toScheme (V k))
+      change IsAffine (Scheme.Opens.toScheme (V k))
       exact hVaff k⟩
   let openMap (k : Fin n) : Wsite k ⟶ U (idx k) :=
     Over.homMk (openInclSite k) (by ext; simp [Wsite, openInclSite])
@@ -384,7 +384,7 @@ theorem isFpqcCovering_of_isFppfCovering
   have hwmapScheme (k : Fin n) :
       (BigAffineFppf.toScheme B S hS).map (wmap k) = openIncl k ≫ g (idx k) := by
     dsimp [wmap, openMap, g, BigFppfOver.toScheme]
-    show B.inclusion.map (openInclSite k) ≫
+    change B.inclusion.map (openInclSite k) ≫
         (BigFppfOver.toScheme B S hS).map (qsite (idx k)) =
       openIncl k ≫ (BigFppfOver.toScheme B S hS).map (qsite (idx k))
     rw [B.inclusion.map_preimage]
@@ -400,7 +400,7 @@ theorem isFpqcCovering_of_isFppfCovering
     obtain ⟨k, y, hy, hzy⟩ := Set.mem_iUnion.mp hz
     refine ⟨⟨k⟩, ⟨⟨y, hy⟩, ?_⟩⟩
     rw [hwmapScheme]
-    show (g (idx k)) ((openIncl k) ⟨y, hy⟩) = z
+    change (g (idx k)) ((openIncl k) ⟨y, hy⟩) = z
     simpa [openIncl] using hzy
   have hWflat (k : Fin n) :
       Flat ((BigAffineFppf.toScheme B S hS).map (wmap k)) := by
@@ -430,7 +430,7 @@ theorem isFpqcCovering_of_isFppfCovering
     yoneda.map (openMap k') ≫ a (idx k')
   let c : yoneda.obj (Wsite k') ⟶ X (idx k') := lift ≫ (pSnd (idx k')).hom
   refine ⟨idx k', c, ?_⟩
-  show c ≫ f (idx k') =
+  change c ≫ f (idx k') =
     yoneda.map ((BigAffineFppf.inclusion B S hS).map (wmap k')) ≫ h
   dsimp [c, lift, wmap]
   have hpull : (pFst (idx k')).hom ≫ h = (pSnd (idx k')).hom ≫ f (idx k') := by

@@ -154,8 +154,8 @@ private theorem baseChange_transpose_compatible (r : XX.pullback ⟶ X)
         ((Cat.Hom.toNatIso (F.mapComp' f.op.toLoc r.op.toLoc XX.p.op.toLoc (by
           rw [← Quiver.Hom.comp_toLoc, ← op_comp, hr]))).hom.app (R.obj M) ≫
           (F.map r.op.toLoc).toFunctor.map (af.counit.app M) ≫ z)) ≫
-        (mateEquiv af₁ aq₁ (commSqTwoSquare F hj)).natTrans.app N ≫ Tq.map n =
-      (mateEquiv af aq (commSqTwoSquare F hw)).natTrans.app M ≫
+        (mateEquiv af₁ aq₁ (commSqTwoSquare F hj)).app N ≫ Tq.map n =
+      (mateEquiv af aq (commSqTwoSquare F hw)).app M ≫
         aq₁.homEquiv _ _
           ((Cat.Hom.toNatIso (F.mapComp' P.p₂.op.toLoc r'.op.toLoc QQ.p.op.toLoc (by
             rw [← Quiver.Hom.comp_toLoc, ← op_comp, hr']))).hom.app
@@ -171,8 +171,8 @@ private theorem baseChange_transpose_compatible (r : XX.pullback ⟶ X)
     (Cat.Hom.toNatIso (F.isoMapOfCommSq (CommSq.mk hs).op.toLoc))
     (Cat.Hom.toNatIso (F.isoMapOfCommSq (CommSq.mk hw).op.toLoc))
     (Cat.Hom.toNatIso (F.isoMapOfCommSq (CommSq.mk hj).op.toLoc))
-    (mateEquiv af aq (commSqTwoSquare F hw)).natTrans
-    (mateEquiv af₁ aq₁ (commSqTwoSquare F hj)).natTrans
+    (mateEquiv af aq (commSqTwoSquare F hw))
+    (mateEquiv af₁ aq₁ (commSqTwoSquare F hj))
     (mateEquiv_counit af aq (commSqTwoSquare F hw))
     (mateEquiv_counit af₁ aq₁ (commSqTwoSquare F hj))
     (fun W ↦ square_comp_coherence F f g P.p₁ P.p₂ r XX.p j r' QQ.p hw hr hr' hs hj W)
@@ -183,11 +183,11 @@ along `g`, followed by the comparison of the two targets, is the comparison of t
 followed by the first reconstruction morphism of the base-changed descent datum. -/
 theorem reconstructionFirst_baseChange (D : F.DescentData (fun _ : Unit ↦ f)) :
     (F.map g.op.toLoc).toFunctor.map (reconstructionFirst F f XX af af₁ D) ≫
-        (mateEquiv af₁ aq₁ (commSqTwoSquare F hj)).natTrans.app
+        (mateEquiv af₁ aq₁ (commSqTwoSquare F hj)).app
             ((F.map XX.p₁.op.toLoc).toFunctor.obj (D.obj ())) ≫
           Tq.map ((Cat.Hom.toNatIso (F.isoMapOfCommSq
             (CommSq.mk hs₁).op.toLoc)).hom.app (D.obj ())) =
-      (mateEquiv af aq (commSqTwoSquare F hw)).natTrans.app (D.obj ()) ≫
+      (mateEquiv af aq (commSqTwoSquare F hw)).app (D.obj ()) ≫
         reconstructionFirst F P.p₂ QQ aq aq₁
           ((singletonPullFunctor F f g P hw).obj D) := by
   rw [reconstructionFirst_comp_id F f XX af af₁ D,
@@ -201,11 +201,11 @@ image along `g`, followed by the comparison of the two targets, is the compariso
 sources followed by the second reconstruction morphism of the base-changed descent datum. -/
 theorem reconstructionSecond_baseChange (D : F.DescentData (fun _ : Unit ↦ f)) :
     (F.map g.op.toLoc).toFunctor.map (reconstructionSecond F f XX af af₁ D) ≫
-        (mateEquiv af₁ aq₁ (commSqTwoSquare F hj)).natTrans.app
+        (mateEquiv af₁ aq₁ (commSqTwoSquare F hj)).app
             ((F.map XX.p₁.op.toLoc).toFunctor.obj (D.obj ())) ≫
           Tq.map ((Cat.Hom.toNatIso (F.isoMapOfCommSq
             (CommSq.mk hs₁).op.toLoc)).hom.app (D.obj ())) =
-      (mateEquiv af aq (commSqTwoSquare F hw)).natTrans.app (D.obj ()) ≫
+      (mateEquiv af aq (commSqTwoSquare F hw)).app (D.obj ()) ≫
         reconstructionSecond F P.p₂ QQ aq aq₁
           ((singletonPullFunctor F f g P hw).obj D) :=
   baseChange_transpose_compatible F f g P XX QQ hw j hj af af₁ aq aq₁ XX.p₂ QQ.p₂ XX.hp₂
@@ -227,8 +227,8 @@ the inverse image along `g` preserves finite limits it carries the equalizer rec
 object from a descent datum to the equalizer reconstructing an object from the base-changed
 datum, by the two compatibilities of the reconstruction morphisms. -/
 noncomputable def reconstructionBaseChangeIso
-    (hβ : ∀ M, IsIso ((mateEquiv af aq (commSqTwoSquare F hw)).natTrans.app M))
-    (hγ : ∀ N, IsIso ((mateEquiv af₁ aq₁ (commSqTwoSquare F hj)).natTrans.app N))
+    (hβ : ∀ M, IsIso ((mateEquiv af aq (commSqTwoSquare F hw)).app M))
+    (hγ : ∀ N, IsIso ((mateEquiv af₁ aq₁ (commSqTwoSquare F hj)).app N))
     (D : F.DescentData (fun _ : Unit ↦ f)) :
     (F.map g.op.toLoc).toFunctor.obj
         (equalizer (reconstructionFirst F f XX af af₁ D)
@@ -237,10 +237,10 @@ noncomputable def reconstructionBaseChangeIso
         (reconstructionSecond F P.p₂ QQ aq aq₁ ((singletonPullFunctor F f g P hw).obj D)) :=
   equalizerIsoOfCompatibleSquare (F.map g.op.toLoc).toFunctor _ _ _ _
     (@asIso _ _ _ _
-      ((mateEquiv af aq (commSqTwoSquare F hw)).natTrans.app (D.obj ()))
+      ((mateEquiv af aq (commSqTwoSquare F hw)).app (D.obj ()))
       (hβ (D.obj ())))
     (@asIso _ _ _ _
-        ((mateEquiv af₁ aq₁ (commSqTwoSquare F hj)).natTrans.app
+        ((mateEquiv af₁ aq₁ (commSqTwoSquare F hj)).app
           ((F.map XX.p₁.op.toLoc).toFunctor.obj (D.obj ())))
         (hγ ((F.map XX.p₁.op.toLoc).toFunctor.obj (D.obj ()))) ≪≫
       Tq.mapIso ((Cat.Hom.toNatIso
@@ -252,8 +252,8 @@ include hw hs₂ in
 /-- The comparison of `CategoryTheory.Pseudofunctor.reconstructionBaseChangeIso` is compatible
 with the two inclusions of the equalizers. -/
 theorem reconstructionBaseChangeIso_hom_ι
-    (hβ : ∀ M, IsIso ((mateEquiv af aq (commSqTwoSquare F hw)).natTrans.app M))
-    (hγ : ∀ N, IsIso ((mateEquiv af₁ aq₁ (commSqTwoSquare F hj)).natTrans.app N))
+    (hβ : ∀ M, IsIso ((mateEquiv af aq (commSqTwoSquare F hw)).app M))
+    (hγ : ∀ N, IsIso ((mateEquiv af₁ aq₁ (commSqTwoSquare F hj)).app N))
     (D : F.DescentData (fun _ : Unit ↦ f)) :
     (reconstructionBaseChangeIso F f g P XX QQ hw j hj hs₁ hs₂ af af₁ aq aq₁ hβ hγ D).hom ≫
         equalizer.ι
@@ -262,7 +262,7 @@ theorem reconstructionBaseChangeIso_hom_ι
       (F.map g.op.toLoc).toFunctor.map
           (equalizer.ι (reconstructionFirst F f XX af af₁ D)
             (reconstructionSecond F f XX af af₁ D)) ≫
-        (mateEquiv af aq (commSqTwoSquare F hw)).natTrans.app (D.obj ()) :=
+        (mateEquiv af aq (commSqTwoSquare F hw)).app (D.obj ()) :=
   equalizerIsoOfCompatibleSquare_hom_ι (F.map g.op.toLoc).toFunctor _ _ _ _ _ _
     (reconstructionFirst_baseChange F f g P XX QQ hw j hj hs₁ af af₁ aq aq₁ D)
     (reconstructionSecond_baseChange F f g P XX QQ hw j hj hs₁ hs₂ af af₁ aq aq₁ D)
@@ -273,8 +273,8 @@ when descent along the base-changed morphism `P.p₂` is effective and the two b
 `2`-cells are invertible. -/
 theorem isIso_singletonPullFunctor_map_counit
     [(F.toDescentData (fun _ : Unit ↦ P.p₂)).IsEquivalence]
-    (hβ : ∀ M, IsIso ((mateEquiv af aq (commSqTwoSquare F hw)).natTrans.app M))
-    (hγ : ∀ N, IsIso ((mateEquiv af₁ aq₁ (commSqTwoSquare F hj)).natTrans.app N))
+    (hβ : ∀ M, IsIso ((mateEquiv af aq (commSqTwoSquare F hw)).app M))
+    (hγ : ∀ N, IsIso ((mateEquiv af₁ aq₁ (commSqTwoSquare F hj)).app N))
     (D : F.DescentData (fun _ : Unit ↦ f)) :
     IsIso ((singletonPullFunctor F f g P hw).map
       ((singletonDescentAdjunction F f XX af af₁).counit.app D)) := by
@@ -294,7 +294,7 @@ theorem isIso_singletonPullFunctor_map_counit
     refine (Equiv.eq_symm_apply _).mp (Eq.trans ?_
       ((singletonDescentAdjunction F P.p₂ QQ aq aq₁).homEquiv_counit _ _ _).symm)
     ext ⟨⟩
-    show (Cat.Hom.toNatIso (F.isoMapOfCommSq
+    change (Cat.Hom.toNatIso (F.isoMapOfCommSq
           (CommSq.mk hw).op.toLoc)).hom.app
             ((singletonDescentRightAdjoint F f XX af af₁).obj D) ≫
         (F.map P.p₁.op.toLoc).toFunctor.map
@@ -329,7 +329,7 @@ theorem isIso_singletonPullFunctor_map_counit
     exact (CategoryTheory.Functor.map_comp_assoc (F.map P.p₂.op.toLoc).toFunctor
       ((F.map g.op.toLoc).toFunctor.map (equalizer.ι (reconstructionFirst F f XX af af₁ D)
         (reconstructionSecond F f XX af af₁ D)))
-      ((mateEquiv af aq (commSqTwoSquare F hw)).natTrans.app (D.obj ()))
+      ((mateEquiv af aq (commSqTwoSquare F hw)).app (D.obj ()))
       (aq.counit.app (((singletonPullFunctor F f g P hw).obj D).obj ()))).symm
   exact Eq.mpr (congrArg IsIso hm) (Iso.isIso_hom _)
 

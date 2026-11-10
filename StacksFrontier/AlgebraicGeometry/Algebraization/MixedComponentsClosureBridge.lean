@@ -294,7 +294,7 @@ public theorem exists_distanceToZ_eq_one_specializes_of_mixed_irreducibleCompone
     isClosed_closure.preimage S.Yι.continuous
   have hE : IsLocallyClosed ((S.Yι.base ⁻¹' closure ({S.U.ι.base x} : Set S.X)) \
       (S.closedSubsetZ : Set S.Y)) := by
-    rw [Set.diff_eq]
+    rw [Set.sdiff_eq]
     exact hWY.isLocallyClosed.inter S.closedSubsetZ.isClosed.isOpen_compl.isLocallyClosed
   obtain ⟨r, hrE, hrimm⟩ :=
     AlgebraicGeometry.exists_isImmediateSpecialization_mem_of_isLocallyClosed S.Y hE

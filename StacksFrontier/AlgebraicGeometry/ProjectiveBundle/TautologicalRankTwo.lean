@@ -285,7 +285,8 @@ end Clause
 /-- The statement of `Stacks.RelativeProj.projectiveBundleBaseChange_tautological_ofInvertible`,
 as the case `L = E`, `q = 𝟙`, `L' = E'`, `q' = 𝟙` of
 `projectiveBundleBaseChange_tautological_ofInvertibleQuotient`. -/
-alias projectiveBundleBaseChange_tautological_ofInvertible_of_quotient := projectiveBundleBaseChange_tautological_ofInvertible
+alias projectiveBundleBaseChange_tautological_ofInvertible_of_quotient :=
+  projectiveBundleBaseChange_tautological_ofInvertible
 
 /-! ### A biproduct of two copies of an invertible module -/
 

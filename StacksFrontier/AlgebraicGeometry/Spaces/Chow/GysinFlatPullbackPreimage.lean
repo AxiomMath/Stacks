@@ -333,6 +333,7 @@ private theorem cycleCoeffOfClosedSubspace_congr
 
 include hp hp' hfbase hflat hr hE hE' hgbase hgflat hgr
 
+omit hfbase hflat hr in
 /-- **The `g`-side of the non-contained branch of Stacks 0ER6, computed.** The coefficient at an
 integral closed subspace `T' ⊆ E'` of the flat pullback `g^*[E ∩ W]_k` of clause (1)(a) of
 Stacks 0ER1 is the multiplicity of `T'` in `E' ∩ f^{-1}(W)`.
@@ -410,8 +411,8 @@ theorem gysinCoeff_comm_of_intersectionAdditivity_of_not_le
         (gysinComponentCycle D p E hE k
             (canonicalGysinComponentRule D p hp E hE k chern) W).1 T *
           flatPullbackMult D (E'.1.ι ≫ p') hE' (E.1.ι ≫ p) hE g hgbase r hgflat hgr T T' := by
-  rw [← hadd W hW hWE T', ← flatPullback_gysinIntersectionCycle_apply D p hp p' hp' f hfbase r
-      hflat hr E hE E' hE' g hgbase hgflat hgr k hw W hW hWE T',
+  rw [← hadd W hW hWE T', ← flatPullback_gysinIntersectionCycle_apply D p hp p' hp' f r
+      E hE E' hE' g hgbase hgflat hgr k hw W hW hWE T',
     flatPullbackMap_apply]
   refine finsum_congr fun T => ?_
   rw [gysinComponentCycle_of_not_le D p E hE k (canonicalGysinComponentRule D p hp E hE k chern)
@@ -423,7 +424,7 @@ non-contained branch discharged.**  At the canonical component rules of
 from the intersection additivity `hadd` on `X'` — the shape of Stacks 0EQL at `f^{-1}(W)` — and
 the contained branch `hchern`, which is Stacks 0EQR read coefficientwise at clause (1)(b) of
 Stacks 0ER1. -/
-def gysinFlatPullbackComparison_of_intersectionAdditivity
+theorem gysinFlatPullbackComparison_of_intersectionAdditivity
     (chern : FirstChernComponentCycleRule D p k)
     (chern' : FirstChernComponentCycleRule D p' (k + (r : ℤ)))
     (hw : g ≫ E.1.ι = E'.1.ι ≫ f)

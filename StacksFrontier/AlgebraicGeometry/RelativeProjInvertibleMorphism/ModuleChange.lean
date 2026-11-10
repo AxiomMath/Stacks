@@ -149,7 +149,7 @@ theorem affineDatum_powIso (V : S.Opens) (n : ℕ) (a : A.grading V n) :
 /-- **The opens agree.** -/
 theorem coveringOpen_eq_of_valueIso : P'.coveringOpen = P.coveringOpen := by
   refine P'.coveringOpen_congr fun p => ?_
-  show Stacks.SectionPowerOpen.nonvanishingOpenOn (natTensorPow P'.L (p.deg + 1)) (f ⁻¹ᵁ p.base)
+  change Stacks.SectionPowerOpen.nonvanishingOpenOn (natTensorPow P'.L (p.deg + 1)) (f ⁻¹ᵁ p.base)
       (P'.value (p.deg + 1) p.base p.val) =
     Stacks.SectionPowerOpen.nonvanishingOpenOn (natTensorPow P.L (p.deg + 1)) (f ⁻¹ᵁ p.base)
       (P.value (p.deg + 1) p.base p.val)
@@ -206,7 +206,7 @@ theorem epi_congrModule_pullback_iff {W : Scheme.{u}} (q : W ⟶ T) (i : ℤ) :
         (pullbackFunctor (ringedSpaceHom q)).map (ψ.app i)) ≫
         ((pullbackFunctor (ringedSpaceHom q)).map (LaurentCongr.congrIso e i).hom ≫
           laurentPullback q L' i) := by
-    show compComparison q f ((situationAlgebra A).piece (i * 1)) ≫
+    change compComparison q f ((situationAlgebra A).piece (i * 1)) ≫
         (pullbackFunctor (ringedSpaceHom q)).map (ψ.app i ≫ (LaurentCongr.congrIso e i).hom) ≫
           laurentPullback q L' i = _
     rw [CategoryTheory.Functor.map_comp]

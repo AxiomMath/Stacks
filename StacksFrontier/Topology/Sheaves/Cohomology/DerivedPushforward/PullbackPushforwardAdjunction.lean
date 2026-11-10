@@ -341,7 +341,7 @@ theorem comp_isLeftDerivedFunctor :
     (pullbackOnHomotopy f ⋙ derivedPushforward f)
     (fun s hs hK hM => by
       have := hinv s hs hK hM
-      show IsIso ((derivedPushforward f).map ((pullbackOnHomotopy f).map s))
+      change IsIso ((derivedPushforward f).map ((pullbackOnHomotopy f).map s))
       infer_instance)
     DerivedCategory.Qh _ _ (fun K hK => ?_)
   have := LeftDerivedByResolutions.isIso_app_of_resolutions

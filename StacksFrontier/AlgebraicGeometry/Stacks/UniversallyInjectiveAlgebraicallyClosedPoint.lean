@@ -108,7 +108,7 @@ private lemma algebraicClosure_residueField_in_site
         Algebra.IsAlgebraic.cardinalMk_le_max _ _
       _ = max Cardinal.aleph0 (Cardinal.mk K) := max_comm _ _
       _ ≤ X.size := max_le (Scheme.aleph0_le_size X) hK
-  show (Spec (.of (AlgebraicClosure K))).size < B.cutoff
+  change (Spec (.of (AlgebraicClosure K))).size < B.cutoff
   rw [Scheme.size_Spec]
   exact (max_le (Scheme.aleph0_le_size X) hL).trans_lt hX
 
@@ -122,7 +122,7 @@ private lemma tensorProduct_spec_in_site
   have hbound :
       max Cardinal.aleph0 (max (Cardinal.mk A) (Cardinal.mk A)) < B.cutoff :=
     max_lt B.aleph0_lt_cutoff (max_lt hAcard hAcard)
-  show (Spec (.of (A ⊗[R] A))).size < B.cutoff
+  change (Spec (.of (A ⊗[R] A))).size < B.cutoff
   rw [Scheme.size_Spec]
   exact max_lt B.aleph0_lt_cutoff (Cardinal.mk_tensorProduct_le.trans_lt hbound)
 
@@ -154,11 +154,10 @@ private lemma algebraMap_surjective_of_integralClosure_eq
   let ψ : K ⊗[k] K →ₐ[K] A :=
     { φ with commutes' := fun _ => rfl }
   have hi (b : K) : _root_.IsIntegral K (ψ (1 ⊗ₜ[k] b)) := by
-    show (φ.comp Algebra.TensorProduct.includeLeftRingHom).IsIntegralElem _
+    change (φ.comp Algebra.TensorProduct.includeLeftRingHom).IsIntegralElem _
     exact h _ (φ.comp Algebra.TensorProduct.includeRight.toRingHom).isIntegralElem_map
   have ht (z : K ⊗[k] K) : _root_.IsIntegral K (ψ z) := by
-    induction z using TensorProduct.induction_on with
-    | zero => simpa using isIntegral_zero (R := K) (B := A)
+    induction z using TensorProduct.inductionOn with
     | tmul a b =>
       have hh : ψ (a ⊗ₜ[k] b) = algebraMap K A a * ψ (1 ⊗ₜ[k] b) := by
         rw [← ψ.commutes, ← map_mul]
@@ -296,7 +295,7 @@ private lemma exists_reduced_connected_affine_through_point
   have hI : (I.support : Set A) = closure {a} :=
     Scheme.IdealSheafData.coe_support_vanishingIdeal _
   have : IrreducibleSpace I.subscheme := by
-    show IrreducibleSpace (I.support : Set A)
+    change IrreducibleSpace (I.support : Set A)
     apply Subtype.irreducibleSpace
     rw [hI]
     exact (isIrreducible_singleton (x := a)).closure
@@ -589,13 +588,13 @@ private theorem inverseImage_etale_isMultiplicative
       (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
         (AlgebraicGeometry.BigFppfOver.toScheme B S hS)) where
   id_mem X := by
-    show Etale ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (𝟙 X))
+    change Etale ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (𝟙 X))
     rw [(AlgebraicGeometry.BigFppfOver.toScheme B S hS).map_id]
     infer_instance
   comp_mem g h hg hh := by
     change Etale ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map g) at hg
     change Etale ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map h) at hh
-    show Etale ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (g ≫ h))
+    change Etale ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (g ≫ h))
     rw [Functor.map_comp]
     exact Etale.etale_comp _ _
 
@@ -729,8 +728,8 @@ theorem exists_fiber_lift_of_universallyInjective
       𝒴.val.isFiberedInGroupoids y.base (Functor.Fiber.mk (a := y.obj) y.over)
       (Over.mk (𝟙 y.base))
     refine ⟨mapped, ⟨𝟙 mapped.obj⟩, ?_⟩
-    show Nonempty ((g.hom.hom.toFunctor.obj z.obj) ⟶ y.obj)
-    show Nonempty (L.y ⟶ y.obj)
+    change Nonempty ((g.hom.hom.toFunctor.obj z.obj) ⟶ y.obj)
+    change Nonempty (L.y ⟶ y.obj)
     exact ⟨L.φ⟩
   let P := AlgebraicGeometry.Stack.AlgebraicStacks.twoFibreProductSquare.{u, w} B S hS g f
   have hP : Bicategory.IsTwoFibreProduct P :=
@@ -762,7 +761,7 @@ theorem exists_fiber_lift_of_universallyInjective
         Z.val.val Z.val.isFiberedInGroupoids a z).2
       refine ⟨a, ⟨𝟙 a.obj⟩, ?_⟩
       exact ⟨Over.homMk a.obj.hom (by
-        show Over.hom a.obj ≫ Over.hom z.obj = Over.hom a.obj
+        change Over.hom a.obj ≫ Over.hom z.obj = Over.hom a.obj
         simp [z, baseFieldPointOfFieldPoint])⟩
     exact ⟨fun a b => (hrep a).trans (hrep b).symm⟩
   have hPsub : Subsingleton (AlgebraicGeometry.Stack.points B S hS P.pt.val.val
@@ -927,7 +926,7 @@ theorem exists_fiber_lift_of_universallyInjective
   let H : Over T ⥤ Over y.base :=
     cover.hom.hom.toFunctor ⋙ inc.hom.hom.toFunctor ⋙ P.fst.hom.hom.toFunctor
   have hH : H ⋙ Over.forget y.base = Over.forget T := by
-    show (cover.hom.hom.toFunctor ⋙ inc.hom.hom.toFunctor ⋙
+    change (cover.hom.hom.toFunctor ⋙ inc.hom.hom.toFunctor ⋙
       P.fst.hom.hom.toFunctor) ⋙ Z.val.val.p = Over.forget T
     simp only [Functor.assoc, P.fst.hom.hom.w,
       inc.hom.hom.w, cover.hom.hom.w]
@@ -945,11 +944,11 @@ theorem exists_fiber_lift_of_universallyInjective
         Over.forget y.base).IsHomLift (𝟙 V) relPoint.iso.hom := by
       have hw : inc.hom.hom.toFunctor ⋙ P.fst.hom.hom.toFunctor ⋙
           Over.forget y.base = R.val.val.p := by
-        show inc.hom.hom.toFunctor ⋙ P.fst.hom.hom.toFunctor ⋙
+        change inc.hom.hom.toFunctor ⋙ P.fst.hom.hom.toFunctor ⋙
           Z.val.val.p = R.val.val.p
         simp only [P.fst.hom.hom.w, inc.hom.hom.w]
       rwa [hw]
-    show (Z.val.val.p).IsHomLift (𝟙 V) α
+    change (Z.val.val.p).IsHomLift (𝟙 V) α
     let pComp := inc.hom.hom.toFunctor ⋙ P.fst.hom.hom.toFunctor ⋙ Z.val.val.p
     let : pComp.IsHomLift (𝟙 V) relPoint.iso.hom := hi'
     have hd : Z.val.val.p.obj (P.fst.hom.hom.toFunctor.obj
@@ -1010,7 +1009,7 @@ theorem exists_fiber_lift_of_universallyInjective
       IsGenericPoint (a v) Set.univ by
     exact ⟨V.left.obj, a, hl, har.symm ▸ hr, hrest⟩
   have hk'Site : B.Contains (Spec (.of k')) := by
-    show (Spec (.of k')).size < B.cutoff
+    change (Spec (.of k')).size < B.cutoff
     rw [← Scheme.size_congr hkIso.some]
     exact T.left.property
   have hTensorSite : B.Contains (Spec (.of (k' ⊗[y.carrier] k'))) :=
@@ -1027,7 +1026,7 @@ theorem exists_fiber_lift_of_universallyInjective
     congr 1
     apply CommRingCat.hom_ext
     ext r
-    show (Algebra.TensorProduct.includeRight : k' →ₐ[y.carrier]
+    change (Algebra.TensorProduct.includeRight : k' →ₐ[y.carrier]
       k' ⊗[y.carrier] k') (algebraMap y.carrier k' r) =
         (Algebra.TensorProduct.includeLeft : k' →ₐ[y.carrier]
           k' ⊗[y.carrier] k') (algebraMap y.carrier k' r)
@@ -1044,7 +1043,7 @@ theorem exists_fiber_lift_of_universallyInjective
     have hOver :
         (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map bT ≫
           B.inclusion.map y.base.hom = B.inclusion.map T.hom := by
-      show B.inclusion.map bT.left ≫ B.inclusion.map y.base.hom =
+      change B.inclusion.map bT.left ≫ B.inclusion.map y.base.hom =
         B.inclusion.map T.hom
       rw [← Functor.map_comp, bT.w]
     have hm : Spec.map (CommRingCat.ofHom (algebraMap y.carrier k')) = bSpec :=
@@ -1095,7 +1094,7 @@ theorem exists_fiber_lift_of_universallyInjective
       simpa [Category.assoc] using congrArg (fun z => z ≫ ek.inv) hSpecComposed
     apply Over.OverMorphism.ext
     apply B.inclusion.map_injective
-    show B.inclusion.map (B.inclusion.preimage pLSpec ≫ bT.left) =
+    change B.inclusion.map (B.inclusion.preimage pLSpec ≫ bT.left) =
       B.inclusion.map (B.inclusion.preimage pRSpec ≫ bT.left)
     rwa [B.inclusion.map_comp, B.inclusion.map_comp,
       B.inclusion.map_preimage, B.inclusion.map_preimage]
@@ -1120,7 +1119,7 @@ theorem exists_fiber_lift_of_universallyInjective
         Spec.map (CommRingCat.ofHom (algebraMap K L))
           (default : Spec (.of L)) = (default : Spec (.of K)) :=
       (inferInstance : Unique (Spec (.of K))).uniq _
-    show ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj Dobj).fromSpecResidueField eta
+    change ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj Dobj).fromSpecResidueField eta
       (Spec.map (CommRingCat.ofHom (algebraMap K L)) (default : Spec (.of L))) = eta
     rw [hUnique]
     exact ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj Dobj).fromSpecResidueField_apply
@@ -1202,7 +1201,7 @@ theorem exists_fiber_lift_of_universallyInjective
       Q.snd.hom.hom.toFunctor Q.snd.hom.hom.w relLift z rfl hz δ hδ
     constructor
     · rw [yoneda_preimage_eq_yonedaEquiv, yonedaEquiv_comp]
-      show (d Q.fst).app (op U) (yonedaEquiv gs) = uL
+      change (d Q.fst).app (op U) (yonedaEquiv gs) = uL
       rw [show yonedaEquiv gs = s from
         Equiv.apply_symm_apply (yonedaEquiv (X := U) (F := F)) s]
       rw [morphismSpaceEquiv_to_scheme_apply B S hS Q.pt.val T F eF
@@ -1214,7 +1213,7 @@ theorem exists_fiber_lift_of_universallyInjective
         CategoryTheory.BasedCategory.ofFunctor, Over.mk_hom] at hfin
       exact hfin
     · rw [yoneda_preimage_eq_yonedaEquiv, yonedaEquiv_comp]
-      show (d Q.snd).app (op U) (yonedaEquiv gs) = uR
+      change (d Q.snd).app (op U) (yonedaEquiv gs) = uR
       rw [show yonedaEquiv gs = s from
         Equiv.apply_symm_apply (yonedaEquiv (X := U) (F := F)) s]
       rw [morphismSpaceEquiv_to_scheme_apply B S hS Q.pt.val T F eF
@@ -1243,7 +1242,7 @@ theorem exists_fiber_lift_of_universallyInjective
   let tSch := (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map tW
   let vSch := (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map vSite
   have hqSpec : (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map q = qSpec := by
-    show B.inclusion.map q.left = qSpec
+    change B.inclusion.map q.left = qSpec
     exact B.inclusion.map_preimage (X := U.left) (Y := Dobj.left) qSpec
   have hqside (p : Spec (.of (k' ⊗[y.carrier] k')) ⟶ Spec (.of k')) (pX : Dobj ⟶ T)
       (h : (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map pX = p ≫ hkIso.some.inv) :

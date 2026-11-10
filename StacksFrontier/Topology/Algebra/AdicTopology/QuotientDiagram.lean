@@ -139,7 +139,7 @@ public theorem map_closure_eq_of_discrete {A C : Type*}
     L.closure.map g = L.map g := by
   refine le_antisymm ?_ (Ideal.map_mono subset_closure)
   apply Ideal.map_le_iff_le_comap.mpr
-  show closure (L : Set A) ⊆ g ⁻¹' (L.map g : Set C)
+  change closure (L : Set A) ⊆ g ⁻¹' (L.map g : Set C)
   exact closure_minimal (fun x hx ↦ Ideal.mem_map_of_mem g hx)
     ((isClosed_discrete _).preimage hg)
 
@@ -174,7 +174,7 @@ private theorem transition_ker_of_open {A B : Type*}
   have hmap : (J n).map ((Ideal.Quotient.mk K).comp f) = I.map (Ideal.Quotient.mk K) := by
     rw [← Ideal.map_map]
     exact (map_closure_eq_of_discrete (Ideal.Quotient.mk K) hc ((J n).map f)).symm
-  show RingHom.ker (Ideal.Quotient.factor (show K ≤ I from
+  change RingHom.ker (Ideal.Quotient.factor (show K ≤ I from
     closure_mono (Ideal.map_mono (hJ (Nat.le_succ n))))) = _
   rw [Ideal.Quotient.factor_ker, ← hmap]
 
@@ -239,7 +239,7 @@ public theorem toQuotientLimit_surjective {A B : Type*}
     rw [prod_atTop_atTop_eq]
     apply eventually_atTop_prod_self.mpr
     refine ⟨k, fun n m hn hm ↦ ?_⟩
-    show a n - a m ∈ K k
+    change a n - a m ∈ K k
     exact (Ideal.Quotient.mk_eq_mk_iff_sub_mem (a n) (a m)).mp
       ((hstage k n hn).trans (hstage k m hm).symm)
   obtain ⟨b, hb⟩ := cauchySeq_tendsto_of_complete hC
@@ -277,7 +277,7 @@ public theorem quotientLimit_equiv {A B : Type*}
     ⟨toQuotientLimit_injective f J hJ hbasis,
       toQuotientLimit_surjective f J hJ hopen hbasis hcomplete⟩
   refine ⟨e, ?_, ?_, ?_⟩
-  · show Continuous (toQuotientLimit f J hJ)
+  · change Continuous (toQuotientLimit f J hJ)
     apply Continuous.subtype_mk
     exact continuous_pi fun n ↦ continuous_quot_mk
   · apply continuous_of_tendsto_nhds_zero e.symm.toAddMonoidHom
@@ -303,8 +303,7 @@ diagram whose topological inverse limit is the target. -/
 public theorem isTaut_iff_hasQuotientDiagram {A B : Type*}
     [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] [IsLinearTopology A A]
     [CommRing B] [TopologicalSpace B] [IsTopologicalRing B] [IsLinearTopology B B]
-    (f : B →+* A) (hf : Continuous f)
-    (hA : TopologicalRing.IsWeaklyAdmissible A) (hB : TopologicalRing.IsWeaklyAdmissible B)
+    (f : B →+* A) (hA : TopologicalRing.IsWeaklyAdmissible A)
     (J : ℕ → Ideal B) (hJ : IsFundamentalSequence J) :
     RingHom.IsTaut f ↔ HasQuotientDiagram f J hJ.2.1 := by
   refine ⟨fun ht ↦ ?_, fun hd ↦ isTaut_of_targetIdeal_hasBasis f J hJ hd.1 hd.2.1⟩

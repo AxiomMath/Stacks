@@ -227,11 +227,11 @@ def sections (k : ℕ) :
   letI := D.algebraV σ
   { carrier := {q | D.cechDiff k q = 0}
     add_mem' := fun {q₁ q₂} h₁ h₂ => by
-      simp only [Set.mem_setOf_eq, map_add] at h₁ h₂ ⊢
+      simp only [Set.mem_ofPred_eq, map_add] at h₁ h₂ ⊢
       rw [h₁, h₂, add_zero]
     zero_mem' := by simp
     smul_mem' := fun r q hq => by
-      simp only [Set.mem_setOf_eq] at hq ⊢
+      simp only [Set.mem_ofPred_eq] at hq ⊢
       have hU : D.resU (algebraMap R Γ(X, D.U) r) = D.resV (algebraMap R Γ(X, D.V) r) := by
         simp only [resU, resV, RingHom.algebraMap_toAlgebra, RingHom.comp_apply]
         rw [← CommRingCat.comp_apply, ← CommRingCat.comp_apply, ← Functor.map_comp,

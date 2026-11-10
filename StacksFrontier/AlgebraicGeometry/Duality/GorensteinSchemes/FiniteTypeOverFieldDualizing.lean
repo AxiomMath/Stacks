@@ -114,7 +114,7 @@ public theorem exists_isDualizingComplex_sections_overField
   let : Algebra k Γ(X, U) :=
     ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appLE ⊤ U (by simp)).hom.toAlgebra
   have hftA : RingHom.FiniteType (algebraMap k Γ(X, U)) := by
-    show (((Scheme.ΓSpecIso (.of k)).inv ≫ f.appLE ⊤ U (by simp)).hom).FiniteType
+    change (((Scheme.ΓSpecIso (.of k)).inv ≫ f.appLE ⊤ U (by simp)).hom).FiniteType
     exact hft.comp (RingHom.FiniteType.of_surjective _
       (Scheme.ΓSpecIso (.of k)).symm.commRingCatIsoToRingEquiv.surjective)
   let : Algebra.FiniteType k Γ(X, U) := (RingHom.finiteType_algebraMap).mp hftA

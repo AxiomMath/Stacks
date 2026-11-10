@@ -81,18 +81,16 @@ theorem isTraceElement_baseChange
       Fiter.scalarTower
     have hscalarRaw (r : A₂ ⊗[A₁] (A₁ ⊗[A] F.middle)) :
         cB (algebraMap _ _ r) = algebraMap _ _ (cMlin r) := by
-      induction r using TensorProduct.induction_on with
-      | zero => simp [cMlin]
+      induction r using TensorProduct.inductionOn with
       | tmul a₂ z =>
-        induction z using TensorProduct.induction_on with
-        | zero => simp [cMlin]
+        induction z using TensorProduct.inductionOn with
         | tmul a₁ m =>
           have hinner : IsScalarTower.toAlgHom A₁ F₁.middle (A₁ ⊗[A] B) (a₁ ⊗ₜ[A] m) =
               a₁ ⊗ₜ[A] algebraMap F.middle B m := by
-            show (Algebra.TensorProduct.map (AlgHom.id A A₁)
+            change (Algebra.TensorProduct.map (AlgHom.id A A₁)
               (IsScalarTower.toAlgHom A F.middle B)) (a₁ ⊗ₜ[A] m) = _
             simp [Algebra.TensorProduct.map_tmul]
-          show cB ((Algebra.TensorProduct.map (AlgHom.id A₁ A₂)
+          change cB ((Algebra.TensorProduct.map (AlgHom.id A₁ A₂)
               (IsScalarTower.toAlgHom A₁ F₁.middle (A₁ ⊗[A] B)))
               (a₂ ⊗ₜ[A₁] (a₁ ⊗ₜ[A] m))) =
             (Algebra.TensorProduct.map (AlgHom.id A A₂)
@@ -122,7 +120,7 @@ theorem isTraceElement_baseChange
       right_inv := fun _ => rfl
       map_add' := fun _ _ => rfl
       map_smul' := fun m c => by
-        show algebraMap Fdirect.middle C m * c = algebraMap Fiter.middle C (cM.symm m) * c
+        change algebraMap Fdirect.middle C m * c = algebraMap Fiter.middle C (cM.symm m) * c
         rw [hcAlgSymm] }
   have hmfiniteIter : Module.Finite Fiter.middle C :=
     Module.Finite.of_equiv_equiv cM.symm.toRingEquiv (RingEquiv.refl C)
@@ -157,13 +155,9 @@ theorem isTraceElement_baseChange
   have hrestr (z : dualizingModule (FiniteOpenFactorization.baseChange F₁ A₂)) :
       RI.1 z = RD.1 (tower.1 z) := by
     refine LinearMap.ext fun c => ?_
-    induction z using TensorProduct.induction_on with
-    | zero =>
-      show RI.1 (0 : dualizingModule (FiniteOpenFactorization.baseChange F₁ A₂)) c =
-        RD.1 (tower.1 (0 : dualizingModule (FiniteOpenFactorization.baseChange F₁ A₂))) c
-      simp
+    induction z using TensorProduct.inductionOn with
     | tmul f b =>
-      show RI.1 (dualizingModule.tmul Fiter f b) c =
+      change RI.1 (dualizingModule.tmul Fiter f b) c =
         RD.1 (tower.1 (dualizingModule.tmul Fiter f b)) c
       rw [RI.2 f b c, tower.2 f b]
       exact (htrace f b c).trans (RD.2 (f.comp cM.symm.toLinearMap) (cB b) c).symm
@@ -172,7 +166,7 @@ theorem isTraceElement_baseChange
       let w₂ : dualizingModule (FiniteOpenFactorization.baseChange F₁ A₂) := z₂
       have hw₁ : RI.1 w₁ c = RD.1 (tower.1 w₁) c := by simpa [w₁] using hz₁
       have hw₂ : RI.1 w₂ c = RD.1 (tower.1 w₂) c := by simpa [w₂] using hz₂
-      show RI.1 (w₁ + w₂) c = RD.1 (tower.1 (w₁ + w₂)) c
+      change RI.1 (w₁ + w₂) c = RD.1 (tower.1 (w₁ + w₂)) c
       rw [RI.1.map_add, tower.1.map_add, RD.1.map_add]
       exact congrArg₂ (· + ·) hw₁ hw₂
   refine ⟨hp, hmfiniteIter, hmprojIter, ?_⟩

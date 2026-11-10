@@ -101,7 +101,7 @@ public theorem BigHSite.exists_isCovering_tautologicallyEquivalent_openCover
   let E' := E.shrink
   have hopen (i : E'.I₀) : IsOpenImmersion (E'.f i) := by
     obtain ⟨j, hX, hf⟩ := Presieve.ofArrows_surj E.f _ i.2
-    show IsOpenImmersion i.1.2
+    change IsOpenImmersion i.1.2
     rw [hf]
     infer_instance
   have hcover : ∀ x : S, ∃ i, x ∈ Set.range (E'.f i) := by

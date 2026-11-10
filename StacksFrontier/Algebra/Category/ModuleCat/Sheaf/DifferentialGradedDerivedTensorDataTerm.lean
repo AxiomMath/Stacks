@@ -16,7 +16,7 @@ therefore determined only up to canonical isomorphism — does not satisfy it as
 term of `DerivedTensorData` existed.
 
 This file builds one. The derived pullback-tensor functor of
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/DifferentialGradedDerivedPullbackTensorFunctor.lean`
+`DifferentialGradedDerivedPullbackTensorFunctor.lean` (in this directory)
 is isomorphic, at the image of a good module, to the image of `f^*𝒫 ⊗_𝒜 𝒩`; transporting the
 functor along that isomorphism — `CategoryTheory.Functor.copyObj`, which replaces the object
 map of a functor by any map isomorphic to it — produces an isomorphic functor whose value at
@@ -150,7 +150,7 @@ theorem rigidDerivedPullbackTensorObj_of_good (E : P.HomotopyExtension)
         ((toDerivedCategory B).obj ((HomotopyCategory.quotient B).obj Q)) =
       (toDerivedCategory.{t, a, s} A').obj
         ((HomotopyCategory.quotient A').obj ((pullbackTensorFunctor P D).obj Q)) :=
-  dif_pos hQ
+  dite_eq_left hQ
 
 /-- Away from the good modules the object map is the value of `derivedPullbackTensor`. -/
 theorem rigidDerivedPullbackTensorObj_of_not_good (E : P.HomotopyExtension)
@@ -158,7 +158,7 @@ theorem rigidDerivedPullbackTensorObj_of_not_good (E : P.HomotopyExtension)
     (Good : DifferentialGradedModule.{t, a', m'} B → Prop)
     {X : derivedCategory.{t, a', m'} B} (hX : ¬ Good (derivedCategoryModule B X)) :
     rigidDerivedPullbackTensorObj E hE Good X = (derivedPullbackTensor E hE).obj X :=
-  dif_neg hX
+  dite_eq_right hX
 
 /-- The isomorphism between the derived pullback-tensor functor and the object map above: the
 counit at a good module, and the identity elsewhere. -/
@@ -184,7 +184,7 @@ theorem rigidDerivedPullbackTensorObjIso_of_good (E : P.HomotopyExtension)
         ((toDerivedCategory B).obj ((HomotopyCategory.quotient B).obj Q)) =
       derivedPullbackTensorObjIso E hE (hGood _ hQ) ≪≫
         eqToIso (rigidDerivedPullbackTensorObj_of_good E hE Good hQ).symm :=
-  dif_pos hQ
+  dite_eq_left hQ
 
 /-- **The rigidified derived pullback-tensor functor** `D(ℬ, d) ⥤ D(𝒜', d)`: the derived
 pullback-tensor functor with its object map replaced by the isomorphic one above, so that its
@@ -286,7 +286,7 @@ theorem rigidDerivedPullbackTensor_map_of_isGood (E : P.HomotopyExtension)
         (toDerivedCategory.{t, a, s} A').map ((HomotopyCategory.quotient A').map
           ((pullbackTensorFunctor P D).map ψ)) ≫
           eqToHom (rigidDerivedPullbackTensorObj_of_good E hE Good hQ₂).symm := by
-  show (rigidDerivedPullbackTensorObjIso E hE Good hGood _).inv ≫
+  change (rigidDerivedPullbackTensorObjIso E hE Good hGood _).inv ≫
       (derivedPullbackTensor E hE).map _ ≫
         (rigidDerivedPullbackTensorObjIso E hE Good hGood _).hom = _
   rw [rigidDerivedPullbackTensorObjIso_of_good E hE Good hGood hQ,

@@ -90,7 +90,7 @@ Stacks 0F6P. -/
 public theorem fShriekStalkIso_comp_sheafification (s : GeometricPoint Y.obj)
     (F : Sheaf (SmallEtale.topology B X.obj X.property) AddCommGrpCat.{max (u + 1) v}) :
     colim.map (Functor.whiskerLeft
-        (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+        (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
         (toSheafify (SmallEtale.topology B Y.obj Y.property)
           ((finiteSupportPushforward.{u, max (u + 1) v} B f
             (fun _ => inferInstance)).1.obj F))) ≫
@@ -106,17 +106,17 @@ public theorem fShriekStalkIso_natural (s : GeometricPoint Y.obj)
     {F G : Sheaf (SmallEtale.topology B X.obj X.property) AddCommGrpCat.{max (u + 1) v}}
     (φ : F ⟶ G) :
     colim.map (Functor.whiskerLeft
-        (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+        (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
         ((fShriekFunctor.{u, v} B f).map φ).1) ≫ (fShriekStalkIso.{u, v} B f s G).hom =
       (fShriekStalkIso.{u, v} B f s F).hom ≫
         AddCommGrpCat.ofHom (fiberStalksMap.{u, max (u + 1) v} B f s φ) := by
   have hΘ : etaleStalkSheafificationMap B Y.obj Y.property s
         ((finiteSupportPushforward.{u, max (u + 1) v} B f (fun _ => inferInstance)).1.obj F) ≫
         colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+          (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
           ((fShriekFunctor.{u, v} B f).map φ).1) =
       colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+          (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
           ((finiteSupportPushforward.{u, max (u + 1) v} B f
             (fun _ => inferInstance)).1.map φ)) ≫
         etaleStalkSheafificationMap B Y.obj Y.property s
@@ -134,7 +134,7 @@ public theorem fShriekStalkIso_natural (s : GeometricPoint Y.obj)
     ((congrArg (fun z => z ≫ (fShriekStalkIso.{u, v} B f s G).hom) hΘ).trans
       ((Category.assoc _ _ _).trans
         ((congrArg (fun z => colim.map (Functor.whiskerLeft
-              (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+              (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
               ((finiteSupportPushforward.{u, max (u + 1) v} B f
                 (fun _ => inferInstance)).1.map φ)) ≫ z)
             (fShriekStalkIso_comp_sheafification.{u, v} B f s G)).trans
@@ -158,7 +158,7 @@ private theorem mono_etaleStalk_map (S : Scheme.{u}) (hS : B.Contains S) (s : Ge
     {F G : Sheaf (SmallEtale.topology B S hS) AddCommGrpCat.{max (u + 1) v}} (φ : F ⟶ G)
     [Mono φ] :
     Mono (colim.map (Functor.whiskerLeft
-      (CategoryOfElements.π (geometricPointFiber B S hS s)).op φ.1)) := by
+      (Functor.Elements.π (geometricPointFiber B S hS s)).op φ.1)) := by
   have hfil : HasFilteredColimitsOfSize.{u, u} AddCommGrpCat.{max (u + 1) v} :=
     hasFilteredColimitsOfSize_of_univLE.{u, u, max (u + 1) v, max (u + 1) v}
   have hab : AB5OfSize.{u, u} AddCommGrpCat.{max (u + 1) v} :=
@@ -175,7 +175,7 @@ private theorem fiberStalksMap_injective (s : GeometricPoint Y.obj)
     (φ : F ⟶ G) [Mono φ] :
     Function.Injective (fiberStalksMap.{u, max (u + 1) v} B f s φ) := by
   have h : Function.Injective (DirectSum.map fun x : GeometricFiberPoint B f s =>
-      (colim.map (Functor.whiskerLeft (CategoryOfElements.π
+      (colim.map (Functor.whiskerLeft (Functor.Elements.π
         (geometricPointFiber B X.obj X.property (x.toGeometricPoint B f s))).op φ.1)).hom) := by
     refine (DirectSum.map_injective _).mpr fun x => ?_
     exact (AddCommGrpCat.mono_iff_injective _).mp
@@ -196,13 +196,13 @@ private theorem fShriekFunctor_preservesMonomorphisms :
       (AddCommGrpCat.mono_iff_injective _).2 (fiberStalksMap_injective B f s φ)
     have hnat := fShriekStalkIso_natural.{u, v} B f s φ
     have hcomp : Mono (colim.map (Functor.whiskerLeft
-        (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+        (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
         ((fShriekFunctor.{u, v} B f).map φ).1) ≫ (fShriekStalkIso.{u, v} B f s G).hom) := by
       rw [hnat]
       exact mono_comp' (@IsIso.mono_of_iso _ _ _ _ _
         (Iso.isIso_hom (fShriekStalkIso.{u, v} B f s F))) hm
     exact mono_of_mono (colim.map (Functor.whiskerLeft
-      (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+      (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
       ((fShriekFunctor.{u, v} B f).map φ).1)) (fShriekStalkIso.{u, v} B f s G).hom
   have := hfib
   exact (jointlyFaithful_etaleStalkSheafFiber.{u, v} B Y.obj

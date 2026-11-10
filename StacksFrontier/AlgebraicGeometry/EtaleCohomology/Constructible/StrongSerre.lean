@@ -34,8 +34,8 @@ mathematical statement 09BH (2) still asks for is sub-closure.
   the small étale site, as a property of objects of that abelian category — the subject of
   09BH (2).
 * `AlgebraicGeometry.isSerreClass_isConstructibleAbelianSheaf_of_isClosedUnderSubobjects`: 09BH (2)
-  follows from 03RZ (2) together with sub-closure. 03RZ (2) is proved in the library, so the form of this
-  reduction to use is
+  follows from 03RZ (2) together with sub-closure. 03RZ (2) is proved in the library, so the form
+  of this reduction to use is
   `AlgebraicGeometry.isSerreClass_isConstructibleAbelianSheaf_of_isClosedUnderSubobjects'`, which
   carries sub-closure alone.
 

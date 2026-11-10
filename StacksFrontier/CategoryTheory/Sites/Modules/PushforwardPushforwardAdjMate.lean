@@ -64,28 +64,28 @@ theorem mateEquiv_symm_pushforwardPushforwardAdj_app_val_app
     (β : TwoSquare (pushforward.{v} ψ') (pushforward.{v} δ) (pushforward.{v} γ) (pushforward.{v} ψ))
     (τ : TwoSquare q a b q')
     (hβ : ∀ (N : SheafOfModules.{v} RY') (V : CWᵒᵖ) (x),
-      (β.natTrans.app N).val.app V x = N.val.map (τ.natTrans.app V.unop).op x)
+      (β.app N).val.app V x = N.val.map (τ.app V.unop).op x)
     (M : SheafOfModules.{v} RW') (U : CYᵒᵖ) (x) :
     (((mateEquiv (pushforwardPushforwardAdj adj' φ' ψ' H₁' H₂')
-        (pushforwardPushforwardAdj adj φ ψ H₁ H₂)).symm β).natTrans.app M).val.app U x =
-      M.val.map (((mateEquiv adj adj').symm τ).natTrans.app U.unop).op x := by
-  have hs : ((mateEquiv adj adj').symm τ).natTrans.app U.unop =
-      p'.map (b.map (adj.unit.app U.unop)) ≫ p'.map (τ.natTrans.app (p.obj U.unop)) ≫
+        (pushforwardPushforwardAdj adj φ ψ H₁ H₂)).symm β).app M).val.app U x =
+      M.val.map (((mateEquiv adj adj').symm τ).app U.unop).op x := by
+  have hs : ((mateEquiv adj adj').symm τ).app U.unop =
+      p'.map (b.map (adj.unit.app U.unop)) ≫ p'.map (τ.app (p.obj U.unop)) ≫
         adj'.counit.app (a.obj (p.obj U.unop)) := by
     simp [mateEquiv]
   let P := M.val.presheaf
-  show _ = P.map _ x
+  change _ = P.map _ x
   rw [hs]
-  show ((pushforwardPushforwardAdj adj φ ψ H₁ H₂).counit.app
+  change ((pushforwardPushforwardAdj adj φ ψ H₁ H₂).counit.app
       ((pushforward δ).obj ((pushforward φ').obj M))).val.app U
-      ((β.natTrans.app ((pushforward φ').obj M)).val.app (op (p.obj U.unop))
+      ((β.app ((pushforward φ').obj M)).val.app (op (p.obj U.unop))
         (((pushforwardPushforwardAdj adj' φ' ψ' H₁' H₂').unit.app M).val.app
           (op (a.obj (p.obj U.unop))) x)) = _
   refine (congrArg (fun y => ((pushforwardPushforwardAdj adj φ ψ H₁ H₂).counit.app
       ((pushforward δ).obj ((pushforward φ').obj M))).val.app U y) (hβ _ _ _)).trans ?_
-  show P.map _ (P.map _ (P.map _ x)) = _
+  change P.map _ (P.map _ (P.map _ x)) = _
   rw [← ConcreteCategory.comp_apply, ← P.map_comp]
-  show (P.map (adj'.counit.app (a.obj (p.obj U.unop))).op ≫ P.map _) x = _
+  change (P.map (adj'.counit.app (a.obj (p.obj U.unop))).op ≫ P.map _) x = _
   rw [← P.map_comp]
   simp only [op_comp, Category.assoc]
   rfl
@@ -98,19 +98,19 @@ theorem isIso_mateEquiv_symm_pushforwardPushforwardAdj
     (β : TwoSquare (pushforward.{v} ψ') (pushforward.{v} δ) (pushforward.{v} γ) (pushforward.{v} ψ))
     (τ : TwoSquare q a b q')
     (hβ : ∀ (N : SheafOfModules.{v} RY') (V : CWᵒᵖ) (x),
-      (β.natTrans.app N).val.app V x = N.val.map (τ.natTrans.app V.unop).op x)
-    [hσ : IsIso ((mateEquiv adj adj').symm τ).natTrans] :
+      (β.app N).val.app V x = N.val.map (τ.app V.unop).op x)
+    [hσ : IsIso ((mateEquiv adj adj').symm τ)] :
     IsIso ((mateEquiv (pushforwardPushforwardAdj adj' φ' ψ' H₁' H₂')
-        (pushforwardPushforwardAdj adj φ ψ H₁ H₂)).symm β).natTrans := by
+        (pushforwardPushforwardAdj adj φ ψ H₁ H₂)).symm β) := by
   rw [NatTrans.isIso_iff_isIso_app]
   intro M
   let f := ((mateEquiv (pushforwardPushforwardAdj adj' φ' ψ' H₁' H₂')
-        (pushforwardPushforwardAdj adj φ ψ H₁ H₂)).symm β).natTrans.app M
+        (pushforwardPushforwardAdj adj φ ψ H₁ H₂)).symm β).app M
   have hf : IsIso ((sheafToPresheaf JY AddCommGrpCat.{v}).map ((toSheaf.{v} RY).map f)) := by
     rw [NatTrans.isIso_iff_isIso_app]
     intro U
     have e : ((sheafToPresheaf JY AddCommGrpCat.{v}).map ((toSheaf.{v} RY).map f)).app U =
-        M.val.presheaf.map (((mateEquiv adj adj').symm τ).natTrans.app U.unop).op := by
+        M.val.presheaf.map (((mateEquiv adj adj').symm τ).app U.unop).op := by
       ext x
       exact mateEquiv_symm_pushforwardPushforwardAdj_app_val_app adj adj' φ ψ H₁ H₂ φ' ψ' H₁' H₂'
         γ δ β τ hβ M U x

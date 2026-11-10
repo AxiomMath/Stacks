@@ -453,7 +453,7 @@ private noncomputable def Node.pull (x : Node J p κ) {j : N} (ψ : j ⟶ x.j) :
 equalized simultaneously by one morphism into it: the pairs are equalized one at a time by
 `CategoryTheory.IsCofiltered.eqHom`, and postcomposition preserves the equalities already
 obtained. -/
-private lemma exists_forall_comp_eq [IsCofiltered N] {ι : Type*} [Finite ι] {b : N} {A : ι → N}
+public lemma exists_forall_comp_eq [IsCofiltered N] {ι : Type*} [Finite ι] {b : N} {A : ι → N}
     (f g : ∀ t, b ⟶ A t) : ∃ (b' : N) (r : b' ⟶ b), ∀ t, r ≫ f t = r ≫ g t := by
   classical
   cases nonempty_fintype ι
@@ -480,7 +480,7 @@ composites become independent of the index: the first family is made independent
 `CategoryTheory.IsCofiltered.wideCospan`, and the second by
 `Stacks.SitePoints.UniformRefinement.exists_forall_comp_eq` applied to the composites and to a
 fixed one among them. -/
-private lemma exists_cone_forall_comp_eq [IsCofiltered N] {ι : Type*} [Finite ι] [Nonempty ι]
+public lemma exists_cone_forall_comp_eq [IsCofiltered N] {ι : Type*} [Finite ι] [Nonempty ι]
     (A : ι → N) (b₁ b₂ : N) (g₁ : ∀ t, A t ⟶ b₁) (g₂ : ∀ t, A t ⟶ b₂) :
     ∃ (z : N) (u : ∀ t, z ⟶ A t) (f₁ : z ⟶ b₁) (f₂ : z ⟶ b₂),
       (∀ t, u t ≫ g₁ t = f₁) ∧ (∀ t, u t ≫ g₂ t = f₂) := by

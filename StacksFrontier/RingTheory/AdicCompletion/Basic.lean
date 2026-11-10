@@ -9,7 +9,7 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Altitude
@@ -528,7 +528,7 @@ theorem cmap_cmap {R : Type*} [CommRing R] (I J : Ideal R)
     cmap J I hJI M (cmap I J hIJ M x) = x := by
   apply AdicCompletion.ext
   intro n
-  show AdicCompletion.eval I M n (cmap J I hJI M (cmap I J hIJ M x)) = AdicCompletion.eval I M n x
+  change AdicCompletion.eval I M n (cmap J I hJI M (cmap I J hIJ M x)) = AdicCompletion.eval I M n x
   rw [eval_cmap J I hJI M (cmap I J hIJ M x) n, eval_cmap I J hIJ M x (d * n)]
   have hn : n ≤ c * (d * n) := by
     calc n ≤ d * n := Nat.le_mul_of_pos_left n hd
@@ -545,7 +545,7 @@ theorem cmap_of {R : Type*} [CommRing R] (I J : Ideal R)
     cmap I J hIJ M (AdicCompletion.of I M m) = AdicCompletion.of J M m := by
   apply AdicCompletion.ext
   intro n
-  show AdicCompletion.eval J M n (cmap I J hIJ M (AdicCompletion.of I M m))
+  change AdicCompletion.eval J M n (cmap I J hIJ M (AdicCompletion.of I M m))
       = AdicCompletion.eval J M n (AdicCompletion.of J M m)
   rw [eval_cmap I J hIJ M (AdicCompletion.of I M m) n,
     AdicCompletion.eval_of I M (c * n) m, AdicCompletion.eval_of J M n m,
@@ -770,8 +770,7 @@ theorem isAdicComplete_of_iInf_smul_eq_bot
     have hT := AdicCompletion.ofTensorProduct_surjective_of_finite I M
     intro y
     obtain ⟨t, rfl⟩ := hT y
-    induction t using TensorProduct.induction_on with
-    | zero => exact ⟨0, by simp⟩
+    induction t using TensorProduct.inductionOn with
     | tmul r m =>
         obtain ⟨s, rfl⟩ := hR r
         refine ⟨s • m, ?_⟩

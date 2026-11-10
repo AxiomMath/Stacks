@@ -188,7 +188,7 @@ lemma yonedaOverObjLeftIso_hom_comp_desc (A : FormalCoproduct.{v} (Over X)) :
   rw [← Iso.eq_inv_comp]
   refine Sigma.hom_ext _ _ fun i ↦ ?_
   simp only [yonedaOverObjLeftIso, Iso.trans_inv, PreservesCoproduct.inv_hom, Category.assoc,
-    Sigma.ι_desc, Sigma.ι_mapIso_inv_assoc, ι_comp_sigmaComparison_assoc,
+    Sigma.ι_comp_desc, Sigma.ι_mapIso_inv_assoc, ι_comp_sigmaComparison_assoc,
     OverShriek.presheafFunctor_map_comp_presheafFunctorToYoneda,
     OverShriek.presheafYonedaIso_inv_comp_presheafFunctorToYoneda]
 

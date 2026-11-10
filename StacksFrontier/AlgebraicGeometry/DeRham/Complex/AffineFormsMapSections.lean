@@ -238,8 +238,7 @@ theorem relativeDifferentialsMap_Γ_apply_eq_mapBaseChange (t : ↥C ⊗[↥A] �
     (moduleSpecΓFunctor.map
           (Scheme.Hom.relativeDifferentialsMap f p p' (𝟙 (Spec R)) hcomm)).hom (T t) =
       E (KaehlerDifferential.mapBaseChange ↥R ↥A ↥C t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul c x =>
       simp only [tmul_eq_smul_one_tmul c x, map_smul,
         relativeDifferentialsMap_Γ_one_tmul f hf hcomm T E hT hE]

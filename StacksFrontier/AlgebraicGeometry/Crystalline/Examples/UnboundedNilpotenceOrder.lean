@@ -153,7 +153,7 @@ theorem pow_natCast_ne_zero_levelThickeningOfClosedFibre [NoZeroDivisors (↥A)]
     (h0 : (p : ↥A) ≠ 0) (hu : ¬ IsUnit (p : ↥A)) {k N : ℕ}
     (hk : IsPAdicLevel A.ideal A.dividedPowers p k) (hNk : N < k) :
     ((closedFibreSituation p A hp).p : (levelThickeningOfClosedFibre p A hp hk).ring) ^ N ≠ 0 := by
-  show (Ideal.Quotient.mk (DividedPowers.pAdicIdeal (A := ↥A) p ^ k) (p : ↥A)) ^ N ≠ 0
+  change (Ideal.Quotient.mk (DividedPowers.pAdicIdeal (A := ↥A) p ^ k) (p : ↥A)) ^ N ≠ 0
   rw [← map_pow, Ne, Ideal.Quotient.eq_zero_iff_mem]
   exact pow_natCast_notMem_pAdicIdeal_pow h0 hu hNk
 

@@ -162,11 +162,11 @@ theorem isRepresentableEtale_of_comp' {U W X : FppfSheaf B S hS} (k : U ⟶ W) (
       exact (IsPullback.of_hasPullback ξ k.hom).flip
     · apply pullback.hom_ext
       · rw [Category.assoc, hm1, Category.assoc]
-        show pullback.lift _ _ _ ≫ pullback.fst ξq a =
+        change pullback.lift _ _ _ ≫ pullback.fst ξq a =
           pullback.fst ξ k.hom ≫ pullback.lift _ _ _ ≫ pullback.fst ξq q.hom
         rw [pullback.lift_fst, pullback.lift_fst, Category.comp_id]
       · rw [Category.assoc, hm2, Category.assoc]
-        show (pullback.lift _ _ _ ≫ pullback.snd ξq a) ≫ k.hom =
+        change (pullback.lift _ _ _ ≫ pullback.snd ξq a) ≫ k.hom =
           pullback.fst ξ k.hom ≫ pullback.lift _ _ _ ≫ pullback.snd ξq q.hom
         rw [pullback.lift_snd, pullback.lift_snd, pullback.condition]
   exact Space.isEtaleULift_of_isPullback B S hS (hrep T ξ) hP1 hT hP2 hL hmet

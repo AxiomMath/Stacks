@@ -8,7 +8,7 @@ public import StacksFrontier.AlgebraicGeometry.Quot.ProjectiveQuot.TwistEquivale
 /-!
 # `Quot^P` is represented by the Hilbert locus `Z_P`
 
-Let `m = regularityIndex n r hr P`, `N = freeRank n r m`, `p = quotRank n r hr P` with `p ≤ N`, and
+Let `m = regularityIndex n r P`, `N = freeRank n r m`, `p = quotRank n r P` with `p ≤ N`, and
 `Z_P ⟶ G = G(N - p, N)` the Hilbert locus of the flat locus of the universal family `ℱ_G`
 (`AlgebraicGeometry.ProjectiveQuot.hilbertLocusHom`). This file proves that `Z_P` represents
 `T ↦ Quot^P_{𝒪^{⊕ r}/ℙⁿ/ℤ}(T)`:
@@ -63,7 +63,7 @@ end CategoryTheory.Abelian
 
 namespace AlgebraicGeometry.ProjectiveQuot
 
-variable {n r : ℕ} (hr : 1 ≤ r) {P : Polynomial ℚ}
+variable {n r : ℕ} {P : Polynomial ℚ}
 
 /-- Bookkeeping in an arbitrary category: `(b⁻¹ ≫ a) ≫ e = c` from `a ≫ e = b ≫ c`. -/
 theorem inv_comp_comp_eq_of_eq {C : Type*} [Category* C] {W X Y Z : C} (b : X ≅ W) (a : X ⟶ Y)
@@ -78,14 +78,14 @@ theorem comp_comp_eq_of_eq {C : Type*} [Category* C] {W X Y Z V : C} (a : W ⟶ 
   rw [← Category.assoc, h₁, Category.assoc, h₂]
 
 /-- The quotient map `𝒪^{⊕ r}(m) ⟶ ℱ_t = (ℙⁿ_t)^* ℱ_G` for `t : T ⟶ G`. -/
-def familyπ {T : Scheme.{u}} (t : T ⟶ quotGrassmannian.{u} n r hr P) :
-    twist (regularityIndex.{u} n r hr P : ℤ) (freeModule n r T) ⟶
-      (Scheme.Modules.pullback (projectiveSpaceOverMap n t)).obj (universalFamily.{u} n r hr P) :=
+def familyπ {T : Scheme.{u}} (t : T ⟶ quotGrassmannian.{u} n r P) :
+    twist (regularityIndex.{u} n r P : ℤ) (freeModule n r T) ⟶
+      (Scheme.Modules.pullback (projectiveSpaceOverMap n t)).obj (universalFamily.{u} n r P) :=
   (freeTwistPullbackIso n r t _).inv ≫
     (Scheme.Modules.pullback (projectiveSpaceOverMap n t)).map (presentationCokernelπ _ _)
 
 /-- The quotient map `𝒪^{⊕ r}(m) ⟶ ℱ_t` is an epimorphism. -/
-instance {T : Scheme.{u}} (t : T ⟶ quotGrassmannian.{u} n r hr P) : Epi (familyπ hr t) := by
+instance {T : Scheme.{u}} (t : T ⟶ quotGrassmannian.{u} n r P) : Epi (familyπ t) := by
   have : PreservesColimitsOfSize.{0, 0} (Scheme.Modules.pullback (projectiveSpaceOverMap n t)) :=
     (Scheme.Modules.pullbackPushforwardAdjunction
       (projectiveSpaceOverMap n t)).leftAdjoint_preservesColimits
@@ -95,19 +95,19 @@ instance {T : Scheme.{u}} (t : T ⟶ quotGrassmannian.{u} n r hr P) : Epi (famil
 
 /-- **`ℱ_{toGrassmannian K} ≅ 𝒬(m)`** under `𝒪^{⊕ r}(m)`, for `K ∈ Quot^P(T)`. -/
 theorem exists_family_iso_twist_quotient
-    (hp : quotRank.{u} n r hr P ≤ freeRank.{u} n r (regularityIndex.{u} n r hr P))
+    (hp : quotRank.{u} n r P ≤ freeRank.{u} n r (regularityIndex.{u} n r P))
     {T : Scheme.{u}} {K : Subobject (freeModule n r T)} (hK : K ∈ hilbertFamilies n r P T) :
-    ∃ e : (Scheme.Modules.pullback (projectiveSpaceOverMap n (toGrassmannian hr hp hK))).obj
-        (universalFamily.{u} n r hr P) ≅ twist (regularityIndex.{u} n r hr P : ℤ) (quotient K),
-      familyπ hr (toGrassmannian hr hp hK) ≫ e.hom =
-        twistMap (regularityIndex.{u} n r hr P : ℤ) (quotientπ K) := by
-  obtain ⟨e₁, he₁⟩ := exists_pullback_universalFamily_iso hr hp hK
-  obtain ⟨e₂, he₂⟩ := exists_presentationCokernel_iso_twist_quotient hr hp hK
+    ∃ e : (Scheme.Modules.pullback (projectiveSpaceOverMap n (toGrassmannian hp hK))).obj
+        (universalFamily.{u} n r P) ≅ twist (regularityIndex.{u} n r P : ℤ) (quotient K),
+      familyπ (toGrassmannian hp hK) ≫ e.hom =
+        twistMap (regularityIndex.{u} n r P : ℤ) (quotientπ K) := by
+  obtain ⟨e₁, he₁⟩ := exists_pullback_universalFamily_iso hp hK
+  obtain ⟨e₂, he₂⟩ := exists_presentationCokernel_iso_twist_quotient hp hK
   refine ⟨e₁ ≪≫ e₂, ?_⟩
-  have h : (Scheme.Modules.pullback (projectiveSpaceOverMap n (toGrassmannian hr hp hK))).map
+  have h : (Scheme.Modules.pullback (projectiveSpaceOverMap n (toGrassmannian hp hK))).map
       (presentationCokernelπ _ _) ≫ e₁.hom ≫ e₂.hom =
-        (freeTwistPullbackIso n r (toGrassmannian hr hp hK) _).hom ≫
-          twistMap (regularityIndex.{u} n r hr P : ℤ) (quotientπ K) :=
+        (freeTwistPullbackIso n r (toGrassmannian hp hK) _).hom ≫
+          twistMap (regularityIndex.{u} n r P : ℤ) (quotientπ K) :=
     comp_comp_eq_of_eq _ _ _ _ _ _ he₁ he₂
   exact inv_comp_comp_eq_of_eq _ _ _ _ h
 
@@ -128,85 +128,85 @@ theorem comp_comp_comp_map_eq {C D : Type*} [Category* C] [Category* D] (F : C �
 
 /-- **`toGrassmannian K` factors through `Z_P`.** -/
 theorem exists_lift_toGrassmannian
-    (hp : quotRank.{u} n r hr P ≤ freeRank.{u} n r (regularityIndex.{u} n r hr P))
+    (hp : quotRank.{u} n r P ≤ freeRank.{u} n r (regularityIndex.{u} n r P))
     {T : Scheme.{u}} {K : Subobject (freeModule n r T)} (hK : K ∈ hilbertFamilies n r P T) :
-    ∃ w : T ⟶ (hilbertLocus.{u} n r hr P).toScheme,
-      w ≫ hilbertLocusHom.{u} n r hr P = toGrassmannian hr hp hK := by
-  obtain ⟨e, -⟩ := exists_family_iso_twist_quotient hr hp hK
+    ∃ w : T ⟶ (hilbertLocus.{u} n r P).toScheme,
+      w ≫ hilbertLocusHom.{u} n r P = toGrassmannian hp hK := by
+  obtain ⟨e, -⟩ := exists_family_iso_twist_quotient hp hK
   have := hK.1.1
   refine (exists_lift_hilbertLocusHom_iff _).2 ⟨(isFlatOver_iff_of_iso _ e).2
     (isFlatOver_twist _ _ _ hK.1.2), fun t' d => ?_⟩
   rw [fibreHilbert_eq_of_iso e t', fibreHilbert_twist]
   exact_mod_cast (hasFibreHilbertPolynomial_iff (quotient K)).1 hK.2 t'
-    (d + (regularityIndex.{u} n r hr P : ℤ))
+    (d + (regularityIndex.{u} n r P : ℤ))
 
 /-- **The morphism `T ⟶ Z_P` classifying `K ∈ Quot^P(T)`.** -/
 def toHilbertLocus
-    (hp : quotRank.{u} n r hr P ≤ freeRank.{u} n r (regularityIndex.{u} n r hr P))
+    (hp : quotRank.{u} n r P ≤ freeRank.{u} n r (regularityIndex.{u} n r P))
     {T : Scheme.{u}} {K : Subobject (freeModule n r T)} (hK : K ∈ hilbertFamilies n r P T) :
-    T ⟶ (hilbertLocus.{u} n r hr P).toScheme :=
-  (exists_lift_toGrassmannian hr hp hK).choose
+    T ⟶ (hilbertLocus.{u} n r P).toScheme :=
+  (exists_lift_toGrassmannian hp hK).choose
 
 /-- The composite of `toHilbertLocus K` with `Z_P ⟶ G` is `toGrassmannian K`. -/
 theorem toHilbertLocus_comp
-    (hp : quotRank.{u} n r hr P ≤ freeRank.{u} n r (regularityIndex.{u} n r hr P))
+    (hp : quotRank.{u} n r P ≤ freeRank.{u} n r (regularityIndex.{u} n r P))
     {T : Scheme.{u}} {K : Subobject (freeModule n r T)} (hK : K ∈ hilbertFamilies n r P T) :
-    toHilbertLocus hr hp hK ≫ hilbertLocusHom.{u} n r hr P = toGrassmannian hr hp hK :=
-  (exists_lift_toGrassmannian hr hp hK).choose_spec
+    toHilbertLocus hp hK ≫ hilbertLocusHom.{u} n r P = toGrassmannian hp hK :=
+  (exists_lift_toGrassmannian hp hK).choose_spec
 
 /-- The untwisting `ℱ_t(m)(-m) ≅ ℱ_t`. -/
-abbrev familyUntwistIso {T : Scheme.{u}} (t : T ⟶ quotGrassmannian.{u} n r hr P) :=
-  twistTwistNegIso T (regularityIndex.{u} n r hr P : ℤ)
-    ((Scheme.Modules.pullback (projectiveSpaceOverMap n t)).obj (universalFamily.{u} n r hr P))
+abbrev familyUntwistIso {T : Scheme.{u}} (t : T ⟶ quotGrassmannian.{u} n r P) :=
+  twistTwistNegIso T (regularityIndex.{u} n r P : ℤ)
+    ((Scheme.Modules.pullback (projectiveSpaceOverMap n t)).obj (universalFamily.{u} n r P))
 
 /-- The untwisted quotient map `ρ_t : 𝒪^{⊕ r} ⟶ ℱ_t(-m)`, whose twist by `m` is `ℱ_t`'s quotient
 map. -/
-def familyQuotientMap {T : Scheme.{u}} (t : T ⟶ quotGrassmannian.{u} n r hr P) :
-    freeModule n r T ⟶ twist (-(regularityIndex.{u} n r hr P : ℤ))
-      ((Scheme.Modules.pullback (projectiveSpaceOverMap n t)).obj (universalFamily.{u} n r hr P)) :=
-  (twistFunctor n T (regularityIndex.{u} n r hr P : ℤ)).preimage
-    (familyπ hr t ≫ (familyUntwistIso hr t).inv)
+def familyQuotientMap {T : Scheme.{u}} (t : T ⟶ quotGrassmannian.{u} n r P) :
+    freeModule n r T ⟶ twist (-(regularityIndex.{u} n r P : ℤ))
+      ((Scheme.Modules.pullback (projectiveSpaceOverMap n t)).obj (universalFamily.{u} n r P)) :=
+  (twistFunctor n T (regularityIndex.{u} n r P : ℤ)).preimage
+    (familyπ t ≫ (familyUntwistIso t).inv)
 
 /-- The twist by `m` of `ρ_t` is the quotient map `𝒪^{⊕ r}(m) ⟶ ℱ_t` followed by the inverse of the
 untwisting `ℱ_t(m)(-m) ≅ ℱ_t`. -/
 theorem twistFunctor_map_familyQuotientMap {T : Scheme.{u}}
-    (t : T ⟶ quotGrassmannian.{u} n r hr P) :
-    (twistFunctor n T (regularityIndex.{u} n r hr P : ℤ)).map (familyQuotientMap hr t) =
-      familyπ hr t ≫ (familyUntwistIso hr t).inv :=
+    (t : T ⟶ quotGrassmannian.{u} n r P) :
+    (twistFunctor n T (regularityIndex.{u} n r P : ℤ)).map (familyQuotientMap t) =
+      familyπ t ≫ (familyUntwistIso t).inv :=
   Functor.map_preimage _ _
 
 /-- The untwisted quotient map `ρ_t : 𝒪^{⊕ r} ⟶ ℱ_t(-m)` is an epimorphism. -/
-instance {T : Scheme.{u}} (t : T ⟶ quotGrassmannian.{u} n r hr P) :
-    Epi (familyQuotientMap hr t) := by
-  refine epi_of_epi_twistMap (regularityIndex.{u} n r hr P : ℤ) _ ?_
+instance {T : Scheme.{u}} (t : T ⟶ quotGrassmannian.{u} n r P) :
+    Epi (familyQuotientMap t) := by
+  refine epi_of_epi_twistMap (regularityIndex.{u} n r P : ℤ) _ ?_
   rw [twistFunctor_map_familyQuotientMap]
   infer_instance
 
 /-- **The kernel `K_t ⊆ 𝒪^{⊕ r}`** read off `t : T ⟶ G`: the kernel of `𝒪^{⊕ r} ⟶ ℱ_t(-m)`. -/
-def ofFamily {T : Scheme.{u}} (t : T ⟶ quotGrassmannian.{u} n r hr P) :
+def ofFamily {T : Scheme.{u}} (t : T ⟶ quotGrassmannian.{u} n r P) :
     Subobject (freeModule n r T) :=
-  kernelSubobject (familyQuotientMap hr t)
+  kernelSubobject (familyQuotientMap t)
 
 /-- The quotient `𝒪^{⊕ r}/K_t` is isomorphic to `ℱ_t(-m)` under `𝒪^{⊕ r}`. -/
-theorem exists_quotient_ofFamily_iso {T : Scheme.{u}} (t : T ⟶ quotGrassmannian.{u} n r hr P) :
-    ∃ c : quotient (ofFamily hr t) ≅ twist (-(regularityIndex.{u} n r hr P : ℤ))
-        ((Scheme.Modules.pullback (projectiveSpaceOverMap n t)).obj (universalFamily.{u} n r hr P)),
-      quotientπ (ofFamily hr t) ≫ c.hom = familyQuotientMap hr t :=
-  ⟨Abelian.cokernelKernelSubobjectIso (familyQuotientMap hr t),
+theorem exists_quotient_ofFamily_iso {T : Scheme.{u}} (t : T ⟶ quotGrassmannian.{u} n r P) :
+    ∃ c : quotient (ofFamily t) ≅ twist (-(regularityIndex.{u} n r P : ℤ))
+        ((Scheme.Modules.pullback (projectiveSpaceOverMap n t)).obj (universalFamily.{u} n r P)),
+      quotientπ (ofFamily t) ≫ c.hom = familyQuotientMap t :=
+  ⟨Abelian.cokernelKernelSubobjectIso (familyQuotientMap t),
     ((Iso.comp_inv_eq _).1 (Abelian.cokernelKernelSubobjectIso_inv_comp _)).symm⟩
 
 /-- **`K_t ∈ Quot^P(T)` for `t` factoring through `Z_P`.** -/
-theorem ofFamily_mem {T : Scheme.{u}} (t : T ⟶ quotGrassmannian.{u} n r hr P)
-    (ht : ∃ w : T ⟶ (hilbertLocus.{u} n r hr P).toScheme, w ≫ hilbertLocusHom.{u} n r hr P = t) :
-    ofFamily hr t ∈ hilbertFamilies n r P T := by
+theorem ofFamily_mem {T : Scheme.{u}} (t : T ⟶ quotGrassmannian.{u} n r P)
+    (ht : ∃ w : T ⟶ (hilbertLocus.{u} n r P).toScheme, w ≫ hilbertLocusHom.{u} n r P = t) :
+    ofFamily t ∈ hilbertFamilies n r P T := by
   obtain ⟨hflat, hhil⟩ := (exists_lift_hilbertLocusHom_iff t).1 ht
-  obtain ⟨c, -⟩ := exists_quotient_ofFamily_iso hr t
-  have : (quotient (ofFamily hr t)).IsFinitePresentation :=
+  obtain ⟨c, -⟩ := exists_quotient_ofFamily_iso t
+  have : (quotient (ofFamily t)).IsFinitePresentation :=
     Stacks.SheafOfModules.Intrinsic.isFinitePresentation_of_iso c.symm inferInstance
   refine ⟨⟨inferInstance, (isFlatOver_iff_of_iso _ c).2 (isFlatOver_twist _ _ _ hflat)⟩,
     (hasFibreHilbertPolynomial_iff _).2 fun t' d => ?_⟩
   rw [fibreHilbert_eq_of_iso c t', fibreHilbert_twist]
-  have h := hhil t' (d + -(regularityIndex.{u} n r hr P : ℤ))
+  have h := hhil t' (d + -(regularityIndex.{u} n r P : ℤ))
   push_cast at h
   rw [h]
   congr 1
@@ -215,78 +215,78 @@ theorem ofFamily_mem {T : Scheme.{u}} (t : T ⟶ quotGrassmannian.{u} n r hr P)
 /-- Any iso from `A` to `ℱ_t` compatible with a map `a` out of `𝒪^{⊕ r}(m)` and `familyπ` yields an
 iso `A ≅ (𝒪^{⊕ r}/K_t)(m)` compatible with `a` and the twisted projection. -/
 private theorem exists_iso_twist_quotient_ofFamily {T : Scheme.{u}}
-    (t : T ⟶ quotGrassmannian.{u} n r hr P) {A : (projectiveSpaceOver n T).Modules}
-    (a : twist (regularityIndex.{u} n r hr P : ℤ) (freeModule n r T) ⟶ A)
+    (t : T ⟶ quotGrassmannian.{u} n r P) {A : (projectiveSpaceOver n T).Modules}
+    (a : twist (regularityIndex.{u} n r P : ℤ) (freeModule n r T) ⟶ A)
     (e : A ≅ (Scheme.Modules.pullback (projectiveSpaceOverMap n t)).obj
-      (universalFamily.{u} n r hr P)) (h : a ≫ e.hom = familyπ hr t) :
-    ∃ γ : A ≅ (twistFunctor n T (regularityIndex.{u} n r hr P : ℤ)).obj
-        (quotient (ofFamily hr t)),
-      a ≫ γ.hom = (twistFunctor n T (regularityIndex.{u} n r hr P : ℤ)).map
-        (quotientπ (ofFamily hr t)) := by
-  obtain ⟨c, hc⟩ := exists_quotient_ofFamily_iso hr t
-  refine ⟨e ≪≫ (familyUntwistIso hr t).symm ≪≫
-      (twistFunctor n T (regularityIndex.{u} n r hr P : ℤ)).mapIso c.symm, ?_⟩
-  exact comp_comp_comp_map_eq (twistFunctor n T (regularityIndex.{u} n r hr P : ℤ)) _ _ _ _ _ _ _
-    h (twistFunctor_map_familyQuotientMap hr t).symm ((Iso.comp_inv_eq _).2 hc.symm)
+      (universalFamily.{u} n r P)) (h : a ≫ e.hom = familyπ t) :
+    ∃ γ : A ≅ (twistFunctor n T (regularityIndex.{u} n r P : ℤ)).obj
+        (quotient (ofFamily t)),
+      a ≫ γ.hom = (twistFunctor n T (regularityIndex.{u} n r P : ℤ)).map
+        (quotientπ (ofFamily t)) := by
+  obtain ⟨c, hc⟩ := exists_quotient_ofFamily_iso t
+  refine ⟨e ≪≫ (familyUntwistIso t).symm ≪≫
+      (twistFunctor n T (regularityIndex.{u} n r P : ℤ)).mapIso c.symm, ?_⟩
+  exact comp_comp_comp_map_eq (twistFunctor n T (regularityIndex.{u} n r P : ℤ)) _ _ _ _ _ _ _
+    h (twistFunctor_map_familyQuotientMap t).symm ((Iso.comp_inv_eq _).2 hc.symm)
 
 /-- **The Grassmannian point of `K_t` is `t`.** -/
 theorem toGrassmannian_ofFamily
-    (hp : quotRank.{u} n r hr P ≤ freeRank.{u} n r (regularityIndex.{u} n r hr P))
-    {T : Scheme.{u}} (t : T ⟶ quotGrassmannian.{u} n r hr P)
-    (ht : ∃ w : T ⟶ (hilbertLocus.{u} n r hr P).toScheme, w ≫ hilbertLocusHom.{u} n r hr P = t) :
-    toGrassmannian hr hp (ofFamily_mem hr t ht) = t := by
-  obtain ⟨e₁, he₁⟩ := exists_pullback_presentationCokernel_iso (regularityIndex.{u} n r hr P) t
+    (hp : quotRank.{u} n r P ≤ freeRank.{u} n r (regularityIndex.{u} n r P))
+    {T : Scheme.{u}} (t : T ⟶ quotGrassmannian.{u} n r P)
+    (ht : ∃ w : T ⟶ (hilbertLocus.{u} n r P).toScheme, w ≫ hilbertLocusHom.{u} n r P = t) :
+    toGrassmannian hp (ofFamily_mem t ht) = t := by
+  obtain ⟨e₁, he₁⟩ := exists_pullback_presentationCokernel_iso (regularityIndex.{u} n r P) t
     (Grassmannian.universalPresentation _ _)
-  obtain ⟨γ, hγ⟩ := exists_iso_twist_quotient_ofFamily hr t _ e₁.symm
+  obtain ⟨γ, hγ⟩ := exists_iso_twist_quotient_ofFamily t _ e₁.symm
     (comp_inv_eq_inv_comp_of_eq _ _ _ _ he₁)
-  exact (eq_toGrassmannian_of_iso hr hp (ofFamily_mem hr t ht) t γ
+  exact (eq_toGrassmannian_of_iso hp (ofFamily_mem t ht) t γ
     (hγ.trans (twistMap_eq_twistFunctor_map _ _).symm)).symm
 
 /-- **`K_{toGrassmannian K} = K`.** -/
 theorem ofFamily_toGrassmannian
-    (hp : quotRank.{u} n r hr P ≤ freeRank.{u} n r (regularityIndex.{u} n r hr P))
+    (hp : quotRank.{u} n r P ≤ freeRank.{u} n r (regularityIndex.{u} n r P))
     {T : Scheme.{u}} {K : Subobject (freeModule n r T)} (hK : K ∈ hilbertFamilies n r P T) :
-    ofFamily hr (toGrassmannian hr hp hK) = K := by
-  obtain ⟨e, he⟩ := exists_family_iso_twist_quotient hr (hp := hp) hK
-  obtain ⟨γ, hγ⟩ := exists_iso_twist_quotient_ofFamily hr (toGrassmannian hr hp hK)
-    ((twistFunctor n T (regularityIndex.{u} n r hr P : ℤ)).map (quotientπ K)) e.symm
+    ofFamily (toGrassmannian hp hK) = K := by
+  obtain ⟨e, he⟩ := exists_family_iso_twist_quotient (hp := hp) hK
+  obtain ⟨γ, hγ⟩ := exists_iso_twist_quotient_ofFamily (toGrassmannian hp hK)
+    ((twistFunctor n T (regularityIndex.{u} n r P : ℤ)).map (quotientπ K)) e.symm
     (by rw [Iso.symm_hom, ← twistMap_eq_twistFunctor_map, ← he, Category.assoc, Iso.hom_inv_id,
       Category.comp_id])
-  have hγ' : quotientπ K ≫ (twistFunctor n T (regularityIndex.{u} n r hr P : ℤ)).preimage γ.hom =
-      quotientπ (ofFamily hr (toGrassmannian hr hp hK)) := by
-    apply (twistFunctor n T (regularityIndex.{u} n r hr P : ℤ)).map_injective
+  have hγ' : quotientπ K ≫ (twistFunctor n T (regularityIndex.{u} n r P : ℤ)).preimage γ.hom =
+      quotientπ (ofFamily (toGrassmannian hp hK)) := by
+    apply (twistFunctor n T (regularityIndex.{u} n r P : ℤ)).map_injective
     rwa [Functor.map_comp, Functor.map_preimage]
   exact (Abelian.eq_of_cokernel_iso (C := (projectiveSpaceOver n T).Modules) K _
-    ((twistFunctor n T (regularityIndex.{u} n r hr P : ℤ)).preimageIso γ) hγ').symm
+    ((twistFunctor n T (regularityIndex.{u} n r P : ℤ)).preimageIso γ) hγ').symm
 
 /-- **`Quot^P(T) ≃ Hom(T, Z_P)`.** -/
 def hilbertLocusEquiv
-    (hp : quotRank.{u} n r hr P ≤ freeRank.{u} n r (regularityIndex.{u} n r hr P))
+    (hp : quotRank.{u} n r P ≤ freeRank.{u} n r (regularityIndex.{u} n r P))
     (T : Scheme.{u}) :
-    hilbertFamilies n r P T ≃ (T ⟶ (hilbertLocus.{u} n r hr P).toScheme) where
-  toFun K := toHilbertLocus hr hp K.2
-  invFun w := ⟨ofFamily hr (w ≫ hilbertLocusHom.{u} n r hr P), ofFamily_mem hr _ ⟨w, rfl⟩⟩
+    hilbertFamilies n r P T ≃ (T ⟶ (hilbertLocus.{u} n r P).toScheme) where
+  toFun K := toHilbertLocus hp K.2
+  invFun w := ⟨ofFamily (w ≫ hilbertLocusHom.{u} n r P), ofFamily_mem _ ⟨w, rfl⟩⟩
   left_inv K := Subtype.ext (by
-    change ofFamily hr (toHilbertLocus hr hp K.2 ≫ hilbertLocusHom.{u} n r hr P) = K.1
+    change ofFamily (toHilbertLocus hp K.2 ≫ hilbertLocusHom.{u} n r P) = K.1
     rw [toHilbertLocus_comp]
-    exact ofFamily_toGrassmannian hr hp K.2)
-  right_inv w := (cancel_mono (hilbertLocusHom.{u} n r hr P)).1 (by
+    exact ofFamily_toGrassmannian hp K.2)
+  right_inv w := (cancel_mono (hilbertLocusHom.{u} n r P)).1 (by
     rw [toHilbertLocus_comp]
-    exact toGrassmannian_ofFamily hr hp _ ⟨w, rfl⟩)
+    exact toGrassmannian_ofFamily hp _ ⟨w, rfl⟩)
 
 /-- **`Z_P` represents `Quot^P_{𝒪^{⊕ r}/ℙⁿ/ℤ}`**:
 `hilbertFunctor n r P ≅ yoneda.obj Z_P ⋙ uliftFunctor`. -/
 def hilbertFunctorIso
-    (hp : quotRank.{u} n r hr P ≤ freeRank.{u} n r (regularityIndex.{u} n r hr P)) :
+    (hp : quotRank.{u} n r P ≤ freeRank.{u} n r (regularityIndex.{u} n r P)) :
     hilbertFunctor.{u} n r P ≅
-      yoneda.obj (hilbertLocus.{u} n r hr P).toScheme ⋙ uliftFunctor.{u + 1} :=
+      yoneda.obj (hilbertLocus.{u} n r P).toScheme ⋙ uliftFunctor.{u + 1} :=
   NatIso.ofComponents
-    (fun T => Equiv.toIso ((hilbertLocusEquiv hr hp T.unop).trans Equiv.ulift.symm))
+    (fun T => Equiv.toIso ((hilbertLocusEquiv hp T.unop).trans Equiv.ulift.symm))
     (fun {T T'} g => by
       ext K
-      refine ULift.ext ((cancel_mono (hilbertLocusHom.{u} n r hr P)).1 ?_)
-      change toHilbertLocus hr hp (baseChange_mem_hilbertFamilies g.unop K.2) ≫ _ =
-        (g.unop ≫ toHilbertLocus hr hp K.2) ≫ _
+      refine ULift.ext ((cancel_mono (hilbertLocusHom.{u} n r P)).1 ?_)
+      change toHilbertLocus hp (baseChange_mem_hilbertFamilies g.unop K.2) ≫ _ =
+        (g.unop ≫ toHilbertLocus hp K.2) ≫ _
       rw [toHilbertLocus_comp, Category.assoc, toHilbertLocus_comp, comp_toGrassmannian])
 
 end AlgebraicGeometry.ProjectiveQuot

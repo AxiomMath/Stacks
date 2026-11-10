@@ -145,7 +145,7 @@ omit [IsCofiltered I] [EssentiallySmall.{u} I] [∀ i, IsAffine (D.obj i)] in
 /-- The base change of an affine model to a later stage is an affine model. -/
 theorem isAffine_overPullback_left {i j : I} (e : j ⟶ i) (X : Over (D.obj i)) [IsAffine X.left] :
     IsAffine ((Over.pullback (D.map e)).obj X).left := by
-  show IsAffine (pullback X.hom (D.map e))
+  change IsAffine (pullback X.hom (D.map e))
   infer_instance
 
 omit [IsCofiltered I] [EssentiallySmall.{u} I] [∀ {i j : I} (f : i ⟶ j), IsAffineHom (D.map f)]
@@ -155,7 +155,7 @@ presentation. -/
 theorem locallyOfFinitePresentation_overPullback_hom {i j : I} (e : j ⟶ i) (X : Over (D.obj i))
     [LocallyOfFinitePresentation X.hom] :
     LocallyOfFinitePresentation ((Over.pullback (D.map e)).obj X).hom := by
-  show LocallyOfFinitePresentation (pullback.snd X.hom (D.map e))
+  change LocallyOfFinitePresentation (pullback.snd X.hom (D.map e))
   infer_instance
 
 omit [IsCofiltered I] [EssentiallySmall.{u} I] [∀ {i j : I} (f : i ⟶ j), IsAffineHom (D.map f)]
@@ -580,7 +580,7 @@ theorem exists_iso_pullback_of_overIso {V Vk N : BigFppfOver B S hS} (f : V ⟶ 
     simp only [h, Category.assoc, pullback.condition, reassoc_of% hψ]
   have hincl : ∀ {A A' : BigFppfOver B S hS} (g : A ⟶ A'),
       T.map g ≫ B.inclusion.map A'.hom = B.inclusion.map A.hom := fun g => by
-    show B.inclusion.map g.left ≫ _ = _
+    change B.inclusion.map g.left ≫ _ = _
     rw [← Functor.map_comp, Over.w g]
   let w : N ⟶ overSiteObj X hX :=
     BigFppfOver.homMk B S hS hX (X.hom ≫ B.inclusion.map Vk.hom) h (by
@@ -588,7 +588,7 @@ theorem exists_iso_pullback_of_overIso {V Vk N : BigFppfOver B S hS} (f : V ⟶ 
   have hw : T.map w = h := rfl
   let θhom : N ⟶ pullback f (overSiteToBase X hX) := pullback.lift n₀ w
     (BigFppfOver.map_toScheme_injective B S hS (by
-      show T.map (n₀ ≫ f) = T.map (w ≫ overSiteToBase X hX)
+      change T.map (n₀ ≫ f) = T.map (w ≫ overSiteToBase X hX)
       rw [T.map_comp, T.map_comp, hw, toScheme_map_overSiteToBase]
       exact hh.symm))
   have hsq₁ : IsPullback (T.map n₀) h (T.map f) X.hom := by
@@ -608,7 +608,7 @@ theorem exists_iso_pullback_of_overIso {V Vk N : BigFppfOver B S hS} (f : V ⟶ 
     infer_instance
   have : IsIso θhom := isIso_of_reflects_iso θhom T
   refine ⟨asIso θhom, pullback.lift_fst _ _ _, ?_⟩
-  show T.map (θhom ≫ pullback.snd _ _) = _
+  change T.map (θhom ≫ pullback.snd _ _) = _
   rw [pullback.lift_snd, hw]
 
 /-- **A separated algebraic space of finite presentation over a limit of affine objects descends to
@@ -653,7 +653,7 @@ theorem exists_stage_model_of_isSeparated
   have hid : (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u}) T).presheaf
       (yoneda.map (𝟙 c.pt)) :=
     (presheaf_yoneda_map_iff B S hS inferInstance (𝟙 c.pt)).2 (by
-      show Etale (T.map (𝟙 c.pt))
+      change Etale (T.map (𝟙 c.pt))
       rw [T.map_id]
       infer_instance)
   have hnlfp : LocallyOfFinitePresentation (T.map n₀) :=
@@ -667,12 +667,12 @@ theorem exists_stage_model_of_isSeparated
   have : IsAffine Rov.left := hRaff
   have : LocallyOfFinitePresentation Nov.hom := hnlfp
   have : LocallyOfFinitePresentation Rov.hom := by
-    show LocallyOfFinitePresentation (T.map (s ≫ n₀))
+    change LocallyOfFinitePresentation (T.map (s ≫ n₀))
     rw [T.map_comp]
     infer_instance
   let sov : Rov ⟶ Nov := Over.homMk (T.map s) (T.map_comp _ _).symm
   let tov : Rov ⟶ Nov := Over.homMk (T.map t) (by
-    show T.map t ≫ T.map n₀ = T.map (s ≫ n₀)
+    change T.map t ≫ T.map n₀ = T.map (s ≫ n₀)
     rw [← T.map_comp, hst])
   have hlift : AlgebraicGeometry.IsClosedImmersion (prod.lift sov tov).left := by
     have e : (prod.lift sov tov).left = T.map (pullback.lift s t hst) ≫
@@ -681,11 +681,11 @@ theorem exists_stage_model_of_isSeparated
         Iso.inv_hom_id, Category.comp_id]
       apply pullback.hom_ext
       · rw [Category.assoc, Over.prodLeftIsoPullback_hom_fst, ← Over.comp_left, prod.lift_fst]
-        show T.map s = T.map (pullback.lift s t hst) ≫ (PreservesPullback.iso T n₀ n₀).hom ≫
+        change T.map s = T.map (pullback.lift s t hst) ≫ (PreservesPullback.iso T n₀ n₀).hom ≫
           pullback.fst (T.map n₀) (T.map n₀)
         rw [PreservesPullback.iso_hom_fst, ← T.map_comp, pullback.lift_fst]
       · rw [Category.assoc, Over.prodLeftIsoPullback_hom_snd, ← Over.comp_left, prod.lift_snd]
-        show T.map t = T.map (pullback.lift s t hst) ≫ (PreservesPullback.iso T n₀ n₀).hom ≫
+        change T.map t = T.map (pullback.lift s t hst) ≫ (PreservesPullback.iso T n₀ n₀).hom ≫
           pullback.snd (T.map n₀) (T.map n₀)
         rw [PreservesPullback.iso_hom_snd, ← T.map_comp, pullback.lift_snd]
     rw [e]
@@ -693,24 +693,24 @@ theorem exists_stage_model_of_isSeparated
   have hreflov : ∃ r : Nov ⟶ Rov, r ≫ sov = 𝟙 Nov ∧ r ≫ tov = 𝟙 Nov := by
     obtain ⟨r, hr₁, hr₂⟩ := exists_refl_kernelPair hR
     refine ⟨Over.homMk (T.map r) (by
-      show T.map r ≫ T.map (s ≫ n₀) = T.map n₀
+      change T.map r ≫ T.map (s ≫ n₀) = T.map n₀
       rw [← T.map_comp, reassoc_of% hr₁]), ?_, ?_⟩
     · ext1
-      show T.map r ≫ T.map s = 𝟙 _
+      change T.map r ≫ T.map s = 𝟙 _
       rw [← T.map_comp, hr₁, T.map_id]
     · ext1
-      show T.map r ≫ T.map t = 𝟙 _
+      change T.map r ≫ T.map t = 𝟙 _
       rw [← T.map_comp, hr₂, T.map_id]
   have hsymmov : ∃ σ : Rov ⟶ Rov, σ ≫ sov = tov ∧ σ ≫ tov = sov := by
     obtain ⟨σ, hσ₁, hσ₂⟩ := exists_symm_kernelPair hR
     refine ⟨Over.homMk (T.map σ) (by
-      show T.map σ ≫ T.map (s ≫ n₀) = T.map (s ≫ n₀)
+      change T.map σ ≫ T.map (s ≫ n₀) = T.map (s ≫ n₀)
       rw [← T.map_comp, reassoc_of% hσ₁, hst]), ?_, ?_⟩
     · ext1
-      show T.map σ ≫ T.map s = T.map t
+      change T.map σ ≫ T.map s = T.map t
       rw [← T.map_comp, hσ₁]
     · ext1
-      show T.map σ ≫ T.map t = T.map s
+      change T.map σ ≫ T.map t = T.map s
       rw [← T.map_comp, hσ₂]
   have htransov : ∃ τ : pullback tov sov ⟶ Rov, τ ≫ sov = pullback.fst tov sov ≫ sov ∧
       τ ≫ tov = pullback.snd tov sov ≫ tov := by
@@ -736,7 +736,7 @@ theorem exists_stage_model_of_isSeparated
     have hτs := hτu s _ _ _ hτ₁ k₃ k₁
     have hτt := hτu t _ _ _ hτ₂ k₄ k₂
     refine ⟨Over.homMk (e₁.hom ≫ e₂.inv ≫ T.map τ) ?_, ?_, ?_⟩
-    · show (e₁.hom ≫ e₂.inv ≫ T.map τ) ≫ T.map (s ≫ n₀) = (pullback tov sov).hom
+    · change (e₁.hom ≫ e₂.inv ≫ T.map τ) ≫ T.map (s ≫ n₀) = (pullback tov sov).hom
       rw [T.map_comp, ← Category.assoc, hτs, ← Over.w (pullback.fst tov sov)]
       simp only [Category.assoc]
       rfl
@@ -786,7 +786,7 @@ theorem exists_stage_model_of_isSeparated
       have key : ψR.inv.left ≫ pullback.fst Rk.hom (c'.π.app k) ≫ uk.left =
           uov.left ≫ ψN.inv.left ≫ pullback.fst Nk.hom (c'.π.app k) := by
         rw [← hG, ← Category.assoc, ← h'', Category.assoc]
-      show T.map (θR.hom ≫ pullbackMapRight _ _ huk ≫ pullback.snd _ _) =
+      change T.map (θR.hom ≫ pullbackMapRight _ _ huk ≫ pullback.snd _ _) =
         T.map (u ≫ θN.hom ≫ pullback.snd _ _)
       exact L.trans (key.trans Rr.symm)
   obtain ⟨a, -, hpb⟩ := exists_isPullback_of_atlas_baseChange hY hYk (c.π.app k) p pk n hnsurj

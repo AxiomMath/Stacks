@@ -66,8 +66,7 @@ theorem evalLeft_tmul (ε : A₀ →ₗ[k] k) {M : Type u} [AddCommGroup M] [Mod
 theorem evalLeft_lTensor (ε : A₀ →ₗ[k] k) {M N : Type u} [AddCommGroup M] [Module k M]
     [AddCommGroup N] [Module k N] (g : M →ₗ[k] N) (x : A₀ ⊗[k] M) :
     evalLeft ε N (g.lTensor A₀ x) = g (evalLeft ε M x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a m => simp
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -77,13 +76,13 @@ theorem evalLeft_lTensor (ε : A₀ →ₗ[k] k) {M N : Type u} [AddCommGroup M]
 whose restrictions `(1 ⊗ εB) h` and `evalLeft εA B₁ v` to the two axes are coboundaries, then
 `(h, v)` is the total coboundary `((d ⊗ 1) f, (1 ⊗ d) f)` of some `f : A₀ ⊗[k] B₀`. -/
 theorem exists_eq_of_cocycle (dA₀ : A₀ →ₗ[k] A₁) (dA₁ : A₁ →ₗ[k] A₂) (hdA : dA₁ ∘ₗ dA₀ = 0)
-    (dB₀ : B₀ →ₗ[k] B₁) (dB₁ : B₁ →ₗ[k] B₂)
+    (dB₀ : B₀ →ₗ[k] B₁)
     (oneA : A₀) (hA : ∀ a, dA₀ a = 0 → ∃ c : k, a = c • oneA) (hdA1 : dA₀ oneA = 0)
     (εA : A₀ →ₗ[k] k) (hεA : εA oneA = 1)
     (oneB : B₀) (hB : ∀ b, dB₀ b = 0 → ∃ c : k, b = c • oneB)
     (εB : B₀ →ₗ[k] k) (hεB : εB oneB = 1)
     (h : A₁ ⊗[k] B₀) (v : A₀ ⊗[k] B₁)
-    (hh : dA₁.rTensor B₀ h = 0) (hv : dB₁.lTensor A₀ v = 0)
+    (hh : dA₁.rTensor B₀ h = 0)
     (hmix : dB₀.lTensor A₁ h = dA₀.rTensor B₁ v)
     (hfaceB : εB.lTensor A₁ h ∈ LinearMap.range (dA₀.rTensor k))
     (hfaceA : evalLeft εA B₁ v ∈ LinearMap.range dB₀) :

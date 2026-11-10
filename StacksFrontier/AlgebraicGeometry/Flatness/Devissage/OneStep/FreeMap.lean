@@ -155,7 +155,7 @@ private theorem topologicalKrullDim_fiber_ne_top {Y S : Scheme.{u}} (g : Y ⟶ S
   have : IsAffineHom g := isAffineHom_of_isAffine g
   obtain ⟨n, hn⟩ := exists_topologicalKrullDim_fiber_le g
   refine ne_top_of_le_ne_top ?_ (hn s)
-  show ((n : ℕ∞) : WithBot ℕ∞) ≠ ((⊤ : ℕ∞) : WithBot ℕ∞)
+  change ((n : ℕ∞) : WithBot ℕ∞) ≠ ((⊤ : ℕ∞) : WithBot ℕ∞)
   exact fun he => ENat.natCast_ne_top n (WithBot.coe_eq_coe.mp he)
 
 /-! ### Elementary properties of the support -/
@@ -182,7 +182,7 @@ private theorem notMem_supp_of_isZero_pullback {Y : Scheme.{u}} (M : Y.Modules) 
   have hmem : t ∈
       SheafOfModules.supp ((Scheme.Modules.pullback (Y.fromSpecResidueField y)).obj M) := by
     rw [Stacks.Modules.supp_pullback]
-    show Y.fromSpecResidueField y t ∈ SheafOfModules.supp M
+    change Y.fromSpecResidueField y t ∈ SheafOfModules.supp M
     rw [Scheme.fromSpecResidueField_apply]
     exact hy
   rw [supp_eq_empty_of_isZero h] at hmem
@@ -236,7 +236,7 @@ theorem supportDim_eq_of_isIntegral (A B M : Type*) [CommRing A] [CommRing B]
     refine Quotient.eq.mpr ((J.comap (algebraMap A B)).quotientRel_def.mpr ?_)
     have hab : algebraMap A B a - algebraMap A B b ∈ J :=
       J.quotientRel_def.mp (Quotient.eq.mp h)
-    show algebraMap A B (a - b) ∈ J
+    change algebraMap A B (a - b) ∈ J
     rw [map_sub]
     exact hab
   exact Algebra.IsIntegral.ringKrullDim_eq (A ⧸ J.comap (algebraMap A B)) (B ⧸ J)
@@ -270,7 +270,7 @@ theorem supp_tilde (R : CommRingCat.{u}) (M : ModuleCat.{u} R) :
   ext p
   let x : PrimeSpectrum.Top R := p
   have : x.asIdeal.IsPrime := x.isPrime
-  show (∃ a : (tilde M).presheaf.stalk x, a ≠ 0) ↔
+  change (∃ a : (tilde M).presheaf.stalk x, a ≠ 0) ↔
     (⟨x.asIdeal, x.isPrime⟩ : PrimeSpectrum R) ∈ Module.support R M
   rw [Module.mem_support_iff]
   have e : LocalizedModule x.asIdeal.primeCompl M ≃ₗ[R] (tilde M).presheaf.stalk x :=
@@ -304,7 +304,7 @@ private theorem topologicalKrullDim_supp_pushforward_of_isIso {X Y : Scheme.{u}}
         Ab.{u} e.hom.homeomorph.isInducing M.presheaf x
     have ht := ConcreteCategory.bijective_of_isIso
       (TopCat.Presheaf.stalkPushforward Ab.{u} e.hom.base M.presheaf x)
-    show (∃ a : N.presheaf.stalk (e.hom x), a ≠ 0) ↔ ∃ a : M.presheaf.stalk x, a ≠ 0
+    change (∃ a : N.presheaf.stalk (e.hom x), a ≠ 0) ↔ ∃ a : M.presheaf.stalk x, a ≠ 0
     rw [← nontrivial_iff_exists_ne 0, ← nontrivial_iff_exists_ne 0]
     exact (Equiv.ofBijective _ ht).nontrivial_congr
   have ehomeo : SheafOfModules.supp M ≃ₜ SheafOfModules.supp N :=
@@ -469,16 +469,16 @@ theorem isIso_pullback_map_tilde (R K : Type u) [CommRing R] [Field K] (f : R �
   set η := pullbackTildeIso (CommRingCat.of R) (CommRingCat.of K) (CommRingCat.ofHom f') with hη
   have : IsIso ((ModuleCat.extendScalars f').map g) := by
     rw [ConcreteCategory.isIso_iff_bijective]
-    show Function.Bijective (g.hom.baseChange K)
-    rw [LinearMap.baseChange_eq_ltensor]
+    change Function.Bijective (g.hom.baseChange K)
+    rw [LinearMap.baseChange_eq_lTensor]
     exact (LinearMap.lTensor_bij_iff_rTensor_bij K g.hom).2 hg
   have hT : IsIso ((ModuleCat.extendScalars (CommRingCat.Hom.hom (CommRingCat.ofHom f')) ⋙
       tilde.functor (CommRingCat.of K)).map g) := by
-    show IsIso ((tilde.functor (CommRingCat.of K)).map ((ModuleCat.extendScalars f').map g))
+    change IsIso ((tilde.functor (CommRingCat.of K)).map ((ModuleCat.extendScalars f').map g))
     infer_instance
   have hcomp : IsIso (((Scheme.Modules.pullback (Spec.map (CommRingCat.ofHom f'))).map
       ((tilde.functor (CommRingCat.of R)).map g)) ≫ η.hom.app N) := by
-    show IsIso (((tilde.functor (CommRingCat.of R) ⋙
+    change IsIso (((tilde.functor (CommRingCat.of R) ⋙
       Scheme.Modules.pullback (Spec.map (CommRingCat.ofHom f'))).map g) ≫ η.hom.app N)
     rw [η.hom.naturality g]
     exact IsIso.comp_isIso' (by infer_instance) hT

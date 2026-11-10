@@ -209,7 +209,7 @@ public theorem stableKernelImageProjectAt_comp (α : F ⟶ G) (n m l : ℕ) (hnm
     (hn : kernelStableLevel I α n ≤ l) (hm : kernelStableLevel I α m ≤ l) :
     stableKernelImageProjectAt I α n m l hnm hn hm ≫ stableKernelImageIncl I α n =
       stableKernelImageIncl I α m ≫ F.obj.map (homOfLE hnm).op := by
-  show ((stableKernelImageIso I α m l hm).inv ≫
+  change ((stableKernelImageIso I α m l hm).inv ≫
       kernelImageAtProject I α n m l hnm ((le_kernelStableLevel I α m).trans hm) ≫
       (stableKernelImageIso I α n l hn).hom) ≫ stableKernelImageIncl I α n =
     stableKernelImageIncl I α m ≫ F.obj.map (homOfLE hnm).op

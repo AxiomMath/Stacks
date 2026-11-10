@@ -61,7 +61,7 @@ lemma varietyFunctionField_essFiniteType {k : Type u} [Field k]
   let : IsScalarTower k R K := IsScalarTower.of_algebraMap_eq' rfl
   have : Algebra.EssFiniteType R K := LocallyOfFiniteType.stalkMap X.structureMap η
   have hsurj : Function.Surjective (algebraMap k R) := by
-    show Function.Surjective (StructureSheaf.toStalk k (X.structureMap η)).hom
+    change Function.Surjective (StructureSheaf.toStalk k (X.structureMap η)).hom
     exact fieldBaseStalkAlgebraMap_surjective (Subsingleton.elim _ _)
   have : Algebra.EssFiniteType k R :=
     RingHom.essFiniteType_algebraMap.mp (RingHom.FiniteType.of_surjective _ hsurj).essFiniteType

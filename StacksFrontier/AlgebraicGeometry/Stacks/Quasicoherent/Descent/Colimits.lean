@@ -181,7 +181,7 @@ public theorem not_hasColimitsOfShape_discrete_type :
     intro p q hpq
     have hpq' : Sigma.desc p = Sigma.desc q := hpq
     funext i
-    rw [← Sigma.ι_desc p i, ← Sigma.ι_desc q i, hpq']
+    rw [← Sigma.ι_comp_desc p i, ← Sigma.ι_comp_desc q i, hpq']
   have _ : Small.{u} (∀ i : Type u, f i ⟶ G) := small_of_injective hdesc
   refine not_small_type.{u, u} (small_of_injective
     (f := fun α : Type u => (fun β : Type u => if α = β then (𝟙 G) else 0 :

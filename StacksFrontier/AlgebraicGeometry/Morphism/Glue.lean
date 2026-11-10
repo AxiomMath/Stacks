@@ -198,7 +198,7 @@ public theorem relativeMapDomain_eq_iSup :
 what makes the refinement argument for an arbitrary pair of affine opens possible. -/
 public theorem chartImage_eq_inf (U : AffineOpen S) :
     chartImage ψ U = ψ.relativeMapDomain ⊓ ((relativeProj B).toBase ⁻¹ᵁ U.1) := by
-  show (relativeProj B).chart U.1 U.2 ''ᵁ
+  change (relativeProj B).chart U.1 U.2 ''ᵁ
       mapDomain (A.grading U.1) (B.grading U.1) (ψ.sectionHom U.1) = _
   rw [show mapDomain (A.grading U.1) (B.grading U.1) (ψ.sectionHom U.1) =
       (relativeProj B).chart U.1 U.2 ⁻¹ᵁ ψ.relativeMapDomain from

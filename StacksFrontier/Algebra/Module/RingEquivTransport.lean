@@ -190,7 +190,7 @@ public theorem Module.FinitePresentation.of_isLocalizedModule_of_isLocalization 
     exact LinearMap.congr_fun key a
   refine finitePresentation_of_ringEquiv A₁ A₂ e.toRingEquiv.symm N₁ N₂ g.toAddEquiv.symm
     (fun a n => g.injective ?_) ‹_›
-  show g (g.symm (a • n)) = g (e.toRingEquiv.symm a • g.symm n)
+  change g (g.symm (a • n)) = g (e.toRingEquiv.symm a • g.symm n)
   rw [hcompat, g.apply_symm_apply, g.apply_symm_apply]
   exact congrArg (fun t : A₁ => t • n) (e.apply_symm_apply a).symm
 

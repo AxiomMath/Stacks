@@ -175,12 +175,12 @@ theorem fundamentalCycleCoeff_eq_cycleAssociatedToClosedSubscheme_id_chart
     hv.trans (hγ _).symm
   by_cases hk : deltaDimension D sX Z = n
   · by_cases hgen : v ∈ genericPoints (chartScheme V)
-    · rw [fundamentalCycleCoeff, cycleCoeffOfModule, if_pos hk,
+    · rw [fundamentalCycleCoeff, cycleCoeffOfModule, ite_eq_left hk,
         geometricLength_structureSheafModule_eq_length_chartStalk D.site D.base D.base_mem
           ⟨X, hX.1⟩ (γ (Z.ambientGenericPoint D.site D.base D.base_mem)) V v hvbar]
       exact (cycleAssociatedToClosedSubscheme_apply_eq_toNat_length _ _ (𝟙 (chartScheme V)) n v
         rfl hgen (hrel.trans hk)).symm
-    · rw [fundamentalCycleCoeff, cycleCoeffOfModule, if_pos hk,
+    · rw [fundamentalCycleCoeff, cycleCoeffOfModule, ite_eq_left hk,
         Stacks.Chow.cycleAssociatedToClosedSubscheme_apply_eq_zero
           (chartChowSituation D sX hX V hs) (𝟙 (chartScheme V)) (𝟙 (chartScheme V)) n v
           (by rintro ⟨ξ, hξ, -⟩; exact hgen (hξ ▸ ξ.2))]

@@ -149,7 +149,7 @@ theorem exists_zeta_roots_of_isCurve
       {x : C | IsClosed ({x} : Set C) ∧ Ψ.hom.base^[m] x = x}.Finite := fun m hm =>
     ((hfinN m hm).image Subtype.val).subset fun x hx =>
       ⟨⟨x, hx.1⟩, by
-        show ((⇑σ)^[m] ⟨x, hx.1⟩) = ⟨x, hx.1⟩
+        change ((⇑σ)^[m] ⟨x, hx.1⟩) = ⟨x, hx.1⟩
         exact Subtype.ext (by rw [iterate_closedPointPerm_val]; exact hx.2), rfl⟩
   refine ⟨hfinNC, hfinH, ?_⟩
   have hq2 : 2 ≤ p ^ f := Nat.one_lt_pow hf.ne' hp.out.one_lt
@@ -158,14 +158,14 @@ theorem exists_zeta_roots_of_isCurve
     (fun m => Nat.card {x : C | IsClosed ({x} : Set C) ∧ Ψ.hom.base^[m] x = x}) δ'
     (fun m => Nat.card {c : Stacks.Picard.ofScheme C // deg c = 0 ∧ P^[m] c = c})
     (fun m d => invariantCount (σ ^ m) d)
-    (fun m hm => by simp only [δ', dif_pos hm]; exact hδ m hm)
+    (fun m hm => by simp only [δ', dite_eq_left hm]; exact hδ m hm)
     (fun m hm => by
       have := hfinH m hm
       have : Nonempty {c : Stacks.Picard.ofScheme C // deg c = 0 ∧ P^[m] c = c} :=
         ⟨⟨0, map_zero _, Function.iterate_fixed (map_zero P) m⟩⟩
       exact Nat.card_pos)
     (fun m _ => invariantCount_zero)
-    (fun m hm d => by simp only [δ', dif_pos hm]; exact hR m hm d)
+    (fun m hm d => by simp only [δ', dite_eq_left hm]; exact hR m hm d)
     (fun m hm k hk => by
       have hpow : ∀ j, (⇑(σ ^ m))^[j] = (⇑σ)^[m * j] := fun j => by
         simp only [Equiv.Perm.coe_pow, ← Function.iterate_mul]

@@ -43,7 +43,8 @@ part of the corresponding corner over `Spec A` lying over the basic open `D(g)`.
 
 The `Opens`-level content — that the image of `i'` is `f⁻¹(i(X))` for an abstract cartesian square
 — is already `AlgebraicGeometry.preimage_opensRange_of_isPullback`
-(`StacksFrontier/AlgebraicGeometry/LimitApproxFunctor/Stage.lean`), and is used rather than reproved;
+(`StacksFrontier/AlgebraicGeometry/LimitApproxFunctor/Stage.lean`), and is used rather than
+reproved;
 all that is added here is the passage from that equality of opens to an isomorphism of schemes,
 through `AlgebraicGeometry.IsOpenImmersion.isoOfRangeEq`. The equality of *ranges* which the
 latter wants is extracted into

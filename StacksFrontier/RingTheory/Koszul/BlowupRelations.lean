@@ -230,7 +230,7 @@ private noncomputable def translate {L : Type u} [CommRing L] {r : ℕ} (c : Fin
 /-- The translation automorphism sends `X_j` to `X_j - c_j`. -/
 private theorem translate_X {L : Type u} [CommRing L] {r : ℕ} (c : Fin r → L) (j : Fin r) :
     translate c (MvPolynomial.X j) = MvPolynomial.X j - MvPolynomial.C (c j) := by
-  show MvPolynomial.aeval (fun k => MvPolynomial.X k - MvPolynomial.C (c k))
+  change MvPolynomial.aeval (fun k => MvPolynomial.X k - MvPolynomial.C (c k))
     (MvPolynomial.X j) = _
   simp
 

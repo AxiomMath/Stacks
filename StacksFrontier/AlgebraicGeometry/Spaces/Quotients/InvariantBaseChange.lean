@@ -239,10 +239,10 @@ theorem rel_baseChanged_iff
   · rintro ⟨r, hrx, hry⟩
     refine ⟨?_, mapTestPoint (baseChangedArrowsProj j φ f) r, ?_, ?_⟩
     · rw [← hrx, ← hry, Category.assoc, Category.assoc, htf, hsf]
-    · show (r.1 ≫ pullback.snd f (j.target.left ≫ φ)) ≫ j.target.left =
+    · change (r.1 ≫ pullback.snd f (j.target.left ≫ φ)) ≫ j.target.left =
         x.1 ≫ pullback.snd f φ
       rw [Category.assoc, ← hts, ← Category.assoc, hrx]
-    · show (r.1 ≫ pullback.snd f (j.target.left ≫ φ)) ≫ j.source.left =
+    · change (r.1 ≫ pullback.snd f (j.target.left ≫ φ)) ≫ j.source.left =
         y.1 ≫ pullback.snd f φ
       rw [Category.assoc, ← hss, ← Category.assoc, hry]
   · rintro ⟨hfst, r, hrx, hry⟩
@@ -251,7 +251,7 @@ theorem rel_baseChanged_iff
     have hw : (x.1 ≫ pullback.fst f φ) ≫ f = r.1 ≫ (j.target.left ≫ φ) := by
       rw [Category.assoc, pullback.condition, ← Category.assoc, ← hrx', Category.assoc]
     refine ⟨⟨pullback.lift (x.1 ≫ pullback.fst f φ) r.1 hw, ?_⟩, ?_, ?_⟩
-    · show pullback.lift _ _ hw ≫ pullback.snd f (j.target.left ≫ φ) ≫ R.hom = b
+    · change pullback.lift _ _ hw ≫ pullback.snd f (j.target.left ≫ φ) ≫ R.hom = b
       rw [← Category.assoc, pullback.lift_snd]
       exact r.2
     · refine pullback.hom_ext ?_ ?_

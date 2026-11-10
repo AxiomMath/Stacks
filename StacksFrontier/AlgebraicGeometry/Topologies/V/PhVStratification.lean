@@ -382,7 +382,7 @@ theorem standardVCoveringHasPHRefinement_of_denseFlat
       have hWset : (Wo : Set (Idl i.castSucc).subscheme)
           = ζ.base ⁻¹' (((Idl i.succ).support : Set T)ᶜ) := rfl
       rw [hrange, hWset, Set.image_preimage_eq_inter_range, hζ,
-        Scheme.IdealSheafData.range_subschemeι, Set.diff_eq, Set.inter_comm]
+        Scheme.IdealSheafData.range_subschemeι, Set.sdiff_eq, Set.inter_comm]
     · -- The hypothesis applies to the base change of the family to the closure.
       refine H Wo.ι.image hyaff K hK (fun κ ↦ pullback (a κ) (Wo.ι.imageι ≫ ζ))
         (fun κ ↦ inferInstance) (fun κ ↦ pullback.snd (a κ) (Wo.ι.imageι ≫ ζ))
@@ -392,7 +392,7 @@ theorem standardVCoveringHasPHRefinement_of_denseFlat
       rw [← flat_pullback_snd_comp_iff, hjy]
       have h1 : Flat (pullback.snd (Sigma.desc a) (Wo.ι ≫ ζ)) := hflatstr i
       have h2 := flat_pullback_snd_of_comp_left (Sigma.ι A κ) (Sigma.desc a) (Wo.ι ≫ ζ)
-      rwa [Sigma.ι_desc] at h2
+      rwa [Sigma.ι_comp_desc] at h2
   choose Y y hyci hyaff hyrange 𝒲 h𝒲 hhom using key
   have _ : ∀ i, IsClosedImmersion (y i) := hyci
   have _ : ∀ i, IsAffine (Y i) := hyaff
@@ -429,7 +429,7 @@ theorem standardVCoveringHasPHRefinement_of_denseFlat
     StandardPHCovering.of_presentation y (fun i ↦ hyaff i) (Sigma.desc y) (Sigma.ι Y)
       (isProper_sigmaDesc y)
       ((Stacks.AffineClosedUnion.surjective_sigmaDesc_iff y).mpr hcover)
-      (fun i ↦ inferInstance) (sigmaOpenCover Y).iUnion_range fun i ↦ Sigma.ι_desc _ _
+      (fun i ↦ inferInstance) (sigmaOpenCover Y).iUnion_range fun i ↦ Sigma.ι_comp_desc _ _
   -- Collapse the two stages by Stacks 0DBF part (2).
   obtain ⟨G, hG, ⟨δ⟩⟩ := exists_standardPHCovering_refinement_bind
     ({ I₀ := Fin t, X := Y, f := y } : PreZeroHypercover.{0} T) hE 𝒲 h𝒲

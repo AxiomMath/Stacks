@@ -97,6 +97,7 @@ def derivedTensorDualAdjunction
         (derivedDual X E))).ofNatIsoRight
     (derivedTensorFlipObjIsoDerivedSheafHomDual X E hE).symm
 
+omit [∀ V : X.C, (X.J.over V).HasSheafCompose (forget₂ RingCat.{u} AddCommGrpCat.{u})] in
 /-- **Tensoring with a perfect object preserves limits.** For a perfect object `E` of `D(𝒪)` the
 functor `- ⊗^𝐋_𝒪 E` is a right adjoint (`derivedTensorDualAdjunction`), so it preserves every
 limit that exists in `D(𝒪)`, for instance countable products. -/

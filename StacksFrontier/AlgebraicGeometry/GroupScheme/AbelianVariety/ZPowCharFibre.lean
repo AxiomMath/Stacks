@@ -317,10 +317,10 @@ private noncomputable def fiberTranslationIso (G H : C) [GrpObj G] [GrpObj H]
       simp [MonObj.one_eq_one, GrpObj.comp_inv, Category.assoc])
   hom_inv_id := by
     apply pullback.hom_ext <;>
-      simp [Category.assoc, pullback.lift_fst, pullback.lift_snd, pullback.lift_snd_assoc]
+      simp [Category.assoc]
   inv_hom_id := by
     apply pullback.hom_ext <;>
-      simp [Category.assoc, pullback.lift_fst, pullback.lift_snd, pullback.lift_snd_assoc]
+      simp [Category.assoc]
 
 end Translation
 
@@ -373,10 +373,10 @@ private noncomputable def homPullbackUnitEquiv
     apply pullback.hom_ext
     · simp only [pullback.lift_fst]
       exact toUnit_unique _ _
-    · simp [pullback.lift_snd]
+    · simp
   right_inv a := by
     apply Subtype.ext
-    simp [pullback.lift_snd]
+    simp
 
 private noncomputable def pointEquivOfIsFinite
     {k : Type u} [Field k] [IsAlgClosed k] (A : Over (Spec (.of k)))
@@ -445,7 +445,7 @@ private theorem surjective_of_isFinite_flat
     ⟨f.isClosedMap.isClosed_range, f.isOpenMap.isOpen_range⟩
   exact ⟨Set.range_eq_univ.mp (hr.eq_univ (Set.range_nonempty f))⟩
 
-private theorem surjective_zpow_id_of_ne_zero
+theorem surjective_zpow_id_of_ne_zero
     {k : Type u} [Field k] (A : Over (Spec (.of k))) [GrpObj A]
     [AlgebraicGeometry.IsAbelianVariety k A] (hcube : HasTheoremOfTheCube A) (d : ℤ) (hd : d ≠ 0) :
     Surjective (((𝟙 A : A ⟶ A) ^ d).left) := by

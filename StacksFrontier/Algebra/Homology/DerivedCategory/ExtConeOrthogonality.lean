@@ -160,7 +160,7 @@ theorem isIso_homologyFunctor_map_of_bijective_comp_shiftedHom {A A' D : Derived
     have hgu : g ≫ u = 0 :=
       (hbij F hF i hi).1 (by
         have hfg : f ≫ g = 0 := comp_distTriang_mor_zero₁₂ _ hT
-        show f ≫ g ≫ u = f ≫ 0
+        change f ≫ g ≫ u = f ≫ 0
         rw [← Category.assoc, hfg, zero_comp, comp_zero])
     obtain ⟨v, hv⟩ := Triangle.yoneda_exact₃ _ hT u hgu
     -- `v : A⟦1⟧ ⟶ M⟦i⟧` is the shift of a class `A ⟶ M⟦i - 1⟧`, which factors through `f`.
@@ -170,7 +170,7 @@ theorem isIso_homologyFunctor_map_of_bijective_comp_shiftedHom {A A' D : Derived
     have hv' : v = (f ≫ w)⟦(1 : ℤ)⟧' ≫ ε.inv := by
       have : (f ≫ w)⟦(1 : ℤ)⟧' = v ≫ ε.hom := by
         have hw' : f ≫ w = w' := hw
-        show (shiftFunctor (DerivedCategory C) (1 : ℤ)).map (f ≫ w) = _
+        change (shiftFunctor (DerivedCategory C) (1 : ℤ)).map (f ≫ w) = _
         rw [hw', Functor.map_preimage]
       rw [this, Category.assoc, Iso.hom_inv_id, Category.comp_id]
     have h3 : h ≫ f⟦(1 : ℤ)⟧' = 0 := comp_distTriang_mor_zero₃₁ _ hT

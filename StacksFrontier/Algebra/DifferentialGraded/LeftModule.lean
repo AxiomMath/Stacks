@@ -262,7 +262,7 @@ public lemma gradedSignTwist_apply_mem (R : Type u) [CommRing R] (M : Type w)
   unfold gradedSignTwist
   simp only [LinearMap.comp_apply]
   have h := DirectSum.decomposeLinearEquiv_apply_coe g n ⟨x, hx⟩
-  show (DirectSum.toModule R ℤ M
+  change (DirectSum.toModule R ℤ M
       (fun n => ((koszulQuadraticSign n : ℤ) : R) • (g n).subtype))
         ((DirectSum.decomposeLinearEquiv g) x) = _
   change DirectSum.decomposeLinearEquiv g x = _ at h
@@ -416,7 +416,7 @@ private lemma gradedOppositeModuleRingEquiv_algebraMap (r : R) :
   have h0 : (algebraMap R B.A r) ∈ B.grading 0 := by
     rw [Algebra.algebraMap_eq_smul_one]
     exact (B.grading 0).smul_mem _ (SetLike.one_mem_graded B.grading)
-  show (DifferentialGradedAlgebra.opposite R A).equiv
+  change (DifferentialGradedAlgebra.opposite R A).equiv
     (gradedSignTwist R B.A B.grading (algebraMap R B.A r)) = algebraMap R A.A r
   rw [gradedSignTwist_apply_mem R B.A B.grading h0]
   calc
@@ -453,7 +453,7 @@ public lemma leftToRight_base_smul (M : LeftModule A) (r : R) (x : M.M) :
       (algebraMap R
         (MulOpposite (DifferentialGradedAlgebra.opposite R A).toDifferentialGradedAlgebra.A) r)) x =
         r • x := by
-  show (Module.compHom M.M (leftToRightAction (R := R) (A := A) M)).smul _ _ = _
+  change (Module.compHom M.M (leftToRightAction (R := R) (A := A) M)).smul _ _ = _
   rw [leftToRight_smul_def, gradedOppositeModuleRingEquiv_algebraMap, algebraMap_smul, map_smul]
   exact congrArg (fun y => r • y) (gradedSignTwist_involutive R M.M M.grading x)
 
@@ -462,7 +462,7 @@ public lemma rightToLeft_base_smul
     (M : DifferentialGradedModule
       (DifferentialGradedAlgebra.opposite R A).toDifferentialGradedAlgebra) (r : R) (x : M.M) :
     (rightToLeftAction (R := R) (A := A) M (algebraMap R A.A r)) x = r • x := by
-  show (Module.compHom M.M (rightToLeftAction (R := R) (A := A) M)).smul _ _ = _
+  change (Module.compHom M.M (rightToLeftAction (R := R) (A := A) M)).smul _ _ = _
   rw [rightToLeft_smul_def]
   have hbase : (gradedOppositeModuleRingEquiv R A).symm (algebraMap R A.A r) =
       algebraMap R
@@ -471,7 +471,7 @@ public lemma rightToLeft_base_smul
     apply (gradedOppositeModuleRingEquiv R A).injective
     simpa using (gradedOppositeModuleRingEquiv_algebraMap (R := R) (A := A) r).symm
   rw [hbase, algebraMap_smul]
-  show gradedSignTwist R M.M M.grading
+  change gradedSignTwist R M.M M.grading
       (r • gradedSignTwist R M.M M.grading x) = r • x
   rw [map_smul]
   exact congrArg (fun y => r • y) (gradedSignTwist_involutive R M.M M.grading x)
@@ -482,7 +482,7 @@ private lemma gradedOppositeModuleRingEquiv_op_mem
     gradedOppositeModuleRingEquiv R A (MulOpposite.op a) =
       ((koszulQuadraticSign m : ℤ) : R) • (DifferentialGradedAlgebra.opposite R A).equiv a := by
   let B := (DifferentialGradedAlgebra.opposite R A).toDifferentialGradedAlgebra
-  show (DifferentialGradedAlgebra.opposite R A).equiv (gradedSignTwist R B.A B.grading a) = _
+  change (DifferentialGradedAlgebra.opposite R A).equiv (gradedSignTwist R B.A B.grading a) = _
   rw [gradedSignTwist_apply_mem R B.A B.grading ha, LinearEquiv.map_smul]
 
 /-- The product of the quadratic Koszul signs of `m`, `n` and `m + n` is `(-1)^{mn}`. -/
@@ -515,7 +515,7 @@ public lemma leftToRightAction_apply_mem (M : LeftModule A)
     (hx : x ∈ M.grading n) :
     (leftToRightAction (R := R) (A := A) M (MulOpposite.op a)) x =
       (m * n).negOnePow • ((DifferentialGradedAlgebra.opposite R A).equiv a • x) := by
-  show (Module.compHom M.M (leftToRightAction (R := R) (A := A) M)).smul
+  change (Module.compHom M.M (leftToRightAction (R := R) (A := A) M)).smul
     (MulOpposite.op a) x = _
   rw [leftToRight_smul_def, gradedOppositeModuleRingEquiv_op_mem ha,
     gradedSignTwistEquiv_apply_mem R M.M M.grading hx]
@@ -548,7 +548,7 @@ public lemma rightToLeftAction_apply_mem
     rw [smul_smul, intCast_units_mul (koszulQuadraticSign_square m), Units.val_one, Int.cast_one,
       one_smul]
     simp [b]
-  show (Module.compHom M.M (rightToLeftAction (R := R) (A := A) M)).smul a x = _
+  change (Module.compHom M.M (rightToLeftAction (R := R) (A := A) M)).smul a x = _
   rw [rightToLeft_smul_def, hinv, gradedSignTwistEquiv_apply_mem R M.M M.grading hx]
   have hbx : (MulOpposite.op b) • x ∈ M.grading (m + n) := by
     simpa [add_comm] using M.smul_mem n m x b hx hb
@@ -766,7 +766,7 @@ private lemma rightToLeft_leftToRight_action (M : LeftModule A)
   let B := (DifferentialGradedAlgebra.opposite R A).toDifferentialGradedAlgebra
   let _ : Module (MulOpposite B.A) M.M :=
     Module.compHom M.M (leftToRightAction M)
-  show gradedSignTwistEquiv R M.M M.grading
+  change gradedSignTwistEquiv R M.M M.grading
     ((gradedOppositeModuleRingEquiv R A).symm a •
       gradedSignTwistEquiv R M.M M.grading x) = a • x
   have hF := leftToRight_smul_def (R := R) (A := A) M
@@ -786,7 +786,7 @@ private lemma leftToRight_rightToLeft_action
     (leftToRightAction (R := R) (A := A) (rightToLeftObject (R := R) (A := A) M) s) x =
       s • x := by
   let _ : Module A.A M.M := Module.compHom M.M (rightToLeftAction M)
-  show gradedSignTwistEquiv R M.M M.grading
+  change gradedSignTwistEquiv R M.M M.grading
     ((gradedOppositeModuleRingEquiv R A) s •
       gradedSignTwistEquiv R M.M M.grading x) = s • x
   have hG := rightToLeft_smul_def (R := R) (A := A) M

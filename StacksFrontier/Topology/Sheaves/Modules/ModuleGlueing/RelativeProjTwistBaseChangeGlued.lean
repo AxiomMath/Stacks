@@ -74,8 +74,8 @@ half already carries in
 Multiplicativity of `θ` — its compatibility with the maps `𝒪(n) ⊗ 𝒪(m) ⟶ 𝒪(n + m)` and with the
 unit, which is what makes the family of `θ n` a homomorphism of `ℤ`-graded algebras rather than a
 family of isomorphisms of modules — is **not** proved, exactly as it is not for clause (3) of Tag
-01N2 in `StacksFrontier/AlgebraicGeometry/Blowup/ProjBaseChangeTwist.lean`. The attribute's note says
-so.
+01N2 in `StacksFrontier/AlgebraicGeometry/Blowup/ProjBaseChangeTwist.lean`. The attribute's note
+says so.
 
 ## References
 

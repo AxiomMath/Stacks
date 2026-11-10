@@ -111,7 +111,7 @@ theorem quasiIso_freeAbelianSheafResolutionAugmentation
     · rw [ShortComplex.exact_and_epi_g_iff_g_is_cokernel]
       refine ⟨IsColimit.ofIsoColimit (isColimitCokernelCoforkFreeAbelianSheafAugZero J A h₀ h₁)
         (Cofork.ext (Iso.refl _) ?_)⟩
-      show freeAbelianSheafAugZero J A ≫ 𝟙 _ =
+      change freeAbelianSheafAugZero J A ≫ 𝟙 _ =
         (freeAbelianSheafResolutionAugmentation J A).f 0
       simp
     all_goals rfl

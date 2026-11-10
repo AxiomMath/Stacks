@@ -114,7 +114,7 @@ theorem exists_finitePresentationModel_pullbackIso (D : LimitNoetherianSituation
     LimitDescent.hasFinitePresentationModels.{u} D.system D.limitCone D.isLimit (Over.mk p) hp
   refine ⟨i.unop, Xi.left, Xi.hom, hXi,
     (Over.forget _).mapIso e ≪≫ pullbackSymmetry Xi.hom (D.limitCone.π.app i), ?_⟩
-  show ((Over.forget _).mapIso e).hom ≫
+  change ((Over.forget _).mapIso e).hom ≫
       (pullbackSymmetry Xi.hom (D.limitCone.π.app i)).hom ≫
       pullback.fst (D.limitCone.π.app i) Xi.hom = p
   rw [pullbackSymmetry_hom_comp_fst]

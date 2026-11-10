@@ -339,8 +339,9 @@ add_to_sga "4½ Arcata 2.1.2" "special case" Algebra.IsFiniteSplit.instEtale
 add_to_sga "4½ Arcata 2.1.3" "special case" Algebra.Etale.baseChange
 add_to_sga "4½ Arcata 2.1.3" "special case" Algebra.Etale.of_etale_tensorProduct_of_faithfullyFlat
 add_to_sga "4½ Arcata 2.1.3" AlgebraicGeometry.Etale.instHasOfPostcompPropertyScheme
+open AlgebraicGeometry.Etale in
 add_to_sga "4½ Arcata 2.1.3" "more general"
-  AlgebraicGeometry.Etale.instHasOfPostcompPropertySchemeMinMorphismPropertyLocallyOfFiniteTypeFormallyUnramified
+  instHasOfPostcompPropertySchemeMinMorphismPropertyLocallyOfFiniteTypeFormallyUnramified
 add_to_sga "4½ Arcata 2.1.3" "special case" AlgebraicGeometry.Etale.instMorphismRestrict
 add_to_sga "4½ Arcata 2.1.3" "special case" AlgebraicGeometry.Etale.instResLE
 add_to_sga "4½ Arcata 2.1.3" "Sorite 1.3 d) (descent)"
@@ -527,8 +528,9 @@ add_to_sga "4½ Etat_0 2.3.1" CategoryTheory.MorphismProperty.HasLeftCalculusOfF
 add_to_sga "4½ Etat_0 2.3.1" CategoryTheory.MorphismProperty.HasLocalization.standard
 add_to_sga "4½ Etat_0 2.3.1" CategoryTheory.MorphismProperty.HasRightCalculusOfFractions
 add_to_sga "4½ Etat_0 2.3.1" CategoryTheory.MorphismProperty.LeftFraction.Localization.Q
+open CategoryTheory.MorphismProperty.LeftFraction.Localization in
 add_to_sga "4½ Etat_0 2.3.1" "partial"
-  CategoryTheory.MorphismProperty.LeftFraction.Localization.StrictUniversalPropertyFixedTarget.inverts
+  StrictUniversalPropertyFixedTarget.inverts
 add_to_sga "4½ Etat_0 2.3.1" "partial"
   CategoryTheory.MorphismProperty.LeftFraction.Localization.StrictUniversalPropertyFixedTarget.uniq
 add_to_sga "4½ Etat_0 2.3.1" "partial"
@@ -536,14 +538,18 @@ add_to_sga "4½ Etat_0 2.3.1" "partial"
 add_to_sga "4½ Etat_0 2.3.1" CategoryTheory.MorphismProperty.Q
 add_to_sga "4½ Etat_0 2.3.1" "partial" CategoryTheory.MorphismProperty.Q_inverts
 add_to_sga "4½ Etat_0 2.3.1" CategoryTheory.MorphismProperty.instCategoryLocalization
+open CategoryTheory.MorphismProperty in
 add_to_sga "4½ Etat_0 2.3.1" "partial"
-  CategoryTheory.MorphismProperty.instHasLeftCalculusOfFractionsOppositeOpOfHasRightCalculusOfFractions
+  instHasLeftCalculusOfFractionsOppositeOpOfHasRightCalculusOfFractions
+open CategoryTheory.MorphismProperty in
 add_to_sga "4½ Etat_0 2.3.1" "partial"
-  CategoryTheory.MorphismProperty.instHasLeftCalculusOfFractionsUnopOfHasRightCalculusOfFractionsOpposite
+  instHasLeftCalculusOfFractionsUnopOfHasRightCalculusOfFractionsOpposite
+open CategoryTheory.MorphismProperty in
 add_to_sga "4½ Etat_0 2.3.1" "partial"
-  CategoryTheory.MorphismProperty.instHasRightCalculusOfFractionsOppositeOpOfHasLeftCalculusOfFractions
+  instHasRightCalculusOfFractionsOppositeOpOfHasLeftCalculusOfFractions
+open CategoryTheory.MorphismProperty in
 add_to_sga "4½ Etat_0 2.3.1" "partial"
-  CategoryTheory.MorphismProperty.instHasRightCalculusOfFractionsUnopOfHasLeftCalculusOfFractionsOpposite
+  instHasRightCalculusOfFractionsUnopOfHasLeftCalculusOfFractionsOpposite
 add_to_sga "4½ Etat_0 2.3.1" "special case"
   CategoryTheory.ObjectProperty.instHasLeftCalculusOfFractionsTrWOfIsTriangulatedOfIsTriangulated
 add_to_sga "4½ Etat_0 2.3.1" "special case"

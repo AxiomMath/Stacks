@@ -245,7 +245,7 @@ theorem mapOfAlgebraHom_comp_structureMap (φ : Y.carrier →+* Z.carrier)
     (hφ : φ.comp Y.str = Z.str) :
     (mapOfAlgebraHom φ hφ).comp Y.structureMap = Z.structureMap := by
   refine RingHom.ext fun a ↦ Subtype.ext (funext fun J ↦ ?_)
-  show stageMap φ hφ J (Ideal.Quotient.mk (extendedIdeal Y.str J) (Y.str a))
+  change stageMap φ hφ J (Ideal.Quotient.mk (extendedIdeal Y.str J) (Y.str a))
     = Ideal.Quotient.mk (extendedIdeal Z.str J) (Z.str a)
   rw [Ideal.quotientMap_mk, show φ (Y.str a) = Z.str a from RingHom.congr_fun hφ a]
 
@@ -271,7 +271,7 @@ private theorem hom_ext_of_stage {g h : Y ⟶ Z}
 theorem homOfAlgebraHom_id (Y : EtaleCompletion A) :
     homOfAlgebraHom (RingHom.id Y.carrier) (RingHom.id_comp Y.str) = 𝟙 Y := by
   refine hom_ext_of_stage fun J x y hy ↦ ?_
-  show stageMap (RingHom.id Y.carrier) (RingHom.id_comp Y.str) J (x.1 J) = x.1 J
+  change stageMap (RingHom.id Y.carrier) (RingHom.id_comp Y.str) J (x.1 J) = x.1 J
   rw [← hy, Ideal.quotientMap_mk, RingHom.id_apply]
 
 /-- The construction is functorial in the underlying étale algebra. -/
@@ -280,7 +280,7 @@ theorem homOfAlgebraHom_comp (φ : Y.carrier →+* Z.carrier) (hφ : φ.comp Y.s
     (hψφ : (ψ.comp φ).comp Y.str = W.str) :
     homOfAlgebraHom (ψ.comp φ) hψφ = homOfAlgebraHom φ hφ ≫ homOfAlgebraHom ψ hψ := by
   refine hom_ext_of_stage fun J x y hy ↦ ?_
-  show stageMap (ψ.comp φ) hψφ J (x.1 J)
+  change stageMap (ψ.comp φ) hψφ J (x.1 J)
     = stageMap ψ hψ J (stageMap φ hφ J (x.1 J))
   rw [← hy, Ideal.quotientMap_mk, Ideal.quotientMap_mk, Ideal.quotientMap_mk,
     RingHom.comp_apply]

@@ -93,7 +93,7 @@ theorem exists_twoTerm_shortExact {K : CochainComplex C ℤ}
   refine ⟨i, p, hip, HomologicalComplex.shortExact_of_degreewise_shortExact _ ?_⟩
   intro n
   let S := (ShortComplex.mk i p hip).map (HomologicalComplex.eval C (ComplexShape.up ℤ) n)
-  show S.ShortExact
+  change S.ShortExact
   have hm : Mono S.f := by
     by_cases hn : n = 0
     · subst n; exact inferInstanceAs (Mono (i.f 0))

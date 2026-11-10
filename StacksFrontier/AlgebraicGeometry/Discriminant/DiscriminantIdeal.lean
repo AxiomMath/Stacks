@@ -105,7 +105,7 @@ theorem finiteProjectiveTrace_eq_trace (R : Type u) (P : Type v)
   let i : P →ₗ[R] (Fin n → R) := h.choose_spec.choose_spec.choose
   have hi : p.comp i = LinearMap.id := h.choose_spec.choose_spec.choose_spec.2.2
   ext f
-  show LinearMap.trace R (Fin n → R) (i.comp (f.comp p)) =
+  change LinearMap.trace R (Fin n → R) (i.comp (f.comp p)) =
     LinearMap.trace R P f
   rw [← LinearMap.trace_comp_comm' i (f.comp p)]
   simp [LinearMap.comp_assoc, hi]
@@ -140,7 +140,7 @@ theorem finiteProjectiveTrace_eq_trace_of_split (R : Type u) (P : Type v) (F : T
     intro x
     have hx := LinearMap.congr_fun hp₀i₀ (f (p x))
     simpa only [LinearMap.comp_apply, LinearMap.id_apply] using (congrArg i hx).symm
-  show LinearMap.trace R (Fin n₀ → R) (i₀.comp (f.comp p₀)) = _
+  change LinearMap.trace R (Fin n₀ → R) (i₀.comp (f.comp p₀)) = _
   calc
     _ = LinearMap.trace R (Fin n₀ → R)
           ((i₀.comp (f.comp p)).comp (i.comp p₀)) := by rw [he₁]
@@ -188,7 +188,7 @@ theorem finiteProjectiveTraceForm_eq_traceForm (R : Type u) (A : Type v)
     [Module.Projective R A] [Module.Free R A] :
     finiteProjectiveTraceForm R A = Algebra.traceForm R A := by
   ext a b
-  show finiteProjectiveTrace R A ((Algebra.lmul R A).toLinearMap (a * b)) =
+  change finiteProjectiveTrace R A ((Algebra.lmul R A).toLinearMap (a * b)) =
     Algebra.trace R A (a * b)
   rw [finiteProjectiveTrace_eq_trace]
   rfl
@@ -206,7 +206,7 @@ theorem lmul_scalarTensor
   intro z
   refine TensorProduct.inductionOn z ?_ ?_
   · intro k x
-    show (1 ⊗ₜ[R] a) * (k ⊗ₜ[R] x) =
+    change (1 ⊗ₜ[R] a) * (k ⊗ₜ[R] x) =
       ((Algebra.lmul R A).toLinearMap a).baseChange K (k ⊗ₜ[R] x)
     rw [Algebra.TensorProduct.tmul_mul_tmul, LinearMap.baseChange_tmul]
     simp [Algebra.coe_lmul_eq_mul]
@@ -229,7 +229,7 @@ theorem traceForm_scalarTensor_apply
       ((1 : K) ⊗ₜ[R] (a * b)) := by
     rw [Algebra.TensorProduct.tmul_mul_tmul, one_mul]
   rw [Algebra.traceForm_apply, Algebra.trace_apply]
-  show LinearMap.trace K B
+  change LinearMap.trace K B
     ((Algebra.lmul K B).toLinearMap ((1 ⊗ₜ[R] a) * (1 ⊗ₜ[R] b))) = _
   rw [hab, lmul_scalarTensor, ← finiteProjectiveTrace_eq_trace K B,
     finiteProjectiveTrace_baseChange]
@@ -388,7 +388,7 @@ theorem dualTensorBaseChange_bijective
     apply TensorProduct.AlgebraTensorModule.ext
     intro s ψ
     dsimp [dualTensorBaseChange, inv, TensorProduct.AlgebraTensorModule.lift_tmul]
-    show (∑ i, (s * (ψ (b i) • (1 : S))) ⊗ₜ[R] φ i) = s ⊗ₜ[R] ψ
+    change (∑ i, (s * (ψ (b i) • (1 : S))) ⊗ₜ[R] φ i) = s ⊗ₜ[R] ψ
     calc
       (∑ i, (s * (ψ (b i) • (1 : S))) ⊗ₜ[R] φ i) =
           ∑ i, (s * algebraMap R S (ψ (b i))) ⊗ₜ[R] φ i := by
@@ -413,7 +413,7 @@ theorem dualTensorBaseChange_bijective
     intro z
     refine TensorProduct.inductionOn z ?_ ?_
     · intro s a
-      show dualTensorBaseChange R A S
+      change dualTensorBaseChange R A S
         (∑ i, ψ (1 ⊗ₜ[R] b i) ⊗ₜ[R] φ i) (s ⊗ₜ[R] a) = ψ (s ⊗ₜ[R] a)
       rw [map_sum]
       simp only [LinearMap.sum_apply, dualTensorBaseChange_tmul_apply,
@@ -601,7 +601,7 @@ theorem algebraDiscriminantIdeal_map
     LinearEquiv.ofBijective (dualTensorBaseChange R A S)
       (dualTensorBaseChange_bijective R A S)
   have hbase : TensorProduct.AlgebraTensorModule.lTensor S S Φ = Φ.baseChange S :=
-    LinearMap.ext fun x ↦ congrFun (LinearMap.baseChange_eq_ltensor Φ) x
+    LinearMap.ext fun x ↦ congrFun (LinearMap.baseChange_eq_lTensor Φ) x
   have hcomp : eDual.toLinearMap.comp
       (TensorProduct.AlgebraTensorModule.lTensor S S Φ) = ΦS := by
     rw [hbase]
@@ -634,7 +634,7 @@ theorem finiteProjectiveTrace_conj
   let iQ : Q →ₗ[R] F := i.comp e.symm.toLinearMap
   have hpQiQ : pQ.comp iQ = LinearMap.id := by
     ext x
-    show e ((p.comp i) (e.symm x)) = x
+    change e ((p.comp i) (e.symm x)) = x
     rw [hpi]
     simp
   have htrace : iQ.comp
@@ -672,7 +672,7 @@ theorem finiteProjectiveTraceForm_algEquiv
   intro a
   apply LinearMap.ext
   intro b
-  show finiteProjectiveTrace R A
+  change finiteProjectiveTrace R A
       ((Algebra.lmul R A).toLinearMap (a * e.symm b)) =
     finiteProjectiveTrace R B
       ((Algebra.lmul R B).toLinearMap (e a * b))
@@ -680,7 +680,7 @@ theorem finiteProjectiveTraceForm_algEquiv
       (((Algebra.lmul R A).toLinearMap (a * e.symm b)).comp e.symm.toLinearMap) =
       (Algebra.lmul R B).toLinearMap (e a * b) := by
     ext c
-    show e ((a * e.symm b) * e.symm c) = (e a * b) * c
+    change e ((a * e.symm b) * e.symm c) = (e a * b) * c
     simp [map_mul]
   rw [← hmul]
   exact (finiteProjectiveTrace_conj R A B e.toLinearEquiv _).symm
@@ -718,7 +718,7 @@ theorem finiteProjectiveTraceForm_apply_symm
     (R : Type u) (A : Type v) [CommRing R] [CommRing A] [Algebra R A]
     [Module.Finite R A] [Module.Projective R A] (a b : A) :
     finiteProjectiveTraceForm R A a b = finiteProjectiveTraceForm R A b a := by
-  show finiteProjectiveTrace R A
+  change finiteProjectiveTrace R A
       ((Algebra.lmul R A).toLinearMap (a * b)) =
     finiteProjectiveTrace R A ((Algebra.lmul R A).toLinearMap (b * a))
   rw [mul_comm]
@@ -786,7 +786,7 @@ theorem exists_dual_baseChange_ne_zero
       LinearEquiv.trans_apply, LinearEquiv.coe_ofLinearMap,
       TensorProduct.AlgebraTensorModule.lift_apply, LinearEquiv.piCongrRight_apply,
       EmbeddingLike.apply_eq_iff_eq, φ, e, iK]
-    show (LinearMap.baseChange K (LinearMap.proj j)) (iK x) =
+    change (LinearMap.baseChange K (LinearMap.proj j)) (iK x) =
       (TensorProduct.piRightHom R K K (fun _ : Fin n => R) (iK x)) j
     exact (hcoord (iK x)).symm
   exact ⟨φ, hφ ▸ hj⟩
@@ -817,7 +817,7 @@ theorem finiteProjectiveTraceForm_surjective_iff_nondegenerate
   rw [finiteProjectiveTraceForm_eq_traceForm]
   have hdim : Module.finrank K A = Module.finrank K (Module.Dual K A) :=
     Subspace.dual_finrank_eq.symm
-  show Function.Surjective (Algebra.traceForm K A) ↔
+  change Function.Surjective (Algebra.traceForm K A) ↔
     (Algebra.traceForm K A).Nondegenerate
   rw [← LinearMap.injective_iff_surjective_of_finrank_eq_finrank hdim,
     ← LinearMap.ker_eq_bot, ← LinearMap.BilinForm.nondegenerate_iff_ker_eq_bot]
@@ -1029,7 +1029,7 @@ theorem algebraDiscriminantIdeal_map_eq_top_iff_etale_fiber
   let Ψ := LinearMap.baseChange K Φ
   have hquot :
       Subsingleton (K ⊗[R] Q) ↔ Function.Surjective Ψ := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     let e := cokerBaseChangeEquiv R A (Module.Dual R A) K Φ
     have hcoker :
         Subsingleton ((K ⊗[R] Module.Dual R A) ⧸ LinearMap.range (LinearMap.lTensor K Φ)) ↔
@@ -1109,7 +1109,7 @@ theorem algebraDiscriminantIdeal_eq_top_of_etale
   let : Algebra.Etale R A := h
   have hmap : Ideal.map (algebraMap R K) (algebraDiscriminantIdeal R A) ≤ ⊥ := by
     rw [Ideal.map_le_iff_le_comap]
-    show algebraDiscriminantIdeal R A ≤ RingHom.ker (algebraMap R K)
+    change algebraDiscriminantIdeal R A ≤ RingHom.ker (algebraMap R K)
     rwa [Ideal.ker_algebraMap_residueField]
   rw [(algebraDiscriminantIdeal_map_eq_top_iff_etale_fiber R A K).mpr inferInstance] at hmap
   exact top_ne_bot (le_bot_iff.mp hmap)
@@ -1132,7 +1132,7 @@ theorem minorIdeal_fin_principal {R : Type u} [CommRing R] (n : ℕ)
           let σ := eh.trans eg.symm
           have hmat : A.submatrix g h = (A.submatrix eg eg).submatrix id σ := by
             ext i j
-            show A (g i) (h j) = A (eg i) (eg (eg.symm (eh j)))
+            change A (g i) (h j) = A (eg i) (eg (eg.symm (eh j)))
             rw [eg.apply_symm_apply]
             rfl
           rw [hmat, Matrix.det_permute', Matrix.det_submatrix_equiv_self]
@@ -1174,9 +1174,9 @@ theorem fittingIdeal_coker_isPrincipal_of_free
     apply LinearMap.ext
     intro x
     apply bN.equivFun.injective
-    show bN.equivFun (eN (A.mulVecLin x)) = bN.equivFun (f (eM x))
+    change bN.equivFun (eN (A.mulVecLin x)) = bN.equivFun (f (eM x))
     have hM : (bM.repr (eM x) : Fin (Module.finrank R M) → R) = x := by
-      show bM.equivFun (eM x) = x
+      change bM.equivFun (eM x) = x
       exact LinearEquiv.apply_symm_apply bM.equivFun x
     have hm := LinearMap.toMatrix_mulVec_repr bM bN f (eM x)
     calc
@@ -1256,8 +1256,8 @@ theorem free_of_localized_free
   let : Algebra R₀ A' := ((algebraMap R' A').comp e.toRingHom).toAlgebra
   let : IsScalarTower R R₀ A' := IsScalarTower.of_algebraMap_eq' (by
     ext r
-    show algebraMap R A' r = algebraMap R' A' (e (algebraMap R R₀ r))
-    show algebraMap R A' r = algebraMap R' A'
+    change algebraMap R A' r = algebraMap R' A' (e (algebraMap R R₀ r))
+    change algebraMap R A' r = algebraMap R' A'
       ((IsLocalization.algEquiv (.powers a) R₀ R') (algebraMap R R₀ r))
     rw [AlgEquiv.commutes]
     exact IsScalarTower.algebraMap_apply R R' A' r)
@@ -1272,7 +1272,7 @@ theorem free_of_localized_free
     { Equiv.refl A' with
       map_add' := fun _ _ => rfl
       map_smul' := fun r x => by
-        show algebraMap R' A' (e r) * x = e r • x
+        change algebraMap R' A' (e r) * x = e r • x
         rw [Algebra.smul_def] }
   exact Module.Free.of_equiv (R := R₀) (R' := R')
     (σ := e.toRingHom) (σ' := e.symm.toRingHom) e₁

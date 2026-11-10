@@ -123,7 +123,7 @@ theorem map_opensSiteObjectInclusion
       (opensSiteObjectInclusion B S hS U W) = W.ι := by
   let Wobj : B.Schemes := B.obj (contains_opens B S hS U W)
   let wi : B.inclusion.obj Wobj ⟶ B.inclusion.obj U.left := W.ι
-  show B.inclusion.map (B.inclusion.preimage (X := Wobj) (Y := U.left) wi) = wi
+  change B.inclusion.map (B.inclusion.preimage (X := Wobj) (Y := U.left) wi) = wi
   exact B.inclusion.map_preimage wi
 
 /-- The structure morphism of `AlgebraicGeometry.Space.opensSiteObject B S hS U W` over `S`,
@@ -183,14 +183,14 @@ private theorem etale_opensSiteObjectInclusion
       MorphismProperty.IsStableUnderBaseChange
         (@AlgebraicGeometry.IsOpenImmersion.{u} : MorphismProperty Scheme.{u}))
   have hO : QO (opensSiteObjectInclusion B S hS U W) := by
-    show AlgebraicGeometry.IsOpenImmersion (T.map (opensSiteObjectInclusion B S hS U W))
+    change AlgebraicGeometry.IsOpenImmersion (T.map (opensSiteObjectInclusion B S hS U W))
     rw [map_opensSiteObjectInclusion]
     exact (inferInstance : AlgebraicGeometry.IsOpenImmersion W.ι)
   have hmon : QO ≤ MorphismProperty.inverseImage
       (@Etale.{u} : MorphismProperty Scheme.{u}) T := by
     intro A C m hm
     change AlgebraicGeometry.IsOpenImmersion (T.map m) at hm
-    show AlgebraicGeometry.Etale (T.map m)
+    change AlgebraicGeometry.Etale (T.map m)
     infer_instance
   exact MorphismProperty.relative_monotone hmon _
     ((MorphismProperty.relative_map_iff (F := yoneda) (P := QO)).2 hO)
@@ -353,7 +353,7 @@ private theorem pointsMap_open_inclusion_fieldPointOnOpen
       (yoneda.map (opensSiteObjectInclusion B S hS U W))
       ((fieldPointOnOpen B S hS U W p hw).class B S hS
         (yoneda.obj (opensSiteObject B S hS U W))) = p.class B S hS (yoneda.obj U) := by
-  show (FieldValuedPoint.map B S hS
+  change (FieldValuedPoint.map B S hS
       (yoneda.obj (opensSiteObject B S hS U W))
       (yoneda.map (opensSiteObjectInclusion B S hS U W))
       (fieldPointOnOpen B S hS U W p hw)).class B S hS (yoneda.obj U) = _
@@ -366,7 +366,7 @@ private theorem pointsMap_open_inclusion_fieldPointOnOpen
   have hrel : FieldValuedPoint.HasCommonExtension B S hS (yoneda.obj U) p' p := by
     refine ⟨p', FieldValuedPoint.dominates_refl B S hS (yoneda.obj U) p', ?_⟩
     refine ⟨𝟙 p'.siteObject, ?_⟩
-    show (yoneda.obj U).map (𝟙 p'.siteObject).op p.value = p'.value
+    change (yoneda.obj U).map (𝟙 p'.siteObject).op p.value = p'.value
     simp [hval]
     rfl
   exact FieldValuedPoint.class_eq_class_of_hasCommonExtension B S hS (yoneda.obj U) hrel
@@ -432,13 +432,13 @@ private theorem exists_open_chart_factorization
     have hqW : schemePoint B S hS U qU ∈ W := by
       have heq : schemePoint B S hS U qU =
           (T.map j) (schemePoint B S hS V q) := by
-        show T.map (q.value ≫ j) _ = (T.map j) (T.map q.value _)
+        change T.map (q.value ≫ j) _ = (T.map j) (T.map q.value _)
         rw [Functor.map_comp]
         rfl
       rw [heq, map_opensSiteObjectInclusion]
       exact (schemePoint B S hS V q).property
     have hqpre : qU.class B S hS (yoneda.obj U) ∈ pre := (hWspec qU).2 hqW
-    show pointsMap B S hS (yoneda.obj U) a
+    change pointsMap B S hS (yoneda.obj U) a
         (qU.class B S hS (yoneda.obj U)) ∈ s
     simpa [pre, qU, aV, pointsMap] using hqpre
   have hfactor := (factorsThrough_openSubspace_iff_points
@@ -585,7 +585,7 @@ theorem holdsOnEveryEtaleChartAtPoint_iff_exists_open
     let Q : ∀ {A B : GermOfScheme.{u}},
         MorphismOfGerms A B → Prop :=
       MorphismOfGerms.HasRepresentativeWithProperty P
-    show HoldsOnEveryEtaleChartAtPoint B S hS Q f x
+    change HoldsOnEveryEtaleChartAtPoint B S hS Q f x
     intro c
     let T := BigFppfOver.toScheme B S hS
     have hp : pointsMap B S hS (yoneda.obj c.U) c.a
@@ -613,7 +613,7 @@ theorem holdsOnEveryEtaleChartAtPoint_iff_exists_open
           of_isPullback := by
             intro A C C' D f g f' g' sq hg
             change AlgebraicGeometry.Etale (T.map g) at hg
-            show AlgebraicGeometry.Etale (T.map g')
+            change AlgebraicGeometry.Etale (T.map g')
             exact MorphismProperty.IsStableUnderBaseChange.of_isPullback
               (sq.map T) hg }
         let : Qe.presheaf.IsStableUnderBaseChange :=
@@ -634,7 +634,7 @@ theorem holdsOnEveryEtaleChartAtPoint_iff_exists_open
       mem_source := hsourceW
       hom := T.map hW'
       map_point := by
-        show (T.map hW') ⟨c.sourcePoint B S hS, hsourceW⟩ =
+        change (T.map hW') ⟨c.sourcePoint B S hS, hsourceW⟩ =
           (T.map c.h) (c.sourcePoint B S hS)
         dsimp [hW']
         rw [map_opensSiteObjectInclusion_comp]
@@ -645,10 +645,10 @@ theorem holdsOnEveryEtaleChartAtPoint_iff_exists_open
       have hh : T.map hW' = W.ι ≫ T.map c.h := map_opensSiteObjectInclusion_comp B S hS W c.h
       simp [r, r0, chartTopRepresentative, hh]
       rfl
-    show MorphismOfGerms.HasRepresentativeWithProperty P
+    change MorphismOfGerms.HasRepresentativeWithProperty P
       (MorphismOfGerms.ofSchemeHom (T.map c.h) (c.sourcePoint B S hS))
     refine ⟨r, ?_, hP⟩
-    show MorphismOfGerms.mk r =
+    change MorphismOfGerms.mk r =
       MorphismOfGerms.mk r0
     exact MorphismOfGerms.mk_eq_mk_iff.mpr hagree
 
@@ -698,7 +698,7 @@ theorem holdsOnEveryEtaleChart_iff_forall_atPoint
       point := IsLocalRing.closedPoint (((T.obj U).residueField y))
       maps_to := rfl }
     have hsource : c.sourcePoint B S hS = y := by
-      show (T.map p.value) (IsLocalRing.closedPoint ((T.obj U).residueField y)) = y
+      change (T.map p.value) (IsLocalRing.closedPoint ((T.obj U).residueField y)) = y
       exact schemePointRepresentative_point B S hS U y
     exact hsource ▸ hAt x c
 

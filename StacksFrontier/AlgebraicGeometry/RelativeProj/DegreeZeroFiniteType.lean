@@ -86,7 +86,7 @@ theorem degreeZero_mul_of (U : s.base.Opens) (r : s.base.ringCatSheaf.obj.obj (o
     (x : (s.algebra.piece 0).val.obj (op U)) :
     s.sectionRingBaseMap U r * DirectSum.of (s.sectionPieces U) 0 x =
       DirectSum.of (s.sectionPieces U) 0 (r • x) := by
-  show (s.sectionRingStructure).baseMap U r * _ = _
+  change (s.sectionRingStructure).baseMap U r * _ = _
   rw [(s.sectionRingStructure).baseMap_apply U r, DirectSum.of_mul_of]
   apply DirectSum.of_eq_of_gradedMonoid_eq
   apply Sigma.ext (Nat.zero_add 0)
@@ -118,11 +118,11 @@ theorem finite_sectionRingZeroMap_iff (U : s.base.Opens) :
       map_add' := fun x y => Subtype.ext ((DirectSum.of (s.sectionPieces U) 0).map_add x y)
       map_smul' := fun r x => by
         refine Subtype.ext ?_
-        show DirectSum.of (s.sectionPieces U) 0 (r • x) =
+        change DirectSum.of (s.sectionPieces U) 0 (r • x) =
           (r • (⟨DirectSum.of (s.sectionPieces U) 0 x, ⟨x, rfl⟩⟩ :
             s.sectionRingGrading U 0)).val
         rw [Algebra.smul_def]
-        show DirectSum.of (s.sectionPieces U) 0 (r • x) =
+        change DirectSum.of (s.sectionPieces U) 0 (r • x) =
           (φ r).val * DirectSum.of (s.sectionPieces U) 0 x
         rw [hcoe]
         exact (degreeZero_mul_of U r x).symm }

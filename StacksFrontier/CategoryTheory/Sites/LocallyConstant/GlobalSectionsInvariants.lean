@@ -119,7 +119,7 @@ theorem sheafSectionsEquivHomTerminal_naturality (hT : IsTerminal T) {H H' : She
     sheafSectionsEquivHomTerminal J hT H' (f.hom.app (op T) s) =
       sheafSectionsEquivHomTerminal J hT H s ≫ f := by
   ext U x
-  show (homTerminalOfSection J hT H' (f.hom.app (op T) s)).hom.app U x =
+  change (homTerminalOfSection J hT H' (f.hom.app (op T) s)).hom.app U x =
     f.hom.app U ((homTerminalOfSection J hT H s).hom.app U x)
   rw [homTerminalOfSection_app, homTerminalOfSection_app]
   exact (NatTrans.naturality_apply f.hom (hT.from U.unop).op s).symm
@@ -277,7 +277,7 @@ theorem sectionsEquivFixedPoints_naturality
         (sectionsEquivFixedPoints J hT G e F s).1 := by
   have h := sheafSectionsEquivHomTerminal_naturality J hT
     ((forgetFiniteLocallyConstantAbelianSheaf J).map f).hom s
-  show (AlgebraicGeometry.ContinuousGSet.homFinitePointEquiv _
+  change (AlgebraicGeometry.ContinuousGSet.homFinitePointEquiv _
       ((equivalencePointSheafIso J G e).inv ≫ e.functor.map (ObjectProperty.homMk
         (sheafSectionsEquivHomTerminal J hT _
           (((forgetFiniteLocallyConstantAbelianSheaf J).map f).hom.hom.app (op T) s))) ≫

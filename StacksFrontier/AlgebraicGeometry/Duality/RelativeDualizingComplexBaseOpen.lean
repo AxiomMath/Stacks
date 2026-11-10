@@ -99,12 +99,13 @@ abbrev ofComp (D : DiagonalOpen (g ≫ j)) : DiagonalOpen g where
 
 /-- The first projection `W ⟶ X` of `D.ofComp` is that of `D`. -/
 theorem ofComp_proj (D : DiagonalOpen (g ≫ j)) : (D.ofComp).proj = D.proj := by
-  show (D.ι ≫ (pullbackCompMonoIso g j).hom) ≫ pullback.fst g g = D.ι ≫ pullback.fst _ _
+  change (D.ι ≫ (pullbackCompMonoIso g j).hom) ≫ pullback.fst g g = D.ι ≫ pullback.fst _ _
   rw [Category.assoc, pullbackCompMonoIso_hom_fst]
 
 /-! The universes of the site `Opens W` and of the sections of `𝒪_W` coincide, so the
 additivity of the tensor product and the existence of the total tensor complexes are named
-rather than synthesized, as in `StacksFrontier.AlgebraicGeometry.Duality.RelativeDualizingComplex`. -/
+rather than synthesized, as in `StacksFrontier.AlgebraicGeometry.Duality.RelativeDualizingComplex`.
+-/
 
 attribute [local instance] Stacks.Topology.SheafTensorAdditiveOnOpens.sheafTensorAdditive
   Stacks.Topology.SheafTensorAdditiveOnOpens.sheafTensorObjAdditive

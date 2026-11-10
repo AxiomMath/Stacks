@@ -208,7 +208,7 @@ does not lie in the prime `q`. -/
 lemma IsAffineOpen.fromSpec_mem_basicOpen_iff {X : Scheme.{u}} {V : X.Opens}
     (hV : IsAffineOpen V) (f : Γ(X, V)) (q : PrimeSpectrum Γ(X, V)) :
     hV.fromSpec q ∈ X.basicOpen f ↔ f ∉ q.asIdeal := by
-  show q ∈ hV.fromSpec ⁻¹ᵁ X.basicOpen f ↔ _
+  change q ∈ hV.fromSpec ⁻¹ᵁ X.basicOpen f ↔ _
   rw [hV.fromSpec_preimage_basicOpen f]
   exact PrimeSpectrum.mem_basicOpen f q
 
@@ -225,7 +225,7 @@ lemma IsAffineOpen.exists_finset_isolating_primeIdealOf {X : Scheme.{u}} {U V : 
     rw [hVC]
     exact Set.mem_singleton x
   have hW : IsCompact ((U ⊓ V : X.Opens) : Set X) := by
-    show IsCompact ((U : Set X) ∩ (V : Set X))
+    change IsCompact ((U : Set X) ∩ (V : Set X))
     simpa [Set.inter_comm] using hU hV.isCompact V.2
   have hcover : ((U ⊓ V : X.Opens) : Set X) ⊆
       ⋃ j : {b : Γ(X, V) // X.basicOpen b ≤ U ⊓ V}, (X.basicOpen j.1 : Set X) := by

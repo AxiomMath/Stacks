@@ -116,7 +116,7 @@ omit [Algebra R A] in
 public theorem evenLiftAddHom_monomial (g : A →+* D) (δ : DividedPowerStructure Dᵢ) (τ : D)
     (n : ℕ) (a : A) :
     evenLiftAddHom Dᵢ g δ τ (EvenVariableAlgebra.monomial n a) = g a * δ.dpow n τ := by
-  show (Finsupp.liftAddHom fun n : ℕ =>
+  change (Finsupp.liftAddHom fun n : ℕ =>
       (AddMonoidHom.mulRight (δ.dpow n τ)).comp g.toAddMonoidHom) (Finsupp.single n a) = _
   rw [Finsupp.liftAddHom_apply_single]
   rfl
@@ -185,7 +185,7 @@ omit [GradedAlgebra Aᵢ] [IsStrictlyGradedComm Aᵢ] in
     (δ : DividedPowerStructure Dᵢ) (τ : D) (hτ : τ ∈ Dᵢ d) (n : ℕ) (a : A) :
     evenLift Aᵢ Dᵢ d hd hdeven g hg δ τ hτ (EvenVariableAlgebra.monomial n a) =
       g a * δ.dpow n τ := by
-  show evenLiftAddHom Dᵢ g δ τ (EvenVariableAlgebra.monomial n a) = _
+  change evenLiftAddHom Dᵢ g δ τ (EvenVariableAlgebra.monomial n a) = _
   rw [evenLiftAddHom_monomial]
 
 omit [GradedAlgebra Aᵢ] [IsStrictlyGradedComm Aᵢ] in

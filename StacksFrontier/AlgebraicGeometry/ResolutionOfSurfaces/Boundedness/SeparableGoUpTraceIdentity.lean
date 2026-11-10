@@ -40,7 +40,7 @@ variable (A B K L : Type*) [CommRing A] [IsDomain A] [IsIntegrallyClosed A] [Com
   [Algebra B L] [IsFractionRing B L] [Algebra K L] [Algebra A L] [IsScalarTower A K L]
   [IsScalarTower A B L] [Module.Finite A B] [FiniteDimensional K L] [Algebra.IsSeparable K L]
 
-omit [IsDomain A] in
+omit [IsDomain A] [IsDomain B] in
 /-- The trace identity in one pair of fraction fields. -/
 theorem exists_traceIdentity_of_model :
     ∃ (n : ℕ) (b e : Fin n → B) (d : A), d ≠ 0 ∧ ∀ σ : L,

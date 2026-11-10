@@ -97,7 +97,7 @@ theorem quotientEquivSubtype_comap_quotientMap (φ : A →+* A') {I : Ideal A} {
     quotientEquivSubtype I (comap (Ideal.quotientMap I' φ hI) q) =
       comapRestrict φ hI (quotientEquivSubtype I' q) := by
   refine Subtype.ext (PrimeSpectrum.ext ?_)
-  show Ideal.comap (Ideal.Quotient.mk I) (Ideal.comap (Ideal.quotientMap I' φ hI) q.asIdeal) =
+  change Ideal.comap (Ideal.Quotient.mk I) (Ideal.comap (Ideal.quotientMap I' φ hI) q.asIdeal) =
     Ideal.comap φ (Ideal.comap (Ideal.Quotient.mk I') q.asIdeal)
   rw [Ideal.comap_comap, Ideal.comap_comap, Ideal.quotientMap_comp_mk]
 

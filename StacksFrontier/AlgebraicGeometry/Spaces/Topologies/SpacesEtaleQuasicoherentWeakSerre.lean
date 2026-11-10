@@ -178,10 +178,10 @@ instance
     (SheafOfModules.isQuasicoherentOnSite.{u + 1, u + 1, u + 1, u + 1}
       (Stacks.SheafOfModules.Tensor.ringSheaf
         (spacesEtaleRingedSite B S hS X).O)).IsWeakSerreClass := by
-  letI := isClosedUnderKernels.{0, u} B S hS X.1 X.2
-  letI := isClosedUnderCokernels.{0, u} B S hS X.1 X.2
-  letI := isClosedUnderExtensions.{0, u} B S hS X.1 X.2
-  haveI :
+  let := isClosedUnderKernels.{0, u} B S hS X.1 X.2
+  let := isClosedUnderCokernels.{0, u} B S hS X.1 X.2
+  let := isClosedUnderExtensions.{0, u} B S hS X.1 X.2
+  have :
       (spacesEtaleToSmallEtaleModulesSpacesEtaleQuasicoherentWeakSerre B S hS X).IsEquivalence :=
     @Functor.isEquivalence_trans _ _ _ _ _ _
       (spacesEtaleToLiftedEtaleModulesSpacesEtaleQuasicoherentWeakSerre B S hS X)

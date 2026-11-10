@@ -82,7 +82,7 @@ theorem PrimeDivisor.yoneda_map_genericFieldPointFactor_comp :
   have h := (FieldValuedPoint.existsUnique_factor_of_class_eq_of_mono B S hS Z.subspace.toFunctor
     Z.closed.1 (Z.genericFieldPoint B S hS hX hdec) p
     ((Z.class_genericFieldPoint B S hS hX hdec).trans hp.symm)).exists.choose_spec
-  show yoneda.map _ ≫ yonedaEquiv.symm _ = yonedaEquiv.symm _
+  change yoneda.map _ ≫ yonedaEquiv.symm _ = yonedaEquiv.symm _
   rw [yonedaEquiv_symm_naturality_left]
   exact congrArg yonedaEquiv.symm h
 
@@ -117,7 +117,7 @@ theorem PrimeDivisor.evalRingHom_eq_genericResidueFieldToFieldPoint
     (affineLineCoordinate B S hS (op ((Z.genericFieldPoint B S hS hX hdec).siteObject B S hS
       Z.subspace.toFunctor)) (yonedaEquiv (j ≫ f.hom)))
   refine Eq.trans ?_ hnat
-  show (Scheme.ΓSpecIso (CommRingCat.of p.carrier)).hom.hom
+  change (Scheme.ΓSpecIso (CommRingCat.of p.carrier)).hom.hom
       ((B.inclusion.map (Z.genericFieldPointFactor B S hS hX hdec p hp).left).appTop _) = _
   rw [← hspec]
   rfl

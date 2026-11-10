@@ -94,7 +94,7 @@ abbrev freeRepresentable (T : Thickening S) : (Thickening S)ᵒᵖ ⥤ AddCommGr
 /-- The free abelian presheaf on a representable is sectionwise torsion free. -/
 theorem isTorsionFree_freeRepresentable (T : Thickening S) (A : (Thickening S)ᵒᵖ) :
     Module.IsTorsionFree ℤ ((freeRepresentable S T).obj A) := by
-  show Module.IsTorsionFree ℤ (FreeAbelianGroup (ULift.{u + 1} (A.unop ⟶ T)))
+  change Module.IsTorsionFree ℤ (FreeAbelianGroup (ULift.{u + 1} (A.unop ⟶ T)))
   exact Module.Flat.isTorsionFree
 
 /-- **[Stacks, Tag 03FD] over an object of `CRIS(X/S)`, as a vanishing transfer.** If the higher
@@ -206,6 +206,7 @@ variable {S : GlobalCrystallineSituation.{u}} [IsAffine S.S.scheme]
   [HasDerivedCategory.{v₂} (BigModuleSheaf S)]
   [HasDerivedCategory.{v₃} (ModuleCat.{u + 1} Γ(S.S.scheme, ⊤))]
 
+omit [IsAffine S.S.scheme] [S.X.IsSeparated] in
 variable (S) in
 /-- **The derived global sections of the Čech comparison are those of the chapter**: at the ring
 map `bigBaseRingHom : A ⟶ Γ(CRIS(X/S), 𝒪_{X/S})`, the derived global sections functor of

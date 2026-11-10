@@ -41,7 +41,7 @@ namespace AlgebraicGeometry
 attribute [local instance] SmallEtale.hasWeakSheafify_over_moduleCat_ring
   SmallEtale.isRightAdjoint_smallEtalePushforward_moduleCat_ring
 
-variable (B : BigEtaleSite.{u}) (Λ : Type r) [CommRing Λ] [IsNoetherianRing Λ]
+variable (B : BigEtaleSite.{u}) (Λ : Type r) [CommRing Λ]
 
 /-- **A constructible sheaf is locally constant of finite type on an open neighbourhood of each
 generic point**, for a coefficient ring in any universe. Let `X` be a reduced scheme of a big

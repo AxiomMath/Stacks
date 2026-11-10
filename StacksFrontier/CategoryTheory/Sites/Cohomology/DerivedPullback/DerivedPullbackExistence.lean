@@ -72,8 +72,8 @@ irrelevance `derivedPullback f` is the same functor whichever witness is supplie
 
 *Why this is a separate module and not an extension of the Tag 06YY file.*  The reduction to
 Tag 0G6R lives in
-`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/AcyclicityOfDegreewisePullback.lean`,
-which imports
+`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/AcyclicityOfDegreewisePullback.lean`
+, which imports
 `StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/AdjunctionAcyclicityInput.lean`,
 which imports the Tag 06YY file for `isKFlat_mappingCone`.  Adding the discharge to the Tag 06YY
 file itself would therefore close an import cycle.  Nothing is restated: each clause below is one

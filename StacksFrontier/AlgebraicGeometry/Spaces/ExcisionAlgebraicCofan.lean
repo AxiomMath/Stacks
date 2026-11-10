@@ -65,7 +65,7 @@ theorem exists_isColimit_cofan_sheaf_bool
     colimit.cocone (Fcop ⋙ sheafToPresheaf (BigFppfOver.topology B S hS) (Type u))
   refine ⟨(Sheaf.sheafifyCocone (F := Fcop) Ecop).pt,
     fun b => (Sheaf.sheafifyCocone (F := Fcop) Ecop).ι.app (Discrete.mk b), ⟨?_⟩⟩
-  show IsColimit (Sheaf.sheafifyCocone (F := Fcop) Ecop)
+  change IsColimit (Sheaf.sheafifyCocone (F := Fcop) Ecop)
   exact Sheaf.isColimitSheafifyCocone (F := Fcop) Ecop
     (colimit.isColimit (Fcop ⋙ sheafToPresheaf (BigFppfOver.topology B S hS) (Type u)))
 

@@ -245,7 +245,7 @@ theorem forall_mul_mem_Jid_of_isWeaklyRegular {R : Type*} [CommRing R] {c : ℕ}
     rw [← ofList_take_ofFn g i, ← hidx]
     exact h.regular_mod_prev i.val (by simp)
   refine (Submodule.Quotient.mk_eq_zero _).mp (hreg (a₂ := 0) ?_)
-  show g i • (Submodule.Quotient.mk τ : R ⧸ Jid (precedingFamily g i)) =
+  change g i • (Submodule.Quotient.mk τ : R ⧸ Jid (precedingFamily g i)) =
     g i • (0 : R ⧸ Jid (precedingFamily g i))
   rw [smul_zero, ← Submodule.Quotient.mk_smul]
   exact (Submodule.Quotient.mk_eq_zero _).mpr (by rwa [smul_eq_mul])

@@ -86,7 +86,7 @@ theorem isRegular_res_of_eq_basicOpen {U W : X.affineOpens} (hUW : W.1 ≤ U.1)
     U.2.isLocalization_of_eq_basicOpen g (homOfLE hUW) e
   have hsmul : IsSMulRegular Γ(X, W.1)
       ((X.presheaf.map (homOfLE hUW).op).hom f) := by
-    show IsSMulRegular Γ(X, W.1) (algebraMap Γ(X, U.1) Γ(X, W.1) f)
+    change IsSMulRegular Γ(X, W.1) (algebraMap Γ(X, U.1) Γ(X, W.1) f)
     exact (RingTheory.Sequence.isWeaklyRegular_singleton_iff _ _).1
       (((RingTheory.Sequence.isWeaklyRegular_singleton_iff Γ(X, U.1) f).2
         hf.isSMulRegular).of_isLocalization Γ(X, W.1) (.powers g))
@@ -99,7 +99,7 @@ theorem basicOpen_eq_inf_compl_support_of_ideal_eq_span (W : X.affineOpens) (f :
     (hgen : I.ideal W = Ideal.span {f}) :
     X.basicOpen f = W.1 ⊓ I.support.compl := by
   ext y
-  show (y ∈ X.basicOpen f) ↔ (y ∈ W.1 ∧ y ∉ I.support)
+  change (y ∈ X.basicOpen f) ↔ (y ∈ W.1 ∧ y ∉ I.support)
   by_cases hy : y ∈ W.1
   · simp only [hy, true_and]
     rw [I.mem_support_iff_of_mem hy, hgen, Scheme.zeroLocus_span]

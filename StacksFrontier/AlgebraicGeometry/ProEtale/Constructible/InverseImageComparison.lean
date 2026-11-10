@@ -41,7 +41,7 @@ variable (Λ : Type v) [CommRing Λ]
 of scalars along `ℤ ⟶ Λ` followed by the identification of `ℤ`-modules with abelian groups. -/
 theorem isLeftAdjoint_forget₂_moduleCat :
     (forget₂ (ModuleCat.{max v w} Λ) AddCommGrpCat.{max v w}).IsLeftAdjoint := by
-  show (ModuleCat.restrictScalars.{max v w} (Int.castRingHom Λ) ⋙
+  change (ModuleCat.restrictScalars.{max v w} (Int.castRingHom Λ) ⋙
     forget₂ (ModuleCat.{max v w} ℤ) AddCommGrpCat).IsLeftAdjoint
   infer_instance
 

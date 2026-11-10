@@ -277,7 +277,7 @@ public theorem inl_mul_generator (𝒞 : ℕ → Submodule R C) [GradedAlgebra �
       TrivSqZeroExt.inr (show TwistedModule 𝒞 q from c) := by
   rw [OddVariableExtension.generator, TrivSqZeroExt.inl_mul_inr]
   congr 1
-  show c * (1 : C) = c
+  change c * (1 : C) = c
   rw [mul_one]
 
 /-- The inclusion of the coefficient algebra is the first summand. -/
@@ -308,7 +308,7 @@ public def oddShiftSnd : OddVariableExtension 𝒞 1 →ₗ[R] C where
 public theorem oddShiftFst_inl_add_inr (c c' : C) :
     oddShiftFst 𝒞 (TrivSqZeroExt.inl c +
       TrivSqZeroExt.inr (show TwistedModule 𝒞 1 from c')) = c := by
-  show c + (0 : C) = c
+  change c + (0 : C) = c
   rw [add_zero]
 
 /-- The second coordinate of `inl c + inr c'` is `c'`. -/
@@ -316,7 +316,7 @@ public theorem oddShiftFst_inl_add_inr (c c' : C) :
 public theorem oddShiftSnd_inl_add_inr (c c' : C) :
     oddShiftSnd 𝒞 (TrivSqZeroExt.inl c +
       TrivSqZeroExt.inr (show TwistedModule 𝒞 1 from c')) = c' := by
-  show (0 : C) + c' = c'
+  change (0 : C) + c' = c'
   rw [zero_add]
 
 /-- The first coordinate of a product is the product of the first coordinates. -/
@@ -482,12 +482,12 @@ public theorem oddShiftAlgHom_mem (ι : A →ₐ[R] C)
   · cases m with
     | zero =>
         have hz : dA a = 0 := IsDifferentialGradedAlgebra.d_grade_zero (𝒜 := 𝒜) ha
-        show (show C from (TrivSqZeroExt.inl (ι a) +
+        change (show C from (TrivSqZeroExt.inl (ι a) +
           TrivSqZeroExt.inr (show TwistedModule 𝒞 1 from
             signRingHom 𝒞 1 (ι (dA a)))).snd) ∈ _
         simp [hz]
     | succ k =>
-        show (show C from (TrivSqZeroExt.inl (ι a) +
+        change (show C from (TrivSqZeroExt.inl (ι a) +
           TrivSqZeroExt.inr (show TwistedModule 𝒞 1 from
             signRingHom 𝒞 1 (ι (dA a)))).snd) ∈ _
         have hmem : signRingHom 𝒞 1 (ι (dA a)) ∈ 𝒞 k :=
@@ -524,7 +524,7 @@ public theorem oddShiftAlgHom_dpow (γ : DividedPowerStructure 𝒜)
     refine TrivSqZeroExt.ext ?_ ?_
     · simp only [TrivSqZeroExt.fst_add, TrivSqZeroExt.fst_inl, TrivSqZeroExt.fst_inr, add_zero]
       exact hιdp n a ha
-    · show (show C from _) = (show C from _)
+    · change (show C from _) = (show C from _)
       simp only [TrivSqZeroExt.snd_add, TrivSqZeroExt.snd_inl, TrivSqZeroExt.snd_inr,
         zero_add]
       rw [hιdp (n - 1) a ha, hcomp, map_mul, map_mul,
@@ -692,7 +692,7 @@ public theorem existsUnique_differential_mixedDegreeSetVariableExtension
     · simpa using hT j
     · have hmem : signRingHom 𝒞 1 (ι (e j)) ∈ 𝒞 (deg j - 1) :=
         signRingHom_mem 𝒞 1 (deg j - 1) (hι_grade (deg j - 1) _ (he_grade j))
-      show (show C from (TrivSqZeroExt.inl (T j) +
+      change (show C from (TrivSqZeroExt.inl (T j) +
         TrivSqZeroExt.inr (show TwistedModule 𝒞 1 from
           signRingHom 𝒞 1 (ι (e j)))).snd) ∈ _
       simpa [hd1 j] using hmem
@@ -796,35 +796,35 @@ public theorem existsUnique_differential_mixedDegreeSetVariableExtension
       { carrier := {x : C | dC (dC x) = 0}
         mul_mem' := by
           intro x y hx hy
-          show dC (dC (x * y)) = 0
+          change dC (dC (x * y)) = 0
           replace hx : dC (dC x) = 0 := hx
           replace hy : dC (dC y) = 0 := hy
           rw [hleib, map_add, hleib, hleib, hx, hsign_dC, hy]
           simp
         one_mem' := by
-          show dC (dC 1) = 0
+          change dC (dC 1) = 0
           rw [hone, map_zero]
         add_mem' := by
           intro x y hx hy
-          show dC (dC (x + y)) = 0
+          change dC (dC (x + y)) = 0
           replace hx : dC (dC x) = 0 := hx
           replace hy : dC (dC y) = 0 := hy
           rw [map_add, map_add, hx, hy, add_zero]
         zero_mem' := by
-          show dC (dC 0) = 0
+          change dC (dC 0) = 0
           simp
         neg_mem' := by
           intro x hx
-          show dC (dC (-x)) = 0
+          change dC (dC (-x)) = 0
           replace hx : dC (dC x) = 0 := hx
           rw [map_neg, map_neg, hx, neg_zero] }
     have hall : ∀ x : C, x ∈ E := by
       refine hclosure E (fun a => ?_) (fun j => ?_) (fun n j => ?_)
-      · show dC (dC (ι a)) = 0
+      · change dC (dC (ι a)) = 0
         rw [hdC_ι, hdC_ι, IsDifferentialGradedAlgebra.d_sq_zero (𝒜 := 𝒜) a, map_zero]
-      · show dC (dC (T j)) = 0
+      · change dC (dC (T j)) = 0
         rw [hdC_T, hdC_ι, he_cycle j, map_zero]
-      · show dC (dC (δ.dpow n (T j))) = 0
+      · change dC (dC (δ.dpow n (T j))) = 0
         exact hdpT n j
     intro x
     exact hall x
@@ -838,34 +838,34 @@ public theorem existsUnique_differential_mixedDegreeSetVariableExtension
     { carrier := {x : C | dC x = dC' x}
       mul_mem' := by
         intro x y hx hy
-        show dC (x * y) = dC' (x * y)
+        change dC (x * y) = dC' (x * y)
         replace hx : dC x = dC' x := hx
         replace hy : dC y = dC' y := hy
         rw [hleib, hleib', hx, hy]
       one_mem' := by
-        show dC 1 = dC' 1
+        change dC 1 = dC' 1
         rw [hone, hone']
       add_mem' := by
         intro x y hx hy
-        show dC (x + y) = dC' (x + y)
+        change dC (x + y) = dC' (x + y)
         replace hx : dC x = dC' x := hx
         replace hy : dC y = dC' y := hy
         rw [map_add, map_add, hx, hy]
       zero_mem' := by
-        show dC 0 = dC' 0
+        change dC 0 = dC' 0
         simp
       neg_mem' := by
         intro x hx
-        show dC (-x) = dC' (-x)
+        change dC (-x) = dC' (-x)
         replace hx : dC x = dC' x := hx
         rw [map_neg, map_neg, hx] }
   have hFall : ∀ x : C, x ∈ F := by
     refine hclosure F (fun a => ?_) (fun j => ?_) (fun n j => ?_)
-    · show dC (ι a) = dC' (ι a)
+    · change dC (ι a) = dC' (ι a)
       rw [hdC_ι, hι']
-    · show dC (T j) = dC' (T j)
+    · change dC (T j) = dC' (T j)
       rw [hdC_T, hT']
-    · show dC (δ.dpow n (T j)) = dC' (δ.dpow n (T j))
+    · change dC (δ.dpow n (T j)) = dC' (δ.dpow n (T j))
       by_cases hpos : T j ∈ positiveEvenPart 𝒞
       · rcases Nat.eq_zero_or_pos n with rfl | hn
         · rw [δ.dpow_zero hpos, hone, hone']

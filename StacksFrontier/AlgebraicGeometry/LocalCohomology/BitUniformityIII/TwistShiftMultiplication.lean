@@ -170,7 +170,7 @@ containing `b⁽¹⁾`, and `b⁽¹⁾ * x` is `x • b⁽¹⁾`; no component o
 computed. -/
 theorem reesDegOne_mul_mem_reesTruncation (t : ℤ) {b : A} (hb : b ∈ I) (x : reesAlgebra I) :
     LinearMap.mul (reesAlgebra I) (reesAlgebra I) (reesDegOne I hb) x ∈ reesTruncation I t := by
-  show (reesDegOne I hb : reesAlgebra I) * x ∈ reesTruncation I t
+  change (reesDegOne I hb : reesAlgebra I) * x ∈ reesTruncation I t
   rw [mul_comm]
   exact (reesTruncation I t).smul_mem x (reesDegOne_mem_reesTruncation I t hb)
 
@@ -198,7 +198,7 @@ theorem reesShift_comp_reesDegOneTrunc (t : ℤ) {b : A} (hb : b ∈ I) :
     (reesShift I t) ∘ₗ reesDegOneTrunc I t hb =
       LinearMap.mul (reesAlgebra I) (reesAlgebra I) (reesConst I b) := by
   refine LinearMap.ext fun x => Subtype.ext ?_
-  show divX ((monomial 1 b : A[X]) * (x : A[X])) = (C b : A[X]) * (x : A[X])
+  change divX ((monomial 1 b : A[X]) * (x : A[X])) = (C b : A[X]) * (x : A[X])
   rw [mul_comm (monomial 1 b : A[X]), divX_mul_of_coeff_zero _ (by simp),
     divX_monomial_succ 0 b, monomial_zero_left, mul_comm]
 
@@ -209,7 +209,7 @@ theorem reesDegOneTrunc_mem_reesTruncationGrading (t : ℤ) {b : A} (hb : b ∈ 
     (x : reesAlgebra I)
     (hx : x ∈ ProjectiveSpectrum.Proj.twistGrading (S := reesAlgebra I) (reesGrading I) t i) :
     reesDegOneTrunc I t hb x ∈ reesTruncationGrading I t i := by
-  show (reesDegOne I hb : reesAlgebra I) * x ∈
+  change (reesDegOne I hb : reesAlgebra I) * x ∈
       ProjectiveSpectrum.Proj.twistGrading (S := reesAlgebra I) (reesGrading I) (t + 1) i
   rw [mul_comm]
   exact mul_mem_twistGrading_add I t (d := 1) (by push_cast; ring)

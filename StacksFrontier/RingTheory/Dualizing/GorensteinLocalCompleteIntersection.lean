@@ -187,7 +187,7 @@ private theorem algebraMapSubmonoid_primeCompl_comap_eq
     change eQ (Ideal.Quotient.mk I y) ∉ q at hx
     refine ⟨y, fun hy => hx ?_, rfl⟩
     change e y ∈ q at hy
-    show (RingHom.quotientKerEquivOfSurjective he) (Ideal.Quotient.mk I y) ∈ q
+    change (RingHom.quotientKerEquivOfSurjective he) (Ideal.Quotient.mk I y) ∈ q
     rwa [RingHom.quotientKerEquivOfSurjective_apply_mk]
 
 /-- For a surjection `e : P →+* B` and a prime `q` of `B` lying over `p`, the localization of `B`
@@ -276,7 +276,7 @@ private theorem exists_isRegular_ofList_eq_map_ker
   let I : Ideal P := RingHom.ker e
   let : p.IsPrime := Ideal.comap_isPrime e q
   have hIle : I ≤ p := fun x hx => by
-    show e x ∈ q
+    change e x ∈ q
     rw [RingHom.mem_ker.mp hx]
     exact q.zero_mem
   obtain ⟨g, hg, n, s, hs, hspan⟩ := hker ⟨p, inferInstance⟩ hIle

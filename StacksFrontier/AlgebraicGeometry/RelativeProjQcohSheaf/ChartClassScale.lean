@@ -156,7 +156,7 @@ theorem compComparison_comp_eqToHom {n m : ℤ} (h : n = m) :
       = (pullbackFunctor (ringedSpaceHom (f' ≫ g))).map (eqToHom (congrArg A.piece h)) ≫
           compComparison f' g (A.piece m) := by
   subst h
-  show compComparison f' g (A.piece n) ≫ (pullbackFunctor (ringedSpaceHom f')).map
+  change compComparison f' g (A.piece n) ≫ (pullbackFunctor (ringedSpaceHom f')).map
         (CategoryStruct.id ((pullbackFunctor (ringedSpaceHom g)).obj (A.piece n)))
       = (pullbackFunctor (ringedSpaceHom (f' ≫ g))).map (CategoryStruct.id (A.piece n))
         ≫ compComparison f' g (A.piece n)

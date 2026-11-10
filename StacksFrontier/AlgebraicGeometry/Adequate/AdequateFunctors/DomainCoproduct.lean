@@ -84,10 +84,10 @@ public theorem exists_coproduct_linearlyAdequate_surjective_on
       (inferInstance : Epi (compIso.hom.app X)) t
     refine ⟨s, ?_⟩
     have h : (R.map f₁).app X (compIso.hom.app X s) = z := by
-      show f₁.app (ι.op.op.obj X) (compIso.hom.app X s) = z
+      change f₁.app (ι.op.op.obj X) (compIso.hom.app X s) = z
       rw [hs]
       exact ht
-    show eG.inv.app X ((R.map f₁).app X (compIso.hom.app X s)) = y
+    change eG.inv.app X ((R.map f₁).app X (compIso.hom.app X s)) = y
     rw [h, hz]
 
 end AdequateFunctor

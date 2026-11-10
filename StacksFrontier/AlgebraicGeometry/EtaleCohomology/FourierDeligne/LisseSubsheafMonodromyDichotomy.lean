@@ -96,7 +96,7 @@ theorem exists_comp_eq_nsmul_of_forall_submodule (φ : G →ₜ* H) (hφ : Funct
     refine h (hext _ _ ?_)
     rw [Functor.map_nsmul, Functor.map_zero, CategoryTheory.Functor.map_id]
     ext x
-    show ℓ ^ N • x = 0
+    change ℓ ^ N • x = 0
     apply hinj
     rw [map_nsmul, map_zero]
     exact hne _ ⟨x, rfl⟩
@@ -204,9 +204,9 @@ theorem exists_inverseImage_comp_eq_nsmul_of_monodromy (B : BigEtaleSite.{u}) {X
     have hs : s ≫ EU.functor.map κU = ℓ ^ c₀ • 𝟙 _ := by
       have h5 : r₀ ≫ EU.functor.map κU = ℓ ^ c₀ • (α.app F'X).hom := by
         rw [← cancel_mono (α.app F'X).inv, Category.assoc]
-        show r₀ ≫ ι = _
+        change r₀ ≫ ι = _
         rw [hr₀, Preadditive.nsmul_comp, Iso.hom_inv_id]
-      show ((α.app F'X).inv ≫ r₀) ≫ _ = _
+      change ((α.app F'X).inv ≫ r₀) ≫ _ = _
       rw [Category.assoc, h5, Preadditive.comp_nsmul, Iso.inv_hom_id]
     let rU : F'U ⟶ KU := EU.functor.preimage s
     have hrU : rU ≫ κU = ℓ ^ c₀ • 𝟙 _ := by

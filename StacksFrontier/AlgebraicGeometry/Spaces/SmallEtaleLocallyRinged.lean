@@ -88,7 +88,7 @@ private theorem commRingULiftFunctor_preservesFilteredColimits :
   have : ReflectsColimit (K ⋙ commRingULiftFunctor.{u, u + 1}) G :=
     reflectsColimit_of_reflectsIsomorphisms _ G
   have : PreservesColimit K (commRingULiftFunctor.{u, u + 1} ⋙ G) := by
-    show PreservesColimit K (forget CommRingCat.{u} ⋙ uliftFunctor.{u + 1, u})
+    change PreservesColimit K (forget CommRingCat.{u} ⋙ uliftFunctor.{u + 1, u})
     infer_instance
   exact preservesColimit_of_reflects_of_preserves commRingULiftFunctor.{u, u + 1} G
 
@@ -116,7 +116,7 @@ theorem isLocalRing_presheafFiber_structurePresheaf (x : GeometricPoint B S hS F
   let L := liftedStructurePresheaf B S hS F
   let e := neighborhoodFiberElementsEquiv B S hS F x
   let D : (geometricFiber B S hS F x).Elementsᵒᵖ ⥤ CommRingCat.{u + 1} :=
-    (CategoryOfElements.π (geometricFiber B S hS F x)).op ⋙ L
+    (Functor.Elements.π (geometricFiber B S hS F x)).op ⋙ L
   have hlocal : IsLocalRing ((p.presheafFiber (A := CommRingCat.{u + 1})).obj L) := by
     have : IsLocalRing (colimit (C := CommRingCat.{u + 1}) (e.functor.op ⋙ D)) :=
       isLocalRing_etaleLocalRing B S hS F hF x
@@ -151,12 +151,12 @@ theorem isUnit_res_chartBasicOpen (U : SmallEtale B S hS F)
         (((BigFppfOver.toScheme B S hS).obj U.obj.left).basicOpen b)).op) b) := by
   have h := chartOpenRestrictionHom_toScheme B S hS F U
     (((BigFppfOver.toScheme B S hS).obj U.obj.left).basicOpen b)
-  show IsUnit ((Scheme.Γ.map
+  change IsUnit ((Scheme.Γ.map
     ((SmallEtale.toOver B S hS F ⋙ BigFppfOver.toScheme B S hS).map
       (chartOpenRestrictionHom B S hS F U _)).op) b)
   rw [h]
   let Y := (BigFppfOver.toScheme B S hS).obj U.obj.left
-  show IsUnit ((Y.presheaf.map
+  change IsUnit ((Y.presheaf.map
     (homOfLE (x := (Y.basicOpen b).ι ''ᵁ ⊤) le_top).op) b)
   rw [Scheme.Opens.ι_image_top]
   exact Y.toRingedSpace.isUnit_res_basicOpen b

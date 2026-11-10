@@ -46,7 +46,8 @@ step passes to components with `CategoryTheory.NatTrans.congr_app` rather than w
 here where `NatTrans.congr_app` does not.
 
 This module is deliberately kept at the import closure of
-`StacksFrontier.AlgebraicGeometry.CechSiteChange.Resolution`.  The cost of the definitional unfoldings
+`StacksFrontier.AlgebraicGeometry.CechSiteChange.Resolution`.  The cost of the definitional
+unfoldings
 above depends on what is in scope:  the same `rfl`s are rejected once the import closure of the
 relative hypercovering complex is added, so the statements that need them are proved here and only
 used downstream.

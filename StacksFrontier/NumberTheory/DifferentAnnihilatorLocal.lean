@@ -115,7 +115,7 @@ theorem differentIdeal_map_atPrime_of_conductor_not_le
     (differentIdeal (𝓞 K) (𝓞 L)).map (algebraMap (𝓞 L) (Localization.AtPrime P)) =
       Ideal.span {(algebraMap (𝓞 L) (Localization.AtPrime P)
         (aeval x (derivative (minpoly (𝓞 K) x))))} := by
-  obtain ⟨y, hyC, hyP⟩ := SetLike.not_le_iff_exists.mp hx
+  obtain ⟨y, hyC, hyP⟩ := IsConcreteLE.not_le_iff_exists.mp hx
   have hy0 : y ≠ 0 := fun h ↦ hyP (h ▸ P.zero_mem)
   have hprim := adjoin_eq_top_of_mem_conductor K L hy0 hyC
   have h1 := conductor_mul_differentIdeal (𝓞 K) K L x hprim
@@ -138,7 +138,7 @@ theorem annihilator_map_atPrime_of_conductor_not_le
         (algebraMap (𝓞 L) (Localization.AtPrime P)) =
       Ideal.span {(algebraMap (𝓞 L) (Localization.AtPrime P)
         (aeval x (derivative (minpoly (𝓞 K) x))))} := by
-  obtain ⟨y, hyC, hyP⟩ := SetLike.not_le_iff_exists.mp hx
+  obtain ⟨y, hyC, hyP⟩ := IsConcreteLE.not_le_iff_exists.mp hx
   set BP := Localization.AtPrime P with hBPdef
   have : Module.Finite (𝓞 K) (𝓞 L) := IsIntegralClosure.finite (𝓞 K) K L (𝓞 L)
   have : Algebra.FiniteType (𝓞 K) (𝓞 L) := Module.Finite.finiteType _

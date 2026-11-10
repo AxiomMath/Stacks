@@ -78,7 +78,7 @@ theorem mul_eq_zero_of_kernel_iso_residueField {Y Y' : Scheme.{u}} (i : Y ⟶ Y'
     ShortComplex.exact_of_f_is_kernel _ (KernelFork.mapIsLimit _ (kernelIsKernel φ) ev)
   obtain ⟨z', hz'⟩ : ∃ z' : ev.obj (kernel φ), (ev.map (kernel.ι φ)).hom z' = z :=
     (ShortComplex.moduleCat_exact_iff _).1 hex z (by
-      show (SheafOfModules.unitToPushforwardObjUnit i.toRingCatSheafHom).val.app (op ⊤) z = 0
+      change (SheafOfModules.unitToPushforwardObjUnit i.toRingCatSheafHom).val.app (op ⊤) z = 0
       exact hz)
   let r' : Y'.ringCatSheaf.obj.obj (op ⊤) := r
   have hleft : Function.LeftInverse (ev.map e.inv).hom (ev.map e.hom).hom := fun w =>
@@ -205,7 +205,7 @@ theorem exists_cocone_of_isSpecialSquareZeroTowerEffectiveOnClasses
   let β : ∀ m, Γ(W, ⊤) →+* R m := fun m => (τ m).appTop.hom
   have hspec : ∀ m, Spec.map (CommRingCat.ofHom (β m)) ≫ (W : Scheme.{u}).isoSpec.inv ≫ W.ι =
       (VS.obj (Y m)).isoSpec.inv ≫ B.inclusion.map (Y m).hom := fun m => by
-    show Spec.map (τ m).appTop ≫ _ = _
+    change Spec.map (τ m).appTop ≫ _ = _
     rw [Scheme.isoSpec_inv_naturality_assoc, hτ]
   let Λ : AugmentedSiteRing (R 0) B S hS toS (hR 0) :=
     { ring := Γ(W, ⊤)
@@ -217,7 +217,7 @@ theorem exists_cocone_of_isSpecialSquareZeroTowerEffectiveOnClasses
         exact hspec 0)
       arrow_eq := rfl }
   have hβ : ∀ m, (fm m).comp (β (m + 1)) = β m := fun m => by
-    show ((VS.map (p.map (a m))).appTop.hom).comp ((τ (m + 1)).appTop.hom) = (τ m).appTop.hom
+    change ((VS.map (p.map (a m))).appTop.hom).comp ((τ (m + 1)).appTop.hom) = (τ m).appTop.hom
     rw [← CommRingCat.hom_comp, ← Scheme.Hom.comp_appTop, hτa]
   have hU : MapsIntoAffineOpen S toS := by
     refine ⟨W, hWaff, fun t => ?_⟩
@@ -240,7 +240,7 @@ theorem exists_cocone_of_isSpecialSquareZeroTowerEffectiveOnClasses
   have harrow : ∀ m, isoA ≫ p.map (c m) = (L m).arrow ≫ isoL m := fun m => by
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    show (VS.obj (Y 0)).isoSpec.inv ≫ VS.map (p.map (c m)) =
+    change (VS.obj (Y 0)).isoSpec.inv ≫ VS.map (p.map (c m)) =
       Spec.map (CommRingCat.ofHom (SquareZeroTower.toBase fm m)) ≫ (VS.obj (Y m)).isoSpec.inv
     rw [htoBase, CommRingCat.ofHom_hom, Scheme.isoSpec_inv_naturality]
   obtain ⟨x', φx, hφx⟩ := hp.exists_lift isoA (obj 0) rfl
@@ -275,7 +275,7 @@ theorem exists_cocone_of_isSpecialSquareZeroTowerEffectiveOnClasses
     have hstep : isoL m ≫ p.map (a m) = T.right ≫ isoL (m + 1) := by
       apply Over.OverMorphism.ext
       apply ObjectProperty.hom_ext
-      show (VS.obj (Y m)).isoSpec.inv ≫ VS.map (p.map (a m)) =
+      change (VS.obj (Y m)).isoSpec.inv ≫ VS.map (p.map (a m)) =
         Spec.map (CommRingCat.ofHom (fm m)) ≫ (VS.obj (Y (m + 1))).isoSpec.inv
       rw [CommRingCat.ofHom_hom, Scheme.isoSpec_inv_naturality]
     have hθ : p.IsHomLift T.right θ := by
@@ -286,7 +286,7 @@ theorem exists_cocone_of_isSpecialSquareZeroTowerEffectiveOnClasses
       simp only [IsIso.hom_inv_id_assoc]
     have hcart := hp.isStronglyCartesian_homLift T.right θ
     refine AugmentedSiteRing.map_eq_of_lift p x' hx' hp T (D (m + 1)) (D m) θ hcart ?_
-    show d m ≫ θ = d (m + 1)
+    change d m ≫ θ = d (m + 1)
     simp only [d, θ, Category.assoc, IsIso.inv_hom_id_assoc, hc]
   have hspecial : IsSpecialTower fm := by
     refine ⟨hnoeth, 𝔪, h𝔪, h𝔪ne, fun n r hr z hz => hann n r ?_ z (RingHom.mem_ker.mp hz)⟩
@@ -324,7 +324,7 @@ theorem exists_cocone_of_isSpecialSquareZeroTowerEffectiveOnClasses
     refine isFirstOrderThickening_iso_comp _ _ ?_
     rw [hDhom]
     refine isFirstOrderThickening_map_eqToHom_comp _ _ _ ?_
-    show Stacks.Thickenings.IsFirstOrderThickening
+    change Stacks.Thickenings.IsFirstOrderThickening
       (Spec.map (CommRingCat.ofHom (SquareZeroTower.limitBase fm)))
     exact Stacks.Smooth.isFirstOrderThickening_specMap
       (CommRingCat.ofHom (SquareZeroTower.limitBase fm))
@@ -507,7 +507,7 @@ theorem exists_open_isVersalAt_of_isAffine_of_isSpecialSquareZeroTowerEffectiveO
     (fromX (n + 1)) ((V.map (p.map (ι n ≫ e))) ⁻¹ᵁ O')
   have hmem : (V.map (p.map (fromX (n + 1)))).base (v n) ∈
       (V.map (p.map (ι n ≫ e))) ⁻¹ᵁ O' := by
-    show (V.map (p.map (ι n ≫ e))).base ((V.map (p.map (fromX (n + 1)))).base (v n)) ∈ O'
+    change (V.map (p.map (ι n ≫ e))).base ((V.map (p.map (fromX (n + 1)))).base (v n)) ∈ O'
     rw [← Scheme.Hom.comp_apply, ← Functor.map_comp, ← Functor.map_comp, ← Category.assoc,
       hcomp n]
     exact hmO
@@ -561,7 +561,7 @@ theorem isOpenVersality_of_isSpecialSquareZeroTowerEffectiveOnClasses
   have hx₁ : p.obj x₁ = T₁ := IsHomLift.domain_eq p j₁ ρ
   let jρ := V.map (p.map ρ)
   have hjρ : jρ = eqToHom (congrArg V.obj hx₁) ≫ V.map j₁ := by
-    show V.map (p.map ρ) = _
+    change V.map (p.map ρ) = _
     rw [IsHomLift.fac' p j₁ ρ]
     simp [eqToHom_map]
   have : IsOpenImmersion (V.map j₁) := inferInstanceAs (IsOpenImmersion U₁.ι)
@@ -594,7 +594,7 @@ theorem isOpenVersality_of_isSpecialSquareZeroTowerEffectiveOnClasses
       (by simp only [schemeMap, eqToHom_refl, Category.id_comp, Category.comp_id]; rfl) t ?_ ?_
     · rw [hGaff.range_fromSpec]
       rintro _ ⟨k, rfl⟩
-      show fS.base (((q.obj x).left.fromSpecResidueField (jρ.base t)).base k) ∈ G
+      change fS.base (((q.obj x).left.fromSpecResidueField (jρ.base t)).base k) ∈ G
       have hk : ((q.obj x).left.fromSpecResidueField (jρ.base t)).base k = jρ.base t := by
         have := Scheme.range_fromSpecResidueField (X := (q.obj x).left) (jρ.base t)
         exact (Set.ext_iff.mp this _).mp ⟨k, rfl⟩
@@ -602,7 +602,7 @@ theorem isOpenVersality_of_isSpecialSquareZeroTowerEffectiveOnClasses
       exact hU₁G (hjρU t)
     · rw [hGaff.range_fromSpec]
       rintro _ ⟨k, rfl⟩
-      show (B.inclusion.map (p.obj x₁).hom).base
+      change (B.inclusion.map (p.obj x₁).hom).base
         (((q.obj x₁).left.fromSpecResidueField t).base k) ∈ G
       exact hx₁G ⟨_, rfl⟩
   obtain ⟨u₀', hu₀'⟩ : u₀ ∈ Set.range jρ.base := hrange₁ ▸ hu₀U₁

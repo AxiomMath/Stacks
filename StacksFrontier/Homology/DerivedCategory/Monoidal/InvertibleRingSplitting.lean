@@ -85,13 +85,13 @@ public theorem productIdempotent_ortho {n m : ℤ} (h : n ≠ m) :
 public theorem productIdempotent_eq_zero {n : ℤ} (h : n ∉ Finset.Icc a b) :
     productIdempotent e n = 0 := by
   unfold productIdempotent
-  exact dif_neg (fun h' => h (Finset.mem_Icc.mpr h'))
+  exact dite_eq_right (fun h' => h (Finset.mem_Icc.mpr h'))
 
 public theorem sum_productIdempotent : ∑ n ∈ Finset.Icc a b, productIdempotent e n = 1 :=
   e.injective (funext fun k => by
     rw [map_sum, Finset.sum_apply, map_one, Pi.one_apply]
     simp_rw [apply_productIdempotent]
-    rw [Finset.sum_ite_eq (Finset.Icc a b) k.1, if_pos (Finset.mem_Icc.mpr k.2)])
+    rw [Finset.sum_ite_eq (Finset.Icc a b) k.1, ite_eq_left (Finset.mem_Icc.mpr k.2)])
 
 end ProductIdempotent
 
@@ -155,7 +155,7 @@ public theorem isZero_of_actsOnHomology {f : ℤ → R} {P : CochainComplex (Mod
     (hP : Stacks.Cohomology.InvertibleDerived.ActsOnHomology (fun n => scalarNatTrans (f n)) P)
     {k : ℤ} (hk : f k = 0) : IsZero (P.homology k) := by
   have h := hP k k
-  rw [if_pos rfl] at h
+  rw [ite_eq_left rfl] at h
   refine (IsZero.iff_id_eq_zero _).mpr ?_
   calc 𝟙 (P.homology k) = (scalarNatTrans (f k)).app (P.homology k) := h.symm
     _ = 0 := by

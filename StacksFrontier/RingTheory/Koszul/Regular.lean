@@ -472,7 +472,7 @@ theorem inf_sq_eq_mul_of_quotient_generated_by_isH1Regular
         exact Ideal.mem_map_of_mem q hx
       obtain ⟨y, hyK, hy⟩ := (Ideal.mem_map_iff_of_surjective q hq).mp hxmap
       have hxyI : x - y ∈ I := (Ideal.Quotient.eq_zero_iff_mem).mp (by
-        show q (x - y) = 0
+        change q (x - y) = 0
         rw [map_sub, hy, sub_self])
       rw [show x = (x - y) + y by abel]
       exact add_mem (Ideal.mem_sup_left hxyI) (Ideal.mem_sup_right hyK)
@@ -577,13 +577,13 @@ private lemma coneD_comp {R : Type u} [CommRing R]
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro x
-  show coneD C a n (coneD C a (n + 1) x) = 0
+  change coneD C a n (coneD C a (n + 1) x) = 0
   cases n with
   | zero =>
-    show C.d 1 0 (C.d 2 1 x.1 + a • x.2) + a • (-(C.d 1 0 x.2)) = 0
+    change C.d 1 0 (C.d 2 1 x.1 + a • x.2) + a • (-(C.d 1 0 x.2)) = 0
     simp [d_d]
   | succ n =>
-    show (C.d (n + 2) (n + 1) (C.d (n + 3) (n + 2) x.1 + a • x.2) +
+    change (C.d (n + 2) (n + 1) (C.d (n + 3) (n + 2) x.1 + a • x.2) +
       a • (-(C.d (n + 2) (n + 1) x.2)), -(C.d (n + 1) n (-(C.d (n + 2) (n + 1) x.2)))) = 0
     simp [d_d]
 
@@ -697,7 +697,7 @@ private lemma degreeZeroEquiv_d_tmul {R : Type u} [CommRing R]
     degreeZeroEquiv M r ((Koszul.d (Koszul.seqDual f) 0).rTensor M
       ((exteriorPower.oneEquiv R (Fin r → R)).symm x ⊗ₜ[R] m)) =
       Koszul.seqDual f x • m := by
-  show (TensorProduct.lid R M)
+  change (TensorProduct.lid R M)
     (LinearEquiv.rTensor M (exteriorPower.zeroEquiv R (Fin r → R))
       ((Koszul.d (Koszul.seqDual f) 0 ((exteriorPower.oneEquiv R (Fin r → R)).symm x)) ⊗ₜ[R] m)) = _
   rw [koszul_d_one]
@@ -709,18 +709,17 @@ private lemma degreeZeroEquiv_range {R : Type u} [CommRing R]
       ((Koszul.seqComplexTensor f M).d 1 0).hom) =
       Ideal.ofList (List.ofFn f) • (⊤ : Submodule R M) := by
   classical
-  show LinearMap.range ((degreeZeroEquiv M r).toLinearMap.comp
+  change LinearMap.range ((degreeZeroEquiv M r).toLinearMap.comp
     ((Koszul.d (Koszul.seqDual f) 0).rTensor M)) = _
   have hI : Ideal.ofList (List.ofFn f) = Ideal.span (Set.range f) := by
-    show Ideal.span {x | x ∈ List.ofFn f} = Ideal.span (Set.range f)
+    change Ideal.span {x | x ∈ List.ofFn f} = Ideal.span (Set.range f)
     congr 1
     ext x
     exact List.mem_ofFn
   apply le_antisymm
   · rintro _ ⟨x, rfl⟩
-    show degreeZeroEquiv M r ((Koszul.d (Koszul.seqDual f) 0).rTensor M x) ∈ _
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    change degreeZeroEquiv M r ((Koszul.d (Koszul.seqDual f) 0).rTensor M x) ∈ _
+    induction x using TensorProduct.inductionOn with
     | tmul x m =>
       obtain ⟨v, rfl⟩ := (exteriorPower.oneEquiv R (Fin r → R)).symm.surjective x
       rw [degreeZeroEquiv_d_tmul]
@@ -789,7 +788,7 @@ private lemma coefficientCone_exactAt_succ {R : Type u} [CommRing R]
   obtain ⟨s, hs⟩ := (exactAt_succ_iff C n).mp (hC n) (b + a • t) hbt
   refine ⟨(s, -t), ?_⟩
   rw [coefficientCone_d]
-  show (C.d (n + 2) (n + 1) s + a • (-t), -(C.d (n + 1) n (-t))) = (b, c)
+  change (C.d (n + 2) (n + 1) s + a • (-t), -(C.d (n + 1) n (-t))) = (b, c)
   simp [hs, ht]
 
 /-- Appending an element acting injectively on the quotient preserves Koszul regularity. -/

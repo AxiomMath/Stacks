@@ -94,7 +94,7 @@ The content is `AlgebraicGeometry.Space.SmallEtale.instHasSheafify`, exactly as
 statement for the slices. -/
 theorem smallEtaleRingedSite_hasSheafify_addCommGrpCat (Z : AlgebraicSpaces B S hS) :
     HasSheafify (smallEtaleRingedSite B S hS Z.1 Z.2).J AddCommGrpCat.{u} := by
-  show HasSheafify (SmallEtale.topology B S hS Z.1) AddCommGrpCat.{u}
+  change HasSheafify (SmallEtale.topology B S hS Z.1) AddCommGrpCat.{u}
   infer_instance
 
 /-- On the small étale site of an algebraic space the local isomorphisms of abelian sheaves are
@@ -102,7 +102,7 @@ the locally bijective maps, restated for the Grothendieck topology projected out
 `AlgebraicGeometry.Space.smallEtaleRingedSite`, which instance search does not unfold. -/
 theorem smallEtaleRingedSite_wEqualsLocallyBijective_addCommGrpCat (Z : AlgebraicSpaces B S hS) :
     (smallEtaleRingedSite B S hS Z.1 Z.2).J.WEqualsLocallyBijective AddCommGrpCat.{u} := by
-  show (SmallEtale.topology B S hS Z.1).WEqualsLocallyBijective AddCommGrpCat.{u}
+  change (SmallEtale.topology B S hS Z.1).WEqualsLocallyBijective AddCommGrpCat.{u}
   infer_instance
 
 end Sheafify

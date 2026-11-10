@@ -52,8 +52,6 @@ universe u t w u₁ u₂ v₁ v₂
 
 namespace ModuleSystemKFlatComparison
 
-set_option maxHeartbeats 800000
-
 private abbrev Modules (A : Functor ℕᵒᵖ CommRingCat.{u}) :=
   PresheafOfModules.{max u t} (A ⋙ forget₂ CommRingCat RingCat)
 
@@ -261,13 +259,13 @@ lemma free_cover (A : ℕᵒᵖ ⥤ CommRingCat.{u})
         simp [P, Finsupp.linearCombination] }
   have hp : pointwiseProjective A P := by
     intro n
-    show Projective (ModuleCat.of (A.obj (op n)) (M.obj (op n) →₀ A.obj (op n)))
+    change Projective (ModuleCat.of (A.obj (op n)) (M.obj (op n) →₀ A.obj (op n)))
     infer_instance
   have hf : Epi f := by
     apply PresheafOfModules.epi_of_surjective
     intro n x
     refine ⟨Finsupp.single x 1, ?_⟩
-    show (Finsupp.linearCombination (A.obj n) (id : M.obj n → M.obj n)) _ = x
+    change (Finsupp.linearCombination (A.obj n) (id : M.obj n → M.obj n)) _ = x
     simp only [Finsupp.linearCombination_single, one_smul, id_eq]
   exact ⟨P, hp, f, hf⟩
 
@@ -322,7 +320,7 @@ private lemma exists_surjective_kFlat_system_resolution (A : ℕᵒᵖ ⥤ CommR
     let n := i.toNat + 1
     have hi : i ≤ (n : ℕ) := by dsimp [n]; omega
     have hpre : (ComplexShape.embeddingUpIntLE (n : ℤ)).op.f ((n : ℤ) - i).natAbs = i := by
-      show (n : ℤ) - (((n : ℤ) - i).natAbs : ℤ) = i
+      change (n : ℤ) - (((n : ℤ) - i).natAbs : ℤ) = i
       omega
     have hnotboundary : ¬ (ComplexShape.embeddingUpIntLE (n : ℤ)).op.BoundaryGE
         ((n : ℤ) - i).natAbs := by
@@ -333,7 +331,7 @@ private lemma exists_surjective_kFlat_system_resolution (A : ℕᵒᵖ ⥤ CommR
       rw [ComplexShape.Embedding.isIso_liftExtend_f_iff _ _ _ hpre]
       exact M.op.isIso_restrictionToTruncGE' _ _ hnotboundary
     have : IsIso ((M.ιTruncLE (n : ℤ)).f i) := by
-      show IsIso ((M.op.πTruncGE (ComplexShape.embeddingUpIntLE (n : ℤ)).op).f i).unop
+      change IsIso ((M.op.πTruncGE (ComplexShape.embeddingUpIntLE (n : ℤ)).op).f i).unop
       infer_instance
     have : Epi ((c.ι.app n).f i ≫ α.f i) := by
       rw [← HomologicalComplex.comp_f, hα n, HomologicalComplex.comp_f]
@@ -353,7 +351,7 @@ private lemma exists_surjective_kFlat_system_resolution (A : ℕᵒᵖ ⥤ CommR
         (op n)).map_isZero ((CochainComplex.isStrictlyLE_iff (Q j) (j : ℤ)).mp (hle j) i hi)
     have : ∀ i : ℤ, Module.Flat (A.obj (op n)) ((E.obj (Q j)).X i) := by
       intro i
-      show Module.Flat (A.obj (op n)) (((Q j).X i).obj (op n))
+      change Module.Flat (A.obj (op n)) (((Q j).X i).obj (op n))
       have : Projective (((Q j).X i).obj (op n)) := hproj j i n
       have : Module.Projective (A.obj (op n)) (((Q j).X i).obj (op n)) :=
         (((Q j).X i).obj (op n)).projective_of_module_projective
@@ -498,7 +496,7 @@ private lemma tensorFlipIso_naturality (K : CochainComplex C ℤ)
     ext p q
     exact BraidedCategory.braiding_naturality_right _ _
   have ht := congrArg (fun g => HomologicalComplex₂.total.map g (.up ℤ)) h
-  show HomologicalComplex.mapBifunctorMap (𝟙 K) f F _ ≫
+  change HomologicalComplex.mapBifunctorMap (𝟙 K) f F _ ≫
       (HomologicalComplex₂.total.map (tensorBicomplexFlipIso K L').hom _ ≫
         (HomologicalComplex.mapBifunctorFlipIso L' K F _).hom) =
     (HomologicalComplex₂.total.map (tensorBicomplexFlipIso K L).hom _ ≫
@@ -534,7 +532,7 @@ private lemma tensorFlipIso_naturality_left {K K' : CochainComplex C ℤ}
     ext p q
     exact BraidedCategory.braiding_naturality_left _ _
   have ht := congrArg (fun g => HomologicalComplex₂.total.map g (.up ℤ)) h
-  show HomologicalComplex.mapBifunctorMap f (𝟙 L) F _ ≫
+  change HomologicalComplex.mapBifunctorMap f (𝟙 L) F _ ≫
       (HomologicalComplex₂.total.map (tensorBicomplexFlipIso K' L).hom _ ≫
         (HomologicalComplex.mapBifunctorFlipIso L K' F _).hom) =
     (HomologicalComplex₂.total.map (tensorBicomplexFlipIso K L).hom _ ≫
@@ -613,6 +611,8 @@ private lemma quasiIso_tright_map_between_kFlat {R : Type u} [CommRing R]
   have := CochainComplex.DerivedTensor.quasiIso_tleftCochain_map f hK hK' L
   exact (quasiIso_tleft_map_iff_tright_map L f).1 inferInstance
 
+set_option maxHeartbeats 800000 in
+-- The final `exact` unifies two `evaluationTensorIso` arrows, an expensive `whnf` check.
 /-- Tensoring a quasi-isomorphism between componentwise K-flat systems with an arbitrary
 system preserves quasi-isomorphisms. -/
 private lemma tensor_right_inverts_between_kFlat (A : ℕᵒᵖ ⥤ CommRingCat.{u})

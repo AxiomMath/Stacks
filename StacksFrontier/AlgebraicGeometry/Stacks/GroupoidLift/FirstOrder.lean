@@ -195,7 +195,7 @@ theorem obs_addLift {u : P →ₐ[A'] C'}
   unfold obs
   rw [mkMod_sub', mkMod_add']
   apply mkMod_congr
-  show _ = _ + (_ - ((G.tgt r').toLinearMap - (G.tgt r).toLinearMap))
+  change _ = _ + (_ - ((G.tgt r').toLinearMap - (G.tgt r).toLinearMap))
   abel
 
 /-- The face `0` of level `1` is the map `κ` of level `1`. -/
@@ -364,8 +364,8 @@ theorem exists_lift_arrow (hcoc : D.IsCocycle) :
     rw [hobs, hneg, map_neg, map_neg, neg_sub_neg, ← neg_sub, hy', add_neg_cancel]
   unfold obs at hzero
   rw [mkMod_eq_zero_iff] at hzero
-  have hrel := (rel_iff_mem_S b hb sV tV hsV htV (D.chart_at εbar hε 1) (D.tgt_lift_reduce hr₁)
-    (D.vₗ_lift_reduce hu₁ 1)).mpr hzero
+  have hrel := (rel_iff_mem_S b hb sV tV hsV htV (D.chart_at εbar hε 1) (D.tgt_lift_reduce hr₁)).mpr
+    hzero
   have t : Tr G (thk I hI (nerve (A' := A') hκ C' hC 1)) D.rbar
       ((v₀ A' C' 1).comp (addLift (e := thk I hI (nerve (A' := A') hκ C' hC 0)) (-Ev)
         (neg_mem hE) D.u₀ h0)) (G.tgt r₁) := ⟨r₁, hr₁, hs₁, rfl⟩

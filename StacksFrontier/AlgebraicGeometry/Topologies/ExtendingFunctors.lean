@@ -213,7 +213,7 @@ theorem exists_limit_of_isAffine_over_affineOpen {P : ObjectProperty (Over S)}
     intro l
     have h1 : e.inv ≫ g = c₀.π.app l ≫ b.app l := by
       rw [hfac l, ← Category.assoc, e.inv_hom_id, Category.id_comp]
-    show c₀.π.app l ≫ b.app l ≫ U.1.ι = e.inv ≫ X.hom
+    change c₀.π.app l ≫ b.app l ≫ U.1.ι = e.inv ≫ X.hom
     rw [← Category.assoc, ← h1, Category.assoc, hg]
   refine ⟨Λ, inferInstance, inferInstance, inferInstance, Over.lift D₀ t,
     Over.liftCone D₀ t c₀ p hp, Over.isLimitLiftCone D₀ t c₀ p hp hc₀,

@@ -58,7 +58,7 @@ theorem locallyOfFinitePresentation_chartClosedSubscheme
     refine IsPullback.of_iso (R.isPullback g) (Iso.refl _) e (Iso.refl _) (Iso.refl _) ?_ ?_ ?_ ?_
     · simp [a]
     · simp
-    · show Z₁.1.ι ≫ 𝟙 _ = e.hom ≫ i.hom
+    · change Z₁.1.ι ≫ 𝟙 _ = e.hom ≫ i.hom
       rw [Category.comp_id]
       exact ((asIso (Subfunctor.toRange i.hom)).eq_inv_comp).2 (Subfunctor.toRange_ι i.hom)
     · exact (Category.comp_id _).trans (Category.id_comp _).symm

@@ -134,7 +134,7 @@ private theorem exists_finite_field_fixing_tensor_fg_ideal {k K A : Type u} [Fie
     rw [← hs, Ideal.map_span]
     refine congrArg _ (Set.eq_of_subset_of_subset ?_ ?_)
     · rintro _ ⟨y, hy, rfl⟩
-      show (tensorGaloisAut k K A σ).symm y ∈ (↑s : Set (A ⊗[k] K))
+      change (tensorGaloisAut k K A σ).symm y ∈ (↑s : Set (A ⊗[k] K))
       rw [hsymm y hy]
       exact hy
     · exact fun x hx => ⟨x, hx, hsymm x hx⟩
@@ -267,7 +267,7 @@ private theorem exists_finite_field_stabilizing_component
     (Spec.map (CommRingCat.ofHom (algebraMap k R))) g f g i (𝟙 _)
     (𝟙 _) (by rw [Category.comp_id, hbase]) (by simp)
   have hmrange : Set.range m.base = q.base ⁻¹' Set.range i.base := by
-    show Set.range (pullback.map
+    change Set.range (pullback.map
       (Spec.map (CommRingCat.ofHom (algebraMap k R))) g f g i (𝟙 _) (𝟙 _) _ _).base = _
     rw [Scheme.Pullback.range_map]
     simp [q, g]
@@ -393,7 +393,7 @@ private theorem galoisBaseChangeMap_image_preimage_of_iso
       e.hom.base ((galoisBaseChangeMap E K Y fE σ).base x) := by
     simpa [Scheme.Hom.comp_base, TopCat.coe_comp] using congrArg (fun r => r.base x) hc
   apply e.schemeIsoToHomeo.injective.image_injective
-  show e.hom.base '' _ = e.hom.base '' _
+  change e.hom.base '' _ = e.hom.base '' _
   rw [Set.image_preimage_eq Z hsurj]
   calc e.hom.base '' ((galoisBaseChangeMap E K Y fE σ).base '' (e.hom.base ⁻¹' Z))
       = (galoisBaseChangeMap k K X f (σ.restrictScalars k)).base ''
@@ -464,7 +464,7 @@ public theorem exists_finite_subextension_defining_component
     baseChangeTowerIso_comp_of_projection f gE gEK gK hcomp p hp₁ hp₂
   have hpre : e.hom.base ⁻¹' (p.base ⁻¹' (T : Set YE)) = e.hom.base ⁻¹' (Z : Set Y) := by
     ext x
-    show p.base (e.hom.base x) ∈ (T : Set YE) ↔ e.hom.base x ∈ (Z : Set Y)
+    change p.base (e.hom.base x) ∈ (T : Set YE) ↔ e.hom.base x ∈ (Z : Set Y)
     have hx : p.base (e.hom.base x) = qT.base x := by
       simpa [Scheme.Hom.comp_base, TopCat.coe_comp] using
         congrArg (fun r : Scheme.Hom YEK YE => r.base x) hecomp
@@ -490,14 +490,12 @@ private theorem galoisActionOnBaseChange_ρ_comp_eq_of_fixed
   let q := ((galoisActionOnBaseChange k K X).ρ (MulOpposite.op σ)).asHom
   have hqfst : q ≫ pullback.fst X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K))) =
       pullback.fst X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K))) := by
-    simp [q, galoisActionOnBaseChange, CategoryTheory.Limits.pullback.map,
-      CategoryTheory.Limits.pullback.lift_fst]
+    simp [q, galoisActionOnBaseChange, CategoryTheory.Limits.pullback.map]
   have hqsnd : q ≫ pullback.snd X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K))) =
       pullback.snd X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K))) ≫
         specMapAlgAut k K σ := by
-    simp [q, galoisActionOnBaseChange, CategoryTheory.Limits.pullback.map,
-      CategoryTheory.Limits.pullback.lift_snd]
-  show q ≫ p = p
+    simp [q, galoisActionOnBaseChange, CategoryTheory.Limits.pullback.map]
+  change q ≫ p = p
   refine pullback.hom_ext ?_ ?_
   · rw [Category.assoc, hp1, hqfst]
   · rw [Category.assoc, hp2, ← Category.assoc, hqsnd, Category.assoc]

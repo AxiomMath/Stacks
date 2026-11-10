@@ -243,7 +243,7 @@ theorem stupidTruncXIso_hom_d {ι ι' : Type*} {c : ComplexShape ι} {c' : Compl
   simp only [HomologicalComplex.stupidTrunc, HomologicalComplex.stupidTruncXIso, Iso.trans_hom,
     HomologicalComplex.extend_d_eq _ _ rfl rfl, Category.assoc, Iso.inv_hom_id_assoc,
     Iso.cancel_iso_hom_left]
-  show K.d (e.f i) (e.f j) ≫ eqToHom rfl = eqToHom rfl ≫ K.d (e.f i) (e.f j)
+  change K.d (e.f i) (e.f j) ≫ eqToHom rfl = eqToHom rfl ≫ K.d (e.f i) (e.f j)
   simp
 
 /-- For a bounded above complex `F` of projectives, the dimension of the `i`-th cohomology of the

@@ -73,7 +73,7 @@ theorem subsingleton_h1Cotangent_stalk_inverseImageStructureMap_iff (x : X) :
   refine Algebra.subsingleton_h1Cotangent_iff_of_ringEquiv
     (Stacks.SheafifyStalk.stalkInverseImageStructureSheafIso f x).commRingCatIsoToRingEquiv
     (RingEquiv.refl _) fun r ↦ ?_
-  show ((TopCat.Presheaf.stalkFunctor CommRingCat.{u} x).map
+  change ((TopCat.Presheaf.stalkFunctor CommRingCat.{u} x).map
       (AlgebraicGeometry.inverseImageStructureMap f).hom) r =
     f.stalkMap x ((Stacks.SheafifyStalk.stalkInverseImageStructureSheafIso f x).hom r)
   rw [Stacks.SheafifyStalk.stalkMap_eq_stalkInverseImageStructureSheafIso_hom_comp f x]

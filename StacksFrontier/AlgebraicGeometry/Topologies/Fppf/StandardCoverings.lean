@@ -106,10 +106,10 @@ public theorem exists_isCovering_tautologicallyEquivalent_of_sources_iso
   have hUW : PreZeroHypercover.TautologicallyEquivalent U (W.map B.inclusion) := by
     constructor
     · refine ⟨id, fun i ↦ ⟨e i, ?_⟩⟩
-      show (e i).hom ≫ B.inclusion.map (g i) = U.f i
+      change (e i).hom ≫ B.inclusion.map (g i) = U.f i
       exact he i
     · refine ⟨id, fun i ↦ ⟨(e i).symm, ?_⟩⟩
-      show (e i).inv ≫ U.f i = B.inclusion.map (g i)
+      change (e i).inv ≫ U.f i = B.inclusion.map (g i)
       rw [← he i, Iso.inv_hom_id_assoc]
   have hW : (W.map B.inclusion).presieve₀ ∈ Scheme.fppfPrecoverage (B.inclusion.obj T) :=
     mem_precoverage_of_tautologicallyEquivalent _ hUW hU
@@ -216,7 +216,7 @@ public theorem exists_isCovering_refining_fppfCovering
     refine (Scheme.presieve₀_mem_precoverage_iff E').2 ⟨?_, ?_⟩
     · intro x
       refine ⟨ULift.up x, ⟨y x, hxA x⟩, ?_⟩
-      show E.f (i x) ((A x).ι ⟨y x, hxA x⟩) = x
+      change E.f (i x) ((A x).ι ⟨y x, hxA x⟩) = x
       simpa using hy x
     · intro z
       let : Flat (E.f (i z.down)) := hdata.2 (i z.down) |>.1

@@ -299,7 +299,8 @@ theorem approximationHolds_of_affineCover
     (hstalk : ∀ (G₀ : (Spec R).Modules) (p : points B S hS X),
       p ∉ supportOfSheaf B S hS X
           ((SheafOfModules.toSheaf
-              ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X hX).O))).obj (eps.obj G₀)) ↔
+              ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X hX).O))).obj
+                (eps.obj G₀)) ↔
         IsZero (TopCat.Presheaf.stalk (X := Spec R) G₀.val.presheaf (ρ p)))
     (E : QuasicoherentDerivedCategory.{u, u} B S hS X hX) (m : ℤ)
     (E₀ : DerivedCategory.{u + 1} (Spec R).Modules)
@@ -404,7 +405,8 @@ theorem approximationByPerfectComplexes_of_affine
     (hstalk : ∀ (G₀ : (Spec R).Modules) (p : points B S hS X),
       p ∉ supportOfSheaf B S hS X
           ((SheafOfModules.toSheaf
-              ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X hX).O))).obj (eps.obj G₀)) ↔
+              ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X hX).O))).obj
+                (eps.obj G₀)) ↔
         IsZero (TopCat.Presheaf.stalk (X := Spec R) G₀.val.presheaf (ρ p)))
     (hpres : letI : TopologicalSpace (points B S hS X) := pointTopology B S hS X
       ∀ (T : Set (points B S hS X)) (hT : IsClosed T),

@@ -150,11 +150,11 @@ theorem exists_fin_span_eq_maximalIdeal_localization {Λ : Type*} [CommRing Λ]
   rw [hrange, ← hspan]
   refine le_antisymm (Ideal.span_le.mpr (Set.range_subset_iff.mpr fun x => ?_))
     (Ideal.span_le.mpr fun z hz => ?_)
-  · show algebraMap Λ (Localization.AtPrime 𝔮) (a x)
+  · change algebraMap Λ (Localization.AtPrime 𝔮) (a x)
       ∈ Ideal.span (s : Set (Localization.AtPrime 𝔮))
     rw [hau x]
     exact Ideal.mul_mem_left _ _ (Ideal.subset_span (Finset.mem_coe.mpr x.2))
-  · show z ∈ Ideal.span (Set.range fun x : s => algebraMap Λ (Localization.AtPrime 𝔮) (a x))
+  · change z ∈ Ideal.span (Set.range fun x : s => algebraMap Λ (Localization.AtPrime 𝔮) (a x))
     have hzs : z ∈ s := Finset.mem_coe.mp hz
     rw [← Ideal.unit_mul_mem_iff_mem _ (hu ⟨z, hzs⟩), ← hau ⟨z, hzs⟩]
     exact Ideal.subset_span ⟨⟨z, hzs⟩, rfl⟩
@@ -658,7 +658,7 @@ theorem isEssentiallySmooth_quotient_of_flat {k A L : Type u} [Field k] [CommRin
   have htowRes : IsScalarTower k (ResidueField A) (ResidueField L) := by
     refine IsScalarTower.of_algebraMap_eq fun a => ?_
     rw [hResMap]
-    show residue L (algebraMap k L a)
+    change residue L (algebraMap k L a)
       = ResidueField.map (algebraMap A L) (residue A (algebraMap k A a))
     rw [ResidueField.map_residue, ← IsScalarTower.algebraMap_apply k A L]
   have hEFTres : Algebra.EssFiniteType (ResidueField A) (ResidueField L) :=
@@ -679,19 +679,19 @@ theorem isEssentiallySmooth_quotient_of_flat {k A L : Type u} [Field k] [CommRin
   have htowResQ : IsScalarTower k (ResidueField (A ⧸ I)) (ResidueField (L ⧸ J)) := by
     refine IsScalarTower.of_algebraMap_eq fun a => ?_
     rw [hResQMap]
-    show residue (L ⧸ J) (algebraMap k (L ⧸ J) a)
+    change residue (L ⧸ J) (algebraMap k (L ⧸ J) a)
       = ResidueField.map u (residue (A ⧸ I) (algebraMap k (A ⧸ I) a))
     rw [ResidueField.map_residue]
     congr 1
-    show algebraMap k (L ⧸ J) a = u (Ideal.Quotient.mk I (algebraMap k A a))
+    change algebraMap k (L ⧸ J) a = u (Ideal.Quotient.mk I (algebraMap k A a))
     rw [hu]
-    show Ideal.Quotient.mk J (algebraMap k L a) = _
+    change Ideal.Quotient.mk J (algebraMap k L a) = _
     rw [IsScalarTower.algebraMap_apply k A L]
   have hEFTQk : Algebra.EssFiniteType k (ResidueField (L ⧸ J)) := by
     have hcomm : ∀ a : k, eL.toRingHom (algebraMap k (ResidueField L) a)
         = algebraMap k (ResidueField (L ⧸ J)) a := by
       intro a
-      show ResidueField.map (Ideal.Quotient.mk J) (residue L (algebraMap k L a))
+      change ResidueField.map (Ideal.Quotient.mk J) (residue L (algebraMap k L a))
         = residue (L ⧸ J) (algebraMap k (L ⧸ J) a)
       rw [ResidueField.map_residue]
       rfl

@@ -50,7 +50,7 @@ component, namely of its own singleton. -/
 theorem mem_genericPoints_of_discreteTopology {α : Type*} [TopologicalSpace α]
     [DiscreteTopology α] (x : α) : x ∈ genericPoints α := by
   have hcl : closure ({x} : Set α) = {x} := closure_singleton
-  show closure ({x} : Set α) ∈ irreducibleComponents α
+  change closure ({x} : Set α) ∈ irreducibleComponents α
   rw [hcl]
   refine ⟨isIrreducible_singleton, fun t ht hsub ↦ ?_⟩
   intro z hz

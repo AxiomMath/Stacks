@@ -82,7 +82,7 @@ theorem exists_affineSystem_over_of_isStandardVCovering_singleton {Y X : Over S}
   let D : J ⥤ Over S :=
     { obj := fun i ↦ Over.mk (t₀.app i ≫ Y.hom)
       map := fun {i j} α ↦ Over.homMk (D₀.map α) (by
-        show D₀.map α ≫ t₀.app j ≫ Y.hom = t₀.app i ≫ Y.hom
+        change D₀.map α ≫ t₀.app j ≫ Y.hom = t₀.app i ≫ Y.hom
         rw [← Category.assoc, hnat α])
       map_id := fun i ↦ by apply Over.OverMorphism.ext; simp
       map_comp := fun α β ↦ by apply Over.OverMorphism.ext; simp }
@@ -90,15 +90,15 @@ theorem exists_affineSystem_over_of_isStandardVCovering_singleton {Y X : Over S}
     { app := fun i ↦ Over.homMk (t₀.app i)
       naturality := fun i j α ↦ by
         apply Over.OverMorphism.ext
-        show D₀.map α ≫ t₀.app j = t₀.app i ≫ 𝟙 Y.left
+        change D₀.map α ≫ t₀.app j = t₀.app i ≫ 𝟙 Y.left
         exact (hnat α).trans (Category.comp_id (t₀.app i)).symm }
   let p : (Functor.const J).obj X ⟶ D :=
     { app := fun i ↦ Over.homMk (p₀.app i) (by
-        show p₀.app i ≫ t₀.app i ≫ Y.hom = X.hom
+        change p₀.app i ≫ t₀.app i ≫ Y.hom = X.hom
         rw [← Category.assoc, hpt i, hfw])
       naturality := fun i j α ↦ by
         apply Over.OverMorphism.ext
-        show 𝟙 X.left ≫ p₀.app j = p₀.app i ≫ D₀.map α
+        change 𝟙 X.left ≫ p₀.app j = p₀.app i ≫ D₀.map α
         exact p₀.naturality α }
   refine ⟨J, hJ, hJcof, D, t, p, isLimitOfReflects (Over.forget S) hlim,
     fun i ↦ haff i, ?_, fun i ↦ hlfp i, fun i ↦ hV i⟩
@@ -131,7 +131,7 @@ theorem isVSheafOver_of_isSheafFor_vCovering_of_isLimitPreserving (F : (Over S)�
     intro T 𝒰
     refine hH T 𝒰.I₀ _ _ (fun i ↦ ?_) (isVCoveringOver_openCover 𝒰)
     have := 𝒰.map_prop i
-    show LocallyOfFinitePresentation (𝒰.f i)
+    change LocallyOfFinitePresentation (𝒰.f i)
     infer_instance
   rw [isVSheafOver_iff_zariski_and_standard.{w, u, v} F]
   refine ⟨hZar, (isStandardVSheafOver_iff_singleton.{w, u, v} F hZar).mpr ?_⟩

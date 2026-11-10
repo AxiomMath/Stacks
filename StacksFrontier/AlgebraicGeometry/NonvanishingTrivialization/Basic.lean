@@ -136,14 +136,15 @@ This is `TopCat.Presheaf.germ_res_apply` at the
   `Stacks.SheafOfModules.TensorStalkRingedSpace.grpGerm` spelling; the two
 differ by the coercion through which the germ is applied (`AddMonoidHom` against
 `ConcreteCategory.hom`), which is enough to stop a `rw`.  A private copy of this statement
-sits at `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/IdealTorsionFree.lean`; deduplicating the two needs the
-lemma to live in `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorStalkRingedSpace.lean`, where
+sits at `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/IdealTorsionFree.lean`; deduplicating
+the two needs the lemma to live in
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorStalkRingedSpace.lean`, where
 `grpGerm` is defined and which this file does not precede. -/
 theorem grpGerm_res (U V : Opens X.carrier) (hVU : V ≤ U) (y : X.carrier) (hyV : y ∈ V)
     (a : L.val.obj (op U)) :
     grpGerm X L.val y V hyV (ConcreteCategory.hom (L.val.map (homOfLE hVU).op) a) =
       grpGerm X L.val y U (hVU hyV) a := by
-  show (TopCat.Presheaf.germ (C := AddCommGrpCat.{u}) L.val.presheaf V y hyV).hom
+  change (TopCat.Presheaf.germ (C := AddCommGrpCat.{u}) L.val.presheaf V y hyV).hom
       (ConcreteCategory.hom (L.val.presheaf.map (homOfLE hVU).op)
         ((PresheafOfModules.presheaf_obj_coe (M := L.val) (op U)).symm ▸ a)) = _
   rw [TopCat.Presheaf.germ_res_apply (C := AddCommGrpCat.{u}) L.val.presheaf

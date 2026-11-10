@@ -163,7 +163,7 @@ theorem isLocallyProjectiveMorphism_of_isProper_of_isRelativelyAmple {X S : Sche
   · obtain ⟨W, hW, hxW, -⟩ :=
       exists_isAffineOpen_mem_and_subset (X := S) (x := x) (U := ⊤) (by trivial)
     exact ⟨⟨W, hW⟩, ⟨x, hxW⟩, by simp⟩
-  · show IsProjectiveMorphism (pullback.snd f (V : S.affineOpens).1.ι)
+  · change IsProjectiveMorphism (pullback.snd f (V : S.affineOpens).1.ι)
     obtain ⟨d₀, hd₀, hd⟩ :=
       Stacks.VeryAmplePowersUniformDegree.eventually_hasImmersionTwistOver_restrict
         Stacks.VeryAmplePowersUniformDegree.immersionTwistGapUniform f L hL

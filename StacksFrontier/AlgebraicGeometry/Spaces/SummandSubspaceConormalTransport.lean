@@ -88,8 +88,8 @@ composite isomorphism.  `attribute [local irreducible] modulePullback` in the se
 two functors matched argument by argument instead, and the proof is then immediate.  This is the
 device of `StacksFrontier/AlgebraicGeometry/Spaces/IdealSheafMapVanishing.lean` and of the
 `Respelling` section of
-`StacksFrontier/AlgebraicGeometry/Spaces/SummandSubspaceConormal.lean`.  The attribute is confined to
-that section; the packaged statement below is proved with the inverse image reducible again.
+`StacksFrontier/AlgebraicGeometry/Spaces/SummandSubspaceConormal.lean`.  The attribute is confined
+to that section; the packaged statement below is proved with the inverse image reducible again.
 
 ## What is not proved
 

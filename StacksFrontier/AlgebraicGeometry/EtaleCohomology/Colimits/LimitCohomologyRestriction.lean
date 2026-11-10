@@ -58,7 +58,7 @@ theorem eq_leftAdjointCompIso_hom_app {C₀ C₁ C₂ : Type*} [Category C₀] [
   apply ((adj₀₁.comp adj₁₂).homEquiv _ _).injective
   have h1 := unit_conjugateEquiv_symm adj₀₂ (adj₀₁.comp adj₁₂) e.inv X
   rw [Adjunction.homEquiv_unit, Adjunction.homEquiv_unit]
-  show _ = (adj₀₁.comp adj₁₂).unit.app X ≫ (R₂₁ ⋙ R₁₀).map
+  change _ = (adj₀₁.comp adj₁₂).unit.app X ≫ (R₂₁ ⋙ R₁₀).map
     (((conjugateEquiv adj₀₂ (adj₀₁.comp adj₁₂)).symm e.inv).app X)
   rw [← h1, hg]
   simp [Adjunction.comp_unit_app]
@@ -78,9 +78,10 @@ theorem levelPushforwardIso_hom_app_hom_app (i : (sys D c B hD hX hc).I)
   simp only [levelPushforwardIso, Iso.trans_hom, Iso.symm_hom, NatTrans.comp_app,
     ObjectProperty.FullSubcategory.comp_hom, Functor.sheafPushforwardContinuousComp',
     Functor.sheafPushforwardContinuousIso, Functor.sheafPushforwardContinuousComp, Iso.refl_hom,
-    Iso.trans_inv, Iso.refl_inv, NatTrans.id_app, ObjectProperty.FullSubcategory.id_hom,
-    Category.id_comp, Category.comp_id]
-  simp [Functor.sheafPushforwardContinuousNatTrans]
+    Iso.refl_inv]
+  simp only [Functor.comp_obj, Functor.sheafPushforwardContinuousNatTrans, NatTrans.op_id,
+    ObjectProperty.ι_obj, Functor.whiskerRight_id', Iso.symm_inv, Functor.whiskerRight_app,
+    Functor.op_obj, NatTrans.op_app]
   exact (Category.id_comp _).trans (Category.comp_id _)
 
 /-- In a category, given the stated commutation relations and that `mτj` is an isomorphism, `ηj`
@@ -154,7 +155,7 @@ theorem transitionBaseChangeIso_from_comp {i j : (sys D c B hD hX hc).I} (a : j 
     intro b hb
     subst hb
     rw [transitionBaseChangeIso_comp D c B hD hX hc a _ V]
-    simp only [Category.assoc, Iso.inv_hom_id_app, Category.comp_id]
+    simp only [Category.assoc, Iso.inv_hom_id_app]
     rfl
   exact key _ ((bottom_isTerminal D c B hD hX hc).hom_ext _ _)
 
@@ -250,9 +251,10 @@ theorem limitPushforwardIso_hom_app_hom_app
   simp only [limitPushforwardIso, Iso.trans_hom, Iso.symm_hom, NatTrans.comp_app,
     ObjectProperty.FullSubcategory.comp_hom, Functor.sheafPushforwardContinuousComp',
     Functor.sheafPushforwardContinuousIso, Functor.sheafPushforwardContinuousComp, Iso.refl_hom,
-    Iso.trans_inv, Iso.refl_inv, NatTrans.id_app, ObjectProperty.FullSubcategory.id_hom,
-    Category.id_comp, Category.comp_id]
-  simp [Functor.sheafPushforwardContinuousNatTrans]
+    Iso.refl_inv]
+  simp only [Functor.comp_obj, Functor.sheafPushforwardContinuousNatTrans, NatTrans.op_id,
+    ObjectProperty.ι_obj, Functor.whiskerRight_id', Iso.symm_inv, Functor.whiskerRight_app,
+    Functor.op_obj, NatTrans.op_app]
   exact (Category.id_comp _).trans (Category.comp_id _)
 
 /-- The projection `f_⊥ : X ⟶ X_⊥` is the projection `f_i : X ⟶ X_i` followed by

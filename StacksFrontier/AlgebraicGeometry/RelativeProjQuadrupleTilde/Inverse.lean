@@ -129,6 +129,7 @@ def rmor (n : ℤ) : (pullbackFunctor (ringedSpaceHom f)).obj (ℳ.piece (n * d)
     ((pullbackFunctor (ringedSpaceHom f)).obj (ℳ.piece (n * d)) ◁ LaurentSections.triv w n) ≫
       Twisting.pureTensor (ℳ.toGradedModule s.mul_comm) ψ n
 
+omit [∀ n : ℤ, (ℳ.piece n).IsQuasicoherent] in
 include hgf hCP hw hw' in
 /-- **The pure tensors against the trivialization carry the action of `f^*𝒜_{id}` to
 multiplication by `κ_i`.** -/
@@ -185,7 +186,7 @@ theorem act_pullbackSection [∀ n : ℤ, (ℳ.piece n).IsQuasicoherent]
       γ₂.val.app (op ⊤) (Scheme.Modules.pullbackSection f _ U.1 ⊤ hf
         ((eqToHom (congrArg ℳ.piece (by ring : m * d + (i : ℤ) * d = (m + i) * d))).val.app
           (op U.1) ((ℳ.toGradedModule s.mul_comm).smul (m * d) ((i : ℤ) * d) (op U.1) x a))) := by
-    show (γ₂).val.app (op ⊤)
+    change (γ₂).val.app (op ⊤)
       (((Scheme.Modules.pullback f).map
         ((ℳ.toGradedModule s.mul_comm).smulSheaf (m * d) ((i : ℤ) * d) ≫
           eqToHom (congrArg (ℳ.toGradedModule s.mul_comm).piece
@@ -222,7 +223,7 @@ theorem act_pullbackSection [∀ n : ℤ, (ℳ.piece n).IsQuasicoherent]
             U.1 x a)) =
       (show (structureRingSheaf T.toRingedSpace).obj.obj (op ⊤) from kappaSec U c g hg i a) •
         γ₁.val.app (op ⊤) (Scheme.Modules.pullbackSection f _ U.1 ⊤ hf x) := by
-    show (ρ_ N).hom.val.app (op ⊤)
+    change (ρ_ N).hom.val.app (op ⊤)
       ((γ₁ ⊗ₘ kappaS U c f hf g hg hgf i).val.app (op ⊤)
         ((pullbackTensorComparison (ringedSpaceHom f) (ℳ.piece (m * d))
           (s.algebra.piece ((i : ℤ) * d))).val.app (op ⊤)
@@ -249,6 +250,7 @@ def rsec (n : ℤ) : sectionModulePieces ℳ U.1 (n * d) →+ (src ℳ f ψ).val
   ((rmor ℳ f ψ w n).val.app (op ⊤)).hom.toAddMonoidHom.comp
     (pullbackSectionHom f (ℳ.piece (n * d)) U.1 ⊤ hf)
 
+omit [∀ n : ℤ, (ℳ.piece n).IsQuasicoherent] in
 /-- `rsec n x` is the image of the pullback of `x` under `x ↦ x ⊗ w^{-n}`. -/
 theorem rsec_apply (n : ℤ) (x : sectionModulePieces ℳ U.1 (n * d)) :
     rsec ℳ U f hf ψ w n x = (rmor ℳ f ψ w n).val.app (op ⊤)
@@ -275,11 +277,12 @@ def eFam (k : ℕ) : sectionModule ℳ U.1 →+ (src ℳ f ψ).val.obj (op ⊤) 
   (rsec ℳ U f hf ψ w (k : ℤ)).comp
     (DFinsupp.evalAddMonoidHom (β := sectionModulePieces ℳ U.1) (((k * d : ℕ) : ℤ)))
 
+omit [∀ n : ℤ, (ℳ.piece n).IsQuasicoherent] in
 /-- On the degree `kd` piece, `e_k` agrees with `x ↦ x ⊗ w^{-k}`. -/
 theorem eFam_of (k : ℕ) (x : sectionModulePieces ℳ U.1 (((k * d : ℕ) : ℤ))) :
     eFam ℳ U f hf ψ w k (DirectSum.of (sectionModulePieces ℳ U.1) _ x) =
       rsec ℳ U f hf ψ w (k : ℤ) x := by
-  show rsec ℳ U f hf ψ w (k : ℤ)
+  change rsec ℳ U f hf ψ w (k : ℤ)
     (DirectSum.of (sectionModulePieces ℳ U.1) (((k * d : ℕ) : ℤ)) x (((k * d : ℕ) : ℤ))) = _
   rw [DirectSum.of_eq_same]
 
@@ -310,11 +313,11 @@ omit [∀ n : ℤ, (ℳ.piece n).IsQuasicoherent] in
 theorem kappaSec_pow (k : ℕ) (a : s.sectionPieces U.1 (k * d))
     (ha : DirectSum.of (s.sectionPieces U.1) (k * d) a = cHom U.1 c ^ k) :
     kappaSec U c g hg k a = 1 := by
-  show g.appLE _ ⊤ hg (Proj.awayToSection _ _ (algFrac U c k a)) = 1
+  change g.appLE _ ⊤ hg (Proj.awayToSection _ _ (algFrac U c k a)) = 1
   have h1 : algFrac U c k a = 1 := by
     apply HomogeneousLocalization.val_injective
     rw [HomogeneousLocalization.val_one]
-    show (Localization.mk (DirectSum.of (s.sectionPieces U.1) (k * d) a)
+    change (Localization.mk (DirectSum.of (s.sectionPieces U.1) (k * d) a)
       (⟨(cHom U.1 c) ^ k, k, rfl⟩ : Submonoid.powers (cHom U.1 c)) : Localization.Away _) = 1
     simp only [ha]
     exact Localization.mk_self (⟨(cHom U.1 c) ^ k, k, rfl⟩ : Submonoid.powers (cHom U.1 c))
@@ -383,6 +386,7 @@ theorem isAffineOpen_basicOpen :
     IsAffineOpen (Proj.basicOpen (s.sectionRingGrading U.1) (cHom U.1 c)) :=
   Proj.isAffineOpen_basicOpen _ _ (cHom_mem U.1 c) hd
 
+omit [∀ n : ℤ, (ℳ.piece n).IsQuasicoherent] in
 include hd in
 /-- The map from the degree-zero localization to the sections of `ℳ̃(U)` over `D₊(c)` is
 bijective. -/
@@ -395,12 +399,14 @@ def toChartInv (x : (moduleChart ℳ U).val.obj
     (op (Proj.basicOpen (s.sectionRingGrading U.1) (cHom U.1 c)))) : Loc ℳ U.1 c :=
   Function.surjInv (toChart_bijective ℳ U c hd).2 x
 
+omit [∀ n : ℤ, (ℳ.piece n).IsQuasicoherent] in
 /-- `toChartInv` is a right inverse of `toChart`. -/
 theorem toChart_toChartInv (x : (moduleChart ℳ U).val.obj
     (op (Proj.basicOpen (s.sectionRingGrading U.1) (cHom U.1 c)))) :
     toChart ℳ U c (toChartInv ℳ U c hd x) = x :=
   Function.surjInv_eq (toChart_bijective ℳ U c hd).2 x
 
+omit [∀ n : ℤ, (ℳ.piece n).IsQuasicoherent] in
 /-- `toChartInv` is a left inverse of `toChart`. -/
 theorem toChartInv_toChart (z : Loc ℳ U.1 c) : toChartInv ℳ U c hd (toChart ℳ U c z) = z :=
   (toChart_bijective ℳ U c hd).1 (toChart_toChartInv ℳ U c hd _)
@@ -540,6 +546,7 @@ theorem phi_psi :
     (Twisting.relationLeft_pureTensor (ℳ.toGradedModule s.mul_comm) ψ)).unique
     (pureTensor_phi_psi ℳ U c f hf g hg hgf ψ w hCP hw hw' hd) (fun _ => Category.comp_id _)
 
+omit [∀ n : ℤ, (ℳ.piece n).IsQuasicoherent] in
 include hd in
 /-- Every section of `ℳ̃(U)` over `D₊(c)` is a fraction `x / c^n`, `n ≥ 0`. -/
 theorem exists_fracChart (y : (moduleChart ℳ U).val.obj
@@ -565,7 +572,7 @@ theorem psi_phi :
   refine AffineOpenHomRecovery.hom_ext g _ hg (moduleChart ℳ U) (isAffineOpen_basicOpen U c hd)
     (tgt ℳ U g) fun y => ?_
   obtain ⟨n, x, rfl⟩ := exists_fracChart ℳ U c hd y
-  show (phi ℳ U c f hf g hg hgf ψ w hCP hw hw' hd).val.app (op ⊤)
+  change (phi ℳ U c f hf g hg hgf ψ w hCP hw hw' hd).val.app (op ⊤)
     ((psi ℳ U c f hf g hg hgf ψ w hCP hw hw' hd).val.app (op ⊤)
       (Scheme.Modules.pullbackSection g (moduleChart ℳ U) _ ⊤ hg (fracChart ℳ U c n x))) =
     Scheme.Modules.pullbackSection g (moduleChart ℳ U) _ ⊤ hg (fracChart ℳ U c n x)

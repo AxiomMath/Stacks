@@ -87,7 +87,7 @@ theorem BigFppfOver.SizeBound.prod_left {K : Type u} [Category.{u} K]
   iSup_size_lt := by
     refine lt_of_le_of_lt (ciSup_le' fun j =>
       (size_toScheme_obj_prod_le B S hS W (V.obj j)).trans
-        (max_le_max le_rfl (le_ciSup (Cardinal.bddAbove_range _) j))) ?_
+        (max_le_max le_rfl (le_ciSup Cardinal.bddAbove_of_small j))) ?_
     exact max_lt W.left.property h.iSup_size_lt
 
 /-- Multiplying a size-bounded diagram in the big fppf site of `S` by a fixed object on the
@@ -99,7 +99,7 @@ theorem BigFppfOver.SizeBound.prod_right {K : Type u} [Category.{u} K]
   iSup_size_lt := by
     refine lt_of_le_of_lt (ciSup_le' fun j =>
       (size_toScheme_obj_prod_le B S hS (V.obj j) W).trans
-        (max_le_max (le_ciSup (Cardinal.bddAbove_range _) j) le_rfl)) ?_
+        (max_le_max (le_ciSup Cardinal.bddAbove_of_small j) le_rfl)) ?_
     exact max_lt h.iSup_size_lt W.left.property
 
 /-! ### Charts of two stages of an inverse system -/

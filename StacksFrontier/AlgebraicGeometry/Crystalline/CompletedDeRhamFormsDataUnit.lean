@@ -121,7 +121,7 @@ theorem baseChangeUnitEquiv_of_tmul (b : R'.ring) (r : R.ring) :
   have : IsAdicComplete (pAdicIdeal (A := R'.ring) p) R'.ring := hR'
   refine (ofLinearEquiv_symm_congr_of _ (TensorProduct.AlgebraTensorModule.rid R.ring R'.ring
     R'.ring) _).trans ?_
-  show r • b = _
+  change r • b = _
   rw [Algebra.smul_def, mul_comm]
   rfl
 
@@ -234,7 +234,7 @@ theorem unitTermEquiv_differential (i : ℕ)
   let G := ((R₀).deRham i).comp (unitTermEquiv p A hJ i).toAddMonoidHom
   have hFG : F = G := by
     refine completedTensor_addMonoidHom_ext p fun r ω ↦ ?_
-    show unitTermEquiv p A hJ (i + 1) (CompletedDeRham.differential p _ _ _ _ _ _ _ i
+    change unitTermEquiv p A hJ (i + 1) (CompletedDeRham.differential p _ _ _ _ _ _ _ i
         (toCompletedTensor p _ _ _ (r ⊗ₜ ω))) =
       (R₀).deRham i (unitTermEquiv p A hJ i (toCompletedTensor p _ _ _ (r ⊗ₜ ω)))
     rw [CompletedDeRham.differential_of_tmul, unitNabla_apply, CompletedDeRham.wedgeMap_of_tmul,

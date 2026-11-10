@@ -63,12 +63,13 @@ which is `AlgebraicGeometry.Stack.exists_reduction`, the reduced closed substack
 
 ## The passage to the reduction
 
-The monomorphy of the inclusion `𝒵_red ⟶ 𝒵` is proved: the inclusion is representable by algebraic spaces because it is a closed immersion,
-which is the content of `AlgebraicGeometry.Stack.IsClosedSubstack` (**Stacks 04YM** part (2)),
-and it satisfies the monomorphy clause of **Stacks 04ZW** because it is fully faithful, by the
-implication (2) ⟹ (1) of **Stacks 04ZZ** in the form
-`AlgebraicGeometry.Stack.AlgebraicStacks.mono_representingMaps_fullSubcategoryInclusion`. The
-source instead quotes **Stacks 0504**, that an immersion is a monomorphism, which this library
+The monomorphy of the inclusion `𝒵_red ⟶ 𝒵` is proved: the inclusion is representable by algebraic
+spaces because it is a closed immersion, which is the content of
+`AlgebraicGeometry.Stack.IsClosedSubstack` (**Stacks 04YM** part (2)), and it satisfies the
+monomorphy clause of **Stacks 04ZW** because it is fully faithful, by the implication (2) ⟹ (1) of
+**Stacks 04ZZ** in the form
+`AlgebraicGeometry.Stack.AlgebraicStacks.mono_representingMaps_fullSubcategoryInclusion`. The source
+instead quotes **Stacks 0504**, that an immersion is a monomorphism, which this library
 also has as `AlgebraicGeometry.Stack.AlgebraicStacks.isMonomorphism_of_isImmersion`; the two
 routes prove the same statement and the one taken here needs no further import.
 
@@ -283,7 +284,8 @@ This is the source's argument. Both subcategories satisfy condition (2) of **Sta
 implication (1) ⟹ (2); the first projection `𝒵_P ×_𝒳 𝒵_Q ⟶ 𝒵_P` is a monomorphism, as a base
 change of the inclusion of `𝒵_Q`; its source has a point by **Stacks 04XH**, both points lying
 over `x`; so it is an equivalence by **Stacks 06MQ**, and every object satisfying `P` satisfies
-`Q`. That argument is `AlgebraicGeometry.Stack.imp_of_isReducedLocallyNoetherianUniquePointSubstack`.
+`Q`. That argument is
+`AlgebraicGeometry.Stack.imp_of_isReducedLocallyNoetherianUniquePointSubstack`.
 
 The inclusion of `𝒵_Q` is a monomorphism of algebraic stacks only once it is known to be
 representable by algebraic spaces, which the source takes from the implication (2) ⟹ (3) of

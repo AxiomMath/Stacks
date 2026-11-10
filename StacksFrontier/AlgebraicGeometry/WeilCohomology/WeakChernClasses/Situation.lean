@@ -294,7 +294,7 @@ theorem subsingleton_of_isEmpty (X : C) (hX : IsEmpty (S.obj X)) : Subsingleton 
 subgroup. -/
 theorem natCast_mem_grade_zero (X : C) (n : ℕ) : (n : 𝔚.A X) ∈ 𝔚.grade X 0 := by
   induction n with
-  | zero => simpa using (𝔚.grade X 0).zero_mem
+  | zero => simp
   | succ k ih => rw [Nat.cast_succ]; exact (𝔚.grade X 0).add_mem ih (𝔚.one_mem X)
 
 /-- **A standing situation with the bijective projective bundle formula is one of these.** -/

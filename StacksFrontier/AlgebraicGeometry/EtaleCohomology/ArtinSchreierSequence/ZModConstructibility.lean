@@ -36,7 +36,7 @@ section Counit
 variable {Λ Λ' : Type} [CommRing Λ] [CommRing Λ'] (ρ : Λ →+* Λ') (hρ : Function.Surjective ρ)
   (X : Scheme.{u})
 
-open scoped ChangeOfRings TensorProduct in
+open scoped ChangeOfRings _root_.Stacks.TensorProduct in
 include hρ in
 /-- Along a surjection of rings the counit `S ⊗_R N ⟶ N` of extension and restriction of scalars
 is invertible, in any universe of modules. -/
@@ -46,7 +46,7 @@ theorem isIso_extendRestrictScalarsAdj_counit_app' (N : ModuleCat.{u + 1} Λ') :
     (fun a ha n => by rw [show a • n = ρ a • n from rfl, RingHom.mem_ker.1 ha, zero_smul])
   have hcomp : ∀ n : N, ((ModuleCat.extendRestrictScalarsAdj.{u + 1} ρ).counit.app N).hom
       ((1 : Λ') ⊗ₜ[Λ, ρ] (show (ModuleCat.restrictScalars ρ).obj N from n)) = n := fun n => by
-    show (1 : Λ') • n = n
+    change (1 : Λ') • n = n
     exact one_smul _ _
   rw [ConcreteCategory.isIso_iff_bijective]
   refine ⟨fun x y hxy => ?_, fun n => ⟨_, hcomp n⟩⟩
@@ -69,7 +69,7 @@ theorem isIso_etaleModuleExtendScalarsAdj_counit_app (G : EtaleModules.{u, 0} Λ
     IsIso.of_isIso_fac_left (toSheafify_sheafifyLift X.smallEtaleTopology c G.property)
   have hmap : IsIso ((sheafToPresheaf X.smallEtaleTopology _).map
       ((etaleModuleExtendScalarsAdj ρ X).counit.app G)) := by
-    show IsIso ((Sheaf.adjunction X.smallEtaleTopology adj).counit.app G).hom
+    change IsIso ((Sheaf.adjunction X.smallEtaleTopology adj).counit.app G).hom
     rw [Sheaf.adjunction_counit_app_hom]
     exact hlift
   exact isIso_of_reflects_iso _ (sheafToPresheaf X.smallEtaleTopology _)

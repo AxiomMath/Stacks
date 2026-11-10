@@ -107,12 +107,11 @@ private theorem mem_smul_top_of_tmul_one_mem (n : ℕ) (hn : 0 < n) (u : PS N S)
     rw [span_range_gS] at hc
     rw [← map_smul, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
     exact Submodule.smul_mem_smul (by simp only [K, Ideal.map_pow]; exact hc) Submodule.mem_top
-  · show q.rTensor (Sh f S) (u ⊗ₜ 1) = 0
+  · change q.rTensor (Sh f S) (u ⊗ₜ 1) = 0
     refine Submodule.smul_induction_on hu1 (fun c hc x _ ↦ ?_)
       (fun x y hx hy ↦ by rw [map_add, hx, hy, add_zero])
     rw [map_smul]
-    induction (q.rTensor (Sh f S) x) using TensorProduct.induction_on with
-    | zero => simp
+    induction (q.rTensor (Sh f S) x) using TensorProduct.inductionOn with
     | tmul a b =>
       rw [TensorProduct.smul_tmul']
       obtain ⟨a', rfl⟩ := Submodule.mkQ_surjective _ a
@@ -219,7 +218,7 @@ theorem exists_approx (n : ℕ) (z : PS N S) (s : Finset H) (a : H → R)
   let y : Fin m → D.TT := fun l ↦ ∑ i : s, a i • τ (σ i l)
   have hyker : ∀ l, y l ∈ N.map (algebraMap R D.TT) := fun l ↦ by
     rw [← D.ker_prS hN hNS hflat]
-    show D.prS (y l) = 0
+    change D.prS (y l) = 0
     simp only [y, map_sum, Algebra.smul_def, map_mul, AlgHom.commutes, hτ]
     exact hσ l
   have hyIn : ∀ l, y l ∈ ((Ideal.span (Set.range f)) ^ n).map
@@ -260,7 +259,7 @@ theorem mem_map_of_prH_mem (n : ℕ) (t : D.TT)
   obtain ⟨t', ht', htt'⟩ := D.exists_mem_map_prS_eq hN hflat _ hS
   have hker : t - t' ∈ N.map (algebraMap R D.TT) := by
     rw [← D.ker_prS hN hNS hflat]
-    show D.prS (t - t') = 0
+    change D.prS (t - t') = 0
     rw [map_sub, sub_eq_zero, htt']
   have hH' : D.prH (t - t') ∈
       ((Ideal.span (Set.range f)) ^ n).map (algebraMap R H) := by

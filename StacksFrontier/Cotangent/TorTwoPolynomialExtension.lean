@@ -365,8 +365,7 @@ theorem mixedPart_tmul (a b : RingHom.ker (polyAug ε T)) :
 theorem mixedPart_smul (s : MvPolynomial T R)
     (x : RingHom.ker (polyAug ε T) ⊗[MvPolynomial T R] RingHom.ker (polyAug ε T)) :
     mixedPart (s • x) = polyAug ε T s • mixedPart x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a b => rw [TensorProduct.smul_tmul', mixedPart_tmul, mixedPart_tmul, linearPart_smul,
       map_smul, LinearMap.smul_apply]
   | add x y hx hy => rw [smul_add, map_add, hx, hy, map_add, smul_add]
@@ -445,8 +444,7 @@ omit [Fact (Function.Surjective ε)] in
 theorem wedgePart_smul (s : MvPolynomial T R)
     (x : RingHom.ker (polyAug ε T) ⊗[MvPolynomial T R] RingHom.ker (polyAug ε T)) :
     wedgePart (s • x) = polyAug ε T s • wedgePart x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a b => rw [TensorProduct.smul_tmul', wedgePart_tmul, wedgePart_tmul, linearPart_smul,
       map_smul, LinearMap.smul_apply]
   | add x y hx hy => rw [smul_add, map_add, hx, hy, map_add, smul_add]
@@ -540,8 +538,7 @@ omit [Fact (Function.Surjective ε)] in
 /-- `wedgePart` vanishes on the image of `J ⊗_R J` under `s₀`. -/
 theorem wedgePart_tensorMap_C (y : RingHom.ker ε ⊗[R] RingHom.ker ε) :
     wedgePart (tensorMap C (polyAug_comp_C ε T) y) = 0 := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul a b =>
     rw [tensorMap_tmul, wedgePart_tmul]
     change orderedWedge (linearPart (constIdeal a)) (linearPart (constIdeal b)) = 0
@@ -553,8 +550,7 @@ omit [LinearOrder T] in
 /-- `mixedPart` vanishes on the image of `J ⊗_R J` under `s₀`. -/
 theorem mixedPart_tensorMap_C (y : RingHom.ker ε ⊗[R] RingHom.ker ε) :
     mixedPart (tensorMap C (polyAug_comp_C ε T) y) = 0 := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul a b =>
     rw [tensorMap_tmul, mixedPart_tmul]
     change tensorSingle (linearPart (constIdeal a)) (constPart (constIdeal b)) = 0
@@ -742,7 +738,7 @@ theorem polyMixed_cotScale (a₀ : RingHom.ker ε) (q : T →₀ MvPolynomial T 
   | single t s =>
     simp only [cotScale, Finsupp.mapRange.addMonoidHom_apply, Finsupp.mapRange_single,
       AddMonoidHom.coe_comp, Function.comp_apply, RingHom.toAddMonoidHom_eq_coe,
-      AddMonoidHom.coe_coe, LinearMap.toAddMonoidHom_coe, LinearMap.toSpanSingleton_apply,
+      AddMonoidHom.coe_ofClass, LinearMap.toAddMonoidHom_coe, LinearMap.toSpanSingleton_apply,
       polyMixed_single, map_smul, polyMixedAt_toCotangent]
     rw [algebraMap_smul_mulKernel, varComb, Finsupp.linearCombination_single, antisymm_smul_left]
 
@@ -753,8 +749,7 @@ theorem exists_normalForm
       (m : T →₀ (RingHom.ker ε).Cotangent),
       y = tensorMap C (polyAug_comp_C ε T) u + varTensor v +
         (polyMixed m : RingHom.ker (polyAug ε T) ⊗[MvPolynomial T R] _) := by
-  induction y using TensorProduct.induction_on with
-  | zero => exact ⟨0, 0, 0, by simp⟩
+  induction y using TensorProduct.inductionOn with
   | add x y hx hy =>
     obtain ⟨u, v, m, rfl⟩ := hx
     obtain ⟨u', v', m', rfl⟩ := hy

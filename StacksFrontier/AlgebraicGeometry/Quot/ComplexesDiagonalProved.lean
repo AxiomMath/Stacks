@@ -270,7 +270,7 @@ theorem complexesIsom_factors_isAffineFinitePresentation_inf
         (eq_openSubspaceOfPoints_range_pointsMap B S hS Y.2 W₁.1 W₁.2))
       have e₂ := Iff.of_eq (congrArg (fun G : Subfunctor Y.1 => x ∈ G.obj T)
         (eq_openSubspaceOfPoints_range_pointsMap B S hS Y.2 W₂.1 W₂.2))
-      show x ∈ W₁.1.obj T ∧ x ∈ W₂.1.obj T ↔ _
+      change x ∈ W₁.1.obj T ∧ x ∈ W₂.1.obj T ↔ _
       rw [e₁, e₂, mem_openSubspaceOfPoints_iff, mem_openSubspaceOfPoints_iff,
         mem_openSubspaceOfPoints_iff, Set.subset_inter_iff]
     have hrange : Set.range (pointsMap B S hS W.1.toFunctor W.1.ι) = R₁ ∩ R₂ := by

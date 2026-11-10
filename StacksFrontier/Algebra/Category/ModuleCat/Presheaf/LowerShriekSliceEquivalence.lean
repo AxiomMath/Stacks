@@ -143,7 +143,7 @@ theorem invertibleArrows_final [∀ x : C, (Over.post (X := x) F).IsEquivalence]
   have hi : F.map z.hom = i.hom ≫ k.hom.unop := e.hom.w.symm
   let a : k ⟶ s.obj := CostructuredArrow.homMk z.hom.op (by
     apply Quiver.Hom.unop_inj
-    show i.inv ≫ F.map z.hom = k.hom.unop
+    change i.inv ≫ F.map z.hom = k.hom.unop
     rw [hi, Iso.inv_hom_id_assoc])
   let t : StructuredArrow k (invertibleArrows F y).ι := StructuredArrow.mk (Y := s) a
   have ht (b : StructuredArrow k (invertibleArrows F y).ι) : Nonempty (t ⟶ b) := by
@@ -154,7 +154,7 @@ theorem invertibleArrows_final [∀ x : C, (Over.post (X := x) F).IsEquivalence]
       congrArg Quiver.Hom.unop (CostructuredArrow.w b.hom)
     let w : P.obj (Over.mk b.hom.left.unop) ⟶ P.obj z :=
       Over.homMk (jb.inv ≫ i.inv) (by
-        show (jb.inv ≫ i.inv) ≫ F.map z.hom = F.map b.hom.left.unop
+        change (jb.inv ≫ i.inv) ≫ F.map z.hom = F.map b.hom.left.unop
         rw [hi]
         simp only [Category.assoc, Iso.inv_hom_id_assoc]
         rw [← hw, Iso.inv_hom_id_assoc])
@@ -163,7 +163,7 @@ theorem invertibleArrows_final [∀ x : C, (Over.post (X := x) F).IsEquivalence]
     let c : s ⟶ b.right := ObjectProperty.homMk
       (CostructuredArrow.homMk (P.preimage w).left.op (by
         apply Quiver.Hom.unop_inj
-        show jb.hom ≫ F.map (P.preimage w).left = i.inv
+        change jb.hom ≫ F.map (P.preimage w).left = i.inv
         rw [hf, Iso.hom_inv_id_assoc]))
     exact ⟨StructuredArrow.homMk c (by
       ext
@@ -377,7 +377,7 @@ theorem lanSmul_leg {x : Cᵒᵖ} {y : Dᵒᵖ} (f : F.op.obj x ⟶ y) (r : R.ob
         (abLan F R M).map s.obj.hom := by
     rw [← Category.assoc, hn, Category.assoc, ← Functor.map_comp, ha]
   have hr : R.map s.obj.hom (R.map (F.op.map a.left) r) = R.map f r := by
-    show (R.map (F.op.map a.left) ≫ R.map s.obj.hom) r = _
+    change (R.map (F.op.map a.left) ≫ R.map s.obj.hom) r = _
     rw [← R.map_comp, ha]
   calc
     _ = presheafSmul M x r ≫ M.presheaf.map a.left ≫
@@ -510,7 +510,7 @@ theorem moduleLanHomEquiv_naturality (N N' : PresheafOfModules.{a} R)
     (g : N ⟶ N') (h : moduleLan F R M ⟶ N) :
     moduleLanHomEquiv F R M N' (h ≫ g) =
       moduleLanHomEquiv F R M N h ≫ (PresheafOfModules.pushforward _).map g := by
-  show moduleLanUnit F R M ≫ (PresheafOfModules.pushforward _).map (h ≫ g) =
+  change moduleLanUnit F R M ≫ (PresheafOfModules.pushforward _).map (h ≫ g) =
     (moduleLanUnit F R M ≫ (PresheafOfModules.pushforward _).map h) ≫
       (PresheafOfModules.pushforward _).map g
   rw [Functor.map_comp, Category.assoc]

@@ -539,7 +539,7 @@ private lemma isAlgebraicSpace_of_open_family
   let kS : C ⟶ FS := Sigma.desc (f := GS) (fun i => ⟨k i⟩)
   have hkS (i : I) : (ι i).hom ≫ kS.hom = k i :=
     congrArg (fun φ : GS i ⟶ FS => φ.hom)
-      (Sigma.ι_desc (f := GS) (fun i => (⟨k i⟩ : GS i ⟶ FS)) i)
+      (Sigma.ι_comp_desc (f := GS) (fun i => (⟨k i⟩ : GS i ⟶ FS)) i)
   have hsurj : Presheaf.IsLocallySurjective J kS.hom := by
     constructor
     intro W x

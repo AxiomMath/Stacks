@@ -459,9 +459,9 @@ theorem restrictDeformationLEIso_hom_naturality :
         (restrictDeformationLEIso Q h).hom =
       (restrictDeformationLEIso P h).hom ≫ restrictDeformationHom V f := by
   refine SchemeDeformationCategory.Hom.ext ?_ ?_
-  · show f.base ≫ 𝟙 Q.base = 𝟙 P.base ≫ f.base
+  · change f.base ≫ 𝟙 Q.base = 𝟙 P.base ≫ f.base
     rw [Category.comp_id, Category.id_comp]
-  · show (nestedOpenIso Q h).inv ≫
+  · change (nestedOpenIso Q h).inv ≫
         ((openRestrictionLEFunctor h).map (restrictDeformationHom U f)).map =
       (restrictDeformationHom V f).map ≫ (nestedOpenIso P h).inv
     refine (cancel_mono (nestedι P h ≫ restrictDeformationι U P)).mp ?_
@@ -588,7 +588,7 @@ theorem isPullback_of_iSup_eq_top {Y Z S T : Scheme.{u}} {f : Y ⟶ Z} {g : Y �
   have hφ₁ : φ ≫ pullback.fst p r = f := pullback.lift_fst _ _ _
   have hφ₂ : φ ≫ pullback.snd p r = g := pullback.lift_snd _ _ _
   have hiso : IsIso φ := by
-    show (MorphismProperty.isomorphisms Scheme) φ
+    change (MorphismProperty.isomorphisms Scheme) φ
     refine IsZariskiLocalAtTarget.of_iSup_eq_top
       (fun i => pullback.fst p r ⁻¹ᵁ O i) (Scheme.Hom.iSup_preimage_eq_top _ hO) ?_
     intro i
@@ -605,7 +605,7 @@ theorem isPullback_of_iSup_eq_top {Y Z S T : Scheme.{u}} {f : Y ⟶ Z} {g : Y �
           Scheme.isoOfEq_hom_ι_assoc, hφ₁]
       · rw [Category.assoc, IsPullback.isoIsPullback_hom_snd]
         simp only [morphismRestrict_ι_assoc, Scheme.isoOfEq_hom_ι_assoc, hφ₂]
-    show IsIso (φ ∣_ _)
+    change IsIso (φ ∣_ _)
     rw [key]
     infer_instance
   exact IsPullback.of_iso_pullback ⟨w⟩ (asIso φ) hφ₁ hφ₂
@@ -887,12 +887,12 @@ theorem glueSpecialMap_comp_glueToBase :
   refine (coverOfTwoOpens X U₁ U₂ hcover).hom_ext _ _ ?_
   intro b
   cases b
-  · show U₁.ι ≫ glueSpecialMap X U₁ U₂ Q hcover ≫ glueToBase X U₁ U₂ Q =
+  · change U₁.ι ≫ glueSpecialMap X U₁ U₂ Q hcover ≫ glueToBase X U₁ U₂ Q =
       U₁.ι ≫ X.hom ≫ residueSpecMap Q.y.base
     rw [glueSpecialMap_comp₁_assoc, glueι₁_comp_glueToBase, ← Category.assoc,
       Q.x.specialCartesian.w, Category.assoc, residueSpecMap_comp_baseSpecMap]
     rfl
-  · show U₂.ι ≫ glueSpecialMap X U₁ U₂ Q hcover ≫ glueToBase X U₁ U₂ Q =
+  · change U₂.ι ≫ glueSpecialMap X U₁ U₂ Q hcover ≫ glueToBase X U₁ U₂ Q =
       U₂.ι ≫ X.hom ≫ residueSpecMap Q.y.base
     rw [glueSpecialMap_comp₂_assoc, glueι₂_comp_glueToBase, ← Category.assoc,
       Q.y.specialCartesian.w]
@@ -970,7 +970,7 @@ theorem glueSpecialMap_isPullback :
     exact glueι_opensRange_sup_eq_top X U₁ U₂ Q
   · intro b
     cases b
-    · show IsPullback (glueSpecialMap X U₁ U₂ Q hcover ∣_ (glueι₁ X U₁ U₂ Q).opensRange)
+    · change IsPullback (glueSpecialMap X U₁ U₂ Q hcover ∣_ (glueι₁ X U₁ U₂ Q).opensRange)
         ((glueSpecialMap X U₁ U₂ Q hcover ⁻¹ᵁ (glueι₁ X U₁ U₂ Q).opensRange).ι ≫ X.hom)
         ((glueι₁ X U₁ U₂ Q).opensRange.ι ≫ glueToBase X U₁ U₂ Q) (residueSpecMap Q.y.base)
       refine Q.x.specialCartesian.of_iso
@@ -986,7 +986,7 @@ theorem glueSpecialMap_isPullback :
         rw [glueι₁_comp_glueToBase]
       · simp only [asIso_hom, Iso.refl_hom, Category.id_comp]
         exact residueSpecMap_comp_baseSpecMap (glueBaseIso X U₁ U₂ Q)
-    · show IsPullback (glueSpecialMap X U₁ U₂ Q hcover ∣_ (glueι₂ X U₁ U₂ Q).opensRange)
+    · change IsPullback (glueSpecialMap X U₁ U₂ Q hcover ∣_ (glueι₂ X U₁ U₂ Q).opensRange)
         ((glueSpecialMap X U₁ U₂ Q hcover ⁻¹ᵁ (glueι₂ X U₁ U₂ Q).opensRange).ι ≫ X.hom)
         ((glueι₂ X U₁ U₂ Q).opensRange.ι ≫ glueToBase X U₁ U₂ Q) (residueSpecMap Q.y.base)
       refine Q.y.specialCartesian.of_iso

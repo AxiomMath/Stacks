@@ -215,8 +215,7 @@ theorem span_one_tmul_eq_top_of_isLocalizationAway
       exact Submodule.smul_mem _ _ hy
   have hall : ∀ z : T ⊗[R] N, z ∈ W := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact Submodule.zero_mem _
+    induction z using TensorProduct.inductionOn with
     | tmul c x => exact htmul c x
     | add x y hx hy => exact Submodule.add_mem _ hx hy
   exact eq_top_iff.mpr fun z _ => hall z
@@ -261,8 +260,7 @@ theorem finrank_tensor_le_finrank_tensor_of_flat
     Module.finrank T (T ⊗[R] S) ≤ Module.finrank T (T ⊗[R] N) := by
   have hcoe : ∀ z : T ⊗[R] S, LinearMap.baseChange T f z = f.lTensor T z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a x => simp
     | add x y hx hy => simp [hx, hy]
   have hinj : Function.Injective (LinearMap.baseChange T f) := by
@@ -451,8 +449,7 @@ theorem ringHom_ext_L₁ (D : IntegralClosureBaseChange A B K L K₁)
   obtain ⟨w, hw⟩ : ∃ w, D.eL₁.symm w = z := ⟨D.eL₁ z, by simp⟩
   subst hw
   obtain ⟨t, rfl⟩ := Ideal.Quotient.mk_surjective w
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul x y =>
     have hxy : D.eL₁.symm (Ideal.Quotient.mk (nilradical (L ⊗[K] K₁)) (x ⊗ₜ[K] y))
         = algebraMap L D.L₁ x * algebraMap K₁ D.L₁ y := by
@@ -508,15 +505,15 @@ theorem exists_surjective_ringHom_compositum
     obtain ⟨y3, hy3⟩ := hfsurj y2
     obtain ⟨y4, hy4⟩ := e₂.surjective y3
     refine ⟨y4, ?_⟩
-    show D₂.eL₁.symm (cr (f (e₂ y4))) = z
+    change D₂.eL₁.symm (cr (f (e₂ y4))) = z
     rw [hy4, hy3, hy2, hy1]
   · intro x
     have h1 : e₂ (algebraMap L D₁.L₁ x ⊗ₜ[K₁] (1 : K₂))
         = Ideal.Quotient.mk (nilradical (L ⊗[K] K₁)) (x ⊗ₜ[K] (1 : K₁)) ⊗ₜ[K₁] (1 : K₂) := by
       simp only [e₂, Algebra.TensorProduct.congr_apply, Algebra.TensorProduct.map_tmul]
-      show D₁.eL₁ (algebraMap L D₁.L₁ x) ⊗ₜ[K₁] (1 : K₂) = _
+      change D₁.eL₁ (algebraMap L D₁.L₁ x) ⊗ₜ[K₁] (1 : K₂) = _
       rw [eL₁_algebraMap_left]
-    show D₂.eL₁.symm (cr (f (e₂ _))) = _
+    change D₂.eL₁.symm (cr (f (e₂ _))) = _
     rw [h1, hfmk, Stacks.DiscreteValuationRing.EppLevelInduction.reductionRingEquiv_mk, hcL,
       AlgEquiv.symm_apply_eq,
       D₂.eL₁_left]
@@ -525,9 +522,9 @@ theorem exists_surjective_ringHom_compositum
     have h1 : e₂ ((1 : D₁.L₁) ⊗ₜ[K₁] y)
         = Ideal.Quotient.mk (nilradical (L ⊗[K] K₁)) (1 : L ⊗[K] K₁) ⊗ₜ[K₁] y := by
       simp only [e₂, Algebra.TensorProduct.congr_apply, Algebra.TensorProduct.map_tmul]
-      show D₁.eL₁ (1 : D₁.L₁) ⊗ₜ[K₁] y = _
+      change D₁.eL₁ (1 : D₁.L₁) ⊗ₜ[K₁] y = _
       simp
-    show D₂.eL₁.symm (cr (f (e₂ _))) = _
+    change D₂.eL₁.symm (cr (f (e₂ _))) = _
     rw [h1, hfmk, show ((1 : L ⊗[K] K₁) ⊗ₜ[K₁] y)
       = Algebra.TensorProduct.includeRight y from rfl,
       Stacks.DiscreteValuationRing.EppLevelInduction.reductionRingEquiv_mk, hcR,
@@ -738,7 +735,7 @@ theorem exists_algHom_B₁_compositum [IsScalarTower K K₁ K₂]
     ((compositumMap D₁ D₂).comp (algebraMap D₁.B₁ D₁.L₁)).toAlgebra
   have : IsScalarTower B D₁.B₁ D₂.L₁ := by
     refine IsScalarTower.of_algebraMap_eq fun b => ?_
-    show algebraMap B D₂.L₁ b
+    change algebraMap B D₂.L₁ b
       = compositumMap D₁ D₂ (algebraMap D₁.B₁ D₁.L₁ (algebraMap B D₁.B₁ b))
     rw [← IsScalarTower.algebraMap_apply B D₁.B₁ D₁.L₁, compositumMap_algebraMap_base]
   have : Algebra.IsIntegral B D₁.B₁ := IsIntegralClosure.isIntegral_algebra B D₁.L₁

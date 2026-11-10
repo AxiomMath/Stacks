@@ -61,7 +61,7 @@ theorem smul_mem_span_of_apply_pow_eq {n : ℕ} (g : B)
     have hpow : ∀ j : Fin n, χ (g ^ (j : ℕ)) = 0 := by
       intro j
       simp only [hχdef, LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.sum_apply, hφ,
-        smul_ite, smul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true, hc j, smul_smul,
+        smul_ite, smul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true, hc j, smul_smul,
         mul_comm t, sub_self]
     have hspan : ∀ x ∈ Submodule.span A (Set.range fun j : Fin n => g ^ (j : ℕ)), χ x = 0 := by
       intro x hx

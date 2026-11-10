@@ -36,7 +36,7 @@ private theorem continuous_iff_pow_le_ker_of_isAdic {S T : Type*} [CommRing S] [
   change (inferInstance : TopologicalSpace T) = (⊥ : Ideal T).adicTopology at hbot
   have := RingHom.continuous_adic_iff f n ⊥
   rw [← hn, ← hbot] at this
-  exact this.trans (by simp [SetLike.le_def])
+  exact this.trans (by simp [IsConcreteLE.le_iff])
 
 /-- The algebraic adic lifting property implies the topological one, for an arbitrary topology
 on the source: if `phi` is formally smooth for the `n`-adic topology on `S`, then `phi` is

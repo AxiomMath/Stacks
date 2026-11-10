@@ -58,6 +58,7 @@ attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesAbelian
 attribute [local instance 10000] HasDerivedCategory.standard
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site needs a raised limit
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_Datum (B : BigFppfSite.{u}) (S : Scheme.{u})

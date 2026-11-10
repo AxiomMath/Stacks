@@ -307,7 +307,7 @@ theorem isQuasicoherent_homology_restrictFunctor {Y : Scheme.{u}} (g : Y ⟶ X)
     ((Dualizing.mapDerivedCategoryHomologyIso
       (Scheme.Modules.restrictFunctor g) i).app E).symm ?_
   have := hE i
-  show ((Scheme.Modules.restrictFunctor g).obj
+  change ((Scheme.Modules.restrictFunctor g).obj
     ((DerivedCategory.homologyFunctor X.Modules i).obj E)).IsQuasicoherent
   infer_instance
 

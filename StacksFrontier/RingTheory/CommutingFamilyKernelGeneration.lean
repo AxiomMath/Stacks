@@ -68,7 +68,7 @@ theorem component_succ_shift (τ : ∀ n, M n →ₗ[R] M (n + 1)) (n : ℕ) (x 
     by_cases h : k = n
     · subst h
       rw [DirectSum.component.lof_self, DirectSum.component.lof_self]
-    · rw [DirectSum.component.of, DirectSum.component.of, dif_neg (by omega), dif_neg h,
+    · rw [DirectSum.component.of, DirectSum.component.of, dite_eq_right (by omega), dite_eq_right h,
         map_zero]
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -78,7 +78,7 @@ theorem component_zero_shift (τ : ∀ n, M n →ₗ[R] M (n + 1)) (x : ⨁ n, M
   induction x using DirectSum.induction_on with
   | zero => simp
   | of k y =>
-    rw [← DirectSum.lof_eq_of R, shift_lof, DirectSum.component.of, dif_neg (by omega)]
+    rw [← DirectSum.lof_eq_of R, shift_lof, DirectSum.component.of, dite_eq_right (by omega)]
   | add x y hx hy => simp only [map_add, hx, hy, add_zero]
 
 /-- Shifts along commuting families of maps commute. -/
@@ -106,7 +106,7 @@ theorem exists_eq_C_add_sum_X_mul {k : ℕ} (p : MvPolynomial (Fin k) R) :
       exact hne ⟨i, Set.mem_univ i, hi⟩
     subst hm0
     rw [MvPolynomial.mem_support_iff, MvPolynomial.coeff_sub, MvPolynomial.coeff_C,
-      if_pos rfl, ← MvPolynomial.constantCoeff_eq, sub_self] at hm
+      ite_eq_left rfl, ← MvPolynomial.constantCoeff_eq, sub_self] at hm
     exact hm rfl
   obtain ⟨q, hq⟩ := Ideal.mem_span_range_iff_exists_fun.1 hmem
   refine ⟨q, ?_⟩
@@ -189,16 +189,16 @@ theorem exists_ker_le_iSup_map_ker [IsNoetherianRing R] [∀ n, Module.Finite R 
   let K : Submodule (MvPolynomial (Fin (r + 1)) R) (⨁ n, M n) :=
     { carrier := {t | sh (Fin.last r) t = 0}
       add_mem' := fun {a b} ha hb => by
-        simp only [Set.mem_setOf_eq, map_add] at *
+        simp only [Set.mem_ofPred_eq, map_add] at *
         rw [ha, hb, add_zero]
       zero_mem' := by simp
       smul_mem' := fun p t ht => by
-        simp only [Set.mem_setOf_eq] at *
+        simp only [Set.mem_ofPred_eq] at *
         rw [hsmul, ← Module.End.mul_apply, ← hψcomm, Module.End.mul_apply, ht, map_zero] }
   obtain ⟨G, hG⟩ : K.FG := IsNoetherian.noetherian K
   refine ⟨G.sup fun t => (DFinsupp.support t).sup id, fun n hn y hy => ?_⟩
   have hyK : DirectSum.lof R ℕ M (n + 1) y ∈ K := by
-    show sh (Fin.last r) _ = 0
+    change sh (Fin.last r) _ = 0
     rw [hsh, shift_lof, LinearMap.mem_ker.1 hy, map_zero]
   rw [← hG] at hyK
   obtain ⟨c, hc⟩ := (Submodule.mem_span_finset).1 hyK

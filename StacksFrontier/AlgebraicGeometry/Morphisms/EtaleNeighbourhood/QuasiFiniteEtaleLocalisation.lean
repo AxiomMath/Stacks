@@ -110,7 +110,7 @@ private lemma isPurelyInseparable_comp_algebraMap_of_splits
   let : Algebra L M := χ.toAlgebra
   have hχ : χ.comp (algebraMap K L) = ψ.comp (algebraMap K E) := by
     ext a
-    show θ (algebraMap L T (algebraMap K L a)) =
+    change θ (algebraMap L T (algebraMap K L a)) =
       θ (algebraMap E T (algebraMap K E a))
     rw [← IsScalarTower.algebraMap_apply K L T, ← IsScalarTower.algebraMap_apply K E T]
   let R : IntermediateField L M := IntermediateField.adjoin L (Set.range ψ)
@@ -119,11 +119,10 @@ private lemma isPurelyInseparable_comp_algebraMap_of_splits
     intro z hz
     clear hz
     obtain ⟨t, rfl⟩ := hθ z
-    induction t using TensorProduct.induction_on with
-    | zero => simpa only [map_zero] using R.zero_mem
+    induction t using TensorProduct.inductionOn with
     | tmul a b =>
         have hab : (a ⊗ₜ[K] b : T) = algebraMap L T a * algebraMap E T b := by
-          show (a ⊗ₜ[K] b : T) = (a ⊗ₜ[K] (1 : E)) * ((1 : L) ⊗ₜ[K] b)
+          change (a ⊗ₜ[K] b : T) = (a ⊗ₜ[K] (1 : E)) * ((1 : L) ⊗ₜ[K] b)
           simp [Algebra.TensorProduct.tmul_mul_tmul]
         rw [hab, map_mul]
         exact R.mul_mem (R.algebraMap_mem a) (IntermediateField.subset_adjoin L _ ⟨b, rfl⟩)
@@ -158,7 +157,7 @@ private lemma isIsolatedPoint_asFiber_pullback_snd
     dsimp [qW]
     infer_instance
   have he : IsOpenImmersion e := by
-    show IsOpenImmersion (pullback.map (W.ι ≫ f) g f g W.ι (𝟙 Y) (𝟙 S) _ _)
+    change IsOpenImmersion (pullback.map (W.ι ≫ f) g f g W.ι (𝟙 Y) (𝟙 S) _ _)
     infer_instance
   have hrange : Set.range e = pullback.fst f g ⁻¹' Set.range W.ι ∩
       pullback.snd f g ⁻¹' Set.range (𝟙 Y) :=
@@ -179,7 +178,7 @@ private lemma isIsolatedPoint_asFiber_pullback_snd
         (x := yW)).mp hq'
     simpa [hyW] using hq''
   have : LocallyOfFiniteType q := inferInstance
-  show IsOpen ({q.asFiber y} : Set (q.fiber (q y)))
+  change IsOpen ({q.asFiber y} : Set (q.fiber (q y)))
   exact Scheme.Hom.quasiFiniteAt_iff_isOpen_singleton_asFiber.mp hq
 
 /-- **A pushout of commutative rings over a module-finite leg is module-finite.** Transporting
@@ -306,7 +305,7 @@ private lemma injOn_pullback_fst_fiber_of_isIso_residueFieldMap {X S U : Scheme.
   obtain ⟨a', rfl⟩ := (q.range_fiberι u).ge ha
   obtain ⟨b', rfl⟩ := (q.range_fiberι u).ge hb
   have : l a' = l b' := (f.fiberι (g u)).isEmbedding.injective (by
-    show (l ≫ f.fiberι (g u)) a' = (l ≫ f.fiberι (g u)) b'
+    change (l ≫ f.fiberι (g u)) a' = (l ≫ f.fiberι (g u)) b'
     rwa [← hfac])
   exact congrArg (q.fiberι u) (l.isEmbedding.injective this)
 
@@ -422,7 +421,7 @@ theorem exists_etale_finite_opens_of_isolated_fiber_points
       point := U'.point
       toBase := U'.toBase ≫ U.toBase
       map_point := by
-        show U.toBase (U'.toBase U'.point) = s
+        change U.toBase (U'.toBase U'.point) = s
         exact congrArg U.toBase U'.map_point |>.trans U.map_point }
   let β := {z : ↥(pullback f U.toBase) // z ∈ Set.range y}
   have : Finite β := (Set.finite_range y).to_subtype
@@ -450,11 +449,11 @@ theorem exists_etale_finite_opens_of_isolated_fiber_points
   let v : ∀ i j, V i j := fun i j => (eV i j).hom (v' (idx i j))
   have hAssocSnd : eAssoc.hom ≫ pullback.snd f W.toBase =
       pullback.snd q U'.toBase := by
-    show eAssoc.hom ≫ pullback.snd f (U'.toBase ≫ U.toBase) = _
+    change eAssoc.hom ≫ pullback.snd f (U'.toBase ≫ U.toBase) = _
     exact pullbackLeftPullbackSndIso_hom_snd f U.toBase U'.toBase
   have hAssocFst : eAssoc.hom ≫ pullback.fst f W.toBase =
       pullback.fst q U'.toBase ≫ pullback.fst f U.toBase := by
-    show eAssoc.hom ≫ pullback.fst f (U'.toBase ≫ U.toBase) = _
+    change eAssoc.hom ≫ pullback.fst f (U'.toBase ≫ U.toBase) = _
     exact pullbackLeftPullbackSndIso_hom_fst f U.toBase U'.toBase
   have hyRange : ∀ i (z : ↥(pullback f U.toBase)),
       q z = U.point → (pullback.fst f U.toBase) z = x i → z ∈ Set.range y := by
@@ -463,11 +462,11 @@ theorem exists_etale_finite_opens_of_isolated_fiber_points
     let z' := (pullbackSymmetry U.toBase f).inv z
     let t := e z'
     have hz'fst : pullback.fst U.toBase f z' = U.point := by
-      show pullback.fst U.toBase f ((pullbackSymmetry U.toBase f).inv z) = _
+      change pullback.fst U.toBase f ((pullbackSymmetry U.toBase f).inv z) = _
       rw [← Scheme.Hom.comp_apply, pullbackSymmetry_inv_comp_fst]
       exact hzu
     have hz'snd : pullback.snd U.toBase f z' = x i := by
-      show pullback.snd U.toBase f ((pullbackSymmetry U.toBase f).inv z) = _
+      change pullback.snd U.toBase f ((pullbackSymmetry U.toBase f).inv z) = _
       rw [← Scheme.Hom.comp_apply, pullbackSymmetry_inv_comp_snd]
       exact hzx
     have hT : t.1 = T i := by
@@ -486,18 +485,18 @@ theorem exists_etale_finite_opens_of_isolated_fiber_points
       have htc := Scheme.Pullback.tensorCongr_SpecTensorTo hT
       have htc' := congrArg (fun a => a p) htc
       have hmap : (Spec.map eTensor.hom) p = t.2 := by
-        show (Spec.map eTensor.inv ≫ Spec.map eTensor.hom) t.2 = t.2
+        change (Spec.map eTensor.inv ≫ Spec.map eTensor.hom) t.2 = t.2
         rw [← Spec.map_comp]
         simp
       calc
         (T i).SpecTensorTo p = t.1.SpecTensorTo ((Spec.map eTensor.hom) p) := htc'.symm
         _ = t.1.SpecTensorTo t.2 := by rw [hmap]
         _ = z' := by
-          show e.symm (e z') = z'
+          change e.symm (e z') = z'
           exact e.symm_apply_apply z'
     obtain ⟨k, hk⟩ := eFin.surjective ⟨i, p⟩
     refine ⟨k, ?_⟩
-    show (pullbackSymmetry U.toBase f).hom
+    change (pullbackSymmetry U.toBase f).hom
       ((T (eFin k).1).SpecTensorTo (eFin k).2) = z
     rw [hk]
     have hh := congrArg (pullbackSymmetry U.toBase f).hom hSpec
@@ -554,11 +553,11 @@ theorem exists_etale_finite_opens_of_isolated_fiber_points
         ((V i j).ι ≫ pullback.fst f W.toBase) (v i j) =
             ((V' k).ι ≫ pullback.fst q U'.toBase ≫ pullback.fst f U.toBase)
               (v' k) := by
-                show ((V i j).ι ≫ pullback.fst f W.toBase)
+                change ((V i j).ι ≫ pullback.fst f W.toBase)
                   ((eV i j).hom (v' k)) = _
                 exact congrArg (fun a => a (v' k)) hproj'
         _ = (pullback.fst f U.toBase) (y k) := by
-          show pullback.fst f U.toBase
+          change pullback.fst f U.toBase
             (pullback.fst q U'.toBase ((V' k).ι (v' k))) = _
           exact congrArg (pullback.fst f U.toBase) (hfst k)
         _ = x ((eFin k).1) := hxfst k
@@ -574,7 +573,7 @@ theorem exists_etale_finite_opens_of_isolated_fiber_points
     have hpg' : (g'.residueFieldMap (v' k)).hom.IsPurelyInseparable := by
       let t := (V' k).ι ≫ pullback.fst q U'.toBase
       have ht : (q.residueFieldMap (t (v' k))).hom.IsPurelyInseparable := by
-        show RingHom.IsPurelyInseparable
+        change RingHom.IsPurelyInseparable
           (q.residueFieldMap (((V' k).ι ≫ pullback.fst q U'.toBase) (v' k))).hom
         rw [hfst k]
         exact hypure k
@@ -632,9 +631,9 @@ theorem exists_etale_finite_opens_of_isolated_fiber_points
         _ = pullback.fst f W.toBase z := congrArg (pullback.fst f W.toBase) hez
         _ = x i := hzx
     have hbase : q (pullback.fst q U'.toBase z') = U.point := by
-      show (pullback.fst q U'.toBase ≫ q) z' = U.point
+      change (pullback.fst q U'.toBase ≫ q) z' = U.point
       rw [pullback.condition]
-      show U'.toBase (pullback.snd q U'.toBase z') = U.point
+      change U'.toBase (pullback.snd q U'.toBase z') = U.point
       rw [hz'snd, U'.map_point]
     let b : β := ⟨pullback.fst q U'.toBase z', hyRange i _ hbase hz'fst⟩
     have hb : loc b = i := hx_injective ((loc_image b).symm.trans hz'fst)

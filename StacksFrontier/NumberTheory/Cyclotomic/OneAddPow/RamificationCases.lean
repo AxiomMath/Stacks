@@ -126,7 +126,7 @@ private theorem adjoin_isDVR_of_closed_fibre_field
     have hcm : Ideal.comap (algebraMap A ↥S) M = IsLocalRing.maximalIdeal A :=
       IsLocalRing.eq_maximalIdeal hcomap
     have hle : J ≤ M := by
-      show Ideal.map (algebraMap A ↥S) (IsLocalRing.maximalIdeal A) ≤ M
+      change Ideal.map (algebraMap A ↥S) (IsLocalRing.maximalIdeal A) ≤ M
       rw [← hcm]
       exact Ideal.map_comap_le
     exact (hJmax.eq_of_le hM.ne_top hle).symm
@@ -137,7 +137,7 @@ private theorem adjoin_isDVR_of_closed_fibre_field
     (IsLocalRing.maximalIdeal A)
   have hJprinc : Submodule.IsPrincipal (IsLocalRing.maximalIdeal ↥S) := by
     rw [hJeq]
-    show Submodule.IsPrincipal
+    change Submodule.IsPrincipal
       (Ideal.map (algebraMap A ↥S) (IsLocalRing.maximalIdeal A))
     rw [hπ, Ideal.map_span]
     exact ⟨⟨algebraMap A ↥S π, by rw [Set.image_singleton]⟩⟩
@@ -163,7 +163,7 @@ private theorem adjoin_isFractionRing
   obtain ⟨Q, hQm, hy⟩ := hint
   have hyK : IsIntegral K y := by
     refine ⟨Q.map (algebraMap A K), hQm.map _, ?_⟩
-    show Polynomial.aeval y (Q.map (algebraMap A K)) = 0
+    change Polynomial.aeval y (Q.map (algebraMap A K)) = 0
     rwa [Polynomial.aeval_map_algebraMap]
   let pb : PowerBasis K L := PowerBasis.ofAdjoinEqTop' hyK hgen
   have hpbgen : pb.gen = y := PowerBasis.ofAdjoinEqTop'_gen hyK hgen
@@ -191,7 +191,7 @@ private theorem adjoin_isFractionRing
   have hd0 : algebraMap A L (d : A) ≠ 0 := by
     rw [← map_zero (algebraMap A L)]
     exact (algebraMap_injective_of_tower A K L).ne (nonZeroDivisors.coe_ne_zero d)
-  show z = (algebraMap A L (d : A) * z) /
+  change z = (algebraMap A L (d : A) * z) /
     (algebraMap A L (d : A))
   rw [mul_comm, mul_div_assoc, div_self hd0, mul_one]
 
@@ -272,7 +272,7 @@ private theorem adjoin_uniformizer_of_closed_fibre_field
     (IsDiscreteValuationRing.irreducible_iff_uniformizer π).mp hπ
   apply (IsDiscreteValuationRing.irreducible_iff_uniformizer _).mpr
   rw [hJeq]
-  show Ideal.map (algebraMap A ↥S) (IsLocalRing.maximalIdeal A) =
+  change Ideal.map (algebraMap A ↥S) (IsLocalRing.maximalIdeal A) =
     Ideal.span {algebraMap A ↥S π}
   rw [hπspan, Ideal.map_span, Set.image_singleton]
 
@@ -348,7 +348,7 @@ private theorem purelyInseparable_binomial_quotient
   let x : AdjoinRoot f := AdjoinRoot.root f
   have hx : x ^ p = algebraMap F (AdjoinRoot f) a := by
     have hroot : Polynomial.aeval x f = 0 := by
-      show Polynomial.aeval (AdjoinRoot.root f) f = 0
+      change Polynomial.aeval (AdjoinRoot.root f) f = 0
       rw [AdjoinRoot.aeval_eq, AdjoinRoot.mk_self]
     exact sub_eq_zero.mp (by simpa [f, x] using hroot)
   have hgen : Algebra.adjoin F {x} = ⊤ := by
@@ -390,7 +390,7 @@ private theorem residue_extension_of_irreducible_reduction
           let := Ideal.Quotient.algebraOfLiesOver mB (IsLocalRing.maximalIdeal A)
           IsPurelyInseparable (A ⧸ IsLocalRing.maximalIdeal A) (↥S ⧸ mB) ∧
             Module.finrank (A ⧸ IsLocalRing.maximalIdeal A) (↥S ⧸ mB) = p
-  show result (integralClosure A L)
+  change result (integralClosure A L)
   rw [hclosure]
   dsimp only [result]
   let S := Algebra.adjoin A {y}

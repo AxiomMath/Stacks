@@ -60,7 +60,7 @@ private lemma inter_cons_eq {X : TopCat.{u}} {I : Type v} {U : Opens X}
   apply le_antisymm
   · simpa [CechCochains.inter] using
       (CechCochains.inter_le_omit V (Fin.cons i σ) (0 : Fin (p + 2)))
-  · show (⨅ k : Fin (p + 1), V (σ k)) ≤
+  · change (⨅ k : Fin (p + 1), V (σ k)) ≤
       ⨅ k : Fin (p + 2), V ((Fin.cons i σ : Fin (p + 2) → I) k)
     refine le_iInf fun k => ?_
     obtain rfl | ⟨k, rfl⟩ := k.eq_zero_or_eq_succ
@@ -134,7 +134,7 @@ private lemma cechInsert_d_succ (X : TopCat.{u})
         CechCochains.cechD V F p (cechInsert X F V hV i hi p s) = s := by
   classical
   funext σ
-  show CechCochains.restr F
+  change CechCochains.restr F
       (le_of_eq (inter_cons_eq V hV i hi (p + 1) σ).symm)
       (∑ j : Fin (p + 3), (-1 : ℤ) ^ (j : ℕ) •
         CechCochains.restr F (CechCochains.inter_le_omit V (Fin.cons i σ) j)
@@ -203,7 +203,7 @@ private lemma cechZeroInsert_restrict (X : TopCat.{u})
     simpa [CechCochains.inter] using hV i
   have hmap : eqToHom e.symm ≫ homOfLE hle = 𝟙 U :=
     Subsingleton.elim _ _
-  show F.map (eqToHom e.symm).op
+  change F.map (eqToHom e.symm).op
       ((cechDegreeZeroRestriction X F V hV x) (fun _ : Fin 1 => i)) = x.down
   have hsection : (cechDegreeZeroRestriction X F V hV x) (fun _ : Fin 1 => i) =
       F.map (homOfLE hle).op x.down := by
@@ -240,7 +240,7 @@ private lemma cechInsert_degree_zero (X : TopCat.{u})
     fin_cases j; simp [τ]
   let e : CechCochains.inter V (fun _ : Fin 1 => i) = U :=
     (inter_singleton_eq V i).trans hi
-  show CechCochains.restr F houter
+  change CechCochains.restr F houter
       (∑ j : Fin 2, (-1 : ℤ) ^ (j : ℕ) •
         CechCochains.restr F (CechCochains.inter_le_omit V τ j)
           (s (τ ∘ j.succAbove))) +
@@ -318,7 +318,7 @@ private lemma orderedZeroInsert_eq_cechZeroInsert (X : TopCat.{u})
   classical
   let j : CechCochains.OrdIndex (I := I) 0 :=
     ⟨fun _ => i, by intro a b hab; fin_cases a; fin_cases b; simp at hab⟩
-  show F.map (eqToHom ((inter_singleton_eq V i).trans hi).symm).op (s j) =
+  change F.map (eqToHom ((inter_singleton_eq V i).trans hi).symm).op (s j) =
     F.map (eqToHom ((inter_singleton_eq V i).trans hi).symm).op
       ((CechCochains.c V F 0 s) (fun _ => i))
   rw [CechCochains.c_on_ord V F s j]
@@ -339,7 +339,7 @@ private lemma pi_cechD_c_pi (X : TopCat.{u})
     CechCochains.pi V F (p + 1) (CechCochains.cechD V F p s) := by
   classical
   funext j
-  show (∑ k : Fin (p + 2), (-1 : ℤ) ^ (k : ℕ) •
+  change (∑ k : Fin (p + 2), (-1 : ℤ) ^ (k : ℕ) •
       CechCochains.restr F (CechCochains.inter_le_omit V j.1 k)
         ((CechCochains.c V F p (CechCochains.pi V F p s)) (j.1 ∘ k.succAbove))) =
     ∑ k : Fin (p + 2), (-1 : ℤ) ^ (k : ℕ) •
@@ -348,7 +348,7 @@ private lemma pi_cechD_c_pi (X : TopCat.{u})
   refine Finset.sum_congr rfl fun k _ => ?_
   rw [CechCochains.c_on_ord V F (CechCochains.pi V F p s)
     ⟨j.1 ∘ k.succAbove, CechCochains.strictMono_omit j.2 k⟩]
-  show (-1 : ℤ) ^ (k : ℕ) • CechCochains.restr F
+  change (-1 : ℤ) ^ (k : ℕ) • CechCochains.restr F
       (CechCochains.inter_le_omit V j.1 k) (s (j.1 ∘ k.succAbove)) =
     (-1 : ℤ) ^ (k : ℕ) • CechCochains.restr F
       (CechCochains.inter_le_omit V j.1 k) (s (j.1 ∘ k.succAbove))
@@ -362,7 +362,7 @@ private lemma orderedInsert_d_succ (X : TopCat.{u})
       CechCochains.ordD V F p (orderedInsert X F V hV i hi p s) = s := by
   classical
   have htop := cechInsert_d_succ X F V hV i hi p (CechCochains.c V F (p + 1) s)
-  show CechCochains.pi V F (p + 1)
+  change CechCochains.pi V F (p + 1)
       (cechInsert X F V hV i hi (p + 1)
         (CechCochains.c V F (p + 2) (CechCochains.ordD V F (p + 1) s))) +
       CechCochains.ordD V F p (orderedInsert X F V hV i hi p s) = s
@@ -381,7 +381,7 @@ private lemma orderedInsert_degree_zero (X : TopCat.{u})
         (orderedZeroInsert X F V i hi s) = s := by
   classical
   have htop := cechInsert_degree_zero X F V hV i hi (CechCochains.c V F 0 s)
-  show CechCochains.pi V F 0
+  change CechCochains.pi V F 0
       (cechInsert X F V hV i hi 0
         (CechCochains.c V F 1 (CechCochains.ordD V F 0 s))) +
       CechCochains.pi V F 0
@@ -404,7 +404,7 @@ private lemma orderedAugmentation_d (X : TopCat.{u})
   apply AddCommGrpCat.hom_ext
   apply AddMonoidHom.ext
   intro x
-  show CechCochains.ordD V F 0
+  change CechCochains.ordD V F 0
       (CechCochains.pi V F 0 (cechDegreeZeroRestriction X F V hV x)) = 0
   rw [ordD_eq_pi_cechD_c]
   rw [CechCochains.c_pi_of_isAlternating V F 0 _
@@ -417,7 +417,7 @@ private lemma orderedZeroInsert_restrict (X : TopCat.{u})
     (V : I → Opens X) (hV : ∀ j, V j ≤ U) (i : I) (hi : V i = U)
     (x : ULift.{v} (F.obj (op U) : Type w)) :
     orderedZeroInsert X F V i hi (orderedCechAugmentation X F V hV x) = x := by
-  show orderedZeroInsert X F V i hi
+  change orderedZeroInsert X F V i hi
       (CechCochains.pi V F 0 (cechDegreeZeroRestriction X F V hV x)) = x
   rw [orderedZeroInsert_eq_cechZeroInsert]
   rw [CechCochains.c_pi_of_isAlternating V F 0 _

@@ -112,9 +112,9 @@ private theorem groupoidConjugate_assoc {S : Scheme.{u}} {T : Over S} (G : Group
         (by rw [groupoidCompose_source]; exact wgh) =
       groupoidConjugate G r g wgh (by rw [groupoidCompose_target]; exact wfg) :=
   G.assoc T (r ≫ G.inverse) g r wfg wgh
-    (by show G.compose (r ≫ G.inverse) g wfg ≫ G.source = _
+    (by change G.compose (r ≫ G.inverse) g wfg ≫ G.source = _
         rwa [groupoidCompose_source])
-    (by show (r ≫ G.inverse) ≫ G.source = G.compose g r wgh ≫ G.target
+    (by change (r ≫ G.inverse) ≫ G.source = G.compose g r wgh ≫ G.target
         rwa [groupoidCompose_target])
 
 /-- In the groupoid of generalized points, the arrow of a conjugate is the conjugate of the
@@ -236,10 +236,10 @@ private theorem stabilizerArrowHom_conjugateStabilizer {S : Scheme.{u}} (G : Gro
     {T : Over G.objects.left} (r : T ⟶ arrowsOverTarget G) (g : T ⟶ stabilizer G) :
     (stabilizerArrowHom G (conjugateStabilizer G r g)).left =
       (conjugateStabilizerArrow G r g).left := by
-  show (conjugateStabilizer G r g).left ≫ stabilizerArrow G =
+  change (conjugateStabilizer G r g).left ≫ stabilizerArrow G =
     (conjugateStabilizerArrow G r g).left
   unfold conjugateStabilizer
-  show (pullback.lift (conjugateStabilizerArrow G r g) _ _).left ≫
+  change (pullback.lift (conjugateStabilizerArrow G r g) _ _).left ≫
       (pullback.fst (sourceTarget G) (diagonal G)).left =
     (conjugateStabilizerArrow G r g).left
   exact congrArg Over.Hom.left (pullback.lift_fst _ _ _)
@@ -257,7 +257,7 @@ private theorem conjugateStabilizer_pre {S : Scheme.{u}} (G : GroupoidScheme S)
   dsimp only
   apply stabilizerArrowHom_injective G
   apply Over.OverMorphism.ext
-  show (k.left ≫ (conjugateStabilizer G r g).left) ≫ stabilizerArrow G =
+  change (k.left ≫ (conjugateStabilizer G r g).left) ≫ stabilizerArrow G =
     (conjugateStabilizer G (k ≫ r) (k ≫ g)).left ≫ stabilizerArrow G
   calc
     _ = k.left ≫ (conjugateStabilizerArrow G r g).left := by
@@ -322,14 +322,14 @@ private theorem conjugateStabilizer_roundtrip {S : Scheme.{u}} (G : GroupoidSche
     calc
       hH.arrow = k ≫ conjugateStabilizerArrow G r g := by
         apply Over.OverMorphism.ext
-        show (stabilizerArrowHom G g1).left = (k ≫ conjugateStabilizerArrow G r g).left
+        change (stabilizerArrowHom G g1).left = (k ≫ conjugateStabilizerArrow G r g).left
         rw [stabilizerArrowHom_conjugateStabilizer]
         rfl
       _ = _ := groupoidConjugate_pre G k _ _ _ _
   have hc : g2H.arrow = (riH ≫ hH ≫ Groupoid.inv riH).arrow := by
     rw [evaluationHom_conj_arrow]
     apply Over.OverMorphism.ext
-    show (conjugateStabilizer G rInv g1).left ≫ stabilizerArrow G =
+    change (conjugateStabilizer G rInv g1).left ≫ stabilizerArrow G =
       (conjugateStabilizerArrow G rInv g1).left
     exact stabilizerArrowHom_conjugateStabilizer G rInv g1
   have hst : stabilizerArrowHom G g2T = stabilizerArrowHom G g := by
@@ -437,13 +437,13 @@ private theorem stabilizerPullbackConjugation_comp_unconjugation_fst {S : Scheme
   let k : Over.mk ((targetPullbackArrow G).left ≫ G.source.left) ⟶
       Over.mk (pullback.snd (stabilizer G).hom G.source.left ≫ G.source.left) :=
     Over.homMk (stabilizerPullbackConjugation G) (by
-      show stabilizerPullbackConjugation G ≫
+      change stabilizerPullbackConjugation G ≫
           pullback.snd (stabilizer G).hom G.source.left ≫ G.source.left =
         pullback.snd (stabilizer G).hom G.target.left ≫ G.source.left
       rw [← Category.assoc, hkSnd])
   have hr : k ≫ sourcePullbackArrow G = inverseOverTarget G (targetPullbackArrow G) := by
     apply Over.OverMorphism.ext
-    show stabilizerPullbackConjugation G ≫
+    change stabilizerPullbackConjugation G ≫
         pullback.snd (stabilizer G).hom G.source.left ≫ G.inverse.left =
       pullback.snd (stabilizer G).hom G.target.left ≫ G.inverse.left
     rw [← Category.assoc, hkSnd]
@@ -463,13 +463,13 @@ private theorem stabilizerPullbackUnconjugation_comp_conjugation_fst {S : Scheme
   let k : Over.mk ((sourcePullbackArrow G).left ≫ G.source.left) ⟶
       Over.mk (pullback.snd (stabilizer G).hom G.target.left ≫ G.target.left) :=
     Over.homMk (stabilizerPullbackUnconjugation G) (by
-      show stabilizerPullbackUnconjugation G ≫
+      change stabilizerPullbackUnconjugation G ≫
           pullback.snd (stabilizer G).hom G.target.left ≫ G.target.left =
         (pullback.snd (stabilizer G).hom G.source.left ≫ G.inverse.left) ≫ G.source.left
       rw [← Category.assoc, hkSnd, Category.assoc, inverse_left_comp_source_left])
   have hr : k ≫ targetPullbackArrow G = inverseOverTarget G (sourcePullbackArrow G) := by
     apply Over.OverMorphism.ext
-    show stabilizerPullbackUnconjugation G ≫ pullback.snd (stabilizer G).hom G.target.left =
+    change stabilizerPullbackUnconjugation G ≫ pullback.snd (stabilizer G).hom G.target.left =
       (pullback.snd (stabilizer G).hom G.source.left ≫ G.inverse.left) ≫ G.inverse.left
     rw [hkSnd, comp_inverse_left_comp_inverse_left]
   have hg : k ≫ targetPullbackPoint G =

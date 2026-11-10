@@ -184,7 +184,7 @@ theorem isTopologicallyNilpotent_of_mem_ker
   obtain ⟨p, hp⟩ := hpow m
   filter_upwards [Filter.eventually_ge_atTop p] with k hk
   refine hsub ?_
-  show a ^ k ∈ (RingHom.ker (proj t m) : Set (SequentialLimit t))
+  change a ^ k ∈ (RingHom.ker (proj t m) : Set (SequentialLimit t))
   rw [← Nat.sub_add_cancel hk, pow_add]
   exact (RingHom.ker (proj t m)).mul_mem_left _ hp
 

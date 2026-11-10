@@ -108,7 +108,7 @@ theorem exists_pow_smul_eq_zero_of_isCompact (F : X.Modules) [F.IsQuasicoherent]
   refine ⟨k, TopCat.Sheaf.eq_of_locally_eq' (⟨F.presheaf, F.isSheaf⟩ : TopCat.Sheaf Ab X) V W
     (fun i => homOfLE (hVW i)) hcover _ _ fun i => ?_⟩
   have hz : F.presheaf.map (homOfLE (hVW i)).op (0 : Γ(F, W)) = 0 := by simp
-  show F.presheaf.map (homOfLE (hVW i)).op (f ^ k • c)
+  change F.presheaf.map (homOfLE (hVW i)).op (f ^ k • c)
     = F.presheaf.map (homOfLE (hVW i)).op 0
   rw [hz, Scheme.Modules.map_smul, map_pow,
     show k = k - e i + e i from (Nat.sub_add_cancel (hk i)).symm, pow_add, mul_smul, he i,

@@ -76,7 +76,7 @@ theorem isIso_ofEpi_free_generatingSections_π
   rw [_root_.SheafOfModules.GeneratingSections.ofEpi_π,
     _root_.SheafOfModules.free.generatingSections_π]
   dsimp [_root_.SheafOfModules.free.generatingSections]
-  show IsIso (𝟙 (_root_.SheafOfModules.free I) ≫ e.inv)
+  change IsIso (𝟙 (_root_.SheafOfModules.free I) ≫ e.inv)
   simpa only [Category.id_comp] using e.isIso_inv
 
 /-- **A module with a finite free neighbourhood at every point is finite locally free.** The

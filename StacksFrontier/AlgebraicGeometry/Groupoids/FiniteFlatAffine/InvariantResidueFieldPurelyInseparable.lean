@@ -59,13 +59,13 @@ theorem isPurelyInseparable_residueField_objectsToInvariantSpectrum {S : Scheme.
   have hprime : (G.objects.left.toSpecΓ.base u).asIdeal.IsPrime :=
     (G.objects.left.toSpecΓ.base u).isPrime
   have hmax : (G.objects.left.toSpecΓ.base u).asIdeal.IsMaximal := by
-    refine Ideal.isMaximal_of_isIntegral_of_isMaximal_comap'
+    refine Ideal.isMaximal_of_isIntegral_of_isMaximal_comap
       (CommRingCat.ofHom (invariantRing G).subtype).hom (isIntegral_invariantRing G) _ ?_
-    show ((objectsToInvariantSpectrum G).base u).asIdeal.IsMaximal
+    change ((objectsToInvariantSpectrum G).base u).asIdeal.IsMaximal
     exact hp ▸ IsLocalRing.maximalIdeal.isMaximal _
   refine isPurelyInseparable_residueField_of_isIntegral (objectsToInvariantSpectrum G) u
     ?_ hcompat
-  show RingHom.IsIntegral (Spec.preimage (G.objects.left.fromSpecResidueField u ≫
+  change RingHom.IsIntegral (Spec.preimage (G.objects.left.fromSpecResidueField u ≫
     G.objects.left.toSpecΓ ≫ Spec.map (CommRingCat.ofHom (invariantRing G).subtype))).hom
   exact isIntegral_preimage_fromSpecResidueField_comp_toSpecΓ_comp
     (CommRingCat.ofHom (invariantRing G).subtype) u (isIntegral_invariantRing G) hmax

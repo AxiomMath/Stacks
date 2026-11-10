@@ -169,7 +169,7 @@ theorem transferAlong_comp {Z Z' : BigAffineThickening S} {k : Z ⟶ B}
     (transferAlong N ρ hρ).comp (restrictAlong N k) = restrictAlong N k' := by
   subst hρ
   ext x
-  show N.map ρ.op (N.map k.op x) = N.map (ρ ≫ k).op x
+  change N.map ρ.op (N.map k.op x) = N.map (ρ ≫ k).op x
   rw [op_comp, N.map_comp_apply]
 
 /-- **The sections of `𝒪` over the restriction of an object to a basic open `D(r)` are the

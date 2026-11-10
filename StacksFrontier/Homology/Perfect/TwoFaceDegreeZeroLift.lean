@@ -328,10 +328,10 @@ theorem exists_cocycle_lift_of_two_faces
       tX • ((biprod.inr : DY ⟶ DX ⊞ DY).f 0).hom yY, ?_, tX * tY,
       fun h => (Ideal.IsPrime.mem_or_mem inferInstance h).elim htX htY, ?_⟩
     · rw [map_add, map_smul, map_smul]
-      show tY • ((biprod.inl : DX ⟶ DX ⊞ DY).f 0 ≫ (DX ⊞ DY).d 0 1).hom yX +
+      change tY • ((biprod.inl : DX ⟶ DX ⊞ DY).f 0 ≫ (DX ⊞ DY).d 0 1).hom yX +
         tX • ((biprod.inr : DY ⟶ DX ⊞ DY).f 0 ≫ (DX ⊞ DY).d 0 1).hom yY = 0
       rw [HomologicalComplex.Hom.comm, HomologicalComplex.Hom.comm]
-      show tY • ((biprod.inl : DX ⟶ DX ⊞ DY).f 1).hom ((DX.d 0 1).hom yX) +
+      change tY • ((biprod.inl : DX ⟶ DX ⊞ DY).f 1).hom ((DX.d 0 1).hom yX) +
         tX • ((biprod.inr : DY ⟶ DX ⊞ DY).f 1).hom ((DY.d 0 1).hom yY) = 0
       rw [hyXd, hyYd, map_zero, map_zero, smul_zero, smul_zero, add_zero]
     · rw [map_add, map_smul, map_smul, ← bcMap_bcUnit, ← bcMap_bcUnit, hyXu, hyYu, map_smul,

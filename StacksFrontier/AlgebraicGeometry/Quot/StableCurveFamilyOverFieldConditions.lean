@@ -80,7 +80,7 @@ private theorem isIso_globalSections_of_hasUniversallyBijectiveGlobalFunctions {
     (schemeSpaceFunctor B integerBase hZ).map_id _
   have hsq : IsPullback (𝟙 _) (schemeSpaceMap (integerSiteMap B hZ hX hk X.hom))
       (curveFamilyOfScheme X B hZ hk hdim).toBase (schemeSpaceMap p₀.value) := by
-    show IsPullback (𝟙 _) (schemeSpaceMap (integerSiteMap B hZ hX hk X.hom))
+    change IsPullback (𝟙 _) (schemeSpaceMap (integerSiteMap B hZ hX hk X.hom))
       (schemeSpaceMap (integerSiteMap B hZ hX hk X.hom))
       (schemeSpaceMap (𝟙 (integerSiteObject B hZ hk)))
     rw [h1]

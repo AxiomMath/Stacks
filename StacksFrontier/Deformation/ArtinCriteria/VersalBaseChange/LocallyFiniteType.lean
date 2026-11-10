@@ -189,7 +189,7 @@ private lemma projection_point_eq_of_dominates
   obtain ⟨g, hg⟩ := h
   have hclosed : B.inclusion.map g.left (IsLocalRing.closedPoint p.carrier) =
       IsLocalRing.closedPoint q.carrier := by
-    show (_ : Spec (.of q.carrier)) = _
+    change (_ : Spec (.of q.carrier)) = _
     exact Subsingleton.elim _ _
   have happ := projection_point_naturality B S hS U V F η
     (X := ⟨p.siteObject, Discrete.mk p.value⟩) (Y := ⟨q.siteObject, Discrete.mk q.value⟩)
@@ -228,7 +228,7 @@ private lemma projection_point_eq_chartPoint
         (B.inclusion.map p.value.left (IsLocalRing.closedPoint p.carrier)) := by
   intro q
   have heq : F.map p.value.op (a.app (Opposite.op W) (𝟙 W)) = q.value := by
-    show F.map p.value.op (a.app (Opposite.op W) (𝟙 W)) =
+    change F.map p.value.op (a.app (Opposite.op W) (𝟙 W)) =
       a.app (Opposite.op p.siteObject) p.value
     have h := congrArg (fun k => k (𝟙 W)) (a.naturality p.value.op)
     simpa [AlgebraicGeometry.Space.FieldValuedPoint.siteObject] using h.symm

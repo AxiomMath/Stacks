@@ -46,6 +46,7 @@ namespace AlgebraicGeometry.Space.Descent
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits in this presheaf category exceeds the default synthesis budget
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_EtaleDescentDataSitesEffective :
@@ -57,6 +58,7 @@ local instance (priority := high) hasPullback_presheaf_EtaleDescentDataSitesEffe
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits in this presheaf category exceeds the default synthesis budget
 /-- Discrete limits of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasLimitsOfShape_discrete_presheaf_EtaleDescentDataSitesEffective (J : Type) :
@@ -517,8 +519,8 @@ theorem nonempty_iso_canonicalDescentFunctor_obj
     rw [hm₀e, ← Category.assoc]
     congr 1
     apply sqP.hom_ext
-    · simpa using pullback.lift_fst _ _ _
-    · simpa using pullback.lift_snd _ _ _
+    · simp
+    · simp
   let m := α ≪≫ Over.isoMk m₀ hm₀
   let ψ := DescentData.homOfMove (fun _ ↦ m.hom) (fun {i j Z} v y ↦ by
     cases i

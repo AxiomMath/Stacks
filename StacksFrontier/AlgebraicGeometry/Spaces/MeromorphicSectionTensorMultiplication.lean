@@ -270,11 +270,7 @@ theorem meromorphicSectionTensorMul_map_tmul (W : SmallEtale B S hS X) (k : W �
           (a ⊗ₜ[tensorChartRing B S hS X hX V] l :
             (meromorphicSectionModule B S hS X hX L).obj (op V)))
         (((meromorphicSectionModule B S hS X hX N).map k.op).hom y) := by
-  induction y using TensorProduct.induction_on with
-  | zero =>
-    erw [meromorphicSectionTensorMul_zero_right, map_zero, map_zero,
-      meromorphicSectionTensorMul_zero_right]
-    rfl
+  induction y using TensorProduct.inductionOn with
   | tmul b n =>
     exact ((congrArg
         (fun z => ((meromorphicSectionModule B S hS X hX
@@ -337,11 +333,7 @@ theorem meromorphicSectionTensorMul_map (W : SmallEtale B S hS X) (k : W ⟶ V)
       meromorphicSectionTensorMul B S hS hX L N W
         (((meromorphicSectionModule B S hS X hX L).map k.op).hom x)
         (((meromorphicSectionModule B S hS X hX N).map k.op).hom y) := by
-  induction x using TensorProduct.induction_on with
-  | zero =>
-    erw [meromorphicSectionTensorMul_zero_left, map_zero, map_zero,
-      meromorphicSectionTensorMul_zero_left]
-    rfl
+  induction x using TensorProduct.inductionOn with
   | tmul a l => exact meromorphicSectionTensorMul_map_tmul B S hS hX L N V W k a l y
   | add x x' hx hx' =>
     erw [meromorphicSectionTensorMul_add_left, map_add]
@@ -414,7 +406,7 @@ theorem isLocallyInjective_toSheafify_tensorPresheaf :
       ((PresheafOfModules.toPresheaf _).map
         (toSheafify (structureSheaf B S hS X hX).obj
           (structureRingPresheaf_isSheaf B S hS X hX) (L.val ⊗ N.val))) := by
-  show Presheaf.IsLocallyInjective (SmallEtale.topology B S hS X)
+  change Presheaf.IsLocallyInjective (SmallEtale.topology B S hS X)
     (CategoryTheory.toSheafify (SmallEtale.topology B S hS X) (L.val ⊗ N.val).presheaf)
   exact ((SmallEtale.topology B S hS X).W_toSheafify _).isLocallyInjective
 
@@ -428,7 +420,7 @@ theorem isLocallySurjective_toSheafify_tensorPresheaf :
       ((PresheafOfModules.toPresheaf _).map
         (toSheafify (structureSheaf B S hS X hX).obj
           (structureRingPresheaf_isSheaf B S hS X hX) (L.val ⊗ N.val))) := by
-  show Presheaf.IsLocallySurjective (SmallEtale.topology B S hS X)
+  change Presheaf.IsLocallySurjective (SmallEtale.topology B S hS X)
     (CategoryTheory.toSheafify (SmallEtale.topology B S hS X) (L.val ⊗ N.val).presheaf)
   exact ((SmallEtale.topology B S hS X).W_toSheafify _).isLocallySurjective
 

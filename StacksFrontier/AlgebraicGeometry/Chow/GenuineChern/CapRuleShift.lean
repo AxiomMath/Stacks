@@ -129,7 +129,7 @@ theorem isChernCapFamily_lowering
       (fun j ↦ φ (k - (j : ℤ)) (k' - (j : ℤ)) (by omega) (c j)) := by
   refine ⟨?_, ?_⟩
   · rw [ChowLowering.chowGroupCast_apply, ← hc.1, ChowLowering.apply_chowGroupCast]
-  · show ∑ i : Fin (r + 1), (-1 : ℤ) ^ i.val •
+  · change ∑ i : Fin (r + 1), (-1 : ℤ) ^ i.val •
         projectiveBundleChernTerm C sX sP π hsP r hπ hfac twist k' i.val
           (Nat.lt_succ_iff.mp i.isLt)
           (φ (k - ((r - i.val : ℕ) : ℤ)) (k' - ((r - i.val : ℕ) : ℤ)) (by omega)

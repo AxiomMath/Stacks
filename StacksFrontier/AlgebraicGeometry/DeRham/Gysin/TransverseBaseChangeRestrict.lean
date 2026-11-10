@@ -653,9 +653,11 @@ theorem derivedToOrdinaryPullbackSingle_restrictSquare
           (modulePullback (X'.toRingedSpace.ofRestrict (g ⁻¹ᵁ W).isOpenEmbedding)).map φ) := by
   have n₁ := Stacks.AlgebraicGeometry.TopDegreeBaseChange.derivedToOrdinaryPullbackSingle_naturality
     (X'.toRingedSpace.ofRestrict (g ⁻¹ᵁ W).isOpenEmbedding) φ 0
-  have p₁ := Stacks.AlgebraicGeometry.TopDegreeBaseChange.derivedPullbackCompIsoCanonical_hom_app_comp_derivedToOrdinaryPullbackSingle
+  open Stacks.AlgebraicGeometry.TopDegreeBaseChange in
+  have p₁ := derivedPullbackCompIsoCanonical_hom_app_comp_derivedToOrdinaryPullbackSingle
     (X'.toRingedSpace.ofRestrict (g ⁻¹ᵁ W).isOpenEmbedding) g.toLRSHom.toShHom M
-  have p₂ := Stacks.AlgebraicGeometry.TopDegreeBaseChange.derivedPullbackCompIsoCanonical_hom_app_comp_derivedToOrdinaryPullbackSingle
+  open Stacks.AlgebraicGeometry.TopDegreeBaseChange in
+  have p₂ := derivedPullbackCompIsoCanonical_hom_app_comp_derivedToOrdinaryPullbackSingle
     (restrictHom g W) (X.toRingedSpace.ofRestrict W.isOpenEmbedding) M
   have t := derivedToOrdinaryPullbackSingle_congr (ofRestrict_comp_toShHom g W).symm M
   have p₁' := transverse_inv_square' _ _ _ _ _ _ (p₁.trans (assoc _ _ _).symm)

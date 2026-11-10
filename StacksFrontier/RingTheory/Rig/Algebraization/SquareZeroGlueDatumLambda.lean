@@ -120,8 +120,7 @@ theorem exists_Lam_eq (x : D.TT)
 theorem Lam_smul (a : S) (z : PS N S) (t : D.TT)
     (ht : D.prS t = a) :
     D.Lam hN hNS hflat (a • z) = t * D.Lam hN hNS hflat z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul b n =>
     rw [TensorProduct.smul_tmul', smul_eq_mul]
     exact theta_mul N hN _ a b n t (ht ▸ D.mk_eq_qeT_symm hN hNS hflat t)
@@ -156,7 +155,7 @@ theorem finiteType_glued [Algebra.FiniteType R S] :
     Subalgebra.mem_map.mp (hmap ▸ Algebra.mem_top : D.prS x ∈ A.map D.prS)
   have hsub {x y : D.TT} (h : D.prS y = D.prS x) : x - y ∈ N.map (algebraMap R D.TT) := by
     rw [← D.ker_prS hN hNS hflat]
-    show D.prS (x - y) = 0
+    change D.prS (x - y) = 0
     rw [map_sub, h, sub_self]
   have hNA : ∀ x ∈ N.map (algebraMap R D.TT), x ∈ A := by
     intro x hx

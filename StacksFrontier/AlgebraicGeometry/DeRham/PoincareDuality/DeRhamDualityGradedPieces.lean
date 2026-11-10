@@ -132,7 +132,7 @@ theorem bilinearPairing_formsWedge (a b n : ℤ) (h : a + b = n) :
   refine NatTrans.ext (funext fun Z => ModuleCat.hom_ext (TensorProduct.ext' fun x y => ?_))
   have hu := SheafOfModules.GradedAlgebra.mulSheaf_unit (relativeDifferentialFormsAlgebra f) a b
     (op Z.unop.left) x y
-  show (eqToHom (congrArg (relativeDifferentialForms f) h)).val.app (op Z.unop.left)
+  change (eqToHom (congrArg (relativeDifferentialForms f) h)).val.app (op Z.unop.left)
       (((relativeDifferentialFormsAlgebra f).mul a b).app (op Z.unop.left) x y) =
     (eqToHom (congrArg (relativeDifferentialForms f) h)).val.app (op Z.unop.left)
       (((relativeDifferentialFormsAlgebra f).mulSheaf a b).val.app (op Z.unop.left)
@@ -260,7 +260,7 @@ theorem gradedPerfect_deRham (d : ℕ) [NoetherianSpace X]
         _ _ _ hij x y)
   have hT := (ht _).trans ((congrArg t' hπ).trans ((htop _).trans
     ((congrArg tH (formsTransfer_cup f a b d q q' hab hqq hm x y)).trans (map_zsmul tH _ _))))
-  show tH (hodgeCup f a b d hab q q' d hm (formsTransfer f a q x) (formsTransfer f b q' y)) =
+  change tH (hodgeCup f a b d hab q q' d hm (formsTransfer f a q x) (formsTransfer f b q' y)) =
     (negOnePowK (k := k) ((a : ℤ) * q') : k) * t (cup (inverseImageRingSheaf f)
       (cechComputes_singlePlus_X (deRhamPlus f) (cechComputesSheaf_deRhamComplexInt_X f) a)
       (cechComputes_singlePlus_X (deRhamPlus f) (cechComputesSheaf_deRhamComplexInt_X f) b)
@@ -270,7 +270,7 @@ theorem gradedPerfect_deRham (d : ℕ) [NoetherianSpace X]
   rw [hT, zsmul_eq_mul, ← mul_assoc]
   have hu :
       (negOnePowK (k := k) ((a : ℤ) * q') : k) * ((((a : ℤ) * q').negOnePow : ℤ) : k) = 1 := by
-    show ((((a : ℤ) * q').negOnePow : ℤ) : k) * ((((a : ℤ) * q').negOnePow : ℤ) : k) = 1
+    change ((((a : ℤ) * q').negOnePow : ℤ) : k) * ((((a : ℤ) * q').negOnePow : ℤ) : k) = 1
     rw [← Int.cast_mul, ← Units.val_mul, Int.units_mul_self, Units.val_one, Int.cast_one]
   rw [hu, one_mul]
 

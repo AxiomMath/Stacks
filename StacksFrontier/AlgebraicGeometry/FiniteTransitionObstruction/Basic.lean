@@ -8,8 +8,8 @@ public import Mathlib.RingTheory.Algebraic.Cardinality
 /-!
 # Finite transition morphisms are incompatible with the universe collapse
 
-The system of affine schemes in `StacksFrontier.AlgebraicGeometry.EmptyLimitCounterexample.Basic` is a
-cofiltered inverse system, indexed one universe above the schemes, which satisfies every
+The system of affine schemes in `StacksFrontier.AlgebraicGeometry.EmptyLimitCounterexample.Basic` is
+a cofiltered inverse system, indexed one universe above the schemes, which satisfies every
 hypothesis of Situation 081D and has an **empty** limit while no stage is empty.  It refutes the
 universe-free form of Tag 06AC.
 
@@ -48,8 +48,8 @@ algebraic over a `u`-small field and therefore `u`-small, and the resulting
 
 ## What this does and does not settle
 
-It settles that the library's 06AC refutation cannot be reused for 09ZN: its transition morphisms are
-not finite, and they cannot be made finite by changing the field, since for *any* field indexed
+It settles that the library's 06AC refutation cannot be reused for 09ZN: its transition morphisms
+are not finite, and they cannot be made finite by changing the field, since for *any* field indexed
 this way integral transitions force `u`-smallness.  It settles **nothing** about the truth of 09ZN
 at a free index universe, which remains open — neither a proof nor a counterexample is given here.
 The general fact quoted above, if formalized, would say that no system with integral transition

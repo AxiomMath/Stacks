@@ -423,7 +423,7 @@ lemma d_one_zero_comp_freeAugmentation (W : C) :
         AddCommGrpCat.free.map
           ((yonedaPointCocone W).ι.app (op (U.obj (SimplexCategory.mk 1)))) := by
     intro i
-    show AddCommGrpCat.free.map ((yoneda.obj W).map (U.map (SimplexCategory.δ i)).op) ≫ _ = _
+    change AddCommGrpCat.free.map ((yoneda.obj W).map (U.map (SimplexCategory.δ i)).op) ≫ _ = _
     rw [← AddCommGrpCat.free.map_comp]
     exact congrArg AddCommGrpCat.free.map
       ((yonedaPointCocone W).w (U.map (SimplexCategory.δ i)).op)
@@ -520,7 +520,7 @@ of the section along that morphism. -/
 lemma freeRepresentableHom_app_apply_of {G : Cᵒᵖ ⥤ AddCommGrpCat.{u}} (W : C)
     (s : G.obj (op W)) (Y : Cᵒᵖ) (g : Y.unop ⟶ W) :
     (freeRepresentableHom W s).app Y (FreeAbelianGroup.of g) = (G.map g.op) s := by
-  show (FreeAbelianGroup.lift fun k : Y.unop ⟶ W ↦ (G.map k.op) s)
+  change (FreeAbelianGroup.lift fun k : Y.unop ⟶ W ↦ (G.map k.op) s)
       (FreeAbelianGroup.of g) = _
   rw [FreeAbelianGroup.lift_apply_of]
 

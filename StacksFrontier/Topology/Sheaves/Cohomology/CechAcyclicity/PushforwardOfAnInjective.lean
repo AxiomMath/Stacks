@@ -84,7 +84,7 @@ theorem modulePushforward_underlying_isFlasque
   obtain ⟨t, ht⟩ := InjectiveRestriction.injective_restriction_surjective
     (structureSheafRing X) I hX s
   refine ⟨t, ?_⟩
-  show (I.val.presheaf.map
+  change (I.val.presheaf.map
     (((RingedSpaceModuleAdjunction.opensMap f).map (homOfLE hY)).op)) t = s
   simpa [RingedSpaceModuleAdjunction.modulePushforward,
     RingedSpaceModuleAdjunction.structureSheafHom] using ht

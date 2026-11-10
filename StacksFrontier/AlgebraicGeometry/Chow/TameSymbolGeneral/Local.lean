@@ -100,7 +100,7 @@ theorem tameShift_apply (x : MilnorKRing F) :
     𝓕.tameShift N x =
       letI := Fintype.ofFinite 𝓕.Index
       ∑ m, 𝓕.tameShiftAt N m x := by
-  rw [tameShift, AddMonoidHom.finset_sum_apply]
+  rw [tameShift, AddMonoidHom.finsetSum_apply]
 
 /-- A unit of `A`, read in `F`, has valuation zero at every member of the family. -/
 theorem dvrFracOrd_eq_zero_of_unit (m : 𝓕.Index) {ϖ : 𝓕.Dvr m} (hϖ : Irreducible ϖ) {f : Fˣ}
@@ -108,7 +108,7 @@ theorem dvrFracOrd_eq_zero_of_unit (m : 𝓕.Index) {ϖ : 𝓕.Dvr m} (hϖ : Irr
   obtain ⟨u, hu⟩ := hf
   refine dvrFracOrd_eq_zero_of_eq_algebraMap_unit (u := Units.map (algebraMap A (𝓕.Dvr m)) u)
     hϖ ?_
-  rw [← hu, Units.coe_map, MonoidHom.coe_coe, ← IsScalarTower.algebraMap_apply]
+  rw [← hu, Units.coe_map, MonoidHom.coe_ofClass, ← IsScalarTower.algebraMap_apply]
 
 /-- **The contribution of a member kills a symbol of units of `A`.** -/
 theorem tameShiftAt_milnorKSymbolProd_eq_zero (m : 𝓕.Index) {l : List Fˣ}
@@ -160,6 +160,7 @@ namespace Stacks.Chow
 variable (A : Type u) [CommRing A] [IsDomain A] [IsLocalRing A] [IsNoetherianRing A]
   (F : Type u) [Field F] [Algebra A F] [IsFractionRing A F]
 
+omit [IsNoetherianRing A] in
 /-- A domain of Krull dimension one has dimension at most one in the sense of
 `Ring.DimensionLEOne`: its nonzero primes are maximal. -/
 theorem dimensionLEOne_of_ringKrullDim_eq_one (hdim : ringKrullDim A = 1) :
@@ -167,6 +168,7 @@ theorem dimensionLEOne_of_ringKrullDim_eq_one (hdim : ringKrullDim A = 1) :
   have : Ring.KrullDimLE 1 A := Ring.krullDimLE_iff.2 (by rw [hdim]; exact_mod_cast le_rfl)
   ⟨fun hp hpp ↦ Ring.krullDimLE_one_iff_of_isPrime_bot.mp ‹_› _ hp hpp⟩
 
+omit [IsDomain A] [IsNoetherianRing A] in
 /-- The maximal ideal of a local ring of Krull dimension one is nonzero. -/
 theorem maximalIdeal_ne_bot_of_ringKrullDim_eq_one (hdim : ringKrullDim A = 1) :
     maximalIdeal A ≠ ⊥ := by

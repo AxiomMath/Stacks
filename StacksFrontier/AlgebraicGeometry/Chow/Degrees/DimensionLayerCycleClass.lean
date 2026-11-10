@@ -56,7 +56,8 @@ Tag 02S9 asserts that the homomorphism built here and the map `Z_k(X) → K₀(C
 Coh_{≤k-1}(X))`, `∑ n_Z[Z] ↦ [⨁_{n_Z > 0} 𝒪_Z^{⊕n_Z}] - [⨁_{n_Z < 0} 𝒪_Z^{⊕-n_Z}]`, are mutually
 inverse isomorphisms. That second map exists in this development in two constructions, built
 independently and over different hypotheses. One is
-`StacksFrontier.AlgebraicGeometry.Chow.Degrees.DimensionLayerClassOfCycle`, for a `k`-cycle of finite
+`StacksFrontier.AlgebraicGeometry.Chow.Degrees.DimensionLayerClassOfCycle`, for a `k`-cycle of
+finite
 support and hence for `X` quasi-compact, which also proves that it is a section of the
 homomorphism built here. The other is `Stacks.Chow.cycleDimensionLayerHom`, in
 `StacksFrontier.AlgebraicGeometry.Chow.Degrees.DimensionLayerCycleFromCycles`, together with the
@@ -151,7 +152,7 @@ private theorem cycleAssociatedToCoherentSheaf_eq_zero_of_le_pred (M : X.Modules
   apply Subtype.ext
   apply Function.locallyFinsuppWithin.ext
   intro x
-  show (cycleAssociatedToCoherentSheaf C f M k hk).1 x = 0
+  change (cycleAssociatedToCoherentSheaf C f M k hk).1 x = 0
   by_cases hx : relativeDimension C.dimensionFunction f x = k
   · rw [cycleAssociatedToCoherentSheaf_apply_of_relativeDimension_eq C f M k hk hx]
     refine sheafMultiplicity_eq_zero_of_notMem_supp M fun hmem => ?_

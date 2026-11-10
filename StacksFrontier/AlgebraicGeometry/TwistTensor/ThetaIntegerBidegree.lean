@@ -181,6 +181,7 @@ attribute [local instance] Stacks.SheafOfModules.monoidalCategory
 
 variable (L : SheafOfModules.{u} (structureSheaf 𝒪 h𝒪)) [IsInvertible 𝒪 h𝒪 L]
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The associativity constraint in an arbitrary integer tridegree at the localized structure,
 read at the retyping `Stacks.AlgebraicGeometry.ThetaMul.addIsoLoc`. -/
 theorem loc_addIso_assoc_int (n m c : ℤ) :
@@ -210,7 +211,7 @@ theorem addIsoSheaf_assoc_int (n m c : ℤ) :
     str_associator 𝒪 h𝒪, strStruct_tensorObj 𝒪 h𝒪,
     MonoidalCategory.comp_whiskerRight, MonoidalCategory.whiskerLeft_comp,
     MonoidalCategory.tensorHom_id, MonoidalCategory.id_tensorHom, Category.assoc,
-    Iso.inv_hom_id_assoc, Iso.hom_inv_id_assoc, MonoidalCategory.whiskerLeft_hom_inv_assoc]
+    Iso.hom_inv_id_assoc, MonoidalCategory.whiskerLeft_hom_inv_assoc]
   rw [loc_addIso_assoc_int 𝒪 h𝒪 L n m c]
 
 /-- **The left unit law of the addition law with the tensor product sheaf of Stacks Tag 01CA as

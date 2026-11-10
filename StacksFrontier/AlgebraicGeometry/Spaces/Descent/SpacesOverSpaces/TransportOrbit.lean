@@ -122,7 +122,7 @@ public theorem orbitProjection_injective (t : FamilyTransport A B p) {Z : C} {i 
   refine _root_.Quotient.inductionOn₂ a b ?_
   intro x x' h
   apply _root_.Quotient.sound
-  show t.move x.2 (x'.2 ≫ p x'.1) = x'.2
+  change t.move x.2 (x'.2 ≫ p x'.1) = x'.2
   have hh := congrArg (fun v ↦ t.move v (x'.2 ≫ p x'.1)) h
   change t.move (t.move x.2 y) (x'.2 ≫ p x'.1) =
     t.move (t.move x'.2 y) (x'.2 ≫ p x'.1) at hh
@@ -224,7 +224,7 @@ public lemma overArrowsEquiv_map (A : Over T) {Z W : CostructuredArrow yoneda T}
       (CostructuredArrow.toOver yoneda T).map k ≫ overArrowsEquiv A W x := by
   apply Over.OverMorphism.ext
   apply yonedaEquiv.injective
-  show yonedaEquiv (yonedaEquiv.symm (A.left.map k.left.op x.val)) =
+  change yonedaEquiv (yonedaEquiv.symm (A.left.map k.left.op x.val)) =
     yonedaEquiv (yoneda.map k.left ≫ yonedaEquiv.symm x.val)
   simpa only [Equiv.apply_symm_apply] using
     yonedaEquiv_naturality (yonedaEquiv.symm x.val) k.left
@@ -237,7 +237,7 @@ public lemma overArrowsEquiv_postcomp {A A' : Over T} (q : A ⟶ A')
       overArrowsEquiv A Z x ≫ q := by
   apply Over.OverMorphism.ext
   apply yonedaEquiv.injective
-  show yonedaEquiv (yonedaEquiv.symm (q.left.app _ x.val)) =
+  change yonedaEquiv (yonedaEquiv.symm (q.left.app _ x.val)) =
     yonedaEquiv (yonedaEquiv.symm x.val ≫ q.left)
   simp [yonedaEquiv_comp]
 
@@ -282,7 +282,7 @@ public lemma restrictedOrbitEquiv_map (t : FamilyTransport A B p)
     t.restrictedOrbitEquiv W.unop (t.restrictedOrbit.map k x) =
       t.orbitFunctor.map ((CostructuredArrow.toOver yoneda T).op.map k)
         (t.restrictedOrbitEquiv Z.unop x) := by
-  show (equivShrink.{u} _).symm ((equivShrink.{u} _)
+  change (equivShrink.{u} _).symm ((equivShrink.{u} _)
       (((CostructuredArrow.toOver yoneda T).op ⋙ t.orbitFunctor).map k
         ((equivShrink.{u} _).symm x))) = _
   exact Equiv.symm_apply_apply _ _
@@ -420,7 +420,7 @@ public lemma toRestrictedOrbit_move (t : FamilyTransport A B p) {i j : I} {Z : O
   have h₂ := overArrowsEquiv_postcomp (t.move v y) W x
   erw [h₁, h₂]
   refine _root_.Quotient.sound ?_
-  show t.move (overArrowsEquiv Z W x ≫ v)
+  change t.move (overArrowsEquiv Z W x ≫ v)
       ((overArrowsEquiv Z W x ≫ t.move v y) ≫ p j) = overArrowsEquiv Z W x ≫ t.move v y
   rw [Category.assoc, t.move_base, t.comp_move]
 

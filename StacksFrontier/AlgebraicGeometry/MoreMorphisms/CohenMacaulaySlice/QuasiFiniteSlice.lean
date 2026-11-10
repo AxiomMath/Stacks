@@ -81,7 +81,7 @@ private theorem exists_open_nhds_unique_in_fibre {U X : Scheme.{u}} (g : U ⟶ X
   · have hmem : (⟨u, rfl⟩ : F) ∈ Subtype.val ⁻¹' W := by
       rw [hWpre]
       exact Set.mem_singleton_iff.mpr rfl
-    show u ∈ W
+    change u ∈ W
     simpa using hmem
   · intro z hz hzg
     have hz' : (⟨z, hzg⟩ : F) ∈ Subtype.val ⁻¹' W := hz
@@ -192,7 +192,7 @@ theorem exists_regularImmersion_flat_locallyQuasiFinite_singleton_fiber
   let i : I.subscheme ⟶ X := I.subschemeι ≫ U.1.ι
   have hi : IsImmersion i := inferInstance
   have hix : i z = x := by
-    show U.1.ι (I.subschemeι z) = x
+    change U.1.ι (I.subschemeι z) = x
     rw [hz]
     rfl
   have hregular : IsRegularImmersion i :=
@@ -212,7 +212,7 @@ theorem exists_regularImmersion_flat_locallyQuasiFinite_singleton_fiber
   have hw : (i ≫ f).fiberι (f (i z)) w = z := by
     dsimp [w]
     cases hbase
-    show (i ≫ f).fiberι (f (i z)) ((i ≫ f).asFiber z) = z
+    change (i ≫ f).fiberι (f (i z)) ((i ≫ f).asFiber z) = z
     exact Scheme.Hom.fiberι_asFiber (i ≫ f) z
   have hsource : f.fiberι (f (i z)) (j w) = i z := by
     simpa only [Scheme.Hom.comp_apply, hw] using (congrArg (fun k => k w) hpb.w).symm
@@ -247,11 +247,11 @@ theorem exists_regularImmersion_flat_locallyQuasiFinite_singleton_fiber
     intro q
     obtain ⟨q', hq'⟩ := j.stalkMap_surjective w q
     refine ⟨e.inv.hom q', ?_⟩
-    show (j.stalkMap w).hom (e.hom.hom (e.inv.hom q')) = q
+    change (j.stalkMap w).hom (e.hom.hom (e.inv.hom q')) = q
     rw [e.inv_hom_id_apply, hq']
   have hzeroi (k : Fin r) : (i.stalkMap z).hom (h k) = 0 := by
     rw [Scheme.Hom.stalkMap_comp]
-    show (I.subschemeι.stalkMap z).hom
+    change (I.subschemeι.stalkMap z).hom
       ((U.1.ι.stalkMap (I.subschemeι z)).hom
         ((show U.1.ι (I.subschemeι z) = i z by dsimp [i]).symm ▸ h k)) = 0
     have hsectionAt : (U.1.ι.stalkMap (I.subschemeι z)).hom
@@ -271,16 +271,16 @@ theorem exists_regularImmersion_flat_locallyQuasiFinite_singleton_fiber
     have hρ : ρ = RingHom.id _ := by
       ext t
       dsimp [ρ, Utop]
-      show (X.presheaf.map ((Scheme.Hom.opensFunctor U.1.ι).map (𝟙 ⊤)).op).hom t = t
+      change (X.presheaf.map ((Scheme.Hom.opensFunctor U.1.ι).map (𝟙 ⊤)).op).hom t = t
       have hopen : (Scheme.Hom.opensFunctor U.1.ι).map (𝟙 ⊤) = 𝟙 _ := Subsingleton.elim _ _
       rw [hopen]
       simp
       rfl
     have hmem : a k ∈ I.ideal Utop := by
-      show a k ∈
+      change a k ∈
         (Scheme.IdealSheafData.ofIdealTop (Ideal.ofList (List.ofFn a))).ideal Utop
       rw [Scheme.IdealSheafData.ofIdealTop_ideal]
-      show a k ∈ Ideal.map ρ (Ideal.ofList (List.ofFn a))
+      change a k ∈ Ideal.map ρ (Ideal.ofList (List.ofFn a))
       have hρk : ρ (a k) = a k := by rw [hρ]; rfl
       rwa [← hρk]
     have happzero : (I.subschemeι.app Utop).hom (a k) = 0 := by
@@ -337,7 +337,7 @@ theorem exists_regularImmersion_flat_locallyQuasiFinite_singleton_fiber
     have h2 := stalkCongr_hom_eq_cast X.presheaf hpt
       (heq ▸ ((f.fiberι_asFiber (i z)).symm ▸ h k))
     have h3 := stalkCongr_inv_eq_cast X.presheaf (congrArg i hw) (h k)
-    show eX2.hom.hom (eX1.hom.hom ((f.fiberι_asFiber (i z)).symm ▸ h k)) = eX.inv.hom (h k)
+    change eX2.hom.hom (eX1.hom.hom ((f.fiberι_asFiber (i z)).symm ▸ h k)) = eX.inv.hom (h k)
     have hc1 : heq ▸ (f.fiberι_asFiber (i z)).symm ▸ h k =
         ((f.fiberι_asFiber (i z)).symm.trans heq) ▸ h k :=
       cast_cast_eq (β := fun p : X => X.presheaf.stalk p)
@@ -359,7 +359,7 @@ theorem exists_regularImmersion_flat_locallyQuasiFinite_singleton_fiber
   have hkill : ∀ b ∈ ss, φ b = 0 := by
     intro b hb
     rcases List.mem_ofFn.mp hb with ⟨k, rfl⟩
-    show ((e.hom ≫ j.stalkMap w).hom)
+    change ((e.hom ≫ j.stalkMap w).hom)
       (((f.fiberι (f (i z))).stalkMap (f.asFiber (i z))).hom
         ((f.fiberι_asFiber (i z)).symm ▸ h k)) = 0
     have hval := congrArg (fun m :
@@ -380,7 +380,7 @@ theorem exists_regularImmersion_flat_locallyQuasiFinite_singleton_fiber
     exact hringdim
   have : IsLocallyNoetherian (g.fiber (g z)) := by
     have : LocallyOfFiniteType (g.fiberToSpecResidueField (g z)) := by
-      show LocallyOfFiniteType (pullback.snd g (S.fromSpecResidueField (g z)))
+      change LocallyOfFiniteType (pullback.snd g (S.fromSpecResidueField (g z)))
       infer_instance
     exact LocallyOfFiniteType.isLocallyNoetherian (g.fiberToSpecResidueField (g z))
   have hdimfiber : topologicalKrullDimAt (g.fiber (g z)) (g.asFiber z) = 0 := by

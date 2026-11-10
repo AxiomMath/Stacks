@@ -71,7 +71,7 @@ def constantSheafCokernelNsmulIso {X : Scheme.{u}} (M : ModuleCat.{max (u + 1) r
   have hz :
       (constantSheaf X.smallEtaleTopology (ModuleCat.{max (u + 1) r} Λ)).map (m • 𝟙 M) = 0 := by
     rw [Functor.map_nsmul, CategoryTheory.Functor.map_id, h]
-  PreservesCokernel.iso _ _ ≪≫ cokernel.congr hz ≪≫ cokernelZeroIsoTarget
+  PreservesCokernel.iso _ _ ≪≫ cokernelIsoOfEq hz ≪≫ cokernelZeroIsoTarget
 
 /-- The quotient `M / m M`, the cokernel of multiplication by `m`, is killed by `m`. -/
 theorem nsmul_eq_zero_cokernel_nsmul (M : ModuleCat.{max (u + 1) r} Λ) (m : ℕ)

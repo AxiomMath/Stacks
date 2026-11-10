@@ -68,7 +68,7 @@ theorem mkₐ_comp_toAlgHom_trans {U : Type*} [CommRing U] [Algebra R U] {I : Id
       e₁ (Ideal.Quotient.mk (I.map (algebraMap R S)) x) := AlgHom.congr_fun h₁ x
   have k₂ : Ideal.Quotient.mk (I.map (algebraMap R U)) (φ₂ (φ₁ x)) =
       e₂ (Ideal.Quotient.mk (I.map (algebraMap R T)) (φ₁ x)) := AlgHom.congr_fun h₂ (φ₁ x)
-  show Ideal.Quotient.mk (I.map (algebraMap R U)) (φ₂ (φ₁ x)) =
+  change Ideal.Quotient.mk (I.map (algebraMap R U)) (φ₂ (φ₁ x)) =
     (e₁.trans e₂) (Ideal.Quotient.mk (I.map (algebraMap R S)) x)
   rw [k₂, k₁, AlgEquiv.trans_apply]
 

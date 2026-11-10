@@ -36,12 +36,14 @@ attribute [local instance] MorphismOfTopoi.preservesFiniteLimits
 universe u
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits in presheaf and sheaf categories is deep
 /-- Products of presheaves of sets, supplied directly: instance search for them times out. -/
 local instance (priority := high) hasProducts_presheaf_SpacesTangentSpaceSections
     (C : Type*) [Category C] : HasProducts.{0} (C ⥤ Type u) :=
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits in presheaf and sheaf categories is deep
 /-- Finite limits of sheaves of sets, supplied directly: instance search for them times out. -/
 local instance (priority := high) hasFiniteLimits_sheaf_SpacesTangentSpaceSections
     {C : Type*} [Category C] (J : GrothendieckTopology C) :
@@ -49,6 +51,7 @@ local instance (priority := high) hasFiniteLimits_sheaf_SpacesTangentSpaceSectio
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits in presheaf and sheaf categories is deep
 /-- The terminal sheaf of sets, supplied directly: instance search for it times out. -/
 local instance (priority := high) hasTerminal_sheaf_SpacesTangentSpaceSections
     {C : Type*} [Category C] (J : GrothendieckTopology C) :

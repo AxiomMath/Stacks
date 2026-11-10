@@ -111,7 +111,7 @@ theorem dualHomEquivOf_comp {L L' N N' : D} [ExactPairing L L'] (f : L ⟶ N) (g
     (congrArg _ (Category.assoc _ _ _).symm).trans (tensorRightHomEquiv_naturality _ _)
   have h2 : g ▷ L' ≫ ((τ.app N').app L').hom = ((τ.app N).app L').hom ≫ (T.map g).app L' :=
     NatTrans.naturality_app τ.hom L' g
-  show tensorRightHomEquiv (𝟙_ D) L L' N' ((λ_ L).hom ≫ f ≫ g) ≫ ((τ.app N').app L').hom =
+  change tensorRightHomEquiv (𝟙_ D) L L' N' ((λ_ L).hom ≫ f ≫ g) ≫ ((τ.app N').app L').hom =
     (tensorRightHomEquiv (𝟙_ D) L L' N ((λ_ L).hom ≫ f) ≫ ((τ.app N).app L').hom) ≫
       (T.map g).app L'
   rw [h1, Category.assoc, h2, Category.assoc]

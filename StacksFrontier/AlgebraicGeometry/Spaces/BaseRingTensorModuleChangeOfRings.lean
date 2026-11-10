@@ -129,7 +129,7 @@ theorem baseRingHomOfMap_comp (f : X ⟶ schemeSpace T) (j : T ⟶ T') :
       (baseRingHomOfMap f).comp
         (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map j).op).hom := by
   refine RingHom.ext fun r => Subtype.ext (funext fun V => ?_)
-  show (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (chartToBaseOfMap
+  change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (chartToBaseOfMap
       (f ≫ (schemeSpaceFunctor B S hS).map j) _)).op).hom r =
     (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (chartToBaseOfMap f _)).op).hom
       ((Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map j).op).hom r)

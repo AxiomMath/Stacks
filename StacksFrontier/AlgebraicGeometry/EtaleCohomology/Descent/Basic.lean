@@ -164,7 +164,7 @@ private theorem baseChangeCoproductIso_ι {J : Type u} [Finite J]
     Sigma.ι (fun j => pullback k (Sigma.ι W j ≫ e.hom)) j ≫
         (baseChangeCoproductIso e k).hom = pullback.fst k (Sigma.ι W j ≫ e.hom) := by
   classical
-  simp [baseChangeCoproductIso, pullback.lift_fst]
+  simp [baseChangeCoproductIso]
 
 /-- The étale precoverage of schemes is jointly surjective. -/
 private theorem etalePrecoverage_jointlySurjective :
@@ -283,7 +283,7 @@ private theorem mapThroughRefinementIso_over
     (x : Z ⟶ X) (wᵢ : Z ⟶ Wᵢ) (hw : x ≫ c = wᵢ ≫ fᵢ) :
     mapThroughRefinementIso c fᵢ f e x wᵢ hw ≫ f = x := by
   let ψ := Classical.choice e
-  show (pullback.lift wᵢ x hw.symm ≫ ψ.hom.left) ≫ f = x
+  change (pullback.lift wᵢ x hw.symm ≫ ψ.hom.left) ≫ f = x
   have hψ : ψ.hom.left ≫ f = pullback.snd fᵢ c := by
     simpa using (Over.w ψ.hom)
   rw [Category.assoc, hψ, pullback.lift_snd]
@@ -528,11 +528,11 @@ private theorem integral_has_local_decomposition
   have hqNsnd : qN ≫ pullback.snd f g = pullback.snd f fb ≫ N.toBase :=
     pullbackBaseChangeMap_snd f g N.toBase
   have hqFinalFst : qFinal ≫ pullback.fst f g = pullback.fst f (N'.toBase ≫ g) := by
-    show eAssoc.inv ≫ pullbackBaseChangeMap f fb t ≫ qN ≫ pullback.fst f g = _
+    change eAssoc.inv ≫ pullbackBaseChangeMap f fb t ≫ qN ≫ pullback.fst f g = _
     rw [hqNfst, pullbackBaseChangeMap_fst, hAssocInvFst]
   have hqFinalSnd : qFinal ≫ pullback.snd f g =
       pullback.snd f (N'.toBase ≫ g) ≫ N'.toBase := by
-    show eAssoc.inv ≫ pullbackBaseChangeMap f fb t ≫ qN ≫ pullback.snd f g = _
+    change eAssoc.inv ≫ pullbackBaseChangeMap f fb t ≫ qN ≫ pullback.snd f g = _
     rw [hqNsnd, pullbackBaseChangeMap_snd_assoc, reassoc_of% hAssocInvSnd]
   have hSub (l : Wᵢ.I₀) :
       aFinal l ≫ U.f (hIndex l) =

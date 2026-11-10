@@ -39,18 +39,18 @@ theorem isWContractible_of_isClosedImmersion_of_isCompact_compl_range {P W : Sch
   have hrq : Set.range (p ≫ W.isoSpec.hom).base =
       (PrimeSpectrum.zeroLocus (I : Set ↥Γ(W, ⊤)) : Set ↥(Spec Γ(W, ⊤))) := by
     rw [hfac, Scheme.Hom.comp_base]
-    show Set.range ((Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I))).base ∘
+    change Set.range ((Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I))).base ∘
       eP.hom.base) = _
     rw [Set.range_comp, Set.range_eq_univ.mpr (by
       have _ : IsIso eP.hom.base := Scheme.forgetToTop.map_isIso eP.hom
       exact ((TopCat.isIso_iff_isHomeomorph _).mp inferInstance).surjective),
       Set.image_univ]
-    show Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk I)) = _
+    change Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk I)) = _
     rw [_root_.range_comap_of_surjective _ _ Ideal.Quotient.mk_surjective]
     simp [Ideal.mk_ker]
   have himage : Set.range (p ≫ W.isoSpec.hom).base = eW '' Set.range p.base := by
     rw [Scheme.Hom.comp_base]
-    show Set.range (eW ∘ p.base) = _
+    change Set.range (eW ∘ p.base) = _
     rw [Set.range_comp]
   have hcptI : IsCompact ((PrimeSpectrum.zeroLocus (I : Set ↥Γ(W, ⊤)))ᶜ) := by
     have h : IsCompact (eW '' ((Set.range p.base)ᶜ)) := hcpt.image eW.continuous

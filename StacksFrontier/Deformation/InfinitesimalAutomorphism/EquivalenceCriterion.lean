@@ -264,7 +264,7 @@ theorem infinitesimalAutomorphisms_eq_bot_iff_isEquivalence (hrs : SatisfiesRS p
     have hαid : (Over.homMk (U := Over.mk r) (V := Over.mk r) a.asIso.hom.val ha) =
         𝟙 (Over.mk r) := by
       refine hfaith _ _ ?_
-      show p.map a.asIso.hom.val = p.map (𝟙 xε.1)
+      change p.map a.asIso.hom.val = p.map (𝟙 xε.1)
       rw [p.map_id]
       exact map_eq_id_of_isHomLift_id a.asIso.hom.val a.asIso.hom.2
     exact Aut.ext (Iso.ext (Functor.Fiber.hom_ext (congrArg Over.Hom.left hαid)))

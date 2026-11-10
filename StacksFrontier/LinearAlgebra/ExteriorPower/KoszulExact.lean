@@ -43,7 +43,7 @@ theorem exists_d_eq_of_isZero_homology {r : ℕ} (f : Fin r → R) (n : ℕ)
     (HomologicalComplex.exactAt_iff_isZero_homology _ _).2 h
   rw [HomologicalComplex.exactAt_iff' _ (n + 2) (n + 1) n (by simp) (by simp)] at hex
   obtain ⟨y, hy⟩ := (CategoryTheory.ShortComplex.moduleCat_exact_iff _).1 hex x (by
-    show ((seqComplex f).d (n + 1) n).hom x = 0
+    change ((seqComplex f).d (n + 1) n).hom x = 0
     rwa [seqComplex_d f n])
   refine ⟨y, ?_⟩
   change ((seqComplex f).d (n + 2) (n + 1)).hom y = x at hy
@@ -76,7 +76,7 @@ theorem exists_contraction_eq_of_isKoszulRegular {r : ℕ} (ψ : M →ₗ[R] R)
   have hψ : ψ = Koszul.seqDual f ∘ₗ g.toLinearMap := by
     refine e.ext fun i ↦ ?_
     rw [LinearMap.comp_apply, LinearEquiv.coe_coe]
-    show ψ (e i) = Koszul.seqDual f (e.equivFun (e i))
+    change ψ (e i) = Koszul.seqDual f (e.equivFun (e i))
     have he : e.equivFun (e i) = Pi.single i 1 := by
       funext j
       rw [Module.Basis.equivFun_self]

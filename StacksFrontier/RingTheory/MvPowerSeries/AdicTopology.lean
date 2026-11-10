@@ -404,15 +404,15 @@ theorem hom_ext_of_isNilpotent
     have hcoeff : f'.comp PowerSeries.C = g'.comp PowerSeries.C := by
       apply ih
       · intro r
-        show f (e.symm (PowerSeries.C (MvPowerSeries.C r))) =
+        change f (e.symm (PowerSeries.C (MvPowerSeries.C r))) =
           g (e.symm (PowerSeries.C (MvPowerSeries.C r)))
         rw [hconst, hC]
       · intro i
-        show f (e.symm (PowerSeries.C (MvPowerSeries.X i))) =
+        change f (e.symm (PowerSeries.C (MvPowerSeries.X i))) =
           g (e.symm (PowerSeries.C (MvPowerSeries.X i)))
         rw [hsucc, hX]
       · intro i
-        show IsNilpotent (f (e.symm (PowerSeries.C (MvPowerSeries.X i))))
+        change IsNilpotent (f (e.symm (PowerSeries.C (MvPowerSeries.X i))))
         rw [hsucc]
         exact hnil i.succ
     have hh : f' = g' := PowerSeries.hom_ext_of_isNilpotent f' g'

@@ -39,7 +39,7 @@ comparison of total complexes acts on the summand of bidegree `(p, q)` by it, as
 * `Stacks.Sheaves.DerivedPullback.PullbackToposRightUnitorCoherence`: the module-level
   right-unitor coherence, written out as a proposition. It is proved by
   `Stacks.Sheaves.DerivedPullback.pullbackToposRightUnitorCoherence` of
-  `StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.PullbackToposRightUnitorCoherence`.
+ `StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.PullbackToposRightUnitorCoherence`.
 
 ## Main results
 

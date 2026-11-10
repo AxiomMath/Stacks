@@ -168,7 +168,7 @@ theorem padded_δ (e e' : Expr 𝒜) :
     δ (padded L Ψ 𝕋) e e' =
       ((ev Ψ 𝕋).obj e ⊗ (ev Ψ 𝕋).obj e') ◁ δ Ψ ((pad L).obj e) ((pad L).obj e') ≫
         tensorδ _ _ _ _ := by
-  show ((δ ((ev Ψ 𝕋).prod' (pad L ⋙ Ψ)) e e').1 ⊗ₘ (δ ((ev Ψ 𝕋).prod' (pad L ⋙ Ψ)) e e').2) ≫
+  change ((δ ((ev Ψ 𝕋).prod' (pad L ⋙ Ψ)) e e').1 ⊗ₘ (δ ((ev Ψ 𝕋).prod' (pad L ⋙ Ψ)) e e').2) ≫
     tensorδ _ _ _ _ = _
   rw [Functor.prod'_δ_fst, Functor.prod'_δ_snd]
   simp
@@ -208,7 +208,7 @@ theorem presIso_tensor_hom (e e' : Expr 𝒜) :
   simp only [Iso.trans_hom, Iso.symm_hom, μIso_inv, μIso_hom, tensorIso_hom,
     Functor.OplaxMonoidal.comp_δ, Functor.LaxMonoidal.comp_μ, tensor_δ, Category.assoc]
   congr 1
-  show ((δ ((ev Ψ 𝕋).prod' (pad L ⋙ Ψ)) e e').1 ⊗ₘ
+  change ((δ ((ev Ψ 𝕋).prod' (pad L ⋙ Ψ)) e e').1 ⊗ₘ
     (δ ((ev Ψ 𝕋).prod' (pad L ⋙ Ψ)) e e').2) = _
   rw [Functor.prod'_δ_fst, Functor.prod'_δ_snd, Functor.OplaxMonoidal.comp_δ]
 
@@ -250,7 +250,7 @@ theorem Coh.tensor {e₁ e₁' e₂ e₂' : Expr 𝒜} {u₁ : (ev Ψ 𝕋).obj 
   simp only [presIso_tensor_hom, Iso.trans_hom, Iso.symm_hom, μIso_inv, μIso_hom, tensorIso_hom,
     Functor.map_comp, Category.assoc]
   rw [tensorHom_comp_tensorHom_assoc]
-  simp only [Category.assoc, μ_δ, Category.comp_id, Functor.Monoidal.map_μ_δ_assoc]
+  simp only [Category.assoc, μ_δ, Category.comp_id, Functor.Monoidal.μ_δ_map_assoc]
   rw [← δ_natural]
   have key : (δ (ev Ψ 𝕋) e₁ e₂ ≫ (u₁ ⊗ₘ u₂) ⊗ₘ Ψ.map (δ (pad L) e₁ e₂) ≫
       δ Ψ ((pad L).obj e₁) ((pad L).obj e₂) ≫ (Ψ.map φ₁.hom ⊗ₘ Ψ.map φ₂.hom)) =
@@ -271,7 +271,7 @@ omit [BraidedCategory 𝒜] in
 theorem coh_atom {A B : 𝒜} (g : A ⟶ B) :
     Coh L Ψ 𝕋 ω (e := atom A) (e' := atom B) (Ψ.map g) (Iso.refl _) g := by
   unfold Coh presIso
-  show (Ψ.map g ⊗ₘ Ψ.map (𝟙 _)) ≫ (μ Ψ B (𝟙_ 𝒜) ≫ Ψ.map (ρ_ B).hom) =
+  change (Ψ.map g ⊗ₘ Ψ.map (𝟙 _)) ≫ (μ Ψ B (𝟙_ 𝒜) ≫ Ψ.map (ρ_ B).hom) =
     (μ Ψ A (𝟙_ 𝒜) ≫ Ψ.map (ρ_ A).hom) ≫ Ψ.map g
   rw [Functor.map_id, MonoidalCategory.tensorHom_id, μ_natural_left_assoc, ← Functor.map_comp,
     rightUnitor_naturality, Functor.map_comp, Category.assoc]
@@ -294,7 +294,7 @@ theorem coh_braiding (e₁ e₂ : Expr 𝒜) :
   simp only [presIso_tensor_hom, Iso.trans_hom, Iso.symm_hom, μIso_inv, μIso_hom,
     Functor.map_comp, Category.assoc]
   rw [tensorHom_comp_tensorHom_assoc]
-  simp only [Category.assoc, μ_δ, Category.comp_id, Functor.Monoidal.map_μ_δ_assoc]
+  simp only [Category.assoc, μ_δ, Category.comp_id, Functor.Monoidal.μ_δ_map_assoc]
   have hb : Ψ.map (β_ ((pad L).obj e₁) ((pad L).obj e₂)).hom ≫ δ Ψ ((pad L).obj e₂) ((pad L).obj e₁)
       = δ Ψ ((pad L).obj e₁) ((pad L).obj e₂) ≫
         (β_ (Ψ.obj ((pad L).obj e₁)) (Ψ.obj ((pad L).obj e₂))).hom := by

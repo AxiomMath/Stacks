@@ -355,7 +355,7 @@ theorem comap_secondLine_firstLine_le :
     (secondLine hπ).ker.comap (firstLine hπ) ≤ linePoint κ 0 := by
   let σ0 := matrixSubstGradedHom κ 1 !![0, 0; 1, 0]
   refine comap_ker_map_le_linePoint _ _ (surjective_lineHom π _ _ _ 2 0 rfl rfl) 0 σ0 ?_
-  apply GradedRingHom.coe_ringHom_injective
+  apply GradedRingHom.toRingHom_injective
   refine Ideal.Quotient.ringHom_ext (MvPolynomial.ringHom_ext (fun r => ?_) (fun i => ?_))
   · simp [σ0, matrixSubstGradedHom_C]
   · have h0 : Ideal.Quotient.mk (pointIdeal κ 0).toIdeal (X 0) = 0 :=
@@ -385,7 +385,7 @@ theorem comap_firstLine_secondLine_le :
     (firstLine hπ).ker.comap (secondLine hπ) ≤ linePoint κ 1 := by
   let σ1 := matrixSubstGradedHom κ 1 !![0, 1; 0, 0]
   refine comap_ker_map_le_linePoint _ _ (surjective_lineHom π _ _ _ 0 1 rfl rfl) 1 σ1 ?_
-  apply GradedRingHom.coe_ringHom_injective
+  apply GradedRingHom.toRingHom_injective
   refine Ideal.Quotient.ringHom_ext (MvPolynomial.ringHom_ext (fun r => ?_) (fun i => ?_))
   · simp [σ1, matrixSubstGradedHom_C]
   · have h1 : Ideal.Quotient.mk (pointIdeal κ 1).toIdeal (X 1) = 0 :=
@@ -467,7 +467,7 @@ theorem isExceptionalCurveOfFirstKind_firstLine :
   have := isEffectiveCartierDivisor_ker_firstLine hπ
   have := isEffectiveCartierDivisor_ker_secondLine hπ
   rw [Scheme.IdealSheafData.isExceptionalCurveOfFirstKind_iff_pullbackPicardClass]
-  show schemePullbackClass (firstLineIso hπ).hom
+  change schemePullbackClass (firstLineIso hπ).hom
     (schemePullbackClass (firstLine _).ker.subschemeι (picardClass _)) = _
   rw [Stacks.Picard.schemePullbackClass_comp, asIso_hom, Scheme.Hom.toImage_imageι]
   exact schemePullbackClass_picardClass_eq_neg_one _ _ (secondLine _).ker
@@ -481,7 +481,7 @@ theorem isExceptionalCurveOfFirstKind_secondLine :
   have := isEffectiveCartierDivisor_ker_secondLine hπ
   have := isEffectiveCartierDivisor_ker_firstLine hπ
   rw [Scheme.IdealSheafData.isExceptionalCurveOfFirstKind_iff_pullbackPicardClass]
-  show schemePullbackClass (secondLineIso hπ).hom
+  change schemePullbackClass (secondLineIso hπ).hom
     (schemePullbackClass (secondLine _).ker.subschemeι (picardClass _)) = _
   rw [Stacks.Picard.schemePullbackClass_comp, asIso_hom, Scheme.Hom.toImage_imageι]
   refine schemePullbackClass_picardClass_eq_neg_one _ (secondLine _).ker (firstLine _).ker ?_ 1

@@ -101,7 +101,7 @@ theorem not_isClopen_singleton_of_isolatedPoints {U Z : Opens T} (hdisj : U ⊓ 
   have h1 : z.1 ∈ (Z : Set T) := by
     rw [hZ]
     have e : ({z.1} : Set T) = Subtype.val '' ({z} : Set U) := by simp
-    show IsClopen ({z.1} : Set T)
+    change IsClopen ({z.1} : Set T)
     rw [e]
     exact isClopen_image_subtypeVal hU hz
   exact notMem_of_inf_eq_bot hdisj z.2 h1
@@ -133,10 +133,10 @@ theorem ringKrullDim_stalk_eq_one_of_forall_not_isClopen (f : Z ⟶ Spec (.of k)
   refine Stacks.CurveProjectiveCompletion.ringKrullDim_stalk_eq_one_of_notMem_genericPoints k f
     hdim (U := genericPoints Z) le_rfl fun hg => hiso z ⟨hz, ?_⟩
   have hcomp : ({z} : Set Z) ∈ irreducibleComponents Z := by
-    rwa [genericPoints, Set.mem_setOf_eq, hz.closure_eq] at hg
+    rwa [genericPoints, Set.mem_ofPred_eq, hz.closure_eq] at hg
   have heq : ({z} : Set Z)ᶜ = ⋃ C ∈ irreducibleComponents Z \ {({z} : Set Z)}, C := by
     ext y
-    simp only [Set.mem_compl_iff, Set.mem_singleton_iff, Set.mem_iUnion, Set.mem_diff,
+    simp only [Set.mem_compl_iff, Set.mem_singleton_iff, Set.mem_iUnion, Set.mem_sdiff,
       exists_prop]
     constructor
     · intro hyz
@@ -146,7 +146,7 @@ theorem ringKrullDim_stalk_eq_one_of_forall_not_isClopen (f : Z ⟶ Spec (.of k)
     · rintro ⟨C, ⟨hC, hCz⟩, hyC⟩ rfl
       exact hCz (hcomp.eq_of_subset hC.1 (Set.singleton_subset_iff.mpr hyC)).symm
   rw [← isClosed_compl_iff, heq]
-  exact ((NoetherianSpace.finite_irreducibleComponents).subset Set.diff_subset).isClosed_biUnion
+  exact ((NoetherianSpace.finite_irreducibleComponents).subset Set.sdiff_subset).isClosed_biUnion
     fun C hC => isClosed_of_mem_irreducibleComponents C hC.1
 
 end LocalRings
@@ -245,19 +245,19 @@ theorem isClopen_singleton_image_and_preimage_eq [UniversallyClosed c]
   have hiso : IsIso c.appTop := isIso_app_of_isIso_unitToPushforwardObjUnit c hO ⊤
   let t : Γ(Y, ⊤) := inv c.appTop e
   have ht : c.appTop t = e := by
-    show (inv c.appTop ≫ c.appTop) e = e
+    change (inv c.appTop ≫ c.appTop) e = e
     rw [IsIso.inv_hom_id]
     rfl
   let T : Y.Opens := Y.basicOpen t
   have hT : (c ⁻¹ᵁ T : Set X) = {x} := by
-    show ((c ⁻¹ᵁ Y.basicOpen t : X.Opens) : Set X) = {x}
+    change ((c ⁻¹ᵁ Y.basicOpen t : X.Opens) : Set X) = {x}
     rw [Scheme.preimage_basicOpen_top, ht, he]
     rfl
   have hcl : IsClosed ({c x} : Set Y) := by
     rw [← Set.image_singleton]
     exact c.isClosedMap _ hx.isClosed
   have hxT : c x ∈ (T : Set Y) := by
-    show x ∈ (c ⁻¹ᵁ T : Set X)
+    change x ∈ (c ⁻¹ᵁ T : Set X)
     rw [hT]
     rfl
   let W : Y.Opens := T ⊓ ⟨{c x}ᶜ, hcl.isOpen_compl⟩

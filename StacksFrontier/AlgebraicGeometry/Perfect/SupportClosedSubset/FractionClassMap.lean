@@ -175,7 +175,7 @@ public theorem smulHom_mul (r s : Γ(X, ⊤)) (M : X.Modules) :
     smulHom (r * s) M = smulHom r M ≫ smulHom s M := by
   refine hom_ext_apply fun V x => ?_
   rw [Scheme.Modules.Hom.comp_app]
-  show (smulHom (r * s) M).app V x = (smulHom s M).app V ((smulHom r M).app V x)
+  change (smulHom (r * s) M).app V x = (smulHom s M).app V ((smulHom r M).app V x)
   rw [smulHom_app_apply, smulHom_app_apply, smulHom_app_apply, map_mul, smul_smul, mul_comm]
 
 /-- Multiplication by the unit global function is the identity. -/
@@ -311,7 +311,7 @@ back the restriction of the numerator. -/
 private theorem divFactor_comp_smulHom {p : ℕ} (s : CechCochains.OrdIndex (I := Fin c) p) :
     divFactor f F s ≫ smulHom (∏ k, f (s.1 k)) (restrictedModule f F p s) = augR f F p s := by
   have := isIso_smulHom_prodAt f F s
-  show (augR f F p s ≫ inv (smulHom (∏ k, f (s.1 k)) (restrictedModule f F p s))) ≫ _ = _
+  change (augR f F p s ≫ inv (smulHom (∏ k, f (s.1 k)) (restrictedModule f F p s))) ≫ _ = _
   rw [Category.assoc, IsIso.inv_hom_id, Category.comp_id]
 
 /-- **Enlarging the denominator.** Multiplying the fraction with the equations of a tuple `t` as
@@ -363,7 +363,7 @@ restriction of `s`. -/
 public theorem fracFactor_comp_smulHom (t : CechCochains.OrdIndex (I := Fin (n + 1)) n) :
     fracFactor f F t ≫ smulHom (∏ i, f i) (restrictedModule f F n t) = augR f F n t := by
   have := isIso_smulHom_equationsProd f F t
-  show (augR f F n t ≫ inv (smulHom (∏ i, f i) (restrictedModule f F n t))) ≫ _ = _
+  change (augR f F n t ≫ inv (smulHom (∏ i, f i) (restrictedModule f F n t))) ≫ _ = _
   rw [Category.assoc, IsIso.inv_hom_id, Category.comp_id]
 
 /-- **The fraction map.** The section `s / (f₁ ⋯ f_c)` of the top term of the extended
@@ -533,7 +533,7 @@ public theorem smulHom_comp_classMap (j : Fin c) :
     rw [← cancel_mono ((cplx f F).iCycles (n + 1)), Category.assoc, fracCycle_comp_iCycles,
       HomologicalComplex.liftCycles_i, fracTermTop_succ]
     exact hW
-  show smulHom (f j) F ≫ (fracCycle f F ≫ (cplx f F).homologyπ (n + 1)) = 0
+  change smulHom (f j) F ≫ (fracCycle f F ≫ (cplx f F).homologyπ (n + 1)) = 0
   rw [← Category.assoc, key]
   exact (cplx f F).liftCycles_homologyπ_eq_zero_of_boundary _ (n + 2)
     ((ComplexShape.up ℕ).next_eq' rfl) W rfl
@@ -550,7 +550,7 @@ public def equationsQuotient : X.Modules := cokernel (equationsMap f F)
 /-- The fraction class kills the image of `(f₁, …, f_c) : ℱ^{⊕c} ⟶ ℱ`. -/
 public theorem equationsMap_comp_classMap : equationsMap f F ≫ classMap f F = 0 := by
   refine Limits.Sigma.hom_ext _ _ fun i => ?_
-  rw [comp_zero, ← Category.assoc, equationsMap, Limits.Sigma.ι_desc]
+  rw [comp_zero, ← Category.assoc, equationsMap, Limits.Sigma.ι_comp_desc]
   exact smulHom_comp_classMap f F i
 
 /-- **The fraction class of a residue class.** The map `ℱ/(f₁, …, f_c)ℱ ⟶ Hᶜ(ℱ^•)` sending the

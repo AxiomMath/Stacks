@@ -228,7 +228,7 @@ theorem geomIrred_atom_sepClosedIn_reduce
   have hιcomm : ∀ c : K, ιL (algebraMap K (K ⊗[L] F) c) = algebraMap K (K ⊗[L] Fbar) c := by
     intro c
     rw [Algebra.TensorProduct.algebraMap_apply, Algebra.TensorProduct.algebraMap_apply]
-    show ιL (c ⊗ₜ[L] 1) = c ⊗ₜ[L] 1
+    change ιL (c ⊗ₜ[L] 1) = c ⊗ₜ[L] 1
     rw [Algebra.TensorProduct.map_tmul]
     simp
   -- both tensor products are domains
@@ -246,7 +246,7 @@ theorem geomIrred_atom_sepClosedIn_reduce
     { toRingHom := (algebraMap (K ⊗[L] Fbar) Mbar).comp ιL.toRingHom
       commutes' := by
         intro c
-        show algebraMap (K ⊗[L] Fbar) Mbar (ιL (algebraMap K (K ⊗[L] F) c))
+        change algebraMap (K ⊗[L] Fbar) Mbar (ιL (algebraMap K (K ⊗[L] F) c))
           = algebraMap K Mbar c
         rw [hιcomm c, ← IsScalarTower.algebraMap_apply] }
   have hginj : Function.Injective g := by
@@ -414,8 +414,7 @@ theorem geomIrred_kernel_residue_denseRange
   have heq : ∀ z : A ⊗[L] F, (Algebra.TensorProduct.map g (AlgHom.id L F)) z
       = (LinearMap.rTensor F g.toLinearMap) z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a f => simp [Algebra.TensorProduct.map_tmul]
     | add x y hx hy => simp only [map_add, hx, hy]
   -- exact sequence ker g → A → E, tensored with flat F
@@ -428,8 +427,7 @@ theorem geomIrred_kernel_residue_denseRange
   have hrange : ∀ y : (LinearMap.ker g.toLinearMap) ⊗[L] F,
       (LinearMap.rTensor F (LinearMap.ker g.toLinearMap).subtype) y ∈ nilradical (A ⊗[L] F) := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul w f =>
         rw [LinearMap.rTensor_tmul]
         -- (w : A) is in ker g ≤ nilradical, so nilpotent
@@ -524,15 +522,15 @@ theorem geomIrred_common_overfield
         k')).toRingHom |>.toAlgebra
   refine ⟨(L ⊗[k] k') ⧸ m, inferInstance, akF, aLF, ak'F, ?_, ?_⟩
   · refine IsScalarTower.of_algebraMap_eq (fun x => ?_)
-    show (Ideal.Quotient.mk m) (algebraMap k (L ⊗[k] k') x) = _
+    change (Ideal.Quotient.mk m) (algebraMap k (L ⊗[k] k') x) = _
     rw [RingHom.algebraMap_toAlgebra, RingHom.comp_apply]
     rfl
   · refine IsScalarTower.of_algebraMap_eq (fun x => ?_)
-    show (Ideal.Quotient.mk m) (algebraMap k (L ⊗[k] k') x) = _
+    change (Ideal.Quotient.mk m) (algebraMap k (L ⊗[k] k') x) = _
     rw [RingHom.algebraMap_toAlgebra, RingHom.comp_apply]
     congr 1
     rw [Algebra.TensorProduct.algebraMap_apply]
-    show (algebraMap k L x) ⊗ₜ[k] (1 : k') = (1 : L) ⊗ₜ[k] (algebraMap k k' x)
+    change (algebraMap k L x) ⊗ₜ[k] (1 : k') = (1 : L) ⊗ₜ[k] (algebraMap k k' x)
     rw [Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one,
         TensorProduct.smul_tmul]
 
@@ -574,7 +572,7 @@ theorem geomIrred_overfield_irreducible
       (by
         intro l
         rw [Algebra.TensorProduct.right_algebraMap_apply]
-        show (Algebra.TensorProduct.comm k R L) ((1 : R) ⊗ₜ[k] l) = _
+        change (Algebra.TensorProduct.comm k R L) ((1 : R) ⊗ₜ[k] l) = _
         rw [Algebra.TensorProduct.comm_tmul]
         simp)
   -- The ring isomorphism `(R ⊗[k] L) ⊗[L] F ≃+* R ⊗[k] F`, built from `congr`, `comm` and
@@ -663,13 +661,13 @@ theorem geomIrred_baseChange_map_injective_flat
       IsScalarTower.of_algebraMap_eq (fun x => by
         simp [algk'RF, algSF, algS, RingHom.algebraMap_toAlgebra,
           Algebra.TensorProduct.includeRight_apply, Algebra.TensorProduct.map_tmul])
-    show Module.Flat (R ⊗[k] k') (R ⊗[k] F)
+    change Module.Flat (R ⊗[k] k') (R ⊗[k] F)
     have hbc : Module.Flat (R ⊗[k] k') ((R ⊗[k] k') ⊗[k'] F) :=
       Module.Flat.baseChange k' (R ⊗[k] k') F
     let g : F →ₐ[k'] (R ⊗[k] F) :=
       { (Algebra.TensorProduct.includeRight : F →ₐ[k] R ⊗[k] F).toRingHom with
         commutes' := fun r => by
-          show (Algebra.TensorProduct.includeRight : F →ₐ[k] R ⊗[k] F) (algebraMap k' F r)
+          change (Algebra.TensorProduct.includeRight : F →ₐ[k] R ⊗[k] F) (algebraMap k' F r)
                 = algebraMap k' (R ⊗[k] F) r
           simp [algk'RF, RingHom.algebraMap_toAlgebra] }
     let Φ : (R ⊗[k] k') ⊗[k'] F →ₐ[R ⊗[k] k'] (R ⊗[k] F) :=
@@ -684,11 +682,11 @@ theorem geomIrred_baseChange_map_injective_flat
         (fun x y => mul_comm (G := (R ⊗[k] k') ⊗[k'] F) _ _)
     have keyΦ : ∀ (r : R) (a : k') (b : F), Φ ((r ⊗ₜ[k] a) ⊗ₜ[k'] b) = r ⊗ₜ[k] (a • b) := by
       intro r a b
-      show (Algebra.ofId (R ⊗[k] k') (R ⊗[k] F)) (r ⊗ₜ[k] a) * g b = _
+      change (Algebra.ofId (R ⊗[k] k') (R ⊗[k] F)) (r ⊗ₜ[k] a) * g b = _
       rw [Algebra.ofId_apply]
-      show (algebraMap (R ⊗[k] k') (R ⊗[k] F)) (r ⊗ₜ[k] a) * (1 ⊗ₜ[k] b) = _
+      change (algebraMap (R ⊗[k] k') (R ⊗[k] F)) (r ⊗ₜ[k] a) * (1 ⊗ₜ[k] b) = _
       rw [RingHom.algebraMap_toAlgebra]
-      show (Algebra.TensorProduct.map (AlgHom.id k R) (IsScalarTower.toAlgHom k k' F)) (r ⊗ₜ[k]
+      change (Algebra.TensorProduct.map (AlgHom.id k R) (IsScalarTower.toAlgHom k k' F)) (r ⊗ₜ[k]
           a) * (1 ⊗ₜ[k] b) = _
       rw [Algebra.TensorProduct.map_tmul]
       simp only [AlgHom.coe_id, id_eq, IsScalarTower.coe_toAlgHom']
@@ -696,35 +694,32 @@ theorem geomIrred_baseChange_map_injective_flat
       simp [Algebra.smul_def]
     have keyΨ : ∀ (r : R) (y : F), Ψ (r ⊗ₜ[k] y) = (r ⊗ₜ[k] (1:k')) ⊗ₜ[k'] y := by
       intro r y
-      show (((Algebra.TensorProduct.includeLeft : (R ⊗[k] k') →ₐ[k'] (R ⊗[k] k') ⊗[k']
+      change (((Algebra.TensorProduct.includeLeft : (R ⊗[k] k') →ₐ[k'] (R ⊗[k] k') ⊗[k']
           F).restrictScalars k).comp
           (Algebra.TensorProduct.includeLeft : R →ₐ[k] R ⊗[k] k')) r
           * ((Algebra.TensorProduct.includeRight : F →ₐ[k'] (R ⊗[k] k') ⊗[k'] F).restrictScalars k)
               y = _
-      show ((r ⊗ₜ[k] (1:k')) ⊗ₜ[k'] (1:F)) * ((1 : R ⊗[k] k') ⊗ₜ[k'] y) = _
+      change ((r ⊗ₜ[k] (1:k')) ⊗ₜ[k'] (1:F)) * ((1 : R ⊗[k] k') ⊗ₜ[k'] y) = _
       rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
     have hΨΦ : ∀ z, Ψ (Φ z) = z := by
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy => rw [map_add, map_add, hx, hy]
       | tmul s b =>
-        induction s using TensorProduct.induction_on with
-        | zero => simp
+        induction s using TensorProduct.inductionOn with
         | add x y hx hy =>
           rw [TensorProduct.add_tmul, map_add, map_add, hx, hy, ← TensorProduct.add_tmul]
         | tmul r a =>
           rw [keyΦ, keyΨ, TensorProduct.tmul_smul, TensorProduct.smul_tmul']
           congr 1
-          show (a • (r ⊗ₜ[k] (1:k'))) = r ⊗ₜ[k] a
+          change (a • (r ⊗ₜ[k] (1:k'))) = r ⊗ₜ[k] a
           rw [Algebra.smul_def, RingHom.algebraMap_toAlgebra]
-          show (Algebra.TensorProduct.includeRight a) * (r ⊗ₜ[k] (1:k')) = _
+          change (Algebra.TensorProduct.includeRight a) * (r ⊗ₜ[k] (1:k')) = _
           rw [Algebra.TensorProduct.includeRight_apply, Algebra.TensorProduct.tmul_mul_tmul,
             mul_one, one_mul]
     have hΦΨ : ∀ w, Φ (Ψ w) = w := by
       intro w
-      induction w using TensorProduct.induction_on with
-      | zero => simp
+      induction w using TensorProduct.inductionOn with
       | add x y hx hy => rw [map_add, map_add, hx, hy]
       | tmul r b =>
         rw [keyΨ, keyΦ, one_smul]

@@ -48,7 +48,8 @@ groups zero, the left one by Stacks 03RL since `q - 1 ≥ 1`, the right one by S
 
 ## Main results
 
-* `Stacks.EtaleCohomology.subsingleton_sheafH_genericPointDirectImage_multiplicativeSheaf_of_isZero_rightDerived`:
+* In `Stacks.EtaleCohomology`,
+  `subsingleton_sheafH_genericPointDirectImage_multiplicativeSheaf_of_isZero_rightDerived`:
   the edge argument on an integral scheme, from the vanishing of `R^q j_* 𝐆_{m,η}` and of
   `H^q(η, 𝐆_m)` in positive degree.
 * `Stacks.EtaleCohomology.subsingleton_sheafH_genericPointDirectImage_multiplicativeSheaf`:
@@ -60,8 +61,8 @@ groups zero, the left one by Stacks 03RL since `q - 1 ≥ 1`, the right one by S
 
 **The inputs of Stacks 03RK.** Both are proved in the library and used here.
 
-* Stacks 03RJ, that `R^q j_* 𝐆_{m,η} = 0` for `q ≥ 1`, is
-  `Stacks.EtaleCohomology.isZero_rightDerived_genericPointDirectImage_multiplicativeSheaf_of_trdeg_eq_one`,
+* Stacks 03RJ, that `R^q j_* 𝐆_{m,η} = 0` for `q ≥ 1`, is, in `Stacks.EtaleCohomology`,
+  `isZero_rightDerived_genericPointDirectImage_multiplicativeSheaf_of_trdeg_eq_one`,
   at the transcendence-degree-one function field of a curve
   (`AlgebraicGeometry.trdeg_functionField_eq_one`). Neither input uses smoothness, so Stacks 03RK
   is stated for a curve.
@@ -230,16 +231,17 @@ inclusion of the generic point. Then
 
 The source assumes `X` smooth; the proof does not use smoothness, so it is not assumed and the
 statement is more general than the tag. The smooth case, with the source's hypotheses verbatim,
-is `Stacks.EtaleCohomology.subsingleton_sheafH_genericPointDirectImage_multiplicativeSheaf_smoothCurve`.
+is `subsingleton_sheafH_genericPointDirectImage_multiplicativeSheaf_smoothCurve`.
 
 The source argues by the Leray spectral sequence `E₂^{p,q} = H^p(X, R^q j_* 𝐆_{m,η})`, whose
 `q ≥ 1` rows vanish by Stacks 03RJ and whose abutment `H^{p+q}(η, 𝐆_m)` vanishes for
 `p + q ≥ 1` by Stacks 03RG. The proof here is the edge isomorphism of that spectral sequence,
-`Stacks.EtaleCohomology.subsingleton_sheafH_genericPointDirectImage_multiplicativeSheaf_of_isZero_rightDerived`,
+`subsingleton_sheafH_genericPointDirectImage_multiplicativeSheaf_of_isZero_rightDerived`,
 with both inputs proved: Stacks 03RJ is
-`Stacks.EtaleCohomology.isZero_rightDerived_genericPointDirectImage_multiplicativeSheaf_of_trdeg_eq_one`,
+`isZero_rightDerived_genericPointDirectImage_multiplicativeSheaf_of_trdeg_eq_one`,
 whose premise is `AlgebraicGeometry.trdeg_functionField_eq_one`, and Stacks 03RG at the function
-field of `X` is `Stacks.EtaleCohomology.subsingleton_sheafH_multiplicativeSheaf_spec_functionField`. -/
+field of `X` is
+`Stacks.EtaleCohomology.subsingleton_sheafH_multiplicativeSheaf_spec_functionField`. -/
 @[stacks 03RK "vanishing of the positive-degree étale cohomology of the direct image of 𝐆_m
 along the generic point of a curve over an algebraically closed field"]
 theorem subsingleton_sheafH_genericPointDirectImage_multiplicativeSheaf {k : Type u} [Field k]
@@ -247,7 +249,7 @@ theorem subsingleton_sheafH_genericPointDirectImage_multiplicativeSheaf {k : Typ
     (p : ℕ) (hp : 1 ≤ p) :
     Subsingleton (Sheaf.H.{u + 1, u + 1} ((genericPointDirectImage.{u, u + 1} X).obj
       (Stacks.Kummer.multiplicativeSheaf.{u, u + 1} (Spec X.functionField))) p) := by
-  letI := functionFieldAlgebra k g
+  let := functionFieldAlgebra k g
   exact subsingleton_sheafH_genericPointDirectImage_multiplicativeSheaf_of_isZero_rightDerived
     (isZero_rightDerived_genericPointDirectImage_multiplicativeSheaf_of_trdeg_eq_one k
       (trdeg_functionField_eq_one k g))
@@ -269,7 +271,7 @@ zero, the left one by Stacks 03RL since `q - 1 ≥ 1`, the right one by Stacks 0
 Stacks 03RL is used from the library, as
 `Stacks.EtaleCohomology.subsingleton_sheafH_sigma_closedPointPushforward_smallEtale`, and
 the vanishing of `H^q(X, j_* 𝐆_{m,η})` is the edge argument
-`Stacks.EtaleCohomology.subsingleton_sheafH_genericPointDirectImage_multiplicativeSheaf_of_isZero_rightDerived`
+`subsingleton_sheafH_genericPointDirectImage_multiplicativeSheaf_of_isZero_rightDerived`
 (which is how Stacks 03RK is proved above), applied to the hypotheses `h03RJ` (Stacks 03RJ) and
 `h03RG` (Stacks 03RG) carried here. The
 divisor sequence itself is carried as its second map `d` with `hzero` and `hSE` (Stacks 03RI);

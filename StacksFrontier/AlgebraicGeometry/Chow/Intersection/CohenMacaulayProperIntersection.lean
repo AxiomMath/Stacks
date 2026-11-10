@@ -361,7 +361,7 @@ private theorem isCohenMacaulayAt_of_isCohenMacaulayLocalRing_stalk_over_field
     (hW : IsCohenMacaulayLocalRing (W.presheaf.stalk w)) :
     Scheme.Hom.IsCohenMacaulayAt f (isLocallyNoetherian_fiber f) w := by
   have := isLocallyNoetherian_fiber f (f.base w)
-  show IsFlatAt f.toLRSHom.toShHom w ∧
+  change IsFlatAt f.toLRSHom.toShHom w ∧
     IsCohenMacaulayLocalRing ((f.fiber (f.base w)).presheaf.stalk (f.asFiber w))
   refine ⟨(Flat.iff_flat_stalkMap f).mp inferInstance w, ?_⟩
   have hiso : IsIso (f.fiberι (f.base w)) :=

@@ -35,7 +35,7 @@ namespace WithZero
 /-- In `ℤᵐ⁰`, an element below `1` is at most `exp (-1)`. -/
 theorem le_exp_neg_one_of_lt_one {x : ℤᵐ⁰} (hx : x < 1) : x ≤ exp (-1) := by
   rcases eq_or_ne x 0 with rfl | h0
-  · exact zero_le'
+  · exact zero_le
   · rw [← exp_log h0] at hx ⊢
     rw [exp_le_exp]
     rw [exp_lt_one_iff] at hx

@@ -153,7 +153,7 @@ private theorem isDominant_fromSpecStalk_genericPoint_of_irreducibleSpace
   have hηrange : genericPoint Y ∈ Set.range (Y.fromSpecStalk (genericPoint Y)).base :=
     ⟨closedPoint (Y.presheaf.stalk _), Scheme.fromSpecStalk_closedPoint (X := Y) (x := _)⟩
   refine ⟨?_⟩
-  show Dense (Set.range (Y.fromSpecStalk (genericPoint Y)).base)
+  change Dense (Set.range (Y.fromSpecStalk (genericPoint Y)).base)
   rw [dense_iff_closure_eq]
   apply Set.eq_univ_iff_forall.mpr
   intro y
@@ -205,7 +205,7 @@ private theorem normalizationDesc_isIso_of_integral_normal_source
     infer_instance
   let n := g ≫ f
   let k := n.normalizationDesc g f rfl
-  show IsIso k
+  change IsIso k
   have hfactor : n.toNormalization ≫ k = g := n.toNormalization_normalizationDesc g f rfl
   have : IsDominant g := isDominant_fromSpecStalk_genericPoint_of_irreducibleSpace Y
   have : IsDominant (n.toNormalization ≫ k) := by rwa [hfactor]

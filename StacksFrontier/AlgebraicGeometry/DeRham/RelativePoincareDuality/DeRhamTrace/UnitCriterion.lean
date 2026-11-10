@@ -348,7 +348,7 @@ theorem deRhamDerivedMul_comp_of_formsSMul (g : X.presheaf.obj (Opposite.op ⊤)
 wedge product. -/
 theorem unitToForms_comp_d : unitToForms B D ≫ (deRhamComplex B D).d 0 1 = 0 := by
   refine (_root_.SheafOfModules.unitHomEquiv _).injective (Subtype.ext (funext fun U => ?_))
-  show ((deRhamComplex B D).d 0 1).val.app U ((unitToForms B D).val.app U
+  change ((deRhamComplex B D).d 0 1).val.app U ((unitToForms B D).val.app U
     (1 : (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} A).obj.obj U)) = 0
   rw [unitToForms_app, one_smul]
   have h := deRhamComplex_degreeZero B D U 1

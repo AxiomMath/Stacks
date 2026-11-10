@@ -159,7 +159,7 @@ private theorem shortExact_sections_exact
     epi_app_of_isAffineOpen s.sequence.g U hU, ?_⟩
   · have : Mono (F.map s.sequence.f) := inferInstance
     exact (ModuleCat.mono_iff_injective _).mp inferInstance
-  · show LinearMap.range ((s.sequence.map F).f).hom =
+  · change LinearMap.range ((s.sequence.map F).f).hom =
       LinearMap.ker ((s.sequence.map F).g).hom
     simpa [F, Scheme.Modules.toPresheafOfModules] using hExactF.moduleCat_range_eq_ker
 
@@ -229,7 +229,7 @@ private theorem sectionProdMap_inv {X : Scheme.{u}} (M N : X.Modules) (U : X.Ope
 private theorem sectionProd_inv_map {X : Scheme.{u}} (M N : X.Modules) (U : X.Opens)
     (x : (Γ(M, U) : Type _) × Γ(N, U)) : sectionProdMap M N U (sectionProdInv M N U x) = x := by
   apply Prod.ext
-  · show (Limits.biprod.fst : M ⊞ N ⟶ M).app U
+  · change (Limits.biprod.fst : M ⊞ N ⟶ M).app U
       ((Limits.biprod.inl : M ⟶ M ⊞ N).app U x.1 +
        (Limits.biprod.inr : N ⟶ M ⊞ N).app U x.2) = x.1
     rw [map_add]
@@ -243,7 +243,7 @@ private theorem sectionProd_inv_map {X : Scheme.{u}} (M N : X.Modules) (U : X.Op
         (Limits.biprod.inr_fst (X := M) (Y := N))
     rw [h₁, h₂]
     simp
-  · show (Limits.biprod.snd : M ⊞ N ⟶ N).app U
+  · change (Limits.biprod.snd : M ⊞ N ⟶ N).app U
       ((Limits.biprod.inl : M ⟶ M ⊞ N).app U x.1 +
        (Limits.biprod.inr : N ⟶ M ⊞ N).app U x.2) = x.2
     rw [map_add]

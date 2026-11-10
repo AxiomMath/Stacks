@@ -492,7 +492,7 @@ theorem isGE_derivedPushforwardOverRing_obj
     (K : DerivedCategory (SheafOfModules.{u} X.ringCatSheaf)) (n : ℤ) (hK : K.IsGE n) :
     ((derivedPushforwardOverRing f).obj K).IsGE n := by
   have := hK
-  show DerivedCategory.TStructure.t.IsGE ((derivedPushforwardOverRing f).obj K) n
+  change DerivedCategory.TStructure.t.IsGE ((derivedPushforwardOverRing f).obj K) n
   rw [DerivedCategory.TStructure.t.isGE_iff_orthogonal (n - 1) n (by omega)]
   intro L g hL
   have := isLE_derivedPullbackOverRing_obj f L (n - 1) hL

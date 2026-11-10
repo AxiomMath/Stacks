@@ -187,8 +187,7 @@ theorem tensorStalkEquiv_tensorLeftMap (F : X.Modules) {A B : X.Modules} (g : A 
   obtain ⟨w, rfl⟩ : ∃ w, (tensorStalkEquiv F A x).symm w = z :=
     ⟨tensorStalkEquiv F A x z, (tensorStalkEquiv F A x).symm_apply_apply z⟩
   rw [LinearEquiv.apply_symm_apply]
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | add c d hc hd => rw [map_add, map_add, map_add, map_add, hc, hd]
   | tmul p q =>
       obtain ⟨U, hxU, m, hm⟩ := F.presheaf.exists_germ_eq p

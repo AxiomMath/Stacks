@@ -298,7 +298,7 @@ theorem pushPullTransition_componentPushPullSheafHomIso {m n : SimplexCategory} 
         ((situation J K).componentTopology n) ((situation J K).componentTopology m) J
         (componentOverMap (K.map φ.op)) (componentOverForget (K.obj (op m)))
         (componentOverForget (K.obj (op n)))
-        (componentOverMap_isContinuous J K φ) imcc icm iccm icn iccn iuv
+        (componentOverMap_isContinuous J K φ) imcc icm iccm icn iccn
         (componentOverMap_comp_componentOverForget (K.map φ.op))).trans
       (relocalizationForgetPushforwardIso_eq J (K.map φ.op)
         ((situation J K).componentTopology n) (componentTopology_eq J K n)

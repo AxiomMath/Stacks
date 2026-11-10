@@ -254,7 +254,7 @@ theorem formalSpectrumInclusion_comp_formalSpectrumIsoCompletion_hom [IsNoetheri
   have := isIso_supportComparison B S hS hRS q (IsLocalRing.maximalIdeal R)
   let w := Functor.isoWhiskerRight (weakIdealDiagramIso D hRS q hq hrad)
     (BigAffineFppf.inclusion B S hS ⋙ Sheaf.sheafifiedYoneda (BigFppfOver.topology B S hS))
-  have h1 := HasColimit.isoOfNatIso_ι_inv w (OrderDual.toDual J)
+  have h1 := HasColimit.ι_isoOfNatIso_inv w (OrderDual.toDual J)
   have h2 := Functor.Final.ι_colimitIso_hom (weakIdealSupportIndex hrad)
     (supportSheafDiagram B S hS hRS q (IsLocalRing.maximalIdeal R)) (OrderDual.toDual J)
   have h3 := supportComparison_stage B S hS hRS q (IsLocalRing.maximalIdeal R) ⟨J.1, hrad J⟩
@@ -490,7 +490,7 @@ theorem isRepresentableByAlgebraicSpacesULift_adicOfAlgebraization
     ((sheafToPresheaf _ _).mapIso e.symm) (Iso.refl _) ?_
     (Space.isRepresentableByAlgebraicSpacesULift_completionMap B S hS
       (isAlgebraicSpace_yoneda B S hS U) hX g₀ T)
-  show _ ≫ 𝟙 _ = e.inv.hom ≫ (e.hom ≫ Space.completionSheafMap B S hS g₀ T).hom
+  change _ ≫ 𝟙 _ = e.inv.hom ≫ (e.hom ≫ Space.completionSheafMap B S hS g₀ T).hom
   rw [Category.comp_id]
   exact (congrArg (fun k => k.hom) (e.inv_hom_id_assoc (Space.completionSheafMap B S hS g₀ T))).symm
 

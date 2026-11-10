@@ -345,7 +345,7 @@ private lemma image_quotient_is_cyclic
   let g : (F.functor.obj Q).obj →ₗ[A] K.obj := (F.functor.map q ≫ e.hom).hom.hom
   have : F.functor.Additive := finiteLength_linear_equivalence_additive A F
   have hq_surj : Function.Surjective q.hom.hom := by
-    show Function.Surjective (Ideal.Quotient.factor hI)
+    change Function.Surjective (Ideal.Quotient.factor hI)
     exact Ideal.Quotient.factor_surjective hI
   have hq_ne : q ≠ 0 := by
     intro hq0
@@ -398,13 +398,13 @@ private lemma image_quotient_iso
   let t : A →ₗ[A] (F.functor.obj Q).obj :=
     LinearMap.toSpanSingleton A (F.functor.obj Q).obj x
   have hker : LinearMap.ker t = (I : Submodule A A) := by
-    show LinearMap.ker (LinearMap.toSpanSingleton A (F.functor.obj Q).obj x) = I
+    change LinearMap.ker (LinearMap.toSpanSingleton A (F.functor.obj Q).obj x) = I
     rw [← Submodule.annihilator_span_singleton, hx, Submodule.annihilator_top,
       annihilator_image_eq A F Q]
     exact Ideal.annihilator_quotient
   have ht_surj : Function.Surjective t := by
     rw [← LinearMap.range_eq_top]
-    show LinearMap.range (LinearMap.toSpanSingleton A (F.functor.obj Q).obj x) = ⊤
+    change LinearMap.range (LinearMap.toSpanSingleton A (F.functor.obj Q).obj x) = ⊤
     rw [LinearMap.range_toSpanSingleton]
     exact hx
   let l : (A ⧸ I) →ₗ[A] (F.functor.obj Q).obj :=
@@ -461,11 +461,11 @@ private lemma maximalIdeal_power_quotient_isFiniteLength
     rw [← IsLocalRing.map_maximalIdeal_of_surjective
       (Ideal.Quotient.mk I) Ideal.Quotient.mk_surjective,
       ← Ideal.map_pow]
-    show Ideal.map (Ideal.Quotient.mk I) (IsLocalRing.maximalIdeal A ^ (n + 1)) = ⊥
+    change Ideal.map (Ideal.Quotient.mk I) (IsLocalRing.maximalIdeal A ^ (n + 1)) = ⊥
     rw [Ideal.map_eq_bot_iff_le_ker, Ideal.mk_ker]
   have : IsArtinianRing (A ⧸ I) :=
     (isArtinianRing_iff_isNilpotent_maximalIdeal (A ⧸ I)).mpr hnil
-  show IsFiniteLength A (A ⧸ I)
+  change IsFiniteLength A (A ⧸ I)
   exact isFiniteLength_iff_isNoetherian_isArtinian.mpr
     ⟨isNoetherian_quotient I,
       isArtinian_of_surjective_algebraMap
@@ -518,7 +518,7 @@ private lemma image_power_quotient_map_surjective
   let P : ObjectProperty (ModuleCat.{u} A) := fun M => IsFiniteLength A M
   let q := powerQuotientMap A (Nat.le_succ n)
   have hq_surj : Function.Surjective q.hom.hom := by
-    show Function.Surjective (Ideal.Quotient.factor
+    change Function.Surjective (Ideal.Quotient.factor
       (Ideal.pow_le_pow_right (Nat.add_le_add_right (Nat.le_succ n) 1)))
     exact Ideal.Quotient.factor_surjective _
   have : Epi q := P.ι.epi_of_epi_map
@@ -527,7 +527,7 @@ private lemma image_power_quotient_map_surjective
   have : P.ι.PreservesEpimorphisms :=
     P.preservesEpimorphisms_ι_of_isNormalMonoCategory
   have : Epi (F.functor.map q).hom := by
-    show Epi (P.ι.map (F.functor.map q))
+    change Epi (P.ι.map (F.functor.map q))
     infer_instance
   exact (ModuleCat.epi_iff_surjective (F.functor.map q).hom).mp inferInstance
 
@@ -573,7 +573,7 @@ private lemma power_quotient_iso_next
       (IsLocalRing.maximalIdeal A ^ (n + 1))
       (Ideal.pow_le_pow_right (Nat.add_le_add_right (Nat.le_succ n) 1))
       (Ideal.pow_le_self (Nat.succ_ne_zero n)) r
-    show Function.Surjective (r • q).hom.hom
+    change Function.Surjective (r • q).hom.hom
     rw [← ht]
     exact ht_surj
   let v : Aˣ := hunit.unit
@@ -762,7 +762,7 @@ private lemma powerHomEquiv_comp_factor
       powerHomEquiv A n X hn x := by
   apply (powerHomEquiv A n X hn).symm.injective
   simp only [LinearEquiv.symm_apply_apply]
-  show (ModuleCat.Hom.hom ((powerHomEquiv A m X hm) x).hom)
+  change (ModuleCat.Hom.hom ((powerHomEquiv A m X hm) x).hom)
     (1 : A ⧸ IsLocalRing.maximalIdeal A ^ (m + 1)) = x
   rw [← powerHomEquiv_symm_apply A m X hm ((powerHomEquiv A m X hm) x)]
   simp
@@ -795,7 +795,7 @@ private lemma powerHomEquiv_natural
     powerHomEquiv A n Y hY (f.hom.hom x) =
       powerHomEquiv A n X hX x ≫ f := by
   apply (powerHomEquiv A n Y hY).symm.injective
-  show (powerHomEquiv A n Y hY).symm
+  change (powerHomEquiv A n Y hY).symm
       ((powerHomEquiv A n Y hY) (f.hom.hom x)) =
     f.hom.hom ((powerHomEquiv A n X hX).symm
       ((powerHomEquiv A n X hX) x))
@@ -873,7 +873,7 @@ private lemma comparisonIso_natural
   ext x
   simp only [ObjectProperty.FullSubcategory.comp_hom, ModuleCat.hom_comp,
     LinearMap.comp_apply]
-  show powerComparison A F (annihilatorPowerIndex A Y) Y
+  change powerComparison A F (annihilatorPowerIndex A Y) Y
       (annihilatorPowerIndex_spec A Y) (f.hom.hom x) =
     (F.functor.map f).hom.hom
       (powerComparison A F (annihilatorPowerIndex A X) X

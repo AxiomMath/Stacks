@@ -46,6 +46,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_FinitePresentationModuleBaseChangeSystem :
@@ -266,7 +267,7 @@ theorem limitBaseChangeSystemIso_comp_snd (j : Over i) :
           (isAlgebraicSpace_stageBaseChangeSystem B S hS D hD R r) j ≫
         stageBaseChangeSpaceSnd B S hS D hD R r j := by
   apply ObjectProperty.hom_ext
-  show ((limit.isLimit _).conePointUniqueUpToIso
+  change ((limit.isLimit _).conePointUniqueUpToIso
       (isLimitPullbackLimitOverPost B S hS D i r.hom)).hom ≫ pullback.snd (limit.π D i) r.hom =
     limit.π (stageBaseChangeSystem B S hS D i r.hom) j ≫ stageBaseChangeSystemSnd B S hS D i r.hom j
   rw [← baseChangeCone_π_comp_snd B S hS D i r.hom j, ← Category.assoc,

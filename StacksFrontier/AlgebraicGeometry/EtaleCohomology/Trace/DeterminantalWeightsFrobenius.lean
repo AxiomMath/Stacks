@@ -94,12 +94,12 @@ theorem exists_geometricFrobeniusFamily_determinantal_weights (ι : K →+* ℂ)
   have := Stacks.EtaleCohomology.finite_residueField f y.1 y.2
   exact hdet _ _ (inv_pow_mul_geometricFrobeniusFamily_mem_ker p n hq f x y φ hφ)
 
-omit [CharZero K] [CompleteSpace K] [IsAlgClosed K] in
+omit [CharZero K] [IsUltrametricDist K] [CompleteSpace K] [IsAlgClosed K] in
 /-- The determinant character on the whole space is the determinant. -/
 theorem detCharacter_top_apply {Γ : Type*} [Group Γ] (ρ : Γ →* (Matrix m m K)ˣ)
     (hW : ∀ g, (ρ g : Matrix m m K) ∈ stabilizerSubalgebra (⊤ : Submodule K (m → K))) (g : Γ) :
     detCharacter ρ hW g = (ρ g : Matrix m m K).det := by
-  show LinearMap.det (stabRestrict (ρ g : Matrix m m K) (hW g)) = _
+  change LinearMap.det (stabRestrict (ρ g : Matrix m m K) (hW g)) = _
   have h : stabRestrict (ρ g : Matrix m m K) (hW g) =
       (Submodule.topEquiv (R := K) (M := m → K)).symm.toLinearMap ∘ₗ
         Matrix.toLin' (ρ g : Matrix m m K) ∘ₗ

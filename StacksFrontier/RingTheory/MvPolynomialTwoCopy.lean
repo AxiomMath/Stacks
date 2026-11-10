@@ -90,8 +90,7 @@ theorem cancel_comm_smul (t : MvPolynomial E A)
     (y : MvPolynomial E A ⊗[A] MvPolynomial E A) (v : V) :
     TensorProduct.comm A V (MvPolynomial E A) (cancel A E V (((1 ⊗ₜ t) * y) ⊗ₜ v)) =
       t • TensorProduct.comm A V (MvPolynomial E A) (cancel A E V (y ⊗ₜ v)) := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul t₁ t₂ =>
       simp [cancel, Algebra.TensorProduct.tmul_mul_tmul, TensorProduct.smul_tmul']
   | add y z hy hz =>
@@ -117,8 +116,7 @@ left-hand factor of `A[E] ⊗[A] V`. -/
 theorem fullEquiv_smul (t : MvPolynomial E A)
     (x : MvPolynomial E (MvPolynomial E A) ⊗[MvPolynomial E A] V) :
     fullEquiv A E V (diagShift A E t • x) = t • fullEquiv A E V x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul s v =>
       rw [TensorProduct.smul_tmul', smul_eq_mul, fullEquiv_tmul, fullEquiv_tmul, map_mul,
         twoCopy_diagShift]

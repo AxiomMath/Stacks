@@ -82,9 +82,9 @@ counterexample shows cannot be right.
 *Registration.* The tag stays on the two implications that are true, with the departure from the
 source's sentence written into the attribute's note string. That is the house pattern for a tag
 registered clause by clause rather than as one sentence, used for [Stacks, Tag 0AW0] in Chapter 47
-(`StacksFrontier/RingTheory/Dualizing/TorsionQuotient.lean:273` and the registrations below it, whose
-implementation notes likewise record how the registered statement departs from the source's). No
-attribute anywhere in the library claims the literal (1) ⟹ (2).
+(`StacksFrontier/RingTheory/Dualizing/TorsionQuotient.lean:273` and the registrations below it,
+whose implementation notes likewise record how the registered statement departs from the
+source's). No attribute anywhere in the library claims the literal (1) ⟹ (2).
 
 The engine is [Stacks, Tag 09R3],
 `DifferentialGradedModule.isCompactObject_iff_exists_retract_hasFiniteCellFiltration`: a compact
@@ -233,16 +233,16 @@ private theorem exists_gradedSplitting {K L M : DifferentialGradedModule.{u, u, 
       s.map_smul, ← smul_sub, π₀.map_smul]
   · refine π₀.map_grading n _ (Submodule.sub_mem _ hy ?_)
     exact s.map_grading n _ (g.map_grading n y hy)
-  · show π₀.toFun (f.toFun x - s.toFun (g.toFun (f.toFun x))) = x
+  · change π₀.toFun (f.toFun x - s.toFun (g.toFun (f.toFun x))) = x
     rw [hgf x, map_zero, sub_zero, hπ₀]
-  · show π₀.toFun (s.toFun z - s.toFun (g.toFun (s.toFun z))) = 0
+  · change π₀.toFun (s.toFun z - s.toFun (g.toFun (s.toFun z))) = 0
     rw [hs z, sub_self, map_zero]
   · obtain ⟨w, hw⟩ : y - s.toFun (g.toFun y) ∈ LinearMap.range f.toFun := by
       rw [h.exact]
-      show g.toFun (y - s.toFun (g.toFun y)) = 0
+      change g.toFun (y - s.toFun (g.toFun y)) = 0
       rw [map_sub, hs (g.toFun y), sub_self]
     have hπ : π₀.toFun (y - s.toFun (g.toFun y)) = w := by rw [← hw, hπ₀]
-    show f.toFun (π₀.toFun (y - s.toFun (g.toFun y))) + s.toFun (g.toFun y) = y
+    change f.toFun (π₀.toFun (y - s.toFun (g.toFun y))) + s.toFun (g.toFun y) = y
     rw [hπ, hw, sub_add_cancel]
 
 /-! ### Modules which are finite free as graded modules -/
@@ -266,10 +266,10 @@ theorem IsFiniteFreeAsGradedModule.of_iso {M N : DifferentialGradedModule.{u, u,
   obtain ⟨J, hJ, k, φ, ψ, hψφ, hφψ⟩ := h
   refine ⟨J, hJ, k, gradedComp e.inv.toGradedHom φ, gradedComp ψ e.hom.toGradedHom,
     fun x => ?_, fun y => ?_⟩
-  · show e.hom.toFun (ψ.toFun (φ.toFun (e.inv.toFun x))) = x
+  · change e.hom.toFun (ψ.toFun (φ.toFun (e.inv.toFun x))) = x
     rw [hψφ, ← Hom.comp_toFun_apply e.inv e.hom x, e.inv_hom_id]
     rfl
-  · show φ.toFun (e.inv.toFun (e.hom.toFun (ψ.toFun y))) = y
+  · change φ.toFun (e.inv.toFun (e.hom.toFun (ψ.toFun y))) = y
     rw [← Hom.comp_toFun_apply e.hom e.inv (ψ.toFun y), e.hom_inv_id]
     exact hφψ y
 
@@ -283,9 +283,9 @@ theorem isFiniteFreeAsGradedModule_of_isZero {M : DifferentialGradedModule.{u, u
     (hM : IsZero M) : IsFiniteFreeAsGradedModule M := by
   refine ⟨PEmpty.{u + 1}, inferInstance, fun _ => 0, gradedZero _ _, gradedZero _ _,
     fun x => ?_, fun y => ?_⟩
-  · show (0 : M.M) = x
+  · change (0 : M.M) = x
     exact (eq_zero_of_isZero hM x).symm
-  · show (0 : (∐ fun _ : PEmpty.{u + 1} => shift (regularModule A) (0 : ℤ)).M) = y
+  · change (0 : (∐ fun _ : PEmpty.{u + 1} => shift (regularModule A) (0 : ℤ)).M) = y
     exact (eq_zero_of_isZero (isZero_coproduct_of_isEmpty _) y).symm
 
 /-! ### Extensions -/
@@ -312,7 +312,7 @@ private theorem coproductInl_ι {J₁ J₂ : Type u} (k₁ : J₁ → ℤ) (k₂
         (Sum.inl j)).toFun x := by
   have hdesc : Sigma.ι (fun j => shift (regularModule A) (k₁ j)) j ≫ coproductInl k₁ k₂ =
       Sigma.ι (fun t : J₁ ⊕ J₂ => shift (regularModule A) (Sum.elim k₁ k₂ t)) (Sum.inl j) :=
-    Sigma.ι_desc _ _
+    Sigma.ι_comp_desc _ _
   rw [← Hom.comp_toFun_apply, hdesc]
 
 private theorem coproductInr_ι {J₁ J₂ : Type u} (k₁ : J₁ → ℤ) (k₂ : J₂ → ℤ) (j : J₂)
@@ -323,7 +323,7 @@ private theorem coproductInr_ι {J₁ J₂ : Type u} (k₁ : J₁ → ℤ) (k₂
         (Sum.inr j)).toFun x := by
   have hdesc : Sigma.ι (fun j => shift (regularModule A) (k₂ j)) j ≫ coproductInr k₁ k₂ =
       Sigma.ι (fun t : J₁ ⊕ J₂ => shift (regularModule A) (Sum.elim k₁ k₂ t)) (Sum.inr j) :=
-    Sigma.ι_desc _ _
+    Sigma.ι_comp_desc _ _
   rw [← Hom.comp_toFun_apply, hdesc]
 
 /-- The map into a direct sum indexed by a sum type attached to a pair of maps of graded modules
@@ -426,7 +426,7 @@ private theorem isFiniteFreeAsGradedModule_of_gradedSplitting
     IsFiniteFreeAsGradedModule L := by
   refine ⟨J₁ ⊕ J₂, inferInstance, Sum.elim k₁ k₂, coproductSumLift k₁ k₂ α β,
     coproductSumDesc k₁ k₂ a b, fun y => ?_, fun z => ?_⟩
-  · show (coproductSumDesc k₁ k₂ a b).toFun
+  · change (coproductSumDesc k₁ k₂ a b).toFun
       ((coproductInl k₁ k₂).toFun (α.toFun y) + (coproductInr k₁ k₂).toFun (β.toFun y)) = y
     rw [map_add, coproductSumDesc_inl, coproductSumDesc_inr, hdec]
   · refine LinearMap.congr_fun (coproduct_linearMap_ext
@@ -437,12 +437,12 @@ private theorem isFiniteFreeAsGradedModule_of_gradedSplitting
     match t with
     | Sum.inl j =>
       rw [coproductSumDesc_ι_inl]
-      show (coproductInl k₁ k₂).toFun (α.toFun (a.toFun _)) +
+      change (coproductInl k₁ k₂).toFun (α.toFun (a.toFun _)) +
         (coproductInr k₁ k₂).toFun (β.toFun (a.toFun _)) = _
       rw [hαa, hβa, map_zero, add_zero, coproductInl_ι]
     | Sum.inr j =>
       rw [coproductSumDesc_ι_inr]
-      show (coproductInl k₁ k₂).toFun (α.toFun (b.toFun _)) +
+      change (coproductInl k₁ k₂).toFun (α.toFun (b.toFun _)) +
         (coproductInr k₁ k₂).toFun (β.toFun (b.toFun _)) = _
       rw [hβb, hαb, map_zero, zero_add, coproductInr_ι]
 
@@ -461,15 +461,15 @@ private theorem isFiniteFreeAsGradedModule_of_isAdmissibleShortExact
   refine isFiniteFreeAsGradedModule_of_gradedSplitting k₁ k₂ (gradedComp π φ₁)
     (gradedComp g.toGradedHom φ₂) (gradedComp ψ₁ f.toGradedHom) (gradedComp ψ₂ s)
     (fun x => ?_) (fun x => ?_) (fun x => ?_) (fun x => ?_) fun y => ?_
-  · show φ₁.toFun (π.toFun (f.toFun (ψ₁.toFun x))) = x
+  · change φ₁.toFun (π.toFun (f.toFun (ψ₁.toFun x))) = x
     rw [hπf, hφψ₁]
-  · show φ₂.toFun (g.toFun (s.toFun (ψ₂.toFun x))) = x
+  · change φ₂.toFun (g.toFun (s.toFun (ψ₂.toFun x))) = x
     rw [hgs, hφψ₂]
-  · show φ₁.toFun (π.toFun (s.toFun (ψ₂.toFun x))) = 0
+  · change φ₁.toFun (π.toFun (s.toFun (ψ₂.toFun x))) = 0
     rw [hπs, map_zero]
-  · show φ₂.toFun (g.toFun (f.toFun (ψ₁.toFun x))) = 0
+  · change φ₂.toFun (g.toFun (f.toFun (ψ₁.toFun x))) = 0
     rw [hgf, map_zero]
-  · show f.toFun (ψ₁.toFun (φ₁.toFun (π.toFun y))) + s.toFun (ψ₂.toFun (φ₂.toFun (g.toFun y))) = y
+  · change f.toFun (ψ₁.toFun (φ₁.toFun (π.toFun y))) + s.toFun (ψ₂.toFun (φ₂.toFun (g.toFun y))) = y
     rw [hψφ₁, hψφ₂, hdec]
 
 /-! ### A module with a finite cell filtration is finite free as a graded module -/

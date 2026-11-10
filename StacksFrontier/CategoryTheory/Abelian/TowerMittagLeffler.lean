@@ -119,7 +119,7 @@ theorem IsVerschiebung.towerMap_verschiebungMap {a b c d : ℕ} (hca : c ≤ a) 
   obtain rfl : b = d + j := by omega
   induction j with
   | zero =>
-    show towerMap T (le_refl c) ≫ verschiebungMap T v hcd =
+    change towerMap T (le_refl c) ≫ verschiebungMap T v hcd =
       verschiebungMap T v hcd ≫ towerMap T (le_refl d)
     rw [towerMap_self, towerMap_self, Category.id_comp, Category.comp_id]
   | succ j ih =>
@@ -521,7 +521,7 @@ theorem isIso_limMap_of_proInverse {A B : ℕᵒᵖ ⥤ D} [HasLimit A] [HasLimi
             obtain rfl : u = (homOfLE h).op := rfl
             dsimp
             rw [Category.id_comp, Category.assoc]
-            show _ = _ ≫ g j.unop ≫ towerMap A h
+            change _ = _ ≫ g j.unop ≫ towerMap A h
             rw [← hg _ _ h, ← Category.assoc]
             exact congrArg (· ≫ g j'.unop) (limit.w B (homOfLE (hNm h)).op).symm } }
   refine ⟨⟨limit.lift A c, limit.hom_ext fun j => ?_, limit.hom_ext fun j => ?_⟩⟩

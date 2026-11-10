@@ -61,14 +61,14 @@ theorem exists_finiteDimensional_restriction_eq_zero (k k' : Type u) [Field k] [
     (Scheme.Spec.mapIso φ.toRingEquiv.toCommRingCatIso.op).hom
   have hψ : ψ ≫ Spec.map (CommRingCat.ofHom (algebraMap k E)) =
       Spec.map (CommRingCat.ofHom (algebraMap k A)) := by
-    show Spec.map (CommRingCat.ofHom φ.toRingEquiv.toRingHom) ≫ _ = _
+    change Spec.map (CommRingCat.ofHom φ.toRingEquiv.toRingHom) ≫ _ = _
     rw [← Spec.map_comp]
     congr 1
   let ι : pullback π (Spec.map (CommRingCat.ofHom (algebraMap k A))) ⟶
       pullback π (Spec.map (CommRingCat.ofHom (algebraMap k E))) :=
     pullback.map _ _ _ _ (𝟙 X) ψ (𝟙 _) (by simp) (by simp [hψ])
   have : IsIso ι := by exact pullback.map_isIso _ _ _ _ _ _ _ _ _
-  exact (restriction_eq_zero_of_comp_isIso ι _ _ (by simp [ι, pullback.lift_fst]) G q c).1 hcA
+  exact (restriction_eq_zero_of_comp_isIso ι _ _ (by simp [ι]) G q c).1 hcA
 
 end Stacks.EtaleCohomology.LimitExt
 

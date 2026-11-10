@@ -69,7 +69,7 @@ theorem isZero_etaleModulePullback_mapDerivedCategory_of_disjoint
   intro n
   refine IsZero.of_iso ?_
     (((etaleModulePullback.{u, u} B S hS g hg).mapDerivedCategoryHomologyIso n).app E)
-  show IsZero ((etaleModulePullback.{u, u} B S hS g hg).obj
+  change IsZero ((etaleModulePullback.{u, u} B S hS g hg).obj
     ((DerivedCategory.homologyFunctor (Modules.{u, u} B S hS X.1 X.2) n).obj E))
   have hsupp := supportOfSheaf_toSheaf_etaleModulePullback B S hS g hg
     ((DerivedCategory.homologyFunctor (Modules.{u, u} B S hS X.1 X.2) n).obj E)

@@ -437,13 +437,13 @@ theorem isAffine_inter_cechObjects_target {ι : Type} {U : ι → S.X.Opens} [�
           Thickening.id_targetHom, DividedPowerScheme.Hom.id_hom] using this }
   exact @IsAffine.of_isIso _ _ φ.hom (Iso.isIso_hom φ) inferInstance
 
+omit [IsAffine S.S.scheme] [S.X.IsSeparated] in
 /-- The intersection of the opens indexed by a finset, read through its enumeration. -/
 theorem iInf_orderIsoOfFin {n : ℕ} (U : Fin n → S.X.Opens) (s : Finset (Fin n)) {k : ℕ}
     (hk : s.card = k) : (⨅ a, U (s.orderIsoOfFin hk a)) = ⨅ i ∈ s, U i := by
   refine le_antisymm (le_iInf₂ fun i hi ↦ ?_) (le_iInf fun a ↦ iInf₂_le _ (s.orderIsoOfFin hk a).2)
   simpa using iInf_le (fun a ↦ U (s.orderIsoOfFin hk a)) ((s.orderIsoOfFin hk).symm ⟨i, hi⟩)
 
-include hp in
 /-- **The hypothesis of the finite-cover vanishing on the intersections of charts with étale
 coordinates**: for affine opens `U_i` of a separated `X`, each carrying a smooth lift with étale
 coordinates, every nonempty finite intersection `⋂_{i ∈ s} U_i` has, for some `d`, crystalline
@@ -464,7 +464,7 @@ theorem exists_subsingleton_cohomology_iInf {n : ℕ} {U : Fin n → S.X.Opens}
     (fun a ↦ hL (s.orderIsoOfFin hk a))
   have hV : CechEnvelope.inter V = ⨅ i ∈ s, U i := iInf_orderIsoOfFin U s hk
   refine ⟨d, fun Fc ↦ ?_⟩
-  have h := exists_restrict_subsingleton_cohomology_of_smoothLift hp (CechEnvelope.inter V)
+  have h := exists_restrict_subsingleton_cohomology_of_smoothLift (CechEnvelope.inter V)
     (inferInstance : IsAffine (CechEnvelope.inter V).toScheme) L' t ht Fc
   rwa [hV] at h
 
@@ -494,7 +494,7 @@ theorem exists_isZero_homology_tensorComplex_cech {n : ℕ} {U : Fin n → S.X.O
           ((smallExtendAbelianRestriction S W (⨅ i ∈ s, U i) hVW).obj
             (abelianSheaf Fc.obj)) j) := fun s ↦ by
     by_cases hs : s.Nonempty
-    · obtain ⟨d, hd⟩ := exists_subsingleton_cohomology_iInf hp hL s hs
+    · obtain ⟨d, hd⟩ := exists_subsingleton_cohomology_iInf hL s hs
       exact ⟨d, fun _ ↦ hd⟩
     · exact ⟨0, fun h ↦ (hs h).elim⟩
   choose d hd using hex
@@ -554,7 +554,7 @@ theorem isIso_homEquiv_symm_of_isLimit {κ : Type} [Finite κ] {Y : κ → Modul
   have he : e.hom = ((extendRestrictScalarsAdj.{v, u, u} ρ).homEquiv _ _).symm φ := by
     refine Fan.IsLimit.hom_ext hW _ _ fun k ↦ ?_
     refine (IsLimit.conePointsIsoOfNatIso_hom_comp hE hW _ ⟨k⟩).trans ?_
-    show E.map (πX k) ≫ ((extendRestrictScalarsAdj.{v, u, u} ρ).homEquiv _ _).symm (θ k) = _
+    change E.map (πX k) ≫ ((extendRestrictScalarsAdj.{v, u, u} ρ).homEquiv _ _).symm (θ k) = _
     rw [← Adjunction.homEquiv_naturality_left_symm, ← hφ k,
       Adjunction.homEquiv_naturality_right_symm]
     rfl
@@ -740,7 +740,7 @@ theorem exists_fin_opens_smoothLift_etaleCoordinates (S : GlobalCrystallineSitua
     exact IsAffine.of_isIso (j (e.symm i)).isoOpensRange.inv
   · obtain ⟨k, hk⟩ := Set.mem_iUnion.1 (hcov.symm ▸ Set.mem_univ x)
     refine ⟨e k, ?_⟩
-    show x ∈ Set.range (j (e.symm (e k)))
+    change x ∈ Set.range (j (e.symm (e k)))
     rw [e.symm_apply_apply]
     exact hk
   · have := hV (e.symm i)
@@ -849,8 +849,7 @@ theorem isIso_homEquiv_symm_of_isBaseChange {X : ModuleCat.{max v u} R}
   have hfun : ∀ z, (((extendRestrictScalarsAdj.{v, u, u} ρ).homEquiv _ _).symm θ).hom z =
       hθ.equiv z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero _).symm
+    induction z using TensorProduct.inductionOn with
     | tmul s x => exact (IsBaseChange.equiv_tmul hθ (show S from s) x).symm
     | add z z' hz hz' =>
       exact (map_add _ _ _).trans ((congrArg₂ _ hz hz').trans (map_add _ _ _).symm)

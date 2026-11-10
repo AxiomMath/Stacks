@@ -64,8 +64,7 @@ inclusion of an ideal. Then for every `b : N` the composite of the multiplicatio
 lemma smulMap_comp_mk (ι : N →ₗ[A] A) (hι : ∀ n n' : N, ι n • n' = ι n' • n) (b : N)
     (z : N ⊗[A] M) :
     b ⊗ₜ[A] smulMap ι z = ι b • z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul n m =>
       rw [smulMap_tmul, ← TensorProduct.smul_tmul, hι n b, TensorProduct.smul_tmul']
   | add z w hz hw => rw [map_add, TensorProduct.tmul_add, hz, hw, smul_add]

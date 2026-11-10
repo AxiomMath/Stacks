@@ -76,7 +76,7 @@ theorem eq_of_specializes_of_ringKrullDim_stalk_eq (X : Scheme.{u}) [IsLocallyNo
       IsLocalization.AtPrime.ringKrullDim_eq_height q (X.presheaf.stalk x)] at hdim
     exact WithBot.coe_eq_coe.mp hdim.symm
   have hpq : p ≤ q := by
-    show (hV.primeIdealOf yV).asIdeal ≤ (hV.primeIdealOf xV).asIdeal
+    change (hV.primeIdealOf yV).asIdeal ≤ (hV.primeIdealOf xV).asIdeal
     have hxyV : yV ⤳ xV := by
       rw [specializes_iff_forall_open]
       intro W hW hxW
@@ -108,7 +108,7 @@ theorem ringKrullDim_stalk_le_of_locallyQuasiFinite {X Y : Scheme.{u}} (g : X �
   have hqf : (g.stalkMap x).hom.QuasiFinite := g.quasiFiniteAt x
   have : Algebra.QuasiFinite A C := hqf
   have : Algebra.QuasiFiniteAt A q := by
-    show Algebra.QuasiFinite A (Localization.AtPrime q)
+    change Algebra.QuasiFinite A (Localization.AtPrime q)
     infer_instance
   rw [← IsLocalRing.maximalIdeal_height_eq_ringKrullDim,
     ← IsLocalRing.maximalIdeal_height_eq_ringKrullDim]
@@ -160,7 +160,7 @@ theorem localRingDimension_le_of_isLocallyQuasiFinite
   have hvChart : ChartPoint B S hS V b (T.map h u) y := by
     refine ⟨FieldValuedPoint.map B S hS (yoneda.obj U) (yoneda.map h) p,
       schemePoint_map_yoneda B S hS h p, ?_⟩
-    show pointsMap B S hS (yoneda.obj V) b (pointsMap B S hS (yoneda.obj U) (yoneda.map h)
+    change pointsMap B S hS (yoneda.obj V) b (pointsMap B S hS (yoneda.obj U) (yoneda.map h)
       (p.class B S hS (yoneda.obj U))) = y
     calc pointsMap B S hS (yoneda.obj V) b (pointsMap B S hS (yoneda.obj U) (yoneda.map h)
             (p.class B S hS (yoneda.obj U)))

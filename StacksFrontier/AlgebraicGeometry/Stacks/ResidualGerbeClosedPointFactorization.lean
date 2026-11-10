@@ -117,9 +117,9 @@ The residual gerbe is the reduced closed substack on `{x}` (**Stacks 0509**), wh
 gerbe at `x` as in the proof of Stacks 0H27; every residual gerbe at `x` has closed immersion
 inclusion by Stacks 0H27, so `f` factors through it by **Stacks 050B**. -/
 @[stacks 0H26 "the closed-point case the remark asserts: for X locally Noetherian and x a closed \
-point, f : Y -> X with Y reduced and |f|(|Y|) in {x} factors through the residual gerbe at x, which \
-exists (via 0H27). The remark's open question, whether Lemma 0H25 holds for every point of a \
-locally Noetherian X without the quasi-compact inertia hypothesis, is NOT asserted"]
+point, f : Y -> X with Y reduced and |f|(|Y|) in {x} factors through the residual gerbe at x, \
+which exists (via 0H27). The remark's open question, whether Lemma 0H25 holds for every point of \
+a locally Noetherian X without the quasi-compact inertia hypothesis, is NOT asserted"]
 theorem factorsThroughSubstack_residualGerbe_of_isClosed_singleton
     {𝒳 𝒴 : AlgebraicStacks.{u, w} B S hS} (h𝒳 : IsLocallyNoetherianStack B S hS 𝒳)
     (x : AlgebraicStacks.points B S hS 𝒳)

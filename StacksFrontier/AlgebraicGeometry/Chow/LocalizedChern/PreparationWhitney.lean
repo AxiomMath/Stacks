@@ -257,7 +257,7 @@ theorem isLocalizedModificationClass_modificationTotalChernClass_snd
     IsLocalizedModificationClass (gysinAtInfinityData C f b hA) z t hT
       ((perfectChernClass C (modificationProjection f b ≫ f) hQ).intComponent C _ i.1)
       ((modificationTotalChernClass C f b hA z t hQ p hT hrank).2 i) := by
-  rw [TotalChowClass.intComponent, dif_pos (le_trans (Int.natCast_nonneg p) i.2)]
+  rw [TotalChowClass.intComponent, dite_eq_left (le_trans (Int.natCast_nonneg p) i.2)]
   exact IsLocalizedModificationClass.bivariantClassDegreeCongr _
     (IsLocalizedModificationClass.of_vanishesOver
       (vanishesOver_perfectChernClass_of_rankLT C (modificationProjection f b ≫ f)
@@ -279,11 +279,11 @@ theorem localizedGradingPush_modificationTotalChernClass
   · rw [localizedGradingPush_of_lt _ h]
     rfl
   · rw [localizedGradingPush_of_le _ h]
-    show properPushforwardChowCohomology C f (z ≫ f) z rfl
+    change properPushforwardChowCohomology C f (z ≫ f) z rfl
       (bivariantClassDegreeCongr C _ (z ≫ f) f z rfl _ _) = _
     rw [properPushforwardChowCohomology_bivariantClassDegreeCongr,
       properPushforwardChowCohomology_modificationChernClass, TotalChowClass.intComponent,
-      dif_pos (by omega)]
+      dite_eq_left (by omega)]
 
 variable {Q' : DerivedCategory W.Modules} (hQ' : HasDefinedChernClasses Q') {p' : ℕ}
 

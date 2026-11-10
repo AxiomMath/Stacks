@@ -157,7 +157,7 @@ private theorem comp_assoc_lof_of_ne_left [IsProper sY] [IsProper sZ] (r s t : �
   by_cases hf : f = f'
   · subst hf
     simp only [comp_lof_lof_lof_lof, comp_lof_lof_lof_of_ne k sX sY sW Δ r (s + t) d e e' he]
-  · simp only [comp_lof_lof_lof_of_ne k sY sZ sW Δ s t e' f f' hf, LinearEquiv.map_zero,
+  · simp only [comp_lof_lof_lof_of_ne k sY sZ sW Δ s t e' f f' hf,
       LinearMap.map_zero]
 
 omit [IsSeparated sX] [IsSeparated sY] [IsSeparated sZ] [IsSeparated sW] in

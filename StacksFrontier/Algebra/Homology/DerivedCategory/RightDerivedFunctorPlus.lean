@@ -6,7 +6,7 @@ public import Mathlib.Algebra.Homology.HomotopyCategory.Plus
 public import Mathlib.CategoryTheory.Localization.DerivabilityStructure.Constructor
 public import Mathlib.CategoryTheory.Localization.DerivabilityStructure.Derives
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 public import Mathlib.Order.CompletePartialOrder
 import StacksCore.Tactic.EgaSgaAttribute
 
@@ -195,7 +195,7 @@ lemma plusInjΦ_exists_resolution (A : Type*) [Category A] [Abelian A] [EnoughIn
   refine ⟨⟨(HomotopyCategory.Plus.quotient A).obj K'plus, ?_⟩,
     (HomotopyCategory.Plus.quotient A).map
       (ObjectProperty.homMk ι : W ⟶ K'plus), ?_⟩
-  · show CochainComplex.IsKInjective (((HomotopyCategory.Plus.quotient A).obj K'plus).obj.as)
+  · change CochainComplex.IsKInjective (((HomotopyCategory.Plus.quotient A).obj K'plus).obj.as)
     rw [HomotopyCategory.Plus.quotient_obj_obj_as]
     exact (inferInstance : K'.IsKInjective)
   · rw [HomotopyCategory.Plus.quasiIso_iff, HomotopyCategory.Plus.quotient_map_hom]

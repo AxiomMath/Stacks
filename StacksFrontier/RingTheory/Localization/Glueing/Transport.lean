@@ -85,7 +85,7 @@ theorem map_mul_of_isLocalizedModule {R₀ : Type*} [CommRing R₀] {M P Q : Typ
   have h2 : ((c : R₀) * d) • (e p * e p') = e (ι a) * e (ι b) := by
     rw [← smul_mul_smul_of_smul_mul hQ, ← map_smul, ← map_smul, hc, hd]
   refine hTQ ((c : R₀) * d) (mul_mem c.2 d.2) ?_
-  show ((c : R₀) * d) • e (p * p') = ((c : R₀) * d) • (e p * e p')
+  change ((c : R₀) * d) • e (p * p') = ((c : R₀) * d) • (e p * e p')
   rw [← map_smul, h1, hmul, h2]
 
 /-! ### The scalar action on a left tensor factor -/
@@ -97,8 +97,7 @@ factor. -/
 theorem map_id_smul {X Y : Type*} [AddCommGroup X] [Module R X] [AddCommGroup Y] [Module R Y]
     (g : X →ₗ[R] Y) (a : S) (z : TensorProduct R S X) :
     TensorProduct.map LinearMap.id g (a • z) = a • TensorProduct.map LinearMap.id g z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul s xx => simp [TensorProduct.smul_tmul']
   | add p q hp hq => simp only [smul_add, map_add, hp, hq]
 
@@ -108,8 +107,7 @@ theorem algebraMap_smul_eq_map {X : Type*} [AddCommGroup X] [Module R X] (b : R)
     (z : TensorProduct R S X) :
     (algebraMap R S b) • z =
       TensorProduct.map LinearMap.id (b • (LinearMap.id : X →ₗ[R] X)) z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul s xx =>
     rw [TensorProduct.smul_tmul', TensorProduct.map_tmul]
     simp only [LinearMap.id_coe, id_eq, LinearMap.smul_apply]

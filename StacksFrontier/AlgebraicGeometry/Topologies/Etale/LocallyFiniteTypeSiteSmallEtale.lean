@@ -181,7 +181,7 @@ def etaleTerminalInv : Y ⟶ etaleObj Y (smallEtaleTerminal Y) :=
 @[reassoc (attr := simp)]
 lemma etaleTerminalInv_etaleHom : etaleTerminalInv Y ≫ etaleHom Y (smallEtaleTerminal Y) = 𝟙 Y := by
   apply (forget S).map_injective
-  show 𝟙 _ ≫ 𝟙 _ = 𝟙 _
+  change 𝟙 _ ≫ 𝟙 _ = 𝟙 _
   simp
 
 /-- `etaleTerminalInv Y` is a retraction of the structure morphism of `etaleObj Y (𝟙 W)`. -/
@@ -189,7 +189,7 @@ lemma etaleTerminalInv_etaleHom : etaleTerminalInv Y ≫ etaleHom Y (smallEtaleT
 lemma etaleHom_etaleTerminalInv :
     etaleHom Y (smallEtaleTerminal Y) ≫ etaleTerminalInv Y = 𝟙 _ := by
   apply (forget S).map_injective
-  show 𝟙 _ ≫ 𝟙 _ = 𝟙 _
+  change 𝟙 _ ≫ 𝟙 _ = 𝟙 _
   simp
 
 /-- **The small étale site of `Y` has its terminal object sent to a terminal object of `C/Y`.** -/

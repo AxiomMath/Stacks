@@ -111,12 +111,12 @@ public theorem exists_adicCompletion_mvPolynomial_quotient_equiv
         (AdicCompletion.evalₐ K n x) = AdicCompletion.evalₐ K m x := by
       have hh := congrArg (Ideal.Quotient.factor
         (show K ^ m • ⊤ ≤ K ^ m by simp)) (x.property hmn)
-      show Ideal.Quotient.factor (Ideal.pow_le_pow_right hmn)
+      change Ideal.Quotient.factor (Ideal.pow_le_pow_right hmn)
           (Ideal.Quotient.factor (show K ^ n • ⊤ ≤ K ^ n by simp) (x.val n)) =
         Ideal.Quotient.factor (show K ^ m • ⊤ ≤ K ^ m by simp) (x.val m)
       simpa [Ideal.Quotient.factor_comp_apply, AdicCompletion.transitionMap] using hh
     simp only [fn, AlgHom.comp_apply]
-    show Ideal.Quotient.factor (Ideal.pow_le_pow_right hmn)
+    change Ideal.Quotient.factor (Ideal.pow_le_pow_right hmn)
       ((Ideal.quotientMapₐ (L ^ n) q (hpow n)) (AdicCompletion.evalₐ K n x)) =
       (Ideal.quotientMapₐ (L ^ m) q (hpow m)) (AdicCompletion.evalₐ K m x)
     rw [← heval]
@@ -161,7 +161,7 @@ public theorem exists_adicCompletion_mvPolynomial_quotient_equiv
       exact map_map_algebraMap_algHom F I
     have : IsHausdorff (M.map F.toRingHom) B.carrier := hML.symm ▸ inferInstance
     apply surjective_of_mk_map_comp_surjective (I := M) (f := F.toRingHom)
-    show Function.Surjective ((Ideal.Quotient.mk (M.map F.toRingHom)).comp F.toRingHom)
+    change Function.Surjective ((Ideal.Quotient.mk (M.map F.toRingHom)).comp F.toRingHom)
     rw [hML]
     exact hred
   exact ⟨r, RingHom.ker F.toRingHom, ⟨Ideal.quotientKerAlgEquivOfSurjective hF⟩⟩

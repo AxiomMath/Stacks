@@ -43,7 +43,7 @@ theorem dualizingModuleEquiv_tmul_of_isPushout
     IsScalarTower.of_algebraMap_eq fun c => (hr c).symm
   let : IsScalarTower A G.middle F.middle := IsScalarTower.of_algebraMap_eq' (by
     ext a
-    show algebraMap A F.middle a = r (algebraMap A G.middle a)
+    change algebraMap A F.middle a = r (algebraMap A G.middle a)
     exact (r.commutes a).symm)
   let : Module.Flat G.middle B := finiteOpenFactorization_flat G
   let : Module.Finite A F.middle := F.finite_middle
@@ -76,11 +76,10 @@ theorem dualizingModuleEquiv_tmul_of_isPushout
       ν (finiteAlgebraChangeToF F hfin (commonSubalgebra_fromF F G) hcompF hinj z) =
         finiteAlgebraChangeToF G hfin (commonSubalgebra_fromG F G) hcompG hinj z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact (congrArg ν (map_zero _)).trans ((ν.map_zero).trans (map_zero _).symm)
+    induction z using TensorProduct.inductionOn with
     | tmul χ c =>
       rw [finiteAlgebraChangeToF_tmul, finiteAlgebraChangeToF_tmul]
-      show ν (dualizingModule.tmul F _ c) = dualizingModule.tmul G _ c
+      change ν (dualizingModule.tmul F _ c) = dualizingModule.tmul G _ c
       rw [hν]
       congr 1
       exact LinearMap.ext fun c' => congrArg χ (hrD c')

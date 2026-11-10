@@ -231,7 +231,7 @@ public theorem closedFiberPullbackComparison_isIso :
     pullback.condition
   have hcone : e₁ ≫ f = e₂ ≫ f' := by
     apply DividedPowerScheme.Hom.ext
-    show (q₁ ≫ closedFiberι T ≫ f.hom) =
+    change (q₁ ≫ closedFiberι T ≫ f.hom) =
       (q₂ ≫ closedFiberι T' ≫ f'.hom)
     rw [← closedFiberMap_comp_closedFiberι, ← closedFiberMap_comp_closedFiberι,
       reassoc_of% hq]
@@ -265,10 +265,10 @@ public theorem closedFiberPullbackComparison_isIso :
     intro a b h₁ h₂
     have key : zeroDividedPowerScheme_map a = zeroDividedPowerScheme_map b := by
       apply pullback.hom_ext <;> apply DividedPowerScheme.Hom.ext
-      · show a ≫ closedFiberι (pullback f f') ≫ (pullback.fst f f').hom =
+      · change a ≫ closedFiberι (pullback f f') ≫ (pullback.fst f f').hom =
           b ≫ closedFiberι (pullback f f') ≫ (pullback.fst f f').hom
         rw [← closedFiberMap_comp_closedFiberι, reassoc_of% h₁]
-      · show a ≫ closedFiberι (pullback f f') ≫ (pullback.snd f f').hom =
+      · change a ≫ closedFiberι (pullback f f') ≫ (pullback.snd f f').hom =
           b ≫ closedFiberι (pullback f f') ≫ (pullback.snd f f').hom
         rw [← closedFiberMap_comp_closedFiberι, reassoc_of% h₂]
     exact (cancel_mono (closedFiberι (pullback f f'))).mp

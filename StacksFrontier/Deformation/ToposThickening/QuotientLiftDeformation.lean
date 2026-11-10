@@ -70,6 +70,7 @@ instance instMonoQuotientLiftPreimageι : Mono (quotientLiftPreimageι i F' K) :
     ⟨_, ⟨i.pullbackAdjPushforwardModulesViaComparison⟩⟩
   exact inferInstanceAs (Mono (pullback.snd _ _))
 
+omit [HasWeakSheafify S.J AddCommGrpCat] [S.J.WEqualsLocallyBijective AddCommGrpCat] in
 include comm in
 /-- The lift of `𝒦` attached to a map `d : π⁻¹(𝒦) ⟶ M` extending `c` is flat over `O_{ℬ'}`. -/
 theorem isFlat_cokernel_extensionKernelIn
@@ -256,7 +257,7 @@ theorem extensionKernelIn_quotient_shortExact
       (by rw [← hk, Category.assoc])
     have hl : l ≫ quotientLiftPreimageι i F' K = p₂ ≫ y := pullback.lift_snd _ _ _
     refine ⟨A₂, p₂ ≫ p₁, inferInstance, l ≫ d.val, ?_⟩
-    show (p₂ ≫ p₁) ≫ x₂ = (l ≫ d.val) ≫ ι
+    change (p₂ ≫ p₁) ≫ x₂ = (l ≫ d.val) ≫ ι
     rw [Category.assoc, hy, ← Category.assoc, ← hl, Category.assoc, Category.assoc, hι]
   · have : Epi (i.pullbackAdjPushforwardModulesViaComparison.unit.app F' ≫
         i.pushforwardModules.map (cokernel.π K.arrow)) := epi_comp _ _

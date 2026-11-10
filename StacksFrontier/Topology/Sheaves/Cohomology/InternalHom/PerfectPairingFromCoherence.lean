@@ -144,7 +144,7 @@ derivedSheafHomComposition_structureSheafMiddle_whiskerRight_comp_derivedSheafHo
           derivedSheafHomCounit Rc L (RingedSite.derivedStructureSheaf (ringedSite Rc))) ≫
           derivedSheafHomCounit Rc
             (RingedSite.derivedStructureSheaf (ringedSite Rc)) M :=
-derivedSheafHomComposition_structureSheafMiddle_whiskerRight_comp_derivedSheafHomCounit_of_transpose
+  derivedSheafHomComposition_structureSheafMiddle_whiskerRight_comp_counit_of_transpose
     Rc L M
     (derivedSheafHomTensorEquiv_derivedSheafHomComposition_of_coherence Rc L
       (RingedSite.derivedStructureSheaf (ringedSite Rc)) M cur hcmp hcoh)

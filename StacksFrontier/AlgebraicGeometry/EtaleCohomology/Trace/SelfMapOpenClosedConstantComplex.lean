@@ -46,7 +46,7 @@ section TwistedBaseChangeComponents
 
 variable {A C' : Type*} [Category* A] [Category* C'] [Abelian A] [Abelian C']
   (P' : C' ⥤ C') (g' : A ⥤ C') (PZ : C' ⥤ C') (Sg : C' ⥤ C') (S : A ⥤ A)
-  [P'.Additive] [g'.Additive] [S.Additive]
+  [P'.Additive] [g'.Additive]
   (tw' : g' ⟶ g' ⋙ PZ) (aBC : S ⋙ g' ⟶ g' ⋙ Sg) (c : Sg ⋙ PZ ≅ P')
 
 /-- The components of `CategoryTheory.Functor.twistedBaseChangeTwistHC`. -/
@@ -116,6 +116,7 @@ variable (Λ : Type) [CommRing Λ] {k : Type u} [Field k]
   (gW : W' ⟶ W) (hW : i' ≫ fieldBaseChangeProj Y kbar = gW ≫ iW)
   (gV : V' ⟶ V) (hV : j' ≫ fieldBaseChangeProj Y kbar = gV ≫ jV)
 
+omit [Fintype k] in
 include hij' in
 /-- **The identification of `(j_! j^{-1} M_Y)|_{Y_k̄}` with `j'_! j'^{-1} f^{-1} M_{k̄}` is natural
 in the module `M`**: both are subobjects of `f^{-1} M_{k̄}` through the counits. -/
@@ -169,6 +170,7 @@ abbrev extensionByZeroConstantTwist (n : ℤ) :
   extensionByZeroTwist Λ jV σV σ.left sq (etaleModuleConstantSheaf Λ (N.obj.X n) Y.left)
     (constantSelfMapTwist Λ (N.obj.X n) σ.left)
 
+omit [Fintype k] in
 /-- The maps `ε` commute with the differentials. -/
 lemma extensionByZeroConstantTwist_comm (a b : ℤ) :
     (extensionByZeroConstantComplex Λ Y jV N).obj.d a b ≫
@@ -195,6 +197,7 @@ def fieldBaseChangeExtensionByZeroConstantComplexIso :
     (fun a b _ => (fieldBaseChangeExtensionByZeroConstantIso_hom_naturality Λ Y kbar jV iW hij j' i'
       hij' gW hW gV hV (N.obj.d a b)).symm))
 
+omit [Fintype k] in
 /-- The components of the identification of complexes. -/
 lemma fieldBaseChangeExtensionByZeroConstantComplexIso_hom_hom_f (n : ℤ) :
     (fieldBaseChangeExtensionByZeroConstantComplexIso Λ Y kbar jV iW hij j' i' hij' gW hW gV hV
@@ -202,6 +205,7 @@ lemma fieldBaseChangeExtensionByZeroConstantComplexIso_hom_hom_f (n : ℤ) :
     (fieldBaseChangeExtensionByZeroConstantIso Λ (N.obj.X n) Y kbar jV iW hij j' i' hij' gW hW gV
       hV).hom := rfl
 
+omit [Fintype k] in
 /-- The components of the inverse identification of complexes. -/
 lemma fieldBaseChangeExtensionByZeroConstantComplexIso_inv_hom_f (n : ℤ) :
     (fieldBaseChangeExtensionByZeroConstantComplexIso Λ Y kbar jV iW hij j' i' hij' gW hW gV hV
@@ -211,6 +215,7 @@ lemma fieldBaseChangeExtensionByZeroConstantComplexIso_inv_hom_f (n : ℤ) :
 
 /-! ### The twist of the first term of the open/closed sequence -/
 
+omit [IsIntegralHom σ.left] in
 /-- The twist `Functor.twistedBaseChangeTwist` of the Frobenius data is the twisted Frobenius
 twist. -/
 lemma twistedBaseChangeTwist_eq_twistedFrobeniusTwist (C : EtaleModules.{u, 0} Λ Y.left)
@@ -299,6 +304,7 @@ private lemma comp_mapHomologicalComplex_map_eq_of_f {C : Type*} [Category* C] [
   simp only [HomologicalComplex.comp_f, Functor.mapHomologicalComplex_map_f, Category.assoc]
   exact h n
 
+omit [Fintype k] [IsClosedImmersion i'] in
 /-- The components of the first map of the open/closed sequence are counits. -/
 lemma selfMapOpenClosedShortComplex_f_f (n : ℤ) :
     (selfMapOpenClosedShortComplex Λ (pullback.snd Y.hom (specAlgebraMap k kbar)) i' j' hij' fW hfW
@@ -353,6 +359,7 @@ theorem extensionByZeroConstantOpenTwist_comp_f :
     fieldBaseChangeExtensionByZeroConstantComplexIso_hom_hom_f, selfMapOpenClosedShortComplex_f_f]
   exact key2
 
+omit [Fintype k] in
 include hij hij' hW hV in
 /-- Perfectness of `RΓ(Y_k̄, (j_{V!} j_V^{-1} N_Y)|_{Y_k̄})` is that of the cohomology with compact
 support of `V_k̄` with coefficients in `N_{k̄}`. -/
@@ -437,7 +444,7 @@ theorem perfectDerivedTrace_twistedFrobenius_extensionByZeroConstant_eq_openTwis
       (pullback.snd Y.hom (specAlgebraMap k kbar)) (pullback.snd Y.hom (specAlgebraMap k kbar))
       (twistedGeometricFrobenius_comp_toBase Y σ kbar p q hcard).symm) E _ _ ?_ hZ hp₁
   ext n : 2
-  show (extensionByZeroConstantTwistedFrobeniusHC Λ Y σ kbar p q hcard jV σV sq N).f n ≫ _ =
+  change (extensionByZeroConstantTwistedFrobeniusHC Λ Y σ kbar p q hcard jV σV sq N).f n ≫ _ =
     E.hom.hom.f n ≫ (E.inv.hom.f n ≫
       (extensionByZeroConstantTwistedFrobeniusHC Λ Y σ kbar p q hcard jV σV sq N).f n ≫ _)
   rw [← Category.assoc (E.hom.hom.f n), ← HomologicalComplex.comp_f E.hom.hom E.inv.hom, hEE,

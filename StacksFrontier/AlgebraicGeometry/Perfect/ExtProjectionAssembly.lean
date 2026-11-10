@@ -6,7 +6,8 @@ public import StacksFrontier.AlgebraicGeometry.TotalDirectImage.DerivedUpperBoun
 /-!
 # Assembling the isomorphisms of [Stacks, Tag 0A1F] on quasi-coherent modules
 
-`StacksFrontier/AlgebraicGeometry/Perfect/ExtProjectionDegreeIso.lean` gives, for every object `M` of
+`StacksFrontier/AlgebraicGeometry/Perfect/ExtProjectionDegreeIso.lean` gives, for every object `M`
+of
 `D(𝒪_S)` with quasi-coherent cohomology, isomorphisms `H^i(S, K ⊗^𝐋 M) ≅ H^i(X, E ⊗^𝐋 R(M))`
 compatible with connecting morphisms, for any functor `R` with a shift structure and an
 isomorphism `R ≅ 𝒢 ⊗^𝐋 Lf^*(-)`.  This file restricts them to quasi-coherent modules `ℱ` placed

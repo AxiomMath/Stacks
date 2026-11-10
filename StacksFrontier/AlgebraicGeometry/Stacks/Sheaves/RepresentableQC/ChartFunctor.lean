@@ -74,7 +74,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 /-- The object of `𝒳` attached to an affine étale chart of `F` lies over an affine scheme. -/
 theorem isAffineObject_restrictionFunctor_obj (y : AffineEtale B S hS F) :
     IsAffineObject B S hS p ((restrictionFunctor B S hS F p e).obj y.obj) := by
-  show IsAffine (((restrictionFunctor B S hS F p e ⋙ p) ⋙ BigFppfOver.toScheme B S hS).obj
+  change IsAffine (((restrictionFunctor B S hS F p e ⋙ p) ⋙ BigFppfOver.toScheme B S hS).obj
     y.obj)
   rw [restrictionFunctor_comp]
   exact y.property
@@ -96,14 +96,14 @@ theorem affineEtaleInclusion_comp_inclusion :
 theorem affineEtaleInclusion_comp_inclusion_comp :
     affineEtaleInclusion B S hS F p e ⋙ AffineCategory.inclusion B S hS p ⋙ p =
       AffineEtale.toOver B S hS F := by
-  show AffineEtale.inclusion B S hS F ⋙ restrictionFunctor B S hS F p e ⋙ p = _
+  change AffineEtale.inclusion B S hS F ⋙ restrictionFunctor B S hS F p e ⋙ p = _
   rw [restrictionFunctor_comp]
 
 /-- **The affine scheme underlying the image of an affine chart is the scheme of the chart.** -/
 theorem affineEtaleInclusion_comp_toScheme :
     affineEtaleInclusion B S hS F p e ⋙ AffineCategory.toScheme B S hS p =
       AffineEtale.toScheme B S hS F := by
-  show (affineEtaleInclusion B S hS F p e ⋙ AffineCategory.inclusion B S hS p ⋙ p) ⋙
+  change (affineEtaleInclusion B S hS F p e ⋙ AffineCategory.inclusion B S hS p ⋙ p) ⋙
     BigFppfOver.toScheme B S hS = _
   rw [affineEtaleInclusion_comp_inclusion_comp]
 
@@ -123,7 +123,7 @@ equal. -/
 theorem affineEtaleInclusion_op_comp_affineStructureCommPresheaf :
     (affineEtaleInclusion B S hS F p e).op ⋙ affineStructureCommPresheaf B S hS p =
       affineEtaleChartRings B S hS F := by
-  show (affineEtaleInclusion B S hS F p e ⋙ AffineCategory.toScheme B S hS p).op ⋙ Scheme.Γ = _
+  change (affineEtaleInclusion B S hS F p e ⋙ AffineCategory.toScheme B S hS p).op ⋙ Scheme.Γ = _
   rw [affineEtaleInclusion_comp_toScheme]
   rfl
 

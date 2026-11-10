@@ -80,7 +80,7 @@ public theorem exists_centre_of_successive {Y : Scheme.{u}} [CompactSpace Y]
     AlgebraicGeometry.supportSet_mul_eq_union_image I Z' d J hcomap
   refine ⟨I * J, AlgebraicGeometry.finitePresentation_mul_subschemeι I J hI hJft, ?_, hsupp,
     AlgebraicGeometry.nonempty_blowUpCompositionIso I Z' d J hcomap⟩
-  show Disjoint (U : Set Y) ((I * J).supportSet)
+  change Disjoint (U : Set Y) ((I * J).supportSet)
   rw [hsupp, Set.disjoint_union_right]
   refine ⟨hUI, Set.disjoint_left.mpr ?_⟩
   rintro x hxU ⟨y, hy, rfl⟩

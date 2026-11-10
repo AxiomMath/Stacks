@@ -59,10 +59,10 @@ theorem nonempty_isColimit_binaryCofan_pullback_fst {X A B : Scheme.{u}} (g : X 
     ext i
     match i with
     | ⟨WalkingPair.left⟩ =>
-        show pullback.snd g coprod.inl ≫ coprod.inl = pullback.fst g coprod.inl ≫ g
+        change pullback.snd g coprod.inl ≫ coprod.inl = pullback.fst g coprod.inl ≫ g
         exact pullback.condition.symm
     | ⟨WalkingPair.right⟩ =>
-        show pullback.snd g coprod.inr ≫ coprod.inr = pullback.fst g coprod.inr ≫ g
+        change pullback.snd g coprod.inr ≫ coprod.inr = pullback.fst g coprod.inr ≫ g
         exact pullback.condition.symm
   exact ⟨Classical.choice
     ((FinitaryExtensive.vanKampen c (coprodIsCoprod A B)).isUniversal c' α g h
@@ -134,12 +134,12 @@ theorem isEquivalenceRelation_of_coprod_involution
     refine hc₀.hom_ext fun j => ?_
     match j with
     | ⟨WalkingPair.left⟩ =>
-        show (pullback.fst q coprod.inl ≫ t₁) ≫ p₁ =
+        change (pullback.fst q coprod.inl ≫ t₁) ≫ p₁ =
           (pullback.fst q coprod.inl ≫ dπ ≫ a) ≫ p₁
         rw [ht₁_fac₀]
         simp only [u₀, Category.assoc, h₁r, hd_left]
     | ⟨WalkingPair.right⟩ =>
-        show (pullback.fst q coprod.inr ≫ t₁) ≫ p₁ =
+        change (pullback.fst q coprod.inr ≫ t₁) ≫ p₁ =
           (pullback.fst q coprod.inr ≫ dπ ≫ a) ≫ p₁
         rw [ht₁_fac₁]
         simp only [u₁, Category.assoc, h₁l, Category.comp_id, hd_left]
@@ -149,7 +149,7 @@ theorem isEquivalenceRelation_of_coprod_involution
     | ⟨WalkingPair.left⟩ =>
         have hq : pullback.fst q coprod.inl ≫ q = pullback.snd q coprod.inl ≫ coprod.inl :=
           pullback.condition
-        show (pullback.fst q coprod.inl ≫ t₁) ≫ p₂ = (pullback.fst q coprod.inl ≫ q) ≫ p₂
+        change (pullback.fst q coprod.inl ≫ t₁) ≫ p₂ = (pullback.fst q coprod.inl ≫ q) ≫ p₂
         rw [ht₁_fac₀, hq]
         calc u₀ ≫ p₂ = pullback.fst q coprod.inl ≫ dπ ≫ b ≫ p₁ := by
               simp only [u₀, Category.assoc, h₂r, hd_mid]
@@ -160,7 +160,7 @@ theorem isEquivalenceRelation_of_coprod_involution
     | ⟨WalkingPair.right⟩ =>
         have hq : pullback.fst q coprod.inr ≫ q = pullback.snd q coprod.inr ≫ coprod.inr :=
           pullback.condition
-        show (pullback.fst q coprod.inr ≫ t₁) ≫ p₂ = (pullback.fst q coprod.inr ≫ q) ≫ p₂
+        change (pullback.fst q coprod.inr ≫ t₁) ≫ p₂ = (pullback.fst q coprod.inr ≫ q) ≫ p₂
         rw [ht₁_fac₁, hq]
         calc u₁ ≫ p₂ = pullback.fst q coprod.inr ≫ dπ ≫ b ≫ p₁ ≫ τ := by
               simp only [u₁, Category.assoc, h₂l, Category.comp_id, hd_mid2]
@@ -169,26 +169,26 @@ theorem isEquivalenceRelation_of_coprod_involution
           _ = (pullback.snd q coprod.inr ≫ coprod.inr) ≫ p₂ := by
               simp only [Category.assoc, h₁rτ, h₂r]
   have ht_left : t ≫ p₁ = c.fst ≫ p₁ := by
-    show t ≫ p₁ = a ≫ p₁
+    change t ≫ p₁ = a ≫ p₁
     refine hc₁.hom_ext fun j => ?_
     match j with
     | ⟨WalkingPair.left⟩ =>
-        show (pullback.fst a coprod.inl ≫ t) ≫ p₁ = (pullback.fst a coprod.inl ≫ a) ≫ p₁
+        change (pullback.fst a coprod.inl ≫ t) ≫ p₁ = (pullback.fst a coprod.inl ≫ a) ≫ p₁
         rw [ht_fac₀, Category.assoc]
         exact ht₀_left
     | ⟨WalkingPair.right⟩ =>
-        show (pullback.fst a coprod.inr ≫ t) ≫ p₁ = (pullback.fst a coprod.inr ≫ a) ≫ p₁
+        change (pullback.fst a coprod.inr ≫ t) ≫ p₁ = (pullback.fst a coprod.inr ≫ a) ≫ p₁
         rw [ht_fac₁, Category.assoc]
         exact ht₁_left
   have ht_right : t ≫ p₂ = c.snd ≫ p₂ := by
-    show t ≫ p₂ = b ≫ p₂
+    change t ≫ p₂ = b ≫ p₂
     refine hc₁.hom_ext fun j => ?_
     match j with
     | ⟨WalkingPair.left⟩ =>
-        show (pullback.fst a coprod.inl ≫ t) ≫ p₂ = (pullback.fst a coprod.inl ≫ b) ≫ p₂
+        change (pullback.fst a coprod.inl ≫ t) ≫ p₂ = (pullback.fst a coprod.inl ≫ b) ≫ p₂
         rw [ht_fac₀, Category.assoc]
     | ⟨WalkingPair.right⟩ =>
-        show (pullback.fst a coprod.inr ≫ t) ≫ p₂ = (pullback.fst a coprod.inr ≫ b) ≫ p₂
+        change (pullback.fst a coprod.inr ≫ t) ≫ p₂ = (pullback.fst a coprod.inr ≫ b) ≫ p₂
         rw [ht_fac₁, Category.assoc]
         exact ht₁_right
   have hsym₁ : s ≫ p₁ = p₂ := by

@@ -220,7 +220,7 @@ theorem bijective_of_bijective_on_cover
         _ = G.map (g₂.op) (G.map f₂.op y) := by
               have hOpp : f₁.op ≫ g₁.op = f₂.op ≫ g₂.op := by
                 simpa only [← op_comp] using congrArg Quiver.Hom.op hcomp
-              show ((G.map f₁.op) ≫ (G.map g₁.op)) y =
+              change ((G.map f₁.op) ≫ (G.map g₁.op)) y =
                 ((G.map f₂.op) ≫ (G.map g₂.op)) y
               rw [← Functor.map_comp, ← Functor.map_comp, hOpp]
         _ = G.map (g₂.op) (φ.app (op V₂) (xloc f₂ h₂)) := by
@@ -759,7 +759,7 @@ theorem torsorHom_isIso
     {D : Type u} [Category.{v} D] {J : GrothendieckTopology D}
     {G : SheafOfGroups.{u} J} {F F' : PseudoTorsor G}
     (hF : F.IsTorsor) (e : F.Hom F') : e.IsIso := by
-  show IsIso e.hom
+  change IsIso e.hom
   rw [NatTrans.isIso_iff_isIso_app]
   intro U
   apply (ConcreteCategory.isIso_iff_bijective _).2
@@ -819,7 +819,7 @@ theorem torsorUnitBetween_act_left (X : RingedSite.{u, u, u})
   have h : Multiplicative.ofAdd (Additive.ofMul (a⁻¹ * torsorUnitBetween X F U s t)) *
       Multiplicative.ofAdd (Additive.ofMul a) =
       Multiplicative.ofAdd (Additive.ofMul (torsorUnitBetween X F U s t)) := by
-    show Multiplicative.ofAdd (Additive.ofMul
+    change Multiplicative.ofAdd (Additive.ofMul
       ((a⁻¹ * torsorUnitBetween X F U s t) * a)) = _
     congr 2
     simp [mul_comm]
@@ -1079,7 +1079,7 @@ theorem coefficientGenerator_restrict (X : RingedSite.{u, u, u})
       coefficientGenerator X F V (F.1.presheaf.map f.op s) := by
   apply Subtype.ext
   funext W t
-  show (torsorUnitBetween X F _ t (F.1.presheaf.map (W.hom ≫ f).op s)).val =
+  change (torsorUnitBetween X F _ t (F.1.presheaf.map (W.hom ≫ f).op s)).val =
     (torsorUnitBetween X F _ t (F.1.presheaf.map W.hom.op (F.1.presheaf.map f.op s))).val
   rw [op_comp, Functor.map_comp, ConcreteCategory.comp_apply]
 
@@ -1096,7 +1096,7 @@ theorem coefficientSection_eq_smul_generator (X : RingedSite.{u, u, u})
   rw [torsorUnitBetween_act] at he
   have hn := a.property.1 (Over.mk (𝟙 U)) V (Over.homMk V.hom) s
   change a.val V sV = (X.O.obj.map V.hom.op) (a.val (Over.mk (𝟙 U)) s) at hn
-  show a.val V t = (X.O.obj.map V.hom.op) (a.val (Over.mk (𝟙 U)) s) * q.val
+  change a.val V t = (X.O.obj.map V.hom.op) (a.val (Over.mk (𝟙 U)) s) * q.val
   calc
     a.val V t = q.val * ((q⁻¹).val * a.val V t) := by simp
     _ = q.val * a.val V sV := congrArg (q.val * ·) he.symm
@@ -1256,7 +1256,7 @@ theorem generatorSections_mapIso_bijective
   · intro t
     refine ⟨generatorSections_mapIso X e.symm U t, ?_⟩
     apply Subtype.ext
-    show (e.hom.val.app (op U)).hom ((e.inv.val.app (op U)).hom t.val) = t.val
+    change (e.hom.val.app (op U)).hom ((e.inv.val.app (op U)).hom t.val) = t.val
     have hcomp' : e.inv.val.app (op U) ≫ e.hom.val.app (op U) = 𝟙 _ := by
       simpa only [SheafOfModules.comp_val, SheafOfModules.id_val,
         PresheafOfModules.comp_app, PresheafOfModules.id_app] using
@@ -1336,7 +1336,7 @@ theorem generatorTorsor_isIsomorphic_of_iso
     (F : GeneratorTorsor X L) (G : GeneratorTorsor X N) :
     Stacks.Cohomology.Torsors.AbelianTorsor.IsIsomorphic F.torsor G.torsor := by
   refine ⟨generatorTorsorHomOfIso X e F G, ?_⟩
-  show IsIso (generatorTorsorHomOfIso X e F G).hom
+  change IsIso (generatorTorsorHomOfIso X e F G).hom
   rw [NatTrans.isIso_iff_isIso_app]
   intro U
   apply (ConcreteCategory.isIso_iff_bijective _).2

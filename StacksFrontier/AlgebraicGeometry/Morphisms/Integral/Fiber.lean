@@ -58,7 +58,7 @@ lemma isClosed_singleton_asFiber_of_isIntegral (f : X ⟶ S) [IsIntegralHom f] (
     F.isoSpec.hom.continuous
   let := ((Scheme.ΓSpecIso (S.residueField (f x))).commRingCatIsoToRingEquiv.toMulEquiv.isField
     (Field.toIsField (S.residueField (f x)))).toField
-  apply @Ideal.isMaximal_of_isIntegral_of_isMaximal_comap' _ _ _ _
+  apply @Ideal.isMaximal_of_isIntegral_of_isMaximal_comap _ _ _ _
     g.appTop.hom (isIntegral_appTop_of_universallyClosed g) p.asIdeal p.2
   rw [(Ideal.eq_bot_or_top _).resolve_right (p.2.comap g.appTop.hom).ne_top]
   exact Ideal.bot_isMaximal

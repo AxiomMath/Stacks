@@ -12,8 +12,9 @@ public import StacksFrontier.RingTheory.LocalCohomology.HigherDegree.ComplementC
 Fix an algebraization situation `S`: a Noetherian ring `A` with ideals `I ⊆ 𝔞`, the affine scheme
 `X = Spec(A)` and the open complement `U = X ∖ V(𝔞)`.  The cohomology of `U` is spelled twice in
 this library, and
-`StacksFrontier.AlgebraicGeometry.FormalGeometry.CompletionCriteria.OpenCohomologyFiniteness` compares
-the two spellings *only through finiteness*, by passing through coherence of `R^p j_*`. That
+`StacksFrontier.AlgebraicGeometry.FormalGeometry.CompletionCriteria.OpenCohomologyFiniteness`
+compares the two spellings *only through finiteness*, by passing through coherence of `R^p j_*`.
+That
 comparison forgets the maps, and so cannot transport a statement about the image of a transition
 map `H^p(U, ℱₙ) ⟶ H^p(U, ℱ₁)`, which is what the Mittag-Leffler criterion [Stacks, Tag 0DXG]
 consumes.

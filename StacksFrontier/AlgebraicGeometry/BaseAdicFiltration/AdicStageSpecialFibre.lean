@@ -49,6 +49,7 @@ theorem ker_adicStageι_le (n : ℕ) : (adicStageι p I n).ker ≤ baseIdeal p I
   refine le_trans (Stacks.Thickenings.idealSheaf_pow_le_pow_right (Nat.succ_le_succ n.zero_le)) ?_
   rw [pow_one]
 
+omit [IsClosedImmersion iX] in
 include hk in
 /-- If the ideal sheaf of `i_X` is `I 𝒪_U`, then the ideal sheaf `Iⁿ⁺¹𝒪_U` of the stage `n` is
 contained in the ideal sheaf of `i_X`. -/
@@ -62,6 +63,7 @@ tower, because the stage is cut out by the smaller ideal sheaf `Iⁿ⁺¹𝒪_U`
 def adicStageLift (n : ℕ) : X ⟶ adicStage p I n :=
   IsClosedImmersion.lift (adicStageι p I n) iX (ker_adicStageι_le_ker p I iX hk n)
 
+omit [IsClosedImmersion iX] in
 /-- The inclusion of the special fibre into a stage is a morphism over `U`. -/
 @[simp]
 theorem adicStageLift_comp_adicStageι (n : ℕ) :
@@ -76,12 +78,14 @@ theorem isClosedImmersion_adicStageLift (n : ℕ) :
     infer_instance
   exact IsClosedImmersion.of_comp_isClosedImmersion _ (adicStageι p I n)
 
+omit [IsClosedImmersion iX] in
 /-- The inclusion of the special fibre into a stage is a morphism over the base. -/
 @[simp]
 theorem adicStageLift_comp_adicStageToBase (n : ℕ) :
     adicStageLift p I iX hk n ≫ adicStageToBase p I n = iX ≫ p := by
   rw [adicStageToBase, ← Category.assoc, adicStageLift_comp_adicStageι]
 
+omit [IsClosedImmersion iX] in
 /-- **The inclusions of the special fibre are compatible with the steps of the tower.** Including
 `X` into the stage `n` and then stepping up to the stage `n + 1` is including `X` into the stage
 `n + 1`. -/

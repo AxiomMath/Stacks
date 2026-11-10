@@ -109,12 +109,20 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   [∀ (K L : CochainComplex (_root_.SheafOfModules.{w} (Tensor.ringSheaf S)) ℤ),
     HomologicalComplex.HasMapBifunctor K L (Tensor.sheafTensor S) (ComplexShape.up ℤ)]
 
+section
+
+omit [∀ M : _root_.SheafOfModules.{w} (Tensor.ringSheaf S),
+    ((Tensor.sheafTensor.{u, v, w} S).obj M).Additive]
+  [∀ (K L : CochainComplex (_root_.SheafOfModules.{w} (Tensor.ringSheaf S)) ℤ),
+    HomologicalComplex.HasMapBifunctor K L (Tensor.sheafTensor.{u, v, w} S) (ComplexShape.up ℤ)]
+
 /-- The termwise unit law `(p ↦ K^p ⊗_O O) ≅ K` in a single degree is the degreewise unit law
 of the tensor product there. This is `rowComplexUnitIso_hom_f` of
-`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/DerivedPullbackTensorRightUnitor.lean`
-at a free universe of the sections, and with the right unit constraint spelled as the plain
-composite `Stacks.SheafOfModules.Tensor.sheafTensorUnitIsoRight` rather than through the
-re-seated monoidal structure. -/
+`DerivedPullback/DerivedPullbackTensorRightUnitor.lean` (in
+`StacksFrontier/CategoryTheory/Sites/Cohomology/`) at a free universe of the sections, and with
+the right unit constraint spelled as the plain composite
+`Stacks.SheafOfModules.Tensor.sheafTensorUnitIsoRight` rather than through the re-seated
+monoidal structure. -/
 private lemma rowComplexUnitIsoFreeSections_hom_f
     (K : CochainComplex (_root_.SheafOfModules.{w} (Tensor.ringSheaf S)) ℤ) (n : ℤ) :
     (rowComplexUnitIsoFreeSections S K).hom.f n =
@@ -130,6 +138,8 @@ private lemma rowComplexUnitIsoFreeSections_inv_f
       (HomologicalComplex.eval (_root_.SheafOfModules.{w} (Tensor.ringSheaf S))
           (ComplexShape.up ℤ) n).mapIso (rowComplexUnitIsoFreeSections S K) =
         Tensor.sheafTensorUnitIsoRight.{u, v, w} S (K.X n))
+
+end
 
 /-- **The inverse of the unit law `Tot(K ⊗_O O[0]) ≅ K` of Tag 06YM, in a single degree**: it is
 the degreewise right unit constraint read backwards, followed by the inclusion of the summand of

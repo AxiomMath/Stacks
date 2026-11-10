@@ -489,7 +489,7 @@ theorem extendPoint_restrictPoint (T : ArtinianLocalAlgCat.{u, u, u} S.Λ S.l)
     (β : obj S R ⟶ artinianToComplete.obj T) :
     extendPoint S R T (restrictPoint S R T β) = β := by
   apply CompleteLocalAlgCat.Hom.ext
-  apply AlgHom.coe_ringHom_injective
+  apply AlgHom.toRingHom_injective
   apply AdjoinRoot.ringHom_ext
   · ext r
     exact (extendRingHom_of S R T _ r).trans (proj_restrictPoint S R T β r)

@@ -54,8 +54,7 @@ namespace AlgebraicGeometry
 
 variable (X : Scheme.{u}) (sbar : GeometricPoint X)
 
-attribute [local instance]
-  instAlgebraCarrierResidueFieldCoeContinuousMapCarrierCarrierCommRingCatSpecOfResidueFieldHomTopCatBaseHomDefault
+attribute [local instance] GeometricPoint.residueFieldAlgebra
 
 /-- The homomorphism `H →* J` through which `g` factors when `f` is surjective and its kernel is
 contained in that of `g`. -/
@@ -137,7 +136,7 @@ private theorem restrictNormalHom_separableClosure_injective
   have hcomp : σ.toRingHom.comp (algebraMap L Ω) =
       τ.toRingHom.comp (algebraMap L Ω) := by
     ext x
-    show σ (x : Ω) = τ (x : Ω)
+    change σ (x : Ω) = τ (x : Ω)
     simpa only [AlgEquiv.restrictNormalHom_apply] using
       congrArg (fun z : L => (z : Ω)) (AlgEquiv.ext_iff.mp h x)
   have hst : σ.toRingHom = τ.toRingHom :=
@@ -231,7 +230,7 @@ private theorem restrictNormalHom_separableClosure_symm_continuous
   let S := separableClosure K Ω
   let r : Gal(Ω/K) →* Gal(S/K) := AlgEquiv.restrictNormalHom S
   let e : Gal(Ω/K) ≃* Gal(S/K) := restrictNormalHom_separableClosure_equiv K Ω
-  show Continuous e.symm
+  change Continuous e.symm
   apply continuous_of_continuousAt_one e.symm
   apply continuousAt_def.mpr
   intro U hU
@@ -249,7 +248,7 @@ private theorem restrictNormalHom_separableClosure_symm_continuous
   intro x hx
   apply fixes_of_restrict_fixes_inf' K Ω E (e.symm τ) ?_ x hx
   have heτ : r (e.symm τ) = τ := e.apply_symm_apply τ
-  show r (e.symm τ) ∈ R'.fixingSubgroup
+  change r (e.symm τ) ∈ R'.fixingSubgroup
   rw [heτ]
   exact hτ
 
@@ -294,7 +293,7 @@ private theorem finite_point_factorization
   refine ⟨E, inferInstance, Spec.map (CommRingCat.ofHom g.rangeRestrict.toRingHom) ≫
     Z.isoSpec.inv, ?_⟩
   rw [← Category.assoc, ← Spec.map_comp]
-  show Spec.map a ≫ Z.isoSpec.inv = p
+  change Spec.map a ≫ Z.isoSpec.inv = p
   dsimp [a]
   rw [Spec.map_comp, ← Scheme.isoSpec_Spec_hom]
   rw [Scheme.isoSpec_hom_naturality, Category.assoc, Iso.hom_inv_id, Category.comp_id]
@@ -435,7 +434,7 @@ private theorem galoisActionOnFiber_eq_of_mem_fixingSubgroup [ConnectedSpace X]
   obtain ⟨E, hE, q, hq⟩ := finiteEtaleFiber_factorization X sbar Y p
   refine ⟨E, hE, fun σ hσ => ?_⟩
   apply Subtype.ext
-  show Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫ p.1 = p.1
+  change Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫ p.1 = p.1
   rw [← hq, ← Category.assoc, ← Spec.map_comp]
   congr 2
   ext x
@@ -448,14 +447,14 @@ private theorem galoisActionHom_continuous [ConnectedSpace X] :
   let : TopologicalSpace (Aut F) := Stacks.FundamentalGroup.functorAutomorphismTopology F
   let (Y : FiniteEtaleOver X) : TopologicalSpace (F.obj Y) := ⊥
   let (Y : FiniteEtaleOver X) : DiscreteTopology (F.obj Y) := ⟨rfl⟩
-  show @ContinuousAt _ _ _
+  change @ContinuousAt _ _ _
     (TopologicalSpace.induced (Stacks.FundamentalGroup.componentEmbedding F)
       (Stacks.FundamentalGroup.automorphismProductTopology F)) _ 1
   apply (Topology.IsInducing.continuousAt_iff
     (show Topology.IsInducing _ from ⟨rfl⟩)).mpr
   apply continuousAt_pi.mpr
   intro Y
-  show @ContinuousAt _ _ _ (autTopology (E := F.obj Y))
+  change @ContinuousAt _ _ _ (autTopology (E := F.obj Y))
     (fun σ => galoisActionOnFiber X sbar σ Y) 1
   apply (Topology.IsInducing.continuousAt_iff
     (show Topology.IsInducing _ from ⟨rfl⟩)).mpr
@@ -466,7 +465,7 @@ private theorem galoisActionHom_continuous [ConnectedSpace X] :
   obtain ⟨E, hE, hfix⟩ := galoisActionOnFiber_eq_of_mem_fixingSubgroup X sbar Y p
   apply (krullTopology_mem_nhds_one_iff _ _ _).mpr
   refine ⟨E, hE, fun σ hσ => ?_⟩
-  show galoisActionOnFiber X sbar σ Y p = galoisActionOnFiber X sbar 1 Y p
+  change galoisActionOnFiber X sbar σ Y p = galoisActionOnFiber X sbar 1 Y p
   rw [hfix σ hσ, hfix 1 E.fixingSubgroup.one_mem]
 
 /-- The residue-field Galois action on the geometric fibre functor at `sbar`.
@@ -504,7 +503,7 @@ private theorem normalization_point_fixed_of_mem_ker
     MorphismProperty.Over.mk ⊤ f.fromNormalization hE.2
   let p : finiteEtaleFiber sbar Y :=
     ⟨Spec.map (CommRingCat.ofHom E.val.toRingHom) ≫ f.toNormalization, by
-      show (Spec.map (CommRingCat.ofHom E.val.toRingHom) ≫ f.toNormalization) ≫
+      change (Spec.map (CommRingCat.ofHom E.val.toRingHom) ≫ f.toNormalization) ≫
         f.fromNormalization = sbar.hom
       rw [Category.assoc, f.toNormalization_fromNormalization]
       dsimp only [f]
@@ -634,7 +633,7 @@ private theorem absoluteGaloisToFundamentalGroup_eq_one_of_fixes_maximal
   let : IsFinite W.hom := W.prop.1
   let : Etale W.hom := W.prop.2
   let w : W.left ⟶ X := W.hom
-  have hi : i.left ≫ Y.hom = W.hom := by simpa using i.w
+  have hi : i.left ≫ Y.hom = W.hom := by simp
   have hp : q ≫ W.hom =
       Spec.map (CommRingCat.ofHom
         (algebraMap (X.residueField (sbar.hom default)) sbar.residueField)) ≫
@@ -649,9 +648,9 @@ private theorem absoluteGaloisToFundamentalGroup_eq_one_of_fixes_maximal
     le_sSup (Set.mem_ofPred.mpr hE)
   have hfield := (spec_map_galois_comp_eq_iff E σ).mpr fun x => hσ x (hEM x.property)
   have hact := absoluteGaloisToFundamentalGroup_spec X sbar σ Y p
-  show ((((absoluteGaloisToFundamentalGroup X sbar) σ).asIso.app Y).hom p).1 = p.1
+  change ((((absoluteGaloisToFundamentalGroup X sbar) σ).asIso.app Y).hom p).1 = p.1
   rw [hact]
-  show Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫ p.1 = p.1
+  change Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫ p.1 = p.1
   rw [← hq, ← hj]
   simpa only [Category.assoc] using congrArg (fun f => f ≫ j ≫ i.left) hfield
 
@@ -678,7 +677,7 @@ public noncomputable def fundamentalGroupIsoGalMaximalEtaleExtension
   letI : CompactSpace Gal(sbar.residueField / X.residueField (sbar.hom default)) :=
     compactSpace_Gal_isAlgClosure (X.residueField (sbar.hom default)) sbar.residueField
   letI : Normal (X.residueField (sbar.hom default)) (maximalEtaleExtension X sbar) :=
-    normal_maximalEtaleExtension X sbar hs hgeneric
+    normal_maximalEtaleExtension X sbar hs
   continuousMulEquivOfSurjectiveOfKerEq
     (absoluteGaloisToFundamentalGroup X sbar)
     (ContinuousMonoidHom.mk (AlgEquiv.restrictNormalHom (maximalEtaleExtension X sbar))
@@ -701,7 +700,7 @@ public theorem fundamentalGroupIsoGalMaximalEtaleExtension_apply
     (hgeneric : sbar.hom default = genericPoint X) :
     letI : Normal (X.residueField (sbar.hom default))
         (maximalEtaleExtension X sbar) :=
-      normal_maximalEtaleExtension X sbar hs hgeneric
+      normal_maximalEtaleExtension X sbar hs
     ∀ σ : Gal(sbar.residueField / X.residueField (sbar.hom default)),
       fundamentalGroupIsoGalMaximalEtaleExtension X sbar hs hgeneric
           (absoluteGaloisToFundamentalGroup X sbar σ) =
@@ -710,7 +709,7 @@ public theorem fundamentalGroupIsoGalMaximalEtaleExtension_apply
   let : CompactSpace Gal(sbar.residueField / X.residueField (sbar.hom default)) :=
     compactSpace_Gal_isAlgClosure (X.residueField (sbar.hom default)) sbar.residueField
   let : Normal (X.residueField (sbar.hom default)) (maximalEtaleExtension X sbar) :=
-    normal_maximalEtaleExtension X sbar hs hgeneric
+    normal_maximalEtaleExtension X sbar hs
   intro σ
   exact continuousMulEquivOfSurjectiveOfKerEq_apply _ _ _ _ _ σ
 

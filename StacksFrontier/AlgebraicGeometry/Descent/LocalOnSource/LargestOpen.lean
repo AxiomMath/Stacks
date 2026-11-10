@@ -91,7 +91,7 @@ private theorem largestOpen_isGreatest_aux (P Q : MorphismProperty Scheme.{u})
     IsGreatest {U : X.Opens | P (U.ι ≫ f)} (largestOpen P f) := by
   let S : Set X.Opens := {U | P (U.ι ≫ f)}
   let W : X.Opens := sSup S
-  show IsGreatest S W
+  change IsGreatest S W
   refine ⟨?_, fun _ => le_sSup⟩
   let a : (i : S) → i.1.toScheme ⟶ W.toScheme := fun i => X.homOfLE (le_sSup i.2)
   have hcover : Presieve.ofArrows (fun i : S => i.1.toScheme) a ∈ K W.toScheme := by
@@ -101,7 +101,7 @@ private theorem largestOpen_isGreatest_aux (P Q : MorphismProperty Scheme.{u})
     exact ⟨⟨U, hU⟩, ⟨x.1, hxU⟩, Subtype.ext (by simp [a])⟩
   apply MorphismProperty.IsLocalAtSource.of_forall_comp (P := P) (K := K) hcover
   rintro _ _ ⟨i⟩
-  show P ((a i ≫ W.ι) ≫ f)
+  change P ((a i ≫ W.ι) ≫ f)
   rw [show a i ≫ W.ι = i.1.ι by simp [a]]
   exact i.2
 

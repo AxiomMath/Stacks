@@ -73,7 +73,7 @@ theorem isOpen_comp {𝒳 𝒴 𝒵 : Stack.AlgebraicStacks.{u, w} B S hS}
   let _ := Stack.pointTopology B S hS 𝒳.val
   let _ := Stack.pointTopology B S hS 𝒴.val
   let _ := Stack.pointTopology B S hS 𝒵.val
-  show IsOpenMap
+  change IsOpenMap
     (Stack.pointsMap B S hS 𝒳.val.val 𝒳.val.property 𝒵.val.property (f ≫ g).hom.hom)
   rw [pointsMap_comp' B S hS f g]
   exact hg.comp hf
@@ -87,7 +87,7 @@ theorem isSubmersive_comp {𝒳 𝒴 𝒵 : Stack.AlgebraicStacks.{u, w} B S hS}
   let _ := Stack.pointTopology B S hS 𝒳.val
   let _ := Stack.pointTopology B S hS 𝒴.val
   let _ := Stack.pointTopology B S hS 𝒵.val
-  show Topology.IsQuotientMap
+  change Topology.IsQuotientMap
     (Stack.pointsMap B S hS 𝒳.val.val 𝒳.val.property 𝒵.val.property (f ≫ g).hom.hom)
   rw [pointsMap_comp' B S hS f g]
   exact hg.comp hf

@@ -125,7 +125,7 @@ omit [GradedRing 𝒮] in
 public theorem coe_mem_veroneseSubring_of_twist (d : ℕ) (hd : 0 < d) (n : ℤ)
     (x : veroneseSubmodule 𝒮 (twistGradingAddSubgroup 𝒮 (n * d)) d) :
     (x : S) ∈ veroneseSubring 𝒮 d := by
-  show (x : S) ∈ Subring.closure (veroneseSet 𝒮 d)
+  change (x : S) ∈ Subring.closure (veroneseSet 𝒮 d)
   refine Submodule.span_induction (p := fun y _ => y ∈ veroneseSubring 𝒮 d) ?_ ?_ ?_ ?_ x.2
   · intro y hy
     rcases Set.mem_iUnion.mp hy with ⟨i, hyi⟩
@@ -136,7 +136,7 @@ public theorem coe_mem_veroneseSubring_of_twist (d : ℕ) (hd : 0 < d) (n : ℤ)
   · exact (veroneseSubring 𝒮 d).zero_mem
   · exact fun _ _ _ _ hy hz => (veroneseSubring 𝒮 d).add_mem hy hz
   · intro r y _ hy
-    show (r : S) * y ∈ veroneseSubring 𝒮 d
+    change (r : S) * y ∈ veroneseSubring 𝒮 d
     exact (veroneseSubring 𝒮 d).mul_mem r.2 hy
 
 /-- Every element of the Veronese subring lies in the Veronese part of `S(nd)`. -/
@@ -206,7 +206,7 @@ public theorem veroneseShiftLinearEquiv_symm_mem (d : ℕ) (hd : 0 < d) (n : ℤ
     (veroneseShiftLinearEquiv 𝒮 d hd n).symm x ∈
       veroneseModuleGrading 𝒮 (twistGradingAddSubgroup 𝒮 (n * d)) d i := by
   have hm := (mem_veroneseTwistGrading_iff 𝒮 d n i x).mp hx
-  show ((veroneseShiftLinearEquiv 𝒮 d hd n).symm x : S) ∈
+  change ((veroneseShiftLinearEquiv 𝒮 d hd n).symm x : S) ∈
     twistGrading (S := S) 𝒮 (n * d) (i * d)
   have hval : ((veroneseShiftLinearEquiv 𝒮 d hd n).symm x : S) = (x : S) :=
     congrArg Subtype.val ((veroneseShiftLinearEquiv 𝒮 d hd n).apply_symm_apply x)

@@ -260,7 +260,7 @@ private lemma exists_sq_mem_cube_mem_of_ne_top {A B : Type u} [CommRing A] [Comm
   let g := gIso.hom
   have hcomp : fCB ≫ g =
       Scheme.Spec.map (CommRingCat.ofHom C.toSubring.subtype).op := by
-    show Spec.map (CommRingCat.ofHom (algebraMap C B)) ≫
+    change Spec.map (CommRingCat.ofHom (algebraMap C B)) ≫
       Spec.map e.symm.toCommRingCatIso.hom =
       Spec.map (CommRingCat.ofHom C.toSubring.subtype)
     rw [← Spec.map_comp]

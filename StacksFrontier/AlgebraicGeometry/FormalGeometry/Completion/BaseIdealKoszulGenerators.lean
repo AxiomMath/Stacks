@@ -98,7 +98,7 @@ theorem globalSectionOver_baseKoszulGenerators (U : X.Opens) (i : Fin r) :
       (X.presheaf.map (homOfLE (le_top (a := U))).op).hom
         (((Scheme.ΓSpecIso (.of A)).inv ≫ f.appTop).hom (a i)) := by
   refine (globalSectionVal_globalSectionOfSections (X := opensRingedSite X.sheaf) _ (op U)).trans ?_
-  show (X.presheaf.map (isTerminalTop.from U).op).hom _ = _
+  change (X.presheaf.map (isTerminalTop.from U).op).hom _ = _
   congr 2
 
 /-- Restricting the `i`-th generator from `Γ(X, ⊤)` to an affine open is the restriction of

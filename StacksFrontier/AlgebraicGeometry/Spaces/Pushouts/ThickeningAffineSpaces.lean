@@ -322,7 +322,7 @@ theorem isPushout_quotient_of_thickeningAffineAtlas
     apply ObjectProperty.hom_ext
     refine hom_ext_of_etale_atlas B S hS X.property.isSheaf E.property.isSheaf A.p
       A.surjective_p A.etale_p ?_
-    show A.p ≫ i.hom ≫ a₀ = A.p ≫ f.hom ≫ b₀
+    change A.p ≫ i.hom ≫ a₀ = A.p ≫ f.hom ≫ b₀
     rw [← reassoc_of% A.isPullback_thickening.w, reassoc_of% A.isPullback_affine.w, ha₀, hb₀]
     simp only [← Functor.map_comp_assoc, hab]
   refine ⟨E, a, b, IsPushout.mk' hw ?_ ?_, qm, hqm, hqmS, hqmE, ha₀, hb₀⟩
@@ -343,7 +343,7 @@ theorem isPushout_quotient_of_thickeningAffineAtlas
           (⟨yoneda.obj A.U, isAlgebraicSpace_yoneda B S hS A.U⟩ : AlgebraicSpaces B S hS) ⟶
             ⟨yoneda.obj A.V, isAlgebraicSpace_yoneda B S hS A.V⟩) ≫ (pY ≫ bZ) := by
       apply ObjectProperty.hom_ext
-      show yoneda.map A.k ≫ A.p' ≫ aZ.hom = yoneda.map A.g ≫ A.q ≫ bZ.hom
+      change yoneda.map A.k ≫ A.p' ≫ aZ.hom = yoneda.map A.g ≫ A.q ≫ bZ.hom
       rw [reassoc_of% A.isPullback_thickening.w, ← reassoc_of% A.isPullback_affine.w]
       exact congrArg (fun φ => A.p ≫ φ.hom) hwZ
     let h := hAB.desc (pX' ≫ aZ) (pY ≫ bZ) hc
@@ -373,11 +373,11 @@ theorem isPushout_quotient_of_thickeningAffineAtlas
     refine ⟨ObjectProperty.homMk l, ?_, ?_⟩ <;> apply ObjectProperty.hom_ext
     · refine hom_ext_of_etale_atlas B S hS X'.property.isSheaf Z.property.isSheaf A.p'
         A.surjective_p' A.etale_p' ?_
-      show A.p' ≫ a₀ ≫ l = A.p' ≫ aZ.hom
+      change A.p' ≫ a₀ ≫ l = A.p' ≫ aZ.hom
       rw [reassoc_of% ha₀, hl, hhA]
     · refine hom_ext_of_etale_atlas B S hS Y.property.isSheaf Z.property.isSheaf A.q
         A.surjective_q A.etale_q ?_
-      show A.q ≫ b₀ ≫ l = A.q ≫ bZ.hom
+      change A.q ≫ b₀ ≫ l = A.q ≫ bZ.hom
       rw [reassoc_of% hb₀, hl, hhB]
 
 /-- A thickening `i : X ⟶ X'` and an affine morphism `f : X ⟶ Y` of algebraic spaces over `S`
@@ -437,7 +437,7 @@ private theorem isPullback_of_isThickening_of_etale {Z W R P : Scheme.{u}}
     ⟨inferInstance, inferInstance⟩
   exact (IsPullback.of_hasPullback s b).of_iso (asIso l).symm
     (Iso.refl _) (Iso.refl _) (Iso.refl _)
-    (by simp [l, pullback.lift_fst]) (by simp [l, pullback.lift_snd]) (by simp) (by simp)
+    (by simp [l]) (by simp [l]) (by simp) (by simp)
 
 /-- The comparison isomorphism between the restricted functor of points of an object of the
 site and the presheaf it represents is natural. -/
@@ -458,10 +458,10 @@ private theorem sourceMap_relation_swap {R U : BigFppfOver B S hS} (s t : R ⟶ 
         (relation B S hS t s) =
       Stacks.Groupoids.targetMap (Over.post (X := B.obj hS) B.inclusion)
         (relation B S hS s t) := by
-  show (Over.post (X := B.obj hS) B.inclusion).op.whiskerLeft
+  change (Over.post (X := B.obj hS) B.inclusion).op.whiskerLeft
     (yoneda.map (prod.lift _ _ ≫ prod.snd)) = _
   rw [prod.lift_snd]
-  show _ = (Over.post (X := B.obj hS) B.inclusion).op.whiskerLeft
+  change _ = (Over.post (X := B.obj hS) B.inclusion).op.whiskerLeft
     (yoneda.map (prod.lift _ _ ≫ prod.fst))
   rw [prod.lift_fst]
 
@@ -475,7 +475,7 @@ private theorem sourceMap_comp_pointsYonedaIso_hom {R U : BigFppfOver B S hS} (s
       (pointsYonedaIso (Over.post (X := B.obj hS) B.inclusion) R).hom ≫ yoneda.map s := by
   rw [← whiskerLeft_pointsYonedaIso_hom B S hS s]
   congr 1
-  show (Over.post (X := B.obj hS) B.inclusion).op.whiskerLeft
+  change (Over.post (X := B.obj hS) B.inclusion).op.whiskerLeft
     (yoneda.map (prod.lift _ _ ≫ prod.snd)) = _
   rw [prod.lift_snd]
 
@@ -665,7 +665,7 @@ theorem isPullback_chart_of_isPullback_source
       ((Over.post (X := B.obj hS) B.inclusion).map c) hs07 ht07 ≫ ⟨eG.hom⟩ =
       (⟨eF.hom ≫ φ⟩ : _ ⟶ (⟨G, hG⟩ : Sheaf (BigFppfOver.topology B S hS) (Type u))) := by
     refine (key _ ?_).trans (key _ rfl).symm
-    show Stacks.Groupoids.toQuotientSheaf (BigFppfOver.topology B S hS)
+    change Stacks.Groupoids.toQuotientSheaf (BigFppfOver.topology B S hS)
       (Over.post B.inclusion) (relation B S hS s t) ≫
       (Stacks.Groupoids.quotientSheafMap (BigFppfOver.topology B S hS)
         (Over.post B.inclusion) (relation B S hS s t) (relation B S hS s' t')
@@ -698,7 +698,7 @@ private theorem isThickeningHom_comp_iso {X Y Z : AlgebraicSpaces B S hS} {g : X
     obtain ⟨y, hy⟩ := pointsMap_surjective_of_isIso B S hS e.hom.hom z
     obtain ⟨x, hx⟩ := hg.surjective_pointsMap y
     refine ⟨x, ?_⟩
-    show pointsMap B S hS X.1 (g.hom ≫ e.hom.hom) x = z
+    change pointsMap B S hS X.1 (g.hom ≫ e.hom.hom) x = z
     rw [pointsMap_comp]
     simp only [Function.comp_apply]
     rw [hx]

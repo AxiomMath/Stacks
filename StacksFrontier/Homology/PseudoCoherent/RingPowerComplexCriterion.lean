@@ -54,7 +54,7 @@ theorem preservesLimitsOfShape_homologyFunctor_moduleCat (A : Type v) (i : ℤ) 
       (isLimitOfPreserves (HomologicalComplex.eval _ (ComplexShape.up ℤ) _) hE)⟩⟩⟩
   have := Stacks.DerivedProducts.preservesLimitsOfShape_shortComplexHomologyFunctor
     (A := ModuleCat.{v} S) (I := A)
-  show PreservesLimitsOfShape (Discrete A)
+  change PreservesLimitsOfShape (Discrete A)
     (HomologicalComplex.shortComplexFunctor (ModuleCat.{v} S) (ComplexShape.up ℤ) i ⋙
       ShortComplex.homologyFunctor (ModuleCat.{v} S))
   infer_instance

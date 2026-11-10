@@ -140,7 +140,7 @@ theorem natCard_sections_eq_finrank {k : Type u} [Field k] [IsAlgClosed k] {Z : 
       ext c
       exact congrArg (Scheme.ΓSpecIso (.of k)).inv.hom (g.commutes c)
     refine ⟨⟨s₀, hs₀⟩, AlgHom.ext fun x => ?_⟩
-    show (s₀.appTop ≫ (Scheme.ΓSpecIso (.of k)).hom).hom x = g x
+    change (s₀.appTop ≫ (Scheme.ΓSpecIso (.of k)).hom).hom x = g x
     rw [happ, Category.assoc, Iso.inv_hom_id, Category.comp_id]
     rfl
 
@@ -161,7 +161,7 @@ theorem diagonalDivisor_subschemeι_fst [IsSeparated f] :
   have hiso : IsIso g.toImage :=
     IsClosedImmersion.isIso_of_ker_eq g g.imageι g.toImage g.toImage_imageι
       (Scheme.IdealSheafData.ker_subschemeι g.ker).symm
-  show g.imageι ≫ _ = g.imageι ≫ _
+  change g.imageι ≫ _ = g.imageι ≫ _
   rw [← cancel_epi g.toImage, g.toImage_imageι_assoc, g.toImage_imageι_assoc, graph_fst, graph_snd]
 
 /-- The fixed-point locus is fixed by `φ`: `ι ≫ φ = ι` for its inclusion `ι`. -/
@@ -174,7 +174,7 @@ theorem fixedPointLocus_subschemeι_comp [IsSeparated f] (φ : C ⟶ C) (w : φ 
   have e1 := e (pullback.snd f f)
   have e2 := e (pullback.fst f f)
   simp only [Category.assoc, graph_snd, graph_fst, Category.comp_id] at e1 e2
-  show ((diagonalDivisor f).comap (graph f φ w)).subschemeι ≫ φ =
+  change ((diagonalDivisor f).comap (graph f φ w)).subschemeι ≫ φ =
     ((diagonalDivisor f).comap (graph f φ w)).subschemeι
   rw [← hι, Category.assoc, e1, e2, diagonalDivisor_subschemeι_fst]
 
@@ -201,7 +201,7 @@ def fixedPointLocusLift [IsSeparated f] (φ : C ⟶ C) (w : φ ≫ f = f) {T : S
 theorem fixedPointLocusLift_subschemeι [IsSeparated f] (φ : C ⟶ C) (w : φ ≫ f = f)
     {T : Scheme.{u}} (y : T ⟶ C) (hy : y ≫ φ = y) :
     fixedPointLocusLift f φ w y hy ≫ (fixedPointLocus f φ w).subschemeι = y := by
-  show _ ≫ ((diagonalDivisor f).comapIso (graph f φ w)).inv ≫
+  change _ ≫ ((diagonalDivisor f).comapIso (graph f φ w)).inv ≫
     ((diagonalDivisor f).comap (graph f φ w)).subschemeι = y
   rw [Scheme.IdealSheafData.comapIso_inv_subschemeι, pullback.lift_fst]
 

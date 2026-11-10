@@ -699,7 +699,7 @@ private theorem exists_smul_symm_one_eq_of_equiv_quotient {G X : Type*} [Group G
   obtain ⟨a, ha⟩ := QuotientGroup.mk_surjective (φ z)
   refine ⟨a, φ.injective ?_⟩
   rw [hφ, φ.apply_symm_apply, ← ha]
-  show ((a * 1 : G) : G ⧸ U) = _
+  change ((a * 1 : G) : G ⧸ U) = _
   rw [mul_one]
 
 /-- For a set identified equivariantly with `G ⧸ U`, the stabilizer of the point over the

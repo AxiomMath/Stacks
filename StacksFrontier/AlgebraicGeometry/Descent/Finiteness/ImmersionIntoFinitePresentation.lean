@@ -307,7 +307,7 @@ theorem exists_finitePresentation_isImmersion {X S : Scheme.{u}} (f : X ⟶ S)
     have hWrange : Set.range (wι j) = (Wk j : Set (D.obj k.left)) := Scheme.Opens.range_ι _
     have hUrange : Set.range (uι j) = (U j.1 : Set S) := Scheme.Opens.range_ι _
     refine TopologicalSpace.Opens.ext ?_
-    show Set.range (tmap j).base = _
+    change Set.range (tmap j).base = _
     rw [show tmap j = pullback.map (wToZ j) (uToZ j) g hS (wι j) (uι j) (𝟙 _)
         (by simp [wToZ]) (by simp [uToZ]) from rfl, Scheme.Pullback.range_map, hWrange, hUrange]
     rfl
@@ -320,11 +320,11 @@ theorem exists_finitePresentation_isImmersion {X S : Scheme.{u}} (f : X ⟶ S)
       simpa only [Scheme.Hom.comp_apply] using
         congrArg (fun z : X ⟶ D.obj i => z x) (c.w k.hom)
     refine ⟨j, ⟨?_, ?_⟩⟩
-    · show (pullback.fst g hS).base (q x) ∈ Wk j
+    · change (pullback.fst g hS).base (q x) ∈ Wk j
       rw [← Scheme.Hom.comp_apply, hqfst]
-      show (D.map k.hom).base ((c.π.app k.left).base x) ∈ W j
+      change (D.map k.hom).base ((c.π.app k.left).base x) ∈ W j
       exact hpoint ▸ hxj
-    · show f'.base (q x) ∈ U j.1
+    · change f'.base (q x) ∈ U j.1
       rw [← Scheme.Hom.comp_apply, hqf]
       exact hle j (show x ∈ Vlim j from hxj)
   have hclosed (j : t) : IsClosedImmersion (q.resLE (Uopen j) (q ⁻¹ᵁ Uopen j) le_rfl) := by
@@ -337,7 +337,7 @@ theorem exists_finitePresentation_isImmersion {X S : Scheme.{u}} (f : X ⟶ S)
     have ha : a ≫ wι j = (Vlim j).ι ≫ c.π.app k.left := Scheme.Hom.resLE_comp_ι _ _
     have hb : b ≫ uι j = (Vlim j).ι ≫ f := Scheme.Hom.resLE_comp_ι _ _
     have hab : a ≫ wToZ j = b ≫ uToZ j := by
-      show a ≫ wι j ≫ g = b ≫ uι j ≫ hS
+      change a ≫ wι j ≫ g = b ≫ uι j ≫ hS
       rw [reassoc_of% ha, reassoc_of% hb, hbase]
     let ℓ : (Vlim j : Scheme) ⟶ Tj j := pullback.lift a b hab
     have _ : IsAffine (Wk j : Scheme) := (hW j).1.preimage (D.map k.hom)
@@ -347,11 +347,11 @@ theorem exists_finitePresentation_isImmersion {X S : Scheme.{u}} (f : X ⟶ S)
     let ψ : Γ(Tj j, ⊤) →ₐ[R j] Γ((Vlim j : Scheme), ⊤) :=
       { toRingHom := ℓ.appTop.hom
         commutes' := fun r => by
-          show (ℓ ≫ pullback.snd (wToZ j) (uToZ j)).appTop.hom r = φ j r
+          change (ℓ ≫ pullback.snd (wToZ j) (uToZ j)).appTop.hom r = φ j r
           rw [pullback.lift_snd] }
     have hgen (a' : Fin (n j)) : ∃ z : Γ(Tj j, ⊤), ψ z = (P j).val a' := by
       refine ⟨(pullback.fst (wToZ j) (uToZ j)).appTop.hom (tgen ⟨j, a'⟩), ?_⟩
-      show (ℓ ≫ pullback.fst (wToZ j) (uToZ j)).appTop.hom (tgen ⟨j, a'⟩) = _
+      change (ℓ ≫ pullback.fst (wToZ j) (uToZ j)).appTop.hom (tgen ⟨j, a'⟩) = _
       rw [pullback.lift_fst]
       exact (htgen ⟨j, a'⟩).symm
     have hℓ : IsClosedImmersion ℓ :=

@@ -47,14 +47,14 @@ variable {Y : AlgebraicGeometry.RingedTopos.{v₂, u₂, w}}
   [Y.J.HasSheafCompose (CategoryTheory.forget RingCat.{w})]
   [Y.J.HasSheafCompose (CategoryTheory.forget AddCommGrpCat.{w})]
   [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasSheafify Y.J AddCommGrpCat.{w}]
-  [HasSheafify Y.J (Type w)]
   {A : DifferentialGradedAlgebra.{w, w} (toRingCat Y.J Y.O)}
 
 attribute [local instance] Stacks.TensorSheafWorld.monoidalCategory
 
 /-- Coproducts of sheaves of modules, indexed in the module universe. Instance search times out
 looking for them through the `Discrete` shape, so they are taken from `HasColimitsOfSize`. -/
-local instance (priority := high) hasColimitsOfShape_discrete_GoodDifferentialGradedToposDirectSum {C : Type u₂} [Category.{v₂} C] {J : GrothendieckTopology C}
+local instance (priority := high) hasColimitsOfShape_discrete_GoodDifferentialGradedToposDirectSum
+    {C : Type u₂} [Category.{v₂} C] {J : GrothendieckTopology C}
     [HasSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
     (R : Sheaf J RingCat.{w}) (K : Type w) :
     HasColimitsOfShape (Discrete K) (SheafOfModules.{w} R) :=

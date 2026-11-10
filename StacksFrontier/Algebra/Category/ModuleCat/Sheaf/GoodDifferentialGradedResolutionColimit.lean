@@ -124,7 +124,7 @@ lemma preservesColimitsOfShape_shortComplexHomologyFunctor {J : Type w} [Categor
   have key : i.app T.homology = (T.mapHomologyIso ((evaluation J B).obj j)).inv ≫
       ShortComplex.homologyMap (T.mapNatTrans i) ≫ (T.mapHomologyIso colim).hom :=
     NatTrans.app_homology i T
-  show ((T.mapHomologyIso ((evaluation J B).obj j)).hom ≫ i.app T.homology) ≫
+  change ((T.mapHomologyIso ((evaluation J B).obj j)).hom ≫ i.app T.homology) ≫
       (T.mapHomologyIso (colim : (J ⥤ B) ⥤ B)).inv
     = ShortComplex.homologyMap (T.mapNatTrans i)
   rw [key]
@@ -371,7 +371,7 @@ theorem quasiIso_desc_of_tower (P : ℕ ⥤ DifferentialGradedModule.{t, m, m} A
         ((toCochainComplex A).mapCocone c))
       = HomologicalComplex.homologyMap (hd.desc c).toHomologicalComplex n := by
     refine (hHc.uniq _ _ fun j ↦ ?_).symm
-    show HomologicalComplex.homologyMap ((toCochainComplex A).map (d.ι.app j)) n ≫
+    change HomologicalComplex.homologyMap ((toCochainComplex A).map (d.ι.app j)) n ≫
       HomologicalComplex.homologyMap ((toCochainComplex A).map (hd.desc c)) n = _
     rw [← HomologicalComplex.homologyMap_comp, ← (toCochainComplex A).map_comp, hd.fac]
     rfl

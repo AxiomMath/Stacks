@@ -113,7 +113,7 @@ lemma twistChainEndo_sheafCompose {Y Z : Scheme.{u}} (π : Y ⟶ Y) (h : Y ⟶ Z
           (etaleModuleDirectImage.{u, 0} R h) (etaleModuleDirectImageComp.{u, 0} R π h h hπ)
           T).hom := by
   ext n : 1
-  show (etaleModuleGlobalSections.{u, 0} S Z).map
+  change (etaleModuleGlobalSections.{u, 0} S Z).map
       ((etaleModuleDirectImage.{u, 0} S h).map ((sheafCompose Y.smallEtaleTopology Ψ).map
           (gT.hom.f n)) ≫
         (etaleModuleDirectImageComp.{u, 0} S π h h hπ).hom.app
@@ -154,8 +154,8 @@ abbrev fieldBaseChangeMate :=
     (etaleModuleInverseImageAdj.{u, 0} R (fieldBaseChangeProj (Over.mk j.toBase) kbar))
     (etaleModuleInverseImageAdj.{u, 0} S (fieldBaseChangeProj (Over.mk j.toBase) kbar)) Ψ
 
-variable [IsIso (extensionByZeroMate Ψ f j).natTrans]
-  [IsIso (fieldBaseChangeMate Ψ f j kbar).natTrans]
+variable [IsIso (extensionByZeroMate Ψ f j)]
+  [IsIso (fieldBaseChangeMate Ψ f j kbar)]
 
 /-- `pr^{-1} j_! ∘ Ψ ≅ Ψ ∘ pr^{-1} j_!`, the two comparisons. -/
 def compactSupportRestrictionCoefficientIso :
@@ -165,9 +165,9 @@ def compactSupportRestrictionCoefficientIso :
         etaleModuleInverseImage.{u, 0} R (fieldBaseChangeProj (Over.mk j.toBase) kbar) ⋙
           sheafCompose (fieldBaseChange (Over.mk j.toBase) kbar).smallEtaleTopology Ψ :=
   (Functor.associator _ _ _).symm ≪≫
-    Functor.isoWhiskerRight (asIso (extensionByZeroMate Ψ f j).natTrans) _ ≪≫
+    Functor.isoWhiskerRight (asIso (extensionByZeroMate Ψ f j)) _ ≪≫
     Functor.associator _ _ _ ≪≫
-    Functor.isoWhiskerLeft _ (asIso (fieldBaseChangeMate Ψ f j kbar).natTrans)
+    Functor.isoWhiskerLeft _ (asIso (fieldBaseChangeMate Ψ f j kbar))
 
 /-- **`(j_! Ψ K)|_{X̄_k̄} ≅ Ψ((j_! K)|_{X̄_k̄})`**, termwise on a bounded below complex. -/
 def compactSupportRestrictedComplexCoefficientIso
@@ -187,7 +187,7 @@ section Frobenius
 variable {k : Type u} [Field k] [Fintype k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k))
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
   (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
-  [IsIso (extensionByZeroMate Ψ f j).natTrans] [IsIso (fieldBaseChangeMate Ψ f j kbar).natTrans]
+  [IsIso (extensionByZeroMate Ψ f j)] [IsIso (fieldBaseChangeMate Ψ f j kbar)]
 
 /-- The Frobenius twist of `(j_! K)|_{X̄_k̄}`, a morphism of complexes. -/
 abbrev compactSupportTwist (T : Type) [Ring T] (K : CochainComplex.Plus (EtaleModules.{u, 0} T X)) :
@@ -212,14 +212,14 @@ theorem compactSupportTwist_comp_coefficientIso
   refine ObjectProperty.hom_ext _ (HomologicalComplex.hom_ext _ _ fun n => ?_)
   let L := (etaleModuleExtensionByZero.{u, 0} R j.immersion).obj (K.obj.X n)
   have h1 := (frobeniusBaseChangeTwist.{u, 0} S (Over.mk j.toBase) kbar p q hcard).naturality
-    ((extensionByZeroMate Ψ f j).natTrans.app (K.obj.X n))
+    ((extensionByZeroMate Ψ f j).app (K.obj.X n))
   have h2 := frobeniusBaseChangeTwist_sheafCompose Ψ (Over.mk j.toBase) kbar p q hcard L
-  show (frobeniusBaseChangeTwist.{u, 0} S (Over.mk j.toBase) kbar p q hcard).app _ ≫
+  change (frobeniusBaseChangeTwist.{u, 0} S (Over.mk j.toBase) kbar p q hcard).app _ ≫
       (etaleModuleDirectImage.{u, 0} S _).map
-        ((etaleModuleInverseImage.{u, 0} S _).map ((extensionByZeroMate Ψ f j).natTrans.app
-          (K.obj.X n)) ≫ (fieldBaseChangeMate Ψ f j kbar).natTrans.app L) =
-    ((etaleModuleInverseImage.{u, 0} S _).map ((extensionByZeroMate Ψ f j).natTrans.app
-          (K.obj.X n)) ≫ (fieldBaseChangeMate Ψ f j kbar).natTrans.app L) ≫
+        ((etaleModuleInverseImage.{u, 0} S _).map ((extensionByZeroMate Ψ f j).app
+          (K.obj.X n)) ≫ (fieldBaseChangeMate Ψ f j kbar).app L) =
+    ((etaleModuleInverseImage.{u, 0} S _).map ((extensionByZeroMate Ψ f j).app
+          (K.obj.X n)) ≫ (fieldBaseChangeMate Ψ f j kbar).app L) ≫
       (sheafCompose _ Ψ).map
         ((frobeniusBaseChangeTwist.{u, 0} R (Over.mk j.toBase) kbar p q hcard).app L)
   dsimp only [Functor.comp_map] at h1
@@ -314,7 +314,7 @@ theorem exists_iso_compactSupport_coefficientChange
         T gT).hom) := by
     rw [Functor.map_comp, Functor.map_comp, hg, hfQ, Category.assoc, Category.assoc,
       Iso.inv_hom_id_assoc]
-    show eM.hom ≫ DerivedCategory.Plus.ι.map (Functor.derivedTwistEndo _ _ _ _ _ _) ≫ _ = _
+    change eM.hom ≫ DerivedCategory.Plus.ι.map (Functor.derivedTwistEndo _ _ _ _ _ _) ≫ _ = _
     rw [hR, Category.assoc]
   -- the `S` side
   let μ := compactSupportRestrictedComplexCoefficientIso Ψ f j kbar K
@@ -333,7 +333,7 @@ theorem exists_iso_compactSupport_coefficientChange
     have : IsIso μ.hom.hom := Functor.map_isIso (ObjectProperty.ι _) μ.hom
     infer_instance
   have : QuasiIso ψS.hom := by
-    show QuasiIso (μ.hom.hom ≫ ((sheafCompose (fieldBaseChange (Over.mk j.toBase)
+    change QuasiIso (μ.hom.hom ≫ ((sheafCompose (fieldBaseChange (Over.mk j.toBase)
       kbar).smallEtaleTopology Ψ).mapCochainComplexPlus.map ψ).hom)
     infer_instance
   have h₁S : ∀ n, (etaleModuleDirectImage.{u, 0} S hb).rightAcyclic
@@ -376,7 +376,7 @@ theorem exists_iso_compactSupport_coefficientChange
             (etaleModuleDirectImage.{u, 0} R πb).mapCochainComplexPlus.map ψ).hom := by
       ext n : 1
       have hn := congrArg (fun φ => φ.hom.f n) htw
-      show _ ≫ (etaleModuleDirectImage.{u, 0} S πb).map (μ.hom.hom.f n ≫
+      change _ ≫ (etaleModuleDirectImage.{u, 0} S πb).map (μ.hom.hom.f n ≫
           (sheafCompose (fieldBaseChange (Over.mk j.toBase) kbar).smallEtaleTopology Ψ).map
             (ψ.hom.f n)) =
         μ.hom.hom.f n ≫
@@ -392,7 +392,7 @@ theorem exists_iso_compactSupport_coefficientChange
         μ.hom.hom ≫ ((sheafCompose (fieldBaseChange (Over.mk j.toBase) kbar).smallEtaleTopology
           Ψ).mapHomologicalComplex _).map (ψ ≫ gT).hom := by
       ext n : 1
-      show (μ.hom.hom.f n ≫
+      change (μ.hom.hom.f n ≫
           (sheafCompose (fieldBaseChange (Over.mk j.toBase) kbar).smallEtaleTopology Ψ).map
             (ψ.hom.f n)) ≫
           (sheafCompose (fieldBaseChange (Over.mk j.toBase) kbar).smallEtaleTopology Ψ).map
@@ -403,7 +403,7 @@ theorem exists_iso_compactSupport_coefficientChange
       rw [Functor.map_comp]
       exact Category.assoc _ _ _
     apply DerivedCategory.Plus.ι.map_injective
-    show DerivedCategory.Q.map (compactSupportTwist f j kbar p q hcard S _ ≫
+    change DerivedCategory.Q.map (compactSupportTwist f j kbar p q hcard S _ ≫
         (etaleModuleDirectImage.{u, 0} S πb).mapCochainComplexPlus.map ψS).hom =
       DerivedCategory.Q.map (ψS ≫ gS).hom
     exact (congrArg DerivedCategory.Q.map ha).trans ((DerivedCategory.Q.map_comp _ _).trans

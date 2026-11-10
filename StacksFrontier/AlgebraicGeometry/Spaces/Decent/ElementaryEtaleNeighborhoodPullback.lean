@@ -61,6 +61,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_ElementaryEtaleNeighborhoodPullback :
@@ -76,7 +77,7 @@ private theorem yoneda_map_comp_fieldMorphism {F : (BigFppfOver B S hS)ᵒᵖ �
     {p r : FieldValuedPoint B S hS F} {e : p.siteObject B S hS F ⟶ r.siteObject B S hS F}
     (he : F.map e.op r.value = p.value) :
     yoneda.map e ≫ fieldMorphism B S hS F r = fieldMorphism B S hS F p := by
-  show yoneda.map e ≫ yonedaEquiv.symm r.value = yonedaEquiv.symm p.value
+  change yoneda.map e ≫ yonedaEquiv.symm r.value = yonedaEquiv.symm p.value
   rw [yonedaEquiv_symm_naturality_left e F r.value, he]
 
 /-- The base change of an elementary étale neighborhood, together with the fact that the
@@ -168,7 +169,7 @@ private theorem exists_pullback_neighborhood_aux
         FieldValuedPoint.dominates_refl B S hS Y pRep⟩
     have hval : (FieldValuedPoint.map B S hS (pullback E.toSpace f)
         (pullback.snd E.toSpace f) tV).value = pRep.value := by
-      show (pullback.snd E.toSpace f).app (Opposite.op (pRep.siteObject B S hS Y))
+      change (pullback.snd E.toSpace f).app (Opposite.op (pRep.siteObject B S hS Y))
         (yonedaEquiv l) = pRep.value
       rw [← yonedaEquiv_comp l (pullback.snd E.toSpace f), hlsnd]
       exact yonedaEquiv_fieldMorphism B S hS Y pRep

@@ -74,8 +74,10 @@ left dual `ℰ^∨` by [Stacks, Tag 0FNV] (`Stacks.SheafOfModules.OnSpace.dualSh
 An exact pairing gives *both* adjunctions `- ⊗ ℰ ⊣ - ⊗ ℰ^∨` and `ℰ^∨ ⊗ - ⊣ ℰ ⊗ -`, so `- ⊗ ℰ`
 is a left adjoint — whence it preserves colimits — and, transported across the braiding
 `Stacks.SheafOfModules.OnSpace.tensorLeftTensorRightIso`, a right adjoint too — whence it
-preserves limits. This is the same package `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/LocallyFiniteFreeSummand/InjectiveTensor.lean` uses for Tag 01E7, so no new
-flatness theory is needed and the competing `IsFlat` spellings are not touched.
+preserves limits. This is the same package
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/LocallyFiniteFreeSummand/InjectiveTensor.lean`
+uses for Tag 01E7, so no new flatness theory is needed and the competing `IsFlat` spellings are not
+touched.
 
 *The monoidal spelling and the bifunctor spelling.* `tensorRightInvertible` is tensoring on the
 right in the tensor-product *bifunctor* `Stacks.RingedSpace.tensorSheaf`, while the dual and its

@@ -179,7 +179,7 @@ theorem exists_minimal_le_le_relativeDimensionAt [Algebra.FiniteType R A] (q : I
     obtain ⟨Q', hQ'p, hQ'⟩ := Ideal.Fiber.exists_comap_includeRight_eq z' P (hz'P.trans hP0)
     have hle : (⟨Q', hQ'p⟩ : PrimeSpectrum (P.Fiber A)) ≤ Q₀ :=
       (PrimeSpectrum.primesOverOrderIsoFiber R A P).symm.le_iff_le.mp <| by
-        show Q'.comap ι ≤ Q₀.asIdeal.comap ι
+        change Q'.comap ι ≤ Q₀.asIdeal.comap ι
         exact hQ'.le.trans hz'le
     rw [← hQ']
     exact congrArg (fun T : PrimeSpectrum (P.Fiber A) => T.asIdeal.comap ι) (hQ₀min.eq_of_le hle)

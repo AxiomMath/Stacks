@@ -92,7 +92,7 @@ theorem structureConstantsBaseChangePoints_naturality (S : Scheme.{u}) {T U : Ov
     FiniteFreeAlgebra.map f.left.appTop.hom
         (structureConstantsBaseChangePoints d S U x) =
       structureConstantsBaseChangePoints d S T (f ≫ x) := by
-  show FiniteFreeAlgebra.map f.left.appTop.hom
+  change FiniteFreeAlgebra.map f.left.appTop.hom
       ((representation.{u} d).equiv U.left
         (structureConstantsBaseChangeHomEquiv d S U x)) = _
   rw [(representation.{u} d).naturality f.left (structureConstantsBaseChangeHomEquiv d S U x)]
@@ -112,7 +112,7 @@ theorem contains_structureConstantsScheme : 𝒞.Contains (scheme.{u} d) := by
     Cardinal.mk_le_aleph0_iff.mp <| MvPolynomial.cardinalMk_le_max.trans <|
       max_le (max_le Cardinal.mk_le_aleph0 Cardinal.mk_le_aleph0) le_rfl
   have : Countable (universalRing d) := Ideal.Quotient.mk_surjective.countable
-  show (Spec (CommRingCat.of (ULift.{u} (universalRing d)))).size < 𝒞.cutoff
+  change (Spec (CommRingCat.of (ULift.{u} (universalRing d)))).size < 𝒞.cutoff
   rw [Scheme.size_Spec]
   exact max_lt 𝒞.aleph0_lt_cutoff (Cardinal.mk_le_aleph0.trans_lt 𝒞.aleph0_lt_cutoff)
 

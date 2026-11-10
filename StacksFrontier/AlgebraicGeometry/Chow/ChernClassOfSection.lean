@@ -238,9 +238,9 @@ step `r > 1` needs the projective space bundle formula of Tag 02TX, the decompos
 relative-dimension clauses of Tag 02TX are carried in this repository, so that formula is not
 available and the rest of this directory carries it as a hypothesis wherever it is needed. The
 cap product with the higher Chern classes is the parameter `Stacks.Chow.HigherChernCapRule`
-standing in for Tag 0B7G, which is not formalized, as in every other file of this directory. The source's
-hypothesis that `f^*E` has constant rank `r` is read as constant rank `r` on `X`, which is what
-forming `c_r(E)` requires in this encoding."]
+standing in for Tag 0B7G, which is not formalized, as in every other file of this directory. The
+source's hypothesis that `f^*E` has constant rank `r` is read as constant rank `r` on `X`, which is
+what forming `c_r(E)` requires in this encoding."]
 theorem cap_fundamentalCycle_eq_zeroSchemeCycle_of_isChernClassBivariant
     (C : ChowSituation.{u}) {X X' : Scheme.{u}} (sX : X ⟶ C.S) [LocallyOfFiniteType sX]
     (E : X.Modules) (r : ℕ)
@@ -328,8 +328,9 @@ product parameter `cap` at rank one and `j = 1` with `Stacks.Chow.firstChernClas
 the first Chern class cap product of Stacks 02SO of an invertible module, which is available.
 
 `Stacks.Chow.HigherChernCapRule` is an *arbitrary* family of additive maps — it is the parameter
-standing in for `chernClassCapOnChow` of Stacks 0B7G, which is not formalized, as the implementation notes of
-this file record — so nothing about it relates it to the existing construction, and the
+standing in for `chernClassCapOnChow` of Stacks 0B7G, which is not formalized, as the
+implementation notes of this file record — so nothing about it relates it to the existing
+construction, and the
 identification has to be assumed. It is Stacks 02U5 at `j = 1`: the cycle-level construction of
 Stacks 02U5 is formalized, as `Stacks.Chow.chernClassCap` of
 `StacksFrontier.AlgebraicGeometry.Chow.ChernClassHigher.CapProduct`, and
@@ -377,8 +378,8 @@ their hypothesis `hreduced`: Tag 02SQ is stated for a closed immersion with the 
 on the ambient scheme, so this reads it at the identity of `X'` by transporting the section and
 the zero scheme along the pullback-by-the-identity isomorphism of modules, and matches the two
 degree conventions. Three things are assumed. `hcap` is Tag 02U5 at `j = 1`, the identification of
-the cap product parameter `Stacks.Chow.HigherChernCapRule` -- which stands in for the unformalized Tag
-0B7G, as in every other file of this directory -- with the first Chern class cap product of
+the cap product parameter `Stacks.Chow.HigherChernCapRule` -- which stands in for the unformalized
+Tag 0B7G, as in every other file of this directory -- with the first Chern class cap product of
 Tag 02SO; an arbitrary cap rule pins nothing, exactly as recorded in
 `StacksFrontier.AlgebraicGeometry.Chow.ChernClassTwist` and
 `StacksFrontier.AlgebraicGeometry.Chow.ChernWhitney.FilteredAdditivity`. `hs` is the

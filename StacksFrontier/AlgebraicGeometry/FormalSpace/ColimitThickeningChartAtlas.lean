@@ -86,7 +86,7 @@ theorem surjective_pointsMapULift_presheaf_of_relative_surjective
   have hξpt : Space.pointsMapULift B S hS (uliftYoneda.{u + 1}.obj A) ξ (q₀.class B S hS _)
       = pt.class B S hS F := by
     refine Quot.sound ⟨pt, ⟨𝟙 _, ?_⟩, ⟨𝟙 _, by simp⟩⟩
-    show F.map (𝟙 A).op (ξ.app (Opposite.op A) (ULift.up (𝟙 A))) = pt.value
+    change F.map (𝟙 A).op (ξ.app (Opposite.op A) (ULift.up (𝟙 A))) = pt.value
     simp [ξ]
   refine ⟨Space.pointsMapULift B S hS _ (ha.rep.fst ξ) y, ?_⟩
   calc Space.pointsMapULift B S hS _ a (Space.pointsMapULift B S hS _ (ha.rep.fst ξ) y)

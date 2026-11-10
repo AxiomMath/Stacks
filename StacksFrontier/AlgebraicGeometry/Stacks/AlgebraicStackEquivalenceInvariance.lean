@@ -101,7 +101,7 @@ theorem isAlgebraicStack_iff_of_equivalence'
     have hequiv : Functor.IsEquivalence e.functor.toFunctor := e.equiv.isEquivalence_functor
     have hid : Functor.IsEquivalence
         (BasedFunctor.id (schemeFibredCategory B S hS U).val).toFunctor := by
-      show Functor.IsEquivalence (𝟭 _)
+      change Functor.IsEquivalence (𝟭 _)
       infer_instance
     have hα : BasedFunctor.comp (BasedFunctor.id (schemeFibredCategory B S hS U).val)
         (BasedFunctor.comp f e.functor) ≅ BasedFunctor.comp f e.functor := Iso.refl _

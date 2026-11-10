@@ -116,14 +116,14 @@ private theorem inverseArrow_involutive
     apply E₂'.injective
     apply Subtype.ext
     simp only [Equiv.apply_symm_apply]
-    show inverseArrow G T a =
+    change inverseArrow G T a =
       (E₂' (eqToHom hs ≫
         (E₂.symm ⟨inverseArrow G T a, hs, ht⟩) ≫ eqToHom ht.symm)).1
     rw [evaluationArrowEquiv_val_transport G T hs.symm ht.symm
       (E₂.symm ⟨inverseArrow G T a, hs, ht⟩)]
     exact (congrArg Subtype.val (Equiv.apply_symm_apply E₂
       ⟨inverseArrow G T a, hs, ht⟩)).symm
-  show (E₁' (Groupoid.inv
+  change (E₁' (Groupoid.inv
     (E₂'.symm ⟨inverseArrow G T a, rfl, rfl⟩))).1 = a
   have hfinal : (E₁' (eqToHom ht ≫ α ≫ eqToHom hs.symm)).1 = a := by
     have he : eqToHom ht = eqToHom ht.symm.symm := rfl
@@ -200,7 +200,7 @@ private theorem isSmooth_of_inverseArrow_swap
   refine ⟨G.arrows.elementsMk B₀ bᵢ, h', c', IsHomLift.map (p := Functor.Elements.π G.arrows) h',
     IsHomLift.map (p := Functor.Elements.π G.objects) c', ?_⟩
   apply Functor.Elements.hom_ext
-  show g.hom = (𝟙 B₀) ≫ g.hom
+  change g.hom = (𝟙 B₀) ≫ g.hom
   simp
 
 private theorem source_isSmooth_implies_target
@@ -303,7 +303,7 @@ private theorem source_isSmooth_implies_quotient
   let : Groupoid (G.objects.obj A₀) := G.evaluationGroupoid A₀
   apply Grothendieck.ext
   case w_base =>
-    show f₀ = (𝟙 B₀) ≫ g.base
+    change f₀ = (𝟙 B₀) ≫ g.base
     simp [f₀]
   case w_fiber =>
     rw [Grothendieck.comp_fiber]
@@ -403,7 +403,7 @@ private theorem quotient_isSmooth_implies_target
   refine ⟨b, h', c', IsHomLift.map (p := Functor.Elements.π G.arrows) h',
     IsHomLift.map (p := Functor.Elements.π G.objects) c', ?_⟩
   apply Functor.Elements.hom_ext
-  show g.hom = (𝟙 B₀) ≫ g.hom
+  change g.hom = (𝟙 B₀) ≫ g.hom
   simp
 
 /-- A groupoid in functors is smooth exactly when its source morphism is smooth. -/

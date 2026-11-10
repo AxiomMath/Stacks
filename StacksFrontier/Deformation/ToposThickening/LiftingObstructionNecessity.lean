@@ -94,18 +94,24 @@ generator `[x]` of the source's derivation `b - φ ∘ a` of Step 2. -/
 def liftPairSection (p : Lift D) (U : Cᵒᵖ) (x : D.PairSection U) : D.back.G.val.obj U :=
   (existsUnique_liftPairSection D p U x).choose
 
+omit [HasWeakSheafify J CommRingCat] [HasWeakSheafify J AddCommGrpCat]
+  [J.WEqualsLocallyBijective AddCommGrpCat] [J.WEqualsLocallyBijective CommRingCat]
+  [J.HasSheafCompose (forget AddCommGrpCat)] [HasSheafify J AddCommGrpCat] in
 /-- The defining equation of `liftPairSection`. -/
 theorem incl_liftPairSection (p : Lift D) (U : Cᵒᵖ) (x : D.PairSection U) :
     D.back.incl (liftPairSection D p U x) = x.1.2 - p.hom.hom.app U x.1.1 :=
   (existsUnique_liftPairSection D p U x).choose_spec.1
 
+omit [HasWeakSheafify J CommRingCat] [HasWeakSheafify J AddCommGrpCat]
+  [J.WEqualsLocallyBijective AddCommGrpCat] [J.WEqualsLocallyBijective CommRingCat]
+  [J.HasSheafCompose (forget AddCommGrpCat)] [HasSheafify J AddCommGrpCat] in
 /-- `liftPairSection` is compatible with the restriction maps of the site. -/
 theorem liftPairSection_map (p : Lift D) {U V : Cᵒᵖ} (h : U ⟶ V) (x : D.PairSection U) :
     liftPairSection D p V (D.pairSectionMap h x) =
       D.back.G.val.map h (liftPairSection D p U x) := by
   refine D.back.incl_injective ?_
   rw [incl_liftPairSection, D.back.incl_naturality, incl_liftPairSection, map_sub]
-  show D.back.O'.obj.map h x.1.2 - p.hom.hom.app V (D.front.O'.obj.map h x.1.1) =
+  change D.back.O'.obj.map h x.1.2 - p.hom.hom.app V (D.front.O'.obj.map h x.1.1) =
     D.back.O'.obj.map h x.1.2 - D.back.O'.obj.map h (p.hom.hom.app U x.1.1)
   rw [sheafHom_naturality_apply]
 
@@ -121,6 +127,9 @@ def liftGeneratorHom (p : Lift D) :
 
 /-! ### The degree `0` term of `NL(α)`, and the factorization prescribed by a lift -/
 
+omit [HasWeakSheafify J AddCommGrpCat]
+  [J.WEqualsLocallyBijective AddCommGrpCat] [J.WEqualsLocallyBijective CommRingCat]
+  [J.HasSheafCompose (forget AddCommGrpCat)] [HasSheafify J AddCommGrpCat] in
 /-- The reduced presentation of Step 1 is the library's `presentation` of the family of
 generators `α`, so everything the library proves about a presentation applies to it — in
 particular the freeness of the degree `0` term of `NL(α)` on the generators. -/
@@ -187,6 +196,9 @@ def degreeZeroHomEquivDerivation
         (freeAlgebraSheaf J D.front.OB (pairPresheaf D))
         (freeAlgebraSheafCoefficientMap J D.front.OB (pairPresheaf D))).corepresentableBy.homEquiv)
 
+omit [HasWeakSheafify J AddCommGrpCat]
+  [J.WEqualsLocallyBijective AddCommGrpCat] [J.WEqualsLocallyBijective CommRingCat]
+  [J.HasSheafCompose (forget AddCommGrpCat)] [HasSheafify J AddCommGrpCat] in
 /-- The derivation attached to a morphism out of the degree `0` term of `NL(α)` takes a local
 section `y` of `𝒪_{B₁}[ℰ]` to the value of the morphism on `1 ⊗ d y`. -/
 theorem degreeZeroHomEquivDerivation_d
@@ -225,6 +237,8 @@ instance isLocallyInjective_reducedPolynomialUnit :
     Presheaf.IsLocallyInjective J (reducedPolynomialUnit D) :=
   (J.W_toSheafify _).isLocallyInjective
 
+omit [HasWeakSheafify J AddCommGrpCat] [J.HasSheafCompose (forget AddCommGrpCat)]
+  [HasSheafify J AddCommGrpCat] in
 /-- **The degree `0` term of `NL(α)` is free on the generators**, in the form Step 2 uses: every
 morphism of presheaves of sets out of `ℰ` into the sections of a sheaf of `𝒪_{X₁}`-modules is
 the restriction to the generators `1 ⊗ d[x]` of a morphism out of the degree `0` term. The
@@ -257,6 +271,8 @@ homomorphism `ξ`, i.e. that `d ≫ θ = ξ`. -/
 def liftDegreeZeroHom (p : Lift D) : reducedDegreeZero D ⟶ pushedIdeal D :=
   (exists_degreeZeroHom_on_generators D (pushedIdeal D) (liftGeneratorHom D p)).choose
 
+omit [HasWeakSheafify J AddCommGrpCat] [J.HasSheafCompose (forget AddCommGrpCat)]
+  [HasSheafify J AddCommGrpCat] in
 /-- `liftDegreeZeroHom` takes on the generator attached to a local section `x = (x₁, x₂)` of
 `ℰ` the value `x₂ - φ(x₁)` prescribed by the lift. -/
 theorem liftDegreeZeroHom_generator (p : Lift D) (U : Cᵒᵖ) (x : D.PairSection U) :

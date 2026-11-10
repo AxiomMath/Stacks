@@ -347,7 +347,7 @@ public def pushforwardCompletionComponentIso (I : X.IdealSheafData)
     ((completionFunctor X I).obj (pushforwardCoherentObj i G)).obj.obj (op n) ≅
       (((completionFunctor Z (I.comap i)).obj G).obj ⋙
         Scheme.Modules.pushforward i).obj (op n) :=
-  haveI hc : G.obj.IsCoherent := G.property
+  haveI : G.obj.IsCoherent := G.property
   haveI hiso : IsIso (C := X.Modules) (pushforwardAdicQuotientMap i I (n + 1) G.obj) :=
     isIso_pushforwardAdicQuotientMap i I n G.obj
   eqToIso (completionFunctor_obj X I (pushforwardCoherentObj i G) n) ≪≫

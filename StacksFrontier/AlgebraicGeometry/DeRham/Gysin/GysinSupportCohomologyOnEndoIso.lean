@@ -2,7 +2,7 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.DeRham.Gysin.GysinSupportCohomologyOnBridge
 public import
-  StacksFrontier.AlgebraicGeometry.Perfect.SupportClosedSubset.SupportedEndoForgetEndofunctorSpelling
+StacksFrontier.AlgebraicGeometry.Perfect.SupportClosedSubset.SupportedEndoForgetEndofunctorSpelling
 public import
   StacksFrontier.AlgebraicGeometry.Perfect.SupportClosedSubset.SupportedEndoForgetUnitPostcompose
 public import StacksFrontier.Homology.DerivedIndexing.SourceCongruenceCoherence

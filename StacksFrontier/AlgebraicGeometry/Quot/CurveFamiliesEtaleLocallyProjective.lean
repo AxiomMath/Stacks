@@ -249,7 +249,7 @@ theorem exists_affine_etale_sections_of_smooth {ι : Type*} [Finite ι]
         have : Etale (ν ≫ (BigFppfOver.toScheme B integerBase hZ).map φ) := inferInstance
         rw [Functor.map_comp, toScheme_map_siteHomOfContains]; exact this
       · rw [Functor.map_comp, toScheme_map_siteHomOfContains]
-        show (BigFppfOver.toScheme B integerBase hZ).map φ (W.toBase W.point) = s
+        change (BigFppfOver.toScheme B integerBase hZ).map φ (W.toBase W.point) = s
         rw [W.map_point, hu]
       · intro i hi
         rcases Finset.mem_insert.mp hi with rfl | hi

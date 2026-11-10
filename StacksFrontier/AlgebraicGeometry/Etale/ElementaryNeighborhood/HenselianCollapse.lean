@@ -146,7 +146,7 @@ theorem isIso_fromSpecStalk_comp_of_henselian
   -- `↥(Spec R)` is not available at the transparency at which `rw` checks type-correctness.
   let z : ↥(Spec R) := closedPoint R
   have hβx : β z = x := by
-    show X.fromSpecStalk x (PrimeSpectrum.comap g (closedPoint R)) = x
+    change X.fromSpecStalk x (PrimeSpectrum.comap g (closedPoint R)) = x
     rw [IsLocalRing.comap_closedPoint g, Scheme.fromSpecStalk_closedPoint]
   have : IsIso (β.stalkMap z) :=
     (IsOpenImmersion.iff_isIso_stalkMap.mp inferInstance).2 z

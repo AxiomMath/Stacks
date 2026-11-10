@@ -75,7 +75,7 @@ theorem residue_coords_ne_zero {T : Scheme.{u}} {n : ℕ} (c : Fin n → Γ(T, �
   have hz : ρ.appTop (c j) = 0 := congrFun h0 j
   rw [hz, Scheme.basicOpen_zero] at hpre
   have : (IsLocalRing.closedPoint (T.residueField t)) ∈ ρ ⁻¹ᵁ T.basicOpen (c j) := by
-    show ρ _ ∈ T.basicOpen (c j)
+    change ρ _ ∈ T.basicOpen (c j)
     rw [show ρ (IsLocalRing.closedPoint (T.residueField t)) = t from
       Scheme.fromSpecResidueField_apply t _]
     exact hj
@@ -120,8 +120,6 @@ private theorem curve_instances [IsAlgClosed k] [IsProjectiveVariety k f] :
 
 variable [IsAlgClosed k] [IsCurve k f] [IsProjectiveVariety k f] [Smooth f]
 
-include k f in
-omit [IsAlgClosed k] [IsCurve k f] [IsProjectiveVariety k f] [Smooth f] in
 /-- An invertible module on a smooth projective curve over `k` is quasi-coherent. -/
 theorem isQuasicoherent_of_curve : L.IsQuasicoherent := isQuasicoherent_of_isInvertible L
 

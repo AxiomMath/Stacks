@@ -268,10 +268,7 @@ map. Here the decomposition happens on the subquotients of `A` and is
 theorem ev_secM_mem_divisibleMaps (M : ANCModule I n c) {g f : ℕ} (hgf : g + c = f)
     (hq : S.q₀ ≤ f) (t : powTensor I n f (M.dual).1) :
     S.ev M f hq (S.secM M.dual f t) ∈ divisibleMaps I n c hgf M.1 := by
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    rw [map_zero, map_zero]
-    exact Submodule.zero_mem _
+  induction t using TensorProduct.inductionOn with
   | tmul x lam =>
     rw [S.ev_secM M f hq x lam]
     exact dualHom_mem_divisibleMaps I n c hgf lam x
@@ -419,8 +416,7 @@ theorem dualHomTensorLift_powTensorLe {q q' : ℕ} (h : q' ≤ q) (M : ModuleCat
     dualHomTensorLift I n q' M
         (powTensorLe I n (ModuleCat.of (A ⧸ I ^ n) (Module.Dual (A ⧸ I ^ n) M)) h t) =
       (powQuotLe I h).comp (dualHomTensorLift I n q M t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero, LinearMap.comp_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul x lam =>
     rw [powTensorLe, LinearMap.rTensor_tmul, dualHomTensorLift_tmul, dualHomTensorLift_tmul,
       comp_dualHom]

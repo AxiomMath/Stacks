@@ -135,7 +135,7 @@ theorem PrimeDivisor.nonempty_uliftUnit_iso_genericMeromorphicSectionSheaf
         (Z.genericHenselianSpace B S hS hX hdec R hR).2) _ hM)).some
   exact P.nonempty_uliftUnit_iso_meromorphicSectionSheaf
     (X := Z.genericHenselianSpace B S hS hX hdec R hR) _ hτ
-    (Z.forall_localRingDimension_genericHenselianSpace_eq_zero B S hS hX hdec hInt R hR hred)
+    (Z.forall_localRingDimension_genericHenselianSpace_eq_zero B S hS hX hdec R hR hred)
     (Z.hasLocallyFiniteIrreducibleComponents_genericHenselianSpace B S hS hX hdec R hR hnoeth)
     (Stacks.SheafOfModules.IsInvertible.toAlgebraicGeometry _ _ _ hM)
 
@@ -219,7 +219,7 @@ theorem PrimeDivisor.bijective_smul_toMeromorphicSectionValue
       (Z.genericHenselianChart B S hS hX hdec R hR) t with hw
   let : Algebra R K := (Z.genericToMeromorphicFunctions B S hS hX hdec R hR).toAlgebra
   have : IsFractionRing R K :=
-    Z.isFractionRing_genericMeromorphicChartRing B S hS hX hdec hInt R hR
+    Z.isFractionRing_genericMeromorphicChartRing B S hS hX hdec R hR
       (Z.isReduced_genericHenselization B S hS hX hdec hInt hN R)
       (Z.isNoetherianRing_genericHenselization B S hS hX hdec hInt hN R)
   have hMinv : AlgebraicGeometry.SheafOfModules.IsInvertible

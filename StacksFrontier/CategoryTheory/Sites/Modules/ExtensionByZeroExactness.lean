@@ -96,7 +96,7 @@ lemma mono_sigmaMap {R : Type u} [Ring R] {ι : Type u} {A B : ι → ModuleCat.
       fun X : Discrete ι => p X.as).app X) := fun ⟨i⟩ => hp i
   have : Mono (Discrete.natTrans (F := Discrete.functor A) (G := Discrete.functor B)
       fun X : Discrete ι => p X.as) := NatTrans.mono_of_mono_app _
-  show Mono ((colim (J := Discrete ι) (C := ModuleCat.{u} R)).map
+  change Mono ((colim (J := Discrete ι) (C := ModuleCat.{u} R)).map
     (Discrete.natTrans (F := Discrete.functor A) (G := Discrete.functor B)
       fun X : Discrete ι => p X.as))
   infer_instance
@@ -137,7 +137,7 @@ theorem isIso_lanSigmaDesc
       Sigma.ι (fun φ : V ⟶ U => F.obj (op (Over.mk φ))) (ix j)
     naturality := by
       intro j j' f
-      show F.map f.left ≫ F.map (op (k j')) ≫
+      change F.map f.left ≫ F.map (op (k j')) ≫
           Sigma.ι (fun φ : V ⟶ U => F.obj (op (Over.mk φ))) (ix j') =
         F.map (op (k j)) ≫
           Sigma.ι (fun φ : V ⟶ U => F.obj (op (Over.mk φ))) (ix j)
@@ -154,11 +154,11 @@ theorem isIso_lanSigmaDesc
       let hobj : Over.mk (ix j) = Over.mk (ix j') := congrArg Over.mk hix
       have hmor : eqToHom hobj ≫ k j' ≫ f.left.unop = k j := by
         apply Over.OverMorphism.ext
-        show (eqToHom hobj).left ≫ j'.hom.unop ≫ f.left.unop.left = j.hom.unop
+        change (eqToHom hobj).left ≫ j'.hom.unop ≫ f.left.unop.left = j.hom.unop
         simpa [Category.assoc] using hrel
       have hpath : f.left ≫ op (k j') ≫ op (eqToHom hobj) = op (k j) := by
         apply Quiver.Hom.unop_inj
-        show (eqToHom hobj ≫ k j') ≫ f.left.unop = k j
+        change (eqToHom hobj ≫ k j') ≫ f.left.unop = k j
         rwa [Category.assoc]
       have hinj := key hix
       calc
@@ -177,7 +177,7 @@ theorem isIso_lanSigmaDesc
     have hk : k (terminal φ) = eqToHom (congrArg Over.mk hidx) := by
       apply Over.OverMorphism.ext
       simp [terminal, k]
-    show F.map (op (k (terminal φ))) ≫
+    change F.map (op (k (terminal φ))) ≫
         Sigma.ι (fun ψ : V ⟶ U => F.obj (op (Over.mk ψ))) (ix (terminal φ)) = _
     rw [hk]
     exact key hidx
@@ -186,7 +186,7 @@ theorem isIso_lanSigmaDesc
     (by
       intro s j
       dsimp [c]
-      rw [Category.assoc, Sigma.ι_desc]
+      rw [Category.assoc, Sigma.ι_comp_desc]
       have hmap : G.map (eta j) = F.map (op (k j)) := rfl
       rw [← hmap]
       exact s.w (eta j))
@@ -198,7 +198,7 @@ theorem isIso_lanSigmaDesc
         Sigma.ι (fun ψ : V ⟶ U => F.obj (op (Over.mk ψ))) φ ≫ m =
             s.ι.app (terminal φ) := by simpa only [hterminal] using hm (terminal φ)
         _ = Sigma.ι (fun ψ : V ⟶ U => F.obj (op (Over.mk ψ))) φ ≫
-            Sigma.desc (fun ψ => s.ι.app (terminal ψ)) := by rw [Sigma.ι_desc])
+            Sigma.desc (fun ψ => s.ι.app (terminal ψ)) := by rw [Sigma.ι_comp_desc])
   let e₁ : (∐ fun φ : V ⟶ U => F.obj (op (Over.mk φ))) ≅ colimit G :=
     hc.coconePointUniqueUpToIso (colimit.isColimit G)
   let e₂ : (((Over.forget U).op.lan.obj F).obj (op V)) ≅ colimit G :=
@@ -219,7 +219,7 @@ theorem isIso_lanSigmaDesc
         colimit.ι G (terminal φ) :=
       (congrArg (fun x => x ≫ e₁.hom) (hterminal φ).symm).trans
         (IsColimit.comp_coconePointUniqueUpToIso_hom hc (colimit.isColimit G) (terminal φ))
-    rw [Sigma.ι_desc, Iso.trans_hom, Iso.symm_hom, ← Category.assoc, hcolim]
+    rw [Sigma.ι_comp_desc, Iso.trans_hom, Iso.symm_hom, ← Category.assoc, hcolim]
     exact (Iso.eq_comp_inv e₂).2 hunit
   rw [he]
   infer_instance
@@ -257,7 +257,7 @@ lemma extensionByZeroSummandsMap_mono {G H : SheafOfModules.{u} (R.over U)}
     (f : G ⟶ H) (V : C) [Mono f] :
     Mono (extensionByZeroSummandsMap J R U f V) := by
   have hval : Mono f.val := by
-    show Mono ((SheafOfModules.forget (R.over U)).map f)
+    change Mono ((SheafOfModules.forget (R.over U)).map f)
     infer_instance
   refine mono_sigmaMap _ fun φ => ?_
   exact (ModuleCat.mono_iff_injective _).2
@@ -362,7 +362,7 @@ lemma extensionByZero_preservesMonomorphisms :
         (R := R.obj) (S := (R.over U).obj)
         (𝟙 (R.over U) : (R.over U) ⟶ (R.over U)).hom ⋙
       PresheafOfModules.sheafification (𝟙 R.obj)).map f) := by
-    show Mono ((PresheafOfModules.sheafification (𝟙 R.obj)).map
+    change Mono ((PresheafOfModules.sheafification (𝟙 R.obj)).map
       ((PresheafOfModules.pullback.{u} (F := Over.forget U)
         (R := R.obj) (S := (R.over U).obj)
         (𝟙 (R.over U) : (R.over U) ⟶ (R.over U)).hom).map f.val))
@@ -542,11 +542,11 @@ noncomputable def extensionByZeroCompToSheafIso :
       apply Sigma.hom_ext
       intro f
       have hdesc : Sigma.ι B f ≫ d =
-          (L.lanUnit.app (FAb.obj M)).app (op (Over.mk f)) := Sigma.ι_desc _ f
+          (L.lanUnit.app (FAb.obj M)).app (op (Over.mk f)) := Sigma.ι_comp_desc _ f
       have he : Sigma.ι B f ≫ e.hom =
           eNat.inv.app (Discrete.mk f) ≫ forgetMod.map (Sigma.ι A f) := by
         dsimp [e]
-        rw [← Category.assoc, HasColimit.isoOfNatIso_ι_inv, Category.assoc,
+        rw [← Category.assoc, HasColimit.ι_isoOfNatIso_inv, Category.assoc,
           ι_preservesColimitIso_inv]
       have hunitMod : Sigma.ι A f ≫ q.inv =
           ((PresheafOfModules.pullbackPushforwardAdjunction.{u}
@@ -771,7 +771,7 @@ private theorem unit_mono
     intro X S hS _ t₁ t₂ h₁ h₂
     exact Fsrc.property.isSeparated X S hS t₁ t₂ fun Y g hg => (h₁ g hg).trans (h₂ g hg).symm
   have hlocalP : Presheaf.IsLocallyInjective (J.over U) fP := by
-    show Presheaf.IsLocallyInjective (J.over U)
+    change Presheaf.IsLocallyInjective (J.over U)
       ((PresheafOfModules.toPresheaf (R.over U).obj).map
         ((SheafOfModules.forget (R.over U)).map (A.unit.app G)))
     rw [hform]

@@ -99,7 +99,7 @@ private theorem exists_uniform_tor_transition_eq_zero_of_finite
           (Ideal.pow_le_pow_right (Nat.sub_le n c)))) = 0 := by
   obtain ⟨c, _, hc⟩ := tor_pro_zero (A := A) I M hi
   refine ⟨c, fun n hn ↦ ?_⟩
-  show ((Tor (ModuleCat.{u} A) i).obj M).map
+  change ((Tor (ModuleCat.{u} A) i).obj M).map
     (torProZeroTransition I (Nat.sub_le n c)) = 0
   exact hc n hn
 
@@ -107,8 +107,8 @@ private theorem exists_uniform_tor_transition_eq_zero_of_finite
 private instance torTensorComplex_additive
     {A : Type u} [CommRing A]
     (Pc : ChainComplex (ModuleCat.{u} A) ℕ) : (torTensorComplex Pc).Additive where
-  map_add {X Y f g} := HomologicalComplex.hom_ext _ _ fun k ↦
-    ModuleCat.hom_ext (LinearMap.rTensor_add (Pc.X k) f.hom g.hom)
+  map_add := HomologicalComplex.hom_ext _ _ fun k ↦
+    ModuleCat.hom_ext (LinearMap.rTensor_add (Pc.X k) _ _)
 
 /-- `Tor` is additive in its second variable. -/
 private noncomputable instance torFlip_additive
@@ -266,7 +266,7 @@ private theorem ideal_smul_top_eq_bot_iff
     {A : Type u} [CommRing A] {M : Type*} [AddCommGroup M] [Module A M] (J : Ideal A) :
     J • (⊤ : Submodule A M) = ⊥ ↔ ∀ a ∈ J, ∀ x : M, a • x = 0 := by
   rw [← Submodule.le_annihilator_iff, Submodule.annihilator_top]
-  simp [SetLike.le_def, Module.mem_annihilator]
+  simp [IsConcreteLE.le_iff, Module.mem_annihilator]
 
 /-- Multiplication by a module element, as a map out of the ring. -/
 private noncomputable def boundedTorsionCyclicMap
@@ -311,11 +311,11 @@ private theorem boundedTorsionPresentationMap_surjective
   classical
   intro x
   refine ⟨Finsupp.single x (Submodule.Quotient.mk (1 : A)), ?_⟩
-  show DirectSum.toModule A M M (boundedTorsionQuotientMap I m M hM)
+  change DirectSum.toModule A M M (boundedTorsionQuotientMap I m M hM)
     (finsuppLEquivDirectSum A (A ⧸ I ^ m) M
       (Finsupp.single x (Submodule.Quotient.mk (1 : A)))) = x
   rw [finsuppLEquivDirectSum_single, DirectSum.toModule_lof]
-  show (Submodule.liftQ (I ^ m) (boundedTorsionCyclicMap M x)
+  change (Submodule.liftQ (I ^ m) (boundedTorsionCyclicMap M x)
     (boundedTorsionPow_le_ker_cyclicMap I m M hM x))
       (Submodule.Quotient.mk (1 : A)) = x
   rw [Submodule.liftQ_apply]
@@ -330,7 +330,7 @@ private theorem pow_smul_finsupp_eq_bot
   ext j
   have hq : (Ideal.Quotient.mk (I ^ m) a : A ⧸ I ^ m) = 0 :=
     Ideal.Quotient.eq_zero_iff_mem.mpr ha
-  show (Ideal.Quotient.mk (I ^ m) a) * x j = 0
+  change (Ideal.Quotient.mk (I ^ m) a) * x j = 0
   rw [hq, zero_mul]
 
 /-- A submodule of a module annihilated by `I ^ m` is annihilated by `I ^ m`. -/
@@ -405,10 +405,10 @@ private theorem torSESDelta_naturality_in_second
   let hVN := lesShift.ses A S hS N
   let hVN' := lesShift.ses A S hS N'
   have : ((lesShift.phiBi A).flip.obj P.complex).PreservesZeroMorphisms := by
-    show (lesShift.phi A P.complex).PreservesZeroMorphisms
+    change (lesShift.phi A P.complex).PreservesZeroMorphisms
     exact lesShift.phi_preservesZeroMorphisms A P.complex
   have : ((lesShift.phiBi A).flip.obj P'.complex).PreservesZeroMorphisms := by
-    show (lesShift.phi A P'.complex).PreservesZeroMorphisms
+    change (lesShift.phi A P'.complex).PreservesZeroMorphisms
     exact lesShift.phi_preservesZeroMorphisms A P'.complex
   let ψ := S.mapNatTrans ((lesShift.phiBi A).flip.map φ)
   have hrel : (ComplexShape.down ℕ).Rel i (i - 1) := by
@@ -430,7 +430,7 @@ private theorem torSESDelta_naturality_in_second
       e₁.inv ≫ (((Tor (ModuleCat.{u} A) (i - 1)).obj S.X₁).map g) :=
     lesShift.comp_inv_eq_inv_comp_of_comm _ _ _ _ hC
   have hδ := lesShift.δ_naturality A hVN hVN' ψ i (i - 1) hrel
-  show (((Tor (ModuleCat.{u} A) i).obj S.X₃).map g) ≫ e₃'.hom ≫
+  change (((Tor (ModuleCat.{u} A) i).obj S.X₃).map g) ≫ e₃'.hom ≫
       hVN'.δ i (i - 1) hrel ≫ e₁'.inv =
     e₃.hom ≫ hVN.δ i (i - 1) hrel ≫ e₁.inv ≫
       (((Tor (ModuleCat.{u} A) (i - 1)).obj S.X₁).map g)
@@ -535,7 +535,7 @@ private theorem torSES_exact
   have hcommg : (((Tor (ModuleCat.{u} A) i).map S.g).app N) ≫ e₃.hom =
       e₂.hom ≫ H.f := torMapHomologyCommTor S.g N P i
   have hcommδ : torSESDelta N hV i hi ≫ e₁.hom = e₃.hom ≫ H.g := by
-    show e₃.hom ≫ δ ≫ e₁.inv ≫ e₁.hom = e₃.hom ≫ δ
+    change e₃.hom ≫ δ ≫ e₁.inv ≫ e₁.hom = e₃.hom ≫ δ
     exact congrArg (fun k ↦ e₃.hom ≫ k)
       ((congrArg (fun z ↦ δ ≫ z) e₁.inv_hom_id).trans (Category.comp_id δ))
   let e : torSESShortComplex hS N i hi ≅ H :=
@@ -620,7 +620,7 @@ private theorem tor_one_transition_eq_zero_of_pow_smul_eq_bot
       infer_instance
     rw [← cancel_mono ((Limits.kernel.ι η).app (ModuleCat.of A (A ⧸ I ^ (n - m)))),
       Limits.zero_comp]
-    show (Limits.kernel η).map tr ≫
+    change (Limits.kernel η).map tr ≫
       (Limits.kernel.ι η).app (ModuleCat.of A (A ⧸ I ^ (n - m))) = 0
     rw [(Limits.kernel.ι η).naturality tr]
     rw [← hcomp, Category.assoc]
@@ -634,7 +634,7 @@ private theorem tor_one_transition_eq_zero_of_pow_smul_eq_bot
       (ModuleCat.ofHom K.subtype)
     have hfactor : eT.hom.app (ModuleCat.of A (A ⧸ I ^ n)) ≫
         g.app (ModuleCat.of A (A ⧸ I ^ n)) = u := by
-      show ((MonoidalCategory.tensoringLeft (ModuleCat.{u} A)).map e.hom).app _ ≫
+      change ((MonoidalCategory.tensoringLeft (ModuleCat.{u} A)).map e.hom).app _ ≫
           ((MonoidalCategory.tensoringLeft (ModuleCat.{u} A)).map
             (ModuleCat.ofHom K.subtype)).app _ =
           ((MonoidalCategory.tensoringLeft (ModuleCat.{u} A)).map (Limits.kernel.ι π)).app _
@@ -786,12 +786,12 @@ private theorem exists_uniform_tor_transition_eq_zero_core
       let ψ := torSESShortComplexTransition hS tr₀₁ i hi
       let θ := torSESShortComplexTransition hS tr₁₂ i hi
       have hψ : ψ.τ₃ = 0 := by
-        show ((Tor (ModuleCat.{u} A) (i - 1)).obj (ModuleCat.of A K)).map tr₀₁ = 0
+        change ((Tor (ModuleCat.{u} A) (i - 1)).obj (ModuleCat.of A K)).map tr₀₁ = 0
         apply tor_transition_zero_to_target I (ModuleCat.of A K)
           (i - 1) cK n (n - c) hcK_n (by omega)
         exact hcK (ModuleCat.of A K) hKbound n hcK_n
       have hθ : θ.τ₁ = 0 := by
-        show ((Tor (ModuleCat.{u} A) i).obj F).map tr₁₂ = 0
+        change ((Tor (ModuleCat.{u} A) i).obj F).map tr₁₂ = 0
         have hQsmall := hcF (n - c) hcF_nc
         have hQlarge := tor_transition_zero_to_target I Q i cF (n - c) (n - 2 * c)
           hcF_nc (by omega) hQsmall
@@ -800,7 +800,7 @@ private theorem exists_uniform_tor_transition_eq_zero_core
       have hT : (torSESShortComplex hS q₁ i hi).Exact := torSES_exact hS q₁ i hi
       have hzero := shortComplex_twoStep_zero hT ψ θ hψ hθ
       have hmap : ψ.τ₂ ≫ θ.τ₂ = ((Tor (ModuleCat.{u} A) i).obj M).map tr₀₂ := by
-        show ((Tor (ModuleCat.{u} A) i).obj M).map tr₀₁ ≫
+        change ((Tor (ModuleCat.{u} A) i).obj M).map tr₀₁ ≫
             ((Tor (ModuleCat.{u} A) i).obj M).map tr₁₂ =
           ((Tor (ModuleCat.{u} A) i).obj M).map tr₀₂
         rw [← Functor.map_comp, htr]
@@ -861,7 +861,7 @@ private theorem torShortComplexDeltaFirst_exact
   refine ShortComplex.isoMk (torIsoHomology S.X₃ N (k + 1)).symm
     (torIsoHomology S.X₁ N k).symm (torIsoHomology S.X₂ N k).symm ?_
     (torIsoHomology_inv_naturality S.f N k).symm
-  show (torIsoHomology S.X₃ N (k + 1)).inv ≫ torDelta S hS N k
+  change (torIsoHomology S.X₃ N (k + 1)).inv ≫ torDelta S hS N k
     = (lesShift.ses A S hS N).δ (k + 1) k hrel ≫ (torIsoHomology S.X₁ N k).inv
   rw [torDelta, Iso.inv_hom_id_assoc]
 
@@ -1108,7 +1108,7 @@ private theorem uniform_tor_transition_descent
       apply ModuleCat.hom_ext
       apply LinearMap.ext
       intro y
-      show g k ^ c₁ • y = 0
+      change g k ^ c₁ • y = 0
       exact Module.mem_annihilator.mp (hann M j n (by omega) hbI) y
     -- Both the kernel and the cokernel admit one more index.
     have hcardins : t - d ≤ (insert k v).card := by

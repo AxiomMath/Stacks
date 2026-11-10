@@ -99,7 +99,7 @@ def pullbackTwoSquare (w : g' ≫ f = f' ≫ g) :
 /-- The `2`-square of a commutative square of schemes is an isomorphism, being the forward
 direction of `pullbackSquareIso`. -/
 instance isIso_pullbackTwoSquare_natTrans (w : g' ≫ f = f' ≫ g) :
-    IsIso (pullbackTwoSquare f f' g g' w).natTrans :=
+    IsIso (pullbackTwoSquare f f' g g' w) :=
   inferInstanceAs (IsIso (pullbackSquareIso f f' g g' w).hom)
 
 end Stacks.Modules

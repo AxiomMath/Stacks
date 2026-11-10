@@ -160,9 +160,9 @@ theorem ext_openSubspace_compl_empty {Z : Set (Space.points B S hS (yoneda.obj V
   ext T ⟨g, hg⟩
   have e : (⟨g, hg⟩ : G.obj T) = G.map g.op e₀ := by
     apply Subtype.ext
-    show g = g ≫ 𝟙 V
+    change g = g ≫ 𝟙 V
     rw [Category.comp_id]
-  show α.app T ⟨g, hg⟩ = β.app T ⟨g, hg⟩
+  change α.app T ⟨g, hg⟩ = β.app T ⟨g, hg⟩
   rw [e, NatTrans.naturality_apply, NatTrans.naturality_apply]
   exact congrArg _ (hid hmem)
 
@@ -181,14 +181,14 @@ theorem ext_completionSheaf_univ {Z : Set (Space.points B S hS (yoneda.obj V))}
   let e₀ : G.obj (op V) := ⟨ULift.up (𝟙 V), hmem⟩
   let ι := (BigFppfOver.topology B S hS).toSheafify G
   refine Sheaf.hom_ext (GrothendieckTopology.sheafify_hom_ext _ _ _ P.property ?_)
-  show ι ≫ α.hom = ι ≫ β.hom
+  change ι ≫ α.hom = ι ≫ β.hom
   ext T ⟨⟨g⟩, hg⟩
   have e : (⟨⟨g⟩, hg⟩ : G.obj T) = G.map g.op e₀ := by
     apply Subtype.ext
     apply ULift.ext
-    show g = g ≫ 𝟙 V
+    change g = g ≫ 𝟙 V
     rw [Category.comp_id]
-  show (ι ≫ α.hom).app T ⟨⟨g⟩, hg⟩ = (ι ≫ β.hom).app T ⟨⟨g⟩, hg⟩
+  change (ι ≫ α.hom).app T ⟨⟨g⟩, hg⟩ = (ι ≫ β.hom).app T ⟨⟨g⟩, hg⟩
   rw [e, NatTrans.naturality_apply, NatTrans.naturality_apply]
   exact congrArg _ (hid hmem)
 
@@ -211,7 +211,7 @@ theorem subsingleton_openSubspace_compl_univ {Z : Set (Space.points B S hS (yone
       c.U'.toFunctor) := by
   refine ⟨fun α β => ?_⟩
   ext T ⟨g, hg⟩
-  show α.app T ⟨g, hg⟩ = β.app T ⟨g, hg⟩
+  change α.app T ⟨g, hg⟩ = β.app T ⟨g, hg⟩
   have hT : IsEmpty ((BigFppfOver.toScheme B S hS).obj T.unop) := by
     refine Space.isEmpty_toScheme_of_isEmpty_points ⟨fun q => ?_⟩
     have := hg ⟨q, rfl⟩
@@ -245,14 +245,14 @@ variable (c) in
 /-- Restriction preserves the empty closed subset. -/
 theorem Triple.mapTriple_Z_eq_empty {V₂ V₁ : BigFppfOver B S hS} (φ : V₂ ⟶ V₁) (t : Triple c V₁)
     (h : t.Z = ∅) : (mapTriple c φ t).Z = ∅ := by
-  show Space.pointsMap B S hS (yoneda.obj V₂) (yoneda.map φ) ⁻¹' t.Z = ∅
+  change Space.pointsMap B S hS (yoneda.obj V₂) (yoneda.map φ) ⁻¹' t.Z = ∅
   rw [h, Set.preimage_empty]
 
 variable (c) in
 /-- Restriction preserves the full closed subset. -/
 theorem Triple.mapTriple_Z_eq_univ {V₂ V₁ : BigFppfOver B S hS} (φ : V₂ ⟶ V₁) (t : Triple c V₁)
     (h : t.Z = Set.univ) : (mapTriple c φ t).Z = Set.univ := by
-  show Space.pointsMap B S hS (yoneda.obj V₂) (yoneda.map φ) ⁻¹' t.Z = Set.univ
+  change Space.pointsMap B S hS (yoneda.obj V₂) (yoneda.map φ) ⁻¹' t.Z = Set.univ
   rw [h, Set.preimage_univ]
 
 /-- `u'` is compatible with restriction. -/
@@ -265,9 +265,9 @@ theorem Triple.uValue_mapTriple {V₂ V₁ : BigFppfOver B S hS} (φ : V₂ ⟶ 
       (fun _ hz => hz)).app (op V₂) ⟨𝟙 V₂, (mapTriple c φ t).id_mem_openSubspace h'⟩ =
       G.map φ.op e₀ := by
     apply Subtype.ext
-    show 𝟙 V₂ ≫ φ = φ ≫ 𝟙 V₁
+    change 𝟙 V₂ ≫ φ = φ ≫ 𝟙 V₁
     rw [Category.id_comp, Category.comp_id]
-  show (t.u.app (op V₂) ((Space.openSubspaceOfPointsRestrict B S hS (yoneda.map φ) _ t.Zᶜ
+  change (t.u.app (op V₂) ((Space.openSubspaceOfPointsRestrict B S hS (yoneda.map φ) _ t.Zᶜ
       (fun _ hz => hz)).app (op V₂) ⟨𝟙 V₂, _⟩)).1 = _
   rw [e, NatTrans.naturality_apply]
   rfl
@@ -285,7 +285,7 @@ theorem Triple.xhatValue_mapTriple {V₂ V₁ : BigFppfOver B S hS} (φ : V₂ �
   have e : ρ.app (op V₂) e₂ = G₁.map φ.op e₁ := by
     apply Subtype.ext
     apply ULift.ext
-    show 𝟙 V₂ ≫ φ = φ ≫ 𝟙 V₁
+    change 𝟙 V₂ ≫ φ = φ ≫ 𝟙 V₁
     rw [Category.id_comp, Category.comp_id]
   let ι₁ : G₁ ⟶ (Space.completionSheaf B S hS (yoneda.obj V₁) t.Z).obj :=
     (BigFppfOver.topology B S hS).toSheafify G₁
@@ -297,10 +297,10 @@ theorem Triple.xhatValue_mapTriple {V₂ V₁ : BigFppfOver B S hS} (φ : V₂ �
   have hr : ι₂ ≫ r.hom = ρ ≫ ι₁ := (GrothendieckTopology.toSheafify_naturality _ ρ).symm
   let γ : G₁ ⟶ c.W.obj := ι₁ ≫ t.xhat.hom
   have h1 : ι₂ ≫ (r ≫ t.xhat).hom = ρ ≫ γ := by
-    show ι₂ ≫ r.hom ≫ t.xhat.hom = _
+    change ι₂ ≫ r.hom ≫ t.xhat.hom = _
     rw [← Category.assoc, hr, Category.assoc]
   refine (congrArg (fun η : G₂ ⟶ c.W.obj => η.app (op V₂) e₂) h1).trans ?_
-  show γ.app (op V₂) (ρ.app (op V₂) e₂) = c.W.obj.map φ.op (γ.app (op V₁) e₁)
+  change γ.app (op V₂) (ρ.app (op V₂) e₂) = c.W.obj.map φ.op (γ.app (op V₁) e₁)
   rw [e, NatTrans.naturality_apply]
 
 end Artin.ContractionSituation

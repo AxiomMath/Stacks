@@ -69,7 +69,7 @@ private theorem ring_baseChange_ker_pow
   let J := RingHom.ker f.toRingHom
   let K := RingHom.ker (g.toRingHom.comp e.symm.toRingHom)
   apply (Ideal.map_eq_bot_iff_of_injective e.symm.injective).mp
-  show Ideal.map e.symm.toRingHom (K ^ n) = ⊥
+  change Ideal.map e.symm.toRingHom (K ^ n) = ⊥
   rw [Ideal.map_pow, show Ideal.map e.symm.toRingHom K =
     Ideal.map Algebra.TensorProduct.includeRight.toRingHom J from by
       rw [show K = Ideal.comap e.symm.toRingHom (RingHom.ker g.toRingHom) from by
@@ -134,7 +134,7 @@ private theorem kerPow_pullback_affine {X Y S : Scheme.{u}} [IsAffine X] [IsAffi
         ⟨(IsClosedImmersion.isAffine_surjective_of_isAffine g).2, hker⟩
   apply Scheme.IdealSheafData.ext_of_isAffine
   let U : X.affineOpens := ⟨⊤, isAffineOpen_top X⟩
-  show ((pullback.fst f g).ker.ideal U) ^ n = ⊥
+  change ((pullback.fst f g).ker.ideal U) ^ n = ⊥
   rw [Scheme.Hom.ker_apply]
   convert hbc.2 using 1; rfl
 
@@ -145,7 +145,7 @@ private theorem kerPow_restrict {X Y : Scheme.{u}} (f : X ⟶ Y) [QuasiCompact f
   funext V
   let W : Y.affineOpens := ⟨U.ι ''ᵁ V.1, V.2.image_of_isOpenImmersion U.ι⟩
   have h := ideal_pow_eq_bot hf W
-  show (f ∣_ U).ker.ideal V ^ n = ⊥
+  change (f ∣_ U).ker.ideal V ^ n = ⊥
   rwa [Scheme.ker_morphismRestrict_ideal f U V]
 
 private theorem kerPow_of_target_openCover {X Y : Scheme.{u}} (f : X ⟶ Y)
@@ -167,7 +167,7 @@ private theorem kerPow_of_target_openCover {X Y : Scheme.{u}} (f : X ⟶ Y)
   let V' : (U i).toScheme.affineOpens := W
   let W' : Y.affineOpens := V ⟨i, V'⟩
   have h := ideal_pow_eq_bot (H i) V'
-  show f.ker.ideal W' ^ n = ⊥
+  change f.ker.ideal W' ^ n = ⊥
   rwa [← Scheme.ker_morphismRestrict_ideal f (U i) V']
 
 /-- The property of being a closed immersion whose kernel ideal sheaf has vanishing `n`th

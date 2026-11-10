@@ -128,7 +128,7 @@ theorem ker_le_ker_localCohomologyModuleFunctor_iff_forall_exists_comp_eq
     (DerivedCategory.TStructure.t).isGE_shift _ b (-i) (b + i) (by ring)
   have hT' := inv_rot_of_distTriang _ hS.singleTriangle_distinguished
   have hle : (hS.singleTriangle.invRotate.obj₁).IsLE 1 := by
-    show (((DerivedCategory.singleFunctor (ModuleCat.{u} B) 0).obj S.X₃)⟦(-1 : ℤ)⟧).IsLE 1
+    change (((DerivedCategory.singleFunctor (ModuleCat.{u} B) 0).obj S.X₃)⟦(-1 : ℤ)⟧).IsLE 1
     have : ((DerivedCategory.singleFunctor (ModuleCat.{u} B) 0).obj S.X₃).IsLE 0 := inferInstance
     exact (DerivedCategory.TStructure.t).isLE_shift _ 0 (-1) 1 (by ring)
   have hfin₁ : ∀ l : ℤ, Module.Finite B

@@ -68,7 +68,7 @@ theorem degreeZeroClassAddEquiv_comp {E E' : DerivedCategory X.left.Modules}
     (degreeZeroClassAddEquiv k X E).symm_apply_apply s
   apply (degreeZeroClassAddEquiv k X E').symm.injective
   rw [AddEquiv.symm_apply_apply]
-  show s ≫ g = structureSheafGlobalSectionsEquivScheme k X E'
+  change s ≫ g = structureSheafGlobalSectionsEquivScheme k X E'
     ((homologyZeroForgetIso X.hom E').hom
       ((homologyZeroGlobalSectionsOverIso k X E').inv.hom
         ((degreeZeroSectionsFieldMap k X g).hom x)))

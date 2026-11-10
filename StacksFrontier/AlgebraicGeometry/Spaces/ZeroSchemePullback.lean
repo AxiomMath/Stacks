@@ -105,7 +105,7 @@ theorem sectionEvaluationIdealAt_le_ker_of_modulePullbackSections_val_eq_zero
       (chartRing B S hS Y.1 Y.2 d.U) (LinearMap.baseChange (chartRing B S hS Y.1 Y.2 d.U) l z)) h1
   simp only [LinearMap.baseChange_tmul, map_zero, TensorProduct.AlgebraTensorModule.rid_tmul]
     at h2
-  show chartDiagramRestrict B S hS f d (l (s.eval (op d.V))) = 0
+  change chartDiagramRestrict B S hS f d (l (s.eval (op d.V))) = 0
   rw [← chartDiagramAlgebra_algebraMap B S hS f d, Algebra.algebraMap_eq_smul_one]
   exact h2
 
@@ -127,7 +127,7 @@ theorem modulePullbackSections_val_eq_zero_of_le_ker {X Y : AlgebraicSpaces B S 
   have hker : chartDiagramRestrict B S hS f d (e.symm (s.eval (op d.V))) = 0 :=
     hle (Ideal.subset_span ⟨e.symm.toLinearMap, rfl⟩)
   rw [modulePullbackSections_val]
-  show modulePullbackChartSection B S hS f L d (s.eval (op d.V)) = 0
+  change modulePullbackChartSection B S hS f L d (s.eval (op d.V)) = 0
   rw [← hc, modulePullbackChartSection_smul, hker, zero_smul]
 
 /-- Over every affine chart diagram the inverse image of a section of an invertible module
@@ -345,7 +345,7 @@ theorem exists_comp_eq_preimage_iff {X Y T : AlgebraicSpaces B S hS} (f : Y ⟶ 
   rw [exists_comp_eq_iff_range_le B S hS ⟨Z.1.preimage f.hom,
       isClosedSubspace_preimage B S hS f.hom Z.1 X.2 Y.2 Z.2⟩ g,
     exists_comp_eq_iff_range_le B S hS Z (g ≫ f)]
-  show _ ↔ Subfunctor.range (g.hom ≫ f.hom) ≤ Z.1
+  change _ ↔ Subfunctor.range (g.hom ≫ f.hom) ≤ Z.1
   rw [Subfunctor.range_comp, Subfunctor.image_le_iff]
 
 /-- Two closed subspaces of an algebraic space through which the same morphisms factor are

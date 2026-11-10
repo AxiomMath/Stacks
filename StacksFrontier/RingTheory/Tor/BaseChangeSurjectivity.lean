@@ -339,12 +339,10 @@ theorem naturalMap_src_iso {M : ModuleCat R} (F : ProjectiveResolution M) (N : M
             (TensorProduct.AlgebraTensorModule.cancelBaseChange R R' R' N
                 X).toAddEquiv.toAddMonoidHom with hRt
         change L z = Rt z
-        induction z using TensorProduct.induction_on with
-        | zero => rw [map_zero, map_zero]
+        induction z using TensorProduct.inductionOn with
         | add a b ha hb => rw [map_add, map_add, ha, hb]
         | tmul n w =>
-          induction w using TensorProduct.induction_on with
-          | zero => rw [TensorProduct.tmul_zero, map_zero, map_zero]
+          induction w using TensorProduct.inductionOn with
           | add a b ha hb => rw [TensorProduct.tmul_add, map_add, map_add, ha, hb]
           | tmul r x =>
             change (TensorProduct.AlgebraTensorModule.cancelBaseChange R R' R' N Y)

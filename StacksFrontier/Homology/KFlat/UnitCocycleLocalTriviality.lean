@@ -158,7 +158,7 @@ theorem exists_away_nonempty_ker_extendScalars_linearEquiv {R : Type u} [CommRin
   let x₁ : (extendScalarsComplex α C).X 0 := (1 : Rg) ⊗ₜ[R, α] x₀
   have hx₁ : x₁ ∈ LinearMap.ker ((extendScalarsComplex α C).d 0 1).hom := by
     refine LinearMap.mem_ker.2 ?_
-    show (ModuleCat.extendScalars.{u, u, u} α).map (C.d 0 1) ((1 : Rg) ⊗ₜ[R, α] x₀) = 0
+    change (ModuleCat.extendScalars.{u, u, u} α).map (C.d 0 1) ((1 : Rg) ⊗ₜ[R, α] x₀) = 0
     rw [ModuleCat.ExtendScalars.map_tmul, hx₀, TensorProduct.tmul_zero]
     rfl
   obtain ⟨z, hz⟩ := (bijective_kerRestrict u hPd hCd).2 ⟨_, hx₁⟩
@@ -169,9 +169,9 @@ theorem exists_away_nonempty_ker_extendScalars_linearEquiv {R : Type u} [CommRin
   let a : Rg := w k₀
   have hMw : M *ᵥ w = 0 := by
     have hL : L w = 0 := by
-      show e₁.hom.hom ((P.d 0 1).hom (e₀.inv.hom (e₀.hom.hom z.1))) = 0
+      change e₁.hom.hom ((P.d 0 1).hom (e₀.inv.hom (e₀.hom.hom z.1))) = 0
       have h0 : e₀.inv.hom (e₀.hom.hom z.1) = z.1 := by
-        show (e₀.hom ≫ e₀.inv).hom z.1 = z.1
+        change (e₀.hom ≫ e₀.inv).hom z.1 = z.1
         rw [e₀.hom_inv_id]
         rfl
       rw [h0, show (P.d 0 1).hom z.1 = 0 from z.2, map_zero]
@@ -191,7 +191,7 @@ theorem exists_away_nonempty_ker_extendScalars_linearEquiv {R : Type u} [CommRin
       refine (termEquiv_tmul χ e₀ 1 z.1).trans (Eq.trans ?_ (termEquiv χ e₀).map_zero.symm)
       funext k
       rw [hsub k]
-      show χ a * 1 = 0
+      change χ a * 1 = 0
       rw [h0, zero_mul]
     have h2 : (ModuleCat.extendScalarsComp α χ).inv.app (C.X 0)
         ((ModuleCat.extendScalars.{u, u, u} χ).map (u.f 0) ((1 : κ) ⊗ₜ[Rg, χ] z.1)) =
@@ -201,7 +201,7 @@ theorem exists_away_nonempty_ker_extendScalars_linearEquiv {R : Type u} [CommRin
     have h3 : (ModuleCat.extendScalarsComp α χ).inv.app (C.X 0)
         ((ModuleCat.extendScalars.{u, u, u} χ).map (u.f 0) ((1 : κ) ⊗ₜ[Rg, χ] z.1)) = 0 := by
       rw [key]
-      show ((ModuleCat.extendScalarsComp α χ).inv.app (C.X 0)).hom
+      change ((ModuleCat.extendScalarsComp α χ).inv.app (C.X 0)).hom
         (((ModuleCat.extendScalars.{u, u, u} χ).map (u.f 0)).hom 0) = 0
       rw [LinearMap.map_zero, LinearMap.map_zero]
     exact one_tmul_ne_zero_congr hχ _ hne (h2.symm.trans h3)

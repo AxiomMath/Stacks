@@ -63,7 +63,7 @@ theorem exists_Q_map_eq_of_isStrictlyLE (M : CochainComplex A ℤ) (n : ℤ) [M.
   obtain ⟨G', ⟨e⟩⟩ := Y.exists_iso_single n
   obtain ⟨u, hu⟩ := (CochainComplex.singleFunctor A n).map_surjective (s ≫ e.hom)
   have : IsIso ((singleFunctor A n).map u) := by
-    show IsIso (Q.map ((CochainComplex.singleFunctor A n).map u))
+    change IsIso (Q.map ((CochainComplex.singleFunctor A n).map u))
     rw [hu, Q.map_comp]
     infer_instance
   have : IsIso u := isIso_of_fully_faithful (singleFunctor A n) u

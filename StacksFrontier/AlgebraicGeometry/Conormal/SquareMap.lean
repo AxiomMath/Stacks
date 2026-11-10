@@ -295,7 +295,7 @@ private theorem transpose_eq_of_coborder_affine (i : Z ⟶ X) (i' : Z' ⟶ X')
   have hcover : T ≤ ⨆ j : A, B j := by
     intro z hz
     have hzV : i z ∈ g ⁻¹ᵁ V := by
-      show (i ≫ g) z ∈ V
+      change (i ≫ g) z ∈ V
       rw [comm]
       exact hz
     obtain ⟨_, ⟨U, hU, rfl⟩, hzU, hUle⟩ :=
@@ -474,7 +474,7 @@ theorem immersionConormalSheafMap_comp {Z₁ Z₂ Z₃ X₁ X₂ X₃ : Scheme.{
   have hcover : i₁ ⁻¹ᵁ U ≤ ⨆ p : A, B p := by
     intro z hz
     have hzc : g₁ (i₁ z) ∈ i₂.coborderRange := by
-      show (i₁ ≫ g₁) z ∈ i₂.coborderRange
+      change (i₁ ≫ g₁) z ∈ i₂.coborderRange
       rw [comm₁]
       exact subset_coborder ⟨f₁ z, rfl⟩
     obtain ⟨_, ⟨V₀, hV₀, rfl⟩, hzV₀, hV₀le⟩ :=

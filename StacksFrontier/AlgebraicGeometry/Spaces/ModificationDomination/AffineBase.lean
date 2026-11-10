@@ -175,7 +175,7 @@ theorem exists_isProper_isIso_morphismRestrict_dominating (V : BigFppfOver B S h
       (_root_.AlgebraicGeometry.exceptionalIdeal K) inferInstance
   have hWsub : (W : Set ((BigFppfOver.toScheme B S hS).obj V)) ⊆
       (K.support : Set ((BigFppfOver.toScheme B S hS).obj V))ᶜ := by
-    show (W : Set ((BigFppfOver.toScheme B S hS).obj V)) ⊆ K.supportSetᶜ
+    change (W : Set ((BigFppfOver.toScheme B S hS).obj V)) ⊆ K.supportSetᶜ
     rw [hK, compl_compl]
   have hWiso := _root_.AlgebraicGeometry.isIso_blowUpToBase_restrict_of_subset_compl_support K W
     hWsub

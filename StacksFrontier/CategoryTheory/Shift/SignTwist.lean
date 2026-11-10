@@ -202,7 +202,7 @@ the same triangle with its third arrow negated. -/
 theorem signTwist_mapTriangle_obj (T : Triangle C) :
     (signTwist C).mapTriangle.obj T = Triangle.mk T.mor₁ T.mor₂ (-T.mor₃) := by
   refine congrArg (Triangle.mk T.mor₁ T.mor₂) ?_
-  show T.mor₃ ≫ (((1 : ℤ).negOnePow : ℤ) •
+  change T.mor₃ ≫ (((1 : ℤ).negOnePow : ℤ) •
       𝟙 ((CategoryTheory.shiftFunctor C (1 : ℤ)).obj T.obj₁)) = -T.mor₃
   rw [Int.negOnePow_one, Units.val_neg, Units.val_one, Preadditive.comp_zsmul, Category.comp_id]
   simp
@@ -336,7 +336,7 @@ theorem commShift_signTwist (L : C ⥤ H) [L.CommShift ℤ] (F' : H ⥤ D) [F'.C
   shift_comm n := by
     ext X
     have h := NatTrans.shift_app_comm α n X
-    show ((L ⋙ (signTwist H ⋙ F')).commShiftIso n).hom.app X ≫ (α.app X)⟦n⟧' =
+    change ((L ⋙ (signTwist H ⋙ F')).commShiftIso n).hom.app X ≫ (α.app X)⟦n⟧' =
       α.app (X⟦n⟧) ≫ ((signTwist C ⋙ F).commShiftIso n).hom.app X
     rw [comp_signTwist_comp_commShiftIso_hom_app, signTwist_comp_commShiftIso_hom_app]
     exact zsmul_comp_eq_comp_zsmul h _
@@ -355,7 +355,7 @@ theorem commShift_signTwist' (L : C ⥤ H) [L.CommShift ℤ] (F' : H ⥤ D) [F'.
   shift_comm n := by
     ext X
     have h := NatTrans.shift_app_comm α n X
-    show ((L ⋙ (F' ⋙ signTwist D)).commShiftIso n).hom.app X ≫ (α.app X)⟦n⟧' =
+    change ((L ⋙ (F' ⋙ signTwist D)).commShiftIso n).hom.app X ≫ (α.app X)⟦n⟧' =
       α.app (X⟦n⟧) ≫ ((F ⋙ signTwist D).commShiftIso n).hom.app X
     rw [comp_comp_signTwist_commShiftIso_hom_app, comp_signTwist_commShiftIso_hom_app]
     exact zsmul_comp_eq_comp_zsmul h _

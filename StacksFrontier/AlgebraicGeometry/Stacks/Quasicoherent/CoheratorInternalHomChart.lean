@@ -59,7 +59,7 @@ theorem isAffine_chartFunctor_obj (W : Space.SmallEtale B S hS U)
     (hW : IsAffine ((BigFppfOver.toScheme B S hS).obj ((Space.SmallEtale.toOver B S hS U).obj W))) :
     IsAffine ((𝒳.val.val.p ⋙ BigFppfOver.toScheme B S hS).obj
       ((chartFunctor B S hS 𝒳 U hU f).obj W)) := by
-  show IsAffine ((BigFppfOver.toScheme B S hS).obj (𝒳.val.val.p.obj
+  change IsAffine ((BigFppfOver.toScheme B S hS).obj (𝒳.val.val.p.obj
     ((chartFunctor B S hS 𝒳 U hU f).obj W)))
   rwa [chartFunctor_obj_base]
 

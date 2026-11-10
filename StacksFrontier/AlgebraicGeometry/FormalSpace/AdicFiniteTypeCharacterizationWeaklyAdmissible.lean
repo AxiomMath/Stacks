@@ -112,10 +112,10 @@ theorem hasPropertyOnAffineChartMap_adicStar_iff_of_isWeaklyAdmissible
   · intro h A R _ _ _ _ _ _ _ _ hAcount hRcount hA D E eU eV g hg
     have hAstar := hV A hAcount.1 D eV
     have hRstar := hU R hRcount.1 E eU
-    exact ((Rig.adicFiniteType_tfae g.toRingHom g.continuous hAstar.1 hRstar.1
+    exact ((Rig.adicFiniteType_tfae g.toRingHom hAstar.1 hRstar.1
       hAstar.2 hRstar.2).out 1 2).mp (h A R hAstar hRstar hA D E eU eV g hg)
   · intro h A R _ _ _ _ _ _ _ _ hAstar hRstar hA D E eU eV g hg
-    exact ((Rig.adicFiniteType_tfae g.toRingHom g.continuous hAstar.1 hRstar.1
+    exact ((Rig.adicFiniteType_tfae g.toRingHom hAstar.1 hRstar.1
       hAstar.2 hRstar.2).out 1 2).mpr (h A R
         (TopologicalRing.isCountablyWeaklyAdmissible_of_isAdicStar hAstar)
         (TopologicalRing.isCountablyWeaklyAdmissible_of_isAdicStar hRstar) hA D E eU eV g hg)

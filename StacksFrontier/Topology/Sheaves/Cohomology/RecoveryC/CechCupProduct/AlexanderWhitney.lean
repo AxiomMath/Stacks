@@ -437,7 +437,7 @@ private theorem cechAlexanderWhitney_comp_restriction
       (cechFaceRestriction X U G (fun i => θ ⟨r + i.val, by omega⟩) t) := by
   unfold cechFaceRestriction
   rw [← Category.assoc, cechAlexanderWhitney_comp_π]
-  show tensorModulesMap ℤ _ _ ≫ tensorModulesMap ℤ _ _ = _
+  change tensorModulesMap ℤ _ _ ≫ tensorModulesMap ℤ _ _ = _
   rw [tensorModulesMap_comp]
   congr 1 <;> exact cechFaceRestriction_comp X U _ _ θ t
 
@@ -546,7 +546,7 @@ theorem cechAlexanderWhitney_naturality
   simp only [Category.assoc, cechCochainsMap_comp_π,
     cechAlexanderWhitney_comp_π]
   rw [← Category.assoc, cechAlexanderWhitney_comp_π]
-  show tensorModulesMap ℤ _ _ ≫
+  change tensorModulesMap ℤ _ _ ≫
     (tensorModulesMap ℤ (f.app _) (𝟙 _) ≫ tensorModulesMap ℤ (𝟙 _) (g.app _)) = _
   rw [tensorModulesMap_comp, Category.comp_id, Category.id_comp, tensorModulesMap_comp,
     cechFaceRestriction_naturality, cechFaceRestriction_naturality]
@@ -707,7 +707,7 @@ noncomputable def totalCechXIsoCoproduct
   inv_hom_id := by
     apply Sigma.hom_ext
     rintro ⟨⟨p, a⟩, h⟩
-    simp only [Sigma.ι_desc_assoc, Category.comp_id, Category.assoc]
+    simp only [Sigma.ι_comp_desc_assoc, Category.comp_id, Category.assoc]
     exact ιTotalCech_desc X U F _ p a h
 
 theorem ιTotalCechIsoCoproduct
@@ -716,7 +716,7 @@ theorem ιTotalCechIsoCoproduct
       (totalCechXIsoCoproduct.{u, v, w} X U F (r + a)).hom =
     Limits.Sigma.ι (totalCechSummand.{u, v, w} X U F (r + a))
       ⟨(r, a), by push_cast; rfl⟩ := by
-  show ιTotalCech X U F r a ≫ totalCechDesc X U F _ = _
+  change ιTotalCech X U F r a ≫ totalCechDesc X U F _ = _
   have h := ιTotalCech_desc X U F
     (fun p b h => Sigma.ι (totalCechSummand X U F (r + a)) ⟨(p, b), h⟩) r a rfl
   simp only [eqToHom_refl, Category.id_comp] at h

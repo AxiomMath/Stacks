@@ -144,9 +144,9 @@ theorem isSchemeTheoreticallyDense_range_toSchemeTheoreticImage
     mono_of_isOpenImmersion B S hS _ hoi
   have hkey : schemeTheoreticClosure B S hS
       (Subfunctor.range (toSchemeTheoreticImage B S hS f)) = ⊤ := by
-    show schemeTheoreticImageSubfunctor B S hS
+    change schemeTheoreticImageSubfunctor B S hS
       (Subfunctor.range (toSchemeTheoreticImage B S hS f)).ι = ⊤
-    haveI : Epi (asIso (Subfunctor.toRange (toSchemeTheoreticImage B S hS f))).inv :=
+    have : Epi (asIso (Subfunctor.toRange (toSchemeTheoreticImage B S hS f))).inv :=
       IsIso.epi_of_iso _
     rw [← inv_toRange_comp_of_mono, schemeTheoreticImageSubfunctor_comp_of_epi]
     exact schemeTheoreticImageSubfunctor_toSchemeTheoreticImage_eq_top B S hS f hY

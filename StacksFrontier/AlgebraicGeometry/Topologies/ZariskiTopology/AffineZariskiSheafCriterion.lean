@@ -55,7 +55,7 @@ standard open cut out by the first of them. -/
 private lemma affineBasisOpen_mul_le_left (U : X.affineOpens) (f g : Γ(X, U.val)) :
     (Scheme.affineBasisOpen X (X.affineBasicOpen (f * g))).obj ≤
       (Scheme.affineBasisOpen X (X.affineBasicOpen f)).obj := by
-  show X.basicOpen (f * g) ≤ X.basicOpen f
+  change X.basicOpen (f * g) ≤ X.basicOpen f
   rw [X.basicOpen_mul]
   exact inf_le_left
 
@@ -64,7 +64,7 @@ standard open cut out by the second of them. -/
 private lemma affineBasisOpen_mul_le_right (U : X.affineOpens) (f g : Γ(X, U.val)) :
     (Scheme.affineBasisOpen X (X.affineBasicOpen (f * g))).obj ≤
       (Scheme.affineBasisOpen X (X.affineBasicOpen g)).obj := by
-  show X.basicOpen (f * g) ≤ X.basicOpen g
+  change X.basicOpen (f * g) ≤ X.basicOpen g
   rw [X.basicOpen_mul]
   exact inf_le_right
 
@@ -211,7 +211,7 @@ private lemma affineBasis_sections_glue
       fun _ => X.basicOpen_res _ _
     have localCover : (⨆ refinedIndex, X.basicOpen (localFunctions refinedIndex)) =
         localAffine.val := by
-      show (⨆ refinedIndex, X.basicOpen (localFunctions refinedIndex)) = (cover index).obj
+      change (⨆ refinedIndex, X.basicOpen (localFunctions refinedIndex)) = (cover index).obj
       simp only [localBasic, ← inf_iSup_eq, refinementCover]
       exact inf_eq_left.mpr localLe
     apply affineBasis_sections_ext X G hempty hpair
@@ -221,11 +221,11 @@ private lemma affineBasis_sections_glue
     let localOpen := Scheme.affineBasisOpen X (X.affineBasicOpen (localFunctions refinedIndex))
     have localRefinementLe : localOpen.obj ≤
         (Scheme.affineBasisOpen X (X.affineBasicOpen (functions refinedIndex))).obj := by
-      show X.basicOpen (localFunctions refinedIndex) ≤ X.basicOpen (functions refinedIndex)
+      change X.basicOpen (localFunctions refinedIndex) ≤ X.basicOpen (functions refinedIndex)
       rw [localBasic]
       exact inf_le_right
     have localCoverLe : localOpen.obj ≤ (cover index).obj := by
-      show X.basicOpen (localFunctions refinedIndex) ≤ (cover index).obj
+      change X.basicOpen (localFunctions refinedIndex) ≤ (cover index).obj
       rw [localBasic]
       exact inf_le_left
     calc
@@ -401,7 +401,7 @@ lemma iSup_smallAffineZariskiEquivAffineBasis_obj
       ((SmallAffineZariski.toScheme B X hX).map (E.f index)) :=
     fun index => cover.map_prop index
   have h := congrArg (immersion ''ᵁ ·) cover.iSup_opensRange
-  show (⨆ index, (smallZariskiOpenImmersion B X hX
+  change (⨆ index, (smallZariskiOpenImmersion B X hX
     (E.X index).obj).opensRange) = immersion.opensRange
   change (immersion ''ᵁ ⨆ index,
     ((SmallAffineZariski.toScheme B X hX).map (E.f index)).opensRange) =
@@ -507,7 +507,7 @@ lemma basicOpen_homOfLE_range (U : X.affineOpens) (function : Γ(X, U.val)) :
     (X.homOfLE (X.basicOpen_le function)).opensRange =
       U.val.toScheme.basicOpen (U.val.topIso.inv function) := by
   apply U.val.ι.image_injective
-  show U.val.ι ''ᵁ (X.homOfLE (X.basicOpen_le function)).opensRange =
+  change U.val.ι ''ᵁ (X.homOfLE (X.basicOpen_le function)).opensRange =
     U.val.ι ''ᵁ U.val.toScheme.basicOpen (U.val.topIso.inv function)
   calc
     _ = (X.homOfLE (X.basicOpen_le function) ≫ U.val.ι).opensRange :=
@@ -533,18 +533,18 @@ lemma isStandardOpenCoverSquare_affineBasisStandardSquare
     (U.val.toScheme.restrictFunctor ⋙ Over.forget _).mapIso (eqToIso secondRange)
   refine ⟨U.val.topIso.inv firstFunction, U.val.topIso.inv secondFunction,
     firstIso, secondIso, ?_, ?_, ?_, ?_⟩
-  · show firstArrow = firstArrow.isoOpensRange.hom ≫
+  · change firstArrow = firstArrow.isoOpensRange.hom ≫
       U.val.toScheme.homOfLE firstRange.le ≫
         (U.val.toScheme.basicOpen (U.val.topIso.inv firstFunction)).ι
     rw [Scheme.homOfLE_ι]
     exact firstArrow.isoOpensRange_hom_ι.symm
-  · show secondArrow = secondArrow.isoOpensRange.hom ≫
+  · change secondArrow = secondArrow.isoOpensRange.hom ≫
       U.val.toScheme.homOfLE secondRange.le ≫
         (U.val.toScheme.basicOpen (U.val.topIso.inv secondFunction)).ι
     rw [Scheme.homOfLE_ι]
     exact secondArrow.isoOpensRange_hom_ι.symm
   · apply U.val.ι.image_injective
-    show U.val.ι ''ᵁ (U.val.toScheme.basicOpen (U.val.topIso.inv firstFunction) ⊔
+    change U.val.ι ''ᵁ (U.val.toScheme.basicOpen (U.val.topIso.inv firstFunction) ⊔
       U.val.toScheme.basicOpen (U.val.topIso.inv secondFunction)) = U.val.ι ''ᵁ ⊤
     rw [show ∀ (first second : U.val.toScheme.Opens),
         U.val.ι ''ᵁ (first ⊔ second) = U.val.ι ''ᵁ first ⊔ U.val.ι ''ᵁ second from
@@ -552,7 +552,7 @@ lemma isStandardOpenCoverSquare_affineBasisStandardSquare
       Scheme.Opens.ι_image_basicOpen_topIso_inv,
       Scheme.Opens.ι_image_basicOpen_topIso_inv, ← covering]
     simp
-  · show CategoryTheory.IsPullback
+  · change CategoryTheory.IsPullback
       (X.homOfLE (show X.basicOpen (firstFunction * secondFunction) ≤
           X.basicOpen firstFunction by rw [X.basicOpen_mul]; exact inf_le_left))
       (X.homOfLE (show X.basicOpen (firstFunction * secondFunction) ≤
@@ -583,7 +583,7 @@ theorem isSheaf_smallAffineZariski_of_isPullback_standardOpenCoverSquare
     let emptyObject := (affineBasisToSmallAffineZariski B X hX).obj
       (Scheme.affineBasisOpen X ⟨⊥, isAffineOpen_bot X⟩)
     have hisEmpty : IsEmpty ((SmallAffineZariski.toScheme B X hX).obj emptyObject) := by
-      show IsEmpty (Scheme.Opens.toScheme (X := X) ⊥)
+      change IsEmpty (Scheme.Opens.toScheme (X := X) ⊥)
       exact ⟨fun point => point.property⟩
     have terminal := F.isTerminalOfBotCover emptyObject (hbot emptyObject hisEmpty)
     let unique := (Types.isTerminalEquivUnique _).toFun terminal

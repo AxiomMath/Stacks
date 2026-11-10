@@ -114,7 +114,7 @@ lemma contract_hom_comp_transportMap (D : SieveDescentDatum p R)
     {V W : C} {f : V ⟶ U} (hf : R f) {b : W ⟶ U} (hb : R b) (γ : W ⟶ V) (hγ : γ ≫ f = b) :
     Fiber.fiberInclusion.map (D.contract hf γ hb hγ).hom ≫ D.transportMap hf hb γ hγ =
       IsPreFibered.pullbackMap (D.obj f hf).2 γ := by
-  show Fiber.fiberInclusion.map (D.contract hf γ hb hγ).hom ≫
+  change Fiber.fiberInclusion.map (D.contract hf γ hb hγ).hom ≫
     Fiber.fiberInclusion.map (D.contract hf γ hb hγ).inv ≫
       IsPreFibered.pullbackMap (D.obj f hf).2 γ = _
   rw [← Category.assoc, ← Functor.map_comp, Iso.hom_inv_id, CategoryTheory.Functor.map_id,

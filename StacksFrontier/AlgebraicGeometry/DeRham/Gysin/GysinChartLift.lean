@@ -132,8 +132,8 @@ coverings of `Stacks.Gysin.GysinChartData.comparison` are asked to take. This is
 comparison required over *some* covering of each overlap may always be required over a covering
 by affine opens. -/
 theorem exists_affine_cover (V : X.Opens) :
-    ∃ (J : Type u) (V' : J → X.Opens) (hle : ∀ k, V' k ≤ V),
-      (∀ k, IsAffineOpen (V' k)) ∧ V ≤ ⨆ k, V' k := by
+    ∃ (J : Type u) (V' : J → X.Opens),
+      (∀ k, V' k ≤ V) ∧ (∀ k, IsAffineOpen (V' k)) ∧ V ≤ ⨆ k, V' k := by
   refine ⟨{ W : X.affineOpens // W.1 ≤ V }, fun k => k.1.1, fun k => k.2,
     fun k => k.1.2, fun z hz => ?_⟩
   obtain ⟨_, ⟨W, hW, rfl⟩, hzW, hWV⟩ :=

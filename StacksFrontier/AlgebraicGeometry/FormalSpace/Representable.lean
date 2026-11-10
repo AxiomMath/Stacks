@@ -173,9 +173,9 @@ theorem small_of_relative_surjective_etale
       have hv' : F.map p.op x = a.app (Opposite.op V) y := by
         change a.app (Opposite.op V) y = F.map (𝟙 V ≫ p).op x at hv
         simpa only [Category.id_comp] using hv.symm
-      show F.map (p.op ≫ e.hom.op) x = _
+      change F.map (p.op ≫ e.hom.op) x = _
       rw [F.map_comp]
-      show F.map e.hom.op (F.map p.op x) = _
+      change F.map e.hom.op (F.map p.op x) = _
       rw [hv']
       exact (congrArg (fun k => k y) (a.naturality e.hom.op)).symm
   choose code hcode using exists_code

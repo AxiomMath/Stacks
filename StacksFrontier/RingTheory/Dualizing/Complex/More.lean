@@ -84,8 +84,7 @@ private noncomputable def tensorBaseChangeMap
   toFun := TensorProduct.map (LinearMap.id : B →ₗ[A] B) i
   map_add' := map_add _
   map_smul' b x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp [hx, hy]
     | tmul b' a => simp [TensorProduct.smul_tmul']
 
@@ -107,10 +106,10 @@ private theorem mono_residueFieldToTensor
     (i : ModuleCat.of A (IsLocalRing.ResidueField A) ⟶ ModuleCat.of A E) [Mono i] :
     Mono (residueFieldToTensor A B E hmax i) := by
   rw [ModuleCat.mono_iff_injective]
-  show Function.Injective ((tensorBaseChangeMap A B E i.hom).comp
+  change Function.Injective ((tensorBaseChangeMap A B E i.hom).comp
     (residueFieldTensorEquiv A B hmax).toLinearMap)
   have hmap : Function.Injective (tensorBaseChangeMap A B E i.hom) := by
-    show Function.Injective (i.hom.lTensor B)
+    change Function.Injective (i.hom.lTensor B)
     exact Module.Flat.lTensor_preserves_injective_linearMap (M := B) i.hom
       (ModuleCat.mono_iff_injective i |>.mp inferInstance)
   exact hmap.comp (residueFieldTensorEquiv A B hmax).injective
@@ -320,8 +319,7 @@ private noncomputable def torsionByIdealTensorEquiv
   let ltf := TensorProduct.AlgebraTensorModule.lTensor B B f
   let g : N →ₗ[B] (Fin n → N) := ePi.toLinearMap.comp ltf
   have hg_apply (x : N) (j : Fin n) : g x j = (algebraMap A B (a j : A)) • x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp [g]
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp [hx, hy]
     | tmul b x =>
       change (TensorProduct.piRight A B B (fun _ : Fin n => E)
@@ -413,8 +411,7 @@ private theorem tensor_maximalIdealPowerTorsion
   let mA : Ideal A := IsLocalRing.maximalIdeal A
   let mB : Ideal B := IsLocalRing.maximalIdeal B
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨0, fun r hr => by simp⟩
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy =>
     obtain ⟨n, hn⟩ := hx
     obtain ⟨m, hm⟩ := hy
@@ -572,7 +569,7 @@ private theorem length_maximalIdealPowTorsion_eq_quotient
           apply Subtype.ext
           have hmap : algebraMap Q (IsLocalRing.ResidueField Q)
               (Ideal.Quotient.mk I r) = algebraMap R (IsLocalRing.ResidueField Q) r := by
-            show algebraMap Q (IsLocalRing.ResidueField Q) (algebraMap R Q r) = _
+            change algebraMap Q (IsLocalRing.ResidueField Q) (algebraMap R Q r) = _
             exact IsScalarTower.algebraMap_apply R Q (IsLocalRing.ResidueField Q) r
           have hx : (Ideal.Quotient.mk I r : Q) • x = r • x := by
             rw [Algebra.smul_def, hmap, Algebra.smul_def]
@@ -640,7 +637,7 @@ private theorem length_residueField_eq_one
     (R : Type u) [CommRing R] [IsLocalRing R] :
     Module.length R (IsLocalRing.ResidueField R) = 1 := by
   rw [Module.length_eq_one_iff]
-  show IsSimpleModule R (R ⧸ IsLocalRing.maximalIdeal R)
+  change IsSimpleModule R (R ⧸ IsLocalRing.maximalIdeal R)
   exact (isSimpleModule_iff_isCoatom (R := R) (M := R)
       (m := IsLocalRing.maximalIdeal R)).2
       (Ideal.isMaximal_def.mp (IsLocalRing.maximalIdeal.isMaximal R))
@@ -655,14 +652,14 @@ private theorem length_tensor_quotient_eq
     Ideal.map (Algebra.TensorProduct.includeRight : A →ₐ[A] B ⊗[A] A).toRingHom I
   have hJ : Ideal.map (algebraMap A B) I =
       Ideal.map (r : (B ⊗[A] A) →+* B) J := by
-    show Ideal.map (algebraMap A B) I = Ideal.map (r : (B ⊗[A] A) →+* B)
+    change Ideal.map (algebraMap A B) I = Ideal.map (r : (B ⊗[A] A) →+* B)
       (Ideal.map (Algebra.TensorProduct.includeRight : A →ₐ[A] B ⊗[A] A).toRingHom I)
     rw [Ideal.map_map]
     congr 1
     ext a
-    show algebraMap A B a = r (Algebra.TensorProduct.includeRight a)
+    change algebraMap A B a = r (Algebra.TensorProduct.includeRight a)
     rw [Algebra.TensorProduct.includeRight_apply, Algebra.TensorProduct.rid_tmul]
-    show algebraMap A B a = a • (1 : B)
+    change algebraMap A B a = a • (1 : B)
     rw [Algebra.smul_def, mul_one]
   let e2 := Ideal.quotientEquivAlg (R₁ := B) J (Ideal.map (algebraMap A B) I) r hJ
   let e : (B ⊗[A] (A ⧸ I)) ≃ₐ[B] (B ⧸ Ideal.map (algebraMap A B) I) := e1.trans e2
@@ -702,7 +699,7 @@ private theorem length_tensorMaximalIdealPowTorsion_eq
   have hResidueLength : Module.length B (B ⧸ extendedMaximalIdeal A B) = 1 := by
     unfold extendedMaximalIdeal
     rw [hmax]
-    show Module.length B (IsLocalRing.ResidueField B) = 1
+    change Module.length B (IsLocalRing.ResidueField B) = 1
     exact length_residueField_eq_one B
   have hbc (M : Type u) [AddCommGroup M] [Module A M] :
       Module.length A M = Module.length B (B ⊗[A] M) := by
@@ -778,7 +775,7 @@ theorem exists_isInjectiveHull_tensorProduct
     induction q using Quotient.inductionOn' with
     | h b => rfl
   have hResFinite : Module.Finite (B ⧸ mB) (IsLocalRing.ResidueField B) := by
-    show @Module.Finite (B ⧸ mB) (IsLocalRing.ResidueField B) _ _
+    change @Module.Finite (B ⧸ mB) (IsLocalRing.ResidueField B) _ _
       (torsionQuotientModule B (IsLocalRing.ResidueField B) mB hkB)
     have hself : @Module.Finite (B ⧸ mB) (IsLocalRing.ResidueField B)
         _ _ (Semiring.toModule : Module (B ⧸ mB) (B ⧸ mB)) :=
@@ -843,7 +840,7 @@ theorem exists_isInjectiveHull_tensorProduct
       apply (Submodule.mem_torsionBySet_iff _ _).2
       intro r
       have hx := (Submodule.mem_torsionBySet_iff _ _).1 x.property r
-      show (r : B) • f (x : N) = 0
+      change (r : B) • f (x : N) = 0
       calc
         (r : B) • f (x : N) = f ((r : B) • (x : N)) := (f.map_smul _ _).symm
         _ = f 0 := congrArg f hx
@@ -887,12 +884,12 @@ theorem exists_isInjectiveHull_tensorProduct
   have hEssential : Module.IsEssentialMono j := by
     let qIso := Subobject.mapIsoToOrderIso e.toModuleIso
     have hmk : qIso (Subobject.mk j) = Subobject.mk j' := by
-      show (Subobject.map e.toModuleIso.hom).obj (Subobject.mk j) =
+      change (Subobject.map e.toModuleIso.hom).obj (Subobject.mk j) =
         Subobject.mk j'
       rw [Subobject.map_mk]
       apply Subobject.mk_eq_mk_of_comm _ _ (Iso.refl _)
       ext x
-      show j'.hom x = e (e.symm (j'.hom x))
+      change j'.hom x = e (e.symm (j'.hom x))
       exact (e.apply_symm_apply (j'.hom x)).symm
     intro q hq
     have hq' : qIso q ≠ ⊥ := fun hz ↦

@@ -118,6 +118,7 @@ variable {S S' : Scheme.{u}} {E : S.Modules} {E' : S'.Modules} [E.IsQuasicoheren
   (κ : (Scheme.Modules.pullback f).obj (tautologicalKernel E hqc D) ≅
     tautologicalKernel E' hqc' D')
 
+omit [E.IsQuasicoherent] [E'.IsQuasicoherent] in
 /-- **The bottom of the Koszul filtration under pullback**: `⋀⁰ K ⊗ 𝒪(0) ≅ 𝒪(0)` corresponds to
 the same isomorphism for `E'`, for any identification `κ` of the kernels. -/
 public theorem koszulTermZeroIso_pullback_of :
@@ -155,6 +156,7 @@ variable {S : Scheme.{u}} {E E' : S.Modules} [E.IsQuasicoherent] [E'.IsQuasicohe
   (hu : (Scheme.Modules.pullback f).map (tautologicalMap E hqc D) ≫ (θ ((1 : ℕ) : ℤ)).hom =
     (bundlePullbackIso f hbase e).hom ≫ tautologicalMap E' hqc' D')
 
+omit [E.IsQuasicoherent] [E'.IsQuasicoherent] in
 /-- **The bottom of the Koszul filtration under pullback**, for the kernel identification of an
 isomorphism of projective bundles. -/
 public theorem koszulTermZeroIso_pullback :
@@ -512,6 +514,7 @@ variable {S : Scheme.{u}} {E E' : S.Modules} {n : ℕ}
 local notation "hqE" => Stacks.SymGraded.isQuasicoherentPieces_of_isQuasicoherent E
 local notation "hqE'" => Stacks.SymGraded.isQuasicoherentPieces_of_isQuasicoherent E'
 
+omit [E.IsQuasicoherent] in
 /-- `bundlePullbackIso` for the isomorphism of projective bundles induced by `e`. -/
 public theorem bundlePullbackIso_eq : bundlePullbackIso (bundleMap hfree hfree' e)
       (bundleMap_comp_toBase hfree hfree' e) e =
@@ -528,6 +531,7 @@ public theorem tautologicalMap_pullback' :
   rw [bundlePullbackIso_eq, Iso.trans_hom, Functor.mapIso_hom]
   exact (tautologicalMap_pullback hfree hfree' e D D').trans (Category.assoc _ _ _).symm
 
+omit [E.IsQuasicoherent] [E'.IsQuasicoherent] in
 /-- The multiplication of the twists under pullback, in the form of the Koszul transport. -/
 public theorem twistPullbackIso_twistMul' (i j : ℤ) :
     (Scheme.Modules.pullback (bundleMap hfree hfree' e)).map (twistMul D i j) ≫
@@ -566,7 +570,7 @@ public theorem koszulBottomIso_iso (hn : 1 ≤ n) :
   rw [hZ, hZ', ← hM] at hQ
   refine bottom_chase (H := higherDirectImageIsoMap hfree hfree' e D D' 0 ((0 : ℕ) : ℤ))
     (map_comp_congr _ hTZ.symm) hN ?_ hQ hP
-  show _ ≫ (((Stacks.DerivedIndexing.rightDerivedIso _ 0).app _).inv ≫ _ ≫
+  change _ ≫ (((Stacks.DerivedIndexing.rightDerivedIso _ 0).app _).inv ≫ _ ≫
     ((Stacks.DerivedIndexing.rightDerivedIso _ 0).app _).hom) ≫ _ = _
   refine (congrArg (_ ≫ ·) (Category.assoc _ _ _)).trans ?_
   refine (Iso.hom_inv_id_assoc _ _).trans ?_
@@ -588,7 +592,7 @@ public theorem topTraceIso_iso (hn : 1 ≤ n) :
   have hB := koszulBottomIso_iso hfree hfree' e D D' hn
   have hI := iso_square_inv (koszulTopIso E hqE D hn hfree) (koszulTopIso E' hqE' D' hn hfree')
     _ _ (hT.trans (Category.assoc _ _ _).symm)
-  show _ ≫ (koszulTopIso E' hqE' D' hn hfree').inv ≫ (koszulBottomIso E' hqE' D' hn hfree').hom =
+  change _ ≫ (koszulTopIso E' hqE' D' hn hfree').inv ≫ (koszulBottomIso E' hqE' D' hn hfree').hom =
     (koszulTopIso E hqE D hn hfree).inv ≫ (koszulBottomIso E hqE D hn hfree).hom
   refine (Category.assoc _ _ _).symm.trans ?_
   refine (congrArg (· ≫ _) hI.symm).trans ?_
@@ -606,8 +610,8 @@ public theorem topTwistIsoDualDet_iso (hn : 1 ≤ n) :
         ((bundlePushforward E' hqE').rightDerived n).map
           (twistPullbackIso hfree hfree' e D D' (-((n + 1 : ℕ) : ℤ))).hom) ≫
       (topTwistIsoDualDet E' hqE' D' hn hfree').hom := by
-  have := isInvertible_det E hn hfree
-  have := isInvertible_det E' hn hfree'
+  have := isInvertible_det E hfree
+  have := isInvertible_det E' hfree'
   exact isoDualSheaf_of_tensor_iso_unit_naturality
     (N := Scheme.Modules.exteriorPower E ((n + 1 : ℕ) : ℤ))
     (N' := Scheme.Modules.exteriorPower E' ((n + 1 : ℕ) : ℤ))
@@ -648,7 +652,7 @@ public theorem higherDirectImagePullback_naturality (q : ℕ) {M M' : (bundle E 
     q φ
   have h3 := ((Stacks.DerivedIndexing.rightDerivedIso (bundlePushforward E' hqE') q).hom.naturality
     ((Scheme.Modules.pullback (bundleMap hfree hfree' e)).map φ))
-  show _ ≫ ((Stacks.DerivedIndexing.rightDerivedIso _ q).app M').inv ≫ _ ≫ _ =
+  change _ ≫ ((Stacks.DerivedIndexing.rightDerivedIso _ q).app M').inv ≫ _ ≫ _ =
     (((Stacks.DerivedIndexing.rightDerivedIso _ q).app M).inv ≫ _ ≫ _) ≫ _
   exact paste_three _ _ _ _ _ _ _ _ _ _ h1 h2 h3
 
@@ -673,7 +677,7 @@ public theorem higherDirectImagePullback_rightDerivedIso (q : ℕ) {M : (bundle 
       ((bundlePushforward E' hqE').rightDerived q).map x := by
   have h :=
     ((Stacks.DerivedIndexing.rightDerivedIso (bundlePushforward E' hqE') q).inv.naturality x)
-  show (((Stacks.DerivedIndexing.rightDerivedIso _ q).app M).inv ≫ _ ≫
+  change (((Stacks.DerivedIndexing.rightDerivedIso _ q).app M).inv ≫ _ ≫
     ((Stacks.DerivedIndexing.rightDerivedIso _ q).app _).hom) ≫ _ = _
   simp only [Category.assoc]
   refine congrArg (_ ≫ _ ≫ ·) ((congrArg (_ ≫ ·) h).trans ?_)
@@ -725,6 +729,7 @@ public theorem topRowTraceStep_iso (hn : 1 ≤ n) (k : ℕ) :
     (map_comp_congr _ hE)
   exact tensorMap_comp_congr hX ((Category.id_comp _).trans (Category.comp_id _).symm)
 
+omit [E.IsQuasicoherent] [E'.IsQuasicoherent] in
 /-- **The dual of the reindexing of `Sym ⊗ ⋀ⁿ⁺¹` is compatible with `e`.** -/
 public theorem dualReindex_iso {i j : ℤ} (h : i = j) :
     ((Stacks.AlgebraicGeometry.ReflexiveModules.dualFunctor S).mapIso
@@ -753,12 +758,13 @@ public theorem dualReindex_iso {i j : ℤ} (h : i = j) :
           (eqToIso (congrArg (bundleAlgebra E' hfree').piece h))).op).symm.hom := by
   subst h
   simp only [eqToIso_refl, Functor.mapIso_refl]
-  show Stacks.AlgebraicGeometry.ReflexiveModules.dualMap (𝟙 _) ≫ _ =
+  change Stacks.AlgebraicGeometry.ReflexiveModules.dualMap (𝟙 _) ≫ _ =
     _ ≫ Stacks.AlgebraicGeometry.ReflexiveModules.dualMap (𝟙 _)
   exact ((congrArg (· ≫ _) (Stacks.AlgebraicGeometry.ReflexiveModules.dualMap_id _)).trans
     (Category.id_comp _)).trans ((Category.comp_id _).symm.trans
       (congrArg (_ ≫ ·) (Stacks.AlgebraicGeometry.ReflexiveModules.dualMap_id _).symm))
 
+omit [E.IsQuasicoherent] [E'.IsQuasicoherent] in
 /-- **`(Sym^k E ⊗ ⋀ⁿ⁺¹ E)^∨ ≅ (⋀ⁿ⁺¹ E)^∨ ⊗ (Sym^k E)^∨` is compatible with `e`.** -/
 public theorem dualTensorIso_iso (k : ℕ)
     [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u}

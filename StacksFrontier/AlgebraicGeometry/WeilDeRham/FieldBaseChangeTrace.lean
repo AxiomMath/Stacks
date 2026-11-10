@@ -106,8 +106,7 @@ theorem contractRight_traceCoordWith_tmul
       contractRight (t ∘ₗ (TensorProduct.mk F _ (tateLine F 𝔇.tate (d : ℤ))).flip l ∘ₗ
         𝔇.projGrade X (2 * (d : ℤ))) s := by
   rw [tateTwistCoordinates_tmul, map_smul, LinearEquiv.symm_apply_apply, map_smul]
-  induction s using TensorProduct.induction_on with
-  | zero => simp
+  induction s using TensorProduct.inductionOn with
   | add s s' hs hs' => simp only [map_add, smul_add, hs, hs']
   | tmul x y =>
     rw [contractRight_tmul, contractRight_tmul, smul_smul,
@@ -122,10 +121,9 @@ theorem diagonalContract_eq_of_coordinate
       contractRight (traceCoordWith c d t)
         ((kunnethEquivOfIsPullback p q hP hA5).symm (tateTwistCoordinates c (d : ℤ) v)) := by
   set κ := kunnethEquivOfIsPullback p q hP hA5
-  show contractRight (traceCoordWith 𝔇.coord d t) (κ.symm (tateTwistCoordinates 𝔇.coord
+  change contractRight (traceCoordWith 𝔇.coord d t) (κ.symm (tateTwistCoordinates 𝔇.coord
     (d : ℤ) v)) = _
-  induction v using TensorProduct.induction_on with
-  | zero => simp
+  induction v using TensorProduct.inductionOn with
   | add v v' hv hv' => simp only [map_add, hv, hv']
   | tmul w l =>
     obtain ⟨s, rfl⟩ := κ.surjective w
@@ -144,8 +142,7 @@ theorem traceContractOfIsPullback_pullTw {Q : (SmoothProjectiveScheme k).FullSub
   have hK : ∀ z, kunnethEquivOfIsPullback p q hP hA5 z =
       𝔇.pull φ (kunnethEquivOfIsPullback p' q' hQ hA5 z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' => simp only [map_add, hz, hz']
     | tmul a b =>
       rw [kunnethEquivOfIsPullback_tmul, kunnethEquivOfIsPullback_tmul, map_mul,
@@ -187,7 +184,7 @@ theorem contractRight_comp_gradedProj {z : 𝔇.H X ⊗[F] 𝔇.H X} {N m : ℤ}
       rw [eq_sub_of_add_eq' this]
       exact Submodule.sub_mem _ hz h2
     rw [← decompose_of_mem_same (𝔇.grade P) hmemN, map_sum, decompose_sum,
-      DFinsupp.finset_sum_apply, Submodule.coe_sum]
+      DFinsupp.finsetSum_apply, Submodule.coe_sum]
     refine Finset.sum_eq_zero fun s hs => ?_
     rw [decompose_of_mem_ne (𝔇.grade P) (hκ s (Finset.mem_filter.mp hs).1)
       (Finset.mem_filter.mp hs).2]
@@ -197,8 +194,7 @@ theorem contractRight_comp_gradedProj {z : 𝔇.H X ⊗[F] 𝔇.H X} {N m : ℤ}
   obtain ⟨t, ht⟩ := hf s
   rw [← ht]
   clear ht
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add t t' h h' => simp only [map_add, h, h', Submodule.coe_add]
   | tmul a b =>
     rw [TensorProduct.map_tmul, contractRight_tmul, contractRight_tmul, Submodule.subtype_apply,
@@ -262,8 +258,7 @@ theorem exists_isDiagonalNormalized_of_fieldBaseChange (B : FieldBaseChangeData 
     have hc : ∀ z : 𝔇.H X ⊗[F] 𝔇.H X, B.cohEquiv X (baseChangeContract L z) =
         contractRight (traceCoordWith c' d l') (E (1 ⊗ₜ z)) := by
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add z z' hz hz' => simp only [map_add, TensorProduct.tmul_add, hz, hz']
       | tmul x y =>
         simp only [baseChangeContract_tmul, map_smul, E, LinearEquiv.trans_apply,
@@ -282,7 +277,7 @@ theorem exists_isDiagonalNormalized_of_fieldBaseChange (B : FieldBaseChangeData 
     simp [traceCoordWith]
   rw [htc, contractRight_comp_gradedProj hA5 p q hP (N := 2 * (d : ℤ))
     (by rw [LinearEquiv.apply_symm_apply]; exact hg) μ]
-  show ((𝔇.projGrade X _ (contractRight μ ξ) : 𝔇.H X)) = 1
+  change ((𝔇.projGrade X _ (contractRight μ ξ) : 𝔇.H X)) = 1
   rw [show contractRight μ ξ = 1 from hμ, sub_self, FirstChernClassData.coe_projGrade,
     DirectSum.decompose_of_mem_same _ SetLike.GradedOne.one_mem]
 

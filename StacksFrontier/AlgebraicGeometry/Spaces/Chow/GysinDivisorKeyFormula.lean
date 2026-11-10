@@ -145,7 +145,7 @@ Weil divisor `div_{ℒ|_Z}((u_Z · s_{ξ_Z})|_Z)` of Stacks 0EQE of the restrict
 generator of `ℒ_{ξ_Z}` named by the unit `u_Z`, that is
 `AlgebraicGeometry.Space.PrimeDivisor.restrictedGeneratorDivisor`. -/
 def generatorChernRule (u : GenericUnitFamily D sX hX) :
-    FirstChernComponentCycleRule D sX k := fun W hW =>
+    FirstChernComponentCycleRule D sX k := fun W _ =>
   if hcod : codimension (integralClosedSubspaceSupport D.site D.base D.base_mem hX.1 W) = 1 then
     (W.toPrimeDivisor D.site D.base D.base_mem hX.1 hcod).restrictedGeneratorDivisor D sX hX hint
       L hL hn (u _)
@@ -167,7 +167,7 @@ theorem generatorChernRule_toIntegralClosedSubspace (u : GenericUnitFamily D sX 
     rintro P rfl
     exact HEq.rfl
   rw [generatorChernRule]
-  exact (dif_pos hcod).trans
+  exact (dite_eq_left hcod).trans
     (eq_of_heq (key _ (IntegralClosedSubspace.toPrimeDivisor_eq D.site D.base D.base_mem hX.1
       (Z.toIntegralClosedSubspace D.site D.base D.base_mem) hcod Z rfl)))
 
@@ -206,7 +206,7 @@ theorem canonicalGenericRatio_globalSectionMeromorphic_sectionGeneratorUnit
         ((sectionGeneratorUnit D sX hX hint L hL σ Z :
           ↥(Z.genericHenselianLocalRing D.site D.base D.base_mem hX.1
             (isDecentSpace_of_isGood D sX hX)))) := by
-  rw [sectionGeneratorUnit, dif_neg hZ, IsUnit.unit_spec]
+  rw [sectionGeneratorUnit, dite_eq_right hZ, IsUnit.unit_spec]
   exact (Z.sectionGenerates_globalSectionMeromorphic_of_not_le D sX hX hint L hL σ
     hZ).choose_spec.2
 
@@ -237,8 +237,8 @@ theorem restrictedSectionChernRule_generatorChernRule
       (canonicalGenericRatio_globalSectionMeromorphic_sectionGeneratorUnit D sX hX hint L hL σ _
         hZ)
   rw [generatorChernRule]
-  refine Eq.trans ?_ (dif_pos hcod).symm
-  rw [restrictedSectionChernRule, dif_neg hWE]
+  refine Eq.trans ?_ (dite_eq_left hcod).symm
+  rw [restrictedSectionChernRule, dite_eq_right hWE]
   exact canonicalDivisorCycleAt_congr_section D _ _ _ _ _ _ _ hsec.symm
 
 end GeneratorUnit
@@ -395,7 +395,7 @@ theorem chowClassCanonical_gysinCycleMap_eq_of_family
             (vanishingLocus D sX hX L σ).2 k (generatorChernRule D sX hX hint N hN hn w))
           (vanishingLocusTopCycleAt D sX hX hint L hL hσ hn)) := by
   rw [eq_comm, ← sub_eq_zero, ← map_sub, chowClassCanonical_eq_zero_iff]
-  refine isRationallyEquivalentToZeroCanonical_of_isRationallyEquivalentToZeroWithinCanonical_closedPushforward
+  refine isRationallyEquivalentToZeroCanonical_of_withinCanonical_cycleGroupClosedPushforward
     D sX hX (vanishingLocus D sX hX L σ).1 (vanishingLocus D sX hX L σ).2 k ?_
   rw [map_sub, cycleGroupClosedPushforward_firstChernCapCycleMap_vanishingLocusTopCycleAt D sX hX
       hint L hL hσ hn (generatorChernRule D sX hX hint N hN hn w),

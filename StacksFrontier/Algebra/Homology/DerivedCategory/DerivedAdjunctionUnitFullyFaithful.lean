@@ -161,7 +161,7 @@ theorem rightAcyclic_obj_of_isIso_unit [IsIso adj.unit]
   have := adj.isIso_rightDerivedFunctorPlus_unit h
   have hX := (adj.isIso_rightDerivedFunctorPlus_unit_app_Qh_obj_iff
     ((HomotopyCategory.Plus.singleFunctor A 0).obj F)).1 inferInstance
-  show IsIso (R.rightDerivedFunctorPlusUnith.app
+  change IsIso (R.rightDerivedFunctorPlusUnith.app
     ((HomotopyCategory.Plus.singleFunctor B 0).obj (L.obj F)))
   exact (NatTrans.isIso_app_iff_of_iso _ ((L.mapSinglePlusIso).app F)).1 hX
 
@@ -188,7 +188,7 @@ theorem mapDerivedCategory_map_bijective_of_plus [F.mapDerivedCategoryPlus.Full]
           F.mapDerivedCategoryPlus.obj L') → _) ∘ F.mapDerivedCategoryPlus.map ∘
         (hι.homEquiv (X := K') (Y := L')).symm := by
     funext φ
-    show _ = F.mapDerivedCategory.map (DerivedCategory.Plus.ι.map
+    change _ = F.mapDerivedCategory.map (DerivedCategory.Plus.ι.map
       (hι.preimage (X := K') (Y := L') φ))
     rw [hι.map_preimage]
   rw [this]

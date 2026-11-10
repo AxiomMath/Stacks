@@ -74,13 +74,13 @@ theorem exists_hom_smallEtalePostcomp_of_mem_range {W Z : AlgebraicSpaces B S hS
   obtain ⟨z, hz⟩ := hx
   obtain ⟨a, ha⟩ := hc z
   have hat : pointsMap B S hS _ P.1.hom a = pointsMap B S hS _ T.1.hom t := by
-    show pointsMap B S hS _ (c.1.hom ≫ g.hom) a = _
+    change pointsMap B S hS _ (c.1.hom ≫ g.hom) a = _
     rw [pointsMap_comp_apply, ha, hz]
   obtain ⟨w, -, hw2⟩ := exists_points_of_isPullback B S hS (hrep.isPullback T.1.hom) a t hat
   refine ⟨pointsToScheme B S hS _ w, ?_⟩
   have h1 := pointsToScheme_pointsMap_yoneda B S hS q w
   rw [hw2] at h1
-  show (BigFppfOver.toScheme B S hS).map q (pointsToScheme B S hS _ w) = x
+  change (BigFppfOver.toScheme B S hS).map q (pointsToScheme B S hS _ w) = x
   rw [← h1]
   exact (pointsEquivScheme B S hS T.1.left).apply_symm_apply x
 

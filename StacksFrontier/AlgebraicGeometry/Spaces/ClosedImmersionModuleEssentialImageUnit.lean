@@ -20,8 +20,8 @@ faithful right adjoint applies verbatim:
 
 `(i_*).essImage 𝒢 ↔ IsIso (η_𝒢 : 𝒢 ⟶ i_* i^* 𝒢)`.
 
-That equivalence is unconditional and costs nothing beyond what is already in the library. Combined with
-the unconditional inclusion it reduces the whole missing conjunct to the single implication
+That equivalence is unconditional and costs nothing beyond what is already in the library. Combined
+with the unconditional inclusion it reduces the whole missing conjunct to the single implication
 
 `ℐ𝒢 = 0 → IsIso (η_𝒢)`,
 
@@ -34,8 +34,8 @@ the obstruction should be recorded.
   for a closed immersion, a module is a direct image exactly when the unit of Stacks 03LU is an
   isomorphism at it. Unconditional.
 * `AlgebraicGeometry.Space.annihilatedByKerIdeal_of_isIso_modulePullbackAdjunction_unit`: if the
-  unit is an isomorphism at `𝒢` then `ℐ𝒢 = 0`. Unconditional; this is the unconditional inclusion read
-  through the previous statement.
+  unit is an isomorphism at `𝒢` then `ℐ𝒢 = 0`. Unconditional; this is the unconditional inclusion
+  read through the previous statement.
 
 ## Why no `@[stacks]` attribute is carried here
 

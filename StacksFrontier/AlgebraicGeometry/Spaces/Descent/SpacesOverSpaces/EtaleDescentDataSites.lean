@@ -56,6 +56,7 @@ namespace AlgebraicGeometry.Space.Descent
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits of presheaves on the big fppf site is deep
 /-- Discrete limits of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discrete_presheaf_etaleDescentDataSites

@@ -50,7 +50,7 @@ theorem exists_affineOpens_mem_topology (V : BigFppfOver B S hS) :
         Sieve.ofArrows Vi ui ∈ BigFppfOver.topology B S hS V := by
   choose Vi ui hu hrange hVaff using fun U => BigFppfOver.exists_affineOpen_restrict B S hS V U
   refine ⟨_, Vi, ui, hVaff, ?_⟩
-  show Sieve.ofArrows Vi ui ∈ B.topology.over (B.obj hS) V
+  change Sieve.ofArrows Vi ui ∈ B.topology.over (B.obj hS) V
   rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
   apply Precoverage.generate_mem_toGrothendieck
   rw [bigFppfPrecoverage_eq_comap, Precoverage.mem_comap_iff, Presieve.map_ofArrows]
@@ -62,7 +62,7 @@ theorem exists_affineOpens_mem_topology (V : BigFppfOver B S hS) :
   rw [← iSup_affineOpens_eq_top] at hy
   obtain ⟨U, hU⟩ := TopologicalSpace.Opens.mem_iSup.1 hy
   refine ⟨U, ?_⟩
-  show y ∈ Set.range ((BigFppfOver.toScheme B S hS).map (ui U))
+  change y ∈ Set.range ((BigFppfOver.toScheme B S hS).map (ui U))
   rwa [hrange U]
 
 /-- A morphism of sheaves on the big fppf site which is bijective on every object with affine
@@ -165,7 +165,7 @@ theorem eq_of_glueSectionsOfSpace_eq (T : spacesOverX D) {W : BigFppfOver B S hS
     ObjectProperty.homMk (Over.homMk t' hw.symm : Over.mk (t ≫ T.obj.hom) ⟶ T.obj)
   have hF : (formalGlueingFunctor D).1.map a = (formalGlueingFunctor D).1.map a' := by
     refine ObjectProperty.hom_ext _ ?_
-    show (restrictionDiagram D).map (Over.homMk t rfl : Over.mk (t ≫ T.obj.hom) ⟶ T.obj) =
+    change (restrictionDiagram D).map (Over.homMk t rfl : Over.mk (t ≫ T.obj.hom) ⟶ T.obj) =
       (restrictionDiagram D).map (Over.homMk t' hw.symm : Over.mk (t ≫ T.obj.hom) ⟶ T.obj)
     refine h2.trans ?_
     rw [← CategoryTheory.Functor.map_comp]
@@ -188,14 +188,14 @@ theorem isIso_toHomPresheaf (T : spacesOverX D)
   · obtain ⟨⟨w, φ⟩, rfl⟩ := (equivShrink _).surjective s
     obtain ⟨a, ha⟩ := hfull V hV w (ObjectProperty.homMk φ)
     refine ⟨yonedaEquiv a.hom.left, ?_⟩
-    show equivShrink _ (glueSectionsOfSpace D T (yonedaEquiv.symm (yonedaEquiv a.hom.left))) =
+    change equivShrink _ (glueSectionsOfSpace D T (yonedaEquiv.symm (yonedaEquiv a.hom.left))) =
       equivShrink _ ⟨w, φ⟩
     congr 1
     rw [Equiv.symm_apply_apply]
-    show (⟨_, _⟩ : glueSections D _ V) = ⟨w, φ⟩
+    change (⟨_, _⟩ : glueSections D _ V) = ⟨w, φ⟩
     refine glueSections.ext' (G := (formalGlueingFunctor D).1.obj T) (w' := w) (Over.w a.hom) ?_
     rw [show φ = ((formalGlueingFunctor D).1.map a).hom from congrArg (·.hom) ha.symm]
-    show (restrictionDiagram D).map _ = (restrictionDiagram D).map _ ≫
+    change (restrictionDiagram D).map _ = (restrictionDiagram D).map _ ≫
       (restrictionDiagram D).map a.hom
     rw [← CategoryTheory.Functor.map_comp]
     congr 1

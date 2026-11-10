@@ -116,7 +116,7 @@ theorem isIso_pullbackLift_of_isProper_of_isDominant {V U : Scheme.{u}} (a : V �
   have : IsOpenImmersion (t ≫ pullback.fst p i) := ht ▸ inferInstance
   have : IsOpenImmersion t := IsOpenImmersion.of_comp t (pullback.fst p i)
   have : IsProper (t ≫ pullback.snd p i) := by
-    show IsProper (pullback.lift a b h ≫ pullback.snd p i)
+    change IsProper (pullback.lift a b h ≫ pullback.snd p i)
     rw [pullback.lift_snd]
     infer_instance
   have : IsProper t := IsProper.of_comp t (pullback.snd p i)

@@ -213,7 +213,7 @@ theorem chowClass_sectionWeilDivisor_eq {n : ℤ}
   refine (chowClass_eq_iff_rationallyEquivalent.{v} D sX hX (n - 1) _ _).2 ?_
   refine isRationallyEquivalentToZero_of_coe_eq_canonicalPrincipalCycleCoefficients D sX hX hint
     hn f _ (funext fun Z => ?_)
-  show divisorCycleCoefficients D sX hX hint.2.1 L s _ Z -
+  change divisorCycleCoefficients D sX hX hint.2.1 L s _ Z -
     divisorCycleCoefficients D sX hX hint.2.1 L s' _ Z = _
   rw [divisorCycleCoefficients_sub_divisorCycleCoefficients D sX hX hint.2.1 L s s' _
     E.emb f

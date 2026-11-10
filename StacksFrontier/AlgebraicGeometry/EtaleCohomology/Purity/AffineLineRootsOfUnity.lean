@@ -93,7 +93,7 @@ theorem exists_isPrimitiveRoot_globalSections [IsSepClosed k] {ℓ : ℕ} (hℓ 
     {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) [Nontrivial Γ(X, ⊤)] :
     ∃ ζ : Γ(X, ⊤), IsPrimitiveRoot ζ ℓ := by
   have : NeZero (ℓ : k) := ⟨hℓ.ne_zero⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot k ℓ
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot k ℓ
   exact ⟨_, hζ.map_of_injective (f := ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop).hom)
     (RingHom.injective _)⟩
 
@@ -223,7 +223,7 @@ theorem isIso_rootsOfUnityUnit : IsIso (rootsOfUnityUnit k (ℓ := ℓ)) := by
       (Subsingleton.elim _ _)
     obtain ⟨x, rfl⟩ := hsurj z
     rw [← hz]
-    show (x.comp (Abelian.Ext.mk₀ θ) (add_zero 0)).comp (Abelian.Ext.mk₀ (cokernel.π θ))
+    change (x.comp (Abelian.Ext.mk₀ θ) (add_zero 0)).comp (Abelian.Ext.mk₀ (cokernel.π θ))
       (add_zero 0) = 0
     rw [Abelian.Ext.comp_assoc_of_third_deg_zero, Abelian.Ext.mk₀_comp_mk₀, cokernel.condition,
       Abelian.Ext.mk₀_zero, Abelian.Ext.comp_zero]

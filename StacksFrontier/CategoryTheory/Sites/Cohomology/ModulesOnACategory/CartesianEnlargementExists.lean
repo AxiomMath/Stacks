@@ -301,7 +301,7 @@ theorem exists_cardinal_small_nonzero_map_and_factorization (bc : BaseChangeData
     simp only [Limits.Sigma.ι_map_assoc, Limits.Sigma.ι_map, hA'fac n, Category.assoc]
   refine ⟨fun n => ⟨A' n, hA'QC n⟩, fun n => ObjectProperty.homMk (bb n),
     β₀ ≫ Limits.Sigma.map aa, hA'size, ?_⟩
-  show α = (β₀ ≫ Limits.Sigma.map aa) ≫ Limits.Sigma.map bb
+  change α = (β₀ ≫ Limits.Sigma.map aa) ≫ Limits.Sigma.map bb
   rw [Category.assoc, hmap]
   exact heq₀
 

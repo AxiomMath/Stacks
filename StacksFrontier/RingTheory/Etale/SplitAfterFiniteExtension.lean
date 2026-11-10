@@ -123,7 +123,7 @@ theorem span_setOf_isIdempotentElem_tensorProduct_eq_top [Algebra.Etale K E] {ι
   rw [hx]
   refine Submodule.sum_mem _ fun m _ => Submodule.smul_mem _ _ (Submodule.subset_span ?_)
   have hidem : IsIdempotentElem (Pi.single m 1 : ∀ m', F ⊗[K] E ⧸ m'.asIdeal) := by
-    show _ * _ = _
+    change _ * _ = _
     rw [← Pi.single_mul, mul_one]
   exact hidem.map e.symm
 
@@ -131,10 +131,11 @@ theorem span_setOf_isIdempotentElem_tensorProduct_eq_top [Algebra.Etale K E] {ι
 `E` with a finite basis over the field `K`, there is a field `L` finite over `K` such that every
 field extension `F` of `L` makes `F ⊗_K E` spanned over `F` by its idempotents. -/
 theorem exists_finiteDimensional_span_setOf_isIdempotentElem_eq_top [Algebra.Etale K E]
-    {ι : Type*} [Fintype ι] (b : Module.Basis ι K E) :
+    {ι : Type*} [Finite ι] (b : Module.Basis ι K E) :
     ∃ (L : Type u) (_ : Field L) (_ : Algebra K L), FiniteDimensional K L ∧
       ∀ i, ((minpoly K (b i)).map (algebraMap K L)).Splits := by
   classical
+  have : Fintype ι := Fintype.ofFinite ι
   have : Module.Finite K E := Module.Finite.of_basis b
   let g : K[X] := ∏ i, minpoly K (b i)
   refine ⟨g.SplittingField, inferInstance, inferInstance, inferInstance, fun i => ?_⟩

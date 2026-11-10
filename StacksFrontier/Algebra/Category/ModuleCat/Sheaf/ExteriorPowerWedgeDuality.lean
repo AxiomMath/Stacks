@@ -109,10 +109,10 @@ theorem bijective_evalBasis :
     Function.Bijective (fun φ : P ⟶ Q => fun s => φ.app (op T) (b (op T) s)) := by
   refine ⟨fun φ ψ h => ?_, fun q => ⟨descOfBasis hT b hb q, funext fun s => ?_⟩⟩
   · refine PresheafOfModules.hom_ext fun V => ModuleCat.hom_ext ((b V).ext fun s => ?_)
-    show φ.app V (b V s) = ψ.app V (b V s)
+    change φ.app V (b V s) = ψ.app V (b V s)
     rw [← hb V s, naturality_apply, naturality_apply]
     exact congrArg _ (congrFun h s)
-  · show (descOfBasis hT b hb q).app (op T) (b (op T) s) = q s
+  · change (descOfBasis hT b hb q).app (op T) (b (op T) s) = q s
     rw [descOfBasis_app_basis, map_from_terminal_self]
 
 end FreeOnTerminal
@@ -165,7 +165,7 @@ theorem mulSection_iso {E E' : GradedAlgebra R} {i j : ℤ} (ei : E.piece i ≅ 
     (x : (E.piece i).val.obj (op T)) :
     mulSection hT E' i j (ei.hom.val.app (op T) x) = ej.inv ≫ mulSection hT E i j x ≫ eij.hom := by
   ext V y
-  show (E'.mul i j).app V ((E'.piece i).val.map (hT.from V.unop).op
+  change (E'.mul i j).app V ((E'.piece i).val.map (hT.from V.unop).op
       (ei.hom.val.app (op T) x)) y =
     eij.hom.val.app V ((E.mul i j).app V ((E.piece i).val.map (hT.from V.unop).op x)
       (ej.inv.val.app V y))
@@ -228,7 +228,7 @@ theorem isIso_sheafifyUnit_of_iso {M : PresheafOfModules R₀} {G : SheafOfModul
   have h4 : adj.unit.app M =
       e.hom ≫ adj.unit.app (Rf.obj G) ≫ (sheafification α ⋙ Rf).map e.inv := by
     rw [← h3, Iso.hom_inv_id_assoc]
-  show IsIso (adj.unit.app M)
+  change IsIso (adj.unit.app M)
   rw [h4]
   infer_instance
 
@@ -247,9 +247,10 @@ variable {D : Type u₁} [Category.{v} D] (K : GrothendieckTopology D)
   [K.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasWeakSheafify K AddCommGrpCat.{u}]
   {T : D} (hT : IsTerminal T) (ι : Type u) [LinearOrder ι] [Fintype ι]
 
+omit [Fintype ι] in
 /-- The sectionwise exterior powers of a finite free sheaf of modules are already sheaves, so the
 sheafification unit is invertible at them. -/
-theorem isIso_sheafifyUnit_extPow_free (k : ℕ) :
+theorem isIso_sheafifyUnit_extPow_free [Finite ι] (k : ℕ) :
     IsIso (PresheafOfModules.sheafifyUnit (toRingCatMap K (𝟙 Osharp.obj))
       (PresheafOfModules.extPow k (_root_.SheafOfModules.valPresheaf K
         (_root_.SheafOfModules.free (R := toRingCat K Osharp) ι)))) :=
@@ -308,7 +309,7 @@ theorem bijective_mulSection_algebras_free {a b : ℕ} (hab : a + b = Fintype.ca
         (_root_.SheafOfModules.free (R := toRingCat K Osharp) ι))).extend (a : ℤ) (b : ℤ)
       (op T) x₀ (e (op T) s)
     simp only [Ψ]
-    show (E.mul (a : ℤ) (b : ℤ)).app (op T) ((E.piece (a : ℤ)).val.map (hT.from T).op
+    change (E.mul (a : ℤ) (b : ℤ)).app (op T) ((E.piece (a : ℤ)).val.map (hT.from T).op
         ((PresheafOfModules.sheafifyUnit α (P a)).app (op T) x₀))
         ((PresheafOfModules.sheafifyUnit α (P b)).app (op T) (e (op T) s)) = _
     refine (congrArg (fun z => (E.mul (a : ℤ) (b : ℤ)).app (op T) z
@@ -422,11 +423,12 @@ theorem wedgeHomApp_app (U : C) (x : (E.piece i).val.obj (op U)) (V : (Over U)�
       (E.mul i j).app (op V.unop.left) ((E.piece i).val.map V.unop.hom.op x) y :=
   rfl
 
+omit [J.WEqualsLocallyBijective AddCommGrpCat] [HasWeakSheafify J AddCommGrpCat] in
 /-- `wedgeHomApp E i j U` is additive in the section `x`. -/
 theorem wedgeHomApp_add (U : C) (x x' : (E.piece i).val.obj (op U)) :
     wedgeHomApp E i j U (x + x') = wedgeHomApp E i j U x + wedgeHomApp E i j U x' := by
   refine PresheafOfModules.hom_ext fun V => ModuleCat.hom_ext (LinearMap.ext fun y => ?_)
-  show (E.mul i j).app (op V.unop.left) ((E.piece i).val.map V.unop.hom.op (x + x')) y =
+  change (E.mul i j).app (op V.unop.left) ((E.piece i).val.map V.unop.hom.op (x + x')) y =
     (E.mul i j).app (op V.unop.left) ((E.piece i).val.map V.unop.hom.op x) y +
       (E.mul i j).app (op V.unop.left) ((E.piece i).val.map V.unop.hom.op x') y
   have h : (E.piece i).val.map V.unop.hom.op (x + x') =
@@ -435,6 +437,7 @@ theorem wedgeHomApp_add (U : C) (x x' : (E.piece i).val.obj (op U)) :
   exact (congrArg (fun z => (E.mul i j).app (op V.unop.left) z y) h).trans
     (DFunLike.congr_fun (map_add ((E.mul i j).app (op V.unop.left)) _ _) y)
 
+omit [J.WEqualsLocallyBijective AddCommGrpCat] [HasWeakSheafify J AddCommGrpCat] in
 /-- `wedgeHomApp E i j U` is linear over the sections of the structure sheaf over `U`. -/
 theorem wedgeHomApp_smul (U : C) (r : (toRingCat J Osharp).obj.obj (op U))
     (x : (E.piece i).val.obj (op U)) :
@@ -445,7 +448,7 @@ theorem wedgeHomApp_smul (U : C) (r : (toRingCat J Osharp).obj.obj (op U))
   let := homModule (toRingedSite J Osharp).O.obj
     ((toRingedSite J Osharp).valOf (E.piece j)) ((toRingedSite J Osharp).valOf (E.piece (i + j))) U
   refine PresheafOfModules.hom_ext fun V => ModuleCat.hom_ext (LinearMap.ext fun y => ?_)
-  show (E.mul i j).app (op V.unop.left) ((E.piece i).val.map V.unop.hom.op (r • x)) y =
+  change (E.mul i j).app (op V.unop.left) ((E.piece i).val.map V.unop.hom.op (r • x)) y =
     ((toRingCat J Osharp).obj.map V.unop.hom.op).hom r •
       (E.mul i j).app (op V.unop.left) ((E.piece i).val.map V.unop.hom.op x) y
   have h : (E.piece i).val.map V.unop.hom.op (r • x) =
@@ -477,6 +480,7 @@ noncomputable def wedgeHom :
         exact congrArg (fun z => (E.mul i j).app (op V.unop.left) z y)
           ((E.piece i).val.map_comp_apply f V.unop.hom.op x).symm }
 
+omit [J.WEqualsLocallyBijective AddCommGrpCat] [HasWeakSheafify J AddCommGrpCat] in
 /-- On sections over `U`, the wedge pairing sends `x` to multiplication by `x` on the slice site
 over `U`. -/
 theorem wedgeHom_val_app (U : C) (x : (E.piece i).val.obj (op U)) :
@@ -484,12 +488,13 @@ theorem wedgeHom_val_app (U : C) (x : (E.piece i).val.obj (op U)) :
       (mulSection (Over.isTerminalMkId U) (E.over U) i j x).val :=
   rfl
 
+omit [J.WEqualsLocallyBijective AddCommGrpCat] [HasWeakSheafify J AddCommGrpCat] in
 /-- The value of the wedge pairing on a pair of local sections over the same object is their
 product. -/
 theorem wedgeHom_eval (U : C) (x : (E.piece i).val.obj (op U)) (y : (E.piece j).val.obj (op U)) :
     ((wedgeHom E i j).val.app (op U) x).app (op (Over.mk (𝟙 U))) y =
       (E.mul i j).app (op U) x y := by
-  show (E.mul i j).app (op U) ((E.piece i).val.map (𝟙 U).op x) y = _
+  change (E.mul i j).app (op U) ((E.piece i).val.map (𝟙 U).op x) y = _
   refine congrArg (fun z => (E.mul i j).app (op U) z y) ?_
   rw [op_id, PresheafOfModules.map_id]
   rfl

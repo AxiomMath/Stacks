@@ -136,7 +136,7 @@ theorem isLimitPreservingOnObjects_of_comp_of_singleCover_lift
     rw [← D.map_comp, ← Category.assoc, Over.w j]
   have hnat : V.map j ≫ t₀ = Vs.app i' ≫ ι.map (D.map (i'.hom ≫ s₀)) := by
     rw [ht₀, ← Category.assoc, Vs.naturality j]
-    show Vs.app i' ≫ ι.map (D.map j.left) ≫ ι.map (D.map (j₀.hom ≫ s₀)) = _
+    change Vs.app i' ≫ ι.map (D.map j.left) ≫ ι.map (D.map (j₀.hom ≫ s₀)) = _
     rw [← ι.map_comp, key]
   refine ⟨i', X₀, Fa.obj xU.1, Fa.map β ≫ φ, Fa.map δ, γ' ≫ π, ?_, iaδ, ?_, ?_⟩
   · exact isHomLift_of_eq' (Category.id_comp vT)

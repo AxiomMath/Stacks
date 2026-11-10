@@ -143,7 +143,7 @@ private theorem range_subset_range_of_isArtinianRing {D' D : CommRingCat.{u}} [I
     exact (Spec_closedPoint (f := φ)).symm
   refine ⟨α.base (IsLocalRing.closedPoint D), ?_⟩
   rw [hy]
-  show (α ≫ f).base (IsLocalRing.closedPoint D) =
+  change (α ≫ f).base (IsLocalRing.closedPoint D) =
     (Spec.map φ ≫ β').base (IsLocalRing.closedPoint D)
   rw [h]
 
@@ -170,7 +170,7 @@ theorem liftsAtCompletion_comp_completionSheafMap {U V : BigFppfOver B S hS} (j 
     (Category.assoc _ _ _).trans ((congrArg (α ≫ ·) hj).trans hα)
   have hpt' : (α ≫ jS).base (IsLocalRing.closedPoint D) =
       jS u := by
-    show jS.base (α.base _) = _
+    change jS.base (α.base _) = _
     rw [hpt]
   have hfin' : ((α ≫ jS).residueFieldMap (IsLocalRing.closedPoint D)).hom.Finite :=
     finite_residueFieldMap_comp_of_isOpenImmersion α jS _ hfin

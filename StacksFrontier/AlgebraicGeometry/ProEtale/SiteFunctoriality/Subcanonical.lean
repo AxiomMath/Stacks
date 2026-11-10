@@ -86,7 +86,7 @@ private theorem sieve_generate_map_mem_topology {B : BigProetaleSite.{u}} {S : S
     (hC : B.covering ⟨(F.obj U).left, (E.map F).map (BigProetaleOver.forget B S hS)⟩) :
     Sieve.generate (E.presieve₀.map F) ∈ BigProetaleOver.topology B S hS (F.obj U) := by
   rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_generate]
-  show Sieve.generate
+  change Sieve.generate
       (Presieve.functorPushforward (BigProetaleOver.forget B S hS)
         (E.presieve₀.map F)) ∈ B.topology (F.obj U).left
   rw [← Sieve.arrows_generate_map_eq_functorPushforward]

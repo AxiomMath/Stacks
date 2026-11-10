@@ -264,7 +264,7 @@ theorem HasFiniteFibresOnEveryAffineEtaleChart.hasFiniteFibresOnSomeEtaleCover
       (by rw [pointsToScheme_pointsMap_yoneda B S hS (j i) a, ha, hw])
   refine ⟨pointsMap B S hS (yoneda.obj (W i))
     (Sigma.ι (fun k => yoneda.obj (W k)) i) a, ?_⟩
-  rwa [← pointsMap_comp_apply, Sigma.ι_desc, pointsMap_comp_apply, hau]
+  rwa [← pointsMap_comp_apply, Sigma.ι_comp_desc, pointsMap_comp_apply, hau]
 
 /-- **Stacks 03JV, condition (4) implies condition (2).** The composite of the two implications
 above: condition (4) gives condition (1), which gives condition (2). -/

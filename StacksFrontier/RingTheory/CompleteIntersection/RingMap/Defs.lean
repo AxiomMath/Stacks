@@ -121,10 +121,9 @@ theorem isKoszulRegularOn_linearEquiv
       by_cases hnm : (ComplexShape.down ℕ).Rel n m
       · obtain rfl : m + 1 = n := hnm
         rw [Koszul.seqComplexTensor_d, Koszul.seqComplexTensor_d]
-        induction x using TensorProduct.induction_on with
-        | zero => simp
+        induction x using TensorProduct.inductionOn with
         | tmul a b =>
-            show (TensorProduct.map LinearMap.id e)
+            change (TensorProduct.map LinearMap.id e)
                 ((LinearMap.rTensor M (Koszul.d (Koszul.seqDual f) m)) (a ⊗ₜ[R] b)) =
               (LinearMap.rTensor N (Koszul.d (Koszul.seqDual f) m))
                 ((TensorProduct.map LinearMap.id e) (a ⊗ₜ[R] b))
@@ -222,7 +221,7 @@ private theorem isKoszulRegularIdeal_map_ringEquiv
   have he : e'.toRingHom.comp (algebraMap R (Localization.Away g)) =
       (algebraMap S (Localization.Away (e g))).comp e.toRingHom := by
     ext a
-    show e' (algebraMap R (Localization.Away g) a) =
+    change e' (algebraMap R (Localization.Away g) a) =
       algebraMap S (Localization.Away (e g)) (e a)
     exact IsLocalization.ringEquivOfRingEquiv_eq _ a
   rw [Ideal.map_map, ← he, ← Ideal.map_map, hs, Ideal.map_span, ← Set.range_comp]
@@ -273,7 +272,7 @@ private theorem exists_koszulRegular_append_of_isUnit_coeff
   · rw [heq]
     exact isKoszulRegular_reindex _ (isKoszulRegular_reindex _ hureg)
   · rw [heq, (finCongr (Nat.add_comm 1 n)).surjective.range_comp]
-    show Ideal.span (Set.range (u ∘ Equiv.swap 0 i)) = _
+    change Ideal.span (Set.range (u ∘ Equiv.swap 0 i)) = _
     rw [(Equiv.swap 0 i).surjective.range_comp]
     exact hu
 
@@ -350,7 +349,7 @@ private theorem exists_koszulRegular_numerators
   obtain ⟨F, hF⟩ := exists_numerators_span h f
   have hFspan : Ideal.span (Set.range (fun i => algebraMap R (Localization.Away h) (F i))) =
       I.map (algebraMap R (Localization.Away h)) := by
-    show Ideal.span (Set.range ((algebraMap R (Localization.Away h)) ∘ F)) = _
+    change Ideal.span (Set.range ((algebraMap R (Localization.Away h)) ∘ F)) = _
     rw [Set.range_comp, ← Ideal.map_span, hF, hs]
   refine ⟨h, hh, r, F, fun i => ?_,
     (Koszul.regularity_of_generators_of_eq_span_range _ _ hFspan).2.2 ⟨f, hs.symm, hf⟩,
@@ -423,7 +422,7 @@ private theorem exists_koszulRegular_append_of_derivation
       (isKoszulRegular_algebraMap (S := T) hFreg)
   have ha : IsUnit (a i) := by
     apply IsUnit.mul (Units.isUnit _)
-    show IsUnit (algebraMap L T (algebraMap R L (b i)))
+    change IsUnit (algebraMap L T (algebraMap R L (b i)))
     exact IsLocalization.Away.algebraMap_isUnit _
   have heq : (∑ j, a j * G j) = algebraMap R T t := by
     dsimp only [a, G]
@@ -510,7 +509,7 @@ private theorem isKoszulRegularIdeal_map_eval
   have hker : RingHom.ker ψ =
       Ideal.span (Set.range (fun _ : Fin 1 => algebraMap (Polynomial R) L
         (Polynomial.X - Polynomial.C a))) := by
-    show RingHom.ker (IsLocalization.map S φ _) = _
+    change RingHom.ker (IsLocalization.map S φ _) = _
     rw [IsLocalization.ker_map S φ (Submonoid.map_powers φ d),
       Polynomial.ker_evalRingHom, Ideal.map_span, Set.image_singleton, Set.range_const]
   have hf : Koszul.IsKoszulRegular (fun _ : Fin 1 => algebraMap (Polynomial R) L
@@ -576,7 +575,7 @@ private theorem isKoszulRegularIdeal_comap_eval
   have hq : I ≤ q.asIdeal := by
     intro x hx
     apply hp
-    show Polynomial.eval a (Polynomial.C x) ∈ I
+    change Polynomial.eval a (Polynomial.C x) ∈ I
     simpa using hx
   obtain ⟨h, hh, r, f, hf, hs⟩ := hI q hq
   let L := Localization.Away h
@@ -595,14 +594,14 @@ private theorem isKoszulRegularIdeal_comap_eval
         Polynomial.C.comp (algebraMap R L) := by
       apply RingHom.ext
       intro x
-      show Polynomial.map (algebraMap R L) (Polynomial.C x) = _
+      change Polynomial.map (algebraMap R L) (Polynomial.C x) = _
       exact Polynomial.map_C _
     rw [hC, ← Ideal.map_map, hs, Ideal.map_span, ← Set.range_comp]
     rw [show algebraMap (Polynomial R) S (Polynomial.X - Polynomial.C a) =
       Polynomial.X - Polynomial.C a' by
-        show (Polynomial.mapRingHom (algebraMap R L)) _ = _
+        change (Polynomial.mapRingHom (algebraMap R L)) _ = _
         simp [a']]
-    show _ = Ideal.span (Set.range (Fin.append _ _))
+    change _ = Ideal.span (Set.range (Fin.append _ _))
     rw [range_append, Ideal.span_union, Set.range_const, sup_comm]
     rfl
   obtain ⟨g, hg, hgs⟩ := exists_koszulRegular_away_of_isLocalization S (Polynomial.C h)

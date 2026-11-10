@@ -165,7 +165,7 @@ theorem isZero_Hgroup_one_of_surjective (h₀ : IsAffineOpen U₀) (h₁ : IsAff
       res (abSections F) ((inter_one U₀ U₁ y).le.trans
         ((eq_i₀_or_eq_i₁ (y 0)).resolve_left hy ▸ le_rfl)) b
   refine ⟨mmk V U hU F g, ?_⟩
-  show md V U hU F (mmk V U hU F g) = s
+  change md V U hU F (mmk V U hU F g) = s
   have hcoc : ∀ (y : Fin 3 → ULift.{u} (Fin 2)) {W : Y.Opens} (hW : W ≤ inter U y),
       res (abSections F) (hW.trans (inter_le_reindex U y (Fin.succAbove 0)))
           (mcomp V U hU F s (y ∘ Fin.succAbove 0)) -
@@ -212,11 +212,11 @@ theorem isZero_Hgroup_one_of_surjective (h₀ : IsAffineOpen U₀) (h₁ : IsAff
   have t0 : (tup c₀ c₁ ∘ Fin.succAbove 0) 0 = c₁ := rfl
   have t1 : (tup c₀ c₁ ∘ Fin.succAbove 1) 0 = c₀ := rfl
   rcases eq_i₀_or_eq_i₁ c₀ with rfl | rfl <;> rcases eq_i₀_or_eq_i₁ c₁ with rfl | rfl
-  · simp only [g, dif_pos t0, dif_pos t1]
+  · simp only [g, dite_eq_left t0, dite_eq_left t1]
     rw [hdiag, res_res, res_res]
     simp only [pow_zero, pow_one, one_smul, neg_smul, Fin.val_zero, Fin.val_one]
     exact add_neg_cancel _
-  · simp only [g, dif_neg (t0.trans_ne hne), dif_pos t1]
+  · simp only [g, dite_eq_right (t0.trans_ne hne), dite_eq_left t1]
     rw [res_res, res_res]
     simp only [pow_zero, pow_one, one_smul, neg_smul, Fin.val_zero, Fin.val_one,
       ← sub_eq_add_neg]
@@ -224,7 +224,7 @@ theorem isZero_Hgroup_one_of_surjective (h₀ : IsAffineOpen U₀) (h₁ : IsAff
     refine Eq.trans ?_ hab.symm
     rw [res_sub, res_res, res_res]
     rfl
-  · simp only [g, dif_pos t0, dif_neg (t1.trans_ne hne)]
+  · simp only [g, dite_eq_left t0, dite_eq_right (t1.trans_ne hne)]
     rw [res_res, res_res]
     simp only [pow_zero, pow_one, one_smul, neg_smul, Fin.val_zero, Fin.val_one,
       ← sub_eq_add_neg]
@@ -233,7 +233,7 @@ theorem isZero_Hgroup_one_of_surjective (h₀ : IsAffineOpen U₀) (h₁ : IsAff
     refine hinj e ?_
     refine Eq.trans ?_ hanti.symm
     rw [hab, res_sub, res_res, res_res, neg_sub]
-  · simp only [g, dif_neg (t0.trans_ne hne), dif_neg (t1.trans_ne hne)]
+  · simp only [g, dite_eq_right (t0.trans_ne hne), dite_eq_right (t1.trans_ne hne)]
     rw [hdiag, res_res, res_res]
     simp only [pow_zero, pow_one, one_smul, neg_smul, Fin.val_zero, Fin.val_one]
     exact add_neg_cancel _

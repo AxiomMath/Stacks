@@ -139,8 +139,8 @@ morphism of categories of elements over the base. The image object lies over `A`
 the structural equality, so its underlying point is transported along that equality. -/
 private def elementsPointMap {C : Type u₁} [Category.{v₁} C]
     {F : C ⥤ Type w₁} {H : C ⥤ Type w₂}
-    (φ : BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π F))
-      (BasedCategory.ofFunctor (CategoryOfElements.π H)))
+    (φ : BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π F))
+      (BasedCategory.ofFunctor (Functor.Elements.π H)))
     (A : C) (x : F.obj A) : H.obj A :=
   H.map (eqToHom (φ.w_obj (F.elementsMk A x))) (φ.obj (F.elementsMk A x)).val
 
@@ -148,8 +148,8 @@ private def elementsPointMap {C : Type u₁} [Category.{v₁} C]
 elements of `H` given by `elementsPointMap`. -/
 private def elementsPointIso {C : Type u₁} [Category.{v₁} C]
     {F : C ⥤ Type w₁} {H : C ⥤ Type w₂}
-    (φ : BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π F))
-      (BasedCategory.ofFunctor (CategoryOfElements.π H)))
+    (φ : BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π F))
+      (BasedCategory.ofFunctor (Functor.Elements.π H)))
     (A : C) (x : F.obj A) :
     φ.obj (F.elementsMk A x) ≅ H.elementsMk A (elementsPointMap φ A x) :=
   Functor.Elements.isoMk (eqToIso (φ.w_obj (F.elementsMk A x))) rfl
@@ -157,19 +157,19 @@ private def elementsPointIso {C : Type u₁} [Category.{v₁} C]
 /-- `elementsPointMap` is a natural transformation of set-valued functors. -/
 private theorem elementsPointMap_naturality {C : Type u₁} [Category.{v₁} C]
     {F : C ⥤ Type w₁} {H : C ⥤ Type w₂}
-    (φ : BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π F))
-      (BasedCategory.ofFunctor (CategoryOfElements.π H)))
+    (φ : BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π F))
+      (BasedCategory.ofFunctor (Functor.Elements.π H)))
     {A B : C} (f : A ⟶ B) (x : F.obj A) :
     elementsPointMap φ B (F.map f x) = H.map f (elementsPointMap φ A x) := by
   let a := Functor.Elements.homMk (x := F.elementsMk A x) (y := F.elementsMk B (F.map f x)) f rfl
   have hb : (φ.map a).hom =
       eqToHom (φ.w_obj (F.elementsMk A x)) ≫ f ≫
         eqToHom (φ.w_obj (F.elementsMk B (F.map f x))).symm := by
-    let : (BasedCategory.ofFunctor (CategoryOfElements.π F)).p.IsHomLift f a :=
-      IsHomLift.map (p := CategoryOfElements.π F) a
-    let : (CategoryOfElements.π H).IsHomLift f (φ.map a) :=
+    let : (BasedCategory.ofFunctor (Functor.Elements.π F)).p.IsHomLift f a :=
+      IsHomLift.map (p := Functor.Elements.π F) a
+    let : (Functor.Elements.π H).IsHomLift f (φ.map a) :=
       BasedFunctor.preserves_isHomLift φ f a
-    exact IsHomLift.fac' (CategoryOfElements.π H) f (φ.map a)
+    exact IsHomLift.fac' (Functor.Elements.π H) f (φ.map a)
   dsimp only [elementsPointMap]
   rw [← (φ.map a).map_val, hb]
   exact map_eqToHom_comp H (φ.w_obj (F.elementsMk A x))
@@ -178,8 +178,8 @@ private theorem elementsPointMap_naturality {C : Type u₁} [Category.{v₁} C]
 /-- A full morphism of categories of elements over the base is injective on points. -/
 private theorem elementsPointMap_injective {C : Type u₁} [Category.{v₁} C]
     {F : C ⥤ Type w₁} {H : C ⥤ Type w₂}
-    (φ : BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π F))
-      (BasedCategory.ofFunctor (CategoryOfElements.π H)))
+    (φ : BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π F))
+      (BasedCategory.ofFunctor (Functor.Elements.π H)))
     [φ.toFunctor.Full] (A : C) : Function.Injective (elementsPointMap φ A) := by
   intro x y hxy
   have hv : H.map (eqToHom (φ.w_obj (F.elementsMk A x)) ≫
@@ -190,29 +190,28 @@ private theorem elementsPointMap_injective {C : Type u₁} [Category.{v₁} C]
   let b : φ.obj (F.elementsMk A x) ⟶ φ.obj (F.elementsMk A y) :=
     Functor.Elements.homMk (eqToHom (φ.w_obj (F.elementsMk A x)) ≫
       eqToHom (φ.w_obj (F.elementsMk A y)).symm) hv
-  have hb : (CategoryOfElements.π H).IsHomLift (𝟙 A) b :=
-    IsHomLift.of_fac' (CategoryOfElements.π H) (𝟙 A) b
+  have hb : (Functor.Elements.π H).IsHomLift (𝟙 A) b :=
+    IsHomLift.of_fac' (Functor.Elements.π H) (𝟙 A) b
       (φ.w_obj (F.elementsMk A x)) (φ.w_obj (F.elementsMk A y))
       (eqToHom_comp_eq_id_comp (φ.w_obj (F.elementsMk A x))
         (φ.w_obj (F.elementsMk A y)))
   obtain ⟨c, hc⟩ := φ.toFunctor.map_surjective b
-  have hlift : (CategoryOfElements.π F).IsHomLift (𝟙 A) c := by
-    let : (BasedCategory.ofFunctor (CategoryOfElements.π H)).p.IsHomLift (𝟙 A)
+  have hlift : (Functor.Elements.π F).IsHomLift (𝟙 A) c := by
+    let : (BasedCategory.ofFunctor (Functor.Elements.π H)).p.IsHomLift (𝟙 A)
         (φ.toFunctor.map c) := hc ▸ hb
     exact BasedFunctor.isHomLift_map φ (𝟙 A) c
   let := hlift
   have hcv : c.hom = 𝟙 A := by
-    have h := IsHomLift.fac' (CategoryOfElements.π F) (𝟙 A) c
-    simp [CategoryOfElements.π, Functor.Elements.π] at h
-    exact h.trans (eqToHom_refl _ _)
+    have h := IsHomLift.fac' (Functor.Elements.π F) (𝟙 A) c
+    simpa [Functor.Elements.π] using h
   simpa [hcv] using c.map_val
 
 /-- An essentially surjective morphism of categories of elements over the base is surjective
 on points. -/
 private theorem elementsPointMap_surjective {C : Type u₁} [Category.{v₁} C]
     {F : C ⥤ Type w₁} {H : C ⥤ Type w₂}
-    (φ : BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π F))
-      (BasedCategory.ofFunctor (CategoryOfElements.π H)))
+    (φ : BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π F))
+      (BasedCategory.ofFunctor (Functor.Elements.π H)))
     [φ.toFunctor.EssSurj] (A : C) : Function.Surjective (elementsPointMap φ A) := by
   intro y
   let Y := H.elementsMk A y
@@ -578,14 +577,14 @@ private theorem exists_associatedMorphism_presentation
     (hp : IsCofiberedInGroupoids p)
     (U : ArtinianLocalAlgCat.{u, max v w, w} Λ k ⥤ Type (max v w))
     (R : CompleteLocalAlgCat.{u, max v w, w} Λ k)
-    (α : BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda R)))
+    (α : BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda R)))
       (BasedCategory.ofFunctor p))
     (e : U.Elements ≌ (restrictedCoyoneda R).Elements)
-    (he : e.functor ⋙ CategoryOfElements.π (restrictedCoyoneda R) = CategoryOfElements.π U)
+    (he : e.functor ⋙ Functor.Elements.π (restrictedCoyoneda R) = Functor.Elements.π U)
     (P : ChosenPushforwards p) :
     ∃ (ξ : FormalObject p) (e' : U.Elements ≌ (restrictedCoyoneda ξ.base).Elements),
-      (e'.functor ⋙ CategoryOfElements.π (restrictedCoyoneda ξ.base) =
-          CategoryOfElements.π U) ∧
+      (e'.functor ⋙ Functor.Elements.π (restrictedCoyoneda ξ.base) =
+          Functor.Elements.π U) ∧
         Nonempty { i : e.functor ⋙ α.toFunctor ≅ e'.functor ⋙
           (associatedMorphism hp ξ P).toBasedFunctor.toFunctor //
             ∀ X : U.Elements, p.IsHomLift (𝟙 X.1) (i.hom.app X) } := by
@@ -602,8 +601,8 @@ private theorem exists_associatedMorphism_presentation
       inv := i.inv.toNatTrans
       hom_inv_id := congrArg (fun f => f.toNatTrans) i.hom_inv_id
       inv_hom_id := congrArg (fun f => f.toNatTrans) i.inv_hom_id }
-  let β : BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π U))
-      (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda ξ.base))) :=
+  let β : BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π U))
+      (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda ξ.base))) :=
     ⟨e.functor, he⟩
   exact ⟨ξ, e, he, ⟨⟨Functor.isoWhiskerLeft e.functor i',
     fun X => (BasedCategory.whiskerLeft β i.hom).isHomLift' X⟩⟩⟩
@@ -640,7 +639,7 @@ associated functor are equal: such a fibre is discrete. -/
 public theorem classOf_objectFiber_injective
     {C : Type*} [Category C] (F : C ⥤ Type*) (A : C) :
     Function.Injective (fun x : F.obj A =>
-      classOf (BasedCategory.ofFunctor (CategoryOfElements.π F))
+      classOf (BasedCategory.ofFunctor (Functor.Elements.π F))
         (categoryOfElements_projection_isCofibered F) (objectFiber A x)) := by
   intro x y hxy
   have hiso : IsIsomorphic (objectFiber A x) (objectFiber A y) :=
@@ -654,21 +653,21 @@ public theorem classOf_objectFiber_injective
 special fibre and a morphism representing the derivation. -/
 public theorem derivationToTangentSpace_elements
     (F : ArtinianLocalAlgCat.{u, max v w, w} Λ k ⥤ Type (max v w))
-    (hF : IsPredeformationCategory (CategoryOfElements.π F))
+    (hF : IsPredeformationCategory (Functor.Elements.π F))
     (D : Derivation Λ k k) (x₀ : F.obj (residueFieldObject.{u, v, w} Λ k))
     (f : residueFieldObject.{u, v, w} Λ k ⟶ artinianDualNumbers.{u, w, v} Λ k)
     (hf : IsDerivationMorphism D f) :
-    derivationToTangentSpace (CategoryOfElements.π F) hF D =
-      classOf (BasedCategory.ofFunctor (CategoryOfElements.π F)) hF.cofibered
+    derivationToTangentSpace (Functor.Elements.π F) hF D =
+      classOf (BasedCategory.ofFunctor (Functor.Elements.π F)) hF.cofibered
         (objectFiber (artinianDualNumbers.{u, w, v} Λ k) (F.map f x₀)) := by
-  rw [derivationToTangentSpace_apply (CategoryOfElements.π F) hF D
+  rw [derivationToTangentSpace_apply (Functor.Elements.π F) hF D
     (objectFiber (residueFieldObject.{u, v, w} Λ k) x₀) f hf]
   let a := Functor.Elements.homMk (x := F.elementsMk (residueFieldObject.{u, v, w} Λ k) x₀)
     (y := F.elementsMk (artinianDualNumbers.{u, w, v} Λ k) (F.map f x₀)) f rfl
-  exact @map_classOf _ _ (BasedCategory.ofFunctor (CategoryOfElements.π F)) hF.cofibered
+  exact @map_classOf _ _ (BasedCategory.ofFunctor (Functor.Elements.π F)) hF.cofibered
     _ _ f (objectFiber (residueFieldObject.{u, v, w} Λ k) x₀)
     (objectFiber (artinianDualNumbers.{u, w, v} Λ k) (F.map f x₀)) a
-    (IsHomLift.map (p := CategoryOfElements.π F) a)
+    (IsHomLift.map (p := Functor.Elements.π F) a)
 
 namespace GroupoidInFunctors
 
@@ -676,7 +675,7 @@ namespace GroupoidInFunctors
 public noncomputable def quotientDifferential
     (G : GroupoidInFunctors (ArtinianLocalAlgCat.{u, max v w, w} Λ k)) :
     tangentSpaceArtinian.{u, w, v} Λ k
-        (isomorphismClasses (BasedCategory.ofFunctor (CategoryOfElements.π G.objects))
+        (isomorphismClasses (BasedCategory.ofFunctor (Functor.Elements.π G.objects))
           (categoryOfElements_projection_isCofibered G.objects)) →
       tangentSpaceArtinian.{u, w, v} Λ k
         (isomorphismClasses (BasedCategory.ofFunctor
@@ -691,7 +690,7 @@ public theorem quotientDifferential_classOf
     (G : GroupoidInFunctors (ArtinianLocalAlgCat.{u, max v w, w} Λ k))
     (x : G.objects.obj (artinianDualNumbers.{u, w, v} Λ k)) :
     quotientDifferential.{u, v, w} G
-        (classOf (BasedCategory.ofFunctor (CategoryOfElements.π G.objects))
+        (classOf (BasedCategory.ofFunctor (Functor.Elements.π G.objects))
           (categoryOfElements_projection_isCofibered G.objects)
           (objectFiber (artinianDualNumbers.{u, w, v} Λ k) x)) =
       classOf (BasedCategory.ofFunctor (Grothendieck.forget (evaluationFunctor G)))
@@ -718,7 +717,7 @@ public theorem isNormalized_iff_bijective_quotientDifferential
     (G : GroupoidInFunctors (ArtinianLocalAlgCat.{u, max v w, w} Λ k)) :
     IsNormalized.{u, v, w} G ↔ Function.Bijective (quotientDifferential.{u, v, w} G) := by
   let T := artinianDualNumbers.{u, w, v} Λ k
-  let 𝓤 := BasedCategory.ofFunctor (CategoryOfElements.π G.objects)
+  let 𝓤 := BasedCategory.ofFunctor (Functor.Elements.π G.objects)
   let h𝓤 := categoryOfElements_projection_isCofibered G.objects
   let 𝓠 := BasedCategory.ofFunctor (Grothendieck.forget (evaluationFunctor G))
   let h𝓠 := quotientProjection_cofibered G
@@ -783,7 +782,7 @@ public theorem isDeformationFunctor_arrows_of_isProrepresentable
 functors is a predeformation category. -/
 public theorem objects_isPredeformationCategory_of_isProrepresentable
     (hpro : IsProrepresentable G) :
-    IsPredeformationCategory (CategoryOfElements.π G.objects) :=
+    IsPredeformationCategory (Functor.Elements.π G.objects) :=
   ((isDeformationCategory_iff G.objects).2
     (isDeformationFunctor_objects_of_isProrepresentable G hpro)).predeformation
 
@@ -811,8 +810,8 @@ private theorem quotientClass_eq_associatedPointClass
     (hp : IsPredeformationCategory (Grothendieck.forget (evaluationFunctor G)))
     (ξ : FormalObject (Grothendieck.forget (evaluationFunctor G)))
     (P : ChosenPushforwards (Grothendieck.forget (evaluationFunctor G)))
-    (φ : BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π G.objects))
-      (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda ξ.base))))
+    (φ : BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π G.objects))
+      (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda ξ.base))))
     (i : quotientMorphism G ≅ φ.toFunctor ⋙
       (associatedMorphism hp.cofibered ξ P).toBasedFunctor.toFunctor)
     (hi : ∀ X : G.objects.Elements,
@@ -829,14 +828,15 @@ private theorem quotientClass_eq_associatedPointClass
   let p := Grothendieck.forget (evaluationFunctor G)
   let ψ := (associatedMorphism hp.cofibered ξ P).toBasedFunctor
   let j := elementsPointIso φ A x
-  have hj : (CategoryOfElements.π (restrictedCoyoneda ξ.base)).IsHomLift (𝟙 A) j.hom :=
+  have hj : (Functor.Elements.π (restrictedCoyoneda ξ.base)).IsHomLift (𝟙 A) j.hom :=
     IsHomLift.of_fac _ (𝟙 A) j.hom (φ.w_obj (G.objects.elementsMk A x)) rfl
       (id_eq_eqToHom_symm_comp (φ.w_obj (G.objects.elementsMk A x)))
   have hψj : p.IsHomLift (𝟙 A) (ψ.map j.hom) := by
     let : (BasedCategory.ofFunctor
-      (CategoryOfElements.π (restrictedCoyoneda ξ.base))).p.IsHomLift (𝟙 A) j.hom := hj
+      (Functor.Elements.π (restrictedCoyoneda ξ.base))).p.IsHomLift (𝟙 A) j.hom := hj
     exact BasedFunctor.preserves_isHomLift ψ (𝟙 A) j.hom
-  have hi' : p.IsHomLift (𝟙 A) (i.hom.app (G.objects.elementsMk A x)) := hi (G.objects.elementsMk A x)
+  have hi' : p.IsHomLift (𝟙 A) (i.hom.app (G.objects.elementsMk A x)) :=
+    hi (G.objects.elementsMk A x)
   have hcomp : p.IsHomLift (𝟙 A) (i.hom.app (G.objects.elementsMk A x) ≫ ψ.map j.hom) := by
     let := hi'
     let := hψj
@@ -854,17 +854,17 @@ public theorem isMinimal_iff_quotientDifferential_ker_le_derivationRange
     (hpro : IsProrepresentable G) (hsmooth : IsSmooth G) :
     IsMinimal.{u, v, w, v} G ↔
       ∀ x : tangentSpaceArtinian.{u, w, v} Λ k
-          (isomorphismClasses (BasedCategory.ofFunctor (CategoryOfElements.π G.objects))
+          (isomorphismClasses (BasedCategory.ofFunctor (Functor.Elements.π G.objects))
             (categoryOfElements_projection_isCofibered G.objects)),
         quotientDifferential.{u, v, w} G x =
             quotientDifferential.{u, v, w} G
-              (derivationToTangentSpace (CategoryOfElements.π G.objects)
+              (derivationToTangentSpace (Functor.Elements.π G.objects)
                 (objects_isPredeformationCategory_of_isProrepresentable G hpro) 0) →
-          x ∈ Set.range (derivationToTangentSpace (CategoryOfElements.π G.objects)
+          x ∈ Set.range (derivationToTangentSpace (Functor.Elements.π G.objects)
             (objects_isPredeformationCategory_of_isProrepresentable G hpro)) := by
   classical
   let p := Grothendieck.forget (evaluationFunctor G)
-  let 𝓤 := BasedCategory.ofFunctor (CategoryOfElements.π G.objects)
+  let 𝓤 := BasedCategory.ofFunctor (Functor.Elements.π G.objects)
   let h𝓤 := categoryOfElements_projection_isCofibered G.objects
   let hUpre := objects_isPredeformationCategory_of_isProrepresentable G hpro
   let hp := quotient_isPredeformationCategory_of_isProrepresentable G hpro
@@ -877,7 +877,7 @@ public theorem isMinimal_iff_quotientDifferential_ker_le_derivationRange
   constructor
   · rintro ⟨ξ, P, e, hmin, he, ⟨i, hi⟩⟩ x hx
     let φ : BasedFunctor 𝓤
-        (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda ξ.base))) :=
+        (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda ξ.base))) :=
       ⟨e.functor, he⟩
     let : φ.toFunctor.Full := inferInstanceAs e.functor.Full
     let : φ.toFunctor.EssSurj := inferInstanceAs e.functor.EssSurj
@@ -922,32 +922,32 @@ public theorem isMinimal_iff_quotientDifferential_ker_le_derivationRange
   · intro hkernel
     obtain ⟨R, ⟨hUiso⟩⟩ := ((isProrepresentable_iff_objects_arrows G).1 hpro).1
     let eU := elementsEquivOfNatIso hUiso
-    have heU : eU.functor ⋙ CategoryOfElements.π (restrictedCoyoneda R) =
-        CategoryOfElements.π G.objects := rfl
+    have heU : eU.functor ⋙ Functor.Elements.π (restrictedCoyoneda R) =
+        Functor.Elements.π G.objects := rfl
     have hunit : ∀ X : G.objects.Elements,
-        (CategoryOfElements.π G.objects).IsHomLift (𝟙 X.1) (eU.unitIso.hom.app X) := by
+        (Functor.Elements.π G.objects).IsHomLift (𝟙 X.1) (eU.unitIso.hom.app X) := by
       intro X
-      refine IsHomLift.of_fac' (CategoryOfElements.π G.objects) (𝟙 X.1)
+      refine IsHomLift.of_fac' (Functor.Elements.π G.objects) (𝟙 X.1)
         (eU.unitIso.hom.app X) rfl rfl ?_
-      simp [eU, elementsEquivOfNatIso, CategoryOfElements.π, Functor.Elements.π,
+      simp [eU, elementsEquivOfNatIso, Functor.Elements.π,
         Functor.Elements.isoMk]
       rfl
     let αto : (restrictedCoyoneda R).Elements ⥤ Grothendieck (evaluationFunctor G) :=
       eU.inverse ⋙ quotientMorphism G
-    have hαto : αto ⋙ p = CategoryOfElements.π (restrictedCoyoneda R) := by
+    have hαto : αto ⋙ p = Functor.Elements.π (restrictedCoyoneda R) := by
       change (eU.inverse ⋙ quotientMorphism G) ⋙
         Grothendieck.forget (evaluationFunctor G) =
-          CategoryOfElements.π (restrictedCoyoneda R)
+          Functor.Elements.π (restrictedCoyoneda R)
       rw [Functor.assoc, quotientMorphism_over]
       rfl
     let α : BasedFunctor
-        (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda R)))
+        (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda R)))
         (BasedCategory.ofFunctor p) := ⟨αto, hαto⟩
     let P := chosenPushforwardsOfCofibered p hp.cofibered
     obtain ⟨η, e, he, ⟨i, hi⟩⟩ := exists_associatedMorphism_presentation p hp.cofibered
       G.objects R α eU heU P
     let φ : BasedFunctor 𝓤
-        (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda η.base))) :=
+        (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda η.base))) :=
       ⟨e.functor, he⟩
     let : φ.toFunctor.Full := inferInstanceAs e.functor.Full
     let : φ.toFunctor.EssSurj := inferInstanceAs e.functor.EssSurj
@@ -979,7 +979,7 @@ public theorem isMinimal_iff_quotientDifferential_ker_le_derivationRange
     have hcomp : Deformation.IsSmooth (φ.comp ψ) :=
       isSmooth_of_basedIso jbased ((source_isSmooth_iff_quotient G).mp hsmooth.1)
     have hψ : Deformation.IsSmooth ψ :=
-      isSmooth_of_essSurj_comp (categoryOfElements_projection_isCofibered _) φ ψ hcomp
+      isSmooth_of_essSurj_comp φ ψ hcomp
     have hη : IsVersal hp.cofibered η :=
       (isSmooth_associatedMorphism_iff_isVersal hp.cofibered η P).mp hψ
     refine ⟨η, P, e, ?_, he, ⟨⟨j, hj⟩⟩⟩
@@ -995,7 +995,7 @@ public theorem isMinimal_iff_quotientDifferential_ker_le_derivationRange
       exact tangentVector_ext hbzero
     have hdiff : quotientDifferential.{u, v, w} G (classOf 𝓤 h𝓤 (objectFiber T xT)) =
         quotientDifferential.{u, v, w} G
-          (derivationToTangentSpace (CategoryOfElements.π G.objects) hUpre 0) := by
+          (derivationToTangentSpace (Functor.Elements.π G.objects) hUpre 0) := by
       rwa [quotientDifferential_classOf G xT,
         derivationToTangentSpace_elements G.objects hUpre 0 x₀ f₀ hf₀,
         quotientDifferential_classOf G (G.objects.map f₀ x₀),
@@ -1028,7 +1028,7 @@ public theorem isNormalized_of_isMinimal_of_derivation_eq_zero
     IsNormalized.{u, v, w} G := by
   classical
   let p := Grothendieck.forget (evaluationFunctor G)
-  let 𝓤 := BasedCategory.ofFunctor (CategoryOfElements.π G.objects)
+  let 𝓤 := BasedCategory.ofFunctor (Functor.Elements.π G.objects)
   let h𝓤 := categoryOfElements_projection_isCofibered G.objects
   let 𝓠 := BasedCategory.ofFunctor p
   let h𝓠 := quotientProjection_cofibered G
@@ -1038,7 +1038,7 @@ public theorem isNormalized_of_isMinimal_of_derivation_eq_zero
   refine (isNormalized_iff_bijective_quotientDifferential.{u, v, w} G).2 ⟨?_, ?_⟩
   · obtain ⟨ξ, P, e, hminimal, he, ⟨i, hi⟩⟩ := hmin
     let φ : BasedFunctor 𝓤
-        (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda ξ.base))) :=
+        (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda ξ.base))) :=
       ⟨e.functor, he⟩
     let : φ.toFunctor.Full := inferInstanceAs e.functor.Full
     let ψ := (associatedMorphism hp.cofibered ξ P).toBasedFunctor

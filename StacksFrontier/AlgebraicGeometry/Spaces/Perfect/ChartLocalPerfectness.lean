@@ -178,7 +178,7 @@ theorem exists_slice_model_of_chart_model
   have hGP : IsStrictlyPerfect ((structureRingSheaf B S hS X).over V) (Gc.obj P) := by
     refine ⟨?_, fun j => ?_⟩
     · refine (Set.finite_Icc a b).subset fun i hi => ?_
-      simp only [Set.mem_setOf_eq] at hi
+      simp only [Set.mem_ofPred_eq] at hi
       by_contra hnot
       simp only [Set.mem_Icc, not_and_or, not_le] at hnot
       refine hi (G.map_isZero ?_)

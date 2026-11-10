@@ -204,13 +204,13 @@ theorem exists_basis_of_isIso_biproduct_desc {N : ℕ} (n : Fin N → ℤ) (P : 
       · subst hij
         have hid : ((H (n i)).map (biproduct.π P i)).hom
             (((H (n i)).map (biproduct.ι P i)).hom (g i)) = g i := by
-          show ((H (n i)).map (biproduct.ι P i) ≫ (H (n i)).map (biproduct.π P i)).hom (g i) = _
+          change ((H (n i)).map (biproduct.ι P i) ≫ (H (n i)).map (biproduct.π P i)).hom (g i) = _
           rw [← Functor.map_comp, biproduct.ι_π_self, CategoryTheory.Functor.map_id]
           rfl
         rw [hid]
       · have h0 : ((H (n i)).map (biproduct.π P j)).hom
             (((H (n i)).map (biproduct.ι P i)).hom (g i)) = 0 := by
-          show ((H (n i)).map (biproduct.ι P i) ≫ (H (n i)).map (biproduct.π P j)).hom (g i) = _
+          change ((H (n i)).map (biproduct.ι P i) ≫ (H (n i)).map (biproduct.π P j)).hom (g i) = _
           rw [← Functor.map_comp, biproduct.ι_π_ne _ hij, Functor.map_zero]
           rfl
         rw [h0, map_zero, smul_zero]
@@ -230,10 +230,10 @@ theorem exists_basis_of_isIso_biproduct_desc {N : ℕ} (n : Fin N → ℤ) (P : 
       (DirectSum.lmap_surjective φ).2 fun k => (hbij k).2⟩
   refine ⟨(Module.Basis.mk hli fun x _ => hspanP x).map Φ, fun i => ?_⟩
   rw [Module.Basis.map_apply, Module.Basis.mk_apply]
-  show DirectSum.lmap φ (e i) = _
+  change DirectSum.lmap φ (e i) = _
   rw [DirectSum.lmap_lof]
   congr 1
-  show ((H (n i)).map (biproduct.ι P i) ≫ (H (n i)).map (biproduct.desc d)).hom (g i) = _
+  change ((H (n i)).map (biproduct.ι P i) ≫ (H (n i)).map (biproduct.desc d)).hom (g i) = _
   rw [← Functor.map_comp, biproduct.ι_desc]
 
 end Iso

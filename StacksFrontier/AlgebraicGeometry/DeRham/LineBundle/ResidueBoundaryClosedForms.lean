@@ -87,7 +87,7 @@ theorem singleFunctors_shiftIso_inv_comp_shift_mkHomFromSingle (K : CochainCompl
       ((CategoryTheory.shiftFunctor (CochainComplex V ℤ) (-1)).obj
         ((singleFunctor V 0).obj Z)).X 1 :=
     (HomologicalComplex.single_obj_X_self (ComplexShape.up ℤ) 1 Z).trans (by
-      show Z = ((HomologicalComplex.single V (ComplexShape.up ℤ) 0).obj Z).X (1 + -1)
+      change Z = ((HomologicalComplex.single V (ComplexShape.up ℤ) 0).obj Z).X (1 + -1)
       rw [show (1 : ℤ) + -1 = 0 by omega]
       exact (HomologicalComplex.single_obj_X_self (ComplexShape.up ℤ) 0 Z).symm)
   rw [AlgebraicGeometry.SheafOfModules.singleFunctors_shiftIso_inv_app_f (-1) 1 0 (by omega) Z 1 e,
@@ -234,7 +234,7 @@ theorem Situation.logarithmicDifferentialComplexBase_eq :
         D.unitsComplexBase ⟶ (Stacks.DerivedIndexing.singlePlusFunctor _ 1).obj D.closedForms) ≫
       ObjectProperty.homMk D.closedFormsInclusion := by
   refine ObjectProperty.hom_ext _ (HomologicalComplex.from_single_hom_ext ?_)
-  show (HomologicalComplex.mkHomFromSingle _ D.logarithmicDifferentialBase_d).f 1 =
+  change (HomologicalComplex.mkHomFromSingle _ D.logarithmicDifferentialBase_d).f 1 =
     ((HomologicalComplex.single _ (ComplexShape.up ℤ) 1).map _).f 1 ≫
       (HomologicalComplex.mkHomFromSingle _ D.closedForms_d).f 1
   rw [HomologicalComplex.mkHomFromSingle_f D.logarithmicDifferentialBase

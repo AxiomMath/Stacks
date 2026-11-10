@@ -22,7 +22,8 @@ Three identifications from the library compose to give it, and nothing else is n
 * a section of the internal Hom over `A` *is* a morphism of the two restrictions to the slice,
   which is a morphism of sheaves of modules on the slice because the two restrictions are
   sheaves — `AlgebraicGeometry.Space.smallEtaleInternalHomChartHomEquiv` of
-  `StacksFrontier.AlgebraicGeometry.Spaces.SmallEtaleInternalHomChartHom`, used here at the algebraic
+  `StacksFrontier.AlgebraicGeometry.Spaces.SmallEtaleInternalHomChartHom`, used here at the
+  algebraic
   space `X`, which is the full faithfulness of `CategoryTheory.SheafOfModules.forget` and so only
   wraps and unwraps the one-field structure `CategoryTheory.SheafOfModules.Hom`;
 * morphisms on the slice at a chart are morphisms of the quasi-coherent modules the two become

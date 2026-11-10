@@ -172,7 +172,7 @@ theorem contains_fieldBaseChange [Algebra.IsAlgebraic k kbar] (B : BigEtaleSite.
       (pullback.snd g (Stacks.Frobenius.specAlgebraMap k kbar))
     have hk : #k < B.cutoff := (mk_le_size_of_nonempty g).trans_lt hX
     have hkbar : #kbar ≤ max #k ℵ₀ := Algebra.IsAlgebraic.cardinalMk_le_max k kbar
-    show (pullback g (Stacks.Frobenius.specAlgebraMap k kbar)).size < B.cutoff
+    change (pullback g (Stacks.Frobenius.specAlgebraMap k kbar)).size < B.cutoff
     refine hsnd.trans_lt ?_
     rw [Scheme.size_Spec]
     exact max_lt B.aleph0_lt_cutoff

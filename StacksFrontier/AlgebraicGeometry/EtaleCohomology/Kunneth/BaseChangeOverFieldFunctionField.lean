@@ -81,11 +81,13 @@ def localized (A : Subalgebra k B) (g : B) : Subalgebra k L :=
 
 variable {L}
 
+omit [IsDomain B] [IsFractionRing B L] [IsScalarTower k B L] in
 /-- The image of an element of `A` lies in `A[1/g]`. -/
 theorem algebraMap_mem_localized {A : Subalgebra k B} (g : B) {a : B} (ha : a ∈ A) :
     algebraMap B L a ∈ localized L A g :=
   Algebra.subset_adjoin (Set.mem_insert_of_mem _ ⟨a, ha, rfl⟩)
 
+omit [IsDomain B] [IsFractionRing B L] [IsScalarTower k B L] in
 /-- `1/g` lies in `A[1/g]`. -/
 theorem inv_mem_localized (A : Subalgebra k B) (g : B) :
     (algebraMap B L g)⁻¹ ∈ localized L A g :=
@@ -97,6 +99,7 @@ def toLocalized (A : Subalgebra k B) (g : B) : A →ₐ[k] localized L A g :=
   ((IsScalarTower.toAlgHom k B L).comp A.val).codRestrict _
     fun a => algebraMap_mem_localized g a.2
 
+omit [IsDomain B] in
 /-- **`A[1/g]` is the localization of `A` away from `g`**, for `g ∈ A` nonzero. -/
 theorem isLocalization_away_localized (A : Subalgebra k B) {g : B} (hg : g ∈ A) (hg0 : g ≠ 0) :
     letI : Algebra A (localized L A g) := (toLocalized L A g).toRingHom.toAlgebra
@@ -157,7 +160,7 @@ def Index : Type u :=
 
 /-- Indices are ordered by inclusion of both subalgebras. -/
 instance Index.instPartialOrder : PartialOrder (Index k B L) :=
-  inferInstanceAs (PartialOrder {p : Subalgebra k B × Subalgebra k L // _})
+  inferInstanceAs (PartialOrder (Subtype _))
 
 /-- The finite type subalgebra `A` of an index. -/
 abbrev Index.base (j : Index k B L) : Subalgebra k B := j.1.1
@@ -165,14 +168,17 @@ abbrev Index.base (j : Index k B L) : Subalgebra k B := j.1.1
 /-- The localization `A[1/g]` of an index. -/
 abbrev Index.loc (j : Index k B L) : Subalgebra k L := j.1.2
 
+omit [IsDomain B] [IsFractionRing B L] [IsScalarTower k B L] in
 /-- The subalgebra `A_j` grows with `j`. -/
 theorem Index.base_mono : Monotone (Index.base (k := k) (B := B) (L := L)) :=
   fun _ _ h => h.1
 
+omit [IsDomain B] [IsFractionRing B L] [IsScalarTower k B L] in
 /-- The localization `A_j[1/g_j]` grows with `j`. -/
 theorem Index.loc_mono : Monotone (Index.loc (k := k) (B := B) (L := L)) :=
   fun _ _ h => h.2
 
+omit [IsDomain B] [IsScalarTower k B L] in
 /-- `A[1/g] ⊆ A'[1/g']` when `A ⊆ A'` and `g' = g c` with `c ∈ A'` and `g' ≠ 0`: then
 `1/g = c/g'`. -/
 theorem localized_le {A A' : Subalgebra k B} (hA : A ≤ A') {g g' c : B} (hc : c ∈ A')
@@ -202,13 +208,12 @@ instance Index.isDirected_le : IsDirected (Index k B L) (· ≤ ·) := by
     Subalgebra.mul_mem _ (le_sup_left (a := i.base) hg₁) (le_sup_right (a := i.base) hg₂)
   refine ⟨⟨(i.base ⊔ j.base, localized L (i.base ⊔ j.base) (g₁ * g₂)), hA₁.sup hA₂, g₁ * g₂,
     hmem, hg0, rfl⟩, ⟨le_sup_left, ?_⟩, ⟨le_sup_right, ?_⟩⟩
-  · change i.1.2 ≤ _
-    rw [h₁]
+  · rw [h₁]
     exact localized_le le_sup_left (le_sup_right (a := i.base) hg₂) rfl hg0
-  · change j.1.2 ≤ _
-    rw [h₂]
+  · rw [h₂]
     exact localized_le le_sup_right (le_sup_left (a := i.base) hg₁) (mul_comm _ _) hg0
 
+omit [IsFractionRing B L] [IsScalarTower k B L] in
 /-- Every element of `B` lies in the subalgebra of some index. -/
 theorem Index.exists_mem_base (b : B) : ∃ j : Index k B L, b ∈ j.base :=
   ⟨⟨(Algebra.adjoin k {b}, localized L (Algebra.adjoin k {b}) 1),
@@ -216,6 +221,7 @@ theorem Index.exists_mem_base (b : B) : ∃ j : Index k B L, b ∈ j.base :=
     1, Subalgebra.one_mem _, one_ne_zero, rfl⟩,
     Algebra.subset_adjoin rfl⟩
 
+omit [IsScalarTower k B L] in
 /-- Every element of the fraction field `L` lies in the localization of some index: `x = a/c`
 lies in `k[a, c][1/c]`. -/
 theorem Index.exists_mem_loc (x : L) : ∃ j : Index k B L, x ∈ j.loc := by
@@ -309,6 +315,7 @@ variable (k B L) in
 def locToBase : locSchemes k B L ⟶ baseSchemes k B L :=
   Functor.whiskerRight (NatTrans.op (baseToLoc k B L)) Scheme.Spec
 
+omit [IsDomain B] in
 /-- **`U_j ⟶ S_j` is an open immersion**: `A_j[1/g_j]` is the localization of `A_j` away from
 `g_j` (`isLocalization_away_localized`). -/
 theorem isOpenImmersion_spec_toLoc (j : Index k B L) :
@@ -401,12 +408,14 @@ def isLimitLocCone : IsLimit (locCone k B L) :=
     (isColimitSubalgebraCocone _ Index.loc_mono Index.exists_mem_loc).op)
     (Cone.ext (Iso.refl _) fun _ => (Category.id_comp _).symm)
 
+omit [IsDomain B] [IsFractionRing B L] [IsScalarTower k B L] in
 /-- `Spec(B) ⟶ S_j ⟶ Spec k` is the structure morphism of `Spec(B)`. -/
 theorem baseCone_π_app_comp_baseToField (j : (Index k B L)ᵒᵖ) :
     (baseCone k B L).π.app j ≫ (baseToField k B L).app j =
       Spec.map (CommRingCat.ofHom (algebraMap k B)) :=
   (Spec.map_comp _ _).symm.trans (congrArg Spec.map (by ext; rfl))
 
+omit [IsDomain B] [IsFractionRing B L] in
 /-- `Spec(L) ⟶ U_j ⟶ S_j` is `Spec(L) ⟶ Spec(B) ⟶ S_j`. -/
 theorem locCone_π_app_comp_locToBase (j : (Index k B L)ᵒᵖ) :
     (locCone k B L).π.app j ≫ (locToBase k B L).app j =
@@ -428,11 +437,11 @@ def baseChangeDiagramMapOfHom : baseChangeDiagram D' (γ ≫ st) y ⟶ baseChang
     ((Category.assoc _ _ _).trans pullback.condition)
   naturality i j a := by
     refine pullback.hom_ext ?_ ?_
-    · simp only [Category.assoc, baseChangeDiagram_map_fst, pullback.lift_fst,
-        pullback.lift_fst_assoc, baseChangeDiagram_map_fst_assoc]
+    · simp only [Category.assoc, pullback.lift_fst,
+        pullback.lift_fst_assoc]
       congr 1
       exact γ.naturality a
-    · simp only [Category.assoc, baseChangeDiagram_map_snd, pullback.lift_snd]
+    · simp only [Category.assoc, pullback.lift_snd]
 
 /-- The first component of `D'_j ×_W Y ⟶ D_j ×_W Y`. -/
 @[reassoc (attr := simp)]
@@ -528,6 +537,7 @@ variable {k B L : Type u} [Field k] [CommRing B] [IsDomain B] [Algebra k B]
 
 variable {Z : Scheme.{u}} (sZ : Z ⟶ Spec (.of k)) [LocallyOfFiniteType sZ] [QuasiCompact sZ]
 
+omit [IsDomain B] in
 /-- **The levels: [Stacks, Tag 0F1H].** For an abelian sheaf on `U_j` annihilated by an integer
 `d` invertible in `k`, the base change map of the square `S_j ×_k Z ⟵ U_j ×_k Z` over
 `S_j ⟵ U_j` is an isomorphism in every degree: `U_j ⟶ S_j` is an open immersion of schemes of
@@ -713,7 +723,7 @@ theorem functionFieldBaseChange_of_quasiCompact (k : Type u) [Field k] {Z : Sche
   have hd' : IsUnit ((d : ℤ) : k) :=
     isUnit_of_dvd_unit (by simpa using map_dvd (Int.castRingHom k) hd) hn
   have hs : S'.toSpecΓ ≫ Spec.map (CommRingCat.ofHom (algebraMap k Γ(S', ⊤))) = s := by
-    show S'.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ s.appTop) = s
+    change S'.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ s.appTop) = s
     rw [Spec.map_comp, ← Category.assoc, ← Scheme.toSpecΓ_naturality, Category.assoc,
       ← SpecMap_ΓSpecIso_hom, ← Spec.map_comp, Iso.inv_hom_id, Spec.map_id,
       Category.comp_id]

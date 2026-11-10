@@ -239,7 +239,7 @@ theorem relocalizedInverseImageSquare_hom_app (H : Y.Topos) :
     (f.relocalizedInverseImageSquare s).hom.app H =
       (X.relocalizationMorphismOfTopoi s).inverseImage.map
         ((f.inverseImageCompLocalizationIso G).hom.app H) := by
-  show 𝟙 _ ≫ (X.relocalizationMorphismOfTopoi s).inverseImage.map
+  change 𝟙 _ ≫ (X.relocalizationMorphismOfTopoi s).inverseImage.map
       ((f.inverseImageCompLocalizationIso G).hom.app H) ≫ 𝟙 _ = _
   rw [Category.id_comp, Category.comp_id]
 

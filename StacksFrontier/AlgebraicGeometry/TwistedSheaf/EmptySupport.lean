@@ -40,8 +40,8 @@ There are no new definitions.
   case of Tag 0BEM, with the conclusion in the shape the tagged statement gives it.
 * `SheafOfModules.isZero_of_supp_eq_empty` of
   `StacksFrontier.AlgebraicGeometry.DevissageNoetherian.EmptySupportVanishing`, imported here and
-  stated for an arbitrary sheaf of rings on a topological space: a sheaf of modules with empty support
-  is a zero object.
+  stated for an arbitrary sheaf of rings on a topological space: a sheaf of modules with empty
+  support is a zero object.
 * `AlgebraicGeometry.isZero_twistedSheaf_of_isZero`: every twist of a zero object is a zero
   object.
 * `CategoryTheory.Equivalence.isZero_functor_obj` and
@@ -139,7 +139,9 @@ is stated with `Stacks.SheafOfModules.IsInvertible`, so the witness is carried a
 theorem isZero_tensorSheaf_of_isZero {X : AlgebraicGeometry.Scheme.{u}} (M A : X.Modules)
     [hA : AlgebraicGeometry.SheafOfModules.IsInvertible X.presheaf X.ringCatSheaf.2 A]
     (hM : IsZero M) :
-    IsZero ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨X.presheaf, Presheaf.isSheaf_of_isSheaf_comp _ (X.presheaf) (forget₂ CommRingCat RingCat) (X.ringCatSheaf.2)⟩).obj (M)).obj (A)))
+    IsZero ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨X.presheaf,
+      Presheaf.isSheaf_of_isSheaf_comp _ (X.presheaf) (forget₂ CommRingCat RingCat)
+        (X.ringCatSheaf.2)⟩).obj (M)).obj (A)))
       :=
   let T := (Stacks.SheafOfModules.Tensor.sheafTensor ⟨X.presheaf,
     Presheaf.isSheaf_of_isSheaf_comp _ (X.presheaf) (forget₂ CommRingCat RingCat)

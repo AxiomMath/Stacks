@@ -97,8 +97,9 @@ isomorphism `β` of the source along the canonical square.
 whose factors are presented at the two spellings is accepted while no rewrite by
 `CategoryTheory.Category.assoc` applies to it; every reassociation below is therefore performed
 by the two private lemmas `comp_left` and `comp_right`, stated in an abstract category, as
-`Stacks.Coherent.map_comp_eqToHom_comparison` is in
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/ExceptionalComparisonMapPullbackAux.lean`.
+`Stacks.Coherent.map_comp_eqToHom_comparison` is in the sibling file
+`ExceptionalComparisonMapPullbackAux.lean` of
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/`.
 
 The identification of the two inverse-image ideal sheaves of the corner is a *parameter* `hJ` of
 the comparison and of the square, rather than `Stacks.Coherent.comap_comap_of_comm` applied
@@ -880,7 +881,7 @@ private lemma idealPowerMultiple_comap_ι_eq_bot_of_affine {Y : Scheme.{u}}
         (K.ideal ⟨U.1.ι ''ᵁ (⊤ : U.1.toScheme.Opens), hVa⟩) ^ t =
       Ideal.comap (U.1.ι.appIso (⊤ : U.1.toScheme.Opens)).inv.hom
         (K.ideal ⟨U.1.ι ''ᵁ (⊤ : U.1.toScheme.Opens), hVa⟩ ^ t) := by
-    show Ideal.comap
+    change Ideal.comap
       (U.1.ι.appIso (⊤ : U.1.toScheme.Opens)).commRingCatIsoToRingEquiv.symm _ ^ t =
         Ideal.comap
           (U.1.ι.appIso (⊤ : U.1.toScheme.Opens)).commRingCatIsoToRingEquiv.symm _

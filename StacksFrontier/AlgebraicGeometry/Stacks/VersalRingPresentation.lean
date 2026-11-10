@@ -257,7 +257,8 @@ smooth for the `𝔪_B`-adic topology), the comultiplication `c : B ⟶ B ⊗̂_
 `(A, B, s, t, c)` a cogroupoid, `ξ` induces an equivalence `[A|_{𝒞_Λ} / B|_{𝒞_Λ}] → 𝓕` of groupoids
 cofibred over `𝒞_Λ`, there is an equivalence `[A/B] → 𝓕^` of groupoids cofibred over `𝒞^_Λ`, and
 `A` is a versal ring to `𝒳` at `x₀`. -/
-@[stacks 0DR3 "the unwinding: A with a versal formal object ξ, B with B|_{𝒞_Λ} ≅ A|_{𝒞_Λ} ×_{ξ,F,ξ} \
+@[stacks 0DR3 "the unwinding: A with a versal formal object ξ, B with \
+B|_{𝒞_Λ} ≅ A|_{𝒞_Λ} ×_{ξ,F,ξ} \
 A|_{𝒞_Λ}, the projections formally smooth maps s, t : A → B, (A,B,s,t,c) a cogroupoid, the \
 equivalence [A|_{𝒞_Λ}/B|_{𝒞_Λ}] → F induced by ξ, the equivalence [A/B] → F^ over the completed \
 category, and A a versal ring to 𝒳 at x₀"]

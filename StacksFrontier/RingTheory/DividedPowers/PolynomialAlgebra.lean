@@ -195,7 +195,7 @@ private lemma crossTerm_sum_eq {A : Type*} [CommRing A] {I : Ideal A} (p : ℕ)
     if i ≠ 0 ∧ p - i ≠ 0 then
       factorialInverse p hp hA i * factorialInverse p hp hA (p - i) *
         ((n : A) * (x : A)) ^ i * (x : A) ^ (p - i) else 0
-  show (∑ i ∈ range (p + 1), F i) = _
+  change (∑ i ∈ range (p + 1), F i) = _
   rw [Finset.sum_range_succ, show F p = 0 by simp [F], add_zero, sum_range_pred_succ p hp0 F,
     show F 0 = 0 by simp [F], add_zero]
   unfold normalizedBinomPolyA
@@ -214,7 +214,7 @@ private lemma crossTerm_sum_eq {A : Type*} [CommRing A] {I : Ideal A} (p : ℕ)
     rw [← pow_add]
     congr 1
     omega
-  show (if i + 1 ≠ 0 ∧ p - (i + 1) ≠ 0 then
+  change (if i + 1 ≠ 0 ∧ p - (i + 1) ≠ 0 then
       factorialInverse p hp hA (i + 1) * factorialInverse p hp hA (p - (i + 1)) *
         ((n : A) * (x : A)) ^ (i + 1) * (x : A) ^ (p - (i + 1)) else 0) = _
   rw [ite_eq_left ⟨hi0, by omega⟩, mul_pow, ← hpow, ← inverseFactorial_binom hp hA hi0 hip]
@@ -255,7 +255,7 @@ public lemma factorial_mul_of_smul_add {A : Type*} [CommRing A] (I : Ideal A) (p
       rw [succ_nsmul]
       have hadd := add (n • x) x
       have hcoe : ((n • x : I) : A) = (n : A) * (x : A) := by
-        show n • (x : A) = _
+        change n • (x : A) = _
         simp [nsmul_eq_mul]
       rw [hcoe, crossTerm_sum_eq p hp hA x n] at hadd
       rw [hadd, ih]

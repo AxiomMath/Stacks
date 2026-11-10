@@ -66,7 +66,7 @@ theorem smallEtaleRingedEquivalenceOverChart
         structurePresheaf B S hS (yoneda.obj ((SmallEtale.toOver B S hS Y).obj X))) := by
   obtain ⟨e, htop, htover, _hchart⟩ := smallEtaleEquivalenceOverChart B S hS Y _hY X
   refine ⟨e, htop, htover, ?_⟩
-  show (((e.functor ⋙ Over.forget X ⋙ SmallEtale.toOver B S hS Y) ⋙
+  change (((e.functor ⋙ Over.forget X ⋙ SmallEtale.toOver B S hS Y) ⋙
       BigFppfOver.toScheme B S hS).op ⋙ Scheme.Γ) =
     ((SmallEtale.toOver B S hS (yoneda.obj ((SmallEtale.toOver B S hS Y).obj X)) ⋙
       BigFppfOver.toScheme B S hS).op ⋙ Scheme.Γ)
@@ -129,7 +129,7 @@ theorem affineEtaleEquivalenceOverChart
             ((SmallEtale.toOver B S hS
               (yoneda.obj ((SmallEtale.toOver B S hS Y).obj Xs))).obj A) := by
       simpa using hScheme
-    show IsAffine ((BigFppfOver.toScheme B S hS).obj
+    change IsAffine ((BigFppfOver.toScheme B S hS).obj
         ((SmallEtale.toOver B S hS Y).obj (eSmall.functor.obj A).left)) ↔
       IsAffine ((BigFppfOver.toScheme B S hS).obj
         ((SmallEtale.toOver B S hS
@@ -140,7 +140,7 @@ theorem affineEtaleEquivalenceOverChart
     intro Z W i hZ
     dsimp [Q, ObjectProperty.overLeft, Ptgt, IsAffineChart] at hZ ⊢
     have hi : IsIso i.hom.left := by
-      show IsIso ((Over.forget Xs).map i.hom)
+      change IsIso ((Over.forget Xs).map i.hom)
       infer_instance
     let f := (SmallEtale.toOver B S hS Y).map i.hom.left
     have : IsIso f := by

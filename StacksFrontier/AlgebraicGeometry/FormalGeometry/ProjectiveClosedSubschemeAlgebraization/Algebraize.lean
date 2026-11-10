@@ -151,7 +151,7 @@ public theorem eq_schemeTheoreticSupport_sup_of_epi (𝓘 J : X.IdealSheafData) 
       φ ≫ cokernel.π (C := X.Modules) (idealPowerMultiple 𝓘 m G).ι ≫ e.hom) :
     J = Scheme.Modules.schemeTheoreticSupport G ⊔ 𝓘 ^ m := by
   refine Scheme.IdealSheafData.ext (funext fun U => ?_)
-  show J.ideal U = Module.annihilator Γ(X, U.1) Γ(G, U.1) ⊔ 𝓘.ideal U ^ m
+  change J.ideal U = Module.annihilator Γ(X, U.1) Γ(G, U.1) ⊔ 𝓘.ideal U ^ m
   ext s
   let g := unitHomSectionsLinearMap φ U.1
   have hg : Function.Surjective g :=

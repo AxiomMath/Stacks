@@ -67,7 +67,7 @@ theorem finiteGSetAction_ρ_apply (S : Type w) [MulAction (EtaleFundamentalGroup
     (g : EtaleFundamentalGroup X x) (s : S) :
     ConcreteCategory.hom ((finiteGSetAction x S).ρ g).asHom (finiteShrinkEquiv.{u, w} S s) =
       finiteShrinkEquiv.{u, w} S (g • s) := by
-  show finiteShrinkEquiv.{u, w} S
+  change finiteShrinkEquiv.{u, w} S
       (g • (finiteShrinkEquiv.{u, w} S).symm (finiteShrinkEquiv.{u, w} S s)) = _
   rw [Equiv.symm_apply_apply]
 
@@ -97,7 +97,7 @@ def finiteGSetContAction (S : Type w) [MulAction (EtaleFundamentalGroup X x) S] 
           (fun g => g₀⁻¹ * g) ⁻¹' (MulAction.stabilizer (EtaleFundamentalGroup X x) s :
             Set (EtaleFundamentalGroup X x)) := by
         ext g
-        simp only [Set.mem_setOf_eq, Set.mem_preimage, SetLike.mem_coe,
+        simp only [Set.mem_ofPred_eq, Set.mem_preimage, SetLike.mem_coe,
           MulAction.mem_stabilizer_iff, mul_smul]
         rw [inv_smul_eq_iff, hg₀]
       rw [this]
@@ -140,21 +140,22 @@ theorem exists_finiteEtaleOver_fiber_equiv (S : Type w) [MulAction (EtaleFundame
     ConcreteCategory.congr_hom (c.hom.hom.comm σ) y
   refine ⟨Y, ⟨fun y => e₀.symm (f₀ y), fun s => g₀ (e₀ s), fun y => ?_, fun s => ?_⟩,
     fun σ y => ?_⟩
-  · show g₀ (e₀ (e₀.symm (f₀ y))) = y
+  · change g₀ (e₀ (e₀.symm (f₀ y))) = y
     rw [Equiv.apply_symm_apply]
     exact hgf y
-  · show e₀.symm (f₀ (g₀ (e₀ s))) = s
+  · change e₀.symm (f₀ (g₀ (e₀ s))) = s
     rw [hfg, Equiv.symm_apply_apply]
-  · show e₀.symm (f₀ ((σ.asIso.app Y).hom y)) = σ • e₀.symm (f₀ y)
+  · change e₀.symm (f₀ ((σ.asIso.app Y).hom y)) = σ • e₀.symm (f₀ y)
     have hact := finiteEtaleEquivalenceOfIsGaloisCategory_action X x Y σ y
     change ConcreteCategory.hom ((E.functor.obj Y).obj.ρ σ).asHom y = (σ.asIso.app Y).hom y at hact
     rw [← hact]
     let y' : ToType (E.functor.obj Y).obj.V := y
-    show e₀.symm (f₀ (ConcreteCategory.hom ((E.functor.obj Y).obj.ρ σ).asHom y')) = σ • e₀.symm (f₀ y')
+    change e₀.symm (f₀ (ConcreteCategory.hom ((E.functor.obj Y).obj.ρ σ).asHom y')) =
+      σ • e₀.symm (f₀ y')
     rw [hcomm]
     obtain ⟨s, hs⟩ := e₀.surjective (f₀ y')
     rw [← hs, Equiv.symm_apply_apply]
-    show e₀.symm
+    change e₀.symm
         (ConcreteCategory.hom ((finiteGSetAction x S).ρ σ).asHom (finiteShrinkEquiv.{u, w} S s)) = _
     rw [finiteGSetAction_ρ_apply, Equiv.symm_apply_apply]
 
@@ -172,10 +173,11 @@ theorem exists_hom_of_equivariant {Y Y' : FiniteEtaleOver X}
           intro y
           have h1 := finiteEtaleEquivalenceOfIsGaloisCategory_action X x Y σ y
           have h2 := finiteEtaleEquivalenceOfIsGaloisCategory_action X x Y' σ (f y)
-          change ConcreteCategory.hom ((E.functor.obj Y).obj.ρ σ).asHom y = (σ.asIso.app Y).hom y at h1
-          change ConcreteCategory.hom ((E.functor.obj Y').obj.ρ σ).asHom (f y) = (σ.asIso.app Y').hom (f y)
-            at h2
-          show f (ConcreteCategory.hom ((E.functor.obj Y).obj.ρ σ).asHom y) =
+          change ConcreteCategory.hom ((E.functor.obj Y).obj.ρ σ).asHom y =
+            (σ.asIso.app Y).hom y at h1
+          change ConcreteCategory.hom ((E.functor.obj Y').obj.ρ σ).asHom (f y) =
+            (σ.asIso.app Y').hom (f y) at h2
+          change f (ConcreteCategory.hom ((E.functor.obj Y).obj.ρ σ).asHom y) =
             ConcreteCategory.hom ((E.functor.obj Y').obj.ρ σ).asHom (f y)
           rw [h1, h2]
           exact hf σ y }
@@ -252,7 +254,7 @@ theorem connectedSpace_left_of_isPretransitive (Y : FiniteEtaleOver X)
     change ((τ * σ⁻¹).asIso.app Y).hom ((finiteEtaleFiberFunctor x).map v z) =
       (finiteEtaleFiberFunctor x).map v (((τ * σ⁻¹).asIso.app Z).hom z) at h1
     rw [← h1]
-    show (τ * σ⁻¹) • ((finiteEtaleFiberFunctor x).map v z) = τ • y₀
+    change (τ * σ⁻¹) • ((finiteEtaleFiberFunctor x).map v z) = τ • y₀
     rw [← hσ, smul_smul, inv_mul_cancel_right]
   have hle : Nat.card (F.obj Y) ≤ Nat.card (F.obj Z) :=
     Nat.card_le_card_of_surjective ((finiteEtaleFiberFunctor x).map v) hsurj

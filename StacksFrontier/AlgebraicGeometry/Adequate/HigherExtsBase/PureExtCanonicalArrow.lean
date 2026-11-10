@@ -174,7 +174,7 @@ public lemma pureExtToExt_naturality_left {M M' : ModuleCat.{u} A} (N : ModuleCa
           (Module.homComplexPrecomp g.hom (Module.pureExtResolution (A := A) N)) n).hom x) =
       (Ext.mk₀ ((associatedTilde B).map g)).comp (pureExtToExt B M N n x) (zero_add n) := by
   have := additive_associatedAdequate B
-  show (adequate.{u, u} B).ι.mapExtAddHom _ _ n (Module.pureExtAddEquivExt _ _ _ _
+  change (adequate.{u, u} B).ι.mapExtAddHom _ _ n (Module.pureExtAddEquivExt _ _ _ _
       (fullyFaithfulAssociatedAdequate B) M' N n _) = _
   rw [Module.pureExtAddEquivExt_naturality_left, Functor.mapExtAddHom_apply,
     Ext.mapExactFunctor_comp, Ext.mapExactFunctor_mk₀, ι_map_associatedAdequate]
@@ -208,7 +208,7 @@ public lemma pureExtToExt_naturality_right (M : ModuleCat.{u} A) {N N' : ModuleC
         ((HomologicalComplex.homologyMap (Module.homComplexPostcomp M F) n).hom x) =
       (pureExtToExt B M N n x).comp (Ext.mk₀ ((associatedTilde B).map g)) (add_zero n) := by
   have := additive_associatedAdequate B
-  show (adequate.{u, u} B).ι.mapExtAddHom _ _ n (Module.pureExtAddEquivExt _ _ _ _
+  change (adequate.{u, u} B).ι.mapExtAddHom _ _ n (Module.pureExtAddEquivExt _ _ _ _
       (fullyFaithfulAssociatedAdequate B) M N' n _) = _
   rw [Module.pureExtAddEquivExt_naturality_right _ _ _ _ _ M g F hF, Functor.mapExtAddHom_apply,
     Ext.mapExactFunctor_comp, Ext.mapExactFunctor_mk₀, ι_map_associatedAdequate]
@@ -234,7 +234,7 @@ public lemma bijective_pureExtToExt_iff (M N : ModuleCat.{u} A) (n : ℕ) :
     Function.Bijective (pureExtToExt B M N n) ↔
       Function.Bijective ((adequate.{u, u} B).ι.mapExtAddHom.{u + 1, u + 1}
         ((associatedAdequate B).obj M) ((associatedAdequate B).obj N) n) := by
-  show Function.Bijective (⇑((adequate.{u, u} B).ι.mapExtAddHom.{u + 1, u + 1}
+  change Function.Bijective (⇑((adequate.{u, u} B).ι.mapExtAddHom.{u + 1, u + 1}
       ((associatedAdequate B).obj M) ((associatedAdequate B).obj N) n) ∘
     ⇑(pureExtAddEquivExtAdequate B M N n)) ↔ _
   exact Function.Bijective.of_comp_iff _ (pureExtAddEquivExtAdequate B M N n).bijective

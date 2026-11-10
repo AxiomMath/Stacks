@@ -66,7 +66,7 @@ theorem numberOfBranches_eq_numberOfGeometricBranches_of_sepClosed
     IsSepClosure.equiv (ResidueField A) (SeparableClosure (ResidueField A)) (ResidueField A)
   obtain ⟨f⟩ := exists_algEquiv_of_isHenselization A H S
     (ResidueField A) (SeparableClosure (ResidueField A)) e.symm
-  show (minimalPrimes H).encard = (minimalPrimes S).encard
+  change (minimalPrimes H).encard = (minimalPrimes S).encard
   exact encard_minimalPrimes_eq_of_ringEquiv f.toRingEquiv
 
 namespace Ring

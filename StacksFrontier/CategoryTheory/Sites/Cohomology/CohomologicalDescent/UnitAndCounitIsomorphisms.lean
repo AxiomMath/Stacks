@@ -83,14 +83,16 @@ variable {C : Type u₁} [Category.{v₁} C] {D : Type u₂} [Category.{v₂} D]
 
 /-- The objects `K` of the source of the left adjoint of an adjunction `F ⊣ G` at which the
 unit `K ⟶ G (F K)` is invertible. -/
-@[stacks 0D7Q "variant: the subcategory of objects at which the unit is invertible, for an arbitrary adjunction F ⊣ G; the tag, for the
+@[stacks 0D7Q "variant: the subcategory of objects at which the unit is invertible, for an \
+arbitrary adjunction F ⊣ G; the tag, for the
 derived adjunction Lf^* ⊣ Rf_* of a morphism of ringed topoi, is
 Stacks.Cohomology.CohomologicalDescent.unitIsIso_saturated_triangulated_fullyFaithful"]
 def unitIsIso : ObjectProperty C := fun K ↦ IsIso (adj.unit.app K)
 
 /-- The objects `K` of the source of the right adjoint of an adjunction `F ⊣ G` at which the
 counit `F (G K) ⟶ K` is invertible. -/
-@[stacks 0D7R "variant: the subcategory of objects at which the counit is invertible, for an arbitrary adjunction F ⊣ G; the tag, for the
+@[stacks 0D7R "variant: the subcategory of objects at which the counit is invertible, for an \
+arbitrary adjunction F ⊣ G; the tag, for the
 derived adjunction Lf^* ⊣ Rf_* of a morphism of ringed topoi, is
 Stacks.Cohomology.CohomologicalDescent.counitIsIso_saturated_triangulated_fullyFaithful"]
 def counitIsIso : ObjectProperty D := fun K ↦ IsIso (adj.counit.app K)
@@ -127,7 +129,8 @@ instance counitIsIso_isStableUnderRetracts : adj.counitIsIso.IsStableUnderRetrac
 
 /-- **The unit subcategory is strictly full**: it is closed under isomorphisms, by naturality
 of the unit. -/
-@[stacks 0D7Q "variant: the unit subcategory is strictly full, for an arbitrary adjunction F ⊣ G; the tag, for the
+@[stacks 0D7Q "variant: the unit subcategory is strictly full, for an arbitrary adjunction F ⊣ G; \
+the tag, for the
 derived adjunction Lf^* ⊣ Rf_* of a morphism of ringed topoi, is
 Stacks.Cohomology.CohomologicalDescent.unitIsIso_saturated_triangulated_fullyFaithful"]
 lemma isClosedUnderIsomorphisms_unitIsIso : adj.unitIsIso.IsClosedUnderIsomorphisms :=
@@ -135,7 +138,8 @@ lemma isClosedUnderIsomorphisms_unitIsIso : adj.unitIsIso.IsClosedUnderIsomorphi
 
 /-- **The counit subcategory is strictly full**: it is closed under isomorphisms, by naturality
 of the counit. -/
-@[stacks 0D7R "variant: the counit subcategory is strictly full, for an arbitrary adjunction F ⊣ G; the tag, for the
+@[stacks 0D7R "variant: the counit subcategory is strictly full, for an arbitrary adjunction F ⊣ \
+G; the tag, for the
 derived adjunction Lf^* ⊣ Rf_* of a morphism of ringed topoi, is
 Stacks.Cohomology.CohomologicalDescent.counitIsIso_saturated_triangulated_fullyFaithful"]
 lemma isClosedUnderIsomorphisms_counitIsIso : adj.counitIsIso.IsClosedUnderIsomorphisms :=
@@ -143,7 +147,8 @@ lemma isClosedUnderIsomorphisms_counitIsIso : adj.counitIsIso.IsClosedUnderIsomo
 
 /-- **The unit subcategory is saturated**: a direct summand of an object at which the unit is
 invertible is again such an object. -/
-@[stacks 0D7Q "variant: the unit subcategory is saturated, for an arbitrary adjunction F ⊣ G; the tag, for the
+@[stacks 0D7Q "variant: the unit subcategory is saturated, for an arbitrary adjunction F ⊣ G; the \
+tag, for the
 derived adjunction Lf^* ⊣ Rf_* of a morphism of ringed topoi, is
 Stacks.Cohomology.CohomologicalDescent.unitIsIso_saturated_triangulated_fullyFaithful"]
 instance unitIsIso_isSaturated [HasZeroMorphisms C] : adj.unitIsIso.IsSaturated :=
@@ -151,7 +156,8 @@ instance unitIsIso_isSaturated [HasZeroMorphisms C] : adj.unitIsIso.IsSaturated 
 
 /-- **The counit subcategory is saturated**: a direct summand of an object at which the counit
 is invertible is again such an object. -/
-@[stacks 0D7R "variant: the counit subcategory is saturated, for an arbitrary adjunction F ⊣ G; the tag, for the
+@[stacks 0D7R "variant: the counit subcategory is saturated, for an arbitrary adjunction F ⊣ G; \
+the tag, for the
 derived adjunction Lf^* ⊣ Rf_* of a morphism of ringed topoi, is
 Stacks.Cohomology.CohomologicalDescent.counitIsIso_saturated_triangulated_fullyFaithful"]
 instance counitIsIso_isSaturated [HasZeroMorphisms D] : adj.counitIsIso.IsSaturated :=
@@ -160,7 +166,8 @@ instance counitIsIso_isSaturated [HasZeroMorphisms D] : adj.counitIsIso.IsSatura
 /-- **The left adjoint is fully faithful on the unit subcategory.** The preimage of
 `g : F K ⟶ F L` is the morphism `K ⟶ G (F L)` adjoint to `g`, followed by the inverse of the
 unit at `L`. -/
-@[stacks 0D7Q "variant: the left adjoint is fully faithful on the unit subcategory, for an arbitrary adjunction F ⊣ G; the tag, for the
+@[stacks 0D7Q "variant: the left adjoint is fully faithful on the unit subcategory, for an \
+arbitrary adjunction F ⊣ G; the tag, for the
 derived adjunction Lf^* ⊣ Rf_* of a morphism of ringed topoi, is
 Stacks.Cohomology.CohomologicalDescent.unitIsIso_saturated_triangulated_fullyFaithful"]
 noncomputable def fullyFaithfulιCompLeftAdjoint : (adj.unitIsIso.ι ⋙ F).FullyFaithful where
@@ -184,7 +191,8 @@ noncomputable def fullyFaithfulιCompLeftAdjoint : (adj.unitIsIso.ι ⋙ F).Full
 /-- **The right adjoint is fully faithful on the counit subcategory.** The preimage of
 `g : G A ⟶ G B` is the inverse of the counit at `A`, followed by the morphism `F (G A) ⟶ B`
 adjoint to `g`. -/
-@[stacks 0D7R "variant: the right adjoint is fully faithful on the counit subcategory, for an arbitrary adjunction F ⊣ G; the tag, for the
+@[stacks 0D7R "variant: the right adjoint is fully faithful on the counit subcategory, for an \
+arbitrary adjunction F ⊣ G; the tag, for the
 derived adjunction Lf^* ⊣ Rf_* of a morphism of ringed topoi, is
 Stacks.Cohomology.CohomologicalDescent.counitIsIso_saturated_triangulated_fullyFaithful",
   sga "4 I 6.4" "more general"]
@@ -250,14 +258,16 @@ variable {C : Type u₁} [Category.{v₁} C] {D : Type u₂} [Category.{v₂} D]
 /-- **The unit subcategory is triangulated**: it contains the zero object, is stable under the
 shift because the unit commutes with it, and passes from two vertices of a distinguished
 triangle to the third by the five lemma for triangles. -/
-@[stacks 0D7Q "variant: the unit subcategory is triangulated, for a triangulated adjunction, for an arbitrary adjunction F ⊣ G; the tag, for the
+@[stacks 0D7Q "variant: the unit subcategory is triangulated, for a triangulated adjunction, for \
+an arbitrary adjunction F ⊣ G; the tag, for the
 derived adjunction Lf^* ⊣ Rf_* of a morphism of ringed topoi, is
 Stacks.Cohomology.CohomologicalDescent.unitIsIso_saturated_triangulated_fullyFaithful"]
 instance unitIsIso_isTriangulated : adj.unitIsIso.IsTriangulated :=
   Stacks.DerivedCategoryComparisons.isIso_app_isTriangulated (𝟭 C) (F ⋙ G) adj.unit
 
 /-- **The counit subcategory is triangulated.** -/
-@[stacks 0D7R "variant: the counit subcategory is triangulated, for a triangulated adjunction, for an arbitrary adjunction F ⊣ G; the tag, for the
+@[stacks 0D7R "variant: the counit subcategory is triangulated, for a triangulated adjunction, \
+for an arbitrary adjunction F ⊣ G; the tag, for the
 derived adjunction Lf^* ⊣ Rf_* of a morphism of ringed topoi, is
 Stacks.Cohomology.CohomologicalDescent.counitIsIso_saturated_triangulated_fullyFaithful"]
 instance counitIsIso_isTriangulated : adj.counitIsIso.IsTriangulated :=

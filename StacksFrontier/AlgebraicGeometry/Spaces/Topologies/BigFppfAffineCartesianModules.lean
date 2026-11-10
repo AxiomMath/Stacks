@@ -96,6 +96,7 @@ theorem isIso_restrictionBaseChange_affineRestriction_iff
   exact h₁.trans h₂
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for these limits times out at the default budget (see the docstring)
 /-- Discrete limits of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discrete_presheaf_bigFppfAffineCartesianModules
@@ -134,9 +135,9 @@ theorem isIso_restrictionBaseChange_of_hasGlobalPresentation
   refine Stacks.PresheafOfModules.isIso_restrictionBaseChange_of_eq N.val ?_ ?_
     ((Over.forget V').map ((toSlice T V').map k')) ((Over.forget U).map ((toSlice T U).map k))
     ?_ h₁
-  · show Over.mk ((Iso.refl _).hom ≫ W.obj.hom ≫ U.hom) = Over.mk (W.obj.hom ≫ U.hom)
+  · change Over.mk ((Iso.refl _).hom ≫ W.obj.hom ≫ U.hom) = Over.mk (W.obj.hom ≫ U.hom)
     rw [Iso.refl_hom, Category.id_comp]
-  · show Over.mk ((schemeSpaceFunctor T.schemeSite S T.scheme_mem).map k.hom.left ≫
+  · change Over.mk ((schemeSpaceFunctor T.schemeSite S T.scheme_mem).map k.hom.left ≫
         W.obj.hom ≫ U.hom) = Over.mk (Y.obj.hom ≫ U.hom)
     rw [← Category.assoc, CostructuredArrow.w k.hom]
   · apply Over.OverMorphism.ext
@@ -256,7 +257,7 @@ theorem isIso_restrictionBaseChange_of_locallyPresented
   have hgw : ∀ i, ((ringFunctor T U).map (gw i).op).hom.Flat :=
     fun i ↦ flat_ringFunctor_map_of_flat (gw i) (hflat i)
   have hq : ∀ i, ((ringFunctor T U).map (pullback.fst g (gw i)).op).hom.Flat :=
-    fun i ↦ flat_ringFunctor_of_isPullback V₀ hV₀ e (IsPullback.of_hasPullback g (gw i)) (hgw i)
+    fun i ↦ flat_ringFunctor_of_isPullback V₀ e (IsPullback.of_hasPullback g (gw i)) (hgw i)
   have hff := faithfullyFlat_pi_of_fppf Y (fun i ↦ pullback g (gw i))
     (fun i ↦ pullback.fst g (gw i))
     (Precoverage.mem_coverings_of_isPullback (fun i ↦ G.map (gw i).hom.left) hfppf

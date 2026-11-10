@@ -256,13 +256,13 @@ private theorem toCotangent_eq_of_appLE_toCotangent_eq (h : i ≫ p = j)
   have hiso : Function.Bijective ((Z.presheaf.map (eqToHom hVeq).op).hom) :=
     ConcreteCategory.bijective_of_isIso _
   have hsurj : Function.Surjective (algebraMap Γ(Y, V) Γ(Z, i ⁻¹ᵁ U)) := by
-    show Function.Surjective (j.appLE V (i ⁻¹ᵁ U) hVeq.le).hom
+    change Function.Surjective (j.appLE V (i ⁻¹ᵁ U) hVeq.le).hom
     rw [Scheme.Hom.appLE, hres]
     exact hiso.2.comp (surjective_app_of_le_coborderRange j V hV hVc)
   have hJker : J = RingHom.ker (algebraMap Γ(Y, V) Γ(Z, i ⁻¹ᵁ U)) := by
     refine hJ.symm.trans ?_
     ext a
-    show (j.app V).hom a = 0 ↔ (j.appLE V (i ⁻¹ᵁ U) hVeq.le).hom a = 0
+    change (j.app V).hom a = 0 ↔ (j.appLE V (i ⁻¹ᵁ U) hVeq.le).hom a = 0
     rw [Scheme.Hom.appLE, hres, CommRingCat.comp_apply]
     exact ⟨fun ha => by rw [ha, map_zero], fun ha => hiso.1 (by rw [ha, map_zero])⟩
   have hIJ' : J ≤ Ideal.comap (Algebra.ofId Γ(Y, V) Γ(X, U)) I := fun a ha => hIJ a ha

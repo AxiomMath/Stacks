@@ -1,7 +1,6 @@
 module
 
-public import
-  StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.InternalHomPullbackFlatPseudoCoherent
+public import StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.InternalHomPullbackFlatPseudoCoherent
 public import StacksFrontier.Topology.Sheaves.Cohomology.PerfectComplexes.BasicProperties
 
 /-!

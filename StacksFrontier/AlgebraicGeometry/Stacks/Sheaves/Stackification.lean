@@ -283,7 +283,7 @@ theorem equalizerSieve_mem_inheritedTopology (hp : p.IsFiberedInGroupoids)
       ((congrArg (fun m => Functor.Fiber.fiberInclusion.map m ≫
           Functor.IsPreFibered.pullbackMap y.2 (p.map g)) (hloc (p.map g) hg)).trans
         (Functor.pullbackFiberHom_fac β (p.map g)))
-  show g ≫ a = g ≫ b
+  change g ≫ a = g ≫ b
   exact CategoryTheory.comp_eq_comp_of_fac v _ hv cart hkey hαfac hβfac
 
 /-- **Cover-dense.** A 1-morphism inducing an equivalence of stackifications is cover-dense for

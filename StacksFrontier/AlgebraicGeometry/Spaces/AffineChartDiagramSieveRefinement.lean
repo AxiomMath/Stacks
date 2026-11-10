@@ -81,7 +81,7 @@ theorem exists_affine_chartDiagram_cover_of_sieve (f : X ⟶ Y)
           (indexOfChartDiagram B S hS f d) (φ i)) =
         pullback.fst (chartBaseChangeMap B S hS f d.V (indexOfChartDiagram B S hS f d))
           ((SmallEtale.toOver B S hS Y.1).map (φ i)) := rfl
-    show (SmallEtale.toOver B S hS X.1).map (pullbackIndexChartHom B S hS f
+    change (SmallEtale.toOver B S hS X.1).map (pullbackIndexChartHom B S hS f
         (indexOfChartDiagram B S hS f d) (φ i)) ≫ d.g =
       (pullbackChartDiagram B S hS f (indexOfChartDiagram B S hS f d) (φ i)).g ≫
         (SmallEtale.toOver B S hS Y.1).map (φ i)

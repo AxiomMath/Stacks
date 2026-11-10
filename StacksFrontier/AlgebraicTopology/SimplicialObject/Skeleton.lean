@@ -969,7 +969,7 @@ public theorem skeleton_obj_eq_top_and_hasDimensionLE (X : SSet.{u}) (n : ℕ) :
       HasDimensionLE (X.skeleton (n + 1) : SSet) n := by
   refine ⟨fun i hi => X.skeleton_obj_eq_top (by omega), ?_⟩
   obtain ⟨e, _⟩ := exists_iso_skeleton_hom_ι_eq_skAdj_counit X n
-  show HasDimensionLT (X.skeleton (n + 1) : SSet) (n + 1)
+  change HasDimensionLT (X.skeleton (n + 1) : SSet) (n + 1)
   rw [← hasDimensionLT_iff_of_iso e (n + 1)]
   constructor
   intro m hm

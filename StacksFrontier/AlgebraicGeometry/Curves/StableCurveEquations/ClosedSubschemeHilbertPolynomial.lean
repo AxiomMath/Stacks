@@ -110,7 +110,7 @@ theorem invertibleCurveDegree_pullback_twistOver {Y : Scheme.{u}} (f : Y ⟶ Spe
         Scheme.Modules.pullbackUnitIso ψ
     exact (invertibleCurveDegree_eq_of_iso k f hdim e).trans
       (invertibleCurveDegree_unit_eq_zero k f hdim)
-  show D d = d * D 1
+  change D d = d * D 1
   induction d using Int.induction_on with
   | zero => rw [h0, zero_mul]
   | succ m ih => rw [hadd, ih, add_mul, one_mul]

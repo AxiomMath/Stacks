@@ -133,7 +133,7 @@ theorem dimension_coherentSchemeTheoreticSupport_le (H : Modules.{u, u} B (Spec 
     (isClosedEmbedding_pointsMap_of_isClosedImmersion B (Spec (.of k)) hk X.2 hi).isEmbedding
   have hmem : ∀ p, pointsMap B (Spec (.of k)) hk Z.1 i.hom p ∈
       moduleSupportSet B (Spec (.of k)) hk X H := fun p => by
-    show _ ∈ supportOfSheaf B (Spec (.of k)) hk X.1 _
+    change _ ∈ supportOfSheaf B (Spec (.of k)) hk X.1 _
     rw [hpts]
     exact ⟨p, rfl⟩
   exact (hemb.codRestrict _ hmem).isInducing.topologicalKrullDim_le

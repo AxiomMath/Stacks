@@ -70,7 +70,7 @@ public theorem bigSmoothOver_openCoverData (B : BigSmoothSite.{u}) (S : Scheme.{
   have hpre : V.presieve₀ ∈ B.precoverage T.left := ⟨V, hV, rfl⟩
   have hcover : Sieve.ofArrows W a ∈ BigSmoothOver.topology B S hS T := by
     rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
-    show Sieve.generate V.presieve₀ ∈ B.precoverage.toGrothendieck T.left
+    change Sieve.generate V.presieve₀ ∈ B.precoverage.toGrothendieck T.left
     exact B.precoverage.generate_mem_toGrothendieck hpre
   refine ⟨V.I₀, W, a, β, hcover, fun i y => ?_⟩
   have heval : (BigSmoothOver.toScheme B S hS).map (a i) y = O.f (β i) ((e i).hom y) :=
@@ -112,7 +112,7 @@ public theorem bigSmoothOver_zariski_openCoverData (B : BigSmoothSite.{u}) (S : 
     rw [hpush]
     exact O.mem_grothendieckTopology
   · intro i y
-    show y.1 ∈ U' i
+    change y.1 ∈ U' i
     simpa [U'] using y.2
 
 /-- Locally constant `G`-valued maps form a sheaf on the big smooth site of `S`. -/

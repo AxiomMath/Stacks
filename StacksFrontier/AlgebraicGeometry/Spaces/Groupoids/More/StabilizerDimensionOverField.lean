@@ -141,7 +141,7 @@ private theorem fieldMap_factors_reducedClosedSubscheme
   have hI : Scheme.IdealSheafData.vanishingIdeal Z ≤ f.ker := by
     rw [Scheme.Hom.ker_eq_vanishingIdeal_closure_range f]
     apply Scheme.IdealSheafData.vanishingIdeal_antimono
-    show closure (Set.range f) ⊆ (Z : Set X)
+    change closure (Set.range f) ⊆ (Z : Set X)
     rw [hrange]
     exact closure_minimal (Set.singleton_subset_iff.mpr hxZ) Z.2
   have hIker : (Scheme.IdealSheafData.vanishingIdeal Z).subschemeι.ker ≤ f.ker := by
@@ -163,11 +163,11 @@ private theorem isMultiplicative_inverseImage_etale
         T).IsMultiplicative := by
   refine { toContainsIdentities := ?_, toIsStableUnderComposition := ?_ }
   · exact ⟨fun X => by
-      show _root_.AlgebraicGeometry.Etale (T.map (𝟙 X))
+      change _root_.AlgebraicGeometry.Etale (T.map (𝟙 X))
       rw [T.map_id]
       infer_instance⟩
   · exact ⟨fun f g hf hg => by
-      show _root_.AlgebraicGeometry.Etale (T.map (f ≫ g))
+      change _root_.AlgebraicGeometry.Etale (T.map (f ≫ g))
       rw [T.map_comp]
       let : _root_.AlgebraicGeometry.Etale (T.map f) := hf
       let : _root_.AlgebraicGeometry.Etale (T.map g) := hg
@@ -183,7 +183,7 @@ private theorem inverseImageEtale_presheaf_of_isIso
   intro A D g fst snd hpb
   have : IsIso (yoneda.map snd) := hpb.isIso_snd_of_isIso
   let : IsIso snd := Functor.FullyFaithful.isIso_of_isIso_map Yoneda.fullyFaithful snd
-  show _root_.AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map snd)
+  change _root_.AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map snd)
   infer_instance
 
 /-- The dimension of a scheme over `S`, read as an algebraic space, is the Krull dimension of
@@ -208,7 +208,7 @@ private theorem dimension_schemeSpace (U : BigFppfOver B S hS) :
         topologicalKrullDimAt ((BigFppfOver.toScheme B S hS).obj U) x := by
     simp only [TopologicalSpace.topologicalKrullDimAt_eq_localKrullDim]
     exact TopologicalSpace.topologicalKrullDim_eq_iSup_localKrullDim _
-  show (⨆ q : points B S hS F,
+  change (⨆ q : points B S hS F,
     dimensionAtPoint B S hS F (_root_.AlgebraicGeometry.schemeSpace U).property q) = _
   rw [hs]
   refine le_antisymm (iSup_le fun q => ?_) (iSup_le fun x => ?_)
@@ -240,7 +240,7 @@ private theorem dimension_schemeSpace (U : BigFppfOver B S hS) :
       (p.class B S hS F))
     rw [hd p]
     have hpoint : schemePoint B S hS U p = x := by
-      show (B.inclusion.map (B.inclusion.preimage
+      change (B.inclusion.map (B.inclusion.preimage
         (X := B.obj hsize) (Y := U.left)
         (((BigFppfOver.toScheme B S hS).obj U).fromSpecResidueField x))) _ = x
       rw [B.inclusion.map_preimage]
@@ -267,7 +267,7 @@ private theorem isSeparated_of_eq_yoneda_field {k : Type u} [Field k]
   let π : V ⟶ O := Over.homMk V.hom (Category.comp_id V.hom)
   have hsepY : IsSeparated B S hS (yoneda.map π) :=
     (isSeparated_yoneda_map_iff B S hS π).2 (by
-      show _root_.AlgebraicGeometry.IsSeparated structureMap
+      change _root_.AlgebraicGeometry.IsSeparated structureMap
       exact _root_.AlgebraicGeometry.isSeparated_of_injective structureMap
         (fun x y _ => Subsingleton.elim _ _))
   refine isSeparated_of_comp B S hS f g ?_
@@ -285,11 +285,11 @@ private theorem isClosedImmersion_stabilizerArrow {k : Type u} [Field k]
   have hsep : IsSeparated B S hS G.objectsToBase.hom :=
     isSeparated_of_eq_yoneda_field B S hS hk structureMap hU G.objectsToBase.hom
   have hdiag : IsClosedImmersion B S hS (GroupoidInAlgebraicSpaces.diagonal G).hom := by
-    show IsClosedImmersion B S hS (pullback.diagonal G.objectsToBase.hom)
+    change IsClosedImmersion B S hS (pullback.diagonal G.objectsToBase.hom)
     exact hsep
   have hpb := AlgebraicSpaces.isPullback_fiberProduct B S hS
     (GroupoidInAlgebraicSpaces.sourceTarget G) (GroupoidInAlgebraicSpaces.diagonal G)
-  show IsClosedImmersion B S hS
+  change IsClosedImmersion B S hS
     (pullback.fst (GroupoidInAlgebraicSpaces.sourceTarget G).hom
       (GroupoidInAlgebraicSpaces.diagonal G).hom)
   exact isClosedImmersion_of_isPullback B S hS hpb.flip hdiag
@@ -315,7 +315,7 @@ private theorem dimension_stabilizer_le_arrows {k : Type u} [Field k]
         ((BigFppfOver.toScheme B S hS).map snd) := hi.2 g fst snd hpb
     let : _root_.AlgebraicGeometry.IsClosedImmersion
       ((BigFppfOver.toScheme B S hS).map snd) := hclosed
-    show _root_.AlgebraicGeometry.IsImmersion ((BigFppfOver.toScheme B S hS).map snd)
+    change _root_.AlgebraicGeometry.IsImmersion ((BigFppfOver.toScheme B S hS).map snd)
     infer_instance
   have hmono : Mono i := mono_of_isImmersion B S hS himm
   have hlft : IsLocallyOfFiniteType B S hS i :=
@@ -496,7 +496,7 @@ private theorem identityPoint_dimension_le_stabilizer {k : Type u} [Field k]
   have hsourceMapEq : yoneda.map qU ≫ a ≫ G.source.hom ≫ eqToHom hU =
       yoneda.map qU ≫ a ≫ G.target.hom ≫ eqToHom hU := by
     apply yonedaEquiv.injective
-    show yonedaEquiv ((yoneda.map qU ≫ a) ≫ (G.source.hom ≫ eqToHom hU)) =
+    change yonedaEquiv ((yoneda.map qU ≫ a) ≫ (G.source.hom ≫ eqToHom hU)) =
       yonedaEquiv ((yoneda.map qU ≫ a) ≫ (G.target.hom ≫ eqToHom hU))
     simp only [hchart, yonedaEquiv_comp, Equiv.apply_symm_apply]
     exact congrArg (fun y => (eqToHom hU).app (Opposite.op r.siteObject) y) hsourceTargetValue
@@ -511,7 +511,7 @@ private theorem identityPoint_dimension_le_stabilizer {k : Type u} [Field k]
   let fX : Xc ⟶ Spec (.of k) := I.subschemeι ≫ T.map fs
   let gX : Xc ⟶ Spec (.of k) := I.subschemeι ≫ T.map ft
   have hqeq : s ≫ fX = s ≫ gX := by
-    show s ≫ I.subschemeι ≫ T.map fs = s ≫ I.subschemeι ≫ T.map ft
+    change s ≫ I.subschemeι ≫ T.map fs = s ≫ I.subschemeι ≫ T.map ft
     simpa only [Functor.map_comp, ← Category.assoc, hsFactor] using T.congr_map hqUmaps
   have hfg : fX = gX := by
     let : _root_.AlgebraicGeometry.LocallyOfFiniteType fX := by
@@ -526,7 +526,7 @@ private theorem identityPoint_dimension_le_stabilizer {k : Type u} [Field k]
   let Zobj : BigFppfOver B S hS := Over.mk (zInU ≫ U.hom)
   let zU : Zobj ⟶ U := Over.homMk zInU (by simp [Zobj])
   have hzUmap : T.map zU = I.subschemeι := by
-    show B.inclusion.map
+    change B.inclusion.map
       (B.inclusion.preimage (X := B.obj hxsize) (Y := U.left) I.subschemeι) = I.subschemeι
     rw [B.inclusion.map_preimage]
   have hsiteeq : zU ≫ fs = zU ≫ ft := by
@@ -538,11 +538,11 @@ private theorem identityPoint_dimension_le_stabilizer {k : Type u} [Field k]
   let zObject : Zspace ⟶ G.objects := ObjectProperty.homMk (yoneda.map (zU ≫ fs) ≫ b)
   have he : eqToHom hU ≫ b = 𝟙 G.objects.obj := by simp [b]
   have htarget : zArrow.hom ≫ G.target.hom = zObject.hom := by
-    show yoneda.map zU ≫ a ≫ G.target.hom = yoneda.map (zU ≫ fs) ≫ b
+    change yoneda.map zU ≫ a ≫ G.target.hom = yoneda.map (zU ≫ fs) ≫ b
     rw [hsiteeq, Functor.map_comp, hft_map]
     simp only [Category.assoc, he, Category.comp_id]
   have hsource : zArrow.hom ≫ G.source.hom = zObject.hom := by
-    show yoneda.map zU ≫ a ≫ G.source.hom = yoneda.map (zU ≫ fs) ≫ b
+    change yoneda.map zU ≫ a ≫ G.source.hom = yoneda.map (zU ≫ fs) ≫ b
     rw [Functor.map_comp, hfs_map]
     simp only [Category.assoc, he, Category.comp_id]
   let i : (GroupoidInAlgebraicSpaces.stabilizerOverBase G).obj ⟶ G.arrows.obj :=
@@ -552,7 +552,7 @@ private theorem identityPoint_dimension_le_stabilizer {k : Type u} [Field k]
     ObjectProperty.homMk i
   have hpull : zArrow.hom ≫ (GroupoidInAlgebraicSpaces.sourceTarget G).hom =
       zObject.hom ≫ (GroupoidInAlgebraicSpaces.diagonal G).hom := by
-    show zArrow.hom ≫ pullback.lift G.target.hom G.source.hom _ =
+    change zArrow.hom ≫ pullback.lift G.target.hom G.source.hom _ =
       zObject.hom ≫ pullback.lift (𝟙 G.objects.obj) (𝟙 G.objects.obj) _
     refine pullback.hom_ext ?_ ?_
     · simpa only [Category.assoc, pullback.lift_fst, Category.comp_id] using htarget
@@ -606,7 +606,7 @@ private theorem identityPoint_dimension_le_stabilizer {k : Type u} [Field k]
   let cSpace : _root_.AlgebraicGeometry.schemeSpace Zobj ⟶
     _root_.AlgebraicGeometry.schemeSpace W := _root_.AlgebraicGeometry.schemeSpaceMap c
   have hcQF : IsLocallyQuasiFinite B S hS cSpace.hom := by
-    show HoldsOnEveryEtaleChart B S hS
+    change HoldsOnEveryEtaleChart B S hS
       ((@_root_.AlgebraicGeometry.LocallyOfFiniteType.{u} : MorphismProperty Scheme.{u}) ⊓
         (@_root_.AlgebraicGeometry.LocallyQuasiFinite.{u} : MorphismProperty Scheme.{u}))
       (yoneda.map c)
@@ -617,7 +617,7 @@ private theorem identityPoint_dimension_le_stabilizer {k : Type u} [Field k]
     let eZ := yoneda.preimageIso (yoneda.obj Zobj).reprW
     let eW := yoneda.preimageIso (yoneda.obj W).reprW
     simp only [Functor.preimage_comp, Functor.preimage_map]
-    show _root_.AlgebraicGeometry.LocallyOfFiniteType (T.map (eZ.hom ≫ c ≫ eW.inv)) ∧
+    change _root_.AlgebraicGeometry.LocallyOfFiniteType (T.map (eZ.hom ≫ c ≫ eW.inv)) ∧
       _root_.AlgebraicGeometry.LocallyQuasiFinite (T.map (eZ.hom ≫ c ≫ eW.inv))
     simp only [Functor.map_comp]
     have hclosed' : _root_.AlgebraicGeometry.IsClosedImmersion

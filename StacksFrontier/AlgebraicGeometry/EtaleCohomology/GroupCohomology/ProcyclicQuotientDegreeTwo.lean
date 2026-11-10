@@ -115,15 +115,15 @@ theorem exists_isLocallyConstant_extend_of_isClosed {N : Subgroup G} (hN : IsClo
         rwa [show (n : G)⁻¹ * g₀ * (g₀⁻¹ * g) = (n : G)⁻¹ * g by group] at this
     by_cases h : ∃ n : N, (n : G)⁻¹ * g₀ ∈ W
     · have h' := hiff.mpr h
-      simp only [b', dif_pos h, dif_pos h']
+      simp only [b', dite_eq_left h, dite_eq_left h']
       refine key _ _ ?_
       have := W.mul_mem (W.mul_mem h.choose_spec hg) (W.inv_mem h'.choose_spec)
       rwa [show (h.choose : G)⁻¹ * g₀ * (g₀⁻¹ * g) * ((h'.choose : G)⁻¹ * g)⁻¹ =
         (h.choose : G)⁻¹ * h'.choose by group] at this
     · have h' : ¬ ∃ n : N, (n : G)⁻¹ * g ∈ W := fun h' => h (hiff.mp h')
-      simp only [b', dif_neg h, dif_neg h']
+      simp only [b', dite_eq_right h, dite_eq_right h']
   · have h : ∃ n' : N, (n' : G)⁻¹ * n ∈ W := ⟨n, by simp [W.one_mem]⟩
-    simp only [b', dif_pos h]
+    simp only [b', dite_eq_left h]
     exact (key _ _ h.choose_spec).symm
 
 end Extend
@@ -223,14 +223,17 @@ of `N`. When `c` is a cocycle vanishing on `N × N`, it is the defect of conjuga
 section over `g` on the splitting over `N` of the extension defined by `c`. -/
 def conjDiff (c : G × G → M) (g : G) : N → M := fun n => c (g, conjInv N g n) - c (n, g)
 
+omit [DistribMulAction G M] in
 @[simp] lemma conjDiff_apply (c : G × G → M) (g : G) (n : N) :
     conjDiff N c g n = c (g, g⁻¹ * n * g) - c (n, g) := rfl
 
+omit [DistribMulAction G M] in
 /-- `ψ_g` is additive in the `2`-cochain `c`. -/
 lemma conjDiff_add (c c' : G × G → M) (g : G) :
     conjDiff N (c + c') g = conjDiff N c g + conjDiff N c' g := by
   funext n; simp only [conjDiff_apply, Pi.add_apply]; abel
 
+omit [DistribMulAction G M] in
 /-- `ψ_g` commutes with subtraction of `2`-cochains. -/
 lemma conjDiff_sub (c c' : G × G → M) (g : G) :
     conjDiff N (c - c') g = conjDiff N c g - conjDiff N c' g := by
@@ -257,7 +260,7 @@ lemma isCocycle₁_conjDiff {c : G × G → M} (hc : IsCocycle₂ c)
   rw [e3] at h2
   rw [hcN n n' n.2 n'.2, add_zero] at h3
   simp only [conjDiff_apply, Subgroup.coe_mul, e1, Subgroup.smul_def, smul_sub]
-  show c (g, a * a') - c ((n : G) * n', g) = (n : G) • c (g, a') - (n : G) • c (n', g) +
+  change c (g, a * a') - c ((n : G) * n', g) = (n : G) • c (g, a') - (n : G) • c (n', g) +
     (c (g, a) - c (n, g))
   rw [← h1] at *
   have : c ((n : G) * g, a') = (n : G) • c (g, a') + c (n, n' * g) - c (n, g) := by
@@ -266,6 +269,7 @@ lemma isCocycle₁_conjDiff {c : G × G → M} (hc : IsCocycle₂ c)
     rw [h3]; abel]
   abel
 
+omit [DistribMulAction G M] in
 /-- `ψ_n = 0` for `n ∈ N` when `c` vanishes on `N × N`. -/
 lemma conjDiff_of_mem {c : G × G → M} (hcN : ∀ n n' : G, n ∈ N → n' ∈ N → c (n, n') = 0)
     {g : G} (hg : g ∈ N) : conjDiff N c g = 0 := by
@@ -290,7 +294,7 @@ lemma conjDiff_mul {c : G × G → M} (hc : IsCocycle₂ c) (g h : G) :
   rw [e2] at h2
   simp only [conjDiff_apply, Pi.add_apply, conjAct_apply, dZero_apply, coe_conjInv,
     Subgroup.smul_def, smul_sub, ea]
-  show c (g * h, a) - c (n, g * h) = c (g, b) - c (n, g) + (g • c (h, a) - g • c (b, h)) +
+  change c (g * h, a) - c (n, g * h) = c (g, b) - c (n, g) + (g • c (h, a) - g • c (b, h)) +
     ((n : G) • c (g, h) - c (g, h))
   have k1 : c (g * h, a) = g • c (h, a) + c (g, b * h) - c (g, h) := by rw [← h1]; abel
   have k2 : c (g, b * h) = c ((n : G) * g, h) + c (g, b) - g • c (b, h) := by rw [h2]; abel
@@ -382,7 +386,7 @@ lemma LcH1.mk_surjective : Function.Surjective (LcH1.mk F (K := K) (M := M)) :=
 /-- The class of a locally constant `1`-cocycle vanishes if and only if it is a coboundary. -/
 lemma LcH1.mk_eq_zero_iff (z : lcCocycles₁ F K M) :
     LcH1.mk F (K := K) (M := M) z = 0 ↔ ∃ m : M, dZero m = (z : K → M) := by
-  show Submodule.Quotient.mk z = 0 ↔ _
+  change Submodule.Quotient.mk z = 0 ↔ _
   rw [Submodule.Quotient.mk_eq_zero]
   exact LinearMap.mem_range
 
@@ -474,17 +478,21 @@ private lemma dOne_apply_of_forall_eq {P A : Type*} [Group P] [AddCommGroup A]
   rw [← hz' (n * n')]
   rfl
 
+omit [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G] hN in
 /-- The coboundary map `dZero` on `N` is additive. -/
 lemma dZero_add' (m m' : M) : dZero (G := N) (m + m') = dZero m + dZero m' := by
   funext g; simp only [dZero_apply, smul_add, Pi.add_apply]; abel
 
+omit [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G] hN in
 /-- The coboundary of `0` on `N` is `0`. -/
 lemma dZero_zero' : dZero (G := N) (0 : M) = 0 := by funext g; simp
 
+omit [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G] hN in
 /-- The coboundary map `dZero` on `N` commutes with negation. -/
 lemma dZero_neg' (m : M) : dZero (G := N) (-m) = -dZero m := by
   funext g; simp only [dZero_apply, smul_neg, Pi.neg_apply]; abel
 
+omit [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G] hN in
 /-- With `M ^ N = 0`, a `0`-cochain is determined by its coboundary on `N`. -/
 lemma eq_of_dZero_eq (hfix : ∀ m : M, (∀ n ∈ N, n • m = m) → m = 0) {m m' : M}
     (h : dZero (G := N) m = dZero m') : m = m' := by
@@ -494,7 +502,7 @@ lemma eq_of_dZero_eq (hfix : ∀ m : M, (∀ n ∈ N, n • m = m) → m = 0) {m
   rw [smul_sub]
   exact sub_eq_sub_iff_sub_eq_sub.mp this
 
-omit [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G] in
+omit [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G] in
 /-- A `2`-cocycle minus the coboundary of a `1`-cochain is a `2`-cocycle. -/
 lemma isCocycle₂_sub_dOne {c : G × G → M} (hc : IsCocycle₂ c) (x : G → M) :
     IsCocycle₂ (c - dOne x) := by
@@ -538,7 +546,7 @@ lemma exists_openNormalSubgroup_conjAct_eq (hNc : IsClosed (N : Set G))
     hW₁ _ (hW (inv_mul_inv_mul_mem W.isNormal' hw n)).1
   rw [e, hV n _ hmem]
   have := hwU.2
-  simp only [Set.mem_iInter, Set.mem_range, Set.mem_setOf_eq, forall_exists_index,
+  simp only [Set.mem_iInter, Set.mem_range, Set.mem_ofPred_eq, forall_exists_index,
     forall_apply_eq_imp_iff] at this
   exact this n
 
@@ -687,18 +695,20 @@ variable (F : Type w) [Field F] {G : Type u} [Group G] [TopologicalSpace G] [IsT
   [CompactSpace G] [TotallyDisconnectedSpace G] {M : Type v} [AddCommGroup M]
   [DistribMulAction G M] [Module F M] [SMulCommClass G F M] {N : Subgroup G} [hN : N.Normal]
 
-omit [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G] in
+omit [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G] in
 /-- `conjAct N g` commutes with scalar multiplication by `F`. -/
 lemma conjAct_smul (g : G) (a : F) (z : N → M) : conjAct N g (a • z) = a • conjAct N g z := by
   funext n; simp [smul_comm g a]
 
-omit [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G] in
+omit [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G]
+  [DistribMulAction G M] [SMulCommClass G F M] in
 /-- `ψ_g` of an `F`-linear combination of `2`-cochains is the same combination of the `ψ_g`. -/
 lemma conjDiff_sum {r : ℕ} (a : Fin r → F) (c : Fin r → G × G → M) (g : G) :
     conjDiff N (∑ i, a i • c i) g = ∑ i, a i • conjDiff N (c i) g := by
   funext n
   simp only [conjDiff_apply, Finset.sum_apply, Pi.smul_apply, smul_sub, Finset.sum_sub_distrib]
 
+omit [CompactSpace G] [TotallyDisconnectedSpace G] in
 /-- The conjugate of a locally constant cochain of `N` is locally constant. -/
 lemma isLocallyConstant_conjAct {z : N → M} (hz : IsLocallyConstant z) (g : G) :
     IsLocallyConstant (conjAct N g z) :=
@@ -712,6 +722,7 @@ def conjActCocycles (σ : G) : lcCocycles₁ F N M →ₗ[F] lcCocycles₁ F N M
   map_add' z z' := Subtype.ext (conjAct_add N σ z.1 z'.1)
   map_smul' a z := Subtype.ext (conjAct_smul F (N := N) σ a z.1)
 
+omit [CompactSpace G] [TotallyDisconnectedSpace G] in
 @[simp] lemma coe_conjActCocycles (σ : G) (z : lcCocycles₁ F N M) :
     (conjActCocycles F M N σ z : N → M) = conjAct N σ z := rfl
 
@@ -725,11 +736,13 @@ def conjActSubOne (σ : G) : LcH1 F N M →ₗ[F] LcH1 F N M :=
     have hm' : dZero m = z.1 := hm
     rw [← hm', conjAct_dZero, sub_eq_add_neg, dZero_add', dZero_neg', ← sub_eq_add_neg])
 
+omit [CompactSpace G] [TotallyDisconnectedSpace G] in
 /-- `σ - 1` sends the class of `z` to the class of `σ · z - z`. -/
 lemma conjActSubOne_mk (σ : G) (z : lcCocycles₁ F N M) :
     conjActSubOne F M N σ (LcH1.mk F (K := N) (M := M) z) =
       LcH1.mk F (K := N) (M := M) (conjActCocycles F M N σ z - z) := rfl
 
+omit [CompactSpace G] [TotallyDisconnectedSpace G] in
 /-- The `k`-th power of conjugation by `σ` on cocycles is conjugation by `σ ^ k`. -/
 lemma coe_pow_conjActCocycles (σ : G) (k : ℕ) (z : lcCocycles₁ F N M) :
     (((conjActCocycles F M N σ) ^ k) z : N → M) = conjAct N (σ ^ k) z := by
@@ -800,7 +813,7 @@ theorem card_le_finrank_of_linearIndependent_cocycles₂ (hNc : IsClosed (N : Se
     obtain ⟨y, hyl, hy, hyz⟩ := exists_extend_isCocycle₁ hNc hM hfix hσ z.2.1 z.2.2 m₀
       (show conjAct N σ z.1 - z.1 = dZero m₀ from hm₀.symm)
     refine ⟨LcH1.mk F (K := G) (M := M) ⟨y, hyl, hy⟩, ?_⟩
-    show LcH1.mk F (K := N) (M := M) (restrictCocycles F M N ⟨y, hyl, hy⟩) = _
+    change LcH1.mk F (K := N) (M := M) (restrictCocycles F M N ⟨y, hyl, hy⟩) = _
     congr 1
     exact Subtype.ext (funext hyz)
   have : FiniteDimensional F (LinearMap.ker T) :=
@@ -824,7 +837,7 @@ theorem card_le_finrank_of_linearIndependent_cocycles₂ (hNc : IsClosed (N : Se
       refine Submodule.sub_mem _ ?_ (Submodule.subset_span ⟨i, rfl⟩)
       have e : C ((C ^ (i : ℕ)) z) = (C ^ ((i : ℕ) + 1)) z := by
         rw [pow_succ', Module.End.mul_apply]
-      show LcH1.mk F (K := N) (M := M) (C ((C ^ (i : ℕ)) z)) ∈ _
+      change LcH1.mk F (K := N) (M := M) (C ((C ^ (i : ℕ)) z)) ∈ _
       rw [e]
       by_cases hi : (i : ℕ) + 1 < k
       · exact Submodule.subset_span ⟨⟨(i : ℕ) + 1, hi⟩, rfl⟩

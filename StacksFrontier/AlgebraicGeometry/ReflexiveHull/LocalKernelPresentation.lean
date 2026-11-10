@@ -162,7 +162,8 @@ public abbrev sliceDual (X : Scheme.{u}) (U : X.Opens) :
 
 /-- **The restriction of the dual, as the internal hom of the monoidal closed structure.**  This
 is `dualSheafOverIso` followed by the internal-Hom bridge `ihomIsoInternalHom`, which is what
-makes the first-variable continuity of `StacksFrontier/Algebra/Category/ModuleCat/Presheaf/SheafInternalHomFirstVariable.lean` apply to the
+makes the first-variable continuity of
+`StacksFrontier/Algebra/Category/ModuleCat/Presheaf/SheafInternalHomFirstVariable.lean` apply to the
 dual. -/
 public def dualSheafOverIhomIso (X : Scheme.{u}) (U : X.Opens) (F : X.Modules) :
     (dualSheaf F).over U ≅ (sliceDual X U).obj (op (F.over U)) :=

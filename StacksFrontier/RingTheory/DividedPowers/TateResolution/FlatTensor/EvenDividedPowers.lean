@@ -57,10 +57,10 @@ private theorem positiveEvenIdeal_tensorHom_le
   rw [Ideal.map_map]
   apply Ideal.map_le_iff_le_comap.mpr
   intro b hb
-  show ((E : B ⊗[R] P →+* evenSubalgebra (R := P) 𝒜')
+  change ((E : B ⊗[R] P →+* evenSubalgebra (R := P) 𝒜')
     ((Algebra.TensorProduct.includeLeftRingHom : B →+* B ⊗[R] P) b)) ∈
       positiveEvenIdeal (R := P) 𝒜'
-  show ((evenSubalgebraTensorHom 𝒜 (b ⊗ₜ[R] (1 : P)) :
+  change ((evenSubalgebraTensorHom 𝒜 (b ⊗ₜ[R] (1 : P)) :
     evenSubalgebra (R := P) 𝒜') : P ⊗[R] A) ∈ positiveEvenPart 𝒜'
   rw [evenSubalgebraTensorHom_tmul, positiveEvenPart_baseChange]
   exact Submodule.tmul_mem_baseChange_of_mem 1 hb
@@ -109,7 +109,7 @@ private theorem positiveEvenIdeal_tensorHom_eq
             (Ideal.mem_map_of_mem _ ha)
         convert hb using 1
         apply Subtype.ext
-        show (1 : P) ⊗ₜ[R] a =
+        change (1 : P) ⊗ₜ[R] a =
           ((evenSubalgebraTensorHom 𝒜 (b ⊗ₜ[R] (1 : P)) :
             evenSubalgebra (R := P) 𝒜') : P ⊗[R] A)
         rw [evenSubalgebraTensorHom_tmul]
@@ -170,7 +170,7 @@ private theorem positiveEvenProjection_comp_subtype
       (Submodule.restrictScalars R (positiveEvenIdeal 𝒜)).subtype =
         LinearMap.id := by
   ext x
-  show (x : A) - (GradedAlgebra.proj 𝒜 0) x = x
+  change (x : A) - (GradedAlgebra.proj 𝒜 0) x = x
   rw [proj_zero_of_positive 𝒜 x x.property, sub_zero]
 
 private theorem positiveEvenIdeal_tensor_kernel
@@ -536,20 +536,20 @@ private theorem dividedPowersOnBaseChangedEven_dpow_tmul_grade
     γ.dpow_mem_grade hn hb hbgrade
   rw [dividedPowersOnBaseChangedEven_dpow_tmul 𝒜
     (dividedPowersOnEven 𝒜 γ) n b hb p]
-  show ((E ((1 ⊗ₜ[R] p) ^ n *
+  change ((E ((1 ⊗ₜ[R] p) ^ n *
     ((dividedPowersOnEven 𝒜 γ).dpow n b ⊗ₜ[R] (1 : P))) :
       evenSubalgebra 𝒜') : P ⊗[R] A) ∈ 𝒜' (2 * n * d)
   rw [map_mul, map_pow]
   simp only [Subalgebra.coe_mul, Subalgebra.coe_pow]
   rw [show ((E (1 ⊗ₜ[R] p) : evenSubalgebra 𝒜') : P ⊗[R] A) =
       p ⊗ₜ[R] (1 : A) by
-        show ((evenSubalgebraTensorHom 𝒜 (1 ⊗ₜ[R] p) :
+        change ((evenSubalgebraTensorHom 𝒜 (1 ⊗ₜ[R] p) :
           evenSubalgebra 𝒜') : P ⊗[R] A) = p ⊗ₜ[R] (1 : A)
         exact evenSubalgebraTensorHom_tmul 𝒜 (1 : evenSubalgebra 𝒜) p,
     show ((E ((dividedPowersOnEven 𝒜 γ).dpow n b ⊗ₜ[R] (1 : P)) :
       evenSubalgebra 𝒜') : P ⊗[R] A) =
       (1 : P) ⊗ₜ[R] γ.dpow n b by
-        show ((evenSubalgebraTensorHom 𝒜
+        change ((evenSubalgebraTensorHom 𝒜
           ((dividedPowersOnEven 𝒜 γ).dpow n b ⊗ₜ[R] (1 : P)) :
           evenSubalgebra 𝒜') : P ⊗[R] A) = (1 : P) ⊗ₜ[R] γ.dpow n b
         simpa only [dividedPowersOnEven, evenDpow_coe] using evenSubalgebraTensorHom_tmul 𝒜

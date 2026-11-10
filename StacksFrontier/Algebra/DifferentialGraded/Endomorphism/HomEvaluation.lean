@@ -145,7 +145,7 @@ theorem LeftAction.exists_leftModule (A : DifferentialGradedAlgebra.{u, v} R)
     refine Eq.trans
       (congrArg ((CochainComplex.endomorphismDGA X).cochainEquiv p) (Subtype.ext ?_))
       (c.property s p a)
-    show (DifferentialGradedModule.oppEndOpposite X).equiv
+    change (DifferentialGradedModule.oppEndOpposite X).equiv
       ((DifferentialGradedModule.oppEndOpposite X).equiv.symm
         ((c.val s).toAlgebraHom (O.equiv (b : O.toDifferentialGradedAlgebra.A)))) = _
     rw [LinearEquiv.apply_symm_apply]
@@ -176,7 +176,7 @@ theorem LeftAction.exists_leftModule (A : DifferentialGradedAlgebra.{u, v} R)
         (⟨MulOpposite.op (b : O.toDifferentialGradedAlgebra.A) • (z : P.M),
           P.smul_mem q p z b z.property b.property⟩ : P.grading (q + p)) := by
     apply Subtype.ext
-    show k.hom.toFun (U.symm ((a : A.A) • (x : L.M))) = _
+    change k.hom.toFun (U.symm ((a : A.A) • (x : L.M))) = _
     rw [hm, show k.hom.toFun ((p * q).negOnePow •
         (MulOpposite.op (b : O.toDifferentialGradedAlgebra.A) •
           (y : (F.equivalence.functor.obj L).M))) =
@@ -248,7 +248,7 @@ private theorem signedComp_apply_heq (A : DifferentialGradedAlgebra.{u, v} R)
         M.smul_mem n p (x : M.M) (a : A.A) x.property a.property⟩ : M.grading (n + p)))) ?_)
     (signed_cochain_apply_heq (K := M.toCochainComplex) g (by omega) (by omega)
       (p * (q + n)).negOnePow _)
-  show (p * q).negOnePow •
+  change (p * q).negOnePow •
       ((g.v (n + p) (n + (q + p)) (by omega)).hom
         (((t.action p a).v n (n + p) rfl).hom x)) = _
   rw [ht p n a x]
@@ -362,7 +362,7 @@ theorem exists_homRightModule (A : DifferentialGradedAlgebra.{u, v} R)
           (τ.map_grading p (a : A.A) a.property)⟩ = sB.action p b := by
     refine Eq.trans (congrArg _ (Subtype.ext ?_))
       ((O.toDifferentialGradedAlgebra.leftActionEquivHom _).property sB p b)
-    show (DifferentialGradedModule.oppEndOpposite
+    change (DifferentialGradedModule.oppEndOpposite
         (HomComplexR R (toCochainComplex A L) N)).equiv
       ((DifferentialGradedModule.oppEndOpposite
         (HomComplexR R (toCochainComplex A L) N)).equiv.symm
@@ -371,7 +371,7 @@ theorem exists_homRightModule (A : DifferentialGradedAlgebra.{u, v} R)
     rfl
   have hba : ((DifferentialGradedAlgebra.Opposite.involution A O).gradingEquiv p).symm b = a := by
     refine Subtype.ext ?_
-    show O.equiv.symm.symm (O.equiv.symm (a : A.A)) = (a : A.A)
+    change O.equiv.symm.symm (O.equiv.symm (a : A.A)) = (a : A.A)
     rw [LinearEquiv.symm_symm, LinearEquiv.apply_symm_apply]
   have htb : tB.action p b = act.action p a := by
     rw [DifferentialGradedAlgebra.Opposite.rightAction_action, hba]
@@ -400,7 +400,8 @@ private theorem exists_linearMap_of_graded {X Y : Type*} [AddCommGroup X] [Modul
     ∃ e : X →ₗ[R] Y, ∀ (n : ℤ) (x : G n) (y : H n), φ n x = y → e x = (y : Y) := by
   refine ⟨(DirectSum.toModule R ℤ Y fun n => (H n).subtype ∘ₗ φ n) ∘ₗ
     (DirectSum.decomposeLinearEquiv G).toLinearMap, fun n x y hy => ?_⟩
-  show DirectSum.toModule R ℤ Y (fun n => (H n).subtype ∘ₗ φ n) (DirectSum.decompose G (x : X)) = _
+  change DirectSum.toModule R ℤ Y (fun n => (H n).subtype ∘ₗ φ n)
+    (DirectSum.decompose G (x : X)) = _
   rw [DirectSum.decompose_of_mem G x.property,
     ← DirectSum.lof_eq_of (R := R) (ι := ℤ) (M := fun n => G n) n x, DirectSum.toModule_lof]
   exact congrArg Subtype.val hy
@@ -466,7 +467,7 @@ theorem exists_hom_of_cochainMap (A : DifferentialGradedAlgebra.{u, v} R)
         exact congrArg Subtype.val (hc p n a x ((c.f n) x) rfl)
   have hd : e ∘ₗ M.d = P.d ∘ₗ e := by
     ext x
-    show e (M.d x) = P.d (e x)
+    change e (M.d x) = P.d (e x)
     induction x using DirectSum.Decomposition.inductionOn M.grading with
     | zero => simp
     | add x y hx hy => simp [map_add, hx, hy]
@@ -556,7 +557,7 @@ theorem nonempty_homEvaluationData (A : DifferentialGradedAlgebra.{u, v} R)
     fun n q r h x f => evaluation_precomp_v_apply hIso.hom n q r h x f
   let c : M.toCochainComplex ⟶ P.toCochainComplex := e ≫ i.inv
   have hci : c ≫ i.hom = e := by
-    show (e ≫ i.inv) ≫ i.hom = e
+    change (e ≫ i.inv) ≫ i.hom = e
     rw [Category.assoc, i.inv_hom_id, Category.comp_id]
   have hec : ∀ (n : ℤ) (x : M.grading n),
       ((i.hom.f n) ((c.f n) x) : Cochain H N n) = (e.f n) x :=
@@ -700,7 +701,7 @@ theorem exists_hom_of_cochainMap (A : DifferentialGradedAlgebra.{u, v} R)
         exact congrArg Subtype.val (hc p n a x ((c.f n) x) rfl)
   have hd : e ∘ₗ L.d = D.d ∘ₗ e := by
     ext x
-    show e (L.d x) = D.d (e x)
+    change e (L.d x) = D.d (e x)
     induction x using DirectSum.Decomposition.inductionOn L.grading with
     | zero => simp
     | add x y hx hy => simp [map_add, hx, hy]
@@ -831,7 +832,7 @@ theorem exists_homEvaluation (A : DifferentialGradedAlgebra.{u, v} R)
     fun n q r h x f => evaluation_precomp_v_apply hR.hom n q r h x f
   let c : X ⟶ toCochainComplex A DH := e ≫ hD.inv
   have hci : c ≫ hD.hom = e := by
-    show (e ≫ hD.inv) ≫ hD.hom = e
+    change (e ≫ hD.inv) ≫ hD.hom = e
     rw [Category.assoc, hD.inv_hom_id, Category.comp_id]
   have hec : ∀ (n : ℤ) (x : L.grading n),
       ((hD.hom.f n) ((c.f n) x) : Cochain RH.toCochainComplex N n) = (e.f n) x :=

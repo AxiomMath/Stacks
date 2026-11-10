@@ -115,7 +115,7 @@ namespace AlgebraicGeometry.RingedSpaceThickening
 identity and the kernel of the identity is zero. -/
 theorem isThickening_id (S : RingedSpace.{u, u}) : IsThickening (𝟙 S) := by
   refine ⟨?_, ?_, ?_⟩
-  · show IsIso (𝟙 S.carrier)
+  · change IsIso (𝟙 S.carrier)
     infer_instance
   · have hp : Presheaf.IsLocallySurjective (Opens.grothendieckTopology S.carrier)
         (structureSheafHom (𝟙 S)).hom := by

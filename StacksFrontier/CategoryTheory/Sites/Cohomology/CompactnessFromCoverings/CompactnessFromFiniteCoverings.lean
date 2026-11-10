@@ -128,14 +128,14 @@ private lemma finStageι_comp_map (M : I → A) {S T : Finset (Discrete I)} (h :
     finStageι M S x ≫
         (CoproductsFromFiniteFiltered.liftToFinsetObj (Discrete.functor M)).map h =
       finStageι M T ⟨x.1, h.down.down x.2⟩ :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 private lemma finStageι_comp_ι_app (M : I → A) [HasCoproduct M] (S : Finset (Discrete I))
     (x : S) :
     finStageι M S x ≫
         (CoproductsFromFiniteFiltered.finiteSubcoproductsCocone M).ι.app S =
       Sigma.ι M x.1.as :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- A finite stage of the diagram of finite subcoproducts stays a coproduct after applying `G`,
 because `G` preserves finite coproducts. -/

@@ -53,8 +53,8 @@ The projection `Stacks.Chow.cycleGroupOpensRestrict` is defined directly, as the
 the coefficient function. The source describes it instead as flat pullback along the open
 immersion `X_i → X`, which is flat and locally of finite type of relative dimension zero. The two
 agree: `Stacks.Chow.cycleGroupOpensRestrict_eq_flatPullback` in
-`StacksFrontier.AlgebraicGeometry.Chow.ClopenDecomposition.FlatPullback`. That identification is what
-the criterion lemma of Stacks 02UC needs, since it is what makes capping with a bivariant class
+`StacksFrontier.AlgebraicGeometry.Chow.ClopenDecomposition.FlatPullback`. That identification is
+what the criterion lemma of Stacks 02UC needs, since it is what makes capping with a bivariant class
 commute with the projections; it is kept in a separate module so that this one, which is pure
 cycle bookkeeping, does not depend on the construction of flat pullback.
 

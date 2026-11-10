@@ -327,10 +327,10 @@ private theorem injective_mapExt_one_powerTorsionModule
     apply (eP.2.1 S.X₂ S'.X₂ i p w i' p' w' hS hS').2
     refine ⟨P.isoMk φ, ?_, ?_⟩
     · apply ObjectProperty.hom_ext
-      show i.hom ≫ φ.hom = i'.hom
+      change i.hom ≫ φ.hom = i'.hom
       simpa [T, T', S, S', ShortComplex.map, F] using hφ₁
     · apply ObjectProperty.hom_ext
-      show φ.hom ≫ p'.hom = p.hom
+      change φ.hom ≫ p'.hom = p.hom
       simpa [T, T', S, S', ShortComplex.map, F] using hφ₂
   exact hx.symm.trans (hsource.trans hy)
 
@@ -759,7 +759,7 @@ private theorem exists_transition_factor_coconeOfUnit
   have := hβ Jc' hpJ
   apply (cancel_mono (β.app ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj Jc'))).1
   have : IsIso (Q.map s.hom) := Localization.inverts Q W s.hom s.prop
-  show H.map u.right ≫ β.app t.right =
+  change H.map u.right ≫ β.app t.right =
     ((β.app s.right ≫ inv (RF.map (Q.map s.hom))) ≫
       (RF.map (Q.map s₀.hom) ≫ inv (β.app s₀.right)) ≫ H.map v.right) ≫ β.app t.right
   have hvβ : H.map v.right ≫ β.app t.right = β.app s₀.right ≫ RF.map (Q.map v.right) := by

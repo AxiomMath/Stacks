@@ -121,6 +121,7 @@ namespace Deformation.Examples.ArtinSchreier
 /-! ### The tower `A' → A → P` -/
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance synthesis for the scalar towers over the quotient rings `A`, `P` is deep
 /-- **`IsScalarTower A' A P`**, one of the two towers of Stacks 0DZ2 that are not automatic. It
 needs the basis `1, t, t²` of `A' = NC[t]/t³`: `t` dies in `P = P'/t·P'`, so only the
 constant coefficient survives, and that is exactly `redA`. -/

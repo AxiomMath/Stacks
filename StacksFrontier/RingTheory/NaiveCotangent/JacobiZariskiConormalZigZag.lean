@@ -173,6 +173,7 @@ theorem cotangent_mk_eq_towerNullHomotopy_add {f : B} (hf : algebraMap B C f = 0
     show x0 = ⟨X (0 : C), X_mem_ker A C⟩ from Subtype.ext hx0]
   exact cotangent_mk_C_eq_towerNullHomotopy_add A B C hf
 
+omit [Algebra A C] [IsScalarTower A B C] in
 /-- **The class of `-(1 ⊗ d[f])` in `C ⊗_B Ω_{B/A}` is `-(1 ⊗ d f)`.**  The degree `0` cohomology
 of `NL(P) ⊗_B C` is `C ⊗_B Ω_{B/A}`, the quotient map being the base change of
 `Algebra.Extension.toKaehler`, and that map carries the basis element `d[b]` to `d b`. -/

@@ -87,7 +87,7 @@ theorem GermOfScheme.isSmoothLocal_geometricBranchCountEq (n : ℕ∞) :
       ⟨X.point, g.mem_source⟩).symm.trans
     (numberOfGeometricBranches_eq_of_smooth g.hom ⟨X.point, g.mem_source⟩)
   rw [show Scheme.Opens.ι g.source ⟨X.point, g.mem_source⟩ = X.point from rfl, g.map_point] at h
-  show (numberOfGeometricBranches Y.scheme Y.point = n) ↔
+  change (numberOfGeometricBranches Y.scheme Y.point = n) ↔
     (numberOfGeometricBranches X.scheme X.point = n)
   rw [h]
 

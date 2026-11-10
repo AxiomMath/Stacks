@@ -182,7 +182,7 @@ theorem properPushforward_principalDivisorPushforward_envelopeSubschemeLift
       (relativeDimension C.dimensionFunction sX) DW.1 =
       principalDivisorPushforward C sX W hW g := rfl
   rw [← hpushV, ← hpushW]
-  show (properPushforward C (f ≫ sX) sX f rfl (n - 1)
+  change (properPushforward C (f ≫ sX) sX f rfl (n - 1)
       (properPushforward C sV (f ≫ sX) V.subschemeι rfl (n - 1) DV)).1 =
     (properPushforward C sW sX W.subschemeι rfl (n - 1) DW).1
   rw [properPushforward_properPushforward C sV (f ≫ sX) sX V.subschemeι f rfl rfl (n - 1) DV]

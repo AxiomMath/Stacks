@@ -80,7 +80,7 @@ theorem IsCompleteIntersection.of_ringEquiv {k l : Type u} [Field k] [Field l]
   have : Algebra.EssFiniteType l W := .comp l k W
   refine ⟨W, ‹_›, ‹_›, hreg, ‹_›, fs, hfs, ⟨?_⟩⟩
   refine { __ := eD.symm.trans e.toRingEquiv, commutes' := fun a ↦ ?_ }
-  show e (eD.symm (algebraMap l E a)) = _
+  change e (eD.symm (algebraMap l E a)) = _
   rw [ringEquiv_symm_algebraMap h, AlgEquiv.commutes,
     IsScalarTower.algebraMap_apply l k (W ⧸ Ideal.ofList fs) a, hlk]
 

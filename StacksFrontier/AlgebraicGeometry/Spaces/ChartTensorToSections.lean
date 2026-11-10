@@ -272,8 +272,7 @@ theorem addHom_ext_tmul_chart {Rr Aa : Type u} {Nn Pp : Type (max u m)} [CommRin
     [AddCommGroup Aa] [Module Rr Aa] [AddCommGroup Nn] [Module Rr Nn] [AddCommGroup Pp]
     {f h : Aa ⊗[Rr] Nn →+ Pp} (hfh : ∀ a n, f (a ⊗ₜ[Rr] n) = h (a ⊗ₜ[Rr] n)) : f = h := by
   refine AddMonoidHom.ext fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul a n => exact hfh a n
   | add z w hz hw => rw [map_add, map_add, hz, hw]
 

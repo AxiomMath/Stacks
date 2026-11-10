@@ -116,7 +116,7 @@ theorem coneD_comp (n : ℕ) : coneD A B g (n+1) ≫ coneD A B g n = 0 := by
   cases n with
   | zero =>
     obtain ⟨b, a⟩ := x
-    show coneD0lin A B g (coneDSlin A B g 0 (b, a)) = 0
+    change coneD0lin A B g (coneDSlin A B g 0 (b, a)) = 0
     simp only [coneD0lin, coneDSlin, LinearMap.add_apply, LinearMap.coe_comp, Function.comp_apply,
       LinearMap.fst_apply, LinearMap.snd_apply, LinearMap.prod_apply, Function.prod_apply,
       LinearMap.neg_apply, map_add, map_neg]
@@ -124,7 +124,7 @@ theorem coneD_comp (n : ℕ) : coneD A B g (n+1) ≫ coneD A B g n = 0 := by
     abel
   | succ m =>
     obtain ⟨b, a⟩ := x
-    show coneDSlin A B g m (coneDSlin A B g (m+1) (b, a)) = 0
+    change coneDSlin A B g m (coneDSlin A B g (m+1) (b, a)) = 0
     simp only [coneDSlin, LinearMap.prod_apply, Function.prod_apply, LinearMap.add_apply,
       LinearMap.coe_comp, Function.comp_apply, LinearMap.fst_apply, LinearMap.snd_apply,
       LinearMap.neg_apply, map_add, map_neg, Prod.mk_eq_zero]
@@ -202,7 +202,7 @@ theorem e0_wedge_grade (n : ℕ) :
   rw [Submodule.map_le_iff_le_comap]
   intro x hx
   rw [Submodule.mem_comap]
-  show e0 (R := R) (E := E) * x ∈ _
+  change e0 (R := R) (E := E) * x ∈ _
   rw [exteriorPower_succ_eq_range_mul]
   exact Submodule.mul_mem_mul (LinearMap.mem_range_self _ _) hx
 
@@ -561,12 +561,12 @@ theorem thetaLin_comm (φ : Module.Dual R E) (f : R) (n : ℕ) :
     apply LinearMap.ext
     rintro ⟨b, a⟩
     apply Subtype.ext
-    show (Koszul.d (phiPrime φ f) 0 (thetaLin φ (0+1) (b, a)) : ExteriorAlgebra R (E × R))
+    change (Koszul.d (phiPrime φ f) 0 (thetaLin φ (0+1) (b, a)) : ExteriorAlgebra R (E × R))
       = (thetaLin φ 0 (coneD0lin (Koszul.complex φ) (Koszul.complex φ)
           (mulByF (Koszul.complex φ) f) (b, a)) : ExteriorAlgebra R (E × R))
     rw [thetaLin_zero, Koszul.d_apply_coe, thetaLin_succ_coe,
       contraction_phiPrime_inclAlg_add_e0_mul]
-    show _ = inclAlg (E := E) ((Koszul.d φ 0 b : ExteriorAlgebra R E)
+    change _ = inclAlg (E := E) ((Koszul.d φ 0 b : ExteriorAlgebra R E)
       + f • (a : ExteriorAlgebra R E))
     rw [Koszul.d_apply_coe, contraction_eq_zero_of_mem_exteriorPower_zero φ a.2, neg_zero,
       map_zero, mul_zero, add_zero]
@@ -574,7 +574,7 @@ theorem thetaLin_comm (φ : Module.Dual R E) (f : R) (n : ℕ) :
     apply LinearMap.ext
     rintro ⟨b, a⟩
     apply Subtype.ext
-    show (Koszul.d (phiPrime φ f) (m + 1) (thetaLin φ (m+1+1) (b, a)) :
+    change (Koszul.d (phiPrime φ f) (m + 1) (thetaLin φ (m+1+1) (b, a)) :
         ExteriorAlgebra R (E × R))
       = ((LinearMap.coprod (inclPow (m+1)) (wedgeE0Pow (m+1))
           (coneDSlin (Koszul.complex φ) (Koszul.complex φ) (mulByF (Koszul.complex φ) f) m (b, a)))

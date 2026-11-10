@@ -41,7 +41,7 @@ def finiteTypeContinuousModuleNormalCoinvariants
           map_mul' := fun g h ↦ End.ext
             (ModuleCat.hom_ext (map_mul (normalCoinvariantsRepresentation ρ N) g h)) } }
   have hfin : Module.Finite Λ (Stacks.Trace.coinvariants (ρ.comp N.subtype)) := by
-    haveI : Module.Finite Λ M.obj.obj.obj.V := M.property
+    have : Module.Finite Λ M.obj.obj.obj.V := M.property
     exact Module.Finite.of_surjective _ (Submodule.mkQ_surjective _)
   letI : HasForget₂ (ModuleCat.{v} Λ) TopCat.{v} :=
     { forget₂ := forget (ModuleCat.{v} Λ) ⋙ TopCat.discrete
@@ -49,8 +49,8 @@ def finiteTypeContinuousModuleNormalCoinvariants
   refine ⟨⟨⟨A, ?_⟩, ⟨rfl⟩⟩, hfin⟩
   refine (Action.isContinuous_def _).2 ?_
   have hM := (Action.isContinuous_def M.obj.obj.obj).mp M.obj.obj.property
-  haveI : DiscreteTopology ↑((forget₂ (Action (ModuleCat.{v} Λ) G) TopCat.{v}).obj A) := ⟨rfl⟩
-  haveI : DiscreteTopology ↑((forget₂ (Action (ModuleCat.{v} Λ) G) TopCat.{v}).obj
+  have : DiscreteTopology ↑((forget₂ (Action (ModuleCat.{v} Λ) G) TopCat.{v}).obj A) := ⟨rfl⟩
+  have : DiscreteTopology ↑((forget₂ (Action (ModuleCat.{v} Λ) G) TopCat.{v}).obj
       M.obj.obj.obj) := ⟨rfl⟩
   let mkT : ↑((forget₂ (Action (ModuleCat.{v} Λ) G) TopCat.{v}).obj M.obj.obj.obj) →
       ↑((forget₂ (Action (ModuleCat.{v} Λ) G) TopCat.{v}).obj A) :=
@@ -63,7 +63,6 @@ def finiteTypeContinuousModuleNormalCoinvariants
   all_goals first
     | rfl
     | (funext g; rw [← hm]; rfl)
-    | (apply heq_of_eq; funext g; rw [← hm]; rfl)
 
 /-- **The quotient `M ⟶ M_N`**, a morphism of finite `Λ`-modules with continuous `G`-action. -/
 def finiteTypeContinuousModuleNormalCoinvariantsQuotient

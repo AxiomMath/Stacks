@@ -167,9 +167,9 @@ variable {X : Scheme.{u}} (f : X ⟶ Spec (.of K))
 along `f` of the finite transitions `Spec K[s] ⟶ Spec K[t]`. -/
 theorem isFinite_bcDiagram_map [Algebra.IsAlgebraic K Kbar] {i j : (Finset Kbar)ᵒᵖ} (e : i ⟶ j) :
     IsFinite ((AdjoinFinset.bcDiagram K Kbar f).map e) := by
-  show IsFinite (((Over.pullback f).map ((AdjoinFinset.specOverDiagram K Kbar).map e)).left)
+  change IsFinite (((Over.pullback f).map ((AdjoinFinset.specOverDiagram K Kbar).map e)).left)
   refine MorphismProperty.overPullbackMap f ((AdjoinFinset.specOverDiagram K Kbar).map e) ?_
-  show IsFinite ((AdjoinFinset.specDiagram K Kbar).map e)
+  change IsFinite ((AdjoinFinset.specDiagram K Kbar).map e)
   exact isFinite_specDiagram_map K Kbar e
 
 /-- The transition morphisms of the system `{ X_{K(s)} }` are affine, which is the form in which

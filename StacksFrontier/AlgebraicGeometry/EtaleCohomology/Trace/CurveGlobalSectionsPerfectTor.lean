@@ -50,7 +50,7 @@ instance ι_comp_ordinary_obj_additive (X : FiniteFree.{v} Λ) :
 in its first variable. -/
 instance ι_comp_ordinary_additive :
     (ObjectProperty.ι (finiteFree.{v} Λ) ⋙ D'.ordinary).Additive where
-  map_add {X X'} f g := D'.ordinary.map_add (f := f.hom) (g := g.hom)
+  map_add := D'.ordinary.map_add
 
 end Additive
 
@@ -155,7 +155,7 @@ def sectionsTwistComplexIso (R : CochainComplex (FiniteFree.{max (u + 1) r} Λ) 
           (ComplexShape.up ℤ)).obj I)) e c (fun p hp =>
         isZero_of_forall_isZero_X fun q =>
           ((ObjectProperty.ι (finiteFree.{max (u + 1) r} Λ) ⋙ D.ordinary).map_isZero
-            (h p hp)).obj _)
+            (h p hp)).obj ((moduleSections Y).obj (I.X q)))
   (HomologicalComplex₂.TotalMap.totalIsoOfFinite (Stacks.EtaleSections.sections.{r, u} Y) _
       hK).symm ≪≫
     HomologicalComplex₂.TotalMap.totalIsoOfFinite

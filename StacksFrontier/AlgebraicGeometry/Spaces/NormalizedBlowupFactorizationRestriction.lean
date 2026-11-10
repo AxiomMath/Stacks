@@ -154,7 +154,7 @@ theorem exists_iso_restrictionHom_comp (i : Fin n) {Z Z' : AlgebraicSpaces B S h
     (pullbackRightPullbackFstIso p.hom (D.toSpaceHom i).hom b.hom).symm ≪≫ pullbackSymmetry _ _
   refine ⟨ObjectProperty.isoMk _ ε, ?_⟩
   apply ObjectProperty.hom_ext
-  show ε.hom ≫ pullback.fst (pullback.fst p.hom (D.toSpaceHom i).hom) b.hom ≫
+  change ε.hom ≫ pullback.fst (pullback.fst p.hom (D.toSpaceHom i).hom) b.hom ≫
     pullback.snd p.hom (D.toSpaceHom i).hom = pullback.snd (b.hom ≫ p.hom) (D.toSpaceHom i).hom
   simp only [ε, Iso.trans_hom, Iso.symm_hom, Category.assoc]
   rw [pullbackSymmetry_hom_comp_fst_assoc, pullbackRightPullbackFstIso_inv_snd_snd]
@@ -202,9 +202,9 @@ theorem nonempty_localNormalizedBlowupFactorization_comp_of_eq (i : Fin n)
       refine (pointsMap_fst_injOn_of_isIso_fromPreimage (D.toSpaceHom i).hom p.hom
         (D.pointSubspace i) (D.isIso_fromPreimage_pointSubspace i)
         (D.range_pointsMap_ι_pointSubspace i) (t := t') ?_ ?_)
-      · show pointsMap B S hS Z.obj p.hom (pointsMap B S hS P.obj ψ.hom t') = D.point i
+      · change pointsMap B S hS Z.obj p.hom (pointsMap B S hS P.obj ψ.hom t') = D.point i
         rw [ht', hzx]
-      · show pointsMap B S hS P.obj ψ.hom t' = pointsMap B S hS P.obj ψ.hom t
+      · change pointsMap B S hS P.obj ψ.hom t' = pointsMap B S hS P.obj ψ.hom t
         rw [ht', htz]
     · rintro rfl
       exact htz
@@ -244,7 +244,7 @@ theorem nonempty_localNormalizedBlowupFactorization_comp_of_ne (i k : Fin n) (hi
       (AlgebraicSpaces.isPullback_fiberProduct B S hS p (D.toSpaceHom i)).w
     simp only [ObjectProperty.FullSubcategory.comp_hom, pointsMap_comp_apply] at h1
     refine D.map_ne_point i k hik _ (h1.symm.trans ?_)
-    show pointsMap B S hS Z.obj p.hom (pointsMap B S hS _ ψ.hom t) = _
+    change pointsMap B S hS Z.obj p.hom (pointsMap B S hS _ ψ.hom t) = _
     rw [ht, hzx]
   have hiso : IsIso (pullback.fst ψ.hom b.hom) :=
     isIso_fiberProduct_of_isNormalizationOfBlowupAtClosedPoint hψ hPn hfib

@@ -70,7 +70,7 @@ theorem properDerivedImageComparison_eq_derivedComparisonBaseChangeMap :
   refine (properDerivedImageComparison_fac.{u, w, v} S f).trans ?_
   have h :=
     abelianProperDirectImageComparison_eq_abelianZariskiComparisonBaseChangeMap.{u, w, v} S f
-  show baseChangeOnHomotopy.{u, w, v} S f ≫ _ ≫ _ = _
+  change baseChangeOnHomotopy.{u, w, v} S f ≫ _ ≫ _ = _
   simp only [baseChangeOnHomotopy, zariskiBaseChange, h, Category.assoc]
   rfl
 

@@ -135,7 +135,7 @@ theorem acyclic_cone_toposPullbackFunctor_map_iff {M M₂ : DifferentialGradedMo
     (cone ((toposPullbackFunctor f).map ψ)).complex.Acyclic ↔
       ((toposPullbackFunctor f).obj (cone ψ)).complex.Acyclic := by
   rw [(conePackage ((toposPullbackFunctor f).map ψ)).cone_complex]
-  show _ ↔ (((toposInverseImageModules.{u, u, u, u, u} f).mapHomologicalComplex _).obj
+  change _ ↔ (((toposInverseImageModules.{u, u, u, u, u} f).mapHomologicalComplex _).obj
     (cone ψ).complex).Acyclic
   rw [(conePackage ψ).cone_complex]
   let e := CochainComplex.mappingCone.mapHomologicalComplexIso ψ.toHomologicalComplex
@@ -185,6 +185,7 @@ abbrev goodDerivedSource :
     HomotopyCategory.{u, u, u} B ⥤ derivedCategory.{u, u, u} A' :=
   HomotopyCategory.descend F hF ⋙ toDerivedCategory A'
 
+omit [X.J.HasSheafCompose (CategoryTheory.forget RingCat)] in
 include hq in
 /-- If the functor carries quasi-isomorphisms of good modules to quasi-isomorphisms, then on
 homotopy categories followed by the localization it inverts the quasi-isomorphisms between good
@@ -207,6 +208,7 @@ theorem exists_isGoodObj_quasiIso (Z : HomotopyCategory.{u, u, u} B) :
 
 attribute [local instance] quasiIsomorphisms_hasRightCalculusOfFractions_topos
 
+omit [X.J.HasSheafCompose (CategoryTheory.forget RingCat)] in
 include hq in
 /-- **Tag 0FTF, existence, for a functor inverting quasi-isomorphisms of good modules.** It has a
 pointwise left derived functor with respect to the quasi-isomorphisms of `K(Mod(B, d))`: the good
@@ -218,6 +220,7 @@ theorem hasPointwiseLeftDerivedFunctor_goodDerivedSource :
     (quasiIsomorphisms.{u, u, u} B) IsGoodObj (exists_isGoodObj_quasiIso (B := B)) _
     (fun s hs hZ hZ' => isIso_goodDerivedSource_map F hF hq s hs hZ hZ')
 
+omit [X.J.HasSheafCompose (CategoryTheory.forget RingCat)] in
 include hq in
 /-- A functor inverting quasi-isomorphisms of good modules has a left derived functor with respect
 to the quasi-isomorphisms of `K(Mod(B, d))`. -/
@@ -240,6 +243,7 @@ def goodLeftDerivedCounit :
   Functor.totalLeftDerivedCounit (goodDerivedSource F hF) (toDerivedCategory B)
     (quasiIsomorphisms.{u, u, u} B)
 
+omit [X.J.HasSheafCompose (CategoryTheory.forget RingCat)] in
 /-- The left derived extension, with its comparison map, is the left derived functor. -/
 theorem isLeftDerivedFunctor_goodLeftDerived :
     (goodLeftDerived F hF hq).IsLeftDerivedFunctor (goodLeftDerivedCounit F hF hq)
@@ -250,6 +254,7 @@ theorem isLeftDerivedFunctor_goodLeftDerived :
       (Functor.totalLeftDerivedCounit (goodDerivedSource F hF) (toDerivedCategory B)
         (quasiIsomorphisms.{u, u, u} B)) (quasiIsomorphisms.{u, u, u} B))
 
+omit [X.J.HasSheafCompose (CategoryTheory.forget RingCat)] in
 /-- **Tag 0FTF, the value on a good module.** The comparison map of the left derived extension is
 invertible at a good right differential graded `B`-module. -/
 theorem isIso_goodLeftDerivedCounit_app {P : DifferentialGradedModule.{u, u, u} B}

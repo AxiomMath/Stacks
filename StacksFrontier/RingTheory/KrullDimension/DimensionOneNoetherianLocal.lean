@@ -98,7 +98,7 @@ theorem zeroLocus_singleton_eq_iff_radical_span_singleton_eq (x : R) :
       ext1
       exact ((maximalIdeal.isMaximal R).eq_of_le q.isPrime.ne_top hle).symm
     · rintro rfl
-      show x ∈ maximalIdeal R
+      change x ∈ maximalIdeal R
       rw [← h]
       exact Ideal.le_radical (Ideal.mem_span_singleton_self x)
 

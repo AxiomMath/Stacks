@@ -131,7 +131,7 @@ public lemma isAdequate_of_shortExact {A : Type u} [CommRing A]
   choose s hs using hlift
   have hsec : Sigma.desc s ≫ S.g = cover := by
     refine Sigma.hom_ext _ _ fun i => ?_
-    rw [← Category.assoc, Sigma.ι_desc, hs i]
+    rw [← Category.assoc, Sigma.ι_comp_desc, hs i]
   -- The lift splits the pullback of the extension along the surjection.
   obtain ⟨j, hj, hjSE⟩ := exists_shortExact_pullback hS cover
   obtain ⟨σ, hσ⟩ : ∃ σ : (∐ L) ⟶ pullback S.g cover, σ ≫ pullback.snd S.g cover = 𝟙 _ :=

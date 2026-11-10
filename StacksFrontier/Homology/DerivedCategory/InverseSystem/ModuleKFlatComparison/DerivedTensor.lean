@@ -51,8 +51,6 @@ universe u t w u₁ u₂ v₁ v₂
 
 namespace ModuleSystemKFlatComparison
 
-set_option maxHeartbeats 800000
-
 attribute [local instance] ModuleCat.liftedModuleMonoidalStruct
   ModuleCat.liftedModuleMonoidal ModuleCat.liftedModuleMonoidalPreadditive
 set_option backward.isDefEq.respectTransparency false
@@ -106,11 +104,11 @@ private lemma resolvedTensor_inverts (A : ℕᵒᵖ ⥤ CommRingCat.{u})
     (by rw [hf₂]; exact hf.2)
   have := tensor_left_inverts A _ Y.1.property f₂
   have := tensor_right_inverts_between_kFlat A X.1.property Y.1.property f₁ X.2.as
-  show IsIso (DerivedCategory.Qh.map
+  change IsIso (DerivedCategory.Qh.map
     (((homotopyTensor.map f.1.hom).app X.2)) ≫
       DerivedCategory.Qh.map ((homotopyTensor.obj Y.1.obj).map f.2))
   rw [← hf₁, ← hf₂]
-  show IsIso (DerivedCategory.Qh.map ((HomotopyCategory.quotient _ _).map
+  change IsIso (DerivedCategory.Qh.map ((HomotopyCategory.quotient _ _).map
       ((TrightCochain X.2.as).map f₁)) ≫
     DerivedCategory.Qh.map ((HomotopyCategory.quotient _ _).map
       ((TleftCochain Y.1.obj.as).map f₂)))
@@ -405,6 +403,9 @@ private lemma tensorHomotopyCounit_isIso (A : ℕᵒᵖ ⥤ CommRingCat.{u})
   dsimp only [tensorHomotopyCounit, NatTrans.comp_app, CategoryTheory.Functor.whiskerLeft_app]
   infer_instance
 
+set_option maxHeartbeats 800000 in
+-- unfolding the evaluated tensor of K-flat components is expensive
+-- (`whnf` times out at the default limit)
 /-- At a fixed index, a quasi-isomorphism between K-flat components remains a
 quasi-isomorphism after tensoring with any compatible complex. -/
 private lemma quasiIso_evaluation_tensor_right
@@ -447,7 +448,7 @@ private lemma isIso_evaluationDerived_map
     (DerivedCategory.quotientCompQhIso (Modules.{u, t} A)) E.mapDerivedCategory ≪≫
       E.mapDerivedCategoryFactors
   exact (NatIso.isIso_map_iff e f).2 (by
-    show IsIso (DerivedCategory.Q.map ((evaluationComplex A n).map f))
+    change IsIso (DerivedCategory.Q.map ((evaluationComplex A n).map f))
     infer_instance)
 
 /-- Evaluation of the natural tensor counit is invertible at a K-flat component. -/
@@ -550,6 +551,9 @@ private lemma isIso_evaluation_tensorComplexCounit (A : ℕᵒᵖ ⥤ CommRingCa
   rw [key, Functor.map_comp, Functor.map_comp, Functor.map_comp]
   infer_instance
 
+set_option maxHeartbeats 800000 in
+-- the evaluated monoidal structure on total complexes is expensive to unfold
+-- (`whnf` times out at the default limit)
 /-- Evaluation of total tensor is a natural isomorphism of bifunctors. -/
 private def totalTensorEvaluationNatIso (A : ℕᵒᵖ ⥤ CommRingCat.{u}) (n : ℕ) :
     evaluationComplex.{u, t} A n ⋙

@@ -140,7 +140,7 @@ theorem comapFun_gradedSectionRestriction_mem {W W' : s.base.affineOpens} (h : W
     ProjectiveSpectrum.comapFun (gradedSectionRestriction s W.1 W'.1 h)
         (irrelevant_le_map_gradedSectionRestriction s W.1 W'.1 h W.2 W'.2) x.1
       ∈ relativeProjChart s W' ⁻¹ᵁ V := by
-  show relativeProjChart s W' (projInclusionMap s W.1 W'.1 h W.2 W'.2 x.1) ∈ V
+  change relativeProjChart s W' (projInclusionMap s W.1 W'.1 h W.2 W'.2 x.1) ∈ V
   rw [relativeProjChart_projInclusionMap_apply]
   exact x.2
 

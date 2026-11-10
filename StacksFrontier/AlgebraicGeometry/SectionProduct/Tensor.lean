@@ -184,7 +184,7 @@ theorem nonvanishingLocus_tensorSectionsAt (s : Γ(M, ⊤)) (t : Γ(N, ⊤)) :
       (Stacks.SheafOfModules.tensorSectionsAt X.sheaf.obj X.ringCatSheaf.property (op ⊤)
         M N s t))
   rw [tensorStalkEquiv_germ_tensorSectionsAt M N x ⊤ trivial s t] at he
-  show ¬ _ ↔ ¬ _ ∧ ¬ _
+  change ¬ _ ↔ ¬ _ ∧ ¬ _
   refine (not_congr he).trans ⟨fun h => ⟨fun hs => h ?_, fun ht => h ?_⟩, fun ⟨hs, ht⟩ => ?_⟩
   · exact TensorProduct.tmul_mem_ideal_smul_top_of_left _ _ hs
   · exact TensorProduct.tmul_mem_ideal_smul_top_of_right _ _ ht
@@ -309,7 +309,7 @@ theorem div_tensorSectionsAt (s : Γ(M, ⊤)) (t : Γ(N, ⊤)) {W : X.Opens}
           M N m n) =
       div s hs m * div t ht n := by
   refine (eq_div _ _ ?_).symm
-  show _ • (Scheme.Modules.tensorObj M N).presheaf.map (homOfLE le_top).op _ = _
+  change _ • (Scheme.Modules.tensorObj M N).presheaf.map (homOfLE le_top).op _ = _
   rw [map_tensorSectionsAt, ← tensorSectionsAt_smul_smul]
   exact congrArg₂ _ (div_smul s hs m) (div_smul t ht n)
 

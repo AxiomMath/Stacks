@@ -108,7 +108,7 @@ theorem exists_pullbackBaseMap_eq (q : ↥(pullback f v)) (y : ↥V')
         rw [sq.isoPullback_hom_fst]
       _ = pullback.fst (pullback.snd f v) α := by simp
   refine ⟨sq.isoPullback.inv.base z, ?_⟩
-  show (sq.isoPullback.inv ≫ pullbackBaseMap f α v).base z = q
+  change (sq.isoPullback.inv ≫ pullbackBaseMap f α v).base z = q
   rw [hmap]
   exact hz₁
 
@@ -191,7 +191,7 @@ theorem exists_affine_etale_surjective_pullback {X Y : Scheme.{u}} (f : X ⟶ Y)
       ((Sigma.ι (fun j : (J : Finset V) => (A j.1).toScheme) ⟨t, htJ⟩).base y)
       (by rw [hσι]; exact hy)
     refine ⟨z, ?_⟩
-    show h.base ((pullbackBaseMap f σ v).base z) = u
+    change h.base ((pullbackBaseMap f σ v).base z) = u
     rw [hz]
     exact hqu
   · rw [Category.assoc, hcomp, pullbackBaseMap_fst]

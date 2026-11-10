@@ -127,7 +127,7 @@ def derivedPullbackSigmaDescIso {I : Type u} {W : I → Scheme.{u}} {X : Scheme.
   (Stacks.DerivedPullback.Composition.derivedPullbackCompIsoCanonical
       (Sigma.ι W i).toLRSHom.toShHom (Sigma.desc g).toLRSHom.toShHom).app E ≪≫
     (eqToIso (Cohomology.DerivedPullbackAlongIso.derivedPullback_eq_of_eq
-      (congrArg (fun h : W i ⟶ X => h.toLRSHom.toShHom) (Sigma.ι_desc g i)))).app E
+      (congrArg (fun h : W i ⟶ X => h.toLRSHom.toShHom) (Sigma.ι_comp_desc g i)))).app E
 
 /-- **Gluing a family of isomorphisms of classes of complexes on the summands.** Let `K` be a
 complex on `∐ W` and let `M i` be complexes on the summands with `Q(K|ᵢ) ≅ Q(M i)` for every

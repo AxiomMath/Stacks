@@ -55,10 +55,10 @@ theorem isQuasicoherentOnSite_over_of_overMap (R : Sheaf J RingCat.{w}) {V : C}
     (F.over T).IsQuasicoherentOnSite := by
   let e := T.iteratedSliceEquiv.symm
   have : e.inverse.IsDenseSubsite ((J.over V).over T) (J.over T.left) := by
-    show T.iteratedSliceEquiv.functor.IsDenseSubsite ((J.over V).over T) (J.over T.left)
+    change T.iteratedSliceEquiv.functor.IsDenseSubsite ((J.over V).over T) (J.over T.left)
     infer_instance
   have : e.functor.IsContinuous (J.over T.left) ((J.over V).over T) := by
-    show T.iteratedSliceEquiv.inverse.IsContinuous (J.over T.left) ((J.over V).over T)
+    change T.iteratedSliceEquiv.inverse.IsContinuous (J.over T.left) ((J.over V).over T)
     infer_instance
   exact (isQuasicoherentOnSite_reindex_iff e ((R.over V).over T) (F.over T)).1 h
 

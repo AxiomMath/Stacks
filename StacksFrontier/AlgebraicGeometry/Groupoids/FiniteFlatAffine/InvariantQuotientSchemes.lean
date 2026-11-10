@@ -79,10 +79,10 @@ theorem existsUnique_comp_objects_hom_of_flat_of_isAffine {C' : Type u} [CommRin
   obtain ⟨χ₀, hχ₀, hu⟩ := existsUnique_comp_objects_hom_of_flat G G' Γ(V, ⊤)
     (ψ ≫ V.isoSpec.hom) (by rw [reassoc_of% hψ])
   refine ⟨χ₀ ≫ V.isoSpec.inv, ?_, fun χ hχ => ?_⟩
-  · show G'.groupoid.objects.hom ≫ χ₀ ≫ V.isoSpec.inv = ψ
+  · change G'.groupoid.objects.hom ≫ χ₀ ≫ V.isoSpec.inv = ψ
     rw [← Category.assoc, hχ₀, Category.assoc, Iso.hom_inv_id, Category.comp_id]
   · have h := hu (χ ≫ V.isoSpec.hom) (by
-      show G'.groupoid.objects.hom ≫ χ ≫ V.isoSpec.hom = ψ ≫ V.isoSpec.hom
+      change G'.groupoid.objects.hom ≫ χ ≫ V.isoSpec.hom = ψ ≫ V.isoSpec.hom
       rw [← Category.assoc, hχ])
     rw [← h, Category.assoc, Iso.hom_inv_id, Category.comp_id]
 
@@ -271,7 +271,7 @@ theorem ext_of_forall_localizedBaseChange {X T : Scheme.{u}}
       refine ⟨p, z, j.isOpenEmbedding.injective ?_⟩
       rw [← Scheme.Hom.comp_apply, he p, hz])
   refine Scheme.Cover.hom_ext 𝒰 k₁ k₂ fun p => ?_
-  show e p ≫ k₁ = e p ≫ k₂
+  change e p ≫ k₁ = e p ≫ k₂
   -- both composites land in the affine open `V p`
   have hV₁ : Set.range (e p ≫ k₁).base ⊆ V p := by
     rintro _ ⟨z, rfl⟩
@@ -383,10 +383,10 @@ theorem exists_comp_objectsToInvariantSpectrum_eq_of_local {T : Scheme.{u}}
     exact h₁.trans h₂.symm
   refine ⟨𝒰.glueMorphisms f hglue, ?_⟩
   refine Scheme.Cover.hom_ext (localizedObjectsCover G c hmc) _ _ fun m => ?_
-  show (localizedBaseChange G (c m)).objectsProjection ≫ objectsToInvariantSpectrum G ≫
+  change (localizedBaseChange G (c m)).objectsProjection ≫ objectsToInvariantSpectrum G ≫
       𝒰.glueMorphisms f hglue = (localizedBaseChange G (c m)).objectsProjection ≫ g
   rw [← Category.assoc, (localizedBaseChange G (c m)).objects_isPullback.w, Category.assoc]
-  show (localizedBaseChange G (c m)).groupoid.objects.hom ≫ 𝒰.f m ≫
+  change (localizedBaseChange G (c m)).groupoid.objects.hom ≫ 𝒰.f m ≫
     𝒰.glueMorphisms f hglue = _
   exact (congrArg (fun k => (localizedBaseChange G (c m)).groupoid.objects.hom ≫ k)
     (Scheme.Cover.ι_glueMorphisms 𝒰 f hglue m)).trans (hf m)
@@ -417,7 +417,7 @@ theorem existsUnique_comp_objectsToInvariantSpectrum_scheme {T : Scheme.{u}}
       obtain ⟨r, hrt, hrs⟩ :=
         (base_objectsToInvariantSpectrum_eq_iff G z x₀).1 (hzm.trans hx₀.symm)
       apply hz
-      show g.base z ∈ V
+      change g.base z ∈ V
       rw [← hrt, ← Scheme.Hom.comp_apply, hg, Scheme.Hom.comp_apply, hrs]
       exact hxV
     obtain ⟨_, ⟨c, rfl⟩, hmc, hcZ⟩ :=

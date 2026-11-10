@@ -93,7 +93,7 @@ private theorem app_eq_zero_of_comp_eq
     {M N P : Modules.{u, u} B _ hS W.1 W.2} {a : M ⟶ N} {b : N ⟶ P} {c : M ⟶ P}
     (h : a ≫ b = c) (U) (x) (hx : a.val.app U x = 0) : c.val.app U x = 0 := by
   rw [← h]
-  show b.val.app U (a.val.app U x) = 0
+  change b.val.app U (a.val.app U x) = 0
   rw [hx, map_zero]
 
 /-- The projections `𝒪_W / 𝓘^{n+1} ⟶ 𝒪_W / 𝒥_n` commute with the transition maps. -/
@@ -233,7 +233,7 @@ theorem epi_of_reduction_iso_idealQuotient [IsNoetherianRing A] [IsAdicComplete 
         epi_comp' (coequalizer.π_epi (f := (𝒥 n.unop).ι) (g := 0)) (IsIso.epi_of_iso e.inv)
       exact epi_of_epi_fac h2
     refine (cancel_epi (idealPowerQuotientMapOfHom B _ hS W.1 W.2 𝓘 (n.unop + 1) φ)).1 ?_
-    show _ ≫ idealPowerQuotientMapOfHom B _ hS W.1 W.2 𝓘 (n.unop + 1) (cokernel.π φ) =
+    change _ ≫ idealPowerQuotientMapOfHom B _ hS W.1 W.2 𝓘 (n.unop + 1) (cokernel.π φ) =
       _ ≫ idealPowerQuotientMapOfHom B _ hS W.1 W.2 𝓘 (n.unop + 1) 0
     rw [← idealPowerQuotientMapOfHom_comp, ← idealPowerQuotientMapOfHom_comp,
       cokernel.condition, comp_zero])
@@ -368,7 +368,7 @@ theorem exists_closedSubspace_inf_adicFibreSubspace_eq [IsNoetherianRing A] [IsA
     intro n
     have e : Γ n = schemeTheoreticIntersection B _ hS W.1 W.2 (Γ (n + 1))
         (adicFibreSubspace A I B hS hSn W f.hom n) := Subtype.ext (hΓ n)
-    show definingIdealSheaf B _ hS W (Γ n) = _
+    change definingIdealSheaf B _ hS W (Γ n) = _
     rw [e, definingIdealSheaf_schemeTheoreticIntersection]
     exact congrArg₂ (· ⊔ ·) rfl (definingIdealSheaf_adicFibreSubspace A I B hS hSn W f.hom n)
   obtain ⟨𝒦, hKq, hK𝒥, h𝒥K, hKp⟩ := exists_ideal_eq_sup_baseIdealSubmodule A I B hS W f hft hsep 𝒥

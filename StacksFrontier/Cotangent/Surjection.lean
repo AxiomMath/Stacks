@@ -142,7 +142,7 @@ public theorem resolutionExtensionHom_id (i : SimplexCategoryᵒᵖ) :
   apply Algebra.Extension.Hom.ext
   apply RingHom.ext
   intro p
-  show ((standardResolution A B).left.map (𝟙 i)) p = p
+  change ((standardResolution A B).left.map (𝟙 i)) p = p
   rw [CategoryTheory.Functor.map_id]
   rfl
 
@@ -152,7 +152,7 @@ public theorem resolutionExtensionHom_comp {i j k : SimplexCategoryᵒᵖ} (f : 
   apply Algebra.Extension.Hom.ext
   apply RingHom.ext
   intro p
-  show ((standardResolution A B).left.map (f ≫ g)) p =
+  change ((standardResolution A B).left.map (f ≫ g)) p =
     ((standardResolution A B).left.map g) (((standardResolution A B).left.map f) p)
   rw [CategoryTheory.Functor.map_comp]
   rfl
@@ -357,7 +357,7 @@ public theorem range_conormalKernelInclusion_app (n : SimplexCategoryᵒᵖ)
     ∃ y, (conormalKernelInclusion A B h).app n y = x := by
   obtain ⟨y, hy⟩ := (bijective_h1Cotangent_map_surjectionToResolution A B h n).2 ⟨x, hx⟩
   exact ⟨surjectionH1CotangentEquiv A B h y, by
-    show ((Algebra.Extension.H1Cotangent.map (surjectionToResolution A B h n))
+    change ((Algebra.Extension.H1Cotangent.map (surjectionToResolution A B h n))
       ((surjectionH1CotangentEquiv A B h).symm
         (surjectionH1CotangentEquiv A B h y))).1 = x
     rw [LinearEquiv.symm_apply_apply]
@@ -465,7 +465,7 @@ public theorem conormalSimplicialModule_map_mk {i j : SimplexCategoryᵒᵖ} (f 
       (resolutionExtensionHom A B h f).toAlgHom (y : (resolutionExtension A B h i).Ring)) :
     (conormalSimplicialModule A B h).map f (Algebra.Extension.Cotangent.mk y) =
       Algebra.Extension.Cotangent.mk z := by
-  show Algebra.Extension.Cotangent.map (resolutionExtensionHom A B h f)
+  change Algebra.Extension.Cotangent.map (resolutionExtensionHom A B h f)
     (Algebra.Extension.Cotangent.mk y) = _
   rw [Algebra.Extension.Cotangent.map_mk]
   congr 1
@@ -494,7 +494,7 @@ public theorem varOne_sub_mem_augmentationIdeal (p : (standardResolution A B).le
     (hp : p ∈ augmentationIdeal A B (op ⦋0⦌)) :
     standardResolutionVarOne A B p - standardResolutionVarOne A B 0 ∈
       augmentationIdeal A B (op ⦋1⦌) := by
-  show (standardResolution A B).hom.app (op ⦋1⦌) _ = 0
+  change (standardResolution A B).hom.app (op ⦋1⦌) _ = 0
   rw [← standardResolution_augmentation_δ A B 0 (0 : Fin 2), (delta_varOne_sub_eq A B p hp).1]
   exact hp
 

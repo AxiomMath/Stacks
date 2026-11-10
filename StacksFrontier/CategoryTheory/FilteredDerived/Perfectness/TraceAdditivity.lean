@@ -91,7 +91,7 @@ public theorem perfectDerivedTrace_add (R : Type u) [Ring R]
       (by simp [Functor.map_add, hf', hg', Preadditive.comp_add, Preadditive.add_comp]),
     perfectDerivedTrace_eq_alternatingTrace R K f P hP eP f' hf',
     perfectDerivedTrace_eq_alternatingTrace R K g P hP eP g' hg']
-  show (∑ᶠ i : ℤ, signedTraceAt R P hP i ((f' + g').f i)) =
+  change (∑ᶠ i : ℤ, signedTraceAt R P hP i ((f' + g').f i)) =
     (∑ᶠ i : ℤ, signedTraceAt R P hP i (f'.f i)) + ∑ᶠ i : ℤ, signedTraceAt R P hP i (g'.f i)
   have hfin := finite_nonzero_degrees R P hP
   rw [← finsum_add_distrib (hfin.subset (signedTraceAt_support_subset R P hP (fun i => f'.f i)))

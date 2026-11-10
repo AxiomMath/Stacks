@@ -110,7 +110,7 @@ theorem eq_sum_cycleAssociatedToClosedSubscheme_integralComponentAt [CompactSpac
   apply Subtype.ext
   apply Function.locallyFinsuppWithin.ext
   intro y
-  show cycleCoeffHom C q k y α = cycleCoeffHom C q k y (∑ x ∈ _, _)
+  change cycleCoeffHom C q k y α = cycleCoeffHom C q k y (∑ x ∈ _, _)
   rw [map_sum]
   simp only [map_zsmul, cycleCoeffHom_apply, smul_eq_mul]
   by_cases hy : α.1 y = 0
@@ -345,7 +345,7 @@ theorem codimensionProjection_integralComponentRationalClass (hX : IsCohenMacaul
   have hmem : x ∈ fibreOpens (isLocallyConstant_relativeDimension_sub_negativeLocalRingDimension
       C sX hX) (relativeDimension C.dimensionFunction sX x + i) ↔
       ringKrullDim (X.presheaf.stalk x) = i := by
-    show relativeDimension C.dimensionFunction sX x - negativeLocalRingDimension X x =
+    change relativeDimension C.dimensionFunction sX x - negativeLocalRingDimension X x =
       relativeDimension C.dimensionFunction sX x + i ↔ _
     rw [negativeLocalRingDimension_eq_neg hj, hj]
     refine ⟨fun h ↦ congrArg _ (by omega : j = i), fun h ↦ ?_⟩
@@ -355,8 +355,8 @@ theorem codimensionProjection_integralComponentRationalClass (hX : IsCohenMacaul
     DirectSum.lmap_lof, LinearMap.baseChange_tmul, AddMonoidHom.coe_toIntLinearMap,
     clopenChowProjection_mk_integralComponentAt]
   by_cases hx : ringKrullDim (X.presheaf.stalk x) = i
-  · rw [if_pos (hmem.2 hx), if_pos hx, DirectSum.lof_eq_of]
-  · rw [if_neg (fun h ↦ hx (hmem.1 h)), if_neg hx, TensorProduct.tmul_zero, map_zero]
+  · rw [ite_eq_left (hmem.2 hx), ite_eq_left hx, DirectSum.lof_eq_of]
+  · rw [ite_eq_right (fun h ↦ hx (hmem.1 h)), ite_eq_right hx, TensorProduct.tmul_zero, map_zero]
 
 /-- The projection onto `CH^i(X) ⊗ 𝐐` is the identity on `CH^i(X) ⊗ 𝐐`. -/
 theorem codimensionProjection_apply_of_mem (hX : IsCohenMacaulay X) {i : ℕ}
@@ -365,8 +365,8 @@ theorem codimensionProjection_apply_of_mem (hX : IsCohenMacaulay X) {i : ℕ}
   refine (Submodule.span_le (p := LinearMap.eqLocus (codimensionProjection C hX i)
     LinearMap.id)).2 ?_ hv
   rintro _ ⟨x, hx, rfl⟩
-  show codimensionProjection C hX i _ = _
-  rw [codimensionProjection_integralComponentRationalClass, if_pos (Set.mem_setOf_eq.mp hx)]
+  change codimensionProjection C hX i _ = _
+  rw [codimensionProjection_integralComponentRationalClass, ite_eq_left (Set.mem_ofPred_eq.mp hx)]
   rfl
 
 /-- The projection onto `CH^i(X) ⊗ 𝐐` kills `CH^j(X) ⊗ 𝐐` for `j ≠ i`. -/
@@ -376,8 +376,8 @@ theorem codimensionProjection_apply_of_mem_of_ne (hX : IsCohenMacaulay X) {i j :
   refine (Submodule.span_le (p := LinearMap.ker (codimensionProjection C hX i))).2 ?_ hv
   rintro _ ⟨x, hx, rfl⟩
   rw [SetLike.mem_coe, LinearMap.mem_ker, codimensionProjection_integralComponentRationalClass,
-    if_neg]
-  rw [Set.mem_setOf_eq.mp hx]
+    ite_eq_right]
+  rw [Set.mem_ofPred_eq.mp hx]
   exact fun h ↦ hji (by exact_mod_cast h)
 
 /-- **Stacks 0FE2 for rational Chow groups: `CH_*(X) ⊗ 𝐐 = ⨁_i CH^i(X) ⊗ 𝐐`** for `X`
@@ -431,7 +431,7 @@ theorem directSumRight_one_tmul_totalFundamentalClass_mem_codimensionChowSubmodu
   refine hx (cycleAssociatedToClosedSubscheme_apply_eq_zero C sX (𝟙 X) n x ?_)
   rintro ⟨ξ, hξ, -⟩
   refine h ?_
-  rw [Set.mem_setOf_eq, ← hξ]
+  rw [Set.mem_ofPred_eq, ← hξ]
   exact ringKrullDim_stalk_eq_zero_of_mem_genericPoints ξ
 
 end FundamentalClass
@@ -455,7 +455,7 @@ theorem properChowPushforward_mem_closure_integralComponentAt [CompactSpace X] {
           {y | y ∈ Set.range g.base ∧ relativeDimension C.dimensionFunction sX y = k}) := by
   induction β using QuotientAddGroup.induction_on with
   | H b =>
-    show properChowPushforward C sW sX g hg k hfac
+    change properChowPushforward C sW sX g hg k hfac
       (QuotientAddGroup.mk' (rationalEquivalences C sW k) b) ∈ _
     rw [properChowPushforward_mk]
     refine AddSubgroup.closure_mono (Set.image_mono ?_)
@@ -592,7 +592,7 @@ theorem of_baseChange_chowCohomologyCap_mem_codimensionChowSubmodule [IsNoetheri
     DirectSum.lof ℚ ℤ (fun j ↦ TensorProduct ℤ ℚ (chowGroup C sX j)) (k - p) ∘ₗ
       (chowCohomologyCap C G sX p c k).toIntLinearMap.baseChange ℚ ∘ₗ
         DirectSum.component ℚ ℤ (fun j ↦ TensorProduct ℤ ℚ (chowGroup C sX j)) k
-  show Φ v ∈ _
+  change Φ v ∈ _
   refine (Submodule.span_le (p := (codimensionChowSubmodule C sX (i + p)).comap Φ)).2 ?_ hv
   rintro _ ⟨x, hx, rfl⟩
   rw [SetLike.mem_coe, Submodule.mem_comap]

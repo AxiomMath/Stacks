@@ -155,13 +155,13 @@ theorem isTamelyRamifiedWithRespectTo_of_kummer (hn : IsUnit (n : k)) (hn0 : 0 <
       rw [Algebra.adjoin_le_iff]
       rintro z (hz | ⟨i, rfl⟩)
       · rw [Set.mem_singleton_iff.mp hz]
-        show ψ (coord F) ∈ M
+        change ψ (coord F) ∈ M
         rcases hθ with h | h
         · rw [← h]
           exact hθM
         · rw [eq_inv_of_mul_eq_one_right h]
           exact inv_mem hθM
-      · show ψ (algebraMap F (Ring F) _) ∈ M
+      · change ψ (algebraMap F (Ring F) _) ∈ M
         exact (le_sup_right : E ≤ M) (subset_adjoin K _ ⟨_, rfl⟩)
     rw [adjoin_coord_basis_eq_top k F n hn0] at hS
     have hrange : Algebra.adjoin K (Set.range ψ) ≤ M.toSubalgebra := by
@@ -174,12 +174,14 @@ theorem isTamelyRamifiedWithRespectTo_of_kummer (hn : IsUnit (n : k)) (hn0 : 0 <
   exact IsDiscreteValuationRing.isTamelyRamifiedWithRespectTo_of_pow_eq_of_sup hπ hn0 hunit hθn E
     hE hgen'
 
+omit [FiniteDimensional k F] [Algebra.IsSeparable k F] in
 /-- The Kummer map sends the constant `a ∈ k` of `k[x]_x` to the constant `a ∈ F` of `F[X]_X`. -/
 theorem kummerMap_const (a : k) :
     algebraMap F (Ring F) (algebraMap k F a) =
       kummerMap k F n (algebraMap k[X] (Ring k) (C a)) := by
   rw [kummerMap_C, IsScalarTower.algebraMap_apply F F[X] (Ring F), ← C_eq_algebraMap]
 
+omit [FiniteDimensional k F] [Algebra.IsSeparable k F] in
 /-- The Kummer map sends `x⁻¹ ∈ k[x]_x` to `X⁻ⁿ ∈ F[X]_X`. -/
 theorem kummerMap_invSelf :
     kummerMap k F n (IsLocalization.Away.invSelf (X : k[X])) =
@@ -216,7 +218,7 @@ theorem isTameCover_kummerCover (hn : IsUnit (n : k)) (hn0 : 0 < n) :
       (fun a ↦ (congrArg ψ (kummerMap_const k F n a)).trans (hψ _)) hgen
     rw [← map_pow, ← kummerMap_coord k F n]
     exact hψ X
-  · show Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne (chartInfty k)
+  · change Stacks.FundamentalGroup.IsTamelyRamifiedInCodimensionOne (chartInfty k)
       (Spec.map (CommRingCat.ofHom (kummerMap k F n)))
     rw [isTamelyRamifiedInCodimensionOne_chartInfty_iff]
     refine isTamelyRamifiedInCodimensionOne_chartZero_of (Ring F)

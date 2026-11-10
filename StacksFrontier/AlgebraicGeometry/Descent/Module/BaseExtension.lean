@@ -110,17 +110,14 @@ def canonicalTransition (M : ModuleCat.{max v w} R) :
     TensorProduct.rightComm R A M A ≪≫ₗ TensorProduct.assoc R A A M ≪≫ₗ
     TensorProduct.congr (LinearEquiv.refl R A) (restrictionEquiv R A M).symm)).map_add
   map_smul' x y := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [zero_smul, map_zero]
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp_all only [add_smul, map_add, RingHom.id_apply]
     | tmul a b =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp only [smul_zero, map_zero]
+      induction y using TensorProduct.inductionOn with
       | add x y hx hy => rw [smul_add, map_add, hx, hy, map_add, smul_add]
       | tmul n c =>
         obtain ⟨n, rfl⟩ := (restrictionEquiv R A M).symm.surjective n
-        induction n using TensorProduct.induction_on with
-        | zero => simp
+        induction n using TensorProduct.inductionOn with
         | add x y hx hy =>
           rw [map_add, add_tmul, smul_add, map_add, map_add, hx, hy, smul_add]
         | tmul d m => rfl
@@ -136,17 +133,14 @@ abbrev canonicalDatum (M : ModuleCat.{max v w} R) :
   cocycle := by
     apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | add u v hu hv => rw [map_add, map_add, hu, hv]
     | tmul x c =>
-      induction x using TensorProduct.induction_on with
-      | zero => rw [zero_tmul, map_zero, map_zero]
+      induction x using TensorProduct.inductionOn with
       | add u v hu hv => rw [add_tmul, map_add, map_add, hu, hv]
       | tmul y b =>
         obtain ⟨y, rfl⟩ := (restrictionEquiv R A M).symm.surjective y
-        induction y using TensorProduct.induction_on with
-        | zero => rw [map_zero, zero_tmul, zero_tmul, map_zero, map_zero]
+        induction y using TensorProduct.inductionOn with
         | add u v hu hv =>
           rw [map_add (restrictionEquiv R A M).symm, add_tmul, add_tmul,
             map_add, map_add, hu, hv]
@@ -159,13 +153,11 @@ def canonicalMap {M N : ModuleCat.{max v w} R} (g : M ⟶ N) :
   comm := by
     apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | add u v hu hv => rw [map_add, map_add, hu, hv]
     | tmul x b =>
       obtain ⟨x, rfl⟩ := (restrictionEquiv R A M).symm.surjective x
-      induction x using TensorProduct.induction_on with
-      | zero => rw [map_zero, zero_tmul, map_zero, map_zero]
+      induction x using TensorProduct.inductionOn with
       | add u v hu hv =>
         rw [map_add (restrictionEquiv R A M).symm, add_tmul, map_add, map_add, hu, hv]
       | tmul a m => rfl
@@ -219,12 +211,7 @@ def extensionComparison (M : ModuleCat.{max v w} R) :
       (LinearEquiv.refl R M)).map_add
     map_smul' := by
       intro a x
-      induction x using TensorProduct.induction_on with
-      | zero =>
-        rw [smul_zero, map_zero]
-        change (0 : (ModuleCat.extendScalars.{u, v, max v w} (algebraMap R A)).obj M) =
-          a • (0 : (ModuleCat.extendScalars.{u, v, max v w} (algebraMap R A)).obj M)
-        exact (smul_zero a).symm
+      induction x using TensorProduct.inductionOn with
       | add x y hx hy =>
         rw [smul_add, map_add, hx, hy, map_add]
         exact (smul_add _ _ _).symm
@@ -241,8 +228,7 @@ def baseExtension : BaseExtension.{u, v, w} R A where
     dsimp only [canonicalFunctor, canonicalDatum, canonicalMap, extensionComparison]
     apply ModuleCat.hom_ext
     ext m
-    induction m using TensorProduct.induction_on with
-    | zero => rfl
+    induction m using TensorProduct.inductionOn with
     | add x y hx hy => simp_all
     | tmul a m => rfl
 

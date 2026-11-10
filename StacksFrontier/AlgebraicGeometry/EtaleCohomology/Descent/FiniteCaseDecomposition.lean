@@ -154,7 +154,7 @@ theorem piFactorAlgebraMap_algebraMap [DecidableEq K] (T : Type u) [CommRing T] 
     · subst h
       simp
     · simp [Pi.single_eq_of_ne' h]
-  show Ideal.Quotient.mk _ (algebraMap (∀ j, C j) T (Pi.single k (algebraMap B (C k) b))) = _
+  change Ideal.Quotient.mk _ (algebraMap (∀ j, C j) T (Pi.single k (algebraMap B (C k) b))) = _
   rw [← key, map_mul, quotientMk_mul_eq_quotientMk]
   exact congrArg _ (IsScalarTower.algebraMap_apply B (∀ j, C j) T b).symm
 

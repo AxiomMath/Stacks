@@ -123,7 +123,7 @@ theorem isLocalCompleteIntersectionMorphism_of_surjective_smooth_of_isAffine
       refine ⟨a, (pullback.fst (q a) i).base w, ?_⟩
       have htw : (pullback.snd (q a) i).base w = z := by
         rw [← ht a]
-        show g.base ((t a).base w) = z
+        change g.base ((t a).base w) = z
         rw [hw, hz']
       have hc := congrArg (fun k : pullback (q a) i ⟶ _ => k.base w)
         (pullback.condition (f := q a) (g := i))

@@ -167,9 +167,10 @@ over `S` ([Stacks, Tag 02NC]); and clause (7) of [Stacks, Tag 01Q3], which is a 
   What part (1) still needs is therefore not that morphism but the two identifications around
   it: that `Sym^d` of a surjection of quasi-coherent modules is epi, and that
   `Proj_S(Sym(𝒪_S^{⊕(n+1)}))` is `ℙⁿ_S` over `S`.
-* Tag 02NC is stated, in its relative form — over a scheme `S`, for a quasi-coherent graded `𝒪_S`-algebra twisted by an
-  invertible `𝒪_S`-module, with the isomorphism `g` over `S`, the isomorphisms `θ_n` assembling
-  into an isomorphism of `ℤ`-graded algebras, and the squares of clause (2) — as
+* Tag 02NC is stated, in its relative form — over a scheme `S`, for a quasi-coherent graded
+  `𝒪_S`-algebra twisted by an invertible `𝒪_S`-module, with the isomorphism `g` over `S`, the
+  isomorphisms `θ_n` assembling into an isomorphism of `ℤ`-graded algebras, and the squares of
+  clause (2) — as
   `Stacks.AlgebraicGeometry.RelativeInvertibleTwist.relativeTwist_tag`
   (`../Constructions/ProjInvertibleTwistRelativeTag.lean`). The graded-ring form over `Spec R` is
   `Stacks.GradedRing.InvertibleTwist.projTwistIsoGeneral`

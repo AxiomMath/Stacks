@@ -24,12 +24,6 @@ open CategoryTheory CategoryTheory.Limits Opposite
 
 universe u
 
-add_to_stacks 04CY "fibre products in the big affine fppf site"
-  AlgebraicGeometry.hasPullbacks_bigAffineFppf
-
-add_to_stacks 04CY "preservation by the big affine fppf functor to schemes"
-  AlgebraicGeometry.preservesPullbacks_bigAffineFppfToScheme
-
 namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)

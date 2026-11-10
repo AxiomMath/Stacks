@@ -118,12 +118,12 @@ theorem nonempty_isColimit_cofan_completionSheafRestrict {X : (BigFppfOver B S h
     fun g k ↦ Cofan.IsColimit.fac hc g k
   refine ⟨Cofan.IsColimit.mk _ (fun s ↦ Cofan.IsColimit.desc hc (fun k ↦ (E k).inv ≫ s.inj k))
     (fun s k ↦ ?_) (fun s m hm ↦ Cofan.IsColimit.hom_ext hc _ _ fun k ↦ ?_)⟩
-  · show Space.completionSheafRestrict B S hS (ιV k).hom _ _ _ ≫ _ = _
+  · change Space.completionSheafRestrict B S hS (ιV k).hom _ _ _ ≫ _ = _
     rw [hleg, Category.assoc, hfac, Iso.hom_inv_id_assoc]
-  · show Space.completionSheafMap B S hS (ιV k).hom _ ≫ m =
+  · change Space.completionSheafMap B S hS (ιV k).hom _ ≫ m =
       Space.completionSheafMap B S hS (ιV k).hom _ ≫ _
     rw [hfac, ← hm k]
-    show _ = (E k).inv ≫ Space.completionSheafRestrict B S hS (ιV k).hom _ _ _ ≫ m
+    change _ = (E k).inv ≫ Space.completionSheafRestrict B S hS (ιV k).hom _ _ _ ≫ m
     rw [hleg, Category.assoc, Iso.inv_hom_id_assoc]
 
 /-- Two factorizations of one morphism of presheaves induce the same restriction morphism of
@@ -399,7 +399,7 @@ theorem isPullback_openSubspaceOfPointsRestrict_sigma {X : (BigFppfOver B S hS)�
     have e : P.map (ιV' k ≫ φ) = Space.openSubspaceOfPointsRestrict B S hS (a k) _ Tᶜ
         (hsub _ _ _ (hpre (ιV k).hom qV (a k) (hqV k)).symm) := by
       apply hι
-      show (Space.openSubspaceOfPoints B S hS _ _).ι ≫ (ιV k).hom ≫ qV =
+      change (Space.openSubspaceOfPoints B S hS _ _).ι ≫ (ιV k).hom ≫ qV =
         (Space.openSubspaceOfPoints B S hS _ _).ι ≫ a k
       rw [hqV]
     have : IsIso (P.map (ιV' k ≫ φ)) := by
@@ -411,7 +411,7 @@ theorem isPullback_openSubspaceOfPointsRestrict_sigma {X : (BigFppfOver B S hS)�
     have e : P.map (κ' p ≫ t' ≫ φ) = Space.openSubspaceOfPointsRestrict B S hS (c p) _ Tᶜ
         (hsub _ _ _ (hpre (κ p).hom qR (c p) (hqR p)).symm) := by
       apply hι
-      show (Space.openSubspaceOfPoints B S hS _ _).ι ≫ (κ p).hom ≫ t.hom ≫ qV =
+      change (Space.openSubspaceOfPoints B S hS _ _).ι ≫ (κ p).hom ≫ t.hom ≫ qV =
         (Space.openSubspaceOfPoints B S hS _ _).ι ≫ c p
       rw [ht', hqR]
     have : IsIso (P.map (κ' p ≫ t' ≫ φ)) := by
@@ -422,19 +422,19 @@ theorem isPullback_openSubspaceOfPointsRestrict_sigma {X : (BigFppfOver B S hS)�
   have ht'' : ∀ p, κ' p ≫ t' = fst' p ≫ ιV' p.1 := fun p ↦ by
     apply P.map_injective
     apply hι
-    show (Space.openSubspaceOfPoints B S hS _ _).ι ≫ (κ p).hom ≫ t.hom =
+    change (Space.openSubspaceOfPoints B S hS _ _).ι ≫ (κ p).hom ≫ t.hom =
       (Space.openSubspaceOfPoints B S hS _ _).ι ≫ (fst p).hom ≫ (ιV p.1).hom
     rw [show (κ p).hom ≫ t.hom = (fst p).hom ≫ (ιV p.1).hom from congrArg (fun m ↦ m.hom) (ht p)]
   have hs'' : ∀ p, κ' p ≫ s' = snd' p ≫ ιV' p.2 := fun p ↦ by
     apply P.map_injective
     apply hι
-    show (Space.openSubspaceOfPoints B S hS _ _).ι ≫ (κ p).hom ≫ s.hom =
+    change (Space.openSubspaceOfPoints B S hS _ _).ι ≫ (κ p).hom ≫ s.hom =
       (Space.openSubspaceOfPoints B S hS _ _).ι ≫ (snd p).hom ≫ (ιV p.2).hom
     rw [show (κ p).hom ≫ s.hom = (snd p).hom ≫ (ιV p.2).hom from congrArg (fun m ↦ m.hom) (hs p)]
   have hst : ∀ p, κ' p ≫ s' ≫ φ = κ' p ≫ t' ≫ φ := fun p ↦ by
     apply P.map_injective
     apply hι
-    show (Space.openSubspaceOfPoints B S hS _ _).ι ≫ (κ p).hom ≫ s.hom ≫ qV =
+    change (Space.openSubspaceOfPoints B S hS _ _).ι ≫ (κ p).hom ≫ s.hom ≫ qV =
       (Space.openSubspaceOfPoints B S hS _ _).ι ≫ (κ p).hom ≫ t.hom ≫ qV
     rw [hs', ht']
   have hsq : ∀ p, IsPullback (fst' p) (snd' p) (ιV' p.1 ≫ φ) (ιV' p.2 ≫ φ) := fun p ↦ by
@@ -735,7 +735,7 @@ theorem isPullback_openSubspaceOfPointsRestrict_of_isPullback
     hP1.flip
   refine (cancel_mono
     (Space.openSubspaceOfPoints B S hS Q (Space.pointsMap B S hS _ qQ ⁻¹' T)ᶜ).ι).mp ?_
-  show (Space.openSubspaceOfPoints B S hS _ _).ι ≫ t ≫ π =
+  change (Space.openSubspaceOfPoints B S hS _ _).ι ≫ t ≫ π =
     (Space.openSubspaceOfPoints B S hS _ _).ι ≫ s ≫ π
   rw [hk.w]
 
@@ -802,7 +802,7 @@ theorem isIso_pullback_snd_of_isPullback_quotient {X : (BigFppfOver B S hS)ᵒ�
     rw [← cancel_epi πS, he]
     apply P.map_injective
     refine (cancel_mono (Space.openSubspaceOfPoints B S hS X Tᶜ).ι).mp ?_
-    show (Space.openSubspaceOfPoints B S hS _ _).ι ≫ π.hom ≫ qQ =
+    change (Space.openSubspaceOfPoints B S hS _ _).ι ≫ π.hom ≫ qQ =
       (Space.openSubspaceOfPoints B S hS _ _).ι ≫ qV
     rw [hπq]
   have : IsIso qS := hqe ▸ inferInstance

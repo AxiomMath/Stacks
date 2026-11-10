@@ -232,7 +232,7 @@ public theorem isVersalAt_of_derivedFibreHomologyMap_conditions
       (by change (Over.post B.inclusion).obj (p.obj x) = _; rw [hx]; rfl) := by
   have : IsNoetherianRing A := Algebra.FiniteType.isNoetherianRing Λ A
   subst hbase
-  refine isVersalAt_of_forall_approximation Λ A B S hS _ hA baseMap rfl p hp x _ u₀ hu₀ ?_ ?_
+  refine isVersalAt_of_forall_approximation Λ A B S hS _ baseMap rfl p hp x _ u₀ hu₀ ?_ ?_
   · exact BigFppfSite.contains_spec_completedLocalRing B hA u₀
   · intro xR ζ hζ e g hg hbase' hclosed r hr hrbase algR hΛ hAR
     -- The `A`-algebra structure on the residue field of the complete local base, read off the

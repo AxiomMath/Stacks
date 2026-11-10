@@ -195,7 +195,7 @@ theorem sectionsFormal_pushforward [IsNoetherianRing A]
     rw [← pushforward_map_idealQuotientπ_pushforwardIdealQuotientIso_hom i hi H (g n) (hg n),
       SheafOfModules.sectionsMap_comp, ← modulePushforwardSectionsEquiv_symm_sectionsMap, hs n,
       Equiv.symm_apply_apply, ← SheafOfModules.sectionsMap_comp]
-    show SheafOfModules.sectionsMap ((κ n).inv ≫ (κ n).hom) (t n) = t n
+    change SheafOfModules.sectionsMap ((κ n).inv ≫ (κ n).hom) (t n) = t n
     rw [Iso.inv_hom_id, SheafOfModules.sectionsMap_id]
 
 end Pushforward

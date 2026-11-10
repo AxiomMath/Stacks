@@ -89,7 +89,7 @@ theorem isSeparatedULift_hom_of_isSeparatedMorphism {W Y : FppfSheaf B S hS} (g 
   have hdiag : pullback.diagonal (L.map g) =
       L.map (pullback.diagonal g) ≫ (PreservesPullback.iso L g g).hom := by
     apply pullback.hom_ext <;> simp [← L.map_comp]
-  show R.relative uliftYoneda.{u + 1} (pullback.diagonal (L.map g))
+  change R.relative uliftYoneda.{u + 1} (pullback.diagonal (L.map g))
   rw [hdiag]
   exact ((R.relative uliftYoneda.{u + 1}).cancel_right_of_respectsIso _ _).mpr h1
 
@@ -202,11 +202,13 @@ theorem isSeparatedMorphism_isIso_comp {W' W Y : FppfSheaf B S hS} (i : W' ⟶ W
   isSeparatedMorphism_of_isPullback B S hS
     (IsPullback.of_horiz_isIso (fst := i) (snd := i ≫ h) (f := h) (g := 𝟙 Y) ⟨by simp⟩) hh
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of fppf sheaves in `Type (u + 1)` exceeds the default budget
 /-- Pullbacks of fppf sheaves (in `Type (u + 1)`, where completions live), found once: instance
 search for them times out under Lean v4.35.0. -/
 local instance (priority := high) hasPullbacks_sheaf_ModificationOutputSeparated :
     HasPullbacks (Sheaf (BigFppfOver.topology B S hS) (Type (u + 1))) := by
-  set_option synthInstance.maxHeartbeats 400000 in infer_instance
+  infer_instance
 
 /-- The pullback of two morphisms of fppf sheaves in `Type (u + 1)`. -/
 local instance (priority := high) hasLimit_cospan_sheaf_ModificationOutputSeparated

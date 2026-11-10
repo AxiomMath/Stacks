@@ -72,6 +72,7 @@ local instance (priority := high) hasPullback_presheaf_HilbertLimitStage
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` for `HasPullbacks` in the presheaf category on the big fppf site is slow
 /-- Pullbacks in presheaf categories on the big fppf site. -/
 local instance hasPullbacks_presheaf_HilbertLimitStage
     {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
@@ -251,7 +252,7 @@ theorem exists_closedSubspace_stage_of_hilbertFamily (hfp : IsFinitePresentation
   let cN := pullbackCone E cS i₀ (F.map u)
   have hN : IsLimit cN := isLimitPullbackCone E cS hc i₀ (F.map u)
   have hNaff : ∀ j : Over i₀, IsAffine (N.obj j) := fun j => by
-    show IsAffine (pullback (E.map j.hom) (F.map u)); infer_instance
+    change IsAffine (pullback (E.map j.hom) (F.map u)); infer_instance
   let CT' : Subobject cN.pt := CT
   have : _root_.AlgebraicGeometry.IsClosedImmersion CT'.arrow := hCTci
   obtain ⟨k, Ck, hCkci, hCkfp, hCk⟩ := exists_pullback_subobject_eq_of_isLimit N cN hN CT' hCTfp
@@ -302,7 +303,7 @@ theorem exists_closedSubspace_stage_of_hilbertFamily (hfp : IsFinitePresentation
   let cM := pullbackCone E cS i₀ (F.map (rs ≫ u))
   have hM : IsLimit cM := isLimitPullbackCone E cS hc i₀ (F.map (rs ≫ u))
   have hMaff : ∀ j : Over i₀, IsAffine (M.obj j) := fun j => by
-    show IsAffine (pullback (E.map j.hom) (F.map (rs ≫ u))); infer_instance
+    change IsAffine (pullback (E.map j.hom) (F.map (rs ≫ u))); infer_instance
   let τ : ∀ {T' : SchemesOverPresheaf B S hS Y} (g' : T' ⟶ Dy.obj i₀),
       stageObj B S hS g'.left (rs ≫ u) ⟶ stageObj B S hS g'.left u :=
     fun g' => stageMapRight B S hS g'.left u rt hrt
@@ -493,7 +494,7 @@ theorem exists_preimage_eq_of_preimage_eq_limit (hfp : IsFinitePresentation B S 
   let cN := pullbackCone E cS i (F.map u)
   have hN : IsLimit cN := isLimitPullbackCone E cS hc i (F.map u)
   have hNaff : ∀ j : Over i, IsAffine (N.obj j) := fun j => by
-    show IsAffine (pullback (E.map j.hom) (F.map u)); infer_instance
+    change IsAffine (pullback (E.map j.hom) (F.map u)); infer_instance
   let j₀ : Over i := Over.mk (𝟙 i)
   let Cj₀ : Subobject (N.obj j₀) :=
     (Subobject.pullback (F.map (stageSnd B S hS (Dy.map j₀.hom).left u))).obj C

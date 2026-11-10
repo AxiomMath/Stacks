@@ -231,7 +231,7 @@ theorem etale_smallEtaleLiftHom (x : 𝒳)
     (T : SmallEtale E (p.obj x).left.1 (contains_base B E h S hS p x)) :
     Etale (B.inclusion.map (p.map (smallEtaleLiftHom B E h S hS p hp x T)).left) := by
   have hT : Etale (E.inclusion.map T.obj.hom) := T.property
-  show Etale ((BigFppfOver.toScheme B S hS).map (p.map (smallEtaleLiftHom B E h S hS p hp x T)))
+  change Etale ((BigFppfOver.toScheme B S hS).map (p.map (smallEtaleLiftHom B E h S hS p hp x T)))
   rw [toScheme_map_smallEtaleLiftHom]
   infer_instance
 
@@ -308,7 +308,7 @@ theorem exists_comp_eq_smallEtaleLiftHom_comp {x z : 𝒳} (φ : z ⟶ x)
   let k : X.obj.left ⟶ W''.obj.left := ObjectProperty.homMk (g.resLE U' V hVU)
   have hk : k ≫ W''.obj.hom = X.obj.hom ≫ f := by
     apply ObjectProperty.hom_ext
-    show g.resLE U' V hVU ≫ U'.ι ≫ 𝟙 _ = (V.ι ≫ 𝟙 _) ≫ g
+    change g.resLE U' V hVU ≫ U'.ι ≫ 𝟙 _ = (V.ι ≫ 𝟙 _) ≫ g
     rw [Category.comp_id, Category.comp_id, Scheme.Hom.resLE_comp_ι]
   let j := smallEtaleBaseChangeLift E f W'' X k hk
   refine ⟨smallEtaleLiftObject B E h S hS p hp x W'',

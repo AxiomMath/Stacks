@@ -47,7 +47,8 @@ and the `MulEquiv` that condition (3) of Stacks 04H9 needs is read off it.  Addi
 needed for the units square, but it is needed for step (4) of the proof of
 [Stacks 04I6](https://stacks.math.columbia.edu/tag/04I6), which reads the stalk of a sheaf of
 solutions of a polynomial system over this ring and so needs both operations.  Additivity costs
-nothing beyond `Stacks.Sheaves.StalkTransport.ringStalkComparison_ringAddObj`; the unit and the zero are handled by cancellation.
+nothing beyond `Stacks.Sheaves.StalkTransport.ringStalkComparison_ringAddObj`; the unit and the zero
+are handled by cancellation.
 
 ## References
 
@@ -73,32 +74,32 @@ variable {C : Type uC} [Category.{vC} C] {P Q : C ⥤ Type uP}
 /-- The colimit over a category of elements depends on the indexing functor only through its
 isomorphism class, at arbitrary coefficients. -/
 def presheafColimIsoOfNatIso' (e : P ≅ Q) :
-    (Functor.whiskeringLeft P.Elementsᵒᵖ Cᵒᵖ A).obj (CategoryOfElements.π P).op ⋙ Limits.colim ≅
+    (Functor.whiskeringLeft P.Elementsᵒᵖ Cᵒᵖ A).obj (Functor.Elements.π P).op ⋙ Limits.colim ≅
       (Functor.whiskeringLeft Q.Elementsᵒᵖ Cᵒᵖ A).obj
-        (CategoryOfElements.π Q).op ⋙ Limits.colim :=
+        (Functor.Elements.π Q).op ⋙ Limits.colim :=
   Functor.isoWhiskerLeft
-    ((Functor.whiskeringLeft Q.Elementsᵒᵖ Cᵒᵖ A).obj (CategoryOfElements.π Q).op)
+    ((Functor.whiskeringLeft Q.Elementsᵒᵖ Cᵒᵖ A).obj (Functor.Elements.π Q).op)
     (Functor.Final.colimIso (equivalenceOfNatIso e).op.functor)
 
 /-- The stalk functor on sheaves given by a colimit over a category of elements depends on the
 indexing functor only through its isomorphism class, at arbitrary coefficients. -/
 def sheafColimIsoOfNatIso' (J : GrothendieckTopology C) (e : P ≅ Q) :
     (sheafToPresheaf J A ⋙
-      (Functor.whiskeringLeft _ _ _).obj (CategoryOfElements.π P).op ⋙ Limits.colim) ≅
+      (Functor.whiskeringLeft _ _ _).obj (Functor.Elements.π P).op ⋙ Limits.colim) ≅
     (sheafToPresheaf J A ⋙
-      (Functor.whiskeringLeft _ _ _).obj (CategoryOfElements.π Q).op ⋙ Limits.colim) :=
+      (Functor.whiskeringLeft _ _ _).obj (Functor.Elements.π Q).op ⋙ Limits.colim) :=
   Functor.isoWhiskerLeft (sheafToPresheaf J A) (presheafColimIsoOfNatIso' e)
 
 /-- The comparison sends the germ of a section at an element to its germ at the transported
 element. -/
 lemma ι_sheafColimIsoOfNatIso'_hom (J : GrothendieckTopology C) (e : P ≅ Q)
     (F : Sheaf J A) (V : P.Elements) :
-    Limits.colimit.ι ((CategoryOfElements.π P).op ⋙ F.obj) (op V) ≫
+    Limits.colimit.ι ((Functor.Elements.π P).op ⋙ F.obj) (op V) ≫
         (sheafColimIsoOfNatIso' J e).hom.app F =
-      Limits.colimit.ι ((CategoryOfElements.π Q).op ⋙ F.obj)
+      Limits.colimit.ι ((Functor.Elements.π Q).op ⋙ F.obj)
         ((equivalenceOfNatIso e).op.functor.obj (op V)) :=
   Functor.Final.ι_colimitIso_hom (equivalenceOfNatIso e).op.functor
-    ((CategoryOfElements.π Q).op ⋙ F.obj) (op V)
+    ((Functor.Elements.π Q).op ⋙ F.obj) (op V)
 
 end CategoryTheory.CategoryOfElements
 

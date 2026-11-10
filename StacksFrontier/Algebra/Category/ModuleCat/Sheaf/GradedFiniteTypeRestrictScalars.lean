@@ -104,7 +104,7 @@ theorem Generates.restrictScalars {φ : GradedAlgebra.UnitalHom A B}
     rw [smulSection_restrictₛₗ, restrictₛₗ_restrictₛₗ, Category.assoc]
     exact congrArg (M.smulSection k ((M.piece (d i)).val.restrictₛₗ (h ≫ g ≫ f₀).op (s i)))
       (hb i)
-  show ∑ i, M.smulSection k ((M.piece (d i)).val.restrictₛₗ ((h ≫ g) ≫ f₀).op (s i))
+  change ∑ i, M.smulSection k ((M.piece (d i)).val.restrictₛₗ ((h ≫ g) ≫ f₀).op (s i))
       ((φ.app (k - d i)).val.app (op W') (b i)) =
     (M.piece k).val.restrictₛₗ (h ≫ g).op x
   refine Eq.trans (Finset.sum_congr rfl fun i _ => key i) ?_

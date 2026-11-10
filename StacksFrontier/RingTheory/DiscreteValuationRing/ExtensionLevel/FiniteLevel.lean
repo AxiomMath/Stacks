@@ -326,7 +326,7 @@ lemma isDiscreteValuationRing_integralClosure_of_pow_eq_unit_mul_zpow
   let g : E →ₐ[L] M := AdjoinRoot.liftAlgHom _ (Algebra.ofId L M) x (by
     simp only [Stacks.KummerExtension.kummerPoly, Polynomial.eval₂_sub, Polynomial.eval₂_pow,
       Polynomial.eval₂_X, Polynomial.eval₂_C]
-    show x ^ p - algebraMap L M (algebraMap B L π') = 0
+    change x ^ p - algebraMap L M (algebraMap B L π') = 0
     rw [← IsScalarTower.algebraMap_apply B L M, hx, sub_self])
   have heq : Module.finrank L E = Module.finrank L M :=
     (Stacks.KummerExtension.finrank_K1 L π' p (Fact.out : p.Prime).two_le hπ').trans hdegree.symm
@@ -371,7 +371,7 @@ private lemma integralClosure_algEquiv_of_isDiscreteValuationRing
     obtain ⟨π, hπ⟩ := IsDiscreteValuationRing.exists_irreducible B
     intro hJ
     have hm : algebraMap B R π ∈ J := by
-      show g (algebraMap B R π) ∈ IsLocalRing.maximalIdeal C
+      change g (algebraMap B R π) ∈ IsLocalRing.maximalIdeal C
       rw [g.commutes]
       exact fun h => hπ.not_isUnit (isUnit_of_map_unit (algebraMap B C) π h)
     rw [hJ, Ideal.mem_bot] at hm
@@ -468,8 +468,7 @@ private noncomputable def tensorProductMapEquiv
   refine { __ := e.toRingEquiv, commutes' := ?_ }
   intro x
   change e (algebraMap (L ⊗[K] E) ((L ⊗[K] E) ⊗[L] M) x) = ι x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul l a =>
     change e ((l ⊗ₜ[K] a) ⊗ₜ[L] (1 : M)) = ι (l ⊗ₜ[K] a)
     simp [e, ι, Algebra.smul_def]
@@ -523,7 +522,7 @@ private lemma adjoin_tensorProduct_map_eq_top
       (Algebra.TensorProduct.adjoin_one_tmul_image_eq_top (A := L ⊗[K] E) {y} hy)
   have he := adjoin_singleton_algEquiv_eq_top e _ hg
   have hy' : e ((1 : L ⊗[K] E) ⊗ₜ[L] y) = y ⊗ₜ[K] (1 : E) := by
-    show tensorProductMapEquiv K L M E ((1 ⊗ₜ[K] 1) ⊗ₜ[L] y) = _
+    change tensorProductMapEquiv K L M E ((1 ⊗ₜ[K] 1) ⊗ₜ[L] y) = _
     rw [tensorProductMapEquiv_tmul, one_smul]
   change Algebra.adjoin (L ⊗[K] E) {e ((1 : L ⊗[K] E) ⊗ₜ[L] y)} = ⊤ at he
   rwa [hy'] at he
@@ -575,7 +574,7 @@ private lemma exists_pow_eq_unit_tensorProduct_of_pow_eq
   let : IsScalarTower L L₁ M₁ := isScalarTower_tensorProduct_map K L M E
   let t₁ : L₁ := (Algebra.TensorProduct.includeRight : E →ₐ[K] L₁) t
   have ht₁ : t₁ ^ p = algebraMap L L₁ (algebraMap K L π) := by
-    show ((Algebra.TensorProduct.includeRight : E →ₐ[K] L₁) t) ^ p = _
+    change ((Algebra.TensorProduct.includeRight : E →ₐ[K] L₁) t) ^ p = _
     rw [← map_pow, ht, AlgHom.commutes, ← IsScalarTower.algebraMap_apply K L L₁]
   have ht₁ne : t₁ ≠ 0 := by
     intro h
@@ -632,10 +631,9 @@ private lemma finiteLevel_tensorProduct_self
       eM.toRingHom.comp (algebraMap L₁ M₁) := by
     apply RingHom.ext
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul l k =>
-      show algebraMap L M (k • l) = k • algebraMap L M l
+      change algebraMap L M (k • l) = k • algebraMap L M l
       exact (IsScalarTower.toAlgHom K L M).toLinearMap.map_smul k l
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
   have hcomm' : (algebraMap L₁ M₁).comp eL.symm.toRingHom =
@@ -673,9 +671,9 @@ private lemma finiteLevel_tensorProduct_self
     rw [Algebra.Subalgebra.restrictScalars_adjoin, hgen', Subalgebra.restrictScalars_top]
     simp
   · apply eM.injective
-    show eM (Polynomial.eval₂ ((algebraMap L₁ M₁).comp (algebraMap B₁ L₁))
+    change eM (Polynomial.eval₂ ((algebraMap L₁ M₁).comp (algebraMap B₁ L₁))
       (eM.symm z) (P.map (algebraMap B B₁))) = eM (algebraMap L₁ M₁ (eL.symm ξ))
-    show eM.toRingHom _ = eM.toRingHom _
+    change eM.toRingHom _ = eM.toRingHom _
     rw [Polynomial.eval₂_map, Polynomial.hom_eval₂]
     have hcoeff : eM.toRingHom.comp
         (((algebraMap L₁ M₁).comp (algebraMap B₁ L₁)).comp (algebraMap B B₁)) =
@@ -685,7 +683,7 @@ private lemma finiteLevel_tensorProduct_self
       exact (DFunLike.congr_fun hcomm (algebraMap B L₁ b)).symm.trans
         (congrArg (algebraMap L M) (hmapB b))
     rw [hcoeff]
-    show Polynomial.eval₂ ((algebraMap L M).comp (algebraMap B L))
+    change Polynomial.eval₂ ((algebraMap L M).comp (algebraMap B L))
       (eM (eM.symm z)) P = eM (algebraMap L₁ M₁ (eL.symm ξ))
     rw [eM.apply_symm_apply, heval]
     simpa using DFunLike.congr_fun hcomm (eL.symm ξ)
@@ -694,7 +692,7 @@ private lemma finiteLevel_tensorProduct_self
     convert Ideal.mem_map_of_mem eB.toRingHom ha using 1
     exact (eB.commutes a).symm
   · apply eL.injective
-    show eL (algebraMap B₁ L₁ (algebraMap B B₁ a)) =
+    change eL (algebraMap B₁ L₁ (algebraMap B B₁ a)) =
       eL (algebraMap B₁ L₁ (wElt ((algebraMap B B₁).comp f)) ^ p * eL.symm ξ)
     rw [wElt_comp, ← IsScalarTower.algebraMap_apply B B₁ L₁,
       ← IsScalarTower.algebraMap_apply B B₁ L₁, map_mul, map_pow,
@@ -717,7 +715,7 @@ private lemma exists_totallyRamified_radicalExtension
     inferInstance,
     inferInstance, Stacks.KummerExtension.isTotallyRamified_K1 K π n hn hπ,
     Stacks.KummerExtension.finrank_K1 K π n hn hπ, Stacks.KummerExtension.piRoot K π n, ?_⟩
-  show (AdjoinRoot.root (Stacks.KummerExtension.kummerPoly K π n)) ^ n =
+  change (AdjoinRoot.root (Stacks.KummerExtension.kummerPoly K π n)) ^ n =
     AdjoinRoot.of (Stacks.KummerExtension.kummerPoly K π n) (algebraMap A K π)
   have h := AdjoinRoot.eval₂_root (Stacks.KummerExtension.kummerPoly K π n)
   simpa only [Stacks.KummerExtension.kummerPoly, Polynomial.eval₂_sub, Polynomial.eval₂_pow,
@@ -825,17 +823,17 @@ private lemma exists_isWeakSolution_self_of_isWeaklyUnramified
       eL₁ := e.symm.trans eQ
       eL₁_left := by
         intro x
-        show eQ (e.symm x) = _
+        change eQ (e.symm x) = _
         simp only [eQ, AlgEquiv.trans_apply, AlgEquiv.quotientBot_symm_mk,
           Ideal.quotientEquivAlg]
         rfl
       eL₁_right := by
         intro x
-        show eQ (e.symm (algebraMap K L x)) = _
+        change eQ (e.symm (algebraMap K L x)) = _
         have hx : e.symm (algebraMap K L x) = (1 : L) ⊗ₜ[K] x := by
           apply e.injective
           rw [e.apply_symm_apply]
-          show (algebraMap K L) x = (Algebra.TensorProduct.rid K K L) (1 ⊗ₜ[K] x)
+          change (algebraMap K L) x = (Algebra.TensorProduct.rid K K L) (1 ⊗ₜ[K] x)
           simp [Algebra.smul_def]
         rw [hx]
         simp only [eQ, AlgEquiv.trans_apply, AlgEquiv.quotientBot_symm_mk,
@@ -847,7 +845,7 @@ private lemma exists_isWeakSolution_self_of_isWeaklyUnramified
           (IsScalarTower.algebraMap_apply A K L a) }
   refine ⟨D, ?_⟩
   intro q hq
-  show q.ramificationIdx A = 1
+  change q.ramificationIdx A = 1
   rw [IsLocalRing.eq_maximalIdeal hq]
   exact (IsDiscreteValuationRing.isWeaklyUnramified_iff_ramificationIdx_eq_one A B).mp hweak
 
@@ -988,7 +986,7 @@ theorem exists_totallyRamified_galoisExtension_isWeakSolution_or_finiteLevel
             y u n hparam hgen t htK hL₁ hM₁
           let u₁ : B₁ˣ := Units.map (algebraMap B B₁).toMonoidHom u
           have hz₁ : z ^ p = algebraMap L₁ M₁ (algebraMap B₁ L₁ u₁) := by
-            show z ^ p = algebraMap L₁ M₁
+            change z ^ p = algebraMap L₁ M₁
               (algebraMap B₁ L₁ (algebraMap B B₁ (u : B)))
             rw [← IsScalarTower.algebraMap_apply B B₁ L₁]
             exact hz
@@ -1010,7 +1008,7 @@ theorem exists_totallyRamified_galoisExtension_isWeakSolution_or_finiteLevel
               ((algebraMap L₁ M₁).comp (algebraMap B₁ L₁)).toAlgebra
             let : IsScalarTower B₁ L₁ M₁ := IsScalarTower.of_algebraMap_eq fun _ => rfl
             let : IsScalarTower B L₁ M₁ := IsScalarTower.of_algebraMap_eq fun b => by
-              show algebraMap B M b ⊗ₜ[K] (1 : E) =
+              change algebraMap B M b ⊗ₜ[K] (1 : E) =
                 ι (algebraMap B L b ⊗ₜ[K] 1)
               simp [ι, ← IsScalarTower.algebraMap_apply B L M]
             let : IsScalarTower B B₁ M₁ := IsScalarTower.of_algebraMap_eq fun b => by
@@ -1044,13 +1042,13 @@ theorem exists_totallyRamified_galoisExtension_isWeakSolution_or_finiteLevel
             have hg : ∀ a : A₁, algebraMap R M₁ (g a) =
                 (Algebra.TensorProduct.includeRight : E →ₐ[K] M₁) (a : E) := by
               intro a
-              show (e ((algebraMap B₁ S)
+              change (e ((algebraMap B₁ S)
                 (eB ((Algebra.TensorProduct.includeRight : A₁ →ₐ[A] B ⊗[A] A₁) a))) : M₁) = _
               rw [heval]
-              show algebraMap B₁ M₁
+              change algebraMap B₁ M₁
                 (eB ((Algebra.TensorProduct.includeRight : A₁ →ₐ[A] B ⊗[A] A₁) a)) = _
               rw [IsScalarTower.algebraMap_apply B₁ L₁ M₁]
-              show ι ((eB ((Algebra.TensorProduct.includeRight : A₁ →ₐ[A] B ⊗[A] A₁) a) : B₁) :
+              change ι ((eB ((Algebra.TensorProduct.includeRight : A₁ →ₐ[A] B ⊗[A] A₁) a) : B₁) :
                 L₁) = _
               rw [heB]
               simp [ι]

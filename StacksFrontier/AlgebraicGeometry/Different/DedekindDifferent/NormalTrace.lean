@@ -86,7 +86,7 @@ private theorem isIntegral_of_forall_minimalPrimes
     intro 𝔮 h𝔮
     obtain ⟨𝔭, h𝔭, hle⟩ := Ideal.exists_minimalPrimes_le (I := ⊥) (J := 𝔮) bot_le
     refine hle ?_
-    rw [hq, map_prod, Finset.prod_eq_prod_diff_singleton_mul (hfin.mem_toFinset.mpr h𝔭)]
+    rw [hq, map_prod, Finset.prod_eq_prod_sdiff_singleton_mul (hfin.mem_toFinset.mpr h𝔭)]
     exact Ideal.mul_mem_left _ _ (hpmem 𝔭 h𝔭)
   have hnil : IsNilpotent (Polynomial.aeval t q) := by
     rw [← mem_nilradical, nilradical_eq_sInf]
@@ -119,7 +119,7 @@ theorem trace_algebraMap_mem_range_of_isNormalRing
     Module.FinitePresentation.of_finite_of_finitePresentation K L
   have : Module.Projective K L := Module.Flat.projective_of_finitePresentation
   have : IsScalarTower A K L := IsScalarTower.of_algebraMap_eq fun a => by
-    show algebraMap A L a = (1 : B) ⊗ₜ[A] algebraMap A K a
+    change algebraMap A L a = (1 : B) ⊗ₜ[A] algebraMap A K a
     rw [Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one,
       ← TensorProduct.smul_tmul]
     rfl

@@ -103,7 +103,7 @@ public theorem hasDualizingComplexOnAffineCover_U
 public theorem mem_support_idealOnOpen_iff (y : S.U.toScheme) :
     y ∈ (idealOnOpen S).support ↔ ∃ z : S.Y, S.U.ι.base y = S.Yι.base z := by
   have hsupp : y ∈ (idealOnOpen S).support ↔ S.I ≤ (S.U.ι.base y : PrimeSpectrum S.A).asIdeal := by
-    show y ∈ (((Scheme.IdealSheafData.ofIdealTop
+    change y ∈ (((Scheme.IdealSheafData.ofIdealTop
       (S.I.map (Scheme.ΓSpecIso (.of S.A)).inv.hom)).comap S.U.ι).support : Set _) ↔ _
     rw [Scheme.IdealSheafData.support_comap, Closeds.coe_preimage, Set.mem_preimage,
       Scheme.IdealSheafData.coe_support_ofIdealTop, Ideal.map, Scheme.zeroLocus_span,
@@ -121,7 +121,7 @@ public theorem mem_support_idealOnOpen_iff (y : S.U.toScheme) :
   · rintro ⟨z, hz⟩
     rw [hz]
     intro a ha
-    show Ideal.Quotient.mk S.I a ∈ (z : PrimeSpectrum (S.A ⧸ S.I)).asIdeal
+    change Ideal.Quotient.mk S.I a ∈ (z : PrimeSpectrum (S.A ⧸ S.I)).asIdeal
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr ha]
     exact Ideal.zero_mem _
 

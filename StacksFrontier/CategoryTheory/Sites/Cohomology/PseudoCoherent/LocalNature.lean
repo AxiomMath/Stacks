@@ -183,7 +183,7 @@ section Transfer
 theorem isIso_homologyMap_of_iso {A : Type*} [Category A] [Abelian A]
     {P Q : CochainComplex A ℤ} (e : P ≅ Q) (j : ℤ) :
     IsIso (HomologicalComplex.homologyMap e.hom j) := by
-  show IsIso ((HomologicalComplex.homologyFunctor _ (ComplexShape.up ℤ) j).map e.hom)
+  change IsIso ((HomologicalComplex.homologyFunctor _ (ComplexShape.up ℤ) j).map e.hom)
   infer_instance
 
 variable {A B : Type*} [Category A] [Abelian A] [Category B] [Abelian B]

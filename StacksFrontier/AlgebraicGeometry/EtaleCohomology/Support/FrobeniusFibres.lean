@@ -317,7 +317,7 @@ private lemma span_fixedVectors_eq_top
     obtain ⟨w, hw⟩ := hrsurj ⟨F v, (Submodule.Quotient.mk_eq_zero W).mp hz⟩
     exact (Submodule.Quotient.mk_eq_zero W).mpr (hinj (congrArg Subtype.val hw) ▸ w.property)
   by_contra htop
-  obtain ⟨x, -, hx⟩ := SetLike.exists_of_lt (lt_top_iff_ne_top.mpr htop)
+  obtain ⟨x, -, hx⟩ := IsConcreteLE.exists_of_lt (lt_top_iff_ne_top.mpr htop)
   obtain ⟨z, hz, hgz⟩ := exists_nonzero_fixedVector p hp g.toAddMonoidHom hg hginj
     (W.mkQ x) (fun h => hx ((Submodule.Quotient.mk_eq_zero W).mp h))
   obtain ⟨v, rfl⟩ := W.mkQ_surjective z

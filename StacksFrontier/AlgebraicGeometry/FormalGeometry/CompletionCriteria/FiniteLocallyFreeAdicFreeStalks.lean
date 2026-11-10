@@ -88,9 +88,9 @@ theorem exists_linearEquiv_pi_stalk_of_pushforward_iso (J : X.IdealSheafData) {t
     refine ⟨r, ⟨{ (f₁.toAddEquiv.trans f₂) with map_smul' := ?_ }⟩⟩
     intro c m
     funext i
-    show eRing.symm (b (f₁ (c • m)) i) = c • eRing.symm (b (f₁ m) i)
+    change eRing.symm (b (f₁ (c • m)) i) = c • eRing.symm (b (f₁ m) i)
     rw [f₁.map_smul]
-    show eRing.symm (b ((((J ^ t).subschemeι).stalkMap z c) • f₁ m) i) = _
+    change eRing.symm (b ((((J ^ t).subschemeι).stalkMap z c) • f₁ m) i) = _
     rw [b.map_smul, Pi.smul_apply, smul_eq_mul, map_mul, ← heR, RingEquiv.symm_apply_apply,
       Algebra.smul_def]
     rfl

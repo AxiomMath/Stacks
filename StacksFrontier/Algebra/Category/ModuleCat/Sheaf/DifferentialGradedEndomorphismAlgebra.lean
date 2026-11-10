@@ -948,7 +948,7 @@ theorem homBimoduleStructure_app (hE : IsEndomorphismAlgebra N E) (f : UnitalHom
         ((f.toHom.toHomologicalComplex.f n).val.app (Opposite.op U) a)).app i j hij V x)
       (((homBimoduleStructure hE f).leftMul n i).app (Opposite.op V.left)
         (restrictSection (A.complex.X n) V.hom.op a) x) := by
-  show HEq _ ((homLeftMul hE f n i).app (Opposite.op V.left)
+  change HEq _ ((homLeftMul hE f n i).app (Opposite.op V.left)
     (restrictSection (A.complex.X n) V.hom.op a) x)
   rw [homLeftMul_app_op, ← restrictSection_val_app]
   rw [sectionsEquiv_restrict_app_id]
@@ -978,7 +978,7 @@ theorem homBimoduleStructure_actionHom (hE : IsEndomorphismAlgebra N E)
   apply BimoduleStructure.ext
   funext n i
   refine Stacks.BilinearMap.ext fun U a x => ?_
-  show (homLeftMul hE (actionHom s hE) n i).app U a x = _
+  change (homLeftMul hE (actionHom s hE) n i).app U a x = _
   rw [homLeftMul_app]
   have h := eq_of_heq (actionSection_app s hE n i (n + i) (by omega) U.unop
     (Over.mk (𝟙 U.unop)) a x)

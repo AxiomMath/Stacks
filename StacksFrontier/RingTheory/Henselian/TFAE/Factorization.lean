@@ -106,8 +106,8 @@ items: `1 → 8 → 7 → 1`, `1 → 2 → 1`, `1 → 10 → 9 → 1`, `1 → 11
 
 ## Organisation
 
-The proof is in four files. `StacksFrontier.RingTheory.Henselian.TFAE.Conditions` states the thirteen
-conditions and proves the easy implications and the cycle `1 → 8 → 7 → 1`;
+The proof is in four files. `StacksFrontier.RingTheory.Henselian.TFAE.Conditions` states the
+thirteen conditions and proves the easy implications and the cycle `1 → 8 → 7 → 1`;
 `StacksFrontier.RingTheory.Henselian.TFAE.Decompositions` proves `1 → 2 → 1`, `1 → 10 → 9 → 1`,
 `1 → 11 → 13 → 1`, `11 → 12 → 13` and 3 ⇒ 1;
 `StacksFrontier.RingTheory.Henselian.TFAE.MonicFactorization` lifts monic coprime factorisations
@@ -223,24 +223,24 @@ private lemma exists_module_finite_of_map_monic (h1 : Item1 R) (f : R[X])
           intro x y hx hy
           have hx' : ((0 : A), x) ∈ Ideal.map (algebraMap R (A × B)) (maximalIdeal R) := hx
           have hy' : ((0 : A), y) ∈ Ideal.map (algebraMap R (A × B)) (maximalIdeal R) := hy
-          show ((0 : A), x + y) ∈ Ideal.map (algebraMap R (A × B)) (maximalIdeal R)
+          change ((0 : A), x + y) ∈ Ideal.map (algebraMap R (A × B)) (maximalIdeal R)
           rw [show ((0 : A), x + y) = ((0 : A), x) + ((0 : A), y) from by ext <;> simp]
           exact add_mem hx' hy'
         zero_mem' := by
-          show ((0 : A), (0 : B)) ∈ Ideal.map (algebraMap R (A × B)) (maximalIdeal R)
+          change ((0 : A), (0 : B)) ∈ Ideal.map (algebraMap R (A × B)) (maximalIdeal R)
           rw [show ((0 : A), (0 : B)) = 0 from rfl]
           exact zero_mem _
         smul_mem' := by
           intro c x hx
           have hx' : ((0 : A), x) ∈ Ideal.map (algebraMap R (A × B)) (maximalIdeal R) := hx
-          show ((0 : A), c • x) ∈ Ideal.map (algebraMap R (A × B)) (maximalIdeal R)
+          change ((0 : A), c • x) ∈ Ideal.map (algebraMap R (A × B)) (maximalIdeal R)
           rw [show ((0 : A), c • x) = ((0 : A), c) * ((0 : A), x) from by
             ext <;> simp [smul_eq_mul]]
           exact Ideal.mul_mem_left _ _ hx' }
     have hle : Ideal.map (algebraMap R B) (maximalIdeal R) ≤ J := by
       rw [Ideal.map_le_iff_le_comap]
       intro r hr
-      show ((0 : A), algebraMap R B r) ∈ Ideal.map (algebraMap R (A × B)) (maximalIdeal R)
+      change ((0 : A), algebraMap R B r) ∈ Ideal.map (algebraMap R (A × B)) (maximalIdeal R)
       rw [show ((0 : A), algebraMap R B r)
           = ((0 : A), (1 : B)) * algebraMap R (A × B) r from by ext <;> simp]
       exact Ideal.mul_mem_left _ _ (Ideal.mem_map_of_mem _ hr)

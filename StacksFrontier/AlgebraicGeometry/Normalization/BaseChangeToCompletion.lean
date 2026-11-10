@@ -880,14 +880,14 @@ private theorem exists_dense_generic_lift
   refine ⟨Sigma.desc g',
     (Scheme.eq_fromGenericPointResidueFields_iff X _).2 fun η ↦ ?_, ?_⟩
   · exact ((Category.assoc _ _ _).symm.trans
-      (congrArg (fun k ↦ k ≫ f) (Sigma.ι_desc g' η))).trans (hg η)
+      (congrArg (fun k ↦ k ≫ f) (Sigma.ι_comp_desc g' η))).trans (hg η)
   · apply (dense_iff_closure_eq.mpr (genericPoints.closure (α := Z))).mono
     intro z hz
     obtain ⟨k, hk⟩ := hsurj ⟨f z, hgen hz⟩ z rfl
     refine ⟨Sigma.ι (fun η : genericPoints X ↦ Spec (.of (X.residueField η.1)))
       ⟨f z, hgen hz⟩ k, ?_⟩
     change (Sigma.ι _ _ ≫ Sigma.desc g') k = z
-    rw [Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc]
     exact hk
 
 /-- If `R → S` becomes bijective after localizing at the powers of `a`, then the induced map of

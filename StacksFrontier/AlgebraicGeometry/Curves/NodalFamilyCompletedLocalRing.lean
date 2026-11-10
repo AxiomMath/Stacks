@@ -95,7 +95,7 @@ private theorem ringKrullDim_multicross_two_le_one (k : Type*) [Field k] :
     simp [L, a, b, f]
   have : Algebra.IsIntegral C D := Algebra.IsIntegral.of_finite C D
   have : FaithfulSMul C D := (faithfulSMul_iff_algebraMap_injective C D).mpr (by
-    show Function.Injective f
+    change Function.Injective f
     intro a b hab
     apply Subtype.ext
     funext i
@@ -196,7 +196,7 @@ private theorem adicCompletionMap_flat_of_isFlatAt
   have : Algebra.EssFiniteType R Q := LocallyOfFiniteType.stalkMap f t
   have : IsNoetherianRing Q := Algebra.EssFiniteType.isNoetherianRing R Q
   have : IsLocalHom ((f.stalkMap t).hom) := inferInstance
-  show (adicCompletionMap (f.stalkMap t).hom (maximalIdeal R) (maximalIdeal Q)
+  change (adicCompletionMap (f.stalkMap t).hom (maximalIdeal R) (maximalIdeal Q)
     (map_maximalIdeal_le (f.stalkMap t).hom)).Flat
   exact (adicCompletionMap_flat_iff (f.stalkMap t).hom).2 hflat
 
@@ -243,7 +243,7 @@ private theorem adicCompletionMap_faithfullyFlat
     (map_maximalIdeal_le f)
   let : Algebra A B := φ.toAlgebra
   have : IsLocalHom (algebraMap A B) := by
-    show IsLocalHom φ
+    change IsLocalHom φ
     exact adicCompletionMap_isLocalHom_of_isLocalHom f
   have : Module.Flat A B :=
     RingHom.flat_algebraMap_iff.mpr ((adicCompletionMap_flat_iff f).2 hf)
@@ -315,7 +315,7 @@ private theorem improve_relation_mod_pow
   · simpa [α] using hα
   · simpa [β] using hβ
   · simpa [γ] using hγ
-  · show (u - α) * (v - β) - f (h + γ) ∈ J ^ (n + 1)
+  · change (u - α) * (v - β) - f (h + γ) ∈ J ^ (n + 1)
     have hsplit : (∑ i ∈ s, f (r i) * b i) =
         f γ + u * β + v * α + ∑ i ∈ s, f (r i) * e i := by
       have hrewrite : (∑ i ∈ s, f (r i) * b i) =
@@ -619,7 +619,7 @@ private theorem iterate_relation_mod_pow_with_close
   have hlim1 : hLim - (seq 1).1.base ∈ I := by
     simpa [pow_one] using hhLim 1
   have hstep0 : (seq 1).1.base - (seq 0).1.base ∈ I := by
-    show (seq (0 + 1)).1.base - (seq 0).1.base ∈ I
+    change (seq (0 + 1)).1.base - (seq 0).1.base ∈ I
     rw [hnext 0]
     have hs :=
       (Classical.choose_spec (step 0 (seq 0).1 (seq 0).2.1 (seq 0).2.2)).2.2.1
@@ -746,7 +746,7 @@ private theorem surjective_quotient_of_residue_surjective
   refine ⟨a, ?_⟩
   apply Ideal.Quotient.eq.mpr
   rw [hmap]
-  show q (f a) - q b ∈ maximalIdeal (B ⧸ K)
+  change q (f a) - q b ∈ maximalIdeal (B ⧸ K)
   rw [← map_sub]
   refine map_maximalIdeal_le q <| Ideal.mem_map_of_mem q <| (residue_eq_zero_iff _).mp ?_
   simpa only [map_sub, RingHom.comp_apply] using sub_eq_zero.mpr ha
@@ -780,12 +780,12 @@ private theorem exists_surjective_powerSeries_hom
   let F : MvPowerSeries (Fin n) A →ₐ[A] B :=
     { __ := MvPowerSeries.eval₂Hom (φ := algebraMap A B) continuous_of_discreteTopology ha
       commutes' := fun a => by
-        show MvPowerSeries.eval₂Hom (φ := algebraMap A B)
+        change MvPowerSeries.eval₂Hom (φ := algebraMap A B)
           continuous_of_discreteTopology ha (MvPowerSeries.C a) = _
         rw [MvPowerSeries.coe_eval₂Hom, MvPowerSeries.eval₂_C] }
   have hFX : ∀ i, F (MvPowerSeries.X i) = x i :=
     fun i => by
-      show MvPowerSeries.eval₂Hom (φ := algebraMap A B)
+      change MvPowerSeries.eval₂Hom (φ := algebraMap A B)
         continuous_of_discreteTopology ha (MvPowerSeries.X i) = _
       rw [MvPowerSeries.coe_eval₂Hom, MvPowerSeries.eval₂_X]
   let L : Ideal (MvPowerSeries (Fin n) A) := Ideal.span (Set.range MvPowerSeries.X)
@@ -804,7 +804,7 @@ private theorem exists_surjective_powerSeries_hom
   refine ⟨MvPowerSeries.C a, ?_⟩
   apply Ideal.Quotient.eq.mpr
   rw [hmap]
-  show F (algebraMap A _ a) - b ∈ K
+  change F (algebraMap A _ a) - b ∈ K
   rw [F.commutes]
   exact Ideal.Quotient.eq.mp ha
 
@@ -909,20 +909,20 @@ private theorem exists_nodal_presentation_of_closed_fiber
   let q : B →ₐ[A] B ⧸ J := Ideal.Quotient.mkₐ A J
   have : IsLocalHom q.toRingHom := IsLocalHom.of_surjective _ Ideal.Quotient.mk_surjective
   have hmod : q.comp F = g := by
-    apply AlgHom.coe_ringHom_injective
+    apply AlgHom.toRingHom_injective
     apply powerSeries_hom_ext (maximalIdeal (B ⧸ J))
     · intro a
       exact (q.comp F).commutes a |>.trans (g.commutes a).symm
     · intro i
       fin_cases i
-      · show q (F (MvPowerSeries.X 0)) = g (MvPowerSeries.X 0)
+      · change q (F (MvPowerSeries.X 0)) = g (MvPowerSeries.X 0)
         rw [hFX, hgX.1]
         exact Ideal.Quotient.eq.mpr hcloseu
-      · show q (F (MvPowerSeries.X 1)) = g (MvPowerSeries.X 1)
+      · change q (F (MvPowerSeries.X 1)) = g (MvPowerSeries.X 1)
         rw [hFX, hgX.2]
         exact Ideal.Quotient.eq.mpr hclosev
     · intro i
-      show q (F (MvPowerSeries.X i)) ∈ _
+      change q (F (MvPowerSeries.X i)) ∈ _
       rw [hFX]
       apply map_maximalIdeal_le q.toRingHom
       apply Ideal.mem_map_of_mem
@@ -934,7 +934,7 @@ private theorem exists_nodal_presentation_of_closed_fiber
   let I := Ideal.span {r}
   let m := (maximalIdeal A).map (algebraMap A P)
   have hr : F r = 0 := by
-    show F (MvPowerSeries.X 0 * MvPowerSeries.X 1 - algebraMap A P h) = 0
+    change F (MvPowerSeries.X 0 * MvPowerSeries.X 1 - algebraMap A P h) = 0
     rw [map_sub, map_mul, hFX, hFX, F.commutes]
     exact sub_eq_zero.mpr hrel
   have hI : I ≤ RingHom.ker F.toRingHom := Ideal.span_le.mpr (Set.singleton_subset_iff.mpr hr)
@@ -942,7 +942,7 @@ private theorem exists_nodal_presentation_of_closed_fiber
     have hle : RingHom.ker F.toRingHom ≤ RingHom.ker g.toRingHom := by
       intro b hb
       rw [← hmod]
-      show q (F b) = 0
+      change q (F b) = 0
       rw [show F b = 0 from hb, map_zero]
     apply hle.trans
     rw [hgker]
@@ -956,7 +956,7 @@ private theorem exists_nodal_presentation_of_closed_fiber
     rw [IsLocalRing.jacobson_eq_maximalIdeal _ bot_ne_top]
     apply Ideal.map_le_iff_le_comap.mpr
     intro a ha
-    show ¬IsUnit (MvPowerSeries.C a)
+    change ¬IsUnit (MvPowerSeries.C a)
     rw [MvPowerSeries.isUnit_iff_constantCoeff, MvPowerSeries.constantCoeff_C]
     exact ha
   have hker : RingHom.ker F.toRingHom = I := ker_eq_of_flat_closed_fiber F hF I hI hm hclosed
@@ -985,12 +985,12 @@ private theorem exists_nodal_presentation_of_surjective_closed_fiber
   have : IsLocalHom q.toRingHom := IsLocalHom.of_surjective _ Ideal.Quotient.mk_surjective
   have : IsLocalHom g.toRingHom := IsLocalHom.of_surjective _ hg
   have hq (b : B) : q b ∈ maximalIdeal (B ⧸ J) ↔ b ∈ maximalIdeal B := by
-    show ¬IsUnit (q b) ↔ ¬IsUnit b
+    change ¬IsUnit (q b) ↔ ¬IsUnit b
     exact not_congr ⟨isUnit_of_map_unit q.toRingHom b, IsUnit.map q.toRingHom⟩
   have hgX (i : Fin 2) : g (MvPowerSeries.X i) ∈ maximalIdeal (B ⧸ J) := by
     apply map_maximalIdeal_le g.toRingHom
     apply Ideal.mem_map_of_mem
-    show ¬IsUnit (MvPowerSeries.X i : MvPowerSeries (Fin 2) A)
+    change ¬IsUnit (MvPowerSeries.X i : MvPowerSeries (Fin 2) A)
     rw [MvPowerSeries.isUnit_iff_constantCoeff, MvPowerSeries.constantCoeff_X]
     exact not_isUnit_zero
   obtain ⟨u, huq⟩ := Ideal.Quotient.mk_surjective (g (MvPowerSeries.X 0))
@@ -1018,18 +1018,18 @@ private theorem exists_nodal_presentation_of_surjective_closed_fiber
       ring
     · intro hb
       have hgp : ¬IsUnit (g p) := by
-        show g p ∈ maximalIdeal (B ⧸ J)
+        change g p ∈ maximalIdeal (B ⧸ J)
         rw [hp]
         exact (hq b).mpr hb
       have hpu : ¬IsUnit p := fun h => hgp (h.map g.toRingHom)
-      show ¬IsUnit a
+      change ¬IsUnit a
       exact fun h => hpu (MvPowerSeries.isUnit_iff_constantCoeff.mpr h)
   have hres : Function.Surjective ((residue B).comp (algebraMap A B)) := by
     intro b
     obtain ⟨b, rfl⟩ := residue_surjective b
     obtain ⟨a, c, d, e, hb, he, _⟩ := hdecomp b
     refine ⟨a, ?_⟩
-    show residue B (algebraMap A B a) = residue B b
+    change residue B (algebraMap A B a) = residue B b
     rw [hb, map_add, map_add, map_add, map_mul, map_mul,
       (residue_eq_zero_iff u).mpr hu, (residue_eq_zero_iff v).mpr hv,
       (residue_eq_zero_iff e).mpr (hJ he)]
@@ -1080,7 +1080,7 @@ private theorem exists_nodal_presentation_of_closed_fiber_algEquiv
   apply exists_nodal_presentation_of_surjective_closed_fiber g
     (e.surjective.comp Ideal.Quotient.mk_surjective)
   ext p
-  show e (Ideal.Quotient.mk K p) = 0 ↔ p ∈ K
+  change e (Ideal.Quotient.mk K p) = 0 ↔ p ∈ K
   rw [map_eq_zero_iff e e.injective, Ideal.Quotient.eq_zero_iff_mem]
 
 /-- For a Noetherian local ring `A` with residue field `κ`, there is an `A`-algebra isomorphism
@@ -1110,7 +1110,7 @@ private theorem quotient_powerSeries_algEquiv_residueField
     simp [I, K, Ideal.map_span, f, MvPowerSeries.mapAlgHom_apply]
   have hfker : RingHom.ker f.toRingHom =
       (maximalIdeal A).map (algebraMap A (MvPowerSeries (Fin 2) A)) := by
-    show RingHom.ker (MvPowerSeries.map (residue A)) = _
+    change RingHom.ker (MvPowerSeries.map (residue A)) = _
     rw [MvPowerSeries.ker_map_of_fg (residue A)
       (IsNoetherian.noetherian _), ker_residue]
     rfl
@@ -1118,7 +1118,7 @@ private theorem quotient_powerSeries_algEquiv_residueField
   have hg : Function.Surjective g := Ideal.Quotient.mk_surjective.comp hf
   have hgker : RingHom.ker g.toRingHom =
       I ⊔ (maximalIdeal A).map (algebraMap A (MvPowerSeries (Fin 2) A)) := by
-    show RingHom.ker ((Ideal.Quotient.mk K).comp f.toRingHom) = _
+    change RingHom.ker ((Ideal.Quotient.mk K).comp f.toRingHom) = _
     rw [← RingHom.comap_ker, Ideal.mk_ker, ← hfI,
       Ideal.comap_map_of_surjective f.toRingHom hf, ← RingHom.ker_eq_comap_bot, hfker]
   exact ⟨(Ideal.quotientEquivAlgOfEq A hgker.symm).trans
@@ -1154,7 +1154,7 @@ private lemma nodalPowerSeriesQuotientRingEquiv_algebraMap
     {K L : Type*} [CommRing K] [CommRing L] (e : K ≃+* L) (c : K) :
     nodalPowerSeriesQuotientRingEquiv e (algebraMap K _ c) =
       algebraMap L _ (e c) := by
-  show Ideal.Quotient.mk _ (MvPowerSeries.map e.toRingHom (MvPowerSeries.C c)) = _
+  change Ideal.Quotient.mk _ (MvPowerSeries.map e.toRingHom (MvPowerSeries.C c)) = _
   rw [MvPowerSeries.map_C]
   rfl
 
@@ -1167,7 +1167,7 @@ private lemma ker_eval_pow (R : Type*) [CommRing R] [IsLocalRing R]
   rw [AdicCompletion.maximalIdeal_eq_map, ← Ideal.map_pow]
   ext x
   rw [RingHom.mem_ker]
-  show AdicCompletion.evalₐ (maximalIdeal R) n x = 0 ↔ _
+  change AdicCompletion.evalₐ (maximalIdeal R) n x = 0 ↔ _
   rw [← Submodule.restrictScalars_mem R, ← Ideal.smul_top_eq_map,
     AdicCompletion.pow_smul_top_eq_ker_eval (maximalIdeal R).fg_of_isNoetherianRing]
   have heq : maximalIdeal R ^ n * ⊤ = maximalIdeal R ^ n := by simp
@@ -1262,7 +1262,7 @@ private theorem nodalPowerSeriesQuotientAlgEquiv_of_completion
   let E := eN.trans e
   refine ⟨{ __ := E, commutes' := ?_ }⟩
   intro a
-  show E (algebraMap A _ a) = algebraMap A D a
+  change E (algebraMap A _ a) = algebraMap A D a
   obtain ⟨r, hr⟩ := completion_approx R a 1
   have hres : residue A a = residue A (algebraMap R A r) := by
     apply sub_eq_zero.mp
@@ -1277,9 +1277,9 @@ private theorem nodalPowerSeriesQuotientAlgEquiv_of_completion
     rw [← map_sub]
     exact hm _ (by simpa only [pow_one] using hr)
   rw [ha]
-  show e (eN (algebraMap A _ a)) = _
+  change e (eN (algebraMap A _ a)) = _
   rw [IsScalarTower.algebraMap_apply A (ResidueField A)]
-  show e (eN (algebraMap (ResidueField A) _ (residue A a))) = _
+  change e (eN (algebraMap (ResidueField A) _ (residue A a))) = _
   rw [hres, nodalPowerSeriesQuotientRingEquiv_algebraMap, hκ]
   exact he r
 
@@ -1300,7 +1300,7 @@ private theorem completion_quotient_equiv (R : Type*) [CommRing R] [IsLocalRing 
   have hI : I ≠ ⊤ := Ideal.Quotient.nontrivial_iff.mp inferInstance
   have hJ : J ≠ ⊤ := by
     apply ne_top_of_le_ne_top (maximalIdeal.isMaximal H).ne_top
-    show I.map (algebraMap R H) ≤ maximalIdeal H
+    change I.map (algebraMap R H) ≤ maximalIdeal H
     exact (Ideal.map_mono (le_maximalIdeal hI)).trans (map_maximalIdeal_le _)
   have : Nontrivial D := Ideal.Quotient.nontrivial_iff.mpr hJ
   have : IsLocalRing D := IsLocalRing.of_surjective' qH Ideal.Quotient.mk_surjective
@@ -1323,7 +1323,7 @@ private theorem completion_quotient_equiv (R : Type*) [CommRing R] [IsLocalRing 
     rw [ResidueField.map_residue]
     apply eq_of_sub_eq_zero
     rw [← map_sub, residue_eq_zero_iff]
-    show qH (algebraMap R H r) - qH x ∈ maximalIdeal D
+    change qH (algebraMap R H r) - qH x ∈ maximalIdeal D
     rw [← map_sub]
     apply (map_maximalIdeal_le qH)
     apply Ideal.mem_map_of_mem
@@ -1338,10 +1338,10 @@ private theorem completion_quotient_equiv (R : Type*) [CommRing R] [IsLocalRing 
   let E := e.trans (AdicCompletion.ofAlgEquiv (maximalIdeal D)).symm.toRingEquiv
   refine ⟨{ __ := E, commutes' := ?_ }⟩
   intro r
-  show (AdicCompletion.ofAlgEquiv (maximalIdeal D)).symm
+  change (AdicCompletion.ofAlgEquiv (maximalIdeal D)).symm
     (e (algebraMap Q (AdicCompletion (maximalIdeal Q) Q) (qR r))) = _
   rw [he]
-  show (AdicCompletion.ofAlgEquiv (maximalIdeal D)).symm
+  change (AdicCompletion.ofAlgEquiv (maximalIdeal D)).symm
     ((AdicCompletion.ofAlgEquiv (maximalIdeal D)) (g (qR r))) = _
   rw [AlgEquiv.symm_apply_apply]
   rfl
@@ -1525,7 +1525,7 @@ private theorem ordinaryNode_of_iso
     { (asIso (e.hom.stalkMap x)).commRingCatIsoToRingEquiv with
       commutes' := by
         intro a
-        show (e.hom.stalkMap x).hom
+        change (e.hom.stalkMap x).hom
           (((Scheme.ΓSpecIso (.of k)).inv ≫ (Y ↘ Spec (.of k)).appTop ≫
             Y.presheaf.germ ⊤ (e.hom x) (by simp)).hom a) =
           (((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appTop ≫
@@ -1547,7 +1547,7 @@ private theorem ordinaryNode_of_iso
   apply and_congr_right
   intro _
   let Ehat := completionAlgEquiv E
-  show Nonempty (_ ≃ₐ[k] _) ↔ Nonempty (_ ≃ₐ[k] _)
+  change Nonempty (_ ≃ₐ[k] _) ↔ Nonempty (_ ≃ₐ[k] _)
   exact ⟨fun ⟨a⟩ => ⟨Ehat.trans a⟩, fun ⟨a⟩ => ⟨Ehat.symm.trans a⟩⟩
 
 /-- A point of an open subscheme `U ⊆ X` that is a node of `X` is a node of `U`. -/
@@ -1590,12 +1590,12 @@ private theorem node_of_open
   let : Y.Over (Spec (.of K)) := ⟨q⟩
   let : W.toScheme.Over (Spec (.of K)) := ⟨W.ι ≫ q⟩
   let : Z.Over (Spec (.of K)) := ⟨qZ⟩
-  show IsClosed ({x} : Set U) ∧
+  change IsClosed ({x} : Set U) ∧
     ∃ z : Z, pZ.base z = x ∧ IsOrdinaryDoublePoint K Z z
   obtain ⟨hclosed, y, hy, hnode⟩ := hx
   have hclosedU : IsClosed ({x} : Set U) := isClosed_singleton_of_val hclosed
   have hyW : y ∈ W := by
-    show p y ∈ U
+    change p y ∈ U
     rw [hy]
     exact x.2
   let yw : W := ⟨y, hyW⟩
@@ -1609,7 +1609,7 @@ private theorem node_of_open
     calc
       U.ι (pZ z) = p ((e.hom ≫ W.ι) z) := by
         rw [congrArg (fun (h : Z ⟶ Y) => h z) heY]
-        show (pZ ≫ U.ι) z =
+        change (pZ ≫ U.ι) z =
           (pullback.lift (pZ ≫ U.ι) qZ (by rw [Category.assoc, pullback.condition]) ≫ p) z
         rw [pullback.lift_fst]
       _ = p y := by rw [Scheme.Hom.comp_apply, hez]; rfl
@@ -1716,7 +1716,7 @@ private theorem quadraticAlgebraRingEquiv_residue
       (ResidueField.mapEquiv e c) := by
   obtain ⟨r, rfl⟩ := residue_surjective c
   rw [ResidueField.mapEquiv_apply, ResidueField.map_residue]
-  show Ideal.Quotient.mk _
+  change Ideal.Quotient.mk _
       (integralClosureRingEquiv R S e (algebraMap R _ r)) =
     Ideal.Quotient.mk _ (algebraMap S _ (e r))
   rw [integralClosureRingEquiv_commutes]
@@ -1750,7 +1750,7 @@ theorem quadraticAlgebra_split_of_ringEquiv
         (quadraticAlgebra R) d := by
     rw [← hQ]
     exact eQ.symm_apply_apply _
-  show (eκ (a (eQ.symm (algebraMap (ResidueField S) _ c))).1,
+  change (eκ (a (eQ.symm (algebraMap (ResidueField S) _ c))).1,
       eκ (a (eQ.symm (algebraMap (ResidueField S) _ c))).2) = (c, c)
   rw [he, a.commutes d]
   exact Prod.ext (by simp [d]) (by simp [d])
@@ -1779,7 +1779,7 @@ private theorem splitNode_of_open
   have hres (c : k) :
       eκ ((X.residue x.1).hom (kToStalkX c)) =
         (U.toScheme.residue x).hom (kToStalkU c) := by
-    show ResidueField.map e.toRingEquiv.toRingHom
+    change ResidueField.map e.toRingEquiv.toRingHom
       (residue (X.presheaf.stalk x.1) (kToStalkX c)) =
       residue (U.toScheme.presheaf.stalk x) (kToStalkU c)
     rw [ResidueField.map_residue]
@@ -1903,17 +1903,17 @@ private lemma fiber_stalk_quotient {T S : Scheme.{u}} (f : T ⟶ S) (t : T) :
   apply le_antisymm
   · intro r hr
     apply Ideal.Quotient.eq_zero_iff_mem.mp
-    show q.hom r = 0
+    change q.hom r = 0
     rw [← hjk]
-    show k.hom (j.hom r) = 0
+    change k.hom (j.hom r) = 0
     rw [show j.hom r = 0 from hr, map_zero]
   · let β := Spec.preimage (F.fromSpecStalk z ≫ f.fiberToSpecResidueField (f t))
     have hβ : f.stalkMap t ≫ j = S.residue (f t) ≫ β := fiber_stalk_map_comp f t
     apply Ideal.map_le_iff_le_comap.mpr
     intro r hr
-    show (f.stalkMap t ≫ j).hom r = 0
+    change (f.stalkMap t ≫ j).hom r = 0
     rw [hβ]
-    show β.hom ((residue R) r) = 0
+    change β.hom ((residue R) r) = 0
     rw [(residue_eq_zero_iff r).mpr hr]
     exact map_zero β.hom
 
@@ -1930,7 +1930,7 @@ private lemma fiber_stalk_quotient_ringEquiv {T S : Scheme.{u}}
       (f.fiberι (f t)).stalkMap (f.asFiber t)
   have hker := fiber_stalk_quotient f t
   have hsurj := fiber_stalk_surjective f t
-  show Nonempty ((T.presheaf.stalk t ⧸
+  change Nonempty ((T.presheaf.stalk t ⧸
     (maximalIdeal (S.presheaf.stalk (f t))).map (f.stalkMap t).hom) ≃+*
       (f.fiber (f t)).presheaf.stalk (f.asFiber t))
   rw [← hker]
@@ -1960,7 +1960,7 @@ private lemma fiber_stalk_quotient_algEquiv {T S : Scheme.{u}}
   let g : Q →ₐ[R] F := ⟨j.hom, fun _ => rfl⟩
   have hker := fiber_stalk_quotient f t
   have hsurj := fiber_stalk_surjective f t
-  show Nonempty ((Q ⧸ (maximalIdeal R).map (f.stalkMap t).hom) ≃ₐ[R] F)
+  change Nonempty ((Q ⧸ (maximalIdeal R).map (f.stalkMap t).hom) ≃ₐ[R] F)
   rw [← hker]
   exact ⟨Ideal.quotientKerAlgEquivOfSurjective (f := g) hsurj⟩
 
@@ -1996,7 +1996,7 @@ private lemma completed_fiber_stalk_ringEquiv {T S : Scheme.{u}}
   have : IsLocalRing (Q ⧸ I) := isLocalRing_quotient_of_le_maximalIdeal (map_maximalIdeal_le _)
   obtain ⟨e₁⟩ := completion_quotient_equiv Q I
   obtain ⟨e₂⟩ := fiber_stalk_quotient_ringEquiv f t
-  show Nonempty ((B ⧸ (maximalIdeal A).map φ) ≃+*
+  change Nonempty ((B ⧸ (maximalIdeal A).map φ) ≃+*
     AdicCompletion (maximalIdeal F) F)
   rw [hI]
   exact ⟨e₁.symm.toRingEquiv.trans (completionRingEquiv e₂)⟩
@@ -2050,7 +2050,7 @@ private lemma completed_fiber_stalk_algEquiv {T S : Scheme.{u}}
     { __ := e₁.toRingEquiv, commutes' := by
         intro r
         exact e₁.commutes ((f.stalkMap t).hom r) }
-  show Nonempty ((B ⧸ (maximalIdeal A).map φ) ≃ₐ[R]
+  change Nonempty ((B ⧸ (maximalIdeal A).map φ) ≃ₐ[R]
     AdicCompletion (maximalIdeal F) F)
   rw [hI]
   exact ⟨e₁R.symm.trans (completionAlgEquiv e₂)⟩
@@ -2091,7 +2091,7 @@ theorem exists_algEquiv_adicCompletion_quotient_mvPowerSeries_of_isSplitNode
     adicCompletionMap_isLocalHom_of_isLocalHom (f.stalkMap t).hom
   have : Module.Flat A B := RingHom.flat_algebraMap_iff.mpr
     (adicCompletionMap_flat_of_isFlatAt f t hflat)
-  show ∃ h : A, h ∈ maximalIdeal A ∧
+  change ∃ h : A, h ∈ maximalIdeal A ∧
     Nonempty ((MvPowerSeries (Fin 2) A ⧸
       Ideal.span {MvPowerSeries.X 0 * MvPowerSeries.X 1 - MvPowerSeries.C h}) ≃ₐ[A] B)
   suffices hclosed : Nonempty ((MvPowerSeries (Fin 2) A ⧸
@@ -2112,7 +2112,7 @@ theorem exists_algEquiv_adicCompletion_quotient_mvPowerSeries_of_isSplitNode
   let : F.Over (Spec (.of (S.residueField (f t)))) :=
     f.fiberOverSpecResidueField (f t)
   let : LocallyOfFiniteType (F ↘ Spec (.of (S.residueField (f t)))) := by
-    show LocallyOfFiniteType (f.fiberToSpecResidueField (f t))
+    change LocallyOfFiniteType (f.fiberToSpecResidueField (f t))
     let : MorphismProperty.IsStableUnderBaseChangeAlong
         (@LocallyOfFiniteType) (S.fromSpecResidueField (f t)) :=
       ⟨fun pb hg => locallyOfFiniteType_isStableUnderBaseChange.of_isPullback pb hg⟩
@@ -2128,7 +2128,7 @@ theorem exists_algEquiv_adicCompletion_quotient_mvPowerSeries_of_isSplitNode
   have hclosedV : IsClosed ({w} : Set V) := isClosed_singleton_of_val hnode.1.1
   have hdimV : topologicalKrullDim V.toScheme = 1 := hdimU
   let : LocallyOfFiniteType (V.toScheme ↘ Spec (.of (S.residueField (f t)))) := by
-    show LocallyOfFiniteType (V.ι ≫ (F ↘ Spec (.of (S.residueField (f t)))))
+    change LocallyOfFiniteType (V.ι ≫ (F ↘ Spec (.of (S.residueField (f t)))))
     infer_instance
   have hnodeV : IsSplitNode (S.residueField (f t)) V.toScheme w := by
     exact splitNode_of_open (S.residueField (f t)) F V w hnode
@@ -2209,7 +2209,7 @@ theorem exists_algEquiv_adicCompletion_quotient_mvPowerSeries_of_isSplitNode
   let E := eF.symm.toRingEquiv.trans eC.symm.toRingEquiv
   apply nodalPowerSeriesQuotientAlgEquiv_of_completion R _ E
   · intro a ha
-    show Ideal.Quotient.mk _ (φ a) = 0
+    change Ideal.Quotient.mk _ (φ a) = 0
     exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_map_of_mem φ ha)
   · intro r
     have hφ : φ (algebraMap R A r) =
@@ -2220,7 +2220,7 @@ theorem exists_algEquiv_adicCompletion_quotient_mvPowerSeries_of_isSplitNode
         algebraMap R (AdicCompletion (maximalIdeal (F.presheaf.stalk z))
           (F.presheaf.stalk z)) r := by
       apply (eF.symm.commutes (residue R r)).trans
-      show algebraMap (F.presheaf.stalk z) _ (kToStalkF (residue R r)) =
+      change algebraMap (F.presheaf.stalk z) _ (kToStalkF (residue R r)) =
         algebraMap (F.presheaf.stalk z) _ (j.hom ((f.stalkMap t).hom r))
       exact congrArg (algebraMap (F.presheaf.stalk z) _) (hjR r).symm
     calc
@@ -2228,7 +2228,7 @@ theorem exists_algEquiv_adicCompletion_quotient_mvPowerSeries_of_isSplitNode
           eC.symm (algebraMap R _ r) := congrArg eC.symm hn
       _ = algebraMap R _ r := eC.symm.commutes r
       _ = algebraMap A _ (algebraMap R A r) := by
-        show Ideal.Quotient.mk _ (algebraMap Q B ((f.stalkMap t).hom r)) =
+        change Ideal.Quotient.mk _ (algebraMap Q B ((f.stalkMap t).hom r)) =
           Ideal.Quotient.mk _ (φ (algebraMap R A r))
         exact congrArg (Ideal.Quotient.mk _) hφ.symm
 

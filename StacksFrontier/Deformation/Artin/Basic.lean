@@ -60,7 +60,7 @@ public theorem schlessingerConditionS1_isomorphismClasses_of_isDeformationCatego
       (ArtinianLocalAlgCat.{u, max v w, w} Λ k))
     (h𝓕 : IsDeformationCategory 𝓕.p) :
     SchlessingerConditionS1
-      (CategoryOfElements.π
+      (Functor.Elements.π
         (isomorphismClassesData 𝓕 h𝓕.predeformation.cofibered).classes) :=
   schlessingerConditionS1_of_isIsomorphismClasses
     (isomorphismClassesData 𝓕 h𝓕.predeformation.cofibered).projection
@@ -76,7 +76,7 @@ public theorem schlessingerConditionS2_isomorphismClasses_of_isDeformationCatego
       (ArtinianLocalAlgCat.{u, max v w, w} Λ k))
     (h𝓕 : IsDeformationCategory 𝓕.p) :
     SchlessingerConditionS2
-      (CategoryOfElements.π
+      (Functor.Elements.π
         (isomorphismClassesData 𝓕 h𝓕.predeformation.cofibered).classes) :=
   schlessingerConditionS2_of_isIsomorphismClasses 𝓕 h𝓕.predeformation.cofibered
     (schlessingerConditionS2_of_satisfiesRS h𝓕.satisfiesRS) (Or.inl h𝓕.predeformation)

@@ -644,8 +644,8 @@ Hom complex out of the Koszul complex. -/
 theorem homTermStalkEquiv_stalkLin_d_symm (K : KoszulChainData.{u, u, u} A φ)
     (N : StructureSheafModules Rc) {n m : ℤ} {k : ℕ} (h : n = k) (h' : m = ((k + 1 : ℕ) : ℤ))
     (x : X)
-    (ψ : ⋀[↑(TopCat.Presheaf.stalk Rc.obj x)]^k (Fin r → ↑(TopCat.Presheaf.stalk Rc.obj x)) →ₗ[
-      ringStalk Rc x] modStalk N x) :
+    (ψ : ⋀[↑(TopCat.Presheaf.stalk Rc.obj x)]^k (Fin r → ↑(TopCat.Presheaf.stalk Rc.obj x))
+      →ₗ[ringStalk Rc x] modStalk N x) :
     homTermStalkEquiv Rc K N h' x (stalkLin ((RingedSite.sheafHomComplex (ringedSite Rc)
         (cochain Rc K) ((single (StructureSheafModules Rc) (ComplexShape.up ℤ) 0).obj N)).obj.d
           n m).val x ((m.negOnePow : ℤ) • (homTermStalkEquiv Rc K N h x).symm ψ)) =

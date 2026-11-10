@@ -75,14 +75,14 @@ theorem isLimit_of_isLimit_mapCone_proetaleModuleInverseImage {Z : Scheme.{u}} {
     let pa (a : ι) : Ta a ⟶ T := MorphismProperty.Over.homMk (V a).ι rfl
     refine ⟨ι, Ta, pa, ?_, fun a ↦ ?_⟩
     · refine Precoverage.generate_mem_toGrothendieck ?_
-      show Presieve.map (Scheme.ProEt.forget Z ⋙ Over.forget Z) (Presieve.ofArrows Ta pa) ∈
+      change Presieve.map (Scheme.ProEt.forget Z ⋙ Over.forget Z) (Presieve.ofArrows Ta pa) ∈
         Scheme.proetalePrecoverage _
       rw [Presieve.map_ofArrows]
       refine ProEtale.zariskiPrecoverage_le_proetalePrecoverage _ ?_
       refine (Scheme.ofArrows_mem_precoverage_iff _).mpr ⟨fun x ↦ ?_, fun a ↦ ?_⟩
       · obtain ⟨a, y, hy⟩ := hj (T.hom x)
         exact ⟨a, ⟨x, ⟨y, hy⟩⟩, rfl⟩
-      · show IsOpenImmersion (V a).ι
+      · change IsOpenImmersion (V a).ι
         infer_instance
     · have hrange : Set.range ((V a).ι ≫ T.hom) ⊆ Set.range (j a) := by
         rintro _ ⟨x, rfl⟩
@@ -93,7 +93,7 @@ theorem isLimit_of_isLimit_mapCone_proetaleModuleInverseImage {Z : Scheme.{u}} {
         MorphismProperty.of_postcomp (W := @WeaklyEtale) (W' := @WeaklyEtale) l (j a)
           inferInstance (by rw [hl]; exact hV a)
       refine ⟨a, @Scheme.ProEt.mk (W a) _ l hwl, ⟨MorphismProperty.Over.isoMk (Iso.refl _) ?_⟩⟩
-      show 𝟙 _ ≫ ((V a).ι ≫ T.hom) = l ≫ j a
+      change 𝟙 _ ≫ ((V a).ι ≫ T.hom) = l ≫ j a
       rw [Category.id_comp, hl]
   · rintro T ⟨a, T', ⟨e⟩⟩
     have h1 : IsLimit (((sheafSections (Scheme.ProEt.topology (W a)) A).obj (op T')).mapCone

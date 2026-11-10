@@ -72,7 +72,7 @@ private theorem exists_locUnit_homology_iso (A : Type u) [CommRing A] (a : A)
       infer_instance
     exact (NatIso.isIso_map_iff (Dualizing.mapDerivedCategoryHomologyIso F i) (η.app X)).mp hcomp
   refine ⟨asIso (F.map (H.map (η.app X)) ≫ inv (ν.app Y)), ?_⟩
-  show ν.app (H.obj X) ≫ F.map (H.map (η.app X)) ≫ inv (ν.app Y) = H.map (η.app X)
+  change ν.app (H.obj X) ≫ F.map (H.map (η.app X)) ≫ inv (ν.app Y) = H.map (η.app X)
   rw [← Category.assoc, ← ν.naturality, Functor.id_map, Category.assoc, IsIso.hom_inv_id,
     Category.comp_id]
 

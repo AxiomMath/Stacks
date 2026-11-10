@@ -144,7 +144,7 @@ private theorem properChowPushforward_mk_sigma_fundamentalCycle {X : Scheme.{u}}
   have hcoeff : ∀ i, ∀ z : Z i,
       (β.1 (i : X) • fundamentalCycle C (v i ≫ sX) k).1 z =
         if z = genericPoint (Z i) then β.1 (i : X) else 0 := fun i z ↦ by
-    show β.1 (i : X) • (fundamentalCycle C (v i ≫ sX) k).1 z = _
+    change β.1 (i : X) • (fundamentalCycle C (v i ≫ sX) k).1 z = _
     rw [fundamentalCycle_eq_single C (v i ≫ sX) genericPoints_eq_singleton (hdim i)
       (Field.toIsField _)]
     simp [Function.locallyFinsuppWithin.single_apply]
@@ -219,7 +219,7 @@ private theorem exists_proper_sigmaDesc_of_locallyFinite {X : Scheme.{u}} {I : T
     ∃ P : (∐ Z : Scheme.{u}) ⟶ X, IsProper P ∧ (∀ i, Sigma.ι Z i ≫ P = v i) ∧
       ∀ x : (∐ Z : Scheme.{u}), Function.Bijective ((P.residueFieldMap x).hom) := by
   have hsurj : SurjectiveOnStalks (Sigma.desc v) := surjectiveOnStalks_sigmaDesc Z v
-  exact ⟨Sigma.desc v, isProper_sigmaDesc_of_locallyFinite Z v hlf, fun i ↦ Sigma.ι_desc v i,
+  exact ⟨Sigma.desc v, isProper_sigmaDesc_of_locallyFinite Z v hlf, fun i ↦ Sigma.ι_comp_desc v i,
     fun x ↦ bijective_residueFieldMap_of_surjective_stalkMap (Sigma.desc v) x
       ((Sigma.desc v).stalkMap_surjective x)⟩
 
@@ -241,14 +241,14 @@ private theorem exists_indicator_fibre_eq_of_sigma {X : Scheme.{u}} (sX : X ⟶ 
       (Function.support g).Finite := by
   classical
   refine ⟨fun s ↦ if (v s.1).base s.2 = y then b s.1 * (rep s.1).1 s.2 else 0, ?_,
-    fun _ _ hz ↦ if_pos hz, fun _ _ hz ↦ if_neg hz, ?_⟩
+    fun _ _ hz ↦ ite_eq_left hz, fun _ _ hz ↦ ite_eq_right hz, ?_⟩
   · rintro ⟨i, z⟩
     have hval : δ.1 ((sigmaMk Z).toEquiv ⟨i, z⟩) = b i * (rep i).1 z := by
-      show δ.1 (sigmaMk Z ⟨i, z⟩) = _
+      change δ.1 (sigmaMk Z ⟨i, z⟩) = _
       rw [sigmaMk_mk, hδ i]
       simp
     have hbase : P.base ((sigmaMk Z).toEquiv ⟨i, z⟩) = (v i).base z := by
-      show P.base (sigmaMk Z ⟨i, z⟩) = _
+      change P.base (sigmaMk Z ⟨i, z⟩) = _
       rw [sigmaMk_mk, hPι]
     by_cases hz : (v i).base z = y
     · rw [Set.indicator_of_mem (by rw [Set.mem_preimage, hbase]; exact hz), hval]
@@ -303,7 +303,7 @@ private theorem properPushforward_sigma_eq_of_components {X : Scheme.{u}} (sX : 
   refine Subtype.ext ?_
   apply Function.locallyFinsuppWithin.ext
   intro y
-  show (properPushforward C (P ≫ sX) sX P rfl d δ).1 y = β'.1 y
+  change (properPushforward C (P ≫ sX) sX P rfl d δ).1 y = β'.1 y
   rw [hβ' y, properPushforward_apply, finsum_mem_congr rfl (fun x _ ↦ hterm δ x)]
   conv_rhs => arg 1; ext i; rw [hcomp i y]
   -- reindex the fibre of `P` over `y` by the sigma type

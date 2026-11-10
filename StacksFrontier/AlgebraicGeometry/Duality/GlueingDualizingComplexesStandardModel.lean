@@ -64,7 +64,7 @@ on objects by definition and on morphisms by
 `Stacks.Duality.TwistedInverseImageDuality.pre_app_std`. -/
 def relativeDualIsoSheafHom (ω : Std X) : dualInto ω ≅ (sheafHom X).flip.obj ω :=
   NatIso.ofComponents (fun K => Iso.refl (((sheafHom X).obj K).obj ω))
-    (fun {K L} g => (Category.comp_id _).trans
+    (fun g => (Category.comp_id _).trans
       ((TwistedInverseImageDuality.pre_app_std X g.unop ω).trans (Category.id_comp _).symm))
 
 /-- On objects, `f_new^! M = R𝓗om(Lf^* R𝓗om(M, ω_Y^•), ω_X^•)`. -/

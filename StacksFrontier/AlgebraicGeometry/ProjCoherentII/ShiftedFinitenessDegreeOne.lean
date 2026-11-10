@@ -167,7 +167,7 @@ public theorem map_truncation_twistedToShiftedLinearMap
   refine le_antisymm (fun w hw => ?_) (fun w hw => ?_)
   · obtain ⟨z, hz, rfl⟩ := hw
     refine (hQ _).mpr fun n hn => ?_
-    show DirectSum.component ℤ ℤ (fun j : ℤ => shiftedSectionsComponent 𝒮 𝒨 j) n
+    change DirectSum.component ℤ ℤ (fun j : ℤ => shiftedSectionsComponent 𝒮 𝒨 j) n
       (twistedToShiftedSections 𝒮 𝒨 z) = 0
     rw [twistedToShiftedSections_component, (hP z).mp hz n hn, map_zero]
   · obtain ⟨z, hzw⟩ := bijective_twistedToShiftedSections 𝒮 𝒨 hbij |>.2 w
@@ -203,7 +203,7 @@ public theorem moduleFinite_shiftedTruncation_of_degreeOne
     [DirectSum.Decomposition 𝒨] [SetLike.GradedSMul 𝒜 𝒨] (k : ℤ) :
     letI := (globalSectionsModuleMap 𝒜 𝒨).moduleInst
     Module.Finite A ((globalSectionsModuleMap 𝒜 𝒨).truncation 𝒜 𝒨 k) := by
-  have : IsNoetherianRing A := Stacks.ProjCoherentDegreeOne.isNoetherianRing 𝒜 x hx hgen
+  have : IsNoetherianRing A := Stacks.ProjCoherentDegreeOne.isNoetherianRing 𝒜 x hgen
   obtain ⟨m, y, hy, hygen⟩ :=
     Stacks.ProjCoherentDegreeOne.exists_two_le_generators 𝒜 x hx hgen
   let := (twistedGlobalSectionsModule 𝒜 (associatedModuleSheaf 𝒜 𝒨)).moduleInst

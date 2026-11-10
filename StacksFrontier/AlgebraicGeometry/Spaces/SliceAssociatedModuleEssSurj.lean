@@ -102,7 +102,8 @@ hypothesis.  The last step of the Stacks proof of 03DX(2) at an affine chart —
 carries a cokernel of free modules to the cokernel — needs
 `AlgebraicGeometry.Space.SmallEtale.sliceAssociatedModule`, which is built by hand, to be
 identified with a `CategoryTheory.SheafOfModules.pullback`.  That identification is what
-`SliceAssociatedModuleEssSurjFromChart.lean` supplies, and it is supplied without redoing the cokernel step: on the small étale site of the
+`SliceAssociatedModuleEssSurjFromChart.lean` supplies, and it is supplied without redoing the
+cokernel step: on the small étale site of the
 chart's *scheme* the pullback description of `Gᵃ` is already identified with the sections
 description by [Stacks, Tag 070S] part (2), which is proved unconditionally as
 `AlgebraicGeometry.SmallEtale.sectionsComparisonSheafifiesToIso`; and on that site essential
@@ -188,11 +189,9 @@ theorem bijective_liftBaseChange_of_bijective (ρ : N →ₗ[R] N')
     (htmul : ∀ (b : S) (m : N), e (TensorProduct.tmul R b m) = b • ρ m)
     (hbij : Function.Bijective e) :
     Function.Bijective (ρ.liftBaseChange S) := by
-  have h0 : e 0 = 0 := by simpa using hadd 0 0
   have key : ∀ z, ρ.liftBaseChange S z = e z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, h0]
+    induction z using TensorProduct.inductionOn with
     | tmul b m => rw [LinearMap.liftBaseChange_tmul, htmul]
     | add z w hz hw => rw [map_add, hz, hw, hadd]
   rwa [show (ρ.liftBaseChange S : TensorProduct R S N → N') = e from funext key]

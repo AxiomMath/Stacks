@@ -139,7 +139,7 @@ theorem commute_of_isHomogeneous_one (hx : x.IsHomogeneous 1) {c : GradedCapFami
         capTo c m (by push_cast; ring : k - ((1 : ℕ) : ℤ) - (m : ℤ) = k - ((m + 1 : ℕ) : ℤ))
           (x k 1 a)) :
     Commute x c := by
-  show x * c = c * x
+  change x * c = c * x
   funext k m
   refine AddMonoidHom.ext fun a ↦ ?_
   cases m with
@@ -195,7 +195,7 @@ theorem homComponent_apply (i : ℕ) (c : TotalChowClass C sY) (p : ℕ) :
 /-- The homogeneous component of degree `i` is homogeneous of degree `i`. -/
 theorem isHomogeneous_homComponent (i : ℕ) (c : TotalChowClass C sY) :
     (homComponent i c).IsHomogeneous i :=
-  fun _ hp ↦ if_neg hp
+  fun _ hp ↦ ite_eq_right hp
 
 /-- **The operation of a homogeneous component is the homogeneous component of the
 operation.** -/
@@ -363,11 +363,11 @@ theorem firstChernTotal_apply_one :
     firstChernTotal C sY L 1 =
       bivariantClassDegreeCongr C _ sY sY (𝟙 Y) (Category.id_comp sY) (by simp)
         (GenuineChern.firstChernClass C sY L) :=
-  dif_pos rfl
+  dite_eq_left rfl
 
 /-- The components of `c₁(ℒ)` away from degree `1` vanish. -/
 theorem firstChernTotal_apply_of_ne {p : ℕ} (hp : p ≠ 1) : firstChernTotal C sY L p = 0 :=
-  dif_neg hp
+  dite_eq_right hp
 
 /-- `c₁(ℒ)` is homogeneous of degree `1`. -/
 theorem isHomogeneous_firstChernTotal : (firstChernTotal C sY L).IsHomogeneous 1 :=
@@ -397,7 +397,7 @@ scheme, `c₁(g^*ℒ) ∩ -` commutes with `c_j(g^*ℰ) ∩ -`. -/
 theorem commute_firstChernTotal_totalChern (F : Y.Modules) (r : ℕ)
     [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u} F r] :
     Commute (firstChernTotal C sY L) (totalChern C sY F r) := by
-  show _ * _ = _ * _
+  change _ * _ = _ * _
   refine ext_op fun g _ ↦ ?_
   rw [op_mul, op_mul]
   refine commute_of_isHomogeneous_one ((isHomogeneous_firstChernTotal C sY L).op g)

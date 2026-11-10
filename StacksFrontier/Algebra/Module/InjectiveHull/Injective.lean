@@ -94,7 +94,7 @@ lemma exists_linearEquiv_prod_of_injective (f : J →ₗ[R] I) (hf : Function.In
   have hab : b.comp a = LinearMap.id := by
     apply LinearMap.ext
     intro x
-    show f (g x) + (x - f (g x)) = x
+    change f (g x) + (x - f (g x)) = x
     abel
   have hba : a.comp b = LinearMap.id := by
     apply LinearMap.ext
@@ -103,10 +103,10 @@ lemma exists_linearEquiv_prod_of_injective (f : J →ₗ[R] I) (hf : Function.In
     apply Prod.ext
     · simp [a, b, q, K, hg]
     · apply Subtype.ext
-      show f x + (y : I) - f (g (f x + (y : I))) = (y : I)
+      change f x + (y : I) - f (g (f x + (y : I))) = (y : I)
       simp [map_add, hg, K]
-  refine ⟨K, LinearEquiv.ofLinear a b hba hab, fun x => ?_⟩
-  show (g (f x), q (f x)) = (x, 0)
+  refine ⟨K, LinearEquiv.ofLinearMap a b hba hab, fun x => ?_⟩
+  change (g (f x), q (f x)) = (x, 0)
   apply Prod.ext
   · simp [hg]
   · apply Subtype.ext
@@ -206,7 +206,7 @@ theorem injective_localizationAtPrime_of_minimal
       simpa only [← Algebra.smul_def, ← map_smul] using
         congrArg f (show (y : R) • xI = (x : R) • y from
           Subtype.ext (mul_comm (y : R) x))
-    show (x : R) • c = f xI
+    change (x : R) • c = f xI
     rw [Algebra.smul_def]
     dsimp [c]
     symm
@@ -290,7 +290,7 @@ private theorem exists_smul_eq_directSum_of_injective
   refine ⟨DirectSum.lmk R ι M S (fun i => e i y), fun r hr => ?_⟩
   apply DirectSum.ext_component R
   intro i
-  show hA ⟨r • y, hr⟩ i = r • (DFinsupp.lmk S (fun i => e i y)) i
+  change hA ⟨r • y, hr⟩ i = r • (DFinsupp.lmk S (fun i => e i y)) i
   by_cases hi : i ∈ S
   · let j : (↑S : Set ι) := ⟨i, hi⟩
     rw [DFinsupp.lmk_apply, DFinsupp.mk_apply, dite_eq_left hi, ← he j ⟨r • y, hr⟩, map_smul]
@@ -347,7 +347,7 @@ private theorem exists_extensionOf_le_mem_domain
         have hx : (↑(x + x') : Y) =
             ↑(Baer.ExtensionOfMaxAdjoin.fst f x + Baer.ExtensionOfMaxAdjoin.fst f x') +
               (Baer.ExtensionOfMaxAdjoin.snd f x + Baer.ExtensionOfMaxAdjoin.snd f x') • y := by
-          show (x : Y) + (x' : Y) = _
+          change (x : Y) + (x' : Y) = _
           rw [Baer.ExtensionOfMaxAdjoin.eqn f x, Baer.ExtensionOfMaxAdjoin.eqn f x',
             Submodule.coe_add, add_smul]
           abel
@@ -358,20 +358,20 @@ private theorem exists_extensionOf_le_mem_domain
       map_smul' := fun r x => by
         have hx : (↑(r • x) : Y) = ↑(r • Baer.ExtensionOfMaxAdjoin.fst f x) +
             (r * Baer.ExtensionOfMaxAdjoin.snd f x) • y := by
-          show r • (x : Y) = _
+          change r • (x : Y) = _
           rw [Baer.ExtensionOfMaxAdjoin.eqn f x, smul_add, smul_smul, Submodule.coe_smul]
         rw [hext (r • x) _ _ hx, map_smul, smul_add, mul_smul]
         rfl }
     is_extension := fun x => by
       let a : p.domain := ⟨f x, p.le ⟨x, rfl⟩⟩
-      show g x = extFun ⟨f x, le_trans p.le le_sup_left ⟨x, rfl⟩⟩
+      change g x = extFun ⟨f x, le_trans p.le le_sup_left ⟨x, rfl⟩⟩
       rw [hext _ a 0 (by simp [a]), zero_smul, add_zero]
       exact p.is_extension x }
   refine ⟨p', ⟨le_sup_left, fun x x' hEq => ?_⟩, ?_⟩
   · symm
-    show extFun x' = hA x
+    change extFun x' = hA x
     simpa using hext x' x 0 (by simp [hEq])
-  · show y ∈ p.domain ⊔ Submodule.span R {y}
+  · change y ∈ p.domain ⊔ Submodule.span R {y}
     rw [Submodule.mem_sup]
     exact ⟨0, Submodule.zero_mem _, y, Submodule.mem_span_singleton_self _, by simp⟩
 
@@ -455,10 +455,10 @@ private theorem small_quotient_ext {R : Type u} {M : Type v} [Ring R] [AddCommGr
       apply Prod.ext
       · exact (Submodule.Quotient.eq K).2 (hHK hab')
       · apply (Submodule.Quotient.eq (H.comap K.subtype)).2
-        show (res a).val - (res b).val ∈ H
+        change (res a).val - (res b).val ∈ H
         have hq : K.mkQ a = K.mkQ b := (Submodule.Quotient.eq K).2 (hHK hab')
         have hs : sec (K.mkQ a) = sec (K.mkQ b) := congrArg sec hq
-        show (a - sec (K.mkQ a)) - (b - sec (K.mkQ b)) ∈ H
+        change (a - sec (K.mkQ a)) - (b - sec (K.mkQ b)) ∈ H
         rw [hs]
         simpa using hab')
   have hf : Function.Injective f := by
@@ -477,7 +477,7 @@ private theorem small_quotient_ext {R : Type u} {M : Type v} [Ring R] [AddCommGr
     change (res a).val - (res b).val ∈ H at hr
     have hs : sec (K.mkQ a) = sec (K.mkQ b) := congrArg sec h1
     have hab : a - b = (res a).val - (res b).val := by
-      show a - b = (a - sec (K.mkQ a)) - (b - sec (K.mkQ b))
+      change a - b = (a - sec (K.mkQ a)) - (b - sec (K.mkQ b))
       rw [hs]
       abel
     rw [hab]
@@ -491,7 +491,7 @@ private theorem small_power_layer {A : Type u} [CommRing A] [IsNoetherianRing A]
     Small.{v} (K ⧸ H.comap K.subtype) := by
   let K : Submodule A A := J ^ n
   let H : Submodule A A := J ^ (n+1)
-  show Small.{v} (K ⧸ H.comap K.subtype)
+  change Small.{v} (K ⧸ H.comap K.subtype)
   have hgen : K.FG := IsNoetherian.noetherian (R := A) (M := A) K
   let _ : Module.Finite A K := Module.Finite.of_fg hgen
   let _ : Module.Finite A (K ⧸ H.comap K.subtype) := Module.Finite.quotient A (H.comap K.subtype)
@@ -502,9 +502,9 @@ private theorem small_power_layer {A : Type u} [CommRing A] [IsNoetherianRing A]
     apply (Module.mem_annihilator).2
     intro t
     obtain ⟨x, rfl⟩ := (Submodule.Quotient.mk_surjective (H.comap K.subtype)) t
-    show Submodule.Quotient.mk (j • x) = 0
+    change Submodule.Quotient.mk (j • x) = 0
     apply (Submodule.Quotient.mk_eq_zero (H.comap K.subtype)).2
-    show j * (x : A) ∈ J ^ (n+1)
+    change j * (x : A) ∈ J ^ (n+1)
     rw [pow_succ']
     exact Ideal.mul_mem_mul hj x.property
   let _ : Module (A ⧸ J) T := hT.module
@@ -550,7 +550,7 @@ private theorem exists_map_eq_zero_of_mem_annihilator_pow {A : Type u} [CommRing
     rw [Submodule.smul_le]
     intro j hj x hx
     refine Submodule.mem_map.mpr ⟨⟨j * x, I.mul_mem_left j hx⟩, ?_, rfl⟩
-    show g (j • (⟨x, hx⟩ : I)) = 0
+    change g (j • (⟨x, hx⟩ : I)) = 0
     rw [g.map_smul]
     exact Module.mem_annihilator.mp (show j ∈ Module.annihilator A E from hj) _
   refine ⟨n, fun x hx => ?_⟩
@@ -665,19 +665,19 @@ private theorem coinduced_injective (A : Type u) [CommRing A] (N : Type (max u (
       intro b y
       apply LinearMap.ext
       intro c
-      show h0 (c • (b • y)) = h0 ((b * c) • y)
+      change h0 (c • (b • y)) = h0 ((b * c) • y)
       rw [smul_smul, mul_comm] }
   refine ⟨h, ?_⟩
   intro x
   apply LinearMap.ext
   intro b
-  show h0 (b • f x) = g x b
+  change h0 (b • f x) = g x b
   rw [← f.map_smul]
-  show h0 ((f.restrictScalars A) (b • x)) = g x b
+  change h0 ((f.restrictScalars A) (b • x)) = g x b
   rw [hh0 (b • x)]
-  show g (b • x) 1 = g x b
+  change g (b • x) 1 = g x b
   rw [map_smul]
-  show ((g x).comp (LinearMap.mulLeft A b)) 1 = g x b
+  change ((g x).comp (LinearMap.mulLeft A b)) 1 = g x b
   simp [LinearMap.comp_apply]
 
 /-- The `A[X]`-linear map `P → Hom_A(A[X], P)` sending `p` to `q ↦ q • p`. -/
@@ -735,7 +735,7 @@ private theorem coinducedXSub_comp_coevalPoly
     [Module A P] [Module (Polynomial A) P] [IsScalarTower A (Polynomial A) P] :
     (coinducedXSub A P).comp (coevalPoly A P) = 0 :=
   LinearMap.ext fun p => LinearMap.ext fun q => by
-    show (Polynomial.X * q) • p - (Polynomial.X : Polynomial A) • (q • p) = 0
+    change (Polynomial.X * q) • p - (Polynomial.X : Polynomial A) • (q • p) = 0
     rw [smul_smul, sub_self]
 
 private theorem exact_coevalPoly_coinducedXSub
@@ -805,7 +805,7 @@ private theorem polynomial_module_id_le_one
     (coevalPoly_injective A P) (coinducedXSub_surjective A P)
   have : CategoryTheory.Injective S.X₂ := hCobj
   have hX₃ : HasInjectiveDimensionLT S.X₃ 1 := injective_iff_hasInjectiveDimensionLT_one.mp hCobj
-  show HasInjectiveDimensionLT (ModuleCat.of (Polynomial A) P) 2
+  change HasInjectiveDimensionLT (ModuleCat.of (Polynomial A) P) 2
   exact hexactS.hasInjectiveDimensionLT_X₁ 1 hX₃ inferInstance
 
 private def polynomial_lift_equiv

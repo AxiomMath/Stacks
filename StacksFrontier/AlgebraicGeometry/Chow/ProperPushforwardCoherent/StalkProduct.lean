@@ -194,7 +194,7 @@ theorem eq_zero_of_forall_fibreStalkComparison_eq_zero (f : X ⟶ Y) [Universall
         G.presheaf.germ V y hyV (G.presheaf.map (homOfLE hVU).op s) :=
       (G.presheaf.germ_res_apply (homOfLE hVU) y hyV s).symm
     _ = 0 := by
-      show G.presheaf.germ V y hyV (F.presheaf.map (homOfLE hpre).op s) = 0
+      change G.presheaf.germ V y hyV (F.presheaf.map (homOfLE hpre).op s) = 0
       rw [hres]
       exact map_zero _
 
@@ -253,7 +253,7 @@ theorem exists_fibreStalkComparison_eq (f : X ⟶ Y) [UniversallyClosed f] (F : 
   rw [fibreStalkComparison_germ]
   have hxO : x a ∈ O (some a) := ⟨show f (x a) ∈ V from (hxy a) ▸ hyV, hxU a⟩
   rw [← F.presheaf.germ_res_apply (homOfLE (hOV (some a))) (x a) hxO t, ht (some a)]
-  show F.presheaf.germ (O (some a)) (x a) hxO
+  change F.presheaf.germ (O (some a)) (x a) hxO
     (F.presheaf.map (homOfLE inf_le_right).op (s a)) = m a
   rw [F.presheaf.germ_res_apply, hs]
 
@@ -278,7 +278,7 @@ theorem exists_disjoint_opens_of_isGenericPoint_components (F : X.Modules)
   choose I hI using hgen
   have huniq (a : ι) (J : Comp) (ha : x a ∈ Z J) : I a = J := by
     have hsub : Z (I a) ⊆ Z J := by
-      show Subtype.val '' (I a).1 ⊆ Z J
+      change Subtype.val '' (I a).1 ⊆ Z J
       rw [← (hI a).def]
       exact closure_minimal (Set.singleton_subset_iff.mpr ha) (hc J)
     refine Subtype.ext (le_antisymm (fun z hz => ?_) ?_)
@@ -395,7 +395,7 @@ theorem length_stalk_restrictScalars_toNat (f : X ⟶ Y) (F : X.Modules) (x : X)
     refine Algebra.algebra_ext _ _ fun a => ?_
     obtain ⟨b, rfl⟩ := Y.residue_surjective (f x) a
     rfl
-  show @Module.finrank (Y.residueField (f x)) (X.residueField x) _ _
+  change @Module.finrank (Y.residueField (f x)) (X.residueField x) _ _
     (inferInstance : Algebra (Y.residueField (f x)) (X.residueField x)).toModule = _
   rw [hA]
   rfl

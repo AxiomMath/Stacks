@@ -125,7 +125,7 @@ theorem InducedTorsor.translate_smul (b : A) (g₀ : Γ) (s : InducedTorsor V χ
 theorem InducedTorsor.translate_zero (s : InducedTorsor V χ hadd) :
     InducedTorsor.translate 0 s = s :=
   Quotient.inductionOn s fun p => by
-    show Quotient.mk _ (p.1, p.2 + 0) = _
+    change Quotient.mk _ (p.1, p.2 + 0) = _
     rw [add_zero]
 
 /-- Translation by `b + b'` is translation by `b` followed by translation by `b'`. -/
@@ -133,7 +133,7 @@ theorem InducedTorsor.translate_add (b b' : A) (s : InducedTorsor V χ hadd) :
     InducedTorsor.translate (b + b') s =
       InducedTorsor.translate b' (InducedTorsor.translate b s) :=
   Quotient.inductionOn s fun p => by
-    show Quotient.mk _ (p.1, p.2 + (b + b')) = Quotient.mk _ (p.1, p.2 + b + b')
+    change Quotient.mk _ (p.1, p.2 + (b + b')) = Quotient.mk _ (p.1, p.2 + b + b')
     rw [add_assoc]
 
 /-- The projection `[g, a] ↦ g V`. -/
@@ -268,7 +268,7 @@ theorem isOpen_stabilizer_inducedTorsor (hV : IsOpen (V : Set (EtaleFundamentalG
       (fun g₀ => (g₀ * g)⁻¹ * g) ⁻¹' W := by
     ext g₀
     simp only [SetLike.mem_coe, MulAction.mem_stabilizer_iff, InducedTorsor.smul_mk,
-      InducedTorsor.mk_eq_mk_iff, Set.mem_preimage, W, Set.mem_image, Set.mem_setOf_eq]
+      InducedTorsor.mk_eq_mk_iff, Set.mem_preimage, W, Set.mem_image, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨h, ha⟩
       exact ⟨⟨_, h⟩, by simpa using (left_eq_add.1 ha), rfl⟩

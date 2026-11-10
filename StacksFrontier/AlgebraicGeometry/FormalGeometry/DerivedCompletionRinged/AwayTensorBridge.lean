@@ -36,7 +36,8 @@ equal, and `CategoryTheory.Sheaf.toRingCatMap X.J (𝟙 X.O.obj)` is
 transport is needed here, and `awaySheafificationIsoAwayModule` proves the bridge outright.
 
 What the other spelling needs is instances: local injectivity and local surjectivity of the
-identity, which are global instances of `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorProductRightExact.lean`. Those are stated at
+identity, which are global instances of
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorProductRightExact.lean`. Those are stated at
 `CategoryTheory.Sheaf.toRingCatMap`, whose type is written with the *reducible*
 `CategoryTheory.Sheaf.toRingCat`, and so is exactly the form
 `PresheafOfModules.moduleSheafification` asks for. The sheafification functor must therefore be

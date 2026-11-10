@@ -24,7 +24,8 @@ computation shows that the localized tensorator cancels.
 
 ## Implementation notes
 
-The computation follows `StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PullbackTensorSectionsSite`,
+The computation follows
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PullbackTensorSectionsSite`,
 which carries it out for the inverse image along a continuous functor of sites, with the lifting
 isomorphism there replaced by `Stacks.SheafOfModules.SliceRestriction.sliceSheafifyIso`. That
 isomorphism is the inverse of the morphism adjoint to the restricted sheafification unit, so its
@@ -130,10 +131,10 @@ private theorem map_shDelta_comp_delta_aux
           (overFunctor 𝒪 h𝒪 U) ((Stacks.SheafOfModules.sheafifyFunctor 𝒪 h𝒪).obj P)
             ((Stacks.SheafOfModules.sheafifyFunctor 𝒪 h𝒪).obj Q)),
       Functor.Monoidal.δ_μ, Category.id_comp]
-    exact Functor.Monoidal.map_δ_μ (Stacks.SheafOfModules.sheafifyFunctor 𝒪 h𝒪)
-      (overFunctor 𝒪 h𝒪 U) P Q
+    exact Functor.Monoidal.δ_μ_map (Stacks.SheafOfModules.sheafifyFunctor 𝒪 h𝒪) P Q
+      (overFunctor 𝒪 h𝒪 U)
   · rw [overFunctorMonoidalLocalized_mu]
-    simp only [Category.assoc, Functor.Monoidal.map_δ_μ_assoc, Iso.inv_hom_id_app_assoc,
+    simp only [Category.assoc, Functor.Monoidal.δ_μ_map_assoc, Iso.inv_hom_id_app_assoc,
       Functor.Monoidal.μ_δ_assoc, MonoidalCategory.tensorHom_comp_tensorHom, Iso.hom_inv_id_app,
       MonoidalCategory.id_tensorHom_id]
     rfl

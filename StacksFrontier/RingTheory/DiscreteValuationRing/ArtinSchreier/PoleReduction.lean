@@ -123,8 +123,9 @@ generates.
 Public, and placed ahead of the pole reduction, because the reduction translates its generator by
 `t ^ (-m) * a₀`: any caller tracking the reduction — in particular an induction down to a pole
 order prime to `p`, as in
-`StacksFrontier.RingTheory.DiscreteValuationRing.EppFrobeniusNumerator` — needs to know the translated
-element still generates. `artinSchreier_sub_poleReduction_eq` returns that fact directly, and this
+`StacksFrontier.RingTheory.DiscreteValuationRing.EppFrobeniusNumerator` — needs to know the
+translated element still generates. `artinSchreier_sub_poleReduction_eq` returns that fact directly,
+and this
 is what proves it. -/
 theorem adjoin_singleton_sub_algebraMap {R S : Type*}
     [CommRing R] [CommRing S] [Algebra R S] (z : S) (c : R) :

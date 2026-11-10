@@ -287,7 +287,7 @@ lemma isCompactObject_of_retract {X Y : D} (hX : IsCompactObject.{w} X)
     (i : Y ⟶ X) (e : X ⟶ Y) (hie : i ≫ e = 𝟙 Y) : IsCompactObject.{w} Y := by
   constructor
   intro I _ E _
-  show Function.Bijective (cofanMap Y (Limits.Sigma.ι E))
+  change Function.Bijective (cofanMap Y (Limits.Sigma.ι E))
   refine Bijective.of_retract (φ := cofanMap X (Limits.Sigma.ι E))
     (ψ := cofanMap Y (Limits.Sigma.ι E)) (α := dsPrecomp E e) (β := dsPrecomp E i)
     (γ := fun t => e ≫ t) (δ := fun t => i ≫ t) (fun a => ?_) (fun b => ?_)
@@ -355,7 +355,7 @@ lemma isCompactObject_shift {K : D} (hK : IsCompactObject.{w} K) (n : ℤ) :
   classical
   constructor
   intro I _ E _
-  show Function.Bijective (cofanMap (K⟦n⟧) (Limits.Sigma.ι E))
+  change Function.Bijective (cofanMap (K⟦n⟧) (Limits.Sigma.ι E))
   have hc : IsColimit (Cofan.mk ((shiftFunctor D (-n)).obj (∐ E))
       fun i => (shiftFunctor D (-n)).map (Limits.Sigma.ι E i)) :=
     isColimitCofanMkObjOfIsColimit _ E _ (coproductIsCoproduct E)
@@ -656,7 +656,7 @@ lemma cofanMap_naturality (K : D) {I : Type*} [DecidableEq I] {A B : I → D} {X
   | zero => rw [map_zero, map_zero, map_zero, zero_comp]
   | of i y =>
     rw [DirectSum.map_of, cofanMap_of, cofanMap_of]
-    show (y ≫ f i) ≫ b i = (y ≫ a i) ≫ g
+    change (y ≫ f i) ≫ b i = (y ≫ a i) ≫ g
     rw [Category.assoc, Category.assoc, h]
   | add x y hx hy => simp only [map_add, Preadditive.add_comp, hx, hy]
 
@@ -726,7 +726,7 @@ lemma isCompactObject_of_fullyFaithful (F : D ⥤ E) [F.Full] [F.Faithful] [F.Ad
   have hc : IsColimit (Cofan.mk (F.obj (∐ A)) fun i => F.map (Limits.Sigma.ι A i)) :=
     (isColimitMapCoconeCofanMkEquiv F A (Limits.Sigma.ι A))
       (isColimitOfPreserves F (coproductIsCoproduct A))
-  show Function.Bijective (cofanMap K (Limits.Sigma.ι A))
+  change Function.Bijective (cofanMap K (Limits.Sigma.ι A))
   refine bijective_of_comm_equiv
     (directSumEquivOfAddEquiv fun i => (e (A i)).symm) (e (∐ A)).symm.toEquiv (fun x => ?_)
     (bijective_cofanMap (F.obj K) hFK _ hc)
@@ -740,7 +740,7 @@ lemma isCompactObject_of_fullyFaithful (F : D ⥤ E) [F.Full] [F.Faithful] [F.Ad
   | zero => rw [map_zero, map_zero, map_zero, map_zero]
   | of i f =>
     rw [DirectSum.map_of, cofanMap_of, cofanMap_of]
-    show F.map ((e (A i)).symm f ≫ Limits.Sigma.ι A i) = _
+    change F.map ((e (A i)).symm f ≫ Limits.Sigma.ι A i) = _
     rw [F.map_comp]
     exact congrArg (fun g => g ≫ F.map (Limits.Sigma.ι A i)) ((e (A i)).apply_symm_apply f)
   | add x y hx hy => simp only [map_add, hx, hy]
@@ -789,7 +789,7 @@ lemma surjective_cofanMap_of_triangleHom (K : D) {I : Type*} [DecidableEq I]
       obtain ⟨g, hg⟩ := (T i).coyoneda_exact₂ (hT i) f hf
       exact ⟨g, hg.symm⟩
     · rintro ⟨g, rfl⟩
-      show (g ≫ (T i).mor₁) ≫ (T i).mor₂ = 0
+      change (g ≫ (T i).mor₁) ≫ (T i).mor₂ = 0
       rw [Category.assoc, comp_distTriang_mor_zero₁₂ (T i) (hT i), comp_zero]
   intro f
   obtain ⟨b, hb⟩ := h₂ (f ≫ U.mor₁)
@@ -802,7 +802,7 @@ lemma surjective_cofanMap_of_triangleHom (K : D) {I : Type*} [DecidableEq I]
     rw [← cofanMap_naturality K _ _ _ _ (fun i => (φ i).comm₁.symm), ha, hb]
   obtain ⟨c, hc⟩ := U.invRotate.coyoneda_exact₂ (inv_rot_of_distTriang _ hU)
     (f - cofanMap K (fun i => (φ i).hom₁) a) (by
-      show (f - _) ≫ U.mor₁ = 0
+      change (f - _) ≫ U.mor₁ = 0
       rw [Preadditive.sub_comp, ha', sub_self])
   obtain ⟨z, hz⟩ := h₀ c
   let z' : DirectSum I fun i => (K ⟶ (T i).obj₁) :=

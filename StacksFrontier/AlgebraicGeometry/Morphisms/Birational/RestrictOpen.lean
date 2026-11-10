@@ -72,7 +72,7 @@ public theorem mem_genericPoints {i : X → Y} (hi : Topology.IsOpenEmbedding i)
       (isClosed_of_mem_irreducibleComponents D hD)
   have hC : closure ({i x} : Set Y) = D := by
     simpa [← hEq, closure_image_closure hi.continuous] using hclosure
-  show closure ({i x} : Set Y) ∈ irreducibleComponents Y
+  change closure ({i x} : Set Y) ∈ irreducibleComponents Y
   simpa only [hC] using hD
 
 /-- A point whose image under an open embedding is a generic point of an irreducible component
@@ -82,7 +82,7 @@ public theorem mem_genericPoints_of_image {i : X → Y} (hi : Topology.IsOpenEmb
   have hpre : i ⁻¹' closure {i x} ∈ irreducibleComponents X :=
     preimage_mem_irreducibleComponents hx hi
       ⟨i x, subset_closure (Set.mem_singleton _), ⟨x, rfl⟩⟩
-  show closure ({x} : Set X) ∈ irreducibleComponents X
+  change closure ({x} : Set X) ∈ irreducibleComponents X
   rw [hi.closure_eq_preimage_closure_image]
   simpa using hpre
 

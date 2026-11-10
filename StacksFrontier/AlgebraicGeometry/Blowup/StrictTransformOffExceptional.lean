@@ -131,7 +131,7 @@ No hypothesis is needed: the defining ideal is unconditionally the kernel ideal 
 inclusion of that complement (`Stacks.Blowup.strictTransformIdeal_eq_ker`). -/
 theorem isIso_strictTransformι_restrict {V : (blowUpPullback f ℐ).Opens}
     (hV : V ≤ exceptionalPullbackCompl f ℐ) : IsIso (strictTransformι f ℐ ∣_ V) := by
-  show IsIso ((strictTransformIdeal f ℐ).subschemeι ∣_ V)
+  change IsIso ((strictTransformIdeal f ℐ).subschemeι ∣_ V)
   exact Stacks.StrictTransform.isIso_subschemeι_restrict_of_le_ker
     (strictTransformIdeal_eq_ker f ℐ).le hV
 

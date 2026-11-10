@@ -351,7 +351,7 @@ theorem determinantTransport_bcLine (P : TwoTermPresentation K) (P' : TwoTermPre
   have : IsIso (DerivedCategory.Q.map sB.left) := hl
   have : IsIso (DerivedCategory.Q.map sB.right) := hr
   rw [determinantTransport_eq_span sB, determinantTransport_eq_span s]
-  show (isoSurjectiveDeterminant sB.middle (P'.bcPresentation f) sB.right sB.right_surjective)
+  change (isoSurjectiveDeterminant sB.middle (P'.bcPresentation f) sB.right sB.right_surjective)
       ((isoSurjectiveDeterminant sB.middle (P.bcPresentation f) sB.left sB.left_surjective).symm
         (bcLine f P x)) =
     bcLine f P' ((isoSurjectiveDeterminant s.middle P' s.right s.right_surjective)
@@ -552,7 +552,7 @@ theorem presentationTransport_detPresentationIso {T : Type u} [CommRing T]
     (x : ((det T).obj ⟨M⟩).of.obj) :
     presentationTransport P P' (Iso.refl _) (detPresentationIso M P x) =
       detPresentationIso M P' x := by
-  show ((presentationTransport (presentation T M) P (Iso.refl M.obj)).trans
+  change ((presentationTransport (presentation T M) P (Iso.refl M.obj)).trans
     (presentationTransport P P' (Iso.refl M.obj))) x = _
   rw [presentationTransport_comp]
   rfl
@@ -602,7 +602,7 @@ theorem baseChangeMapVia_eq (P P' : TwoTermPresentation K.obj) (e : (Lext f).obj
   rw [LinearEquiv.apply_symm_apply] at h6
   rw [LinearEquiv.eq_symm_apply]
   refine h6.symm.trans ?_
-  show determinantTransport ((P.bcPresentation f).ofIso e) ((P'.bcPresentation f).ofIso e)
+  change determinantTransport ((P.bcPresentation f).ofIso e) ((P'.bcPresentation f).ofIso e)
     (((P.bcPresentation f).ofIso e).iso.symm ≪≫ Iso.refl _ ≪≫ ((P'.bcPresentation f).ofIso e).iso)
     (bcLine f P (detPresentationIso K P x)) = _
   rw [← h5, h4, h3, h1]
@@ -634,7 +634,7 @@ theorem detPresentationIso_det_map_apply {T : Type u} [CommRing T] {M M' : Perfe
         (detPresentationIso M Q y) := by
   rw [show ((det T).map b).iso.hom y = presentationTransport (presentation T M) (presentation T M')
     ((perfectTwoTermComplexProperty T).ι.mapIso b.iso) y from det_map_apply (R := T) b y]
-  show ((presentationTransport (presentation T M) (presentation T M')
+  change ((presentationTransport (presentation T M) (presentation T M')
       ((perfectTwoTermComplexProperty T).ι.mapIso b.iso)).trans
     (presentationTransport (presentation T M') Q' (Iso.refl _))) y =
     ((presentationTransport (presentation T M) Q (Iso.refl _)).trans
@@ -657,7 +657,7 @@ theorem baseChangeMap_trans (e : (Lext f).obj K.obj ≅ L.obj)
       Iso.refl _ := by
     ext
     simp [Q, Q']
-  show z = determinantTransport Q Q' (Q.iso.symm ≪≫
+  change z = determinantTransport Q Q' (Q.iso.symm ≪≫
     (perfectTwoTermComplexProperty S).ι.mapIso b.iso ≪≫ Q'.iso) z
   rw [h, determinantTransport_ofIso, determinantTransport_id]
   rfl
@@ -678,14 +678,14 @@ theorem baseChangeMap_mapIso (a : (⟨K⟩ : Core (PerfectTwoTermComplex R)) ⟶
     simp [P'']
   have h3 : presentationTransport P'' P' ι (detPresentationIso K P'' x) =
       detPresentationIso K P'' x := by
-    show determinantTransport P'' P' (P''.iso.symm ≪≫ ι ≪≫ P'.iso) _ = _
+    change determinantTransport P'' P' (P''.iso.symm ≪≫ ι ≪≫ P'.iso) _ = _
     rw [h1]
     exact determinantTransport_ofIso_refl P' _ _
   rw [h3]
   let Q := (P'.bcPresentation f).ofIso e
   let Q'' := (P''.bcPresentation f).ofIso ((Lext f).mapIso ι ≪≫ e)
   let z := bcLine f P'' (detPresentationIso K P'' x)
-  show (detPresentationIso L Q'').symm z = (detPresentationIso L Q).symm z
+  change (detPresentationIso L Q'').symm z = (detPresentationIso L Q).symm z
   rw [LinearEquiv.symm_apply_eq]
   have h4 : Q.iso.symm ≪≫ Iso.refl _ ≪≫ Q''.iso = Iso.refl _ := by
     ext
@@ -693,7 +693,7 @@ theorem baseChangeMap_mapIso (a : (⟨K⟩ : Core (PerfectTwoTermComplex R)) ⟶
   have h5 := presentationTransport_detPresentationIso L Q Q'' ((detPresentationIso L Q).symm z)
   rw [LinearEquiv.apply_symm_apply] at h5
   rw [← h5]
-  show z = determinantTransport Q Q'' (Q.iso.symm ≪≫ Iso.refl _ ≪≫ Q''.iso) z
+  change z = determinantTransport Q Q'' (Q.iso.symm ≪≫ Iso.refl _ ≪≫ Q''.iso) z
   rw [h4]
   exact (determinantTransport_withIso_refl (P'.bcPresentation f) Q.iso Q''.iso z).symm
 

@@ -54,7 +54,7 @@ omit [J.WEqualsLocallyBijective CommRingCat.{u}] [HasSheafify J AddCommGrpCat.{u
 /-- A section of the kernel of `g` lies in the kernel of `g ≫ h`. -/
 theorem mem_kernelIdeal_comp (U : Cᵒᵖ) (x : kernelIdeal g.hom U) :
     (x : A'.obj.obj U) ∈ kernelIdeal (g ≫ h).hom U := by
-  show h.hom.app U (g.hom.app U x) = 0
+  change h.hom.app U (g.hom.app U x) = 0
   rw [show g.hom.app U x = 0 from x.2, map_zero]
 
 /-- **The restriction to the base ideal of a first Ext class of `NL_{O/A'}`.** Read through the
@@ -143,7 +143,7 @@ theorem baseExtEquiv_towerClass_conormalClass
       (congrArg (fun m => m.val.app U (conormalClass.{u, u, max u u u, u} J A' A' A (𝟙 A') g U x))
         (cotangentComplexHomologyNegOneIsoConormal.{u, u, u} J g).inv_hom_id))
   refine (congrArg (fun m => m.val.app U Y) (hP.trans (congrArg _ hI))).trans ?_
-  show (naiveConormalIso J (g ≫ h)).hom.val.app U
+  change (naiveConormalIso J (g ≫ h)).hom.val.app U
     (((naiveCotangentComplex.{u, u, u} J (g ≫ h)).homologyToX (-1) hdP ≫
       (naiveCotangentComplexXNegOneIso.{u, u, u} J (g ≫ h)).hom).val.app U Y) = _
   rw [hA]

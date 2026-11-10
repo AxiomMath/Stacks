@@ -141,7 +141,7 @@ theorem exists_fiberOpens_of_finite_of_quasiFiniteAt (f : X ⟶ Y) [LocallyOfFin
   refine ⟨W, rfl, hAclosed, ?_⟩
   have : Finite W.toScheme := hA.to_subtype
   have : LocallyOfFiniteType (f.fiberToSpecResidueField y) := by
-    show LocallyOfFiniteType (pullback.snd f (Y.fromSpecResidueField y))
+    change LocallyOfFiniteType (pullback.snd f (Y.fromSpecResidueField y))
     infer_instance
   have : QuasiCompact (W.ι ≫ f.fiberToSpecResidueField y) :=
     ⟨fun _ _ _ => (Set.toFinite _).isCompact⟩

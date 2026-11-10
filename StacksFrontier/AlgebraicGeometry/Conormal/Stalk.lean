@@ -133,8 +133,7 @@ private def tensorKerEquivCotangent :
     rfl
   have hsmulT : ∀ (r : R) (t : TensorProduct R S (RingHom.ker φ)), (φ r) • t = r • t := by
     intro r t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul s a => rw [TensorProduct.smul_tmul', TensorProduct.smul_tmul', hsmulS]
     | add x y hx hy => rw [smul_add, smul_add, hx, hy]
   have hsmulC : ∀ (r : R) (c : (RingHom.ker φ).Cotangent), (φ r) • c = r • c := by

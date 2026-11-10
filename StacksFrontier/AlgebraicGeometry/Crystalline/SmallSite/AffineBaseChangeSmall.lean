@@ -7,9 +7,9 @@ public import StacksFrontier.AlgebraicGeometry.Crystalline.SmallSite.Restriction
 /-!
 # The affine base change of sections of a crystal on `Cris(X/S)` along an arbitrary morphism
 
-`StacksFrontier/AlgebraicGeometry/Crystalline/AffineBaseChangeAbstract.lean` computes the base change
-of ambient sections along an arbitrary morphism of `CRIS(X/S)` from three inputs: two modules over
-the restrictions of `𝒪_{X/S}` to the two ambient schemes, an `f`-map between them, and the
+`StacksFrontier/AlgebraicGeometry/Crystalline/AffineBaseChangeAbstract.lean` computes the base
+change of ambient sections along an arbitrary morphism of `CRIS(X/S)` from three inputs: two modules
+over the restrictions of `𝒪_{X/S}` to the two ambient schemes, an `f`-map between them, and the
 invertibility of the comparison map of [Stacks, Tag 07IQ] that the `f`-map transposes to.  The
 **small** crystalline site supplies all three, at the very same sheaf of rings:
 `...SmallSite.CohomologyRestriction.moduleRestrictionSheaf`,
@@ -102,7 +102,7 @@ theorem crysRestrict_comp {A B C : CrystallineThickening S} (j : A ⟶ B) (i : B
 /-- Restricting along an identity of the site does nothing. -/
 theorem crysRestrict_id (B : CrystallineThickening S) (x : F.val.obj (op B)) :
     crysRestrict F (𝟙 B) x = x := by
-  show F.val.map (𝟙 (op B)) x = x
+  change F.val.map (𝟙 (op B)) x = x
   rw [← PresheafOfModules.presheaf_map_apply_coe, F.val.presheaf.map_id]
   rfl
 

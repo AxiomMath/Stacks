@@ -58,7 +58,7 @@ private theorem radical_map_maximalIdeal_of_isIntegral {B C : Type*} [CommRing B
       (Ideal.map_le_iff_le_comap.mp hQ.1)
   have hm : (Ideal.comap f Q).IsMaximal := heq.symm ▸ maximalIdeal.isMaximal B
   exact (IsLocalRing.eq_maximalIdeal
-    (Ideal.isMaximal_of_isIntegral_of_isMaximal_comap' f hf Q hm)).ge
+    (Ideal.isMaximal_of_isIntegral_of_isMaximal_comap f hf Q hm)).ge
 
 /-- A prime of the target of an integral local homomorphism of local rings contains the maximal
 ideal exactly when its contraction does. -/
@@ -96,7 +96,7 @@ private theorem map_id_comp_algebraMap_rightAlgebra {A B C R : Type*} [CommRing 
     (Algebra.TensorProduct.map f (AlgHom.id A R)).toRingHom.comp (algebraMap R (B ⊗[A] R)) =
       algebraMap R (C ⊗[A] R) := by
   ext r
-  show Algebra.TensorProduct.map f (AlgHom.id A R) ((1 : B) ⊗ₜ[A] r) = (1 : C) ⊗ₜ[A] r
+  change Algebra.TensorProduct.map f (AlgHom.id A R) ((1 : B) ⊗ₜ[A] r) = (1 : C) ⊗ₜ[A] r
   simp
 
 /-- Base change along `R` of a map `f` of `A`-algebras commutes with the maps from the source and
@@ -106,7 +106,7 @@ private theorem map_id_comp_algebraMap {A B C R : Type*} [CommRing A] [CommRing 
     (Algebra.TensorProduct.map f (AlgHom.id A R)).toRingHom.comp (algebraMap B (B ⊗[A] R)) =
       (algebraMap C (C ⊗[A] R)).comp f.toRingHom := by
   ext b
-  show Algebra.TensorProduct.map f (AlgHom.id A R) (b ⊗ₜ[A] (1 : R)) = f b ⊗ₜ[A] (1 : R)
+  change Algebra.TensorProduct.map f (AlgHom.id A R) (b ⊗ₜ[A] (1 : R)) = f b ⊗ₜ[A] (1 : R)
   simp
 
 /-- For an integral algebra `D → E` and a module `N` over `E`, flatness over the base of the
@@ -157,7 +157,7 @@ theorem flat_localizedModule_atPrime_iff_forall_primesOver {R B C N : Type*} [Co
     have hQflat := (flatQ Q).mp
       (Module.Flat.localizedModule_of_isScalarTower (R := R) (A := Cp) (M := L) Q.primeCompl)
     change Module.Flat R (LocalizedModule (Q.comap (algebraMap C Cp)).primeCompl N) at hQflat
-    show Module.Flat R (LocalizedModule q.primeCompl N)
+    change Module.Flat R (LocalizedModule q.primeCompl N)
     rwa [show (Q.comap (algebraMap C Cp)).primeCompl = q.primeCompl by
       ext; simp [Ideal.mem_primeCompl_iff, hqback]] at hQflat
   · refine (Module.Flat.equiv_iff e).mpr
@@ -231,8 +231,7 @@ noncomputable def tensorBaseChangeEquiv {A B C R M N : Type*} [CommRing A] [Comm
   have hl : (l : D ⊗[B] M → E ⊗[C] N) = eR := by
     funext z
     obtain ⟨t, rfl⟩ := eM.symm.surjective z
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | add t u ht hu => simpa only [map_add] using congrArg₂ (· + ·) ht hu
     | tmul r m =>
       simp only [eR, LinearEquiv.trans_apply, LinearEquiv.apply_symm_apply]
@@ -294,7 +293,7 @@ public theorem flatAtPointFunctor_eq_of_finite (S : FlatAtPointSituation.{u, v, 
   let : Module D (D ⊗[S.B] S.M) := TensorProduct.leftModule
   have towerE : IsScalarTower R D (E ⊗[C] N) :=
     IsScalarTower.of_algebraMap_smul fun r n ↦ by
-      show g ((algebraMap R D) r) • n = (algebraMap R E r) • n
+      change g ((algebraMap R D) r) • n = (algebraMap R E r) • n
       rw [IsScalarTower.algebraMap_apply R D E r]
       rfl
   have hlocal (p : Ideal D) [p.IsPrime] :=

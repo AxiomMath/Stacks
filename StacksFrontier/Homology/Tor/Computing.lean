@@ -320,7 +320,7 @@ private lemma boundedHomotopy_quasiIso_le_map {A : Type*} [Category A] [Abelian 
   let g := H.preimage (eX.hom ≫ f ≫ eY.inv)
   have hg : (HomotopyCategory.quasiIso A (ComplexShape.up ℤ)).inverseImage
       (boundedHomotopyProperty A).ι (H.map g) := by
-    show HomotopyCategory.quasiIso A (ComplexShape.up ℤ)
+    change HomotopyCategory.quasiIso A (ComplexShape.up ℤ)
       ((boundedHomotopyProperty A).ι.map (H.map g))
     change HomotopyCategory.quasiIso A (ComplexShape.up ℤ)
       ((boundedHomotopyProperty A).ι.map f) at hf
@@ -329,7 +329,7 @@ private lemma boundedHomotopy_quasiIso_le_map {A : Type*} [Category A] [Abelian 
       MorphismProperty.cancel_right_of_respectsIso] using hf
   have hg' : ((HomologicalComplex.quasiIso A (ComplexShape.up ℤ)).inverseImage
       (CochainComplex.minus A).ι) g := by
-    show HomologicalComplex.quasiIso A (ComplexShape.up ℤ)
+    change HomologicalComplex.quasiIso A (ComplexShape.up ℤ)
       ((CochainComplex.minus A).ι.map g)
     exact (HomotopyCategory.quotient_map_mem_quasiIso_iff _).1 hg
   exact ⟨_, _, g, hg', ⟨Arrow.isoMk' _ _ eX eY (by simp [g, H])⟩⟩

@@ -29,7 +29,7 @@ public theorem idealMap_liftBaseChange_bijective
     simp [f, Algebra.smul_def]
   constructor
   · apply Function.Injective.of_comp (f := (I.map (algebraMap R S)).subtype)
-    show Function.Injective ((I.map (algebraMap R S)).subtype ∘ₗ f)
+    change Function.Injective ((I.map (algebraMap R S)).subtype ∘ₗ f)
     rw [hf, LinearMap.coe_comp]
     exact (TensorProduct.AlgebraTensorModule.rid R S S).injective.comp
       (Module.Flat.lTensor_preserves_injective_linearMap I.subtype Subtype.val_injective)

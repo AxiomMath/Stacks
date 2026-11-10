@@ -131,7 +131,7 @@ private theorem flat_of_isHenselization_algHom' {A : Type u} {Ah : Type v} {B : 
   let : Algebra (ULift.{u} Ah) B := ULift.algebra' Ah B
   have : IsScalarTower A (ULift.{u} Ah) B :=
     IsScalarTower.of_algebraMap_eq (R := A) (S := ULift.{u} Ah) (A := B) fun x => by
-      show algebraMap A B x = f (algebraMap A Ah x)
+      change algebraMap A B x = f (algebraMap A Ah x)
       exact (f.commutes x).symm
   exact Module.Flat.ulift_left_iff.mp
     (_root_.flat_restrictScalars_of_ind_etale A (ULift.{u} Ah) B
@@ -355,7 +355,7 @@ private theorem exists_algHom_eq_of_etale
       ResidueField.mapAlgHom emb (ResidueField.map (algebraMap R Rh) y) = eT y := by
     intro y
     obtain ⟨r, rfl⟩ := residue_surjective y
-    show ResidueField.mapAlgHom emb (ResidueField.map (algebraMap R Rh) (residue R r)) =
+    change ResidueField.mapAlgHom emb (ResidueField.map (algebraMap R Rh) (residue R r)) =
       ResidueField.map (algebraMap R (AdicCompletion (maximalIdeal R) R)) (residue R r)
     rw [ResidueField.map_residue, ResidueField.map_residue,
       ResidueField.mapAlgHom_residue, emb.commutes r]
@@ -364,7 +364,7 @@ private theorem exists_algHom_eq_of_etale
     { toRingHom := (residue (AdicCompletion (maximalIdeal R) R)).comp
         (τ : R' →+* AdicCompletion (maximalIdeal R) R)
       commutes' := fun r => by
-        show residue (AdicCompletion (maximalIdeal R) R) (τ (algebraMap R R' r)) = _
+        change residue (AdicCompletion (maximalIdeal R) R) (τ (algebraMap R R' r)) = _
         rw [τ.commutes r]
         rfl }
   have hψTapp : ∀ y : R', ψT y = residue (AdicCompletion (maximalIdeal R) R) (τ y) :=
@@ -374,10 +374,10 @@ private theorem exists_algHom_eq_of_etale
         ((eT.symm : ResidueField (AdicCompletion (maximalIdeal R) R) →+* ResidueField R).comp
           (ψT : R' →+* ResidueField (AdicCompletion (maximalIdeal R) R)))
       commutes' := fun r => by
-        show ResidueField.map (algebraMap R Rh) (eT.symm (ψT (algebraMap R R' r))) = _
+        change ResidueField.map (algebraMap R Rh) (eT.symm (ψT (algebraMap R R' r))) = _
         have h1 : ψT (algebraMap R R' r) = eT (residue R r) := by
           rw [hψTapp, τ.commutes r]
-          show _ = ResidueField.map (algebraMap R (AdicCompletion (maximalIdeal R) R))
+          change _ = ResidueField.map (algebraMap R (AdicCompletion (maximalIdeal R) R))
             (residue R r)
           rw [ResidueField.map_residue]
         rw [h1, eT.symm_apply_apply, ResidueField.map_residue]
@@ -391,7 +391,7 @@ private theorem exists_algHom_eq_of_etale
     (R := R) (A := R') (S := AdicCompletion (maximalIdeal R) R) ψT
   have hcomp : emb.comp φ = τ := by
     refine (huniq _ fun y => ?_).trans (huniq τ fun y => (hψTapp y).symm).symm
-    show residue (AdicCompletion (maximalIdeal R) R) (emb (φ y)) = ψT y
+    change residue (AdicCompletion (maximalIdeal R) R) (emb (φ y)) = ψT y
     rw [← ResidueField.mapAlgHom_residue emb (φ y), hφ y, hψhapp y, hpt (eT.symm (ψT y)),
       eT.apply_symm_apply]
   exact ⟨φ, fun y => AlgHom.congr_fun hcomp y⟩

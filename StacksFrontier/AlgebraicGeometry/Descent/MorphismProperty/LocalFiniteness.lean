@@ -98,7 +98,7 @@ private theorem locallyOfFinitePresentation_of_comp_of_fppf_affine
   have : Flat g := hf
   have : LocallyOfFinitePresentation g := hp
   have : LocallyOfFinitePresentation (g ≫ q) := by
-    show LocallyOfFinitePresentation (h ≫ (f ≫ q))
+    change LocallyOfFinitePresentation (h ≫ (f ≫ q))
     infer_instance
   rw [HasRingHomProperty.iff_of_isAffine (P := @LocallyOfFinitePresentation)]
   exact RingHom.finitePresentation_of_comp_of_faithfullyFlat
@@ -122,7 +122,7 @@ private theorem locallyOfFiniteType_of_comp_of_fppf_affine
   have : Flat g := hf
   have : LocallyOfFinitePresentation g := hp
   have : LocallyOfFiniteType (g ≫ q) := by
-    show LocallyOfFiniteType (h ≫ (f ≫ q))
+    change LocallyOfFiniteType (h ≫ (f ≫ q))
     infer_instance
   rw [HasRingHomProperty.iff_of_isAffine (P := @LocallyOfFiniteType)]
   exact RingHom.finiteType_of_comp_of_faithfullyFlat_of_finitePresentation
@@ -137,7 +137,7 @@ theorem surjective_resLE {X Y : Scheme.{u}} (f : X ⟶ Y) [Surjective f]
   refine ⟨fun y ↦ ?_⟩
   obtain ⟨x, hx⟩ := f.surjective y.1
   refine ⟨⟨x, ?_⟩, ?_⟩
-  · show f x ∈ U
+  · change f x ∈ U
     rw [hx]
     exact y.2
   · apply Subtype.ext

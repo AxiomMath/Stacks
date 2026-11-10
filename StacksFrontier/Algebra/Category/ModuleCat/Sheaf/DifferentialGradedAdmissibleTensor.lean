@@ -135,6 +135,7 @@ theorem IsAdmissibleShortExact.dgTensor_shortExact (h : IsAdmissibleShortExact f
     (h.shortComplex.map (RelativeTensor.dgTensorFunctor N)).ShortExact :=
   Nonempty.elim h fun S ↦ S.dgTensor_shortExact N
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- A morphism between two acyclic complexes of sheaves of modules is a quasi-isomorphism: the
 map it induces on cohomology joins two zero objects. -/
 theorem quasiIso_of_acyclic

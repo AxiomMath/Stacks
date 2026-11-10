@@ -34,8 +34,7 @@ theorem length_baseChange (hm : Ideal.map (algebraMap A R) (maximalIdeal A) = ma
   | @of_subsingleton T0 _ _ _ =>
     have : Subsingleton (R ⊗[A] T0) := ⟨fun x y => by
       have h0 : ∀ z : R ⊗[A] T0, z = 0 := fun z => by
-        induction z using TensorProduct.induction_on with
-        | zero => rfl
+        induction z using TensorProduct.inductionOn with
         | tmul r t => rw [Subsingleton.elim t 0, TensorProduct.tmul_zero]
         | add a b ha hb => rw [ha, hb, add_zero]
       rw [h0 x, h0 y]⟩
@@ -50,7 +49,7 @@ theorem length_baseChange (hm : Ideal.map (algebraMap A R) (maximalIdeal A) = ma
     have hexA := Module.length_eq_add_of_exact (R := A) P.subtype P.mkQ
       (Submodule.injective_subtype P) (Submodule.mkQ_surjective P) (LinearMap.exact_subtype_mkQ P)
     have e' : R ⊗[A] (T' ⧸ P) ≃ₗ[R] R ⧸ maximalIdeal R :=
-      (e.baseChange A R _ _).trans ((Ideal.qoutMapEquivTensorQout R).symm.trans
+      (e.baseChange A R _ _).trans ((Ideal.quotMapEquivTensorQuot R).symm.trans
         (Submodule.quotEquivOfEq _ _ (by rw [hm])))
     have : IsSimpleModule R (R ⧸ maximalIdeal R) := isSimpleModule_quotient_maximalIdeal R
     rw [hex, ih, e'.length_eq, hexA, Module.length_eq_one (R := R) (M := R ⧸ maximalIdeal R),

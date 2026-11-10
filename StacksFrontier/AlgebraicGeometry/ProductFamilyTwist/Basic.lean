@@ -224,7 +224,7 @@ theorem generatesStalks_congr {M N : X.Modules} [IsInvertibleModule X M] [IsInve
   refine Stacks.AmpleImmersionReduction.generatesStalks_of_forall_exists_mem _ fun x => ?_
   obtain ⟨i, hi⟩ := exists_mem_nvCover_of_generatesStalks s hs x
   refine ⟨i, ?_⟩
-  show x ∈ nonvanishingLocus N (e.hom.app ⊤ (s i))
+  change x ∈ nonvanishingLocus N (e.hom.app ⊤ (s i))
   rw [nonvanishingLocus_congr e (s i)]
   exact hi
 

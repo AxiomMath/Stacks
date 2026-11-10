@@ -297,7 +297,7 @@ private theorem smul_mem_map_range {x : X} {m : L.presheaf.stalk x}
     ((Stacks.Chow.denominatorIdealTensorModule L F s).presheaf.germ (W₁ ⊓ W₂) x hxW
       (toTensorSheafSection X.toRingedSpace (AlgebraicGeometry.denominatorIdeal X L s) F
         (op (W₁ ⊓ W₂)) (d ⊗ₜ[X.presheaf.obj (op (W₁ ⊓ W₂))] n'))), ⟨_, rfl⟩, ?_⟩
-  show tensorStalkRightEquiv F hm (sectionTensorStalk X L F s x _) = y • n
+  change tensorStalkRightEquiv F hm (sectionTensorStalk X L F s x _) = y • n
   rw [sectionTensorStalk_germ_tmul X L F s x (W₁ ⊓ W₂) hxW d n',
     tensorStalkRightEquiv_tensorStalkTmul' F hm _ _, hgz, hqn]
   exact congrArg (fun c : X.presheaf.stalk x => c • n) (hm.coord_smul y)
@@ -321,18 +321,8 @@ theorem map_range_sectionTensorStalk_eq_smul {x : X} {m : L.presheaf.stalk x}
         (AlgebraicGeometry.denominatorIdeal X L s) F).symm t = v :=
       ⟨tensorStalkIso X.toRingedSpace x (AlgebraicGeometry.denominatorIdeal X L s) F v,
         LinearEquiv.symm_apply_apply _ _⟩
-    show tensorStalkRightEquiv F hm (sectionTensorStalk X L F s x _) ∈ _
-    induction t using TensorProduct.induction_on with
-    | zero =>
-        have h1 : tensorStalkRightEquiv F hm (sectionTensorStalk X L F s x
-            ((tensorStalkIso X.toRingedSpace x
-              (AlgebraicGeometry.denominatorIdeal X L s) F).symm 0)) = 0 := by
-          rw [map_zero]
-          exact (congrArg (fun w => tensorStalkRightEquiv F hm w)
-            ((sectionTensorStalk X L F s x).map_zero)).trans
-              (tensorStalkRightEquiv F hm).map_zero
-        rw [h1]
-        exact Submodule.zero_mem _
+    change tensorStalkRightEquiv F hm (sectionTensorStalk X L F s x _) ∈ _
+    induction t using TensorProduct.inductionOn with
     | add a b ha hb =>
         have h2 : tensorStalkRightEquiv F hm (sectionTensorStalk X L F s x
               ((tensorStalkIso X.toRingedSpace x

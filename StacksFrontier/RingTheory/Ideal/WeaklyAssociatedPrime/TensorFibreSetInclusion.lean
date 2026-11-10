@@ -449,7 +449,7 @@ theorem isWeaklyAssociatedPrime_tensorResidueField_of_essentiallyOfFiniteType
   let : Module R N₀ := Module.compHom N₀ (algebraMap R A)
   let : IsScalarTower R A N₀ := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   let : IsScalarTower R S N₀ := IsScalarTower.of_algebraMap_smul fun r m => by
-    show algebraMap R S r • m = algebraMap A S (algebraMap R A r) • m
+    change algebraMap R S r • m = algebraMap A S (algebraMap R A r) • m
     rw [← hcomp]
     rfl
   let : IsLocalizedModule U φ := hφ

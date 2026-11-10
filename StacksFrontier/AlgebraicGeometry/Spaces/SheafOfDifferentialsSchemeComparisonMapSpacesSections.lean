@@ -18,11 +18,12 @@ which must end at the same place for the square to close.
 
 The spaces side needs both readings of the comparison of the two composite right adjoints round
 the square of Stacks 03LC (1), and those live in
-`StacksFrontier/AlgebraicGeometry/Spaces/RepresentedModuleSiteEquivalenceInverse.lean`, which imports
-`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsSchemeComparisonMapMate.lean`, which
-imports the Zariski-side module.  So the spaces side cannot be written beside the Zariski side:
-that is an import cycle, and the implementation notes of the Zariski-side module record it.  It
-has to be written downstream of the leaf instead, which is here.
+`StacksFrontier/AlgebraicGeometry/Spaces/RepresentedModuleSiteEquivalenceInverse.lean`, which
+imports
+`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsSchemeComparisonMapMate.lean`,
+which imports the Zariski-side module.  So the spaces side cannot be written beside the Zariski
+side: that is an import cycle, and the implementation notes of the Zariski-side module record
+it.  It has to be written downstream of the leaf instead, which is here.
 
 ## Main results
 
@@ -94,8 +95,8 @@ with its right-hand side *inferred* rather than transcribed.  That term costs **
 heartbeats, over the budget of one declaration, and the three results above are what replaces it.
 The figures in the paragraphs that follow are `#count_heartbeats` counts, with the budget raised
 only to let the failing variants finish; where a figure decides something, it holds at the
-standard budget with no option override as well, which matters because `#count_heartbeats` runs at `maxHeartbeats 0` and over-reports wherever a
-budget would cut a speculative `whnf` short.
+standard budget with no option override as well, which matters because `#count_heartbeats` runs
+at `maxHeartbeats 0` and over-reports wherever a budget would cut a speculative `whnf` short.
 
 **The one crossing, and why it must sit in a proof and not in a statement.**  `γ` is *declared*
 with `AlgebraicGeometry.Space.representedModuleSiteEquivalence` and

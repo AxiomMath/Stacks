@@ -274,12 +274,12 @@ theorem isFiltered_cardinalGeneratedSubobject (M : QuasicoherentModule G) {κ : 
         (@Functor.map_epi _ _ _ _ (QuasicoherentModule.forget G) _ _ _ _ hp) κ hSgen
     have hA : A.1 ≤ I := by
       refine Subobject.le_of_comm (coprod.inl ≫ factorThruImageSubobject f) ?_
-      show (coprod.inl ≫ factorThruImageSubobject f) ≫ I.arrow = A.1.arrow
+      change (coprod.inl ≫ factorThruImageSubobject f) ≫ I.arrow = A.1.arrow
       rw [Category.assoc, imageSubobject_arrow_comp]
       exact coprod.inl_desc _ _
     have hB : B.1 ≤ I := by
       refine Subobject.le_of_comm (coprod.inr ≫ factorThruImageSubobject f) ?_
-      show (coprod.inr ≫ factorThruImageSubobject f) ≫ I.arrow = B.1.arrow
+      change (coprod.inr ≫ factorThruImageSubobject f) ≫ I.arrow = B.1.arrow
       rw [Category.assoc, imageSubobject_arrow_comp]
       exact coprod.inr_desc _ _
     exact ⟨⟨I, hgen⟩, P.homMk (homOfLE hA), P.homMk (homOfLE hB), trivial⟩

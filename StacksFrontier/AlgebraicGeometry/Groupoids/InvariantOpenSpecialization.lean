@@ -126,7 +126,7 @@ theorem isInvariantSet_fibre_objectsToInvariantSpectrum (G : GroupoidScheme S)
   intro r hr
   have h : (objectsToInvariantSpectrum G).base (G.target.left.base r) =
       (objectsToInvariantSpectrum G).base (G.source.left.base r) := by
-    show (G.target.left ≫ objectsToInvariantSpectrum G).base r =
+    change (G.target.left ≫ objectsToInvariantSpectrum G).base r =
       (G.source.left ≫ objectsToInvariantSpectrum G).base r
     rw [source_comp_objectsToInvariantSpectrum]
   exact h.trans hr

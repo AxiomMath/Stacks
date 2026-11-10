@@ -44,7 +44,8 @@ variable (R : Type u) [Ring R] {Γ : Type v} [Group Γ] [TopologicalSpace Γ]
 /-- Conjugation by `γ` on `Hom_ℤ(M, A)`: `ψ ↦ γ ∘ ψ ∘ γ⁻¹`. -/
 def homDualConj (M : Stacks.Injectives.ContinuousModule.{u, v, w} R Γ) (γ : Γ) :
     (M.obj.obj.V →+ A.obj.obj.V) →ₗ[Rᵐᵒᵖ] (M.obj.obj.V →+ A.obj.obj.V) where
-  toFun ψ := (A.obj.obj.ρ γ).asHom.hom.toAddMonoidHom.comp (ψ.comp (M.obj.obj.ρ γ⁻¹).asHom.hom.toAddMonoidHom)
+  toFun ψ := (A.obj.obj.ρ γ).asHom.hom.toAddMonoidHom.comp
+    (ψ.comp (M.obj.obj.ρ γ⁻¹).asHom.hom.toAddMonoidHom)
   map_add' ψ ψ' := AddMonoidHom.ext fun m ↦ map_add (A.obj.obj.ρ γ).asHom.hom _ _
   map_smul' r ψ := AddMonoidHom.ext fun m ↦ by
     change (A.obj.obj.ρ γ).asHom.hom (ψ (r.unop • (M.obj.obj.ρ γ⁻¹).asHom.hom m)) =
@@ -67,7 +68,8 @@ def homDualRepresentation (M : Stacks.Injectives.ContinuousModule.{u, v, w} R Γ
 /-- The conjugation action sends `ψ` to `m ↦ γ (ψ (γ⁻¹ m))`. -/
 lemma homDualRepresentation_apply (M : Stacks.Injectives.ContinuousModule.{u, v, w} R Γ) (γ : Γ)
     (ψ : M.obj.obj.V →+ A.obj.obj.V) (m : M.obj.obj.V) :
-    homDualRepresentation R A M γ ψ m = (A.obj.obj.ρ γ).asHom.hom (ψ ((M.obj.obj.ρ γ⁻¹).asHom.hom m)) :=
+    homDualRepresentation R A M γ ψ m =
+      (A.obj.obj.ρ γ).asHom.hom (ψ ((M.obj.obj.ρ γ⁻¹).asHom.hom m)) :=
   rfl
 
 private lemma rho_apply_rho_inv_apply (N : Stacks.Injectives.ContinuousModule.{u, v, w} R Γ)
@@ -150,7 +152,8 @@ def homDualFunctor :
       AddMonoidHom.ext fun m ↦ by
         change (A.obj.obj.ρ γ).asHom.hom (ψ ((M.unop.obj.obj.obj.ρ γ⁻¹).asHom.hom
             (f.unop.hom.hom.hom.hom.hom m))) =
-          (A.obj.obj.ρ γ).asHom.hom (ψ (f.unop.hom.hom.hom.hom.hom ((M'.unop.obj.obj.obj.ρ γ⁻¹).asHom.hom m)))
+          (A.obj.obj.ρ γ).asHom.hom
+            (ψ (f.unop.hom.hom.hom.hom.hom ((M'.unop.obj.obj.obj.ρ γ⁻¹).asHom.hom m)))
         exact congrArg (fun x ↦ (A.obj.obj.ρ γ).asHom.hom (ψ x))
           (ConcreteCategory.congr_hom (f.unop.hom.hom.hom.comm γ⁻¹) m).symm⟩)
   map_id _ := rfl

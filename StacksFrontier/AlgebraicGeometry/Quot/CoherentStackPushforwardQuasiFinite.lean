@@ -188,7 +188,7 @@ theorem exists_finiteReduction (A : CoherentObject D.source) :
       (i ≫ D.mapAt A.T).hom (D.target.projection A.T).hom ?_ hWZ
       (isLocallyOfFiniteType_of_isLocallyOfFinitePresentation B S hS
         (D.target.isFinitePresentation_projection A.T).1) (D.isSeparated_targetProjection A.T)
-    show IsLocallyOfFinitePresentation B S hS
+    change IsLocallyOfFinitePresentation B S hS
       (i.hom ≫ (D.mapAt A.T).hom ≫ (D.target.projection A.T).hom)
     rw [hcomm]
     exact isLocallyOfFinitePresentation_comp B S hS Z.2 (D.source.space A.T).2
@@ -197,7 +197,7 @@ theorem exists_finiteReduction (A : CoherentObject D.source) :
   have hflat : IsFlatOver B S hS Z.2 ((i ≫ D.mapAt A.T) ≫ D.target.projection A.T).hom G := by
     have : ((i ≫ D.mapAt A.T) ≫ D.target.projection A.T).hom =
         (i ≫ D.source.projection A.T).hom := by
-      show i.hom ≫ (D.mapAt A.T).hom ≫ (D.target.projection A.T).hom = _
+      change i.hom ≫ (D.mapAt A.T).hom ≫ (D.target.projection A.T).hom = _
       rw [hcomm]; rfl
     rwa [this]
   exact ⟨Z, i, G, hi, hfin, hfp, hGqc, hGfp, hflat, he⟩

@@ -138,7 +138,7 @@ theorem isSheafFor_of_isSheafFor_isCovering (B : BigFppfSite.{u}) (S : Scheme.{u
         apply (Sieve.overEquiv T').injective
         simp only [OrderIso.apply_symm_apply, Sieve.overEquiv_ofArrows]
         rw [hPE]
-        show Sieve.pullback f (Sieve.ofArrows E.X E.f) = Sieve.ofArrows P' p₂
+        change Sieve.pullback f (Sieve.ofArrows E.X E.f) = Sieve.ofArrows P' p₂
         exact (Sieve.ofArrows_eq_pullback_of_isPullback E.f (fun i => (hPB i).flip)).symm
       rw [hSieve]
       exact (Presieve.isSheafFor_iff_generate _).mp (hF T' E' hE')

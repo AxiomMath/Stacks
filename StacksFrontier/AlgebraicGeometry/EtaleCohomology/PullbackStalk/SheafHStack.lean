@@ -190,7 +190,7 @@ public theorem etaleSheafPseudofunctor_isEquivalence_of_zariski {X : BigHOver B 
     ⟨Over.mk ((toBigEtaleSite B E hBE S hS).map (Ez.f k)), by
       have : IsOpenImmersion (E.inclusion.map ((toBigEtaleSite B E hBE S hS).map (Ez.f k))) :=
         hopen k
-      show Etale (E.inclusion.map ((toBigEtaleSite B E hBE S hS).map (Ez.f k)))
+      change Etale (E.inclusion.map ((toBigEtaleSite B E hBE S hS).map (Ez.f k)))
       infer_instance⟩
   have hV : Sieve.ofArrows V (fun k ↦ (SmallEtale.finalIsTerminal E X'.obj X'.property).from
       (V k)) ∈
@@ -203,7 +203,7 @@ public theorem etaleSheafPseudofunctor_isEquivalence_of_zariski {X : BigHOver B 
         (toBigEtaleSite B E hBE S hS).map (Ez.f k) := by
       have h := Over.w ((SmallEtale.finalIsTerminal E X'.obj X'.property).from (V k)).hom
       simpa [SmallEtale.final, V] using h
-    show (E.inclusion.map
+    change (E.inclusion.map
       ((SmallEtale.finalIsTerminal E X'.obj X'.property).from (V k)).hom.left) y = x
     rw [hw]
     exact hy

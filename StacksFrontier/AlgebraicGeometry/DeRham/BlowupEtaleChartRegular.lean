@@ -115,7 +115,7 @@ of `y_j` lies in the ideal of `Z`: its image in `Γ(Z, i⁻¹V)` is zero. -/
 theorem coordinateSection_mem_definingIdealOfHom [IsClosedImmersion i] {V : X.Opens}
     (hVU : V ≤ c.U) (j : Fin c.n) :
     V.topIso.hom (c.coordinateSection hVU j) ∈ (definingIdealOfHom i).obj (op V) := by
-  show (i.app V).hom (V.topIso.hom (c.coordinateSection hVU j)) = 0
+  change (i.app V).hom (V.topIso.hom (c.coordinateSection hVU j)) = 0
   have hres : (i ∣_ V) ≫ X.homOfLE hVU =
       Z.homOfLE (show i ⁻¹ᵁ V ≤ i ⁻¹ᵁ c.U from fun x hx => hVU hx) ≫ (i ∣_ c.U) := by
     rw [← cancel_mono c.U.ι]
@@ -140,7 +140,7 @@ theorem coordinateSection_mem_definingIdealOfHom [IsClosedImmersion i] {V : X.Op
   have e : V.topIso.hom = X.presheaf.map (eqToHom V.ι_image_top.symm).op := rfl
   rw [e]
   refine this.trans ?_
-  show (Z.presheaf.map _).hom ((i.app (V.ι ''ᵁ ⊤)).hom (c.coordinateSection hVU j)) = 0
+  change (Z.presheaf.map _).hom ((i.app (V.ι ''ᵁ ⊤)).hom (c.coordinateSection hVU j)) = 0
   rw [key', map_zero]
 
 attribute [local instance] HasDerivedCategory.standard HasExt.standard

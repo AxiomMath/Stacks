@@ -87,7 +87,7 @@ theorem restrict_pullbackSection_eq_localMap (n : ℕ) (W : i.coborderRange.toSc
     refine ha'.symm.trans ?_
     exact (reesSection_coe (coborderIdeal i) n (coborderAffineChart i U hU)
       (coborderPowerEquiv i U hU n a)).symm
-  show _ = AddEquiv.cast (M := fun W : Z.Opens =>
+  change _ = AddEquiv.cast (M := fun W : Z.Opens =>
       ((conormalGradedAlgebra i).piece (n : ℤ)).val.obj (op W))
     (coborderAffineChart_preimage i U hU)
     (reesPullbackMap (coborderIdeal i) i.liftCoborder n (coborderAffineChart i U hU)
@@ -119,7 +119,7 @@ private theorem preimage_le_preimage_liftCoborder {U : X.Opens}
     i ⁻¹ᵁ U ≤ i.liftCoborder ⁻¹ᵁ W := by
   intro y hy
   apply h
-  show i.coborderRange.ι (i.liftCoborder y) ∈ U
+  change i.coborderRange.ι (i.liftCoborder y) ∈ U
   have h2 := congrArg (fun q : Z ⟶ X => q y) i.liftCoborder_ι
   simp only [Scheme.Hom.comp_apply] at h2
   rw [h2]
@@ -170,7 +170,7 @@ private theorem exists_affineOpens_chart (W' : i'.coborderRange.toScheme.Opens) 
   obtain ⟨O, hO⟩ := exists_opens_preimage_eq i V
   have hxO : i z.1 ∈ O ⊓ g ⁻¹ᵁ U' := by
     refine ⟨?_, hxU'⟩
-    show z.1 ∈ i ⁻¹ᵁ O
+    change z.1 ∈ i ⁻¹ᵁ O
     rw [hO]
     exact z.2
   obtain ⟨_, ⟨U, hU, rfl⟩, hxU, hUle⟩ := X.isBasis_affineOpens.exists_subset_of_mem_open
@@ -519,7 +519,7 @@ private theorem appLE_chartIncl_of_opens_aux (W : i.coborderRange.toScheme.Opens
             (extReesGradedAlgebra (coborderIdeal i)) (extReesGradedAlgebra_mul_comm _) k W x))
       (ungradedAlgebraSheafIsoGradedAlgebraSheaf i.coborderRange.toScheme
         (extReesGradedAlgebra (coborderIdeal i)) (extReesGradedAlgebra_mul_comm _)).hom_inv_id
-  show ((universalAlgebraMap (normalConeSituation i)).right.app
+  change ((universalAlgebraMap (normalConeSituation i)).right.app
         (op (i.liftCoborder ⁻¹ᵁ W))).hom
         (((ungradedAlgebraSheafIsoGradedAlgebraSheaf Z (conormalAlgebra i).algebra
           (conormalAlgebra i).mul_comm_int).hom.right.hom.app (op (i.liftCoborder ⁻¹ᵁ W))).hom
@@ -652,7 +652,7 @@ private theorem map_appLE_chartIncl_eq_map_normalConeMapOfSquare {Z X Z' X' : Sc
         (map_zero _))).trans (map_zero _)).symm
   obtain ⟨n, rfl⟩ := Int.eq_ofNat_of_zero_le hk
   rw [toConormalExtAdd_of_nonneg i hk, toConormalExtAdd_of_nonneg i' hk]
-  show (normalCone i).presheaf.map (homOfLE hT0).op
+  change (normalCone i).presheaf.map (homOfLE hT0).op
       (coneIncl i (n : ℤ) (i.liftCoborder ⁻¹ᵁ (gU ⁻¹ᵁ W'.1)) _) =
     (normalCone i).presheaf.map (homOfLE hT1).op
       (((normalConeMapOfSquare i i' f g comm).appLE _ _ hC).hom

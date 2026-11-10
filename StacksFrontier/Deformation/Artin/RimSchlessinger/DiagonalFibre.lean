@@ -228,19 +228,19 @@ theorem satisfiesRSStar_diagonalFibre
     have : p.IsHomLift ((Over.map V.hom).map e) ((Y₁' y).map e) := VertHom.isHomLift_map hY₁ e
     have hme : (Over.map V.hom).map e = eqToHom (congrArg _ (s.2.trans t.2.symm)) := by
       simp [e, eqToHom_map]
-    haveI hα : p.IsHomLift (eqToHom hhe) (sectOf s.1 ≫ (Y₂' y).map e) := by
+    have hα : p.IsHomLift (eqToHom hhe) (sectOf (hF := Functor.comp_id _) s.1 ≫ (Y₂' y).map e) := by
       have h₃ : p.IsHomLift (𝟙 ((Over.map V.hom).obj s.1.x) ≫ (Over.map V.hom).map e)
-          (sectOf s.1 ≫ (Y₂' y).map e) := inferInstance
+          (sectOf (hF := Functor.comp_id _) s.1 ≫ (Y₂' y).map e) := inferInstance
       refine IsHomLift.of_fac' p _ _ sS.2 rfl ?_
       rw [IsHomLift.fac' p (𝟙 ((Over.map V.hom).obj s.1.x) ≫ (Over.map V.hom).map e)
-        (sectOf s.1 ≫ (Y₂' y).map e)]
+        (sectOf (hF := Functor.comp_id _) s.1 ≫ (Y₂' y).map e)]
       simp [hme]
-    haveI hβ : p.IsHomLift (eqToHom hhe) ((Y₁' y).map e ≫ sectOf t.1) := by
+    have hβ : p.IsHomLift (eqToHom hhe) ((Y₁' y).map e ≫ sectOf (hF := Functor.comp_id _) t.1) := by
       have h₃ : p.IsHomLift ((Over.map V.hom).map e ≫ 𝟙 ((Over.map V.hom).obj t.1.x))
-          ((Y₁' y).map e ≫ sectOf t.1) := inferInstance
+          ((Y₁' y).map e ≫ sectOf (hF := Functor.comp_id _) t.1) := inferInstance
       refine IsHomLift.of_fac' p _ _ sS.2 rfl ?_
       rw [IsHomLift.fac' p ((Over.map V.hom).map e ≫ 𝟙 ((Over.map V.hom).obj t.1.x))
-        ((Y₁' y).map e ≫ sectOf t.1)]
+        ((Y₁' y).map e ≫ sectOf (hF := Functor.comp_id _) t.1)]
       simp [hme]
     have hre : r.a ≫ e = r'.a := by
       rw [hfr, hfr']

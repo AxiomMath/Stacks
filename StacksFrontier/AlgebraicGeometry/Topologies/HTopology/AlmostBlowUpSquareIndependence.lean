@@ -81,7 +81,7 @@ public theorem preimage_compl_support_eq {X Y : Scheme.{u}} (I : Y.IdealSheafDat
     f ⁻¹ᵁ (⟨I.supportᶜ, I.support.isClosed.isOpen_compl⟩ : Y.Opens) =
       (⟨(I.comap f).supportᶜ, (I.comap f).support.isClosed.isOpen_compl⟩ : X.Opens) := by
   refine TopologicalSpace.Opens.ext ?_
-  show f.base ⁻¹' (I.support : Set Y)ᶜ = ((I.comap f).support : Set X)ᶜ
+  change f.base ⁻¹' (I.support : Set Y)ᶜ = ((I.comap f).support : Set X)ᶜ
   rw [Scheme.IdealSheafData.support_comap]
   rfl
 

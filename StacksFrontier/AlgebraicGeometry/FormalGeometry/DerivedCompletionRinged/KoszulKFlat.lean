@@ -81,7 +81,8 @@ through `Stacks.SheafOfModules.isFlat_X_of_isStrictlyPerfect`: a retract of
 `Stacks.SheafOfModules.isFlat_free`, and flatness passes to retracts by
 `Stacks.SheafOfModules.FlatRetract.isFlat_of_retract`. Nothing here needs
 `Stacks.IsStrictlyPerfect`, which is why `AlgebraicGeometry.RingedSite.kFlat_of_isStrictlyPerfect`
-of `StacksFrontier/CategoryTheory/Sites/Cohomology/KFlat/StrictlyPerfectIsKFlat.lean` is not used directly.
+of `StacksFrontier/CategoryTheory/Sites/Cohomology/KFlat/StrictlyPerfectIsKFlat.lean` is not used
+directly.
 
 The boundedness of the Koszul complex is `isZero_koszulPowerComplex_X_of_lt` of
 `KoszulDerivedCompletion.lean`, and the two inputs about its terms are

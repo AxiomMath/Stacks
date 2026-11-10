@@ -50,7 +50,7 @@ theorem isIso_of_isInvertible_of_tensorHomBijective {L M H : C} (c : H ⊗ L ⟶
       intro a
       refine (Equiv.ofBijective _ (hc Z)).injective ?_
       rw [Equiv.apply_symm_apply]
-      show (a ≫ φ) ▷ L ≫ c = _
+      change (a ≫ φ) ▷ L ≫ c = _
       rw [comp_whiskerRight, Category.assoc, hφ]
       rfl
     have key : (fun a : Z ⟶ M ⊗ h.inv => a ≫ φ) =

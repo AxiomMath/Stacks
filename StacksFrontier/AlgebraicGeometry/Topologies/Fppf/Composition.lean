@@ -141,7 +141,7 @@ public theorem bigFppfMorphism_comp_adjunction
   let k := (bigFppfMorphism B Y Z g).comp (bigFppfMorphism B X Y f)
   let b := k.adj.ofNatIsoRight β.symm
   let α := h.adj.leftAdjointUniq b
-  show h.adj.unit.app V ≫ h.pushforward.map (α.hom.app V) ≫
+  change h.adj.unit.app V ≫ h.pushforward.map (α.hom.app V) ≫
       β.hom.app (k.inverseImage.obj V) = k.adj.unit.app V
   rw [← Category.assoc, Adjunction.unit_leftAdjointUniq_hom_app h.adj b V]
   simp [b, Adjunction.ofNatIsoRight_unit]

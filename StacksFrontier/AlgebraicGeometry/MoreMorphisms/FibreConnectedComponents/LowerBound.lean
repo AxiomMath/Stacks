@@ -105,7 +105,7 @@ private theorem exists_open_fibers_disjoint_of_generic_disjoint {X Y : Scheme.{u
   have : PreirreducibleSpace Y := ⟨by simpa using hη.isIrreducible.isPreirreducible⟩
   have : IrreducibleSpace Y := ⟨⟨η⟩⟩
   have hηgp : η ∈ genericPoints Y := by
-    show closure ({η} : Set Y) ∈ irreducibleComponents Y
+    change closure ({η} : Set Y) ∈ irreducibleComponents Y
     rw [show closure ({η} : Set Y) = Set.univ from hη.def, irreducibleComponents_eq_singleton]
     simp
   have hηg : η ∉ Set.range g := by
@@ -120,7 +120,7 @@ private theorem exists_open_fibers_disjoint_of_generic_disjoint {X Y : Scheme.{u
   obtain ⟨t, ht⟩ := (hmem (f.fiberι y z)).2 ⟨hzA, hzB⟩
   have htg : g t = y := by simpa [g] using (congrArg f ht).trans (f.apply_fiberι y z)
   have htV : t ∈ g ⁻¹ᵁ V := by
-    show g t ∈ V
+    change g t ∈ V
     rwa [htg]
   rw [hpre] at htV
   exact (Opens.mem_bot.mp htV).elim
@@ -165,7 +165,7 @@ private theorem exists_open_natCard_fiber_components_ge_of_partition {X Y : Sche
   let I : ι → X.IdealSheafData := fun i => componentClosureSubscheme f η (C i)
   let Z : ι → Set X := fun i => ((I i).support : Set X)
   have hZeq : ∀ i, Z i = closure (f.fiberι η '' C i) := fun i => by
-    show ((componentClosureSubscheme f η (C i)).support : Set X) = _
+    change ((componentClosureSubscheme f η (C i)).support : Set X) = _
     rw [componentClosureSubscheme_support]
   have hZclosed : ∀ i, IsClosed (Z i) := fun i => (I i).support.2
   have hZgeneric : ∀ i, f.fiberι η ⁻¹' Z i = C i := fun i =>
@@ -217,7 +217,7 @@ theorem exists_open_natCard_connectedComponents_fiber_ge {X Y : Scheme.{u}} (f :
   have hCcover : ∀ x : f.fiber η, ∃ c, x ∈ C c := by
     intro x
     refine ⟨ConnectedComponents.mk x, ?_⟩
-    show x ∈ connectedComponent (rep (ConnectedComponents.mk x))
+    change x ∈ connectedComponent (rep (ConnectedComponents.mk x))
     rw [ConnectedComponents.coe_eq_coe.mp (hrep (ConnectedComponents.mk x))]
     exact mem_connectedComponent
   have hCdisjoint : ∀ c d, c ≠ d → Disjoint (C c) (C d) := by

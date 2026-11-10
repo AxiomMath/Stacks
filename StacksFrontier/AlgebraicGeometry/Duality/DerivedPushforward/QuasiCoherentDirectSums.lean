@@ -69,7 +69,7 @@ instead. That gap *is* closed, but elsewhere: part (2) is transported off `stand
 `StacksFrontier/AlgebraicGeometry/Duality/DerivedPushforward/UniformBoundAnyModel.lean` and its
 restricted form in
 `StacksFrontier/AlgebraicGeometry/Duality/DerivedPushforward/UniformBoundRestrict.lean`, and
-`StacksFrontier/AlgebraicGeometry/Duality/DerivedPushforward/QuasiCoherentDirectSumsLocallySmall.lean`
+`StacksFrontier.AlgebraicGeometry.Duality.DerivedPushforward.QuasiCoherentDirectSumsLocallySmall`
 then re-runs the argument of this file at the locally small model. Only the three declarations of
 the `Pullback` section and the `Local`, `Open` and `Qcoh` sections are restated there; the
 triangle-cutting lemmas of this file are stated for an arbitrary `[HasDerivedCategory]` and are

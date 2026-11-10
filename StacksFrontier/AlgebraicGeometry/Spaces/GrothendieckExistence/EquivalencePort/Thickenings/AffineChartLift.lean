@@ -150,7 +150,7 @@ theorem C1573.exists_appTop_eq_of_isNilpotent_ker {T W' W R' R R'' R₂ : Scheme
         CommRingCat.ofHom (Algebra.TensorProduct.includeRight.toRingHom :
           Γ(R, ⊤) →+* Γ(W, ⊤) ⊗[Γ(T, ⊤)] Γ(R, ⊤)) := by
     ext z
-    show (algebraMap Γ(T, ⊤) Γ(W, ⊤) z) ⊗ₜ[Γ(T, ⊤)] (1 : Γ(R, ⊤)) =
+    change (algebraMap Γ(T, ⊤) Γ(W, ⊤) z) ⊗ₜ[Γ(T, ⊤)] (1 : Γ(R, ⊤)) =
       (1 : Γ(W, ⊤)) ⊗ₜ[Γ(T, ⊤)] (algebraMap Γ(T, ⊤) Γ(R, ⊤) z)
     rw [Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one,
       TensorProduct.smul_tmul]
@@ -174,11 +174,11 @@ theorem C1573.exists_appTop_eq_of_isNilpotent_ker {T W' W R' R R'' R₂ : Scheme
       ρ_comp_s := key _ _ _ _ hR.w
       ρ_comp_t := key _ _ _ _ hb₁.symm
       sb_comp_algebraMap := by
-        show _ = (b₀ ≫ π).appTop.hom
+        change _ = (b₀ ≫ π).appTop.hom
         rw [Scheme.Hom.comp_appTop, CommRingCat.hom_comp]
         rfl
       tb_comp_algebraMap := by
-        show _ = (b₀ ≫ π).appTop.hom
+        change _ = (b₀ ≫ π).appTop.hom
         rw [hRT.w, Scheme.Hom.comp_appTop, CommRingCat.hom_comp]
         rfl
       closure_range := CommRingCat.closure_range_union_range_eq_top_of_isPushout

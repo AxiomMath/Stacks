@@ -162,7 +162,7 @@ private theorem fieldPoint_factors_through_open
     B.inclusion.preimage
       (show B.inclusion.obj A.left ⟶ B.inclusion.obj V.left from ψ)
   have hk : B.inclusion.map k = ψ := by
-    show B.inclusion.map
+    change B.inclusion.map
       (B.inclusion.preimage
         (show B.inclusion.obj A.left ⟶ B.inclusion.obj V.left from ψ)) = ψ
     rw [B.inclusion.map_preimage]
@@ -170,17 +170,17 @@ private theorem fieldPoint_factors_through_open
     apply B.inclusion.map_injective
     rw [B.inclusion.map_comp]
     have hj : G.map j ≫ B.inclusion.map U.hom = B.inclusion.map V.hom := by
-      show B.inclusion.map j.left ≫ B.inclusion.map U.hom = B.inclusion.map V.hom
+      change B.inclusion.map j.left ≫ B.inclusion.map U.hom = B.inclusion.map V.hom
       rw [← B.inclusion.map_comp, j.w]
     have hpv : G.map p.value ≫ B.inclusion.map U.hom = B.inclusion.map A.hom := by
-      show B.inclusion.map p.value.left ≫ B.inclusion.map U.hom = B.inclusion.map A.hom
+      change B.inclusion.map p.value.left ≫ B.inclusion.map U.hom = B.inclusion.map A.hom
       rw [← B.inclusion.map_comp, p.value.w]
       rfl
     rw [hk, ← hj, ← Category.assoc, hψ]
     exact hpv)
   have hg : g ≫ j = p.value := by
     apply Over.OverMorphism.ext
-    show k ≫ j.left = p.value.left
+    change k ≫ j.left = p.value.left
     apply B.inclusion.map_injective
     rw [B.inclusion.map_comp, hk]
     exact hψ
@@ -246,7 +246,7 @@ private theorem exists_openSubspace_union_range
       Set.range (AlgebraicGeometry.Space.pointsMap B S hS U.toFunctor U.ι) ∪
         Set.range (AlgebraicGeometry.Space.pointsMap B S hS Y f) := by
     rw [← AlgebraicGeometry.Space.openSubspacesOrderIso_apply B S hS X hX W]
-    show (e (e.symm w)).1 = _
+    change (e (e.symm w)).1 = _
     rw [e.apply_symm_apply]
     exact congrArg (fun t => t ∪ Set.range (AlgebraicGeometry.Space.pointsMap B S hS Y f)) hu
   have hUW : U ≤ W.1 :=
@@ -289,7 +289,7 @@ private theorem exists_affine_coproduct
         coprod.inr ≫ e.hom = (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map j := by
   let T := AlgebraicGeometry.BigFppfOver.toScheme B S hS
   have hsum : B.Contains (T.obj A ⨿ T.obj D) := by
-    show (T.obj A ⨿ T.obj D).size < B.cutoff
+    change (T.obj A ⨿ T.obj D).size < B.cutoff
     rw [Scheme.size_congr (AlgebraicGeometry.coprodIsoSigma (T.obj A) (T.obj D))]
     apply Scheme.size_sigmaObj_lt B.aleph0_lt_cutoff B.aleph0_lt_cutoff_cof
     · simp
@@ -304,11 +304,11 @@ private theorem exists_affine_coproduct
   let i₀ : A.left ⟶ E₀ := B.inclusion.preimage coprod.inl
   let j₀ : D.left ⟶ E₀ := B.inclusion.preimage coprod.inr
   let i : A ⟶ E := Over.homMk i₀ (by
-    show i₀ ≫ e₀ = A.hom
+    change i₀ ≫ e₀ = A.hom
     apply B.inclusion.map_injective
     simp only [i₀, e₀, Functor.map_comp, Functor.map_preimage, coprod.inl_desc])
   let j : D ⟶ E := Over.homMk j₀ (by
-    show j₀ ≫ e₀ = D.hom
+    change j₀ ≫ e₀ = D.hom
     apply B.inclusion.map_injective
     simp only [j₀, e₀, Functor.map_comp, Functor.map_preimage, coprod.inr_desc])
   have hi : T.map i = (coprod.inl : T.obj A ⟶ T.obj A ⨿ T.obj D) :=
@@ -319,9 +319,9 @@ private theorem exists_affine_coproduct
   let : IsAffine (T.obj D) := hD
   refine ⟨E, i, j, (inferInstance : IsAffine (T.obj A ⨿ T.obj D)),
     Iso.refl _, ?_, ?_⟩
-  · show (coprod.inl : T.obj A ⟶ T.obj A ⨿ T.obj D) ≫ 𝟙 _ = T.map i
+  · change (coprod.inl : T.obj A ⟶ T.obj A ⨿ T.obj D) ≫ 𝟙 _ = T.map i
     exact (Category.comp_id _).trans hi.symm
-  · show (coprod.inr : T.obj D ⟶ T.obj A ⨿ T.obj D) ≫ 𝟙 _ = T.map j
+  · change (coprod.inr : T.obj D ⟶ T.obj A ⨿ T.obj D) ≫ 𝟙 _ = T.map j
     exact (Category.comp_id _).trans hj.symm
 
 
@@ -395,21 +395,21 @@ private theorem isIso_fromPreimage_of_factorsThrough_open
   have hli : l ≫ N.ι = M.ι ≫ i := hsN.lift_snd _ _ _
   have hkl : k ≫ l = 𝟙 _ := by
     apply hsN.hom_ext
-    · show (k ≫ l) ≫ n = (𝟙 _) ≫ n
+    · change (k ≫ l) ≫ n = (𝟙 _) ≫ n
       simp only [Category.assoc, hln, hkn, Category.id_comp]
-    · show (k ≫ l) ≫ N.ι = (𝟙 _) ≫ N.ι
+    · change (k ≫ l) ≫ N.ι = (𝟙 _) ≫ N.ι
       simp only [Category.assoc, hli, ← Category.assoc k M.ι, hka, ha, Category.id_comp]
   have hlk : l ≫ k = 𝟙 _ := by
     apply hsM.hom_ext
-    · show (l ≫ k) ≫ m = (𝟙 _) ≫ m
+    · change (l ≫ k) ≫ m = (𝟙 _) ≫ m
       simp only [Category.assoc, hkn, hln, Category.id_comp]
-    · show (l ≫ k) ≫ M.ι = (𝟙 _) ≫ M.ι
+    · change (l ≫ k) ≫ M.ι = (𝟙 _) ≫ M.ι
       rw [Category.assoc, hka, Category.id_comp]
       let := mono_of_isOpenImmersion B S hS i hi
       apply (cancel_mono i).mp
       rw [Category.assoc, ha, hli]
   let : IsIso k := ⟨⟨l, hkl, hlk⟩⟩
-  show IsIso n
+  change IsIso n
   rw [← hkn]
   infer_instance
 
@@ -561,7 +561,7 @@ theorem exists_affine_etale_isElementaryDistinguishedSquare
     Xp.isBasis_affineOpens.exists_subset_of_mem_open (Set.mem_univ y) isOpen_univ
   obtain ⟨Vop, hVop⟩ := hAbasis
   have hyVop : y ∈ Vop := by
-    show y ∈ (Vop : Set Xp)
+    change y ∈ (Vop : Set Xp)
     rw [hVop.2]
     exact hyA
   let Vsite : B.Schemes :=
@@ -572,11 +572,11 @@ theorem exists_affine_etale_isElementaryDistinguishedSquare
   let V : AlgebraicGeometry.BigFppfOver B S hS := Over.mk (jleft ≫ (Vp q).hom)
   let j : V ⟶ Vp q := Over.homMk jleft
   have hVaff : IsAffine ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj V) := by
-    show IsAffine (AlgebraicGeometry.Scheme.Opens.toScheme Vop)
+    change IsAffine (AlgebraicGeometry.Scheme.Opens.toScheme Vop)
     exact hVop.1
   have hjOpen : AlgebraicGeometry.IsOpenImmersion
       ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map j) := by
-    show AlgebraicGeometry.IsOpenImmersion (Scheme.Opens.ι Vop)
+    change AlgebraicGeometry.IsOpenImmersion (Scheme.Opens.ι Vop)
     infer_instance
   have hjEtale : AlgebraicGeometry.Space.IsEtale B S hS (yoneda.map j) :=
     isEtale_of_isOpenImmersion_aux (isOpenImmersion_yoneda_map_aux B S hS j hjOpen)
@@ -588,12 +588,12 @@ theorem exists_affine_etale_isElementaryDistinguishedSquare
     isEtale_comp_aux fUp (Useq p).ι hfUp (isEtale_of_isOpenImmersion_aux hUp.2)
   let := hjOpen
   have hyrange : y ∈ Set.range ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map j) := by
-    show y ∈ Set.range (Scheme.Opens.ι Vop)
+    change y ∈ Set.range (Scheme.Opens.ι Vop)
     simpa using hyVop
   obtain ⟨rv, hrv⟩ := fieldPoint_factors_through_open B S hS j r hyrange
   have hxV : x ∈ Set.range (AlgebraicGeometry.Space.pointsMap B S hS (yoneda.obj V) fX) := by
     refine ⟨rv.class, ?_⟩
-    show AlgebraicGeometry.Space.pointsMap B S hS (yoneda.obj V)
+    change AlgebraicGeometry.Space.pointsMap B S hS (yoneda.obj V)
       ((yoneda.map j ≫ fp q) ≫ (Useq p).ι) rv.class = x
     rw [Category.assoc, pointsMap_comp_apply _ _ _, hrv]
     exact hrX
@@ -632,10 +632,10 @@ theorem exists_affine_etale_isElementaryDistinguishedSquare
   have hkOpen : ∀ b, AlgebraicGeometry.IsOpenImmersion (G.map (k b)) := by
     intro b
     cases b
-    · show AlgebraicGeometry.IsOpenImmersion (G.map jE)
+    · change AlgebraicGeometry.IsOpenImmersion (G.map jE)
       rw [← hjE]
       infer_instance
-    · show AlgebraicGeometry.IsOpenImmersion (G.map iE)
+    · change AlgebraicGeometry.IsOpenImmersion (G.map iE)
       rw [← hiE]
       infer_instance
   have hfD : AlgebraicGeometry.Space.IsEtale B S hS (d ≫ uW) := by
@@ -653,22 +653,22 @@ theorem exists_affine_etale_isElementaryDistinguishedSquare
       cases z with
       | inl v =>
         refine ⟨true, v, ?_⟩
-        show G.map iE v = _
+        change G.map iE v = _
         rw [← hiE]
         simp only [coprodMk_inl, Scheme.Hom.comp_apply]
         rfl
       | inr d =>
         refine ⟨false, d, ?_⟩
-        show G.map jE d = _
+        change G.map jE d = _
         rw [← hjE]
         simp only [coprodMk_inr, Scheme.Hom.comp_apply]
         rfl
     · intro b
       cases b
-      · show AlgebraicGeometry.Space.IsEtale B S hS (yoneda.map jE ≫ fE)
+      · change AlgebraicGeometry.Space.IsEtale B S hS (yoneda.map jE ≫ fE)
         rw [hfj]
         exact hfD
-      · show AlgebraicGeometry.Space.IsEtale B S hS (yoneda.map iE ≫ fE)
+      · change AlgebraicGeometry.Space.IsEtale B S hS (yoneda.map iE ≫ fE)
         rw [hfi]
         exact hsquare.isEtale
   have hrangeE :

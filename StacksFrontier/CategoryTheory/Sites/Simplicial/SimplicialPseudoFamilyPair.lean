@@ -231,7 +231,7 @@ theorem isCocycle_pairIso : P.IsCocycle (N.obj ⦋0⦌) N.pairIso := by
       (N.trans (SimplexCategory.δ (0 : Fin 2))).hom ≫
         (N.trans (SimplexCategory.δ (1 : Fin 3))).hom), h1]
   simp only [Category.assoc]
-  show _ = (P.glueLeft (N.obj ⦋0⦌)).inv ≫ _ ≫ (P.glueMiddle (N.obj ⦋0⦌)).hom ≫ _ ≫
+  change _ = (P.glueLeft (N.obj ⦋0⦌)).inv ≫ _ ≫ (P.glueMiddle (N.obj ⦋0⦌)).hom ≫ _ ≫
     (P.glueRight (N.obj ⦋0⦌)).hom ≫ _
   unfold glueLeft glueMiddle glueRight
   rw [hR, h0, hM, h2, ← hL, Iso.inv_hom_id_assoc]

@@ -155,7 +155,7 @@ theorem isIso_derivedLowerShriekBaseChange_app_of_cohomologyCommutesWithBaseChan
     (IsPullback.of_hasPullback j.toBase g)
     ((etaleModuleDerivedExtensionByZeroUnbounded.{u, r} Λ j.immersion).obj K) n
     (torsionCohomologyProperty_etaleModuleForgetDerived_extensionByZero.{u, r} Λ j.immersion K hK)
-  show IsIso ((Functor.associator _ _ _).hom.app K ≫
+  change IsIso ((Functor.associator _ _ _).hom.app K ≫
     (etaleModuleDerivedBaseChangeGeneral.{u, r} Λ j.toBase g (pullback.fst j.toBase g)
       (pullback.snd j.toBase g) pullback.condition).app
         ((etaleModuleDerivedExtensionByZeroUnbounded.{u, r} Λ j.immersion).obj K) ≫

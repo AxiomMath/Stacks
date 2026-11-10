@@ -81,7 +81,7 @@ functions on the underlying affine schemes, with its sections raised to the univ
 theorem affineEtaleStructurePresheaf_eq :
     (affineEtaleStructureSheaf B S hS F hF).obj =
       Stacks.Sites.liftedSchemeRings.{u, u + 1, u + 1, u} (AffineEtale.toScheme B S hS F) := by
-  show (AffineEtale.inclusion B S hS F).op ⋙
+  change (AffineEtale.inclusion B S hS F).op ⋙
       (liftedStructureSheaf B S hS F).val.obj = _
   rw [(liftedStructureSheaf B S hS F).property]
   rfl

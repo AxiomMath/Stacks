@@ -289,7 +289,7 @@ theorem exists_telescope_of_propertyPFiltration {P : DifferentialGradedModule.{u
     { toFun := (DirectSum.lof A.Aᵐᵒᵖ ℕ K i).comp (e i).toLinearMap
       map_grading := by
         intro n x hx k
-        show (DirectSum.of K i (e i x)) k ∈ (UF.F k).grading n
+        change (DirectSum.of K i (e i x)) k ∈ (UF.F k).grading n
         by_cases h : i = k
         · subst k
           rw [DirectSum.of_eq_same]
@@ -298,7 +298,7 @@ theorem exists_telescope_of_propertyPFiltration {P : DifferentialGradedModule.{u
           exact ((UF.F k).grading n).zero_mem
       commute_d := by
         intro x
-        show DirectSum.of K i (e i ((F.F i).d x)) =
+        change DirectSum.of K i (e i ((F.F i).d x)) =
           DGModule.directSumD (fun k => (UF.F k).toDGModule) (DirectSum.of K i (e i x))
         rw [hdir]
         exact congrArg (DirectSum.of K i) (Subtype.ext (LinearMap.congr_fun (F.ι i).map_d x)) }
@@ -323,7 +323,7 @@ theorem exists_telescope_of_propertyPFiltration {P : DifferentialGradedModule.{u
         map_add' := by intros; simp
         map_smul' := by
           intro r x
-          show (g i).toFun ((e i).symm ((algebraMap R A.Aᵐᵒᵖ r) • x)) = _
+          change (g i).toFun ((e i).symm ((algebraMap R A.Aᵐᵒᵖ r) • x)) = _
           rw [(e i).symm.map_smul, IsScalarTower.algebraMap_smul A.Aᵐᵒᵖ r]
           exact (g i).toFun.map_smul r _ }
     have hq : ∀ (i : ℕ) (x : K i),
@@ -376,7 +376,7 @@ theorem exists_telescope_of_propertyPFiltration {P : DifferentialGradedModule.{u
     have hh : ∀ i, j i ≫ h = g i := by
       intro i
       refine Hom.ext (LinearMap.ext fun x => ?_)
-      show DirectSum.toModule R ℕ T.M q (DirectSum.of K i (e i x)) = _
+      change DirectSum.toModule R ℕ T.M q (DirectSum.of K i (e i x)) = _
       rw [hq]
       exact congrArg (g i).toFun ((e i).symm_apply_apply x)
     refine ⟨h, hh, fun h' hh' => ?_⟩
@@ -394,7 +394,7 @@ theorem exists_telescope_of_propertyPFiltration {P : DifferentialGradedModule.{u
   · intro i x
     refine (LinearMap.congr_fun ha ((j i).toFun x)).trans ((halpha i (e i x)).trans ?_)
     refine congrArg₂ (· - ·) rfl (congrArg (DirectSum.lof A.Aᵐᵒᵖ ℕ K (i + 1)) ?_)
-    show (e (i + 1)) ((F.incl i).toFun ((e i).symm (e i x))) = _
+    change (e (i + 1)) ((F.incl i).toFun ((e i).symm (e i x))) = _
     rw [(e i).symm_apply_apply]
     rfl
   · refine

@@ -55,7 +55,7 @@ theorem fibreBetti_eq_finrank_homology_extendScalars {A : Type u} [CommRing A]
     asIso (D.comparison.app C) ≪≫ Iso.refl _
   have hfib : fibreBetti.{u, u} (DerivedCategory.Q.obj C) i p =
       Module.finrank κ (Cκ.homology i) := by
-    show Module.finrank κ ((DerivedCategory.homologyFunctor (ModuleCat.{u} κ) i).obj
+    change Module.finrank κ ((DerivedCategory.homologyFunctor (ModuleCat.{u} κ) i).obj
       (D.functor.obj (DerivedCategory.Q.obj C))) = _
     rw [finrank_homologyFunctor_eq_of_iso.{u, u} e i, finrank_homologyFunctor_Q_obj.{u, u}]
   -- base change along the field extension `κ → Ω` is exact

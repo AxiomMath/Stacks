@@ -139,7 +139,7 @@ theorem exists_detecting_of_isSplitMono {A : SheafOfModules.{w} R} {n : ℕ}
     exact app_sum Finset.univ _ X x
   rw [hid]
   refine Finset.sum_eq_zero fun j _ ↦ ?_
-  show (ρ j).val.app X ((s ≫ Pi.π _ j).val.app X x) = 0
+  change (ρ j).val.app X ((s ≫ Pi.π _ j).val.app X x) = 0
   rw [hx j, map_zero]
 
 end Detect
@@ -260,7 +260,7 @@ theorem coordMap_injective (hc : HasCoordsCover L) (X : Cᵒᵖ) :
           PresheafOfModules.map_comp_apply L.val (f i).op h.op (x - y),
         hzero i, map_zero]
   refine sub_eq_zero.mp (L.isSheaf.isSeparated X.unop _ hcov (x - y) 0 (fun W g hgm ↦ ?_))
-  show L.val.map g.op (x - y) = L.val.map g.op (0 : ToType (L.val.obj X))
+  change L.val.map g.op (x - y) = L.val.map g.op (0 : ToType (L.val.obj X))
   rw [map_zero]
   exact hsieve W g hgm
 

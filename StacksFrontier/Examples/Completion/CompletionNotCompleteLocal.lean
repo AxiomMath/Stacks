@@ -70,13 +70,13 @@ private lemma coeff_sum_X_pow {α R : Type*} [CommRing R] [DecidableEq α] (s : 
           (Finsupp.single j d) = 0 := by
       intro b _ hb
       rw [MvPolynomial.coeff_X_pow]
-      exact if_neg (single_ne_single hd hb)
-    rw [Finset.sum_eq_single_of_mem j hjs hzero, MvPolynomial.coeff_X_pow, if_pos rfl,
-      if_pos ⟨j, hjs, rfl⟩]
-  · rw [if_neg h]
+      exact ite_eq_right (single_ne_single hd hb)
+    rw [Finset.sum_eq_single_of_mem j hjs hzero, MvPolynomial.coeff_X_pow, ite_eq_left rfl,
+      ite_eq_left ⟨j, hjs, rfl⟩]
+  · rw [ite_eq_right h]
     refine Finset.sum_eq_zero fun j hjs => ?_
     rw [MvPolynomial.coeff_X_pow]
-    exact if_neg fun hh => h ⟨j, hjs, hh.symm⟩
+    exact ite_eq_right fun hh => h ⟨j, hjs, hh.symm⟩
 
 end Monomials
 
@@ -94,8 +94,8 @@ private lemma coeff_homPart (a : ℕ) (φ : MvPowerSeries (Fin N) R) (μ : Fin N
       if Finsupp.degree μ = a then MvPowerSeries.coeff μ φ else 0 := by
   rw [homPart, LinearMap.comp_apply, MvPolynomial.coeff_homogeneousComponent]
   by_cases h : Finsupp.degree μ = a
-  · rw [if_pos h, if_pos h, MvPowerSeries.coeff_truncTotal _ (by omega)]
-  · rw [if_neg h, if_neg h]
+  · rw [ite_eq_left h, ite_eq_left h, MvPowerSeries.coeff_truncTotal _ (by omega)]
+  · rw [ite_eq_right h, ite_eq_right h]
 
 private lemma totalDegree_homPart_le (a : ℕ) (φ : MvPowerSeries (Fin N) R) :
     (homPart a φ).totalDegree ≤ a :=
@@ -107,8 +107,8 @@ private lemma constantCoeff_homPart (a : ℕ) (φ : MvPowerSeries (Fin N) R)
   rw [MvPolynomial.constantCoeff_eq, coeff_homPart]
   by_cases h : a = 0
   · subst h
-    rw [if_pos (by simp), hφ]
-  · rw [if_neg (by simp; omega)]
+    rw [ite_eq_left (by simp), hφ]
+  · rw [ite_eq_right (by simp; omega)]
 
 /-- The degrees of the two factors of a pair in the antidiagonal of `μ` add up to that of `μ`. -/
 private lemma degree_add_of_mem_antidiagonal {α : Type*} [DecidableEq α] {μ : α →₀ ℕ}
@@ -133,25 +133,25 @@ private lemma homPart_mul (d : ℕ) (φ ψ : MvPowerSeries (Fin N) R) :
     exact Finset.sum_congr rfl fun x _ => by rw [coeff_homPart, coeff_homPart]
   rw [Finset.sum_congr rfl hterm, Finset.sum_comm]
   by_cases hμ : Finsupp.degree μ = d
-  · rw [if_pos hμ, MvPowerSeries.coeff_mul]
+  · rw [ite_eq_left hμ, MvPowerSeries.coeff_mul]
     refine Finset.sum_congr rfl fun x hx => ?_
     have hdeg := degree_add_of_mem_antidiagonal hx
     have hzero : ∀ b ∈ Finset.range (d + 1), b ≠ Finsupp.degree x.1 →
         (if Finsupp.degree x.1 = b then MvPowerSeries.coeff x.1 φ else 0) *
           (if Finsupp.degree x.2 = d - b then MvPowerSeries.coeff x.2 ψ else 0) = 0 := by
       intro b _ hb
-      rw [if_neg fun h => hb h.symm, zero_mul]
+      rw [ite_eq_right fun h => hb h.symm, zero_mul]
     rw [Finset.sum_eq_single_of_mem (Finsupp.degree x.1)
-      (Finset.mem_range.mpr (by omega)) hzero, if_pos rfl, if_pos (by omega)]
-  · rw [if_neg hμ]
+      (Finset.mem_range.mpr (by omega)) hzero, ite_eq_left rfl, ite_eq_left (by omega)]
+  · rw [ite_eq_right hμ]
     symm
     refine Finset.sum_eq_zero fun x hx => Finset.sum_eq_zero fun a ha => ?_
     have hdeg := degree_add_of_mem_antidiagonal hx
     have ha' : a ≤ d := Finset.mem_range_succ_iff.mp ha
     by_cases h1 : Finsupp.degree x.1 = a
     · have h2 : Finsupp.degree x.2 ≠ d - a := fun hcon => hμ (by omega)
-      rw [if_neg h2, mul_zero]
-    · rw [if_neg h1, zero_mul]
+      rw [ite_eq_right h2, mul_zero]
+    · rw [ite_eq_right h1, zero_mul]
 
 end HomPart
 
@@ -245,18 +245,18 @@ private lemma coeff_blockPoly_single {M i j : ℕ} (hi : i < M) (hj : j < blockN
           (Finsupp.single j (blockDeg i) : ℕ →₀ ℕ) = Finsupp.single c (blockDeg b)
         then (1 : T.k) else 0) = 0 := by
     intro b _ hb
-    refine if_neg ?_
+    refine ite_eq_right ?_
     rintro ⟨c, -, hc⟩
     refine hb (blockDeg_injective ?_).symm
     rw [← Finsupp.degree_single j (blockDeg i), hc, Finsupp.degree_single]
   rw [coeff_blockPoly T M, Finset.sum_eq_single_of_mem i (Finset.mem_range.mpr hi) hother,
-    if_pos ⟨j, Finset.mem_range.mpr hj, rfl⟩]
+    ite_eq_left ⟨j, Finset.mem_range.mpr hj, rfl⟩]
 
 private lemma coeff_blockPoly_eq_zero {M : ℕ} {ν : ℕ →₀ ℕ} (hν : ν ∉ blockMonomials) :
     (blockPoly T M).coeff ν = 0 := by
   classical
   rw [coeff_blockPoly T M]
-  refine Finset.sum_eq_zero fun i _ => if_neg ?_
+  refine Finset.sum_eq_zero fun i _ => ite_eq_right ?_
   rintro ⟨j, hj, rfl⟩
   exact hν ⟨i, j, Finset.mem_range.mp hj, rfl⟩
 
@@ -410,7 +410,7 @@ private lemma embDomain_val_eq_single_iff {N : ℕ} {μ : Fin N →₀ ℕ} {j c
   constructor
   · intro h
     have hsupp : (Finsupp.embDomain (Fin.valEmbedding (n := N)) μ).support = {j} := by
-      rw [h, Finsupp.support_single_ne_zero _ hc]
+      rw [h, Finsupp.support_single _ hc]
     rw [Finsupp.support_embDomain] at hsupp
     have hj : j ∈ μ.support.map (Fin.valEmbedding (n := N)) := by simp [hsupp]
     obtain ⟨j₀, -, hval⟩ := Finset.mem_map.mp hj
@@ -443,12 +443,12 @@ private lemma homPart_restrictFin_blockSeries (i : ℕ) :
   by_cases hμ : ∃ j ∈ (Finset.univ : Finset (Fin (blockNum i))),
       μ = Finsupp.single j (blockDeg i)
   · obtain ⟨j, -, rfl⟩ := hμ
-    rw [if_pos (Finsupp.degree_single _ _), coeff_restrictFin, Finsupp.embDomain_single,
-      if_pos ⟨j, Finset.mem_univ j, rfl⟩]
+    rw [ite_eq_left (Finsupp.degree_single _ _), coeff_restrictFin, Finsupp.embDomain_single,
+      ite_eq_left ⟨j, Finset.mem_univ j, rfl⟩]
     exact coeff_blockSeries_of_mem T ⟨i, j, j.isLt, rfl⟩
-  · rw [if_neg hμ]
+  · rw [ite_eq_right hμ]
     by_cases hdeg : Finsupp.degree μ = blockDeg i
-    · rw [if_pos hdeg, coeff_restrictFin]
+    · rw [ite_eq_left hdeg, coeff_restrictFin]
       refine coeff_blockSeries_of_notMem T ?_
       rintro ⟨i', j', hj', hsingle⟩
       have hdd : blockDeg i' = blockDeg i := by
@@ -456,7 +456,7 @@ private lemma homPart_restrictFin_blockSeries (i : ℕ) :
       rw [hdd] at hsingle
       obtain ⟨hlt, rfl⟩ := (embDomain_val_eq_single_iff (blockDeg_ne_zero i)).mp hsingle
       exact hμ ⟨⟨j', hlt⟩, Finset.mem_univ _, rfl⟩
-    · rw [if_neg hdeg]
+    · rw [ite_eq_right hdeg]
 
 end Restriction
 
@@ -488,7 +488,7 @@ private lemma fermat_eq_sum_homPart (M : ℕ) (f g : ℕ → T.S)
   simp only [Finset.sum_product]
   rw [← hdouble, series_blockElt, homPart_restrictFin_blockSeries]
 
-variable [Fintype T.k]
+variable [Finite T.k]
 
 /-- The witness is not a finite sum of products of elements with zero constant term. -/
 private lemma blockElt_notMem_sq (hchar : ∀ i : ℕ, ((blockDeg i : ℕ) : T.k) ≠ 0) :

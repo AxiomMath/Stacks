@@ -234,7 +234,7 @@ lemma coversTop_over_of_ofArrows_mem {C : Type u} [Category.{v} C] (J : Grothend
   rw [GrothendieckTopology.mem_over_iff]
   apply J.superset_covering _ (J.pullback_stable W.hom h)
   rintro Z g ⟨T, a, g₁, ⟨j⟩, hcomp⟩
-  show ∃ A : Over U, ∃ α : A ⟶ W, ∃ β : Z ⟶ A.left,
+  change ∃ A : Over U, ∃ α : A ⟶ W, ∃ β : Z ⟶ A.left,
     (∃ j, Nonempty (A ⟶ Over.mk (f j))) ∧ g = β ≫ α.left
   exact ⟨Over.mk (g ≫ W.hom), Over.homMk g (by simp), 𝟙 Z,
     ⟨j, ⟨Over.homMk a (by simpa using hcomp)⟩⟩, by simp⟩

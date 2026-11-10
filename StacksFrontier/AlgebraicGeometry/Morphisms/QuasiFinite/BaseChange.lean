@@ -193,7 +193,7 @@ private lemma residueFieldMap_snd_specTensorTo {X Y S : Scheme.{u}} {f : X ⟶ S
       _ = (Spec.map (Scheme.Spec.residueFieldIso t.tensor p).hom ≫
           (Spec t.tensor).fromSpecResidueField p) ≫ t.SpecTensorTo ≫ pullback.snd f g := by
         simp only [e0, Spec.map_comp]
-        show Spec.map (Scheme.Spec.residueFieldIso t.tensor p).hom ≫
+        change Spec.map (Scheme.Spec.residueFieldIso t.tensor p).hom ≫
           (Spec.map (t.SpecTensorTo.residueFieldMap p) ≫
             (pullback f g).fromSpecResidueField (t.SpecTensorTo p)) ≫ pullback.snd f g = _
         rw [Scheme.Hom.SpecMap_residueFieldMap_fromSpecResidueField]
@@ -254,7 +254,7 @@ private lemma finite_pullback_residueField
             simp [a, baseIso, t, Scheme.residueFieldCongr_inv]
   let : Algebra B ((pullback f g).residueField z) := c.hom.toAlgebra
   have hring1 : e1.hom.comp c.hom = b := by
-    show e0.hom.comp (emap.inv.hom.comp c.hom) = b
+    change e0.hom.comp (emap.inv.hom.comp c.hom) = b
     rw [← CommRingCat.hom_comp, hbase]
     exact residueFieldMap_snd_specTensorTo t p
   let alg : (pullback f g).residueField z →ₐ[B] p.asIdeal.ResidueField :=
@@ -420,7 +420,7 @@ private lemma quasiFiniteAt_isPullback_iff {X S S' X' : Scheme.{u}} {f : X ⟶ S
   obtain ⟨-, ⟨U, hU, rfl⟩, hsU, -⟩ :=
     S.isBasis_affineOpens.exists_subset_of_mem_open (Set.mem_univ (f (g' x'))) isOpen_univ
   have hs'U : f' x' ∈ g ⁻¹ᵁ U := by
-    show g (f' x') ∈ U
+    change g (f' x') ∈ U
     exact hsquare ▸ hsU
   obtain ⟨-, ⟨V, hV, rfl⟩, hxV, hVU⟩ :=
     X.isBasis_affineOpens.exists_subset_of_mem_open hsU (f ⁻¹ᵁ U).2

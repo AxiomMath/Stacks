@@ -108,7 +108,7 @@ theorem isSite_isCovering : IsSite (IsCovering B S hS) := by
         PreZeroHypercover.pushforward] using hcomp
     · have hEfin : Finite E.2.I₀ := hE.2
       have hFfin : ∀ i, Finite (F i).2.I₀ := fun i ↦ (hF i).2
-      show Finite (Σ i, (F i).2.I₀)
+      change Finite (Σ i, (F i).2.I₀)
       infer_instance
   · intro E hE V g
     obtain ⟨P, a, b, hpb, hcov⟩ := B.covering_isSite.2.2

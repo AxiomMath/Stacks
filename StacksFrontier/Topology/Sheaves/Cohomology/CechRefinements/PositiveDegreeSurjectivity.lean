@@ -169,7 +169,7 @@ private theorem exists_cover_local_preimage
     ShortComplex.exact_of_f_is_kernel _ S.cyclesIsKernel
   have he : PreservesFiniteLimits ((sheafSections (Opens.grothendieckTopology X)
       AddCommGrpCat.{max u v}).obj (op W)) := by
-    show PreservesFiniteLimits (sheafToPresheaf (Opens.grothendieckTopology X)
+    change PreservesFiniteLimits (sheafToPresheaf (Opens.grothendieckTopology X)
       AddCommGrpCat.{max u v} ⋙
         (evaluation (Opens X)ᵒᵖ AddCommGrpCat.{max u v}).obj (op W))
     infer_instance
@@ -313,7 +313,7 @@ private theorem exists_refinement_cochain_preimage [T2Space X] [CompactSpace X]
   refine ⟨Wc, fr, b, ?_⟩
   apply (CechSite.productAddEquiv (CechSite.cochainFactor (hypercover Wc) S.X₂.obj m)).injective
   ext k
-  show Pi.π (CechSite.cochainFactor (hypercover Wc) S.X₂.obj m) k
+  change Pi.π (CechSite.cochainFactor (hypercover Wc) S.X₂.obj m) k
       (((CechSite.cechComplexFunctor (hypercover Wc)).map S.f.hom).f m b) =
     Pi.π (CechSite.cochainFactor (hypercover Wc) S.X₂.obj m) k
       ((refinementCochainMap fr S.X₂.obj).f m c)

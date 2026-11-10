@@ -228,7 +228,7 @@ def structureSheafInverseImageIso :
       (Cat.of X.C) X.J (situationAugmentation X.J K))).obj X.O ≅ structureSheaf X K :=
   pullbackCommRingSheafIsoOfNatIso (situation X.J K).totalTopology
       (structureInverseImageIso X K) X.O ≪≫
-    @restrictionCommRingIso _ _ _ _ (situation X.J K).totalTopology X.J _ _ (totalForget K)
+    @restrictionCommRingIso _ _ _ _ (situation X.J K).totalTopology X.J _ (totalForget K)
       (totalForget_isContinuous X.J K) X.O
 
 /-- On underlying sheaves of sets, `structureSheafInverseImageIso` is the comparison of
@@ -242,7 +242,7 @@ theorem structureSheafInverseImageIso_hom_forget :
     ((congrArg₂ (· ≫ ·)
       (pullbackCommRingSheafIsoOfNatIso_hom_forget (situation X.J K).totalTopology
         (structureInverseImageIso X K) X.O)
-      (@restrictionCommRingIso_hom_forget _ _ _ _ (situation X.J K).totalTopology X.J _ _
+      (@restrictionCommRingIso_hom_forget _ _ _ _ (situation X.J K).totalTopology X.J _
         (totalForget K) (totalForget_isContinuous X.J K) X.O _ _)).trans (Category.comp_id _))
 
 /-- **The ringed augmentation of Remark 0D9W with the restricted structure sheaf.** The total

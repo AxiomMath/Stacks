@@ -117,7 +117,7 @@ theorem hasResolutionProperty_of_isAmpleFamily_of_isNoetherian
   refine AlgebraicGeometry.hasResolutionProperty_of_epi_idealPow_of_isNoetherian U J
     (fun k => (hdata k).2.1) hcover.iSup_eq_top (fun k => ?_) E hE q hq
   refine TopologicalSpace.Opens.ext ?_
-  show ((J k).support : Set X)ᶜ = (U k : Set X)
+  change ((J k).support : Set X)ᶜ = (U k : Set X)
   rw [hJsupport k, compl_compl, (hdata k).2.2]
 
 /-- **[Stacks, Tag 0F9F] under condition (4) of the source.** Let `T` be a

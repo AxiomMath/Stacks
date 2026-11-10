@@ -222,7 +222,7 @@ theorem unitSectionsAddEquiv_constantModuleSheafMap (U : C)
   have hn : n₁ = n₂ := by
     refine sheafify_hom_ext J _ _ T'.property ?_
     ext V b
-    show ((constantSheaf J RingCat.{w}).map (RingCat.ofHom π)).hom.app (op V.unop)
+    change ((constantSheaf J RingCat.{w}).map (RingCat.ofHom π)).hom.app (op V.unop)
           (unitSectionsAddEquiv J (Λ := Λ) V.unop
             (constantValue J (ModuleCat.of Λ Λ) V.unop b)) =
         unitSectionsAddEquiv J (Λ := Λ') V.unop
@@ -256,7 +256,7 @@ theorem baseChangeSectionsAddEquiv_map (U : C)
         (((constantSections J U).map (ringHomToRestrictScalars π)).hom t) =
       ((constantSheaf J RingCat.{w}).map (RingCat.ofHom π)).hom.app (op U)
         (constantRingSectionsAddEquiv J U t) := by
-  show unitSectionsAddEquiv J (Λ := Λ') U
+  change unitSectionsAddEquiv J (Λ := Λ') U
       (constantSectionsAddEquiv J ((ModuleCat.restrictScalars π).obj (ModuleCat.of Λ' Λ')) U
         (((constantSections J U).map (ringHomToRestrictScalars π)).hom t)) = _
   rw [constantSectionsAddEquiv_map, constantRingSectionsAddEquiv_apply,

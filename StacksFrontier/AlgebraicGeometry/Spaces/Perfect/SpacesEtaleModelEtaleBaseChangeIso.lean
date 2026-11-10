@@ -73,7 +73,7 @@ theorem conjugateEquiv_spacesEtaleModelPullbackCongr_hom_app_val_app
   subst hk
   simp only [spacesEtaleModelPullbackCongr, eqToHom_refl, NatTrans.id_app, Iso.refl_hom,
     conjugateEquiv_id]
-  show _ =
+  change _ =
     N.val.presheaf.map ((equivSmallModel.{u} (SpacesEtale B S hS X)).functor.map (𝟙 _)).op x
   rw [CategoryTheory.Functor.map_id, op_id]
   exact (ConcreteCategory.congr_hom (N.val.presheaf.map_id _) x).symm
@@ -95,7 +95,7 @@ def smallModelBaseChangeSquare :
 /-- The components of `AlgebraicGeometry.Space.smallModelBaseChangeSquare` are those of the
 composition isomorphisms of base change on the small models around the square. -/
 theorem smallModelBaseChangeSquare_app (V : SmallModel.{u} (SpacesEtale B S hS W)) :
-    (smallModelBaseChangeSquare B S hS g h j j' comm).natTrans.app V =
+    (smallModelBaseChangeSquare B S hS g h j j' comm).app V =
       (smallModelBaseChangeComp B S hS h j).hom.app V ≫
         (equivSmallModel.{u} (SpacesEtale B S hS Y')).functor.map
           ((eqToHom (congrArg (fun m : Y' ⟶ W => (spacesBaseChange B S hS m).functor) comm)).app
@@ -116,10 +116,10 @@ theorem conjugateEquiv_spacesEtaleModelPullbackSquare_app_val_app
         (spacesEtaleModelHom B S hS j').pullbackPushforwardAdjunctionTopos)
       ((spacesEtaleModelHom B S hS j).pullbackPushforwardAdjunctionTopos.comp
         (spacesEtaleModelHom B S hS h).pullbackPushforwardAdjunctionTopos)
-      (spacesEtaleModelPullbackSquare B S hS g h j j' comm).natTrans).app N).val.app V x =
-      N.val.map ((smallModelBaseChangeSquare B S hS g h j j' comm).natTrans.app V.unop).op x := by
+      (spacesEtaleModelPullbackSquare B S hS g h j j' comm)).app N).val.app V x =
+      N.val.map ((smallModelBaseChangeSquare B S hS g h j j' comm).app V.unop).op x := by
   rw [conjugateEquiv_spacesEtaleModelPullbackSquare]
-  show ((spacesEtaleModelPushforwardComp B S hS h j).inv.app N).val.app V
+  change ((spacesEtaleModelPushforwardComp B S hS h j).inv.app N).val.app V
     (((conjugateEquiv (spacesEtaleModelHom B S hS (j' ≫ g)).pullbackPushforwardAdjunctionTopos
         (spacesEtaleModelHom B S hS (h ≫ j)).pullbackPushforwardAdjunctionTopos
         (spacesEtaleModelPullbackCongr B S hS comm).hom).app N).val.app V
@@ -127,18 +127,18 @@ theorem conjugateEquiv_spacesEtaleModelPullbackSquare_app_val_app
   refine (congrArg (fun y => ((spacesEtaleModelPushforwardComp B S hS h j).inv.app N).val.app V y)
     (conjugateEquiv_spacesEtaleModelPullbackCongr_hom_app_val_app B S hS comm N V _)).trans ?_
   let P : (SmallModel.{u} (SpacesEtale B S hS Y'))ᵒᵖ ⥤ AddCommGrpCat.{u} := N.val.presheaf
-  show P.map ((smallModelBaseChangeComp B S hS h j).hom.app V.unop).op
+  change P.map ((smallModelBaseChangeComp B S hS h j).hom.app V.unop).op
     (P.map ((equivSmallModel.{u} (SpacesEtale B S hS Y')).functor.map
         ((eqToHom (congrArg (fun m : Y' ⟶ W => (spacesBaseChange B S hS m).functor) comm)).app
           ((equivSmallModel.{u} (SpacesEtale B S hS W)).inverse.obj V.unop))).op
       (P.map ((smallModelBaseChangeComp B S hS j' g).inv.app V.unop).op x)) =
-    P.map ((smallModelBaseChangeSquare B S hS g h j j' comm).natTrans.app V.unop).op x
+    P.map ((smallModelBaseChangeSquare B S hS g h j j' comm).app V.unop).op x
   have key : P.map ((smallModelBaseChangeComp B S hS j' g).inv.app V.unop).op ≫
       P.map ((equivSmallModel.{u} (SpacesEtale B S hS Y')).functor.map
         ((eqToHom (congrArg (fun m : Y' ⟶ W => (spacesBaseChange B S hS m).functor) comm)).app
           ((equivSmallModel.{u} (SpacesEtale B S hS W)).inverse.obj V.unop))).op ≫
       P.map ((smallModelBaseChangeComp B S hS h j).hom.app V.unop).op =
-      P.map ((smallModelBaseChangeSquare B S hS g h j j' comm).natTrans.app V.unop).op := by
+      P.map ((smallModelBaseChangeSquare B S hS g h j j' comm).app V.unop).op := by
     rw [← P.map_comp, ← P.map_comp, smallModelBaseChangeSquare_app]
     simp only [op_comp, Category.assoc]
   exact ConcreteCategory.congr_hom key x
@@ -153,7 +153,7 @@ theorem isIso_mateEquiv_symm_smallModelBaseChangeSquare (hj : IsEtale B S hS j.h
     (hj' : IsEtale B S hS j'.hom) (sq : IsPullback j' h g j) :
     IsIso ((mateEquiv (smallModelPostcompAdjunction B S hS j hj)
       (smallModelPostcompAdjunction B S hS j' hj')).symm
-        (smallModelBaseChangeSquare B S hS g h j j' comm)).natTrans := by
+        (smallModelBaseChangeSquare B S hS g h j j' comm)) := by
   have e1 : (mateEquiv (spacesEtalePostcompBaseChangeAdjunction B S hS j hj)
       (spacesEtalePostcompBaseChangeAdjunction B S hS j' hj')).symm
         (TwoSquare.mk _ _ _ _ (spacesBaseChangeCompSquare B S hS j' h g j comm.symm)) =
@@ -183,7 +183,7 @@ cartesian square of algebraic spaces with étale horizontal arrows `j`, `j'`, th
 morphism `g_* ⋙ j^* ⟶ j'^* ⋙ h_*` of modules on the models is invertible. -/
 theorem isIso_spacesEtaleModelPushforwardBaseChange_of_isPullback (hj : IsEtale B S hS j.hom)
     (hj' : IsEtale B S hS j'.hom) (sq : IsPullback j' h g j) :
-    IsIso (spacesEtaleModelPushforwardBaseChange B S hS g h j j' comm).natTrans := by
+    IsIso (spacesEtaleModelPushforwardBaseChange B S hS g h j j' comm) := by
   rw [isIso_spacesEtaleModelPushforwardBaseChange_iff B S hS g h j j' comm hj hj']
   refine SheafOfModules.isIso_mateEquiv_symm_pushforwardPushforwardAdj
     (ha := (spacesEtaleModelHom B S hS g).isContinuous)
@@ -205,7 +205,7 @@ theorem isIso_spacesEtaleModelPushforwardBaseChange_of_isPullback (hj : IsEtale 
         (spacesEtaleModelHom B S hS j').pullbackPushforwardAdjunctionTopos)
       ((spacesEtaleModelHom B S hS j).pullbackPushforwardAdjunctionTopos.comp
         (spacesEtaleModelHom B S hS h).pullbackPushforwardAdjunctionTopos)
-      (spacesEtaleModelPullbackSquare B S hS g h j j' comm).natTrans)
+      (spacesEtaleModelPullbackSquare B S hS g h j j' comm))
     (smallModelBaseChangeSquare B S hS g h j j' comm)
     ?_
   intro N V x
@@ -216,7 +216,7 @@ For a cartesian square of algebraic spaces with étale horizontal arrows `j`, `j
 base change morphism `Rg_* ⋙ Lj^* ⟶ Lj'^* ⋙ Rh_*` on the models is invertible. -/
 theorem isIso_spacesEtaleModelDerivedPushforwardBaseChange_of_isPullback
     (hj : IsEtale B S hS j.hom) (hj' : IsEtale B S hS j'.hom) (sq : IsPullback j' h g j) :
-    IsIso (spacesEtaleModelDerivedPushforwardBaseChange B S hS g h j j' comm).natTrans :=
+    IsIso (spacesEtaleModelDerivedPushforwardBaseChange B S hS g h j j' comm) :=
   have := isIso_spacesEtaleModelPushforwardBaseChange_of_isPullback B S hS g h j j' comm hj hj' sq
   isIso_spacesEtaleModelDerivedPushforwardBaseChange B S hS g h j j' comm hj hj'
 

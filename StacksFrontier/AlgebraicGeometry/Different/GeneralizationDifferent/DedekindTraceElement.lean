@@ -159,9 +159,9 @@ theorem finiteProjectiveTrace_lmul_one_tmul (b : B) :
   have hconj : e.toLinearEquiv.conj (Algebra.lmul K M ((1 : K) ⊗ₜ b)) = T := by
     apply LinearMap.ext
     intro z
-    show e ((1 ⊗ₜ[A] b) * e.symm z) = x * z
+    change e ((1 ⊗ₜ[A] b) * e.symm z) = x * z
     rw [map_mul, hx, AlgEquiv.apply_symm_apply]
-  show _ = contractLeft K L ((dualTensorHomEquiv K L L).symm T)
+  change _ = contractLeft K L ((dualTensorHomEquiv K L L).symm T)
   rw [← finiteProjectiveTrace_eq_contract (R := K) (P := L) T, ← hconj,
     finiteProjectiveTrace_conj_linearEquiv]
 
@@ -208,7 +208,7 @@ pure tensor `ψ ⊗ 1` to `ψ`. -/
 theorem selfFactorizationDualEquiv_tmul_one {R S : Type u} [CommRing R] [CommRing S] [Algebra R S]
     [Module.Finite R S] (ψ : Module.Dual R S) :
     selfFactorizationDualEquiv (dualizingModule.tmul (selfFactorization R S) ψ 1) = ψ := by
-  show TensorProduct.lid S (Module.Dual R S)
+  change TensorProduct.lid S (Module.Dual R S)
     ((TensorProduct.comm S (Module.Dual R S) S) (ψ ⊗ₜ (1 : S))) = ψ
   simp
 
@@ -223,8 +223,7 @@ theorem eq_tmul_selfFactorizationDualEquiv {R S : Type u} [CommRing R] [CommRing
 
 /-- The Dedekind setup read on the intermediate algebra of the identity factorization, which is
 `B` itself. -/
-@[instance_reducible]
-def setupMiddle : DedekindDifferentSetup A (selfFactorization A B).middle := setup
+theorem setupMiddle : DedekindDifferentSetup A (selfFactorization A B).middle := setup
 
 attribute [local instance] setupMiddle
 
@@ -237,7 +236,7 @@ abbrev factK : FiniteOpenFactorization.{u, u, u} (FractionRing A) (FractionRing 
 theorem algebraMap_factK (c : FractionRing A ⊗[A] B) :
     algebraMap (factK (A := A) (B := B)).middle (FractionRing A ⊗[A] B) c = c := by
   have h : IsScalarTower.toAlgHom A B B = AlgHom.id A B := AlgHom.ext fun _ => rfl
-  show (Algebra.TensorProduct.map (AlgHom.id A (FractionRing A))
+  change (Algebra.TensorProduct.map (AlgHom.id A (FractionRing A))
     (IsScalarTower.toAlgHom A B B)) c = c
   rw [h, Algebra.TensorProduct.map_id]
   rfl
@@ -371,7 +370,7 @@ omit setup in
 theorem algebraMap_tensorLoc_tmul (k : FractionRing A) (b : B) :
     algebraMap (FractionRing A ⊗[A] B) (FractionRing A ⊗[A] Bg) (k ⊗ₜ b) =
       k ⊗ₜ algebraMap B Bg b := by
-  show (Algebra.TensorProduct.map (AlgHom.id A (FractionRing A))
+  change (Algebra.TensorProduct.map (AlgHom.id A (FractionRing A))
     (IsScalarTower.toAlgHom A B Bg)) (k ⊗ₜ b) = _
   simp
 
@@ -380,7 +379,7 @@ omit setup in
 theorem isScalarTower_tensorLoc :
     IsScalarTower (FractionRing A) (FractionRing A ⊗[A] B) (FractionRing A ⊗[A] Bg) :=
   IsScalarTower.of_algebraMap_eq fun k => by
-    show (k ⊗ₜ[A] (1 : Bg) : FractionRing A ⊗[A] Bg) =
+    change (k ⊗ₜ[A] (1 : Bg) : FractionRing A ⊗[A] Bg) =
       algebraMap (FractionRing A ⊗[A] B) (FractionRing A ⊗[A] Bg) (k ⊗ₜ[A] (1 : B))
     rw [algebraMap_tensorLoc_tmul, map_one]
 
@@ -441,7 +440,6 @@ theorem locKEquiv_lamK_baseChange (φ : dualizingModule (selfFactorization A B))
       dualizingModule.baseChange (locF (A := A) (B := B) (Bg := Bg) g) (FractionRing A)
         (locElt (A := A) (B := B) (Bg := Bg) g φ) := by
   induction φ using dualizingModule.induction_on with
-  | zero => simp [locElt]
   | add x y hx hy => simp only [map_add, locElt] at hx hy ⊢; rw [hx, hy]
   | tmul ψ b =>
     rw [locElt_tmul (setup := setup) (Bg := Bg) g ψ b]
@@ -454,7 +452,7 @@ theorem locKEquiv_lamK_baseChange (φ : dualizingModule (selfFactorization A B))
       intro c
       have h1 : IsScalarTower.toAlgHom A (locF (A := A) (B := B) (Bg := Bg) g).middle Bg =
           IsScalarTower.toAlgHom A B Bg := AlgHom.ext fun _ => rfl
-      show algebraMap (FractionRing A ⊗[A] B) (FractionRing A ⊗[A] Bg)
+      change algebraMap (FractionRing A ⊗[A] B) (FractionRing A ⊗[A] Bg)
           (algebraMap (factK (A := A) (B := B)).middle (FractionRing A ⊗[A] B) c) =
         (Algebra.TensorProduct.map (AlgHom.id A (FractionRing A))
           (IsScalarTower.toAlgHom A (locF (A := A) (B := B) (Bg := Bg) g).middle Bg)) c

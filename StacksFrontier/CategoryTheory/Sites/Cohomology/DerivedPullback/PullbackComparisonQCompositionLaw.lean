@@ -88,6 +88,10 @@ def pullbackComplexCompIso (f : RingedToposSiteHom X Y) (g : RingedToposSiteHom 
   Functor.mapHomologicalComplexCompIso
     (AlgebraicGeometry.RingedToposSiteHom.pullbackToposCompIso f g) (ComplexShape.up ℤ)
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Z.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [HasSheafify Z.J AddCommGrpCat.{u}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The composition law for degreewise pullback on complexes, in a single degree: it is the
 underived composition law at the term of that degree. -/
 lemma pullbackComplexCompIso_hom_app_f (f : RingedToposSiteHom X Y)
@@ -113,6 +117,19 @@ variable (f : RingedToposSiteHom X Y) (g : RingedToposSiteHom Y Z)
     (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Z.O))
       (ComplexShape.up ℤ))]
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Z.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [HasSheafify Z.J AddCommGrpCat.{u}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [(pullbackOnHomotopy f).HasLeftDerivedFunctor
+    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
+      (ComplexShape.up ℤ))]
+  [(pullbackOnHomotopy g).HasLeftDerivedFunctor
+    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Z.O))
+      (ComplexShape.up ℤ))]
+  [(pullbackOnHomotopy (g.comp f)).HasLeftDerivedFunctor
+    (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Z.O))
+      (ComplexShape.up ℤ))] in
 /-- **The two pullback-composition isomorphisms agree across the `Q` versus `Qh ∘ quotient`
 bridge.**  On the homotopy categories the isomorphism is
 `Stacks.Cohomology.DerivedPullbackCompositionOnTopoi.pullbackOnHomotopyCompIso`, on complexes it

@@ -76,7 +76,7 @@ theorem flat_of_ringEquiv_of_smul_eq {R R' M : Type*} [CommRing R] [CommRing R']
       { toFun := e.symm
         map_add' := fun x y => map_add e.symm x y
         map_smul' := fun r s => by
-          show e.symm (r • s) = r * e.symm s
+          change e.symm (r • s) = r * e.symm s
           rw [Algebra.smul_def, hmap, map_mul, e.symm_apply_apply]
         invFun := e
         left_inv := fun s => e.apply_symm_apply s
@@ -141,7 +141,7 @@ theorem flat_moduleStalk_inverseImage (G : Modules.{u, u} B S hS X.1 X.2)
     intro a m
     rw [show ρ (e a) = pointStalkRingEquiv B S hS X x (φ a) from
       etaleLocalRingMap_inverseImageStalkRingEquiv B S hS f x a]
-    show (geometricModuleStalkAddEquiv B S hS X x G)
+    change (geometricModuleStalkAddEquiv B S hS X x G)
         ((Stacks.moduleStalkLargeLinearEquiv Φ O G).symm (φ a • m)) = _
     rw [LinearEquiv.map_smul, geometricModuleStalkAddEquiv_smul]
     rfl
@@ -149,11 +149,11 @@ theorem flat_moduleStalk_inverseImage (G : Modules.{u, u} B S hS X.1 X.2)
   let ψ' : M ≃ₗ[RY] N :=
     { ψ with
       map_smul' := fun r m => by
-        show ψ (e.symm r • m) = ρ r • ψ m
+        change ψ (e.symm r • m) = ρ r • ψ m
         rw [hψ, e.apply_symm_apply] }
   have hM : Module.Flat RY M := Module.Flat.of_linearEquiv ψ'
   exact flat_of_ringEquiv_of_smul_eq e fun a m => by
-    show a • m = e.symm (e a) • m
+    change a • m = e.symm (e a) • m
     rw [e.symm_apply_apply]
 
 /-- **The stalk of `𝒢` over `f⁻¹𝒪_Y` at a geometric point is flat** when `𝒢` satisfies

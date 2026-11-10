@@ -226,7 +226,7 @@ public theorem completedDifferentialsLevelEquiv_d
   apply (completionDifferentialsModPowEquiv (A := A) J delta p
     (cmp.quotientSystem.cutoff + e)).injective
   rw [completionDifferentialsModPowEquiv_mk_of]
-  show (completionDifferentialsModPowEquiv (A := A) J delta p _)
+  change (completionDifferentialsModPowEquiv (A := A) J delta p _)
     ((completionDifferentialsModPowEquiv (A := A) J delta p _).symm
       ((cmp.fromOriginalAt e).symm (cmp.fromCompletionAt e _))) = _
   rw [LinearEquiv.apply_symm_apply, hcomp, ← horig, LinearEquiv.symm_apply_apply]
@@ -254,14 +254,14 @@ public theorem completedDifferentialsLevelEquiv_smul
         (A := AdicCompletion (DividedPowers.pAdicIdeal (A := B) p) B) p ^
         (cmp.quotientSystem.cutoff + e) := by
     rw [pAdicIdeal_eq_ker_eval (B := B) p (cmp.quotientSystem.cutoff + e), RingHom.mem_ker]
-    show (AdicCompletion.evalₐ (DividedPowers.pAdicIdeal (A := B) p)
+    change (AdicCompletion.evalₐ (DividedPowers.pAdicIdeal (A := B) p)
       (cmp.quotientSystem.cutoff + e)) _ = 0
     rw [map_sub, AdicCompletion.evalₐ_of, ← hb, sub_self]
   rw [smul_eq_smul_of_sub_mem hsub]
-  show (completionDifferentialsModPowEquiv (A := A) J delta p _).symm
+  change (completionDifferentialsModPowEquiv (A := A) J delta p _).symm
       ((cmp.fromOriginalAt e).symm (cmp.fromCompletionAt e (_ • omega))) = _
   rw [cmp.fromCompletionAt_smul e _ omega, AdicCompletion.evalₐ_of]
-  show (completionDifferentialsModPowEquiv (A := A) J delta p _).symm
+  change (completionDifferentialsModPowEquiv (A := A) J delta p _).symm
       ((cmp.fromOriginalAt e).symm ((Ideal.Quotient.mk _ b) • _)) = _
   have hmk : ∀ y : QuotientDifferentialsSystem.term (A := A) J delta p
       cmp.quotientSystem e,

@@ -119,7 +119,7 @@ theorem bijective_app_of_isWContractible {P Q : (AppProetale S)ᵒᵖ ⥤ Type t
     have heq : φ.app (op (sigmaObj T)) r = Q.map (sigmaDesc T f).op s := by
       apply (bijective_map_cofan_inj_of_isSheaf Q hQ (isColimitSigmaCofan T)).injective
       funext k
-      show Q.map (sigmaι T k).op (φ.app _ r) = Q.map (sigmaι T k).op (Q.map _ s)
+      change Q.map (sigmaι T k).op (φ.app _ r) = Q.map (sigmaι T k).op (Q.map _ s)
       rw [← φ.naturality_apply (sigmaι T k).op r, hr' k, hy k,
         map_op_map_op_eq (sigmaι_sigmaDesc T f k)]
     exact ⟨P.map σ.op r, by

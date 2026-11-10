@@ -79,10 +79,10 @@ private theorem epi_pi_sub_shift_of_epi' {A : Type u} [Ring A] (X : ℕ → Modu
   apply (ModuleCat.piIsoPi X).toLinearEquiv.injective
   funext n
   simp only
-  show ((Pi.lift (fun n ↦ Pi.π X n - Pi.π X (n + 1) ≫ t n) ≫ Pi.π X n)
+  change ((Pi.lift (fun n ↦ Pi.π X n - Pi.π X (n + 1) ≫ t n) ≫ Pi.π X n)
     ((ModuleCat.piIsoPi X).inv x)) = _
   rw [Pi.lift_comp_π]
-  show (Pi.π X n) ((ModuleCat.piIsoPi X).inv x) -
+  change (Pi.π X n) ((ModuleCat.piIsoPi X).inv x) -
     (t n) ((Pi.π X (n + 1)) ((ModuleCat.piIsoPi X).inv x)) =
       (ModuleCat.piIsoPi X).hom y n
   rw [ModuleCat.piIsoPi_inv_kernel_ι_apply, ModuleCat.piIsoPi_inv_kernel_ι_apply]
@@ -149,7 +149,7 @@ theorem exists_distTriang_of_limitCone_of_epi
         π := NatTrans.ofOpSequence (fun n ↦ t.ι ≫ Pi.π _ n) (fun n ↦ by
           have h := congrArg (fun f ↦ f ≫ Pi.π X n) t.condition
           simp only [d, Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, zero_comp] at h
-          show 𝟙 t.pt ≫ (t.ι ≫ Pi.π _ n) =
+          change 𝟙 t.pt ≫ (t.ι ≫ Pi.π _ n) =
             (t.ι ≫ Pi.π _ (n + 1)) ≫ F.map (homOfLE (Nat.le_succ n)).op
           exact (Category.id_comp _).trans
             ((sub_eq_zero.mp h).trans (Category.assoc _ _ _).symm)) }
@@ -178,16 +178,16 @@ theorem exists_distTriang_of_limitCone_of_epi
   have hp : Q.map p ≫ e.hom = Pi.lift fun n : ℕ ↦ Q.map (s.π.app ⟨n⟩) := by
     apply Pi.hom_ext
     intro n
-    show (Q.map p ≫ piComparison Q X) ≫ Pi.π _ n = _
+    change (Q.map p ≫ piComparison Q X) ≫ Pi.π _ n = _
     rw [Category.assoc, piComparison_comp_π, ← Q.map_comp, Pi.lift_comp_π, Pi.lift_comp_π]
   refine ⟨e.inv ≫ DerivedCategory.triangleOfSESδ hS,
     isomorphic_distinguished _ (DerivedCategory.triangleOfSES_distinguished hS) _ ?_⟩
   refine Triangle.isoMk _ _ (Iso.refl _) e.symm e.symm ?_ ?_ ?_
-  · show Pi.lift (fun n : ℕ ↦ Q.map (s.π.app ⟨n⟩)) ≫ e.inv = 𝟙 _ ≫ Q.map p
+  · change Pi.lift (fun n : ℕ ↦ Q.map (s.π.app ⟨n⟩)) ≫ e.inv = 𝟙 _ ≫ Q.map p
     rw [← hp, Category.assoc, Iso.hom_inv_id, Category.comp_id, Category.id_comp]
-  · show d' ≫ e.inv = e.inv ≫ Q.map d
+  · change d' ≫ e.inv = e.inv ≫ Q.map d
     rw [Iso.comp_inv_eq, Category.assoc, hd, Iso.inv_hom_id_assoc]
-  · show (e.inv ≫ DerivedCategory.triangleOfSESδ hS) ≫
+  · change (e.inv ≫ DerivedCategory.triangleOfSESδ hS) ≫
         (shiftFunctor (DerivedCategory (ModuleCat.{v} R)) (1 : ℤ)).map (𝟙 _) =
       e.inv ≫ DerivedCategory.triangleOfSESδ hS
     rw [CategoryTheory.Functor.map_id, Category.comp_id]

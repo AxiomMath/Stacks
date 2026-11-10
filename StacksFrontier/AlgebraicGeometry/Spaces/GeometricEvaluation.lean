@@ -110,7 +110,7 @@ theorem geometricEval_etaleLocalRingGerm (x : GeometricPoint B S hS F)
   have h := DFunLike.congr_fun (congrArg CommRingCat.Hom.hom
     (colimit.ι_desc (geometricEvalCocone B S hS F x) (op N))) (ULift.up a)
   simp only [CommRingCat.hom_comp, RingHom.comp_apply] at h
-  show ULift.ringEquiv ((colimit.desc _ (geometricEvalCocone B S hS F x)).hom
+  change ULift.ringEquiv ((colimit.desc _ (geometricEvalCocone B S hS F x)).hom
     ((colimit.ι (SmallEtaleNeighborhood.sections
       (liftedStructurePresheaf B S hS F)) (op N)).hom (ULift.up a))) = _
   rw [h]

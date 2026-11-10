@@ -90,7 +90,7 @@ instance epi_freeCover (M : ModuleCat.{u} R) : Epi (freeCover M) := by
   intro m
   refine ⟨(Sigma.ι (fun _ : M => ModuleCat.of R R) m).hom (1 : R), ?_⟩
   have h : (Sigma.ι (fun _ : M => ModuleCat.of R R) m ≫ freeCover M).hom (1 : R) = m := by
-    rw [freeCover, Sigma.ι_desc]
+    rw [freeCover, Sigma.ι_comp_desc]
     simp
   simpa using h
 

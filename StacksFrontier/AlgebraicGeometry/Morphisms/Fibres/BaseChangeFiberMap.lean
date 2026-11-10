@@ -80,7 +80,7 @@ theorem restrictedFiberMap_isOpenImmersion {X S U V : Scheme.{u}} (f : X ⟶ S)
     (h : j ≫ f = fU ≫ i) (t : V) :
     IsOpenImmersion (restrictedFiberMap f fU j i h t) := by
   have : IsOpenImmersion (Spec.map (i.residueFieldMap t)) := inferInstance
-  show IsOpenImmersion (pullback.map fU (V.fromSpecResidueField t) f
+  change IsOpenImmersion (pullback.map fU (V.fromSpecResidueField t) f
     (S.fromSpecResidueField (i t)) j (Spec.map (i.residueFieldMap t)) i h.symm (by simp))
   infer_instance
 
@@ -91,7 +91,7 @@ theorem restrictedFiberMap_comp_fiberToSpecResidueField {X S U V : Scheme.{u}} (
     (fU : U ⟶ V) (j : U ⟶ X) (i : V ⟶ S) (h : j ≫ f = fU ≫ i) (t : V) :
     restrictedFiberMap f fU j i h t ≫ f.fiberToSpecResidueField (i t) =
       fU.fiberToSpecResidueField t ≫ Spec.map (i.residueFieldMap t) := by
-  show (pullback.lift
+  change (pullback.lift
     (pullback.fst fU (V.fromSpecResidueField t) ≫ j)
     (pullback.snd fU (V.fromSpecResidueField t) ≫ Spec.map (i.residueFieldMap t))
     _) ≫ pullback.snd f (S.fromSpecResidueField (i t)) =

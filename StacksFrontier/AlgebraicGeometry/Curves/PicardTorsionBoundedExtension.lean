@@ -278,7 +278,7 @@ theorem exists_finite_separable_torsion_of_residueField {X : Scheme.{u}}
   have : CompactSpace (Over.mk f).left := ‹CompactSpace X›
   have : QuasiSeparatedSpace (Over.mk f).left := ‹QuasiSeparatedSpace X›
   have hs : X.fromSpecResidueField x ≫ (Over.mk f).hom = spectrumMap k (X.residueField x) := by
-    show X.fromSpecResidueField x ≫ f =
+    change X.fromSpecResidueField x ≫ f =
       Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫ X.Γevaluation x)
     apply (cancel_mono (Spec (.of k)).toSpecΓ).mp
     rw [Category.assoc, Scheme.toSpecΓ_naturality]

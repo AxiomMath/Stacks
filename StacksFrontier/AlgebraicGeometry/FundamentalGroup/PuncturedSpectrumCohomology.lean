@@ -303,7 +303,7 @@ theorem nonempty_frobenius_structureSheafCohomology_iso
       (structureSheafCohomology f n) ≅ structureSheafCohomology f n) := by
   have : Fact p.Prime := ⟨hp⟩
   have hS : IsInCharacteristic (Spec (.of A)) p := by
-    show (p : Γ(Spec (.of A), ⊤)) = 0
+    change (p : Γ(Spec (.of A), ⊤)) = 0
     rw [← map_natCast (Scheme.ΓSpecIso (.of A)).inv.hom, hchar, map_zero]
   set F := absoluteFrobenius (Spec (.of A)) p hS
   set Fv := absoluteFrobenius V p (isInCharacteristic_of_hom f p hS)
@@ -330,7 +330,7 @@ theorem nonempty_frobenius_structureSheafCohomology_iso
     apply (cancel_mono (Scheme.ΓSpecIso (.of A)).hom).mp
     rw [Scheme.ΓSpecIso_naturality]
     ext y
-    show (Scheme.ΓSpecIso (.of A)).hom.hom (F.appTop.hom y) =
+    change (Scheme.ΓSpecIso (.of A)).hom.hom (F.appTop.hom y) =
       frobeniusOfPrime p hp hchar ((Scheme.ΓSpecIso (.of A)).hom.hom y)
     rw [show F.appTop.hom y = y ^ p from absoluteFrobenius_app_apply _ p hS ⊤ y]
     exact map_pow _ _ _
@@ -348,8 +348,7 @@ private theorem isIPowerTorsion_tensorProduct {A B : Type u} [CommRing A] [CommR
     (h : IsIPowerTorsion A M I) :
     IsIPowerTorsion B (TensorProduct A B M) (I.map (algebraMap A B)) := by
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨1, Nat.one_pos, fun b _ => smul_zero b⟩
+  induction z using TensorProduct.inductionOn with
   | tmul b₀ m =>
     obtain ⟨k, hk, hkill⟩ := h m
     have hker : ∀ a ∈ I ^ k,
@@ -410,14 +409,14 @@ private theorem exists_flat_powerSeries_map
   have : IsLocalHom φ := RingHom.isLocalHom_comp e.toRingHom (algebraMap A C)
   have hm : (IsLocalRing.maximalIdeal A).map φ =
       IsLocalRing.maximalIdeal (MvPowerSeries (Fin d) K) := by
-    show (IsLocalRing.maximalIdeal A).map (e.toRingHom.comp (algebraMap A C)) = _
+    change (IsLocalRing.maximalIdeal A).map (e.toRingHom.comp (algebraMap A C)) = _
     rw [← Ideal.map_map, ← AdicCompletion.maximalIdeal_eq_map]
     exact IsLocalRing.map_maximalIdeal_of_surjective e.toRingHom e.surjective
   refine ⟨K, inferInstance, inferInstance, d, φ, ?_, inferInstance, hm, ?_⟩
   · exact (RingHom.flat_algebraMap_iff.mpr (AdicCompletion.flat_of_isNoetherian
       (IsLocalRing.maximalIdeal A))).comp (RingHom.Flat.of_bijective e.bijective)
   · have hr : Function.Bijective (IsLocalRing.ResidueField.map φ) := by
-      show Function.Bijective (IsLocalRing.ResidueField.map
+      change Function.Bijective (IsLocalRing.ResidueField.map
         (e.toRingHom.comp (algebraMap A C)))
       rw [IsLocalRing.ResidueField.map_comp]
       exact (IsLocalRing.ResidueField.mapEquiv e).bijective.comp
@@ -487,7 +486,7 @@ private theorem exists_linearEquiv_directSum_of_injectiveHull_field
     simpa only [← hmk] using hi.2 Q hQ
   have hsurj : Function.Surjective i.hom := by
     intro y
-    show y ∈ P
+    change y ∈ P
     by_cases hy : y = 0
     · exact hy ▸ P.zero_mem
     obtain ⟨r, hr, hne⟩ := (Module.isEssentialMono_subtype_iff P).mp hess y hy

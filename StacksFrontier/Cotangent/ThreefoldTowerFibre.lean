@@ -66,42 +66,41 @@ variable {A : Type u} [CommRing A] {B : Type u} [CommRing B] [Algebra A B]
   {C : Type u} [CommRing C] [Algebra A C] [Algebra B C] [IsScalarTower A B C]
   (U : PolynomialAugmentation B (towerRelativeAlgebra B C))
 
-/-- The polynomial `B`-algebra `Q̄` of an object `(Q̄ → C)` of `C_{C/B}`, on which `A` acts
-through `B`. The ring `A` is recorded in the name so that the action of `A` can be an
-instance. -/
-def fibreAlgebra (A : Type u) {B : Type u} [CommRing B] {C : Type u} [CommRing C] [Algebra B C]
+/-- The polynomial `B`-algebra `Q̄` of an object `(Q̄ → C)` of `C_{C/B}`, on which any `A`
+with `Algebra A B` acts through `B` (the instance below). -/
+def fibreAlgebra {B : Type u} [CommRing B] {C : Type u} [CommRing C] [Algebra B C]
     (U : PolynomialAugmentation B (towerRelativeAlgebra B C)) : Type u :=
   U.obj.left
 
 /-- The ring structure of `Q̄`. -/
-instance : CommRing (fibreAlgebra A U) := inferInstanceAs (CommRing U.obj.left)
+instance : CommRing (fibreAlgebra U) := inferInstanceAs (CommRing U.obj.left)
 
 /-- The `B`-algebra structure of `Q̄`. -/
-instance : Algebra B (fibreAlgebra A U) := inferInstanceAs (Algebra B U.obj.left)
+instance : Algebra B (fibreAlgebra U) := inferInstanceAs (Algebra B U.obj.left)
 
 /-- `A` acts on `Q̄` through `B`. -/
-instance : Algebra A (fibreAlgebra A U) :=
-  ((algebraMap B (fibreAlgebra A U)).comp (algebraMap A B)).toAlgebra
+instance (priority := low) : Algebra A (fibreAlgebra U) :=
+  ((algebraMap B (fibreAlgebra U)).comp (algebraMap A B)).toAlgebra
 
 /-- The actions of `A` and `B` on `Q̄` form a scalar tower. -/
-instance : IsScalarTower A B (fibreAlgebra A U) :=
+instance : IsScalarTower A B (fibreAlgebra U) :=
   IsScalarTower.of_algebraMap_eq fun _ => rfl
 
 /-- The augmentation `Q̄ → C`, as a map of `B`-algebras. -/
-abbrev fibreAugmentationHom : fibreAlgebra A U →ₐ[B] C := CommAlgCat.Hom.hom U.obj.hom
+abbrev fibreAugmentationHom : fibreAlgebra U →ₐ[B] C := CommAlgCat.Hom.hom U.obj.hom
 
 /-- The augmentation `Q̄ → C`, as a map of `A`-algebras. -/
-abbrev fibreAugmentation : towerTotalAlgebra A (fibreAlgebra A U) ⟶ towerTotalAlgebra A C :=
+abbrev fibreAugmentation : towerTotalAlgebra A (fibreAlgebra U) ⟶ towerTotalAlgebra A C :=
   CommAlgCat.ofHom ((fibreAugmentationHom U).restrictScalars A)
 
 /-- A tower `(P → B, Q → Q̄)` over `Q̄`, read as a tower over `C` through `Q̄ → C`. -/
-def fibreTowerComma (T : TowerComma A B (fibreAlgebra A U)) : TowerComma A B C where
+def fibreTowerComma (T : TowerComma A B (fibreAlgebra U)) : TowerComma A B C where
   left := T.left
   right := Over.mk (T.right.hom ≫ fibreAugmentation U)
   hom := T.hom
 
 /-- A polynomial tower over `Q̄`, read as a tower over `C`, is a polynomial tower. -/
-lemma isPolynomialTower_fibreTowerComma (T : PolynomialTower A B (fibreAlgebra A U)) :
+lemma isPolynomialTower_fibreTowerComma (T : PolynomialTower A B (fibreAlgebra U)) :
     IsPolynomialTower A B C (fibreTowerComma U T.obj) := by
   refine ⟨T.property.1, ?_⟩
   change T.obj.hom ≫ T.obj.right.hom ≫ fibreAugmentation U = _
@@ -112,7 +111,7 @@ lemma isPolynomialTower_fibreTowerComma (T : PolynomialTower A B (fibreAlgebra A
 
 
 /-- A morphism of towers over `Q̄`, read as a morphism of towers over `C`. -/
-def fibreTowerCommaMap {T T' : TowerComma A B (fibreAlgebra A U)} (g : T ⟶ T') :
+def fibreTowerCommaMap {T T' : TowerComma A B (fibreAlgebra U)} (g : T ⟶ T') :
     fibreTowerComma U T ⟶ fibreTowerComma U T' where
   left := g.left
   right := Over.homMk g.right.left (by
@@ -122,7 +121,7 @@ def fibreTowerCommaMap {T T' : TowerComma A B (fibreAlgebra A U)} (g : T ⟶ T')
 
 variable (A B C) in
 /-- Towers over `Q̄` are towers over `C`, through `Q̄ → C`. -/
-def fibreTowerFunctor : PolynomialTower A B (fibreAlgebra A U) ⥤ PolynomialTower A B C where
+def fibreTowerFunctor : PolynomialTower A B (fibreAlgebra U) ⥤ PolynomialTower A B C where
   obj T := ⟨fibreTowerComma U T.obj, isPolynomialTower_fibreTowerComma U T⟩
   map g := ObjectProperty.homMk (fibreTowerCommaMap U g.hom)
   map_id _ := rfl
@@ -130,7 +129,7 @@ def fibreTowerFunctor : PolynomialTower A B (fibreAlgebra A U) ⥤ PolynomialTow
 
 /-- The map `Q ⊗_P B → Q̄` of a tower over `Q̄`, which `u₃` of the tower over `C` it defines
 carries to `Q̄`: the augmentation of the base-changed tower of Tag 08QT. -/
-def fibreTowerBaseChange (T : PolynomialTower A B (fibreAlgebra A U)) :
+def fibreTowerBaseChange (T : PolynomialTower A B (fibreAlgebra U)) :
     (polynomialTowerThirdAugmentations A B C).obj ((fibreTowerFunctor A B C U).obj T) ⟶ U :=
   ObjectProperty.homMk (Over.homMk (CommAlgCat.ofHom (towerBaseChangeAugmentation T)) (by
     apply CommAlgCat.hom_ext
@@ -146,7 +145,7 @@ def fibreTowerBaseChange (T : PolynomialTower A B (fibreAlgebra A U)) :
 
 
 /-- `u₃` of a morphism of towers over `Q̄` is compatible with the maps `Q ⊗_P B → Q̄`. -/
-lemma fibreTowerBaseChange_naturality {T T' : PolynomialTower A B (fibreAlgebra A U)}
+lemma fibreTowerBaseChange_naturality {T T' : PolynomialTower A B (fibreAlgebra U)}
     (g : T ⟶ T') :
     (polynomialTowerThirdAugmentations A B C).map ((fibreTowerFunctor A B C U).map g) ≫
       fibreTowerBaseChange U T' = fibreTowerBaseChange U T := by
@@ -156,8 +155,7 @@ lemma fibreTowerBaseChange_naturality {T T' : PolynomialTower A B (fibreAlgebra 
   refine AlgHom.ext fun z => ?_
   change towerBaseChangeAugmentation T' (towerBaseChangeMap (fibreTowerCommaMap U g.hom) z) =
     towerBaseChangeAugmentation T z
-  induction z using TensorProduct.induction_on with
-  | zero => exact (congrArg _ (map_zero _)).trans ((map_zero _).trans (map_zero _).symm)
+  induction z using TensorProduct.inductionOn with
   | tmul b q =>
     have h1 := towerBaseChangeMap_tmul (fibreTowerCommaMap U g.hom) b q
     have h2 := towerBaseChangeAugmentation_tmul T' b (CommAlgCat.Hom.hom g.hom.right.left q)
@@ -173,7 +171,7 @@ variable (A B C) in
 map `Q ⊗_P B → Q̄`, an object of the category of costructured arrows of `u₃` over `(Q̄ → C)` in
 which the left Kan extension along `u₃` is computed. -/
 def fibreTowerCostructured :
-    PolynomialTower A B (fibreAlgebra A U) ⥤
+    PolynomialTower A B (fibreAlgebra U) ⥤
       CostructuredArrow (polynomialTowerThird A B C).op (op (op U)) where
   obj T := CostructuredArrow.mk (Y := op (op ((fibreTowerFunctor A B C U).obj T)))
     (fibreTowerBaseChange U T).op.op
@@ -195,7 +193,7 @@ instance : (fibreTowerCostructured A B C U).Faithful where
 /-- A morphism of towers over `C` between towers over `Q̄`, compatible with the maps
 `Q ⊗_P B → Q̄`, is a morphism of towers over `Q̄`: that compatibility, read on `1 ⊗ q`, says that
 `Q → Q'` lies over `Q̄`. -/
-lemma fibreTower_right_comp {T T' : PolynomialTower A B (fibreAlgebra A U)}
+lemma fibreTower_right_comp {T T' : PolynomialTower A B (fibreAlgebra U)}
     (g : (fibreTowerFunctor A B C U).obj T ⟶ (fibreTowerFunctor A B C U).obj T')
     (hw : (polynomialTowerThirdAugmentations A B C).map g ≫ fibreTowerBaseChange U T' =
       fibreTowerBaseChange U T) :
@@ -231,7 +229,7 @@ variable {U} (W : PolynomialTower A B C)
 /-- The map `Q ⊗_P B → Q̄` of an object `(W, ψ)` of the fibre of `u₃` over `(Q̄ → C)`, as a map
 of `B`-algebras out of the tensor product. -/
 def fibreBaseChangeHom :
-    (B ⊗[↑(towerLeftAlgebra W.obj)] ↑(towerRightAlgebra W.obj)) →ₐ[B] fibreAlgebra A U :=
+    (B ⊗[↑(towerLeftAlgebra W.obj)] ↑(towerRightAlgebra W.obj)) →ₐ[B] fibreAlgebra U :=
   CommAlgCat.Hom.hom ψ.hom.left
 
 /-- `1 ⊗ (p · 1) = p ⊗ 1` in `B ⊗_P Q`, and the map `Q ⊗_P B → Q̄` sends it to the image of `p`
@@ -239,14 +237,14 @@ in `Q̄`. -/
 lemma fibreBaseChange_one_tmul_algebraMap (p : ↑(towerLeftAlgebra W.obj)) :
     fibreBaseChangeHom W ψ ((1 : B) ⊗ₜ[↑(towerLeftAlgebra W.obj)]
       algebraMap ↑(towerLeftAlgebra W.obj) ↑(towerRightAlgebra W.obj) p) =
-    algebraMap B (fibreAlgebra A U) (algebraMap ↑(towerLeftAlgebra W.obj) B p) := by
+    algebraMap B (fibreAlgebra U) (algebraMap ↑(towerLeftAlgebra W.obj) B p) := by
   rw [← Algebra.TensorProduct.tmul_one_eq_one_tmul]
   exact (fibreBaseChangeHom W ψ).commutes (algebraMap ↑(towerLeftAlgebra W.obj) B p)
 
 /-- The map `Q → Q ⊗_P B → Q̄` attached to an object `(W, ψ)` of the fibre of `u₃` over
 `(Q̄ → C)`, as a map of `A`-algebras. -/
 def fibreTowerRightAug :
-    towerRightAlgebra W.obj ⟶ towerTotalAlgebra A (fibreAlgebra A U) :=
+    towerRightAlgebra W.obj ⟶ towerTotalAlgebra A (fibreAlgebra U) :=
   CommAlgCat.ofHom
     { toFun q := fibreBaseChangeHom W ψ ((1 : B) ⊗ₜ[↑(towerLeftAlgebra W.obj)] q)
       map_one' := by
@@ -271,7 +269,7 @@ lemma fibreTowerRightAug_apply (q : ↑(towerRightAlgebra W.obj)) :
 
 /-- The tower over `Q̄` attached to an object `(W, ψ)` of the fibre of `u₃` over `(Q̄ → C)`:
 `(P → B, Q → Q ⊗_P B → Q̄)`. -/
-def fibreTowerOfCostructuredComma : TowerComma A B (fibreAlgebra A U) where
+def fibreTowerOfCostructuredComma : TowerComma A B (fibreAlgebra U) where
   left := W.obj.left
   right := Over.mk (fibreTowerRightAug W ψ)
   hom := W.obj.hom
@@ -279,14 +277,14 @@ def fibreTowerOfCostructuredComma : TowerComma A B (fibreAlgebra A U) where
 /-- The tower over `Q̄` attached to an object `(W, ψ)` of the fibre of `u₃` is a polynomial tower.
 -/
 lemma isPolynomialTower_fibreTowerOfCostructuredComma :
-    IsPolynomialTower A B (fibreAlgebra A U) (fibreTowerOfCostructuredComma W ψ) := by
+    IsPolynomialTower A B (fibreAlgebra U) (fibreTowerOfCostructuredComma W ψ) := by
   refine ⟨W.property.1, ?_⟩
   apply CommAlgCat.hom_ext
   refine AlgHom.ext fun p => ?_
   exact fibreBaseChange_one_tmul_algebraMap W ψ p
 
 /-- The tower over `Q̄` attached to an object `(W, ψ)` of the fibre of `u₃` over `(Q̄ → C)`. -/
-def fibreTowerOfCostructured : PolynomialTower A B (fibreAlgebra A U) :=
+def fibreTowerOfCostructured : PolynomialTower A B (fibreAlgebra U) :=
   ⟨fibreTowerOfCostructuredComma W ψ, isPolynomialTower_fibreTowerOfCostructuredComma W ψ⟩
 
 /-- The tower over `C` defined by the tower over `Q̄` attached to `(W, ψ)` is `W` again. -/
@@ -313,14 +311,13 @@ lemma fibreTowerFunctorObjIso_hom_comp :
   refine AlgHom.ext fun (z : B ⊗[↑(towerLeftAlgebra W.obj)] ↑(towerRightAlgebra W.obj)) => ?_
   change fibreBaseChangeHom W ψ (towerBaseChangeMap (fibreTowerFunctorObjIso W ψ).hom.hom z) =
     towerBaseChangeAugmentation (fibreTowerOfCostructured W ψ) z
-  induction z using TensorProduct.induction_on with
-  | zero => exact (congrArg _ (map_zero _)).trans ((map_zero _).trans (map_zero _).symm)
+  induction z using TensorProduct.inductionOn with
   | tmul b q =>
     have h1 := towerBaseChangeMap_tmul (fibreTowerFunctorObjIso W ψ).hom.hom b q
     have h2 := towerBaseChangeAugmentation_tmul (fibreTowerOfCostructured W ψ) b q
     refine (congrArg _ h1).trans (Eq.trans ?_ h2.symm)
     change fibreBaseChangeHom W ψ (b ⊗ₜ q) =
-      algebraMap B (fibreAlgebra A U) b * fibreBaseChangeHom W ψ ((1 : B) ⊗ₜ q)
+      algebraMap B (fibreAlgebra U) b * fibreBaseChangeHom W ψ ((1 : B) ⊗ₜ q)
     rw [← (fibreBaseChangeHom W ψ).commutes b, ← map_mul, Algebra.TensorProduct.algebraMap_apply,
       Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
     rfl
@@ -349,16 +346,16 @@ variable (A)
 def fibreVars : Type u := U.property.choose
 
 /-- A chosen presentation `Q̄ = B[E]` of the polynomial `B`-algebra `Q̄`. -/
-def fibrePresentation : MvPolynomial (fibreVars U) B ≃ₐ[B] fibreAlgebra A U :=
+def fibrePresentation : MvPolynomial (fibreVars U) B ≃ₐ[B] fibreAlgebra U :=
   U.property.choose_spec.some
 
 /-- The towers `(P_n → B, P_n[E] → Q̄)` of the standard resolution `P_• → B` of `B` over `A`, as a
 cosimplicial object of the site of towers over `Q̄`: the cosimplicial object of Tag 08QV for the
 ring maps `A → B → Q̄`. -/
 def fibreTowerCosimplicial :
-    CosimplicialObject (polynomialTowerSite A B (fibreAlgebra A U)) :=
+    CosimplicialObject (polynomialTowerSite A B (fibreAlgebra U)) :=
   towerCosimplicialObject (standardResolution.{u, u} A (towerBaseAlgebra A B)).hom
-    (fibrePresentation A U)
+    (fibrePresentation U)
     (standardResolution_isResolution.{u, u} A (towerBaseAlgebra A B)).isPolynomialAlgebra
 
 omit [Algebra A C] [IsScalarTower A B C] in
@@ -366,7 +363,7 @@ omit [Algebra A C] [IsScalarTower A B C] in
 from the towers of the standard resolution into a tower over `Q̄` is homotopy equivalent to a
 singleton. -/
 lemma exists_homotopyEquivalences_fibreTowerCosimplicial
-    (W : polynomialTowerSite A B (fibreAlgebra A U)) :
+    (W : polynomialTowerSite A B (fibreAlgebra U)) :
     ∃ f : (fibreTowerCosimplicial A U).op ⋙ yoneda.obj W ⟶
         (Functor.const SimplexCategoryᵒᵖ).obj PUnit.{u + 1},
       SimplicialObject.homotopyEquivalences (Type u) f :=
@@ -378,7 +375,7 @@ to the universe of its objects. -/
 abbrev FibreSite (A : Type u) [CommRing A] {B : Type u} [CommRing B] [Algebra A B] {C : Type u}
     [CommRing C] [Algebra B C] (U : PolynomialAugmentation B (towerRelativeAlgebra B C)) :
     Type (u + 1) :=
-  AsSmall.{u + 1} (polynomialTowerSite A B (fibreAlgebra A U))
+  AsSmall.{u + 1} (polynomialTowerSite A B (fibreAlgebra U))
 
 /-- The cosimplicial object of the fibre, in the small model. -/
 def fibreSmallCosimplicial : CosimplicialObject (FibreSite A U) :=
@@ -405,9 +402,9 @@ theorem isPointResolution_fibreSmallCosimplicial :
 
 /-- The towers of the standard resolution, as a simplicial object of the category of towers
 over `Q̄`. -/
-abbrev fibreTowerSimplicial : SimplicialObject (PolynomialTower A B (fibreAlgebra A U)) :=
+abbrev fibreTowerSimplicial : SimplicialObject (PolynomialTower A B (fibreAlgebra U)) :=
   towerSimplicialOfResolution (standardResolution.{u, u} A (towerBaseAlgebra A B)).hom
-    (fibrePresentation A U)
+    (fibrePresentation U)
     (standardResolution_isResolution.{u, u} A (towerBaseAlgebra A B)).isPolynomialAlgebra
 
 /-- **`u₃` of each tower `(P_n → B, P_n[E] → Q̄)` is `Q̄` itself**: the map
@@ -417,10 +414,10 @@ instance isIso_fibreTowerBaseChange_simplicial (m : SimplexCategoryᵒᵖ) :
   have hbij : Function.Bijective
       (towerBaseChangeAugmentation ((fibreTowerSimplicial A U).obj m)) := by
     have heq := towerBaseChangeAugmentation_eq_algEquiv
-      (standardResolution.{u, u} A (towerBaseAlgebra A B)).hom (fibrePresentation A U)
+      (standardResolution.{u, u} A (towerBaseAlgebra A B)).hom (fibrePresentation U)
       (standardResolution_isResolution.{u, u} A (towerBaseAlgebra A B)).isPolynomialAlgebra m
     let e := towerBaseChangeAlgEquiv
-      (standardResolution.{u, u} A (towerBaseAlgebra A B)).hom (fibrePresentation A U)
+      (standardResolution.{u, u} A (towerBaseAlgebra A B)).hom (fibrePresentation U)
       (standardResolution_isResolution.{u, u} A (towerBaseAlgebra A B)).isPolynomialAlgebra m
     refine ⟨fun x y hxy => e.injective ((heq x).symm.trans (hxy.trans (heq y))),
       fun z => ?_⟩

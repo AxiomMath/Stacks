@@ -242,7 +242,7 @@ theorem logIncl_comp_logComplexTowerMap {t : R} {s : R'} (hs : s = algebraMap R 
   | succ q =>
       ext ω
       obtain ⟨ω, rfl⟩ : ∃ y : ⋀[R]^(q + 1) (Ω[R⁄A]), y = ω := ⟨ω, rfl⟩
-      show (logFormsTowerMap hs ht hs' (q + 1)).hom ((logInclF ht (q + 1)).hom ω) =
+      change (logFormsTowerMap hs ht hs' (q + 1)).hom ((logInclF ht (q + 1)).hom ω) =
         (logInclF hs' (q + 1)).hom
           (((KaehlerDifferential.deRhamComplexMap A R R').f (q + 1)).hom ω)
       rw [logInclF_succ_apply, logFormsTowerMap_succ_apply,
@@ -310,7 +310,7 @@ theorem logComplexTowerMap_comp {t : R} {s : R'} {w : R''} (hs : s = algebraMap 
   | zero =>
       ext ω
       obtain ⟨ω, rfl⟩ : ∃ y : ⋀[R]^0 (Ω[R⁄A]), y = ω := ⟨ω, rfl⟩
-      show (logFormsTowerMap hw hs' hw' 0).hom
+      change (logFormsTowerMap hw hs' hw' 0).hom
             ((logFormsTowerMap hs ht hs' 0).hom ω) =
           (logFormsTowerMap (eq_algebraMap_of_tower hs hw) ht hw' 0).hom ω
       rw [logFormsTowerMap_zero_apply, logFormsTowerMap_zero_apply,
@@ -321,7 +321,7 @@ theorem logComplexTowerMap_comp {t : R} {s : R'} {w : R''} (hs : s = algebraMap 
       obtain ⟨z, rfl⟩ : ∃ y : (⋀[R]^(q + 1) (Ω[R⁄A]) × ⋀[R]^q (Ω[R⁄A])) ⧸
           Submodule.restrictScalars A (logRel A t q), y = z := ⟨z, rfl⟩
       obtain ⟨x, rfl⟩ := Submodule.Quotient.mk_surjective _ z
-      show (logFormsTowerMap hw hs' hw' (q + 1)).hom
+      change (logFormsTowerMap hw hs' hw' (q + 1)).hom
             ((logFormsTowerMap hs ht hs' (q + 1)).hom
               (Submodule.Quotient.mk (p := Submodule.restrictScalars A (logRel A t q)) x)) =
           (logFormsTowerMap (eq_algebraMap_of_tower hs hw) ht hw' (q + 1)).hom

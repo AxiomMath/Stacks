@@ -115,7 +115,7 @@ noncomputable def stupidTruncGEShortComplexMapOfHom (κ : (Φ.mapHomologicalComp
     apply stupidTrunc_hom_ext
     simp only [ShortComplex.map_X₁, ShortComplex.map_X₂, ShortComplex.map_f,
       stupidTruncGEShortComplex, Category.assoc, stupidTruncGEMapLE_ι, stupidTruncGEMapOfHom_ι,
-      ← Functor.map_comp_assoc, stupidTruncGEMapOfHom_ι_assoc]
+      ← Functor.map_comp_assoc]
   comm₂₃ := by
     apply to_single_hom_ext
     have h := congrArg (fun f => f.f a) (stupidTruncGEMapOfHom_ι Φ κ a)
@@ -124,7 +124,7 @@ noncomputable def stupidTruncGEShortComplexMapOfHom (κ : (Φ.mapHomologicalComp
     simp only [ShortComplex.map_X₂, ShortComplex.map_X₃, ShortComplex.map_g,
       stupidTruncGEShortComplex, HomologicalComplex.comp_f, Functor.mapHomologicalComplex_map_f,
       stupidTruncGEπ_f, Functor.map_comp, Category.assoc, Functor.mapCochainComplexSingleFunctor,
-      singleMapHomologicalComplex_hom_app_self, single_map_f_self, ← reassoc_of% h]
+      singleMapHomologicalComplex_hom_app_self, single_map_f_self]
     simpa using h
 
 end FunctorialityShortExact

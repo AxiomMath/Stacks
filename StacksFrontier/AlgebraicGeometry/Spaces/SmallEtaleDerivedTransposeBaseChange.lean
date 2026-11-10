@@ -148,7 +148,8 @@ theorem derivedModulePushforwardUnit_eq_totalRightDerivedUnit :
     derivedModulePushforwardUnit B S hS g =
       eqToHom (mapHomotopyCategory_modulePushforward_comp_Qh_eq B S hS g) ≫
     (pushforwardOnHomotopy (X := smallEtaleRingedTopos B S hS Y')
-      (Y := smallEtaleRingedTopos B S hS Y) (smallEtaleRingedToposHom B S hS g)).totalRightDerivedUnit
+      (Y := smallEtaleRingedTopos B S hS Y)
+      (smallEtaleRingedToposHom B S hS g)).totalRightDerivedUnit
         DerivedCategory.Qh (sourceQuasiIso (smallEtaleRingedTopos B S hS Y')) := rfl
 
 /-- The unit of the total right derived direct image along an affine morphism is invertible at
@@ -169,13 +170,15 @@ private theorem isIso_totalRightDerivedUnit_app_single (hg : IsAffineHom B S hS 
 derived direct image is invertible at `𝒪_{Y'}[0]`. -/
 theorem isIso_totalRightDerivedUnit_app_structureHomotopy (hg : IsAffineHom B S hS g.hom) :
     IsIso (((pushforwardOnHomotopy (X := smallEtaleRingedTopos B S hS Y')
-      (Y := smallEtaleRingedTopos B S hS Y) (smallEtaleRingedToposHom B S hS g)).totalRightDerivedUnit
+      (Y := smallEtaleRingedTopos B S hS Y)
+      (smallEtaleRingedToposHom B S hS g)).totalRightDerivedUnit
         DerivedCategory.Qh (sourceQuasiIso (smallEtaleRingedTopos B S hS Y'))).app
           (structureHomotopy B S hS Y')) := by
   exact isIso_totalRightDerivedUnit_app_single B S hS g hg _
     (SheafOfModules.isQuasicoherentOnSite_unit _)
 
-/-- The base change map of the transposed square at `𝒪_{Y'}[0]`, read on the homotopy category, through the underived one.  For
+/-- The base change map of the transposed square at `𝒪_{Y'}[0]`, read on the homotopy category,
+through the underived one.  For
 a commutative square `g' ≫ f = f' ≫ g` with `g` and `g'` affine, the base change map
 `Lf^*Rg_*𝒪_{Y'} ⟶ Rg'_*L(f')^*𝒪_{Y'}` is invertible as soon as the comparison
 `Lf^*(g_*𝒪_{Y'}) ⟶ f^*(g_*𝒪_{Y'})` (`h₃`) and the underived base change map
@@ -206,11 +209,13 @@ theorem isIso_transposeBaseChangeMap_structureHomotopy_of_isIso (w : g' ≫ f = 
     isIso_totalRightDerivedUnit_app_structureHomotopy B S hS g hg
   have h₂ := isIso_smallEtaleDerivedModulePullbackComparison_app B S hS f'
     (structureHomotopy B S hS Y') (smallEtaleModuleKFlat_structureHomotopy B S hS Y')
-  let F' := Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules (X := smallEtaleRingedTopos B S hS X')
+  let F' := Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules
+    (X := smallEtaleRingedTopos B S hS X')
     (Y := smallEtaleRingedTopos B S hS Y') (smallEtaleRingedToposHom B S hS f').toModulesHom
   let P : Modules.{u, u} B S hS X'.1 X'.2 := F'.obj O'
   have hP : P.IsQuasicoherentOnSite :=
-    SheafOfModules.IsQuasicoherentOnSite.of_iso ((pullbackModulesIsoModulePullback B S hS f').app O').symm
+    SheafOfModules.IsQuasicoherentOnSite.of_iso
+      ((pullbackModulesIsoModulePullback B S hS f').app O').symm
       (isQuasicoherentOnSite_modulePullback_of_isQuasicoherentOnSite B S hS f' O' hO')
   have h₅ : IsIso (uf'.app ((smallEtalePullbackMapHomotopy B S hS f').obj
       (structureHomotopy B S hS Y'))) := by
@@ -265,8 +270,8 @@ theorem isIso_transposeBaseChangeMap_structure_of_isIso (w : g' ≫ f = f' ≫ g
       smallEtaleDerivedModulePullbackCompIso B S hS g' f ≪≫
         eqToIso (congrArg (fun f ↦ smallEtaleDerivedModulePullback B S hS f) w.symm.symm) := rfl
   rw [e]
-  exact (@Stacks.CategoryTheory.BaseChange.isIso_map_iff_of_iso _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-    _ _ ((DerivedCategory.singleFunctorIsoCompQh _ 0).app
+  exact (@Stacks.CategoryTheory.BaseChange.isIso_map_iff_of_iso _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+    _ _ _ ((DerivedCategory.singleFunctorIsoCompQh _ 0).app
       (SheafOfModules.unit (ringedToposStructureRingSheaf B S hS Y'))).symm).1 key
 
 /-- The underived base change map of a commutative square at `𝒪_{Y'}[0]` is invertible as soon
@@ -275,8 +280,8 @@ theorem isIso_smallEtaleUnderivedBaseChangeMap_structureHomotopy (w : g' ≫ f =
     (h : IsIso ((moduleBaseChangeMap f g f' g' w).app
       (SheafOfModules.unit (ringedToposStructureRingSheaf B S hS X)))) :
     IsIso (smallEtaleUnderivedBaseChangeMap B S hS f g f' g' w (structureHomotopy B S hS X)) := by
-  haveI := RingedToposHom.pullbackModules_additive (smallEtaleRingedToposHomComp B S hS f' g)
-  haveI := RingedToposHom.pullbackModules_additive (smallEtaleRingedToposHomComp B S hS g' f)
+  have := RingedToposHom.pullbackModules_additive (smallEtaleRingedToposHomComp B S hS f' g)
+  have := RingedToposHom.pullbackModules_additive (smallEtaleRingedToposHomComp B S hS g' f)
   have hK := Stacks.CategoryTheory.BaseChange.isIso_map_mapHomotopyCategory_quotient_obj
     (fun k : X' ⟶ Y => Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules
         (X := smallEtaleRingedTopos B S hS X') (Y := smallEtaleRingedTopos B S hS Y)
@@ -295,8 +300,8 @@ theorem isIso_smallEtaleUnderivedBaseChangeMap_structureHomotopy (w : g' ≫ f =
         · subst hn
           have h' := isIso_smallEtaleModuleBaseChangeMap_of_isIso_moduleBaseChangeMap_app
             B S hS f g f' g' w _ h
-          exact (@Stacks.CategoryTheory.BaseChange.isIso_map_iff_of_iso _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-            _ _ _ _ _ _ (HomologicalComplex.singleObjXSelf _ _ _).symm).1 h'
+          exact (@Stacks.CategoryTheory.BaseChange.isIso_map_iff_of_iso _ _ _ _ _ _ _ _ _ _ _ _ _ _
+            _ _ _ _ _ _ _ (HomologicalComplex.singleObjXSelf _ _ _).symm).1 h'
         · exact Stacks.CategoryTheory.BaseChange.isIso_map_of_isZero _ _ _ _
             (HomologicalComplex.isZero_single_obj_X _ _ _ _ hn))
   exact (@Stacks.CategoryTheory.BaseChange.isIso_map_iff_of_iso _ _ _ _ _ _ _ _ _ _ _ _ _ _ _

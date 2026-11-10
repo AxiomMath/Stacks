@@ -102,7 +102,7 @@ theorem Hom.groupoidCompose_comp_arrowsMap (φ : Hom G G')
   ext V t
   have hw : G.source.hom.app V (a.app V t) = G.target.hom.app V (b.app V t) :=
     congrArg (fun k => (k.app V) t) w
-  show φ.arrowsMap.hom.app V ((groupoidCompose G a b w).app V t) =
+  change φ.arrowsMap.hom.app V ((groupoidCompose G a b w).app V t) =
     (groupoidCompose G' (a ≫ φ.arrowsMap.hom) (b ≫ φ.arrowsMap.hom) w').app V t
   rw [groupoidCompose_eval G a b w V t,
     groupoidCompose_eval G' (a ≫ φ.arrowsMap.hom) (b ≫ φ.arrowsMap.hom) w' V t]

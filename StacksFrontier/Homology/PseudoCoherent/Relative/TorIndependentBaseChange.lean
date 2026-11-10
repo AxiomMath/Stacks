@@ -124,10 +124,7 @@ private noncomputable def restrictTensorIso
       map_add' := fun _ _ ↦ rfl
       map_smul' := by
         intro r z
-        induction z using TensorProduct.induction_on with
-        | zero =>
-            change (algebraMap R P r) • (0 : A ⊗[R] M) = r • (0 : A ⊗[R] M)
-            rw [smul_zero, smul_zero]
+        induction z using TensorProduct.inductionOn with
         | tmul a m =>
             change ((algebraMap R P r) • a) ⊗ₜ[R] m = (r • a) ⊗ₜ[R] m
             rw [IsScalarTower.algebraMap_smul P r a]
@@ -155,11 +152,9 @@ private noncomputable def cancelPolynomialBaseChangeNatIso
   · intro M N f
     apply ModuleCat.hom_ext
     ext z
-    induction z using TensorProduct.induction_on with
-    | zero => rfl
+    induction z using TensorProduct.inductionOn with
     | tmul a m =>
-        induction m using TensorProduct.induction_on with
-        | zero => rfl
+        induction m using TensorProduct.inductionOn with
         | tmul p x => rfl
         | add x y hx hy =>
             rw [TensorProduct.tmul_add]
@@ -222,7 +217,7 @@ private lemma torIndependent_polynomial_baseChange_sameUniverse
     ((NatIso.mapHomologicalComplex
       (cancelPolynomialBaseChangeNatIso (R := R) (P := P) (A := A))
       (ComplexShape.down ℕ)).app Q₀.complex) i
-  show Subsingleton (G.obj (C.homology i))
+  change Subsingleton (G.obj (C.homology i))
   exact ModuleCat.isZero_iff_subsingleton.mp ((hz₀.of_iso e₁).of_iso e₀)
 
 private lemma torIndependent_polynomial_baseChange
@@ -300,7 +295,7 @@ public theorem derivedExtensionScalars_preserves_relativelyPseudoCoherent_of_tor
   let : Algebra P A' := (β.toRingHom.comp (algebraMap P P')).toAlgebra
   have : IsScalarTower P P' A' := IsScalarTower.of_algebraMap_eq (fun _ ↦ rfl)
   have : IsScalarTower P A A' := IsScalarTower.of_algebraMap_eq (fun p ↦ by
-    show β (algebraMap P P' p) = (1 : R') ⊗ₜ[R] α p
+    change β (algebraMap P P' p) = (1 : R') ⊗ₜ[R] α p
     rw [hPP', polynomialPresentationBaseChange_map])
   have : IsScalarTower R P A := IsScalarTower.of_algebraMap_eq (fun r ↦ (α.commutes r).symm)
   have : IsScalarTower R P P' := IsScalarTower.of_algebraMap_eq (fun r ↦ by

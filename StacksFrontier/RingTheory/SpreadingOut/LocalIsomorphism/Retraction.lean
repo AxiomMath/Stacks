@@ -217,7 +217,7 @@ theorem notMem_support_ker_of_bijective (R S : Type) [CommRing R] [CommRing S] [
   obtain ⟨s, hs, hsx⟩ := key x hx
   refine ⟨s, hs, ?_⟩
   ext
-  show s * x = 0
+  change s * x = 0
   exact hsx
 
 /-- The kernel of the retraction `σ` dies at `q`: it is annihilated by the image of some element
@@ -254,7 +254,7 @@ theorem exists_notMem_mul_ker_eq_zero (R S : Type) [CommRing R] [CommRing S] [Al
   have hsupp : (⟨Q, hQp⟩ : PrimeSpectrum Sf) ∉ Module.support Sf (RingHom.ker σ) :=
     notMem_support_ker_of_bijective R S p q hpq hiso f hf θf cf hcompat σ hσ Q hQdef hQp
   rw [Module.mem_support_iff_of_finite] at hsupp
-  obtain ⟨s, hs, hsQ⟩ := SetLike.not_le_iff_exists.mp hsupp
+  obtain ⟨s, hs, hsQ⟩ := IsConcreteLE.not_le_iff_exists.mp hsupp
   have hann : ∀ x ∈ RingHom.ker σ, s * x = 0 := by
     intro x hx
     have := Module.mem_annihilator.mp hs ⟨x, hx⟩
@@ -478,7 +478,7 @@ theorem exists_pow_mul_mem_ker_mul_ker (R S : Type) [CommRing R] [CommRing S] [A
       rw [← map_smul, Ideal.toCotangent_eq_zero]
       have hzero : ((νS t) • y : ↥I) = 0 := by
         ext
-        show (νS t) * (y : Sf) = 0
+        change (νS t) * (y : Sf) = 0
         exact hann y y.property
       rw [hzero]; simp
     rw [← hbase, hσfact (νS t) m]

@@ -109,7 +109,7 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) {k : Type u} [Field k] (f : X.1 �
             (cyclotomicContinuousModule B X f kbar y (Fintype.card Λ))))))
   [K₀.cocomplex.IsStrictlyGE 0]
 
-omit [CompactSpace (kbar ≃ₐ[k] kbar)] in
+omit [Smooth f] [CompactSpace (kbar ≃ₐ[k] kbar)] in
 /-- `Γ(X_k̄, ℋom_ℤ(ℱ_M, ℱ_μ)|)` has as many elements as `Hom_{π₁(X_k̄)}(M, μ_n)`. -/
 theorem natCard_globalSections_homOpSheaf_cyclotomic
     (M : letI := connectedSpace_of_isCurve B X f

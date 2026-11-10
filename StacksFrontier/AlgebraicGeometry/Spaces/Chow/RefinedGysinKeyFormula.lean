@@ -163,7 +163,7 @@ be a prime divisor of the integral space `X` (of δ-dimension `k + 2`) and `w ·
 `ℳ_ξ` at its generic point which is `t` itself when `P ⊄ Z(t)`. Then the pushforward of the Gysin
 component cycle of `(ℳ, t)` at `P` and the pushforward of `div_{ℳ|_P}((w t_ξ)|_P)` differ by a sum
 of canonical principal divisors within `|P|` if `P ⊆ Z(t)`, and agree if `P ⊄ Z(t)`. -/
-theorem isCanonicallyRationallyEquivalentToZeroWithin_gysinComponentCycle_sub_restrictedGeneratorDivisor
+theorem isCanonicallyRatEquivToZeroWithin_gysinComponentCycle_sub_restrictedGeneratorDivisor
     (P : PrimeDivisor D.site D.base D.base_mem X)
     (w : (↥(P.genericHenselianLocalRing D.site D.base D.base_mem hX.1
       (isDecentSpace_of_isGood D sX hX)))ˣ)
@@ -202,7 +202,7 @@ theorem isCanonicallyRationallyEquivalentToZeroWithin_gysinComponentCycle_sub_re
       (deltaDimensionFunction_apply D sX hX) hn P).trans (add_sub_cancel_right _ _)
   have hk' := deltaDimensionClosed_univ_toIntegralClosedSubspace D sX hX hint hn P
   by_cases hPE : V.subspace ≤ E.1
-  · rw [if_pos hPE, gysinComponentCycle_of_le D sX E hE k _ hP hPE,
+  · rw [ite_eq_left hPE, gysinComponentCycle_of_le D sX E hE k _ hP hPE,
       closedSubspaceCyclePushforward_containedPushforward D sX hX E k hE hPE, ← map_sub,
       ← one_smul ℤ (_ - _)]
     exact isCycleFamilySumWithin_integralClosedSubspacePushforward D sX hX
@@ -219,7 +219,7 @@ theorem isCanonicallyRationallyEquivalentToZeroWithin_gysinComponentCycle_sub_re
           (isDecentSpace_of_isGood D sX hX)
           (hasEtaleLocalProperty_isLocallyNoetherian_of_isGood D sX hX) M hMm w) hk' 1).elim
         fun g hg => ⟨hk', g, hg⟩)
-  · rw [if_neg hPE]
+  · rw [ite_eq_right hPE]
     suffices hEq : closedSubspaceCyclePushforward D sX hX E k
           (gysinComponentCycle D sX E hE k (sectionGysinRule D sX hX M t k hM) V) =
         integralClosedSubspacePushforward D sX hX V k
@@ -262,7 +262,7 @@ theorem isCanonicallyRationallyEquivalentToZeroWithin_gysinComponentCycle_sub_re
       rintro τ _ rfl _ _
       rfl
     rw [gysinComponentCycle_of_not_le D sX E hE k _ hP hPE]
-    show closedSubspaceCyclePushforward D sX hX E k
+    change closedSubspaceCyclePushforward D sX hX E k
       (gysinIntersectionCycle D sX hX E hE k V hP hPE) = _
     rw [← integralClosedSubspacePushforward_closedSubspaceCycle_preimage_eq_gysinIntersectionCycle
       D sX hX E hE V hVg k hP hPE, ← hcongr]
@@ -317,7 +317,7 @@ private theorem isCanonicallyRationallyEquivalentToZeroWithin_zsmul_gysinCompone
   · rw [h0, zero_smul]
     exact isCycleFamilySumWithin_zero D sX hX k _
   have h :=
-    isCanonicallyRationallyEquivalentToZeroWithin_gysinComponentCycle_sub_restrictedGeneratorDivisor
+    isCanonicallyRatEquivToZeroWithin_gysinComponentCycle_sub_restrictedGeneratorDivisor
       D sX hX hint M hM t hn P w hw
   refine (h.zsmul neg_mem_canonicalPrincipalDivisors _).mono ?_
   split_ifs with hPE
@@ -350,7 +350,7 @@ theorem isCanonicallyRationallyEquivalentToZeroWithin_sub_cycleFamilySum {a k : 
       (Φ β - cycleFamilySum D sX hX V hVfin k fun i => β.1 (V i) • d i) (⋃ i, S i) := by
   refine isCycleFamilySumWithin_finsum D sX hX k S (hVfin.subset hS) _ h
     fun Z => ?_
-  show (Φ β).1 Z - (cycleFamilySum D sX hX V hVfin k fun i => β.1 (V i) • d i).1 Z = _
+  change (Φ β).1 Z - (cycleFamilySum D sX hX V hVfin k fun i => β.1 (V i) • d i).1 Z = _
   rw [hΦ.apply, cycleFamilySum_apply,
     finsum_eq_finsum_comp_of_support_subset_range hVinj (g := fun Z' => β.1 Z' * (K Z').1 Z)
       (fun Z' hZ' => hβ Z' (left_ne_zero_of_mul hZ')),
@@ -437,7 +437,7 @@ theorem isCanonicallyRationallyEquivalentToZeroWithin_gysinCycleMap_canonicalDiv
         algebraMap _ _ ((v i : ↥((Zf i).genericHenselianLocalRing D.site D.base D.base_mem hX.1
           (isDecentSpace_of_isGood D sX hX)))) := by
     intro i h
-    simp only [v, dif_pos h, IsUnit.unit_spec]
+    simp only [v, dite_eq_left h, IsUnit.unit_spec]
     exact h.choose_spec.2
   have hw : ∀ i, (Zf i).SectionGenerates D sX hX hint L' hL'm σ' →
       (Zf i).canonicalGenericRatio D.site D.base D.base_mem hX.1 (isDecentSpace_of_isGood D sX hX)
@@ -445,7 +445,7 @@ theorem isCanonicallyRationallyEquivalentToZeroWithin_gysinCycleMap_canonicalDiv
         algebraMap _ _ ((w i : ↥((Zf i).genericHenselianLocalRing D.site D.base D.base_mem hX.1
           (isDecentSpace_of_isGood D sX hX)))) := by
     intro i h
-    simp only [w, dif_pos h, IsUnit.unit_spec]
+    simp only [w, dite_eq_left h, IsUnit.unit_spec]
     exact h.choose_spec.2
   have hratio1 : ∀ (P : PrimeDivisor D.site D.base D.base_mem X)
       (M : Modules.{u, u} D.site D.base D.base_mem X hX.1)
@@ -486,7 +486,7 @@ theorem isCanonicallyRationallyEquivalentToZeroWithin_gysinCycleMap_canonicalDiv
     intro i M hMm τ hτ u₀
     obtain ⟨hfu, hα⟩ := orderOfVanishingSection_canonical_eq_ord D sX hX hint M hMm τ hτ (Zf i)
       _ u₀.isUnit _ ((Zf i).sectionRatio_mul D sX hX hint M hMm τ hτ u₀)
-    show (canonicalDivisorCycle D sX hX hint M hMm τ hτ hn).1
+    change (canonicalDivisorCycle D sX hX hint M hMm τ hτ hn).1
       ((Zf i).toIntegralClosedSubspace D.site D.base D.base_mem) = _
     rw [canonicalDivisorCycle_apply_primeDivisor, hα]
   have hgenE : ∀ i, ¬ (Zf' i).subspace ≤ E.1 →

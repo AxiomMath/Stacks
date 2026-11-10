@@ -155,10 +155,10 @@ instance affineLiftedEtaleSlice_isContinuous :
 
 /-- **The small étale site of an object `x` of the lifted affine site, as a ringed site**: the
 full subcategory of the slice `X↑/x` on the objects lying over an étale morphism of affine schemes
-(`Stacks.EtaleSlice.EtaleSlice`), with the topology inherited from the slice and the restriction
+(`Stacks.EtaleSlice`), with the topology inherited from the slice and the restriction
 of the structure sheaf of the slice. -/
 abbrev affineLiftedEtaleSlice : RingedSite.{max v w u t, max v w u t, max v w u t} where
-  C := EtaleSlice (affineLiftedToScheme.{u, v, w, t} B S hS p hp) x
+  C := Stacks.EtaleSlice (affineLiftedToScheme.{u, v, w, t} B S hS p hp) x
   J := topology (affineLiftedToScheme.{u, v, w, t} B S hS p hp)
     (affineLiftedSite.{u, v, w, t} B S hS p hp).J x
   O := ⟨(etaleOver (affineLiftedToScheme.{u, v, w, t} B S hS p hp) x).ι.op ⋙
@@ -374,7 +374,7 @@ theorem isIso_comparison_of_etaleCover (x : (affineLiftedSite.{u, v, w, t} B S h
   have : g.u.IsCocontinuous Sm.J (X.over x).J :=
     affineLiftedEtaleSlice_isCocontinuous.{u, v, w, t} B S hS p hp x
   let ts : I → Sm.C := fun i => ⟨Over.mk (π i ≫ (Over.mk (𝟙 x)).hom), by
-    show Etale (Lx.map (π i ≫ 𝟙 x))
+    change Etale (Lx.map (π i ≫ 𝟙 x))
     rw [Category.comp_id]
     exact het i⟩
   let q : ∀ i, ts i ⟶ terminal Lx x := fun i => ObjectProperty.homMk (Over.homMk (π i))

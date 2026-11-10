@@ -172,7 +172,7 @@ theorem not_exists_uniform_congruence_bound (u : D) (hu : ∀ n : ℕ, ¬ u ^ (n
       rw [show (Quotient.mk _ y : piece (M := MvPolynomial (Fin 1) D ⧸ R₂) J N) = mk J N y from
         rfl, homogeneousSMul_mk]
       refine (Submodule.Quotient.mk_eq_zero _).mpr ?_
-      show (MvPolynomial.X 0 : MvPolynomial (Fin 1) D) • (y : MvPolynomial (Fin 1) D ⧸ R₂) ∈
+      change (MvPolynomial.X 0 : MvPolynomial (Fin 1) D) • (y : MvPolynomial (Fin 1) D ⧸ R₂) ∈
         power (M := MvPolynomial (Fin 1) D ⧸ R₂) J (0 + N + 1)
       rw [hkill _ y.property]
       exact Submodule.zero_mem _

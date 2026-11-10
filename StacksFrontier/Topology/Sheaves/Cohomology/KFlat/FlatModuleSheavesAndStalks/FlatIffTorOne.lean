@@ -248,7 +248,7 @@ theorem skyscraperPOMMap_presheaf_app_injective (x : X.carrier)
       (eqToHom (skyscraperPOM_presheaf_obj_eq x N' U hx))).injective hinj
   · -- source is a subsingleton (PUnit), so any map is injective
     have hpu : ((skyscraperPOM x N').presheaf.obj U : Type u) = (PUnit.{u+1} : Type u) := by
-      show ((forget₂ (ModuleCat _) AddCommGrpCat).obj (skyscraperObj x N' U) : Type u) = _
+      change ((forget₂ (ModuleCat _) AddCommGrpCat).obj (skyscraperObj x N' U) : Type u) = _
       rw [skyscraperObj, dite_eq_right hx]; rfl
     intro a b _
     have hcast : (cast hpu a) = (cast hpu b) := Subsingleton.elim _ _
@@ -603,7 +603,7 @@ subsingleton. -/
 theorem subsingleton_skyscraperPOM_presheaf_obj (x : X.carrier)
     (N : ModuleCat.{u} (X.presheaf.stalk x)) (U : (Opens X.carrier)ᵒᵖ) (h : x ∉ U.unop) :
     Subsingleton ((skyscraperPOM x N).presheaf.obj U) := by
-  show Subsingleton (↑(skyscraperObj x N U))
+  change Subsingleton (↑(skyscraperObj x N U))
   rw [skyscraperObj, dite_eq_right h]
   infer_instance
 

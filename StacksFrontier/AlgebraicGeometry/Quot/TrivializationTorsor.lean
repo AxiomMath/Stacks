@@ -168,7 +168,7 @@ def sliceChartComparison : (U.iteratedSliceBackward.obj (sliceChart U q₀)).lef
 theorem sliceChartComparison_comp :
     sliceChartComparison U q₀ ≫ q₀ = (U.iteratedSliceBackward.obj (sliceChart U q₀)).hom := by
   apply Over.OverMorphism.ext
-  show 𝟙 c₀.left ≫ q₀.left = q₀.left
+  change 𝟙 c₀.left ≫ q₀.left = q₀.left
   exact Category.id_comp _
 
 /-- A trivialisation of `q₀^*N`, read at `sliceChart U q₀`. -/
@@ -267,7 +267,7 @@ theorem trivializationsSitePresheaf_map_equivShrink {V V' : (BigFppfOver B U.lef
     (k : V ⟶ V') (x : (trivializationsSliceFunctor U N).obj V) :
     (trivializationsSitePresheaf U N).map k (equivShrink _ x) =
       equivShrink _ ((trivializationsSliceFunctor U N).map k x) := by
-  show equivShrink _ ((trivializationsSliceFunctor U N).map k
+  change equivShrink _ ((trivializationsSliceFunctor U N).map k
     ((equivShrink _).symm (equivShrink _ x))) = _
   rw [Equiv.symm_apply_apply]
 

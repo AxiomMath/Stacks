@@ -346,7 +346,7 @@ theorem relocalizationComparisonArrow_naturality {T T' : SpacesEtale B S hS V} (
           (spacesBaseChange B S hS g).projection.app T' =
         (spacesBaseChange B S hS g).projection.app T ≫ a.hom.left :=
       (spacesBaseChange B S hS g).projection.naturality a
-    show (((spacesBaseChange B S hS g).functor.map a).hom.left ≫
+    change (((spacesBaseChange B S hS g).functor.map a).hom.left ≫
         (relocalizationComparisonArrow B S hS f g p hp q hq c hc T').hom.left) ≫ _ =
       ((relocalizationComparisonArrow B S hS f g p hp q hq c hc T).hom.left ≫
         ((spacesBaseChange B S hS f).functor.map

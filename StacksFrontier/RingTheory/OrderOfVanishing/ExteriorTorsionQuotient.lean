@@ -31,6 +31,7 @@ variable {A : Type*} [CommRing A] [IsLocalRing A] [IsDomain A] [IsDiscreteValuat
   {r s : ℕ} {M M' : Type*} [AddCommGroup M] [Module A M] [Module.Finite A M]
   [AddCommGroup M'] [Module A M'] [Module.Finite A M'] (f : M →ₗ[A] M')
 
+omit [IsLocalRing A] in
 /-- **The identification of `(⋀^r M) ⧸ tors` with `⋀^r (M ⧸ tors)` is natural**: it carries the
 map induced by `⋀^r f` to `⋀^r` of the map induced by `f`. -/
 public theorem torsionQuotientEquiv_torsionQuotientMap
@@ -49,6 +50,7 @@ public theorem torsionQuotientEquiv_torsionQuotientMap
       ← LinearMap.comp_apply, ← LinearMap.comp_apply, ← exteriorPower.map_comp,
       ← exteriorPower.map_comp, hcomp]
 
+omit [IsLocalRing A] in
 /-- The identification carries the range of the map induced by `⋀^r f` onto the range of `⋀^r`
 of the map induced by `f`. -/
 public theorem map_range_torsionQuotientMap_exteriorPower :
@@ -66,6 +68,7 @@ public theorem map_range_torsionQuotientMap_exteriorPower :
     exact ⟨torsionQuotientMap (exteriorPower.map r f) p, ⟨p, rfl⟩,
       torsionQuotientEquiv_torsionQuotientMap f p⟩
 
+omit [IsLocalRing A] in
 /-- The two cokernels have the same length. -/
 public theorem length_quotient_range_torsionQuotientMap_exteriorPower :
     Module.length A ((⋀[A]^r M' ⧸ Submodule.torsion A (⋀[A]^r M')) ⧸

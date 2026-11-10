@@ -142,7 +142,7 @@ def appTopAlgHom (f : X ⟶ Y) : globalSections Y →ₐ[k] globalSections X whe
 theorem toSpecGlobalSections_comp_specMap_appTopAlgHom (f : X ⟶ Y) :
     toSpecGlobalSections X ≫ specMap (appTopAlgHom f) = f ≫ toSpecGlobalSections Y := by
   apply hom_ext_left
-  show X.obj.left.toSpecΓ ≫ Spec.map f.hom.left.appTop = f.hom.left ≫ Y.obj.left.toSpecΓ
+  change X.obj.left.toSpecΓ ≫ Spec.map f.hom.left.appTop = f.hom.left ≫ Y.obj.left.toSpecΓ
   rw [Scheme.toSpecΓ_naturality]
 
 end SmoothProjectiveScheme
@@ -176,7 +176,7 @@ theorem exists_pull_grade_zero_of_isIso_appTop (hA8 : 𝔇.GlobalSectionsAxiom)
   refine ⟨𝔇.pull (toSpecGlobalSections Y) b, 𝔇.pull_grade _ 0 b hb, ?_⟩
   rw [← AlgHom.comp_apply, ← 𝔇.pull_comp, ← toSpecGlobalSections_comp_specMap_appTopAlgHom,
     𝔇.pull_comp, AlgHom.comp_apply]
-  show 𝔇.pull (toSpecGlobalSections X)
+  change 𝔇.pull (toSpecGlobalSections X)
     (𝔇.pull (specMap (appTopAlgHom f)) (𝔇.pull (specMap e.symm.toAlgHom) a)) = y
   rw [← AlgHom.comp_apply (𝔇.pull (specMap (appTopAlgHom f))), ← 𝔇.pull_comp, he, 𝔇.pull_id,
     AlgHom.id_apply, ha']

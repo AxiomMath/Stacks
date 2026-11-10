@@ -141,7 +141,7 @@ theorem smul_eq_zero_of_algebraMap_eq_zero (hn : 0 < n) {r : R}
       rw [← algebraMap_smul S r (v ⟨0, hn⟩), hr, zero_smul]
     have hmove : ιMulti R n (Function.update v ⟨0, hn⟩ (r • v ⟨0, hn⟩)) = r • ιMulti R n v := by
       rw [AlternatingMap.map_update_smul, Function.update_eq_self]
-    show r • ιMulti R n v = 0
+    change r • ιMulti R n v = 0
     rw [← hmove, hv, AlternatingMap.map_update_zero]
   simpa using LinearMap.congr_fun key x
 

@@ -65,7 +65,7 @@ public theorem isIso_mor₁_comp_biprod_fst_of_isIso {F A B D : C} (α : F ⟶ A
   have hδ : δ = 0 := by
     calc δ = (inv b ≫ biprod.inr) ≫ biprod.desc a b ≫ δ := by simp
       _ = 0 := by
-        show (inv b ≫ biprod.inr) ≫ T.mor₂ ≫ T.mor₃ = 0
+        change (inv b ≫ biprod.inr) ≫ T.mor₂ ≫ T.mor₃ = 0
         rw [comp_distTriang_mor_zero₂₃ T hT, Limits.comp_zero]
   have hmono : Mono α := Triangle.mono₁ T hT hδ
   set s : A ⟶ A ⊞ B := biprod.lift (𝟙 A) (-(a ≫ inv b))

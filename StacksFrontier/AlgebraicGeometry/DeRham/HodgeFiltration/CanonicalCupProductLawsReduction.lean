@@ -141,7 +141,7 @@ private theorem multiplicationInt_ι_tmul (m : ((tensorBifunctorNat (A := A)).ob
     rw [HomologicalComplex.comp_f, HomologicalComplex.ι_mapBifunctorExtendHom_f_assoc,
       HomologicalComplex.extendMap_f m' embeddingUpNat (i := a + b) (i' := ((a + b : ℕ) : ℤ)) rfl]
     simp only [Iso.inv_hom_id_assoc]
-  show (HomologicalComplex.ιMapBifunctor (K.extend embeddingUpNat)
+  change (HomologicalComplex.ιMapBifunctor (K.extend embeddingUpNat)
       (L.extend embeddingUpNat) (sheafTensor.{u, u, u, u, u} A) (up ℤ) (a : ℤ) (b : ℤ)
       ((a + b : ℕ) : ℤ) h ≫ (HomologicalComplex.mapBifunctorExtendHom
         (sheafTensor.{u, u, u, u, u} A) K L ≫ HomologicalComplex.extendMap m' embeddingUpNat).f
@@ -363,7 +363,7 @@ theorem multiplicationInt_assoc
       obtain ⟨b, rfl⟩ : ∃ b : ℕ, (b : ℤ) = i₂ := ⟨i₂.toNat, by omega⟩
       obtain ⟨c, rfl⟩ : ∃ c : ℕ, (c : ℤ) = i₃ := ⟨i₃.toNat, by omega⟩
       obtain rfl : a + b + c = k := by omega
-      show HomologicalComplex.mapBifunctor₁₂.ι (sheafTensor.{u, u, u, u, u} A)
+      change HomologicalComplex.mapBifunctor₁₂.ι (sheafTensor.{u, u, u, u, u} A)
           (sheafTensor.{u, u, u, u, u} A)
           (K.extend embeddingUpNat) (L.extend embeddingUpNat) (N.extend embeddingUpNat)
           (up ℤ) (up ℤ) (a : ℤ) (b : ℤ) (c : ℤ) ((a + b + c : ℕ) : ℤ) hi ≫
@@ -482,7 +482,7 @@ theorem multiplicationInt_braiding
       obtain ⟨a, rfl⟩ : ∃ a : ℕ, (a : ℤ) = i₁ := ⟨i₁.toNat, by omega⟩
       obtain ⟨b, rfl⟩ : ∃ b : ℕ, (b : ℤ) = i₂ := ⟨i₂.toNat, by omega⟩
       obtain rfl : a + b = k := by omega
-      show HomologicalComplex.ιMapBifunctor (K.extend embeddingUpNat) (L.extend embeddingUpNat)
+      change HomologicalComplex.ιMapBifunctor (K.extend embeddingUpNat) (L.extend embeddingUpNat)
           (sheafTensor.{u, u, u, u, u} A) (up ℤ) (a : ℤ) (b : ℤ) ((a + b : ℕ) : ℤ) hi ≫
           (cxBraid (K.extend embeddingUpNat) (L.extend embeddingUpNat)).f ((a + b : ℕ) : ℤ) ≫
             (multiplicationInt m').f ((a + b : ℕ) : ℤ) = _

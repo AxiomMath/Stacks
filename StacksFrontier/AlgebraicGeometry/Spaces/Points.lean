@@ -200,7 +200,7 @@ private theorem dominates_map {G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (α : 
     Dominates B S hS G (map B S hS F α r) (map B S hS F α p) := by
   obtain ⟨f, hf⟩ := h
   refine ⟨f, ?_⟩
-  show G.map f.op (α.app _ p.value) = α.app _ r.value
+  change G.map f.op (α.app _ p.value) = α.app _ r.value
   rw [← hf]
   simpa only [siteObject, types_comp_apply] using
     (congrArg (fun k ↦ k p.value) (α.naturality f.op)).symm

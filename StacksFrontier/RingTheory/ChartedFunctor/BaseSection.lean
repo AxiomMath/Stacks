@@ -164,8 +164,7 @@ theorem bijective_conormalLinMap_tens (hI : I ^ 2 = ⊥) (P N : BoundedAlg R κ)
   have hmemJ' : ∀ t : (J.restrictScalars R) ⊗[R] N.obj,
       (J.restrictScalars R).subtype.rTensor N.obj t ∈ J' := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | add s t hs ht => rw [map_add]; exact J'.add_mem hs ht
     | tmul j n =>
       change (j : P.obj) ⊗ₜ[R] n ∈ J'
@@ -221,15 +220,13 @@ theorem bijective_conormalLinMap_tens (hI : I ^ 2 = ⊥) (P N : BoundedAlg R κ)
       zero_mem' := ⟨0, map_zero _⟩
       smul_mem' := by
         rintro a _ ⟨t, rfl⟩
-        induction a using TensorProduct.induction_on with
-        | zero => exact ⟨0, by simp⟩
+        induction a using TensorProduct.inductionOn with
         | add a a' ha ha' =>
           obtain ⟨u, hu⟩ := ha
           obtain ⟨u', hu'⟩ := ha'
           exact ⟨u + u', by rw [map_add, hu, hu', add_smul]⟩
         | tmul p n =>
-          induction t using TensorProduct.induction_on with
-          | zero => exact ⟨0, by simp⟩
+          induction t using TensorProduct.inductionOn with
           | add t t' ht ht' =>
             obtain ⟨u, hu⟩ := ht
             obtain ⟨u', hu'⟩ := ht'

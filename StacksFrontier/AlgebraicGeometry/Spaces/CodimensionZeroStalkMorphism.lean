@@ -80,7 +80,7 @@ theorem presheaf_isOpenImmersion_chart :
       (BigFppfOver.toScheme B S hS)).presheaf P.iso.hom := by
     have hrep := Functor.relativelyRepresentable.of_isIso yoneda P.iso.hom
     refine MorphismProperty.relative_of_snd hrep fun A g => ?_
-    show @AlgebraicGeometry.IsOpenImmersion.{u} _ _
+    change @AlgebraicGeometry.IsOpenImmersion.{u} _ _
       ((BigFppfOver.toScheme B S hS).map (hrep.snd g))
     have : IsIso (yoneda.map (hrep.snd g)) := (hrep.isPullback g).isIso_snd_of_isIso
     let : IsIso (hrep.snd g) := Yoneda.fullyFaithful.isIso_of_isIso_map _
@@ -93,7 +93,7 @@ theorem isEtale_chart : IsEtale B S hS P.chart := by
     ((MorphismProperty.relative_monotone (F := yoneda) ?_) _ P.presheaf_isOpenImmersion_chart)
   intro A C f hf
   change @AlgebraicGeometry.IsOpenImmersion.{u} _ _ ((BigFppfOver.toScheme B S hS).map f) at hf
-  show Etale ((BigFppfOver.toScheme B S hS).map f)
+  change Etale ((BigFppfOver.toScheme B S hS).map f)
   let := hf
   infer_instance
 
@@ -141,7 +141,7 @@ theorem relative_fromSpecStalk (Q : MorphismProperty Scheme.{u}) [Q.IsStableUnde
   have hchart : R.presheaf P.chart :=
     (MorphismProperty.relative_monotone (F := yoneda) hle) _ P.presheaf_isOpenImmersion_chart
   have hstalk' : R (P.specStalkToScheme hx) := by
-    show Q ((BigFppfOver.toScheme B S hS).map (P.specStalkToScheme hx))
+    change Q ((BigFppfOver.toScheme B S hS).map (P.specStalkToScheme hx))
     rw [P.toScheme_map_specStalkToScheme hx]
     exact hstalk
   exact MorphismProperty.comp_mem _ _ _ (MorphismProperty.relative_map hstalk') hchart

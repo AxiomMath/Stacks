@@ -134,7 +134,7 @@ theorem quotientMapPushₛₗ_naturality {U V : (Opens X)ᵒᵖ} (i : U ⟶ V)
       (quotientPresheaf φ₂.hom).map ((Opens.map f).op.map i)
         (quotientMapPushₛₗ f B B₂ b φ₁ φ₂ ψ hψ U y) := by
   obtain ⟨y, rfl⟩ := Ideal.Quotient.mk_surjective y
-  show Ideal.Quotient.mk _ ((sectionsMapAlong f ψ V).hom ((A₁.obj.map i).hom y)) =
+  change Ideal.Quotient.mk _ ((sectionsMapAlong f ψ V).hom ((A₁.obj.map i).hom y)) =
     Ideal.Quotient.mk _
       ((A₂.obj.map ((Opens.map f).op.map i)).hom ((sectionsMapAlong f ψ U).hom y))
   exact congrArg (Ideal.Quotient.mk (kernelIdeal φ₂.hom ((Opens.map f).op.obj V)))
@@ -153,7 +153,7 @@ theorem cotangentMapPush_naturality {U V : (Opens X)ᵒᵖ} (i : U ⟶ V)
           (sectionsMapAlong f ψ U).hom
           (kernelIdeal_le_comap_sectionsMapPush f B B₂ b φ₁ φ₂ ψ hψ U) c) := by
   obtain ⟨c, rfl⟩ := (kernelIdeal φ₁.hom U).toCotangent_surjective c
-  show (kernelIdeal φ₂.hom _).toCotangent
+  change (kernelIdeal φ₂.hom _).toCotangent
       ⟨(sectionsMapAlong f ψ V).hom ((A₁.obj.map i).hom (c : A₁.obj.obj U)), _⟩ =
     (kernelIdeal φ₂.hom _).toCotangent
       ⟨(A₂.obj.map ((Opens.map f).op.map i)).hom
@@ -286,7 +286,7 @@ theorem differentialsMapPush_naturality {U V : (Opens X)ᵒᵖ} (i : U ⟶ V)
     differentialsMapPush f ψ R R₂ a₁ a₂ ρ ha V ((differentialsPresheaf a₁.hom).map i ω) =
       (differentialsPresheaf a₂.hom).map ((Opens.map f).op.map i)
         (differentialsMapPush f ψ R R₂ a₁ a₂ ρ ha U ω) := by
-  show differentialsMapPush f ψ R R₂ a₁ a₂ ρ ha V
+  change differentialsMapPush f ψ R R₂ a₁ a₂ ρ ha V
       ((differentialsPresheaf a₁.hom).restrictₛₗ i ω) =
     (differentialsPresheaf a₂.hom).restrictₛₗ ((Opens.map f).op.map i)
       (differentialsMapPush f ψ R R₂ a₁ a₂ ρ ha U ω)
@@ -297,14 +297,15 @@ theorem differentialsMapPush_naturality {U V : (Opens X)ᵒᵖ} (i : U ⟶ V)
   induction mem using Submodule.span_induction with
   | mem s hs =>
       obtain ⟨s, rfl⟩ := hs
-      show differentialsMapPush f ψ R R₂ a₁ a₂ ρ ha V ((differentialsPresheaf a₁.hom).map i
+      change differentialsMapPush f ψ R R₂ a₁ a₂ ρ ha V ((differentialsPresheaf a₁.hom).map i
           (CommRingCat.KaehlerDifferential.d (f := a₁.hom.app U) s)) =
         (differentialsPresheaf a₂.hom).map ((Opens.map f).op.map i)
           (differentialsMapPush f ψ R R₂ a₁ a₂ ρ ha U
             (CommRingCat.KaehlerDifferential.d (f := a₁.hom.app U) s))
       have h₁ : (differentialsPresheaf a₁.hom).map i (CommRingCat.KaehlerDifferential.d s) =
           CommRingCat.KaehlerDifferential.d (f := a₁.hom.app V) ((A₁.obj.map i).hom s) :=
-        PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d a₁.hom i s
+        PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d
+          a₁.hom i s
       have h₂ : (differentialsPresheaf a₂.hom).map ((Opens.map f).op.map i)
             (CommRingCat.KaehlerDifferential.d (f := a₂.hom.app ((Opens.map f).op.obj U))
               ((sectionsMapAlong f ψ U).hom s)) =
@@ -345,10 +346,9 @@ theorem tensorMapPushₛₗ_smul (U : (Opens X)ᵒᵖ) (r : A₁.obj.obj U ⧸ k
     tensorMapPushₛₗ f B B₂ b φ₁ φ₂ ψ hψ R R₂ a₁ a₂ ρ ha U (r • x) =
       quotientMapPushₛₗ f B B₂ b φ₁ φ₂ ψ hψ U r •
         tensorMapPushₛₗ f B B₂ b φ₁ φ₂ ψ hψ R R₂ a₁ a₂ ρ ha U x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul y ω =>
-    show tensorMapPushₛₗ f B B₂ b φ₁ φ₂ ψ hψ R R₂ a₁ a₂ ρ ha U ((r * y) ⊗ₜ ω) =
+    change tensorMapPushₛₗ f B B₂ b φ₁ φ₂ ψ hψ R R₂ a₁ a₂ ρ ha U ((r * y) ⊗ₜ ω) =
       quotientMapPushₛₗ f B B₂ b φ₁ φ₂ ψ hψ U r •
         tensorMapPushₛₗ f B B₂ b φ₁ φ₂ ψ hψ R R₂ a₁ a₂ ρ ha U (y ⊗ₜ ω)
     simp only [tensorMapPushₛₗ, TensorProduct.map_tmul, TensorProduct.smul_tmul']
@@ -367,8 +367,7 @@ theorem tensorMapPushₛₗ_naturality {U V : (Opens X)ᵒᵖ} (i : U ⟶ V)
     tensorMapPushₛₗ f B B₂ b φ₁ φ₂ ψ hψ R R₂ a₁ a₂ ρ ha V (tensorMapₛₗ φ₁.hom a₁.hom i x) =
       tensorMapₛₗ φ₂.hom a₂.hom ((Opens.map f).op.map i)
         (tensorMapPushₛₗ f B B₂ b φ₁ φ₂ ψ hψ R R₂ a₁ a₂ ρ ha U x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul y ω =>
     refine (congrArg (tensorMapPushₛₗ f B B₂ b φ₁ φ₂ ψ hψ R R₂ a₁ a₂ ρ ha V)
       (TensorProduct.map_tmul _ _ y ω)).trans ?_

@@ -86,7 +86,7 @@ def classify (m : FiniteFreeAlgebra R d) : universalRing d →+* R :=
 @[simp] theorem classify_universalStructureConstant {R : Type*} [CommRing R]
     {d : ℕ} [NeZero d] (m : FiniteFreeAlgebra R d) (i j k : Fin d) :
     m.classify (universalStructureConstant d i j k) = m.coeff i j k := by
-  show MvPolynomial.eval₂Hom (algebraMap ℤ R)
+  change MvPolynomial.eval₂Hom (algebraMap ℤ R)
       (fun q : CoeffIndex d => m.coeff q.1 q.2.1 q.2.2) (universalCoeff d i j k) = m.coeff i j k
   simp [universalCoeff]
 
@@ -111,7 +111,7 @@ private lemma isPushout_of_bases {R S A B : Type u} [CommRing R] [CommRing S] [C
     have h1 : (1 : A) ⊗ₜ[R] bU i = (bU.baseChange A) i :=
       (Module.Basis.baseChange_apply (S := A) bU i).symm
     rw [h1, Module.Basis.equiv_apply, Equiv.refl_apply]
-  show ((bU.baseChange A).equiv b (Equiv.refl (Fin d))) (1 ⊗ₜ[R] x) = algebraMap S B x
+  change ((bU.baseChange A).equiv b (Equiv.refl (Fin d))) (1 ⊗ₜ[R] x) = algebraMap S B x
   rw [h x]
   conv_lhs => rw [← bU.sum_repr x]
   rw [TensorProduct.tmul_sum, map_sum]
@@ -164,7 +164,7 @@ theorem isPushout_universalFamily_of_basis_one {A B : CommRingCat.{u}} (ψ : A �
       map_smul' := fun a x => by
         funext i
         refine ULift.ext ?_
-        show (a.down • x.down : UniversalFiniteFreeModule d).coeff i = a.down * x.down.coeff i
+        change (a.down • x.down : UniversalFiniteFreeModule d).coeff i = a.down * x.down.coeff i
         rw [Algebra.smul_def]
         exact algebraMap_mul_coeff d s a.down x.down i }
   let bU : Module.Basis (Fin d) (ULift.{u} (universalRing d))
@@ -183,7 +183,7 @@ theorem isPushout_universalFamily_of_basis_one {A B : CommRingCat.{u}} (ψ : A �
       map_zero, zero_mul]
   have hadd : ∀ x y, f (x + y) = f x + f y := by
     intro x y
-    show ∑ i, c (((x + y).down).coeff i) * b i
+    change ∑ i, c (((x + y).down).coeff i) * b i
       = (∑ i, c ((x.down).coeff i) * b i) + ∑ i, c ((y.down).coeff i) * b i
     rw [← Finset.sum_add_distrib]
     refine Finset.sum_congr rfl fun i _ => ?_
@@ -193,7 +193,7 @@ theorem isPushout_universalFamily_of_basis_one {A B : CommRingCat.{u}} (ψ : A �
       f (ULift.up (algebraMap (universalRing d) (UniversalFiniteFreeModule d) r)) = c r := by
     intro r
     simp only [f, s.algebraMap_coeff, apply_ite c, map_zero, ite_mul, zero_mul,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true, hb, mul_one]
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true, hb, mul_one]
   have hone : f 1 = 1 := by
     have h := hfa 1
     rwa [map_one, map_one] at h
@@ -202,7 +202,7 @@ theorem isPushout_universalFamily_of_basis_one {A B : CommRingCat.{u}} (ψ : A �
     have hc : ∀ i j k : Fin d, c (universalStructureConstant d i j k)
         = algebraMap (A : Type u) (B : Type u) (b.repr (b i * b j) k) := by
       intro i j k
-      show ψ.hom (m.classify (universalStructureConstant d i j k)) = _
+      change ψ.hom (m.classify (universalStructureConstant d i j k)) = _
       rw [FiniteFreeAlgebra.classify_universalStructureConstant]
       rfl
     have hprod : ∀ i j : Fin d,
@@ -213,10 +213,10 @@ theorem isPushout_universalFamily_of_basis_one {A B : CommRingCat.{u}} (ψ : A �
     have hxy : ∀ k, ((x * y).down).coeff k
         = ∑ i, ∑ j, (x.down).coeff i * (y.down).coeff j * universalStructureConstant d i j k := by
       intro k
-      show ((x.down * y.down : UniversalFiniteFreeModule d)).coeff k = _
+      change ((x.down * y.down : UniversalFiniteFreeModule d)).coeff k = _
       rw [s.mul_eq]
       rfl
-    show ∑ k, c (((x * y).down).coeff k) * b k
+    change ∑ k, c (((x * y).down).coeff k) * b k
       = (∑ i, c ((x.down).coeff i) * b i) * ∑ j, c ((y.down).coeff j) * b j
     calc ∑ k, c (((x * y).down).coeff k) * b k
         = ∑ k, ∑ i, ∑ j, (c ((x.down).coeff i) * c ((y.down).coeff j)) *
@@ -260,7 +260,7 @@ theorem isPushout_universalFamily_of_basis_one {A B : CommRingCat.{u}} (ψ : A �
     refine isPushout_of_bases (R := ULift.{u} (universalRing d))
       (S := ULift.{u} (UniversalFiniteFreeModule d)) (A := (A : Type u)) (B := (B : Type u))
       bU b fun x => ?_
-    show f x = _
+    change f x = _
     refine Finset.sum_congr rfl fun i _ => ?_
     rw [Algebra.smul_def]
     rfl

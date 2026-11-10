@@ -81,12 +81,14 @@ section Restriction
 
 variable {C : Type u} [Category.{v} C] (K : GrothendieckTopology C) (U : C)
 
+set_option linter.checkUnivs false in
 /-- Abelian sheaves on every localized site have sheafification at the coefficient universe
 `max a u v w`. -/
 theorem hasSheafify_over_addCommGrpCat (V : C) :
     HasSheafify (K.over V) AddCommGrpCat.{max a u v w} :=
   Stacks.Cohomology.SiteModules.site_hasSheafify_addCommGrp.{max u v, v, max a w} (J := K.over V)
 
+set_option linter.checkUnivs false in
 /-- Restriction of abelian sheaves to a localized site preserves injective objects, at any
 coefficient universe containing the universes of the site. -/
 @[sga "4 V 2.2" "special case"]
@@ -117,6 +119,7 @@ degree-`n` value at `G` is `CategoryTheory.Sheaf.H (G.over U) n`. -/
 def sliceExtDeltaFunctor : DeltaFunctor (Sheaf K AddCommGrpCat.{t}) AddCommGrpCat.{t} :=
   ModuleSheafCohomology.extDeltaFunctor (K.overPullback AddCommGrpCat.{t} U) (sliceUnit K U)
 
+set_option linter.checkUnivs false in
 omit [HasSheafify K AddCommGrpCat.{t}] [HasSheafify (K.over U) AddCommGrpCat.{t}]
   [K.WEqualsLocallyBijective AddCommGrpCat.{t}] [HasExt.{t} (Sheaf (K.over U) AddCommGrpCat.{t})] in
 /-- `G ↦ Extⁿ(ℤ, G|_U)` is a universal `δ`-functor: restriction carries injective sheaves to
@@ -246,6 +249,7 @@ variable [HasSheafify K AddCommGrpCat.{max a u v w}]
   [HasExt.{max a u v w} (Sheaf (K.over U) AddCommGrpCat.{max a u v w})]
   [EnoughInjectives (Sheaf K AddCommGrpCat.{max a u v w})]
 
+set_option linter.checkUnivs false in
 /-- **The `Ext`-groups of the restriction to `C/U` are the right derived functors of sections over
 `U`**, as the unique isomorphism of universal `δ`-functors (Stacks 010U) whose degree-zero
 component is `sliceExtZeroIso` followed by the inverse of
@@ -265,6 +269,7 @@ theorem sliceExtIsoRightDerived_inv_app_zero :
   have := sliceExtDeltaFunctor_isUniversal.{a, w} K U
   DeltaFunctor.IsUniversal.isoOfIso_inv_app_zero _
 
+set_option linter.checkUnivs false in
 /-- The degree-`n` component of `sliceExtIsoRightDerived` at a sheaf `G`, as an isomorphism of
 abelian groups `Extⁿ(ℤ, G|_U) ≅ RⁿΓ(U, G)`. -/
 def sliceExtIsoRightDerivedApp (n : ℕ) (G : Sheaf K AddCommGrpCat.{max a u v w}) :
@@ -278,6 +283,7 @@ def sliceExtIsoRightDerivedApp (n : ℕ) (G : Sheaf K AddCommGrpCat.{max a u v w
       ((sheafSections K AddCommGrpCat.{max a u v w}).obj (op U)) ⟶ _ ↦ (η.app n).app G)
     (sliceExtIsoRightDerived.{a, w} K U).inv_hom_id
 
+set_option linter.checkUnivs false in
 /-- **The two models of `H¹(U, G)`.** The first cohomology of `G` over `U`, read as the degree-one
 homology of the right derived sections functor on the bounded below derived category, is
 `CategoryTheory.Sheaf.H (G.over U) 1`, the first `Ext`-group out of `ℤ` on the localized site

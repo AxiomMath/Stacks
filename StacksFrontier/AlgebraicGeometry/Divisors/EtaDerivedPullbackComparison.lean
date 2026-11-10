@@ -281,7 +281,8 @@ hence isomorphisms; the remaining one is an isomorphism by
 `Stacks.IdealTorsion.Eta.isIso_transportedPullbackDerivedEtaMap`, which is where flatness is
 used. -/
 @[stacks 0F9X "the case of a flat h, which neither implies nor is implied by the source's \
-statement: flatness replaces goodness of the triple, and no goodness is used. the general case, for an arbitrary h and a good \
+statement: flatness replaces goodness of the triple, and no goodness is used. the general case, \
+for an arbitrary h and a good \
 triple, is AlgebraicGeometry.ComplexAndDivisorSituation.nonempty_derivedPullback_derivedEta_iso"]
 theorem isIso_derivedEtaPullbackComparison
     (hflat : AlgebraicGeometry.IsFlat h.toLRSHom.toShHom)

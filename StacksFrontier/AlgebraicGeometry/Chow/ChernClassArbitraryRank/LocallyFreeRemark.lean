@@ -372,7 +372,7 @@ theorem bivariantConnectedComponentRestriction_totalChernComponent [IsLocallyNoe
     have := (chernClassOfLocallyFree_spec C sX E n).1 (Scheme.Modules.rankOnConnectedComponent E i)
     rw [dite_eq_right hn] at this
     exact this
-  · show (bivariantConnectedComponentRestriction C (gysinSystemOfInvertible C) sX sX (𝟙 X)
+  · change (bivariantConnectedComponentRestriction C (gysinSystemOfInvertible C) sX sX (𝟙 X)
         (Category.id_comp sX) _ (gysinSystemOfInvertible_isNaturalUnderOpenImmersion C)) 0 i = 0
     rw [map_zero]
     rfl
@@ -577,7 +577,7 @@ theorem chernClassOfLocallyFree_mem_center (p : ℕ) :
   change chowCohomologyRestriction C (gysinSystemOfInvertible C) sX (rankLocus E r).ι (p : ℤ)
     (gysinSystemOfInvertible_isNaturalUnderBaseChangeIso C) (chernClassOfLocallyFree E C sX p) =
       _ at hres
-  show DirectSum.of _ (p : ℤ) (chowCohomologyRestriction C (gysinSystemOfInvertible C) sX
+  change DirectSum.of _ (p : ℤ) (chowCohomologyRestriction C (gysinSystemOfInvertible C) sX
     (rankLocus E r).ι (p : ℤ) (gysinSystemOfInvertible_isNaturalUnderBaseChangeIso C)
     (chernClassOfLocallyFree E C sX p)) ∈ _
   rw [hres]
@@ -596,7 +596,7 @@ theorem rankClassOfLocallyFree_mem_center :
   refine mem_center_of_chowCohomologyTotalRestrictionOfInvertible_rankLocus_mem_center C sX E
     fun r ↦ ?_
   rw [chowCohomologyTotalRestrictionOfInvertible_of]
-  show DirectSum.of _ 0 (chowCohomologyRestriction C (gysinSystemOfInvertible C) sX
+  change DirectSum.of _ 0 (chowCohomologyRestriction C (gysinSystemOfInvertible C) sX
     (rankLocus E r).ι 0 (gysinSystemOfInvertible_isNaturalUnderBaseChangeIso C)
     (rankClassOfLocallyFree C sX E)) ∈ _
   rw [chowCohomologyRestriction_rankClassOfLocallyFree, map_zsmul,

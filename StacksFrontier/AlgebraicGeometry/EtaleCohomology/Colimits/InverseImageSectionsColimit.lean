@@ -152,7 +152,7 @@ lemma pullbackSectionsMap_map_unitApp {U : X.Etale} {W : Y.Etale}
         ((congrArg (fun φ => φ ≫ pullback.fst ((smallEtaleBaseChange f).obj W).hom g ≫
           pullback.fst W.hom f) h₂).trans (Category.id_comp _)))
   have hm := smallEtaleBaseChange_map_left_fst g k
-  show (((smallEtaleBaseChange g).map k).left ≫
+  change (((smallEtaleBaseChange g).map k).left ≫
       ((smallEtaleBaseChangeComp' g f gf hgf).inv.app W).left) ≫ pullback.fst W.hom gf =
     k'.left ≫ pullback.fst W.hom gf
   rw [hk']
@@ -215,6 +215,7 @@ def StageDescent {i : I} (A : c.pt.Etale) (V₀ W : (D.obj i).Etale)
 
 variable {D c}
 
+omit [IsCofiltered I] in
 /-- A descent of an object with two morphisms persists along later stages. -/
 lemma StageDescent.of_le {i : I} {A : c.pt.Etale} {V₀ W : (D.obj i).Etale}
     {gV : A ⟶ (smallEtaleBaseChange (c.π.app i)).obj V₀}
@@ -324,6 +325,7 @@ lemma smallEtaleBaseChange_baseChange_hom_ext {X Y Z : Scheme.{u}} (g : Z ⟶ X)
   · exact (Category.assoc _ _ _).trans (((smallEtaleBaseChange_fst_snd g f p).trans
       (smallEtaleBaseChange_fst_snd g f q).symm).trans (Category.assoc _ _ _).symm)
 
+omit [IsCofiltered I] [∀ {i j : I} (f : i ⟶ j), IsAffineHom (D.map f)] in
 variable {D c} in
 /-- The restriction of the section given by a stage descent to the object of the limit is the
 given restriction of the image of the section of `H` under the unit. -/
@@ -352,6 +354,7 @@ lemma StageDescent.map_pullbackSectionsMap {i : I} (H : Sheaf (smallEtaleTopolog
     (smallEtaleBaseChangeHomMk_left_fst _ _ _)).trans
       ((smallEtaleBaseChangeHomMk_left_fst_assoc _ _ _ _).trans hχ))
 
+omit [IsCofiltered I] [∀ {i j : I} (f : i ⟶ j), IsAffineHom (D.map f)] in
 variable {D c} in
 /-- The morphism into the base change of the first object, read through a stage descent. -/
 lemma StageDescent.comp_baseChangeComp {i : I} {A : c.pt.Etale} {V₀ : (D.obj i).Etale}
@@ -633,6 +636,7 @@ def smallEtaleIsPullbackInv {j : I} {A : c.pt.Etale} {Z : (D.obj j).Etale} {θ :
     (hθ : IsPullback θ A.hom Z.hom (c.π.app j)) : (smallEtaleBaseChange (c.π.app j)).obj Z ⟶ A :=
   MorphismProperty.Over.homMk hθ.isoPullback.inv hθ.isoPullback_inv_snd trivial
 
+omit [IsCofiltered I] [∀ {i j : I} (f : i ⟶ j), IsAffineHom (D.map f)] in
 /-- `smallEtaleIsPullbackInv hθ` is a right inverse of the morphism `A ⟶ Z ×_{X_j} X` whose first
 component is `θ`. -/
 lemma smallEtaleIsPullbackInv_comp {j : I} {A : c.pt.Etale} {Z : (D.obj j).Etale}
@@ -642,6 +646,7 @@ lemma smallEtaleIsPullbackInv_comp {j : I} {A : c.pt.Etale} {Z : (D.obj j).Etale
     ((congrArg (hθ.isoPullback.inv ≫ ·) (smallEtaleBaseChangeHomMk_left_fst _ _ _)).trans
       (hθ.isoPullback_inv_fst.trans (Category.id_comp _).symm)))
 
+omit [IsCofiltered I] [∀ {i j : I} (f : i ⟶ j), IsAffineHom (D.map f)] in
 /-- **The comparison of the section given by a stage descent.** The image in the sections of
 `f_i⁻¹H` over the base change of `Z` of the section of `f_{ji}⁻¹H` given by `χ : Z ⟶ W ×_{X_i} X_j`
 is the restriction of the given section `s` along `Z ×_{X_j} X ≅ A ⟶ V`. -/
@@ -694,10 +699,11 @@ lemma unitApp_eq_zero_of_pullbackSectionsMap_eq_zero {X' X Y : Scheme.{u}} (g : 
         (smallEtalePullbackAbUnitApp g ((smallEtalePullbackAb f).obj H) U y)) =
       smallEtalePullbackAbUnitApp g ((smallEtalePullbackAb f).obj H) U y := e
   rw [← e']
-  show ((smallEtalePullbackAbComp' g f gf hgf).inv.app H).hom.app _
+  change ((smallEtalePullbackAbComp' g f gf hgf).inv.app H).hom.app _
     (pullbackSectionsMap g f gf hgf H U y) = 0
   rw [hy, map_zero]
 
+omit [IsCofiltered I] [∀ {i j : I} (f : i ⟶ j), IsAffineHom (D.map f)] in
 /-- **Agreement on overlaps of the sections given by two stage descents.** Two sections given by
 units over objects `Z₁, Z₂` of a stage, presenting objects `A₁, A₂` of the limit on which the
 given section `s` is described by the same units, agree over the base change to the limit of the
@@ -795,6 +801,7 @@ lemma smallEtaleBaseChangeHomMk_comp_isPullbackInv {I : Type u} [SmallCategory I
   exact MorphismProperty.Over.Hom.ext ((congrArg (· ≫ hθ.isoPullback.inv) h).trans
     hθ.isoPullback.hom_inv_id)
 
+omit [IsCofiltered I] [∀ {i j : I} (f : i ⟶ j), IsAffineHom (D.map f)] in
 /-- The images of the stage descents `ψ x` cover the image of the limit in the base change of
 `V₀` to `X_j`, as soon as the morphisms `g x` jointly cover the base change of `V₀` to the
 limit. -/
@@ -829,13 +836,14 @@ lemma range_pullback_snd_subset_iUnion_range_of_stageDescent {i j : I} (e : j �
       pullback.fst B.hom (c.π.app j) v := by
     rw [show ε.inv.left ≫ ε.hom.left = 𝟙 _ from congrArg (fun k => k.left) ε.inv_hom_id]
     rfl
-  show ((θ x) ≫ (ψ x).left) z = _
+  change ((θ x) ≫ (ψ x).left) z = _
   refine (congrArg (fun k => k z) (e₂.symm.trans e₁.symm)).trans ?_
-  show (pullback.fst B.hom (c.π.app j)) (ε.hom.left ((g x).left z)) = _
+  change (pullback.fst B.hom (c.π.app j)) (ε.hom.left ((g x).left z)) = _
   rw [hz]
-  show ((ε.inv.left ≫ ε.hom.left) ≫ pullback.fst B.hom (c.π.app j)) v = _
+  change ((ε.inv.left ≫ ε.hom.left) ≫ pullback.fst B.hom (c.π.app j)) v = _
   rw [e₄, hv]
 
+omit [IsCofiltered I] [∀ {i j : I} (f : i ⟶ j), IsAffineHom (D.map f)] in
 /-- A section `t` over `V_k` whose restriction along the transport of a stage descent `ψ` to a
 later stage `X_k` is the section given by the transported `χ` has, on the object `A` of the limit,
 the same restriction as `s`. -/

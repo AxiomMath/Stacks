@@ -84,9 +84,9 @@ variable {S : Scheme.{u}} (T : BigEtaleSpaceSite S)
 
 attribute [local instance] HasDerivedCategory.standard
 
-/- Lean v4.35.0: instance search for limits on presheaves of the big fppf site times out;
-supply them directly. -/
 set_option synthInstance.maxHeartbeats 400000 in
+-- Lean v4.35.0: instance search for limits on presheaves of the big fppf site times out;
+-- supply them directly.
 local instance hasLimitsOfSize_presheaf_BigSmallEtaleDerivedBaseChange :
     HasLimitsOfSize.{0, 0} ((BigFppfOver T.fppfSite S T.fppf_mem)ᵒᵖ ⥤ Type u) := inferInstance
 

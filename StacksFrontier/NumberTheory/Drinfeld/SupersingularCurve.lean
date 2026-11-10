@@ -499,7 +499,7 @@ public theorem exists_unique_infinitePlace :
     have hle : ∏ u ∈ ({v, w} : Finset (Place K)),
         u.resCard ^ (u.ord (aeval (gen (ZMod 2) K)⁻¹ (X : (ZMod 2)[X]))).toNat ≤
         ∏ u ∈ T, u.resCard ^ (u.ord (aeval (gen (ZMod 2) K)⁻¹ (X : (ZMod 2)[X]))).toNat :=
-      Finset.prod_le_prod_of_subset_of_one_le' hsub (fun u _ _ =>
+      Finset.prod_le_prod_of_subset_of_one_le hsub (fun u _ _ =>
         Nat.one_le_iff_ne_zero.2 (pow_ne_zero _ (by have := one_lt_resCard (ZMod 2) u; omega)))
     omega
   have hTw : T = {w} := by

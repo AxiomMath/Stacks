@@ -123,7 +123,7 @@ theorem epi_unitModuleMap_diagonalAlgebra (D : DiagonalOpen f) :
     Epi (Stacks.RelativeSpec.AlgebraSheaf.unitModuleMap D.diagonalAlgebra) := by
   refine Stacks.SheafOfModules.EpiMono.epi_of_isLocallySurjective _ ?_
   have := D.isClosedImmersion
-  show TopCat.Presheaf.IsLocallySurjective _
+  change TopCat.Presheaf.IsLocallySurjective _
   rw [TopCat.Presheaf.isLocallySurjective_iff]
   intro U t x hx
   obtain ⟨_, ⟨V, hV, rfl⟩, hxV, hVU⟩ :=
@@ -189,7 +189,7 @@ theorem exists_isUnit_unitMap_comp (D : DiagonalOpen f) (D' : DiagonalOpen f') (
     have e1 : ((Stacks.RelativeSpec.AlgebraSheaf.unitModuleMap D'.diagonalAlgebra).val.app
         (op ⊤)).hom (1 : Γ(D'.W, ⊤)) = (1 : D'.diagonalAlgebra.right.obj.obj (op ⊤)) :=
       Stacks.RelativeSpec.AlgebraSheaf.structSection_one _ _
-    show c = ((D'.diagonalScalar c).val.app (op ⊤)).hom
+    change c = ((D'.diagonalScalar c).val.app (op ⊤)).hom
       (((Stacks.RelativeSpec.AlgebraSheaf.unitModuleMap D'.diagonalAlgebra).val.app
         (op ⊤)).hom (1 : Γ(D'.W, ⊤)))
     rw [e1]
@@ -213,7 +213,7 @@ theorem exists_isUnit_unitMap_comp (D : DiagonalOpen f) (D' : DiagonalOpen f') (
       epi_of_epi (Stacks.RelativeSpec.AlgebraSheaf.unitModuleMap D'.diagonalAlgebra) _
     exact D'.isUnit_of_epi_diagonalScalar c
   · rw [D'.smul_id_diagonalObject c]
-    show m = _
+    change m = _
     rw [← hm₀, hc]
     exact Functor.map_comp _ _ _
 

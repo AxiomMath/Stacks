@@ -290,7 +290,7 @@ theorem shiftIsoInverse_hom {M N : DifferentialGradedModule.{u, u, u} A} (k : �
     (e : M ≅ DifferentialGradedModule.shift N k) :
     (shiftIsoInverse k e).hom.toFun = e.inv.toFun := by
   ext x
-  show e.inv.toFun ((shiftNegCancelIso N k).inv.toFun x) = e.inv.toFun x
+  change e.inv.toFun ((shiftNegCancelIso N k).inv.toFun x) = e.inv.toFun x
   rw [shiftNegCancelIso_inv_apply]
 
 end Cancel
@@ -326,7 +326,7 @@ theorem shiftIsoInverse_leftActionTotal
   have hz : e.hom.toFun (z : NS.rightModule.M) = (y : N.rightModule.M) := hid _
   have hh := he m (n - k) b z
   apply (DifferentialGradedModule.isoToLinearEquiv e).injective
-  show e.hom.toFun (e.inv.toFun _) = e.hom.toFun _
+  change e.hom.toFun (e.inv.toFun _) = e.hom.toFun _
   rw [hid, map_zsmul_unit, hh, hz, smul_smul, ← Int.negOnePow_add]
   simp
 
@@ -410,7 +410,7 @@ theorem tensorShiftTwistIso_naturality
       (tensorShiftTwistIso B C W N NS k e he).hom ≫
         (DifferentialGradedModule.shiftFunctor C k).map (tensorModuleHom B C N ρ) := by
   refine tensorObj_hom_ext NS W _ _ fun x y => ?_
-  show (tensorShiftTwistHom B C W' N NS k e he).toFun
+  change (tensorShiftTwistHom B C W' N NS k e he).toFun
       ((tensorModuleHom B C NS ρ).toFun ((tensorPure NS W).toLinearMap x y)) =
     (tensorModuleHom B C N ρ).toFun ((tensorShiftTwistHom B C W N NS k e he).toFun
       ((tensorPure NS W).toLinearMap x y))

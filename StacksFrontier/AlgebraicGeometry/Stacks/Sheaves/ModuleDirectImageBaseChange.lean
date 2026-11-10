@@ -273,7 +273,7 @@ comparison functor of the 2-square `w`, a leg of the right Kan extension along `
 `v.op(V')`. -/
 abbrev twoSquareIndex {V' : D'ᵒᵖ} (j : StructuredArrow V' u'.op) :
     StructuredArrow (v.op.obj V') u.op :=
-  StructuredArrow.mk (v.op.map j.hom ≫ w.op.natTrans.app j.right)
+  StructuredArrow.mk (v.op.map j.hom ≫ w.op.app j.right)
 
 /-- A morphism of sheaves of rings into a restriction, read at an object. -/
 def restrictRingApp {E : Type u₁} [Category.{v₁} E] {G : Type u₂} [Category.{v₂} G]
@@ -565,7 +565,7 @@ theorem scalarπ_baseChange (V' : 𝒴'ᵒᵖ)
         Stacks.SheafOfModules.scalarπ f
           (moduleDirectImageStructureMap B S hS p𝒳 p𝒴 h𝒳 h𝒴 f hfc τ hτ).hom (g.op.obj V')
           (StructuredArrow.mk (g.op.map j.hom ≫
-            (baseChangeTwoSquare p𝒳 p𝒴' p𝒴 f g).op.natTrans.app j.right)) =
+            (baseChangeTwoSquare p𝒳 p𝒴' p𝒴 f g).op.app j.right)) =
       Stacks.SheafOfModules.scalarπ (TwoFibreProductOver.snd p𝒳 p𝒴' p𝒴 f g)
           (moduleDirectImageStructureMap B S hS P p𝒴' hP h𝒴'
             (TwoFibreProductOver.snd p𝒳 p𝒴' p𝒴 f g) hPs τ hτ).hom V' j ≫
@@ -578,7 +578,7 @@ theorem scalarπ_baseChange (V' : 𝒴'ᵒᵖ)
   have hfac := IsHomLift.fac' p𝒴 (𝟙 j.right.unop.base)
     ((TwoFibreProductOver.psiIso (f ⋙ p𝒴) (g ⋙ p𝒴) p𝒴 f g).hom.app j.right.unop)
   simp only [eqToHom_app]
-  show eqToHom _ ≫ (BigFppfOver.structureSheaf B S hS).obj.map
+  change eqToHom _ ≫ (BigFppfOver.structureSheaf B S hS).obj.map
       (p𝒴.map ((TwoFibreProductOver.psiIso (f ⋙ p𝒴) (g ⋙ p𝒴) p𝒴 f g).hom.app j.right.unop ≫
         g.map j.hom.unop)).op ≫ eqToHom _ =
     ((BigFppfOver.structureSheaf B S hS).obj.map (p𝒴.map (g.map j.hom.unop)).op ≫

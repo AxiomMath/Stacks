@@ -302,14 +302,14 @@ public theorem QuotientSystem.isThickening_map_diagram
           (hker.trans (nilradical_le_prime p.asIdeal))⟩
     refine ⟨p', ?_⟩
     apply PrimeSpectrum.ext
-    show (p.asIdeal.map q).comap q = p.asIdeal
+    change (p.asIdeal.map q).comap q = p.asIdeal
     rw [Ideal.comap_map_of_surjective q hqSurj p.asIdeal,
       ← RingHom.ker_eq_comap_bot,
       sup_eq_left.mpr (hker.trans (nilradical_le_prime p.asIdeal))]
   let _ : Surjective (Spec.map (CommRingCat.ofHom q)) := ⟨hSpecSurj⟩
   have hclosed : IsClosedImmersion (Spec.map (CommRingCat.ofHom q)) :=
     IsClosedImmersion.spec_of_surjective (CommRingCat.ofHom q) hqSurj
-  show Stacks.Thickenings.IsThickening (Spec.map (CommRingCat.ofHom q))
+  change Stacks.Thickenings.IsThickening (Spec.map (CommRingCat.ofHom q))
   exact ⟨hclosed, Scheme.Hom.surjective _⟩
 
 /-- Weak ideals of definition, ordered by reverse inclusion, indexed by `ULift (u + 1)`. -/
@@ -406,7 +406,7 @@ public theorem isAffineFormalAlgebraicSpace_formalSpectrum
   let : Small.{u} I := Small.mk' (Equiv.ulift : I ≃ OrderDual I₀)
   let eScheme : (∐ X₀) ≅ ∐ X := (Sigma.reindex eIndex X₀).symm
   have hSite : B.Contains (∐ X) := by
-    show (∐ X).size < B.cutoff
+    change (∐ X).size < B.cutoff
     rw [← Scheme.size_congr eScheme]
     exact hB
   let U : BigFppfOver B S hS :=
@@ -420,11 +420,11 @@ public theorem isAffineFormalAlgebraicSpace_formalSpectrum
       (show B.inclusion.obj (Xsite i).left ⟶ B.inclusion.obj U.left from Sigma.ι X i)) (by
         apply B.inclusion.map_injective
         rw [B.inclusion.map_comp, B.inclusion.map_preimage]
-        show Sigma.ι X i ≫ B.inclusion.map
+        change Sigma.ι X i ≫ B.inclusion.map
           (B.inclusion.preimage (X := B.obj hSite) (Y := B.obj hS)
             (Sigma.desc (f := X) fun i => D.overS (weakIndex i))) = D.overS (weakIndex i)
         exact (congrArg (fun t => Sigma.ι X i ≫ t) (B.inclusion.map_preimage _)).trans
-          (Sigma.ι_desc (f := X) (fun i => D.overS (weakIndex i)) i))
+          (Sigma.ι_comp_desc (f := X) (fun i => D.overS (weakIndex i)) i))
   let E : Covering B.Schemes := ⟨B.obj hSite, {
     I₀ := I
     X := fun i => B.obj (D.inSite (weakIndex i))
@@ -432,7 +432,7 @@ public theorem isAffineFormalAlgebraicSpace_formalSpectrum
       (Y := B.obj hSite) (show B.inclusion.obj (B.obj (D.inSite (weakIndex i))) ⟶
         B.inclusion.obj (B.obj hSite) from Sigma.ι X i) }⟩
   have hEfp : IsFppfCovering E := by
-    show E.2.presieve₀ ∈ Scheme.fppfPrecoverage.comap B.inclusion E.1
+    change E.2.presieve₀ ∈ Scheme.fppfPrecoverage.comap B.inclusion E.1
     rw [Precoverage.mem_comap_iff]
     have hsigma : (AlgebraicGeometry.sigmaOpenCover X).presieve₀ ∈
         Scheme.fppfPrecoverage (∐ X) :=
@@ -441,7 +441,7 @@ public theorem isAffineFormalAlgebraicSpace_formalSpectrum
     have hpres : (AlgebraicGeometry.sigmaOpenCover X).presieve₀ =
         Presieve.ofArrows (fun i => B.inclusion.obj (E.2.X i))
           (fun i => B.inclusion.map (E.2.f i)) := by
-      show Presieve.ofArrows X (Sigma.ι X) = _
+      change Presieve.ofArrows X (Sigma.ι X) = _
       dsimp only [E]
       simp only [B.inclusion.map_preimage]
       rfl
@@ -451,7 +451,7 @@ public theorem isAffineFormalAlgebraicSpace_formalSpectrum
       simp [PreZeroHypercover.presieve₀, Presieve.map_ofArrows]
     have hpres' : (AlgebraicGeometry.sigmaOpenCover X).presieve₀ =
         E.2.presieve₀.map B.inclusion := hpres.trans hmap.symm
-    show E.2.presieve₀.map B.inclusion ∈ Scheme.fppfPrecoverage (∐ X)
+    change E.2.presieve₀.map B.inclusion ∈ Scheme.fppfPrecoverage (∐ X)
     rw [← hpres']
     exact hsigma
   obtain ⟨E', hE', hComb⟩ := B.fppf_has_representative E hEfp
@@ -467,14 +467,14 @@ public theorem isAffineFormalAlgebraicSpace_formalSpectrum
     rw [PreZeroHypercover.presieve₀_eq_of_combinatoriallyEquivalent hComb]
     exact hE'cover
   have hcov : Sieve.ofArrows Xsite c.inj ∈ J U := by
-    show Sieve.overEquiv U (Sieve.ofArrows Xsite c.inj) ∈ B.topology U.left
-    show Sieve.functorPushforward (Over.forget (B.obj hS))
+    change Sieve.overEquiv U (Sieve.ofArrows Xsite c.inj) ∈ B.topology U.left
+    change Sieve.functorPushforward (Over.forget (B.obj hS))
       (Sieve.ofArrows Xsite c.inj) ∈ B.topology U.left
     rw [Sieve.functorPushforward_ofArrows]
     exact hEcover
   let : B.topology.Subcanonical := BigFppfSite.subcanonical_topology B
   let : J.Subcanonical := by
-    show (B.topology.over (B.obj hS)).Subcanonical
+    change (B.topology.over (B.obj hS)).Subcanonical
     infer_instance
   let eH : J.uliftYoneda.{u + 1} ≅ Sheaf.sheafifiedYoneda J :=
     (Functor.isoWhiskerLeft J.uliftYoneda
@@ -485,7 +485,7 @@ public theorem isAffineFormalAlgebraicSpace_formalSpectrum
     intro Y hY
     let E₀ : PreZeroHypercover Y.left := PreZeroHypercover.empty Y.left
     let hEmptyTarget : B.Contains (∅ : Scheme.{u}) := by
-      show (∅ : Scheme.{u}).size < B.cutoff
+      change (∅ : Scheme.{u}).size < B.cutoff
       have hsize : (∅ : Scheme.{u}).size ≤ Cardinal.aleph0 := by
         unfold Scheme.size
         refine max_le le_rfl (max_le ?_ (ciSup_le' fun U => ?_))
@@ -510,7 +510,7 @@ public theorem isAffineFormalAlgebraicSpace_formalSpectrum
     have : IsEmpty (B.inclusion.obj Y.left) := eScheme.hom.base.hom.1.isEmpty
     have hE₀ : B.IsCovering ⟨Y.left, E₀⟩ := by
       constructor
-      · show E₀.presieve₀ ∈ Scheme.fppfPrecoverage.comap B.inclusion Y.left
+      · change E₀.presieve₀ ∈ Scheme.fppfPrecoverage.comap B.inclusion Y.left
         rw [Precoverage.mem_comap_iff, PreZeroHypercover.presieve₀_empty]
         simpa [Scheme.fppfPrecoverage] using
           (Scheme.bot_mem_precoverage
@@ -521,7 +521,7 @@ public theorem isAffineFormalAlgebraicSpace_formalSpectrum
         Precoverage.generate_mem_toGrothendieck
           (show E₀.presieve₀ ∈ B.precoverage Y.left from ⟨E₀, rfl, hE₀⟩)
       simpa [E₀, PreZeroHypercover.presieve₀_empty] using hgen
-    show Sieve.overEquiv Y ⊥ ∈ B.topology Y.left
+    change Sieve.overEquiv Y ⊥ ∈ B.topology Y.left
     simpa [Sieve.overEquiv] using hbot
   have hcUlift : IsColimit (Cofan.mk (J.uliftYoneda.{u + 1}.obj U)
       (fun i => J.uliftYoneda.{u + 1}.map (c.inj i))) :=
@@ -536,7 +536,7 @@ public theorem isAffineFormalAlgebraicSpace_formalSpectrum
           exact MonoCoprod.mono_ι X i
         have hmap : B.inclusion.map (B.inclusion.preimage ιi) = ιi :=
           B.inclusion.map_preimage ιi
-        show Mono (B.inclusion.map (B.inclusion.preimage ιi))
+        change Mono (B.inclusion.map (B.inclusion.preimage ιi))
         rw [hmap]
         exact hιi
       exact Over.mono_of_mono_left _
@@ -545,7 +545,7 @@ public theorem isAffineFormalAlgebraicSpace_formalSpectrum
       have hinitScheme : IsInitial (B.inclusion.obj Y.left) := by
         apply IsInitial.ofCoproductDisjointOfCommSq hij
           (coproductIsCoproduct X) (B.inclusion.map a.left) (B.inclusion.map b.left)
-        show B.inclusion.map a.left ≫ Sigma.ι X i =
+        change B.inclusion.map a.left ≫ Sigma.ι X i =
           B.inclusion.map b.left ≫ Sigma.ι X j
         have heq : B.inclusion.map (a.left ≫ B.inclusion.preimage
               (X := (Xsite i).left) (Y := U.left) (Sigma.ι X i)) =
@@ -651,7 +651,7 @@ private theorem continuousHom_stageMap_natural
   dsimp only [QuotientSystem.diagram, QuotientSystem.transition,
     ContinuousHom.stageMap, weakIdealComapFunctor]
   refine stage_hom_ext ?_
-  show Spec.map (CommRingCat.ofHom
+  change Spec.map (CommRingCat.ofHom
       (Ideal.Quotient.factor hLK)) ≫
       Spec.map (CommRingCat.ofHom
         (Ideal.quotientMap (OrderDual.ofDual L).1 f.toRingHom inf_le_right)) =
@@ -673,7 +673,7 @@ private theorem continuousHom_stageMap_comp_transition
     f.stageMap J K h ≫ D.transition hJ = f.stageMap J' K h' := by
   dsimp only [ContinuousHom.stageMap, QuotientSystem.transition]
   refine stage_hom_ext ?_
-  show Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1 f.toRingHom h)) ≫
+  change Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1 f.toRingHom h)) ≫
       Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor hJ)) =
     Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1 f.toRingHom h'))
   rw [← Spec.map_comp, ← CommRingCat.ofHom_comp]
@@ -699,7 +699,7 @@ private theorem stageMap_colimit_eq_of_le
     (homOfLE hJ : OrderDual.toDual J ⟶ OrderDual.toDual J')
   change H.map (D.transition hJ) ≫ formalSpectrumInclusion D (OrderDual.toDual J') =
     formalSpectrumInclusion D (OrderDual.toDual J) at hw
-  show H.map _ ≫ _ = H.map _ ≫ _
+  change H.map _ ≫ _ = H.map _ ≫ _
   refine (congrArg (fun t => H.map (f.stageMap J K h) ≫ t) hw.symm).trans ?_
   refine (Category.assoc _ _ _).symm.trans ?_
   refine (congrArg (fun t => t ≫ formalSpectrumInclusion D (OrderDual.toDual J'))
@@ -772,7 +772,7 @@ private theorem exists_formalSpectrumMap
         H.map (f.stageMap (weakIdealComapIntersection I hI f.toRingHom f.continuous K)
           K inf_le_right) ≫ formalSpectrumInclusion D
             (OrderDual.toDual (weakIdealComapIntersection I hI f.toRingHom f.continuous K)) := by
-    show colimit.ι (formalSpectrumDiagram E) (OrderDual.toDual K) ≫
+    change colimit.ι (formalSpectrumDiagram E) (OrderDual.toDual K) ≫
       colimit.desc (formalSpectrumDiagram E) c = _
     rw [colimit.ι_desc]
     rfl
@@ -846,17 +846,17 @@ public theorem formalSpectrumMap_id
   apply colimit.hom_ext
   intro Jd
   let J : { I : Ideal A // TopologicalRing.IsWeakIdealOfDefinition I } := OrderDual.ofDual Jd
-  show formalSpectrumInclusion D (OrderDual.toDual J) ≫ formalSpectrumMap hA f =
+  change formalSpectrumInclusion D (OrderDual.toDual J) ≫ formalSpectrumMap hA f =
     formalSpectrumInclusion D (OrderDual.toDual J) ≫ 𝟙 (formalSpectrum D)
   have hJJ : J.1 ≤ Ideal.comap f.toRingHom J.1 := by
     intro x hx
-    show f.toRingHom x ∈ J.1
+    change f.toRingHom x ∈ J.1
     rw [hf]
     exact hx
   have hstage : f.stageMap J J hJJ = 𝟙 (D.stage J) := by
     dsimp only [ContinuousHom.stageMap]
     refine stage_hom_ext ?_
-    show Spec.map (CommRingCat.ofHom
+    change Spec.map (CommRingCat.ofHom
       (Ideal.quotientMap J.1 f.toRingHom hJJ)) = 𝟙 _
     rw [← Spec.map_id, ← CommRingCat.ofHom_id]
     exact spec_map_ofHom_quotient_ext fun a => by simp [Ideal.quotientMap_mk, hf]
@@ -894,14 +894,14 @@ public theorem formalSpectrumMap_comp
     exists_weakIdeal_below_comap hA f.toRingHom f.continuous K
   have hJL : J.1 ≤ Ideal.comap gf.toRingHom L.1 := by
     intro x hx
-    show gf.toRingHom x ∈ L.1
+    change gf.toRingHom x ∈ L.1
     rw [hgf]
     exact hKL (hJK hx)
   have hstage :
       g.stageMap K L hKL ≫ f.stageMap J K hJK = gf.stageMap J L hJL := by
     dsimp only [ContinuousHom.stageMap]
     refine stage_hom_ext ?_
-    show Spec.map (CommRingCat.ofHom
+    change Spec.map (CommRingCat.ofHom
         (Ideal.quotientMap L.1 g.toRingHom hKL)) ≫
       Spec.map (CommRingCat.ofHom
         (Ideal.quotientMap K.1 f.toRingHom hJK)) =

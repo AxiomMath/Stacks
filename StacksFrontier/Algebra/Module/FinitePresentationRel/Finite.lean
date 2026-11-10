@@ -61,7 +61,7 @@ theorem Algebra.finite_finitePresentation_quotient_of_monic
     have hrel0 : πC (rel j) = 0 := by
       rw [hπCdef, Ideal.Quotient.mkₐ_eq_mk, Ideal.Quotient.eq_zero_iff_mem, hIdef]
       exact Ideal.subset_span ⟨j, rfl⟩
-    show Polynomial.eval₂ (πC.toRingHom.comp iAW.toRingHom) (πC.toRingHom (y j)) (P j) = 0
+    change Polynomial.eval₂ (πC.toRingHom.comp iAW.toRingHom) (πC.toRingHom (y j)) (P j) = 0
     rw [← Polynomial.hom_eval₂, ← hrel0, hreldef j, Polynomial.aeval_def, Polynomial.eval₂_map]
     rfl
   have hadjoinTop : Algebra.adjoin A' (Set.range ybar) = ⊤ := by
@@ -94,7 +94,7 @@ theorem Module.compHom_eq_of_eq_algebraMap {A A' B M : Type*} [CommRing A] [Comm
     {g : A' →+* B} (f : A' →+* A) (h : ∀ a, g a = algebraMap A B (f a)) :
     Module.compHom M g = Module.compHom M f := by
   refine Module.ext' _ _ fun a x => ?_
-  show g a • x = f a • x
+  change g a • x = f a • x
   rw [h]
   exact IsScalarTower.algebraMap_smul B (f a) x
 
@@ -132,7 +132,7 @@ private theorem Module.finitePresentation_alpha_iff_exists_lift
   let iMA' : Module A' M := Module.compHom M (δbar.toRingHom.comp iAC.toRingHom)
   have towerA'CM : IsScalarTower A' C M := by
     refine ⟨fun a' c mm => ?_⟩
-    show δbar.toRingHom ((a' • c : C)) • mm
+    change δbar.toRingHom ((a' • c : C)) • mm
       = δbar.toRingHom (iAC a') • (δbar.toRingHom c • mm)
     rw [show (a' • c : C) = algebraMap A' C a' * c from Algebra.smul_def a' c, map_mul,
       mul_smul]
@@ -171,7 +171,7 @@ theorem Module.finitePresentation_of_allFPCovers_ascend
   let iMW : Module W M := Module.compHom M δ.toRingHom
   have towerWCM : IsScalarTower W (W ⧸ I) M := by
     refine ⟨fun w c mm => ?_⟩
-    show δbar.toRingHom ((w • c : W ⧸ I)) • mm = δ.toRingHom w • (δbar.toRingHom c • mm)
+    change δbar.toRingHom ((w • c : W ⧸ I)) • mm = δ.toRingHom w • (δbar.toRingHom c • mm)
     rw [show (w • c : W ⧸ I) = Ideal.Quotient.mk I w * c from rfl, map_mul, mul_smul]
     exact congrArg (· • _) (hδbar w)
   exact (fp_iff_of_finite_fp_algebra W (W ⧸ I) M (inferInstanceAs (Module.Finite W (W ⧸ I)))

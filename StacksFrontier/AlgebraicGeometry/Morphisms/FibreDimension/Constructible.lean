@@ -83,7 +83,7 @@ private theorem exists_noetherianSpace_model {X : Scheme.{u}} (R : CommRingCat.{
   have : Algebra.FiniteType ℤ (Algebra.adjoin ℤ (i.unop : Set R)) :=
     (Subalgebra.fg_iff_finiteType _).mp (Subalgebra.fg_adjoin_finset _)
   have := Algebra.FiniteType.isNoetherianRing ℤ (Algebra.adjoin ℤ (i.unop : Set R))
-  show NoetherianSpace (Spec (CommRingCat.of (Algebra.adjoin ℤ (i.unop : Set R))))
+  change NoetherianSpace (Spec (CommRingCat.of (Algebra.adjoin ℤ (i.unop : Set R))))
   infer_instance
 
 /-- A generic point of a subset is a generic point of the whole of the corresponding subspace. -/
@@ -149,7 +149,7 @@ private theorem exists_opens_fiberDimension_eq_of_isIrreducible_of_eq_natCast {X
   let e : I.subscheme ≃ₜ Z :=
     I.subschemeι.isEmbedding.toHomeomorph.trans (Homeomorph.setCongr hrange)
   have hval : ∀ x : I.subscheme, (e x).1 = I.subschemeι x := fun x ↦ by
-    show (I.subschemeι.isEmbedding.toHomeomorph x).1 = I.subschemeι x
+    change (I.subschemeι.isEmbedding.toHomeomorph x).1 = I.subschemeι x
     simp
   have : IrreducibleSpace I.subscheme := e.irreducibleSpace_iff.2 (Subtype.irreducibleSpace hZ)
   let ηI : I.subscheme := e.symm ⟨η, hη.mem⟩
@@ -247,7 +247,7 @@ private theorem isLocallyConstructible_fiberDimension_eq_of_isAffine {X Y : Sche
       {y : Y | f.fiberDimension y = n} := by
     rw [fiberDimension_comp_iso f Y.isoSpec]
     ext y
-    show f.fiberDimension (Y.isoSpec.inv (Y.isoSpec.hom y)) = n ↔ f.fiberDimension y = n
+    change f.fiberDimension (Y.isoSpec.inv (Y.isoSpec.hom y)) = n ↔ f.fiberDimension y = n
     rw [hinv y]
   rwa [hset] at h
 

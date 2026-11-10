@@ -17,7 +17,8 @@ to `θ` by Equation [Stacks Project, Tag 04BV], `D = d_{Y/S} ∘ θ`.
 **This file proves that for arbitrary `X'`, `Y'` and `S`** — no scheme is assumed affine anywhere
 — with `D` the *difference derivation* of the unrestricted [Stacks Project, Tag 04FG],
 `Stacks.Thickenings.differenceDerivation` of
-`StacksFrontier/AlgebraicGeometry/MoreMorphisms/MapDifferenceDerivationSheaf.lean`. So the derivation
+`StacksFrontier/AlgebraicGeometry/MoreMorphisms/MapDifferenceDerivationSheaf.lean`. So the
+derivation
 the statement speaks about is the one canonically attached to the pair of lifts, not one read off
 the construction of `θ ⬝ a'`. The affine case over global sections is
 `Stacks.Thickenings.derivationAction_mapDifferenceDerivation` in
@@ -264,6 +265,7 @@ theorem derivationActionSheaf_comp_self :
 
 /-! ### The difference derivation of the pair `(a', θ ⬝ a')` -/
 
+omit [IsImmersion j] in
 /-- **The difference derivation of [Stacks Project, Tag 04FL] for the pair `(θ ⬝ a', a')` is
 `θ ∘ d_{Y/S}`**, on a section pulled back from `𝒪_{Y'}`.
 
@@ -301,13 +303,14 @@ theorem liftDifferenceDerivation_d_derivationActionSheaf (V : Y'.Opens) (s : Γ(
     (derivationActionSheaf_comp_self hi q ca θ).symm
     (derivationActionSheaf_comm hi q ca θ) ca V s).trans ?_
   refine Eq.trans ?_ (map_conormalSectionι hi ca V hLa hLi _)
-  show (((derivationActionSheaf hi q ca θ).appLE V
+  change (((derivationActionSheaf hi q ca θ).appLE V
         (liftPairOpen (derivationActionSheaf hi q ca θ) a' V) hLb).hom s -
       (a'.appLE V (liftPairOpen (derivationActionSheaf hi q ca θ) a' V) hLa).hom s) = _
   rw [appLE_hom_apply _ hLb, appLE_hom_apply _ hLa,
     ← derivationSectionι_eq, hd, map_sub]
   rfl
 
+omit [IsImmersion j] in
 /-- **The difference map of the pair `(θ ⬝ a', a')` is `d_{Y/S}` followed by `θ`.** Both are
 morphisms `j^*Ω_{Y'/S} ⟶ a_*𝒞_{X/X'}`; they agree on the unit image of every universal
 differential `d_{Y'/S} s`, which determines them
@@ -429,7 +432,8 @@ theorem differenceDerivation_derivationActionSheaf :
           (Scheme.Hom.relativeDifferentials (j ≫ q)) (Stacks.Conormal.conormalSheaf i)
           θ).val.app (op (j ⁻¹ᵁ V))).hom
         ((Scheme.Hom.universalRelativeDerivation (j ≫ q)).d ((j.app V).hom s)) :=
-    PresheafOfModulesOfCommRing.Derivation.congr_d (derivationActionDifferenceDerivation_eq hi q ca θ)
+    PresheafOfModulesOfCommRing.Derivation.congr_d
+      (derivationActionDifferenceDerivation_eq hi q ca θ)
       ((j.app V).hom s)
   refine (derivationActionSheaf_app hi q ca θ V s).trans ?_
   exact congrArg (fun z : Γ(X', a' ⁻¹ᵁ V) ↦ (a'.app V).hom s + z)

@@ -113,8 +113,7 @@ theorem lTensor_baseChange_eq_zero_iff (u : M →ₗ[R] N) (A T : Type*) [CommRi
   refine ⟨fun h m => ?_, fun h x => ?_⟩
   · simpa [hcancel] using congrArg
       (TensorProduct.AlgebraTensorModule.cancelBaseChange R A T T N) (h ((1 : A) ⊗ₜ[R] m))
-  · induction x using TensorProduct.induction_on with
-    | zero => rw [map_zero, TensorProduct.tmul_zero]
+  · induction x using TensorProduct.inductionOn with
     | tmul a m =>
       rw [LinearMap.baseChange_tmul]
       refine (TensorProduct.AlgebraTensorModule.cancelBaseChange R A T T N).injective ?_
@@ -127,7 +126,7 @@ as a left tensor product — have the same vanishing condition, being the same f
 theorem baseChange_eq_zero_iff_lTensor (u : M →ₗ[R] N) (T : Type*) [CommRing T]
     [Algebra R T] :
     LinearMap.baseChange T u = 0 ↔ LinearMap.lTensor T u = 0 := by
-  simp only [← DFunLike.coe_fn_eq, LinearMap.baseChange_eq_ltensor, funext_iff,
+  simp only [← DFunLike.coe_fn_eq, LinearMap.baseChange_eq_lTensor, funext_iff,
     LinearMap.zero_apply]
 
 end Stacks.Flattening

@@ -245,8 +245,7 @@ theorem exists_injective_shortExact_presentation (F : EtaleSheafSystem DX Ab.{u 
       (fun i => ((smallEtalePullbackAb (cX.π.app i)).map_comp _ _).symm.trans
         ((congrArg _ (hαβ i)).trans (Functor.map_zero _ _ _)))
       (fun i => Functor.map_epi _ _) (pullbackDiagramMap_comp_map β hβ) ιQ
-      hpres.isSystemColimit hG.isSystemColimit
-      (pullbackDiagramMap_comp_ι hι) u v (fun i => (hu i).symm)
+      hpres.isSystemColimit hG.isSystemColimit u v (fun i => (hu i).symm)
       (fun i => (hv i).symm) (cokernelIsCokernel u)
   exact ⟨G, inferInstance, Q, α, β, hαβ, 𝓖, 𝓠, ιG, ιQ, u, v, huv, hE, hα, hβ, hιG, hG, hιQ, hQ,
     hlim, hu, hv⟩
@@ -275,8 +274,7 @@ theorem isHigherDirectImageColimit_succ_of_forall (p : ℕ)
   obtain ⟨G, _, Q, α, β, hαβ, 𝓖, 𝓠, ιG, ιQ, u, v, huv, hE, hα, hβ, hιG, hG, hιQ, hQ, hlim, hu,
     hv⟩ := exists_injective_shortExact_presentation cX F 𝓕 ι hι hpres
   exact isHigherDirectImageColimit_succ γ p cX cS hcS (α := α) (β := β) hαβ hE ι ιG ιQ u v huv
-    hlim hu hv hα hβ (fun a => by rw [← hιG a, Iso.hom_inv_id_app_assoc])
-    (hvan G 𝓖 ιG hιG hG) (ih G 𝓖 ιG hιG hG) (ih Q 𝓠 ιQ hιQ hQ)
+    hlim hu hv hα hβ (hvan G 𝓖 ιG hιG hG) (ih G 𝓖 ιG hιG hG) (ih Q 𝓠 ιQ hιQ hQ)
 
 /-- **The induction on the degree of the first proof of [Stacks, Tag 0EYM].** If the colimit
 assertion holds in degree zero for every system with a colimit presentation, and the higher

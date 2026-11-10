@@ -139,7 +139,7 @@ private lemma finrank_fiber_le_iff_exists_span_atPrime
     rw [← hfin]
     apply (finrank_le_iff_exists_fin_span k).2
     refine ⟨fun i ↦ 1 ⊗ₜ[A] g i, ?_⟩
-    show Submodule.span K (Set.range (TensorProduct.mk A K L 1 ∘ g)) = ⊤
+    change Submodule.span K (Set.range (TensorProduct.mk A K L 1 ∘ g)) = ⊤
     have hm := (IsLocalRing.map_tensorProduct_mk_eq_top (R := A)
       (N := Submodule.span A (Set.range g))).2 hg
     rw [Submodule.map_span, ← Set.range_comp] at hm
@@ -376,14 +376,14 @@ theorem finiteLocallyFreeOfRank_fittingIdeal_tfae
         (f := fun x => Algebra.linearMap R (Localization.Away x.1))
       rintro ⟨_, i, rfl⟩
       rw [localized'_ideal_eq_map]
-      rw [map_fittingIdeal_eq_bot_or_top_of_basis r _ (f i) (hfree i).some, if_pos (by omega)]
+      rw [map_fittingIdeal_eq_bot_or_top_of_basis r _ (f i) (hfree i).some, ite_eq_left (by omega)]
     · apply Submodule.eq_top_of_isLocalized'_span (s := Set.range f) hf
         (Rₚ := fun x => Localization.Away x.1)
         (Mₚ := fun x => Localization.Away x.1)
         (f := fun x => Algebra.linearMap R (Localization.Away x.1))
       rintro ⟨_, i, rfl⟩
       rw [localized'_ideal_eq_map]
-      rw [map_fittingIdeal_eq_bot_or_top_of_basis r _ (f i) (hfree i).some, if_neg (by omega)]
+      rw [map_fittingIdeal_eq_bot_or_top_of_basis r _ (f i) (hfree i).some, ite_eq_right (by omega)]
   tfae_have 2 → 1 := by
     rintro ⟨hprev, hr⟩
     classical
@@ -515,7 +515,7 @@ private theorem quotient_mk_eq_zero_of_smul_eq_zero
     (f : R) (y : M) (hy : f • y = 0) :
     (Submodule.Quotient.mk y : M ⧸ LinearMap.ker (LinearMap.lsmul R M f)) = 0 := by
   rw [Submodule.Quotient.mk_eq_zero]
-  show (LinearMap.lsmul R M f) y = 0
+  change (LinearMap.lsmul R M f) y = 0
   simpa using hy
 
 private theorem quotient_smul_eq_of_mul_eq
@@ -571,7 +571,7 @@ private theorem selected_rows_mem_span
       ∑ i, d i • z i = (Submodule.Quotient.mk (∑ i, d i • y i) :
         M ⧸ LinearMap.ker (LinearMap.lsmul R M f)) := by
           let q := Submodule.mkQ (LinearMap.ker (LinearMap.lsmul R M f))
-          show (∑ i, d i • q (y i)) = q (∑ i, d i • y i)
+          change (∑ i, d i • q (y i)) = q (∑ i, d i • y i)
           rw [map_sum]
           simp only [map_smul]
       _ = 0 := quotient_mk_eq_zero_of_smul_eq_zero f _ hfy
@@ -749,7 +749,7 @@ lemma ker_lsmul_le_localized_primaryComponent {R M : Type*} [CommRing R]
       (r : R) • (t : R) • m = (f * c) • (t : R) • m := by rw [hc]
       _ = c • (((t : R) * f) • m) := by simp only [smul_smul]; congr 1; ring
       _ = 0 := by rw [ht, smul_zero]
-  · show IsLocalizedModule.mk' (LocalizedModule.mkLinearMap p.primeCompl M)
+  · change IsLocalizedModule.mk' (LocalizedModule.mkLinearMap p.primeCompl M)
       ((t : R) • m) (t * s) =
         IsLocalizedModule.mk' (LocalizedModule.mkLinearMap p.primeCompl M) m s
     exact IsLocalizedModule.mk'_cancel_left

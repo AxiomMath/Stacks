@@ -66,7 +66,7 @@ theorem wedgeMap_smul_form (i : ℕ) (c : D) (ω : Om i) (z : CompletedTensor p 
       (wedgeMap p D Om wedge M i ω).toAddMonoidHom
   suffices h : F = G from DFunLike.congr_fun h z
   refine completedTensor_addMonoidHom_ext p fun m η => ?_
-  show wedgeMap p D Om wedge M i (c • ω) (toCompletedTensor p D (Om 1) M (m ⊗ₜ η)) =
+  change wedgeMap p D Om wedge M i (c • ω) (toCompletedTensor p D (Om 1) M (m ⊗ₜ η)) =
     c • wedgeMap p D Om wedge M i ω (toCompletedTensor p D (Om 1) M (m ⊗ₜ η))
   rw [wedgeMap_of_tmul, wedgeMap_of_tmul, LinearMap.map_smul₂, TensorProduct.tmul_smul, map_smul]
 
@@ -86,7 +86,7 @@ theorem differential_smul (i : ℕ) (c : D) (y : CompletedTensor p D (Om i) M) :
       completedLTensor p D M ((wedge i).flip (dmap c))
   suffices h : F = G from DFunLike.congr_fun h y
   refine completedTensor_addMonoidHom_ext p fun m ω => ?_
-  show differential p D Om wedge deRham M nabla hleib i
+  change differential p D Om wedge deRham M nabla hleib i
       (c • toCompletedTensor p D (Om i) M (m ⊗ₜ ω)) =
     c • differential p D Om wedge deRham M nabla hleib i
         (toCompletedTensor p D (Om i) M (m ⊗ₜ ω)) +
@@ -103,7 +103,7 @@ theorem completedLTensor_add_eq_zero {X Y : Type*} [AddCommGroup X] [Module D X]
     completedLTensor p D M f y + completedLTensor p D M g y = 0 := by
   have h : completedLTensor p D M f + completedLTensor p D M g = 0 := by
     refine completedTensor_addMonoidHom_ext p fun m x => ?_
-    show completedLTensor p D M f (toCompletedTensor p D X M (m ⊗ₜ x)) +
+    change completedLTensor p D M f (toCompletedTensor p D X M (m ⊗ₜ x)) +
         completedLTensor p D M g (toCompletedTensor p D X M (m ⊗ₜ x)) = 0
     rw [completedLTensor_toCompletedTensor_tmul, completedLTensor_toCompletedTensor_tmul,
       ← map_add, ← TensorProduct.tmul_add, hfg, TensorProduct.tmul_zero, map_zero]
@@ -120,7 +120,7 @@ theorem differential_connection_smul (hanti : ∀ η ζ : Om 1, wedge 1 η ζ + 
     TensorProduct.tmul_zero, map_zero, add_zero, add_assoc]
   have h := completedLTensor_add_eq_zero p D M ((wedge 1).flip (dmap c)) (wedge 1 (dmap c))
     (fun η => (add_comm _ _).trans (hanti (dmap c) η)) (nabla m)
-  show c • differential p D Om wedge deRham M nabla hleib 1 (nabla m) +
+  change c • differential p D Om wedge deRham M nabla hleib 1 (nabla m) +
       (completedLTensor p D M ((wedge 1).flip (dmap c)) (nabla m) +
         completedLTensor p D M (wedge 1 (dmap c)) (nabla m)) = _
   rw [h, add_zero]
@@ -230,14 +230,14 @@ theorem hasIntegrableConnection_baseChangeConnection
         (V.baseChangeConnection nabla beta b (beta b y)))
       (fun y z => by simp only [map_add, CompletedConnection.map_add])
   refine eq_zero_of_baseChangeInclusion p (RingHom.id _) Kc (fun c z => ?_) (fun m => ?_) y
-  · show CompletedDeRham.differential p (E.completedRing p b)
+  · change CompletedDeRham.differential p (E.completedRing p b)
         (fun a => E.forms p a b) (E.wedge p b) (E.deRham p b) (V.carrier b)
         (V.baseChangeConnection nabla beta b) (E.isGradedLeibniz p b) 1
         (V.baseChangeConnection nabla beta b (beta b (c • z))) = c • Kc z
     rw [map_smul]
     exact CompletedDeRham.differential_connection_smul p _ _ _ _ _ _ _
       (wedge_one_anticomm b) (E.deRham_differential p b) c _
-  · show CompletedDeRham.differential p (E.completedRing p b)
+  · change CompletedDeRham.differential p (E.completedRing p b)
         (fun a => E.forms p a b) (E.wedge p b) (E.deRham p b) (V.carrier b)
         (V.baseChangeConnection nabla beta b) (E.isGradedLeibniz p b) 1
         (V.baseChangeConnection nabla beta b

@@ -131,7 +131,7 @@ public theorem componentDegree_tensorSheaf_eq_add (k : Type u) [Field k] {X : Sc
     (reducedComponentι X ξ ≫ f) hiscurve hproper hdimC
     ((Scheme.Modules.pullback (reducedComponentι X ξ)).obj E)
     ((Scheme.Modules.pullback (reducedComponentι X ξ)).obj V) n m hE' hV'
-  show @curveDegree k _ (reducedComponent X ξ) (reducedComponentι X ξ ≫ f) hproper hdimC
+  change @curveDegree k _ (reducedComponent X ξ) (reducedComponentι X ξ ≫ f) hproper hdimC
       ((Scheme.Modules.pullback (reducedComponentι X ξ)).obj
         (((Stacks.SheafOfModules.Tensor.sheafTensor
           ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).obj E).obj V))

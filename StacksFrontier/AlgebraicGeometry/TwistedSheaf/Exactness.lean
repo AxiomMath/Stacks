@@ -89,8 +89,8 @@ while `AlgebraicGeometry.eulerCharacteristic_eq_of_iso` takes the two coherence 
 independently and needs only an isomorphism.
 
 **What Tag 0BEM needs beyond this file.** Exactly two things, and no Euler-characteristic
-bookkeeping. Of the two, only the first remains a hypothesis in this development: the second is supplied
-by `AlgebraicGeometry.isTwistDifferenceStep_hasNoEmbeddedAssociatedPoints`
+bookkeeping. Of the two, only the first remains a hypothesis in this development: the second is
+supplied by `AlgebraicGeometry.isTwistDifferenceStep_hasNoEmbeddedAssociatedPoints`
 (`StacksFrontier/AlgebraicGeometry/TwistedSheaf/StepAssembly.lean`), at the level of the weaker
 hypothesis of `AlgebraicGeometry.exists_eulerPolynomial_twistedSheaf_of_hstep`, so that
 `AlgebraicGeometry.exists_eulerPolynomial_twistedSheaf_of_finiteDimensional_cohomology` there is
@@ -105,11 +105,13 @@ Tag 0BEM's full conclusion from `hfin` alone.
   nowhere dense cokernel supports), together with the reductions of Tags 02OL and 02OM to a
   sheaf without embedded associated points and of full support. Of these, 02OL is proved in
   four clauses (`CoherentSubquotients/NowhereDense.lean`), 02OZ in its three cases
-  (`StacksFrontier/AlgebraicGeometry/Meromorphic/RegularSectionExistence.lean`), 02OM in four clauses
+  (`StacksFrontier/AlgebraicGeometry/Meromorphic/RegularSectionExistence.lean`), 02OM in four
+  clauses
   (`StacksFrontier/AlgebraicGeometry/SchemeTheoreticSupport/Basic.lean`), and 02P2 in full for a
   general `ℱ` (`StacksFrontier/AlgebraicGeometry/Meromorphic/IdealTimesModule.lean`). From those,
   `AlgebraicGeometry.exists_differenceSequences_of_supp_eq_univ`
-  (`StacksFrontier/AlgebraicGeometry/TwistedSheaf/DifferenceSequences.lean`) supplies `hseq` **for a coherent sheaf of full
+  (`StacksFrontier/AlgebraicGeometry/TwistedSheaf/DifferenceSequences.lean`) supplies `hseq` **for a
+  coherent sheaf of full
   support without embedded associated points**; what remains is the reduction of an
   arbitrary coherent sheaf to that case, which is the source's own second and third paragraphs
   (02OL, then 089W and 02OM to replace the scheme by the support and carry the Euler
@@ -117,10 +119,12 @@ Tag 0BEM's full conclusion from `hfin` alone.
   the level of the weaker hypothesis of
   `AlgebraicGeometry.exists_eulerPolynomial_twistedSheaf_of_hstep` rather than of `hseq`:
   `AlgebraicGeometry.isTwistDifferenceStep_of_hasNoEmbeddedAssociatedPoints`
-  (`StacksFrontier/AlgebraicGeometry/TwistedSheaf/EmbeddedPointStep.lean`) removes the embedded associated points, which cannot
+  (`StacksFrontier/AlgebraicGeometry/TwistedSheaf/EmbeddedPointStep.lean`) removes the embedded
+  associated points, which cannot
   be done at `hseq` because Tag 02OL destroys the common first term, and
   `AlgebraicGeometry.isTwistDifferenceStep_hasNoEmbeddedAssociatedPoints`
-  (`StacksFrontier/AlgebraicGeometry/TwistedSheaf/StepAssembly.lean`) performs the scheme change and the transport back.
+  (`StacksFrontier/AlgebraicGeometry/TwistedSheaf/StepAssembly.lean`) performs the scheme change and
+  the transport back.
 
 **No attribute for Tag 0BEM is attached.** The tag's statement is unconditional, and
 everything here is conditional on `hfin` and `hseq`.

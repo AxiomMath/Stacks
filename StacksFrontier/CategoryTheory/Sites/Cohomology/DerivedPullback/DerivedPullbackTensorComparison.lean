@@ -431,7 +431,21 @@ omit [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
       (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O) (ComplexShape.up ℤ)] in
 /-- The computation of `Lf^*` on K-flat complexes with flat terms, paired over two factors, is
 natural in the pair of complexes. -/
-lemma flatPullbackIso_prod_naturality :
+lemma flatPullbackIso_prod_naturality {K K' L L' : CochainComplex
+    (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ}
+    (a : K ⟶ K') (b : L ⟶ L')
+    (hK : CochainComplex.KFlatBifunctor.KFlat
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O) K)
+    (hK' : CochainComplex.KFlatBifunctor.KFlat
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O) K')
+    (hL : CochainComplex.KFlatBifunctor.KFlat
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O) L)
+    (hL' : CochainComplex.KFlatBifunctor.KFlat
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O) L')
+    (hflatK : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (K.X i))
+    (hflatK' : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (K'.X i))
+    (hflatL : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (L.X i))
+    (hflatL' : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (L'.X i)) :
     ((derivedPullback f).prod (derivedPullback f)).map
         ((DerivedCategory.Q.map a, DerivedCategory.Q.map b) :
           ((DerivedCategory.Q.obj K, DerivedCategory.Q.obj L) : _ × _) ⟶

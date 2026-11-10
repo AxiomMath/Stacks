@@ -326,7 +326,7 @@ theorem forget_map_eqToHom_abelianTransition {m n : SimplexCategory} (k k' : m �
       eqToHom (congrArg (fun j => (S.transitionMorphism j).inverseImage.obj
         ((sheafCompose (S.componentTopology m) (forget Ab.{u})).obj X)) hk) := by
   subst hk
-  show (sheafCompose (S.componentTopology n) (forget Ab.{u})).map (𝟙 _) = 𝟙 _
+  change (sheafCompose (S.componentTopology n) (forget Ab.{u})).map (𝟙 _) = 𝟙 _
   exact (sheafCompose (S.componentTopology n) (forget Ab.{u})).map_id _
 
 /-- The right unit law for the abelian inverse-image compositors of Stacks 0D9G, read on an
@@ -358,7 +358,7 @@ theorem eqToHom_derivedInverseImage_app_Q {m n : SimplexCategory} (k k' : m ⟶ 
           (eqToHom (congrArg (fun j => abelianTransition S j) hk))
           (ComplexShape.up ℤ)).app X) := by
   subst hk
-  show 𝟙 ((DerivedCategory.Q ⋙
+  change 𝟙 ((DerivedCategory.Q ⋙
           (abelianTransition S k).mapDerivedCategory).obj X) ≫
         (abelianTransition S k).mapDerivedCategoryFactors.hom.app X =
       (abelianTransition S k).mapDerivedCategoryFactors.hom.app X ≫

@@ -166,7 +166,7 @@ theorem HasCountableCohomology.of_shortExact
   have hLES := longExactCohomology A S hS n (n + 1) (by simp)
   have hexact : ((S.map (forgetToCochainComplex A)).map
       (HomologicalComplex.homologyFunctor (ModuleCat.{u} R) (ComplexShape.up ℤ) n)).Exact := by
-    show ((HomologicalComplex.HomologySequence.composableArrows₅ hSE n (n + 1) (by simp)).sc
+    change ((HomologicalComplex.HomologySequence.composableArrows₅ hSE n (n + 1) (by simp)).sc
       hLES.toIsComplex 0 (by omega)).Exact
     exact hLES.exact 0
   exact (countable_homology_iff_gradedCohomology A S.X₂ n).1

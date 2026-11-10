@@ -281,13 +281,13 @@ private theorem exists_pullHom_eq_sectionRestrict
     (baseChangeMap B hX hS f g) (baseChangeProj B hX hS f U)
     (baseChangeSection B hX hS f σ hσ U) hsec (hOiso U) M' M' hM' hM' (Iso.refl _) _ _ rfl rfl
   refine ⟨⟨a, b, hLL.injective ?_, hMM.injective ?_⟩, ha'⟩
-  · show pullHom (a ≫ b) _ _ _ rfl rfl = pullHom (𝟙 _) _ _ _ rfl rfl
+  · change pullHom (a ≫ b) _ _ _ rfl rfl = pullHom (𝟙 _) _ _ _ rfl rfl
     rw [Stacks.Picard.pullHom_comp' a b (baseChangeSection B hX hS f σ hσ U) _ _ _ rfl rfl rfl,
       ha', hb', sectionRestrict_hom_comp_inv]
     exact (Stacks.Picard.pullHom_id' (F := modulePullbackPseudofunctor) L'
       (baseChangeMap B hX hS f g)
       (baseChangeSection B hX hS f σ hσ U) _ rfl).symm
-  · show pullHom (b ≫ a) _ _ _ rfl rfl = pullHom (𝟙 _) _ _ _ rfl rfl
+  · change pullHom (b ≫ a) _ _ _ rfl rfl = pullHom (𝟙 _) _ _ _ rfl rfl
     rw [Stacks.Picard.pullHom_comp' b a (baseChangeSection B hX hS f σ hσ U) _ _ _ rfl rfl rfl,
       ha', hb', sectionRestrict_inv_comp_hom]
     exact (Stacks.Picard.pullHom_id' (F := modulePullbackPseudofunctor) M'

@@ -104,7 +104,7 @@ which the sheaves of modules are indexed over it. -/
 theorem isIso_ringFsharpInverseImage_of_isEtale :
     IsIso (smallEtaleRingedToposHom B S hS f).ringFsharpInverseImage := by
   have := isIso_fSharpInverseImage_of_isEtale B S hS f hf
-  show IsIso ((sheafCompose (SmallEtale.topology B S hS X.1)
+  change IsIso ((sheafCompose (SmallEtale.topology B S hS X.1)
     (forget₂ CommRingCat.{u} RingCat.{u})).map
       (smallEtaleRingedToposHom B S hS f).fSharpInverseImage)
   infer_instance

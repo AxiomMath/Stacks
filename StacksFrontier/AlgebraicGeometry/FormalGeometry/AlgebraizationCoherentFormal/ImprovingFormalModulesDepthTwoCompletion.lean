@@ -177,7 +177,7 @@ public def toCompletedLevel (k : ℕ) :
 theorem toCompletedLevel_eq_zero_iff (k : ℕ) (x : formalSectionsOver G U) :
     toCompletedLevel hU G k x = 0 ↔
       x ∈ I.ideal ⟨U, hU⟩ ^ k • (⊤ : Submodule Γ(X, U) (formalSectionsOver G U)) := by
-  show Submodule.Quotient.mk (p := completedLevelSubmodule hU G k)
+  change Submodule.Quotient.mk (p := completedLevelSubmodule hU G k)
     (formalSectionsEquivCompleted hU G x) = 0 ↔ _
   rw [Submodule.Quotient.mk_eq_zero,
     Stacks.LocalCohomology.mem_pow_smul_top_iff_mem_map_pow_smul_top]
@@ -279,11 +279,10 @@ theorem pow_smul_top_completedTower_eq_bot (G : Stacks.Coherent.CoherentAdicSyst
   refine eq_bot_iff.2 (Submodule.smul_le.2 fun a ha q _ => ?_)
   obtain ⟨y, rfl⟩ := Submodule.mkQ_surjective (completedLevelSubmodule hU G (n.unop + 1)) q
   rw [Submodule.mem_bot]
-  show a • Submodule.Quotient.mk (p := completedLevelSubmodule hU G (n.unop + 1)) y = 0
+  change a • Submodule.Quotient.mk (p := completedLevelSubmodule hU G (n.unop + 1)) y = 0
   rw [← Submodule.Quotient.mk_smul, Submodule.Quotient.mk_eq_zero]
   exact Submodule.smul_mem_smul ha Submodule.mem_top
 
-include hTT' in
 /-- **The transfer of essential constancy from the completion.** If the system
 `{H¹_{T'_A}(M_A/(I₀A)ⁿM_A)}` over the completion `A` of `Γ(X, U)` is essentially constant, then so
 is the system `{H¹_{T'}(Γ(U, ℱ'ₙ))}` over `Γ(X, U)`. -/

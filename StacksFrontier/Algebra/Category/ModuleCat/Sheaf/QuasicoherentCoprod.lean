@@ -137,9 +137,9 @@ noncomputable def isCokernelSigmaMap {hfg : ∀ b, f b ≫ g b = 0}
   refine Cofork.IsColimit.mk _
     (fun s => Sigma.desc fun b => (h b).desc (CokernelCofork.ofπ _ (hc s b)))
     (fun s => Sigma.hom_ext _ _ fun b => ?_) (fun s m hm => Sigma.hom_ext _ _ fun b => ?_)
-  · rw [Cofork.π_ofπ, Sigma.ι_map_assoc, Sigma.ι_desc, key s b]
+  · rw [Cofork.π_ofπ, Sigma.ι_map_assoc, Sigma.ι_comp_desc, key s b]
   · have hm' : Sigma.map g ≫ m = Cofork.π s := by rw [← hm, Cofork.π_ofπ]
-    rw [Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc]
     refine Cofork.IsColimit.hom_ext (h b) ?_
     rw [Cofork.π_ofπ, key s b, ← hm', Sigma.ι_map_assoc]
 

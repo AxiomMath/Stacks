@@ -128,7 +128,7 @@ theorem mapHomotopyCategoryCompIso_whiskerLeft_hom_app (G : V ⥤ V') {I : V' �
       (mapHomotopyCategoryIso e c ≪≫ mapHomotopyCategoryIdIso V' c).hom.app
         ((G.mapHomotopyCategory c).obj M) := by
   obtain ⟨M, rfl⟩ := HomotopyCategory.quotient_obj_surjective M
-  show (HomotopyCategory.quotient V' c).map
+  change (HomotopyCategory.quotient V' c).map
       ((Functor.mapHomologicalComplexCompIso (Functor.isoWhiskerLeft G e ≪≫ Functor.rightUnitor G)
         c).hom.app M) =
     (HomotopyCategory.quotient V' c).map
@@ -147,7 +147,7 @@ theorem mapHomotopyCategoryCompIso_whiskerRight_hom_app (G : V ⥤ V') {I : V �
       (G.mapHomotopyCategory c).map
         ((mapHomotopyCategoryIso e c ≪≫ mapHomotopyCategoryIdIso V c).hom.app M) := by
   obtain ⟨M, rfl⟩ := HomotopyCategory.quotient_obj_surjective M
-  show (HomotopyCategory.quotient V' c).map
+  change (HomotopyCategory.quotient V' c).map
       ((Functor.mapHomologicalComplexCompIso (Functor.isoWhiskerRight e G ≪≫ Functor.leftUnitor G)
         c).hom.app M) =
     (G.mapHomotopyCategory c).map

@@ -54,7 +54,7 @@ which is surjective on affine sections and an isomorphism in every large degree 
 isomorphism. -/
 theorem isIso_projBundleSurjectionMap (hψ : SurjectiveOnAffineSections ψ)
     (hiso : ∀ᶠ d : ℕ in Filter.atTop, IsIso (ψ.app (d : ℤ))) : IsIso (map hψ) := by
-  show MorphismProperty.isomorphisms Scheme (map hψ)
+  change MorphismProperty.isomorphisms Scheme (map hψ)
   refine IsZariskiLocalAtTarget.of_iSup_eq_top
     (fun U : AffineOpen S => ((relativeProj A).chart U.1 U.2).opensRange)
     (iSup_opensRange_chart_eq_top (relativeProj A)) fun U => ?_
@@ -87,7 +87,7 @@ algebras. -/
 theorem isIso_schemeSymAlgebraHom_app [E₁.IsQuasicoherent] [E₂.IsQuasicoherent] (g : E₁ ⟶ E₂)
     [IsIso g] (n : ℤ) :
     IsIso ((Stacks.SymGraded.schemeSymAlgebraHom g).app n) := by
-  show IsIso ((symUnitalHom g).app n)
+  change IsIso ((symUnitalHom g).app n)
   rw [symUnitalHom_eq_symmetricAlgebraUnitalHom]
   exact Stacks.SymGraded.isIso_symSheafGradedAlgebraHom_app (E₁ := E₁) (E₂ := E₂)
     (Stacks.SymGraded.isQuasicoherentPieces_of_isQuasicoherent E₁)

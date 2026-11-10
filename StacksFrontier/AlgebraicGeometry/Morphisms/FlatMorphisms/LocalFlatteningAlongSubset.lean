@@ -263,7 +263,7 @@ theorem exists_finitePresentation_idealSheafData_flatAlongAfter_iff (A : Type u)
     let p : Spec Γ(T, ⊤) := IsLocalRing.closedPoint Γ(T, ⊤)
     let t : T := T.isoSpec.inv p
     refine ⟨t, ?_, ?_⟩
-    · show (T.isoSpec.inv ≫ i) p = _
+    · change (T.isoSpec.inv ≫ i) p = _
       rw [← Scheme.isoSpec_inv_naturality, Scheme.isoSpec_Spec_inv, ← Spec.map_comp]
       exact AlgebraicGeometry.Spec_closedPoint (f := φ)
     · have hnat := Scheme.SpecMap_stalkMap_fromSpecStalk T.isoSpec.inv (x := p)

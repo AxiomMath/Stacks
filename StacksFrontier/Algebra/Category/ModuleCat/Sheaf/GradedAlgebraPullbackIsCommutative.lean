@@ -34,11 +34,10 @@ places.
   `Stacks.Sheaves.GradedAlgebraInverseImage.heq_sheafHom_of_sections` reduces to sections over
   the target site and `heq_map_of_heq_hom` carries along the functor.
 * **Sectionwise tensor product.** The sections are a tensor product, so this is two applications
-  of `TensorProduct.induction_on` reduced to pure tensors, where the formula
+  of `TensorProduct.inductionOn` reduced to pure tensors, where the formula
   `(a ⊗ x)(c ⊗ y) = ac ⊗ xy` is symmetric because the ring of sections is commutative. The
-  heterogeneous equality is transported through a zero, a sum and a pure tensor by
-  `Stacks.Sheaves.GradedAlgebraExtendScalars.heq_cof_zero`, `heq_cof_add` and `heq_cof_tmul`,
-  exactly as in `cofApp_assoc`.
+  heterogeneous equality is transported through a sum and a pure tensor by
+  `Stacks.Sheaves.GradedAlgebraExtendScalars.heq_cof_add` and `heq_cof_tmul`.
 * **Sheafification.** `Stacks.GradedAlgebra.heq_sheafify_mul_comm` already transfers
   commutativity in every pair of degrees along the sheafification units. Nothing new is needed.
 
@@ -102,29 +101,21 @@ variable {C : Type u} [Category.{v} C] {O₁ O₂ : Cᵒᵖ ⥤ CommRingCat.{w}}
 /-- **Base change of a commutative multiplication is commutative, in every pair of degrees.**
 On pure tensors the base change is `(a ⊗ m, c ⊗ n) ↦ ac ⊗ (m · n)`, which is symmetric because
 the ring of sections is commutative; the general case is two inductions on the tensor product,
-with the equality of degrees `i + j = j + i` carried through the zero, the sum and the pure
-tensor by `heq_cof_zero`, `heq_cof_add` and `heq_cof_tmul`. -/
+with the equality of degrees `i + j = j + i` carried through the sum and the pure tensor by
+`heq_cof_add` and `heq_cof_tmul`. -/
 public lemma heq_cofApp_comm (A : Stacks.GradedAlgebra P) (i j : ℤ)
     (hc : ∀ (X : Cᵒᵖ) (m : (P i).obj X) (n : (P j).obj X),
       HEq ((A.mul i j).app X m n) ((A.mul j i).app X n m))
     (X : Cᵒᵖ) (x : cofObj θ (P i) X) (y : cofObj θ (P j) X) :
     HEq (cofApp θ (A.mul i j) X x y) (cofApp θ (A.mul j i) X y x) := by
   let := (θ.app X).hom.toAlgebra
-  induction x using TensorProduct.induction_on with
-  | zero =>
-    exact (heq_of_eq (cofApp_zero_left θ (A.mul i j) X y)).trans
-      ((heq_cof_zero θ (Q := P) (add_comm i j) X).trans
-        (heq_of_eq (cofApp_zero_right θ (A.mul j i) X y)).symm)
+  induction x using TensorProduct.inductionOn with
   | add x₁ x₂ h₁ h₂ =>
     exact (heq_of_eq (cofApp_add_left θ (A.mul i j) X x₁ x₂ y)).trans
       ((heq_cof_add θ (Q := P) (add_comm i j) h₁ h₂).trans
         (heq_of_eq (cofApp_add_right θ (A.mul j i) X y x₁ x₂)).symm)
   | tmul a m =>
-    induction y using TensorProduct.induction_on with
-    | zero =>
-      exact (heq_of_eq (cofApp_zero_right θ (A.mul i j) X _)).trans
-        ((heq_cof_zero θ (Q := P) (add_comm i j) X).trans
-          (heq_of_eq (cofApp_zero_left θ (A.mul j i) X _)).symm)
+    induction y using TensorProduct.inductionOn with
     | add y₁ y₂ h₁ h₂ =>
       exact (heq_of_eq (cofApp_add_right θ (A.mul i j) X _ y₁ y₂)).trans
         ((heq_cof_add θ (Q := P) (add_comm i j) h₁ h₂).trans

@@ -48,7 +48,7 @@ theorem toCompletionObject_apply (x : R) :
 theorem completionObject_residue (x : R) :
     (completionObjectOfSurjection q hq hfg).residueEquiv
         (residue _ (toCompletionObject q hq hfg x)) = q x := by
-  show AdicCompletion.kerProj hq (algebraMap R (AdicCompletion (RingHom.ker q.toRingHom) R) x) =
+  change AdicCompletion.kerProj hq (algebraMap R (AdicCompletion (RingHom.ker q.toRingHom) R) x) =
     q x
   exact AdicCompletion.kerProj_of hq x
 
@@ -104,7 +104,7 @@ theorem extendToCompletion_algebraMap {D : Type u} [CommRing D] [Algebra Λ D]
     intro n
     rw [← AlgHom.comp_assoc, IsAdicComplete.mkₐ_comp_liftAlgHom]
     refine AlgHom.ext fun y => ?_
-    show Ideal.quotientMap (J ^ n) f.toRingHom
+    change Ideal.quotientMap (J ^ n) f.toRingHom
       (Ideal.map_le_iff_le_comap.mp (map_pow_le_pow_of_map_le hIJ n))
       (AdicCompletion.evalₐ (RingHom.ker q.toRingHom) n
         (AdicCompletion.of (RingHom.ker q.toRingHom) R y)) = _
@@ -155,7 +155,7 @@ theorem map_ker_le_maximalIdeal (A : ArtinianLocalAlgCat.{u, u, u} Λ k) (f : R 
     (RingHom.ker q.toRingHom).map f.toRingHom ≤ maximalIdeal A := by
   rw [Ideal.map_le_iff_le_comap]
   intro x hx
-  show f x ∈ maximalIdeal A
+  change f x ∈ maximalIdeal A
   rw [← residue_eq_zero_iff]
   apply A.residueEquiv.injective
   rw [hf, map_zero]
@@ -262,7 +262,7 @@ theorem ringKrullDim_completionObjectOfSurjection [IsNoetherianRing R] :
     RingHom.ker_isMaximal_of_surjective q.toRingHom hq
   obtain ⟨E, -⟩ := Stacks.MaximalLocalization.exists_adicCompletionAlgEquiv_localizationAtPrime
     (RingHom.ker q.toRingHom)
-  show ringKrullDim (AdicCompletion (RingHom.ker q.toRingHom) R) = _
+  change ringKrullDim (AdicCompletion (RingHom.ker q.toRingHom) R) = _
   rw [ringKrullDim_eq_of_ringEquiv E.toRingEquiv, Localization.AtPrime.map_eq_maximalIdeal]
   exact ringKrullDim_adicCompletion_maximalIdeal.symm
 

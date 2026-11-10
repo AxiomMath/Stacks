@@ -14,15 +14,14 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.FormallySmoothSquares
 scheme `S` the following are equivalent: (1) `f` is formally smooth; (2) in *every* commuting
 square of étale scheme charts of `f` the morphism of schemes `ψ` is formally smooth; (3) the
 same for *one* such square with surjective vertical arrows. This file proves the two
-biconditionals, carrying two named prerequisites that the library does not have.
+biconditionals, carrying one named prerequisite that the library does not have.
 
 The forward implications are
 `AlgebraicGeometry.Space.holdsOnEveryEtaleChart_formallySmoothScheme` and
-`AlgebraicGeometry.Space.holdsOnSurjectiveEtaleChart_formallySmoothScheme`, which take the
-scheme-level implication (3) ⟹ (1) of [Stacks Project, Tag 0D0F] as a hypothesis. What is new
-here is the converse (3) ⟹ (1), and what it needs is isolated by following the Stacks proof,
-which splits into two steps: (I) the sheaf of lifts of a given infinitesimal lifting problem
-has sections étale-locally, and (II) that sheaf, a pseudo-torsor under
+`AlgebraicGeometry.Space.holdsOnSurjectiveEtaleChart_formallySmoothScheme`, which are
+unconditional. What is new here is the converse (3) ⟹ (1), and what it needs is isolated by
+following the Stacks proof, which splits into two steps: (I) the sheaf of lifts of a given
+infinitesimal lifting problem has sections étale-locally, and (II) that sheaf, a pseudo-torsor under
 `Hom(a^*Ω_{X/Y}, C_{T/T'})`, is trivial. Step (I) is proved here in full, unconditionally.
 Step (II) is the vanishing of the first étale cohomology of that `Hom`-sheaf on an affine
 scheme and is carried as the hypothesis `hGlue`.
@@ -66,13 +65,7 @@ Morphisms, Definition 37.6.1" instead, which is [Stacks Project, Tag 02H8], the 
 formally *unramified* morphism of schemes; since the word used in the statement is "formally
 smooth", the citation is a cross-reference slip and Definition 37.11.1 is the intended reading.
 
-Two hypotheses are carried, neither of which is the conclusion.
-
-`h0D0F` is the scheme-level implication (3) ⟹ (1) of [Stacks Project, Tag 0D0F]: a morphism of
-schemes whose maps on sections over affine opens are formally smooth has the infinitesimal
-lifting property. It is used only for the forward implications, through
-`AlgebraicGeometry.Space.holdsOnEveryEtaleChart_formallySmoothScheme`, and it is a statement
-about morphisms of schemes which mentions neither algebraic spaces nor charts.
+One hypothesis is carried, and it is not the conclusion.
 
 `hGlue` is step (II): a morphism of algebraic spaces whose infinitesimal lifting problems are
 solvable étale-locally in the sense of
@@ -130,7 +123,6 @@ The surjectivity of the chart of the target is therefore carried in the statemen
 * [Stacks Project, Tag 061I](https://stacks.math.columbia.edu/tag/061I)
 * [Stacks Project, Tag 061J](https://stacks.math.columbia.edu/tag/061J)
 * [Stacks Project, Tag 061K](https://stacks.math.columbia.edu/tag/061K)
-* [Stacks Project, Tag 0D0F](https://stacks.math.columbia.edu/tag/0D0F)
 -/
 
 @[expose] public section
@@ -275,20 +267,17 @@ theorem formallySmooth_of_surjectiveEtaleChart
 
 /-- **Stacks 061K, the equivalence of (1) and (2).** A morphism of algebraic spaces over `S` is
 formally smooth exactly when the morphism of schemes underlying every commuting square of étale
-scheme charts is formally smooth, granted the scheme-level implication (3) ⟹ (1) of
-[Stacks Project, Tag 0D0F] and the triviality of the pseudo-torsor of lifts. -/
+scheme charts is formally smooth, granted the triviality of the pseudo-torsor of lifts. -/
 @[stacks 061K
-  "condition (2), granted Stacks 0D0F (3) ⟹ (1) and the pseudo-torsor triviality of 03AJ"]
+  "condition (2), granted the pseudo-torsor triviality of 03AJ"]
 theorem formallySmooth_iff_etaleCharts
-    (h0D0F : ∀ {X' Y' : Scheme.{u}} (g : X' ⟶ Y'),
-      Stacks.Smooth.FormallySmoothAffineLocally g → Stacks.Smooth.FormallySmoothScheme g)
     (hGlue : ∀ {X' Y' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (g : X' ⟶ Y'),
       IsAlgebraicSpace B S hS X' → IsAlgebraicSpace B S hS Y' →
       FormallySmoothEtaleLocally B S hS g → FormallySmooth g)
     (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y) (f : X ⟶ Y) :
     FormallySmooth f ↔
       HoldsOnEveryEtaleChart B S hS (@Stacks.Smooth.FormallySmoothScheme.{u}) f := by
-  refine ⟨holdsOnEveryEtaleChart_formallySmoothScheme h0D0F, fun hall ↦ ?_⟩
+  refine ⟨holdsOnEveryEtaleChart_formallySmoothScheme, fun hall ↦ ?_⟩
   obtain ⟨V, b, hbSurj, hbEtale⟩ := hY.exists_atlas
   obtain ⟨U, a, ψ, hdiag, haSurj, haEtale⟩ :=
     exists_surjective_etale_presentation_lift B S hS hX hY f V b hbSurj hbEtale
@@ -298,13 +287,10 @@ theorem formallySmooth_iff_etaleCharts
 /-- **Stacks 061K, the equivalence of (1) and (3).** A morphism of algebraic spaces over `S` is
 formally smooth exactly when there is one commuting square of étale scheme charts, both chart
 maps surjective, whose underlying morphism of schemes is formally smooth, granted the
-scheme-level implication (3) ⟹ (1) of [Stacks Project, Tag 0D0F] and the triviality of the
-pseudo-torsor of lifts. -/
+triviality of the pseudo-torsor of lifts. -/
 @[stacks 061K
-  "condition (3), granted Stacks 0D0F (3) ⟹ (1) and the pseudo-torsor triviality of 03AJ"]
+  "condition (3), granted the pseudo-torsor triviality of 03AJ"]
 theorem formallySmooth_iff_surjectiveEtaleChart
-    (h0D0F : ∀ {X' Y' : Scheme.{u}} (g : X' ⟶ Y'),
-      Stacks.Smooth.FormallySmoothAffineLocally g → Stacks.Smooth.FormallySmoothScheme g)
     (hGlue : ∀ {X' Y' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (g : X' ⟶ Y'),
       IsAlgebraicSpace B S hS X' → IsAlgebraicSpace B S hS Y' →
       FormallySmoothEtaleLocally B S hS g → FormallySmooth g)
@@ -327,7 +313,7 @@ theorem formallySmooth_iff_surjectiveEtaleChart
     obtain ⟨U, a, ψ, hdiag, haSurj, haEtale⟩ :=
       exists_surjective_etale_presentation_lift B S hS hX hY f V b hbSurj hbEtale
     exact ⟨U, V, a, b, ψ, haEtale, hbEtale, haSurj, hbSurj, hdiag.symm,
-      holdsOnEveryEtaleChart_formallySmoothScheme h0D0F hf U V a b ψ haEtale hbEtale hdiag.symm⟩
+      holdsOnEveryEtaleChart_formallySmoothScheme hf U V a b ψ haEtale hbEtale hdiag.symm⟩
   · rintro ⟨U, V, a, b, ψ, ha, hb, haSurj, -, hdiag, hψ⟩
     exact formallySmooth_of_surjectiveEtaleChart B S hS hGlue hX hY a b ψ ha hb haSurj
       hdiag.symm hψ
@@ -337,15 +323,13 @@ with condition (3) read as `AlgebraicGeometry.Space.HoldsOnSurjectiveEtaleChart`
 which the forward implication is stated: only the chart of the source is required to be
 surjective, which is all the converse uses. -/
 theorem formallySmooth_iff_holdsOnSurjectiveEtaleChart
-    (h0D0F : ∀ {X' Y' : Scheme.{u}} (g : X' ⟶ Y'),
-      Stacks.Smooth.FormallySmoothAffineLocally g → Stacks.Smooth.FormallySmoothScheme g)
     (hGlue : ∀ {X' Y' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (g : X' ⟶ Y'),
       IsAlgebraicSpace B S hS X' → IsAlgebraicSpace B S hS Y' →
       FormallySmoothEtaleLocally B S hS g → FormallySmooth g)
     (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y) (f : X ⟶ Y) :
     FormallySmooth f ↔
       HoldsOnSurjectiveEtaleChart B S hS (@Stacks.Smooth.FormallySmoothScheme.{u}) f := by
-  refine ⟨holdsOnSurjectiveEtaleChart_formallySmoothScheme h0D0F hX hY, ?_⟩
+  refine ⟨holdsOnSurjectiveEtaleChart_formallySmoothScheme hX hY, ?_⟩
   rintro ⟨U, V, a, b, ψ, ha, hb, haSurj, hdiag, hψ⟩
   exact formallySmooth_of_surjectiveEtaleChart B S hS hGlue hX hY a b ψ ha hb haSurj
     hdiag.symm hψ

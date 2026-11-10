@@ -86,9 +86,6 @@ noncomputable def targetPullbackToComposable {S : Scheme.{u}}
       simp only [inverseCompSnd, Category.assoc, G.target_comp,
         pullback.lift_fst_assoc, G.target_inverse])
 
-add_to_stacks 03C6 "the lower composition square"
-  Stacks.Groupoids.GroupoidScheme.comp_source_isPullback
-
 add_to_stacks 04LG "cartesianness: the upper of the two lower left squares, the one taken \
 with the composition on top and the source along the bottom"
   Stacks.Groupoids.GroupoidScheme.comp_source_isPullback

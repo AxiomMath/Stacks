@@ -83,7 +83,7 @@ omit [IsSeparated sX] [IsSeparated sX'] in
 theorem partProdHomOfEq_comp_partBase {d d' n : ℕ} (h : d + d' = n) :
     partProdHomOfEq k sX sX' h ≫ partBase (prodBase sX sX') n =
       prodBase (partBase sX d) (partBase sX' d') := by
-  show partProdHomOfEq k sX sX' h ≫ (dimPart (prodBase sX sX') n).ι ≫ prodBase sX sX' = _
+  change partProdHomOfEq k sX sX' h ≫ (dimPart (prodBase sX sX') n).ι ≫ prodBase sX sX' = _
   rw [partProdHomOfEq_ι_assoc, partProdMap_comp_prodBase]
 
 /-- For proper `X` and `X'`, the map `X_d × X'_{d'} ⟶ (X × X')_n` is proper. -/
@@ -321,6 +321,7 @@ theorem tensor_diagonalCorr_eq_sum {D D' : Finset ℕ}
     tensor_diagonalBlock k sX sX' d d'
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search in the sums of correspondences over `prodBase sX sX'` is slow
 /-- `[Δ_{X × X'}]` is the sum of the diagonals of the pieces `X_d × X'_{d'}`. -/
 theorem corrCongr_diagonalCorr_prodBase_eq_sum {D D' : Finset ℕ}
     (hD : ∀ d, (dimPart sX d : Set X).Nonempty → d ∈ D)

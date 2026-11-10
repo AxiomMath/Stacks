@@ -126,18 +126,18 @@ private lemma exists_arrow_of_restriction (G : Stacks.Groupoids.GroupoidScheme S
     exact eqToHom_base_cast_symm hArrows p
   refine ⟨hArrows.symm ▸ p, ?_, ?_⟩
   · rw [R.source_eq]
-    show (eqToHom R.objects_eq.symm).left
+    change (eqToHom R.objects_eq.symm).left
       ((restrictionSource G g).left ((eqToHom R.arrows_eq).left (hArrows.symm ▸ p))) = x
     rw [hcast]
-    show (eqToHom R.objects_eq.symm).left ((pullback.snd G.source g).left
+    change (eqToHom R.objects_eq.symm).left ((pullback.snd G.source g).left
       ((pullback.snd (pullback.snd g G.target) (pullback.fst G.source g)).left p)) = x
     rw [hpsnd, hp₂x]
     exact over_eqToHom_symm_base_apply R.objects_eq x
   · rw [R.target_eq]
-    show (eqToHom R.objects_eq.symm).left
+    change (eqToHom R.objects_eq.symm).left
       ((restrictionTarget G g).left ((eqToHom R.arrows_eq).left (hArrows.symm ▸ p))) = y
     rw [hcast]
-    show (eqToHom R.objects_eq.symm).left ((pullback.fst g G.target).left
+    change (eqToHom R.objects_eq.symm).left ((pullback.fst g G.target).left
       ((pullback.fst (pullback.snd g G.target) (pullback.fst G.source g)).left p)) = y
     rw [hpfst, hp₁x]
     exact over_eqToHom_symm_base_apply R.objects_eq y
@@ -172,7 +172,7 @@ private lemma exists_isOpen_isAffineOpen_of_preimage_eq {P X : Scheme.{u}} (h : 
   have : Surjective (h ∣_ W) := ⟨fun y => by
     obtain ⟨x, hx⟩ := h.surjective y.1
     have hmem : x ∈ h ⁻¹ᵁ W := by
-      show h.base x ∈ W
+      change h.base x ∈ W
       rw [hx]
       exact y.2
     exact ⟨⟨x, hmem⟩, Subtype.ext ((morphismRestrict_base_coe h W ⟨x, hmem⟩).trans hx)⟩⟩
@@ -200,7 +200,7 @@ theorem exists_invariant_affine_open_of_restriction_integral
     rw [R.mapObjects_eq]
     exact congrArg g.left (over_eqToHom_symm_base_apply R.objects_eq.symm z)
   have : IsIso fromU := by
-    show IsIso ((Over.forget S).map (eqToHom R.objects_eq.symm))
+    change IsIso ((Over.forget S).map (eqToHom R.objects_eq.symm))
     infer_instance
   let x' : U'.left := (eqToHom R.objects_eq).left u'
   have hfromU : fromU x' = u' := over_eqToHom_symm_base_apply R.objects_eq u'
@@ -226,7 +226,7 @@ theorem exists_invariant_affine_open_of_restriction_integral
     obtain ⟨b, hbs, hbt⟩ := exists_arrow_of_restriction G g R (fromU z) (fromU (pr₀ p)) c
       ((hcs.trans haz.symm).trans (hmap z).symm)
       ((hct.trans (hpr p)).trans (hmap (pr₀ p)).symm)
-    show fromU (pr₀ p) ∈ W'
+    change fromU (pr₀ p) ∈ W'
     exact hbt ▸ hW'inv b (hbs ▸ hzV)
   have : Surjective h := surjective_pullback_snd_comp_source G g horbit
   obtain ⟨hWo, hWaff⟩ :=
@@ -235,7 +235,7 @@ theorem exists_invariant_affine_open_of_restriction_integral
   · rintro a ⟨b, ⟨z, hzV, hbz⟩, hbs⟩
     obtain ⟨c, hcs, hct⟩ := exists_arrow_of_source_eq G a b hbs
     exact ⟨c, ⟨z, hzV, hbz.trans hct.symm⟩, hcs⟩
-  · show R.hom.mapObjects.left u' ∈ Wset
+  · change R.hom.mapObjects.left u' ∈ Wset
     rw [← hfromU, hmap x']
     exact ⟨G.identity.left (g.left x'), ⟨x', hx'V',
       (congrArg (fun k : G.objects ⟶ G.objects => k.left (g.left x')) G.target_identity).symm⟩,

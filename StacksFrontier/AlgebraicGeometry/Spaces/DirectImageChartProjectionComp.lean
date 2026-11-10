@@ -168,7 +168,7 @@ theorem directImageChartProjection_comparison (f : X ⟶ Y) (V : SmallEtale B S 
   refine Eq.trans ?_ (ranProj_unit_app B S hS X (chartBaseChange B S hS f V) H j
     (((smallEtaleComparisonRestriction B S hS X).asEquivalence.unitIso.inv.app H).hom.app
       (op (chartBaseChange B S hS f V)) a))
-  show (ranProj B S hS X (chartBaseChange B S hS f V) j).app
+  change (ranProj B S hS X (chartBaseChange B S hS f V) j).app
       ((smallEtaleComparisonRestriction B S hS X).obj H)
       (((smallEtaleComparisonRanIso B S hS X).hom.app
         ((smallEtaleComparisonRestriction B S hS X).obj H)).hom.app

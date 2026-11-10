@@ -97,9 +97,9 @@ lemma precomp_mk₀_bijective_of_isIso {X Y Z : C} (f : X ⟶ Y) [IsIso f] (n : 
       ((Ext.mk₀ f).precomp (a := n) (b := n) Z (zero_add n) : Ext.{w} Y Z n → _) := by
   refine Function.bijective_iff_has_inverse.mpr
     ⟨fun z ↦ (Ext.mk₀ (inv f)).comp z (zero_add n), fun x ↦ ?_, fun z ↦ ?_⟩
-  · show (Ext.mk₀ (inv f)).comp ((Ext.mk₀ f).comp x (zero_add n)) (zero_add n) = x
+  · change (Ext.mk₀ (inv f)).comp ((Ext.mk₀ f).comp x (zero_add n)) (zero_add n) = x
     rw [Ext.mk₀_comp_mk₀_assoc, IsIso.inv_hom_id, Ext.mk₀_id_comp]
-  · show (Ext.mk₀ f).comp ((Ext.mk₀ (inv f)).comp z (zero_add n)) (zero_add n) = z
+  · change (Ext.mk₀ f).comp ((Ext.mk₀ (inv f)).comp z (zero_add n)) (zero_add n) = z
     rw [Ext.mk₀_comp_mk₀_assoc, IsIso.hom_inv_id, Ext.mk₀_id_comp]
 
 /-- Postcomposition by a degree-zero class `β` is composition with `β` on the right. -/
@@ -113,9 +113,9 @@ lemma postcomp_mk₀_bijective_of_isIso {X Y Z : C} (f : Y ⟶ Z) [IsIso f] (n :
       ((Ext.mk₀ f).postcomp (a := n) (b := n) X (add_zero n) : Ext.{w} X Y n → _) := by
   refine Function.bijective_iff_has_inverse.mpr
     ⟨fun z ↦ z.comp (Ext.mk₀ (inv f)) (add_zero n), fun x ↦ ?_, fun z ↦ ?_⟩
-  · show (x.comp (Ext.mk₀ f) (add_zero n)).comp (Ext.mk₀ (inv f)) (add_zero n) = x
+  · change (x.comp (Ext.mk₀ f) (add_zero n)).comp (Ext.mk₀ (inv f)) (add_zero n) = x
     rw [Ext.comp_assoc_of_third_deg_zero, Ext.mk₀_comp_mk₀, IsIso.hom_inv_id, Ext.comp_mk₀_id]
-  · show (z.comp (Ext.mk₀ (inv f)) (add_zero n)).comp (Ext.mk₀ f) (add_zero n) = z
+  · change (z.comp (Ext.mk₀ (inv f)) (add_zero n)).comp (Ext.mk₀ f) (add_zero n) = z
     rw [Ext.comp_assoc_of_third_deg_zero, Ext.mk₀_comp_mk₀, IsIso.inv_hom_id, Ext.comp_mk₀_id]
 
 /-- In degree zero, the adjunction map `Ext^0(A, R M) → Ext^0(L A, M)` is bijective. -/

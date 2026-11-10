@@ -394,7 +394,7 @@ theorem exists_constructibleStratification_forall_of_graded [IsNoetherianRing Λ
     obtain ⟨q, hq⟩ := hVsub ⟨hpV, hpV₁Z⟩
     have hqT : q ∈ Set.range ιT := by
       rw [Scheme.range_locallyClosedSubschemeι]
-      show ιk q ∈ V ∩ ((V₁ : Set X) ∩ Z)
+      change ιk q ∈ V ∩ ((V₁ : Set X) ∩ Z)
       rw [hq]
       exact ⟨hpV, hpV₁Z⟩
     obtain ⟨y₁, -⟩ := hqT
@@ -424,7 +424,7 @@ theorem exists_constructibleStratification_forall_of_graded [IsNoetherianRing Λ
     have hrange : Set.range (O.ι ≫ gY) = V₃ ∩ V ∩ (V₁ : Set X) ∩ Set.univ ∩ Z := by
       have : Set.range (O.ι ≫ gY) = e '' O₁ := by
         rw [Scheme.Hom.comp_base, TopCat.coe_comp, Set.range_comp, Scheme.Opens.range_ι]
-        show (fun y => e ((Scheme.Opens.ι Yo) y)) '' O = _
+        change (fun y => e ((Scheme.Opens.ι Yo) y)) '' O = _
         rw [← Set.image_image]
       rw [this, ← hpre, Set.image_preimage_eq_inter_range, hre]
       ext x

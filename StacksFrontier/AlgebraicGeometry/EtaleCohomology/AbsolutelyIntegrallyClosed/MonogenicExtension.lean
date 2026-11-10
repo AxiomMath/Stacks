@@ -109,7 +109,7 @@ public theorem exists_monic_adjoinRoot_isUnit_sub_mul_root
     dsimp [P]
     rw [degree_add_eq_left_of_degree_lt (by simpa [degree_X_pow] using hlowdeg), degree_X_pow]
   have hinj : Function.Injective (algebraMap A (AdjoinRoot P)) := by
-    show Function.Injective (AdjoinRoot.of P)
+    change Function.Injective (AdjoinRoot.of P)
     by_cases hA : Nontrivial A
     · let := hA
       apply AdjoinRoot.of.injective_of_monic_of_degree_pos hP

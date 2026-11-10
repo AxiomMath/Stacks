@@ -244,7 +244,7 @@ theorem hasFirstOrderObjectLifts_of_isColimit_of_forall
     rw [hsecX']
     refine BigFppfOver.section_ext_of_disjoint_openCover
       (BigFppfOver.isSheaf_of_type_yoneda_obj W) p hpImm hpCov hpDisj (fun b => ?_)
-    show p b ≫ Over.fiberSec xA = p b ≫ tk ≫ xs
+    change p b ≫ Over.fiberSec xA = p b ≫ tk ≫ xs
     rw [← Category.assoc, ← htaSq b, Category.assoc, hxs' b, ← hlocsec b]
   have hblift : (Over.forget W).IsHomLift tk (Over.homOfFiberSec tk hsecx) :=
     Over.isHomLift_homOfFiberSec _ _
@@ -339,7 +339,7 @@ theorem hasFirstOrderObjectLifts_of_isColimit_of_forall
     simpa using @IsHomLift.comp _ _ _ _ 𝒴.val.p _ _ _ _ _ _ tk (𝟙 U')
       (GW.map (Over.homOfFiberSec tk hsecx)) (Fiber.fiberInclusion.map c₀)
       (hGlift tk (Over.homOfFiberSec tk hsecx) hblift) c₀.2
-  show GW.map (Over.homOfFiberSec tk hsecx) ≫ Fiber.fiberInclusion.map c₀ = a
+  change GW.map (Over.homOfFiberSec tk hsecx) ≫ Fiber.fiberInclusion.map c₀ = a
   refine Functor.eq_of_comp_isStronglyCartesian_ofArrows_eq 𝒴.val.p tk
     (h𝒴.isMorSheaf U ((Fiber.mapOfComp (Over.forget W) 𝒴.val.p GW hGW U).obj xA)
       (pullbackFiber 𝒴.val.p y' tk))

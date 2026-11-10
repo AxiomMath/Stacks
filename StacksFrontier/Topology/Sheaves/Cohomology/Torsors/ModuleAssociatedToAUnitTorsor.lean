@@ -117,7 +117,7 @@ public theorem generatorTorsor_iso_of_iso (X : RingedSpace.{u, u})
       let fu : ((structureSheaf X.sheaf).obj.obj (op U))ˣ :=
         Additive.toMul (Multiplicative.toAdd f)
       have hf : Multiplicative.ofAdd (Additive.ofMul fu) = f := rfl
-      show e.hom.val.app (op U)
+      change e.hom.val.app (op U)
           ((gL.sectionsEquiv U (gL.action.act f s)).val) =
         (fu : (structureSheaf X.sheaf).obj.obj (op U)) •
           e.hom.val.app (op U) ((gL.sectionsEquiv U s).val)
@@ -141,7 +141,7 @@ public theorem generatorTorsor_iso_of_iso (X : RingedSpace.{u, u})
     refine ⟨(gL.sectionsEquiv U).symm s', ?_⟩
     apply (gN.sectionsEquiv U).injective
     apply Subtype.ext
-    show e.hom.val.app (op U) (e.inv.val.app (op U) t'.val) = t'.val
+    change e.hom.val.app (op U) (e.inv.val.app (op U) t'.val) = t'.val
     have hcomp : e.inv.val.app (op U) ≫ e.hom.val.app (op U) = 𝟙 _ :=
       congrArg (fun f => f.val.app (op U)) e.inv_hom_id
     have hcomp' := congrArg (fun f => f t'.val)
@@ -246,7 +246,7 @@ theorem torsorTransitionElement_cocycle {X : RingedSpace.{u, u}}
       torsorTransitionElement D i k hi hk := by
   let _ : CommGroup
       ((Stacks.Cohomology.SheafTorsor.underlyingPresheafOfGroups X (unitsSheaf X)).obj V) := by
-    show CommGroup (Multiplicative ((unitsSheaf X).presheaf.obj (op V)))
+    change CommGroup (Multiplicative ((unitsSheaf X).presheaf.obj (op V)))
     infer_instance
   have hact : F.action.act
       (torsorTransitionElement D j k hj hk * torsorTransitionElement D i j hi hj)
@@ -289,7 +289,7 @@ theorem torsorTransitionUnit_restrict {X : RingedSpace.{u, u}}
   Units.map ((structureSheaf X.sheaf).obj.map (homOfLE hWV).op).hom.toMonoidHom
         (torsorTransitionUnit D i j hi hj) =
       torsorTransitionUnit D i j (hWV.trans hi) (hWV.trans hj) := by
-  show Units.map ((structureSheaf X.sheaf).obj.map (homOfLE hWV).op).hom.toMonoidHom
+  change Units.map ((structureSheaf X.sheaf).obj.map (homOfLE hWV).op).hom.toMonoidHom
       (transitionUnitsHom (X := X) V (torsorTransitionElement D i j hi hj)) = _
   rw [← transitionUnitsHom_res (X := X) V W hWV]
   exact congrArg (transitionUnitsHom (X := X) W)
@@ -301,7 +301,7 @@ theorem torsorTransitionUnit_cocycle {X : RingedSpace.{u, u}}
     (i j k : X) {V : Opens X} (hi : V ≤ D.U i) (hj : V ≤ D.U j) (hk : V ≤ D.U k) :
     torsorTransitionUnit D i j hi hj * torsorTransitionUnit D j k hj hk =
       torsorTransitionUnit D i k hi hk := by
-  show transitionUnitsHom (X := X) V (torsorTransitionElement D i j hi hj) *
+  change transitionUnitsHom (X := X) V (torsorTransitionElement D i j hi hj) *
       transitionUnitsHom (X := X) V (torsorTransitionElement D j k hj hk) =
     transitionUnitsHom (X := X) V (torsorTransitionElement D i k hi hk)
   rw [← (transitionUnitsHom (X := X) V).map_mul]
@@ -643,19 +643,19 @@ theorem torsorAssociatedChartLinearEquiv_coordinate {X : RingedSpace.{u, u}}
   let hA : V ⊓ D.U i ≤ W ⊓ D.U i :=
     inf_le_inf_right (D.U i) (inf_le_left : V ≤ W)
   let hB : V ≤ V ⊓ D.U i := le_inf le_rfl inf_le_right
-  show torsorAssociatedChartLinearEquiv D (W ⊓ D.U i) i inf_le_right
+  change torsorAssociatedChartLinearEquiv D (W ⊓ D.U i) i inf_le_right
     ((torsorAssociatedGlueData D).sectionsMap
       (inf_le_left : W ⊓ D.U i ≤ W) s) = s.1 i
-  show (torsorAssociatedGlueData D).sectionsEquiv i inf_le_right
+  change (torsorAssociatedGlueData D).sectionsEquiv i inf_le_right
       ((torsorAssociatedGlueData D).sectionsMap
         (inf_le_left : V ≤ W) s) = s.1 i
   rw [TopCat.Sheaf.GlueData.sectionsEquiv_apply]
-  show (structureSheafLocalPresheaf X (D.U i)).map hB
+  change (structureSheafLocalPresheaf X (D.U i)).map hB
       (((torsorAssociatedGlueData D).sectionsMap
         (inf_le_left : V ≤ W) s).1 i) = s.1 i
   rw [(torsorAssociatedGlueData D).sectionsMap_val
     (inf_le_left : V ≤ W) s i]
-  show (structureSheafLocalPresheaf X (D.U i)).map hB
+  change (structureSheafLocalPresheaf X (D.U i)).map hB
       ((structureSheafLocalPresheaf X (D.U i)).map hA (s.1 i)) = s.1 i
   rw [(structureSheafLocalPresheaf X (D.U i)).map_map hA hB]
   have hBA : hB.trans hA = le_rfl := Subsingleton.elim _ _
@@ -669,7 +669,7 @@ theorem torsorAssociatedModulePresheaf_isSheaf {X : RingedSpace.{u, u}}
       (torsorAssociatedModulePresheaf D).presheaf := by
   apply (TopCat.Presheaf.isSheaf_iff_isSheaf_comp
     (forget AddCommGrpCat) (torsorAssociatedModulePresheaf D).presheaf).2
-  show Presheaf.IsSheaf (Opens.grothendieckTopology X)
+  change Presheaf.IsSheaf (Opens.grothendieckTopology X)
     ((torsorAssociatedModulePresheaf D).presheaf ⋙ forget AddCommGrpCat)
   have h : (torsorAssociatedModulePresheaf D).presheaf ⋙ forget AddCommGrpCat =
       (torsorAssociatedGlueData D).gluedPresheaf :=
@@ -899,7 +899,7 @@ theorem torsorAssociatedLocalGeneratorImage_compatible
     apply Multiplicative.ext
     apply Additive.ext
     apply Units.ext
-    show (structureSheaf X.sheaf).obj.map (homOfLE hVi).op ui =
+    change (structureSheaf X.sheaf).obj.map (homOfLE hVi).op ui =
       (structureSheaf X.sheaf).obj.map (homOfLE hVj).op uj * t
     rw [hui, huJ]
     have hmul :
@@ -918,7 +918,7 @@ theorem torsorAssociatedLocalGeneratorImage_compatible
     exact hmul.symm
   have htransition : F.action.act gt (F.F.res hVUi (D.localSection i)) =
       F.F.res hVUj (D.localSection j) := torsorTransitionElement_spec D i j hVUi hVUj
-  show F.F.res hVi
+  change F.F.res hVi
       (F.action.act gi (F.F.res inf_le_right (D.localSection i))) =
     F.F.res hVj
       (F.action.act gj (F.F.res inf_le_right (D.localSection j)))
@@ -930,7 +930,7 @@ theorem torsorAssociatedLocalGeneratorImage_compatible
       F.F.res hVUj (D.localSection j) := by
     rw [F.F.res_comp]
   rw [hbase_i, hbase_j, ← htransition]
-  show F.action.act giV (F.F.res hVUi (D.localSection i)) =
+  change F.action.act giV (F.F.res hVUi (D.localSection i)) =
     F.action.act gjV
       (F.action.act gt (F.F.res hVUi (D.localSection i)))
   rw [← F.action.mul_act gjV gt, ← hgroup]
@@ -1016,7 +1016,7 @@ theorem torsorAssociatedLocalGeneratorImage_restrict
   let xi := e si
   let xi' := e' si'
   have hsi : si' = M.val.restrictₛₗ (homOfLE hWi).op si := by
-    show M.val.map (homOfLE inf_le_left).op
+    change M.val.map (homOfLE inf_le_left).op
         (M.val.map (homOfLE h).op s.val) =
       M.val.map (homOfLE hWi).op
         (M.val.map (homOfLE inf_le_left).op s.val)
@@ -1033,7 +1033,7 @@ theorem torsorAssociatedLocalGeneratorImage_restrict
       ((structureSheaf X.sheaf).obj.map (homOfLE hWi).op).hom.toMonoidHom hx.unit =
       hx'.unit := by
     apply Units.ext
-    show (structureSheaf X.sheaf).obj.map (homOfLE hWi).op
+    change (structureSheaf X.sheaf).obj.map (homOfLE hWi).op
         (hx.unit : (structureSheaf X.sheaf).obj.obj (op Wi)) =
       (hx'.unit : (structureSheaf X.sheaf).obj.obj (op Wi'))
     exact (congrArg ((structureSheaf X.sheaf).obj.map (homOfLE hWi).op) hx.unit_spec).trans
@@ -1049,7 +1049,7 @@ theorem torsorAssociatedLocalGeneratorImage_restrict
   have hbase : F.F.res hWi (F.F.res inf_le_right (D.localSection i)) =
       F.F.res (inf_le_right : Wi' ≤ D.U i) (D.localSection i) := by
     rw [F.F.res_comp]
-  show F.F.res hWi
+  change F.F.res hWi
       (F.action.act g (F.F.res inf_le_right (D.localSection i))) =
     F.action.act g'
       (F.F.res (inf_le_right : Wi' ≤ D.U i) (D.localSection i))
@@ -1120,7 +1120,7 @@ theorem torsorAssociatedLocalGeneratorImage_smul
   let xi := e si
   let xi' := e si'
   have hsi : si' = (fWi : (structureSheaf X.sheaf).obj.obj (op Wi)) • si := by
-    show M.val.restrictₛₗ (homOfLE inf_le_left).op
+    change M.val.restrictₛₗ (homOfLE inf_le_left).op
         ((f : (structureSheaf X.sheaf).obj.obj (op W)) • s.val) = _
     rw [PresheafOfModules.restrictₛₗ_apply, map_smul]
     simp [fWi, si]
@@ -1132,7 +1132,7 @@ theorem torsorAssociatedLocalGeneratorImage_smul
   let hx' := torsorAssociatedChart_isUnit_of_generator D W s' i
   have hunit : fWi * hx.unit = hx'.unit := by
     apply Units.ext
-    show (fWi : (structureSheaf X.sheaf).obj.obj (op Wi)) *
+    change (fWi : (structureSheaf X.sheaf).obj.obj (op Wi)) *
         (hx.unit : (structureSheaf X.sheaf).obj.obj (op Wi)) =
       (hx'.unit : (structureSheaf X.sheaf).obj.obj (op Wi))
     exact (congrArg (fun a => (fWi : (structureSheaf X.sheaf).obj.obj (op Wi)) * a)
@@ -1143,9 +1143,9 @@ theorem torsorAssociatedLocalGeneratorImage_smul
   have hgroup : g' = gf * g := by
     apply Multiplicative.ext
     apply Additive.ext
-    show hx'.unit = fWi * hx.unit
+    change hx'.unit = fWi * hx.unit
     exact hunit.symm
-  show F.action.act g' (F.F.res inf_le_right (D.localSection i)) =
+  change F.action.act g' (F.F.res inf_le_right (D.localSection i)) =
     F.action.act gf (F.action.act g (F.F.res inf_le_right (D.localSection i)))
   exact (congrArg (fun z => F.action.act z
     (F.F.res inf_le_right (D.localSection i))) hgroup).trans

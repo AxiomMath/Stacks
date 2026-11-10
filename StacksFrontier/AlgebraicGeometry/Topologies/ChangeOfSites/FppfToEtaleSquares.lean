@@ -64,7 +64,7 @@ public theorem etaleBounded_eq_fppfEtaleBounded
       CovBounded (IsEtaleCovering (κ := B.cutoff)) B.coveringBound E := by
   refine ⟨fun ⟨⟨_, hbound⟩, hetale⟩ => ⟨hetale, hbound⟩, fun ⟨hetale, hbound⟩ => ?_⟩
   refine ⟨⟨?_, hbound⟩, hetale⟩
-  show E.2.presieve₀ ∈
+  change E.2.presieve₀ ∈
     Scheme.fppfPrecoverage.comap (schemeBelowInclusion B.cutoff) E.1
   rw [Precoverage.mem_comap_iff, ← PreZeroHypercover.presieve₀_map]
   change (E.2.map (schemeBelowInclusion B.cutoff)).presieve₀ ∈
@@ -140,7 +140,7 @@ public theorem bigEtaleOverTopology_le_fppfOverTopology
     rw [← PreZeroHypercover.presieve₀_map]
   have heq : Sieve.overEquiv Y (Sieve.generate E.presieve₀) =
       Sieve.generate (E.presieve₀.map p) := by
-    show Sieve.functorPushforward p (Sieve.generate E.presieve₀) = _
+    change Sieve.functorPushforward p (Sieve.generate E.presieve₀) = _
     exact Sieve.generate_map_eq_functorPushforward p |>.symm
   rw [heq]
   exact associatedEtaleTopology_le_fppfTopology B Y.left

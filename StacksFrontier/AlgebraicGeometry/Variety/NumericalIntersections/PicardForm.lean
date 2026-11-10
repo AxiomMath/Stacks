@@ -64,8 +64,8 @@ theorem intersectionNumber_eq_of_forall_iso (L M : Fin d → X.Modules)
   have hF : ∀ s q, SheafOfModules.IsInvertible X.presheaf X.ringCatSheaf.2 (F s q) := by
     intro s q
     by_cases h : q ∈ s
-    · simp only [F, if_pos h]; infer_instance
-    · simp only [F, if_neg h]; infer_instance
+    · simp only [F, ite_eq_left h]; infer_instance
+    · simp only [F, ite_eq_right h]; infer_instance
   have key : ∀ s : Finset (Fin d),
       intersectionNumber k f i d hd (F ∅) = intersectionNumber k f i d hd (F s) := by
     intro s

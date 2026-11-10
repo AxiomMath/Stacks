@@ -85,7 +85,7 @@ theorem isIso_additiveDirectImageComparison
     funext x
     obtain ⟨x, rfl⟩ := ofSection_surjective x
     rfl
-  show Function.Bijective ((additiveDirectImageComparisonGeneral.{u, v} f).hom.app V : _ → _)
+  change Function.Bijective ((additiveDirectImageComparisonGeneral.{u, v} f).hom.app V : _ → _)
   rw [this]
   have hof : Function.Bijective (ofSection.{u, v} (U := (smallEtaleBaseChange f).obj V.unop)) :=
     ⟨ofSection_injective, ofSection_surjective⟩
@@ -103,7 +103,7 @@ theorem artinSchreierMap_comp_additiveDirectImageComparison_unconditional :
       additiveDirectImageComparisonGeneral.{u, v} f ≫
         (etaleAbelianDirectImage.{u, v} f).map (artinSchreierMap.{u, v} X hp hX) := by
   simp only [artinSchreierMap, Preadditive.sub_comp, Preadditive.comp_sub, Functor.map_sub,
-    Functor.map_id, Category.id_comp, Category.comp_id,
+    Category.id_comp,
     frobeniusMap_comp_additiveDirectImageComparison_general f hp hS hX]
   rw [CategoryTheory.Functor.map_id, Category.comp_id]
 

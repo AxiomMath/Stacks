@@ -104,9 +104,9 @@ theorem finite_setOf_pointsMap_comp_eq_iff_of_mono {Y X T : (BigFppfOver B S hS)
     ext x
     constructor
     · rintro ⟨⟨y, rfl⟩, hy⟩
-      exact ⟨y, by rwa [Set.mem_setOf_eq, pointsMap_comp_apply], rfl⟩
+      exact ⟨y, by rwa [Set.mem_ofPred_eq, pointsMap_comp_apply], rfl⟩
     · rintro ⟨y, hy, rfl⟩
-      exact ⟨⟨y, rfl⟩, by rwa [Set.mem_setOf_eq, pointsMap_comp_apply] at hy⟩
+      exact ⟨⟨y, rfl⟩, by rwa [Set.mem_ofPred_eq, pointsMap_comp_apply] at hy⟩
   rw [heq, Set.finite_image_iff (pointsMap_injective_of_mono B S hS i).injOn]
 
 /-- The source of a separated morphism of algebraic spaces with decent target is decent. -/
@@ -262,7 +262,7 @@ theorem isOpen_finiteNonSmoothBaseLocus (X : CurveFamily B hZ) :
     have hmem : t ∈ finiteNonSmoothBaseLocus B hZ X ↔ _ :=
       finite_nonSmoothFibre_iff_forall_isQuasiFiniteAt B hZ X Z hZcl hrange hp t
     rw [Set.mem_compl_iff, hmem]
-    simp only [not_forall, Set.mem_image, Set.mem_compl_iff, Set.mem_setOf_eq]
+    simp only [not_forall, Set.mem_image, Set.mem_compl_iff, Set.mem_ofPred_eq]
     exact ⟨fun ⟨z, hz, hq⟩ => ⟨z, hq, hz⟩, fun ⟨z, hq, hz⟩ => ⟨z, hz, hq⟩⟩
   rw [← isClosed_compl_iff, hcompl]
   exact Space.isClosed_of_universallyClosed B integerBase hZ (schemeSpace X.base).property _
@@ -290,7 +290,7 @@ theorem preimage_finiteNonSmoothBaseLocus {X Y : CurveFamily B hZ} (φ : X ⟶ Y
   have hrange' : Set.range (Space.pointsMap B integerBase hZ _ (pullback.snd ι φ.totalMap).hom) =
       {x | ¬ Space.IsSmoothAt B integerBase hZ X.toBase.hom x} := by
     ext x
-    rw [Set.mem_setOf_eq, isSmoothAt_iff_hom B hZ φ x,
+    rw [Set.mem_ofPred_eq, isSmoothAt_iff_hom B hZ φ x,
       show (¬ Space.IsSmoothAt B integerBase hZ Y.toBase.hom
           (Space.pointsMap B integerBase hZ X.total.obj φ.totalMap.hom x)) ↔
         Space.pointsMap B integerBase hZ X.total.obj φ.totalMap.hom x ∈

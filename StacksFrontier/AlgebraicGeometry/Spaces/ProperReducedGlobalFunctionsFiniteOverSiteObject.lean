@@ -80,7 +80,7 @@ theorem globalFunctionsToChart_pullbackToGlobalFunctions (Z : AlgebraicSpaces B 
     (ρ : yoneda.obj V ⟶ Z.obj) (r : Γ((BigFppfOver.toScheme B S hS).obj T, ⊤)) :
     globalFunctionsToChart B S hS Z ρ (pullbackToGlobalFunctions B S hS Z T q r) =
       ((BigFppfOver.toScheme B S hS).map (yoneda.preimage (ρ ≫ q.hom))).appTop.hom r := by
-  show ((globalFunctionsChartEquiv B S hS Z).val
+  change ((globalFunctionsChartEquiv B S hS Z).val
     (pullbackToGlobalFunctions B S hS Z T q r)).val (op (CostructuredArrow.mk ρ)) = _
   rw [globalFunctionsChartEquiv_pullbackToGlobalFunctions]
   rfl
@@ -141,7 +141,7 @@ theorem isNoetherian_globalFunctions_of_isProper_of_isReduced (Z : AlgebraicSpac
     { toFun := globalFunctionsToChart B S hS Z ρ
       map_add' := map_add _
       map_smul' := fun r x => by
-        show globalFunctionsToChart B S hS Z ρ (pullbackToGlobalFunctions B S hS Z T q r * x) =
+        change globalFunctionsToChart B S hS Z ρ (pullbackToGlobalFunctions B S hS Z T q r * x) =
           ((BigFppfOver.toScheme B S hS).map m).appTop.hom r *
             globalFunctionsToChart B S hS Z ρ x
         rw [map_mul, globalFunctionsToChart_pullbackToGlobalFunctions] }

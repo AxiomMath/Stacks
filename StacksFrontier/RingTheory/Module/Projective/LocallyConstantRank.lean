@@ -146,8 +146,7 @@ private theorem span_image_mk_one_eq_top (A : Type*) [CommRing A] [Algebra R A] 
     Submodule.span A (TensorProduct.mk R A M 1 '' s) = ⊤ := by
   rw [← Submodule.baseChange_span, eq_top_iff]
   rintro y -
-  induction y using TensorProduct.induction_on with
-  | zero => exact zero_mem _
+  induction y using TensorProduct.inductionOn with
   | tmul a m =>
       obtain ⟨t, ⟨u, hu⟩, hmem⟩ := hs m
       have h1 : algebraMap R A t • ((1 : A) ⊗ₜ[R] m) ∈ (Submodule.span R s).baseChange A := by

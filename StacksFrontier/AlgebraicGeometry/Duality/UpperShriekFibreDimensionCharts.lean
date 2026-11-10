@@ -54,8 +54,8 @@ omit [AlgebraicGeometry.IsNoetherian S] in
 /-- Around every point of `X` there is an affine chart `U ⊆ f⁻¹(V)` with a polynomial
 presentation of `Γ(Y, V) → Γ(X, U)`, inside any given open neighbourhood. -/
 theorem exists_chart_presentation (x : X.left) (W : X.left.Opens) (hxW : x ∈ W) :
-    ∃ (U : X.left.Opens) (hU : IsAffineOpen U) (V : Y.left.Opens) (hV : IsAffineOpen V)
-      (hUV : U ≤ f.left ⁻¹ᵁ V), x ∈ U ∧ U ≤ W ∧
+    ∃ (U : X.left.Opens), IsAffineOpen U ∧ ∃ (V : Y.left.Opens), IsAffineOpen V ∧
+      ∃ (hUV : U ≤ f.left ⁻¹ᵁ V), x ∈ U ∧ U ≤ W ∧
         Nonempty (Dualizing.PolynomialPresentation (f.left.appLE V U hUV).hom) := by
   obtain ⟨V, hV, hxV, -⟩ :=
     exists_isAffineOpen_mem_and_subset (X := Y.left) (x := f.left.base x) (U := ⊤) (by simp)

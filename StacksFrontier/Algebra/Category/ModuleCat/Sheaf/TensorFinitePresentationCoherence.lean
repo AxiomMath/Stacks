@@ -105,7 +105,8 @@ noncomputable def tensorStructureSheafIso (O : Sheaf J CommRingCat.{w})
     (M : _root_.SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :
     ((Stacks.SheafOfModules.Tensor.sheafTensor (J := J) (O)).obj M).obj
         (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)) ≅ M :=
-  (PresheafOfModules.sheafification (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).mapIso (ρ_ M.val) ≪≫
+  (PresheafOfModules.sheafification
+      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).mapIso (ρ_ M.val) ≪≫
     (asIso (PresheafOfModules.sheafificationAdjunction
       (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).counit).app M
 
@@ -122,6 +123,7 @@ noncomputable def tensorSwapTensorLeftIso (O : Sheaf J CommRingCat.{w})
   (PresheafOfModules.sheafification
     (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).mapIso (β_ F.val G.val)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **The tensor product of a coherent sheaf of modules with a free sheaf of modules of finite
 rank is coherent.**  Tensoring on the left by `G` preserves the coproduct of copies of the
 structure sheaf that defines `SheafOfModules.free ι`, and each factor becomes `G` by
@@ -142,6 +144,7 @@ theorem isCoherentOnSite_tensorLeft_free (O : Sheaf J CommRingCat.{w})
         (fun _ => (tensorStructureSheafIso O G).symm)).symm)
     (isCoherentOnSite_sigma (fun _ : ι => G) (fun _ => hG))
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **The tensor product of a globally finitely presented sheaf of modules with a coherent sheaf
 of modules is coherent.**
 

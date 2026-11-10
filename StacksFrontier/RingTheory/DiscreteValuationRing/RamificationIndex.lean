@@ -244,7 +244,7 @@ theorem residueField_finite_and_ramificationIdx_mul_residueDegree_le_finrank
     (IsDiscreteValuationRing.irreducible_iff_uniformizer π).mp hπ
   let f : B →ₗ[A] L := (IsScalarTower.toAlgHom A B L).toLinearMap
   have hideal : (π • ⊤ : Submodule A B) = Submodule.restrictScalars A I := by
-    show (π • ⊤ : Submodule A B) =
+    change (π • ⊤ : Submodule A B) =
       Submodule.restrictScalars A (mA.map (algebraMap A B))
     rw [hmA, Ideal.map_span, Set.image_singleton]
     ext b
@@ -318,7 +318,7 @@ theorem localRingHom_surjective_of_surjective
   obtain ⟨a', rfl⟩ := hf a
   obtain ⟨s', hs'⟩ := hf s.val
   have hs : s' ∈ (q.comap f).primeCompl := by
-    show f s' ∉ q
+    change f s' ∉ q
     rw [hs']
     exact s.property
   refine ⟨IsLocalization.mk' (Localization.AtPrime (q.comap f)) a' ⟨s', hs⟩, ?_⟩

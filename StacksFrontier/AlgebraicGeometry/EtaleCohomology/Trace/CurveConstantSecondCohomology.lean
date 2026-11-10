@@ -243,7 +243,7 @@ lemma surjective_zmodPresentation [Finite A] [NeZero n] :
     Function.Surjective (zmodPresentation hA) := by
   intro a
   refine ⟨Pi.single (Finite.equivFin A a) 1, ?_⟩
-  rw [zmodPresentation, AddMonoidHom.finset_sum_apply,
+  rw [zmodPresentation, AddMonoidHom.finsetSum_apply,
     Finset.sum_eq_single (Finite.equivFin A a)]
   · simp [zmodHomOfTorsion_one hA]
   · intro i _ hi

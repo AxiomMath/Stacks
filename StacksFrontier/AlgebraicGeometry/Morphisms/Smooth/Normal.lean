@@ -57,7 +57,7 @@ public theorem isNormal_of_smooth {X Y : Scheme.{u}} (f : X ⟶ Y) [Smooth f] : 
   intro x
   refine ⟨(Flat.iff_flat_stalkMap f).mp inferInstance x, ?_⟩
   have hsm : Smooth (f.fiberToSpecResidueField (f.base x)) := by
-    show Smooth (pullback.snd f (Y.fromSpecResidueField (f.base x)))
+    change Smooth (pullback.snd f (Y.fromSpecResidueField (f.base x)))
     exact MorphismProperty.of_isPullback (P := @Smooth)
       (IsPullback.of_hasPullback f (Y.fromSpecResidueField (f.base x))) ‹Smooth f›
   exact (@isGeometricallyNormal_of_smooth _ _ _ _ hsm) (f.asFiber x)

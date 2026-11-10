@@ -10,8 +10,8 @@ import all StacksFrontier.CategoryTheory.Sites.Cohomology.Perfect.DistinguishedT
 The three clauses of Stacks 08G9 — in a distinguished triangle of `D(O)` an object is perfect if
 the other two are — for a ringed site whose objects, morphisms and sections of the structure
 sheaf lie in three independent universes.  The statements of
-`StacksFrontier/CategoryTheory/Sites/Cohomology/Perfect/DistinguishedTriangles.lean`, which carry the
-registrations of Stacks 08G9, are at `RingedSite.{u, u, 0}`, where the small étale site of an
+`StacksFrontier/CategoryTheory/Sites/Cohomology/Perfect/DistinguishedTriangles.lean`, which carry
+the registrations of Stacks 08G9, are at `RingedSite.{u, u, 0}`, where the small étale site of an
 algebraic space, a `RingedSite.{u + 1, u, u}`, is not reached; the proofs are the same, with
 Stacks 08FR (1) read at independent universes
 (`AlgebraicGeometry.RingedSite.exists_coveringSieve_complexMap_general`).
@@ -156,7 +156,7 @@ theorem isPerfect_obj₃_of_distinguished_general
     ((isPerfectComplex_iff_modelSieve_general X A).mp hA U)
     ((isPerfectComplex_iff_modelSieve_general X B).mp hB U))
     (modelSieve_general X E U) fun {V} f hf => ?_
-  show modelSieve_general X E V ∈ X.J V
+  change modelSieve_general X E V ∈ X.J V
   obtain ⟨P, hP, p, hp⟩ := hf.1
   obtain ⟨Q, hQ, q, hq⟩ := hf.2
   let R := SheafOfModules.overFunctor.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) V
@@ -170,7 +170,7 @@ theorem isPerfect_obj₃_of_distinguished_general
   obtain ⟨S, hS, hm⟩ :=
     exists_coveringSieve_complexMap_general X V hP (eP.hom ≫ T'.mor₁ ≫ eQ.inv)
   refine X.J.transitive hS (modelSieve_general X E V) fun {W} g hg => ?_
-  show modelSieve_general X E W ∈ X.J W
+  change modelSieve_general X E W ∈ X.J W
   obtain ⟨_, _, _, _, _, β, hβ⟩ := hm g hg
   let H := SheafOfModules.overMap.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) g
   obtain ⟨c⟩ := exists_cone_iso H T' (R.mapDerivedCategory.map_distinguished T hT) eP eQ β hβ

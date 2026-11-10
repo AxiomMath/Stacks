@@ -701,7 +701,7 @@ public theorem satisfiesDepthInequalities_of_annihilated
       p.asIdeal.comap (algebraMap (S.U.toScheme.presheaf.stalk y)
         (completedLocalRing (idealOnOpen S) y)) := by
     simpa only [completedLocalIdeal, Ideal.map_le_iff_le_comap] using hp
-  obtain ⟨r, hr, hrp⟩ := SetLike.not_le_iff_exists.mp hnot
+  obtain ⟨r, hr, hrp⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
   have hkill (t : formalStalk F y) : r ^ c • t = 0 := by
     apply Concrete.limit_ext (F.obj ⋙ stalkModuleFunctor y)
     intro n

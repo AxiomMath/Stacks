@@ -54,7 +54,8 @@ direct-image spellings of the chart restriction** — the remaining leg of
 `AlgebraicGeometry.Space.chartSchemeModuleIsoChartPush` is
 `AlgebraicGeometry.Space.chartSchemeModuleIsoRestrictModule` followed by the
 `CategoryTheory.eqToIso` of the equality of the two spellings of the chart restriction, and the
-implementation notes of `StacksFrontier/AlgebraicGeometry/Spaces/ChartAlphaBaseCase.lean` record that
+implementation notes of `StacksFrontier/AlgebraicGeometry/Spaces/ChartAlphaBaseCase.lean` record
+that
 a composite with that isomorphism as its *second* factor cannot have its `val` field projected
 inside the heartbeat budget.  Here too the transport of the fourfold-versus-single pushforward
 across that equality, read on morphisms, times out in every spelling considered, including

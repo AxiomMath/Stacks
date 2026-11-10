@@ -184,7 +184,7 @@ private theorem exists_mk_of_mem_degreeZeroModuleAt (x : ProjectiveSpectrum.top 
       refine ⟨a.deg + d, a.num • m, ⟨a.den, a.den_mem⟩ * s, ?_,
         SetLike.mul_mem_graded a.den_mem_deg hs, ?_⟩
       · exact smul_mem_graded_nat 𝒮 𝒨 a.num_mem_deg hm
-      · show HomogeneousLocalization.val a • LocalizedModule.mk m s = _
+      · change HomogeneousLocalization.val a • LocalizedModule.mk m s = _
         rw [HomogeneousLocalization.eq_num_div_den, LocalizedModule.mk_smul_mk]
 
 omit [AddSubgroupClass τ M] [Decomposition 𝒨] [SetLike.GradedSMul 𝒮 𝒨] in

@@ -178,7 +178,8 @@ def deformationBaseMapAlong :
         (deformationTensorBaseExtension B S hS hsq r hr)
         (deformationTensorBaseExtension B S hS hsq' r' hr') (deformationMiddleMap B S hS φ hsq hsq')
         (deformationMiddleMap_comp_reduction B S hS φ hsq' r hr r' hr'))
-      (deformationTensorBaseExtension B S hS hsq r hr) (deformationTensorBaseExtension B S hS hsq' r' hr') :=
+      (deformationTensorBaseExtension B S hS hsq r hr)
+      (deformationTensorBaseExtension B S hS hsq' r' hr') :=
   mapAlongInducedKernelMap.{u, u + 1, u} (J := SmallEtale.topology B S hS y₀.obj.obj.left.1)
     _ _ _ _ (algebraMap_comp_deformationMiddleMap B S hS φ hsq' r hr r' hr' hg)
 

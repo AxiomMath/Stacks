@@ -52,8 +52,7 @@ noncomputable def aux (m : M) : A ⊗[R] A →+ A ⊗[R] M :=
 /-- `aux m ((x ⊗ 1) * t) = aux (x • m) t`. -/
 lemma aux_mul (m : M) (x : A) (t : A ⊗[R] A) :
     aux (R := R) M m ((x ⊗ₜ 1) * t) = aux M (x • m) t := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul a₁ a₂ =>
     simp only [Algebra.TensorProduct.tmul_mul_tmul, mul_one, aux_tmul, smul_smul, mul_comm]
   | add y z hy hz => rw [mul_add, map_add, map_add, hy, hz]
@@ -89,13 +88,11 @@ noncomputable def fromTensor : B ⊗[A] M →+ A ⊗[R] M :=
     { toFun := fun b =>
         { toFun := fun m => aux (R := R) M m (μ.symm b)
           map_zero' := by
-            induction μ.symm b using TensorProduct.induction_on with
-            | zero => simp
+            induction μ.symm b using TensorProduct.inductionOn with
             | tmul => simp
             | add y z hy hz => rw [map_add, hy, hz, add_zero]
           map_add' := fun m m' => by
-            induction μ.symm b using TensorProduct.induction_on with
-            | zero => simp
+            induction μ.symm b using TensorProduct.inductionOn with
             | tmul => simp [smul_add, TensorProduct.tmul_add]
             | add y z hy hz => rw [map_add, map_add, map_add, hy, hz]; abel }
       map_zero' := by ext; simp
@@ -107,24 +104,21 @@ noncomputable def fromTensor : B ⊗[A] M →+ A ⊗[R] M :=
 /-- `fromTensor` is a left inverse of `toTensor`. -/
 lemma fromTensor_toTensor (z : A ⊗[R] M) :
     fromTensor (R := R) μ hμl M (toTensor q μ hμl hμr M z) = z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul a m =>
-    show aux M m (μ.symm (q a)) = a ⊗ₜ m
+    change aux M m (μ.symm (q a)) = a ⊗ₜ m
     rw [← hμr, RingEquiv.symm_apply_apply, aux_tmul, one_smul]
   | add y z hy hz => rw [map_add, map_add, hy, hz]
 
 /-- `fromTensor` is a right inverse of `toTensor`. -/
 lemma toTensor_fromTensor (z : B ⊗[A] M) :
     toTensor q μ hμl hμr M (fromTensor (R := R) μ hμl M z) = z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul b m =>
-    show toTensor q μ hμl hμr M (aux M m (μ.symm b)) = b ⊗ₜ m
+    change toTensor q μ hμl hμr M (aux M m (μ.symm b)) = b ⊗ₜ m
     obtain ⟨t, rfl⟩ := μ.surjective b
     rw [RingEquiv.symm_apply_apply]
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul a₁ a₂ =>
       rw [aux_tmul, toTensor_tmul, ← TensorProduct.smul_tmul, Algebra.smul_def, ← hμl, ← hμr,
         ← map_mul, Algebra.TensorProduct.tmul_mul_tmul, one_mul, mul_one]
@@ -134,10 +128,9 @@ lemma toTensor_fromTensor (z : B ⊗[A] M) :
 /-- `toTensor` is `A`-linear when `B ⊗[A] M` is regarded as an `A`-module through `q`. -/
 lemma toTensor_smul (x : A) (z : A ⊗[R] M) :
     toTensor q μ hμl hμr M (x • z) = q x • toTensor q μ hμl hμr M z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul a m =>
-    show q (x * a) ⊗ₜ[A] m = q x • (q a ⊗ₜ[A] m)
+    change q (x * a) ⊗ₜ[A] m = q x • (q a ⊗ₜ[A] m)
     rw [map_mul, TensorProduct.smul_tmul', smul_eq_mul]
   | add y z hy hz => rw [smul_add, map_add, hy, hz, map_add, smul_add]
 

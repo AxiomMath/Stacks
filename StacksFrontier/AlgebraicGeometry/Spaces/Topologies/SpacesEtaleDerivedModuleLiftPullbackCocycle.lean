@@ -52,6 +52,10 @@ variable {S : Scheme.{u}} (T : BigEtaleSpaceSite S) {X Y Z : T.Spaces} (f : Y �
 
 open Space.SimplicialSpacesEtaleSite Stacks.Cohomology.DerivedPullbackOfToposHom
 
+open AlgebraicGeometry.Space renaming
+  preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact
+  → preservesFiniteLimits_pullbackModules_of_isFlat
+
 /-- The isomorphism `ι(Lf^*K) ≅ Lf^*(ιK)` in layers: the identification of `Lf^*` with étale
 restriction, the square of exact functors induced by
 `AlgebraicGeometry.BigEtaleSpaceSite.etaleModulePullbackCompToSpacesEtaleModulesIso`, and the
@@ -63,7 +67,7 @@ theorem smallEtaleDerivedModulePullbackCompToSpacesEtaleDerivedModulesIso_eq
     haveI : (spacesEtaleRingedToposHom f).toModulesHom.pullbackModules.Additive :=
       Stacks.Sheaves.DerivedPullback.pullbackModules_additive
         (spacesEtaleRingedToposHom f).toModulesHom
-    haveI := Space.preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact f
+    haveI := preservesFiniteLimits_pullbackModules_of_isFlat f
       (Space.isFlat_of_isEtale T.fppfSite S T.fppf_mem hf)
     haveI : PreservesFiniteColimits (spacesEtaleRingedToposHom f).toModulesHom.pullbackModules :=
       Stacks.Sheaves.DerivedPullback.pullbackModules_preservesFiniteColimits
@@ -91,17 +95,15 @@ theorem smallEtaleDerivedModulePullbackCompToSpacesEtaleDerivedModulesIso_eq
   rfl
 
 /-- **The derived transport to the spaces-étale site commutes with derived pullback along étale
-morphisms, compatibly with composition.** For étale `g : Z ⟶ Y` and `f : Y ⟶ X` (with relatively
-representable underlying maps), `ι` of the composition isomorphism `Lf^* ⋙ Lg^* ≅ L(g ≫ f)^*` on
-the small étale sites, followed by `ι(L(g ≫ f)^*K) ≅ L(g ≫ f)^*(ιK)`, is
+morphisms, compatibly with composition.** For étale `g : Z ⟶ Y` and `f : Y ⟶ X`, `ι` of the
+composition isomorphism `Lf^* ⋙ Lg^* ≅ L(g ≫ f)^*` on the small étale sites, followed by
+`ι(L(g ≫ f)^*K) ≅ L(g ≫ f)^*(ιK)`, is
 `ι(Lg^*Lf^*K) ≅ Lg^*(ι(Lf^*K)) ≅ Lg^*Lf^*(ιK)` followed by the composition isomorphism on the
 spaces-étale sites. -/
 theorem smallEtaleDerivedModulePullbackCompToSpacesEtaleDerivedModulesIso_comp
     (hf : Space.IsEtale T.fppfSite S T.fppf_mem f.hom)
     (hg : Space.IsEtale T.fppfSite S T.fppf_mem g.hom)
     (hgf : Space.IsEtale T.fppfSite S T.fppf_mem (g ≫ f).hom)
-    (hrepf : yoneda.relativelyRepresentable f.hom) (hrepg : yoneda.relativelyRepresentable g.hom)
-    (hrepgf : yoneda.relativelyRepresentable (g ≫ f).hom)
     (K : DerivedCategory (Space.Modules.{u, u} T.fppfSite S T.fppf_mem X.1 X.2)) :
     letI := Space.spacesEtaleHasDerivedCategory T.fppfSite S T.fppf_mem X
     letI := Space.spacesEtaleHasDerivedCategory T.fppfSite S T.fppf_mem Y
@@ -132,9 +134,9 @@ theorem smallEtaleDerivedModulePullbackCompToSpacesEtaleDerivedModulesIso_comp
   have : (spacesEtaleRingedToposHom (g ≫ f)).toModulesHom.pullbackModules.Additive :=
     Stacks.Sheaves.DerivedPullback.pullbackModules_additive
       (spacesEtaleRingedToposHom (g ≫ f)).toModulesHom
-  have := Space.preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact f hf'
-  have := Space.preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact g hg'
-  have := Space.preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact (g ≫ f) hgf'
+  have := preservesFiniteLimits_pullbackModules_of_isFlat f hf'
+  have := preservesFiniteLimits_pullbackModules_of_isFlat g hg'
+  have := preservesFiniteLimits_pullbackModules_of_isFlat (g ≫ f) hgf'
   have : PreservesFiniteColimits (spacesEtaleRingedToposHom f).toModulesHom.pullbackModules :=
     Stacks.Sheaves.DerivedPullback.pullbackModules_preservesFiniteColimits
       (spacesEtaleRingedToposHom f).toModulesHom
@@ -146,7 +148,6 @@ theorem smallEtaleDerivedModulePullbackCompToSpacesEtaleDerivedModulesIso_comp
     Stacks.Sheaves.DerivedPullback.pullbackModules_preservesFiniteColimits
       (spacesEtaleRingedToposHom (g ≫ f)).toModulesHom
   have hP3 := Space.smallEtaleDerivedModulePullbackCompIso_hom_comp_isoEtale g f hg hf hgf
-    hrepg hrepf hrepgf
   have hP1 := Stacks.DerivedCategoryComparisons.mapDerivedCategorySquareIso_comp_hom
     (Space.etaleModulePullback.{u, u} T.fppfSite S T.fppf_mem f hf)
     (Space.etaleModulePullback.{u, u} T.fppfSite S T.fppf_mem g hg)

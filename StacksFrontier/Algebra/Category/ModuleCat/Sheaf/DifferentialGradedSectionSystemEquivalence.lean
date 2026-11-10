@@ -60,7 +60,6 @@ attribute [local instance] GradedAlgebra.sectionsGOne GradedAlgebra.sectionsGMul
   GradedAlgebra.sectionsGRing Stacks.uliftIntAlgebra
 
 variable {C : Type u} [Category.{v} C]
-  [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})]
   {Osharp : Sheaf (⊥ : GrothendieckTopology C) CommRingCat.{t}}
 
 namespace DifferentialGradedModule
@@ -106,12 +105,10 @@ def sectionSystem (N : DifferentialGradedModule.{t, m, m} A) : SectionSystem A w
   restr_id U x := sectionRestrictAdd_id N U x
   restr_comp a b x := sectionRestrictAdd_comp N a b x
 
-omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- The module of `Σ N` over `U` is the module `N(U)` of sections. -/
 @[simp] theorem sectionSystem_obj (N : DifferentialGradedModule.{t, m, m} A) (U : Cᵒᵖ) :
     (sectionSystem A N).obj U = N.sectionModule U := rfl
 
-omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- The restriction maps of `Σ N` are restriction of sections. -/
 @[simp] theorem sectionSystem_restrFun (N : DifferentialGradedModule.{t, m, m} A)
     {U V : Cᵒᵖ} (a : V ⟶ U) (x : N.totalSections V) :
@@ -144,24 +141,20 @@ variable {M N : DifferentialGradedModule.{t, m, m} A}
 def sectionFun (U : Cᵒᵖ) : M.totalSections U →+ N.totalSections U :=
   (h.app U).toFun.toAddMonoidHom
 
-omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- `sectionFun h U` is the underlying function of `h_U`. -/
 theorem sectionFun_apply (U : Cᵒᵖ) (z : M.totalSections U) :
     sectionFun h U z = (h.app U).toFun z := rfl
 
-omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- `sectionFun h` commutes with restriction of sections. -/
 theorem sectionFun_naturality {U V : Cᵒᵖ} (a : V ⟶ U) (z : M.totalSections V) :
     N.sectionRestrictAdd a (sectionFun h V z) = sectionFun h U (M.sectionRestrictAdd a z) :=
   h.naturality a z
 
-omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- `sectionFun h U` commutes with the action of `A(U)` on sections. -/
 theorem sectionFun_act (U : Cᵒᵖ) (z : M.totalSections U) (s : A.toGradedAlgebra.totalSections U) :
     sectionFun h U (M.act U z s) = N.act U (sectionFun h U z) s :=
   (h.app U).map_smul z s
 
-omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- `sectionFun h U` commutes with the differentials of the sections. -/
 theorem sectionFun_sectionD (U : Cᵒᵖ) (z : M.totalSections U) :
     sectionFun h U (M.sectionD U z) = N.sectionD U (sectionFun h U z) :=
@@ -171,14 +164,12 @@ theorem sectionFun_sectionD (U : Cᵒᵖ) (z : M.totalSections U) :
 def homOfSectionSystemApp (n : ℤ) (U : Cᵒᵖ) : M.sectionsPiece U n →+ N.sectionsPiece U n :=
   (DFinsupp.evalAddMonoidHom n).comp ((sectionFun h U).comp (DirectSum.of (M.sectionsPiece U) n))
 
-omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- `homOfSectionSystemApp h n U x` is the degree-`n` coordinate of `h_U` applied to `x` placed in
 the summand of degree `n`. -/
 theorem homOfSectionSystemApp_apply (n : ℤ) (U : Cᵒᵖ) (x : M.sectionsPiece U n) :
     homOfSectionSystemApp h n U x = sectionFun h U (DirectSum.of (M.sectionsPiece U) n x) n :=
   rfl
 
-omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- `h_U` carries the summand of degree `n` to the summand of degree `n`. -/
 theorem of_homOfSectionSystemApp (n : ℤ) (U : Cᵒᵖ) (x : M.sectionsPiece U n) :
     DirectSum.of (N.sectionsPiece U) n (homOfSectionSystemApp h n U x) =
@@ -188,7 +179,6 @@ theorem of_homOfSectionSystemApp (n : ℤ) (U : Cᵒᵖ) (x : M.sectionsPiece U 
   exact Stacks.ExternalGrading.of_coord_eq (N.sectionsPiece U)
     (⟨_, hmem⟩ : Stacks.ExternalGrading.intSummand (N.sectionsPiece U) n)
 
-omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- `homOfSectionSystemApp h n` commutes with restriction of sections. -/
 theorem homOfSectionSystemApp_naturality (n : ℤ) {U V : Cᵒᵖ} (a : V ⟶ U)
     (x : M.sectionsPiece V n) :
@@ -221,7 +211,6 @@ def homOfSectionSystemF (n : ℤ) : M.complex.X n ⟶ N.complex.X n :=
 theorem homOfSectionSystemF_app (n : ℤ) (U : Cᵒᵖ) (x : M.sectionsPiece U n) :
     (homOfSectionSystemF h n).val.app U x = homOfSectionSystemApp h n U x := rfl
 
-omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- `homOfSectionSystemApp h` commutes with the differentials of `M` and `N`. -/
 theorem homOfSectionSystemApp_d (n : ℤ) (U : Cᵒᵖ) (x : M.sectionsPiece U n) :
     homOfSectionSystemApp h (n + 1) U ((M.complex.d n (n + 1)).val.app U x) =
@@ -233,7 +222,6 @@ theorem homOfSectionSystemApp_d (n : ℤ) (U : Cᵒᵖ) (x : M.sectionsPiece U n
   rw [← h₁, of_homOfSectionSystemApp, of_homOfSectionSystemApp, ← h₂]
   exact sectionFun_sectionD h U _
 
-omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- `homOfSectionSystemApp h` commutes with the right multiplication by sections of `A`. -/
 theorem homOfSectionSystemApp_mul (n i : ℤ) (U : Cᵒᵖ) (x : M.sectionsPiece U n)
     (y : (A.complex.X i).val.obj U) :
@@ -266,7 +254,7 @@ def homOfSectionSystem : M ⟶ N where
 theorem sectionMap_homOfSectionSystem (U : Cᵒᵖ) :
     sectionMap (homOfSectionSystem h) U = h.app U := by
   refine _root_.DifferentialGradedModule.Hom.ext (LinearMap.ext fun z => ?_)
-  show sectionMapAdd (homOfSectionSystem h) U z = sectionFun h U z
+  change sectionMapAdd (homOfSectionSystem h) U z = sectionFun h U z
   induction z using DirectSum.induction_on with
   | zero => rw [map_zero, map_zero]
   | add z z' hz hz' => rw [map_add, map_add, hz, hz']
@@ -276,7 +264,6 @@ theorem sectionMap_homOfSectionSystem (U : Cᵒᵖ) :
 
 end HomOfSectionSystem
 
-omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- A morphism of right differential graded modules is determined by its sections. -/
 theorem hom_ext_of_sectionMap {M N : DifferentialGradedModule.{t, m, m} A} {f g : M ⟶ N}
     (h : ∀ U, sectionMap f U = sectionMap g U) : f = g := by

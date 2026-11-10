@@ -195,7 +195,7 @@ public theorem algebraMap_fiberStalk_comp_eq_residueFieldMap :
     (IsScalarTower.algebraMap_apply (ToType (X.sheaf.presheaf.stalk x))
       (ToType ((f.fiber (f x)).sheaf.presheaf.stalk (fiberPoint f x)))
       (ToType (X.residueField x)) ((f.stalkMap x).hom a)).symm
-  show RingHom.comp _ _ _ = _
+  change RingHom.comp _ _ _ = _
   rw [RingHom.comp_apply]
   exact (congrArg (algebraMap _ (ToType (X.residueField x))) h1).trans
     (h2.trans (ConcreteCategory.congr_hom (Scheme.residue_residueFieldMap f x) a).symm)

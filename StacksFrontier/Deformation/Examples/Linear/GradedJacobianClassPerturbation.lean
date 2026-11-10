@@ -141,8 +141,7 @@ theorem rTensor_mkQ_piTensorRightEquiv_single
     LinearMap.rTensor V (LinearMap.range pres.jacobian).mkQ
         (piTensorRightEquiv (M := fun j ↦ ↥(𝒜 (pres.relDegree j))) eV (Pi.single j z)) =
       relationComponent pres eV j z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul a p => simp [relationComponent_tmul, LinearMap.coe_single]
   | add z z' hz hz' => rw [Pi.single_add, map_add, map_add, hz, hz', map_add]
 
@@ -182,12 +181,7 @@ theorem piTensorRightEquiv_lTensor_pderivValPiece
           (pderivValPiece pres j i) z) =
       LinearMap.rTensor V pres.jacobian
         (piTensorRightEquiv (M := fun i ↦ ↥(𝒜 (pres.varDegree i))) eV (Pi.single i z)) := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      have h0 : (fun j ↦ LinearMap.lTensor ↥(RingHom.ker (algebraMap A k))
-          (pderivValPiece pres j i) (0 : ↥(RingHom.ker (algebraMap A k)) ⊗[k]
-            ↥(𝒜 (pres.varDegree i)))) = 0 := funext fun j ↦ map_zero _
-      rw [h0, Pi.single_zero, map_zero, map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul a y =>
       have hfun : (fun j ↦ pderivValPiece pres j i y) = pres.jacobian (Pi.single i y) :=
         funext fun j ↦ (jacobian_single_eq_pderivValPiece pres j i y).symm

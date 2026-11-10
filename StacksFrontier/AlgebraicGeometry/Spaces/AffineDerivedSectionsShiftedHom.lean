@@ -215,8 +215,8 @@ theorem exists_representedAffineShiftedHomEquiv_trans
       Φ F' hF' i (e ≫ ((DerivedCategory.singleFunctor _ 0).map q)⟦i⟧') = Wmap q i (Φ F hF i e))
     (hδ : ∀ (T : ShortComplex (Modules.{u, u} B S hS (yoneda.obj U)
       (isAlgebraicSpace_yoneda B S hS U))) (hT : T.ShortExact)
-      (h₁ : T.X₁.IsQuasicoherentOnSite) (h₂ : T.X₂.IsQuasicoherentOnSite)
-      (h₃ : T.X₃.IsQuasicoherentOnSite) (i : ℤ)
+      (h₁ : T.X₁.IsQuasicoherentOnSite), T.X₂.IsQuasicoherentOnSite →
+      ∀ (h₃ : T.X₃.IsQuasicoherentOnSite) (i : ℤ)
       (e : ShiftedHom L ((DerivedCategory.singleFunctor _ 0).obj T.X₃) i),
       Φ T.X₁ h₁ (i + 1) (e.comp hT.singleδ (add_comm 1 i)) = Wδ T hT i (Φ T.X₃ h₃ i e)) :
     ∃ Ξ : ∀ (N : ModuleCat.{u} Γ((BigFppfOver.toScheme B S hS).obj U, ⊤)) (i : ℤ),

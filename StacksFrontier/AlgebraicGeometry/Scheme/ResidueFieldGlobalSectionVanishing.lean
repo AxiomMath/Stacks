@@ -69,7 +69,7 @@ theorem appTop_fromSpecResidueField_eq_zero_iff (x : X) (f : Γ(X, ⊤)) :
       rw [range_fromSpecResidueField]
       exact rfl
     have hp' : p ∈ (X.fromSpecResidueField x) ⁻¹ᵁ X.basicOpen f := by
-      show (X.fromSpecResidueField x) p ∈ X.basicOpen f
+      change (X.fromSpecResidueField x) p ∈ X.basicOpen f
       rw [hp]
       exact hx
     rw [h] at hp'

@@ -122,7 +122,7 @@ theorem coordMonomial_add {n : ℕ} {e₁ e₂ : ℤ} (b : MonomialIndex.{u} n e
     coordMonomial (MonomialIndex.add b c) = coordMonomial c * coordMonomial b := by
   rw [coordMonomial, coordMonomial, coordMonomial, MvPolynomial.monomial_mul_monomial, mul_one]
   refine congrArg (fun z => MvPolynomial.monomial z (1 : ULift.{u} ℤ)) ?_
-  show Finsupp.equivMapDomain Equiv.ulift (b.1 + c.1) =
+  change Finsupp.equivMapDomain Equiv.ulift (b.1 + c.1) =
     Finsupp.equivMapDomain Equiv.ulift c.1 + Finsupp.equivMapDomain Equiv.ulift b.1
   rw [Finsupp.equivMapDomain_eq_mapDomain, Finsupp.equivMapDomain_eq_mapDomain,
     Finsupp.equivMapDomain_eq_mapDomain, Finsupp.mapDomain_add]

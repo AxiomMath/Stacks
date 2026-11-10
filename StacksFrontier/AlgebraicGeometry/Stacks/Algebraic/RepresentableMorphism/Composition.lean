@@ -78,7 +78,7 @@ private lemma homOfLifts_isHomLift
   apply IsHomLift.of_fac' _ f _
     (x.hx.symm.trans (IsHomLift.domain_eq pA f a))
     (y.hx.symm.trans (IsHomLift.codomain_eq pA f a))
-  show eqToHom _ ≫ pA.map a ≫ eqToHom _ = _
+  change eqToHom _ ≫ pA.map a ≫ eqToHom _ = _
   rw [IsHomLift.fac' pA f a]
   simp
 
@@ -168,20 +168,20 @@ private lemma exists_pullbackComparison
           ha := ha f
           hb := f.hb
           w := by
-            show H.map (L.map f.a).a ≫ ((L.obj y.x).iso.hom ≫ G.map y.iso.hom) =
+            change H.map (L.map f.a).a ≫ ((L.obj y.x).iso.hom ≫ G.map y.iso.hom) =
               ((L.obj x.x).iso.hom ≫ G.map x.iso.hom) ≫ G.map (F.map f.b)
             rw [← Category.assoc, (L.map f.a).w, Category.assoc, ← G.map_comp,
               show (L.map f.a).b ≫ y.iso.hom = x.iso.hom ≫ F.map f.b from f.w]
             simp }
       map_id x := by
         apply TwoFibreProductOver.Hom.ext'
-        · show (L.map (𝟙 x.x)).a = 𝟙 _
+        · change (L.map (𝟙 x.x)).a = 𝟙 _
           rw [L.map_id]
           rfl
         · rfl
       map_comp f g := by
         apply TwoFibreProductOver.Hom.ext'
-        · show (L.map (f.a ≫ g.a)).a = (L.map f.a).a ≫ (L.map g.a).a
+        · change (L.map (f.a ≫ g.a)).a = (L.map f.a).a ≫ (L.map g.a).a
           rw [L.map_comp]
           rfl
         · rfl }
@@ -218,11 +218,11 @@ private lemma exists_pullbackComparison
       simpa [b] using hm
     refine ⟨homOfLifts f.hbase b f.b ?_, ?_⟩
     · have hh := congrArg TwoFibreProductOver.Hom.b (L.map_preimage m)
-      show (L.map b).b ≫ y.iso.hom = x.iso.hom ≫ F.map f.b
+      change (L.map b).b ≫ y.iso.hom = x.iso.hom ≫ F.map f.b
       rw [hh]
       simp [m, homOfLifts]
     · apply TwoFibreProductOver.Hom.ext'
-      · show (L.map b).a = f.a
+      · change (L.map b).a = f.a
         rw [show L.map b = m from L.map_preimage m]
         rfl
       · rfl
@@ -333,7 +333,7 @@ public lemma isRepresentableMorphism_comp
       simp only [Over.iteratedSliceEquiv, NatIso.ofComponents,
         Over.isoMk, CostructuredArrow.isoMk, Comma.isoMk,
         Over.forget, Comma.fst, Functor.comp]
-      show 𝟙 ((E.obj z).left.left) =
+      change 𝟙 ((E.obj z).left.left) =
         eqToHom (rfl : (E.obj z).left.left = (E.obj z).left.left) ≫
           𝟙 ((E.obj z).left.left) ≫ 𝟙 ((E.obj z).left.left)
       simp
@@ -367,7 +367,7 @@ public lemma isRepresentableMorphism_comp
       (Functor.isoWhiskerRight (Over.iteratedSliceEquiv M).unitIso.symm
         (Over.forget M)) ?_ ?_
     · intro z
-      show Over.mk (z.hom.left ≫ M.hom) = z.left
+      change Over.mk (z.hom.left ≫ M.hom) = z.left
       rw [Over.w z.hom]
       rfl
     · intro z

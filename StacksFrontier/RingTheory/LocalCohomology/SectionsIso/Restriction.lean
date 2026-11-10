@@ -15,7 +15,8 @@ coordinate of the resulting cocycle is the constant fraction `m / 1`. That is th
 hypotheses of `Stacks.LocalCohomology.localizationTriangleDataOfCechHomologyComparison`.
 
 The computation is the one recorded in
-`StacksFrontier/RingTheory/LocalCohomology/LocalizationTriangle/Data/MappingConeNaturality.lean`: the
+`StacksFrontier/RingTheory/LocalCohomology/LocalizationTriangle/Data/MappingConeNaturality.lean`:
+the
 canonical inclusion `L ⟶ mappingCone φ` hits the second biproduct summand, on which the retraction
 onto the cycles of the source is `d ∘ (φ.f 0)⁻¹`. Here `φ` is the Čech augmentation, whose inverse
 in degree zero identifies `M` with the degree-zero Čech term `M_1`, and `d` is the degree-zero Čech
@@ -109,7 +110,7 @@ theorem extendXIso_one_extend_d (m : M) :
   have h0 : (HomologicalComplex.extendXIso (Cech.cechComplex f (M : Type _))
         ComplexShape.embeddingUpNat (i := 0) (i' := (0 : ℤ)) (by simp)).hom
       ((cechAugIso f M).inv m) = (cechTermZeroEquiv f M).symm m := by
-    show (HomologicalComplex.extendXIso (Cech.cechComplex f (M : Type _))
+    change (HomologicalComplex.extendXIso (Cech.cechComplex f (M : Type _))
         ComplexShape.embeddingUpNat (i := 0) (i' := (0 : ℤ)) (by simp)).hom
       ((HomologicalComplex.extendXIso (Cech.cechComplex f (M : Type _))
         ComplexShape.embeddingUpNat (i := 0) (i' := (0 : ℤ)) (by simp)).inv
@@ -118,7 +119,7 @@ theorem extendXIso_one_extend_d (m : M) :
       (HomologicalComplex.extendXIso (Cech.cechComplex f (M : Type _))
         ComplexShape.embeddingUpNat (i := 0) (i' := (0 : ℤ)) (by simp)).inv_hom_id _
   rw [ConcreteCategory.congr_hom hd ((cechAugIso f M).inv m)]
-  show (HomologicalComplex.extendXIso (Cech.cechComplex f (M : Type _))
+  change (HomologicalComplex.extendXIso (Cech.cechComplex f (M : Type _))
       ComplexShape.embeddingUpNat (i := 1) (i' := (1 : ℤ)) (by simp)).hom
     ((HomologicalComplex.extendXIso (Cech.cechComplex f (M : Type _))
       ComplexShape.embeddingUpNat (i := 1) (i' := (1 : ℤ)) (by simp)).inv
@@ -187,7 +188,7 @@ theorem homologyFunctorFactors_singleFunctorCompHomologyFunctorIso_inv (m : M) :
         (ModuleCat.{max u v} R) 0).app M).inv_hom_id) m
   refine (HomologicalComplex.singleObjHomologySelfIso
     (ComplexShape.up ℤ) 0 M).toLinearEquiv.injective ?_
-  show (HomologicalComplex.singleObjHomologySelfIso (ComplexShape.up ℤ) 0 M).hom _ =
+  change (HomologicalComplex.singleObjHomologySelfIso (ComplexShape.up ℤ) 0 M).hom _ =
     (HomologicalComplex.singleObjHomologySelfIso (ComplexShape.up ℤ) 0 M).hom
       ((HomologicalComplex.singleObjHomologySelfIso (ComplexShape.up ℤ) 0 M).inv m)
   rw [← h, h2]

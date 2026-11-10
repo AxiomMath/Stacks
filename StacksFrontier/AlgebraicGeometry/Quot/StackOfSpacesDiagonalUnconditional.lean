@@ -68,7 +68,7 @@ of the stack of Stacks 0D1D over the big fppf site of `S` is representable by al
 `AlgebraicGeometry.Space.hasHilbertModels`"]
 theorem properFlatSpacesStack_hasRepresentableDiagonal :
     Stack.HasRepresentableDiagonal B S hS (properFlatSpacesStack B S hS) :=
-  hasRepresentableDiagonal_properFlatSpacesStack_of_hilb B S hS (hasHilbertModels B S hS)
+  hasRepresentableDiagonal_properFlatSpacesStack_of_hilb B S hS
 
 end AlgebraicGeometry.Space
 

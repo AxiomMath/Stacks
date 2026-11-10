@@ -77,7 +77,7 @@ theorem isPullbackDefined_of_notMem_support_of_weaklyAssociated {X Y : Scheme.{u
     (D : Y.IdealSheafData) (hD : IsEffectiveCartierDivisor D)
     (hf : ∀ x ∈ schemeWeaklyAssociatedPoints X, f x ∉ D.supportSet) :
     IsPullbackDefined f D := by
-  show IsEffectiveCartierDivisor (D.comap f)
+  change IsEffectiveCartierDivisor (D.comap f)
   refine (isEffectiveCartierDivisor_iff_affineLocal (D.comap f)).2 fun x hx => ?_
   have hxSupport : x ∈ (D.comap f).support :=
     Scheme.IdealSheafData.mem_supportSet_iff_mem_support.mp hx
@@ -121,7 +121,7 @@ theorem isPullbackDefined_of_notMem_support_of_weaklyAssociated {X Y : Scheme.{u
     have hfx₀V : f x₀ ∈ V := hUV hx₀U
     have htp : t ∈ (hV.primeIdealOf ⟨f x₀, hfx₀V⟩).asIdeal := by
       rw [← IsAffineOpen.comap_primeIdealOf_appLE V hV U hU hUV hx₀U]
-      show (f.appLE Va Ua hUV).hom t ∈ (hU.primeIdealOf ⟨x₀, hx₀U⟩).asIdeal
+      change (f.appLE Va Ua hUV).hom t ∈ (hU.primeIdealOf ⟨x₀, hx₀U⟩).asIdeal
       rw [← hqx₀]
       exact htq
     refine hf x₀ hx₀wa ?_
@@ -176,7 +176,7 @@ theorem isPullbackDefined_of_isFlat {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y)
       (presheafSurjective_iff_isSurjective_yoneda B S hS X.1 X.2 U p).1 hpSurj,
       I, R, j, e, hI, hmap, ?_⟩
   rw [← hran]
-  show (D.1.preimage f.hom).preimage p = _
+  change (D.1.preimage f.hom).preimage p = _
   rw [← Subfunctor.preimage_comp, hcomm]
 
 /-! ### Weakly associated points read on an étale scheme chart -/
@@ -294,7 +294,7 @@ theorem mem_weaklyAssociatedPointsOfSpace_chartSchemeToPoints (X : AlgebraicSpac
         q).class B S hS (yoneda.obj ((SmallEtale.toOver B S hS X.1).obj U))) = xbar.image :=
     (FieldValuedPoint.class_eq_class_iff B S hS X.1 _ _).mpr
       ⟨xbar.val, ⟨𝟙 _, by
-        show X.1.map (𝟙 _).op (U.obj.hom.app (Opposite.op xbar.val.siteObject) q) =
+        change X.1.map (𝟙 _).op (U.obj.hom.app (Opposite.op xbar.val.siteObject) q) =
           xbar.val.value
         simpa using hq⟩, FieldValuedPoint.dominates_refl B S hS X.1 xbar.val⟩
   rw [hcl]
@@ -374,9 +374,9 @@ theorem isPullbackDefined_of_notMem_weaklyAssociatedPoints {X Y : AlgebraicSpace
       rw [chartSchemeToPoints_eq_pointsMap_pointsEquivScheme_symm]
       congr 1
       refine (pointsEquivScheme B S hS U).symm_apply_eq.mpr ?_
-      show w = pointsToScheme B S hS U _
+      change w = pointsToScheme B S hS U _
       rw [pointsToScheme_pointsMap_yoneda, hydef]
-      show w = (BigFppfOver.toScheme B S hS).map (D'.2.2.rep.snd p)
+      change w = (BigFppfOver.toScheme B S hS).map (D'.2.2.rep.snd p)
         ((pointsEquivScheme B S hS (D'.2.2.rep.pullback p))
           ((pointsEquivScheme B S hS (D'.2.2.rep.pullback p)).symm w₀))
       rw [Equiv.apply_symm_apply]

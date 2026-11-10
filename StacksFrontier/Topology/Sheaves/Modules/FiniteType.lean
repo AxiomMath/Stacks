@@ -239,7 +239,8 @@ end Stacks.SheafOfModules
 
 namespace AlgebraicGeometry.SheafOfModules
 
-open Stacks.SheafOfModules (modulePullbackGeneratingSections openPreimageFactorization modulePullbackOpenPreimageIso)
+open Stacks.SheafOfModules (modulePullbackGeneratingSections openPreimageFactorization
+  modulePullbackOpenPreimageIso)
 
 /-- Finitely many sections generating a sheaf of modules over an open set `V` of the target
 pull back to finitely many sections generating the pullback over the preimage of `V`. The

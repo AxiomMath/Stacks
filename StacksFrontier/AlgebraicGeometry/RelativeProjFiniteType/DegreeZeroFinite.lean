@@ -168,7 +168,7 @@ public theorem finite_twistLocalization [Algebra.FiniteType (𝒜 0) A] {d : ℕ
       exact hy' ▸ deg0frac_mem_MLoc 𝒜' ℳ' f d n x hx
   let ε := (HomogeneousLocalization.Away.toSubmodulesEquiv 𝒜 h0 f).symm
   have hsmul (r : SLoc 𝒜' f) (z : MLocAll f (M := A)) : r • z = (ε r) • z := by
-    show r.val • z = (ε r).val • z
+    change r.val • z = (ε r).val • z
     rw [← HomogeneousLocalization.Away.val_toSubmodulesEquiv 𝒜 h0 f (ε r),
       (HomogeneousLocalization.Away.toSubmodulesEquiv 𝒜 h0 f).apply_symm_apply r]
   exact Module.Finite.of_addEquiv ε.toRingHom

@@ -92,7 +92,7 @@ theorem bijective_verticalAutMap_of_iso' (F : X ⥤ Y) (hF : F ⋙ pY = pX) {a b
     apply Subtype.ext
     apply Aut.ext
     apply Iso.ext
-    show F.map e.inv ≫ F.map (α : Aut a).asIso.hom ≫ F.map e.hom =
+    change F.map e.inv ≫ F.map (α : Aut a).asIso.hom ≫ F.map e.hom =
       F.map (e.inv ≫ (α : Aut a).asIso.hom ≫ e.hom)
     simp
   rw [key]
@@ -218,7 +218,7 @@ theorem inducesIsomorphismAtObject_of_isIso_pointAutomorphismSpaceMap (f : 𝒳 
   let W : (BigFppfOver B p.base.left.1 p.base.left.2)ᵒᵖ := Opposite.op (Over.mk t.left)
   let g := sliceObj B S hS p.base W
   let i : 𝒳.val.val.p.obj b ≅ g.left := Over.isoMk (Iso.refl _) (by
-    show 𝟙 _ ≫ t.left ≫ p.base.hom = (𝒳.val.val.p.obj b).hom
+    change 𝟙 _ ≫ t.left ≫ p.base.hom = (𝒳.val.val.p.obj b).hom
     rw [Category.id_comp]
     exact Over.w t)
   have hfac : t = i.hom ≫ g.hom := by

@@ -292,7 +292,7 @@ private lemma cotangentMap_id (i : SimplexCategoryᵒᵖ) :
   apply (cotangentEquiv J f i _).injective
   rw [cotangentMap, Equiv.apply_symm_apply]
   ext U x
-  show (cotangentEquiv J f i _ (𝟙 _)).d ((resolutionMap J f (𝟙 i)).hom.app U x) = _
+  change (cotangentEquiv J f i _ (𝟙 _)).d ((resolutionMap J f (𝟙 i)).hom.app U x) = _
   simp [resolutionMap]
 
 /-- The transposed simplex maps are compatible with composition. -/
@@ -302,7 +302,7 @@ private lemma cotangentMap_comp {i j k : SimplexCategoryᵒᵖ} (g : i ⟶ j) (h
   rw [cotangentMap_naturality]
   simp only [cotangentMap, Equiv.apply_symm_apply]
   ext U x
-  show (cotangentEquiv J f k _ (𝟙 _)).d ((resolutionMap J f (g ≫ h)).hom.app U x) =
+  change (cotangentEquiv J f k _ (𝟙 _)).d ((resolutionMap J f (g ≫ h)).hom.app U x) =
     (cotangentEquiv J f k _ (𝟙 _)).d
       ((resolutionMap J f h).hom.app U ((resolutionMap J f g).hom.app U x))
   simp [resolutionMap]

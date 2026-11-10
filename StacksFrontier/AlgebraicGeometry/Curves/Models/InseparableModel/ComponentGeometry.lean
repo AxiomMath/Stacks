@@ -37,12 +37,12 @@ private theorem mem_basicOpen_of_jE_eq_jC₁ (w : P1 κ) (y : P1 k) (h : jE w = 
     w ∈ Proj.basicOpen (lineGrading κ) (φE (zA 1)) ∧
       y ∈ Proj.basicOpen (lineGrading k) (φC₁ (zA 1)) := by
   have hy0 : jC₁ y ∉ Proj.basicOpen grading (zA 0) := by
-    show y ∉ jC₁ ⁻¹ᵁ Proj.basicOpen grading (zA 0)
+    change y ∉ jC₁ ⁻¹ᵁ Proj.basicOpen grading (zA 0)
     rw [jC₁, Proj.map_preimage_basicOpen, φC₁_zA]
     simp
   have hw0 : w ∉ Proj.basicOpen (lineGrading κ) (MvPolynomial.X 0) := fun hw ↦ hy0 <| by
     rw [← h]
-    show w ∈ jE ⁻¹ᵁ Proj.basicOpen grading (zA 0)
+    change w ∈ jE ⁻¹ᵁ Proj.basicOpen grading (zA 0)
     rwa [jE, Proj.map_preimage_basicOpen, φE_zA]
   have hw1 : w ∈ Proj.basicOpen (lineGrading κ) (φE (zA 1)) := by
     have hw : w ∈ (⨆ i : Fin (1 + 1),
@@ -55,7 +55,7 @@ private theorem mem_basicOpen_of_jE_eq_jC₁ (w : P1 κ) (y : P1 k) (h : jE w = 
     · exact absurd hi hw0
     · exact hi
   refine ⟨hw1, ?_⟩
-  show y ∈ jC₁ ⁻¹ᵁ Proj.basicOpen grading (zA 1)
+  change y ∈ jC₁ ⁻¹ᵁ Proj.basicOpen grading (zA 1)
   rwa [Scheme.Hom.mem_preimage, ← h, ← Scheme.Hom.mem_preimage]
 
 /-- On the chart `D₊(b)` of `ℙ¹_κ`, any ring map killing the affine coordinate `a / b` takes every
@@ -167,7 +167,7 @@ private theorem finrank_le_of_chart {Y : Scheme} (g : Y ⟶ Spec (.of k))
       (ringOfSpec u').comp (coeffE.comp (algebraMap k κ)) := by
     have happ : g.appLE ⊤ ⊤ (by simp) = g.appTop := (Scheme.Hom.app_eq_appLE (U := ⊤) g).symm
     rw [happ]
-    show ringOfSpec g = _
+    change ringOfSpec g = _
     rw [hge, ringOfSpec_comp, CommRingCat.hom_ofHom]
   let H := (restrictScalarsOverBase k g).obj
     ((SheafOfModules.evaluation Y.ringCatSheaf (Opposite.op ⊤)).obj
@@ -178,7 +178,7 @@ private theorem finrank_le_of_chart {Y : Scheme} (g : Y ⟶ Spec (.of k))
         simp only [map_add]
         rfl
       map_smul' := fun r c => by
-        show ringOfSpec u' (coeffE (r • c)) =
+        change ringOfSpec u' (coeffE (r • c)) =
           ((Scheme.ΓSpecIso (.of k)).inv ≫ g.appLE ⊤ ⊤ (by simp)).hom r * ringOfSpec u' (coeffE c)
         rw [hφ, Algebra.smul_def, map_mul, map_mul]
         rfl }

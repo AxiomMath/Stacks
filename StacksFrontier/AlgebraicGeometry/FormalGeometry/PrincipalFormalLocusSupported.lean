@@ -104,7 +104,7 @@ theorem isIso_comparisonMap_of_associatedPoints_le [IsNoetherianRing A]
         (ConcreteCategory.hom (projNearVanishing A I a F T n) t') := by
     rw [← ConcreteCategory.comp_apply, ← ConcreteCategory.comp_apply, comparisonAt_π]
   rw [hc, hinv]
-  show ConcreteCategory.hom ((adicProj J F n).app ⊤) t = _
+  change ConcreteCategory.hom ((adicProj J F n).app ⊤) t = _
   rcases le_total n.unop N with hn | hn
   · have h : op N ⟶ n := (homOfLE hn).op
     rw [← adicProj_comp_map J F h, Scheme.Modules.Hom.comp_app, ConcreteCategory.comp_apply, ht,

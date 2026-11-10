@@ -80,7 +80,7 @@ public lemma standardSyntomic_of_sourceIso {X X' S : Scheme.{u}} [IsAffine X]
     (heq : e.hom ≫ g = f) (hf : IsStandardSyntomic f) :
     IsStandardSyntomic g := by
   have : IsIso e.hom.appTop := by
-    show IsIso (e.hom.app ⊤)
+    change IsIso (e.hom.app ⊤)
     infer_instance
   let α : Γ(X', ⊤) ≃+* Γ(X, ⊤) := RingEquiv.ofBijective e.hom.appTop.hom
     ((ConcreteCategory.isIso_iff_bijective _).mp inferInstance)
@@ -94,11 +94,11 @@ public lemma standardSyntomic_of_sourceIso {X X' S : Scheme.{u}} [IsAffine X]
     { α.symm with
       commutes' := fun r => by
         apply α.injective
-        show α (α.symm (f.appTop.hom r)) = α (g.appTop.hom r)
+        change α (α.symm (f.appTop.hom r)) = α (g.appTop.hom r)
         rw [α.apply_symm_apply]
         exact (congrArg (fun k => k r) hmap).symm }
   let : Algebra.IsRelativeGlobalCompleteIntersection Γ(S, ⊤) Γ(X, ⊤) := hf
-  show Algebra.IsRelativeGlobalCompleteIntersection Γ(S, ⊤) Γ(X', ⊤)
+  change Algebra.IsRelativeGlobalCompleteIntersection Γ(S, ⊤) Γ(X', ⊤)
   exact Algebra.IsRelativeGlobalCompleteIntersection.of_algEquiv ea
 
 /-- Being a relative global complete intersection is invariant under replacing the base ring by
@@ -136,19 +136,19 @@ private lemma standardSyntomic_from_resLE {X T : Scheme.{u}} [IsAffine T]
     (⊤ : T.Opens).topIso.commRingCatIsoToRingEquiv
   have hbase : f₀.appTop.hom = f'.appTop.hom.comp β.toRingHom := by
     have hcomp : f'.appTop.hom = f₀.appTop.hom.comp T.topIso.hom.appTop.hom := by
-      show (f₀ ≫ T.topIso.hom).appTop.hom = _
+      change (f₀ ≫ T.topIso.hom).appTop.hom = _
       rw [Scheme.Hom.comp_appTop]
       rfl
     have htop : T.topIso.hom.appTop = (⊤ : T.Opens).topIso.inv := rfl
     have hT : T.topIso.hom.appTop.hom.comp β.toRingHom = RingHom.id _ := by
       rw [htop]
-      show β.symm.toRingHom.comp β.toRingHom = RingHom.id _
+      change β.symm.toRingHom.comp β.toRingHom = RingHom.id _
       ext x
       exact β.symm_apply_apply x
     rw [hcomp, RingHom.comp_assoc, hT, RingHom.comp_id]
   have hfstd : IsStandardSyntomic f' := by
     let : Algebra Γ(T, ⊤) Γ(W.toScheme, ⊤) := f'.appTop.hom.toAlgebra
-    show Algebra.IsRelativeGlobalCompleteIntersection Γ(T, ⊤) Γ(W.toScheme, ⊤)
+    change Algebra.IsRelativeGlobalCompleteIntersection Γ(T, ⊤) Γ(W.toScheme, ⊤)
     exact relativeGCI_of_baseRingEquiv β f₀.appTop.hom f'.appTop.hom hbase hstd
   have heq : hW.isoSpec.hom ≫ (hW.fromSpec ≫ f) = f' := by
     dsimp [f₀, f']

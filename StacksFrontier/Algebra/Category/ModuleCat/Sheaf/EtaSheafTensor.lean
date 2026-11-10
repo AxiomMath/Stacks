@@ -114,7 +114,8 @@ open Stacks.SheafOfModules.Invertible ( tensorRightFunctor_isEquivalence
   tensorPowerEquivalence powSuccIso powSuccIso_natural
   tensorProductRightUnitor)
 
-open Stacks.SheafOfModules.TensorSheafification (structureRingPresheaf sheafify sheafifyAdjunction toSheafify isIso_sheafify_map_whiskerRight isIso_sheafify_map_toSheafify)
+open Stacks.SheafOfModules.TensorSheafification (structureRingPresheaf sheafify sheafifyAdjunction
+  toSheafify isIso_sheafify_map_whiskerRight isIso_sheafify_map_toSheafify)
 
 universe u v w
 
@@ -164,9 +165,6 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [HasWeakSheafify J AddCommGrpCat.{w}]
 
--- Lean v4.35.0 / Mathlib v4.35.0: the sheafified tensor calculus below unfolds more slowly.
-set_option maxHeartbeats 1600000
-
 local notation "Osh" => (Stacks.SheafOfModules.Tensor.ringSheaf
   (ObjectProperty.FullSubcategory.mk O
     (Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO)))
@@ -199,11 +197,17 @@ private def idealUnit {I : SheafOfModules.{w} Osh} (i : I ⟶ SheafOfModules.uni
 
 /-- The sheafification unit is natural. -/
 private lemma toSheafify_natural {P Q : PresheafOfModules.{w} (Osh).obj} (f : P ⟶ Q) :
-    f ≫ ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app) Q = ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app) P ≫ (((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map f).val := by
-  have h := ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj))).unit.naturality f
+    f ≫ ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app) Q =
+      ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app) P ≫
+      (((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map f).val := by
+  have h := ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh)
+      (𝟙 (Osh).obj))).unit.naturality f
   convert h using 1
   rfl
 
+set_option maxHeartbeats 1600000 in
+-- elaborating the sheafified twofold tensor product and its naturality square times out at
+-- the default limit since Lean v4.35.0 / Mathlib v4.35.0
 attribute [local implicit_reducible] Stacks.SheafOfModules.TensorSheafification.toSheafify in
 /-- Sheafifying a twofold presheaf tensor product agrees with two successive sheaf tensor
 products. -/
@@ -211,7 +215,10 @@ private noncomputable def tensorRightPairIso (I L : SheafOfModules.{w} Osh) :
     SheafOfModules.forget Osh ⋙ tensorRight I.val ⋙ tensorRight L.val ⋙
       (PresheafOfModules.sheafification.{w, v, w, u}
         (R₀ := (Osh).obj) (R := Osh) (𝟙 (Osh).obj)) ≅
-      (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w} ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj I ⋙ (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w} ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj L := by
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w}
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj I ⋙
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w}
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj L := by
   let S := PresheafOfModules.sheafification.{w, v, w, u}
     (R₀ := (Osh).obj) (R := Osh) (𝟙 (Osh).obj)
   refine NatIso.ofComponents (fun moduleSheaf => ?_) ?_
@@ -233,15 +240,22 @@ private noncomputable def tensorRightPairIso (I L : SheafOfModules.{w} Osh) :
 /-- Tensoring by `I` and tensoring by `L` commute, by the braiding of the tensor product. -/
 @[no_expose]
 public noncomputable def tensorRightCommuteIso (I L : SheafOfModules.{w} Osh) :
-    (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w} ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj I ⋙ (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w} ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj L ≅
-      (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w} ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj L ⋙ (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w} ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj I := by
+    (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w}
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj I ⋙
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w}
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj L ≅
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w}
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj L ⋙
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w}
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj I := by
   exact (tensorRightPairIso O hO I L).symm ≪≫
     Functor.isoWhiskerRight
       (Functor.isoWhiskerLeft (SheafOfModules.forget Osh)
         ((tensorRightTensor I.val L.val).symm ≪≫
           (curriedTensor _).flip.mapIso (β_ I.val L.val) ≪≫
           tensorRightTensor L.val I.val))
-      ((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))) ≪≫ tensorRightPairIso O hO L I
+      ((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))) ≪≫
+        tensorRightPairIso O hO L I
 
 /-- The interchange of the two outer tensor factors of `(M ⊗ I) ⊗ L`, with source and target
 spelled through the functors that `tensorRightPairIso` is stated over. The braiding is taken as
@@ -256,9 +270,12 @@ private noncomputable def swapMap (I L M : SheafOfModules.{w} Osh)
 /-- Multiplication `M ⊗ I ⟶ M` by the ideal, induced by `i : I ⟶ O`. -/
 private noncomputable def rightMultiply (I : SheafOfModules.{w} Osh)
     (i : I ⟶ SheafOfModules.unit Osh) (M : SheafOfModules.{w} Osh) :
-    ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w} ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj I).obj M ⟶ M := by
+    ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w}
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj I).obj
+      M ⟶ M := by
   change ((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).obj (M.val ⊗ I.val) ⟶ M
-  exact ((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map ((M.val ◁ i.val) ≫ (ρ_ M.val).hom) ≫
+  exact ((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map
+      ((M.val ◁ i.val) ≫ (ρ_ M.val).hom) ≫
     ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj))).counit.app M
 
 /-- Multiplication by the ideal is the sheafification of the presheaf multiplication, followed
@@ -266,7 +283,8 @@ by the sheafification counit. -/
 private lemma rightMultiply_eq (I : SheafOfModules.{w} Osh)
     (i : I ⟶ SheafOfModules.unit Osh) (M : SheafOfModules.{w} Osh) :
     rightMultiply O hO I i M =
-      ((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map ((M.val ◁ i.val) ≫ (ρ_ M.val).hom) ≫
+      ((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map
+        ((M.val ◁ i.val) ≫ (ρ_ M.val).hom) ≫
         ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj))).counit.app M :=
   rfl
 
@@ -274,7 +292,8 @@ private lemma rightMultiply_eq (I : SheafOfModules.{w} Osh)
 multiplication. -/
 private lemma toSheafify_rightMultiply (I : SheafOfModules.{w} Osh)
     (i : I ⟶ SheafOfModules.unit Osh) (M : SheafOfModules.{w} Osh) :
-    ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app) (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
+    ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app)
+      (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
         (rightMultiply O hO I i M).val =
       (M.val ◁ i.val) ≫ (ρ_ M.val).hom := by
   have h := (((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj))).homEquiv
@@ -285,7 +304,9 @@ private lemma toSheafify_rightMultiply (I : SheafOfModules.{w} Osh)
 /-- Multiplication by the ideal is natural in the module. -/
 private lemma rightMultiply_natural (I : SheafOfModules.{w} Osh)
     (i : I ⟶ SheafOfModules.unit Osh) {M N : SheafOfModules.{w} Osh} (f : M ⟶ N) :
-    ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w} ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj I).map f ≫ rightMultiply O hO I i N =
+    ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w}
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj I).map
+      f ≫ rightMultiply O hO I i N =
       rightMultiply O hO I i M ≫ f := by
   -- The presheaf-level content: braiding `f` past the ideal and then multiplying is
   -- multiplying first and then applying `f`. Stated separately, inside the monoidal category
@@ -297,57 +318,84 @@ private lemma rightMultiply_natural (I : SheafOfModules.{w} Osh)
   -- underlying presheaf of modules, which are the same object spelled differently.
   apply (((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj))).homEquiv
     (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) N).injective
-  show ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app) (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
-      ((((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map (f.val ▷ I.val)).val ≫ (rightMultiply O hO I i N).val) =
-    ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app) (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
+  change ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app)
+      (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
+      ((((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map (f.val ▷ I.val)).val ≫
+        (rightMultiply O hO I i N).val) =
+    ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app)
+      (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
       ((rightMultiply O hO I i M).val ≫ f.val)
-  calc ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app) (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
-        ((((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map (f.val ▷ I.val)).val ≫ (rightMultiply O hO I i N).val)
-      = (((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app) (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
-          (((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map (f.val ▷ I.val)).val) ≫ (rightMultiply O hO I i N).val :=
+  calc ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app)
+          (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
+        ((((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map
+          (f.val ▷ I.val)).val ≫ (rightMultiply O hO I i N).val)
+      = (((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app)
+        (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
+          (((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map
+            (f.val ▷ I.val)).val) ≫ (rightMultiply O hO I i N).val :=
         (Category.assoc _ _ _).symm
     _ = ((f.val ▷ I.val) ≫
-          ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app) (N.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj)) ≫
+          ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app)
+            (N.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj)) ≫
           (rightMultiply O hO I i N).val :=
         congrArg (fun k => k ≫ (rightMultiply O hO I i N).val)
           (toSheafify_natural O hO (f.val ▷ I.val)).symm
     _ = (f.val ▷ I.val) ≫
-          (((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app) (N.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
+          (((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app)
+            (N.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
             (rightMultiply O hO I i N).val) := Category.assoc _ _ _
     _ = (f.val ▷ I.val) ≫ ((N.val ◁ i.val) ≫ (ρ_ N.val).hom) :=
         congrArg (fun k => (f.val ▷ I.val) ≫ k) (toSheafify_rightMultiply O hO I i N)
     _ = ((M.val ◁ i.val) ≫ (ρ_ M.val).hom) ≫ f.val := hmon
-    _ = (((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app) (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
+    _ = (((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app)
+      (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
           (rightMultiply O hO I i M).val) ≫ f.val :=
         congrArg (fun k => k ≫ f.val) (toSheafify_rightMultiply O hO I i M).symm
-    _ = ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app) (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
+    _ = ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app)
+      (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ≫
           ((rightMultiply O hO I i M).val ≫ f.val) := Category.assoc _ _ _
 
+set_option maxHeartbeats 1600000 in
+-- unfolding the sheafified tensor comparison by `rfl` times out at the default limit
+-- since Lean v4.35.0 / Mathlib v4.35.0
 /-- The components of the comparison of a twofold tensor product. -/
 private lemma tensorRightPairIso_hom_app (I L M : SheafOfModules.{w} Osh) :
     (tensorRightPairIso O hO I L).hom.app M =
       ((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map
-        (((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app) (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ▷ L.val) := rfl
+        (((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app)
+          (M.val ⊗ I.val : PresheafOfModules.{w} (Osh).obj) ▷ L.val) := rfl
 
 /-- The left triangle identity of the sheafification adjunction. -/
 private lemma sheafify_toSheafify_counit (P : PresheafOfModules.{w} (Osh).obj) :
-    ((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map (((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app) P) ≫
-      ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj))).counit.app (((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).obj P) = 𝟙 _ :=
-  ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj))).left_triangle_components P
+    ((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map
+      (((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj)).unit.app) P) ≫
+      ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj))).counit.app
+        (((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).obj P) = 𝟙 _ :=
+  ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh)
+    (𝟙 (Osh).obj))).left_triangle_components P
 
 /-- The left triangle identity of the sheafification adjunction, in the `unitVal`/`counitVal`
 spelling. -/
 private lemma sheafify_unitVal_counitVal (P : PresheafOfModules.{w} (Osh).obj) :
-    ((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map (unitVal O hO P) ≫ counitVal O hO (((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).obj P) = 𝟙 _ :=
-  ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh) (𝟙 (Osh).obj))).left_triangle_components P
+    ((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map (unitVal O hO P) ≫
+      counitVal O hO (((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).obj P) =
+      𝟙 _ :=
+  ((PresheafOfModules.sheafificationAdjunction.{w} (R := Osh)
+    (𝟙 (Osh).obj))).left_triangle_components P
 
+set_option maxHeartbeats 1600000 in
+-- checking the chain of sheafified tensor identities below times out at the default limit
+-- since Lean v4.35.0 / Mathlib v4.35.0
 /-- Multiplying by the ideal after the comparison of a twofold tensor product is the
 sheafification of the presheaf multiplication on `M ⊗ L`. -/
 private lemma tensorRightPairIso_multiply (I L M : SheafOfModules.{w} Osh)
     (i : I ⟶ SheafOfModules.unit Osh) :
     (tensorRightPairIso O hO L I).hom.app M ≫
-      rightMultiply O hO I i (((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w} ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj L).obj M) =
-    ((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map (((M.val ⊗ L.val) ◁ i.val) ≫ (ρ_ (M.val ⊗ L.val)).hom) := by
+      rightMultiply O hO I i (((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w}
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj L).obj
+        M) =
+    ((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map
+      (((M.val ⊗ L.val) ◁ i.val) ≫ (ρ_ (M.val ⊗ L.val)).hom) := by
   let sheafification : PresheafOfModules.{w} (Osh).obj ⥤ SheafOfModules.{w} Osh :=
     PresheafOfModules.sheafification.{w, v, w, u}
       (R₀ := (Osh).obj) (R := Osh) (𝟙 (Osh).obj)
@@ -366,12 +414,14 @@ private lemma tensorRightPairIso_multiply (I L M : SheafOfModules.{w} Osh)
   refine (congrArg (fun comparison => comparison ≫
     rightMultiply O hO I i
       (((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w}
-        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj L).obj M))
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj L).obj
+          M))
     (tensorRightPairIso_hom_app O hO L I M)).trans ?_
   refine (congrArg (sheafification.map (unit ▷ I.val) ≫ ·)
     (rightMultiply_eq O hO I i
       (((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w}
-        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj L).obj M))).trans ?_
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj L).obj
+          M))).trans ?_
   exact (Category.assoc (sheafification.map (unit ▷ I.val))
     (sheafification.map sheafifiedMultiplication) counit).symm.trans
       ((congrArg (fun morphism => morphism ≫ counit)
@@ -385,19 +435,27 @@ private lemma tensorRightPairIso_multiply (I L M : SheafOfModules.{w} Osh)
                       (sheafify_unitVal_counitVal O hO presheaf)).trans
                         (Category.comp_id _))))))
 
+set_option maxHeartbeats 1600000 in
+-- unfolding the sheafified tensor comparison by `rfl` times out at the default limit
+-- since Lean v4.35.0 / Mathlib v4.35.0
 /-- Interchanging the two tensor factors carries multiplication by the ideal on `M ⊗ L` to
 multiplication by the ideal on `M`, tensored by `L`. -/
 private lemma tensorRightCommuteIso_multiply (I L M : SheafOfModules.{w} Osh)
     (i : I ⟶ SheafOfModules.unit Osh) :
     (tensorRightCommuteIso O hO I L).hom.app M ≫
-      rightMultiply O hO I i (((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w} ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj L).obj M) =
-    ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w} ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj L).map (rightMultiply O hO I i M) := by
+      rightMultiply O hO I i (((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w}
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj L).obj
+        M) =
+    ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, w, w, w}
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).flip.obj L).map
+      (rightMultiply O hO I i M) := by
   -- `swapMap` is the same composite, but with a *declared* type at the spelling of the
   -- functors `tensorRightPairIso` is stated over; without that the goal produced by `rw [hc]`
   -- is type-correct only at default transparency and nothing below can fire.
   have hc : (tensorRightCommuteIso O hO I L).hom.app M =
       (tensorRightPairIso O hO I L).inv.app M ≫
-        ((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map (swapMap O hO I L M (β_ I.val L.val).hom) ≫
+        ((PresheafOfModules.sheafification.{w} (R := Osh) (𝟙 (Osh).obj))).map
+          (swapMap O hO I L M (β_ I.val L.val).hom) ≫
         (tensorRightPairIso O hO L I).hom.app M := by rfl
   apply (cancel_epi ((tensorRightPairIso O hO I L).hom.app M)).mp
   rw [hc]
@@ -594,7 +652,8 @@ private lemma torsionFree_tensor (I : SheafOfModules.{u} Oₓ) (i : I ⟶ 𝒪)
     (L M : SheafOfModules.{u} Oₓ)
     [Stacks.SheafOfModules.IsInvertible X.presheaf (Oₓ).property L]
     (hM : IsIdealTorsionFree X i M) :
-    IsIdealTorsionFree X i (((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj L).obj M) := by
+    IsIdealTorsionFree X i (((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u}
+      X.sheaf).flip.obj L).obj M) := by
   let G := (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj L
   have : G.EssSurj := Functor.IsEquivalence.essSurj (F := G)
   have : G.Additive := Functor.flip_obj_additive
@@ -742,7 +801,8 @@ public theorem idealTorsionFree_tensorInvertible
     (L M : SheafOfModules.{u} Oₓ)
     [Stacks.SheafOfModules.IsInvertible X.presheaf (Oₓ).property L]
     (hM : IsIdealTorsionFree X ι M) :
-    IsIdealTorsionFree X ι (((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj L).obj M) :=
+    IsIdealTorsionFree X ι (((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u}
+      X.sheaf).flip.obj L).obj M) :=
   torsionFree_tensor X I ι L M hM
 
 /-- The successor comparison `I^{⊗ n} ⊗ - ⊗ I ≅ I^{⊗ (n+1)} ⊗ -` as a natural isomorphism. -/
@@ -818,8 +878,10 @@ module, with the ideal power kept in the first tensor factor. -/
 public noncomputable def idealPowerTensorIso (I L M : SheafOfModules.{u} Oₓ)
     [Stacks.SheafOfModules.IsInvertible X.presheaf (Oₓ).property I]
     [Stacks.SheafOfModules.IsInvertible X.presheaf (Oₓ).property L] (n : ℤ) :
-    idealPowerTerm X I n (((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj L).obj M) ≅
-      ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj L).obj (idealPowerTerm X I n M) :=
+    idealPowerTerm X I n (((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u}
+      X.sheaf).flip.obj L).obj M) ≅
+      ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj L).obj
+        (idealPowerTerm X I n M) :=
   (idealPowerCommuteNatIso X I L n).app M
 
 /-- At the zeroth ideal power the interchange is the identity. -/
@@ -840,7 +902,8 @@ public theorem idealPowerTensorIso_natural (I L : SheafOfModules.{u} Oₓ)
     [Stacks.SheafOfModules.IsInvertible X.presheaf (Oₓ).property L]
     (n : ℤ) {M N : SheafOfModules.{u} Oₓ} (a : M ⟶ N) :
     (idealPowerTensorIso X I L M n).hom ≫
-        ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj L).map (idealPowerMap X I n a) =
+        ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj L).map
+          (idealPowerMap X I n a) =
       idealPowerMap X I n
           (((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj L).map a) ≫
         (idealPowerTensorIso X I L N n).hom :=
@@ -851,10 +914,12 @@ public theorem idealPowerTensorIso_incl (I : SheafOfModules.{u} Oₓ) (ι : I �
     [Stacks.SheafOfModules.IsInvertible X.presheaf (Oₓ).property I]
     (L M : SheafOfModules.{u} Oₓ)
     [Stacks.SheafOfModules.IsInvertible X.presheaf (Oₓ).property L] (n : ℤ) :
-    idealPowerIncl X I ι n (((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj L).obj M) ≫
+    idealPowerIncl X I ι n (((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u}
+      X.sheaf).flip.obj L).obj M) ≫
       (idealPowerTensorIso X I L M n).hom =
     (idealPowerTensorIso X I L M (n + 1)).hom ≫
-        ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj L).map (idealPowerIncl X I ι n M) := by
+        ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj L).map
+          (idealPowerIncl X I ι n M) := by
   let E := (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj I
   let G := (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj L
   let a : E ⟶ 𝟭 _ :=
@@ -880,7 +945,8 @@ private lemma idealPowerCommuteNatIso_succ (I L : SheafOfModules.{u} Oₓ)
     [Stacks.SheafOfModules.IsInvertible X.presheaf (Oₓ).property I] (n : ℤ) :
     idealPowerCommuteNatIso X I L (n + 1) =
       commuteSucc ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj I)
-        ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj L) _ (idealPowerSuccNatIso X I)
+        ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj L) _
+          (idealPowerSuccNatIso X I)
         (tensorRightCommuteIso X.presheaf (Oₓ).property I L) n
         (idealPowerCommuteNatIso X I L n) := by
   exact commuteInt_succ
@@ -899,8 +965,10 @@ public structure IdealPowerTensorComparison (I L : SheafOfModules.{u} Oₓ)
     [Stacks.SheafOfModules.IsInvertible X.presheaf (Oₓ).property L] where
   /-- The interchange in degree `n`, at the module `M`. -/
   map : ∀ (n : ℤ) (M : SheafOfModules.{u} Oₓ),
-    idealPowerTerm X I n (((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj L).obj M) ⟶
-      ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj L).obj (idealPowerTerm X I n M)
+    idealPowerTerm X I n (((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u}
+      X.sheaf).flip.obj L).obj M) ⟶
+      ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj L).obj
+        (idealPowerTerm X I n M)
   /-- In degree `0` the interchange is the identity. -/
   zero : ∀ M : SheafOfModules.{u} Oₓ, map 0 M = 𝟙 _
   /-- Degree `n + 1` is transported from degree `n`. -/
@@ -916,7 +984,8 @@ public structure IdealPowerTensorComparison (I L : SheafOfModules.{u} Oₓ)
           (tensorRightCommuteIso X.presheaf (Oₓ).property I L).inv.app
             (idealPowerTerm X I n M) ≫
           ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj L).map
-            (X := ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj I).obj
+            (X := ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj
+              I).obj
               (idealPowerTerm X I n M))
             (Y := idealPowerTerm X I (n + 1) M)
             ((idealPowerSuccNatIso X I n).hom.app M)
@@ -988,9 +1057,11 @@ private noncomputable def etaTermTensorIso (I : SheafOfModules.{u} Oₓ) (ι : I
     [Stacks.SheafOfModules.IsInvertible X.presheaf (Oₓ).property L]
     (F : CochainComplex (SheafOfModules.{u} Oₓ) ℤ) (n : ℤ) :
     etaTerm X I ι
-        ((((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj L).mapHomologicalComplex
+        ((((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj
+          L).mapHomologicalComplex
           (ComplexShape.up ℤ)).obj F) n ≅
-      ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj L).obj (etaTerm X I ι F n) := by
+      ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj L).obj
+        (etaTerm X I ι F n) := by
   let G : SheafOfModules.{u} Oₓ ⥤ SheafOfModules.{u} Oₓ :=
     (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj L
   have : G.IsEquivalence := tensorRightFunctor_isEquivalence X.presheaf (Oₓ).property L
@@ -1081,10 +1152,12 @@ public noncomputable def etaTensorInvertible (I : SheafOfModules.{u} Oₓ) (ι :
     (F : CochainComplex (SheafOfModules.{u} Oₓ) ℤ)
     (hF : ∀ n : ℤ, IsIdealTorsionFree X ι (F.X n)) :
     etaObj X I ι
-          ((((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj L).mapHomologicalComplex
+          ((((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj
+            L).mapHomologicalComplex
             (ComplexShape.up ℤ)).obj F)
           (fun n => idealTorsionFree_tensorInvertible X I ι L (F.X n) (hF n)) ≅
-        (((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj L).mapHomologicalComplex
+        (((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj
+          L).mapHomologicalComplex
           (ComplexShape.up ℤ)).obj (etaObj X I ι F hF) := by
   let G : SheafOfModules.{u} Oₓ ⥤ SheafOfModules.{u} Oₓ :=
     (Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} X.sheaf).flip.obj L

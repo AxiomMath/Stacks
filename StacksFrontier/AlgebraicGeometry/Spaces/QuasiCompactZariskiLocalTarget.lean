@@ -172,7 +172,7 @@ theorem isQuasiCompact_of_openImmersion_cover
     refine ⟨W, isOpenSubspace_openSubspaceOfPoints B S hS
       (isAlgebraicSpace_yoneda B S hS Z) _ hopen, by rwa [hWrange],
       Subfunctor.lift (W.ι ≫ g) hle ≫ inv (Subfunctor.toRange (k i)) ≫ Sigma.ι Y' i, ?_⟩
-    rw [Category.assoc, Category.assoc, Sigma.ι_desc, hι, Subfunctor.lift_ι]
+    rw [Category.assoc, Category.assoc, Sigma.ι_comp_desc, hι, Subfunctor.lift_ι]
   obtain ⟨J, hJ, Zk, q, hqoi, hqaff, hqcov, hqfac⟩ :=
     exists_finite_affine_cover_factoring B S hS (Sigma.desc k) Z g hZcpt hloc
   have hsplit : ∀ j, ∃ (i : I) (l : yoneda.obj (Zk j) ⟶ Y' i),
@@ -180,7 +180,7 @@ theorem isQuasiCompact_of_openImmersion_cover
     intro j
     obtain ⟨c, hc⟩ := hqfac j
     obtain ⟨i, l, hl⟩ := exists_factor_sigma B S hS Y' c
-    exact ⟨i, l, by rw [hc, ← hl, Category.assoc, Sigma.ι_desc]⟩
+    exact ⟨i, l, by rw [hc, ← hl, Category.assoc, Sigma.ι_comp_desc]⟩
   choose idx l hl using hsplit
   have hqc : ∀ j, IsQuasiCompactSpace B S hS (pullback (yoneda.map (q j) ≫ g) f) := by
     intro j

@@ -93,7 +93,7 @@ private theorem quotient_factor_isThickening
     let q : PrimeSpectrum (R ⧸ I) :=
       ⟨p.asIdeal.map f, Ideal.map_isPrime_of_surjective hsurj hkerle⟩
     refine ⟨q, PrimeSpectrum.ext ?_⟩
-    show Ideal.comap f (p.asIdeal.map f) = p.asIdeal
+    change Ideal.comap f (p.asIdeal.map f) = p.asIdeal
     rw [Ideal.comap_map_of_surjective f hsurj]
     exact sup_eq_left.mpr hkerle
   exact ⟨IsClosedImmersion.spec_of_surjective _ hsurj, hSpec⟩
@@ -117,9 +117,9 @@ private theorem weakIdeals_directed :
   refine ⟨fun J K => ?_⟩
   refine ⟨OrderDual.toDual ⟨J.1 ⊓ K.1,
     ⟨J.2.1.inter K.2.1, fun x hx => J.2.2 x hx.1⟩⟩, ?_, ?_⟩
-  · show J.1 ⊓ K.1 ≤ J.1
+  · change J.1 ⊓ K.1 ≤ J.1
     exact inf_le_left
-  · show J.1 ⊓ K.1 ≤ K.1
+  · change J.1 ⊓ K.1 ≤ K.1
     exact inf_le_right
 
 omit [IsTopologicalRing A] [IsLinearTopology A A] in
@@ -213,7 +213,7 @@ private theorem liftedQuotientDiagram_transitions_areThickenings
     Stacks.Thickenings.IsThickening
       ((BigAffineFppf.toScheme B S hS).map
         ((liftedQuotientDiagram B S hS A X P).map f)) := by
-  show Stacks.Thickenings.IsThickening
+  change Stacks.Thickenings.IsThickening
     ((BigAffineFppf.toScheme B S hS).map
       (P.diagram.map ((liftedWeakIdealDownFunctor (A := A)).map f)))
   exact quotientPresentation_transition_isThickening B S hS A X P
@@ -284,7 +284,7 @@ private theorem factor_from_compact_scheme
     calc
       (Sheaf.sectionEquiv J) (gi ≫ colimit.ι G i) = (colimit.ι G i).hom.app (op U) x := by
         rw [Sheaf.sectionEquiv_comp]
-        show (colimit.ι G i).hom.app (op U)
+        change (colimit.ι G i).hom.app (op U)
           ((Sheaf.sectionEquiv J) ((Sheaf.sectionEquiv J).symm x)) = _
         exact congrArg ((colimit.ι G i).hom.app (op U))
           ((Sheaf.sectionEquiv J).apply_symm_apply x)
@@ -394,7 +394,7 @@ private theorem weakIdeal_le_of_colimit_stage_map
     simp only [unop_comp, Quiver.Hom.unop_op] at h
     have h' := congrArg CommRingCat.Hom.hom h
     simpa using h'
-  show K.1 ≤ J.1
+  change K.1 ≤ J.1
   intro x hx
   have hval := congrArg
     (fun ψ : A ⧸ L.1 →+* A ⧸ J.1 => ψ (Ideal.Quotient.mk L.1 x)) hcoordRing
@@ -461,7 +461,7 @@ private theorem compactSpace_of_thickening_source
   have : CompactSpace
       ((BigFppfOver.toScheme B S hS).obj
         ((BigAffineFppf.inclusion B S hS).obj (D.obj i))) := by
-    show CompactSpace ((BigAffineFppf.toScheme B S hS).obj (D.obj i))
+    change CompactSpace ((BigAffineFppf.toScheme B S hS).obj (D.obj i))
     infer_instance
   have : CompactSpace
       ((BigFppfOver.toScheme B S hS).obj hb) :=
@@ -614,7 +614,7 @@ public theorem existsUnique_weakIdeal_quotient
   have haBig : Taff.map aBig = aOver := Taff.map_preimage aOver
   have haBigThick : Stacks.Thickenings.IsThickening
       ((BigAffineFppf.toScheme B S hS).map aBig) := by
-    show Stacks.Thickenings.IsThickening
+    change Stacks.Thickenings.IsThickening
       ((BigFppfOver.toScheme B S hS).map (Taff.map aBig))
     rw [haBig]
     simpa [aOver, Taff] using haThick
@@ -640,7 +640,7 @@ public theorem existsUnique_weakIdeal_quotient
     eSch heBase
   let e : T ≅ Taff.obj (P.diagram.obj K) := Taff.mapIso eBig
   have heBig : (BigAffineFppf.toScheme B S hS).map eBig.hom = eSch.hom := by
-    show B.inclusion.map
+    change B.inclusion.map
       ((Taff.map (Taff.preimage (Over.homMk (B.inclusion.preimage eSch.hom) _))).left) = _
     rw [Taff.map_preimage]
     exact B.inclusion.map_preimage eSch.hom
@@ -661,7 +661,7 @@ public theorem existsUnique_weakIdeal_quotient
           F.map a ≫ quotientMap B S hS A X P J := by
             have hw : F.map (Taff.map (P.diagram.map (homOfLE hKJ))) ≫
                 quotientMap B S hS A X P J = quotientMap B S hS A X P K := by
-              show GP.map (homOfLE hKJ) ≫
+              change GP.map (homOfLE hKJ) ≫
                 (colimit.ι GP J ≫ P.colimitIso.inv) = colimit.ι GP K ≫ P.colimitIso.inv
               rw [← Category.assoc, colimit.w]
             rw [hmap, F.map_comp, Category.assoc, hw]
@@ -758,7 +758,7 @@ public theorem inducedSectionHom_quotient
   have hJ : J₀ = J := hU.unique hJ₀ ⟨e, he⟩
   let e₀ := Classical.choose hJ₀
   have he₀ := Classical.choose_spec hJ₀
-  show sectionHomOfQuotientIso B S hS A X P J₀ T e₀ = _
+  change sectionHomOfQuotientIso B S hS A X P J₀ T e₀ = _
   subst J
   have : Nonempty (WeakIdeals A) := TopologicalRing.nonempty_weakIdealOfDefinitionIndex hA.1
   have : IsDirected (WeakIdeals A) (· ≤ ·) :=
@@ -800,7 +800,7 @@ public theorem quotient_ker_sections
     g₂.hom.hom.comp g₁.inv.hom
   have hψ : Function.Injective ψ := g₂.commRingCatIsoToRingEquiv.injective.comp
     g₁.commRingCatIsoToRingEquiv.symm.injective
-  show RingHom.ker (ψ.comp (Ideal.Quotient.mk J.1)) = J.1
+  change RingHom.ker (ψ.comp (Ideal.Quotient.mk J.1)) = J.1
   rw [RingHom.ker_comp_of_injective _ hψ, Ideal.mk_ker]
 
 end AlgebraicGeometry.FormalSpace

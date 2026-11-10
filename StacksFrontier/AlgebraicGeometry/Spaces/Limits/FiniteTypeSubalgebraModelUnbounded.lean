@@ -66,6 +66,7 @@ variable (B : BigFppfSite.{u}) (hZ : B.Contains (⊤_ Scheme.{u}))
   (A : Type u) [CommRing A] (hA : B.Contains (Spec (.of A)))
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site
 /-- Pullbacks of presheaves on the big fppf site over the terminal scheme (instance search
 times out without this shortcut). -/
 local instance hasPullbacks_presheaf_FiniteTypeSubalgebraModelUnbounded :

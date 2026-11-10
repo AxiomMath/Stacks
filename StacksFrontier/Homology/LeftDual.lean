@@ -148,7 +148,7 @@ private theorem ιTensorObj_d (K L : CochainComplex (ModuleCat R) ℤ)
       q (b + 1) (by change p + 1 + q = b + 1; omega),
     mapBifunctor.d₂_eq _ _ _ _ p (show (ComplexShape.up ℤ).Rel q (q + 1) from rfl)
       (b + 1) (by change p + (q + 1) = b + 1; omega)]
-  show (1 : ℤˣ) • _ + p.negOnePow • _ = _
+  change (1 : ℤˣ) • _ + p.negOnePow • _ = _
   rw [one_smul]
   rfl
 
@@ -163,7 +163,7 @@ private theorem evaluation_d (M N : CochainComplex (ModuleCat R) ℤ)
         ιTensorObj N M n (k + 1) 0 (by omega) ≫ ev.f 0) = 0 := by
   have hd : (N ⊗ M).d (-1) 0 ≫ ev.f 0 = 0 := by
     rw [← ev.comm]
-    show ev.f (-1) ≫
+    change ev.f (-1) ≫
       ((HomologicalComplex.single (ModuleCat R) (ComplexShape.up ℤ) 0).obj
         (𝟙_ (ModuleCat R))).d (-1) 0 = 0
     rw [single_obj_d, comp_zero]
@@ -358,7 +358,7 @@ private theorem finite_support_of_hom_to_tensor (M N : CochainComplex (ModuleCat
   · intro n hn
     apply ModuleCat.hom_ext
     apply LinearMap.ext_ring
-    show (Sigma.π Z ⟨(n, -n), by omega⟩).hom (f.hom 1) = 0
+    change (Sigma.π Z ⟨(n, -n), by omega⟩).hom (f.hom 1) = 0
     exact hz _ fun h => hn (Finset.mem_image_of_mem (fun a => a.val.1) h)
 
 /-- The right unitor of complexes, restricted to the summand `M^n ⊗ R`. -/
@@ -555,7 +555,7 @@ private theorem signedDual_isZero (M : CochainComplex (ModuleCat R) ℤ)
     (n : ℤ) (h : IsZero (M.X (-n))) : IsZero ((signedDual M).X n) := by
   let := ModuleCat.isZero_iff_subsingleton.mp h
   apply ModuleCat.isZero_iff_subsingleton.mpr
-  show Subsingleton (Module.Dual R (M.X (-n)))
+  change Subsingleton (Module.Dual R (M.X (-n)))
   infer_instance
 
 /-- The signed linear dual of a complex supported in `[a, b]` is supported in `[-b, -a]`. -/
@@ -711,14 +711,14 @@ private theorem signed_transpose_cast
         (e₁ (Module.Dual.transpose (M.d j i).hom
           (e₀.symm (Eq.mpr (congrArg ModuleCat.carrier (congrArg N.X h₀)) x))))) := by
   subst n n'
-  show (N.d (-i) (-j)).hom x = (-(-i).negOnePow : ℤˣ) •
+  change (N.d (-i) (-j)).hom x = (-(-i).negOnePow : ℤˣ) •
     e₁ (Module.Dual.transpose (M.d j i).hom (e₀.symm x))
   apply e₁.symm.injective
   rw [map_zsmul_unit, e₁.symm_apply_apply]
   ext m
   have hh := evaluation_d_apply M N ev (-i) (-j) j i hn hi (by omega) x m
   rw [he₀, he₁] at hh
-  show e₁.symm ((N.d (-i) (-j)).hom x) m =
+  change e₁.symm ((N.d (-i) (-j)).hom x) m =
     (-(-i).negOnePow : ℤˣ) • e₀.symm x ((M.d j i).hom m)
   simpa using eq_neg_of_add_eq_zero_left hh
 
@@ -802,7 +802,7 @@ private theorem canonical_coevaluation_naturality
       (B ◁ ModuleCat.ofHom (Module.Dual.transpose f.hom)) := by
   apply ModuleCat.hom_ext
   apply LinearMap.ext_ring
-  show TensorProduct.map f.hom LinearMap.id
+  change TensorProduct.map f.hom LinearMap.id
     ((1 : R) • TensorProduct.comm R _ _ (ModuleCat.LeftDual.identityTensor R A)) =
     TensorProduct.map LinearMap.id (Module.Dual.transpose f.hom)
       ((1 : R) • TensorProduct.comm R _ _ (ModuleCat.LeftDual.identityTensor R B))
@@ -838,7 +838,7 @@ private theorem ι_dualEvaluation
     (i j : ℤ) (h : i + j = 0) :
     ιTensorObj (signedDual M) M i j 0 h ≫ dualEvaluation M hM =
       @ExactPairing.evaluation _ _ _ _ _ (dualPairing M hM j i (by omega)) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- `ιTensorObj_d` with the successor degrees supplied as equalities. -/
 private theorem ιTensorObj_d_at (M N : CochainComplex (ModuleCat R) ℤ)
@@ -858,7 +858,7 @@ private theorem dualEvaluation_d (M : CochainComplex (ModuleCat R) ℤ)
   apply Sigma.hom_ext
   rintro ⟨⟨i, j⟩, hij⟩
   change i + j = -1 at hij
-  show ιTensorObj (signedDual M) M i j (-1) hij ≫
+  change ιTensorObj (signedDual M) M i j (-1) hij ≫
     (((signedDual M) ⊗ M).d (-1) 0 ≫ dualEvaluation M hM) = _
   have hj : j = -(i + 1) := by omega
   subst j
@@ -869,7 +869,7 @@ private theorem dualEvaluation_d (M : CochainComplex (ModuleCat R) ℤ)
   apply ModuleCat.hom_ext
   apply TensorProduct.ext'
   intro x m
-  show ((signedDual M).d i (i + 1)).hom x m +
+  change ((signedDual M).d i (i + 1)).hom x m +
     i.negOnePow • x ((M.d (-(i + 1)) (-i)).hom m) = 0
   rw [signedDual_d_apply]
   simp
@@ -914,7 +914,7 @@ private theorem dualCoevaluation_d (M : CochainComplex (ModuleCat R) ℤ)
     rcases Int.units_eq_one_or n.negOnePow with h | h <;>
       simp only [Int.negOnePow_neg, h] <;> decide
   rw [hn, Units.neg_smul, one_smul]
-  show _ + -_ = 0
+  change _ + -_ = 0
   rw [add_neg_eq_zero]
   exact canonical_coevaluation_naturality (M.X (-(n + 1))) (M.X (-n))
     (M.d (-(n + 1)) (-n))
@@ -1054,7 +1054,7 @@ private theorem signedDual_coevaluation_evaluation
   rw [left_snake_component M (signedDual M) ce _ s
     (homogeneousCoevaluation M hM) hη hz k, ι_dualEvaluationHom_f]
   let := dualPairing M hM k (-k) (by omega)
-  show (ρ_ ((signedDual M).X (-k))).inv ≫
+  change (ρ_ ((signedDual M).X (-k))).inv ≫
     ((signedDual M).X (-k) ◁ η_ (M.X k) ((signedDual M).X (-k))) ≫
     (α_ _ _ _).inv ≫ (ε_ (M.X k) ((signedDual M).X (-k)) ▷ _) ≫
     (λ_ _).hom = 𝟙 _
@@ -1080,7 +1080,7 @@ private theorem signedDual_evaluation_coevaluation
   rw [right_snake_component M (signedDual M) ce _ s
     (homogeneousCoevaluation M hM) hη hz n, ι_dualEvaluationHom_f]
   let := dualPairing M hM n (-n) (by omega)
-  show (λ_ (M.X n)).inv ≫ (η_ (M.X n) ((signedDual M).X (-n)) ▷ _) ≫
+  change (λ_ (M.X n)).inv ≫ (η_ (M.X n) ((signedDual M).X (-n)) ▷ _) ≫
     (α_ _ _ _).hom ≫ (M.X n ◁ ε_ (M.X n) ((signedDual M).X (-n))) ≫
     (ρ_ _).hom = 𝟙 _
   rw [ExactPairing.evaluation_coevaluation_assoc]
@@ -1213,7 +1213,7 @@ private theorem homCxMap_id_postcomp
   ext n z
   apply Cochain.ext
   intro i j hij
-  show (Stacks.HomComplex.TensorHomComparison.HomCxMapDeg M M K L (𝟙 M) f n z).v i j hij =
+  change (Stacks.HomComplex.TensorHomComparison.HomCxMapDeg M M K L (𝟙 M) f n z).v i j hij =
     (z.comp (Cochain.ofHom f) (add_zero n)).v i j hij
   rw [Stacks.HomComplex.TensorHomComparison.HomCxMapDeg_v, Cochain.comp_v _ _ _ i j j hij (add_zero
     j)]
@@ -1225,7 +1225,7 @@ private theorem tensorRightAdjunction_counit
     {C : Type*} [Category C] [MonoidalCategory C] (M N K : C) [ExactPairing M N] :
     (tensorRightAdjunction M N).counit.app K =
       (α_ K N M).hom ≫ (K ◁ ε_ M N) ≫ (ρ_ K).hom := by
-  show (𝟙 (K ⊗ N) ▷ M) ≫ _ = _
+  change (𝟙 (K ⊗ N) ▷ M) ≫ _ = _
   rw [id_whiskerRight, Category.id_comp]
   rfl
 
@@ -1247,7 +1247,7 @@ private theorem tensorRightAdjunction_counit_apply
   rw [reassoc_of% (ι_whiskerLeft K (N ⊗ M) _ (ε_ M N) p 0 p (add_zero p)),
     ι_rightUnitor_hom] at h'
   rw [tensorRightAdjunction_counit]
-  show (((ιTensorObj K N p q n hpq ▷ M.X (-q)) ≫
+  change (((ιTensorObj K N p q n hpq ▷ M.X (-q)) ≫
     ιTensorObj (K ⊗ N) M n (-q) p (by omega) ≫
     (α_ K N M).hom.f p ≫ (K ◁ ε_ M N).f p ≫ (ρ_ K).hom.f p).hom
       ((x ⊗ₜ[R] y) ⊗ₜ[R] m)) = _

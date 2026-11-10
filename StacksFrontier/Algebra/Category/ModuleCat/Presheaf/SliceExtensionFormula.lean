@@ -240,13 +240,13 @@ lemma extensionFormulaCoprodRestriction_eq (O : Cᵒᵖ ⥤ RingCat.{w}) (U : C)
     extensionFormulaCoprodRestriction.{v, u, w, m} O U G f =
       extensionFormulaMap.{v, u, w, max u m} O U G f := by
   refine DirectSum.addHom_ext fun φ y ↦ ?_
-  show extensionFormulaCoprodEquiv.{v, u, w, m} O U G V
+  change extensionFormulaCoprodEquiv.{v, u, w, m} O U G V
       ((extensionPresheaf.{v, u, w, max u v m} O U G).map f.op
         ((extensionFormulaCoprodEquiv.{v, u, w, m} O U G W).symm
           (DirectSum.of (extensionFormulaSummands.{v, u, w, max u m} O U G W) φ y))) = _
   rw [(extensionFormulaCoprodEquiv.{v, u, w, m} O U G W).symm_apply_eq.2
     (extensionFormulaCoprodEquiv_ι.{v, u, w, m} O U G W φ y).symm]
-  show extensionFormulaCoprodEquiv.{v, u, w, m} O U G V
+  change extensionFormulaCoprodEquiv.{v, u, w, m} O U G V
       (extensionRestriction O U G f.op
         (Limits.Sigma.ι (extensionSummands O U G (op W)) φ y)) = _
   rw [extensionRestriction_ι_apply O U G f.op φ (f ≫ φ) rfl,
@@ -310,7 +310,7 @@ theorem extensionObjLinearEquivDirectSum (O : Cᵒᵖ ⥤ RingCat.{w}) (U : C)
       right_inv := fun x ↦ congrArg (fun k ↦ k.app (op V) x) ψ.inv_hom_id }
   refine ⟨fun V ↦ (ε V).trans (extensionFormulaCoprodEquiv.{v, u, w, m} O U G V), ?_⟩
   intro V W f x
-  show extensionFormulaCoprodEquiv.{v, u, w, m} O U G V
+  change extensionFormulaCoprodEquiv.{v, u, w, m} O U G V
       (ψ.hom.app (op V) ((A.extension.obj G).map f.op x)) =
     extensionFormulaMap.{v, u, w, max u m} O U G f
       (extensionFormulaCoprodEquiv.{v, u, w, m} O U G W (ψ.hom.app (op W) x))

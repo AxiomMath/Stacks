@@ -416,7 +416,7 @@ theorem isLocallySurjective_sigmaDesc_pieceMap (h𝔛 : IsMcQuillanFormalScheme 
     ((c (k' q)).pieceLift (I := I) (hI := hI) hk), ?_⟩
   have h := congrArg (fun η => η.app (op (k' ⁻¹ᵁ (c (k' q)).V).toScheme)
       ((c (k' q)).pieceLift (I := I) (hI := hI) hk))
-    (Sigma.ι_desc (pieceFamily I hI hC (φ := φ)) (c (k' q)))
+    (Sigma.ι_comp_desc (pieceFamily I hI hC (φ := φ)) (c (k' q)))
   simp only [NatTrans.comp_app, types_comp_apply] at h
   exact h.trans (Subtype.ext ((c (k' q)).pieceLift_fst_ι I hI hk))
 

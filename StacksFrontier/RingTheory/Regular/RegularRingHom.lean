@@ -447,7 +447,7 @@ private theorem flat_of_flat_localRingHom_maximal
       (hm : m = m'.comap f),
       (Localization.localRingHom m m' f hm).Flat) : f.Flat := by
   let : Algebra R S := f.toAlgebra
-  show Module.Flat R S
+  change Module.Flat R S
   apply Module.flat_of_isLocalized_maximal S S
     (fun P _ ↦ Localization.AtPrime P)
     (fun P _ ↦ Algebra.linearMap S (Localization.AtPrime P))
@@ -532,7 +532,7 @@ private theorem isGeometricallyRegular_fiber_tensorProduct_right
   let e : P.Fiber (C ⊗[B] D) ≃ₐ[P.ResidueField]
       P.ResidueField ⊗[q.ResidueField] q.Fiber C :=
     AlgEquiv.ofRingEquiv (f := e₁.toRingEquiv.trans e₂.toRingEquiv) (fun x ↦ by
-      show e₂ (e₁ (algebraMap P.ResidueField _ x)) = algebraMap P.ResidueField _ x
+      change e₂ (e₁ (algebraMap P.ResidueField _ x)) = algebraMap P.ResidueField _ x
       rw [show e₁ (algebraMap P.ResidueField _ x) =
           algebraMap P.ResidueField _ x by
         simp [e₁, Algebra.TensorProduct.algebraMap_apply]]
@@ -563,7 +563,7 @@ public theorem isRegularRingHom_baseChange
   rw [isRegularRingHom_iff_of_eq_algebraMap _ (by rfl)]
   constructor
   · have : Module.Flat R Λ := RingHom.flat_algebraMap_iff.mp h.1
-    show Module.Flat R' (Λ ⊗[R] R')
+    change Module.Flat R' (Λ ⊗[R] R')
     exact Module.Flat.of_linearEquiv
       (Algebra.TensorProduct.commRight R R' Λ).symm.toLinearEquiv
   · intro p' _
@@ -626,7 +626,7 @@ private theorem isRegularRing_of_flat_of_fibers
           (B := S)).toRingHom := by
       ext s
       simp [e]
-    show (P.asIdeal.comap e.toRingHom).comap _ = q
+    change (P.asIdeal.comap e.toRingHom).comap _ = q
     rwa [Ideal.comap_comap, hcomp]
   have : IsRegularRing (p.Fiber S) := hfib p
   have : IsRegularRing (S ⊗[R] IsLocalRing.ResidueField (Localization.AtPrime p)) :=
@@ -749,7 +749,7 @@ public theorem isRegularRingHom_comp
     AlgEquiv.ofRingEquiv
       (f := (Algebra.TensorProduct.cancelBaseChange A p.ResidueField K K B).toRingEquiv.trans
         (Algebra.TensorProduct.comm A K B).toRingEquiv) (fun b ↦ by
-          show (Algebra.TensorProduct.comm A K B)
+          change (Algebra.TensorProduct.comm A K B)
             ((Algebra.TensorProduct.cancelBaseChange A p.ResidueField K K B)
               (1 ⊗ₜ[p.ResidueField] (1 ⊗ₜ[A] b))) = b ⊗ₜ[A] 1
           simp)
@@ -862,10 +862,10 @@ private theorem flat_of_isColimit
   have : DirectedSystem G (fun i j h ↦ f i j h) := by
     constructor
     · intro i x
-      show (F.map (homOfLE (le_refl i))).hom x = x
+      change (F.map (homOfLE (le_refl i))).hom x = x
       simp
     · intro i j k hij hjk x
-      show (F.map (homOfLE hjk)).hom ((F.map (homOfLE hij)).hom x) =
+      change (F.map (homOfLE hjk)).hom ((F.map (homOfLE hij)).hom x) =
         (F.map (homOfLE (hij.trans hjk))).hom x
       rw [← CommAlgCat.comp_apply, ← F.map_comp]
       rfl
@@ -895,7 +895,7 @@ private theorem flat_of_isColimit
           Module.DirectLimit.of R J G f j (f i j (leOfHom a) y) :=
         (Module.DirectLimit.of_f (R := R) (f := f) (hij := leOfHom a)).symm
       _ = 0 := by
-        show Module.DirectLimit.of R J G f j
+        change Module.DirectLimit.of R J G f j
           ((F.map (homOfLE (leOfHom a))).hom y) = 0
         rw [← ha, hz, map_zero]
   have : Module.Flat R (Module.DirectLimit G f) :=
@@ -992,7 +992,7 @@ omit [q.IsPrime] in
 private lemma prime_map {i j : J} (a : i ⟶ j) :
     prime c q i = (prime c q j).comap (F.map a).hom := by
   ext x
-  show (c.ι.app i).hom x ∈ q ↔ (c.ι.app j).hom ((F.map a).hom x) ∈ q
+  change (c.ι.app i).hom x ∈ q ↔ (c.ι.app j).hom ((F.map a).hom x) ∈ q
   rw [← CommRingCat.comp_apply, c.w a]
 
 private noncomputable abbrev localDiagram : J ⥤ CommRingCat.{v} where
@@ -1133,7 +1133,7 @@ private theorem isRegularRing_of_isColimit
     have := hreg j
     exact IsRegularRing.isRegularLocalRing_localization (prime c q j)
   · intro i j a
-    show IsLocalHom (Localization.localRingHom _ _ (F.map a).hom (prime_map c q a))
+    change IsLocalHom (Localization.localRingHom _ _ (F.map a).hom (prime_map c q a))
     infer_instance
   · exact isColimit_localCocone c q hc
 
@@ -1165,7 +1165,7 @@ private theorem geometricallyRegular_fibre_of_isColimit
   have : IsNoetherianRing ((forget₂ (CommAlgCat K) CommRingCat).mapCocone d).pt :=
     ‹IsNoetherianRing (K ⊗[R] c.pt)›
   have : IsRegularRing (K ⊗[R] c.pt) := isRegularRing_of_isColimit hd' (fun j ↦ by
-    show IsRegularRing (K ⊗[R] F.obj j)
+    change IsRegularRing (K ⊗[R] F.obj j)
     have := hsm j
     have : Algebra.Smooth K (K ⊗[R] F.obj j) := inferInstance
     have : IsNoetherianRing (K ⊗[R] F.obj j) :=
@@ -1277,7 +1277,7 @@ private theorem isRegularRingHom_of_isSeparableExtension (k K : Type*) [Field k]
   let : Algebra k K := f.toAlgebra
   have hsmooth : Algebra.FormallySmooth k K :=
     (Algebra.FormallySmooth.iff_isSeparableExtension k K).2 hsep
-  show f.Flat ∧ ∀ (p : Ideal k) [p.IsPrime],
+  change f.Flat ∧ ∀ (p : Ideal k) [p.IsPrime],
     IsNoetherianRing (p.Fiber K) ∧
       Algebra.IsGeometricallyRegular p.ResidueField (p.Fiber K)
   refine ⟨RingHom.Flat.of_isField (Field.toIsField k) f, fun p _ ↦ ?_⟩

@@ -102,7 +102,7 @@ def diagonalBaseChangeEquiv :
 theorem diagonalBaseChangeEquiv_tmul (a₁ a₂ : A) (r' : R') :
     diagonalBaseChangeEquiv R A R' ((a₁ ⊗ₜ[R] a₂) ⊗ₜ[R] r') =
       (a₁ ⊗ₜ[R] r') ⊗ₜ[R'] (a₂ ⊗ₜ[R] (1 : R')) := by
-  show (Algebra.TensorProduct.comm R' (A ⊗[R] R') (A ⊗[R] R'))
+  change (Algebra.TensorProduct.comm R' (A ⊗[R] R') (A ⊗[R] R'))
       ((Algebra.TensorProduct.congr (AlgEquiv.refl (R := R') (A₁ := A ⊗[R] R'))
         (baseChangeComm R A R'))
         ((Algebra.TensorProduct.cancelBaseChange R R' R' (A ⊗[R] R') A).symm
@@ -111,7 +111,7 @@ theorem diagonalBaseChangeEquiv_tmul (a₁ a₂ : A) (r' : R') :
   simp only [Algebra.TensorProduct.assoc_tmul, Algebra.TensorProduct.comm_tmul,
     Algebra.TensorProduct.cancelBaseChange_symm_tmul, Algebra.TensorProduct.congr_apply,
     Algebra.TensorProduct.map_tmul, baseChangeComm, AlgEquiv.ofRingEquiv_apply,
-    AlgEquiv.coe_ringEquiv, AlgEquiv.coe_refl, id_eq, AlgEquiv.coe_algHom]
+    AlgEquiv.coe_toRingEquiv, AlgEquiv.coe_refl, id_eq, AlgEquiv.coe_toAlgHom]
   rw [tmul_right_eq_smul R A R' a₁ r', tmul_right_eq_smul R A R' a₂ r',
     TensorProduct.tmul_smul, TensorProduct.smul_tmul']
 
@@ -148,14 +148,13 @@ theorem lmul'_comp_diagonalBaseChangeMap :
       (Algebra.TensorProduct.includeLeftRingHom : A →+* A ⊗[R] R').comp
         (Algebra.TensorProduct.lmul' R : A ⊗[R] A →ₐ[R] A).toRingHom := by
   refine RingHom.ext fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add] at *; rw [hx, hy]
   | tmul a₁ a₂ =>
-      show (Algebra.TensorProduct.lmul' R')
+      change (Algebra.TensorProduct.lmul' R')
           ((a₁ ⊗ₜ[R] (1 : R')) ⊗ₜ[R'] (a₂ ⊗ₜ[R] (1 : R'))) = _
       rw [Algebra.TensorProduct.lmul'_apply_tmul]
-      show (a₁ ⊗ₜ[R] (1 : R')) * (a₂ ⊗ₜ[R] (1 : R')) = (a₁ * a₂) ⊗ₜ[R] (1 : R')
+      change (a₁ ⊗ₜ[R] (1 : R')) * (a₂ ⊗ₜ[R] (1 : R')) = (a₁ * a₂) ⊗ₜ[R] (1 : R')
       rw [Algebra.TensorProduct.tmul_mul_tmul, one_mul]
 
 /-- The algebra structure on the base-changed diagonal given by the map of diagonals. -/
@@ -170,7 +169,7 @@ form a scalar tower. -/
 theorem isScalarTower_diagonalBaseChange :
     IsScalarTower R (A ⊗[R] A) ((A ⊗[R] R') ⊗[R'] (A ⊗[R] R')) := by
   refine IsScalarTower.of_algebraMap_eq fun r => ?_
-  show _ = diagonalBaseChangeMap R A R' (algebraMap R (A ⊗[R] A) r)
+  change _ = diagonalBaseChangeMap R A R' (algebraMap R (A ⊗[R] A) r)
   simp [Algebra.TensorProduct.algebraMap_apply, Algebra.TensorProduct.one_def]
 
 attribute [local instance] isScalarTower_diagonalBaseChange
@@ -183,7 +182,7 @@ theorem isPushout_diagonalBaseChange :
   let e : ((A ⊗[R] A) ⊗[R] R') ≃ₗ[A ⊗[R] A] ((A ⊗[R] R') ⊗[R'] (A ⊗[R] R')) :=
     { (diagonalBaseChangeEquiv R A R').toRingEquiv.toAddEquiv with
       map_smul' := fun b x => by
-        show diagonalBaseChangeEquiv R A R' (b • x) = b • diagonalBaseChangeEquiv R A R' x
+        change diagonalBaseChangeEquiv R A R' (b • x) = b • diagonalBaseChangeEquiv R A R' x
         rw [Algebra.smul_def, Algebra.smul_def, map_mul]
         rfl }
   refine ⟨IsBaseChange.of_equiv e (fun x => ?_)⟩

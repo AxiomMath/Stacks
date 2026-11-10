@@ -400,7 +400,7 @@ theorem exists_cocycleMap_eq_of_cocycleIsColimitPresentation (i : D.I) (Y : D.C 
           ((M.map b).app (op ((D.u a).obj Y)) x) := by
     intro x
     rw [M.transition_split M.splitting b]
-    simp only [NatTrans.comp_app, Functor.whiskerLeft_app, ConcreteCategory.comp_apply]
+    simp only [NatTrans.comp_app, Functor.whiskerLeft_app]
     refine congrArg (fun y => (M.splitting k).proj.hom.app
       ((D.u b).op.obj (op ((D.u a).obj Y))) y) ?_
     refine Eq.trans (congrArg (fun y => (M.map b).app (op ((D.u a).obj Y)) y)

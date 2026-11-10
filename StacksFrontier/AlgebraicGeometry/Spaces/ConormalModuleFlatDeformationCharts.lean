@@ -148,13 +148,13 @@ theorem RingHom.flat_of_injective_lTensor_of_flat_reduction
   let : IsScalarTower (R ⧸ J) A B := .of_algebraMap_eq' (by
     refine Ideal.Quotient.ringHom_ext ?_
     ext x
-    show algebraMap R B x = algebraMap A B (algebraMap R A x)
+    change algebraMap R B x = algebraMap A B (algebraMap R A x)
     exact IsScalarTower.algebraMap_apply R A B x)
   have : Module.Flat (R ⧸ J) A := by
     have e : (R ⧸ J) ≃ₗ[R ⧸ J] A :=
       { RingHom.quotientKerEquivOfSurjective hR with
         map_smul' := fun q p => by
-          show RingHom.quotientKerEquivOfSurjective hR (q * p) =
+          change RingHom.quotientKerEquivOfSurjective hR (q * p) =
             algebraMap (R ⧸ J) A q * RingHom.quotientKerEquivOfSurjective hR p
           rw [map_mul]
           rfl }
@@ -228,8 +228,7 @@ theorem smul_modulePullback_definingIdealSheaf_eq_zero_of_chartDiagram
   have key : ∀ j : chartRing B S hS Y'.1 Y'.2 d.V, j ∈ definingIdealAt B S hS Y' Y (op d.V) →
       chartDiagramRestrict B S hS g d j • z = 0 := by
     intro j hj
-    induction z using TensorProduct.induction_on with
-    | zero => exact smul_zero _
+    induction z using TensorProduct.inductionOn with
     | tmul b s =>
       have hjb : chartDiagramRestrict B S hS g d j • b = j • b := rfl
       rw [TensorProduct.smul_tmul', hjb, TensorProduct.smul_tmul]
@@ -282,7 +281,7 @@ theorem annihilatedByKerIdeal_modulePullback_definingIdealSheaf
   have hz := smul_modulePullback_definingIdealSheaf_eq_zero_of_chartDiagram B S hS g Y hY d
     hWaff hVaff _ hres (N.val.map k'.op m)
   have e' := (PresheafOfModules.map_smul N.val k'.op a m).trans hz
-  show N.val.map (h ≫ k').op _ = N.val.map (h ≫ k').op 0
+  change N.val.map (h ≫ k').op _ = N.val.map (h ≫ k').op 0
   rw [map_zero]
   have hc : ∀ x, N.val.map (h ≫ k').op x = N.val.map h.op (N.val.map k'.op x) :=
     fun x => PresheafOfModules.map_comp_apply N.val k'.op h.op x

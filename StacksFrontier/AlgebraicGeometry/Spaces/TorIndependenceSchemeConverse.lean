@@ -526,7 +526,7 @@ theorem torIndependent_scheme_of_torIndependent_yoneda
     (((BigFppfOver.toScheme B S hS).map uw).appLE W' U' hUW).hom.toAlgebra
   let : Algebra ↥Γ(siteScheme B S hS W₀, W') ↥Γ(siteScheme B S hS V₀, V') :=
     (((BigFppfOver.toScheme B S hS).map vw).appLE W' V' hVW).hom.toAlgebra
-  show Algebra.TorIndependent ↥Γ(siteScheme B S hS W₀, W')
+  change Algebra.TorIndependent ↥Γ(siteScheme B S hS W₀, W')
     ↥Γ(siteScheme B S hS U₀, U') ↥Γ(siteScheme B S hS V₀, V')
   refine (RingTheory.TorIndependence.torIndependent_iff_isZero_tor _ _ _).mp ?_
   refine ((RingTheory.TorIndependence.torIndependent_localizations_tfae

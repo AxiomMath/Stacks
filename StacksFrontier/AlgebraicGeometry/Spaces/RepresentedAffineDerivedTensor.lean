@@ -122,7 +122,7 @@ theorem representedAffineAssociatedTensorIso_hom_app_unit
           Γ((BigFppfOver.toScheme B S hS).obj U, ⊤)) =
       (representedAffineAssociated B S hS U).map (λ_ N).hom ≫
         (representedAffineUnitTensorIso B S hS U _).inv := by
-  show (representedAffineAssociated B S hS U).map
+  change (representedAffineAssociated B S hS U).map
       ((representedAffineTensorSectionsNatTrans B S hS U N).app _) ≫
     (representedAffineAssociatedAdjunction B S hS U).counit.app _ = _
   rw [representedAffineTensorSectionsNatTrans_app_unit, Functor.map_comp, Category.assoc]

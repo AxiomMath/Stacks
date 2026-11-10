@@ -75,10 +75,11 @@ namespace AlgebraicGeometry
 
 /-- **Two degree-two monomials in distinct variables agree exactly when their variables do, up to
 order.** -/
-public theorem single_one_add_single_one_inj {ι : Type*} [DecidableEq ι] (p r p₀ r₀ : ι) :
+public theorem single_one_add_single_one_inj {ι : Type*} (p r p₀ r₀ : ι) :
     (Finsupp.single p 1 + Finsupp.single r 1 : ι →₀ ℕ)
         = Finsupp.single p₀ 1 + Finsupp.single r₀ 1 ↔
       (p = p₀ ∧ r = r₀) ∨ (p = r₀ ∧ r = p₀) := by
+  classical
   refine ⟨fun h => ?_, ?_⟩
   · have hp : (Finsupp.single p₀ 1 + Finsupp.single r₀ 1 : ι →₀ ℕ) p ≠ 0 := by
       rw [← h, Finsupp.add_apply, Finsupp.single_eq_same]
@@ -87,7 +88,7 @@ public theorem single_one_add_single_one_inj {ι : Type*} [DecidableEq ι] (p r 
       by_contra hc
       push Not at hc
       rw [Finsupp.add_apply, Finsupp.single_apply, Finsupp.single_apply,
-        if_neg (Ne.symm hc.1), if_neg (Ne.symm hc.2)] at hp
+        ite_eq_right (Ne.symm hc.1), ite_eq_right (Ne.symm hc.2)] at hp
       exact hp rfl
     rcases hcase with rfl | rfl
     · exact Or.inl ⟨rfl, Finsupp.single_left_injective one_ne_zero (add_left_cancel h)⟩
@@ -114,7 +115,7 @@ public theorem quadraticFormPoly_eq_sum_monomial (a : Fin m → Fin m → R) :
     quadraticFormPoly a
       = ∑ p, ∑ r, MvPolynomial.monomial (Finsupp.single p 1 + Finsupp.single r 1) (a p r) := by
   simp only [quadraticFormPoly_def, MvPolynomial.X, MvPolynomial.monomial_mul_monomial,
-    MvPolynomial.C_mul_monomial, one_mul, mul_one]
+    MvPolynomial.C_mul_monomial, mul_one]
 
 /-- The quadratic form of a coefficient matrix is homogeneous of degree two. -/
 public theorem isHomogeneous_quadraticFormPoly (a : Fin m → Fin m → R) :
@@ -170,12 +171,12 @@ public theorem coeff_quadraticFormPoly_self (a : Fin m → Fin m → R) (p₀ : 
   simp only [single_one_add_single_one_inj, or_self]
   rw [Finset.sum_eq_single_of_mem p₀ (Finset.mem_univ p₀) ?_]
   · rw [Finset.sum_eq_single_of_mem p₀ (Finset.mem_univ p₀) ?_]
-    · exact if_pos ⟨rfl, rfl⟩
+    · exact ite_eq_left ⟨rfl, rfl⟩
     · intro r _ hr
-      exact if_neg fun h => hr h.2
+      exact ite_eq_right fun h => hr h.2
   · intro p _ hp
     refine Finset.sum_eq_zero fun r _ => ?_
-    exact if_neg fun h => hp h.1
+    exact ite_eq_right fun h => hp h.1
 
 /-- **An upper triangular coefficient matrix with a nonzero entry on or above the diagonal
 presents a nonzero quadratic form.** -/
@@ -211,11 +212,12 @@ public theorem not_X_zero_dvd_quadraticFormPoly {a : Fin (m + 1) → Fin (m + 1)
       (Finsupp.single p.succ 1 + Finsupp.single r.succ 1 : Fin (m + 1) →₀ ℕ).support := by
     intro p r
     rw [Finsupp.mem_support_iff, not_not, Finsupp.add_apply, Finsupp.single_apply,
-      Finsupp.single_apply, if_neg (Fin.succ_ne_zero p), if_neg (Fin.succ_ne_zero r), add_zero]
+      Finsupp.single_apply, ite_eq_right (Fin.succ_ne_zero p), ite_eq_right (Fin.succ_ne_zero r),
+      add_zero]
   have hzero : ∀ p r : Fin m,
       (quadraticFormPoly a).coeff (Finsupp.single p.succ 1 + Finsupp.single r.succ 1) = 0 := by
     intro p r
-    rw [hh, MvPolynomial.coeff_X_mul', if_neg (hsupp p r)]
+    rw [hh, MvPolynomial.coeff_X_mul', ite_eq_right (hsupp p r)]
   refine ha ⟨0, 0, fun p => ?_, fun p r hpr => ?_⟩
   · rw [restrictFirstVar_apply, ← coeff_quadraticFormPoly_self a p.succ, hzero p p]
     ring
@@ -358,7 +360,7 @@ public theorem dehomogenizeFirst_quadraticFormPoly_fin_three {k : Type*} [CommRi
       Fin.sum_univ_three]
   rw [hexp, hupper 1 0 (by decide), hupper 2 0 (by decide), hupper 2 1 (by decide)]
   simp only [map_add, map_mul, MvPolynomial.algHom_C, MvPolynomial.algebraMap_eq,
-    hc0, hc1, hc2, MvPolynomial.C_0, map_zero, zero_mul]
+    hc0, hc1, hc2, map_zero, zero_mul]
   ring
 
 /-- **The dehomogenized identification for a rational double point:** the image of the relation

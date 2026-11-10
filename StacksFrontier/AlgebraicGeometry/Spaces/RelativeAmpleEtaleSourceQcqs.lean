@@ -45,6 +45,7 @@ universe u
 namespace AlgebraicGeometry.Space
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits in this presheaf category exceeds the default synthesis budget
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 private instance hasPullbacks_presheaf_relativeAmpleEtaleSourceQcqs

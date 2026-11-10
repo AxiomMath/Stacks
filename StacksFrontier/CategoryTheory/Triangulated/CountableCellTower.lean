@@ -129,7 +129,7 @@ theorem HasCountableCells.obj₃ (T : Triangle D) (hT : T ∈ distTriang D)
   refine Function.Surjective.countable
     (f := fun p : (A ⟶ T.obj₂) × (A ⟶ T.obj₁⟦(1 : ℤ)⟧) => p.1 ≫ T.mor₂ + sec p.2) fun φ => ?_
   have hex : ∃ φ' : A ⟶ T.obj₃, φ' ≫ T.mor₃ = φ ≫ T.mor₃ := ⟨φ, rfl⟩
-  have hsec : sec (φ ≫ T.mor₃) = hex.choose := dif_pos hex
+  have hsec : sec (φ ≫ T.mor₃) = hex.choose := dite_eq_left hex
   have hzero : (φ - hex.choose) ≫ T.mor₃ = 0 := by
     rw [Preadditive.sub_comp, hex.choose_spec, sub_self]
   obtain ⟨g, hg⟩ := Triangle.coyoneda_exact₃ T hT _ hzero
@@ -208,13 +208,13 @@ private theorem exists_comp_eq_forall_comp_eq_zero [∀ i, IsCompactObject.{w} (
     HasCountableCells.sigma _ fun j => (hasCountableCells_of_countable_hom hEE (i j)).shift (m j)
   have hcu : Limits.Sigma.desc ρ ≫ u = 0 := by
     refine Limits.Sigma.hom_ext _ _ fun j => ?_
-    rw [← Category.assoc, Limits.Sigma.ι_desc, hρ j, comp_zero]
+    rw [← Category.assoc, Limits.Sigma.ι_comp_desc, hρ j, comp_zero]
   obtain ⟨X', f, g, hT⟩ := distinguished_cocone_triangle (Limits.Sigma.desc ρ)
   obtain ⟨u', hu'⟩ := Triangle.yoneda_exact₂ _ hT u hcu
   refine ⟨X', f, u', isCompactObject_obj₃ _ hT hZ hXc, HasCountableCells.obj₃ _ hT hX
     (hZc.shift 1), hu'.symm, fun j => ?_⟩
   have h0 : Limits.Sigma.desc ρ ≫ f = 0 := comp_distTriang_mor_zero₁₂ _ hT
-  rw [← Limits.Sigma.ι_desc ρ j, Category.assoc, h0, comp_zero]
+  rw [← Limits.Sigma.ι_comp_desc ρ j, Category.assoc, h0, comp_zero]
 
 end Attach
 
@@ -381,7 +381,7 @@ private theorem towerHom_eq_map_comp_towerHom (c : ℕ → Cell E M) (s₀ : Sta
   induction s with
   | zero => simp
   | succ s ih =>
-    show towerHom hEE c s₀ n
+    change towerHom hEE c s₀ n
       = (cellTower hEE c s₀).map (homOfLE (Nat.le_add_right n (s + 1)))
         ≫ towerHom hEE c s₀ (n + s + 1)
     rw [cellTower_map_add_succ, Category.assoc, cellTower_map_succ_comp_towerHom]
@@ -394,7 +394,7 @@ private theorem towerEnum_two_pow_mul (c : ℕ → Cell E M) (s₀ : Stage.{w} E
   induction s with
   | zero => simp [pushCell]
   | succ s ih =>
-    show towerEnum hEE c s₀ (n + s + 1) (2 ^ (s + 1) * k)
+    change towerEnum hEE c s₀ (n + s + 1) (2 ^ (s + 1) * k)
       = pushCell E ((cellTower hEE c s₀).map (homOfLE (Nat.le_add_right n (s + 1))))
           (towerEnum hEE c s₀ n k)
     rw [show 2 ^ (s + 1) * k = 2 * (2 ^ s * k) by ring, towerEnum_two_mul, ih,
@@ -428,7 +428,7 @@ private theorem exists_comp_map_eq_zero (c : ℕ → Cell E M) (s₀ : Stage.{w}
     rfl
   have hdead : (towerEnum hEE c s₀ (n + w) (2 ^ w * k)).2.2 ≫ towerHom hEE c s₀ (n + w) = 0 := by
     rw [henum]
-    show (ρ ≫ (cellTower hEE c s₀).map (homOfLE (Nat.le_add_right n w)))
+    change (ρ ≫ (cellTower hEE c s₀).map (homOfLE (Nat.le_add_right n w)))
       ≫ towerHom hEE c s₀ (n + w) = 0
     rw [Category.assoc, ← towerHom_eq_map_comp_towerHom, hρ]
   have hk2 := comp_cellTower_map_succ_eq_zero hEE c s₀ (n + w) (2 ^ w * k) hw hdead

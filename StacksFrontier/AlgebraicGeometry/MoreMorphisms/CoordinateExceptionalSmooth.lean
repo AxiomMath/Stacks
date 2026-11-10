@@ -116,7 +116,7 @@ public theorem dropVar_rename_val (p : MvPolynomial {v : σ // v ≠ v₀} R) :
   have hfun : (fun v : σ ↦ if h : v = v₀ then (0 : MvPolynomial {v : σ // v ≠ v₀} R)
       else X ⟨v, h⟩) ∘ (Subtype.val : {v : σ // v ≠ v₀} → σ) = X := by
     funext w
-    rw [Function.comp_apply, dif_neg w.2]
+    rw [Function.comp_apply, dite_eq_right w.2]
   rw [dropVar, aeval_rename, hfun]
   exact aeval_X_left_apply p
 
@@ -446,11 +446,12 @@ public theorem coordinateExceptionalChartι_comp :
 /-- A quotient of a ring by an ideal that some isomorphism with a polynomial ring carries onto
 the ideal of a single variable is a smooth algebra over the coefficient ring. -/
 public theorem smooth_quotient_of_ringEquiv_span_X {Γ S : Type u} [CommRing Γ] [CommRing S]
-    {τ : Type v} [DecidableEq τ] [Finite τ] (v₀ : τ) (Jt : Ideal Γ)
+    {τ : Type v} [Finite τ] (v₀ : τ) (Jt : Ideal Γ)
     (E : Γ ≃+* MvPolynomial τ R) (ρ₁ : R →+* S) (ρ₂ : S →+* Γ)
     (hE : Ideal.map (E : Γ →+* MvPolynomial τ R) Jt = Ideal.span {MvPolynomial.X v₀})
     (hρ : ∀ r, E (ρ₂ (ρ₁ r)) = MvPolynomial.C r) :
     ((Ideal.Quotient.mk Jt).comp (ρ₂.comp ρ₁)).Smooth := by
+  classical
   obtain ⟨E₃, hE₃⟩ := exists_quotientSpanX_algEquiv R v₀
   refine smooth_of_mvPolynomial_ringEquiv {v : τ // v ≠ v₀} _
     ((Ideal.quotientEquiv Jt (Ideal.span {MvPolynomial.X v₀}) E hE.symm).trans

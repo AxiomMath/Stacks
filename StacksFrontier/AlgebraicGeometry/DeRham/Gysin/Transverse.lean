@@ -78,9 +78,9 @@ as fields of `GysinBaseChange`, each the content of a tag this library does not 
   Remark [Stacks, Tag 0G78] followed by the derived-to-underived comparison and functoriality of
   differentials, descended to degree `c` using the vanishing of local cohomology above degree `c`
   ([Stacks, Tag 0G7N]). The library has the derived map — `supportedPullbackMap` of
-  `StacksFrontier/Topology/Sheaves/Cohomology/SupportedComplexes/SupportedSectionsDerivedPullback.lean`
-  — and the vanishing, but not the descent to a map of degree-`c` sheaves, which is what the
-  Gysin square's arrow is.
+  `SupportedSectionsDerivedPullback.lean` in
+  `StacksFrontier/Topology/Sheaves/Cohomology/SupportedComplexes/` — and the vanishing, but
+  not the descent to a map of degree-`c` sheaves, which is what the Gysin square's arrow is.
 * `GysinBaseChange.tgt_cls`: **the base-change square for the class maps `c_{f₁, …, f_c}`**,
   which is Derived Categories of Schemes, Remark [Stacks, Tag 0G7U]. The `@[stacks 0G7U]`
   declarations in

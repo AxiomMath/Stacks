@@ -67,7 +67,7 @@ theorem depth_stalk_eq_depth_localizedModule
   let : Module Γ(X, U) N := affineStalkModule F U x hx
   let : Algebra Γ(X, U) T := (X.presheaf.germ U x hx).hom.toAlgebra
   let : IsScalarTower Γ(X, U) T N := IsScalarTower.of_algebraMap_smul fun r z => by
-    show (X.presheaf.germ U x hx).hom r • z = r • z
+    change (X.presheaf.germ U x hx).hom r • z = r • z
     rfl
   let : IsLocalization.AtPrime T p := hU.isLocalization_stalk ⟨x, hx⟩
   let : IsLocalRing T := IsLocalization.AtPrime.isLocalRing T p
@@ -79,7 +79,7 @@ theorem depth_stalk_eq_depth_localizedModule
     e.commutes r
   let : IsScalarTower Γ(X, U) S T := .of_algebraMap_eq fun r => (hcomp r).symm
   let : IsScalarTower Γ(X, U) S N := IsScalarTower.of_algebraMap_smul fun r n => by
-    show algebraMap S T (algebraMap Γ(X, U) S r) • n = algebraMap Γ(X, U) T r • n
+    change algebraMap S T (algebraMap Γ(X, U) S r) • n = algebraMap Γ(X, U) T r • n
     rw [hcomp]
   have hlocM : IsLocalizedModule p.primeCompl (affineGerm F U x hx) :=
     affineGerm_isLocalized F U hU x hx
@@ -92,12 +92,12 @@ theorem depth_stalk_eq_depth_localizedModule
     Module.depth_eq_depth_of_linearEquiv (IsLocalRing.maximalIdeal S) eM'
   have hmax : Ideal.map (algebraMap S T) (IsLocalRing.maximalIdeal S) =
       IsLocalRing.maximalIdeal T := by
-    show Ideal.map e.toRingHom (IsLocalRing.maximalIdeal S) = IsLocalRing.maximalIdeal T
+    change Ideal.map e.toRingHom (IsLocalRing.maximalIdeal S) = IsLocalRing.maximalIdeal T
     exact IsLocalRing.map_ringEquiv_maximalIdeal e.toRingEquiv
   have hdepthST := Module.depth_eq_depth_map_algebraMap
     (A := S) (B := T) e.surjective (IsLocalRing.maximalIdeal S) N
   rw [hmax] at hdepthST
-  show Module.depth T (IsLocalRing.maximalIdeal T) N =
+  change Module.depth T (IsLocalRing.maximalIdeal T) N =
     Module.depth S (IsLocalRing.maximalIdeal S) (LocalizedModule p.primeCompl Γ(F, U))
   rw [← hdepthST, ← hdepthM]
 

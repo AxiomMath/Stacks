@@ -77,7 +77,7 @@ theorem classifyingHom_eq_chartHom {d : ℕ} (hd : 0 < d) {Y : Scheme.{u}}
   have h1 := Fd.ι_homDegreeOpen A (relativeProjData s) hd ξ U hU _ hη
   rw [Fd.chartHom_pullback] at h1
   have := epi_ι_of_eq_top (ξ.1 ⁻¹ᵁ U) (top_unique fun y _ => (gU.base y).2)
-  show Fd.homDegreeOpen A (relativeProjData s) hd ξ ≫ ((relativeProjData s).degreeOpen d).ι = _
+  change Fd.homDegreeOpen A (relativeProjData s) hd ξ ≫ ((relativeProjData s).degreeOpen d).ι = _
   exact (cancel_epi (ξ.1 ⁻¹ᵁ U).ι).1 h1
 
 /-- The chart-wise quadruple at `U` of a quadruple whose morphism factors through `U`: the base

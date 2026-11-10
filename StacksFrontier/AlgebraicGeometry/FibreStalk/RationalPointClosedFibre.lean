@@ -116,7 +116,7 @@ theorem exists_ringEquiv_quotient_stalk_of_iso {W S T T' : Scheme.{u}} (h : W �
   have : IsIso (e.hom.stalkMap p) := ((isIso_iff_isIso_stalkMap e.hom).mp inferInstance).2 p
   refine ⟨E.trans (asIso (e.hom.stalkMap p)).commRingCatIsoToRingEquiv, fun b => ?_⟩
   rw [Scheme.Hom.stalkMap_comp]
-  show (e.hom.stalkMap p).hom (E (Ideal.Quotient.mk _ b)) = _
+  change (e.hom.stalkMap p).hom (E (Ideal.Quotient.mk _ b)) = _
   rw [hE b]
   rfl
 

@@ -193,7 +193,7 @@ private lemma sectionLifting_of_hasPropertyB {X Y : Scheme.{u}} (f : X ⟶ Y)
     Scheme.isJointlySurjectivePreserving @Etale
   let : Scheme.etalePrecoverage.IsStableUnderBaseChange := by
     let Q : MorphismProperty Scheme.{u} := @Etale
-    show (Scheme.precoverage Q).IsStableUnderBaseChange
+    change (Scheme.precoverage Q).IsStableUnderBaseChange
     let : Scheme.IsJointlySurjectivePreserving Q := Scheme.isJointlySurjectivePreserving Q
     let : Q.IsStableUnderBaseChange := by infer_instance
     exact inferInstance
@@ -218,7 +218,7 @@ private lemma sectionLifting_of_hasPropertyB {X Y : Scheme.{u}} (f : X ⟶ Y)
   let (j : 𝒱.I₀) : OverClass (𝒱.X j) Y := ⟨𝒱.f j ≫ g⟩
   have hVjEt : ∀ j : 𝒱.I₀, Etale (𝒱.X j ↘ Y) := by
     intro j
-    show Etale (𝒱.f j ≫ V.hom)
+    change Etale (𝒱.f j ≫ V.hom)
     let : Etale (𝒱.f j) := 𝒱.map_prop j
     let : Etale V.hom := V.prop
     infer_instance
@@ -245,7 +245,7 @@ private lemma sectionLifting_of_hasPropertyB {X Y : Scheme.{u}} (f : X ⟶ Y)
   let Zs : Scheme := Limits.pullback f (𝒱.f j₀ ≫ g)
   let Z : X.Etale := (smallEtaleBaseChange f).obj (Vj j)
   let eJ : Z.left ≅ Zs := by
-    show Limits.pullback (𝒱.f j₀ ≫ g) f ≅ Limits.pullback f (𝒱.f j₀ ≫ g)
+    change Limits.pullback (𝒱.f j₀ ≫ g) f ≅ Limits.pullback f (𝒱.f j₀ ≫ g)
     exact pullbackSymmetry (𝒱.f j₀ ≫ g) f
   let qj := q j₀
   let ej := e j₀
@@ -266,13 +266,13 @@ private lemma sectionLifting_of_hasPropertyB {X Y : Scheme.{u}} (f : X ⟶ Y)
       (Di i) Z (Limits.Sigma.ι Wj i ≫ ej.hom ≫ eJ.inv) (by rfl) (by trivial)
   let qEt : Z ⟶ P := (smallEtaleBaseChange f).map (fj j)
   have hleft : qj ≫ eSymm.inv ≫ P.hom = pullback.fst f (𝒱.f j₀ ≫ g) := by
-    show qj ≫ (eSymm.inv ≫ pullback.snd V.hom f) = _
+    change qj ≫ (eSymm.inv ≫ pullback.snd V.hom f) = _
     have hs' : eSymm.inv ≫ pullback.snd V.hom f = pullback.fst f V.hom := by
       dsimp [eSymm]
       exact pullbackSymmetry_inv_comp_snd V.hom f
     rw [hs', hqfst j₀]
   have hright : eJ.inv ≫ Z.hom = pullback.fst f (𝒱.f j₀ ≫ g) := by
-    show eJ.inv ≫ pullback.snd (Vj j).hom f = _
+    change eJ.inv ≫ pullback.snd (Vj j).hom f = _
     dsimp [eJ]
     exact pullbackSymmetry_inv_comp_snd (𝒱.f j₀ ≫ g) f
   have hUf (i : 𝒰'.I₀) : 𝒰'.f i = 𝒰.f i ≫ eSymm.hom := rfl
@@ -287,10 +287,10 @@ private lemma sectionLifting_of_hasPropertyB {X Y : Scheme.{u}} (f : X ⟶ Y)
         let : OverClass (𝒰.X i) X := hOver.over i
         have hOvercomp : 𝒰.f i ≫ P.hom = (𝒰.X i ↘ X) := (hOver.isOver_map i).comp_over
         have hbase : base ≫ (Ui i).hom = (Di i).hom := by
-          show aj i ≫ (Ui i).hom = Sigma.ι Wj i ≫ ej.hom ≫ eJ.inv ≫ Z.hom
+          change aj i ≫ (Ui i).hom = Sigma.ι Wj i ≫ ej.hom ≫ eJ.inv ≫ Z.hom
           calc
             aj i ≫ (Ui i).hom = aj i ≫ 𝒰.f i ≫ P.hom := by
-              show aj i ≫ (𝒰.X i ↘ X) = _
+              change aj i ≫ (𝒰.X i ↘ X) = _
               rw [← hOvercomp]
               rfl
             _ = aj i ≫ 𝒰'.f i ≫ eSymm.inv ≫ P.hom := by
@@ -320,9 +320,9 @@ private lemma sectionLifting_of_hasPropertyB {X Y : Scheme.{u}} (f : X ⟶ Y)
       ⟨fun pb hg ↦ MorphismProperty.IsStableUnderBaseChange.of_isPullback pb hg⟩
     let : Category.{u, u + 1}
       (MorphismProperty.Over (@Etale : MorphismProperty Scheme.{u}) ⊤ Y) := Y.instCategoryEtale
-    show (ri i).left ≫ (liftArrow' i).left = (ki i).left ≫ qEt.left
+    change (ri i).left ≫ (liftArrow' i).left = (ki i).left ≫ qEt.left
     dsimp only [qEt, smallEtaleBaseChange]
-    show (ri i).left ≫ (liftArrow' i).left =
+    change (ri i).left ≫ (liftArrow' i).left =
       (ki i).left ≫
         ((MorphismProperty.Over.pullback
           (@Etale : MorphismProperty Scheme.{u}) ⊤ f).map (fj j)).left
@@ -344,7 +344,7 @@ private lemma sectionLifting_of_hasPropertyB {X Y : Scheme.{u}} (f : X ⟶ Y)
           rw [hUf i]
           exact congrArg (fun k ↦ k ≫ pullback.snd f V.hom) (Category.assoc _ _ _)
         _ = Sigma.ι Wj i ≫ ej.hom ≫ qj ≫ pullback.snd f V.hom := by
-          show (a j₀ i ≫ 𝒰'.f i) ≫ pullback.snd f V.hom =
+          change (a j₀ i ≫ 𝒰'.f i) ≫ pullback.snd f V.hom =
             Sigma.ι (W j₀) i ≫ (e j₀).hom ≫ q j₀ ≫ pullback.snd f V.hom
           rw [hcomp j₀ i]
           rfl
@@ -352,7 +352,7 @@ private lemma sectionLifting_of_hasPropertyB {X Y : Scheme.{u}} (f : X ⟶ Y)
           have hq := congrArg (fun k ↦ (Sigma.ι Wj i ≫ ej.hom) ≫ k) (hqsnd j₀)
           change _ = (Sigma.ι Wj i ≫ ej.hom) ≫
             pullback.snd f (𝒱.f j₀ ≫ V.hom) ≫ 𝒱.f j₀ at hq
-          show _ = (Sigma.ι Wj i ≫ ej.hom) ≫
+          change _ = (Sigma.ι Wj i ≫ ej.hom) ≫
             pullback.snd f (𝒱.f j₀ ≫ V.hom) ≫ 𝒱.f j₀
           simpa only [qj, Category.assoc] using hq
         _ = Sigma.ι Wj i ≫ ej.hom ≫ eJ.inv ≫
@@ -378,7 +378,7 @@ private lemma sectionLifting_of_hasPropertyB {X Y : Scheme.{u}} (f : X ⟶ Y)
           _ = pullback.snd (Vj j).hom f ≫ f := pullback.condition
       have hlf := pullback.lift_fst (pullback.fst (Vj j).hom f ≫ (fj j).left)
         (pullback.snd (Vj j).hom f) hcompat
-      show (aj i ≫ 𝒰.f i) ≫ pullback.fst V.hom f =
+      change (aj i ≫ 𝒰.f i) ≫ pullback.fst V.hom f =
         ((Sigma.ι Wj i ≫ ej.hom ≫ eJ.inv) ≫
           pullback.lift (pullback.fst (Vj j).hom f ≫ (fj j).left)
             (pullback.snd (Vj j).hom f) hcompat) ≫ pullback.fst V.hom f
@@ -457,7 +457,7 @@ private lemma isLocallySurjective_pushforward_of_hasPropertyB {X Y : Scheme.{u}}
   obtain ⟨i, a, rfl⟩ := (Sieve.mem_ofArrows_iff W g k).1 hk
   obtain ⟨t, hti⟩ := ht i
   refine ⟨F.obj.map (b.map a).op t, ?_⟩
-  show η.hom.app (op (b.obj V)) (F.obj.map (b.map a).op t) =
+  change η.hom.app (op (b.obj V)) (F.obj.map (b.map a).op t) =
     G.obj.map (b.map (a ≫ g i)).op s
   have hn := ConcreteCategory.congr_hom (η.hom.naturality (b.map a).op) t
   change η.hom.app (op (b.obj V)) (F.obj.map (b.map a).op t) =

@@ -66,7 +66,8 @@ theorem exists_toPresheafFiber_tuple (n : ℕ) :
       let Z : Φ.fiber.Elements := IsCofiltered.min E₀ E₁
       let l : Z ⟶ E₀ := IsCofiltered.minToLeft E₀ E₁
       let r : Z ⟶ E₁ := IsCofiltered.minToRight E₀ E₁
-      refine ⟨Z.obj, Z.val, Fin.cons (P.map l.hom.op u) (fun i => P.map r.hom.op (b i)), fun i => ?_⟩
+      refine ⟨Z.obj, Z.val, Fin.cons (P.map l.hom.op u) (fun i => P.map r.hom.op (b i)),
+        fun i => ?_⟩
       refine Fin.cases ?_ (fun i => ?_) i
       · simpa [l.map_val] using hu
       · simpa [r.map_val] using hb i

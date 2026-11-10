@@ -81,7 +81,7 @@ The direct-image algebra `f_* 𝒪_Y` of any morphism `f : Y ⟶ X` of algebraic
 has fewer than `B.cutoff` sections over every étale scheme chart of `X`. -/
 theorem sectionsBelowCutoff_pushforwardAlgebra {X : AlgebraicSpaces B S hS} (Y : Over X) :
     AlgebraSheaf.SectionsBelowCutoff B S hS (pushforwardAlgebra B S hS Y) := fun V ↦ by
-  show #(((smallEtaleDirectImage B S hS Y.hom).obj
+  change #(((smallEtaleDirectImage B S hS Y.hom).obj
     ((smallEtaleRingedTopos B S hS Y.left).forgetRing.obj
       (smallEtaleRingedTopos B S hS Y.left).O)).obj.obj (op V)) < B.cutoff
   exact mk_sections_smallEtaleDirectImage_lt_of_forall B S hS Y.hom _

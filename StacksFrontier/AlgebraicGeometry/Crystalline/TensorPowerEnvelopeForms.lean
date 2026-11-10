@@ -208,6 +208,7 @@ public theorem tensorEnvelopeFormsSymmAlgHom_isDPMorphism (n : ℕ) :
 /-! ### The comparison of completed forms -/
 
 set_option maxHeartbeats 1000000 in
+-- elaborating `completedMapDifferentialForms` over the divided power envelopes is heavy
 /-- **The comparison `Ω^a_{D(b)} → Ω̂^a_{D_{P,γ}(J)⟨ξ_i(j)⟩}` of completed divided power
 forms**, semilinear over the identification of the rings. -/
 public noncomputable def tensorEnvelopeFormsMap (n a : ℕ) :
@@ -218,6 +219,7 @@ public noncomputable def tensorEnvelopeFormsMap (n a : ℕ) :
     (tensorEnvelopeFormsAlgHom s f n) (tensorEnvelopeFormsAlgHom_isDPMorphism s f n) a
 
 set_option maxHeartbeats 1000000 in
+-- elaborating `completedMapDifferentialForms` over the divided power envelopes is heavy
 /-- **The comparison in the other direction.** -/
 public noncomputable def tensorEnvelopeFormsSymmMap (n a : ℕ) :
     envelopeVariableForms s f n a →ₛₗ[(tensorEnvelopeFormsSymmAlgHom s f n).toRingHom]
@@ -230,7 +232,7 @@ public noncomputable def tensorEnvelopeFormsSymmMap (n a : ℕ) :
 public theorem tensorEnvelopeFormsSymmAlgHom_comp (n : ℕ) :
     AlgHom.id (s.A : Type u) ((envelopeDPAlgebra s f).carrier n) =
       (tensorEnvelopeFormsSymmAlgHom s f n).comp (tensorEnvelopeFormsAlgHom s f n) :=
-  AlgHom.coe_ringHom_injective (RingHom.ext fun z ↦
+  AlgHom.toRingHom_injective (RingHom.ext fun z ↦
     ((tensorEnvelopeDPEquiv s f n).symm_apply_apply z).symm)
 
 /-- The composite of the two `A`-algebra maps, in the other order, is the identity. -/
@@ -238,7 +240,7 @@ public theorem tensorEnvelopeFormsAlgHom_comp (n : ℕ) :
     AlgHom.id (s.A : Type u) (setIndexedDividedPowerPolynomialAlgebra
         (polynomialDividedPowerEnvelope s f).object (ι × Fin n)) =
       (tensorEnvelopeFormsAlgHom s f n).comp (tensorEnvelopeFormsSymmAlgHom s f n) :=
-  AlgHom.coe_ringHom_injective (RingHom.ext fun z ↦
+  AlgHom.toRingHom_injective (RingHom.ext fun z ↦
     ((tensorEnvelopeDPEquiv s f n).apply_symm_apply z).symm)
 
 /-- **The identification `Ω^*_{D(b)} ≅ Ω̂^*_{D_{P,γ}(J)⟨ξ_i(j)⟩}` of the completed divided power

@@ -54,8 +54,8 @@ theorem finite_support_of_compactSpace (sX : X ⟶ D.space) (k : ℤ)
   have : IrreducibleSpace (points D.site D.base D.base_mem Z.subspace.toFunctor) :=
     Z.isIntegralSpace.2.2
   obtain ⟨z⟩ : Nonempty (points D.site D.base D.base_mem Z.subspace.toFunctor) := inferInstance
-  show (if α.1 Z = 0 then ∅ else subspacePointSet D.site D.base D.base_mem X Z.subspace).Nonempty
-  rw [if_neg hZ']
+  change (if α.1 Z = 0 then ∅ else subspacePointSet D.site D.base D.base_mem X Z.subspace).Nonempty
+  rw [ite_eq_right hZ']
   exact ⟨_, z, rfl⟩
 
 /-- The residue degree along the composite of the inclusion of an integral closed subspace
@@ -85,10 +85,10 @@ theorem cycleResidueDegree_ι_comp (sX : X ⟶ D.space) (hX : D.IsGood sX) (sY :
       (CommRingCat.ofHom (residueFieldHom D.site D.base D.base_mem Z.subspace.toFunctor X hX.1
         hdecZ hdecX Z.subspace.ι z))
     let := residueFieldAlgebra D.site D.base D.base_mem hX.1 hdecZ hdecX Z.subspace.ι z
-    show Module.finrank _ _ = 1
+    change Module.finrank _ _ = 1
     rw [← (AlgEquiv.ofBijective (Algebra.ofId _ _) hbij).toLinearEquiv.finrank_eq,
       Module.finrank_self]
-  show residueFieldDegreeAt D.site D.base D.base_mem hY.1 hdecZ hdecY (Z.subspace.ι ≫ p) z =
+  change residueFieldDegreeAt D.site D.base D.base_mem hY.1 hdecZ hdecY (Z.subspace.ι ≫ p) z =
     residueFieldDegreeAt D.site D.base D.base_mem hY.1 hdecX hdecY p _
   rw [hcomp, hone, one_mul]
 

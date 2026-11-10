@@ -97,7 +97,7 @@ theorem pointsToScheme_class_eq (A : BigFppfOver B S hS)
     pointsToScheme B S hS A (p.class B S hS (yoneda.obj A)) =
       (BigFppfOver.toScheme B S hS).map p.value s := by
   rw [pointsToScheme_class]
-  show (BigFppfOver.toScheme B S hS).map p.value (IsLocalRing.closedPoint p.carrier) = _
+  change (BigFppfOver.toScheme B S hS).map p.value (IsLocalRing.closedPoint p.carrier) = _
   congr 1
   exact @Subsingleton.elim _ (inferInstanceAs (Subsingleton (Spec (CommRingCat.of p.carrier))))
     _ _
@@ -149,7 +149,7 @@ theorem eq_of_pointsMap_eq_of_isPullback_of_isIso_residueFieldMap
     have e₁ := congrFun (congrArg (fun φ => φ.app (Opposite.op r.siteObject)) sq.w) s₁
     have e₂ := congrFun (congrArg (fun φ => φ.app (Opposite.op r.siteObject)) sq.w) s₂
     simp only [NatTrans.comp_app_apply] at e₁ e₂
-    show (yoneda.map q).app _ (pA.app _ s₁) = (yoneda.map q).app _ (pA.app _ s₂)
+    change (yoneda.map q).app _ (pA.app _ s₁) = (yoneda.map q).app _ (pA.app _ s₂)
     rw [← e₁, ← e₂, hWs₁, hWs₂]
   have hA : pA.app _ s₁ = pA.app _ s₂ := by
     apply (BigFppfOver.toScheme B S hS).map_injective

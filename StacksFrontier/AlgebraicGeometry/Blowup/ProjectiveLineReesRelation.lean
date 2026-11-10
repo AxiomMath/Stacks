@@ -127,7 +127,7 @@ private theorem isHomogeneous_eq_sum {F : MvPolynomial (Fin 2) A} {n : ℕ}
   classical
   have hmon : ∀ (i j : ℕ) (c : A), (C c * X 0 ^ i * X 1 ^ j : MvPolynomial (Fin 2) A) =
       monomial (Finsupp.single 0 i + Finsupp.single 1 j) c := fun i j c => by
-    rw [X_pow_eq_monomial, X_pow_eq_monomial, C_mul_monomial, monomial_mul]
+    rw [X_pow_eq_monomial, X_pow_eq_monomial, C_mul_monomial, monomial_mul_monomial]
     simp
   have hdeg : ∀ (i : ℕ), i ≤ n →
       (Finsupp.single (0 : Fin 2) i + Finsupp.single (1 : Fin 2) (n - i)).degree = n := by
@@ -151,13 +151,13 @@ private theorem isHomogeneous_eq_sum {F : MvPolynomial (Fin 2) A} {n : ℕ}
         rw [Finsupp.add_apply, e1, Finsupp.single_eq_same, zero_add]
         omega
     rw [Finset.sum_eq_single_of_mem (d 0) (Finset.mem_range.mpr (by omega))]
-    · rw [hde, if_pos rfl]
+    · rw [hde, ite_eq_left rfl]
     · intro i _ hne
-      refine if_neg fun h => hne ?_
+      refine ite_eq_right fun h => hne ?_
       have h0 := congrArg (fun f : Fin 2 →₀ ℕ => f 0) h
       simpa using h0
   · rw [hF.coeff_eq_zero hd]
-    refine (Finset.sum_eq_zero fun i hi => if_neg fun h => hd ?_).symm
+    refine (Finset.sum_eq_zero fun i hi => ite_eq_right fun h => hd ?_).symm
     rw [← h]
     exact hdeg i (Nat.lt_succ_iff.mp (Finset.mem_range.mp hi))
 
@@ -207,7 +207,8 @@ private theorem sum_mem_span_relation_of_sum_eq_zero
       (pow_mul_imp_of_mul_imp (P := (· ∈ Ideal.span {x 1})) h0 _ _ hdvd)
     obtain ⟨a', hlt, htop⟩ :
         ∃ a' : ℕ → A, (∀ i, i < n → a' i = a i) ∧ a' n = a n + b * x 0 :=
-      ⟨fun i => if i = n then a n + b * x 0 else a i, fun i hi => if_neg (by omega), if_pos rfl⟩
+      ⟨fun i => if i = n then a n + b * x 0 else a i, fun i hi => ite_eq_right (by omega),
+        ite_eq_left rfl⟩
     have hS' : ∑ i ∈ Finset.range (n + 1), a' i * x 0 ^ i * x 1 ^ (n - i) = 0 := by
       refine h1 _ ?_
       rw [sum_eq_sum_add (x 0) (x 1) a a' (b * x 0) n hlt htop]
@@ -282,7 +283,7 @@ theorem ker_eval₂Hom_eq_span_relation (hreg : IsWeaklyRegular A [x 1, x 0]) :
           Polynomial.coeff_zero] at h
         rwa [Finset.sum_ite_eq' (Finset.range (F.totalDegree + 1)) k
           (fun k => MvPolynomial.eval x (homogeneousComponent k F)),
-          if_pos (Finset.mem_range.mpr hk)] at h
+          ite_eq_left (Finset.mem_range.mpr hk)] at h
       · rw [homogeneousComponent_eq_zero k F (by omega), map_zero]
     rw [← MvPolynomial.sum_homogeneousComponent F]
     refine Ideal.sum_mem _ fun k _ => ?_

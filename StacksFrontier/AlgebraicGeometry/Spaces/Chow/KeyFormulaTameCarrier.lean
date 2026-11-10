@@ -147,7 +147,7 @@ theorem canonicalPrincipalDivisorCycleAt_one {k : ℤ}
     (hk : deltaDimensionClosed D sY hY Set.univ isClosed_univ = ((k + 1 : ℤ) : EInt)) :
     canonicalPrincipalDivisorCycleAt D sY hY hintY 1 hk = 0 := by
   refine Subtype.ext (funext fun P => ?_)
-  show (canonicalPrincipalDivisorCycleAt D sY hY hintY 1 hk).1 P = 0
+  change (canonicalPrincipalDivisorCycleAt D sY hY hintY 1 hk).1 P = 0
   by_cases hP : codimension
       (integralClosedSubspaceSupport D.site D.base D.base_mem hY.1 P) = 1
   · rw [canonicalPrincipalDivisorCycleAt_apply_of_codimension_eq_one D sY hY hintY 1 hk P hP]
@@ -156,7 +156,7 @@ theorem canonicalPrincipalDivisorCycleAt_one {k : ℤ}
       (hasEtaleLocalProperty_isLocallyNoetherian_of_isGood D sY hY)).ord_one _
   · unfold canonicalPrincipalDivisorCycleAt
     simp only
-    rw [principalDivisorCycleCoefficients, dif_neg hP]
+    rw [principalDivisorCycleCoefficients, dite_eq_right hP]
 
 end PrincipalOne
 
@@ -346,7 +346,7 @@ theorem exists_isRationallyEquivalentToZeroWithin_keyFormulaDivisorSum_of_sectio
   refine ⟨fun i => if hi : P i then 1 else (hgen i hi).choose_spec.1.unit, fun wN => ?_⟩
   refine isRationallyEquivalentToZeroWithin_keyFormulaDivisorSum D sX hX hint L hL s hs N hN t ht
     hn Zf hfin _ wN hinj hcov P (fun i hi => ?_) T hT
-  rw [dif_neg hi, IsUnit.unit_spec]
+  rw [dite_eq_right hi, IsUnit.unit_spec]
   exact (hgen i hi).choose_spec.2
 
 end Carrier

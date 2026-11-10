@@ -367,7 +367,7 @@ theorem exteriorProductDedekindChowTensor_flatPullbackChow {T T' : Scheme.{u}} (
   refine HEq.trans (exteriorProductDedekindChowTensor_heq hC sX rfl n (by ring) α _ _
     (flatPullbackBivariantCap_heq C (h ≫ g) g h rfl r hr (flatPullbackDescends C) (𝟙 T) k β₀).symm)
     ?_
-  show y ≍ _
+  change y ≍ _
   rw [hyinv, H]
   refine chowPushforwardOfIso_heq_congr C _ _ _ _ (by ring) _ _ ?_
   refine (chowGroupDegreeEquiv_heq C _ _ _).trans ?_
@@ -430,7 +430,7 @@ theorem exteriorProductDedekindChowTensor_gysinChowOfInvertible {T : Scheme.{u}}
   let j := (gysinDivisorBaseChangeIso L s (𝟙 T)).hom ≫ ε
   have hjι : j ≫ (Stacks.Divisors.zeroScheme T L s).subschemeι =
       (gysinTripleDivisor L s (𝟙 T)).subschemeι ≫ 𝟙 T := by
-    show ((gysinDivisorBaseChangeIso L s (𝟙 T)).hom ≫ ε) ≫ _ = _
+    change ((gysinDivisorBaseChangeIso L s (𝟙 T)).hom ≫ ε) ≫ _ = _
     rw [Category.assoc, pullback.condition, ← Category.assoc,
       gysinDivisorBaseChangeIso_hom_snd]
   have hjb : j ≫ ((Stacks.Divisors.zeroScheme T L s).subschemeι ≫ g) =
@@ -442,7 +442,7 @@ theorem exteriorProductDedekindChowTensor_gysinChowOfInvertible {T : Scheme.{u}}
     (properPushforwardDescends C _ _ _ _ _) β₀
   have hβ : properChowPushforward C (𝟙 T ≫ g) g (𝟙 T) rfl (k + 1)
       (properPushforwardDescends C _ _ _ _ _) β₀ = β := by
-    show chowPushforwardOfIso C (𝟙 T ≫ g) g (𝟙 T) rfl (k + 1) β₀ = β
+    change chowPushforwardOfIso C (𝟙 T ≫ g) g (𝟙 T) rfl (k + 1) β₀ = β
     rw [chowPushforwardOfIso_id_eq_chowGroupCongr]
     exact eq_of_heq ((chowGroupCongr_heq C _ _ _).trans (chowGroupCongr_heq C _ _ _))
   rw [hβ] at h02TA
@@ -465,7 +465,7 @@ theorem exteriorProductDedekindChowTensor_gysinChowOfInvertible {T : Scheme.{u}}
         M ≫ (gysinDivisorBaseChangeIso L s t').inv := by
     refine (cancel_mono (gysinTripleDivisor L s t').subschemeι).1 ?_
     rw [Category.assoc, Category.assoc, hinvι]
-    show _ ≫ (bivariantDivisorBaseChangeIso sX g L s).hom ≫ (Stacks.Divisors.zeroScheme
+    change _ ≫ (bivariantDivisorBaseChangeIso sX g L s).hom ≫ (Stacks.Divisors.zeroScheme
       (pullback sX g) ((Scheme.Modules.pullback (pullback.snd sX g)).obj L)
       (AlgebraicGeometry.pullbackGlobalSections (pullback.snd sX g) L s)).subschemeι = _
     rw [bivariantDivisorBaseChangeIso_hom_subschemeι]

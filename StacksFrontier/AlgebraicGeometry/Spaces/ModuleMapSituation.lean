@@ -277,7 +277,7 @@ def IsZeroAt (T : D.SchemesOver) : Prop := D.baseChangeHom P T = 0
 theorem isIsoAt_of_hom {T T' : D.SchemesOver} (g : T' ⟶ T) (h : D.IsIsoAt P T) :
     D.IsIsoAt P T' := by
   have : IsIso ((P.functor (D.baseChangeProjection T)).map D.u) := h
-  show IsIso ((P.functor (D.baseChangeProjection T')).map D.u)
+  change IsIso ((P.functor (D.baseChangeProjection T')).map D.u)
   rw [← D.baseChangeMap_comp_baseChangeProjection g,
     P.map_comp_eq_conj (D.baseChangeMap g) (D.baseChangeProjection T) D.u]
   infer_instance
@@ -292,7 +292,7 @@ theorem isSurjectiveAt_of_hom {T T' : D.SchemesOver} (g : T' ⟶ T)
     (h : D.IsSurjectiveAt P T) : D.IsSurjectiveAt P T' := by
   have : Epi ((P.functor (D.baseChangeProjection T)).map D.u) := h
   have := P.preservesEpimorphisms (D.baseChangeMap g)
-  show Epi ((P.functor (D.baseChangeProjection T')).map D.u)
+  change Epi ((P.functor (D.baseChangeProjection T')).map D.u)
   rw [← D.baseChangeMap_comp_baseChangeProjection g,
     P.map_comp_eq_conj (D.baseChangeMap g) (D.baseChangeProjection T) D.u]
   infer_instance
@@ -302,7 +302,7 @@ theorem isZeroAt_of_hom {T T' : D.SchemesOver} (g : T' ⟶ T)
     (h : D.IsZeroAt P T) : D.IsZeroAt P T' := by
   have := P.preservesZeroMorphisms (D.baseChangeMap g)
   have h' : (P.functor (D.baseChangeProjection T)).map D.u = 0 := h
-  show (P.functor (D.baseChangeProjection T')).map D.u = 0
+  change (P.functor (D.baseChangeProjection T')).map D.u = 0
   rw [← D.baseChangeMap_comp_baseChangeProjection g,
     P.map_comp_eq_conj (D.baseChangeMap g) (D.baseChangeProjection T) D.u, h']
   simp

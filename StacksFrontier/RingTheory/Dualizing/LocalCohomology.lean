@@ -192,7 +192,7 @@ private lemma restrictScalars_preserves_powerTorsion
   intro m
   obtain ⟨n, hn, hkill⟩ := hM m
   refine ⟨n, hn, fun a ha ↦ ?_⟩
-  show algebraMap R S a • m = 0
+  change algebraMap R S a • m = 0
   exact hkill _ (by rw [← Ideal.map_pow]; exact Ideal.mem_map_of_mem _ ha)
 
 private lemma extendRestrictScalars_unit_isIso_of_powerTorsion

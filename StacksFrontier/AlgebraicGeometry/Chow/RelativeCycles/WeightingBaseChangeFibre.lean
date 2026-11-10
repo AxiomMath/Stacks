@@ -279,7 +279,7 @@ theorem length_fiberStalk_mul_finInsepDegree_eq {Y Z : Scheme.{u}} (k k' : Type 
     hpaste.flip.isoPullback ≪≫ pullbackSpecIso k k' (Y.residueField (N z))
   have hfst : e.hom ≫ Spec.map (CommRingCat.ofHom
       (algebraMap k' (k' ⊗[k] (Y.residueField (N z))))) = N.fiberι (N z) ≫ p' := by
-    show (hpaste.flip.isoPullback.hom ≫
+    change (hpaste.flip.isoPullback.hom ≫
       (pullbackSpecIso k k' (Y.residueField (N z))).hom) ≫ _ = _
     rw [Category.assoc, pullbackSpecIso_hom_fst' k k' (Y.residueField (N z)),
       hpaste.flip.isoPullback_hom_fst]

@@ -183,7 +183,8 @@ def unitEndGlobalFunction (ψ : structureModule Z ⟶ structureModule Z) :
 /-- An endomorphism of the structure module is multiplication by its value at `1`. -/
 theorem eq_globalFunctionSMul_unitEndGlobalFunction
     (ψ : structureModule Z ⟶ structureModule Z) :
-    ψ = (globalFunctionSMul B S hS Z (unitEndGlobalFunction Z ψ)).asHom.app (structureModule Z) := by
+    ψ = (globalFunctionSMul B S hS Z (unitEndGlobalFunction Z ψ)).asHom.app
+      (structureModule Z) := by
   have := isMulCommutative_structureRingSheaf_obj Z
   refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun U ↦ ?_)
   refine ModuleCat.hom_ext (LinearMap.ext fun x ↦ ?_)
@@ -193,7 +194,7 @@ theorem eq_globalFunctionSMul_unitEndGlobalFunction
       (1 : (structureRingSheaf B S hS Z).obj.obj U)
     exact (congrArg (ψ.val.app U).hom
       (mul_one (show (structureRingSheaf B S hS Z).obj.obj U from x)).symm).trans h0
-  show ψ.val.app U x = r * (show (structureRingSheaf B S hS Z).obj.obj U from x)
+  change ψ.val.app U x = r * (show (structureRingSheaf B S hS Z).obj.obj U from x)
   rw [h]
   exact (RingedSite.ringSheafSectionsIsMulCommutative (smallEtaleRingedSite B S hS Z.1 Z.2)
     U).is_comm.comm _ _
@@ -214,7 +215,8 @@ theorem globalFunctionSMul_injective_structureModule
 theorem globalFunctionSMul_injective_of_isInvertibleModule (L : Modules.{u, u} B S hS Z.1 Z.2)
     (hL : IsInvertibleModule Z L)
     {b c : ((structureRingSheaf B S hS Z).obj ⋙ forget RingCat).sections}
-    (h : (globalFunctionSMul B S hS Z b).asHom.app L = (globalFunctionSMul B S hS Z c).asHom.app L) :
+    (h : (globalFunctionSMul B S hS Z b).asHom.app L =
+      (globalFunctionSMul B S hS Z c).asHom.app L) :
     b = c := by
   refine globalFunctionSMul_injective_structureModule Z
     ((tensorRightModuleFullyFaithful Z L hL).map_injective ?_)
@@ -304,7 +306,7 @@ on the identity chart. -/
 theorem schemeGlobalFunctions_idEtaleChart (T : BigFppfOver B S hS)
     (u : Scheme.Γ.obj (op ((BigFppfOver.toScheme B S hS).obj T))) :
     (schemeGlobalFunctions T u).val (op (idEtaleChart B S hS T)) = u := by
-  show (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
+  change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
       (yoneda.preimage (𝟙 (yoneda.obj T)))).op).hom u = u
   rw [Functor.preimage_id, CategoryTheory.Functor.map_id, op_id, CategoryTheory.Functor.map_id]
   rfl
@@ -325,7 +327,7 @@ theorem globalFunctionsMap_schemeGlobalFunctions {T T' : BigFppfOver B S hS} (g 
         ((schemeSpaceFunctor B S hS).obj Z).property)).symm_apply_apply c
   refine (globalFunctionsChartEquiv B S hS ((schemeSpaceFunctor B S hS).obj T)).val.injective ?_
   rw [globalFunctionsMap_chart]
-  show chartFunctionsMap B S hS (yoneda.map g)
+  change chartFunctionsMap B S hS (yoneda.map g)
       ((globalFunctionsChartEquiv B S hS ((schemeSpaceFunctor B S hS).obj T')).val
         (chartFunctionsToSmall B S hS ((schemeSpaceFunctor B S hS).obj T').1
           (schemeChartFunctions T' u))) =
@@ -339,7 +341,7 @@ theorem globalFunctionsMap_schemeGlobalFunctions {T T' : BigFppfOver B S hS} (g 
     yoneda.map_injective ((yoneda.map_preimage _).trans
       ((congrArg (fun m ↦ m ≫ yoneda.map g) (yoneda.map_preimage _).symm).trans
         (yoneda.map_comp _ _).symm))
-  show (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
+  change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
       (yoneda.preimage (j.unop.hom ≫ yoneda.map g))).op).hom u =
     (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (yoneda.preimage j.unop.hom)).op).hom
       ((Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map g).op).hom u)
@@ -363,7 +365,7 @@ theorem globalFunctionsCompatible_baseChangeGlobalFunctions (f : X ⟶ Y) {T T' 
   have e : baseChangeGlobalFunctions f T
       ((Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map g.left).op).hom u) =
       globalFunctionsMap B S hS (baseChangeMap f g) (baseChangeGlobalFunctions f T' u) := by
-    show globalFunctionsMap B S hS (baseChangeInclusion f T)
+    change globalFunctionsMap B S hS (baseChangeInclusion f T)
         (schemeGlobalFunctions T.left _) = _
     rw [← globalFunctionsMap_schemeGlobalFunctions, ← RingHom.comp_apply,
       ← globalFunctionsMap_comp, ← baseChangeMap_comp_inclusion, globalFunctionsMap_comp]

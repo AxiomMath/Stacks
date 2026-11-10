@@ -24,7 +24,7 @@ sections along `j` carries nonzerodivisors to nonzerodivisors when `U` and `V` a
   inclusion of an irreducible component carries generic points to generic points.
 * `nonZeroDivisors_le_comap_chartGlobalSectionsRestrict_of_irreducibleComponent`: restriction of
   global sections along such a morphism carries nonzerodivisors to nonzerodivisors.
-* `PrimeDivisor.exists_rationalFunctionsToGenericTotalFractionRing_rationalFunctionMap_eq_mk'_of_isFlat_of_irreducibleComponent`:
+* `PrimeDivisor.exists_genericFraction_rationalFunctionMap_eq_mk'_of_isFlat_of_irredComponent`:
   the reading on an irreducible component of the pullback of a rational function along a flat
   morphism is a fraction of the classes of two global sections of a chart of the ambient space.
 * `rationalFunctionsToTotalFractionRing_rationalFunctionMap_eq_mk'_of_isFlat_of_eq`: the chart
@@ -78,7 +78,7 @@ theorem IntegralClosedSubspace.mem_genericPoints_ambientGenericPoint_of_mem_irre
     (hWcomp : subspacePointSet B S hS X W.subspace ∈
       irreducibleComponents (points B S hS X)) :
     W.ambientGenericPoint B S hS ∈ genericPoints (points B S hS X) := by
-  show closure ({W.ambientGenericPoint B S hS} : Set (points B S hS X)) ∈
+  change closure ({W.ambientGenericPoint B S hS} : Set (points B S hS X)) ∈
     irreducibleComponents (points B S hS X)
   rw [(W.isGenericPoint_ambientGenericPoint B S hS hX).def]
   exact hWcomp
@@ -166,7 +166,7 @@ let `U` be an affine elementary étale neighborhood of its generic point with a 
 surjective on Zariski stalks. For `f : X ⟶ Y` flat with `Y` integral and `g` a rational function
 of `Y`, the reading of `g ∘ f|_W` in `Q(𝒪^h_{W, ξ'})` is the fraction of the images of two
 global sections `s`, `t` of `𝒪_V` in a quotient of `𝒪^h_{X, x}` presenting `𝒪^h_{W, ξ'}`. -/
-theorem PrimeDivisor.exists_rationalFunctionsToGenericTotalFractionRing_rationalFunctionMap_eq_mk'_of_isFlat_of_irreducibleComponent
+theorem PrimeDivisor.exists_genericFraction_rationalFunctionMap_eq_mk'_of_isFlat_of_irredComponent
     {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hX : IsAlgebraicSpace B S hS X)
     (hXd : IsDecentSpace B S hS X) {x : points B S hS X}
     (V : ElementaryEtaleNeighborhood B S hS X hX x) [IsAffine V.scheme.left.1]

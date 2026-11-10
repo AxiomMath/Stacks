@@ -119,7 +119,7 @@ private theorem presheaf_inverseImage_of_isIso (P : MorphismProperty Scheme.{u})
   have _ : (MorphismProperty.inverseImage P
       (BigFppfOver.toScheme B S hS)).ContainsIdentities :=
     ⟨fun T ↦ by
-      show P ((BigFppfOver.toScheme B S hS).map (𝟙 T))
+      change P ((BigFppfOver.toScheme B S hS).map (𝟙 T))
       rw [CategoryTheory.Functor.map_id]
       exact hid _⟩
   exact MorphismProperty.presheaf_of_isIso _ f
@@ -193,12 +193,12 @@ theorem hasFiniteRelationFibersAtEveryPoint_of_hasFiniteChartAndRelationFibers
   intro x
   obtain ⟨V, ψ, y, hVaff, hψ, hy⟩ := exists_affine_etale_chart_of_point B S hS X hX x
   refine ⟨V, ψ, y, y, (isEtale_iff_presheaf_of_yoneda B S hS ψ).2 hψ, hy, hy, ?_⟩
-  show {r : points B S hS (pullback ψ ψ) |
+  change {r : points B S hS (pullback ψ ψ) |
     pointsMap B S hS (pullback ψ ψ) (pullback.fst ψ ψ) r = y ∧
     pointsMap B S hS (pullback ψ ψ) (pullback.snd ψ ψ) r = y}.Finite
   refine ((h x V hVaff ψ hψ).2).subset ?_
   rintro r ⟨hr, -⟩
-  show pointsMap B S hS (pullback ψ ψ) (pullback.fst ψ ψ ≫ ψ) r ∈ ({x} : Set _)
+  change pointsMap B S hS (pullback ψ ψ) (pullback.fst ψ ψ ≫ ψ) r ∈ ({x} : Set _)
   rwa [pointsMap_comp_apply, hr]
 
 /-- Conditions `(α)` and `(β)` imply condition `(γ)`: an algebraic space all of whose affine
@@ -259,7 +259,7 @@ private theorem subfunctor_eq_top_of_isLocallySurjective {C : Type u₁} [Catego
   have hcover (U : C) (x : F.obj (Opposite.op U)) : A.sieveOfSection x ∈ J U := by
     refine J.superset_covering ?_ (Presheaf.imageSieve_mem J A.ι x)
     rintro V f ⟨a, ha⟩
-    show F.map f.op x ∈ A.obj (Opposite.op V)
+    change F.map f.op x ∈ A.obj (Opposite.op V)
     rw [← ha]
     exact a.property
   refine le_antisymm le_top fun U x _ ↦ ?_
@@ -422,7 +422,7 @@ theorem hasFiniteRelationFibersAtEveryPoint_of_isZariskiCover
   have hpb : IsPullback (pullback.fst f f) (pullback.snd f f)
       (f ≫ (Xᵢ i).ι) (f ≫ (Xᵢ i).ι) :=
     isPullback_comp_mono (IsPullback.of_hasPullback f f) (Xᵢ i).ι
-  show {r : points B S hS (pullback (f ≫ (Xᵢ i).ι) (f ≫ (Xᵢ i).ι)) |
+  change {r : points B S hS (pullback (f ≫ (Xᵢ i).ι) (f ≫ (Xᵢ i).ι)) |
     pointsMap B S hS _ (pullback.fst (f ≫ (Xᵢ i).ι) (f ≫ (Xᵢ i).ι)) r = a ∧
     pointsMap B S hS _ (pullback.snd (f ≫ (Xᵢ i).ι) (f ≫ (Xᵢ i).ι)) r = b}.Finite
   refine (hfin.image (pointsMap B S hS (pullback f f) hpb.isoPullback.hom)).subset ?_
@@ -469,10 +469,10 @@ private theorem imageSieve_sigmaDesc_iff {I : Type u} {F : I → Cᵒᵖ ⥤ Typ
         (colimit.isColimit (Discrete.functor F))) y
     change (Sigma.desc f).app _ ((Sigma.ι F i).app _ z) = _ at hy
     exact ⟨i, z, by
-      simpa only [← ConcreteCategory.comp_apply, ← NatTrans.comp_app, Sigma.ι_desc] using hy⟩
+      simpa only [← ConcreteCategory.comp_apply, ← NatTrans.comp_app, Sigma.ι_comp_desc] using hy⟩
   · rintro ⟨i, y, hy⟩
     exact ⟨(Sigma.ι F i).app _ y, by
-      simpa only [← ConcreteCategory.comp_apply, ← NatTrans.comp_app, Sigma.ι_desc] using hy⟩
+      simpa only [← ConcreteCategory.comp_apply, ← NatTrans.comp_app, Sigma.ι_comp_desc] using hy⟩
 
 /-- Local surjectivity of a jointly descended family is inherited by the relocalization of
 the family along a morphism of the base. -/
@@ -485,7 +485,7 @@ private theorem relocalize_sigmaDesc_isLocallySurjective (J : GrothendieckTopolo
   constructor
   intro A p
   change {p : Σ ψ : A.left ⟶ V, G.obj (Opposite.op (Over.mk ψ)) // p.1 ≫ f = A.hom} at p
-  show Sieve.overEquiv A _ ∈ J A.left
+  change Sieve.overEquiv A _ ∈ J A.left
   have h := hα.imageSieve_mem p.val.2
   change Sieve.overEquiv (Over.mk p.val.1) _ ∈ J A.left at h
   refine J.superset_covering ?_ h
@@ -499,7 +499,7 @@ private theorem relocalize_sigmaDesc_isLocallySurjective (J : GrothendieckTopolo
       (fun i ↦ (OverShriek.relocalizePresheafFunctor f).map (α i))
       (show ((OverShriek.relocalizePresheafFunctor f).obj G).obj (Opposite.op A) from p)
       _).mpr ⟨i, ⟨⟨g ≫ p.val.1, y⟩, ?_⟩, ?_⟩
-  · show (g ≫ p.val.1) ≫ f = g ≫ A.hom
+  · change (g ≫ p.val.1) ≫ f = g ≫ A.hom
     rw [Category.assoc, p.property]
   · exact Subtype.ext (congrArg (Sigma.mk (g ≫ p.val.1)) hy)
 
@@ -522,7 +522,7 @@ private theorem sigmaDesc_comp_isLocallySurjective (J : GrothendieckTopology C) 
   intro W w hw
   obtain ⟨j, z, hz⟩ := (imageSieve_sigmaDesc_iff (g i) y w).mp hw
   refine (imageSieve_sigmaDesc_iff _ x (w ≫ t)).mpr ⟨⟨i, j⟩, z, ?_⟩
-  show (f i).app _ ((g i j).app _ z) = _
+  change (f i).app _ ((g i j).app _ z) = _
   rw [hz, NatTrans.naturality_apply, hy, op_comp, Y.map_comp_apply]
 
 end Relocalize

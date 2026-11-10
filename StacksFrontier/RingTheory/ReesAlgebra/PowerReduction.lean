@@ -154,7 +154,7 @@ lemma isHomOfDeg_sum {ι : Type*} (t : Finset ι) (s : ℕ) (f : ι → reesAlge
 lemma IsHomOfDeg.coeff_zero {s : ℕ} {f : reesAlgebra I} (hf : IsHomOfDeg s f) (hs : 0 < s) :
     (f : A[X]).coeff 0 = 0 := by
   obtain ⟨a, ha⟩ := hf
-  rw [ha, coeff_monomial, if_neg (by omega)]
+  rw [ha, coeff_monomial, ite_eq_right (by omega)]
 
 /-- **Homogeneous prime avoidance.** If none of finitely many primes of the Rees algebra contains
 every homogeneous element of degree one, some homogeneous element of positive degree lies in
@@ -284,7 +284,7 @@ lemma homIdeal_le {𝔪 : Ideal A} {Q : Ideal (reesAlgebra I)}
       (⟨monomial n ((f : A[X]).coeff n), reesAlgebra.monomial_mem.mpr (hcoeff n)⟩ :
         reesAlgebra I) := by
     apply Subtype.ext
-    rw [AddSubmonoidClass.coe_finset_sum]
+    rw [AddSubmonoidClass.coe_finsetSum]
     exact (f : A[X]).as_sum_range
   rw [hsum]
   refine Ideal.sum_mem _ fun n _ ↦ ?_

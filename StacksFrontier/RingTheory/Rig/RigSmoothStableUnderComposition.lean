@@ -219,14 +219,14 @@ private lemma finiteTypeAdicAlgebraForEveryIdeal_comp
   obtain ⟨hAdef, hAfg⟩ := exists_isIdealOfDefinition_fg hA
   obtain ⟨hBdef, hBfg⟩ := exists_isIdealOfDefinition_fg hB
   obtain ⟨hCdef, hCfg⟩ := exists_isIdealOfDefinition_fg hC
-  have hcondf := ((adicFiniteType_tfae f hf hB hA hBdef hAdef).out 6 1).mp hftf
-  have hcondg := ((adicFiniteType_tfae g hg hC hB hCdef hBdef).out 6 1).mp hftg
+  have hcondf := ((adicFiniteType_tfae f hB hA hBdef hAdef).out 6 1).mp hftf
+  have hcondg := ((adicFiniteType_tfae g hC hB hCdef hBdef).out 6 1).mp hftg
   have hcomp := TopologicalRing.adicTopologicallyFiniteType_isStableUnderComposition.comp
     ⟨weaklyAdmissible_of_isAdicRing hA, countablyGenerated_nhds_of_isAdicRing hA⟩
     ⟨weaklyAdmissible_of_isAdicRing hB, countablyGenerated_nhds_of_isAdicRing hB⟩
     ⟨weaklyAdmissible_of_isAdicRing hC, countablyGenerated_nhds_of_isAdicRing hC⟩
     hAfg hBfg hCfg f g hf hg hcondf hcondg
-  exact ((adicFiniteType_tfae (f.comp g) (hf.comp hg) hC hA hCdef hAdef).out 1 6).mp hcomp
+  exact ((adicFiniteType_tfae (f.comp g) hC hA hCdef hAdef).out 1 6).mp hcomp
 
 /-! ## The degree-`0` differential of `NL^∧_{B/A} ⊗_B C` as a base change -/
 
@@ -594,12 +594,12 @@ private lemma finiteTypeAdicAlgebraForEveryIdeal_of_comp
   obtain ⟨hAdef, -⟩ := exists_isIdealOfDefinition_fg hA
   obtain ⟨hBdef, -⟩ := exists_isIdealOfDefinition_fg hB
   obtain ⟨hCdef, -⟩ := exists_isIdealOfDefinition_fg hC
-  have hcondfg := ((adicFiniteType_tfae (f.comp g) (hf.comp hg) hC hA hCdef hAdef).out 6 1).mp
+  have hcondfg := ((adicFiniteType_tfae (f.comp g) hC hA hCdef hAdef).out 6 1).mp
     hftfg
   have hcond : RingHom.IsAdic f ∧ TopologicalRing.IsTopologicallyOfFiniteType f :=
     ⟨RingHom.isAdic_of_comp g f hg hf hB.1 hcondfg.1,
       TopologicalRing.isTopologicallyOfFiniteType_of_comp g f hcondfg.2⟩
-  exact ((adicFiniteType_tfae f hf hB hA hBdef hAdef).out 1 6).mp hcond
+  exact ((adicFiniteType_tfae f hB hA hBdef hAdef).out 1 6).mp hcond
 
 /-- **Stacks Project, Tag 0GCX.**  Rig-étaleness of arrows of `WAdm^Noeth` is stable under
 composition in the sense of Formal Spaces Remark 0GBK: if `f : B →+* A` and `g : C →+* B` are

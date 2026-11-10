@@ -79,8 +79,8 @@ open AlgebraicGeometry AlgebraicGeometry.Scheme.Modules
 
 -- The derived categories here are the standard ones, as in
 -- `Stacks.AlgebraicGeometry.UniversalPushforward.UniversalPushforwardComplex`;  the priority
--- keeps the locally small model of `StacksFrontier.Homology.DerivedCategory.LocallySmall` from being
--- chosen for a universe-polymorphic statement.
+-- keeps the locally small model of `StacksFrontier.Homology.DerivedCategory.LocallySmall` from
+-- being chosen for a universe-polymorphic statement.
 attribute [local instance 2000] HasDerivedCategory.standard
 attribute [local instance 2000] HomotopyCategory.Plus.instHasPointwiseRightDerivedFunctorQuasiIso
 

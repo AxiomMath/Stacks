@@ -52,8 +52,7 @@ def extendScalarsMapIsoBaseChangeComplex (K : CochainComplex (ModuleCat.{u} R) �
     (fun i => (ModuleCat.extendScalarsAlgebraEquiv (K.X i)).toModuleIso) fun i j _ => by
       apply ModuleCat.hom_ext
       refine LinearMap.ext fun x => ?_
-      induction x using TensorProduct.induction_on with
-      | zero => exact (map_zero _).trans (map_zero _).symm
+      induction x using TensorProduct.inductionOn with
       | tmul s m => rfl
       | add x y hx hy =>
         change _ = _ at hx hy
@@ -127,7 +126,7 @@ theorem surjective_localizationMap : Function.Surjective (localizationMap R L p 
   have hsp := mem_primeCompl_of_map_mem p q hq hs t.2
   refine ⟨IsLocalization.mk' R a ⟨s, hsp⟩, ?_⟩
   rw [localizationMap, IsLocalization.lift_mk'_spec, RingHom.comp_apply, RingHom.comp_apply]
-  show _ = algebraMap C L (φ s) * _
+  change _ = algebraMap C L (φ s) * _
   rw [hs, IsLocalization.mk'_spec']
 
 variable (f : A) (hker : RingHom.ker φ = Ideal.span {f})
@@ -170,7 +169,7 @@ theorem quotientLocalizationEquiv_comp :
         ((Ideal.Quotient.mk (Ideal.span {algebraMap A R f})).comp (algebraMap A R)) =
       (algebraMap C L).comp φ := by
   ext a
-  show (RingHom.quotientKerEquivOfSurjective (surjective_localizationMap R L hq hφ))
+  change (RingHom.quotientKerEquivOfSurjective (surjective_localizationMap R L hq hφ))
     (Ideal.quotEquivOfEq (ker_localizationMap R L hq hφ f hker).symm
       (Ideal.Quotient.mk (Ideal.span {algebraMap A R f}) (algebraMap A R a))) = _
   rw [Ideal.quotEquivOfEq_mk, RingHom.quotientKerEquivOfSurjective_apply_mk,

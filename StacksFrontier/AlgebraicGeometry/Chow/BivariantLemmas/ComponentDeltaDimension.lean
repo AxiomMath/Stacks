@@ -63,7 +63,7 @@ theorem deltaDimension_connectedComponentOpens (b : _root_.ConnectedComponents Y
   have hη : IsGenericPoint W.2.1.genericPoint (W : Set (Y.connectedComponentOpens b)) :=
     W.2.1.isGenericPoint_genericPoint (isClosed_of_mem_irreducibleComponents _ W.2)
   have hηgen : W.2.1.genericPoint ∈ genericPoints (Y.connectedComponentOpens b) := by
-    rw [genericPoints, Set.mem_setOf_eq, hη.def]
+    rw [genericPoints, Set.mem_ofPred_eq, hη.def]
     exact W.2
   have hgen : Y.homOfLE hle W.2.1.genericPoint ∈ genericPoints U :=
     (Y.homOfLE hle).isOpenEmbedding.mem_genericPoints hηgen
@@ -109,7 +109,7 @@ theorem mem_genericPoints_of_relativeDimension_eq_componentDeltaDimension (y : Y
   obtain ⟨W, hW⟩ := isGenericPoint_component_of_relativeDimension_eq C sY
     (Y.connectedComponentOpens b).ι hdim yb hy
   have hgen : yb ∈ genericPoints (Y.connectedComponentOpens b : Scheme.{u}) := by
-    rw [genericPoints, Set.mem_setOf_eq, hW.def]
+    rw [genericPoints, Set.mem_ofPred_eq, hW.def]
     exact W.2
   exact (Y.connectedComponentOpens b).ι.isOpenEmbedding.mem_genericPoints hgen
 
@@ -141,7 +141,7 @@ theorem exists_mem_genericPoints_mk_eq [LocallyConnectedSpace Y]
   obtain ⟨Z, hxZ⟩ := exists_mem_irreducibleComponents x
   have hη := Z.2.1.isGenericPoint_genericPoint (isClosed_of_mem_irreducibleComponents _ Z.2)
   refine ⟨Z.2.1.genericPoint, ?_, ?_⟩
-  · rw [genericPoints, Set.mem_setOf_eq, hη.def]
+  · rw [genericPoints, Set.mem_ofPred_eq, hη.def]
     exact Z.2
   · refine (_root_.ConnectedComponents.coe_eq_coe').2 ?_
     have hconn : _root_.IsPreconnected (closure ({Z.2.1.genericPoint} : Set Y)) :=

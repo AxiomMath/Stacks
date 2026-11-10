@@ -63,7 +63,7 @@ there is an isomorphism. -/
 theorem isIso_residue_genericPoint (Z : Scheme.{u}) [IsIntegral Z] :
     IsIso (Z.residue (genericPoint Z)) := by
   have hinj : Function.Injective (Z.residue (genericPoint Z)).hom := by
-    show Function.Injective (IsLocalRing.residue (Z.presheaf.stalk _))
+    change Function.Injective (IsLocalRing.residue (Z.presheaf.stalk _))
     rw [RingHom.injective_iff_ker_eq_bot, IsLocalRing.ker_residue,
       IsLocalRing.maximalIdeal_eq_bot]
   exact ((RingEquiv.ofBijective (Z.residue (genericPoint Z)).hom
@@ -84,8 +84,8 @@ theorem specResidueFieldAlgebra_eq (R : CommRingCat.{u}) [IsDomain R] :
     CommRingCat.ofHom (algebraMap R ((Spec R).residueField (genericPoint (Spec R)))) =
       CommRingCat.ofHom (algebraMap R (Spec R).functionField) ≫
         (Spec R).residue (genericPoint (Spec R)) := by
-  show (Scheme.ΓSpecIso R).inv ≫ (Spec R).Γevaluation (genericPoint (Spec R)) = _
-  show (Scheme.ΓSpecIso R).inv ≫
+  change (Scheme.ΓSpecIso R).inv ≫ (Spec R).Γevaluation (genericPoint (Spec R)) = _
+  change (Scheme.ΓSpecIso R).inv ≫
       (Spec R).presheaf.germ ⊤ (genericPoint (Spec R)) trivial ≫
         (Spec R).residue (genericPoint (Spec R)) = _
   rw [← Category.assoc]
@@ -120,7 +120,7 @@ theorem map_genericPoint_Spec_map {R S : CommRingCat.{u}} [IsDomain R] [IsDomain
     (hφ : Function.Injective φ.hom) :
     (Spec.map φ) (genericPoint (Spec S)) = genericPoint (Spec R) := by
   rw [genericPoint_eq_bot_of_affine, genericPoint_eq_bot_of_affine]
-  show PrimeSpectrum.comap φ.hom (⊥ : PrimeSpectrum S) = (⊥ : PrimeSpectrum R)
+  change PrimeSpectrum.comap φ.hom (⊥ : PrimeSpectrum S) = (⊥ : PrimeSpectrum R)
   exact PrimeSpectrum.ext (Ideal.comap_bot_of_injective φ.hom hφ)
 
 end AlgebraicGeometry

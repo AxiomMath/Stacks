@@ -222,7 +222,7 @@ private lemma arrowIso_naturality {T S : C} (k : T ⟶ S) (a : P.arrows.obj T)
     congr 1
     apply Functor.Elements.hom_ext
     simp only [Functor.Elements.comp_hom, elements_eqToHom_val]
-    show k ≫ eqToHom (_ : S = S) = k
+    change k ≫ eqToHom (_ : S = S) = k
     simp
   rw [← Category.assoc, hmap P.source hs', ← Category.assoc]
   rw [h]
@@ -339,7 +339,7 @@ private lemma presentationFunctor_over : presentationFunctor p U f over P ⋙ p 
     Grothendieck.forget (evaluationFunctor P.toGroupoidInFunctors) := by
   refine Functor.ext (fun X => elementBaseEq p U f over X.base X.fiber.down) ?_
   intro X Y k
-  show p.map (f.map (⟨k.base, rfl⟩ : U.elementsMk X.base X.fiber.down ⟶
+  change p.map (f.map (⟨k.base, rfl⟩ : U.elementsMk X.base X.fiber.down ⟶
     U.elementsMk Y.base (U.map k.base X.fiber.down)) ≫
       (fiberIso p U f over P Y.base k.fiber).hom) = _
   rw [p.map_comp, fiberIso_vertical]
@@ -357,11 +357,11 @@ private lemma presentationFunctor_comp_quotient :
         presentationFunctor p U f over P = f := by
   refine Functor.ext (F := _) (G := f) (fun _ => rfl) ?_
   intro X Y k
-  show f.map (⟨k.hom, rfl⟩ : U.elementsMk X.1 X.2 ⟶
+  change f.map (⟨k.hom, rfl⟩ : U.elementsMk X.1 X.2 ⟶
     U.elementsMk Y.1 (U.map k.hom X.2)) ≫
     (presentationFiberFunctor p U f over P Y.1).map (eqToHom (congrArg ULift.up k.map_val)) = _
   rw [eqToHom_map]
-  show f.map (⟨k.hom, rfl⟩ : U.elementsMk X.1 X.2 ⟶
+  change f.map (⟨k.hom, rfl⟩ : U.elementsMk X.1 X.2 ⟶
     U.elementsMk Y.1 (U.map k.hom X.2)) ≫ eqToHom _ = _
   rw [← eqToHom_map f (congrArg (U.elementsMk Y.1) k.map_val), ← f.map_comp]
   simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
@@ -370,7 +370,8 @@ private lemma presentationFunctor_comp_quotient :
   simp [elements_eqToHom_val]
 
 private lemma fiberIso_surjective (T : C)
-    {x y : P.toGroupoidInFunctors.Evaluation T} (e : f.obj (U.elementsMk T x.down) ≅ f.obj (U.elementsMk T y.down))
+    {x y : P.toGroupoidInFunctors.Evaluation T}
+    (e : f.obj (U.elementsMk T x.down) ≅ f.obj (U.elementsMk T y.down))
     (he : p.map e.hom = eqToHom (elementBaseEq p U f over T x.down) ≫
       eqToHom (elementBaseEq p U f over T y.down).symm) :
     ∃ a : x ⟶ y, fiberIso p U f over P T a = e := by
@@ -419,7 +420,7 @@ private lemma presentationFunctor_full (hp : IsCofiberedInGroupoids p) :
     (x := (evaluationMap P.toGroupoidInFunctors k).obj X.fiber)
     (y := Y.fiber) (asIso t) ht
   refine ⟨⟨k, a⟩, ?_⟩
-  show f.map b ≫ (fiberIso p U f over P Y.base a).hom = m
+  change f.map b ≫ (fiberIso p U f over P Y.base a).hom = m
   rw [ha]
   exact ht'
 
@@ -523,12 +524,12 @@ private lemma fiber_stabilizer_trivial {T S : C} (k : T ⟶ S)
     apply arrow_map_of_square p U f over P a.1 b.1 a.2.1 a.2.2 b.2.1 b.2.2
       (⟨k, rfl⟩ : U.elementsMk T x.down ⟶ U.elementsMk S (U.map k x.down))
       (⟨k, rfl⟩ : U.elementsMk T x.down ⟶ U.elementsMk S (U.map k x.down)) rfl
-    show _ ≫ (fiberIso p U f over P S d).hom = (fiberIso p U f over P T (𝟙 x)).hom ≫ _
+    change _ ≫ (fiberIso p U f over P S d).hom = (fiberIso p U f over P T (𝟙 x)).hom ≫ _
     rw [fiberIso_id]
     simpa using h
   apply (G.evaluationArrowEquiv S _ _).injective
   apply Subtype.ext
-  show b.1 = _
+  change b.1 = _
   rw [← hh]
   have hm := evaluationMap_map_arrow G k (𝟙 x)
   simp only [Functor.map_id] at hm
@@ -560,7 +561,7 @@ private lemma presentationFunctor_faithful : (presentationFunctor p U f over P).
       simp only [eqToHom_refl, Category.id_comp]
       have hh : a ≫ inv b = 𝟙 _ := by
         apply fiber_stabilizer_trivial p U f over P k X.fiber (a ≫ inv b)
-        show f.map (⟨k, rfl⟩ : U.elementsMk X.base X.fiber.down ⟶
+        change f.map (⟨k, rfl⟩ : U.elementsMk X.base X.fiber.down ⟶
           U.elementsMk Y.base (U.map k X.fiber.down)) ≫
           (presentationFiberFunctor p U f over P Y.base).map (a ≫ inv b) = _
         rw [Functor.map_comp, ← Category.assoc]

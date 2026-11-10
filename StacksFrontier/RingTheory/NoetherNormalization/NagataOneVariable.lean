@@ -46,7 +46,7 @@ theorem eval₂_nagataSubst (q : K[X][X]) (N : ℕ) (t₀ u : R) :
     (nagataSubst q N).eval₂ (aeval (u - t₀ ^ N) : K[X] →ₐ[K] R).toRingHom t₀ =
       q.eval₂ (aeval t₀ : K[X] →ₐ[K] R).toRingHom u := by
   set ψ : K[X][X] →+* R := eval₂RingHom (aeval (u - t₀ ^ N) : K[X] →ₐ[K] R).toRingHom t₀
-  show ψ (nagataSubst q N) = _
+  change ψ (nagataSubst q N) = _
   rw [nagataSubst, hom_eval₂]
   have hcomp : ψ.comp (mapRingHom (C : K →+* K[X])) = (aeval t₀ : K[X] →ₐ[K] R).toRingHom := by
     refine ringHom_ext (fun c => ?_) ?_ <;> simp [ψ]

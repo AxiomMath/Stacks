@@ -162,7 +162,7 @@ theorem exists_isAffineHom_app_of_isLimit (D : I ⥤ Scheme.{u})
       (isQuasiSeparated_iff_quasiSeparatedSpace _ (D.map a.hom ⁻¹ᵁ U).2).mp
         (.of_quasiSeparatedSpace _)
     have haff : IsAffine (opensCone D c i₀ U).pt := by
-      show IsAffine (c.π.app i₀ ⁻¹ᵁ U).toScheme
+      change IsAffine (c.π.app i₀ ⁻¹ᵁ U).toScheme
       rw [hU, ← Scheme.Hom.comp_preimage, hπt i₀]
       exact V.2.preimage f
     obtain ⟨a, ha⟩ :=

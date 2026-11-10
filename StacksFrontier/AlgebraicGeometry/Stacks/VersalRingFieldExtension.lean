@@ -223,7 +223,7 @@ theorem exists_isVersalRingAt_fieldExtension
   have : Module.Finite R k := RingHom.finite_algebraMap.mp hψ₀finite
   have hΛRl : (algebraMap R l).comp (algebraMap Λ R) = algebraMap Λ l := by
     rw [IsScalarTower.algebraMap_eq Λ k l]
-    show ((algebraMap k l).comp ψ₀).comp (algebraMap Λ R) = _
+    change ((algebraMap k l).comp ψ₀).comp (algebraMap Λ R) = _
     rw [RingHom.comp_assoc, hψ₀]
   have : IsScalarTower Λ R l := IsScalarTower.of_algebraMap_eq' hΛRl.symm
   let iR : Spec (.of R) ⟶ D.S := Spec.map (CommRingCat.ofHom (algebraMap Λ R)) ≫ iΛ
@@ -284,7 +284,7 @@ theorem exists_isVersalRingAt_fieldExtension
   let f : A →ₐ[Λ] A' :=
     { toRingHom := fR.toRingHom
       commutes' := fun x => by
-        show fR (algebraMap Λ A x) = algebraMap R A'R (algebraMap Λ R x)
+        change fR (algebraMap Λ A x) = algebraMap R A'R (algebraMap Λ R x)
         rw [hAlg x]
         exact fR.commutes _ }
   exact ⟨A', f, hA', hloc, hres, hsm⟩

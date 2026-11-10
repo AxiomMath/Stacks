@@ -120,7 +120,7 @@ extensionality principle, with no subtraction of internal-hom sections involved.
 theorem eq_of_dualEval_eq {U : C} (b : DualBasisOne 𝒪 h𝒪 L U)
     {σ τ : (dualSheaf 𝒪 h𝒪 L).val.obj (op U)} (h : dualEval σ b.e = dualEval τ b.e) : σ = τ := by
   refine PresheafOfModules.hom_ext fun V => ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-  show dualApp σ V x = dualApp τ V x
+  change dualApp σ V x = dualApp τ V x
   rw [← b.span V x, dualApp_smul, dualApp_smul, dualApp_resSection, dualApp_resSection, h]
 
 /-- **Scaling a section of the dual scales its values.** -/

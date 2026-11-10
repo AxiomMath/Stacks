@@ -134,7 +134,7 @@ variable (R : Type u) [CommRing R] (G : Type v) [Group G] [TopologicalSpace G]
 def continuousModuleRingInvariantsIso :
     continuousModuleRingInvariants.{u, v, w} R G ≅ continuousModuleInvariants.{u, v, w} R G :=
   NatIso.ofComponents (fun _ ↦ LinearEquiv.toModuleIso
-    { toFun := fun x ↦ ⟨x.1, fun g ↦ (x.2 : ∀ g : G, _) g⟩
+    { toFun := fun x ↦ ⟨x.1, fun g ↦ x.2 g⟩
       invFun := fun x ↦ ⟨x.1, fun g ↦ x.2 g⟩
       left_inv := fun _ ↦ rfl
       right_inv := fun _ ↦ rfl

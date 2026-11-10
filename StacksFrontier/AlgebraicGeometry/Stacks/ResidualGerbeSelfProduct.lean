@@ -116,7 +116,7 @@ theorem bijective_morPresheafMap_app_iff {U : BigFppfOver B S hS} (a b : 𝒳.va
         (fun m => (fibreFunctor B S hS 𝒳 𝒴 F g.left).map m) := by
     funext m
     simp [Iso.homCongr]
-  show Function.Bijective (fun m => ((hF.morPresheafMap a b).app (op g)) m) ↔ _
+  change Function.Bijective (fun m => ((hF.morPresheafMap a b).app (op g)) m) ↔ _
   rw [key]
   exact Equiv.comp_bijective _ _
 
@@ -149,7 +149,7 @@ theorem bijective_isomSpaceMap_app_iff {U : BigFppfOver B S hS} (a b : 𝒳.val.
   have hsq : ι₂ ∘ (fun m => (isomSpaceMap B S hS 𝒳 𝒴 F U a b).app T m) =
       (fun m => ((isFibredOneMorphism_basedFunctor B S hS 𝒳 𝒴 F).morPresheafMap a b).app
         (op g) m) ∘ ι₁ := rfl
-  show Function.Bijective (fun m => (isomSpaceMap B S hS 𝒳 𝒴 F U a b).app T m) ↔
+  change Function.Bijective (fun m => (isomSpaceMap B S hS 𝒳 𝒴 F U a b).app T m) ↔
     Function.Bijective (fun m => ((isFibredOneMorphism_basedFunctor B S hS 𝒳 𝒴 F).morPresheafMap
       a b).app (op g) m)
   rw [← Function.Bijective.of_comp_iff' hι₂, hsq, Function.Bijective.of_comp_iff _ hι₁]
@@ -225,11 +225,11 @@ theorem exists_fpqc_cover_factor (V : BigFppfOver B S hS) {k Ω : BigFppfOver B 
   have hcond : Limits.pullback.fst s.left c.left ≫ s.left =
       Limits.pullback.snd s.left c.left ≫ c.left := Limits.pullback.condition
   refine ⟨Over.homMk (u.left ≫ Limits.pullback.snd s.left c.left) ?_, ?_⟩
-  · show (u.left ≫ Limits.pullback.snd s.left c.left) ≫ Ω.hom = T.hom ≫ V.hom
+  · change (u.left ≫ Limits.pullback.snd s.left c.left) ≫ Ω.hom = T.hom ≫ V.hom
     rw [← Over.w c, Category.assoc, ← Category.assoc (Limits.pullback.snd s.left c.left),
       ← hcond, Category.assoc, Over.w s, ← Category.assoc, hu]
   · apply Over.OverMorphism.ext
-    show (u.left ≫ Limits.pullback.snd s.left c.left) ≫ c.left = T.hom ≫ s.left
+    change (u.left ≫ Limits.pullback.snd s.left c.left) ≫ c.left = T.hom ≫ s.left
     rw [Category.assoc, ← hcond, ← Category.assoc, hu]
 
 /-- **Descent of goodness in the first variable.** Let `c : ζ ⟶ ζ₀` be a morphism of `𝒳` lying over
@@ -365,7 +365,7 @@ theorem bijective_fibreFunctor_map_of_isEquivalence_mapBase
         ha := IsHomLift.id a.2
         hb := IsHomLift.id b.2
         w := by
-          show (Q.toFunctor ⋙ H.toFunctor).map (𝟙 a.1) ≫ H.toFunctor.map m₂.1 =
+          change (Q.toFunctor ⋙ H.toFunctor).map (𝟙 a.1) ≫ H.toFunctor.map m₂.1 =
             H.toFunctor.map m₁.1 ≫ (Q.toFunctor ⋙ H.toFunctor).map (𝟙 b.1)
           simp [hm'] }
     have hl : C.map (C.preimage k) = k := C.map_preimage k

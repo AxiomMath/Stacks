@@ -52,8 +52,7 @@ theorem Stacks.TensorProduct.C1573.bijective_of_tmul_eq_of_bijective {R : Type*}
     (Ψ : P →+ N') (hΨ : Function.Bijective Ψ) (e : N ≃+ N')
     (h : ∀ a m, e (Θ (a ⊗ₜ m)) = Ψ (τ (a ⊗ₜ m))) : Function.Bijective Θ := by
   have key : ∀ t, e (Θ t) = Ψ (τ t) := fun t => by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul a m => exact h a m
     | add t₁ t₂ h₁ h₂ => rw [map_add, map_add, map_add, map_add, h₁, h₂]
   have hΘ : ⇑Θ = e.symm ∘ (Ψ ∘ τ) := funext fun t => by
@@ -129,7 +128,7 @@ theorem C1573.chartGammaSections_naturality (n : ℕ) :
     (adicQuotientSystem_map_succ B S hS X.1 X.2 (inverseImageIdeal B S hS f hf J) F n)
   have h3 := chartDirectImageAdicQuotientIso_transition B S hS f hf V J F hF hJ hJfg n
     (((directImageUnitComparison B S hS f hf J F G β).app (op (n + 1))).val.app (op V) m)
-  show (chartDirectImageAdicQuotientIso B S hS f hf V J F hF hJ hJfg n).hom
+  change (chartDirectImageAdicQuotientIso B S hS f hf V J F hF hJ hJfg n).hom
       (((directImageUnitComparison B S hS f hf J F G β).app (op n)).val.app (op V)
         ((G.obj.map (homOfLE (Nat.le_add_right n 1)).op).val.app (op V) m)) = _
   exact (congrArg (chartDirectImageAdicQuotientIso B S hS f hf V J F hF hJ hJfg n).hom h1).trans

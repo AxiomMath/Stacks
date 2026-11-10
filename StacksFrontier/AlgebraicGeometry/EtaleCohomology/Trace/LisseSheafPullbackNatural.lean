@@ -69,6 +69,7 @@ def etaleModuleInverseImageLisseEtaleSheafIso
             ((finiteTypeLocallyConstantModuleSheafEquivalenceEtaleSite B X (y.map f.hom)
               Λ).counitIso.app P)))
 
+omit [ConnectedSpace Y.1] in
 variable {Λ} in
 /-- The first square of the naturality of
 `Stacks.EtaleCohomology.etaleModuleInverseImageLisseEtaleSheafIso`: `f⁻¹` and the inverse image of

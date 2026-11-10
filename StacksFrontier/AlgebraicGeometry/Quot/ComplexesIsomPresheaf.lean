@@ -302,7 +302,7 @@ theorem isomToHomOver_relHomMap {g₁ g₂ : Over A.T.left} (h : g₁ ⟶ g₂)
         (overTestCone A.T) (smallEtaleDerivedPullbackData_isCoherent B S hS) E' A.E).map
           h.op q)).1 =
       (overTestLiftSystem A).trans h ≫ (isomEquivHomOver A E' h₁ h₂ g₂ q).1 := by
-  show isomHom A E' h₁ h₂ g₁ _ _ =
+  change isomHom A E' h₁ h₂ g₁ _ _ =
     ComplexesHom.comp (overTestTrans A h) (isomHom A E' h₁ h₂ g₂ q.1 q.2)
   have key := fillIn_comp_eq_of_heq A E' h₁ h₂ (y := overTestObject A g₂)
     (z := overTestObject A g₁) (overTestObjectHom A g₂) ((overTest A.T).map h)

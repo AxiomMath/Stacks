@@ -53,7 +53,7 @@ variable {C : Type*} [Category* C] [HasZeroMorphisms C]
 /-- **Stacks 012Y.** A double complex: a `ℤ × ℤ`-indexed family of objects with a horizontal and
 a vertical differential, such that `d₁ ∘ d₁ = 0`, `d₂ ∘ d₂ = 0` and the squares commute. -/
 @[stacks 012Y "the tag's definition, as a structure shaped like `HomologicalComplex`", sga
-  "4 XVII 0.4" "case |I| = 2", sga "4 XVII 0.4" "case |I| = 2"]
+  "4 XVII 0.4" "case |I| = 2"]
 structure DoubleComplex (C : Type*) [Category* C] [HasZeroMorphisms C] where
   /-- The object in bidegree `(p, q)`. -/
   X : ℤ → ℤ → C

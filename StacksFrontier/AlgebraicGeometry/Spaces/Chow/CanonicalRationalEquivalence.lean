@@ -274,7 +274,7 @@ theorem exists_integralClosedSubspacePushforward_eq_cycleGroupClosedPushforward
     rw [← IntegralClosedSubspace.isoPushforward_hom_comp_ι hX.1 hT.1 hdec hj V,
       Iso.inv_hom_id_assoc]
   refine Subtype.ext ?_
-  show cycleClosedPushforward D hX.1 hT.1 hdec hj
+  change cycleClosedPushforward D hX.1 hT.1 hdec hj
       (cycleClosedPushforward D hT.1 hV.1 (D.isDecentSpace_of_isGood sT hT) V.isClosedSubspace.2
         (canonicalPrincipalDivisorCycleAt D _ hV V.isIntegralSpace
           (Units.map (rationalFunctionsMapIso hV.1 φ.symm : _ →* _) f) hk').1) =
@@ -311,7 +311,7 @@ theorem cycleGroupClosedPushforward_cycleFamilySum {I : Type w}
         D.base_mem hX.1 hT.1 (D.isDecentSpace_of_isGood sX hX) hj (V i)) hV' k c' := by
   have hdec := D.isDecentSpace_of_isGood sX hX
   refine Subtype.ext (funext fun Z => ?_)
-  show cycleClosedPushforward D hX.1 hT.1 hdec hj (cycleFamilySum D sT hT V hV k c).1 Z =
+  change cycleClosedPushforward D hX.1 hT.1 hdec hj (cycleFamilySum D sT hT V hV k c).1 Z =
     (cycleFamilySum D sX hX _ hV' k c').1 Z
   rw [cycleFamilySum_apply]
   simp_rw [← hc]

@@ -177,7 +177,7 @@ def mapHomToHomologyEquiv (k : ℤ) (hjk : j + 1 = k) {U : C} {V : D} (e : F.obj
     simp)
   right_inv t := by
     refine ((((F.mapHomologicalComplex (ComplexShape.up ℤ)).obj K).homToHomologyEquiv j k hjk
-      _).apply_eq_iff_eq_symm_apply).2 (Subtype.ext ?_)
+      _).eq_symm_apply).1 (Subtype.ext ?_)
     simp
 
 /-- The underlying morphism of the inverse of `HomologicalComplex.mapHomToHomologyEquiv`. -/

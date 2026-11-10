@@ -104,7 +104,7 @@ public lemma derivedTensorResolutionIsoApp_naturality [IsIso (DerivedCategory.Q.
     simp only [CategoryTheory.Functor.map_id, NatTrans.id_app, Category.id_comp] at h
     exact h
   rw [hmap]
-  show GF.map a ≫ e₀.inv ≫ GP.map s₀ ≫ c₀ = (e₁.inv ≫ GP.map s₁ ≫ c₁) ≫ mb
+  change GF.map a ≫ e₀.inv ≫ GP.map s₀ ≫ c₀ = (e₁.inv ≫ GP.map s₁ ≫ c₁) ≫ mb
   have k₁ : GF.map a ≫ e₀.inv ≫ GP.map s₀ ≫ c₀ = e₁.inv ≫ GP.map (a ≫ s₀) ≫ c₀ :=
     (Category.assoc _ _ _).symm.trans ((congrArg (· ≫ GP.map s₀ ≫ c₀) h₁).trans
       ((Category.assoc _ _ _).trans (congrArg (e₁.inv ≫ ·)

@@ -106,7 +106,7 @@ private lemma adicCompletionMap_toField_comp
       (algebraMap A (AdicCompletion (IsLocalRing.maximalIdeal A) A)) = f := by
   apply RingHom.ext
   intro a
-  show (((AdicCompletion.ofAlgEquiv (IsLocalRing.maximalIdeal K)).symm.toRingEquiv.toRingHom).comp
+  change (((AdicCompletion.ofAlgEquiv (IsLocalRing.maximalIdeal K)).symm.toRingEquiv.toRingHom).comp
       ((adicCompletionMap f (IsLocalRing.maximalIdeal A) (IsLocalRing.maximalIdeal K)
         (IsLocalRing.map_maximalIdeal_le f)).comp
         (algebraMap A (AdicCompletion (IsLocalRing.maximalIdeal A) A)))) a = f a
@@ -160,7 +160,7 @@ private lemma adicCompletionRingHom_ext
       algebraMap A T (c n) ∈ (IsLocalRing.maximalIdeal T) ^ n := by
     rw [AdicCompletion.maximalIdeal_eq_map]
     rw [← Ideal.map_pow]
-    show (AdicCompletion.mk (IsLocalRing.maximalIdeal A) A c) -
+    change (AdicCompletion.mk (IsLocalRing.maximalIdeal A) A c) -
       algebraMap A T (c n) ∈ Submodule.restrictScalars A
         (Ideal.map (algebraMap A T) ((IsLocalRing.maximalIdeal A) ^ n))
     rw [← Ideal.smul_top_eq_map]
@@ -218,7 +218,7 @@ private lemma app_eq_top_transport {X Y : Scheme.{u}} (f : X ⟶ Y)
     f.app V ≫ eqToHom (congrArg (fun U ↦ Γ(X, U)) hW) =
       eqToHom (congrArg (fun U ↦ Γ(Y, U)) hV) ≫ f.appTop := by
   subst V
-  show f.appTop ≫ 𝟙 _ = 𝟙 _ ≫ f.appTop
+  change f.appTop ≫ 𝟙 _ = 𝟙 _ ≫ f.appTop
   simp
 
 private lemma germ_to_field_of_iso {Y : Scheme.{u}} {K : Type u} [Field K]
@@ -229,7 +229,7 @@ private lemma germ_to_field_of_iso {Y : Scheme.{u}} {K : Type u} [Field K]
         e.inv.appTop ≫ (Scheme.ΓSpecIso (.of K)).hom := by
   subst V
   rw [Scheme.germ_stalkClosedPointTo]
-  show e.inv.appTop ≫ (Spec (.of K)).presheaf.map (𝟙 _) ≫
+  change e.inv.appTop ≫ (Spec (.of K)).presheaf.map (𝟙 _) ≫
     (Scheme.ΓSpecIso (.of K)).hom = e.inv.appTop ≫ (Scheme.ΓSpecIso (.of K)).hom
   simp
 
@@ -351,27 +351,25 @@ private lemma isPullback_commRingCat_of_tensor
     (eCT.symm.trans eC').toEquiv.toIso ?_ ?_ ?_ ?_
   · apply ConcreteCategory.hom_ext
     intro v
-    show eB.commRingCatIsoToRingEquiv (eBT.symm
+    change eB.commRingCatIsoToRingEquiv (eBT.symm
       (TensorProduct.map (LinearMap.id : T →ₗ[R] T) (Algebra.linearMap R B) v)) =
         bottomResidueMap (TensorProduct.rid R T v)
-    induction v using TensorProduct.induction_on with
-    | zero => simp
+    induction v using TensorProduct.inductionOn with
     | tmul t r =>
       rw [TensorProduct.map_tmul, TensorProduct.rid_tmul]
-      show eB.commRingCatIsoToRingEquiv (eBT.symm (t ⊗ₜ[R] (algebraMap R B r))) = _
+      change eB.commRingCatIsoToRingEquiv (eBT.symm (t ⊗ₜ[R] (algebraMap R B r))) = _
       rw [tmul_algebraMap_eq_smul_tmul_one, hbottomTmul]
     | add v w hv hw => simpa only [map_add] using congrArg₂ (· + ·) hv hw
   · apply ConcreteCategory.hom_ext
     intro v
     apply funext
     intro i
-    show eA (TensorProduct.map (LinearMap.id : T →ₗ[R] T)
+    change eA (TensorProduct.map (LinearMap.id : T →ₗ[R] T)
       (Algebra.linearMap R A) v) i = completionMap (TensorProduct.rid R T v) i
-    induction v using TensorProduct.induction_on with
-    | zero => simp
+    induction v using TensorProduct.inductionOn with
     | tmul t r =>
       rw [TensorProduct.map_tmul, TensorProduct.rid_tmul]
-      show eA (t ⊗ₜ[R] (algebraMap R A r)) i = _
+      change eA (t ⊗ₜ[R] (algebraMap R A r)) i = _
       rw [tmul_algebraMap_eq_smul_tmul_one, hAright]
     | add v w hv hw => simpa only [map_add, Pi.add_apply] using congrArg₂ (· + ·) hv hw
   · apply ConcreteCategory.hom_ext
@@ -381,11 +379,10 @@ private lemma isPullback_commRingCat_of_tensor
     intro v
     apply funext
     intro i
-    show eC' (eCT.symm (TensorProduct.map (LinearMap.id : T →ₗ[R] T)
+    change eC' (eCT.symm (TensorProduct.map (LinearMap.id : T →ₗ[R] T)
       ((Algebra.linearMap A C).restrictScalars R) v)) i =
         componentResidueMap i (eA v i)
-    induction v using TensorProduct.induction_on with
-    | zero => simp
+    induction v using TensorProduct.inductionOn with
     | tmul t a => exact (hresTensor t a i).symm
     | add v w hv hw => simpa only [map_add, Pi.add_apply] using congrArg₂ (· + ·) hv hw
 
@@ -430,7 +427,7 @@ private lemma residueMap_tmul_compat
         (eB.commRingCatIsoToRingEquiv (eBT.symm b)) := by
     obtain ⟨b₀, hb₀⟩ := eBT.surjective b
     rw [← hb₀, eBT.symm_apply_apply, heBT, TensorProduct.map_tmul]
-    show eC' (eCT.symm ((1 : T) ⊗ₜ[R] algebraMap B C b₀)) = _
+    change eC' (eCT.symm ((1 : T) ⊗ₜ[R] algebraMap B C b₀)) = _
     rw [← heCT (algebraMap B C b₀), eCT.symm_apply_apply]
     exact hγgeom b₀
   refine ⟨hγT, ?_⟩
@@ -448,7 +445,7 @@ private lemma residueMap_tmul_compat
   have hmul : t ⊗ₜ[R] a = (t ⊗ₜ[R] (1 : A)) * ((1 : T) ⊗ₜ[R] a) := by
     simp only [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
   rw [hmul, eA.map_mul]
-  show componentResidueMap i (eA (t ⊗ₜ[R] (1 : A)) i * eA ((1 : T) ⊗ₜ[R] a) i) = _
+  change componentResidueMap i (eA (t ⊗ₜ[R] (1 : A)) i * eA ((1 : T) ⊗ₜ[R] a) i) = _
   rw [map_mul, hAright, hresT, hresA, hCTmul]
   rfl
 
@@ -556,7 +553,7 @@ private lemma exists_isPullback_adicCompletion
     adicCompletionMap_toField_comp (φᵢ i)
   have hAleft (a : A) (i : Fin n) :
       eA ((1 : T) ⊗ₜ[R] a) i = algebraMap (Lᵢ i) (Tᵢ i) (algebraMap A (Lᵢ i) a) := by
-    show eCompletion (a ⊗ₜ[R] (1 : T)) i = _
+    change eCompletion (a ⊗ₜ[R] (1 : T)) i = _
     rw [show (a ⊗ₜ[R] (1 : T)) = algebraMap A (TensorProduct R A T) a from rfl, heCompletion]
   let eFactor : ∀ i, T →+* Tᵢ i := fun i ↦
     (Pi.evalRingHom _ i).comp (eA.toRingHom.comp
@@ -571,7 +568,7 @@ private lemma exists_isPullback_adicCompletion
     simp only [RingHom.comp_apply]
     have hLT : algebraMap L T (algebraMap R L r) = algebraMap R T r := rfl
     rw [hLT]
-    show eA ((algebraMap R T r) ⊗ₜ[R] (1 : A)) i = _
+    change eA ((algebraMap R T r) ⊗ₜ[R] (1 : A)) i = _
     rw [Algebra.TensorProduct.tmul_one_eq_one_tmul, hAleft, ← hσ i r]
     exact (DFunLike.congr_fun (hcompletionBase i) (algebraMap R L r)).symm
   have heFactor (i : Fin n) : eFactor i = (Pi.evalRingHom _ i).comp completionMap := by
@@ -595,20 +592,20 @@ private lemma exists_isPullback_adicCompletion
   have hbottomBase : bottomResidueMap.comp (algebraMap R T) =
       eB.commRingCatIsoToRingEquiv.toRingHom.comp (algebraMap R B) := by
     ext r
-    show eB.commRingCatIsoToRingEquiv (eBT.symm
+    change eB.commRingCatIsoToRingEquiv (eBT.symm
       (Algebra.TensorProduct.includeLeftRingHom (algebraMap R T r))) =
         eB.commRingCatIsoToRingEquiv (algebraMap R B r)
     congr 1
     apply eBT.injective
     rw [eBT.apply_symm_apply]
-    show Algebra.TensorProduct.includeLeftRingHom (algebraMap R T r) =
+    change Algebra.TensorProduct.includeLeftRingHom (algebraMap R T r) =
       Algebra.TensorProduct.includeRight (algebraMap R B r)
     exact DFunLike.congr_fun
       (Algebra.TensorProduct.includeLeftRingHom_comp_algebraMap (R := R) (A := T) (B := B)) r
   have hbottom : bottomResidueMap.comp (algebraMap L T) = φ := by
     apply IsLocalization.ringHom_ext p.primeCompl
     rw [RingHom.comp_assoc]
-    show bottomResidueMap.comp (algebraMap R T) = _
+    change bottomResidueMap.comp (algebraMap R T) = _
     rw [hbottomBase]
     exact (RingHom.ext fun r ↦ hφ r).symm
   have hresA (a : A) (i : Fin n) : componentResidueMap i (eA ((1 : T) ⊗ₜ[R] a) i) =
@@ -620,13 +617,13 @@ private lemma exists_isPullback_adicCompletion
     let f := (componentResidueMap i).comp ((Pi.evalRingHom _ i).comp completionMap)
     let g := (algebraMap k' (k'_i i)).comp bottomResidueMap
     have : IsLocalHom (g.comp (algebraMap L T)) := by
-      show IsLocalHom (((algebraMap k' (k'_i i)).comp bottomResidueMap).comp (algebraMap L T))
+      change IsLocalHom (((algebraMap k' (k'_i i)).comp bottomResidueMap).comp (algebraMap L T))
       rw [RingHom.comp_assoc, hbottom]
       exact RingHom.isLocalHom_comp (algebraMap k' (k'_i i)) φ
     have heq : f = g := by
       apply completion_ringHom_ext_of_localization p
       ext r
-      show componentResidueMap i (completionMap (algebraMap R T r) i) =
+      change componentResidueMap i (completionMap (algebraMap R T r) i) =
         algebraMap k' (k'_i i) (bottomResidueMap (algebraMap R T r))
       rw [← hAright]
       rw [Algebra.TensorProduct.tmul_one_eq_one_tmul, hresA]
@@ -710,7 +707,7 @@ public theorem exists_pushoutCompletedLocalRing_isPullback
     rw [← Spec.map_comp_assoc]
     congr 1
   have hjz (i : Fin n) : s.j (z i) = y := by
-    show (specPoint i ≫ s.j) (closedPoint (k'_i i)) = eY.inv (closedPoint k')
+    change (specPoint i ≫ s.j) (closedPoint (k'_i i)) = eY.inv (closedPoint k')
     rw [hmor i]
     exact congrArg eY.inv (Spec_closedPoint (f :=
       CommRingCat.ofHom (algebraMap k' (k'_i i))))
@@ -733,7 +730,7 @@ public theorem exists_pushoutCompletedLocalRing_isPullback
   have hVy : IsAffineOpen Vy := hW.preimage (pushoutInr s)
   have hVz : IsAffineOpen Vz := hVy.preimage s.j
   have hyVy : y ∈ Vy := by
-    show pushoutInr s y ∈ W
+    change pushoutInr s y ∈ W
     exact hxW
   have hYsub : Subsingleton s.Y := by
     let : Subsingleton (Spec (.of k')) := inferInstance
@@ -797,7 +794,7 @@ public theorem exists_pushoutCompletedLocalRing_isPullback
         (algebraMap k' (∀ i, k'_i i)) := by
       ext a i
       rfl
-    show RingHom.Finite (RingHom.pi fun i ↦ algebraMap k' (k'_i i))
+    change RingHom.Finite (RingHom.pi fun i ↦ algebraMap k' (k'_i i))
     rw [hpi]
     exact RingHom.finite_algebraMap.mpr hPiFinite
   have hjFinite : IsFinite s.j := by
@@ -807,7 +804,7 @@ public theorem exists_pushoutCompletedLocalRing_isPullback
   let : Algebra B C := γ.toAlgebra
   have hγfinite : Module.Finite B C := by
     rw [← RingHom.finite_algebraMap]
-    show γ.Finite
+    change γ.Finite
     dsimp [γ]
     exact s.j.finite_app Vy hVy
   let : Algebra R C := (γ.comp β).toAlgebra
@@ -831,19 +828,19 @@ public theorem exists_pushoutCompletedLocalRing_isPullback
       map_add' := by intro r r'; simp
       map_smul' := by
         intro r r'
-        show (α (r * r'), β (r * r')) = (α r * α r', β r * β r')
+        change (α (r * r'), β (r * r')) = (α r * α r', β r * β r')
         simp }
   let gBC : A × B →ₗ[R] C :=
     { toFun := fun ab ↦ δ ab.1 - γ ab.2
       map_add' := by
         intro ab ab'
-        show δ (ab.1 + ab'.1) - γ (ab.2 + ab'.2) =
+        change δ (ab.1 + ab'.1) - γ (ab.2 + ab'.2) =
           (δ ab.1 - γ ab.2) + (δ ab'.1 - γ ab'.2)
         simp only [map_add]
         abel
       map_smul' := by
         intro r ab
-        show δ (α r * ab.1) - γ (β r * ab.2) =
+        change δ (α r * ab.1) - γ (β r * ab.2) =
           γ (β r) * (δ ab.1 - γ ab.2)
         rw [map_mul, map_mul]
         rw [hcomp']
@@ -861,7 +858,7 @@ public theorem exists_pushoutCompletedLocalRing_isPullback
     · rintro ⟨r, hr⟩
       have h1 : α r = ab.1 := by simpa [fRB] using congrArg Prod.fst hr
       have h2 : β r = ab.2 := by simpa [fRB] using congrArg Prod.snd hr
-      show δ ab.1 - γ ab.2 = 0
+      change δ ab.1 - γ ab.2 = 0
       rw [← h1, ← h2]
       exact sub_eq_zero.mpr (hcomp' r)
   have hPBmod : IsPullback
@@ -907,7 +904,7 @@ public theorem exists_pushoutCompletedLocalRing_isPullback
     refine Eq.trans (congrArg (fun f ↦ Scheme.Hom.app s.i Vx ≫ f) key) ?_
     simp only [δ, eC, eZΓ, Iso.trans_hom, eqToIso.hom, CommRingCat.ofHom_hom,
       Category.assoc]
-    show s.i.app Vx ≫
+    change s.i.app Vx ≫
       eqToHom (congrArg (fun U ↦ Γ(s.Z, U)) (e.trans hVzTop)) ≫
       eZ.inv.appTop ≫ (Scheme.ΓSpecIso (.of (∀ i, k'_i i))).hom ≫
         CommRingCat.ofHom (Pi.evalRingHom k'_i i) =
@@ -930,7 +927,7 @@ public theorem exists_pushoutCompletedLocalRing_isPullback
       simp only [Category.assoc, Scheme.ΓSpecIso_naturality]
     dsimp only [γ, eC, eB, eYΓ, eZΓ, Iso.trans_hom, eqToIso.hom]
     simp only [Category.assoc]
-    show s.j.app Vy ≫ eqToHom (congrArg (fun U ↦ Γ(s.Z, U)) hVzTop) ≫
+    change s.j.app Vy ≫ eqToHom (congrArg (fun U ↦ Γ(s.Z, U)) hVzTop) ≫
       eZ.inv.appTop ≫ (Scheme.ΓSpecIso (.of (∀ i, k'_i i))).hom =
       eqToHom (congrArg (fun U ↦ Γ(s.Y, U)) hVyTop) ≫
         eY.inv.appTop ≫ (Scheme.ΓSpecIso (.of k')).hom ≫ _
@@ -950,11 +947,11 @@ public theorem exists_pushoutCompletedLocalRing_isPullback
       rw [Scheme.Hom.appLE_eq_app]
     have hpoint' : (hVy.primeIdealOf ⟨y, hyVy⟩).asIdeal.comap β = pW := by
       rw [← hβapp]
-      show (hVy.primeIdealOf ⟨y, hyVy⟩).asIdeal.comap
+      change (hVy.primeIdealOf ⟨y, hyVy⟩).asIdeal.comap
           ((pushoutInr s).appLE W Vy le_rfl).hom =
         (hW.primeIdealOf ⟨x, hxW⟩).asIdeal
       exact congrArg (fun q : PrimeSpectrum R ↦ q.asIdeal) hpoint
-    show pW = RingHom.ker β
+    change pW = RingHom.ker β
     rw [← hpoint', hqYbot]
     rfl
   let β' : R →+* k' := eB.commRingCatIsoToRingEquiv.toRingHom.comp β
@@ -963,7 +960,7 @@ public theorem exists_pushoutCompletedLocalRing_isPullback
     simp [β', p, RingHom.mem_ker]
   have hp : p.IsPrime := by
     rw [← hkerβ']
-    show (Ideal.comap β' (⊥ : Ideal k')).IsPrime
+    change (Ideal.comap β' (⊥ : Ideal k')).IsPrime
     let : (⊥ : Ideal k').IsPrime := inferInstance
     exact Ideal.comap_isPrime β' (⊥ : Ideal k')
   let : p.IsPrime := hp
@@ -976,14 +973,14 @@ public theorem exists_pushoutCompletedLocalRing_isPullback
     · rw [Ideal.map_le_iff_le_comap]
       intro r hr
       change β r = 0 at hr
-      show δ (α r) = 0
+      change δ (α r) = 0
       simpa [hr] using hcomp' r
     · intro a ha
       have ha0 : δ a = 0 := RingHom.mem_ker.mp ha
       obtain ⟨r, hrβ, hrα⟩ := CategoryTheory.Limits.Types.exists_of_isPullback
         hType 0 a (by simp [ha0])
       have hrp : r ∈ p := by
-        show β r = 0
+        change β r = 0
         exact hrβ
       rw [← hrα]
       exact Ideal.mem_map_of_mem α hrp
@@ -998,7 +995,7 @@ public theorem exists_pushoutCompletedLocalRing_isPullback
         have hγq : Ideal.comap γ q.asIdeal = ⊥ :=
           eq_bot_of_ringEquiv_field eB.commRingCatIsoToRingEquiv _
         refine ⟨Ideal.comap_isPrime δ q.asIdeal, ⟨?_⟩⟩
-        show p = Ideal.comap α (Ideal.comap δ q.asIdeal)
+        change p = Ideal.comap α (Ideal.comap δ q.asIdeal)
         rw [Ideal.comap_comap α δ]
         rw [← hcomp]
         rw [← Ideal.comap_comap β γ, hγq]
@@ -1006,14 +1003,14 @@ public theorem exists_pushoutCompletedLocalRing_isPullback
       left_inv := by
         intro q
         apply Subtype.ext
-        show Ideal.comap δ (Ideal.map δ q.1) = q.1
+        change Ideal.comap δ (Ideal.map δ q.1) = q.1
         rw [Ideal.comap_map_of_surjective δ hδsurj]
         rw [show Ideal.comap δ (⊥ : Ideal C) = RingHom.ker δ by rfl,
           sup_eq_left.mpr (hδker_le q)]
       right_inv := by
         intro q
         apply PrimeSpectrum.ext
-        show Ideal.map δ (Ideal.comap δ q.asIdeal) = q.asIdeal
+        change Ideal.map δ (Ideal.comap δ q.asIdeal) = q.asIdeal
         exact Ideal.map_comap_of_surjective δ hδsurj q.asIdeal }
   let eC' : C ≃+* (∀ i, k'_i i) := eC.commRingCatIsoToRingEquiv
   let primesEquivFin : p.primesOver A ≃ Fin n :=
@@ -1031,7 +1028,7 @@ public theorem exists_pushoutCompletedLocalRing_isPullback
   let : Module.Finite R A := hAfinite
   let : IsNoetherianRing A := IsNoetherianRing.of_finite R A
   have hxVx (i : Fin n) : x' i ∈ Vx := by
-    show pushoutInl s (x' i) ∈ W
+    change pushoutInl s (x' i) ∈ W
     rw [hx i]
     exact hxW
   let qX : Fin n → Ideal A := fun i ↦ (hVx.primeIdealOf ⟨x' i, hxVx i⟩).asIdeal
@@ -1040,7 +1037,7 @@ public theorem exists_pushoutCompletedLocalRing_isPullback
       (f := pushoutInl s) W hW Vx hVx le_rfl (hxVx i)
     have hcomap : (qX i).comap α = pW := by
       rw [← hαapp]
-      show (hVx.primeIdealOf ⟨x' i, hxVx i⟩).asIdeal.comap
+      change (hVx.primeIdealOf ⟨x' i, hxVx i⟩).asIdeal.comap
           ((pushoutInl s).appLE W Vx le_rfl).hom
         = (hW.primeIdealOf ⟨x, hxW⟩).asIdeal
       let w' : W := ⟨pushoutInl s (x' i), by
@@ -1055,17 +1052,17 @@ public theorem exists_pushoutCompletedLocalRing_isPullback
       simpa only [PrimeSpectrum.comap_asIdeal] using
         congrArg (fun q : PrimeSpectrum R ↦ q.asIdeal) hpoint'
     let : (qX i).IsPrime := (hVx.primeIdealOf ⟨x' i, hxVx i⟩).2
-    show (qX i).IsPrime ∧ (qX i).LiesOver p
+    change (qX i).IsPrime ∧ (qX i).LiesOver p
     refine ⟨inferInstance, ?_⟩
     rw [Ideal.liesOver_iff]
-    show p = (qX i).comap α
+    change p = (qX i).comap α
     rw [← hpW, hcomap]
   let xq : p.primesOver A → s.X := fun q ↦ hVx.fromSpec ⟨q.1, q.2.1⟩
   have hxqV (q : p.primesOver A) : xq q ∈ Vx := by
     have hmem : (⟨q.1, q.2.1⟩ : PrimeSpectrum A) ∈ hVx.fromSpec ⁻¹ᵁ Vx := by
       rw [hVx.fromSpec_preimage_self]
       trivial
-    show hVx.fromSpec ⟨q.1, q.2.1⟩ ∈ Vx
+    change hVx.fromSpec ⟨q.1, q.2.1⟩ ∈ Vx
     exact hmem
   let : ∀ q : p.primesOver A, Algebra A (s.X.presheaf.stalk (xq q)) := fun q ↦
     (s.X.presheaf.germ Vx (xq q) (hxqV q)).hom.toAlgebra
@@ -1080,7 +1077,7 @@ public theorem exists_pushoutCompletedLocalRing_isPullback
       have hsub : (⟨xq q, hxqV q⟩ : Vx) = hVx.isoSpec.inv ⟨q.1, q.2.1⟩ := by
         apply Subtype.ext
         rfl
-      show hVx.isoSpec.hom ⟨xq q, hxqV q⟩ = ⟨q.1, q.2.1⟩
+      change hVx.isoSpec.hom ⟨xq q, hxqV q⟩ = ⟨q.1, q.2.1⟩
       rw [hsub]
       exact congrArg (fun f : Spec (.of A) ⟶ Spec (.of A) => f ⟨q.1, q.2.1⟩)
         hVx.isoSpec.inv_hom_id
@@ -1154,7 +1151,7 @@ public theorem exists_pushoutCompletedLocalRing_isPullback
       eCompletion (algebraMap (↑A) (TensorProduct (↑R) (↑A) T) a) i =
         algebraMap (s.X.presheaf.stalk (x' i)) (Scheme.completedLocalRing s.X (x' i))
           (algebraMap (↑A) (s.X.presheaf.stalk (x' i)) a) := by
-    show (eqToHom (congrArg (fun y : s.X ↦ CommRingCat.of (Scheme.completedLocalRing s.X y))
+    change (eqToHom (congrArg (fun y : s.X ↦ CommRingCat.of (Scheme.completedLocalRing s.X y))
       (hxqXi i))).hom
       (eCompletion₀ (algebraMap (↑A) (TensorProduct (↑R) (↑A) T) a) (qXi i)) = _
     rw [eCompletion₀.commutes]
@@ -1172,7 +1169,7 @@ public theorem exists_pushoutCompletedLocalRing_isPullback
           ((pushoutScheme s).presheaf.germ W (pushoutInl s (x' i)) hyW).hom r := by
       rw [stalk_eqToHom_eq_stalkCongr (pushoutScheme s) x (pushoutInl s (x' i))
         (hx i).symm]
-      show (pushoutScheme s).presheaf.stalkSpecializes
+      change (pushoutScheme s).presheaf.stalkSpecializes
           (Inseparable.of_eq (hx i).symm).ge
           (((pushoutScheme s).presheaf.germ W x hxW).hom r) = _
       have h := TopCat.Presheaf.germ_stalkSpecializes

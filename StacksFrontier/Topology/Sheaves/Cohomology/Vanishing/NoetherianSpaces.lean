@@ -129,7 +129,7 @@ theorem isDenseSubsite_of_opensOrderIso
   refine { functorPushforward_mem_iff := ?_ }
   intro U S
   rw [soberTransport_covering_iff_iSup, soberTransport_covering_iff_iSup]
-  show (⨆ i : Σ V : Opens Y,
+  change (⨆ i : Σ V : Opens Y,
     {f : V ⟶ e U // (S.functorPushforward e.equivalence.functor) f}, i.1) = e U ↔
       (⨆ i : Σ V : Opens X, {f : V ⟶ U // S f}, i.1) = U
   rw [soberTransport_iSup_functorPushforward e S]
@@ -242,13 +242,13 @@ theorem isLocalizedEquivalence_mapHomologicalComplex_of_equivalence
   let Φ := E.functor.mapHomologicalComplexUpToQuasiIsoLocalizerMorphism
     (ComplexShape.up ℤ)
   have : Φ.functor.IsEquivalence := by
-    show (E.functor.mapHomologicalComplex (ComplexShape.up ℤ)).IsEquivalence
+    change (E.functor.mapHomologicalComplex (ComplexShape.up ℤ)).IsEquivalence
     exact (E.mapHomologicalComplex (ComplexShape.up ℤ)).isEquivalence_functor
   apply LocalizerMorphism.IsLocalizedEquivalence.of_equivalence Φ
   have heq : HomologicalComplex.quasiIso C (ComplexShape.up ℤ) =
       (HomologicalComplex.quasiIso D (ComplexShape.up ℤ)).inverseImage Φ.functor := by
     ext K L f
-    show QuasiIso f ↔ QuasiIso ((E.functor.mapHomologicalComplex
+    change QuasiIso f ↔ QuasiIso ((E.functor.mapHomologicalComplex
       (ComplexShape.up ℤ)).map f)
     exact (HomologicalComplex.quasiIso_map_iff_of_preservesHomology f E.functor).symm
   have hmap : HomologicalComplex.quasiIso D (ComplexShape.up ℤ) ≤
@@ -338,7 +338,7 @@ theorem topologicalKrullDim_soberification :
       right_inv := by intro Z; cases Z; rfl
       map_rel_iff' := by
         intro S T
-        show (⟨T.carrier, T.isIrreducible', T.isClosed'⟩ : Soberification X) ⤳
+        change (⟨T.carrier, T.isIrreducible', T.isClosed'⟩ : Soberification X) ⤳
           (⟨S.carrier, S.isIrreducible', S.isClosed'⟩ : Soberification X) ↔
             (S : Set X) ⊆ (T : Set X)
         rw [specializes_iff_mem_closure, Soberification.closure_singleton]

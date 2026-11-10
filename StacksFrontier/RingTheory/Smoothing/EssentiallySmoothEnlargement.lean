@@ -91,7 +91,8 @@ only sense available.
 `RingHom.IsEssentiallySmooth` of `StacksFrontier.RingTheory.Smoothing.EssentiallySmooth`, imported
 rather than restated, so the chapter has a single notion of it. The target ring is written out as
 `Λ_𝔮 ⧸ 𝔮ⁿΛ_𝔮` rather than through an abbreviation: `Stacks.Smoothing.primePowerQuotient` of
-`StacksFrontier.RingTheory.Smoothing.InseparableResidueField` is a reducible abbreviation for exactly
+`StacksFrontier.RingTheory.Smoothing.InseparableResidueField` is a reducible abbreviation for
+exactly
 this type, and spelling the type out keeps that abbreviation the library's only one while avoiding
 an import of the whole of 07FG and 07FH, none of whose machinery this file's proof uses. A
 consumer holding `Λ_𝔮/𝔮ⁿΛ_𝔮` in the abbreviated spelling can apply the theorem below unchanged,

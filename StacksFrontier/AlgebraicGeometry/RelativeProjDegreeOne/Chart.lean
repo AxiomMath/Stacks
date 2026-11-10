@@ -88,7 +88,7 @@ public theorem mapSection_surjective
   refine ⟨(C.chartIso U hU n).hom.val.app (op V)
     ((Scheme.Modules.restrictAppIso ((relativeProj A).chart U hU) (algebra.piece n) V).inv t),
     ?_⟩
-  show (Scheme.Modules.restrictAppIso ((relativeProj A).chart U hU) (algebra.piece n) V).hom
+  change (Scheme.Modules.restrictAppIso ((relativeProj A).chart U hU) (algebra.piece n) V).hom
       ((C.chartIso U hU n).inv.val.app (op V)
         ((C.chartIso U hU n).hom.val.app (op V) _)) = t
   exact (congrArg _ (iso_inv_hom_app (C.chartIso U hU n) (op V) _)).trans

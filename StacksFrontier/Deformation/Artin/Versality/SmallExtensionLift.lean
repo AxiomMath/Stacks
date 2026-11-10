@@ -134,10 +134,10 @@ theorem IsVersalAt.exists_lift_of_isSmallExtension (U : Over S) (u₀ : U.left) 
         Scheme.stalkClosedPointTo τ := by
       rw [stalkClosedPointTo_fromSpecResidueField]
       simpa [hp] using (Scheme.residue_residueFieldCongr U.left hτ).symm
-    show (Scheme.stalkClosedPointTo (τ ≫ θ)).hom =
+    change (Scheme.stalkClosedPointTo (τ ≫ θ)).hom =
       (algebraMap (U.left.presheaf.stalk (α.base cp)) K).comp a0.hom
     rw [Scheme.stalkClosedPointTo_comp]
-    show (θ.stalkMap (τ (IsLocalRing.closedPoint K)) ≫
+    change (θ.stalkMap (τ (IsLocalRing.closedPoint K)) ≫
       Scheme.stalkClosedPointTo τ).hom =
       (U.left.residue (α.base cp)).hom.comp
         ((σ ≫ θ.stalkMap (α.base cp)).hom)
@@ -155,13 +155,13 @@ theorem IsVersalAt.exists_lift_of_isSmallExtension (U : Over S) (u₀ : U.left) 
   let : IsScalarTower R (U.left.presheaf.stalk (α.base cp)) K :=
     IsScalarTower.of_algebraMap_eq' hAK
   have hacompat : a0 ≫ a' = bThin := by
-    show (σ ≫ θ.stalkMap (α.base cp)) ≫ a' = (σ ≫ bθ) ≫ Φ
+    change (σ ≫ θ.stalkMap (α.base cp)) ≫ a' = (σ ≫ bθ) ≫ Φ
     rw [Category.assoc, hcompat]
     exact (Category.assoc _ _ _).symm
   let aAlg : (U.left.presheaf.stalk (α.base cp)) →ₐ[R] B :=
     { a'.hom with
       commutes' := fun r => by
-        show a'.hom (a0.hom r) = bThin.hom r
+        change a'.hom (a0.hom r) = bThin.hom r
         exact congrArg (fun z : _ ⟶ CommRingCat.of B => z.hom r) hacompat }
   let : IsLocalHom aAlg := ⟨fun x hx => (inferInstance : IsLocalHom a'.hom).map_nonunit x hx⟩
   let eInduced := IsLocalRing.ResidueField.mapAlgHom aAlg
@@ -175,10 +175,10 @@ theorem IsVersalAt.exists_lift_of_isSmallExtension (U : Over S) (u₀ : U.left) 
       ext z
       dsimp [eInduced, IsLocalRing.ResidueField.mapAlgHom,
         Scheme.Hom.residueFieldMap]
-      show IsLocalRing.ResidueField.map
+      change IsLocalRing.ResidueField.map
           ((stalkClosedPointIso B).hom.hom.comp (α.stalkMap cp).hom) z =
         eSpec (IsLocalRing.ResidueField.map (α.stalkMap cp).hom z)
-      show IsLocalRing.ResidueField.map
+      change IsLocalRing.ResidueField.map
           ((stalkClosedPointIso B).hom.hom.comp (α.stalkMap cp).hom) z =
         IsLocalRing.ResidueField.map (stalkClosedPointIso B).hom.hom
           (IsLocalRing.ResidueField.map (α.stalkMap cp).hom z)
@@ -192,7 +192,7 @@ theorem IsVersalAt.exists_lift_of_isSmallExtension (U : Over S) (u₀ : U.left) 
     AlgEquiv.ofRingEquiv (f := eB_ring) (by
       intro r
       rw [hAK]
-      show IsLocalRing.ResidueField.mapAlgHom aAlg
+      change IsLocalRing.ResidueField.mapAlgHom aAlg
           (IsLocalRing.residue (U.left.presheaf.stalk (α.base cp)) (a0.hom r)) =
         IsLocalRing.residue B (bThin.hom r)
       rw [IsLocalRing.ResidueField.mapAlgHom_residue]
@@ -200,7 +200,7 @@ theorem IsVersalAt.exists_lift_of_isSmallExtension (U : Over S) (u₀ : U.left) 
   let φAlg : B' →ₐ[R] B :=
     { Φ.hom with
       commutes' := fun r => by
-        show Φ.hom (b.hom r) = bThin.hom r
+        change Φ.hom (b.hom r) = bThin.hom r
         simp [bThin, CommRingCat.hom_comp, RingHom.coe_comp] }
   let : IsLocalHom φAlg :=
     ⟨fun x hx => hΦloc.map_nonunit x hx⟩
@@ -230,7 +230,7 @@ theorem IsVersalAt.exists_lift_of_isSmallExtension (U : Over S) (u₀ : U.left) 
         rfl }
   have hβbase : β = Spec.map (CommRingCat.ofHom (algebraMap R B')) ≫ S.fromSpecStalk s := by
     symm
-    show Spec.map b ≫ S.fromSpecStalk s = β
+    change Spec.map b ≫ S.fromSpecStalk s = β
     exact (specializes_comp_fromSpecStalk (Specializes.of_eq hs.symm) bθ).trans
       ((specializes_comp_fromSpecStalk (Specializes.of_eq hptS')
           (Scheme.stalkClosedPointTo β)).trans
@@ -264,15 +264,15 @@ theorem IsVersalAt.exists_lift_of_isSmallExtension (U : Over S) (u₀ : U.left) 
     have hρa : Scheme.stalkClosedPointTo α ≫ ρ = U.left.residue (α.base cp) := by
       apply CommRingCat.hom_ext
       ext r
-      show eB.symm (IsLocalRing.residue B (aAlg r)) = _
+      change eB.symm (IsLocalRing.residue B (aAlg r)) = _
       rw [← IsLocalRing.ResidueField.mapAlgHom_residue aAlg r]
-      show eB.symm (eB (U.left.residue (α.base cp) r)) = _
+      change eB.symm (eB (U.left.residue (α.base cp) r)) = _
       exact eB.symm_apply_apply _
     let pB := (Spec.map ρ).base (IsLocalRing.closedPoint K)
     have hpB : pB = cp := AlgebraicGeometry.Spec_closedPoint (f := ρ)
     let xρ := (Spec.map ρ ≫ α).base (IsLocalRing.closedPoint K)
     have hpoint : (Spec.map ρ ≫ α).base (IsLocalRing.closedPoint K) = α.base cp := by
-      show α.base pB = α.base cp
+      change α.base pB = α.base cp
       rw [hpB]
     let hpInsep : Inseparable xρ (α.base cp) := Inseparable.of_eq hpoint
     have hlocal : (U.left.presheaf.stalkCongr hpInsep).hom ≫

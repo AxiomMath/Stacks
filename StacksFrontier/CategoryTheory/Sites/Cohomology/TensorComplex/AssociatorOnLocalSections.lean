@@ -133,6 +133,7 @@ def moduleTensorSection (U : X.Cᵒᵖ)
       (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).unit.app
     (F.val ⊗ G.val)).app U (s ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U] t)
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- (b) The local pure tensor of the total tensor complex is the inclusion of the summand applied
 to the module-level local pure tensor. -/
 theorem tensorComplexSection_eq_ι
@@ -145,6 +146,11 @@ theorem tensorComplexSection_eq_ι
           (moduleTensorSection X (op W) (A.X t) (B.X r) a b) :=
   rfl
 
+omit [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
+  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj M).Additive]
+  [∀ (K L : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor K L (Stacks.SheafOfModules.Tensor.sheafTensor X.O)
+      (ComplexShape.up ℤ)] in
 /-- Whiskering on the right acts on a local pure tensor through the left factor. -/
 theorem moduleTensorSection_whiskerRight (U : X.Cᵒᵖ)
     {F F' : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)} (f : F ⟶ F')
@@ -157,6 +163,11 @@ theorem moduleTensorSection_whiskerRight (U : X.Cᵒᵖ)
     (Stacks.SheafOfModules.TensorEncodings.isSheaf_structureRingPresheaf X.O) U F F' N N f (𝟙 N)
     s t
 
+omit [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
+  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj M).Additive]
+  [∀ (K L : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor K L (Stacks.SheafOfModules.Tensor.sheafTensor X.O)
+      (ComplexShape.up ℤ)] in
 /-- Whiskering on the left acts on a local pure tensor through the right factor. -/
 theorem moduleTensorSection_whiskerLeft (U : X.Cᵒᵖ)
     (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
@@ -178,6 +189,11 @@ attribute [local instance] SheafOfModules.monoidalCategorySheafTensor
   SheafOfModules.monoidalClosedSheafTensor
   SheafOfModules.preservesColimit_tensorRight_sheafTensor
 
+omit [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
+  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj M).Additive]
+  [∀ (K L : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
+    HomologicalComplex.HasMapBifunctor K L (Stacks.SheafOfModules.Tensor.sheafTensor X.O)
+      (ComplexShape.up ℤ)] in
 /-- **The associator of modules reassociates a local pure tensor.** -/
 theorem moduleAssociator_moduleTensorSection (U : X.Cᵒᵖ)
     (F G H : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
@@ -192,6 +208,7 @@ theorem moduleAssociator_moduleTensorSection (U : X.Cᵒᵖ)
   Stacks.SheafOfModules.associator_hom_val_app_tmul X.O.obj
     (Stacks.SheafOfModules.TensorEncodings.isSheaf_structureRingPresheaf X.O) F G H U s t u
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- (c) The associator against the summand inclusions, Mathlib's lemma in this setting. -/
 theorem ι₁₂_comp_associator_hom_f
     (A B D : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ)

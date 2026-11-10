@@ -89,9 +89,9 @@ private theorem etaleAt_of_smooth_appLE_of_formallyUnramified_stalkMap {X S : Sc
   let W : X.Opens := X.basicOpen r
   let hW : W ≤ f ⁻¹ᵁ V := (X.basicOpen_le r).trans e
   refine ⟨W, hU.basicOpen r, ?_, V, hV, hW, ?_⟩
-  · show (⟨x, hx⟩ : U).1 ∈ X.basicOpen r
+  · change (⟨x, hx⟩ : U).1 ∈ X.basicOpen r
     rw [← hU.fromSpec_primeIdealOf ⟨x, hx⟩]
-    show hU.primeIdealOf ⟨x, hx⟩ ∈ hU.fromSpec ⁻¹ᵁ X.basicOpen r
+    change hU.primeIdealOf ⟨x, hx⟩ ∈ hU.fromSpec ⁻¹ᵁ X.basicOpen r
     rw [hU.fromSpec_preimage_basicOpen]
     exact hr
   · have := hU.isLocalization_basicOpen r

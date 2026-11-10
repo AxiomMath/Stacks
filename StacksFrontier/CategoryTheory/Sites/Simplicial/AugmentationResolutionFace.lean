@@ -97,7 +97,7 @@ theorem componentPresheafInclusion_comp_simplexCoefficientDiagram_map
           (Opposite.op ((S.componentFunctor q).obj U)) =
       (componentPresheafSummand S F φ).app (Opposite.op U) := by
   rw [componentPresheafSummand_app]
-  show Sigma.ι _ (eqToHom (degreeFunctor_leftOp_obj_op_componentFunctor_obj S q U).symm) ≫
+  change Sigma.ι _ (eqToHom (degreeFunctor_leftOp_obj_op_componentFunctor_obj S q U).symm) ≫
       copowerMap (fun α => φ ≫ α) (𝟙 (F.obj.obj
         (Opposite.op ((S.componentFunctor q).obj U)))) = _
   rw [ι_copowerMap, Category.id_comp]
@@ -113,7 +113,7 @@ theorem componentPresheafInclusion_comp_simplexCoefficientDiagram_map'
           (Opposite.op ((S.componentFunctor q).obj U)) =
       (componentPresheafSummand' S F φ).app (Opposite.op U) := by
   rw [componentPresheafSummand_app']
-  show Sigma.ι _ (eqToHom (totalSimplexDegree_leftOp_obj_op_componentFunctor_obj S q U).symm) ≫
+  change Sigma.ι _ (eqToHom (totalSimplexDegree_leftOp_obj_op_componentFunctor_obj S q U).symm) ≫
       copowerMap (fun α => φ ≫ α) (𝟙 (F.obj.obj
         (Opposite.op ((S.componentFunctor q).obj U)))) = _
   rw [ι_copowerMap, Category.id_comp]
@@ -131,7 +131,7 @@ theorem componentSheafInclusion_comp_barSimplicial_map
   apply NatTrans.ext
   funext Y
   obtain ⟨U⟩ := Y
-  show (componentSheafInclusion S F q).hom.app (Opposite.op U) ≫
+  change (componentSheafInclusion S F q).hom.app (Opposite.op U) ≫
       ((S.abelianComponent q).map ((barSimplicial S F).map φ.op)).hom.app (Opposite.op U) =
     (componentSheafSummand S F φ).hom.app (Opposite.op U)
   have hnat := congr_app (toSheafify_naturality S.totalTopology
@@ -164,7 +164,7 @@ theorem componentSheafInclusion_comp_barSimplicial_map'
   apply NatTrans.ext
   funext Y
   obtain ⟨U⟩ := Y
-  show ((componentSheafInclusion' S q).app F).hom.app (Opposite.op U) ≫
+  change ((componentSheafInclusion' S q).app F).hom.app (Opposite.op U) ≫
       ((S.restrictAb q).map (((barSimplicial' S).obj F).map φ.op)).hom.app (Opposite.op U) =
     (componentSheafSummand' S F φ).hom.app (Opposite.op U)
   have hnat := congr_app (toSheafify_naturality S.totalTopology

@@ -108,7 +108,7 @@ private lemma closed_singleton_of_not_in_generic_intersection
         ⟨closure ({r} : Set S.y.subscheme), isIrreducible_singleton.closure, isClosed_closure⟩
       have hr' : r ∈ closure ({q} : Set S.y.subscheme) := hr
       have hDC : D ≤ C := by
-        show closure ({r} : Set S.y.subscheme) ⊆ closure ({q} : Set S.y.subscheme)
+        change closure ({r} : Set S.y.subscheme) ⊆ closure ({q} : Set S.y.subscheme)
         exact closure_minimal (Set.singleton_subset_iff.mpr hr') isClosed_closure
       have hqr : q ∈ closure ({r} : Set S.y.subscheme) := by
         have hqC : q ∈ (C : Set S.y.subscheme) := subset_closure rfl
@@ -163,7 +163,7 @@ private lemma isMax_intersectionPoint (S : IntersectionMultiplicityContext) :
     (closed_singleton_of_not_in_generic_intersection S rY hrYz) (Set.mem_singleton rY)
   have hspec : q ⤳ r := by
     apply i.isClosedEmbedding.isInducing.specializes_iff.mp
-    show S.p ⤳ r.1
+    change S.p ⤳ r.1
     exact specializes_of_eq (congrArg Subtype.val hEq)
   exact Scheme.le_iff_specializes.mpr hspec
 
@@ -186,7 +186,7 @@ private lemma isFiniteLength_intersectionLocalRing (S : IntersectionMultiplicity
       (Order.coheight_eq_zero.mpr S.isMax_intersectionPoint).le
   have : IsArtinianRing (T.presheaf.stalk q) := isArtinianRing_iff_krullDimLE_zero.mpr hdim
   apply Module.length_ne_top_iff.mp
-  show Module.length (S.X.presheaf.stalk S.p) (T.presheaf.stalk q) ≠ ⊤
+  change Module.length (S.X.presheaf.stalk S.p) (T.presheaf.stalk q) ≠ ⊤
   rw [length_restrictScalars_eq_of_surjective (S.X.presheaf.stalk S.p)
     (T.presheaf.stalk q) (i.stalkMap q).hom hsurj (T.presheaf.stalk q)]
   exact Module.length_ne_top_iff.mpr ((isArtinianRing_iff_isFiniteLength _).mp inferInstance)

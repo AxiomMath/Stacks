@@ -150,7 +150,7 @@ theorem noetherianSpace_and_dim_le_chartScheme_smallBaseChange_idEtaleChart_of_s
       InducedCategory.hom_ext (IsIso.inv_hom_id W.obj.hom)⟩⟩
   have sq : IsPullback p (representedSpaceMap B S hS qZ) f (𝟙 _) :=
     IsPullback.of_horiz_isIso ⟨InducedCategory.hom_ext (by
-      show W.obj.hom ≫ f.hom = yoneda.map qZ ≫ 𝟙 _
+      change W.obj.hom ≫ f.hom = yoneda.map qZ ≫ 𝟙 _
       rw [Category.comp_id, Functor.map_preimage])⟩
   have hprop : _root_.AlgebraicGeometry.IsProper ((BigFppfOver.toScheme B S hS).map qZ) :=
     isProper_toScheme_map_of_isProper_yoneda_map B S hS qZ
@@ -162,7 +162,7 @@ theorem noetherianSpace_and_dim_le_chartScheme_smallBaseChange_idEtaleChart_of_s
     LocallyOfFiniteType.isLocallyNoetherian ((BigFppfOver.toScheme B S hS).map qZ)
   have : _root_.AlgebraicGeometry.IsNoetherian T := ⟨⟩
   refine ⟨inferInstanceAs (NoetherianSpace T), ?_⟩
-  show topologicalKrullDim T ≤ _
+  change topologicalKrullDim T ≤ _
   rw [← dimension_yoneda_eq_topologicalKrullDim B S hS Z,
     dimension_eq_of_iso B S hS (isAlgebraicSpace_yoneda B S hS Z) X.property (asIso W.obj.hom)]
   exact_mod_cast dimension_le_one_of_hasRelativeDimensionLE_one_of_subsingleton f hd

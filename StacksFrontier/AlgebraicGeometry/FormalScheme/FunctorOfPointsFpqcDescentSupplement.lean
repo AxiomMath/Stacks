@@ -112,7 +112,7 @@ theorem exists_comp_eq_pullback_snd_of_isoSpf (X : FormalScheme.{u}) {T T' : Sch
     ObjectProperty.homMk (liftToRestrict U (schemeToFormalScheme.map a ≫ f).hom hrange ≫ χ.hom)
   have hptι : pt ≫ ι₀ = schemeToFormalScheme.map a ≫ f := by
     refine InducedCategory.hom_ext ?_
-    show (liftToRestrict U (schemeToFormalScheme.map a ≫ f).hom hrange ≫ χ.hom)
+    change (liftToRestrict U (schemeToFormalScheme.map a ≫ f).hom hrange ≫ χ.hom)
         ≫ (χ.inv ≫ X.obj.ofRestrict U) = (schemeToFormalScheme.map a ≫ f).hom
     rw [Category.assoc, Iso.hom_inv_id_assoc]
     exact liftToRestrict_comp_ofRestrict U _ hrange
@@ -159,7 +159,7 @@ theorem exists_comp_eq_of_opensCover_of_flat (X : FormalScheme.{u}) {T T' : Sche
     intro z₁ z₂ Z g₁ g₂ hg
     have hcond : pullback.fst p (g₁ ≫ (V z₁).ι) ≫ p
         = pullback.snd p (g₁ ≫ (V z₁).ι) ≫ (g₁ ≫ (V z₁).ι) := pullback.condition
-    show schemeToFormalScheme.map g₁ ≫ s z₁ = schemeToFormalScheme.map g₂ ≫ s z₂
+    change schemeToFormalScheme.map g₁ ≫ s z₁ = schemeToFormalScheme.map g₂ ≫ s z₂
     refine formalSchemeHom_ext_of_flat_of_jointlySurjective
       (V := fun _ : Unit => pullback p (g₁ ≫ (V z₁).ι))
       (fun _ => pullback.snd p (g₁ ≫ (V z₁).ι)) (fun _ => inferInstance)

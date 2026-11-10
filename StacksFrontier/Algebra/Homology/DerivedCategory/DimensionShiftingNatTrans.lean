@@ -78,7 +78,7 @@ theorem exact_homologyFunctor_map_mor₃ :
   refine (ShortComplex.exact_iff_of_iso ?_).1 h
   refine ShortComplex.isoMk (Iso.refl _) (Iso.refl _) (negIdIso _) ?_ ?_
   · exact (Category.id_comp _).trans (Category.comp_id _).symm
-  · show 𝟙 _ ≫ _ = (homologyFunctor D q).map (H.map (-(T.mor₁⟦(1 : ℤ)⟧'))) ≫ (-𝟙 _)
+  · change 𝟙 _ ≫ _ = (homologyFunctor D q).map (H.map (-(T.mor₁⟦(1 : ℤ)⟧'))) ≫ (-𝟙 _)
     rw [H.map_neg, (homologyFunctor D q).map_neg, Preadditive.neg_comp_neg, Category.id_comp,
       Category.comp_id]
 
@@ -101,10 +101,10 @@ theorem exact_homologyFunctor_map_mor₁_shift :
     (rot_of_distTriang _ (rot_of_distTriang _ hT)))
   refine (ShortComplex.exact_iff_of_iso ?_).1 h
   refine ShortComplex.isoMk (negIdIso _) (Iso.refl _) (negIdIso _) ?_ ?_
-  · show (-𝟙 _) ≫ _ = (homologyFunctor D q).map (H.map (-(T.mor₁⟦(1 : ℤ)⟧'))) ≫ 𝟙 _
+  · change (-𝟙 _) ≫ _ = (homologyFunctor D q).map (H.map (-(T.mor₁⟦(1 : ℤ)⟧'))) ≫ 𝟙 _
     rw [H.map_neg, (homologyFunctor D q).map_neg, Preadditive.neg_comp, Category.id_comp,
       Category.comp_id]
-  · show 𝟙 _ ≫ _ = (homologyFunctor D q).map (H.map (-(T.mor₂⟦(1 : ℤ)⟧'))) ≫ (-𝟙 _)
+  · change 𝟙 _ ≫ _ = (homologyFunctor D q).map (H.map (-(T.mor₂⟦(1 : ℤ)⟧'))) ≫ (-𝟙 _)
     rw [H.map_neg, (homologyFunctor D q).map_neg, Preadditive.neg_comp_neg, Category.id_comp,
       Category.comp_id]
 
@@ -149,7 +149,7 @@ theorem mono_homologyMap_app_obj₁_shift
     (homologyMap_naturality η q _)
   exact Abelian.mono_of_epi_of_mono_of_mono' φ
     (by
-      show G.map (H₁.map T.mor₂) ≫ G.map (H₁.map T.mor₃) = 0
+      change G.map (H₁.map T.mor₂) ≫ G.map (H₁.map T.mor₃) = 0
       rw [← G.map_comp, ← H₁.map_comp, comp_distTriang_mor_zero₂₃ _ hT, H₁.map_zero,
         G.map_zero])
     (exact_homologyFunctor_map_mor₃ H₁ T hT q).exact_toComposableArrows
@@ -178,7 +178,7 @@ theorem epi_homologyMap_app_obj₁_shift
     (exact_homologyFunctor_map_mor₁_shift H₁ T hT q).exact_toComposableArrows
     (exact_homologyFunctor_map_mor₃ H₂ T hT q).exact_toComposableArrows
     (by
-      show G.map (H₂.map (T.mor₁⟦(1 : ℤ)⟧')) ≫ G.map (H₂.map (T.mor₂⟦(1 : ℤ)⟧')) = 0
+      change G.map (H₂.map (T.mor₁⟦(1 : ℤ)⟧')) ≫ G.map (H₂.map (T.mor₂⟦(1 : ℤ)⟧')) = 0
       rw [← G.map_comp, ← H₂.map_comp, ← Functor.map_comp, comp_distTriang_mor_zero₁₂ _ hT,
         Functor.map_zero, H₂.map_zero, G.map_zero])
     h₃ h₄ h₅
@@ -255,11 +255,11 @@ theorem isIso_app_shift_singleFunctor_of_exists_shortExact (b : ℤ) (𝒞 : C �
       have hT : T ∈ distTriang _ := Triangle.shift_distinguished _ hS.singleTriangle_distinguished _
       have h₂ : Epi ((homologyFunctor D q).map (η.app T.obj₂)) := by
         have := hI (s - 1)
-        show Epi ((homologyFunctor D q).map (η.app (X S.X₂ (s - 1))))
+        change Epi ((homologyFunctor D q).map (η.app (X S.X₂ (s - 1))))
         infer_instance
       have h₃ : Mono ((homologyFunctor D q).map (η.app T.obj₃)) := by
         have := hN S.X₃ hQ q (s - 1) (by omega)
-        show Mono ((homologyFunctor D q).map (η.app (X S.X₃ (s - 1))))
+        change Mono ((homologyFunctor D q).map (η.app (X S.X₃ (s - 1))))
         infer_instance
       have h₄ : Mono ((homologyFunctor D q).map (η.app (T.obj₂⟦(1 : ℤ)⟧))) := by
         have := hI s
@@ -277,7 +277,7 @@ theorem isIso_app_shift_singleFunctor_of_exists_shortExact (b : ℤ) (𝒞 : C �
     have hT : T ∈ distTriang _ := Triangle.shift_distinguished _ hS.singleTriangle_distinguished _
     have h₃ : Epi ((homologyFunctor D q).map (η.app T.obj₃)) := by
       have := hN S.X₃ hQ q (s - 1) (by omega)
-      show Epi ((homologyFunctor D q).map (η.app (X S.X₃ (s - 1))))
+      change Epi ((homologyFunctor D q).map (η.app (X S.X₃ (s - 1))))
       infer_instance
     have h₄ : Epi ((homologyFunctor D q).map (η.app (T.obj₂⟦(1 : ℤ)⟧))) := by
       have := hI s

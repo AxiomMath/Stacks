@@ -123,7 +123,7 @@ theorem preservesColimit_representedAffineDerivedSections {I : Type*}
   have hcomp : sigmaComparison Φ (fun i => RΓ.obj (Z i)) ≫ Φ.map (sigmaComparison RΓ Z) ≫
       adj.counit.app (∐ Z) = Sigma.desc fun i => (p i).hom ≫ Sigma.ι Z i := by
     refine Sigma.hom_ext _ _ fun i => ?_
-    rw [ι_comp_sigmaComparison_assoc, ← Φ.map_comp_assoc, ι_comp_sigmaComparison, Sigma.ι_desc]
+    rw [ι_comp_sigmaComparison_assoc, ← Φ.map_comp_assoc, ι_comp_sigmaComparison, Sigma.ι_comp_desc]
     exact adj.counit.naturality (Sigma.ι Z i)
   have hdesc : IsIso (Sigma.desc fun i => (p i).hom ≫ Sigma.ι Z i) :=
     ⟨Sigma.desc fun i => (p i).inv ≫ Sigma.ι (fun i => Φ.obj (RΓ.obj (Z i))) i,
@@ -214,7 +214,7 @@ theorem countable_hom_shift_of_countable_sections
     Countable (E⟦m⟧ ⟶ K.obj) := by
   let U : SpacesEtale B S hS X := ⟨Over.mk (𝟙 X), isEtale_of_isIso B S hS (𝟙 X.1)⟩
   have hc :=
-    countable_ext_of_qcqs_etale_of_countable_sections X hXqc hXqs K hK E hE U hXqc hXqs (-m)
+    countable_ext_of_qcqs_etale_of_countable_sections X K hK E hE U hXqc hXqs (-m)
   have hid : IsEtale B S hS (𝟙 X : X ⟶ X).hom := isEtale_of_isIso B S hS (𝟙 X.1)
   let e : (etaleModulePullback.{u, u} B S hS (𝟙 X) hid).mapDerivedCategory ≅ 𝟭 _ :=
     Stacks.DerivedCategoryComparisons.mapDerivedCategoryIsoOfNatIso _ _

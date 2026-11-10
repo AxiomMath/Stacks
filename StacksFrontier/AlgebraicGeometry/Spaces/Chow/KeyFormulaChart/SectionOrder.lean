@@ -144,7 +144,7 @@ theorem PrimeDivisor.mapsMaximalIdealOnto_genericStalkBaseChangeSchemeMap
             (yoneda.map ((SmallEtale.toOver B S hS _).map
               (chartToIdEtaleChart B S hS (Z.genericStalkBaseChangeChart B S hS X.2 hdec V))) ≫
               (Z.genericStalkMorphism B S hS X.2 hdec).hom) := by
-          simp only [c₁, Functor.map_comp, Category.assoc]
+          simp only [c₁]
           rfl
       _ = yoneda.map ((SmallEtale.toOver B S hS _).map ι) ≫
             ((Z.genericStalkBaseChangeChart B S hS X.2 hdec V).obj.hom ≫
@@ -403,20 +403,18 @@ theorem PrimeDivisor.ord_genericStalkMeromorphicToGeneric
       (Z.genericChart B S hS X.2 hdec).point) :=
     ‹IsNoetherianRing (Z.genericStalkRing B S hS X.2 hdec)›
   have := Z.isFractionRing_genericStalkMeromorphic B S hS X.2 hdec hInt hN
-  have hCof := ElementaryEtaleNeighborhood.isCofiltered_of_nonempty B S hS X.1 X.2
-    (Z.genericPoint B S hS X.1) ⟨Z.genericChart B S hS X.2 hdec⟩
   let φ' : Z.genericStalkRing B S hS X.2 hdec →+* ↥(Z.genericHenselianLocalRing B S hS X.2 hdec) :=
     stalkToHenselianLocalRing B S hS X.1 X.2 (Z.genericPoint B S hS X.1) hdec
       (Z.genericChart B S hS X.2 hdec)
   have hφ' : (Z.genericStalkRing B S hS X.2 hdec : Type u)⁰ ≤
       (↥(Z.genericHenselianLocalRing B S hS X.2 hdec))⁰.comap φ' :=
-    fun _ hr => stalkToHenselianLocalRing_mem_nonZeroDivisors B S hS X.2 hdec Z hCof
+    fun _ hr => stalkToHenselianLocalRing_mem_nonZeroDivisors B S hS X.2 hdec Z
       (Z.genericChart B S hS X.2 hdec) hr
   refine Ring.ordTotalFracInt_eq_of_map_eq
     (A' := Z.genericStalkRing B S hS X.2 hdec)
     (K' := FractionRing (Z.genericStalkRing B S hS X.2 hdec))
     (L := Z.genericTotalFractionRing B S hS X.2 hdec) (RingHom.id _) φ' le_rfl hφ'
-    (fun _ => rfl) (ord_stalkToHenselianLocalRing B S hS X.2 hdec Z hCof _) _ _ ?_
+    (fun _ => rfl) (ord_stalkToHenselianLocalRing B S hS X.2 hdec Z _) _ _ ?_
   rw [IsLocalization.map_id]
   have key : Z.genericStalkMeromorphicToGeneric B S hS X.2 hdec hInt hN =
       (IsLocalization.map (M := (Z.genericStalkRing B S hS X.2 hdec : Type u)⁰)
@@ -485,7 +483,7 @@ theorem PrimeDivisor.map_genericStalkMeromorphicToStalkFraction_eq (V : SmallEta
       meromorphicFunctionSheaf_map_algebraMap B S hS (Z.genericStalkSpace B S hS X.2 hdec) _ y,
       chartPointMeromorphicMap_algebraMap]
     refine congrArg (algebraMap _ _) ?_
-    show ((chartScheme Q).presheaf.germ ⊤ q trivial).hom (σ.appTop.hom
+    change ((chartScheme Q).presheaf.germ ⊤ q trivial).hom (σ.appTop.hom
         ((Scheme.ΓSpecIso (Z.genericStalkRing B S hS X.2 hdec)).inv.hom
           ((Scheme.ΓSpecIso (Z.genericStalkRing B S hS X.2 hdec)).hom.hom y))) =
       ((chartScheme Q).presheaf.germ ⊤ q trivial).hom (σ.appTop.hom y)

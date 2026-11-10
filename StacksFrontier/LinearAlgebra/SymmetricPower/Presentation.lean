@@ -177,7 +177,7 @@ theorem symMap_comp_symMap_symm (n : ℕ) (e : M ≃ₗ[R] N) :
 /-- The degree-`n` equivalence of symmetric powers induced by a linear equivalence. -/
 noncomputable def symmetricPowerCongr (n : ℕ) (e : M ≃ₗ[R] N) :
     symmetricPower n R M ≃ₗ[R] symmetricPower n R N :=
-  LinearEquiv.ofLinear (symMap n (e : M →ₗ[R] N)) (symMap n (e.symm : N →ₗ[R] M))
+  LinearEquiv.ofLinearMap (symMap n (e : M →ₗ[R] N)) (symMap n (e.symm : N →ₗ[R] M))
     (symMap_comp_symMap_symm n e)
     (by simpa using symMap_comp_symMap_symm n e.symm)
 
@@ -335,8 +335,7 @@ theorem range_symMulMap (k : ℕ) (g : M₂ →ₗ[R] M₁) :
       = rangeSubmodule g * symmetricPower k R M₁ := by
   apply le_antisymm
   · rintro _ ⟨w, ⟨t, rfl⟩, rfl⟩
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul m₂ y =>
       rw [Submodule.subtype_apply, symMulMap_tmul]
       exact Submodule.mul_mem_mul (LinearMap.mem_range_self _ m₂) y.property
@@ -449,7 +448,7 @@ theorem sectionAlgHom_comp (g : M₂ →ₗ[R] M₁) (f : M₁ →ₗ[R] M)
     (hf : Function.Surjective f) (hexact : LinearMap.ker f ≤ LinearMap.range g) :
     (sectionAlgHom g f hf hexact).comp (symAlgMap f) = Ideal.Quotient.mkₐ R (rangeIdeal g) := by
   ext x
-  simp only [LinearMap.comp_apply, LinearMap.coe_coe, AlgHom.comp_apply, symAlgMap_ι,
+  simp only [LinearMap.comp_apply, LinearMap.coe_ofClass, AlgHom.comp_apply, symAlgMap_ι,
     sectionAlgHom_ι, phiMap_apply, Ideal.Quotient.mkₐ_eq_mk]
   exact mk_ι_eq g f hexact (Function.rightInverse_surjInv hf (f x))
 
@@ -524,8 +523,7 @@ theorem symmetric_im_alpha_le_ker
     LinearMap.range (symMulMap k g) ≤ LinearMap.ker (symMap (k+1) f) := by
   rintro _ ⟨x, rfl⟩
   rw [LinearMap.mem_ker]
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul m₂ y =>
     have hfg : f (g m₂) = 0 :=
       LinearMap.mem_ker.mp (hexact (LinearMap.mem_range_self g m₂))
@@ -797,8 +795,7 @@ theorem range_beta_map (k : ℕ) (g : M₂ →ₗ[R] M₁) :
       = rangeSubmodule g * ⋀[R]^k M₁ := by
   apply le_antisymm
   · rintro _ ⟨w, ⟨t, rfl⟩, rfl⟩
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul m₂ y =>
       rw [Submodule.subtype_apply, beta_tmul]
       exact Submodule.mul_mem_mul (LinearMap.mem_range_self (ExteriorAlgebra.ι R ∘ₗ g) m₂)
@@ -924,8 +921,7 @@ theorem exterior_im_beta_le_ker
     LinearMap.range (beta k g) ≤ LinearMap.ker (exteriorPower.map (k+1) f) := by
   rintro _ ⟨x, rfl⟩
   rw [LinearMap.mem_ker]
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul m₂ y =>
     have hfg : f (g m₂) = 0 :=
       LinearMap.mem_ker.mp (hexact (LinearMap.mem_range_self g m₂))

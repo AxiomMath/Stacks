@@ -57,13 +57,13 @@ private theorem rationalFunctions_residueField_algebraMap
   let : Algebra k (Stacks.Chow.rationalFunctions X) :=
     ((Stacks.Chow.ofSectionRingHom X ⟨⊤, dense_univ⟩).comp
       ((Scheme.ΓSpecIso (.of k)).inv ≫ sX.appTop).hom).toAlgebra
-  show (Stacks.Chow.rationalFunctionsEquivResidueField X).val
+  change (Stacks.Chow.rationalFunctionsEquivResidueField X).val
       (((Stacks.Chow.ofSectionRingHom X ⟨⊤, dense_univ⟩).comp
         ((Scheme.ΓSpecIso (.of k)).inv ≫ sX.appTop).hom) a) = _
   rw [RingHom.comp_apply, Stacks.Chow.ofSectionRingHom_apply,
     (Stacks.Chow.rationalFunctionsEquivResidueField X).property
       ⟨⊤, dense_univ⟩ _ (by simp)]
-  show (sX.appTop ≫ X.Γevaluation (genericPoint X))
+  change (sX.appTop ≫ X.Γevaluation (genericPoint X))
       (((Scheme.ΓSpecIso (.of k)).inv).hom a) =
     (((Spec (.of k)).Γevaluation (sX (genericPoint X))) ≫
       sX.residueFieldMap (genericPoint X))
@@ -100,7 +100,7 @@ private theorem spec_Γevaluation_surjective
     simpa [e, q, Scheme.Γevaluation, Scheme.evaluation, RingHom.comp_assoc] using
       (congrArg CommRingCat.Hom.hom
         (Scheme.Spec.algebraMap_residueFieldIso_inv (.of k) p)).symm
-  show Function.Surjective (fun a : k =>
+  change Function.Surjective (fun a : k =>
     (((Scheme.ΓSpecIso (.of k)).inv ≫ (Spec (.of k)).Γevaluation p).hom) a)
   rw [heq]
   exact e.commRingCatIsoToRingEquiv.symm.surjective.comp hq
@@ -136,7 +136,7 @@ private theorem functionField_algEquiv_of_birationalOver
     (((Scheme.ΓSpecIso (.of k)).inv).hom a)
   refine ⟨AlgEquiv.ofRingEquiv (f := eR) ?_⟩
   intro a
-  show eY.symm (eK (eX (algebraMap k (Stacks.Chow.rationalFunctions X) a))) =
+  change eY.symm (eK (eX (algebraMap k (Stacks.Chow.rationalFunctions X) a))) =
     algebraMap k (Stacks.Chow.rationalFunctions Y) a
   apply eY.injective
   simp only [RingEquiv.apply_symm_apply]
@@ -194,7 +194,7 @@ private theorem birationalOver_of_functionField_algEquiv
       sY.residueFieldMap (genericPoint Y) (cY a) := by
     rw [← rationalFunctions_residueField_algebraMap k sX a,
       ← rationalFunctions_residueField_algebraMap k sY a]
-    show eY (e (eX.symm (eX (algebraMap k (Stacks.Chow.rationalFunctions X) a)))) =
+    change eY (e (eX.symm (eX (algebraMap k (Stacks.Chow.rationalFunctions X) a)))) =
       eY (algebraMap k (Stacks.Chow.rationalFunctions Y) a)
     simpa only [RingEquiv.symm_apply_apply] using congrArg eY (e.commutes a)
   calc

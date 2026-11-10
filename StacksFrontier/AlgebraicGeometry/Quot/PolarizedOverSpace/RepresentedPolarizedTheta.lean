@@ -512,7 +512,7 @@ variable (B : BigFppfSite.{u})
 /-- **`Θ` preserves composition.** -/
 theorem toPolarizedMap_comp {X Y Z : RepresentedPolarized B} (f : X ⟶ Y) (g : Y ⟶ Z) :
     toPolarizedMap B (f ≫ g) = toPolarizedMap B f ≫ toPolarizedMap B g := by
-  show toPolarizedMap B (f ≫ g) = PolarizedFamily.comp (toPolarizedMap B f) (toPolarizedMap B g)
+  change toPolarizedMap B (f ≫ g) = PolarizedFamily.comp (toPolarizedMap B f) (toPolarizedMap B g)
   refine PolarizedFamily.Hom.ext ((BigFppfOver.forget B integerBase (hZ B)).map_comp _ _)
     ((BigFppfOver.toScheme B integerBase (hZ B)).map_comp _ _) (heq_of_eq (Iso.ext ?_))
   simp only [PolarizedFamily.comp, Iso.trans_hom, Iso.app_hom, Iso.symm_hom, Functor.mapIso_hom]

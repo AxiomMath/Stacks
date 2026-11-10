@@ -64,7 +64,7 @@ theorem thickeningTestMap_comp_thickeningTestRetraction :
         (Deformation.Artin.squareZeroModuleThickening (toS := toS) (hA := hA) M) ≫
       thickeningTestRetraction hY hx M = 𝟙 x.T := by
   apply CostructuredArrow.hom_ext
-  show (eqToHom hx ≫ Deformation.Artin.squareZeroArrow A B S hS toS hA M) ≫
+  change (eqToHom hx ≫ Deformation.Artin.squareZeroArrow A B S hS toS hA M) ≫
     Deformation.Artin.squareZeroRetraction A B S hS toS hA M ≫ eqToHom hx.symm = 𝟙 _
   rw [Category.assoc, ← Category.assoc (Deformation.Artin.squareZeroArrow A B S hS toS hA M),
     Deformation.Artin.squareZeroArrow_comp_squareZeroRetraction, Category.id_comp,
@@ -78,7 +78,7 @@ theorem thickeningTestSchemeMap_comp_thickeningTestRetraction
       D.thickeningTestSchemeMap hY (Deformation.Artin.squareZeroModuleThickeningHom (S := S)
         (hS := hS) (toS := toS) (hA := hA) f) ≫ thickeningTestRetraction hY hx M := by
   apply CostructuredArrow.hom_ext
-  show Deformation.Artin.squareZeroRetraction A B S hS toS hA N ≫ eqToHom hx.symm =
+  change Deformation.Artin.squareZeroRetraction A B S hS toS hA N ≫ eqToHom hx.symm =
     Deformation.Artin.squareZeroOverMap A B S hS toS f ≫
       Deformation.Artin.squareZeroRetraction A B S hS toS hA M ≫ eqToHom hx.symm
   rw [← Category.assoc, Deformation.Artin.squareZeroOverMap_comp_squareZeroRetraction]

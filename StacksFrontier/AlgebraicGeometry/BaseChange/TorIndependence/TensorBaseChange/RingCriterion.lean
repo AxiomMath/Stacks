@@ -74,8 +74,7 @@ theorem isIso_ringBaseChangeCohomologyMap_iff_isBaseChange :
   let e := hbc.equiv
   have hfe : ∀ x, b.hom x = e x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => exact (map_zero b.hom).trans (map_zero e).symm
+    induction x using TensorProduct.inductionOn with
     | tmul a m => exact (hb a m).trans (IsBaseChange.equiv_tmul hbc a m).symm
     | add x y hx hy =>
       exact (map_add b.hom x y).trans ((congrArg₂ (· + ·) hx hy).trans (map_add e x y).symm)

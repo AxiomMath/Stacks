@@ -75,7 +75,7 @@ public theorem restrictionSource_mem_of_composite {S : Scheme.{u}} (G : Groupoid
   let α := F.map (pullback.fst (firstSourceMap G g) (compositeSourceMap G g g'))
   have hcover : Presieve.singleton β ∈ K U'.left := by
     change Presieve.singleton (F.map G.target) ∈ K (F.obj G.objects) at ht
-    show Presieve.singleton β ∈ K (F.obj U')
+    change Presieve.singleton β ∈ K (F.obj U')
     have hcov : Presieve.ofArrows
         (fun _ : PUnit => F.obj (pullback g G.target))
         (fun _ => β) ∈ K (F.obj U') := by

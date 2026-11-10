@@ -211,12 +211,12 @@ theorem ι_sigmaWeakIdealColimitIso_hom
   let hfin : ∀ k, (weakIdealsPiProj A hA k).Final := final_weakIdealsPiProj A hA
   dsimp only [sigmaWeakIdealColimitIso]
   simp only [Iso.trans_hom, Iso.symm_hom]
-  rw [HasColimit.isoOfNatIso_ι_inv_assoc, Discrete.natIso_inv_app, Iso.trans_inv, Iso.trans_inv,
+  rw [HasColimit.ι_isoOfNatIso_inv_assoc, Discrete.natIso_inv_app, Iso.trans_inv, Iso.trans_inv,
     Iso.symm_inv, Category.assoc, Category.assoc, Iso.inv_hom_id_assoc,
-    Functor.Final.ι_colimitIso_inv_assoc, HasColimit.isoOfNatIso_ι_inv_assoc,
+    Functor.Final.ι_colimitIso_inv_assoc, HasColimit.ι_isoOfNatIso_inv_assoc,
     sigmaWeakIdealSheafFamilyObjIso_inv_app]
   refine (Category.id_comp _).trans ?_
-  rw [colimitFlipCompColimIsoColimitCompColim_ι_ι_inv_assoc, HasColimit.isoOfNatIso_ι_hom]
+  rw [colimitFlipCompColimIsoColimitCompColim_ι_ι_inv_assoc, HasColimit.ι_isoOfNatIso_hom]
   exact ι_sigmaWeakIdealStageIso_hom_assoc B S hS A hA D J k _
 
 /-- **The inclusions of a finite coproduct of formal spectra are the formal spectra of the
@@ -267,7 +267,7 @@ theorem ι_sigmaFormalSpectrumIso_hom (k : K) :
   have hr := formalSpectrumMap_spec (TopologicalRing.isWeaklyAdmissible_pi A hA)
     (piProjContinuousHom B S hS A hA E k) (OrderDual.ofDual J)
     (OrderDual.ofDual ((weakIdealsPiProj A hA k).obj J)) Ideal.le_comap_map
-  have hn := HasColimit.isoOfNatIso_ι_hom (Functor.isoWhiskerRight P.diagramIso G) J
+  have hn := HasColimit.ι_isoOfNatIso_hom (Functor.isoWhiskerRight P.diagramIso G) J
   have hG : G.map (BigAffineFppf.sigmaIncl B S hS
         (fun k ↦ (E k).diagram.obj ((weakIdealsPiProj A hA k).obj J)) k) ≫
       G.map (P.stageIso J).hom =

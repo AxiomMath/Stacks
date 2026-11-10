@@ -79,7 +79,7 @@ theorem IsExceptionalCurveOfFirstKind.of_comap_of_flat {X Y : Scheme.{u}} (j : Y
   have hcomp : e'.hom ≫ (D.comap j).subschemeι ≫ j = (e' ≪≫ asIso φ).hom ≫ D.subschemeι := by
     rw [Iso.trans_hom, asIso_hom, Category.assoc, hφ]
   refine Eq.trans ?_ h
-  show Stacks.Picard.schemePullbackClass _ (Stacks.Picard.schemePullbackClass _ _) =
+  change Stacks.Picard.schemePullbackClass _ (Stacks.Picard.schemePullbackClass _ _) =
     Stacks.Picard.schemePullbackClass _ (Stacks.Picard.schemePullbackClass _
       (Stacks.Picard.schemePullbackClass j _))
   rw [Stacks.Picard.schemePullbackClass_comp, Stacks.Picard.schemePullbackClass_comp,
@@ -295,7 +295,7 @@ theorem exists_comp_spec_quotient_eq {X : Scheme.{u}} [IsReduced X] (f : X ⟶ S
   rw [Scheme.Hom.ker_eq_vanishingIdeal_closure_range f,
     ← Scheme.IdealSheafData.le_support_iff_le_vanishingIdeal]
   intro y hy
-  show y ∈ (i.ker.support : Set _)
+  change y ∈ (i.ker.support : Set _)
   rw [Scheme.Hom.support_ker i]
   refine closure_mono ?_ hy
   rintro _ ⟨x, rfl⟩
@@ -360,7 +360,7 @@ theorem exists_comap_eq_of_closedFibre {Y : Scheme.{u}} (q : Y ⟶ Spec (.of R))
     isClosed_range_subschemeι_comp_fst_adicCompletion q D' hcl
   set D : Y.IdealSheafData := D'.map j
   have hDsupp : (D.support : Set Y) = Set.range g := by
-    show (g.ker.support : Set Y) = _
+    change (g.ker.support : Set Y) = _
     rw [Scheme.Hom.support_ker_eq_closure_range g]
     exact hclosed.closure_eq
   have : IsReduced D.subscheme := Scheme.Hom.isReduced_image g
@@ -398,7 +398,7 @@ theorem exists_comap_eq_of_closedFibre {Y : Scheme.{u}} (q : Y ⟶ Spec (.of R))
     · rintro ⟨d, hd⟩
       have hy : q' y = closedPoint 𝓡 := eq_closedPoint_of_spec_map_eq _ <| by
         rw [← Scheme.Hom.comp_apply, ← pullback.condition, Scheme.Hom.comp_apply]
-        show q (j y) = _
+        change q (j y) = _
         rw [← hd]
         exact hqg d
       exact ⟨d, eq_of_base_fst_eq_of_closedPoint q (hcl d) hy hd⟩
@@ -485,7 +485,7 @@ theorem isMinimalModel_pullback_adicCompletion {C Y : Scheme.{u}} (c : C ⟶ Spe
   have hcl : ∀ d, pullback.snd q (gΛ) (D'.subschemeι d) = closedPoint 𝓡 := fun d => by
     obtain ⟨z, hz⟩ := hr ⟨d, rfl⟩
     rw [← hz]
-    show (pullback.fst (pullback.snd q (gΛ)) _ ≫ pullback.snd q (gΛ)) z = _
+    change (pullback.fst (pullback.snd q (gΛ)) _ ≫ pullback.snd q (gΛ)) z = _
     rw [pullback.condition, Scheme.Hom.comp_apply, show (pullback.snd (pullback.snd q (gΛ))
         (Spec.map (CommRingCat.ofHom (algebraMap 𝓡 (IsLocalRing.ResidueField 𝓡))))) z =
           closedPoint _ from Subsingleton.elim _ _]

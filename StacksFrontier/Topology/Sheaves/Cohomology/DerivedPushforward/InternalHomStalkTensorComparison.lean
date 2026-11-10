@@ -92,7 +92,8 @@ abbrev stalkOver : SheafOfModules.{u} (structureSheafRing Y) ⥤ ModuleCat.{u} R
 `(a ⊗_{𝒪_Y} b)_y ≅ a_y ⊗_R b_y`.  This is Tag 01CB followed by the compatibility of restriction
 of scalars along a ring isomorphism with tensor products. -/
 def stalkOverTensorIso (a b : SheafOfModules.{u} (structureSheafRing Y)) :
-    (stalkOver Y y R e).obj (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf).obj a).obj b) ≅
+    (stalkOver Y y R e).obj
+        (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf).obj a).obj b) ≅
       ((CochainComplex.DerivedTensor.moduleTensor.{u, u} R).obj ((stalkOver Y y R e).obj a)).obj
         ((stalkOver Y y R e).obj b) :=
   (ModuleCat.restrictScalars.{u, u, u} e.toRingHom).mapIso (stalkTensorIso Y y a b) ≪≫
@@ -110,17 +111,18 @@ private theorem tensor_addMonoidHom_ext {S M N P : Type*} [CommSemiring S] [AddC
     [AddCommMonoid N] [AddCommMonoid P] [Module S M] [Module S N] {f g : TensorProduct S M N →+ P}
     (h : ∀ m n, f (.tmul S m n) = g (.tmul S m n)) : f = g := by
   ext z
-  induction z using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction z using TensorProduct.inductionOn with
   | tmul m n => exact h m n
   | add a b ha hb => simp only [map_add, ha, hb]
 
 /-- The comparison of restriction of scalars with tensor products is natural in the first
 variable. -/
 theorem restrictScalarsTensorIso_inv_naturality_left
-    {M M' : ModuleCat.{u} (ToType (stalkTensorRing Y y))} (f : M ⟶ M') (N : ModuleCat.{u} (ToType (stalkTensorRing Y y))) :
+    {M M' : ModuleCat.{u} (ToType (stalkTensorRing Y y))} (f : M ⟶ M')
+    (N : ModuleCat.{u} (ToType (stalkTensorRing Y y))) :
     (ModuleCat.restrictScalars.{u, u, u} e.toRingHom).map
-        (((MonoidalCategory.curriedTensor (ModuleCat.{u} (ToType (stalkTensorRing Y y)))).map f).app N) ≫
+        (((MonoidalCategory.curriedTensor
+            (ModuleCat.{u} (ToType (stalkTensorRing Y y)))).map f).app N) ≫
       (CochainComplex.DerivedTensor.restrictScalarsTensorIso e M' N).inv =
     (CochainComplex.DerivedTensor.restrictScalarsTensorIso e M N).inv ≫
       ((CochainComplex.DerivedTensor.moduleTensor.{u, u} R).map
@@ -132,9 +134,11 @@ theorem restrictScalarsTensorIso_inv_naturality_left
 /-- The comparison of restriction of scalars with tensor products is natural in the second
 variable. -/
 theorem restrictScalarsTensorIso_inv_naturality_right
-    (M : ModuleCat.{u} (ToType (stalkTensorRing Y y))) {N N' : ModuleCat.{u} (ToType (stalkTensorRing Y y))} (g : N ⟶ N') :
+    (M : ModuleCat.{u} (ToType (stalkTensorRing Y y)))
+    {N N' : ModuleCat.{u} (ToType (stalkTensorRing Y y))} (g : N ⟶ N') :
     (ModuleCat.restrictScalars.{u, u, u} e.toRingHom).map
-        (((MonoidalCategory.curriedTensor (ModuleCat.{u} (ToType (stalkTensorRing Y y)))).obj M).map g) ≫
+        (((MonoidalCategory.curriedTensor
+            (ModuleCat.{u} (ToType (stalkTensorRing Y y)))).obj M).map g) ≫
       (CochainComplex.DerivedTensor.restrictScalarsTensorIso e M N').inv =
     (CochainComplex.DerivedTensor.restrictScalarsTensorIso e M N).inv ≫
       ((CochainComplex.DerivedTensor.moduleTensor.{u, u} R).obj
@@ -146,7 +150,8 @@ theorem restrictScalarsTensorIso_inv_naturality_right
 /-- `stalkOverTensorIso` is natural in its first argument. -/
 theorem stalkOverTensorIso_naturality_left {a a' : SheafOfModules.{u} (structureSheafRing Y)}
     (f : a ⟶ a') (b : SheafOfModules.{u} (structureSheafRing Y)) :
-    (stalkOver Y y R e).map (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf).map f).app b) ≫
+    (stalkOver Y y R e).map
+        (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf).map f).app b) ≫
         (stalkOverTensorIso Y y R e a' b).hom =
       (stalkOverTensorIso Y y R e a b).hom ≫
         ((CochainComplex.DerivedTensor.moduleTensor.{u, u} R).map
@@ -159,7 +164,8 @@ theorem stalkOverTensorIso_naturality_left {a a' : SheafOfModules.{u} (structure
 /-- `stalkOverTensorIso` is natural in its second argument. -/
 theorem stalkOverTensorIso_naturality_right (a : SheafOfModules.{u} (structureSheafRing Y))
     {b b' : SheafOfModules.{u} (structureSheafRing Y)} (g : b ⟶ b') :
-    (stalkOver Y y R e).map (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf).obj a).map g) ≫
+    (stalkOver Y y R e).map
+        (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf).obj a).map g) ≫
         (stalkOverTensorIso Y y R e a b').hom =
       (stalkOverTensorIso Y y R e a b).hom ≫
         ((CochainComplex.DerivedTensor.moduleTensor.{u, u} R).obj
@@ -221,7 +227,8 @@ abbrev ringTotalComplexPair :=
 `(a ⊗_{𝒪_Y} b)_x ≅ a_x ⊗_{𝒪_{X,x}} b_x` for sheaves of modules `a`, `b` on `Y = {x}`. -/
 def pointStalkTensorIso (a b : PointModules X x) :
     (pointStalk X x).obj
-        (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (pointSpace X x).sheaf).obj a).obj b) ≅
+        (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+          (pointSpace X x).sheaf).obj a).obj b) ≅
       ((ringTensor X x).obj ((pointStalk X x).obj a)).obj ((pointStalk X x).obj b) :=
   stalkOverTensorIso (pointSpace X x) PUnit.unit (stalkRing X x) (pointGermRingEquiv X x) a b
 
@@ -291,7 +298,8 @@ abbrev derivedTensorOfStalks :
 abbrev stalkModelTarget :
     CochainComplex (PointModules X x) ℤ × CochainComplex (PointModules X x) ℤ ⥤
       DerivedCategory (ModuleCat.{u} (stalkRing X x)) :=
-  totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (pointSpace X x).sheaf) ⋙
+  totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+    (pointSpace X x).sheaf) ⋙
     pointStalkComplex X x ⋙ DerivedCategory.Q
 
 /-- **The left-hand comparison** `(QK ⊗^L QL)_x ⟶ Q(Tot(K ⊗ L)_x)`: the canonical map of
@@ -301,7 +309,8 @@ def stalkLeftComparison :
   Functor.whiskerRight (derivedToTensorNatTrans (pointSpace X x))
       (pointStalkDerivedEquiv X x).functor ≫
     Functor.whiskerLeft
-      (totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (pointSpace X x).sheaf))
+      (totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+        (pointSpace X x).sheaf))
       (pointStalkFactors X x).hom
 
 /-- On a pair of K-flat complexes the left-hand comparison is invertible. -/

@@ -40,7 +40,7 @@ theorem map_mul_of_isLocalizedModule
   have hunit := hu (s * t)
   rw [Module.End.isUnit_iff] at hunit
   apply hunit.1
-  show ((s : R) * t) • g (x * y) = ((s : R) * t) • (g x * g y)
+  change ((s : R) * t) • g (x * y) = ((s : R) * t) • (g x * g y)
   change (s : R) • x = l a at hs
   change (t : R) • y = l b at ht
   rw [← map_smul, ← smul_mul_smul_comm, hs, ht, ← map_mul, hg, map_mul, ← smul_mul_smul_comm,
@@ -90,7 +90,7 @@ theorem tensor_cech_map_units
     ((LocalizedModule.mkLinearMap (Cech.cechSub f {i}) M).lTensor S)
     (⟨(f i) ^ n, ⟨n, rfl⟩⟩ : Submonoid.powers (f i))
   rw [Module.End.isUnit_iff] at h ⊢
-  show Function.Bijective (fun x : S ⊗[R] Cech.cechMod f M {i} =>
+  change Function.Bijective (fun x : S ⊗[R] Cech.cechMod f M {i} =>
     (algebraMap R S (f i)) ^ n • x)
   change Function.Bijective (fun x : S ⊗[R] Cech.cechMod f M {i} => (f i) ^ n • x) at h
   simpa only [← map_pow, IsScalarTower.algebraMap_smul] using h
@@ -186,7 +186,7 @@ theorem localizedModuleMap_bijective_of_awayMap_bijective
     { __ := IsLocalization.Away.map (Localization.Away a)
         (Localization.Away (algebraMap R S a)) (algebraMap R S) a
       commutes' r := by
-        show IsLocalization.Away.map (Localization.Away a)
+        change IsLocalization.Away.map (Localization.Away a)
           (Localization.Away (algebraMap R S a)) (algebraMap R S) a
           (algebraMap R (Localization.Away a) r) = _
         rw [IsLocalization.Away.map, IsLocalization.map_eq]
@@ -312,8 +312,7 @@ noncomputable def canonicalAlphaAlgEquiv
   apply algEquivOfIsLocalizedModule (Submonoid.powers (algebraMap R S (f i))) l h
     (canonicalAlpha S f (ModuleCat.of R B) i)
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul s b =>
     change canonicalAlpha S f (ModuleCat.of R B) i
       (LocalizedModule.mkLinearMap _ _ (s ⊗ₜ[R] b)) =
@@ -420,7 +419,7 @@ theorem exists_sectionsGenericEquiv
   have hx := congrArg (fun y : compatibleSections S f (localizationComparisons f) X => y.1.1)
     (a.toLinearEquiv.apply_symm_apply x)
   change γ (1 ⊗ₜ[R] a.toLinearEquiv.symm x) = (show X.generic from x.1.1) at hx
-  show γ (s ⊗ₜ[R] a.toLinearEquiv.symm x) = _
+  change γ (s ⊗ₜ[R] a.toLinearEquiv.symm x) = _
   have htmul : s ⊗ₜ[R] a.toLinearEquiv.symm x =
       s • (1 ⊗ₜ[R] a.toLinearEquiv.symm x) := by
     rw [smul_tmul', smul_eq_mul, mul_one]
@@ -498,7 +497,7 @@ theorem finite_compatibleSections
           (e.functor.obj (e.inverse.obj X)).localPiece i :=
         (((FormalGlueing.localProjection S f c i).mapIso (e.counitIso.app X)).symm.toLinearEquiv)
       exact Module.Finite.equiv E
-  show Module.Finite R (c.sections.obj X)
+  change Module.Finite R (c.sections.obj X)
   rwa [hi] at H
 
 /-- The `i`-th local piece of the canonical glueing datum of an `R`-algebra `C`, read as an
@@ -630,7 +629,7 @@ theorem finite_sectionsSubalgebra (hflat : Module.Flat R S)
   have : Module.Finite S (glueX f B T q hq).generic := inferInstanceAs (Module.Finite S T)
   have : ∀ i, Module.Finite (Localization.Away (f i)) ((glueX f B T q hq).localPiece i) := by
     intro i
-    show Module.Finite (Localization.Away (f i)) (LocalizedModule.Away (f i) B)
+    change Module.Finite (Localization.Away (f i)) (LocalizedModule.Away (f i) B)
     exact Module.Finite.of_isLocalizedModule (Submonoid.powers (f i))
       (LocalizedModule.mkLinearMap (Submonoid.powers (f i)) B)
   have := finite_compatibleSections f hflat hquot (glueX f B T q hq)

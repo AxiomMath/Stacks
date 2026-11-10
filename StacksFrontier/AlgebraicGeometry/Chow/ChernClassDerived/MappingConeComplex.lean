@@ -151,7 +151,7 @@ def coneRank (ρ σ : ℤ →₀ ℕ) : ℤ →₀ ℕ :=
     simp only [not_or, not_exists, not_and, not_not] at hcon
     exact hn (by
       rw [hcon.2]
-      refine Nat.add_eq_zero.mpr ⟨?_, rfl⟩
+      refine Nat.add_eq_zero_iff.mpr ⟨?_, rfl⟩
       by_contra hρ
       exact absurd (by omega : n + 1 - 1 = n) (hcon.1 (n + 1) hρ)))
 

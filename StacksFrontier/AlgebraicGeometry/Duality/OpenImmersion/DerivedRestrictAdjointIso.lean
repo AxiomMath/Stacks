@@ -90,7 +90,7 @@ theorem homotopyAdjunction_unit_app_quotient_leftAdjointUniq {𝒜 ℬ : Type*} 
   rw [Stacks.SmallDerivedCategory.homotopyAdjunction_unit_app_quotient,
     Adjunction.mapHomotopyCategoryAdjunction_unit_app_quotient]
   simp only [Functor.mapHomotopyCategoryFactors, Stacks.Homology.mapHomotopyCategoryIso,
-    Quotient.lift.isLift_inv, NatTrans.mapHomotopyCategory_app, Iso.symm_hom]
+    Quotient.lift.isLift_inv, Iso.symm_hom]
   have key : (HomotopyCategory.quotient 𝒜 (ComplexShape.up ℤ)).map
       ((adj.mapHomologicalComplex (ComplexShape.up ℤ)).unit.app M) =
       (HomotopyCategory.quotient 𝒜 (ComplexShape.up ℤ)).map

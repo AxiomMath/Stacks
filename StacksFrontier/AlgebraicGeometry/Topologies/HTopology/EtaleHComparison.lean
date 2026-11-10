@@ -81,7 +81,7 @@ public theorem exists_standardPHCovering_hom_of_etale {S : Scheme.{u}} [IsAffine
   refine ⟨⟨W.I₀, W.X, fun a ↦ W.f a ≫ p⟩, ?_, ?_⟩
   · exact StandardPHCovering.of_presentation _
       (hX := fun a ↦ by
-        show IsAffine (Spec (𝒱.affineRefinement.X (Arf.idx a.val)))
+        change IsAffine (Spec (𝒱.affineRefinement.X (Arf.idx a.val)))
         infer_instance)
       p W.f inferInstance hpsurj (fun _ ↦ inferInstance) W.iUnion_range fun _ ↦ rfl
   · refine ⟨(⟨toV.s₀, toV.h₀, fun a ↦ ?_⟩ :
@@ -89,11 +89,11 @@ public theorem exists_standardPHCovering_hom_of_etale {S : Scheme.{u}} [IsAffine
         ⟨𝒱.I₀, 𝒱.X, fun kj ↦ 𝒱.f kj ≫ p⟩).comp
       (⟨fun kj ↦ kj.2, fun kj ↦ (sigmaOpenCover Y).pullbackHom (g' kj.1) kj.2, fun kj ↦ ?_⟩ :
         (⟨𝒱.I₀, 𝒱.X, fun kj ↦ 𝒱.f kj ≫ p⟩ : PreZeroHypercover.{u} S).Hom ⟨J, Y, q⟩)⟩
-    · show toV.h₀ a ≫ 𝒱.f (toV.s₀ a) ≫ p = W.f a ≫ p
+    · change toV.h₀ a ≫ 𝒱.f (toV.s₀ a) ≫ p = W.f a ≫ p
       rw [← Category.assoc, toV.w₀]
-    · show (sigmaOpenCover Y).pullbackHom (g' kj.1) kj.2 ≫ q kj.2 =
+    · change (sigmaOpenCover Y).pullbackHom (g' kj.1) kj.2 ≫ q kj.2 =
         (((sigmaOpenCover Y).pullback₁ (g' kj.1)).f kj.2 ≫ 𝒯.f kj.1) ≫ p
-      have hd : (sigmaOpenCover Y).f kj.2 ≫ Sigma.desc q = q kj.2 := Sigma.ι_desc q kj.2
+      have hd : (sigmaOpenCover Y).f kj.2 ≫ Sigma.desc q = q kj.2 := Sigma.ι_comp_desc q kj.2
       rw [← hd, reassoc_of% Scheme.Cover.pullbackHom_map (sigmaOpenCover Y) (g' kj.1) kj.2, ← hlift,
         Category.assoc]
 

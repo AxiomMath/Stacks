@@ -55,8 +55,8 @@ crossing to the spelling of the cocontinuous morphism of topoi is definitional, 
 in the type of `totalPushforwardIso`.
 
 The cone law of `restrictCone` is the cone law of Stacks 0D70 (3), conjugated by the
-comparison of the two readings of the fork: the legs and transitions of that cone are stated with the
-inverse image along a component inclusion, and the cosimplicial sheaf whose limit is the second
+comparison of the two readings of the fork: the legs and transitions of that cone are stated with
+the inverse image along a component inclusion, and the cosimplicial sheaf whose limit is the second
 construction is stated with restriction to that component.
 
 The comparison is built in the direction that lands in the limit, since naturality is then a

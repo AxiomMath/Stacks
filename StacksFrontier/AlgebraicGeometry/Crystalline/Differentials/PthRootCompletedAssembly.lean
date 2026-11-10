@@ -104,7 +104,7 @@ theorem primeLevelModuleEquiv_transition (x : levelModule p (primeRing B p lam)
           (AdicCompletion.of (pAdicIdeal (A := primeRing B p lam) p)
             (primeRing B p lam ⊗[(B : Type u)] M)).toAddMonoidHom))
     (fun b' y ↦ by
-      show primeLevelModuleEquiv B p lam M m (AdicCompletion.transitionMap _ _ hmk
+      change primeLevelModuleEquiv B p lam M m (AdicCompletion.transitionMap _ _ hmk
           (Submodule.Quotient.mk (AdicCompletion.of _ _ (b' ⊗ₜ y)))) =
         (levelTransition B p M hmk).baseChange (primeRing B p lam) (b' ⊗ₜ Submodule.Quotient.mk y)
       rw [transitionMap_mk_eq, LinearMap.baseChange_tmul, transitionMap_mk_eq]
@@ -135,8 +135,7 @@ theorem primeLevelEquiv_transition (q : ℕ) (y) :
     primeTermMap A B p lam hp (levelTransition B p M hmk) q
       (TensorProduct.map (primeLevelModuleEquiv B p lam M k).toLinearMap LinearMap.id t)) _
   intro t
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | add a b ha hb => simp only [map_add, ha, hb]
   | tmul a w =>
     exact congrArg (· ⊗ₜ[primeRing B p lam] w) (primeLevelModuleEquiv_transition B p lam M hmk a)
@@ -159,6 +158,7 @@ variable (A : Type u) [CommRing A] (B : DividedPowerRing.{u}) [Algebra A (B : Ty
 abbrev baseCompletedTerm (q : ℕ) : Type u :=
   CompletedTensor p (B : Type u) (completedDividedPowerForms p A B.dividedPowers q) M
 
+omit [Fact p.Prime] [Algebra (IntegersAtPrime p) (B : Type u)] in
 /-- The integrating homotopy kills the image of the canonical map. -/
 theorem pthRootHomotopy_comparison {N : Type u} [AddCommGroup N] [Module (B : Type u) N] (q : ℕ)
     (c : RestrictScalars A (B : Type u) (baseDeRhamTerm A B N (q + 1)) →ₗ[A]
@@ -173,7 +173,7 @@ theorem pthRootHomotopy_comparison {N : Type u} [AddCommGroup N] [Module (B : Ty
   have := tensorExteriorPower_addMonoidHom_ext
     (F := ((pthRootHomotopy A B p lam hp N q).toAddMonoidHom.comp c.toAddMonoidHom))
     (G := 0) (fun m v ↦ by
-      show pthRootHomotopy A B p lam hp N q (c (m ⊗ₜ exteriorPower.ιMulti _ _ v)) = 0
+      change pthRootHomotopy A B p lam hp N q (c (m ⊗ₜ exteriorPower.ιMulti _ _ v)) = 0
       rw [hc]
       exact integratingHomotopyMap_base (A := A) (primeFormsProjection A B p lam hp)
         (primeFormsComparison A B p lam hp) (zElt B p lam) (pthRootDzDecomposition A B p lam hp)
@@ -215,6 +215,7 @@ abbrev homotopyLevel (q k : ℕ) :=
         (pthRootHomotopy A B p lam hp (levelModule p (B : Type u) M k) q)).comp
       (primeLevelEquiv A B p lam hp M (q + 1) k).toAddEquiv.toAddMonoidHom)
 
+omit [Fact p.Prime] [Algebra (IntegersAtPrime p) (B : Type u)] in
 /-- The level maps of the completed homotopy are compatible. -/
 theorem homotopyLevel_compat (q : ℕ) {m k : ℕ} (hmk : m ≤ k) (y) :
     AdicCompletion.transitionMap _ _ hmk (homotopyLevel A B p lam hp M q k y) =
@@ -298,6 +299,7 @@ theorem hn_dYn_succ (n q : ℕ)
     (congrArg (· - _) (restrictScalars_lsmul_algebraMap_natCast A (B : Type u) (primeRing B p lam)
       (X := primeDeRhamTerm A B p lam hp (levelModule p (B : Type u) M n) (q + 1)) p y))
 
+omit [Fact p.Prime] [Algebra (IntegersAtPrime p) (B : Type u)] in
 /-- `h_n ∘ c_n = 0`. -/
 theorem hn_cn (n q : ℕ) (x : baseDeRhamTerm A B (levelModule p (B : Type u) M n) (q + 1)) :
     hn A B p lam hp M n q (cn A B p lam hp M nabla hint S S' n (q + 1) x) = 0 :=
@@ -333,12 +335,14 @@ abbrev primeCompletedComparison (q : ℕ) :
     (completedDividedPowerForms p A (primeDividedPowers B p lam hp))
     (primeCompletedFormsMap A B p lam hp) q
 
+omit [Nontrivial (XiAlg B)] [Fact p.Prime] [Algebra (IntegersAtPrime p) (B : Type u)] in
 /-- The level of the source differential is the extended level connection. -/
 theorem baseLevel_differential (n q : ℕ) (x : baseCompletedTerm A B p M q) :
     baseLevelEquiv A B p M (q + 1) n ((baseCompletedDifferential A B p M nabla q x).val n) =
       dXn A B p M nabla S n q (baseLevelEquiv A B p M q n (x.val n)) :=
   formsLevelEquiv_levelDifferential p A (B : Type u) B.dividedPowers M nabla S q n (x.val n)
 
+omit [Nontrivial (XiAlg B)] [Fact p.Prime] [Algebra (IntegersAtPrime p) (B : Type u)] in
 /-- The level of the target differential is the extended level connection. -/
 theorem primeLevel_differential (n q : ℕ) (y : primeCompletedTerm A B p lam hp M q) :
     primeLevelEquiv A B p lam hp M (q + 1) n
@@ -346,6 +350,7 @@ theorem primeLevel_differential (n q : ℕ) (y : primeCompletedTerm A B p lam hp
       dYn A B p lam hp M nabla S' n q (primeLevelEquiv A B p lam hp M q n (y.val n)) :=
   primeLevel_levelDifferential A B p lam hp M nabla S' q n (y.val n)
 
+omit [Nontrivial (XiAlg B)] [Fact p.Prime] [Algebra (IntegersAtPrime p) (B : Type u)] in
 /-- The level of the completed canonical map is the level canonical map. -/
 theorem primeLevel_comparison (n q : ℕ) (x : baseCompletedTerm A B p M q) :
     primeLevelEquiv A B p lam hp M q n ((primeCompletedComparison A B p lam hp M q x).val n) =
@@ -360,6 +365,7 @@ theorem completedReverse_val (n q : ℕ) (y : primeCompletedTerm A B p lam hp M 
         (en A B p lam hp M nabla hint S S' n q (primeLevelEquiv A B p lam hp M q n (y.val n))) :=
   rfl
 
+omit [Fact p.Prime] [Algebra (IntegersAtPrime p) (B : Type u)] in
 /-- The levels of the completed homotopy. -/
 theorem completedHomotopy_val (n q : ℕ) (y : primeCompletedTerm A B p lam hp M (q + 1)) :
     (completedHomotopy A B p lam hp M q y).val n =
@@ -403,6 +409,7 @@ theorem completedReverse_comparison (q : ℕ) (x : baseCompletedTerm A B p M q) 
     (map_nsmul (AdicCompletion.eval _ _ n) p x)).symm
   exact (map_nsmul (baseLevelEquiv A B p M q n) p (x.val n)).symm
 
+omit [Nontrivial (XiAlg B)] [Fact p.Prime] [Algebra (IntegersAtPrime p) (B : Type u)] in
 /-- The level `pⁿ` of the completed canonical map, as the map `ψ_*` of the levels. -/
 theorem primeLevel_comparison_values (n q : ℕ) (x : baseCompletedTerm A B p M q) :
     primeLevelEquiv A B p lam hp M q n ((primeCompletedComparison A B p lam hp M q x).val n) =
@@ -413,6 +420,7 @@ theorem primeLevel_comparison_values (n q : ℕ) (x : baseCompletedTerm A B p M 
     (dividedPowerDifferentialForms (A := A) (primeDividedPowers B p lam hp) q)
     (primeFormsMapₛₗ A B p lam hp q) (x.val n)
 
+omit [Fact p.Prime] [Algebra (IntegersAtPrime p) (B : Type u)] in
 /-- The integrating homotopy kills the image of `ψ_*`. -/
 theorem hn_baseChangeValues (n q : ℕ)
     (t : baseDeRhamTerm A B (levelModule p (B : Type u) M n) (q + 1)) :
@@ -422,7 +430,7 @@ theorem hn_baseChangeValues (n q : ℕ)
     (F := (hn A B p lam hp M n q).comp
       (Connection.baseChangeValues (primeFormsMapₛₗ A B p lam hp (q + 1))))
     (G := 0) (fun m v ↦ by
-      show hn A B p lam hp M n q (Connection.baseChangeValues (primeFormsMapₛₗ A B p lam hp
+      change hn A B p lam hp M n q (Connection.baseChangeValues (primeFormsMapₛₗ A B p lam hp
           (q + 1))
         (m ⊗ₜ exteriorPower.ιMulti _ _ v)) = 0
       rw [Connection.baseChangeValues_tmul, primeFormsMapₛₗ_ιMulti]
@@ -431,6 +439,7 @@ theorem hn_baseChangeValues (n q : ℕ)
         (theta B p lam hp) _ q 1 m v)
   exact DFunLike.congr_fun this t
 
+omit [Fact p.Prime] [Algebra (IntegersAtPrime p) (B : Type u)] in
 /-- **`ĥ ∘ ĉ = 0`.** -/
 theorem completedHomotopy_comparison (q : ℕ) (x : baseCompletedTerm A B p M (q + 1)) :
     completedHomotopy A B p lam hp M q (primeCompletedComparison A B p lam hp M (q + 1) x) = 0 := by

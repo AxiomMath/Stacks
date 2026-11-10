@@ -127,8 +127,8 @@ it to Čech acyclicity of the sheaf on the vertex.
 This is the base of the degree induction of Stacks 0A37: the general clause is obtained from it by
 embedding the system of sheaves in a system of injectives and comparing the two long exact
 sequences. -/
-def isColimit_cohomologyCocone_of_injective_system (c : Cone S.E) (hc : IsLimit c) (i : K)
-    (U : Opens (S.E.obj i)) (hU : IsCompact (U : Set (S.E.obj i))) (n : ℕ)
+def isColimit_cohomologyCocone_of_injective_system (c : Cone S.E) (i : K)
+    (U : Opens (S.E.obj i)) (n : ℕ)
     (hinj : ∀ j, Injective (S.E.obj j).sheaf)
     (hvan : IsZero (Sheaf.H'.{u, u, u} c.pt.sheaf (n + 1) (S.stageOpenCone c i U).pt))
     (D : CohomologyCocone ((Over.forget i) ⋙ S.E) (c.whisker (Over.forget i))
@@ -142,15 +142,15 @@ the clause states it**: the comparison out of the colimit of the stage cohomolog
 isomorphism.  This is
 `isColimit_cohomologyCocone_of_injective_system` through
 `CohomologyCocone.isIso_comparison_of_isColimit`. -/
-theorem isIso_comparison_of_injective_system (c : Cone S.E) (hc : IsLimit c) (i : K)
-    (U : Opens (S.E.obj i)) (hU : IsCompact (U : Set (S.E.obj i))) (n : ℕ)
+theorem isIso_comparison_of_injective_system (c : Cone S.E) (i : K)
+    (U : Opens (S.E.obj i)) (n : ℕ)
     (hinj : ∀ j, Injective (S.E.obj j).sheaf)
     (hvan : IsZero (Sheaf.H'.{u, u, u} c.pt.sheaf (n + 1) (S.stageOpenCone c i U).pt))
     (D : CohomologyCocone ((Over.forget i) ⋙ S.E) (c.whisker (Over.forget i))
       (S.stageOpenCone c i U) (n + 1)) :
     IsIso D.comparison :=
   CohomologyCocone.isIso_comparison_of_isColimit D
-    (S.isColimit_cohomologyCocone_of_injective_system c hc i U hU n hinj hvan D)
+    (S.isColimit_cohomologyCocone_of_injective_system c i U n hinj hvan D)
 
 end SpectralAbelianSheafSystem
 

@@ -220,7 +220,7 @@ theorem isUnital_of_isUnital_transportHomForward
     (adj.homEquiv _ _).injective (e1.symm.trans (h'.trans (eG.trans e2)))
   apply DifferentialGradedAlgebra.Hom.isUnital_of_oneHom_comp
   rw [eL]
-  show Functor.LaxMonoidal.ε L ≫ L.map oneB ≫ φ.toHomologicalComplex.f 0 = oneA
+  change Functor.LaxMonoidal.ε L ≫ L.map oneB ≫ φ.toHomologicalComplex.f 0 = oneA
   rw [e3, Functor.Monoidal.ε_η_assoc]
 
 end TransposeUnital

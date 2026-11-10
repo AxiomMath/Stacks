@@ -48,7 +48,7 @@ theorem isIso_rightAdjointLaxMonoidal_ε :
     letI := adj.rightAdjointLaxMonoidal
     IsIso (ε Q) := by
   let := adj.rightAdjointLaxMonoidal
-  show IsIso (adj.homEquiv _ _ (η i))
+  change IsIso (adj.homEquiv _ _ (η i))
   rw [Adjunction.homEquiv_unit]
   infer_instance
 

@@ -257,7 +257,7 @@ theorem isEssentiallyConstantWith_of_bijective_homComparisonInv (M : I ⥤ C) [I
   · intro k l φ
     simp only [Functor.const_obj_obj, Functor.const_obj_map, Category.comp_id]
     exact cocone_law φ
-  · show r ≫ c i = 𝟙 X
+  · change r ≫ c i = 𝟙 X
     apply (h X).injective
     rw [homComparisonInv_apply, homComparisonInv_apply, colimit_ι_eq_iff]
     obtain ⟨m, σ, τ, hmστ⟩ := refinement i
@@ -265,7 +265,7 @@ theorem isEssentiallyConstantWith_of_bijective_homComparisonInv (M : I ⥤ C) [I
     simp only [Category.id_comp, Category.assoc] at hmστ ⊢
     rw [hmστ]
   · intro j
-    show ∃ (k : I) (σ : i ⟶ k) (τ : j ⟶ k), M.map τ = c j ≫ r ≫ M.map σ
+    change ∃ (k : I) (σ : i ⟶ k) (τ : j ⟶ k), M.map τ = c j ≫ r ≫ M.map σ
     obtain ⟨k, σ, τ, hkστ⟩ := refinement j
     refine ⟨k, σ, τ, ?_⟩
     simp only [Category.id_comp, Category.assoc] at hkστ ⊢

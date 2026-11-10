@@ -116,7 +116,7 @@ private theorem Scheme.RationalMap.domain_eq_top_of_isCurve
   let p' : X.left.PartialMap Y.left := ⟨U', hpDense.mono hUU', f'⟩
   have hp'Eq : p'.toRationalMap = p.toRationalMap := by
     refine Scheme.PartialMap.toRationalMap_eq_iff.mpr ⟨p.domain, hpDense, hUU', le_rfl, ?_⟩
-    show X.left.homOfLE hUU' ≫ f' = X.left.homOfLE le_rfl ≫ p.hom
+    change X.left.homOfLE hUU' ≫ f' = X.left.homOfLE le_rfl ≫ p.hom
     simp [hfRestr]
   have hmem : x ∈ (p'.toRationalMap).domain :=
     Scheme.RationalMap.mem_domain.mpr ⟨p', hxU', rfl⟩
@@ -148,12 +148,12 @@ private theorem toRationalMap_surjective
       _ = 𝟙 X.left := by simp
   have hpBase : p.hom ≫ Y.hom = p.domain.ι ≫ X.hom := Scheme.PartialMap.isOver_iff.mp hpOver
   have hgleftOver : gleft ≫ Y.hom = X.hom := by
-    show e.inv ≫ (p.hom ≫ Y.hom) = X.hom
+    change e.inv ≫ (p.hom ≫ Y.hom) = X.hom
     rw [hpBase, ← Category.assoc, heInvι]
     simp
   have hpartial : p = gleft.toPartialMap := by
     refine Scheme.PartialMap.ext p gleft.toPartialMap hdomain ?_
-    show p.hom = e.hom ≫ e.inv ≫ p.hom
+    change p.hom = e.hom ≫ e.inv ≫ p.hom
     simp only [Iso.hom_inv_id_assoc]
   exact ⟨Over.homMk gleft hgleftOver,
     Subtype.ext <| (congrArg Scheme.PartialMap.toRationalMap hpartial).symm.trans

@@ -113,7 +113,7 @@ theorem reesToGradedRingHom_of_mem {n : ℕ} {x : reesAlgebra I}
     (hx : x ∈ Stacks.Blowup.reesGrading I n) :
     reesToGradedRingHom I x =
       DirectSum.of (fun k => piece (M := A) I k) n (reesToGradedPiece I n ⟨x, hx⟩) := by
-  show reesToGradedSum I (DirectSum.decompose (Stacks.Blowup.reesGrading I) x) = _
+  change reesToGradedSum I (DirectSum.decompose (Stacks.Blowup.reesGrading I) x) = _
   rw [DirectSum.decompose_of_mem _ hx, reesToGradedSum, DirectSum.toSemiring_of]
   rfl
 
@@ -138,7 +138,7 @@ theorem reesToGradedPiece_surjective (n : ℕ) : Function.Surjective (reesToGrad
   obtain ⟨z, rfl⟩ := Submodule.Quotient.mk_surjective _ c
   have hz : (z : A) ∈ I ^ n := by simpa only [ring_power_eq] using z.2
   refine ⟨Stacks.Blowup.reesMonomial I n ⟨z, hz⟩, ?_⟩
-  show mk I n _ = Submodule.Quotient.mk z
+  change mk I n _ = Submodule.Quotient.mk z
   congr 1
   exact Subtype.ext (by simp)
 
@@ -161,7 +161,7 @@ theorem reesToGraded_algebraMap (a : A) :
   rw [reesToGraded_of_mem I (SetLike.algebraMap_mem_graded (Stacks.Blowup.reesGrading I) a),
     coe_gradeZeroHom]
   congr 1
-  show mk I 0 _ = mk I 0 _
+  change mk I 0 _ = mk I 0 _
   congr 1
   exact Subtype.ext (by simp)
 
@@ -281,7 +281,7 @@ theorem mem_toSpec_iff (x : AlgebraicGeometry.Proj (Stacks.Blowup.reesGrading I)
       Spec.map (CommRingCat.ofHom (Stacks.Blowup.reesGradingZeroEquiv I).toRingHom)
         (Proj.toSpecZero (Stacks.Blowup.reesGrading I) x) := rfl
   rw [h1, Spec.map_apply, h]
-  show ((algebraMap A (Stacks.Blowup.reesGrading I 0) a : Stacks.Blowup.reesGrading I 0) :
+  change ((algebraMap A (Stacks.Blowup.reesGrading I 0) a : Stacks.Blowup.reesGrading I 0) :
     reesAlgebra I) ∈ x.asHomogeneousIdeal ↔ _
   rw [SetLike.GradeZero.coe_algebraMap]
 
@@ -320,7 +320,7 @@ theorem isInducing_grToBlowupCont : IsInducing (grToBlowupCont I) := by
       ProjectiveSpectrum.isClosed_zeroLocus _ _, ?_⟩
     ext x
     simp only [Set.mem_preimage, ProjectiveSpectrum.mem_zeroLocus]
-    show ⇑(reesToGraded I) ⁻¹' t ⊆ ⇑(reesToGraded I) ⁻¹' (x.asHomogeneousIdeal : Set _) ↔ _
+    change ⇑(reesToGraded I) ⁻¹' t ⊆ ⇑(reesToGraded I) ⁻¹' (x.asHomogeneousIdeal : Set _) ↔ _
     exact Set.preimage_subset_preimage_iff
       (by rw [(reesToGraded_surjective I).range_eq]; exact Set.subset_univ _)
   · rintro ⟨W, hW, rfl⟩

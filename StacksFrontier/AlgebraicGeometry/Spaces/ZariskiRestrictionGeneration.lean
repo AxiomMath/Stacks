@@ -133,7 +133,7 @@ theorem eq_zero_of_restrictToChartScheme_comp_eq_zero (A : SmallEtale B S hS F) 
   refine PresheafOfModules.hom_ext fun V => ?_
   ext x
   obtain ⟨V⟩ := V
-  show (adj.homEquiv _ _ g).app (op V) x = (0 : Q.val.obj (op V))
+  change (adj.homEquiv _ _ g).app (op V) x = (0 : Q.val.obj (op V))
   refine Stacks.SheafOfModules.eq_zero_of_locally_eq_zero (M := Q)
     (S := Sieve.generate (fun (V' : (chartScheme A).Opens) (_ : V' ⟶ V) => IsAffineOpen V'))
     _ ?_ fun V' f hf => ?_

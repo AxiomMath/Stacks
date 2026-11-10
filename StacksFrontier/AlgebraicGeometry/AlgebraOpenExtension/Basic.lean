@@ -64,7 +64,8 @@ and what each needs:
   the corresponding inputs are both absent. First, full faithfulness of
   `TopCat.Sheaf.pushforward CommRingCat j.base` for an open embedding: the repository has this
   shape only for a *closed* subset inclusion
-  (`Stacks.Topology.Sheaves.ClosedImmersion`, `StacksFrontier/Topology/Sheaves/ClosedImmersion/PushforwardAlgStruct.lean:157`), and pinned
+  (`Stacks.Topology.Sheaves.ClosedImmersion`,
+  `StacksFrontier/Topology/Sheaves/ClosedImmersion/PushforwardAlgStruct.lean:157`), and pinned
   Mathlib's `Mathlib/Topology/Sheaves/Functors.lean` states no fullness or faithfulness for
   `Topology.IsOpenEmbedding`. Second, `IsIso (inverseImageStructureMap j)` — the identification
   `j⁻¹𝒪_X ≅ 𝒪_U` that makes `algebraPullback j` the plain inverse image rather than a pushout

@@ -246,7 +246,7 @@ theorem isH1Regular_iff_ker_le_relSpan (f : Fin r → A) :
   rw [IsH1Regular, ← HomologicalComplex.exactAt_iff_isZero_homology,
     HomologicalComplex.exactAt_iff' _ 2 1 0 (by simp) (by simp),
     ShortComplex.moduleCat_exact_iff_ker_sub_range]
-  show LinearMap.ker (d (seqDual f) 0) ≤ LinearMap.range (d (seqDual f) 1)
+  change LinearMap.ker (d (seqDual f) 0) ≤ LinearMap.range (d (seqDual f) 1)
     ↔ LinearMap.ker (seqDual f) ≤ relSpan f
   rw [← map_ker_d_zero, ← map_range_d_one]
   exact (Submodule.map_le_map_iff_of_injective
@@ -281,7 +281,7 @@ theorem span_range_eq_relSpan {g : Fin r → Fin r → (Fin r → A)} (f : Fin r
 theorem isH1Regular_iff_forall (f : Fin r → A) :
     IsH1Regular f ↔ ∀ a : Fin r → A, (∑ i, a i * f i = 0) → a ∈ relSpan f := by
   rw [isH1Regular_iff_ker_le_relSpan]
-  simp only [SetLike.le_def, LinearMap.mem_ker, seqDual_apply]
+  simp only [IsConcreteLE.le_iff, LinearMap.mem_ker, seqDual_apply]
 
 /-! ### The degree-one differential -/
 
@@ -315,7 +315,7 @@ theorem range_d_zero {A : Type*} [CommRing A] {r : ℕ} (f : Fin r → A) :
     Submodule.map (exteriorPower.zeroEquiv A (Fin r → A) : (⋀[A]^0 (Fin r → A)) →ₗ[A] A)
         (LinearMap.range (Koszul.d (Koszul.seqDual f) 0)) =
       Ideal.span (Set.range f) := by
-  show Submodule.map _ _ = Submodule.span A (Set.range f)
+  change Submodule.map _ _ = Submodule.span A (Set.range f)
   rw [← Fintype.range_linearCombination A f]
   ext a
   constructor

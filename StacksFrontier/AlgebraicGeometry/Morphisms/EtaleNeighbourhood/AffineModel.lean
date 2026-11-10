@@ -367,7 +367,7 @@ private theorem over_pullback_map_fst {T S : Scheme.{u}} (b : S ⟶ T)
     {A B : Over T} (g : A ⟶ B) :
     ((Over.pullback b).map g).left ≫ pullback.fst B.hom b =
       pullback.fst A.hom b ≫ g.left := by
-  show pullback.lift (pullback.fst A.hom b ≫ g.left) (pullback.snd A.hom b)
+  change pullback.lift (pullback.fst A.hom b ≫ g.left) (pullback.snd A.hom b)
     (by rw [Category.assoc, Over.w g, pullback.condition]) ≫ pullback.fst B.hom b = _
   exact pullback.lift_fst _ _ _
 
@@ -547,7 +547,7 @@ theorem exists_finiteTypeAffineModel_inf
   let pM := model_baseChange pK (D.map emA) (c.π.app m) (c.w emA)
   let qM := model_baseChange qK (D.map emA) (c.π.app m) (c.w emA)
   have hQm : Q pM.f₀ := by
-    show Q ((Over.pullback (D.map emA)).obj Ak).hom
+    change Q ((Over.pullback (D.map emA)).obj Ak).hom
     have : IsIso iso.hom := Iso.isIso_hom iso
     have : IsIso iso.hom.left := (Over.forget (D.obj m)).map_isIso iso.hom
     have hs : IsPullback iso.hom.left
@@ -603,17 +603,17 @@ theorem exists_finiteTypeAffineModel_fiberwise
     rintro _ ⟨x, rfl⟩
     have hx := hf x
     rw [hbc m.locallyOfFiniteType m.isPullback] at hx
-    show g (c.π.app i x) ∈ Q m.X₀ m.S₀ m.f₀
+    change g (c.π.app i x) ∈ Q m.X₀ m.S₀ m.f₀
     rwa [← Scheme.Hom.comp_apply, hg]
   obtain ⟨j, hle, hsub⟩ :=
     (eventually_range_transition_subset_of_isLocallyConstructible Dsit E hE hlim).exists
   let t : D.obj (Opposite.op j) ⟶ D.obj i := D.map (homOfLE hle).op
   have hw : c.π.app (Opposite.op j) ≫ (t ≫ g) = m.toBase := by
     rw [← Category.assoc]
-    show (c.π.app (Opposite.op j) ≫ D.map (homOfLE hle).op) ≫ g = m.toBase
+    change (c.π.app (Opposite.op j) ≫ D.map (homOfLE hle).op) ≫ g = m.toBase
     rwa [c.w (homOfLE hle).op]
   refine ⟨model_baseChange m (t ≫ g) (c.π.app (Opposite.op j)) hw, fun s₀ ↦ ?_⟩
-  show s₀ ∈ Q (pullback m.f₀ (t ≫ g)) (D.obj (Opposite.op j)) (pullback.snd m.f₀ (t ≫ g))
+  change s₀ ∈ Q (pullback m.f₀ (t ≫ g)) (D.obj (Opposite.op j)) (pullback.snd m.f₀ (t ≫ g))
   rw [hbc m.locallyOfFiniteType (IsPullback.of_hasPullback m.f₀ (t ≫ g))]
   exact hsub ⟨s₀, rfl⟩
 

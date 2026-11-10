@@ -296,6 +296,7 @@ section Modules
 
 variable (hτ : τ ≤ B.topology)
 
+set_option linter.checkUnivs false in
 /-- **The structure sheaf of rings of the big `τ`-site of a scheme**, with its rings lifted to the
 universe `max v w (u + 1)`. Its ring of sections over `V → T` is `Γ(V, O_V)`, transported through
 `ULift`; the lift is the one `AlgebraicGeometry.Stack.ringStructureSheaf` applies to the structure

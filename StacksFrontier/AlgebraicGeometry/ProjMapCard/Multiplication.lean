@@ -68,8 +68,8 @@ Each of the identities above is used in the spelling
 
 ## What is not done
 
-The unit law in the spelling of the tagged statement and uniqueness of the family of comparison maps are not
-proved here; neither is the statement that `θ` is an isomorphism.
+The unit law in the spelling of the tagged statement and uniqueness of the family of comparison
+maps are not proved here; neither is the statement that `θ` is an isomorphism.
 
 ## References
 
@@ -339,8 +339,8 @@ public theorem twistMap_comp_pullbackTwistMultiplication (ψ : 𝒜 →+*ᵍ ℬ
       (twistingSheaf 𝒜 n) (twistingSheaf 𝒜 m) U s t).symm
 
 /-- **Tag 01MY, graded-algebra multiplication, on the canonical bundle.** The tagged
-statement's spelling of `twistMap_comp_pullbackTwistMultiplication`: the morphism and the twist maps are the
-fields of `Stacks.AlgebraicGeometry.ProjTwistCompare.projMapData`. -/
+statement's spelling of `twistMap_comp_pullbackTwistMultiplication`: the morphism and the twist
+maps are the fields of `Stacks.AlgebraicGeometry.ProjTwistCompare.projMapData`. -/
 @[stacks 01MY "graded-algebra multiplication"]
 public theorem projMapData_preserves_products (ψ : 𝒜 →+*ᵍ ℬ)
     (n m : ℤ) :

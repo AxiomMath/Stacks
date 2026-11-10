@@ -131,7 +131,7 @@ theorem preservesFiniteLimits_liftStructureModules :
   let G := SheafOfModules.forget _ ⋙ PresheafOfModules.toPresheaf
     (ringSheaf (liftedStructureSheaf.{u, w} X)).obj
   have : PreservesFiniteLimits (liftStructureModules.{u, w} X ⋙ G) := by
-    show PreservesFiniteLimits
+    change PreservesFiniteLimits
       ((SheafOfModules.forget _ ⋙ PresheafOfModules.toPresheaf (ringSheaf X.sheaf).obj) ⋙
         (Functor.whiskeringRight _ AddCommGrpCat.{u} AddCommGrpCat.{max w (u + 1)}).obj
           AddCommGrpCat.uliftFunctor.{max w (u + 1), u})
@@ -227,7 +227,7 @@ theorem sheafificationLiftIso_hom_naturality
   rw [Adjunction.homEquiv_naturality_left, Adjunction.homEquiv_naturality_right,
     PresheafOfModules.sheafificationAdjunction_homEquiv_apply,
     PresheafOfModules.sheafificationAdjunction_homEquiv_apply]
-  show _ ≫ PresheafOfModules.sheafificationHomEquiv _
+  change _ ≫ PresheafOfModules.sheafificationHomEquiv _
       ((PresheafOfModules.sheafificationHomEquiv _).symm _) =
     PresheafOfModules.sheafificationHomEquiv _
       ((PresheafOfModules.sheafificationHomEquiv _).symm _) ≫ _

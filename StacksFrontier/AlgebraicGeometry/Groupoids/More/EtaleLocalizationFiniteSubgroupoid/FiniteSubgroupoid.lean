@@ -169,7 +169,7 @@ private lemma isIso_coprod_desc_restrictPieceMap {B B' S X Y : Scheme.{u}} {V : 
       restrictPieceMap_range, Set.inf_eq_inter, Set.sup_eq_union,
       Set.bot_eq_empty, Set.top_eq_univ] using hc
   obtain ⟨hcolim⟩ := nonempty_isColimit_binaryCofanMk_of_isCompl _ _ hc'
-  show IsIso ((coprodIsCoprod _ _).coconePointUniqueUpToIso hcolim).hom
+  change IsIso ((coprodIsCoprod _ _).coconePointUniqueUpToIso hcolim).hom
   infer_instance
 
 private lemma mem_range_comp_iso_inv {X Y Z : Scheme.{u}} (j : X ⟶ Y) (e : Z ≅ Y)
@@ -197,7 +197,7 @@ private lemma pullback_point_eq_of_residueFieldMap_isIso
   let : IsIso ((S.residueFieldCongr T.hy).inv ≫ g.residueFieldMap T.y) := by
     infer_instance
   let : IsIso T.tensorInl := by
-    show IsIso (pushout.inl
+    change IsIso (pushout.inl
       ((S.residueFieldCongr T.hx).inv ≫ f.residueFieldMap T.x)
       ((S.residueFieldCongr T.hy).inv ≫ g.residueFieldMap T.y))
     infer_instance
@@ -251,13 +251,13 @@ private lemma baseChange_orbit
       pullback.fst G.objects.hom N.toBase z ∈ G.target.left '' (G.source.left ⁻¹' {u})} := by
   intro s t
   have hsf : s ≫ pullback.fst G.objects.hom N.toBase =
-      pullback.fst G.arrows.hom N.toBase ≫ G.source.left := by simp [s, pullbackMap_fst]
+      pullback.fst G.arrows.hom N.toBase ≫ G.source.left := by simp [s]
   have htf : t ≫ pullback.fst G.objects.hom N.toBase =
-      pullback.fst G.arrows.hom N.toBase ≫ G.target.left := by simp [t, pullbackMap_fst]
+      pullback.fst G.arrows.hom N.toBase ≫ G.target.left := by simp [t]
   have hsb : s ≫ pullback.snd G.objects.hom N.toBase =
-      pullback.snd G.arrows.hom N.toBase := by simp [s, pullbackMap_snd]
+      pullback.snd G.arrows.hom N.toBase := by simp [s]
   have htb : t ≫ pullback.snd G.objects.hom N.toBase =
-      pullback.snd G.arrows.hom N.toBase := by simp [t, pullbackMap_snd]
+      pullback.snd G.arrows.hom N.toBase := by simp [t]
   have uniq (z z' : (pullback G.objects.hom N.toBase : Scheme))
       (he : pullback.fst G.objects.hom N.toBase z = pullback.fst G.objects.hom N.toBase z')
       (hz : pullback.snd G.objects.hom N.toBase z = N.point)
@@ -273,7 +273,7 @@ private lemma baseChange_orbit
       rw [← hsb, Scheme.Hom.comp_apply, hr, hvp]
     refine ⟨?_, pullback.fst G.arrows.hom N.toBase r, ?_, ?_⟩
     · rwa [← Scheme.Hom.comp_apply, htb]
-    · show G.source.left (pullback.fst G.arrows.hom N.toBase r) = u
+    · change G.source.left (pullback.fst G.arrows.hom N.toBase r) = u
       rw [← Scheme.Hom.comp_apply, ← hsf, Scheme.Hom.comp_apply, hr, hv]
     · exact (congrArg (fun f => f r) htf).symm
   · rintro ⟨hz, r, hrs, hrt⟩
@@ -281,7 +281,7 @@ private lemma baseChange_orbit
       rw [N.map_point, ← G.source.w, Scheme.Hom.comp_apply, hrs, hu]
     obtain ⟨r', hr'f, hr'b⟩ := Scheme.Pullback.exists_preimage_pullback r N.point hrp
     refine ⟨r', ?_, ?_⟩
-    · show s r' = v
+    · change s r' = v
       apply uniq _ _ ?_ ?_ hvp
       · rw [← Scheme.Hom.comp_apply, hsf, Scheme.Hom.comp_apply, hr'f, hrs, hv]
       · rw [← Scheme.Hom.comp_apply, hsb, hr'b]
@@ -473,20 +473,20 @@ public theorem exists_finite_openClosed_subgroupoid
   let U : Over N.scheme := Over.mk (iU₁ ≫ pullback.snd G.objects.hom N.toBase)
   let R : Over N.scheme := Over.mk (iR₁ ≫ pullback.snd G.arrows.hom N.toBase)
   let jU : U ⟶ B.objects := Over.homMk (iU₁ ≫ eU.inv) (by
-    show (iU₁ ≫ eU.inv) ≫ B.objects.hom = _
+    change (iU₁ ≫ eU.inv) ≫ B.objects.hom = _
     rw [Category.assoc, show eU.inv ≫ B.objects.hom =
       pullback.snd G.objects.hom N.toBase from BC.isPullback_objects.isoPullback_inv_snd]
     rfl)
   let jR : R ⟶ B.arrows := Over.homMk (iR₁ ≫ eR.inv) (by
-    show (iR₁ ≫ eR.inv) ≫ B.arrows.hom = _
+    change (iR₁ ≫ eR.inv) ≫ B.arrows.hom = _
     rw [Category.assoc, show eR.inv ≫ B.arrows.hom =
       pullback.snd G.arrows.hom N.toBase from BC.isPullback_arrows.isoPullback_inv_snd]
     rfl)
   have : IsOpenImmersion jU.left := by
-    show IsOpenImmersion (pullback.snd iU₀ aU ≫ eU.inv)
+    change IsOpenImmersion (pullback.snd iU₀ aU ≫ eU.inv)
     infer_instance
   have : IsOpenImmersion jR.left := by
-    show IsOpenImmersion (pullback.snd iR₀ aR ≫ eR.inv)
+    change IsOpenImmersion (pullback.snd iR₀ aR ≫ eR.inv)
     infer_instance
   have : IsFinite U.hom := hiU₁Finite
   have : IsFinite R.hom := hiR₁Finite
@@ -572,23 +572,23 @@ public theorem exists_finite_openClosed_subgroupoid
     (restrictPieceMap_snd hdU iU₁).symm
   have hbaseR' : H.arrows.hom = R.hom ∣_ V := by
     apply (cancel_mono V.ι).mp
-    show (K.source.left ≫ f) ≫ V.ι = (R.hom ∣_ V) ≫ V.ι
+    change (K.source.left ≫ f) ≫ V.ι = (R.hom ∣_ V) ≫ V.ι
     rw [Category.assoc, hf, K.source.w, morphismRestrict_ι]
     rfl
   have hbaseR : H.arrows.hom = L ≫ pullback.snd G.arrows.hom M.toBase :=
     hbaseR'.trans (restrictPieceMap_snd hdR iR₁).symm
-  have hHU : IsFinite H.objects.hom := by show IsFinite (U.hom ∣_ V); infer_instance
+  have hHU : IsFinite H.objects.hom := by change IsFinite (U.hom ∣_ V); infer_instance
   have hHR : IsFinite H.arrows.hom := by rw [hbaseR']; infer_instance
   let qU := F.mapObjects.left ≫ BC.projection.mapObjects.left
   let qR := F.mapArrows.left ≫ BC.projection.mapArrows.left
   have hqU : qU = (U.hom ⁻¹ᵁ V).ι ≫ iU₁ ≫ pullback.fst G.objects.hom N.toBase := by
-    show ((𝟙 _) ≫ ((U.hom ⁻¹ᵁ V).ι ≫ (iU₁ ≫ eU.inv))) ≫
+    change ((𝟙 _) ≫ ((U.hom ⁻¹ᵁ V).ι ≫ (iU₁ ≫ eU.inv))) ≫
       BC.projection.mapObjects.left = _
     simp only [Category.id_comp, Category.assoc]
     rw [show eU.inv ≫ BC.projection.mapObjects.left =
       pullback.fst G.objects.hom N.toBase from BC.isPullback_objects.isoPullback_inv_fst]
   have hqR : qR = (R.hom ⁻¹ᵁ V).ι ≫ iR₁ ≫ pullback.fst G.arrows.hom N.toBase := by
-    show ((𝟙 _) ≫ ((R.hom ⁻¹ᵁ V).ι ≫ (iR₁ ≫ eR.inv))) ≫
+    change ((𝟙 _) ≫ ((R.hom ⁻¹ᵁ V).ι ≫ (iR₁ ≫ eR.inv))) ≫
       BC.projection.mapArrows.left = _
     simp only [Category.id_comp, Category.assoc]
     rw [show eR.inv ≫ BC.projection.mapArrows.left =
@@ -658,14 +658,14 @@ public theorem exists_finite_openClosed_subgroupoid
       sM ⁻¹' (J '' {x : H.objects.left | H.objects.hom x = M.point}) := by
     rw [hLimage, hJimage]
     ext r
-    show (pullback.snd G.arrows.hom M.toBase r = M.point ∧
+    change (pullback.snd G.arrows.hom M.toBase r = M.point ∧
       G.source.left (pullback.fst G.arrows.hom M.toBase r) ∈ orbit) ↔
       (pullback.snd G.objects.hom M.toBase (sM r) = M.point ∧
       pullback.fst G.objects.hom M.toBase (sM r) ∈ orbit)
     have hb : sM ≫ pullback.snd G.objects.hom M.toBase =
-        pullback.snd G.arrows.hom M.toBase := by simp [sM, pullbackMap_snd]
+        pullback.snd G.arrows.hom M.toBase := by simp [sM]
     have hf' : sM ≫ pullback.fst G.objects.hom M.toBase =
-        pullback.fst G.arrows.hom M.toBase ≫ G.source.left := by simp [sM, pullbackMap_fst]
+        pullback.fst G.arrows.hom M.toBase ≫ G.source.left := by simp [sM]
     have hb' := congrArg (fun m => m r) hb
     have hf'' := congrArg (fun m => m r) hf'
     change pullback.snd G.objects.hom M.toBase (sM r) = _ at hb'
@@ -679,7 +679,7 @@ public theorem exists_finite_openClosed_subgroupoid
   have wab : a ≫ B.source = b ≫ B.target := by
     simp only [a, b, Category.assoc, F.map_source, F.map_target,
       ← Functor.map_comp_assoc]
-    show (Over.map V.ι).map (pullback.fst H.source H.target ≫ H.source) ≫ F.mapObjects =
+    change (Over.map V.ι).map (pullback.fst H.source H.target ≫ H.source) ≫ F.mapObjects =
       (Over.map V.ι).map (pullback.snd H.source H.target ≫ H.target) ≫ F.mapObjects
     rw [pullback.condition]
   let aG := (Over.map N.toBase).map a ≫ BC.projection.mapArrows
@@ -687,7 +687,7 @@ public theorem exists_finite_openClosed_subgroupoid
   have wabG : aG ≫ G.source = bG ≫ G.target := by
     simp only [aG, bG, Category.assoc, BC.projection.map_source, BC.projection.map_target,
       ← Functor.map_comp_assoc]
-    show (Over.map N.toBase).map (a ≫ B.source) ≫ BC.projection.mapObjects =
+    change (Over.map N.toBase).map (a ≫ B.source) ≫ BC.projection.mapObjects =
       (Over.map N.toBase).map (b ≫ B.target) ≫ BC.projection.mapObjects
     rw [wab]
   let kOver := pullback.lift aG bG wabG
@@ -720,7 +720,7 @@ public theorem exists_finite_openClosed_subgroupoid
     hLo, hLc, hLWo, hLWc, hLR, hbaseU, hbaseR, ?_, hHU, hHR, ?_, ?_,
     k, ?_, ?_, ?_⟩
   · refine ⟨u', ?_, hUf, hRf'⟩
-    show pullback.fst G.objects.hom M.toBase (J u') = u
+    change pullback.fst G.objects.hom M.toBase (J u') = u
     rw [hu', hvf]
   · simpa only [← hJq, ← hLq, Category.assoc] using hsource
   · simpa only [← hJq, ← hLq, Category.assoc] using htarget

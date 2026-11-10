@@ -81,7 +81,7 @@ theorem residueFieldCoordinates_residue (a : residueFieldObject.{u, v, w} Λ k) 
     (residueFieldObject.{u, v, w} Λ k).residueEquiv
         (IsLocalRing.residue (residueFieldObject.{u, v, w} Λ k) a) =
       residueFieldCoordinates.{u, v, w} (Λ := Λ) (k := k) a := by
-  show ((Ideal.quotientEquivAlgOfEq Λ
+  change ((Ideal.quotientEquivAlgOfEq Λ
       (IsLocalRing.maximalIdeal_eq_bot (R := ULift.{v, w} k))).trans
       ((AlgEquiv.quotientBot Λ (ULift.{v, w} k)).trans
         (ULift.algEquiv (R := Λ) (A := k))))
@@ -165,7 +165,7 @@ theorem dualNumbersTwistHom_zero
   rw [dualNumbersTwistHom_apply_ulift, Derivation.zero_apply]
   apply TrivSqZeroExt.ext
   · rfl
-  · show (0 : ULift.{v, w} k) + (b + ULift.up.{v, w} (0 : k)) = 0 + b
+  · change (0 : ULift.{v, w} k) + (b + ULift.up.{v, w} (0 : k)) = 0 + b
     rw [show ULift.up.{v, w} (0 : k) = 0 from rfl, add_zero]
 
 /-- Addition of derivations becomes composition of twisting automorphisms. -/
@@ -181,7 +181,7 @@ theorem dualNumbersTwistHom_add
     dualNumbersTwistHom_apply_ulift, Derivation.add_apply]
   apply TrivSqZeroExt.ext
   · rfl
-  · show (0 : ULift.{v, w} k) + (b + ULift.up.{v, w} (D a + E a)) =
+  · change (0 : ULift.{v, w} k) + (b + ULift.up.{v, w} (D a + E a)) =
       0 + ((b + ULift.up.{v, w} (E a)) + ULift.up.{v, w} (D a))
     rw [show ULift.up.{v, w} (D a + E a) =
       ULift.up.{v, w} (D a) + ULift.up.{v, w} (E a) from rfl]
@@ -309,7 +309,7 @@ theorem derivationAction_natural
       (derivationAction.{u, v, w} q hq).action
         (D, mapIsomorphismClasses hp.cofibered hq.cofibered φ
           (artinianDualNumbers.{u, w, v} Λ k) x) := by
-  show mapIsomorphismClasses hp.cofibered hq.cofibered φ
+  change mapIsomorphismClasses hp.cofibered hq.cofibered φ
       (artinianDualNumbers.{u, w, v} Λ k)
       ((isomorphismClasses (BasedCategory.ofFunctor p) hp.cofibered).map
         (dualNumbersTwistHom p hp D) x) =

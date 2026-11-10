@@ -90,15 +90,15 @@ private lemma curvePoint_not_closed (k : Type u) [Field k] (n : ℕ) (hn : 1 < n
   intro hmax
   have hle : (curvePoint k n hn m).asIdeal ≤ (zeroPoint k n).asIdeal := by
     intro p hp
-    show zeroEval k n p = 0
+    change zeroEval k n p = 0
     rw [← curveEval_comp_zero k n hn m hm]
     simp [(RingHom.mem_ker).mp hp]
   have hzero_ne_top : (zeroPoint k n).asIdeal ≠ ⊤ := (zeroPoint k n).isPrime.ne_top
   have hXzero : MvPolynomial.X (secondIndex n hn) ∈ (zeroPoint k n).asIdeal := by
-    show zeroEval k n (MvPolynomial.X (secondIndex n hn)) = 0
+    change zeroEval k n (MvPolynomial.X (secondIndex n hn)) = 0
     simp [zeroEval]
   have hXcurve : MvPolynomial.X (secondIndex n hn) ∉ (curvePoint k n hn m).asIdeal := by
-    show curveEval k n hn m (MvPolynomial.X (secondIndex n hn)) ≠ 0
+    change curveEval k n hn m (MvPolynomial.X (secondIndex n hn)) ≠ 0
     simp [curveEval, firstIndex, secondIndex, Polynomial.X_ne_zero]
   exact hXcurve ((hmax.eq_of_le hzero_ne_top hle) ▸ hXzero)
 
@@ -149,9 +149,9 @@ section Helpers
 private theorem affineOrigin_ideal_eq_span (k : Type u) [Field k] (n : ℕ) :
     (affineOrigin k n).asIdeal =
       Ideal.span (Set.range (MvPolynomial.X : Fin n → MvPolynomial (Fin n) k)) := by
-  show RingHom.ker (MvPolynomial.constantCoeff : MvPolynomial (Fin n) k →+* k) = _
+  change RingHom.ker (MvPolynomial.constantCoeff : MvPolynomial (Fin n) k →+* k) = _
   ext p
-  show MvPolynomial.constantCoeff p = 0 ↔
+  change MvPolynomial.constantCoeff p = 0 ↔
     p ∈ Ideal.span (Set.range (MvPolynomial.X : Fin n → _))
   rw [← Set.image_univ, MvPolynomial.mem_ideal_span_X_image]
   refine ⟨fun hp m hm => ?_, fun hp => ?_⟩
@@ -165,7 +165,7 @@ private theorem affineOrigin_ideal_eq_span (k : Type u) [Field k] (n : ℕ) :
 
 private theorem affineOrigin_isMaximal (k : Type u) [Field k] (n : ℕ) :
     (affineOrigin k n).asIdeal.IsMaximal := by
-  show (RingHom.ker (MvPolynomial.constantCoeff : MvPolynomial (Fin n) k →+* k)).IsMaximal
+  change (RingHom.ker (MvPolynomial.constantCoeff : MvPolynomial (Fin n) k →+* k)).IsMaximal
   apply RingHom.ker_isMaximal_of_surjective
   intro a
   exact ⟨MvPolynomial.C a, by simp⟩
@@ -179,7 +179,7 @@ private theorem affineOrigin_specializes_eq (k : Type u) [Field k] (n : ℕ)
 private theorem mem_punctured_of_ne_origin (k : Type u) [Field k] (n : ℕ)
     (x : Spec (.of (MvPolynomial (Fin n) k))) (hne : x ≠ affineOrigin k n) :
     x ∈ puncturedAffineSpace k n := by
-  show x ∈ (⨆ i, PrimeSpectrum.basicOpen (MvPolynomial.X i : MvPolynomial (Fin n) k))
+  change x ∈ (⨆ i, PrimeSpectrum.basicOpen (MvPolynomial.X i : MvPolynomial (Fin n) k))
   by_contra hx
   have hxi : ∀ i : Fin n, MvPolynomial.X i ∈ x.asIdeal := by
     intro i

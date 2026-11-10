@@ -151,6 +151,12 @@ public theorem coeffLevelComplexRestrictIso_smul (n : ℕ) (c : O) :
   exact (Category.assoc _ _ _).symm.trans ((congrArg (· ≫ _) h1).trans ((Category.assoc _ _ _).trans
     ((congrArg (_ ≫ ·) h2).trans (Category.assoc _ _ _).symm)))
 
+omit [∀ (n : ℕ) (S T : B.Scheme) (f : T ⟶ S),
+    ((AlgebraicGeometry.smallEtaleBaseChange B f).sheafPushforwardContinuous
+      (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))
+      (SmallEtale.topology B S.1 S.property)
+      (SmallEtale.topology B T.1 T.property)).IsRightAdjoint]
+  [AlgebraicGeometry.IsNoetherian X.1] in
 /-- **The `Λ'`-sheaf `G`, placed in degree `0`, lies in `D_ctf(X, Λ')`.** -/
 public theorem isCtf_coeffLevelComplex [Module.Finite ℤ_[ℓ] O] (n : ℕ) :
     IsCtf B (B.obj X.1 X.2) (coeffLevelRing ℓ O (n + 1))

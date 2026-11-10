@@ -206,8 +206,7 @@ private lemma tensorModule_of_scalarAction
     rw [one_smul]
   · intro M' hM'
     refine Module.ext' M' M fun t m => ?_
-    induction t using TensorProduct.induction_on with
-    | zero => exact (M'.zero_smul m).trans (M.zero_smul m).symm
+    induction t using TensorProduct.inductionOn with
     | add x y hx hy =>
       exact (M'.add_smul x y m).trans
         ((congrArg₂ (· + ·) hx hy).trans (M.add_smul x y m).symm)
@@ -434,10 +433,7 @@ theorem exists_unique_ringBaseChangeCohomologyMap
           map_add' := fun x y => q.hom.map_add x y
           map_smul' := fun t m => by
             change q.hom (t • m) = k t • (show H' from q.hom m)
-            induction t using TensorProduct.induction_on with
-            | zero =>
-              rw [zero_smul, k.map_zero]
-              exact q.hom.map_zero.trans (zero_smul A' (show H' from q.hom m)).symm
+            induction t using TensorProduct.inductionOn with
             | add x y hx hy =>
               rw [add_smul, k.map_add]
               exact (q.hom.map_add _ _).trans

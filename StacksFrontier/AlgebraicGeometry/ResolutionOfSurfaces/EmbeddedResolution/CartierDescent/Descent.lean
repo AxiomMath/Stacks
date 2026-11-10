@@ -54,8 +54,8 @@ point. -/
 public theorem pointBlowupColengthDescent :
     Stacks.ResolutionOfSurfaces.PointBlowupColengthDescent.{u} :=
   pointBlowupColengthDescent_of_local
-    (localColengthSplitting_of_colength fun A _ _ hdim _ _ hspan L n hmn hLm _ hd _ hfac hmax _
-      hT => sum_length_stalk_quotient_lt A hdim hspan L n hmn hLm hd hfac hmax _ hT)
+    (localColengthSplitting_of_colength fun A _ _ hdim _ _ hspan L n hmn _ _ hd _ hfac hmax T
+      _ => sum_length_stalk_quotient_lt A hdim hspan L n hmn hd hfac hmax T)
 
 end Stacks.ResolutionOfSurfaces.CartierDescent
 

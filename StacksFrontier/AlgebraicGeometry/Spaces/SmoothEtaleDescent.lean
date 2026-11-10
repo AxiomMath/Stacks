@@ -99,7 +99,7 @@ theorem hasPropertyULift_isSmoothULift_of_etale_cover
   intro T ξ
   let Sch := BigFppfOver.toScheme B S hS
   let Yo := uliftYoneda.{u + 1} (C := BigFppfOver B S hS)
-  show HoldsOnEveryEtaleChartULift.{u + 1} B S hS (@AlgebraicGeometry.Smooth.{u})
+  change HoldsOnEveryEtaleChartULift.{u + 1} B S hS (@AlgebraicGeometry.Smooth.{u})
     (pullback.fst ξ g)
   -- an étale chart `Y₀` of `T ×_W W'`, étale over `T`
   obtain ⟨Y₀, y, hyS, hyE⟩ := (hψ T ξ).exists_atlas
@@ -132,7 +132,7 @@ theorem hasPropertyULift_isSmoothULift_of_etale_cover
   have ha₀S := ha₀ _ hxS hyS haS
   have hsq : Yo.map (h₁ ≫ hY) ≫ 𝟙 _ = a₀ ≫ pullback.fst ξ g := by
     rw [Category.comp_id, Yo.map_comp, hh₁, hhY]
-    show (x ≫ pullback.fst (y ≫ pullback.snd ξ ψ) g') ≫ y ≫ pullback.fst ξ ψ =
+    change (x ≫ pullback.fst (y ≫ pullback.snd ξ ψ) g') ≫ y ≫ pullback.fst ξ ψ =
       x ≫ m₁ ≫ pullback.fst (pullback.snd ξ g) a ≫ pullback.fst ξ g
     rw [Category.assoc, hcomm]
   exact holdsOnEveryEtaleChartULift_of_surjectiveChart B S hS (@AlgebraicGeometry.Smooth.{u})

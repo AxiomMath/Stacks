@@ -194,7 +194,7 @@ private lemma stabilizerPoint_one {S : Scheme.{u}} (G : GroupoidScheme S)
       Over.homMk ((Over.map (firstProjection G)).obj T).hom ≫ η[stabilizer G] := by
   let : GrpObj (Over.mk (stabilizer G).hom) := inferInstanceAs (GrpObj (stabilizer G))
   apply Over.OverMorphism.ext
-  show (k ≫ η[stabilizerOverPairs G]).left ≫
+  change (k ≫ η[stabilizerOverPairs G]).left ≫
       pullback.fst (stabilizer G).hom (firstProjection G) =
     ((Over.map (firstProjection G)).obj T).hom ≫ η[stabilizer G].left
   rw [Over.grpObjMkPullbackSnd_one]
@@ -244,7 +244,7 @@ private lemma stabilizerPoint_one {S : Scheme.{u}} (G : GroupoidScheme S)
       simpa only [Category.assoc] using congrArg
         (fun q => k.left ≫ q ≫ η[stabilizer G].left) hfst
     _ = ((Over.map (firstProjection G)).obj T).hom ≫ η[stabilizer G].left := by
-      show k.left ≫ firstProjection G ≫ η[stabilizer G].left =
+      change k.left ≫ firstProjection G ≫ η[stabilizer G].left =
         (T.hom ≫ firstProjection G) ≫ η[stabilizer G].left
       have hk : k.left = T.hom := by simpa using k.w
       rw [hk, Category.assoc]
@@ -257,7 +257,7 @@ private lemma stabilizerPoint_mul {S : Scheme.{u}} (G : GroupoidScheme S)
       lift (stabilizerPoint G g) (stabilizerPoint G h) ≫ μ[stabilizer G] := by
   let : GrpObj (Over.mk (stabilizer G).hom) := inferInstanceAs (GrpObj (stabilizer G))
   apply Over.OverMorphism.ext
-  show (lift g h ≫ μ[stabilizerOverPairs G]).left ≫
+  change (lift g h ≫ μ[stabilizerOverPairs G]).left ≫
       pullback.fst (stabilizer G).hom (firstProjection G) =
     (lift (stabilizerPoint G g) (stabilizerPoint G h) ≫ μ[stabilizer G]).left
   rw [Over.grpObjMkPullbackSnd_mul]
@@ -325,7 +325,7 @@ private lemma stabilizerPoint_mul {S : Scheme.{u}} (G : GroupoidScheme S)
                   (Over.mk (stabilizer G).hom) (Over.mk (stabilizer G).hom)).left ≫ q)
                 hmap
     _ = _ := by
-      show ((lift g h).left ≫
+      change ((lift g h).left ≫
           (Functor.LaxMonoidal.μ (Over.pullback (firstProjection G))
             (Over.mk (stabilizer G).hom) (Over.mk (stabilizer G).hom)).left ≫
           pullback.fst (Over.mk (stabilizer G).hom ⊗ Over.mk (stabilizer G).hom).hom
@@ -392,13 +392,13 @@ private lemma pairActionMap_spec {S : Scheme.{u}} (G : GroupoidScheme S)
   have ha : k ≫ a = stabilizerArrowHom G (stabilizerPoint G g) := by
     apply Over.OverMorphism.ext
     have hf := congrArg Over.Hom.left (lift_fst g r)
-    show (lift g r ≫ gs).left ≫
+    change (lift g r ≫ gs).left ≫
       pullback.fst (stabilizer G).hom (firstProjection G) ≫ stabilizerArrow G =
       g.left ≫ pullback.fst (stabilizer G).hom (firstProjection G) ≫ stabilizerArrow G
     rw [hf]
   have hb : k ≫ b = arrowOverTargetHom G (arrowPoint G r) := by
     apply Over.OverMorphism.ext
-    show (lift g r ≫ ar).left = r.left
+    change (lift g r ≫ ar).left = r.left
     exact congrArg Over.Hom.left (lift_snd g r)
   have hbase : arrowOverTargetHom G (arrowPoint G (pairActionMap G)) =
       G.compose a b w := by
@@ -430,8 +430,8 @@ private lemma arrowPoint_source {S : Scheme.{u}} (G : GroupoidScheme S)
     (arrowOverTargetHom G (arrowPoint G r) ≫ G.source).left =
       T.hom ≫ (snd G.objects G.objects).left := by
   have hs : (sourceTarget G).left ≫ (snd G.objects G.objects).left = G.source.left := by
-    simp [sourceTarget, Over.lift_left, Over.snd_left, pullback.lift_snd]
-  show r.left ≫ G.source.left = T.hom ≫ (snd G.objects G.objects).left
+    simp [sourceTarget, Over.lift_left, Over.snd_left]
+  change r.left ≫ G.source.left = T.hom ≫ (snd G.objects G.objects).left
   calc
     r.left ≫ G.source.left = r.left ≫ (sourceTarget G).left ≫
         (snd G.objects G.objects).left := by rw [hs]
@@ -453,17 +453,17 @@ private lemma loop_comp_sourceTarget {S : Scheme.{u}} (G : GroupoidScheme S)
   apply pullback.hom_ext
   · have h₁ : (sourceTarget G).left ≫ pullback.fst G.objects.hom G.objects.hom =
         G.target.left := by
-      simp [sourceTarget, Over.lift_left, pullback.lift_fst]
+      simp [sourceTarget, Over.lift_left]
     have h₂ : (diagonal G).left ≫ pullback.fst G.objects.hom G.objects.hom = 𝟙 _ := by
-      simp [diagonal, Over.lift_left, pullback.lift_fst]
+      simp [diagonal, Over.lift_left]
     rw [Over.comp_left, Over.comp_left, Category.assoc, Category.assoc, h₁, h₂,
       Category.comp_id]
     exact htarget
   · have h₁ : (sourceTarget G).left ≫ pullback.snd G.objects.hom G.objects.hom =
         G.source.left := by
-      simp [sourceTarget, Over.lift_left, pullback.lift_snd]
+      simp [sourceTarget, Over.lift_left]
     have h₂ : (diagonal G).left ≫ pullback.snd G.objects.hom G.objects.hom = 𝟙 _ := by
-      simp [diagonal, Over.lift_left, pullback.lift_snd]
+      simp [diagonal, Over.lift_left]
     rw [Over.comp_left, Over.comp_left, Category.assoc, Category.assoc, h₁, h₂,
       Category.comp_id]
     exact hsource
@@ -499,7 +499,7 @@ private lemma stabilizerArrowHom_pointOfLoop {S : Scheme.{u}} (G : GroupoidSchem
   let B := (Over.map G.objects.hom).obj T₀
   let b : B ⟶ G.objects := Over.homMk T₀.hom
   have hcompat := loop_comp_sourceTarget G f hsource htarget
-  show (pullback.lift f b hcompat).left ≫
+  change (pullback.lift f b hcompat).left ≫
       (pullback.fst (sourceTarget G) (diagonal G)).left = f.left
   exact congrArg Over.Hom.left (pullback.lift_fst f b hcompat)
 
@@ -534,7 +534,7 @@ private lemma stabilizerPoint_injective {S : Scheme.{u}} (G : GroupoidScheme S)
   · exact congrArg (fun q => q.left) e
   · have eg := g.w
     have eh := h.w
-    show g.left ≫ pullback.snd (stabilizer G).hom (firstProjection G) =
+    change g.left ≫ pullback.snd (stabilizer G).hom (firstProjection G) =
       h.left ≫ pullback.snd (stabilizer G).hom (firstProjection G)
     calc
       _ = T.hom := by simpa [stabilizerOverPairs] using eg
@@ -546,7 +546,7 @@ private theorem stabilizerActionOverPairs_nonempty {S : Scheme.{u}} (G : Groupoi
   let : ModObj (stabilizerOverPairs G) (arrowsOverPairs G) := {
     smul := pairActionMap G
     one_smul := by
-      show η ▷ arrowsOverPairs G ≫ pairActionMap G =
+      change η ▷ arrowsOverPairs G ≫ pairActionMap G =
         (λ_ (arrowsOverPairs G)).hom
       rw [← lift_comp_fst_snd (η[stabilizerOverPairs G] ▷ arrowsOverPairs G)]
       simp only [whiskerRight_fst, whiskerRight_snd]
@@ -577,7 +577,7 @@ private theorem stabilizerActionOverPairs_nonempty {S : Scheme.{u}} (G : Groupoi
       exact congrArg (fun q => q.left)
         (arrowPoint_injective G (hpoint'.trans hright.symm))
     mul_smul := by
-      show μ[stabilizerOverPairs G] ▷ arrowsOverPairs G ≫ pairActionMap G =
+      change μ[stabilizerOverPairs G] ▷ arrowsOverPairs G ≫ pairActionMap G =
         (α_ (stabilizerOverPairs G) (stabilizerOverPairs G)
           (arrowsOverPairs G)).hom ≫
           stabilizerOverPairs G ◁ pairActionMap G ≫ pairActionMap G
@@ -655,7 +655,7 @@ private theorem stabilizerActionOverPairs_nonempty {S : Scheme.{u}} (G : Groupoi
       have hinner' :
           arrowPoint G inner =
             stabilizerPoint G p2 • arrowPoint G p3 := by
-        show arrowPoint G (lift p2 p3 ≫ pairActionMap G) = _
+        change arrowPoint G (lift p2 p3 ≫ pairActionMap G) = _
         exact hinner
       have hpoint :
           arrowPoint G (leftPair ≫ pairActionMap G) =

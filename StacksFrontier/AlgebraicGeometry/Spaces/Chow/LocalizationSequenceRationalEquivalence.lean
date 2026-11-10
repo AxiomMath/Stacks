@@ -182,7 +182,7 @@ theorem PrimeDivisor.exists_closureImage_eq
     exact Z.codimension_integralClosedSubspaceSupport D.site D.base D.base_mem hX
   refine ⟨A.toPrimeDivisor D.site D.base D.base_mem hU hcod,
     PrimeDivisor.eq_of_subspace_eq D.site D.base D.base_mem ?_⟩
-  show (IntegralClosedSubspace.closureImage D.site D.base D.base_mem hX hXdec j
+  change (IntegralClosedSubspace.closureImage D.site D.base D.base_mem hX hXdec j
       ((A.toPrimeDivisor D.site D.base D.base_mem hU hcod).toIntegralClosedSubspace
         D.site D.base D.base_mem)).subspace = Z.subspace
   rw [IntegralClosedSubspace.toIntegralClosedSubspace_toPrimeDivisor, hA]
@@ -311,7 +311,7 @@ theorem embLiftOfOpenImmersion_eq_transport
         Z.genericPoint D.site D.base D.base_mem X := ⟨Z', h⟩
   rw [show embLiftOfOpenImmersion D hX hU hXdec hUdec hj e embU emb0 Z =
       embTransportOfGenericPointEq D hX hU hXdec hUdec hj e embU hex.choose hex.choose_spec from
-    dif_pos hex]
+    dite_eq_left hex]
   exact embTransportOfGenericPointEq_congr D hX hU hXdec hUdec hj e embU hex.choose_spec h
 
 /-- The embedding chosen at the prime divisor on the closure of the image of `Z'` carries a
@@ -404,7 +404,7 @@ theorem locallyFinite_primeDivisorCoefficients_of_isOpenImmersion
       (f := fun Z : PrimeDivisor D.site D.base D.base_mem A =>
         if src Z = 0 then ∅ else Z.support D.site D.base D.base_mem A)
       (fun Z hZ => ?_) (fun Z => ?_) hsrcfin
-    · refine if_neg fun hc => ?_
+    · refine ite_eq_right fun hc => ?_
       obtain ⟨Z₀, hZ₀⟩ :=
         PrimeDivisor.exists_closureImage_eq D hC hA hCdec hAdec hmopen Z hc.2
       exact hZ Z₀ hZ₀
@@ -412,7 +412,7 @@ theorem locallyFinite_primeDivisorCoefficients_of_isOpenImmersion
           D.site D.base D.base_mem C =
           closure (pointsMap D.site D.base D.base_mem A m ''
             Z.support D.site D.base D.base_mem A) := by
-        show subspacePointSet D.site D.base D.base_mem C
+        change subspacePointSet D.site D.base D.base_mem C
             (Z.closureImage D.site D.base D.base_mem hC hA hCdec hmopen).subspace = _
         rw [PrimeDivisor.subspace_closureImage,
           IntegralClosedSubspace.subspacePointSet_closureImage]
@@ -420,8 +420,8 @@ theorem locallyFinite_primeDivisorCoefficients_of_isOpenImmersion
       by_cases hc : coeff (Z.closureImage D.site D.base D.base_mem hC hA hCdec hmopen) ≠ 0 ∧
           (Z.closureImage D.site D.base D.base_mem hC hA hCdec hmopen).genericPoint
             D.site D.base D.base_mem C ∈ Set.range (pointsMap D.site D.base D.base_mem A m)
-      · rw [if_pos hc, if_neg (by rw [← hagree Z]; exact hc.1), hsupp]
-      · rw [if_neg hc]
+      · rw [ite_eq_left hc, ite_eq_right (by rw [← hagree Z]; exact hc.1), hsupp]
+      · rw [ite_eq_right hc]
         exact Set.empty_subset _
   -- the whole family is covered by the two halves
   intro x

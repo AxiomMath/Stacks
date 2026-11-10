@@ -28,10 +28,11 @@ image of the source ring.  Two candidates live on `X_Zar`.
   `𝒪_X ⟶ u_{X/S, *}𝒪_{X/S}`, equivalently `u_{X/S}^{-1}𝒪_X ⟶ 𝒪_{X/S}`, would split every divided
   power thickening of the site on sections, and
   `Crystalline.GlobalCrystallineSituation.SmallSite.isEmpty_ringHom_zmod_sq` of
-  `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/ZariskiRingedComparison.lean` shows there is
-  no such splitting already for `Spec 𝔽_p ↪ Spec ℤ/p²`.  The canonical comparison runs the other
-  way, `...structureToZariskiInverseImage : 𝒪_{X/S} ⟶ u_{X/S}^{-1}𝒪_X`.  That analysis is correct
-  and is not disturbed here; **nothing below claims an `𝒪_X`-module structure on `Ru_{X/S, *}F`.**
+  `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/ZariskiRingedComparison.lean` shows
+  there is no such splitting already for `Spec 𝔽_p ↪ Spec ℤ/p²`.  The canonical comparison runs
+  the other way, `...structureToZariskiInverseImage : 𝒪_{X/S} ⟶ u_{X/S}^{-1}𝒪_X`.  That analysis
+  is correct and is not disturbed here; **nothing below claims an `𝒪_X`-module structure on
+  `Ru_{X/S, *}F`.**
   It agrees with the literature: `Ru_{X/S, *}𝒪_{X/S}` is computed by a de Rham complex, whose
   differentials are not `𝒪_X`-linear.
 
@@ -119,8 +120,8 @@ models.
 
 A note on left exactness.  One might expect `R^0 f_{cris, *} ≅ f_{cris, *}` to require
 exhibiting `Stacks.SheafOfModules.pushforwardCocontinuous` as a right adjoint.  A right adjoint is
-not needed for left exactness: `SheafOfModules.toSheaf` **reflects** finite limits, and the composite
-of the module-valued direct image with it is the abelian direct image, which preserves all
+not needed for left exactness: `SheafOfModules.toSheaf` **reflects** finite limits, and the
+composite of the module-valued direct image with it is the abelian direct image, which preserves all
 limits.  That is the proof of `preservesFiniteLimits_zariskiModuleDirectImageULift` below, and
 the same argument applied to the two cocontinuous factors of `f_{cris, *}` gives
 `...higherCrisModuleDirectImageZeroIso` of `SmallSite/CrisModuleLeftExact.lean`.  The functor is
@@ -155,8 +156,8 @@ What is **not** proved, and what this file does not address:
   neither stated nor proved here.
 * Nothing here carries a `@[stacks]` attribute.  The assertions of [Stacks, Tag 07IL] about the
   forgetful functor and the morphism of topoi are carried in
-  `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/ZariskiToposMorphism.lean`; this module only
-  adds module coefficients to that morphism, which is infrastructure.
+  `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/ZariskiToposMorphism.lean`; this module
+  only adds module coefficients to that morphism, which is infrastructure.
 
 ## References
 
@@ -309,7 +310,7 @@ theorem zariskiModuleDirectImage_comp_toSheaf :
     zariskiModuleDirectImage S ⋙
         SheafOfModules.toSheaf.{u + 1} (zariskiPushforwardStructureSheaf S) =
       toAbelianSheaf S ⋙ zariskiDirectImage S := by
-  show moduleRingULiftUp S ⋙ zariskiModuleDirectImageULift S ⋙
+  change moduleRingULiftUp S ⋙ zariskiModuleDirectImageULift S ⋙
     SheafOfModules.toSheaf.{u + 1} (zariskiPushforwardStructureSheaf S) = _
   rw [zariskiModuleDirectImageULift_comp_toSheaf, ← Functor.assoc,
     moduleRingULiftUp_comp_toSheaf]

@@ -145,10 +145,10 @@ theorem W_of_freeAlgebraSheaf
   have he (g : ((freeAlgebraSheaf.{v, u, w} J A).obj E).right.obj ⟶ T) :
       e g = (b ≫ (c ≫ g), x ≫ Functor.whiskerRight (c ≫ g) (forget _)) := by
     apply Prod.ext
-    · show ((freeAlgebraSheaf.{v, u, w} J A).obj E).hom.hom ≫ g = _
+    · change ((freeAlgebraSheaf.{v, u, w} J A).obj E).hom.hom ≫ g = _
       rw [← hb, Category.assoc]
     · ext U s
-      show (g.app U) ((((freeAlgebraSheafAdjunction.{v, u, w} J A).unit.app E).hom.app U)
+      change (g.app U) ((((freeAlgebraSheafAdjunction.{v, u, w} J A).unit.app E).hom.app U)
           (r.app U s)) = (g.app U) (c.app U (x.app U s))
       have h : (c.app U) ((x.app U) s) =
           (((freeAlgebraSheafAdjunction.{v, u, w} J A).unit.app E).hom.app U) (r.app U s) :=
@@ -193,10 +193,10 @@ theorem bijective_presheafHom_of_sectionwise
           intro U V k
           apply (hQ U (T.obj V)).injective
           apply Prod.ext
-          · show b.app U ≫ Q.map k ≫ g V = b.app U ≫ g U ≫ T.map k
+          · change b.app U ≫ Q.map k ≫ g V = b.app U ≫ g U ≫ T.map k
             rw [← b.naturality_assoc, hg₁, ← Category.assoc, hg₁, p.1.naturality]
           · ext s
-            show g V (Q.map k (x.app U s)) = T.map k (g U (x.app U s))
+            change g V (Q.map k (x.app U s)) = T.map k (g U (x.app U s))
             have hx : Q.map k (x.app U s) = x.app V (P.map k s) :=
               (ConcreteCategory.congr_hom (x.naturality k) s).symm
             rw [hx, hs, hs]
@@ -518,7 +518,7 @@ theorem exists_derivation_extension (Q : Cᵒᵖ ⥤ CommRingCat.{max u v w}) (b
       (fun U (x y : R.obj.obj U) => x • Dadd U y + y • Dadd U x)
       ?_ ?_ ?_ U x y
     · rintro U V g (x : R.obj.obj U) (y : R.obj.obj U)
-      show M.val.map g (Dadd U (x * y)) = Dadd V (_ * _)
+      change M.val.map g (Dadd U (x * y)) = Dadd V (_ * _)
       rw [enat, map_mul]
       rfl
     · rintro U V g (x : R.obj.obj U) (y : R.obj.obj U)
@@ -527,7 +527,7 @@ theorem exists_derivation_extension (Q : Cᵒᵖ ⥤ CommRingCat.{max u v w}) (b
       rw [enat] at e₁ e₂
       exact ((M.val.map g).hom.map_add _ _).trans (congrArg₂ (· + ·) e₁ e₂)
     · intro U q r
-      show Dadd U (c.app U q * c.app U r) =
+      change Dadd U (c.app U q * c.app U r) =
         c.app U q • Dadd U (c.app U r) + c.app U r • Dadd U (c.app U q)
       rw [← map_mul, heq, heq, heq]
       exact d.d_mul q r
@@ -539,7 +539,8 @@ theorem exists_derivation_extension (Q : Cᵒᵖ ⥤ CommRingCat.{max u v w}) (b
 sheafification.** -/
 theorem derivation_ext_of_W (Q : Cᵒᵖ ⥤ CommRingCat.{max u v w}) (c : Q ⟶ R.obj) (hc : J.W c)
     (M : SheafOfModules.{max u v w} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, max u v w} R))
-    (D E : PresheafOfModulesOfCommRing.Derivation' M.val a.hom) (h : ∀ U q, D.d (c.app U q) = E.d (c.app U q)) :
+    (D E : PresheafOfModulesOfCommRing.Derivation' M.val a.hom)
+    (h : ∀ U q, D.d (c.app U q) = E.d (c.app U q)) :
     D = E := by
   let MT : Sheaf J (Type (max u v w)) := (sheafCompose J (forget AddCommGrpCat)).obj
     ((SheafOfModules.toSheaf _).obj M)
@@ -795,7 +796,7 @@ theorem exists_comp_sectionwiseCotangentTermComparison (n : ℕ) (M : targetModu
   apply PresheafOfModules.Hom.ext
   funext U
   refine sectionsCotangentComplex_hom_ext J f U n _ _ fun p => ?_
-  show (((cotangentComplex_degreeIso J f n).hom ≫
+  change (((cotangentComplex_degreeIso J f n).hom ≫
       ((cotangentSimplicialModule J f).derivationEquiv (op ⦋n⦌) M).symm D).val.app U)
         ((sectionwiseCotangentTermComparison J f (-(n : ℤ))).app U
           (sectionsCotangentDifferential' J f U n p)) = _

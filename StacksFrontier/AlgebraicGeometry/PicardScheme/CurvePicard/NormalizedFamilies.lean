@@ -67,11 +67,11 @@ theorem exists_chart {T : Scheme.{u}} (a : T ⟶ Spec (.of k)) (O : T.Opens) (t 
   let φ : CommRingCat.of k ⟶ CommRingCat.of R := Spec.preimage (ι ≫ a)
   let : Algebra k R := φ.hom.toAlgebra
   refine ⟨R, inferInstance, this, ι, inferInstance, ?_, ?_, ?_⟩
-  · show Set.range hV.fromSpec ⊆ _
+  · change Set.range hV.fromSpec ⊆ _
     rw [hV.range_fromSpec]; exact hVO
-  · show t ∈ Set.range hV.fromSpec
+  · change t ∈ Set.range hV.fromSpec
     rw [hV.range_fromSpec]; exact htV
-  · show Spec.map (CommRingCat.ofHom φ.hom) = _
+  · change Spec.map (CommRingCat.ofHom φ.hom) = _
     rw [CommRingCat.ofHom_hom, Spec.map_preimage]
 
 /-- A point of the corner of a cartesian square of schemes over two compatible points. -/
@@ -96,7 +96,7 @@ theorem ker_preimage_fromSpecResidueField_comp {R : Type u} [CommRing R] {Y : Sc
     rw [hφ, Scheme.Hom.comp_apply, Scheme.fromSpecResidueField_apply]
   have h2 : (Spec.map φ c).asIdeal = Ideal.comap φ.hom c.asIdeal := rfl
   have hc : c.asIdeal = ⊥ := by
-    show IsLocalRing.maximalIdeal _ = ⊥
+    change IsLocalRing.maximalIdeal _ = ⊥
     exact IsLocalRing.maximalIdeal_eq_bot
   have h3 : (g y).asIdeal = (Spec.map φ c).asIdeal := congrArg PrimeSpectrum.asIdeal h1.symm
   rw [h3, h2, hc, RingHom.ker_eq_comap_bot]
@@ -180,7 +180,7 @@ theorem eq_of_picardClass_eq_add {T : Scheme.{u}} (a : T ⟶ Spec (.of k)) {d : 
   let := instA t
   let E₁ := Stacks.Hilbert.baseChange (Over.mk fX) (g t) D₁
   let E₂ := Stacks.Hilbert.baseChange (Over.mk fX) (g t) D₂
-  show E₁.ideal = E₂.ideal
+  change E₁.ideal = E₂.ideal
   set fR := ((Over.pullback (Over.mk (ι t ≫ a)).hom).obj (Over.mk fX)).hom
   have hRsq := isPullback_fst_baseChange_of_algebraMap fX a (ι t) (hRalg t)
   have : SmoothOfRelativeDimension 1 fR :=
@@ -274,7 +274,7 @@ theorem exists_hilbertFamily_picardClass_eq {T : Scheme.{u}} (a : T ⟶ Spec (.o
     rwa [ι.isOpenEmbedding.injective this] at hz
   let g₂ : (Over.mk (O.ι ≫ a) : Over (Spec (.of k))) ⟶ Over.mk (ι ≫ a) :=
     Over.homMk lam (by
-      show lam ≫ ι ≫ a = O.ι ≫ a
+      change lam ≫ ι ≫ a = O.ι ≫ a
       rw [← Category.assoc, hlam])
   let μ := Stacks.Hilbert.familyBaseChangeMap (Over.mk fX) g₂
   set fO := ((Over.pullback (Over.mk (O.ι ≫ a)).hom).obj (Over.mk fX)).hom

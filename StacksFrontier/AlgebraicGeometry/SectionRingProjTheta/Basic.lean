@@ -85,10 +85,11 @@ the name of a proved statement, not of a hypothesis, and tagging it here would d
 attribute rather than add anything.
 
 **The direct derivation of bijectivity from `HasTwistedExtension` is still blocked by the
-heartbeat limit** — part (2) is proved by the route of `StacksFrontier/AlgebraicGeometry/Properties/PrincipalOpens/GradedSectionInjective.lean`, which does
-not pass through this file. Deriving
-`Function.Bijective (sectionLocalizationMap X L F s)` from `HasTwistedExtension` needs only the
-observation that `b / s ^ N` is a degree-zero element of the localized section module, i.e.
+heartbeat limit** — part (2) is proved by the route of
+`StacksFrontier/AlgebraicGeometry/Properties/PrincipalOpens/GradedSectionInjective.lean`, which does
+not pass through this file. Deriving `Function.Bijective (sectionLocalizationMap X L F s)` from
+`HasTwistedExtension` needs only the observation that `b / s ^ N` is a degree-zero element of the
+localized section module, i.e.
 ```
     LocalizedModule.mk (DirectSum.of _ (N : ℤ) b) ⟨homogeneousSection X L s ^ N, ⟨N, rfl⟩⟩
       ∈ sectionAtNonvanishingOpen X L F s

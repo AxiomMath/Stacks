@@ -238,7 +238,7 @@ def smallEtaleHigherDirectImageStalkIso :
 `(R^n f_* F)_x`: the colimit cocone computing the stalk of the cohomology presheaf, transported
 along `Stacks.EtaleCohomology.smallEtaleHigherDirectImageStalkIso`. -/
 def smallEtaleHigherDirectImageStalkCocone :
-    Cocone ((CategoryOfElements.π (Scheme.pointSmallEtale x).fiber).op ⋙
+    Cocone ((Functor.Elements.π (Scheme.pointSmallEtale x).fiber).op ⋙
       smallEtaleHigherDirectImageCohomologyPresheaf f F n) :=
   ((Scheme.pointSmallEtale x).presheafFiberCocone
       (smallEtaleHigherDirectImageCohomologyPresheaf f F n)).extend
@@ -284,7 +284,7 @@ of base changes to the étale neighbourhoods of `x`, whose limit is
 `X ×_S Spec(𝒪^{sh}_{S,s})`. -/
 @[sga "4 VIII 5.1" "partial", sga "4½ Arcata 2.3.3"]
 def smallEtaleHigherDirectImageStalkIsoOfIsColimit
-    (c : Cocone ((CategoryOfElements.π (Scheme.pointSmallEtale x).fiber).op ⋙
+    (c : Cocone ((Functor.Elements.π (Scheme.pointSmallEtale x).fiber).op ⋙
       smallEtaleHigherDirectImageCohomologyPresheaf f F n))
     (h03Q6 : IsColimit c) :
     (smallEtaleStalkAb x).obj (((etaleAbelianDirectImage.{u, u + 1} f).rightDerived n).obj F) ≅
@@ -307,7 +307,7 @@ vertex, for those pairs `(Y, x)` whose neighbourhood category degenerates in thi
 def isColimitSmallEtaleHigherDirectImageCohomologyCoconeOfIsInitial
     {V : (Scheme.pointSmallEtale x).fiber.Elements} (hV : IsInitial V) :
     IsColimit (coconeOfDiagramTerminal hV.op
-      ((CategoryOfElements.π (Scheme.pointSmallEtale x).fiber).op ⋙
+      ((Functor.Elements.π (Scheme.pointSmallEtale x).fiber).op ⋙
         smallEtaleHigherDirectImageCohomologyPresheaf f F n)) :=
   colimitOfDiagramTerminal hV.op _
 
@@ -392,7 +392,8 @@ affine source, then the stalk of `R^n f_* F` at every geometric point of `Y` is 
 
 This is the shape in which a consumer that needs only the vanishing of a stalk can take
 [Stacks, Tag 03Q9]: the levelwise vanishing gives it outright. The curve files of
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Curves/` no longer need even that — the sheaf-level
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Curves/` no longer need even that — the
+sheaf-level
 `Stacks.EtaleCohomology.isZero_rightDerived_etaleAbelianDirectImage_of_forall_affine_level` just
 above is enough for them — but the two are one step apart. -/
 theorem isZero_smallEtaleStalkAb_rightDerived_etaleAbelianDirectImage

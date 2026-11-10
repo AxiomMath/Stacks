@@ -141,7 +141,7 @@ theorem exists_isCompactChartOver_hom (X₀ : SmallEtale B S hS X.1)
   have hT : IsCompactChartOver B S hS X₀ T := by
     refine ⟨?_, d, hd, rfl⟩
     have : IsAffine (O : Scheme.{u}) := hO
-    show CompactSpace (O : Scheme.{u})
+    change CompactSpace (O : Scheme.{u})
     infer_instance
   have hw : (yoneda.map ι₀ ≫ hrep.fst g ≫ φU) ≫ U.1.hom.hom = yoneda.map d ≫ X₀.1.hom := by
     rw [Category.assoc, Category.assoc, hφU, hsq.w, Functor.map_comp, Category.assoc]
@@ -150,7 +150,7 @@ theorem exists_isCompactChartOver_hom (X₀ : SmallEtale B S hS X.1)
       (yoneda.map ι₀ ≫ hrep.fst g ≫ φU)) (ObjectProperty.hom_ext _ hw))
   let τ₀ : (BigFppfOver.toScheme B S hS).obj (openSub Q O) := ⟨q', hqO⟩
   refine ⟨T, hT, t, (schemePointsHomeomorph B S hS (openSub Q O)).symm τ₀, ?_⟩
-  show pointsMap B S hS _ (yoneda.map ι₀ ≫ hrep.fst g ≫ φU)
+  change pointsMap B S hS _ (yoneda.map ι₀ ≫ hrep.fst g ≫ φU)
     ((schemePointsHomeomorph B S hS (openSub Q O)).symm τ₀) = u
   have hι : ((BigFppfOver.toScheme B S hS).map ι₀) τ₀ = q' := by
     rw [toScheme_map_openSubHom]
@@ -191,7 +191,7 @@ theorem eq_of_isCompactChartOver_comp_eq (X₀ : SmallEtale B S hS X.1)
   have hsep := ((isSheaf_iff_isSheaf_of_type _ _).1 H.property).isSeparated _ hmem
   refine hsep.ext fun V f hf => ?_
   obtain ⟨W, k, t, ⟨i⟩, rfl⟩ := hf
-  show H.obj.map (k ≫ E.f i).op (α.hom.app U x) = H.obj.map (k ≫ E.f i).op (β.hom.app U x)
+  change H.obj.map (k ≫ E.f i).op (α.hom.app U x) = H.obj.map (k ≫ E.f i).op (β.hom.app U x)
   rw [← NatTrans.naturality_apply α.hom (k ≫ E.f i).op x,
     ← NatTrans.naturality_apply β.hom (k ≫ E.f i).op x, op_comp, Functor.map_comp_apply,
     NatTrans.naturality_apply α.hom k.op, NatTrans.naturality_apply β.hom k.op,
@@ -329,7 +329,7 @@ theorem exists_glued_isCompactChartOver (X₀ : SmallEtale B S hS X.1) {ι : Typ
     refine IsZariskiLocalAtSource.of_openCover 𝒰 fun i => ?_
     have hfac : 𝒰.f i ≫ (BigFppfOver.toScheme B S hS).map dd =
         (BigFppfOver.toScheme B S hS).map (d i) := by
-      show (BigFppfOver.toScheme B S hS).map (j i) ≫ _ = _
+      change (BigFppfOver.toScheme B S hS).map (j i) ≫ _ = _
       rw [← Functor.map_comp, hdd' i]
     rw [hfac]
     exact hd i
@@ -337,7 +337,7 @@ theorem exists_glued_isCompactChartOver (X₀ : SmallEtale B S hS X.1) {ι : Typ
     ⟨CostructuredArrow.mk (yoneda.map dd ≫ X₀.1.hom),
       etale_comp_of_scheme B S hS dd X₀.1.hom hdde X₀.2⟩
   let c : ∀ i, T i ⟶ V := fun i => ObjectProperty.homMk (CostructuredArrow.homMk (j i) (by
-    show yoneda.map (j i) ≫ yoneda.map dd ≫ X₀.1.hom = (T i).1.hom
+    change yoneda.map (j i) ≫ yoneda.map dd ≫ X₀.1.hom = (T i).1.hom
     rw [hTd i, ← Category.assoc, ← Functor.map_comp, hdd' i]))
   refine ⟨V, c, fun G e => ?_⟩
   let J := SpacesEtale.topology B S hS X
@@ -351,7 +351,7 @@ theorem exists_glued_isCompactChartOver (X₀ : SmallEtale B S hS X.1) {ι : Typ
     intro y
     obtain ⟨i, w, hw⟩ := hjcov (schemePointsHomeomorph B S hS Z y)
     refine ⟨⟨i⟩, (schemePointsHomeomorph B S hS (T i).1.left).symm w, ?_⟩
-    show pointsMap B S hS _ (yoneda.map (j i))
+    change pointsMap B S hS _ (yoneda.map (j i))
       ((schemePointsHomeomorph B S hS (T i).1.left).symm w) = y
     rw [schemePointsHomeomorph_symm_naturality, hw]
     exact (schemePointsHomeomorph B S hS Z).symm_apply_apply y

@@ -76,7 +76,7 @@ theorem isPerfect_derivedPushforwardModules_single_of_isNoetherian [IsNoetherian
       rcases lt_or_gt_of_ne hj with h | h
       exacts [E.isZero_of_isGE 0 j h, E.isZero_of_isLE 0 j h]
   have hproper : ∀ T : Closeds X, IsProperOver f T := fun T => by
-    show IsProper ((Scheme.IdealSheafData.vanishingIdeal T).subschemeι ≫ f)
+    change IsProper ((Scheme.IdealSheafData.vanishingIdeal T).subschemeι ≫ f)
     infer_instance
   have hpc : RingedSpace.IsPseudoCoherent (X := S.toRingedSpace)
       ((derivedPushforwardModules f).obj E) :=

@@ -361,7 +361,7 @@ theorem QcClassifying.map_equiv_symm (hW : CompactSpace W) (hW' : CompactSpace W
     Φ.map h.op ((c.equiv hW).symm φ) = (c.equiv hW').symm (h ≫ φ) := by
   refine (c.equiv hW').injective ?_
   rw [Equiv.apply_symm_apply]
-  show c.hom W' hW' (Φ.map h.op ((c.equiv hW).symm φ)) = _
+  change c.hom W' hW' (Φ.map h.op ((c.equiv hW).symm φ)) = _
   rw [c.hom_map]
   show h ≫ c.equiv hW ((c.equiv hW).symm φ) = _
   rw [Equiv.apply_symm_apply]

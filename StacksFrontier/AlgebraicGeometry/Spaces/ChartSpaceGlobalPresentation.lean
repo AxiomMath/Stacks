@@ -182,17 +182,17 @@ theorem nonempty_presentation_modulePullback_chartToSpace_of_isAffine
   have hws : HasWeakSheafify
       (smallEtaleRingedSite B S hS (chartSpace B S hS X W).1
         (chartSpace B S hS X W).2).J AddCommGrpCat.{u} := by
-    show HasWeakSheafify (SmallEtale.topology B S hS (chartSpace B S hS X W).1)
+    change HasWeakSheafify (SmallEtale.topology B S hS (chartSpace B S hS X W).1)
       AddCommGrpCat.{u}
     infer_instance
   have hwl : (smallEtaleRingedSite B S hS (chartSpace B S hS X W).1
       (chartSpace B S hS X W).2).J.WEqualsLocallyBijective AddCommGrpCat.{u} := by
-    show (SmallEtale.topology B S hS (chartSpace B S hS X W).1).WEqualsLocallyBijective
+    change (SmallEtale.topology B S hS (chartSpace B S hS X W).1).WEqualsLocallyBijective
       AddCommGrpCat.{u}
     infer_instance
   have hes : EssentiallySmall.{u}
       (smallEtaleRingedSite B S hS (chartSpace B S hS X W).1 (chartSpace B S hS X W).2).C := by
-    show EssentiallySmall.{u} (SmallEtale B S hS (chartSpace B S hS X W).1)
+    change EssentiallySmall.{u} (SmallEtale B S hS (chartSpace B S hS X W).1)
     infer_instance
   obtain ⟨P⟩ := Stacks.SheafOfModules.nonempty_presentation_of_hasGlobalPresentation
     (hasGlobalPresentation_etaleModulePullback_chartToSpace B S hS X M W

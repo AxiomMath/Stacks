@@ -225,7 +225,7 @@ theorem iterateCompHomObj_sectionsComonadLax (U : Cᵒᵖ) (n : ℕ)
         have h3 := ((Functor.iterateLaxHom (sectionsComonadLax J (A := A') U) (n + 1)).app
           (Under.mk f')).hom.commutes ((a.hom.app U).hom x)
         refine (RingHom.comp_apply _ _ _).trans (Eq.trans ?_ (RingHom.comp_apply _ _ _).symm)
-        show sectionsSquareHom J a U (Functor.iterateCompHomObj
+        change sectionsSquareHom J a U (Functor.iterateCompHomObj
               (standardResolutionComonadSquareHom.{u, v, w} J a) (n + 1)
               (squareAlgebraMap.{u, v, w} J a b hsq))
             (((Functor.iterateLaxHom (sectionsComonadLax J U) (n + 1)).app
@@ -280,7 +280,7 @@ theorem iterateCompHomObj_sectionsComonadLax (U : Cᵒᵖ) (n : ℕ)
                   (Under.mk f')) _)).trans
               (sectionsComonadLax_variable J U _ _)))
         refine (RingHom.comp_apply _ _ _).trans (Eq.trans ?_ (RingHom.comp_apply _ _ _).symm)
-        show sectionsSquareHom J a U (Functor.iterateCompHomObj
+        change sectionsSquareHom J a U (Functor.iterateCompHomObj
               (standardResolutionComonadSquareHom.{u, v, w} J a) (n + 1)
               (squareAlgebraMap.{u, v, w} J a b hsq))
             (((Functor.iterateLaxHom (sectionsComonadLax J U) (n + 1)).app
@@ -326,7 +326,7 @@ theorem resolutionSectionsComparison_square (U : Cᵒᵖ) (i : SimplexCategory�
         ((CommAlgCat.squareFunctoriality.{max u v w, max u v w, max u v w}
           (sectionsSquare J a b hsq U)).resolution i p) := by
   obtain ⟨⟨n⟩⟩ := i
-  show sectionsSquareHom J a U (squareResolutionTermMap.{u, v, w} J a b hsq n)
+  change sectionsSquareHom J a U (squareResolutionTermMap.{u, v, w} J a b hsq n)
       (resolutionSectionsComparisonApp J f U n p) =
     resolutionSectionsComparisonApp J f' U n
       (CommAlgCat.standardResolutionSquareMap.{max u v w, max u v w, max u v w}
@@ -434,7 +434,7 @@ theorem sectionsCotangentComplexComparison_square_degree (U : Cᵒᵖ) (j : ℤ)
       (A.obj.obj U) (sectionsAlgebra J f U) n).inv).mp ?_
     refine CommAlgCat.cotangentTerm_hom_ext.{max u v w, max u v w} (A.obj.obj U)
       (sectionsAlgebra J f U) (op ⦋n⦌) _ _ fun p => ?_
-    show ((squareCotangentComplexMap (resolutionSquareMap.{u, v, w} J a b hsq)).f
+    change ((squareCotangentComplexMap (resolutionSquareMap.{u, v, w} J a b hsq)).f
           (-(n : ℤ))).val.app U
         ((sectionsCotangentComplexComparison J f U).f (-(n : ℤ))
           ((CommAlgCat.cotangentComplex_degreeIso.{max u v w, max u v w} (A.obj.obj U)

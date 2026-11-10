@@ -57,8 +57,7 @@ theorem isEffective_includeRight [Module.FaithfullyFlat B₀ Γ₀] :
   refine ⟨B₀, inferInstance, inferInstance, h, inferInstance, ?_⟩
   have hid : ∀ z, cmp _ B₀ h z = z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul x y =>
       rw [cmp_tmul]
       simp [Algebra.TensorProduct.algebraMap_apply]

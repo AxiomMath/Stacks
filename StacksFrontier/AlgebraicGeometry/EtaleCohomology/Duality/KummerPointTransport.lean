@@ -247,7 +247,7 @@ theorem flagUnit_comp_flagSheafIso : ∀ {d : ℕ} (D : Fin d → DivisorDatum U
       (constantInverseImageIso (ZMod N) g).hom ≫
         (etaleModuleInverseImage.{u, 0} (ZMod N) g).map (flagUnit (N := N) D)
   | 0, _, _, _, _, _, _ => by
-    show 𝟙 _ ≫ (constantInverseImageIso (ZMod N) g).hom =
+    change 𝟙 _ ≫ (constantInverseImageIso (ZMod N) g).hom =
       (constantInverseImageIso (ZMod N) g).hom ≫
         (etaleModuleInverseImage.{u, 0} (ZMod N) g).map (𝟙 _)
     rw [Category.id_comp, CategoryTheory.Functor.map_id, Category.comp_id]
@@ -274,7 +274,7 @@ theorem flagUnit_comp_flagSheafIso : ∀ {d : ℕ} (D : Fin d → DivisorDatum U
         (β.app (unitSheaf N)).hom ≫ E'.map (G.map f) := β.hom.naturality f
     have natu : c.hom ≫ u'.app (G.obj (unitSheaf N)) = u'.app (unitSheaf N) ≫ E'.map c.hom :=
       u'.naturality c.hom
-    show (u'.app (unitSheaf N) ≫ E'.map f') ≫ (E'.map e.hom ≫
+    change (u'.app (unitSheaf N) ≫ E'.map f') ≫ (E'.map e.hom ≫
         (β.app (flagSheaf (N := N) (fun m => D m.succ))).inv) =
       c.hom ≫ G.map (u.app (unitSheaf N) ≫ E.map f)
     rw [← Category.assoc, Category.assoc (u'.app _), ← E'.map_comp, Iso.comp_inv_eq]

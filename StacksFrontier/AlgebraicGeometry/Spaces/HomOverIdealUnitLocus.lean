@@ -228,7 +228,7 @@ theorem idealSheaf_obj_eq_top_of_range_subset_idealUnitLocus
     (unitIdealSieve_mem_topology B S hS X I W hW)
   intro Y k hk
   have hk' : I.obj (op Y) = ⊤ := hk
-  show _ ∈ I.obj (op Y)
+  change _ ∈ I.obj (op Y)
   rw [hk']
   exact Submodule.mem_top
 
@@ -396,7 +396,7 @@ noncomputable def homKernelSubmodule {P Q : Modules.{u, m} B S hS X.1 X.2} (φ :
 theorem homKernelSubmodule_ι_comp {P Q : Modules.{u, m} B S hS X.1 X.2} (φ : P ⟶ Q) :
     (homKernelSubmodule B S hS X φ).ι ≫ φ = 0 := by
   ext U t
-  show (φ.val.app U).hom (((homKernelSubmodule B S hS X φ).ι.val.app U).hom t) = 0
+  change (φ.val.app U).hom (((homKernelSubmodule B S hS X φ).ι.val.app U).hom t) = 0
   exact LinearMap.mem_ker.mp t.property
 
 /-- A morphism killed by `φ` factors through the sectionwise kernel of `φ`. -/
@@ -523,7 +523,7 @@ private theorem idealPowModuleHomOfLE_comp_eq_zero_of_annihilated
     exists_sieve_mem_pow_chartSectionIdeal_smul_top_of_mem_idealPowSubmodule
       B S hS X.1 X.2 I M (k + n) (U := Y) (t := s.1) s.2
   refine (hQsep _ hSv).isSeparatedFor.ext fun Z g hg => ?_
-  show Q.val.map g.op
+  change Q.val.map g.op
       ((idealPowModuleHomOfLE I M (Nat.le_add_left n k) ≫ π).val.app (op Y) s) =
     Q.val.map g.op 0
   rw [← PresheafOfModules.naturality_apply, map_zero]
@@ -548,7 +548,7 @@ private theorem supportOfSheaf_cokernel_homKernelSubmodule_subset
   intro W' b t
   have hW' : I.obj (op W') = ⊤ :=
     SheafOfModules.Submodule.unit_obj_eq_top_of_map I (b ≫ g).op hV
-  show φ.val.app (op W') t = 0
+  change φ.val.app (op W') t = 0
   rw [hφ W' hW']
   rfl
 

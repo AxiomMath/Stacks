@@ -100,7 +100,7 @@ public theorem Scheme.Hom.isNormal_iff_flat_and_geometricallyNormalFibers {X Y :
     clear_value x
     have hxy : f x = y := by
       rw [hx]
-      show (f.fiberι y ≫ f) z = y
+      change (f.fiberι y ≫ f) z = y
       rw [f.fiber_fac]
       simp
     cases hxy
@@ -135,7 +135,7 @@ private theorem isNormal_of_sourceIso {X X' Y : Scheme.{u}} (i : X ≅ X') (f : 
   refine (isGeometricallyNormal_iff_of_isoOver _ _
     (@asIso _ _ _ _ (pullback.map f (Y.fromSpecResidueField y) f'
       (Y.fromSpecResidueField y) i.hom (𝟙 _) (𝟙 _) hw hw') hm) ?_).mp (hgeom y)
-  show pullback.map f (Y.fromSpecResidueField y) f' (Y.fromSpecResidueField y)
+  change pullback.map f (Y.fromSpecResidueField y) f' (Y.fromSpecResidueField y)
       i.hom (𝟙 _) (𝟙 _) hw hw' ≫ pullback.snd f' (Y.fromSpecResidueField y) =
     pullback.snd f (Y.fromSpecResidueField y)
   rw [pullback.lift_snd, Category.comp_id]

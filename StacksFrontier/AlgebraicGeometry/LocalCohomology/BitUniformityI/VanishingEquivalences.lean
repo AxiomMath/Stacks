@@ -165,7 +165,7 @@ private theorem liftVanishingAtSucc_imp_above :
     simpa [hb] using congrArg (fun g ↦ g.f 0) ha
   · intro i hi
     have hc : -((i : ℤ)) ≤ -((e + 1 : ℕ) : ℤ) := by omega
-    show (if -((i : ℤ)) ≤ -((e + 1 : ℕ) : ℤ) then 0 else a.f (-((i : ℤ)))) = 0
+    change (if -((i : ℤ)) ≤ -((e + 1 : ℕ) : ℤ) then 0 else a.f (-((i : ℤ)))) = 0
     rw [ite_eq_left hc]
 
 omit [CochainComplex.IsProjectiveResolution p] [CochainComplex.IsProjectiveResolution p'] in
@@ -195,7 +195,8 @@ private noncomputable def correctedResolutionLift
         have hcancel : P.d s t ≫ (a.f t - phi ≫ image.ι (P'.d s t)) = 0 := by
           rw [Preadditive.comp_sub, ← a.comm' s t hij, sub_eq_zero, ← reassoc_of% hphi,
             image.fac]
-        rw [if_pos le_rfl, if_neg hj, dif_pos rfl, zero_comp, eqToHom_refl, eqToHom_refl,
+        rw [ite_eq_left le_rfl, ite_eq_right hj, dite_eq_left rfl, zero_comp,
+          eqToHom_refl, eqToHom_refl,
           Category.id_comp, Category.comp_id, hcancel]
     · by_cases hit : i = t
       · subst i
@@ -335,7 +336,7 @@ private lemma ext_map_vanishes_iff_nullHomotopic
       (DerivedCategory.Q.map p' ≫ x ≫ (derivedSingleShiftIso N i).inv)
     have hz := (derived_map_eq_zero_iff _).2 (h N b)
     rw [Functor.map_comp, hb] at hz
-    show DerivedCategory.Q.map ((CochainComplex.singleFunctor _ 0).map alpha) ≫ x = 0
+    change DerivedCategory.Q.map ((CochainComplex.singleFunctor _ 0).map alpha) ≫ x = 0
     apply (cancel_epi (DerivedCategory.Q.map p)).1
     apply (cancel_mono (derivedSingleShiftIso N i).inv).1
     simp only [← Category.assoc] at hz ⊢
@@ -464,7 +465,7 @@ private lemma chainMapOfCochainHom_comm
       (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 Y).inv at h
   have hh := congrArg (fun g ↦ (Q.cochainComplexXIso 0 0).inv ≫ g ≫
     (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 Y).hom) h
-  show ((Q.cochainComplexXIso 0 0).inv ≫ a.f 0 ≫
+  change ((Q.cochainComplexXIso 0 0).inv ≫ a.f 0 ≫
     (Q'.cochainComplexXIso 0 0).hom) ≫ Q'.π.f 0 = Q.π.f 0 ≫ f
   simp only [Category.assoc, Iso.inv_hom_id_assoc, Iso.inv_hom_id,
     Category.comp_id] at hh
@@ -492,7 +493,7 @@ private theorem extMapVanishesAbove_imp_torMapVanishesAbove :
   obtain ⟨a, ha, hz⟩ := ((tfae_lift_ext_conditions Q.π' Q'.π' alpha e).out 3 1).1 h
   let b := chainMapOfCochainHom Q Q' a
   have hbi : b.f i = 0 := by simp [b, chainMapOfCochainHom, hz i hi]
-  show ((MonoidalCategory.tensorRight N).leftDerived i).map alpha = 0
+  change ((MonoidalCategory.tensorRight N).leftDerived i).map alpha = 0
   apply (cancel_mono (Q'.isoLeftDerivedObj (MonoidalCategory.tensorRight N) i).hom).1
   rw [ProjectiveResolution.isoLeftDerivedObj_hom_naturality alpha Q Q' b
     (chainMapOfCochainHom_comm Q Q' alpha a ha)]
@@ -621,9 +622,9 @@ private lemma finiteFree_pseudoCoherent (F : ModuleCat.{u} R)
   refine ⟨singleComplex F, StacksDraft.PseudoCoherence.isBoundedFiniteFree_single F 0,
     𝟙 _, ?_, ?_⟩
   · intro i hi
-    show IsIso ((DerivedCategory.homologyFunctor (ModuleCat.{u} R) i).map (𝟙 _))
+    change IsIso ((DerivedCategory.homologyFunctor (ModuleCat.{u} R) i).map (𝟙 _))
     infer_instance
-  · show Epi ((DerivedCategory.homologyFunctor (ModuleCat.{u} R) m).map (𝟙 _))
+  · change Epi ((DerivedCategory.homologyFunctor (ModuleCat.{u} R) m).map (𝟙 _))
     infer_instance
 
 /-- The kernel of a finite free presentation of a pseudo-coherent module is pseudo-coherent one
@@ -717,7 +718,7 @@ lemma tfae_of_isNoetherianRing_of_finite [IsNoetherianRing R] [Module.Finite R M
       TorMapVanishesAtSucc alpha e] := by
   let K := (DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj M
   have hpc : StacksDraft.PseudoCoherence.IsPseudoCoherent K := by
-    show StacksDraft.PseudoCoherence.IsModulePseudoCoherent (R := R) M
+    change StacksDraft.PseudoCoherence.IsModulePseudoCoherent (R := R) M
     exact ((StacksDraft.PseudoCoherence.pseudoCoherent_iff_boundedAbove_finite_homology
       K 0 M).2.2).mpr inferInstance
   exact tfae_of_isPseudoCoherentFrom p p' alpha e

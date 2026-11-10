@@ -234,7 +234,7 @@ theorem torsion_le_comap_torsion (f : M →ₗ[A] M') :
   intro x hx
   obtain ⟨a, ha⟩ := (Submodule.mem_torsion_iff x).mp hx
   refine Submodule.mem_comap.mpr ((Submodule.mem_torsion_iff (f x)).mpr ⟨a, ?_⟩)
-  show (a : A) • f x = 0
+  change (a : A) • f x = 0
   rw [← f.map_smul, show (a : A) • x = 0 from ha, map_zero]
 
 /-- The map induced on the quotients by the torsion submodules. -/

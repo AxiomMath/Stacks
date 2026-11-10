@@ -121,7 +121,7 @@ public theorem twistedToShiftedComponent_homogeneousScalar (i : ℕ) (n : ℤ) (
     intro j m hm
     have h := SetLike.GradedSMul.smul_mem (A := 𝒮) (B := shiftedGrading 𝒨 n) a.2 hm
     change (a : S) • m ∈ 𝒨 (((i : ℤ) + j) + n) at h
-    show (a : S) • m ∈ 𝒨 (j + ((i : ℤ) + n))
+    change (a : S) • m ∈ 𝒨 (j + ((i : ℤ) + n))
     rwa [show j + ((i : ℤ) + n) = ((i : ℤ) + j) + n from by omega]
   set ψ := associatedModuleSheafMap 𝒮 (shiftedGrading 𝒨 n)
     (shiftedGrading 𝒨 ((i : ℤ) + n)) φ hmem
@@ -129,7 +129,7 @@ public theorem twistedToShiftedComponent_homogeneousScalar (i : ℕ) (n : ℤ) (
       (ψ.val.app (op ⊤)).hom w = homogeneousScalarGlobalSections 𝒮 𝒨 i n a w := by
     intro w
     refine Subtype.ext (funext fun x => ?_)
-    show LocalizedModule.map x.1.asHomogeneousIdeal.toIdeal.primeCompl φ (w.1 x)
+    change LocalizedModule.map x.1.asHomogeneousIdeal.toIdeal.primeCompl φ (w.1 x)
         = (a : S) • w.1 x
     exact localizedMap_eq_smul (a : S) φ hφ (w.1 x)
   have hsq :
@@ -164,7 +164,7 @@ public theorem twistedToShiftedComponent_homogeneousScalar (i : ℕ) (n : ℤ) (
           = LocalizedModule.map x.1.asHomogeneousIdeal.toIdeal.primeCompl φ (ϑ.1 x • ς.1 x) :=
         congrArg (LocalizedModule.map x.1.asHomogeneousIdeal.toIdeal.primeCompl φ) hRv
       rw [hLv, hR]
-      show LocalizedModule.map x.1.asHomogeneousIdeal.toIdeal.primeCompl
+      change LocalizedModule.map x.1.asHomogeneousIdeal.toIdeal.primeCompl
             (LinearMap.mul S S (a : S)) (ϑ.1 x) • ς.1 x
           = LocalizedModule.map x.1.asHomogeneousIdeal.toIdeal.primeCompl φ (ϑ.1 x • ς.1 x)
       rw [localizedMap_mul_smul, localizedMap_eq_smul (a : S) φ hφ]

@@ -79,7 +79,7 @@ private theorem derivedObjectIsoSingleHomology_homology
   let e := Classical.choice (Classical.choose_spec h)
   let u := H.mapIso e ≪≫ ε.app Y
   dsimp only [derivedObjectIsoSingleHomology]
-  show H.map (e.hom ≫ S.map u.inv) ≫ ε.hom.app (H.obj X) = 𝟙 _
+  change H.map (e.hom ≫ S.map u.inv) ≫ ε.hom.app (H.obj X) = 𝟙 _
   have hn : H.map (S.map u.inv) ≫ ε.hom.app (H.obj X) =
       ε.hom.app Y ≫ u.inv := by
     simpa [H, S] using ε.hom.naturality u.inv
@@ -169,7 +169,7 @@ private theorem truncationSliceFunctor_isLE
       (F.rightDerivedFunctorPlus.obj K)
   let : T.IsLE Klt q := hLE
   dsimp [truncationSliceFunctor]
-  show T.IsLE ((T.eTruncGE.obj (q : EInt)).obj Klt) q
+  change T.IsLE ((T.eTruncGE.obj (q : EInt)).obj Klt) q
   infer_instance
 
 /-- The slice is the single complex on its own `q`-th cohomology. -/

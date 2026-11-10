@@ -97,7 +97,7 @@ lemma pullbackSectionsMap_map_unitApp {U : X.Etale} {W : Y.Etale}
   have h₂ : ((smallEtaleBaseChangeComp' g f gf hgf).inv.app W).left ≫
       ((smallEtaleBaseChangeComp' g f gf hgf).hom.app W).left = 𝟙 _ :=
     congrArg (fun φ => φ.left) ((smallEtaleBaseChangeComp' g f gf hgf).inv_hom_id_app W)
-  show (((smallEtaleBaseChange g).map k).left ≫
+  change (((smallEtaleBaseChange g).map k).left ≫
       ((smallEtaleBaseChangeComp' g f gf hgf).inv.app W).left) ≫ pullback.fst W.hom gf =
     k'.left ≫ pullback.fst W.hom gf
   rw [hk', ← smallEtaleBaseChangeComp'_fst_fst g f gf hgf W, Category.assoc, reassoc_of% h₂]
@@ -128,7 +128,7 @@ end Units
 
 section Descent
 
-variable {I : Type u} [SmallCategory I] [IsCofiltered I] {D : I ⥤ Scheme.{u}} {c : Cone D}
+variable {I : Type u} [SmallCategory I] {D : I ⥤ Scheme.{u}} {c : Cone D}
 
 /-- The restriction of the section given by a stage descent to the object of the limit is the
 given restriction of the image of the section of `H` under the unit. -/
@@ -236,6 +236,7 @@ variable {I : Type u} [SmallCategory I] [IsCofiltered I] {D : I ⥤ Scheme.{u}} 
   (hc : IsLimit c)
   [∀ {i j : I} (f : i ⟶ j), IsAffineHom (D.map f)]
 
+omit [IsCofiltered I] [∀ {i j : I} (f : i ⟶ j), IsAffineHom (D.map f)] in
 /-- **The comparison of the section given by a stage descent.** The image in the sections of
 `f_i⁻¹H` over the base change of `Z` of the section of `f_{ji}⁻¹H` given by `χ : Z ⟶ W ×_{X_i} X_j`
 is the restriction of the given section `s` along `Z ×_{X_j} X ≅ A ⟶ V`. -/
@@ -273,6 +274,7 @@ lemma unitApp_eq_of_pullbackSectionsMap_eq {X' X Y : Scheme.{u}} (g : X' ⟶ X)
     (((smallEtaleSheafPullbackCompApp (Type (u + 1)) g f gf hgf H).hom).hom.app
       (op ((smallEtaleBaseChange g).obj U)))).mp inferInstance).1 hy
 
+omit [IsCofiltered I] [∀ {i j : I} (f : i ⟶ j), IsAffineHom (D.map f)] in
 /-- **Agreement on overlaps of the sections given by two stage descents.** Two sections given by
 units over objects `Z₁, Z₂` of a stage, presenting objects `A₁, A₂` of the limit on which the
 given section `s` is described by the same units, agree over the base change to the limit of the
@@ -443,11 +445,11 @@ theorem exists_pullbackSectionsMap_eq_of_isLimit {i : I}
               ((Category.assoc _ _ _).symm.trans (congrArg (· ≫ (ψ x).left)
                 (smallEtaleBaseChangeHomMk_left_fst _ _ _))))
           have e₃ : ε.inv.left ≫ ε.hom.left = 𝟙 _ := congrArg (fun k => k.left) ε.inv_hom_id
-          show ((θ x) ≫ (ψ x).left) z = _
+          change ((θ x) ≫ (ψ x).left) z = _
           refine (congrArg (fun k => k z) (e₂.symm.trans e₁.symm)).trans ?_
-          show (pullback.fst B.hom (c.π.app j)) (ε.hom.left ((g x.1).left z)) = _
+          change (pullback.fst B.hom (c.π.app j)) (ε.hom.left ((g x.1).left z)) = _
           rw [hz]
-          show ((ε.inv.left ≫ ε.hom.left) ≫ pullback.fst B.hom (c.π.app j)) v = _
+          change ((ε.inv.left ≫ ε.hom.left) ≫ pullback.fst B.hom (c.π.app j)) v = _
           rw [e₃]
           exact hv)
       exact ⟨Over.mk f, hf⟩

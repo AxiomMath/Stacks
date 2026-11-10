@@ -112,7 +112,7 @@ theorem length_simple_quotient_eq
           (algebraMap A (IsLocalRing.maximalIdeal A).ResidueField a)
             = algebraMap A (𝔪 j).ResidueField a := by
       intro a
-      show (Ideal.ResidueField.map (IsLocalRing.maximalIdeal A) (𝔪 j)
+      change (Ideal.ResidueField.map (IsLocalRing.maximalIdeal A) (𝔪 j)
           (algebraMap A B) (hlies j))
           (algebraMap A (IsLocalRing.maximalIdeal A).ResidueField a) = _
       rw [Ideal.ResidueField.map_algebraMap]; rfl

@@ -122,7 +122,7 @@ private lemma coverPreserving_smallProetaleBaseChange :
   apply Precoverage.generate_mem_toGrothendieck
   apply (SmallProetale.mem_precoverage_iff B T.obj T.property).2
   refine ⟨E.map (smallProetaleBaseChange B T S f), rfl, ?_⟩
-  show B.covering _
+  change B.covering _
   rw [B.covering_iff]
   refine ⟨isProetaleCovering_overPullback B f
       (E.map (SmallProetale.inclusion B S.obj S.property)) hE.1, ?_⟩
@@ -396,7 +396,7 @@ theorem smallProetaleMap_isContinuous {T T' : B.Scheme} (f : T' ⟶ T)
       SmallProetale.inclusion B T.obj T.property).IsContinuous
       (SmallProetale.topology B T'.obj T'.property)
       (BigProetaleOver.topology B T.obj T.property) := by
-    show (smallProetaleToBigProetaleFunctor B T' T f).IsContinuous _ _
+    change (smallProetaleToBigProetaleFunctor B T' T f).IsContinuous _ _
     infer_instance
   have hc := CoverPreserving.of_comp_of_isCocontinuous
     (SmallProetale.topology B T'.obj T'.property)
@@ -408,7 +408,7 @@ theorem smallProetaleMap_isContinuous {T T' : B.Scheme} (f : T' ⟶ T)
       (BigProetaleOver.topology B T.obj T.property))
   have hp : PreservesLimitsOfShape WalkingCospan
       (smallProetaleMap B f ⋙ SmallProetale.toScheme B T.obj T.property) := by
-    show PreservesLimitsOfShape WalkingCospan (SmallProetale.toScheme B T'.obj T'.property)
+    change PreservesLimitsOfShape WalkingCospan (SmallProetale.toScheme B T'.obj T'.property)
     infer_instance
   have hpres : PreservesLimitsOfShape WalkingCospan (smallProetaleMap B f) :=
     preservesLimitsOfShape_of_reflects_of_preserves _ (SmallProetale.toScheme B T.obj T.property)

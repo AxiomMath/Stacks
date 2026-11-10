@@ -207,7 +207,7 @@ lemma homotopyCategoryIsoShiftZero_hom [CategoryWithHomology A] :
     (HomotopyCategory.homologyFunctorFactors A (ComplexShape.up ℤ) 0) ℤ
       (HomotopyCategory.homologyFunctor A (ComplexShape.up ℤ))
       (HomotopyCategory.homologyFunctorFactors A (ComplexShape.up ℤ)) D).trans ?_
-  show (HomotopyCategory.homologyFunctorFactors A (ComplexShape.up ℤ) 0).hom.app D ≫
+  change (HomotopyCategory.homologyFunctorFactors A (ComplexShape.up ℤ) 0).hom.app D ≫
       𝟙 _ ≫ (HomotopyCategory.homologyFunctorFactors A (ComplexShape.up ℤ) 0).inv.app D = 𝟙 _
   rw [Category.id_comp, Iso.hom_inv_id_app]
 
@@ -222,7 +222,7 @@ lemma derivedCategoryIsoShiftZero_hom [HasDerivedCategory A] :
       (DerivedCategory.homologyFunctorFactorsh A) X).trans ?_
   rw [show ((HomotopyCategory.homologyFunctor A (ComplexShape.up ℤ) 0).isoShiftZero ℤ).hom.app X =
       𝟙 _ from NatTrans.congr_app homotopyCategoryIsoShiftZero_hom X]
-  show (DerivedCategory.homologyFunctorFactorsh A 0).hom.app X ≫
+  change (DerivedCategory.homologyFunctorFactorsh A 0).hom.app X ≫
       𝟙 _ ≫ (DerivedCategory.homologyFunctorFactorsh A 0).inv.app X = 𝟙 _
   rw [Category.id_comp, Iso.hom_inv_id_app]
 

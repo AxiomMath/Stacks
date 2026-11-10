@@ -226,7 +226,7 @@ lemma preimage_opensRange_gluePairFunctorCone_left
         (hYr j).le ((Scheme.preimage_opensRange_gluePairInl (α.app j) (β.app j)).le h4)
       exact ⟨⟨q.1, hq⟩, Scheme.gluePairInl_eq_gluePairInr_of_val_eq S U₁ U₂ ⟨q.1, hq⟩ q rfl⟩
   · obtain ⟨p, rfl⟩ := ht
-    show gluePairOpensDescApp α β U₁ U₂ pX pY pW hXW hYW j (Scheme.gluePairInl _ _ p) ∈
+    change gluePairOpensDescApp α β U₁ U₂ pX pY pW hXW hYW j (Scheme.gluePairInl _ _ p) ∈
       (Scheme.gluePairInl (α.app j) (β.app j)).opensRange
     rw [gluePairOpensDescApp_inl_apply]
     exact ⟨pX.app j p, rfl⟩
@@ -254,7 +254,7 @@ lemma preimage_opensRange_gluePairFunctorCone_right
         (Scheme.gluePairInl_eq_gluePairInr_of_val_eq S U₁ U₂ p ⟨p.1, hp⟩ rfl).symm⟩
     · exact ⟨q, rfl⟩
   · obtain ⟨q, rfl⟩ := ht
-    show gluePairOpensDescApp α β U₁ U₂ pX pY pW hXW hYW j (Scheme.gluePairInr _ _ q) ∈
+    change gluePairOpensDescApp α β U₁ U₂ pX pY pW hXW hYW j (Scheme.gluePairInr _ _ q) ∈
       (Scheme.gluePairInr (α.app j) (β.app j)).opensRange
     rw [gluePairOpensDescApp_inr_apply]
     exact ⟨pY.app j q, rfl⟩

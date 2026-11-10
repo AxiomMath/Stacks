@@ -90,7 +90,7 @@ theorem fiberInclusion_map_fiberPullbackSquareIso_hom_app (a : p.Fiber V') :
       fiberPullbackHom p i ((fiberPullback p r).obj a) ≫ fiberPullbackHom p r a =
         fiberPullbackHom p (i ≫ r) a := by
     rw [← fiberInclusion_map_fiberPullbackCompIsoApp_hom p i r a, ← Functor.map_comp_assoc]
-    show Fiber.fiberInclusion.map ((fiberPullbackCompIsoApp p i r a).inv ≫
+    change Fiber.fiberInclusion.map ((fiberPullbackCompIsoApp p i r a).inv ≫
       (fiberPullbackCompIsoApp p i r a).hom) ≫ _ = _
     rw [Iso.inv_hom_id, Functor.map_id, Category.id_comp]
   simp only [fiberPullbackSquareIso, Iso.trans_hom, Iso.symm_hom, NatTrans.comp_app,
@@ -227,7 +227,7 @@ theorem fiberSquareRestriction_essSurj
   mem_essImage x := by
     let e := (Fiber.fiberInclusion (p := p) (S := U)).mapIso x.iso
     have he : p.IsHomLift (𝟙 U) e.hom := by
-      show p.IsHomLift (𝟙 U) (Fiber.fiberInclusion.map x.iso.hom)
+      change p.IsHomLift (𝟙 U) (Fiber.fiberInclusion.map x.iso.hom)
       infer_instance
     have hcart : p.IsCartesian i (e.hom ≫ fiberPullbackHom p i x.snd) :=
       IsCartesian.of_iso_comp p i (fiberPullbackHom p i x.snd) e
@@ -240,7 +240,7 @@ theorem fiberSquareRestriction_essSurj
     let eₗ : (fiberPullback p w).obj a ≅ x.fst := fiberIsoMk p eV inferInstance
     let eᵣ : (fiberPullback p r).obj a ≅ x.snd := fiberIsoMk p eU' inferInstance
     refine ⟨a, ⟨CategoricalPullback.mkIso eₗ eᵣ ?_⟩⟩
-    show (fiberPullback p q).map eₗ.hom ≫ x.iso.hom =
+    change (fiberPullback p q).map eₗ.hom ≫ x.iso.hom =
       (fiberPullbackSquareIso p i q r w hsq).hom.app a ≫ (fiberPullback p i).map eᵣ.hom
     apply Fiber.hom_ext
     apply IsCartesian.ext p (i ≫ r) (fiberPullbackHom p i x.snd ≫ ν)

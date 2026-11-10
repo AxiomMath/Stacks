@@ -53,7 +53,7 @@ public theorem mem_of_forall_specializes_fiber {X S : Scheme.{u}} (f : X ⟶ S)
     (y : X) (hy : ∀ w : X, w ⤳ y → f w = f y → w = y) : y ∈ U := by
   let s := f y
   have : LocallyOfFiniteType (f.fiberToSpecResidueField s) := by
-    show LocallyOfFiniteType (Limits.pullback.snd f (S.fromSpecResidueField s))
+    change LocallyOfFiniteType (Limits.pullback.snd f (S.fromSpecResidueField s))
     infer_instance
   have : IsLocallyNoetherian (f.fiber s) :=
     LocallyOfFiniteType.isLocallyNoetherian (f.fiberToSpecResidueField s)
@@ -239,7 +239,7 @@ public theorem essSurj_finiteEtaleBaseChange_of_smooth {X S : Scheme.{u}} (f : X
         exact (IsLocalRing.specializes_closedPoint t).map α.continuous
       have hlt := coheight_lt_coheight_of_specializes S hsp hts
       have ih' := ih (α t) hlt
-      show φ qT ∉ Bad
+      change φ qT ∉ Bad
       rintro ⟨e, he, hge⟩
       exact he (ih' e (by rw [hge, hφf]))
     have hV₂ : ∀ q : PrimeSpectrum (MvPowerSeries (Fin d) A),
@@ -250,7 +250,7 @@ public theorem essSurj_finiteEtaleBaseChange_of_smooth {X S : Scheme.{u}} (f : X
       have hqA : (Spec.map (CommRingCat.ofHom MvPowerSeries.C)) qT =
           IsLocalRing.closedPoint A := by
         refine PrimeSpectrum.ext ?_
-        show q.asIdeal.comap (MvPowerSeries.C : A →+* MvPowerSeries (Fin d) A) = _
+        change q.asIdeal.comap (MvPowerSeries.C : A →+* MvPowerSeries (Fin d) A) = _
         rw [hq]
         exact ((maximalIdeal.isMaximal A).eq_of_le
           (by rw [← hq]; exact (Ideal.IsPrime.comap _).ne_top) Ideal.le_comap_map).symm
@@ -271,7 +271,7 @@ public theorem essSurj_finiteEtaleBaseChange_of_smooth {X S : Scheme.{u}} (f : X
       · refine le_trans ?_ (depth_stalk_le_depth_stalk_of_flat (Limits.pullback.fst g φ) e')
         refine extendedEtale_depth_ge_two U.ι W.hom hd _ ?_
         rw [Scheme.Opens.opensRange_ι]
-        show g (Limits.pullback.fst g φ e') ∉ U
+        change g (Limits.pullback.fst g φ e') ∉ U
         rw [hgfst]
         exact fun h => he' (hUBad _ h)
     obtain ⟨e, he, hez⟩ := hzBad

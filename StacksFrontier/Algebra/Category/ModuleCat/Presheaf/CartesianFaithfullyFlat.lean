@@ -62,8 +62,7 @@ theorem bijective_of_lTensor_pi {A : Type*} [CommRing A] {ι : Type*} [Finite ι
   let eN' := TensorProduct.piLeft A N' B
   have key : ∀ x, eN' (φ.lTensor (∀ i, B i) x) = fun i => φ.lTensor (B i) (eN x i) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => funext i; simp
+    induction x using TensorProduct.inductionOn with
     | tmul b n => funext i; simp [eN, eN']
     | add x y hx hy => funext i; simp only [map_add, Pi.add_apply, hx, hy]
   have hpi : Function.Bijective (fun (x : ∀ i, B i ⊗[A] N) i => φ.lTensor (B i) (x i)) :=

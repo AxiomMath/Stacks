@@ -66,8 +66,8 @@ open CategoryTheory.Pseudofunctor CategoryTheory.Functor
 universe v₂ u₂ u
 
 -- Load-bearing, for the reasons set out in the implementation notes of
--- `StacksFrontier/CategoryTheory/Sites/Descent/CoGrothendieckStack.lean`: the underlying object of a
--- fibre element is spelled both through `Fiber.fiberInclusion` and as a `Subtype.val`.
+-- `StacksFrontier/CategoryTheory/Sites/Descent/CoGrothendieckStack.lean`: the underlying object of
+-- a fibre element is spelled both through `Fiber.fiberInclusion` and as a `Subtype.val`.
 attribute [local implicit_reducible] CategoryTheory.Functor.Fiber
   CategoryTheory.Functor.Fiber.mk CategoryTheory.Functor.Fiber.fiberInclusion
   CategoryTheory.Functor.IsFibered.fiberPullback

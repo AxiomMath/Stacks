@@ -244,10 +244,7 @@ theorem bijective_chartSchemeModuleBaseChangeHom_app (hA : A.IsQuasicoherent)
   -- the comparison intertwines the two base changes
   have hcomm : ∀ z, u (hbc.equiv z) = sbc (Ψ z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero =>
-      exact (congrArg u (map_zero hbc.equiv)).trans
-        ((map_zero u).trans ((congrArg sbc (map_zero Ψ)).trans (map_zero sbc)).symm)
+    induction z using TensorProduct.inductionOn with
     | tmul t a =>
       refine Eq.trans (congrArg u (hbc.equiv_tmul t a)) ?_
       refine Eq.trans (u.map_smul t _) ?_

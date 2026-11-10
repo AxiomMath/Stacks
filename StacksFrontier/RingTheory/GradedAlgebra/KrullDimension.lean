@@ -234,7 +234,7 @@ variable {k S : Type*} [Field k] [CommRing S] [Algebra k S] (𝒜 : ℕ → Subm
 /-- The degree-zero projection is the identity on the degree-zero part. -/
 private lemma projZeroRingHom_eq_self {y : S} (hy : y ∈ 𝒜 0) :
     GradedRing.projZeroRingHom 𝒜 y = y := by
-  show (DirectSum.decompose 𝒜 y 0 : S) = y
+  change (DirectSum.decompose 𝒜 y 0 : S) = y
   rw [DirectSum.decompose_of_mem_same 𝒜 hy]
 
 omit [GradedAlgebra 𝒜] in
@@ -662,7 +662,7 @@ private lemma length_quot_map_pow_eq_finrank (h0 : 𝒜 0 = 1) [Module.Finite k 
         = -(algebraMap S R (a - proj 𝒜 d a) + ((z : R) - algebraMap S R a)) := by
       rw [map_sub]
       ring
-    show algebraMap S R (proj 𝒜 d a) - (z : R) ∈ I ^ (d + 1)
+    change algebraMap S R (proj 𝒜 d a) - (z : R) ∈ I ^ (d + 1)
     rw [h4]
     exact neg_mem (add_mem h2 ha)
   have hfin : Module.Finite k ↥(𝒜 d) := finite_grade 𝒜 h0 hgen d

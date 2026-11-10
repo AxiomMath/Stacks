@@ -93,7 +93,7 @@ public theorem dpMorphism_ext {T : DividedPowerRing.{max u v}}
   have h₁ : q₁.comp env.structureMap = q₂.comp env.structureMap := by
     apply DPMorphism.ext
     ext y
-    show q₁ (env.structureMap y) = q₂ (env.structureMap y)
+    change q₁ (env.structureMap y) = q₂ (env.structureMap y)
     rw [hs, h]
   have key : env.homEquiv T (q₂.comp env.structureMap) ⟨q₁, h₁⟩ =
       env.homEquiv T (q₂.comp env.structureMap) ⟨q₂, rfl⟩ := by
@@ -176,7 +176,7 @@ public theorem alphaP_isNilpotent_mk_primeIdeal
   have hcast : ((p : ℕ) : primeRing B p lam) ^ n =
       algebraMap (B : Type u) (primeRing B p lam) (((p : ℕ) : (B : Type u)) ^ n) := by
     rw [map_pow, map_natCast]
-  show ((p : ℕ) : primeRing B p lam) ^ n ∈ primeIdeal B p lam
+  change ((p : ℕ) : primeRing B p lam) ^ n ∈ primeIdeal B p lam
   rw [hcast]
   refine (isDPMorphism_algebraMap_primeDividedPowers B p lam hp).ideal_comp
     (Ideal.mem_map_of_mem _ ?_)

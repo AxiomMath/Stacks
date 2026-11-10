@@ -143,7 +143,7 @@ include hs in
 theorem map_specialize_ideal :
     (ideal n M m).toIdeal.map (MvPolynomial.map (specialize K s)) =
       (formsIdeal K s hs).toIdeal := by
-  show (Ideal.span (Set.range (form n M m))).map _ = Ideal.span (Set.range s)
+  change (Ideal.span (Set.range (form n M m))).map _ = Ideal.span (Set.range s)
   rw [Ideal.map_span, ← Set.range_comp]
   congr 1
   ext p

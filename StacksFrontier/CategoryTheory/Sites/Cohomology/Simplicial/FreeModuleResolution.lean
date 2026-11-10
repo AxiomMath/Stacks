@@ -80,7 +80,7 @@ theorem exists_epi_isFreeSumModule (M : Modules J A) :
       refine (epi_iff_surjective _).2 fun x ↦ ?_
       refine ⟨(Sigma.ι (fun i ↦ yoneda.obj (X i)) ⟨Y.unop, x⟩).app Y (𝟙 Y.unop), ?_⟩
       change (Sigma.ι (fun i ↦ yoneda.obj (X i)) ⟨Y.unop, x⟩ ≫ s).app Y (𝟙 Y.unop) = x
-      simp only [s, Sigma.ι_desc]
+      simp only [s, Sigma.ι_comp_desc]
       exact (yonedaEquiv (F := G.obj M) (X := Y.unop)).apply_symm_apply x
     exact NatTrans.epi_of_epi_app s
   refine ⟨_, ⟨ι, X, ⟨Iso.refl _⟩⟩, (adj.homEquiv _ _).symm s, ?_⟩

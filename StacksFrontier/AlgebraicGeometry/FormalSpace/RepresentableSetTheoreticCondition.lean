@@ -124,7 +124,7 @@ theorem satisfiesSetTheoreticCondition_of_isRepresentableByAlgebraicSpacesULift
 algebraic space.** If `f : X ⟶ Y` is a morphism of fppf sheaves over `S` representable by
 algebraic spaces and `Y` is a formal algebraic space, then `X` satisfies the set-theoretic
 condition. -/
-theorem satisfiesSetTheoreticCondition_of_isRepresentableByAlgebraicSpacesULift_of_isFormalAlgebraicSpace
+theorem satisfiesSetTheoreticCondition_of_isRepresentableByAlgSpacesULift_of_isFormalAlgebraicSpace
     {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hf : Space.IsRepresentableByAlgebraicSpacesULift.{u + 1} B S hS f.hom)
     (hY : IsFormalAlgebraicSpace B S hS Y) :

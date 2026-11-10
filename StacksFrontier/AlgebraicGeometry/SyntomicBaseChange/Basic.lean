@@ -70,7 +70,7 @@ theorem isCompleteIntersectionFibreAt_baseChange_iff
   obtain ⟨-, ⟨UX, hUX, rfl⟩, hxUX, hUSX₀⟩ := X.isBasis_affineOpens.exists_subset_of_mem_open
     hsUS (US.2.preimage f.continuous)
   have hsUS' : f' x' ∈ (g ⁻¹ᵁ US : Set S') := by
-    show g (f' x') ∈ (US : Set S); exact hw x' ▸ hsUS
+    change g (f' x') ∈ (US : Set S); exact hw x' ▸ hsUS
   obtain ⟨-, ⟨UT, hUT, rfl⟩, hxUT, hUST₀⟩ := S'.isBasis_affineOpens.exists_subset_of_mem_open
     hsUS' (US.2.preimage g.continuous)
   have hUSX : UX ≤ f ⁻¹ᵁ US := hUSX₀

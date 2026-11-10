@@ -146,7 +146,7 @@ theorem picardModelEquiv_classOf (R : RingedSpace.{u, u})
     (hL : IsInvertible R.presheaf (structureIsSheaf R) L) :
     picardModelEquiv R (Stacks.SheafOfModules.picardClass R.presheaf (structureIsSheaf R) L hL) =
       Stacks.SheafOfModules.Picard.classOf R.presheaf (structureIsSheaf R) L hL := by
-  show (Stacks.SheafOfModules.Picard.picardGroupData R.presheaf
+  change (Stacks.SheafOfModules.Picard.picardGroupData R.presheaf
       (structureIsSheaf R)).classEquiv
       ((Stacks.Picard.picardGroupData R.presheaf (structureIsSheaf R)).classEquiv.symm
         ((Stacks.Picard.picardGroupData R.presheaf (structureIsSheaf R)).classEquiv
@@ -420,7 +420,7 @@ private theorem constHom_eq {k : Type u} [Field k] (Y : Scheme.{u}) [Y.Over (Spe
     constHom Y U hU =
       ((((Scheme.ΓSpecIso (.of k)).inv ≫ (Y ↘ Spec (.of k)).appTop) ≫
         Y.presheaf.map (homOfLE (le_top : U ≤ ⊤)).op)).hom := by
-  show (((Scheme.ΓSpecIso (.of k)).inv ≫ (Y ↘ Spec (.of k)).app ⊤ ≫
+  change (((Scheme.ΓSpecIso (.of k)).inv ≫ (Y ↘ Spec (.of k)).app ⊤ ≫
     Y.presheaf.map (homOfLE hU).op)).hom = _
   rw [← Category.assoc]
   rfl

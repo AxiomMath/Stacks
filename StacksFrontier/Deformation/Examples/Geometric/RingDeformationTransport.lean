@@ -361,7 +361,7 @@ public theorem bijective_differential_comp_ringDeformationTransport
     (isCofiberedInGroupoids_ringDeformationProjection (Λ := Λ) (k := k) (P := R))
     (isCofiberedInGroupoids_ringDeformationProjection (Λ := Λ) (k := k) (P := S))
     φ (ringDeformationTransport (Λ := Λ) e he) (augmentedDualNumbers (Λ := Λ) (k := k))
-  show Function.Bijective (mapIsomorphismClasses h𝓕
+  change Function.Bijective (mapIsomorphismClasses h𝓕
     (isCofiberedInGroupoids_ringDeformationProjection (Λ := Λ) (k := k) (P := S))
     (BasedFunctor.comp φ (ringDeformationTransport (Λ := Λ) e he))
     (augmentedDualNumbers (Λ := Λ) (k := k)))

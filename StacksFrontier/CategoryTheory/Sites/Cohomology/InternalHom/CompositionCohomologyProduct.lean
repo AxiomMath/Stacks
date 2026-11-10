@@ -668,7 +668,7 @@ omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrp
 theorem idMor_comp_d : idMor X P ≫ (endComplex X P).d 0 1 = 0 := by
   refine ((endComplex X P).X 1).unitHomEquiv.injective ?_
   refine PresheafOfModules.sections_ext _ _ fun U => ?_
-  show ((endComplex X P).d 0 1).val.app U
+  change ((endComplex X P).d 0 1).val.app U
     ((idMor X P).val.app U (1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U)) = _
   rw [idMor_val_app_one, d_idSection]
   rfl

@@ -74,7 +74,7 @@ theorem isPullback_affinePointStage_baseChange (i : D.Stages) :
       (D.transition i.2).hom g.hom :=
   (isPullback_affinePointStage hT u i).of_iso (Iso.refl _) (Iso.refl _) e.symm
     (Iso.refl _) (by simp) (by simp)
-    (by simp only [Iso.refl_hom, Category.comp_id, Category.id_comp, stagesToBase]; rfl)
+    (by simp only [Iso.refl_hom, stagesToBase]; rfl)
     ((Category.comp_id u).trans hu.symm)
 
 include hu in
@@ -85,7 +85,7 @@ theorem isPullback_affinePointLimit_baseChange :
       (D.projection D.base).hom g.hom :=
   (isPullback_affinePointLimit hT u).of_iso (Iso.refl _) (Iso.refl _) e.symm
     (Iso.refl _) (by simp) (by simp)
-    (by simp only [Iso.refl_hom, Category.comp_id, Category.id_comp]; rfl)
+    (by simp only [Iso.refl_hom]; rfl)
     ((Category.comp_id u).trans hu.symm)
 
 /-- **The base-changed stage `X_i ×_{X₀} h_T` of the affine point is the stage `X_i ×_{X₀} V` of

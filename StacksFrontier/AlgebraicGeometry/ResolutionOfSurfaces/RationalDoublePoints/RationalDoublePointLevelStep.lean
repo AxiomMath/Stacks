@@ -171,14 +171,14 @@ theorem levelDescent_zero (S : RationalDoublePointSituation.{u}) (x : S.A)
     obtain ⟨j, hj⟩ := exists_memChart S.A w hspan z
     obtain ⟨M, hM, hle, hprime, ε, hε, hnoeth, -, -, hdim, hsing⟩ := S.exists_chartData _ z hz hj
     exact S.map_maximalIdeal_eq_span_of_chart ε hε (w 0)
-      (map_maximalIdeal_eq_span_of_isGoodCoordinate_chart w hspan a hupper hrel hgood j _ M hle
+      (map_maximalIdeal_eq_span_of_isGoodCoordinate_chart w hspan a hrel hgood j _ M hle
         hdim hsing)
   obtain ⟨M, hM, hle, hprime, ε, hε, hnoeth, -, -, hdim, hsing⟩ :=
     S.exists_chartData (hw 0) z hz (memChart_of_map_maximalIdeal_eq_span S.A (hw 0) z hexc)
   obtain ⟨hsurj, hgc⟩ := isGoodCoordinate_localization_of_chart (Localization.Away (w 0)) hw
     hspan a hupper hrel hgood M hle hdim hsing
   exact levelDescent_of_chart S 0 ε hε hle (w 0) hsurj
-    (map_maximalIdeal_eq_span_of_isGoodCoordinate_chart w hspan a hupper hrel hgood 0 _ M hle hdim
+    (map_maximalIdeal_eq_span_of_isGoodCoordinate_chart w hspan a hrel hgood 0 _ M hle hdim
       hsing) hgc
 
 /-- At a singular point of the blowup whose local ring is not in case I, the localization of a

@@ -162,7 +162,7 @@ theorem isFlat_over_of_essentiallySmall
         Functor.isoWhiskerRight
           (tensorLeftIsoSheafTensorRight (X.J.over U) (X.O.over U) (F.over U)).symm
           (extendByZero X U))
-  show exactFunctor _ _
+  change exactFunctor _ _
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{max c u, u, u, u, u} (X.O.over U)).flip.obj
       (F.over U))
   exact ObjectProperty.IsClosedUnderIsomorphisms.of_iso

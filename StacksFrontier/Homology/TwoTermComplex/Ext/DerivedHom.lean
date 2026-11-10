@@ -11,8 +11,8 @@ public import Mathlib.CategoryTheory.EffectiveEpi.Comp
 public import Mathlib.CategoryTheory.ExtremalEpi
 public import Mathlib.CategoryTheory.Limits.FunctorCategory.EpiMono
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Mathlib.Data.Int.Star
-public import Mathlib.Data.Int.SuccPred
+public import Mathlib.Algebra.Order.Star.Int
+public import Mathlib.Order.SuccPred.Int
 public import Mathlib.Tactic.LinearCombination
 public import StacksCore.LinearAlgebra.Matrix.CommSemiring
 public import StacksFrontier.Homology.TwoTermComplex.ProjRes
@@ -256,7 +256,7 @@ lemma exists_comp_eq_of_apply_eq_zero {A B C : ModuleCat.{v} R} (p : A ⟶ B) (f
   refine ⟨ModuleCat.ofHom ((Submodule.liftQ _ f.hom fun a ha => hker a ha).comp
     e.symm.toLinearMap), ?_⟩
   ext a
-  show Submodule.liftQ _ f.hom (fun a ha => hker a ha) (e.symm (p.hom a)) = f.hom a
+  change Submodule.liftQ _ f.hom (fun a ha => hker a ha) (e.symm (p.hom a)) = f.hom a
   rw [show e.symm (p.hom a) = Submodule.Quotient.mk a from e.symm_apply_eq.mpr rfl]
   rfl
 

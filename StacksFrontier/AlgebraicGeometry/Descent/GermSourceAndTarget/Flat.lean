@@ -204,7 +204,7 @@ of the structure sheaf, regarded as a module over itself, at that point. -/
 public lemma flat_stalkMap_iff_isFlatOverAt_unit {X Y : Scheme.{u}} (f : X ⟶ Y) (x : X) :
     (f.stalkMap x).hom.Flat ↔
       IsFlatOverAt f.toLRSHom.toShHom (SheafOfModules.unit X.ringCatSheaf) x := by
-  show IsFlatAt f.toLRSHom.toShHom x ↔ _
+  change IsFlatAt f.toLRSHom.toShHom x ↔ _
   exact isFlatAt_iff_isFlatOverAt_unit f.toLRSHom.toShHom x
 
 /-- Flatness of the stalk map of a representative of a morphism of germs at the distinguished
@@ -240,7 +240,7 @@ private lemma representativeFlat_restrictRepresentative {X Y : GermOfScheme.{u}}
   have hbij : Function.Bijective (i.stalkMap xU).hom :=
     (ConcreteCategory.isIso_iff_bijective _).mp
       ((IsOpenImmersion.iff_isIso_stalkMap.mp inferInstance).2 xU)
-  show ((restrictRepresentative f U hxU hU).hom.stalkMap xU).hom.Flat ↔
+  change ((restrictRepresentative f U hxU hU).hom.stalkMap xU).hom.Flat ↔
     (f.hom.stalkMap ⟨X.point, f.mem_source⟩).hom.Flat
   rw [hcomp]
   exact (RingHom.Flat.comp_iff_of_bijective_left (f := (f.hom.stalkMap (i xU)).hom) hbij).trans
@@ -298,7 +298,7 @@ private lemma isFlatOverAt_of_iso {Y S : RingedSpace.{u, u}}
     let qIso := (TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} y).mapIso
       ((PresheafOfModules.toPresheaf (Y.presheaf ⋙
         forget₂ CommRingCat.{u} RingCat.{u})).mapIso eP)
-    show Function.Bijective (ConcreteCategory.hom qIso.hom)
+    change Function.Bijective (ConcreteCategory.hom qIso.hom)
     exact (ConcreteCategory.isIso_iff_bijective qIso.hom).mp (Iso.isIso_hom qIso)
   let eY : (TopCat.Presheaf.stalk (C := AddCommGrpCat.{u}) M.presheaf y) ≃ₗ[
       S.presheaf.stalk (p.hom.base y)]
@@ -306,7 +306,7 @@ private lemma isFlatOverAt_of_iso {Y S : RingedSpace.{u, u}}
     { (LinearEquiv.ofBijective eL hbij) with
       map_smul' := by
         intro r m
-        show eL ((p.hom.stalkMap y).hom r • m) = (p.hom.stalkMap y).hom r • eL m
+        change eL ((p.hom.stalkMap y).hom r • m) = (p.hom.stalkMap y).hom r • eL m
         exact eL.map_smul _ _ }
   exact Module.Flat.of_linearEquiv eY.symm
 
@@ -365,17 +365,17 @@ private lemma representativeFlat_compRepresentative_left
     rfl
   have hp : k ⟨X.point, c.mem_source⟩ = ⟨Y.point, r.mem_source⟩ := by
     apply Subtype.ext
-    show r.source.ι ((a.hom ∣_ r.source)
+    change r.source.ι ((a.hom ∣_ r.source)
       ((a.source.ι.isoImage (a.hom ⁻¹ᵁ r.source)).inv ⟨X.point, _⟩)) = Y.point
     rw [← a.map_point, ← Scheme.Hom.comp_apply, morphismRestrict_ι]
-    show (((a.source.ι.isoImage _).inv ≫ (a.hom ⁻¹ᵁ r.source).ι ≫ a.hom)
+    change (((a.source.ι.isoImage _).inv ≫ (a.hom ⁻¹ᵁ r.source).ι ≫ a.hom)
       ⟨X.point, c.mem_source⟩) = a.hom ⟨X.point, a.mem_source⟩
     rw [← Category.assoc, Scheme.Opens.isoImage_ι_inv_ι]
-    show a.hom (X.scheme.homOfLE _ ⟨X.point, c.mem_source⟩) = _
+    change a.hom (X.scheme.homOfLE _ ⟨X.point, c.mem_source⟩) = _
     exact congrArg a.hom (Subtype.ext (Scheme.homOfLE_apply _ ⟨X.point, c.mem_source⟩))
   have : Etale k := by dsimp [k]; infer_instance
   let x : c.source.toScheme := ⟨X.point, c.mem_source⟩
-  show (c.hom.stalkMap x).hom.Flat ↔ (r.hom.stalkMap ⟨Y.point, r.mem_source⟩).hom.Flat
+  change (c.hom.stalkMap x).hom.Flat ↔ (r.hom.stalkMap ⟨Y.point, r.mem_source⟩).hom.Flat
   rw [← hp]
   exact (flat_stalkMap_iff_of_etale_square k (𝟙 Z.scheme) c.hom r.hom
     (by rw [hk]; rfl) x).symm
@@ -407,11 +407,11 @@ private lemma representativeFlat_compRepresentative_right
     simp
   have hi : i x = ⟨X.point, r.mem_source⟩ := by
     apply Subtype.ext
-    show r.source.ι (i x) = X.point
+    change r.source.ι (i x) = X.point
     exact (Scheme.Hom.comp_apply i r.source.ι x).symm.trans
       (congrArg (fun m : c.source.toScheme ⟶ X.scheme => m x) hinc)
   have : Etale i := by dsimp [i]; infer_instance
-  show (c.hom.stalkMap x).hom.Flat ↔ (r.hom.stalkMap ⟨X.point, r.mem_source⟩).hom.Flat
+  change (c.hom.stalkMap x).hom.Flat ↔ (r.hom.stalkMap ⟨X.point, r.mem_source⟩).hom.Flat
   rw [← hi]
   exact (flat_stalkMap_congr_hom (j ≫ b.hom) c.hom hcomp.symm x).trans
     ((flat_stalkMap_comp_right_iff j b.hom x).trans

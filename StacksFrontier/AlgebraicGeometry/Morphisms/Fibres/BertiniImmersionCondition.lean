@@ -407,7 +407,7 @@ tuple `c` evaluates to the value of `ev_x` at the vector `∑ⱼ cⱼvⱼ`. -/
 theorem evalCoord_sectionOf_apply {n : ℕ} (b : Module.Basis (Fin (n + 1)) D.k D.V) (x : D.X)
     (c : Fin (n + 1) → D.k) :
     evalCoord (fun j => D.sectionOf (b j)) D.toBase x c = D.evalVector x (∑ j, c j • b j) := by
-  show evalQuotientMk D.toBase x _ =
+  change evalQuotientMk D.toBase x _ =
     evalQuotientMk D.toBase x ((D.L.presheaf.Γgerm x).hom (D.sectionOf (∑ j, c j • b j)))
   rw [D.sectionOf_sum_smul, map_sum]
   exact congrArg (evalQuotientMk D.toBase x) (Finset.sum_congr rfl fun j _ => by

@@ -170,7 +170,7 @@ lemma freeAbPresheafShrink_map_smul {X Y : Cᵒᵖ} (f : X ⟶ Y) (c : R.obj X)
     (a : Shrink.{v} (F.obj X →₀ R.obj X)) :
     (freeAbPresheafShrink R F : Cᵒᵖ ⥤ AddCommGrpCat.{v}).map f (c • a) =
       R.map f c • (freeAbPresheafShrink R F : Cᵒᵖ ⥤ AddCommGrpCat.{v}).map f a := by
-  show Shrink.addEquiv.symm (Finsupp.mapDomainMapRange (R.map f).hom (F.map f)
+  change Shrink.addEquiv.symm (Finsupp.mapDomainMapRange (R.map f).hom (F.map f)
       (Shrink.addEquiv (c • a))) =
     R.map f c • Shrink.addEquiv.symm (Finsupp.mapDomainMapRange (R.map f).hom (F.map f)
       (Shrink.addEquiv a))
@@ -233,7 +233,7 @@ include hφ in
 lemma freeObjDescShrink_app_single (X : Cᵒᵖ) (i : F.obj X) (c : R.obj X) :
     (freeObjDescShrink φ hφ).app X (Shrink.addEquiv.symm (Finsupp.single i c)) =
       c • φ X i := by
-  show Finsupp.lift (M.obj X) (R.obj X) (F.obj X) (φ X)
+  change Finsupp.lift (M.obj X) (R.obj X) (F.obj X) (φ X)
       (Shrink.addEquiv (Shrink.addEquiv.symm (Finsupp.single i c))) = c • φ X i
   rw [AddEquiv.apply_symm_apply, Finsupp.lift_apply, Finsupp.sum_single_index (by simp)]
 
@@ -258,12 +258,12 @@ lemma exists_freeYonedaShrink_hom {M : PresheafOfModules.{v} R} (X : Cᵒᵖ) (x
       M.restrictₛₗ ((yoneda.obj X.unop).map f g).op x =
         M.map f (M.restrictₛₗ g.op x) := by
     intro Y Z f g
-    show M.map ((f.unop ≫ g).op) x = M.map f (M.map g.op x)
+    change M.map ((f.unop ≫ g).op) x = M.map f (M.map g.op x)
     rw [← M.map_comp_apply]
     rfl
   refine ⟨freeObjDescShrink (fun Y g ↦ M.restrictₛₗ g.op x) hφ, ?_⟩
   rw [freeObjDescShrink_app_single, one_smul]
-  show M.map (𝟙 X) x = x
+  change M.map (𝟙 X) x = x
   rw [M.map_id]
   simp
   rfl

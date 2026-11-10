@@ -64,7 +64,7 @@ theorem derivedFibreBetti_derivedPullback (g : Y' ⟶ Y)
       derivedFibreBetti Y K n (pointsMap B S hS Y'.1 g.hom x) := by
   rw [derivedFibreBetti_apply, derivedFibreBetti_apply, derivedFibreBettiAt_derivedPullback]
   refine derivedFibreBettiAt_eq_of_class_eq B S hS Y K hK n ?_
-  show Quot.mk _ _ = Quot.mk _ (Quot.out (pointsMap B S hS Y'.1 g.hom x))
+  change Quot.mk _ _ = Quot.mk _ (Quot.out (pointsMap B S hS Y'.1 g.hom x))
   rw [Quot.out_eq]
   conv_rhs => rw [← Quot.out_eq x]
   rfl

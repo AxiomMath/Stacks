@@ -180,7 +180,7 @@ theorem rationalTotalChernCharacter_of_iso_unit (M : X.Modules)
     rfl
   · rw [powerSumOfFiniteLocallyFree_eq_zero_of_iso_unit C sX M e hp, TotalChowClass.zero_apply,
       TensorProduct.tmul_zero]
-    show (0 : rationalChowCohomologyComponent C _ sX p) =
+    change (0 : rationalChowCohomologyComponent C _ sX p) =
       (1 : ℚ) ⊗ₜ[ℤ] (1 : TotalChowClass C sX) p
     rw [TotalChowClass.one_apply_of_ne hp, TensorProduct.tmul_zero]
 
@@ -355,13 +355,11 @@ theorem rationalChowCap_mul_apply (c d : RationalTotalChowClass C sX) (p : ℕ) 
             (RationalTotalChowClass.rationalComponent (p - j) x) *
           rationalChowCap C Gy sX (j : ℤ) (RationalTotalChowClass.rationalComponent j y) := by
     intro x y
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [zero_mul, map_zero, Finset.sum_const_zero]
+    induction x using TensorProduct.inductionOn with
     | add x x' hx hx' =>
       simp only [add_mul, map_add, hx, hx', Finset.sum_add_distrib]
     | tmul r c =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp only [mul_zero, map_zero, Finset.sum_const_zero]
+      induction y using TensorProduct.inductionOn with
       | add y y' hy hy' =>
         simp only [mul_add, map_add, hy, hy', Finset.sum_add_distrib]
       | tmul r' d =>
@@ -395,7 +393,7 @@ theorem totalRationalChowCap_mul (lo : ℤ)
   -- the terms of total degree above `N` vanish
   have hf : ∀ q j, N < q + j → f q j = 0 := by
     intro q j hqj
-    show rationalChowCap C Gy sX (q : ℤ) (c q) (rationalChowCap C Gy sX (j : ℤ) (d j) v) = 0
+    change rationalChowCap C Gy sX (q : ℤ) (c q) (rationalChowCap C Gy sX (j : ℤ) (d j) v) = 0
     rw [rationalChowCap_lof]
     refine rationalChowCap_lof_eq_zero C Gy sX q _ (k - j) _ fun x hx ↦ ?_
     have := hlo x
@@ -461,12 +459,10 @@ theorem rationalChernCharacterCap_mul (lo : ℤ)
     (x y : ℚ ⊗[ℤ] VectorBundleKZero X) :
     rationalChernCharacterCap C sX (x * y) =
       rationalChernCharacterCap C sX x * rationalChernCharacterCap C sX y := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [zero_mul, map_zero, zero_mul]
+  induction x using TensorProduct.inductionOn with
   | add x x' hx hx' => rw [add_mul, map_add, map_add, hx, hx', add_mul]
   | tmul r a =>
-    induction y using TensorProduct.induction_on with
-    | zero => rw [mul_zero, map_zero, mul_zero]
+    induction y using TensorProduct.inductionOn with
     | add y y' hy hy' => rw [mul_add, map_add, map_add, hy, hy', mul_add]
     | tmul r' b =>
       rw [Algebra.TensorProduct.tmul_mul_tmul, rationalChernCharacterCap_tmul,

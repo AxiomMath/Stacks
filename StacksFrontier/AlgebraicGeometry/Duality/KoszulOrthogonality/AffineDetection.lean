@@ -138,7 +138,7 @@ theorem exists_derivedKoszul_snoc_triangle {r : ℕ} (f : Fin r → A) (a : A) :
     T' eT.symm
   obtain ⟨b, c, hbc⟩ : ∃ b c, Triangle.mk T.mor₁ b c ∈ distTriang _ := ⟨_, _, hT'⟩
   have hmor : T.mor₁ = a • 𝟙 (derivedKoszul f) := by
-    show DerivedCategory.Q.map (a • 𝟙 (koszulCochain (A := A) f)) = _
+    change DerivedCategory.Q.map (a • 𝟙 (koszulCochain (A := A) f)) = _
     rw [Functor.Linear.map_smul, DerivedCategory.Q.map_id]
     rfl
   rw [hmor] at hbc
@@ -162,7 +162,7 @@ theorem eq_zero_of_smul_eq_zero_of_forall_hom_derivedKoszul_snoc_eq_zero {r : �
   have hcomp : ((CategoryTheory.shiftFunctor
       (Pretriangulated.Triangle (DerivedCategory (ModuleCat.{u} A))) n).obj
         (Pretriangulated.Triangle.mk (a • 𝟙 (derivedKoszul f)) u v)).mor₁ ≫ s = 0 := by
-    show (n.negOnePow • ((a • 𝟙 (derivedKoszul f))⟦n⟧')) ≫ s = 0
+    change (n.negOnePow • ((a • 𝟙 (derivedKoszul f))⟦n⟧')) ≫ s = 0
     rw [Linear.units_smul_comp, Functor.Linear.map_smul, CategoryTheory.Functor.map_id,
       Linear.smul_comp, Category.id_comp, hs, smul_zero]
   obtain ⟨g, hg⟩ := Pretriangulated.Triangle.yoneda_exact₂ _

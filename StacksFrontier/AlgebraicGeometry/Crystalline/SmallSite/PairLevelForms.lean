@@ -63,7 +63,7 @@ theorem of_mem_completionIdeal {A : Type*} [CommRing A] (I : Ideal A)
     (p : ℕ) (hp : IsNilpotent (Ideal.Quotient.mk I (p : A))) {x : A} (hx : x ∈ I) :
     AdicCompletion.of (DividedPowers.pAdicIdeal (A := A) p) A x ∈
       DividedPowers.completionIdeal I p hp := by
-  show DividedPowers.completionToQuotient I p hp _ = 0
+  change DividedPowers.completionToQuotient I p hp _ = 0
   simpa [DividedPowers.completionToQuotient] using Ideal.Quotient.eq_zero_iff_mem.mpr hx
 
 section LevelEval
@@ -144,7 +144,7 @@ theorem eval_completedConnection_ofLevels (m : M₀) (n : ℕ) (s : Finset ι)
     simp only [w, tensorLevelProj, map_sub, map_sum, LinearMap.lTensor_tmul, hθ]
   have he := eval_add_eq_of_completedLevelProj_eq M₀ lev N r hsurj hker n hlev
   rw [AdicCompletion.eval_apply, AdicCompletion.eval_apply] at he
-  show AdicCompletion.eval _ _ (N + n)
+  change AdicCompletion.eval _ _ (N + n)
     (AdicCompletion.map _ (firstOrderDifferentialComm D Omega M₀)
       (completedLevelComparisonFun M₀ lev trans N r hsurj hker hcomp
           (fun n ↦ coordinateComparison D Omega d dx (θlev n) (hleib n))
@@ -258,7 +258,7 @@ def envLevelDerivationFun (y : (wsEnvelope hp 0 : Type u)) : pairLevelForms hp e
 theorem envLevelDerivationFun_add (x y : (wsEnvelope hp 0 : Type u)) :
     envLevelDerivationFun hp e (x + y) =
       envLevelDerivationFun hp e x + envLevelDerivationFun hp e y := by
-  show crysDerivation (levelObj hp 0 e).obj (envLevelMap hp 0 e (x + y)) = _
+  change crysDerivation (levelObj hp 0 e).obj (envLevelMap hp 0 e (x + y)) = _
   rw [map_add]
   exact sheafApp_add _ _ _ ⊤ _ _
 
@@ -302,7 +302,7 @@ theorem envLevelDerivationFun_algebraMap (a : ((affineSituation S hp).A : Type u
     letI := wsEnvelopeAlgebra hp
     envLevelDerivationFun hp e (algebraMap _ (wsEnvelope hp 0 : Type u) a) = 0 := by
   let := wsEnvelopeAlgebra hp
-  show crysDerivation (levelObj hp 0 e).obj _ = 0
+  change crysDerivation (levelObj hp 0 e).obj _ = 0
   rw [envLevelMap_algebraMap]
   exact sheafApp_base _ _ _ ⊤ (appLE_mem_baseSections _ _ _ ⊤ ⊤ _ a)
 
@@ -398,7 +398,7 @@ theorem pairFormsLevelFun_smul (a : pairRing hp) (w : pairForms hp) :
       ((congrArg₂ (· + ·) ((pairFormsLevelFun hp e).map_smul y w)
         (pairFormsLevelFun_pow_smul hp e (t • w))).trans (add_zero _)))
   refine h2.trans ?_
-  show (show pairLevelForms hp e from envLevelMap hp 0 e y •
+  change (show pairLevelForms hp e from envLevelMap hp 0 e y •
       (show crysDiffSections (levelObj hp 0 e).obj from pairFormsLevelFun hp e w)) =
     (show pairLevelForms hp e from pairLss hp e a •
       (show crysDiffSections (levelObj hp 0 e).obj from pairFormsLevelFun hp e w))
@@ -505,7 +505,7 @@ theorem pairLss_natCast_pow :
 theorem nsmul_pairLevelTensor (z : pairLevelTensor hp Fc e) :
     (S.p ^ (_root_.Crystalline.uniformLevel (affineSituation S hp) + e)) • z = 0 := by
   rw [← Nat.cast_smul_eq_nsmul (pairRing hp)]
-  show pairLss hp e _ • (show crysDiffSections (levelObj hp 0 e).obj ⊗[crysSheafRing S
+  change pairLss hp e _ • (show crysDiffSections (levelObj hp 0 e).obj ⊗[crysSheafRing S
     (levelObj hp 0 e).obj] Fc.obj.val.obj (op (levelObj hp 0 e)) from z) = 0
   rw [pairLss_natCast_pow, zero_smul]
 
@@ -667,7 +667,7 @@ theorem pairTensorLevel_pairConnection_aux (m : wholeSpaceSections hp Fc ⦋0⦌
   rw [map_sum, ← Finset.sum_neg_distrib]
   refine Finset.sum_congr rfl fun c _ ↦ ?_
   refine (TensorProduct.lift.tmul (f' := pairTensorLevelBil hp Fc e) _ _).trans ?_
-  show pairLevelTmul hp Fc e (pairFormsLevel hp e (pairDx hp c))
+  change pairLevelTmul hp Fc e (pairFormsLevel hp e (pairDx hp c))
       (pairComponent hp Fc e (-crystalTheta hp Fc (Finsupp.single c 1) m)) = _
   rw [pairFormsLevel_pairDx, map_neg]
   exact TensorProduct.tmul_neg _ _

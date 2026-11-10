@@ -75,7 +75,8 @@ Lean is machine-checked — `#print axioms` on
 `not_forall_exists_pow_isElementaryStandard_of_isStandardSmooth` reports only `propext`,
 `Classical.choice` and `Quot.sound`, and no incompleteness axiom — so what is open is not whether
 the Lean proves its statement, but whether that statement is a faithful reading of part (f). Until
-that reading is confirmed independently, treat part (f) as *refuted here, unconfirmed upstream*, and do not cite
+that reading is confirmed independently, treat part (f) as *refuted here, unconfirmed upstream*, and
+do not cite
 this file as settling the matter. The identified failure in the source's argument is the step
 asserting the Jacobian determinant stays invertible in `A_a` after the rescaling `x_i ↦ a^N x_i`:
 with `m ≤ c` the principal minor's row set straddles the rescaled and unrescaled variables, so the
@@ -179,9 +180,9 @@ theorem presentationGrad_mul (P : Presentation R A) (g h : MvPolynomial (Fin P.n
     presentationGrad P F (g * h) = presentationLiftTo P F g • presentationGrad P F h
       + presentationLiftTo P F h • presentationGrad P F g := by
   funext i
-  show presentationLiftTo P F (pderiv i (g * h)) = _
+  change presentationLiftTo P F (pderiv i (g * h)) = _
   rw [pderiv_mul, map_add, map_mul, map_mul]
-  show _ = presentationLiftTo P F g * presentationGrad P F h i
+  change _ = presentationLiftTo P F g * presentationGrad P F h i
     + presentationLiftTo P F h * presentationGrad P F g i
   rw [presentationGrad_apply, presentationGrad_apply]
   ring
@@ -215,7 +216,7 @@ theorem derivation_presentationLift (P : Presentation R A) (D : Derivation R A F
   induction g using MvPolynomial.induction_on with
   | C r =>
       have h1 : P.lift (C r) = algebraMap R A r := by
-        show P.lift (algebraMap R (MvPolynomial (Fin P.n) R) r) = _
+        change P.lift (algebraMap R (MvPolynomial (Fin P.n) R) r) = _
         rw [← presentationLiftHom_apply, AlgHom.commutes]
       rw [h1, Derivation.map_algebraMap]
       symm
@@ -228,7 +229,7 @@ theorem derivation_presentationLift (P : Presentation R A) (D : Derivation R A F
       rw [h1, map_add, hp, hq, ← Finset.sum_add_distrib]
       refine Finset.sum_congr rfl fun i _ => ?_
       rw [presentationGrad_add]
-      show _ = (presentationGrad P F p i + presentationGrad P F q i) * _
+      change _ = (presentationGrad P F p i + presentationGrad P F q i) * _
       ring
   | mul_X p j hp =>
       have h1 : P.lift (p * X j) = P.lift p * P.lift (X j) := by
@@ -626,16 +627,16 @@ theorem nodeGen_mem_adjoin (n : ℕ) :
     Algebra.subset_adjoin (by simp)
   have h0 : nodeGen 0 = nodeX := by
     refine Subtype.ext ?_
-    show (X ^ 2 - 1) * X ^ 0 = X ^ 2 - 1
+    change (X ^ 2 - 1) * X ^ 0 = X ^ 2 - 1
     ring
   have h1 : nodeGen 1 = nodeY := by
     refine Subtype.ext ?_
-    show (X ^ 2 - 1) * X ^ 1 = X ^ 3 - X
+    change (X ^ 2 - 1) * X ^ 1 = X ^ 3 - X
     ring
   have hstep : ∀ m, nodeGen (m + 2) = nodeGen m * nodeX + nodeGen m := by
     intro m
     refine Subtype.ext ?_
-    show (X ^ 2 - 1) * X ^ (m + 2) = (X ^ 2 - 1) * X ^ m * (X ^ 2 - 1) + (X ^ 2 - 1) * X ^ m
+    change (X ^ 2 - 1) * X ^ (m + 2) = (X ^ 2 - 1) * X ^ m * (X ^ 2 - 1) + (X ^ 2 - 1) * X ^ m
     ring
   have key : ∀ m, nodeGen m ∈ Algebra.adjoin ℚ ({nodeX, nodeY} : Set nodeAlg) ∧
       nodeGen (m + 1) ∈ Algebra.adjoin ℚ ({nodeX, nodeY} : Set nodeAlg) := by
@@ -658,7 +659,7 @@ theorem mem_nodeAdjoin_of_val_eq_mul (q : ℚ[X]) : ∀ v : nodeAlg, (v : ℚ[X]
       have hsum : v = ⟨(X ^ 2 - 1) * p, mul_mem_nodeAlg p⟩
           + ⟨(X ^ 2 - 1) * q, mul_mem_nodeAlg q⟩ := by
         refine Subtype.ext ?_
-        show (v : ℚ[X]) = (X ^ 2 - 1) * p + (X ^ 2 - 1) * q
+        change (v : ℚ[X]) = (X ^ 2 - 1) * p + (X ^ 2 - 1) * q
         rw [hv]
         ring
       rw [hsum]
@@ -668,7 +669,7 @@ theorem mem_nodeAdjoin_of_val_eq_mul (q : ℚ[X]) : ∀ v : nodeAlg, (v : ℚ[X]
       have hv' : v = r • nodeGen n := by
         refine Subtype.ext ?_
         rw [hv]
-        show (X ^ 2 - 1) * (monomial n) r = r • ((X ^ 2 - 1) * X ^ n)
+        change (X ^ 2 - 1) * (monomial n) r = r • ((X ^ 2 - 1) * X ^ n)
         rw [← C_mul_X_pow_eq_monomial, Polynomial.smul_eq_C_mul]
         ring
       rw [hv']
@@ -699,7 +700,7 @@ theorem nodeAlg_adjoin_eq_top : Algebra.adjoin ℚ ({nodeX, nodeY} : Set nodeAlg
   have hval : v = algebraMap ℚ nodeAlg ((v : ℚ[X]).eval 1)
       + ⟨(X ^ 2 - 1) * q, mul_mem_nodeAlg q⟩ := by
     refine Subtype.ext ?_
-    show (v : ℚ[X]) = algebraMap ℚ ℚ[X] ((v : ℚ[X]).eval 1) + (X ^ 2 - 1) * q
+    change (v : ℚ[X]) = algebraMap ℚ ℚ[X] ((v : ℚ[X]).eval 1) + (X ^ 2 - 1) * q
     rw [← hq, Polynomial.algebraMap_eq]
     ring
   rw [hval]
@@ -902,7 +903,7 @@ theorem nodeDeriv_rigid (d : Derivation ℚ nodeAlg nodeLoc) :
   -- the defining relation of the node, differentiated
   have hrel : nodeY * nodeY = nodeX * nodeX * nodeX + nodeX * nodeX := by
     refine Subtype.ext ?_
-    show (X ^ 3 - X) * (X ^ 3 - X)
+    change (X ^ 3 - X) * (X ^ 3 - X)
       = (X ^ 2 - 1) * (X ^ 2 - 1) * (X ^ 2 - 1) + (X ^ 2 - 1) * (X ^ 2 - 1)
     ring
   have hd := congrArg d hrel

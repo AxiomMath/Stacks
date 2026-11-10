@@ -158,7 +158,7 @@ private theorem reduceProj_algebraMap (c : C) :
       (Algebra.TensorProduct.includeRight : (C ⧸ topologicalNilradical C) →ₐ[R]
         (A ⧸ topologicalNilradical A) ⊗[R]
           (C ⧸ topologicalNilradical C)).toRingHom (Ideal.Quotient.mk _ c) := by
-  show reduceProj (R := R) hA hC
+  change reduceProj (R := R) hA hC
     (((1 : A) ⊗ₜ[R] c : A ⊗[R] C) :
       TopologicalRing.CompletedTensorProduct (R := R) (M := A) (N := C)) = _
   rw [reduceProj_coe hA hC]
@@ -225,7 +225,7 @@ private theorem includeRight_reduction_finiteType
           (C ⧸ topologicalNilradical C) →ₐ[R]
             (C ⧸ topologicalNilradical C) ⊗[R] (A ⧸ topologicalNilradical A)).toRingHom := by
     ext x
-    show ((1 : A ⧸ topologicalNilradical A) ⊗ₜ[R] (Ideal.Quotient.mk _ x)) =
+    change ((1 : A ⧸ topologicalNilradical A) ⊗ₜ[R] (Ideal.Quotient.mk _ x)) =
       e ((Ideal.Quotient.mk _ x) ⊗ₜ[R] (1 : A ⧸ topologicalNilradical A))
     simp [e]
   have hbase :
@@ -292,14 +292,14 @@ public theorem isFiniteTypeOnReductions_completedTensorProduct_baseChange
   obtain ⟨L, hLsurj, hL⟩ := exists_surjective_reduction_lift (R := R) hA hC
   have hCTfactor : L.comp cToD = gCT := by
     ext c
-    show L (cToD (Ideal.Quotient.mk _ c)) = gCT (Ideal.Quotient.mk _ c)
+    change L (cToD (Ideal.Quotient.mk _ c)) = gCT (Ideal.Quotient.mk _ c)
     calc
       L (cToD (Ideal.Quotient.mk _ c)) =
           L (reduceProj (R := R) hA hC (algebraMap C T c)) := by
         rw [reduceProj_algebraMap (R := R) hA hC]
       _ = Ideal.Quotient.mk _ (algebraMap C T c) := hL _
       _ = gCT (Ideal.Quotient.mk _ c) := by rw [Ideal.quotientMap_mk]
-  show gCT.FiniteType
+  change gCT.FiniteType
   rw [← hCTfactor]
   exact (RingHom.FiniteType.of_surjective L hLsurj).comp hDfinite
 

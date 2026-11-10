@@ -3,7 +3,7 @@ module
 public import StacksFrontier.AlgebraicGeometry.DerivedAcyclic.GlobalSections
 public import StacksFrontier.AlgebraicGeometry.DerivedGlobalSections
 public import
-  StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedSections.SheafificationOfTheCohomologyPresheaf
+StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedSections.SheafificationOfTheCohomologyPresheaf
 public import StacksCore.Tactic.StacksAttribute
 
 /-!

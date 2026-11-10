@@ -149,7 +149,7 @@ private theorem quasiIso_homothety_uliftFunctor_iff {A : Type u} [CommRing A]
     apply HomologicalComplex.from_single_hom_ext
     ext a
     simp only [Functor.mapHomologicalComplex_obj_X, CochainComplex.singleFunctor,
-      CochainComplex.singleFunctors, Functor.comp_obj, CochainComplex.shiftFunctor_obj_X',
+      Functor.comp_obj,
       Functor.mapCochainComplexSingleFunctor, Iso.trans_inv, Functor.mapIso_inv, Iso.app_inv,
       homothety, cochainAddEquivOfFullyFaithful, Category.assoc, HomologicalComplex.comp_f,
       HomologicalComplex.single_map_f_self, HomologicalComplex.singleObjXSelf,
@@ -158,7 +158,7 @@ private theorem quasiIso_homothety_uliftFunctor_iff {A : Type u} [CommRing A]
       AddCommGrpCat.uliftFunctor_map, AddEquiv.toAddMonoidHom_eq_coe,
       Functor.mapHomologicalComplex_map_f, HomologicalComplex.Hom.isoOfComponents_hom_f,
       AddCommGrpCat.hom_comp, AddMonoidHom.coe_comp, Function.comp_apply, JU, U, V, eS, eA, eH]
-    show ULift.up ((a.down • CochainComplex.HomComplex.Cochain.ofHom (𝟙 J)).map U) =
+    change ULift.up ((a.down • CochainComplex.HomComplex.Cochain.ofHom (𝟙 J)).map U) =
       ULift.up (a.down • CochainComplex.HomComplex.Cochain.ofHom (𝟙 JU))
     apply ULift.ext
     calc

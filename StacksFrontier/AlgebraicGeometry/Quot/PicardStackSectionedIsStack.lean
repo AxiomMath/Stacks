@@ -264,7 +264,7 @@ theorem exists_trivialization_of_compatible (hc : ModulePushforwardCoherence B S
         a ≫ (schemeSpaceFunctor B S hS).map (c i).base.left := by
       rw [← schemeSpaceFunctor_map_comp_base, ← Category.assoc, he₂]
       exact hab.symm
-    show restrictPullbackHom a rfl (localForm σ hσ (c i) (α i).hom) =
+    change restrictPullbackHom a rfl (localForm σ hσ (c i) (α i).hom) =
       restrictPullbackHom b hab.symm (localForm σ hσ (c j) (α j).hom)
     rw [restrictPullbackHom_congr he₁.symm rfl (by rw [he₁]),
       restrictPullbackHom_congr he₂.symm hab.symm (by rw [he₂]; exact hab.symm),

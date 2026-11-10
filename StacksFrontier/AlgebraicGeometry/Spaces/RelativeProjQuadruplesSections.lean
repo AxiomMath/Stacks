@@ -170,7 +170,7 @@ theorem F.surjective_projMorphism_sections (T : BigFppfOver B S hS)
   obtain ⟨g, c⟩ := ζ
   obtain rfl : g = CategoryStruct.id ((BigFppfOver.toScheme B S hS).obj T) := hbase
   refine ⟨c, ?_⟩
-  show (relativeProjRepresentableByFunctorUnconditional (alg T f)).homEquiv.symm
+  change (relativeProjRepresentableByFunctorUnconditional (alg T f)).homEquiv.symm
       (Stacks.AlgebraicGeometry.RelativeProjInvertibleMorphism.F.toLim (alg T f)
         ⟨CategoryStruct.id ((BigFppfOver.toScheme B S hS).obj T), c⟩) = k
   rw [htoLim]

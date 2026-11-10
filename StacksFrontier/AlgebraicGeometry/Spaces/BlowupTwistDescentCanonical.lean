@@ -144,7 +144,7 @@ theorem spaceBaseDescent_conj_comp {X : AlgebraicSpaces B S hS} (φ : G.objects 
       (modulePullback B S hS G.target).map (e.hom ≫ (modulePullback B S hS φ).map ψ) ≫
         spaceBaseDescent B S hS G φ hφ N := by
   rw [Functor.map_comp, Functor.map_comp, Category.assoc, Category.assoc,
-    Iso.map_inv_hom_id_assoc, spaceBaseDescent_naturality, Category.assoc]
+    Iso.inv_hom_id_map_assoc, spaceBaseDescent_naturality, Category.assoc]
 
 /-- The transition of `ℰ` transported from the module on the groupoid attached to `ℳ`
 (Stacks 03M3) along `e : ℰ ≅ φ^*ℳ` is `t^*e ≫ α_ℳ ≫ s^*e⁻¹`, with `α_ℳ` the canonical

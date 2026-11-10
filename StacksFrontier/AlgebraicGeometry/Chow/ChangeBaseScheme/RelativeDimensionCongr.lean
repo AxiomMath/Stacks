@@ -133,7 +133,7 @@ theorem cycleGroupEquivOfRelativeDimension_cycleAssociatedToClosedSubscheme
   refine Subtype.ext (Function.locallyFinsuppWithin.ext fun x ↦ ?_)
   simp only [cycleGroupEquivOfRelativeDimension_apply_coe, cycleAssociatedToClosedSubscheme,
     closedSubschemeCycle]
-  show closedSubschemeCycleCoeff C f i k x = closedSubschemeCycleCoeff D f' i k x
+  change closedSubschemeCycleCoeff C f i k x = closedSubschemeCycleCoeff D f' i k x
   have hx : relativeDimension D.dimensionFunction f' x =
       relativeDimension C.dimensionFunction f x := congrFun h.apply x
   unfold closedSubschemeCycleCoeff

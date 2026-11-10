@@ -478,8 +478,12 @@ add_to_ega "II 3.1.6" "special case" AlgebraicGeometry.Proj.iSup_basicOpen_eq_to
 add_to_ega "II 3.1.7" "partial" MvPolynomial.algebraTensorAlgEquiv
 add_to_ega "II 3.1.7" "special case" MvPolynomial.gradedAlgebra
 add_to_ega "II 3.1.12" "special case" AlgebraicGeometry.Scheme.nilradical
-add_to_ega "II 3.2.1" "special case"
-  AlgebraicGeometry.StructureSheaf.instAwayObjOppositeOpensCarrierTopObjFunctorTypeIsSheafGrothendieckTopologyStructureSheafInTypeOpBasicOpenToOpenₗ
+run_cmd do
+  let decl := Lean.mkIdent <| .str `AlgebraicGeometry.StructureSheaf <|
+    "instAwayObjOppositeOpensCarrierTopObjFunctorTypeIsSheafGrothendieckTopology" ++
+      "StructureSheafInTypeOpBasicOpenToOpenₗ"
+  Lean.Elab.Command.elabCommand
+    (← `(command| add_to_ega "II 3.2.1" "special case" $decl:ident))
 add_to_ega "II 3.4.1" "special case"
   AlgebraicGeometry.Proj.instIsProperToSpecZeroOfFiniteTypeSubtypeMemOfNatNat
 add_to_ega "II 3.4.1" "partial"
@@ -575,8 +579,12 @@ add_to_ega "II 5.5.8" "special case" AlgebraicGeometry.IsAffineOpen.instIsAffine
 add_to_ega "II 6.1.1" AlgebraicGeometry.IsFinite
 add_to_ega "II 6.1.1" "special case" AlgebraicGeometry.IsFinite.SpecMap_iff
 add_to_ega "II 6.1.1" AlgebraicGeometry.IsFinite.eq_inf
-add_to_ega "II 6.1.1" "Finite morphism"
-  AlgebraicGeometry.IsFinite.instHasAffinePropertyAndIsAffineFiniteCarrierObjOppositeOpensCarrierCarrierCommRingCatPresheafOpOpensTopHomAppTop
+run_cmd do
+  let decl := Lean.mkIdent <| .str `AlgebraicGeometry.IsFinite <|
+    "instHasAffinePropertyAndIsAffineFiniteCarrierObjOppositeOpens" ++
+      "CarrierCarrierCommRingCatPresheafOpOpensTopHomAppTop"
+  Lean.Elab.Command.elabCommand
+    (← `(command| add_to_ega "II 6.1.1" "Finite morphism" $decl:ident))
 add_to_ega "II 6.1.1" "partial" AlgebraicGeometry.IsFinite.instIsIntegralHom
 add_to_ega "II 6.1.1" "partial" AlgebraicGeometry.IsFinite.instLocallyOfFiniteType
 add_to_ega "II 6.1.1" AlgebraicGeometry.IsIntegralHom
@@ -586,8 +594,12 @@ add_to_ega "II 6.1.2" Algebra.IsIntegral.finite
 add_to_ega "II 6.1.2" "special case" Algebra.IsIntegral.of_finite
 add_to_ega "II 6.1.2" "more general" Algebra.finite_adjoin_of_finite_of_isIntegral
 add_to_ega "II 6.1.2" "monogenic algebras" Algebra.finite_adjoin_simple_of_isIntegral
-add_to_ega "II 6.1.2" "finite branch"
-  AlgebraicGeometry.IsFinite.instHasAffinePropertyAndIsAffineFiniteCarrierObjOppositeOpensCarrierCarrierCommRingCatPresheafOpOpensTopHomAppTop
+run_cmd do
+  let decl := Lean.mkIdent <| .str `AlgebraicGeometry.IsFinite <|
+    "instHasAffinePropertyAndIsAffineFiniteCarrierObjOppositeOpens" ++
+      "CarrierCarrierCommRingCatPresheafOpOpensTopHomAppTop"
+  Lean.Elab.Command.elabCommand
+    (← `(command| add_to_ega "II 6.1.2" "finite branch" $decl:ident))
 add_to_ega "II 6.1.2" "special case" AlgebraicGeometry.IsIntegralHom.SpecMap_iff
 add_to_ega "II 6.1.2" "partial" AlgebraicGeometry.IsIntegralHom.eq_universallyClosed_inf_isAffineHom
 add_to_ega "II 6.1.2" "integral branch" AlgebraicGeometry.IsIntegralHom.hasAffineProperty
@@ -595,8 +607,12 @@ add_to_ega "II 6.1.2" AlgebraicGeometry.IsIntegralHom.toIsAffineHom
 add_to_ega "II 6.1.2" RingHom.Finite.of_isIntegral_of_finiteType
 add_to_ega "II 6.1.2" RingHom.IsIntegral.to_finite
 add_to_ega "II 6.1.2" "more general" RingHom.finite_iff_isIntegral_and_finiteType
-add_to_ega "II 6.1.4"
-  AlgebraicGeometry.IsFinite.instHasAffinePropertyAndIsAffineFiniteCarrierObjOppositeOpensCarrierCarrierCommRingCatPresheafOpOpensTopHomAppTop
+run_cmd do
+  let decl := Lean.mkIdent <| .str `AlgebraicGeometry.IsFinite <|
+    "instHasAffinePropertyAndIsAffineFiniteCarrierObjOppositeOpens" ++
+      "CarrierCarrierCommRingCatPresheafOpOpensTopHomAppTop"
+  Lean.Elab.Command.elabCommand
+    (← `(command| add_to_ega "II 6.1.4" $decl:ident))
 add_to_ega "II 6.1.4" AlgebraicGeometry.IsIntegralHom.hasAffineProperty
 add_to_ega "II 6.1.4" "partial" AlgebraicGeometry.isAffineHom_of_forall_exists_isAffineOpen
 add_to_ega "II 6.1.4.1" "more general" Module.Finite.of_localizationSpan
@@ -714,8 +730,12 @@ add_to_ega "II 6.3.9" "special case" IsIntegrallyClosed.isIntegral_iff
 add_to_ega "II 6.3.9" "special case" integralClosure.isIntegrallyClosedOfFiniteExtension
 add_to_ega "II 6.3.9" "special case" isIntegrallyClosed_iff_isIntegralClosure
 add_to_ega "II 6.3.9" "special case" isIntegrallyClosed_iff_isIntegrallyClosedIn
-add_to_ega "II 6.3.10"
-  AlgebraicGeometry.IsFinite.instHasAffinePropertyAndIsAffineFiniteCarrierObjOppositeOpensCarrierCarrierCommRingCatPresheafOpOpensTopHomAppTop
+run_cmd do
+  let decl := Lean.mkIdent <| .str `AlgebraicGeometry.IsFinite <|
+    "instHasAffinePropertyAndIsAffineFiniteCarrierObjOppositeOpens" ++
+      "CarrierCarrierCommRingCatPresheafOpOpensTopHomAppTop"
+  Lean.Elab.Command.elabCommand
+    (← `(command| add_to_ega "II 6.3.10" $decl:ident))
 add_to_ega "II 6.3.10" "partial" AlgebraicGeometry.IsFinite.instMorphismRestrict
 add_to_ega "II 6.3.10" "special case" IsField.of_isDomain_of_finite
 add_to_ega "II 6.3.10" "special case" IsIntegralClosure.finite
@@ -995,8 +1015,9 @@ add_to_ega "II 8.3.9" "reverse direction" CategoryTheory.yonedaGrpObjIsoOfRepres
 add_to_ega "II 8.5.1" "special case" AlgebraicGeometry.Spec.locallyRingedSpaceMap
 add_to_ega "II 8.5.1" "special case" AlgebraicGeometry.Spec.map
 add_to_ega "II 8.5.1" "(8.5.1.2), special case" AlgebraicGeometry.instIsOverMapOfHomSpecOf
+open AlgebraicGeometry in
 add_to_ega "II 8.8.6.1" "integral-domain clause"
-  AlgebraicGeometry.instIsDomainCarrierObjOppositeOpensCarrierCarrierCommRingCatPresheafOpOpensTopOfIsIntegral
+  instIsDomainCarrierObjOppositeOpensCarrierCarrierCommRingCatPresheafOpOpensTopOfIsIntegral
 add_to_ega "II 8.10.1" "special case" Algebra.Extension.infinitesimal
 add_to_ega "II 8.10.1" "special case" Ideal.Cotangent
 add_to_ega "II 8.10.1" "special case" Ideal.cotangentIdeal

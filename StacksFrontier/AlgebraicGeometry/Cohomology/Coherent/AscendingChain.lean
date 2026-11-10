@@ -148,7 +148,7 @@ private theorem acc_quasicoherentSubobjects_of_finiteTilde
   have hq : Subobject.mk (GQarrow n) = Subobject.mk (GQarrow m) := φ.injective (hn m hnm)
   let i := Subobject.isoOfMkEqMk (GQarrow n) (GQarrow m) hq
   have hcomm : (ObjectProperty.ι QY).map i.hom ≫ (G m).arrow = (G n).arrow := by
-    show (ObjectProperty.ι QY).map
+    change (ObjectProperty.ι QY).map
         (Subobject.ofMkLEMk (GQarrow n) (GQarrow m) (le_of_eq hq)) ≫
         (ObjectProperty.ι QY).map (GQarrow m) = (ObjectProperty.ι QY).map (GQarrow n)
     rw [← Functor.map_comp, Subobject.ofMkLEMk_comp]
@@ -185,7 +185,7 @@ private theorem acc_quasicoherentSubobjects_on_affineChart
       mono_restrictFunctor_map f (G n).arrow
     have : Mono ((Scheme.Modules.restrictFunctor f).map (G m).arrow) :=
       mono_restrictFunctor_map f (G m).arrow
-    show Subobject.mk (Ff.map (G n).arrow) ≤ Subobject.mk (Ff.map (G m).arrow)
+    change Subobject.mk (Ff.map (G n).arrow) ≤ Subobject.mk (Ff.map (G m).arrow)
     exact Subobject.mk_le_mk_of_comm (Ff.map (Subobject.ofLE (G n) (G m) (hmono hnm)))
       (by rw [← Functor.map_comp, Subobject.ofLE_arrow])
   have hA : A ≅ (Scheme.Modules.pullback e.hom).obj (AlgebraicGeometry.tilde M) :=
@@ -215,7 +215,7 @@ private lemma isIso_restrictFunctor_map_ofLE {X Y : Scheme.{u}} (f : Y ⟶ X)
       (Subobject.isoOfMkEqMk _ _ hAB).hom := by
     apply (cancel_mono ((Scheme.Modules.restrictFunctor f).map B.arrow)).mp
     rw [← Functor.map_comp, Subobject.ofLE_arrow]
-    show (Scheme.Modules.restrictFunctor f).map A.arrow =
+    change (Scheme.Modules.restrictFunctor f).map A.arrow =
       (Subobject.ofMkLEMk _ _ hAB.le) ≫ (Scheme.Modules.restrictFunctor f).map B.arrow
     rw [Subobject.ofMkLEMk_comp]
   rw [hfactor]
@@ -253,7 +253,7 @@ private lemma subobject_eq_of_restrictSubobject_eq
         (TopCat.Presheaf.stalkFunctor Ab.{u} (f y)).map q.mapPresheaf) := by
       simpa only [Functor.comp_obj, Functor.comp_map, Scheme.Modules.toPresheaf_obj,
         Scheme.Modules.toPresheaf_map] using hηcomp
-    show IsIso ((TopCat.Presheaf.stalkFunctor Ab.{u} (f y)).map
+    change IsIso ((TopCat.Presheaf.stalkFunctor Ab.{u} (f y)).map
       ((TopCat.Sheaf.forget Ab.{u} X).map qsh))
     rw [hunderlying]
     exact (isIso_comp_left_iff (E.hom.app (A : X.Modules)) _).mp hηcomp'

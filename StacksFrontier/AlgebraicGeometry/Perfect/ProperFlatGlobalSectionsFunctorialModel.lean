@@ -149,10 +149,11 @@ hence flat, and the Čech model's are flat by [Stacks, Tag 01U4] in the form
 `flat_baseAlternatingCechComplex_X` — so
 `StacksDraft.PseudoCoherence.quasiIso_extendScalars_map_of_flat` applies; its second factor is an
 isomorphism. -/
-theorem quasiIso_baseChangeChainComparison [Fintype I] [QuasiIso u]
+theorem quasiIso_baseChangeChainComparison [QuasiIso u]
     [∀ n : ℤ, Module.Flat A (M.X n)]
     (hflat : IsFlatOver f.toLRSHom.toShHom F) (b : ℤ) [M.IsStrictlyLE b] :
     QuasiIso (baseChangeChainComparison φ hsq F U hU hUaff u) := by
+  have := Fintype.ofFinite I
   have : ∀ n : ℤ, Module.Flat A ((baseAlternatingCechComplex f U hU F).X n) :=
     flat_baseAlternatingCechComplex_X f U hU F hUaff hflat
   have h1 : QuasiIso (((ModuleCat.extendScalars.{u, u, u} φ).mapHomologicalComplex
@@ -165,7 +166,7 @@ theorem quasiIso_baseChangeChainComparison [Fintype I] [QuasiIso u]
 /-- **The derived comparison `Q (M ⊗_A A') ⟶ RΓ(X', g^* F)` is an isomorphism.** It is the
 localization of the chain-level comparison, which is a quasi-isomorphism, followed by the
 identification of the Čech model of the inverse-image cover with `RΓ(X', g^* F)`. -/
-theorem isIso_baseChangeChainComparisonDerived [Fintype I] [LinearOrder I] [QuasiIso u]
+theorem isIso_baseChangeChainComparisonDerived [LinearOrder I] [QuasiIso u]
     [∀ n : ℤ, Module.Flat A (M.X n)]
     (hflat : IsFlatOver f.toLRSHom.toShHom F) (b : ℤ) [M.IsStrictlyLE b] :
     IsIso (DerivedCategory.Q.map (baseChangeChainComparison φ hsq F U hU hUaff u) ≫

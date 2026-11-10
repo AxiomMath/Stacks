@@ -196,7 +196,7 @@ public theorem isCoverDense_of_hasAppCover (h : HasAppCover S) :
   have hE : E.presieve₀ ∈ Scheme.ProEt.precoverage S X := by
     rw [Scheme.ProEt.precoverage, Precoverage.mem_comap_iff,
       ← PreZeroHypercover.presieve₀_map]
-    show (E.map (Scheme.ProEt.forget S ⋙ Over.forget S)).presieve₀ ∈
+    change (E.map (Scheme.ProEt.forget S ⋙ Over.forget S)).presieve₀ ∈
       Scheme.proetalePrecoverage X.left
     rw [hmap]
     exact zariskiPrecoverage_le_proetalePrecoverage X.left X.left.affineCover.mem₀

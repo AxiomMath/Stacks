@@ -436,7 +436,7 @@ private lemma exists_affineOpen_of_isCompact_in_coproduct
   obtain ⟨i, hi⟩ := Set.mem_iUnion.mp (hE hx)
   obtain ⟨hi, y, hy⟩ := Set.mem_iUnion.mp hi
   refine ⟨Sigma.ι (fun i : E => X i) ⟨i, hi⟩ y, ?_⟩
-  rw [← Scheme.Hom.comp_apply, Sigma.ι_desc]
+  rw [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
   exact hy
 
 private lemma relativeHom_isRepresentable_coproduct

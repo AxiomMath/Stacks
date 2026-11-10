@@ -131,7 +131,7 @@ variable {X X' S S' : Scheme.{u}}
 theorem id_appLE_apply (W V : X'.Opens) (hA : V ≤ W) (g : Γ(X', W)) :
     ((𝟙 X' : X' ⟶ X').appLE W V hA).hom g = (X'.presheaf.map (homOfLE hA).op).hom g := by
   have h : (𝟙 X' : X' ⟶ X').appLE W V hA = X'.presheaf.map (homOfLE hA).op := by
-    show (𝟙 X' : X' ⟶ X').app W ≫ X'.presheaf.map (homOfLE hA).op = _
+    change (𝟙 X' : X' ⟶ X').app W ≫ X'.presheaf.map (homOfLE hA).op = _
     rw [Scheme.Hom.id_app]
     exact CommRingCat.hom_ext (RingHom.ext fun _ => rfl)
   exact congr($(h).hom g)
@@ -164,7 +164,8 @@ theorem hom_ext_universalRelativeDerivation {Z T : Scheme.{u}} (p : Z ⟶ T) {F 
         = (Scheme.Modules.Hom.app v W).hom ((Scheme.Hom.universalRelativeDerivation p).d x)) :
     u = v :=
   Scheme.Hom.eq_of_postcomp_eq_universalRelativeDerivation p
-    (PresheafOfModulesOfCommRing.Derivation.ext (funext fun W => AddMonoidHom.ext fun x => h W.unop x))
+    (PresheafOfModulesOfCommRing.Derivation.ext (funext fun W =>
+      AddMonoidHom.ext fun x => h W.unop x))
 
 section Action
 
@@ -208,7 +209,7 @@ theorem derivationSection_pullbackCotangentComparison (W V : X'.Opens) (hA : V �
           ((Scheme.Hom.relativeDifferentials f).val.map (homOfLE (i.preimage_mono hA)).op
             ((Scheme.Hom.universalRelativeDerivation f).d ((i.app W).hom g)))) := by
   refine congrArg (conormalSection hsq V) ?_
-  show (Scheme.Modules.Hom.app α (i ⁻¹ᵁ V)).hom
+  change (Scheme.Modules.Hom.app α (i ⁻¹ᵁ V)).hom
       ((pullbackCotangentComparison i t f f' hw).val.app (op (i ⁻¹ᵁ V))
         (Stacks.Smooth.pullbackD (i ≫ f') (𝟙 X) (i ⁻¹ᵁ W) hU ((i.app W).hom g))) = _
   exact congrArg _ (pullbackCotangentComparison_pullbackD i t f f' hw (i ⁻¹ᵁ W) (i ⁻¹ᵁ V) _ _)
@@ -360,7 +361,7 @@ theorem homEquiv_relativeDifferentialsMap_comp_d
       = (Scheme.Modules.Hom.app β (i ⁻¹ᵁ W)).hom
           ((Scheme.Hom.universalRelativeDerivation f).d ((i.app W).hom g)) := by
   rw [Adjunction.homEquiv_naturality_right]
-  show (Scheme.Modules.Hom.app ((Scheme.Modules.pushforward i).map β) W).hom
+  change (Scheme.Modules.Hom.app ((Scheme.Modules.pushforward i).map β) W).hom
       ((Scheme.Modules.Hom.app ((Scheme.Modules.pullbackPushforwardAdjunction i).homEquiv
         (Scheme.Hom.relativeDifferentials f')
         (Scheme.Hom.relativeDifferentials f)

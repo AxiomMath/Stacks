@@ -276,7 +276,7 @@ theorem isQuasicoherent_ungradedModuleOverPushforwardProj (F : SheafOfModules.Gr
     AlgebraSheaf.structureMap_comp_ringSheafMap (pushforwardProjIso A B f ≪≫ e.symm).hom
   refine (Stacks.AlgebraicGeometry.QcohLimits.affine_isQuasicoherent_restrictScalars_iff
     (proj A B f) _).1 ?_
-  show ((SheafOfModules.restrictScalars ((proj A B f).toRingCatSheafHom ≫
+  change ((SheafOfModules.restrictScalars ((proj A B f).toRingCatSheafHom ≫
     (ungradedSheafIsoPushforwardProj 𝓑 hc A B f e).hom)).obj
       (F.ungradedSheafModule hc)).IsQuasicoherent
   exact isQuasicoherent_restrictScalars_of_eq hcomp _ hqc

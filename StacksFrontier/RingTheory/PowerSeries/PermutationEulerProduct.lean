@@ -149,13 +149,13 @@ theorem filter_invariant [DecidableEq S] {F₁ F₂ : Finset S} (h₁ : IsStable
     D.filter (· ∈ F₁) (σ y) = D.filter (· ∈ F₁) y := by
   rw [Finsupp.filter_apply, Finsupp.filter_apply]
   by_cases hy : y ∈ F₁
-  · rw [if_pos (h₁ y hy), if_pos hy, hD]
+  · rw [ite_eq_left (h₁ y hy), ite_eq_left hy, hD]
   by_cases hy₂ : y ∈ F₂
   · have : σ y ∉ F₁ := fun h => Finset.disjoint_left.1 hdisj h (h₂ y hy₂)
-    rw [if_neg this, if_neg hy]
+    rw [ite_eq_right this, ite_eq_right hy]
   · have h0 := apply_eq_zero_of_notMem hsupp (Finset.notMem_union.2 ⟨hy, hy₂⟩)
     have : σ y ∉ F₁ := fun h => hy (h₁.mem_of_apply_mem h)
-    rw [if_neg this, if_neg hy]
+    rw [ite_eq_right this, ite_eq_right hy]
 
 /-- The restriction of `D` to `F₁` has the same sum over `F₁` as `D`. -/
 theorem sum_filter_eq {F₁ : Finset S} [DecidablePred (· ∈ F₁)] (D : S →₀ ℕ) :
@@ -183,7 +183,7 @@ theorem card_invariantFinsupps_union [DecidableEq S] {F₁ F₂ : Finset S} (h�
   refine Finset.card_nbij' (fun D => (D.filter (· ∈ F₁), D.filter (· ∈ F₂)))
     (fun E => E.1 + E.2) ?_ ?_ ?_ ?_
   · intro D hD
-    simp only [Finset.coe_filter, Set.mem_setOf_eq] at hD
+    simp only [Finset.coe_filter, Set.mem_ofPred_eq] at hD
     obtain ⟨hD, hp'⟩ := hD
     obtain ⟨-, hsupp, hinv⟩ := mem_invariantFinsupps.1 hD
     have hp1 : F₁.sum D = p.1 := congrArg Prod.fst hp'
@@ -210,13 +210,13 @@ theorem card_invariantFinsupps_union [DecidableEq S] {F₁ F₂ : Finset S} (h�
     have e₂ : F₂.sum (D₁ + D₂) = p.2 := by
       rw [Finsupp.coe_add, show F₂.sum (⇑D₁ + ⇑D₂) = ∑ x ∈ F₂, (D₁ x + D₂ x) from rfl,
         Finset.sum_add_distrib, Finset.sum_eq_zero hz₁, hs₂, zero_add]
-    simp only [Finset.coe_filter, Set.mem_setOf_eq, mem_invariantFinsupps]
+    simp only [Finset.coe_filter, Set.mem_ofPred_eq, mem_invariantFinsupps]
     refine ⟨⟨?_, ?_, fun y => by simp [hinv₁, hinv₂]⟩, Prod.ext e₁ e₂⟩
     · rw [Finset.sum_union hdisj, e₁, e₂]
       exact mem_antidiagonal.1 hp
     · exact Finsupp.support_add.trans (Finset.union_subset_union hsupp₁ hsupp₂)
   · intro D hD
-    simp only [Finset.coe_filter, Set.mem_setOf_eq] at hD
+    simp only [Finset.coe_filter, Set.mem_ofPred_eq] at hD
     obtain ⟨hsupp, -⟩ := (mem_invariantFinsupps.1 hD.1).2
     ext x
     simp only [Finsupp.coe_add, Pi.add_apply, Finsupp.filter_apply]
@@ -319,7 +319,7 @@ def orbitConst (x : S) (n : ℕ) : S →₀ ℕ := ∑ y ∈ orbitFinset σ x, F
 /-- `orbitConst σ x n` takes the value `n` on the orbit of `x` and `0` elsewhere. -/
 theorem orbitConst_apply (n : ℕ) (z : S) :
     orbitConst σ x n z = if z ∈ orbitFinset σ x then n else 0 := by
-  simp [orbitConst, Finsupp.finset_sum_apply, Finsupp.single_apply]
+  simp [orbitConst, Finsupp.finsetSum_apply, Finsupp.single_apply]
 
 /-- An invariant function supported in the orbit of `x` is the constant function on that orbit with
 value `D x`. -/
@@ -339,15 +339,15 @@ theorem orbitConst_mem (hx : x ∈ periodicPts σ) (n : ℕ) :
   rw [mem_invariantFinsupps]
   have hst := isStable_orbitFinset hx
   refine ⟨?_, ?_, fun y => ?_⟩
-  · rw [Finset.sum_congr rfl fun z hz => by rw [orbitConst_apply, if_pos hz], Finset.sum_const,
+  · rw [Finset.sum_congr rfl fun z hz => by rw [orbitConst_apply, ite_eq_left hz], Finset.sum_const,
       card_orbitFinset, smul_eq_mul]
   · intro z hz
     by_contra h
-    exact (Finsupp.mem_support_iff.1 hz) (by rw [orbitConst_apply, if_neg h])
+    exact (Finsupp.mem_support_iff.1 hz) (by rw [orbitConst_apply, ite_eq_right h])
   · rw [orbitConst_apply, orbitConst_apply]
     by_cases hy : y ∈ orbitFinset σ x
-    · rw [if_pos (hst y hy), if_pos hy]
-    · rw [if_neg fun h => hy (hst.mem_of_apply_mem h), if_neg hy]
+    · rw [ite_eq_left (hst y hy), ite_eq_left hy]
+    · rw [ite_eq_right fun h => hy (hst.mem_of_apply_mem h), ite_eq_right hy]
 
 /-- **The invariant functions on one orbit**: there is exactly one of each mass divisible by the
 period, and none of any other mass. -/
@@ -381,14 +381,14 @@ private theorem coeff_geometric_mul_X_pow (e : ℕ) (he : 0 < e) (m : ℕ) :
   · have h : e ∣ m ↔ e ∣ m - e := by
       conv_lhs => rw [← Nat.sub_add_cancel hm]
       exact Nat.dvd_add_left (dvd_refl e)
-    rw [if_pos hm, coeff_mk]
+    rw [ite_eq_left hm, coeff_mk]
     by_cases h' : e ∣ m
-    · rw [if_pos (h.1 h'), if_pos ⟨h', by omega⟩]
-    · rw [if_neg fun x => h' (h.2 x), if_neg fun h2 => h' h2.1]
-  · rw [if_neg hm]
+    · rw [ite_eq_left (h.1 h'), ite_eq_left ⟨h', by omega⟩]
+    · rw [ite_eq_right fun x => h' (h.2 x), ite_eq_right fun h2 => h' h2.1]
+  · rw [ite_eq_right hm]
     rcases Nat.eq_zero_or_pos m with rfl | hm0
     · simp
-    · rw [if_neg fun h => hm (Nat.le_of_dvd hm0 h.1)]
+    · rw [ite_eq_right fun h => hm (Nat.le_of_dvd hm0 h.1)]
 
 /-- The geometric series `∑_n T ^ (n e)` is the inverse of `1 - T ^ e`. -/
 theorem mk_dvd_mul_one_sub_X_pow (e : ℕ) (he : 0 < e) :
@@ -412,7 +412,7 @@ theorem coeff_logDerivative_geometric (e : ℕ) (he : 0 < e) (m : ℕ) :
       if e ∣ m ∧ m ≠ 0 then (e : ℤ) else 0 := by
   set u := PowerSeries.mk (fun d => if e ∣ d then (1 : ℤ) else 0)
   have hu : constantCoeff u = 1 := by
-    rw [← coeff_zero_eq_constantCoeff_apply, coeff_mk, if_pos (dvd_zero e)]
+    rw [← coeff_zero_eq_constantCoeff_apply, coeff_mk, ite_eq_left (dvd_zero e)]
   have hv : constantCoeff (1 - X ^ e : ℤ⟦X⟧) = 1 := by
     simp [he.ne']
   have hmul := mk_dvd_mul_one_sub_X_pow e he
@@ -475,7 +475,7 @@ theorem coeff_logDerivative_invariantSeries [DecidableEq S] {F : Finset S} (hF :
       rw [coeff_invariantSeries, coeff_one]
       rcases Nat.eq_zero_or_pos d with rfl | hd
       · simp [invariantFinsupps_zero]
-      · rw [if_neg hd.ne', Nat.cast_eq_zero, Finset.card_eq_zero,
+      · rw [ite_eq_right hd.ne', Nat.cast_eq_zero, Finset.card_eq_zero,
           Finset.eq_empty_iff_forall_notMem]
         intro D hD
         have := (mem_invariantFinsupps.1 hD).1
@@ -628,10 +628,10 @@ theorem coeff_logDerivative_invariantCount {m : ℕ} (hm : m ≠ 0) :
   have h0 : constantCoeff (PowerSeries.mk fun d => (invariantCount σ d : ℤ)) = 1 := by
     rw [← coeff_zero_eq_constantCoeff_apply, coeff_mk, invariantCount_zero, Nat.cast_one]
   rw [coeff_logDerivative_congr h0 (constantCoeff_invariantSeries σ F) hcongr,
-    coeff_logDerivative_invariantSeries (isStable_periodLE hfin m), if_neg hm]
+    coeff_logDerivative_invariantSeries (isStable_periodLE hfin m), ite_eq_right hm]
   have hsub : {y | (⇑σ)^[m] y = y} = ((F.filter fun y => (⇑σ)^[m] y = y : Finset S) : Set S) := by
     ext y
-    simp only [Set.mem_setOf_eq, Finset.coe_filter, iff_and_self]
+    simp only [Set.mem_ofPred_eq, Finset.coe_filter, iff_and_self]
     exact fun hy => (mem_periodLE hfin).2 ⟨m, Nat.pos_of_ne_zero hm, le_rfl, hy⟩
   rw [hsub, Nat.card_coe_set_eq, Set.ncard_coe_finset]
 

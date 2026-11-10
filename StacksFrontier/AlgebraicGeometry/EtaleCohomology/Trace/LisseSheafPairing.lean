@@ -107,7 +107,7 @@ theorem lisseSheafAddPairing_smul_left (U : (SmallEtale B X.1 X.2)ᵒᵖ) (c : �
       (c • μ) ((P.obj.obj.obj.ρ g).asHom.hom a) ((Q.obj.obj.obj.ρ g).asHom.hom b) =
         (R.obj.obj.obj.ρ g).asHom.hom ((c • μ) a b) := fun g a b => by
     simp only [LinearMap.smul_apply, hμ, LinearMap.map_smul]
-  show finiteLocallyConstantPairing J e (φ.obj P) (φ.obj Q) (φ.obj R)
+  change finiteLocallyConstantPairing J e (φ.obj P) (φ.obj Q) (φ.obj R)
         (finiteTypeContinuousModuleBilinearAddHom Λ μ) hμ U
       (((finiteLocallyConstantAbelianEquivalenceOfSetEquivalence J _ e).inverse.map
         (φ.map (finiteTypeContinuousModuleSMul Λ P c))).hom.hom.app U a) b =
@@ -143,7 +143,7 @@ theorem lisseSheafAddPairing_smul_right (U : (SmallEtale B X.1 X.2)ᵒᵖ) (c : 
       (c • μ) ((P.obj.obj.obj.ρ g).asHom.hom a) ((Q.obj.obj.obj.ρ g).asHom.hom b) =
         (R.obj.obj.obj.ρ g).asHom.hom ((c • μ) a b) := fun g a b => by
     simp only [LinearMap.smul_apply, hμ, LinearMap.map_smul]
-  show finiteLocallyConstantPairing J e (φ.obj P) (φ.obj Q) (φ.obj R)
+  change finiteLocallyConstantPairing J e (φ.obj P) (φ.obj Q) (φ.obj R)
         (finiteTypeContinuousModuleBilinearAddHom Λ μ) hμ U a
       (((finiteLocallyConstantAbelianEquivalenceOfSetEquivalence J _ e).inverse.map
         (φ.map (finiteTypeContinuousModuleSMul Λ Q c))).hom.hom.app U b) =

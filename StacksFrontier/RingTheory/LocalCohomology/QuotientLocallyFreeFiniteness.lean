@@ -83,7 +83,7 @@ theorem finite_restrictScalars_quotient_iff {A : Type u} [CommRing A] (J : Ideal
   · exact _root_.Dualizing.finite_of_restrictScalars_finite (Ideal.Quotient.mk J) N
   · let : Module A (N : Type u) := Module.compHom _ (Ideal.Quotient.mk J)
     have : IsScalarTower A (A ⧸ J) (N : Type u) := ⟨fun r s x ↦ by
-      show (Ideal.Quotient.mk J r * s) • x = Ideal.Quotient.mk J r • s • x
+      change (Ideal.Quotient.mk J r * s) • x = Ideal.Quotient.mk J r • s • x
       exact mul_smul _ _ _⟩
     have : Module.Finite A (N : Type u) := Module.Finite.trans (R := A) (A ⧸ J) _
     exact inferInstanceAs (Module.Finite A (N : Type u))

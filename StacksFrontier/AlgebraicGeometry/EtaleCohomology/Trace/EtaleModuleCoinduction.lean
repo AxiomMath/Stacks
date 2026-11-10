@@ -89,9 +89,11 @@ def etaleModuleCoinductionAdj (X : Scheme.{u}) :
     (fullyFaithfulSheafToPresheaf _ _) (fullyFaithfulSheafToPresheaf _ _)
     (Iso.refl _) (Iso.refl _)
 
+omit [Fintype G] in
 /-- Coinduction is a left adjoint. -/
-instance etaleModuleCoinduction_isLeftAdjoint (X : Scheme.{u}) :
+instance etaleModuleCoinduction_isLeftAdjoint [Finite G] (X : Scheme.{u}) :
     (etaleModuleCoinduction Λ G X).IsLeftAdjoint :=
+  letI := Fintype.ofFinite G
   (etaleModuleCoinductionAdj Λ G X).isLeftAdjoint
 
 /-- Coinduction is a right adjoint. -/
@@ -104,9 +106,11 @@ instance etaleModuleCoinduction_additive (X : Scheme.{u}) :
     (etaleModuleCoinduction Λ G X).Additive :=
   (etaleModuleCoextendScalarsAdj (groupRingScalars Λ G) X).right_adjoint_additive
 
+omit [Fintype G] in
 /-- Coinduction preserves finite colimits. -/
-instance etaleModuleCoinduction_preservesFiniteColimits (X : Scheme.{u}) :
+instance etaleModuleCoinduction_preservesFiniteColimits [Finite G] (X : Scheme.{u}) :
     PreservesFiniteColimits (etaleModuleCoinduction Λ G X) :=
+  letI := Fintype.ofFinite G
   have : PreservesColimitsOfSize.{0, 0} (etaleModuleCoinduction Λ G X) :=
     (etaleModuleCoinductionAdj Λ G X).leftAdjoint_preservesColimits
   PreservesColimitsOfSize.preservesFiniteColimits _

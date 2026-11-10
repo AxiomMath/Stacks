@@ -64,7 +64,7 @@ an isomorphism**: being an isomorphism is local on the target, and `ℙ⁰_V ⟶
 isomorphism. -/
 theorem isIso_of_isLocallyProjectiveSpace_zero {H P : AlgebraicGeometry.Scheme.{u}} {f : H ⟶ P}
     (hf : IsLocallyProjectiveSpace f 0) : IsIso f := by
-  show MorphismProperty.isomorphisms AlgebraicGeometry.Scheme f
+  change MorphismProperty.isomorphisms AlgebraicGeometry.Scheme f
   refine AlgebraicGeometry.IsZariskiLocalAtTarget.of_forall_exists_morphismRestrict
     (f := f) fun y => ?_
   obtain ⟨V, hyV, e, he⟩ := hf y
@@ -97,7 +97,7 @@ theorem isIso_of_isPullback_of_isIso_of_surjective_of_etale {Y : AlgebraicSpaces
   refine isIso_of_forall_isIso_pullback_snd B S hS f (fun _ : PUnit.{1} => V) (fun _ => cV)
     (isFppfCovering_atlas B S hS X.property hsurj het) fun _ => ?_
   refine isIso_pullback_snd_of_isIso_pullback_snd_hom B S hS f cV ?_
-  show IsIso (pullback.snd f.hom c)
+  change IsIso (pullback.snd f.hom c)
   rw [← hpb.isoPullback_inv_snd]
   infer_instance
 

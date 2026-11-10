@@ -155,7 +155,7 @@ theorem revMap_comm (A : DoubleCx R) (n : ℕ) :
   refine LinearMap.ext fun x => ?_
   refine funext fun m => ?_
   obtain ⟨M, hMlt⟩ := m
-  show revMap A n (Dtot A n x) ⟨M, hMlt⟩ = Dtot A.transpose n (revMap A (n + 1) x) ⟨M, hMlt⟩
+  change revMap A n (Dtot A n x) ⟨M, hMlt⟩ = Dtot A.transpose n (revMap A (n + 1) x) ⟨M, hMlt⟩
   rw [revMap_apply, Dtot_apply, Dtot_apply, revMap_apply, revMap_apply]
   simp only [transpose_d, transpose_δ, transpose_transp, map_smul, map_add,
     d_transp, transp_trans, Fin.val_succ, Fin.val_castSucc]
@@ -310,7 +310,7 @@ theorem cmpR_natural {A B : DoubleCx R}
     (Ψ : DCxHom A B) (i : ℕ) :
     (Ψ.RHomMap i).comp (cmpR A hrowA i : Hthird A i →ₗ[R] A.RHom i) =
       ((cmpR B hrowB i : Hthird B i →ₗ[R] B.RHom i)).comp (HthirdMap Ψ i) := by
-  show (Ψ.RHomMap i).comp (cmpRfwd A i) =
+  change (Ψ.RHomMap i).comp (cmpRfwd A i) =
       (cmpRfwd B i).comp (HthirdMap Ψ i)
   cases i with
   | zero =>
@@ -340,12 +340,12 @@ theorem revMap_natural {A B : DoubleCx R} (Ψ : DCxHom A B) (n : ℕ) :
       = (revMap B n).comp ((totChainHom Ψ).f n) := by
   refine LinearMap.ext fun x => ?_
   refine funext fun k => ?_
-  show (totChainHom Ψ.transpose).f n (revMap A n x) k
+  change (totChainHom Ψ.transpose).f n (revMap A n x) k
       = revMap B n ((totChainHom Ψ).f n x) k
-  show Ψ.transpose.Φ (k : ℕ) (n - (k : ℕ)) (revMap A n x k)
+  change Ψ.transpose.Φ (k : ℕ) (n - (k : ℕ)) (revMap A n x k)
       = revMap B n ((totChainHom Ψ).f n x) k
   rw [revMap_apply, revMap_apply]
-  show Ψ.Φ (n - (k : ℕ)) (k : ℕ)
+  change Ψ.Φ (n - (k : ℕ)) (k : ℕ)
       (((-1 : R) ^ ((k : ℕ) * (n + 1))) •
         transp A (n - (k : ℕ)) (n - (k : ℕ)) (n - (n - (k : ℕ))) (k : ℕ)
           rfl _ (x ⟨n - (k : ℕ), _⟩))
@@ -379,9 +379,9 @@ theorem cmpU_natural {A B : DoubleCx R}
       ((cmpU B hcolB i : Hthird B i →ₗ[R] B.UHom i)).comp (HthirdMap Ψ i) := by
   apply LinearMap.ext
   intro x
-  show (Ψ.UHomMap i) (cmpU A hcolA i x)
+  change (Ψ.UHomMap i) (cmpU A hcolA i x)
       = (cmpU B hcolB i) (HthirdMap Ψ i x)
-  show (Ψ.UHomMap i)
+  change (Ψ.UHomMap i)
         (cmpR A.transpose (A.transpose_RowResolution hcolA) i
           (revHthirdfwd A i x))
       = cmpR B.transpose (B.transpose_RowResolution hcolB) i
@@ -431,7 +431,7 @@ theorem statement2 :
     ((cmpR A hrowA i).symm x)
   simp only [LinearMap.comp_apply, LinearEquiv.coe_coe,
     LinearEquiv.apply_symm_apply] at hR hU ⊢
-  show (Ψ.UHomMap i) ((cmpR A hrowA i).symm.trans (cmpU A hcolA i) x) =
+  change (Ψ.UHomMap i) ((cmpR A hrowA i).symm.trans (cmpU A hcolA i) x) =
       (cmpR B hrowB i).symm.trans (cmpU B hcolB i) ((Ψ.RHomMap i) x)
   simp only [LinearEquiv.trans_apply]
   rw [hU]

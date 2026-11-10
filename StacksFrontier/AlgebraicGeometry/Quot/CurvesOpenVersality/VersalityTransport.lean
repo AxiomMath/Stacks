@@ -73,6 +73,7 @@ attribute [local instance] relocalizePreservesPullbacks
 attribute [local instance] relocalize_faithful
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullbacks` search for presheaves on the big fppf site
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_VersalityTransport
@@ -86,11 +87,13 @@ local instance (priority := high) hasPullback_presheaf_VersalityTransport
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullbacks` search for presheaves on `Over T`
 /-- Pullbacks of presheaves on `Over T` (instance search times out without this shortcut). -/
 local instance hasPullbacks_overPresheaf_VersalityTransport (T : Scheme.{u}) :
     HasPullbacks ((Over T)ᵒᵖ ⥤ Type u) := inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasLimitsOfShape (Discrete J)` search for presheaves on `Over T`
 /-- Small products of presheaves on `Over T` (instance search times out without this
 shortcut). -/
 local instance hasLimitsOfShape_discrete_overPresheaf_VersalityTransport (T : Scheme.{u})
@@ -124,10 +127,10 @@ private theorem isClosed_of_arrowIso
     have hei : e.hom.right ≫ e.inv.right = 𝟙 G :=
       (Arrow.rightFunc.mapIso e).hom_inv_id
     rw [← Category.assoc, he, Category.assoc, hei, Category.comp_id]
-  show IsClosedMap (Space.pointsMap B S hS F f)
+  change IsClosedMap (Space.pointsMap B S hS F f)
   convert h using 1
   funext x
-  show Space.pointsMap B S hS F f x =
+  change Space.pointsMap B S hS F f x =
     Space.pointsMap B S hS G' e.inv.right
       (Space.pointsMap B S hS F' f'
         (Space.pointsMap B S hS F e.hom.left x))
@@ -192,7 +195,7 @@ private theorem finitePresentation_relocalize
     apply pullback.hom_ext <;> simp [e, ← R.map_comp]
   have hd := quasiCompact_relocalize B S S' hS hS' g
     (ObjectProperty.homMk (pullback.diagonal f.hom) : F ⟶ ⟨_, hP⟩) hf.2.2
-  show AlgebraicGeometry.Space.IsQuasiCompact B S' hS' (pullback.diagonal (R.map f.hom))
+  change AlgebraicGeometry.Space.IsQuasiCompact B S' hS' (pullback.diagonal (R.map f.hom))
   rw [← he]
   exact quasiCompact_postcomp_iso B S' hS' e hd
 
@@ -251,7 +254,7 @@ private theorem relativeDimensionLE_relocalize
   have hm : Space.pointsMap B S hS _ a p.class = ex.symm x := by
     apply ex.injective
     rw [ex.apply_symm_apply]
-    show pointsOverLargerBaseEquiv B S S' hS hS' g X.obj
+    change pointsOverLargerBaseEquiv B S S' hS hS' g X.obj
       (Space.pointsMap B S hS _ a p.class) = x
     rw [pointsOverLargerBaseEquiv_naturality, hp, hp₀,
       ← Space.pointsMap_comp_apply, ← Space.pointsMap_comp_apply]
@@ -281,10 +284,10 @@ private theorem relativeDimensionLE_relocalize
     maps_to := hm
   }
   have hpv : p.value.left.hom = c.representative.value.left.hom := by
-    show (c.representative.value.left ≫ 𝟙 _).hom = _
+    change (c.representative.value.left ≫ 𝟙 _).hom = _
     rw [Category.comp_id]
   have hs : c'.sourcePoint B S hS = c.sourcePoint B S' hS' := by
-    show p.value.left.hom c.point = c.representative.value.left.hom c.point
+    change p.value.left.hom c.point = c.representative.value.left.hom c.point
     rw [hpv]
     rfl
   have hh : (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map c'.h =
@@ -313,7 +316,7 @@ private theorem isPullback_spacesOver_iff
       (pullback.fst h.hom.left i.hom.left) rfl)
     let p₂ : P ⟶ Y := ObjectProperty.homMk (Over.homMk
       (pullback.snd h.hom.left i.hom.left) (by
-        show pullback.snd h.hom.left i.hom.left ≫ Y.obj.hom =
+        change pullback.snd h.hom.left i.hom.left ≫ Y.obj.hom =
           pullback.fst h.hom.left i.hom.left ≫ X.obj.hom
         rw [← i.hom.w, ← h.hom.w, ← Category.assoc, ← Category.assoc,
           pullback.condition]))
@@ -321,9 +324,9 @@ private theorem isPullback_spacesOver_iff
       IsPullback.of_map_of_faithful H (IsPullback.of_hasPullback h.hom.left i.hom.left)
     let e := hp.isoIsPullback _ _ hpP
     apply IsPullback.of_iso_pullback ⟨congrArg (fun m => m.hom.left) hp.w⟩ (H.mapIso e)
-    · show (e.hom ≫ p₁).hom.left = f.hom.left
+    · change (e.hom ≫ p₁).hom.left = f.hom.left
       simp [e]
-    · show (e.hom ≫ p₂).hom.left = k.hom.left
+    · change (e.hom ≫ p₂).hom.left = k.hom.left
       simp [e]
   · exact IsPullback.of_map_of_faithful H
 
@@ -403,10 +406,10 @@ private theorem spaceFamilyOfLargerBaseMap_isPullback_iff
     apply hp₀.of_iso (Iso.refl _) (Iso.refl _) (e.unitIso.app _)
       (e.unitIso.app _)
     · simp
-    · show (e.inverse.map (a ≫ I.hom) ≫ (e.unitIso.app _).inv) ≫
+    · change (e.inverse.map (a ≫ I.hom) ≫ (e.unitIso.app _).inv) ≫
         (e.unitIso.app _).hom = 𝟙 _ ≫ e.inverse.map (a ≫ I.hom)
       rw [Category.assoc, Iso.inv_hom_id, Category.comp_id, Category.id_comp]
-    · show (e.inverse.map (a' ≫ I'.hom) ≫ (e.unitIso.app _).inv) ≫
+    · change (e.inverse.map (a' ≫ I'.hom) ≫ (e.unitIso.app _).inv) ≫
         (e.unitIso.app _).hom = 𝟙 _ ≫ e.inverse.map (a' ≫ I'.hom)
       rw [Category.assoc, Iso.inv_hom_id, Category.comp_id, Category.id_comp]
     · exact e.unitIso.hom.naturality c
@@ -507,7 +510,7 @@ private theorem curveOverS_map_preimage
     integerBase hS hZ g).1
   apply properFlatCurves_hom_ext
   apply CommaMorphism.ext
-  · show e.inverse.map
+  · change e.inverse.map
       (curveOverS_totalOverSmallerBaseMap B hZ S hS (curveOverS_preimage B hZ S hS k)) =
         k.hom.hom.hom.left
     have hn : curveOverS_totalOverSmallerBaseMap B hZ S hS
@@ -789,7 +792,7 @@ public theorem curves_openVersality_of_properFlatSpaces
   let q := properFlatCurvesProjection B S hS
   let : F.Full := curveOverS_full B hZ S hS
   let : F.Faithful := curveOverS_faithful B hZ S hS
-  show OpenVersalityOf (F ⋙ q)
+  change OpenVersalityOf (F ⋙ q)
   intro U hU x hx u₀ hu hversal
   have hversal' := isVersalAt_map_of_lifts F q
     (properFlatCurveOverS B hZ S hS)

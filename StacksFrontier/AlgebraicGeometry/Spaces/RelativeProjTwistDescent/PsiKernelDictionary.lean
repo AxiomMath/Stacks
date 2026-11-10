@@ -919,7 +919,7 @@ theorem smallAlgebraPieceIso_inv_smallPieceEquiv (n : ℤ)
     (y : (s.smallAlgebra.piece n).val.obj V) :
     (s.smallAlgebraPieceIso n).inv.val.app V
       (SheafOfModules.GradedAlgebra.smallPieceEquiv s.algebra n V y) = y := by
-  show ((s.smallAlgebraPieceIso n).hom ≫ (s.smallAlgebraPieceIso n).inv).val.app V y = y
+  change ((s.smallAlgebraPieceIso n).hom ≫ (s.smallAlgebraPieceIso n).inv).val.app V y = y
   rw [Iso.hom_inv_id]
   rfl
 

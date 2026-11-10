@@ -98,7 +98,7 @@ attribute [local instance] secAlg secAlgB
 functions on the face open. -/
 theorem algebraMap_faceAct {n : ℕ} (j : Fin n → ι) (c : k) :
     faceAct V U j (algebraMap k (chartRing V) c) = algebraMap k Γ(B A, faceOpen V U j) c := by
-  show ((bz A).appLE V _ _).hom ((Stacks.Cech.baseRingHom A.hom V).hom c) =
+  change ((bz A).appLE V _ _).hom ((Stacks.Cech.baseRingHom A.hom V).hom c) =
     (Stacks.Cech.baseRingHom (bx A ≫ A.hom) _).hom c
   have h := Stacks.AffineProduct.baseRingHom_comp_appLE A.hom (bz A) V (faceOpen V U j)
     (Stacks.AffineProduct.prodOpen_le_snd (bx A) (bz A) _ _)
@@ -207,8 +207,7 @@ theorem faceD_faceψ (p : ℕ) (f : RawCochain U p) :
 theorem prodRight_fst {R S M₁ M₂ : Type u} [CommRing R] [CommRing S] [Algebra R S]
     [AddCommGroup M₁] [AddCommGroup M₂] [Module R M₁] [Module R M₂] (z : S ⊗[R] (M₁ × M₂)) :
     (TensorProduct.prodRight R S S M₁ M₂ z).1 = (LinearMap.fst R M₁ M₂).baseChange S z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul s m => simp
   | add x y hx hy => simp only [map_add, Prod.fst_add, hx, hy]
 
@@ -216,8 +215,7 @@ theorem prodRight_fst {R S M₁ M₂ : Type u} [CommRing R] [CommRing S] [Algebr
 theorem prodRight_snd {R S M₁ M₂ : Type u} [CommRing R] [CommRing S] [Algebra R S]
     [AddCommGroup M₁] [AddCommGroup M₂] [Module R M₁] [Module R M₂] (z : S ⊗[R] (M₁ × M₂)) :
     (TensorProduct.prodRight R S S M₁ M₂ z).2 = (LinearMap.snd R M₁ M₂).baseChange S z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul s m => simp
   | add x y hx hy => simp only [map_add, Prod.snd_add, hx, hy]
 

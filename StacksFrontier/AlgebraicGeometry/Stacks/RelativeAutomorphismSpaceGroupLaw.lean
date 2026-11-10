@@ -122,7 +122,8 @@ automorphism of the object of the inertia, conjugated into an automorphism of `x
 underlying point of `Z` by the comparison isomorphism. -/
 def objAutomorphism (A : (relativeAutomorphismSpaceOverSpace B S hS Z hZ f x).val.obj) :
     RelativeAutomorphism B S hS Z hZ f x A.x := by
-  refine ⟨⟨(objIso B S hS Z hZ f x A).hom ≫ A.y.auto.asIso.hom ≫ (objIso B S hS Z hZ f x A).inv, ?_⟩, ?_⟩
+  refine ⟨⟨(objIso B S hS Z hZ f x A).hom ≫ A.y.auto.asIso.hom ≫
+    (objIso B S hS Z hZ f x A).inv, ?_⟩, ?_⟩
   · exact (congrArg (fun U => 𝒳.val.val.p.IsHomLift (𝟙 U)
       ((objIso B S hS Z hZ f x A).hom ≫ A.y.auto.asIso.hom ≫ (objIso B S hS Z hZ f x A).inv))
         A.hx).mpr (isHomLift_objConjugate B S hS Z hZ f x A)

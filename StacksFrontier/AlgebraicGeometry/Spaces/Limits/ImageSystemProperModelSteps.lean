@@ -28,7 +28,8 @@ finite type over `B = lim B_i`, and let `GX` and `GY` be diagrams for `X` and `Y
 first steps of the source's proof of Stacks 0CPE (a model with a closed immersion into a proper
 model gives a proper morphism of image systems). It is part of a copy of a proof of
 Stacks 0CQ1 used by Chow's lemma for algebraic stacks (the library's own proof of Stacks 0CPE
-is in `StacksFrontier/AlgebraicGeometry/Spaces/Limits/DescendingFiniteTypeProper.lean`); the statement of 0CPE itself is not copied.
+is in `StacksFrontier/AlgebraicGeometry/Spaces/Limits/DescendingFiniteTypeProper.lean`); the
+statement of 0CPE itself is not copied.
 
 ## References
 

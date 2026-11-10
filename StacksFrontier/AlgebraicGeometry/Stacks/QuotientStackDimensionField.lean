@@ -566,11 +566,11 @@ theorem isFlat_isLocallyOfFinitePresentation_groupoidOfAction
     congrArg (fun q : (G.obj.X ⊗ X) ⟶ X => q.left)
       (Stacks.Groupoids.ActionGroupoid.inverse_source G.obj.X X).symm
   refine ⟨⟨hsflat, ?_⟩, ⟨hslfp, ?_⟩⟩
-  · show Space.IsFlat C (Spec (.of k)) hk (γ[G.obj.X, X] : G.obj.X ⊗ X ⟶ X).left
+  · change Space.IsFlat C (Spec (.of k)) hk (γ[G.obj.X, X] : G.obj.X ⊗ X ⟶ X).left
     rw [htgt]
     exact Space.isFlat_comp C (Spec (.of k)) hk hprod hprod hX _ _
       (Space.isFlat_of_isIso _ hprod) hsflat
-  · show Space.IsLocallyOfFinitePresentation C (Spec (.of k)) hk
+  · change Space.IsLocallyOfFinitePresentation C (Spec (.of k)) hk
       (γ[G.obj.X, X] : G.obj.X ⊗ X ⟶ X).left
     rw [htgt]
     exact Space.isLocallyOfFinitePresentation_comp C (Spec (.of k)) hk hprod hprod hX _ _

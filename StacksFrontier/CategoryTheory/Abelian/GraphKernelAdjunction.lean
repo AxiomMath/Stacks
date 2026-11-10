@@ -205,7 +205,7 @@ theorem graphKernelProjection_mono [Mono φ] : Mono (graphKernelProjection adj F
     (adj.rightAdjoint_preservesLimits).preservesLimitsOfShape
   have : R.PreservesMonomorphisms := preservesMonomorphisms_of_preservesLimitsOfShape R
   have hk := graphKernel_ι_comp_unit adj F φ
-  show Mono (kernel.ι (graphKernelMap adj F φ) ≫ biprod.fst)
+  change Mono (kernel.ι (graphKernelMap adj F φ) ≫ biprod.fst)
   refine ⟨fun {Z} a b hab => ?_⟩
   refine (cancel_mono (kernel.ι (graphKernelMap adj F φ))).1
     (biprod.hom_ext _ _ (by simpa only [Category.assoc] using hab) ?_)

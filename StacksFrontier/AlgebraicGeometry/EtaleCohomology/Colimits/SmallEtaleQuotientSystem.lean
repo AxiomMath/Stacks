@@ -133,7 +133,7 @@ theorem systemTransitionMap_quotientSystem {i j : Iᵒᵖ} (a : i ⟶ j) :
     (etaleAbelianInverseImage.{u, u + 1} (D.map a)).map (cokernel.π (φ j)) ≫
         systemTransitionMap (quotientSystem φ hφ) a =
       systemTransitionMap G a ≫ cokernel.π (φ i) := by
-  show (etaleAbelianInverseImage.{u, u + 1} (D.map a)).map (cokernel.π (φ j)) ≫
+  change (etaleAbelianInverseImage.{u, u + 1} (D.map a)).map (cokernel.π (φ j)) ≫
       (inverseImageIsoPullbackAb (D.map a)).inv.app (cokernel (φ j)) ≫
         quotientSystemMap φ hφ a =
     ((inverseImageIsoPullbackAb (D.map a)).inv.app (G.obj j) ≫ G.map a) ≫ cokernel.π (φ i)

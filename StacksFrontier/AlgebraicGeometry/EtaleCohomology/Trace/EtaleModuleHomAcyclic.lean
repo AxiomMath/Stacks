@@ -259,7 +259,7 @@ lemma sum_freeModuleπ_comp_ι (k : ℕ) :
   refine ModuleCat.hom_ext (LinearMap.ext fun x => funext fun j' => ?_)
   simp only [ModuleCat.hom_sum, ModuleCat.hom_comp, ModuleCat.hom_id, LinearMap.id_apply]
   rw [LinearMap.sum_apply, Finset.sum_apply]
-  show ∑ j, (Pi.single j (x j) : Fin k → ULift.{u + 1} R) j' = x j'
+  change ∑ j, (Pi.single j (x j) : Fin k → ULift.{u + 1} R) j' = x j'
   simp [Pi.single_apply]
 
 /-- **`Ext^{n+1}(A_U, Hom_R(R^k, I)) = 0`** for an injective sheaf `I`. -/
@@ -315,7 +315,7 @@ theorem ext_eq_zero_etaleModuleHom_of_injective (I : EtaleModules.{u, 0} R X) [I
     ((etaleModuleHomPrecomp (A := A) (kernel.ι g) X).app I))
   change (corep.hom.app G₃).hom (kernel.ι g ≫ t) =
     (corep.hom.app G₂).hom t ≫ (etaleModuleHomPrecomp (A := A) (kernel.ι g) X).app I at hnat
-  show (corep.hom.app G₂).hom t ≫ (etaleModuleHomPrecomp (A := A) (kernel.ι g) X).app I = f
+  change (corep.hom.app G₂).hom t ≫ (etaleModuleHomPrecomp (A := A) (kernel.ι g) X).app I = f
   have ht : kernel.ι g ≫ t = s := Injective.comp_factorThru s (kernel.ι g)
   rw [← hnat, ht]
   exact congrArg (fun φ => φ.hom f) (corep.inv_hom_id_app _)

@@ -121,7 +121,7 @@ theorem height_eq_one_of_mem_associatedPrimes_ker_app
   set q : PrimeSpectrum Γ(Z, i ⁻¹ᵁ U) := ⟨p.map (i.app U).hom, hq.1⟩
   set x : Z := hV.fromSpec.base q with hxdef
   have hxV : x ∈ i ⁻¹ᵁ U := by
-    show hV.fromSpec.base q ∈ ((i ⁻¹ᵁ U : Z.Opens) : Set Z)
+    change hV.fromSpec.base q ∈ ((i ⁻¹ᵁ U : Z.Opens) : Set Z)
     rw [← hV.range_fromSpec]
     exact ⟨q, rfl⟩
   have hprime : hV.primeIdealOf ⟨x, hxV⟩ = q := by

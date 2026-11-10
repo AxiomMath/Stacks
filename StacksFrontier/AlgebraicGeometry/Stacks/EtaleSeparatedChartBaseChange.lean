@@ -200,7 +200,7 @@ theorem prop_pullbackFst_representingMap_of_prop_relocalize_of_respectsIso
           (schemeSliceMap B S hS U y hy) h
           ((OverShriek.relocalizePresheafFunctor U.hom).obj T) eT')) (Iso.refl _) ?_
     apply ObjectProperty.hom_ext
-    show ((Presheaf.fibreProductIsoPullback _ _).symm ≪≫
+    change ((Presheaf.fibreProductIsoPullback _ _).symm ≪≫
         fibreProductIsoRepresenting B S hS (schemeSlice B S hS U) 𝒜 𝒵
           (yoneda.obj U) F G (schemeSliceEquivalenceOver B S hS U) eF eG
           (schemeSliceMap B S hS U y hy) h
@@ -277,7 +277,7 @@ theorem prop_representingMap_of_relativeProperty_yoneda
       ObjectProperty.isoMk _ (asIso (pullback.snd (𝟙 (yoneda.obj U)) m))
     refine Arrow.isoMk' _ _ e (Iso.refl _) ?_
     apply ObjectProperty.hom_ext
-    show pullback.snd (𝟙 (yoneda.obj U)) m ≫ m = pullback.fst (𝟙 (yoneda.obj U)) m ≫ 𝟙 _
+    change pullback.snd (𝟙 (yoneda.obj U)) m ≫ m = pullback.fst (𝟙 (yoneda.obj U)) m ≫ 𝟙 _
     rw [Category.comp_id, ← pullback.condition, Category.comp_id]
   exact (P.arrow_mk_iso_iff hiso).mp hprop
 

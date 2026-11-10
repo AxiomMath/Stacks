@@ -75,7 +75,8 @@ and the tag itself is registered on
 `Stacks.Cohomology.ColimitsOfCohomology.isIso_colimit_post_rightDerived_globalSections`.
 
 The source obtains the vanishing input from the Čech-to-cohomology spectral sequence
-`E₁^{p,q} = Hᑫ(Kᵖ⁺¹, I)` of Stacks 079Z.  That is not the route taken here, and 079Z is not used: the dévissage of the `ExtTowerVanishing`
+`E₁^{p,q} = Hᑫ(Kᵖ⁺¹, I)` of Stacks 079Z.  That is not the route taken here, and 079Z is not used:
+the dévissage of the `ExtTowerVanishing`
 development along the opcycles tower of the free abelian Čech
 resolution (Stacks 01GB, 01GC) replaces the spectral sequence.  What the proof does use is the
 identification `Hᑫ(Kᵖ⁺¹, F) = Hᑫ(C/Kᵖ⁺¹, j⁻¹F)` of Stacks 07A0 — proved as

@@ -90,6 +90,7 @@ private lemma qcι_preservesColimitsOfShape_discrete' (J : Type*)
 attribute [local instance] qcι_preservesColimitsOfShape_discrete'
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- synthesizing `IsIso (sigmaComparison _ K)` goes through the colimit instances of `QCι`
 /-- **The direct sum of cartesian objects is their direct sum in `D(O)`.** `QC(O)` is closed under
 direct sums ([Stacks, Tag 0GYW]), so the inclusion preserves them and the comparison morphism from
 the direct sum of the underlying objects to the underlying object of the direct sum is
@@ -117,6 +118,7 @@ alias exists_small_generating_family := exists_qc_generating_family
 /-! ### Stacks 0GZ0 -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance synthesis for the triangulated structure on `QC(O)` and `D(O)` is deep
 /-- **[Stacks, Tag 0GZ0] part (2).** Let `C` be a category with the chaotic topology, let `O` be a
 presheaf of commutative rings on `C` and let `bc` be derived base-change data for `O`. Every
 contravariant cohomological functor on `QC(O)` which transforms direct sums into products is
@@ -135,6 +137,7 @@ theorem exists_iso_preadditiveYoneda_of_isHomological_unconditional
   exact exists_iso_preadditiveYoneda_of_isHomological_of_generating.{w} bc E hE hE' H
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance synthesis for the triangulated structure on `QC(O)` and `D(O)` is deep
 /-- **[Stacks, Tag 0GZ0] part (3).** Let `C` be a category with the chaotic topology, let `O` be a
 presheaf of commutative rings on `C` and let `bc` be derived base-change data for `O`. An exact
 functor `F : QC(O) ⥤ D'` of triangulated categories which transforms direct sums into direct sums
@@ -157,6 +160,7 @@ theorem exists_isTriangulated_rightAdjoint
     F E hE hE'
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance synthesis for the triangulated structure on `QC(O)` and `D(O)` is deep
 /-- **[Stacks, Tag 0GZ0] part (4).** The inclusion `QC(O) ⥤ D(O)` of the cartesian objects has an
 exact right adjoint. The inclusion is exact and transforms direct sums into direct sums, because
 `QC(O)` is a triangulated subcategory closed under direct sums ([Stacks, Tag 0GYW]), so this is the

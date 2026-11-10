@@ -84,7 +84,7 @@ theorem base_objectsToInvariantSpectrum_mapObjects (u' : G'.objects.left) :
     (objectsToInvariantSpectrum G).base (F.mapObjects.left.base u') =
       (Spec.map (CommRingCat.ofHom (invariantRingMap F))).base
         ((objectsToInvariantSpectrum G').base u') := by
-  show (F.mapObjects.left ≫ objectsToInvariantSpectrum G).base u' =
+  change (F.mapObjects.left ≫ objectsToInvariantSpectrum G).base u' =
     (objectsToInvariantSpectrum G' ≫ Spec.map (CommRingCat.ofHom (invariantRingMap F))).base u'
   rw [mapObjects_comp_objectsToInvariantSpectrum]
 
@@ -131,13 +131,13 @@ theorem exists_objectsToInvariantSpectrum_base_eq_of_base_eq
   refine ⟨G'.target.left.base r', ?_, ?_⟩
   · have hst : (objectsToInvariantSpectrum G').base (G'.target.left.base r') =
         (objectsToInvariantSpectrum G').base (G'.source.left.base r') := by
-      show (G'.target.left ≫ objectsToInvariantSpectrum G').base r' =
+      change (G'.target.left ≫ objectsToInvariantSpectrum G').base r' =
         (G'.source.left ≫ objectsToInvariantSpectrum G').base r'
       rw [source_comp_objectsToInvariantSpectrum]
     rw [hst, hr'source, hw']
   · have hmt : F.mapObjects.left.base (G'.target.left.base r') =
         G.target.left.base (F.mapArrows.left.base r') := by
-      show (G'.target.left ≫ F.mapObjects.left).base r' =
+      change (G'.target.left ≫ F.mapObjects.left).base r' =
         (F.mapArrows.left ≫ G.target.left).base r'
       rw [F.map_target_left]
     rw [hmt, hr'arrows, hrt]
@@ -186,11 +186,11 @@ theorem eq_of_objectsToInvariantSpectrum_base_eq_of_separating
   -- the source and the target of the image of `r'` in `R`, as field-valued points of `U`
   have hsrc : (ρ ≫ F.mapArrows.left ≫ G.source.left).base (IsLocalRing.closedPoint K) = v := by
     rw [F.map_source_left]
-    show F.mapObjects.left.base (G'.source.left.base (ρ.base _)) = v
+    change F.mapObjects.left.base (G'.source.left.base (ρ.base _)) = v
     rw [hρbase, hrs, hu₂]
   have htgt : (ρ ≫ F.mapArrows.left ≫ G.target.left).base (IsLocalRing.closedPoint K) = v := by
     rw [F.map_target_left]
-    show F.mapObjects.left.base (G'.target.left.base (ρ.base _)) = v
+    change F.mapObjects.left.base (G'.target.left.base (ρ.base _)) = v
     rw [hρbase, hrt, hu₁]
   -- they have the same composite with the quotient morphism
   have hcomp : (ρ ≫ F.mapArrows.left ≫ G.source.left) ≫ objectsToInvariantSpectrum G =

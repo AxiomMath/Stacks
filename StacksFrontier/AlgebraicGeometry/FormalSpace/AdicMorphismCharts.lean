@@ -107,7 +107,7 @@ theorem isAdicOnEveryAffineEtaleDiagram_of_isAdicMorphism' {X Y : FppfSheaf B S 
     isTaut_of_isRepresentableByAlgebraicSpacesULift_formalSpectrumMap_of_isAffine B S hS hA
       hCR.1.1 D E (isAffineFormalAlgebraicSpace_of_iso B S hS eV hV)
       (isAffineFormalAlgebraicSpace_of_iso B S hS eU hU) g hrep
-  exact (@RingHom.isAdic_iff_isTaut A R _ _ _ _ _ _ _ _ g.toRingHom g.continuous hCA.2
+  exact (@RingHom.isAdic_iff_isTaut A R _ _ _ _ _ _ _ _ g.toRingHom hCA.2
     hCR.1.1.2.1 hCR.1.1.2.2).mpr htaut
 
 end AlgebraicGeometry.FormalSpace

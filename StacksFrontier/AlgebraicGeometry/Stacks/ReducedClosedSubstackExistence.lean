@@ -112,7 +112,7 @@ theorem chartPointMap_relationSourceMap_eq {R : AlgebraicSpaces B S hS}
         (U := chartSpace W₀) (PresheafOfCategories.sliceElementsEquivalenceOver W₀) eR) x) := by
   let eU := PresheafOfCategories.sliceElementsEquivalenceOver W₀
   obtain ⟨p, rfl⟩ := Quot.exists_rep x
-  show spacePointMap B S hS (yoneda.obj W₀) 𝒳.val (chartSpaceMap f)
+  change spacePointMap B S hS (yoneda.obj W₀) 𝒳.val (chartSpaceMap f)
       ((Space.FieldValuedPoint.map B S hS R.obj
         (SelfIntersection.relationSourceMap (U := chartSpace W₀) eU eR) p).class B S hS _) =
     spacePointMap B S hS (yoneda.obj W₀) 𝒳.val (chartSpaceMap f)
@@ -136,7 +136,7 @@ theorem chartPointMap_relationSourceMap_eq {R : AlgebraicSpaces B S hS}
     (𝒰 := schemeFibredCategory B S hS W₀) eU ρ.y (SelfIntersection.relation_obj_y hρ)
   let ix := SelfIntersection.representingObjIsoOfSection (U := chartSpace W₀)
     (𝒰 := schemeFibredCategory B S hS W₀) eU ρ.x (SelfIntersection.relation_obj_x hρ)
-  show f.obj (Over.mk ((SelfIntersection.relationSourceMap (U := chartSpace W₀) eU eR).app
+  change f.obj (Over.mk ((SelfIntersection.relationSourceMap (U := chartSpace W₀) eU eR).app
       (op Wp) p.value)) ⟶
     f.obj (Over.mk ((SelfIntersection.relationTargetMap (U := chartSpace W₀) eU eR).app
       (op Wp) p.value))
@@ -217,7 +217,7 @@ theorem isChartInvariant_chartReducedSubspace
     SelfIntersection.relationTargetMap_arrowOfFiberHom (U := chartSpace W₀) (R := R) eU eR
       a'.hom a.hom αF
   have hrs : r ∈ ((chartReducedSubspace f T hT).preimage sR).obj (op a.left) := by
-    show sR.app (op a.left) r ∈ (chartReducedSubspace f T hT).obj (op a.left)
+    change sR.app (op a.left) r ∈ (chartReducedSubspace f T hT).obj (op a.left)
     rwa [hr_s]
   rw [hinv] at hrs
   change tR.app (op a.left) r ∈ (chartReducedSubspace f T hT).obj (op a.left) at hrs
@@ -283,7 +283,7 @@ theorem range_pointsMap_chartLocus_chartReducedSubspace
     have ht : chartPointMap f (p₀.class B S hS _) ∈ T := by
       rw [← Set.mem_preimage, ← hrange, hp]
       exact Set.mem_range_self _
-    show pointClass B S hS 𝒳.val.val 𝒳.val.property
+    change pointClass B S hS 𝒳.val.val 𝒳.val.property
       (fieldValuedPointMap B S hS _ (fullSubcategoryInclusion 𝒳 _ hP).hom.hom q) ∈ T
     rwa [← chartPointMap_class_eq f p₀ _ φ]
   · intro ht
@@ -301,7 +301,7 @@ theorem range_pointsMap_chartLocus_chartReducedSubspace
       { carrier := r.carrier, field := r.field, base := r.siteObject, isSpec := Iso.refl _,
         obj := ⟨f.obj (Over.mk r.value), hrZ⟩, «over» := Functor.congr_obj f.w _ }
     refine ⟨pointClass B S hS _ (Classical.choose hP) qZ, ?_⟩
-    show pointClass B S hS 𝒳.val.val 𝒳.val.property
+    change pointClass B S hS 𝒳.val.val 𝒳.val.property
       (fieldValuedPointMap B S hS _ (fullSubcategoryInclusion 𝒳 _ hP).hom.hom qZ) = _
     rw [← chartPointMap_class_eq f r _ (𝟙 _), hr]
     exact chartPointMap_class_eq f p₀ q φ
@@ -363,7 +363,7 @@ theorem isReducedStack_chartLocus {Z : Subfunctor (yoneda.obj W₀ : (BigFppfOve
   let H : (fibredCategory B S hS Z.toFunctor).val.obj ⥤ P.FullSubcategory :=
     P.lift (K.toFunctor ⋙ f.toFunctor) hmem
   have hH : H ⋙ (fullSubcategoryBased 𝒳 P).p = (fibredCategory B S hS Z.toFunctor).val.p := by
-    show (K.toFunctor ⋙ f.toFunctor) ⋙ 𝒳.val.val.p = _
+    change (K.toFunctor ⋙ f.toFunctor) ⋙ 𝒳.val.val.p = _
     rw [Functor.assoc, f.w]
     exact K.w
   let t : H ⋙ (fullSubcategoryBasedInclusion 𝒳 P).toFunctor ≅ K.toFunctor ⋙ f.toFunctor :=
@@ -391,14 +391,14 @@ theorem isReducedStack_chartLocus {Z : Subfunctor (yoneda.obj W₀ : (BigFppfOve
         ha := (Functor.isHomLift_comp_iff P.ι 𝒳.val.val.p _ _).2 hvi
         hb := IsHomLift.id rfl
         w := by
-          show iso.inv ≫ iso.hom = 𝟙 _ ≫ f.map (𝟙 y)
+          change iso.inv ≫ iso.hom = 𝟙 _ ≫ f.map (𝟙 y)
           simp }
     have : IsIso φ := TwoFibreProductOver.isIso_of_isIso_components _ _ _ _ _ φ
       (by
-        show IsIso (ObjectProperty.homMk iso.inv : (⟨_, hmem w⟩ : P.FullSubcategory) ⟶ x)
+        change IsIso (ObjectProperty.homMk iso.inv : (⟨_, hmem w⟩ : P.FullSubcategory) ⟶ x)
         have : IsIso (P.ι.map (ObjectProperty.homMk iso.inv :
             (⟨_, hmem w⟩ : P.FullSubcategory) ⟶ x)) := by
-          show IsIso iso.inv
+          change IsIso iso.inv
           infer_instance
         exact isIso_of_reflects_iso _ P.ι)
       (by change IsIso (𝟙 y); infer_instance)

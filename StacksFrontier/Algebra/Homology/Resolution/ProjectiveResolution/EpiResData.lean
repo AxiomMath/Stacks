@@ -15,9 +15,9 @@ public import Mathlib.CategoryTheory.ExtremalEpi
 public import Mathlib.CategoryTheory.Limits.FunctorCategory.EpiMono
 import Mathlib.CategoryTheory.Monoidal.Mon
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
-public import Mathlib.Data.Int.Star
-public import Mathlib.Data.Int.SuccPred
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
+public import Mathlib.Algebra.Order.Star.Int
+public import Mathlib.Order.SuccPred.Int
 import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.ReduceModChar
 public import Mathlib.Tactic.Ring.Basic
@@ -178,7 +178,7 @@ theorem statement1 [EnoughProjectives C] (A : C) :
   · have h1 : QuasiIso (HomologicalComplex.extendMap P.π ComplexShape.embeddingDownNat) :=
       inferInstance
     have h2 : QuasiIso singleIso.hom := inferInstance
-    show QuasiIso (HomologicalComplex.extendMap P.π ComplexShape.embeddingDownNat ≫ singleIso.hom)
+    change QuasiIso (HomologicalComplex.extendMap P.π ComplexShape.embeddingDownNat ≫ singleIso.hom)
     infer_instance
 
 /-! ## Decomposition of Statements 2 and 3 into sub-lemmas
@@ -628,7 +628,7 @@ lemma hjZP_fun (n : ℤ) : Mono (jZPfun K a hK n) := (tw K a hK n).hjZP
 /-- The cocycle inclusion `Z_P^n ⟶ P^n` followed by `d_P^n` is zero. -/
 lemma hjd_fun (n : ℤ) : jZPfun K a hK n ≫ dfun K a hK n = 0 := by
   rw [jZPfun, dfun]
-  show (tw K a hK n).jZP ≫ ((tw K a hK n).d ≫ eqToHom (coh K a hK n)) = 0
+  change (tw K a hK n).jZP ≫ ((tw K a hK n).d ≫ eqToHom (coh K a hK n)) = 0
   rw [← Category.assoc, (tw K a hK n).hjd, zero_comp]
 
 -- Works around the isDefEq-transparency change: `simp`/`rw` on morphisms whose
@@ -709,7 +709,7 @@ lemma epiToPb_fun (n : ℤ) :
     have hKn : IsZero (K.X n) := (CochainComplex.isStrictlyLE_iff K a).mp hK n hn
     have hZP : IsZero (ZPfun K a hK (n + 1)) := by
       rw [ZPfun, tw_eq_zero K a hK (n+1) (by omega)]
-      show IsZero (K.cycles (n+1))
+      change IsZero (K.cycles (n+1))
       exact cycles_isZero K (n+1) ((CochainComplex.isStrictlyLE_iff K a).mp hK (n+1) (by omega))
     rw [IsZero.iff_id_eq_zero]
     apply pullback.hom_ext

@@ -210,7 +210,7 @@ theorem PrimeDivisor.orderOfVanishingSection_canonicalLocalRatio_sectionsMap_of_
   have hecompat' : ∀ (W W' : SmallEtale B S hS X.1) (k : W ⟶ V) (g : W' ⟶ W),
       (L'.val.map g.op).hom (e' W k) = e' W' (g ≫ k) := by
     intro W W' k g
-    show (L'.val.map g.op).hom ((α.hom.val.app (op W)).hom (e W k)) =
+    change (L'.val.map g.op).hom ((α.hom.val.app (op W)).hom (e W k)) =
       (α.hom.val.app (op W')).hom (e W' (g ≫ k))
     rw [← hecompat W W' k g]
     exact (PresheafOfModules.naturality_apply α.hom.val g.op (e W k)).symm
@@ -320,7 +320,7 @@ theorem PrimeDivisor.orderOfVanishingSection_canonicalLocalRatio_pullbackMeromor
     (smallEtalePostcomp B S hS φ.inv (isEtale_of_isIso B S hS φ.inv.hom)).obj V'
   let d : ChartDiagram B S hS X.1 X'.1 φ.hom.hom :=
     ⟨U, V', 𝟙 _, by
-      show (V'.1.hom ≫ φ.inv.hom) ≫ φ.hom.hom = yoneda.map (𝟙 _) ≫ V'.1.hom
+      change (V'.1.hom ≫ φ.inv.hom) ≫ φ.hom.hom = yoneda.map (𝟙 _) ≫ V'.1.hom
       rw [Category.assoc, ObjectProperty.isoInv_hom_id_hom, Category.comp_id,
         CategoryTheory.Functor.map_id,
         Category.id_comp]⟩
@@ -346,11 +346,11 @@ theorem PrimeDivisor.orderOfVanishingSection_canonicalLocalRatio_pullbackMeromor
     (smallEtalePostcomp B S hS φ.hom (isEtale_of_isIso B S hS φ.hom.hom)).obj Q
   let j : Q' ⟶ V' := ObjectProperty.homMk (CostructuredArrow.homMk
     ((SmallEtale.toOver B S hS X.1).map ι) (by
-      show yoneda.map ((SmallEtale.toOver B S hS X.1).map ι) ≫ V'.1.hom = Q.1.hom ≫ φ.hom.hom
+      change yoneda.map ((SmallEtale.toOver B S hS X.1).map ι) ≫ V'.1.hom = Q.1.hom ≫ φ.hom.hom
       have hw : yoneda.map ((SmallEtale.toOver B S hS X.1).map ι) ≫ U.1.hom = Q.1.hom :=
         ((SmallEtale.inclusion B S hS X.1).map ι).w
       rw [← hw]
-      show _ = yoneda.map _ ≫ (V'.1.hom ≫ φ.inv.hom) ≫ φ.hom.hom
+      change _ = yoneda.map _ ≫ (V'.1.hom ≫ φ.inv.hom) ≫ φ.hom.hom
       rw [Category.assoc, ObjectProperty.isoInv_hom_id_hom, Category.comp_id]
       rfl))
   let eQ' : (W : SmallEtale B S hS X'.1) → (W ⟶ Q') → M'.val.obj (op W) :=
@@ -364,7 +364,7 @@ theorem PrimeDivisor.orderOfVanishingSection_canonicalLocalRatio_pullbackMeromor
   -- the square over `φ` whose vertical map is the identity of `Q`
   let d₂ : ChartDiagram B S hS X.1 X'.1 φ.hom.hom :=
     ⟨Q, Q', 𝟙 _, by
-      show Q.1.hom ≫ φ.hom.hom = yoneda.map (𝟙 _) ≫ (Q.1.hom ≫ φ.hom.hom)
+      change Q.1.hom ≫ φ.hom.hom = yoneda.map (𝟙 _) ≫ (Q.1.hom ≫ φ.hom.hom)
       rw [CategoryTheory.Functor.map_id, Category.id_comp]⟩
   -- the points
   have hptU : chartSchemeToPoints B S hS X.1 U v' = Z.genericPoint B S hS X.1 := by
@@ -419,10 +419,10 @@ theorem PrimeDivisor.orderOfVanishingSection_canonicalLocalRatio_pullbackMeromor
           (chartDiagramRestrict B S hS φ.hom d₂ r) :=
       RingHom.congr_fun (chartMeromorphicFunctionPullback_algebraMap B S hS φ.hom hf d₂) r
     have h₂ : chartDiagramRestrict B S hS φ.hom d₂ r = r := by
-      show (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (𝟙 _)).op).hom r = r
+      change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (𝟙 _)).op).hom r = r
       simp only [CategoryTheory.Functor.map_id, op_id, CategoryTheory.Functor.map_id]
       rfl
-    show chartPointMeromorphicMap B S hS X Q hQ hK q (pb (algebraMap _ _ r)) =
+    change chartPointMeromorphicMap B S hS X Q hQ hK q (pb (algebraMap _ _ r)) =
       chartPointMeromorphicMap B S hS X' Q' hQ hK' q (algebraMap _ _ r)
     rw [h₁, h₂]
     exact (chartPointMeromorphicMap_algebraMap B S hS X Q hQ hK q r).trans

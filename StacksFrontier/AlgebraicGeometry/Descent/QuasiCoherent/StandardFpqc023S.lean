@@ -205,7 +205,7 @@ theorem presieve₀_mem_fpqcPrecoverage_standardFpqc (𝒲 : PreZeroHypercover.{
   have hcomp := Precoverage.comp_mem_coverings (J := Scheme.fpqcPrecoverage.{u})
     (fun _ : PUnit.{1} ↦ Sigma.desc 𝒲.f) hsingle (fun _ i ↦ Sigma.ι 𝒲.X i) hzar
   have hfun : (fun p : Σ _ : PUnit.{1}, 𝒲.I₀ ↦ Sigma.ι 𝒲.X p.2 ≫ Sigma.desc 𝒲.f) =
-      (fun p : Σ _ : PUnit.{1}, 𝒲.I₀ ↦ 𝒲.f p.2) := funext fun p ↦ Sigma.ι_desc 𝒲.f p.2
+      (fun p : Σ _ : PUnit.{1}, 𝒲.I₀ ↦ 𝒲.f p.2) := funext fun p ↦ Sigma.ι_comp_desc 𝒲.f p.2
   rw [hfun, Stacks.Descent.presieve_ofArrows_comp_of_surjective 𝒲.f
     (fun p : Σ _ : PUnit.{1}, 𝒲.I₀ ↦ p.2) (fun i ↦ ⟨⟨PUnit.unit, i⟩, rfl⟩)] at hcomp
   exact hcomp

@@ -237,7 +237,7 @@ private lemma derivationSection_sectionDerivation (t : AlgebraSection α β π) 
   apply section_ext
   apply ObjectProperty.hom_ext _
   ext U a
-  show s.hom.hom.app U a + hI.ι U (sectionDifference hI t U a) = t.hom.hom.app U a
+  change s.hom.hom.app U a + hI.ι U (sectionDifference hI t U a) = t.hom.hom.app U a
   rw [sectionDifference_spec]
   abel
 
@@ -245,9 +245,9 @@ private lemma sectionDerivation_derivationSection (D : SheafDerivation α I) :
     sectionDerivation hI (derivationSection hI D) = D := by
   ext U a
   apply kernel_injective hI
-  show hI.ι U (sectionDifference hI (derivationSection hI D) U a) = hI.ι U (D.d a)
+  change hI.ι U (sectionDifference hI (derivationSection hI D) U a) = hI.ι U (D.d a)
   rw [sectionDifference_spec]
-  show s.hom.hom.app U a + hI.ι U (D.d a) - s.hom.hom.app U a = hI.ι U (D.d a)
+  change s.hom.hom.app U a + hI.ι U (D.d a) - s.hom.hom.app U a = hI.ι U (D.d a)
   abel
 
 end

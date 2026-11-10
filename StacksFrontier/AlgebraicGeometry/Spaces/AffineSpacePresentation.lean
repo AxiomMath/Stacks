@@ -144,7 +144,7 @@ theorem exists_specSite_iso_of_isAffineSpace
     (((Scheme.ΓSpecIso (.of R)).inv ≫ (B.inclusion.map T.hom).appTop).hom).toAlgebra
   have hA : B.Contains
       (Spec (.of Γ((BigFppfOver.toScheme B (Spec (.of R)) hX).obj T, ⊤))) := by
-    show (Spec Γ((BigFppfOver.toScheme B (Spec (.of R)) hX).obj T, ⊤)).size < B.cutoff
+    change (Spec Γ((BigFppfOver.toScheme B (Spec (.of R)) hX).obj T, ⊤)).size < B.cutoff
     rw [← Scheme.size_congr ((BigFppfOver.toScheme B (Spec (.of R)) hX).obj T).isoSpec]
     exact T.left.2
   refine ⟨Γ((BigFppfOver.toScheme B (Spec (.of R)) hX).obj T, ⊤), inferInstance, algT, hA,
@@ -152,7 +152,7 @@ theorem exists_specSite_iso_of_isAffineSpace
       ((BigFppfOver.toScheme B (Spec (.of R)) hX).obj T).isoSpec) ?_)⟩⟩
   apply B.inclusion.map_injective
   rw [Functor.map_comp]
-  show ((BigFppfOver.toScheme B (Spec (.of R)) hX).obj T).isoSpec.hom ≫
+  change ((BigFppfOver.toScheme B (Spec (.of R)) hX).obj T).isoSpec.hom ≫
     Spec.map ((Scheme.ΓSpecIso (.of R)).inv ≫ (B.inclusion.map T.hom).appTop) =
       B.inclusion.map T.hom
   rw [← isoSpec_inv_comp_eq_spec_map (R₀ := CommRingCat.of R)

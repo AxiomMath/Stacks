@@ -170,24 +170,36 @@ theorem etaleModulePullbackComp_hom_app_eq_id :
           (etaleModulePullback.{u, u} B S hS (h ≫ g) hhg).obj M from 𝟙 _) :=
   rfl
 
+set_option maxHeartbeats 400000 in
+-- The statement is the type of the proof term (`type_of%`), so the term is elaborated twice,
+-- once in the statement and once as the proof, which exceeds the default limit.
 /-- The direct image along `h ≫ g` of the component at `M` of `etaleModulePullbackComp` is the
 identity. -/
-def modulePushforward_map_etaleModulePullbackComp_hom_app :=
-  (congrArg (modulePushforward B S hS (h ≫ g)).map
-      (etaleModulePullbackComp_hom_app_eq_id B S hS h g hh hg hhg M)).trans
-    (CategoryTheory.Functor.map_id _ _)
+theorem modulePushforward_map_etaleModulePullbackComp_hom_app :
+    type_of% ((congrArg (modulePushforward B S hS (h ≫ g)).map
+        (etaleModulePullbackComp_hom_app_eq_id B S hS h g hh hg hhg M)).trans
+      (CategoryTheory.Functor.map_id _ _)) :=
+  ((congrArg (modulePushforward B S hS (h ≫ g)).map
+       (etaleModulePullbackComp_hom_app_eq_id B S hS h g hh hg hhg M)).trans
+     (CategoryTheory.Functor.map_id _ _) :)
 
 /-- The morphism of sheaves of sets underlying the direct image along `g` of the unit of étale
 restriction of modules along `h`, at the restriction of `M` along `g`, is the direct image along
 `g` of the corresponding morphism of sheaves of sets given by
 `moduleSheafFunctor_map_etaleModulePullbackAdjunction_unit_app`. -/
-def moduleSheafFunctor_map_modulePushforward_unit_app :=
-  (moduleSheafFunctor_map_modulePushforward_map B S hS g
-      ((etaleModulePullbackAdjunction B S hS h hh).unit.app
-        ((etaleModulePullback.{u, u} B S hS g hg).obj M))).trans
-    (congrArg (smallEtaleDirectImage B S hS g).map
-      (moduleSheafFunctor_map_etaleModulePullbackAdjunction_unit_app B S hS h hh
-        ((etaleModulePullback.{u, u} B S hS g hg).obj M)))
+theorem moduleSheafFunctor_map_modulePushforward_unit_app :
+    type_of% ((moduleSheafFunctor_map_modulePushforward_map B S hS g
+        ((etaleModulePullbackAdjunction B S hS h hh).unit.app
+          ((etaleModulePullback.{u, u} B S hS g hg).obj M))).trans
+      (congrArg (smallEtaleDirectImage B S hS g).map
+        (moduleSheafFunctor_map_etaleModulePullbackAdjunction_unit_app B S hS h hh
+          ((etaleModulePullback.{u, u} B S hS g hg).obj M)))) :=
+  ((moduleSheafFunctor_map_modulePushforward_map B S hS g
+       ((etaleModulePullbackAdjunction B S hS h hh).unit.app
+         ((etaleModulePullback.{u, u} B S hS g hg).obj M))).trans
+     (congrArg (smallEtaleDirectImage B S hS g).map
+       (moduleSheafFunctor_map_etaleModulePullbackAdjunction_unit_app B S hS h hh
+         ((etaleModulePullback.{u, u} B S hS g hg).obj M))) :)
 
 /-- The unit at `M` of the composite of the étale restriction adjunctions along `g` and `h`,
 transported along `modulePushforwardCompIso h g`, is the unit along `g`, followed by the direct
@@ -231,13 +243,20 @@ variable (W : (SmallEtale B S hS C.1)ᵒᵖ)
 /-- On a section `z` over `W`, the direct image along `g` of the unit of étale restriction of
 modules along `h` takes the value of the morphism of sheaves of sets of
 `moduleSheafFunctor_map_modulePushforward_unit_app`. -/
-def moduleSheafFunctor_map_modulePushforward_unit_val_app (z : ((modulePushforward B S hS g).obj
-    ((etaleModulePullback.{u, u} B S hS g hg).obj M)).val.obj W) :=
-  (moduleSheafFunctor_map_hom_app
-      ((modulePushforward B S hS g).map
-        ((etaleModulePullbackAdjunction B S hS h hh).unit.app
-          ((etaleModulePullback.{u, u} B S hS g hg).obj M))) W z).symm.trans
-    (Sheaf.hom_app_congr (moduleSheafFunctor_map_modulePushforward_unit_app B S hS h g hh hg M) W z)
+theorem moduleSheafFunctor_map_modulePushforward_unit_val_app (z : ((modulePushforward B S hS g).obj
+    ((etaleModulePullback.{u, u} B S hS g hg).obj M)).val.obj W) :
+    type_of% ((moduleSheafFunctor_map_hom_app
+        ((modulePushforward B S hS g).map
+          ((etaleModulePullbackAdjunction B S hS h hh).unit.app
+            ((etaleModulePullback.{u, u} B S hS g hg).obj M))) W z).symm.trans
+      (Sheaf.hom_app_congr
+        (moduleSheafFunctor_map_modulePushforward_unit_app B S hS h g hh hg M) W z)) :=
+  ((moduleSheafFunctor_map_hom_app
+       ((modulePushforward B S hS g).map
+         ((etaleModulePullbackAdjunction B S hS h hh).unit.app
+           ((etaleModulePullback.{u, u} B S hS g hg).obj M))) W z).symm.trans
+     (Sheaf.hom_app_congr
+       (moduleSheafFunctor_map_modulePushforward_unit_app B S hS h g hh hg M) W z) :)
 
 /-- On a section `v` over `W`, the component of `modulePushforwardCompIso h g` at the iterated
 étale restriction of `M` takes the value of the morphism of sheaves of sets underlying the
@@ -289,193 +308,313 @@ theorem moduleSheafFunctor_map_compIsoCongr_hom_app_apply
 /-- On a section `s` of `M` over `W`, the composite of
 `smallEtaleSetRestrictionAdjunction_unit_comp_app_moduleSetSheaf` takes the value of the unit of
 étale restriction of modules along `h ≫ g`. -/
-def smallEtaleSetRestrictionAdjunction_unit_comp_app_val_app (s : M.val.obj W) :=
-  (Sheaf.hom_app_congr
-      (smallEtaleSetRestrictionAdjunction_unit_comp_app_moduleSetSheaf B S hS h g hh hg hhg M)
-      W s).trans
-    (Stacks.eq_atType (α := ((smallToposMorphismTypeU B S hS (h ≫ g)).pushforward.obj
-          ((smallEtaleSetRestriction B S hS (h ≫ g) hhg).obj
-            (moduleSetSheaf B S hS C M))).obj.obj W)
-      (Stacks.eq_atType (α := ((smallEtaleDirectImage B S hS (h ≫ g)).obj
+theorem smallEtaleSetRestrictionAdjunction_unit_comp_app_val_app (s : M.val.obj W) :
+    type_of% ((Sheaf.hom_app_congr
+        (smallEtaleSetRestrictionAdjunction_unit_comp_app_moduleSetSheaf B S hS h g hh hg hhg M)
+        W s).trans
+      (Stacks.eq_atType (α := ((smallToposMorphismTypeU B S hS (h ≫ g)).pushforward.obj
             ((smallEtaleSetRestriction B S hS (h ≫ g) hhg).obj
               (moduleSetSheaf B S hS C M))).obj.obj W)
         (Stacks.eq_atType (α := ((smallEtaleDirectImage B S hS (h ≫ g)).obj
-              (moduleSetSheaf B S hS D
-                ((etaleModulePullback.{u, u} B S hS (h ≫ g) hhg).obj M))).obj.obj W)
-          (etaleModulePullbackAdjunction_unit_val_app_eq_setRestriction
-            B S hS (h ≫ g) hhg M W s).symm)))
+              ((smallEtaleSetRestriction B S hS (h ≫ g) hhg).obj
+                (moduleSetSheaf B S hS C M))).obj.obj W)
+          (Stacks.eq_atType (α := ((smallEtaleDirectImage B S hS (h ≫ g)).obj
+                (moduleSetSheaf B S hS D
+                  ((etaleModulePullback.{u, u} B S hS (h ≫ g) hhg).obj M))).obj.obj W)
+            (etaleModulePullbackAdjunction_unit_val_app_eq_setRestriction
+              B S hS (h ≫ g) hhg M W s).symm)))) :=
+  ((Sheaf.hom_app_congr
+       (smallEtaleSetRestrictionAdjunction_unit_comp_app_moduleSetSheaf B S hS h g hh hg hhg M)
+       W s).trans
+     (Stacks.eq_atType (α := ((smallToposMorphismTypeU B S hS (h ≫ g)).pushforward.obj
+           ((smallEtaleSetRestriction B S hS (h ≫ g) hhg).obj
+             (moduleSetSheaf B S hS C M))).obj.obj W)
+       (Stacks.eq_atType (α := ((smallEtaleDirectImage B S hS (h ≫ g)).obj
+             ((smallEtaleSetRestriction B S hS (h ≫ g) hhg).obj
+               (moduleSetSheaf B S hS C M))).obj.obj W)
+         (Stacks.eq_atType (α := ((smallEtaleDirectImage B S hS (h ≫ g)).obj
+               (moduleSetSheaf B S hS D
+                 ((etaleModulePullback.{u, u} B S hS (h ≫ g) hhg).obj M))).obj.obj W)
+           (etaleModulePullbackAdjunction_unit_val_app_eq_setRestriction
+             B S hS (h ≫ g) hhg M W s).symm))) :)
 
+set_option maxHeartbeats 400000 in
+-- The statement is the type of the proof term (`type_of%`), so the term is elaborated twice,
+-- once in the statement and once as the proof, which exceeds the default limit.
 /-- On a section `s` of `M` over `W`, the three factors of
 `smallEtaleSetRestrictionAdjunction_unit_comp_app_moduleSetSheaf`, applied one after another, take
 `s` to the value of the unit of étale restriction of modules along `h ≫ g`. -/
-def smallEtaleSetRestrictionAdjunction_unit_comp_val_app (s : M.val.obj W) :=
-  ((Sheaf.comp_hom_app_apply
-        ((smallEtaleDirectImage B S hS g).map
-          ((smallEtaleSetRestrictionAdjunction B S hS h hh).unit.app
-            (moduleSetSheaf B S hS A ((etaleModulePullback.{u, u} B S hS g hg).obj M))))
-        ((smallToposMorphismTypeU_comp B S hS h g).hom.app
-          ((smallEtaleSetRestriction B S hS h hh).obj
-            ((smallEtaleSetRestriction B S hS g hg).obj (moduleSetSheaf B S hS C M)))) W
-        (((smallEtaleSetRestrictionAdjunction B S hS g hg).unit.app
-          (moduleSetSheaf B S hS C M)).hom.app W s)).symm.trans
-      (Sheaf.comp_hom_app_apply
-          ((smallEtaleSetRestrictionAdjunction B S hS g hg).unit.app
-            (moduleSetSheaf B S hS C M))
+theorem smallEtaleSetRestrictionAdjunction_unit_comp_val_app (s : M.val.obj W) :
+    type_of% (((Sheaf.comp_hom_app_apply
           ((smallEtaleDirectImage B S hS g).map
-              ((smallEtaleSetRestrictionAdjunction B S hS h hh).unit.app
-                (moduleSetSheaf B S hS A
-                  ((etaleModulePullback.{u, u} B S hS g hg).obj M))) ≫
-            (smallToposMorphismTypeU_comp B S hS h g).hom.app
-              ((smallEtaleSetRestriction B S hS h hh).obj
-                ((smallEtaleSetRestriction B S hS g hg).obj
-                  (moduleSetSheaf B S hS C M)))) W s).symm).trans
-    (smallEtaleSetRestrictionAdjunction_unit_comp_app_val_app B S hS h g hh hg hhg M W s)
+            ((smallEtaleSetRestrictionAdjunction B S hS h hh).unit.app
+              (moduleSetSheaf B S hS A ((etaleModulePullback.{u, u} B S hS g hg).obj M))))
+          ((smallToposMorphismTypeU_comp B S hS h g).hom.app
+            ((smallEtaleSetRestriction B S hS h hh).obj
+              ((smallEtaleSetRestriction B S hS g hg).obj (moduleSetSheaf B S hS C M)))) W
+          (((smallEtaleSetRestrictionAdjunction B S hS g hg).unit.app
+            (moduleSetSheaf B S hS C M)).hom.app W s)).symm.trans
+        (Sheaf.comp_hom_app_apply
+            ((smallEtaleSetRestrictionAdjunction B S hS g hg).unit.app
+              (moduleSetSheaf B S hS C M))
+            ((smallEtaleDirectImage B S hS g).map
+                ((smallEtaleSetRestrictionAdjunction B S hS h hh).unit.app
+                  (moduleSetSheaf B S hS A
+                    ((etaleModulePullback.{u, u} B S hS g hg).obj M))) ≫
+              (smallToposMorphismTypeU_comp B S hS h g).hom.app
+                ((smallEtaleSetRestriction B S hS h hh).obj
+                  ((smallEtaleSetRestriction B S hS g hg).obj
+                    (moduleSetSheaf B S hS C M)))) W s).symm).trans
+      (smallEtaleSetRestrictionAdjunction_unit_comp_app_val_app B S hS h g hh hg hhg M W s)) :=
+  (((Sheaf.comp_hom_app_apply
+         ((smallEtaleDirectImage B S hS g).map
+           ((smallEtaleSetRestrictionAdjunction B S hS h hh).unit.app
+             (moduleSetSheaf B S hS A ((etaleModulePullback.{u, u} B S hS g hg).obj M))))
+         ((smallToposMorphismTypeU_comp B S hS h g).hom.app
+           ((smallEtaleSetRestriction B S hS h hh).obj
+             ((smallEtaleSetRestriction B S hS g hg).obj (moduleSetSheaf B S hS C M)))) W
+         (((smallEtaleSetRestrictionAdjunction B S hS g hg).unit.app
+           (moduleSetSheaf B S hS C M)).hom.app W s)).symm.trans
+       (Sheaf.comp_hom_app_apply
+           ((smallEtaleSetRestrictionAdjunction B S hS g hg).unit.app
+             (moduleSetSheaf B S hS C M))
+           ((smallEtaleDirectImage B S hS g).map
+               ((smallEtaleSetRestrictionAdjunction B S hS h hh).unit.app
+                 (moduleSetSheaf B S hS A
+                   ((etaleModulePullback.{u, u} B S hS g hg).obj M))) ≫
+             (smallToposMorphismTypeU_comp B S hS h g).hom.app
+               ((smallEtaleSetRestriction B S hS h hh).obj
+                 ((smallEtaleSetRestriction B S hS g hg).obj
+                   (moduleSetSheaf B S hS C M)))) W s).symm).trans
+     (smallEtaleSetRestrictionAdjunction_unit_comp_app_val_app B S hS h g hh hg hhg M W s) :)
 
 /-- On a section `v` over `W`, the component of `modulePushforwardCompIso h g` at the iterated
 étale restriction of `M` takes the value of the component of `smallToposMorphismTypeU_comp h g` at
 the étale restriction along `h` of the sheaf of sets underlying the restriction of `M` along
 `g`. -/
-def modulePushforwardCompIso_hom_app_val_app_setRestriction
+theorem modulePushforwardCompIso_hom_app_val_app_setRestriction
     (v : ((modulePushforward B S hS h ⋙ modulePushforward B S hS g).obj
       ((etaleModulePullback.{u, u} B S hS h hh).obj
-        ((etaleModulePullback.{u, u} B S hS g hg).obj M))).val.obj W) :=
-  (((modulePushforwardCompIso_hom_app_val_app_compIsoCongr B S hS h g hh hg M W v).trans
-        (moduleSheafFunctor_map_compIsoCongr_hom_app_apply B S hS h g hh hg M W v)).trans
+        ((etaleModulePullback.{u, u} B S hS g hg).obj M))).val.obj W) :
+    type_of% ((((modulePushforwardCompIso_hom_app_val_app_compIsoCongr B S hS h g hh hg M W v).trans
+          (moduleSheafFunctor_map_compIsoCongr_hom_app_apply B S hS h g hh hg M W v)).trans
+        (Sheaf.hom_app_congr
+          (smallToposMorphismTypeU_comp_hom_app_moduleSetSheaf B S hS h g hh hg M) W v)).trans
       (Sheaf.hom_app_congr
-        (smallToposMorphismTypeU_comp_hom_app_moduleSetSheaf B S hS h g hh hg M) W v)).trans
-    (Sheaf.hom_app_congr
-      (smallToposMorphismTypeU_comp_hom_app_setRestriction B S hS h g hh hg M) W v)
+        (smallToposMorphismTypeU_comp_hom_app_setRestriction B S hS h g hh hg M) W v)) :=
+  ((((modulePushforwardCompIso_hom_app_val_app_compIsoCongr B S hS h g hh hg M W v).trans
+         (moduleSheafFunctor_map_compIsoCongr_hom_app_apply B S hS h g hh hg M W v)).trans
+       (Sheaf.hom_app_congr
+         (smallToposMorphismTypeU_comp_hom_app_moduleSetSheaf B S hS h g hh hg M) W v)).trans
+     (Sheaf.hom_app_congr
+       (smallToposMorphismTypeU_comp_hom_app_setRestriction B S hS h g hh hg M) W v) :)
 
+set_option maxHeartbeats 400000 in
+-- The statement is the type of the proof term (`type_of%`), so the term is elaborated twice,
+-- once in the statement and once as the proof, which exceeds the default limit.
 /-- `etaleModulePullbackCompAdjunction_unit_app`, with both sides read as morphisms from `M` to the
 direct image along `h ≫ g` of the iterated étale restriction of `M` along `g` and then `h`. -/
-def etaleModulePullbackCompAdjunction_unit_app_nested :=
-  Stacks.eq_atType (α := (M ⟶ (modulePushforward B S hS (h ≫ g)).obj
-      ((etaleModulePullback.{u, u} B S hS h hh).obj
-        ((etaleModulePullback.{u, u} B S hS g hg).obj M))))
-    (etaleModulePullbackCompAdjunction_unit_app B S hS h g hh hg hhg M)
+theorem etaleModulePullbackCompAdjunction_unit_app_nested :
+    type_of% (Stacks.eq_atType (α := (M ⟶ (modulePushforward B S hS (h ≫ g)).obj
+        ((etaleModulePullback.{u, u} B S hS h hh).obj
+          ((etaleModulePullback.{u, u} B S hS g hg).obj M))))
+      (etaleModulePullbackCompAdjunction_unit_app B S hS h g hh hg hhg M)) :=
+  (Stacks.eq_atType (α := (M ⟶ (modulePushforward B S hS (h ≫ g)).obj
+       ((etaleModulePullback.{u, u} B S hS h hh).obj
+         ((etaleModulePullback.{u, u} B S hS g hg).obj M))))
+     (etaleModulePullbackCompAdjunction_unit_app B S hS h g hh hg hhg M) :)
 
 /-- The direct image along `h ≫ g` of the component at `M` of `etaleModulePullbackComp` is the
 direct image of the identity of the iterated étale restriction of `M`. -/
-def modulePushforward_map_etaleModulePullbackComp_hom_app_id :=
-  congrArg (modulePushforward B S hS (h ≫ g)).map
-    (etaleModulePullbackComp_hom_app_eq_id B S hS h g hh hg hhg M)
+theorem modulePushforward_map_etaleModulePullbackComp_hom_app_id :
+    type_of% (congrArg (modulePushforward B S hS (h ≫ g)).map
+      (etaleModulePullbackComp_hom_app_eq_id B S hS h g hh hg hhg M)) :=
+  (congrArg (modulePushforward B S hS (h ≫ g)).map
+     (etaleModulePullbackComp_hom_app_eq_id B S hS h g hh hg hhg M) :)
 
 /-- The unit at `M` of the composite adjunction, followed by the direct image along `h ≫ g` of the
 component of `etaleModulePullbackComp`, is that unit followed by the direct image of an
 identity. -/
-def innerUnit_comp_modulePushforward_map_id :=
-  Stacks.comp_congr_right ((((etaleModulePullbackAdjunction B S hS g hg).comp
-        (etaleModulePullbackAdjunction B S hS h hh)).ofNatIsoRight
-          (modulePushforwardCompIso B S hS h g)).unit.app M)
-    (modulePushforward_map_etaleModulePullbackComp_hom_app_id B S hS h g hh hg hhg M)
+theorem innerUnit_comp_modulePushforward_map_id :
+    type_of% (Stacks.comp_congr_right ((((etaleModulePullbackAdjunction B S hS g hg).comp
+          (etaleModulePullbackAdjunction B S hS h hh)).ofNatIsoRight
+            (modulePushforwardCompIso B S hS h g)).unit.app M)
+      (modulePushforward_map_etaleModulePullbackComp_hom_app_id B S hS h g hh hg hhg M)) :=
+  (Stacks.comp_congr_right ((((etaleModulePullbackAdjunction B S hS g hg).comp
+         (etaleModulePullbackAdjunction B S hS h hh)).ofNatIsoRight
+           (modulePushforwardCompIso B S hS h g)).unit.app M)
+     (modulePushforward_map_etaleModulePullbackComp_hom_app_id B S hS h g hh hg hhg M) :)
 
+set_option maxHeartbeats 400000 in
+-- The statement is the type of the proof term (`type_of%`), so the term is elaborated twice,
+-- once in the statement and once as the proof, which exceeds the default limit.
 /-- `innerUnit_comp_modulePushforward_map_id`, with both sides read as morphisms from `M` to the
 direct image along `h ≫ g` of the iterated étale restriction of `M` along `g` and then `h`. -/
-def innerUnit_comp_modulePushforward_map_id_nested :=
-  Stacks.eq_atType (α := (M ⟶ (modulePushforward B S hS (h ≫ g)).obj
-      ((etaleModulePullback.{u, u} B S hS h hh).obj
-        ((etaleModulePullback.{u, u} B S hS g hg).obj M))))
-    (innerUnit_comp_modulePushforward_map_id B S hS h g hh hg hhg M)
+theorem innerUnit_comp_modulePushforward_map_id_nested :
+    type_of% (Stacks.eq_atType (α := (M ⟶ (modulePushforward B S hS (h ≫ g)).obj
+        ((etaleModulePullback.{u, u} B S hS h hh).obj
+          ((etaleModulePullback.{u, u} B S hS g hg).obj M))))
+      (innerUnit_comp_modulePushforward_map_id B S hS h g hh hg hhg M)) :=
+  (Stacks.eq_atType (α := (M ⟶ (modulePushforward B S hS (h ≫ g)).obj
+       ((etaleModulePullback.{u, u} B S hS h hh).obj
+         ((etaleModulePullback.{u, u} B S hS g hg).obj M))))
+     (innerUnit_comp_modulePushforward_map_id B S hS h g hh hg hhg M) :)
 
 /-- The unit at `M` of the composite adjunction, followed by the direct image along `h ≫ g` of the
 identity of the iterated étale restriction of `M`, is that unit. -/
-def innerUnit_comp_map_id :=
-  Stacks.comp_map_id (X := ((etaleModulePullback.{u, u} B S hS h hh).obj
-      ((etaleModulePullback.{u, u} B S hS g hg).obj M)))
-    (modulePushforward B S hS (h ≫ g)) ((((etaleModulePullbackAdjunction B S hS g hg).comp
-        (etaleModulePullbackAdjunction B S hS h hh)).ofNatIsoRight
-          (modulePushforwardCompIso B S hS h g)).unit.app M)
+theorem innerUnit_comp_map_id :
+    type_of% (Stacks.comp_map_id (X := ((etaleModulePullback.{u, u} B S hS h hh).obj
+        ((etaleModulePullback.{u, u} B S hS g hg).obj M)))
+      (modulePushforward B S hS (h ≫ g)) ((((etaleModulePullbackAdjunction B S hS g hg).comp
+          (etaleModulePullbackAdjunction B S hS h hh)).ofNatIsoRight
+            (modulePushforwardCompIso B S hS h g)).unit.app M)) :=
+  (Stacks.comp_map_id (X := ((etaleModulePullback.{u, u} B S hS h hh).obj
+       ((etaleModulePullback.{u, u} B S hS g hg).obj M)))
+     (modulePushforward B S hS (h ≫ g)) ((((etaleModulePullbackAdjunction B S hS g hg).comp
+         (etaleModulePullbackAdjunction B S hS h hh)).ofNatIsoRight
+           (modulePushforwardCompIso B S hS h g)).unit.app M) :)
 
 /-- On a section `s` of `M` over `W`, the unit of the composite adjunction takes the value of the
 three-factor composite of `etaleModulePullbackCompInner_unit_app`. -/
-def innerUnitStep₁ (s : M.val.obj W) :=
-  modulesHom_val_app_congr (etaleModulePullbackCompInner_unit_app B S hS h g hh hg M) W s
+theorem innerUnitStep₁ (s : M.val.obj W) :
+    type_of% (modulesHom_val_app_congr
+      (etaleModulePullbackCompInner_unit_app B S hS h g hh hg M) W s) :=
+  (modulesHom_val_app_congr (etaleModulePullbackCompInner_unit_app B S hS h g hh hg M) W s :)
 
 /-- On a section `s` of `M` over `W`, the three-factor composite of
 `etaleModulePullbackCompInner_unit_app` takes the value of its last two factors at the value of the
 unit along `g` at `s`. -/
-def innerUnitStep₂ (s : M.val.obj W) :=
-  modulesHom_comp_val_app_apply
-    ((etaleModulePullbackAdjunction B S hS g hg).unit.app M)
-    ((modulePushforward B S hS g).map
-        ((etaleModulePullbackAdjunction B S hS h hh).unit.app
-          ((etaleModulePullback.{u, u} B S hS g hg).obj M)) ≫
-      (modulePushforwardCompIso B S hS h g).hom.app
-        ((etaleModulePullback.{u, u} B S hS h hh).obj
-          ((etaleModulePullback.{u, u} B S hS g hg).obj M))) W s
+theorem innerUnitStep₂ (s : M.val.obj W) :
+    type_of% (modulesHom_comp_val_app_apply
+      ((etaleModulePullbackAdjunction B S hS g hg).unit.app M)
+      ((modulePushforward B S hS g).map
+          ((etaleModulePullbackAdjunction B S hS h hh).unit.app
+            ((etaleModulePullback.{u, u} B S hS g hg).obj M)) ≫
+        (modulePushforwardCompIso B S hS h g).hom.app
+          ((etaleModulePullback.{u, u} B S hS h hh).obj
+            ((etaleModulePullback.{u, u} B S hS g hg).obj M))) W s) :=
+  (modulesHom_comp_val_app_apply
+     ((etaleModulePullbackAdjunction B S hS g hg).unit.app M)
+     ((modulePushforward B S hS g).map
+         ((etaleModulePullbackAdjunction B S hS h hh).unit.app
+           ((etaleModulePullback.{u, u} B S hS g hg).obj M)) ≫
+       (modulePushforwardCompIso B S hS h g).hom.app
+         ((etaleModulePullback.{u, u} B S hS h hh).obj
+           ((etaleModulePullback.{u, u} B S hS g hg).obj M))) W s :)
 
 /-- At the value of the unit along `g` at a section `s` of `M`, the direct image along `g` of the
 unit along `h` followed by the component of `modulePushforwardCompIso h g` takes the value of that
 component at the value of the direct image of the unit. -/
-def innerUnitStep₃ (s : M.val.obj W) :=
-  modulesHom_comp_val_app_apply
-    ((modulePushforward B S hS g).map
-      ((etaleModulePullbackAdjunction B S hS h hh).unit.app
-        ((etaleModulePullback.{u, u} B S hS g hg).obj M)))
-    ((modulePushforwardCompIso B S hS h g).hom.app
-      ((etaleModulePullback.{u, u} B S hS h hh).obj
-        ((etaleModulePullback.{u, u} B S hS g hg).obj M))) W
-    (((etaleModulePullbackAdjunction B S hS g hg).unit.app M).val.app W s)
+theorem innerUnitStep₃ (s : M.val.obj W) :
+    type_of% (modulesHom_comp_val_app_apply
+      ((modulePushforward B S hS g).map
+        ((etaleModulePullbackAdjunction B S hS h hh).unit.app
+          ((etaleModulePullback.{u, u} B S hS g hg).obj M)))
+      ((modulePushforwardCompIso B S hS h g).hom.app
+        ((etaleModulePullback.{u, u} B S hS h hh).obj
+          ((etaleModulePullback.{u, u} B S hS g hg).obj M))) W
+      (((etaleModulePullbackAdjunction B S hS g hg).unit.app M).val.app W s)) :=
+  (modulesHom_comp_val_app_apply
+     ((modulePushforward B S hS g).map
+       ((etaleModulePullbackAdjunction B S hS h hh).unit.app
+         ((etaleModulePullback.{u, u} B S hS g hg).obj M)))
+     ((modulePushforwardCompIso B S hS h g).hom.app
+       ((etaleModulePullback.{u, u} B S hS h hh).obj
+         ((etaleModulePullback.{u, u} B S hS g hg).obj M))) W
+     (((etaleModulePullbackAdjunction B S hS g hg).unit.app M).val.app W s) :)
 
 /-- The component of `smallToposMorphismTypeU_comp h g` applied to both sides of
 `moduleSheafFunctor_map_modulePushforward_unit_val_app`, at the value of the unit along `g` at a
 section `s` of `M`. -/
-def innerUnitStep₄ (s : M.val.obj W) :=
-  Sheaf.hom_app_apply_congr ((smallToposMorphismTypeU_comp B S hS h g).hom.app
-      ((smallEtaleSetRestriction B S hS h hh).obj
-        (moduleSetSheaf B S hS A ((etaleModulePullback.{u, u} B S hS g hg).obj M)))) W
-    (moduleSheafFunctor_map_modulePushforward_unit_val_app B S hS h g hh hg M W
-      (((etaleModulePullbackAdjunction B S hS g hg).unit.app M).val.app W s))
+theorem innerUnitStep₄ (s : M.val.obj W) :
+    type_of% (Sheaf.hom_app_apply_congr ((smallToposMorphismTypeU_comp B S hS h g).hom.app
+        ((smallEtaleSetRestriction B S hS h hh).obj
+          (moduleSetSheaf B S hS A ((etaleModulePullback.{u, u} B S hS g hg).obj M)))) W
+      (moduleSheafFunctor_map_modulePushforward_unit_val_app B S hS h g hh hg M W
+        (((etaleModulePullbackAdjunction B S hS g hg).unit.app M).val.app W s))) :=
+  (Sheaf.hom_app_apply_congr ((smallToposMorphismTypeU_comp B S hS h g).hom.app
+       ((smallEtaleSetRestriction B S hS h hh).obj
+         (moduleSetSheaf B S hS A ((etaleModulePullback.{u, u} B S hS g hg).obj M)))) W
+     (moduleSheafFunctor_map_modulePushforward_unit_val_app B S hS h g hh hg M W
+       (((etaleModulePullbackAdjunction B S hS g hg).unit.app M).val.app W s)) :)
 
 /-- The direct image along `g` of the unit of étale restriction of sheaves of sets along `h`, and
 then the component of `smallToposMorphismTypeU_comp h g`, applied to the identification of the
 value at a section `s` of `M` of the unit of étale restriction of modules along `g` with that of
 sheaves of sets. -/
-def innerUnitStep₅ (s : M.val.obj W) :=
-  Sheaf.hom_app_apply_congr ((smallToposMorphismTypeU_comp B S hS h g).hom.app
-      ((smallEtaleSetRestriction B S hS h hh).obj
-        (moduleSetSheaf B S hS A ((etaleModulePullback.{u, u} B S hS g hg).obj M)))) W
-    (Sheaf.hom_app_apply_congr
-      ((smallEtaleDirectImage B S hS g).map
-        ((smallEtaleSetRestrictionAdjunction B S hS h hh).unit.app
-          (moduleSetSheaf B S hS A
-            ((etaleModulePullback.{u, u} B S hS g hg).obj M)))) W
-      (etaleModulePullbackAdjunction_unit_val_app_eq_setRestriction B S hS g hg M W s))
+theorem innerUnitStep₅ (s : M.val.obj W) :
+    type_of% (Sheaf.hom_app_apply_congr ((smallToposMorphismTypeU_comp B S hS h g).hom.app
+        ((smallEtaleSetRestriction B S hS h hh).obj
+          (moduleSetSheaf B S hS A ((etaleModulePullback.{u, u} B S hS g hg).obj M)))) W
+      (Sheaf.hom_app_apply_congr
+        ((smallEtaleDirectImage B S hS g).map
+          ((smallEtaleSetRestrictionAdjunction B S hS h hh).unit.app
+            (moduleSetSheaf B S hS A
+              ((etaleModulePullback.{u, u} B S hS g hg).obj M)))) W
+        (etaleModulePullbackAdjunction_unit_val_app_eq_setRestriction B S hS g hg M W s))) :=
+  (Sheaf.hom_app_apply_congr ((smallToposMorphismTypeU_comp B S hS h g).hom.app
+       ((smallEtaleSetRestriction B S hS h hh).obj
+         (moduleSetSheaf B S hS A ((etaleModulePullback.{u, u} B S hS g hg).obj M)))) W
+     (Sheaf.hom_app_apply_congr
+       ((smallEtaleDirectImage B S hS g).map
+         ((smallEtaleSetRestrictionAdjunction B S hS h hh).unit.app
+           (moduleSetSheaf B S hS A
+             ((etaleModulePullback.{u, u} B S hS g hg).obj M)))) W
+       (etaleModulePullbackAdjunction_unit_val_app_eq_setRestriction B S hS g hg M W s)) :)
 
 /-- At the image of a section `s` of `M` under the units of étale restriction of sheaves of sets
 along `g` and then `h`, the component of `smallToposMorphismTypeU_comp h g` read at the iterated
 étale restriction of the sheaf of sets underlying `M`. -/
-def innerUnitStep₆ (s : M.val.obj W) :=
-  Sheaf.hom_app_congr
-    (smallToposMorphismTypeU_comp_hom_app_setRestriction_comp B S hS h g hh hg M) W
-    (((smallEtaleDirectImage B S hS g).map
-        ((smallEtaleSetRestrictionAdjunction B S hS h hh).unit.app
-          (moduleSetSheaf B S hS A
-            ((etaleModulePullback.{u, u} B S hS g hg).obj M)))).hom.app W
-      (((smallEtaleSetRestrictionAdjunction B S hS g hg).unit.app
-        (moduleSetSheaf B S hS C M)).hom.app W s))
+theorem innerUnitStep₆ (s : M.val.obj W) :
+    type_of% (Sheaf.hom_app_congr
+      (smallToposMorphismTypeU_comp_hom_app_setRestriction_comp B S hS h g hh hg M) W
+      (((smallEtaleDirectImage B S hS g).map
+          ((smallEtaleSetRestrictionAdjunction B S hS h hh).unit.app
+            (moduleSetSheaf B S hS A
+              ((etaleModulePullback.{u, u} B S hS g hg).obj M)))).hom.app W
+        (((smallEtaleSetRestrictionAdjunction B S hS g hg).unit.app
+          (moduleSetSheaf B S hS C M)).hom.app W s))) :=
+  (Sheaf.hom_app_congr
+     (smallToposMorphismTypeU_comp_hom_app_setRestriction_comp B S hS h g hh hg M) W
+     (((smallEtaleDirectImage B S hS g).map
+         ((smallEtaleSetRestrictionAdjunction B S hS h hh).unit.app
+           (moduleSetSheaf B S hS A
+             ((etaleModulePullback.{u, u} B S hS g hg).obj M)))).hom.app W
+       (((smallEtaleSetRestrictionAdjunction B S hS g hg).unit.app
+         (moduleSetSheaf B S hS C M)).hom.app W s)) :)
 
 /-- On a section `s` of `M` over `W`, the unit of the composite adjunction takes the value of the
 direct image along `g` of the unit along `h`, followed by the component of
 `modulePushforwardCompIso h g`, at the value of the unit along `g` at `s`. -/
-def innerUnitVal₁₂ (s : M.val.obj W) :=
-  (innerUnitStep₁ B S hS h g hh hg M W s).trans (innerUnitStep₂ B S hS h g hh hg M W s)
+theorem innerUnitVal₁₂ (s : M.val.obj W) :
+    type_of% ((innerUnitStep₁ B S hS h g hh hg M W s).trans
+      (innerUnitStep₂ B S hS h g hh hg M W s)) :=
+  ((innerUnitStep₁ B S hS h g hh hg M W s).trans (innerUnitStep₂ B S hS h g hh hg M W s) :)
 
 /-- At the value of the unit along `g` at a section `s` of `M`, the direct image along `g` of the
 unit along `h` followed by the component of `modulePushforwardCompIso h g` takes the value of the
 component of `smallToposMorphismTypeU_comp h g` at the value of the direct image of the unit. -/
-def innerUnitVal₃₄ (s : M.val.obj W) :=
-  (innerUnitStep₃ B S hS h g hh hg M W s).trans
-    (modulePushforwardCompIso_hom_app_val_app_setRestriction B S hS h g hh hg M W _)
+theorem innerUnitVal₃₄ (s : M.val.obj W) :
+    type_of% ((innerUnitStep₃ B S hS h g hh hg M W s).trans
+      (modulePushforwardCompIso_hom_app_val_app_setRestriction B S hS h g hh hg M W _)) :=
+  ((innerUnitStep₃ B S hS h g hh hg M W s).trans
+     (modulePushforwardCompIso_hom_app_val_app_setRestriction B S hS h g hh hg M W _) :)
 
+set_option maxHeartbeats 400000 in
+-- The statement is the type of the proof term (`type_of%`), so the term is elaborated twice,
+-- once in the statement and once as the proof, which exceeds the default limit.
 /-- At the value of the unit along `g` at a section `s` of `M`, the component of
 `smallToposMorphismTypeU_comp h g` applied to the direct image along `g` of the unit along `h`
 takes the value at `s` of the unit of étale restriction of modules along `h ≫ g`. -/
-def innerUnitVal₅₆ (s : M.val.obj W) :=
-  (innerUnitStep₄ B S hS h g hh hg M W s).trans
-    ((innerUnitStep₅ B S hS h g hh hg M W s).trans
-      ((innerUnitStep₆ B S hS h g hh hg M W s).trans
-        (smallEtaleSetRestrictionAdjunction_unit_comp_val_app B S hS h g hh hg hhg M W s)))
+theorem innerUnitVal₅₆ (s : M.val.obj W) :
+    type_of% ((innerUnitStep₄ B S hS h g hh hg M W s).trans
+      ((innerUnitStep₅ B S hS h g hh hg M W s).trans
+        ((innerUnitStep₆ B S hS h g hh hg M W s).trans
+          (smallEtaleSetRestrictionAdjunction_unit_comp_val_app B S hS h g hh hg hhg M W s)))) :=
+  ((innerUnitStep₄ B S hS h g hh hg M W s).trans
+     ((innerUnitStep₅ B S hS h g hh hg M W s).trans
+       ((innerUnitStep₆ B S hS h g hh hg M W s).trans
+         (smallEtaleSetRestrictionAdjunction_unit_comp_val_app B S hS h g hh hg hhg M W s))) :)
 
 end AlgebraicGeometry.Space
 

@@ -103,7 +103,7 @@ namespace EndoColim
 /-- **The identity of `(E, n)` presented at any level.** -/
 lemma Hom.of_id (A : EndoColim F) (k : ℕ) :
     Hom.of k (𝟙 ((F.endoIter (A.stage + k)).obj A.obj)) = 𝟙 A := by
-  show Hom.of k _ = Hom.of 0 _
+  change Hom.of k _ = Hom.of 0 _
   refine Hom.of_eq_of _ _ 0 k (by omega) ?_
   rw [endoRaise_zero, endoRaise_id]
   exact (endoHomCast_id _).trans (endoHomCast_id _).symm
@@ -126,7 +126,7 @@ def shiftStepInv (F : C ⥤ C) (n : ℕ) (E : C) :
 `(F E, n + 1)`. -/
 lemma shiftStepHom_comp_shiftStepInv (F : C ⥤ C) (n : ℕ) (E : C) :
     shiftStepHom F n E ≫ shiftStepInv F n E = 𝟙 _ := by
-  show Hom.of (n + 0 + 0) _ = _
+  change Hom.of (n + 0 + 0) _ = _
   rw [← Hom.of_id (⟨F.obj E, n + 1⟩ : EndoColim F) (n + 0 + 0)]
   refine congrArg (Hom.of (n + 0 + 0)) ?_
   simp only [compHom, endoRaise_eqToHom, endoHomCast_eqToHom, eqToHom_trans]
@@ -136,7 +136,7 @@ lemma shiftStepHom_comp_shiftStepInv (F : C ⥤ C) (n : ℕ) (E : C) :
 `(E, n)`. -/
 lemma shiftStepInv_comp_shiftStepHom (F : C ⥤ C) (n : ℕ) (E : C) :
     shiftStepInv F n E ≫ shiftStepHom F n E = 𝟙 _ := by
-  show Hom.of (n + 1 + 0 + 0) _ = _
+  change Hom.of (n + 1 + 0 + 0) _ = _
   rw [← Hom.of_id (⟨E, n⟩ : EndoColim F) (n + 1 + 0 + 0)]
   refine congrArg (Hom.of (n + 1 + 0 + 0)) ?_
   simp only [compHom, endoRaise_eqToHom, endoHomCast_eqToHom, eqToHom_trans]

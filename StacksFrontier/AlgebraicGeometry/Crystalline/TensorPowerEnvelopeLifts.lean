@@ -174,19 +174,19 @@ private theorem completedTensorPowerOne_comp_const_eq (i : Fin 2)
     w.comp (completedReindex s f (SimplexCategory.const ⦋0⦌ ⦋1⦌ i)) = t := by
   refine completedAlgHom_ext s.p s.A fun b ↦ ?_
   rw [AlgHom.comp_apply, completedReindex_of, hw]
-  show (w₀.comp (envelopeReindex s f (SimplexCategory.const ⦋0⦌ ⦋1⦌ i)).1) b =
+  change (w₀.comp (envelopeReindex s f (SimplexCategory.const ⦋0⦌ ⦋1⦌ i)).1) b =
     ((dpMorphismOfAlgHom (h₂ := (completionDPRing s.p hR hpR).dividedPowers) t.toRingHom ht).comp
       (completionDPMorphism _ _ s.p (tensorPowerEnvelope_prime_nilpotent s f hf 0))) b
   congr 1
   refine envelope_dpMorphism_ext _ _ _ ?_ fun ⟨k, j⟩ ↦ ?_
   · refine DPMorphism.ext (funext fun c ↦ ?_)
-    show w₀ ((envelopeReindex s f (SimplexCategory.const ⦋0⦌ ⦋1⦌ i)).1
+    change w₀ ((envelopeReindex s f (SimplexCategory.const ⦋0⦌ ⦋1⦌ i)).1
       ((tensorPowerEnvelope s f 0).structureMap c)) =
         t (AdicCompletion.of _ _ ((tensorPowerEnvelope s f 0).structureMap c))
     rw [envelopeReindex_structureMap s f (SimplexCategory.const ⦋0⦌ ⦋1⦌ i), hw₀]
     exact (t.commutes c).symm
   · obtain rfl : k = 0 := Subsingleton.elim (α := Fin 1) _ _
-    show w₀ ((envelopeReindex s f (SimplexCategory.const ⦋0⦌ ⦋1⦌ i)).1
+    change w₀ ((envelopeReindex s f (SimplexCategory.const ⦋0⦌ ⦋1⦌ i)).1
       (envelopeCoord (tensorPowerEnvelope s f 0) (0, j))) =
         t (AdicCompletion.of _ _ (envelopeCoord (tensorPowerEnvelope s f 0) (0, j)))
     rw [envelopeReindex_envelopeCoord]
@@ -231,7 +231,7 @@ theorem exists_completedTensorPowerOneLift
   let c₁ : ι → C := fun i ↦ u (AdicCompletion.of _ _ (envelopeCoord E₀ ((0 : Fin 1), i)))
   let vals : Fin 2 × ι → C := fun q ↦ if q.1 = 0 then c₀ q.2 else c₁ q.2
   have hm₀ : ∀ q : Fin 2 × ι, m₀ (envelopeCoord E₁ q) = c₀ q.2 := fun q ↦ by
-    show v (AdicCompletion.of _ _ (deg (envelopeCoord E₁ q))) = _
+    change v (AdicCompletion.of _ _ (deg (envelopeCoord E₁ q))) = _
     rw [envelopeReindex_envelopeCoord]
     congr 3
   have hvals : ∀ q, vals q - m₀ (envelopeCoord E₁ q) ∈ C.ideal := fun q ↦ by
@@ -245,7 +245,7 @@ theorem exists_completedTensorPowerOneLift
     (envelope_eval₂Hom_map_le_of_sub_mem E₁ C m₀ vals hvals)
   have hstr : ∀ c : (s.A : Type u), m₀ (E₁.structureMap c) =
       algebraMap (s.A : Type u) (AdicCompletion (pAdicIdeal (A := R) s.p) R) c := fun c ↦ by
-    show v (AdicCompletion.of _ _ (deg (E₁.structureMap c))) = _
+    change v (AdicCompletion.of _ _ (deg (E₁.structureMap c))) = _
     rw [envelopeReindex_structureMap s f (SimplexCategory.const ⦋1⦌ ⦋0⦌ 0)]
     exact v.commutes c
   have hw₀c : ∀ c, w₀ (E₁.structureMap c) =

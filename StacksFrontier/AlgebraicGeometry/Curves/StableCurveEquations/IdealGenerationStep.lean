@@ -227,10 +227,10 @@ private theorem map_idealTwistSectionsToForms_mulSectionsSpan_le (d : ℕ) :
     exact h
   have h4 := hmul c hpc
   rw [hc] at h4
-  show (idealTwistSectionsToForms φ d (ConcreteCategory.hom (mulSection k n F s d) a) :
+  change (idealTwistSectionsToForms φ d (ConcreteCategory.hom (mulSection k n F s d) a) :
     MvPolynomial (Fin (n + 1)) k) = p * c
   rw [idealTwistSectionsToForms_apply]
-  show (((formsLinearEquivTwistOverSectionsSucc k n d).symm
+  change (((formsLinearEquivTwistOverSectionsSucc k n d).symm
     ((idealTwistIncl φ ((d : ℤ) + 1)).app ⊤ ((Z _).hom
       ((cohomologyOverFieldMap k f (twistSectionMul n (Spec (.of k)) F s d) 0) a)))) :
         MvPolynomial (Fin (n + 1)) k) = p * c

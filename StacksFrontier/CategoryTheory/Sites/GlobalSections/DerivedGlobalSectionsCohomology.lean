@@ -171,7 +171,7 @@ public theorem rightDerivedΓIsoFunctorH_hom_comp_eqToHom
     [EnoughInjectives (Sheaf J AddCommGrpCat.{max u w})] (n : ℕ) :
     (rightDerivedΓIsoFunctorH J n).hom ≫ eqToHom (functorH_eq_extFunctorObj J n) =
       (rightDerivedΓIsoExtFunctorObj J n).hom := by
-  show ((rightDerivedΓIsoExtFunctorObj J n ≪≫
+  change ((rightDerivedΓIsoExtFunctorObj J n ≪≫
     eqToIso (functorH_eq_extFunctorObj J n).symm).hom) ≫ _ = _
   rw [Iso.trans_hom, Category.assoc, eqToIso.hom, eqToHom_trans, eqToHom_refl, Category.comp_id]
 

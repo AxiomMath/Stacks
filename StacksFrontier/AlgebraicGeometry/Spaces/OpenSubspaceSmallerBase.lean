@@ -67,11 +67,11 @@ theorem class_map_relocalizeRep_eq {W : BigFppfOver B V hV}
   rw [pointsSmallerBaseInverseHomeomorph_apply, pointsRelocalize_class, pointsMap_class]
   refine FieldValuedPoint.class_eq_class_of_hasCommonExtension B S hS _
     ⟨_, FieldValuedPoint.dominates_refl B S hS _ _, 𝟙 _, ?_⟩
-  show X.left.map _ (X.left.map _ (X.left.map _ x.1)) = X.left.map _ x.1
+  change X.left.map _ (X.left.map _ (X.left.map _ x.1)) = X.left.map _ x.1
   refine (congrArg (X.left.map _) (X.left.map_comp_apply _ _ x.1).symm).trans
     ((X.left.map_comp_apply _ _ x.1).symm.trans
     (congrArg (fun k => X.left.map k x.1) (Quiver.Hom.unop_inj (Over.OverMorphism.ext ?_))))
-  show 𝟙 _ ≫ 𝟙 _ ≫ p.value.left = p.value.left
+  change 𝟙 _ ≫ 𝟙 _ ≫ p.value.left = p.value.left
   rw [Category.id_comp, Category.id_comp]
 
 /-- A field-valued point of the representable presheaf of `W` viewed over `S`, read back over `V`
@@ -109,11 +109,11 @@ theorem hasImageIn_smallerBaseInverse_iff (T : Set (points B S hS X.left))
     induction y using Quot.ind with | _ q =>
     have hq := h ⟨(FieldValuedPoint.derelocalizeRep B V S hV hS g W q).class B V hV _, rfl⟩
     rw [Set.mem_preimage, pointsMap_class, ← class_map_relocalizeRep_eq] at hq
-    show pointsMap B S hS _ _ (q.class B S hS _) ∈ T
+    change pointsMap B S hS _ _ (q.class B S hS _) ∈ T
     rwa [← class_relocalizeRep_derelocalizeRep B V S hV hS g q, pointsMap_class]
   · rintro h _ ⟨y, rfl⟩
     induction y using Quot.ind with | _ p =>
-    show pointsSmallerBaseInverseHomeomorph B V S hV hS g X
+    change pointsSmallerBaseInverseHomeomorph B V S hV hS g X
       (pointsMap B V hV _ _ (p.class B V hV _)) ∈ T
     rw [pointsMap_class, ← class_map_relocalizeRep_eq]
     exact h ⟨(FieldValuedPoint.relocalizeRep B V S hV hS g W p).class B S hS _, rfl⟩
@@ -128,7 +128,7 @@ theorem mem_openSubspaceOfPoints_smallerBaseInverse_iff (T : Set (points B S hS 
         (pointsSmallerBaseInverseHomeomorph B V S hV hS g X ⁻¹' T)).obj (op W) ↔
       smallerBaseInverseSection B V S hV hS g X x ∈
         (openSubspaceOfPoints B S hS X.left T).obj (op ((Over.map g).obj W)) := by
-  show Set.range _ ⊆ _ ↔ Set.range _ ⊆ _
+  change Set.range _ ⊆ _ ↔ Set.range _ ⊆ _
   rw [← hasImageIn_iff_range_subset, ← hasImageIn_iff_range_subset]
   exact hasImageIn_smallerBaseInverse_iff B V S hV hS g X T x
 

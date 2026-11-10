@@ -223,7 +223,7 @@ lemma envelopePairMap_comp (D : DividedPowerEnvelope A f J hJ)
   refine envelopeHom_ext D D''.object _ _ ?_ ?_
   · apply DividedPowers.DPMorphism.ext
     funext z
-    show (envelopePairMap D D'' (a'.comp a) (g'.comp g) hgJc hgac).1.toRingHom
+    change (envelopePairMap D D'' (a'.comp a) (g'.comp g) hgJc hgac).1.toRingHom
         (D.structureMap.toRingHom z) =
       (envelopePairMap D' D'' a' g' hgJ' hga').1.toRingHom
         ((envelopePairMap D D' a g hgJ hga).1.toRingHom (D.structureMap.toRingHom z))
@@ -233,7 +233,7 @@ lemma envelopePairMap_comp (D : DividedPowerEnvelope A f J hJ)
     rfl
   · apply RingHom.ext
     intro x
-    show (envelopePairMap D D'' (a'.comp a) (g'.comp g) hgJc hgac).1.toRingHom
+    change (envelopePairMap D D'' (a'.comp a) (g'.comp g) hgJc hgac).1.toRingHom
         (D.algebraMap.toRingHom x) =
       (envelopePairMap D' D'' a' g' hgJ' hga').1.toRingHom
         ((envelopePairMap D D' a g hgJ hga).1.toRingHom (D.algebraMap.toRingHom x))
@@ -369,7 +369,7 @@ lemma polynomialEnvelopeMapOver_eq_polynomialEnvelopeMap (s : AffineCrystallineS
     exact dpMorphism_comp_id _
   · apply RingHom.ext
     intro x
-    show (polynomialEnvelopeMapOver (AffineCrystallineSituation.Hom.id s) f g r.toRingHom hrC
+    change (polynomialEnvelopeMapOver (AffineCrystallineSituation.Hom.id s) f g r.toRingHom hrC
           hr').1 ((polynomialDividedPowerEnvelope s f).algebraMap.toRingHom x) =
       (polynomialEnvelopeMap s f g r hr).1
         ((polynomialDividedPowerEnvelope s f).algebraMap.toRingHom x)
@@ -397,7 +397,7 @@ lemma adicCompletionRingMap_id (p : ℕ) :
   intro n
   obtain ⟨a, ha⟩ := Submodule.mkQ_surjective
     (DividedPowers.pAdicIdeal (A := R) p ^ n • (⊤ : Submodule R R)) (x.val n)
-  show adicQuotientMap (ringHomₛₗ (RingHom.id R)) (map_pAdicIdeal_le p (RingHom.id R)) n
+  change adicQuotientMap (ringHomₛₗ (RingHom.id R)) (map_pAdicIdeal_le p (RingHom.id R)) n
     (x.val n) = x.val n
   rw [← ha]
   rfl
@@ -413,7 +413,7 @@ lemma adicCompletionRingMap_comp (p : ℕ) (σ : R →+* T) (τ : T →+* U) :
   intro n
   obtain ⟨a, ha⟩ := Submodule.mkQ_surjective
     (DividedPowers.pAdicIdeal (A := R) p ^ n • (⊤ : Submodule R R)) (x.val n)
-  show adicQuotientMap (ringHomₛₗ (τ.comp σ)) (map_pAdicIdeal_le p (τ.comp σ)) n (x.val n) =
+  change adicQuotientMap (ringHomₛₗ (τ.comp σ)) (map_pAdicIdeal_le p (τ.comp σ)) n (x.val n) =
     adicQuotientMap (ringHomₛₗ τ) (map_pAdicIdeal_le p τ) n
       (adicQuotientMap (ringHomₛₗ σ) (map_pAdicIdeal_le p σ) n (x.val n))
   rw [← ha]

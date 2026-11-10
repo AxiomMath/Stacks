@@ -12,8 +12,9 @@ that it *fits* the category and the universe [Stacks, Tag 0817] is stated in, wh
 `Stacks.RelativeSpec.AlgebraSheaf X` for `X : Scheme.{u}` is `CategoryTheory.Under X.sheaf`, whose
 objects lie in `Type (u + 1)` while its morphisms lie in `Type u`, so the generic statement has to
 be instantiated at **two different** universes — object universe `u + 1`, morphism universe `u` —
-and then the composed index lands in `Type u`, which is where [Stacks, Tag 0817] wants it.  Written in the
-same file as the generic statement this instantiation does not elaborate, because the file's own
+and then the composed index lands in `Type u`, which is where [Stacks, Tag 0817] wants it.
+Written in the same file as the generic statement this instantiation does not elaborate,
+because the file's own
 `universe` variables are then reused instead of being instantiated; that is why this is a separate
 module and not a corollary there.
 

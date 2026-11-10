@@ -7,7 +7,8 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.Descent.QuasiCoherent.Memb
 
 Let `X` be an algebraic space over a scheme `S`, let `(f i : Y i ⟶ X)` be a family of algebraic
 spaces étale over `X` and let `D` be a descent datum for quasi-coherent modules relative to that
-family. `StacksFrontier/AlgebraicGeometry/Spaces/Descent/QuasiCoherent/MemberSiteInducedCovering.lean`
+family.
+`StacksFrontier/AlgebraicGeometry/Spaces/Descent/QuasiCoherent/MemberSiteInducedCovering.lean`
 shows that the charts of `Y i` induced by the arrows of a covering sieve `T` of the object `(i, V)`
 of the site of the charts of the members cover `V`, so that a sheaf on the small étale site of
 `Y i` glues uniquely over them.
@@ -115,8 +116,8 @@ Nothing here inspects a transition, and the statements about an arbitrary sheaf 
 site of the member therefore mention no descent datum.  The component forms instantiate them at
 `D.F i`, whose sheaf condition is `CategoryTheory.SheafOfModules.isSheaf` of that component and
 whose sections are read through `CategoryTheory.coyoneda`, as the implementation notes of
-`StacksFrontier/AlgebraicGeometry/Spaces/Descent/QuasiCoherent/MemberSiteSheafCondition.lean` explain:
-the element-level form of the sheaf condition is not available at these universes.
+`StacksFrontier/AlgebraicGeometry/Spaces/Descent/QuasiCoherent/MemberSiteSheafCondition.lean`
+explain: the element-level form of the sheaf condition is not available at these universes.
 
 ## References
 

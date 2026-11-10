@@ -64,7 +64,7 @@ lemma isIso_map_inf (i : ι) (T : Opens X) :
 /-- Cancelling an inverse after applying the morphism. -/
 lemma hom_inv_apply {R : Type u} [Ring R] {A B C : ModuleCat.{u} R} (f : A ⟶ B)
     (g : C ⟶ B) [IsIso g] (x : A) : g ((f ≫ inv g) x) = f x := by
-  show ((f ≫ inv g) ≫ g) x = f x
+  change ((f ≫ inv g) ≫ g) x = f x
   rw [Category.assoc, IsIso.inv_hom_id, Category.comp_id]
 
 /-- The comparison of the glued sheaf with the `i`-th member over an arbitrary open `T`: the
@@ -132,7 +132,7 @@ lemma chartHom_app_of_le (i : ι) {T : Opens X} (hT : T ≤ U i)
     (s : ToType ((ofModules N trans trans_map trans_trans).glued.val.obj (op T))) :
     (chartHom N trans trans_map trans_trans hN i).val.app (op T) s =
       ((ofModules N trans trans_map trans_trans).chartIso i hT).hom s := by
-  show chartApp N trans trans_map trans_trans hN i T s = _
+  change chartApp N trans trans_map trans_trans hN i T s = _
   refine (hN i T).1 ((restrict_chartApp N trans trans_map trans_trans hN i T s).trans ?_)
   exact (ofModules N trans trans_map trans_trans).chartIso_hom_restrictₛₗ i hT inf_le_left s
 

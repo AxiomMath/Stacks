@@ -406,7 +406,7 @@ public theorem faithful_of_isApproximationFunctor [p.Faithful]
   refine (wideSubcategoryInclusion (localBaseMaps B S hS p)).map_injective ?_
   refine ObjectProperty.hom_ext (P := IsCompleteLocalObject B S hS p) ?_
   refine p.map_injective ?_
-  show p.map f.1.1 = p.map g.1.1
+  change p.map f.1.1 = p.map g.1.1
   have key : ∀ n, (eqToHom ((G.obj x).level_eq n).symm ≫ p.map (r x n) ≫
       eqToHom (chosenBase_eq B S hS p x.obj)) ≫
         (eqToHom (chosenBase_eq B S hS p x.obj).symm ≫ p.map f.1.1) =
@@ -561,17 +561,17 @@ public theorem full_of_isApproximationFunctor_representable (Xo : BigFppfOver B 
           eqToHom (chosenBase_eq B S hS (Over.forget Xo) y.obj) = ab := by
       simp only [Category.assoc, eqToHom_cancel_assoc', eqToHom_trans, eqToHom_refl,
         Category.comp_id]
-    show (BigFppfOver.toScheme B S hS).map
+    change (BigFppfOver.toScheme B S hS).map
       (eqToHom (chosenBase_eq B S hS (Over.forget Xo) x.obj).symm ≫
         (Over.forget Xo).map fm.1 ≫
         eqToHom (chosenBase_eq B S hS (Over.forget Xo) y.obj)) = _
     rw [hfm, hinner]
   have hloc : localBaseMaps B S hS (Over.forget Xo) fm := by
-    show baseMap B S hS (Over.forget Xo) fm
+    change baseMap B S hS (Over.forget Xo) fm
         (closedPoint (chosenBase B S hS (Over.forget Xo) x.obj).R) =
       closedPoint (chosenBase B S hS (Over.forget Xo) y.obj).R
     rw [hbm, hab]
-    show eqToHom (congrArg (fun A : FormalBase S ↦ Spec (.of A.R)) (hb y))
+    change eqToHom (congrArg (fun A : FormalBase S ↦ Spec (.of A.R)) (hb y))
         (Φ.baseMap (eqToHom
           (congrArg (fun A : FormalBase S ↦ Spec (.of A.R)) (hb x)).symm
           (closedPoint (chosenBase B S hS (Over.forget Xo) x.obj).R))) =

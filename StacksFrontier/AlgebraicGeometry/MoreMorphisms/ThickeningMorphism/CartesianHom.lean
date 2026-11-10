@@ -186,7 +186,7 @@ theorem isThickeningHom_homMk_ι {Z : AlgebraicSpaces B S hS} {G : Subfunctor Z.
   refine ⟨?_, ?_⟩
   · rw [ObjectProperty.homMk_hom]
     infer_instance
-  · show IsThickening B S hS Z (Subfunctor.range G.ι)
+  · change IsThickening B S hS Z (Subfunctor.range G.ι)
     rwa [Subfunctor.range_ι]
 
 /-- The source inclusion of a cartesian morphism of thickenings is a thickening in the morphism

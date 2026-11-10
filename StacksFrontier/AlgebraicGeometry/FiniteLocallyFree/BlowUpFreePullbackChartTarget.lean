@@ -161,7 +161,7 @@ theorem restrictChartIso_freeChartTargetIso {P P' : X'.Opens} (hP : P' ≤ P)
         ((Scheme.Modules.restrictFunctor P.ι).map α))).trans
       ((IsIso.comp_inv_eq _).2
         (((IsIso.eq_inv_comp _).2 hnat).trans (Category.assoc _ _ _).symm))
-  show (restrictCompIso (X'.homOfLE hP) P.ι (Scheme.homOfLE_ι X' hP) G).hom ≫
+  change (restrictCompIso (X'.homOfLE hP) P.ι (Scheme.homOfLE_ι X' hP) G).hom ≫
       (Scheme.Modules.restrictFunctor (X'.homOfLE hP)).map
         (inv ((Scheme.Modules.restrictFunctor P.ι).map α) ≫
           (Stacks.Modules.restrictFreeIso P.ι I).hom) =

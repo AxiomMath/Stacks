@@ -221,7 +221,7 @@ theorem isLciFamily_curveFamilyOfSchemeMorphism_iff
         (curveFamilyOfSchemeMorphism B hZ g hflat hproper hlfp hqc hsep hqsep hdim) ↔
       IsLocalCompleteIntersectionMorphism
         ((BigFppfOver.toScheme B integerBase hZ).map g) := by
-  show Space.IsLocalCompleteIntersection B integerBase hZ (schemeSpaceMap g).hom ↔ _
+  change Space.IsLocalCompleteIntersection B integerBase hZ (schemeSpaceMap g).hom ↔ _
   have hspace := Space.isSyntomic_iff_isFlat_and_isLocalCompleteIntersection B integerBase hZ
     (schemeSpaceMap g).hom
   have hchart : Space.IsSyntomic B integerBase hZ (schemeSpaceMap g).hom ↔

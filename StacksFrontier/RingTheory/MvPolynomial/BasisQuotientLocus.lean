@@ -94,8 +94,7 @@ theorem quotientBaseChange_mk_map (p : MvPolynomial ι A) :
 /-- The comparison map `B[x_i] / J B[x_i] → B ⊗_A (A[x_i] / J)` is surjective. -/
 theorem quotientBaseChange_surjective : Function.Surjective (quotientBaseChange (B := B) J) := by
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction x using TensorProduct.inductionOn with
   | tmul b q =>
     obtain ⟨p, rfl⟩ := Ideal.Quotient.mk_surjective q
     refine ⟨b • Ideal.Quotient.mk _ (MvPolynomial.map (algebraMap A B) p), ?_⟩
@@ -156,7 +155,7 @@ private theorem _root_.Submodule.exists_fin_span_range_comp_eq_top {K P X : Type
   obtain ⟨b, hbsub, hbspan, hbli⟩ := exists_linearIndependent K (Set.range v)
   have hb : Submodule.span K b = ⊤ := hbspan.trans hv
   let bas : Module.Basis b K P := Module.Basis.mk hbli (by
-    rw [Subtype.range_coe_subtype, Set.setOf_mem_eq, hb])
+    rw [Subtype.range_coe_subtype, Set.ofPred_mem_eq, hb])
   have : Finite b := hbli.finite_of_isNoetherian
   have : Fintype b := Fintype.ofFinite b
   have hcard : Fintype.card b = d := by

@@ -60,7 +60,8 @@ private lemma exists_genericPoint_mem_of_not_isNowhereDense
 
 private alias genericPoint_mem_dense_open := _root_.mem_of_isGenericPoint_univ_of_dense
 
-private alias exists_nat_fiber_dimensionAt_of_genericPoint := exists_nat_topologicalKrullDimAt_fiber_of_mem_genericPoints
+private alias exists_nat_fiber_dimensionAt_of_genericPoint :=
+  exists_nat_topologicalKrullDimAt_fiber_of_mem_genericPoints
 
 private lemma fiberPointAt_congr {X Y : Scheme.{u}} (f : X ⟶ Y)
     {x x' : X} (hxx : x = x') (y : Y) (h : f x = y) (h' : f x' = y) :
@@ -88,7 +89,10 @@ private lemma noetherianSpace_fiber {X Y : Scheme.{u}} (f : X ⟶ Y)
   have : IsNoetherian (f.fiber y) := {}
   inferInstance
 
-private theorem exists_open_nowhereDense_fiber_of_reduced
+/-- If `f : X ⟶ Y` is of finite type with `Y` reduced and irreducible, `Z ⊆ X` is closed and the
+inverse image of `Z` in the generic fibre is nowhere dense, then the inverse image of `Z` in the
+fibre over every point of some nonempty open subset of `Y` is nowhere dense. -/
+theorem exists_open_nowhereDense_fiber_of_reduced
     {X Y : Scheme.{u}} (f : X ⟶ Y) [IsReduced Y] [IrreducibleSpace Y]
     [LocallyOfFiniteType f] [QuasiCompact f] (Z : Set X) (hZ : IsClosed Z)
     (η : Y) (hη : IsGenericPoint η Set.univ)
@@ -147,12 +151,12 @@ private theorem exists_open_nowhereDense_fiber_of_reduced
   have hpgenX : f.asFiber x ∈ genericPoints (f.fiber y) := by
     simpa [hpAsFiber] using hpgen
   have hxU : x ∈ UX := by
-    show f x ∈ U
+    change f x ∈ U
     exact hyU
   let xU : (↑UX) := ⟨x, hxU⟩
   have hxUval : jX xU = x := rfl
   have hbaseX : fU xU = y := by
-    show (jX ≫ f) xU = f x
+    change (jX ≫ f) xU = f x
     rw [Scheme.Hom.comp_apply]
     rw [hxUval]
   have hbasePX : f x = fU xU := by simpa [y] using hbaseX.symm
@@ -191,14 +195,14 @@ private theorem exists_open_nowhereDense_fiber_of_reduced
     exact AlgebraicGeometry.genericPoints_preimage_of_isClosedImmersion
       (Scheme.Hom.fiberMapComp i f (g tY)) htarget
   have htV : tY ∈ TV := by
-    show g tY ∈ V
+    change g tY ∈ V
     rw [hgt]
     exact hyV
   let tV : (↑TV) := ⟨tY, htV⟩
   have hbaseT : gV tV = y := by
-    show (jT ≫ g) tV = f x
+    change (jT ≫ g) tV = f x
     rw [Scheme.Hom.comp_apply]
-    show g tY = f x
+    change g tY = f x
     exact hgt
   have htVval : jT tV = tY := rfl
   have hgtV : g tY = gV tV := hgt.trans hbaseT.symm
@@ -223,14 +227,14 @@ private theorem exists_open_nowhereDense_fiber_of_reduced
   have htηbase : g tη = η := by
     simpa [gV, jT, tη] using htBase
   have htSpecializes : tη ⤳ tY := by
-    show jT tηV ⤳ t
+    change jT tηV ⤳ t
     exact htSpec.map jT.continuous
   let xη : X := i tη
   have hxηbase : f xη = η := by
     simpa [g, i, xη, htηbase] using htηbase
   subst η
   have hxηU : xη ∈ UX := by
-    show f xη ∈ U
+    change f xη ∈ U
     rw [hxηbase]
     exact hηU
   let xηU : (↑UX) := ⟨xη, hxηU⟩
@@ -244,7 +248,7 @@ private theorem exists_open_nowhereDense_fiber_of_reduced
       UX.ι.continuous] at hxpre
     have hpreimage : UX.ι ⁻¹' ({xη} : Set X) = ({xηU} : Set (↑UX)) := by
       ext z
-      show UX.ι z = xη ↔ z = xηU
+      change UX.ι z = xη ↔ z = xηU
       exact ⟨fun hz => Subtype.ext hz, fun hz => congrArg Subtype.val hz⟩
     simpa only [hpreimage] using hxpre
   obtain ⟨dF, hdF⟩ :=
@@ -319,7 +323,7 @@ private theorem exists_open_nowhereDense_fiber_of_reduced
   have hmapY : Scheme.Hom.fiberMapComp i f y (Scheme.Hom.asFiberAt g (jT tV) y hgtTV) =
       Scheme.Hom.asFiberAt f x y hxfy := by
     have hcomp : (i ≫ f) (jT tV) = y := by
-      show f (i (jT tV)) = f x
+      change f (i (jT tV)) = f x
       rw [hix]
     have hm := Scheme.Hom.fiberMapComp_asFiberAt i f (jT tV) y hcomp
     have htargetBase : f (i (jT tV)) = y := by rw [hix]
@@ -424,7 +428,7 @@ private theorem exists_open_nowhereDense_fiber_of_reduced
   have hDsubsetZ : D ⊆ (f.fiberι (f xη)) ⁻¹' Z := by
     rintro z ⟨z', hz', rfl⟩
     have hz := congrArg (fun q => q z') (Scheme.Hom.fiberMapComp_fiberι i f (f xη))
-    show f.fiberι (f xη) (φ z') ∈ Z
+    change f.fiberι (f xη) (φ z') ∈ Z
     change f.fiberι (f xη) (φ z') = i ((i ≫ f).fiberι (f xη) z') at hz
     rw [hz]
     have hrange : i ((i ≫ f).fiberι (f xη) z') ∈ Set.range i :=

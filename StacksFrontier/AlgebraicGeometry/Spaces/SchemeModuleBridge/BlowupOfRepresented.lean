@@ -130,7 +130,7 @@ theorem exists_iso_yoneda_blowUpObj_of_isBlowupAlong (hI : FinitePresentation I.
   have hκ : κ.hom ≫ AlgebraicGeometry.blowUpToBase I = (BigFppfOver.toScheme B S hS).map
       (reesProjChartHom _ (isCartesianOnAffineCharts_centreIdeal _)
         (selfPresentation B S hS V) hcU) := by
-    show ((Stacks.Blowup.reesSituationBlowUpIso _).hom ≫ κ₁.hom) ≫ _ = _
+    change ((Stacks.Blowup.reesSituationBlowUpIso _).hom ≫ κ₁.hom) ≫ _ = _
     rw [Category.assoc, hκ₁, Stacks.Blowup.reesSituationBlowUpIso_hom_blowUpToBase]
     rfl
   have hw := congrArg B.inclusion.map (Over.w (reesProjChartHom _
@@ -141,7 +141,7 @@ theorem exists_iso_yoneda_blowUpObj_of_isBlowupAlong (hI : FinitePresentation I.
     Over.isoMk (ObjectProperty.isoMk _ κ) (by
       apply B.inclusion.map_injective
       rw [Functor.map_comp]
-      show κ.hom ≫ AlgebraicGeometry.blowUpToBase I ≫ B.inclusion.map V.hom = _
+      change κ.hom ≫ AlgebraicGeometry.blowUpToBase I ≫ B.inclusion.map V.hom = _
       rw [← Category.assoc, hκ]
       exact hw)
   have hκs : κs.hom ≫ blowUpObjHom V I = reesProjChartHom _
@@ -155,7 +155,7 @@ theorem exists_iso_yoneda_blowUpObj_of_isBlowupAlong (hI : FinitePresentation I.
   have h1 : e.inv.hom ≫ b.hom = yoneda.map (reesProjChartHom _
       (isCartesianOnAffineCharts_centreIdeal _) (selfPresentation B S hS V) hcU) :=
     congrArg (fun k => k.hom) h1'
-  show yoneda.map κs.inv ≫ (e.inv.hom ≫ b.hom) = _
+  change yoneda.map κs.inv ≫ (e.inv.hom ≫ b.hom) = _
   refine (congrArg (yoneda.map κs.inv ≫ ·) h1).trans ?_
   have h2 : κs.inv ≫ reesProjChartHom _ (isCartesianOnAffineCharts_centreIdeal _)
       (selfPresentation B S hS V) hcU = blowUpObjHom V I := by

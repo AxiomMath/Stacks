@@ -215,6 +215,7 @@ def geometricCoinvariantsGaloisMap
     (geometricCoinvariantsGaloisRepresentation B X f kbar Λ y M σ)).comp
     (geometricCoinvariantsRangeEquiv B X f kbar Λ y M).toLinearMap
 
+omit [Smooth f] in
 /-- `σ` acts on the class of `m` by the class of `γ • m`, for `γ ∈ π₁(X, η̄)` lifting `σ`. -/
 theorem geometricCoinvariantsGaloisMap_mk
     (M : letI := connectedSpace_of_isCurve B X f
@@ -376,7 +377,7 @@ def compactSupportGroupHomologyTwistZeroIsoApp
     ((rootsOfUnityHomFunctor Λ kbar (Fintype.card Λ)).mapIso
       (geometricGroupHomologyZeroNormalIso B X f kbar Λ y M)).symm
 
-omit [IsAlgClosure k kbar] [CompactSpace X.1] [QuasiSeparatedSpace X.1] in
+omit [Smooth f] [IsAlgClosure k kbar] [CompactSpace X.1] [QuasiSeparatedSpace X.1] in
 /-- Under `Hom(μ_n, M_N) ≅ H₀(π₁(X_k̄), M)(-1)`, the action `f ↦ σ ∘ f ∘ σ⁻¹` of Tag 03VK on the
 left is the degree-zero action on the right. -/
 theorem rootsOfUnityHomRepresentation_geometricGroupHomologyZeroNormalIso
@@ -458,7 +459,7 @@ theorem compactSupportGroupHomologyTwistZeroIsoApp_galois
       (geometricGroupHomologyZeroNormalIso B X f kbar Λ y M)).symm _ _ _ _ hT key
     (rootsOfUnityHomRepresentation_geometricGroupHomologyZeroNormalIso B X f kbar Λ y σ hn M)
 
-omit [IsAlgClosure k kbar] [CompactSpace X.1] [QuasiSeparatedSpace X.1] in
+omit [Smooth f] [IsAlgClosure k kbar] [CompactSpace X.1] [QuasiSeparatedSpace X.1] in
 /-- **`H₀(π₁(X_k̄), M) ≅ M_N` is natural in `M`.** -/
 theorem geometricGroupHomologyZeroNormalIso_hom_naturality
     {M M' : letI := connectedSpace_of_isCurve B X f
@@ -483,7 +484,7 @@ theorem geometricGroupHomologyZeroNormalIso_hom_naturality
   intro m
   rfl
 
-omit [IsAlgClosure k kbar] [CompactSpace X.1] [QuasiSeparatedSpace X.1] in
+omit [Smooth f] [IsAlgClosure k kbar] [CompactSpace X.1] [QuasiSeparatedSpace X.1] in
 /-- **The twist of `H₀(π₁(X_k̄), M) ≅ M_N` is natural in `M`**, read in the direction
 `Hom(μ_n, M_N) ⟶ H₀(π₁(X_k̄), M)(-1)`. -/
 theorem rootsOfUnityHomFunctor_geometricGroupHomologyZeroNormalIso_inv_naturality

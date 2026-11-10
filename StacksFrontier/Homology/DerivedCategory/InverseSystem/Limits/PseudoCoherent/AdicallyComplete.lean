@@ -132,7 +132,7 @@ public theorem shiftSubMul_isIso_of_pow_smul_id_eq_zero {A : Type u} [CommRing A
       rfl
   have hSe : (S' ^ e : End (∏ᶜ fun _ : ℕ => K)) = 0 := by
     apply End.ext
-    show (S' ^ e).asHom = (0 : (∏ᶜ fun _ : ℕ => K) ⟶ ∏ᶜ fun _ : ℕ => K)
+    change (S' ^ e).asHom = (0 : (∏ᶜ fun _ : ℕ => K) ⟶ ∏ᶜ fun _ : ℕ => K)
     apply Limits.limit.hom_ext
     intro j
     rw [key e j.as]
@@ -220,7 +220,7 @@ private theorem isDerivedComplete_of_milnor {A : Type u} [CommRing A]
       (by rw [productTriangle_mor₂]; exact (shiftSubMul_naturality _ _ f _).symm)
       (by
         rw [productTriangle_mor₃]
-        show (Limits.Pi.map (fun _ : ℕ => δ) ≫
+        change (Limits.Pi.map (fun _ : ℕ => δ) ≫
             inv (piComparison (shiftFunctor _ (1 : ℤ)) (fun _ : ℕ => K))) ≫
               (shiftFunctor _ (1 : ℤ)).map (shiftSubMul K f) =
           shiftSubMul (∏ᶜ D) f ≫
@@ -310,15 +310,15 @@ public theorem derivedLimit_isPseudoCoherent_isDerivedComplete_and_baseChange_is
     have hf' : f ^ (n + 1) ∈ I ^ (n + 1) := Ideal.pow_mem_pow hf (n + 1)
     let F := (ModuleCat.restrictScalars qn).mapDerivedCategory
     have hF : F.Linear A := by
-      show (ModuleCat.restrictScalars (Algebra.ofId A (A ⧸ I ^ (n + 1))).toRingHom)
+      change (ModuleCat.restrictScalars (Algebra.ofId A (A ⧸ I ^ (n + 1))).toRingHom)
         |>.mapDerivedCategory.Linear A
       infer_instance
-    show f ^ (n + 1) • 𝟙 (F.obj (Kₙ n)) = 0
+    change f ^ (n + 1) • 𝟙 (F.obj (Kₙ n)) = 0
     rw [← F.map_id, ← Functor.Linear.map_smul]
     have hq : algebraMap A (A ⧸ I ^ (n + 1)) (f ^ (n + 1)) = 0 :=
       Ideal.Quotient.eq_zero_iff_mem.mpr hf'
     have hs : f ^ (n + 1) • 𝟙 (Kₙ n) = 0 := by
-      show algebraMap A (A ⧸ I ^ (n + 1)) (f ^ (n + 1)) • 𝟙 (Kₙ n) = 0
+      change algebraMap A (A ⧸ I ^ (n + 1)) (f ^ (n + 1)) • 𝟙 (Kₙ n) = 0
       rw [hq, zero_smul]
     rw [hs, F.map_zero]
   exact ⟨hMain.1, isDerivedComplete_of_milnor I _ _ K p δ hTriangle hzero, hMain.2⟩

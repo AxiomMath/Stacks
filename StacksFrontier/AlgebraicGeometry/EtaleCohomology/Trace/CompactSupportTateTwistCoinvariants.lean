@@ -224,7 +224,7 @@ public lemma galoisRootsOfUnity_eq_pow (σ : ksep ≃ₐ[k] ksep) (ζ : rootsOfU
       ((ζ : ksepˣ) : ksep) ^ ((cyclotomicCharacterModN k ksep n σ : ZMod n)).val :=
     modularCyclotomicCharacter.spec ksep _ _ ζ.2
   refine rootsOfUnity.coe_injective ?_
-  show ((galoisRootsOfUnity k ksep n σ ζ : ksepˣ) : ksep) =
+  change ((galoisRootsOfUnity k ksep n σ ζ : ksepˣ) : ksep) =
     (((ζ ^ ((cyclotomicCharacterModN k ksep n σ : ZMod n)).val : rootsOfUnity n ksep) :
       ksepˣ) : ksep)
   rw [galoisRootsOfUnity_coe]
@@ -254,7 +254,7 @@ public lemma coinvariantsKer_le_comap (g : G) :
     refine congrArg (· - ρ g m) ?_
     rw [← representation_mul_apply ρ, ← representation_mul_apply ρ, inv_mul_cancel_right]
   simp only [SetLike.mem_coe, Submodule.mem_comap]
-  show ρ g (ρ (s : G) m - m) ∈ Stacks.Trace.coinvariantsKer (ρ.comp N.subtype)
+  change ρ g (ρ (s : G) m - m) ∈ Stacks.Trace.coinvariantsKer (ρ.comp N.subtype)
   rw [hkey]
   exact Submodule.subset_span ⟨(⟨g * (s : G) * g⁻¹, hs⟩, ρ g m), rfl⟩
 
@@ -339,7 +339,7 @@ public lemma galoisCoinvariantsRepresentation_apply_mk (φ : G ⧸ N ≃* (ksep 
     galoisCoinvariantsRepresentation ρ N φ (φ (g : G ⧸ N))
         (Stacks.Trace.coinvariantsMk (ρ.comp N.subtype) m) =
       Stacks.Trace.coinvariantsMk (ρ.comp N.subtype) (ρ g m) := by
-  show quotientCoinvariantsRepresentation ρ N (φ.symm (φ (g : G ⧸ N))) _ = _
+  change quotientCoinvariantsRepresentation ρ N (φ.symm (φ (g : G ⧸ N))) _ = _
   rw [MulEquiv.symm_apply_apply]
   rfl
 
@@ -500,7 +500,7 @@ public theorem compactlySupportedCohomologyTwo_galoisIso_tateTwistCoinvariants
   -- The identification of `Xbar` with the base change is in the statement, not in the argument.
   obtain ⟨-, -, -⟩ := hbase
   refine ⟨LinearEquiv.ofBijective (pair (Additive.ofMul ζ₀)) hζ₀, fun σ x => ?_⟩
-  show pair (Additive.ofMul ζ₀) (galois σ x) =
+  change pair (Additive.ofMul ζ₀) (galois σ x) =
     tateTwistNegOne k ksep n Λ (galoisCoinvariantsRepresentation ρ N φ) σ
       (pair (Additive.ofMul ζ₀) x)
   refine eq_tateTwistNegOne_of_centralScalar_eq k ksep n Λ

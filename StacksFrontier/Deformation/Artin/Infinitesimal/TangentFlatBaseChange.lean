@@ -125,13 +125,11 @@ public theorem existsUnique_homFlatBaseChange
   have hΦfun : ∀ z, Φ z =
       homBaseChangeComparison A C P M (TensorProduct.comm A C (P →ₗ[A] M) z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul c f =>
       apply LinearMap.ext
       intro v
-      induction v using TensorProduct.induction_on with
-      | zero => simp
+      induction v using TensorProduct.inductionOn with
       | tmul a q =>
         rw [hΦtmul, TensorProduct.smul_tmul', TensorProduct.comm_tmul,
           homBaseChangeComparison_tmul_apply]
@@ -162,8 +160,7 @@ public theorem existsUnique_homFlatBaseChange
   refine ⟨b₁.trans ((LinearEquiv.ofBijective Φ hΦ).trans (b₄.trans hU.symm)), hval, ?_⟩
   intro e' he'
   refine LinearEquiv.ext fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul c t =>
     refine hU.injective (LinearMap.ext fun v => ?_)
     -- Both sides agree on the generators of `C ⊗ P`, and `sP` is onto `PC`.
@@ -172,8 +169,7 @@ public theorem existsUnique_homFlatBaseChange
           hU ((b₁.trans ((LinearEquiv.ofBijective Φ hΦ).trans
             (b₄.trans hU.symm))) (c ⊗ₜ[A] t)) (sP u) := by
       intro u
-      induction u using TensorProduct.induction_on with
-      | zero => simp
+      induction u using TensorProduct.inductionOn with
       | tmul a q => rw [he' c a t q, hval c a t q]
       | add u u' hu hu' => simp [map_add, hu, hu']
     have := hspan (sP.symm v)

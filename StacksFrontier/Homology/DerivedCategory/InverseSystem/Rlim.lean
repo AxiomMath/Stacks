@@ -85,7 +85,6 @@ functor, so that no statement depends on a chosen construction.
 section
 
 set_option maxRecDepth 4096
-set_option synthInstance.maxHeartbeats 200000
 
 @[expose] public section
 
@@ -104,7 +103,7 @@ private theorem nonempty_sections_of_mittagLeffler_tower
     (F : ℕᵒᵖ ⥤ Type u) [∀ n : ℕᵒᵖ, Nonempty (F.obj n)]
     (hF : F.IsMittagLeffler) : F.sections.Nonempty := by
   let E := F.toEventualRanges
-  letI : ∀ n : ℕᵒᵖ, Nonempty (E.obj n) :=
+  let : ∀ n : ℕᵒᵖ, Nonempty (E.obj n) :=
     fun n => F.toEventualRanges_nonempty hF n
   have hsurj (n : ℕ) :
       Function.Surjective (E.map (homOfLE (Nat.le_succ n)).op) :=
@@ -319,10 +318,10 @@ private noncomputable def deltaComplexFunctor : Rlim.InvSystemAb.{u} ⥤ Cochain
     apply HomologicalComplex.from_double_hom_ext
     · rw [← cancel_mono (HomologicalComplex.doubleXIso₀ (Rlim.delta A)
         (show (ComplexShape.up ℤ).Rel 0 1 by rfl)).hom]
-      simpa [deltaComplexMap_f_zero, productMap_id]
+      simp [deltaComplexMap_f_zero, productMap_id]
     · rw [← cancel_mono (HomologicalComplex.doubleXIso₁ (Rlim.delta A)
         (show (ComplexShape.up ℤ).Rel 0 1 by rfl) (by norm_num)).hom]
-      simpa [deltaComplexMap_f_one, productMap_id]
+      simp [deltaComplexMap_f_one, productMap_id]
   map_comp := by
     intro A B C f g
     apply HomologicalComplex.from_double_hom_ext
@@ -561,7 +560,7 @@ private theorem deltaMap_surjective_of_mittagLeffler (A : Rlim.InvSystemAb.{u})
   have hne (i : ℕᵒᵖ) : Nonempty (F.obj i) := by
     change Nonempty (A.obj i)
     exact ⟨0⟩
-  letI : ∀ i : ℕᵒᵖ, Nonempty (F.obj i) := hne
+  let : ∀ i : ℕᵒᵖ, Nonempty (F.obj i) := hne
   obtain ⟨s, hs⟩ := nonempty_sections_of_mittagLeffler_tower F
     (affineTower_isMittagLeffler A y hA)
   let xs : ∀ n : ℕ, A.obj (op n) := fun n => s (op n)
@@ -659,13 +658,13 @@ private theorem deltaShortComplex_exact (A : Rlim.InvSystemAb.{u}) :
     exact ⟨y, rfl⟩
   · rintro ⟨y, rfl⟩
     have h := congrArg (fun f : limit A ⟶ Rlim.product A => f y) (Rlim.limitToProduct_comp_delta A)
-    simp [ConcreteCategory.comp_apply] at h ⊢
+    simp at h ⊢
 
 /-- If the difference map is epi, the limit-product-difference sequence is short exact. -/
 private theorem deltaShortComplex_shortExact_of_surjective (A : Rlim.InvSystemAb.{u})
     (hδ : Function.Surjective (Rlim.delta A)) : (deltaShortComplex A).ShortExact := by
-  letI : Mono (deltaShortComplex A).f := Rlim.limitToProduct_mono A
-  letI : Epi (deltaShortComplex A).g :=
+  let : Mono (deltaShortComplex A).f := Rlim.limitToProduct_mono A
+  let : Epi (deltaShortComplex A).g :=
     (AddCommGrpCat.epi_iff_surjective _).2 hδ
   exact ⟨deltaShortComplex_exact A⟩
 
@@ -700,7 +699,7 @@ private theorem isZero_homology_one_iff_surjective_delta (A : Rlim.InvSystemAb.{
   have hnext : (ComplexShape.up ℤ).next 1 = 2 := by simp
   have hSg : (K.sc' 0 1 2).g = 0 := (hvan 2 (by norm_num) (by norm_num)).eq_of_tgt _ _
   have hf : Epi (K.d 0 1) ↔ Epi (K.sc' 0 1 2).f := by
-    constructor <;> intro h <;> convert h using 1 <;> simp [HomologicalComplex.sc'] <;> rfl
+    constructor <;> intro h <;> convert h using 1 <;> simp [HomologicalComplex.sc']
   have hδepi : Epi (Rlim.delta A) ↔ Epi (K.d 0 1) := by
     rw [← hδ]
     exact ⟨fun h => (epi_comp_iff_of_isIso _ e₁.hom).1 (epi_of_epi e₀.inv _),
@@ -976,7 +975,7 @@ theorem prefixProductTower_map_surjective (G : ℕ → Ab.{u}) (k : ℕ)
   intro x
   refine ⟨fun i => if hi : i.val < n.unop + k then x ⟨i.val, hi⟩ else 0, ?_⟩
   funext i
-  simp only [prefixProductTower_map_apply, dif_pos i.property]
+  simp only [prefixProductTower_map_apply, dite_eq_left i.property]
 
 /-- The initial-product tower is Mittag--Leffler. -/
 theorem prefixProductTower_isMittagLeffler (G : ℕ → Ab.{u}) (k : ℕ) :
@@ -1133,8 +1132,8 @@ private theorem prefixProductTower_shortExact (A : Rlim.InvSystemAb.{u}) :
     (toPrefixProductTower_comp_prefixDifference A)
   have hepi (n : ℕᵒᵖ) : Epi ((prefixDifference A).app n) :=
     (AddCommGrpCat.epi_iff_surjective _).mpr (prefixDifference_app_surjective A n)
-  letI := toPrefixProductTower_app_mono A
-  letI := hepi
+  let := toPrefixProductTower_app_mono A
+  let := hepi
   have : Mono S.f := NatTrans.mono_of_mono_app _
   have : Epi S.g := NatTrans.epi_of_epi_app _
   refine ⟨shortComplex_exact_of_evaluation S ?_⟩
@@ -1430,7 +1429,7 @@ private noncomputable def prefixResolutionLimitIso (A : Rlim.InvSystemAb.{u}) :
     exact F.map_isZero (HomologicalComplex.isZero_double_X _ _ i h₀ h₁)
   · change (prefixProductLimitIso _ 1).inv ≫ F.map _ ≫ F.map _ ≫
         (F.map _ ≫ (prefixProductLimitIso _ 0).hom) = _
-    simp only [← Functor.map_comp, ← Functor.map_comp_assoc]
+    simp only [← Functor.map_comp_assoc]
     rw [HomologicalComplex.double_d _ _ (by norm_num)]
     simp only [Category.assoc, Iso.inv_hom_id_assoc, Iso.inv_hom_id, Category.comp_id]
     exact prefixDifference_limit_eq_delta A
@@ -1829,7 +1828,7 @@ public theorem lim_hasRightDerivedFunctor_and_computations :
   dsimp only
   obtain ⟨hRFplus, hML, htriPlus, hcomputePlus⟩ :=
     lim_hasPointwiseRightDerivedFunctor_and_computations.{u}
-  letI := hRFplus
+  let := hRFplus
   have hmono (A : Rlim.InvSystemAb.{u}) :
       ∃ (B : Rlim.InvSystemAb.{u}) (i : A ⟶ B) (_ : Mono i),
         (lim : Rlim.InvSystemAb.{u} ⥤ Ab.{u}).rightAcyclic B := by
@@ -1856,7 +1855,7 @@ public theorem lim_hasRightDerivedFunctor_and_computations :
           obtain ⟨B, i, hi, hB⟩ := exists_mono_mittagLeffler A
           exact ⟨B, i, hi, lim_computesRightDerived_of_mittagLeffler B hB⟩)
         RFplus αplus ((HomotopyCategory.Plus.singleFunctor _ 0).obj A)).symm) hmono 2 htwo
-  letI := hRF
+  let := hRF
   let RF := (F.mapHomotopyCategory (ComplexShape.up ℤ) ⋙ DerivedCategory.Qh).totalRightDerived
     DerivedCategory.Qh (HomotopyCategory.quasiIso Rlim.InvSystemAb.{u} (ComplexShape.up ℤ))
   let α := (F.mapHomotopyCategory (ComplexShape.up ℤ) ⋙ DerivedCategory.Qh).totalRightDerivedUnit
@@ -1893,7 +1892,7 @@ public theorem lim_hasRightDerivedFunctor_and_computations :
     exact derived_h1_iso_cokernel_of_model RF A _ e₀ e₁ hz hd (hmodel A)
   let commShift := Functor.IsRightDerivedFunctor.commShift RF α
     (HomotopyCategory.quasiIso Rlim.InvSystemAb.{u} (ComplexShape.up ℤ)) ℤ
-  letI : RF.CommShift ℤ := commShift
+  let : RF.CommShift ℤ := commShift
   have hαshift : NatTrans.CommShift α ℤ := inferInstance
   have htri : RF.IsTriangulated := by
     have : RFplus.IsTriangulated := htriPlus
@@ -1927,7 +1926,7 @@ public theorem lim_hasRightDerivedFunctor_and_computations :
     exact ⟨Rlim.limitToProduct_comp_delta A,
       deltaShortComplex_shortExact_of_surjective A ((h₁iff A).1 hA)⟩
   · intro RF' α' hRF' A
-    letI := hRF'
+    let := hRF'
     exact derived_h1_iso_cokernel_of_rightDerivedUnique RF RF' α α' A (hcoker A)
   · exact ⟨commShift, hαshift, htri, lim_iso_derived_homology_zero RF α hcomputeML⟩
 
@@ -1941,7 +1940,6 @@ end
 section
 
 set_option maxRecDepth 4096
-set_option synthInstance.maxHeartbeats 200000
 
 @[expose] public noncomputable section
 
@@ -2053,7 +2051,7 @@ public theorem exists_sixTerm_exact_sequence_lim_rightDerived_one
   dsimp only
   obtain ⟨RF, α, hRF, hvanish, _, _, _, _, _, _, _, _, commShift, hlast⟩ :=
     lim_hasRightDerivedFunctor_and_computations.{u}
-  letI : RF.CommShift ℤ := commShift
+  let : RF.CommShift ℤ := commShift
   have htri : RF.IsTriangulated := hlast.2.1
   let e := Classical.choice hlast.2.2
   let R (n : ℤ) : Rlim.InvSystemAb.{u} ⥤ Ab.{u} :=
@@ -2095,7 +2093,7 @@ public theorem exists_sixTerm_exact_sequence_lim_rightDerived_one
       (by change (R 1).map S.g ≫ 𝟙 _ = 𝟙 _ ≫ (R 1).map S.g
           simp)
     exact ComposableArrows.exact_of_iso i hE
-  · haveI := hS.mono_f
+  · have := hS.mono_f
     exact (lim : Rlim.InvSystemAb.{u} ⥤ Ab.{u}).map_mono S.f
   · let T := RF.mapTriangle.obj hS.singleTriangle
     have hT : T ∈ distTriang (DerivedCategory Ab.{u}) :=

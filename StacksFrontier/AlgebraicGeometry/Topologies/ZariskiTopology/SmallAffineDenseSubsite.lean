@@ -94,13 +94,13 @@ private theorem exists_bounded_openCover_refinement
   have hmap : (Q.map B.inclusion).presieve₀ = U.presieve₀ := by
     rw [PreZeroHypercover.presieve₀_map, PreZeroHypercover.presieve₀,
       Presieve.map_ofArrows]
-    show Presieve.ofArrows U.X (fun i => B.inclusion.map (Q.f i)) =
+    change Presieve.ofArrows U.X (fun i => B.inclusion.map (Q.f i)) =
       Presieve.ofArrows U.X U.f
     congr 1
     funext i
     exact B.inclusion.map_preimage _
   have hQ : IsZariskiCovering ⟨T, Q⟩ := by
-    show (Q.map B.inclusion).presieve₀ ∈ Scheme.zariskiPretopology _
+    change (Q.map B.inclusion).presieve₀ ∈ Scheme.zariskiPretopology _
     rw [hmap]
     exact U.mem_pretopology
   obtain ⟨⟨target, representative⟩, hrepresentative, htarget, hcomb⟩ :=
@@ -110,7 +110,7 @@ private theorem exists_bounded_openCover_refinement
   have hF : B.IsCovering ⟨T, F⟩ := by
     refine ⟨?_, (deduplicateFamily_card_le
       (hcomb : Q.CombinatoriallyEquivalent representative)).trans hrepresentative.2⟩
-    show (F.map B.inclusion).presieve₀ ∈ Scheme.zariskiPretopology _
+    change (F.map B.inclusion).presieve₀ ∈ Scheme.zariskiPretopology _
     rw [PreZeroHypercover.presieve₀_map, deduplicateFamily_presieve₀,
       ← PreZeroHypercover.presieve₀_map]
     exact hQ
@@ -118,7 +118,7 @@ private theorem exists_bounded_openCover_refinement
       B.inclusion.map (F.f i) = e.hom ≫ U.f j := by
     obtain ⟨j, rfl⟩ := deduplicateFamily_index Q i
     refine ⟨j, Iso.refl _, ?_⟩
-    show B.inclusion.map (Q.f j) = 𝟙 _ ≫ U.f j
+    change B.inclusion.map (Q.f j) = 𝟙 _ ≫ U.f j
     rw [Category.id_comp]
     exact B.inclusion.map_preimage _
   refine ⟨F, hF, fun hfinite => ?_, fun i => ?_, hcomparison⟩
@@ -169,7 +169,7 @@ private theorem smallAffineZariski_isCoverDense
       BigZariskiOver.inclusion B S hS) = F := by
     ext <;> rfl
   have hE : SmallZariski.IsCovering B S hS ⟨target, E⟩ := by
-    show B.IsCovering ⟨target.obj.left, E.map
+    change B.IsCovering ⟨target.obj.left, E.map
       (SmallZariski.inclusion B S hS ⋙ BigZariskiOver.inclusion B S hS)⟩
     rw [hmap]
     exact hF
@@ -179,9 +179,9 @@ private theorem smallAffineZariski_isCoverDense
   rw [Sieve.generate_le_iff]
   rintro _ _ ⟨i⟩
   let affine : SmallAffineZariski B S hS := ⟨E.X i, by
-    show IsAffine (B.inclusion.obj (F.X i))
+    change IsAffine (B.inclusion.obj (F.X i))
     let : IsAffine (U.X (source i)) := by
-      show IsAffine (A.X (source i).down)
+      change IsAffine (A.X (source i).down)
       infer_instance
     exact IsAffine.of_isIso (comparison i).hom⟩
   exact ⟨⟨affine, 𝟙 _, E.f i, by simp [affine]⟩⟩
@@ -219,18 +219,18 @@ private theorem smallAffineZariski_standard_refinement
     ext <;> rfl
   have hE : SmallAffineZariski.IsCovering B S hS ⟨target, E⟩ := by
     refine ⟨?_, ?_, hFfinite hfinite, ?_⟩
-    · show B.IsCovering ⟨T, E.map (SmallAffineZariski.inclusion B S hS ⋙
+    · change B.IsCovering ⟨T, E.map (SmallAffineZariski.inclusion B S hS ⋙
         SmallZariski.inclusion B S hS ⋙ BigZariskiOver.inclusion B S hS)⟩
       rw [hmap]
       exact hF
-    · show (E.map (SmallAffineZariski.toScheme B S hS)).presieve₀ ∈
+    · change (E.map (SmallAffineZariski.toScheme B S hS)).presieve₀ ∈
         Scheme.zariskiPrecoverage T'
       rw [hscheme]
       exact hF.1
     · intro i
       obtain ⟨f, basicComparison, hbasicComparison⟩ := hbasic (source i)
       refine ⟨f, (comparison i).trans basicComparison, ?_⟩
-      show B.inclusion.map (F.f i) = _
+      change B.inclusion.map (F.f i) = _
       rw [hcomparison i, hbasicComparison]
       simp only [Iso.trans_hom]
       rfl
@@ -274,7 +274,7 @@ private theorem smallAffineZariski_inclusion_isCocontinuous
             (F.f i).hom.hom.left ≫ arrow.hom.left := by
           apply B.inclusion.map_injective
           rw [Functor.map_comp, Functor.map_preimage, Functor.map_comp]
-          show schemeLift ≫ U.f j =
+          change schemeLift ≫ U.f j =
             (SmallAffineZariski.toScheme B S hS).map (F.f i) ≫ H.map arrow
           have hcond : U.pullbackHom (H.map arrow) j ≫ U.f j = V.f j ≫ H.map arrow :=
             pullback.condition.symm
@@ -282,7 +282,7 @@ private theorem smallAffineZariski_inclusion_isCocontinuous
         let overArrow : (F.X i).obj.obj ⟶ (E.X j).obj :=
           Over.homMk schemeArrow (by
             rw [← (E.f j).hom.w, ← Category.assoc, hcomp, Category.assoc, arrow.hom.w]
-            show (F.f i).hom.hom.left ≫ affine.obj.obj.hom = _
+            change (F.f i).hom.hom.left ≫ affine.obj.obj.hom = _
             exact (F.f i).hom.hom.w)
         refine ⟨E.X j, ObjectProperty.homMk overArrow, E.f j, ⟨j⟩, ?_⟩
         apply ObjectProperty.hom_ext
@@ -340,7 +340,7 @@ public theorem SmallAffineZariski.inclusion_isSpecialCocontinuous
     have hpull := Functor.cover_lift (G := G) (J := J) (K := K)
       ((Functor.mem_restrictedTopology_iff (G := G) (K := K)).mp hR)
     rwa [Sieve.functorPullback_functorPushforward_eq] at hpull
-  show G.IsCocontinuous J K ∧ G.IsDenseSubsite J K
+  change G.IsCocontinuous J K ∧ G.IsDenseSubsite J K
   refine ⟨inferInstance, ?_⟩
   rw [le_antisymm hle hge]
   infer_instance

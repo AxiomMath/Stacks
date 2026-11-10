@@ -48,8 +48,8 @@ The descent lemma is stated for a finite family of algebras rather than for a si
 flat algebra, because that is the shape a covering family of an affine chart comes in; the proof
 splits the unit of the product into the units of the factors, exactly as
 `Ideal.eq_of_le_of_forall_map_le`
-(`StacksFrontier/AlgebraicGeometry/Spaces/ClosedSubspaceFromQuasicoherentIdeal.lean`) does for a pair
-of nested ideals.  That lemma is the case of a submodule of the structure sheaf; the one here
+(`StacksFrontier/AlgebraicGeometry/Spaces/ClosedSubspaceFromQuasicoherentIdeal.lean`) does for a
+pair of nested ideals.  That lemma is the case of a submodule of the structure sheaf; the one here
 needs the base change presentation of the sections because the ambient module is arbitrary, and
 that is what `Module.Descent.mem_range_of_one_tmul_mem_range` supplies.
 
@@ -116,7 +116,7 @@ theorem Submodule.mem_of_forall_mem_span_image_of_bijective_liftBaseChange
     obtain ⟨s, hs⟩ := htL
     exact ⟨s, by
       rw [← hs]
-      exact (congrFun (LinearMap.baseChange_eq_ltensor (A := D i) N.subtype) s).symm⟩
+      exact (congrFun (LinearMap.baseChange_eq_lTensor (A := D i) N.subtype) s).symm⟩
   have step2 : (1 : ∀ i, D i) ⊗ₜ[C] x ∈
       LinearMap.range (LinearMap.lTensor (∀ i, D i) N.subtype) := by
     have h1 : (1 : ∀ i, D i) = ∑ i, Pi.single i (1 : D i) := by

@@ -167,7 +167,7 @@ theorem bijective_pull_of_isOpenImmersion (hA1 : 𝔇.CoproductAxiom) {ι : Type
       have hc : (W : Set (S.obj X))ᶜ = ((S.map (p none)).opensRange : Set (S.obj X)) := by
         refine IsCompl.compl_eq ⟨TopologicalSpace.Opens.coe_disjoint.mpr hcompl.symm.disjoint, ?_⟩
         rw [codisjoint_iff]
-        show ((W ⊔ (S.map (p none)).opensRange : (S.obj X).Opens) : Set (S.obj X)) = Set.univ
+        change ((W ⊔ (S.map (p none)).opensRange : (S.obj X).Opens) : Set (S.obj X)) = Set.univ
         rw [sup_comm, hcompl.sup_eq_top]
         rfl
       exact ⟨isOpen_compl_iff.mp (hc ▸ (S.map (p none)).opensRange.isOpen), W.isOpen⟩
@@ -203,7 +203,7 @@ theorem bijective_pull_of_isOpenImmersion (hA1 : 𝔇.CoproductAxiom) {ι : Type
       cases o with
       | none => exact congrArg Prod.fst ha
       | some i =>
-        show 𝔇.pull (p (some i)) a = g (some i)
+        change 𝔇.pull (p (some i)) a = g (some i)
         rw [hpull, show 𝔇.pull Wo.hom a = b from congrArg Prod.snd ha]
         exact congrFun hb i
 
@@ -252,12 +252,12 @@ theorem mem_range_tateTwistMap_iff {X : (SmoothProjectiveScheme k).FullSubcatego
     x ∈ LinearMap.range (tateTwistMap (L := 𝔇.tate) M.subtype n) ↔ 𝔇.κ X n x ∈ M := by
   constructor
   · rintro ⟨y, rfl⟩
-    show tateTwistCoordinates 𝔇.coord n (tateTwistMap M.subtype n y) ∈ M
+    change tateTwistCoordinates 𝔇.coord n (tateTwistMap M.subtype n y) ∈ M
     rw [tateTwistCoordinates_map]
     exact Submodule.coe_mem _
   · intro hx
     refine ⟨(tateTwistCoordinates 𝔇.coord n).symm ⟨_, hx⟩, (𝔇.κ X n).injective ?_⟩
-    show tateTwistCoordinates 𝔇.coord n (tateTwistMap M.subtype n _) = _
+    change tateTwistCoordinates 𝔇.coord n (tateTwistMap M.subtype n _) = _
     rw [tateTwistCoordinates_map, LinearEquiv.apply_symm_apply]
     rfl
 
@@ -391,7 +391,7 @@ theorem coe_sum_A (a : Fin (r + 1) → 𝔇.A X) :
           𝔇.pullA (bundleProj X E r) (a i) : 𝔇.A (bundle X E r)) : 𝔇.H (bundle X E r)) =
       ∑ i : Fin (r + 1), 𝔇.bundleClassU X E r ^ (i : ℕ) *
         𝔇.pull (bundleProj X E r) (a i : 𝔇.H X) := by
-  simp only [AddSubmonoidClass.coe_finset_sum, MulMemClass.coe_mul, SubmonoidClass.coe_pow,
+  simp only [AddSubmonoidClass.coe_finsetSum, MulMemClass.coe_mul, SubmonoidClass.coe_pow,
     coe_c₁A_twistClass, coe_pullA]
 
 /-- **Condition (4) on `A`, injectivity**, from axiom (A3). -/
@@ -464,10 +464,10 @@ theorem bijective_pull_clopen :
   refine 𝔇.bijective_pull_of_isOpenImmersion hA1 X (fun i => (clopenSubobject X (U i) (hU i)).obj)
     (fun i => (clopenSubobject X (U i) (hU i)).hom)
     (fun i => (inferInstance : IsOpenImmersion (U i).ι)) (fun i j hij => ?_) ?_
-  · show Disjoint (U i).ι.opensRange (U j).ι.opensRange
+  · change Disjoint (U i).ι.opensRange (U j).ι.opensRange
     rw [Scheme.Opens.opensRange_ι, Scheme.Opens.opensRange_ι]
     exact hdisj i j hij
-  · show ⨆ i, (U i).ι.opensRange = ⊤
+  · change ⨆ i, (U i).ι.opensRange = ⊤
     simp only [Scheme.Opens.opensRange_ι]
     exact hcover
 

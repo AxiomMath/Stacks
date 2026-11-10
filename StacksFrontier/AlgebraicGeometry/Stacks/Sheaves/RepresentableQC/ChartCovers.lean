@@ -175,11 +175,11 @@ theorem exists_finite_etale_covering (hp : p.IsFiberedInGroupoids)
       let c := L.map (eqToHom (IsHomLift.domain_eq q (h k) (φ k)))
       obtain ⟨d, rfl⟩ := (inferInstance : Surjective c).surj b
       refine ⟨k, d, ?_⟩
-      show (L.map (q.map (φ k ≫ g k))) d = _
+      change (L.map (q.map (φ k ≫ g k))) d = _
       rw [hmap k, L.map_comp, Scheme.Hom.comp_apply]
       rfl
     · intro k
-      show Etale (L.map (q.map (φ k ≫ g k)))
+      change Etale (L.map (q.map (φ k ≫ g k)))
       rw [hmap k, L.map_comp]
       have := het k
       change Etale (L.map (D.f k)) at this

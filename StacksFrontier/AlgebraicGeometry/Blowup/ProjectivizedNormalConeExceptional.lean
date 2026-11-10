@@ -109,7 +109,7 @@ theorem awayMk_eq_chartAwayMap_mul {b : R} (hb : b ∈ I) {m : ℕ} {c : reesAlg
         (((reesGradingZeroEquiv I b : reesGrading I 0) : reesAlgebra I) *
           ((reesGradingEquivPow I (m + 1) ⟨γ, hγ⟩ : reesGrading I (m + 1)) : reesAlgebra I)) := by
     refine Subtype.ext ?_
-    simp only [Subalgebra.coe_mul, OneMemClass.coe_one, one_mul, SubmonoidClass.coe_pow,
+    simp only [Subalgebra.coe_mul, one_mul, SubmonoidClass.coe_pow,
       coe_reesDegOne, coe_coe_reesGradingZeroEquiv, coe_reesGradingEquivPow, hcγ, monomial_pow,
       C_mul_monomial, monomial_mul_monomial]
     rw [show m + 1 + m = m + (m + 1) by omega]
@@ -149,16 +149,16 @@ theorem ker_awayMap_reesGradedToAssociatedGraded {b : R} (hb : b ∈ I) :
       apply HomogeneousLocalization.val_injective
       rw [Away.val_mk, Away.val_mk, Localization.mk_eq_mk_iff]
       refine Localization.r_of_eq ?_
-      show reesDegOne I hb ^ (k + n) * a = reesDegOne I hb ^ n * (reesDegOne I hb ^ k * a)
+      change reesDegOne I hb ^ (k + n) * a = reesDegOne I hb ^ n * (reesDegOne I hb ^ k * a)
       rw [pow_add]
       ring
     rw [hsame, awayMk_eq_chartAwayMap_mul I hb hc hγ (coe_eq_monomial I hcm)
-      (by simpa using (reesGradingEquivPow I (k + n + 1) ⟨_, hγ⟩).2)]
+      (by simp)]
     exact Ideal.mul_mem_right _ _ (Ideal.mem_span_singleton_self _)
   · rintro _ rfl
     have hb0 : ((reesGradingZeroEquiv I b : reesGrading I 0) : reesAlgebra I)
         ∈ reesGrading I (0 • 1) := by
-      simpa using (reesGradingZeroEquiv I b).2
+      simp
     have hmk : chartAwayMap I hb b = Away.mk (reesGrading I) hf 0
         ((reesGradingZeroEquiv I b : reesGrading I 0) : reesAlgebra I) hb0 := by
       apply HomogeneousLocalization.val_injective
@@ -168,7 +168,7 @@ theorem ker_awayMap_reesGradedToAssociatedGraded {b : R} (hb : b ∈ I) :
     refine (Stacks.AlgebraicGeometry.HomogeneousAwayMap.awayMk_mem_ker_awayMap_iff
       (reesGradedToAssociatedGraded I) hf 0 _ hb0).2 ⟨0, ?_⟩
     rw [pow_zero, one_mul, RingHom.mem_ker]
-    show reesToAssociatedGraded I
+    change reesToAssociatedGraded I
       ((reesGradingZeroEquiv I b : reesGrading I 0) : reesAlgebra I) = 0
     refine (reesToAssociatedGraded_eq_zero_iff_of_mem I
       (reesGradingZeroEquiv I b).2).2 ?_

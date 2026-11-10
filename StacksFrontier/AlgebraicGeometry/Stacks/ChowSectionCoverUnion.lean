@@ -137,7 +137,7 @@ theorem exists_section_union {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
   let PS : G ⟶ YS := Sigma.desc (fun k => (⟨p k⟩ : FS k ⟶ YS))
   have hιP : ∀ k, (ι k).hom ≫ PS.hom = p k := fun k =>
     congrArg (fun φ : FS k ⟶ YS => φ.hom)
-      (Sigma.ι_desc (f := FS) (fun k => (⟨p k⟩ : FS k ⟶ YS)) k)
+      (Sigma.ι_comp_desc (f := FS) (fun k => (⟨p k⟩ : FS k ⟶ YS)) k)
   have hPp : Space.IsProper B S hS PS.hom :=
     Space.isProper_of_isColimit_cofan B S hS ι hc (fun k => hY' k) hG hY PS.hom
       (fun k => by rw [hιP k]; exact hp k)
@@ -149,7 +149,7 @@ theorem exists_section_union {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     Space.isOpenSubspace_preimage B S hS (ι k).hom Wp hG (hY' k) hWp
   have hle : ∀ k, Wk k ≤ W.preimage (p k) := by
     intro k T y hy
-    show (p k).app T y ∈ W.obj T
+    change (p k).app T y ∈ W.obj T
     rwa [← hιP k]
   have hpre : ∀ k, Space.IsOpenSubspace B S hS (W.preimage (p k)) := fun k =>
     Space.isOpenSubspace_preimage B S hS (p k) W hY (hY' k) hW
@@ -192,7 +192,7 @@ theorem exists_section_union {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
       obtain ⟨t, rfl⟩ := hmem
       refine Set.mem_iUnion.2 ⟨k, t, ?_⟩
       refine Space.pointsMap_injective_of_mono B S hS Wp.ι ?_
-      show Space.pointsMap B S hS _ Wp.ι
+      change Space.pointsMap B S hS _ Wp.ι
         (Space.pointsMap B S hS _ (Wp.fromPreimage (ι k).hom) t) = _
       rw [← Space.pointsMap_comp_apply, Subfunctor.fromPreimage_ι, Space.pointsMap_comp_apply, hz']
   have hinj : ∀ (k : K) (V : BigFppfOver B S hS) (a a' : (T' k).obj.obj (op V)),
@@ -229,7 +229,7 @@ theorem exists_section_union {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
   refine ⟨G.obj, hG, PS.hom, hPp, Gx, ⟨eqToIso hGx⟩, fun k => ?_⟩
   rintro _ ⟨z₀, rfl⟩
   let z : Space.points B S hS (W.preimage (p k)).toFunctor := z₀
-  show Space.pointsMap B S hS (W.preimage (p k)).toFunctor ((W.preimage (p k)).ι ≫ p k) z ∈
+  change Space.pointsMap B S hS (W.preimage (p k)).toFunctor ((W.preimage (p k)).ι ≫ p k) z ∈
     Set.range (Space.pointsMap B S hS Wp.toFunctor (Wp.ι ≫ PS.hom))
   set t := Space.pointsMap B S hS _ (W.preimage (p k)).ι z
   have ht : Space.pointsMap B S hS _ (p k) t ∈

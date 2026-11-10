@@ -70,7 +70,7 @@ private lemma dividedPowerPolynomial_embed_mem_ideal
     DividedPowerAlgebra.embed B (T →₀ B) m ∈
       dividedPowerPolynomialIdeal B.ideal T := by
   apply Ideal.mem_sup_right
-  show (dividedPowerPolynomialAugmentation B T).toRingHom
+  change (dividedPowerPolynomialAugmentation B T).toRingHom
     (DividedPowerAlgebra.embed B (T →₀ B) m) = 0
   simp [dividedPowerPolynomialAugmentation,
     DividedPowerAlgebra.lift_embed_apply]
@@ -158,7 +158,7 @@ private lemma polynomialCoefficientChange_algebraMap
   let : Algebra B B' := φ.toRingHom.toAlgebra
   let : IsScalarTower B B' (DividedPowerAlgebra B' (T →₀ B')) :=
     IsScalarTower.of_algebraMap_eq fun _ => rfl
-  show (DividedPowerAlgebra.map B'
+  change (DividedPowerAlgebra.map B'
     (Finsupp.mapRange.linearMap (α := T) (Algebra.linearMap B B')))
       (algebraMap B (DividedPowerAlgebra B (T →₀ B)) b) = _
   rw [AlgHom.commutes, IsScalarTower.algebraMap_eq B B' (DividedPowerAlgebra B' (T →₀ B'))]
@@ -173,7 +173,7 @@ private lemma polynomialCoefficientChange_variable
   let : Algebra B B' := φ.toRingHom.toAlgebra
   let : IsScalarTower B B' (DividedPowerAlgebra B' (T →₀ B')) :=
     IsScalarTower.of_algebraMap_eq fun _ => rfl
-  show DividedPowerAlgebra.map B'
+  change DividedPowerAlgebra.map B'
     (Finsupp.mapRange.linearMap (α := T) (Algebra.linearMap B B'))
       (DividedPowerAlgebra.dp B 1 (Finsupp.single t 1)) = _
   rw [DividedPowerAlgebra.map_apply_dp]
@@ -234,10 +234,10 @@ public theorem polynomialCoefficientChange_isDPMorphism
   have hdp (n : ℕ) (m : T →₀ B) :
       qAlg (DividedPowerAlgebra.dp B n m) = α (DividedPowerAlgebra.dp B n m) := by
     rw [← setIndexedDividedPowerPolynomial_dpow_embed B T n m]
-    show q.toRingHom (δB.dpow n (DividedPowerAlgebra.embed B (T →₀ B) m)) = _
+    change q.toRingHom (δB.dpow n (DividedPowerAlgebra.embed B (T →₀ B) m)) = _
     rw [← q.dpow_comp (n := n) (DividedPowerAlgebra.embed B (T →₀ B) m)
       (dividedPowerPolynomial_embed_mem_ideal B T m)]
-    show δB'.dpow n (qAlg (DividedPowerAlgebra.embed B (T →₀ B) m)) =
+    change δB'.dpow n (qAlg (DividedPowerAlgebra.embed B (T →₀ B) m)) =
       α (δB.dpow n (DividedPowerAlgebra.embed B (T →₀ B) m))
     rw [hEmbed, setIndexedDividedPowerPolynomial_dpow_embed B T n m]
     have hmapm : Finsupp.mapRange.linearMap (α := T) (Algebra.linearMap B B') m =

@@ -81,7 +81,7 @@ def totalChernClassUnit (M : X.Modules) : (TotalChowClass C sX)ˣ :=
 theorem val_totalChernClassUnit (M : X.Modules)
     [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u} M] :
     (totalChernClassUnit C sX M : TotalChowClass C sX) = totalChernClassOfModule C sX M := by
-  rw [totalChernClassUnit, dif_pos
+  rw [totalChernClassUnit, dite_eq_left
     ‹Stacks.FiniteLocallyFree.IsFiniteLocallyFree.{u, u, u} (R := X.ringCatSheaf) M›]
   rfl
 
@@ -89,7 +89,7 @@ theorem val_totalChernClassUnit (M : X.Modules)
 theorem totalChernClassUnit_of_not (M : X.Modules)
     (hM : ¬ Stacks.FiniteLocallyFree.IsFiniteLocallyFree.{u, u, u} (R := X.ringCatSheaf) M) :
     totalChernClassUnit C sX M = 1 := by
-  rw [totalChernClassUnit, dif_neg hM]
+  rw [totalChernClassUnit, dite_eq_right hM]
 
 /-- Any two of the units `Stacks.Chow.totalChernClassUnit` commute. -/
 theorem totalChernClassUnit_commute (M N : X.Modules) :
@@ -157,7 +157,7 @@ theorem totalChernKGroupMap_classOf (E : X.Modules)
     totalChernKGroupMap C sX (VectorBundleKZero.classOf X E) = totalChernClassOfModule C sX E := by
   have h : totalChernKHom C sX (VectorBundleKZero.classOf X E) = totalChernKFun C sX E :=
     VectorBundleKZero.liftAddHom_classOf _ _ _ E
-  show (((Additive.toMul (totalChernKHom C sX (VectorBundleKZero.classOf X E)) :
+  change (((Additive.toMul (totalChernKHom C sX (VectorBundleKZero.classOf X E)) :
     totalChernUnitGroup C sX) : (TotalChowClass C sX)ˣ) : TotalChowClass C sX) = _
   rw [h]
   exact val_totalChernClassUnit C sX E
@@ -224,13 +224,13 @@ theorem eq_totalChernKGroupMap (c : VectorBundleKZero X → TotalChowClass C sX)
     | zero => exact h0.trans (totalChernKGroupMap_zero C sX).symm
     | of M => exact hgen M
     | neg M ih =>
-      show c (-VectorBundleKZero.classOf X M) =
+      change c (-VectorBundleKZero.classOf X M) =
         totalChernKGroupMap C sX (-VectorBundleKZero.classOf X M)
       refine left_inv_eq_right_inv (a := totalChernKGroupMap C sX (VectorBundleKZero.classOf X M))
         ?_ (totalChernKGroupMap_mul_neg C sX _)
       rw [← hgen, ← hadd, neg_add_cancel, h0]
     | add x y ihx ihy =>
-      show c (QuotientAddGroup.mk x + QuotientAddGroup.mk y) =
+      change c (QuotientAddGroup.mk x + QuotientAddGroup.mk y) =
         totalChernKGroupMap C sX (QuotientAddGroup.mk x + QuotientAddGroup.mk y)
       rw [hadd, totalChernKGroupMap_add]
       exact congrArg₂ (· * ·) ihx ihy

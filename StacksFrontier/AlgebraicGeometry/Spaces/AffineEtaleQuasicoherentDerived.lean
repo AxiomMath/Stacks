@@ -177,8 +177,10 @@ two hypotheses are supplied by `AlgebraicGeometry.Space.affineEtaleChaoticRinged
 @[stacks 0H06 "the equivalence of (3) D_QCoh(X_affine, O_X) and (4) QC(X_affine, O_X), \
 as an equality of the two conditions on an object of D(O_X) of the chaotic affine etale site"]
 theorem isQC_iff_hasQuasicoherentCohomology_affineEtaleChaotic
-    (bc : BaseChangeData.{w} (Stacks.SheafOfModules.Tensor.ringSheaf (affineEtaleChaoticRingedSite B S hS F hF).O).obj)
-    (K : DMod.{w} (Stacks.SheafOfModules.Tensor.ringSheaf (affineEtaleChaoticRingedSite B S hS F hF).O).obj) :
+    (bc : BaseChangeData.{w}
+      (Stacks.SheafOfModules.Tensor.ringSheaf (affineEtaleChaoticRingedSite B S hS F hF).O).obj)
+    (K : DMod.{w}
+      (Stacks.SheafOfModules.Tensor.ringSheaf (affineEtaleChaoticRingedSite B S hS F hF).O).obj) :
     IsQC.{w} bc K ↔
       hasQuasicoherentCohomology.{w} (affineEtaleChaoticRingedSite B S hS F hF) K :=
   isQC_iff_hasQuasicoherentCohomology.{w, u + 1, u, u + 1}
@@ -192,10 +194,12 @@ as equivalent ones. -/
 @[stacks 0H06 "the equivalence of (3) D_QCoh(X_affine, O_X) and (4) QC(X_affine, O_X), \
 as an equality of object properties on D(O_X) of the chaotic affine etale site"]
 theorem isQC_eq_hasQuasicoherentCohomology_affineEtaleChaotic
-    (bc : BaseChangeData.{w} (Stacks.SheafOfModules.Tensor.ringSheaf (affineEtaleChaoticRingedSite B S hS F hF).O).obj) :
+    (bc : BaseChangeData.{w}
+      (Stacks.SheafOfModules.Tensor.ringSheaf (affineEtaleChaoticRingedSite B S hS F hF).O).obj) :
     (fun K ↦ IsQC.{w} bc K :
         ObjectProperty (DMod.{w}
-          (Stacks.SheafOfModules.Tensor.ringSheaf (affineEtaleChaoticRingedSite B S hS F hF).O).obj)) =
+          (Stacks.SheafOfModules.Tensor.ringSheaf
+            (affineEtaleChaoticRingedSite B S hS F hF).O).obj)) =
       hasQuasicoherentCohomology.{w} (affineEtaleChaoticRingedSite B S hS F hF) := by
   funext K
   exact propext (isQC_iff_hasQuasicoherentCohomology_affineEtaleChaotic B S hS F hF bc K)
@@ -251,7 +255,8 @@ noncomputable abbrev affineEtaleRingRestriction :
 `Mod(𝒪_F) ⥤ Mod(F_{affine,étale}, 𝒪_F)` comparing the modules of category (1) with those of
 category (2). -/
 noncomputable def affineEtaleModuleRestriction :
-    SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O)) ⥤
+    SheafOfModules.{u}
+        ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O)) ⥤
       SheafOfModules.{u} (affineEtaleRingRestriction B S hS F hF) := by
   have hd : (AffineEtale.inclusion B S hS F).IsDenseSubsite
       (AffineEtale.topology B S hS F) (SmallEtale.topology B S hS F) :=
@@ -269,7 +274,8 @@ Stacks 04JS, with the abelian input supplied by
 `AlgebraicGeometry.Space.isEquivalence_affineEtaleRestriction_addCommGrpCat`.  Its underlying
 functor is `AlgebraicGeometry.Space.affineEtaleModuleRestriction`, by definition. -/
 noncomputable def affineEtaleModuleRestrictionEquivalence :
-    SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O)) ≌
+    SheafOfModules.{u}
+        ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O)) ≌
       SheafOfModules.{u} (affineEtaleRingRestriction B S hS F hF) := by
   have hd : (AffineEtale.inclusion B S hS F).IsDenseSubsite
       (AffineEtale.topology B S hS F) (SmallEtale.topology B S hS F) :=
@@ -302,7 +308,8 @@ inclusion is continuous and cocontinuous, and its localizations are dense subsit
 `Stacks.Sites.overPost_isDenseSubsite`, so the structure map of the comparison is the identity
 and no comparison of structure sheaves is involved. -/
 theorem isQuasicoherentOnSite_affineEtaleModuleRestriction
-    (M : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O)))
+    (M : SheafOfModules.{u}
+      ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O)))
     (hM : M.IsQuasicoherentOnSite) :
     ((affineEtaleModuleRestriction B S hS F hF).obj M).IsQuasicoherentOnSite := by
   have hd : (AffineEtale.inclusion B S hS F).IsDenseSubsite
@@ -364,7 +371,8 @@ equivalence preserving all limits and colimits, so
 `Stacks.DerivedQCoh.Equivalence.mapDerivedCategory` applies. -/
 noncomputable def affineEtaleDerivedRestrictionEquivalence :
     DerivedCategory
-        (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O))) ≌
+        (SheafOfModules.{u}
+          ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O))) ≌
       DerivedCategory (SheafOfModules.{u} (affineEtaleRingRestriction B S hS F hF)) :=
   have : (affineEtaleModuleRestrictionEquivalence B S hS F hF).functor.Additive :=
     additive_affineEtaleModuleRestriction B S hS F hF
@@ -394,7 +402,8 @@ theorem derivedCategoryB_isQuasicoherentOnSite_affineEtaleRestriction_iff
       ((affineEtaleModuleRestriction B S hS F hF).obj M).IsQuasicoherentOnSite →
         M.IsQuasicoherentOnSite)
     (K : DerivedCategory
-      (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O)))) :
+      (SheafOfModules.{u}
+        ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O)))) :
     DerivedCategoryB.derivedCategoryB
         (SheafOfModules.isQuasicoherentOnSite (affineEtaleRingRestriction B S hS F hF))
         ((affineEtaleDerivedRestrictionEquivalence B S hS F hF).functor.obj K) ↔

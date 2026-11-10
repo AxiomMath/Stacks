@@ -110,7 +110,7 @@ theorem uncurryComplex_apply
     (r s t : ℤ) (h : r + s = t) (x : A.X r) (y : P.X s) :
     (uncurryComplex f).f t ((ιTensorObj A P r s t h).hom (x ⊗ₜ[S] y)) =
       (((f.f r).hom x).v s t (by omega)).hom y := by
-  show (((((Stacks.HomComplex.Currying.curryIso A P M).hom.f 0).hom
+  change (((((Stacks.HomComplex.Currying.curryIso A P M).hom.f 0).hom
     (Cochain.ofHom f)).v t t (add_zero t)).hom
       ((ιTensorObj A P r s t h).hom (x ⊗ₜ[S] y))) = _
   have he := Stacks.HomComplex.Currying.curryIso_hom_apply A P M 0 r s t t h (add_zero t)
@@ -137,10 +137,10 @@ private theorem transpose_uncurryComplex
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro y
-  show (((Stacks.HomComplex.TensorHomMap.Phiv S A P n x).comp
+  change (((Stacks.HomComplex.TensorHomMap.Phiv S A P n x).comp
     (Cochain.ofHom (uncurryComplex f)) (add_zero n)).v r t hrt).hom y = _
   rw [Cochain.comp_zero_cochain_v, Cochain.ofHom_v]
-  show (uncurryComplex f).f t ((Stacks.HomComplex.TensorHomMap.Phiv S A P n x).v r t hrt y) = _
+  change (uncurryComplex f).f t ((Stacks.HomComplex.TensorHomMap.Phiv S A P n x).v r t hrt y) = _
   rw [phiv_v_apply]
   exact uncurryComplex_apply f n r t (by omega) x y
 
@@ -158,7 +158,7 @@ private theorem transpose_postcomp
   intro a
   apply Cochain.ext
   intro p q hpq
-  show (((Cochain.ofHom (𝟙 P)).comp
+  change (((Cochain.ofHom (𝟙 P)).comp
     (((Stacks.HomComplex.TensorHomMap.Phiv S A P n a).comp (Cochain.ofHom h) (add_zero n)).comp
       (Cochain.ofHom j) (add_zero n)) (zero_add n)).v p q hpq) =
     (((Stacks.HomComplex.TensorHomMap.Phiv S A P n a).comp (Cochain.ofHom (h ≫ j))
@@ -256,7 +256,7 @@ private theorem leftUnitor_inv_f_apply (P : CochainComplex (ModuleCat S) ℤ)
     (λ_ P).inv.f n x =
       (ιTensorObj (𝟙_ _) P 0 n n (zero_add n)).hom
         (((singleObjXSelf (ComplexShape.up ℤ) 0 (ModuleCat.of S S)).inv.hom (1 : S)) ⊗ₜ[S] x) := by
-  show (leftUnitor' P).inv n x = _
+  change (leftUnitor' P).inv n x = _
   rw [leftUnitor'_inv]
   simp only [ModuleCat.comp_apply, ModuleCat.MonoidalCategory.leftUnitor_inv_apply,
     ModuleCat.MonoidalCategory.whiskerRight_apply]
@@ -268,7 +268,7 @@ private theorem rightUnitor_inv_f_apply (P : CochainComplex (ModuleCat S) ℤ)
     (ρ_ P).inv.f n x =
       (ιTensorObj P (𝟙_ _) n 0 n (add_zero n)).hom
         (x ⊗ₜ[S] ((singleObjXSelf (ComplexShape.up ℤ) 0 (ModuleCat.of S S)).inv.hom (1 : S))) := by
-  show (rightUnitor' P).inv n x = _
+  change (rightUnitor' P).inv n x = _
   rw [rightUnitor'_inv]
   simp only [ModuleCat.comp_apply, ModuleCat.MonoidalCategory.rightUnitor_inv_apply,
     ModuleCat.MonoidalCategory.whiskerLeft_apply]
@@ -285,14 +285,14 @@ private theorem unitToEndComplex_apply
     let e := singleObjXSelf (ComplexShape.up ℤ) 0 (ModuleCat.of (ULift.{v} R) (ULift.{v} R))
     ((((unitToEndComplex (R := R)).f 0).hom (e.inv.hom 1)).v 0 0 (by omega)).hom x = x := by
   intro e
-  show (((Cochain.ofHom (𝟙 (unitComplex (R := R)))).comp
+  change (((Cochain.ofHom (𝟙 (unitComplex (R := R)))).comp
     ((Stacks.HomComplex.TensorHomMap.Phiv (ULift.{v} R) (unitComplex (R := R)) (unitComplex (R :=
       R)) 0
       (e.inv.hom 1)).comp (Cochain.ofHom (ρ_ (unitComplex (R := R))).hom) (add_zero 0))
         (zero_add 0)).v 0 0 (by omega)).hom x = x
   rw [Cochain.zero_cochain_comp_v, Cochain.ofHom_v, HomologicalComplex.id_f,
     Category.id_comp, Cochain.comp_zero_cochain_v, Cochain.ofHom_v]
-  show (ρ_ (unitComplex (R := R))).hom.f 0
+  change (ρ_ (unitComplex (R := R))).hom.f 0
     ((Stacks.HomComplex.TensorHomMap.Phiv (ULift.{v} R) (unitComplex (R := R)) (unitComplex (R :=
       R)) 0
       (e.inv.hom 1)).v 0 0 (by omega) x) = x
@@ -309,7 +309,7 @@ private theorem unitToEndComplex_apply
     simpa only [smul_eq_mul, mul_one] using (e.inv.hom.map_smul r (1 : ULift.{v} R))
   rw [hr, TensorProduct.tmul_smul, map_smul]
   rw [map_smul]
-  show r • (ρ_ (unitComplex (R := R))).hom.f 0
+  change r • (ρ_ (unitComplex (R := R))).hom.f 0
     ((ιTensorObj (unitComplex (R := R)) (unitComplex (R := R)) 0 0 0 _).hom
       (e.inv.hom 1 ⊗ₜ[ULift.{v} R] e.inv.hom 1)) = _
   rw [hi]
@@ -326,7 +326,7 @@ private theorem bidualityComplex_apply
   let e := singleObjXSelf (ComplexShape.up ℤ) 0 (ModuleCat.of S S)
   let one : U.X 0 := e.inv.hom 1
   let φ : Cochain U U 0 := ((unitToEndComplex (R := R)).f 0).hom one
-  show ((((ChainEvaluation.chainEvaluation P U U).f n).hom
+  change ((((ChainEvaluation.chainEvaluation P U U).f n).hom
     (((unitToEndComplex (R := R) ▷ P).f n).hom ((λ_ P).inv.f n x))).v
       (-n) 0 (by omega)).hom ψ = _
   rw [leftUnitor_inv_f_apply]
@@ -334,7 +334,7 @@ private theorem bidualityComplex_apply
     (unitToEndComplex (R := R)) P 0 n n (zero_add n)
   have ht' := ConcreteCategory.congr_hom ht (one ⊗ₜ[S] x)
   simp only [ModuleCat.comp_apply] at ht'
-  show ((((ChainEvaluation.chainEvaluation P U U).f n).hom
+  change ((((ChainEvaluation.chainEvaluation P U U).f n).hom
     (((unitToEndComplex (R := R) ▷ P).f n).hom
       ((ιTensorObj U P 0 n n (zero_add n)).hom (one ⊗ₜ[S] x)))).v (-n) 0 _).hom ψ = _
   erw [ht']
@@ -379,10 +379,10 @@ private theorem uncurryComplex_bidualityComplex
     intro x
     apply LinearMap.ext
     intro ψ
-    show (uncurryComplex (bidualityComplex P)).f 0
+    change (uncurryComplex (bidualityComplex P)).f 0
       ((ιTensorObj P _ p (-p) 0 _).hom (x ⊗ₜ[ULift.{v} R] ψ)) = _
     rw [uncurryComplex_apply, bidualityComplex_apply]
-    show _ = (uncurryComplex (𝟙 _)).f 0
+    change _ = (uncurryComplex (𝟙 _)).f 0
       ((Model.complexSwap (ULift.{v} R) P _).hom.f 0
         ((ιTensorObj P _ p (-p) 0 _).hom (x ⊗ₜ[ULift.{v} R] ψ)))
     rw [complexSwap_apply]
@@ -474,7 +474,7 @@ private theorem bidualityComplex_isIso
       rw [heE]
       rw [bidualityComplex_apply]
       simp only [Units.smul_def, map_zsmul]
-      show (n.negOnePow : ℤ) •
+      change (n.negOnePow : ℤ) •
         (singleObjXSelf (ComplexShape.up ℤ) 0 (ModuleCat.of S S)).hom.hom
           ((ψ.v n 0 _).hom x) = (n.negOnePow : ℤ) • (eP ψ) x
       exact congrArg ((n.negOnePow : ℤ) • ·) (heP ψ x).symm
@@ -508,7 +508,7 @@ theorem biduality_isIso
       (α.hom.op, 𝟙 (unitObject (R := R)))) :=
     (isIso_prod_iff _ _).mpr ⟨inferInstance, inferInstance⟩
   rw [← he]
-  show IsIso (i.hom ≫ DerivedCategory.Q.map (bidualityComplex P) ≫
+  change IsIso (i.hom ≫ DerivedCategory.Q.map (bidualityComplex P) ≫
     (p.iso (HomComplexR (ULift.{v} R) P (unitComplex (R := R)))
       (unitComplex (R := R)) bE).inv ≫
       D.hom.map (show (Opposite.op (DerivedCategory.Q.obj

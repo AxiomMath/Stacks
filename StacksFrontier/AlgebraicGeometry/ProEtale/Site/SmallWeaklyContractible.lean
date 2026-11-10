@@ -79,7 +79,7 @@ theorem SmallProetale.surjective_sections_of_isWContractible
       ⟨ULift.{u + 1} Empty, fun i ↦ i.down.elim, fun i ↦ i.down.elim⟩
     have hE : SmallProetale.IsCovering B S hS ⟨Z, E⟩ := by
       refine ⟨?_, ?_⟩
-      · show ((E.map Q).map B.inclusion).presieve₀ ∈ _
+      · change ((E.map Q).map B.inclusion).presieve₀ ∈ _
         apply Scheme.zariskiPrecoverage_le_propQCPrecoverage
         rw [Scheme.zariskiPrecoverage, Scheme.presieve₀_mem_precoverage_iff]
         exact ⟨fun x ↦ (hZ.false x).elim, fun i ↦ i.down.elim⟩
@@ -110,7 +110,7 @@ theorem SmallProetale.surjective_sections_of_isWContractible
     let F : PreZeroHypercover.{u + 1} U :=
       ⟨ULift.{u + 1} (Fin n), fun i ↦ X i.down, fun i ↦ f i.down⟩
     have hF : B.IsProetaleCovering ⟨Q.obj U, F.map Q⟩ := by
-      show ((F.map Q).map B.inclusion).presieve₀ ∈ _
+      change ((F.map Q).map B.inclusion).presieve₀ ∈ _
       apply Scheme.zariskiPrecoverage_le_propQCPrecoverage
       rw [Scheme.zariskiPrecoverage, Scheme.presieve₀_mem_precoverage_iff]
       refine ⟨fun x ↦ ?_, fun i ↦ ?_⟩
@@ -118,9 +118,9 @@ theorem SmallProetale.surjective_sections_of_isWContractible
           (Set.ext_iff.mp hdec.cover x).mpr (Set.mem_univ x)
         obtain ⟨i, y, hy⟩ := Set.mem_iUnion.mp hx
         refine ⟨ULift.up i, y, ?_⟩
-        show (B.inclusion.map (Q.map (f i))).base y = x
+        change (B.inclusion.map (Q.map (f i))).base y = x
         rwa [hQf]
-      · show IsOpenImmersion (B.inclusion.map (Q.map (f i.down)))
+      · change IsOpenImmersion (B.inclusion.map (Q.map (f i.down)))
         rw [hQf]; exact hdec.openImmersion i.down
     have hFQfin : Finite (F.map Q).I₀ := inferInstanceAs (Finite (ULift.{u + 1} (Fin n)))
     obtain ⟨ι, hfin, a, ha, -⟩ := B.exists_finite_restrictIndex_covering (F.map Q) hF
@@ -133,17 +133,17 @@ theorem SmallProetale.surjective_sections_of_isWContractible
       obtain ⟨i, c, hc⟩ := (Sieve.mem_ofArrows_iff _ _ _).mp hb
       exact (Sieve.mem_ofArrows_iff _ _ _).mpr ⟨i.down, c, hc⟩
     refine ⟨n, X, f, ?_, hcover, fun i ↦ ?_⟩
-    · show IsClopenDecompositionCover (fun i ↦ (V i).obj)
+    · change IsClopenDecompositionCover (fun i ↦ (V i).obj)
         (fun i ↦ B.inclusion.map (Q.map (f i)))
       simpa only [hQf] using hdec
     · obtain ⟨Z, c₁, c₂, hc₁, hc₂⟩ := href i
       let c : X i ⟶ Z := I.preimage (Over.homMk c₂ (by
         have hw : Q.map c₁ ≫ U.obj.hom = Z.obj.hom := Over.w (I.map c₁)
-        show c₂ ≫ Z.obj.hom = g i ≫ U.obj.hom
+        change c₂ ≫ Z.obj.hom = g i ≫ U.obj.hom
         rw [← hw, ← Category.assoc, ← hc₂]))
       have hc : c ≫ c₁ = f i := by
         refine I.map_injective (q.map_injective ?_)
-        show Q.map c ≫ Q.map c₁ = Q.map (f i)
+        change Q.map c ≫ Q.map c₁ = Q.map (f i)
         rw [hQf, show Q.map c = c₂ from forget_map_preimage_homMk B S hS (X i) Z c₂ _]
         exact hc₂.symm
       exact hc ▸ T.downward_closed hc₁ c
@@ -193,7 +193,7 @@ theorem SmallProetale.hasEnoughObjects_isWContractible :
           ((PreZeroHypercover.singleton g).map B.inclusion).presieve₀ := by
         simp only [PreZeroHypercover.presieve₀_map, PreZeroHypercover.presieve₀_singleton,
           Presieve.map_singleton, hQw]
-      show ((((PreZeroHypercover.singleton w).map I).map
+      change ((((PreZeroHypercover.singleton w).map I).map
         (BigProetaleOver.forget B T.obj T.property)).map B.inclusion).presieve₀ ∈ _
       rw [hpre]
       exact hcov.1

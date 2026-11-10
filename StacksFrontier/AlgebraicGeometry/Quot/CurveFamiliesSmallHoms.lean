@@ -71,7 +71,7 @@ theorem shrinkHomsFunctor_comp_curvesSmallProjection :
     ShrinkHoms.functor (CurveFamily B hZ) ⋙ curvesSmallProjection B hZ =
       curvesProjectionOver B hZ :=
   CategoryTheory.Functor.ext (fun _ => rfl) (fun X Y f => by
-    show (curvesProjectionOver B hZ).map ((equivShrink (X ⟶ Y)).symm (equivShrink (X ⟶ Y) f)) =
+    change (curvesProjectionOver B hZ).map ((equivShrink (X ⟶ Y)).symm (equivShrink (X ⟶ Y) f)) =
       _
     rw [Equiv.symm_apply_apply]
     exact (Category.comp_id _).symm.trans (Category.id_comp _).symm)

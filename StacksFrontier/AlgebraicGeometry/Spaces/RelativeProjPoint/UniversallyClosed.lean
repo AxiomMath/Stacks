@@ -78,7 +78,7 @@ theorem universallyClosed_π
     (hft : s.HoldsAtEtalePoints SheafGradedAlgebra.IsFiniteTypeOverDegreeZero) :
     UniversallyClosed s.site s.base s.containsBase s.π.hom := by
   rw [s.π_hom]
-  obtain ⟨T, g, hgEt, hgSurj⟩ := s.relativeProjPoints.exists_etalePoint s.space.property
+  obtain ⟨T, g, hgEt, hgSurj⟩ := RelativeProjPoints.exists_etalePoint s.space.property
   exact s.relativeProjPoints.universallyClosed_of_etalePoint s.space.property T g hgEt hgSurj
     (Stacks.AlgebraicGeometry.RelativeProjUniversallyClosed.universallyClosed_toBase _
       (hint T g hgEt) (hft T g hgEt))

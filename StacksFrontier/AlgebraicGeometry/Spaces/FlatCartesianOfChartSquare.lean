@@ -83,7 +83,7 @@ theorem isFlat_and_isPullback_of_chartSquare
     exact IsPullback.of_map_of_faithful (BigFppfOver.toScheme B S hS) hpb
   have h1 : X.1.ι ≫ g.hom = f.hom ≫ Y.1.ι := congrArg (fun m => m.hom) hsq
   have hle : X.1 ≤ Y.1.preimage g.hom := fun T x hx => by
-    show g.hom.app T x ∈ Y.1.obj T
+    change g.hom.app T x ∈ Y.1.obj T
     rw [show g.hom.app T x = (f.hom.app T ⟨x, hx⟩).1 from
       ConcreteCategory.congr_hom (congr_app h1 T) ⟨x, hx⟩]
     exact (f.hom.app T ⟨x, hx⟩).2
@@ -107,7 +107,7 @@ theorem isFlat_and_isPullback_of_chartSquare
     refine ⟨p.app (Opposite.op T') w, Subtype.ext ?_⟩
     have h3 := ConcreteCategory.congr_hom (congr_app hpU.w (Opposite.op T')) w
     change (p.app (Opposite.op T') w).1 = a'.app (Opposite.op T') (w ≫ j) at h3
-    show (p.app (Opposite.op T') w).1 = X'.1.map e.op s.1
+    change (p.app (Opposite.op T') w).1 = X'.1.map e.op s.1
     rw [h3, hpbB.lift_fst]
     exact hu
   have hiso : IsIso φ := by

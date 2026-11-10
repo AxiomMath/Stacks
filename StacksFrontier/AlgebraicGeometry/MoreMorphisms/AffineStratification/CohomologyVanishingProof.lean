@@ -18,8 +18,8 @@ public import StacksFrontier.AlgebraicGeometry.QcohLimits.Basic
 On a nonempty quasi-compact quasi-separated scheme `X` with affine stratification number `n` the
 cohomology `Hᵖ(X, F)` of a quasi-coherent `𝒪_X`-module vanishes for `p > n`. This file carries
 out the cohomological dévissage of the source's induction, so that the two conditions the
-induction was assembled from in
-`StacksFrontier/AlgebraicGeometry/MoreMorphisms/AffineStratification/CohomologyVanishingDevissage.lean`
+induction was assembled from in the module
+`StacksFrontier.AlgebraicGeometry.MoreMorphisms.AffineStratification.CohomologyVanishingDevissage`
 are discharged and the vanishing holds outright.
 
 ## Main results
@@ -102,8 +102,10 @@ theorem isZero_hgroup_pushforward_isAffineOpen {X : Scheme.{u}} (U : X.Opens)
     (isAffineOpen_top U.toScheme) p hp).of_iso
       (Stacks.AffineCohomologyPushforward.cohomologyPushforwardIsoApp U.ι p G).symm
 
-set_option maxHeartbeats 800000 in
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for kernels and cokernels in `X.Modules` is expensive
+set_option maxHeartbeats 800000 in
+-- kernel, cokernel and unit/counit instances of the restriction adjunction on `X.Modules`
 /-- **The kernel and the cokernel of the unit `F ⟶ j_*(F|_U)` are supported in the complement of
 `U`.** The unit restricts to an isomorphism over `U`, by the triangle identity and the
 invertibility of the counit of the restriction-pushforward adjunction, so both its kernel and its

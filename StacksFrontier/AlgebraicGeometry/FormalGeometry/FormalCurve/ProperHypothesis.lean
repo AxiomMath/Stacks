@@ -96,24 +96,24 @@ instance isIso_adicThickeningSucc_field (n : ℕ) :
   exact inferInstanceAs (IsIso (Spec.map _))
 
 /-- The constant tower of affine lines over the thickenings of a field. -/
-abbrev lineTower (n : ℕ) : Scheme.{u} := Spec (.of (Polynomial k))
+abbrev lineTower : Scheme.{u} := Spec (.of (Polynomial k))
 
 /-- Its structure maps. -/
-def lineTowerHom (n : ℕ) : lineTower k n ⟶ adicThickening k (maximalIdeal k) n :=
+def lineTowerHom (n : ℕ) : lineTower k ⟶ adicThickening k (maximalIdeal k) n :=
   Spec.map (CommRingCat.ofHom (lineStructureMap k n))
 
 /-- The constant tower of affine lines is cartesian: each square formed by the identity of
-`lineTower k n`, the structure morphisms and `adicThickeningSucc` is a pullback. -/
+`lineTower k`, the structure morphisms and `adicThickeningSucc` is a pullback. -/
 lemma isPullback_lineTower (n : ℕ) :
-    IsPullback (𝟙 (lineTower k n)) (lineTowerHom k n) (lineTowerHom k (n + 1))
+    IsPullback (𝟙 (lineTower k)) (lineTowerHom k n) (lineTowerHom k (n + 1))
       (adicThickeningSucc k (maximalIdeal k) n) := by
   refine IsPullback.of_horiz_isIso ⟨?_⟩
   rw [Category.id_comp, lineTowerHom, lineTowerHom, adicThickeningSucc, ← Spec.map_comp,
     ← CommRingCat.ofHom_comp, lineStructureMap_comp]
 
-/-- The affine line `lineTower k 0` over a field has dimension at most one. -/
-lemma topologicalKrullDim_lineTower : topologicalKrullDim (lineTower k 0 : Type u) ≤ 1 := by
-  show topologicalKrullDim (PrimeSpectrum (Polynomial k)) ≤ 1
+/-- The affine line `lineTower k` over a field has dimension at most one. -/
+lemma topologicalKrullDim_lineTower : topologicalKrullDim (lineTower k : Type u) ≤ 1 := by
+  change topologicalKrullDim (PrimeSpectrum (Polynomial k)) ≤ 1
   rw [PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim]
   refine Polynomial.ringKrullDim_le.trans ?_
   rw [ringKrullDim_eq_zero_of_field]
@@ -129,8 +129,8 @@ theorem not_formalCurveAlgebraizationWithoutProperness :
     ¬ FormalCurveAlgebraizationWithoutProperness.{u} := by
   intro h
   let k := ULift.{u} ℚ
-  obtain ⟨X, fX, hfX, kk, -, hpb⟩ := h k (lineTower k) (lineTowerHom k) (fun _ => 𝟙 _)
-    (isPullback_lineTower k) (topologicalKrullDim_lineTower k)
+  obtain ⟨X, fX, hfX, kk, -, hpb⟩ := h k (Function.const ℕ (lineTower k)) (lineTowerHom k)
+    (fun _ => 𝟙 _) (isPullback_lineTower k) (topologicalKrullDim_lineTower k)
   have : IsProper fX := hfX.isProper
   have : IsProper (lineTowerHom k 0) :=
     MorphismProperty.IsStableUnderBaseChange.of_isPullback (hpb 0) inferInstance

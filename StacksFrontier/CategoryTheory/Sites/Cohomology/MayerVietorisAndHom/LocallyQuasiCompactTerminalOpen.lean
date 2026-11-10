@@ -96,7 +96,7 @@ theorem qcSite_toTop_locallyCoverDense
     have : LocallyCompactSpace W := hpOpen.locallyCompactSpace
     let Y : LocallyQuasiCompactHausdorff := ⟨W, ⟨inferInstance, inferInstance⟩⟩
     have hsize : lcSize Y < S.qcSite.cutoff := by
-      show Cardinal.mk W < S.qcSite.cutoff
+      change Cardinal.mk W < S.qcSite.cutoff
       exact (Cardinal.mk_le_of_injective hpOpen.injective).trans_lt X.property
     let Z : S.category := ⟨Y, hsize⟩
     let p' : locallyQuasiCompactHausdorffToTop.obj (S.qcSite.inclusion.obj Z) ⟶
@@ -105,7 +105,7 @@ theorem qcSite_toTop_locallyCoverDense
       locallyQuasiCompactHausdorffToTop.preimage p'
     let f : Z ⟶ X := S.qcSite.inclusion.preimage fLC
     have hmap : E.map f = p := by
-      show locallyQuasiCompactHausdorffToTop.map
+      change locallyQuasiCompactHausdorffToTop.map
           (S.qcSite.inclusion.map (S.qcSite.inclusion.preimage
             (locallyQuasiCompactHausdorffToTop.preimage p'))) = p
       rw [S.qcSite.inclusion.map_preimage]

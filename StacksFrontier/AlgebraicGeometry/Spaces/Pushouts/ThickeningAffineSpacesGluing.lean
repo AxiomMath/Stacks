@@ -154,7 +154,7 @@ theorem sourceMap_isPullback {X X' Y : C} (i : X ⟶ X') (f : X ⟶ Y) (T : Glui
       pullback.snd T.obj.right.hom i := (inv T.obj.hom).w
   apply IsPullback.of_iso_pullback _ e rfl hs
   constructor
-  show (e.hom ≫ pullback.fst T.obj.left.hom f) ≫ T.obj.left.hom = _
+  change (e.hom ≫ pullback.fst T.obj.left.hom f) ≫ T.obj.left.hom = _
   rw [Category.assoc, pullback.condition, ← Category.assoc, hs]
 
 /-- The object glued from a compatible pair `(V, U', φ)`: the pushout `V ⨿_U U'`, where
@@ -186,7 +186,7 @@ theorem gluedObj_inl {X X' Y Y' : C} (i : X ⟶ X') (f : X ⟶ Y)
     pushout.inl (pullback.fst T.obj.right.hom i) (sourceMap i f T) ≫
         (gluedObj i f w T).hom = T.obj.right.hom ≫ a := by
   dsimp [gluedObj]
-  simp [pushout.inl_desc]
+  simp
 
 /-- On `V` the structure morphism of the glued object is the given morphism `V ⟶ Y` followed by
 `Y ⟶ Y'`. -/
@@ -196,7 +196,7 @@ theorem gluedObj_inr {X X' Y Y' : C} (i : X ⟶ X') (f : X ⟶ Y)
     pushout.inr (pullback.fst T.obj.right.hom i) (sourceMap i f T) ≫
         (gluedObj i f w T).hom = T.obj.left.hom ≫ b := by
   dsimp [gluedObj]
-  simp [pushout.inr_desc]
+  simp
 
 /-- The morphism of glued objects induced by a morphism of compatible pairs, by the universal
 property of the pushout. -/
@@ -367,7 +367,7 @@ private theorem comparison_fst_iff {X X' Y Y' : C} (i : X ⟶ X') (f : X ⟶ Y)
   have : IsIso T.obj.hom.left := inferInstanceAs (IsIso ((Over.forget _).map T.obj.hom))
   rw [← cancel_epi T.obj.hom.left, ← Category.assoc, ← Category.assoc,
     hom_left_comp_sourceMap]
-  simp [baseChangeComparison_fst, pullback.lift_fst_assoc]
+  simp [baseChangeComparison_fst]
 
 /-- A morphism of compatible pairs from `(V, U', φ)` into the base change of an object `Z` over
 `Y'`, built from a morphism `V ⟶ Z` and a morphism `U' ⟶ Z` over `Y ⟶ Y'` and `X' ⟶ Y'` which

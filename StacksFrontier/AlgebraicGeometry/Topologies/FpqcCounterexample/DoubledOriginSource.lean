@@ -152,7 +152,7 @@ private lemma origin_eq_of_variables_mem (S : DoubledOriginSource.{u})
     (hp : ∀ i, MvPolynomial.X i ∈ p.asIdeal) :
     p = S.origin := by
   apply PrimeSpectrum.ext
-  show p.asIdeal = (DoubledOriginSource.origin S).asIdeal
+  change p.asIdeal = (DoubledOriginSource.origin S).asIdeal
   simp only [DoubledOriginSource.origin, PrimeSpectrum.comap_asIdeal,
     IsLocalRing.PrimeSpectrum.asIdeal_top, IsLocalRing.maximalIdeal_eq_bot,
     ← RingHom.ker_eq_comap_bot]
@@ -168,7 +168,7 @@ private lemma origin_eq_of_variables_mem (S : DoubledOriginSource.{u})
 private lemma punctured_of_ne_origin (S : DoubledOriginSource.{u})
     (x : S.affine) (hx : x ≠ S.origin) :
     x ∈ puncturedInfiniteAffineSpace S.k := by
-  show x ∈ ⨆ i : ℕ,
+  change x ∈ ⨆ i : ℕ,
     S.affine.basicOpen ((Scheme.ΓSpecIso (.of (MvPolynomial ℕ S.k))).inv (MvPolynomial.X i))
   rw [TopologicalSpace.Opens.mem_iSup]
   by_contra! h
@@ -233,7 +233,7 @@ public theorem surjective_map (S : DoubledOriginSource.{u}) :
   set y' : S.affine := (S.gluing.chartIso i).hom y with hy'
   have hinl : S.firstChart y' = x → ∃ a, S.map a = x := fun h => by
     refine ⟨(coprod.inl : S.affine ⟶ S.source) y', ?_⟩
-    show (coprod.inl ≫ S.map) y' = x
+    change (coprod.inl ≫ S.map) y' = x
     rw [DoubledOriginSource.map, coprod.inl_desc]
     exact h
   rcases hi with rfl | rfl
@@ -241,12 +241,12 @@ public theorem surjective_map (S : DoubledOriginSource.{u}) :
   · by_cases hyOrigin : y' = S.origin
     · refine ⟨(coprod.inr : Spec (.of (S.affine.presheaf.stalk S.origin)) ⟶ S.source)
         (IsLocalRing.closedPoint _), ?_⟩
-      show (coprod.inr ≫ S.map) (IsLocalRing.closedPoint _) = x
+      change (coprod.inr ≫ S.map) (IsLocalRing.closedPoint _) = x
       rw [DoubledOriginSource.map, coprod.inr_desc]
-      show S.secondChart (S.affine.fromSpecStalk S.origin
+      change S.secondChart (S.affine.fromSpecStalk S.origin
         (IsLocalRing.closedPoint _)) = x
       rw [Scheme.fromSpecStalk_closedPoint]
-      show (S.gluing.chart 1) S.origin = x
+      change (S.gluing.chart 1) S.origin = x
       rw [← hyOrigin]
       exact hchart
     · exact hinl ((charts_agree_on_punctured S y' (punctured_of_ne_origin S y' hyOrigin)).trans

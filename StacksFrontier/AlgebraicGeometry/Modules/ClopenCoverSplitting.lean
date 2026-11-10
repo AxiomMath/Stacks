@@ -75,7 +75,7 @@ def clopenCover (U : X.Opens) (hU : IsOpen ((U : Set X)ᶜ)) : Scheme.OpenCover.
 theorem clopenCover_f_mem (U : X.Opens) (hU : IsOpen ((U : Set X)ᶜ)) (b : Bool)
     (y : (clopenCover U hU).X b) :
     (clopenCover U hU).f b y ∈ (clopenPart U hU b : Set X) := by
-  show (clopenPart U hU b).ι y ∈ (clopenPart U hU b : Set X)
+  change (clopenPart U hU b).ι y ∈ (clopenPart U hU b : Set X)
   rw [← Scheme.Opens.range_ι]
   exact ⟨y, rfl⟩
 

@@ -180,7 +180,7 @@ theorem withSectionGeneratorsL_ratioL_eq_one (hs : s ≠ 0) (i : ℱ.Index)
     (hξ : ¬ Stacks.Divisors.zeroScheme X L s ≤ integralComponentAt (ℱ.componentPoint i)) :
     (ℱ.withSectionGeneratorsL s).ratioL i = 1 := by
   refine ((ℱ.withSectionGeneratorsL s).ratioL_eq_one_iff i).mpr ?_
-  show toGenericStalk L (ℱ.componentPoint i) (gysinGenerator L s (ℱ.componentPoint i)) =
+  change toGenericStalk L (ℱ.componentPoint i) (gysinGenerator L s (ℱ.componentPoint i)) =
     ℱ.sectionL
   rw [gysinGenerator_eq_germ L s hs hξ,
     toGenericStalk_germ (Opens.mem_top (ℱ.componentPoint i)) (Opens.mem_top (genericPoint X))]
@@ -220,7 +220,7 @@ and the component comparison of Stacks 02T8, whose witnesses lie inside `Z_i ∩
 only carriers inside `D`; see the module documentation. -/
 theorem isRationallyEquivalentToZeroWithin_properPushforward_gysinCycle_sub
     (hn : schemeDeltaDimension C p = ((k + 2 : ℤ) : EInt))
-    (s : Γ(L, ⊤)) (hs : s ≠ 0) (ℱ : KeyFormulaSituation L N)
+    (s : Γ(L, ⊤)) (ℱ : KeyFormulaSituation L N)
     (hratio : ∀ i, ¬ Stacks.Divisors.zeroScheme X L s ≤
       integralComponentAt (ℱ.componentPoint i) → ℱ.ratioL i = 1)
     (hgenL : ∀ i, ¬ Stacks.Divisors.zeroScheme X L s ≤
@@ -345,12 +345,12 @@ theorem isRationallyEquivalentToZeroWithin_properPushforward_gysinCycle_sub
   have hleft : ∀ y : X, (ℱ.toKeyFormulaData C p).leftCoeff C p y =
       ∑ᶠ i : ℱ.Index, (ℱ.orderL i * (dvN i).1 y - ℱ.orderN i * (dvL i).1 y) := by
     intro y
-    show ∑ᶠ i : ℱ.Index, closedSubschemeCyclePushforward C p
+    change ∑ᶠ i : ℱ.Index, closedSubschemeCyclePushforward C p
       (integralComponentAt (ℱ.componentPoint i))
       ((ℱ.toKeyFormulaData C p).componentDifference i) y = _
     refine finsum_congr fun i ↦ ?_
     rw [hcd i]
-    show (properPushforward C ((integralComponentAt (ℱ.componentPoint i)).subschemeι ≫ p) p
+    change (properPushforward C ((integralComponentAt (ℱ.componentPoint i)).subschemeι ≫ p) p
       (integralComponentAt (ℱ.componentPoint i)).subschemeι rfl k
       (ℱ.orderL i • chernCycleOfRestrictedStalk C p k N
           (integralComponentAt (ℱ.componentPoint i)) (isIntegral_integralComponentAt _)
@@ -400,7 +400,7 @@ theorem isRationallyEquivalentToZeroWithin_properPushforward_gysinCycle_sub
       rfl
     · have hzs : ∀ i : ℱ.Index, ((ℱ.orderN i • (gc i - dvL i) : CycleGroup C p k)).1 y =
           ℱ.orderN i * ((gc i).1 y - (dvL i).1 y) := fun _ ↦ rfl
-      show (properPushforward C ((Stacks.Divisors.zeroScheme X L s).subschemeι ≫ p) p
+      change (properPushforward C ((Stacks.Divisors.zeroScheme X L s).subschemeι ≫ p) p
         (Stacks.Divisors.zeroScheme X L s).subschemeι rfl k β).1 y - δ.1 y + α.1 y = _
       have hdvsupp : ∀ i, Function.support (fun y ↦ (dvL i).1 y) ⊆
           ((integralComponentAt (ℱ.componentPoint i)).support : Set X) := fun i ↦ hsuppdv i _

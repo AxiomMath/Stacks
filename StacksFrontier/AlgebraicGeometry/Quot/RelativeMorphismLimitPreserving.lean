@@ -562,7 +562,7 @@ theorem limitPreserving_homFromBaseChange (hX : IsAlgebraicSpace B S hS X)
     rw [Category.assoc, Category.assoc, h]
   · intro V b
     apply Subtype.ext
-    show baseChangePrecompMap (yoneda.map s') (yoneda.map u) (yoneda.map ρ) hsρ V.unop ≫
+    change baseChangePrecompMap (yoneda.map s') (yoneda.map u) (yoneda.map ρ) hsρ V.unop ≫
         pm V.unop ≫ b.1 =
       baseChangePrecompMap (yoneda.map t') (yoneda.map u) (yoneda.map ρ) htρ V.unop ≫
         pm V.unop ≫ b.1
@@ -643,7 +643,7 @@ theorem limitPreserving_homFromBaseChange (hX : IsAlgebraicSpace B S hS X)
       rw [← Category.assoc, hd, Category.assoc, ξ.2]
       simp only [p, pm, V₀, Category.assoc, baseChangePrecompMap_snd_assoc]
     · apply Subtype.ext
-      show pm V₀ ≫ d = ξ.1
+      change pm V₀ ≫ d = ξ.1
       rw [← cancel_epi (e V₀).hom, ← Category.assoc]
       exact hd
 
@@ -778,10 +778,10 @@ theorem isIso_homFromBaseChangeToSectionFiber {A : BigFppfOver B S hS} (a : yone
         simp [pullback.congrHom_inv]
       · apply ULift.ext
         apply Subtype.ext
-        show relativeHomOfHomFromBaseChange z x hZ hX hQ a V.unop _ = w.1
+        change relativeHomOfHomFromBaseChange z x hZ hX hQ a V.unop _ = w.1
         rw [relativeHomOfHomFromBaseChange, Equiv.symm_apply_eq]
         refine RelativeMorphism.ext_of_base_eq hbase.symm ?_
-        show (pullbackRightPullbackFstIso a z (yoneda.map V.unop.hom)).inv ≫
+        change (pullbackRightPullbackFstIso a z (yoneda.map V.unop.hom)).inv ≫
             (pullbackRightPullbackFstIso a z (yoneda.map V.unop.hom)).hom ≫
             (pullback.congrHom hbase rfl).inv ≫ P.morphism =
           (pullback.congrHom hbase.symm rfl).hom ≫ P.morphism

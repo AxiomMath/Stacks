@@ -137,7 +137,7 @@ theorem exists_eq_comp_map₂ (φ : W ⟶ F.obj B₂) (hφ : φ ≫ F.map g = 0)
 theorem exists_eq_comp_map₃ (φ : W ⟶ F.obj B₃) (hφ : φ ≫ F.map h = 0) :
     ∃ ψ : W ⟶ F.obj B₂, φ = ψ ≫ F.map g :=
   Triangle.coyoneda_exact₃ _ (F.map_distinguished _ hT) φ (by
-    show φ ≫ F.map h ≫ (F.commShiftIso (1 : ℤ)).hom.app B₁ = 0
+    change φ ≫ F.map h ≫ (F.commShiftIso (1 : ℤ)).hom.app B₁ = 0
     rw [← Category.assoc, hφ, zero_comp])
 
 /-- Exactness of `Hom(W, F(-))` at `F(B₁⟦1⟧)` for a distinguished triangle. -/

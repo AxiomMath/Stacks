@@ -231,7 +231,7 @@ lemma liftedFamily_compatible {X : Cᵒᵖ} (a : R'.obj.obj X) (m : G.val.obj X)
       (Presheaf.localPreimage α.hom a g hg)
     simp only [ConcreteCategory.comp_apply] at h3
     rw [h3, h1, h2, op_comp, R'.obj.map_comp, ConcreteCategory.comp_apply]
-  show Presheaf.localPreimage α.hom a (h ≫ g) _ • sectionRestrict G m (h ≫ g) =
+  change Presheaf.localPreimage α.hom a (h ≫ g) _ • sectionRestrict G m (h ≫ g) =
     sectionRestrict G (Presheaf.localPreimage α.hom a g hg • sectionRestrict G m g) h
   rw [sectionRestrict_smul, sectionRestrict_sectionRestrict]
   exact (smul_eq_of_app_eq α G hG hb _).symm

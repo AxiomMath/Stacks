@@ -98,7 +98,7 @@ theorem RingHom.Etale.existsUnique_lift_of_isLocallyNilpotent {Q T R R₀ : Type
   let g : T →ₐ[Q] R ⧸ RingHom.ker φ :=
     { toRingHom := (e.symm : R₀ →+* _).comp α
       commutes' := fun q ↦ by
-        show e.symm (α (ψ q)) = Ideal.Quotient.mk _ (β q)
+        change e.symm (α (ψ q)) = Ideal.Quotient.mk _ (β q)
         rw [show α (ψ q) = φ (β q) from RingHom.congr_fun h q, e.symm_apply_eq, he] }
   obtain ⟨l, hl, hu⟩ := Algebra.Etale.existsUnique_lift_of_isLocallyNilpotent hn g
   have hφl : ∀ t, φ (l t) = α t := fun t ↦ by
@@ -110,7 +110,7 @@ theorem RingHom.Etale.existsUnique_lift_of_isLocallyNilpotent {Q T R R₀ : Type
   have : L = l := hu L (by
     ext t
     apply e.injective
-    show e (Ideal.Quotient.mk _ (l' t)) = e (e.symm (α t))
+    change e (Ideal.Quotient.mk _ (l' t)) = e (e.symm (α t))
     rw [he, RingEquiv.apply_symm_apply]
     exact RingHom.congr_fun h₂ t)
   exact congrArg AlgHom.toRingHom this
@@ -198,7 +198,7 @@ morphisms of the underlying schemes included in the site. -/
 private theorem toScheme_map_comp_inclusion_map_hom {𝔅 : BigFppfSite.{u}} {S : Scheme.{u}}
     {hS : 𝔅.Contains S} {Z V : BigFppfOver 𝔅 S hS} (q : Z ⟶ V) :
     (BigFppfOver.toScheme 𝔅 S hS).map q ≫ 𝔅.inclusion.map V.hom = 𝔅.inclusion.map Z.hom := by
-  show 𝔅.inclusion.map q.left ≫ _ = _
+  change 𝔅.inclusion.map q.left ≫ _ = _
   rw [← 𝔅.inclusion.map_comp, Over.w q]
 
 /-- **Unique lifting along a thickening, in the big fppf site.** The morphisms of the site of
@@ -516,7 +516,7 @@ theorem hom_ext_of_stageBaseChange (hc : IsUniversalColimit c) (i₀ : I) {l₁ 
     (h₁ : l₁ ≫ y = x) (h₂ : l₂ ≫ y = x)
     (h : pullback.snd (c.ι.app i₀) x ≫ l₁ = pullback.snd (c.ι.app i₀) x ≫ l₂) : l₁ = l₂ := by
   refine (isColimitBaseChangeCocone c x hc).hom_ext fun j ↦ ?_
-  show pullback.snd (c.ι.app j) x ≫ l₁ = pullback.snd (c.ι.app j) x ≫ l₂
+  change pullback.snd (c.ι.app j) x ≫ l₁ = pullback.snd (c.ι.app j) x ≫ l₂
   obtain ⟨k, hk₁, hk₂⟩ := hlow j i₀
   have hov : ∀ l : X ⟶ Y, l ≫ y = x →
       (pullback.snd (c.ι.app j) x ≫ l) ≫ y = pullback.fst _ _ ≫ c.ι.app j := fun l hl ↦ by
@@ -687,7 +687,7 @@ theorem exists_etale_formalSpectrum_iso_of_isRepresentableEtale
   let θ : Γ(Z₀, ⊤) ≃+* C ⧸ K₀ := e₁.symm.trans (quotientKerProjectionRingEquiv f J₀).symm
   have hθ : θ.toRingHom.comp f₀ = Ideal.quotientMap K₀ g.toRingHom (hle i₀) := by
     refine Ideal.Quotient.ringHom_ext (RingHom.ext fun r ↦ ?_)
-    show (quotientKerProjectionRingEquiv f J₀).symm (e₁.symm (algebraMap R Γ(Z₀, ⊤) r)) =
+    change (quotientKerProjectionRingEquiv f J₀).symm (e₁.symm (algebraMap R Γ(Z₀, ⊤) r)) =
       Ideal.Quotient.mk (kerProjectionIdeal f J₀).1 (g.toRingHom r)
     rw [RingEquiv.symm_apply_eq, quotientKerProjectionRingEquiv_mk, hg,
       TopologicalRing.CompletionOver.projection_canonicalMap, RingEquiv.symm_apply_eq,
@@ -697,7 +697,7 @@ theorem exists_etale_formalSpectrum_iso_of_isRepresentableEtale
     Scheme.Spec.mapIso θ.toCommRingCatIso.op ≪≫ Z₀.isoSpec.symm
   have hes : es.hom ≫ q₀ = Spec.map (CommRingCat.ofHom (Ideal.quotientMap K₀ g.toRingHom
       (hle i₀))) := by
-    show (Spec.map (CommRingCat.ofHom θ.toRingHom) ≫ Z₀.isoSpec.inv) ≫ q₀ = _
+    change (Spec.map (CommRingCat.ofHom θ.toRingHom) ≫ Z₀.isoSpec.inv) ≫ q₀ = _
     rw [Category.assoc, ← Scheme.isoSpec_inv_naturality, Scheme.isoSpec_Spec_inv,
       ← Spec.map_comp, ← Spec.map_comp, ← hθ]
     rfl
@@ -714,7 +714,7 @@ theorem exists_etale_formalSpectrum_iso_of_isRepresentableEtale
   let e₀ : pullback (c.ι.app i₀) (formalSpectrumMap hR g) ≅ pullback (c.ι.app i₀) p :=
     hzg.flip.isoPullback.symm ≪≫ Yo.mapIso m ≪≫ hw.flip.isoPullback
   have he₀ : e₀.hom ≫ pullback.fst _ _ = pullback.fst _ _ := by
-    show (hzg.flip.isoPullback.inv ≫ Yo.map m.hom ≫ hw.flip.isoPullback.hom) ≫
+    change (hzg.flip.isoPullback.inv ≫ Yo.map m.hom ≫ hw.flip.isoPullback.hom) ≫
       pullback.fst _ _ = _
     rw [Category.assoc, Category.assoc, hw.flip.isoPullback_hom_fst, ← Functor.map_comp, hmπ,
       hzg.flip.isoPullback_inv_fst]

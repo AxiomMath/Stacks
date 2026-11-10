@@ -246,7 +246,7 @@ the form in which a consumer comparing the two fillers needs it. -/
 lemma cancelSndObj_cancelSndInvObj_iso_hom (Q : TwoFibreProductOver p𝒵 p𝒰 p𝒴 g G) :
     (cancelSndObj p𝒵 p𝒳 p𝒴 p𝒰 g f c G hf θ hθ
       (cancelSndInvObj p𝒵 p𝒳 p𝒴 p𝒰 g f c G hc θ hθ Q)).iso.hom = Q.iso.hom := by
-  show (Q.iso.hom ≫ (θ.app Q.y).inv) ≫ f.map (𝟙 (c.obj Q.y)) ≫ (θ.app Q.y).hom
+  change (Q.iso.hom ≫ (θ.app Q.y).inv) ≫ f.map (𝟙 (c.obj Q.y)) ≫ (θ.app Q.y).hom
       = Q.iso.hom
   simp
 
@@ -262,7 +262,7 @@ lemma cancelSndUnitIso_hom_app_isHomLift
   have h𝒵 : p𝒵.obj P.x.x = P.base := P.x.hx.trans (show P.x.base = P.base from P.hx)
   refine structureFunctor_isHomLift _ (𝟙 P.base) ?_
   refine structureFunctor_isHomLift _ (𝟙 P.base) ?_
-  show p𝒵.IsHomLift (𝟙 P.base) (𝟙 P.x.x)
+  change p𝒵.IsHomLift (𝟙 P.base) (𝟙 P.x.x)
   exact IsHomLift.id h𝒵
 
 /-- The component of the unit along the projection to `𝒵` is an identity. -/

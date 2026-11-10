@@ -319,7 +319,7 @@ theorem connectedSpace_divisor [Smooth D.toBase] [IsProper D.toBase] [ConnectedS
     AlgebraicGeometry.isRegularSection_of_eval_top_ne_zero D.L _ fun hz => hv (heq ▸ hz)
   have hcon := Stacks.AmpleSectionConnected.connectedSpace_zeroScheme_of_isAmple D.k D.toBase
     D.L hample (Stacks.SheafOfModules.sectionsOfTop D.L (D.sectionOf v)) hreg' hdepth
-  show ConnectedSpace (zeroScheme D.X D.L (D.sectionOf v)).subscheme
+  change ConnectedSpace (zeroScheme D.X D.L (D.sectionOf v)).subscheme
   exact heq ▸ hcon
 
 /-- The projection of `X_k ×_X I` to `I` is an isomorphism, as `X_k → X` is. -/
@@ -535,7 +535,7 @@ theorem family_generates : (family i).Generates := by
     (Stacks.ProjectiveSpaceModuli.taut_generates
       (i ≫ projectiveSpaceOver.toIntegralAtUniverse n (Spec (.of k)))) x
   refine ⟨Pi.single j 1, ?_⟩
-  show x ∈ nvOpen _ ((family i).sectionOf (Pi.single j 1))
+  change x ∈ nvOpen _ ((family i).sectionOf (Pi.single j 1))
   rw [family_sectionOf_single]
   exact hj
 
@@ -635,7 +635,7 @@ theorem exists_hyperplane_smooth_irreducibleSpace [IsAlgClosed k] [IsClosedImmer
     have : IsProper (pullback.fst (terminal.from (Spec (.of k)))
         (terminal.from (projectiveSpaceAtUniverse.{u} n))) :=
       isProper_projectiveSpaceOver n (Spec (.of k))
-    show IsProper (i ≫ _)
+    change IsProper (i ≫ _)
     infer_instance
   obtain ⟨c, hc, hsm, hirr⟩ := (family i).exists_smooth_irreducibleSpace_divisor
     (family_generates i) (family_isImmersive i) hdim

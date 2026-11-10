@@ -215,8 +215,8 @@ scalars along a ring isomorphism preserves K-flatness
 theorem kFlat_moduleRestriction
     (K : CochainComplex
       (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} W.sheaf)) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat.{u, u, u} W.sheaf K) :
-    Stacks.SheafOfModules.KFlat.KFlat.{u, u, u} (restrictToOpen W U).sheaf
+    (hK : Stacks.SheafOfModules.KFlat.{u, u, u} W.sheaf K) :
+    Stacks.SheafOfModules.KFlat.{u, u, u} (restrictToOpen W U).sheaf
       (((moduleRestriction W U).mapHomologicalComplex (ComplexShape.up ℤ)).obj K) :=
   (Stacks.SheafOfModules.KFlatStalkCriterion.kFlat_iff_stalkwise (restrictToOpen W U).sheaf
     (((moduleRestriction W U).mapHomologicalComplex (ComplexShape.up ℤ)).obj K)).2 (by

@@ -148,7 +148,7 @@ theorem abelPowerClass_mem_groupZero (n : ℕ) :
   rw [mem_groupZero_iff]
   intro t
   rw [degree_apply]
-  show relativeInvertibleDegreeHomAt _ _ t
+  change relativeInvertibleDegreeHomAt _ _ t
     ((smallEquiv (bc f (fibrePower f n)))
       ((smallEquiv (bc f (fibrePower f n))).symm (abelPowerClass f σ hσ n))) = 0
   rw [AddEquiv.apply_symm_apply, abelPowerClass,

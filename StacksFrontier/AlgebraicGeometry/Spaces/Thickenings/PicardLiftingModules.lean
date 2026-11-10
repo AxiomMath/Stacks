@@ -132,7 +132,7 @@ theorem bijective_smul_thickeningChartSection (hG : IsThickening B S hS X G)
     (thickeningChartDiagram B S hS hG V)
     (fun W k ↦ ((L.val.map k.op).hom t : L.val.obj (op W)))
     (fun W W' k g ↦ by
-      show (L.val.map g.op).hom ((L.val.map k.op).hom t) = (L.val.map (g ≫ k).op).hom t
+      change (L.val.map g.op).hom ((L.val.map k.op).hom t) = (L.val.map (g ≫ k).op).hom t
       rw [op_comp]
       exact (L.val.map_comp_apply k.op g.op t).symm)
     ht
@@ -140,7 +140,7 @@ theorem bijective_smul_thickeningChartSection (hG : IsThickening B S hS X G)
     ((modulePullback B S hS (IsThickening.inclusion B S hS hG)).obj L)
     ((thickeningChartBaseChange B S hS hG).obj V) _ T hT fun W₂ k hk ↦ ?_
   have h1 : (L.val.map (𝟙 V).op).hom t = t := by
-    show (L.val.map (𝟙 (op V : (smallEtaleRingedSite B S hS X.1 X.2).Cᵒᵖ))).hom t = t
+    change (L.val.map (𝟙 (op V : (smallEtaleRingedSite B S hS X.1 X.2).Cᵒᵖ))).hom t = t
     rw [PresheafOfModules.map_id]
     rfl
   have hEq : (chartRestrictLinear

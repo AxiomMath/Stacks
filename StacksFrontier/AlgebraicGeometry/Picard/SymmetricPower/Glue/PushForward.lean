@@ -118,7 +118,7 @@ theorem push_supportedIn [IsSeparated X.hom] {T : Over S} (Z : HilbertFamily X' 
   have h : φ.imageι = inv φ.toImage ≫ φ := by
     rw [IsIso.eq_inv_comp, Scheme.Hom.toImage_imageι]
   intro z
-  show (φ.imageι ≫ familyProjection X T) z ∈ i.left.opensRange
+  change (φ.imageι ≫ familyProjection X T) z ∈ i.left.opensRange
   rw [h]
   refine ⟨familyProjection X' T (Z.ideal.subschemeι (inv φ.toImage z)), ?_⟩
   simp only [φ, Category.assoc, familyAmbientMap_familyProjection]
@@ -170,7 +170,7 @@ theorem push_restrictFamily [IsSeparated X.hom] {T : Over S} (W : HilbertFamily 
     exact ⟨inferInstance, ⟨hsurj⟩⟩
   refine HilbertFamily.ext ?_
   rw [push_ideal]
-  show ((W.ideal.comap jT).subschemeι ≫ jT).ker = W.ideal
+  change ((W.ideal.comap jT).subschemeι ≫ jT).ker = W.ideal
   rw [← Scheme.IdealSheafData.comapIso_hom_fst, Category.assoc, pullback.condition,
     ← Category.assoc, Scheme.Hom.ker_comp_of_isIso, Scheme.IdealSheafData.ker_subschemeι]
 
@@ -193,7 +193,7 @@ theorem baseChange_push [IsSeparated X.hom] {T' T : Over S} (g : T' ⟶ T)
   rw [← push_restrictFamily i _ h1]
   congr 1
   refine HilbertFamily.ext ?_
-  show ((push i Z).ideal.comap (familyBaseChangeMap X g)).comap (familyAmbientMap i T') =
+  change ((push i Z).ideal.comap (familyBaseChangeMap X g)).comap (familyAmbientMap i T') =
     (baseChange X' g Z).ideal
   rw [← Scheme.IdealSheafData.comap_comp, familyAmbientMap_comp_familyBaseChangeMap,
     Scheme.IdealSheafData.comap_comp, comap_push_ideal, baseChange_ideal]
@@ -245,7 +245,7 @@ theorem isOpenSubfunctor_pushMap [IsSeparated X.hom] :
   · obtain ⟨s, W⟩ := p
     refine ⟨⟨(W.notSupportedLocus i.left.opensRange)ᶜ,
       (W.isClosed_notSupportedLocus _).isOpen_compl⟩, fun T' g => ?_⟩
-    show AlgebraicGeometry.InImage (pushMap i d) (⟨g ≫ s, baseChange X (Over.homMk g rfl :
+    change AlgebraicGeometry.InImage (pushMap i d) (⟨g ≫ s, baseChange X (Over.homMk g rfl :
       Over.mk (g ≫ s) ⟶ Over.mk s) W⟩ : (hilbPresheaf X d).obj (op T')) ↔ _
     rw [inImage_pushMap_iff, HilbertFamily.baseChange_supportedIn_iff]
     exact ⟨fun h _ ⟨t, ht⟩ => ht ▸ h t, fun h t => h ⟨t, rfl⟩⟩

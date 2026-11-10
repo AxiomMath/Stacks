@@ -99,7 +99,7 @@ theorem relativeDimension_fieldChowSituation_eq_zero {Y : Scheme.{u}}
     refine ⟨fun x => ?_⟩
     obtain ⟨r, hr⟩ := hy.2 x
     exact hr ▸ isAlgebraic_algebraMap r
-  show (fieldChowSituation K).dimensionFunction (g.base y) +
+  change (fieldChowSituation K).dimensionFunction (g.base y) +
       (Cardinal.toNat (Algebra.trdeg ((fieldChowSituation K).S.residueField (g.base y))
         (Y.residueField y)) : ℤ) = 0
   rw [trdeg_eq_zero]
@@ -117,7 +117,7 @@ theorem schemeDeltaDimension_le_zero_fieldChowSituation {W : Scheme.{u}}
     schemeDeltaDimension (fieldChowSituation K) (j ≫ 𝟙 (fieldChowSituation K).S)
       ≤ ((0 : ℤ) : EInt) :=
   schemeDeltaDimension_le_of_forall_relativeDimension_le (fieldChowSituation K) _ j
-    fun w => (relativeDimension_id_fieldChowSituation_eq_zero K _).le
+    fun w => (relativeDimension_id_fieldChowSituation_eq_zero K (j.base w)).le
 
 /-- **On the spectrum of a field the only `0`-cycle rationally equivalent to zero is the zero
 cycle.** Rational equivalence of `0`-cycles is witnessed by a family of integral closed
@@ -138,7 +138,7 @@ theorem eq_zero_of_isRationallyEquivalentToZero_fieldChowSituation
     exact absurd (WithBotTop.coe_le_coe.mp hle) (by omega)
   refine Subtype.ext (Function.locallyFinsuppWithin.ext fun x => ?_)
   rw [hg x]
-  show principalDivisorFamilyCoefficient _ _ W hW g x =
+  change principalDivisorFamilyCoefficient _ _ W hW g x =
     (0 : AlgebraicCycle (fieldChowSituation K).S ℤ) x
   simp [principalDivisorFamilyCoefficient, finsum_of_isEmpty]
 
@@ -202,8 +202,8 @@ instance isIso_familyBase_fieldZeroSectionSubscheme :
 /-- The image of the zero section in `𝐏¹_K` has at most one point. -/
 instance subsingleton_fieldZeroSectionSubscheme :
     Subsingleton (fieldZeroSectionSubscheme K).subscheme :=
-  ⟨fun a b => (familyBase (𝟙 (fieldChowSituation K).S)
-    (fieldZeroSectionSubscheme K)).isEmbedding.injective (Subsingleton.elim _ _)⟩
+  (familyBase (𝟙 (fieldChowSituation K).S)
+    (fieldZeroSectionSubscheme K)).isEmbedding.injective.subsingleton
 
 /-- The image of the zero section in `𝐏¹_K` has relative dimension zero at every point. -/
 private theorem relativeDimension_familyBase_fieldZeroSectionSubscheme_eq_zero

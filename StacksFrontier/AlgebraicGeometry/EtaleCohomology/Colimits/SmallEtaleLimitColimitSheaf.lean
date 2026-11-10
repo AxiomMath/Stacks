@@ -169,7 +169,8 @@ theorem coverPreserving_down (K : Precoverage C) :
       refine K.toGrothendieck.transitive ihR _ fun Y' g hg => ?_
       rw [functorPushforward_down] at hg
       have h₂ := ihQ hg
-      rwa [functorPushforward_down] at h₂ ⊢
+      rw [functorPushforward_down] at h₂ ⊢
+      exact h₂
 
 /-- `AsSmall.up` carries coverings to coverings of the comap precoverage. -/
 theorem coverPreserving_up (K : Precoverage C) :
@@ -191,7 +192,8 @@ theorem coverPreserving_up (K : Precoverage C) :
       refine (K.comap AsSmall.down).toGrothendieck.transitive ihR _ fun Y' g hg => ?_
       rw [functorPushforward_up] at hg
       have h₂ := ihQ hg
-      rwa [functorPushforward_up] at h₂ ⊢
+      rw [functorPushforward_up] at h₂ ⊢
+      exact h₂
 
 /-- `AsSmall.down` is a right adjoint, being half of the equivalence `AsSmall.equiv`. -/
 public noncomputable instance isRightAdjoint_down :

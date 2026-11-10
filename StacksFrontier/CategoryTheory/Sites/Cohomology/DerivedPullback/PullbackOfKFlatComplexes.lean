@@ -126,10 +126,10 @@ Stacks 05VD as its only hypothesis, and
 theorem kFlat_pullbackComplex (hmos : f.u.IsMorphismOfSites Y.J X.J)
     (K : CochainComplex
       (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat Y.O K)
+    (hK : Stacks.SheafOfModules.KFlat Y.O K)
     (hflatK : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O)
       (K.X i)) :
-    Stacks.SheafOfModules.KFlat.KFlat X.O
+    Stacks.SheafOfModules.KFlat X.O
       ((Stacks.Sheaves.DerivedPullback.KFlatPullback.pullbackComplex f).obj K) :=
   Stacks.Sheaves.InverseImageExactness.kFlat_pullbackComplex f hmos
     pullbackPreservesIsFlatUniv.{u} K hK hflatK

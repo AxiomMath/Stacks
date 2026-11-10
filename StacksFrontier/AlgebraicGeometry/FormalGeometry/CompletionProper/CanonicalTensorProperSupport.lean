@@ -119,7 +119,7 @@ theorem hasProperSupport_tensorSheafBifunctor {X S : Scheme.{u}} (f : X ⟶ S)
         ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).obj F).obj G),
     _root_.SheafOfModules.isClosed_supp _⟩, rfl, ?_⟩
   refine isProperOver_of_le f ?_ hZproper
-  show _root_.SheafOfModules.supp
+  change _root_.SheafOfModules.supp
     (((Stacks.SheafOfModules.Tensor.sheafTensor
       ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).obj F).obj G) ≤ (Z : Set X)
   rw [hZ]

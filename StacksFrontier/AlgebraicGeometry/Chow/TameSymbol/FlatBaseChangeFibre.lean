@@ -72,12 +72,11 @@ theorem tensorQuotientEquiv_comp_baseChange (π x : C) :
     (Ideal.span {π})
   set e := Algebra.TensorProduct.tensorQuotientEquiv (R := A) A' C A' (Ideal.span {π})
   refine LinearMap.ext fun t ↦ ?_
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add a b ha hb => simpa only [map_add] using congrArg₂ (· + ·) ha hb
   | tmul s y =>
     obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective y
-    show e (s ⊗ₜ[A] (Ideal.Quotient.mk (Ideal.span {π}) x *
+    change e (s ⊗ₜ[A] (Ideal.Quotient.mk (Ideal.span {π}) x *
         Ideal.Quotient.mk (Ideal.span {π}) b)) =
       Ideal.Quotient.mk I (Algebra.TensorProduct.includeRight x) *
         e (s ⊗ₜ[A] Ideal.Quotient.mk (Ideal.span {π}) b)
@@ -279,15 +278,15 @@ theorem fibrePoint_surjective (hV : IsFiniteLength A' (FibreRing A' P q))
     (Algebra.TensorProduct.includeRight (R := A) (A := A') (B := Localization.AtPrime q))
   have hJunder : J.comap (algebraMap B (Localization.AtPrime q)) = q := by
     ext b
-    show algebraMap (A' ⊗[A] B) L (Algebra.TensorProduct.includeRight b) ∈ QL ↔ _
+    change algebraMap (A' ⊗[A] B) L (Algebra.TensorProduct.includeRight b) ∈ QL ↔ _
     rw [← Ideal.mem_comap, hQLunder]
     exact Iff.of_eq (congrArg (b ∈ ·) hQTq)
   have hJ : J = maximalIdeal (Localization.AtPrime q) :=
     (Localization.AtPrime.eq_maximalIdeal_iff_under_eq).mp hJunder
   have hIQL : I ≤ QL := by
-    show Ideal.map _ _ ≤ QL
+    change Ideal.map _ _ ≤ QL
     rw [Ideal.map_le_iff_le_comap, Ideal.span_le, Set.singleton_subset_iff]
-    show P.parameter q ∈ J
+    change P.parameter q ∈ J
     rw [hJ]
     exact P.parameter_mem_maximal hnot q
   set PV : Ideal (FibreRing A' P q) := QL.map (Ideal.Quotient.mk I)
@@ -297,7 +296,7 @@ theorem fibrePoint_surjective (hV : IsFiniteLength A' (FibreRing A' P q))
   have hPV : PV.comap (Ideal.Quotient.mk I) = QL := by
     rw [Ideal.comap_map_of_surjective _ Ideal.Quotient.mk_surjective,
       ← RingHom.ker_eq_comap_bot, Ideal.mk_ker, sup_eq_left.mpr hIQL]
-  show (PV.comap (Ideal.Quotient.mk I)).comap (algebraMap (A' ⊗[A] B) L) = QT
+  change (PV.comap (Ideal.Quotient.mk I)).comap (algebraMap (A' ⊗[A] B) L) = QT
   rw [hPV, hQLunder]
 
 /-- **The maximal ideals of `V` correspond to the maximal ideals of `A' ⊗_A B` over `𝔮`**, as
@@ -351,14 +350,14 @@ theorem exists_algEquiv_localization_tensorLocalization
       algebraMap L (Localization.AtPrime QL) (algebraMap (A' ⊗[A] B) L t) := eT.commutes t
   have hA' (x : A') : eT.toRingEquiv (algebraMap A' (Localization.AtPrime Q.asIdeal) x) =
       algebraMap A' (Localization.AtPrime QL) x := by
-    show eT _ = _
+    change eT _ = _
     rw [IsScalarTower.algebraMap_apply A' (A' ⊗[A] B) (Localization.AtPrime Q.asIdeal), heT,
       IsScalarTower.algebraMap_apply A' L (Localization.AtPrime QL)]
     congr 1
-    show toTensorLocalization (A := A) A' q (x ⊗ₜ 1) = x ⊗ₜ 1
+    change toTensorLocalization (A := A) A' q (x ⊗ₜ 1) = x ⊗ₜ 1
     simp [toTensorLocalization]
   refine ⟨AlgEquiv.ofRingEquiv (f := eT.toRingEquiv) hA', fun b ↦ ?_⟩
-  show eT (P.localMap Q.asIdeal (algebraMap B _ b)) = _
+  change eT (P.localMap Q.asIdeal (algebraMap B _ b)) = _
   rw [localMap_algebraMap, heT]
   rfl
 
@@ -381,12 +380,12 @@ theorem exists_algEquiv_localization_fibreRing (p : MaximalSpectrum (FibreRing A
     IsLocalization.algEquiv p.asIdeal.primeCompl _ _
   have hA' (x : A') : e₀.toRingEquiv (algebraMap A' (Localization.AtPrime p.asIdeal) x) =
       algebraMap A' _ x := by
-    show e₀ _ = _
+    change e₀ _ = _
     rw [IsScalarTower.algebraMap_apply A' (FibreRing A' P q) (Localization.AtPrime p.asIdeal),
       e₀.commutes]
     rfl
   refine ⟨AlgEquiv.ofRingEquiv (f := e₀.toRingEquiv) hA', fun x ↦ ?_⟩
-  show e₀ _ = _
+  change e₀ _ = _
   rw [e₀.commutes]
   rfl
 

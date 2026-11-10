@@ -67,7 +67,7 @@ theorem homologyFunctor_linear (R : Type*) [Ring R] [Linear R C] (q : ℤ) :
     Functor.Linear R (homologyFunctor C q) := by
   have : Functor.Linear R (HomologicalComplex.homologyFunctor C (.up ℤ) q) := by
     refine ⟨fun g r ↦ ?_⟩
-    show HomologicalComplex.homologyMap (r • g) q = r • HomologicalComplex.homologyMap g q
+    change HomologicalComplex.homologyMap (r • g) q = r • HomologicalComplex.homologyMap g q
     rw [HomologicalComplex.homologyMap, HomologicalComplex.homologyMap,
       show (HomologicalComplex.shortComplexFunctor C (.up ℤ) q).map (r • g) =
         r • (HomologicalComplex.shortComplexFunctor C (.up ℤ) q).map g from by ext <;> rfl]

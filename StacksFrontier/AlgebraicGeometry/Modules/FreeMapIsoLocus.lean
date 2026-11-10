@@ -120,7 +120,7 @@ theorem bijective_app_top_freeHomOfSections_of_basis (M : Z.Modules)
     refine (freeSectionsBasis Z r).ext fun j ↦ ?_
     rw [LinearEquiv.coe_coe, Module.Basis.equiv_apply, Equiv.refl_apply]
     exact freeHomOfSections_app_freeSectionsBasis M b j
-  show Function.Bijective L
+  change Function.Bijective L
   rw [hL]
   exact LinearEquiv.bijective _
 

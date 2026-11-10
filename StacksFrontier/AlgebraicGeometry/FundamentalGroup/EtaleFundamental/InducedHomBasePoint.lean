@@ -46,7 +46,7 @@ public theorem exists_mulEquiv {H : FiniteEtaleOver X ⥤ FiniteEtaleOver Y}
   ext V w
   have h1 := Stacks.FundamentalGroup.conjAut_app_apply_inv (T.symm ≪≫ T') (Φ γ) V w
   refine (hT' γ V w).trans (Eq.trans ?_ h1.symm)
-  show _ = T'.hom.app V (T.inv.app V (((Φ γ).asIso.app V).hom (T.hom.app V (T'.inv.app V w))))
+  change _ = T'.hom.app V (T.inv.app V (((Φ γ).asIso.app V).hom (T.hom.app V (T'.inv.app V w))))
   rw [hT, Iso.hom_inv_id_app_apply, Iso.hom_inv_id_app_apply]
 
 /-- **The character of a torsor cover composed with homomorphisms induced by the same functor

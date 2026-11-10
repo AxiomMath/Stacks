@@ -65,7 +65,7 @@ theorem bijective_localizedModuleMap_of_surjective {R : Type*} [CommRing R] (S :
   have hcx : h ((c : R) • x) = 0 := by rwa [map_smul]
   rw [Submodule.mem_bot, Function.uncurry_apply_pair, IsLocalizedModule.mk'_eq_zero']
   refine ⟨⟨t, ht⟩ * c, ?_⟩
-  show (t * (c : R)) • x = 0
+  change (t * (c : R)) • x = 0
   rw [mul_smul]
   exact hker _ hcx
 
@@ -231,7 +231,7 @@ theorem completedStalkDepth_eq_of_epi
   set t := algebraMap (X.presheaf.stalk y) (completedLocalRing I y) b ^ c
   have ht : t ∈ p.asIdeal.primeCompl := fun h => hbp (p.isPrime.mem_of_pow_mem c h)
   have hkerΨ : ∀ x, completedStalkMap φ y x = 0 → t • x = 0 := fun x hx => by
-    show algebraMap (X.presheaf.stalk y) (completedLocalRing I y) b ^ c • x = 0
+    change algebraMap (X.presheaf.stalk y) (completedLocalRing I y) b ^ c • x = 0
     rw [← map_pow, algebraMap_smul]
     exact smul_eq_zero_of_completedStalkMap_eq_zero y hc (Ideal.pow_mem_pow hbJ c) x hx
   have hbij := bijective_localizedModuleMap_of_surjective p.asIdeal.primeCompl

@@ -49,8 +49,8 @@ so it is the *last* face which cancels `s n`. That is an `ExtraDegeneracyLast`, 
 Mathlib's `ExtraDegeneracy`. Only the triangle identity `θ ≫ ε_B = 𝟙` and the naturality of `ε`
 are used — no coassociativity, hence no coalgebra structure on `B` — so the contraction is taken
 from `SimplicialObject.Augmented.ExtraDegeneracyLast.ofGodement`
-(`StacksFrontier.AlgebraicTopology.StandardResolution.Contraction`), which is stated for an arbitrary
-endofunctor `Y` with a transformation `d : Y ⟶ 𝟭` and a section of `d_B`.
+(`StacksFrontier.AlgebraicTopology.StandardResolution.Contraction`), which is stated for an
+arbitrary endofunctor `Y` with a transformation `d : Y ⟶ 𝟭` and a section of `d_B`.
 
 Pushing the contraction through `P ↦ Ω[P⁄A] ⊗[P] B` is legitimate because the `s n` lie over `B`:
 in an augmented simplicial object the augmentation factors through every face, and
@@ -189,7 +189,7 @@ public theorem cotangentSection_D (b : B) :
   have h : (KaehlerDifferential.quotKerTotalEquiv A B).symm (KaehlerDifferential.D A B b) =
       (KaehlerDifferential.kerTotal A B).mkQ (Finsupp.single b 1) :=
     Derivation.congr_fun (KaehlerDifferential.quotKerTotalEquiv_symm_comp_D A B) b
-  show (show ((B →₀ B) ⧸ KaehlerDifferential.kerTotal A B) →ₗ[B] cotangentTerm A B (op ⦋0⦌) from
+  change (show ((B →₀ B) ⧸ KaehlerDifferential.kerTotal A B) →ₗ[B] cotangentTerm A B (op ⦋0⦌) from
       (KaehlerDifferential.kerTotal A B).liftQ
         (Finsupp.linearCombination B (cotangentSectionD A B θ))
         (kerTotal_le_ker_cotangentSectionD A B θ hθ))

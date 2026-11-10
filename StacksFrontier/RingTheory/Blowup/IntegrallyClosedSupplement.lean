@@ -84,7 +84,7 @@ theorem Ideal.IsIntegralOver.isIntegral_affineBlowup {n : ℕ} {x : R}
       (γ j : S) * t ^ (n * (k - j)) = algebraMap R S (c j) := by
     intro j hj
     rw [hγdef]
-    simp only [dif_pos (Finset.mem_range.mp hj)]
+    simp only [dite_eq_left (Finset.mem_range.mp hj)]
     exact mk_pow_mul_algebraMap_pow_eq a (n * (k - j)) (c j)
   have hX : (algebraMap R S x) ^ k
       + ∑ j ∈ Finset.range k, algebraMap R S (c j) * (algebraMap R S x) ^ j = 0 := by
@@ -102,7 +102,7 @@ theorem Ideal.IsIntegralOver.isIntegral_affineBlowup {n : ℕ} {x : R}
       ((Finset.sup_lt_iff (WithBot.bot_lt_coe _)).2 fun j hj => ?_)
     exact lt_of_le_of_lt (Polynomial.degree_C_mul_X_pow_le j (γ j))
       (by exact_mod_cast Finset.mem_range.mp hj)
-  · simp only [Polynomial.eval₂_add, Polynomial.eval₂_X_pow, Polynomial.eval₂_finset_sum,
+  · simp only [Polynomial.eval₂_add, Polynomial.eval₂_X_pow, Polynomial.eval₂_finsetSum,
       Polynomial.eval₂_mul, Polynomial.eval₂_C]
     exact hrelS
 

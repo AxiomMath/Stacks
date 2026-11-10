@@ -282,18 +282,33 @@ add_to_ega "I 2.2.10" "partial" AlgebraicGeometry.Scheme.Opens.toScheme_presheaf
 add_to_ega "I 2.3.1" "more general" AlgebraicGeometry.Scheme.Cover.instIsIsoFromGlued
 add_to_ega "I 2.3.1" AlgebraicGeometry.Scheme.GlueData.glued
 add_to_ega "I 2.3.1" AlgebraicGeometry.Scheme.GlueData.gluedScheme
-add_to_ega "I 2.3.1"
-  AlgebraicGeometry.Scheme.GlueData.instCreatesColimitLocallyRingedSpaceWalkingMultispanProdJMultispanDiagramForgetToLocallyRingedSpace
+-- The auto-generated instance name is longer than a line, so its identifier is assembled
+-- from two pieces before being handed to `add_to_ega`.
+run_cmd do
+  let decl := Lean.mkIdent <| .str `AlgebraicGeometry.Scheme.GlueData <|
+    "instCreatesColimitLocallyRingedSpaceWalkingMultispanProdJ" ++
+      "MultispanDiagramForgetToLocallyRingedSpace"
+  Lean.Elab.Command.elabCommand (← `(command| add_to_ega "I 2.3.1" $decl:ident))
 add_to_ega "I 2.3.1" AlgebraicGeometry.Scheme.GlueData.isoLocallyRingedSpace
 add_to_ega "I 2.3.1" "partial" AlgebraicGeometry.Scheme.affineCover
 add_to_ega "I 2.3.1" "partial" AlgebraicGeometry.Scheme.affineOpenCover
 add_to_ega "I 2.3.1" "partial" AlgebraicGeometry.iSup_affineOpens_eq_top
 add_to_ega "I 2.3.2" "partial" AlgebraicGeometry.IsAffineOpen.Spec_basicOpen
-add_to_ega "I 2.3.2" "partial"
-  AlgebraicGeometry.IsAffineOpen.instAwayCarrierObjOppositeOpensCarrierCarrierCommRingCatSpecPresheafOpOpensBasicOpen
+-- The auto-generated instance name is longer than a line, so its identifier is assembled
+-- from two pieces before being handed to `add_to_ega`.
+run_cmd do
+  let decl := Lean.mkIdent <| .str `AlgebraicGeometry.IsAffineOpen <|
+    "instAwayCarrierObjOppositeOpensCarrierCarrierCommRingCat" ++
+      "SpecPresheafOpOpensBasicOpen"
+  Lean.Elab.Command.elabCommand (← `(command| add_to_ega "I 2.3.2" "partial" $decl:ident))
 add_to_ega "I 2.3.2" "partial" AlgebraicGeometry.IsAffineOpen.instIsAffineToSchemeBasicOpen
-add_to_ega "I 2.3.2" "partial"
-  AlgebraicGeometry.StructureSheaf.instAwayObjOppositeOpensCarrierTopObjFunctorTypeIsSheafGrothendieckTopologyStructureSheafInTypeOpBasicOpen
+-- The auto-generated instance name is longer than a line, so its identifier is assembled
+-- from two pieces before being handed to `add_to_ega`.
+run_cmd do
+  let decl := Lean.mkIdent <| .str `AlgebraicGeometry.StructureSheaf <|
+    "instAwayObjOppositeOpensCarrierTopObjFunctorTypeIsSheaf" ++
+      "GrothendieckTopologyStructureSheafInTypeOpBasicOpen"
+  Lean.Elab.Command.elabCommand (← `(command| add_to_ega "I 2.3.2" "partial" $decl:ident))
 add_to_ega "I 2.3.2" "more general" AlgebraicGeometry.basicOpenIsoSpecAway
 add_to_ega "I 2.4.1" "more general" AlgebraicGeometry.Scheme.preimage_eq_top_of_closedPoint_mem
 add_to_ega "I 2.4.1" "more general" IsLocalRing.closedPoint_mem_iff

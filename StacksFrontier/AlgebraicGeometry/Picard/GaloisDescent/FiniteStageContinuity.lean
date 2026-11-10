@@ -56,9 +56,11 @@ uses.
 **What this does not do.** The *surjectivity* clause of Tag 0CDT — that a Galois-fixed class
 descends to `Pic(X)` — needs more than the reduction proved here: the fixed class must descend
 to a finite *Galois* subextension and still be fixed there
-(`Stacks.Picard.exists_finiteGaloisSubextension_galoisFixed` of `StacksFrontier/AlgebraicGeometry/Picard/GaloisDescent/FiniteStageFixed.lean`),
+(`Stacks.Picard.exists_finiteGaloisSubextension_galoisFixed` of
+`StacksFrontier/AlgebraicGeometry/Picard/GaloisDescent/FiniteStageFixed.lean`),
 and Galois descent must then be applied at that stage
-(`Stacks.Picard.exists_schemePullbackClass_eq_of_galoisFixed` of `StacksFrontier/AlgebraicGeometry/Picard/GaloisDescent/FiniteStageDescent.lean`,
+(`Stacks.Picard.exists_schemePullbackClass_eq_of_galoisFixed` of
+`StacksFrontier/AlgebraicGeometry/Picard/GaloisDescent/FiniteStageDescent.lean`,
 which is Tag 0CDR with the descent cocycle normalised at the rational point). Both are proved,
 and `Stacks.Picard.bijOn_schemePullbackClass_galoisFixedClasses` assembles them; it has no
 remaining hypothesis beyond the tag's own.

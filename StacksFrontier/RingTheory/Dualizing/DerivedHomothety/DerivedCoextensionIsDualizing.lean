@@ -168,7 +168,7 @@ theorem nonempty_endLinearEquiv_derivedHom [IsNoetherianRing A] (f : A →+* B) 
           (targetMul.{u, v} f b)) =
         (precompAddEquiv uIso (targetSingle.{u, v} f)).symm (E φ) ≫ S.map
           (targetMul.{u, v} f b) := by
-      show uIso.inv ≫ E φ ≫ S.map (targetMul.{u, v} f b) =
+      change uIso.inv ≫ E φ ≫ S.map (targetMul.{u, v} f b) =
         (uIso.inv ≫ E φ) ≫ S.map (targetMul.{u, v} f b)
       rw [Category.assoc]
     rw [hΘ]

@@ -180,7 +180,7 @@ private lemma siteSquare_cube
     (D.e_i_compatible i).symm).hom.app ((smallEtaleBaseChange D.g).obj V)
   let lhs := a ≫ b ≫ c
   let rhs := d ≫ e ≫ f
-  show lhs = rhs
+  change lhs = rhs
   have ha := baseChange_map_projection (D.h_i i) _
     (siteSquare_hom_fst (D.u i) (D.f_i i) D.f (D.v i) (D.factorization i).symm V)
   have hb := siteSquare_hom_fst_assoc (D.toY_i i) (D.h_i i) D.h (D.u i)
@@ -231,7 +231,7 @@ private lemma push_obj_map {X Y : Scheme.{u}} (f : X ⟶ Y)
 
 /-- Two composites of three contravariant maps agree as soon as the two underlying composites
 of three morphisms agree. -/
-private lemma map_op_three_congr {A B : Type*} [Category* A] [Category* B]
+lemma map_op_three_congr {A B : Type*} [Category* A] [Category* B]
     (F : Aᵒᵖ ⥤ B) {W X Y Z X' Y' : A}
     (a : W ⟶ X) (b : X ⟶ Y) (c : Y ⟶ Z)
     (d : W ⟶ X') (e : X' ⟶ Y') (f : Y' ⟶ Z)
@@ -257,15 +257,15 @@ private lemma rightSquare_cube
         (D.lower_cartesian i).w.symm).hom).whiskerTop
           (rightSquare.{u, v} (D.toY_i i) (D.e_i i) D.e (D.toT_i i)
             (D.e_i_compatible i).symm).hom := by
-  apply TwoSquare.ext
-  intro F
+  apply NatTrans.ext
+  funext F
   apply Sheaf.hom_ext
   apply NatTrans.ext
   funext V
   cases V with
   | op V =>
     dsimp only [TwoSquare.whiskerBottom, TwoSquare.whiskerTop, TwoSquare.hComp,
-      TwoSquare.natTrans, TwoSquare.mk, NatTrans.comp_app,
+      TwoSquare.mk, NatTrans.comp_app,
       Functor.whiskerLeft_app, Functor.whiskerRight_app]
     simp only [ObjectProperty.FullSubcategory.comp_hom, NatTrans.comp_app,
       Functor.associator_hom_app, Functor.associator_inv_app,

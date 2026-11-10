@@ -39,8 +39,10 @@ morphism is quasi-compact and separated, hence qcqs, so that statement plus
 `isQuasicoherent_rightDerived_iff` closes the label. A fixed-string search for a Tag 01XJ
 attribute over the whole tree returns nothing, and
 `StacksFrontier/AlgebraicGeometry/QcohShortExact/` holds only its inputs — the Mayer–Vietoris short
-exact sequences (`StacksFrontier/AlgebraicGeometry/QcohShortExact/MayerVietorisInjective.lean`) and the quasi-coherence extension lemmas
-(`StacksFrontier/AlgebraicGeometry/QcohShortExact/QcohExtension.lean`) — not the induction over a finite affine cover that assembles the affine
+exact sequences (`StacksFrontier/AlgebraicGeometry/QcohShortExact/MayerVietorisInjective.lean`) and
+the quasi-coherence extension lemmas
+(`StacksFrontier/AlgebraicGeometry/QcohShortExact/QcohExtension.lean`) — not the induction over a
+finite affine cover that assembles the affine
 case into the general one.
 
 Three inputs the general case rests on are **available**:

@@ -120,7 +120,7 @@ theorem deRhamComplex_d_zero_app_top_eq_zero (k : Type u) [Field k] {X : Scheme.
   have hcompatible (r : k) : (φ.hom.app U).hom (α r) = algebraMap k (X.sheaf.obj.obj U) r := by
     have htriangle : baseUnit ≫ (TopCat.Sheaf.pushforward CommRingCat f.base).map φ =
         structureMap := by
-      show baseAdjunction.homEquiv (Spec (.of k)).sheaf X.sheaf φ = structureMap
+      change baseAdjunction.homEquiv (Spec (.of k)).sheaf X.sheaf φ = structureMap
       exact (baseAdjunction.homEquiv (Spec (.of k)).sheaf X.sheaf).apply_symm_apply structureMap
     exact congrArg (fun morphism =>
       (morphism.hom.app (op (⊤ : Opens (Spec (.of k))))).hom
@@ -134,7 +134,7 @@ theorem deRhamComplex_d_zero_app_top_eq_zero (k : Type u) [Field k] {X : Scheme.
       (φ.hom.app U) hcompatible universal z
   ext ω
   rw [eq_of_heq (SheafOfModules.deRhamComplex_degreeZero_apply B D U ω)]
-  show (B.exteriorGenerator.val.app U)
+  change (B.exteriorGenerator.val.app U)
     (universal.d (B.exteriorPieceZeroIsoUnit.hom.val.app U ω)) = 0
   exact (congrArg (B.exteriorGenerator.val.app U) (huniversal _)).trans (map_zero _)
 

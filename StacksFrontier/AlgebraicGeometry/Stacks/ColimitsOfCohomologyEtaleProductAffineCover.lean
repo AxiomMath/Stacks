@@ -117,8 +117,8 @@ universe v₀ u₀
 site. The instance is needed to form the finite coproducts of sheafified representables the
 conditions of Stacks 0GN4 speak of, and is restated in its constructed form, as in the files
 proving Stacks 0GN3 and Stacks 0GN4 and in
-`StacksFrontier/AlgebraicGeometry/Stacks/ColimitsOfCohomology.lean`, because the search that finds it
-is not cheap. It is anonymous because those files export a declaration of the same name whose
+`StacksFrontier/AlgebraicGeometry/Stacks/ColimitsOfCohomology.lean`, because the search that finds
+it is not cheap. It is anonymous because those files export a declaration of the same name whose
 `instance` attribute is local to them. -/
 local instance {C : Type u₀} [Category.{v₀} C] (J : GrothendieckTopology C) :
     HasColimitsOfSize.{max u₀ v₀, max u₀ v₀} (Sheaf J (Type max u₀ v₀)) :=

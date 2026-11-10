@@ -220,7 +220,7 @@ theorem restrictFunctor_hfunctor_map_globalSmul (U : Y.Opens) (G : Y.Modules) (d
       cohomologyOverFieldAddEquivHgroup k (U.ι ≫ g) ((Scheme.Modules.restrictFunctor U.ι).obj G) d
         (c • (cohomologyOverFieldAddEquivHgroup k (U.ι ≫ g)
           ((Scheme.Modules.restrictFunctor U.ι).obj G) d).symm w) := by
-  show (Hfunctor (U : Scheme).ringCatSheaf ⊤ d).map
+  change (Hfunctor (U : Scheme).ringCatSheaf ⊤ d).map
     ((Scheme.Modules.restrictFunctor U.ι).map (globalSmul (baseScalarSection k g c) G)) w = _
   rw [restrictFunctor_map_globalSmul_baseScalarSection k g U G c]
   have hn := cohomologyOverFieldAddEquivHgroup_naturality k (U.ι ≫ g)

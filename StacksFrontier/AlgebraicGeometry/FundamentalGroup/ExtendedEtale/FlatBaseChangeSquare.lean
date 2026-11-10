@@ -52,7 +52,8 @@ flatness of `g` enters the clause only through the comparison of algebras
 The docstring of `Stacks.FundamentalGroup.extendedEtaleDepth_flatBaseChange` records why they
 are unattributed: a clause string on part of a covering set would register the whole clause as
 formalized. The clause string belongs on all six as a group, and no `add_to_stacks` command
-attaching it is written, so the clause remains unregistered on this side. The final section below is the place
+attaching it is written, so the clause remains unregistered on this side. The final section below is
+the place
 they would go.
 
 ## References

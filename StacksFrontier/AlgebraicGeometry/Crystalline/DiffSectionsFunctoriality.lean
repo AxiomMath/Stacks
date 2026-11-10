@@ -84,7 +84,7 @@ theorem crysSheafRingMap_siteMap_diffSection (g : A ⟶ B) (ω : crysDiffSection
     crysSheafRingMap (firstOrderThickeningSiteMap g) (firstOrderThickeningDiffSection B ω) =
       firstOrderThickeningDiffSection A (crysDiffSectionsMap g ω) := by
   refine sqZeroExt_ext ?_ rfl
-  show (ambientHom g).app ⊤ (0 : crysSheafRing S B) = 0
+  change (ambientHom g).app ⊤ (0 : crysSheafRing S B) = 0
   exact map_zero ((ambientHom g).app ⊤).hom
 
 /-- The map on differentials of the identity is the identity. -/

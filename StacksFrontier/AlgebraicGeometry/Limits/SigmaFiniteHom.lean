@@ -98,10 +98,10 @@ theorem isAffineHom_sigmaDesc_of_locallyFinite [∀ i, IsAffineHom (q i)]
       have hy : q i y ∈ U := by simpa [← Scheme.Hom.comp_apply] using hx
       exact ⟨i, ⟨q i y, ⟨y, rfl⟩, hy⟩, ⟨y, hy, rfl⟩⟩
     · rintro ⟨j, -, y', hy', hxy⟩
-      show (Sigma.desc q) (Sigma.ι Y i _) ∈ U
+      change (Sigma.desc q) (Sigma.ι Y i _) ∈ U
       rw [← hxy]
-      show (Sigma.desc q) (Sigma.ι Y j y') ∈ U
-      rw [← Scheme.Hom.comp_apply, Sigma.ι_desc]
+      change (Sigma.desc q) (Sigma.ι Y j y') ∈ U
+      rw [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
       exact hy'
   rw [heq]
   exact IsAffineOpen.biSup_of_disjoint hfin (fun i _ ↦ haff i) hdisj

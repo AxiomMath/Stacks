@@ -28,7 +28,7 @@ def matrixEquivTensorL (K : Type u) (L : Type u₂) [CommRing K] [CommRing L] [A
     (C : Type*) [Ring C] [Algebra K C] [Algebra L C] [IsScalarTower K L C] :
     Matrix n n C ≃ₐ[L] C ⊗[K] Matrix n n K :=
   AlgEquiv.ofRingEquiv (f := (matrixEquivTensor n K C).toRingEquiv) fun l => by
-    rw [AlgEquiv.coe_ringEquiv]
+    rw [AlgEquiv.coe_toRingEquiv]
     have key : (matrixEquivTensor n K C).symm (algebraMap L C l ⊗ₜ[K] (1 : Matrix n n K))
         = algebraMap L (Matrix n n C) l := by
       rw [matrixEquivTensor_apply_symm, Matrix.map_one _ (map_zero _) (map_one _),

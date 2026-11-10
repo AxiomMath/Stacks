@@ -114,7 +114,7 @@ public theorem liftsAtResiduePoint_iff_isVersal
   let hpC :=
     (Deformation.Artin.predeformationCategory_isPredeformationCategory
       B hS iΛ p (ξ.level 0) hx₀ hp).cofibered
-  show LiftsAtResiduePoint iΛ q U x hx
+  change LiftsAtResiduePoint iΛ q U x hx
       (Spec.map (CommRingCat.ofHom (residue ξ.base.R)) ≫ g) ↔ Deformation.IsVersal hpC η
   have g_closedPoint : g (closedPoint ξ.base.R) = u₀ := by
     rw [hg]
@@ -152,7 +152,7 @@ public theorem liftsAtResiduePoint_iff_isVersal
   let r₀ := approximationLevelToOriginal B S hS p hp xR ξ hξ r 0
   have restriction_closedPoint (n : ℕ) :
       (C.objects (η.level n)).arrow ≫ restriction n = r₀ := by
-    show (C.objects (η.level n)).arrow ≫
+    change (C.objects (η.level n)).arrow ≫
       (eqToHom (hη.2.1 n) ≫ approximationLevelToOriginal B S hS p hp xR ξ hξ r n) = _
     rw [← Category.assoc]
     have he : (C.objects (η.level n)).arrow ≫ eqToHom (hη.2.1 n) =
@@ -233,7 +233,7 @@ public theorem liftsAtResiduePoint_iff_isVersal
     apply completeLocalAlg_points_injective_of_eq hη.1 g _ A α β he
     intro A α β hab
     apply Deformation.CompleteLocalAlgCat.Hom.ext
-    apply AlgHom.coe_ringHom_injective
+    apply AlgHom.toRingHom_injective
     exact @pointMaps_injective A _ _ _ α.hom.toRingHom β.hom.toRingHom
       α.isLocal β.isLocal hab
   have completeLocal_points (hiMono : Mono iΛ)

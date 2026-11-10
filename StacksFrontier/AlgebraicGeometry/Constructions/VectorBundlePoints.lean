@@ -122,7 +122,7 @@ theorem ungradedAlgebraSheafModuleHomEquiv_symmetricAlgebraSheafMap (f : F ⟶ G
   refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun W =>
     ModuleCat.hom_ext (LinearMap.ext fun s => ?_))
   obtain ⟨U⟩ := W
-  show (ψ.right.hom.app (op U)).hom (((symmetricAlgebraSheafMap X f).right.hom.app (op U)).hom
+  change (ψ.right.hom.app (op U)).hom (((symmetricAlgebraSheafMap X f).right.hom.app (op U)).hom
       (((ungradedToGradedRight X (symmetricAlgebra X F) (symmetricAlgebra_mul_comm X F)).hom.app
         (op U)).hom (ungradedAlgebraSheafIncl X (symmetricAlgebra X F)
           (symmetricAlgebra_mul_comm X F) 1 U
@@ -208,7 +208,7 @@ theorem pushforward_map_underlyingModuleMap {W W' : Over T} (a : W' ⟶ W) :
   refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun U =>
     ModuleCat.hom_ext (LinearMap.ext fun x => ?_))
   obtain ⟨U⟩ := U
-  show ((pushforwardAlgebraMap a).right.hom.app (op (g ⁻¹ᵁ U))).hom x =
+  change ((pushforwardAlgebraMap a).right.hom.app (op (g ⁻¹ᵁ U))).hom x =
     ((pushforwardAlgebraMap ((Over.map g).map a)).right.hom.app (op U)).hom x
   rw [pushforwardAlgebraMap_app a (g ⁻¹ᵁ U) (Over.w a ▸ le_rfl),
     pushforwardAlgebraMap_app ((Over.map g).map a) U (Over.w ((Over.map g).map a) ▸ le_rfl)]

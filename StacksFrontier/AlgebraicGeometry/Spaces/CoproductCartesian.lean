@@ -271,7 +271,7 @@ theorem bijective_coproductSectionsMap [DecidableEq ι] (c : Cofan G) (hc : IsCo
       intro x
       have hmem : ((c.inj i).val.app (op W)).hom x ∈ H :=
         ⟨DirectSum.lof A ι β i x, coproductSectionsMap_lof c (op W) i x⟩
-      show QuotientAddGroup.mk' H (((c.inj i).val.app (op W)).hom x) = 0
+      change QuotientAddGroup.mk' H (((c.inj i).val.app (op W)).hom x) = 0
       exact (QuotientAddGroup.eq_zero_iff _).2 hmem
     have hy : QuotientAddGroup.mk' H y = 0 :=
       ConcreteCategory.congr_hom hzero y
@@ -318,8 +318,7 @@ theorem bijective_sectionsBaseChange_coproduct {ι : Type w}
   let t1 := LinearEquiv.lTensor (chartRing B S hS F hF V) eU
   have key : ∀ z, sectionsBaseChange c.pt f (t1 z) = eV (t3 (t2 z)) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul b y =>
       induction y using DirectSum.induction_on with
       | zero => simp only [TensorProduct.tmul_zero, map_zero]

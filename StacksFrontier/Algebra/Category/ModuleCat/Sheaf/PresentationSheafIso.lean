@@ -29,7 +29,7 @@ machinery for sheaves of modules are in
   `structureSheafULift X` is the same thing as a global section of the target, recovered by
   `globalEval`; `structureSheafULift_hom_eq_mk` and `structureSheafULift_hom_ext` are the
   resulting ext principles. The analogue of `SheafOfModules.freeHomEquiv` is `freeSheafULift`
-  together with `freeSheafULiftι`, `freeSheafULift_hom_ext` and `Sigma.ι_desc`.
+  together with `freeSheafULiftι`, `freeSheafULift_hom_ext` and `Sigma.ι_comp_desc`.
 * `Stacks.AssociatedSheaf.structureSection` and `structureSheafULiftScalar`: the restriction of
   a global section of the structure sheaf to an open set, and multiplication by a global section
   on `structureSheafULift X`; `structureSheafULiftScalar_app_apply` is its formula on sections.
@@ -115,7 +115,8 @@ sections universe is a *single independent* universe variable carrying
 the universe unifier gets stuck on `max t ?m =?= max t u v`, the same incompleteness recorded
 for 03EM. What remains is re-deriving the explicit universe annotations along the chain
 `AssociatedSheafComparison → Tag03CU → AssociatedSheafIsos →` this file, and the signature
-change to `structureSheafRing`, which is mentioned in 270 files of this tree. None of the statements of Tag 01BH
+change to `structureSheafRing`, which is mentioned in 270 files of this tree. None of the statements
+of Tag 01BH
 ask for the separation: each states `RingedSpace.{u, u}` itself.
 
 No backward-compatibility elaboration option, linter exemption or rewrite-by-defeq
@@ -192,7 +193,7 @@ def structureSheafULiftMk
 lemma globalEval_structureSheafULiftMk
     {T : SheafOfModules.{max u t} (structureSheafRing X)}
     (x : T.val.obj (op ⊤)) : globalEval (structureSheafULiftMk.{u, t} x) = x := by
-  show (1 : (structureSheafRing X).obj.obj (op ⊤)) •
+  change (1 : (structureSheafRing X).obj.obj (op ⊤)) •
     restrictTop x (op ⊤) = x
   rw [restrictTop_top, one_smul]
 
@@ -401,7 +402,7 @@ lemma globalSections_smul
     (y : (globalSectionsFunctor.{u, v} X α).obj T) :
     r • y = (show (structureSheafRing X).obj.obj (op ⊤) from α r) •
       (show T.val.obj (op ⊤) from y) := by
-  show (show (structureSheafRing X).obj.obj (op ⊤) from
+  change (show (structureSheafRing X).obj.obj (op ⊤) from
       ((globalSectionsMap X α).app (op ⊤)).hom r) • (show T.val.obj (op ⊤) from y) = _
   rw [globalSectionsMap_app_top_apply]
 
@@ -469,7 +470,7 @@ lemma associatedSheaf_hom_ext (M : ModuleCat.{v} R)
         PresheafOfModules.Hom.app χ.val (op ⊤) (tensorUnitSection X α M (op ⊤) y.down) := by
     intro χ y
     rw [Adjunction.homEquiv_unit]
-    show PresheafOfModules.Hom.app
+    change PresheafOfModules.Hom.app
         (((uliftAssociatedSheafIso.{u, v} X α).app M).hom ≫ χ).val (op ⊤)
       (ModuleCat.Hom.hom ((associatedSheafAdjunction.{u, v} X α).unit.app
         ((ModuleCat.uliftFunctor.{u} R).obj M)) y) = _
@@ -502,7 +503,7 @@ lemma globalEval_relation_comp (P : Module.Presentation.{w, z} R M)
   have h0 : freeSheafULiftι.{u, max v w z, z} X j ≫ presentationSheafMap X α P =
       (P.relation j).sum fun i r ↦ structureSheafULiftScalar.{u, max v w z} X (α r) ≫
         freeSheafULiftι.{u, max v w z, w} X i :=
-    Sigma.ι_desc _ j
+    Sigma.ι_comp_desc _ j
   rw [← Category.assoc, h0]
   simp only [Finsupp.sum]
   rw [Preadditive.sum_comp]
@@ -575,7 +576,7 @@ lemma globalEval_presentationFreeMap (P : Module.Presentation.{w, z} R M) (i : P
   let := moduleSheafifyWEqualsLocallyBijective.{u, max v w z} X
   have h : freeSheafULiftι.{u, max v w z, w} X i ≫ presentationFreeMap X α P =
       structureSheafULiftMk.{u, max v w z} (presentationTensorSection X α P i) :=
-    Sigma.ι_desc _ i
+    Sigma.ι_comp_desc _ i
   rw [h, globalEval_structureSheafULiftMk]
 
 lemma presentationSheafMap_comp_presentationFreeMap (P : Module.Presentation.{w, z} R M) :
@@ -678,12 +679,12 @@ lemma desc_comp_presentationToAssociated (P : Module.Presentation.{w, z} R M) :
       tensorUnitGlobalMap.{u, max w z, v} X α M := by
   refine P.toIsPresentation.postcomp_injective
     (Module.Relations.Solution.ext (funext fun i ↦ ?_))
-  show ModuleCat.Hom.hom ((globalSectionsFunctor.{u, max v w z} X α).map
+  change ModuleCat.Hom.hom ((globalSectionsFunctor.{u, max v w z} X α).map
       (presentationToAssociated X α P))
     (P.toIsPresentation.desc (presentationCokernelSolution X α P) (P.var i)) =
       tensorUnitGlobalMap.{u, max w z, v} X α M (P.var i)
   rw [Module.Relations.Solution.IsPresentation.desc_var]
-  show PresheafOfModules.Hom.app (presentationToAssociated X α P).val (op ⊤)
+  change PresheafOfModules.Hom.app (presentationToAssociated X α P).val (op ⊤)
     (globalEval (presentationGenerator X α P i)) = _
   rw [← globalEval_comp, presentationGenerator_comp_presentationToAssociated,
     globalEval_presentationFreeMap]
@@ -748,7 +749,7 @@ lemma globalEval_presentationGenerator_comp_presentationSheafIso (i : P.G) :
   have h2 := uliftAssociatedSheafIso_hom_app_tensorUnitSection X α
     (moduleULift.{u, max w z, v} M) (op ⊤) (ULift.up (P.var i))
   have h3 := associatedSheafULiftIso_inv_app_tensorUnitSection' X α M (op ⊤) (P.var i)
-  show PresheafOfModules.Hom.app
+  change PresheafOfModules.Hom.app
       (associatedSheafULiftIso.{max w z, u, v} X α M).inv.val (op ⊤)
     (PresheafOfModules.Hom.app ((uliftAssociatedSheafIso.{u, max v w z} X α).hom.app
       (moduleULift.{u, max w z, v} M)).val (op ⊤)
@@ -767,7 +768,7 @@ lemma presentationSheafIso_hom_app_apply (i : P.G) (U : Opens X.carrier) :
       ULift.up (tensorUnitSection X α M (op U)
         (P.toSolution.π (Finsupp.single i 1))) := by
   rw [Module.Relations.Solution.π_single]
-  show PresheafOfModules.Hom.app
+  change PresheafOfModules.Hom.app
       (presentationGenerator X α P i ≫ (presentationSheafIso X α M P).hom).val (op U)
     (ULift.up (1 : (structureSheafRing X).obj.obj (op U))) = _
   rw [app_one_eq_restrictTop, globalEval_presentationGenerator_comp_presentationSheafIso]

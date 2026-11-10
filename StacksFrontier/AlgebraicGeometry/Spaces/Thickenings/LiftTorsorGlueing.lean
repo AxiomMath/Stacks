@@ -914,7 +914,7 @@ theorem existsUnique_liftTorsorAct (hX : IsFirstOrderThickening C S hS X' Z.1)
       liftTorsorAct C S hS hX hH U' θ s = t := by
   obtain ⟨θ, hθ, huniq⟩ := existsUnique_translateGlobalSection C S hS hX hH s.down t.down
   refine ⟨θ, ?_, fun θ' hθ' => huniq θ' (congrArg ULift.down hθ')⟩
-  show liftTorsorAct C S hS hX hH U' θ s = t
+  change liftTorsorAct C S hS hX hH U' θ s = t
   rw [liftTorsorAct_eq, hθ]
   rfl
 
@@ -1010,7 +1010,7 @@ theorem subEtaleChartMap_comp_subEtaleChartIso_hom (hG : IsThickening C S hS X' 
     CostructuredArrow.w _
   refine ObjectProperty.hom_ext _ (CostructuredArrow.hom_ext _ _ ?_)
   refine (isClosedImmersion_inclusion_of_isThickening C S hS hG).rep.hom_ext ?_ ?_
-  · show yoneda.map (R.subMap ≫ (P.subEtaleChartIso C S hS hG).hom.hom.left) ≫ _ =
+  · change yoneda.map (R.subMap ≫ (P.subEtaleChartIso C S hS hG).hom.hom.left) ≫ _ =
       yoneda.map ((R.presentation.subEtaleChartIso C S hS hG).hom.hom.left ≫
         ((thickeningChartBaseChange C S hS hG).map R.chartMap).hom.left) ≫ _
     rw [Functor.map_comp, Functor.map_comp]
@@ -1030,7 +1030,7 @@ theorem subEtaleChartMap_comp_subEtaleChartIso_hom (hG : IsThickening C S hS X' 
             yoneda.map ((R.presentation.subEtaleChartIso C S hS hG).hom.hom.left) ≫ z) hw).trans
           (R.presentation.subEtaleChartIso_hom_comp_fst C S hS hG))
     exact e1.trans e2.symm
-  · show (R.subMap ≫ (P.subEtaleChartIso C S hS hG).hom.hom.left) ≫ _ =
+  · change (R.subMap ≫ (P.subEtaleChartIso C S hS hG).hom.hom.left) ≫ _ =
       ((R.presentation.subEtaleChartIso C S hS hG).hom.hom.left ≫
         ((thickeningChartBaseChange C S hS hG).map R.chartMap).hom.left) ≫ _
     have f1 : (R.subMap ≫ (P.subEtaleChartIso C S hS hG).hom.hom.left) ≫

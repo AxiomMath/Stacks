@@ -91,8 +91,8 @@ namespace Stacks.Examples.AffineLineQuotient
 theorem isStandardSmoothOfRelativeDimension_polynomialC (R : Type*) [CommRing R] :
     (Polynomial.C : R →+* Polynomial R).IsStandardSmoothOfRelativeDimension 1 := by
   have : Algebra.IsStandardSmoothOfRelativeDimension 1 R (MvPolynomial PUnit.{1} R) :=
-    (Algebra.SubmersivePresentation.mvPolynomial.{0} R PUnit).isStandardSmoothOfRelativeDimension (by
-      simp [Algebra.Presentation.dimension])
+    (Algebra.SubmersivePresentation.mvPolynomial.{0} R PUnit).isStandardSmoothOfRelativeDimension
+      (by simp [Algebra.Presentation.dimension])
   have h : Algebra.IsStandardSmoothOfRelativeDimension 1 R (Polynomial R) :=
     Algebra.IsStandardSmoothOfRelativeDimension.of_algEquiv (n := 1)
       (MvPolynomial.uniqueAlgEquiv R PUnit.{1})
@@ -195,7 +195,7 @@ theorem sectionEquiv_naturality {T U : BigFppfOver C S hS} (f : T ⟶ U)
     (x : U ⟶ Space.additiveGroupSiteObject C S hS) :
     sectionEquiv C S hS T (f ≫ x) =
       (Scheme.Γ.map ((Space.toSchemeOver C S hS).map f).left.op).hom (sectionEquiv C S hS U x) := by
-  show (additiveGroupBaseChangeRepresentableBy S).homEquiv
+  change (additiveGroupBaseChangeRepresentableBy S).homEquiv
       ((Space.toSchemeOver C S hS).map (f ≫ x)) = _
   rw [Functor.map_comp]
   exact (additiveGroupBaseChangeRepresentableBy S).homEquiv_comp _ _
@@ -380,7 +380,7 @@ exactly when the function pulls back to a nonzero element. -/
 theorem mem_basicOpen_iff_appTop_ne_zero {K : Type u} [Field K] {X : Scheme.{u}}
     (φ : Spec (.of K) ⟶ X) (f : Γ(X, ⊤)) (y : Spec (.of K)) :
     φ y ∈ X.basicOpen f ↔ φ.appTop f ≠ 0 := by
-  show y ∈ φ ⁻¹ᵁ X.basicOpen f ↔ _
+  change y ∈ φ ⁻¹ᵁ X.basicOpen f ↔ _
   rw [Scheme.preimage_basicOpen]
   constructor
   · intro h h0
@@ -404,7 +404,7 @@ theorem sectionEquiv_eq_appTop (T : BigFppfOver C S hS)
     (x : T ⟶ Space.additiveGroupSiteObject C S hS) :
     sectionEquiv C S hS T x =
       ((Space.toSchemeOver C S hS).map x).left.appTop (coordinate C S hS) := by
-  show (additiveGroupBaseChangeRepresentableBy S).homEquiv ((Space.toSchemeOver C S hS).map x) = _
+  change (additiveGroupBaseChangeRepresentableBy S).homEquiv ((Space.toSchemeOver C S hS).map x) = _
   refine (additiveGroupBaseChangeRepresentableBy_apply S _).trans ?_
   simp only [additiveGroupPointSection, coordinate]
   rfl
@@ -498,10 +498,10 @@ theorem lineSection_target_eq (T : BigFppfOver C S hS)
     (Space.smul_objectOverStar_left_comp_snd C S hS (Space.terminalSpace C S hS).obj
       (Space.multiplicativeGroupPointsOnSite C S hS)
       (yoneda.obj (Space.additiveGroupSiteObject C S hS)))
-  show sectionEquiv C S hS T ((γ[multiplicativeGroupOver C S hS,
+  change sectionEquiv C S hS T ((γ[multiplicativeGroupOver C S hS,
     affineLineOver C S hS].left ≫ prod.snd).app _ v) = _
   rw [h]
-  show sectionEquiv C S hS T ((sectionEquiv C S hS T).symm _) = _
+  change sectionEquiv C S hS T ((sectionEquiv C S hS T).symm _) = _
   rw [Equiv.apply_symm_apply]
   rfl
 
@@ -555,7 +555,7 @@ theorem arrowUnit_arrowElement (T : BigFppfOver C S hS) (c : (Γ(underlyingSchem
       p₂).app _ (arrowElement C S hS T c x) = (unitsEquiv C S hS T).symm c :=
     ((yonedaEquiv_comp L _).symm.trans (congrArg yonedaEquiv (h3.trans h4))).trans
       (Equiv.apply_symm_apply _ _)
-  show unitsEquiv C S hS T _ = c
+  change unitsEquiv C S hS T _ = c
   rw [h5, MulEquiv.apply_symm_apply]
 
 /-- The point of `𝔸¹` over the base with a prescribed global section. -/
@@ -663,7 +663,7 @@ theorem chartPointsMap_eq (u : Space.points C (Spec (.of k)) hk
     have ht : lineSection C (Spec (.of k)) hk _
         (Space.FieldValuedPoint.map C (Spec (.of k)) hk _
           (scalingGroupoid C (Spec (.of k)) hk).target.hom ρ).value = 1 := by
-      show lineSection C (Spec (.of k)) hk _
+      change lineSection C (Spec (.of k)) hk _
         ((scalingGroupoid C (Spec (.of k)) hk).target.hom.app _ ρ.value) = 1
       rw [lineSection_target_eq, source_app_arrowElement, arrowUnit_arrowElement]
       exact (congrArg (fun z => ((c₀⁻¹ : (Γ(Spec (.of K), ⊤))ˣ) : Γ(Spec (.of K), ⊤)) * z)
@@ -697,7 +697,7 @@ theorem originPoint_ne_unitPoint : originPoint C hk 𝒳 e ≠ unitPoint C hk �
         (scalingGroupoid C (Spec (.of k)) hk).target.hom ρ).class C (Spec (.of k)) hk _) ∈
       zeroLocus C (Spec (.of k)) hk := by
     refine (lineHomeomorph_class_mem_zeroLocus_iff C (Spec (.of k)) hk _).2 ?_
-    show lineSection C (Spec (.of k)) hk _
+    change lineSection C (Spec (.of k)) hk _
       ((scalingGroupoid C (Spec (.of k)) hk).target.hom.app _ ρ.value) = 0
     rw [lineSection_target_eq, show lineSection C (Spec (.of k)) hk _
       ((scalingGroupoid C (Spec (.of k)) hk).source.hom.app _ ρ.value) = 0 from h0, mul_zero]
@@ -812,7 +812,7 @@ theorem hasEtaleLocalProperty_isLocallyNoetherian_affineLineOver :
     (lineIso C (Spec (.of k)) hk)).2 ?_
   have : Smooth (additiveGroup.{u} ↘ Spec (.of (ULift.{u} ℤ))) :=
     SmoothOfRelativeDimension.smooth 1 _
-  show IsLocallyNoetherian (pullback (additiveGroup.{u} ↘ Spec (.of (ULift.{u} ℤ)))
+  change IsLocallyNoetherian (pullback (additiveGroup.{u} ↘ Spec (.of (ULift.{u} ℤ)))
     (specULiftZIsTerminal.from (Spec (.of k))))
   infer_instance
 

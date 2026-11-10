@@ -333,9 +333,9 @@ theorem abstractBaseChange_comp
     (adj _ _ (f₁ ≫ f₂)) (adj _ _ (f₁' ≫ f₂')) _ _ _ _ _ _ _ hSo
     (hconj _ _ _ f₁ f₂) (hconj' _ _ _ f₁' f₂')
   rw [← hmate (comm := w), ← hmate (comm := comm₂), ← hmate (comm := comm₁)] at hpaste
-  have h := congr_app (congrArg TwoSquare.natTrans hpaste) K
-  simp only [TwoSquare.whiskerTop, TwoSquare.whiskerBottom, TwoSquare.hComp, TwoSquare.natTrans,
-    TwoSquare.mk, Functor.whiskerLeft_app, Functor.whiskerRight_app, NatTrans.comp_app,
+  have h := congr_app hpaste K
+  simp only [TwoSquare.whiskerTop, TwoSquare.whiskerBottom, TwoSquare.hComp,
+    Functor.whiskerLeft_app, Functor.whiskerRight_app, NatTrans.comp_app,
     Functor.associator_hom_app, Functor.associator_inv_app, Category.id_comp,
     Category.assoc] at h
   exact h

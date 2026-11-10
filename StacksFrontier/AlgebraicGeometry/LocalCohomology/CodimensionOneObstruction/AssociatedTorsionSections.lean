@@ -273,10 +273,10 @@ theorem exists_section_smul_eq_smul_of_notMem_primeIdealOf [IsLocallyNoetherian 
     have h3 : F.presheaf.map (homOfLE hWS).op w = 0 :=
       res_eq_zero_of_le_basicOpen F hSV hWS hWa (hw a (hTp a haT))
     rw [Subsingleton.elim f (homOfLE hWn)]
-    show F.presheaf.map (homOfLE hWn).op (c • F.presheaf.map (homOfLE (hUS none)).op w) = 0
+    change F.presheaf.map (homOfLE hWn).op (c • F.presheaf.map (homOfLE (hUS none)).op w) = 0
     rw [h1, h2, h3, smul_zero]
   have hcompat : TopCat.Presheaf.IsCompatible (abSheaf F).1 U sf := by
-    show ∀ i j, F.presheaf.map (Opens.infLELeft (U i) (U j)).op (sf i)
+    change ∀ i j, F.presheaf.map (Opens.infLELeft (U i) (U j)).op (sf i)
         = F.presheaf.map (Opens.infLERight (U i) (U j)).op (sf j)
     intro i j
     cases i with

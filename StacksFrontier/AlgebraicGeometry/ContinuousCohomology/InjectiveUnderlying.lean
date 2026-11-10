@@ -70,12 +70,12 @@ omit [IsTopologicalGroup Q] in
 /-- An element of `U` acts trivially in the permutation representation. -/
 lemma permutationRep_of_mem (q : Q) (hq : q ∈ (U : Subgroup Q)) (f : Q ⧸ (U : Subgroup Q) →₀ M) :
     permutationRep R U M q f = f := by
-  show Finsupp.mapDomain (fun c => q • c) f = f
+  change Finsupp.mapDomain (fun c => q • c) f = f
   have : (fun c : Q ⧸ (U : Subgroup Q) => q • c) = id := by
     funext c
     induction c using QuotientGroup.induction_on with
     | H a =>
-      show ((q * a : Q) : Q ⧸ (U : Subgroup Q)) = (a : Q ⧸ (U : Subgroup Q))
+      change ((q * a : Q) : Q ⧸ (U : Subgroup Q)) = (a : Q ⧸ (U : Subgroup Q))
       rw [QuotientGroup.eq, mul_inv_rev, mul_assoc]
       simpa [mul_assoc] using U.isNormal'.conj_mem q⁻¹ (inv_mem hq) a⁻¹
   rw [this]
@@ -164,11 +164,13 @@ lemma orbitMap_mk (U : OpenNormalSubgroup Q) (x : J.obj.obj.V)
 omit [IsTopologicalGroup Q] [CompactSpace Q] in
 /-- The orbit map is `Q`-equivariant. -/
 lemma orbitMap_smul (U : OpenNormalSubgroup Q) (x : J.obj.obj.V)
-    (hx : ∀ g ∈ (U : Subgroup Q), (J.obj.obj.ρ g).asHom.hom x = x) (q : Q) (c : Q ⧸ (U : Subgroup Q)) :
+    (hx : ∀ g ∈ (U : Subgroup Q), (J.obj.obj.ρ g).asHom.hom x = x) (q : Q)
+    (c : Q ⧸ (U : Subgroup Q)) :
     orbitMap J U x hx (q • c) = (J.obj.obj.ρ q).asHom.hom (orbitMap J U x hx c) := by
   induction c using QuotientGroup.induction_on with
   | H a =>
-    show (J.obj.obj.ρ (q * a)).asHom.hom x = (J.obj.obj.ρ q).asHom.hom ((J.obj.obj.ρ a).asHom.hom x)
+    change (J.obj.obj.ρ (q * a)).asHom.hom x =
+      (J.obj.obj.ρ q).asHom.hom ((J.obj.obj.ρ a).asHom.hom x)
     exact continuousModuleRho_mul_apply ℤ J q a x
 
 /-- **An injective discrete `Q`-module is divisible.** -/
@@ -195,7 +197,7 @@ theorem exists_zsmul_eq_of_injective [Injective J] (x : J.obj.obj.V) (m : ℤ) (
   have hφ : ∀ (q : Q) (f : P.obj.obj.V),
       φlin ((P.obj.obj.ρ q).asHom.hom f) = (J.obj.obj.ρ q).asHom.hom (φlin f) := by
     rintro q ⟨f⟩
-    show lin (permutationRep ℤ U (ULift.{w} ℤ) q f) = (J.obj.obj.ρ q).asHom.hom (lin f)
+    change lin (permutationRep ℤ U (ULift.{w} ℤ) q f) = (J.obj.obj.ρ q).asHom.hom (lin f)
     induction f using Finsupp.induction_linear with
     | zero => simp
     | add f g hf hg => simp only [map_add, hf, hg]
@@ -216,16 +218,16 @@ theorem exists_zsmul_eq_of_injective [Injective J] (x : J.obj.obj.V) (m : ℤ) (
   let e : P.obj.obj.V := ULift.up (Finsupp.single ((1 : Q) : Q ⧸ (U : Subgroup Q)) (ULift.up 1))
   refine ⟨ψ.hom.hom.hom.hom e, (map_zsmul ψ.hom.hom.hom.hom m e).symm.trans ?_⟩
   refine (congrArg (fun t : P ⟶ J => t.hom.hom.hom.hom e) hψ).trans ?_
-  show lin (Finsupp.single _ (ULift.up 1)) = x
+  change lin (Finsupp.single _ (ULift.up 1)) = x
   rw [lin_single, orbitMap_mk, one_zsmul, continuousModuleRho_one_apply]
 
 /-- The divisibility of an injective discrete module, as a `DivisibleBy` structure. -/
 @[reducible] noncomputable def divisibleByOfInjective [Injective J] :
     DivisibleBy J.obj.obj.V ℤ where
   div a n := if h : n = 0 then 0 else (exists_zsmul_eq_of_injective J a n h).choose
-  div_zero a := dif_pos rfl
+  div_zero a := dite_eq_left rfl
   div_cancel {n} a h := by
-    rw [dif_neg h]
+    rw [dite_eq_right h]
     exact (exists_zsmul_eq_of_injective J a n h).choose_spec
 
 /-- **The underlying abelian group of an injective discrete `Q`-module is injective.** -/

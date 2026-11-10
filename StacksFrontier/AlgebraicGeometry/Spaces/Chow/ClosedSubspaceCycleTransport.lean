@@ -378,7 +378,7 @@ theorem cycleGroupClosedPushforward_closedSubspaceCycle_eq_of_iso (sX : X ⟶ D.
     IntegralClosedSubspace.pushforward_pushforward hX.1 hY₁.1 hY₂.1 hXdec hY₁dec hφ'
       (isClosedImmersion_of_isIso D.site D.base D.base_mem φ.inv) hc₁ hc₂
   refine Subtype.ext (funext fun Z => ?_)
-  show cycleClosedPushforward D hX.1 hT₁.1 hXdec hj₁
+  change cycleClosedPushforward D hX.1 hT₁.1 hXdec hj₁
       (closedSubspaceCycle D s₁ hT₁ Y₁ hY₁ k hd₁).1 Z =
     cycleClosedPushforward D hX.1 hT₂.1 hXdec hj₂ (closedSubspaceCycle D s₂ hT₂ Y₂ hY₂ k hd₂).1 Z
   by_cases h : ∃ V, IntegralClosedSubspace.pushforward D.site D.base D.base_mem hX.1 hY₁.1 hXdec

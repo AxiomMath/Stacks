@@ -205,7 +205,7 @@ theorem epi_pushforwardTensorPairing
         ∀ z : (bcPushforward B S hS π hrep M₃).val.obj (op V), (d.val.app (op V)).hom z = 0 := by
     intro V hV z
     have hmem := hspan V hV (bcSection B S hS π hrep z)
-    show (d.val.app (op V)).hom (bcSectionInv B S hS π hrep (bcSection B S hS π hrep z)) = 0
+    change (d.val.app (op V)).hom (bcSectionInv B S hS π hrep (bcSection B S hS π hrep z)) = 0
     generalize bcSection B S hS π hrep z = z' at hmem ⊢
     induction hmem using AddSubmonoid.closure_induction with
     | mem w hw =>
@@ -226,7 +226,7 @@ theorem epi_pushforwardTensorPairing
   have h1 : (d.val.app (op T)).hom (chartRestrictLinear (bcPushforward B S hS π hrep M₃) (g ≫ a j)
       z) = 0 := by
     rw [e1]
-    show (d.val.app (op T)).hom (((bcPushforward B S hS π hrep M₃).val.map g.op).hom
+    change (d.val.app (op T)).hom (((bcPushforward B S hS π hrep M₃).val.map g.op).hom
       (chartRestrictLinear (bcPushforward B S hS π hrep M₃) (a j) z)) = 0
     rw [PresheafOfModules.naturality_apply, h0]
     exact map_zero _

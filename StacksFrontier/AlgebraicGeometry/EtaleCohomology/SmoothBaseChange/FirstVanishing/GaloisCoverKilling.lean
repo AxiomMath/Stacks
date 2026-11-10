@@ -73,7 +73,7 @@ private theorem isGalois_of_mono_of_natCard_hom_eq {A Y : C} [IsConnected A] (ι
   have hσ' : σ' ≫ ι = f := by
     simp only [σ', Category.assoc, ← pullback.condition, IsIso.inv_hom_id_assoc]
   have hσa : F.map σ' a₁ = a₂ := hιinj <| by
-    show (F.map σ' ≫ F.map ι) a₁ = _
+    change (F.map σ' ≫ F.map ι) a₁ = _
     rw [← F.map_comp, hσ']
     exact hf
   have : Nonempty (F.obj A) := ⟨a₁⟩
@@ -221,7 +221,7 @@ private theorem natCard_aut_dvd_natCard_of_bijective {A Y : FiniteEtaleOver X}
     have h1 : β A ((σ * τ).asIso.hom ≫ ι) =
         (fiberSheaf S c).obj.map ((finiteEtaleToEtale X).map τ.asIso.hom).op
           (β A (σ.asIso.hom ≫ ι)) := by
-      show β A ((τ.asIso.hom ≫ σ.asIso.hom) ≫ ι) = _
+      change β A ((τ.asIso.hom ≫ σ.asIso.hom) ≫ ι) = _
       rw [Category.assoc, hβcomp]
     simp only [χfun, ← ofAdd_add]
     congr 1

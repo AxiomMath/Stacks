@@ -158,7 +158,7 @@ private theorem mem_goodLocus_of_away_aux {T : Over S} (ξ : HilbertFamily (ambi
   let γ : Over.mk (ι₀ ≫ a ≫ T.hom) ⟶ T := Over.homMk (ι₀ ≫ a) (by simp)
   refine ⟨Over.mk (ι₀ ≫ a ≫ T.hom), γ, inferInstanceAs (IsAffine (Spec _)),
     inferInstanceAs (IsOpenImmersion (ι₀ ≫ a)), ⟨y, ?_⟩, ?_⟩
-  · show (ι₀ ≫ a) y = a x
+  · change (ι₀ ≫ a) y = a x
     rw [Scheme.Hom.comp_apply, hy]
   · refine ⟨Ag, 𝟙 (Spec Ag), inferInstance, ?_⟩
     have w : ι₀ ≫ a ≫ T.hom = 𝟙 (Spec Ag) ≫ (Over.mk (ι₀ ≫ a ≫ T.hom)).hom := by simp
@@ -169,7 +169,8 @@ private theorem mem_goodLocus_of_away_aux {T : Over S} (ξ : HilbertFamily (ambi
       ext
       simp [γ]
     rw [← baseChange_comp, he, baseChange_comp, probeIdeal_baseChange_homMk, Spec.preimage_map]
-    convert hb using 2 <;> first | rfl | exact Subsingleton.elim _ _
+    convert hb using 2
+    exact Subsingleton.elim _ _
 
 /-- **The good locus is compatible with base change.** This is the openness condition (2)(b) of
 the gluing criterion in the source's proof of Tag 0B99. -/
@@ -181,7 +182,7 @@ theorem goodLocus_baseChange {T Y : Over S} (h : Y ⟶ T) (ξ : HilbertFamily (a
     obtain ⟨A, a, ha, ⟨x₀, hx₀⟩, -⟩ :=
       exists_SpecProbe (⊤ : T.left.Opens) (Set.mem_univ (h.left (α'.left z')))
     have hz'O : z' ∈ (α'.left ≫ h.left) ⁻¹ᵁ a.opensRange := by
-      show (α'.left ≫ h.left) z' ∈ a.opensRange
+      change (α'.left ≫ h.left) z' ∈ a.opensRange
       rw [Scheme.Hom.comp_apply]
       exact ⟨x₀, hx₀⟩
     obtain ⟨B, b, hb, ⟨z'', hz''⟩, hbO⟩ := exists_SpecProbe _ hz'O
@@ -227,7 +228,7 @@ theorem goodLocus_baseChange {T Y : Over S} (h : Y ⟶ T) (ξ : HilbertFamily (a
     let l : Spec C ⟶ Z.left := IsOpenImmersion.lift α.left (a ≫ h.left) hrange
     have hl : l ≫ α.left = a ≫ h.left := IsOpenImmersion.lift_fac _ _ _
     let lam : Over.mk (a ≫ Y.hom) ⟶ Z := Over.homMk l (by
-      show l ≫ Z.hom = a ≫ Y.hom
+      change l ≫ Z.hom = a ≫ Y.hom
       rw [← Over.w α, reassoc_of% hl, Over.w h])
     refine ⟨Over.mk (a ≫ Y.hom), Over.homMk a rfl, inferInstanceAs (IsAffine (Spec C)), ha, hya,
       ?_⟩
@@ -272,7 +273,7 @@ theorem baseChange_mem_basisSubfunctor_iff {T Y : Over S} (h : Y ⟶ T)
     (ξ : HilbertFamily (ambient n) T d) :
     (hilbertFunctorOfRank (ambient n) d).map h.op ξ ∈ (basisSubfunctor (S := S) f).obj (op Y) ↔
       ∀ y : Y.left, h.left y ∈ goodLocus f ξ := by
-  show (∀ y, y ∈ goodLocus f (baseChange (ambient n) h ξ)) ↔ _
+  change (∀ y, y ∈ goodLocus f (baseChange (ambient n) h ξ)) ↔ _
   rw [goodLocus_baseChange]
   rfl
 
@@ -399,8 +400,7 @@ theorem chartToSubfunctor_injective (A : CommRingCat.{u}) (s : Spec A ⟶ S) :
   have hL := (preimage_comp_includeLeft f k).trans (preimage_comp_includeLeft f k').symm
   have hψ : Spec.preimage k.left = Spec.preimage k'.left := by
     refine CommRingCat.hom_ext (RingHom.ext fun x ↦ ?_)
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a b =>
       have ha := congrArg (fun φ : CommRingCat.of Γ(S, ⊤) ⟶ A ↦ φ a) hL
       have hb := congrArg (fun φ : BasisQuotient.Univ f →ₐ[ℤ] A ↦ φ b) hR
@@ -435,13 +435,13 @@ theorem exists_chart_lift {C : CommRingCat.{u}} (s : Spec C ⟶ S)
   rw [probeIdeal_baseChange_univFamily]
   have hcomp : (liftZ f (Spec.preimage k.left)).comp (incR f) = φ := by
     ext b
-    show (Spec.preimage (Spec.map (CommRingCat.ofHom ψ.toRingHom))).hom
+    change (Spec.preimage (Spec.map (CommRingCat.ofHom ψ.toRingHom))).hom
       ((1 : Γ(S, ⊤)) ⊗ₜ[ℤ] b) = φ b
     rw [Spec.preimage_map, CommRingCat.hom_ofHom]
-    show ψ ((1 : Γ(S, ⊤)) ⊗ₜ[ℤ] b) = φ b
+    change ψ ((1 : Γ(S, ⊤)) ⊗ₜ[ℤ] b) = φ b
     simp [ψ]
   rw [hcomp]
-  show ((BasisQuotient.equiv f) ((BasisQuotient.equiv f).symm ⟨_, hζ⟩)).1 = _
+  change ((BasisQuotient.equiv f) ((BasisQuotient.equiv f).symm ⟨_, hζ⟩)).1 = _
   rw [Equiv.apply_symm_apply]
 
 /-- **`F_f` is represented by the chart.** -/
@@ -467,7 +467,7 @@ theorem basisSubfunctor_isRepresentable :
         exact ⟨c, rfl⟩
       · obtain ⟨k, hk⟩ := exists_chart_lift f (u ≫ Z.hom) _ hb
         refine ⟨k, Subtype.ext ?_⟩
-        show baseChange (ambient n) k (univFamily f) =
+        change baseChange (ambient n) k (univFamily f) =
           baseChange (ambient n) (Over.homMk u rfl ≫ α) ξ.1
         rw [hk]
         exact (baseChange_comp (ambient n) _ α ξ.1).symm)

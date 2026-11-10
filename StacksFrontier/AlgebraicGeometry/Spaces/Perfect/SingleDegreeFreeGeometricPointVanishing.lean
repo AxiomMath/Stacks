@@ -68,7 +68,7 @@ theorem exists_mem_singleDegreeFreePoints_of_isZero_homModule_homology
     representedSpaceMap B S hS N.point
   have hbm : bm ≫ chartToSpace B S hS X V = c := by
     refine InducedCategory.hom_ext (yonedaEquiv.injective ?_)
-    show yonedaEquiv (yoneda.map N.point ≫ V.obj.hom) = yonedaEquiv c.hom
+    change yonedaEquiv (yoneda.map N.point ≫ V.obj.hom) = yonedaEquiv c.hom
     rw [yonedaEquiv_comp, yonedaEquiv_yoneda_map]
     exact N.point_comp
   have : (modulePullback B S hS bm).Additive := modulePullback_additive bm

@@ -227,6 +227,7 @@ public def complementGlobalSectionsToSectionsAt (J : Ideal A)
         (opensScalars A (maximalIdeal A)
           (OpensNearVanishing.ofZeroLocusInter I J hV).openSet r)) _).symm
 
+omit [IsNoetherianRing A] in
 /-- The comparison of the previous definition is onto: each of its three factors is a
 bijection. -/
 public theorem surjective_complementGlobalSectionsToSectionsAt (J : Ideal A)
@@ -251,6 +252,7 @@ public theorem surjective_complementGlobalSectionsToSectionsAt (J : Ideal A)
   rw [LinearEquiv.symm_apply_apply]
   exact LinearEquiv.symm_apply_apply _ v
 
+omit [IsNoetherianRing A] in
 /-- **The sections of `ℱ` on the neighbourhood cut out by `J` are a finite `A`-module** as soon as
 the global sections of `M̃` on `Spec(A) ∖ V(J)` are. -/
 public theorem finite_sectionsAtModule_ofZeroLocusInter (J : Ideal A)

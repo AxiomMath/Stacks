@@ -201,20 +201,8 @@ smooth proper curve over `k` with a rational point, `T` a `k`-scheme, `ℒ` inve
 `s : 𝒪 ⟶ ℒ` a generator relative to `f_T` (so `Rf_{T,*}ℒ ≅ 𝒪_T[0]`). Then the zero scheme of
 `s` is finite locally free of rank `g = genus f` over `T`: on the fibre over `v` it is the zero
 scheme of a nonzero section of `ℒ_v`, and `R(f_v)_*(ℒ_v[0]) ≅ 𝒪_{κ(v)}[0]` gives
-`deg ℒ_v = χ(ℒ_v) - χ(𝒪_{X_v}) = 1 - (1 - g)` ([Stacks, Tag 0AYR], [Stacks, Tag 0BY9]); it takes
-[Stacks, Tag 0A1H] as an argument (`hPerfBC`). -/
+`deg ℒ_v = χ(ℒ_v) - χ(𝒪_{X_v}) = 1 - (1 - g)` ([Stacks, Tag 0AYR], [Stacks, Tag 0BY9]). -/
 theorem isFiniteLocallyFreeOfRank_zeroScheme_of_isGenerator
-    (hPerfBC : ∀ {X S : Scheme.{u}} (f : X ⟶ S) (hf : FinitePresentation f)
-      (E : DerivedCategory X.Modules) (_hE : RingedSpace.IsPerfect (X := X.toRingedSpace) E)
-      (G : CochainComplex X.Modules ℤ)
-      (_hG : letI : LocallyOfFinitePresentation f := hf.locallyOfFinitePresentation
-        FlatProperSupportFinitelyPresented f G),
-      RingedSpace.IsPerfect (X := S.toRingedSpace)
-          ((derivedPushforward f.toLRSHom.toShHom).obj
-            (((derivedTensorProductFunctor X.sheaf).obj E).obj (DerivedCategory.Q.obj G))) ∧
-        ∀ {X' S' : Scheme.{u}} (g : S' ⟶ S) (f' : X' ⟶ S') (g' : X' ⟶ X)
-          (hsq : IsPullback g' f' f g),
-          IsIso (tensorFlatBaseChangeMap f g f' g' (comp_toShHom_of_comm hsq.w) E G))
     [IsCurve k f] [Smooth f] [IsProper f] {T : Scheme.{u}} (q : T ⟶ Spec (.of k))
     (L : (pullback f q).Modules)
     [SheafOfModules.IsInvertible (pullback f q).sheaf.obj (pullback f q).ringCatSheaf.property L]
@@ -226,7 +214,7 @@ theorem isFiniteLocallyFreeOfRank_zeroScheme_of_isGenerator
   set p := pullback.snd f q
   set Z := zeroScheme (pullback f q) L ((L.unitHomEquiv s).eval (op ⊤))
   have hflf : Stacks.Morphisms.IsFiniteLocallyFree (Z.subschemeι ≫ p) :=
-    (isRelativeEffectiveCartierDivisor_zeroScheme_of_isGenerator f σ hσ hPerfBC q L s hs).2
+    (isRelativeEffectiveCartierDivisor_zeroScheme_of_isGenerator f σ hσ q L s hs).2
   obtain ⟨hfin, hflat, -⟩ :=
     (Stacks.Morphisms.isFiniteLocallyFree_iff_isFinite_flat_locallyOfFinitePresentation
       (Z.subschemeι ≫ p)).1 hflf
@@ -268,8 +256,8 @@ theorem isFiniteLocallyFreeOfRank_zeroScheme_of_isGenerator
     (topologicalKrullDim_fiber_le_of_smoothOfRelativeDimension 1 p v)
     (finrank_globalSections_fiber_pullbackSnd f σ hσ q v)
     ((Scheme.Modules.pullback (p.fiberι v)).obj L) inferInstance
-    (PushforwardGenerator.nonempty_derivedPushforward_fiber_iso L hPerfBC p s hs v) _
-    (PushforwardGenerator.pullbackGlobalSections_fiberι_ne_zero L hPerfBC p
+    (PushforwardGenerator.nonempty_derivedPushforward_fiber_iso L p s hs v) _
+    (PushforwardGenerator.pullbackGlobalSections_fiberι_ne_zero L p
       (Stacks.Divisors.isFiniteLocallyFree_of_isInvertible _ L)
       (Stacks.Chow.isFlat_of_isInvertible L) s hs v)]
   exact genus_fiberToSpecResidueField_pullbackSnd f q v

@@ -91,9 +91,9 @@ theorem FieldValuedPoint.dominates_trans {a b c : FieldValuedPoint B S hS F}
   obtain ⟨f, hf⟩ := hab
   obtain ⟨g, hg⟩ := hbc
   refine ⟨f ≫ g, ?_⟩
-  show F.map (f ≫ g).op c.value = a.value
+  change F.map (f ≫ g).op c.value = a.value
   rw [CategoryTheory.op_comp, Functor.map_comp]
-  show F.map f.op (F.map g.op c.value) = a.value
+  change F.map f.op (F.map g.op c.value) = a.value
   rw [hg, hf]
 
 /-- Two geometric points lying over the same point of the space are dominated by a single
@@ -198,10 +198,10 @@ theorem exists_neighborhood_map_of_dominates {x y : GeometricPoint B S hS F}
   let hRep : yoneda.relativelyRepresentable η := U.chart.property.1
   have hcompat : yoneda.map U.point ≫ η = yoneda.map f ≫ α := by
     apply yonedaEquiv.injective
-    show η.app (Opposite.op y.val.siteObject) U.point =
+    change η.app (Opposite.op y.val.siteObject) U.point =
       α.app (Opposite.op y.val.siteObject) f
     rw [U.point_comp]
-    show y.val.value = F.map f.op x.val.value
+    change y.val.value = F.map f.op x.val.value
     exact hf.symm
   let k := hRep.lift (yoneda.map U.point) f hcompat
   let b' := yoneda.preimage (hRep.fst α)
@@ -241,7 +241,7 @@ theorem exists_neighborhood_map_of_dominates {x y : GeometricPoint B S hS F}
         _ = l ≫ B.inclusion.map (hRep.pullback α).hom := by rw [B.inclusion.map_preimage]
         _ = B.inclusion.map x.val.siteObject.hom := hlBase)
   have hlMap : G.map lSite = l := by
-    show B.inclusion.map (B.inclusion.preimage lBelow) = l
+    change B.inclusion.map (B.inclusion.preimage lBelow) = l
     exact B.inclusion.map_preimage lBelow
   have hlSite : lSite ≫ hRep.snd α = 𝟙 _ := by
     apply Functor.map_injective G
@@ -262,11 +262,11 @@ theorem exists_neighborhood_map_of_dominates {x y : GeometricPoint B S hS F}
       simpa only [types_comp_apply, yoneda_obj_map, Quiver.Hom.unop_op,
         ConcreteCategory.hom_ofHom, TypeCat.Fun.coe_mk, Function.comp_apply] using hnat
     rw [hnat', hsec]
-    show (F.map (hRep.snd α).op ≫ F.map lSite.op) x.val.value = x.val.value
+    change (F.map (hRep.snd α).op ≫ F.map lSite.op) x.val.value = x.val.value
     rw [← Functor.map_comp, ← op_comp, hlSite]
     simp
   · apply Functor.map_injective G
-    show (G.map f ≫ G.map lSite) ≫ G.map b' = G.map U.point
+    change (G.map f ≫ G.map lSite) ≫ G.map b' = G.map U.point
     rw [hlMap]
     simpa [Category.assoc] using hpoint
 
@@ -365,10 +365,10 @@ theorem neighborhoodAlong_initial (hF : IsAlgebraicSpace B S hS F)
     let t : W' ⟶ U :=
       { hom := a.hom
         point_comp := by
-          show z ≫ (SmallEtale.toOver B S hS F).map a.hom = U.point
+          change z ≫ (SmallEtale.toOver B S hS F).map a.hom = U.point
           let m : W.chart.obj.left ⟶ U.chart.obj.left := a.hom.hom.left
           have hcomm : yoneda.map m ≫ U.chart.obj.hom = W.chart.obj.hom := by
-            show yoneda.map a.hom.hom.left ≫ (T.obj U).chart.obj.hom = W.chart.obj.hom
+            change yoneda.map a.hom.hom.left ≫ (T.obj U).chart.obj.hom = W.chart.obj.hom
             simpa only [T, neighborhoodAlong] using CostructuredArrow.Hom.w a.hom.hom
           have hval : U.chart.obj.hom.app (Opposite.op x.val.siteObject) (z ≫ m) =
               x.val.value := by
@@ -388,7 +388,7 @@ theorem neighborhoodAlong_initial (hF : IsAlgebraicSpace B S hS F)
             exact hv
           have hextEq : f ≫ (z ≫ (SmallEtale.toOver B S hS F).map a.hom) = f ≫ U.point := by
             rw [← Category.assoc, hfz]
-            show W.point ≫ (SmallEtale.toOver B S hS F).map a.hom = (T.obj U).point
+            change W.point ≫ (SmallEtale.toOver B S hS F).map a.hom = (T.obj U).point
             exact a.point_comp
           exact chartLift_unique_of_comp_eq f (T.obj U)
             (z ≫ (SmallEtale.toOver B S hS F).map a.hom) U.point hval U.point_comp hextEq }

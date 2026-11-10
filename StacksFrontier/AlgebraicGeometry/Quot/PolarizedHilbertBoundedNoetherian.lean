@@ -133,7 +133,7 @@ variable (B : BigFppfSite.{u}) {S : Scheme.{u}} (hS : B.Contains S)
 
 /-- `Spec(ℤ)` belongs to every big fppf site: its size is `ℵ₀`, below the cutoff. -/
 theorem contains_specULiftZ : B.Contains (Spec (CommRingCat.of (ULift.{u} ℤ))) := by
-  show (Spec (CommRingCat.of (ULift.{u} ℤ))).size < B.cutoff
+  change (Spec (CommRingCat.of (ULift.{u} ℤ))).size < B.cutoff
   rw [Scheme.size_Spec]
   simpa using B.aleph0_lt_cutoff
 

@@ -81,7 +81,7 @@ public theorem factor_eval_completion {R : Type*} [CommRing R] (I : Ideal R)
   have hn : I ^ n • (⊤ : Ideal R) ≤ I ^ n := by simp
   rw [← AdicCompletion.factor_eval_eq_evalₐ I x hn,
     ← AdicCompletion.factor_eval_eq_evalₐ I x hm]
-  show Ideal.Quotient.factor _ (Submodule.factor hn (x.val n)) = Submodule.factor hm (x.val m)
+  change Ideal.Quotient.factor _ (Submodule.factor hn (x.val n)) = Submodule.factor hm (x.val m)
   rw [← H]
   generalize x.val n = z
   induction z using Submodule.Quotient.induction_on with | _ z => rfl
@@ -102,10 +102,10 @@ public theorem pAdicIdeal_eq_ker_eval (n : ℕ) :
     rw [← hm, ← Ideal.map_pow]
     simp
   ext x
-  show x ∈ (DividedPowers.pAdicIdeal (A := C) p ^ n).restrictScalars B ↔ _
+  change x ∈ (DividedPowers.pAdicIdeal (A := C) p ^ n).restrictScalars B ↔ _
   rw [hr, he]
-  show AdicCompletion.eval I B n x = 0 ↔ AdicCompletion.evalₐ I n x = 0
-  show AdicCompletion.eval I B n x = 0 ↔
+  change AdicCompletion.eval I B n x = 0 ↔ AdicCompletion.evalₐ I n x = 0
+  change AdicCompletion.eval I B n x = 0 ↔
     (Ideal.quotientEquivAlgOfEq B (show I ^ n • (⊤ : Ideal B) = I ^ n by simp))
       (AdicCompletion.eval I B n x) = 0
   let e := Ideal.quotientEquivAlgOfEq B
@@ -257,7 +257,7 @@ public theorem comparison_transition
     mapDifferentialsOfDPMorphism (J := K) (delta := epsilon) zeta g hg (E x) =
       F (AdicCompletion.transitionMap I _ hmn x) := by
   induction x using Submodule.Quotient.induction_on with | _ x =>
-    show _ = F (Submodule.Quotient.mk x)
+    change _ = F (Submodule.Quotient.mk x)
     rw [hE, hF]
     have H := mapDifferentialsOfDPMorphism_comp (J := J) (delta := delta)
       epsilon zeta f g hf hg

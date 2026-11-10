@@ -155,7 +155,7 @@ theorem pushforward_map_comparisonRanPresentation
     exact ((Category.assoc _ _ _).symm.trans
       (congrArg (fun m ↦ m ≫ (smallEtaleComparisonRanIso B S hS X).hom.app F) htri)).trans
       (Category.id_comp _)
-  show (spacesDirectImage B S hS f ⋙ smallEtaleComparisonRestriction B S hS Y).map
+  change (spacesDirectImage B S hS f ⋙ smallEtaleComparisonRestriction B S hS Y).map
       ((smallEtaleComparisonRestriction B S hS X).asEquivalence.inverse.map
         (comparisonRanPresentation B S hS X F).hom) ≫
     ((spacesDirectImage B S hS f ⋙ smallEtaleComparisonRestriction B S hS Y).map

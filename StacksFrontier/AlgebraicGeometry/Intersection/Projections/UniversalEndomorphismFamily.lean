@@ -291,8 +291,7 @@ omit [Module.Finite k V] in
 private theorem endParamFibre_smul (g : V →ₗ[k] V) (a : endParamRing k V)
     (y : endParamRing k V ⊗[k] V) :
     endParamFibre k V g (a • y) = endParamPoint k V g a • endParamFibre k V g y := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul b v =>
     rw [smul_tmul', endParamFibre_tmul, endParamFibre_tmul, smul_eq_mul,
       _root_.map_mul, mul_smul]
@@ -305,8 +304,7 @@ private theorem endParamFibre_map_ι (g : V →ₗ[k] V)
     endParamFibre k V g
         (TensorProduct.map (SymmetricAlgebra.ι k (Module.Dual k (V →ₗ[k] V))) LinearMap.id z) =
       dualTensorHom k (V →ₗ[k] V) V z g := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul f v => simp [endParamFibre_tmul, endParamPoint, dualTensorHom_apply]
   | add z w hz hw => rw [map_add, map_add, hz, hw, map_add, LinearMap.add_apply]
 
@@ -315,13 +313,12 @@ what makes `universalEnd` universal: the family it defines has `r_g` as its fibr
 @[stacks 0B2W "the fibre of ψ over the parameter point of g is g"]
 public theorem endParamFibre_universalEnd (g : V →ₗ[k] V) (x : endParamRing k V ⊗[k] V) :
     endParamFibre k V g (universalEnd k V x) = g (endParamFibre k V g x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a v =>
     rw [universalEnd, LinearMap.liftBaseChange_tmul, endParamFibre_smul, LinearMap.comp_apply,
       endParamFibre_map_ι, endParamFibre_tmul, map_smul]
     congr 1
-    show dualTensorHom k (V →ₗ[k] V) V
+    change dualTensorHom k (V →ₗ[k] V) V
       ((dualTensorHomEquiv k (V →ₗ[k] V) V).symm (LinearMap.applyₗ (R := k) (M₂ := V) v)) g = g v
     exact congrFun (congrArg DFunLike.coe
       ((dualTensorHomEquiv k (V →ₗ[k] V) V).apply_symm_apply
@@ -355,11 +352,10 @@ private theorem endParamFibreHom_ι (g : V →ₗ[k] V) (x : endParamRing k V �
     endParamFibreHom k V g
         (SymmetricAlgebra.ι (endParamRing k V) (endParamRing k V ⊗[k] V) x) =
       SymmetricAlgebra.ι k V (endParamFibre k V g x) := by
-  show endParamFibreCoeff k V g (SymPow.symAlgBaseChangeInv (endParamRing k V) V
+  change endParamFibreCoeff k V g (SymPow.symAlgBaseChangeInv (endParamRing k V) V
     (SymmetricAlgebra.ι (endParamRing k V) (endParamRing k V ⊗[k] V) x)) = _
   rw [SymPow.symAlgBaseChangeInv_ι]
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a v =>
     rw [LinearMap.baseChange_tmul, endParamFibreCoeff_tmul, endParamFibre_tmul, map_smul]
   | add x y hx hy => simp only [map_add, hx, hy]
@@ -370,7 +366,7 @@ private theorem endParamFibreHom_algebraMap (g : V →ₗ[k] V) (a : endParamRin
         (algebraMap (endParamRing k V)
           (SymmetricAlgebra (endParamRing k V) (endParamRing k V ⊗[k] V)) a) =
       algebraMap k (SymmetricAlgebra k V) (endParamPoint k V g a) := by
-  show endParamFibreCoeff k V g (SymPow.symAlgBaseChangeInv (endParamRing k V) V
+  change endParamFibreCoeff k V g (SymPow.symAlgBaseChangeInv (endParamRing k V) V
     (algebraMap _ _ a)) = _
   rw [AlgHom.commutes, Algebra.TensorProduct.algebraMap_apply, endParamFibreCoeff_tmul,
     Algebra.smul_def, mul_one, Algebra.algebraMap_self_apply]
@@ -395,6 +391,7 @@ public theorem endParamFibreHom_symAlgMap (g : V →ₗ[k] V)
   | mul a b ha hb => simp only [_root_.map_mul, ha, hb]
   | add a b ha hb => simp only [map_add, ha, hb]
 
+omit [Module.Finite k V] in
 /-- The coefficient reduction carries the degree-`n` symmetric power of `V ⊗ A` over `A` into
 the degree-`n` symmetric power of `V` over `k`. -/
 public theorem endParamFibreHom_mem (g : V →ₗ[k] V) {n : ℕ}
@@ -422,6 +419,7 @@ public def endParamFibreGradedHom (g : V →ₗ[k] V) :
   __ := endParamFibreHom k V g
   map_mem := fun {_} {_} hx => endParamFibreHom_mem k V g hx
 
+omit [Module.Finite k V] in
 private theorem endParamFibreGradedHom_apply (g : V →ₗ[k] V)
     (x : SymmetricAlgebra (endParamRing k V) (endParamRing k V ⊗[k] V)) :
     endParamFibreGradedHom k V g x = endParamFibreHom k V g x := rfl
@@ -448,6 +446,7 @@ public theorem endParamFibreHom_surjective (g : V →ₗ[k] V) :
     obtain ⟨z, rfl⟩ := hb
     exact ⟨x + z, map_add _ _ _⟩
 
+omit [Module.Finite k V] in
 /-- The specialization at a parameter point is surjective as a homomorphism of graded rings. -/
 public theorem endParamFibreGradedHom_surjective (g : V →ₗ[k] V) :
     Function.Surjective (endParamFibreGradedHom k V g) := fun y => by
@@ -466,6 +465,7 @@ public abbrev endParamFibreInclusionDomain (g : V →ₗ[k] V) :
     (projectiveSpaceOfModule k V).Opens :=
   mapDomain _ _ (endParamFibreGradedHom k V g)
 
+omit [Module.Finite k V] in
 public theorem endParamFibreInclusionDomain_eq_top (g : V →ₗ[k] V) :
     endParamFibreInclusionDomain k V g = ⊤ :=
   mapDomain_eq_top_of_surjective _ _ _ (endParamFibreHom_surjective k V g)
@@ -578,6 +578,7 @@ public theorem universalEndProjection_comp_toSpec :
   exact mapHom_comp_toSpec_map _ _ (SymPow.gradedSymAlgMap (universalEnd k V))
     (algebraMap (endParamRing k V) _) _ (zeroHom_universalEnd_comp_algebraMap k V)
 
+omit [Module.Finite k V] in
 /-- The degree-zero part of the specialization at the parameter point of `g` is that point: on
 the coordinate ring of the parameter space the specialization is `endParamPoint`. -/
 public theorem zeroHom_endParamFibreGradedHom_comp_algebraMap (g : V →ₗ[k] V) :
@@ -589,6 +590,7 @@ public theorem zeroHom_endParamFibreGradedHom_comp_algebraMap (g : V →ₗ[k] V
     ((Stacks.AlgebraicGeometry.RelativeProj.coe_zeroHom_apply _ _
         (endParamFibreGradedHom k V g) _).trans (endParamFibreHom_algebraMap k V g r))
 
+omit [Module.Finite k V] in
 /-- **The fibre of the relative projective space over the parameter point of `g` is where `𝐏(V)`
 goes.** The inclusion `ι_g : 𝐏(V) → 𝐏(V ⊗ 𝒪_S)` is a morphism over the point of `S` attached to
 `g`, which is what makes it the inclusion of a fibre rather than merely a morphism. -/

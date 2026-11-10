@@ -58,7 +58,7 @@ theorem bijective_stalkMapL_sheafDeterminantMap_iff_basis [Epi π]
         (r₁ + (r₀ - r₁)) := by rwa [Nat.add_sub_cancel' h]
     rw [and_iff_right h]
     unfold sheafDeterminantMap
-    rw [dif_pos h, bijective_stalkMapL_iso_comp_iff, bijective_stalkMapL_comp_iso_iff,
+    rw [dite_eq_left h, bijective_stalkMapL_iso_comp_iff, bijective_stalkMapL_comp_iso_iff,
       bijective_stalkMapL_detSourceMap_iff]
     exact bijective_stalkMapL_detSheafPairing_iff A₁ A₀ AF α π hαπ hS r₁ (r₀ - r₁) x
   · exact iff_of_false (fun hb => h ((bijective_stalkMapL_sheafDeterminantMap_iff A₁ A₀ AF A₁d
@@ -141,10 +141,10 @@ theorem exact_conormalArrow :
   refine ShortComplex.exact_of_iso ?_
     (Stacks.ConormalSequenceRight.conormalShortComplex_exact (i ≫ U.ι) g)
   refine ShortComplex.isoMk (conormalSheafCompOpenIso U i).symm (Iso.refl _) (Iso.refl _) ?_ ?_
-  · show (conormalSheafCompOpenIso U i).inv ≫ conormalArrow U i g =
+  · change (conormalSheafCompOpenIso U i).inv ≫ conormalArrow U i g =
       Stacks.ConormalSequenceRight.conormalDifferential (i ≫ U.ι) g ≫ 𝟙 _
     exact (Iso.inv_hom_id_assoc (conormalSheafCompOpenIso U i) _).trans (Category.comp_id _).symm
-  · show differentialsArrow U i g ≫ 𝟙 _ = 𝟙 _ ≫ differentialsArrow U i g
+  · change differentialsArrow U i g ≫ 𝟙 _ = 𝟙 _ ≫ differentialsArrow U i g
     exact (Category.comp_id _).trans (Category.id_comp _).symm
 
 /-- The map `differentialsArrow : (i ≫ U.ι)^* Ω_{P/Y} ⟶ Ω_{X/Y}` is an epimorphism. -/

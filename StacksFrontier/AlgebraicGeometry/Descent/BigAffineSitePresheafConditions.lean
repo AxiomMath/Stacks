@@ -14,7 +14,8 @@ base-change comparison `𝓕(U') ⊗_{𝒪(U')} 𝒪(U) ⟶ 𝓕(U)` is an isomo
 
 The two conjuncts are already proved separately:
 `StacksFrontier.AlgebraicGeometry.Descent.BigAffineSiteCartesianSheaf` has the sheaf conjunct, by
-flat descent of modules, and `StacksFrontier.AlgebraicGeometry.Descent.QuasiCoherentModulesAndAffines`
+flat descent of modules, and
+`StacksFrontier.AlgebraicGeometry.Descent.QuasiCoherentModulesAndAffines`
 has the quasi-coherence conjunct, for a module already given as a sheaf.  What this file adds is
 that they compose: the sheaf axiom produced by the first is exactly the one the second's
 hypothesis asks for, so a presheaf satisfying condition (1) satisfies the whole of each of

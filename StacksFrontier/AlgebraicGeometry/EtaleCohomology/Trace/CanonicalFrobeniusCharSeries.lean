@@ -305,6 +305,7 @@ theorem perfectDerivedCharSeries_canonicalCompactSupportFrobenius_single_X₂_eq
     ((Stacks.DerivedIndexing.singlePlusFunctor (EtaleModules.{u, r} Λ X) 0).obj S.X₃).property
     hp₁ hp₂ hp₃
 
+omit [Fintype k] in
 /-- **Perfectness of `RΓ_c(X_k̄, -)` is two out of three along a short exact sequence of
 sheaves**, each placed in degree `0`. -/
 theorem isPerfect_compactSupportFrobeniusCohomology_single_X₂

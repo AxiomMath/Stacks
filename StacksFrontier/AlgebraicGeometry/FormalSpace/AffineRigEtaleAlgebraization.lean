@@ -401,11 +401,11 @@ theorem exists_affine_algebraization_of_isRigEtale
       zeroLocusPoints B S hS hR s I = zeroLocusPoints B S hS hR' s' I' := by
     rw [zeroLocusPoints_eq_preimage_pointsToScheme, zeroLocusPoints_eq_preimage_pointsToScheme]
     ext x
-    show Space.pointsToScheme B S hS X (Space.pointsMap B S hS (yoneda.obj X') (yoneda.map f) x)
+    change Space.pointsToScheme B S hS X (Space.pointsMap B S hS (yoneda.obj X') (yoneda.map f) x)
         ∈ PrimeSpectrum.zeroLocus (I : Set R) ↔
       Space.pointsToScheme B S hS X' x ∈ PrimeSpectrum.zeroLocus (I' : Set R')
     rw [Space.pointsToScheme_pointsMap, hfmap]
-    show I ≤ Ideal.comap (algebraMap R R') _ ↔ I' ≤ _
+    change I ≤ Ideal.comap (algebraMap R R') _ ↔ I' ≤ _
     exact Ideal.map_le_iff_le_comap.symm
   let A' := AdicCompletion I' R'
   let : TopologicalSpace A' := I'.adicModuleTopology A'
@@ -419,14 +419,14 @@ theorem exists_affine_algebraization_of_isRigEtale
     intro K
     obtain ⟨Jw, hJw⟩ := exists_isWeakIdealOfDefinition_le_comap hwA.1 φ.toRingHom φ.continuous K
     rw [← φ.overS Jw K hJw]
-    show Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1 φ.toRingHom hJw)) ≫
+    change Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1 φ.toRingHom hJw)) ≫
         (Spec.map (CommRingCat.ofHom ((Ideal.Quotient.mk Jw.1).comp (algebraMap R A))) ≫ s) = _
     rw [← Category.assoc, ← Spec.map_comp, ← CommRingCat.ofHom_comp]
     rfl
   have hD'R : ∀ K, D'.overS K = Spec.map (CommRingCat.ofHom
       ((Ideal.Quotient.mk K.1).comp (algebraMap R A'))) ≫ s := by
     intro K
-    show Spec.map (CommRingCat.ofHom ((Ideal.Quotient.mk K.1).comp (algebraMap R' A'))) ≫
+    change Spec.map (CommRingCat.ofHom ((Ideal.Quotient.mk K.1).comp (algebraMap R' A'))) ≫
       Spec.map (CommRingCat.ofHom (algebraMap R R')) ≫ s = _
     rw [← Category.assoc, ← Spec.map_comp, ← CommRingCat.ofHom_comp]
     congr 3
@@ -496,14 +496,14 @@ theorem exists_affine_algebraization_of_isRigEtale
         quotientStageToAffine B S hS hR' s' I' D' hD' K ≫ f := by
       apply Over.OverMorphism.ext
       apply ObjectProperty.hom_ext
-      show Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1 χ.toRingHom hJw)) ≫
+      change Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1 χ.toRingHom hJw)) ≫
           Spec.map (CommRingCat.ofHom ((Ideal.Quotient.mk Jw.1).comp (algebraMap R A))) =
         Spec.map (CommRingCat.ofHom ((Ideal.Quotient.mk K.1).comp (algebraMap R' A'))) ≫
           Spec.map (CommRingCat.ofHom (algebraMap R R'))
       rw [← Spec.map_comp, ← Spec.map_comp, ← CommRingCat.ofHom_comp, ← CommRingCat.ofHom_comp]
       congr 2
       ext r
-      show Ideal.Quotient.mk K.1 (eR' (algebraMap R C r)) =
+      change Ideal.Quotient.mk K.1 (eR' (algebraMap R C r)) =
         Ideal.Quotient.mk K.1 (algebraMap R' A' (algebraMap R R' r))
       rw [eR'.commutes, ← IsScalarTower.algebraMap_apply]
     have hl : formalSpectrumInclusion D' (OrderDual.toDual K) ≫ formalSpectrumMap hwA χ ≫
@@ -562,12 +562,12 @@ theorem exists_affine_algebraization_of_isRigEtale
       Space.pointsToScheme B S hS X '' zeroLocusPoints B S hS hR s I := by
     rw [zeroLocusPoints_eq_preimage_pointsToScheme]
     refine Eq.trans ?_ (Set.image_preimage_eq _ (Space.surjective_pointsToScheme B S hS X)).symm
-    show Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk I)) =
+    change Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk I)) =
       PrimeSpectrum.zeroLocus (I : Set R)
     ext x
     constructor
     · rintro ⟨y, rfl⟩ a ha
-      show Ideal.Quotient.mk I a ∈ y.asIdeal
+      change Ideal.Quotient.mk I a ∈ y.asIdeal
       rw [Ideal.Quotient.eq_zero_iff_mem.mpr ha]
       exact y.asIdeal.zero_mem
     · intro hx
@@ -575,7 +575,7 @@ theorem exists_affine_algebraization_of_isRigEtale
       refine ⟨⟨x.asIdeal.map (Ideal.Quotient.mk I),
         Ideal.map_isPrime_of_surjective Ideal.Quotient.mk_surjective hker⟩, ?_⟩
       ext a
-      show Ideal.Quotient.mk I a ∈ x.asIdeal.map (Ideal.Quotient.mk I) ↔ a ∈ x.asIdeal
+      change Ideal.Quotient.mk I a ∈ x.asIdeal.map (Ideal.Quotient.mk I) ↔ a ∈ x.asIdeal
       rw [Ideal.mem_map_iff_of_surjective _ Ideal.Quotient.mk_surjective]
       refine ⟨?_, fun ha ↦ ⟨a, ha, rfl⟩⟩
       rintro ⟨b, hb, hab⟩

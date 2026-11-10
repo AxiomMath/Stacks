@@ -71,7 +71,8 @@ recorded in the tag's attribute description.
 
 Absolute Noetherian approximation for schemes is proved, as
 `AlgebraicGeometry.Scheme.exists_isLimit_affine_locallyOfFiniteType` in
-`StacksFrontier/AlgebraicGeometry/Limits/FiniteTypeApproximation/Absolute.lean`.  It does not by itself give even the
+`StacksFrontier/AlgebraicGeometry/Limits/FiniteTypeApproximation/Absolute.lean`.
+It does not by itself give even the
 representable case of Stacks 07SU in this framework: its stages are bare schemes, with no
 morphism to the base `S` and no membership of the site, its limit is a limit in `Scheme` rather
 than of presheaves on the site, and it records of its stages only that they are quasi-compact

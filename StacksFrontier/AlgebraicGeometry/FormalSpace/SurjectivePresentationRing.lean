@@ -139,7 +139,7 @@ theorem exists_small_cofinal_stages {X : FppfSheaf B S hS}
   rw [← hk] at hmem
   obtain ⟨c', hc'⟩ := hmem
   refine ⟨k, Tf.preimage (φ.hom ≫ c'), ?_⟩
-  show Fs.map (Tf.map (Tf.preimage (φ.hom ≫ c'))) ≫ ι (κ k) = ι i
+  change Fs.map (Tf.map (Tf.preimage (φ.hom ≫ c'))) ≫ ι (κ k) = ι i
   rw [Tf.map_preimage, Fs.map_comp, Category.assoc, hc', ← Category.assoc, ← Fs.map_comp,
     φ.hom_inv_id, Fs.map_id, Category.id_comp]
 

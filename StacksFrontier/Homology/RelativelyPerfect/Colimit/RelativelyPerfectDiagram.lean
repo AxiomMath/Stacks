@@ -266,7 +266,7 @@ private lemma isIso_stageMap_comparison_app_of_flat
       ((ModuleCat.restrictScalars
         (algebraMap (diagram.obj ⟨PUnit.unit⟩) (stageAlgebra diagram A₀ ⟨PUnit.unit⟩))).obj
           (complex.X degree)) := by
-    show Module.Flat (F.obj source) ((ModuleCat.restrictScalars
+    change Module.Flat (F.obj source) ((ModuleCat.restrictScalars
       (algebraMap (F.obj source) (stageAlgebra F A₀ source))).obj (complex.X degree))
     infer_instance
   exact isIso_stage_comparison_app_of_flat cone A₀ ⟨PUnit.unit⟩ complex bound
@@ -766,7 +766,7 @@ lemma canonicalTransitionObject {source target : Index} (arrow : source ⟶ targ
       ((strictDiagram diagram).map arrow).toFunctor ⋙
       (canonicalStageEquivalence diagram target).functor).obj object =
         (diagram.map arrow.toLoc).toFunctor.obj object := by
-  show (diagram.map (𝟙 source ≫ arrow).toLoc).toFunctor.obj object = _
+  change (diagram.map (𝟙 source ≫ arrow).toLoc).toFunctor.obj object = _
   simp
 
 set_option linter.flexible false in

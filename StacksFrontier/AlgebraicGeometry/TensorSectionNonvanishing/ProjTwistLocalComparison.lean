@@ -281,7 +281,7 @@ theorem twistScalarSheafMap_trivializingSection_smul (hf : f ∈ 𝒮 d) {m n j 
   have hnm' : (-((n + m : ℕ) : ℤ)).toNat = 0 := by omega
   apply Subtype.ext
   funext x
-  show LocalizedModule.map x.1.asHomogeneousIdeal.toIdeal.primeCompl
+  change LocalizedModule.map x.1.asHomogeneousIdeal.toIdeal.primeCompl
       (LinearMap.mul S S r) (trivializingFun 𝒮 (n : ℤ) hW x) =
     HomogeneousLocalization.val (c.1 x) * trivializingFun 𝒮 ((n + m : ℕ) : ℤ) hW x
   rw [trivializingFun, map_mul_mk, hc x, trivializingFun, Localization.mk_mul]
@@ -530,7 +530,7 @@ theorem chartAddHom_smul (hf : f ∈ 𝒮 d) (hd : 0 < d) (a : HomogeneousLocali
       (op (ProjectiveSpectrum.basicOpen 𝒮 f))) :
     chartAddHom 𝒮 F hf hd (a • z) =
       (ProjectiveSpectrum.Proj.awayToSection 𝒮 f).hom a • chartAddHom 𝒮 F hf hd z := by
-  show chartLift 𝒮 F hf
+  change chartLift 𝒮 F hf
       (associatedModuleSheafStandardOpenEquiv 𝒮 (moduleGrading 𝒮 F) hf hd (a • z)) = _
   rw [map_smul]
   exact chartLift_smul 𝒮 F hf a _
@@ -728,10 +728,10 @@ theorem restrict_degreeZeroToSection_mk {g : S} (hfg : ProjectiveSpectrum.basicO
       degreeZeroToSection 𝒮 𝒨 g A' := by
   apply Subtype.ext
   funext y
-  show moduleToFiber 𝒮 f ⟨y.1, hfg y.2⟩ A.1 = moduleToFiber 𝒮 g y A'.1
+  change moduleToFiber 𝒮 f ⟨y.1, hfg y.2⟩ A.1 = moduleToFiber 𝒮 g y A'.1
   rw [hA, hA', moduleToFiber_mk, moduleToFiber_mk]
   refine LocalizedModule.mk_eq.mpr ⟨1, ?_⟩
-  show (1 : S) • (g ^ m : S) • x = (1 : S) • (f ^ n : S) • (c • x)
+  change (1 : S) • (g ^ m : S) • x = (1 : S) • (f ^ n : S) • (c • x)
   rw [one_smul, one_smul, hgm, mul_smul]
 
 /-- The standard-open identification of the restriction of a fraction section. -/
@@ -782,7 +782,7 @@ theorem map_map {k : ℤ} {U V W : Opens (ProjectiveSpectrum.top 𝒮)} (hVU : V
 denominator a power of `g`: from `g ^ b = c f` with `c` homogeneous of degree `b e - d` one gets
 `g ^ (n b) = f ^ n c ^ n` with `c ^ n` homogeneous of degree `n (b e - d)`, and the degrees add
 up to `n b e`. -/
-private theorem pow_degree_data {g : S} {e b : ℕ} (hf : f ∈ 𝒮 d) (hg : g ∈ 𝒮 e)
+private theorem pow_degree_data {g : S} {e b : ℕ}
     (hdbe : d ≤ b * e) {c : S} (hcmem : c ∈ 𝒮 (b * e - d)) (hgb : g ^ b = c * f) (n : ℕ) :
     c ^ n ∈ 𝒮 (n * (b * e - d)) ∧ g ^ (n * b) = f ^ n * c ^ n ∧
       n * b * e = n * (b * e - d) + n * d ∧
@@ -813,7 +813,7 @@ theorem exists_rewrite_data {g : S} {e : ℕ} (hf : f ∈ 𝒮 d) (hd : 0 < d)
       ((n * (b * e - d) : ℕ) : ℤ) + (n : ℤ) * (d : ℤ) = ((n * b : ℕ) : ℤ) * (e : ℤ) := by
   obtain ⟨b, _, hdbe, c, hcmem, hgb⟩ :=
     ProjectiveSpectrum.exists_pow_eq_mul_of_basicOpen_le_degree 𝒮 hf hd hg he hfg
-  exact ⟨b, c, pow_degree_data 𝒮 hf hg hdbe hcmem hgb n⟩
+  exact ⟨b, c, pow_degree_data 𝒮 hdbe hcmem hgb n⟩
 
 /-- The chart comparisons agree on an overlap, with the rewritten fraction supplied. -/
 private theorem chartHom_restrict_aux {g : S} {e : ℕ} (hf : f ∈ 𝒮 d) (hd : 0 < d)

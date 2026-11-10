@@ -78,7 +78,7 @@ def spaceTangentSpaceLinearEquivExtModel :
     letI : Fact (IsPredeformationCategory
         (BasedCategory.ofFunctor (spaceDeformationProjection B hΛ hSpec X hX toK)).p) :=
       ⟨(isDeformationCategory_spaceDeformationProjection B hΛ hSpec X hX toK).predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
         (BasedCategory.ofFunctor (spaceDeformationProjection B hΛ hSpec X hX toK))
         (isDeformationCategory_spaceDeformationProjection B hΛ hSpec X hX
           toK).predeformation.cofibered))) :=
@@ -108,7 +108,7 @@ theorem spaceTangentSpaceLinearEquivExtModel_apply
     letI : Fact (IsPredeformationCategory
         (BasedCategory.ofFunctor (spaceDeformationProjection B hΛ hSpec X hX toK)).p) :=
       ⟨(isDeformationCategory_spaceDeformationProjection B hΛ hSpec X hX toK).predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
         (BasedCategory.ofFunctor (spaceDeformationProjection B hΛ hSpec X hX toK))
         (isDeformationCategory_spaceDeformationProjection B hΛ hSpec X hX
           toK).predeformation.cofibered))) :=
@@ -139,15 +139,15 @@ class (Stacks 0GQ5) of the extension `0 ⟶ 𝒪_X ⟶ 𝒪_{X'} ⟶ 𝒪_X ⟶ 
 @[stacks 0E41 "second display: for an algebraic space X over the field k, T Def_X = \
 Ext^1(NL_{X/k}, O_X) as k-vector spaces, from the tangent space of the deformation category of X \
 (isomorphism classes of flat deformations of X over k[eps], with the canonical vector space \
-structure of 06IH) onto Ext^1_{O_X}(NL_{X/k}, O_X) of the naive cotangent complex of 0D0V, k acting \
-through the structure morphism X -> Spec k; a deformation goes to the 0GQ5 class of the extension \
-0 -> O_X -> O_X' -> O_X -> 0. The first display is registered separately"]
+structure of 06IH) onto Ext^1_{O_X}(NL_{X/k}, O_X) of the naive cotangent complex of 0D0V, k \
+acting through the structure morphism X -> Spec k; a deformation goes to the 0GQ5 class of the \
+extension 0 -> O_X -> O_X' -> O_X -> 0. The first display is registered separately"]
 def spaceTangentSpaceLinearEquivExt
     [HasDerivedCategory.{w} (Space.NaiveCotangentModules B (Spec (.of Λ)) hΛ (spaceOf B hΛ X hX))] :
     letI : Fact (IsPredeformationCategory
         (BasedCategory.ofFunctor (spaceDeformationProjection B hΛ hSpec X hX toK)).p) :=
       ⟨(isDeformationCategory_spaceDeformationProjection B hΛ hSpec X hX toK).predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
         (BasedCategory.ofFunctor (spaceDeformationProjection B hΛ hSpec X hX toK))
         (isDeformationCategory_spaceDeformationProjection B hΛ hSpec X hX
           toK).predeformation.cofibered))) :=
@@ -169,7 +169,7 @@ def spaceTangentSpaceLinearEquivExt
   letI : Fact (IsPredeformationCategory
       (BasedCategory.ofFunctor (spaceDeformationProjection B hΛ hSpec X hX toK)).p) :=
     ⟨(isDeformationCategory_spaceDeformationProjection B hΛ hSpec X hX toK).predeformation⟩
-  letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+  letI : Fact (SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
       (BasedCategory.ofFunctor (spaceDeformationProjection B hΛ hSpec X hX toK))
       (isDeformationCategory_spaceDeformationProjection B hΛ hSpec X hX
         toK).predeformation.cofibered))) :=
@@ -190,7 +190,7 @@ theorem spaceTangentSpaceLinearEquivExt_apply
     letI : Fact (IsPredeformationCategory
         (BasedCategory.ofFunctor (spaceDeformationProjection B hΛ hSpec X hX toK)).p) :=
       ⟨(isDeformationCategory_spaceDeformationProjection B hΛ hSpec X hX toK).predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
         (BasedCategory.ofFunctor (spaceDeformationProjection B hΛ hSpec X hX toK))
         (isDeformationCategory_spaceDeformationProjection B hΛ hSpec X hX
           toK).predeformation.cofibered))) :=

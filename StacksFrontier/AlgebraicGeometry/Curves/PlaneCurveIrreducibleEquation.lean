@@ -124,7 +124,7 @@ private theorem isIntegral_proj_of_isDomain [IsDomain A]
       (show p.asHomogeneousIdeal ≤ x.asHomogeneousIdeal from bot_le)
   have : IrreducibleSpace (AlgebraicGeometry.Proj 𝒜) :=
     (irreducibleSpace_def _).mpr (by
-      show IsIrreducible (Set.univ : Set (ProjectiveSpectrum 𝒜))
+      change IsIrreducible (Set.univ : Set (ProjectiveSpectrum 𝒜))
       rw [← hp]
       exact isIrreducible_singleton.closure)
   have hstalk (x : AlgebraicGeometry.Proj 𝒜) :
@@ -245,7 +245,7 @@ private theorem projectiveSpace_saturationIdentification [IsNoetherianRing R] {Z
       ⟨j + n, ⟨MvPolynomial.X k ^ j * a, hmem⟩, hj, ?_⟩
     refine chartFraction_eq_of_cross _ (hX k) (j + n) n
       ⟨MvPolynomial.X k ^ j * a, hmem⟩ ⟨a, ha⟩ ?_
-    show MvPolynomial.X k ^ j * a * MvPolynomial.X k ^ n = a * MvPolynomial.X k ^ (j + n)
+    change MvPolynomial.X k ^ j * a * MvPolynomial.X k ^ n = a * MvPolynomial.X k ^ (j + n)
     ring
 
 /-- **A closed subscheme of projective space over a Noetherian domain with no nonzero equation is
@@ -380,12 +380,12 @@ theorem projectivePlane_isPrime_span_singleton_of_isCurve [IsIntegral Z]
         * quotientMk 𝒮 ℐ (b : MvPolynomial (Fin 3) k) = 0 at hn
       refine ⟨n, Ideal.mem_span_singleton.mp ?_⟩
       rw [← hψ]
-      show quotientMk 𝒮 ℐ (MvPolynomial.X j ^ n * (b : MvPolynomial (Fin 3) k)) = 0
+      change quotientMk 𝒮 ℐ (MvPolynomial.X j ^ n * (b : MvPolynomial (Fin 3) k)) = 0
       simpa only [map_mul, map_pow] using hn
     obtain ⟨n, hn⟩ := hdvd 0
     obtain ⟨m, hm⟩ := hdvd 1
     exact Ideal.mem_span_singleton.mpr (dvd_of_dvd_coordinate_pow_mul k hn hm)
-  · show quotientMk 𝒮 ℐ a ∈
+  · change quotientMk 𝒮 ℐ a ∈
       ProjectiveSpectrum.vanishingIdeal (Set.univ : Set (ProjectiveSpectrum ℬ))
     rw [show quotientMk 𝒮 ℐ a = 0 from RingHom.mem_ker.mp (hψ ▸ ha)]
     exact zero_mem _
@@ -410,7 +410,7 @@ theorem projectivePlane_isCurve_iff_irreducible (hdim : topologicalKrullDim Z = 
     projectivePlane_ne_zero_of_topologicalKrullDim_eq_one k i hdim hF
   have hne : Nonempty Z := by
     obtain ⟨C⟩ : Nonempty (IrreducibleCloseds Z) := Order.krullDim_nonneg_iff.mp (by
-      show 0 ≤ topologicalKrullDim Z
+      change 0 ≤ topologicalKrullDim Z
       rw [hdim]
       norm_num)
     exact ⟨C.2.nonempty.choose⟩

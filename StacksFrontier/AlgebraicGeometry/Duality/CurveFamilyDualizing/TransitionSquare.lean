@@ -200,7 +200,7 @@ theorem schemeFactorIso_id_hom_app {Y Z : Scheme.{u}} (a : Y ⟶ Z) (h : 𝟙 Y 
         Y.toRingedSpace).hom.app ((pull a).obj M) := by
   let := stdSR[Y.toRingedSpace]
   let := stdSR[Z.toRingedSpace]
-  show (Stacks.DerivedPullback.Composition.derivedPullbackCompIsoCanonical
+  change (Stacks.DerivedPullback.Composition.derivedPullbackCompIsoCanonical
     (𝟙 Y.toRingedSpace) a.toLRSHom.toShHom).hom.app M = _
   rw [Stacks.Cohomology.DerivedPushforwardAssociativity.derivedPullbackCompIsoCanonical_id_comp]
   exact Category.comp_id _
@@ -231,7 +231,7 @@ theorem schemeFactorIso_comp_id_hom_app {Y Z : Scheme.{u}} (a : Y ⟶ Z) (h : a 
       (pull a).map ((pullIdIso Z).hom.app M) := by
   let := stdSR[Y.toRingedSpace]
   let := stdSR[Z.toRingedSpace]
-  show (Stacks.DerivedPullback.Composition.derivedPullbackCompIsoCanonical
+  change (Stacks.DerivedPullback.Composition.derivedPullbackCompIsoCanonical
     a.toLRSHom.toShHom (𝟙 Z.toRingedSpace)).hom.app M = _
   rw [Stacks.Cohomology.DerivedPushforwardAssociativity.derivedPullbackCompIsoCanonical_comp_id]
   exact Category.comp_id _
@@ -432,7 +432,7 @@ theorem homOfLE_comp_fac {g' : X' ⟶ X} {g : S' ⟶ S} {comm : g' ≫ f = f' �
       (coborderOpen f' O' hO').ι ≫ squareProd f f' g' g comm := by
   have h1 : (DiagonalOpen.coborder f').W.homOfLE hle ≫ (coborderOpen f' O hO).ι =
       (coborderOpen f' O' hO').ι := by
-    show _ ≫ O.ι ≫ _ = O'.ι ≫ _
+    change _ ≫ O.ι ≫ _ = O'.ι ≫ _
     rw [← Category.assoc, Scheme.homOfLE_ι]
   exact comp_fac_chase _ w _ _ _ _ hw h1
 
@@ -623,11 +623,11 @@ theorem range_diag_subset_pasteOpen {O₂ : (DiagonalOpen.coborder f₃).W.Opens
     Set.range (DiagonalOpen.coborder f₃).diag ⊆ pasteOpen hO₂ w₂ O₁ := by
   rintro _ ⟨x, rfl⟩
   refine ⟨(coborderOpen f₃ O₂ hO₂).diag x, ?_, ?_⟩
-  · show w₂ ((coborderOpen f₃ O₂ hO₂).diag x) ∈ O₁
+  · change w₂ ((coborderOpen f₃ O₂ hO₂).diag x) ∈ O₁
     rw [← Scheme.Hom.comp_apply, DiagonalOpen.diag_comp_of_squareProd hw₂,
       Scheme.Hom.comp_apply]
     exact hO₁ ⟨_, rfl⟩
-  · show O₂.ι ((coborderOpen f₃ O₂ hO₂).diag x) = (DiagonalOpen.coborder f₃).diag x
+  · change O₂.ι ((coborderOpen f₃ O₂ hO₂).diag x) = (DiagonalOpen.coborder f₃).diag x
     have hl := IsOpenImmersion.lift_fac O₂.ι (DiagonalOpen.coborder f₃).diag
       (by simpa using hO₂)
     exact (Scheme.Hom.comp_apply (coborderOpen f₃ O₂ hO₂).diag O₂.ι x).symm.trans

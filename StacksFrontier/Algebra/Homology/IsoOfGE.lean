@@ -61,7 +61,7 @@ def isoXOfGE (p : ℤ) : K.X p ≅ L.X p :=
 theorem isoXOfGE_eq (m : ℕ) (p : ℤ) (hp : k + (m : ℤ) = p) :
     isoXOfGE K L k hK hL e p = e m p hp := by
   have hk : k ≤ p := by omega
-  rw [isoXOfGE, dif_pos hk]
+  rw [isoXOfGE, dite_eq_left hk]
   obtain rfl : (p - k).toNat = m := by omega
   rfl
 

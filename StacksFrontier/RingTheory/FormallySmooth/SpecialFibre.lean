@@ -140,7 +140,7 @@ public theorem section_of_disjoint {E B : Type*} [CommRing E] [CommRing B]
     rw [Ideal.Quotient.eq] at hx
     obtain ⟨l, hl, hlx⟩ := (Ideal.mem_map_iff_of_surjective q Ideal.Quotient.mk_surjective).mp hx
     refine ⟨e₀ + l, Subtype.ext ?_⟩
-    show (q (e₀ + l), π (e₀ + l)) = (x, π e₀)
+    change (q (e₀ + l), π (e₀ + l)) = (x, π e₀)
     rw [map_add, map_add, hlx, RingHom.mem_ker.mp hl]
     simp
   let e := RingEquiv.ofBijective Φ ⟨hinj, hsurj⟩
@@ -198,7 +198,7 @@ private theorem liftOfAnnihilated.{u', v', w'}
       { toFun := π
         map_add' := π.map_add
         map_smul' := fun r x => by
-          show π (r • x) = r • π x
+          change π (r • x) = r • π x
           rw [Algebra.smul_def, Algebra.smul_def, map_mul]
           rfl }
     have key := LinearMap.ker_inf_smul_top_eq_smul_of_flat I πₗ hπ
@@ -208,13 +208,13 @@ private theorem liftOfAnnihilated.{u', v', w'}
       intro i hi x hx
       have hx1 : x.1.1 ∈ L := hkerL x hx
       have hx2 : x.1.2 = 0 := hx
-      show ρ i * x ∈ (⊥ : Submodule R D)
+      change ρ i * x ∈ (⊥ : Submodule R D)
       rw [Submodule.mem_bot]
       apply Subtype.ext
       apply Prod.ext
-      · show a i * x.1.1 = 0
+      · change a i * x.1.1 = 0
         exact (Submodule.eq_bot_iff _).mp haL _ (Ideal.mul_mem_mul (Ideal.mem_map_of_mem a hi) hx1)
-      · show algebraMap R S i * x.1.2 = 0
+      · change algebraMap R S i * x.1.2 = 0
         rw [hx2, mul_zero]
     rw [hzero, Ideal.smul_top_eq_map] at key
     rw [eq_bot_iff]
@@ -243,7 +243,7 @@ private theorem liftOfAnnihilated.{u', v', w'}
     have hmul : π (t' * y₀) = t * π y₀ := by rw [map_mul]; rfl
     rw [← hmul]
     refine Ideal.mem_map_of_mem π ⟨Ideal.mul_mem_left _ _ hy₀, ?_⟩
-    show (0 : E) * y₀.1.1 = 0
+    change (0 : E) * y₀.1.1 = 0
     rw [zero_mul]
   let N : Ideal D := RingHom.ker π₁ ⊓ (n ^ j).comap π
   let M : Ideal D := I.map ρ ⊔ N
@@ -267,7 +267,7 @@ private theorem liftOfAnnihilated.{u', v', w'}
     rw [Submodule.mem_bot]
     apply Subtype.ext
     apply Prod.ext
-    · show y.1.1 + u.1.1 = 0
+    · change y.1.1 + u.1.1 = 0
       rw [show y.1.1 = 0 from hy'1, show u.1.1 = 0 from hu.1, add_zero]
     · exact hx
   let K : Ideal (D ⧸ M) := (RingHom.ker π).map (Ideal.Quotient.mk M)
@@ -278,11 +278,11 @@ private theorem liftOfAnnihilated.{u', v', w'}
       rw [Submodule.mem_bot]
       apply Subtype.ext
       apply Prod.ext
-      · show x.1.1 * y.1.1 = 0
+      · change x.1.1 * y.1.1 = 0
         exact mul_eq_zero_of_sq_eq_bot hL (hkerL x hx) (hkerL y hy)
-      · show x.1.2 * y.1.2 = 0
+      · change x.1.2 * y.1.2 = 0
         rw [show x.1.2 = 0 from hx, zero_mul]
-    show ((RingHom.ker π).map (Ideal.Quotient.mk M)) ^ 2 = ⊥
+    change ((RingHom.ker π).map (Ideal.Quotient.mk M)) ^ 2 = ⊥
     rw [← Ideal.map_pow, hker, Ideal.map_bot]
   let α : R →+* D ⧸ M := (Ideal.Quotient.mk M).comp ρ
   have hαI : I ≤ RingHom.ker α := by
@@ -305,7 +305,7 @@ private theorem liftOfAnnihilated.{u', v', w'}
     let t' : D := ⟨(0, t), hzeroD t htm⟩
     have ht'M : t' ∈ M := Ideal.mem_sup_right ⟨rfl, ht⟩
     rw [RingHom.mem_ker]
-    show β (π t') = 0
+    change β (π t') = 0
     rw [hβ, Ideal.Quotient.eq_zero_iff_mem.mpr ht'M, map_zero]
   obtain ⟨γ, hγK, hγf⟩ := H (D ⧸ M) K hK α hαI β hβf ⟨j, by omega, hβn⟩
   obtain ⟨s, hsπ, hsM⟩ := section_of_disjoint π hπ M hdisj γ (fun e => by
@@ -314,7 +314,7 @@ private theorem liftOfAnnihilated.{u', v', w'}
     intro r
     have hmem : s (algebraMap R S r) - ρ r ∈ RingHom.ker π ⊓ M := by
       constructor
-      · show π (s (algebraMap R S r) - ρ r) = 0
+      · change π (s (algebraMap R S r) - ρ r) = 0
         rw [map_sub, hsπ]
         exact sub_self _
       · apply Ideal.Quotient.eq_zero_iff_mem.mp
@@ -323,11 +323,11 @@ private theorem liftOfAnnihilated.{u', v', w'}
     exact sub_eq_zero.mp ((Submodule.eq_bot_iff _).mp hdisj _ hmem)
   refine ⟨π₁.comp s, ?_, ?_⟩
   · ext t
-    show Ideal.Quotient.mk L (s t).1.1 = φ t
+    change Ideal.Quotient.mk L (s t).1.1 = φ t
     rw [(memD (s t).1).mp (s t).2]
     exact congrArg φ (hsπ t)
   · ext r
-    show (s (algebraMap R S r)).1.1 = a r
+    change (s (algebraMap R S r)).1.1 = a r
     rw [hsf r]
     rfl
 
@@ -361,7 +361,7 @@ private theorem liftThroughSpecialFibre.{u', v'}
     have hle : (maximalIdeal A).map (algebraMap A B) ≤ RingHom.ker β := by
       rw [Ideal.map_le_iff_le_comap]
       intro x hx
-      show β (algebraMap A B x) = 0
+      change β (algebraMap A B x) = 0
       rw [← RingHom.comp_apply, hβf, RingHom.comp_apply, RingHom.mem_ker.mp (hα hx), map_zero]
     exact hle hb'
   let βbar : Bbar →+* T ⧸ K := incl.liftOfSurjective hincl ⟨β, hker⟩
@@ -370,13 +370,13 @@ private theorem liftThroughSpecialFibre.{u', v'}
   let αbar : k →+* T := Ideal.Quotient.lift (maximalIdeal A) α hα
   have halg : ∀ x : A, algebraMap k Bbar (residue A x) = incl (algebraMap A B x) := by
     intro x
-    show (residue A x) ⊗ₜ[A] (1 : B) = (1 : k) ⊗ₜ[A] (algebraMap A B x)
+    change (residue A x) ⊗ₜ[A] (1 : B) = (1 : k) ⊗ₜ[A] (algebraMap A B x)
     rw [Algebra.algebraMap_eq_smul_one, ← TensorProduct.smul_tmul, Algebra.smul_def, mul_one]
     rfl
   have hcomm : βbar.comp (algebraMap k Bbar) = (Ideal.Quotient.mk K).comp αbar := by
     apply Ideal.Quotient.ringHom_ext
     ext x
-    show βbar (algebraMap k Bbar (residue A x)) = Ideal.Quotient.mk K (α x)
+    change βbar (algebraMap k Bbar (residue A x)) = Ideal.Quotient.mk K (α x)
     rw [halg, hβbar, ← RingHom.comp_apply, hβf, RingHom.comp_apply]
   obtain ⟨j, hj, hjle⟩ := hβn
   have hpow : maximalIdeal Bbar ^ j ≤ RingHom.ker βbar := by
@@ -385,11 +385,11 @@ private theorem liftThroughSpecialFibre.{u', v'}
   obtain ⟨γbar, hγK, hγk⟩ := hbar T K hK αbar βbar hcomm ⟨j, hj, hpow⟩
   refine ⟨γbar.comp incl, ?_, ?_⟩
   · ext b
-    show Ideal.Quotient.mk K (γbar (incl b)) = β b
+    change Ideal.Quotient.mk K (γbar (incl b)) = β b
     rw [← hβbar, ← hγK]
     rfl
   · ext x
-    show γbar (incl (algebraMap A B x)) = α x
+    change γbar (incl (algebraMap A B x)) = α x
     rw [← halg, ← RingHom.comp_apply γbar, hγk]
     rfl
 
@@ -397,7 +397,7 @@ private theorem liftThroughSpecialFibre.{u', v'}
 special fibre is adically formally smooth over the residue field of the source is itself formally
 smooth for the maximal-ideal-adic topology. -/
 @[stacks 07NQ "(2) ⟹ (3)", ega "0 19.0.2" "I, one direction", ega "0 19.7.1" "b) ⇒ a)", sga
-  "1 III 1.7" "if direction", sga "1 III 1.7" "if direction"]
+  "1 III 1.7" "if direction"]
 theorem FormallySmoothNAdic.of_flat_of_specialFibre
     (A : Type u) (B : Type v)
     [CommRing A] [IsNoetherianRing A] [IsLocalRing A]
@@ -443,19 +443,19 @@ theorem FormallySmoothNAdic.of_flat_of_specialFibre
       let a' : A →+* E ⧸ L' := (Ideal.Quotient.mk L').comp a
       let φ' : B →+* (E ⧸ L') ⧸ L₁ := eq.symm.toRingHom.comp φ
       have hL₁ : L₁ ^ 2 = ⊥ := by
-        show (L.map (Ideal.Quotient.mk L')) ^ 2 = ⊥
+        change (L.map (Ideal.Quotient.mk L')) ^ 2 = ⊥
         rw [← Ideal.map_pow, hL, Ideal.map_bot]
       have hcomm' : φ'.comp (algebraMap A B) = (Ideal.Quotient.mk L₁).comp a' := by
         ext r
-        show eq.symm (φ (algebraMap A B r)) =
+        change eq.symm (φ (algebraMap A B r)) =
           Ideal.Quotient.mk L₁ (Ideal.Quotient.mk L' (a r))
         rw [eq.symm_apply_eq, heq, ← RingHom.comp_apply, hcomm, RingHom.comp_apply]
       have hφ' : n ^ m ≤ RingHom.ker φ' := by
         intro x hx
-        show eq.symm (φ x) = 0
+        change eq.symm (φ x) = 0
         rw [RingHom.mem_ker.mp (hφ hx), map_zero]
       have hann' : (I.map a') ^ (t + 1) * L₁ = ⊥ := by
-        show (I.map ((Ideal.Quotient.mk L').comp a)) ^ (t + 1) *
+        change (I.map ((Ideal.Quotient.mk L').comp a)) ^ (t + 1) *
           L.map (Ideal.Quotient.mk L') = ⊥
         rw [← Ideal.map_map, ← Ideal.map_pow, ← Ideal.map_mul]
         exact Ideal.map_quotient_self L'
@@ -465,7 +465,7 @@ theorem FormallySmoothNAdic.of_flat_of_specialFibre
           intro x hx
           rw [Ideal.mem_comap]
           apply Ideal.Quotient.eq_zero_iff_mem.mp
-          show ((Ideal.Quotient.mk L₁).comp g') x = 0
+          change ((Ideal.Quotient.mk L₁).comp g') x = 0
           rw [hg'K]
           exact hφ' hx
         rw [pow_add, Ideal.mul_le]
@@ -476,9 +476,9 @@ theorem FormallySmoothNAdic.of_flat_of_specialFibre
         (m + m) (by omega) hg'n
       refine ⟨g, ?_, hgf⟩
       ext x
-      show Ideal.Quotient.mk L (g x) = φ x
+      change Ideal.Quotient.mk L (g x) = φ x
       rw [← heq, ← RingHom.comp_apply (Ideal.Quotient.mk L'), hgK]
-      show eq ((Ideal.Quotient.mk L₁).comp g' x) = φ x
+      change eq ((Ideal.Quotient.mk L₁).comp g' x) = φ x
       rw [hg'K]
       exact eq.apply_symm_apply (φ x)
   intro E _ J hJ a ψ hcomm ⟨m, hm, hk⟩
@@ -487,7 +487,7 @@ theorem FormallySmoothNAdic.of_flat_of_specialFibre
     intro x hx
     rw [Ideal.mem_comap]
     apply Ideal.Quotient.eq_zero_iff_mem.mp
-    show ((Ideal.Quotient.mk J).comp a) x = 0
+    change ((Ideal.Quotient.mk J).comp a) x = 0
     rw [← hcomm]
     apply hk
     have hpow : (I ^ m).map (algebraMap A B) ≤ n ^ m := by

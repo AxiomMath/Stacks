@@ -374,7 +374,7 @@ theorem resolvedProjectionComponent_naturality
       R).tensor_map_comp _ _ _ _) (Eq.trans ?_ ((derivedHomAdjunctionOverRing.{uR, max v uR uA,
         max v uR uA + 1} R).tensor_map_comp _ _ _ _).symm)
     refine congrArg _ (Prod.ext ((Category.comp_id _).trans (Category.id_comp _).symm) ?_)
-    show DerivedCategory.Q.map (𝟙 P) ≫ _ = _ ≫ 𝟙 _
+    change DerivedCategory.Q.map (𝟙 P) ≫ _ = _ ≫ 𝟙 _
     rw [CategoryTheory.Functor.map_id, Category.id_comp, Category.comp_id]
   rw [resolvedProjectionComponent_hom, resolvedProjectionComponent_hom]
   exact comp_ladder_six _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ s1 h2 s3 h4' h5' s6

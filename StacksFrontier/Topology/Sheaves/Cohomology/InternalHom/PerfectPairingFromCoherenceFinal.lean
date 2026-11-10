@@ -66,6 +66,9 @@ variable [(Tensor.sheafTensor.{u, u, u, u, u} Rc).Additive]
     AddCommGrpCat.{u}]
   [∀ V : Opens X, HasWeakSheafify ((Opens.grothendieckTopology X).over V) AddCommGrpCat.{u}]
 
+open Stacks.SheafOfModules renaming
+derivedSheafHomComposition_structureSheafMiddle_whiskerRight_comp_derivedSheafHomCounit_of_coherence
+  → compositionLawOfCoherence in
 /-- **The left dual of a perfect object, from the derived passage and the coherence.**  For a
 perfect object `K` of `D(O_X)` the pair `(η, ε) = (derivedDualCoevaluation,
 derivedDualEvaluation)` is an exact pairing — `K^∨ = RSheafHom(K, O_X)` is a left dual of `K` in
@@ -101,8 +104,7 @@ def exactPairingDerivedDualOfCoherence
     ExactPairing K (derivedDual Rc K) := by
   letI := derivedMonoidalStructure Rc
   have hC :=
-    derivedSheafHomComposition_structureSheafMiddle_whiskerRight_comp_derivedSheafHomCounit_of_coherence
-      Rc K K cur hcmp hcoh
+    compositionLawOfCoherence Rc K K cur hcmp hcoh
   rw [derivedSheafHomCounit_structureSheaf_eq_derivedDualEvaluation] at hC
   exact exactPairingDerivedDualOfCompositionLaw Rc K hK hC
 

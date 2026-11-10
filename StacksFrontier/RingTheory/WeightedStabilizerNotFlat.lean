@@ -284,14 +284,14 @@ theorem mk_T_sub_one_ne_zero_infty {m : ℕ} (hm : 0 < m) :
 class of `t^m - 1` is a nonzero element killed by the nonzerodivisor `s`. -/
 theorem not_flat_stabilizerAlgebra {m N : ℕ} (hm : 0 < m) (hmN : m < N) :
     ¬ Module.Flat k[X] (StabilizerAlgebra k m N) :=
-  not_flat_of_smul_eq_zero Polynomial.X_mem_nonzeroDivisors (mk_T_sub_one_ne_zero hm hmN)
+  not_flat_of_smul_eq_zero Polynomial.X_mem_nonZeroDivisors (mk_T_sub_one_ne_zero hm hmN)
     (smul_mk_relation_eq_zero m (Ideal.subset_span (Set.mem_insert_of_mem _ rfl)))
 
 /-- **`k[s][t, t⁻¹] / (s·(t^m - 1))` is not flat over `k[s]`** when `0 < m`: the class of
 `t^m - 1` is a nonzero element killed by the nonzerodivisor `s`. -/
 theorem not_flat_stabilizerAlgebraInfty {m : ℕ} (hm : 0 < m) :
     ¬ Module.Flat k[X] (StabilizerAlgebraInfty k m) :=
-  not_flat_of_smul_eq_zero Polynomial.X_mem_nonzeroDivisors (mk_T_sub_one_ne_zero_infty hm)
+  not_flat_of_smul_eq_zero Polynomial.X_mem_nonZeroDivisors (mk_T_sub_one_ne_zero_infty hm)
     (smul_mk_relation_eq_zero m (Ideal.subset_span rfl))
 
 /-- **The stabilizer algebra `k[s][t, t⁻¹] / (t^{p^b} - 1, s·(t^{p^a} - 1))` is not flat over

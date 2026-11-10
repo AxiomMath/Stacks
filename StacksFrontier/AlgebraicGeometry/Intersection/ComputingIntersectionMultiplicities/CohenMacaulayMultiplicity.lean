@@ -89,8 +89,9 @@ sequences along the surjection `A → A ⧸ J`, and the depth of a finite free m
 from the depth of one summand through the short exact sequences splitting off its factors.
 
 The source's final sentence, that `V · W = [V ∩ W]_{dim V + dim W - dim X}` when `V` and `W` are
-Cohen-Macaulay, is a statement about algebraic cycles and is carried in
-`StacksFrontier.AlgebraicGeometry.Intersection.ComputingIntersectionMultiplicities.CohenMacaulayCycle`
+Cohen-Macaulay, is a statement about algebraic cycles and is carried in the sibling module
+`CohenMacaulayCycle` of
+`StacksFrontier.AlgebraicGeometry.Intersection.ComputingIntersectionMultiplicities`
 by `cycleAssociatedToClosedSubscheme_eq_intersectionProductCycle_of_isCohenMacaulay` in the
 namespace `AlgebraicGeometry.TorFormula`, which applies the multiplicity formula below at each
 point of the expected dimension.
@@ -465,7 +466,7 @@ private lemma tor_quotient_isZero_of_isCohenMacaulay
   let (j : ℕ) : Module.Free A (P.complex.X j) := (P.property j).1
   let (j : ℕ) : Module.Finite A (P.complex.X j) := (P.property j).2
   let (j : ℕ) : Module.Finite A (K.X j) := by
-    show Module.Finite A (TensorProduct A (P.complex.X j) (A ⧸ J))
+    change Module.Finite A (TensorProduct A (P.complex.X j) (A ⧸ J))
     infer_instance
   let (j : ℕ) : Module.Finite A (K.homology j) := homology_finite_of_term_finite K j
   apply tor_vanish_of_acyclic_tensor_resolution I (A ⧸ J) (d - b) K
@@ -504,7 +505,7 @@ private lemma depth_le_length_of_complex
     | succ j => exact Module.Finite.equiv (eX j).toLinearEquiv.symm
   have hgreat : IsGreatest {j : ℕ | ¬ L.ExactAt j} 1 := by
     refine ⟨?_, ?_⟩
-    · show ¬ L.ExactAt 1
+    · change ¬ L.ExactAt 1
       rw [HomologicalComplex.exactAt_iff_isZero_homology]
       intro h
       exact not_subsingleton (K.homology 0)
@@ -552,7 +553,7 @@ private lemma ringKrullDim_eq_add_of_isCohenMacaulay
   let (j : ℕ) : Module.Free A (P.complex.X j) := (P.property j).1
   let (j : ℕ) : Module.Finite A (P.complex.X j) := (P.property j).2
   let (j : ℕ) : Module.Finite A (K.X j) := by
-    show Module.Finite A (TensorProduct A (P.complex.X j) (A ⧸ J))
+    change Module.Finite A (TensorProduct A (P.complex.X j) (A ⧸ J))
     infer_instance
   let (j : ℕ) : Module.Finite A (K.homology j) := homology_finite_of_term_finite K j
   let E (j : ℕ) := torHomologyLinearEquiv_of_leftResolution I (A ⧸ J) P j

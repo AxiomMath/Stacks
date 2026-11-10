@@ -414,7 +414,7 @@ theorem isIso_unit_app_of_isGE_of_isLE (k : ℕ) :
     have hZ : IsIso (adj.unit.app T.obj₃) :=
       isIso_unit_app_of_isGE_of_isLE_self adj P hη T.obj₃ (a + k + 1)
         (hX.truncTriangle_obj₃ _)
-    show IsIso (adj.unit.app T.obj₂)
+    change IsIso (adj.unit.app T.obj₂)
     rw [DerivedCategory.isIso_iff]
     intro q
     by_cases hq : q ≤ a + k
@@ -447,7 +447,7 @@ theorem isIso_unit_app_of_isGE
   rw [DerivedCategory.isIso_iff]
   intro q
   let n := max q a
-  show IsIso ((H q).map (adj.unit.app (truncTriangle X n).obj₂))
+  change IsIso ((H q).map (adj.unit.app (truncTriangle X n).obj₂))
   let T := truncTriangle X n
   have hT' : (F ⋙ G).mapTriangle.obj T ∈ distTriang _ :=
     (F ⋙ G).map_distinguished T (truncTriangle_distinguished X n)
@@ -674,7 +674,7 @@ theorem isDerivedLimit_map_truncGETower (E : _root_.DerivedCategory A)
   dsimp only [asIso_hom, Functor.comp_map]
   rw [Stacks.DerivedLimit.truncGETower_map_homOfLE_succ,
     Stacks.DerivedLimit.truncGETower_map_homOfLE_succ]
-  show (DerivedCategory.TStructure.t.natTransTruncGEOfLE (-((n + 1 : ℕ) : ℤ)) (-(n : ℤ))
+  change (DerivedCategory.TStructure.t.natTransTruncGEOfLE (-((n + 1 : ℕ) : ℤ)) (-(n : ℤ))
       (by omega)).app (F.obj E) ≫ truncGEComparison F hFGE E (-(n : ℤ)) =
     truncGEComparison F hFGE E (-((n + 1 : ℕ) : ℤ)) ≫
       F.map ((DerivedCategory.TStructure.t.natTransTruncGEOfLE (-((n + 1 : ℕ) : ℤ)) (-(n : ℤ))
@@ -759,7 +759,7 @@ theorem isIso_unit_app (E : _root_.DerivedCategory A) (hE : HomologyIn P E) :
   rw [DerivedCategory.isIso_iff]
   intro q
   let T := truncTriangle E (q - 1)
-  show IsIso ((H q).map (adj.unit.app T.obj₂))
+  change IsIso ((H q).map (adj.unit.app T.obj₂))
   have hT : T ∈ distTriang _ := truncTriangle_distinguished E (q - 1)
   have hT' : (F ⋙ G).mapTriangle.obj T ∈ distTriang _ := (F ⋙ G).map_distinguished T hT
   have : T.obj₃.IsGE q := by

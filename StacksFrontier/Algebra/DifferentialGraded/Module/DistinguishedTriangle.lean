@@ -93,7 +93,7 @@ theorem nonempty_compatibleSplittings {K L M : DifferentialGradedModule A}
     toFun := s₀.toFun - f.toFun.comp (π₀.toFun.comp s₀.toFun)
     map_smul := by
       intro x a
-      show s₀.toFun (MulOpposite.op a • x) -
+      change s₀.toFun (MulOpposite.op a • x) -
         f.toFun (π₀.toFun (s₀.toFun (MulOpposite.op a • x))) =
         MulOpposite.op a • (s₀.toFun x - f.toFun (π₀.toFun (s₀.toFun x)))
       rw [s₀.map_smul, π₀.map_smul, f.map_smul]
@@ -106,10 +106,10 @@ theorem nonempty_compatibleSplittings {K L M : DifferentialGradedModule A}
   have hgf (x : K.M) : g.toFun (f.toFun x) = 0 := LinearMap.mem_ker.mp
     (hfg.exact ▸ (show f.toFun x ∈ LinearMap.range f.toFun from ⟨x, rfl⟩))
   have hgs (x : M.M) : g.toFun (s.toFun x) = x := by
-    show g.toFun (s₀.toFun x - f.toFun (π₀.toFun (s₀.toFun x))) = x
+    change g.toFun (s₀.toFun x - f.toFun (π₀.toFun (s₀.toFun x))) = x
     simp [map_sub, hs₀, hgf]
   have hπs (x : M.M) : π₀.toFun (s.toFun x) = 0 := by
-    show π₀.toFun (s₀.toFun x - f.toFun (π₀.toFun (s₀.toFun x))) = 0
+    change π₀.toFun (s₀.toFun x - f.toFun (π₀.toFun (s₀.toFun x))) = 0
     simp [map_sub, hπ₀]
   refine ⟨⟨s, π₀, hgs, hπ₀, ?_⟩⟩
   ext x

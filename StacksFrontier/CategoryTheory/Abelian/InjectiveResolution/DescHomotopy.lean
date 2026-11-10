@@ -38,9 +38,9 @@ case `K = J.cocomplex`.
 
 The injectivity hypothesis on the target is taken as the instance-implicit
 `[∀ n, Injective (K.X n)]`, matching `CochainComplex.isKInjective_of_injective`. This is the form
-Mathlib conventions call for here: it is a `Prop`-valued class, so instance-implicit costs nothing and
-lets the lifting step `descToInjective` find `Injective (K.X n)` by instance search instead of by
-hand, and — crucially for the intended use — it makes Mathlib's own statements literal special
+Mathlib conventions call for here: it is a `Prop`-valued class, so instance-implicit costs nothing
+and lets the lifting step `descToInjective` find `Injective (K.X n)` by instance search instead of
+by hand, and — crucially for the intended use — it makes Mathlib's own statements literal special
 cases, since `InjectiveResolution.injective` is already an instance. A plain hypothesis
 `(hK : ∀ n, Injective (K.X n))` would force every application to re-thread it through the three
 auxiliary constructions. No boundedness hypothesis is needed or wanted: the complex is indexed by

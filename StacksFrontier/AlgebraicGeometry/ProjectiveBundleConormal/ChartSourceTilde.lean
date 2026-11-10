@@ -38,7 +38,8 @@ consumer.
 from `Stacks.ProjectiveBundleConormal.exists_affine_open_splitting`, which hands back a frame and
 a trivialisation *with no relation between them*, it would leave a chart computation treating
 `pairing(q s, θ⁻¹ 1)` as an unknown unit rather than as `1`, which is the obstruction `hpair` of
-the "What is not done" of `StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.ChartMeeting`. `Stacks.ProjectiveBundleConormal.restrictIsoUnitOfSpanEqTop` turns the
+the "What is not done" of `StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.ChartMeeting`.
+`Stacks.ProjectiveBundleConormal.restrictIsoUnitOfSpanEqTop` turns the
 spanning section `q s` — spanning by
 `Stacks.ProjectiveBundleConormal.span_singleton_app_eq_top_of_chartLinearForm_eq_one`, which is
 the frame condition and nothing more — into a trivialisation, so the two are related by

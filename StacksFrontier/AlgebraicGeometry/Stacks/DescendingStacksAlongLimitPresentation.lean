@@ -338,7 +338,7 @@ theorem exists_smoothGroupoid_overBase_of_affineSmoothChart (Y : AlgebraicSpaces
       G₀.source.hom u.hom (Space.isLocallyOfFinitePresentation_of_isSmooth B S hS hssm) (hulfp hf)
   · exact Space.isLocallyOfFiniteType_comp B S hS G₀.arrows.property hUalg Y.property
       G₀.source.hom u.hom (Space.isLocallyOfFiniteType_of_isSmooth B S hS hssm) (hulft hf)
-  · show Eb.inverse.comp (quotientStackToBase G) ≅ f.hom.hom
+  · change Eb.inverse.comp (quotientStackToBase G) ≅ f.hom.hom
     rw [hL, show L = BasedFunctor.comp Eb.functor f.hom.hom from
       congrArg (fun F => BasedFunctor.comp F f.hom.hom) hc.symm]
     exact BasedCategory.isoWhiskerRight Eb.counitIso f.hom.hom

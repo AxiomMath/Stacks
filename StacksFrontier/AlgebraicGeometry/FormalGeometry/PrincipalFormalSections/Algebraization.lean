@@ -158,6 +158,7 @@ include hf
 
 /-! ### Divisibility of the kernel and the cokernel of `M ⟶ N` -/
 
+omit [IsNoetherianRing A] [Module.Finite A (M : Type u)] in
 /-- **The kernel of `M ⟶ N` is divisible by `f` up to powers of any `g ∈ 𝔞`.** -/
 theorem exists_pow_smul_eq_smul_of_toLimModule_eq_zero {g : A} (hg : g ∈ a) (m : M)
     (hm : toLimModule (a := a) (f := f) M m = 0) :
@@ -175,11 +176,12 @@ theorem exists_pow_smul_eq_smul_of_toLimModule_eq_zero {g : A} (hg : g ∈ a) (m
   rw [pow_one] at hm'
   refine ⟨k, m', ?_, hm'.symm⟩
   refine isSMulRegular_formalLimit f M (complOpen A a) hf ?_
-  show f • (toFormalLimit f M (complOpen A a)) m' = f • 0
+  change f • (toFormalLimit f M (complOpen A a)) m' = f • 0
   rw [smul_zero, ← map_smul, hm', map_smul]
-  show g ^ k • (toLimModule (a := a) (f := f) M m) = 0
+  change g ^ k • (toLimModule (a := a) (f := f) M m) = 0
   rw [hm, smul_zero]
 
+omit [IsNoetherianRing A] [Module.Finite A (M : Type u)] in
 /-- **The cokernel of `M ⟶ N` is divisible by `f` up to powers of any `g ∈ 𝔞`.** -/
 theorem exists_pow_smul_eq_add_smul {r : ℕ} (gs : Fin r → A) (hgs : Ideal.span (Set.range gs) = a)
     {g : A} (hg : g ∈ a) (z : formalLimit f M (complOpen A a)) :
@@ -211,6 +213,7 @@ theorem exists_pow_smul_eq_add_smul {r : ℕ} (gs : Fin r → A) (hgs : Ideal.sp
   abel
 
 
+omit [IsNoetherianRing A] [Module.Finite A (M : Type u)] in
 /-- **Iterating the cokernel divisibility.** -/
 theorem exists_pow_smul_eq_add_pow_smul {r : ℕ} (gs : Fin r → A)
     (hgs : Ideal.span (Set.range gs) = a) {g : A} (hg : g ∈ a) (n : ℕ) :
@@ -258,6 +261,7 @@ theorem exists_notMem_smul_eq_zero_of_toLimModule_eq_zero {g : A} (hg : g ∈ a)
       (LinearMap.ker (toLimModule (a := a) (f := f) M).hom) hfp hdiv (LinearMap.mem_ker.2 hm)
   exact ⟨c, hc, hcm⟩
 
+omit [IsNoetherianRing A] [Module.Finite A (M : Type u)] in
 /-- Let `g ∈ 𝔞` and let `p` be a prime with `f ∈ p` and `g ∉ p`. If `N` is a finite module, then
 every element of `N` has a multiple by some element outside `p` in the image of `M ⟶ N`. -/
 theorem exists_notMem_smul_mem_range {r : ℕ} (gs : Fin r → A)
@@ -407,7 +411,7 @@ theorem exists_localIso_nbhd {r : ℕ} (gs : Fin r → A) (hgs : Ideal.span (Set
   rw [hZ] at hpZ
   exact ⟨(hKmem p).1 fun h ↦ hpZ (Or.inl h), (hCmem p).1 fun h ↦ hpZ (Or.inr h)⟩
 
-include hf in
+omit [IsNoetherianRing A] [Module.Finite A (M : Type u)] in
 /-- On a neighbourhood as above, the maps on the quotients are also locally bijective, so they
 induce bijections on sections. -/
 theorem bijective_moduleSectionsMap_quotMap {V : Opens (PrimeSpectrum.Top A)}
@@ -434,12 +438,14 @@ def limConst (n : ℕ) : formalLimit f M (complOpen A a) →ₗ[A]
   (moduleSectionsMk (Quot f (limModule (a := a) (f := f) M) n) (complOpen A a)).comp
     (quotMk f (limModule (a := a) (f := f) M) n).hom
 
+omit [IsNoetherianRing A] [Module.Finite A (M : Type u)] in
 /-- `limPush M n x` is the image of the level-`n` component of `x` under `M/fⁿM ⟶ N/fⁿN`. -/
 theorem limPush_apply (n : ℕ) (x : formalLimit f M (complOpen A a)) :
     limPush M n x =
       moduleSectionsMap (quotMap f (toLimModule (a := a) (f := f) M) n) (complOpen A a) (x.1 n) :=
   rfl
 
+omit [IsNoetherianRing A] [Module.Finite A (M : Type u)] in
 /-- `limConst M n x` is the constant section determined by `x mod fⁿN`. -/
 theorem limConst_apply (n : ℕ) (x : formalLimit f M (complOpen A a)) :
     limConst M n x =
@@ -447,6 +453,7 @@ theorem limConst_apply (n : ℕ) (x : formalLimit f M (complOpen A a)) :
         (quotMk f (limModule (a := a) (f := f) M) n x) :=
   rfl
 
+omit [IsNoetherianRing A] [Module.Finite A (M : Type u)] in
 /-- The two maps agree on the image of `M`, by the very definition of `M ⟶ N`. -/
 theorem limPush_toLimModule (n : ℕ) (m : M) :
     limPush M n ((toLimModule (a := a) (f := f) M) m) =
@@ -454,16 +461,19 @@ theorem limPush_toLimModule (n : ℕ) (m : M) :
   rw [limPush_apply, limConst_apply, toLimModule_apply_level, moduleSectionsMap_moduleSectionsMk]
   rfl
 
+omit [IsNoetherianRing A] [Module.Finite A (M : Type u)] in
 /-- The values of `limPush M n` are killed by `fⁿ`. -/
 theorem pow_smul_limPush (n : ℕ) (z : formalLimit f M (complOpen A a)) :
     f ^ n • limPush M n z = 0 :=
   pow_smul_level_eq_zero f (limModule (a := a) (f := f) M) (complOpen A a) n _
 
+omit [IsNoetherianRing A] [Module.Finite A (M : Type u)] in
 /-- The values of `limConst M n` are killed by `fⁿ`. -/
 theorem pow_smul_limConst (n : ℕ) (z : formalLimit f M (complOpen A a)) :
     f ^ n • limConst M n z = 0 :=
   pow_smul_level_eq_zero f (limModule (a := a) (f := f) M) (complOpen A a) n _
 
+omit [IsNoetherianRing A] [Module.Finite A (M : Type u)] in
 include hf in
 /-- **The key compatibility.** The level-`n` component of an element `x` of
 `N = lim Γ(U, (M/fⁿM)~)`, pushed forward to the sections of `(N/fⁿN)~`, is the constant section
@@ -560,7 +570,7 @@ theorem bijective_formalComparison_of_finite {r : ℕ} (gs : Fin r → A)
     rw [nbhdComparison_apply]
     refine extendQuot_injective_aux A a f M V n ?_
     rw [restrict_extendQuot]
-    refine (bijective_moduleSectionsMap_quotMap M hf hV n).1 ?_
+    refine (bijective_moduleSectionsMap_quotMap M hV n).1 ?_
     rw [← moduleSectionsMap_comp_apply, quotMk_comp_quotMap, moduleSectionsMap_comp_apply, hs,
       moduleSectionsMap_moduleSectionsMk, moduleSectionsMap_restrict, ← limPush_apply,
       limPush_eq_limConst M hf gs hgs n x, limConst_apply,

@@ -58,7 +58,7 @@ private theorem isZero_cohomologyOverField_projectiveTwist_of_isMRegular (k : Ty
 and `P`, such that for every field `k` and every surjection `q : 𝒪^{⊕ r} ⟶ ℱ` onto a coherent
 module on `ℙⁿ_k` with Hilbert polynomial `P`, the twist `q(m)` is the cokernel of a morphism
 `𝒪^{⊕ N} ⟶ 𝒪(m)^{⊕ r}` with `N = χ(𝒪(m)^{⊕ r}) - χ(ℱ(m))`. -/
-theorem exists_twist_presentation_of_hilbertPolynomial (n r : ℕ) (hr : 1 ≤ r)
+theorem exists_twist_presentation_of_hilbertPolynomial (n r : ℕ)
     (P : Polynomial ℚ) :
     ∃ m : ℕ, ∀ (k : Type u) [Field k]
       (Q : (projectiveSpaceOverRing n (.of k)).Modules) [Q.IsCoherent]
@@ -69,7 +69,7 @@ theorem exists_twist_presentation_of_hilbertPolynomial (n r : ℕ) (hr : 1 ≤ r
             projectiveTwist n (freeModules k n r) m)
         (w : φ ≫ (twistFunctorModules k n m).map q = 0),
         Nonempty (IsColimit (CokernelCofork.ofπ _ w)) := by
-  obtain ⟨m₀, hm₀⟩ := exists_isMRegular_kernel_free_of_hilbertPolynomial.{u} n r hr P
+  obtain ⟨m₀, hm₀⟩ := exists_isMRegular_kernel_free_of_hilbertPolynomial.{u} n r P
   refine ⟨m₀.toNat, fun k _ Q _ q _ hP => ?_⟩
   have hm : m₀ ≤ ((m₀.toNat : ℕ) : ℤ) := Int.self_le_toNat m₀
   set m : ℤ := ((m₀.toNat : ℕ) : ℤ)
@@ -93,9 +93,9 @@ theorem exists_twist_presentation_of_hilbertPolynomial (n r : ℕ) (hr : 1 ≤ r
   have hN : (hilbertPolynomial k n (freeModules k n r) m - hilbertPolynomial k n Q m).toNat =
       Module.finrank k (cohomologyOverField k f (projectiveTwist n (kernel q) m) 0) := by
     rw [hilbertPolynomial_eq_eulerCharacteristic, hilbertPolynomial_eq_eulerCharacteristic]
-    show (eulerCharacteristic k f T.X₂ - eulerCharacteristic k f T.X₃).toNat = _
+    change (eulerCharacteristic k f T.X₂ - eulerCharacteristic k f T.X₃).toNat = _
     rw [hadd, add_sub_cancel_right]
-    show (eulerCharacteristic k f (projectiveTwist n (kernel q) m)).toNat = _
+    change (eulerCharacteristic k f (projectiveTwist n (kernel q) m)).toNat = _
     rw [hK0, Int.toNat_natCast]
   -- A basis of `Hom(𝒪, 𝒦(m))` gives a surjection `𝒪^{⊕ N} ⟶ 𝒦(m)`.
   let := Scheme.linearOver f

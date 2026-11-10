@@ -403,6 +403,7 @@ private theorem fixedPoints_isDedekindDomain_and_finite
     IsIntegralClosure.finite A K (IntermediateField.fixedField H) _⟩
 
 set_option maxHeartbeats 3200000 in
+-- elaborating the tower of fixed fields, invariant rings and residue fields is heavy
 set_option synthInstance.maxHeartbeats 400000 in
 -- The tower carries many dependent algebra structures.
 private theorem exists_wildInertia_fixedField_tower
@@ -613,6 +614,7 @@ private theorem exists_wildInertia_fixedField_tower
 end DecompositionTower
 
 set_option maxHeartbeats 3200000 in
+-- elaborating the tower of fixed fields, invariant rings and residue fields is heavy
 set_option synthInstance.maxHeartbeats 400000 in
 -- The tower carries many dependent algebra structures.
 /-- **Stacks Tag 0BU6.** The fixed fields, invariant rings, contracted primes, localized

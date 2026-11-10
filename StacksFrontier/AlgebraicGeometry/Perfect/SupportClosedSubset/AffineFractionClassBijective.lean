@@ -156,7 +156,7 @@ private theorem secIso_atIndexL_self (f : Fin (d + 1) → R) (M : ModuleCat.{u} 
     (y : Γ(tilde M, CechCochains.inter
       (fun j => (⊤ : (Spec R).Opens) ⊓ (Spec R).basicOpen (specFun f j)) q.1)) :
     secIso (specFun f) (tilde M) p ⊤ (atIndexL f M p q y) q = y := by
-  rw [secIso_atIndexL, dif_pos rfl, resL_self]
+  rw [secIso_atIndexL, dite_eq_left rfl, resL_self]
 
 /-- **Putting a section in the unique top component is bijective.**  In the top degree there is
 only one increasing tuple, so a cochain is its single component. -/
@@ -529,7 +529,7 @@ public theorem mem_of_atIndexL (f : Fin (d + 1) → R) (M : ModuleCat.{u} R) (p 
     refine (secIso (specFun f) (tilde M) p ⊤).injective (funext fun t => ?_)
     rw [map_sum, ordCochain_sum_apply,
       Finset.sum_eq_single_of_mem t (Finset.mem_univ t)
-        (fun q _ hq => by rw [secIso_atIndexL, dif_neg fun h => hq h.symm]),
+        (fun q _ hq => by rw [secIso_atIndexL, dite_eq_right fun h => hq h.symm]),
       secIso_atIndexL_self]
   rw [← hsum]
   exact Submodule.sum_mem _ fun q _ => hN q _
@@ -549,7 +549,7 @@ public theorem difSucc_atIndexL_of_not_face {e : ℕ} (f : Fin (e + 2) → R) (M
           CechCochains.OrdIndex (I := Fin (e + 2)) e) = faceIndex e j := fun _ => rfl
   rw [map_zero, CechCochains.OrdCochain.zero_apply, secIso_difSucc, ordD_apply]
   refine Finset.sum_eq_zero fun j _ => ?_
-  rw [secIso_atIndexL, dif_neg (fun h => hq j ((hidx j).symm.trans h)), map_zero, smul_zero]
+  rw [secIso_atIndexL, dite_eq_right (fun h => hq j ((hidx j).symm.trans h)), map_zero, smul_zero]
 
 /-- **The image of the last differential on global sections is the image under `topTransfer` of
 the algebraic boundaries.** -/
@@ -580,7 +580,7 @@ public theorem range_Γ_lastDif_le (f : Fin (d + 1) → R) (M : ModuleCat.{u} R)
         (Submodule.comap ((moduleSpecΓFunctor.map (lastDif (specFun f) (tilde M))).hom)
           (Submodule.map (topTransfer f M) (LinearMap.range (Cech.cechD f (M : Type u) (e + 1)))))
         (fun q y => ?_) w
-      show (moduleSpecΓFunctor.map (lastDif (specFun f) (tilde M))).hom
+      change (moduleSpecΓFunctor.map (lastDif (specFun f) (tilde M))).hom
           (atIndexL f M e q y) ∈
         Submodule.map (topTransfer f M) (LinearMap.range (Cech.cechD f (M : Type u) (e + 1)))
       by_cases hface : ∃ i : Fin (e + 2), faceIndex e i = q
@@ -601,7 +601,7 @@ public theorem range_Γ_lastDif_le (f : Fin (d + 1) → R) (M : ModuleCat.{u} R)
             ((-1 : ℤ) ^ (i : ℕ)) • atIndexL f M (e + 1) (topIndex (e + 1))
               (awayLift f M ((Finset.univ : Finset (Fin (e + 2))).erase i)
                 (interTop_le f _) x) := by
-          show (difSucc (specFun f) (tilde M) e).app ⊤ _ = _
+          change (difSucc (specFun f) (tilde M) e).app ⊤ _ = _
           rw [← hkey, map_zsmul, map_zsmul, smul_smul, neg_one_pow_mul_self,
             one_smul]
         rw [hsm]
@@ -677,7 +677,7 @@ public theorem supportedFraction_eq_conj (f : Fin (d + 1) → R) (M : ModuleCat.
           (affineSourceEquiv f M).toLinearMap) := by
   refine LinearMap.ext fun z => ?_
   have h := LinearMap.congr_fun (supportedFraction_eq_targetComparison f M) z
-  show Cech.supportedFraction f (M : Type u) z =
+  change Cech.supportedFraction f (M : Type u) z =
     (targetEquiv f M).symm
       ((moduleSpecΓFunctor.map (supportedFractionClass (specFun f) (tilde M))).hom
         (affineSourceEquiv f M z))

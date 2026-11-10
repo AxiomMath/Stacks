@@ -438,8 +438,12 @@ Its type is not written out.  Both sides are composites of four maps between obj
 application against the type it *infers*, but a type elaborated afresh from such a statement
 differs from the inferred one in how those objects are spelled, and reconciling the two exceeds
 its budget. -/
-def derivedBaseChangeTransposeLeft₁
-    (M : HomotopyCategory (SheafOfModules.{u} (structureSheafRing X)) (ComplexShape.up ℤ)) :=
+theorem derivedBaseChangeTransposeLeft₁
+    (M : HomotopyCategory (SheafOfModules.{u} (structureSheafRing X)) (ComplexShape.up ℤ)) :
+    type_of% (Mate.transpose_left₁ (derivedAdjunction f')
+        (derivedBaseChangeSquare_counit_fac g' f' f g sq (DerivedCategory.Qh.obj M))
+        (derivedPullbackCompIsoLeft_hom_naturality_pushforwardUnit g' f' f g sq M
+          ((derivedPushforwardUnit f).app M))) :=
   Mate.transpose_left₁ (derivedAdjunction f')
     (derivedBaseChangeSquare_counit_fac g' f' f g sq (DerivedCategory.Qh.obj M))
     (derivedPullbackCompIsoLeft_hom_naturality_pushforwardUnit g' f' f g sq M
@@ -453,8 +457,14 @@ counit of `f`.
 
 Its type is not written out, for the reason given at
 `Stacks.Cohomology.DerivedBaseChange.derivedBaseChangeTransposeLeft₁`. -/
-def derivedBaseChangeTransposeLeft₂
-    (M : HomotopyCategory (SheafOfModules.{u} (structureSheafRing X)) (ComplexShape.up ℤ)) :=
+theorem derivedBaseChangeTransposeLeft₂
+    (M : HomotopyCategory (SheafOfModules.{u} (structureSheafRing X)) (ComplexShape.up ℤ)) :
+    type_of% (Mate.transpose_left₂
+        (derivedPullbackCompIsoCanonical_inv_naturality_pushforwardUnit g' f M
+          ((derivedPushforwardUnit f).app M))
+        (derivedPullback_map_derivedAdjunction_counit_fac g' f M)
+        ((derivedPullbackComparison g').naturality
+          ((homotopyPullbackPushforwardAdjunction f).counit.app M))) :=
   Mate.transpose_left₂
     (derivedPullbackCompIsoCanonical_inv_naturality_pushforwardUnit g' f M
       ((derivedPushforwardUnit f).app M))
@@ -470,8 +480,10 @@ comparison for `g'`, and the degreewise counit of `f`.
 
 Its type is not written out, for the reason given at
 `Stacks.Cohomology.DerivedBaseChange.derivedBaseChangeTransposeLeft₁`. -/
-def derivedBaseChangeTransposeLeft
-    (M : HomotopyCategory (SheafOfModules.{u} (structureSheafRing X)) (ComplexShape.up ℤ)) :=
+theorem derivedBaseChangeTransposeLeft
+    (M : HomotopyCategory (SheafOfModules.{u} (structureSheafRing X)) (ComplexShape.up ℤ)) :
+    type_of% (Mate.comp_of_comp (derivedBaseChangeTransposeLeft₁ g' f' f g sq M)
+        (derivedBaseChangeTransposeLeft₂ g' f M)) :=
   Mate.comp_of_comp (derivedBaseChangeTransposeLeft₁ g' f' f g sq M)
     (derivedBaseChangeTransposeLeft₂ g' f M)
 
@@ -483,8 +495,15 @@ pushed through the localization.
 
 Its type is not written out, for the reason given at
 `Stacks.Cohomology.DerivedBaseChange.derivedBaseChangeTransposeLeft`. -/
-def homotopyBaseChangeTransposeRight
-    (M : HomotopyCategory (SheafOfModules.{u} (structureSheafRing X)) (ComplexShape.up ℤ)) :=
+theorem homotopyBaseChangeTransposeRight
+    (M : HomotopyCategory (SheafOfModules.{u} (structureSheafRing X)) (ComplexShape.up ℤ)) :
+    type_of% (Mate.transpose_right DerivedCategory.Qh (derivedAdjunction f')
+        ((derivedPullbackComparison g).app
+          (((modulePushforward f).mapHomotopyCategory (ComplexShape.up ℤ)).obj M))
+        (derivedAdjunction_counit_fac f'
+          (((modulePullback g').mapHomotopyCategory (ComplexShape.up ℤ)).obj M))
+        ((derivedPullbackComparison f').naturality ((homotopyBaseChangeSquare g' f' f g sq).app M))
+        (Qh_map_homotopyBaseChangeSquare_counit_fac g' f' f g sq M)) :=
   Mate.transpose_right DerivedCategory.Qh (derivedAdjunction f')
     ((derivedPullbackComparison g).app
       (((modulePushforward f).mapHomotopyCategory (ComplexShape.up ℤ)).obj M))

@@ -534,7 +534,7 @@ theorem gradedZeroRingHom_modificationTensorGradedHom_comp :
       algebraMap A ↥(modificationSubmoduleGrading A
         (algebraMap R A g₁) (algebraMap R A g₂) 0) := by
   refine RingHom.ext fun a ↦ Subtype.ext ?_
-  show modificationTensorHom R A g₁ g₂
+  change modificationTensorHom R A g₁ g₂
     (algebraMap A (A ⊗[R] modificationRing R g₁ g₂) a) = _
   rw [AlgHom.commutes]
   rfl
@@ -627,7 +627,7 @@ theorem exceptionalSubmoduleGradedHom_comp_modificationCoeffGradedHom
     RingHom.ext fun _ ↦ rfl
   refine GradedRingHom.ext fun x ↦ ?_
   obtain ⟨p, rfl⟩ := Ideal.Quotient.mk_surjective x
-  show MvPolynomial.map
+  change MvPolynomial.map
       (Ideal.Quotient.mk (centerIdeal A (algebraMap R A g₁) (algebraMap R A g₂)))
         (MvPolynomial.map (algebraMap R A) p) =
     MvPolynomial.map (centerCoeffHom R A g₁ g₂)

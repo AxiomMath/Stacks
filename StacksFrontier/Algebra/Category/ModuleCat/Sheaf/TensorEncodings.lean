@@ -95,7 +95,8 @@ variable [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   (J) (O : Sheaf J CommRingCat.{w})
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
-/-- The functor `F ⊗ -` of `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorProductRightExact.lean` is the
+/-- The functor `F ⊗ -` of
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorProductRightExact.lean` is the
 `tensorLeft` of Stacks 05NB. -/
 theorem tensorSheafRight_eq_tensorLeft
     (F : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :
@@ -104,7 +105,8 @@ theorem tensorSheafRight_eq_tensorLeft
   rfl
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
-/-- The functor `- ⊗ G` of `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorProductRightExact.lean` is the
+/-- The functor `- ⊗ G` of
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorProductRightExact.lean` is the
 `sheafTensorRight` whose exactness defines flatness in
 `StacksFrontier/CategoryTheory/Sites/Modules/Flat.lean`. -/
 theorem tensorSheafLeft_eq_sheafTensorRight
@@ -176,7 +178,8 @@ variable [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **Stacks 05NB for the single-universe 0GMW tensor bifunctor.** The index category may have
 its homs in an arbitrary universe `a`; the instance in
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorProductRightExact.lean` gives only `a = w`. -/
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorProductRightExact.lean` gives only
+`a = w`. -/
 theorem preservesColimitsOfSize_tensorSheafRight
     (F : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :
     PreservesColimitsOfSize.{a, w}
@@ -204,6 +207,7 @@ theorem exact_tensorSheafBifunctor_presentations
     (isSheaf_structureRingPresheaf O) f₂ f₁ g₂ g₁ hf hg
     (leftEpi := ‹Epi f₁›) (rightEpi := ‹Epi g₁›)
 
+omit [HasSheafify J AddCommGrpCat.{w}] in
 /-- The 0GMW tensor bifunctor carries a pair of epimorphisms to an epimorphism. -/
 theorem epi_tensorSheafBifunctor_map
     {F₁ F G₁ G : SheafOfModules.{w}

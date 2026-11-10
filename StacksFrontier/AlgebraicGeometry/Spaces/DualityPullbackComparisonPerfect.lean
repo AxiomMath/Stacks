@@ -61,7 +61,7 @@ def projectionFormulaTwoSquare (K : QuasicoherentDerivedCategory.{u, u} B S hS Y
 theorem projectionFormulaTwoSquare_natTrans_app
     (K : QuasicoherentDerivedCategory.{u, u} B S hS Y.1 Y.2)
     (E : QuasicoherentDerivedCategory.{u, u} B S hS X.1 X.2) :
-    (D.projectionFormulaTwoSquare K).natTrans.app E = D.projectionFormulaMap E K :=
+    (D.projectionFormulaTwoSquare K).app E = D.projectionFormulaMap E K :=
   rfl
 
 variable [∀ (E : QuasicoherentDerivedCategory.{u, u} B S hS X.1 X.2)
@@ -71,8 +71,8 @@ variable [∀ (E : QuasicoherentDerivedCategory.{u, u} B S hS X.1 X.2)
 /-- The projection-formula 2-square is invertible when each projection-formula map is. -/
 instance isIso_projectionFormulaTwoSquare_natTrans
     (K : QuasicoherentDerivedCategory.{u, u} B S hS Y.1 Y.2) :
-    IsIso (D.projectionFormulaTwoSquare K).natTrans := by
-  have : ∀ E, IsIso ((D.projectionFormulaTwoSquare K).natTrans.app E) := fun E =>
+    IsIso (D.projectionFormulaTwoSquare K) := by
+  have : ∀ E, IsIso ((D.projectionFormulaTwoSquare K).app E) := fun E =>
     inferInstanceAs (IsIso (D.projectionFormulaMap E K))
   exact NatIso.isIso_of_isIso_app _
 
@@ -80,7 +80,7 @@ instance isIso_projectionFormulaTwoSquare_natTrans
 def projectionFormulaInvTwoSquare (K : QuasicoherentDerivedCategory.{u, u} B S hS Y.1 Y.2) :
     TwoSquare (D.tensorX.obj (D.pullback.obj K)) D.pushforward D.pushforward
       (D.tensorY.obj K) :=
-  TwoSquare.mk _ _ _ _ (inv (D.projectionFormulaTwoSquare K).natTrans)
+  TwoSquare.mk _ _ _ _ (inv (D.projectionFormulaTwoSquare K))
 
 variable {a : QuasicoherentDerivedCategory.{u, u} B S hS Y.1 Y.2 ⥤
     QuasicoherentDerivedCategory.{u, u} B S hS X.1 X.2}
@@ -99,7 +99,7 @@ def compareWithPullbackTensorTwoSquare
 @[simp]
 theorem compareWithPullbackTensorTwoSquare_natTrans_app
     (K L : QuasicoherentDerivedCategory.{u, u} B S hS Y.1 Y.2) :
-    (D.compareWithPullbackTensorTwoSquare adja K).natTrans.app L =
+    (D.compareWithPullbackTensorTwoSquare adja K).app L =
       D.compareWithPullbackTensor adja K L :=
   rfl
 
@@ -130,11 +130,11 @@ theorem isIso_compareWithPullbackTensor_of_mateEquiv
     (D.projectionFormulaTwoSquare K')
   rw [hmate] at key
   have hconj : IsIso (conjugateEquiv (adjX.comp adja) (adja.comp adjY)
-      (D.projectionFormulaTwoSquare K').natTrans) := inferInstance
-  have h : IsIso (D.compareWithPullbackTensorTwoSquare adja K).natTrans := by
+      (D.projectionFormulaTwoSquare K')) := inferInstance
+  have h : IsIso (D.compareWithPullbackTensorTwoSquare adja K) := by
     rw [D.compareWithPullbackTensorTwoSquare_eq_mateEquiv adja, key]
     exact hconj
-  exact NatIso.isIso_app_of_isIso (D.compareWithPullbackTensorTwoSquare adja K).natTrans L
+  exact NatIso.isIso_app_of_isIso (D.compareWithPullbackTensorTwoSquare adja K) L
 
 end AlgebraicGeometry.Space.PullbackComparisonData
 

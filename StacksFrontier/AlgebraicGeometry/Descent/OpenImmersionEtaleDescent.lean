@@ -123,15 +123,15 @@ theorem exists_comp_eq_of_isOpenImmersion {V U T : BigFppfOver B S hS} (i : V �
     have hwg := congrArg B.inclusion.map (Over.w g)
     have hwi := congrArg B.inclusion.map (Over.w i)
     simp only [Functor.map_comp] at hwg hwi ⊢
-    show IsOpenImmersion.lift ((BigFppfOver.toScheme B S hS).map i)
+    change IsOpenImmersion.lift ((BigFppfOver.toScheme B S hS).map i)
       ((BigFppfOver.toScheme B S hS).map g) hg ≫ B.inclusion.map V.hom = _
     rw [← hwi, ← Category.assoc]
-    show (_ ≫ (BigFppfOver.toScheme B S hS).map i) ≫ _ = _
+    change (_ ≫ (BigFppfOver.toScheme B S hS).map i) ≫ _ = _
     rw [hfac]
     exact hwg
   · refine (BigFppfOver.toScheme B S hS).map_injective ?_
     rw [Functor.map_comp]
-    show IsOpenImmersion.lift ((BigFppfOver.toScheme B S hS).map i)
+    change IsOpenImmersion.lift ((BigFppfOver.toScheme B S hS).map i)
       ((BigFppfOver.toScheme B S hS).map g) hg ≫ (BigFppfOver.toScheme B S hS).map i = _
     exact hfac
 
@@ -325,7 +325,7 @@ theorem isLocallyInjective_pullback_snd (sq : IsPullback m r f (yoneda.map q ≫
     (sieve_generate_fst_mem_topology s q hqs hqe)
   rintro Z k ⟨Z', u, bb, hbb, hfac⟩
   cases hbb
-  show (pullback f h).map k.op x = (pullback f h).map k.op y
+  change (pullback f h).map k.op x = (pullback f h).map k.op y
   rw [← hfac, op_comp, Functor.map_comp_apply, Functor.map_comp_apply, h1]
 
 /-- **The geometric input of Stacks 03I2 for open immersions, outright.** Open immersions of

@@ -130,7 +130,7 @@ theorem exists_smoothDiagram_smoothComparison
       (fibredCategory B S hS V) 𝒴 𝒳 b f R' hR' hbsm.1 hbsm.2
   let sw := twoFibreProductSwapMap B S hS f b
   have hswEquiv : Functor.IsEquivalence sw.hom.toFunctor := by
-    show Functor.IsEquivalence (TwoFibreProductOver.swap _ _ _ _ _)
+    change Functor.IsEquivalence (TwoFibreProductOver.swap _ _ _ _ _)
     infer_instance
   have he : ∀ (V : BigFppfOver B S hS)
       (y : BigFppfOver B V.left.1 V.left.2 ⥤ 𝒳.val.obj), y ⋙ 𝒳.val.p = Over.map V.hom →

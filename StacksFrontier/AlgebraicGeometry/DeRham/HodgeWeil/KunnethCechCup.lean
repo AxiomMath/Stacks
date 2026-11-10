@@ -194,7 +194,7 @@ theorem leftUnitor_inv_tensorHom_ιTensorObj (X Y : CochainComplex (ModuleCat.{u
             (ModuleCat.of R R)) ((1 : R) ⊗ₜ[R] (1 : R)) ≫
         Stacks.CupProduct.cupPair (Stacks.Cech.CupProduct.tensorModules R) X Y p q n hn α β := by
   refine ModuleCat.hom_ext (LinearMap.ext_ring ?_)
-  show (HomologicalComplex.ιMapBifunctor X Y (Stacks.Cech.CupProduct.tensorModules R)
+  change (HomologicalComplex.ιMapBifunctor X Y (Stacks.Cech.CupProduct.tensorModules R)
       (ComplexShape.up ℤ) p q n hn).hom
       ((α ⊗ₘ β).hom ((λ_ (ModuleCat.of R R)).inv.hom (1 : R))) =
     (HomologicalComplex.ιMapBifunctor X Y (Stacks.Cech.CupProduct.tensorModules R)
@@ -282,6 +282,8 @@ theorem cupProductSquareCommutes_unfolded
   Stacks.Cech.CupProductSquare.cupProductSquareCommutes S U hU (K := K) (M := M)
 
 set_option maxHeartbeats 1000000 in
+-- the large composites of total Čech complexes and cup products in this statement are slow to
+-- elaborate and unify
 /-- `totalCupPairing_cechBaseClass` with the classes written through `cycleClass`. -/
 theorem totalCupPairing_cycleClass_cechToBaseSections
     (K M : CochainComplex.Plus
@@ -327,6 +329,8 @@ theorem totalCupPairing_cycleClass_cechToBaseSections
   exact key
 
 set_option maxHeartbeats 1000000 in
+-- the large composites of total Čech complexes and cup products in this statement are slow to
+-- elaborate and unify
 /-- **[Stacks, Tag 0FKV] on cohomology classes.**  Let `z` and `w` be cocycles of the total Čech
 complexes `Tot(Č^•(𝒰, 𝒦^•))` and `Tot(Č^•(𝒰, ℳ^•))` of degrees `i` and `j`, and let `z₀` lift the
 tensor product of cocycles to the cocycles of `Tot(Tot(Č^•(𝒰, 𝒦^•)) ⊗ Tot(Č^•(𝒰, ℳ^•)))`. Then
@@ -540,6 +544,8 @@ open Stacks.Cohomology.CechSheaf (coverObject)
 variable {X : RingedSpace.{u, u}} {A : TopCat.Sheaf CommRingCat.{u} X.carrier}
 
 set_option maxHeartbeats 1000000 in
+-- the large composites of total Čech complexes and cup products in this statement are slow to
+-- elaborate and unify
 /-- **The Čech cup product at the sheaf-tensor coefficients followed by a multiplication of
 sheaves placed in degree `0` is the Čech cup product of the bilinear map on sections** of that
 multiplication. -/
@@ -615,6 +621,8 @@ theorem cochainOfAt_eq_comp_ιTotalCechTo
   (Category.assoc _ _ _).symm
 
 set_option maxHeartbeats 1000000 in
+-- the large composites of total Čech complexes and cup products in this statement are slow to
+-- elaborate and unify
 /-- **The cup product of two homogeneous cochains of total Čech complexes in coefficient
 degree `0`, followed by a multiplication**, is the Alexander–Whitney product of the two
 Čech cochains along the bilinear map of the multiplication. -/
@@ -738,6 +746,8 @@ variable (S : RingedSpace.{u, u}) {I : Type u} (U : I → Opens S.carrier)
   (hU : (⊤ : Opens S.carrier) = ⨆ i, U i)
 
 set_option maxHeartbeats 1000000 in
+-- the large composites of total Čech complexes and cup products in this statement are slow to
+-- elaborate and unify
 /-- **The cup product of the cochains attached to two Čech cocycles in degree `0`, followed by a
 multiplication**, over `Γ(S, 𝒪_S)`: the cochain attached to their Alexander–Whitney product. -/
 theorem cupPair_cochainOfAt_cechCupProductSheafTensor_comp_map
@@ -802,6 +812,8 @@ theorem cupPair_cochainOfAt_cechCupProductSheafTensor_comp_map
   exact key.trans (cochainOfAtTo_eq_comp_ιTotalCechTo U hU _ _ _).symm
 
 set_option maxHeartbeats 1000000 in
+-- the large composites of total Čech complexes and cup products in this statement are slow to
+-- elaborate and unify
 /-- **The Čech cup product of two Čech cocycles in degree `0`, followed by a multiplication, on
 cycles**: the cocycle of the total Čech complex of the target attached to their
 Alexander–Whitney product. -/
@@ -969,6 +981,8 @@ theorem totalCupPairing_cechBaseClass_comp_cohomologyMap_apply
   exact Eq.trans rfl h
 
 set_option maxHeartbeats 1000000 in
+-- the large composites of total Čech complexes and cup products in this statement are slow to
+-- elaborate and unify
 /-- **The class of the product cycle is the class of the Alexander–Whitney product of the two
 Čech cocycles.** -/
 theorem cechBaseClass_cyclesMap_cechCupProductSheafTensor_apply
@@ -1084,6 +1098,8 @@ theorem cechSheafClass_eq_cechCocycleToCycles
   rfl
 
 set_option maxHeartbeats 1000000 in
+-- the large composites of total Čech complexes and cup products in this statement are slow to
+-- elaborate and unify
 /-- The cup product of the classes of two Čech cocycles, followed by a multiplication, through
 the cycles of the total Čech complexes. -/
 theorem cohomologyMap_totalCupPairing_cechSheafClass_eq_cycles
@@ -1162,6 +1178,8 @@ theorem cohomologyMap_totalCupPairing_cechSheafClass_eq_cycles
     (cechCocycleToCycles S U hU e he) z₀ hz₀)
 
 set_option maxHeartbeats 1000000 in
+-- the large composites of total Čech complexes and cup products in this statement are slow to
+-- elaborate and unify
 /-- The class of the product cycle of two Čech cocycles is the class of their Alexander–Whitney
 product. -/
 theorem cycles_class_eq_cechSheafClass_cechAWCochain

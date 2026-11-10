@@ -121,7 +121,7 @@ theorem extendedCechCyclesOneIsoKer_hom_naturality {M N : ModuleCat.{u} A} (h : 
     (extendedCechCyclesOneIsoKer N).hom
         (HomologicalComplex.cyclesMap (extendedCechComplexMap.{0} g h) 1 z) =
       kerCechDOneMap g h ((extendedCechCyclesOneIsoKer M).hom z) := by
-  show (cechCyclesOneIsoKer g N).hom ((extendedCechCyclesOneIso.{0} g N).hom _) = _
+  change (cechCyclesOneIsoKer g N).hom ((extendedCechCyclesOneIso.{0} g N).hom _) = _
   rw [extendedCechCyclesOneIso_hom_naturality]
   exact cechCyclesOneIsoKer_hom_naturality.{0} g h _
 

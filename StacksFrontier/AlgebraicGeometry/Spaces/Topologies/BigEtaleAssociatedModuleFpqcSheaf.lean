@@ -238,7 +238,7 @@ theorem associatedPresheaf_forget_map_apply_of_eq {X : AlgebraicSpaces B S hS}
 so equal restrictions give equal conjugates. -/
 theorem modulePullback_conj_eq_of_conj_eq {P Ai Aj Y₀ X : AlgebraicSpaces B S hS} (p₁ : P ⟶ Ai)
     (p₂ : P ⟶ Aj) (fi : Ai ⟶ Y₀) (fj : Aj ⟶ Y₀) (q : Y₀ ⟶ X) (ki : Ai ⟶ X) (kj : Aj ⟶ X)
-    (r : P ⟶ X) (hpair : p₁ ≫ fi = p₂ ≫ fj) (hi : fi ≫ q = ki) (hj : fj ≫ q = kj)
+    (r : P ⟶ X) (hi : fi ≫ q = ki) (hj : fj ≫ q = kj)
     (hri : p₁ ≫ ki = r) (hrj : p₂ ≫ kj = r) (O F : Modules.{u, u} B S hS X.1 X.2)
     (xi : (modulePullback B S hS ki).obj O ⟶ (modulePullback B S hS ki).obj F)
     (xj : (modulePullback B S hS kj).obj O ⟶ (modulePullback B S hS kj).obj F)
@@ -305,7 +305,7 @@ theorem descent_square_of_conj_eq {P Ai Aj Y₀ X : AlgebraicSpaces B S hS} (p�
       hri hrj O)
     (pullbackComparison_conj_eq_canonicalComparison B S hS p₁ p₂ fi fj q ki kj r hpair hi hj
       hri hrj F)
-    (modulePullback_conj_eq_of_conj_eq B S hS p₁ p₂ fi fj q ki kj r hpair hi hj hri hrj O F xi xj
+    (modulePullback_conj_eq_of_conj_eq B S hS p₁ p₂ fi fj q ki kj r hi hj hri hrj O F xi xj
       hc)
 
 /-- A family of morphisms of the components of two canonical descent data which commutes with

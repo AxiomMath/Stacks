@@ -169,9 +169,10 @@ narrowed, in `StacksFrontier/AlgebraicGeometry/Spaces/PicardWeilDivisorClassCano
 that the ratio `t / s_ξ` be the image of a unit of `𝒪^h_{X, ξ}` at the generic point of every
 prime divisor rather than that the Weil divisor vanish. The two antecedents are equivalent on a
 normal `X` — one direction is `orderOfVanishingSection_eq_zero_of_isUnit` below, the other
-`AlgebraicGeometry.Space.PrimeDivisor.exists_isUnit_canonicalGenericRatio_of_orderOfVanishingSection_eq_zero`,
-which rests on `𝒪^h_{X, ξ}` being a discrete valuation ring there — so what remains of the
-source's claim there carries no order of vanishing and no arithmetic at all.
+`exists_isUnit_canonicalGenericRatio_of_orderOfVanishingSection_eq_zero` (in the namespace
+`AlgebraicGeometry.Space.PrimeDivisor`), which rests on `𝒪^h_{X, ξ}` being a discrete
+valuation ring there — so what remains of the source's claim there carries no order of
+vanishing and no arithmetic at all.
 
 ## References
 

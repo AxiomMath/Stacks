@@ -82,13 +82,13 @@ theorem isDecentSpace_of_isDecent_representing
   let p₀ := Space.FieldValuedPoint.map B S hS (yoneda.obj q.base) r (baseSpacePoint B S hS q)
   refine ⟨p₀, ?_, ?_⟩
   · apply hφ.1
-    show spacePointMap B S hS F 𝒴 (representingEquivalence B S hS F 𝒴 e).functor
+    change spacePointMap B S hS F 𝒴 (representingEquivalence B S hS F 𝒴 e).functor
       (Space.pointsMap B S hS (yoneda.obj q.base) r
         ((baseSpacePoint B S hS q).class B S hS _)) = _
     refine (spacePointMap_representing_naturality B S hS (yoneda.obj q.base) F
       (schemeFibredCategory B S hS q.base) 𝒴 eQ e a _).trans ?_
     rw [spacePointMap_class, ← hq]
-    show pointClass B S hS 𝒴.val 𝒴.property (fieldValuedPointMap B S hS _ a.hom
+    change pointClass B S hS 𝒴.val 𝒴.property (fieldValuedPointMap B S hS _ a.hom
       (fieldValuedPointMap B S hS _ (representingEquivalence B S hS (yoneda.obj q.base)
         (schemeFibredCategory B S hS q.base) eQ).functor
         (spaceFieldValuedPoint B S hS _ (baseSpacePoint B S hS q)))) = _

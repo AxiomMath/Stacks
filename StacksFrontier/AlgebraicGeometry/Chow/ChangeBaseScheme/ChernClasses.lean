@@ -161,13 +161,13 @@ theorem iteratedChernCapOnChow_replicate_apply (O : ChernCapOperator C q) :
   | zero =>
     intro k x h
     rw [chernCapIterate_zero_apply]
-    show chowGroupDegreeCast C q _ (AddMonoidHom.id (chowGroup C q k)) (chowGroupCast C q h x) = _
+    change chowGroupDegreeCast C q _ (AddMonoidHom.id (chowGroup C q k)) (chowGroupCast C q h x) = _
     rw [chowGroupDegreeCast_apply]
     simp only [AddMonoidHom.id_apply, chowGroupCast_chowGroupCast]
   | succ i ih =>
     intro k x h
     rw [chernCapIterate_succ_apply]
-    show chowGroupDegreeCast C q _
+    change chowGroupDegreeCast C q _
       ((O.capOnChow C q k).comp (iteratedChernCapOnChow C q (List.replicate i O) (k + 1)))
         (chowGroupCast C q h x) = _
     rw [chowGroupDegreeCast_apply, AddMonoidHom.coe_comp, Function.comp_apply]
@@ -447,7 +447,7 @@ theorem baseChange_projectiveBundleChernRelation (k : ℤ)
       projectiveBundleChernTerm B.base sX (π ≫ sX) π rfl r hπ hfac
         (invertibleChernCap B.base (π ≫ sX) M) k i.val (Nat.lt_succ_iff.mp i.isLt)
         (c ⟨r - i.val, by omega⟩) = 0 := hc
-  show ∑ i : Fin (r + 1), (-1 : ℤ) ^ i.val •
+  change ∑ i : Fin (r + 1), (-1 : ℤ) ^ i.val •
     projectiveBundleChernTerm B.baseChange (pullback.snd sX B.g) (pullback.snd (π ≫ sX) B.g)
       (bundleBaseChangeMorphism B sX π) (baseChangeMorphism_comp_snd B sX π) r
       (relativeDimension_bundleBaseChangeMorphism B sX π r hπ)
@@ -481,7 +481,7 @@ theorem baseChange_isChernCapFamily (k : ℤ) (α : chowGroup B.base sX k)
         (bundleTwistBaseChange B sX π M)) (k + B.c)
       (baseChangeChowPullback B sX k α) (baseChangeChernFamily B sX r k c) := by
   refine ⟨?_, baseChange_projectiveBundleChernRelation B sX π r hπ hfac M k c hc.2⟩
-  show chowGroupCast B.baseChange (pullback.snd sX B.g) _
+  change chowGroupCast B.baseChange (pullback.snd sX B.g) _
       (chowGroupCast B.baseChange (pullback.snd sX B.g) _
         (baseChangeChowPullback B sX (k - ((⟨0, Nat.zero_lt_succ r⟩ : Fin (r + 1)) : ℤ))
           (c ⟨0, Nat.zero_lt_succ r⟩))) =
@@ -602,10 +602,10 @@ theorem baseChange_chernCapOnChowExt
                 ⟨i, Nat.lt_succ_of_le h⟩ α
             else 0)) := by
   by_cases h : i ≤ r
-  · rw [dif_pos h, dif_pos h]
+  · rw [dite_eq_left h, dite_eq_left h]
     exact baseChange_chernCapOnChow B sX π r hπ hfac M hinj hsurj hinj' hsurj' k
       ⟨i, Nat.lt_succ_of_le h⟩ α
-  · rw [dif_neg h, dif_neg h, map_zero, map_zero]
+  · rw [dite_eq_right h, dite_eq_right h, map_zero, map_zero]
 
 end Stacks.Chow
 

@@ -116,7 +116,7 @@ theorem chartPullback_pullbackToGlobalFunctions (f : X ⟶ Y) {T : BigFppfOver B
     have hc : j.right.unop.1.hom ≫ f.hom =
         yoneda.map (chartBaseChangeMap B S hS f V j) ≫ V.1.hom := hcomm
     exact ((congrArg (· ≫ h.hom) hc).trans (Category.assoc _ _ _)).symm
-  show (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (chartBaseChangeMap B S hS f V j)).op)
+  change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (chartBaseChangeMap B S hS f V j)).op)
       ((Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
         (yoneda.preimage (V.1.hom ≫ h.hom))).op) x) =
     (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
@@ -179,7 +179,7 @@ theorem chartPullback_baseRingHom (f : X ⟶ Y) (V : SmallEtale B (Spec (.of A))
     chartPullback B (Spec (.of A)) hA f V j ((baseRingHom A B hA Y.1 Y.2 a).1 (op V)) =
       (baseRingHom A B hA X.1 X.2 a).1 j.right := by
   have hw := Over.w (chartBaseChangeMap B (Spec (.of A)) hA f V j)
-  show (Scheme.Γ.map (B.inclusion.map (chartBaseChangeMap B (Spec (.of A)) hA f V j).left).op)
+  change (Scheme.Γ.map (B.inclusion.map (chartBaseChangeMap B (Spec (.of A)) hA f V j).left).op)
       (((Scheme.ΓSpecIso (.of A)).inv ≫
         Scheme.Γ.map ((B.inclusion.map
           ((SmallEtale.toOver B (Spec (.of A)) hA Y.1).obj V).hom).op)).hom a) =

@@ -208,7 +208,7 @@ theorem res_comp_chartCoordHom {U V : X.Opens} (h : U ≤ V) :
             (chartCoordHom n V).toRingHom).comp
               (MvPolynomial.C : ULift.{u} ℤ →+* MvPolynomial (Fin (n + 1)) (ULift.{u} ℤ)))
           ((chartCoordHom n U).toRingHom.comp MvPolynomial.C)) r
-    · show (freeSymGradedAlgebra (X := X) (coordIndex.{u} n)).resRingHom h
+    · change (freeSymGradedAlgebra (X := X) (coordIndex.{u} n)).resRingHom h
           (chartSectionsRingEquiv n V (coordGradedHom n V (MvPolynomial.X i))) =
         chartSectionsRingEquiv n U (coordGradedHom n U (MvPolynomial.X i))
       rw [coordGradedHom_X, coordGradedHom_X]
@@ -264,7 +264,7 @@ theorem transition_comp_chartToProjectiveSpace {U V : X.AffineZariskiSite} (φ :
     (Stacks.AlgebraicGeometry.RelativeProjGlue.relativeGluingData
         (freeSymGradedAlgebra (X := X) (coordIndex.{u} n)).toGradedAlgebra).functor.map φ ≫
       chartToProjectiveSpace n V.toOpens = chartToProjectiveSpace n U.toOpens := by
-  show (freeSymGradedAlgebra (X := X) (coordIndex.{u} n)).toGradedAlgebra.transition
+  change (freeSymGradedAlgebra (X := X) (coordIndex.{u} n)).toGradedAlgebra.transition
       (Scheme.AffineZariskiSite.toOpens_mono φ.le)
       (Stacks.AlgebraicGeometry.RelativeProjGlue.mapDomain_res_eq_top_of_le _ φ.le _) ≫
       chartToProjectiveSpace n V.toOpens = chartToProjectiveSpace n U.toOpens
@@ -382,7 +382,7 @@ theorem renameGradedHom_symm_comp_integralGradedHom (U : X.Opens) :
         (integralGradedHom ↥(siteRing X (op U)) n) =
       coordGradedHom n U :=
   GradedRingHom.ext fun F => by
-    show MvPolynomial.rename _ (MvPolynomial.map _ F) = _
+    change MvPolynomial.rename _ (MvPolynomial.map _ F) = _
     rw [coordGradedHom_apply]
     rfl
 
@@ -449,7 +449,7 @@ theorem coe_gradedZeroRingHom_C (U : X.Opens) (r : ↥(siteRing X (op U))) :
     rw [GradedRing.coe_projZeroRingHom'_apply, GradedRing.projZeroRingHom_apply]
     exact DirectSum.decompose_of_mem_same _
       (MvPolynomial.C_mem_homogeneousSubmodule_zero (Fin (n + 1)) ↥(siteRing X (op U)) r)
-  show chartSectionsRingEquiv n U
+  change chartSectionsRingEquiv n U
       (MvPolynomial.rename _
         ((GradedRing.projZeroRingHom' (polyGrading ↥(siteRing X (op U)) n) (MvPolynomial.C r) :
             polyGrading ↥(siteRing X (op U)) n 0) :
@@ -470,7 +470,7 @@ theorem strZero_eq_comp (U : X.Opens) (hU : IsAffineOpen U) :
       CommRingCat.ofHom (chartGradedHom n U).gradedZeroRingHom =
       (freeSymGradedAlgebra (X := X) (coordIndex.{u} n)).toGradedAlgebra.strZero ⟨U, hU⟩ :=
   CommRingCat.hom_ext (RingHom.ext fun r => Subtype.ext (by
-    show ((chartGradedHom n U).gradedZeroRingHom
+    change ((chartGradedHom n U).gradedZeroRingHom
       ((renameGradedHom ↥(siteRing X (op U))
           ((Equiv.ulift.{u, 0}).symm :
             Fin (n + 1) → ULift.{u} (Fin (n + 1)))).gradedZeroRingHom

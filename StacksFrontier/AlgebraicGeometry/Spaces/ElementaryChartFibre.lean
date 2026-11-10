@@ -94,7 +94,7 @@ theorem comap_germ_maximalIdeal_eq_comap_appTop (f : X ⟶ Y) (x : X) :
   ext a
   simp only [Ideal.mem_comap]
   rw [← IsLocalRing.residue_eq_zero_iff, ← IsLocalRing.residue_eq_zero_iff]
-  show Y.Γevaluation (f x) a = 0 ↔ X.Γevaluation x (f.appTop a) = 0
+  change Y.Γevaluation (f x) a = 0 ↔ X.Γevaluation x (f.appTop a) = 0
   rw [← Γevaluation_naturality_apply, map_eq_zero_iff _ (f.residueFieldMap x).hom.injective]
 
 /-- For a morphism of affine schemes, the residue degree of the prime of global sections cut
@@ -286,7 +286,7 @@ theorem mono_fieldMorphism_chartSchemeFieldValuedPoint (d : ChartDiagram B S hS 
   have hc : Mono (yoneda.map (canonicalSiteFieldPoint B S hS _ x).siteHom) := by
     have : Mono ((BigFppfOver.toScheme B S hS).map
         (canonicalSiteFieldPoint B S hS _ x).siteHom) := by
-      show Mono (B.inclusion.map ((canonicalSiteFieldPoint B S hS _ x).siteHom B S hS).left)
+      change Mono (B.inclusion.map ((canonicalSiteFieldPoint B S hS _ x).siteHom B S hS).left)
       have h₀ : Mono (((BigFppfOver.toScheme B S hS).obj
           ((SmallEtale.toOver B S hS F).obj d.U)).fromSpecResidueField x) := inferInstance
       have h₁ : B.inclusion.map ((canonicalSiteFieldPoint B S hS _ x).siteHom B S hS).left =
@@ -373,7 +373,6 @@ charts over `g : Z ⟶ Y`, with scheme morphism `r : U ⟶ V`, and let `e` be th
 above `η ∈ |Y|`, with `Spec κ(e) ⟶ Y` a monomorphism. Then the points of `U` above `e` map
 bijectively onto the points of `|Z|` above `η`. -/
 theorem bijOn_chartSchemeToPoints_fibre {Z Y : AlgebraicSpaces B S hS}
-    (hZdec : IsDecentSpace B S hS Z.1) (hYdec : IsDecentSpace B S hS Y.1)
     (g : Z ⟶ Y) (d : ChartDiagram B S hS Z.1 Y.1 g.hom)
     (hd : IsPullback d.U.1.hom (yoneda.map d.g) g.hom d.V.1.hom) (η : points B S hS Y.1)
     (e : chartScheme d.V) (he : chartSchemeToPoints B S hS Y.1 d.V e = η)
@@ -383,7 +382,7 @@ theorem bijOn_chartSchemeToPoints_fibre {Z Y : AlgebraicSpaces B S hS}
       {x : chartScheme d.U | ((BigFppfOver.toScheme B S hS).map d.g).base x = e}
       {z : points B S hS Z.1 | pointsMap B S hS Z.1 g.hom z = η} := by
   refine ⟨fun x hx ↦ ?_, injOn_chartSchemeToPoints_fibre B S hS d hd e hmono, fun z hz ↦ ?_⟩
-  · show pointsMap B S hS Z.1 g.hom _ = η
+  · change pointsMap B S hS Z.1 g.hom _ = η
     rw [← chartSchemeToPoints_map_chartDiagram, Set.mem_ofPred_eq.mp hx, he]
   · obtain ⟨w, hw, -⟩ := exists_points_of_isPullback B S hS hd z
       ((canonicalSiteFieldPoint B S hS _ e).class B S hS _)

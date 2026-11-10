@@ -396,7 +396,7 @@ theorem surjective_stalkMap_pulledIdealHom (ht : IsThickening t) (x : X.carrier)
     (W₁ ⊓ (Opens.map (f ≫ t).hom.base).obj (V ⊓ V₂)) ⟨hxW₁, hpV₁⟩ (homOfLE inf_le_right)
     (homOfLE (inf_le_left.trans i₂.le)) ?_
   refine Subtype.ext ?_
-  show ((inverseImageSheaf (f ≫ t)).presheaf.map (homOfLE inf_le_right :
+  change ((inverseImageSheaf (f ≫ t)).presheaf.map (homOfLE inf_le_right :
       W₁ ⊓ (Opens.map (f ≫ t).hom.base).obj (V ⊓ V₂) ⟶
         (Opens.map (f ≫ t).hom.base).obj (V ⊓ V₂)).op).hom
       (AlgebraicGeometry.SheafOfModules.inverseImageRingUnitApp (f ≫ t).hom.base S'.sheaf
@@ -650,7 +650,7 @@ theorem pulledIdealConormalIso_transpose (ht : IsFirstOrderThickening t) :
               (pulledConormal f ht))) ≫
         (pushforwardRestrictIso f t (pulledConormalExtended f ht)).hom := by
   have := isLocallySurjective_baseStructureMap f ht.1
-  show (modulePullbackPushforwardAdjunction (f ≫ t)).homEquiv _ _
+  change (modulePullbackPushforwardAdjunction (f ≫ t)).homEquiv _ _
       ((modulePullbackCompUniq f t).hom.app (AlgebraicGeometry.SheafOfModules.idealSheaf t) ≫
         pulledIdealConormalHomEquiv f ht _ (𝟙 _)) = _
   rw [pulledIdealConormalHomEquiv_apply, Iso.hom_inv_id_app_assoc, Equiv.apply_symm_apply]

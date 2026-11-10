@@ -133,7 +133,7 @@ theorem formalPullbackLevel_app (n : ℕ)
   have hcomplete : IsAdicComplete (chartSectionIdeal B S hS F hF 𝓘 V)
       (chartSectionsLimit B S hS F hF E V) :=
     isAdicComplete_chartSectionsLimit B S hS F hF 𝓘 hE hIcart hV
-  show _ = (chartSectionsLevel B S hS F hF E V n).hom
+  change _ = (chartSectionsLevel B S hS F hF E V n).hom
     ((Stacks.Coherent.completeModuleEquivAdicCompletion (chartSectionIdeal B S hS F hF 𝓘 V)
       (M := chartSectionsLimit B S hS F hF E V)).symm
       (Stacks.Coherent.completeModuleEquivAdicCompletion (chartSectionIdeal B S hS F hF 𝓘 V)
@@ -222,7 +222,7 @@ theorem exists_formalPullback_chartEquiv
           exact hsmul r m) }
   have hθproj : ∀ m : M₀, chartFormalPullbackProj B S hS F hF 𝓘 hIcart hE G α hV (θ m) =
       e ((1 : Â) ⊗ₜ m) := fun m => by
-    show chartFormalPullbackProj B S hS F hF 𝓘 hIcart hE G α hV (θf m) = _
+    change chartFormalPullbackProj B S hS F hF 𝓘 hIcart hE G α hV (θf m) = _
     rw [chartFormalPullbackProj, hθp m]
     exact chartFormalPullbackProj_section B S hS F hF 𝓘 hIcart hE hV _
   have hinj : Function.Injective θ := by
@@ -247,7 +247,7 @@ theorem exists_formalPullback_chartEquiv
       (chartCompletedComparisonTensor_chartFormalPullbackProj B S hS F hF 𝓘 hIcart hE G hG α hV p)
     refine ⟨m, formalPullback_section_ext B S hS F hF 𝓘 G α V ?_ ?_⟩
     · exact (hθa m).trans hma
-    · show (formalPullbackProj B S hS F hF 𝓘 G α).val.app (op V) (θf m) = _
+    · change (formalPullbackProj B S hS F hF 𝓘 G α).val.app (op V) (θf m) = _
       rw [hθp m, hmp]
       exact chartLimitSectionOfCompleted_chartFormalPullbackProj B S hS F hF 𝓘 hIcart hE G α hV p
   exact ⟨M₀, LinearEquiv.ofBijective θ ⟨hinj, hsurj⟩, e, hfin, hθproj⟩
@@ -300,7 +300,7 @@ theorem formalPullbackLevel_app_surjective_ker
       Φ (AdicCompletion.of I M₀ m) := by
     intro m
     rw [formalPullbackLevel_app B S hS F hF 𝓘 hIcart hE G α hV n, hθ m]
-    show _ = chartCompletedLevel B S hS F hF 𝓘 E hcomplete n
+    change _ = chartCompletedLevel B S hS F hF 𝓘 E hcomplete n
       (e ((AdicCompletion.ofTensorProductEquivOfFiniteNoetherian I M₀).symm
         (AdicCompletion.of I M₀ m)))
     rw [AdicCompletion.ofTensorProductEquivOfFiniteNoetherian_symm_of]

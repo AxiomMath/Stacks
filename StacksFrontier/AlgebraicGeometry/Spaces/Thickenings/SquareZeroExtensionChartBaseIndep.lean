@@ -129,7 +129,7 @@ theorem chartRealizedSchemeOverToBase_comp_of_comm {U : SmallEtale B S hS X.1}
     E.chartRealizedSchemeOverToBase ⟨U, V', g', c'⟩ hU ≫ (SmallEtale.toOver B S hS Y.1).map j =
       E.chartRealizedSchemeOverToBase ⟨U, V, g, c⟩ hU := by
   refine BigFppfOver.map_toScheme_injective B S hS ?_
-  show (BigFppfOver.toScheme B S hS).map _ = (BigFppfOver.toScheme B S hS).map _
+  change (BigFppfOver.toScheme B S hS).map _ = (BigFppfOver.toScheme B S hS).map _
   refine ((BigFppfOver.toScheme B S hS).map_comp _ _).trans ?_
   refine (E.chartRealizedSchemeMap_comp_chartRealizedSchemeToBase E.toBase E.toBase_π
     ⟨U, V, g, c⟩ ⟨U, V', g', c'⟩ (𝟙 U) j

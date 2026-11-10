@@ -164,11 +164,13 @@ def toComponentOver (n : SimplexCategoryᵒᵖ) :
     CategoryTheory.Sigma.incl (C := fun _ : PUnit.{u + 1} ↦ Over ((Over.lift U a).obj n))
       PUnit.unit
 
+omit [HasPullbacks C] in
 /-- The degree `n` comparison functor `C/U_n ⥤ C/K_n` is a section of `C/K_n ⥤ C/U_n`. -/
 theorem toComponentOver_comp_fromComponentOver (n : SimplexCategoryᵒᵖ) :
     toComponentOver U a n ⋙ fromComponentOver U a n = 𝟭 _ :=
   rfl
 
+omit [HasPullbacks C] in
 /-- The degreewise comparison functors `C/K_n ⥤ C/U_n` commute with the transition functors. -/
 theorem componentOverMap_comp_fromComponentOver {m n : SimplexCategoryᵒᵖ} (α : m ⟶ n) :
     componentOverMap ((associatedSimplicialObject.{u} U a).map α) ⋙ fromComponentOver U a n =
@@ -232,6 +234,7 @@ theorem toComponentOver_naturality_source {m n : SimplexCategoryᵒᵖ} (α : m 
   rw [Category.assoc]
   exact congrArg (fun g ↦ Over.mk (V.hom ≫ g)) (augmentationApp_naturality U a α)
 
+omit [HasPullbacks C] in
 /-- The degreewise comparison functors `C/U_n ⥤ C/K_n` commute with the transition functors;
 this uses `f_φ ≫ a_m = a_n`. -/
 theorem toComponentOver_naturality {m n : SimplexCategoryᵒᵖ} (α : m ⟶ n) :
@@ -251,6 +254,7 @@ def toSlices :
   app n := (toComponentOver U a n).toCatHom
   naturality _m _n α := Cat.Hom.ext (toComponentOver_naturality U a α)
 
+omit [HasPullbacks C] in
 /-- The morphism `toSlices` is a section of `fromSlices`. -/
 theorem toSlices_comp_fromSlices : toSlices U a ≫ fromSlices U a = 𝟙 _ :=
   rfl
@@ -265,6 +269,7 @@ def toAssociatedTotal : Grothendieck (slices U) ⥤ Grothendieck (SimplicialSemi
     (associatedSimplicialObject.{u} U a)) :=
   Grothendieck.map (toSlices U a)
 
+omit [HasPullbacks C] in
 /-- The comparison functor `(C/U)_total ⥤ (C/K)_total` is a section of the comparison functor
 `(C/K)_total ⥤ (C/U)_total`. -/
 theorem toAssociatedTotal_comp_fromAssociatedTotal :
@@ -288,6 +293,7 @@ instance essSurj_fromAssociatedTotal : (fromAssociatedTotal U a).EssSurj where
 /-- The comparison functor `(C/K)_total ⥤ (C/U)_total` is an equivalence of categories. -/
 instance isEquivalence_fromAssociatedTotal : (fromAssociatedTotal U a).IsEquivalence where
 
+omit [HasPullbacks C] in
 /-- Under the identification of `(C/U)_total` with `(C/K)_total`, the localization functor
 `j_total : (C/K)_total ⥤ C/X` is the functor `V/U_n ↦ V/X`: precomposed with
 `(C/U)_total ⥤ (C/K)_total` it is `augmentationFunctor` on the nose. -/

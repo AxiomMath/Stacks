@@ -59,7 +59,7 @@ variable {X : Type v} [Category X] (p : X ⥤ BigFppfOver B S hS) (x : X)
 public theorem differential_toAddMonoidHom_smul (θ : Ω[A⁄Λ] →ₗ[A] k) (a : A)
     (m : Ω[A⁄Λ]) :
     θ.toAddMonoidHom (a • m) = algebraMap A k a • θ.toAddMonoidHom m := by
-  show θ (a • m) = algebraMap A k a • θ m
+  change θ (a • m) = algebraMap A k a • θ m
   rw [map_smul, Algebra.smul_def, smul_eq_mul]
 
 include B S hS toS hA p x hx hp hRS hΩ baseMap baseFactorization in
@@ -81,7 +81,7 @@ public theorem canonicalDualNumbersMap_apply (θ : Ω[A⁄Λ] →ₗ[A] k) (a : 
     canonicalDualNumbersMap Λ A k B S hS toS hA p x hx hp hRS hΩ baseMap baseFactorization θ a =
       TrivSqZeroExt.inl (algebraMap A k a) +
         TrivSqZeroExt.inr (θ (KaehlerDifferential.D Λ A a)) := by
-  show squareZeroRingBaseMap (M := differentialsModule Λ A) (N := ModuleCat.of k k)
+  change squareZeroRingBaseMap (M := differentialsModule Λ A) (N := ModuleCat.of k k)
       (algebraMap A k) θ.toAddMonoidHom
       (differential_toAddMonoidHom_smul Λ A k θ)
       ((canonicalDeformationElement Λ A B S hS toS hA p x hx hp hRS hΩ baseMap
@@ -89,9 +89,9 @@ public theorem canonicalDualNumbersMap_apply (θ : Ω[A⁄Λ] →ₗ[A] k) (a : 
   rw [squareZeroRingBaseMap_apply, (canonicalDeformationElement Λ A B S hS toS hA p x hx hp hRS
     hΩ baseMap baseFactorization).sectionRing_apply]
   refine TrivSqZeroExt.ext ?_ ?_
-  · show algebraMap A k a = algebraMap A k a + (0 : k)
+  · change algebraMap A k a = algebraMap A k a + (0 : k)
     simp
-  · show θ (KaehlerDifferential.D Λ A a) = (0 : k) + θ (KaehlerDifferential.D Λ A a)
+  · change θ (KaehlerDifferential.D Λ A a) = (0 : k) + θ (KaehlerDifferential.D Λ A a)
     simp
 
 include B S hS toS hA hkk p x hx hp hRS hΩ baseMap baseFactorization in

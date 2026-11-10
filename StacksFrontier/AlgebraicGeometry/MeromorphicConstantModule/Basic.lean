@@ -60,9 +60,9 @@ rewrites `K_X(U) ⊗_A M` as `K_X(U) ⊗_K (K ⊗_A M)`, with the base-change id
 are isomorphisms, so no property of `toTotalQuotient` beyond the scalar tower is used.
 
 The statement is over the repository's and Mathlib's own names, and it differs deliberately on
-one point from a literal transcription, which would state the compatibility clause about the *unit* of an
-adjunction produced by a `Nonempty`-valued theorem, which records no choice of adjunction and is
-therefore not a computable morphism. Here the clause is stated about `toMeromorphicSection` and
+one point from a literal transcription, which would state the compatibility clause about the *unit*
+of an adjunction produced by a `Nonempty`-valued theorem, which records no choice of adjunction and
+is therefore not a computable morphism. Here the clause is stated about `toMeromorphicSection` and
 `constGenericStalkSection`, which are the explicit maps `m ↦ [1 ⊗ m]` and `v ↦ [1 ⊗ v]` built
 from `tqUnit`, the unit of `PresheafOfModules.sheafificationAdjunction` — that unit is
 `CategoryTheory.toSheafify` on the nose, hence computable.
@@ -147,7 +147,7 @@ theorem isScalarTower_totalQuotient {U : X.Opens} [Nonempty U] :
   have hmul : (algebraMap X.functionField ((totalQuotientSheaf X.sheaf).obj.obj (op U)))
       ((algebraMap Γ(X, U) X.functionField) r) =
       (algebraMap Γ(X, U) ((totalQuotientSheaf X.sheaf).obj.obj (op U))) r := by
-    show (toTotalQuotient X).app (op U) (X.germToFunctionField U r) =
+    change (toTotalQuotient X).app (op U) (X.germToFunctionField U r) =
       (toTotalQuotientSheaf X.sheaf).hom.app (op U) r
     exact toTotalQuotient_app_germ X hη r
   rw [Algebra.smul_def, Algebra.smul_def, Algebra.smul_def, map_mul, hmul,
@@ -279,7 +279,7 @@ theorem subsingleton_constModuleOverTotalQuotient (X : Scheme.{u}) [IsIntegral X
     by_contra hh
     refine hne ?_
     ext x
-    show (x ∈ V ↔ False)
+    change (x ∈ V ↔ False)
     rw [iff_false]
     exact fun hx ↦ hh ⟨x, Set.mem_univ x, hx⟩
   have := subsingleton_totalQuotient_of_eq_bot X hbot
@@ -355,10 +355,10 @@ theorem toConstApp_apply_of_mem {U : (Opens X)ᵒᵖ} (h : genericPoint X ∈ U.
     (toConstApp F U).hom m =
       constSection X (genericStalk F) U.unop
         (F.presheaf.germ U.unop (genericPoint X) h m) := by
-  show (if h : genericPoint X ∈ U.unop then
+  change (if h : genericPoint X ∈ U.unop then
     constSection X (genericStalk F) U.unop
       (F.presheaf.germ U.unop (genericPoint X) h m) else 0) = _
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 /-- **The comparison morphism.** -/
 noncomputable def toConst :
@@ -459,10 +459,7 @@ theorem bijective_compare_app {U : X.Opens} (hU : IsAffineOpen U) [Nonempty U] :
     rfl
   have key : ∀ t, ((compare F).app (op U)).hom t = e2 (e1 t) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero =>
-      refine Eq.trans (map_zero ((compare F).app (op U)).hom) ?_
-      exact (Eq.trans (congrArg e2 (map_zero e1)) (map_zero e2)).symm
+    induction t using TensorProduct.inductionOn with
     | add x y hx hy =>
       refine Eq.trans (map_add ((compare F).app (op U)).hom x y) ?_
       refine Eq.trans (congrArg₂ (· + ·) hx hy) ?_

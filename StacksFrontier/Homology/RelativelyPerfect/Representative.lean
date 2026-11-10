@@ -187,7 +187,7 @@ private lemma hom_flat_of_finiteFree
   let eR := ((ModuleCat.restrictScalars f).mapIso e.toModuleIso).toLinearEquiv
   have : Module.Flat R ((ModuleCat.restrictScalars f).obj
       (ModuleCat.of A (Module.Free.ChooseBasisIndex A M → N))) := by
-    show Module.Flat R (Module.Free.ChooseBasisIndex A M →
+    change Module.Flat R (Module.Free.ChooseBasisIndex A M →
       ((ModuleCat.restrictScalars f).obj N))
     exact flat_pi_of_finite _
   exact Module.Flat.of_linearEquiv eR.symm
@@ -212,7 +212,7 @@ private lemma homComplexR_flat
   have : Module.Flat R ((ModuleCat.restrictScalars f).obj (ModuleCat.of A
       ((t : {t : CochainComplex.HomComplex.Triplet n // a ≤ t.q ∧ t.q ≤ b}) →
         (P.X t.val.p ⟶ F.X t.val.q)))) := by
-    show Module.Flat R
+    change Module.Flat R
       ((t : {t : CochainComplex.HomComplex.Triplet n // a ≤ t.q ∧ t.q ≤ b}) →
         ((ModuleCat.restrictScalars f).obj
           (ModuleCat.of A (P.X t.val.p ⟶ F.X t.val.q))))
@@ -234,9 +234,9 @@ lemma homCochainBaseChange_tmul
         (b ⊗ₜ[A, f] x) = (a * b) ⊗ₜ[A, f] ((z.v p q hpq).hom x) := by
   let := f.toAlgebra
   simp only [homCochainBaseChange]
-  show ((a • (z.map (ModuleCat.extendScalars f))).v p q hpq).hom
+  change ((a • (z.map (ModuleCat.extendScalars f))).v p q hpq).hom
     (b ⊗ₜ[A] x) = _
-  show a • (b ⊗ₜ[A] (z.v p q hpq).hom x) = _
+  change a • (b ⊗ₜ[A] (z.v p q hpq).hom x) = _
   exact TensorProduct.smul_tmul' a b _
 
 /-- A canonical base-change isomorphism of Hom complexes is unique. -/
@@ -259,8 +259,7 @@ private lemma canonicalHomComplexBaseChangeIso_unique
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro t
-  induction t using TensorProduct.induction_on with
-  | zero => erw [map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | add t t' ht ht' => erw [map_add, map_add, ht, ht']
   | tmul a z =>
     apply CochainComplex.HomComplex.Cochain.ext
@@ -268,8 +267,7 @@ private lemma canonicalHomComplexBaseChangeIso_unique
     apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => erw [map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | add t t' ht ht' => erw [map_add, map_add, ht, ht']
     | tmul b x =>
       exact (h₁ n p q hpq a b z x).trans (h₂ n p q hpq a b z x).symm
@@ -313,7 +311,7 @@ private lemma homComplex_baseChange_represents_RHom
   let := f.toAlgebra
   let Ext := (ModuleCat.extendScalars.{u, v, w} f).mapHomologicalComplex (.up ℤ)
   have (i : ℤ) : Module.Free B ((Ext.obj P).X i) := by
-    show Module.Free B (B ⊗[A] (P.X i))
+    change Module.Free B (B ⊗[A] (P.X i))
     infer_instance
   have (i : ℤ) : Projective ((Ext.obj P).X i) := inferInstance
   exact homComplex_represents_RHom (Ext.obj P) (Ext.obj F) d n

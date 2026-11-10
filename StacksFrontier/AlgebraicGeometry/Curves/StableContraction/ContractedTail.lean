@@ -105,19 +105,19 @@ theorem mem_idealPowerMultiple_unit_iff_app_eq_zero (I : X.IdealSheafData) (W : 
           (SheafOfModules.unit X.ringCatSheaf)).toSubmodule.map_mem (homOfLE hUW).op hf)
     rw [hker, RingHom.mem_ker] at hres
     have h0 := (hnat U hUW).symm.trans hres
-    show I.subscheme.presheaf.germ _ x hx _ = I.subscheme.presheaf.germ _ x hx 0
+    change I.subscheme.presheaf.germ _ x hx _ = I.subscheme.presheaf.germ _ x hx 0
     rw [map_zero, ← TopCat.Presheaf.germ_res_apply I.subscheme.presheaf
       (homOfLE (show I.subschemeι ⁻¹ᵁ U ≤ I.subschemeι ⁻¹ᵁ W from
         fun _ h => hUW h)) x hxU]
-    show I.subscheme.presheaf.germ _ x hxU _ = 0
+    change I.subscheme.presheaf.germ _ x hxU _ = 0
     rw [h0, map_zero]
   · intro hf
     refine mem_of_forall_affineOpens _ _ fun U hU => ?_
-    show X.presheaf.map (homOfLE hU).op f ∈ ((Stacks.Algebraization.idealPowerMultiple
+    change X.presheaf.map (homOfLE hU).op f ∈ ((Stacks.Algebraization.idealPowerMultiple
       I 1 (SheafOfModules.unit X.ringCatSheaf)).toSubmodule.obj
         (op U.1) : Submodule Γ(X, U.1) Γ(X, U.1))
     rw [mem_idealPowerMultiple_unit_iff, hker, RingHom.mem_ker]
-    show I.subschemeι.app U.1 (X.presheaf.map (homOfLE hU).op f) = 0
+    change I.subschemeι.app U.1 (X.presheaf.map (homOfLE hU).op f) = 0
     refine (hnat U.1 hU).trans ?_
     rw [hf, map_zero]
 
@@ -561,7 +561,7 @@ theorem range_inter_range_subset_singleton [IsProper (X ↘ Spec (.of k))] {C : 
       exact ⟨ha'C, ha'X⟩
     rw [hC.intersectionWithComplementaryCurveIdeal_eq,
       Scheme.IdealSheafData.coe_support_vanishingIdeal] at hmem
-    show c a' = _
+    change c a' = _
     rw [Set.mem_singleton_iff.mp hmem]
   · exfalso
     have hdisc := AlgebraicGeometry.isDiscrete_preimage_singleton_of_not_subsingleton_range hCdim
@@ -709,7 +709,7 @@ theorem subsingleton_range_of_isRationalTail {X Y : Scheme.{u}} [X.Over (Spec (.
     · exact Scheme.IdealSheafData.support_antitone inf_le_right hy
   -- `Y' ⊆ Z`
   have hZY' : Z ≤ complementaryCurveIdeal D := by
-    show Z ≤ (Scheme.Opens.ι D.support.compl).ker
+    change Z ≤ (Scheme.Opens.ι D.support.compl).ker
     rw [Scheme.Hom.ker_eq_vanishingIdeal_closure_range,
       ← Scheme.IdealSheafData.le_support_iff_le_vanishingIdeal]
     refine closure_minimal (fun y hy => ?_) Z.support.isClosed
@@ -783,7 +783,7 @@ theorem subsingleton_range_of_isRationalTail {X Y : Scheme.{u}} [X.Over (Spec (.
     infer_instance
   have hf : D.subscheme.toSpecΓ ≫ Spec.map (CommRingCat.ofHom (algebraMap k Γ(D.subscheme, ⊤))) =
       D.subschemeι ≫ (Y ↘ Spec (.of k)) := by
-    show D.subscheme.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ fD.appTop) = fD
+    change D.subscheme.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ fD.appTop) = fD
     rw [Spec.map_comp, ← Category.assoc, ← Scheme.toSpecΓ_naturality]
     simp
   have hdeg := invertibleCurveDegree_eq_sub_two_mul_of_shortExact D hDdim.le

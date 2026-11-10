@@ -82,7 +82,7 @@ theorem natCard_residueField_span_X :
     refine ⟨φ.injective, fun w => ?_⟩
     obtain ⟨r, rfl⟩ := Ideal.algebraMap_residueField_surjective y.asIdeal w
     refine ⟨r.coeff 0, ?_⟩
-    show algebraMap _ _ (Polynomial.C (r.coeff 0)) = _
+    change algebraMap _ _ (Polynomial.C (r.coeff 0)) = _
     rw [← sub_eq_zero, ← map_sub, Ideal.algebraMap_residueField_eq_zero, ← neg_mem_iff, neg_sub]
     exact Ideal.mem_span_singleton.2 Polynomial.X_dvd_sub_C
   rw [Nat.card_congr
@@ -106,8 +106,7 @@ geometric Frobenius at the origin. -/
 theorem laumonDegenerationFamilyInput_of_noPunctualSections
     (hH2 : LaumonFamilyNoPunctualSectionsInput'.{u}) : LaumonDegenerationFamilyInput.{u} := by
   intro B U ℓ _ _ _ _ _ _ k _ _ f _ _ _ _ _ e _ _ he j kbar _ _ _ _ p n _ _ hcard hℓp x E _ _ _ d b
-    m σ hσ ι' β hV hpure ψ hψ n₀ hn₀ D hD hfib
-  intro C hC
+    m σ hσ ι' β hV hpure ψ hψ n₀ hn₀ D hD hfib C hC
   classical
   -- the extension `k'` and the slope `c` of the line, off `D = 0` and off `s + c s = 0`
   have hD₁ : D * (MvPolynomial.X 0 + MvPolynomial.X 1) ≠ 0 := by
@@ -188,7 +187,7 @@ theorem laumonDegenerationFamilyInput_of_noPunctualSections
   have hyc : IsClosed ({y} : Set W.1) :=
     (PrimeSpectrum.isClosed_singleton_iff_isMaximal _).2 (Stacks.NodalCurve.isMaximal_span_X k')
   have hyV : y ∉ Set.range jW.base := by
-    show y ∉ Set.range (B.inclusion.map jV)
+    change y ∉ Set.range (B.inclusion.map jV)
     rw [hrange]
     intro hy
     exact (PrimeSpectrum.mem_basicOpen _ _).1 hy (Ideal.mem_span_singleton.2 hXg')

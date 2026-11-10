@@ -72,7 +72,7 @@ theorem normal_range_etaleFundamentalGroupMap_of_isPullback {k : Type u} [Field 
     let SL : FiniteEtaleOver (Spec (.of k)) := finiteEtaleOverSource hs
     let c : finiteEtaleOverSource hh ≅ (finiteEtaleBaseChange f).obj SL :=
       MorphismProperty.Over.isoMk (hpb.isoPullback ≪≫ pullbackSymmetry f s) (by
-        show (hpb.isoPullback.hom ≫ (pullbackSymmetry f s).hom) ≫ pullback.snd s f = h
+        change (hpb.isoPullback.hom ≫ (pullbackSymmetry f s).hom) ≫ pullback.snd s f = h
         rw [Category.assoc, pullbackSymmetry_hom_comp_snd, IsPullback.isoPullback_hom_fst])
     exact smul_eq_self_of_etaleFundamentalGroupMap_eq_one_of_iso f _ SL c hσ _
   refine ⟨fun a ha b => ?_⟩

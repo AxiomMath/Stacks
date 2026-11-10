@@ -119,15 +119,15 @@ public theorem exists_isFinite_presentation_cokernel_of_retract {A B : SheafOfMo
   have hcg : coprod.desc h₁ h₂ ≫ g = 0 := by
     refine coprod.hom_ext ?_ ?_
     · rw [coprod.inl_desc_assoc, comp_zero]
-      show (a.r ≫ f ≫ b.i) ≫ b.r ≫ cokernel.π f = 0
+      change (a.r ≫ f ≫ b.i) ≫ b.r ≫ cokernel.π f = 0
       rw [Category.assoc, Category.assoc, ← Category.assoc b.i b.r, b.retract, Category.id_comp,
         cokernel.condition, comp_zero]
     · rw [coprod.inr_desc_assoc, comp_zero]
-      show (𝟙 _ - b.r ≫ b.i) ≫ b.r ≫ cokernel.π f = 0
+      change (𝟙 _ - b.r ≫ b.i) ≫ b.r ≫ cokernel.π f = 0
       rw [Preadditive.sub_comp, Category.id_comp, Category.assoc,
         ← Category.assoc b.i b.r, b.retract, Category.id_comp, sub_self]
   have hg : h ≫ g = 0 := by
-    show (freeSumIso (R := R) K I).inv ≫ coprod.desc h₁ h₂ ≫ g = 0
+    change (freeSumIso (R := R) K I).inv ≫ coprod.desc h₁ h₂ ≫ g = 0
     rw [hcg, comp_zero]
   have hdesc {Z : SheafOfModules.{u} R} (k : free (R := R) I ⟶ Z) (hk : h ≫ k = 0) :
       coprod.desc h₁ h₂ ≫ k = 0 :=

@@ -129,7 +129,7 @@ theorem exists_classifyingMorphism (X : CurveFamily B hZ) :
   let x : (curvesProjectionOver B hZ).Fiber X.base := Functor.Fiber.mk (a := X) rfl
   let L := Functor.TwoYoneda.liftFunctor (curvesProjectionOver B hZ) hp X.base x
   refine ⟨⟨Over.iteratedSliceBackward X.base ⋙ L, ?_⟩, ⟨?_⟩⟩
-  · show Over.iteratedSliceBackward X.base ⋙ L ⋙ curvesProjectionOver B hZ = _
+  · change Over.iteratedSliceBackward X.base ⋙ L ⋙ curvesProjectionOver B hZ = _
     rw [Functor.TwoYoneda.liftFunctor_w]
     rfl
   · let a := (Over.iteratedSliceBackward X.base).obj (Over.mk (𝟙 X.base.left))
@@ -137,7 +137,7 @@ theorem exists_classifyingMorphism (X : CurveFamily B hZ) :
     have : (curvesProjectionOver B hZ).IsStronglyCartesian a.hom c.φ := c.isStronglyCartesian
     have : IsIso a.hom := by
       have : IsIso ((Over.forget _).map a.hom) := by
-        show IsIso (𝟙 _)
+        change IsIso (𝟙 _)
         infer_instance
       exact isIso_of_reflects_iso a.hom (Over.forget _)
     have hiso : IsIso c.φ :=
@@ -239,7 +239,7 @@ theorem isFiniteNonSmoothLocus_curveFamilyOfProperOverField_iff
   have : LocallyOfFinitePresentation ((BigFppfOver.toScheme B integerBase hZ).map g) :=
     locallyOfFinitePresentation_of_isProper_of_field B hZ k g e hproper
   let X := curveFamilyOfProperOverField B hZ k g e hproper hdim
-  show IsFiniteNonSmoothLocus B hZ X ↔ _
+  change IsFiniteNonSmoothLocus B hZ X ↔ _
   have hsub : Subsingleton ((BigFppfOver.toScheme B integerBase hZ).obj X.base) :=
     ⟨fun _ _ => (Scheme.Hom.homeomorph e.hom).injective (Subsingleton.elim _ _)⟩
   rw [CurveFamily.isFiniteNonSmoothLocus_iff_forall_finite_nonSmoothLocus_fibre]
@@ -249,7 +249,7 @@ theorem isFiniteNonSmoothLocus_curveFamilyOfProperOverField_iff
           ¬ InfinitesimalLifting.SmoothAt ((BigFppfOver.toScheme B integerBase hZ).map g) x} := by
     ext x
     refine not_congr ((Space.isSmoothAt_yoneda_map_iff B integerBase hZ g x).trans ?_)
-    show _ ↔ Stacks.SmoothAtJacobian.Condition1 _ _
+    change _ ↔ Stacks.SmoothAtJacobian.Condition1 _ _
     exact (Stacks.SmoothAtJacobian.condition1_iff_mem_smoothLocus _ _).symm
   have hpts : Subsingleton (Space.points B integerBase hZ (schemeSpace X.base).obj) :=
     (Space.pointsEquivScheme B integerBase hZ X.base).subsingleton

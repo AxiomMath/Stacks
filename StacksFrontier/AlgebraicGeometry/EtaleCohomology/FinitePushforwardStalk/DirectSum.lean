@@ -40,7 +40,7 @@ public noncomputable def etaleStalkMap (S : Scheme.{u}) (hS : B.Contains S)
     AlgebraicGeometry.etaleStalk B S hS s F.obj ⟶
       AlgebraicGeometry.etaleStalk B S hS s G.obj :=
   colim.map (Functor.whiskerLeft
-    ((CategoryOfElements.π (geometricPointFiber B S hS s)).op) α.hom)
+    ((Functor.Elements.π (geometricPointFiber B S hS s)).op) α.hom)
 
 private def liftedNeighborhood
     (U : (geometricPointFiber B Y.1 Y.property y).Elements)
@@ -86,7 +86,7 @@ private theorem liftedNeighborhood_map
     have hmap := overBaseChangeMap_fst B f
       ((SmallEtale.inclusion B Y.1 Y.property).map g.1)
     have hg := congrArg (fun z => z.1) g.2
-    show pU ≫ B.inclusion.map
+    change pU ≫ B.inclusion.map
           ((Over.pullback f).map ((SmallEtale.inclusion B Y.1 Y.property).map g.1)).left ≫
         B.inclusion.map (pullback.fst (Over.hom
           ((SmallEtale.inclusion B Y.1 Y.property).obj V.1)) f) =
@@ -108,13 +108,13 @@ private theorem liftedNeighborhood_map
       _ = (liftedNeighborhood B f y V x).2.1 ≫ B.inclusion.map
           (pullback.fst (Over.hom ((SmallEtale.inclusion B Y.1 Y.property).obj V.1)) f) := by
           symm
-          show hpb.lift V.2.1 x.1 _ ≫ B.inclusion.map
+          change hpb.lift V.2.1 x.1 _ ≫ B.inclusion.map
             (pullback.fst (Over.hom ((SmallEtale.inclusion B Y.1 Y.property).obj V.1)) f) = _
           simp
   · have hliftsnd := hpbU.lift_snd U.2.1 x.1 wU
     have hmap := overBaseChangeMap_snd B f
       ((SmallEtale.inclusion B Y.1 Y.property).map g.1)
-    show pU ≫ B.inclusion.map
+    change pU ≫ B.inclusion.map
           ((Over.pullback f).map ((SmallEtale.inclusion B Y.1 Y.property).map g.1)).left ≫
         B.inclusion.map (pullback.snd (Over.hom
           ((SmallEtale.inclusion B Y.1 Y.property).obj V.1)) f) =
@@ -173,7 +173,7 @@ private noncomputable def stalkPushforwardComponentCocone
     [IsFinite (B.inclusion.map f)]
     (F : Sheaf (SmallEtale.topology B X.1 X.property) AddCommGrpCat.{u + 1})
     (x : GeometricLifts B f y) :
-    Cocone ((CategoryOfElements.π
+    Cocone ((Functor.Elements.π
       (geometricPointFiber B Y.1 Y.property y)).op ⋙
         (((smallEtaleBaseChange B f).sheafPushforwardContinuous
           AddCommGrpCat.{u + 1}
@@ -184,11 +184,11 @@ private noncomputable def stalkPushforwardComponentCocone
   let r := geometricPointFiber B X.1 X.property
     (geometricPointLift
       (B.inclusion.map f) y x)
-  let D := (CategoryOfElements.π q).op ⋙
+  let D := (Functor.Elements.π q).op ⋙
     (((u.sheafPushforwardContinuous AddCommGrpCat.{u + 1}
       (SmallEtale.topology B Y.1 Y.property)
       (SmallEtale.topology B X.1 X.property)).obj F).obj)
-  let E := (CategoryOfElements.π r).op ⋙ F.obj
+  let E := (Functor.Elements.π r).op ⋙ F.obj
   let c : Cocone D := {
     pt := colimit E
     ι := {
@@ -229,14 +229,14 @@ private theorem stalkPushforwardComponentHom_ι
     (x : GeometricLifts B f y)
     (U : (geometricPointFiber B Y.1 Y.property y).Elementsᵒᵖ) :
     colimit.ι
-        ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
+        ((Functor.Elements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
           (((smallEtaleBaseChange B f).sheafPushforwardContinuous
             AddCommGrpCat.{u + 1}
             (SmallEtale.topology B Y.1 Y.property)
             (SmallEtale.topology B X.1 X.property)).obj F).obj) U ≫
         stalkPushforwardComponentHom B f y F x =
       colimit.ι
-        ((CategoryOfElements.π (geometricPointFiber B X.1 X.property
+        ((Functor.Elements.π (geometricPointFiber B X.1 X.property
           (geometricPointLift
             (B.inclusion.map f) y x))).op ⋙ F.obj)
         (op (liftedNeighborhood B f y U.unop x)) :=
@@ -256,19 +256,19 @@ private theorem stalkPushforwardComponentHom_germ
     (hX : V.2.1 ≫ (SmallEtale.toScheme B X.1 X.property).map t ≫
         B.inclusion.map (pullback.snd U.1.obj.hom f) = x.1) :
     colimit.ι
-        ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
+        ((Functor.Elements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
           (((smallEtaleBaseChange B f).sheafPushforwardContinuous
             AddCommGrpCat.{u + 1}
             (SmallEtale.topology B Y.1 Y.property)
             (SmallEtale.topology B X.1 X.property)).obj F).obj)
         (op U) ≫ stalkPushforwardComponentHom B f y F x =
       F.obj.map t.op ≫ colimit.ι
-        ((CategoryOfElements.π (geometricPointFiber B X.1 X.property
+        ((Functor.Elements.π (geometricPointFiber B X.1 X.property
           (geometricPointLift
             (B.inclusion.map f) y x))).op ⋙ F.obj)
         (op V) := by
   let k := pointedPullbackNeighborhoodMap B f y x U V t hU hX
-  let E := (CategoryOfElements.π
+  let E := (Functor.Elements.π
     (geometricPointFiber B X.1 X.property
       (geometricPointLift
         (B.inclusion.map f) y x))).op ⋙ F.obj
@@ -306,16 +306,16 @@ private noncomputable def etaleStalkForgetIso
     (forget AddCommGrpCat.{u + 1}).obj (AlgebraicGeometry.etaleStalk B S hS s F.obj) ≅
       AlgebraicGeometry.etaleStalk B S hS s (underlyingGroupSheaf B S hS F).obj :=
   preservesColimitIso (forget AddCommGrpCat.{u + 1})
-    ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ F.obj)
+    ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ F.obj)
 
 private theorem etaleStalkForgetIso_ι
     (S : Scheme.{u}) (hS : B.Contains S) (s : GeometricPoint S)
     (F : Sheaf (SmallEtale.topology B S hS) AddCommGrpCat.{u + 1})
     (U : (geometricPointFiber B S hS s).Elementsᵒᵖ) :
     (forget AddCommGrpCat.{u + 1}).map (colimit.ι
-        ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ F.obj) U) ≫
+        ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ F.obj) U) ≫
       (etaleStalkForgetIso B S hS s F).hom =
-    colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+    colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
       (underlyingGroupSheaf B S hS F).obj) U :=
   ι_preservesColimitIso_hom _ _ _
 
@@ -341,11 +341,11 @@ private theorem counitStalk_germ
           (SmallEtale.topology B Y.1 Y.property)
           (SmallEtale.topology B X.1 X.property)).obj F))
         (h.symm ▸ (colimit.ι
-          ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
+          ((Functor.Elements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
             (((smallEtaleBaseChange B f).sheafPushforwardContinuous (Type (u + 1))
           (SmallEtale.topology B Y.1 Y.property)
           (SmallEtale.topology B X.1 X.property)).obj F).obj) (op U) s))) =
-      colimit.ι ((CategoryOfElements.π
+      colimit.ι ((Functor.Elements.π
         (geometricPointFiber B X.1 X.property x)).op ⋙ F.obj)
         (op V) (F.obj.map t.op s) :=
   pushforwardEtaleStalkComponent_germ B f x y h F U V t ht s
@@ -366,11 +366,11 @@ private theorem stalkPushforwardComponentHom_forget
         (underlyingGroupSheaf B X.1 X.property F) x) := by
   let P := ((smallEtaleBaseChange B f).sheafPushforwardContinuous AddCommGrpCat.{u + 1}
     (SmallEtale.topology B Y.1 Y.property) (SmallEtale.topology B X.1 X.property)).obj F
-  let D := (CategoryOfElements.π
+  let D := (Functor.Elements.π
     (geometricPointFiber B Y.1 Y.property y)).op ⋙ P.obj
   let z := geometricPointLift
     (B.inclusion.map f) y x
-  let E := (CategoryOfElements.π
+  let E := (Functor.Elements.π
     (geometricPointFiber B X.1 X.property z)).op ⋙ F.obj
   let eX := etaleStalkForgetIso B X.1 X.property z F
   let eY := etaleStalkForgetIso B Y.1 Y.property y P
@@ -378,7 +378,7 @@ private theorem stalkPushforwardComponentHom_forget
     (underlyingGroupSheaf B X.1 X.property F) x
   apply (isColimitOfPreserves (forget AddCommGrpCat.{u + 1}) (colimit.isColimit D)).hom_ext
   intro U
-  show (forget AddCommGrpCat.{u + 1}).map (colimit.ι D U) ≫
+  change (forget AddCommGrpCat.{u + 1}).map (colimit.ι D U) ≫
       (forget AddCommGrpCat.{u + 1}).map (stalkPushforwardComponentHom B f y F x) ≫
         eX.hom = (forget AddCommGrpCat.{u + 1}).map (colimit.ι D U) ≫ eY.hom ≫ (↾C)
   have hmc : (forget AddCommGrpCat.{u + 1}).map (colimit.ι D U) ≫
@@ -387,7 +387,7 @@ private theorem stalkPushforwardComponentHom_forget
         (colimit.ι D U ≫ stalkPushforwardComponentHom B f y F x) :=
     ((forget AddCommGrpCat.{u + 1}).map_comp _ _).symm
   rw [← Category.assoc, hmc, stalkPushforwardComponentHom_ι B f y F x U]
-  show (forget AddCommGrpCat.{u + 1}).map
+  change (forget AddCommGrpCat.{u + 1}).map
       (colimit.ι E (op (liftedNeighborhood B f y U.unop x))) ≫
       (etaleStalkForgetIso B X.1 X.property z F).hom =
     (forget AddCommGrpCat.{u + 1}).map (colimit.ι D U) ≫
@@ -415,7 +415,7 @@ private theorem stalkPushforwardComponentHom_forget
     (F.obj.map_id (op (liftedNeighborhood B f y U.unop x).1)) s
   change (underlyingGroupSheaf B X.1 X.property F).obj.map (𝟙 _).op s = s at hs
   exact h.trans (congrArg (fun v => colimit.ι
-    ((CategoryOfElements.π (geometricPointFiber B X.1 X.property z)).op ⋙
+    ((Functor.Elements.π (geometricPointFiber B X.1 X.property z)).op ⋙
       (underlyingGroupSheaf B X.1 X.property F).obj)
     (op (liftedNeighborhood B f y U.unop x)) v) hs)
 
@@ -427,7 +427,7 @@ private theorem isIso_pi_lift_of_bijective
   let e := PreservesProduct.iso U G ≪≫ Types.productIso.{u, u + 1} (fun i => U.obj (G i))
   have he : U.map (Pi.lift a) ≫ e.hom = (↾fun z i => a i z) := by
     ext z i
-    show ((U.map (Pi.lift a) ≫ (PreservesProduct.iso U G).hom) ≫
+    change ((U.map (Pi.lift a) ≫ (PreservesProduct.iso U G).hom) ≫
       Pi.π (fun i => U.obj (G i)) i) z = _
     rw [Category.assoc, PreservesProduct.iso_hom, piComparison_comp_π,
       ← U.map_comp, Pi.lift_comp_π]
@@ -505,7 +505,7 @@ private theorem stalkPushforwardHomIntoSum_π
     intro j
     simp [biproduct.isoCoproduct_hom, biproduct.ι_desc_assoc,
       Sigma.ι_π, biproduct.ι_π]
-  show Limits.Pi.lift (fun x => stalkPushforwardComponentHom B f y F x) ≫
+  change Limits.Pi.lift (fun x => stalkPushforwardComponentHom B f y F x) ≫
     (biproduct.isoProduct G).inv ≫
       ((biproduct.isoCoproduct G).hom ≫ Limits.Sigma.π G x) = _
   rw [hb, biproduct.isoProduct_inv, biproduct.lift_π, Limits.Pi.lift_comp_π]
@@ -524,13 +524,13 @@ private theorem stalkPushforwardComponentHom_natural
       etaleStalkMap B X.1 X.property
         (geometricPointLift
           (B.inclusion.map f) y x) α := by
-  change colim.map (Functor.whiskerLeft (CategoryOfElements.π
+  change colim.map (Functor.whiskerLeft (Functor.Elements.π
         (geometricPointFiber B Y.1 Y.property y)).op
         (((smallEtaleBaseChange B f).sheafPushforwardContinuous AddCommGrpCat.{u + 1}
           (SmallEtale.topology B Y.1 Y.property)
           (SmallEtale.topology B X.1 X.property)).map α).hom) ≫
       stalkPushforwardComponentHom B f y G x =
-    stalkPushforwardComponentHom B f y F x ≫ colim.map (Functor.whiskerLeft (CategoryOfElements.π
+    stalkPushforwardComponentHom B f y F x ≫ colim.map (Functor.whiskerLeft (Functor.Elements.π
         (geometricPointFiber B X.1 X.property
           (geometricPointLift (B.inclusion.map f) y x))).op α.hom)
   refine colimit.hom_ext fun U => ?_
@@ -612,7 +612,7 @@ public theorem stalkPushforwardIsoDirectSum_germ
     (hX : V.2.1 ≫ (SmallEtale.toScheme B X.1 X.property).map t ≫
         B.inclusion.map (pullback.snd U.1.obj.hom f) = x.1) :
     colimit.ι
-        ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
+        ((Functor.Elements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
           (((smallEtaleBaseChange B f).sheafPushforwardContinuous
             AddCommGrpCat.{u + 1}
             (SmallEtale.topology B Y.1 Y.property)
@@ -622,7 +622,7 @@ public theorem stalkPushforwardIsoDirectSum_germ
       (by classical exact Limits.Sigma.π _ x) =
     F.obj.map t.op ≫
       colimit.ι
-        ((CategoryOfElements.π (geometricPointFiber B X.1 X.property
+        ((Functor.Elements.π (geometricPointFiber B X.1 X.property
           (geometricPointLift
             (B.inclusion.map f) y x))).op ⋙ F.obj)
     (op V) := by

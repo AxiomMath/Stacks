@@ -306,7 +306,7 @@ def addEquivChowCohomology :
 theorem addEquivChowCohomology_of {p : ℤ} (a : ChowCohomologyGroup C sX p) :
     addEquivChowCohomology (DirectSum.of _ p a) =
       DirectSum.of _ p (ChowCohomologyGroup.addEquivChowCohomologyComponent p a) := by
-  show DFinsupp.mapRange (fun p ↦ ⇑(ChowCohomologyGroup.addEquivChowCohomologyComponent p))
+  change DFinsupp.mapRange (fun p ↦ ⇑(ChowCohomologyGroup.addEquivChowCohomologyComponent p))
     (fun p ↦ map_zero _) (DFinsupp.single p a) = DFinsupp.single p _
   exact DFinsupp.mapRange_single
 

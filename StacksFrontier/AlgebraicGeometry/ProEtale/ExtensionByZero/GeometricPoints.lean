@@ -158,7 +158,7 @@ theorem exists_geometricPoint_lift_of_proetaleCover
         (Ideal.ResidueField.map p q g.hom hpq).comp eY.toRingHom := by
       ext z
       obtain ⟨r, rfl⟩ := IsLocalRing.residue_surjective z
-      show eX (IsLocalRing.ResidueField.map g.hom (IsLocalRing.residue A r)) =
+      change eX (IsLocalRing.ResidueField.map g.hom (IsLocalRing.residue A r)) =
         (Ideal.ResidueField.map p q g.hom hpq) (eY (IsLocalRing.residue A r))
       have hl : eX (IsLocalRing.ResidueField.map g.hom (IsLocalRing.residue A r)) =
           algebraMap B q.ResidueField (g.hom r) := by
@@ -169,11 +169,11 @@ theorem exists_geometricPoint_lift_of_proetaleCover
       rw [hl, hr, Ideal.ResidueField.map_algebraMap]
     have hfac : β.comp ((f i).residueFieldMap x).hom = a.hom := by
       ext z
-      show c ((eX.toRingHom.comp ((f i).residueFieldMap x).hom) z) = a.hom z
+      change c ((eX.toRingHom.comp ((f i).residueFieldMap x).hom) z) = a.hom z
       rw [RingHom.congr_fun hcompat z]
-      show c (algebraMap p.ResidueField q.ResidueField (eY z)) = a.hom z
+      change c (algebraMap p.ResidueField q.ResidueField (eY z)) = a.hom z
       rw [c.commutes]
-      show α (eY z) = a.hom z
+      change α (eY z) = a.hom z
       simp [α]
     exact ⟨CommRingCat.ofHom β, CommRingCat.hom_ext hfac⟩
   refine ⟨i, ⟨K, Spec.map β ≫ (X i).fromSpecResidueField x⟩, ?_⟩
@@ -182,7 +182,7 @@ theorem exists_geometricPoint_lift_of_proetaleCover
       ← Spec.map_comp, hβ, Spec.map_comp, Category.assoc,
       S.residueFieldCongr_fromSpecResidueField hx]
     exact (Scheme.SpecToEquivOfField K S).left_inv s.hom
-  show (⟨K, Spec.map β ≫ (X i).fromSpecResidueField x ≫ f i⟩ :
+  change (⟨K, Spec.map β ≫ (X i).fromSpecResidueField x ≫ f i⟩ :
     AlgebraicGeometry.GeometricPoint S) = ⟨K, s.hom⟩
   congr 1
 

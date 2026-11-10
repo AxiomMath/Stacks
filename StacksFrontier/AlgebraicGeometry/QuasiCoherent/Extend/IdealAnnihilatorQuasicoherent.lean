@@ -106,7 +106,7 @@ private lemma smulEndomorphism_naturality {Y : Scheme.{u}} {G H : Y.Modules} (φ
   apply Scheme.Modules.hom_ext
   intro U
   ext s
-  show φ.app U (Y.presheaf.map (homOfLE (le_top : U ≤ ⊤)).op a • s) =
+  change φ.app U (Y.presheaf.map (homOfLE (le_top : U ≤ ⊤)).op a • s) =
     Y.presheaf.map (homOfLE (le_top : U ≤ ⊤)).op a • φ.app U s
   exact Scheme.Modules.Hom.app_smul φ _ _
 
@@ -153,7 +153,7 @@ private lemma smulKernelTowerι_comp_smulEndomorphism {Y : Scheme.{u}} (G : Y.Mo
   induction n with
   | zero => omega
   | succ n ih =>
-      show (kernel.ι (smulEndomorphism (smulKernelTower G a n) (a n)) ≫
+      change (kernel.ι (smulEndomorphism (smulKernelTower G a n) (a n)) ≫
         smulKernelTowerι G a n) ≫ smulEndomorphism G (a k) = 0
       rw [Category.assoc]
       rcases Nat.lt_succ_iff_lt_or_eq.mp hk with hkn | rfl
@@ -174,7 +174,7 @@ private lemma exists_lift_smulKernelTower {Y : Scheme.{u}} {G H : Y.Modules} (a 
         rw [Category.assoc, smulEndomorphism_naturality, ← Category.assoc, hl,
           hj n (by omega), zero_comp]
       refine ⟨kernel.lift _ l hz, ?_⟩
-      show kernel.lift _ l hz ≫ kernel.ι (smulEndomorphism (smulKernelTower G a n) (a n)) ≫
+      change kernel.lift _ l hz ≫ kernel.ι (smulEndomorphism (smulKernelTower G a n) (a n)) ≫
         smulKernelTowerι G a n = j
       rw [← Category.assoc, kernel.lift_ι, hl]
 
@@ -237,7 +237,7 @@ private lemma forall_restrict_smul_eq_zero (U V : X.Opens) (v : V ⟶ U) (s : Γ
     rwa [IsScalarTower.algebraMap_smul] at hk
   intro a
   have ha := key a
-  show algebraMap Γ(X, U) Γ(X, V) (idealSectionsLinearMap I i U a) • s = 0
+  change algebraMap Γ(X, U) Γ(X, V) (idealSectionsLinearMap I i U a) • s = 0
   rwa [IsScalarTower.algebraMap_smul]
 
 /-! ### Passing from an affine open to a principal open inside it -/
@@ -269,7 +269,7 @@ private lemma smul_eq_zero_of_restrict_basicOpen [I.IsQuasicoherent] (U : X.affi
   obtain ⟨⟨a, d⟩, hd⟩ := IsLocalizedModule.surj (S := Submonoid.powers f) resI r
   let c : Γ(X, V) := ρ d
   have hd' : c • r = resI a := by
-    show algebraMap Γ(X, U.1) Γ(X, V) (d : Γ(X, U.1)) • r = resI a
+    change algebraMap Γ(X, U.1) Γ(X, V) (d : Γ(X, U.1)) • r = resI a
     rwa [IsScalarTower.algebraMap_smul]
   have hz : c • ((show Γ(X, V) from i.app V r) • s) = 0 := by
     calc c • ((show Γ(X, V) from i.app V r) • s)
@@ -281,7 +281,7 @@ private lemma smul_eq_zero_of_restrict_basicOpen [I.IsQuasicoherent] (U : X.affi
       _ = 0 := hs a
   obtain ⟨k, hk⟩ := d.2
   obtain ⟨u, hu⟩ : IsUnit c := by
-    show IsUnit (ρ d)
+    change IsUnit (ρ d)
     rw [← hk, map_pow]
     exact (X.toLocallyRingedSpace.toRingedSpace.isUnit_res_basicOpen f).pow k
   calc (show Γ(X, V) from i.app V r) • s
@@ -314,7 +314,7 @@ private lemma locally_annihilated_of_restrict [I.IsQuasicoherent] (U : X.affineO
   have hz := smul_eq_zero_of_restrict_basicOpen I F i U f (F.presheaf.map (b ≫ w).op s) hsB
     (I.presheaf.map b.op r)
   refine ⟨X.basicOpen f, hfW, hxf, ?_⟩
-  show F.presheaf.map b.op ((show Γ(X, W) from i.app W r) • F.presheaf.map w.op s) =
+  change F.presheaf.map b.op ((show Γ(X, W) from i.app W r) • F.presheaf.map w.op s) =
     F.presheaf.map b.op 0
   rw [F.map_smul, map_zero, ← F.presheaf.map_comp_apply]
   rwa [← app_map_eq I i b r]
@@ -331,7 +331,7 @@ theorem mem_annihilatorSubsheaf_iff_of_isAffine [I.IsQuasicoherent] (U : X.affin
   rw [mem_annihilatorSubsheaf_iff]
   refine ⟨fun h r => by simpa using h U.1 (𝟙 U.1) r, fun h => ?_⟩
   refine locally_annihilated_of_restrict I F i U U.1 (𝟙 _) s fun a => ?_
-  show X.presheaf.map (𝟙 (op U.1)) (i.app U.1 a) • s = 0
+  change X.presheaf.map (𝟙 (op U.1)) (i.app U.1 a) • s = 0
   rw [X.presheaf.map_id]
   exact h a
 
@@ -356,7 +356,7 @@ private lemma restrictedSmulEndomorphism_app (U : X.Opens) (a : Γ(X, U))
   change r • s = (U.ι.appIso V).inv r • (show Γ(F, U.ι ''ᵁ V) from s) at h
   refine h.trans ?_
   rw [Scheme.Opens.ι_appIso]
-  show X.presheaf.map (U.ι.opensFunctor.map (homOfLE (le_top : V ≤ ⊤))).op
+  change X.presheaf.map (U.ι.opensFunctor.map (homOfLE (le_top : V ≤ ⊤))).op
     (X.presheaf.map (eqToHom U.ι_image_top).op a) • (show Γ(F, U.ι ''ᵁ V) from s) = _
   rw [← X.presheaf.map_comp_apply]
   rfl
@@ -367,7 +367,7 @@ private lemma restrict_annihilatorSubsheaf_comp_smul (U : X.Opens) (a : Γ(I, U)
   apply Scheme.Modules.hom_ext
   intro V
   ext s
-  show (restrictedSmulEndomorphism F U (i.app U a)).app V s.val = 0
+  change (restrictedSmulEndomorphism F U (i.app U a)).app V s.val = 0
   refine (restrictedSmulEndomorphism_app F U (i.app U a) V s.val).trans ?_
   have hz := (mem_annihilatorSubsheaf_iff I F i (U.ι ''ᵁ V) s.val).mp s.property
     (U.ι ''ᵁ V) (𝟙 _) (I.presheaf.map (homOfLE (U.ι_image_le V)).op a)
@@ -430,7 +430,7 @@ theorem annihilatorSubsheaf_isQuasicoherent [I.IsQuasicoherent] [I.IsFiniteType]
   let φ : smulKernelTower G a n ⟶ G := smulKernelTowerι G a n
   have hj : ∀ k, k < n → j ≫ smulEndomorphism G (a k) = 0 := by
     intro k hk
-    show j ≫ smulEndomorphism G (X.presheaf.map (eqToHom U.ι_image_top).op (c k)) = 0
+    change j ≫ smulEndomorphism G (X.presheaf.map (eqToHom U.ι_image_top).op (c k)) = 0
     rw [hc k hk]
     exact restrict_annihilatorSubsheaf_comp_smul I F i U (q (Pi.single ⟨k, hk⟩ 1))
   obtain ⟨l, hl⟩ := exists_lift_smulKernelTower a n j hj
@@ -553,7 +553,7 @@ theorem mem_range_stalk_annihilatorSubsheaf_iff [I.IsQuasicoherent] [I.IsFiniteT
     (X.basicOpen f) x hxf ⟨tV, hmem⟩, ?_⟩
   refine (TopCat.Presheaf.stalkFunctor_map_germ_apply (X.basicOpen f) x hxf
     (Scheme.Modules.Hom.mapPresheaf (annihilatorSubsheaf I F i).ι) ⟨tV, hmem⟩).trans ?_
-  show F.presheaf.germ (X.basicOpen f) x hxf tV = s
+  change F.presheaf.germ (X.basicOpen f) x hxf tV = s
   exact (TopCat.Presheaf.germ_res_apply F.presheaf vU x hxf t₀).trans ht₀
 
 end AlgebraicGeometry

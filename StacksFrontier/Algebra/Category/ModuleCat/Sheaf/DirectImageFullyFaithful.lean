@@ -179,12 +179,12 @@ theorem isIso_directImageModuleCounit_app :
   refine ⟨ffDirectImageCounitInv f R N, ?_, ?_⟩
   · ext x s
     refine Subtype.ext (funext fun j ↦ ?_)
-    show N.map (ffIndexHom f j) (s.val (StructuredArrow.mk (𝟙 (f.op.obj x)))) = s.val j
+    change N.map (ffIndexHom f j) (s.val (StructuredArrow.mk (𝟙 (f.op.obj x)))) = s.val j
     exact s.property (StructuredArrow.homMk (ffIndexHom f j)
       (by simpa using map_ffIndexHom f j) :
       (StructuredArrow.mk (𝟙 (f.op.obj x)) : StructuredArrow (f.op.obj x) f.op) ⟶ j)
   · ext x t
-    show N.map (ffIndexHom f (StructuredArrow.mk (𝟙 (f.op.obj x)))) t = t
+    change N.map (ffIndexHom f (StructuredArrow.mk (𝟙 (f.op.obj x)))) t = t
     rw [ffIndexHom_self, N.map_id]
     rfl
 

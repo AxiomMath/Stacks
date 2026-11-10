@@ -197,14 +197,17 @@ theorem isInvertible_thickeningIdealSheaf_tensor_blowupTwist (q : ℕ) :
     Stacks.SheafOfModules.IsInvertible (blowupScheme I).toRingedSpace.presheaf
       (structureSheafRing (blowupScheme I).toRingedSpace).property
       (thickeningIdealSheaf I 1 ⊗ blowupTwist I q : (blowupScheme I).Modules) := by
-  letI : Stacks.SheafOfModules.IsInvertible (blowupScheme I).toRingedSpace.presheaf
+  let : Stacks.SheafOfModules.IsInvertible (blowupScheme I).toRingedSpace.presheaf
       (structureSheafRing (blowupScheme I).toRingedSpace).property (thickeningIdealSheaf I 1) :=
     isInvertible_kernel_thickeningProj_one I
-  letI : Stacks.SheafOfModules.IsInvertible (blowupScheme I).toRingedSpace.presheaf
+  let : Stacks.SheafOfModules.IsInvertible (blowupScheme I).toRingedSpace.presheaf
       (structureSheafRing (blowupScheme I).toRingedSpace).property (blowupTwist I q) :=
     Stacks.Blowup.isInvertible_blowUpTwist I (q : ℤ)
-  show Stacks.SheafOfModules.IsInvertible _ _
-    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(((blowupScheme I).toRingedSpace)).presheaf, (((blowupScheme I).toRingedSpace)).IsSheaf⟩).obj ((thickeningIdealSheaf I 1))).obj ((blowupTwist I q))))
+  change Stacks.SheafOfModules.IsInvertible _ _
+    ((((Stacks.SheafOfModules.Tensor.sheafTensor
+      ⟨(((blowupScheme I).toRingedSpace)).presheaf,
+        (((blowupScheme I).toRingedSpace)).IsSheaf⟩).obj
+      ((thickeningIdealSheaf I 1))).obj ((blowupTwist I q))))
   exact Stacks.SheafOfModules.isInvertible_tensorSheaf _ _ _ _
 
 /-! ### The image of the twist on sections -/
@@ -261,7 +264,7 @@ theorem app_twistedThickeningIdealMap_tmul (n q : ℕ) (V : (blowupScheme I).Ope
         (tensorObjTmul (blowupScheme I).toRingedSpace (thickeningIdealSheaf I n)
           (blowupTwist I q) (op V) a c) =
       sectionOfUnit I V ((thickeningIdealι I n).val.app (op V) a) • c := by
-  show ((λ_ (blowupTwist I q)).hom).val.app (op V)
+  change ((λ_ (blowupTwist I q)).hom).val.app (op V)
       (((thickeningIdealι I n ▷ blowupTwist I q)).val.app (op V) _) = _
   refine Eq.trans (congrArg (fun z => ((λ_ (blowupTwist I q)).hom).val.app (op V) z)
     (whiskerRight_tmul (blowupScheme I).toRingedSpace (thickeningIdealι I n)
@@ -306,7 +309,7 @@ theorem exists_restrict_eq_app_ambientTwistMap (q : ℕ) (U : (blowupScheme I).O
   classical
   set L := kernel.lift (thickeningTwistProj I 1 q) (twistedThickeningIdealMap I 1 q)
     (twistedThickeningIdealMap_comp_thickeningTwistProj_eq_zero I 1 q) with hL
-  haveI : IsIso L := isIso_kernelLift_twistedThickeningIdealMap I 1 q
+  have : IsIso L := isIso_kernelLift_twistedThickeningIdealMap I 1 q
   set z := (inv L).val.app (op U) t with hzdef
   have hz : L.val.app (op U) z = t := app_eq_of_eq I (IsIso.inv_hom_id L) U t
   obtain ⟨S, hSmem, hS⟩ := Stacks.SheafOfModules.TensorUnit.exists_sieve_sum_toTensorSheafSection
@@ -368,11 +371,11 @@ theorem isIso_kernelLift_ambientTwistMap (q : ℕ) :
     (twistedThickeningIdealMap_comp_thickeningTwistProj_eq_zero I 1 q) with hL
   set K := kernel.lift (thickeningTwistProj I 1 q) (ambientTwistMap I q)
     (ambientTwistMap_comp_thickeningTwistProj_eq_zero I q) with hK
-  haveI : IsIso L := isIso_kernelLift_twistedThickeningIdealMap I 1 q
-  haveI hepi : Epi (K ≫ inv L) := by
-    haveI := epi_kernelLift_ambientTwistMap I q
+  have : IsIso L := isIso_kernelLift_twistedThickeningIdealMap I 1 q
+  have hepi : Epi (K ≫ inv L) := by
+    have := epi_kernelLift_ambientTwistMap I q
     infer_instance
-  haveI : IsIso (K ≫ inv L) :=
+  have : IsIso (K ≫ inv L) :=
     @Stacks.SheafOfModules.isIso_of_epi_of_isInvertible (blowupScheme I).toRingedSpace
       (blowupTwist I (q + 1))
       (thickeningIdealSheaf I 1 ⊗ blowupTwist I q : (blowupScheme I).Modules) _ hepi

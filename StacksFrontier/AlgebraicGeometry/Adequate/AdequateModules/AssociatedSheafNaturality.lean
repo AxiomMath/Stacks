@@ -49,7 +49,7 @@ of complexes, hence for naturality in the module of the identification of the te
   right-hand side over an object of the site read off as `Γ(T, T.hom^*𝓖)`, by definitional
   unfolding. Its affine-section form, and the consequence for the remaining input of
   [Stacks, Tag 06ZR], are in
-  `StacksFrontier/AlgebraicGeometry/Adequate/AdequateModules/DerivedLocalizationAffineSections.lean`.
+  `StacksFrontier.AlgebraicGeometry.Adequate.AdequateModules.DerivedLocalizationAffineSections`.
 
 ## Implementation notes
 

@@ -169,7 +169,7 @@ public theorem exists_units_smul_eq_of_forall_eq_zero_iff {k V : Type*} [Field k
   have hz : g (w - (g w / g v) • v) = 0 := by simp [hv]
   have hfw := (h _).2 hz
   simp only [map_sub, map_smul, smul_eq_mul, sub_eq_zero] at hfw
-  show f w = (f v / g v) * g w
+  change f w = (f v / g v) * g w
   rw [hfw]
   ring
 
@@ -194,7 +194,7 @@ public theorem exists_linearFunctionalPoint (f : Module.Dual k V) (hf : f ≠ 0)
     { asHomogeneousIdeal :=
         (⊥ : HomogeneousIdeal (fun n => SymPow.symmetricPower n k k)).comap ψ
       isPrime := by
-        show (Ideal.comap (SymPow.gradedSymAlgMap f).toRingHom
+        change (Ideal.comap (SymPow.gradedSymAlgMap f).toRingHom
           (⊥ : Ideal (SymmetricAlgebra k k))).IsPrime
         infer_instance
       not_irrelevant_le := by
@@ -205,7 +205,7 @@ public theorem exists_linearFunctionalPoint (f : Module.Dual k V) (hf : f ≠ 0)
               (fun n => SymPow.symmetricPower n k V)).toIdeal := by
           apply HomogeneousIdeal.mem_irrelevant_of_mem
             (fun n => SymPow.symmetricPower n k V) Nat.one_pos
-          show SymmetricAlgebra.ι k V w ∈
+          change SymmetricAlgebra.ι k V w ∈
             (LinearMap.range (SymmetricAlgebra.ι k V)) ^ 1
           rw [pow_one]
           exact LinearMap.mem_range_self _ _
@@ -214,7 +214,7 @@ public theorem exists_linearFunctionalPoint (f : Module.Dual k V) (hf : f ≠ 0)
         simp only [hψ, SymPow.gradedSymAlgMap_apply, SymPow.symAlgMap_ι] at hz
         exact hw ((SymmetricAlgebra.ι_self_eq_zero_iff (f w)).mp hz) }
   refine ⟨q, fun w => ?_, fun z => Iff.rfl⟩
-  show ψ (SymmetricAlgebra.ι k V w) = 0 ↔ f w = 0
+  change ψ (SymmetricAlgebra.ι k V w) = 0 ↔ f w = 0
   simp only [hψ, SymPow.gradedSymAlgMap_apply, SymPow.symAlgMap_ι]
   exact SymmetricAlgebra.ι_self_eq_zero_iff (f w)
 
@@ -255,7 +255,7 @@ public theorem isClosed_singleton_of_forall_mem_iff (f : Module.Dual k V) (hf : 
     apply SymmetricAlgebra.algHom_ext
     ext
     simp [hsdef, hgdef, SymPow.symAlgMap, hw₀]
-  show IsClosed ({(q : ProjectiveSpectrum A)} : Set (ProjectiveSpectrum A))
+  change IsClosed ({(q : ProjectiveSpectrum A)} : Set (ProjectiveSpectrum A))
   rw [ProjectiveSpectrum.isClosed_iff_zeroLocus]
   refine ⟨q.asHomogeneousIdeal.toIdeal, ?_⟩
   ext y
@@ -292,7 +292,7 @@ public theorem isClosed_singleton_of_forall_mem_iff (f : Module.Dual k V) (hf : 
           t - s (ψ t) ∈ y.asHomogeneousIdeal.toIdeal := by
         apply hqle
         apply (hqall _).2
-        show ψ (t - s (ψ t)) = 0
+        change ψ (t - s (ψ t)) = 0
         rw [map_sub, hsec, sub_self]
       have hsz : s (ψ (GradedRing.proj A n z)) ∈ y.asHomogeneousIdeal.toIdeal := by
         simpa using
@@ -425,7 +425,7 @@ public theorem exists_basis_coordinates_of_closedPoint [IsAlgClosed k] [Module.F
       intro x
       rw [← b.sum_repr x]
       simp only [map_sum, LinearMap.map_smul]
-      show (∑ i, (b.repr x) i • SymmetricAlgebra.ι k V (b i)) ∈
+      change (∑ i, (b.repr x) i • SymmetricAlgebra.ι k V (b i)) ∈
         Submodule.restrictScalars k p.val.asHomogeneousIdeal.toIdeal
       exact Submodule.sum_mem _ fun i _ => Submodule.smul_mem _ _ (hBasis i)
     obtain ⟨x, hx⟩ := exists_ι_notMem k V p.val
@@ -476,7 +476,7 @@ public theorem symAlgMap_eq_zero_of_mem_closedPoint [IsAlgClosed k] [Module.Fini
       (hhom.mem_iff.mp hz) n
     have hmemI : e (GradedRing.proj A n z) ∈ I := by
       rw [hI]
-      show e.symm (e (GradedRing.proj A n z)) ∈ p.val.asHomogeneousIdeal.toIdeal
+      change e.symm (e (GradedRing.proj A n z)) ∈ p.val.asHomogeneousIdeal.toIdeal
       simpa using hzmem
     have heval : SymmetricAlgebra.lift f (GradedRing.proj A n z) = 0 := by
       rw [← hmaps]
@@ -498,7 +498,7 @@ public theorem symAlgMap_eq_zero_of_mem_closedPoint [IsAlgClosed k] [Module.Fini
     intro n
     simp only [DirectSum.map_apply]
     apply Subtype.ext
-    show ψ (DirectSum.decompose A z n) = 0
+    change ψ (DirectSum.decompose A z n) = 0
     simpa only [GradedRing.proj_apply] using hcompzero n
   have hzero : ψ z = 0 := (DirectSum.decomposeAlgEquiv B).injective (by simpa using hdecomp)
   exact hzero
@@ -532,7 +532,7 @@ public theorem exists_dual_of_closedPoint [IsAlgClosed k] [Module.Finite k V]
     let A : ℕ → Submodule k (SymmetricAlgebra k V) := fun n => SymPow.symmetricPower n k V
     let pp : ProjectiveSpectrum A := p.val
     let qq : ProjectiveSpectrum A := q
-    show qq ∈ closure ({pp} : Set (ProjectiveSpectrum A))
+    change qq ∈ closure ({pp} : Set (ProjectiveSpectrum A))
     rw [← ProjectiveSpectrum.zeroLocus_vanishingIdeal_eq_closure, ProjectiveSpectrum.mem_zeroLocus]
     intro z hz
     rw [ProjectiveSpectrum.vanishingIdeal_singleton] at hz

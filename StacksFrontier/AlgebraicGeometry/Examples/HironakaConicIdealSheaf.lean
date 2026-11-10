@@ -12,8 +12,8 @@ Hironaka's Example B.3.4.1 (Stacks Tag 08J1, see
 conics `C = {xy = z², w = 0}` and `D = {xy = w², z = 0}` of `Y = ℙ³_k`, which meet in the two
 points `P = [1 : 0 : 0 : 0]` and `Q = [0 : 1 : 0 : 0]`. Their homogeneous ideals and the
 intersection computation are in
-`StacksFrontier/AlgebraicGeometry/Examples/HironakaConicIntersection.lean`. This file turns them into
-the objects the blow-up construction consumes:
+`StacksFrontier/AlgebraicGeometry/Examples/HironakaConicIntersection.lean`. This file turns them
+into the objects the blow-up construction consumes:
 
 * the quasi-coherent ideal sheaves `idealSheafC` and `idealSheafD` on
   `Y = Proj k[x, y, z, w]`, both of finite type (the hypothesis of
@@ -122,17 +122,17 @@ theorem sub_monomial_mem_coordinateIdeal {n : ℕ} {p : MvPolynomial σ k} (hp :
   intro m hm
   rw [mem_support_iff, coeff_sub, coeff_monomial] at hm
   by_contra hcon
-  simp only [Set.mem_setOf_eq, ne_eq, not_exists, not_and, not_not] at hcon
+  simp only [Set.mem_ofPred_eq, ne_eq, not_exists, not_and, not_not] at hcon
   have hmj : m = Finsupp.single j (m j) := by
     ext i
     by_cases hij : i = j
     · subst hij; simp
-    · rw [Finsupp.single_apply, if_neg (Ne.symm hij)]
+    · rw [Finsupp.single_apply, ite_eq_right (Ne.symm hij)]
       exact hcon i hij
   by_cases heq : Finsupp.single j n = m
-  · rw [if_pos heq, heq, sub_self] at hm
+  · rw [ite_eq_left heq, heq, sub_self] at hm
     exact hm rfl
-  · rw [if_neg heq, sub_zero] at hm
+  · rw [ite_eq_right heq, sub_zero] at hm
     have hw := hp hm
     rw [hmj, Finsupp.weight_single] at hw
     apply heq

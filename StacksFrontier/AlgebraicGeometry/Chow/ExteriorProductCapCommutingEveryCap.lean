@@ -309,7 +309,7 @@ theorem exteriorProductWeight_fstMap_of_isClosedImmersion (C : ChowSituation.{u}
       Scheme.IdealSheafData.ker_fst_of_isClosedImmersion]
     refine le_trans (Scheme.IdealSheafData.comap_mono _ ?_) le_sup_left
     rw [← Scheme.IdealSheafData.le_support_iff_le_vanishingIdeal]
-    show closure ({v.base x'} : Set X) ⊆ (v.ker.support : Set X)
+    change closure ({v.base x'} : Set X) ⊆ (v.ker.support : Set X)
     rw [Scheme.Hom.support_ker]
     exact closure_mono (Set.singleton_subset_iff.mpr ⟨x', rfl⟩)
   unfold exteriorProductWeight
@@ -341,16 +341,16 @@ theorem exteriorProductWeight_sigmaDesc (C : ChowSituation.{u}) {X Y : Scheme.{u
         ((pullback.snd sW sY).base z)
         ((exteriorProductFstMap sX sY sW (Sigma.desc v) hπ).base z) := by
   obtain ⟨i, t0, ht0⟩ := exists_mem_range_sigmaι Z ((pullback.fst sW sY).base z)
-  have hv : v i ≫ sX = Sigma.ι Z i ≫ sW := by rw [← hπ, ← Category.assoc, Sigma.ι_desc]
+  have hv : v i ≫ sX = Sigma.ι Z i ≫ sW := by rw [← hπ, ← Category.assoc, Sigma.ι_comp_desc]
   obtain ⟨t, rfl, htfst⟩ := exists_exteriorProductFstMap_eq sW sY (Sigma.ι Z i ≫ sW) (Sigma.ι Z i)
     rfl z t0 ht0.symm
   have hcomp : (exteriorProductFstMap sX sY sW (Sigma.desc v) hπ).base
       ((exteriorProductFstMap sW sY (Sigma.ι Z i ≫ sW) (Sigma.ι Z i) rfl).base t) =
       (exteriorProductFstMap sX sY (Sigma.ι Z i ≫ sW) (v i) hv).base t := by
     rw [← Scheme.Hom.comp_apply, exteriorProductFstMap_comp,
-      exteriorProductFstMap_congr sX sY (Sigma.ι Z i ≫ sW) _ _ (Sigma.ι_desc v i) hv]
+      exteriorProductFstMap_congr sX sY (Sigma.ι Z i ≫ sW) _ _ (Sigma.ι_comp_desc v i) hv]
   rw [exteriorProductFstMap_base_fst, exteriorProductFstMap_base_snd, htfst, hcomp,
-    exteriorProductWeight_fstMap_of_isOpenImmersion, ← Scheme.Hom.comp_apply, Sigma.ι_desc,
+    exteriorProductWeight_fstMap_of_isOpenImmersion, ← Scheme.Hom.comp_apply, Sigma.ι_comp_desc,
     exteriorProductWeight_fstMap_of_isClosedImmersion]
 
 /-! ### Proper pushforward in the first variable of the exterior product of cycles -/
@@ -420,7 +420,7 @@ theorem properPushforward_exteriorProduct_fstMap (C : ChowSituation.{u}) {X W Y 
     refine ⟨⟨F.base z, hw⟩, ?_⟩
     have hidx : (⟨_, hlift ⟨F.base z, hw⟩⟩ : ↥(Function.support (a.1 : X → ℤ))) = i := by
       refine Subtype.ext ?_
-      show (pullback.fst sX sY).base (F.base z) = (i : X)
+      change (pullback.fst sX sY).base (F.base z) = (i : X)
       rw [hF, exteriorProductFstMap_base_fst, hi, he]
     refine exteriorProductFstMap_injective_of_fst_eq sX sY sW π hπ (hE1 ⟨F.base z, hw⟩).symm ?_
     rw [hE2, hidx, hi]
@@ -658,7 +658,7 @@ theorem commutesExteriorProductCapAt_of_isOpenImmersion_cover {I : Type u}
     (fun i ↦ ?_)
   · obtain ⟨i, hi⟩ := hcover ((pullback.fst sW sY).base x)
     exact ⟨i, (hrange i).symm ▸ hi⟩
-  · show Disjoint _ _
+  · change Disjoint _ _
     rw [hrange, hrange]
     exact (hdisjoint hil).preimage _
   · rw [map_sub, sub_eq_zero]
@@ -788,7 +788,7 @@ theorem commutesExteriorProductCapAt_mk_of_integralPresentation (n m : ℤ)
   have : IsProper (Sigma.desc v) := isProper_sigmaDesc_of_locallyFinite Zs v hlf
   have : SurjectiveOnStalks (Sigma.desc v) := surjectiveOnStalks_sigmaDesc Zs v
   have hti : ∀ i, Sigma.ι Zs i ≫ (Sigma.desc v ≫ sX) = v i ≫ sX := fun i ↦ by
-    rw [← Category.assoc, Sigma.ι_desc]
+    rw [← Category.assoc, Sigma.ι_comp_desc]
   have hdim : ∀ i, relativeDimension (fieldChowSituation k).dimensionFunction
       (Sigma.ι Zs i ≫ (Sigma.desc v ≫ sX)) (genericPoint (Zs i)) = n := fun i ↦ by
     rw [hti i, relativeDimension_comp_closedImmersion, hv i]
@@ -797,7 +797,7 @@ theorem commutesExteriorProductCapAt_mk_of_integralPresentation (n m : ℤ)
       (a.1 (i : X) • fundamentalCycle (fieldChowSituation k)
         (Sigma.ι Zs i ≫ (Sigma.desc v ≫ sX)) n).1 z =
         if z = genericPoint (Zs i) then a.1 (i : X) else 0 := fun i z ↦ by
-    show a.1 (i : X) • (fundamentalCycle (fieldChowSituation k)
+    change a.1 (i : X) • (fundamentalCycle (fieldChowSituation k)
       (Sigma.ι Zs i ≫ (Sigma.desc v ≫ sX)) n).1 z = _
     rw [fundamentalCycle_eq_single (fieldChowSituation k) (Sigma.ι Zs i ≫ (Sigma.desc v ≫ sX))
       genericPoints_eq_singleton (hdim i) (Field.toIsField _)]
@@ -808,7 +808,7 @@ theorem commutesExteriorProductCapAt_mk_of_integralPresentation (n m : ℤ)
     (fun i ↦ a.1 (i : X) • fundamentalCycle (fieldChowSituation k)
       (Sigma.ι Zs i ≫ (Sigma.desc v ≫ sX)) n)
   have he : ∀ i, (Sigma.desc v).base (Sigma.ι Zs i (genericPoint (Zs i))) = (i : X) := fun i ↦ by
-    rw [← Scheme.Hom.comp_apply, Sigma.ι_desc]
+    rw [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
     exact hv i
   have hae : ∀ i, a'.1 (Sigma.ι Zs i (genericPoint (Zs i))) = a.1 (i : X) := fun i ↦ by
     rw [ha' i, hcoeff i]

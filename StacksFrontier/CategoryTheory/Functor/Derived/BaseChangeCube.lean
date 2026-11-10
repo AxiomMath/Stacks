@@ -216,7 +216,7 @@ theorem squareMapOfHom_cube
           RF₁.map (SK.app (Q₁.obj X)) = RF₁.map (Q₆.map (σK.app X)) ≫
           RF₁.map (φK₁.inv.app (At'.obj X)) ≫ RF₁.map (K₁D.map (φA'.inv.app X)) := by
         rw [hSK X]
-        simp only [← RF₁.map_comp, Category.assoc]
+        simp only [← RF₁.map_comp]
         congr 1
         simp only [← AD.map_comp_assoc, Iso.inv_hom_id_app, Functor.comp_obj, AD.map_id,
           Category.id_comp, Iso.inv_hom_id_app_assoc]
@@ -245,7 +245,6 @@ theorem squareMapOfHom_cube
       rw [← L₁D.map_comp_assoc (φB'.inv.app _), Iso.inv_hom_id_app, L₁D.map_id,
         Category.id_comp, ← reassoc_of% hφL₁, Iso.inv_hom_id_app_assoc]
     rw [hL, hR, hcube X]
-
   have h := NatTrans.congr_app key K
   simp only [γ₁, γ₂, NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app,
     Functor.associator_hom_app, Functor.associator_inv_app, Functor.comp_obj, Category.comp_id,
@@ -452,8 +451,7 @@ lemma homotopySquareHom_app (e : F' ⋙ L ⟶ K ⋙ F) (X : HomotopyCategory C�
         ((NatTrans.mapHomologicalComplex (Iso.refl (K ⋙ F)).inv c).app X) := rfl
   simp only [homotopySquareHom, NatTrans.comp_app,
     CategoryTheory.mapHomotopyCategoryCompIso_hom_app, h₂, Iso.refl_hom, Iso.refl_inv,
-    NatTrans.mapHomologicalComplex_id, NatTrans.id_app, CategoryTheory.Functor.map_id,
-    Category.id_comp, Category.comp_id, NatTrans.mapHomotopyCategory_app]
+    NatTrans.mapHomologicalComplex_id, NatTrans.id_app, CategoryTheory.Functor.map_id]
   exact (Category.id_comp _).trans (Category.comp_id _)
 
 /-- The transformation induced on homotopy categories by an isomorphism of a square is the
@@ -492,8 +490,7 @@ lemma homotopySquareHom_cube (e : F' ⋙ L ⟶ K ⋙ F) (e₁ : F'₁ ⋙ L₁ �
         (L₁.mapHomotopyCategory c).map ((homotopySquareHom c β').app X) ≫
         (homotopySquareHom c e₁).app ((A'.mapHomotopyCategory c).obj X) := by
   obtain ⟨X, rfl⟩ := HomotopyCategory.quotient_obj_surjective X
-  simp only [homotopySquareHom_app, Functor.mapHomotopyCategory_obj,
-    HomotopyCategory.quotient_obj_as]
+  simp only [homotopySquareHom_app, HomotopyCategory.quotient_obj_as]
   change (HomotopyCategory.quotient C₈ c).map ((Bb.mapHomologicalComplex c).map
         ((NatTrans.mapHomologicalComplex e c).app X)) ≫
       (HomotopyCategory.quotient C₈ c).map

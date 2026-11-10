@@ -39,8 +39,8 @@ theorem mateEquiv_natTrans_app_eq_homEquiv {C₁ C₂ C₃ C₄ : Type*} [Catego
     [Category* C₃] [Category* C₄] {G : C₁ ⥤ C₃} {H : C₂ ⥤ C₄} {L₁ : C₁ ⥤ C₂} {R₁ : C₂ ⥤ C₁}
     {L₂ : C₃ ⥤ C₄} {R₂ : C₄ ⥤ C₃} (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂) (α : TwoSquare G L₁ L₂ H)
     (X : C₂) :
-    (mateEquiv adj₁ adj₂ α).natTrans.app X =
-      adj₂.homEquiv _ _ (α.natTrans.app (R₁.obj X) ≫ H.map (adj₁.counit.app X)) := by
+    (mateEquiv adj₁ adj₂ α).app X =
+      adj₂.homEquiv _ _ (α.app (R₁.obj X) ≫ H.map (adj₁.counit.app X)) := by
   have h1 := mateEquiv_counit adj₁ adj₂ α X
   refine (adj₂.homEquiv _ _).symm.injective ?_
   exact ((Adjunction.homEquiv_counit _ _ _ _).trans h1).trans
@@ -97,12 +97,12 @@ def sliceSquareMate :=
 
 /-- The module-level mate has the presheaf-level one underneath. -/
 theorem toPresheaf_map_sliceSquareMate_app (N : SheafOfModules.{u} ((ringSheafB C P m).over W)) :
-    (PresheafOfModules.toPresheaf _).map ((sliceSquareMate C P φ b).natTrans.app N).val =
+    (PresheafOfModules.toPresheaf _).map ((sliceSquareMate C P φ b).app N).val =
       (mateEquiv ((Over.forget W).op.ranAdjunction AddCommGrpCat.{u})
         ((Over.forget Q).op.ranAdjunction AddCommGrpCat.{u})
         (TwoSquare.mk _ _ _ _ ((Stacks.Sites.CocontinuousExchange.twoSquare
           (sliceTransition_comp_forget C φ b)).op.ranBaseChange
-            (D := AddCommGrpCat.{u})))).natTrans.app
+            (D := AddCommGrpCat.{u})))).app
         N.val.presheaf := by
   have hc : (PresheafOfModules.toPresheaf _).map
       ((overRestrictionAdjB C P m W).counit.app N).val =
@@ -128,7 +128,7 @@ theorem toPresheaf_map_sliceSquareMate_app (N : SheafOfModules.{u} ((ringSheafB 
   rfl
 
 /-- **The mate of the square along the restrictions to slices is invertible.** -/
-theorem isIso_sliceSquareMate : IsIso (sliceSquareMate C P φ b).natTrans := by
+theorem isIso_sliceSquareMate : IsIso (sliceSquareMate C P φ b) := by
   rw [NatTrans.isIso_iff_isIso_app]
   intro N
   rw [← isIso_iff_of_reflects_iso _ (SheafOfModules.forget _ ⋙ PresheafOfModules.toPresheaf _)]
@@ -137,11 +137,11 @@ theorem isIso_sliceSquareMate : IsIso (sliceSquareMate C P φ b).natTrans := by
   have happ := @NatIso.isIso_app_of_isIso _ _ _ _ _ _ _ hiso N.val.presheaf
   have h := toPresheaf_map_sliceSquareMate_app C P φ b N
   have : IsIso ((PresheafOfModules.toPresheaf _).map
-      ((sliceSquareMate C P φ b).natTrans.app N).val) := h ▸ happ
+      ((sliceSquareMate C P φ b).app N).val) := h ▸ happ
   exact this
 
 /-- **The Beck–Chevalley comparison of case (B) is invertible.** -/
-theorem isIso_beckChevalleyB : IsIso (beckChevalleyB C P φ b).natTrans := by
+theorem isIso_beckChevalleyB : IsIso (beckChevalleyB C P φ b) := by
   have h := iterated_mateEquiv_conjugateEquiv
     (transitionModulePullbackAdjunctionB C P φ) (slicePullbackAdj C P φ b)
     (overRestrictionAdjB C P n Q) (overRestrictionAdjB C P m W) (beckChevalleyB C P φ b)
@@ -156,12 +156,12 @@ theorem isIso_beckChevalleyB : IsIso (beckChevalleyB C P φ b).natTrans := by
   have : IsIso (conjugateEquiv
       ((transitionModulePullbackAdjunctionB C P φ).comp (overRestrictionAdjB C P m W))
       ((overRestrictionAdjB C P n Q).comp (slicePullbackAdj C P φ b))
-      (beckChevalleyB C P φ b).natTrans) := by
+      (beckChevalleyB C P φ b)) := by
     rw [← h, ← e]
     infer_instance
   exact conjugateEquiv_of_iso
     ((transitionModulePullbackAdjunctionB C P φ).comp (overRestrictionAdjB C P m W))
     ((overRestrictionAdjB C P n Q).comp (slicePullbackAdj C P φ b))
-    (beckChevalleyB C P φ b).natTrans
+    (beckChevalleyB C P φ b)
 
 end CategoryTheory.CocontinuousSimplicialSite.CartesianSlice

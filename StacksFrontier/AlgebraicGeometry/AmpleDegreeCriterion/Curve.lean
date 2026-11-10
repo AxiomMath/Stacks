@@ -68,8 +68,8 @@ hypothesis mentioning cohomological vanishing, carries the tag separately as
 
 **`hdim` is an explicit argument** because `AlgebraicGeometry.invertibleCurveDegree` takes the
 dimension bound as an argument. On a curve it is `le_of_eq (IsCurve.topologicalKrullDim_eq_one
-f)`, which is the instantiation the statement of Tag 0B5X uses; no separate declaration is needed for
-it.
+f)`, which is the instantiation the statement of Tag 0B5X uses; no separate declaration is needed
+for it.
 
 **Quasi-compactness is not a hypothesis.** `IsProper f` gives `QuasiCompact f`, and
 `Spec (.of k)` is quasi-compact, so `AlgebraicGeometry.QuasiCompact.compactSpace_of_compactSpace`

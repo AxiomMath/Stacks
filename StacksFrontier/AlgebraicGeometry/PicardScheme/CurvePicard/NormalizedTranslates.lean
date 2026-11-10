@@ -164,6 +164,7 @@ theorem picardMap_powerHomJac_thetaClass
   rw [← picardMap_comp, hom_powerObj_zero_ext B hX hk f (_ ≫ _) (𝟙 _), picardMap_id]
   rfl
 
+omit [IsAlgClosed k] in
 /-- The fibre ranks of the pullback of a class on `X ×_k J` along a `k`-point `x` of `J` are those
 of the class at the point `x`. -/
 theorem classFibreRank_picardMap_powerHomJac
@@ -196,6 +197,7 @@ theorem mem_curveNormalizedLocus_toPicardFunctorHom_iff (T : BigFppfOver B (Spec
     fibreRank B hX hk f σ hσ (isIso_c_of_isCurve B hX hk f σ hσ) T _ t 0 = 1 ↔ _
   rw [fibreRank_eq, fibreRank_eq]
 
+omit [IsAlgClosed k] in
 /-- **The theta translates are the `k`-points of the normalized locus of `ξ + g[c₀]`**, for `ξ`
 the universal degree-zero class on `X ×_k J`. -/
 theorem mem_thetaTranslates_iff

@@ -72,14 +72,14 @@ theorem mem_range_towerPoint_of_isIntegralElem (m : ℕ) {z : Omega k}
   have : IsFractionRing (Ring F) A := IsFractionRing.of_field _ _ fun a ↦ by
     obtain ⟨r, s, hrs⟩ := (mem_adjoin_simple_iff F (a : Omega k)).mp a.2
     refine ⟨algebraMap F[X] (Ring F) r, algebraMap F[X] (Ring F) s, Subtype.ext ?_⟩
-    show (a : Omega k) = towerPoint k m _ / towerPoint k m _
+    change (a : Omega k) = towerPoint k m _ / towerPoint k m _
     rw [towerPoint_algebraMap, towerPoint_algebraMap, ← aeval_def, ← aeval_def, hrs]
   have : IsIntegrallyClosed (Ring F) :=
     isIntegrallyClosed_of_isLocalization (R := F[X]) (S := Ring F) (Submonoid.powers X)
       (powers_le_nonZeroDivisors_of_noZeroDivisors X_ne_zero)
   obtain ⟨p, hpm, hp⟩ := hint
   have hintA : _root_.IsIntegral (Ring F) (⟨z, hz⟩ : A) := ⟨p, hpm, Subtype.ext (by
-    show ((eval₂ (towerPointAdjoin k m) ⟨z, hz⟩ p : A) : Omega k) = 0
+    change ((eval₂ (towerPointAdjoin k m) ⟨z, hz⟩ p : A) : Omega k) = 0
     exact (hom_eval₂ p (towerPointAdjoin k m) A.toSubfield.subtype ⟨z, hz⟩).trans hp)⟩
   obtain ⟨y, hy⟩ := IsIntegrallyClosed.isIntegral_iff.mp hintA
   exact ⟨y, congrArg Subtype.val hy⟩

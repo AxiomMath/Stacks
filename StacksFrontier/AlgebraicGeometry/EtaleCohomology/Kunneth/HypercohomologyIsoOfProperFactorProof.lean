@@ -75,13 +75,13 @@ theorem isIso_homology_map_smallEtaleDerivedGlobalSections_map_of_isIso {T Z : S
     (Stacks.Cohomology.MayerVietoris.exists_quasiIso_isKInjective _)
   have h₁ : IsIso ((smallEtaleDerivedPushforwardAb c).map (DerivedCategory.Plus.ι.map φ)) :=
     (NatIso.isIso_map_iff e φ).1 (by
-      show IsIso (DerivedCategory.Plus.ι.map
+      change IsIso (DerivedCategory.Plus.ι.map
         ((smallEtalePushforwardAb c).rightDerivedFunctorPlus.map φ))
       infer_instance)
   have h₂ : IsIso ((smallEtaleDerivedGlobalSections T).map (DerivedCategory.Plus.ι.map φ)) :=
     (NatIso.isIso_map_iff (smallEtaleDerivedGlobalSectionsPushforwardIsoAb c) _).1
       (by
-        show IsIso ((smallEtaleDerivedGlobalSections Z).map _)
+        change IsIso ((smallEtaleDerivedGlobalSections Z).map _)
         infer_instance)
   infer_instance
 
@@ -138,7 +138,7 @@ theorem hypercohomologyIsoOfProperFactor : HypercohomologyIsoOfProperFactor.{u} 
     (smallEtaleDerivedBaseChangeAb (q sX sY) j (h sX (j ≫ sX) sY j rfl) (p (j ≫ sX) sY)
       (h_comp_q sX (j ≫ sX) sY j rfl))
     (smallEtalePushforwardAb (pullback.snd sY sX ≫ sX)).rightDerivedFunctorPlus) iK).1 ?_
-  show IsIso ((smallEtalePushforwardAb (pullback.snd sY sX ≫ sX)).rightDerivedFunctorPlus.map
+  change IsIso ((smallEtalePushforwardAb (pullback.snd sY sX ≫ sX)).rightDerivedFunctorPlus.map
     ((smallEtaleDerivedBaseChangeAb (q sX sY) j (h sX (j ≫ sX) sY j rfl) (p (j ≫ sX) sY)
       (h_comp_q sX (j ≫ sX) sY j rfl)).app _))
   rw [EtaleCoefficients.isIso_rightDerivedFunctorPlus_map_smallEtaleDerivedBaseChangeAb_app_iff]

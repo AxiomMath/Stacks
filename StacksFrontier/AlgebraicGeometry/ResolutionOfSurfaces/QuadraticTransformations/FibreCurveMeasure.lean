@@ -136,7 +136,7 @@ public theorem fibreCurves_mono {A A' B : Scheme.{u}} {ψ : B ⟶ A'} {b : A' �
   rintro C ⟨hirr, hcl, hinf, z, hz⟩
   refine ⟨hirr, hcl, hinf, b z, fun c hc => ?_⟩
   have hcz : ψ c = z := hz hc
-  show g c = b z
+  change g c = b z
   rw [← hψ, Scheme.Hom.comp_apply, hcz]
 
 /-! ### Finiteness of the measure -/
@@ -225,7 +225,7 @@ public theorem not_finite_preimage_singleton_blowUpToBase_vanishingIdeal {A : Sc
     · subst hxa
       exact hfin
     · refine finite_fiber_of_isIso_restrict (blowUpToBase M) M.support.compl inferInstance ?_
-      show x ∈ ((M.support : Set A)ᶜ)
+      change x ∈ ((M.support : Set A)ᶜ)
       rw [hsupp]
       simpa using hxa
   have hiso : IsIso (blowUpToBase M) := isIso_of_finite_fibres (blowUpToBase M) hbir hall
@@ -244,7 +244,7 @@ public theorem not_finite_preimage_singleton_blowUpToBase_vanishingIdeal {A : Sc
     simpa using h1
   have hcomp : ∃ Z : irreducibleComponents M.subscheme, IsGenericPoint ξ (Z : Set M.subscheme) := by
     refine ⟨⟨Set.univ, huniv ▸ isIrreducible_singleton, fun s hs _ => Set.subset_univ s⟩, ?_⟩
-    show closure ({ξ} : Set M.subscheme) = Set.univ
+    change closure ({ξ} : Set M.subscheme) = Set.univ
     rw [huniv, closure_univ]
   have h1 := ringKrullDim_stalk_eq_one_of_isEffectiveCartierDivisor M hcart ξ hcomp
   rw [hξ, hstalk] at h1

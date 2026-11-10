@@ -441,7 +441,7 @@ theorem le_of_forall_definingIdealAt_le (X : AlgebraicSpaces B S hS)
   have hpoint : X.1.map (a ≫ ic i).op (X.1.map (hfE.rep.snd τ).op x) =
       U.1.hom.app (op V) ψ := by
     rw [hval, ← NatTrans.naturality_apply]
-    show f.app (op V) ((a ≫ ic i) ≫ hfE.rep.fst' τ) = _
+    change f.app (op V) ((a ≫ ic i) ≫ hfE.rep.fst' τ) = _
     rw [← hψ]
     exact (NatTrans.comp_app_apply (yoneda.map (j i)) f (op V) ψ).symm
   rw [hpoint, mem_obj_iff_definingIdealAt_le (hS := hS)]

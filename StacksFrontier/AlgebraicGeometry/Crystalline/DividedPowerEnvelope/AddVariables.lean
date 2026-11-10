@@ -100,18 +100,18 @@ public theorem dividedPowerEnvelopeAddVariables (f : A →+* B) (J : Ideal B)
   have hPolyIdeal :
       Ideal.map polyToP (polynomialEnvelopeIdeal J W) ≤
         dividedPowerPolynomialIdeal D.object.ideal W := by
-    show Ideal.map polyToP
+    change Ideal.map polyToP
       (J.map MvPolynomial.C + Ideal.span (Set.range MvPolynomial.X)) ≤
         dividedPowerPolynomialIdeal D.object.ideal W
     rw [Ideal.add_eq_sup, Ideal.map_sup, Ideal.map_map]
     refine sup_le (Ideal.map_le_iff_le_comap.mpr fun b hb => ?_)
       (Ideal.map_le_iff_le_comap.mpr (Ideal.span_le.2 ?_))
-    · show polyToP (MvPolynomial.C b) ∈ dividedPowerPolynomialIdeal D.object.ideal W
+    · change polyToP (MvPolynomial.C b) ∈ dividedPowerPolynomialIdeal D.object.ideal W
       rw [MvPolynomial.eval₂Hom_C]
       exact coeff.ideal_comp (Ideal.mem_map_of_mem _
         (D.algebraMap.ideal_comp (Ideal.mem_map_of_mem _ hb)))
     · rintro _ ⟨i, rfl⟩
-      show polyToP (MvPolynomial.X i) ∈ dividedPowerPolynomialIdeal D.object.ideal W
+      change polyToP (MvPolynomial.X i) ∈ dividedPowerPolynomialIdeal D.object.ideal W
       rw [MvPolynomial.eval₂Hom_X']
       exact variable_mem_polynomialIdeal D.object i
   let polyPair : IdealPair.Hom (polynomialEnvelopeIdeal J W)
@@ -125,7 +125,7 @@ public theorem dividedPowerEnvelopeAddVariables (f : A →+* B) (J : Ideal B)
         IdealPair.Hom.ofDPMorphism baseToP := by
     apply IdealPair.Hom.ext_toRingHom
     ext a
-    show polyToP (MvPolynomial.C (f a)) = baseToP a
+    change polyToP (MvPolynomial.C (f a)) = baseToP a
     rw [MvPolynomial.eval₂Hom_C]
     exact congrArg (fun g : A →+* P => g a)
       (congrArg (fun g : A →+* D.object.carrier => coeff.toRingHom.comp g) D.algebraMap_comp)
@@ -169,7 +169,7 @@ public theorem dividedPowerEnvelopeAddVariables (f : A →+* B) (J : Ideal B)
         _ = eDP.comp E.structureMap := by rw [dData.property]
         _ = baseToP := eData.property
     · ext b
-      show eDP (dToE (D.algebraMap.toRingHom b)) = coeff (D.algebraMap.toRingHom b)
+      change eDP (dToE (D.algebraMap.toRingHom b)) = coeff (D.algebraMap.toRingHom b)
       rw [show dToE (D.algebraMap.toRingHom b) = E.algebraMap.toRingHom (MvPolynomial.C b) from
         RingHom.congr_fun hDAlg b, show eDP (E.algebraMap.toRingHom (MvPolynomial.C b)) =
         polyToP (MvPolynomial.C b) from RingHom.congr_fun hEPoly _]
@@ -179,7 +179,7 @@ public theorem dividedPowerEnvelopeAddVariables (f : A →+* B) (J : Ideal B)
   let uP := existsUnique_dPMorphism_from_setIndexedDividedPowerPolynomial
     D.object W Pdp coeff coeffP
   have hCompVar (i : W) : (eDP.comp pDP) (xvar i) = xvar i := by
-    show eDP (pDP (xvar i)) = xvar i
+    change eDP (pDP (xvar i)) = xvar i
     calc
       eDP (pDP (xvar i)) = eDP (varToE i) := by rw [hp.2 i]
       _ = polyToP (MvPolynomial.X i) := RingHom.congr_fun hEPoly (MvPolynomial.X i)
@@ -198,11 +198,11 @@ public theorem dividedPowerEnvelopeAddVariables (f : A →+* B) (J : Ideal B)
   have hPolyToE : pDP.toRingHom.comp polyToP = E.algebraMap.toRingHom := by
     apply MvPolynomial.ringHom_ext'
     · ext b
-      show pDP (polyToP (MvPolynomial.C b)) = E.algebraMap.toRingHom (MvPolynomial.C b)
+      change pDP (polyToP (MvPolynomial.C b)) = E.algebraMap.toRingHom (MvPolynomial.C b)
       rw [MvPolynomial.eval₂Hom_C]
       exact congrArg (fun g : B →+* E.object.carrier => g b) hCoeffComp
     · intro i
-      show pDP (polyToP (MvPolynomial.X i)) = E.algebraMap.toRingHom (MvPolynomial.X i)
+      change pDP (polyToP (MvPolynomial.X i)) = E.algebraMap.toRingHom (MvPolynomial.X i)
       rw [MvPolynomial.eval₂Hom_X']
       exact hp.2 i
   have hCompE : pDP.comp eDP = DividedPowers.DPMorphism.id E.object.dividedPowers := by
@@ -226,12 +226,12 @@ public theorem dividedPowerEnvelopeAddVariables (f : A →+* B) (J : Ideal B)
       (RingHom.ext fun x => congrArg (fun q => q x) hCompP)
       (RingHom.ext fun x => congrArg (fun q => q x) hCompE)
   refine ⟨e, eDP.isDPMorphism, pDP.isDPMorphism, fun b => ?_, fun i => ?_⟩
-  · show eDP.toRingHom (E.algebraMap.toRingHom (MvPolynomial.C b)) = _
+  · change eDP.toRingHom (E.algebraMap.toRingHom (MvPolynomial.C b)) = _
     calc
       eDP.toRingHom (E.algebraMap.toRingHom (MvPolynomial.C b)) =
           polyToP (MvPolynomial.C b) := RingHom.congr_fun hEPoly (MvPolynomial.C b)
       _ = coeff.toRingHom (D.algebraMap.toRingHom b) := by simp [polyToP, coeffB]
-  · show eDP.toRingHom (E.algebraMap.toRingHom (MvPolynomial.X i)) = _
+  · change eDP.toRingHom (E.algebraMap.toRingHom (MvPolynomial.X i)) = _
     calc
       eDP.toRingHom (E.algebraMap.toRingHom (MvPolynomial.X i)) =
           polyToP (MvPolynomial.X i) := RingHom.congr_fun hEPoly (MvPolynomial.X i)

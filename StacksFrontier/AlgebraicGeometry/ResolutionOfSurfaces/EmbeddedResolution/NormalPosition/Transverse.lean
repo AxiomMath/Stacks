@@ -56,11 +56,11 @@ public theorem injOn_blowUpToBase_compl_fibre :
     (isIso_blowUp_restrict_compl_support (centerIdeal p hp))
   intro z hz w hw hzw
   refine h ?_ ?_ hzw
-  · show (blowUpToBase (centerIdeal p hp)).base z ∉ ((centerIdeal p hp).support : Set W)
+  · change (blowUpToBase (centerIdeal p hp)).base z ∉ ((centerIdeal p hp).support : Set W)
     rw [show ((centerIdeal p hp).support : Set W) = {p} from
       Scheme.IdealSheafData.coe_support_vanishingIdeal _]
     exact hz
-  · show (blowUpToBase (centerIdeal p hp)).base w ∉ ((centerIdeal p hp).support : Set W)
+  · change (blowUpToBase (centerIdeal p hp)).base w ∉ ((centerIdeal p hp).support : Set W)
     rw [show ((centerIdeal p hp).support : Set W) = {p} from
       Scheme.IdealSheafData.coe_support_vanishingIdeal _]
     exact hw
@@ -168,7 +168,7 @@ public theorem pairExcess_transformIdeal_add_le [IsNoetherian W]
     rw [hS, Set.Finite.coe_toFinset]; exact support_colength_sub_one_subset Y Y'
   have hg'S' : Function.support g' ⊆ (S' : Set _) := by
     rw [hS', Set.Finite.coe_toFinset]; exact support_colength_sub_one_subset _ _
-  show ∑ᶠ q, g' q + _ ≤ ∑ᶠ x, g x
+  change ∑ᶠ q, g' q + _ ≤ ∑ᶠ x, g x
   rw [finsum_eq_sum_of_support_subset g hgS, finsum_eq_sum_of_support_subset g' hg'S',
     ← Finset.sum_filter_add_sum_filter_not S' (fun q => b.base q = p)]
   -- away from the fibre
@@ -442,11 +442,11 @@ public theorem ncard_triplePoints_blowupFamily_add_le [IsNoetherian W]
     exact h3.trans ((Finset.card_le_card hsub).trans Finset.card_image_le)
   have hle := Set.ncard_le_ncard_of_injOn b.base hmaps
     ((injOn_blowUpToBase_compl_fibre p hp).mono fun q hq h =>
-      (hmaps q hq).2 h) (hfin.diff)
+      (hmaps q hq).2 h) (hfin.sdiff)
   split_ifs with hpT
   · have := Set.ncard_sdiff_singleton_add_one hpT hfin
     omega
-  · rw [Set.diff_singleton_eq_self hpT] at hle
+  · rw [Set.sdiff_singleton_eq_self hpT] at hle
     omega
 
 /-- Every member of the blown-up family of a family of regular configuration curves is regular. -/
@@ -557,7 +557,7 @@ public theorem exists_pointBlowupChain_transverse :
     refine step x hxc hxdim ⟨Y, hY, hxY⟩ ?_
     have hdrop := familyExcess_blowupFamily_add_le hW hdim F hF hreg x hxc hxdim
     have htri := ncard_triplePoints_blowupFamily_add_le hW hdim F hF hreg x hxc hxdim hone
-    rw [if_pos hx] at htri
+    rw [ite_eq_left hx] at htri
     rw [← hm, Prod.Lex.lt_iff]
     simp only [ofLex_toLex]
     by_cases hlt : familyExcess (blowupFamily F x hxc) < familyExcess F

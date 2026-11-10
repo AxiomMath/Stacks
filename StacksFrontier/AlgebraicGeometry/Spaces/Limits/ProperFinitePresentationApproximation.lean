@@ -116,7 +116,7 @@ theorem exists_isLimit_isProper_isFinitePresentation_of_factorization
     let c := closedSubspaceCone B S hS (fun k => (Zc k).1) hanti (⨅ k, (Zc k).1)
       (fun k => iInf_le _ k)
     intro U x hx
-    show x ∈ Set.range (i.app U)
+    change x ∈ Set.range (i.app U)
     let y : (⨅ k, (Zc k).1).toFunctor.obj U := ⟨x, hx⟩
     refine ⟨(hlim.lift c).app U y, ?_⟩
     have h := congrArg (fun m => (m ≫ (Zc k₀).1.ι).app U y) (hlim.fac c (op k₀))
@@ -155,7 +155,7 @@ theorem exists_isLimit_isProper_isFinitePresentation_of_factorization
     ext k : 2
     simp only [c, c₀, t, closedSubspaceCone, ← hif]
     simp only [NatTrans.comp_app, Cone.extend_π, Functor.const_map_app]
-    show Subfunctor.toRange i ≫ Subfunctor.homOfLe (hleJ k.unop) ≫ (ZJ k.unop).ι ≫ f' =
+    change Subfunctor.toRange i ≫ Subfunctor.homOfLe (hleJ k.unop) ≫ (ZJ k.unop).ι ≫ f' =
       i ≫ f'
     rw [Subfunctor.homOfLe_ι_assoc, ← Category.assoc, Subfunctor.toRange_ι]
   refine ⟨J, inferInstance, inferInstance, inferInstance, D, t, c.π, fun k => (Zc k.unop.1).2.1,
@@ -163,7 +163,7 @@ theorem exists_isLimit_isProper_isFinitePresentation_of_factorization
     fun a b e => isClosedImmersion_closedSubspaceDiagram_map B S hS (fun k => Zc k.1) hZJ e,
     fun k => ?_, hπt, ⟨hc⟩⟩
   · exact isFinitePresentation_comp B S hS (Zc k.unop.1).2.1 hX' hY _ _ (hfp k.unop.1).2 hf'fp
-  · show IsClosedImmersion B S hS (Subfunctor.toRange i ≫ Subfunctor.homOfLe (hleJ k.unop))
+  · change IsClosedImmersion B S hS (Subfunctor.toRange i ≫ Subfunctor.homOfLe (hleJ k.unop))
     exact isClosedImmersion_comp B S hS _ _ (isClosedImmersion_of_isIso B S hS _)
       (isClosedImmersion_homOfLe B S hS C (hleJ k.unop))
 

@@ -69,7 +69,7 @@ theorem residueFieldMap_specMap {R S : CommRingCat.{u}} (φ : R ⟶ S) (q : Prim
   apply CommRingCat.hom_ext
   ext z
   obtain ⟨w, rfl⟩ := Ideal.Quotient.mk_surjective z
-  show IsLocalRing.residue _ ((Spec.map φ).stalkMap q w) =
+  change IsLocalRing.residue _ ((Spec.map φ).stalkMap q w) =
     IsLocalRing.residue _ ((Spec.stalkIso S q).inv.hom
       (Localization.localRingHom (PrimeSpectrum.comap φ.hom q).asIdeal q.asIdeal φ.hom rfl
         ((Spec.stalkIso R (PrimeSpectrum.comap φ.hom q)).hom.hom w)))

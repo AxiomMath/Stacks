@@ -78,7 +78,7 @@ theorem ChartDiagram.restrictChartOpens_comm (d : ChartDiagram B S hS X.1 Y.1 f.
         (SmallEtale.toOver B S hS Y.1).map ((chartOpens B S hS d.V).map i) := by
   apply Over.OverMorphism.ext
   apply B.inclusion.map_injective
-  show (chartScheme d.U).homOfLE ((Opens.map d.schemeMap.base).map i).le ≫
+  change (chartScheme d.U).homOfLE ((Opens.map d.schemeMap.base).map i).le ≫
       (d.schemeMap ∣_ O) = (d.schemeMap ∣_ O') ≫ (chartScheme d.V).homOfLE i.le
   rw [← cancel_mono (Scheme.Opens.ι O), Category.assoc, Category.assoc, morphismRestrict_ι,
     Scheme.homOfLE_ι, morphismRestrict_ι, ← Category.assoc, Scheme.homOfLE_ι]
@@ -106,7 +106,7 @@ theorem preimage_le_preimage_of_comm (O : (chartScheme d.V).Opens) :
     d'.schemeMap ⁻¹ᵁ (chartSchemeMap j ⁻¹ᵁ O) ≤ chartSchemeMap i ⁻¹ᵁ (d.schemeMap ⁻¹ᵁ O) := by
   have e := chartSchemeMap_comp_schemeMap d d' i j h
   intro x hx
-  show (chartSchemeMap i ≫ d.schemeMap) x ∈ O
+  change (chartSchemeMap i ≫ d.schemeMap) x ∈ O
   rw [e]
   exact hx
 
@@ -119,7 +119,7 @@ theorem restrictChartOpens_comm_of_comm (O : (chartScheme d.V).Opens) :
         (SmallEtale.toOver B S hS Y.1).map (chartOpensRestrict B S hS j O) := by
   apply Over.OverMorphism.ext
   apply B.inclusion.map_injective
-  show ((chartScheme d'.U).homOfLE (preimage_le_preimage_of_comm d d' i j h O) ≫
+  change ((chartScheme d'.U).homOfLE (preimage_le_preimage_of_comm d d' i j h O) ≫
       (chartSchemeMap i ∣_ (d.schemeMap ⁻¹ᵁ O))) ≫ (d.schemeMap ∣_ O) =
     (d'.schemeMap ∣_ (chartSchemeMap j ⁻¹ᵁ O)) ≫ (chartSchemeMap j ∣_ O)
   rw [← cancel_mono (Scheme.Opens.ι O)]
@@ -177,7 +177,7 @@ theorem chartπ_chartBaseRingHom (d : ChartDiagram B S hS X.1 Z.1 k.hom)
   rw [chartπ_apply']
   refine (congrArg (chartΓEquiv d.U (op (d.schemeMap ⁻¹ᵁ O)))
     (E.π_inverseImageHomChartRingHom_toBase φ hφ (d.restrictChartOpens O) _)).trans ?_
-  show (d.schemeMap ⁻¹ᵁ O).topIso.hom ((d.schemeMap ∣_ O).appTop (O.topIso.inv a)) = _
+  change (d.schemeMap ⁻¹ᵁ O).topIso.hom ((d.schemeMap ∣_ O).appTop (O.topIso.inv a)) = _
   rw [morphismRestrict_appTop_topIso_apply]
   exact ConcreteCategory.congr_hom (d.schemeMap ⁻¹ᵁ O).topIso.inv_hom_id _
 
@@ -255,7 +255,7 @@ theorem chartRealizedSchemeMap_comp_chartRealizedSchemeToBase
     E.chartRealizedSchemeMap i ≫ E.chartRealizedSchemeToBase φ hφ d =
       E.chartRealizedSchemeToBase φ hφ d' ≫ chartSchemeMap j := by
   refine Scheme.Hom.ext ?_ (fun O ↦ ?_)
-  · show (chartSchemeMap i ≫ d.schemeMap).base = (d'.schemeMap ≫ chartSchemeMap j).base
+  · change (chartSchemeMap i ≫ d.schemeMap).base = (d'.schemeMap ≫ chartSchemeMap j).base
     exact congrArg (fun q ↦ q.base) (chartSchemeMap_comp_schemeMap d d' i j h)
   ext a
   have hΓ : (chartSchemeMap j ⁻¹ᵁ O).topIso.inv ((chartSchemeMap j).app O a) =
@@ -267,7 +267,7 @@ theorem chartRealizedSchemeMap_comp_chartRealizedSchemeToBase
     ((chartOpens B S hS d'.U).map (homOfLE (preimage_le_preimage_of_comm d d' i j h O)) ≫
       chartOpensRestrict B S hS i (d.schemeMap ⁻¹ᵁ O)) (chartOpensRestrict B S hS j O)
     (restrictChartOpens_comm_of_comm d d' i j h O) _ _ hΓ).symm
-  show E.A.obj.map _ (E.A.obj.map (chartOpensRestrict B S hS i (d.schemeMap ⁻¹ᵁ O)).op
+  change E.A.obj.map _ (E.A.obj.map (chartOpensRestrict B S hS i (d.schemeMap ⁻¹ᵁ O)).op
     (E.chartBaseRingHom φ d O a)) = _
   exact (ConcreteCategory.congr_hom (E.A.obj.map_comp (chartOpensRestrict B S hS i _).op
     ((chartOpens B S hS d'.U).map (homOfLE (preimage_le_preimage_of_comm d d' i j h O))).op)

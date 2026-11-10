@@ -182,7 +182,7 @@ lemma pullback_lift_eq {X Y : TopCat.{u}} (f : X ⟶ Y)
     Adjunction.restrictFullyFaithful, Adjunction.comp_homEquiv,
     Equiv.trans, Iso.homCongr, Functor.FullyFaithful.homEquiv,
     TopCat.Presheaf.pullbackPushforwardAdjunction]
-  show g.hom = (((Opens.map f).op.lanAdjunction RingCat).homEquiv _ _)
+  change g.hom = (((Opens.map f).op.lanAdjunction RingCat).homEquiv _ _)
     (((sheafificationAdjunction (Opens.grothendieckTopology X) RingCat).homEquiv _ _)
       (((sheafificationAdjunction (Opens.grothendieckTopology X) RingCat).homEquiv _ _).symm
         ((((Opens.map f).op.lanAdjunction RingCat).homEquiv _ _).symm g.hom)))
@@ -214,7 +214,7 @@ lemma pullback_image_locally {X Y : TopCat.{u}} (f : X ⟶ Y)
   obtain ⟨V, hV, c, hc⟩ := pullback_exists_rep f O.obj W b
   refine ⟨W, hW, V, hV, c, hxW, ?_⟩
   rw [pullback_lift_eq]
-  show Q.obj.map (homOfLE hW).op (L.hom.app (.op U) (e.hom.hom.app (.op U) a)) = _
+  change Q.obj.map (homOfLE hW).op (L.hom.app (.op U) (e.hom.hom.app (.op U) a)) = _
   rw [show Q.presheaf.map (homOfLE hW).op (L.hom.app (.op U) (e.hom.hom.app (.op U) a)) =
       L.hom.app (.op W) ((sheafify (Opens.grothendieckTopology X) P).map (homOfLE hW).op
         (e.hom.hom.app (.op U) a)) from
@@ -224,7 +224,7 @@ lemma pullback_image_locally {X Y : TopCat.{u}} (f : X ⟶ Y)
     (sheafify (Opens.grothendieckTopology X) P).map (homOfLE hW).op
       (e.hom.hom.app (.op U) a) at hb
   rw [← hb]
-  show (toSheafify (Opens.grothendieckTopology X) P ≫ L.hom).app (.op W) b = _
+  change (toSheafify (Opens.grothendieckTopology X) P ≫ L.hom).app (.op W) b = _
   have ht : toSheafify (Opens.grothendieckTopology X) P ≫ L.hom = ψ :=
     (sheafificationAdjunction (Opens.grothendieckTopology X) RingCat).homEquiv _ _
       |>.apply_symm_apply ψ
@@ -253,7 +253,7 @@ lemma commutes_of_mul {S M N : Type*} [CommRing S]
     (hinj : Function.Injective fun x : N => b • x) (he : c * b = a) (x : M) :
     D (c • x) = c • D x := by
   apply hinj
-  show b • D (c • x) = b • (c • D x)
+  change b • D (c • x) = b • (c • D x)
   rw [← hb, smul_smul, mul_comm b c, he, ha, smul_smul, mul_comm b c, he]
 
 /-- A morphism of presheaves `F ⟶ G` of modules on `Spec A` commuting with the action of `R`
@@ -296,7 +296,7 @@ lemma natural_commutes_appLE {R A : CommRingCat.{u}} (f : R ⟶ A)
   have hnat (z : Γ(F, W)) := congrArg (fun m => m.hom z) (D.naturality (homOfLE hW).op)
   change ∀ z, D.app (.op W') (F.presheaf.map (homOfLE hW).op z) =
     G.presheaf.map (homOfLE hW).op (D.app (.op W) z) at hnat
-  show G.presheaf.map (homOfLE hW).op (D.app (.op W) (_ • s)) =
+  change G.presheaf.map (homOfLE hW).op (D.app (.op W) (_ • s)) =
     G.presheaf.map (homOfLE hW).op (_ • D.app (.op W) s)
   rw [← hnat, modules_presheaf_map_smul F, modules_presheaf_map_smul G, ← hnat, hres]
   apply commutes_of_mul (D.app (.op W')).hom
@@ -342,7 +342,7 @@ lemma order_postcomp {S M N P : Type*} [CommRing S]
   induction k generalizing D with
   | zero =>
     intro s x
-    show g (D (s • x)) = s • g (D x)
+    change g (D (s • x)) = s • g (D x)
     rw [hD, map_smul]
   | succ k ih =>
     intro s
@@ -367,7 +367,7 @@ lemma order_precomp {S M N P : Type*} [CommRing S]
   induction k generalizing D with
   | zero =>
     intro s x
-    show D (f (s • x)) = s • D (f x)
+    change D (f (s • x)) = s • D (f x)
     rw [map_smul, hD]
   | succ k ih =>
     intro s
@@ -398,7 +398,7 @@ lemma order_ext_localized {S M M' N : Type*} [CommRing S]
     ext x
     obtain ⟨⟨m, s⟩, hs⟩ := IsLocalizedModule.surj T f x
     apply hinj s
-    show (s : S) • D x = (s : S) • E x
+    change (s : S) • D x = (s : S) • E x
     rw [← hD, ← hE, ← Submonoid.smul_def, hs, he]
   | succ k ih =>
     have hc (s : S) :
@@ -406,7 +406,7 @@ lemma order_ext_localized {S M M' N : Type*} [CommRing S]
         E ∘ₗ Algebra.lsmul ℤ ℤ M' s - Algebra.lsmul ℤ ℤ N s ∘ₗ E := by
       apply ih (hD s) (hE s)
       intro m
-      show D (s • f m) - s • D (f m) = E (s • f m) - s • E (f m)
+      change D (s • f m) - s • D (f m) = E (s • f m) - s • E (f m)
       rw [← map_smul, he, he]
     ext x
     obtain ⟨⟨m, s⟩, hs⟩ := IsLocalizedModule.surj T f x
@@ -501,7 +501,7 @@ lemma basicExtension_naturality
     (order_postcomp (order_restrict (S := A) (basicExtension F G k D hD f).2.1) gr) ?_
   · exact LinearMap.congr_fun he x
   · intro m
-    show (basicExtension F G k D hD g).1
+    change (basicExtension F G k D hD g).1
         (F.presheaf.map (homOfLE hfg).op (F.presheaf.map (homOfLE le_top).op m)) =
       G.presheaf.map (homOfLE hfg).op
         ((basicExtension F G k D hD f).1 (F.presheaf.map (homOfLE le_top).op m))
@@ -578,7 +578,7 @@ lemma additiveHom_ext
   have h := order_ext_localized (Submonoid.powers a) fm
     (smul_injective_powers_of_le G le_rfl) (hD a) (hE a)
     (fun m => by
-      show D.app _ (F.presheaf.map (homOfLE le_top).op m) =
+      change D.app _ (F.presheaf.map (homOfLE le_top).op m) =
         E.app _ (F.presheaf.map (homOfLE le_top).op m)
       have h₁ := congrArg (fun a => a.hom m)
         (D.naturality (homOfLE (le_top : specBasicOpen a ≤ ⊤)).op)
@@ -620,7 +620,7 @@ lemma raw_commutator_natural {X : TopCat.{u}} {O : TopCat.Sheaf RingCat.{u} X}
     ((presheaf_map_smul G.val h.left.op _ (D Y' s)).trans
         (congrArg (fun r => r • G.val.presheaf.map h.left.op (D Y' s)) hg)).trans
       (congrArg (fun z => O.obj.map Y.hom.op g • z) (hD Y Y' h s).symm)
-  show D Y (O.obj.map Y.hom.op g • F.val.presheaf.map h.left.op s) -
+  change D Y (O.obj.map Y.hom.op g • F.val.presheaf.map h.left.op s) -
       O.obj.map Y.hom.op g • D Y (F.val.presheaf.map h.left.op s) =
     G.val.presheaf.map h.left.op
       (D Y' (O.obj.map Y'.hom.op g • s) - O.obj.map Y'.hom.op g • D Y' s)
@@ -637,7 +637,7 @@ lemma commutator_section_id {X : TopCat.{u}} {O : TopCat.Sheaf RingCat.{u} X}
       (D Y).toIntLinearMap ∘ₗ Algebra.lsmul ℤ ℤ (F.val.obj (.op Y.left)) g -
         Algebra.lsmul ℤ ℤ (G.val.obj (.op Y.left)) g ∘ₗ (D Y).toIntLinearMap := by
   ext x
-  show D (Over.mk ((𝟙 Y.left) ≫ Y.hom)) ((O.obj.map (𝟙 (.op Y.left))) g • x) -
+  change D (Over.mk ((𝟙 Y.left) ≫ Y.hom)) ((O.obj.map (𝟙 (.op Y.left))) g • x) -
       (O.obj.map (𝟙 (.op Y.left))) g • D (Over.mk ((𝟙 Y.left) ≫ Y.hom)) x =
     D Y (g • x) - g • D Y x
   rw [CategoryTheory.Functor.map_id]
@@ -664,7 +664,7 @@ lemma rawOrder_of_basic {X : TopCat.{u}} {O : TopCat.Sheaf RingCat.{u} X}
     refine ⟨_, hf, hpf, ?_⟩
     let Z : Over U := Over.mk (homOfLE (hf.trans Y.hom.le))
     let i : Z ⟶ Y := Over.homMk (homOfLE hf)
-    show G.val.presheaf.map i.left.op (D Y (g • s)) =
+    change G.val.presheaf.map i.left.op (D Y (g • s)) =
       G.val.presheaf.map i.left.op (g • D Y s)
     rw [← hnat Z Y i, presheaf_map_smul F.val, presheaf_map_smul G.val, ← hnat Z Y i]
     exact hb f (hf.trans Y.hom.le) _ _
@@ -712,7 +712,7 @@ lemma rawOrder_of_sections {X : TopCat.{u}}
     · intro Z a s
       let W : Over U := Over.mk (Z.hom ≫ Y.hom)
       let c := O'.obj.map Z.hom.op g
-      show D W (c • (DiffOp.sectionRingHom φ (.op W.left) a • s)) -
+      change D W (c • (DiffOp.sectionRingHom φ (.op W.left) a • s)) -
           c • D W (DiffOp.sectionRingHom φ (.op W.left) a • s) =
         DiffOp.sectionRingHom φ (.op W.left) a • (D W (c • s) - c • D W s)
       have hF : c • (DiffOp.sectionRingHom φ (.op W.left) a • s) =
@@ -749,7 +749,7 @@ lemma extendAdditive_order
         (basicExtension F G k D hD f).1 := by
     ext x
     exact extendAdditive_basic F G k D hD f x
-  show ((extendAdditive F G k D hD).app (.op (specBasicOpen f))).hom.toIntLinearMap
+  change ((extendAdditive F G k D hD).app (.op (specBasicOpen f))).hom.toIntLinearMap
     |>.IsDifferentialOperatorOfOrderLE Γ(Spec A, specBasicOpen f) k
   rw [he]
   exact (basicExtension F G k D hD f).2.1
@@ -816,10 +816,10 @@ lemma basicExtension_smul
     (order_postcomp hE (Algebra.lsmul A A Γ(G, specBasicOpen f) a)) ?_
   · exact LinearMap.congr_fun he x
   · intro m
-    show (basicExtension F G k D hD f).1 (a • fm m) =
+    change (basicExtension F G k D hD f).1 (a • fm m) =
       a • (basicExtension F G k D hD f).1 (fm m)
     rw [← fm.map_smul]
-    show (basicExtension F G k D hD f).1 (F.presheaf.map (homOfLE le_top).op (a • m)) =
+    change (basicExtension F G k D hD f).1 (F.presheaf.map (homOfLE le_top).op (a • m)) =
       a • (basicExtension F G k D hD f).1 (F.presheaf.map (homOfLE le_top).op m)
     rw [(basicExtension F G k D hD f).2.2, (basicExtension F G k D hD f).2.2, ha]
     exact Scheme.Modules.map_smul_Spec _ _ _
@@ -840,7 +840,7 @@ lemma extendAdditive_smul
   refine ⟨_, hf, hpf, ?_⟩
   have hn (t : Γ(F, U)) := congrArg (fun b => b.hom t)
     ((extendAdditive F G k D hD).naturality (homOfLE hf).op)
-  show G.presheaf.map (homOfLE hf).op ((extendAdditive F G k D hD).app (.op U) (a • s)) =
+  change G.presheaf.map (homOfLE hf).op ((extendAdditive F G k D hD).app (.op U) (a • s)) =
     G.presheaf.map (homOfLE hf).op (a • (extendAdditive F G k D hD).app (.op U) s)
   change ∀ t, (extendAdditive F G k D hD).app (.op (specBasicOpen f))
     (F.presheaf.map (homOfLE hf).op t) =
@@ -940,7 +940,7 @@ lemma natural_relative_linear {R A : CommRingCat.{u}} (f : R ⟶ A)
         G.presheaf.map (homOfLE hW).op (D.app (.op Y.left) s) :=
     (modules_presheaf_map_smul G hW _ (D.app (.op Y.left) s)).trans
       (congrArg (fun r => r • G.presheaf.map (homOfLE hW).op (D.app (.op Y.left) s)) hb)
-  show G.presheaf.map (homOfLE hW).op (D.app (.op Y.left) (_ • s)) =
+  change G.presheaf.map (homOfLE hW).op (D.app (.op Y.left) (_ • s)) =
     G.presheaf.map (homOfLE hW).op
       (@SMul.smul Γ(Spec A, Y.left) Γ(G, Y.left) inferInstance
         (DiffOp.sectionRingHom ((Spec.map f).relativeStructureSheafMap) (.op Y.left) a)
@@ -965,7 +965,7 @@ lemma algebraMap_mem_range_relative {R A : CommRingCat.{u}} (f : R ⟶ A)
   refine ⟨P.obj.map (homOfLE e).op a, ?_⟩
   have he : η ≫ (TopCat.Sheaf.pushforward RingCat (Spec.map f).base).map φ =
       (Spec.map f).toRingCatSheafHom := adj.homEquiv _ _ |>.apply_symm_apply _
-  show φ.hom.app (.op U) (P.obj.map (homOfLE e).op a) = _
+  change φ.hom.app (.op U) (P.obj.map (homOfLE e).op a) = _
   rw [show φ.hom.app (.op U) (P.presheaf.map (homOfLE e).op a) =
       (Spec A).presheaf.map (homOfLE e).op (φ.hom.app (.op (Spec.map f ⁻¹ᵁ ⊤)) a) from
     ConcreteCategory.congr_hom (φ.hom.naturality (homOfLE e).op) a]

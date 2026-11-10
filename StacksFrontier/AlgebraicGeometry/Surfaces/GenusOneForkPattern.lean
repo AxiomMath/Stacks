@@ -173,13 +173,13 @@ private lemma intersection_optionElim_ne_zero_iff {t N : ℕ} (T : NumericalType
   rcases hia : ι a with _ | r
   · rcases hib : ι b with _ | s
     · have hab : a = b := hιinj (by rw [hia, hib])
-      show T.intersection l l ≠ 0 ↔ _
+      change T.intersection l l ≠ 0 ↔ _
       exact ⟨fun _ => Or.inr hab, fun _ => hll⟩
     · have hab : a ≠ b := by
         rintro rfl
         simp [hia] at hib
       rw [attachAdj_none_some ι E r₀ hia hib]
-      show T.intersection l (v s) ≠ 0 ↔ _
+      change T.intersection l (v s) ≠ 0 ↔ _
       rw [hlr s]
       exact ⟨Or.inl, fun h => h.resolve_right hab⟩
   · rcases hib : ι b with _ | s
@@ -187,11 +187,11 @@ private lemma intersection_optionElim_ne_zero_iff {t N : ℕ} (T : NumericalType
         rintro rfl
         simp [hia] at hib
       rw [attachAdj_some_none ι E r₀ hia hib]
-      show T.intersection (v r) l ≠ 0 ↔ _
+      change T.intersection (v r) l ≠ 0 ↔ _
       rw [T.intersection_symm, hlr r]
       exact ⟨Or.inl, fun h => h.resolve_right hab⟩
     · rw [attachAdj_some_some ι E r₀ hia hib, ← hE r s]
-      show T.intersection (v r) (v s) ≠ 0 ↔ _
+      change T.intersection (v r) (v s) ≠ 0 ↔ _
       rw [hpair r s]
       refine ⟨fun h => h.imp id fun hrs => hιinj (by rw [hia, hib, hrs]), ?_⟩
       rintro (h | rfl)
@@ -287,7 +287,7 @@ private lemma longIntersection_eq_longEdge {n : ℕ} (f : LongFamily) (a b : Fin
     (a.val < b.val ∧ longIntersection f n a b = longEdge f n a.val b.val) ∨
       (b.val < a.val ∧ longIntersection f n a b = longEdge f n b.val a.val) := by
   have hv : a.val ≠ b.val := fun h => hab (Fin.ext h)
-  simp only [longIntersection, if_neg hab]
+  simp only [longIntersection, ite_eq_right hab]
   rcases Nat.lt_or_ge a.val b.val with hlt | hge
   · exact Or.inl ⟨hlt, by rw [min_eq_left hlt.le, max_eq_right hlt.le]⟩
   · exact Or.inr ⟨by omega, by rw [min_eq_right hge, max_eq_left hge]⟩

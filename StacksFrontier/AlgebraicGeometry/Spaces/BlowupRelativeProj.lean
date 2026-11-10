@@ -274,7 +274,7 @@ theorem reesSituationBaseChange_comp_structureMap {g : P.R ⟶ P.U}
         (reesProjChart N hN P hcU).hom =
       (reesProjRelation N hN P hcR).hom := by
   refine ObjectProperty.hom_ext _ ?_
-  show Stacks.Blowup.reesSituationBaseChange _ (reesChartIdeal N hN P) h ≫
+  change Stacks.Blowup.reesSituationBaseChange _ (reesChartIdeal N hN P) h ≫
       (reesChartSituation N hN P).relativeProjToBase ≫ B.inclusion.map P.U.hom =
     (reesRelationSituation N hN P).relativeProjToBase ≫ B.inclusion.map P.R.hom
   have hw : (BigFppfOver.toScheme B S hS).map g ≫ B.inclusion.map P.U.hom =

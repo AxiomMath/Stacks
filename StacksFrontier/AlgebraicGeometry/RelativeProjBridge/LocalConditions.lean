@@ -85,7 +85,7 @@ theorem faithfullyFlat_pi_appLE {X Y : Scheme.{u}} (f : X ⟶ Y) [Flat f] {U : Y
     (RingHom.pi fun i => (f.appLE U (V i) (e i)).hom).FaithfullyFlat := by
   refine RingHom.FaithfullyFlat.pi _ (fun i => Flat.flat_appLE f hU (hV i) (e i)) fun p => ?_
   have hp : hU.fromSpec p ∈ U := by
-    show hU.fromSpec p ∈ (U : Set Y)
+    change hU.fromSpec p ∈ (U : Set Y)
     rw [← hU.range_fromSpec]
     exact Set.mem_range_self _
   obtain ⟨i, y, hy, hfy⟩ := hcov _ hp

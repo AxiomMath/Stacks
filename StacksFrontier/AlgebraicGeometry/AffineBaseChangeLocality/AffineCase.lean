@@ -317,7 +317,7 @@ theorem apply_tmulA (a' : A') (y : M) :
   have key : Θ.hom (a' • tmulA (1 : A') y) = a' • Θ.hom (tmulA (1 : A') y) := map_smul _ _ _
   rw [hΘ y, smul_tmulA, mul_one] at key
   refine key.trans ?_
-  show (Algebra.TensorProduct.includeRight a' : B ⊗[A] A') • tmulB (1 : B ⊗[A] A') y = _
+  change (Algebra.TensorProduct.includeRight a' : B ⊗[A] A') • tmulB (1 : B ⊗[A] A') y = _
   rw [smul_tmulB, mul_one]
 
 include hΘ in
@@ -376,7 +376,7 @@ theorem specTensor_ring_comm :
         CommRingCat.ofHom
           (Algebra.TensorProduct.includeRight (R := A) (A := B) (B := A')).toRingHom := by
   ext a
-  show (algebraMap A B a) ⊗ₜ[A] (1 : A') = (1 : B) ⊗ₜ[A] (algebraMap A A' a)
+  change (algebraMap A B a) ⊗ₜ[A] (1 : A') = (1 : B) ⊗ₜ[A] (algebraMap A A' a)
   rw [Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one, TensorProduct.smul_tmul]
 
 /-- The square of spectra attached to `A → B`, `A → A'` and `B ⊗[A] A'` commutes. -/

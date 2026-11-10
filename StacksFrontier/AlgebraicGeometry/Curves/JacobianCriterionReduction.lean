@@ -252,7 +252,7 @@ theorem exists_partial_rsop_of_ideal {n : ℕ} (I : Ideal (MvPowerSeries (Fin n)
     rw [hcoe, Set.range_comp' V.subtype b, Submodule.span_image, b.span_eq, Submodule.map_top,
       V.range_subtype]
   refine ⟨r, hrle, z, ?_, hzI, ?_⟩
-  · show LinearIndependent (ResidueField A) (fun i => mA.toCotangent (z i))
+  · change LinearIndependent (ResidueField A) (fun i => mA.toCotangent (z i))
     rw [hcoe]
     exact b.linearIndependent.map' V.subtype (by simp)
   · intro x hx
@@ -369,7 +369,7 @@ theorem jacobianMinorIdealModulo_eq_maximalIdeal_iff_hasNodalQuadraticRelation_o
   have hEy : ∀ i, E (y i : MvPowerSeries (Fin n) k) = MvPowerSeries.X i := by
     intro i
     rw [hE]
-    show τ.symm (y i : MvPowerSeries (Fin n) k) = MvPowerSeries.X i
+    change τ.symm (y i : MvPowerSeries (Fin n) k) = MvPowerSeries.X i
     rw [← heX i]
     exact τ.symm_apply_apply _
   have hFE : ((τ : MvPowerSeries (Fin n) k →+* MvPowerSeries (Fin n) k).comp E) =

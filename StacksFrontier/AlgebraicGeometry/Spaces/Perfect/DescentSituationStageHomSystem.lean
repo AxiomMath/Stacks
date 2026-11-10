@@ -73,7 +73,7 @@ theorem raiseStageHom_raiseStageHom {i k m n : I} (hik : i ≤ k) (hkm : k ≤ m
     spacesEtaleModelDerivedPullbackCompIsoOfEq_cocycle B S hS _ _ _ _ _ _ _ Z
   have hn := spacesEtaleModelDerivedPullbackCompIsoOfEq_hom_naturality B S hS _ _
     (ObjectProperty.hom_ext _ (by
-      show D.system.map (homOfLE hmn).op ≫ D.system.map (homOfLE hkm).op = _
+      change D.system.map (homOfLE hmn).op ≫ D.system.map (homOfLE hkm).op = _
       rw [← D.system.map_comp]
       rfl) :
       (ObjectProperty.homMk (D.system.map (homOfLE hmn).op) :

@@ -130,6 +130,7 @@ end TwoOutOfThree
 
 section Contractible
 
+omit [Fintype k] in
 /-- **A contractible complex has zero cohomology with compact support.** -/
 theorem isZero_compactSupportFrobeniusCohomology_of_homotopy
     (K : CochainComplex.Plus (EtaleModules.{u, 0} Λ X)) (h : Homotopy (𝟙 K.obj) 0) :
@@ -189,6 +190,7 @@ theorem canonicalCompactSupportLefschetzNumber_eq_zero_of_isZero [Finite Λ]
     canonicalCompactSupportLefschetzNumber.{u, 0} Λ f j kbar p q hcard K hK = 0 :=
   perfectDerivedTrace_eq_zero_of_isZero Λ _ hZ _
 
+omit [Fintype k] in
 /-- A complex all of whose terms are zero has zero cohomology with compact support. -/
 theorem isZero_compactSupportFrobeniusCohomology_of_isZero_X
     (K : CochainComplex.Plus (EtaleModules.{u, 0} Λ X)) (hK : ∀ n, IsZero (K.obj.X n)) :
@@ -216,17 +218,20 @@ def singleInShiftIso (m : ℤ) :
 abbrev singleConeShortComplex (m : ℤ) : ShortComplex (CochainComplex (EtaleModules.{u, 0} Λ X) ℤ) :=
   CochainComplex.mappingCone.triangleRotateShortComplex (𝟙 (singleIn Λ F m).obj)
 
+omit [Finite Λ] in
 /-- The short complex `singleConeShortComplex Λ F m` is short exact. -/
 lemma singleConeShortComplex_shortExact (m : ℤ) : (singleConeShortComplex Λ F m).ShortExact :=
   HomologicalComplex.shortExact_of_degreewise_shortExact _ fun n =>
     (CochainComplex.mappingCone.triangleRotateShortComplexSplitting
       (𝟙 (singleIn Λ F m).obj) n).shortExact
 
+omit [Finite Λ] in
 /-- The third term of `singleConeShortComplex Λ F m` is bounded below. -/
 lemma singleConeShortComplex_plus₃ (m : ℤ) :
     CochainComplex.plus _ (singleConeShortComplex Λ F m).X₃ :=
   (CochainComplex.plus _).prop_of_iso (singleInShiftIso Λ F m).symm (singleIn Λ F (m - 1)).property
 
+omit [Finite Λ] in
 /-- The middle term of `singleConeShortComplex Λ F m` is bounded below. -/
 lemma singleConeShortComplex_plus₂ (m : ℤ) :
     CochainComplex.plus _ (singleConeShortComplex Λ F m).X₂ :=
@@ -304,6 +309,7 @@ open ComplexShape
 
 variable [Finite Λ]
 
+omit [Finite Λ] in
 /-- The terms of `σ^{≤ a} K` vanish away from degree `a`, for `K` concentrated in degrees `≥ a`. -/
 lemma isZero_stupidTruncLE_X (K : CochainComplex (EtaleModules.{u, 0} Λ X) ℤ) (a : ℤ)
     [K.IsStrictlyGE a] (i : ℤ) (hi : i ≠ a) :

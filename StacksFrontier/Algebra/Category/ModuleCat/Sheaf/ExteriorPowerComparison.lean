@@ -278,7 +278,7 @@ theorem extCmpSections_naturality (hs : A.GenSquareZero gen) (n : ℕ) {X Y : C�
       (A.extCmpSections gen hs n Y).comp
         (ExteriorAlgebra.powMapₛₗ n ((O ⋙ forget₂ _ RingCat).map f).hom (F.restrictₛₗ f)) := by
     refine ExteriorAlgebra.powExtₛₗ fun s => ?_
-    show (Pc (n : ℤ)).map f (A.extCmpSections gen hs n X _) =
+    change (Pc (n : ℤ)).map f (A.extCmpSections gen hs n X _) =
       A.extCmpSections gen hs n Y (ExteriorAlgebra.powMapₛₗ n _ (F.restrictₛₗ f) _)
     rw [extCmpSections_ιMulti, A.homogeneousProd_naturality f n,
       ExteriorAlgebra.powMapₛₗ_ιMulti, extCmpSections_ιMulti]

@@ -114,7 +114,7 @@ theorem exists_cocone_of_squareZeroTower (R : ℕᵒᵖ ⥤ CommRingCat.{u})
     intro n
     refine (hpbY n).of_iso (Iso.refl _) (Iso.refl _) (e n).symm E (by simp) (by simp [f])
       (by simp) ?_
-    show Spec.map (limit.π R (op n)) ≫ Spec.map ψ.hom ≫ eT.inv =
+    change Spec.map (limit.π R (op n)) ≫ Spec.map ψ.hom ≫ eT.inv =
       (e n).inv ≫ B.inclusion.map (a n)
     rw [← Spec.map_comp_assoc, hψ, Iso.eq_inv_comp, ← Category.assoc, ← heT n, Category.assoc,
       Iso.hom_inv_id, Category.comp_id]
@@ -127,7 +127,7 @@ theorem exists_cocone_of_squareZeroTower (R : ℕᵒᵖ ⥤ CommRingCat.{u})
   refine PolarizedFamily.Hom.ext ((PolarizedFamily.comp_baseMap _ _).trans (ha n))
     ((PolarizedFamily.comp_totalMap _ _).trans (hj n)) ?_
   refine PolarizedFormal.heq_of_pullbackCongr_hom_app_comp (hj n) _ _ ?_
-  show (Scheme.Modules.pullbackCongr (hj n)).hom.app ℒ ≫ e' n =
+  change (Scheme.Modules.pullbackCongr (hj n)).hom.app ℒ ≫ e' n =
     (Scheme.Modules.pullbackComp _ _).inv.app ℒ ≫
       (Scheme.Modules.pullback (st n).totalMap).map (e' (n + 1)) ≫ (st n).lineBundleIso.hom
   rw [← hcompat n, ← Category.assoc, ← NatTrans.comp_app, Iso.inv_hom_id, NatTrans.id_app,

@@ -199,7 +199,7 @@ theorem exists_finite_opens_constant_fiberRank_of_finitePresentation_preimage
       fun c _ hc => (isFlatOverAt_morphismRestrict_iff g U F c).mpr
         (hflat c.1 c.2 ((fibre_dense_morphismRestrict_iff g U c).mp hc))
   refine ⟨κ, hκ, fun i => U.ι ''ᵁ W i, n, fun i j hij => ?_, ?_, fun i => ?_, fun i b hb hbcl => ?_⟩
-  · show Disjoint (U.ι ''ᵁ W i) (U.ι ''ᵁ W j)
+  · change Disjoint (U.ι ''ᵁ W i) (U.ι ''ᵁ W j)
     rw [← Opens.coe_disjoint]
     exact (Set.disjoint_image_iff U.ι.isOpenEmbedding.injective).mpr
       (Opens.coe_disjoint.mpr (hdisj hij))

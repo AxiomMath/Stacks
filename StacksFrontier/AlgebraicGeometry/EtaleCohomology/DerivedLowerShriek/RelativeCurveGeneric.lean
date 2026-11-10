@@ -28,7 +28,7 @@ universally injective `V ⟶ U`, an open `W ⊆ X_V` dense in the fibres, a fini
 * Stacks 0GKQ for the thickening `ν⁻¹(W) ⟶ W` replaces `W` by `ν⁻¹(W)`, an open of `∐ Ȳᵢ`;
 * the triangle of Stacks 0GKP for `ν⁻¹(W) ⊆ ∐ Ȳᵢ` and the quasi-finiteness of its complement
   reduce to `R(∐ Ȳᵢ → V)_! M = R(∐ Tᵢ → V)_* R(∐ q̄ᵢ)_* M`, constructible by Stacks 0GKW and 0GK3
-  (`Stacks.EtaleCohomology.isConstructibleEtaleModule_homology_derivedLowerShriek_ofProper_comp_isFinite_of_hasConstantCohomology`).
+  (`isConstructible_homology_derivedLowerShriek_ofProper_comp_isFinite_of_hasConstantCohomology`).
 
 The independence of `Rf_!` of the compactification (Stacks 0F7I) is used throughout to compare the
 compactifications that the steps produce.
@@ -91,7 +91,7 @@ theorem locallyQuasiFinite_closedComplementι_comp_sigmaMap {ι : Type} [Finite 
   refine IsZariskiLocalAtTarget.of_openCover (P := @LocallyQuasiFinite) (sigmaOpenCover T)
     fun k₀ => ?_
   let k : ι := k₀
-  show LocallyQuasiFinite (pullback.snd _ (Sigma.ι T k))
+  change LocallyQuasiFinite (pullback.snd _ (Sigma.ι T k))
   let i' := closedComplementι o
   have hP := (IsPullback.of_hasPullback i' (Sigma.ι Ybar k)).paste_vert
     (isPullback_sigmaMap qbar k)
@@ -219,7 +219,7 @@ theorem isConstructibleEtaleModule_homology_derivedLowerShriek_sigmaCurve_open
   -- the proper part, through Stacks 0GKW and 0GK3
   have h₂ : ∀ q : ℤ, IsBigSiteConstructibleEtaleModule B V Λ
       ((DerivedCategory.Plus.homologyFunctor _ q).obj (Triangle.mk a b c).obj₂) := fun q =>
-    isConstructibleEtaleModule_homology_derivedLowerShriek_ofProper_comp_isFinite_of_hasConstantCohomology
+    isConstructible_homology_derivedLowerShriek_ofProper_comp_isFinite_of_hasConstantCohomology
       B qB tB Λ hℓ m hm M hM hmM K (hasConstantCohomologyPlus_singleFunctor Λ M) q
   -- the open part, and the comparison of `L` with the restriction of `K`
   have h₁ :=
@@ -304,7 +304,7 @@ theorem isConstructibleEtaleModule_homology_derivedLowerShriek_of_curveDiagram
     have : IsOpenImmersion o := inferInstance
     have hF : Limits.Sigma.map j ≫ Limits.Sigma.map qbar ≫ Sigma.desc t = ν ≫ pV := by
       refine Sigma.hom_ext _ _ fun i => ?_
-      rw [Sigma.ι_map_assoc, Sigma.ι_map_assoc, Sigma.ι_desc, reassoc_of% (hjq i), hν i]
+      rw [Sigma.ι_map_assoc, Sigma.ι_map_assoc, Sigma.ι_comp_desc, reassoc_of% (hjq i), hν i]
     have heq : o ≫ Limits.Sigma.map qbar ≫ Sigma.desc t = th ≫ W.ι ≫ pV := by
       rw [Category.assoc, hF, ← Category.assoc, ← morphismRestrict_ι, Category.assoc]
     have hZ' : LocallyQuasiFinite (closedComplementι o ≫ Limits.Sigma.map qbar) :=
@@ -312,10 +312,10 @@ theorem isConstructibleEtaleModule_homology_derivedLowerShriek_of_curveDiagram
         (fun i => ⟨(hqbar i).2.1, (hqbar i).2.2⟩) o
         (fun i => (Sigma.ι Y i ≫ ν) ⁻¹' (W : Set XV)) hWY (fun i y hy => by
           refine ⟨⟨Sigma.ι Y i y, ?_⟩, ?_⟩
-          · show ν (Sigma.ι Y i y) ∈ W
+          · change ν (Sigma.ι Y i y) ∈ W
             rw [← Scheme.Hom.comp_apply]
             exact hy
-          · show Limits.Sigma.map j (Sigma.ι Y i y) = Sigma.ι Ybar i (j i y)
+          · change Limits.Sigma.map j (Sigma.ι Y i y) = Sigma.ι Ybar i (j i y)
             rw [← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply, Sigma.ι_map])
     obtain ⟨hp, -, -, -⟩ := sigmaMap_curveFamily qbar hqbar
     have : ∀ i, IsFinite (t i) := fun i => (ht i).1
@@ -376,7 +376,7 @@ private theorem base_change_separated_finitePresentation_fiber_dim_le {X Y X' Y'
   have : LocallyOfFiniteType f := by have := hf.1; infer_instance
   refine ⟨MorphismProperty.of_isPullback sq ‹_›, FinitePresentation.of_isPullback sq hf,
     fun s => ?_⟩
-  show f'.fiberDimension s ≤ 1
+  change f'.fiberDimension s ≤ 1
   rw [Scheme.Hom.fiberDimension_eq_of_isPullback sq]
   exact hdim _
 

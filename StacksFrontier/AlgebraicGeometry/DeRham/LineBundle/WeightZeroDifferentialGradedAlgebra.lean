@@ -131,7 +131,7 @@ theorem Situation.residueBaseSequence_middle :
 /-- In a nonnegative degree the term of the extended complex **is** `Ω^p_{L^⋆/S,0}`. -/
 theorem Situation.weightZeroBaseComplexInt_X_natCast (p : ℕ) :
     D.weightZeroBaseComplexInt.X (p : ℤ) = (Scheme.Hom.toBaseModules D.f).obj (D.weightZero p) := by
-  show HomologicalComplex.extend.X D.weightZeroBaseComplex
+  change HomologicalComplex.extend.X D.weightZeroBaseComplex
       (embeddingUpNat.r (embeddingUpNat.f p)) =
     HomologicalComplex.extend.X D.weightZeroBaseComplex (some p)
   exact congrArg (HomologicalComplex.extend.X D.weightZeroBaseComplex) (embeddingUpNat.r_f p)
@@ -147,7 +147,7 @@ theorem Situation.weightZeroBaseComplexInt_X_of_nonneg (i : ℤ) (hi : 0 ≤ i) 
 `Ω^•_{L^⋆/S,0}`. -/
 theorem Situation.weightZeroBaseComplexInt_d_heq (p q : ℕ) :
     HEq (D.weightZeroBaseComplexInt.d (p : ℤ) (q : ℤ)) (D.weightZeroBaseComplex.d p q) := by
-  show HEq (HomologicalComplex.extend.d D.weightZeroBaseComplex
+  change HEq (HomologicalComplex.extend.d D.weightZeroBaseComplex
     (embeddingUpNat.r (embeddingUpNat.f p)) (embeddingUpNat.r (embeddingUpNat.f q))) _
   rw [embeddingUpNat.r_f p, embeddingUpNat.r_f q]
   rfl
@@ -271,7 +271,7 @@ def Situation.weightZeroIntOne : (D.weightZeroBaseComplexInt.X 0).sections :=
 theorem Situation.residueBaseSequence_incl_f_heq (p : ℕ) :
     HEq (D.residueBaseSequence.incl.f (p : ℤ))
       ((Scheme.Hom.toBaseModules D.f).map (D.pullbackHom p)) := by
-  show HEq (HomologicalComplex.extend.mapX D.inclusionBaseMap
+  change HEq (HomologicalComplex.extend.mapX D.inclusionBaseMap
     (embeddingUpNat.r (embeddingUpNat.f p))) _
   rw [embeddingUpNat.r_f p]
   rfl

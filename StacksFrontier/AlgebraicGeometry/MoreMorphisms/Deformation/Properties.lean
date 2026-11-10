@@ -88,7 +88,7 @@ theorem locallyQuasiFinite_iff (D : CartesianFiniteOrderDeformationDiagram.{u}) 
   let hY' := (show IsHomeomorph D.iY from MorphismProperty.universally_le _ _
     (IsThickening.universalHomeomorphism D.iY_thickening).universally_isHomeomorph).homeomorph
   have hcomm (x : D.X) : hY' (D.f x) = D.f' (hX' x) := by
-    show D.iY (D.f x) = D.f' (D.iX x)
+    change D.iY (D.f x) = D.f' (D.iX x)
     simpa only [Scheme.Hom.comp_apply] using
       congrArg (fun g : D.X ⟶ D.Y' => g x) D.f_thickening_comm
   have hfib := discreteFibers_iff_of_homeomorph D.f D.f' hX' hY' hcomm

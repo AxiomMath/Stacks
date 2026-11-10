@@ -67,7 +67,7 @@ theorem presheaf_inverseImage_yoneda_map (P : MorphismProperty Scheme.{u})
     refine ⟨?_⟩
     intro A B' B'' T a b a' b' hp hb
     change P ((BigFppfOver.toScheme B S hS).map b) at hb
-    show P ((BigFppfOver.toScheme B S hS).map b')
+    change P ((BigFppfOver.toScheme B S hS).map b')
     exact MorphismProperty.IsStableUnderBaseChange.of_isPullback (P := P)
       (hp.map (BigFppfOver.toScheme B S hS)) hb
   exact MorphismProperty.relative_map (F := yoneda) hf

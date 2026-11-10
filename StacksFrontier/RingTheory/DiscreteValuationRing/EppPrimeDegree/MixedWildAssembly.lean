@@ -132,7 +132,7 @@ private theorem exists_finite_extension_isWeakSolution_of_mixedCyclotomic
         Subtype.ext (IsScalarTower.algebraMap_apply A B (L ⊗[K] K1) a)
     let : IsScalarTower A K1 (L ⊗[K] K1) :=
       IsScalarTower.of_algebraMap_eq fun a => by
-        show (algebraMap A L a) ⊗ₜ[K] (1 : K1) =
+        change (algebraMap A L a) ⊗ₜ[K] (1 : K1) =
           (1 : L) ⊗ₜ[K] algebraMap A K1 a
         rw [IsScalarTower.algebraMap_apply A K L, IsScalarTower.algebraMap_apply A K K1,
           ← Algebra.TensorProduct.algebraMap_apply, Algebra.TensorProduct.algebraMap_apply']
@@ -140,7 +140,7 @@ private theorem exists_finite_extension_isWeakSolution_of_mixedCyclotomic
         (integralClosure B (L ⊗[K] K1)) :=
       IsScalarTower.of_algebraMap_eq fun a => by
         apply Subtype.ext
-        show algebraMap A (L ⊗[K] K1) a =
+        change algebraMap A (L ⊗[K] K1) a =
           algebraMap (integralClosure B (L ⊗[K] K1)) (L ⊗[K] K1)
             (algebraMap (integralClosure A K1)
               (integralClosure B (L ⊗[K] K1)) (algebraMap A (integralClosure A K1) a))
@@ -192,11 +192,11 @@ abbrev MixedWildPrimeDegreeSolvable (p : ℕ) [Fact p.Prime] : Prop :=
     [PerfectField (ResidueField A)]
     [IsAdicComplete (maximalIdeal A) A]
     [IsAdicComplete (maximalIdeal B) B]
-    [CharZero K]
-    (hweak : IsWeaklyUnramified A B)
-    [Module.Finite L M] [IsGalois L M]
-    (hepp : EppCondition A B p)
-    (hdegree : Module.finrank L M = p),
+    [CharZero K],
+    IsWeaklyUnramified A B →
+    ∀ [Module.Finite L M] [IsGalois L M],
+    EppCondition A B p →
+    Module.finrank L M = p →
     ∃ (K₂ : Type u) (_ : Field K₂) (_ : Algebra K K₂) (_ : Algebra A K₂)
       (_ : IsScalarTower A K K₂) (_ : Module.Finite K K₂),
       ∃ D : IntegralClosureBaseChange.{u, u, u, u, u, u, u, u} A C K M K₂,
@@ -398,7 +398,7 @@ theorem mixedWildPrimeDegreeSolvable (p : ℕ) [Fact p.Prime] :
   let : ∀ i, IsScalarTower B (S i) (T i) :=
     fun i => IsScalarTower.of_algebraMap_eq fun b => by
       apply Subtype.ext
-      show algebraMap C (F i) (algebraMap B C b) =
+      change algebraMap C (F i) (algebraMap B C b) =
         algebraMap (H (j i)) (F i) (algebraMap B (H (j i)) b)
       rw [← IsScalarTower.algebraMap_apply B C (F i),
         ← IsScalarTower.algebraMap_apply B (H (j i)) (F i)]
@@ -493,7 +493,7 @@ theorem mixedWildPrimeDegreeSolvable (p : ℕ) [Fact p.Prime] :
       ← IsScalarTower.algebraMap_apply C (T i) (F i)]
   · intro i a
     apply Subtype.ext
-    show algebraMap C (F i) (algebraMap A C a) =
+    change algebraMap C (F i) (algebraMap A C a) =
       algebraMap K1 (F i) (algebraMap A K1 a)
     rw [← IsScalarTower.algebraMap_apply A C (F i),
       ← IsScalarTower.algebraMap_apply A K1 (F i)]

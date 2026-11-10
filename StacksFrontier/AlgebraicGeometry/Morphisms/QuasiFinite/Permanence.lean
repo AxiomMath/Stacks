@@ -141,7 +141,7 @@ public theorem finiteTypeAt_comp {X Y S : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ S
   have hle₁ : V₀ ≤ V.1 := fun _ hz ↦ (hV₀le hz).1
   have hle₂ : V₀ ≤ f ⁻¹ᵁ W.1 := fun _ hz ↦ (hV₀le hz).2
   refine (finiteTypeAt_iff_exists_restrict (f ≫ g) x).2 ⟨⟨V₀, hV₀⟩, hxV₀, ?_⟩
-  show LocallyOfFiniteType (Scheme.Opens.ι V₀ ≫ f ≫ g)
+  change LocallyOfFiniteType (Scheme.Opens.ι V₀ ≫ f ≫ g)
   have : LocallyOfFiniteType (Scheme.Opens.ι V₀ ≫ f) := by
     have := hV
     rw [← X.homOfLE_ι hle₁, Category.assoc]
@@ -159,7 +159,7 @@ public theorem quasiFiniteAt_comp {X Y S : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ 
     (hf : quasiFiniteAt f x) (hg : quasiFiniteAt g (f.base x)) :
     quasiFiniteAt (f ≫ g) x := by
   refine ⟨finiteTypeAt_comp f g x hf.1 hg.1, ?_⟩
-  show ((f ≫ g).stalkMap x).hom.QuasiFinite
+  change ((f ≫ g).stalkMap x).hom.QuasiFinite
   rw [stalkMap_comp_hom]
   exact RingHom.QuasiFinite.comp hf.2 hg.2
 
@@ -186,7 +186,7 @@ public theorem locallyQuasiFinite_of_comp_surjective
     have : IsScalarTower (S.residueField (g (f x)))
         (Y.residueField (f x)) (X.residueField x) :=
       IsScalarTower.of_algebraMap_eq fun z ↦ by
-        show ((f ≫ g).residueFieldMap x).hom z =
+        change ((f ≫ g).residueFieldMap x).hom z =
           (f.residueFieldMap x).hom ((g.residueFieldMap (f x)).hom z)
         rw [Scheme.residueFieldMap_comp]
         rfl

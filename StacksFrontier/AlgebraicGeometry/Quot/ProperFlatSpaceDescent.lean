@@ -9,8 +9,8 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.PrestackBaseChange
 /-!
 # Stage descent for the proper flat families, read on the underlying algebraic spaces
 
-`StacksFrontier.AlgebraicGeometry.Quot.ProperFlatLimitPreservingReduction` reduces **Stacks 0D1I** to
-three descent conditions for the projection `AlgebraicGeometry.cartesianProperFlatProjection` of
+`StacksFrontier.AlgebraicGeometry.Quot.ProperFlatLimitPreservingReduction` reduces **Stacks 0D1I**
+to three descent conditions for the projection `AlgebraicGeometry.cartesianProperFlatProjection` of
 Stacks 0D1E at an affine cofiltered cone whose cone of underlying schemes is a limit. Those three
 conditions are phrased in the language of fibred categories: objects of a fibre, vertical
 morphisms, and morphisms lying over a transition of the diagram. This file translates them into
@@ -175,7 +175,7 @@ theorem map_injective_of_isHomLift {U V : BigFppfOver B S hS} (g : U ⟶ V)
   apply Comma.hom_ext
   · apply ObjectProperty.hom_ext
     exact h
-  · show (cartesianProperFlatProjection B S hS).map f =
+  · change (cartesianProperFlatProjection B S hS).map f =
       (cartesianProperFlatProjection B S hS).map f'
     rw [IsHomLift.fac' (cartesianProperFlatProjection B S hS) g f,
       IsHomLift.fac' (cartesianProperFlatProjection B S hS) g f']

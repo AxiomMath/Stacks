@@ -137,7 +137,7 @@ an equality with `h ≫ sY`, so that restrictions compose without transport. -/
 def resHom (h : Y' ⟶ Y) [LocallyOfFiniteType h] (hs : h ≫ sY = sY') :
     TotalChowClass C sY →+ TotalChowClass C sY' := by
   subst hs
-  exact Pi.addMonoidHom fun p ↦
+  exact AddMonoidHom.pi fun p ↦
     (chowCohomologyRestriction C (gysinSystemOfInvertible C) sY h (p : ℤ)
       (gysinSystemOfInvertible_isNaturalUnderBaseChangeIso C)).comp
       (Pi.evalAddMonoidHom _ p)

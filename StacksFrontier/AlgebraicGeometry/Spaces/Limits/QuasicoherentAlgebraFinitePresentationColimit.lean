@@ -166,7 +166,7 @@ theorem isFiniteType_imageSubobject_of_isFiniteType {M N : Modules.{u, u} B S hS
 /-- The index category of pairs `(k, E)` is essentially small. -/
 theorem essentiallySmall : EssentiallySmall.{u} (Idx φ) := by
   have hes : EssentiallySmall.{u} (smallEtaleRingedSite B S hS F hF).C := by
-    show EssentiallySmall.{u} (SmallEtale B S hS F)
+    change EssentiallySmall.{u} (SmallEtale B S hS F)
     infer_instance
   have : IsGrothendieckAbelian.{u} (Modules.{u, u} B S hS F hF) :=
     SheafOfModules.isGrothendieckAbelian_of_essentiallySmall _

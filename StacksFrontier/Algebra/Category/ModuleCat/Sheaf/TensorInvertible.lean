@@ -13,8 +13,8 @@ again invertible.
 
 The tensor product of sheaves of modules is the sheafification of the tensor product of the
 underlying presheaves of modules, so tensoring on the left by `L` is the composite
-`SheafOfModules.forget ⋙ (PresheafOfModules.tensorBifunctor.{v, u, w, w, w} O).obj L.val ⋙ sheafify`. The proof is the chain of natural
-isomorphisms
+`SheafOfModules.forget ⋙ (PresheafOfModules.tensorBifunctor.{v, u, w, w, w} O).obj L.val ⋙
+sheafify`. The proof is the chain of natural isomorphisms
 `tensorLeftFunctor (L ⊗ N) ≅ tensorLeftSheafifyFunctor (L.val ⊗ N.val)
   ≅ tensorLeftFunctor N ⋙ tensorLeftFunctor L`,
 whose outer two steps erase a sheafification that has been applied one step too early. Both
@@ -75,7 +75,8 @@ The general monoidal argument is nevertheless available. `CategoryTheory.Monoida
 monoidal category. And `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/Monoidal.lean` does supply
 the monoidal structure, so the general fact *is* applicable — the comparison is
 `Stacks.SheafOfModules.tensorLeftFunctorIsoTensorLeft` in
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/InvertibleEquivalence.lean`, already proved and tagged two directories away.
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/InvertibleEquivalence.lean`, already proved and
+tagged two directories away.
 
 The site object and morphism universes `u`, `v` are independent of the section universe `w`.
 The ring and module sections share the universe `w`, as Mathlib's monoidal structure on
@@ -144,8 +145,9 @@ variable {O hO}
     SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)}
 
 /-- The unique extension of a map out of a presheaf tensor product. The source of `f` is
-spelled as the value of the functor `SheafOfModules.forget ⋙ (PresheafOfModules.tensorBifunctor.{v, u, w, w, w} O).obj L.val`, which is the
-presheaf tensor product `L.val ⊗ M.val`, so that `ι_lift` applies to the components of a
+spelled as the value of the functor
+`SheafOfModules.forget ⋙ (PresheafOfModules.tensorBifunctor.{v, u, w, w, w} O).obj L.val`, which is
+the presheaf tensor product `L.val ⊗ M.val`, so that `ι_lift` applies to the components of a
 natural transformation without unfolding. -/
 noncomputable def lift (a : TensorLeftUniversal O hO L F)
     (M N : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO))
@@ -357,10 +359,11 @@ functor being an equivalence. -/
 theorem isInvertible_iff_tensorLeftFunctor_isEquivalence
     (L : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     IsInvertible O hO L ↔ (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
-      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj L)).IsEquivalence := by
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O
+        (forget₂ CommRingCat RingCat) hO⟩).obj L)).IsEquivalence := by
   constructor
   · rintro ⟨F, hF, ⟨a⟩⟩
-    letI := hF
+    let := hF
     exact @Functor.isEquivalence_of_iso _ _ _ _ _ _
       (a.uniqueIso (tensorLeftFunctorUniversal O hO L)) hF
   · intro h
@@ -370,7 +373,8 @@ theorem isInvertible_iff_tensorLeftFunctor_isEquivalence
 instance tensorLeftFunctor_isEquivalence
     (L : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO))
     [h : IsInvertible O hO L] : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
-      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj L)).IsEquivalence :=
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O
+        (forget₂ CommRingCat RingCat) hO⟩).obj L)).IsEquivalence :=
   (isInvertible_iff_tensorLeftFunctor_isEquivalence O hO L).mp h
 
 /-- Sheafifying a presheaf of modules before tensoring does not change the sheafified tensor
@@ -409,7 +413,8 @@ noncomputable def tensorLeftSheafifyFunctorTensorIso
       Stacks.SheafOfModules.TensorSheafification.sheafify O hO) ≅
       (SheafOfModules.forget (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO) ⋙
       (PresheafOfModules.tensorBifunctor.{v, u, w, w, w} O).obj B ⋙
-      Stacks.SheafOfModules.TensorSheafification.sheafify O hO) ⋙ (SheafOfModules.forget (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO) ⋙
+      Stacks.SheafOfModules.TensorSheafification.sheafify O hO) ⋙
+      (SheafOfModules.forget (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO) ⋙
       (PresheafOfModules.tensorBifunctor.{v, u, w, w, w} O).obj A ⋙
       Stacks.SheafOfModules.TensorSheafification.sheafify O hO) :=
   let β := Functor.whiskerRight
@@ -444,7 +449,8 @@ noncomputable def tensorLeftSheafifyFunctorTensorIso
             (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
               (PresheafOfModules.tensorHom (𝟙 A)
                 (PresheafOfModules.tensorHom (𝟙 B) morphism.val))
-        refine ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map_comp _ _).symm.trans ?_
+        refine ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map_comp _ _).symm.trans
+          ?_
         refine (congrArg (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map ?_).trans
           ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map_comp _ _)
         apply PresheafOfModules.hom_ext
@@ -460,10 +466,12 @@ tensoring by `L`. -/
 noncomputable def tensorLeftFunctorObjIso
     (L N : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
-      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj
+        ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj L)).obj N)) ≅
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
-      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj N) ⋙ ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
+      ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj N) ⋙
+      ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
       ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj L) :=
   (tensorLeftSheafifyFunctorIsoSheafify O hO (L.val ⊗ N.val)).symm ≪≫
     tensorLeftSheafifyFunctorTensorIso O hO L.val N.val

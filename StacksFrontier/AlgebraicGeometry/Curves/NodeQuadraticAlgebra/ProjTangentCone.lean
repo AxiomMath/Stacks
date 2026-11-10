@@ -117,12 +117,12 @@ in `Iⁿ⁺¹`. -/
 theorem initialForm_eq_zero_iff {R : Type*} [CommRing R] (I : Ideal R)
     (n : ℕ) (a : ↥(I ^ n)) :
     initialForm I n a = 0 ↔ a.1 ∈ I ^ (n + 1) := by
-  show DirectSum.of (fun n => piece (M := R) I n) n _ = 0 ↔ _
+  change DirectSum.of (fun n => piece (M := R) I n) n _ = 0 ↔ _
   rw [← map_zero (DirectSum.of (fun n => piece (M := R) I n) n),
     (DirectSum.of_injective (i := n)).eq_iff]
-  show Submodule.Quotient.mk _ = 0 ↔ _
+  change Submodule.Quotient.mk _ = 0 ↔ _
   rw [Submodule.Quotient.mk_eq_zero]
-  show a.1 ∈ power I (n + 1) ↔ _
+  change a.1 ∈ power I (n + 1) ↔ _
   rw [ring_power_eq]
 
 /-- The initial form of `1 ∈ I⁰` is `1`. -/
@@ -205,7 +205,7 @@ theorem basicOpen_initialForm_eq_top
       (initialForm I 1 ⟨y.1, by simpa only [pow_one] using y.2⟩) = ⊤ := by
   apply top_le_iff.mp
   intro p _
-  show initialForm I 1 ⟨y.1, by simpa only [pow_one] using y.2⟩ ∉ p.asHomogeneousIdeal
+  change initialForm I 1 ⟨y.1, by simpa only [pow_one] using y.2⟩ ∉ p.asHomogeneousIdeal
   intro hy
   apply p.not_irrelevant_le
   rw [HomogeneousIdeal.irrelevant_le]
@@ -441,7 +441,7 @@ theorem stableIdealQuotientToChart_surjective
   obtain ⟨n, a, ha, rfl⟩ := HomogeneousLocalization.Away.mk_surjective 𝒢
     (initialForm_mem I 𝒢 h𝒢 1 ⟨y.1, by simp⟩) z
   obtain ⟨a, rfl⟩ := exists_initialForm_of_mem I 𝒢 h𝒢 n (by simpa using ha)
-  show ∃ b, stableIdealQuotientToChart I y u hu hI hinj 𝒢 h𝒢 b =
+  change ∃ b, stableIdealQuotientToChart I y u hu hI hinj 𝒢 h𝒢 b =
     tangentFraction I y 𝒢 h𝒢 n a
   cases n with
   | zero =>
@@ -455,7 +455,7 @@ theorem stableIdealQuotientToChart_surjective
     refine ⟨stableIdealQuotientLinearEquiv I y u hu hI hinj ⟨b, hb⟩, ?_⟩
     rw [stableIdealQuotientToChart_apply]
     apply tangentFraction_eq_of_mul_eq
-    show y.1 ^ 1 * a.1 = y.1 ^ (n + 1) * b
+    change y.1 ^ 1 * a.1 = y.1 ^ (n + 1) * b
     rw [← he]
     ring
 
@@ -494,7 +494,8 @@ noncomputable def stableIdealQuotientFibreEquivChart
         HomogeneousLocalization.Away 𝒢
           (initialForm I 1 ⟨y.1, by simp⟩) :=
   (Ideal.quotientEquiv _ _ (RingEquiv.refl _)
-    (by rw [stableIdealQuotientToChart_ker I y u hu hI hinj 𝒢 h𝒢]; exact (Ideal.map_id _).symm)).trans
+    (by rw [stableIdealQuotientToChart_ker I y u hu hI hinj 𝒢 h𝒢]
+        exact (Ideal.map_id _).symm)).trans
     ((stableIdealQuotientToChart I y u hu hI hinj 𝒢 h𝒢).quotientKerEquivOfSurjective
       (stableIdealQuotientToChart_surjective I y u hu hI hinj 𝒢 h𝒢))
 

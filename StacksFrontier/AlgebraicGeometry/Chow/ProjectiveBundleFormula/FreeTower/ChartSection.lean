@@ -104,7 +104,7 @@ theorem chartPullbackIso_hom_psi (T : A.sectionPieces ⊤ 1) :
     exact (CategoryTheory.ConcreteCategory.congr_hom hc ((D.ψ 1).val.app (op ⊤) T)).trans
       (CategoryTheory.ConcreteCategory.comp_apply _ _ _)
   have hψ := D.ψ_chart W hW 1 a
-  show Scheme.Modules.Hom.app (D.chartData.chartIso W hW ((1 : ℕ) : ℤ)).hom ⊤
+  change Scheme.Modules.Hom.app (D.chartData.chartIso W hW ((1 : ℕ) : ℤ)).hom ⊤
       (Scheme.Modules.Hom.app ((Scheme.Modules.restrictFunctorIsoPullback c).inv.app L) ⊤
         (pullbackGlobalSections c L ((D.ψ 1).val.app (op ⊤) T))) = _
   rw [h₁, hres]
@@ -139,7 +139,7 @@ theorem isTautologicalOn_chart_of_map {m : ℕ}
       ((relativeProj A).chart W hW) := by
   refine ⟨chartPullbackIso D W hW ≪≫ (projMapTwistIso φ hφ).symm ≪≫
     (Scheme.Modules.pullbackCongr hcg).app _, fun i => ?_⟩
-  show Scheme.Modules.Hom.app ((Scheme.Modules.pullbackCongr hcg).hom.app _) ⊤
+  change Scheme.Modules.Hom.app ((Scheme.Modules.pullbackCongr hcg).hom.app _) ⊤
     (Scheme.Modules.Hom.app (projMapTwistIso φ hφ).inv ⊤
       (Scheme.Modules.Hom.app (chartPullbackIso D W hW).hom ⊤
         (pullbackGlobalSections ((relativeProj A).chart W hW) (D.algebra.piece ((1 : ℕ) : ℤ))

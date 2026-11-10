@@ -212,7 +212,7 @@ theorem preimage_specMap_appLE_image_toSpecΓ (H : IsPullback p k πY g) [Flat g
   ext z
   have hz : U.ι.base ((p ∣_ U).base z) = p.base ((p ⁻¹ᵁ U).ι.base z) :=
     congrArg (fun m : (p ⁻¹ᵁ U).toScheme ⟶ Y => m.base z) (morphismRestrict_ι p U)
-  show U.ι.base ((p ∣_ U).base z) ∈ W ↔ _
+  change U.ι.base ((p ∣_ U).base z) ∈ W ↔ _
   rw [hz]
   exact Iff.rfl
 

@@ -80,7 +80,7 @@ theorem exists_isAffineOpen_range_subset_of_isIntegral {V F : Scheme.{u}} [V.IsQ
     exact IsAffineOpen.Spec_basicOpen f
   · rintro _ ⟨x, rfl⟩
     rw [SetLike.mem_coe, ← Scheme.toSpecΓ_preimage_basicOpen]
-    show V.toSpecΓ (m x) ∈ (PrimeSpectrum.basicOpen f : Set (PrimeSpectrum Γ(V, ⊤)))
+    change V.toSpecΓ (m x) ∈ (PrimeSpectrum.basicOpen f : Set (PrimeSpectrum Γ(V, ⊤)))
     rw [hpt]
     exact hf₁ ⟨F.toSpecΓ x, rfl⟩
 
@@ -161,7 +161,7 @@ theorem primedFiber_preimage_subset_affine
     have hright : s.j (d.h (d.j'.fiberι y' w)) = d.g (d.j' (d.j'.fiberι y' w)) := by
       simpa only [Scheme.Hom.comp_apply] using
         apply_eq_apply_of_eq d.right_isPullback.w.symm (d.j'.fiberι y' w)
-    show d.f (d.i' (d.j'.fiberι y' w)) ∈ U
+    change d.f (d.i' (d.j'.fiberι y' w)) ∈ U
     rw [hleft]
     exact hfiber (d.h (d.j'.fiberι y' w)) (hright.trans (congrArg d.g hzj))
   obtain ⟨W, hWc, hWo, hKW, hWU⟩ :=
@@ -179,7 +179,7 @@ theorem primedFiber_preimage_subset_affine
   set fiberToU : d.j'.fiber y' ⟶ U'.toScheme := IsOpenImmersion.lift U'.ι fiberMap hRange
     with hfiberToU
   have : IsIntegralHom (d.j'.fiberToSpecResidueField y') := by
-    show IsIntegralHom (Limits.pullback.snd d.j' (d.Y'.fromSpecResidueField y'))
+    change IsIntegralHom (Limits.pullback.snd d.j' (d.Y'.fromSpecResidueField y'))
     infer_instance
   let : Field Γ(Spec (d.Y'.residueField y'), ⊤) :=
     (((Scheme.ΓSpecIso (d.Y'.residueField y')).commRingCatIsoToRingEquiv).toMulEquiv.isField

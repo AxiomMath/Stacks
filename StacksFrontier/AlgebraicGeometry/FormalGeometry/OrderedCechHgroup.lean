@@ -12,8 +12,8 @@ in the universe of `X`, all of whose finite intersections are affine. For a quas
 abelian-group-valued global sections — is the homology of the ordered Čech complex of `G` for the
 covering ([Stacks, Tags 01XD, 01FJ]), and the identification is natural in `G`.
 
-The isomorphism is the composite of three isomorphisms of the library: the comparison of [Stacks, Tag 01F1]
-between `Hgroup` and the module-valued derived functor of sections, the Čech comparison
+The isomorphism is the composite of three isomorphisms of the library: the comparison of [Stacks,
+Tag 01F1] between `Hgroup` and the module-valued derived functor of sections, the Čech comparison
 `Stacks.Cohomology.CechIso.cechHomologyIsoRightDerived` of [Stacks, Tag 01XD], and the comparison
 `Stacks.Cohomology.CechSheaf.orderedCechHomologyModuleIso` of the full and the ordered Čech
 complexes [Stacks, Tag 01FJ]; each is natural, which gives the naturality square.

@@ -68,7 +68,7 @@ theorem isIso_galoisBaseChangeMap (k K : Type u) [Field k] [Field K] [Algebra k 
     intro τ
     apply CommRingCat.hom_ext
     ext b
-    show τ (τ.symm b) = b
+    change τ (τ.symm b) = b
     simp
   have hcomp : ∀ τ : K ≃ₐ[k] K,
       galoisBaseChangeMap k K X f τ ≫ galoisBaseChangeMap k K X f τ.symm = 𝟙 _ := by

@@ -92,7 +92,7 @@ theorem lanObjObjIsoColimit_naturality (L : C ⥤ D) (P : Cᵒᵖ ⥤ A) {V V' :
   have hB := colimit_pre_structuredArrowOpEquivalence L P i
   have hB' := (Iso.inv_comp_eq _).mpr
     (((Iso.eq_comp_inv _).mpr hB).trans (Category.assoc _ _ _))
-  show (L.op.leftKanExtension P).map i.op ≫
+  change (L.op.leftKanExtension P).map i.op ≫
       (L.op.leftKanExtensionObjIsoColimit P (op V')).hom ≫
         (Functor.Final.colimitIso (structuredArrowOpEquivalence L V').functor
           (CostructuredArrow.proj L.op (op V') ⋙ P)).inv =

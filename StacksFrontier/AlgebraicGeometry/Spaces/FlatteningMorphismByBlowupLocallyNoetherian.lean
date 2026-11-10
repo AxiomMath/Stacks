@@ -193,7 +193,7 @@ theorem exists_isFiniteTypeQuasicoherentIdeal_chartSectionsIdeal_eq_mul_of_noeth
     refine Set.disjoint_left.1 hIU ?_
       (show w ∈ subspacePointSet B S hS W.1 (U.preimage φ.hom) from ?_)
     · rwa [hZI.symm, ← range_pointsMap_ι_eq_idealZeroLocus]
-    · show w ∈ Set.range (pointsMap B S hS _ (U.preimage φ.hom).ι)
+    · change w ∈ Set.range (pointsMap B S hS _ (U.preimage φ.hom).ι)
       rwa [range_pointsMap_preimage_ι, Set.mem_preimage, ← hfac, pointsMap_comp_apply, ← hjVι,
         pointsMap_comp_apply, hyw]
   -- Stacks 0853 in the form of finitely presented closed subspaces: `Z ⊆ Y`.
@@ -211,7 +211,7 @@ theorem exists_isFiniteTypeQuasicoherentIdeal_chartSectionsIdeal_eq_mul_of_noeth
     rw [Set.disjoint_left]
     rintro _ ⟨z, rfl⟩ hzU
     refine Set.disjoint_left.1 hZdisj ?_ (⟨z, rfl⟩ : pointsMap B S hS _ Z.ι z ∈ Set.range _)
-    show _ ∈ Set.range (pointsMap B S hS _ (U.preimage π).ι)
+    change _ ∈ Set.range (pointsMap B S hS _ (U.preimage π).ι)
     rwa [range_pointsMap_preimage_ι, Set.mem_preimage, ← pointsMap_comp_apply]
   -- `𝓙 = Fit_0(τ_* 𝒪_Z)`.
   refine ⟨fittingIdeal B S hS X.1 X.2 (finiteDirectImageUnit τ hτ) 0,
@@ -327,7 +327,7 @@ theorem exists_isFinitePresentation_preimageClosedSubspace_eq_sum_of_noetherian
       refine (definingIdealAt_preimage_eq_definingIdealAt_postcomp B S hS φ hφet ZX A).trans ?_
       rw [← definingIdealSheaf_obj, hZX]
       rfl
-    show definingIdealAt B S hS W (preimageClosedSubspace φ ZX) (op A) =
+    change definingIdealAt B S hS W (preimageClosedSubspace φ ZX) (op A) =
       definingIdealAt B S hS W (sumClosedSubspaces B S hS W ZW Z') (op A)
     rw [definingIdealAt_sumClosedSubspaces_of_isAffine B S hS W ZW Z' A m, h₁, hchart A hA, ← hZ']
     rfl
@@ -648,7 +648,7 @@ theorem exists_isBlowupAlong_isFlat_isFinitePresentation_strictTransform_of_noet
       ((presheafSurjective_iff_isSurjective_yoneda B S hS X.1 X.2 V₀ a).1 has)
   have hcomm : u ≫ f = subspaceInclusion B S hS Y W ≫ g := by
     refine ObjectProperty.hom_ext _ ?_
-    show (e.inv ≫ a) ≫ f.hom = W.1.ι ≫ g₀
+    change (e.inv ≫ a) ≫ f.hom = W.1.ι ≫ g₀
     rw [Category.assoc, ← hig, ← Category.assoc, he]
   -- `W_U ⟶ U` is flat and locally of finite presentation: it is étale over `X_U ⟶ U`
   have hWU := (preimageClosedSubspace (restrictOverι g U) W).2.1

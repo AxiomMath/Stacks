@@ -52,6 +52,7 @@ namespace AlgebraicGeometry
 variable (B : BigFppfSite.{u}) (hZ : B.Contains integerBase)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves times out at the default limit
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_CurvesLciOpen :
@@ -92,7 +93,7 @@ theorem CurveFamily.exists_isOpenSubspace_lci (G : CurveFamily B hZ) :
   -- the base change of `p` along `g` is that projection, up to the base change of the identity
   have hbc : Space.baseChangeOverBase B integerBase hZ p p (𝟙 Zs) hfq g ≫
       pullback.snd (𝟙 Zs) g = pullback.snd p g := pullback.lift_snd _ _ _
-  show Space.IsLocalCompleteIntersection B integerBase hZ F.toBase.hom ↔
+  change Space.IsLocalCompleteIntersection B integerBase hZ F.toBase.hom ↔
     Space.IsLocalCompleteIntersection B integerBase hZ
       (Space.baseChangeOverBase B integerBase hZ p p (𝟙 Zs) hfq g)
   let P : MorphismProperty ((BigFppfOver B integerBase hZ)ᵒᵖ ⥤ Type u) := fun _ _ f =>

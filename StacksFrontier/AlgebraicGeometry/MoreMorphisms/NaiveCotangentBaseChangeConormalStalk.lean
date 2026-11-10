@@ -114,9 +114,9 @@ theorem homologyπ_homologyNegOneIsoKernel_hom_ι (M : CochainComplex C ℤ) (h 
       M.iCycles (-1) := by
   simp only [homologyNegOneIsoKernel, Iso.trans_hom, Category.assoc,
     HomologicalComplex.π_homologyIsoSc'_hom_assoc, Iso.symm_hom,
-    ShortComplex.homologyπ_comp_asIsoHomologyπ_inv_assoc, ShortComplex.cyclesIsoKernel_hom,
-    kernel.lift_ι]
-  exact (congrArg (fun t => _ ≫ t) (kernel.lift_ι (HomologicalComplex.sc' M (-2) (-1) 0).g _ _)).trans
+    ShortComplex.homologyπ_comp_asIsoHomologyπ_inv_assoc, ShortComplex.cyclesIsoKernel_hom]
+  exact (congrArg (fun t => _ ≫ t)
+    (kernel.lift_ι (HomologicalComplex.sc' M (-2) (-1) 0).g _ _)).trans
     (HomologicalComplex.cyclesIsoSc'_hom_iCycles M (-2) (-1) 0 (by simp) (by simp))
 
 /-- The inclusion of the kernel of a morphism conjugated by two isomorphisms, read through
@@ -189,7 +189,7 @@ theorem zigzagHomologyNegOneIso_hom_ι {N N₂ M T : CochainComplex C ℤ} (s : 
       (HomologicalComplex.homologyMap s.inv (-1)), ← HomologicalComplex.homologyMap_comp,
       Iso.inv_hom_id, HomologicalComplex.homologyMap_id, Category.id_comp, IsIso.hom_inv_id]
   rw [hinv]
-  show (eqToHom e ≫ HomologicalComplex.homologyMap s.hom (-1) ≫
+  change (eqToHom e ≫ HomologicalComplex.homologyMap s.hom (-1) ≫
       (@inv _ _ _ _ (HomologicalComplex.homologyMap q (-1)) hq ≫
         (HomologicalComplex.homologyMap t (-1) ≫ ((homologyNegOneIsoKernel T hT).hom ≫
           ((kernelIsoOfEq hd).hom ≫ (kernelConjIso e₁ δ e₀).hom))))) ≫ kernel.ι δ = _
@@ -214,7 +214,7 @@ theorem zigzagHomologyNegOneIso_trans_hom_ι {N N₂ M T : CochainComplex C ℤ}
         kernelIsoOfEq hd' ≪≫ kernelConjIso e₁' δ' e₀').hom ≫ kernel.ι δ' =
       @inv _ _ _ _ (HomologicalComplex.homologyMap (q ≫ s.inv) (-1)) hqs ≫
         homologyNegOneι M hM ≫ t.f (-1) ≫ e₁.hom ≫ e₁'.hom := by
-  show (_ ≫ (_ ≫ _)) ≫ kernel.ι δ' = _
+  change (_ ≫ (_ ≫ _)) ≫ kernel.ι δ' = _
   rw [Category.assoc, Category.assoc, kernelConjIso_hom_ι, kernelIsoOfEq_hom_comp_ι_assoc,
     ← Category.assoc, zigzagHomologyNegOneIso_hom_ι s q t hq ht hqs hM hT e₁ δ e₀ hd e]
   simp only [Category.assoc]
@@ -292,7 +292,7 @@ theorem homologyMap_inv_homologyNegOneι_eq_of_stalk (hK : IsZero (K.X (-2)))
   refine hom_ext_of_stalkFunctor_map fun x => ?_
   obtain ⟨μ₁, μ₀, hd, hΨ, hf⟩ := hloc x
   let S := stalkFunctor O x
-  show S.map _ = S.map _
+  change S.map _ = S.map _
   ext ξ
   have exM := (ShortComplex.moduleCat_exact_iff _).1
     ((exact_iff_stalkFunctor_map_exact _).1 (exact_homologyNegOneι M hM) x)
@@ -303,13 +303,13 @@ theorem homologyMap_inv_homologyNegOneι_eq_of_stalk (hK : IsZero (K.X (-2)))
     simpa only [S.map_comp, S.map_zero, ModuleCat.hom_comp, ModuleCat.hom_zero,
       LinearMap.comp_apply, LinearMap.zero_apply] using congrArg (fun φ => (S.map φ).hom ξ) h0
   obtain ⟨η, hη⟩ := exM (μ₁.hom m) (by
-    show (μ₁ ≫ S.map (M.d (-1) 0)).hom m = 0
+    change (μ₁ ≫ S.map (M.d (-1) 0)).hom m = 0
     rw [hd, ModuleCat.comp_apply, hmd, map_zero])
   change (S.map (homologyNegOneι M hM)).hom η = μ₁.hom m at hη
   have hηξ : (S.map (HomologicalComplex.homologyMap hh (-1))).hom η =
       (S.map (HomologicalComplex.homologyMap Ψ (-1))).hom ξ := by
     refine injL ?_
-    show (S.map (HomologicalComplex.homologyMap hh (-1)) ≫ S.map (homologyNegOneι L hL)).hom η =
+    change (S.map (HomologicalComplex.homologyMap hh (-1)) ≫ S.map (homologyNegOneι L hL)).hom η =
       (S.map (HomologicalComplex.homologyMap Ψ (-1)) ≫ S.map (homologyNegOneι L hL)).hom ξ
     rw [← S.map_comp, ← S.map_comp, homologyMap_homologyNegOneι hh hM hL,
       homologyMap_homologyNegOneι Ψ hK hL, S.map_comp, S.map_comp, ModuleCat.comp_apply,
@@ -513,7 +513,7 @@ def presentationToNaiveCotangent :=
 /-- The map `presentationToNaiveCotangent` induces an isomorphism on `H^{-1}`. -/
 instance isIso_homologyMap_presentationToNaiveCotangent :
     IsIso (HomologicalComplex.homologyMap (presentationToNaiveCotangent i h) (-1)) := by
-  haveI := isIso_homologyMap_presentationComparison i h
+  have := isIso_homologyMap_presentationComparison i h
   rw [presentationToNaiveCotangent, HomologicalComplex.homologyMap_comp]
   infer_instance
 

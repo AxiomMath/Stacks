@@ -57,7 +57,7 @@ namespace AlgebraicGeometry
 global sections undo the identification of the global sections of that spectrum with the ring. -/
 theorem isoSpec_hom_appTop_ΓSpecIso_inv (V : Scheme.{u}) [IsAffine V] (a : Γ(V, ⊤)) :
     V.isoSpec.hom.appTop.hom ((Scheme.ΓSpecIso Γ(V, ⊤)).inv.hom a) = a := by
-  show V.toSpecΓ.appTop.hom ((Scheme.ΓSpecIso Γ(V, ⊤)).inv.hom a) = a
+  change V.toSpecΓ.appTop.hom ((Scheme.ΓSpecIso Γ(V, ⊤)).inv.hom a) = a
   rw [Scheme.toSpecΓ_appTop, ← CommRingCat.comp_apply, Iso.inv_hom_id, CommRingCat.id_apply]
 
 /-- On an affine scheme `V`, the ideal sheaf attached to an ideal `𝔞` of `Γ(V, ⊤)` is the inverse

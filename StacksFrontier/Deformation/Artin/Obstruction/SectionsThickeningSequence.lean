@@ -129,7 +129,7 @@ theorem isThickening_specMap_of_surjective {R T : Type u} [CommRing R] [CommRing
     (hker : ∀ x ∈ RingHom.ker f, IsNilpotent x) :
     Stacks.Thickenings.IsThickening (Spec.map (CommRingCat.ofHom f)) := by
   refine ⟨IsClosedImmersion.spec_of_surjective _ hf, ?_⟩
-  show Function.Surjective (PrimeSpectrum.comap f)
+  change Function.Surjective (PrimeSpectrum.comap f)
   have h₁ := PrimeSpectrum.isClosedEmbedding_comap_of_surjective _ _ hf
   have h₂ : DenseRange (PrimeSpectrum.comap f) :=
     (PrimeSpectrum.denseRange_comap_iff_ker_le_nilRadical f).mpr
@@ -222,7 +222,7 @@ theorem kernelShortComplex_shortExact (t : DeformationSituation B S hS a) :
     (kernelShortComplex t).ShortExact :=
   ModuleCat.shortComplex_shortExact _
     (fun y => by
-      show t.hom.ringMap y = 0 ↔ y ∈ Set.range t.kernelVal
+      change t.hom.ringMap y = 0 ↔ y ∈ Set.range t.kernelVal
       exact ⟨fun hy => ⟨⟨y, RingHom.mem_ker.mpr hy⟩, rfl⟩,
         fun ⟨z, hz⟩ => hz ▸ RingHom.mem_ker.mp z.2⟩)
     (fun _ _ h => Subtype.val_injective h) t.surjective

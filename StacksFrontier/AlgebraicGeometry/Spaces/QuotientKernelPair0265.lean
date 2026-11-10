@@ -250,10 +250,10 @@ theorem isPullback_toQuotientPresheaf_self_of_isPreEquivalenceRelation
   · intro X Y g
     ext z
     refine (j.eq_relLift (hrel s Y (s.pt.map g z)) _ ?_ ?_).symm
-    · show (F.map g.unop ≫ j.relLift (hrel s X z)) ≫ j.target = _
+    · change (F.map g.unop ≫ j.relLift (hrel s X z)) ≫ j.target = _
       rw [Category.assoc, PreRelation.relLift_target]
       exact (ConcreteCategory.congr_hom (s.fst.naturality g) z).symm
-    · show (F.map g.unop ≫ j.relLift (hrel s X z)) ≫ j.source = _
+    · change (F.map g.unop ≫ j.relLift (hrel s X z)) ≫ j.source = _
       rw [Category.assoc, PreRelation.relLift_source]
       exact (ConcreteCategory.congr_hom (s.snd.naturality g) z).symm
   · ext X z

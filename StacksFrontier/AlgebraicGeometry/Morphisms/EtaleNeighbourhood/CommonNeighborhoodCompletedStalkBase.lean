@@ -143,7 +143,7 @@ private theorem adicCompletion_comp_eq_of_comp_algebraMap_eq
       (RingEquiv.ofBijective ι hbij).symm_apply_apply _
     have h4 : φ (algebraMap P (AdicCompletion IP P) (a₁ a)) =
         algebraMap B (AdicCompletion IB B) (a₃ a) := RingHom.congr_fun hφ a
-    show φ ((RingEquiv.ofBijective ι hbij).symm
+    change φ ((RingEquiv.ofBijective ι hbij).symm
       (algebraMap Q (AdicCompletion IQ Q) (ρ' (algebraMap A (AdicCompletion J A) a)))) = _
     rw [h1, h2, h3, h4]
   have hright : ∀ a : A, (algebraMap B (AdicCompletion IB B)).comp ρ

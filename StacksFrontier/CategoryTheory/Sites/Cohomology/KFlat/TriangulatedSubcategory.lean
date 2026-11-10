@@ -157,7 +157,7 @@ theorem kFlatObjects_iff (K : HomotopyModules.{u, v, w} R) :
           M.Acyclic → acyclicTensorPreimage R M K := by
   constructor
   · intro hK M hM
-    show HomotopyCategory.subcategoryAcyclic _
+    change HomotopyCategory.subcategoryAcyclic _
       ((HomotopyCategory.quotient _ _).obj
         (((Stacks.SheafOfModules.Tensor.tensorComplex R).obj M).obj K.as))
     exact (HomotopyCategory.quotient_obj_mem_subcategoryAcyclic_iff_acyclic _).2 (hK M hM)
@@ -195,7 +195,7 @@ theorem kFlatObjects_isTriangulated : (kFlatObjects.{u, v, w} R).IsTriangulated 
     exact (acyclicTensorPreimage R M).prop_of_isZero hZ
   · intro n
     refine ⟨fun K hK ↦ ?_⟩
-    show kFlatObjects R (K⟦n⟧)
+    change kFlatObjects R (K⟦n⟧)
     rw [kFlatObjects_iff] at hK ⊢
     intro M hM
     have := acyclicTensorPreimage_isTriangulated R M

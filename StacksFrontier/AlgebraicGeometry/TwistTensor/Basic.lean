@@ -182,7 +182,7 @@ lemma ratioEquiv_one (hp : p ∈ 𝒮 (e + d)) (hq : q ∈ 𝒮 e) {n c : ℤ}
     (hc : (n : ℤ) * d = c) {W : Opens (ProjectiveSpectrum.top 𝒮)}
     (hW : W ≤ ProjectiveSpectrum.basicOpen 𝒮 (p * q)) :
     ratioEquiv 𝒮 hp hq hc hW 1 = ratioSection 𝒮 hp hq hc hW := by
-  show ratioHom 𝒮 hp hq hc hW 1 = _
+  change ratioHom 𝒮 hp hq hc hW 1 = _
   rw [ratioHom, LinearMap.toSpanSingleton_apply, one_smul]
 
 /-- On every open `W ⊆ D₊(pq)`, the sheafification unit followed by the multiplication map is a

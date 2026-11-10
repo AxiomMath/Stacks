@@ -503,8 +503,7 @@ theorem exists_factorization_finite_fiber {X S : Scheme.{u}} (f : X ⟶ S)
         (pullback.map (fIso ≫ fK) fB fK fB fIso (𝟙 _) (𝟙 _) (by simp) (by simp))
       let eL := pullbackSymmetry fB g ≪≫ (eC ≪≫ m) ≪≫ pullbackSpecIso A k B
       change eL.hom ≫ _ = _
-      simp [eL, eC, m, fB, fK, fIso, g, hf, incl, pullback.map, Category.assoc,
-        pullback.lift_snd]
+      simp [eL, eC, m, fB, fK, fIso, g, hf, incl, pullback.map, Category.assoc]
     have hSourceFst : eSourceBase.hom ≫
         pullback.fst (Spec.map hf) ((Spec A).fromSpecResidueField p) =
         f.fiberι s ≫ X.isoSpec.hom := by
@@ -863,8 +862,7 @@ private theorem exists_unramified_away_of_span_residueFibre
     have hΦtop : LinearMap.range Φ = ⊤ := by
       rw [LinearMap.range_eq_top]
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero => exact ⟨0, map_zero _⟩
+      induction z using TensorProduct.inductionOn with
       | tmul c ω =>
         obtain ⟨ω', rfl⟩ := hφsurj ω
         exact ⟨c ⊗ₜ[B₀] ω', rfl⟩
@@ -1243,7 +1241,7 @@ private lemma polySuccRingEquiv_C (S : Scheme.{u}) [IsAffine S] (r : ℕ) (b : �
     polySuccRingEquiv S r (MvPolynomial.C b) =
       Polynomial.C (coordEvalHom S r (MvPolynomial.C b)) := by
   rw [polySuccRingEquiv]
-  simp only [RingEquiv.trans_apply, AlgEquiv.coe_ringEquiv, mvPolySuccAlgEquiv_C,
+  simp only [RingEquiv.trans_apply, AlgEquiv.coe_toRingEquiv, mvPolySuccAlgEquiv_C,
     Polynomial.mapEquiv_apply, Polynomial.map_C]
   exact congrArg (fun z => Polynomial.C z) (coordEvalIso_ringEquiv_apply S r _)
 

@@ -147,7 +147,7 @@ public theorem completionMapFamily_comp {R S : Type*} [CommRing R] [CommRing S]
   apply RingHom.ext
   intro x
   simp only [RingHom.comp_apply]
-  show (Ideal.Quotient.factorPow J hmn)
+  change (Ideal.Quotient.factorPow J hmn)
       ((Ideal.quotientMap (J ^ n) f (idealMapPow_le I J f h n))
         (AdicCompletion.evalₐ I n x)) =
     (Ideal.quotientMap (J ^ m) f (idealMapPow_le I J f h m))
@@ -174,7 +174,7 @@ public theorem completionMap_of {R S : Type*} [CommRing R] [CommRing S]
   intro n
   unfold completionMap
   rw [AdicCompletion.evalₐ_liftRingHom]
-  show (Ideal.quotientMap (J ^ n) f (idealMapPow_le I J f h n))
+  change (Ideal.quotientMap (J ^ n) f (idealMapPow_le I J f h n))
       (AdicCompletion.evalₐ I n (AdicCompletion.of I R r)) =
     Ideal.Quotient.mk (J ^ n) (f r)
   rw [AdicCompletion.evalₐ_of, Ideal.quotientMap_mk]
@@ -198,7 +198,7 @@ public theorem completionMap_id {R : Type*} [CommRing R] (I : Ideal R)
   apply AdicCompletion.ext_evalₐ
   intro n
   rw [completionMap_eval]
-  show (Ideal.quotientMap (I ^ n) (RingHom.id R) (idealMapPow_le I I _ h n))
+  change (Ideal.quotientMap (I ^ n) (RingHom.id R) (idealMapPow_le I I _ h n))
       (AdicCompletion.evalₐ I n x) = AdicCompletion.evalₐ I n x
   induction AdicCompletion.evalₐ I n x using Quotient.inductionOn' with
   | _ r => rfl
@@ -216,15 +216,15 @@ public theorem completionMap_comp {R S T : Type*}
   intro x
   apply AdicCompletion.ext_evalₐ
   intro n
-  show AdicCompletion.evalₐ K n
+  change AdicCompletion.evalₐ K n
       (completionMap J K g hg (completionMap I J f hf x)) =
     AdicCompletion.evalₐ K n (completionMap I K (g.comp f) hgf x)
   simp only [completionMap_eval]
-  show (Ideal.quotientMap (K ^ n) g (idealMapPow_le J K g hg n))
+  change (Ideal.quotientMap (K ^ n) g (idealMapPow_le J K g hg n))
       (AdicCompletion.evalₐ J n (completionMap I J f hf x)) =
     (completionMapFamily I K (g.comp f) hgf n) x
   rw [completionMap_eval]
-  show (Ideal.quotientMap (K ^ n) g (idealMapPow_le J K g hg n))
+  change (Ideal.quotientMap (K ^ n) g (idealMapPow_le J K g hg n))
       ((Ideal.quotientMap (J ^ n) f (idealMapPow_le I J f hf n))
         (AdicCompletion.evalₐ I n x)) =
     (Ideal.quotientMap (K ^ n) (g.comp f) (idealMapPow_le I K (g.comp f) hgf n))
@@ -297,10 +297,10 @@ public theorem baseChangedAlgebra_finiteType
   let _ : Algebra A₀ R₀ := fA.toRingHom.toAlgebra
   let _ : Algebra A₀ B₀ := Ideal.Quotient.algebraQuotientMapQuotient
   let _ : IsScalarTower A₁ A₀ R₀ := IsScalarTower.of_algebraMap_eq' (by
-    show fA.toRingHom.comp (algebraMap A₁ A₀) = algebraMap A₁ R₀
+    change fA.toRingHom.comp (algebraMap A₁ A₀) = algebraMap A₁ R₀
     simp [fA])
   let _ : IsScalarTower A₁ A₀ B₀ := IsScalarTower.of_algebraMap_eq' (by
-    show fB.toRingHom.comp (algebraMap A₁ A₀) = algebraMap A₁ B₀
+    change fB.toRingHom.comp (algebraMap A₁ A₀) = algebraMap A₁ B₀
     simp [fB])
   let T := Q ⧸ L
   let _ : Algebra A₁ T := Ideal.Quotient.algebra A₁
@@ -308,7 +308,7 @@ public theorem baseChangedAlgebra_finiteType
   let _ : Algebra R₀ T := Ideal.Quotient.algebraQuotientMapQuotient
   let _ : IsScalarTower A₁ R Q := IsScalarTower.of_algebraMap_eq'
       (R := A₁) (S := R) (A := Q) (by
-    show (Algebra.TensorProduct.includeLeftRingHom.comp (algebraMap A₁ B.carrier)) =
+    change (Algebra.TensorProduct.includeLeftRingHom.comp (algebraMap A₁ B.carrier)) =
       (Algebra.TensorProduct.includeRight.toRingHom.comp (algebraMap A₁ R))
     exact Algebra.TensorProduct.includeLeftRingHom_comp_algebraMap
       (R := A₁) (A := B.carrier) (B := R))
@@ -337,7 +337,7 @@ public theorem baseChangedAlgebra_finiteType
       algebraMap A₁ T a = fR₀ (algebraMap A₁ R₀ a) := (fR₀.commutes a).symm
       _ = fR₀ (fA (algebraMap A₁ A₀ a)) := by rw [fA.commutes]
       _ = (algebraMap R₀ T) (fA (algebraMap A₁ A₀ a)) := by
-        show fR₀.toRingHom _ = _
+        change fR₀.toRingHom _ = _
         exact congrArg (fun g : R₀ →+* T => g (fA (algebraMap A₁ A₀ a))) hfR₀)
   let qB : B.carrier →ₐ[A₁] T :=
     (Ideal.Quotient.mkₐ A₁ L).comp Algebra.TensorProduct.includeLeft
@@ -351,12 +351,12 @@ public theorem baseChangedAlgebra_finiteType
               (algebraMap A₁ B.carrier a) =
             algebraMap R Q (algebraMap A₁ R a) :=
         (AlgHom.commutes _ a).trans (IsScalarTower.algebraMap_apply A₁ R Q a)
-      show (Algebra.TensorProduct.includeLeft : B.carrier →ₐ[A₁] Q)
+      change (Algebra.TensorProduct.includeLeft : B.carrier →ₐ[A₁] Q)
         (algebraMap A₁ B.carrier a) ∈ L
       rw [hscalar]
       exact Ideal.mem_map_of_mem (algebraMap R Q)
         (Ideal.mem_map_of_mem (algebraMap A₁ R) ha)
-    show b ∈ RingHom.ker qB.toRingHom
+    change b ∈ RingHom.ker qB.toRingHom
     exact Ideal.map_le_iff_le_comap.2 hbI hb
   let qB₀ : B₀ →ₐ[A₁] T :=
     Ideal.Quotient.liftₐ (R₁ := A₁) (I₁.map (algebraMap A₁ B.carrier)) qB hkill
@@ -387,19 +387,18 @@ public theorem baseChangedAlgebra_finiteType
     { toRingHom := f₀.toRingHom
       commutes' := by
         intro r
-        show f₀ (r ⊗ₜ[A₀] (1 : B₀)) = qR₀ r
+        change f₀ (r ⊗ₜ[A₀] (1 : B₀)) = qR₀ r
         simp only [f₀, Algebra.TensorProduct.lift_tmul, map_one]
         exact mul_one (qR₀ r) }
   have hf : Function.Surjective f := by
     intro z
     obtain ⟨q, rfl⟩ := Ideal.Quotient.mk_surjective z
-    induction q using TensorProduct.induction_on with
-    | zero => exact ⟨0, by simp [f]⟩
+    induction q using TensorProduct.inductionOn with
     | tmul b r =>
         refine ⟨r ⊗ₜ[A₀] (Ideal.Quotient.mk _ b), ?_⟩
-        show f₀ (r ⊗ₜ[A₀] (Ideal.Quotient.mk _ b)) = _
+        change f₀ (r ⊗ₜ[A₀] (Ideal.Quotient.mk _ b)) = _
         simp only [f₀, Algebra.TensorProduct.lift_tmul, qR₀, qB₀', qB₀]
-        show (algebraMap R₀ T) (Ideal.Quotient.mk K r) *
+        change (algebraMap R₀ T) (Ideal.Quotient.mk K r) *
           qB₀ (Ideal.Quotient.mk _ b) = _
         rw [Ideal.Quotient.algebraMap_quotient_map_quotient]
         have hqB : qB₀ (Ideal.Quotient.mk _ b) =
@@ -444,7 +443,7 @@ public theorem baseChangedQuotient_finiteType
     { toRingEquiv := e₀.toRingEquiv
       commutes' := by
         intro a
-        show e₀ ((1 : B.carrier) ⊗ₜ[A₁] (Ideal.Quotient.mk I₂ a)) =
+        change e₀ ((1 : B.carrier) ⊗ₜ[A₁] (Ideal.Quotient.mk I₂ a)) =
           Ideal.Quotient.mk _ ((1 : B.carrier) ⊗ₜ[A₁] a)
         simp [e₀] }
   exact hD.equiv e
@@ -465,7 +464,7 @@ public theorem baseChangedIdeal_completionMap_eq
   let _ : Algebra A₂ S := Algebra.TensorProduct.rightAlgebra
   let J := baseChangedIdeal (A₂ := A₂) (I₂ := I₂) B
   let C := AdicCompletion J S
-  show I₂.map (algebraMap A₂ C) =
+  change I₂.map (algebraMap A₂ C) =
     (I₂.map (Algebra.TensorProduct.includeRight.toRingHom : A₂ →+* S)).map
       (algebraMap S C)
   rw [Ideal.map_map (Algebra.TensorProduct.includeRight.toRingHom : A₂ →+* S)
@@ -566,7 +565,7 @@ public theorem baseChangedMap_ideal
     Algebra.TensorProduct.rightAlgebra
   let _ : Algebra A₂ (baseChangedAlgebra (A₂ := A₂) C) :=
     Algebra.TensorProduct.rightAlgebra
-  show (I₂.map (algebraMap A₂ (baseChangedAlgebra (A₂ := A₂) B))).map
+  change (I₂.map (algebraMap A₂ (baseChangedAlgebra (A₂ := A₂) B))).map
       (baseChangedMap (A₂ := A₂) f).toRingHom ≤
     I₂.map (algebraMap A₂ (baseChangedAlgebra (A₂ := A₂) C))
   rw [Ideal.map_map]
@@ -623,7 +622,7 @@ public theorem baseChangedMap_id
       AlgHom.id A₂ (baseChangedAlgebra (A₂ := A₂) B) := by
   apply AlgHom.ext
   intro x
-  show Algebra.TensorProduct.map (AdicFiniteTypeAlgebra.hom (𝟙 B))
+  change Algebra.TensorProduct.map (AdicFiniteTypeAlgebra.hom (𝟙 B))
     (AlgHom.id A₁ A₂) x = x
   have h : AdicFiniteTypeAlgebra.hom (𝟙 B) = AlgHom.id A₁ B.carrier := rfl
   rw [h, Algebra.TensorProduct.map_id]
@@ -638,7 +637,7 @@ public theorem baseChangedMap_comp
       (baseChangedMap (A₂ := A₂) g).comp (baseChangedMap (A₂ := A₂) f) := by
   apply AlgHom.ext
   intro x
-  show Algebra.TensorProduct.map (AdicFiniteTypeAlgebra.hom (f ≫ g))
+  change Algebra.TensorProduct.map (AdicFiniteTypeAlgebra.hom (f ≫ g))
     (AlgHom.id A₁ A₂) x =
       Algebra.TensorProduct.map (AdicFiniteTypeAlgebra.hom g) (AlgHom.id A₁ A₂)
         (Algebra.TensorProduct.map (AdicFiniteTypeAlgebra.hom f) (AlgHom.id A₁ A₂) x)

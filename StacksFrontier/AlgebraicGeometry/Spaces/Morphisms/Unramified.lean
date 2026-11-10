@@ -534,7 +534,7 @@ theorem isUnramified_of_isOpenImmersion_pullbackDiagonal (hX : IsAlgebraicSpace 
       (by
         intro A C g hg
         have : _root_.AlgebraicGeometry.IsOpenImmersion (T.map g) := hg
-        show _root_.AlgebraicGeometry.Etale (T.map g)
+        change _root_.AlgebraicGeometry.Etale (T.map g)
         infer_instance) _ hdiag
   have hbEtale := presheaf_etale_diagonalChartMap B S hS hY f p q α h hpEtale hqEtale
   have hMapSpace : IsEtale B S hS (yoneda.map (pullback.diagonal α)) :=

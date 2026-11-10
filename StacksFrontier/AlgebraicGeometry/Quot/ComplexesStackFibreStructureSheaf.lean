@@ -73,7 +73,7 @@ theorem comp_yoneda_map_eqToHom {P Q : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (hg : eqToHom hB.symm ≫ g ≫ eqToHom hA = g') (h : i ≫ y = x ≫ yoneda.map g) :
     i ≫ y ≫ yoneda.map (eqToHom hA) = (x ≫ yoneda.map (eqToHom hB)) ≫ yoneda.map g' := by
   subst hA hB hg
-  simp only [eqToHom_refl, Functor.map_id, Category.comp_id, Category.id_comp]
+  simp only [eqToHom_refl, Category.comp_id, Category.id_comp]
   exact h
 
 /-- Transport of a cartesian square over `yoneda.map g` along equalities of the corners. -/

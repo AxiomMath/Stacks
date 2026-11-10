@@ -165,14 +165,14 @@ theorem existsUnique_group_glue (hOiso : ∀ U : Over S, IsIso (bcProj f U).toLR
   let c₀ : Stacks.Picard.ofScheme (bc f T) := c - Stacks.Picard.schemePullbackClass (bcProj f T)
     (Stacks.Picard.schemePullbackClass (bcSection f σ hσ T) c)
   have hc₀ : Stacks.Picard.schemePullbackClass (bcSection f σ hσ T) c₀ = 0 := by
-    show Stacks.Picard.schemePullbackClassHom _ c₀ = 0
+    change Stacks.Picard.schemePullbackClassHom _ c₀ = 0
     rw [map_sub, sub_eq_zero]
     exact (schemePullbackClass_bcSection_bcProj f σ hσ T _).symm
   have hc₀i : ∀ i, Stacks.Picard.schemePullbackClass (bcMap f (g i)) c₀ = y i := by
     intro i
-    show Stacks.Picard.schemePullbackClassHom _ c₀ = y i
+    change Stacks.Picard.schemePullbackClassHom _ c₀ = y i
     rw [map_sub]
-    show Stacks.Picard.schemePullbackClass _ c -
+    change Stacks.Picard.schemePullbackClass _ c -
       Stacks.Picard.schemePullbackClass _ (Stacks.Picard.schemePullbackClass _ _) = y i
     rw [hc i, schemePullbackClass_bcProj_natural, ← schemePullbackClass_bcSection_natural,
       hc i, hy0 i,
@@ -183,12 +183,12 @@ theorem existsUnique_group_glue (hOiso : ∀ U : Over S, IsIso (bcProj f U).toLR
   refine ⟨t₀, fun i => ?_, fun t ht => ?_⟩
   · apply Subtype.ext
     apply (smallEquiv (bc f (U i))).injective
-    show smallEquiv _ (Stacks.Picard.smallSchemePullbackClassHom (bcMap f (g i))
+    change smallEquiv _ (Stacks.Picard.smallSchemePullbackClassHom (bcMap f (g i))
       ((smallEquiv (bc f T)).symm c₀)) = y i
     rw [smallEquiv_smallSchemePullbackClassHom, AddEquiv.apply_symm_apply, hc₀i]
   · apply Subtype.ext
     apply (smallEquiv (bc f T)).injective
-    show smallEquiv _ _ = smallEquiv _ ((smallEquiv (bc f T)).symm c₀)
+    change smallEquiv _ _ = smallEquiv _ ((smallEquiv (bc f T)).symm c₀)
     rw [AddEquiv.apply_symm_apply]
     refine eq_of_section_eq f σ hσ hOiso g hfpqc _ _ ?_ fun i => ?_
     · rw [hc₀]

@@ -234,7 +234,7 @@ theorem exists_iso_fiberProduct_of_modulePullback_iso {X Y Zs Zn : AlgebraicSpac
     refine (RingHom.mem_ker (f := ((structureSharp B S hS p).hom.app U).hom)).2
       ((congrArg (fun k => k.val.app U
       (show (SheafOfModules.unit (structureRingSheaf B S hS Y)).val.obj U from x)) hpz).trans ?_)
-    show (e.inv ≫ ((modulePullbackAdjunction B S hS ι).homEquiv _ _).symm w').val.app U
+    change (e.inv ≫ ((modulePullbackAdjunction B S hS ι).homEquiv _ _).symm w').val.app U
       ((pushforwardStructureProjection B S hS z).val.app U x) = 0
     rw [h0, map_zero]
   obtain ⟨g', hg'⟩ := exists_comp_eq_of_kernelIdealSheaf_le B S hS z hz p hleb

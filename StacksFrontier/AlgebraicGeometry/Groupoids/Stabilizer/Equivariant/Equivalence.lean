@@ -123,7 +123,7 @@ private theorem equivariantActionGroupoid_arrow_ext {S : Scheme.{u}} {G : Groupo
 theorem equivariantActionGroupoidHom_cartesian {S : Scheme.{u}}
     {G : GroupoidScheme S} (V : EquivariantScheme G) :
     IsCartesian (equivariantActionGroupoidHom V) := by
-  show IsPullback (equivariantActionArrowBase V).left
+  change IsPullback (equivariantActionArrowBase V).left
     (equivariantActionArrowSource V).left G.source.left V.obj.hom.left
   have hQ : IsPullback (pullback.fst G.source V.obj.hom).left
       (pullback.snd G.source V.obj.hom).left G.source.left V.obj.hom.left :=
@@ -440,7 +440,7 @@ private theorem cartesianOverTargetComparison_source {S : Scheme.{u}}
     (cartesianOverTargetComparison X).hom ≫
         (equivariantActionGroupoid (cartesianOverToEquivariant X)).source =
       X.left.source := by
-  show (cartesianOverTargetComparison X).hom ≫
+  change (cartesianOverTargetComparison X).hom ≫
       (pullback.lift (pullback.fst X.hom.mapObjects G.target)
         (pullback.snd X.hom.mapObjects G.target) pullback.condition ≫
           (cartesianOverDescentIso X).hom ≫
@@ -728,12 +728,12 @@ theorem nonempty_cartesianOverEquivariantEquivalenceData
     map_hom := ?_
   }⟩
   · intro X
-    show pullback.lift (X.left.target ≫ 𝟙 _) X.hom.mapArrows _ ≫
+    change pullback.lift (X.left.target ≫ 𝟙 _) X.hom.mapArrows _ ≫
         (cartesianOverDescentIso X).hom =
       pullback.lift X.hom.mapArrows (X.left.source ≫ 𝟙 _) _
     simp only [Category.comp_id]
     rw [lift_target_mapArrows_eq_cartesianOverTargetComparison]
-    show (cartesianOverTargetComparison X).hom ≫
+    change (cartesianOverTargetComparison X).hom ≫
       ((cartesianOverTargetComparison X).inv ≫ (cartesianOverSourceComparison X).hom) = _
     rw [Iso.hom_inv_id_assoc]
     apply pullback.hom_ext
@@ -741,7 +741,7 @@ theorem nonempty_cartesianOverEquivariantEquivalenceData
     · rw [cartesianOverSourceComparison_hom_snd, pullback.lift_snd]
   · intro X Y f
     apply Over.OverMorphism.ext
-    show f.hom.mapObjects ≫ 𝟙 _ = 𝟙 _ ≫ f.hom.mapObjects
+    change f.hom.mapObjects ≫ 𝟙 _ = 𝟙 _ ≫ f.hom.mapObjects
     simp
 
 /-- A chosen equivalence between groupoid schemes cartesian over `G` and equivariant schemes for

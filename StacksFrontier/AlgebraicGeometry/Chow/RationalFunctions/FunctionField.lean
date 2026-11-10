@@ -202,7 +202,7 @@ private theorem coordinateSection_restrict (X : Scheme.{u}) (p : X.PartialMap af
     (V : X.Opens) (hV : Dense (V : Set X)) (h : V ≤ p.domain) :
     coordinateSection X (p.restrict V hV h) =
       V.topIso.hom ((X.homOfLE h).appTop (p.hom.appTop coordinate)) := by
-  show V.topIso.hom ((X.homOfLE h ≫ p.hom).appTop coordinate) = _
+  change V.topIso.hom ((X.homOfLE h ≫ p.hom).appTop coordinate) = _
   rw [Scheme.Hom.comp_appTop]
   rfl
 
@@ -242,7 +242,7 @@ private theorem coordinateSection_ofSection (X : Scheme.{u}) (U : DenseOpen X)
     coordinateSection X
       (⟨U.1, U.2, AffineSpace.homOfVector (specULiftZIsTerminal.from U.1.toScheme)
         (fun _ : ULift.{u} (Fin 1) => U.1.topIso.inv s)⟩ : X.PartialMap affineLine) = s := by
-  show U.1.topIso.hom
+  change U.1.topIso.hom
     ((AffineSpace.homOfVector (specULiftZIsTerminal.from U.1.toScheme)
       (fun _ : ULift.{u} (Fin 1) => U.1.topIso.inv s)).appTop coordinate) = s
   rw [AffineSpace.homOfVector_appTop_coord]
@@ -346,7 +346,7 @@ private theorem partialGenericValue_genericTuplePartialMap (X : Scheme.{u})
   have hdom : U Z ≤ (genericTuplePartialMap X a).domain := le_iSup U Z
   have hglue : X.homOfLE hdom ≫ (genericTuplePartialMap X a).hom = A.localMap Z := by
     rw [Subsingleton.elim hdom (le_iSup U Z)]
-    show (Scheme.Opens.iSupOpenCover U).f Z ≫ A.hom = A.localMap Z
+    change (Scheme.Opens.iSupOpenCover U).f Z ≫ A.hom = A.localMap Z
     exact A.hom_restrict Z
   have happ : (X.homOfLE hdom).appTop
       ((genericTuplePartialMap X a).hom.appTop coordinate) =
@@ -355,10 +355,10 @@ private theorem partialGenericValue_genericTuplePartialMap (X : Scheme.{u})
     rwa [Scheme.Hom.comp_appTop] at hh
   rw [partialGenericValue, ← X.presheaf.germ_res_apply (homOfLE hdom)
     Z.2.1.genericPoint (q Z).generic_mem, ← coordinateSection_map_restrict, happ]
-  show X.presheaf.germ (U Z) Z.2.1.genericPoint (q Z).generic_mem
+  change X.presheaf.germ (U Z) Z.2.1.genericPoint (q Z).generic_mem
     ((U Z).topIso.hom ((A.localMap Z).appTop coordinate)) = a Z
   rw [← A.localMap_section Z, AffineSpace.homOfVector_appTop_coord]
-  show X.presheaf.germ (U Z) Z.2.1.genericPoint (q Z).generic_mem
+  change X.presheaf.germ (U Z) Z.2.1.genericPoint (q Z).generic_mem
     ((U Z).topIso.hom ((U Z).topIso.inv (q Z).value)) = a Z
   rw [Iso.inv_hom_id_apply]
   simpa [U, q] using (q Z).germ_eq

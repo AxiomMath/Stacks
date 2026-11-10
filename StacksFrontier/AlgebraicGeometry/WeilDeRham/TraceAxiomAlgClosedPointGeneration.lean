@@ -77,7 +77,7 @@ theorem properPushforward_fundamentalCycle_eq_cycleAssociatedToIntegralComponent
     (mem_cyclesOfDimension_iff_forall_point _ sX 0 _).mp
       (properPushforward (fieldChowSituation k) (𝟙 _) sX x hx 0
         (fundamentalCycle (fieldChowSituation k) (𝟙 _) 0)).2 _
-      (by rw [happ, if_pos rfl]; exact one_ne_zero)
+      (by rw [happ, ite_eq_left rfl]; exact one_ne_zero)
   refine Subtype.ext (Function.locallyFinsuppWithin.ext fun w ↦ ?_)
   rw [happ]
   split_ifs with hw

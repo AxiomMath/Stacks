@@ -103,7 +103,7 @@ theorem bijOn_ambientGenericPoint_cycleSupport_fibre (f : X ⟶ Y)
     · intro h
       refine IntegralClosedSubspace.injective_ambientGenericPoint D.site D.base D.base_mem hY.1
         hYdec ?_
-      show (IntegralClosedSubspace.closureImage D.site D.base D.base_mem hY.1 hYdec f
+      change (IntegralClosedSubspace.closureImage D.site D.base D.base_mem hY.1 hYdec f
         Z).ambientGenericPoint D.site D.base D.base_mem = _
       rw [IntegralClosedSubspace.ambientGenericPoint_closureImage_eq D.site D.base D.base_mem
         hX.1 hY.1 hYdec f Z, h]
@@ -163,7 +163,7 @@ theorem finsum_mul_properCycleMult_eq_finsum_fibre (f : X ⟶ Y) (k : ℤ)
   have hdeg : properCycleMult D sX hX sY hY f Z W =
       (cycleResidueDegree D sX hX sY hY f
         (Z.ambientGenericPoint D.site D.base D.base_mem) : ℤ) := by
-    rw [properCycleMult, if_pos him, properCycleDegree, if_pos hδ]
+    rw [properCycleMult, ite_eq_left him, properCycleDegree, ite_eq_left hδ]
     rfl
   rw [hdeg, IntegralClosedSubspace.integralClosedSubspaceOfPoint_ambientGenericPoint D.site
     D.base D.base_mem hX.1 hXdec Z]

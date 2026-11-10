@@ -123,7 +123,7 @@ theorem specMap_id : specMap (AlgHom.id k A) = 𝟙 (spec k A) :=
 theorem specMap_comp (φ : A →ₐ[k] B) (ψ : B →ₐ[k] C) :
     specMap (ψ.comp φ) = specMap ψ ≫ specMap φ :=
   hom_ext_left (by
-    show Spec.map (CommRingCat.ofHom φ.toRingHom ≫ CommRingCat.ofHom ψ.toRingHom) = _
+    change Spec.map (CommRingCat.ofHom φ.toRingHom ≫ CommRingCat.ofHom ψ.toRingHom) = _
     rw [Spec.map_comp]
     rfl)
 
@@ -226,7 +226,7 @@ def isoSpecLeftOfDimensionZero : X.obj.left ≅ Spec (.of (globalSections X)) :=
 @[reassoc (attr := simp)]
 theorem isoSpecLeftOfDimensionZero_hom_specStructure :
     (isoSpecLeftOfDimensionZero hX).hom ≫ specStructure k (globalSections X) = X.obj.hom := by
-  show X.obj.left.toSpecΓ ≫ Spec.map
+  change X.obj.left.toSpecΓ ≫ Spec.map
     ((Scheme.ΓSpecIso (.of k)).inv ≫ X.obj.hom.appTop) = X.obj.hom
   rw [Spec.map_comp, ← Scheme.toSpecΓ_naturality_assoc X.obj.hom,
     toSpecΓ_SpecMap_ΓSpecIso_inv, Category.comp_id]

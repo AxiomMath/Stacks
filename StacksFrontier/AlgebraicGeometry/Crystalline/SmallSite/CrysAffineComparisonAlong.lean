@@ -12,7 +12,8 @@ public import StacksFrontier.AlgebraicGeometry.Crystalline.SmallSite.SheafCrysta
 Fix a global crystalline situation `(p, (S, I, γ), X)` of [Stacks, Tag 07MF], let `ℱ` be a sheaf
 of `𝒪_{X/S}`-modules on the **small** crystalline site `Cris(X/S)` and let
 `g : (U', T', δ') ⟶ (U, T, δ)` be a morphism of `Cris(X/S)`.  This module is the small-site
-counterpart of `StacksFrontier/AlgebraicGeometry/Crystalline/AffineComparisonAlong.lean`: it isolates
+counterpart of `StacksFrontier/AlgebraicGeometry/Crystalline/AffineComparisonAlong.lean`: it
+isolates
 the part of the affine computation of the base change of sections that does not mention a tensor
 product — the comparison map
 
@@ -310,7 +311,7 @@ theorem crysAffineComparisonAlong_pullbackSection
           (crysAffineComparisonAlong F g) =
       (SheafOfModules.restrictScalars
         (Thickening.ringRestrictionSheafStructureIso B.obj).inv).map (moduleFMapSheaf F g) := by
-    show (ambientPullbackAdjunctionAlong g.hom).homEquiv _ _
+    change (ambientPullbackAdjunctionAlong g.hom).homEquiv _ _
       (crysAffineComparisonAlong F g) = _
     exact Equiv.apply_symm_apply _ _
   refine (congrArg (fun y ↦ (crysAffineComparisonAlong F g).val.app
@@ -365,7 +366,7 @@ theorem crysPullbackAdjunctionAlong_homEquiv_symm_moduleFMapSheaf :
       (SheafOfModules.pullbackPushforwardAdjunction.{u}
         (Thickening.ringRestrictionSheafFMap g.hom))
       (moduleRestrictionSheaf F B')
-  show (SheafOfModules.pullback.{u} (Thickening.ringRestrictionSheafFMap g.hom)).map
+  change (SheafOfModules.pullback.{u} (Thickening.ringRestrictionSheafFMap g.hom)).map
         ((SheafOfModules.restrictScalars
             (Thickening.ringRestrictionSheafStructureIso B.obj).hom).map
           ((SheafOfModules.restrictScalars

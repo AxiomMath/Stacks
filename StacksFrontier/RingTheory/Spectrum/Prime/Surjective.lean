@@ -146,7 +146,7 @@ theorem base_change_preserves_specSurjective
   let algRS : Algebra R S := φ.toAlgebra
   let algRR' : Algebra R R' := ψ.toAlgebra
   -- Use Mathlib's characterization of range via nontriviality of fiber.
-  show p' ∈ Set.range (PrimeSpectrum.comap (algebraMap R' (TensorProduct R R' S)))
+  change p' ∈ Set.range (PrimeSpectrum.comap (algebraMap R' (TensorProduct R R' S)))
   rw [← PrimeSpectrum.nontrivial_iff_mem_rangeComap]
   -- Identify the fiber `κ(p') ⊗[R'] (R' ⊗[R] S)` with `κ(p') ⊗[R] S`.
   let E : (p'.asIdeal.ResidueField ⊗[R'] (TensorProduct R R' S)) ≃ₐ[R']
@@ -293,7 +293,7 @@ private lemma dense_imp_inj (hd : Dense (Set.range (PrimeSpectrum.comap φ))) :
   by_contra hne
   -- The basic open `D(r)` contains the generic point `⟨⊥⟩`, hence is nonempty.
   have h0 : (⟨⊥, Ideal.isPrime_bot⟩ : PrimeSpectrum R) ∈ (basicOpen r).carrier := by
-    show r ∉ (⊥ : Ideal R)
+    change r ∉ (⊥ : Ideal R)
     rwa [Ideal.mem_bot]
   obtain ⟨_, ⟨q, rfl⟩, hp_open⟩ := hd.exists_mem_open (basicOpen r).is_open' ⟨_, h0⟩
   exact hp_open (show φ r ∈ q.asIdeal by rw [hr]; exact q.asIdeal.zero_mem)

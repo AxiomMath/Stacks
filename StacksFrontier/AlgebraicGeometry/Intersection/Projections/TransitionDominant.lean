@@ -149,7 +149,7 @@ public theorem mem_range_transitionVarietyToPar
       (pullback.lift_fst (pointOfClosedPoint (projectiveSpaceOfModuleToSpec k V) _ hxc)
         (pointOfClosedPoint (projectiveSpaceOfModuleToSpec k V) _ hyc) hw)
     simp only [Scheme.Hom.comp_apply] at h
-    show (pullback.fst (projectiveSpaceOfModuleToSpec k V)
+    change (pullback.fst (projectiveSpaceOfModuleToSpec k V)
       (projectiveSpaceOfModuleToSpec k V)).base ((tpFst k V).base t) = _
     rw [hfstw, hwptdef, h]
     exact pointOfClosedPoint_apply (projectiveSpaceOfModuleToSpec k V) _ hxc cp
@@ -158,7 +158,7 @@ public theorem mem_range_transitionVarietyToPar
       (pullback.lift_snd (pointOfClosedPoint (projectiveSpaceOfModuleToSpec k V) _ hxc)
         (pointOfClosedPoint (projectiveSpaceOfModuleToSpec k V) _ hyc) hw)
     simp only [Scheme.Hom.comp_apply] at h
-    show (pullback.snd (projectiveSpaceOfModuleToSpec k V)
+    change (pullback.snd (projectiveSpaceOfModuleToSpec k V)
       (projectiveSpaceOfModuleToSpec k V)).base ((tpFst k V).base t) = _
     rw [hfstw, hwptdef, h]
     exact pointOfClosedPoint_apply (projectiveSpaceOfModuleToSpec k V) _ hyc cp
@@ -596,7 +596,7 @@ public theorem exists_isClosed_clauseTwo_badLocus_of_le
         exact SetLike.coe_subset_coe.mpr h
       have h1c : 1 ≤ codimension (IrreducibleCloseds.closureSingleton x) := by
         rw [codimension_eq_coheight]
-        refine ENat.one_le_iff_ne_zero.mpr fun h => hnotmax ?_
+        refine Order.one_le_iff_ne_zero.mpr fun h => hnotmax ?_
         exact Order.coheight_eq_zero.mp h
       -- the codimension in `Z` is the codimension in `𝐏`
       have hnep : (ZI.subschemeι.base ⁻¹'

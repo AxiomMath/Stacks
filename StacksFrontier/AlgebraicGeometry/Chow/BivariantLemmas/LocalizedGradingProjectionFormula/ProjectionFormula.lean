@@ -97,7 +97,7 @@ theorem localizedMulBivariantChow_cap (i j : ℤ)
       (by ring : k - j - i = k - (i + j)),
     chowPushforwardOfIso_comp_apply]
 
-omit [LocallyOfFiniteType sX] in
+omit [LocallyOfFiniteType sX] [IsClosedImmersion f] in
 /-- The base change `Z ×_X T ⟶ X ×_X T` of `f` along a test scheme, as the pushforward of Stacks
 0EPK uses it, is a morphism over the base. -/
 theorem pushforwardTestBaseChange_base {T : Scheme.{u}} (t : T ⟶ X) :
@@ -108,7 +108,7 @@ theorem pushforwardTestBaseChange_base {T : Scheme.{u}} (t : T ⟶ X) :
     (rfl : f ≫ sX = f ≫ sX) (𝟙 X) t, ← Category.assoc]
   exact congrHom_compIdRight_base' C sX f t
 
-omit [LocallyOfFiniteType sX] in
+omit [LocallyOfFiniteType sX] [IsClosedImmersion f] in
 /-- The base change `Z ×_X T ⟶ X ×_X T` of `f` along a test scheme carries the test morphism
 `X ×_X T ⟶ X` to the test morphism `Z ×_X T ⟶ X` of the localized factor. This is the equality of
 test morphisms that the proper-pushforward axiom of Stacks 0B76 is applied at. -/
@@ -203,11 +203,11 @@ theorem localizedGradingPushforward_localizedMulBivariantChow (i j : ℤ)
     ← chowGroupDegreeEquiv_properChowPushforward_comp C
       (pullback.fst (f ≫ 𝟙 X) t ≫ (f ≫ sX)) (pullback.fst (𝟙 X) t ≫ sX)
       (bivariantPushforwardBaseChange f (𝟙 X) t) _ (by ring : k - j - i = k - (i + j)) _ _]
-  refine congrArg _ ?_
-  rw [chowPushforwardOfIso_comp_apply]
-  refine chowPushforwardOfIso_properChowPushforward_comp_eq C _ _ _ _ _ _ _ _ _ _ ?_ _ _ _ _ _
-    (k - j - i) _ _ _
-  · refine pullback.hom_ext ?_ ?_ <;> simp
+  · refine congrArg _ ?_
+    rw [chowPushforwardOfIso_comp_apply]
+    refine chowPushforwardOfIso_properChowPushforward_comp_eq C _ _ _ _ _ _ _ _ _ _ ?_ _ _ _ _ _
+      (k - j - i) _ _ _
+    refine pullback.hom_ext ?_ ?_ <;> simp
   · exact properPushforwardDescends C _ _ _ _ _
 
 omit [LocallyOfFiniteType sX] [IsClosedImmersion f] in
@@ -305,11 +305,11 @@ theorem localizedGradingPushforward_localizedMulChowBivariant (i j : ℤ)
       (pullback.fst (f ≫ 𝟙 X) t ≫ (f ≫ sX)) (pullback.fst (𝟙 X) t ≫ sX)
       (bivariantPushforwardBaseChange f (𝟙 X) t) _ (by ring : k - j - i = k - (i + j)) _
       (properPushforwardDescends C _ _ _ _ _)]
-  refine congrArg _ ?_
-  rw [chowPushforwardOfIso_comp_apply, chowPushforwardOfIso_comp_apply]
-  refine chowPushforwardOfIso_comm_properChowPushforward C _ _ _ _ _ _ _ _ ?_ _ _ _ _
-    (k - j - i) _ _ _
-  · refine pullback.hom_ext ?_ ?_ <;> simp [fst_eq_identityBaseChangeIso_hom]
+  · refine congrArg _ ?_
+    rw [chowPushforwardOfIso_comp_apply, chowPushforwardOfIso_comp_apply]
+    refine chowPushforwardOfIso_comm_properChowPushforward C _ _ _ _ _ _ _ _ ?_ _ _ _ _
+      (k - j - i) _ _ _
+    refine pullback.hom_ext ?_ ?_ <;> simp [fst_eq_identityBaseChangeIso_hom]
   · exact properPushforwardDescends C _ _ _ _ _
 
 omit [LocallyOfFiniteType sX] in
@@ -455,19 +455,19 @@ theorem localizedGradingPushforward_localizedGradingMulLocalizedTerm (p q r : �
   unfold localizedGradingMulLocalizedTerm localizedGradingMulAmbientTerm
     localizedGradingComponentOnAmbient
   by_cases hi : (p : ℤ) ≤ i
-  · rw [dif_pos hi, dif_pos hi]
+  · rw [dite_eq_left hi, dite_eq_left hi]
     by_cases hj : (q : ℤ) ≤ n - i
-    · rw [dif_pos hj, dif_pos hj,
+    · rw [dite_eq_left hj, dite_eq_left hj,
         localizedGradingPushforward_bivariantClassDegreeCongr C G sX f hRG hgysP hgysc _ _,
         localizedGradingPushforward_localizedMulBivariant C G sX f hRG hgysP hgys hgysc
           i (n - i) _ _]
-    · rw [dif_neg hj, dif_neg hj,
+    · rw [dite_eq_right hj, dite_eq_right hj,
         localizedGradingPushforward_bivariantClassDegreeCongr C G sX f hRG hgysP hgysc _ _,
         localizedGradingPushforward_localizedMulBivariantChow C G sX f hRG hgysP hgys hgysc
           i (n - i) _ _]
-  · rw [dif_neg hi, dif_neg hi]
+  · rw [dite_eq_right hi, dite_eq_right hi]
     by_cases hj : (q : ℤ) ≤ n - i
-    · rw [dif_pos hj, dif_pos hj,
+    · rw [dite_eq_left hj, dite_eq_left hj,
         localizedGradingPushforward_bivariantClassDegreeCongr C G sX f hRG hgysP hgysc _ _,
         localizedGradingPushforward_localizedMulChowBivariant C G sX f hRG hgysP hgys hgysc
           i (n - i) _ _]
@@ -497,7 +497,7 @@ theorem localizedBivariantGradingMul_isAmbientConvolution (p q r : ℕ) (hr : p 
           ((localizedBivariantGradingMul C G sX f hRG hgysP hgys hgysc p q r a b).2
             ⟨n, hn⟩) := by
       unfold localizedGradingComponentOnAmbient
-      rw [dif_pos hn]
+      rw [dite_eq_left hn]
     rw [h1, localizedBivariantGradingMul_snd C G sX f hRG hgysP hgys hgysc p q r a b ⟨n, hn⟩,
       localizedGradingPushforward_sum]
     exact Finset.sum_congr rfl fun i _ ↦

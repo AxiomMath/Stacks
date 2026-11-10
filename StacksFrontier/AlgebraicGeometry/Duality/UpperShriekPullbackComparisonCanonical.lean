@@ -304,7 +304,7 @@ theorem upperShriekCompactificationMap_app_eq (K : quasiCoherentDerivedCategory 
     (upperShriekCompactificationMap f c₁ c₂ g hg sq).app K =
       (quasiCoherentDerivedPullback' c₁.immersion).map
           ((compactificationMapCompIso f c₁ c₂ g hg).hom.app K) ≫
-        (compactificationBaseChange f c₁ c₂ g sq).natTrans.app
+        (compactificationBaseChange f c₁ c₂ g sq).app
           ((twistedInverseImage c₂.toBase
             (isQuasicoherent_homology_derivedPushforward_of_qcqs _)).obj K) ≫
         (twistedInverseImageIdIsoOfComp X.left).hom.app

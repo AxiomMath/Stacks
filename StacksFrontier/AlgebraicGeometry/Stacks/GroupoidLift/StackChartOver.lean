@@ -81,7 +81,7 @@ theorem relPair_ξ (hιZ : ι ≫ schemeMapOfFunctor B S hS (a ≫ f).hom = spec
     eqToHom ((relPair_left_eq f.hom.toFunctor f.hom.w (ξ a ι u)).trans (ξ_obj a ι u)).symm ≫
       (f.hom.toFunctor.obj (ξ a ι u)).hom = specOverToBase C ≫ τ :=
   (schemeMapOfFunctor_naturality B S hS (a ≫ f).hom (pt ι u)).trans (by
-    show (specOverMap (SmallAlg.homMk u) ≫ ι) ≫ _ = _
+    change (specOverMap (SmallAlg.homMk u) ≫ ι) ≫ _ = _
     rw [Category.assoc, hιZ, ← Category.assoc, specOverMap_comp_toBase])
 
 /-- **The two objects of the arrow chart have the same image in `Z`.** -/
@@ -191,7 +191,7 @@ theorem exists_lift_sectionsHom_of_etale {U₁ : BigFppfOver B S hS}
       apply specOverMap_injective
       rw [specOverMap_comp, ← cancel_mono (sectionsHom U₁ (s ≫ h)), Category.assoc, hk', hg₁]
     exact congrArg (fun t ↦ t.hom.hom) hkq
-  · show specOverMap k ≫ sectionsHom U₁ (s ≫ h) ≫ s = m'
+  · change specOverMap k ≫ sectionsHom U₁ (s ≫ h) ≫ s = m'
     rw [← Category.assoc, hk', hg₂]
 
 end GroupoidLift

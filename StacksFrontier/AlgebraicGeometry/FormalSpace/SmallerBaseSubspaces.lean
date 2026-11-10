@@ -71,7 +71,6 @@ theorem completionSheafToAmbient_app_mem {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Typ
 sheaves and let `m : X_{/T} ⟶ Y_{/Z}` be a morphism of completions lying over `f`. Then `f`
 carries `T` into `Z`. -/
 theorem subset_preimage_of_completionSheaf_hom {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
-    (hX : Presheaf.IsSheaf (BigFppfOver.topology B S hS) X)
     (hX' : Presheaf.IsSheaf (BigFppfOver.topology B S hS) (X ⋙ uliftFunctor.{u + 1}))
     (hY : Presheaf.IsSheaf (BigFppfOver.topology B S hS) Y)
     (hY' : Presheaf.IsSheaf (BigFppfOver.topology B S hS) (Y ⋙ uliftFunctor.{u + 1}))

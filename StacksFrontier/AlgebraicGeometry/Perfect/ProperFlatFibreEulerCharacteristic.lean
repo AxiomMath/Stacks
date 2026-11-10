@@ -27,8 +27,8 @@ This file is that reduction, with nothing granted. [Stacks, Tag 0BDJ] is
 property of the derived-fibre Euler characteristic is
 `AlgebraicGeometry.DerivedFibreBetti.chiDerivedFibre_derivedPullback`. The two halves of
 [Stacks, Tag 0B91] (2) used are proved in
-`StacksFrontier/AlgebraicGeometry/Perfect/ProperFlatModuleDirectImage.lean`, which this file imports:
-perfection of `Rf_*ℱ` is `isPerfect_derivedPushforward_singleFunctor_of_isProper`, and the
+`StacksFrontier/AlgebraicGeometry/Perfect/ProperFlatModuleDirectImage.lean`, which this file
+imports: perfection of `Rf_*ℱ` is `isPerfect_derivedPushforward_singleFunctor_of_isProper`, and the
 base-change isomorphism `Lg^*Rf_*ℱ ≅ Rf'_*(g')^*ℱ` is
 `nonempty_derivedPullback_derivedPushforward_singleFunctor_iso`, both in the namespace
 `AlgebraicGeometry.ProperFlatFibreEulerCharacteristic`.

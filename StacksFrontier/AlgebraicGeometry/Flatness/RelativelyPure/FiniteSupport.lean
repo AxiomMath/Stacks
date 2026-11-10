@@ -102,7 +102,7 @@ private theorem isPureAlong_iff_of_moduleIso {X S : Scheme.{u}} (f : X ⟶ S)
         IsPureAlong ({ S := S, X := X, f := f, F := B, s := s } : PrePureSituation.{u}) := by
     intro A B _ _ _ _ i h D hEt hElem hImp
     refine h { D with } hEt hElem ⟨?_, hImp.2⟩
-    show D.xi ∈ Stacks.Divisors.relativeAssassin D.toT
+    change D.xi ∈ Stacks.Divisors.relativeAssassin D.toT
       ((Scheme.Modules.pullback D.toX).obj A)
     rw [relativeAssassin_eq_of_moduleIso D.toT ((Scheme.Modules.pullback D.toX).mapIso i)]
     exact hImp.1
@@ -191,7 +191,7 @@ private theorem closure_inter_range_fiberι_eq_empty {X T W V P : Scheme.{u}} (j
       (Limits.pullback.snd j q).continuous
   obtain ⟨w, hwb⟩ := hmap.mem_closed hk.isClosedEmbedding.isClosed_range ⟨v', rfl⟩
   have hwmem : w ∈ {w : P | (k ≫ p) w = y} := by
-    show p.base (k.base w) = y
+    change p.base (k.base w) = y
     rw [hwb]
     exact hzbase
   have hwEq : w = v := (Set.eq_singleton_iff_unique_mem.mp hsingle).2 w hwmem

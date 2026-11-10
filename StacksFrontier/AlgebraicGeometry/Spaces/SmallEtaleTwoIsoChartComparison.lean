@@ -108,12 +108,12 @@ theorem exists_iso_of_pushforward_iso
     K.yonedaEquiv (X := G.obj V) (F := H)
   have lhs_natural (H H' : Sheaf K (Type vD)) (α : H ⟶ H') (g : A ⟶ H) :
       lhs H' (g ≫ α) = ((P.map α).hom.app (op V)) (lhs H g) := by
-    show K.yonedaEquiv (g ≫ α) = _
+    change K.yonedaEquiv (g ≫ α) = _
     rw [K.yonedaEquiv_comp]
     rfl
   have rhs_natural (H H' : Sheaf K (Type vD)) (α : H ⟶ H') (g : B ⟶ H) :
       rhs H' (g ≫ α) = ((Q.map α).hom.app (op V)) (rhs H g) := by
-    show K.yonedaEquiv (g ≫ α) = _
+    change K.yonedaEquiv (g ≫ α) = _
     rw [K.yonedaEquiv_comp]
     rfl
   let sectionMap (H : Sheaf K (Type vD)) :
@@ -137,7 +137,7 @@ theorem exists_iso_of_pushforward_iso
       ((lhs H).trans ((sectionMap H).trans (rhs H).symm))) ?_
     intro H H' α
     ext g
-    show (rhs H').symm (sectionMap H' (lhs H' (g ≫ α))) =
+    change (rhs H').symm (sectionMap H' (lhs H' (g ≫ α))) =
       (rhs H).symm (sectionMap H (lhs H g)) ≫ α
     apply (rhs H').injective
     rw [lhs_natural, sectionMap_natural, rhs_natural]
@@ -166,7 +166,7 @@ theorem exists_iso_of_pushforward_iso
   have hthird : (rhs H) (ecorep.hom.app H g) = (rhs H) (K.yoneda.map e.inv ≫ g) :=
     congrArg _ hcorep
   have hfourth : (rhs H) (K.yoneda.map e.inv ≫ g) = H.obj.map (op e.inv) x := by
-    show K.yonedaEquiv (K.yoneda.map e.inv ≫ g) = H.obj.map (op e.inv) x
+    change K.yonedaEquiv (K.yoneda.map e.inv ≫ g) = H.obj.map (op e.inv) x
     have hg : K.yonedaEquiv g = x := Equiv.apply_symm_apply (lhs H) x
     have hn := K.yonedaEquiv_naturality' g (op e.inv)
     rw [hg] at hn
@@ -236,8 +236,8 @@ theorem smallEtaleTopology_subcanonical (X : AlgebraicSpaces B S hS) :
     have hep : Etale ((BigFppfOver.toScheme B S hS).map
         (d.π.app WalkingCospan.left).left) :=
       MorphismProperty.of_isPullback (hp.flip.map (BigFppfOver.toScheme B S hS)) he
-    show (IsEtaleChart B S hS X.obj) U
-    show (MorphismProperty.inverseImage (@Etale.{u})
+    change (IsEtaleChart B S hS X.obj) U
+    change (MorphismProperty.inverseImage (@Etale.{u})
       (BigFppfOver.toScheme B S hS)).presheaf
       (((Functor.const WalkingCospan).obj U).obj WalkingCospan.left).hom
     rw [← CostructuredArrow.w (d.π.app WalkingCospan.left)]
@@ -264,7 +264,7 @@ theorem smallEtaleTopology_subcanonical (X : AlgebraicSpaces B S hS) :
   rw [Precoverage.mem_comap_iff, GrothendieckTopology.mem_toPrecoverage_iff]
   apply (hloc.1 (I.obj V) (Sieve.generate (E.presieve₀.map I))).mpr
   rw [← Sieve.generate_map_eq_functorPushforward]
-  show Sieve.generate ((E.presieve₀.map I).map π) ∈ J V.obj.left
+  change Sieve.generate ((E.presieve₀.map I).map π) ∈ J V.obj.left
   rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_generate,
     ← Sieve.arrows_generate_map_eq_functorPushforward]
   simp only [Sieve.generate_sieve]

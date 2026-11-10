@@ -104,10 +104,10 @@ theorem exists_isDerivedLimitWithProjections_of_tensorIso
       (fun _ => rfl) : ModuleCat.uliftFunctor.{u,u} A ≅ 𝟭 (ModuleCat.{u} A)).symm
   let : (ModuleCat.restrictScalars
       (ULift.ringEquiv : ULift.{u} A ≃+* A).toRingHom).IsEquivalence := by
-    show (StacksDraft.DerivedHom.uliftModuleEquivalence.{u,u,u} A).inverse.IsEquivalence
+    change (StacksDraft.DerivedHom.uliftModuleEquivalence.{u,u,u} A).inverse.IsEquivalence
     infer_instance
   let : (AdicKoszul.moduleUniverseLift.{u,u} A).IsEquivalence := by
-    show (ModuleCat.uliftFunctor.{u,u} A ⋙ ModuleCat.restrictScalars
+    change (ModuleCat.uliftFunctor.{u,u} A ⋙ ModuleCat.restrictScalars
       (ULift.ringEquiv : ULift.{u} A ≃+* A).toRingHom).IsEquivalence
     infer_instance
   let : U.IsEquivalence :=

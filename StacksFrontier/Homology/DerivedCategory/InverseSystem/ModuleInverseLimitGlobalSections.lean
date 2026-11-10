@@ -396,7 +396,7 @@ private lemma exists_iso_of_common_resolutions
   ext X
   let := hQ _ (hs X)
   let := hα X
-  show α.app X ≫ (e X).hom = β.app X
+  change α.app X ≫ (e X).hom = β.app X
   rw [← cancel_mono (Q.map (s X)), assoc, he, ← assoc, ← α.naturality]
   simp only [assoc, IsIso.hom_inv_id_assoc, β.naturality]
 
@@ -411,7 +411,7 @@ private lemma exists_iso_of_common_localized_resolutions
     (MorphismProperty.IsInvertedBy.of_comp W L (Localization.inverts L W) RG) α β hres
   let hL := Localization.fullyFaithfulWhiskeringLeft L W H
   refine ⟨hL.preimageIso ε, ?_⟩
-  show α ≫ ((Functor.whiskeringLeft C D H).obj L).map (hL.preimage ε.hom) = β
+  change α ≫ ((Functor.whiskeringLeft C D H).obj L).map (hL.preimage ε.hom) = β
   rw [hL.map_preimage, hε]
 
 end Comparison
@@ -430,7 +430,7 @@ private lemma epi_underlying_delta
   let d : (∏ᶜ fun n ↦ G.obj (P n)) ⟶ ∏ᶜ fun n ↦ G.obj (P n) :=
     𝟙 _ - Pi.lift fun n : ℕ ↦ Pi.π (fun n ↦ G.obj (P n)) (n + 1) ≫
       G.map (M.map (homOfLE (Nat.le_succ n)).op)
-  show Epi d
+  change Epi d
   let c := piComparison G P
   have hmap : Epi (G.map δ) := by
     rw [AddCommGrpCat.epi_iff_surjective]
@@ -486,7 +486,7 @@ private lemma map_quasiIso_of_computations (F : C ⥤ D) [F.Additive]
   have hz : IsZero (Q.obj (CochainComplex.mappingCone f)) :=
     Pretriangulated.Triangle.isZero₃_of_isIso₁ _
       (DerivedCategory.mappingCone_triangle_distinguished f) (by
-        show IsIso (Q.map f)
+        change IsIso (Q.map f)
         infer_instance)
   obtain ⟨e⟩ := hcomp (CochainComplex.mappingCone f) (isZero_map_mappingCone_X H f hK hL)
   have hz' := ((RF.map_isZero hz).of_iso e.symm).of_iso
@@ -528,7 +528,7 @@ private lemma isIso_unit_of_resolutions (F : C ⥤ D) [F.Additive]
       apply (HomotopyCategory.quotient_map_mem_quasiIso_iff _).mp
       rwa [HomotopyCategory.quotient_map_out]
     have := hmap f.hom.out hq X.property Y.property
-    show IsIso (Qh.map ((F.mapHomotopyCategory _).map f.hom))
+    change IsIso (Qh.map ((F.mapHomotopyCategory _).map f.hom))
     rw [← HomotopyCategory.quotient_map_out f.hom, Functor.mapHomotopyCategory_map]
     exact Localization.inverts Qh (HomotopyCategory.quasiIso D _) _
       ((HomotopyCategory.quotient_map_mem_quasiIso_iff _).mpr this)
@@ -635,7 +635,7 @@ variable {C D E : Type*} [Category* C] [Category* D] [Category* E]
 private lemma mapHomotopyCategory_iso_app {F G : C ⥤ D} [F.Additive] [G.Additive]
     (e : F ≅ G) (K : HomotopyCategory C c) :
     IsIso ((NatTrans.mapHomotopyCategory e.hom c).app K) := by
-  show IsIso ((HomotopyCategory.quotient D c).map
+  change IsIso ((HomotopyCategory.quotient D c).map
     ((NatIso.mapHomologicalComplex e c).hom.app K.as))
   infer_instance
 
@@ -643,14 +643,14 @@ private lemma mapHomotopyCategoryCompIso_refl_hom_app
     (F : C ⥤ D) (G : D ⥤ E) [F.Additive] [G.Additive]
     (K : HomotopyCategory C c) :
     (Functor.mapHomotopyCategoryCompIso (Iso.refl (F ⋙ G)) c).hom.app K = 𝟙 _ := by
-  show (HomotopyCategory.quotient E c).map (𝟙 _) = 𝟙 _
+  change (HomotopyCategory.quotient E c).map (𝟙 _) = 𝟙 _
   exact CategoryTheory.Functor.map_id _ _
 
 private lemma mapHomotopyCategoryCompIso_refl_inv_app
     (F : C ⥤ D) (G : D ⥤ E) [F.Additive] [G.Additive]
     (K : HomotopyCategory C c) :
     (Functor.mapHomotopyCategoryCompIso (Iso.refl (F ⋙ G)) c).inv.app K = 𝟙 _ := by
-  show (HomotopyCategory.quotient E c).map (𝟙 _) = 𝟙 _
+  change (HomotopyCategory.quotient E c).map (𝟙 _) = 𝟙 _
   exact CategoryTheory.Functor.map_id _ _
 
 end HomotopyComparison
@@ -834,7 +834,7 @@ public theorem derivedInverseLimitIsoDerivedGlobalSections (A : ℕᵒᵖ ⥤ Ri
     RΓ, β, RΓAb, γ, toSheaf_preservesFiniteColimits_bot A,
     hRF, hRΓ, hRΓAb, Iso.refl _, θ, ζ, ?_, ?_⟩
   · intro K
-    show β.app K ≫ 𝟙 _ = β.app K
+    change β.app K ≫ 𝟙 _ = β.app K
     exact CategoryTheory.Category.comp_id _
   · intro K
     have h := congr_app hζ K

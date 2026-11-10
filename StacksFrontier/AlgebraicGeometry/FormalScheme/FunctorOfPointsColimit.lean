@@ -205,7 +205,7 @@ theorem spfPointGammaHomOn_comp_spfQuotientPointOn (I₀ : SpfIndex A P)
     congrArg (fun k : TopCommRingCat.of A ⟶
         ((spfDiagramOn A P ⋙ pseudoDiscreteFunctor).obj I).obj (op ⊤) => k.1 x)
       (spfGammaHomOn_comp_spfProjection_app_top A I)
-  show (Scheme.Hom.appTop a).hom
+  change (Scheme.Hom.appTop a).hom
     (((spfProjectionOn A I).app (op ⊤)).1 ((spfGammaHomOn A P).1 x)) = _
   rw [hx]
   rfl
@@ -337,7 +337,7 @@ theorem injective_spfQuotientPointsColimitMap_app [IsLinearTopology A A] (hA : I
     ext_of_isAffine hcancel
   refine (Types.FilteredColimit.isColimit_eq_iff _ hcol).2
     ⟨OrderDual.toDual K, homOfLE hKI, homOfLE hKJ, ?_⟩
-  show schemeToFormalScheme.map a ≫
+  change schemeToFormalScheme.map a ≫
       schemeToFormalScheme.map ((spfQuotientDiagram A).map (homOfLE hKI)) =
     schemeToFormalScheme.map b ≫
       schemeToFormalScheme.map ((spfQuotientDiagram A).map (homOfLE hKJ))

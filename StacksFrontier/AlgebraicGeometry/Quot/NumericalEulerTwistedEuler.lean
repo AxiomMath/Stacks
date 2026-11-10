@@ -74,7 +74,7 @@ theorem residuePoint_siteObject (A : CoherentObject D) (t : A.testScheme) :
 theorem residuePoint_toSpace (A : CoherentObject D) (t : A.testScheme) :
     (A.residuePoint t).toSpace = (schemeSpaceFunctor B S hS).map (A.pointSchemeHom t) := by
   apply ObjectProperty.hom_ext
-  show yonedaEquiv.symm (A.pointSchemeHom t) = yoneda.map (A.pointSchemeHom t)
+  change yonedaEquiv.symm (A.pointSchemeHom t) = yoneda.map (A.pointSchemeHom t)
   ext W g
   simp [yonedaEquiv]
 

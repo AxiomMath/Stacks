@@ -24,7 +24,7 @@ quasi-isomorphism.  This is [Stacks, Tag 0F8G].
 The classes of schemes on which that affine diagonal is itself discharged, so that the roof is
 available with nothing assumed beyond the scheme — separated, Noetherian, carrying an ample
 invertible module, affine, and `ℙⁿ` over an affine base — are in
-`StacksFrontier/AlgebraicGeometry/Perfect/BoundedLocallyFreeComplexes/DerivedRoofUnconditional.lean`,
+`StacksFrontier/AlgebraicGeometry/Perfect/BoundedLocallyFreeComplexes/DerivedRoofUnconditional.lean`
 together with two instances of the conclusion in which every binder is filled in.
 
 ## Implementation notes

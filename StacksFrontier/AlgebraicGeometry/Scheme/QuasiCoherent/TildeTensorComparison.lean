@@ -148,7 +148,9 @@ abbrev tildeSheaf (A : ModuleCat.{u} R) :
 /-- The tensor product `M̃ ⊗ Ñ`, retyped as an object of `(Spec R).Modules`, which is the spelling
 Mathlib's `tilde` machinery is indexed by. -/
 abbrev tildeTensor : (Spec R).Modules :=
-  (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(((Spec R).toRingedSpace)).presheaf, (((Spec R).toRingedSpace)).IsSheaf⟩).obj ((tildeSheaf M))).obj ((tildeSheaf N)))
+  (((Stacks.SheafOfModules.Tensor.sheafTensor
+      ⟨(((Spec R).toRingedSpace)).presheaf, (((Spec R).toRingedSpace)).IsSheaf⟩).obj
+        ((tildeSheaf M))).obj ((tildeSheaf N)))
 
 /-! ### The canonical global sections and the map on global sections -/
 
@@ -189,7 +191,8 @@ lemma toTS_smul (c : (Spec R).presheaf.obj (op ⊤))
       = @HSMul.hSMul _ Γ(tildeTensor M N, ⊤) _ _ c
           (toTensorSheafSection (Spec R).toRingedSpace (tildeSheaf M) (tildeSheaf N) (op ⊤) t) :=
   map_smul ((sheafifyUnit (Spec R).toRingedSpace
-    ((PresheafOfModules.tensorObj (O := ((Spec R).toRingedSpace).presheaf) ((tildeSheaf M).val) ((tildeSheaf N).val)))).app (op ⊤)).hom
+    ((PresheafOfModules.tensorObj (O := ((Spec R).toRingedSpace).presheaf) ((tildeSheaf M).val)
+      ((tildeSheaf N).val)))).app (op ⊤)).hom
     c t
 
 /-- `Stacks.SheafOfModules.TensorStalkRingedSpace.toTensorSheafSection` is additive. -/
@@ -199,7 +202,8 @@ lemma toTS_add (t t' : TensorProduct ((Spec R).presheaf.obj (op ⊤))
       = toTensorSheafSection (Spec R).toRingedSpace (tildeSheaf M) (tildeSheaf N) (op ⊤) t
         + toTensorSheafSection (Spec R).toRingedSpace (tildeSheaf M) (tildeSheaf N) (op ⊤) t' :=
   map_add ((sheafifyUnit (Spec R).toRingedSpace
-    ((PresheafOfModules.tensorObj (O := ((Spec R).toRingedSpace).presheaf) ((tildeSheaf M).val) ((tildeSheaf N).val)))).app (op ⊤)).hom
+    ((PresheafOfModules.tensorObj (O := ((Spec R).toRingedSpace).presheaf) ((tildeSheaf M).val)
+      ((tildeSheaf N).val)))).app (op ⊤)).hom
     t t'
 
 /-- `topTmul` is semilinear over `cTop` in its left argument. -/
@@ -376,18 +380,24 @@ of `z : M ⊗_R N` to the germ of `topTensorMap z`. -/
 lemma tildeTensorComparison_stalkMapL_toStalk (z : (M ⊗[R] N)) :
     stalkMapL (Spec R).toRingedSpace
         (tildeSheaf (ModuleCat.of (R : Type u) (M ⊗[R] N))).val
-        ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(((Spec R).toRingedSpace)).presheaf, (((Spec R).toRingedSpace)).IsSheaf⟩).obj ((tildeSheaf M))).obj ((tildeSheaf N)))).val
+        ((((Stacks.SheafOfModules.Tensor.sheafTensor
+          ⟨(((Spec R).toRingedSpace)).presheaf, (((Spec R).toRingedSpace)).IsSheaf⟩).obj
+            ((tildeSheaf M))).obj ((tildeSheaf N)))).val
         (tildeTensorComparison M N).val q
         ((tilde.toStalk (ModuleCat.of (R : Type u) (M ⊗[R] N)) q).hom z)
       = grpGerm (Spec R).toRingedSpace
-          ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(((Spec R).toRingedSpace)).presheaf, (((Spec R).toRingedSpace)).IsSheaf⟩).obj ((tildeSheaf M))).obj ((tildeSheaf N)))).val q ⊤
+          ((((Stacks.SheafOfModules.Tensor.sheafTensor
+            ⟨(((Spec R).toRingedSpace)).presheaf, (((Spec R).toRingedSpace)).IsSheaf⟩).obj
+              ((tildeSheaf M))).obj ((tildeSheaf N)))).val q ⊤
           (by trivial) (topTensorMap M N z) :=
   (Stacks.SheafOfModules.stalkMapL_germ (Spec R).toRingedSpace
       (tildeTensorComparison M N).val q ⊤ (by trivial)
       (topSec (ModuleCat.of (R : Type u) (M ⊗[R] N)) z)).trans
     (congrArg
       (fun y => grpGerm (Spec R).toRingedSpace
-        ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(((Spec R).toRingedSpace)).presheaf, (((Spec R).toRingedSpace)).IsSheaf⟩).obj ((tildeSheaf M))).obj ((tildeSheaf N)))).val q ⊤ (by trivial) y)
+        ((((Stacks.SheafOfModules.Tensor.sheafTensor
+          ⟨(((Spec R).toRingedSpace)).presheaf, (((Spec R).toRingedSpace)).IsSheaf⟩).obj
+            ((tildeSheaf M))).obj ((tildeSheaf N)))).val q ⊤ (by trivial) y)
       (tildeTensorComparison_app_top M N z))
 
 /-- **The germ characterisation of the comparison morphism.**  Composed with the Tag 01CB
@@ -401,7 +411,9 @@ lemma tensorStalkIso_stalkMapL_toStalkL (m : M) (n : N) :
     tensorStalkIso (Spec R).toRingedSpace q (tildeSheaf M) (tildeSheaf N)
         (stalkMapL (Spec R).toRingedSpace
           (tildeSheaf (ModuleCat.of (R : Type u) (M ⊗[R] N))).val
-          ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(((Spec R).toRingedSpace)).presheaf, (((Spec R).toRingedSpace)).IsSheaf⟩).obj ((tildeSheaf M))).obj ((tildeSheaf N)))).val
+          ((((Stacks.SheafOfModules.Tensor.sheafTensor
+            ⟨(((Spec R).toRingedSpace)).presheaf, (((Spec R).toRingedSpace)).IsSheaf⟩).obj
+              ((tildeSheaf M))).obj ((tildeSheaf N)))).val
           (tildeTensorComparison M N).val q
           (toStalkL q (ModuleCat.of (R : Type u) (M ⊗[R] N)) (m ⊗ₜ[R] n)))
       = toStalkL q M m ⊗ₜ[ringStalk (Spec R).toRingedSpace q] toStalkL q N n :=
@@ -431,7 +443,9 @@ def stalkComparisonR :
           (tensorStalkIso (Spec R).toRingedSpace q (tildeSheaf M) (tildeSheaf N)) ∘ₗ
         stalkMapL (Spec R).toRingedSpace
           (tildeSheaf (ModuleCat.of (R : Type u) (M ⊗[R] N))).val
-          ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(((Spec R).toRingedSpace)).presheaf, (((Spec R).toRingedSpace)).IsSheaf⟩).obj ((tildeSheaf M))).obj ((tildeSheaf N)))).val
+          ((((Stacks.SheafOfModules.Tensor.sheafTensor
+            ⟨(((Spec R).toRingedSpace)).presheaf, (((Spec R).toRingedSpace)).IsSheaf⟩).obj
+              ((tildeSheaf M))).obj ((tildeSheaf N)))).val
           (tildeTensorComparison M N).val q)
 
 /-- `stalkComparisonR` on the image under `toStalk` of a pure tensor. -/
@@ -478,7 +492,9 @@ lemma bijective_stalkMapL_tildeTensorComparison :
     Function.Bijective
       (stalkMapL (Spec R).toRingedSpace
         (tildeSheaf (ModuleCat.of (R : Type u) (M ⊗[R] N))).val
-        ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(((Spec R).toRingedSpace)).presheaf, (((Spec R).toRingedSpace)).IsSheaf⟩).obj ((tildeSheaf M))).obj ((tildeSheaf N)))).val
+        ((((Stacks.SheafOfModules.Tensor.sheafTensor
+          ⟨(((Spec R).toRingedSpace)).presheaf, (((Spec R).toRingedSpace)).IsSheaf⟩).obj
+            ((tildeSheaf M))).obj ((tildeSheaf N)))).val
         (tildeTensorComparison M N).val q) := by
   exact (Function.Bijective.of_comp_iff' ((IsLocalization.moduleTensorEquiv
     (pt q).asIdeal.primeCompl (ringStalk (Spec R).toRingedSpace q) _ _).bijective.comp
@@ -495,7 +511,9 @@ end Stalk
 isomorphism on every stalk is an isomorphism. -/
 theorem isIso_tildeTensorComparison : IsIso (tildeTensorComparison M N) := by
   have h : IsIso (show tildeSheaf (ModuleCat.of (R : Type u) (M ⊗[R] N)) ⟶
-      (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(((Spec R).toRingedSpace)).presheaf, (((Spec R).toRingedSpace)).IsSheaf⟩).obj ((tildeSheaf M))).obj ((tildeSheaf N))) from
+      (((Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨(((Spec R).toRingedSpace)).presheaf, (((Spec R).toRingedSpace)).IsSheaf⟩).obj
+          ((tildeSheaf M))).obj ((tildeSheaf N))) from
       tildeTensorComparison M N) := by
     refine ExtensionByZeroModules.isIso_of_stalk_isIso
       (structureSheafRing (Spec R).toRingedSpace) _ fun x => ?_

@@ -104,6 +104,7 @@ universe u
 namespace AlgebraicGeometry.Space
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site exceeds the default limit
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_ModificationExcisionPushforward
@@ -342,7 +343,7 @@ theorem isSheaf_excisionPushforward :
     (isSheaf_iff_isSheaf_of_type _ _).1
       (isSheaf_relativeHom B S hS V Y W f (h ≫ f) hV hY hW)
   rw [isSheaf_iff_isSheaf_of_type]
-  show Presieve.IsSheaf (BigFppfOver.topology B S hS)
+  change Presieve.IsSheaf (BigFppfOver.topology B S hS)
     (excisionSubfunctor B S hS f h hV hY hW).toFunctor
   refine (Subfunctor.isSheaf_iff _ hMor).2 ?_
   intro U s hs
@@ -428,7 +429,7 @@ theorem existsUnique_excision_app_of_mem (hY₀ : IsIso (pullback.snd h (W₀.pr
   have hbase : (excisionSections B S hS f h hV hY hW T p).base = yonedaEquiv.symm w :=
     congrArg RelativeMorphism.base hp
   refine ⟨p, ?_, ?_⟩
-  · show (excisionProjection B S hS f h hV hY hW).app (op T) p = w
+  · change (excisionProjection B S hS f h hV hY hW).app (op T) p = w
     rw [excisionProjection_app, hbase, Equiv.apply_symm_apply]
   · intro p' hp'
     have hp'' : (excisionProjection B S hS f h hV hY hW).app (op T) p' = w := hp'
@@ -519,7 +520,7 @@ theorem iSup_range_diagonalCoverHom (C : Subfunctor (pullback f f)) :
     (⨆ b, Subfunctor.range (diagonalCoverHom B S hS f C b)) =
       Subfunctor.range (pullback.diagonal f) ⊔ C := by
   rw [iSup_bool_eq]
-  show Subfunctor.range C.ι ⊔ Subfunctor.range (pullback.diagonal f) =
+  change Subfunctor.range C.ι ⊔ Subfunctor.range (pullback.diagonal f) =
     Subfunctor.range (pullback.diagonal f) ⊔ C
   rw [Subfunctor.range_ι, sup_comm]
 
@@ -638,7 +639,7 @@ theorem excision_morphism_unique_of_diagSection (hf : IsEtale B S hS f)
   intro b
   cases b with
   | false =>
-    show pullback.fst (pullback.mapFst v f f) (pullback.diagonal f) ≫ m₁ =
+    change pullback.fst (pullback.mapFst v f f) (pullback.diagonal f) ≫ m₁ =
       pullback.fst (pullback.mapFst v f f) (pullback.diagonal f) ≫ m₂
     calc pullback.fst (pullback.mapFst v f f) (pullback.diagonal f) ≫ m₁
         = ((pullback.fst (pullback.mapFst v f f) (pullback.diagonal f) ≫
@@ -653,14 +654,14 @@ theorem excision_morphism_unique_of_diagSection (hf : IsEtale B S hS f)
       _ = pullback.fst (pullback.mapFst v f f) (pullback.diagonal f) ≫ m₂ := by
           rw [fst_mapFst_diagonal_fac]
   | true =>
-    show pullback.fst (pullback.mapFst v f f) C.ι ≫ m₁ =
+    change pullback.fst (pullback.mapFst v f f) C.ι ≫ m₁ =
       pullback.fst (pullback.mapFst v f f) C.ι ≫ m₂
     refine lift_eq_of_isIso_pullback_snd B S hS h hY₀
       (Subfunctor.lift _ (range_fst_mapFst_complement_le B S hS f C T hCsnd v)) _ _ ?_ ?_
-    · show (pullback.fst (pullback.mapFst v f f) C.ι ≫ m₁) ≫ h =
+    · change (pullback.fst (pullback.mapFst v f f) C.ι ≫ m₁) ≫ h =
         pullback.fst (pullback.mapFst v f f) C.ι ≫ pullback.snd (v ≫ f) f
       rw [Category.assoc, h₁]
-    · show (pullback.fst (pullback.mapFst v f f) C.ι ≫ m₂) ≫ h =
+    · change (pullback.fst (pullback.mapFst v f f) C.ι ≫ m₂) ≫ h =
         pullback.fst (pullback.mapFst v f f) C.ι ≫ pullback.snd (v ≫ f) f
       rw [Category.assoc, h₂]
 
@@ -705,7 +706,7 @@ theorem exists_excision_morphism_of_diagSection (hf : IsEtale B S hS f)
         exact fst_mapFst_diagonal_comp B S hS f v
       exact (congrArg (fun k => k ≫ h) hφfalse).trans e
     | true =>
-      show φ₀ true ≫ h =
+      change φ₀ true ≫ h =
         pullback.fst (pullback.mapFst v f f) C.ι ≫ pullback.snd (v ≫ f) f
       rw [hφtrue]
       exact hmC
@@ -918,12 +919,12 @@ theorem exists_iso_pullback_excisionProjection (hf : IsEtale B S hS f)
     have hb₁ : (RelativeMorphism.restrict (yonedaEquiv.symm y₁)
         (⟨h ≫ f, mY, hmYc⟩ : RelativeMorphism B S hS V Y W f (h ≫ f) Y)).base =
         (yonedaEquiv.symm y₁ ≫ h) ≫ f := by
-      show yonedaEquiv.symm y₁ ≫ (h ≫ f) = (yonedaEquiv.symm y₁ ≫ h) ≫ f
+      change yonedaEquiv.symm y₁ ≫ (h ≫ f) = (yonedaEquiv.symm y₁ ≫ h) ≫ f
       rw [Category.assoc]
     have hb₂ : (RelativeMorphism.restrict (yonedaEquiv.symm y₂)
         (⟨h ≫ f, mY, hmYc⟩ : RelativeMorphism B S hS V Y W f (h ≫ f) Y)).base =
         (yonedaEquiv.symm y₁ ≫ h) ≫ f := by
-      show yonedaEquiv.symm y₂ ≫ (h ≫ f) = (yonedaEquiv.symm y₁ ≫ h) ≫ f
+      change yonedaEquiv.symm y₂ ≫ (h ≫ f) = (yonedaEquiv.symm y₁ ≫ h) ≫ f
       rw [← Category.assoc, hvv]
     obtain ⟨d₁, hd₁f, hd₁s⟩ := exists_diag_of_base_eq B S hS f h (yonedaEquiv.symm y₁ ≫ h) _ hb₁
     obtain ⟨d₂, hd₂f, hd₂s⟩ := exists_diag_of_base_eq B S hS f h (yonedaEquiv.symm y₁ ≫ h) _ hb₂
@@ -973,7 +974,7 @@ theorem exists_iso_pullback_excisionProjection (hf : IsEtale B S hS f)
           (d ≫ (excisionSections B S hS f h hV hY hW D.unop p).morphism)
           (⟨h ≫ f, mY, hmYc⟩ : RelativeMorphism B S hS V Y W f (h ≫ f) Y)).base =
           yonedaEquiv.symm v₀ ≫ f := by
-        show (d ≫ (excisionSections B S hS f h hV hY hW D.unop p).morphism) ≫ (h ≫ f) =
+        change (d ≫ (excisionSections B S hS f h hV hY hW D.unop p).morphism) ≫ (h ≫ f) =
           yonedaEquiv.symm v₀ ≫ f
         rw [← Category.assoc, ht]
       obtain ⟨d₁, hd₁f, hd₁s⟩ :=
@@ -996,7 +997,7 @@ theorem exists_iso_pullback_excisionProjection (hf : IsEtale B S hS f)
     (isIso_iff_bijective _).2 ⟨hinj D, hsurj D⟩
   have : IsIso (pullback.lift Φ₁ h hcond) := NatIso.isIso_of_isIso_app _
   refine ⟨(asIso (pullback.lift Φ₁ h hcond)).symm, ?_⟩
-  show inv (pullback.lift Φ₁ h hcond) ≫ h =
+  change inv (pullback.lift Φ₁ h hcond) ≫ h =
     pullback.snd (excisionProjection B S hS f h hV hY hW) f
   rw [IsIso.inv_comp_eq, pullback.lift_snd]
 

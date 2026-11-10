@@ -106,10 +106,10 @@ theorem preimage_sheafify {C : Type*} [Category C] (J : GrothendieckTopology C)
   have hsieve {T : Cᵒᵖ} (s : F'.obj T) :
       (G.preimage p).sieveOfSection s = G.sieveOfSection (p.app T s) := by
     ext Z i
-    show p.app _ (F'.map i.op s) ∈ G.obj _ ↔ F.map i.op (p.app T s) ∈ G.obj _
+    change p.app _ (F'.map i.op s) ∈ G.obj _ ↔ F.map i.op (p.app T s) ∈ G.obj _
     rw [NatTrans.naturality_apply]
   ext T s
-  show (G.preimage p).sieveOfSection s ∈ J T.unop ↔
+  change (G.preimage p).sieveOfSection s ∈ J T.unop ↔
     G.sieveOfSection (p.app T s) ∈ J T.unop
   rw [hsieve]
 
@@ -136,6 +136,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site needs the larger budget
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 instance hasPullbacks_presheaf_EtaleSplitQuasiFinitePoint :

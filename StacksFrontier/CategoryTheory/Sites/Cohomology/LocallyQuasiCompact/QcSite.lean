@@ -155,7 +155,7 @@ lemma qcCovering_of_presieve_eq
     _root_.IsQcCovering (fun i => (F.f i : (F.X i).obj → X.obj)) := by
   choose β hEq hf using fun i : E.I₀ =>
     Presieve.ofArrows_surj F.f (E.f i) (by
-      show F.presieve₀ (E.f i)
+      change F.presieve₀ (E.f i)
       rw [← h]
       exact E.presieve₀_f i)
   exact qcCovering_of_arrow_reindex F E β (fun i => (hEq i).symm) hf hE
@@ -174,7 +174,7 @@ lemma combinatoriallyEquivalent_canonical
     ⟨β, fun j => (Presieve.ofArrows_surj E.f j.1.2 j.2).choose_spec.1.symm,
       fun j => (Presieve.ofArrows_surj E.f j.1.2 j.2).choose_spec.2⟩⟩
   intro i
-  show E.f i = eqToHom rfl ≫ E.f i
+  change E.f i = eqToHom rfl ≫ E.f i
   simp
 
 /-- Quasi-compactness of a family of maps is transported along homeomorphisms of the sources
@@ -292,7 +292,7 @@ theorem isCovering_iff_isQcCovering (S : LocallyQuasiCompactQcSite.{u, w} S₀ B
   · obtain ⟨α, hX, hf⟩ := (combinatoriallyEquivalent_canonical E).1
     obtain ⟨F, hF, hEF⟩ := S.exists_coveringRepresentative E.presieve₀
       (qcCovering_of_arrow_reindex E.presieve₀.preZeroHypercover E α hX hf hE)
-    show E.presieve₀ ∈ S.pretopology X
+    change E.presieve₀ ∈ S.pretopology X
     rw [← Presieve.presieve₀_preZeroHypercover E.presieve₀,
       PreZeroHypercover.presieve₀_eq_of_combinatoriallyEquivalent hEF]
     exact hF
@@ -405,14 +405,14 @@ lemma isQcCovering_pullback₁ {Q : LocallyQuasiCompactHausdorff.{u} → Prop}
       (hIsoPullback i ≪≫ TopCat.pullbackIsoProdSubtype fTop (gTop i))).symm
   have hm (i) (x) :
       (E'.f i : (E'.X i).obj → X.obj) (e i x) = FiberProd.prX' fFun (gFun i) x := by
-    show (U.map (pullback.fst f (E.f i))).hom (e i x) = _
+    change (U.map (pullback.fst f (E.f i))).hom (e i x) = _
     have hproj :
         (hIsoPullback i ≪≫ TopCat.pullbackIsoProdSubtype fTop (gTop i)).hom ≫
           TopCat.pullbackFst fTop (gTop i) = U.map (pullback.fst f (E.f i)) := by
       simp only [Iso.trans_hom, Category.assoc, TopCat.pullbackIsoProdSubtype_hom_fst]
       exact PreservesPullback.iso_hom_fst U f (E.f i)
     rw [← ConcreteCategory.congr_hom hproj (e i x)]
-    show ((e i).symm (e i x)).val.1 = x.val.1
+    change ((e i).symm (e i x)).val.1 = x.val.1
     rw [Homeomorph.symm_apply_apply]
   exact qcCovering_of_homeomorphic_reindex
     (fun i => FiberProd.prX' fFun (gFun i))
@@ -486,7 +486,7 @@ theorem exists_locallyQuasiCompactQcSite
       (h := heq.symm.trans (Presieve.presieve₀_preZeroHypercover R).symm) hE
   · intro X R hR
     refine ⟨R.preZeroHypercover, ?_, PreZeroHypercover.combinatoriallyEquivalent_refl _⟩
-    show R.preZeroHypercover.presieve₀ ∈ P.precoverage X
+    change R.preZeroHypercover.presieve₀ ∈ P.precoverage X
     exact PreZeroHypercover.presieve₀_mem_precoverage_iff.mpr hR
 
 end Stacks.Topology

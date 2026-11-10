@@ -210,7 +210,7 @@ theorem exists_etaleNeighborhood_hom_mem_range {d : ℕ} {V U : Scheme.{u}}
   -- Step 7: extend to an open neighbourhood of `W.point` and assemble.
   obtain ⟨U', hxU', σ, hσ, hpt⟩ := exists_opens_hom_affineSpace W.point W.toBase _ hδ
   refine ⟨W.comp (EtaleNeighborhood.ofOpens U' hxU'), σ, hσ, ?_⟩
-  show σ.base ⟨W.point, hxU'⟩ ∈ Set.range π.base
+  change σ.base ⟨W.point, hxU'⟩ ∈ Set.range π.base
   rw [hpt]
   simpa using (hw : ρ.base w ∈ Set.range π.base)
 
@@ -232,7 +232,7 @@ theorem exists_etaleNeighborhood_lift_of_section {n : Type u} {V U : Scheme.{u}}
       toBase := Limits.pullback.snd π σ
       map_point := hz }
   refine ⟨W.comp W'', Limits.pullback.fst π σ, ?_⟩
-  show Limits.pullback.fst π σ ≫ π ≫ (𝔸(n; V) ↘ V) = Limits.pullback.snd π σ ≫ W.toBase
+  change Limits.pullback.fst π σ ≫ π ≫ (𝔸(n; V) ↘ V) = Limits.pullback.snd π σ ≫ W.toBase
   rw [← hσ, ← Category.assoc, ← Category.assoc, Limits.pullback.condition]
 
 /-- **Stacks Project, Tag 055U.** A smooth morphism admits an étale local section through any
@@ -263,7 +263,7 @@ theorem exists_etaleNeighborhood_lift_of_smooth {X S : Scheme.{u}}
       (⟨x, hxU⟩ : U.toScheme) hpt
   obtain ⟨W', h, hW⟩ := exists_etaleNeighborhood_lift_of_section π W σ hσ hmem
   refine ⟨(EtaleNeighborhood.ofOpens V hsV).comp W', h ≫ U.ι, ?_⟩
-  show (h ≫ U.ι) ≫ f = W'.toBase ≫ V.ι
+  change (h ≫ U.ι) ≫ f = W'.toBase ≫ V.ι
   rw [Category.assoc, ← Scheme.Hom.resLE_comp_ι f hUV, ← hcomp, ← hW]
   simp
 

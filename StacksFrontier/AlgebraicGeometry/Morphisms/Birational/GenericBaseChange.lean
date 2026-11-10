@@ -61,7 +61,7 @@ private lemma exists_generic_preimage_specializes {X Y : Scheme.{u}} (f : X ⟶ 
     exact hxZ (subset_closure (Set.mem_singleton x))
   have hmem : f g.1 ∈ ({y} : Set Y) := by
     rw [← range_fromSpecStalk_eq_singleton y hy, Scheme.range_fromSpecStalk]
-    simpa only [hxy, Set.mem_setOf_eq] using hgx.map f.continuous
+    simpa only [hxy, Set.mem_ofPred_eq] using hgx.map f.continuous
   exact ⟨g.1, g.2, hmem, hgx⟩
 
 private lemma exists_generic_section {X Y : Scheme.{u}} (f : X ⟶ Y)
@@ -72,7 +72,7 @@ private lemma exists_generic_section {X Y : Scheme.{u}} (f : X ⟶ Y)
   refine ⟨Spec.map (inv (f.stalkMap x)) ≫ X.fromSpecStalk x, ?_, ?_⟩
   · rw [Category.assoc, ← Scheme.SpecMap_stalkMap_fromSpecStalk f (x := x), Spec.map_inv,
       IsIso.inv_hom_id_assoc]
-  · show X.fromSpecStalk x ((Spec.map (inv (f.stalkMap x))) (closedPoint _)) = x
+  · change X.fromSpecStalk x ((Spec.map (inv (f.stalkMap x))) (closedPoint _)) = x
     rw [Spec_closedPoint, Scheme.fromSpecStalk_closedPoint]
 
 /-- The morphism `Spec 𝒪_{X, x} ⟶ X` is an isomorphism on stalks at the closed point. -/
@@ -144,7 +144,7 @@ lemma isIso_pullback_snd_fromSpecStalk_of_isBirational
   have hp : p ≫ pullback.snd f g = 𝟙 _ := pullback.lift_snd _ _ _
   have hp_fst : p ≫ pullback.fst f g = s := pullback.lift_fst _ _ _
   have hp₀ : pullback.fst f g (p (closedPoint _)) = x₀ := by
-    show (p ≫ pullback.fst f g) (closedPoint _) = x₀
+    change (p ≫ pullback.fst f g) (closedPoint _) = x₀
     rw [hp_fst, hsx]
   let : IsClosedImmersion p := isClosedImmersion_of_comp_eq_id (pullback.snd f g) p hp
   have hpoint (z : ↑(pullback f g)) : z = p (closedPoint _) := by
@@ -164,14 +164,14 @@ lemma isIso_pullback_snd_fromSpecStalk_of_isBirational
   have hbase : IsIso (pullback.snd f g).base :=
     TopCat.isIso_of_bijective_of_isOpenMap _ hbij_base hopen
   have hp_snd : (pullback.snd f g) (p (closedPoint _)) = closedPoint _ := by
-    show (p ≫ pullback.snd f g) (closedPoint _) = closedPoint _
+    change (p ≫ pullback.snd f g) (closedPoint _) = closedPoint _
     rw [hp]
     rfl
   have : IsIso (f.stalkMap (pullback.fst f g (p (closedPoint _)))) := by
     rw [hp₀]
     infer_instance
   have : IsIso (g.stalkMap (pullback.snd f g (p (closedPoint _)))) := by
-    show IsIso ((Y.fromSpecStalk y).stalkMap (pullback.snd f g (p (closedPoint _))))
+    change IsIso ((Y.fromSpecStalk y).stalkMap (pullback.snd f g (p (closedPoint _))))
     rw [hp_snd]
     exact isIso_stalkMap_fromSpecStalk_closedPoint Y y
   have hstalk := isIso_stalkMap_of_section_of_surjective (pullback.snd f g) p hp _

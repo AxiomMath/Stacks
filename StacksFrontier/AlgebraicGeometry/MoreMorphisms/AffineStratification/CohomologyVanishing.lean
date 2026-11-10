@@ -230,7 +230,7 @@ theorem AffineStratification.nonempty_complement {X : Scheme.{u}} {m : ℕ}
       refine ⟨j.castPred hjne, ?_, ?_⟩
       · rw [Fin.le_def] at hji ⊢
         simpa only [Fin.val_castSucc, Fin.coe_castPred] using hji
-      · show g y ∈ s.strata ((j.castPred hjne).castSucc)
+      · change g y ∈ s.strata ((j.castPred hjne).castSucc)
         rw [Fin.castSucc_castPred]
         exact hgj
   have hAff : ∀ i : Fin (m + 1),
@@ -247,7 +247,7 @@ theorem AffineStratification.nonempty_complement {X : Scheme.{u}} {m : ℕ}
     have : IsAffine J.subscheme := isAffine_of_isAffineHom J.subschemeι
     set f := J.subschemeι ≫ reducedInducedInclusion (s.strata i.castSucc) hTX with hfdef
     have hfrange : Set.range f = s.strata i.castSucc := by
-      show Set.range ((reducedInducedInclusion (s.strata i.castSucc) hTX).base ∘
+      change Set.range ((reducedInducedInclusion (s.strata i.castSucc) hTX).base ∘
         J.subschemeι.base) = _
       rw [Set.range_comp, Scheme.IdealSheafData.range_subschemeι_vanishingIdeal]
       simpa using range_reducedInducedInclusion (s.strata i.castSucc) hTX
@@ -278,7 +278,7 @@ theorem AffineStratification.nonempty_complement {X : Scheme.{u}} {m : ℕ}
     have hhrange : Set.range h = T i := by
       refine Set.eq_of_subset_of_subset ?_ ?_
       · rintro y ⟨z, rfl⟩
-        show g (h z) ∈ s.strata i.castSucc
+        change g (h z) ∈ s.strata i.castSucc
         rw [hcomp z]
         exact hfrange.le ⟨z, rfl⟩
       · intro y hy
@@ -348,9 +348,9 @@ theorem isAffineHom_ι_of_isAffineHom_reducedInducedInclusion
   have : IsImmersion k := inferInstance
   have : IsAffineHom k := inferInstance
   have hkrange : Set.range k.base = ((U ⊓ (V : X.Opens) : X.Opens) : Set X) := by
-    show Set.range (incl.base ∘ ((incl ⁻¹ᵁ (V : X.Opens)).ι).base) = _
+    change Set.range (incl.base ∘ ((incl ⁻¹ᵁ (V : X.Opens)).ι).base) = _
     rw [Set.range_comp, Scheme.Opens.range_ι]
-    show incl '' (incl ⁻¹' (V : Set X)) = _
+    change incl '' (incl ⁻¹' (V : Set X)) = _
     rw [Set.image_preimage_eq_inter_range, range_reducedInducedInclusion, Opens.coe_inf]
     exact Set.inter_comm _ _
   have hUV : IsAffineOpen (U ⊓ (V : X.Opens)) :=

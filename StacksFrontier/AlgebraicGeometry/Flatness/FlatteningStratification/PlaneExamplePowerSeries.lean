@@ -45,7 +45,7 @@ module with no universal flattening.
 The obstruction to flatness is Mathlib's `Module.Flat.isSMulRegular_of_nonZeroDivisors`:
 multiplication by a nonzerodivisor of the base is injective on a flat module, while it is zero
 on `(A/bA)[1/a]`, which is nontrivial because no power of `a` lies in `(b)`. For `A = k[[x, y]]`
-with `a = x` and `b = y` the two inputs are `MvPowerSeries.X_mem_nonzeroDivisors` and a
+with `a = x` and `b = y` the two inputs are `MvPowerSeries.X_mem_nonZeroDivisors` and a
 coefficient computation through `MvPowerSeries.X_pow_dvd_iff`.
 
 Flatness over the base is transported from the fibre product `Spec R ×_{Spec R} Spec A` to
@@ -188,7 +188,7 @@ public theorem not_flat_formalPlane_baseChange (E : PlaneFlatteningExample.{u}) 
       MvPolynomial.algebraMap_mvPowerSeries_X 0,
     show algebraMap E.R E.formalPlane E.y = MvPowerSeries.X 1 from
       MvPolynomial.algebraMap_mvPowerSeries_X 1]
-  exact LocalizedModule.not_flat_quotient_span_singleton MvPowerSeries.X_mem_nonzeroDivisors
+  exact LocalizedModule.not_flat_quotient_span_singleton MvPowerSeries.X_mem_nonZeroDivisors
     (MvPowerSeries.X_not_dvd_X_pow (by decide))
 
 /-- The flatness functor of the flattening example on the affine plane has no value over the

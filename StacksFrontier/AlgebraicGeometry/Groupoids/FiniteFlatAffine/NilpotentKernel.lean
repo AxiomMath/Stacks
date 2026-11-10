@@ -36,7 +36,7 @@ private theorem isNilpotent_of_appTop_eq_zero_of_surjective {C : Type u} [CommRi
     (hx : (((Scheme.ΓSpecIso (.of C)).inv ≫ g.appTop).hom) x = 0) : IsNilpotent x := by
   let h : C →+* Γ(X, ⊤) := ((Scheme.ΓSpecIso (.of C)).inv ≫ g.appTop).hom
   have hmap : X.isoSpec.hom ≫ Spec.map (CommRingCat.ofHom h) = g := by
-    show X.isoSpec.hom ≫ Spec.map ((Scheme.ΓSpecIso (.of C)).inv ≫ g.appTop) = g
+    change X.isoSpec.hom ≫ Spec.map ((Scheme.ΓSpecIso (.of C)).inv ≫ g.appTop) = g
     rw [Spec.map_comp, ← Category.assoc, Scheme.isoSpec_hom_naturality]
     simp
   exact mem_nilradical.mp ((PrimeSpectrum.denseRange_comap_iff_ker_le_nilRadical h).mp
@@ -52,7 +52,7 @@ theorem isNilpotent_of_mem_ker_canonicalMapToInvariantFunctions {S : Scheme.{u}}
     (hf : f ∈ RingHom.ker G'.canonicalMapToInvariantFunctions) : IsNilpotent f := by
   have : IsAffine G'.groupoid.objects.left := IsAffine.of_isIso G'.objectsIso.hom
   have hbase : Surjective (objectsToInvariantSpectrum G) := by
-    show Surjective (G.objects.left.toSpecΓ ≫
+    change Surjective (G.objects.left.toSpecΓ ≫
       Spec.map (CommRingCat.ofHom (invariantRing G).subtype))
     have : Surjective (Spec.map (CommRingCat.ofHom (invariantRing G).subtype)) :=
       ⟨(isIntegral_invariantRing G).comap_surjective Subtype.val_injective⟩

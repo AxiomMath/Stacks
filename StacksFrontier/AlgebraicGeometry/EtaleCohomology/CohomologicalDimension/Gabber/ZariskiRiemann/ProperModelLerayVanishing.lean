@@ -113,14 +113,14 @@ theorem subsingleton_sheafH_of_forall_geometricClosedFibre_support
   have ht := torsionSheafProperty_etaleAbelianInverseImage.{u, 0} (pullback.fst f x)
     (((smallEtaleDirectImageAb.{u + 1} j).rightDerived q).obj F)
     (torsionSheafProperty_rightDerived_smallEtaleDirectImageAb_of_nsmul_eq_zero j F hn hF q)
-  haveI : IsSepClosed Ω := IsSepClosed.of_isAlgClosed Ω
-  haveI : QuasiCompact f := inferInstance
-  haveI : CompactSpace (Spec (.of Ω)) := inferInstance
-  haveI : CompactSpace (pullback f x).carrier :=
+  have : IsSepClosed Ω := IsSepClosed.of_isAlgClosed Ω
+  have : QuasiCompact f := inferInstance
+  have : CompactSpace (Spec (.of Ω)) := inferInstance
+  have : CompactSpace (pullback f x).carrier :=
     QuasiCompact.compactSpace_of_compactSpace (pullback.snd f x)
   -- instance search for `LocallyOfFiniteType f` times out on v4.35.0: take it from `IsProper`
-  haveI : LocallyOfFiniteType f := IsProper.toLocallyOfFiniteType
-  haveI : LocallyOfFiniteType (pullback.snd f x) := inferInstance
+  have : LocallyOfFiniteType f := IsProper.toLocallyOfFiniteType
+  have : LocallyOfFiniteType (pullback.snd f x) := inferInstance
   exact subsingleton_H_of_forall_mem_smallEtaleSupport_two_mul_lt Ω (pullback.snd f x)
     ((etaleAbelianInverseImage.{u, 0} (pullback.fst f x)).obj
       (((smallEtaleDirectImageAb.{u + 1} j).rightDerived q).obj F)) ht (m - q) (h q hq)

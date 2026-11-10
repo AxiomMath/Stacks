@@ -152,8 +152,7 @@ theorem isBaseChange_toDual_of_flat
           (TensorProduct.rTensorHomToHomRTensor (RingHom.id R) M R S) ∘
           ⇑(TensorProduct.comm R S (Module.Dual R M)) := by
         funext z
-        induction z using TensorProduct.induction_on with
-        | zero => simp [f]
+        induction z using TensorProduct.inductionOn with
         | add x y hx hy => simp_all [Function.comp_def]
         | tmul s φ =>
           ext m
@@ -247,8 +246,7 @@ theorem iteratedBaseChange_bijective_iff_of_isBaseChange
   apply (baseChange_baseChange_bijective_iff (S := S) f).symm.trans
   apply baseChange_bijective_iff_of_linearEquiv (f.baseChange S) g hi.equiv hj.equiv
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul s m => simp [hcomm]
   | add x y hx hy => simp [hx, hy]
 

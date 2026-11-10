@@ -133,8 +133,8 @@ The two sites and the section universes are independent throughout: nothing here
 universe of the site to the universe in which sections live, and no universe is specialized.
 
 The direct image is stated for a sheaf of *rings*, matching the Stacks statement of 03D1 and
-the library's statement of the companion Tag 03D2; commutativity is nowhere used and nowhere asserted.
-`PushforwardModuleData` is a field-for-field mirror of
+the library's statement of the companion Tag 03D2; commutativity is nowhere used and nowhere
+asserted. `PushforwardModuleData` is a field-for-field mirror of
 `Stacks.Sheaves.ToposPullback.PullbackModuleData`, which is forced: its `ringIso` and
 `moduleIso` are `Iso.refl` here too, because the underlying sheaf of sets of the direct-image
 ring **is** `f_*` of the underlying sheaf, on the nose.
@@ -335,7 +335,7 @@ scoped[CategoryTheory.Obj] attribute [instance] CategoryTheory.Functor.modObjObj
 /-- A finite-product-preserving functor commutes with an internal scalar multiplication. -/
 protected lemma map_smul' (R M : C) [MonObj R] [ModObj R M] {X : C} (a : X ⟶ R) (b : X ⟶ M) :
     F.map (a • b) = F.map a • F.map b := by
-  show F.map (lift a b ≫ γ[R, M]) =
+  change F.map (lift a b ≫ γ[R, M]) =
     lift (F.map a) (F.map b) ≫ LaxMonoidal.μ F R M ≫ F.map γ[R, M]
   rw [Monoidal.lift_μ_assoc, F.map_comp]
 

@@ -285,7 +285,7 @@ public lemma eq_of_pullHom_eq_of_faithful [(F.toDescentData γ).Faithful]
       pullHom s' (γ i) (γ i ≫ f₁) (γ i ≫ f₂) rfl rfl) :
     s = s' := by
   refine (F.toDescentData γ).map_injective (Pseudofunctor.DescentData.hom_ext fun i ↦ ?_)
-  show (F.map (γ i).op.toLoc).toFunctor.map s = (F.map (γ i).op.toLoc).toFunctor.map s'
+  change (F.map (γ i).op.toLoc).toFunctor.map s = (F.map (γ i).op.toLoc).toFunctor.map s'
   rw [map_eq_pullHom s (γ i) (γ i ≫ f₁) (γ i ≫ f₂) rfl rfl,
     map_eq_pullHom s' (γ i) (γ i ≫ f₁) (γ i ≫ f₂) rfl rfl, h i]
 
@@ -460,7 +460,7 @@ public theorem full_restriction [Mono z] [F.IsPrestack J]
         (by rw [IsPullback.lift_fst_assoc, hf₁]) f₁ f₂ (hsq.lift_fst _ _ _)
         (hsq.lift_snd _ _ _)
     refine ⟨{ hom := h, comm := fun Y q i₁ i₂ f₁ f₂ hf₁ hf₂ ↦ ?_ }, rfl⟩
-    show IsComm D D' h q f₁ f₂ hf₁ hf₂
+    change IsComm D D' h q f₁ f₂ hf₁ hf₂
     cases i₁ <;> cases i₂
     · exact isComm_of_eq q f₁ f₂ ((cancel_mono z).1 (hf₁.trans hf₂.symm)) hf₁ hf₂
     · exact hZX q f₁ f₂ hf₁ hf₂

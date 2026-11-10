@@ -93,7 +93,8 @@ from a polynomial presentation of `C`.  That system is constructed as
 `Crystalline.GlobalCrystallineSituation.SmallSite.wholeSpaceSystem` of
 `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/AffineCosimplicialSystem.lean`, assuming `X`
 and `S` affine and `p` nilpotent on `Γ(X, ⊤)`; so `ComputesCohomology` applies to it, and the
-predicate is proved for it in `WholeSpaceSystemCohomology.lean`.  `ComputesCohomology` is a predicate on a system carried as a parameter, and
+predicate is proved for it in `WholeSpaceSystemCohomology.lean`.  `ComputesCohomology` is a
+predicate on a system carried as a parameter, and
 the statement of [Stacks, Tag 07JN] is: for the source's system, and for `F` satisfying the two
 hypotheses, the predicate holds.  It is emphatically *not* asserted anywhere for an arbitrary
 system, for which it is false (a constant system satisfies `IsWholeSpaceSystem` and computes the
@@ -110,7 +111,8 @@ with a map `A/I → C` — and for the little affine crystalline category
   chaotic site with an object `X` every object maps to and in which the powers `X^{n + 1}` exist,
   the cohomology of an abelian sheaf is the cohomology of `𝓕(X) → 𝓕(X × X) → ⋯`.  This is the
   engine of the proof.  It asks the site to be small, and not to have products of pairs: its
-  proof forms no product but the powers of `X`.  This is what makes the engine applicable to `Cris^∧(C/A)`, where the powers of the generator are the `D(n)` of
+  proof forms no product but the powers of `X`.  This is what makes the engine applicable to
+  `Cris^∧(C/A)`, where the powers of the generator are the `D(n)` of
   [Stacks, Tag 07L4] but coproducts of arbitrary pairs are unavailable.
 * [Stacks, Tag 07JL], `Crystalline.completedCrystallineToposMorphism` and
   `Crystalline.abelianSheafPushforward`, with `Crystalline.finiteLevelSections` the inverse system
@@ -156,7 +158,8 @@ complete; items 5 and 6 are the extra input [Stacks, Tag 07LF] needs, and are st
    `...isZero_homology_rightDerivedLimit_sectionSystem` for the systems of level sections whose
    limits are the terms `M(n)` below.  Two things remain.
 
-   The **first** move is proved too.  Hypothesis (2) is `CohomologyRestriction.IsSurjectiveComparison`: local
+   The **first** move is proved too.  Hypothesis (2) is
+   `CohomologyRestriction.IsSurjectiveComparison`: local
    surjectivity of `c_f : f^*F_{T'} ⟶ F_T`.  The source passes from it to surjectivity of
    `F_{T'} ⟶ f_*F_T`, calling the two equivalent; the comparison
    `Crystalline.GlobalCrystallineSituation.Thickening.range_moduleComparison_app` bounds the
@@ -169,7 +172,8 @@ complete; items 5 and 6 are the extra input [Stacks, Tag 07LF] needs, and are st
    `StacksFrontier/Algebra/Category/ModuleCat/Presheaf/PullbackSectionsCollapse.lean`.
 
    A description of the pullback of a presheaf of modules as a tensor product is not needed for
-   this step.  That description exists in full generality, as `Stacks.PullbackColimit.pullbackObjIso` of
+   this step.  That description exists in full generality, as
+   `Stacks.PullbackColimit.pullbackObjIso` of
    `StacksFrontier/Algebra/Category/ModuleCat/Presheaf/PullbackColimit.lean`, and it is not what the
    step needs: the step is about an image, which the adjunction already determines, so it goes
    through with only fullness of the functor of sites and surjectivity of the ring map, in
@@ -233,7 +237,8 @@ complete; items 5 and 6 are the extra input [Stacks, Tag 07LF] needs, and are st
    only the *morphisms* are `t`-small, by Mathlib's `small_self`, a morphism type being a
    `Type t`; `Small.{t}` of the objects is not claimed, and is false.
 4. The descent of [Stacks, Tag 07JM] to `𝒞` reduces to one proposition.  Two of its three
-   ingredients are proved in `SmallSite/CompletedDirectImageLevels.lean`: the two finite-level diagrams
+   ingredients are proved in `SmallSite/CompletedDirectImageLevels.lean`: the two finite-level
+   diagrams
    are the same diagram, not merely cofinal ones (`Crystalline.uniformLevelSystem` with
    `diagram_uniformLevelSystem` and `finiteLevelSections_uniformLevelSystem`, both `rfl`), and the
    comparison is natural in `B` (`Crystalline.directImageIsoLevelLimit`, an isomorphism of
@@ -249,7 +254,8 @@ complete; items 5 and 6 are the extra input [Stacks, Tag 07LF] needs, and are st
    the cohomology of `𝒞` across `wholeSiteEquivLittleAffine` and the small model, which needs an
    equivalence-invariance lemma for `Sheaf.H`.
 
-   All three inputs are supplied — the first by `Crystalline.lerayPushforwardRightDerivedSectionsIso` and
+   All three inputs are supplied — the first by
+   `Crystalline.lerayPushforwardRightDerivedSectionsIso` and
    `Crystalline.sheafHAddEquivPushforward_of_surjective` of `SmallSite/LevelLimitNaturality.lean`,
    which run the Leray degeneration off the vanishing of item 2 rather than off an isomorphism of
    derived functors; the second by running the engine on the small model, as item 3 records; the

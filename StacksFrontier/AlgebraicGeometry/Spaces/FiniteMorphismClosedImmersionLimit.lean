@@ -132,7 +132,7 @@ theorem exists_idealQuotient_algSystem_of_epi (A : QuasicoherentAlgebra B S hS Y
       have := congrArg (fun φ => (ConcreteCategory.hom φ : _ → _) a)
         (f.right.hom.naturality incl.op)
       refine this.trans ?_
-      show A.obj.right.obj.map incl.op ((f.right.hom.app U) a) = 0
+      change A.obj.right.obj.map incl.op ((f.right.hom.app U) a) = 0
       rw [ha, map_zero]
     obtain ⟨E, hE⟩ := exists_forall_mem_kernelSubmoduleIdeal f hℬ A.property hqc hqs hW
       ({()} : Finset Unit) (fun _ => ℬ.right.obj.map incl.op a) (fun _ _ => hfa)
@@ -273,14 +273,14 @@ theorem exists_integralFiniteSystem_isClosedImmersion_of_isFinite
     isLimitMapConeRelativeSpecPointsFunctor B S hS ht
   have hlim : IsLimit c := hc.ofIsoLimit
     (Cone.ext (asIso (toRelativeSpecPoints B S hS fa)).symm fun j => by
-      show relativeSpecPointsMap B S hS (t.app j.unop) =
+      change relativeSpecPointsMap B S hS (t.app j.unop) =
         inv (toRelativeSpecPoints B S hS fa) ≫ toRelativeSpecPoints B S hS fa ≫
           relativeSpecPointsMap B S hS (t.app j.unop)
       rw [IsIso.inv_hom_id_assoc])
   have hcomp : ∀ i : Iᵒᵖ,
       g = c.π.app i ≫ (relativeSpecPointsπNatTrans B S hS (Y := Ya) D).app i := by
     intro i
-    show g = (toRelativeSpecPoints B S hS fa ≫ relativeSpecPointsMap B S hS (t.app i.unop)) ≫
+    change g = (toRelativeSpecPoints B S hS fa ≫ relativeSpecPointsMap B S hS (t.app i.unop)) ≫
       relativeSpecPointsπ B S hS (X := Ya) (D.obj i.unop)
     rw [Category.assoc, relativeSpecPointsMap_comp_π, toRelativeSpecPoints_comp_π]
     rfl
@@ -295,7 +295,7 @@ theorem exists_integralFiniteSystem_isClosedImmersion_of_isFinite
       stageFinite := fun i => (hspec i.unop).2.1
       stageFinitePresentation := fun i => (hspec i.unop).2.2 }, ?_⟩
   intro i j h
-  show IsClosedImmersion B S hS (relativeSpecPointsMap B S hS (D.map (homOfLE h)))
+  change IsClosedImmersion B S hS (relativeSpecPointsMap B S hS (D.map (homOfLE h)))
   have : Epi (D.map (homOfLE h)) :=
     epi_of_isLocallySurjective_algebraSheaf (D.map (homOfLE h)) (hsurj i j h)
   have := mono_relativeSpecPointsMap_of_epi (X := Ya) (D.map (homOfLE h))

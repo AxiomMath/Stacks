@@ -54,7 +54,8 @@ and `reductionMapGen_eq_iff` turns that into an equality of two morphisms
 The statements are made at a **variable** morphism of schemes over `S` and instantiated
 afterwards, and the two concrete instantiations name the comparison through the constants
 `baseChangeSheafIso` and `reductionMap` rather than spelling it out. Both are forced, and for the
-second the reason is this: a statement that writes `baseChangeSheafIsoGen … (baseChangeMap q (quotHom
+second the reason is this: a statement that writes
+`baseChangeSheafIsoGen … (baseChangeMap q (quotHom
 φ t)) (baseChangeMap_comp_snd q (quotHom φ t))` out in full is the instantiation of the general
 one on the nose, elaborates, and then **fails in the kernel with a deterministic timeout** —
 the proof term `baseChangeMap_comp_snd q (quotHom φ t)` appearing in the statement has to be

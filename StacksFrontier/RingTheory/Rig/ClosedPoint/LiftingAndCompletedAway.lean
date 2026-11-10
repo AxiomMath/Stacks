@@ -100,7 +100,6 @@ public theorem rigPoint_lifts_iff_maximalIdeal_mem_specialFibre_image
     (hB : TopologicalRing.IsWeaklyAdmissible B)
     (φ : A →+* B) (hφ : Continuous φ)
     (hadic : RingHom.IsAdic φ)
-    (hft : TopologicalRing.IsTopologicallyOfFiniteType φ)
     (hflat : φ.Flat)
     (p : Ideal A) [p.IsPrime]
     (hp : Ideal.IsClosedPointAwayFrom
@@ -151,7 +150,7 @@ public theorem rigPoint_lifts_iff_maximalIdeal_mem_specialFibre_image
     have hple : p ≤ (IsLocalRing.maximalIdeal (A ⧸ p)).comap
         (Ideal.Quotient.mk p) := by
       intro x hx
-      show Ideal.Quotient.mk p x ∈ IsLocalRing.maximalIdeal (A ⧸ p)
+      change Ideal.Quotient.mk p x ∈ IsLocalRing.maximalIdeal (A ⧸ p)
       have hxzero : Ideal.Quotient.mk p x = 0 := Ideal.Quotient.eq_zero_iff_mem.mpr hx
       rw [hxzero]
       exact Ideal.zero_mem _
@@ -186,7 +185,7 @@ public theorem rigPoint_lifts_iff_maximalIdeal_mem_specialFibre_image
       apply hmaxA.1
       intro x hx
       rw [← hq₀comap]
-      show φ x ∈ q₀
+      change φ x ∈ q₀
       apply hbq₀
       exact IsTopologicallyNilpotent.mem_topologicalNilradical_iff.mpr
         ((IsTopologicallyNilpotent.mem_topologicalNilradical_iff.mp hx).map hφ)
@@ -220,7 +219,7 @@ public theorem rigPoint_lifts_iff_maximalIdeal_mem_specialFibre_image
       have hIleA : I ≤ topologicalNilradical A := isAdic_le_topologicalNilradical I hIadic
       have hIleq : I ≤ q.comap φ := le_trans hIleA haq
       have hKleq : K ≤ q := by
-        show I.map φ ≤ q
+        change I.map φ ≤ q
         exact Ideal.map_le_iff_le_comap.mpr hIleq
       have hbrad : topologicalNilradical B ≤ K.radical := fun x hx ↦
         Ideal.mem_radical_iff.mpr
@@ -259,11 +258,11 @@ public theorem rigPoint_lifts_iff_maximalIdeal_mem_specialFibre_image
       (Ideal.Quotient.mk q)
     refine ⟨hlocalA, ?_⟩
     refine ⟨r, ?_, ?_, ?_⟩
-    · show (IsLocalRing.maximalIdeal (B ⧸ q)).comap
+    · change (IsLocalRing.maximalIdeal (B ⧸ q)).comap
         (Ideal.Quotient.mk q) |>.IsPrime
       infer_instance
     · intro x hx
-      show Ideal.Quotient.mk q x ∈ IsLocalRing.maximalIdeal (B ⧸ q)
+      change Ideal.Quotient.mk q x ∈ IsLocalRing.maximalIdeal (B ⧸ q)
       obtain ⟨n, hn⟩ := exists_pow_mem_of_mem_topologicalNilradical K hKdef.1 hx
       have hradmem : Ideal.Quotient.mk q (x ^ n) ∈
           (K.map (Ideal.Quotient.mk q)).radical :=
@@ -291,7 +290,7 @@ public theorem rigPoint_lifts_iff_maximalIdeal_mem_specialFibre_image
           _ = IsLocalRing.maximalIdeal (B ⧸ q) := hradB
       have hlocalMap :=
         ((IsLocalRing.local_hom_TFAE f).out 3 5).mp hmaxmap
-      show ((IsLocalRing.maximalIdeal (B ⧸ q)).comap
+      change ((IsLocalRing.maximalIdeal (B ⧸ q)).comap
         (Ideal.Quotient.mk q)).comap φ =
         (IsLocalRing.maximalIdeal (A ⧸ p)).comap (Ideal.Quotient.mk p)
       calc
@@ -447,7 +446,7 @@ private theorem awayQuotientMap_surjective (p : Ideal A) (f : A)
   intro x
   obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x
   refine ⟨Ideal.Quotient.mk _ (algebraMap A (Localization.Away f) a), ?_⟩
-  show (Ideal.Quotient.lift _ (IsLocalization.Away.lift f hf) _)
+  change (Ideal.Quotient.lift _ (IsLocalization.Away.lift f hf) _)
       (Ideal.Quotient.mk _ (algebraMap A (Localization.Away f) a) :
         Localization.Away f ⧸ (p.map (algebraMap A (Localization.Away f)))) = _
   rw [Ideal.Quotient.lift_mk, IsLocalization.Away.lift_eq]
@@ -492,10 +491,10 @@ private theorem quotient_isAdicComplete (I p : Ideal A) [IsNoetherianRing A]
 
 private theorem qoutMapEquivTensorQout_mk_one
     {R S : Type u} [CommRing R] [CommRing S] [Algebra R S] (I : Ideal R) :
-    Ideal.qoutMapEquivTensorQout (S := S) (I := I)
+    Ideal.quotMapEquivTensorQuot (S := S) (I := I)
       (Ideal.Quotient.mk (I.map (algebraMap R S)) (1 : S)) =
         (1 : S) ⊗ₜ[R] Ideal.Quotient.mk I (1 : R) := by
-  show (TensorProduct.tensorQuotEquivQuotSMul S I).symm
+  change (TensorProduct.tensorQuotEquivQuotSMul S I).symm
     (((Submodule.quotEquivOfEq (I • (⊤ : Submodule R S))
         (Submodule.restrictScalars R (I.map (algebraMap R S))) (by simp)).symm)
       ((Submodule.Quotient.restrictScalarsEquiv R (I.map (algebraMap R S))).symm
@@ -513,18 +512,18 @@ private theorem qoutMapEquivTensorQout_mk_one
 
 private theorem qoutMapEquivTensorQout_one
     {R S : Type u} [CommRing R] [CommRing S] [Algebra R S] (I : Ideal R) :
-    Ideal.qoutMapEquivTensorQout (S := S) (I := I) (1 : S ⧸ I.map (algebraMap R S)) =
+    Ideal.quotMapEquivTensorQuot (S := S) (I := I) (1 : S ⧸ I.map (algebraMap R S)) =
       (1 : S) ⊗ₜ[R] Ideal.Quotient.mk I (1 : R) := by
   simpa using qoutMapEquivTensorQout_mk_one (R := R) (S := S) I
 
 private theorem qoutMapEquivTensorQout_symm_unit
     {R S : Type u} [CommRing R] [CommRing S] [Algebra R S] (I : Ideal R) :
-    (Ideal.qoutMapEquivTensorQout (S := S) (I := I)).symm
+    (Ideal.quotMapEquivTensorQuot (S := S) (I := I)).symm
       ((1 : S) ⊗ₜ[R] (1 : R ⧸ I)) = (1 : S ⧸ I.map (algebraMap R S)) := by
-  show (Ideal.qoutMapEquivTensorQout (S := S) (I := I)).symm
+  change (Ideal.quotMapEquivTensorQuot (S := S) (I := I)).symm
     ((1 : S) ⊗ₜ[R] Ideal.Quotient.mk I (1 : R)) = _
   rw [← qoutMapEquivTensorQout_one]
-  exact (Ideal.qoutMapEquivTensorQout (S := S) (I := I)).symm_apply_apply _
+  exact (Ideal.quotMapEquivTensorQuot (S := S) (I := I)).symm_apply_apply _
 
 private noncomputable def completedQuotientModuleEquiv
     (I p : Ideal A) (f : A) [IsNoetherianRing A] [IsAdicComplete I A]
@@ -555,13 +554,13 @@ private noncomputable def completedQuotientModuleEquiv
     (IsAdicComplete.map_algebraMap_iff (R := Af) (S := C) (M := C) J).mp hC'
   letI : IsAdicComplete J C := hC
   let qE : (B ⧸ extendedIdeal I p f) ≃ₗ[B] B ⊗[A] (A ⧸ p) :=
-    p.qoutMapEquivTensorQout B
+    p.quotMapEquivTensorQuot B
   let eBase : B ⊗[A] (A ⧸ p) ≃ₗ[B]
       B ⊗[Af] (Af ⊗[A] (A ⧸ p)) :=
     (TensorProduct.AlgebraTensorModule.cancelBaseChange A Af B B (A ⧸ p)).symm
   let eLoc : B ⊗[Af] (Af ⊗[A] (A ⧸ p)) ≃ₗ[B] B ⊗[Af] C :=
     TensorProduct.AlgebraTensorModule.congr (LinearEquiv.refl B B)
-      (p.qoutMapEquivTensorQout Af).symm
+      (p.quotMapEquivTensorQuot Af).symm
   let eComp : B ⊗[Af] C ≃ₗ[B] AdicCompletion J C :=
     AdicCompletion.ofTensorProductEquivOfFiniteNoetherian J C
   let eComplete : C ≃ₗ[Af] AdicCompletion J C := AdicCompletion.ofLinearEquiv J C
@@ -694,12 +693,12 @@ public theorem adicCompletion_localizedIdeal_equiv_extendedIdeal
   intro x
   have hx : e₀.symm (AdicCompletion.of J p_f x) = (1 : B) ⊗ₜ[A_f] x := by
     rw [e₀.symm_apply_eq]
-    show AdicCompletion.of J p_f x = AdicCompletion.ofTensorProduct J p_f
+    change AdicCompletion.of J p_f x = AdicCompletion.ofTensorProduct J p_f
       ((1 : B) ⊗ₜ[A_f] x)
     rw [AdicCompletion.ofTensorProduct_tmul, one_smul]
   rw [show e (AdicCompletion.of J p_f x) =
       e₂ (e₁ (e₀.symm (AdicCompletion.of J p_f x))) by rfl, hx]
-  show algebraMap A_f B (x : A_f) * 1 = algebraMap A_f B (x : A_f)
+  change algebraMap A_f B (x : A_f) * 1 = algebraMap A_f B (x : A_f)
   simp
 
 /-- The extension of `p` to the completed principal localization is prime. -/
@@ -739,14 +738,14 @@ public theorem comap_extendedIdeal_eq (I p : Ideal A) (f : A) [IsNoetherianRing 
     (extendedIdeal I p f).comap (algebraMap A (CompletedAway I f)) = p := by
   obtain ⟨e, he⟩ := quotient_extendedIdeal_equiv I p f hf
   ext a
-  show algebraMap A (CompletedAway I f) a ∈ extendedIdeal I p f ↔ a ∈ p
+  change algebraMap A (CompletedAway I f) a ∈ extendedIdeal I p f ↔ a ∈ p
   rw [← Ideal.Quotient.eq_zero_iff_mem, ← he, map_eq_zero_iff e e.injective,
     Ideal.Quotient.eq_zero_iff_mem]
 
 -- This existing equivalence is the source's equality
 -- `(A / p) ⊗ₐ CompletedAway I f = CompletedAway I f / p CompletedAway I f`.
 add_to_stacks 0GGF "tensor-product description of the quotient"
-  Ideal.qoutMapEquivTensorQout
+  Ideal.quotMapEquivTensorQuot
 
 -- This is the equality between direct extension to the completion and extension first to the
 -- principal localization and then to its completion.

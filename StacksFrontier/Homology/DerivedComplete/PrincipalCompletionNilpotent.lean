@@ -86,7 +86,7 @@ private lemma isDerivedCompleteModule_quotient_span_singleton
         right_inv := fun _ => rfl
         map_add' := fun _ _ => rfl
         map_smul' := fun r x => by
-          show r • x = φ r * x
+          change r • x = φ r * x
           exact Algebra.smul_def r x }
   have hq' : DerivedCompleteRecurrence.completeModules.{u, u} I
       ((ModuleCat.restrictScalars φ).obj M) :=

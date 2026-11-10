@@ -276,7 +276,7 @@ theorem pow_smul_id_eq_zero_of_chainComp [IsTriangulated C]
   | zero =>
     intro Z v w hZ
     have hiso : IsIso (Triangle.mk (chainComp Y g 0) v w).mor₁ := by
-      show IsIso (chainComp Y g 0)
+      change IsIso (chainComp Y g 0)
       rw [chainComp_zero]
       infer_instance
     have hzero : IsZero Z := Triangle.isZero₃_of_isIso₁ _ hZ hiso
@@ -438,16 +438,16 @@ theorem pow_smul_id_eq_zero_of_isGE_of_isLE (r : ℤ) (a : ℤ) (n : ℕ) (X : D
       push_cast [hb]
       omega
     have h₁ge : T.obj₁.IsGE a := by
-      show ((DerivedCategory.TStructure.t.truncLE b).obj X).IsGE a
+      change ((DerivedCategory.TStructure.t.truncLE b).obj X).IsGE a
       infer_instance
     have h₁le : T.obj₁.IsLE (a + n) := by
-      show ((DerivedCategory.TStructure.t.truncLE b).obj X).IsLE b
+      change ((DerivedCategory.TStructure.t.truncLE b).obj X).IsLE b
       infer_instance
     have h₃ge : T.obj₃.IsGE (b + 1) := by
-      show ((DerivedCategory.TStructure.t.truncGE (b + 1)).obj X).IsGE (b + 1)
+      change ((DerivedCategory.TStructure.t.truncGE (b + 1)).obj X).IsGE (b + 1)
       infer_instance
     have h₃le : T.obj₃.IsLE (b + 1) := by
-      show ((DerivedCategory.TStructure.t.truncGE (b + 1)).obj X).IsLE (b + 1)
+      change ((DerivedCategory.TStructure.t.truncGE (b + 1)).obj X).IsLE (b + 1)
       infer_instance
     have hleft : r ^ (n + 1) • 𝟙 T.obj₁ = 0 := by
       exact ih T.obj₁ (smul_id_homologyFunctor_obj₁_eq_zero T hT r b fun j _ => hX j)
@@ -476,13 +476,13 @@ theorem pow_smul_eq_zero_of_isLE_of_isGE (r : ℤ) (a b : ℤ) (Q : DerivedCateg
   set T := (DerivedCategory.TStructure.t.triangleLEGE b (b + 1) (by omega)).obj Q
   have hT := DerivedCategory.TStructure.t.triangleLEGE_distinguished b (b + 1) (by omega) Q
   have h₁le : T.obj₁.IsLE b := by
-    show ((DerivedCategory.TStructure.t.truncLE b).obj Q).IsLE b
+    change ((DerivedCategory.TStructure.t.truncLE b).obj Q).IsLE b
     infer_instance
   have h₁ge : T.obj₁.IsGE a := by
-    show ((DerivedCategory.TStructure.t.truncLE b).obj Q).IsGE a
+    change ((DerivedCategory.TStructure.t.truncLE b).obj Q).IsGE a
     infer_instance
   have h₃ge : T.obj₃.IsGE (b + 1) := by
-    show ((DerivedCategory.TStructure.t.truncGE (b + 1)).obj Q).IsGE (b + 1)
+    change ((DerivedCategory.TStructure.t.truncGE (b + 1)).obj Q).IsGE (b + 1)
     infer_instance
   obtain ⟨k, hk⟩ := Triangle.coyoneda_exact₂ T hT g
     (DerivedCategory.TStructure.t.zero_of_isLE_of_isGE _ b (b + 1) (by omega)

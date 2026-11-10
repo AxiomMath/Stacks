@@ -46,8 +46,8 @@ The vocabulary the two tags are stated in —
   quasi-compact relative Proj over an affine open of the base is quasi-compact.
 * `Stacks.AlgebraicGeometry.RelativeProjGradedIdeal.exists_finiteType_degreeQuotientPresentation`:
   the content of **Tag 0802**, with the relative case of Tag 0801 as an argument; the tag is
-  registered on the statement with that argument discharged, in
-  `StacksFrontier/AlgebraicGeometry/RelativeProjGradedIdeal/FiniteTypeDegreeQuotientPresentation.lean`.
+  registered on the statement with that argument discharged, in the module
+  `StacksFrontier.AlgebraicGeometry.RelativeProjGradedIdeal.FiniteTypeDegreeQuotientPresentation`.
 * `…RelativeProjGradedIdeal.exists_finiteType_presentation_supp_of_vanishingIdeal`:
   the content of **Tag 0803** — the submodule chosen so that `𝒜_d/ℱ` is supported away from an open
   of the base the closed subscheme misses — with the relative case of Tag 0801 as an argument;
@@ -83,7 +83,8 @@ relative Proj quasi-compact, which is the hypothesis the absolute case of Tag 08
 with, so the construction of the presentation is downstream of this file and the statements here
 cannot consume it.
 
-Two apparent obstructions are *not* among the inputs at all: the `Submodule`-versus-`AddSubgroup` grading mismatch has a bridge
+Two apparent obstructions are *not* among the inputs at all: the
+`Submodule`-versus-`AddSubgroup` grading mismatch has a bridge
 (`Stacks.ProjChartKerQuotient.ker_eq_ker_projMap_quotientMk` reproves the absolute case at an
 `AddSubgroup`-valued grading outright), and the chart-level comparison of the relative twists and
 of the relative section map with the absolute ones exists
@@ -749,8 +750,8 @@ The single-degree form of Tag 0801 that the statement concludes with is *not* a 
 The argument `P` is discharged downstream, by
 `Stacks.AlgebraicGeometry.RelativeProjTwists.gradedQuotientPresentation`, and the registration of
 Tag 0802 is on the resulting statement,
-`Stacks.AlgebraicGeometry.RelativeProjTwists.exists_finiteType_degreeQuotientPresentation` in
-`StacksFrontier/AlgebraicGeometry/RelativeProjGradedIdeal/FiniteTypeDegreeQuotientPresentation.lean`.
+`Stacks.AlgebraicGeometry.RelativeProjTwists.exists_finiteType_degreeQuotientPresentation` in module
+`StacksFrontier.AlgebraicGeometry.RelativeProjGradedIdeal.FiniteTypeDegreeQuotientPresentation`.
 -/
 public theorem exists_finiteType_degreeQuotientPresentation (A : SheafGradedAlgebra S)
     {Z : Scheme.{u}} (i : Z ⟶ (relativeProj A).scheme)
@@ -826,7 +827,7 @@ public theorem vanishesOver_of_disjoint_range (A : SheafGradedAlgebra S) {Z : Sc
     (AlgebraicGeometry.Scheme.Modules.pushforward_app_eq_zero_of_disjoint_range _ _ W
       (Set.eq_empty_iff_forall_notMem.2 fun x hx =>
         Set.eq_empty_iff_forall_notMem.1 hU x ⟨hW hx.1, hx.2⟩) a)
-  show (quotMkApp A P.ideal (n : ℤ)).app W a = 0
+  change (quotMkApp A P.ideal (n : ℤ)).app W a = 0
   rw [quotMkApp_app, (preQuotProj_app_eq_zero_iff A P.ideal (n : ℤ) W a).2 hmem]
   exact map_zero _
 

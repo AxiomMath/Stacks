@@ -103,7 +103,7 @@ theorem IntegralClosedSubspace.pushforward_comp (hX : IsAlgebraicSpace B S hS X)
       IntegralClosedSubspace.pushforward B S hS hX hY hXdec hi
         (IntegralClosedSubspace.pushforward B S hS hY hZ hYdec hg V) := by
   refine injective_integralClosedSubspaceSupport B S hS hX (IrreducibleCloseds.ext ?_)
-  show subspacePointSet B S hS X (IntegralClosedSubspace.pushforward B S hS hX hZ hXdec
+  change subspacePointSet B S hS X (IntegralClosedSubspace.pushforward B S hS hX hZ hXdec
       (isClosedImmersion_comp B S hS g i hg hi) V).subspace =
     subspacePointSet B S hS X (IntegralClosedSubspace.pushforward B S hS hX hY hXdec hi
       (IntegralClosedSubspace.pushforward B S hS hY hZ hYdec hg V)).subspace

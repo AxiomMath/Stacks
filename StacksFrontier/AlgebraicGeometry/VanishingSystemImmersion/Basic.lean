@@ -698,13 +698,13 @@ theorem isImmersion_toProjectiveSpaceOfVanishingSections
       0
   have hr'0 : restrictedBasisSection k f I b' 0 =
       restrictSection I (prodWith hc t (vanishingFamily k f I L n₁ vv) α') := by
-    show restrictSection I (vanishingFamily k f I L n (b' 0)) = _
+    change restrictSection I (vanishingFamily k f I L n (b' 0)) = _
     rw [hb'0]
     rfl
   have hWeq : nvCover (restrictedBasisSection k f I b') 0 =
       nvCover (fun β => restrictSection I
         (prodWith hc t (vanishingFamily k f I L n₁ vv) β)) α' := by
-    show nvOpen (restrictedPow I (L := L) (m := n)) (restrictedBasisSection k f I b' 0) = _
+    change nvOpen (restrictedPow I (L := L) (m := n)) (restrictedBasisSection k f I b' 0) = _
     rw [hr'0]
   have hnv0 : nvCover (restrictedBasisSection k f I b') 0 =
       (openComplement I).ι ⁻¹ᵁ (nvOpen (tensorPowModule X L a) (t α') ⊓
@@ -739,10 +739,10 @@ theorem isImmersion_toProjectiveSpaceOfVanishingSections
       rw [← hb'0, Module.Basis.repr_self, Finsupp.single_apply]
     rw [Ideal.eq_top_iff_one]
     refine Ideal.subset_span ⟨α', ?_⟩
-    show chartLinearForm N k 0 (fun l => b'.repr (prodVanishing k f I hc t vv α') l) = 1
+    change chartLinearForm N k 0 (fun l => b'.repr (prodVanishing k f I hc t vv α') l) = 1
     rw [chartLinearForm, Finset.sum_eq_single_of_mem (0 : Fin (N + 1)) (Finset.mem_univ _)
-      (fun l _ hl => by rw [hrepr l, if_neg (fun he => hl he.symm), map_zero, zero_mul]),
-      hrepr 0, if_pos rfl, map_one, one_mul,
+      (fun l _ hl => by rw [hrepr l, ite_eq_right (fun he => hl he.symm), map_zero, zero_mul]),
+      hrepr 0, ite_eq_left rfl, map_one, one_mul,
       Stacks.ProductFamilyRatio.chartCoordScheme_self]
   · -- the chart ring map carries the projection family to the ratios of the `t`-family
     intro β

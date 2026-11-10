@@ -142,7 +142,7 @@ theorem exists_dimensionFunction_inducedDimensionValue (B : BigFppfSite.{u}) (S 
         ((BigFppfOver.toScheme B S hS).map τ w)) := by
     rw [← pointsMap_comp_apply, ← hcomm, pointsMap_comp_apply,
       ChartBranch.pointsEquivScheme_symm_pointsMap]
-  show dA w = inducedDimensionValue B S hS δ f
+  change dA w = inducedDimensionValue B S hS δ f
     (pointsMap B S hS (yoneda.obj A) a ((pointsEquivScheme B S hS A).symm w))
   rw [hdA w, hval, himg, ← hdU, Cardinal.toNat_toENat]
   rfl

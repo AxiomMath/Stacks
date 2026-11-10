@@ -370,7 +370,7 @@ theorem factorisationMediatingMap_obj_iso_hom
     (W : (Stack.twoFibreProductSquareAlgebraicStacks B S hS q q).pt.val.val.obj) :
     ((factorisationMediatingMap B S hS γ hγ).hom.hom.toFunctor.obj W).iso.hom =
       W.iso.hom ≫ (factorisationUnderlyingIso B S hS γ hγ).inv.app W.y := by
-  show W.iso.hom ≫ (factorisationUnderlyingIso B S hS γ hγ).inv.app W.y ≫ 𝟙 _ = _
+  change W.iso.hom ≫ (factorisationUnderlyingIso B S hS γ hγ).inv.app W.y ≫ 𝟙 _ = _
   simp
 
 /-- **Every object of a fibre of `𝒱 ×_𝒳 𝒰` is isomorphic to the image of an object of the fibre
@@ -423,11 +423,11 @@ theorem exists_fiber_iso_factorisationMediatingMap (π : 𝒳 ⟶ 𝒰) (hx : x 
     { hom := ⟨(factorisationUnderlyingIso B S hS γ hγ).hom.app P.x, h1⟩
       inv := ⟨(factorisationUnderlyingIso B S hS γ hγ).inv.app P.x, h1'⟩
       hom_inv_id := Functor.Fiber.hom_ext (by
-        show (factorisationUnderlyingIso B S hS γ hγ).hom.app P.x ≫
+        change (factorisationUnderlyingIso B S hS γ hγ).hom.app P.x ≫
           (factorisationUnderlyingIso B S hS γ hγ).inv.app P.x = 𝟙 _
         simp)
       inv_hom_id := Functor.Fiber.hom_ext (by
-        show (factorisationUnderlyingIso B S hS γ hγ).inv.app P.x ≫
+        change (factorisationUnderlyingIso B S hS γ hγ).inv.app P.x ≫
           (factorisationUnderlyingIso B S hS γ hγ).hom.app P.x = 𝟙 _
         simp) }
   -- the comparison isomorphism of the given object, read in the same fibre (Stacks 0040 (1))
@@ -488,14 +488,14 @@ theorem exists_fiber_iso_factorisationMediatingMap (π : 𝒳 ⟶ 𝒰) (hx : x 
     hom_inv_id := ?_
     inv_hom_id := ?_ }⟩⟩
   · refine Functor.Fiber.hom_ext (TwoFibreProductOver.Hom.ext' ?_ ?_)
-    · show 𝟙 P.x ≫ 𝟙 P.x = 𝟙 P.x
+    · change 𝟙 P.x ≫ 𝟙 P.x = 𝟙 P.x
       simp
-    · show βU.hom ≫ βU.inv = 𝟙 _
+    · change βU.hom ≫ βU.inv = 𝟙 _
       simp
   · refine Functor.Fiber.hom_ext (TwoFibreProductOver.Hom.ext' ?_ ?_)
-    · show 𝟙 P.x ≫ 𝟙 P.x = 𝟙 P.x
+    · change 𝟙 P.x ≫ 𝟙 P.x = 𝟙 P.x
       simp
-    · show βU.inv ≫ βU.hom = 𝟙 _
+    · change βU.inv ≫ βU.hom = 𝟙 _
       simp
 
 /-- **The explicit mediating 1-morphism of a factorisation through a section induces a surjection

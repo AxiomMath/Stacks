@@ -114,7 +114,7 @@ theorem restrictCongrIdIso_hom_app_apply {f : X ⟶ X} [IsOpenImmersion f] (hf :
     (M : X.Modules) (W : X.Opens) (z : M.val.obj (op (f ''ᵁ W))) :
     (restrictCongrIdIso hf M).hom.val.app (op W) z =
       M.val.map (homOfLE (image_eq_of_eq_id hf W).ge).op z := by
-  show (Scheme.Modules.restrictFunctorId.hom.app M).app W
+  change (Scheme.Modules.restrictFunctorId.hom.app M).app W
       (((Scheme.Modules.restrictFunctorCongr hf).hom.app M).app W z) = _
   rw [Scheme.Modules.restrictFunctorId_hom_app_app,
     Scheme.Modules.restrictFunctorCongr_hom_app_app]
@@ -163,7 +163,7 @@ def pullbackInvIso :
 theorem inv_preimage_le_image (U : X'.Opens) : e.inv ⁻¹ᵁ U ≤ e.hom ''ᵁ U := by
   intro x hx
   exact ⟨e.inv x, hx, by
-    show (e.inv ≫ e.hom) x = x
+    change (e.inv ≫ e.hom) x = x
     rw [e.inv_hom_id]
     rfl⟩
 
@@ -177,7 +177,7 @@ theorem pullbackInvIso_unit (n : ℤ) (U : X'.Opens) (s : (𝒳.piece n).val.obj
   have h1 := pullbackGradedAlgebraMap_pullbackUnit e.inv.toLRSHom.toShHom Φ.hom n U s
   have h2 := pullbackIsoRestrict_hom_pullbackUnit e.inv
     ((restrictAlgebra e.hom 𝒞).piece n) U ((Φ.hom.app n).val.app (op U) s)
-  show ((restrictAlgebraCongrIdIso (e.inv ≫ e.hom) e.inv_hom_id 𝒞).hom.app n).val.app
+  change ((restrictAlgebraCongrIdIso (e.inv ≫ e.hom) e.inv_hom_id 𝒞).hom.app n).val.app
       (op (e.inv ⁻¹ᵁ U))
       (((restrictAlgebraCompIso e.inv e.hom 𝒞).inv.app n).val.app (op (e.inv ⁻¹ᵁ U))
         (((pullbackIsoRestrict e.inv).hom.app ((restrictAlgebra e.hom 𝒞).piece n)).val.app

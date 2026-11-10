@@ -154,7 +154,7 @@ theorem smallerBaseFormalSpectrumIsoOfCompatible_ι (D : QuotientSystem B V hV A
             (smallerBaseStageIso B V S hV hS g D D' hD (OrderDual.ofDual J)).hom) ≫
         formalSpectrumInclusion D' J :=
   (ι_preservesColimitIso_hom_assoc _ _ J _).trans
-    ((HasColimit.isoOfNatIso_ι_hom _ J).trans (Category.assoc _ _ _))
+    ((HasColimit.ι_isoOfNatIso_hom _ J).trans (Category.assoc _ _ _))
 
 /-- The comparisons of formal spectra are compatible with the maps of formal spectra. -/
 theorem smallerBaseFormalSpectrumIsoOfCompatible_naturality [IsTopologicalRing A]
@@ -197,7 +197,7 @@ theorem smallerBaseFormalSpectrumIsoOfCompatible_naturality [IsTopologicalRing A
         (BigAffineFppf.inclusion B S hS).map (f.stageMap J K' hJK') := by
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    show Spec.map _ = 𝟙 _ ≫ Spec.map _
+    change Spec.map _ = 𝟙 _ ≫ Spec.map _
     rw [Category.id_comp, hq _ _ hf.symm]
   have h3 : sY.map ((Over.map g).map m) = sY.map ((BigAffineFppf.inclusion B S hS).map
       (smallerBaseStageIso B V S hV hS g E E' hE K').hom) ≫
@@ -326,7 +326,7 @@ theorem exists_quotientSystem_of_hom_smallerBaseTarget (D' : QuotientSystem B S 
     intro K
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    show (ψ K).left.hom = 𝟙 _ ≫ (ψ K).left.hom
+    change (ψ K).left.hom = 𝟙 _ ≫ (ψ K).left.hom
     rw [Category.id_comp]
   exact ⟨D'V, hD'V, colimit.hom_ext fun K => (hψc K).trans <| (congrArg (fun k =>
     (Sheaf.sheafifiedYoneda _).map k ≫

@@ -186,7 +186,7 @@ theorem _root_.CategoryTheory.Functor.mapBifunctorMap_comp_total_map_homMk
   congr 1
   simp only [Functor.mapBifunctorHomologicalComplex_map_app_f_f,
     Functor.mapBifunctorHomologicalComplex_obj_map_f_f]
-  show _ = B.map (X := (K₁.X i, L₁.X j)) (Y := (K₂.X i, L₁.X j)) (x.f i, 𝟙 _) ≫
+  change _ = B.map (X := (K₁.X i, L₁.X j)) (Y := (K₂.X i, L₁.X j)) (x.f i, 𝟙 _) ≫
     B.map (X := (K₂.X i, L₁.X j)) (Y := (K₂.X i, L₂.X j)) (𝟙 _, y.f j)
   rw [← B.map_comp]
   congr 1

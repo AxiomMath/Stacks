@@ -245,7 +245,7 @@ private lemma truncated_epi_hom_surjective {r : ℕ}
       ext x : 3
       simp only [SimplexCategory.comp_toOrderHom, OrderHom.comp_coe, Function.comp_apply]
       have hne := hj x
-      show (if f.hom.toOrderHom x < j then (0 : Fin 2) else 1) =
+      change (if f.hom.toOrderHom x < j then (0 : Fin 2) else 1) =
         (if f.hom.toOrderHom x ≤ j then (0 : Fin 2) else 1)
       by_cases hlt : f.hom.toOrderHom x < j
       · simp [hlt, le_of_lt hlt]
@@ -382,8 +382,8 @@ private lemma truncatedComponentDecompositionEquiv_apply {r : ℕ}
   unfold truncatedComponentDecompositionEquiv
   dsimp only [Equiv.ofBijective]
   let J := truncatedComponentIndexExtension K
-  show (J.splitting.cofan (op (SimplexCategory.mk n))).inj A x = _
-  show (J.map A.e.op) x.1 = (J.map A.e.op) x.1
+  change (J.splitting.cofan (op (SimplexCategory.mk n))).inj A x = _
+  change (J.map A.e.op) x.1 = (J.map A.e.op) x.1
   rfl
 
 private noncomputable def truncatedDecompositionIndexEquiv {r : ℕ}
@@ -441,7 +441,7 @@ private lemma extensionInclusion_desc {r : ℕ}
     (A : ExtensionIndex r n) : extensionInclusion N A ≫ extensionDesc N f = f A := by
   refine FormalCoproduct.hom_ext rfl ?_
   intro x
-  show (𝟙 _ ≫ (f A).φ x) ≫ eqToHom _ = (f A).φ x
+  change (𝟙 _ ≫ (f A).φ x) ≫ eqToHom _ = (f A).φ x
   simp
 
 private lemma extension_hom_ext {r : ℕ}
@@ -471,7 +471,7 @@ private lemma extensionInclusion_raise {r : ℕ}
       extensionInclusion N ⟨A.vertex, e ≫ A.arrow, inferInstance⟩ := by
   refine FormalCoproduct.hom_ext rfl ?_
   intro x
-  show (𝟙 _ ≫ 𝟙 _) ≫ eqToHom _ = 𝟙 _
+  change (𝟙 _ ≫ 𝟙 _) ≫ eqToHom _ = 𝟙 _
   simp
 
 private lemma extensionInclusion_congr {r : ℕ}
@@ -585,7 +585,7 @@ private lemma extensionTransition_low {r : ℕ}
     rw [← cancel_mono (d.iso a).hom]
     simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id]
     rw [← he, Iso.inv_hom_id_assoc]
-  show truncatedMap K (a := c) (b := b) (image.ι f) ≫
+  change truncatedMap K (a := c) (b := b) (image.ι f) ≫
     (d.iso c).inv ≫ extensionRaise d.N (factorThruImage f) = _
   rw [he', ← Category.assoc, ← truncatedMap_comp, image.fac]
 
@@ -644,7 +644,7 @@ private lemma extensionTransition_map {r : ℕ}
       extensionTransition d (a := a) (f ≫ g) := by
   let b : SimplexCategory.Truncated r :=
     ⟨image g, (SimplexCategory.len_le_of_mono (image.ι g)).trans a.property⟩
-  show (truncatedMap K (a := b) (b := a) (image.ι g) ≫
+  change (truncatedMap K (a := b) (b := a) (image.ι g) ≫
     (d.iso b).inv ≫ extensionRaise d.N (factorThruImage g)) ≫ _ = _
   rw [Category.assoc, Category.assoc, extensionRaise_map, extensionMap_low d (a := b),
     Iso.inv_hom_id_assoc, ← extensionTransition_comp_low, Category.assoc, image.fac]
@@ -668,7 +668,7 @@ private lemma extensionMap_epi {r : ℕ}
   rw [extensionInclusion_map, extensionInclusion_raise,
     extensionTransition_factor d (b := A.vertex) (e ≫ A.arrow)
       (e ≫ A.arrow) (𝟙 _) (Category.comp_id _)]
-  show d.ι A.vertex ≫ K.map (𝟙 (op A.vertex)) ≫ (d.iso A.vertex).inv ≫ _ = _
+  change d.ι A.vertex ≫ K.map (𝟙 (op A.vertex)) ≫ (d.iso A.vertex).inv ≫ _ = _
   rw [K.map_id, Category.id_comp]
   have h := d.fac A.vertex (⟨A.vertex, 𝟙 _, inferInstance⟩)
   change extensionInclusion d.N (⟨A.vertex, 𝟙 _, inferInstance⟩) ≫ (d.iso A.vertex).hom =
@@ -702,7 +702,7 @@ private lemma isIso_of_bijective_components {X Y : FormalCoproduct.{w} C}
   have hβ : β.hom = f := by
     refine FormalCoproduct.hom_ext rfl ?_
     intro i
-    show (asIso (f.φ i)).hom ≫ eqToHom _ = f.φ i
+    change (asIso (f.φ i)).hom ≫ eqToHom _ = f.φ i
     simp
   rw [← hβ]
   infer_instance
@@ -743,7 +743,7 @@ private lemma extensionLowIndexEquiv_apply {r : ℕ}
     (x : (extensionObject (truncatedSummands K) a.obj).I) :
     extensionLowIndexEquiv K a x = (extensionLowHom K a).f x := by
   rcases x with ⟨⟨A⟩, x⟩
-  show truncatedDecompositionIndexEquiv K a.obj.len a.property
+  change truncatedDecompositionIndexEquiv K a.obj.len a.property
     ⟨SimplicialObject.Splitting.IndexSet.mk A.arrow, x⟩ = _
   rw [truncatedDecompositionIndexEquiv_apply K a.obj.len a.property
     (SimplicialObject.Splitting.IndexSet.mk A.arrow) x]
@@ -908,9 +908,9 @@ theorem truncated_split_iff_components_of_epi (r : ℕ)
     refine ⟨extensionFunctor d, ?_, ⟨extensionTruncationIso d⟩⟩
     apply (split_iff_components_of_epi _).mpr
     intro m n e he i
-    show IsIso ((extensionMap d e).φ i)
+    change IsIso ((extensionMap d e).φ i)
     rw [extensionMap_epi]
-    show IsIso (𝟙 _)
+    change IsIso (𝟙 _)
     infer_instance
 
 /-- **Stacks Project, Tag 0DAU, truncated parts (2) and (3).** -/

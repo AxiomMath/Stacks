@@ -96,7 +96,7 @@ theorem exists_etaleChart_of_isDeligneMumfordStack_twoFibreProduct
   let aInv : fibredCategory B S hS (yoneda.obj Wsch) ⟶ schemeFibredCategory B S hS Wsch :=
     equivalenceOverInvMap B S hS (yoneda.obj Wsch) eU
   have haInvEquiv : Functor.IsEquivalence aInv.hom.toFunctor := by
-    show Functor.IsEquivalence eU.inv.functor
+    change Functor.IsEquivalence eU.inv.functor
     exact eU.toEquivalence.symm.isEquivalence_functor
   let cc : fibredCategory B S hS (yoneda.obj Wsch) ⟶ J₀.pt := aInv ≫ pres
   have hccsu : IsSurjectiveOnObjects B S hS

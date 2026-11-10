@@ -342,7 +342,7 @@ theorem restrictToLarger_transition {i j : D.LaterIndex} (hij : i.1 ≤ j.1) :
       ← Category.assoc, (D.restrict V₀ hV₀).transition_comp_toFixedStage hij, Category.assoc,
       (D.restrict U₀ hU₀).transition_comp_toFixedStage hij,
       D.restrictToLarger_comp_toFixedStage U₀ hU₀ V₀ hV₀ hVU j]
-  · show _ ≫ pullback.snd (U₀.ι ≫ D.X₀.hom) (D.baseMap i) =
+  · change _ ≫ pullback.snd (U₀.ι ≫ D.X₀.hom) (D.baseMap i) =
       _ ≫ pullback.snd (U₀.ι ≫ D.X₀.hom) (D.baseMap i)
     rw [Category.assoc, D.restrictToLarger_comp_snd U₀ hU₀ V₀ hV₀ hVU i, Category.assoc,
       show (D.restrict U₀ hU₀).transition hij ≫ pullback.snd (U₀.ι ≫ D.X₀.hom) (D.baseMap i) =
@@ -360,7 +360,7 @@ theorem restrictToLarger_projection (i : D.LaterIndex) :
       ← Category.assoc, (D.restrict V₀ hV₀).projection_comp_toFixedStage i, Category.assoc,
       (D.restrict U₀ hU₀).projection_comp_toFixedStage i,
       D.restrictToLargerLimit_comp_limitToFixedStage U₀ hU₀ V₀ hV₀ hVU]
-  · show _ ≫ pullback.snd (U₀.ι ≫ D.X₀.hom) (D.baseMap i) =
+  · change _ ≫ pullback.snd (U₀.ι ≫ D.X₀.hom) (D.baseMap i) =
       _ ≫ pullback.snd (U₀.ι ≫ D.X₀.hom) (D.baseMap i)
     rw [Category.assoc, D.restrictToLarger_comp_snd U₀ hU₀ V₀ hV₀ hVU i, Category.assoc,
       show (D.restrict U₀ hU₀).projection i ≫ pullback.snd (U₀.ι ≫ D.X₀.hom) (D.baseMap i) =
@@ -376,7 +376,7 @@ theorem restrictToLarger_refl (i : D.LaterIndex) :
   · rw [D.restrictToLarger_comp_toFixedStage U₀ hU₀ U₀ hU₀ le_rfl i, Scheme.homOfLE_rfl,
       Category.id_comp]
     exact Category.comp_id _
-  · show _ ≫ pullback.snd (U₀.ι ≫ D.X₀.hom) (D.baseMap i) =
+  · change _ ≫ pullback.snd (U₀.ι ≫ D.X₀.hom) (D.baseMap i) =
       _ ≫ pullback.snd (U₀.ι ≫ D.X₀.hom) (D.baseMap i)
     rw [D.restrictToLarger_comp_snd U₀ hU₀ U₀ hU₀ le_rfl i, Category.id_comp]
 
@@ -387,7 +387,7 @@ theorem restrictToLargerLimit_refl :
   · rw [D.restrictToLargerLimit_comp_limitToFixedStage U₀ hU₀ U₀ hU₀ le_rfl, Scheme.homOfLE_rfl,
       Category.id_comp]
     exact Category.comp_id _
-  · show _ ≫ pullback.snd (U₀.ι ≫ D.X₀.hom)
+  · change _ ≫ pullback.snd (U₀.ι ≫ D.X₀.hom)
           (D.descent.limitCone.π.app (op D.descent.base)) =
       _ ≫ pullback.snd (U₀.ι ≫ D.X₀.hom) (D.descent.limitCone.π.app (op D.descent.base))
     rw [D.restrictToLargerLimit_comp_snd U₀ hU₀ U₀ hU₀ le_rfl, Category.id_comp]
@@ -402,7 +402,7 @@ theorem restrictToLarger_comp_restrictToLarger (i : D.LaterIndex) :
   · rw [Category.assoc, D.restrictToLarger_comp_toFixedStage U₀ hU₀ V₀ hV₀ hVU i,
       ← Category.assoc, D.restrictToLarger_comp_toFixedStage V₀ hV₀ W₀ hW₀ hWV i, Category.assoc,
       Scheme.homOfLE_homOfLE, D.restrictToLarger_comp_toFixedStage U₀ hU₀ W₀ hW₀ (hWV.trans hVU) i]
-  · show _ ≫ pullback.snd (U₀.ι ≫ D.X₀.hom) (D.baseMap i) =
+  · change _ ≫ pullback.snd (U₀.ι ≫ D.X₀.hom) (D.baseMap i) =
       _ ≫ pullback.snd (U₀.ι ≫ D.X₀.hom) (D.baseMap i)
     rw [Category.assoc, D.restrictToLarger_comp_snd U₀ hU₀ V₀ hV₀ hVU i,
       D.restrictToLarger_comp_snd V₀ hV₀ W₀ hW₀ hWV i,
@@ -417,7 +417,7 @@ theorem restrictToLargerLimit_comp_restrictToLargerLimit :
       ← Category.assoc, D.restrictToLargerLimit_comp_limitToFixedStage V₀ hV₀ W₀ hW₀ hWV,
       Category.assoc, Scheme.homOfLE_homOfLE,
       D.restrictToLargerLimit_comp_limitToFixedStage U₀ hU₀ W₀ hW₀ (hWV.trans hVU)]
-  · show _ ≫ pullback.snd (U₀.ι ≫ D.X₀.hom)
+  · change _ ≫ pullback.snd (U₀.ι ≫ D.X₀.hom)
           (D.descent.limitCone.π.app (op D.descent.base)) =
       _ ≫ pullback.snd (U₀.ι ≫ D.X₀.hom) (D.descent.limitCone.π.app (op D.descent.base))
     rw [Category.assoc, D.restrictToLargerLimit_comp_snd U₀ hU₀ V₀ hV₀ hVU,

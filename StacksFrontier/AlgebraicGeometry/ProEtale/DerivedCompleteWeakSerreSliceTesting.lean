@@ -13,7 +13,8 @@ public import StacksFrontier.Homology.DerivedComplete.NakayamaModule
 /-!
 # Derived-complete sheaves form a weak Serre subcategory, on a slice testing family
 
-`StacksFrontier.AlgebraicGeometry.ProEtale.DerivedCompleteWeakSerre` proves that on a small site with
+`StacksFrontier.AlgebraicGeometry.ProEtale.DerivedCompleteWeakSerre` proves that on a small site
+with
 enough weakly contractible objects the sheaves of modules, in the universe `max u v` of the site,
 that are derived complete along a sheaf of ideals form a weak Serre subcategory of all sheaves of
 modules. This file proves the same on a site that is not assumed small, for sheaves of modules

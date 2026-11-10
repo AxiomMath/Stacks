@@ -156,7 +156,7 @@ theorem tensorSmulMap_unit_tmul (F : Modules.{u, v, w} X) {G : Modules.{u, v, w}
       (ρ_ F.val).hom.app V (x ⊗ₜ g.val.app V a) :=
     congrArg (fun ψ ↦ ψ.app V ((ρ_ F.val).hom.app V (x ⊗ₜ g.val.app V a)))
       (adj.right_triangle_components F)
-  show (adj.counit.app F).val.app V ((Sh.map (ρ_ F.val).hom).val.app V
+  change (adj.counit.app F).val.app V ((Sh.map (ρ_ F.val).hom).val.app V
     ((Sh.map (PresheafOfModules.tensorHom (O := X.O.obj) (𝟙 F.val) g.val)).val.app V
       ((adj.unit.app (PresheafOfModules.tensorObj (O := X.O.obj) F.val G.val)).app V
         (x ⊗ₜ a)))) = _
@@ -183,13 +183,7 @@ theorem idealTensorSmulMap_unit_mem_presheafIdealSmul (V : X.Cᵒᵖ)
       I.toSheafOfModules.val).obj V) :
     (idealTensorSmulMap F I).val.app V ((tensorSheafifyUnit F I.toSheafOfModules).app V u) ∈
       (presheafIdealSmul I (⊤ : F.Submodule).toSubmodule).obj V := by
-  induction u using TensorProduct.induction_on with
-  | zero =>
-    refine Eq.mpr (congrArg (· ∈ (presheafIdealSmul I (⊤ : F.Submodule).toSubmodule).obj V)
-      ((congrArg (ConcreteCategory.hom ((idealTensorSmulMap F I).val.app V))
-          (map_zero (ConcreteCategory.hom
-            ((tensorSheafifyUnit F I.toSheafOfModules).app V)))).trans
-        (map_zero (ConcreteCategory.hom ((idealTensorSmulMap F I).val.app V))))) (zero_mem _)
+  induction u using TensorProduct.inductionOn with
   | add p q hp hq =>
     refine Eq.mpr (congrArg (· ∈ (presheafIdealSmul I (⊤ : F.Submodule).toSubmodule).obj V)
       ((congrArg (ConcreteCategory.hom ((idealTensorSmulMap F I).val.app V))
@@ -214,7 +208,7 @@ theorem idealTensorSmulMap_mem_idealSmul (V : X.Cᵒᵖ)
     (idealTensorSmulMap F I).val.app V t ∈ (idealSmul I (⊤ : F.Submodule)).obj V := by
   have : Presheaf.IsLocallySurjective X.J ((PresheafOfModules.toPresheaf _).map
       (tensorSheafifyUnit F I.toSheafOfModules)) := by
-    show Presheaf.IsLocallySurjective X.J (CategoryTheory.toSheafify X.J _)
+    change Presheaf.IsLocallySurjective X.J (CategoryTheory.toSheafify X.J _)
     infer_instance
   refine Stacks.SheafOfModules.mem_sheafifySubmodule_of_mem
     (Presheaf.imageSieve_mem X.J ((PresheafOfModules.toPresheaf _).map

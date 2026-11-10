@@ -57,7 +57,7 @@ theorem injective_app_of_mono {P F : quasicoherentModules B S hS 𝒳} (φ : P �
   have h := injective_and_range_eq_ker_of_isLimit_kernelFork B S hS 𝒳 φ (kernelIsKernel φ) x hx
   have h0 : kernel.ι φ = 0 := (cancel_mono φ).1 (by rw [kernel.condition, zero_comp])
   rw [← LinearMap.ker_eq_bot, ← h.2]
-  show LinearMap.range ((kernel.ι φ).hom.val.app (op x)).hom = ⊥
+  change LinearMap.range ((kernel.ι φ).hom.val.app (op x)).hom = ⊥
   rw [h0]
   ext y
   simp only [LinearMap.mem_range, Submodule.mem_bot]

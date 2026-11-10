@@ -61,7 +61,7 @@ theorem exists_restrict_iso_unit_of_stalk_linearEquiv {X : Scheme.{u}} [IsLocall
         rw [← hsmul, e.map_smul, smul_eq_mul, map_mul, RingEquiv.symm_apply_apply]
         rfl }
   have hstalk : Nonempty (N ≃ₗ[B] (ULift.{u} (Fin 1) →₀ B)) :=
-    ⟨eB.trans (Finsupp.LinearEquiv.finsuppUnique B B (ULift.{u} (Fin 1))).symm⟩
+    ⟨eB.trans (Finsupp.uniqueLinearEquiv B (α := ULift.{u} (Fin 1)) B default).symm⟩
   obtain ⟨W, hxW, ⟨eW⟩⟩ :=
     Stacks.SheafOfModules.exists_iso_free_over_of_stalk_iso_free M
       (isFinitePresentation_of_isCoherent M) x 1 hstalk

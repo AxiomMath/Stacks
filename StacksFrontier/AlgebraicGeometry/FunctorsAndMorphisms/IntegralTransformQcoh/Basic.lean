@@ -333,7 +333,7 @@ lemma over_pushforward_linear (R : Type u) [CommRing R]
     have hY : U.unop ≤ Y.hom ⁻¹ᵁ ⊤ := le_top.trans (le_of_eq Y.hom.preimage_top.symm)
     have hX : (f.left ⁻¹ᵁ U.unop) ≤ X.hom ⁻¹ᵁ ⊤ :=
       le_top.trans (le_of_eq X.hom.preimage_top.symm)
-    show (f.left.app U.unop).hom
+    change (f.left.app U.unop).hom
         ((Y.hom.appLE ⊤ U.unop hY).hom
           ((Scheme.ΓSpecIso (.of R)).inv.hom r)) =
       (X.hom.appLE ⊤ (f.left ⁻¹ᵁ U.unop) hX).hom
@@ -379,7 +379,7 @@ lemma tensorLeft_linear (R : Type u) [CommRing R]
       ⟨X.left.presheaf, X.left.IsSheaf⟩).obj K
   let univ := Stacks.SheafOfModules.tensorLeftFunctorUniversal X.left.presheaf
     (ringSheafCond X.left) K
-  show ten.Linear R
+  change ten.Linear R
   rw [Functor.linear_iff]
   intro M r
   apply (univ.bijective M (ten.obj M)).injective
@@ -470,7 +470,7 @@ lemma linear_of_faithful_comp
   constructor
   intro A B f r
   apply G.map_injective
-  show (F ⋙ G).map (r • f) = G.map (r • F.map f)
+  change (F ⋙ G).map (r • f) = G.map (r • F.map f)
   rw [Functor.map_smul, Functor.map_smul]
   rfl
 
@@ -515,7 +515,7 @@ theorem quasicoherentIntegralTransform_isLinearOverBase
     let hpf : pf.Linear R := by
       let q : T ⟶ Y := Over.homMk (pullback.snd X.hom Y.hom) (by
         simpa [T] using pullback.condition.symm)
-      show (Scheme.Modules.pushforward q.left).Linear R
+      change (Scheme.Modules.pushforward q.left).Linear R
       exact over_pushforward_linear R q
     exact inferInstanceAs ((ι ⋙ pb ⋙ ten ⋙ pf).Linear R)
   exact linear_of_faithful_comp R G.functor ιY
@@ -564,10 +564,10 @@ private theorem schemePushforward_preservesCoproducts
         U.2.isCompact
     have : PreservesColimitsOfShape (Discrete I) forgetY := inferInstance
     have : PreservesColimitsOfShape (Discrete I) evalAfterPush := by
-      show PreservesColimitsOfShape (Discrete I) (evY ⋙ forgetY)
+      change PreservesColimitsOfShape (Discrete I) (evY ⋙ forgetY)
       infer_instance
     have : PreservesColimitsOfShape (Discrete I) (pf ⋙ evalAfterPush) := by
-      show PreservesColimitsOfShape (Discrete I) (evX ⋙ forgetX)
+      change PreservesColimitsOfShape (Discrete I) (evX ⋙ forgetX)
       infer_instance
     let α := colimit.post (F ⋙ pf) evalAfterPush
     let β := colimit.post F (pf ⋙ evalAfterPush)
@@ -580,7 +580,7 @@ private theorem schemePushforward_preservesCoproducts
     have hcomp : IsIso (α ≫ evalAfterPush.map τ) := by
       rw [colimit.post_post]
       exact hβ
-    show IsIso (evalAfterPush.map τ)
+    change IsIso (evalAfterPush.map τ)
     exact IsIso.of_isIso_comp_left α (evalAfterPush.map τ)
   have hτApp : ∀ U : Y.Opens, IsIso (τ.app U) := fun U =>
     Functor.map_isIso (TopCat.Sheaf.forget AddCommGrpCat Y.carrier ⋙

@@ -166,7 +166,7 @@ theorem LAdicSheaf.smoothBoundaryGaloisInput : LAdicSheaf.SmoothBoundaryGaloisIn
   let gE : HX ≃+* H := RingEquiv.ofBijective g hbij
   -- `H` as a strict henselization of `A`
   have hy0 : y = pr x0 := by
-    show pr x = pr (s.hom.base (closedPoint s.residueField))
+    change pr x = pr (s.hom.base (closedPoint s.residueField))
     rw [← hs]
     exact congrArg (fun z => pr (s.hom.base z)) (Subsingleton.elim _ _)
   let eAc : A ≃+* Xb.presheaf.stalk (pr x0) :=
@@ -334,7 +334,7 @@ theorem LAdicSheaf.smoothBoundaryGaloisInput : LAdicSheaf.SmoothBoundaryGaloisIn
       exact τ.commutes (ζ w)
     have hαt : α.hom ≫ t.hom = t.hom := by
       rw [hα]
-      show Spec.map _ ≫ Spec.map (CommRingCat.ofHom ι') = Spec.map (CommRingCat.ofHom ι')
+      change Spec.map _ ≫ Spec.map (CommRingCat.ofHom ι') = Spec.map (CommRingCat.ofHom ι')
       rw [← Spec.map_comp]
       congr 1
       ext w
@@ -342,13 +342,13 @@ theorem LAdicSheaf.smoothBoundaryGaloisInput : LAdicSheaf.SmoothBoundaryGaloisIn
     let τK : Ω ≃ₐ[K] Ω :=
       { τ.toRingEquiv with
         commutes' := fun c => by
-          show τ (algebraMap K Ω c) = algebraMap K Ω c
+          change τ (algebraMap K Ω c) = algebraMap K Ω c
           rw [← RingHom.congr_fun hγ c, RingHom.comp_apply, hτι] }
     have hspec : (Scheme.Spec.mapIso (RingEquiv.toCommRingCatIso τK.toRingEquiv).op).hom =
         α.hom := rfl
     have hαx : (Scheme.Spec.mapIso (RingEquiv.toCommRingCatIso τK.toRingEquiv).op).hom ≫
         xbar.hom = xbar.hom := by
-      show _ ≫ (Spec.map (CommRingCat.ofHom (algebraMap K Ω)) ≫
+      change _ ≫ (Spec.map (CommRingCat.ofHom (algebraMap K Ω)) ≫
         V.1.fromSpecResidueField (genericPoint V.1)) = _
       rw [hspec, ← hxg, ← Category.assoc, ← Category.assoc, hαt]
       exact hxg

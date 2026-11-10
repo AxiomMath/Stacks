@@ -163,9 +163,9 @@ theorem surjective_restrict {φ : A →+ P} {ψ : P →+ Q} (hex : Function.Exac
   obtain ⟨p, hp, a, ha⟩ := exists_lift_zsmul_mem_range hex hψ c
   obtain ⟨b, hb⟩ := hdiv a
   refine ⟨⟨p - φ b, ?_⟩, Subtype.ext ?_⟩
-  · show (ℓ : ℤ) • (p - φ b) = 0
+  · change (ℓ : ℤ) • (p - φ b) = 0
     rw [smul_sub, ← map_zsmul, hb, ha, sub_self]
-  · show ψ (p - φ b) = (c : Q)
+  · change ψ (p - φ b) = (c : Q)
     rw [map_sub, hp, (hex (φ b)).2 ⟨b, rfl⟩, sub_zero]
 
 /-! ### The dimension of the `ℓ`-torsion along a short exact sequence -/
@@ -296,7 +296,7 @@ theorem rank_torsionBy_eq_one_add_of_card
   rw [← Nat.card_eq_fintype_card, hrange, ZMod.card] at hpow
   have hfr : Module.finrank (ZMod ℓ) (F.range : Submodule (ZMod ℓ) _) = 1 := by
     refine Nat.pow_right_injective hp.two_le ?_
-    show ℓ ^ Module.finrank (ZMod ℓ) (F.range : Submodule (ZMod ℓ) _) = ℓ ^ 1
+    change ℓ ^ Module.finrank (ZMod ℓ) (F.range : Submodule (ZMod ℓ) _) = ℓ ^ 1
     rw [pow_one]
     exact hpow.symm
   have : Module.Finite (ZMod ℓ) (F.range : Submodule (ZMod ℓ) _) := Module.Finite.of_finite

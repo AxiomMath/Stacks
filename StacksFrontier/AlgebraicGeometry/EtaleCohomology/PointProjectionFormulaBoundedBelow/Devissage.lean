@@ -166,7 +166,7 @@ theorem epi_sigmaDesc_toModule (P : ModuleCat.{v} R) :
   rw [ModuleCat.epi_iff_surjective]
   intro p
   refine ⟨(Sigma.ι (fun _ : P => (unitModule : ModuleCat.{v} R)) p) (equivShrink R 1), ?_⟩
-  rw [← ConcreteCategory.comp_apply, Sigma.ι_desc]
+  rw [← ConcreteCategory.comp_apply, Sigma.ι_comp_desc]
   simp [toModule]
 
 /-- The functor placing a module in degree `0` of `D(R)` commutes with direct sums. -/

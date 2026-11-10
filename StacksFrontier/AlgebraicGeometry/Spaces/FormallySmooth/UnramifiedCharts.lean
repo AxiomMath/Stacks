@@ -174,7 +174,7 @@ lemma specMap_isFirstOrderThickening {R T : CommRingCat.{u}} (φ : R ⟶ T)
     rw [hn, hx]
     simp
   have hcomapBot : (⊥ : Ideal R).comap (Scheme.ΓSpecIso R).hom.hom = ⊥ := by
-    show RingHom.ker (Scheme.ΓSpecIso R).hom.hom = ⊥
+    change RingHom.ker (Scheme.ΓSpecIso R).hom.hom = ⊥
     rw [← RingHom.injective_iff_ker_eq_bot]
     exact (ConcreteCategory.bijective_of_isIso (Scheme.ΓSpecIso R).hom).1
   have htop : RingHom.ker (Spec.map φ).appTop.hom ^ 2 = ⊥ := by
@@ -239,14 +239,14 @@ lemma eq_of_formallyUnramified_yonedaMap
   let yB : T' ⟶ Q := Over.homMk yLeft rfl
   let iB : T ⟶ T' := Over.homMk iLeft (by
     apply B.inclusion.map_injective
-    show B.inclusion.map iLeft ≫ B.inclusion.map cBase = B.inclusion.map aBase
+    change B.inclusion.map iLeft ≫ B.inclusion.map cBase = B.inclusion.map aBase
     rw [hMapI, hMapCBase, hMapABase, ← htop, ← Category.assoc, hiy]
     exact Category.assoc _ _ _)
   let zB (z : B.inclusion.obj C₀ ⟶ B.inclusion.obj P.left)
       (hz : z ≫ B.inclusion.map ψ.left = y₀) : T' ⟶ P :=
     Over.homMk (B.inclusion.preimage z) (by
       apply B.inclusion.map_injective
-      show B.inclusion.map (B.inclusion.preimage z) ≫ B.inclusion.map P.hom =
+      change B.inclusion.map (B.inclusion.preimage z) ≫ B.inclusion.map P.hom =
         B.inclusion.map cBase
       rw [B.inclusion.map_preimage, hMapCBase, ← htop, ← Category.assoc, hz])
   have hxBleft : Over.Hom.left xB = xLeft := rfl
@@ -256,7 +256,7 @@ lemma eq_of_formallyUnramified_yonedaMap
       (hz : z ≫ B.inclusion.map ψ.left = y₀) :
       B.inclusion.map (Over.Hom.left (zB z hz)) = z := B.inclusion.map_preimage _
   have hSq : IsSquareZeroClosedImmersion B S hS iB := by
-    show _root_.AlgebraicGeometry.IsClosedImmersion (B.inclusion.map (Over.Hom.left iB)) ∧
+    change _root_.AlgebraicGeometry.IsClosedImmersion (B.inclusion.map (Over.Hom.left iB)) ∧
       (B.inclusion.map (Over.Hom.left iB)).ker ^ 2 = ⊥
     rw [hiBleft, hMapI]
     exact hi₀
@@ -353,7 +353,7 @@ private theorem uniqueCotangentSection_of_affineSiteMap
   let z₀ (g : A →ₐ[R] C) : Spec (.of C) ⟶ P₀ :=
     Spec.map (CommRingCat.ofHom g.toRingHom) ≫ eP.hom
   have htop : f₀ ≫ B.inclusion.map Q.hom = B.inclusion.map P.hom := by
-    show B.inclusion.map (Over.Hom.left ψ) ≫ B.inclusion.map Q.hom = _
+    change B.inclusion.map (Over.Hom.left ψ) ≫ B.inclusion.map Q.hom = _
     rw [← Functor.map_comp, Over.w ψ]
   have hRingMap (g : A →ₐ[R] C) :
       g.toRingHom.comp f₀.appTop.hom = algebraMap R C := by
@@ -381,24 +381,24 @@ private theorem uniqueCotangentSection_of_affineSiteMap
     have hcomp : CommRingCat.ofHom t.val.toRingHom ≫
         CommRingCat.ofHom m.toRingHom = 𝟙 (CommRingCat.of A) :=
       CommRingCat.hom_ext (congrArg AlgHom.toRingHom t.property)
-    show Spec.map (CommRingCat.ofHom m.toRingHom) ≫
+    change Spec.map (CommRingCat.ofHom m.toRingHom) ≫
         Spec.map (CommRingCat.ofHom t.val.toRingHom) ≫ eP.hom = eP.hom
     rw [← Category.assoc, ← Spec.map_comp, hcomp, Spec.map_id, Category.id_comp]
   have hiy : i₀ ≫ y₀ = x₀ ≫ f₀ := by rw [← hzψ c.val, ← Category.assoc, hiz c]
   have hA₀ : IsAffine (B.inclusion.obj A₀) := by
-    show IsAffine (Spec (.of A)); infer_instance
+    change IsAffine (Spec (.of A)); infer_instance
   have hC₀ : IsAffine (B.inclusion.obj C₀) := by
-    show IsAffine (Spec (.of C)); infer_instance
+    change IsAffine (Spec (.of C)); infer_instance
   have hi₀ : Stacks.Thickenings.IsFirstOrderThickening i₀ := by
     have hmsurj : Function.Surjective (CommRingCat.ofHom m.toRingHom) := by
       intro a
       refine ⟨Ideal.Quotient.mk _ (a ⊗ₜ[R] (1 : A)), ?_⟩
-      show (TensorProduct.lmul' R (S := A)).kerSquareLift
+      change (TensorProduct.lmul' R (S := A)).kerSquareLift
         (Ideal.Quotient.mk _ (a ⊗ₜ[R] (1 : A))) = a
       rw [AlgHom.kerSquareLift_mk]
       simp
     have hmker : RingHom.ker (CommRingCat.ofHom m.toRingHom).hom ^ 2 = ⊥ := by
-      show RingHom.ker ((TensorProduct.lmul' R (S := A)).kerSquareLift.toRingHom) ^ 2 = ⊥
+      change RingHom.ker ((TensorProduct.lmul' R (S := A)).kerSquareLift.toRingHom) ^ 2 = ⊥
       rw [AlgHom.ker_kerSquareLift]
       exact Ideal.cotangentIdeal_square _
     exact specMap_isFirstOrderThickening (CommRingCat.ofHom m.toRingHom) hmsurj hmker

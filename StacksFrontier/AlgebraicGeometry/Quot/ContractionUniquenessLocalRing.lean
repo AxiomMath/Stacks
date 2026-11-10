@@ -178,7 +178,7 @@ theorem exists_closedFibreData_of_isPullback_field {κ₀ : Type u} [Field κ₀
     (sq₁ : IsPullback q₁ g₁ g₁₀ (yoneda.map m)) (sq₂ : IsPullback q₂ g₂ g₂₀ (yoneda.map m))
     (hdX : HasRelativeDimensionLE 1 B integerBase hZ f)
     (hd₁ : HasRelativeDimensionLE 1 B integerBase hZ g₁)
-    (c₁ : X ⟶ Y₁) (c₂ : X ⟶ Y₂) (hc₁ : c₁ ≫ g₁ = f) (hc₂ : c₂ ≫ g₂ = f)
+    (c₁ : X ⟶ Y₁) (c₂ : X ⟶ Y₂) (hc₁ : c₁ ≫ g₁ = f)
     (hcq₁ : c₁ ≫ q₁ = qX ≫ c₁₀) (hcq₂ : c₂ ≫ q₂ = qX ≫ c₂₀)
     {FX F₁ : BigFppfOver B integerBase hZ} (eX : yoneda.obj FX ≅ X) (e₁ : yoneda.obj F₁ ≅ Y₁)
     (tX : FX ⟶ K) (t₁ : F₁ ⟶ K) (heX : eX.hom ≫ f = yoneda.map tX)
@@ -312,8 +312,7 @@ theorem exists_iso_of_closedFibre_of_isNoetherianRing_of_pullback (Λ₀ : Type 
     (Iso.refl (Spec (.of (ResidueField Λ₀)))) hι tX₀ t₁₀ t₁₀ _ _ _ hiX₀ hi₁₀ hi₂₀ hdX₀ hd₁₀ hd₁₀
     a₁₀ a₁₀ hat₁₀ hat₁₀ hia₁ hia₂ (Iso.refl _) (by simp) (by simp) hdim₀ h0₀ hR₀
   refine ⟨ψ₀, hψ₀g, hψ₀c, ?_⟩
-  simp only [Category.assoc, Iso.trans_hom, Iso.refl_hom, Functor.map_id,
-    Category.id_comp] at hψ₀f
+  simp only [Category.assoc, Iso.trans_hom, Iso.refl_hom] at hψ₀f
   exact (Iso.cancel_iso_hom_left e₁₀ _ _).1 hψ₀f
 
 open Stacks.AlgebraicGeometry.TopDegreeBaseChange in
@@ -439,7 +438,7 @@ theorem exists_closedFibreData_of_isPullback_noetherianStage (Λ₀ : Type u) [C
       (isPullback_pullbackMap_fibre_of_isPullback B integerBase hZ p k _ m hkm sqX)
       (isPullback_pullbackMap_fibre_of_isPullback B integerBase hZ p k _ m hkm sq₁)
       (isPullback_pullbackMap_fibre_of_isPullback B integerBase hZ p k _ m hkm sq₂)
-      hdXs hd₁s _ _ (by simp) (by simp) (hcq sq₁ c₁ c₁₀ hc₁ hc₁₀ hcq₁)
+      hdXs hd₁s _ _ (by simp) (hcq sq₁ c₁ c₁₀ hc₁ hc₁₀ hcq₁)
       (hcq sq₂ c₂ c₂₀ hc₂ hc₂₀ hcq₂) eX e₁ tX t₁ heX he₁ a₁ ha₁ h0 hR φ hφ hφc
 
 open Stacks.AlgebraicGeometry.TopDegreeBaseChange in

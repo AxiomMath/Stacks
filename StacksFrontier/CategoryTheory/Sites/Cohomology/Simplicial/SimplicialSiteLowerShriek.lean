@@ -63,9 +63,11 @@ module in cohomological degree zero
 
 The hypotheses of Stacks 08PJ — the acyclicity statement of Stacks 07AC for `π_!`, the acyclicity
 of the sheafified canonical presentation, and the resulting pointwise left derived functor — are
-discharged rather than carried: `StacksFrontier/CategoryTheory/Sites/Cohomology/FibredCategory/ProjectionLowerShriekAcyclic.lean` proves Stacks 0D6X along the
-projection of a fibred category, hence `FibredCategorySituation.abelianLowerShriekAcyclic` and
-the instance giving `Lπ_!`, and `StacksFrontier/CategoryTheory/Sites/Cohomology/FibredCategory/UliftFreeCoverGenerators.lean` proves
+discharged rather than carried:
+`StacksFrontier/CategoryTheory/Sites/Cohomology/FibredCategory/ProjectionLowerShriekAcyclic.lean`
+proves Stacks 0D6X along the projection of a fibred category, hence
+`FibredCategorySituation.abelianLowerShriekAcyclic` and the instance giving `Lπ_!`, and
+`StacksFrontier/CategoryTheory/Sites/Cohomology/FibredCategory/UliftFreeCoverGenerators.lean` proves
 `FibredCategorySituation.abelianLowerShriekGeneratorsAcyclic`, from which the acyclicity of the
 sheafified canonical presentation follows by
 `uliftFreeCoverLowerShriekAcyclic_of_generatorsAcyclic`. So the reduction below is unconditional.
@@ -160,7 +162,8 @@ which induces an isomorphism on the degree `n` homology of the fibre over every 
 inverted by `L_nπ_!`.
 
 Both acyclicity statements of Stacks 08PJ are discharged rather than carried:
-`StacksFrontier/CategoryTheory/Sites/Cohomology/FibredCategory/ProjectionLowerShriekAcyclic.lean` proves Stacks 0D6X along the projection of a fibred category,
+`StacksFrontier/CategoryTheory/Sites/Cohomology/FibredCategory/ProjectionLowerShriekAcyclic.lean`
+proves Stacks 0D6X along the projection of a fibred category,
 hence `FibredCategorySituation.abelianLowerShriekAcyclic` and the instance giving `Lπ_!`, and
 `StacksFrontier/CategoryTheory/Sites/Cohomology/FibredCategory/UliftFreeCoverGenerators.lean` proves
 `FibredCategorySituation.abelianLowerShriekGeneratorsAcyclic`, from which the acyclicity of the

@@ -240,7 +240,8 @@ holds, then the restriction functor `colim_𝒱 FÉt_V ⟶ FÉt_Y` is fully fait
 
 The source's proof is to combine [Stacks, Tag 0ELA] with [Stacks, Tag 0EK2]. Of that chain this
 library carries the implication `(1) ⇒ (2)` of Tag 0EK2 and no more, so condition (1) is
-converted to condition (2) here by the library's proof of that implication and the remaining steps are the two
+converted to condition (2) here by the library's proof of that implication and the remaining steps
+are the two
 hypotheses `h0EK2` and `h0ELA`; see
 `Stacks.FundamentalGroup.AmplePowersImpliesFiniteLocallyFree` and
 `Stacks.FundamentalGroup.FullyFaithfulRestrictionOfSectionsComplete`. -/

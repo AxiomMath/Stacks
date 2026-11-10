@@ -271,7 +271,7 @@ theorem isAlgebraicSpace_twistedLineQuotient [CharZero K]
     IsAlgebraicSpace B S hS (actionQuotient (Multiplicative ℤ) B hS (twistedLineSite hS hL s)
       (twistedLineSiteAction hS hL s σ hs)) := by
   have : IsAffine ((BigFppfOver.toScheme B S hS).obj (twistedLineSite hS hL s)) := by
-    show IsAffine (Spec (CommRingCat.of K[X]))
+    change IsAffine (Spec (CommRingCat.of K[X]))
     infer_instance
   have := actionRelation_isEtaleEquivalenceRelation
     (underlyingOver B hS (twistedLineSite hS hL s)) (Multiplicative ℤ)
@@ -291,7 +291,7 @@ theorem isAlgebraicSpace_twistedBaseQuotient (hσ : orderOf σ = 0)
     IsAlgebraicSpace B S hS (actionQuotient (Multiplicative ℤ) B hS (twistedBaseSite hS hK s)
       (twistedBaseSiteAction hS hK s σ hs)) := by
   have : IsAffine ((BigFppfOver.toScheme B S hS).obj (twistedBaseSite hS hK s)) := by
-    show IsAffine (Spec (CommRingCat.of K))
+    change IsAffine (Spec (CommRingCat.of K))
     infer_instance
   have := actionRelation_isEtaleEquivalenceRelation
     (underlyingOver B hS (twistedBaseSite hS hK s)) (Multiplicative ℤ)

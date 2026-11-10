@@ -127,11 +127,11 @@ def sigmaYonedaIso : sigmaYoneda X ≅ ∐ fun i => yoneda.obj (X i) where
   hom_inv_id := by
     ext z ⟨i, g⟩
     exact ConcreteCategory.congr_hom (NatTrans.congr_app
-      (Sigma.ι_desc (f := fun i => yoneda.obj (X i)) (sigmaYonedaInc X) i) z) g
+      (Sigma.ι_comp_desc (f := fun i => yoneda.obj (X i)) (sigmaYonedaInc X) i) z) g
   inv_hom_id := by
     apply Sigma.hom_ext
     intro i
-    rw [Sigma.ι_desc_assoc, Category.comp_id]
+    rw [Sigma.ι_comp_desc_assoc, Category.comp_id]
     ext z g
     rfl
 
@@ -270,8 +270,8 @@ def copowerFunctorEvaluationIso (d : D) :
             (∐ fun _ : T.obj d => F.obj d) ≅
               colimit ((Functor.const (Discrete (T.obj d))).obj (F.obj d))).hom ≫
             colimMap ((Functor.const (Discrete (T.obj d))).map (η.app d))
-      rw [Functor.ι_copowerMap_app_assoc, HasColimit.isoOfNatIso_ι_hom,
-        HasColimit.isoOfNatIso_ι_hom_assoc, ι_colimMap]
+      rw [Functor.ι_copowerMap_app_assoc, HasColimit.ι_isoOfNatIso_hom,
+        HasColimit.ι_isoOfNatIso_hom_assoc, ι_colimMap]
       simp)
 
 /-- The functor `F ↦ F ⊗ T` preserves finite limits. -/

@@ -221,14 +221,14 @@ private theorem exists_toScheme_map_eq {t t' t'' : BigFppfOver B S hS} {n : t' �
     ∃ ζ : t ⟶ t', (BigFppfOver.toScheme B S hS).map ζ = z := by
   refine ⟨Over.homMk (ObjectProperty.homMk z) ?_, rfl⟩
   apply ObjectProperty.hom_ext
-  show z ≫ B.inclusion.map t'.hom = B.inclusion.map t.hom
+  change z ≫ B.inclusion.map t'.hom = B.inclusion.map t.hom
   have hn : B.inclusion.map t'.hom =
       (BigFppfOver.toScheme B S hS).map n ≫ B.inclusion.map t''.hom := by
-    show B.inclusion.map t'.hom = B.inclusion.map n.left ≫ B.inclusion.map t''.hom
+    change B.inclusion.map t'.hom = B.inclusion.map n.left ≫ B.inclusion.map t''.hom
     rw [← B.inclusion.map_comp, Over.w n]
   have hy : (BigFppfOver.toScheme B S hS).map y ≫ B.inclusion.map t''.hom =
       B.inclusion.map t.hom := by
-    show B.inclusion.map y.left ≫ B.inclusion.map t''.hom = B.inclusion.map t.hom
+    change B.inclusion.map y.left ≫ B.inclusion.map t''.hom = B.inclusion.map t.hom
     rw [← B.inclusion.map_comp, Over.w y]
   rw [hn, ← Category.assoc z ((BigFppfOver.toScheme B S hS).map n)
     (B.inclusion.map t''.hom), hz, hy]
@@ -279,12 +279,12 @@ theorem isEffectiveDescentAlongSurjectiveEtale_of_satisfiesDescent
   have hψS : ((BigFppfOver.toScheme B S hS).mapIso φ).hom ≫
       (BigFppfOver.toScheme B S hS).map ρ₂ =
         (BigFppfOver.toScheme B S hS).map (φ.hom ≫ ρ₂) := by
-    show (BigFppfOver.toScheme B S hS).map φ.hom ≫ _ = _
+    change (BigFppfOver.toScheme B S hS).map φ.hom ≫ _ = _
     rw [← Functor.map_comp]
   have hφ1S : ((BigFppfOver.toScheme B S hS).mapIso φ).hom ≫
       (BigFppfOver.toScheme B S hS).map ρ₁ =
         (BigFppfOver.toScheme B S hS).map π₁ ≫ (BigFppfOver.toScheme B S hS).map w := by
-    show (BigFppfOver.toScheme B S hS).map φ.hom ≫ _ = _
+    change (BigFppfOver.toScheme B S hS).map φ.hom ≫ _ = _
     rw [← Functor.map_comp, hψc, Functor.map_comp]
   have hφ2S : (((BigFppfOver.toScheme B S hS).mapIso φ).hom ≫
       (BigFppfOver.toScheme B S hS).map ρ₂) ≫ (BigFppfOver.toScheme B S hS).map w =
@@ -357,7 +357,7 @@ theorem isEffectiveDescentAlongSurjectiveEtale_of_satisfiesDescent
   have hQc : B.Contains W₀ := B.contains_of_flat_surjective k₀ v.left.property
   have hkover : k₀ ≫ i₀ ≫ B.inclusion.map a.hom = B.inclusion.map v.hom := by
     rw [← Category.assoc k₀ i₀ (B.inclusion.map a.hom), ← hpb.w]
-    show B.inclusion.map w.left ≫ B.inclusion.map q.left ≫ B.inclusion.map a.hom = _
+    change B.inclusion.map w.left ≫ B.inclusion.map q.left ≫ B.inclusion.map a.hom = _
     rw [← B.inclusion.map_comp, Over.w q, ← B.inclusion.map_comp]
     exact congrArg B.inclusion.map (Over.w w)
   refine ⟨Over.mk (ObjectProperty.homMk (X := B.obj hQc) (i₀ ≫ B.inclusion.map a.hom)), v,
@@ -369,7 +369,7 @@ theorem isEffectiveDescentAlongSurjectiveEtale_of_satisfiesDescent
   · intro W' ζ₁ ζ₂ hζX hζa
     refine (BigFppfOver.toScheme B S hS).map_injective ?_
     rw [Functor.map_comp, Functor.map_comp]
-    show (BigFppfOver.toScheme B S hS).map ζ₁ ≫ k₀ =
+    change (BigFppfOver.toScheme B S hS).map ζ₁ ≫ k₀ =
       (BigFppfOver.toScheme B S hS).map ζ₂ ≫ k₀
     have hzo : (BigFppfOver.toScheme B S hS).map ζ₁ ≫
         (BigFppfOver.toScheme B S hS).map w ≫ (BigFppfOver.toScheme B S hS).map q =

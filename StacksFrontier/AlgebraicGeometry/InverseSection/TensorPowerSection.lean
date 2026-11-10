@@ -224,7 +224,7 @@ theorem isIso_whiskerRestriction_map_of_bijective_app
           (structureSheaf (H.op ⋙ O) (whiskerStructureIsSheaf (J' := J') O hO H))).map
             ((whiskerRestriction (J' := J') O hO H).map ψ))).app Y) := by
     intro Y
-    show IsIso (((PresheafOfModules.toPresheaf (structureSheaf O hO).obj).map
+    change IsIso (((PresheafOfModules.toPresheaf (structureSheaf O hO).obj).map
       ((SheafOfModules.forget (structureSheaf O hO)).map ψ)).app (op (H.obj Y.unop)))
     exact isIso_toPresheaf_app_of_bijective O hO ψ _ (h Y.unop)
   have h2 : IsIso ((PresheafOfModules.toPresheaf

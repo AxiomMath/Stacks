@@ -93,7 +93,7 @@ private lemma curry_dual_rid_apply_one
     (χ : CharacterModule P) (p : P) :
     CharacterModule.curry (CharacterModule.dual (TensorProduct.rid R P).toLinearMap χ) p
       (1 : R) = χ p := by
-  show χ (TensorProduct.rid R P (p ⊗ₜ[R] (1 : R))) = χ p
+  change χ (TensorProduct.rid R P (p ⊗ₜ[R] (1 : R))) = χ p
   rw [TensorProduct.rid_tmul, one_smul]
 
 /-- The section splits the dual of the unit `p ↦ 1 ⊗ p`. -/
@@ -105,7 +105,7 @@ private lemma baseChangeCharacterSection_split
     CharacterModule.dual (TensorProduct.mk R S P 1) ∘ₗ
       baseChangeCharacterSection s P = LinearMap.id := by
   ext χ p
-  show baseChangeCharacterSection s P χ ((1 : S) ⊗ₜ[R] p) = χ p
+  change baseChangeCharacterSection s P χ ((1 : S) ⊗ₜ[R] p) = χ p
   rw [baseChangeCharacterSection_tmul]
   have h1 := congrArg (fun φ : CharacterModule R => φ (1 : R))
     (LinearMap.congr_fun hs (CharacterModule.curry
@@ -125,16 +125,15 @@ private lemma baseChangeCharacterSection_natural
         baseChangeCharacterSection s Q =
       baseChangeCharacterSection s P ∘ₗ CharacterModule.dual h := by
   ext χ x
-  induction x using TensorProduct.induction_on with
-  | zero => simp [baseChangeCharacterSection]
+  induction x using TensorProduct.inductionOn with
   | tmul s' p =>
-      show baseChangeCharacterSection s Q χ (s' ⊗ₜ[R] h p) =
+      change baseChangeCharacterSection s Q χ (s' ⊗ₜ[R] h p) =
         baseChangeCharacterSection s P (CharacterModule.dual h χ) (s' ⊗ₜ[R] p)
       rw [baseChangeCharacterSection_tmul, baseChangeCharacterSection_tmul]
       congr 2
       ext r
       rw [CharacterModule.curry_apply_apply, CharacterModule.curry_apply_apply]
-      show χ (TensorProduct.rid R Q (h p ⊗ₜ[R] r)) =
+      change χ (TensorProduct.rid R Q (h p ⊗ₜ[R] r)) =
         χ (h (TensorProduct.rid R P (p ⊗ₜ[R] r)))
       simp [TensorProduct.rid_tmul]
   | add x y hx hy => rw [map_add, map_add, hx, hy]
@@ -178,7 +177,7 @@ private lemma dual_surjection_split_of_baseChange_flat
   have hBaer : Module.Baer S (CharacterModule (S ⊗[R] M)) :=
     Module.Flat.iff_characterModule_baer.mp hflat
   have hgS : Function.Surjective (LinearMap.baseChange S g) := by
-    simpa only [LinearMap.baseChange_eq_ltensor] using LinearMap.lTensor_surjective S hg
+    simpa only [LinearMap.baseChange_eq_lTensor] using LinearMap.lTensor_surjective S hg
   obtain ⟨rS, hrS⟩ :=
     hBaer.extension_property (CharacterModule.dual (LinearMap.baseChange S g))
       (CharacterModule.dual_injective_iff_surjective.mpr hgS) LinearMap.id
@@ -195,7 +194,7 @@ private lemma dual_surjection_split_of_baseChange_flat
         (baseChangeCharacterSection s M χ) := by
     ext z
     rfl
-  show (CharacterModule.dual (TensorProduct.mk R S M 1)
+  change (CharacterModule.dual (TensorProduct.mk R S M 1)
     (rS (baseChangeCharacterSection s B (CharacterModule.dual g χ)))) x = χ x
   rw [hn.symm.trans hdualEq, hright, hsplit]
 
@@ -216,7 +215,7 @@ theorem flat_iff_baseChange_of_universallyInjective
   refine Module.Flat.iff_characterModule_baer.mpr fun I φ ↦ ?_
   obtain ⟨g, hg⟩ := hFbaer I ((CharacterModule.dual q).comp φ)
   refine ⟨r.comp g, fun x hx ↦ ?_⟩
-  show r (g x) = φ ⟨x, hx⟩
+  change r (g x) = φ ⟨x, hx⟩
   rw [hg]
   simpa [LinearMap.comp_apply] using LinearMap.congr_fun hr (φ ⟨x, hx⟩)
 
@@ -231,7 +230,7 @@ theorem _root_.Ideal.map_ne_top_of_universallyInjective
   have : Nontrivial (TensorProduct R S (R ⧸ I)) :=
     (TensorProduct.comm R (R ⧸ I) S).toEquiv.symm.nontrivial
   exact Ideal.Quotient.nontrivial_iff.mp
-    ((Ideal.qoutMapEquivTensorQout (S := S) (I := I)).toEquiv.nontrivial)
+    ((Ideal.quotMapEquivTensorQuot (S := S) (I := I)).toEquiv.nontrivial)
 
 /-- Faithful flatness descends and ascends along a universally injective ring map. -/
 @[stacks 08XD "faithfully_flat", ega "0 6.6.3" "more general"]

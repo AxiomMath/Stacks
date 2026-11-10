@@ -218,8 +218,7 @@ theorem tensorDirectSumRight_apply {ι : Type v} [DecidableEq ι] (M : Type w) [
     (Y : M ⊗[R] (⨁ i, N i)) (j : ι) :
     (TensorProduct.directSumRight R R M N Y) j
       = TensorProduct.map LinearMap.id (DirectSum.component R ι N j) Y := by
-  induction Y using TensorProduct.induction_on with
-  | zero => rw [map_zero, DirectSum.zero_apply, map_zero]
+  induction Y using TensorProduct.inductionOn with
   | tmul a y =>
       induction y using DirectSum.induction_on with
       | zero => rw [TensorProduct.tmul_zero, map_zero, DirectSum.zero_apply, map_zero]
@@ -475,10 +474,10 @@ theorem tensorCellEquiv_apply (X : A.A ⊗[R] (𝒦).A) (m : ℕ) :
       = cellBlockTensor A φ m X := by
     rw [cellBlockTensor, koszulCellBlock, ← LinearMap.comp_apply, ← TensorProduct.map_comp,
       LinearMap.id_comp]
-  show cellTwistBlock A _ m ((cellBlocks A r
+  change cellTwistBlock A _ m ((cellBlocks A r
       ((TensorProduct.congr (LinearEquiv.refl R A.A) (koszulCellCoords φ)) X)) m) = _
   rw [h1]
-  show cellTwistBlock A _ m (cellSplit A _
+  change cellTwistBlock A _ m (cellSplit A _
       ((TensorProduct.directSumRight R R A.A
           (fun m : ℕ => ⨁ (_ : exteriorCellIndex.{u} r m), R)
         (TensorProduct.map LinearMap.id (koszulCellCoords φ).toLinearMap X)) m)) = _
@@ -580,8 +579,7 @@ theorem tensorCellCoords_mulTensorOne_of_mem (α : ℤ) {a : A.A} (ha : a ∈ A.
     ((tensorCellCoords A φ (mulTensorOne A φ a x)) m) j
       = ((tensorCellCoords A φ x) m) j * a := by
   obtain ⟨X, rfl⟩ := (GradedTensorProduct.of R A.grading (𝒦).grading).surjective x
-  induction X using TensorProduct.induction_on with
-  | zero => simp only [map_zero, DirectSum.zero_apply, zero_mul]
+  induction X using TensorProduct.inductionOn with
   | add X Y hX hY =>
       simp only [map_add, DirectSum.add_apply, add_mul]
       rw [hX, hY]
@@ -742,8 +740,7 @@ theorem cellCoordsBlock_map_d (m : ℕ) (X : A.A ⊗[R] (𝒦).A)
     (j : exteriorCellIndex.{u} r m) :
     (cellCoordsBlock A φ m (TensorProduct.map A.d LinearMap.id X)) j
       = ((-1 : ℤ) ^ m) • A.d ((cellCoordsBlock A φ m X) j) := by
-  induction X using TensorProduct.induction_on with
-  | zero => simp only [map_zero, DirectSum.zero_apply, smul_zero]
+  induction X using TensorProduct.inductionOn with
   | tmul a b =>
       have h1 : A.koszulSignPow m (((koszulCellBlock φ m b) j) • A.d a)
           = ((-1 : ℤ) ^ m) • A.d (A.koszulSignPow m (((koszulCellBlock φ m b) j) • a)) := by
@@ -759,8 +756,7 @@ theorem cellCoordsBlock_map_d (m : ℕ) (X : A.A ⊗[R] (𝒦).A)
 theorem cellBlockTensor_map_d (m : ℕ) (X : A.A ⊗[R] (𝒦).A) :
     cellBlockTensor A φ m (TensorProduct.map (koszulSign A) (𝒦).d X)
       = TensorProduct.map (koszulSign A) (koszulLower φ m) (cellBlockTensor A φ (m + 1) X) := by
-  induction X using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction X using TensorProduct.inductionOn with
   | tmul a b =>
       rw [TensorProduct.map_tmul, cellBlockTensor, cellBlockTensor, TensorProduct.map_tmul,
         TensorProduct.map_tmul, LinearMap.id_apply, LinearMap.id_apply, TensorProduct.map_tmul,

@@ -79,7 +79,7 @@ private theorem completion_kernel_element_of_incomplete_quotient
         (S := R ⧸ (J : Submodule R R)) (M := R ⧸ (J : Submodule R R))).mpr hc)
   have hnotle : ¬ (⨅ n : ℕ, J ⊔ (I ^ n • (⊤ : Submodule R R))) ≤ J := fun h =>
     hnotComplete ((main_theorem_031a I R J).mp (le_antisymm (le_iInf fun _ => le_sup_left) h))
-  obtain ⟨x, hxInf, hxJ⟩ := SetLike.not_le_iff_exists.mp hnotle
+  obtain ⟨x, hxInf, hxJ⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
   exact ⟨x, hxJ, (Submodule.mem_iInf _).mp hxInf⟩
 
 /-- The image of `x` in `R ⧸ J` vanishes modulo `Iⁿ` exactly when `x ∈ J + Iⁿ`. -/

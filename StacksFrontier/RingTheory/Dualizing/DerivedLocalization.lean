@@ -57,8 +57,7 @@ def extendScalarsTensorIso {R : Type u} [CommRing R] (S : Type u) [CommRing S]
   refine LinearEquiv.toModuleIso { E.toAddEquiv with map_smul' := ?_ }
   intro s x
   change E (s • x) = s • E x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp [smul_add, hx, hy]
   | tmul a m =>
     change S at a

@@ -1,7 +1,7 @@
 module
 
 public import
-  StacksFrontier.Topology.Sheaves.Cohomology.StrictlyPerfectRestriction.DirectImageAlongAnIsomorphism
+StacksFrontier.Topology.Sheaves.Cohomology.StrictlyPerfectRestriction.DirectImageAlongAnIsomorphism
 public import Mathlib.Geometry.RingedSpace.OpenImmersion
 
 /-!
@@ -131,7 +131,7 @@ theorem nestedOpenIso_hom_fac (X : RingedSpace.{u, u}) (U : Opens X.carrier)
   let g := X.ofRestrict W.isOpenEmbedding
   let F := SheafedSpace.forgetToPresheafedSpace (C := CommRingCat.{u})
   apply F.map_injective
-  show F.map ((nestedOpenIso X U V).hom) ≫ F.map g = F.map f
+  change F.map ((nestedOpenIso X U V).hom) ≫ F.map g = F.map f
   dsimp [nestedOpenIso]
   simp only [SheafedSpace.isoMk_hom]
   exact PresheafedSpace.IsOpenImmersion.lift_fac (F.map g) (F.map f)

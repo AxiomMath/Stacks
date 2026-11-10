@@ -508,7 +508,7 @@ theorem locally_kernelGeneratedByImage_fin {ρ : A ⟶ O} (hst : KernelGenerated
   rw [hb k, ← Fintype.sum_equiv e.symm _ _ (fun _ => rfl)]
   simp only [e, Equiv.symm_symm, Equiv.symm_apply_apply]
   rw [Fintype.sum_sigma, Finset.sum_eq_single k]
-  · simp only [if_true]
+  · simp only [ite_true]
     exact Finset.sum_congr rfl fun x _ => by rw [Equiv.symm_apply_apply]
   · intro k' _ hk'
     simp [hk']
@@ -573,7 +573,7 @@ theorem locally_eq_sum_of_kernel_relation (hsq : SquareZeroKernel π)
       res F' (h₂ ≫ h₁ ≫ g) (s k') = 0 := by
     intro k
     simp only [sub_smul, Finset.sum_sub_distrib, ite_smul, one_smul, zero_smul,
-      Finset.sum_ite_eq, Finset.mem_univ, if_true]
+      Finset.sum_ite_eq, Finset.mem_univ, ite_true]
     rw [← sum_smul_sum_smul]
     simp_rw [hw, ← res_smul, ← res_sum, ← hτ k, res_res, sub_self]
   refine ((Locally.forall_fin fun p => hmod (h₂ ≫ h₁ ≫ g) _ (hκ' p)).and
@@ -828,7 +828,7 @@ theorem idealRelationsVanish_of_isFlat {ρ : A ⟶ O} (hst : KernelGeneratedByIm
     rw [ringMapApp_resR, ringMapApp_resR, hα p, resR_zero]
   · rw [Fin.sum_univ_add]
     simp only [Fin.append_left, Fin.append_right, zero_smul, Finset.sum_const_zero, add_zero,
-      ite_smul, one_smul, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+      ite_smul, one_smul, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
   · rw [Fin.sum_univ_add]
     simp only [Fin.append_left, Fin.append_right, neg_smul, Finset.sum_neg_distrib]
     rw [← sub_eq_add_neg, sub_eq_zero]
@@ -838,7 +838,7 @@ theorem idealRelationsVanish_of_isFlat {ρ : A ⟶ O} (hst : KernelGeneratedByIm
     exact hy p
   · refine Fin.addCases (fun k' => ?_) (fun j => ?_) g'
     · simp only [Fin.append_left, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq',
-        Finset.mem_univ, if_true]
+        Finset.mem_univ, ite_true]
       rw [← resR_resR, hβ k', resR_sum]
       refine Finset.sum_congr rfl fun p _ => ?_
       rw [resR_mul, ringMapApp_resR]

@@ -79,7 +79,7 @@ theorem comp_lof_prodHomPushforward (hA : RelativeDimension sA D) (hB : Relative
         Corr k sX sZ (r + s)) := by
   rw [comp_lof_lof_lof_lof, composition_prodHomPushforward_canonical iA iB iC hiA hiB hiC hA hB hC]
 
-omit [IsProper sB] in
+omit [IsProper sB] [IsSeparated sC] [IsOpenImmersion iC] in
 /-- Composition of two blocks pushed forward from open and closed pieces `B ⊆ Y_M` and
 `B' ⊆ Y_{M'}` with disjoint images in `Y` vanishes. -/
 theorem comp_lof_prodHomPushforward_of_disjoint
@@ -290,6 +290,7 @@ theorem comp_tensor_lof_same_left (r r' s s' : ℤ) (d e d' e' f f' : ℕ)
   simp only [tensor_lof_lof_eq_prodHomPushforward]
   convert g using 4
 
+omit [IsSeparated sY] [IsSeparated sY'] in
 /-- The right side of bifunctoriality on blocks with matching middle indices. -/
 theorem comp_tensor_lof_same_right (r r' s s' : ℤ) (d e d' e' f f' : ℕ)
     (x : Correspondence (fieldChowSituation k) (partBase sX d) (partBase sY e) e r)
@@ -387,6 +388,7 @@ theorem comp_tensor_lof_ne_left (r r' s s' : ℤ) (d e d' e' e₁ f e₁' f' : �
   simp only [tensor_lof_lof_eq_prodHomPushforward]
   convert g using 4
 
+omit [IsSeparated sY] [IsSeparated sY'] in
 /-- The right side of bifunctoriality vanishes on blocks with different middle indices. -/
 theorem comp_tensor_lof_ne_right (r r' s s' : ℤ) (d e d' e' e₁ f e₁' f' : ℕ)
     (he : ¬(e = e₁ ∧ e' = e₁'))

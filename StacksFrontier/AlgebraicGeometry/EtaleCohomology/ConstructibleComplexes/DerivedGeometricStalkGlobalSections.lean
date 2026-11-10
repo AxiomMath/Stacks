@@ -1,7 +1,6 @@
 module
 
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.ConstructibleComplexes.GeometricStalkGlobalSections
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ConstructibleComplexes.GeometricStalkGlobalSections
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.CompactlySupportedCohomologyUnbounded
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.SeparablyClosedFieldSheaves
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.ExactPushforwardTwistTrace

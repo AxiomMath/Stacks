@@ -68,7 +68,7 @@ public theorem finite_coproduct_of_isZero {R : Type u} [CommRing R] {ι : Type}
   let f : (∐ G : ModuleCat R) ⟶ ∐ F := Sigma.desc (fun j => Sigma.ι F j)
   have : Epi f := ⟨fun g h heq => Sigma.hom_ext _ _ fun j => by
     by_cases hj : j ∈ s
-    · simpa only [f, Category.assoc, Sigma.ι_desc_assoc] using
+    · simpa only [f, Category.assoc, Sigma.ι_comp_desc_assoc] using
         congrArg (fun k => Sigma.ι G ⟨j, hj⟩ ≫ k) heq
     · exact (hs j hj).eq_of_src _ _⟩
   exact Module.Finite.of_surjective f.hom ((ModuleCat.epi_iff_surjective f).mp inferInstance)

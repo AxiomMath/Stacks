@@ -35,7 +35,8 @@ lower-shriek-on-modules development of
 universes together and therefore does not apply as stated.  What is used here instead is its
 generalization with the two universes separated (of which it is the case `m = r`),
 `StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriek/ModuleRingUniverseFree.lean` and
-`StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriek/ModuleRingUniverseFreeDerived.lean`; the structure sheaf is the one of Stacks 06TV on the
+`StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriek/ModuleRingUniverseFreeDerived.lean`;
+the structure sheaf is the one of Stacks 06TV on the
 nose, not a universe lift of it.
 
 ## Main results
@@ -79,7 +80,9 @@ because the total category of a category fibred in groupoids has pullbacks, are 
 that statement: abelian sheaves there, sheaves of modules here.
 
 `Stacks.Cohomology.SiteModules.moduleSheavesAbelian` and its two companions are switched off,
-for the reason recorded in `StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriek/ModuleRingUniverseFree.lean`: their module universe is a join of
+for the reason recorded in
+`StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriek/ModuleRingUniverseFree.lean`:
+their module universe is a join of
 four variables of which the arguments pin only three, so instance search against a category of
 modules at `u+1` leaves an unsolvable universe metavariable.  The replacements are
 `SheafOfModules.isGrothendieckAbelian_of_univLE` and `SheafOfModules.enoughInjectives_of_univLE`,
@@ -369,7 +372,9 @@ the localization of the homotopy category of `Mod(𝒪_{𝒳_{flat,fppf}})`.
 
 The structure sheaf is the one of **Stacks 06TV**, with sections in `Type u`; the modules have
 sections in `Type (u+1)`, the universe the Čech computation of **Stacks 0D6X** forces, and that
-split is what `StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriek/ModuleRingUniverseFreeDerived.lean` provides.  The acyclicity statement of
+split is what
+`StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriek/ModuleRingUniverseFreeDerived.lean`
+provides.  The acyclicity statement of
 **Stacks 07AC** is `AlgebraicGeometry.Stack.subsiteLowerShriekModulesAcyclic`, a theorem here and
 not a hypothesis. -/
 theorem hasPointwiseLeftDerivedLowerShriekModules :

@@ -210,7 +210,7 @@ theorem isOpen_setOf_derivedFiberBetti_zero_eq_one [LocallyOfFinitePresentation 
     exact Module.finrank_pos
   have heq : {s : S | β s = 1} = β ⁻¹' Set.Iio 2 ∩ Set.range f.base := by
     ext s
-    simp only [Set.mem_setOf_eq, Set.mem_inter_iff, Set.mem_preimage, Set.mem_Iio]
+    simp only [Set.mem_ofPred_eq, Set.mem_inter_iff, Set.mem_preimage, Set.mem_Iio]
     constructor
     · intro h1
       refine ⟨by omega, ?_⟩

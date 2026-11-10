@@ -290,7 +290,7 @@ theorem withTopNatSegments_mono : ∀ β α : ULift.{1, 0} (WithTop ℕ), β < �
     induction α using WithTop.recTopCoe with
     | top => exact le_top
     | coe m =>
-      show Set.Iio n ⊆ Set.Iio m
+      change Set.Iio n ⊆ Set.Iio m
       exact Set.Iio_subset_Iio (le_of_lt (by exact_mod_cast h))
 
 /-- The stages of `withTopNatSegments` cover `ℕ`: their supremum is `⊤`. -/
@@ -379,7 +379,7 @@ theorem leastIndex_eq_iSup_withTopNatSegments :
   | coe n =>
     have hnext : withTopNatSegments ⟨((n + 1 : ℕ) : WithTop ℕ)⟩ <
         (⟨Set.univ, ⟨⟨⊤⟩, rfl⟩⟩ : ↥(Set.range withTopNatSegments)).1 := by
-      show Set.Iio (n + 1) < Set.univ
+      change Set.Iio (n + 1) < Set.univ
       exact lt_of_le_of_ne le_top (Iio_ne_of_mem (Set.mem_univ _))
     have hle := hmax
       ⟨withTopNatSegments ⟨((n + 1 : ℕ) : WithTop ℕ)⟩, ⟨⟨((n + 1 : ℕ) : WithTop ℕ)⟩, rfl⟩⟩ hnext

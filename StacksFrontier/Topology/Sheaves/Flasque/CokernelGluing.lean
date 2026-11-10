@@ -367,7 +367,7 @@ theorem exists_glue_mod_boundary {U : Opens X} {A : Type*} (V : A → Opens X)
       refine isBoundary_of_isBoundary_res C hC hCsup _ fun t => ?_
       cases t
       · -- on `O ⊓ V a`, where `y` is `z a + d c'`
-        show T.IsBoundary (O ⊓ V a) (T.Z.res inf_le_left (T.Z.res hO y - T.Z.res hO' (z b)))
+        change T.IsBoundary (O ⊓ V a) (T.Z.res inf_le_left (T.Z.res hO y - T.Z.res hO' (z b)))
         rw [map_sub, T.Z.res_res, T.Z.res_res,
           ← T.Z.res_res (le_sup_right : V a ≤ W ⊔ V a) inf_le_right, hyV, map_add,
           ← T.d₁_res, show T.Z.res (inf_le_right : O ⊓ V a ≤ V a) (z a) +
@@ -377,7 +377,7 @@ theorem exists_glue_mod_boundary {U : Opens X} {A : Type*} (V : A → Opens X)
               T.d₁ (O ⊓ V a) (T.C₁.res inf_le_right c') by abel]
         exact (hz' a b _ _ _).add ⟨_, rfl⟩
       · -- on `O ⊓ W`, where `y` is `zW`
-        show T.IsBoundary (O ⊓ W) (T.Z.res inf_le_left (T.Z.res hO y - T.Z.res hO' (z b)))
+        change T.IsBoundary (O ⊓ W) (T.Z.res inf_le_left (T.Z.res hO y - T.Z.res hO' (z b)))
         rw [map_sub, T.Z.res_res, T.Z.res_res,
           ← T.Z.res_res (le_sup_left : W ≤ W ⊔ V a) inf_le_right, hyW]
         exact hzW b (O ⊓ W) inf_le_right (inf_le_left.trans hO')

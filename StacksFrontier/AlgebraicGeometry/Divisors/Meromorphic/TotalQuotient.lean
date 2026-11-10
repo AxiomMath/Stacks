@@ -130,7 +130,7 @@ theorem submonoidPresheafOfStalk_obj_eq_nonZeroDivisors
       Y.presheaf.algebra_section_stalk ⟨x, x.2⟩
     let : IsLocalization (hU.primeIdealOf x).asIdeal.primeCompl
         (Y.presheaf.stalk x) := hU.isLocalization_stalk x
-    show Y.presheaf.germ U x.1 x.2 r ∈ nonZeroDivisors (Y.presheaf.stalk x)
+    change Y.presheaf.germ U x.1 x.2 r ∈ nonZeroDivisors (Y.presheaf.stalk x)
     exact (IsLocalization.nonZeroDivisors_le_comap
       (M := (hU.primeIdealOf x).asIdeal.primeCompl)
       (S := Y.presheaf.stalk x)) hr

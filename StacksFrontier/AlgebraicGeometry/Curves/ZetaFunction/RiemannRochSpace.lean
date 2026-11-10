@@ -133,11 +133,11 @@ theorem finite_orderOfVanishing_ne_zero :
   have : CompactSpace C := QuasiCompact.compactSpace_of_compactSpace g
   have hfin := (weilDivisorOfMeromorphicSection C L s hs).2.finite_nonempty_of_compact
   refine (hfin.preimage (primeDivisorOfClosedPoint_injective g).injOn).subset fun x hx => ?_
-  simp only [Set.mem_setOf_eq] at hx
-  simp only [Set.mem_preimage, Set.mem_setOf_eq]
-  show (if orderOfVanishingMeromorphic C L s hs (primeDivisorOfClosedPoint g x) = 0 then ∅
+  simp only [Set.mem_ofPred_eq] at hx
+  simp only [Set.mem_preimage, Set.mem_ofPred_eq]
+  change (if orderOfVanishingMeromorphic C L s hs (primeDivisorOfClosedPoint g x) = 0 then ∅
     else (primeDivisorOfClosedPoint g x).support).Nonempty
-  rw [if_neg hx, PrimeDivisor.support_eq_closure]
+  rw [ite_eq_right hx, PrimeDivisor.support_eq_closure]
   exact ⟨_, subset_closure rfl⟩
 
 /-- The divisor of a regular meromorphic section, on the closed points. -/

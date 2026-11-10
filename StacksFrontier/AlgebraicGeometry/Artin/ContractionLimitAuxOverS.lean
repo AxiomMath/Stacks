@@ -134,13 +134,13 @@ theorem overS_of_comp_eq (φ : Bt →+* AdicCompletion I Γ((BigFppfOver.toSchem
     (h : J.1 ≤ Ideal.comap φ K.1) :
     Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1 φ h)) ≫ DB.overS J =
       (completionQuotientSystem V I).overS K := by
-  show _ = Spec.map (CommRingCat.ofHom ((Ideal.Quotient.mk K.1).comp
+  change _ = Spec.map (CommRingCat.ofHom ((Ideal.Quotient.mk K.1).comp
     (algebraMap _ (AdicCompletion I Γ((BigFppfOver.toScheme B S hS).obj V, ⊤))))) ≫
       ((BigFppfOver.toScheme B S hS).obj V).isoSpec.inv ≫ V.hom.hom
   rw [hρ J, spec_map_comp_isoSpec_inv_comp_eq f hf, ← Spec.map_comp_assoc]
   congr 2
   ext r
-  show Ideal.quotientMap K.1 φ h (Ideal.Quotient.mk J.1 (ρ r)) =
+  change Ideal.quotientMap K.1 φ h (Ideal.Quotient.mk J.1 (ρ r)) =
     Ideal.Quotient.mk K.1 (algebraMap _ _ (f.appTop.hom r))
   rw [Ideal.quotientMap_mk]
   exact congrArg (Ideal.Quotient.mk K.1) (RingHom.congr_fun hφ r)
@@ -192,7 +192,7 @@ theorem toRingHom_comp_eq_of_isOver [IsTopologicalRing Bt] [IsLinearTopology Bt 
     let J : { J : Ideal Bt // TopologicalRing.IsWeakIdealOfDefinition J } :=
       ⟨J₀ ⊓ Ideal.comap φ.toRingHom K.1, by
         refine ⟨?_, fun x hx => hJ₀.2 x (Ideal.mem_inf.mp hx).1⟩
-        show IsOpen ((J₀ : Set Bt) ∩ φ.toRingHom ⁻¹' (K.1 : Set Ah))
+        change IsOpen ((J₀ : Set Bt) ∩ φ.toRingHom ⁻¹' (K.1 : Set Ah))
         exact hJ₀.1.inter (K.2.1.preimage φ.continuous)⟩
     have h1 := φ.overS J K inf_le_right
     change _ = Spec.map (CommRingCat.ofHom ((Ideal.Quotient.mk K.1).comp (algebraMap _ Ah))) ≫

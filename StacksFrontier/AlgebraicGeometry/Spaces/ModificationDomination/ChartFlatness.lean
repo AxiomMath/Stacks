@@ -52,6 +52,7 @@ namespace AlgebraicGeometry.Space
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullbacks` search for presheaves on the big fppf site
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_ChartFlatness :
@@ -73,7 +74,7 @@ theorem range_modificationSection (f : X ⟶ W) (U : Subfunctor W) [IsIso (pullb
       (U.preimage b).preimage (pullback.snd f b) := by
   refine le_antisymm ?_ ?_
   · rintro A _ ⟨x, rfl⟩
-    show (pullback.snd f b).app A ((modificationSection f U b).app A x) ∈ (U.preimage b).obj A
+    change (pullback.snd f b).app A ((modificationSection f U b).app A x) ∈ (U.preimage b).obj A
     rw [← NatTrans.comp_app_apply, modificationSection_snd]
     exact x.2
   · set O := (U.preimage b).preimage (pullback.snd f b)
@@ -155,12 +156,11 @@ theorem preimage_eq_exceptionalComplement {V Q : BigFppfOver B S hS} (g : V ⟶ 
       pullback.snd ((BigFppfOver.toScheme B S hS).map g)
         (_root_.AlgebraicGeometry.blowUpToBase K) ≫ _root_.AlgebraicGeometry.blowUpToBase K :=
     Functor.map_comp _ _ _
-  have hsupp : ∀ y, y ∈ (K.support : Set _) ↔ y ∉ (U₀ : Set _) := fun y => by
-    show y ∈ K.supportSet ↔ _
+  have hsupp : ∀ y, y ∈ K.supportSet ↔ y ∉ (U₀ : Set _) := fun y => by
     rw [hK]
     rfl
-  simp only [Stacks.StrictTransform.exceptionalComplement, Scheme.Hom.mem_preimage, SetLike.mem_coe,
-    TopologicalSpace.Closeds.coe_compl, hmap, Scheme.Hom.comp_apply]
+  simp only [Stacks.StrictTransform.exceptionalComplement, SetLike.mem_coe,
+    hmap]
   rw [Scheme.IdealSheafData.support_comap]
   constructor
   · intro hx hmem
@@ -276,7 +276,7 @@ theorem isFlat_modificationSection_of_flat_strictTransformToBlowUp {Q : BigFppfO
     have hflat' : Flat ((BigFppfOver.toScheme B S hS).map (j ≫ blowUpChartSnd g K)) := by
       rw [Functor.map_comp]
       exact hflat
-    show IsFlat B S hS ((Subfunctor.range (yoneda.map j)).ι ≫ yoneda.map (blowUpChartSnd g K))
+    change IsFlat B S hS ((Subfunctor.range (yoneda.map j)).ι ≫ yoneda.map (blowUpChartSnd g K))
     rw [hι, Category.assoc, ← Functor.map_comp]
     exact isFlat_comp B S hS (closedSubspaceOfIdeal (blowUpChartObj g K) _).2.1
       (AlgebraicGeometry.isAlgebraicSpace_yoneda B S hS _) hP _ _

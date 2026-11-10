@@ -117,7 +117,7 @@ private lemma projectiveLineChart_overlap (s : Γ(projectiveLine k, ⊤)) :
   have hcomp := congrArg (fun z : Γ(Spec (.of (LaurentPolynomial k)), ⊤) =>
     (Scheme.ΓSpecIso (.of (LaurentPolynomial k))).hom z) hcompat'
   have hT := gammaSpec_map_apply (CommRingCat.ofHom (Polynomial.toLaurent (R := k)))
-  show Polynomial.toLaurent
+  change Polynomial.toLaurent
       ((Scheme.ΓSpecIso (.of (Polynomial k))).hom ((projectiveLineXChart k).appTop s)) =
     LaurentPolynomial.invert (Polynomial.toLaurent
       ((Scheme.ΓSpecIso (.of (Polynomial k))).hom ((projectiveLineYChart k).appTop s)))
@@ -138,7 +138,7 @@ private lemma projectiveLineChart_overlap (s : Γ(projectiveLine k, ⊤)) :
           ((projectiveLineYChart k).appTop s)) using 1
       · rfl
     _ = _ := by
-      show LaurentPolynomial.invert
+      change LaurentPolynomial.invert
           ((Scheme.ΓSpecIso (.of (LaurentPolynomial k))).hom
             ((Spec.map (CommRingCat.ofHom (Polynomial.toLaurent (R := k)))).appTop
               ((projectiveLineYChart k).appTop s))) =
@@ -182,7 +182,7 @@ theorem isIso_constantsToGlobalSections (k : Type u) [CommRing k] :
       (h : Polynomial.C c = (Scheme.ΓSpecIso (.of (Polynomial k))).hom (chart.appTop s)) :
       chart.appTop (F.hom c) = chart.appTop s :=
     (Scheme.ΓSpecIso (.of (Polynomial k))).commRingCatIsoToRingEquiv.injective ((hev c).trans h)
-  show IsIso F
+  change IsIso F
   apply (CategoryTheory.ConcreteCategory.isIso_iff_bijective F).mpr
   constructor
   · intro a b hab
@@ -230,7 +230,7 @@ theorem not_isAffine_projectiveLine (k : Type u) [Field k] :
       exact Ideal.subset_span (by simp)
     simp at hx
   have hchart : (projectiveLineXChart k) η ≠ projectiveLineZero k := by
-    show (projectiveLineXChart k).base η ≠ (projectiveLineXChart k).base (affineLineOrigin k)
+    change (projectiveLineXChart k).base η ≠ (projectiveLineXChart k).base (affineLineOrigin k)
     intro heq
     exact hη ((projectiveLineXChart k).isOpenEmbedding.injective heq)
   exact hchart (huniq _ _).symm

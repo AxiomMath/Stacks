@@ -86,8 +86,8 @@ def conjSquareTargetIso (θ : T ⋙ R ≅ L ⋙ B) :
     (T ⋙ e₂.functor) ⋙ (e₂.inverse ⋙ R ⋙ e₄.functor) ≅ L ⋙ B ⋙ e₄.functor :=
   haveI : ∀ N, IsIso ((conjSquareTarget e₂ e₄ θ.hom).app N) := fun N ↦
     isIso_conjSquareTarget_app _ _ _ N
-  haveI : IsIso (conjSquareTarget e₂ e₄ θ.hom).natTrans := NatIso.isIso_of_isIso_app _
-  asIso (conjSquareTarget e₂ e₄ θ.hom).natTrans
+  haveI : IsIso (conjSquareTarget e₂ e₄ θ.hom) := NatIso.isIso_of_isIso_app _
+  asIso (conjSquareTarget e₂ e₄ θ.hom)
 
 /-- The forward map of `conjSquareTargetIso e₂ e₄ θ` is `conjSquareTarget e₂ e₄ θ.hom`. -/
 @[simp]
@@ -339,7 +339,7 @@ theorem isIso_homEquiv_symm_of_transport [Preadditive 𝒟] [Preadditive 𝒲]
       (Triangle.isoMk (Φ.mapTriangle.obj (Triangle.mk u g v)) (Triangle.mk (Φ.map u ≫ φ.hom) gW
         (inv e₃ ≫ Φ.map v ≫ (Φ.commShiftIso (1 : ℤ)).hom.app M')) (Iso.refl _) φ ψ
         (Category.id_comp _).symm hφ ?_).symm
-    show (Φ.map v ≫ (Φ.commShiftIso (1 : ℤ)).hom.app M') ≫
+    change (Φ.map v ≫ (Φ.commShiftIso (1 : ℤ)).hom.app M') ≫
           (shiftFunctor 𝒲 (1 : ℤ)).map (𝟙 (Φ.obj M')) =
             e₃ ≫ inv e₃ ≫ Φ.map v ≫ (Φ.commShiftIso (1 : ℤ)).hom.app M'
     simp
@@ -347,7 +347,7 @@ theorem isIso_homEquiv_symm_of_transport [Preadditive 𝒟] [Preadditive 𝒲]
     (by simp)
   have hiso : IsIso a :=
     isIso₁_of_isIso₂₃ (Triangle.homMk _ _ a (𝟙 _) (𝟙 _) ha₁ (by simp) ha₂) hW hTW
-      (by show IsIso (𝟙 _); infer_instance) (by show IsIso (𝟙 _); infer_instance)
+      (by change IsIso (𝟙 _); infer_instance) (by change IsIso (𝟙 _); infer_instance)
   have hu : uW = inv a ≫ Φ.map u ≫ φ.hom := by
     rw [IsIso.eq_inv_comp]
     simpa using ha₁.symm

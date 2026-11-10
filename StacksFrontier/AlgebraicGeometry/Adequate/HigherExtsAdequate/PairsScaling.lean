@@ -253,8 +253,7 @@ noncomputable def dualExpand (X : AlgebraModulePair.{max u v} A) :
   toFun := dualExpandA N X
   map_add' := map_add _
   map_smul' q t := by
-    induction t using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero, smul_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul x n =>
       rw [TensorProduct.smul_tmul', dualExpandA_tmul, dualExpandA_tmul, smul_eq_mul]
       apply TrivSqZeroExt.ext
@@ -300,8 +299,7 @@ lemma dualExpandSym_symPairMap_inl (X : AlgebraModulePair.{max u v} A) (s : pair
     exact TrivSqZeroExt.ext rfl (map_zero _)
   | ι t =>
     rw [symPairMap_ι, dualExpandSym_ι]
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [map_zero, inl_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul x n =>
       rw [pairTensorMap_tmul, dualExpandA_tmul, dualCoordFst_inl, dualCoordSnd_inl,
         TensorProduct.zero_tmul, map_zero, inr_zero, add_zero]
@@ -321,8 +319,7 @@ lemma dualExpandSym_symPairMap_inr (X : AlgebraModulePair.{max u v} A) (s : pair
     exact TrivSqZeroExt.ext rfl (map_zero _)
   | ι t =>
     rw [symPairMap_ι, dualExpandSym_ι]
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul x n =>
       rw [pairTensorMap_tmul, dualExpandA_tmul, dualCoordFst_inr, dualCoordSnd_inr,
         TensorProduct.zero_tmul, map_zero, inl_zero, zero_add, symmetricWeightCoaction,
@@ -372,11 +369,11 @@ lemma dualExpandA_naturality {X Y : AlgebraModulePair.{max u v} A} (g : X ⟶ Y)
     congrArg (fun F => F t) (TensorProduct.ext' (g := dualSymSnd N Y ∘ₗ dualExpandA N Y ∘ₗ
       TensorProduct.map (pairLinearA (dualNumberPairMap g)) LinearMap.id)
     (h := (symPairMap N g).toLinearMap ∘ₗ dualSymSnd N X ∘ₗ dualExpandA N X) fun x n => ?_)⟩
-  · show (dualExpandA N Y ((dualNumberPairMap g).linear x ⊗ₜ n)).fst =
+  · change (dualExpandA N Y ((dualNumberPairMap g).linear x ⊗ₜ n)).fst =
       symPairMap N g (dualExpandA N X (x ⊗ₜ n)).fst
     rw [dualExpandA_tmul, dualExpandA_tmul, fst_add, fst_add, fst_inl, fst_inl, fst_inr, fst_inr,
       add_zero, add_zero, dualCoordFst_map, symPairMap_ι, pairTensorMap_tmul]
-  · show (dualExpandA N Y ((dualNumberPairMap g).linear x ⊗ₜ n)).snd =
+  · change (dualExpandA N Y ((dualNumberPairMap g).linear x ⊗ₜ n)).snd =
       symPairMap N g (dualExpandA N X (x ⊗ₜ n)).snd
     rw [dualExpandA_tmul, dualExpandA_tmul, snd_add, snd_add, snd_inl, snd_inl, snd_inr, snd_inr,
       zero_add, zero_add, dualCoordSnd_map, symPairMap_ι, pairTensorMap_tmul]
@@ -533,8 +530,7 @@ lemma dualCoefficientMap_eps_inl (M : ModuleCat.{w'} A)
         (SymmetricAlgebra (dualNumberPair X).algebra ((dualNumberPair X).module ⊗[A] N))
         (dualEps X) • TensorProduct.map (symPairMap N (dualNumberPairInl X)).toLinearMap
           LinearMap.id t) = t := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, smul_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul s m =>
     rw [TensorProduct.map_tmul, TensorProduct.smul_tmul', smul_eq_mul, dualCoefficientMap_tmul,
       AlgHom.toLinearMap_apply, LinearMap.id_apply, dualExpandSnd_eps_mul_inl]
@@ -546,8 +542,7 @@ lemma dualCoefficientMap_inr (M : ModuleCat.{w'} A)
     (t : (SymmetricAlgebra X.algebra (X.module ⊗[A] N)) ⊗[A] M) :
     dualCoefficientMap N M X (TensorProduct.map (symPairMap N (dualNumberPairInr X)).toLinearMap
         LinearMap.id t) = (symPairWeightOne N X).rTensor M t := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul s m =>
     rw [TensorProduct.map_tmul, dualCoefficientMap_tmul, AlgHom.toLinearMap_apply,
       LinearMap.id_apply, dualExpandSnd_inr, LinearMap.rTensor_tmul]
@@ -625,15 +620,13 @@ noncomputable def dualRetraction :
   pushforwardSymPairExtensionHom.{w, v} dualNumberPairFunctor (dualNumberRingHom.{v} A)
     (dualRetractionMap N M)
     (fun X c t => by
-      induction t using TensorProduct.induction_on with
-      | zero => rw [smul_zero, map_zero, smul_zero]
+      induction t using TensorProduct.inductionOn with
       | tmul s m =>
         rw [TensorProduct.smul_tmul', smul_eq_mul, dualRetractionMap_tmul, dualRetractionMap_tmul,
           dualExpandSnd_algebraMap_mul', TensorProduct.smul_tmul', smul_eq_mul]
       | add t t' ht ht' => rw [smul_add, map_add, map_add, ht, ht', smul_add])
     (fun g t => by
-      induction t using TensorProduct.induction_on with
-      | zero => simp only [map_zero]
+      induction t using TensorProduct.inductionOn with
       | tmul s m =>
         simp only [TensorProduct.map_tmul, dualRetractionMap_tmul, AlgHom.toLinearMap_apply,
           LinearMap.id_apply, dualExpandSnd_naturality']
@@ -675,7 +668,7 @@ theorem dualScalingInl_comp_eps_comp_retraction :
       𝟙 (symPairExtension.{w, v} N M) := by
   refine PresheafOfModules.hom_ext fun X => ?_
   ext t
-  show dualRetractionMap N M X.unop.unop (dualEpsSmul (symPairExtension.{w, v} N M) X.unop.unop
+  change dualRetractionMap N M X.unop.unop (dualEpsSmul (symPairExtension.{w, v} N M) X.unop.unop
     ((symPairExtension.{w, v} N M).map (dualNumberPairInl X.unop.unop).op.op t)) = t
   exact dualRetractionMap_eps_inl N M X.unop.unop t
 
@@ -686,7 +679,7 @@ theorem dualScalingInr_comp_retraction :
       pairsWeightOneProjection.{w, v} N M := by
   refine PresheafOfModules.hom_ext fun X => ?_
   ext t
-  show dualRetractionMap N M X.unop.unop ((symPairExtension.{w, v} N M).map
+  change dualRetractionMap N M X.unop.unop ((symPairExtension.{w, v} N M).map
     (dualNumberPairInr X.unop.unop).op.op t) = (symPairWeightOne N X.unop.unop).rTensor M t
   exact dualRetractionMap_inr N M X.unop.unop t
 end RetractionIdentities

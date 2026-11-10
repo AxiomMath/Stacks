@@ -270,7 +270,7 @@ theorem sectionsOverBase_map_baseScalarEnd (r : ↑R) (N : SheafOfModules.{u} X.
   apply LinearMap.ext
   intro x
   let y : N.val.obj (op ⊤) := x
-  show ((baseScalarEnd π r).asHom.app N).val.app (op ⊤) y =
+  change ((baseScalarEnd π r).asHom.app N).val.app (op ⊤) y =
       (show X.ringCatSheaf.obj.obj (op ⊤) from baseHom π r) • y
   rw [baseScalarEnd_app_eq_smul_id π r N]
   simpa using AlgebraicGeometry.Scheme.smul_val_app_top X ↑R (baseHom π) r (𝟙 N) y

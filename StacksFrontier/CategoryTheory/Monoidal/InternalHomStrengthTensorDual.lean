@@ -49,7 +49,7 @@ theorem internalHomStrength_naturality_left {M : C} {H : C ⥤ C} (a : tensorRig
   apply (a.homEquiv _ _).symm.injective
   rw [a.homEquiv_naturality_left_symm, a.homEquiv_naturality_right_symm]
   simp only [internalHomStrength, Equiv.symm_apply_apply]
-  show (φ ▷ H.obj L) ▷ M ≫ (α_ K' (H.obj L) M).hom ≫ K' ◁ a.counit.app L =
+  change (φ ▷ H.obj L) ▷ M ≫ (α_ K' (H.obj L) M).hom ≫ K' ◁ a.counit.app L =
     ((α_ K (H.obj L) M).hom ≫ K ◁ a.counit.app L) ≫ φ ▷ L
   rw [associator_naturality_left_assoc, ← whisker_exchange, Category.assoc]
   rfl
@@ -67,7 +67,7 @@ theorem tensorLeftHomEquiv_comp_internalHomStrength {M : C} {H : C ⥤ C}
   apply (a.homEquiv _ _).symm.injective
   rw [a.homEquiv_naturality_left_symm, Equiv.symm_apply_apply, internalHomStrength,
     Equiv.symm_apply_apply, a.homEquiv_counit]
-  show ((λ_ T).inv ≫ η_ K K' ▷ T ≫ (α_ K K' T).hom ≫ K ◁ g) ▷ M ≫ (α_ K (H.obj L) M).hom ≫
+  change ((λ_ T).inv ≫ η_ K K' ▷ T ≫ (α_ K K' T).hom ≫ K ◁ g) ▷ M ≫ (α_ K (H.obj L) M).hom ≫
       K ◁ a.counit.app L =
     (λ_ (T ⊗ M)).inv ≫ η_ K K' ▷ (T ⊗ M) ≫ (α_ K K' (T ⊗ M)).hom ≫
       K ◁ ((α_ K' T M).inv ≫ g ▷ M ≫ a.counit.app L)

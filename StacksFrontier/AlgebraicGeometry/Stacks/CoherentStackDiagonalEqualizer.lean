@@ -95,7 +95,8 @@ along a comparison —
 assumes it at each
 stage of a colimit, and
 `AlgebraicGeometry.Space.IsAffineAlgebraicSpaceOver.of_iso`
-(`StacksFrontier/AlgebraicGeometry/Quot/RelativeHomRepresentable.lean`) transports it along an isomorphism of functors — and the
+(`StacksFrontier/AlgebraicGeometry/Quot/RelativeHomRepresentable.lean`) transports it along an
+isomorphism of functors — and the
 base case, Lemma 08JY, rests on Lemma 08JX, whose conclusion is likewise unproved: the file
 `StacksFrontier/AlgebraicGeometry/Quot/DerivedPullbackSectionFunctor.lean` builds the functor of
 08JX, states its two hypotheses and names its conclusion as a
@@ -165,12 +166,14 @@ attribute [local instance] pointTopology
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for binary products of presheaves on the big fppf site
 /-- Binary products of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance (priority := high) hasBinaryProducts_presheaf_CoherentStackDiagonalEqualizer :
     HasBinaryProducts ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for small products of presheaves on the big fppf site
 /-- Small products of presheaves on the big fppf site (needed by `simp` side goals; instance
 search times out without this shortcut). -/
 local instance (priority := high) hasProducts_presheaf_CoherentStackDiagonalEqualizer :

@@ -110,9 +110,9 @@ lemma pows_mul_idem (n : ℕ) : pows.{u} * idem n = twos ^ n * idem n := by
   funext m
   by_cases h : m = n
   · subst h
-    show pows.{u} m * idem m m = (twos.{u} ^ m) m * idem m m
+    change pows.{u} m * idem m m = (twos.{u} ^ m) m * idem m m
     simp [pows, idem, twos, base_pow_apply]
-  · show pows.{u} m * idem n m = (twos.{u} ^ n) m * idem n m
+  · change pows.{u} m * idem n m = (twos.{u} ^ n) m * idem n m
     simp [idem, h]
 
 /-- The basic open of a section of the base ring, as an open of the base scheme. -/
@@ -255,7 +255,7 @@ lemma le_of_eq_scale_pows {n N : ℕ} (L : Type u) [CommRing L] [Algebra (Sq Bas
   rw [← hk] at hc
   have hsnd := congrArg Ext.snd hc
   simp only [Stacks.SqZero.algebraMap_pow_eq, Stacks.SqZero.snd_mul, Ext.fst_mk, Ext.snd_mk,
-    Stacks.SqZero.snd_scale, smul_eq_mul, mul_zero, add_zero, zero_mul] at hsnd
+    Stacks.SqZero.snd_scale, smul_eq_mul, mul_zero, add_zero] at hsnd
   have harith := congrArg (ev.{u} n) hsnd
   rw [map_mul, map_mul, map_mul, map_pow, map_pow, ev_ovl, ev_twos, ev_pows] at harith
   have h2 : ((2 : ℤ) ^ k) ≠ 0 := pow_ne_zero _ two_ne_zero

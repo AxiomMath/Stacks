@@ -447,7 +447,7 @@ theorem objectPointMap_eq_basePointMap (𝒳 : AlgebraicStacks.{u, w} B S hS)
       basePointMap B S hS 𝒳 A hA y hy ((BigFppfOver.toScheme B S hS).map (eqToHom hy) t) := by
   simp only [basePointMap]
   congr 1
-  show t = ((BigFppfOver.toScheme B S hS).map (eqToHom hy) ≫
+  change t = ((BigFppfOver.toScheme B S hS).map (eqToHom hy) ≫
     (BigFppfOver.toScheme B S hS).map (eqToHom hy.symm)) t
   rw [← CategoryTheory.Functor.map_comp, eqToHom_trans, eqToHom_refl,
     CategoryTheory.Functor.map_id]
@@ -542,13 +542,13 @@ theorem _root_.Deformation.Artin.FormalObject.Realization.toScheme_map_eq_closed
   simp only [Category.assoc, eqToHom_trans, eqToHom_refl, Category.comp_id]
   simp only [CategoryTheory.Functor.map_comp, Scheme.Hom.comp_apply]
   generalize (BigFppfOver.toScheme B S hS).map (eqToHom _) _ = q
-  show (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (maximalIdeal ξ.base.R ^ (0 + 1))))) q =
+  change (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (maximalIdeal ξ.base.R ^ (0 + 1))))) q =
     (closedPoint ξ.base.R : PrimeSpectrum ξ.base.R)
   apply PrimeSpectrum.ext
   refine ((maximalIdeal.isMaximal ξ.base.R).eq_of_le
     (PrimeSpectrum.isPrime _).ne_top ?_).symm
   intro w hw
-  show Ideal.Quotient.mk _ w ∈ q.asIdeal
+  change Ideal.Quotient.mk _ w ∈ q.asIdeal
   rw [Ideal.Quotient.eq_zero_iff_mem.mpr (by simpa using hw)]
   exact q.asIdeal.zero_mem
 
@@ -792,7 +792,7 @@ theorem satisfies_of_realization (hasc : AscendsAlongFlat D Pr)
     hζversal, _, _, hfin, η', hη'⟩ := exists_chartPoint_closedFibre_and_restriction D iΛ hiΛ x₀
       hx₀ hfinite
   obtain ⟨hAc, yc, hyc, ⟨Ryc⟩, mc, hmc⟩ :=
-    exists_realization_closedFibre_hom D xR ζ hζ Λ iΛ hΛ hζversal
+    exists_realization_closedFibre_hom D xR ζ hζ Λ iΛ hΛ
   have hl : RealizationsSatisfy D Pr xₗ l :=
     realizationsSatisfy_extension_of hasc hdesc iΛ hiΛ (ζ.level 0) (ζ.basePoint Λ iΛ hΛ)
       (locallyOfFiniteType_and_quasiCompact_residueField_formalBase D ζ Λ iΛ hΛ) _ hζversal
@@ -895,11 +895,13 @@ theorem closure_basePointMap_mem_irreducibleComponents {P : Ideal ξ.base}
     (hP : P ∈ minimalPrimes ξ.base) :
     letI := Stack.pointTopology D.B D.S D.hS D.𝒳.val
     closure {AlgebraicStacks.basePointMap D.B D.S D.hS D.𝒳
-               (Deformation.Artin.completeLocalAlgFormalBase iΛ hfinite ξ.base) hA y hy ⟨P, hP.1.1⟩} ∈
+               (Deformation.Artin.completeLocalAlgFormalBase iΛ hfinite ξ.base)
+                 hA y hy ⟨P, hP.1.1⟩} ∈
       irreducibleComponents (AlgebraicStacks.points D.B D.S D.hS D.𝒳) ∧
     VersalSituation.fieldPoint D iΛ x₀ hx₀ ∈
       closure {AlgebraicStacks.basePointMap D.B D.S D.hS D.𝒳
-                 (Deformation.Artin.completeLocalAlgFormalBase iΛ hfinite ξ.base) hA y hy ⟨P, hP.1.1⟩} := by
+                 (Deformation.Artin.completeLocalAlgFormalBase iΛ hfinite ξ.base)
+                   hA y hy ⟨P, hP.1.1⟩} := by
   let := Stack.pointTopology D.B D.S D.hS D.𝒳.val
   constructor
   · have hc := AlgebraicStacks.closure_baseOverPoint_mem_irreducibleComponents D.B D.S D.hS
@@ -933,7 +935,8 @@ def formalBranchComponent
         VersalSituation.fieldPoint D iΛ x₀ hx₀ ∈ Z} :=
   letI := Stack.pointTopology D.B D.S D.hS D.𝒳.val
   ⟨closure {AlgebraicStacks.basePointMap D.B D.S D.hS D.𝒳
-              (Deformation.Artin.completeLocalAlgFormalBase iΛ hfinite ξ.base) hA y hy ⟨P.1, P.2.1.1⟩},
+              (Deformation.Artin.completeLocalAlgFormalBase iΛ hfinite ξ.base)
+                hA y hy ⟨P.1, P.2.1.1⟩},
     closure_basePointMap_mem_irreducibleComponents D iΛ hiΛ x₀ hx₀ hfinite ξ hξ Ry P.2⟩
 
 /-- The value of the map of Stacks 0DRB at a branch is the closure of the image of its generic
@@ -970,7 +973,7 @@ theorem formalBranchComponent_surjective :
     closure_singleton_mem_irreducibleComponents_of_generalizingMap (Flat.generalizingMap _) hz
   refine ⟨⟨Q.asIdeal,
     (closure_singleton_mem_irreducibleComponents_iff_mem_minimalPrimes Q).1 hQ⟩, Subtype.ext ?_⟩
-  show closure {AlgebraicStacks.basePointMap D.B D.S D.hS D.𝒳 F hA y hy Q} = Z
+  change closure {AlgebraicStacks.basePointMap D.B D.S D.hS D.𝒳 F hA y hy Q} = Z
   rw [← hzZ, AlgebraicStacks.objectPointMap_eq_basePointMap D.B D.S D.hS D.𝒳 F hA y hy z]
 
 include Ry in

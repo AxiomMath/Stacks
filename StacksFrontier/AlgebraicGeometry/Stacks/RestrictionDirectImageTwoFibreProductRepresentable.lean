@@ -100,7 +100,7 @@ of `U`: composing it with the projection of the category of elements gives
 theorem elementsSlicePoint_comp (U : BigFppfOver B S hS) (G₀ : Over U ⥤ 𝒴)
     (hG₀ : G₀ ⋙ q = Over.forget U) :
     elementsSlicePoint B S hS G q eG U G₀ ⋙ discreteProjection G = Over.map U.hom := by
-  show Over.iteratedSliceBackward U ⋙ G₀ ⋙ eG.hom.functor ⋙ discreteProjection G = _
+  change Over.iteratedSliceBackward U ⋙ G₀ ⋙ eG.hom.functor ⋙ discreteProjection G = _
   rw [eG.hom.w, hG₀, Over.iteratedSliceBackward_forget]
 
 /-- **The 1-morphism of categories of elements that `f` becomes.** Through the presentation `eF`
@@ -116,7 +116,7 @@ composing it with the projection of the category of elements of `G` gives the pr
 category of elements of `F`. -/
 theorem elementsLegFunctor_comp (hf : p.IsFibredOneMorphism q f) :
     elementsLegFunctor B S hS F G p q eF eG f ⋙ discreteProjection G = discreteProjection F := by
-  show eF.inv.functor ⋙ f ⋙ eG.hom.functor ⋙ discreteProjection G = _
+  change eF.inv.functor ⋙ f ⋙ eG.hom.functor ⋙ discreteProjection G = _
   rw [eG.hom.w, hf.comp_eq, eF.inv.w]
 
 include hp hq eF eG in

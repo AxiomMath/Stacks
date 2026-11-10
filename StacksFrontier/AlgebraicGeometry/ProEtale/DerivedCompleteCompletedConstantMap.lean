@@ -96,7 +96,7 @@ theorem sections_structureMap_comp_completedConstantSectionsIsoAdicCompletion_ho
         ModuleCat.ofHom (I ^ n.unop • (⊤ : Submodule R
           ((constantSections.{u, v, w, w} J U).obj (ModuleCat.of R R)))).mkQ := by
     intro n
-    show ((sheafSections J (ModuleCat.{w} R)).obj (op U)).map
+    change ((sheafSections J (ModuleCat.{w} R)).obj (op U)).map
         (completedConstantSheafStructureMap J I) ≫
       ((sheafSections J (ModuleCat.{w} R)).obj (op U)).map (completedConstantSheafπ J I n) ≫
         (inv (sectionsTowerComparison J I U)).app n = _
@@ -217,7 +217,7 @@ theorem bijective_comp_completedConstantSheafStructureMap (P : ObjectProperty C)
               (P.ι.map f.unop).op ≫ σ.hom.app (op W'.unop.obj) =
             σ.hom.app (op W.unop.obj) ≫ F.obj.map (P.ι.map f.unop).op :=
           σ.hom.naturality (P.ι.map f.unop).op
-        show c.hom.app (op W.unop.obj) ≫ (completedConstantSheaf J I).obj.map
+        change c.hom.app (op W.unop.obj) ≫ (completedConstantSheaf J I).obj.map
             (P.ι.map f.unop).op ≫ g W'.unop =
           c.hom.app (op W.unop.obj) ≫ g W.unop ≫ F.obj.map (P.ι.map f.unop).op
         rw [reassoc_of% h1, hg W'.unop, h2, ← hg W.unop, Category.assoc] }
@@ -251,7 +251,7 @@ theorem toCoefficientModuleSheaf_smul
     (show F.val.obj (op U) from
       (l • (show ((toCoefficientModuleSheaf.{u, u + 1, u} X Λ).obj F).obj.obj (op U) from x))) =
       constantCoefficientScalar X Λ U l • x := by
-  show ((Stacks.SheafOfModules.Tensor.ringSheaf
+  change ((Stacks.SheafOfModules.Tensor.ringSheaf
       (constantCoefficientRingedSite.{u, u + 1, u} X Λ).O).obj.map (terminal.from U).op
         (toCoefficientSections.{u, u + 1, u} X Λ l)) • x = _
   congr 1
@@ -265,7 +265,7 @@ variable (I : Ideal Λ)
 theorem constantCoefficientScalar_mem (U : X.ProEt) {l : Λ} (hl : l ∈ I) :
     constantCoefficientScalar X Λ U l ∈
       (constantCoefficientIdealSheaf.{u, u + 1, u} X Λ I).toSubmodule.obj (op U) := by
-  show constantCoefficientScalar X Λ U l ∈
+  change constantCoefficientScalar X Λ U l ∈
     (_root_.SheafOfModules.kerIdeal (constantCoefficientRingReduction.{u, u + 1, u} X Λ I)).obj
       (op U)
   refine (SheafOfModules.mem_kerIdeal _ (op U) _).mpr ?_
@@ -280,10 +280,10 @@ theorem constantCoefficientScalar_mem (U : X.ProEt) {l : Λ} (hl : l ∈ I) :
     Function.comp_apply] at h
   refine h.symm.trans ?_
   have hπ : π (ULift.up l) = 0 := by
-    show ULift.up (Ideal.Quotient.mk I l) = 0
+    change ULift.up (Ideal.Quotient.mk I l) = 0
     rw [(Ideal.Quotient.eq_zero_iff_mem).mpr hl]
     rfl
-  show ((toSheafify (Scheme.ProEt.topology X) ((Functor.const X.ProEtᵒᵖ).obj
+  change ((toSheafify (Scheme.ProEt.topology X) ((Functor.const X.ProEtᵒᵖ).obj
     (CommRingCat.of (ULift.{u + 1} (Λ ⧸ I))))).app (op U)).hom (π (ULift.up l)) = 0
   rw [hπ]
   exact map_zero _
@@ -338,7 +338,7 @@ theorem exists_moduleSheafOverConstantCoefficientsFunctor_hom
   let ψ₀ : P ⟶ (PresheafOfModules.restrictScalars a).obj F.val :=
     PresheafOfModules.homMk (Functor.whiskerRight φ.hom (forget₂ _ AddCommGrpCat.{u + 1}))
       (fun U r m => by
-        show (φ.hom.app U).hom ((ULift.down r) • (show G.obj.obj U from m)) =
+        change (φ.hom.app U).hom ((ULift.down r) • (show G.obj.obj U from m)) =
           (show F.val.obj U from a.app U r • (show F.val.obj U from (φ.hom.app U).hom m))
         rw [map_smul]
         exact toCoefficientModuleSheaf_smul X Λ F U.unop (ULift.down r) _)

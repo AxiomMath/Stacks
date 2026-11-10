@@ -300,7 +300,7 @@ lemma ι_comp_sumGeneratorsInl (i : ι) :
     Sigma.ι (fun i' ↦ extensionByZeroUnit.{u₁, v₁, w, t} R (U i')) i ≫
         sumGeneratorsInl.{u₁, v₁, w, t} R U Z =
       Sigma.ι (fun y ↦ extensionByZeroUnit.{u₁, v₁, w, t} R (Sum.elim U Z y)) (Sum.inl i) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 omit [HasCoproduct fun i ↦ extensionByZeroUnit.{u₁, v₁, w, t} R (U i)] in
 /-- The `j`-th coprojection followed by `sumGeneratorsInr` is the coprojection at `Sum.inr j`. -/
@@ -309,7 +309,7 @@ lemma ι_comp_sumGeneratorsInr (j : κ) :
     Sigma.ι (fun j' ↦ extensionByZeroUnit.{u₁, v₁, w, t} R (Z j')) j ≫
         sumGeneratorsInr.{u₁, v₁, w, t} R U Z =
       Sigma.ι (fun y ↦ extensionByZeroUnit.{u₁, v₁, w, t} R (Sum.elim U Z y)) (Sum.inr j) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- `sumGeneratorsDesc p q` restricted to the summand at `Sum.inl i` is the restriction of `p`
 to the `i`-th summand. -/
@@ -319,7 +319,7 @@ lemma ι_inl_comp_sumGeneratorsDesc {N : SheafOfModules.{max u₁ v₁ w t} R}
     Sigma.ι (fun y ↦ extensionByZeroUnit.{u₁, v₁, w, t} R (Sum.elim U Z y)) (Sum.inl i) ≫
         sumGeneratorsDesc.{u₁, v₁, w, t} R U Z p q =
       Sigma.ι (fun i' ↦ extensionByZeroUnit.{u₁, v₁, w, t} R (U i')) i ≫ p :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- `sumGeneratorsDesc p q` restricted to the summand at `Sum.inr j` is the restriction of `q`
 to the `j`-th summand. -/
@@ -329,7 +329,7 @@ lemma ι_inr_comp_sumGeneratorsDesc {N : SheafOfModules.{max u₁ v₁ w t} R}
     Sigma.ι (fun y ↦ extensionByZeroUnit.{u₁, v₁, w, t} R (Sum.elim U Z y)) (Sum.inr j) ≫
         sumGeneratorsDesc.{u₁, v₁, w, t} R U Z p q =
       Sigma.ι (fun j' ↦ extensionByZeroUnit.{u₁, v₁, w, t} R (Z j')) j ≫ q :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- `sumGeneratorsDesc p q` restricted to the first block is `p`. -/
 @[reassoc]
@@ -477,8 +477,8 @@ theorem epi_sigmaDesc_sigmaIota' {L : Type (max u₁ v₁)} (X : L → C)
     extensionByZeroUnitMap.{u₁, v₁, w, t} R (g l c))).1 (Sigma.hom_ext _ _ fun c => ?_)
   have h := Sigma.ι (fun x : Σ l, ι l ↦
     extensionByZeroUnit.{u₁, v₁, w, t} R (Y x.1 x.2)) (⟨l, c⟩ : Σ l, ι l) ≫= hh
-  rw [Sigma.ι_desc_assoc, Sigma.ι_desc_assoc, Category.assoc, Category.assoc] at h
-  simp only [Sigma.ι_desc_assoc]
+  rw [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc_assoc, Category.assoc, Category.assoc] at h
+  simp only [Sigma.ι_comp_desc_assoc]
   exact h
 
 end Lifting
@@ -541,7 +541,7 @@ theorem hasFiniteExtensionByZeroPresentation_of_lifted_generators
   have hcc : Epi (cokernel.π g ≫ eg.hom) := epi_comp _ _
   -- The chosen lift of the quotient map of `F₃` to `F₂`.
   have hβ : (Sigma.desc lift) ≫ E.g = cokernel.π g ≫ eg.hom :=
-    Sigma.hom_ext _ _ fun x ↦ by rw [Sigma.ι_desc_assoc]; exact hlift x
+    Sigma.hom_ext _ _ fun x ↦ by rw [Sigma.ι_comp_desc_assoc]; exact hlift x
   -- `φ : ⊕_i A_{U_i} ⊕ ⊕_x A_{Wg_x} ⟶ F₂`, and the square over `F₂ ⟶ F₃` it sits in.
   set φ := sumGeneratorsDesc.{u₁, v₁, w, t} R U Wg ((cokernel.π b ≫ eb.hom) ≫ E.f)
     (Sigma.desc lift) with hφdef
@@ -612,7 +612,7 @@ theorem hasFiniteExtensionByZeroPresentation_of_lifted_generators
                 Sigma.ι (fun l ↦ extensionByZeroUnit.{u₁, v₁, w, t} R (Wr l)) x.1) ≫
             kernel.lift (cokernel.π g ≫ eg.hom) g hgcc :=
         Sigma.hom_ext _ _ fun x ↦ by
-          rw [Sigma.ι_desc_assoc, Sigma.ι_desc_assoc]
+          rw [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc_assoc]
           exact (hee x.1 x.2).trans (Category.assoc _ _ _).symm
       rw [hfac]
       have _ := epi_sigmaDesc_sigmaIota'.{u₁, v₁, w, t} S R Wr σ Y gY hYepi

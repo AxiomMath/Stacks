@@ -173,7 +173,7 @@ private lemma restrictApp_smul (f : X ⟶ Y) [IsOpenImmersion f] {M N : Y.Module
   have h3 : θ.app W (@HSMul.hSMul Γ(X, W) Γ(M.restrict f, W) _ _ ((f.appIso W).hom r) x)
       = @HSMul.hSMul Γ(X, W) Γ(N.restrict f, W) _ _ ((f.appIso W).hom r) (θ.app W x) :=
     Hom.app_smul θ _ _
-  show θ.app W (@HSMul.hSMul Γ(Y, f ''ᵁ W) Γ(M, f ''ᵁ W) _ _ r x)
+  change θ.app W (@HSMul.hSMul Γ(Y, f ''ᵁ W) Γ(M, f ''ᵁ W) _ _ r x)
     = @HSMul.hSMul Γ(Y, f ''ᵁ W) Γ(N, f ''ᵁ W) _ _ r (θ.app W x)
   rw [← h1, ← h2, h3]
 
@@ -322,7 +322,7 @@ lemma pushMap_app (f : X ⟶ Y) {g : Y ⟶ Z} {h : X ⟶ Z} (hg : f ≫ g = h)
     [IsOpenImmersion f] {M : Y.Modules} {N : X.Modules} (θ : M.restrict f ⟶ N) (W : Z.Opens)
     (hpi : h ⁻¹ᵁ W ≤ f ⁻¹ᵁ (g ⁻¹ᵁ W)) :
     (pushMap f hg θ).app W = pushSecApp f θ (g ⁻¹ᵁ W) ≫ N.presheaf.map (homOfLE hpi).op := by
-  show pushSecApp f θ (g ⁻¹ᵁ W) ≫ 𝟙 _ ≫ N.presheaf.map (eqToHom (by simp [← hg])).op = _
+  change pushSecApp f θ (g ⁻¹ᵁ W) ≫ 𝟙 _ ≫ N.presheaf.map (eqToHom (by simp [← hg])).op = _
   rw [Category.id_comp, presheaf_map_eq_presheaf_map N _ (homOfLE hpi).op]
 
 /-- **The transport of a morphism of inverse images commutes with reindexing along an equality of
@@ -463,7 +463,7 @@ private lemma isQuasicoherent_over_of_restrict (U : X.Opens) (M : X.Modules)
         ((Opens.grothendieckTopology (↥U)).over
           (U.overEquivalence.functor.obj V)) := overPost_isContinuous U
   have hlocal : (e.inverse.obj ((restrictFunctor U.ι).obj M)).IsQuasicoherent := by
-    show SheafOfModules.IsQuasicoherent ((SheafOfModules.pushforward φ).obj
+    change SheafOfModules.IsQuasicoherent ((SheafOfModules.pushforward φ).obj
       ((restrictFunctor U.ι).obj M))
     exact @SheafOfModules.isQuasicoherent_pushforward_of_isLeftAdjoint.{u}
       (C := TopologicalSpace.Opens (↥U)) inferInstance

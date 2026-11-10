@@ -103,7 +103,7 @@ section LevelRepresentation
 variable {ℓ : ℕ} [Fact ℓ.Prime] {r : ℕ} {G : Type v} [Group G] [TopologicalSpace G]
   [IsTopologicalGroup G] (τ : G →* GL (Fin r) ℤ_[ℓ])
 
-omit [IsTopologicalGroup G] in
+omit [TopologicalSpace G] [IsTopologicalGroup G] in
 /-- The lifted level representation of `g` depends only on `τ g`. -/
 theorem levelULiftRepresentation_eq_of_eq (k : ℕ) {g g' : G} (h : τ g = τ g') :
     levelULiftRepresentation.{v, w} τ k g = levelULiftRepresentation.{v, w} τ k g' := by

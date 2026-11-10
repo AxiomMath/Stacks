@@ -89,7 +89,7 @@ lemma comparison_tmul_of_injective
     (AlgHom.id A G.middle) r (fun _ => rfl) hr f b
 
 /-- To prove a property of every element of a relative dualizing module it suffices to treat
-zero, sums, and the pure tensors coming from a refinement with injective structure map. -/
+sums and the pure tensors coming from a refinement with injective structure map. -/
 lemma comparison_induction
     {A : Type u} {B : Type v} [CommRing A] [CommRing B] [Algebra A B]
     [IsNoetherianRing A]
@@ -99,14 +99,12 @@ lemma comparison_induction
     (r : F.middle →ₐ[A] G.middle)
     (hr : ∀ t, algebraMap G.middle B (r t) = algebraMap F.middle B t)
     {P : dualizingModule F → Prop}
-    (hzero : P 0)
     (htmul : ∀ (f : Module.Dual A G.middle) b,
       P (dualizingModule.tmul F (f.comp r.toLinearMap) b))
     (hadd : ∀ m n, P m → P n → P (m + n))
     (m : dualizingModule F) : P m := by
   obtain ⟨n, rfl⟩ := (dualizingModuleEquiv G F).surjective m
   induction n using dualizingModule.induction_on G with
-  | zero => simpa only [map_zero] using hzero
   | add m n hm hn => simpa only [map_add] using hadd _ _ hm hn
   | tmul f b =>
     rw [comparison_tmul_of_injective F G hG r hr]
@@ -227,7 +225,6 @@ lemma comparison_tmul_of_surjective
       (hG (r t)).trans (hB t)
     ext m
     induction m using comparison_induction G H hH rG hG with
-    | hzero => simp only [map_zero]
     | hadd m n hm hn => simp only [map_add, hm, hn]
     | htmul g c =>
       change dualizingModuleEquiv G F
@@ -286,7 +283,6 @@ lemma finiteTrace_add
   apply LinearMap.ext
   intro m
   induction m using dualizingModule.induction_on K with
-  | zero => simp
   | add m n hm hn => simp only [map_add, LinearMap.add_apply, hm, hn]
   | tmul g c =>
     simp only [LinearMap.add_apply]
@@ -310,7 +306,6 @@ lemma finiteTrace_smul
   apply LinearMap.ext
   intro m
   induction m using dualizingModule.induction_on K with
-  | zero => simp
   | add m n hm hn => simp only [map_add, LinearMap.smul_apply, hm, hn]
   | tmul g c =>
     change finiteTrace K (r • f) (dualizingModule.tmul K g c) = _
@@ -348,7 +343,6 @@ lemma finiteTrace_naturality
   let : IsScalarTower A R L.middle := IsScalarTower.of_algebraMap_eq' rfl
   let : IsScalarTower A R T.middle := IsScalarTower.of_algebraMap_eq' rfl
   induction m using comparison_induction K T hT rK hK with
-  | hzero => simp only [map_zero]
   | hadd m n hm hn => simp only [map_add, hm, hn]
   | htmul g c =>
     rw [dualizingModuleEquiv_tmul K L T hT rK rL hK hL]
@@ -397,7 +391,6 @@ lemma retargetDualizingMap_smul
     (b : B) (m : dualizingModule F) :
     retargetDualizingMap F e (b • m) = e b • retargetDualizingMap F e m := by
   induction m using dualizingModule.induction_on F with
-  | zero => simp only [smul_zero, map_zero]
   | add m n hm hn => simp only [smul_add, map_add, hm, hn]
   | tmul f c =>
     rw [dualizingModule.smul_tmul, retargetDualizingMap_tmul,
@@ -440,7 +433,6 @@ lemma retargetDualizingMap_naturality
       algebraMap (retargetFactorization H e).middle C (rG t) =
         algebraMap (retargetFactorization G e).middle C t := congrArg e (hG t)
   induction m using comparison_induction F H hH rF hF with
-  | hzero => simp only [map_zero]
   | hadd m n hm hn => simp only [map_add, hm, hn]
   | htmul f b =>
     rw [dualizingModuleEquiv_tmul F G H hH rF rG hF hG,

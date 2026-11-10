@@ -49,6 +49,7 @@ attribute [local instance] smallEtaleTopology_subcanonical
 open Sheaf
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for finite products of sheaves on the small étale site times out
 /-- Finite products of sheaves of sets on a small étale site, supplied directly: under Lean
 v4.35.0 instance search for them times out in this file. -/
 local instance (priority := high) hasFiniteProducts_sheaf_arbitraryBaseStalk
@@ -82,7 +83,7 @@ theorem stalkComparison_map {V V' : SmallEtale B S hS Y.1} [IsAffine (chartSch V
     (σ : (invStalk g x).obj ((SmallEtale.topology B S hS Y.1).yoneda.obj V')) :
     stalkComparison x hfb V ((invStalk g x).map ((SmallEtale.topology B S hS Y.1).yoneda.map j) σ) =
       chartStalkMap f x j (stalkComparison x hfb V' σ) := by
-  show ((sitePt x).presheafFiber.map
+  change ((sitePt x).presheafFiber.map
       (g.toToposHom.inverseImage.map ((SmallEtale.topology B S hS Y.1).yoneda.map j)).hom ≫
     (sitePt x).presheafFiber.map (invRepComparison hfb V)) σ = _
   rw [← Functor.map_comp, invRepComparison_naturality, Functor.map_comp]
@@ -213,7 +214,7 @@ theorem stalkComparison_injective (V : SmallEtale B S hS Y.1) [IsAffine (chartSc
   let Oab := ((BigFppfOver.toScheme B S hS).map ιa.hom.left) ⁻¹ᵁ Ob.1
   have hrange : ∀ z, ((BigFppfOver.toScheme B S hS).map ca.1).base z ∈ Oab := by
     intro z
-    show ((BigFppfOver.toScheme B S hS).map ca.1 ≫
+    change ((BigFppfOver.toScheme B S hS).map ca.1 ≫
       (BigFppfOver.toScheme B S hS).map ιa.hom.left).base z ∈ Ob.1
     rw [← Functor.map_comp, hcab, Functor.map_comp, Scheme.Hom.comp_apply]
     exact chartOpenRestrictionHom_base_mem P Ob.1 _
@@ -230,7 +231,7 @@ theorem stalkComparison_injective (V : SmallEtale B S hS Y.1) [IsAffine (chartSc
   obtain ⟨σD, hσD, hcD⟩ := hRS ιD σa tD htD
   have hDrange : Set.range ((BigFppfOver.toScheme B S hS).map (ιD ≫ ιa).hom.left) ⊆ Ob.1 := by
     rintro _ ⟨w, rfl⟩
-    show ((BigFppfOver.toScheme B S hS).map ιD.hom.left ≫
+    change ((BigFppfOver.toScheme B S hS).map ιD.hom.left ≫
       (BigFppfOver.toScheme B S hS).map ιa.hom.left).base w ∈ Ob.1
     rw [Scheme.Hom.comp_apply]
     exact e.2 (chartOpenRestrictionHom_base_mem Wa _ w)
@@ -270,7 +271,7 @@ theorem stalk_chartFiberCoordinate_invRepComparison (V : SmallEtale B S hS Y.1)
     (sitePt x).presheafFiber.obj (invRep g V).obj → _) σ) h1
   simp only [Functor.map_comp] at h2
   refine h2.trans ?_
-  show (sitePt x).sheafFiber.map (g.toToposHom.inverseImage.map
+  change (sitePt x).sheafFiber.map (g.toToposHom.inverseImage.map
       ((SmallEtale.topology B S hS Y.1).yonedaEquiv.symm b) ≫ g.fSharpSet) σ = _
   rw [Functor.map_comp, types_comp_apply]
   rfl
@@ -339,9 +340,9 @@ theorem exists_stalk_lift (hφ : IsLocalHom (invStalkRingHom g x))
     rw [← invStalk_map_presι_fst g x c pres, hσ']
     exact Functor.map_fst_prodObjMk _ _
   refine ⟨σ', hσ₀, stalk_chartFiber_ext x c pres _ _ ?_ fun i ↦ ?_⟩
-  · show _ = chartStalkMap f x c t'
+  · change _ = chartStalkMap f x c t'
     rw [ht, ← hσ₀]
-    show ((sitePt x).presheafFiber.map (invRepComparison hfb V') ≫
+    change ((sitePt x).presheafFiber.map (invRepComparison hfb V') ≫
       (sitePt x).presheafFiber.map (chartFiberMap f c)) σ' =
       ((sitePt x).presheafFiber.map (g.toToposHom.inverseImage.map
         ((SmallEtale.topology B S hS Y.1).yoneda.map c)).hom ≫
@@ -385,7 +386,7 @@ theorem stalk_lift_unique (hφ : IsLocalHom (invStalkRingHom g x))
       (fun i ↦ stalkCoordRingHom g x V' σ'' (presCoord c pres i)) :=
     (bijOn_solutions_of_etale (invStalkRingHom g x) hφ n
       (fun j => MvPolynomial.map ψ (P j))).2.1 (hsol σ' rfl) (hsol σ'' h₀.symm) (funext fun i ↦ by
-        show invStalkRingHom g x _ = invStalkRingHom g x _
+        change invStalkRingHom g x _ = invStalkRingHom g x _
         rw [← stalk_chartFiberCoordinate_invRepComparison hfb,
           ← stalk_chartFiberCoordinate_invRepComparison hfb, hc])
   have hzz : (invStalk g x).map (presι c pres) σ'' = (invStalk g x).map (presι c pres) σ' := by

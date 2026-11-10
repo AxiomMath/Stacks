@@ -83,7 +83,7 @@ affine open of the source the inverse image is `Ideal.comap` along a ring isomor
 theorem comap_mul_of_isOpenImmersion (I J : Y.IdealSheafData) :
     (I * J).comap f = I.comap f * J.comap f := by
   refine IdealSheafData.ext (funext fun U => ?_)
-  show ((I * J).comap f).ideal U = (I.comap f).ideal U * (J.comap f).ideal U
+  change ((I * J).comap f).ideal U = (I.comap f).ideal U * (J.comap f).ideal U
   rw [ideal_comap_of_isOpenImmersion (I * J) f U, ideal_comap_of_isOpenImmersion I f U,
     ideal_comap_of_isOpenImmersion J f U]
   exact Ideal.comap_mul_of_bijective _ (ConcreteCategory.bijective_of_isIso _) _ _

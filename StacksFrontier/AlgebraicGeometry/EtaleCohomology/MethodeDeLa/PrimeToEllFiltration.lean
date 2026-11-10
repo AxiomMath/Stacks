@@ -184,7 +184,7 @@ theorem pow_app_finiteEtaleBaseChange_eq_self {X Y : Scheme.{u}} [ConnectedSpace
     (p : (finiteEtaleFiberFunctor x).obj ((finiteEtaleBaseChange f).obj V)) :
     ((σ ^ n).asIso.app ((finiteEtaleBaseChange f).obj V)).hom p = p := by
   apply (finiteEtaleFiberProjectionEquiv f x V).injective
-  show finiteEtaleFiberProjection f x V _ = finiteEtaleFiberProjection f x V p
+  change finiteEtaleFiberProjection f x V _ = finiteEtaleFiberProjection f x V p
   rw [etaleFundamentalGroupMap_finiteEtaleFiberProjection, map_pow]
   exact h _
 
@@ -299,7 +299,7 @@ private theorem exists_relSeries_constantRankOneStep_of_fiberStabilizer (hℓ : 
   have : NeZero ℓ := ⟨hℓ.ne_zero⟩
   let t : GeometricPoint T.left := { residueField := s.residueField, hom := y₀.1 }
   have hts : s = t.map T.hom := by
-    show s = GeometricPoint.mk s.residueField (y₀.1 ≫ T.hom)
+    change s = GeometricPoint.mk s.residueField (y₀.1 ≫ T.hom)
     rw [y₀.2]
     rfl
   have key : ∀ (s' : GeometricPoint XS.1) (h : s = s') (τ : EtaleFundamentalGroup XS.1 s'),
@@ -356,7 +356,7 @@ private theorem exists_primeToEll_finiteEtale_relSeries_of_openSubgroup (hℓ : 
     obtain ⟨a, ha⟩ := QuotientGroup.mk_surjective (φ z)
     refine ⟨a, φ.injective ?_⟩
     rw [hφ, hφy₀, ← ha]
-    show ((a * 1 : EtaleFundamentalGroup XS.1 s) :
+    change ((a * 1 : EtaleFundamentalGroup XS.1 s) :
       EtaleFundamentalGroup XS.1 s ⧸ U.toSubgroup) = _
     rw [mul_one]
   have hstab : ∀ σ : EtaleFundamentalGroup XS.1 s, σ • y₀ = y₀ → σ ∈ U.toSubgroup := by
@@ -418,7 +418,7 @@ theorem exists_primeToEll_finiteEtale_relSeries_constantRankOneStep {ℓ : ℕ} 
       Subgroup.isOpen_mono hle (isOpen_ker_toPermHom_finiteEtaleFiber s Xc)⟩
   refine exists_primeToEll_finiteEtale_relSeries_of_openSubgroup hℓ XS F hF s U ?_ ?_
   -- the degree is the index of the Sylow subgroup, which is prime to `ℓ`
-  · show ¬ ℓ ∣ ((H : Subgroup Gρ).comap rb).index
+  · change ¬ ℓ ∣ ((H : Subgroup Gρ).comap rb).index
     rw [Subgroup.index_comap_of_surjective _ ρ.rangeRestrict_surjective]
     exact H.not_dvd_index
   -- the stabiliser condition

@@ -83,12 +83,12 @@ theorem leibnizHom_comp_eq_of_formallyUnramified {A B₁ B₂ : CommRingCat.{u}}
     (δ₂.comp m.hom.toAddMonoidHom - ρ.comp δ₁) ?_ ?_ r
   · exact sub_eq_zero.mp key
   · intro x y
-    show δ₂ (m (x * y)) - ρ (δ₁ (x * y)) =
+    change δ₂ (m (x * y)) - ρ (δ₁ (x * y)) =
       m x • (δ₂ (m y) - ρ (δ₁ y)) + m y • (δ₂ (m x) - ρ (δ₁ x))
     rw [map_mul, h₂, h₁, map_add, hρ, hρ, smul_sub, smul_sub]
     abel
   · intro a
-    show δ₂ (m (g a)) - ρ (δ₁ (g a)) = 0
+    change δ₂ (m (g a)) - ρ (δ₁ (g a)) = 0
     rw [hA, sub_self]
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) (U : BigFppfOver B S hS)

@@ -144,7 +144,7 @@ private theorem etaleStalkLocallyConstantMapsAbIso_hom_stalkMap_tensorUnit (S : 
     (etaleStalkLocallyConstantMapsAbIso.{u, v} B S.obj S.property t
         (AddCommGrpCat.ULiftInt.{max (u + 1) v})).hom
       (colim.map (Functor.whiskerLeft
-        (CategoryOfElements.π (geometricPointFiber B S.obj S.property t)).op
+        (Functor.Elements.π (geometricPointFiber B S.obj S.property t)).op
         (forgetTensorUnitIsoLocallyConstantSheafAb.{u, v} B S
           (AddCommGrpCat.ULiftInt.{max (u + 1) v})).hom.hom) z) = a := by
   have hz' : (moduleEtaleStalkIso.{u, v, max (u + 1) v} B
@@ -158,7 +158,7 @@ private theorem etaleStalkLocallyConstantMapsAbIso_hom_stalkMap_tensorUnit (S : 
     (congrArg (fun y => (etaleStalkLocallyConstantMapsAbIso.{u, v} B S.obj S.property t
         (AddCommGrpCat.ULiftInt.{max (u + 1) v})).hom
       (colim.map (Functor.whiskerLeft
-        (CategoryOfElements.π (geometricPointFiber B S.obj S.property t)).op
+        (Functor.Elements.π (geometricPointFiber B S.obj S.property t)).op
         (forgetTensorUnitIsoLocallyConstantSheafAb.{u, v} B S
           (AddCommGrpCat.ULiftInt.{max (u + 1) v})).hom.hom) y)) hz'.symm)
     (etaleStalkLocallyConstantMapsAbIso_tensorUnit_eps.{u, v} B S
@@ -174,7 +174,7 @@ private theorem moduleEtaleStalkIso_inv_app_eps (S : B.Scheme) (t : GeometricPoi
       (Functor.LaxMonoidal.ε (modStalkFunctor.{u, v, max (u + 1) v} B
         (AddCommGrpCat.ULiftInt.{max (u + 1) v}) S t) a) =
       colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B S.obj S.property t)).op
+          (Functor.Elements.π (geometricPointFiber B S.obj S.property t)).op
           (forgetTensorUnitIsoLocallyConstantSheafAb.{u, v} B S
             (AddCommGrpCat.ULiftInt.{max (u + 1) v})).inv.hom)
         ((etaleStalkLocallyConstantMapsAbIso.{u, v} B S.obj S.property t
@@ -188,7 +188,7 @@ private theorem moduleEtaleStalkIso_inv_app_eps (S : B.Scheme) (t : GeometricPoi
       (forgetTensorUnitIsoLocallyConstantSheafAb.{u, v} B S
         (AddCommGrpCat.ULiftInt.{max (u + 1) v}))) _).symm
     (congrArg (fun y => colim.map (Functor.whiskerLeft
-      (CategoryOfElements.π (geometricPointFiber B S.obj S.property t)).op
+      (Functor.Elements.π (geometricPointFiber B S.obj S.property t)).op
       (forgetTensorUnitIsoLocallyConstantSheafAb.{u, v} B S
         (AddCommGrpCat.ULiftInt.{max (u + 1) v})).inv.hom) y)
       ((Iso.hom_inv_id_apply _ _).symm.trans (congrArg (fun y =>
@@ -334,7 +334,7 @@ private theorem forget₂_map_moduleFiberStalksIso_hom_fiberStalkOf (s : Geometr
           (AddCommGrpCat.ULiftInt.{max (u + 1) v}) X
             (x.toGeometricPoint B f s)).hom.app (𝟙_ _) z) := by
   let : DecidableEq (GeometricFiberPoint B f s) := Classical.decEq _
-  show DirectSum.congrLinearEquiv
+  change DirectSum.congrLinearEquiv
       (fun y : GeometricFiberPoint B f s =>
         ((moduleEtaleStalkIso.{u, v, max (u + 1) v} B
           (AddCommGrpCat.ULiftInt.{max (u + 1) v}) X
@@ -347,6 +347,7 @@ private theorem forget₂_map_moduleFiberStalksIso_hom_fiberStalkOf (s : Geometr
         (AddCommGrpCat.ULiftInt.{max (u + 1) v}) X
           (y.toGeometricPoint B f s)).app (𝟙_ _)).toLinearEquiv.toLinearMap) x z
 
+omit [LocallyOfFiniteType (B.inclusion.map f)] [LocallyQuasiFinite (B.inclusion.map f)] in
 /-- **The weighted sum on the monoidal unit, on a summand**, read on underlying abelian
 groups. -/
 private theorem forget₂_map_modUnitWeightedSum_modFiberStalkOf (s : GeometricPoint Y.obj)
@@ -397,21 +398,21 @@ private theorem fShriekStalkIso_inv_comp_stalkMap_forgetUnitTrace (s : Geometric
           ((forgetModuleSheaf.{u, v, max (u + 1) v} B X
             (AddCommGrpCat.ULiftInt.{max (u + 1) v})).obj (𝟙_ _))).inv ≫
         colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+          (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
           (forgetUnitTrace.{u, v} B f hw).hom) =
       AddCommGrpCat.ofHom (fiberStalksMap.{u, max (u + 1) v} B f s
           (forgetTensorUnitIsoLocallyConstantSheafAb.{u, v} B X
             (AddCommGrpCat.ULiftInt.{max (u + 1) v})).hom) ≫
         integralTraceStalkMap.{u, v} B f w s ≫
           colim.map (Functor.whiskerLeft
-            (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+            (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
             (forgetTensorUnitIsoLocallyConstantSheafAb.{u, v} B Y
               (AddCommGrpCat.ULiftInt.{max (u + 1) v})).inv.hom) := by
   have h₁ : (fShriekStalkIso.{u, v} B f s
           ((forgetModuleSheaf.{u, v, max (u + 1) v} B X
             (AddCommGrpCat.ULiftInt.{max (u + 1) v})).obj (𝟙_ _))).inv ≫
         colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+          (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
           ((fShriekFunctor.{u, v} B f).map
             (forgetTensorUnitIsoLocallyConstantSheafAb.{u, v} B X
               (AddCommGrpCat.ULiftInt.{max (u + 1) v})).hom).hom) =
@@ -429,7 +430,7 @@ private theorem fShriekStalkIso_inv_comp_stalkMap_forgetUnitTrace (s : Geometric
           (locallyConstantSheafAb.{u, v} B X.obj X.property
             (AddCommGrpCat.ULiftInt.{max (u + 1) v}))).inv ≫
         colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+          (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
           (integralTrace.{u, v} B f hw).hom) =
       integralTraceStalkMap.{u, v} B f w s :=
     integralTrace_stalk.{u, v} B f hw s
@@ -475,7 +476,7 @@ private theorem fShriekStalkIso_inv_comp_stalkMap_forgetUnitTrace_eq (s : Geomet
           ((forgetModuleSheaf.{u, v, max (u + 1) v} B X
             (AddCommGrpCat.ULiftInt.{max (u + 1) v})).obj (𝟙_ _))).inv ≫
         colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+          (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
           (forgetUnitTrace.{u, v} B f hw).hom) =
       (forget₂ (ModuleCat.{max (u + 1) v} (AddCommGrpCat.ULiftInt.{max (u + 1) v}))
             AddCommGrpCat.{max (u + 1) v}).map
@@ -491,7 +492,7 @@ private theorem fShriekStalkIso_inv_comp_stalkMap_forgetUnitTrace_eq (s : Geomet
   rw [fShriekStalkIso_inv_comp_stalkMap_forgetUnitTrace.{u, v} B f hw s]
   refine fiberStalks_comp_ext.{u, v} B f s _ _ _ _ _ _ _ fun x z => ?_
   have hleft : colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+          (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
           (forgetTensorUnitIsoLocallyConstantSheafAb.{u, v} B Y
             (AddCommGrpCat.ULiftInt.{max (u + 1) v})).inv.hom)
         (integralTraceStalkMap.{u, v} B f w s
@@ -503,7 +504,7 @@ private theorem fShriekStalkIso_inv_comp_stalkMap_forgetUnitTrace_eq (s : Geomet
                 (AddCommGrpCat.ULiftInt.{max (u + 1) v})).obj (𝟙_ _)) x z))) =
       w (x.1 default) •
         colim.map (Functor.whiskerLeft
-            (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+            (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
             (forgetTensorUnitIsoLocallyConstantSheafAb.{u, v} B Y
               (AddCommGrpCat.ULiftInt.{max (u + 1) v})).inv.hom)
           ((etaleStalkLocallyConstantMapsAbIso.{u, v} B Y.obj Y.property s
@@ -512,13 +513,13 @@ private theorem fShriekStalkIso_inv_comp_stalkMap_forgetUnitTrace_eq (s : Geomet
                 (x.toGeometricPoint B f s)
                 (AddCommGrpCat.ULiftInt.{max (u + 1) v})).hom
               (colim.map (Functor.whiskerLeft
-                (CategoryOfElements.π (geometricPointFiber B X.obj X.property
+                (Functor.Elements.π (geometricPointFiber B X.obj X.property
                   (x.toGeometricPoint B f s))).op
                 (forgetTensorUnitIsoLocallyConstantSheafAb.{u, v} B X
                   (AddCommGrpCat.ULiftInt.{max (u + 1) v})).hom.hom) z))) :=
     Eq.trans
       (congrArg (fun y => colim.map (Functor.whiskerLeft
-            (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+            (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
             (forgetTensorUnitIsoLocallyConstantSheafAb.{u, v} B Y
               (AddCommGrpCat.ULiftInt.{max (u + 1) v})).inv.hom)
           (integralTraceStalkMap.{u, v} B f w s y))
@@ -527,12 +528,12 @@ private theorem fShriekStalkIso_inv_comp_stalkMap_forgetUnitTrace_eq (s : Geomet
             (AddCommGrpCat.ULiftInt.{max (u + 1) v})).hom x z))
       (Eq.trans
         (congrArg (fun y => colim.map (Functor.whiskerLeft
-            (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+            (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
             (forgetTensorUnitIsoLocallyConstantSheafAb.{u, v} B Y
               (AddCommGrpCat.ULiftInt.{max (u + 1) v})).inv.hom) y)
           (integralTraceStalkMap_fiberStalkOf.{u, v} B f w s x
             (colim.map (Functor.whiskerLeft
-              (CategoryOfElements.π (geometricPointFiber B X.obj X.property
+              (Functor.Elements.π (geometricPointFiber B X.obj X.property
                 (x.toGeometricPoint B f s))).op
               (forgetTensorUnitIsoLocallyConstantSheafAb.{u, v} B X
                 (AddCommGrpCat.ULiftInt.{max (u + 1) v})).hom.hom) z)))
@@ -570,7 +571,7 @@ private theorem fShriekStalkIso_inv_comp_stalkMap_forgetUnitTrace_eq (s : Geomet
   have hkey : (etaleStalkLocallyConstantMapsAbIso.{u, v} B X.obj X.property
           (x.toGeometricPoint B f s) (AddCommGrpCat.ULiftInt.{max (u + 1) v})).hom
         (colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B X.obj X.property
+          (Functor.Elements.π (geometricPointFiber B X.obj X.property
             (x.toGeometricPoint B f s))).op
           (forgetTensorUnitIsoLocallyConstantSheafAb.{u, v} B X
             (AddCommGrpCat.ULiftInt.{max (u + 1) v})).hom.hom) z) =
@@ -586,7 +587,7 @@ private theorem fShriekStalkIso_inv_comp_stalkMap_forgetUnitTrace_eq (s : Geomet
   exact Eq.trans hleft (Eq.trans
     (congrArg (fun y => w (x.1 default) •
         colim.map (Functor.whiskerLeft
-            (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+            (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
             (forgetTensorUnitIsoLocallyConstantSheafAb.{u, v} B Y
               (AddCommGrpCat.ULiftInt.{max (u + 1) v})).inv.hom)
           ((etaleStalkLocallyConstantMapsAbIso.{u, v} B Y.obj Y.property s
@@ -618,7 +619,7 @@ private theorem modShriekStalkIso_inv_comp_modStalkFunctor_map_modUnitTrace
         ((moduleEtaleStalkFunctor.{u, v, max (u + 1) v} B
           (AddCommGrpCat.ULiftInt.{max (u + 1) v}) Y s).map (modUnitTrace.{u, v} B f hw)) =
       colim.map (Functor.whiskerLeft
-        (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+        (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
         (forgetUnitTrace.{u, v} B f hw).hom) :=
     congrArg (fun φ : (forgetModuleSheaf.{u, v, max (u + 1) v} B Y
           (AddCommGrpCat.ULiftInt.{max (u + 1) v})).obj
@@ -627,7 +628,7 @@ private theorem modShriekStalkIso_inv_comp_modStalkFunctor_map_modUnitTrace
           (forgetModuleSheaf.{u, v, max (u + 1) v} B Y
             (AddCommGrpCat.ULiftInt.{max (u + 1) v})).obj (𝟙_ _) =>
         colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op φ.hom))
+          (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op φ.hom))
       (forgetModuleSheaf_map_modUnitTrace.{u, v} B f hw)
   have hnat : (forget₂ (ModuleCat.{max (u + 1) v} (AddCommGrpCat.ULiftInt.{max (u + 1) v}))
           AddCommGrpCat.{max (u + 1) v}).map
@@ -640,7 +641,7 @@ private theorem modShriekStalkIso_inv_comp_modStalkFunctor_map_modUnitTrace
         ((modStalkFunctor.{u, v, max (u + 1) v} B
           (AddCommGrpCat.ULiftInt.{max (u + 1) v}) Y s).map (modUnitTrace.{u, v} B f hw)) =
       colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+          (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
           (forgetUnitTrace.{u, v} B f hw).hom) ≫
         (forget₂ (ModuleCat.{max (u + 1) v} (AddCommGrpCat.ULiftInt.{max (u + 1) v}))
             AddCommGrpCat.{max (u + 1) v}).map
@@ -659,7 +660,7 @@ private theorem modShriekStalkIso_inv_comp_modStalkFunctor_map_modUnitTrace
     forget₂_map_moduleFShriekStalkIso_inv.{u, v} B f s]
   exact comp_chain_cancel _ _ _ _ _ _ _ _ _ hnat
     (fShriekStalkIso_inv_comp_stalkMap_forgetUnitTrace_eq.{u, v} B f hw s)
-    (Iso.map_inv_hom_id _ _) (Iso.map_inv_hom_id ((moduleEtaleStalkIso.{u, v, max (u + 1) v} B
+    (Iso.inv_hom_id_map _ _) (Iso.inv_hom_id_map ((moduleEtaleStalkIso.{u, v, max (u + 1) v} B
       (AddCommGrpCat.ULiftInt.{max (u + 1) v}) Y s).app (𝟙_ _)) _)
 
 /-- **The stalks of the trace on the monoidal unit are the weighted sum over the geometric

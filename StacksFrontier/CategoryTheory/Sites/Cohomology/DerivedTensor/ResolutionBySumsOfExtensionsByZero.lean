@@ -133,7 +133,7 @@ private lemma quasiIso_of_isColimit_of_quasiIso_truncLE
   let v : Cocone (Functor.ofSequence g ⋙ H) :=
     Cocone.mk (H.obj X)
       { app := fun n ↦ H.map (c.ι.app n ≫ α)
-        naturality := fun j j' φ ↦ by simpa using w j j' φ }
+        naturality := fun j j' φ ↦ by simp }
   have hv₀ : IsIso (v.ι.app n₀) := hiso n₀ hn₀
   have hv : IsColimit v := hev.isColimitOfIsIso v
   have hHc : IsColimit (H.mapCocone c) := isColimitOfPreserves H hc
@@ -141,7 +141,7 @@ private lemma quasiIso_of_isColimit_of_quasiIso_truncLE
     refine hHc.hom_ext (fun n ↦ ?_)
     rw [IsColimit.comp_coconePointUniqueUpToIso_hom]
     exact (H.map_comp _ _).symm
-  show IsIso (H.map α)
+  change IsIso (H.map α)
   rw [heq]
   infer_instance
 
@@ -213,7 +213,7 @@ private theorem exists_shiftedLadder [HasColimitsOfShape ℕ A] [HasExactColimit
     rw [hmap n]
     obtain ⟨T, _, e, he⟩ := hsplit (n + 1) i
     refine IsSplitMono.mk' ⟨e.hom ≫ biprod.fst, ?_⟩
-    show (g (n + 1)).f i ≫ e.hom ≫ biprod.fst = 𝟙 ((Q (n + 1)).X i)
+    change (g (n + 1)).f i ≫ e.hom ≫ biprod.fst = 𝟙 ((Q (n + 1)).X i)
     rw [← Category.assoc, he, biprod.inl_fst]
   · intro n i
     rw [hmap n]

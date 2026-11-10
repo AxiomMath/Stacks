@@ -4,7 +4,7 @@ public import Mathlib.Algebra.Group.Pi.Units
 public import Mathlib.AlgebraicGeometry.Limits
 public import Mathlib.AlgebraicGeometry.Properties
 public import Mathlib.FieldTheory.Finite.Basic
-public import Mathlib.Topology.Separation.Profinite
+public import Mathlib.Topology.Separation.Regular
 public import StacksCore.Tactic.StacksAttribute
 
 /-!
@@ -171,7 +171,7 @@ satisfies `x ^ q = x`, where `q` is the number of elements of the field. -/
 theorem pow_card_eq_self (x : productRing K) : x ^ Nat.card K = x := by
   let _ : Fintype K := Fintype.ofFinite K
   funext n
-  show x n ^ Nat.card K = x n
+  change x n ^ Nat.card K = x n
   simpa only [Nat.card_eq_fintype_card] using (FiniteField.pow_card (x n))
 
 /-- The power identity passes to the quotient by a prime of the product. -/
@@ -195,7 +195,7 @@ private theorem finite_of_pow_card_eq_self {R : Type*} [CommRing R] [IsDomain R]
   have hP : P ≠ 0 := Polynomial.ne_zero_of_natDegree_gt (by rw [hdeg]; omega)
   have hroot : ∀ x : R, P.IsRoot x := by
     intro x
-    show Polynomial.eval x P = 0
+    change Polynomial.eval x P = 0
     simp [P, hpow x]
   have : Finite {x : R // P.IsRoot x} := (Polynomial.finite_setOfPred_isRoot hP).to_subtype
   have hfinite : Finite R :=
@@ -251,7 +251,7 @@ theorem isClosed_singleton (x : space K) : IsClosed ({x} : Set (space K)) := by
       (Ideal.Quotient.maximal_of_isField _ (quotient_isField K p))
   rw [← show (space K).isoSpec.hom.homeomorph ⁻¹' {pGamma} = {x} by
     ext y
-    show ((space K).isoSpec.hom.homeomorph y = (space K).isoSpec.hom.homeomorph x) ↔ y = x
+    change ((space K).isoSpec.hom.homeomorph y = (space K).isoSpec.hom.homeomorph x) ↔ y = x
     exact (space K).isoSpec.hom.homeomorph.injective.eq_iff]
   exact ((PrimeSpectrum.isClosed_singleton_iff_isMaximal pGamma).2 hpGamma).preimage
     (space K).isoSpec.hom.homeomorph.continuous
@@ -263,7 +263,7 @@ evaluation at that coordinate. -/
 private theorem asIdeal_coordinate_base_default (K : Type u) [Field K] (n : ℕ) :
     ((coordinate K n).base (default : base K)).asIdeal =
       RingHom.ker (Pi.evalRingHom (fun _ : ℕ ↦ K) n) := by
-  show (PrimeSpectrum.comap (Pi.evalRingHom (fun _ : ℕ ↦ K) n)
+  change (PrimeSpectrum.comap (Pi.evalRingHom (fun _ : ℕ ↦ K) n)
     (default : PrimeSpectrum K)).asIdeal = _
   rw [PrimeSpectrum.comap_asIdeal, Subsingleton.elim (default : PrimeSpectrum K) ⊥,
     PrimeSpectrum.asIdeal_bot]
@@ -309,7 +309,7 @@ theorem exists_unit_mul_idempotent (x : productRing K) :
   have hu : IsUnit val := Pi.isUnit_iff.mpr fun n ↦ by
     by_cases h : x n = 0 <;> simp [val, h, isUnit_iff_ne_zero]
   refine ⟨hu.unit, e, ?_, ?_⟩
-  · show e * e = e
+  · change e * e = e
     funext n
     simp [e]
   · funext n
@@ -320,7 +320,7 @@ topological basis. -/
 @[stacks 02Z8 "clopen_basis"]
 theorem isTopologicalBasis_isClopen :
     TopologicalSpace.IsTopologicalBasis {s : Set (space K) | IsClopen s} := by
-  show TopologicalSpace.IsTopologicalBasis
+  change TopologicalSpace.IsTopologicalBasis
     {s : Set (PrimeSpectrum (productRing K)) | IsClopen s}
   refine TopologicalSpace.isTopologicalBasis_of_isOpen_of_nhds (fun _ ⟨_, hs⟩ ↦ hs) ?_
   intro p U hp hU
@@ -336,8 +336,9 @@ theorem isTopologicalBasis_isClopen :
 @[stacks 02Z8 "clopen_basis"]
 instance instTotallyDisconnectedSpace : TotallyDisconnectedSpace (space K) := by
   change TotallyDisconnectedSpace (PrimeSpectrum (productRing K))
-  exact (totallySeparatedSpace_of_t0_of_basis_clopen
-    (isTopologicalBasis_isClopen K)).totallyDisconnectedSpace
+  have : ZeroDimensionalSpace (PrimeSpectrum (productRing K)) :=
+    zeroDimensionalSpace_iff_isTopologicalBasis_isClopen.mpr (isTopologicalBasis_isClopen K)
+  infer_instance
 
 private def finiteSupportIdeal : Ideal (productRing K) where
   carrier := {f | (Function.support f).Finite}
@@ -398,7 +399,7 @@ theorem exists_noncoordinate_point :
   refine ⟨⟨m, hm.isPrime⟩, fun n heq ↦ ?_⟩
   have hgen : Pi.single n (1 : K) ∈ m := by
     refine hIm ?_
-    show (Function.support (Pi.single n (1 : K))).Finite
+    change (Function.support (Pi.single n (1 : K))).Finite
     exact (Set.finite_singleton n).subset (by simp)
   have hnot : Pi.single n (1 : K) ∉
       ((coordinate K n).base (default : base K)).asIdeal := by

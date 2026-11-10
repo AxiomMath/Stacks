@@ -75,7 +75,7 @@ theorem depth_eq_add_depth_quotient_of_isBaseChange (i : M₀ →ₗ[R₀] N) (h
   let : Module Rp N := Module.compHom N (algebraMap Rp T)
   have : IsScalarTower Rp T N := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   have : IsScalarTower R₀ Rp N := IsScalarTower.of_algebraMap_smul fun r n => by
-    show algebraMap Rp T (algebraMap R₀ Rp r) • n = r • n
+    change algebraMap Rp T (algebraMap R₀ Rp r) • n = r • n
     rw [← IsScalarTower.algebraMap_apply, algebraMap_smul]
   have hunitN : ∀ x : P.primeCompl, IsUnit (algebraMap R₀ (Module.End R₀ N) x) := fun x => by
     rw [Module.End.isUnit_iff]
@@ -83,7 +83,7 @@ theorem depth_eq_add_depth_quotient_of_isBaseChange (i : M₀ →ₗ[R₀] N) (h
     rw [Module.End.isUnit_iff] at hu
     convert hu using 1
     funext n
-    show (x : R₀) • n = algebraMap R₀ T x • n
+    change (x : R₀) • n = algebraMap R₀ T x • n
     rw [algebraMap_smul]
   let g : Mp →ₗ[Rp] N := LinearMap.extendScalarsOfIsLocalization P.primeCompl Rp
     (IsLocalizedModule.lift P.primeCompl j i hunitN)

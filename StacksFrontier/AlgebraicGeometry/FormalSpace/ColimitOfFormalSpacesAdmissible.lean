@@ -77,7 +77,7 @@ private theorem epi_sigmaDesc_comp_ι {C : Type*} [Category* C] {β : Type*} {f 
   refine Sigma.hom_ext _ _ fun i ↦ ?_
   have := hp i
   have h := Sigma.ι f i ≫= hvw
-  simp only [← Category.assoc, Sigma.ι_desc] at h
+  simp only [← Category.assoc, Sigma.ι_comp_desc] at h
   exact (cancel_epi (p i)).mp (by simpa only [Category.assoc] using h)
 
 /-- The map out of a coproduct presented by a colimit cofan is an epimorphism when the
@@ -200,7 +200,7 @@ private theorem exists_epi_sigmaDesc_pullback_pullback_snd {X T : FppfSheaf B S 
       pullback.snd t (f i) ≫ Sigma.ι Xi i) (by rw [(hc i).w]; simp),
       hÊ.lift_fst _ _ _, ?_⟩
     refine IsPullback.of_right ?_ ?_ hÊ
-    · rw [hÊ.lift_fst, Sigma.ι_desc]
+    · rw [hÊ.lift_fst, Sigma.ι_comp_desc]
       exact hc i
     · rw [hÊ.lift_snd]
       simp
@@ -210,12 +210,12 @@ private theorem exists_epi_sigmaDesc_pullback_pullback_snd {X T : FppfSheaf B S 
   have heq : Sigma.desc c =
       (Sigma.desc c') ≫ pullback.fst (pullback.fst t t ≫ t) (Sigma.desc f) := by
     refine Sigma.hom_ext _ _ fun i ↦ ?_
-    rw [Sigma.ι_desc, ← Category.assoc, Sigma.ι_desc, hc'fac i]
+    rw [Sigma.ι_comp_desc, ← Category.assoc, Sigma.ι_comp_desc, hc'fac i]
   have hiso : Sigma.desc c' = ((coproductIsCoproduct fun i ↦
       pullback (pullback.snd t (f i)) (pullback.snd t (f i))).coconePointUniqueUpToIso
         hcofan).hom := by
     refine Sigma.hom_ext _ _ fun i ↦ ?_
-    rw [Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc]
     exact (IsColimit.comp_coconePointUniqueUpToIso_hom
       (coproductIsCoproduct fun i ↦ pullback (pullback.snd t (f i)) (pullback.snd t (f i)))
       hcofan (Discrete.mk i)).symm

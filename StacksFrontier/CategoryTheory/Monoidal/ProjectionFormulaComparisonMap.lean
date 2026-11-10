@@ -169,24 +169,24 @@ omit [∀ (K : C) (M : D), IsIso (adj.projectionMap K M)] in
 `projectionMap K M`. -/
 @[simp]
 lemma projectionTwoSquare_natTrans_app (K : C) (M : D) :
-    (adj.projectionTwoSquare K).natTrans.app M = adj.projectionMap K M :=
+    (adj.projectionTwoSquare K).app M = adj.projectionMap K M :=
   rfl
 
 /-- The natural transformation of the 2-square `projectionTwoSquare K` is an isomorphism. -/
-instance (K : C) : IsIso (adj.projectionTwoSquare K).natTrans := by
-  have : ∀ M, IsIso ((adj.projectionTwoSquare K).natTrans.app M) := fun M =>
+instance (K : C) : IsIso (adj.projectionTwoSquare K) := by
+  have : ∀ M, IsIso ((adj.projectionTwoSquare K).app M) := fun M =>
     inferInstanceAs (IsIso (adj.projectionMap K M))
   exact NatIso.isIso_of_isIso_app _
 
 /-- The inverse projection map as a 2-square `(F K ⊗ -) ⋙ G ⟶ G ⋙ (K ⊗ -)`. -/
 def projectionInvTwoSquare (K : C) :
     TwoSquare (tensorLeft (F.obj K)) G G (tensorLeft K) :=
-  TwoSquare.mk _ _ _ _ (inv (adj.projectionTwoSquare K).natTrans)
+  TwoSquare.mk _ _ _ _ (inv (adj.projectionTwoSquare K))
 
 /-- The component at `M` of the 2-square `projectionInvTwoSquare K` is the inverse of the
 projection map `projectionMap K M`. -/
 lemma projectionInvTwoSquare_natTrans_app (K : C) (M : D) :
-    (adj.projectionInvTwoSquare K).natTrans.app M = inv (adj.projectionMap K M) := by
+    (adj.projectionInvTwoSquare K).app M = inv (adj.projectionMap K M) := by
   simp [projectionInvTwoSquare]
 
 /-- The comparison map as a 2-square `a ⋙ (F K ⊗ -) ⟶ (K ⊗ -) ⋙ a`. -/
@@ -196,7 +196,7 @@ def comparisonTwoSquare (K : C) : TwoSquare a (tensorLeft K) (tensorLeft (F.obj 
 /-- The component at `L` of the 2-square `comparisonTwoSquare adj₂ K` is the comparison map
 `comparisonMap adj₂ K L`. -/
 lemma comparisonTwoSquare_natTrans_app (K L : C) :
-    (adj.comparisonTwoSquare adj₂ K).natTrans.app L = adj.comparisonMap adj₂ K L := by
+    (adj.comparisonTwoSquare adj₂ K).app L = adj.comparisonMap adj₂ K L := by
   simp [comparisonTwoSquare, comparisonMap, projectionInvTwoSquare_natTrans_app,
     Adjunction.homEquiv_unit]
 
@@ -334,14 +334,14 @@ lemma mateEquiv_projectionTwoSquare (K K' : C) [ExactPairing K K'] :
 comparison map `F K ⊗ a L ⟶ a (K ⊗ L)` is invertible whenever `K` is part of an exact pairing
 `(K, K')`: it is the conjugate of the projection map for `K'`. -/
 theorem isIso_comparisonTwoSquare_of_exactPairing (K K' : C) [ExactPairing K K'] :
-    IsIso (adj.comparisonTwoSquare adj₂ K).natTrans := by
+    IsIso (adj.comparisonTwoSquare adj₂ K) := by
   let := ExactPairing.map F K K'
   have key := iterated_mateEquiv_conjugateEquiv
     (tensorLeftAdjunction (F.obj K) (F.obj K')) (tensorLeftAdjunction K K') adj₂ adj₂
     (adj.projectionTwoSquare K')
   rw [adj.mateEquiv_projectionTwoSquare K K'] at key
   have : IsIso (conjugateEquiv ((tensorLeftAdjunction (F.obj K) (F.obj K')).comp adj₂)
-      (adj₂.comp (tensorLeftAdjunction K K')) (adj.projectionTwoSquare K').natTrans) :=
+      (adj₂.comp (tensorLeftAdjunction K K')) (adj.projectionTwoSquare K')) :=
     inferInstance
   rw [comparisonTwoSquare, key]
   exact this

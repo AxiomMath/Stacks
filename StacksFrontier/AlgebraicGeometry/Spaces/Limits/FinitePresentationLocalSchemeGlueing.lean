@@ -228,7 +228,7 @@ theorem preimage_eq_puncturedOpens {s : S} {F : Set S} (hF : ∀ x ∈ F, IsClos
     (hsF : s ∈ F) (U : S.Opens) (hU : (U : Set S) = Fᶜ) :
     S.fromSpecStalk s ⁻¹ᵁ U = puncturedOpens S s := by
   ext y
-  show S.fromSpecStalk s y ∈ (U : Set S) ↔
+  change S.fromSpecStalk s y ∈ (U : Set S) ↔
     y ∉ ({IsLocalRing.closedPoint (S.presheaf.stalk s)} : Set (Spec (S.presheaf.stalk s)))
   rw [hU]
   constructor
@@ -539,7 +539,7 @@ spaces of finite presentation, and Stacks 0E8Z for the coverings `S = U ∪ W` c
 theorem isEquivalence_glueingFunctor_closedPoint {s : S} (hs : IsClosed ({s} : Set S))
     (U : S.Opens) (hU : (U : Set S) = {s}ᶜ) (hqc : QuasiCompact U.ι) :
     (glueingFunctor B S hS (isPullback_punctured B S hS (F := {s})
-      (fun x hx => (Set.mem_singleton_iff.1 hx) ▸ hs) (Set.mem_singleton s) U
+      (by simpa using hs) (Set.mem_singleton s) U
         hU).w).IsEquivalence := by
   have hF : ∀ x ∈ ({s} : Set S), IsClosed {x} := fun x hx => (Set.mem_singleton_iff.1 hx) ▸ hs
   exact isEquivalence_glueingFunctor_of_colimit B S hS (s := s)

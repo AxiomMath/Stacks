@@ -75,7 +75,7 @@ theorem zariskiPullbackSystem_fullness (hc : IsLimit c) :
   have : N.IsFinitePresentation := hN
   obtain ⟨j, e, φj, h⟩ := exists_map_of_pullback_of_isLimit D c hc k M N φ
   refine ⟨j, e, φj, ?_⟩
-  show (Scheme.Modules.pullback (c.π.app j)).map φj =
+  change (Scheme.Modules.pullback (c.π.app j)).map φj =
     ((Scheme.Modules.pullbackComp (c.π.app j) (D.map e)).hom.app M ≫
       (Scheme.Modules.pullbackCongr (c.w e)).hom.app M) ≫ φ ≫
       ((Scheme.Modules.pullbackCongr (c.w e)).inv.app N ≫

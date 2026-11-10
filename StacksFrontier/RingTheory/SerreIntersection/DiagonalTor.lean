@@ -219,11 +219,10 @@ theorem contract_tmul (M : Type u) [AddCommGroup M] [Module R M] (b : B) (m : M)
 /-- The contraction is semilinear along `π`: `contract (b • x) = π(b) • contract x`. -/
 theorem contract_smul (M : Type u) [AddCommGroup M] [Module R M] (b : B)
     (x : Twist α B ⊗[R] M) : contract α π hα M (b • x) = π b • contract α π hα M x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul b' m =>
     rw [TensorProduct.smul_tmul']
-    show π (b * (show B from b')) • m = π b • π (show B from b') • m
+    change π (b * (show B from b')) • m = π b • π (show B from b') • m
     rw [map_mul, mul_smul]
   | add x y hx hy => rw [smul_add, map_add, hx, hy, map_add, smul_add]
 
@@ -251,8 +250,7 @@ def extMap (f : M →ₗ[R] M') : Ext α M →ₗ[B] Ext α M' where
   toFun := LinearMap.lTensor (Twist α B) f
   map_add' := map_add _
   map_smul' b x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul b' m => rfl
     | add x y hx hy => rw [smul_add, map_add, hx, hy, map_add, smul_add]
 
@@ -273,8 +271,7 @@ def pairMap (f : M →ₗ[R] M') (g : N →ₗ[R] N') : Pair α β M N →ₗ[B]
   toFun := TensorProduct.map (twistMap β (extMap α f)) g
   map_add' := map_add _
   map_smul' b x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul y n =>
       change TensorProduct.map (twistMap β (extMap α f)) g ((b • y) ⊗ₜ n) = _
       rw [TensorProduct.map_tmul, TensorProduct.map_tmul, RingHom.id_apply,
@@ -342,11 +339,10 @@ def contractPair (M N : Type u) [AddCommGroup M] [Module R M] [AddCommGroup N] [
 /-- The contraction `contractPair` is semilinear along `π`. -/
 theorem contractPair_smul (b : B) (z : Pair α β M N) :
     contractPair α β π hα hβ M N (b • z) = π b • contractPair α β π hα hβ M N z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul y n =>
     rw [TensorProduct.smul_tmul']
-    show (contract α π hα M (b • (show Ext α M from y))) ⊗ₜ n =
+    change (contract α π hα M (b • (show Ext α M from y))) ⊗ₜ n =
       π b • ((contract α π hα M y) ⊗ₜ n)
     rw [contract_smul, TensorProduct.smul_tmul']
   | add x y hx hy => rw [smul_add, map_add, hx, hy, map_add, smul_add]
@@ -376,8 +372,7 @@ omit [AddCommGroup M'] [Module R M'] [AddCommGroup N'] [Module R N'] in
 /-- The forward map is semilinear along `π`. -/
 theorem diagFwd_smul (b : B) (z : Pair α β M N ⊗[B] Diag π) :
     diagFwd α β π hα hβ M N (b • z) = π b • diagFwd α β π hα hβ M N z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul p q =>
     rw [TensorProduct.smul_tmul', diagFwd_tmul, diagFwd_tmul, contractPair_smul, smul_comm]
   | add x y hx hy => rw [smul_add, map_add, hx, hy, map_add, smul_add]
@@ -389,7 +384,7 @@ def unitPair (m : M) (n : N) : Pair α β M N :=
 /-- The contraction sends `(1 ⊗ m) ⊗ n` to `m ⊗ n`. -/
 theorem contractPair_unitPair (m : M) (n : N) :
     contractPair α β π hα hβ M N (unitPair α β m n) = m ⊗ₜ n := by
-  show (π 1 • m) ⊗ₜ n = m ⊗ₜ n
+  change (π 1 • m) ⊗ₜ n = m ⊗ₜ n
   rw [map_one, one_smul]
 
 omit [AddCommGroup M'] [Module R M'] [AddCommGroup N'] [Module R N'] in
@@ -485,18 +480,13 @@ def diagEquiv (M N : Type u) [AddCommGroup M] [Module R M] [AddCommGroup N] [Mod
   invFun := diagInv α β π hα hβ M N
   left_inv z := by
     change diagInv α β π hα hβ M N (diagFwd α β π hα hβ M N z) = Twist.mk β z
-    induction z using TensorProduct.induction_on with
-    | zero => simp; rfl
+    induction z using TensorProduct.inductionOn with
     | tmul p q =>
       obtain ⟨c, rfl⟩ := Ideal.Quotient.mk_surjective q
-      induction p using TensorProduct.induction_on with
-      | zero => simp; rfl
+      induction p using TensorProduct.inductionOn with
       | tmul y n =>
         obtain ⟨y, rfl⟩ : ∃ y' : Ext α M, Twist.mk β y' = y := ⟨y, rfl⟩
-        induction y using TensorProduct.induction_on with
-        | zero =>
-          rw [Twist.mk_zero, TensorProduct.zero_tmul, TensorProduct.zero_tmul, map_zero, map_zero]
-          rfl
+        induction y using TensorProduct.inductionOn with
         | tmul b m =>
           obtain ⟨b, rfl⟩ : ∃ b' : B, Twist.mk α b' = b := ⟨b, rfl⟩
           rw [tmul_tmul_eq_smul_unitPair, TensorProduct.smul_tmul, Algebra.smul_def,
@@ -514,8 +504,7 @@ def diagEquiv (M N : Type u) [AddCommGroup M] [Module R M] [AddCommGroup N] [Mod
       rfl
   right_inv x := by
     change diagFwd α β π hα hβ M N (diagInv α β π hα hβ M N x) = x
-    induction x using TensorProduct.induction_on with
-    | zero => rw [map_zero]; exact map_zero _
+    induction x using TensorProduct.inductionOn with
     | tmul m n =>
       rw [diagInv_tmul]
       change diagFwd α β π hα hβ M N (unitPair α β m n ⊗ₜ[B] (1 : Diag π)) = _
@@ -527,8 +516,7 @@ def diagEquiv (M N : Type u) [AddCommGroup M] [Module R M] [AddCommGroup N] [Mod
 /-- The contraction is natural in `M`. -/
 theorem contract_extMap (f : M →ₗ[R] M') (y : Ext α M) :
     contract α π hα M' (extMap α f y) = f (contract α π hα M y) := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul b m =>
     obtain ⟨b, rfl⟩ : ∃ b' : B, Twist.mk α b' = b := ⟨b, rfl⟩
     rw [extMap_tmul, contract_tmul, contract_tmul, map_smul]
@@ -538,12 +526,11 @@ theorem contract_extMap (f : M →ₗ[R] M') (y : Ext α M) :
 theorem contractPair_pairMap (f : M →ₗ[R] M') (g : N →ₗ[R] N') (p : Pair α β M N) :
     contractPair α β π hα hβ M' N' (pairMap α β f g p) =
       TensorProduct.map f g (contractPair α β π hα hβ M N p) := by
-  induction p using TensorProduct.induction_on with
-  | zero => simp
+  induction p using TensorProduct.inductionOn with
   | tmul y n =>
     obtain ⟨y, rfl⟩ : ∃ y' : Ext α M, Twist.mk β y' = y := ⟨y, rfl⟩
     rw [pairMap_tmul]
-    show (contract α π hα M' (extMap α f y)) ⊗ₜ g n =
+    change (contract α π hα M' (extMap α f y)) ⊗ₜ g n =
       TensorProduct.map f g ((contract α π hα M y) ⊗ₜ n)
     rw [contract_extMap, TensorProduct.map_tmul]
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
@@ -552,8 +539,7 @@ theorem contractPair_pairMap (f : M →ₗ[R] M') (g : N →ₗ[R] N') (p : Pair
 theorem diagFwd_naturality (f : M →ₗ[R] M') (g : N →ₗ[R] N') (z : Pair α β M N ⊗[B] Diag π) :
     diagFwd α β π hα hβ M' N' (LinearMap.rTensor (Diag π) (pairMap α β f g) z) =
       TensorProduct.map f g (diagFwd α β π hα hβ M N z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul p q =>
     rw [LinearMap.rTensor_tmul, diagFwd_tmul, diagFwd_tmul, contractPair_pairMap, map_smul]
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
@@ -570,8 +556,7 @@ def piScalarRightOver (N : Type u) [AddCommGroup N] [Module R N] [Module B N]
     N ⊗[R] (ι → R) ≃ₗ[B] (ι → N) :=
   { TensorProduct.piScalarRight R R N ι with
     map_smul' := fun b x => by
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul n v =>
         ext j
         simp only [AddHom.toFun_eq_coe, LinearMap.coe_toAddHom, LinearEquiv.coe_coe,
@@ -625,7 +610,7 @@ theorem pairMap_right_eq (g : N →ₗ[R] N') :
     (pairMap α β (LinearMap.id : M →ₗ[R] M) g : Pair α β M N → Pair α β M N') =
       LinearMap.lTensor (Twist β (Ext α M)) g := by
   funext x
-  show TensorProduct.map (twistMap β (extMap α LinearMap.id)) g x = _
+  change TensorProduct.map (twistMap β (extMap α LinearMap.id)) g x = _
   congr 1
   rw [extMap_id]
   rfl
@@ -654,8 +639,7 @@ theorem pairMap_right_injective [Module.Flat R (Twist β (Ext α M))] {f : N →
 /-- Base change commutes with composition. -/
 theorem extMap_extMap (f : M →ₗ[R] M') (f' : M' →ₗ[R] M'') (y : Ext α M) :
     extMap α f' (extMap α f y) = extMap α (f' ∘ₗ f) y := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul b m => rfl
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add]
 
@@ -663,8 +647,7 @@ theorem extMap_extMap (f : M →ₗ[R] M') (f' : M' →ₗ[R] M'') (y : Ext α M
 theorem pairMap_pairMap (f : M →ₗ[R] M') (f' : M' →ₗ[R] M'') (g : N →ₗ[R] N')
     (g' : N' →ₗ[R] N'') (z : Pair α β M N) :
     pairMap α β f' g' (pairMap α β f g z) = pairMap α β (f' ∘ₗ f) (g' ∘ₗ g) z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul y n =>
     obtain ⟨y, rfl⟩ : ∃ y' : Ext α M, Twist.mk β y' = y := ⟨y, rfl⟩
     rw [pairMap_tmul, pairMap_tmul, pairMap_tmul]
@@ -675,8 +658,7 @@ theorem pairMap_pairMap (f : M →ₗ[R] M') (f' : M' →ₗ[R] M'') (g : N →�
 /-- `pairMap id id` is the identity. -/
 theorem pairMap_id_apply (z : Pair α β M N) :
     pairMap α β (LinearMap.id : M →ₗ[R] M) (LinearMap.id : N →ₗ[R] N) z = z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul y n =>
     obtain ⟨y, rfl⟩ : ∃ y' : Ext α M, Twist.mk β y' = y := ⟨y, rfl⟩
     rw [pairMap_tmul, extMap_id]
@@ -754,7 +736,7 @@ theorem isZero_tor'_pair_pi (k : ℕ) : ∀ (M : Type u) [AddCommGroup M] [Modul
       refine IsZero.of_iso ?_ (tor'OneIsoKernel hS _ h1)
       have hmono : Mono (S.f ▷ ModuleCat.of B (Diag π)) := by
         rw [ModuleCat.mono_iff_injective]
-        show Function.Injective (LinearMap.rTensor (Diag π)
+        change Function.Injective (LinearMap.rTensor (Diag π)
           (pairMap α β (LinearMap.ker p).subtype (LinearMap.id : (Fin m → R) →ₗ[R] (Fin m → R))))
         intro x y hxy
         have key := congrArg (diagFwd α β π hα hβ (Fin j → R) (Fin m → R)) hxy
@@ -821,8 +803,7 @@ theorem comm_diagFwd_rTensor (M : Type u) [AddCommGroup M] [Module R M] {N₁ N�
         (LinearMap.rTensor (Diag π) (pairMap α β LinearMap.id f) x)) =
       LinearMap.rTensor M f (TensorProduct.comm R M N₁ (diagFwd α β π hα hβ M N₁ x)) := by
   rw [diagFwd_naturality]
-  induction (diagFwd α β π hα hβ M N₁ x) using TensorProduct.induction_on with
-  | zero => simp
+  induction (diagFwd α β π hα hβ M N₁ x) using TensorProduct.inductionOn with
   | tmul m n => simp
   | add y z hy hz => rw [map_add, map_add, hy, hz, map_add, map_add]
 

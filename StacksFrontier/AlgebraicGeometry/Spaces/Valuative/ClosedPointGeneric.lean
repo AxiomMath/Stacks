@@ -53,7 +53,7 @@ theorem denseRange_pointsMap_fracHom (q : ValuativeSquare f) :
     simp only [Function.comp_apply]
     rw [← schemePointsHomeomorph_symm_naturality, Homeomorph.symm_apply_apply]
   have hd : DenseRange ((BigFppfOver.toScheme B S hS).map q.fracHom) := by
-    show DenseRange (PrimeSpectrum.comap (algebraMap q.R q.K))
+    change DenseRange (PrimeSpectrum.comap (algebraMap q.R q.K))
     rw [PrimeSpectrum.denseRange_comap_iff_ker_le_nilRadical,
       (RingHom.injective_iff_ker_eq_bot _).1 (IsFractionRing.injective q.R q.K)]
     exact bot_le

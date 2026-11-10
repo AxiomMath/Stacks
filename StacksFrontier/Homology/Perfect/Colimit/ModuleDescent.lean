@@ -139,7 +139,7 @@ theorem finite_projective_retract
   refine ⟨n, f, g, hfg, ?_⟩
   apply LinearMap.ext
   intro x
-  show g (f (g (f x))) = g (f x)
+  change g (f (g (f x))) = g (f x)
   rw [← LinearMap.comp_apply f g (f x), hfg]
   rfl
 
@@ -161,14 +161,14 @@ private theorem finite_projective_idempotent_model
   let e := g.comp f
   let h : P →ₗ[A] e.range := g.codRestrict e.range (fun x => by
     refine ⟨g x, ?_⟩
-    show g (f (g x)) = g x
+    change g (f (g x)) = g x
     rw [← LinearMap.comp_apply f g x, hfg]
     rfl)
   let k : e.range →ₗ[A] P := f.comp e.range.subtype
   have hkh : k.comp h = LinearMap.id := by
     apply LinearMap.ext
     intro x
-    show f (g x) = x
+    change f (g x) = x
     rw [← LinearMap.comp_apply f g x, hfg]
     rfl
   have hhk : h.comp k = LinearMap.id := by
@@ -264,13 +264,12 @@ theorem finite_free_baseChange_matrix_commutes
   let : Algebra A B := f.toAlgebra
   apply LinearMap.ext
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul b v =>
       ext j
       simp only [LinearMap.comp_apply, LinearMap.baseChange_tmul,
         finite_free_baseChange_equiv, Matrix.toLin'_apply]
-      show ((M *ᵥ v) j) • b = (M.map f *ᵥ (fun k => (v k) • b)) j
+      change ((M *ᵥ v) j) • b = (M.map f *ᵥ (fun k => (v k) • b)) j
       have hv : (fun k : Fin n => (v k) • b) = b • (f ∘ v) := by
         ext k
         simp [Algebra.smul_def, RingHom.algebraMap_toAlgebra, mul_comm]
@@ -364,9 +363,10 @@ theorem finite_stage_exists
     {I : Type uI} [Category.{uI} I] [IsFiltered I]
     (R : I ⥤ CommRingCat.{uR}) [PreservesColimit R (forget CommRingCat)]
     (c : Cocone R) (hc : IsColimit c)
-    {α : Type uA} [Fintype α] (x : α → c.pt) :
+    {α : Type uA} [Finite α] (x : α → c.pt) :
     ∃ (j : I) (y : α → R.obj j), ∀ a, (c.ι.app j).hom (y a) = x a := by
   classical
+  have := Fintype.ofFinite α
   choose i z hz using fun a => Concrete.isColimit_exists_rep R hc (x a)
   obtain ⟨j, hj⟩ := IsFiltered.sup_objs_exists (Finset.univ.image i)
   let f (a : α) : i a ⟶ j :=
@@ -381,11 +381,12 @@ theorem finite_stage_eq
     {I : Type uI} [Category.{uI} I] [IsFiltered I]
     (R : I ⥤ CommRingCat.{uR}) [PreservesColimit R (forget CommRingCat)]
     (c : Cocone R) (hc : IsColimit c)
-    {α : Type uA} [Fintype α] (i : I) (x y : α → R.obj i)
+    {α : Type uA} [Finite α] (i : I) (x y : α → R.obj i)
     (h : ∀ a, (c.ι.app i).hom (x a) = (c.ι.app i).hom (y a)) :
     ∃ (j : I) (f : i ⟶ j), ∀ a,
       (R.map f).hom (x a) = (R.map f).hom (y a) := by
   classical
+  have := Fintype.ofFinite α
   suffices aux : ∀ (s : Finset α) (i : I) (x y : α → R.obj i),
       (∀ a ∈ s, (c.ι.app i).hom (x a) = (c.ι.app i).hom (y a)) →
       ∃ (j : I) (f : i ⟶ j), ∀ a ∈ s,
@@ -422,7 +423,7 @@ private theorem rectangular_matrix_stage_exists
     {I : Type uI} [Category.{uI} I] [IsFiltered I]
     (R : I ⥤ CommRingCat.{uR}) [PreservesColimit R (forget CommRingCat)]
     (c : Cocone R) (hc : IsColimit c)
-    {m n : Type uA} [Fintype m] [Fintype n] (M : Matrix m n c.pt) :
+    {m n : Type uA} [Finite m] [Finite n] (M : Matrix m n c.pt) :
     ∃ (j : I) (N : Matrix m n (R.obj j)), N.map (c.ι.app j).hom = M := by
   classical
   obtain ⟨j, y, hy⟩ := finite_stage_exists R c hc
@@ -436,7 +437,7 @@ private theorem rectangular_matrix_eventually_eq
     {I : Type uI} [Category.{uI} I] [IsFiltered I]
     (R : I ⥤ CommRingCat.{uR}) [PreservesColimit R (forget CommRingCat)]
     (c : Cocone R) (hc : IsColimit c)
-    {m n : Type uA} [Fintype m] [Fintype n] (i : I)
+    {m n : Type uA} [Finite m] [Finite n] (i : I)
     (A B : Matrix m n (R.obj i))
     (h : A.map (c.ι.app i).hom = B.map (c.ι.app i).hom) :
     ∃ (j : I) (f : i ⟶ j), A.map (R.map f).hom = B.map (R.map f).hom := by
@@ -481,7 +482,7 @@ private theorem finite_free_differentials_stage_exists
     {I : Type uI} [Category.{uI} I] [IsFiltered I]
     (R : I ⥤ CommRingCat.{uR}) [PreservesColimit R (forget CommRingCat)]
     (c : Cocone R) (hc : IsColimit c)
-    {α : Type uA} [Fintype α] (d : α → Type uA) [∀ a, Fintype (d a)]
+    {α : Type uA} [Finite α] (d : α → Type uA) [∀ a, Fintype (d a)]
     (next : α → α) (M : ∀ a, Matrix (d (next a)) (d a) c.pt)
     (h : ∀ a, M (next a) * M a = 0) :
     ∃ (j : I) (N : ∀ a, Matrix (d (next a)) (d a) (R.obj j)),
@@ -535,7 +536,7 @@ private theorem idempotent_matrix_stage_exists
     {I : Type uI} [Category.{uI} I] [IsFiltered I]
     (R : I ⥤ CommRingCat.{uR}) [PreservesColimit R (forget CommRingCat)]
     (c : Cocone R) (hc : IsColimit c)
-    {n : Type uA} [Fintype n] [DecidableEq n]
+    {n : Type uA} [Fintype n]
     (M : Matrix n n c.pt) (hM : M * M = M) :
     ∃ (j : I) (N : Matrix n n (R.obj j)),
       N * N = N ∧ N.map (c.ι.app j).hom = M := by
@@ -643,7 +644,7 @@ private theorem matrix_mul_stage_exists
     {I : Type uI} [Category.{uI} I] [IsFiltered I]
     (R : I ⥤ CommRingCat.{uR}) [PreservesColimit R (forget CommRingCat)]
     (c : Cocone R) (hc : IsColimit c)
-    {m n p : Type uA} [Fintype m] [Fintype n] [Fintype p] [DecidableEq n]
+    {m n p : Type uA} [Finite m] [Fintype n] [Finite p]
     (A : Matrix m n c.pt) (B : Matrix n p c.pt) (C : Matrix m p c.pt)
     (h : A * B = C) :
     ∃ (j : I) (A' : Matrix m n (R.obj j)) (B' : Matrix n p (R.obj j))
@@ -687,7 +688,7 @@ private theorem matrix_family_mul_stage_exists
     {I : Type uI} [Category.{uI} I] [IsFiltered I]
     (R : I ⥤ CommRingCat.{uR}) [PreservesColimit R (forget CommRingCat)]
     (c : Cocone R) (hc : IsColimit c)
-    {n α β : Type uA} [Fintype n] [DecidableEq n] [Fintype α] [Fintype β]
+    {n α β : Type uA} [Fintype n] [Finite α] [Finite β]
     (M : α → Matrix n n c.pt) (lhs rhs out : β → α)
     (h : ∀ b, M (lhs b) * M (rhs b) = M (out b)) :
     ∃ (j : I) (N : α → Matrix n n (R.obj j)),

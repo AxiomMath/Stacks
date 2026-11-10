@@ -80,7 +80,7 @@ theorem ker_app_pow_eq_bot_of_isNthOrderThickening {X X' : Scheme.{u}} {i : X �
   have hgerm := X'.presheaf.germ_res_apply (homOfLE hWV) x hxW y
   change (X'.presheaf.germ W x hxW) (ρ.hom y) = _ at hgerm
   rw [hρ, map_zero] at hgerm
-  show _ = (X'.presheaf.germ V x hx) 0
+  change _ = (X'.presheaf.germ V x hx) 0
   rw [map_zero]
   exact hgerm.symm
 

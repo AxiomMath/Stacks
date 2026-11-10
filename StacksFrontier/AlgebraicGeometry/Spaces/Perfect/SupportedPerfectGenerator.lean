@@ -315,7 +315,7 @@ theorem exists_isSupportedPerfectGenerator_of_eds
         (isEtale_edsInterHom B S hS hsq))
       Q E' (Iso.refl _) (Iso.refl _) (cO.app Q ≪≫ cE.symm.app Q) (by simp [cO, cE]) a b (by
         have hb' : RSnd.map b = y := hb
-        show RFst.map a ≫ cO.hom.app E' =
+        change RFst.map a ≫ cO.hom.app E' =
           (cO.hom.app Q ≫ cE.inv.app Q) ≫ RSnd.map b ≫ cE.hom.app E'
         rw [hb']
         simp [y])

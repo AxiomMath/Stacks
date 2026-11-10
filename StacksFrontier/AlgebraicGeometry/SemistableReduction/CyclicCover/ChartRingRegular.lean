@@ -59,7 +59,7 @@ theorem etale_away_root (hn : n ≠ 0) (hnu : IsUnit (n : Q)) :
   exact Algebra.Etale.of_equiv P.equivAwayAdjoinRoot
 
 /-- In `Q[x]/(xⁿ - u)`, the root `x` satisfies `xⁿ = u`. -/
-theorem root_pow_eq (hn : n ≠ 0) :
+theorem root_pow_eq :
     AdjoinRoot.root (X ^ n - C u) ^ n = AdjoinRoot.of (X ^ n - C u) u := by
   have h := AdjoinRoot.eval₂_root (X ^ n - C u)
   simp only [eval₂_sub, eval₂_X_pow, eval₂_C] at h
@@ -82,7 +82,7 @@ def quotRootEquiv (hn : n ≠ 0) :
     simp [quotRootHom]
   · intro a ha
     obtain ⟨b, rfl⟩ := Ideal.mem_span_singleton'.mp ha
-    rw [RingHom.comp_apply, map_mul, ← root_pow_eq u hn, map_mul, map_pow,
+    rw [RingHom.comp_apply, map_mul, ← root_pow_eq u, map_mul, map_pow,
       Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_span_singleton_self _), zero_pow hn, mul_zero]
   · ext a
     simp [quotRootHom]
@@ -107,7 +107,7 @@ theorem root_mem_nonZeroDivisors (hn : n ≠ 0) (hu : u ∈ nonZeroDivisors Q) :
     AdjoinRoot.root (X ^ n - C u) ∈ nonZeroDivisors (AdjoinRoot (X ^ n - C u)) := by
   have := free_adjoinRoot u hn
   have h := algebraMap_mem_nonZeroDivisors_of_flat (B := AdjoinRoot (X ^ n - C u)) hu
-  rw [AdjoinRoot.algebraMap_eq, ← root_pow_eq u hn,
+  rw [AdjoinRoot.algebraMap_eq, ← root_pow_eq u,
     ← pow_sub_one_mul hn (AdjoinRoot.root (X ^ n - C u)), mul_mem_nonZeroDivisors] at h
   exact h.2
 
@@ -152,7 +152,7 @@ theorem isRegularRing_adjoinRoot [IsRegularRing Q] (hn : n ≠ 0) (hnu : IsUnit 
       IsLocalization.isPrime_of_isPrime_disjoint _ _ q hq hdisj
     have hcomap : (q.map (algebraMap B (Localization.Away x))).comap
         (algebraMap B (Localization.Away x)) = q :=
-      IsLocalization.comap_map_of_isPrime_disjoint _ _ hq hdisj
+      IsLocalization.under_map_of_isPrime_disjoint _ _ hq hdisj
     have key : ∀ (I : Ideal B) [I.IsPrime], I = q →
         IsRegularLocalRing (Localization.AtPrime I) →
           IsRegularLocalRing (Localization.AtPrime q) := by
@@ -213,7 +213,7 @@ theorem tmul_X_mem_nonZeroDivisors :
     algebraMap_mem_nonZeroDivisors_of_flat (mem_nonZeroDivisors_of_ne_zero PowerSeries.X_ne_zero)
   set e := (Algebra.TensorProduct.comm k A R).toRingEquiv
   have h2 : e ((1 : A) ⊗ₜ[k] (PowerSeries.X : R)) = algebraMap R (R ⊗[k] A) PowerSeries.X := by
-    simp only [e, AlgEquiv.coe_ringEquiv, Algebra.TensorProduct.comm_tmul]
+    simp only [e, AlgEquiv.coe_toRingEquiv, Algebra.TensorProduct.comm_tmul]
     rfl
   rw [mem_nonZeroDivisors_iff_right]
   intro b hb

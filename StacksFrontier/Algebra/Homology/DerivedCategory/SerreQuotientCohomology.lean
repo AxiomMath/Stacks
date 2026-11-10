@@ -114,7 +114,7 @@ theorem isInvertedBy_derivedCategoryBHomology_comp (n : ℤ) :
     (serreQuotientKernel_le_homologicalKernel 𝒜 𝒮 Φ hΦ n)
   refine (MorphismProperty.IsInvertedBy.iff_of_iso _ fac).mp (fun X Y f hf => ?_)
   have : IsIso ((serreQuotientKernel 𝒜 𝒮).trW.Q.map f) := Localization.inverts _ _ f hf
-  show IsIso (H.map ((serreQuotientKernel 𝒜 𝒮).trW.Q.map f))
+  change IsIso (H.map ((serreQuotientKernel 𝒜 𝒮).trW.Q.map f))
   infer_instance
 
 /-- **The cohomology functor `Hⁿ : D_𝒜(A)/D_𝒮(A) ⥤ B`** (the shape of **Stacks 07B7**): the

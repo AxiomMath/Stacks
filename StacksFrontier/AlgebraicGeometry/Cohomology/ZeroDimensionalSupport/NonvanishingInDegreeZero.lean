@@ -90,7 +90,7 @@ theorem not_isZero_hgroup_top_zero_of_ne_zero_section
   let E := SheafOfModules.evaluation (ringCatSheaf RT) (op (⊤ : X.Opens))
   let G := forget₂ (ModuleCat ((ringCatSheaf RT).obj.obj (op (⊤ : X.Opens)))) AddCommGrpCat
   have : PreservesFiniteLimits (secF X.ringCatSheaf ⊤) := by
-    show PreservesFiniteLimits (E ⋙ G)
+    change PreservesFiniteLimits (E ⋙ G)
     infer_instance
   have h' : IsZero (((secF X.ringCatSheaf ⊤).rightDerived 0).obj F) := h
   exact hs ((AddCommGrpCat.subsingleton_of_isZero

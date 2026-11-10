@@ -123,20 +123,20 @@ private theorem isIso_overPullback_subschemeMap_iff_comap_eq {B Q T : Scheme.{u}
   have hηfst : η ≫ pullback.fst (J.subschemeι ≫ q) e =
       pullback.fst (I.subschemeι ≫ q) e ≫ i := by
     dsimp [η, Over.pullback, u, subschemeMapOver]
-    simp [pullback.lift_fst]
+    simp
     rfl
   have hηsnd : η ≫ pullback.snd (J.subschemeι ≫ q) e =
       pullback.snd (I.subschemeι ≫ q) e := by
     dsimp [η, Over.pullback, u, subschemeMapOver]
-    simp [pullback.lift_snd]
+    simp
   have hφfst : φ ≫ pullback.fst J.subschemeι r =
       pullback.fst I.subschemeι r ≫ i := by
     dsimp [φ, pullback.map]
-    simp [pullback.lift_fst]
+    simp
   have hφsnd : φ ≫ pullback.snd J.subschemeι r =
       pullback.snd I.subschemeι r := by
     dsimp [φ, pullback.map]
-    simp [pullback.lift_snd]
+    simp
   have htransport : α.hom ≫ φ = η ≫ β.hom := by
     apply pullback.hom_ext
     · rw [Category.assoc, hφfst]
@@ -224,12 +224,12 @@ private theorem comap_familyBaseChangeMap_eq_of_comap_pullback_eq {S : Scheme.{u
   let π := ((Over.pullback Q.hom).obj X).hom
   have hb : b ≫ π = pullback.snd X.hom T.hom ≫ u.left := by
     dsimp [b, π, familyBaseChangeMap]
-    simp [pullback.map, pullback.lift_snd]
+    simp [pullback.map]
   let t : ((Over.pullback T.hom).obj X).left ⟶ pullback π u.left :=
     pullback.lift b (pullback.snd X.hom T.hom) hb
   have ht : t ≫ pullback.fst π u.left = b :=
     pullback.lift_fst _ _ _
-  show I.comap b = J.comap b
+  change I.comap b = J.comap b
   rw [← ht, Scheme.IdealSheafData.comap_comp, Scheme.IdealSheafData.comap_comp]
   exact congrArg (·.comap t) h
 
@@ -312,7 +312,7 @@ public theorem isSeparated_of_representsHilbertFunctorOfRank' {S : Scheme.{u}}
   obtain ⟨d₂⟩ := (hW₂ δ).mpr hKδJ
   let d : H.left ⟶ pullback W₁.hom W₂.hom :=
     pullback.lift d₁.left d₂.left (d₁.w.trans d₂.w.symm)
-  have hd : d ≫ r = δ := by simp [d, r, pullback.lift_fst_assoc]
+  have hd : d ≫ r = δ := by simp [d, r]
   have hrFactor : (r ≫ p₁) ≫ δ = r := by
     apply pullback.hom_ext
     · rw [Category.assoc, hδ₁, Category.comp_id]

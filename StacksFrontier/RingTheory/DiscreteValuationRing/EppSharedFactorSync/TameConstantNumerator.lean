@@ -249,7 +249,8 @@ hypothesis `habs`, in its own shape, so the two compose by application.
 worth stating because the obvious alternative is false.
 
 The missing input is **not** a ring map `G -> F i`, equivalently a base change `R2 -> B i`
-compatible with the absorption: such a map does not exist in general.  The new base residue field need not embed into the *original* factor's residue field
+compatible with the absorption: such a map does not exist in general.  The new base residue field
+need not embed into the *original* factor's residue field
 at all; absorption compares them inside an overfield precisely because no such embedding is
 available.
 

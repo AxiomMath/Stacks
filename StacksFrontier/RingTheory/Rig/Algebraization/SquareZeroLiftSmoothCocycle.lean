@@ -195,9 +195,8 @@ theorem locXH_tmul {s t : Finset (Fin k)} (h : s ⊆ t) (x : Sl f S s) (y : Sh f
 /-- The restriction `derιH` of a derivation `D` is `D` followed by `locXH ⊗ N`. -/
 theorem derιH_apply {s t : Finset (Fin k)} (h : s ⊆ t) (D : derH N f S s) (v : S) :
     derιH N f S h D v = (locXH f S h).toLinearMap.rTensor N (D v) := by
-  show AlgebraTensorModule.rTensor R N ((locSL f S h).rTensor (Sh f S)) (D v) = _
-  induction D v using TensorProduct.induction_on with
-  | zero => simp
+  change AlgebraTensorModule.rTensor R N ((locSL f S h).rTensor (Sh f S)) (D v) = _
+  induction D v using TensorProduct.inductionOn with
   | tmul p n =>
     rw [AlgebraTensorModule.rTensor_tmul, LinearMap.rTensor_tmul]
     congr 1
@@ -221,8 +220,7 @@ theorem redMap_locH_lamH {s t : Finset (Fin k)} (h : s ⊆ t) (y : Sh f S) :
 theorem redMap_locH_lamXH {s t : Finset (Fin k)} (h : s ⊆ t) (z : Sl f S s ⊗[S] Sh f S) :
     redMap N ((locH f H h).restrictScalars R) (lamXHEquiv N f S H e s z) =
       lamXHEquiv N f S H e t (locXH f S h z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x y =>
     rw [lamXHEquiv_apply, lamXHEquiv_apply, lamXH_tmul, locXH_tmul, lamXH_tmul, map_mul,
       redMap_locH_lamH]
@@ -399,9 +397,8 @@ end CechThree
 theorem derT_apply (s : Finset (Fin k)) (D : derV N f S s) (v : S) :
     derT N f S s D v =
       (IsScalarTower.toAlgHom R (Sl f S s) (Sl f S s ⊗[S] Sh f S)).toLinearMap.rTensor N (D v) := by
-  show AlgebraTensorModule.rTensor R N _ (D v) = _
-  induction D v using TensorProduct.induction_on with
-  | zero => simp
+  change AlgebraTensorModule.rTensor R N _ (D v) = _
+  induction D v using TensorProduct.inductionOn with
   | tmul x n => rfl
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 

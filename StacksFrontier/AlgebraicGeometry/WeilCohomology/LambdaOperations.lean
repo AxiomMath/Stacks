@@ -430,7 +430,7 @@ theorem lambdaOperation_classOf (h : ExteriorPowersData X) (r : ℕ) (E : X.Modu
     lambdaOperation h r (classOf X E) =
       classOf X (Scheme.Modules.exteriorPower E (r : ℤ)) := by
   rw [lambdaOperation, exteriorClassAddHom_classOf h E hE]
-  show PowerSeries.coeff r (exteriorClassUnit X E : PowerSeries (VectorBundleKZero X)) = _
+  change PowerSeries.coeff r (exteriorClassUnit X E : PowerSeries (VectorBundleKZero X)) = _
   rw [exteriorClassUnit_val, coeff_exteriorClassSeries]
 
 /-- `λ⁰` is the constant map `1`: the zeroth exterior power of any finite locally free module
@@ -506,7 +506,7 @@ theorem lambdaOperation_pullback (f : X ⟶ Y)
       refine Units.ext ?_
       rw [exteriorClassUnit_val, hseries]
       rfl
-    show exteriorClassAddHom hX (p (classOf Y E)) =
+    change exteriorClassAddHom hX (p (classOf Y E)) =
       mapClassAddHom p (exteriorClassAddHom hY (classOf Y E))
     rw [hp E hE, exteriorClassAddHom_classOf hX _ hpE,
       exteriorClassAddHom_classOf hY E hE, hunit]

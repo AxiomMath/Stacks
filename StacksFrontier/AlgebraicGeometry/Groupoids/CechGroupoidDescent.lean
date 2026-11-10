@@ -84,7 +84,7 @@ lemma comp_actInv (t : T' ⟶ T) (x : T ⟶ X) (v : T ⟶ (D.obj ()).left)
     (h' : (t ≫ x) ≫ a = (t ≫ v) ≫ (D.obj ()).hom ≫ a) :
     t ≫ D.actInv x v h = D.actInv (t ≫ x) (t ≫ v) h' := by
   have hl : t ≫ pullback.lift x v h = pullback.lift (t ≫ x) (t ≫ v) h' := by
-    apply pullback.hom_ext <;> simp [pullback.lift_fst, pullback.lift_snd]
+    apply pullback.hom_ext <;> simp
   rw [actInv, actInv, ← Category.assoc, hl]
 
 /-- The inverse gluing action undoes the gluing action: acting from `v` to `x` and then back
@@ -533,8 +533,8 @@ def cechDescentEquivariantScheme : EquivariantScheme (cechGroupoid f) where
     Eq.trans
       (lift_cechDescentIso_hom_snd f D v
         (v ≫ cechDescentStructure f D ≫ pullback.lift (𝟙 X) (𝟙 X) rfl)
-        (by simp [pullback.lift_fst]) (by simp [pullback.lift_snd]))
-      (Eq.trans (cechDescentAct_congr f D rfl (by simp [pullback.lift_snd]))
+        (by simp) (by simp))
+      (Eq.trans (cechDescentAct_congr f D rfl (by simp))
         (cechDescentAct_self f D v (Category.assoc _ _ _).symm))
   cocycle := fun T v b₁ b₂ wvb wbb =>
     lift_cechDescentIso_cocycle f D v b₁ b₂ ((cechGroupoid f).compose b₁ b₂ wbb) wvb wbb

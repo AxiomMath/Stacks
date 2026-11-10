@@ -154,6 +154,7 @@ theorem flatPullbackChow_pullbackMap_heq {Cn W T : Scheme.{u}} (sC : Cn ⟶ C.S)
   subst e
   rfl
 
+omit [LocallyOfFiniteType sZ] in
 /-- The bookkeeping behind `Stacks.Chow.virtualNormalConeClass_cap_heq`: the cap of `j^*` on a
 test scheme, pushed along the associativity isomorphism, is flat pullback along the base change of
 `j`. -/
@@ -504,10 +505,10 @@ variable (C : ChowSituation.{u}) {X X' : Scheme.{u}} (sX : X ⟶ C.S) [LocallyOf
 /-- The comparison `W' ×_{X'} T ⟶ W ×_X T` is proper. -/
 instance isProper_blowupAtInfinityTestComap {T : Scheme.{u}} (t : T ⟶ X') :
     IsProper (blowupAtInfinityTestComap sX f ℐ ℐ' h t) := by
-  haveI := LocallyOfFiniteType.isLocallyNoetherian sX
-  haveI : LocallyOfFiniteType (f ≫ sX) := inferInstance
-  haveI := LocallyOfFiniteType.isLocallyNoetherian (f ≫ sX)
-  haveI : IsProper (blowupAtInfinityTestComap sX f ℐ ℐ' h t ≫
+  have := LocallyOfFiniteType.isLocallyNoetherian sX
+  have : LocallyOfFiniteType (f ≫ sX) := inferInstance
+  have := LocallyOfFiniteType.isLocallyNoetherian (f ≫ sX)
+  have : IsProper (blowupAtInfinityTestComap sX f ℐ ℐ' h t ≫
       pullback.snd (modificationProjection sX (blowupAtInfinityToProjectiveLineProduct ℐ sX))
         (t ≫ f)) := by
     rw [pullback.lift_snd, Category.comp_id]
@@ -517,10 +518,10 @@ instance isProper_blowupAtInfinityTestComap {T : Scheme.{u}} (t : T ⟶ X') :
 /-- The comparison `W'_∞ ×_{X'} T ⟶ W_∞ ×_X T` is proper. -/
 instance isProper_blowupAtInfinityFibreTestComap {T : Scheme.{u}} (t : T ⟶ X') :
     IsProper (blowupAtInfinityFibreTestComap sX f ℐ ℐ' h t) := by
-  haveI := LocallyOfFiniteType.isLocallyNoetherian sX
-  haveI : LocallyOfFiniteType (f ≫ sX) := inferInstance
-  haveI := LocallyOfFiniteType.isLocallyNoetherian (f ≫ sX)
-  haveI : IsProper (blowupAtInfinityFibreTestComap sX f ℐ ℐ' h t ≫
+  have := LocallyOfFiniteType.isLocallyNoetherian sX
+  have : LocallyOfFiniteType (f ≫ sX) := inferInstance
+  have := LocallyOfFiniteType.isLocallyNoetherian (f ≫ sX)
+  have : IsProper (blowupAtInfinityFibreTestComap sX f ℐ ℐ' h t ≫
       pullback.snd (modificationProjectionAtInfinity sX
         (blowupAtInfinityToProjectiveLineProduct ℐ sX)) (t ≫ f)) := by
     rw [pullback.lift_snd, Category.comp_id]
@@ -685,6 +686,7 @@ theorem baseChangeTotalSpace_hom_ext {W : Scheme.{u}}
   (isPullback_baseChangeTotalSpaceMap_comp i i' g f sq 𝒩).hom_ext h₁ h₂
 
 include sq in
+omit [IsClosedImmersion i] [IsClosedImmersion i'] in
 /-- `Z' ×_{X'} T = Z ×_X T` for a test scheme `t : T ⟶ X'`. -/
 theorem isPullback_subschemeTestBaseChange {T : Scheme.{u}} (t : T ⟶ X') :
     IsPullback (pullback.fst i' t ≫ g) (pullback.snd i' t) i (t ≫ f) :=
@@ -696,6 +698,7 @@ def subschemeTestBaseChangeIso {T : Scheme.{u}} (t : T ⟶ X') :
   (isPullback_subschemeTestBaseChange i i' g f sq t).isoPullback.symm
 
 include sq in
+omit [IsClosedImmersion i] [IsClosedImmersion i'] in
 /-- The identification `Z ×_X T ≅ Z' ×_{X'} T` followed by the projection to `Z'` and
 `g : Z' ⟶ Z` is the first projection of `Z ×_X T`. -/
 @[reassoc (attr := simp)]
@@ -705,6 +708,7 @@ theorem subschemeTestBaseChangeIso_hom_fst {T : Scheme.{u}} (t : T ⟶ X') :
   (isPullback_subschemeTestBaseChange i i' g f sq t).isoPullback_inv_fst
 
 include sq in
+omit [IsClosedImmersion i] [IsClosedImmersion i'] in
 /-- The identification `Z ×_X T ≅ Z' ×_{X'} T` commutes with the projections to `T`. -/
 @[reassoc (attr := simp)]
 theorem subschemeTestBaseChangeIso_hom_snd {T : Scheme.{u}} (t : T ⟶ X') :
@@ -712,6 +716,7 @@ theorem subschemeTestBaseChangeIso_hom_snd {T : Scheme.{u}} (t : T ⟶ X') :
   (isPullback_subschemeTestBaseChange i i' g f sq t).isoPullback_inv_snd
 
 include sq in
+omit [IsClosedImmersion i] [IsClosedImmersion i'] in
 /-- The identification `Z ×_X T ≅ Z' ×_{X'} T` is one over the base. -/
 theorem subschemeTestBaseChangeIso_hom_comp_structure {T : Scheme.{u}} (t : T ⟶ X') (sX : X ⟶ S) :
     (subschemeTestBaseChangeIso i i' g f sq t).hom ≫ (pullback.fst i' t ≫ (i' ≫ (f ≫ sX))) =
@@ -744,14 +749,13 @@ theorem normalConeTestBaseChange_comp_bivariantPushforwardBaseChange {T : Scheme
       bivariantPushforwardBaseChange (𝒩.baseChange i i' g f sq).normalConeEmbedding
         ((𝒩.baseChange i i' g f sq).projection ≫ i') t := by
   refine pullback.hom_ext (baseChangeTotalSpace_hom_ext i i' g f sq 𝒩 ?_ ?_) ?_
-  · simp only [Category.assoc, bundleTestBaseChangeIso_hom_fst, bivariantPushforwardBaseChange_fst,
-      bivariantPushforwardBaseChange_fst_assoc]
+  · simp only [Category.assoc, bundleTestBaseChangeIso_hom_fst, bivariantPushforwardBaseChange_fst]
     rw [pullback.lift_fst_assoc, Category.assoc,
       normalConeBaseChangeMap_comp_normalConeEmbedding sX i i' g f sq 𝒩]
   · have hc := pullback.condition (f := (𝒩.baseChange i i' g f sq).projection ≫ i') (g := t)
     simp only [Category.assoc]
     rw [hc, bundleTestBaseChangeIso_hom_snd_assoc, bivariantPushforwardBaseChange_snd_assoc]
-    simp only [← Category.assoc, bivariantPushforwardBaseChange_fst, pullback.lift_snd]
+    simp only [← Category.assoc, pullback.lift_snd]
     simp only [Category.assoc, Category.comp_id]
     rw [bivariantPushforwardBaseChange_snd_assoc]
   · simp
@@ -883,6 +887,7 @@ theorem virtualNormalGysinClass_cap_baseChange
     (normalConeTestBaseChange_comp_bivariantPushforwardBaseChange sX i i' g f sq 𝒩 t)
     _ _ _ _ _ _ _ _ _
 
+omit [LocallyOfFiniteType f] [IsClosedImmersion i] [IsClosedImmersion i'] in
 /-- The identification `Z ×_X T ≅ Z' ×_{X'} T` is the pasting of `Z ×_X T ≅ (Z ×_X X') ×_{X'} T`
 with the identification `Z ×_X X' ≅ Z'` of the cartesian square. -/
 theorem pullbackLeftPullbackSndIso_inv_transportPullbackIso_hom {T : Scheme.{u}} (t : T ⟶ X') :

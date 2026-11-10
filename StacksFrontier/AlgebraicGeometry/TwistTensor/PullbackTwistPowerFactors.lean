@@ -60,7 +60,8 @@ which `AlgebraicGeometry.SheafOfModules.tensorPow` and its addition law are stat
 tensor-product-sheaf constraints that
 `Stacks.SheafOfModules.TensorPower.coherentMulIso`'s coherence laws are stated in. That reading
 is not the obstruction for the *other* factor treated here — see the implementation notes below —
-but it is untouched for this one: what `StacksFrontier/AlgebraicGeometry/PowerFamilyBridge/Recursion.lean` does supply, `natIso_succ` and
+but it is untouched for this one: what
+`StacksFrontier/AlgebraicGeometry/PowerFamilyBridge/Recursion.lean` does supply, `natIso_succ` and
 `negIso_succ`, are the two recursion steps, and an induction over the degree out of them would
 additionally consume the associativity constraint of each family in a common language.
 

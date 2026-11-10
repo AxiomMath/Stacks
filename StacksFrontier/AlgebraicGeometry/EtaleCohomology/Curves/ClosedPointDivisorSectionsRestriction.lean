@@ -62,7 +62,7 @@ theorem mem_closure_iUnion_range_of_isColimit {I : Type*} {F : Discrete I ⥤ Ad
     AddCommGrpCat.ofHom (QuotientAddGroup.mk' H)
   have hπ : π = 0 := hc.hom_ext fun ⟨i⟩ => by
     refine AddCommGrpCat.hom_ext (AddMonoidHom.ext fun x => ?_)
-    show (QuotientAddGroup.mk' H) (c.ι.app ⟨i⟩ x) = 0
+    change (QuotientAddGroup.mk' H) (c.ι.app ⟨i⟩ x) = 0
     exact (QuotientAddGroup.eq_zero_iff _).2
       (AddSubgroup.subset_closure (Set.mem_iUnion.2 ⟨i, x, rfl⟩))
   exact (QuotientAddGroup.eq_zero_iff y).1
@@ -101,7 +101,7 @@ theorem mem_closure_closedPointDivisorSheaf_sections (X : Scheme.{u}) (W : X.Eta
   let Ψ : ToType (ΓY.obj (R.obj D)) →+ ToType (D.obj.obj (op W)) :=
     (D.obj.map φ.inv.op).hom.comp (e.hom.app (R.obj D)).hom
   have hs : s = Ψ (e.inv.app (R.obj D) (D.obj.map φ.hom.op s)) := by
-    show s = D.obj.map φ.inv.op (e.hom.app (R.obj D) (e.inv.app (R.obj D)
+    change s = D.obj.map φ.inv.op (e.hom.app (R.obj D) (e.inv.app (R.obj D)
       (D.obj.map φ.hom.op s)))
     exact ((D.obj.mapIso φ.op).hom_inv_id_apply s).symm.trans
       (congrArg (fun y => D.obj.map φ.inv.op y)
@@ -113,7 +113,7 @@ theorem mem_closure_closedPointDivisorSheaf_sections (X : Scheme.{u}) (W : X.Eta
   rintro _ ⟨_, ⟨x, rfl⟩, z, rfl⟩
   refine AddSubgroup.subset_closure (Set.mem_iUnion.2
     ⟨x, (F x).obj.map φ.inv.op (e.hom.app (R.obj (F x)) z), ?_⟩)
-  show _ = D.obj.map φ.inv.op (e.hom.app (R.obj D)
+  change _ = D.obj.map φ.inv.op (e.hom.app (R.obj D)
     (ΓY.map (R.map (closedPointDivisorSheaf.ι.{u, v} X x)) z))
   exact (NatTrans.naturality_apply (closedPointDivisorSheaf.ι.{u, v} X x).hom φ.inv.op _).trans
     (congrArg (fun y => D.obj.map φ.inv.op y)
@@ -140,13 +140,13 @@ theorem surjective_integerSkyscraper_map (X : Scheme.{u}) (x : X) {W T : X.Etale
     by_cases hne : Nonempty ((smallEtaleBaseChange (X.fromSpecResidueField x)).obj W).left
     · obtain ⟨p⟩ := hne
       refine ⟨LocallyConstant.const _ (w p), LocallyConstant.ext fun q => ?_⟩
-      show w p = w q
+      change w p = w q
       rw [@Subsingleton.elim _ hsub q p]
     · exact ⟨0, LocallyConstant.ext fun q => (hne ⟨q⟩).elim⟩
   refine ⟨L.inv.app _ w', ?_⟩
   apply (ConcreteCategory.bijective_of_isIso (L.hom.app (op
     ((smallEtaleBaseChange (X.fromSpecResidueField x)).obj W)))).1
-  show L.hom.app _ (((constantSheaf K.smallEtaleTopology AddCommGrpCat.{max (u + 1) v}).obj
+  change L.hom.app _ (((constantSheaf K.smallEtaleTopology AddCommGrpCat.{max (u + 1) v}).obj
     (AddCommGrpCat.of A)).obj.map g.op (L.inv.app _ w')) = w
   rwa [NatTrans.naturality_apply L.hom g.op, hom_app_inv_app_apply]
 

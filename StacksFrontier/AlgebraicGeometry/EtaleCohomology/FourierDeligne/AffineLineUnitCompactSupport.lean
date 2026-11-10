@@ -128,7 +128,7 @@ theorem range_affineLineBaseChangeChart :
     exact ⟨e.hom.base x, rfl⟩
   · rintro ⟨a, rfl⟩
     refine ⟨e.inv.base a, ?_⟩
-    show V.base ((e.inv ≫ e.hom).base a) = V.base a
+    change V.base ((e.inv ≫ e.hom).base a) = V.base a
     rw [Iso.inv_hom_id]
     rfl
 

@@ -154,7 +154,7 @@ private theorem homActionHomogeneous_of (n m : ℤ) (a : A.grading m)
     homActionHomogeneous A B N P L m a (DirectSum.of (fun n => HomogeneousMap B N P n) n f) =
       DirectSum.of (fun n => HomogeneousMap B N P n) (n + m)
         (homPrecomp A B N P L n m a f) := by
-  show (DirectSum.toModule R ℤ (HomTotal B N P) fun i =>
+  change (DirectSum.toModule R ℤ (HomTotal B N P) fun i =>
     (DirectSum.lof R ℤ (fun j => HomogeneousMap B N P j) (i + m)).comp
       (homPrecomp A B N P L i m a))
       (DirectSum.lof R ℤ (fun i => HomogeneousMap B N P i) n f) = _
@@ -207,7 +207,7 @@ private theorem homAction_of_grading (m : ℤ) (a : A.grading m) :
   intro x
   simp only [homAction, LinearMap.comp_apply, LinearEquiv.coe_toLinearMap]
   rw [DirectSum.decomposeLinearEquiv_apply_coe]
-  show (DirectSum.toModule R ℤ (HomTotal B N P →ₗ[R] HomTotal B N P)
+  change (DirectSum.toModule R ℤ (HomTotal B N P →ₗ[R] HomTotal B N P)
     (fun i => homActionHomogeneousₗ A B N P L i)
     (DirectSum.lof R ℤ (fun i => A.grading i) m a)) x = _
   rw [DirectSum.toModule_lof R (φ := fun i => homActionHomogeneousₗ A B N P L i) m a]
@@ -250,7 +250,7 @@ private theorem homAction_mul_homogeneous (m n : ℤ) (a : A.grading m) (b : A.g
     refine of_eq_of_val_eq B N P (by omega) _ _ ?_
     apply LinearMap.ext
     intro x
-    show (f.1.comp (DifferentialGraded.leftActionTotal A B N L.1
+    change (f.1.comp (DifferentialGraded.leftActionTotal A B N L.1
         ((⟨(a : A.A) * (b : A.A), SetLike.mul_mem_graded a.property b.property⟩ :
           A.grading (m + n)) : A.A))) x =
       ((f.1.comp (DifferentialGraded.leftActionTotal A B N L.1 (a : A.A))).comp
@@ -310,7 +310,7 @@ private theorem homPrecomp_differential (n m : ℤ) (a : A.grading m)
             (homPrecomp A B N P L n (m + 1) ⟨A.d a, A.d_mem m a a.property⟩ f) := by
   apply Subtype.ext
   ext x
-  show P.d (f.1 (DifferentialGraded.leftActionTotal A B N L.1 (a : A.A) x)) -
+  change P.d (f.1 (DifferentialGraded.leftActionTotal A B N L.1 (a : A.A) x)) -
       DifferentialGraded.gradedSign R (n + m) •
         f.1 (DifferentialGraded.leftActionTotal A B N L.1 (a : A.A) (N.d x)) =
     (P.d (f.1 (DifferentialGraded.leftActionTotal A B N L.1 (a : A.A) x)) -
@@ -531,12 +531,12 @@ theorem shiftHomModuleIso (k : ℤ) :
         intro n f
         change H.module.grading (n + k) at f
         apply (homogeneousMapShiftEquiv (M := P) k (n + 1)).injective
-        show H.homogeneousEquiv (n + 1 + k) ((shift H.module k).gradedDifferential n f) =
+        change H.homogeneousEquiv (n + 1 + k) ((shift H.module k).gradedDifferential n f) =
           homogeneousMapShiftEquiv k (n + 1) (homogeneousMapDifferential B
             ((homogeneousMapShiftEquiv (M := P) k n).symm (H.homogeneousEquiv (n + k) f)))
         rw [homogeneousMapShiftEquiv_differential, LinearEquiv.apply_symm_apply]
         apply Subtype.ext
-        show (H.homogeneousEquiv (n + 1 + k) ⟨k.negOnePow • H.module.d f, _⟩).1 =
+        change (H.homogeneousEquiv (n + 1 + k) ⟨k.negOnePow • H.module.d f, _⟩).1 =
           (DifferentialGraded.gradedSign R k •
             homogeneousMapDifferential B (H.homogeneousEquiv (n + k) f)).1
         calc
@@ -546,14 +546,14 @@ theorem shiftHomModuleIso (k : ℤ) :
             rfl
           _ = _ := by
             rw [map_zsmul, H.map_d]
-            show (k.negOnePow : ℤ) •
+            change (k.negOnePow : ℤ) •
               (homogeneousMapDifferential B (H.homogeneousEquiv (n + k) f)).1 = _
             rw [← Int.cast_smul_eq_zsmul R, DifferentialGraded.intCast_negOnePow]
             rfl
       map_smul := by
         intro n m p f a x
         change H.module.grading (n + k) at f
-        show ((homogeneousMapShiftEquiv (M := P) k (n + m)).symm
+        change ((homogeneousMapShiftEquiv (M := P) k (n + m)).symm
             (H.homogeneousEquiv (n + m + k)
               ⟨MulOpposite.op (a : A.A) • (f : H.module.M), by
                 simpa [add_assoc, add_comm, add_left_comm] using
@@ -573,7 +573,7 @@ theorem shiftHomModuleIso (k : ℤ) :
           _ = _ := H.map_smul (n + k) m p f a x }
   refine ⟨H, Hk, Iso.refl _, ?_⟩
   intro n p f x
-  show (Hk.homogeneousEquiv n ((Iso.refl (shift H.module k)).hom.gradedMap n f)).1 x =
+  change (Hk.homogeneousEquiv n ((Iso.refl (shift H.module k)).hom.gradedMap n f)).1 x =
     (H.homogeneousEquiv (n + k)
       ⟨(f.1 : H.module.M), by simpa only [shift_grading] using f.property⟩).1 x
   simp only [Hk, LinearEquiv.trans_apply, homogeneousMapShiftEquiv_symm_val]

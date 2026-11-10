@@ -146,7 +146,7 @@ theorem isAlphaPCover_of_iso (p : ℕ) {X Y X' Y' : Scheme.{u}}
     IsAlphaPCover p f := by
   obtain ⟨C, hC, hp, c, a, b, hg⟩ := hg
   refine ⟨C, hC, hp, c, j ≪≫ a, i ≪≫ b, ?_⟩
-  show f ≫ j.hom ≫ a.hom = (i.hom ≫ b.hom) ≫ _
+  change f ≫ j.hom ≫ a.hom = (i.hom ≫ b.hom) ≫ _
   rw [← Category.assoc, h, Category.assoc, hg, Category.assoc]
 
 /-- Being a composition of `α_p`-covers transports along a commuting square whose vertical arrows

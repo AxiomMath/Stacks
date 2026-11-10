@@ -271,11 +271,9 @@ theorem kernelDeterminantEquiv_comp_baseChangeComparison (hf : Function.Surjecti
       (baseChangeEquiv (R := R) (A := A) (M := M)).toLinearMap ∘ₗ
         LinearMap.baseChange A (TwoTermComplex.kernelDeterminantEquiv f hf).toLinearMap := by
   refine LinearMap.ext fun t => ?_
-  induction t using TensorProduct.induction_on with
-  | zero => set_option synthInstance.maxHeartbeats 100000 in simp
+  induction t using TensorProduct.inductionOn with
   | tmul a w =>
-      induction w using TensorProduct.induction_on with
-      | zero => set_option synthInstance.maxHeartbeats 100000 in simp
+      induction w using TensorProduct.inductionOn with
       | tmul x y =>
           simpa only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.trans_apply,
             TensorProduct.AlgebraTensorModule.distribBaseChange_tmul, TensorProduct.congr_tmul,
@@ -402,7 +400,7 @@ theorem Hom.isQuasiIso_of_bijective_kernelDifferential (a : Hom K L)
         exact congrArg Subtype.val hxy
       have hzero : a.kernelDifferential ⟨(x : K₁) - (y : K₁), hsub⟩ = 0 := by
         apply Subtype.ext
-        show K ((x : K₁) - (y : K₁)) = 0
+        change K ((x : K₁) - (y : K₁)) = 0
         rw [map_sub, x.property, y.property, sub_self]
       have hx := congrArg Subtype.val
         (hd.1 (hzero.trans (map_zero a.kernelDifferential).symm))
@@ -416,7 +414,7 @@ theorem Hom.isQuasiIso_of_bijective_kernelDifferential (a : Hom K L)
       · rw [LinearMap.mem_ker, map_sub, sub_eq_zero]
         exact (congrArg Subtype.val hv).symm
       · apply Subtype.ext
-        show a.neg (w - (v : K₁)) = (z : L₁)
+        change a.neg (w - (v : K₁)) = (z : L₁)
         rw [map_sub, v.property, hw, sub_zero]
   · constructor
     · intro s t hst
@@ -439,7 +437,7 @@ theorem Hom.isQuasiIso_of_bijective_kernelDifferential (a : Hom K L)
       induction s using Submodule.Quotient.induction_on with | _ s =>
       obtain ⟨t, ht⟩ := ha.2 s
       exact ⟨Submodule.Quotient.mk t, by
-        show Submodule.Quotient.mk (a.zero t) = Submodule.Quotient.mk s
+        change Submodule.Quotient.mk (a.zero t) = Submodule.Quotient.mk s
         rw [ht]⟩
 
 end Acyclic
@@ -540,7 +538,7 @@ section LineApply
 
 universe u
 
-variable (R : Type u) [CommRing R] (A : Type u) [CommRing A] [Algebra R A] [Module.Flat R A]
+variable (R : Type u) [CommRing R] (A : Type u) [CommRing A] [Algebra R A]
 variable {K₁ K₀ L₁ L₀ : Type u}
 variable [AddCommGroup K₁] [Module R K₁] [Module.Finite R K₁] [Module.Projective R K₁]
 variable [AddCommGroup K₀] [Module R K₀] [Module.Finite R K₀] [Module.Projective R K₀]
@@ -670,20 +668,17 @@ theorem baseChange_determinantDiagram_of_tensor (hr : IsRankZero a.kernelDiffere
           (ha.baseChange (A := A)).1
           (ProjectiveDeterminant.kerDeterminantBaseChangeEquiv (A := A) a.neg tx ⊗ₜ[A]
             ProjectiveDeterminant.baseChangeEquiv (R := R) (A := A) (M := L₁) ty)) := by
-  induction tφ using TensorProduct.induction_on with
-  | zero => set_option synthInstance.maxHeartbeats 100000 in simp
+  induction tφ using TensorProduct.inductionOn with
   | add u v hu hv =>
       simpa only [map_add, LinearMap.add_apply, TensorProduct.tmul_add,
         TensorProduct.add_tmul] using congrArg₂ (· + ·) hu hv
   | tmul cφ φ =>
-      induction tx using TensorProduct.induction_on with
-      | zero => set_option synthInstance.maxHeartbeats 100000 in simp
+      induction tx using TensorProduct.inductionOn with
       | add u v hu hv =>
           simpa only [map_add, LinearMap.add_apply, TensorProduct.tmul_add,
             TensorProduct.add_tmul] using congrArg₂ (· + ·) hu hv
       | tmul c x =>
-          induction ty using TensorProduct.induction_on with
-          | zero => set_option synthInstance.maxHeartbeats 100000 in simp only [LinearEquiv.map_zero, LinearMap.map_zero, TensorProduct.tmul_zero]
+          induction ty using TensorProduct.inductionOn with
           | add u v hu hv =>
               simpa only [map_add, LinearMap.add_apply, TensorProduct.tmul_add,
                 TensorProduct.add_tmul] using congrArg₂ (· + ·) hu hv

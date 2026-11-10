@@ -184,7 +184,7 @@ theorem surjective_sectionsBaseChange_of_chartIdeal_le_map
     | mem w hw =>
         obtain ⟨x, hx, rfl⟩ := hw
         refine ⟨(1 : chartRing B S hS X.1 X.2 A') ⊗ₜ ⟨x, hx⟩, ?_⟩
-        show (1 : chartRing B S hS X.1 X.2 A') * chartRestrict (hF := X.2) m x = _
+        change (1 : chartRing B S hS X.1 X.2 A') * chartRestrict (hF := X.2) m x = _
         rw [one_mul]
     | zero => exact ⟨0, by rw [map_zero]; rfl⟩
     | add a b _ _ ha hb =>

@@ -62,7 +62,7 @@ public theorem GeometricPoint.Hom.iterate_hom_comp {S : Scheme.{u}} {s : Geometr
   induction j with
   | zero => rfl
   | succ j ih =>
-    show (a.iterate i).hom ≫ ((a.iterate j).hom ≫ a.hom) = ((a.iterate (i + j + 1)).hom ≫ a.hom)
+    change (a.iterate i).hom ≫ ((a.iterate j).hom ≫ a.hom) = ((a.iterate (i + j + 1)).hom ≫ a.hom)
     rw [← ih]
     exact (Category.assoc _ _ _).symm
 
@@ -170,14 +170,14 @@ public theorem geometricLiftPointHom_comp_frobenius_iterate
         ((frobeniusPointHom X.1 (geometricLiftPoint B π v x)).iterate m) =
       b.comp (geometricLiftPointHom B π v x) := by
   refine GeometricPoint.Hom.ext' ?_
-  show Spec.map (CommRingCat.ofHom (geometricLiftEmbedding B π v x)) ≫
+  change Spec.map (CommRingCat.ofHom (geometricLiftEmbedding B π v x)) ≫
       ((frobeniusPointHom X.1 (geometricLiftPoint B π v x)).iterate m).hom =
     b.hom ≫ Spec.map (CommRingCat.ofHom (geometricLiftEmbedding B π v x))
   rw [hb, frobeniusPointHom, galoisPointHom_iterate_hom, frobeniusPointHom,
     galoisPointHom_iterate_hom, ← Spec.map_comp, ← Spec.map_comp]
   congr 1
   ext z
-  show geometricLiftEmbedding B π v x
+  change geometricLiftEmbedding B π v x
       (((residueGeometricFrobenius X.1 (geometricLiftPoint B π v x)) ^ (m + 1)) z) =
     ((residueGeometricFrobenius Y.1 v) ^ (d + 1)) (geometricLiftEmbedding B π v x z)
   set φ := (residueGeometricFrobenius Y.1 v) ^ (d + 1)
@@ -382,7 +382,7 @@ public theorem LAdicSheaf.IsPointwiseMixedOfWeightLE.directImage {q : ℕ} {ι :
     induction j with
     | zero => rw [show (e + 1) * (0 + 1) - 1 = e by omega]; rfl
     | succ j ih =>
-      show (b.iterate j).hom ≫ (a.iterate e).hom = _
+      change (b.iterate j).hom ≫ (a.iterate e).hom = _
       rw [ih, GeometricPoint.Hom.iterate_hom_comp]
       have h0 : 0 < (e + 1) * (j + 1) := Nat.mul_pos (Nat.succ_pos e) (Nat.succ_pos j)
       have h2 : (e + 1) * (j + 1 + 1) = (e + 1) * (j + 1) + (e + 1) := by ring
@@ -414,7 +414,7 @@ public theorem LAdicSheaf.IsPointwiseMixedOfWeightLE.directImage {q : ℕ} {ι :
     rw [← norm_pow, ← hαeq, norm_pow, hαn, ← Real.rpow_natCast, ← Real.rpow_natCast,
       ← Real.rpow_mul hq, ← Real.rpow_mul hq]
     congr 1
-    show (((N : ℤ) : ℝ) * w') / 2 * ((m + 1 : ℕ) : ℝ) = _
+    change (((N : ℤ) : ℝ) * w') / 2 * ((m + 1 : ℕ) : ℝ) = _
     rw [hN', ← hm]
     push_cast
     ring

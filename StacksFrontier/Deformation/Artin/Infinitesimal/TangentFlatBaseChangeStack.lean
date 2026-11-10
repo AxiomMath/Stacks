@@ -184,14 +184,14 @@ theorem isTangentBaseChangeIso_of_chartTensorCover [Module.Flat A C]
       ((tensorAlgHom X X.obj hXX).hom.hom.comp w) :=
     chart_app_comp _ hε
   let F₁ := chartTangentData (a := a) (ι := ι) (w := w)
-    (fun M _ _ h₁ h₂ ↦ rel_iff_of_chart hb hsV htV hε M h₁ h₂) ha hι
+    (fun M _ _ h₁ _ ↦ rel_iff_of_chart hb hsV htV hε M h₁) ha hι
   let F₂ := chartTangentData (a := a) (ι := ι) (w := ((tensorAlgHom X X.obj hXX).hom.hom.comp w))
-    (fun M _ _ h₁ h₂ ↦ rel_iff_of_chart hb hsV htV hv₂ M h₁ h₂) ha hι
+    (fun M _ _ h₁ _ ↦ rel_iff_of_chart hb hsV htV hv₂ M h₁) ha hι
   let G₁ := chartTangentData (a := a) (ι := ι) (w := (tensorAlgHom X C hXC).hom.hom.comp w)
-    (fun M _ _ h₁ h₂ ↦ rel_iff_of_chart hb hsV htV (chart_app_comp _ hε) M h₁ h₂) ha hι
+    (fun M _ _ h₁ _ ↦ rel_iff_of_chart hb hsV htV (chart_app_comp _ hε) M h₁) ha hι
   let G₂ := chartTangentData (a := a) (ι := ι) (w := (tensorAlgHom (tensorAlg X X.obj hXX) C
       hXXC).hom.hom.comp ((tensorAlgHom X X.obj hXX).hom.hom.comp w))
-    (fun M _ _ h₁ h₂ ↦ rel_iff_of_chart hb hsV htV (chart_app_comp _ hv₂) M h₁ h₂) ha hι
+    (fun M _ _ h₁ _ ↦ rel_iff_of_chart hb hsV htV (chart_app_comp _ hv₂) M h₁) ha hι
   have h₁ := isTangentBaseChangeIso_chart_tensor e he hb hsV htV
     hAX C hXC M (toSOf_comp (tensorAlgHom X C hXC))
     (trans_isHomLift a ι (tensorAlgHom X C hXC) w) hε ha hι F₁ G₁
@@ -382,7 +382,6 @@ theorem exists_isHomLift_tensorMap (g : X ⟶ (tensorAlg X X.obj hXX)) (g' : (te
 /-- **The two arrows `y₂ ⇉ y₁` agree after `y₁ ⟶ y`**, since they do after `y ⟶ x`, which is
 strongly cartesian. -/
 theorem comp_tensorIncludeRight_eq_of_tensorAlgMap {x y : 𝒳.val.obj}
-    {hf₀₁ : Spec.map (CommRingCat.ofHom (algebraMap A X.obj)) ≫ toS = toSOf X}
     {φ₀₁ : ξ a ι w ⟶ x} {α β : ξ a ι ((tensorAlgHom X X.obj hXX).hom.hom.comp w) ⟶ ξ a ι w}
     (hγ : α ≫ φ₀₁ = β ≫ φ₀₁)
     {hf : Spec.map (CommRingCat.ofHom (algebraMap A C)) ≫ toS = toSC} {φ : y ⟶ x}
@@ -522,7 +521,7 @@ theorem isTangentBaseChangeIso_of_isAlgebraicStack {A C : Type u} [CommRing A] [
   obtain ⟨β', hβ', hsqb⟩ := exists_isHomLift_tensorMap hXX hXC hXXC
     (tensorAlgHomRight fromRingOf hAX hXX) (tensorAlgMapRight fromRingOf hAX hXX hXC hXXC)
     (tensorAlgMapRight_tmul fromRingOf hAX hXX hXC hXXC) hβ
-  have hγ' := comp_tensorIncludeRight_eq_of_tensorAlgMap hXX hXC hXXC (hf₀₁ := hf₀₁) hγ hφ
+  have hγ' := comp_tensorIncludeRight_eq_of_tensorAlgMap hXX hXC hXXC hγ hφ
     hφ₀₁'' hsq₀₁ _ _
     (tensorAlgMapLeft_comp_includeRight fromRingOf hAX hXX hXC hXXC) hα' hβ' hsqa hsqb
   exact isTangentBaseChangeIso_of_chartTensorCover (hfa := toSOf_comp (tensorAlgHom X X.obj hXX))

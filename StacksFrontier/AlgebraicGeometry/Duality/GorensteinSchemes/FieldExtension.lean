@@ -88,20 +88,20 @@ private theorem fieldResidueEquiv_apply (k : Type u) [Field k] (z : k) :
   let q : IsLocalRing.ResidueField k ≃+* k :=
     (Ideal.quotientEquivAlgOfEq k IsLocalRing.maximalIdeal_eq_bot).toRingEquiv.trans
       (RingEquiv.quotientBot k)
-  show (IsLocalRing.ResidueField.mapEquiv e).symm (q.symm z) = _
+  change (IsLocalRing.ResidueField.mapEquiv e).symm (q.symm z) = _
   have hq : q.symm z = IsLocalRing.residue k z := by
     let f : (k ⧸ IsLocalRing.maximalIdeal k) ≃+* (k ⧸ (⊥ : Ideal k)) :=
       (Ideal.quotientEquivAlgOfEq k
         (IsLocalRing.maximalIdeal_eq_bot (R := k))).toRingEquiv
-    show f.symm ((RingEquiv.quotientBot k).symm z) = IsLocalRing.residue k z
+    change f.symm ((RingEquiv.quotientBot k).symm z) = IsLocalRing.residue k z
     apply f.injective
-    show Ideal.Quotient.mk (⊥ : Ideal k) z =
+    change Ideal.Quotient.mk (⊥ : Ideal k) z =
       Ideal.quotientEquivAlgOfEq k (IsLocalRing.maximalIdeal_eq_bot (R := k))
         (Ideal.Quotient.mk (IsLocalRing.maximalIdeal k) z)
     exact (Ideal.quotientEquivAlgOfEq_mk k
       (IsLocalRing.maximalIdeal_eq_bot (R := k)) z).symm
   rw [hq, IsLocalRing.ResidueField.mapEquiv.symm]
-  show IsLocalRing.residue R ((e.symm : k →+* R) z) = _
+  change IsLocalRing.residue R ((e.symm : k →+* R) z) = _
   have he : (e.symm : k →+* R) = (StructureSheaf.toStalk k cp).hom :=
     congrArg CommRingCat.Hom.hom (AlgebraicGeometry.stalkClosedPointIso_inv (.of k))
   rw [he]
@@ -128,7 +128,7 @@ private theorem residueFieldMap_spec_field
         f ≫ StructureSheaf.toStalk K y :=
     stalkMap_toStalk f y
   ext z
-  show ((Spec.map f).residueFieldMap y).hom
+  change ((Spec.map f).residueFieldMap y).hom
       ((fieldResidueEquiv k).trans
         ((Scheme.residueFieldCongr hxy).symm.commRingCatIsoToRingEquiv) z) =
     (fieldResidueEquiv K) ((algebraMap k K) z)
@@ -224,12 +224,12 @@ private theorem isGorensteinRing_pullbackTensor
         (CommRingCat.ofHom a) (CommRingCat.ofHom b))
   have : IsScalarTower F B C := IsScalarTower.of_algebraMap_eq' (by
     ext z
-    show (i.comp a) z = (j.comp b) z
+    change (i.comp a) z = (j.comp b) z
     exact congrArg (fun q : CommRingCat.Hom (CommRingCat.of F) T.tensor => q.hom z) hp0.w)
   have hp : IsPushout
       (CommRingCat.ofHom (algebraMap F A)) (CommRingCat.ofHom (algebraMap F B))
       (CommRingCat.ofHom (algebraMap A C)) (CommRingCat.ofHom (algebraMap B C)) := by
-    convert hp0 using 1 <;> rfl
+    convert hp0 using 1
   have : Algebra.IsPushout F A B C := (CommRingCat.isPushout_iff_isPushout).mp hp
   rcases h with h | h
   · have : Algebra.EssFiniteType F A := by simpa [F, A, a] using h
@@ -366,7 +366,7 @@ public theorem isGorensteinLocalRing_stalk_iff_of_essFiniteType_fieldExtension
         τ.hom (fieldResidueEquiv K (algebraMap k K z)) := by
       simp only [q, τ, RingEquiv.trans_apply]
       rfl
-    show rT.hom (β.hom (e z)) = q.toRingHom (algebraMap k K z)
+    change rT.hom (β.hom (e z)) = q.toRingHom (algebraMap k K z)
     calc
       rT.hom (β.hom (e z)) =
           rT.hom (β.hom (α.hom (fieldResidueEquiv k z))) := by rw [heval]

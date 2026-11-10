@@ -174,8 +174,8 @@ private def productCoproductIsoOfFiniteSupport
   · apply Sigma.hom_ext
     intro i
     by_cases hi : i ∈ s
-    · simp only [f, g, Preadditive.comp_sum, Sigma.ι_desc_assoc,
-        Pi.lift_π_assoc, Category.comp_id]
+    · simp only [f, g, Preadditive.comp_sum, Sigma.ι_comp_desc_assoc,
+        Pi.lift_comp_π_assoc, Category.comp_id]
       rw [Finset.sum_eq_single i]
       · simp
       · intro j hj hji
@@ -380,7 +380,7 @@ private lemma affineHomCanonicalDegreeIso_inv_sections (R : CommRingCat.{u})
       (moduleSpecΓFunctor (R := R)).obj (H.obj.X n) => k α)
     (tilde_adjunction_unit_map_counit (R := R) (H.obj.X n) e.toModuleIso.inv)
   have he : affineHomSectionsLinearMap R P L n s = α := by
-    show e _ = α
+    change e _ = α
     convert e.apply_symm_apply α using 1
     exact congrArg e hc
   have hv : (fullyFaithfulTildeOverTop R).preimage ((H.sectionsEquiv ⊤ n s).v p q hpq) =
@@ -409,7 +409,7 @@ public lemma affineHomSectionsLinearMap_δ (R : CommRingCat.{u})
   let H := sheafHomComplex (specSite R) ((tildeCx R).obj P) ((tildeCx R).obj L)
   apply (fullyFaithfulCochainAddEquiv (tildeTop R)
     (fullyFaithfulTildeOverTop R) P L m).injective
-  show (CochainComplex.HomComplex.δ n m
+  change (CochainComplex.HomComplex.δ n m
       (affineHomSectionsLinearMap R P L n s)).map (tildeTop R) =
     (affineHomSectionsLinearMap R P L m
       (((moduleSpecΓFunctor (R := R)).map (H.obj.d n m)).hom s)).map (tildeTop R)

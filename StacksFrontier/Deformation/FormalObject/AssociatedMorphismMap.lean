@@ -65,7 +65,6 @@ variable {F : Type uF} [Category.{vF} F]
 variable {p : F ⥤ ArtinianLocalAlgCat.{u, v, w} Λ k}
 
 private lemma associatedPointInclusion_lift
-    (hp : IsCofiberedInGroupoids p)
     {ξ : FormalObject p} (pushforwards : ChosenPushforwards p)
     (X : AssociatedMorphism ξ pushforwards)
     (α : (restrictedCoyoneda ξ.base).Elements) :
@@ -88,7 +87,7 @@ private lemma associatedPointInclusion_stronglyCocartesian
     (α : (restrictedCoyoneda ξ.base).Elements) :
     p.IsStronglyCocartesian (X.factor α) (X.pointInclusion α) := by
   exact isStronglyCocartesian_of_isCofiberedInGroupoids hp (X.factor α)
-    (X.pointInclusion α) (associatedPointInclusion_lift hp pushforwards X α)
+    (X.pointInclusion α) (associatedPointInclusion_lift pushforwards X α)
 
 private lemma vertical_isIso
     (hp : IsCofiberedInGroupoids p)
@@ -153,7 +152,7 @@ private lemma formalFactor_comp
   apply AlgHom.ext
   intro z
   obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective z
-  show bY.hom (((AdicTruncation.functor n).map a.base).hom
+  change bY.hom (((AdicTruncation.functor n).map a.base).hom
       (Ideal.Quotient.mk (AdicTruncation.ideal ξ.base n) r :
         AdicTruncation.obj ξ.base n)) =
     bX.hom (Ideal.Quotient.mk (AdicTruncation.ideal ξ.base n) r)
@@ -207,7 +206,7 @@ public theorem associatedMorphism_map
   let f := restrictedRepresentableMap a.base
   let X := associatedMorphism hp ξ pushforwards
   let Y := associatedMorphism hp η pushforwards
-  show ∃ τ : BasedFunctor.comp f X.toBasedFunctor ≅ Y.toBasedFunctor,
+  change ∃ τ : BasedFunctor.comp f X.toBasedFunctor ≅ Y.toBasedFunctor,
     ∀ α, ∃ h : X.level (f.obj α) = Y.level α,
       X.pointInclusion (f.obj α) ≫ τ.hom.app α =
         a.app (X.level (f.obj α)) ≫
@@ -234,7 +233,7 @@ public theorem associatedMorphism_map
         (a.app (X.level (f.obj α)) ≫ eqToHom (congrArg η.level (hlevel α))) := by
       let : p.IsHomLift (AdicTruncation.map a.base (X.level (f.obj α)))
           (a.app (X.level (f.obj α))) := by
-        show p.IsHomLift ((AdicTruncation.functor (X.level (f.obj α))).map a.base)
+        change p.IsHomLift ((AdicTruncation.functor (X.level (f.obj α))).map a.base)
           (a.app (X.level (f.obj α)))
         exact a.app_lift (X.level (f.obj α))
       let := formalLevel_cast_lift (p := p) (η := η) (hlevel α)
@@ -245,7 +244,7 @@ public theorem associatedMorphism_map
         ((a.app (X.level (f.obj α)) ≫ eqToHom (congrArg η.level (hlevel α))) ≫
           Y.pointInclusion α) := by
       let := hfirst
-      let := associatedPointInclusion_lift hp pushforwards Y α
+      let := associatedPointInclusion_lift pushforwards Y α
       exact IsHomLift.comp p
         (AdicTruncation.map a.base (X.level (f.obj α)) ≫
           eqToHom (congrArg (AdicTruncation.obj η.base) (hlevel α)))
@@ -271,7 +270,7 @@ public theorem associatedMorphism_map
       p.IsHomLift (𝟙 α.1) (t α) := by
     -- `t α` lies over the identity of `(f.obj α).1`, which is the identity of `α.1` only
     -- after unfolding `f`; stating the goal that way lets the `map` instance apply.
-    show p.IsHomLift (𝟙 (f.obj α).1) (t α)
+    change p.IsHomLift (𝟙 (f.obj α).1) (t α)
     dsimp only [t]
     infer_instance
   have ht_fac (α : (restrictedCoyoneda η.base).Elements) :
@@ -285,7 +284,7 @@ public theorem associatedMorphism_map
   let ni : (BasedFunctor.comp f X.toBasedFunctor).toFunctor ≅ Y.toBasedFunctor.toFunctor :=
     NatIso.ofComponents (fun α ↦ verticalIso hp (t α) (ht_lift α)) (by
       intro α β g
-      show X.toBasedFunctor.map (f.map g) ≫ t β =
+      change X.toBasedFunctor.map (f.map g) ≫ t β =
         t α ≫ Y.toBasedFunctor.map g
       let n := X.level (f.obj α)
       let m := X.level (f.obj β)
@@ -402,7 +401,7 @@ public theorem associatedMorphism_map
   refine ⟨τ, ?_⟩
   intro α
   refine ⟨hlevel α, ?_⟩
-  show X.pointInclusion (f.obj α) ≫ ni.hom.app α =
+  change X.pointInclusion (f.obj α) ≫ ni.hom.app α =
     a.app (X.level (f.obj α)) ≫
       eqToHom (congrArg η.level (hlevel α)) ≫ Y.pointInclusion α
   exact ht_fac α

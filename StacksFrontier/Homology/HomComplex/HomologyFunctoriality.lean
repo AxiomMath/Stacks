@@ -110,7 +110,7 @@ theorem homologyAddEquiv_precomp {K K' : CochainComplex C ℤ} (f : K' ⟶ K)
     simp only [ConcreteCategory.comp_apply] at h1 h2 h3
     refine h1.trans ?_
     refine h2.trans ?_
-    show (Cochain.ofHom f).comp ((HomologicalComplex.iCycles (K.HomComplex L) n) z)
+    change (Cochain.ofHom f).comp ((HomologicalComplex.iCycles (K.HomComplex L) n) z)
         (zero_add n) = (Cochain.ofHom f).comp a.1 (zero_add n)
     congr 1
   have hnat := ConcreteCategory.congr_hom

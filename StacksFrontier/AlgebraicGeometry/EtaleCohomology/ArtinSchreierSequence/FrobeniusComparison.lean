@@ -231,12 +231,12 @@ theorem toSheaf_map_globalSmul_comp_frobeniusZariski (X : Scheme.{u}) {p : ℕ} 
       (frobeniusRingHom Γ(X, V.unop) hp h0 x) =
         restrictTop (c ^ p) V.unop * frobeniusRingHom Γ(X, V.unop) hp h0 x :=
     globalSmul_app (c ^ p) (SheafOfModules.unit X.ringCatSheaf) V.unop _
-  show frobeniusRingHom Γ(X, V.unop) hp h0
+  change frobeniusRingHom Γ(X, V.unop) hp h0
       ((globalSmul c (SheafOfModules.unit X.ringCatSheaf)).app V.unop x) =
     (globalSmul (c ^ p) (SheafOfModules.unit X.ringCatSheaf)).app V.unop
       (frobeniusRingHom Γ(X, V.unop) hp h0 x)
   rw [h1, h2]
-  show (restrictTop c V.unop * x) ^ p = restrictTop (c ^ p) V.unop * x ^ p
+  change (restrictTop c V.unop * x) ^ p = restrictTop (c ^ p) V.unop * x ^ p
   rw [mul_pow, restrictTop, restrictTop, map_pow]
 
 /-- **The Frobenius of `𝐆_a` at coefficients `AddCommGrpCat.{u}`**, `x ↦ x ^ p`. -/
@@ -269,7 +269,7 @@ theorem unitToPushforwardAdditiveSheafBase_comp_frobeniusMapBase (X : Scheme.{u}
         (smallEtaleZariskiPushforward X).map (frobeniusMapBase X hp hX) =
       frobeniusZariski X hp hX ≫ unitToPushforwardAdditiveSheafBase X := by
   ext V (x : Γ(X, V.unop))
-  show ((Scheme.Opens.ι V.unop).appLE V.unop ⊤ (Scheme.Opens.ι_preimage_self V.unop).ge x) ^ p =
+  change ((Scheme.Opens.ι V.unop).appLE V.unop ⊤ (Scheme.Opens.ι_preimage_self V.unop).ge x) ^ p =
     (Scheme.Opens.ι V.unop).appLE V.unop ⊤ (Scheme.Opens.ι_preimage_self V.unop).ge (x ^ p)
   exact (map_pow _ x p).symm
 
@@ -322,7 +322,7 @@ theorem sheafHIsoCongr_map {C : Type*} [Category* C] {J : GrothendieckTopology C
     (h : e.hom ≫ fG = fF ≫ e.hom) (n : ℕ) (x : Sheaf.H.{w} F n) :
     Stacks.Cohomology.CoefficientLift.sheafHIsoCongr e n (Sheaf.H.map fF n x) =
       Sheaf.H.map fG n (Stacks.Cohomology.CoefficientLift.sheafHIsoCongr e n x) := by
-  show (x.comp (Ext.mk₀ fF) (add_zero n)).comp (Ext.mk₀ e.hom) (add_zero n) =
+  change (x.comp (Ext.mk₀ fF) (add_zero n)).comp (Ext.mk₀ e.hom) (add_zero n) =
     (x.comp (Ext.mk₀ e.hom) (add_zero n)).comp (Ext.mk₀ fG) (add_zero n)
   rw [Ext.comp_assoc_of_third_deg_zero, Ext.comp_assoc_of_third_deg_zero, Ext.mk₀_comp_mk₀,
     Ext.mk₀_comp_mk₀, h]
@@ -471,7 +471,7 @@ theorem abelianCohomologyIsoEtaleH_hom_naturality
       (((sheafSections (Opens.grothendieckTopology X) AddCommGrpCat.{u}).obj
         (op (⊤ : X.Opens))).rightDerived n).map ψ ≫ (abelianCohomologyIsoEtaleH X n).hom := by
   refine iso_trans_hom_comp_eq _ _ ?_ ((etaleZariskiComparison X n).naturality m).symm
-  show (((sheafSections (Opens.grothendieckTopology X) AddCommGrpCat.{u}).obj
+  change (((sheafSections (Opens.grothendieckTopology X) AddCommGrpCat.{u}).obj
       (op (⊤ : X.Opens))).rightDerived n).map (unitToPushforwardAdditiveSheafBase X) ≫
       (((sheafSections (Opens.grothendieckTopology X) AddCommGrpCat.{u}).obj
       (op (⊤ : X.Opens))).rightDerived n).map ((smallEtaleZariskiPushforward X).map m) = _
@@ -583,18 +583,18 @@ theorem etaleHAdditiveSheafAddEquivObjectUniverse_artinSchreierMap {p : ℕ} (hp
       (moduleCohomologyIsoAbelian X (SheafOfModules.unit X.ringCatSheaf) n).inv y := by
     intro y
     rw [Functor.map_sub, CategoryTheory.Functor.map_id]
-    show (moduleCohomologyIsoAbelian X (SheafOfModules.unit X.ringCatSheaf) n).inv
+    change (moduleCohomologyIsoAbelian X (SheafOfModules.unit X.ringCatSheaf) n).inv
       ((((sheafSections (Opens.grothendieckTopology X) AddCommGrpCat.{u}).obj
         (op (⊤ : X.Opens))).rightDerived n).map (frobeniusZariski X hp hX) y - y) = _
     rw [map_sub]
     congr 1
-    show _ = (moduleCohomologyIsoAbelian X (SheafOfModules.unit X.ringCatSheaf) n).inv
+    change _ = (moduleCohomologyIsoAbelian X (SheafOfModules.unit X.ringCatSheaf) n).inv
       ((((sheafSections (Opens.grothendieckTopology X) AddCommGrpCat.{u}).obj
         (op (⊤ : X.Opens))).rightDerived n).map (frobeniusZariski X hp hX)
         ((moduleCohomologyIsoAbelian X (SheafOfModules.unit X.ringCatSheaf) n).hom
           ((moduleCohomologyIsoAbelian X (SheafOfModules.unit X.ringCatSheaf) n).inv y)))
     rw [Iso.inv_hom_id_apply]
-  show (moduleCohomologyIsoAbelian X (SheafOfModules.unit X.ringCatSheaf) n).inv
+  change (moduleCohomologyIsoAbelian X (SheafOfModules.unit X.ringCatSheaf) n).inv
     ((abelianCohomologyIsoEtaleH X n).inv
       ((smallEtaleSheafHUliftAddEquiv X (additiveSheafBase X) n).symm
       ((Stacks.Cohomology.CoefficientLift.sheafHIsoCongr.{u + 1, u + 1}
@@ -605,11 +605,11 @@ theorem etaleHAdditiveSheafAddEquivObjectUniverse_artinSchreierMap {p : ℕ} (hp
     ((Stacks.Cohomology.CoefficientLift.sheafHIsoCongr.{u + 1, u + 1}
       (additiveSheafBaseUliftIso X) n).symm x)
   have h4' := ConcreteCategory.congr_hom h4 z
-  show (moduleCohomologyIsoAbelian X (SheafOfModules.unit X.ringCatSheaf) n).inv
+  change (moduleCohomologyIsoAbelian X (SheafOfModules.unit X.ringCatSheaf) n).inv
     ((AddCommGrpCat.ofHom (Sheaf.H.map (artinSchreierMapBase X hp hX) n) ≫
     (abelianCohomologyIsoEtaleH X n).inv) z) = _
   rw [← h4']
-  show (moduleCohomologyIsoAbelian X (SheafOfModules.unit X.ringCatSheaf) n).inv
+  change (moduleCohomologyIsoAbelian X (SheafOfModules.unit X.ringCatSheaf) n).inv
     ((((sheafSections (Opens.grothendieckTopology X) AddCommGrpCat.{u}).obj
       (op (⊤ : X.Opens))).rightDerived n).map (frobeniusZariski X hp hX - 𝟙 _)
       ((abelianCohomologyIsoEtaleH X n).inv z)) = _
@@ -629,7 +629,7 @@ theorem etaleHAdditiveSheafAddEquiv_artinSchreierMap
       (extChgUnivAddEquiv.{w, u + 1} _ _ n x).comp
         (Ext.mk₀ (artinSchreierMap.{u, u + 1} X hp hX)) (add_zero n) :=
     @ext_chgUniv_comp_mk₀ _ _ _ _ (hasExt_smallEtale_objectUniverse X) _ _ _ _ x _
-  show etaleHAdditiveSheafAddEquivObjectUniverse X n (extChgUnivAddEquiv.{w, u + 1} _ _ n
+  change etaleHAdditiveSheafAddEquivObjectUniverse X n (extChgUnivAddEquiv.{w, u + 1} _ _ n
     (Sheaf.H.map (artinSchreierMap.{u, u + 1} X hp hX) n x)) = _
   rw [h1]
   exact etaleHAdditiveSheafAddEquivObjectUniverse_artinSchreierMap X hp hX n _

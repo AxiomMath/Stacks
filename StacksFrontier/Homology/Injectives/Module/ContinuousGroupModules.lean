@@ -445,10 +445,10 @@ private lemma smooth_shift (X : Action (ModuleCat.{max u w} R) G) (g : G)
   let : DiscreteTopology X.V := ⟨rfl⟩
   have hmul : Continuous (fun h : G => h * g) := continuous_id.mul continuous_const
   have h := hx.comp hmul
-  show Continuous (fun h : G => (X.ρ h).asHom.hom ((X.ρ g).asHom.hom x))
+  change Continuous (fun h : G => (X.ρ h).asHom.hom ((X.ρ g).asHom.hom x))
   convert h using 1
   funext h
-  show ((X.ρ h).asHom.hom ((X.ρ g).asHom.hom x)) = (X.ρ (h * g)).asHom.hom x
+  change ((X.ρ h).asHom.hom ((X.ρ g).asHom.hom x)) = (X.ρ (h * g)).asHom.hom x
   rw [X.ρ.map_mul h g, End.mul_asHom]
   rfl
 
@@ -673,7 +673,7 @@ private theorem continuousModule_hasFunctorialInjectiveEmbeddings_sameUniverse
     intro X Y f g
     let : (Action.forget (ModuleCat.{max u w} R) G).Additive := ⟨by intros; rfl⟩
     have hfg : (f + g).hom = f.hom + g.hom := by
-      show (Action.forget (ModuleCat.{max u w} R) G).map (f + g) =
+      change (Action.forget (ModuleCat.{max u w} R) G).map (f + g) =
         (Action.forget (ModuleCat.{max u w} R) G).map f +
           (Action.forget (ModuleCat.{max u w} R) G).map g
       exact (Action.forget (ModuleCat.{max u w} R) G).map_add
@@ -683,18 +683,18 @@ private theorem continuousModule_hasFunctorialInjectiveEmbeddings_sameUniverse
     apply Subtype.ext
     have hfgx := congrArg (fun h : X.V ⟶ Y.V => h x.1) hfg
     dsimp [smoothActionCore, smoothActionMap]
-    show (f + g).hom.hom x.1 = f.hom.hom x.1 + g.hom.hom x.1
+    change (f + g).hom.hom x.1 = f.hom.hom x.1 + g.hom.hom x.1
     exact hfgx⟩
   let : (smoothActionContFunctor R G).Additive := ⟨by
     intro X Y f g
     apply ObjectProperty.hom_ext
-    show (smoothActionCore R G).map (f + g) =
+    change (smoothActionCore R G).map (f + g) =
       (smoothActionCore R G).map f + (smoothActionCore R G).map g
     exact (smoothActionCore R G).map_add (f := f) (g := g)⟩
   let : i.Additive := ⟨by
     intro X Y f g
     apply ObjectProperty.hom_ext
-    show (smoothActionContFunctor R G).map (f + g) =
+    change (smoothActionContFunctor R G).map (f + g) =
       (smoothActionContFunctor R G).map f + (smoothActionContFunctor R G).map g
     exact (smoothActionContFunctor R G).map_add (f := f) (g := g)⟩
   let : u.Additive := by
@@ -728,7 +728,7 @@ private theorem continuousModule_hasFunctorialInjectiveEmbeddings_sameUniverse
     let : P.ι.PreservesMonomorphisms := P.preservesMonomorphisms_ι_of_isNormalEpiCategory
     let : Q.ι.PreservesMonomorphisms := Q.preservesMonomorphisms_ι_of_isNormalEpiCategory
     let : (P.ι ⋙ Q.ι).PreservesMonomorphisms := inferInstance
-    show Mono ((P.ι ⋙ Q.ι).map f)
+    change Mono ((P.ι ⋙ Q.ι).map f)
     exact @Functor.PreservesMonomorphisms.preserves _ _ _ _
       (P.ι ⋙ Q.ι) (inferInstance) X Y f hf
   · intro X hX

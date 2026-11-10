@@ -129,8 +129,8 @@ theorem map_milnorDifference_comp_productOverIso_hom :
               (F ⋙ G).map (homOfLE (Nat.le_succ n)).op := by
   refine Pi.hom_ext _ _ fun n ↦ ?_
   simp only [Category.assoc]
-  rw [Pi.lift_comp_π, productOverIso_hom_comp_π, ← G.map_comp, Pi.lift_comp_π, G.map_sub, G.map_comp,
-    Preadditive.comp_sub, productOverIso_hom_comp_π, ← Category.assoc,
+  rw [Pi.lift_comp_π, productOverIso_hom_comp_π, ← G.map_comp, Pi.lift_comp_π, G.map_sub,
+    G.map_comp, Preadditive.comp_sub, productOverIso_hom_comp_π, ← Category.assoc,
     productOverIso_hom_comp_π]
   rfl
 

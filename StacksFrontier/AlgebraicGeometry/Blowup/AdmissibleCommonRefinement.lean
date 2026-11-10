@@ -129,9 +129,9 @@ theorem opensRange_eq_preimage_of_isIso_pullbackSnd {U Z X : Scheme.{u}}
   have hlfst : l ≫ pullback.fst q j.opensRange.ι = s := by rw [hl, pullback.lift_fst]
   have hsurj : Function.Surjective l.base := (Scheme.homeoOfIso (asIso l)).surjective
   apply TopologicalSpace.Opens.ext
-  show Set.range s.base = q.base ⁻¹' (j.opensRange : Set X)
+  change Set.range s.base = q.base ⁻¹' (j.opensRange : Set X)
   rw [← hlfst]
-  show Set.range ((pullback.fst q j.opensRange.ι).base ∘ l.base) = _
+  change Set.range ((pullback.fst q j.opensRange.ι).base ∘ l.base) = _
   rw [Set.range_comp, Set.range_eq_univ.mpr hsurj, Set.image_univ,
     Scheme.Pullback.range_fst]
   simp
@@ -159,14 +159,14 @@ theorem isClosedImmersion_lift_of_isProper {S X₁ X₂ Y₁ Y₂ Z W : Scheme.{
     have he : m ≫ (pullback.fst f₁ f₂ ≫ f₁) =
         pullback.fst (b₁ ≫ f₁) (b₂ ≫ f₂) ≫ (b₁ ≫ f₁) := by
       rw [hm]
-      simp [pullback.map, pullback.lift_fst_assoc]
+      simp [pullback.map]
     have h' : IsSeparated (m ≫ (pullback.fst f₁ f₂ ≫ f₁)) := by
       rw [he]; infer_instance
     exact IsSeparated.of_comp m (pullback.fst f₁ f₂ ≫ f₁)
   have he : k ≫ m = c ≫ pullback.lift p₁ p₂ hp := by
     apply pullback.hom_ext <;>
-      simp [hk, hm, pullback.map, pullback.lift_fst, pullback.lift_snd,
-        pullback.lift_fst_assoc, pullback.lift_snd_assoc, h₁, h₂]
+      simp [hk, hm, pullback.map,
+        h₁, h₂]
   have _ : IsProper (k ≫ m) := by rw [he]; infer_instance
   have _ : IsProper k := IsProper.of_comp k m
   have hmono : Mono (k ≫ pullback.fst (b₁ ≫ f₁) (b₂ ≫ f₂)) := by

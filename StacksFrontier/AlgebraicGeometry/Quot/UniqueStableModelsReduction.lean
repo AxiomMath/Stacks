@@ -195,7 +195,7 @@ theorem isStableFamilyOfSchemesOfGenus_of_schemeSpace {S : Scheme.{u}} (hS : B.C
   let e : curveFamilyOfFiberDimensionLE B hZ k hflat' hproper' hlfp' hfib ≅
       ⟨integerSiteObject B hZ hS, total, toBase, hflat, hproper, hfp, hrel⟩ :=
     CurveFamily.isoMk (Iso.refl _) ε.symm (by
-      show ε.inv ≫ toBase = schemeSpaceMap k ≫ schemeSpaceMap (𝟙 _)
+      change ε.inv ≫ toBase = schemeSpaceMap k ≫ schemeSpaceMap (𝟙 _)
       rw [← hε, Iso.inv_hom_id_assoc,
         show schemeSpaceMap (𝟙 (integerSiteObject B hZ hS)) = 𝟙 _ from
           (schemeSpaceFunctor B integerBase hZ).map_id _, Category.comp_id])
@@ -309,7 +309,7 @@ theorem existsUnique_hom_of_existsIsoOfStableModels {g : ℕ}
     rw [hcb, hgm]
   have hι' : (BigFppfOver.toScheme B integerBase hZ).map (s ≫ c').baseMap =
       genericPointInclusion R K := by
-    show (BigFppfOver.toScheme B integerBase hZ).map (s.baseMap ≫ c'.baseMap) =
+    change (BigFppfOver.toScheme B integerBase hZ).map (s.baseMap ≫ c'.baseMap) =
       genericPointInclusion R K
     rw [hsb, hc'b, Category.id_comp, hgm]
   rw [hι] at hpb
@@ -375,7 +375,7 @@ theorem existsUnique_hom_of_existsIsoOfStableModels {g : ℕ}
       have h : m₀ ≫ f₁ = m₀' := by
         apply schemeSpaceMap_injective
         rw [schemeSpaceMap_comp, hm₀, hf₁, hm₀']
-        show ε₀.inv ≫ c.totalMap ≫ ε.hom ≫ ε.inv ≫ t₁.totalMap ≫ ε'.hom =
+        change ε₀.inv ≫ c.totalMap ≫ ε.hom ≫ ε.inv ≫ t₁.totalMap ≫ ε'.hom =
           ε₀.inv ≫ (s.totalMap ≫ c'.totalMap) ≫ ε'.hom
         rw [Iso.hom_inv_id_assoc, ← htot, Category.assoc]
       exact ((BigFppfOver.toScheme B integerBase hZ).map_comp m₀ f₁).symm.trans
@@ -392,7 +392,7 @@ theorem existsUnique_hom_of_existsIsoOfStableModels {g : ℕ}
     obtain ⟨f₂, hf₂t, hf₂⟩ := key t₂ ht₂ htc₂
     have hf : f₁ = f₂ :=
       Space.toScheme_map_injective B integerBase hZ
-        (@IsModelHom.eq_of_isModel_of_isSeparated _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ hmod
+        (@IsModelHom.eq_of_isModel_of_isSeparated _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ hmod
           hppr'.toIsSeparated _ _ hf₁ hf₂)
     apply CurveFamily.Hom.ext
     · exact (baseMap_eq_of_isHomLift_self t₁ _ ht₁).trans
@@ -417,7 +417,7 @@ theorem existsUnique_hom_of_existsIsoOfStableModels {g : ℕ}
       ⟨integerSiteObject B hZ hR, F't, F'tb, F'fl, F'pr, F'fp, F'rel⟩ :=
     CurveFamily.isoMk (Iso.refl _)
       (ε ≪≫ (schemeSpaceFunctor B integerBase hZ).mapIso iF ≪≫ ε'.symm) (by
-        show ε.hom ≫ schemeSpaceMap iF.hom ≫ ε'.inv ≫ F'tb =
+        change ε.hom ≫ schemeSpaceMap iF.hom ≫ ε'.inv ≫ F'tb =
           Ftb ≫ schemeSpaceMap (𝟙 (integerSiteObject B hZ hR))
         rw [show schemeSpaceMap (𝟙 (integerSiteObject B hZ hR)) = 𝟙 _ from
           (schemeSpaceFunctor B integerBase hZ).map_id _, Category.comp_id, ← hε', ← hε,
@@ -427,9 +427,9 @@ theorem existsUnique_hom_of_existsIsoOfStableModels {g : ℕ}
       ((curvesProjectionOver B hZ).map tIso.hom) tIso.hom)
   have htc : c ≫ tIso.hom = s ≫ c' := by
     apply CurveFamily.Hom.ext
-    · show c.baseMap ≫ 𝟙 _ = s.baseMap ≫ c'.baseMap
+    · change c.baseMap ≫ 𝟙 _ = s.baseMap ≫ c'.baseMap
       rw [hcb, hsb, hc'b, Category.comp_id, Category.id_comp]
-    · show c.totalMap ≫ ε.hom ≫ schemeSpaceMap iF.hom ≫ ε'.inv = s.totalMap ≫ c'.totalMap
+    · change c.totalMap ≫ ε.hom ≫ schemeSpaceMap iF.hom ≫ ε'.inv = s.totalMap ≫ c'.totalMap
       have h1 : schemeSpaceMap m₀ ≫ schemeSpaceMap iF.hom = schemeSpaceMap m₀' := by
         rw [← schemeSpaceMap_comp, hmi]
       rw [hm₀, hm₀'] at h1

@@ -97,7 +97,7 @@ variable {M N : RightModule.{w} C} {p : ℤ}
 theorem shiftMap_zero (φ : HomogeneousMap M N p) : HEq (shiftMap φ 0) φ := by
   refine homogeneousMap_heq (shift_zero M) (shift_zero N) ?_
   intro x i j e a b hab
-  show HEq ((-1 : R) ^ ((0 : ℤ) * p).natAbs •
+  change HEq ((-1 : R) ^ ((0 : ℤ) * p).natAbs •
     app φ (show i + 0 + p = j + 0 by omega) a) (app φ e b)
   rw [zero_mul, Int.natAbs_zero, pow_zero, one_smul]
   exact app_heq φ (add_zero i) (add_zero j) hab
@@ -111,7 +111,7 @@ theorem shiftMap_add (φ : HomogeneousMap M N p) (n m : ℤ) :
     rw [add_mul]; exact neg_one_pow_natAbs_add _ _
   refine homogeneousMap_heq (shift_add M n m) (shift_add N n m) ?_
   intro x i j e a b hab
-  show HEq ((-1 : R) ^ ((n + m) * p).natAbs •
+  change HEq ((-1 : R) ^ ((n + m) * p).natAbs •
       app φ (show i + (n + m) + p = j + (n + m) by omega) a)
     ((-1 : R) ^ (n * p).natAbs • ((-1 : R) ^ (m * p).natAbs •
       app φ (show i + n + m + p = j + n + m by omega) b))

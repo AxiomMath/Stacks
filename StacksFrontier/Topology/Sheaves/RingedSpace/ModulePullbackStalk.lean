@@ -307,8 +307,7 @@ theorem tensorSemilinearEquiv_smul
     (ToType (TopCat.Presheaf.stalk (C := CommRingCat.{u}) OX.obj x))
     (ToType (TopCat.Presheaf.stalk (C := Ab.{u}) (tgtMod f OY G).presheaf x))
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul m b =>
       rw [rightTensorModule_smul_tmul, tensorSemilinearEquiv_tmul, tensorSemilinearEquiv_tmul,
         rightTensorModule_smul_tmul]

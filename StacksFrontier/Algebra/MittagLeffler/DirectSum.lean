@@ -119,8 +119,7 @@ private lemma directSumLeft_apply_eq_component_rTensor {ι : Type v} [DecidableE
     (M : ι → Type v) [∀ i, AddCommGroup (M i)] [∀ i, Module R (M i)] (N : Type v)
     [AddCommGroup N] [Module R N] (x : (⨁ i, M i) ⊗[R] N) (i : ι) :
     TensorProduct.directSumLeft R R M N x i = (DirectSum.component R ι M i).rTensor N x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul m n => rw [TensorProduct.directSumLeft_tmul, LinearMap.rTensor_tmul,
       ← DirectSum.apply_eq_component]
   | add x y hx hy => simp [hx, hy]

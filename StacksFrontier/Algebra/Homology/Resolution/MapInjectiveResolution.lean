@@ -100,7 +100,7 @@ theorem singleMapHomologicalComplex_inv_app_f_zero (M : A) :
 of `I` in degree zero: the comparison of the two readings of `F(M[0])` is the identity there. -/
 theorem mapOfPreservesInjectives_ι_f_zero {M : A} (I : InjectiveResolution M) :
     (I.mapOfPreservesInjectives F).ι.f 0 = F.map (I.ι.f 0) := by
-  show (((HomologicalComplex.singleMapHomologicalComplex F (ComplexShape.up ℕ) 0).inv.app M ≫
+  change (((HomologicalComplex.singleMapHomologicalComplex F (ComplexShape.up ℕ) 0).inv.app M ≫
     (F.mapHomologicalComplex (ComplexShape.up ℕ)).map I.ι).f 0) = _
   rw [HomologicalComplex.comp_f, singleMapHomologicalComplex_inv_app_f_zero F M]
   exact Category.id_comp _

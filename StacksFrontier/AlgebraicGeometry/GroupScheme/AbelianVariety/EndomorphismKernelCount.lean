@@ -94,7 +94,7 @@ theorem exists_homMk_tangent_comp_eq (β : A ⟶ A) [IsMonHom β] (s : Spec (.of
   refine ⟨left_unit_apply_of_isMonHom A β s ▸
     tangentMap β.left A.hom A.hom β.w ((η[A]).left s) v, ?_⟩
   apply Over.OverMorphism.ext
-  show v.val ≫ β.left = _
+  change v.val ≫ β.left = _
   exact (tangentMap_fixed_apply A.hom _ β.w ((η[A]).left s)
     (left_unit_apply_of_isMonHom A β s) v).symm
 
@@ -115,7 +115,7 @@ theorem homMk_tangent_comp_endPolyEval_of_modEq (p : ℕ) [CharP k p] (α : A �
     intro j
     rcases eq_or_ne j 0 with rfl | hj
     · simp
-    · rw [coeff_sub, coeff_C, if_neg hj, sub_zero]
+    · rw [coeff_sub, coeff_C, ite_eq_right hj, sub_zero]
       exact hR j hj
   have hRS : R = C (R.coeff 0) + C (p : ℤ) * S := by rw [← hS]; ring
   have := isMonHom_endPolyEval α S
@@ -145,22 +145,22 @@ theorem aeval_postcompPoints_apply (α : A ⟶ A) [IsMonHom α] (R : ℤ[X])
   induction R using Polynomial.induction_on generalizing x with
   | C c =>
     rw [aeval_C, endPolyEval_C, GrpObj.comp_zpow, Category.comp_id]
-    show ((c : AddMonoid.End _) x) = _
+    change ((c : AddMonoid.End _) x) = _
     rw [AddMonoid.End.intCast_apply]
     rfl
   | add R S hR hS =>
     rw [map_add]
-    show (aeval (Stacks.Picard.asEnd (postcompPoints A α)) R) x +
+    change (aeval (Stacks.Picard.asEnd (postcompPoints A α)) R) x +
       (aeval (Stacks.Picard.asEnd (postcompPoints A α)) S) x = _
     rw [hR, hS, endPolyEval_add, MonObj.comp_mul]
     rfl
   | monomial n c ih =>
     have hpow : C c * Polynomial.X ^ (n + 1) = (C c * Polynomial.X ^ n) * Polynomial.X := by ring
     rw [hpow, map_mul]
-    show (aeval (Stacks.Picard.asEnd (postcompPoints A α)) (C c * Polynomial.X ^ n))
+    change (aeval (Stacks.Picard.asEnd (postcompPoints A α)) (C c * Polynomial.X ^ n))
       ((aeval (Stacks.Picard.asEnd (postcompPoints A α)) Polynomial.X) x) = _
     rw [aeval_X]
-    show (aeval (Stacks.Picard.asEnd (postcompPoints A α)) (C c * Polynomial.X ^ n))
+    change (aeval (Stacks.Picard.asEnd (postcompPoints A α)) (C c * Polynomial.X ^ n))
       (Additive.ofMul (x.toMul ≫ α)) = _
     rw [ih, endPolyEval_mul α (C c * Polynomial.X ^ n) Polynomial.X, endPolyEval_X]
     simp only [toMul_ofMul, Category.assoc]
@@ -262,7 +262,7 @@ theorem isFiniteLocallyFreeOfRank_endDegree_of_etaleAt_unit [IsAlgClosed k]
       (genericPoint_closure (α := (A.left : Type u))))⟩
   have hrank := isFiniteLocallyFreeOfRank_degreeOver β.left hgen
     (preimage_genericPoint_of_locallyQuasiFinite β.left hgen)
-  rwa [endDegree, dif_pos hdom]
+  rwa [endDegree, dite_eq_left hdom]
 
 /-- **The `k`-points of the kernel of a homomorphism étale at the identity number its degree**,
 for `k` algebraically closed: the kernel is finite étale of rank `deg β` over `k`. -/
@@ -278,7 +278,7 @@ theorem natCard_comp_eq_one_eq_endDegree_of_etaleAt_unit [IsAlgClosed k]
   have hetK : Etale (pullback.snd β.left (η[A]).left) := inferInstance
   have hone : (1 : 𝟙_ (Over (Spec (.of k))) ⟶ A) = η[A] := by
     rw [CategoryTheory.Hom.one_def]
-    show (𝟙 (Over.mk (𝟙 (Spec (.of k)))) ≫ η[A]) = η[A]
+    change (𝟙 (Over.mk (𝟙 (Spec (.of k)))) ≫ η[A]) = η[A]
     exact Category.id_comp _
   rw [hone]
   exact (Nat.card_congr (pullbackKernelPointsEquiv β (η[A]))).trans
@@ -335,10 +335,10 @@ theorem etaleAt_genericPoint_of_charZero [CharZero k] (hβ : endDegree A β ≠ 
   have := isLocallyNoetherian_left A
   have hdom : IsDominant β.left := by
     by_contra h
-    exact hβ (by rw [endDegree, dif_neg h])
+    exact hβ (by rw [endDegree, dite_eq_right h])
   have hgen : β.left (genericPoint A.left) = genericPoint A.left :=
     ((tfae_isDominant_of_isIntegral β.left).out 1 2).mp hdom
-  have hdeg : degreeOver β.left ≠ 0 := by rwa [endDegree, dif_pos hdom] at hβ
+  have hdeg : degreeOver β.left ≠ 0 := by rwa [endDegree, dite_eq_left hdom] at hβ
   have hunr : UnramifiedAt β.left (genericPoint A.left) := by
     rw [unramifiedAt_iff_formallyUnramified_stalkMap]
     refine formallyUnramified_stalkMap_genericPoint_of_dominantFunctionFieldMap β.left ?_
@@ -426,7 +426,7 @@ theorem endDegree_eq_of_isFiniteLocallyFreeOfRank (f : A ⟶ A) (d : ℕ)
     ((tfae_isDominant_of_isIntegral f.left).out 1 2).mp hdom
   have hrank := isFiniteLocallyFreeOfRank_degreeOver f.left hgen
     (preimage_genericPoint_of_locallyQuasiFinite f.left hgen)
-  rw [endDegree, dif_pos hdom]
+  rw [endDegree, dite_eq_left hdom]
   have h1 := (Stacks.Morphisms.isFiniteLocallyFreeOfRank_iff_forall_finrank_eq f.left _).mp hrank
     (genericPoint A.left)
   have h2 := (Stacks.Morphisms.isFiniteLocallyFreeOfRank_iff_forall_finrank_eq f.left d).mp hf

@@ -100,10 +100,10 @@ private theorem eval_completionQuotientAlgEquiv_mk
   simp only [adicCompletionQuotientAlgEquiv, AlgEquiv.trans_apply,
     AlgEquiv.restrictScalars_apply,
     Algebra.TensorProduct.quotIdealMapEquivTensorQuot_mk]
-  show AdicCompletion.evalₐ (I.map (algebraMap R (R ⧸ J))) n
+  change AdicCompletion.evalₐ (I.map (algebraMap R (R ⧸ J))) n
       (ofTensorProductAlgEquiv I (R ⧸ J)
         (a ⊗ₜ[R] (1 : R ⧸ J))) = _
-  show AdicCompletion.evalₐ (I.map (algebraMap R (R ⧸ J))) n
+  change AdicCompletion.evalₐ (I.map (algebraMap R (R ⧸ J))) n
       (ofTensorProductLinearEquiv I (R ⧸ J)
         (a ⊗ₜ[R] (1 : R ⧸ J))) = _
   rw [ofTensorProductLinearEquiv_tmul_eval]
@@ -200,11 +200,11 @@ private theorem eval_completionAlgEquivOfAlgEquiv
     intro m n hmn
     ext z
     simp only [AlgHom.comp_apply, AlgHom.restrictScalars_apply]
-    show Ideal.Quotient.factor (Ideal.pow_le_pow_right hmn)
+    change Ideal.Quotient.factor (Ideal.pow_le_pow_right hmn)
       (E n (AdicCompletion.evalₐ I₁ n z)) = E m (AdicCompletion.evalₐ I₁ m z)
     rw [← AdicCompletion.factor_evalₐ I₁ hmn]
     exact hE hmn _
-  show AdicCompletion.evalₐ I₂ n
+  change AdicCompletion.evalₐ I₂ n
     (AdicCompletion.liftAlgHom I₂
       (fun j => (E j).toAlgHom.comp
           ((AdicCompletion.evalₐ I₁ j).restrictScalars A)) hf x) = _
@@ -303,10 +303,10 @@ private theorem baseChangeQuotEquiv_includeLeft {S : Type*} [CommRing S] [Algebr
     (p : Ideal A) (f : S) :
     baseChangeQuotEquiv S p (Algebra.TensorProduct.includeLeftRingHom f) =
       Ideal.Quotient.mk (p.map (algebraMap A S)) f := by
-  show (Algebra.TensorProduct.quotIdealMapEquivTensorQuot S p).symm
+  change (Algebra.TensorProduct.quotIdealMapEquivTensorQuot S p).symm
     (f ⊗ₜ[A] Ideal.Quotient.mk p (1 : A)) = _
   rw [Algebra.TensorProduct.quotIdealMapEquivTensorQuot_symm_tmul]
-  show Ideal.Quotient.mk (p.map (algebraMap A S)) (1 • f) = _
+  change Ideal.Quotient.mk (p.map (algebraMap A S)) (1 • f) = _
   rw [one_smul]
 
 section
@@ -480,7 +480,7 @@ public lemma restrictedPowerSeriesBaseChangeEquiv_coefficientProjection
     ePSbar.apply_symm_apply
   apply (RestrictedPowerSeries.polynomialQuotientEquiv Ibar σ k).injective
   rw [RestrictedPowerSeries.polynomialQuotientEquiv_map_mk]
-  show RestrictedPowerSeries.polynomialQuotientProjection Ibar σ k
+  change RestrictedPowerSeries.polynomialQuotientProjection Ibar σ k
       (baseChangeChain I p n
         ((Algebra.TensorProduct.includeLeftRingHom : PS →+* (PS ⊗[A] B)) f)) =
     Ideal.Quotient.mk (Jbar ^ k) (MvPolynomial.map (Ideal.Quotient.mk p) g)
@@ -579,8 +579,7 @@ private theorem scalarTower_tensor_of_inverse_algebraMaps
     IsScalarTower E K (E ⊗[R] S) := by
   apply IsScalarTower.of_algebraMap_smul
   intro x z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul a b =>
     rw [TensorProduct.smul_tmul', TensorProduct.smul_tmul']
     congr 1
@@ -826,12 +825,12 @@ private theorem adicCompletion_reduction_equiv
   let ρ : C →+* R ⧸ I.radical := fac.comp ev
   have hmapI : Ideal.map (Ideal.Quotient.mk I) I = ⊥ := Ideal.map_quotient_self I
   have hker : RingHom.ker ρ = topologicalNilradical C := by
-    show Ideal.comap ev (RingHom.ker fac) = _
+    change Ideal.comap ev (RingHom.ker fac) = _
     rw [Ideal.Quotient.factor_ker,
       Ideal.map_radical_of_surjective Ideal.Quotient.mk_surjective
         (by rw [Ideal.mk_ker]), hmapI,
       Ideal.comap_radical]
-    show (Ideal.comap ev ⊥).radical = _
+    change (Ideal.comap ev ⊥).radical = _
     rw [← RingHom.ker_eq_comap_bot, AdicCompletion.ker_evalOneₐ_eq_map I
       I.fg_of_isNoetherianRing, ← hradC]
   have hsurj : Function.Surjective ρ := by
@@ -845,7 +844,7 @@ private theorem adicCompletion_reduction_equiv
     (Ideal.quotEquivOfEq hker.symm).trans e0
   refine ⟨e, ?_⟩
   intro r
-  show e (Ideal.Quotient.mk (topologicalNilradical C)
+  change e (Ideal.Quotient.mk (topologicalNilradical C)
     (algebraMap R C r)) = _
   simp only [e, e0, RingEquiv.trans_apply, Ideal.quotEquivOfEq_mk,
     RingHom.quotientKerEquivOfSurjective_apply_mk]
@@ -936,7 +935,7 @@ public theorem exists_isClosedPointAwayFrom_completedAway_comap_of_isAdic
     (htfae.out 2 8).mp hcondition2
   let : IsLocalRing (B ⧸ q) := hlocal.choose
   have htaut : RingHom.IsTaut φ :=
-    RingHom.isTaut_of_isAdic φ hφ ⟨I, hIadic, hJadic⟩
+    RingHom.isTaut_of_isAdic φ ⟨I, hIadic, hJadic⟩
   have hred :=
     isFiniteTypeOnReductions_of_isTaut_of_isTopologicallyOfFiniteType
       φ hφ hA.1 htaut hft
@@ -1026,13 +1025,13 @@ public theorem exists_isClosedPointAwayFrom_completedAway_comap_of_isAdic
       rw [Ideal.map_map, Ideal.map_map]
       congr 1
       ext x
-      show φf (algebraMap A A_loc x) = algebraMap B B_loc (φ x)
+      change φf (algebraMap A A_loc x) = algebraMap B B_loc (φ x)
       dsimp [φf, IsLocalization.Away.map]
       apply IsLocalization.map_eq
     have hmap : I_hat.map ψ = J_hat' := by
       calc
         I_hat.map ψ = I_f.map (ψ.comp (algebraMap A_loc A_f)) := by
-          show (I_f.map (algebraMap A_loc A_f)).map ψ = _
+          change (I_f.map (algebraMap A_loc A_f)).map ψ = _
           exact Ideal.map_map (algebraMap A_loc A_f) ψ
         _ = I_f.map ((algebraMap B_loc (CompletedAway J (φ f))).comp φf) := by
           rw [hcomp]
@@ -1041,7 +1040,7 @@ public theorem exists_isClosedPointAwayFrom_completedAway_comap_of_isAdic
             (algebraMap B_loc (CompletedAway J (φ f)))).symm
         _ = J_hat' := by rw [hIlocal]
     have hψcont : Continuous ψ := by
-      show @Continuous A_f (CompletedAway J (φ f))
+      change @Continuous A_f (CompletedAway J (φ f))
         I_hat.adicTopology J_hat'.adicTopology ψ
       apply continuous_adic_of_map_le I_hat J_hat' ψ
       rw [hmap]
@@ -1079,14 +1078,14 @@ public theorem exists_isClosedPointAwayFrom_completedAway_comap_of_isAdic
     have heA (x : A_loc) :
         eA (Ideal.Quotient.mk nilAhat (algebraMap A_loc A_f x)) =
           Ideal.Quotient.mk aLoc x := by
-      show (Ideal.quotEquivOfEq hradIlocal)
+      change (Ideal.quotEquivOfEq hradIlocal)
         (eA0 (Ideal.Quotient.mk nilAhat (algebraMap A_loc A_f x))) = _
       rw [heA0, Ideal.quotEquivOfEq_mk]
     have heB (x : B_loc) :
         eB (Ideal.Quotient.mk nilBhat
           (algebraMap B_loc (CompletedAway J (φ f)) x)) =
           Ideal.Quotient.mk bLoc x := by
-      show (Ideal.quotEquivOfEq hradJlocal)
+      change (Ideal.quotEquivOfEq hradJlocal)
         (eB0 (Ideal.Quotient.mk nilBhat
           (algebraMap B_loc (CompletedAway J (φ f)) x))) = _
       rw [heB0, Ideal.quotEquivOfEq_mk]
@@ -1134,13 +1133,13 @@ public theorem exists_isClosedPointAwayFrom_completedAway_comap_of_isAdic
     let : Algebra A SA := Algebra.compHom SA (algebraMap A A_loc)
     let : Algebra B SB := Algebra.compHom SB (algebraMap B B_loc)
     have hmapA (x : A) : iotaA (Ideal.Quotient.mk a x) = algebraMap A SA x := by
-      show iotaA (Ideal.Quotient.mk a x) =
+      change iotaA (Ideal.Quotient.mk a x) =
         Ideal.Quotient.mk aLoc (algebraMap A A_loc x)
       exact RingHom.congr_fun (Ideal.quotientMap_comp_mk
         (J := a) (I := aLoc) (f := algebraMap A A_loc)
         (fun _ hx => Ideal.mem_map_of_mem (algebraMap A A_loc) hx)) x
     have hmapB (x : B) : iotaB (Ideal.Quotient.mk b x) = algebraMap B SB x := by
-      show iotaB (Ideal.Quotient.mk b x) =
+      change iotaB (Ideal.Quotient.mk b x) =
         Ideal.Quotient.mk bLoc (algebraMap B B_loc x)
       exact RingHom.congr_fun (Ideal.quotientMap_comp_mk
         (J := b) (I := bLoc) (f := algebraMap B B_loc)
@@ -1202,7 +1201,7 @@ public theorem exists_isClosedPointAwayFrom_completedAway_comap_of_isAdic
       intro x
       obtain ⟨z, hz⟩ := Ideal.Quotient.mk_surjective (I := aLoc) (eA x)
       refine ⟨z, eA.injective ?_⟩
-      show eA (Ideal.Quotient.mk nilAhat
+      change eA (Ideal.Quotient.mk nilAhat
         (algebraMap A_loc A_f z)) = eA x
       rw [heA]
       exact hz
@@ -1216,12 +1215,12 @@ public theorem exists_isClosedPointAwayFrom_completedAway_comap_of_isAdic
         obtain ⟨z, rfl⟩ := hsurjA' x
         apply eB.injective
         simp only [RingHom.comp_apply]
-        show eB (redψ (Ideal.Quotient.mk nilAhat
+        change eB (redψ (Ideal.Quotient.mk nilAhat
           (algebraMap A_loc A_f z))) =
           eB (eB.symm (u (eA (Ideal.Quotient.mk nilAhat
             (algebraMap A_loc A_f z)))))
         rw [RingEquiv.apply_symm_apply]
-        show eB (Ideal.Quotient.mk nilBhat
+        change eB (Ideal.Quotient.mk nilBhat
           (ψ (algebraMap A_loc A_f z))) = _
         rw [heA]
         have hψz : ψ (algebraMap A_loc A_f z) =
@@ -1322,7 +1321,7 @@ public theorem exists_isClosedPointAwayFrom_completedAway_comap_of_isAdic
         η (Ideal.Quotient.mk nilAhat
             (algebraMap A_loc A_f (algebraMap A A_loc x))) =
             eκ (χ (Ideal.Quotient.mk a x)) := by
-          show eκ (vκ (eA (Ideal.Quotient.mk nilAhat
+          change eκ (vκ (eA (Ideal.Quotient.mk nilAhat
             (algebraMap A_loc A_f (algebraMap A A_loc x)))) ) = _
           rw [heA, hleft]
         _ = IsLocalRing.residue (B_f ⧸ q')

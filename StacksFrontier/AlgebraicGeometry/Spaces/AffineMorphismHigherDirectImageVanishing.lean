@@ -44,8 +44,8 @@ The degree is a natural number `n` with `0 < n`, in the injective-resolution con
 itself, which does not vanish.  The module universe is the universe `u` of the structure rings,
 because `AlgebraicGeometry.Space.modulePushforward` exists only there.  The local priority raise
 of `SheafOfModules.instAbelian` is the one of
-`StacksFrontier/AlgebraicGeometry/Spaces/AffineHigherPushforwardVanishing.lean`; enough injectives at
-the module universe `u` is supplied by name, `AlgebraicGeometry.Space.enoughInjectives_modules`,
+`StacksFrontier/AlgebraicGeometry/Spaces/AffineHigherPushforwardVanishing.lean`; enough injectives
+at the module universe `u` is supplied by name, `AlgebraicGeometry.Space.enoughInjectives_modules`,
 since instance search otherwise commits to a candidate at the module universe `max (u + 1) w`.
 
 ## References

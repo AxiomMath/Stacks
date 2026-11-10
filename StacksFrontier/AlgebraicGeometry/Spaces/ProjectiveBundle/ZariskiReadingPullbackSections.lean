@@ -186,11 +186,44 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} {T T' : BigF
 
 open Stacks.AlgebraicGeometry.RelativeProjQcohSheaf (ringedSpaceHom)
 
+set_option maxHeartbeats 400000 in
+-- The statement and the proof each elaborate the long composite term once.
 /-- The conjugate of `representedSquareModulePullbackIso` as the composite of the comparisons of
 direct images round the square of `h`, as a term whose type fixes the spelling of the categories
 of modules. -/
-def conjugateEquivRepresentedSquareAux :=
-  Adjunction.conjugateEquiv_factorizationIso_hom_equivalence
+theorem conjugateEquivRepresentedSquareAux :
+    type_of% (Adjunction.conjugateEquiv_factorizationIso_hom_equivalence
+      (pullbackAdjPushforwardModules (representedSquareHom B S hS h))
+      (pullbackAdjPushforwardModules (representedSchemeBaseChangeHom B S hS h))
+      (pullbackAdjPushforwardModules (representedReindexHom B S hS T'))
+      (pullbackAdjPushforwardModules (representedReindexHom B S hS T))
+      (pullbackAdjPushforwardModules
+        (smallEtaleRingedToposModulesHom B S hS (representedSpaceMap B S hS h)))
+      (smallEtaleRingedSiteHom (associatedBigEtaleSite B)
+        h.left).toRingedToposSiteHom.pullbackPushforwardAdjunctionToposGeneral
+      (representedReindexEquivalence B S hS T) (representedReindexEquivalence B S hS T')
+      (representedSchemeRoutePullbackCompIso B S hS h)
+      (representedSpaceRoutePullbackCompIso B S hS h (relativelyRepresentable_yoneda_map B S hS h))
+      (pushforwardModulesCompIso (representedReindexHom B S hS T')
+        (representedSchemeBaseChangeHom B S hS h) (representedSquareHom B S hS h) (Iso.refl _)
+        (fSharpSetComp_representedSquareHom B S hS h))
+      (pushforwardModulesCompIso
+        (smallEtaleRingedToposModulesHom B S hS (representedSpaceMap B S hS h))
+        (representedReindexHom B S hS T) (representedSquareHom B S hS h)
+        (representedSquareDirectImageIso B S hS h (relativelyRepresentable_yoneda_map B S hS h))
+        (fSharpSetComp_representedSquareDirectImageIso B S hS h
+          (relativelyRepresentable_yoneda_map B S hS h)))
+      (representedSchemeBaseChangePullbackIso B S hS h)
+      (representedReindexPullbackIso B S hS T') (representedReindexPullbackIso B S hS T)
+      (representedSchemeBaseChangePushforwardIso B S hS h)
+      (representedReindexPushforwardIso B S hS T') (representedReindexPushforwardIso B S hS T)
+      (conjugateEquiv_representedSchemeRoutePullbackCompIso_hom B S hS h)
+      (conjugateEquiv_representedSpaceRoutePullbackCompIso_hom B S hS h
+        (relativelyRepresentable_yoneda_map B S hS h))
+      (conjugateEquiv_pullbackModulesBaseChangeIso_hom B S hS h)
+      (conjugateEquiv_representedReindexPullbackIso_hom B S hS T')
+      (conjugateEquiv_representedReindexPullbackIso_hom B S hS T)) := by
+  have key := Adjunction.conjugateEquiv_factorizationIso_hom_equivalence
     (pullbackAdjPushforwardModules (representedSquareHom B S hS h))
     (pullbackAdjPushforwardModules (representedSchemeBaseChangeHom B S hS h))
     (pullbackAdjPushforwardModules (representedReindexHom B S hS T'))
@@ -221,6 +254,7 @@ def conjugateEquivRepresentedSquareAux :=
     (conjugateEquiv_pullbackModulesBaseChangeIso_hom B S hS h)
     (conjugateEquiv_representedReindexPullbackIso_hom B S hS T')
     (conjugateEquiv_representedReindexPullbackIso_hom B S hS T)
+  exact key
 
 /-- **The conjugate of `representedSquareModulePullbackIso`** is the composite of the comparisons
 of direct images round the square of `h`. -/

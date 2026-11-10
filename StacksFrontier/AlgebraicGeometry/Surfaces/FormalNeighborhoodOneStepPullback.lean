@@ -45,7 +45,9 @@ content of [Stacks, Tag 0C2K] — factors into two halves:
 
 The first is reachable by covering `X` by affine opens and gluing, because over an affine open the
 unit *is* surjective on sections — `Stacks.Divisors.surjective_unit_app_negativeTwist` below,
-which is the ingredient the implementation notes of `StacksFrontier/AlgebraicGeometry/Divisors/EffectiveCartier/SumSequenceMultiplication.lean` call for,
+which is the ingredient the implementation notes of
+`StacksFrontier/AlgebraicGeometry/Divisors/EffectiveCartier/SumSequenceMultiplication.lean`
+call for,
 and which is a two-line consequence of
 `Stacks.ClosedImmersion.epi_unit_app`,
 `Stacks.Divisors.isQuasicoherent_pushforward_pullback_negativeTwist` and
@@ -78,7 +80,8 @@ and the two failures are worth recording because each looks like a fixable synta
   but a rewrite whose motive crosses them is not type-correct at `implicit` transparency and fails
   with an application type mismatch naming `negativeTwist (D ^ d)` at one index and the other.
   `congrArg` with an explicitly written function does cross it. The same is recorded for the same
-  reason in the implementation notes of `StacksFrontier/AlgebraicGeometry/Divisors/EffectiveCartier/SumSequenceMultiplication.lean`.
+  reason in the implementation notes of
+  `StacksFrontier/AlgebraicGeometry/Divisors/EffectiveCartier/SumSequenceMultiplication.lean`.
 * Reassociating *after* crossing to sections exhausts the kernel. Evaluating the composite below on
   a local pure tensor and matching it against
   `Stacks.Divisors.app_idealTensorMul_comp_unit_comp_thickeningKernelMap_tmul_mul` by definitional

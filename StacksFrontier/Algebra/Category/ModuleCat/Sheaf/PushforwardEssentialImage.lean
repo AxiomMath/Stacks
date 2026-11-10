@@ -83,13 +83,16 @@ independent proofs. The two inputs the converse might seem to need are handled a
   rings `O'/I` is constructed, and the `SheafOfModules.kerIdeal` shortcut is not used either.
   (Stacks 0930 is the *full-faithfulness* half, not this one.)
 * the reconstruction of a sheaf of modules from an internal module object was **bypassed, not
-  supplied**: no declaration of that shape exists in the library. Both completions avoid internal module objects entirely, by
+  supplied**: no declaration of that shape exists in the library. Both completions avoid internal
+  module objects entirely, by
   descending along the *unit* or the *counit* of `i^{-1} ⊣ i_*` instead:
   `Stacks.Sheaves.PushforwardEssentialImage.essImage_pushforwardModuleFunctor` of
-  `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/PushforwardEssentialImageDirect/ModuleDescent.lean` inverts the unit on the
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/PushforwardEssentialImageDirect/ModuleDescent.lean`
+  inverts the unit on the
   essential image, and
   `Stacks.Sheaves.PushforwardEssentialImage.essSurj_pushforwardModuleFunctor` of
-  `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/PushforwardEssentialSurjectivity.lean` restricts scalars along the inverse of the
+  `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/PushforwardEssentialSurjectivity.lean` restricts
+  scalars along the inverse of the
   ring-level counit. So `CategoryTheory.Functor.FullyFaithful.moduleObj` is never needed, and the
   missing bridge out of `pullbackModuleObj`/`pushforwardModuleObj` is never on the path.
 
@@ -97,16 +100,19 @@ The resulting unconditional statements, both of which consume
 `moduleSheaf_mem_essImage_pushforward` above as their closed-immersion input, are
 
 * `Stacks.Sheaves.PushforwardEssentialImage.essImage_pushforwardModules_iff_of_isClosedImmersion`
-  of `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/PushforwardEssentialSurjectivity.lean`, which carries
+  of `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/PushforwardEssentialSurjectivity.lean`, which
+  carries
   the Stacks 08M3 registration under the key `essential_image`, with
   `essImage_pushforwardModules_iff_of_epi_forget` beside it stating the same thing under Stacks'
   own surjectivity hypothesis (an epimorphism of the underlying sheaves of sets);
 * `Stacks.Sheaves.PushforwardEssentialImage.essImage_pushforwardModules_iff` of
-  `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/PushforwardEssentialImageDirect/Criterion.lean`, an independent proof.
+  `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/PushforwardEssentialImageDirect/Criterion.lean`,
+  an independent proof.
 
 The reduction that combines this file's forward half with the restriction-of-scalars half,
 conditionally on essential surjectivity, is `essImage_pushforwardModules_iff_of_essSurj` of
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/PushforwardEssentialImageReduction.lean`; the other two clauses of Stacks 08M3 are
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/PushforwardEssentialImageReduction.lean`; the other
+two clauses of Stacks 08M3 are
 proved as well, exactness as `AlgebraicGeometry.ClosedRingedImmersion.pushforwardModules_exact`
 and full faithfulness as
 `AlgebraicGeometry.ClosedRingedImmersion.pushforwardModules_fullyFaithful`.

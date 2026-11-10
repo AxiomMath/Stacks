@@ -56,7 +56,7 @@ theorem hasGorensteinCurveFibres_of_syntomicOfRelativeDimension {X S : Scheme.{u
   intro x
   have hloc : LocallyOfFinitePresentation f := locallyOfFinitePresentation hf.1
   have : LocallyOfFiniteType (f.fiberToSpecResidueField (f x)) := by
-    show LocallyOfFiniteType (pullback.snd f (S.fromSpecResidueField (f x)))
+    change LocallyOfFiniteType (pullback.snd f (S.fromSpecResidueField (f x)))
     infer_instance
   have hd := topologicalKrullDimAt_fiber_eq_of_forall f hf.2 (f x)
   refine ⟨isGorenstein_fiber_of_syntomic hf.1 (f x),

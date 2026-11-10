@@ -91,7 +91,7 @@ theorem exists_d_eq_of_isZero_homology (M : DifferentialGradedModule.{u, u, u} A
   rw [ShortComplex.moduleCat_exact_iff] at he'
   obtain ⟨y, hy⟩ := he' (show M.grading n from ⟨x, hx⟩) (by
     apply Subtype.ext
-    show ((M.toCochainComplex.d n (n + 1)) (show M.grading n from ⟨x, hx⟩) :
+    change ((M.toCochainComplex.d n (n + 1)) (show M.grading n from ⟨x, hx⟩) :
       M.grading (n + 1)).val = (0 : M.grading (n + 1)).val
     rwa [toCochainComplex_d_val M n (n + 1) rfl])
   refine ⟨(show M.grading (n - 1) from y).val, y.property, ?_⟩
@@ -137,7 +137,7 @@ theorem directSumInj_directSumToProduct_product_π (i j : ι) (hij : j ≠ i) :
     directSumInj f i ≫ directSumToProduct f ≫ product.π f j = 0 := by
   rw [product_π_directSumToProduct]
   refine Hom.ext (LinearMap.ext fun x => ?_)
-  show (DirectSum.lof R ι (fun k => (f k).M) i x) j = 0
+  change (DirectSum.lof R ι (fun k => (f k).M) i x) j = 0
   rw [DirectSum.lof_eq_of, DirectSum.of_eq_of_ne _ _ _ hij]
 
 omit [DecidableEq ι] in

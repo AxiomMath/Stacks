@@ -163,7 +163,7 @@ public theorem isBirational_of_isIso_morphismRestrict_of_genericPoint_mem
     rw [hx'eq] at h2
     exact (h2.antisymm (genericPoint_specializes _)).eq
   have hmem : genericPoint X ∈ f ⁻¹ᵁ W := by
-    show f.base (genericPoint X) ∈ W
+    change f.base (genericPoint X) ∈ W
     rw [hgen]
     exact hηY
   refine isBirational_of_isIso_morphismRestrict f W hiso ?_ ?_

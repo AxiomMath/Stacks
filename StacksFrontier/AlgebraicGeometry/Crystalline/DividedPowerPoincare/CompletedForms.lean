@@ -293,8 +293,7 @@ private def dividedPowerDifferentialsQuotientInfEquiv
     intro y hy
     obtain ⟨z, rfl⟩ := N.mkQ_surjective y
     clear hy
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simpa only [map_add] using add_mem hx hy
     | tmul b x =>
         have hx : x ∈ Submodule.span B (Set.range d₀) := by

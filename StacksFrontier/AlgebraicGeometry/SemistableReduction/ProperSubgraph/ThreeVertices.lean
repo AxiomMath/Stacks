@@ -534,7 +534,7 @@ public theorem exists_ordering_of_three_minus_two_indices
             T.multiplicity (v 0) + T.multiplicity (v 2) ≤
               2 * T.multiplicity (v 1) ∧
             T.multiplicity (v 1) ≤ T.multiplicity (v 2))) := by
-  show ∃ v : Fin 3 → Fin T.componentCount,
+  change ∃ v : Fin 3 → Fin T.componentCount,
     Function.Injective v ∧ Set.range v = {i, j, k} ∧ PathConclusion T v
   rcases hintersections with hijik | hijjk | hikjk
   · have hikpos : 0 < T.intersection i k :=

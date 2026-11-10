@@ -79,7 +79,7 @@ theorem exists_isRegularMeromorphicSection_of_iso (X : Scheme.{u}) (L : X.Module
     (e : SheafOfModules.unit X.totalQuotientRingCatSheaf ≅ meromorphicSectionSheaf X.sheaf L) :
     ∃ s : MeromorphicSection X.sheaf L, IsRegularMeromorphicSection X.sheaf L s := by
   refine ⟨(meromorphicSectionSheaf X.sheaf L).unitHomEquiv e.hom, ?_⟩
-  show Mono ((meromorphicSectionSheaf X.sheaf L).unitHomEquiv.symm
+  change Mono ((meromorphicSectionSheaf X.sheaf L).unitHomEquiv.symm
     ((meromorphicSectionSheaf X.sheaf L).unitHomEquiv e.hom))
   simpa only [Equiv.symm_apply_apply] using (inferInstance : Mono e.hom)
 

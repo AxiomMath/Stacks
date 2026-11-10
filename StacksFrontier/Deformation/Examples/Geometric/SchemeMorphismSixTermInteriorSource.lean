@@ -178,7 +178,7 @@ theorem comp_deformationAmbientToBase_iff
     (α : P.scheme ⟶ P.scheme) :
     α ≫ deformationAmbientToBase P e = deformationAmbientToBase P e ↔
       α ≫ P.toBase = P.toBase := by
-  show α ≫ P.toBase ≫ baseSpecMap e = P.toBase ≫ baseSpecMap e ↔ _
+  change α ≫ P.toBase ≫ baseSpecMap e = P.toBase ≫ baseSpecMap e ↔ _
   rw [← Category.assoc]
   exact cancel_mono (baseSpecMap e)
 

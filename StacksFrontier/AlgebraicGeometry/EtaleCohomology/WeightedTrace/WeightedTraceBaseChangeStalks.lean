@@ -10,8 +10,8 @@ Let `f : X ⟶ Y` be a locally quasi-finite morphism of a big étale site and le
 integer-valued function on `X`. The trace map of Stacks 0GKG is characterised by its behaviour on
 geometric stalks, the predicate
 `AlgebraicGeometry.SmallEtale.HasWeightedTraceStalks` of
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.WeightedTrace.WeightedTraceConstruction`. This file
-collects stalkwise facts comparing that behaviour across a cartesian square, as in part (2) of
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.WeightedTrace.WeightedTraceConstruction`. This
+file collects stalkwise facts comparing that behaviour across a cartesian square, as in part (2) of
 Stacks 0GKH.
 
 Three things are provided. First, a summandwise criterion for the characterising property, so that
@@ -98,7 +98,7 @@ public theorem hasWeightedTraceStalks_of_fiberStalkOf (w : X.obj → ℤ)
       (z : ↑(etaleStalk B X.obj X.property (x.toGeometricPoint B f s)
         ((abPullback.{u, v} B f).obj F).obj)),
       (colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op τ.1))
+          (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op τ.1))
         ((fShriekStalkIso.{u, v} B f s ((abPullback.{u, v} B f).obj F)).inv
           (fiberStalkOf.{u, v} B f s ((abPullback.{u, v} B f).obj F) x z)) =
         w (x.1 default) • (fiberPointPullbackStalkIso.{u, v} B f s F x).hom z) :
@@ -147,7 +147,7 @@ public theorem fiberPointBaseChange_weight (sq : IsPullback p f' f g) (w : X.obj
     (t : GeometricPoint Y'.obj) (x : GeometricFiberPoint B f' t) :
     (w ∘ B.inclusion.map p) (x.1 default) =
       w ((fiberPointBaseChange B p f' f g sq t x).1 default) := by
-  show w ((B.inclusion.map p) (x.1 default)) =
+  change w ((B.inclusion.map p) (x.1 default)) =
     w ((x.1 ≫ B.inclusion.map p) default)
   rw [Scheme.Hom.comp_apply]
 

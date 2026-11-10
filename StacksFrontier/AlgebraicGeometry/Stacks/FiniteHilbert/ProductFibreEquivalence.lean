@@ -317,13 +317,13 @@ theorem isIso_fibreObjectHom (T : Over P.U.left)
     (ψ : (productFibrePresheafSource (F := F) P y hy yZ hyZ).obj (op T)) :
     IsIso (fibreObjectHom P y hy yZ hyZ φ hφ T ψ) := by
   have h₁ : IsIso (fibreObjectHom P y hy yZ hyZ φ hφ T ψ).hbase := by
-    show IsIso (eqToHom (((productFamily P y hy).obj T).hx).symm)
+    change IsIso (eqToHom (((productFamily P y hy).obj T).hx).symm)
     infer_instance
   have h₂ : IsIso (fibreObjectHom P y hy yZ hyZ φ hφ T ψ).a := by
-    show IsIso (𝟙 ((productFamily P y hy).obj T).x)
+    change IsIso (𝟙 ((productFamily P y hy).obj T).x)
     infer_instance
   have h₃ : IsIso (fibreObjectHom P y hy yZ hyZ φ hφ T ψ).b := by
-    show IsIso (𝟙 ((productFamily P y hy).obj T).y)
+    change IsIso (𝟙 ((productFamily P y hy).obj T).y)
     infer_instance
   exact isIso_twoFibreProductOver_hom (fibreObjectHom P y hy yZ hyZ φ hφ T ψ)
 
@@ -846,7 +846,7 @@ theorem isHomLift_fibreObjSectionVal :
       (productFamilyTargetArrow P y hy yZ hyZ φ hφ R.x) h₁ _ _
       (𝟙 ((productFamily P y hy).obj R.x).x.Z) ((productFamily P y hy).obj R.x).x.q
       (Category.id_comp _).symm (fibreObjAlpha (F := F) P y hy R) h₂
-  show 𝒴.toBasedCategory.p.IsHomLift
+  change 𝒴.toBasedCategory.p.IsHomLift
     (𝟙 ((Over.map P.Z.hom).obj ((productFamilyCover P y hy).obj R.x)))
     (fibreObjSectionVal (F := F) P y hy yZ hyZ φ hφ R)
   rw [productFamilyCover_base_obj P y hy R.x]
@@ -943,12 +943,12 @@ theorem isIso_fibreObjMap : IsIso (fibreObjMap (F := F) P y hy yZ hyZ φ hφ R) 
 /-- `AlgebraicGeometry.Stack.fibreObjHom` is an isomorphism. -/
 theorem isIso_fibreObjHom : IsIso (fibreObjHom (F := F) P y hy yZ hyZ φ hφ R) := by
   have h₁ : IsIso (fibreObjHom (F := F) P y hy yZ hyZ φ hφ R).hbase := by
-    show IsIso (eqToHom (R.hx.symm.trans (objUniversalFamily_base_obj
+    change IsIso (eqToHom (R.hx.symm.trans (objUniversalFamily_base_obj
       isFiberedInGroupoids_absoluteHilbertTargetProductProjection
       (productPoint P y hy) R.x).symm))
     infer_instance
   have h₂ : IsIso (fibreObjHom (F := F) P y hy yZ hyZ φ hφ R).a := by
-    show IsIso (𝟙 R.x)
+    change IsIso (𝟙 R.x)
     infer_instance
   have h₃ : IsIso (fibreObjHom (F := F) P y hy yZ hyZ φ hφ R).b :=
     isIso_fibreObjMap (F := F) P y hy yZ hyZ φ hφ R

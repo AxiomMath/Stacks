@@ -358,7 +358,7 @@ private def ringSectionsEquiv {J : Type v} [Category J]
 private def derivativeGlobalSectionsIso (K : Type u) [CommRing K] (α : Type u) :
     (derivativeSchemeDiagram K α).op ⋙ Scheme.Γ ≅
       derivativeFunctor K (sparseEmbeddingSystem α) :=
-  NatIso.ofComponents (fun s => Scheme.ΓSpecIso _) fun f =>
+  NatIso.ofComponents (fun _ => Scheme.ΓSpecIso _) fun f =>
     Scheme.ΓSpecIso_naturality ((derivativeFunctor K (sparseEmbeddingSystem α)).map f)
 
 private theorem derivativeGlobalSections_isField (K : Type u) [Field K] [CharZero K]
@@ -387,10 +387,10 @@ private def ringSectionsUliftEquiv {I : Type u} [Preorder I]
   invFun x := ⟨fun j => x.val (op j.unop.down), fun {i j} f =>
     x.property (homOfLE (show j.unop.down ≤ i.unop.down
       from (leOfHom f.unop : j.unop ≤ i.unop))).op⟩
-  left_inv x := rfl
-  right_inv x := rfl
-  map_mul' x y := rfl
-  map_add' x y := rfl
+  left_inv _ := rfl
+  right_inv _ := rfl
+  map_mul' _ _ := rfl
+  map_add' _ _ := rfl
 
 private theorem liftedDerivativeGlobalSections_isField
     (K : Type u) [Field K] [CharZero K] (α : Type u) [Uncountable α] :

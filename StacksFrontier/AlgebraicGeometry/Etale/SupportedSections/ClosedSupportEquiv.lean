@@ -152,7 +152,7 @@ private theorem supportedSection_restrict_eq_on_branch_overlap
   let N : ((SmallEtale.toScheme B S hS).obj W).Opens :=
     ⟨(A ∪ D)ᶜ, (hAclosed.union hDclosed).isOpen_compl⟩
   have hmap : aS ≫ qS = bS ≫ qS := by
-    show (SmallEtale.toScheme B S hS).map (a' ≫ q) =
+    change (SmallEtale.toScheme B S hS).map (a' ≫ q) =
       (SmallEtale.toScheme B S hS).map (b' ≫ q)
     exact congrArg (SmallEtale.toScheme B S hS).map (by simpa [a', b', jO] using hab)
   let k := pullback.lift aS bS hmap

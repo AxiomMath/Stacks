@@ -73,7 +73,8 @@ and `Stacks.EtaleCohomology.finite_ext_X₂_of_shortExact` of
 `Stacks.EtaleCohomology.etaleCohomologyRestrictionMap_bijective_of_shortExact` of
 `StacksFrontier/AlgebraicGeometry/EtaleCohomology/ProperBaseChange/AlgClosedCase.lean` and
 `Stacks.EtaleCohomology.surjective_etaleCohomologyRestrictionMap_X₂_of_shortExact` of
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/ProperBaseChange/RestrictionLongExactSequence.lean`
+`RestrictionLongExactSequence.lean` (in the same directory
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/ProperBaseChange/`)
 — and they are what the implication "the statements for `j_! j^{-1} F` give the statements for
 `F`" is built from. The opposite implication needs the same transfers towards the *sub-object*,
 which did not exist, and the first half of this file supplies them. Each is a window of the same
@@ -419,6 +420,7 @@ theorem surjective_etaleCohomologyRestrictionMap_X₁_of_shortExact (hS : S.Shor
   simp
 
 set_option maxHeartbeats 800000 in
+-- the sixteen implications are assembled in one large term over the long exact sequences
 /-- **The eight statements of Situation 0A52 for the middle term and for the subsheaf of a short
 exact sequence agree**, once the cohomology of the quotient sheaf is known: it vanishes in
 positive degrees, is finite in degree zero, and restriction along `f` is bijective on it in every

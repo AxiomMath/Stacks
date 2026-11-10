@@ -81,7 +81,7 @@ theorem baseModule_eq_instModule (f : X ⟶ S) (F : X.Modules) :
       ↑Γ((Scheme.Modules.pushforward f).obj F, (⊤ : S.Opens))) :=
   Module.ext (by
     funext r a
-    show (Scheme.Hom.appLE f ⊤ ⊤ (le_preimage_top f ⊤)).hom r •
+    change (Scheme.Hom.appLE f ⊤ ⊤ (le_preimage_top f ⊤)).hom r •
         (show Γ(F, (⊤ : X.Opens)) from a)
       = r • (show Γ((Scheme.Modules.pushforward f).obj F, (⊤ : S.Opens)) from a)
     exact (congrArg (fun t : Γ(S, (⊤ : S.Opens)) ⟶ Γ(X, f ⁻¹ᵁ (⊤ : S.Opens)) =>
@@ -213,10 +213,7 @@ theorem isIso_baseChangeNatTrans_of_isAffineBases (H : IsPullback g' f' f g)
   have hcomp : ∀ x, (((AffinePushforward.baseChangeNatTrans H.w).app F).app
       (⊤ : S'.Opens)).hom (e₀ x) = e x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero =>
-        exact ((congrArg (fun z => (((AffinePushforward.baseChangeNatTrans H.w).app F).app
-          (⊤ : S'.Opens)).hom z) e₀.map_zero).trans (map_zero _)).trans e.map_zero.symm
+    induction x using TensorProduct.inductionOn with
     | tmul b a =>
         rw [he₀ b a]
         exact ((Scheme.Modules.Hom.app_smul

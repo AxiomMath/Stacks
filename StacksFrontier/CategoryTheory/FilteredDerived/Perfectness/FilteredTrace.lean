@@ -180,14 +180,14 @@ private theorem exists_filtered_representative_map (R : Type u) [Ring R]
   let X : (CochainComplex.FilteredDerivedCategory.Kminus (𝒜 := A)).FullSubcategory :=
     ⟨qP, CochainComplex.FilteredDerivedCategory.kminus_quotient_obj n⟩
   have hX : filteredProjectiveMinus A X := by
-    show (filteredProjectiveMinusC A).strictMap
+    change (filteredProjectiveMinusC A).strictMap
       (HomotopyCategory.quotient _ _) qP
     exact ObjectProperty.strictMap.mk _ ⟨⟨n, hn⟩, hproj⟩
   let Y : (filteredProjectiveMinus A).FullSubcategory := ⟨X, hX⟩
   let F := filteredProjectiveMinusToDerivedMinus A
   let : F.IsEquivalence := filteredProjectiveMinusToDerivedMinus_isEquivalence A
   let ψ : F.obj Y ⟶ F.obj Y := ObjectProperty.homMk (by
-    show (CochainComplex.FilteredDerivedCategory.Qh).obj qP ⟶
+    change (CochainComplex.FilteredDerivedCategory.Qh).obj qP ⟶
       (CochainComplex.FilteredDerivedCategory.Qh).obj qP
     exact φ)
   have hψ : (CochainComplex.FilteredDerivedCategory.minus A).ι.map ψ = φ := rfl
@@ -359,9 +359,9 @@ private theorem alternatingTrace_forget_eq_sum_grP (R : Type u) [Ring R]
           (finsum_comp_equiv (Equiv.prodComm ℤ ℤ) (f := t)).symm
         _ = ∑ᶠ p : ℤ, ∑ᶠ i : ℤ, t (i, p) :=
           finsum_curry (fun x : ℤ × ℤ => t (x.2, x.1)) (by
-            show Function.HasFiniteSupport (fun x : ℤ × ℤ =>
+            change Function.HasFiniteSupport (fun x : ℤ × ℤ =>
               t (Equiv.prodComm ℤ ℤ x))
-            show ((Equiv.prodComm ℤ ℤ) ⁻¹' Function.support t).Finite
+            change ((Equiv.prodComm ℤ ℤ) ⁻¹' Function.support t).Finite
             exact Set.Finite.preimage
               (s := Function.support t)
               ((Equiv.prodComm ℤ ℤ).injective.injOn) htfinite)

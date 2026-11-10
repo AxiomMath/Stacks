@@ -136,7 +136,7 @@ theorem isIso_constantSheafDirectImageMap_opensι {X : Scheme.{u}} [IsIntegral X
     have : UniversallyOpen V.hom := universallyOpen_of_flat_of_locallyOfFinitePresentation V.hom
     exact V.hom.isOpenMap
   have hdense : DenseRange (pullback.fst V.hom U.ι).base := by
-    show Dense (Set.range (pullback.fst V.hom U.ι).base)
+    change Dense (Set.range (pullback.fst V.hom U.ι).base)
     rw [Scheme.Pullback.range_fst, Scheme.Opens.range_ι]
     exact (U.isOpen.dense hU).preimage hVo
   have hb := bijective_locallyConstant_comap_of_denseRange (M := A)

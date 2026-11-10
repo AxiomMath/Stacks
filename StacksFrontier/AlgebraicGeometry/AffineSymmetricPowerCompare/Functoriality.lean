@@ -124,11 +124,9 @@ theorem presheafMapₗ_mulSec (U : ((Spec R).Opens)ᵒᵖ) (i j : ℤ)
     AffineBaseChange.presheafMapₗ (pieceModuleMap f (i + j)) U.unop (mulSec M U i j x y) =
       mulSec N U i j (AffineBaseChange.presheafMapₗ (pieceModuleMap f i) U.unop x)
         (AffineBaseChange.presheafMapₗ (pieceModuleMap f j) U.unop y) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a z =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul b w =>
           rw [mulSec_tmul, AffineBaseChange.presheafMapₗ_tmul,
             AffineBaseChange.presheafMapₗ_tmul, AffineBaseChange.presheafMapₗ_tmul, mulSec_tmul,
@@ -148,8 +146,7 @@ theorem presheafMapₗ_ιG (U : (Spec R).Opens) (x : Γ(Spec R, U) ⊗[R] M) :
         (AffineBaseChange.presheafMapₗ (ModuleCat.ofHom (ιG (R := R) M)) U x) =
       AffineBaseChange.presheafMapₗ (ModuleCat.ofHom (ιG (R := R) N)) U
         (AffineBaseChange.presheafMapₗ f U x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a m =>
       rw [AffineBaseChange.presheafMapₗ_tmul, AffineBaseChange.presheafMapₗ_tmul,
         AffineBaseChange.presheafMapₗ_tmul, AffineBaseChange.presheafMapₗ_tmul]
@@ -219,7 +216,7 @@ theorem symGen_symFunctorHom :
     symGen M ≫ (symFunctorHom f).app 1 = tilde.map f ≫ symGen N := by
   refine SheafOfModules.hom_ext (Stacks.hom_eq_of_app_eq (T := (tilde M).val)
     ((symAlgebra N).piece 1).isSheaf.isSeparated (AffineBaseChange.toTilde M) fun U x => ?_)
-  show ((symFunctorHom f).app 1).val.app U
+  change ((symFunctorHom f).app 1).val.app U
       ((symGen M).val.app U (Hom.app (AffineBaseChange.toTilde M) U x)) =
     (symGen N).val.app U ((tilde.map f).val.app U (Hom.app (AffineBaseChange.toTilde M) U x))
   rw [symGen_toTilde M U x, symFunctorHom_comparison, descGen_app,

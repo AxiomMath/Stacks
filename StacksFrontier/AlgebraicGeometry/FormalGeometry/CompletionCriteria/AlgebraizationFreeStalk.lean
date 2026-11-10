@@ -112,9 +112,9 @@ theorem nonempty_linearEquiv_pi_of_addEquiv_of_ringEquiv
       (AddEquiv.piCongrRight fun _ : Fin r => (Ideal.quotientEquiv I I' eR hI).symm.toAddEquiv))
     fun a z => ?_⟩
   have h1 : (φ.trans ψ.toAddEquiv) (a • z) = eR a • (φ.trans ψ.toAddEquiv) z := by
-    show ψ (φ (a • z)) = eR a • ψ (φ z)
+    change ψ (φ (a • z)) = eR a • ψ (φ z)
     rw [hφ a z, map_smul]
-  show (AddEquiv.piCongrRight fun _ : Fin r => (Ideal.quotientEquiv I I' eR hI).symm.toAddEquiv)
+  change (AddEquiv.piCongrRight fun _ : Fin r => (Ideal.quotientEquiv I I' eR hI).symm.toAddEquiv)
       ((φ.trans ψ.toAddEquiv) (a • z)) =
     a • (AddEquiv.piCongrRight fun _ : Fin r =>
       (Ideal.quotientEquiv I I' eR hI).symm.toAddEquiv) ((φ.trans ψ.toAddEquiv) z)
@@ -289,7 +289,7 @@ theorem nonempty_linearEquiv_quotient_germOfBaseOpen_pow_smul {f : S.A}
       (Scheme.Opens.stalkRingEquiv V y a) (Φ z)
     rw [Scheme.Opens.stalkMap_stalkRingEquiv V y a] at h
     have hΦ : Φ (a • z) = a • Φ z := map_smul Φ a z
-    show Ψ (Φ (a • z)) = _
+    change Ψ (Φ (a • z)) = _
     rw [hΦ]
     exact h
 

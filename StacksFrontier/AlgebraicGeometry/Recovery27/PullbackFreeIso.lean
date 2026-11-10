@@ -72,7 +72,7 @@ public theorem pullback_map_ιFree_comp_pullbackFreeIso_hom {S T : Scheme.{u}} (
         SheafOfModules.ιFree i := by
   let : (TopologicalSpace.Opens.map f.base).Final :=
     CategoryTheory.final_of_representablyFlat _
-  show (SheafOfModules.pullback f.toRingCatSheafHom).map (SheafOfModules.ιFree i) ≫
+  change (SheafOfModules.pullback f.toRingCatSheafHom).map (SheafOfModules.ιFree i) ≫
       (SheafOfModules.pullbackObjFreeIso f.toRingCatSheafHom
         (ULift.{u} (Fin n))).hom = _
   exact SheafOfModules.pullback_map_ιFree_comp_pullbackObjFreeIso_hom

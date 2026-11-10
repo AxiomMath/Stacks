@@ -10,7 +10,7 @@ public import Mathlib.CategoryTheory.Abelian.Exact
 public import Mathlib.CategoryTheory.EffectiveEpi.Comp
 public import Mathlib.CategoryTheory.ExtremalEpi
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Order.CompletePartialOrder
 public import StacksCore.LinearAlgebra.Matrix.CommSemiring
 
@@ -49,7 +49,7 @@ example : (⊤ : ℕ∞) - 1 = ⊤ := by decide
 
 example : (0 : ℕ∞) - 1 = 0 := by decide
 
-namespace Stacks.BoundedCohomologicalDimension
+namespace Stacks
 
 variable {A : Type*} [Category A] [Abelian A]
 
@@ -63,6 +63,8 @@ structure BoundedCohomologicalDimension (d : A → ℕ∞) : Prop where
   biprod_le : ∀ X Y : A, d (X ⊞ Y) ≤ max (d X) (d Y)
   /-- For a short exact sequence, `d X₃ ≤ max (d X₁ - 1) (d X₂)`. -/
   shortExact_le : ∀ S : ShortComplex A, S.ShortExact → d S.X₃ ≤ max (d S.X₁ - 1) (d S.X₂)
+
+namespace BoundedCohomologicalDimension
 
 /-- The growth condition "`n + d (K.X n) → -∞` as `n → -∞`": for every `N` there is `n₀`
 such that for all `n ≤ n₀`, `d (K.X n)` is a natural number `m` with `n + m ≤ N`. -/
@@ -637,7 +639,6 @@ lemma ffpff_zero (K : CochainComplex A ℤ) (n : ℤ) (M : A) (ι : K.X n ⟶ M)
     rw [dite_eq_left rfl, dite_eq_left rfl]
     simp only [Category.assoc, eqToHom_trans_assoc, eqToHom_refl, Category.id_comp, ]
     first
-    | rfl
     | (rw [reassoc_of% cokernel.condition]; simp)
   by_cases hn1 : i = n + 1
   · subst hn1
@@ -748,7 +749,7 @@ lemma degSE_off (K : CochainComplex A ℤ) (n : ℤ) (M : A) (ι : K.X n ⟶ M) 
 /-- `Q.d i (i+1) = -𝟙` (via eqToHom) is an isomorphism when `i = n`. -/
 lemma Qd_n_isIso (K : CochainComplex A ℤ) (n : ℤ) (M : A) (ι : K.X n ⟶ M) :
     IsIso ((Qcomplex K n M ι).d n (n + 1)) := by
-  show IsIso (Qd K n M ι n (n + 1))
+  change IsIso (Qd K n M ι n (n + 1))
   unfold Qd
   rw [dite_eq_left ⟨rfl, rfl⟩]
   have : IsIso (-(𝟙 (cokernel ι))) := by refine ⟨-(𝟙 (cokernel ι)), ?_, ?_⟩ <;> simp
@@ -763,7 +764,7 @@ lemma Q_acyclic (K : CochainComplex A ℤ) (n : ℤ) (M : A) (ι : K.X n ⟶ M) 
     rw [HomologicalComplex.exactAt_iff' _ (n - 1) n (n + 1) (by simp [CochainComplex.prev])
         (by simp [CochainComplex.next])]
     have hf0 : (Qcomplex K n M ι).d (n - 1) n = 0 := by
-      show Qd K n M ι (n - 1) n = 0
+      change Qd K n M ι (n - 1) n = 0
       unfold Qd; rw [dite_eq_right (by omega)]
     have hg_iso : IsIso ((Qcomplex K n M ι).d n (n + 1)) := Qd_n_isIso K n M ι
     have : Mono ((Qcomplex K n M ι).d n (n + 1)) := by
@@ -775,7 +776,7 @@ lemma Q_acyclic (K : CochainComplex A ℤ) (n : ℤ) (M : A) (ι : K.X n ⟶ M) 
     rw [HomologicalComplex.exactAt_iff' _ n (n + 1) (n + 1 + 1) (by simp [CochainComplex.prev])
         (by simp [CochainComplex.next])]
     have hg0 : (Qcomplex K n M ι).d (n + 1) (n + 1 + 1) = 0 := by
-      show Qd K n M ι (n + 1) (n + 1 + 1) = 0
+      change Qd K n M ι (n + 1) (n + 1 + 1) = 0
       unfold Qd; rw [dite_eq_right (by omega)]
     have hf_iso : IsIso ((Qcomplex K n M ι).d n (n + 1)) := Qd_n_isIso K n M ι
     have : Epi ((Qcomplex K n M ι).d n (n + 1)) := by
@@ -790,4 +791,6 @@ lemma Q_acyclic (K : CochainComplex A ℤ) (n : ℤ) (M : A) (ι : K.X n ⟶ M) 
 
 end ElemReplConstruction
 
-end Stacks.BoundedCohomologicalDimension
+end BoundedCohomologicalDimension
+
+end Stacks

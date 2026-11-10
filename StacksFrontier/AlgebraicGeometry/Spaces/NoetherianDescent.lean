@@ -73,7 +73,7 @@ theorem hasEtaleLocalProperty_isLocallyNoetherian_of_surjective_affine_flat
     HasEtaleLocalProperty B S hS T (fun W : Scheme.{u} => IsLocallyNoetherian W) := by
   obtain ⟨U, u, huSurjective, huEtale⟩ := hT.exists_atlas
   refine ⟨U, u, huSurjective, huEtale, ?_⟩
-  show IsLocallyNoetherian ((BigFppfOver.toScheme B S hS).obj U)
+  change IsLocallyNoetherian ((BigFppfOver.toScheme B S hS).obj U)
   set X := (BigFppfOver.toScheme B S hS).obj U
   rw [isLocallyNoetherian_iff_of_iSup_eq_top (S := fun i : X.affineOpens => i)
     (iSup_affineOpens_eq_top X)]

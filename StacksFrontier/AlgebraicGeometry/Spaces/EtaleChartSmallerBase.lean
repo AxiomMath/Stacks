@@ -118,7 +118,7 @@ it is `CategoryTheory.Over.map (yoneda.map g)`, which is faithful. -/
 theorem relocalizePresheaf_faithful {C : Type u} [Category.{v} C] {V U : C} (g : V ⟶ U) :
     (OverShriek.relocalizePresheafFunctor g).Faithful := by
   have _ := overMap_faithful (yoneda.map g)
-  show ((OverShriek.presheafEquivalence (U := V)).functor ⋙
+  change ((OverShriek.presheafEquivalence (U := V)).functor ⋙
     Over.map (yoneda.map g) ⋙ (OverShriek.presheafEquivalence (U := U)).inverse).Faithful
   infer_instance
 
@@ -137,7 +137,7 @@ theorem relocalizePresheaf_reflectsPullbacks {C : Type u} [Category.{v} C] {V U 
       (Over.map (yoneda.map g)) (Over.forget (yoneda.obj U))
   have _ : ReflectsLimitsOfShape WalkingCospan (Over.map (yoneda.map g)) :=
     reflectsLimitsOfShape_of_reflectsIsomorphisms
-  show ReflectsLimitsOfShape WalkingCospan
+  change ReflectsLimitsOfShape WalkingCospan
     ((OverShriek.presheafEquivalence (U := V)).functor ⋙
       Over.map (yoneda.map g) ⋙ (OverShriek.presheafEquivalence (U := U)).inverse)
   infer_instance
@@ -214,18 +214,18 @@ theorem exists_relocalizeChart {F : (BigFppfOver B W hW)ᵒᵖ ⥤ Type u}
   let ρ := relocalizedYonedaIso B (B.obj hW) (B.obj hS) h U
   have hρ : ρ.inv.app (op U') (relocalizeBaseHom B W S hW hS h hψ')
       = ⟨⟨ψ, (𝟙 U : U ⟶ U)⟩, hψ⟩ := by
-    show (relocalizedYonedaRepresentableBy B (B.obj hW) (B.obj hS) h U).homEquiv
+    change (relocalizedYonedaRepresentableBy B (B.obj hW) (B.obj hS) h U).homEquiv
       (relocalizeBaseHom B W S hW hS h hψ') = ⟨⟨ψ, (𝟙 U : U ⟶ U)⟩, hψ⟩
     apply Subtype.ext
     apply Sigma.ext
     · dsimp [relocalizedYonedaRepresentableBy]
-      show Over.Hom.left (relocalizeBaseHom B W S hW hS h hψ') ≫ U.hom = ψ
-      show 𝟙 U'.left ≫ ψ = ψ
+      change Over.Hom.left (relocalizeBaseHom B W S hW hS h hψ') ≫ U.hom = ψ
+      change 𝟙 U'.left ≫ ψ = ψ
       simp
     · dsimp [relocalizedYonedaRepresentableBy]
       apply heq_of_eq
       apply Over.OverMorphism.ext
-      show 𝟙 U'.left = 𝟙 U'.left
+      change 𝟙 U'.left = 𝟙 U'.left
       rfl
   rw [hx, yonedaEquiv_apply]
   have hEval : ((yoneda.map (relocalizeBaseHom B W S hW hS h hψ') ≫
@@ -237,7 +237,7 @@ theorem exists_relocalizeChart {F : (BigFppfOver B W hW)ᵒᵖ ⥤ Type u}
   apply Sigma.ext
   · rfl
   · apply heq_of_eq
-    show s = a.app (op U) (𝟙 U)
+    change s = a.app (op U) (𝟙 U)
     simp [a]
 
 /-- The extension of a chart of `F`, followed by the structural morphism of `Λ_h F`, reads off the
@@ -374,11 +374,11 @@ theorem presheaf_relocalizeChart_iff (Q : MorphismProperty Scheme.{u})
     set ιT := relocalizeBaseHom B W S hW hS h hτ with hιTdef
     have h1 : ιT ≫ (Over.map h).map p₀ = φ' := by
       apply Over.OverMorphism.ext
-      show 𝟙 T'.left ≫ φ'.left = φ'.left
+      change 𝟙 T'.left ≫ φ'.left = φ'.left
       simp
     have h2 : ιT ≫ (Over.map h).map r₀ = snd' := by
       apply Over.OverMorphism.ext
-      show 𝟙 T'.left ≫ snd'.left = snd'.left
+      change 𝟙 T'.left ≫ snd'.left = snd'.left
       simp
     have hpullS : IsPullback (yoneda.map ((Over.map h).map p₀))
         (yoneda.map ((Over.map h).map r₀))

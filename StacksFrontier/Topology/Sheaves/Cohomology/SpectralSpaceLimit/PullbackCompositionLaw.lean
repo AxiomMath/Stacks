@@ -140,7 +140,7 @@ theorem extMapExactHom_comp (Ψ : A ⥤ A') [Ψ.Additive] [PreservesFiniteLimits
     extMapExactHom (𝟭 A) (Ψ ⋙ Ψ') X =
       extMapExactHom (𝟭 A) Ψ X ≫ extMapExactHom Ψ Ψ' (Ψ.obj X) := by
   refine extDeltaFunctor_id_hom_ext fun f => ?_
-  show Ext.mapExactFunctor (Ψ ⋙ Ψ') (Ext.mk₀ f) =
+  change Ext.mapExactFunctor (Ψ ⋙ Ψ') (Ext.mk₀ f) =
     Ext.mapExactFunctor Ψ' (Ext.mapExactFunctor Ψ (Ext.mk₀ f))
   rw [Ext.mapExactFunctor_mk₀, Ext.mapExactFunctor_mk₀, Ext.mapExactFunctor_mk₀]
   rfl
@@ -150,7 +150,7 @@ morphisms of δ-functors.  The same argument as `extMapExactHom_comp`. -/
 theorem extMapExactHom_id (X : A) :
     extMapExactHom (𝟭 A) (𝟭 A) X = 𝟙 (extDeltaFunctor (𝟭 A) X) := by
   refine extDeltaFunctor_id_hom_ext fun f => ?_
-  show Ext.mapExactFunctor (𝟭 A) (Ext.mk₀ f) = Ext.mk₀ f
+  change Ext.mapExactFunctor (𝟭 A) (Ext.mk₀ f) = Ext.mk₀ f
   rw [Ext.mapExactFunctor_mk₀]
   rfl
 
@@ -233,7 +233,7 @@ theorem extPullbackHom_comp (Ψ : A ⥤ A') [Ψ.Additive] [PreservesFiniteLimits
         extDeltaFunctorPrecomp (Ψ ⋙ Ψ') ρ' := by
   refine DeltaFunctor.hom_ext fun n => ?_
   ext G (e : Ext X G n)
-  show (Ext.mk₀ (ρ' ≫ Ψ'.map ρ)).comp (e.mapExactFunctor (Ψ ⋙ Ψ')) (zero_add n) =
+  change (Ext.mk₀ (ρ' ≫ Ψ'.map ρ)).comp (e.mapExactFunctor (Ψ ⋙ Ψ')) (zero_add n) =
     (Ext.mk₀ ρ').comp
       (((Ext.mk₀ ρ).comp (e.mapExactFunctor Ψ) (zero_add n)).mapExactFunctor Ψ') (zero_add n)
   rw [Ext.mapExactFunctor_comp, Ext.mapExactFunctor_mk₀, Ext.mk₀_comp_mk₀_assoc,

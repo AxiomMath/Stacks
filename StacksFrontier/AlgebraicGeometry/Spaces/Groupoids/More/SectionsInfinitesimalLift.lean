@@ -495,7 +495,7 @@ theorem mem_infinitesimalSectionsLiftSheaf_of_infinitesimalSectionLiftChartSiteH
         m.right.unop jc) :
     yonedaEquiv (yoneda.map ψ ≫ m.right.unop.1.hom) ∈
       (infinitesimalSectionsLiftSheaf G U₀).obj (op jc.right.unop) := by
-  show Space.IsChartLift C S hS (𝟙 G.objects) G.source
+  change Space.IsChartLift C S hS (𝟙 G.objects) G.source
     (subspaceInclusion C S hS G.objects U₀ ≫ identityArrow G).hom jc.right.unop
     (yonedaEquiv.symm (yonedaEquiv (yoneda.map ψ ≫ m.right.unop.1.hom)))
   rw [Equiv.symm_apply_apply]

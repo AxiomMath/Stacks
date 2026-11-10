@@ -45,6 +45,7 @@ namespace AlgebraicGeometry.Space
 universe u
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` on presheaves on the big fppf site exceeds the default limit
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_MayerVietorisGlueingDescentBaseChange

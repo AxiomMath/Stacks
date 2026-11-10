@@ -86,7 +86,7 @@ theorem cechLastFace_comp_π (j : Fin (n + 1)) :
       = WidePullback.π (fun _ : Fin (n + 1 + 1) => f) j.castSucc := by
   have : (Arrow.mk f).HasCechPullbacks := ⟨fun _ => inferInstance⟩
   have h := Arrow.cechNerve_map_π (Arrow.mk f) (SimplexCategory.δ (Fin.last (n + 1))).op j
-  simpa [SimplexCategory.δ] using h
+  simp [SimplexCategory.δ]
 
 /-- The structure map of a level of the Čech nerve is the base map of the wide pullback of the
 `n + 1` copies of `f`. -/

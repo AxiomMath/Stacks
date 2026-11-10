@@ -91,7 +91,7 @@ theorem exists_iso_unit_pushforward_picardRepresentative (c : ofScheme Y)
     refine (Stacks.SheafOfModules.picardClass_tensorSheaf T.presheaf
       (Stacks.RingedSpace.structureIsSheaf T.toRingedSpace) N N' hN hN' hNN').symm.trans ?_
     have := classOf_picardRepresentative T.toRingedSpace n
-    show _ + Stacks.SheafOfModules.picardClass _ _ N' hN' = 0
+    change _ + Stacks.SheafOfModules.picardClass _ _ N' hN' = 0
     rw [this]
     exact add_neg_cancel _
   obtain ⟨i4⟩ := (Stacks.SheafOfModules.picardClass_eq_zero_iff _ _ _ hNN').1 hcl
@@ -114,7 +114,7 @@ theorem exists_iso_unit_pushforward_picardRepresentative (c : ofScheme Y)
     refine Eq.trans ?_ (Stacks.SheafOfModules.picardClass_tensorSheaf Y.presheaf
       (Stacks.RingedSpace.structureIsSheaf Y.toRingedSpace) M _ hM hpN' hMN')
     rw [← pullbackClass_classOf π.toLRSHom.toShHom N' hN']
-    show c + schemePullbackClass π n = _ + pullbackClass π.toLRSHom.toShHom
+    change c + schemePullbackClass π n = _ + pullbackClass π.toLRSHom.toShHom
       (Stacks.SheafOfModules.picardClass _ _ _
         (Stacks.Picard.picardRepresentative T.toRingedSpace n).property)
     rw [classOf_picardRepresentative, classOf_picardRepresentative]

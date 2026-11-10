@@ -137,7 +137,7 @@ theorem schemeDeltaDimension_comp_eq_iSup_add (C : ChowSituation.{u}) {P Z : Sch
     have hVeq : V' = V.1 := Subtype.ext (Set.Subset.antisymm (V.1.2.2 V'.2.1 hVV') hVV')
     exact ⟨W, hstep W V (by rw [hV', hVeq])⟩
   rw [schemeDeltaDimension_eq_iSup]
-  show (⨆ W, α W) = (⨆ V, β V) + ((r : ℤ) : EInt)
+  change (⨆ W, α W) = (⨆ V, β V) + ((r : ℤ) : EInt)
   rw [iSup_add_coe β (r : ℤ)]
   exact le_antisymm (iSup_mono' fun W ↦ (hsource W).imp fun _ h ↦ h.le)
     (iSup_mono' fun V ↦ (htarget V).imp fun _ h ↦ h.ge)
@@ -199,7 +199,7 @@ catenary, and universal catenarity passes to schemes locally of finite type (Sta
 theorem isUniversallyCatenary_twoPointBase : Scheme.IsUniversallyCatenary (twoPointBase k) := by
   have : LocallyOfFiniteType (Spec.map (CommRingCat.ofHom (algebraMap k (k × k)))) := by
     rw [HasRingHomProperty.Spec_iff (P := @LocallyOfFiniteType)]
-    show (algebraMap k (k × k)).FiniteType
+    change (algebraMap k (k × k)).FiniteType
     rw [RingHom.finiteType_algebraMap]
     infer_instance
   exact Scheme.isUniversallyCatenary_of_locallyOfFiniteType
@@ -248,7 +248,7 @@ theorem twoPointDimensionFunction_firstPointInclusion (x : Spec (.of k)) :
     twoPointDimensionFunction k ((firstPointInclusion k).base x) = 0 := by
   have hx : ((1, 0) : k × k) ∉ (((firstPointInclusion k).base x : twoPointBase k) :
       PrimeSpectrum (k × k)).asIdeal := by
-    show (RingHom.fst k k) (1, 0) ∉ (x : PrimeSpectrum k).asIdeal
+    change (RingHom.fst k k) (1, 0) ∉ (x : PrimeSpectrum k).asIdeal
     simpa using x.isPrime.ne_top ∘ (Ideal.eq_top_iff_one _).mpr
   simp [twoPointDimensionFunction, hx]
 
@@ -261,7 +261,7 @@ theorem twoPointDimensionFunction_secondPoint :
     twoPointDimensionFunction k (secondPoint k) = 1 := by
   have hx : ((1, 0) : k × k) ∈ ((secondPoint k : twoPointBase k) :
       PrimeSpectrum (k × k)).asIdeal := by
-    show (RingHom.snd k k) (1, 0) = 0
+    change (RingHom.snd k k) (1, 0) = 0
     simp
   simp [twoPointDimensionFunction, hx]
 
@@ -299,7 +299,7 @@ theorem schemeDeltaDimension_pullback_firstPointInclusion_ne :
       eq_of_specializes_twoPointBase k ((V.2.1.isGenericPoint_genericPoint
         (isClosed_of_mem_irreducibleComponents _ V.2)).specializes
           mem_irreducibleComponent)
-    show (1 : ℤ) ≤ relativeDimension C.dimensionFunction _ V.2.1.genericPoint
+    change (1 : ℤ) ≤ relativeDimension C.dimensionFunction _ V.2.1.genericPoint
     rw [Category.comp_id, relativeDimension_id, hξ]
     exact (twoPointDimensionFunction_secondPoint k).ge
   intro h

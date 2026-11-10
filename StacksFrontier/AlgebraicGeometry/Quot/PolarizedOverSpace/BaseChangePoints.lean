@@ -206,7 +206,7 @@ theorem fibreHomMap_naturality {a' a : (Points T).obj} (u : a' ⟶ a) :
 def fibreArrowNatTrans : fibreArrowFunctor ξ ⟶ fibreArrowFunctor ξ' where
   app a := Arrow.homMk (fibreHomMap e a) (𝟙 a.base)
     ((fibreHomMap_proj e a).trans (Category.comp_id _).symm)
-  naturality a' a u := Arrow.hom_ext _ _ (fibreHomMap_naturality e u)
+  naturality _ _ u := Arrow.hom_ext _ _ (fibreHomMap_naturality e u)
     ((Category.comp_id _).trans (Category.id_comp _).symm)
 
 /-- The morphisms of arrows induced by `e` are compatible with the projections to `X` and `X'`. -/

@@ -340,11 +340,11 @@ theorem toArrowStabilizerQuotient_eq_of_source_eq_of_target_eq
     a ≫ toArrowStabilizerQuotient G = b ≫ toArrowStabilizerQuotient G := by
   have hw : a ≫ (sourceTarget G).hom = b ≫ (sourceTarget G).hom := by
     refine pullback.hom_ext ?_ ?_
-    · show (a ≫ (sourceTarget G).hom) ≫ (objectPairsTarget G).hom =
+    · change (a ≫ (sourceTarget G).hom) ≫ (objectPairsTarget G).hom =
         (b ≫ (sourceTarget G).hom) ≫ (objectPairsTarget G).hom
       rw [Category.assoc, Category.assoc, sourceTarget_target_projection]
       exact ht
-    · show (a ≫ (sourceTarget G).hom) ≫ (objectPairsSource G).hom =
+    · change (a ≫ (sourceTarget G).hom) ≫ (objectPairsSource G).hom =
         (b ≫ (sourceTarget G).hom) ≫ (objectPairsSource G).hom
       rw [Category.assoc, Category.assoc, sourceTarget_source_projection]
       exact hs

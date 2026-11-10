@@ -57,7 +57,8 @@ wherever this calculus is used.
 ## Where the other four are
 
 `IsLeftUnital`, `IsRightUnital` and `IsSymmetric` are proved in
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/WhiskerTensorCoherence.lean`, and `IsAssociative` in
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/WhiskerTensorCoherence.lean`, and `IsAssociative`
+in
 `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/WhiskerTensorAssociativity.lean`, which also draws
 the conclusion all six were collected for:
 `Stacks.SheafOfModules.TensorPower.map_coherentMulIso_whiskerTensorPowerIso`, multiplicativity of

@@ -175,8 +175,7 @@ private noncomputable def associatedPresheafTensorIso (R : CommRingCat.{u})
   refine PresheafOfModules.isoMk (fun U ↦ associatedPresheafTensorIsoAt R X α U.unop M N)
     (fun {U V} i ↦ ?_)
   refine ModuleCat.hom_ext (LinearMap.ext fun x ↦ ?_)
-  induction x using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy =>
     exact (map_add _ x y).trans ((congrArg (fun t ↦ t + _) hx).trans
       ((congrArg (fun t ↦ _ + t) hy).trans (map_add _ x y).symm))
@@ -185,10 +184,7 @@ private noncomputable def associatedPresheafTensorIso (R : CommRingCat.{u})
     let : Module ↑((constantRingPresheaf X ↑R).obj U) (TensorProduct ↑R ↑M ↑N) :=
       inferInstanceAs (Module ↑((constantRingPresheaf X ↑R).obj U)
         ↑((constantModulePresheaf X (M ⊗ N)).obj U))
-    induction z using TensorProduct.induction_on with
-    | zero =>
-      exact ((congrArg _ (TensorProduct.tmul_zero _ a)).trans (map_zero _)).trans
-        (((congrArg _ (TensorProduct.tmul_zero _ a)).trans (map_zero _)).symm)
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw =>
       exact ((congrArg _ (TensorProduct.tmul_add a z w)).trans ((map_add _ _ _).trans
         ((congrArg (fun t ↦ t + _) hz).trans ((congrArg (fun t ↦ _ + t) hw).trans
@@ -354,7 +350,7 @@ private lemma tildeTensorComparison_hom_tmul (R : CommRingCat.{u})
         (TensorProduct.tmul ((Spec R).presheaf.obj (.op ⊤))
           ((tilde.toOpen M ⊤).hom m) ((tilde.toOpen N ⊤).hom n)) := by
   rw [homEquiv_apply]
-  show (((Stacks.SheafOfModules.TensorSheafification.sheafify (Spec R).toRingedSpace.presheaf
+  change (((Stacks.SheafOfModules.TensorSheafification.sheafify (Spec R).toRingedSpace.presheaf
       (structureSheafRing (Spec R).toRingedSpace).property).map
       (PresheafOfModulesOfCommRing.Monoidal.tensorHom
         ((tildeAssociatedSheafNatIso R).val.inv.app M).val

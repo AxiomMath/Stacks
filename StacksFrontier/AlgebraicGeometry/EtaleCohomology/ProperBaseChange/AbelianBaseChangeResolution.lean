@@ -115,7 +115,7 @@ public theorem isIso_Qh_map_etaleAbelianHomotopyBaseChange_comp_of_quasiIso
   have hq : IsIso (DerivedCategory.Qh.map ((HomotopyCategory.quotient
       (Sheaf X'.smallEtaleTopology AddCommGrpCat.{max (u + 1) v}) (ComplexShape.up ℤ)).map q)) := by
     rw [DerivedCategory.isIso_Qh_map_iff, HomotopyCategory.quotient_map_mem_quasiIso_iff]
-    show QuasiIso q
+    change QuasiIso q
     infer_instance
   have hnat := (etaleAbelianDerivedDirectImageUnit.{u, v} f').naturality
     ((HomotopyCategory.quotient
@@ -180,3 +180,5 @@ public theorem etaleAbelianHomotopyBaseChange_app_quotient_obj
       hdef).trans
     (Cohomology.DerivedBaseChangePlus.mapHomotopyCategoryCompIso_hom_comp_comp_inv_app_quotient_obj
       _ _ _ _ _ K)
+
+end Stacks.EtaleCohomology

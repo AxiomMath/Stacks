@@ -68,7 +68,8 @@ that derivation is not made here.
 `AlgebraicGeometry.Scheme.Hom.IsPerfectRelativeTo`. Three inputs of its proof are missing.
 Pseudo-coherence of `K`, the first clause of that predicate, comes from Stacks 0GES, which the
 library does not have. The reduction to the fibres is the implication (2) ⇒ (1) of Stacks 0GEH,
-whereas the formalized part of 0GEH, `AlgebraicGeometry.isLocallyBoundedBelow_of_isPerfectRelativeTo`,
+whereas the formalized part of 0GEH,
+`AlgebraicGeometry.isLocallyBoundedBelow_of_isPerfectRelativeTo`,
 is the opposite implication (1) ⇒ (2). And the passage from the vanishing proved here to
 boundedness below is the implication to condition (1) of Stacks 0GEQ, whereas the formalized part of
 0GEQ is the block of equivalences between its conditions (2), (3), (5) and (6), which does not

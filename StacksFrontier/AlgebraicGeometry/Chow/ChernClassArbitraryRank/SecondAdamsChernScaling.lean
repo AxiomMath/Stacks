@@ -68,6 +68,7 @@ variable (C : ChowSituation.{u}) {X Y : Scheme.{u}} (sX : X ⟶ C.S) [LocallyOfF
   {sY : Y ⟶ C.S} [LocallyOfFiniteType sY] (f : Y ⟶ X) [LocallyOfFiniteType f]
   (hs : f ≫ sX = sY)
 
+omit [LocallyOfFiniteType f] in
 /-- The pullback of a finite locally free module is finite locally free. -/
 theorem isFiniteLocallyFree_pullback_of_isFiniteLocallyFree (E : X.Modules)
     [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u} E] :
@@ -75,6 +76,7 @@ theorem isFiniteLocallyFree_pullback_of_isFiniteLocallyFree (E : X.Modules)
       ((Scheme.Modules.pullback f).obj E) :=
   VectorBundleKZero.isFiniteLocallyFree_pullback f E inferInstance
 
+omit [LocallyOfFiniteType f] in
 /-- The pullback of `ℰ` along a rank-locus inclusion of `f^*ℰ` composed with `f` has the rank of
 that locus. -/
 private theorem isFiniteLocallyFreeOfRank_pullback_comp_rankLociFamily (E : X.Modules)
@@ -157,14 +159,14 @@ def modulePowerSumOrZero (p : ℕ) (M : X.Modules) : TotalChowClass C sX :=
 theorem modulePowerSumOrZero_of_isFiniteLocallyFree (p : ℕ) (M : X.Modules)
     [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u} M] :
     modulePowerSumOrZero C sX p M = modulePowerSumArbitraryRank C sX M p := by
-  rw [modulePowerSumOrZero, dif_pos
+  rw [modulePowerSumOrZero, dite_eq_left
     ‹Stacks.FiniteLocallyFree.IsFiniteLocallyFree.{u, u, u} (R := X.ringCatSheaf) M›]
 
 /-- **The power sum `P_p` on `K_0(Vect(X))`**: the additive map sending `[ℰ]` to `P_p(ℰ)`, well
 defined by Stacks 0F9C. -/
 def modulePowerSumKGroupHom (p : ℕ) : VectorBundleKZero X →+ TotalChowClass C sX :=
   VectorBundleKZero.liftAddHom (modulePowerSumOrZero C sX p)
-    (fun M hM ↦ by rw [modulePowerSumOrZero, dif_neg hM])
+    (fun M hM ↦ by rw [modulePowerSumOrZero, dite_eq_right hM])
     (fun {E F G} f g w hE hF hG _ _ hex ↦ by
       rw [modulePowerSumOrZero_of_isFiniteLocallyFree, modulePowerSumOrZero_of_isFiniteLocallyFree,
         modulePowerSumOrZero_of_isFiniteLocallyFree]
@@ -193,7 +195,7 @@ theorem chernCharacterRingHom_apply (α : VectorBundleKZero X) (p : ℕ) :
           chowCohomologyComponent C (gysinSystemOfInvertible C) sX (q : ℤ)) p)).comp
         (modulePowerSumKGroupHom C sX p) := by
     refine VectorBundleKZero.addHom_ext fun M hM ↦ ?_
-    show chernCharacterRingHom C sX (VectorBundleKZero.classOf X M) p =
+    change chernCharacterRingHom C sX (VectorBundleKZero.classOf X M) p =
       ((Nat.factorial p : ℚ)⁻¹) ⊗ₜ[ℤ]
         modulePowerSumKGroupHom C sX p (VectorBundleKZero.classOf X M) p
     rw [chernCharacterRingHom_classOf, modulePowerSumKGroupHom_classOf]
@@ -214,7 +216,7 @@ theorem modulePowerSumKGroupHom_pullback (p : ℕ) (α : VectorBundleKZero X) :
         (VectorBundleKZero.pullbackRingHom f).toAddMonoidHom := by
     refine VectorBundleKZero.addHom_ext fun M hM ↦ ?_
     have := isFiniteLocallyFree_pullback_of_isFiniteLocallyFree f M
-    show TotalChowClass.res f hs
+    change TotalChowClass.res f hs
         (modulePowerSumKGroupHom C sX p (VectorBundleKZero.classOf X M)) =
       modulePowerSumKGroupHom C sY p
         (VectorBundleKZero.pullbackRingHom f (VectorBundleKZero.classOf X M))
@@ -236,7 +238,7 @@ theorem addHom_units_ext {R : Type*} [Monoid R]
     induction x using FreeAbelianGroup.induction_on with
     | zero => exact (map_zero φ).trans (map_zero ψ).symm
     | of M =>
-      show φ (VectorBundleKZero.classOf X M) = ψ (VectorBundleKZero.classOf X M)
+      change φ (VectorBundleKZero.classOf X M) = ψ (VectorBundleKZero.classOf X M)
       by_cases hM : Stacks.FiniteLocallyFree.IsFiniteLocallyFree.{u, u, u} (R := X.ringCatSheaf) M
       · exact Additive.toMul.injective (Units.ext (h M hM))
       · rw [VectorBundleKZero.classOf_eq_zero_of_not_isFiniteLocallyFree M hM, map_zero, map_zero]
@@ -252,7 +254,7 @@ theorem totalChernKGroupMap_pullback (α : VectorBundleKZero X) :
       (totalChernKGroupHom C sY).comp (VectorBundleKZero.pullbackRingHom f).toAddMonoidHom := by
     refine addHom_units_ext fun M hM ↦ ?_
     have := isFiniteLocallyFree_pullback_of_isFiniteLocallyFree f M
-    show TotalChowClass.res f hs (totalChernKGroupMap C sX (VectorBundleKZero.classOf X M)) =
+    change TotalChowClass.res f hs (totalChernKGroupMap C sX (VectorBundleKZero.classOf X M)) =
       totalChernKGroupMap C sY
         (VectorBundleKZero.pullbackRingHom f (VectorBundleKZero.classOf X M))
     rw [VectorBundleKZero.pullbackRingHom_classOf f M hM, totalChernKGroupMap_classOf,
@@ -336,7 +338,7 @@ theorem totalChernKGroupMap_secondAdams_classOf_isInvertible (L : P.Modules)
   have := isFiniteLocallyFree_of_isInvertible (Scheme.Modules.tensorObj L L)
   rw [VectorBundleKZero.secondAdamsRingHom_apply,
     VectorBundleKZero.secondAdamsAddHom_classOf_isInvertible]
-  show totalChernKGroupMap C sP (VectorBundleKZero.classOf P (Scheme.Modules.tensorObj L L)) = _
+  change totalChernKGroupMap C sP (VectorBundleKZero.classOf P (Scheme.Modules.tensorObj L L)) = _
   rw [totalChernKGroupMap_classOf, totalChernKGroupMap_classOf,
     totalChernClassOfModule_eq_one_add_firstChernTotal,
     totalChernClassOfModule_eq_one_add_firstChernTotal,
@@ -355,7 +357,7 @@ theorem modulePowerSumKGroupHom_secondAdams_classOf_isInvertible (p : ℕ) (L : 
   have := isFiniteLocallyFree_of_isInvertible (Scheme.Modules.tensorObj L L)
   rw [VectorBundleKZero.secondAdamsRingHom_apply,
     VectorBundleKZero.secondAdamsAddHom_classOf_isInvertible]
-  show modulePowerSumKGroupHom C sP p
+  change modulePowerSumKGroupHom C sP p
     (VectorBundleKZero.classOf P (Scheme.Modules.tensorObj L L)) = _
   rw [modulePowerSumKGroupHom_classOf, modulePowerSumKGroupHom_classOf,
     modulePowerSumArbitraryRank_eq_pow,
@@ -521,7 +523,7 @@ theorem chernClass_chernCharacter_secondAdams (α : VectorBundleKZero X) (i : �
   · rw [totalChernKGroupMap_secondAdams, TotalChowClass.powScale_apply]
   · rw [chernCharacterRingHom_apply, chernCharacterRingHom_apply,
       modulePowerSumKGroupHom_secondAdams]
-    show ((Nat.factorial i : ℚ)⁻¹) ⊗ₜ[ℤ] ((2 ^ i : ℤ) • modulePowerSumKGroupHom C sX i α i) = _
+    change ((Nat.factorial i : ℚ)⁻¹) ⊗ₜ[ℤ] ((2 ^ i : ℤ) • modulePowerSumKGroupHom C sX i α i) = _
     rw [TensorProduct.tmul_smul]
 
 end Adams

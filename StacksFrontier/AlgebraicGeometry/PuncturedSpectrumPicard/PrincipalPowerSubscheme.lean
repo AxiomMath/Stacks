@@ -83,7 +83,7 @@ theorem quotientSpec_ker :
   rw [← RingHom.ker_equiv_comp _ (Scheme.ΓSpecIso (.of (A ⧸ I))).commRingCatIsoToRingEquiv,
     RingEquiv.toRingHom_eq_coe, Iso.commRingCatIsoToRingEquiv_toRingHom,
     ← CommRingCat.hom_comp, Scheme.ΓSpecIso_naturality, CommRingCat.hom_comp, ← RingHom.comap_ker]
-  show (RingHom.ker (Ideal.Quotient.mk I)).comap
+  change (RingHom.ker (Ideal.Quotient.mk I)).comap
     (Scheme.ΓSpecIso (.of A)).hom.hom = _
   rw [Ideal.mk_ker]
   exact Ideal.comap_symm (Scheme.ΓSpecIso (.of A)).symm.commRingCatIsoToRingEquiv
@@ -123,7 +123,7 @@ theorem baseIdealSubschemeIsoPullback_hom_fst :
   let : IsClosedImmersion (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I))) :=
     IsClosedImmersion.spec_of_quotient_mk (R := .of A) I
   let p := pullback.fst g (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I)))
-  show (eqToHom (congrArg Scheme.IdealSheafData.subscheme
+  change (eqToHom (congrArg Scheme.IdealSheafData.subscheme
     (baseIdealSheaf_eq_ker_pullback_fst A I g)) ≫ inv p.toImage) ≫ p = _
   conv_lhs => rhs; rw [← p.toImage_imageι]
   simp only [Category.assoc, IsIso.inv_hom_id_assoc]

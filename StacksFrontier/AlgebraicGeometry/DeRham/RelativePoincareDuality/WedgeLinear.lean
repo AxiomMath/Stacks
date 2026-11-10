@@ -49,8 +49,7 @@ theorem mapBifunctorMap_single_comp_mapBifunctorSingleSingleIso_hom {M M' : C₁
   · obtain ⟨rfl, rfl⟩ := h
     simp only [HomologicalComplex.comp_f, ι_mapBifunctorMap_assoc,
       ι_mapBifunctorSingleSingleIso_hom_f, ι_mapBifunctorSingleSingleIso_hom_f_assoc,
-      HomologicalComplex.single_map_f_self, HomologicalComplex.id_f, Functor.map_id,
-      Category.comp_id, Category.assoc, Iso.inv_hom_id_assoc]
+      HomologicalComplex.single_map_f_self, HomologicalComplex.id_f, Iso.inv_hom_id_assoc]
     simp only [CategoryTheory.Functor.map_id, Category.id_comp]
     rw [← NatTrans.comp_app_assoc, ← Functor.map_comp, Category.assoc, Category.assoc,
       Iso.inv_hom_id, Category.comp_id, Functor.map_comp, NatTrans.comp_app_assoc,
@@ -109,6 +108,7 @@ abbrev formsInDegreeZeroSMul (g : Γ(X, ⊤)) (a : ℤ) :
       (relativeDifferentialForms f a)))
 
 set_option maxHeartbeats 800000 in
+-- long term-mode chain of `congrArg`/`Category.assoc` rewrites through the derived tensor product
 /-- **The wedge product in `D(𝒪_X)` is linear over `Γ(X, 𝒪_X)` in its first factor.** -/
 theorem formsDerivedWedge_smul_left (g : Γ(X, ⊤)) (a b : ℤ) :
     ((derivedTensorProductFunctor X.sheaf).map (f.formsInDegreeZeroSMul g a)).app

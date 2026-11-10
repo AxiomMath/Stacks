@@ -143,7 +143,7 @@ public theorem flat_localRingHom_mvPolynomialMap {A B : Type u} [CommRing A] [Co
   let : IsScalarTower PA PAp PBq := IsScalarTower.of_algebraMap_eq fun x =>
     (Localization.localRingHom_to_map p q (MvPolynomial.map φ) hpq x).symm
   have hmod : Module.Flat PA PBq := _root_.RingHom.flat_algebraMap_iff.mp hflatq
-  show _root_.RingHom.Flat w
+  change _root_.RingHom.Flat w
   rw [← w.algebraMap_toAlgebra, _root_.RingHom.flat_algebraMap_iff]
   exact (Module.flat_iff_of_isLocalization PAp p.primeCompl PBq).mpr hmod
 
@@ -200,14 +200,14 @@ public theorem flat_atPrime_restrictedPowerSeriesMap
   let p' : Ideal (MvPolynomial σ A) := p.comap fA
   let : p'.IsPrime := Ideal.comap_isPrime fA p
   have hp't : p' = q'.comap mp := by
-    show (q.comap m).comap fA = (q.comap fB).comap mp
+    change (q.comap m).comap fA = (q.comap fB).comap mp
     rw [Ideal.comap_comap, Ideal.comap_comap, hsq]
   let : IsNoetherianRing (RestrictedPowerSeries I σ) := isNoetherianRing_restrictedPowerSeries I σ
   let : IsNoetherianRing (RestrictedPowerSeries J σ) := isNoetherianRing_restrictedPowerSeries J σ
   have hnotle : ¬ J.map (coefficientRingHom J σ) ≤ q := by
     intro hle
     exact hq.1 ((PrimeSpectrum.mem_zeroLocus _ _).2 (SetLike.coe_subset_coe.2 hle))
-  obtain ⟨g, hgJ, hgq⟩ := SetLike.not_le_iff_exists.mp
+  obtain ⟨g, hgJ, hgq⟩ := IsConcreteLE.not_le_iff_exists.mp
     (fun hle => hnotle (Ideal.map_le_iff_le_comap.mpr hle))
   have hgnil : IsTopologicallyNilpotent g :=
     TopologicalRing.CompletionOver.isTopologicallyNilpotent_of_mem_isIdealOfDefinition

@@ -373,7 +373,7 @@ private theorem coconeComparisonOfModuleFunctor_inl
     Iso.app_hom, HomologicalComplex.comp_f,
     Functor.mapHomologicalComplex_commShiftIso_hom_app_f,
     Functor.mapIso_hom]
-  show _ ≫ (CochainComplex.mappingCone.mapHomologicalComplexIso morphism moduleTransformer).hom.f
+  change _ ≫ (CochainComplex.mappingCone.mapHomologicalComplexIso morphism moduleTransformer).hom.f
     (degree + (-1 : ℤ)) = _
   dsimp only [CochainComplex.mappingCone.mapHomologicalComplexIso,
     HomologicalComplex.Hom.isoOfComponents]
@@ -430,7 +430,7 @@ private theorem coconeComparisonOfModuleFunctor_pureLift
   apply HomologicalComplex.hom_ext
   intro degree
   rw [HomologicalComplex.comp_f, cocone_pureLift_f _ _ zeroMapped degree]
-  show moduleTransformer.map _ ≫ _ = moduleTransformer.map _ ≫ _
+  change moduleTransformer.map _ ≫ _ = moduleTransformer.map _ ≫ _
   rw [cocone_pureLift_f morphism augmentation zeroComposite degree,
     Functor.map_comp, Category.assoc, coconeComparisonOfModuleFunctor_inl]
 
@@ -467,12 +467,12 @@ private theorem tensorCoconePureLift_shiftComparison
           HomologicalComplex.ιMapBifunctor (CochainComplex.mappingCone morphism) factor
             (curriedTensor (ModuleCat.{ringLevel} ring)) (ComplexShape.up ℤ)
             (leftDegree - 1) rightDegree (degree + -1) (by
-              show (leftDegree - 1) + rightDegree = degree + -1
+              change (leftDegree - 1) + rightDegree = degree + -1
               omega)) := by
     simp only [CochainComplex.mappingCocone.inl,
       CochainComplex.HomComplex.Cochain.rightShift_v (n := -1)
         _ _ _ _ degree _ _ (degree + -1) (by omega)]
-    show (CochainComplex.mappingCone.inl ((TrightCochain factor).map morphism)).v
+    change (CochainComplex.mappingCone.inl ((TrightCochain factor).map morphism)).v
       degree (degree + -1) (by omega) ≫
         (TrightCochain_mappingCone_iso factor morphism).inv.f (degree + -1) = _
     simp only [TrightCochain_mappingCone_iso]
@@ -482,7 +482,7 @@ private theorem tensorCoconePureLift_shiftComparison
   rw [Category.assoc, inlDescription]
   apply HomologicalComplex.mapBifunctor.hom_ext
   intro leftDegree rightDegree degreeEquality
-  show HomologicalComplex.ιMapBifunctor input factor
+  change HomologicalComplex.ιMapBifunctor input factor
       (curriedTensor (ModuleCat.{ringLevel} ring)) (ComplexShape.up ℤ)
       leftDegree rightDegree degree degreeEquality ≫ _ = _
   have tensorMap {left right : CochainComplex (ModuleCat.{ringLevel} ring) ℤ}
@@ -523,11 +523,11 @@ private theorem tensorCoconeComparison_pureLift
       (by simp [map_comp_eq_zero_of_comp_eq_zero _ zeroComposite]) := by
   let comparison := (shiftFunctor (CochainComplex (ModuleCat.{ringLevel} ring) ℤ) (-1 : ℤ)).mapIso
     (TrightCochain_mappingCone_iso factor morphism)
-  show _ ≫ ((CochainComplex.mapBifunctorShift₁Iso (CochainComplex.mappingCone morphism)
+  change _ ≫ ((CochainComplex.mapBifunctorShift₁Iso (CochainComplex.mappingCone morphism)
     factor (curriedTensor (ModuleCat.{ringLevel} ring)) (-1)).hom ≫ comparison.hom) = _
   rw [← Category.assoc,
     tensorCoconePureLift_shiftComparison factor morphism augmentation zeroComposite]
-  show (_ ≫ comparison.inv) ≫ comparison.hom = _
+  change (_ ≫ comparison.inv) ≫ comparison.hom = _
   rw [Category.assoc, comparison.inv_hom_id, Category.comp_id]
 
 
@@ -561,7 +561,7 @@ private theorem coconeArrowMap_f
       (CochainComplex.mappingCocone.snd morphism).v degree (degree + -1) rfl ≫
         square.right.f (degree + -1) ≫
           (CochainComplex.mappingCocone.inr morphism').1.v (degree + -1) degree (by omega) := by
-  show (HomologicalComplex.homotopyCofiber.mapArrowHom _ _ _ square).f
+  change (HomologicalComplex.homotopyCofiber.mapArrowHom _ _ _ square).f
     (degree + (-1 : ℤ)) = _
   dsimp only [HomologicalComplex.homotopyCofiber.mapArrowHom]
   rw [HomologicalComplex.homotopyCofiber.desc_f _ _ _ (degree + (-1 : ℤ)) degree
@@ -718,7 +718,7 @@ private theorem coefficientStageCoconeComparison_pureLift
   have mapComparison : lift.map (coefficientStageCoconeComparison family stage morphism).hom =
       (comparison.app (CochainComplex.mappingCocone morphism)).hom ≫
         tensor.map first.hom ≫ middle.hom ≫ congruence.hom ≫ last.inv := by
-    show lift.map (lift.preimage _) = _
+    change lift.map (lift.preimage _) = _
     rw [Functor.map_preimage]
     rfl
   have naturality := comparison.hom.naturality (pureLift morphism augmentation zeroComposite)
@@ -781,7 +781,7 @@ private theorem mapTowerAugmentation_productLift
     transformer.map augmented.productLift ≫
         (PreservesProduct.iso transformer (fun index : ℕ => tower.obj ⟨index⟩)).hom =
       (mapTowerAugmentation transformer augmented).productLift := by
-  show transformer.map (Limits.Pi.lift augmented.app) ≫
+  change transformer.map (Limits.Pi.lift augmented.app) ≫
     piComparison transformer (fun index : ℕ => tower.obj ⟨index⟩) =
       Limits.Pi.lift (fun index => transformer.map (augmented.app index))
   apply Limits.Pi.hom_ext
@@ -812,14 +812,14 @@ private theorem milnorObjectIsoOfCoconeComparison_augmentation
     transformer.map augmented.augmentationMap ≫
         (milnorObjectIsoOfCoconeComparison transformer coconeComparison tower).hom =
       (mapTowerAugmentation transformer augmented).augmentationMap := by
-  show transformer.map
+  change transformer.map
       (pureLift (oneMinusShift tower) augmented.productLift augmented.productLift_oneMinusShift) ≫
     ((coconeComparison (oneMinusShift tower)).hom ≫
       (mappedDifferenceCoconeIso transformer tower).hom) = _
   rw [← Category.assoc,
     compatible (oneMinusShift tower) augmented.productLift augmented.productLift_oneMinusShift]
   rw [mappedDifferenceCoconeIso, pureLift_coconeCongrIso]
-  show pureLift (oneMinusShift (tower ⋙ transformer)) _ _ =
+  change pureLift (oneMinusShift (tower ⋙ transformer)) _ _ =
     pureLift (oneMinusShift (tower ⋙ transformer))
       (mapTowerAugmentation transformer augmented).productLift
       (mapTowerAugmentation transformer augmented).productLift_oneMinusShift

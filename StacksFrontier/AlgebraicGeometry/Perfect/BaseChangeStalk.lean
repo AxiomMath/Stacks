@@ -61,8 +61,7 @@ public lemma pullbackMap_of_comp_mono_isIso {A B W Z : Scheme}
       ((cancel_mono i).mp (by simpa only [Category.assoc] using
         (pullback.condition : pullback.fst (a ≫ i) (b ≫ i) ≫ (a ≫ i) =
           pullback.snd (a ≫ i) (b ≫ i) ≫ (b ≫ i))))
-  refine ⟨⟨k, ?_, ?_⟩⟩ <;> ext <;> simp [k, pullback.map, Category.assoc,
-    pullback.lift_fst, pullback.lift_snd]
+  refine ⟨⟨k, ?_, ?_⟩⟩ <;> ext <;> simp [k, pullback.map, Category.assoc]
 
 end AlgebraicGeometry
 
@@ -116,13 +115,12 @@ public lemma flat_isPreimmersion_pullbackMap_of_comp_mono
     MorphismProperty.pullbackMap (P := @IsPreimmersion) (h₁ := inferInstance)
       (h₂ := inferInstance) e₁ e₂
   have hw : pullback.map a b f g u v i e₁ e₂ = m₀ ≫ m₁ := by
-    ext <;> simp [m₀, m₁, pullback.map, Category.assoc,
-      pullback.lift_fst, pullback.lift_snd,
-      pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+    ext <;> simp [m₀, m₁, pullback.map, Category.assoc]
   rw [hw]
   exact ⟨inferInstance, inferInstance⟩
 
-private alias pullbackMap_flat_preimmersion_of_comp_mono := flat_isPreimmersion_pullbackMap_of_comp_mono
+private alias pullbackMap_flat_preimmersion_of_comp_mono :=
+  flat_isPreimmersion_pullbackMap_of_comp_mono
 
 /-- The local ring at a point of a scheme-theoretic fibre product is a localization of the
 tensor product of the local rings at its two images over the local ring of the base. -/
@@ -161,7 +159,7 @@ public theorem pullback_stalk_isLocalization
             (pullback f g).presheaf.stalk x' :=
           AlgHom.mk' ((pullback.fst f g).stalkMap x').hom (by
           intro r z
-          show ((pullback.fst f g).stalkMap x').hom
+          change ((pullback.fst f g).stalkMap x').hom
               ((f.stalkMap _).hom r * z) =
             (((pullback.fst f g ≫ f).stalkMap x').hom r) *
               ((pullback.fst f g).stalkMap x').hom z
@@ -175,13 +173,13 @@ public theorem pullback_stalk_isLocalization
             (pullback f g).presheaf.stalk x' :=
           AlgHom.mk' ((pullback.snd f g).stalkMap x').hom (by
           intro r z
-          show ((pullback.snd f g).stalkMap x').hom
+          change ((pullback.snd f g).stalkMap x').hom
               ((((eqToHom _) ≫ g.stalkMap _).hom r) * z) =
             (((pullback.fst f g ≫ f).stalkMap x').hom r) *
               ((pullback.snd f g).stalkMap x').hom z
           rw [map_mul]
           congr 1
-          show (((eqToHom _) ≫ g.stalkMap _ ≫
+          change (((eqToHom _) ≫ g.stalkMap _ ≫
             (pullback.snd f g).stalkMap x').hom r) =
               ((pullback.fst f g ≫ f).stalkMap x').hom r
           have e := (Scheme.Hom.stalkMap_congr_hom
@@ -216,11 +214,11 @@ public theorem pullback_stalk_isLocalization
         let v : Spec (.of B) ⟶ Y' := Y'.fromSpecStalk y
         let i : Spec (.of R) ⟶ Y := Y.fromSpecStalk z
         have e₁ : α ≫ i = u ≫ f := by
-          show Spec.map (f.stalkMap x) ≫ Y.fromSpecStalk (f.base x) =
+          change Spec.map (f.stalkMap x) ≫ Y.fromSpecStalk (f.base x) =
             X.fromSpecStalk x ≫ f
           exact Scheme.SpecMap_stalkMap_fromSpecStalk f
         have e₂ : β ≫ i = v ≫ g := by
-          show Spec.map (eqToHom (congrArg Y.presheaf.stalk
+          change Spec.map (eqToHom (congrArg Y.presheaf.stalk
             (congrArg (fun k : pullback f g ⟶ Y => k.base x')
               pullback.condition)) ≫ g.stalkMap y) ≫
               Y.fromSpecStalk z = Y'.fromSpecStalk y ≫ g
@@ -271,7 +269,7 @@ public theorem pullback_stalk_isLocalization
         let C := (pullback f g).presheaf.stalk x'
         let q : Spec (.of T) := Spec.map φC (IsLocalRing.closedPoint C)
         have hq : w q = x' := by
-          show (Spec.map φC ≫ w) (IsLocalRing.closedPoint C) = x'
+          change (Spec.map φC ≫ w) (IsLocalRing.closedPoint C) = x'
           rw [hfac]
           exact Scheme.fromSpecStalk_closedPoint
         have : IsIso (w.stalkMap q) := isIso_stalkMap_of_flat_isPreimmersion w q
@@ -281,7 +279,7 @@ public theorem pullback_stalk_isLocalization
           have h : IsIso (Scheme.stalkClosedPointTo (Spec.map φC ≫ w)) := by
             rw [hfac, Scheme.stalkClosedPointTo_fromSpecStalk]
             infer_instance
-          show IsIso (w.stalkMap ((Spec.map φC) (IsLocalRing.closedPoint C)) ≫
+          change IsIso (w.stalkMap ((Spec.map φC) (IsLocalRing.closedPoint C)) ≫
             Scheme.stalkClosedPointTo (Spec.map φC))
           rw [← Scheme.stalkClosedPointTo_comp]
           exact h
@@ -290,7 +288,7 @@ public theorem pullback_stalk_isLocalization
           StructureSheaf.stalkAlgebra T q
         have hmap : CommRingCat.ofHom
             (algebraMap T ((Spec (.of T)).presheaf.stalk q)) ≫ ρ = φC := by
-          show StructureSheaf.toStalk T q ≫ ρ = φC
+          change StructureSheaf.toStalk T q ≫ ρ = φC
           rw [show StructureSheaf.toStalk T q =
             (Scheme.ΓSpecIso (.of T)).inv ≫
               (Spec (.of T)).presheaf.germ ⊤ q trivial from rfl]
@@ -314,7 +312,7 @@ public theorem pullback_stalk_isLocalization
         let p : PrimeSpectrum T := q
         have : IsLocalization.AtPrime
             ((Spec (.of T)).presheaf.stalk q) p.asIdeal := by
-          show IsLocalization.AtPrime
+          change IsLocalization.AtPrime
             ((Spec (.of T)).presheaf.stalk p) p.asIdeal
           exact StructureSheaf.IsLocalization.to_stalk (CommRingCat.of T) p
         exact ⟨p.asIdeal.primeCompl,

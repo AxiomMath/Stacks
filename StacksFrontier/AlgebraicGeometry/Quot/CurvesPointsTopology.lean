@@ -205,7 +205,7 @@ theorem nonempty_hom_iff_schemePoint_mem_range {U : BigFppfOver B integerBase hZ
   · rintro ⟨t⟩
     refine ⟨t.left.hom.base (IsLocalRing.closedPoint p.carrier), ?_⟩
     have ht' : t.left.hom ≫ V.hom.hom = p.value.left.hom := congrArg (fun m => m.hom) (Over.w t)
-    show (t.left.hom ≫ V.hom.hom).base _ = _
+    change (t.left.hom ≫ V.hom.hom).base _ = _
     rw [ht']
     rfl
   · intro hmem
@@ -304,7 +304,7 @@ theorem pointClass_specializes_of_isHomLift {V : BigFppfOver B integerBase hZ}
       refine IsHomLift.of_fac _ _ _ (Functor.congr_obj hGq _) (Functor.congr_obj hGq _) ?_
       have e := Functor.congr_hom hGq β
       simp only [Functor.comp_map] at e
-      show a = _
+      change a = _
       rw [e]
       simp [β]
     have hψ : P.IsHomLift a (G.map β ≫ ξ.hom) := by

@@ -74,7 +74,9 @@ schemes by Stacks 03FX again and the reduction on the target of Stacks 05Y5.
 
 ## Parts
 
-* `StacksFrontier.AlgebraicGeometry.Spaces.RelativeHomRepresentableAffineTarget.HomEquivalences`
-* `StacksFrontier.AlgebraicGeometry.Spaces.RelativeHomRepresentableAffineTarget.SliceRepresentability`
-* `StacksFrontier.AlgebraicGeometry.Spaces.RelativeHomRepresentableAffineTarget.AlgebraicSpace`
+The submodules of `StacksFrontier.AlgebraicGeometry.Spaces.RelativeHomRepresentableAffineTarget`:
+
+* `HomEquivalences`
+* `SliceRepresentability`
+* `AlgebraicSpace`
 -/

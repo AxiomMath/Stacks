@@ -79,10 +79,11 @@ theorem isBalancedMod_of_succ {n : ℕ} {J : Matrix ι ι' ℤ_[p]}
 
 variable (f : L →ₗ[ℤ_[p]] L) (g : L' →ₗ[ℤ_[p]] L') (c K : ℕ)
 
+omit [Fintype ι] [Fintype ι'] [DecidableEq ι] [DecidableEq ι'] in
 include m m' in
 /-- **A balanced equivariant pairing over `ℤ_p` from balanced equivariant pairings modulo every
 `pⁿ`**, for free modules with bases. -/
-theorem exists_pairing_of_forall_zmodPow_of_basis_balanced
+theorem exists_pairing_of_forall_zmodPow_of_basis_balanced [Finite ι] [Finite ι']
     (h : ∀ n : ℕ, ∃ e : L →+ L' →+ ZMod (p ^ n),
       (∀ a, (∀ b, e a b = 0) → ∃ a', (p : ℤ_[p]) ^ K • a = (p : ℤ_[p]) ^ n • a') ∧
       (∀ b, (∀ a, e a b = 0) → ∃ b', (p : ℤ_[p]) ^ K • b = (p : ℤ_[p]) ^ n • b') ∧
@@ -91,6 +92,9 @@ theorem exists_pairing_of_forall_zmodPow_of_basis_balanced
     ∃ β : L →ₗ[ℤ_[p]] L' →ₗ[ℤ_[p]] ℤ_[p], (∀ a, (∀ b, β a b = 0) → a = 0) ∧
       (∀ b, (∀ a, β a b = 0) → b = 0) ∧ (∀ a b, β (f a) (g b) = c * β a b) ∧
       ∀ i a b, β (φ i a) b = β a (ψ i b) := by
+  have := Fintype.ofFinite ι
+  have := Fintype.ofFinite ι'
+  classical
   let t : ℕ → Set (Matrix ι ι' ℤ_[p]) := fun n =>
     {J | IsGoodMod m m' f g c K n J} ∩ {J | IsBalancedMod m m' φ ψ n J}
   have hcl : ∀ n, IsClosed (t n) := fun n =>
@@ -143,12 +147,10 @@ theorem rationalPairing_baseChange_balanced (β : M →ₗ[ℤ_[p]] M' →ₗ[�
     (φ : M →ₗ[ℤ_[p]] M) (ψ : M' →ₗ[ℤ_[p]] M') (h : ∀ a b, β (φ a) b = β a (ψ b))
     (v : ℚ_[p] ⊗[ℤ_[p]] M) (w : ℚ_[p] ⊗[ℤ_[p]] M') :
     rationalPairing β (φ.baseChange ℚ_[p] v) w = rationalPairing β v (ψ.baseChange ℚ_[p] w) := by
-  induction v using TensorProduct.induction_on with
-  | zero => simp
+  induction v using TensorProduct.inductionOn with
   | add v v' hv hv' => simp only [map_add, LinearMap.add_apply, hv, hv']
   | tmul x a =>
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | add w w' hw hw' => simp only [map_add, hw, hw']
     | tmul y b =>
       simp only [LinearMap.baseChange_tmul, rationalPairing_tmul, h]
@@ -193,6 +195,7 @@ def torsionQuotientPairing {n : ℕ} (e : M →+ M' →+ ZMod (p ^ n)) :
         pow_smul_eq_of_mkQ_eq hkM (a := σ (x + x')) (a' := σ x + σ x')
           (by rw [map_add, hσ, hσ, hσ])])
 
+omit [Module.Finite ℤ_[p] M] [Module.Finite ℤ_[p] M'] in
 /-- The value of `torsionQuotientPairing` on classes of elements. -/
 theorem torsionQuotientPairing_mkQ {n : ℕ} (e : M →+ M' →+ ZMod (p ^ n)) (a : M) (b : M') :
     torsionQuotientPairing hkM hkM' e ((torsion ℤ_[p] M).mkQ a) ((torsion ℤ_[p] M').mkQ b) =
@@ -201,6 +204,7 @@ theorem torsionQuotientPairing_mkQ {n : ℕ} (e : M →+ M' →+ ZMod (p ^ n)) (
   rw [pow_smul_eq_of_mkQ_eq hkM (Function.surjInv_eq _ _),
     pow_smul_eq_of_mkQ_eq hkM' (Function.surjInv_eq _ _)]
 
+omit [Module.Finite ℤ_[p] M] [Module.Finite ℤ_[p] M'] in
 include hkM hkM' in
 /-- A balanced equivariant pairing modulo `pⁿ` with bounded kernels descends to the torsion-free
 quotients, with the kernel bound `K + 2k` for `pᵏ` killing the torsion. -/

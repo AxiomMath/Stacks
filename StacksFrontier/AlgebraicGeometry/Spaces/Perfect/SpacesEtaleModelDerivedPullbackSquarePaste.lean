@@ -51,7 +51,7 @@ theorem spacesEtaleModelDerivedPullbackSquare_app {W W' Y Y' : AlgebraicSpaces B
           (congrArg (fun k => (derivedPullback (spacesEtaleModelHom B S hS k)).obj Z) hk) := by
     rintro _ _ rfl
     rfl
-  show (spacesEtaleModelDerivedPullbackCompIso B S hS h j).hom.app Z ≫
+  change (spacesEtaleModelDerivedPullbackCompIso B S hS h j).hom.app Z ≫
       (spacesEtaleModelDerivedPullbackCongr B S hS comm).hom.app Z ≫
         (spacesEtaleModelDerivedPullbackCompIso B S hS j' g).inv.app Z = _
   rw [hc comm]
@@ -86,6 +86,6 @@ theorem spacesEtaleModelDerivedPullbackSquare_paste {Y₀ W₀ Y₁ W₁ Y₂ W�
   rw [spacesEtaleModelDerivedPullbackSquare_app, spacesEtaleModelDerivedPullbackSquare_app,
     spacesEtaleModelDerivedPullbackSquare_app, Iso.comp_inv_eq]
   simp only [Category.assoc, Functor.map_comp]
-  rw [c₁, Iso.inv_hom_id_assoc, ← c₂, Iso.map_inv_hom_id_assoc, c₃, Iso.inv_hom_id_assoc]
+  rw [c₁, Iso.inv_hom_id_assoc, ← c₂, Iso.inv_hom_id_map_assoc, c₃, Iso.inv_hom_id_assoc]
 
 end AlgebraicGeometry.Space

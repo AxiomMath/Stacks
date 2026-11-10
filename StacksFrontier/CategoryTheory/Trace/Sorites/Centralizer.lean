@@ -66,7 +66,7 @@ private lemma centralizer_commutes_mapDomain (i : G →* Γ) (γ : Γ)
       MonoidAlgebra.single γ (1 : Λ) *
         MonoidAlgebra.mapDomainRingHom Λ (i.comp H.subtype) a := by
   let z : Λ[Γ] := MonoidAlgebra.single γ (1 : Λ)
-  show MonoidAlgebra.mapDomainRingHom Λ (i.comp H.subtype) a * z =
+  change MonoidAlgebra.mapDomainRingHom Λ (i.comp H.subtype) a * z =
     z * MonoidAlgebra.mapDomainRingHom Λ (i.comp H.subtype) a
   induction a using MonoidAlgebra.induction_on with
   | of g =>
@@ -210,7 +210,7 @@ lemma restricted_module_projective (i : G →* Γ)
   have : IsScalarTower Λ[H] Λ[G] Λ[G] := ⟨fun b x y => mul_assoc _ x y⟩
   have : IsScalarTower Λ[H] Λ[G] Q := by
     refine ⟨fun b x p => ?_⟩
-    show (MonoidAlgebra.mapDomainRingHom Λ i
+    change (MonoidAlgebra.mapDomainRingHom Λ i
         (MonoidAlgebra.mapDomainRingHom Λ H.subtype b * x)) • p =
       MonoidAlgebra.mapDomainRingHom Λ (i.comp H.subtype) b •
         (MonoidAlgebra.mapDomainRingHom Λ i x • p)
@@ -278,7 +278,7 @@ lemma finite_over_coefficients (i : G →* Γ)
   have : IsScalarTower Λ Λ[G] Q := by
     refine ⟨fun r a p => ?_⟩
     rw [groupAlgebra_smul_eq_mul Λ G r a]
-    show (MonoidAlgebra.mapDomainRingHom Λ i
+    change (MonoidAlgebra.mapDomainRingHom Λ i
       (MonoidAlgebra.singleOneRingHom (R := Λ) (M := G) r * a)) • p =
       MonoidAlgebra.singleOneRingHom (R := Λ) (M := G) r •
         (MonoidAlgebra.mapDomainRingHom Λ i a • p)
@@ -352,7 +352,7 @@ lemma trace_eq_card_centralizer_nsmul_groupTrace (i : G →* Γ)
     { fH with
       map_smul' := by
         intro r p
-        show fH (r • p) = r • fH p
+        change fH (r • p) = r • fH p
         exact fH.map_smul (MonoidAlgebra.singleOneRingHom (R := Λ) (M := H) r) p }
   let : Module.Finite Λ (coefficientModule Λ Γ P) :=
     finite_over_coefficients (P := P) i
@@ -363,7 +363,7 @@ lemma trace_eq_card_centralizer_nsmul_groupTrace (i : G →* Γ)
   have hf : e.toLinearMap.comp (fΛ.comp e.symm.toLinearMap) =
       (coefficientEndomorphism (P := P) γ).val := by
     ext p
-    show MonoidAlgebra.single γ (1 : Λ) • p =
+    change MonoidAlgebra.single γ (1 : Λ) • p =
       MonoidAlgebra.single γ (1 : Λ) • p
     rfl
   have hleft :
@@ -377,7 +377,7 @@ lemma trace_eq_card_centralizer_nsmul_groupTrace (i : G →* Γ)
         (coefficientEndomorphism (P := P) γ).val =
       Nat.card H • centralizerTrace (P := P) i γ
   rw [hleft]
-  show projectiveModuleTrace Λ Q fΛ = Nat.card H • groupTrace Λ H Q fH
+  change projectiveModuleTrace Λ Q fΛ = Nat.card H • groupTrace Λ H Q fH
   simpa [fΛ, fH, centralizerTrace, H, Q] using
     projectiveModuleTrace_restrictScalars_groupAlgebra Λ H Q fH
 

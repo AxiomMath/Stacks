@@ -72,9 +72,9 @@ vanishing of Stacks 0D6X, which is `AlgebraicGeometry.Stack.LisseEtale.objectAcy
 The coefficient category is `AbCat.{u, u + 1} = Ab.{u + 1}`, as in `LisseEtaleInclusion.lean`:
 the two sites live in `Type (u + 1)` with morphisms in `Type u`, and that is the universe in
 which sheafification of abelian presheaves on them is available. In the language of
-`StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriek/AbelianDerivedExistence.lean` this is the instance `w = u + 1` of its coefficient convention
-`AddCommGrpCat.{max v₁ w}`, with `v₁ = u` the morphism universe of the lisse-étale site. The
-smallness hypothesis of
+`StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriek/AbelianDerivedExistence.lean` this is
+the instance `w = u + 1` of its coefficient convention `AddCommGrpCat.{max v₁ w}`, with `v₁ = u` the
+morphism universe of the lisse-étale site. The smallness hypothesis of
 `Stacks.Cohomology.DerivedLowerShriek.hasPointwiseLeftDerivedAbelianLowerShriek_of_acyclic` is
 `Small.{max v₁ w} C`, here `Small.{u + 1}` of a category in `Type (u + 1)`, which is automatic —
 the same good behaviour as in the flat-fppf abelian case.
@@ -207,7 +207,8 @@ functor on abelian sheaves carries every bounded above acyclic complex whose ter
 sums of the extensions by zero `j_{U!} ℤ_U` of the constant sheaf `ℤ` on the localizations of
 the lisse-étale site to an acyclic complex.
 
-`StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriek/AbelianDerivedExistence.lean` reduces the whole of Stacks 07AC for abelian sheaves to it, and
+`StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriek/AbelianDerivedExistence.lean` reduces
+the whole of Stacks 07AC for abelian sheaves to it, and
 `AlgebraicGeometry.Stack.LisseEtale.abelianLowerShriekAcyclic` proves it. -/
 abbrev AbelianLowerShriekAcyclic : Prop :=
   haveI := isContinuous_inclusion.{u, w} B S hS 𝒳 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒳)

@@ -112,7 +112,7 @@ def leftMulRegular {n : ℤ} (b : B.grading n) :
 multiplication. -/
 theorem leftMulRegular_apply {n : ℤ} (b : B.grading n) (y : B.A) :
     (leftMulRegular b).1 y = (b : B.A) * y := by
-  show leftActionTotal B B (regularModule B) (regularBimoduleStructure B.idHom).1 (b : B.A) y =
+  change leftActionTotal B B (regularModule B) (regularBimoduleStructure B.idHom).1 (b : B.A) y =
     (b : B.A) * y
   rw [leftActionTotal_apply B B (regularModule B) (regularBimoduleStructure B.idHom).1 n b]
   induction y using DirectSum.Decomposition.inductionOn B.grading with

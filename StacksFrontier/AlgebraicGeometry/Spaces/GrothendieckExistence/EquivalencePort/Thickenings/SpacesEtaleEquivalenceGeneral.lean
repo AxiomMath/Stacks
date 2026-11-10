@@ -43,7 +43,7 @@ Faithfulness holds for any morphism surjective on points,
 graph argument, `AlgebraicGeometry.Space.full_spacesBaseChange_of_mono_of_isThickening`.
 
 Essential surjectivity follows the last paragraph of the source's proof. The reduction of
-`StacksFrontier/AlgebraicGeometry/Spaces/GrothendieckExistence/EquivalencePort/Thickenings/SpacesEtaleEssSurjLifting.lean`,
+the sibling file `SpacesEtaleEssSurjLifting.lean` (in this directory),
 `AlgebraicGeometry.Space.C1573.nonempty_liftedEtalePresentation_of_lifting` followed by
 `AlgebraicGeometry.Space.C1573.essSurj_spacesBaseChange_of_liftedEtalePresentation`, takes two
 inputs, and both are available at arbitrary order:

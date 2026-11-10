@@ -127,7 +127,7 @@ theorem bijective_smul_of_triv {M : X.Modules} {V W : X.Opens}
     exact congrArg (Stacks.NonvanishingOpen.triv t (homOfLE hWV)) hab
   · refine ⟨Stacks.NonvanishingOpen.triv t (homOfLE hWV) l * (↑v⁻¹ : Γ(X, W)),
       (t.θ W (homOfLE hWV)).injective ?_⟩
-    show Stacks.NonvanishingOpen.triv t (homOfLE hWV) _ =
+    change Stacks.NonvanishingOpen.triv t (homOfLE hWV) _ =
       Stacks.NonvanishingOpen.triv t (homOfLE hWV) l
     rw [Stacks.NonvanishingOpen.triv_smul, ← hv, mul_assoc, Units.inv_mul, mul_one]
 
@@ -162,7 +162,7 @@ theorem bijective_smul_of_nonvanishing (M : X.Modules) [Stacks.Ample.IsInvertibl
   · intro a b hab
     refine TopCat.Sheaf.eq_of_locally_eq' X.sheaf V W iV hcover a b fun y => ?_
     refine (hbij y (V y) le_rfl).1 ?_
-    show X.presheaf.map (iV y).op a • M.presheaf.map (iV y).op τ =
+    change X.presheaf.map (iV y).op a • M.presheaf.map (iV y).op τ =
       X.presheaf.map (iV y).op b • M.presheaf.map (iV y).op τ
     rw [← hres, ← hres]
     exact congrArg (M.presheaf.map (iV y).op) hab
@@ -180,14 +180,14 @@ theorem bijective_smul_of_nonvanishing (M : X.Modules) [Stacks.Ample.IsInvertibl
         X.presheaf.map (homOfLE (inf_le_right : V y ⊓ V y' ≤ V y')).op (a y') := by
       intro y y'
       refine (hbij y (V y ⊓ V y') inf_le_left).1 ?_
-      show X.presheaf.map (homOfLE inf_le_left).op (a y) • _ =
+      change X.presheaf.map (homOfLE inf_le_left).op (a y) • _ =
         X.presheaf.map (homOfLE inf_le_right).op (a y') • _
       rw [hloc y _ inf_le_left]
       exact (hloc y' _ inf_le_right).symm
     obtain ⟨A, hA⟩ : ∃ A : Γ(X, W), ∀ y, X.presheaf.map (iV y).op A = a y :=
       (X.sheaf.existsUnique_gluing' V W iV hcover a hcompat).exists
     refine ⟨A, modules_eq_of_locally_eq M V W iV hcover _ l fun y => ?_⟩
-    show M.presheaf.map (iV y).op (A • τ) = M.presheaf.map (iV y).op l
+    change M.presheaf.map (iV y).op (A • τ) = M.presheaf.map (iV y).op l
     rw [hres, ← ha' y, hA y]
 
 end Stacks.AmpleThickeningAscent

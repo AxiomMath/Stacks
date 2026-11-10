@@ -170,13 +170,7 @@ def baseChangeCohomologyMapHom (K₁ K₂ : DerivedCategory (ModuleCat.{u} A)) (
           (baseChangeCohomologyOverBaseMap (R := R) (R' := R') K₁ K₂ θ n).hom m
         map_add' := fun x y => map_add _ x y
         map_smul' := fun t m => by
-          induction t using TensorProduct.induction_on with
-          | zero =>
-            simp only [zero_smul, map_zero]
-            exact (map_zero _).trans
-              (zero_smul (A ⊗[R] R')
-                (show baseChangeCohomology (R := R) (R' := R') K₂ n from
-                  (baseChangeCohomologyOverBaseMap (R := R) (R' := R') K₁ K₂ θ n).hom m)).symm
+          induction t using TensorProduct.inductionOn with
           | add x y hx hy =>
             simp only [RingHom.id_apply] at hx hy ⊢
             rw [add_smul]
@@ -198,7 +192,7 @@ theorem baseChangeCohomologyMapHom_id (K : DerivedCategory (ModuleCat.{u} A)) (n
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro m
-  show (baseChangeCohomologyOverBaseMap (R := R) (R' := R') K K (𝟙 K) n).hom m = m
+  change (baseChangeCohomologyOverBaseMap (R := R) (R' := R') K K (𝟙 K) n).hom m = m
   rw [baseChangeCohomologyOverBaseMap_id]
   rfl
 
@@ -211,7 +205,7 @@ theorem baseChangeCohomologyMapHom_comp {K₁ K₂ K₃ : DerivedCategory (Modul
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro m
-  show (baseChangeCohomologyOverBaseMap (R := R) (R' := R') K₁ K₃ (θ ≫ θ') n).hom m = _
+  change (baseChangeCohomologyOverBaseMap (R := R) (R' := R') K₁ K₃ (θ ≫ θ') n).hom m = _
   rw [baseChangeCohomologyOverBaseMap_comp]
   rfl
 
@@ -340,7 +334,7 @@ theorem isIso_baseChangeCohomologyMap_iff_of_isIso_source {X X' S S' : Scheme.{u
     let m₁ : baseChangeCohomologyOverBase (R := R) (R' := R') K₂x n :=
       (baseChangeCohomologyOverBaseMap (R := R) (R' := R') K₁x K₂x θx n).hom m
     dsimp only [baseChangeCohomologyMap]
-    show (Classical.choose P₁.exists).hom
+    change (Classical.choose P₁.exists).hom
         ((1 : A') ⊗ₜ[((A ⊗[R] R')),
           (Algebra.TensorProduct.lift
             (IsScalarTower.toAlgHom R A A')

@@ -114,7 +114,7 @@ private lemma finite_primesOver_of_finite_fiber {X Y : Scheme.{u}} (f : X ⟶ Y)
   apply Set.Finite.of_finite_image (f := fun q : PrimeSpectrum Γ(X, U.1) => hU.fromSpec q)
   · apply hfin.subset
     rintro x ⟨q, hq, rfl⟩
-    show f (hU.fromSpec q) = η
+    change f (hU.fromSpec q) = η
     have hmap := congrArg (fun k : Spec (CommRingCat.of Γ(X, U.1)) ⟶ Y => k q)
       (hV.SpecMap_appLE_fromSpec f hU hUV)
     simp only at hmap
@@ -179,14 +179,14 @@ private lemma exists_finite_basicOpen {X Y : Scheme.{u}} (f : X ⟶ Y)
   · have hq : V.2.primeIdealOf ⟨η,hηV⟩ ∈ PrimeSpectrum.basicOpen g := by
       simpa only [PrimeSpectrum.mem_basicOpen] using hg
     have hm : V.2.fromSpec (V.2.primeIdealOf ⟨η,hηV⟩) ∈ Y.basicOpen g := by
-      show V.2.primeIdealOf ⟨η,hηV⟩ ∈ V.2.fromSpec ⁻¹ᵁ Y.basicOpen g
+      change V.2.primeIdealOf ⟨η,hηV⟩ ∈ V.2.fromSpec ⁻¹ᵁ Y.basicOpen g
       rw [V.2.fromSpec_preimage_basicOpen]
       exact hq
     simpa [W, V.2.fromSpec_primeIdealOf] using hm
   · have : IsLocalization.Away g Γ(Y,Y.basicOpen g) := V.2.isLocalization_basicOpen g
     have : IsLocalization.Away t Γ(X,X.basicOpen t) := U.2.isLocalization_basicOpen t
     exact isFinite_resLE_of_finite_appLE f T W hTW (by
-      show (f.appLE (Y.basicOpen g)
+      change (f.appLE (Y.basicOpen g)
         (X.basicOpen (f.appLE V.1 U.1 hUV g)) _).hom.Finite
       rw [V.2.appLE_eq_away_map f U.2 hUV g]
       exact hgf _ _)
@@ -290,7 +290,7 @@ private lemma finite_cover_forward {X Y : Scheme.{u}} (f : X ⟶ Y)
       (basicOpen_appLE_le_preimage f (hUV i) (g i)) (hWle i) (hfg i)
     have heq : (U i).1 =
         X.basicOpen (f.appLE V.1 (U₀ i).1 (hUV i) (g i)) ⊓ f ⁻¹ᵁ W.1 := by
-      show X.basicOpen (f.appLE V.1 (U₀ i).1 (hUV i) G) =
+      change X.basicOpen (f.appLE V.1 (U₀ i).1 (hUV i) G) =
         X.basicOpen (f.appLE V.1 (U₀ i).1 (hUV i) (g i)) ⊓ f ⁻¹ᵁ Y.basicOpen G
       rw [Scheme.basicOpen_appLE, Scheme.basicOpen_appLE]
       have hp : f ⁻¹ᵁ Y.basicOpen G ≤ f ⁻¹ᵁ Y.basicOpen (g i) := f.preimage_mono (hWle i)
@@ -372,7 +372,7 @@ private lemma finite_one_forward {X Y : Scheme.{u}} (f : X ⟶ Y)
   have hUV : Ubase.1 ≤ f ⁻¹ᵁ V.1 := S.ι_image_le U₀
   have hcover : f ⁻¹' {η} ⊆ Ubase.1 := by
     intro x hx
-    show x ∈ S.ι ''ᵁ U₀
+    change x ∈ S.ι ''ᵁ U₀
     exact ⟨E ⟨x, hx⟩, hU₀mem ⟨x, hx⟩, rfl⟩
   obtain ⟨g, hηg, hgfin⟩ := exists_finite_basicOpen f Ubase V hUV η hη hηV₀ h
   let W : Y.affineOpens := ⟨Y.basicOpen g, V.2.basicOpen g⟩
@@ -413,7 +413,7 @@ private lemma finite_restrict_forward {X Y : Scheme.{u}} (f : X ⟶ Y)
     exists_open_nhds_disjoint_range_of_quasiCompact g ηV hηVgen hηNot
   let OY : Y.Opens := V.1.ι ''ᵁ N
   have hηOY : η ∈ OY := by
-    show η ∈ V.1.ι ''ᵁ N
+    change η ∈ V.1.ι ''ᵁ N
     exact ⟨ηV, hηN, rfl⟩
   obtain ⟨_, ⟨W₀, hW₀, rfl⟩, hηW₀, hWOY⟩ :=
     Y.isBasis_affineOpens.exists_subset_of_mem_open hηOY OY.isOpen

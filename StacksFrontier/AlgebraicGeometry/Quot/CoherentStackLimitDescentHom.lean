@@ -319,7 +319,7 @@ theorem descentHom_coherent (hY : IsLocallyOfFinitePresentation B S hS (terminal
   obtain ⟨ζ, hζdef⟩ : ∃ ζ : CoherentHom A₀ A', φ.comp ε = ζ := ⟨_, rfl⟩
   have hζb : ζ.base.left = eqToHom hA₀ ≫ incl.map (c.π.app i) ≫ eqToHom hA'.symm := by
     rw [← hζdef]
-    show φ.base.left ≫ ε.base.left = _
+    change φ.base.left ≫ ε.base.left = _
     rw [hφb, hεb]
     simp
   let g := sSF.map (eqToHom hA.symm) ≫ A.T.hom
@@ -343,16 +343,16 @@ theorem descentHom_coherent (hY : IsLocallyOfFinitePresentation B S hS (terminal
   let Tsys := D.stageTestSystem E g
   let u : Tsys.obj k' ⟶ A.T := CostructuredArrow.homMk (incl.map (E.map s) ≫ eqToHom hA.symm)
     (by
-      show sSF.map (incl.map (E.map s) ≫ eqToHom hA.symm) ≫ A.T.hom =
+      change sSF.map (incl.map (E.map s) ≫ eqToHom hA.symm) ≫ A.T.hom =
         sSF.map (incl.map (E.map s)) ≫ g
       rw [Functor.map_comp, Category.assoc])
   let u' : Tsys.obj k' ⟶ A'.T := CostructuredArrow.homMk (incl.map (E.map s) ≫ eqToHom hA'.symm)
     (by
-      show sSF.map (incl.map (E.map s) ≫ eqToHom hA'.symm) ≫ A'.T.hom =
+      change sSF.map (incl.map (E.map s) ≫ eqToHom hA'.symm) ≫ A'.T.hom =
         sSF.map (incl.map (E.map s)) ≫ g
       rw [Functor.map_comp, Category.assoc, hs])
   let v : A₀.T ≅ (D.stageTestCone E c g).pt := CostructuredArrow.isoMk (eqToIso hA₀) (by
-    show sSF.map (eqToHom hA₀) ≫ (sSF.map (incl.map (c.π.app i)) ≫ g) = A₀.T.hom
+    change sSF.map (eqToHom hA₀) ≫ (sSF.map (incl.map (c.π.app i)) ≫ g) = A₀.T.hom
     rw [hA₀g, Functor.map_comp, Category.assoc])
   let cT := D.stageTestConeAt E c g v
   let πT : ∀ j : Over i, A₀.T ⟶ Tsys.obj j := fun j => cT.π.app j
@@ -361,12 +361,12 @@ theorem descentHom_coherent (hY : IsLocallyOfFinitePresentation B S hS (terminal
   have hδdec : δ.base = πT k' ≫ u := by
     apply CostructuredArrow.hom_ext
     rw [hδb, CostructuredArrow.comp_left, hπleft]
-    show _ = (eqToHom hA₀ ≫ incl.map (c.π.app k)) ≫ incl.map (E.map s) ≫ eqToHom hA.symm
+    change _ = (eqToHom hA₀ ≫ incl.map (c.π.app k)) ≫ incl.map (E.map s) ≫ eqToHom hA.symm
     rw [Category.assoc, ← Category.assoc (incl.map (c.π.app k)), ← Functor.map_comp, c.w]
   have hζdec : ζ.base = πT k' ≫ u' := by
     apply CostructuredArrow.hom_ext
     rw [hζb, CostructuredArrow.comp_left, hπleft]
-    show _ = (eqToHom hA₀ ≫ incl.map (c.π.app k)) ≫ incl.map (E.map s) ≫ eqToHom hA'.symm
+    change _ = (eqToHom hA₀ ≫ incl.map (c.π.app k)) ≫ incl.map (E.map s) ≫ eqToHom hA'.symm
     rw [Category.assoc, ← Category.assoc (incl.map (c.π.app k)), ← Functor.map_comp, c.w]
   let χ := (pullbackComparison B S hS (D.relativeMap (πT k')) (D.relativeMap u')
         (D.relativeMap ζ.base)
@@ -394,21 +394,21 @@ theorem descentHom_coherent (hY : IsLocallyOfFinitePresentation B S hS (terminal
   have hej : e.left ≫ s = j.hom := Over.w e
   refine ⟨j.left, j.hom, ⟨xk, rfl⟩, ⟨yk, rfl⟩, dx, dy, δk, ψk, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · refine IsHomLift.of_fac' p _ _ rfl hA ?_
-    show incl.map (E.map e.left) ≫ (incl.map (E.map s) ≫ eqToHom hA.symm) =
+    change incl.map (E.map e.left) ≫ (incl.map (E.map s) ≫ eqToHom hA.symm) =
       𝟙 _ ≫ incl.map (E.map j.hom) ≫ eqToHom hA.symm
     rw [Category.id_comp, ← Category.assoc, ← CategoryTheory.Functor.map_comp,
       ← CategoryTheory.Functor.map_comp, hej]
   · refine IsHomLift.of_fac' p _ _ rfl hA' ?_
-    show incl.map (E.map e.left) ≫ (incl.map (E.map s) ≫ eqToHom hA'.symm) =
+    change incl.map (E.map e.left) ≫ (incl.map (E.map s) ≫ eqToHom hA'.symm) =
       𝟙 _ ≫ incl.map (E.map j.hom) ≫ eqToHom hA'.symm
     rw [Category.id_comp, ← Category.assoc, ← CategoryTheory.Functor.map_comp,
       ← CategoryTheory.Functor.map_comp, hej]
   · refine IsHomLift.of_fac' p _ _ hA₀ rfl ?_
-    show δk.base.left = _
+    change δk.base.left = _
     rw [hδk]
     rfl
   · refine IsHomLift.of_fac' p _ _ rfl rfl ?_
-    show ψk.base.left = 𝟙 _ ≫ 𝟙 _ ≫ 𝟙 _
+    change ψk.base.left = 𝟙 _ ≫ 𝟙 _ ≫ 𝟙 _
     rw [hψk₁, Category.id_comp, Category.id_comp]
   · exact hE₁
   · exact (congrArg (CoherentHom.comp δk) hψk₂).trans (hE₂.trans hζdef.symm)

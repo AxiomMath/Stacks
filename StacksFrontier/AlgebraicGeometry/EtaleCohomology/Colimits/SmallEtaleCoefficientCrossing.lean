@@ -9,8 +9,8 @@ public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Colimits.SmallEta
 
 The degree-zero hypothesis `H0` of `isCohomologyColimit_of_degreeZero_of_affineOpensAcyclic`
 (in the namespace `Stacks.EtaleCohomology.SmallEtaleLimitCohomology`) is about **abelian**
-sheaves, `AddCommGrpCat.{u + 1}`, on Mathlib's small étale sites; what the library has in degree zero,
-`Stacks.EtaleCohomology.QcSeparatedColimit.sectionOver_colimit_of_qcqs_etale_object`, is about
+sheaves, `AddCommGrpCat.{u + 1}`, on Mathlib's small étale sites; what the library has in degree
+zero, `Stacks.EtaleCohomology.QcSeparatedColimit.sectionOver_colimit_of_qcqs_etale_object`, is about
 sheaves of **sets**, `Type (u + 1)`. This file carries the inverse image across that change of
 coefficients, and identifies the sections of the two inverse images.
 
@@ -93,8 +93,9 @@ What *is* true, and is the extra input such a transfer would need, is that for t
 dévissage of [Stacks, Tag 09YQ] — a nonempty directed preorder `I` with `UnivLE.{v, u + 1}` —
 composition with the forgetful functor **does** preserve colimits of shape `I` at these sites:
 every hypothesis of `CategoryTheory.preservesColimitsOfShape_sheafCompose` is satisfied by
-`sheafCompose (smallEtaleTopology Y) (forget AddCommGrpCat.{u + 1})` there. Two things keep it from closing the gap. First, the abelian universal property
-becomes an honest `CategoryTheory.Limits.IsColimit` only after passing to the Karoubi envelope —
+`sheafCompose (smallEtaleTopology Y) (forget AddCommGrpCat.{u + 1})` there. Two things keep it from
+closing the gap. First, the abelian universal property becomes an honest
+`CategoryTheory.Limits.IsColimit` only after passing to the Karoubi envelope —
 the diagram `i ↦ f_i^{-1}F_i` is not a functor, which is why the predicate exists at all — by
 `Stacks.EtaleCohomology.SmallEtaleLimitCohomology.isColimit_systemKaroubiCocone`, and nothing
 lifts `CategoryTheory.sheafCompose` to the Karoubi envelopes or transports colimit preservation
@@ -151,7 +152,7 @@ public def etaleForgetInverseImageIso :
       etaleAbelianInverseImage.{u, u + 1} f ⋙
         sheafCompose (smallEtaleTopology Y) (forget AddCommGrpCat.{u + 1}) :=
   (asIso (coefficientPullbackTwoSquare (smallEtaleBaseChange f) (smallEtaleTopology X)
-    (smallEtaleTopology Y) (forget AddCommGrpCat.{u + 1})).natTrans : _ ≅ _)
+    (smallEtaleTopology Y) (forget AddCommGrpCat.{u + 1})) : _ ≅ _)
 
 omit [HasSheafify (smallEtaleTopology X) AddCommGrpCat.{u + 1}] in
 /-- **The coefficient crossing is the existing comparison and nothing else**: the forward direction
@@ -163,7 +164,7 @@ it unchanged. -/
 public theorem etaleForgetInverseImageIso_hom :
     (etaleForgetInverseImageIso f).hom =
       (coefficientPullbackTwoSquare (smallEtaleBaseChange f) (smallEtaleTopology X)
-        (smallEtaleTopology Y) (forget AddCommGrpCat.{u + 1})).natTrans :=
+        (smallEtaleTopology Y) (forget AddCommGrpCat.{u + 1})) :=
   rfl
 
 /-- **The sections of the two inverse images agree.** For an abelian sheaf `F` on Mathlib's small

@@ -38,7 +38,8 @@ points.
 `AlgebraicGeometry.schemeSpaceFunctorCompιIso` is sealed by `irreducible_def`, so a consumer
 of this interface cannot rely on the isomorphism being the identity; the definitions of
 `AlgebraicGeometry.schemeSpace` and `AlgebraicGeometry.schemeSpaceMap` are not sealed, since some
-consumers still use their definitional form. `AlgebraicGeometry.schemeSpace_eq`, `AlgebraicGeometry.schemeSpace_obj`
+consumers still use their definitional form. `AlgebraicGeometry.schemeSpace_eq`,
+`AlgebraicGeometry.schemeSpace_obj`
 and `AlgebraicGeometry.schemeSpaceMap_hom` record the definitional description, and
 `AlgebraicGeometry.schemeSpaceIso_hom_eq_eqToHom` relates the isomorphism to it.
 

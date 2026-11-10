@@ -163,7 +163,7 @@ theorem quasiIso_map_of_isStrictlyGE (K : CochainComplex A ℤ) (n : ℤ)
   let η := rightDerivedFunctorPlusComp F H
   have hGE : (DerivedCategory.Plus.Qh.obj Kp).IsGE n := by
     rw [← DerivedCategory.Plus.isGE_ι_obj_iff]
-    show (DerivedCategory.Qh.obj
+    change (DerivedCategory.Qh.obj
       ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).obj K)).IsGE n
     have := (DerivedCategory.isGE_Q_obj_iff K n).2 inferInstance
     exact DerivedCategory.TStructure.t.isGE_of_iso
@@ -201,10 +201,10 @@ theorem quasiIso_map_of_isStrictlyGE (K : CochainComplex A ℤ) (n : ℤ)
   have hJ : IsIso (H.rightDerivedFunctorPlusUnith.app Jp) :=
     isIso_rightDerivedFunctorPlusUnit_app_of_rightAcyclic H Jp
       (fun i => by
-        show H.rightAcyclic (J.X i)
+        change H.rightAcyclic (J.X i)
         exact Functor.rightAcyclic_of_injective _ _)
   have hsp : HomotopyCategory.Plus.quasiIso B sp := by
-    show HomotopyCategory.quasiIso B (ComplexShape.up ℤ)
+    change HomotopyCategory.quasiIso B (ComplexShape.up ℤ)
       ((HomotopyCategory.quotient B (ComplexShape.up ℤ)).map s)
     rw [HomotopyCategory.quotient_map_mem_quasiIso_iff, HomologicalComplex.mem_quasiIso_iff]
     infer_instance

@@ -203,14 +203,14 @@ theorem exists_standardFppfFamily_le_of_mem_fppf {x : 𝒳} [IsAffine ((toScheme
     ⟨ULift.{u} (Fin (Nat.card E₀.I₀)), fun i => E₀.X (e.symm i), fun i => E₀.f (e.symm i)⟩
   have hsieve : 𝒰.sieve₀ = Sieve.ofArrows E₀.X E₀.f := by
     ext W g
-    show Sieve.ofArrows _ _ g ↔ _
+    change Sieve.ofArrows _ _ g ↔ _
     rw [Sieve.mem_ofArrows_iff, Sieve.mem_ofArrows_iff]
     constructor
     · rintro ⟨i, a, h⟩
       exact ⟨e.symm i, a, h⟩
     · rintro ⟨i, a, h⟩
       refine ⟨e i, ?_⟩
-      show ∃ a', g = a' ≫ E₀.f (e.symm (e i))
+      change ∃ a', g = a' ≫ E₀.f (e.symm (e i))
       rw [e.symm_apply_apply]
       exact ⟨a, h⟩
   have hup : Sieve.ofArrows E₀.X E₀.f ∈ BigFppfOver.associatedTopology B S hS p .fppf x := by

@@ -94,7 +94,7 @@ private theorem exists_mem_isRelativelyAmple_of_isAmple_pullbackModule (L : X.Mo
   have ha : a ≫ f.fiberι t = g' := hF.lift_fst _ _ _
   have hleft : IsPullback a f' (f.fiberToSpecResidueField t) (Spec.map φ) := by
     refine IsPullback.of_right ?_ (hF.lift_snd _ _ _) hF
-    show IsPullback (a ≫ f.fiberι t) f' f (Spec.map φ ≫ S.fromSpecResidueField t)
+    change IsPullback (a ≫ f.fiberι t) f' f (Spec.map φ ≫ S.fromSpecResidueField t)
     rwa [ha, hy]
   have hrelK : Stacks.RelativeAmple.IsRelativelyAmple f'
       (pullbackModule a (pullbackModule (f.fiberι t) L)) :=

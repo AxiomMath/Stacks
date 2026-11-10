@@ -62,15 +62,15 @@ theorem bijective_liftBaseChange_of_bijective_restrictionBaseChange
             map_add' := fun m m' => TensorProduct.tmul_add _ _ _ }
         map_zero' := by
           ext m
-          show (fB.symm 0 : R.obj Y) ⊗ₜ[R.obj X] m = 0
+          change (fB.symm 0 : R.obj Y) ⊗ₜ[R.obj X] m = 0
           rw [map_zero, TensorProduct.zero_tmul]
         map_add' := fun b b' => by
           ext m
-          show (fB.symm (b + b') : R.obj Y) ⊗ₜ[R.obj X] m =
+          change (fB.symm (b + b') : R.obj Y) ⊗ₜ[R.obj X] m =
             (fB.symm b : R.obj Y) ⊗ₜ[R.obj X] m + (fB.symm b' : R.obj Y) ⊗ₜ[R.obj X] m
           rw [map_add, TensorProduct.add_tmul] }
       (fun a b m => by
-        show (fB.symm (a • b) : R.obj Y) ⊗ₜ[R.obj X] m =
+        change (fB.symm (a • b) : R.obj Y) ⊗ₜ[R.obj X] m =
           (fB.symm b : R.obj Y) ⊗ₜ[R.obj X] (a • m)
         have h1 : fB.symm (a • b) = fA.symm a • fB.symm b := by
           rw [Algebra.smul_def, Algebra.smul_def, map_mul, halg, RingEquiv.symm_apply_apply]
@@ -85,36 +85,33 @@ theorem bijective_liftBaseChange_of_bijective_restrictionBaseChange
             map_add' := fun m m' => TensorProduct.tmul_add _ _ _ }
         map_zero' := by
           ext m
-          show fB 0 ⊗ₜ[A] m = 0
+          change fB 0 ⊗ₜ[A] m = 0
           rw [map_zero, TensorProduct.zero_tmul]
         map_add' := fun b b' => by
           ext m
-          show fB (b + b') ⊗ₜ[A] m = fB b ⊗ₜ[A] m + fB b' ⊗ₜ[A] m
+          change fB (b + b') ⊗ₜ[A] m = fB b ⊗ₜ[A] m + fB b' ⊗ₜ[A] m
           rw [map_add, TensorProduct.add_tmul] }
       (fun c s m => by
-        show fB (c • s) ⊗ₜ[A] m = fB s ⊗ₜ[A] (c • m)
+        change fB (c • s) ⊗ₜ[A] m = fB s ⊗ₜ[A] (c • m)
         have h1 : fB (c • s) = fA c • fB s := by
           rw [Algebra.smul_def, Algebra.smul_def, map_mul, halg, RingEquiv.symm_apply_apply]
           rfl
         rw [h1, ← hfA]
         exact TensorProduct.smul_tmul _ _ _)
   have hE'E : ∀ z, E' (E z) = z := fun z => by
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul b m =>
-      show fB (fB.symm b) ⊗ₜ[A] m = b ⊗ₜ[A] m
+      change fB (fB.symm b) ⊗ₜ[A] m = b ⊗ₜ[A] m
       rw [RingEquiv.apply_symm_apply]
     | add z z' hz hz' => rw [map_add, map_add, hz, hz']
   have hEE' : ∀ z, E (E' z) = z := fun z => by
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul c m =>
-      show (fB.symm (fB c) : R.obj Y) ⊗ₜ[R.obj X] m = c ⊗ₜ[R.obj X] m
+      change (fB.symm (fB c) : R.obj Y) ⊗ₜ[R.obj X] m = c ⊗ₜ[R.obj X] m
       rw [RingEquiv.symm_apply_apply]
     | add z z' hz hz' => rw [map_add, map_add, hz, hz']
   have key : ∀ z, r.liftBaseChange Bc z = restrictionBaseChange M f (E z) := fun z => by
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]; exact (map_zero _).symm
+    induction z using TensorProduct.inductionOn with
     | tmul b m =>
       rw [LinearMap.liftBaseChange_tmul]
       refine Eq.trans ?_ (restrictionBaseChange_tmul M f (fB.symm b) m).symm

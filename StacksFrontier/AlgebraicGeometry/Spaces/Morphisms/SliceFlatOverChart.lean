@@ -208,7 +208,7 @@ theorem exists_isOpenSubspace_isFlat_vanishingSubfunctor_of_isRegular_fiber
       MorphismProperty.comp_mem _ _ _ hjmet E.2⟩
   let h : D' ⟶ E := ObjectProperty.homMk (CostructuredArrow.homMk jm rfl)
   have hcomm' : D'.1.hom ≫ g = yoneda.map (jm ≫ a) ≫ q := by
-    show (yoneda.map jm ≫ E.1.hom) ≫ g = _
+    change (yoneda.map jm ≫ E.1.hom) ≫ g = _
     rw [Category.assoc, hcomm, Functor.map_comp, Category.assoc]
   have hfun : (fun i => (f i).eval (op D') : Fin r → Γ(T.obj Dobj, ⊤)) =
       fun i => j.appTop ((f i).eval (op E)) :=

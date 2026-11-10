@@ -92,7 +92,7 @@ theorem tensorLeft_natTrans_app_tmul {R : Type u} [CommRing R] {N : ModuleCat.{u
   simp only [ModuleCat.hom_comp, LinearMap.comp_apply] at h
   rw [← h]
   congr 1
-  show n ⊗ₜ[R] m = n ⊗ₜ[R] (LinearMap.toSpanSingleton R M m 1)
+  change n ⊗ₜ[R] m = n ⊗ₜ[R] (LinearMap.toSpanSingleton R M m 1)
   simp
 
 /-- The pullback of a global section is natural in the module. -/
@@ -213,7 +213,7 @@ theorem exists_addEquiv_tensor_pullbackGlobalSections
       (J.symm a) (a • s1) := by
     apply J.injective
     refine (J.apply_symm_apply _).trans ?_
-    show _ = (Scheme.Modules.pullbackUnitIso W.hom).hom.app ⊤ (a • s1)
+    change _ = (Scheme.Modules.pullbackUnitIso W.hom).hom.app ⊤ (a • s1)
     refine Eq.trans ?_ (congrArg (fun z => (Scheme.Modules.pullbackUnitIso W.hom).hom.app ⊤
       (a • z)) hone.symm)
     exact (pullbackUnitIso_smul_pullbackOne R W a).symm
@@ -225,7 +225,7 @@ theorem exists_addEquiv_tensor_pullbackGlobalSections
     (tensorLeft_natTrans_app_tmul θ.hom M (L a) n).trans
       (congrArg (fun z => ((pullbackSectionsFunctor R W).map ñ).hom z) h3)
   refine (congrArg (fun x => E2 x) h1).trans ?_
-  show ((Scheme.Modules.pullback W.hom).map (Scheme.Modules.fromTildeΓ N)).app ⊤
+  change ((Scheme.Modules.pullback W.hom).map (Scheme.Modules.fromTildeΓ N)).app ⊤
     (((Scheme.Modules.pullback W.hom).map (tilde.map ñ)).app ⊤
       (a • s1)) = _
   refine (congrArg (fun z => ((Scheme.Modules.pullback W.hom).map
@@ -277,7 +277,7 @@ private theorem comp_isoSpec_hom_appTop_ΓSpecIso_inv {Z T : Scheme.{u}} [IsAffi
     (q ≫ T.isoSpec.hom).appTop ((Scheme.ΓSpecIso (CommRingCat.of Γ(T, ⊤))).inv r) =
       q.appTop r := by
   rw [Scheme.Hom.comp_appTop]
-  show (q.appTop) ((T.toSpecΓ.appTop) ((Scheme.ΓSpecIso Γ(T, ⊤)).inv r)) = _
+  change (q.appTop) ((T.toSpecΓ.appTop) ((Scheme.ΓSpecIso Γ(T, ⊤)).inv r)) = _
   rw [Scheme.toSpecΓ_appTop]
   simp
 
@@ -334,7 +334,7 @@ theorem exists_addEquiv_tensor_globalSections_of_isPullback {X X' T T' : Scheme.
     congr 1
     have k2 := ConcreteCategory.congr_hom
       (AffineBaseChangeIso.baseChangeNatTrans_app_app_top hqs.flip.w (Scheme.unitModule T')) n
-    show (Scheme.Modules.pullbackUnitIso p').hom.app ⊤
+    change (Scheme.Modules.pullbackUnitIso p').hom.app ⊤
       (((AffinePushforward.baseChangeNatTrans hqs.flip.w).app (Scheme.unitModule T')).app ⊤
         (pullbackGlobalSections ps N n)) = _
     rw [SectionsEqualizer.pullbackGlobalSections_unit]
@@ -345,12 +345,12 @@ theorem exists_addEquiv_tensor_globalSections_of_isPullback {X X' T T' : Scheme.
   refine exists_addEquiv_tensor_congr (iM := (baseSectionsAlgebra R W).toModule) (iN := iN)
     ?_ ?_ _ ⟨e1.trans e2, fun a b => ?_⟩
   · refine Module.ext' _ _ fun r m => ?_
-    show (algebraMap R Γ(W.left, ⊤) r) * m =
+    change (algebraMap R Γ(W.left, ⊤) r) * m =
       @HMul.hMul Γ(W.left, ⊤) Γ(W.left, ⊤) Γ(W.left, ⊤) _ (p.appTop r) m
     rw [algebraMap_baseSectionsAlgebra_apply]
     exact congrArg (· * m) (comp_isoSpec_hom_appTop_ΓSpecIso_inv p r)
   · refine Module.ext' _ _ fun r m => ?_
-    show hs.appTop ((Scheme.ΓSpecIso (CommRingCat.of R)).inv r) * m = h.appTop r * m
+    change hs.appTop ((Scheme.ΓSpecIso (CommRingCat.of R)).inv r) * m = h.appTop r * m
     exact congrArg (· * m) (comp_isoSpec_hom_appTop_ΓSpecIso_inv h r)
   · exact (congrArg e2 (he1 a b)).trans (he2 a b)
 
@@ -490,10 +490,10 @@ theorem isIso_baseChangeNatTrans_structureSheaf_of_affine {X X' Y Y' S S' : Sche
           have k1 := Scheme.Modules.Hom.app_smul (U := f ⁻¹ᵁ ⊤)
             ((Scheme.Modules.pullbackPushforwardAdjunction g').unit.app (Scheme.unitModule X))
             (f.appTop (q.appTop r)) x
-          show ρ₂ (@HSMul.hSMul Γ(X, ⊤) Γ(Scheme.unitModule X, ⊤) _ _
+          change ρ₂ (@HSMul.hSMul Γ(X, ⊤) Γ(Scheme.unitModule X, ⊤) _ _
             (f.appTop (q.appTop r)) x) = _
           refine k1.trans ?_
-          show @HSMul.hSMul Γ(X', ⊤) Γ((Scheme.Modules.pullback g').obj (Scheme.unitModule X), ⊤)
+          change @HSMul.hSMul Γ(X', ⊤) Γ((Scheme.Modules.pullback g').obj (Scheme.unitModule X), ⊤)
               _ _ (g'.appTop (f.appTop (q.appTop r))) (ρ₂ x) =
             @HSMul.hSMul Γ(X', ⊤) Γ((Scheme.Modules.pullback g').obj (Scheme.unitModule X), ⊤)
               _ _ (f'.appTop (q'.appTop (h.appTop r))) (ρ₂ x)
@@ -506,7 +506,7 @@ theorem isIso_baseChangeNatTrans_structureSheaf_of_affine {X X' Y Y' S S' : Sche
         map_smul' := fun c y => Scheme.Modules.Hom.app_smul β (q'.appTop c) y }
   have htri : ∀ x, σ (v x) = u x := by
     intro x
-    show β.app ⊤ (v x) = ρ₂ x
+    change β.app ⊤ (v x) = ρ₂ x
     rw [hvx]
     have k := ConcreteCategory.congr_hom
       (AffineBaseChangeIso.baseChangeNatTrans_app_app_top hw.w (Scheme.unitModule X)) x
@@ -533,10 +533,7 @@ theorem isIso_baseChangeNatTrans_structureSheaf_of_affine {X X' Y Y' S S' : Sche
     have hval : ∀ z, ε (AffineBaseChangeIso.transposeExtend h.appTop u z) =
         e' z := by
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero =>
-        refine (congrArg ε (map_zero (AffineBaseChangeIso.transposeExtend h.appTop u).hom)).trans ?_
-        exact (map_zero ε).trans (map_zero e').symm
+      induction z using TensorProduct.inductionOn with
       | add z w hz hw =>
         refine (congrArg ε
           (map_add (AffineBaseChangeIso.transposeExtend h.appTop u).hom z w)).trans ?_

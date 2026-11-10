@@ -369,7 +369,7 @@ private theorem psi_symm_lof_tmul_eq_aux (r s n p q : ℕ) (h : p + q = n)
     rw [Phi_full_tmul]
   rw [Psi_full, LinearEquiv.trans_symm, LinearEquiv.trans_apply, hPhi,
     ← AlgEquiv.toLinearEquiv_symm, AlgEquiv.coe_toLinearEquiv]
-  show (tensorAppend_toExterior r s)
+  change (tensorAppend_toExterior r s)
       ((a : ExteriorAlgebra R (Fin r → R)) ⊗ₜ[R] (b : ExteriorAlgebra R (Fin s → R))
         : gradedTensorAppend R r s) = _
   rw [tensorAppend_toExterior]
@@ -411,8 +411,7 @@ theorem Psi_symm_blockIncl_mem (r s n : ℕ)
           (fun pq => TensorProduct R (⋀[R]^pq.1.1 (Fin r → R)) (⋀[R]^pq.1.2 (Fin s → R))) pq t))
       ∈ (⋀[R]^n ((Fin r → R) × (Fin s → R))) := by
   obtain ⟨⟨p, q⟩, h⟩ := pq
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add x y hx hy =>
       rw [map_add, map_add, map_add]
       exact Submodule.add_mem _ hx hy
@@ -504,7 +503,7 @@ theorem bidegSpan_mul_le (r s p q : ℕ) :
       | mem v hv =>
           obtain ⟨i, j, rfl, a, b, rfl⟩ := hu
           obtain ⟨i', j', rfl, a', b', rfl⟩ := hv
-          show GradedTensorProduct.tmul R (a : ExteriorAlgebra R (Fin r → R))
+          change GradedTensorProduct.tmul R (a : ExteriorAlgebra R (Fin r → R))
               (b : ExteriorAlgebra R (Fin s → R))
             * GradedTensorProduct.tmul R (a' : ExteriorAlgebra R (Fin r → R))
               (b' : ExteriorAlgebra R (Fin s → R))
@@ -783,7 +782,7 @@ theorem exteriorPower_append_equiv_directSum_symm_lof_coe (r s k p q : ℕ) (h :
       = ⟨(ExteriorAlgebra.map (jVAppend r s)) (a : ExteriorAlgebra R (Fin r → R))
           * (ExteriorAlgebra.map (jWAppend r s)) (b : ExteriorAlgebra R (Fin s → R)), hmem⟩ := by
     rw [LinearEquiv.symm_apply_eq]
-    show _ = extPow_fwd r s k _
+    change _ = extPow_fwd r s k _
     rw [extPow_fwd_embed r s k p q h a b hmem]
   rw [exteriorPower_append_equiv_directSum, LinearEquiv.trans_symm, LinearEquiv.trans_apply, hP,
     exteriorPowerCongr]

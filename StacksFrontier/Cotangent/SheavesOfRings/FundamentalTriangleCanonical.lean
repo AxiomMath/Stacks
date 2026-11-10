@@ -119,11 +119,11 @@ theorem towerConnectingOfInjective_distinguished :
     (DerivedCategory.Q.mapIso (sheafifiedSectionwiseBaseChangedCotangentComplexIso J g h))
     (DerivedCategory.Q.mapIso (sheafifiedSectionwiseCotangentModuleComplexIso J (g ≫ h)))
     (towerThirdVertexIso J g h hinj) _ _ ?_ ?_
-  · show DerivedCategory.Q.map ((sheafifyTowerComplex J D).map
+  · change DerivedCategory.Q.map ((sheafifyTowerComplex J D).map
       (sectionwiseTowerBaseChangeComplexMap J g h)) = _
     rw [h₁, Functor.map_comp, Functor.map_comp]
     rfl
-  · show DerivedCategory.Q.map ((sheafifyTowerComplex J D).map
+  · change DerivedCategory.Q.map ((sheafifyTowerComplex J D).map
       (sectionwiseFundamentalShortComplex J g h).g) = _
     have hπ : (sheafifyTowerComplex J D).map (sectionwiseFundamentalShortComplex J g h).g ≫
           (sheafifyTowerComplex J D).map (sectionwiseFundamentalCokernelMap J g h) =
@@ -265,17 +265,17 @@ theorem towerConnecting_distinguished :
     rw [Functor.mapDerivedCategoryFactors_hom_naturality_assoc, ← Functor.map_comp,
       prodSndCotangentComparison_changeOfBase, Functor.map_comp, Category.assoc]
   refine isomorphic_distinguished _ hΦ _ (Triangle.isoMk _ _ i₁.symm i₂.symm i₃.symm ?_ ?_ ?_)
-  · show DerivedCategory.Q.map (towerCotangentBaseChange.{u, v, w} J g h) ≫ i₂.inv =
+  · change DerivedCategory.Q.map (towerCotangentBaseChange.{u, v, w} J g h) ≫ i₂.inv =
       i₁.inv ≫ Φ.map (DerivedCategory.Q.map (towerCotangentBaseChange.{u, v, w} J g
         (prodGraph J h)))
     rw [← cancel_epi i₁.hom, Iso.hom_inv_id_assoc, ← Category.assoc, ← c₁, Category.assoc,
       Iso.hom_inv_id, Category.comp_id]
-  · show DerivedCategory.Q.map (towerCotangentChangeOfBase.{u, v, w} J g h) ≫ i₃.inv =
+  · change DerivedCategory.Q.map (towerCotangentChangeOfBase.{u, v, w} J g h) ≫ i₃.inv =
       i₂.inv ≫ Φ.map (DerivedCategory.Q.map (towerCotangentChangeOfBase.{u, v, w} J g
         (prodGraph J h)))
     rw [← cancel_epi i₂.hom, Iso.hom_inv_id_assoc, ← Category.assoc, ← c₂, Category.assoc,
       Iso.hom_inv_id, Category.comp_id]
-  · show (i₃.inv ≫ (Φ.mapTriangle.obj T').mor₃ ≫ i₁.hom⟦(1 : ℤ)⟧') ≫ i₁.inv⟦(1 : ℤ)⟧' =
+  · change (i₃.inv ≫ (Φ.mapTriangle.obj T').mor₃ ≫ i₁.hom⟦(1 : ℤ)⟧') ≫ i₁.inv⟦(1 : ℤ)⟧' =
       i₃.inv ≫ (Φ.mapTriangle.obj T').mor₃
     refine (Category.assoc _ _ _).trans (congrArg (fun k => i₃.inv ≫ k) ?_)
     refine (Category.assoc _ _ _).trans ?_

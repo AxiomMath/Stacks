@@ -97,7 +97,7 @@ lemma exactAt_homSheaf_free {Y : Scheme.{u}} (K : CochainComplex (EtaleModules.{
     exact hsum0 (K.X q')
   rw [HomologicalComplex.exactAt_iff_isZero_homology, IsZero.iff_id_eq_zero,
     ← HomologicalComplex.homologyMap_id, ← hsum]
-  show (HomologicalComplex.homologyFunctor _ _ q).map _ = 0
+  change (HomologicalComplex.homologyFunctor _ _ q).map _ = 0
   rw [Functor.map_sum]
   refine Finset.sum_eq_zero fun j _ => ?_
   rw [Functor.map_comp, hreg.eq_of_tgt ((HomologicalComplex.homologyFunctor _ _ q).map
@@ -112,7 +112,7 @@ lemma preservesFiniteLimits_homSheaf (N : ModuleCat.{u + 1} R) (Y : Scheme.{u}) 
     ⟨fun _ _ _ => inferInstance⟩
   have : PreservesFiniteLimits (homSheaf A N Y ⋙ sheafToPresheaf Y.smallEtaleTopology
       (ModuleCat.{u + 1} A)) := by
-    show PreservesFiniteLimits (sheafToPresheaf Y.smallEtaleTopology (ModuleCat.{u + 1} R) ⋙
+    change PreservesFiniteLimits (sheafToPresheaf Y.smallEtaleTopology (ModuleCat.{u + 1} R) ⋙
       (Functor.whiskeringRight Y.Etaleᵒᵖ (ModuleCat.{u + 1} R) (ModuleCat.{u + 1} A)).obj
         (homFunctor N (centralScalars (A := A) N)))
     infer_instance

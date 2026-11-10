@@ -140,7 +140,7 @@ theorem exists_comp_situationEmbedding_eq {T : Scheme.{u}}
     simp only [Scheme.Modules.pullbackCongr, eqToIso_refl, Iso.refl_inv, NatTrans.id_app,
       Category.id_comp]
     rw [← Category.assoc, hnat, Category.assoc, ← Functor.map_comp]
-    show _ ≫ (Scheme.Modules.pullback t).map
+    change _ ≫ (Scheme.Modules.pullback t).map
       ((Scheme.Modules.pullback (Stacks.RelativeProj.projectiveBundleToBase X G)).map m ≫
         Stacks.RelativeProj.tautologicalDatumUniv G) = 0
     rw [ht, comp_zero]

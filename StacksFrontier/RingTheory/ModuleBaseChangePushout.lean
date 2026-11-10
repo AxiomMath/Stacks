@@ -63,8 +63,7 @@ theorem bijective_liftBaseChange (ℓ : M →ₗ[S] N) (hℓ : IsBaseChange S' �
         hℓ.equiv (_root_.TensorProduct.comm S M S'
           ((h.out.tensorEquiv M).symm (_root_.TensorProduct.comm R R' M x))) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul r m =>
       rw [LinearMap.liftBaseChange_tmul, LinearMap.restrictScalars_apply,
         _root_.TensorProduct.comm_tmul,

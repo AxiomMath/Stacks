@@ -254,7 +254,7 @@ private theorem ker_localization_atPrime
   let : Field (Localization.AtPrime q) :=
     (localization_isField K B hμ q).toField
   ext x
-  show (algebraMap B (Localization.AtPrime q)) x = 0 ↔ x ∈ q
+  change (algebraMap B (Localization.AtPrime q)) x = 0 ↔ x ∈ q
   simpa [IsLocalRing.maximalIdeal_eq_bot] using
     IsLocalization.AtPrime.to_map_mem_maximal_iff (Localization.AtPrime q) q x
 
@@ -278,9 +278,9 @@ private theorem minimalPrime_isMaximal_and_isSeparable
     (IsScalarTower.toAlgHom K B (Localization.AtPrime q)).comp A.val
   have hfker : RingHom.ker (f : A →+* Localization.AtPrime q) = p := by
     ext x
-    show (algebraMap B (Localization.AtPrime q)) (x : B) = 0 ↔ x ∈ p
+    change (algebraMap B (Localization.AtPrime q)) (x : B) = 0 ↔ x ∈ p
     rw [← hqp]
-    show (algebraMap B (Localization.AtPrime q)) (x : B) = 0 ↔
+    change (algebraMap B (Localization.AtPrime q)) (x : B) = 0 ↔
       (A.val x) ∈ q
     simpa only [Subalgebra.val_apply, RingHom.mem_ker] using
       (congrArg (fun I : Ideal B => (x : B) ∈ I)
@@ -290,7 +290,7 @@ private theorem minimalPrime_isMaximal_and_isSeparable
       intro x hx
       exact (RingHom.mem_ker).mp (hfker.symm ▸ hx))
   have hg : Function.Injective g := by
-    show Function.Injective (Ideal.Quotient.lift p (f : A →+* Localization.AtPrime q) _)
+    change Function.Injective (Ideal.Quotient.lift p (f : A →+* Localization.AtPrime q) _)
     exact RingHom.lift_injective_of_ker_le_ideal p _ (le_of_eq hfker)
   have : Algebra.IsSeparable K (Localization.AtPrime q) :=
     localization_isSeparable K B hμ q
@@ -420,21 +420,21 @@ private lemma ideal_isIdempotentElem_pi_fields {ι : Type v} [Finite ι]
     simp [e]
   · apply Ideal.piOrderIso.injective
     funext i
-    show (Ideal.piOrderIso I) i = (Ideal.piOrderIso ((∀ i, L i) ∙ e)) i
-    show I.map (Pi.evalRingHom L i) =
+    change (Ideal.piOrderIso I) i = (Ideal.piOrderIso ((∀ i, L i) ∙ e)) i
+    change I.map (Pi.evalRingHom L i) =
       ((Ideal.span {e} : Ideal (∀ i, L i)).map (Pi.evalRingHom L i))
     rw [Ideal.map_span]
     by_cases hi : (Ideal.piOrderIso I) i = ⊤
     · have he : e i = 1 := ite_eq_left hi
       change I.map (Pi.evalRingHom L i) = ⊤ at hi
       rw [hi, Set.image_singleton]
-      show (⊤ : Ideal (L i)) = Ideal.span {e i}
+      change (⊤ : Ideal (L i)) = Ideal.span {e i}
       rw [he, Ideal.span_singleton_one]
     · have hi' : (Ideal.piOrderIso I) i = ⊥ :=
         (Ideal.eq_bot_or_top ((Ideal.piOrderIso I) i)).resolve_right hi
       change I.map (Pi.evalRingHom L i) = ⊥ at hi'
       rw [hi', Set.image_singleton]
-      show (⊥ : Ideal (L i)) = Ideal.span {e i}
+      change (⊥ : Ideal (L i)) = Ideal.span {e i}
       have he : e i = 0 := ite_eq_right hi
       rw [he, Ideal.span_singleton_zero]
 
@@ -542,7 +542,7 @@ private lemma subsingleton_or_isField_iff_idempotent
     refine ⟨⟨0, 1, zero_ne_one⟩, mul_comm, fun {x} hx ↦ ?_⟩
     obtain ⟨y, hy⟩ := exists_mul_mul_eq_self_of_fg_etale K B (fg_subalgebra_etale K B hB) x
     have he : IsIdempotentElem (x * y) := by
-      show (x * y) * (x * y) = x * y
+      change (x * y) * (x * y) = x * y
       linear_combination y * hy
     rcases hid _ he with h0 | h1
     · exact (hx (by linear_combination x * h0 - hy)).elim

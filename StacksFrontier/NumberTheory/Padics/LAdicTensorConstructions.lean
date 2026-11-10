@@ -354,9 +354,13 @@ theorem single_eq_vecTensor [DecidableEq m] [DecidableEq p] (q : m × p) :
   simp only [vecTensor, Pi.single_apply, Prod.mk.injEq]
   by_cases h1 : i = q1 <;> by_cases h2 : j = q2 <;> simp [h1, h2, eq_comm]
 
+omit [Fintype m] [DecidableEq m] [Fintype p] [DecidableEq p] in
 /-- A subspace containing all tensor products of vectors is everything. -/
-theorem mem_of_forall_vecTensor_mem {M : Submodule F (m × p → F)}
+theorem mem_of_forall_vecTensor_mem [Finite m] [Finite p] {M : Submodule F (m × p → F)}
     (h : ∀ (v : m → F) (w : p → F), vecTensor v w ∈ M) (x : m × p → F) : x ∈ M := by
+  classical
+  have := Fintype.ofFinite m
+  have := Fintype.ofFinite p
   rw [pi_eq_sum_univ x]
   refine M.sum_mem fun q _ => M.smul_mem _ ?_
   rw [single_eq_vecTensor]

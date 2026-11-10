@@ -162,7 +162,7 @@ private theorem leftTranslate_isPullback :
     obtain ⟨c, hc₁, hc₂⟩ := Types.exists_of_isPullback hcf (a.app T l) b hbl.symm
     have hc₁' : c.1.1 = a.app T l := hc₁
     have hsrc : G.target.app T c.1.2 = (a ≫ G.source).app T l := by
-      show _ = G.source.app T (a.app T l)
+      change _ = G.source.app T (a.app T l)
       rw [← hc₁']
       exact c.2.symm
     obtain ⟨z, hz, hl⟩ := Types.exists_of_isPullback hpq c.1.2 l hsrc
@@ -171,7 +171,7 @@ private theorem leftTranslate_isPullback :
         { y : G.arrows.obj T × G.arrows.obj T //
           G.source.app T y.1 = G.target.app T y.2 }) = c := by
       refine Subtype.ext (Prod.ext ?_ ?_)
-      · show a.app T (q z) = c.1.1
+      · change a.app T (q z) = c.1.1
         rw [show q z = l from hl, hc₁']
       · exact hz
     exact (congrArg (G.comp.app T) hcp).trans hc₂
@@ -188,11 +188,11 @@ private theorem exists_leftTranslate_eq_of_identity (T : D) (y : F.obj T) :
     ((IsPullback.of_hasPullback G.target (a ≫ G.source)).app T)
     (G.identity T (G.source.app T (a.app T y))) y
     (by
-      show _ = G.source.app T (a.app T y)
+      change _ = G.source.app T (a.app T y)
       exact (G.evaluationArrowEquiv T _ _
         (𝟙 (show G.Evaluation T from G.source.app T (a.app T y)))).property.2)
   refine ⟨w, hqw, hw, ?_⟩
-  show G.compose T (a.app T ((pullback.snd G.target (a ≫ G.source)).app T w))
+  change G.compose T (a.app T ((pullback.snd G.target (a ≫ G.source)).app T w))
     ((pullback.fst G.target (a ≫ G.source)).app T w) _ = a.app T y
   simp only [hqw, hw]
   exact compose_identity G T (a.app T y) _
@@ -231,7 +231,7 @@ private theorem points_subsingleton_of_eq_yoneda_field
     intro p
     refine FieldValuedPoint.class_eq_class_of_hasCommonExtension B S hS _ ?_
     refine ⟨p, FieldValuedPoint.dominates_refl B S hS _ p, p.value, ?_⟩
-    show p.value ≫ 𝟙 V = p.value
+    change p.value ≫ 𝟙 V = p.value
     exact Category.comp_id p.value
   obtain ⟨p₁, h₁⟩ := Quot.exists_rep y₁
   obtain ⟨p₂, h₂⟩ := Quot.exists_rep y₂

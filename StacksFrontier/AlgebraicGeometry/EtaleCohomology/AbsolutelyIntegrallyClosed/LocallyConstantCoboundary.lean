@@ -306,7 +306,7 @@ private lemma exists_deformedPoint_coboundary_of_idempotent
   · have hyJ : β y.coord - 1 ∈ J := by
       simpa [J, ← mul_pow] using
         algHom_map_mem_span_singleton β (b - f ^ n * g ^ n) hy'
-    show β y.coord - t.coord ∈ J
+    change β y.coord - t.coord ∈ J
     convert J.sub_mem hyJ htJ using 1
     ring
 
@@ -471,7 +471,7 @@ private lemma exists_algHom_pi_of_isogeny_eq_zero
   have he' : e (Ideal.Quotient.mk I (coordinateGenerator (ζ - 1))) =
       fun i ↦ sigmaPoint ℓ ζ i := funext he
   rw [← he']
-  show ψ (e.symm (e (Ideal.Quotient.mk I (coordinateGenerator (ζ - 1))))) = _
+  change ψ (e.symm (e (Ideal.Quotient.mk I (coordinateGenerator (ζ - 1))))) = _
   rw [e.symm_apply_apply]
   rfl
 
@@ -509,12 +509,12 @@ private lemma piAlgHom_sub_component_mem
       (PrimeSpectrum.comap φ.toRingHom p)
   have hmem : a - algebraMap A (ι → A) (a q.1) ∈
       (PrimeSpectrum.comap (Pi.evalRingHom (fun _ : ι ↦ A) q.1) q.2).asIdeal := by
-    show a q.1 - a q.1 ∈ q.2.asIdeal
+    change a q.1 - a q.1 ∈ q.2.asIdeal
     rw [sub_self]
     exact q.2.asIdeal.zero_mem
   rw [hq] at hmem
   change φ (a - algebraMap A (ι → A) (a q.1)) ∈ p.asIdeal at hmem
-  show φ a - algebraMap A R (a q.1) ∈ p.asIdeal
+  change φ a - algebraMap A R (a q.1) ∈ p.asIdeal
   simpa only [map_sub, AlgHom.commutes] using hmem
 
 private lemma exists_locallyConstant_of_isogeny_eq_zero
@@ -541,7 +541,7 @@ private lemma piAlgHom_ext_of_sigmaPoint_eq
   have hcomp : (φ.comp e.toAlgHom).comp q = (ψ.comp e.toAlgHom).comp q := by
     apply (pointOfAlgHom_bijective (ζ - 1) R).1
     apply DeformedPoint.ext
-    show φ (e (q (coordinateGenerator (ζ - 1)))) =
+    change φ (e (q (coordinateGenerator (ζ - 1)))) =
       ψ (e (q (coordinateGenerator (ζ - 1))))
     have he' : e (q (coordinateGenerator (ζ - 1))) = fun i ↦ sigmaPoint ℓ ζ i :=
       funext he
@@ -663,7 +663,7 @@ private lemma isogenyOnPointsHom_eq_zero_of_idempotent
     (t : DeformedPoint (ζ - 1) R) (ht : IsIdempotentElem t.coord) :
     isogenyOnPointsHom ℓ ζ hsplit R t = 0 := by
   apply DeformedPoint.ext
-  show (isogenyPolynomial ℓ ζ).eval₂ (algebraMap A R) t.coord = 0
+  change (isogenyPolynomial ℓ ζ).eval₂ (algebraMap A R) t.coord = 0
   have key (i : ZMod ℓ) : (isogenyPolynomial ℓ ζ).eval₂ (algebraMap A R)
       (algebraMap A R (constantPoint ℓ ζ hζ i).coord) = 0 := by
     have h := congrArg DeformedPoint.coord (isogenyOnPoints_constantPoint ℓ ζ hζ hsplit i)
@@ -711,7 +711,7 @@ private lemma exists_locallyConstant_coboundary_of_binary
   obtain ⟨e, he, heτ⟩ := PrimeSpectrum.isClopen_iff.mp (τ.isLocallyConstant.isClopen_fiber 1)
   change {p | τ p = 1} = _ at heτ
   have heτ' (p : PrimeSpectrum W) : τ p = 1 ↔ e ∉ p.asIdeal := by
-    show p ∈ {p | τ p = 1} ↔ _
+    change p ∈ {p | τ p = 1} ↔ _
     rw [heτ]
     rfl
   have hue : IsUnit (algebraMap R W (ζ - 1) * e + 1) := by
@@ -731,7 +731,7 @@ private lemma exists_locallyConstant_coboundary_of_binary
     t hxy p
   · exact algHom_sub_mem_of_comap α.hom _ _ p (ha _)
   · exact algHom_sub_mem_of_comap β.hom _ _ p (hb _)
-  · show e - algebraMap R W (sigmaPoint ℓ ζ (τ p)) ∈ p.asIdeal
+  · change e - algebraMap R W (sigmaPoint ℓ ζ (τ p)) ∈ p.asIdeal
     rcases hτ p with hp | hp
     · have hem : e ∈ p.asIdeal := by
         by_contra hn
@@ -766,9 +766,9 @@ private lemma exists_locallyConstant_coboundary_of_binary_coboundaries
   choose a b hab using fun i ↦ h (c i) (hc i)
   refine ⟨(LocallyConstant.unflip a).map (fun z ↦ ∑ i : ZMod ℓ, i * z i),
     (LocallyConstant.unflip b).map (fun z ↦ ∑ i : ZMod ℓ, i * z i), fun p ↦ ?_⟩
-  show (∑ i : ZMod ℓ, i * b i (β p)) - (∑ i : ZMod ℓ, i * a i (α p)) = τ p
+  change (∑ i : ZMod ℓ, i * b i (β p)) - (∑ i : ZMod ℓ, i * a i (α p)) = τ p
   simp only [← Finset.sum_sub_distrib, ← mul_sub, hab]
-  show (∑ i : ZMod ℓ, i * (if τ p = i then 1 else 0)) = τ p
+  change (∑ i : ZMod ℓ, i * (if τ p = i then 1 else 0)) = τ p
   simp
 
 private lemma exists_locallyConstant_coboundary_of_cyclotomic_splitting
@@ -855,7 +855,7 @@ private lemma exists_locallyConstant_coboundary_of_subgroup
   let d : LocallyConstant W G := τ - (b'.comap β - a'.comap α)
   have hd (p : W) : d p ∈ H := by
     apply (QuotientAddGroup.eq_zero_iff _).mp
-    show q (τ p - (s (b (β p)) - s (a (α p)))) = 0
+    change q (τ p - (s (b (β p)) - s (a (α p)))) = 0
     rw [map_sub, map_sub, hs, hs, hab]
     exact sub_self _
   let c : LocallyConstant W H := LocallyConstant.desc
@@ -864,7 +864,7 @@ private lemma exists_locallyConstant_coboundary_of_subgroup
   refine ⟨a' + aH.map H.subtype, b' + bH.map H.subtype, fun p ↦ ?_⟩
   have hh : (bH (β p) : G) - (aH (α p) : G) = τ p - (b' (β p) - a' (α p)) :=
     congrArg Subtype.val (hH p)
-  show (b' (β p) + (bH (β p) : G)) - (a' (α p) + (aH (α p) : G)) = τ p
+  change (b' (β p) + (bH (β p) : G)) - (a' (α p) + (aH (α p) : G)) = τ p
   calc
     _ = (b' (β p) - a' (α p)) + ((bH (β p) : G) - (aH (α p) : G)) := by abel
     _ = τ p := by rw [hh]; abel
@@ -889,7 +889,7 @@ private lemma exists_locallyConstant_coboundary_of_prime_coefficients
       let e : ZMod (Nat.card G) ≃+ G := zmodAddCyclicAddEquiv inferInstance
       obtain ⟨a, b, hab⟩ := hprime (Nat.card G) hℓ (τ.map e.symm)
       refine ⟨a.map e, b.map e, fun p ↦ ?_⟩
-      show e (b (β p)) - e (a (α p)) = τ p
+      change e (b (β p)) - e (a (α p)) = τ p
       rw [← map_sub, hab]
       exact e.apply_symm_apply _
     · push Not at hsimple
@@ -1132,7 +1132,7 @@ private lemma exists_locallyConstant_coboundary_on_basicOpen
       (PrimeSpectrum.basicOpen g : Set (PrimeSpectrum R)) := e.sets rfl
   let efg : (PrimeSpectrum.basicOpen (ρ f * ρ g) : Set (PrimeSpectrum R')) ≃ₜ
       (PrimeSpectrum.basicOpen (f * g) : Set (PrimeSpectrum R)) := e.sets (by
-        show (PrimeSpectrum.basicOpen (ρ f * ρ g) : Set (PrimeSpectrum R')) =
+        change (PrimeSpectrum.basicOpen (ρ f * ρ g) : Set (PrimeSpectrum R')) =
           PrimeSpectrum.basicOpen (ρ (f * g))
         rw [map_mul])
   exact exists_locallyConstant_coboundary_of_homeomorph ef eg efg

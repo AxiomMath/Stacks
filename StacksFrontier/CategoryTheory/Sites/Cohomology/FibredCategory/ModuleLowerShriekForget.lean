@@ -61,9 +61,10 @@ hypothesis of Situation 08PA that the structure map `g♯` is invertible.
    `t` occurs only inside `max u₁ v₁ u₂ v₂ u t`, and a `max` has no inverse, so unification
    cannot recover it from the instance arguments: every universe has to be given positionally.
    The declaration's `universe` command is split across two closed sections of
-   `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/LowerShriekForget.lean` (`universe u w u₁ u₂ v₁ v₂` for the comparison, and
-   `universe w t u₁ u₂ v₁ v₂` with `u` auto-bound for the criterion), so the positional order
-   is not readable off the source. As `#check @…` shows, it is
+   `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/LowerShriekForget.lean`
+   (`universe u w u₁ u₂ v₁ v₂` for the comparison, and `universe w t u₁ u₂ v₁ v₂` with `u`
+   auto-bound for the criterion), so the positional order is not readable off the source. As
+   `#check @…` shows, it is
 
    `isIso_lowerShriekForgetComparison_iff.{u, t, u₁, u₂, v₁, v₂}`
 

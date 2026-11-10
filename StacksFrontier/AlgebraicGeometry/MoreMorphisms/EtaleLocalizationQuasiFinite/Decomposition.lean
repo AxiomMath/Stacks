@@ -103,7 +103,7 @@ private theorem EtaleNeighborhood.eq_of_fst_eq_of_snd_eq_point (f : X ⟶ S) {s 
     · simpa [ca, cb, Scheme.Pullback.carrierEquiv] using haX.trans hbX.symm
     · simpa [ca, cb, Scheme.Pullback.carrierEquiv] using haU.trans hbU.symm
   have hcbS : cb.1.s = U.toBase U.point := by
-    show f (pullback.fst f U.toBase b) = U.toBase U.point
+    change f (pullback.fst f U.toBase b) = U.toBase U.point
     rw [hbX, hx, U.map_point]
   have hca : ca = cb := by
     rw [Scheme.Pullback.carrierEquiv_eq_iff]
@@ -177,7 +177,7 @@ private theorem _root_.TopologicalSpace.Opens.exists_pairwise_disjoint_isClosed_
   · dsimp only [Q]
     simpa [Set.sdiff_eq] using hV i |>.inter
       (isOpen_iUnion fun k : {k : Fin n // k.val < i.val} => (V k).2).isClosed_compl
-  · show Disjoint (Q i : Set α) (Q k)
+  · change Disjoint (Q i : Set α) (Q k)
     rw [Set.disjoint_left]
     intro y hyi hyk
     by_cases hlt : i.val < k.val
@@ -185,7 +185,7 @@ private theorem _root_.TopologicalSpace.Opens.exists_pairwise_disjoint_isClosed_
     · have hki : k.val < i.val :=
         lt_of_le_of_ne (le_of_not_gt hlt) (by simpa [Fin.ext_iff] using hik.symm)
       exact hyi.2 (Set.mem_iUnion.mpr ⟨⟨k, hki⟩, hyk.1⟩)
-  · show y ∈ (V i : Set α) \ ⋃ k : {k : Fin n // k.val < i.val}, (V k : Set α)
+  · change y ∈ (V i : Set α) \ ⋃ k : {k : Fin n // k.val < i.val}, (V k : Set α)
     refine ⟨hy, fun hm => ?_⟩
     obtain ⟨k, hk⟩ := Set.mem_iUnion.mp hm
     exact h k.1 k.2 hk
@@ -315,16 +315,16 @@ private def sigmaOptionCoprodIso {α : Type} (P : Option α → Scheme.{u}) :
     | some i => Sigma.ι (fun i : α => P (some i)) i ≫ coprod.inr
   hom_inv_id := by
     apply coprod.hom_ext
-    · simp [coprod.inl_desc]
+    · simp
     · apply Sigma.hom_ext
       intro i
-      simp [coprod.inr_desc]
+      simp
   inv_hom_id := by
     apply Sigma.hom_ext
     intro a
     cases a with
-    | none => simp [coprod.inl_desc]
-    | some i => simp [Category.assoc, coprod.inr_desc]
+    | none => simp
+    | some i => simp [Category.assoc]
 
 /-- Composing a family with an equivalence turns its range into a preimage. -/
 private theorem range_equiv_comp {α β ι : Type*} (e : α ≃ β) (g : ι → α) :
@@ -340,7 +340,7 @@ private theorem isOpenImmersion_sigmaDesc_some {Y : Scheme.{u}} {α : Type}
       coprod.inr ≫ (sigmaOptionCoprodIso P).hom ≫ Sigma.desc j := by
     apply Sigma.hom_ext
     intro i
-    simp [sigmaOptionCoprodIso, coprod.inr_desc]
+    simp [sigmaOptionCoprodIso]
   rw [h]
   infer_instance
 
@@ -355,20 +355,20 @@ private theorem isCompl_opensRange_sigmaDesc_some {Y : Scheme.{u}} {α : Type}
     { toFun := fun z => q.hom z
       invFun := fun z => q.inv z
       left_inv := fun z => by
-        show (q.hom ≫ q.inv) z = z
+        change (q.hom ≫ q.inv) z = z
         simp
       right_inv := fun z => by
-        show (q.inv ≫ q.hom) z = z
+        change (q.inv ≫ q.hom) z = z
         simp }
   have hrange {A : Scheme.{u}} (g : A ⟶ P none ⨿ ∐ fun i => P (some i)) (h : A ⟶ Y)
       (hg : g ≫ q.hom = h) : Set.range h = E.symm ⁻¹' Set.range g := by
     rw [← hg]
     exact range_equiv_comp E ⇑g
-  have hW := hrange coprod.inl (j none) (by simp [q, sigmaOptionCoprodIso, coprod.inl_desc])
+  have hW := hrange coprod.inl (j none) (by simp [q, sigmaOptionCoprodIso])
   have hV := hrange coprod.inr (Sigma.desc fun i => j (some i)) (by
     apply Sigma.hom_ext
     intro i
-    simp [q, sigmaOptionCoprodIso, coprod.inr_desc])
+    simp [q, sigmaOptionCoprodIso])
   have hset : IsCompl (Set.range (j none)) (Set.range (Sigma.desc fun i => j (some i))) := by
     rw [hW, hV]
     exact (isCompl_range_inl_inr _ _).map (CompleteLatticeHom.setPreimage E.symm)
@@ -430,10 +430,10 @@ private theorem isOpen_singleton_asFiber_fiberHomeo (f : X ⟶ S) {s : S} {p : f
     have hmid : (Homeomorph.setCongr hset) ((f.fiberHomeo s) p) =
         (⟨y, rfl⟩ : f ⁻¹' {f y}) := by
       apply Subtype.ext
-      show ((Set.equivOfEq hset) ((f.fiberHomeo s) p)).val = (f.fiberι s) p
+      change ((Set.equivOfEq hset) ((f.fiberHomeo s) p)).val = (f.fiberι s) p
       simpa [y, Scheme.Hom.fiberHomeo_apply] using
         congrArg Subtype.val (Set.equivOfEq_apply hset ((f.fiberHomeo s) p))
-    show (f.fiberHomeo (f y)).symm ((Homeomorph.setCongr hset) ((f.fiberHomeo s) p)) =
+    change (f.fiberHomeo (f y)).symm ((Homeomorph.setCongr hset) ((f.fiberHomeo s) p)) =
       (f.fiberHomeo (f y)).symm ⟨y, rfl⟩
     rw [hmid]
   simpa [hpoint] using H.isOpen_image.mpr hi
@@ -504,10 +504,10 @@ public theorem exists_elementaryEtaleNeighborhood_isCompl
     have hzBase : h (h.fiberι U.point z) = U.point := by
       simpa [Scheme.Hom.fiberHomeo_apply] using (h.fiberHomeo U.point z).property
     refine hnone a ?_ i ?_
-    · show pullback.snd f U.toBase (j none a) = U.point
+    · change pullback.snd f U.toBase (j none a) = U.point
       rw [ha]
       exact hzBase
-    · show pullback.fst f U.toBase (j none a) = x i
+    · change pullback.fst f U.toBase (j none a) = x i
       rw [ha, ← hJproj, hiPoint]
       simp [x, Scheme.Hom.fiberHomeo_apply]
   refine ⟨U, hU, W, _, isCompl_opensRange_sigmaDesc_some P j,

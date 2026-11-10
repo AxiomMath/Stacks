@@ -397,7 +397,7 @@ private theorem pointClassNonzeroAt_of_opens {k : Type u} [Field k] [IsAlgClosed
   have hxw : (Ext.mk₀ (eY.inv ≫ S.g ≫ eC.hom)).comp ((Ext.mk₀ eC.inv).comp x₃ (zero_add 2))
       (zero_add 2) = zz := by
     rw [← hx₂, ← hx₃]
-    show (Ext.mk₀ (eY.inv ≫ S.g ≫ eC.hom)).comp ((Ext.mk₀ eC.inv).comp x₃ (zero_add 2))
+    change (Ext.mk₀ (eY.inv ≫ S.g ≫ eC.hom)).comp ((Ext.mk₀ eC.inv).comp x₃ (zero_add 2))
       (zero_add 2) = (Ext.mk₀ eY.inv).comp ((Ext.mk₀ S.g).comp x₃ (zero_add 2)) (zero_add 2)
     rw [Ext.mk₀_comp_mk₀_assoc, Ext.mk₀_comp_mk₀_assoc, Category.assoc, Category.assoc,
       Iso.hom_inv_id, Category.comp_id]

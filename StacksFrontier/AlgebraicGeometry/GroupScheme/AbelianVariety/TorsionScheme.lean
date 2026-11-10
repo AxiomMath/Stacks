@@ -56,11 +56,11 @@ namespace Stacks.Groupoids
 theorem mem_torsionBy_int_iff_pow {G : Type u} [CommGroup G]
     (x : G) (n : ℕ) :
     Additive.ofMul x ∈ AddSubgroup.torsionBy (Additive G) (n : ℤ) ↔ x ^ n = 1 := by
-  show Additive.ofMul x ∈ Submodule.torsionBy ℤ (Additive G) (n : ℤ) ↔ _
+  change Additive.ofMul x ∈ Submodule.torsionBy ℤ (Additive G) (n : ℤ) ↔ _
   rw [Submodule.mem_torsionBy_iff]
-  show (n : ℤ) • (Additive.ofMul x) = 0 ↔ x ^ n = 1
+  change (n : ℤ) • (Additive.ofMul x) = 0 ↔ x ^ n = 1
   rw [Nat.cast_smul_eq_nsmul ℤ n]
-  show Additive.ofMul (x ^ n) = Additive.ofMul 1 ↔ x ^ n = 1
+  change Additive.ofMul (x ^ n) = Additive.ofMul 1 ↔ x ^ n = 1
   exact Additive.ofMul.injective.eq_iff
 
 /-- Points of `X` over `S` killed by an endomorphism `f`, i.e. sent by `f` to a given point `i`,
@@ -169,7 +169,7 @@ the `n`-torsion subgroup scheme of an abelian variety is étale over `k`: it is 
 theorem etale_torsionScheme_hom_of_isUnit [AlgebraicGeometry.IsAbelianVariety k A] (n : ℤ)
     (hn : IsUnit (n : k)) : Etale (torsionScheme A n).hom := by
   have := etale_zpow_id_left_of_isUnit A n hn
-  show Etale (pullback.snd ((𝟙 A : A ⟶ A) ^ n).left (η[A]).left)
+  change Etale (pullback.snd ((𝟙 A : A ⟶ A) ^ n).left (η[A]).left)
   infer_instance
 
 /-- **Stacks Project, Tag 03RP, clause (6), for a nonzero abelian variety.** The `n`-torsion
@@ -191,7 +191,7 @@ theorem etale_torsionScheme_hom_iff_isUnit [AlgebraicGeometry.IsAbelianVariety k
       rw [GrpObj.comp_zpow, Category.comp_id, MonObj.one_eq_one A]; simp)).symm
   let z : ↥(pullback f (η[A]).left) := (pullback.lift (η[A]).left (𝟙 _) hw.symm).base s
   have hz : pullback.fst f (η[A]).left z = (η[A]).left s := by
-    show (pullback.lift (η[A]).left (𝟙 _) hw.symm ≫ pullback.fst f (η[A]).left).base s = _
+    change (pullback.lift (η[A]).left (𝟙 _) hw.symm ≫ pullback.fst f (η[A]).left).base s = _
     rw [pullback.lift_fst]
   have hEt : EtaleAt (pullback.snd f (η[A]).left) z :=
     (etale_iff_forall_etaleAt _).mp h z

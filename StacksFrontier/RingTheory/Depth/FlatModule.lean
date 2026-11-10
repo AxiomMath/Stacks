@@ -56,14 +56,14 @@ public theorem depth_le_depth_of_flat {R : Type u} [CommRing R] (I : Ideal R)
   classical
   unfold Module.depth
   by_cases hM : I • (⊤ : Submodule R M) = ⊤
-  · rw [if_pos hM]
+  · rw [ite_eq_left hM]
     exact le_top
   have hR : ¬ (I • (⊤ : Submodule R R) = ⊤) := by
     intro h
     refine hM ?_
     have hI : I = ⊤ := by rw [← ideal_smul_top_self I, h]
     rw [hI, Submodule.top_smul]
-  rw [if_neg hR, if_neg hM]
+  rw [ite_eq_right hR, ite_eq_right hM]
   refine iSup₂_le fun rs hrs => ?_
   obtain ⟨hmem, hreg⟩ := hrs
   have hwr : IsWeaklyRegular M rs :=

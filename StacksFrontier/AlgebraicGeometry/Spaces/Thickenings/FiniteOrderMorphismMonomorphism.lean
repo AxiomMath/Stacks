@@ -123,6 +123,7 @@ open Stacks.Thickenings
 universe u
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search over presheaves on the big fppf site times out at the default limit
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_FiniteOrderMorphismMonomorphism
@@ -277,7 +278,7 @@ of algebraic spaces is a monomorphism by Stacks 04CH. -/
 theorem mono_pullback_fst (hf : Mono M.f) : Mono (pullback.fst M.f' M.f') := by
   have := M.isIso_fromPreimage_fst hf
   refine mono_of_isClosedImmersion B S hS _ (M.firstProjection.isClosedImmersion_iff.mp ?_)
-  show IsClosedImmersion B S hS (M.X.fromPreimage (pullback.fst M.f' M.f'))
+  change IsClosedImmersion B S hS (M.X.fromPreimage (pullback.fst M.f' M.f'))
   exact isClosedImmersion_of_isIso B S hS _
 
 /-- **Stacks 09ZZ, part (9).** Being a monomorphism is invariant under a cartesian morphism of

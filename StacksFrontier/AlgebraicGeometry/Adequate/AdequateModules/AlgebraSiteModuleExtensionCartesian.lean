@@ -102,8 +102,7 @@ private theorem addMonoidHom_tensor_ext {R S W T : Type*} [CommSemiring R] [AddC
     [AddCommMonoid W] [Module R S] [Module R W] [AddCommMonoid T]
     (f g : TensorProduct R S W →+ T) (h : ∀ s w, f (s ⊗ₜ[R] w) = g (s ⊗ₜ[R] w)) : f = g :=
   AddMonoidHom.ext fun z => by
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' => rw [map_add, map_add, hz, hz']
     | tmul s w => exact h s w
 

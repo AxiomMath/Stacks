@@ -53,8 +53,8 @@ composite of the two `pageInfinityIso`s.
 * `CategoryTheory.SpectralSequence.IsFirstQuadrant.hasPageInfinityAt`: hence such a spectral
   sequence has an infinity page at every position.
 * The `ℕ × ℕ`-indexed repackaging has an infinity page at every position, by instance
-  resolution: `StacksCore.Algebra.Homology.SpectralSequence.PageInfinity` has this instance for every
-  `CohomologicalSpectralSequenceNat`.
+  resolution: `StacksCore.Algebra.Homology.SpectralSequence.PageInfinity` has this instance for
+  every `CohomologicalSpectralSequenceNat`.
 * `CategoryTheory.SpectralSequence.firstQuadrantNatPageInfinityIsoOfLE_hom`: the comparison is,
   by `rfl`, the composite `E_∞ ≅ E_r = E_r ≅ E_∞` of the two `pageInfinityIso`s across the
   identity identification of the two pages.

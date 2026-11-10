@@ -50,8 +50,8 @@ exactly `w`.
 ## Implementation notes
 
 The construction is the one of
-`StacksFrontier.Homology.TorAmplitude.MixedUniverseCertificate` with `ULift.ringEquiv` replaced by an
-arbitrary ring equivalence, which is what lets the small ring `Shrink.{w} R` be used in place of
+`StacksFrontier.Homology.TorAmplitude.MixedUniverseCertificate` with `ULift.ringEquiv` replaced by
+an arbitrary ring equivalence, which is what lets the small ring `Shrink.{w} R` be used in place of
 the large ring `ULift.{w} R`.  Everything in the first section is therefore stated for a ring
 equivalence `e : S ≃+* R` with `S : Type w`; the point of the hypothesis is that `S` lives in the
 universe of its own modules, so the canonical derived tensor product of Stacks 0BYI is available
@@ -208,8 +208,7 @@ public noncomputable def tensorRingEquivLiftIso (e : S ≃+* R) (M : ModuleCat.{
       ((ringEquivLift e).obj N : Type w)
       ((ringEquivLift e).obj M : Type w)).toModuleIso.symm)
     fun f => ModuleCat.hom_ext <| LinearMap.ext fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction z using TensorProduct.inductionOn with
   | tmul x y => rfl
   | add x y hx hy => exact (map_add _ x y).trans ((congrArg₂ (· + ·) hx hy).trans
       (map_add _ x y).symm)
@@ -227,7 +226,7 @@ public theorem flat_ringEquivLift (e : S ≃+* R) (M : ModuleCat.{w} R) (hM : Mo
       { e.symm.toEquiv with
         map_add' := e.symm.map_add
         map_smul' := fun s r => by
-          show e.symm (e s * r) = s * e.symm r
+          change e.symm (e s * r) = s * e.symm r
           rw [map_mul, e.symm_apply_apply] }
   have : Module.Flat R ((ringEquivLift e).obj M) := hM
   exact Module.Flat.trans S R ((ringEquivLift e).obj M)

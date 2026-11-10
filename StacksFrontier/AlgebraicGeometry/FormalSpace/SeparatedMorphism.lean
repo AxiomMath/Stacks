@@ -310,7 +310,7 @@ private theorem diagonal_property_of_baseChange (F : C ⥤ D) (P : MorphismPrope
       simpa [g, Category.assoc] using hh)
   apply (h g).property b k q
   apply IsPullback.of_right ?_ ?_ (diagonal_isPullback_diagonal f g)
-  · show IsPullback (k ≫ pullback.fst f g) (F.map q) (pullback.diagonal f) (b ≫ c)
+  · change IsPullback (k ≫ pullback.fst f g) (F.map q) (pullback.diagonal f) (b ≫ c)
     rw [hbc]
     simpa only [k, pullback.lift_fst] using sq
   · apply pullback.hom_ext
@@ -318,12 +318,12 @@ private theorem diagonal_property_of_baseChange (F : C ⥤ D) (P : MorphismPrope
       · simpa [k, b, s, t, Category.assoc, pullback.lift_fst, pullback.lift_snd,
           pullback.lift_fst_assoc, pullback.lift_snd_assoc] using
           congrArg (fun z ↦ z ≫ pullback.fst f f) sq.w
-      · simp [k, b, s, t, Category.assoc, pullback.lift_fst, pullback.lift_snd]
+      · simp [k, b, s, t, Category.assoc]
     · apply pullback.hom_ext
       · simpa [k, b, s, t, Category.assoc, pullback.lift_fst, pullback.lift_snd,
           pullback.lift_fst_assoc, pullback.lift_snd_assoc] using
           congrArg (fun z ↦ z ≫ pullback.snd f f) sq.w
-      · simp [k, b, s, t, Category.assoc, pullback.lift_snd]
+      · simp [k, b, s, t, Category.assoc]
 
 section PullbacksInSource
 
@@ -448,7 +448,7 @@ private lemma diagonal_test_pair_square (F : C ⥤ D) [F.Full] [F.Faithful]
   refine ⟨W, p, r, a₀, l, F.preimage k, ha, hb, hlp, hlr, sq, ?_⟩
   apply IsPullback.of_map_of_faithful F
   apply IsPullback.of_right ?_ ?_ sp
-  · show IsPullback (F.map (F.preimage k) ≫ (F.map p ≫ a)) (F.map q) (pullback.diagonal f)
+  · change IsPullback (F.map (F.preimage k) ≫ (F.map p ≫ a)) (F.map q) (pullback.diagonal f)
       (F.map d ≫ δ)
     simpa only [he, k, IsPullback.lift_fst, hd] using hs
   · simpa only [he] using sp.lift_snd t (F.map q ≫ F.map d) ht
@@ -542,7 +542,7 @@ private theorem relative_of_affine_test (P : MorphismProperty Scheme.{u})
   let T := BigFppfOver.toScheme B S hS
   refine ⟨hf, ?_⟩
   intro U V g p q sq
-  show P (T.map q)
+  change P (T.map q)
   apply IsZariskiLocalAtTarget.of_openCover (T.obj U).affineCover
   intro i
   let Ui : BigFppfOver B S hS :=
@@ -561,7 +561,7 @@ private theorem relative_of_affine_test (P : MorphismProperty Scheme.{u})
       (T.map q) ((T.obj U).affineCover.f i) :=
     (IsPullback.of_hasPullback q ui).map T
   refine (P.arrow_mk_iso_iff (Arrow.isoMk st.isoPullback (Iso.refl _) ?_)).mp hq
-  show st.isoPullback.hom ≫ pullback.snd (T.map q) ((T.obj U).affineCover.f i) =
+  change st.isoPullback.hom ≫ pullback.snd (T.map q) ((T.obj U).affineCover.f i) =
     T.map (pullback.snd q ui) ≫ 𝟙 _
   rw [Category.comp_id]
   exact st.isoPullback_hom_snd
@@ -746,7 +746,7 @@ private lemma tensor_lift_surjective_of_isPullback {U V Z P : Scheme.{u}} [IsAff
         (Algebra.TensorProduct.mapOfCompatibleSMul base ℤ ℤ left right) := by
     apply Algebra.TensorProduct.ext'
     intro first second
-    show _ = (Algebra.IsPushout.equiv base left right result) (first ⊗ₜ[base] second)
+    change _ = (Algebra.IsPushout.equiv base left right result) (first ⊗ₜ[base] second)
     rw [Algebra.IsPushout.equiv_tmul]
     simp [RingHom.algebraMap_toAlgebra]
   rw [heq]
@@ -935,19 +935,19 @@ private theorem exists_covering_refinement_of_saturate {X : B.Schemes} {R : Siev
       obtain ⟨Pb, p₁, p₂, hpb, hP⟩ := B.coverings_isSite.2.2 ⟨X, E⟩ hE Y g
       refine ⟨⟨E.I₀, Pb, p₂⟩, hP, ?_⟩
       rintro Z k ⟨i⟩
-      show R.arrows (p₂ i ≫ g)
+      change R.arrows (p₂ i ≫ g)
       rw [← (hpb i).w]
       exact R.downward_closed (hsub (E.X i) (E.f i) ⟨i⟩) (p₁ i)
   | transitive X R T hR hT ihR ihT =>
       obtain ⟨E, hE, hEsub⟩ := ihR
       choose F hF hFsub using fun i ↦ ihT (hEsub _ _ ⟨i⟩)
       have hcomp : B.IsCovering ⟨X, E.bind F⟩ := by
-        show CovBounded (IsFppfCovering (κ := B.cutoff)) B.coveringBound ⟨X, E.bind F⟩
+        change CovBounded (IsFppfCovering (κ := B.cutoff)) B.coveringBound ⟨X, E.bind F⟩
         simpa [PreZeroHypercover.bind, PreZeroHypercover.pushforward] using
           B.coverings_isSite.2.1 ⟨X, E⟩ hE (fun i ↦ ⟨E.X i, F i⟩) hF fun _ ↦ rfl
       refine ⟨E.bind F, hcomp, ?_⟩
       rintro Z k ⟨⟨i, j⟩⟩
-      show T.arrows ((F i).f j ≫ E.f i)
+      change T.arrows ((F i).f j ≫ E.f i)
       exact hFsub i _ _ ⟨j⟩
 
 /-- A property of morphisms of schemes which is stable under base change and local on the
@@ -988,7 +988,7 @@ private theorem relative_of_locallySurjectiveFamily_pullback (P : MorphismProper
       B.isFppfCovering_of_isCovering hE
     rw [Precoverage.mem_comap_iff] at hF
     simpa [PreZeroHypercover.presieve₀_map] using hF
-  show P (T.map v)
+  change P (T.map v)
   apply (inferInstance : P.IsLocalAtTarget Scheme.fppfPrecoverage).of_forall_pullbackSnd hfppf
   intro Z k _ hk
   obtain ⟨i⟩ := hk
@@ -1318,7 +1318,7 @@ private theorem relative_isClosedImmersion_of_isIso
   have _ : IsIso snd :=
     Functor.FullyFaithful.isIso_of_isIso_map (ULiftYoneda.fullyFaithful _) snd
   have _ : IsIso ((BigFppfOver.toScheme B S hS).map snd) := inferInstance
-  show AlgebraicGeometry.IsClosedImmersion ((BigFppfOver.toScheme B S hS).map snd)
+  change AlgebraicGeometry.IsClosedImmersion ((BigFppfOver.toScheme B S hS).map snd)
   infer_instance
 
 /-- An isomorphism of fppf sheaves on the big fppf site of `S` is a closed immersion in the

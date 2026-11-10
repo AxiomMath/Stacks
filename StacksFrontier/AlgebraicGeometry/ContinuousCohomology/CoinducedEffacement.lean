@@ -79,7 +79,7 @@ lemma isOpen_setOf_smul_eq (x : G ⧸ (V : Subgroup G)) : IsOpen {g : G | g • 
     have : {g : G | g • (y : G ⧸ (V : Subgroup G)) = y} =
         (fun g ↦ y⁻¹ * g * y) ⁻¹' (V : Set G) := by
       ext g
-      simp only [Set.mem_setOf_eq, Set.mem_preimage, SetLike.mem_coe]
+      simp only [Set.mem_ofPred_eq, Set.mem_preimage, SetLike.mem_coe]
       rw [MulAction.Quotient.smul_mk, QuotientGroup.eq]
       simp only [smul_eq_mul, mul_inv_rev, mul_assoc]
       constructor <;> intro h <;> simpa [mul_assoc] using (V : Subgroup G).inv_mem h
@@ -95,10 +95,10 @@ lemma isContinuous_coindRep (M : Stacks.Injectives.ContinuousModule.{u, v, w} R 
     { carrier := {g | coindRep R V M g f = f}
       one_mem' := by simp
       mul_mem' := fun {a b} ha hb ↦ by
-        simp only [Set.mem_setOf_eq, map_mul, Module.End.mul_apply] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq, map_mul, Module.End.mul_apply] at ha hb ⊢
         rw [hb, ha]
       inv_mem' := fun {a} ha ↦ by
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         conv_lhs => rw [← ha]
         rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one, Module.End.one_apply] }
   change IsOpen (S : Set G)
@@ -109,7 +109,7 @@ lemma isContinuous_coindRep (M : Stacks.Injectives.ContinuousModule.{u, v, w} R 
   have h1 : (1 : G) ∈ W := by simp [W]
   have hWS : W ⊆ S := by
     intro g hg
-    simp only [W, Set.mem_iInter, Set.mem_inter_iff, Set.mem_setOf_eq] at hg
+    simp only [W, Set.mem_iInter, Set.mem_inter_iff, Set.mem_ofPred_eq] at hg
     change coindRep R V M g f = f
     funext x
     rw [coindRep_apply, inv_smul_eq_iff.2 (hg x).1.symm, (hg x).2]
@@ -292,7 +292,8 @@ lemma exists_map_coindUnit_eq_zero_one
     ∃ V : OpenSubgroup G, ((invariantsDelta.{u, v, w} R (G := G)).functor (0 + 1)).map
       (coindUnit.{u, v, w} R V S.X₁) ((invariantsDelta.{u, v, w} R (G := G)).δ hS 0 q) = 0 := by
   have hmul : ∀ (a b : G) (y : S.X₂.obj.obj.V),
-      (S.X₂.obj.obj.ρ (a * b)).asHom.hom y = (S.X₂.obj.obj.ρ a).asHom.hom ((S.X₂.obj.obj.ρ b).asHom.hom y) := by
+      (S.X₂.obj.obj.ρ (a * b)).asHom.hom y =
+        (S.X₂.obj.obj.ρ a).asHom.hom ((S.X₂.obj.obj.ρ b).asHom.hom y) := by
     intro a b y
     rw [map_mul]
     rfl
@@ -310,10 +311,10 @@ lemma exists_map_coindUnit_eq_zero_one
     { carrier := {g | (S.X₂.obj.obj.ρ g).asHom.hom x = x}
       one_mem' := by simp
       mul_mem' := fun {a b} ha hb ↦ by
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         rw [hmul, hb, ha]
       inv_mem' := fun {a} ha ↦ by
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         conv_lhs => rw [← ha]
         rw [← hmul, inv_mul_cancel, hone]
       isOpen' := Stacks.GroupCohomology.isOpen_stabilizer R G _ x }

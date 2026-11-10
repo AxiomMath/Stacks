@@ -59,7 +59,7 @@ public theorem not_pow_le_pow_succ_of_isEffectiveCartierDivisor {X : Scheme.{u}}
   obtain ⟨c, hc⟩ := Ideal.mem_span_singleton'.1 hmem
   have hgc : g * c = 1 := by
     refine (hg.pow n).1 ?_
-    show g ^ n * (g * c) = g ^ n * 1
+    change g ^ n * (g * c) = g ^ n * 1
     rw [mul_one]
     nth_rewrite 2 [← hc]
     ring
@@ -86,18 +86,18 @@ public theorem support_comap_ofIdealTop_subset_exceptionalIdeal
         (I.map (Scheme.ΓSpecIso (.of A)).inv.hom)).comap (blowUpToBase ℐ)).support :
         Set (blowUp ℐ)) ⊆ ((exceptionalIdeal ℐ).support : Set (blowUp ℐ)) := by
   intro x hx
-  show x ∈ ((ℐ.comap (blowUpToBase ℐ)).support : Set (blowUp ℐ))
+  change x ∈ ((ℐ.comap (blowUpToBase ℐ)).support : Set (blowUp ℐ))
   rw [Scheme.IdealSheafData.support_comap, TopologicalSpace.Closeds.coe_preimage] at hx ⊢
   set y := (blowUpToBase ℐ).base x
-  show y ∈ (ℐ.support : Set (Spec (.of A)))
+  change y ∈ (ℐ.support : Set (Spec (.of A)))
   rw [hℐ]
-  show y ∈ (Stacks.Blowup.residuePoint A).ker.supportSet
+  change y ∈ (Stacks.Blowup.residuePoint A).ker.supportSet
   rw [supportSet_ker_residuePoint]
   let g : A ≃+* ↥Γ(Spec (.of A), ⊤) :=
     (Scheme.ΓSpecIso (.of A)).symm.commRingCatIsoToRingEquiv
   have hpre : g ⁻¹' (Ideal.map g I : Set ↥Γ(Spec (.of A), ⊤)) = (I : Set A) := by
     ext a
-    show g a ∈ Ideal.map g I ↔ a ∈ I
+    change g a ∈ Ideal.map g I ↔ a ∈ I
     rw [Ideal.mem_map_iff_of_surjective g g.surjective]
     exact ⟨fun ⟨b, hb, hba⟩ => g.injective hba ▸ hb, fun ha => ⟨a, ha, rfl⟩⟩
   change y ∈ ((Scheme.IdealSheafData.ofIdealTop
@@ -109,7 +109,7 @@ public theorem support_comap_ofIdealTop_subset_exceptionalIdeal
   have hx' : I ≤ (y : PrimeSpectrum A).asIdeal := (PrimeSpectrum.mem_zeroLocus _ _).1 hx
   have hm : IsLocalRing.maximalIdeal A ≤ (y : PrimeSpectrum A).asIdeal :=
     (y : PrimeSpectrum A).isPrime.le_of_pow_le (hnI.trans hx')
-  show (y : PrimeSpectrum A) = IsLocalRing.closedPoint A
+  change (y : PrimeSpectrum A) = IsLocalRing.closedPoint A
   exact PrimeSpectrum.ext
     ((IsLocalRing.maximalIdeal.isMaximal A).eq_of_le (y : PrimeSpectrum A).isPrime.ne_top hm).symm
 
@@ -138,7 +138,7 @@ public theorem exists_maximal_order_comap_ofIdealTop
       Scheme.IdealSheafData.ofIdealTop_ideal, ← Ideal.map_pow, ← Ideal.map_pow]
     exact Ideal.map_mono (Ideal.map_mono hnI)
   have hEn : exceptionalIdeal ℐ ^ n ≤ J := by
-    show (ℐ.comap (blowUpToBase ℐ)) ^ n ≤ J
+    change (ℐ.comap (blowUpToBase ℐ)) ^ n ≤ J
     rw [← Stacks.IdealSheaf.comap_pow]
     exact Scheme.IdealSheafData.comap_mono _ hpowle
   obtain ⟨x, hx⟩ := (isIrreducible_support_exceptionalIdeal A ℐ hdim hℐ).nonempty

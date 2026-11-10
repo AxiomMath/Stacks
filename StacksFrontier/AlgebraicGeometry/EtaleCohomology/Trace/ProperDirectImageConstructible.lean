@@ -167,7 +167,8 @@ theorem isConstructibleEtaleModule_and_isTorsion_homology_restrictScalars_of_isC
     (hX : B.Contains X) (Λ : Type) [Ring Λ] [Finite Λ]
     (K : DerivedCategory.Plus (EtaleModules.{u, 0} Λ X))
     (hK : IsCtf B (B.obj X hX) Λ (DerivedCategory.Plus.ι.obj K)) (q : ℤ) :
-    IsBigSiteConstructibleEtaleModule B (B.obj X hX) ℤ ((DerivedCategory.Plus.homologyFunctor _ q).obj
+    IsBigSiteConstructibleEtaleModule B (B.obj X hX) ℤ
+      ((DerivedCategory.Plus.homologyFunctor _ q).obj
         ((etaleModuleRestrictScalars (Int.castRingHom Λ) X).mapDerivedCategoryPlus.obj K)) ∧
       IsTorsionEtaleModule.{u, 0} ℤ X ((DerivedCategory.Plus.homologyFunctor _ q).obj
         ((etaleModuleRestrictScalars (Int.castRingHom Λ) X).mapDerivedCategoryPlus.obj K)) := by

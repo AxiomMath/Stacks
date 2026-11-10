@@ -393,11 +393,11 @@ lemma incl_comp_mapTotalIso :
     FunctorialResolution.totalComparison_f, B.map_comp]
   dsimp only [incl, FunctorialResolution.mapTotalIso]
   rw [HomologicalComplex₂.TotalMap.totalIsoOfFinite_hom_eq_totalMap, HomologicalComplex.comp_f]
-  show ((totalSingleRowZeroUnit _).f n ≫ _) ≫
+  change ((totalSingleRowZeroUnit _).f n ≫ _) ≫
     HomologicalComplex₂.TotalMap.totalMapf B (R.bicomplex K) n = _
   simp only [totalSingleRowZeroUnit, Category.assoc, HomologicalComplex₂.ιTotal_map_assoc,
     HomologicalComplex₂.TotalMap.ι_totalMapf]
-  show _ ≫ (colMap R B (K.X n)).f 0 ≫ _ = _
+  change _ ≫ (colMap R B (K.X n)).f 0 ≫ _ = _
   rw [colMap_f_zero, Category.assoc]
   exact Iso.inv_hom_id_assoc _ _
 
@@ -822,7 +822,7 @@ private theorem exists_distTriang_of_isPushout_of_resolution_aux
             (-(DerivedCategory.Q.map γ ≫ unitQ B u M)))
           (e₃.inv ≫ (DerivedCategory.triangleOfSES hP).mor₃))
         (Iso.refl _) e₂ e₃ ?_ ?_ ?_).symm⟩
-  · show DerivedCategory.Q.map (biprod.lift (α ≫ incl R B K) (-β)) ≫
+  · change DerivedCategory.Q.map (biprod.lift (α ≫ incl R B K) (-β)) ≫
         ((DerivedCategory.Q.mapBiprod _ _).hom ≫ biprod.map (totalIso B u hu R K).hom n.hom) =
       𝟙 _ ≫ biprod.lift (DerivedCategory.Q.map α ≫ unitQ B u K) (DerivedCategory.Q.map β)
     rw [← Category.assoc, Q_map_lift_comp_mapBiprod_hom, Category.id_comp]
@@ -831,7 +831,7 @@ private theorem exists_distTriang_of_isPushout_of_resolution_aux
         DerivedCategory.Q.map_comp, Category.assoc, Q_map_incl_comp_totalIso_hom]
     · rw [Category.assoc, biprod.map_snd, biprod.lift_snd_assoc, biprod.lift_snd]
       simp [n]
-  · show DerivedCategory.Q.map (biprod.desc (pushout.inl (incl R B K)
+  · change DerivedCategory.Q.map (biprod.desc (pushout.inl (incl R B K)
           ((B.mapHomologicalComplex (ComplexShape.up ℤ)).map ρ))
           (γ ≫ pushout.inr (incl R B K) ((B.mapHomologicalComplex (ComplexShape.up ℤ)).map ρ))) ≫
         (DerivedCategory.Q.map (pushoutComparison R B ρ) ≫ (totalIso B u hu R M).hom) =

@@ -154,7 +154,7 @@ lemma whole_idealMap : S.whole.idealMap = S.idealMap₃₂ ≫ S.idealMap₂₁ 
   calc S.whole.inclOne U (S.whole.idealMap.val.app U b)
       = S.whole.ringMapH.hom.app U (S.whole.inclTwo U b) := S.whole.inclOne_idealMap U b
     _ = S.lower.ringMapH.hom.app U (S.upper.ringMapH.hom.app U (S.upper.inclTwo U b)) := by
-        show ((sheafCompose Y.J (forget₂ CommRingCat RingCat)).map
+        change ((sheafCompose Y.J (forget₂ CommRingCat RingCat)).map
           (S.h₃₂ ≫ S.lower.hSharp)).hom.app U (S.upper.inclTwo U b) = _
         rw [CategoryTheory.Functor.map_comp]
         rfl

@@ -60,6 +60,7 @@ public abbrev LAdicSheaf.rationalCohomologyMap {F F' : LAdicSheaf B X ℓ} (a : 
   ((ModuleCat.extendScalars.{0, 0, u + 1} (algebraMap ℤ_[ℓ] ℚ_[ℓ])).map
     (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar a i)).hom
 
+omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- The rational map of a composite. -/
 public theorem LAdicSheaf.rationalCohomologyMap_comp {F F' F'' : LAdicSheaf B X ℓ} (a : F ⟶ F')
     (a' : F' ⟶ F'') (i : ℤ) :
@@ -69,6 +70,7 @@ public theorem LAdicSheaf.rationalCohomologyMap_comp {F F' F'' : LAdicSheaf B X 
   simp only [LAdicSheaf.rationalCohomologyMap,
     LAdicSheaf.geometricCompactlySupportedCohomologyMap_comp, Functor.map_comp, ModuleCat.hom_comp]
 
+omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- The rational map of `N • 𝟙` is multiplication by `N`. -/
 public theorem LAdicSheaf.rationalCohomologyMap_nsmul_id (F : LAdicSheaf B X ℓ) (N : ℕ) (i : ℤ) :
     LAdicSheaf.rationalCohomologyMap f j kbar (N • 𝟙 F) i = (N : ℚ_[ℓ]) • LinearMap.id := by
@@ -80,9 +82,10 @@ public theorem LAdicSheaf.rationalCohomologyMap_nsmul_id (F : LAdicSheaf B X ℓ
     LAdicSheaf.geometricCompactlySupportedCohomologyMap_nsmul_id, Functor.map_nsmul,
     CategoryTheory.Functor.map_id]
   refine LinearMap.ext fun v => ?_
-  show N • v = (N : ℚ_[ℓ]) • v
+  change N • v = (N : ℚ_[ℓ]) • v
   rw [Nat.cast_smul_eq_nsmul]
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **Twisted traces on compactly supported cohomology along an isogeny of ℓ-adic sheaves.**
 If `a ≫ a' = K • 𝟙 F` and `a' ≫ a = K • 𝟙 F'` for a nonzero `K` and `a ≫ ψ' = ψ ≫ a`, then
 `ψ` and `ψ'` composed with the `N`-th power of the geometric Frobenius have the same trace on
@@ -113,14 +116,14 @@ public theorem LAdicSheaf.trace_rationalMap_comp_rationalFrobenius_pow_of_isogen
       map_add' := map_add _
       map_smul' := map_smul _
       left_inv := fun v => by
-        show ((K : ℚ_[ℓ])⁻¹) • _ = v
+        change ((K : ℚ_[ℓ])⁻¹) • _ = v
         rw [hinv a a' haa', smul_smul, inv_mul_cancel₀ hK', one_smul]
       right_inv := fun v => by
-        show LAdicSheaf.rationalCohomologyMap f j kbar a i (((K : ℚ_[ℓ])⁻¹) • _) = v
+        change LAdicSheaf.rationalCohomologyMap f j kbar a i (((K : ℚ_[ℓ])⁻¹) • _) = v
         rw [map_smul, hinv a' a ha'a, smul_smul, inv_mul_cancel₀ hK', one_smul] }
   refine trace_eq_of_linearEquiv_comm L _ _ ?_
   refine comp_pow_comp_of_comm _ _ _ _ _ ?_ ?_ N
-  · show LAdicSheaf.rationalCohomologyMap f j kbar a i ∘ₗ _ = _ ∘ₗ
+  · change LAdicSheaf.rationalCohomologyMap f j kbar a i ∘ₗ _ = _ ∘ₗ
       LAdicSheaf.rationalCohomologyMap f j kbar a i
     rw [← LAdicSheaf.rationalCohomologyMap_comp, ← LAdicSheaf.rationalCohomologyMap_comp, h]
   · have hc := congrArg (fun g => ((ModuleCat.extendScalars.{0, 0, u + 1}

@@ -65,7 +65,7 @@ lemma isSheafTheoreticallyEmpty_of_isEmpty {X : Scheme.{u}} (U : X.Etale) (hU : 
     refine ⟨fun hf ↦ ?_, fun hf ↦ hf.elim⟩
     obtain ⟨i, a, _⟩ := (Sieve.mem_ofArrows_iff _ _ f).mp hf
     exact PEmpty.elim i
-  show (⊥ : Sieve U) ∈ smallEtaleTopology X U
+  change (⊥ : Sieve U) ∈ smallEtaleTopology X U
   rw [← hbot, Scheme.ofArrows_mem_smallEtaleTopology_iff]
   ext x
   exact False.elim (hU.false x)
@@ -88,7 +88,7 @@ theorem smallEtaleBaseChange_isAlmostCocontinuous
     IsAlmostCocontinuous (smallEtaleBaseChange f)
       (smallEtaleTopology Y) (smallEtaleTopology X) := by
   let F := smallEtaleBaseChange f
-  show ∀ U : Y.Etale, ∀ {S : Sieve (F.obj U)},
+  change ∀ U : Y.Etale, ∀ {S : Sieve (F.obj U)},
     S ∈ smallEtaleTopology X (F.obj U) →
       ∃ T : Sieve U, T ∈ smallEtaleTopology Y U ∧
         ∀ ⦃V : Y.Etale⦄ (g : V ⟶ U), T g →
@@ -111,10 +111,10 @@ theorem smallEtaleBaseChange_isAlmostCocontinuous
   let (i : 𝒰.I₀) : (𝒰.f i).IsOver X := h𝒰over.isOver_map i
   let q : pullback f U.hom ⟶ U.left := pullback.snd f U.hom
   let e : (F.obj U).left ≅ pullback f U.hom := by
-    show pullback U.hom f ≅ pullback f U.hom
+    change pullback U.hom f ≅ pullback f U.hom
     exact pullbackSymmetry U.hom f
   have he : e.hom ≫ q = pullback.fst U.hom f := by
-    show (pullbackSymmetry U.hom f).hom ≫ pullback.snd f U.hom = _
+    change (pullbackSymmetry U.hom f).hom ≫ pullback.snd f U.hom = _
     exact pullbackSymmetry_hom_comp_snd U.hom f
   have hPC : HasPropertyC q := hC U.hom U.prop
   have hdata (i : 𝒰.I₀) :
@@ -138,7 +138,7 @@ theorem smallEtaleBaseChange_isAlmostCocontinuous
   have hβS (i : 𝒰.I₀) : S (β i) := by
     apply h𝒰S
     dsimp only [Scheme.Cover.toPresieveOverProp]
-    show Presieve.ofArrows
+    change Presieve.ofArrows
       (fun j ↦ (𝒰.X j).asOverProp (P := (@Etale : MorphismProperty Scheme.{u})) X (h𝒰et j))
       (fun j ↦ (𝒰.f j).asOverProp (P := (@Etale : MorphismProperty Scheme.{u})) X) (β i)
     exact Presieve.ofArrows.mk i
@@ -180,7 +180,7 @@ theorem smallEtaleBaseChange_isAlmostCocontinuous
             _ = e.hom (e.inv z) := by rw [hw]
             _ = z := by simp
         refine ⟨Sum.inl i, ⟨pullback.snd q (v i) t, ?_⟩⟩
-        show (v i) (pullback.snd q (v i) t) = q z
+        change (v i) (pullback.snd q (v i) t) = q z
         rw [← pullback_condition_apply, hfst]
       · refine ⟨Sum.inr PUnit.unit, ⟨⟨y, hy⟩, ?_⟩⟩
         rfl
@@ -188,7 +188,7 @@ theorem smallEtaleBaseChange_isAlmostCocontinuous
     simp only [Set.mem_iUnion, Set.mem_range, Set.mem_univ, iff_true]
     exact hpoint y
   have hEmpty0 : IsEmpty (F.obj V0).left := by
-    show IsEmpty (Limits.pullback (C := Scheme.{u}) (O.ι ≫ U.hom) f)
+    change IsEmpty (Limits.pullback (C := Scheme.{u}) (O.ι ≫ U.hom) f)
     refine ⟨?_⟩
     intro z
     have hf : U.hom (O.ι (pullback.fst (O.ι ≫ U.hom) f z)) ∈ Set.range f :=
@@ -197,7 +197,7 @@ theorem smallEtaleBaseChange_isAlmostCocontinuous
       have hm : O.ι (pullback.fst (O.ι ≫ U.hom) f z) ∈ U.hom ⁻¹' Set.range f := hf
       simpa [Z, q, Scheme.Pullback.range_snd] using hm
     have hnot : O.ι (pullback.fst (O.ι ≫ U.hom) f z) ∉ Z := by
-      show (pullback.fst (O.ι ≫ U.hom) f z).val ∉ Z
+      change (pullback.fst (O.ι ≫ U.hom) f z).val ∉ Z
       exact (pullback.fst (O.ι ≫ U.hom) f z).property
     exact hnot hz
   refine ⟨Sieve.ofArrows W a, hcover, ?_⟩
@@ -260,7 +260,7 @@ theorem smallEtaleBaseChange_isAlmostCocontinuous
       have hdelta (i : 𝒰.I₀) : (ei i ≫ r i) ≫ (Wi i).hom =
           (F.obj (Vi i)).hom := by
         dsimp only [Wi]
-        show (ei i ≫ r i) ≫ (𝒰.X i ↘ X) = (F.obj (Vi i)).hom
+        change (ei i ≫ r i) ≫ (𝒰.X i ↘ X) = (F.obj (Vi i)).hom
         calc
           (ei i ≫ r i) ≫ (𝒰.X i ↘ X) =
               ei i ≫ r i ≫ 𝒰.f i ≫ (F.obj U).hom := by
@@ -276,7 +276,7 @@ theorem smallEtaleBaseChange_isAlmostCocontinuous
         MorphismProperty.Over.homMk (ei i ≫ r i) (hdelta i)
       have hfactor (i : 𝒰.I₀) : F.map (ai i) = δ i ≫ β i := by
         apply MorphismProperty.Over.Hom.ext
-        show (F.map (ai i)).left = ei i ≫ r i ≫ 𝒰.f i
+        change (F.map (ai i)).left = ei i ≫ r i ≫ 𝒰.f i
         exact (hmap i).symm
       have hAiS : S (F.map (ai i)) := by
         rw [hfactor i]

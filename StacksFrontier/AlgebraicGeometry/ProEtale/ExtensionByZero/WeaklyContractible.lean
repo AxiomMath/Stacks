@@ -103,7 +103,7 @@ private instance isLocallyInjective_toPlus (P : Cᵒᵖ ⥤ Type t) :
 /-- The map to the double plus construction is the composite of the two plus maps. -/
 private lemma toSheafify_eq_toPlus_comp (P : Cᵒᵖ ⥤ Type t) :
     J.toSheafify P = J.toPlus P ≫ J.toPlus (J.plusObj P) := by
-  show J.toPlus P ≫ J.plusMap (J.toPlus P) = _
+  change J.toPlus P ≫ J.plusMap (J.toPlus P) = _
   rw [GrothendieckTopology.plusMap_toPlus]
 
 /-- The map to the double plus construction is locally surjective. -/
@@ -182,7 +182,7 @@ theorem bijective_app_of_isLocallyBijective (B : BigProetaleSite.{u}) (S : B.Sch
     have heq : P.map (Sigma.desc E.f).op x = P.map (Sigma.desc E.f).op y := by
       apply (bijective_sigma_sections E.X P).injective
       funext j
-      simpa only [← Functor.map_comp_apply, ← op_comp, Sigma.ι_desc] using
+      simpa only [← Functor.map_comp_apply, ← op_comp, Sigma.ι_comp_desc] using
         (show P.map (E.f j).op x = P.map (E.f j).op y from
           hle _ _ (Presieve.ofArrows.mk j))
     simpa only [← Functor.map_comp_apply, ← op_comp, hs, op_id, Functor.map_id_apply] using
@@ -202,13 +202,13 @@ theorem bijective_app_of_isLocallyBijective (B : BigProetaleSite.{u}) (S : B.Sch
     have heq : φ.app (op (∐ E.X)) t = Q.map (Sigma.desc E.f).op x := by
       apply (bijective_sigma_sections E.X Q).injective
       funext j
-      show Q.map (Sigma.ι E.X j).op (φ.app (op (∐ E.X)) t) =
+      change Q.map (Sigma.ι E.X j).op (φ.app (op (∐ E.X)) t) =
         Q.map (Sigma.ι E.X j).op (Q.map (Sigma.desc E.f).op x)
       rw [← φ.naturality_apply (Sigma.ι E.X j).op t, ht' j, hy j]
-      simp only [← Functor.map_comp_apply, ← op_comp, Sigma.ι_desc]
+      simp only [← Functor.map_comp_apply, ← op_comp, Sigma.ι_comp_desc]
     refine ⟨P.map s.op t, ?_⟩
     rw [φ.naturality_apply s.op t, heq]
-    show Q.map s.op (Q.map (Sigma.desc E.f).op x) = x
+    change Q.map s.op (Q.map (Sigma.desc E.f).op x) = x
     simp only [← Functor.map_comp_apply, ← op_comp, hs, op_id, Functor.map_id_apply]
 
 

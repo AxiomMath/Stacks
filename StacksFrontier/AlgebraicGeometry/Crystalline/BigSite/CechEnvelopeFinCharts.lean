@@ -42,7 +42,7 @@ theorem exists_fin_cover_smoothLift_etaleCoordinates [IsAffine S.S.scheme] [Comp
     exact IsAffine.of_isIso (j (e.symm m)).isoOpensRange.inv
   · obtain ⟨i, hi⟩ := Set.mem_iUnion.1 (hcov ▸ Set.mem_univ x : x ∈ ⋃ i, Set.range (j i).base)
     refine ⟨e i, ?_⟩
-    show x ∈ (j (e.symm (e i))).opensRange
+    change x ∈ (j (e.symm (e i))).opensRange
     rw [Equiv.symm_apply_apply]
     simpa using hi
   · obtain ⟨L, d, t, ht⟩ := hL (e.symm m)

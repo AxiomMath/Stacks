@@ -82,7 +82,7 @@ theorem isRepresentableByAlgebraicSpaces_of_isRepresentableMorphism
   have hcomm : (E ⋙ (Over.iteratedSliceEquiv X).functor) ⋙
       (schemeFibredCategory B S hS X.left).val.p =
       (twoFibreProduct B S hS 𝒴 (schemeFibredCategory B S hS V) 𝒳 y f.hom).val.p := by
-    show E ⋙ (Over.forget X ⋙ Over.forget V) = _
+    change E ⋙ (Over.forget X ⋙ Over.forget V) = _
     rw [← Functor.assoc, hE.isCartesianFunctor.comm]
     exact TwoFibreProductOver.fst_comp_eq
   obtain ⟨k⟩ := StacksRepresentableCFG.nonempty_equivalenceOver_of_isEquivalence

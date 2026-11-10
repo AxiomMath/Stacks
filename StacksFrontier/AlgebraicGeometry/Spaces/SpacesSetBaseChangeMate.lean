@@ -236,7 +236,7 @@ theorem isIso_mateEquiv_symm_spacesSetPushforwardCompSquare (sq : IsPullback i f
           (isEtale_of_isPullback B S hS f' i g f sq.flip hg))
         (spacesEtalePostcompSheafAdjunction B S hS (Type u) g hg)).symm
       (TwoSquare.mk _ _ _ _
-        (spacesSetPushforwardCompSquare B S hS i f' f g sq.w))).natTrans := by
+        (spacesSetPushforwardCompSquare B S hS i f' f g sq.w))) := by
   rw [mateEquiv_symm_spacesSetPushforwardCompSquare B S hS i f' f g sq hg]
   exact inferInstanceAs
     (IsIso (spacesSetPushforwardBaseChangeIso B S hS i f' f g sq hg).inv)

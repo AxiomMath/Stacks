@@ -149,20 +149,20 @@ public def rightDerivedPushforwardOverFunctorObjIso
       ((localizedPushforwardBaseChange B a V).rightDerived n).obj
         ((SheafOfModules.overFunctor.{u} (structureSheaf B X.obj X.property)
           ((smallEtaleBaseChange B a).obj V)).obj 𝓕) :=
-  haveI hYlim : PreservesFiniteLimits
+  haveI : PreservesFiniteLimits
       (SheafOfModules.overFunctor.{u} (structureSheaf B Y.obj Y.property) V) :=
     (Stacks.Cohomology.Localization.OfEssentiallySmall.restriction_exact
       (topology B Y.obj Y.property) (structureSheaf B Y.obj Y.property) V).1
-  haveI hYcol : PreservesFiniteColimits
+  haveI : PreservesFiniteColimits
       (SheafOfModules.overFunctor.{u} (structureSheaf B Y.obj Y.property) V) :=
     (Stacks.Cohomology.Localization.OfEssentiallySmall.restriction_exact
       (topology B Y.obj Y.property) (structureSheaf B Y.obj Y.property) V).2
-  haveI hXlim : PreservesFiniteLimits
+  haveI : PreservesFiniteLimits
       (SheafOfModules.overFunctor.{u} (structureSheaf B X.obj X.property)
         ((smallEtaleBaseChange B a).obj V)) :=
     (Stacks.Cohomology.Localization.OfEssentiallySmall.restriction_exact
       (topology B X.obj X.property) (structureSheaf B X.obj X.property) _).1
-  haveI hXinj : (SheafOfModules.overFunctor.{u} (structureSheaf B X.obj X.property)
+  haveI : (SheafOfModules.overFunctor.{u} (structureSheaf B X.obj X.property)
       ((smallEtaleBaseChange B a).obj V)).PreservesInjectiveObjects :=
     Stacks.Cohomology.Localization.preservesInjectiveObjects_overFunctor_of_essentiallySmall
       (topology B X.obj X.property) (structureSheaf B X.obj X.property) _

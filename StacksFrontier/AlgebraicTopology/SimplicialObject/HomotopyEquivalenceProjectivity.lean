@@ -168,7 +168,7 @@ lemma projective_single₀ (P : A) [Projective P] : Projective ((single₀ A).ob
   refine ⟨(fromSingle₀Equiv E P).symm
     (Projective.factorThru ((fromSingle₀Equiv Y P) f) (e.f 0)), ?_⟩
   apply (fromSingle₀Equiv Y P).injective
-  show ((fromSingle₀Equiv E P).symm _).f 0 ≫ e.f 0 = f.f 0
+  change ((fromSingle₀Equiv E P).symm _).f 0 ≫ e.f 0 = f.f 0
   rw [fromSingle₀Equiv_symm_apply_f_zero]
   exact Projective.factorThru_comp _ _
 

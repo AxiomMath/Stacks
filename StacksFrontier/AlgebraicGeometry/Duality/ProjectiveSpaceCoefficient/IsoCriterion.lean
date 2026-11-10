@@ -137,7 +137,7 @@ theorem eq_zero_of_bijective_comp (T : Triangle C) (hT : T ∈ distTriang C) {W 
   have hf : f ≫ T.mor₃ = 0 := by
     have : e.inv ≫ f ≫ T.mor₃ = 0 := by
       rw [← (shiftFunctor C (1 : ℤ)).map_preimage (e.inv ≫ f ≫ T.mor₃)]
-      show (g')⟦(1 : ℤ)⟧' = 0
+      change (g')⟦(1 : ℤ)⟧' = 0
       rw [hg', Functor.map_zero]
     simpa using e.hom ≫= this
   obtain ⟨k, rfl⟩ := Triangle.coyoneda_exact₃ T hT f hf

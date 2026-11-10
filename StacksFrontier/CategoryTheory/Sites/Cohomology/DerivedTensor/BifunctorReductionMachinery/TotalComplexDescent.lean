@@ -112,6 +112,7 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
 variable [HasBinaryBiproducts (SheafOfModules (ringSheaf R))]
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the total-complex coproducts in `SheafOfModules (ringSheaf R)` is deep
 /-- **The total tensor complex `Tot(K₁^• ⊗_O K₂^•)` exists.**  Its degree `n` part is the
 coproduct of `K₁^p ⊗_O K₂^q` over the pairs with `p + q = n`, a coproduct indexed by a small
 type, and `Mod(O)` has all small colimits because presheaves of modules do and sheafification
@@ -232,7 +233,7 @@ lemma map₂HomologicalComplex_obj_additive
   intro j
   apply HomologicalComplex.mapBifunctor.hom_ext
   intro i₁ i₂ h
-  show G.ιMapBifunctor K F (ComplexShape.up ℤ) i₁ i₂ j h ≫
+  change G.ιMapBifunctor K F (ComplexShape.up ℤ) i₁ i₂ j h ≫
       (HomologicalComplex.mapBifunctorMap (𝟙 G) (f + g) F (ComplexShape.up ℤ)).f j
     = G.ιMapBifunctor K F (ComplexShape.up ℤ) i₁ i₂ j h ≫
       (HomologicalComplex.mapBifunctorMap (𝟙 G) f F (ComplexShape.up ℤ)
@@ -261,7 +262,7 @@ lemma map₂HomologicalComplex_flip_obj_additive
   intro j
   apply HomologicalComplex.mapBifunctor.hom_ext
   intro i₁ i₂ h
-  show K.ιMapBifunctor G F (ComplexShape.up ℤ) i₁ i₂ j h ≫
+  change K.ιMapBifunctor G F (ComplexShape.up ℤ) i₁ i₂ j h ≫
       (HomologicalComplex.mapBifunctorMap (f + g) (𝟙 G) F (ComplexShape.up ℤ)).f j
     = K.ιMapBifunctor G F (ComplexShape.up ℤ) i₁ i₂ j h ≫
       (HomologicalComplex.mapBifunctorMap f (𝟙 G) F (ComplexShape.up ℤ)

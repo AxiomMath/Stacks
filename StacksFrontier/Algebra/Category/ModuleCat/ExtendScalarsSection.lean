@@ -69,8 +69,7 @@ private theorem tensor_ext_of_tmul {R S M P F : Type*} [CommSemiring R] [CommSem
     [Algebra R S] [AddCommMonoid M] [Module R M] [AddCommMonoid P] [FunLike F (S ⊗[R] M) P]
     [AddMonoidHomClass F (S ⊗[R] M) P] {f g : F}
     (h : ∀ (t : S) (m : M), f (t ⊗ₜ[R] m) = g (t ⊗ₜ[R] m)) : f = g :=
-  DFunLike.ext _ _ fun x => TensorProduct.induction_on x
-    ((map_zero f).trans (map_zero g).symm) h
+  DFunLike.ext _ _ fun x => TensorProduct.inductionOn x h
     fun x y hx hy => (map_add f x y).trans ((congrArg₂ (· + ·) hx hy).trans (map_add g x y).symm)
 
 variable {Λ Λ'} in
@@ -176,10 +175,10 @@ public def sectionSMul (M : _root_.ModuleCat.{max v u'} Λ) :
       change TensorProduct.lift ((LinearMap.lsmul Λ M).comp s)
           (algebraMap Λ Λ' a • (x : Λ' ⊗[Λ] M)) =
         a • TensorProduct.lift ((LinearMap.lsmul Λ M).comp s) (x : Λ' ⊗[Λ] M)
-      refine TensorProduct.induction_on (motive := fun y : Λ' ⊗[Λ] M =>
+      refine TensorProduct.inductionOn (motive := fun y : Λ' ⊗[Λ] M =>
           TensorProduct.lift ((LinearMap.lsmul Λ M).comp s) (algebraMap Λ Λ' a • y) =
             a • TensorProduct.lift ((LinearMap.lsmul Λ M).comp s) y) (x : Λ' ⊗[Λ] M)
-        (by rw [smul_zero, map_zero, smul_zero]) (fun t m => ?_)
+        (fun t m => ?_)
         (fun y z hy hz => by rw [smul_add, map_add, map_add, hy, hz, smul_add])
       rw [TensorProduct.smul_tmul', TensorProduct.lift.tmul, TensorProduct.lift.tmul,
         LinearMap.comp_apply, LinearMap.comp_apply, algebraMap_smul, map_smul,
@@ -206,7 +205,7 @@ public theorem tmulOne_sectionSMul_tmul {Λ'' : Type u'} [CommRing Λ''] [Algebr
     (M : _root_.ModuleCat.{max v u'} Λ) (t : Λ') (m : M) :
     tmulOne (Λ' := Λ'') M (sectionSMul s M (t ⊗ₜ[Λ] m : Λ' ⊗[Λ] M)) =
       (algebraMap Λ Λ'' (s t) ⊗ₜ[Λ] m : Λ'' ⊗[Λ] M) := by
-  show (1 : Λ'') ⊗ₜ[Λ] (s t • m) = _
+  change (1 : Λ'') ⊗ₜ[Λ] (s t • m) = _
   rw [← TensorProduct.smul_tmul, Algebra.smul_def, mul_one]
 
 include hs in
@@ -214,7 +213,7 @@ include hs in
 public theorem sectionSMul_comp_tmulOne (M : _root_.ModuleCat.{max v u'} Λ) :
     sectionSMul s M ≫ tmulOne M = 𝟙 _ := by
   refine restrictScalars_baseChangeFunctor_hom_ext fun t m => ?_
-  show tmulOne M (sectionSMul s M (t ⊗ₜ[Λ] m : Λ' ⊗[Λ] M)) = (t ⊗ₜ[Λ] m : Λ' ⊗[Λ] M)
+  change tmulOne M (sectionSMul s M (t ⊗ₜ[Λ] m : Λ' ⊗[Λ] M)) = (t ⊗ₜ[Λ] m : Λ' ⊗[Λ] M)
   rw [tmulOne_sectionSMul_tmul, hs]
 
 /-- If `s` followed by `Λ → Λ''` is zero, `Λ' ⊗_Λ M → M → Λ'' ⊗_Λ M` is zero. -/
@@ -222,7 +221,7 @@ public theorem sectionSMul_comp_tmulOne_eq_zero {Λ'' : Type u'} [CommRing Λ'']
     (h : ∀ t, algebraMap Λ Λ'' (s t) = 0) (M : _root_.ModuleCat.{max v u'} Λ) :
     sectionSMul s M ≫ tmulOne (Λ' := Λ'') M = 0 := by
   refine restrictScalars_baseChangeFunctor_hom_ext fun t m => ?_
-  show tmulOne (Λ' := Λ'') M (sectionSMul s M (t ⊗ₜ[Λ] m : Λ' ⊗[Λ] M)) = 0
+  change tmulOne (Λ' := Λ'') M (sectionSMul s M (t ⊗ₜ[Λ] m : Λ' ⊗[Λ] M)) = 0
   rw [tmulOne_sectionSMul_tmul, h, TensorProduct.zero_tmul]
   rfl
 

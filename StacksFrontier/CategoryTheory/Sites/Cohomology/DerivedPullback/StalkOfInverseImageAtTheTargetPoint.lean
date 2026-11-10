@@ -114,7 +114,8 @@ def targetStalkAddEquiv :
   stalkAddEquiv (f.toToposHom hu) (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) Φ
     (targetPoint f hu Φ) (targetPointStalkIso f hu Φ) G
 
-omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **Stacks 05V1 for sheaves of modules at the named point.**  The isomorphism of stalk
 modules is semilinear over the isomorphism of stalk rings. -/
 @[stacks 05V1 "semilinearity, at the point of the target site attached to a point of the source

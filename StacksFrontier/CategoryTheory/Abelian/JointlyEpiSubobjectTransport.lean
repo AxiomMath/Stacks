@@ -36,7 +36,7 @@ attribute [local instance] HasFiniteBiproducts.of_hasFiniteProducts
 
 variable {𝒜 : Type u₁} [Category.{v₁} 𝒜] [Abelian 𝒜] {ℬ : Type u₂} [Category.{v₂} ℬ] [Abelian ℬ]
   (Φ : 𝒜 ⥤ ℬ) [Φ.Additive] [Φ.PreservesEpimorphisms]
-  {J : Type} [Fintype J] [DecidableEq J]
+  {J : Type} [Finite J] [DecidableEq J]
 
 omit [DecidableEq J] in
 /-- In an abelian category a finite family of morphisms into `N` is jointly epimorphic exactly

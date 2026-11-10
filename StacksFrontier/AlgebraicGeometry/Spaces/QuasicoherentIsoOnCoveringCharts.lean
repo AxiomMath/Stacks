@@ -54,8 +54,7 @@ theorem bijective_app_of_isCartesianOnAffineCharts {M N : Modules.{u, u} B S hS 
       (LinearEquiv.ofBijective (φ.val.app (op Z)).hom hφ)
   have hcomm : ∀ z, φ.val.app (op A) (sectionsBaseChange M κ z) = sectionsBaseChange N κ (e z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul b x =>
       rw [chartBaseChange_tmul, TensorProduct.AlgebraTensorModule.congr_tmul, chartBaseChange_tmul,
         map_smul, chartRestrictLinear_apply, chartRestrictLinear_apply]

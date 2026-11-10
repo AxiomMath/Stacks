@@ -33,7 +33,8 @@ first statement of [Stacks, Tag 0ELC] — `FÉt_X ⟶ FÉt_Y` is fully faithful 
 hypothesis. It is the full faithfulness that the source uses in Tag 0ELE, and it is also
 `Stacks.FundamentalGroup.fullyFaithful_finiteEtaleBaseChange_zeroScheme_of_isProper`, which reaches
 it through the formalized form of [Stacks, Tag 0EL2] instead. The module documentation of
-`StacksFrontier.AlgebraicGeometry.FundamentalGroup.LefschetzZeroSchemeRestriction` lists four reasons
+`StacksFrontier.AlgebraicGeometry.FundamentalGroup.LefschetzZeroSchemeRestriction` lists four
+reasons
 why the formalized [Stacks, Tag 0EL1] cannot be consumed there directly; the chain used here goes
 around all four:
 
@@ -68,7 +69,7 @@ Essential surjectivity of `FÉt_X ⟶ FÉt_Y` needs, by the source's argument, t
 étale cover of `Y` be the restriction of a finite étale cover of some open neighbourhood of `Y`**.
 That is the essential-image half of [Stacks, Tag 0ELD], and it is exactly the second half of
 `Stacks.FundamentalGroup.finiteEtaleColimitEquivalence_zeroScheme_of_depth`
-(`StacksFrontier/AlgebraicGeometry/FundamentalGroup/LefschetzZeroSchemeFiniteEtaleEquivalence.lean`),
+(`StacksFrontier.AlgebraicGeometry.FundamentalGroup.LefschetzZeroSchemeFiniteEtaleEquivalence`),
 which proves Tag 0ELD at the bound `depth(𝒪_{X, x}) + dim({x}‾) > 2` — the very bound Tag 0ELE
 assumes. Underneath it are the algebraization of [Stacks, Tag 0EL7]
 (`Stacks.Algebraization.completionEquivalence_finiteLocallyFree_of_two_lt_depth_add_dimClosure`)
@@ -139,8 +140,8 @@ private theorem one_lt_enatToEInt_add_of_le {d d' : ℕ∞} {c : WithBot ℕ∞}
 
 /-- **The hypothesis of [Stacks, Tag 0ELE] implies the hypothesis of [Stacks, Tag 0ELC].** The
 bound `depth(𝒪_{X, x}) + dim({x}‾) > 2` of Tag 0ELE, spelled in the `WithBot ℕ∞` arithmetic of
-`Stacks.Algebraization.localDepthAddDimClosure` in which the formalized [Stacks, Tag 0EL7] states it,
-gives the bound `> 1` of Tag 0ELC, spelled in the `EInt` arithmetic of
+`Stacks.Algebraization.localDepthAddDimClosure` in which the formalized [Stacks, Tag 0EL7] states
+it, gives the bound `> 1` of Tag 0ELC, spelled in the `EInt` arithmetic of
 `Stacks.FundamentalGroup.DepthAddDimGtOneOutsideSupport`. -/
 public theorem depthAddDimGtOneOutsideSupport_of_two_lt_localDepthAddDimClosure
     {X : Scheme.{u}} {Y : X.IdealSheafData}

@@ -371,6 +371,7 @@ theorem isIso_mapDerivedCategory_map_deRhamComparisonQ :
 
 variable (hrange : ∀ x : X, p.base x ∈ Set.range j.base → x ∈ Set.range ι.base)
 
+omit [IsOpenImmersion j] in
 include hrange in
 /-- The preimage under `p` of an open inside the image of `j` lies inside the image of `ι`. -/
 theorem opensMap_obj_le_opensRange (W : Opens Y) (hW : (W : Set Y) ⊆ Set.range j.base) :

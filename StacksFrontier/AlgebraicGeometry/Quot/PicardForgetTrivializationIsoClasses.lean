@@ -97,7 +97,7 @@ theorem isoClassLiftOfCompatible_naturality [p.IsFibered] {V W : 𝒞} (f : V �
       X.map f.op (isoClassLiftOfCompatible hκ W c) := by
   induction c using _root_.Quotient.ind with
   | _ x =>
-    show isoClassLiftOfCompatible hκ V (p.isoClassPresheaf.map f.op (isoClassMk p x)) = _
+    change isoClassLiftOfCompatible hκ V (p.isoClassPresheaf.map f.op (isoClassMk p x)) = _
     rw [isoClassPresheaf_map_isoClassMk, isoClassLiftOfCompatible_mk]
     exact fiberClassValue_of_isHomLift hκ f _ x (IsPreFibered.pullbackMap x.2 f)
       (IsPreFibered.pullbackMap.IsCartesian x.2 f).toIsHomLift
@@ -305,12 +305,12 @@ theorem nonempty_iso_of_fiberClassValue_eq
       refine (eqToHom_comp_eqToHom_comp_eqToHom _ _ _).trans ?_
       rw [eqToHom_map]
       simp) (by
-      show y.map (eqToHom e) ≫ Q.1.iso.hom =
+      change y.map (eqToHom e) ≫ Q.1.iso.hom =
         P.1.iso.hom ≫ (P.1.iso.inv ≫ y.map (eqToHom e) ≫ Q.1.iso.hom)
       rw [Iso.hom_inv_id_assoc])
   have hψ : (forgetTrivializationFibreFst σ hσ hc P𝒯 y).IsHomLift (𝟙 V) ψ :=
     IsHomLift.of_fac' _ _ _ P.2 Q.2 (by
-      show eqToHom e = _
+      change eqToHom e = _
       rw [Category.id_comp, eqToHom_trans]
       rfl)
   have : IsIso ψ := by
@@ -332,7 +332,7 @@ theorem bijective_forgetTrivializationIsoClassMap
     obtain ⟨i⟩ := nonempty_iso_of_fiberClassValue_eq σ hσ hc P𝒯 y hfib P Q hcd
     exact Functor.isoClassMk_eq_of_iso i
   · refine ⟨Functor.isoClassMk _ ⟨fibreObjectOfTrivialization σ hσ hc hy V β, rfl⟩, ?_⟩
-    show (trivializationsAlongFamily σ hσ hc y).map (eqToHom rfl).op
+    change (trivializationsAlongFamily σ hσ hc y).map (eqToHom rfl).op
       (fibreTrivialization σ hσ hc P𝒯 y (fibreObjectOfTrivialization σ hσ hc hy V β)) = β
     rw [eqToHom_refl, op_id, CategoryTheory.Functor.map_id, types_id_apply]
     exact fibreTrivialization_fibreObjectOfTrivialization σ hσ hc hy V β

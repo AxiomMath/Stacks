@@ -103,7 +103,8 @@ end CategoryTheory.Limits
 
 namespace AlgebraicGeometry.Space
 
-open _root_.AlgebraicGeometry.C1573 _root_.AlgebraicGeometry.Space.C1573 _root_.CategoryTheory.Limits.C1573
+open _root_.AlgebraicGeometry.C1573 _root_.AlgebraicGeometry.Space.C1573
+  _root_.CategoryTheory.Limits.C1573
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 /-- **Base change of a Chow datum along an affine morphism.** Let `X ⟶ X₀` be the base change of
@@ -122,8 +123,8 @@ theorem C1573.ChowDatum.baseChange [IsAffine S] {X₀ X : AlgebraicSpaces B S hS
       ∀ O : Set (points B S hS X₀.1), IsOpen O → Dense O →
         Dense (pointsMap B S hS X.1 p ⁻¹' O)) :
     Nonempty (ChowDatum X f) := by
-  letI := pointTopology B S hS X₀.1
-  letI := pointTopology B S hS X.1
+  let := pointTopology B S hS X₀.1
+  let := pointTopology B S hS X.1
   have hrep : yoneda.relativelyRepresentable p := hp.rep
   have hbcE : (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme B S hS)).presheaf.IsStableUnderBaseChange :=
@@ -135,10 +136,10 @@ theorem C1573.ChowDatum.baseChange [IsAffine S] {X₀ X : AlgebraicSpaces B S hS
       (@_root_.AlgebraicGeometry.IsOpenImmersion.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme B S hS)).presheaf.IsStableUnderBaseChange :=
     MorphismProperty.relative_isStableUnderBaseChange _
-  haveI := d₀.affV
-  haveI := d₀.noethD
-  haveI := d₀.compactT₀
-  haveI := d₀.noethT₀
+  have := d₀.affV
+  have := d₀.noethD
+  have := d₀.compactT₀
+  have := d₀.noethT₀
   -- the dense open
   set D := hrep.pullback d₀.u with hDdef
   set u : yoneda.obj D ⟶ X.1 := hrep.fst d₀.u with hudef
@@ -148,7 +149,7 @@ theorem C1573.ChowDatum.baseChange [IsAffine S] {X₀ X : AlgebraicSpaces B S hS
   have hvDa : _root_.AlgebraicGeometry.IsAffineHom ((BigFppfOver.toScheme B S hS).map vD) :=
     hp.property_snd d₀.u
   have hudense : DenseRange (pointsMap B S hS (yoneda.obj D) u) := by
-    letI := pointTopology B S hS (yoneda.obj d₀.D)
+    let := pointTopology B S hS (yoneda.obj d₀.D)
     have hopen : IsOpen (Set.range (pointsMap B S hS (yoneda.obj d₀.D) d₀.u)) :=
       (isOpenMap_pointsMap_of_presheafEtale B S hS d₀.u
         (presheaf_etale_of_isOpenImmersion B S hS d₀.hu)).isOpen_range
@@ -178,7 +179,7 @@ theorem C1573.ChowDatum.baseChange [IsAffine S] {X₀ X : AlgebraicSpaces B S hS
     hbcE.of_isPullback hV.flip d₀.he
   have hvVa : _root_.AlgebraicGeometry.IsAffineHom ((BigFppfOver.toScheme B S hS).map vV) :=
     hp.property_snd d₀.φ
-  haveI affV : IsAffine ((BigFppfOver.toScheme B S hS).obj V) :=
+  have affV : IsAffine ((BigFppfOver.toScheme B S hS).obj V) :=
     isAffine_of_isAffineHom ((BigFppfOver.toScheme B S hS).map vV)
   have affR : IsAffine ((BigFppfOver.toScheme B S hS).obj (atlasRelation B S hS hs)) := by
     have hw : (BigFppfOver.toScheme B S hS).map (atlasRelationTarget B S hS hs) ≫
@@ -187,8 +188,8 @@ theorem C1573.ChowDatum.baseChange [IsAffine S] {X₀ X : AlgebraicSpaces B S hS
       change B.inclusion.map (atlasRelationTarget B S hS hs).left ≫ _ =
         B.inclusion.map (atlasRelationSource B S hS hs).left ≫ _
       rw [← B.inclusion.map_comp, ← B.inclusion.map_comp, Over.w, Over.w]
-    haveI : IsAffine (B.inclusion.obj V.left) := affV
-    haveI : IsAffine (B.inclusion.obj (B.obj hS)) := inferInstanceAs (IsAffine S)
+    have : IsAffine (B.inclusion.obj V.left) := affV
+    have : IsAffine (B.inclusion.obj (B.obj hS)) := inferInstanceAs (IsAffine S)
     have := isClosedImmersion_toScheme_lift_of_isSeparated X _ hXsep φ φ _ _
       (isPullback_yoneda_map_atlasRelation B S hS hs) hw
     exact isAffine_of_isAffineHom (pullback.lift _ _ hw)
@@ -231,12 +232,12 @@ theorem C1573.ChowDatum.baseChange [IsAffine S] {X₀ X : AlgebraicSpaces B S hS
   have hTVVsch := hTVVs.map (BigFppfOver.toScheme B S hS)
   -- local Noetherianity of the charts
   have hZ₂lft : LocallyOfFiniteType (B.inclusion.map d₀.Z₂.hom) := by
-    haveI := d₀.hiC
+    have := d₀.hiC
     have := isProper_projectiveSpaceOver d₀.m S
     rw [← d₀.hi]
     infer_instance
   have htV₀lft : LocallyOfFiniteType ((BigFppfOver.toScheme B S hS).map d₀.tV) := by
-    haveI := d₀.hcC
+    have := d₀.hcC
     rw [← d₀.hc1]
     infer_instance
   have htVlft : LocallyOfFiniteType ((BigFppfOver.toScheme B S hS).map tV) :=
@@ -253,10 +254,10 @@ theorem C1573.ChowDatum.baseChange [IsAffine S] {X₀ X : AlgebraicSpaces B S hS
     isLocallyNoetherian_of_etaleChart B S hS (yoneda.obj T) (isAlgebraicSpace_yoneda B S hS T)
       ⟨TV, yoneda.map pT, hpTs, hpTe, noethTV⟩ T (yoneda.map (𝟙 T))
       (presheaf_yoneda_map_id_etale B S hS T)
-  haveI : _root_.AlgebraicGeometry.IsNoetherian ((BigFppfOver.toScheme B S hS).obj d₀.T₀) := {}
+  have : _root_.AlgebraicGeometry.IsNoetherian ((BigFppfOver.toScheme B S hS).obj d₀.T₀) := {}
   have compactT : CompactSpace ((BigFppfOver.toScheme B S hS).obj T) :=
     (quasiCompact_iff_compactSpace ((BigFppfOver.toScheme B S hS).map vT)).1 inferInstance
-  haveI : _root_.AlgebraicGeometry.IsNoetherian ((BigFppfOver.toScheme B S hS).obj d₀.D) :=
+  have : _root_.AlgebraicGeometry.IsNoetherian ((BigFppfOver.toScheme B S hS).obj d₀.D) :=
     d₀.noethD
   have noethD : _root_.AlgebraicGeometry.IsNoetherian ((BigFppfOver.toScheme B S hS).obj D) :=
     { toIsLocallyNoetherian := isLocallyNoetherian_of_etaleChart B S hS X.1 X.2 hXN D u
@@ -296,7 +297,7 @@ theorem C1573.ChowDatum.baseChange [IsAffine S] {X₀ X : AlgebraicSpaces B S hS
     refine isPullback_lift_pullbackMap _ _ _ _ hVw _ _ _ _ ?_
     rw [d₀.hc1]
     exact hTVVsch
-  haveI := d₀.hcC
+  have := d₀.hcC
   have hcC : _root_.AlgebraicGeometry.IsClosedImmersion cS :=
     MorphismProperty.of_isPullback (P := @_root_.AlgebraicGeometry.IsClosedImmersion)
       hcsq.flip inferInstance
@@ -305,7 +306,7 @@ theorem C1573.ChowDatum.baseChange [IsAffine S] {X₀ X : AlgebraicSpaces B S hS
     rw [pullback.lift_snd, d₀.hc2, ← Category.assoc pT, hpT']
     simp only [Functor.map_comp, Category.assoc]
   -- the ample module
-  haveI := d₀.hMi
+  have := d₀.hMi
   have hM := Stacks.SectionRatioNoAmple.isAmple_modulePullback_of_isQuasiAffineHom
     ((BigFppfOver.toScheme B S hS).map vT) d₀.M d₀.hM
   -- the immersion into projective space over `Y`

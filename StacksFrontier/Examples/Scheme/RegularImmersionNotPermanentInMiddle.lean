@@ -445,7 +445,7 @@ theorem isRegularImmersion_spec_map_of_isWeaklyRegular {R S : CommRingCat.{u}} (
         fun i => ((Scheme.ΓSpecIso R).inv).hom (f i), ?_, ?_⟩)
   · refine isGeneratedByOn_definingIdealOfHom_of_ker_app_eq_span (Spec.map φ)
       (isAffineOpen_top (Spec R)) _ ?_
-    show RingHom.ker ((Spec.map φ).appTop).hom =
+    change RingHom.ker ((Spec.map φ).appTop).hom =
       Ideal.span (Set.range fun i => ((Scheme.ΓSpecIso R).inv).hom (f i))
     rw [ker_appTop_spec_map, hker]
     refine le_antisymm (fun a ha => ?_) (Ideal.span_le.mpr ?_)

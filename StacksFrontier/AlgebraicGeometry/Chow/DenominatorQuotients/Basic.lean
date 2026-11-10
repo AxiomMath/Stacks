@@ -89,7 +89,7 @@ theorem relativeDimension_le_of_mem_denominatorBadLocus (C : ChowSituation.{u})
   have hgen : IsGenericPoint hW.1.genericPoint W :=
     hW.1.isGenericPoint_genericPoint (isClosed_of_mem_irreducibleComponents W hW)
   have hne : hW.1.genericPoint ≠ x := fun h =>
-    genericPoint_notMem_of_isNowhereDense X hW hgen (denominatorBadLocus_isClosed X L s hL hs)
+    genericPoint_notMem_of_isNowhereDense X hW hgen (denominatorBadLocus_isClosed X L s hL)
       (denominatorBadLocus_isNowhereDense X L s hL hs) (h ▸ hx)
   rw [schemeDeltaDimension_eq_iSup] at hdim
   have hWle : relativeDimension C.dimensionFunction f hW.1.genericPoint ≤ k + 1 := by
@@ -202,7 +202,7 @@ public theorem isCoherent_denominatorIdealTimesModule {X : Scheme.{u}}
       Stacks.AlgebraicGeometry.QuasicoherentColimits.isQuasicoherent_cokernel
         (M := tensorModulesDecl X (denominatorIdeal X L s) F) (N := F)
         (denominatorIdealAction X L F s)
-    show (kernel (cokernel.π (denominatorIdealAction X L F s))).IsQuasicoherent
+    change (kernel (cokernel.π (denominatorIdealAction X L F s))).IsQuasicoherent
     exact @Stacks.AlgebraicGeometry.QcohLimits.isQuasicoherent_kernel X F _
       (cokernel.π (denominatorIdealAction X L F s)) inferInstance hcoker
   exact @Stacks.AlgebraicGeometry.CoherentSubquotients.isCoherent_of_mono X _ F

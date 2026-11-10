@@ -217,8 +217,7 @@ private lemma comp_chartSectionMap_eq_sectionTensorMap
     (inf_le_right : (U ⊓ V : X.Opens) ≤ V) _ hpathR
   apply AlgHom.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp [chartSectionMap, affineChartSectionMap, intersectionSectionMap]
+  induction z using TensorProduct.inductionOn with
   | add z₁ z₂ hz₁ hz₂ => rw [map_add, map_add, hz₁, hz₂]
   | tmul a b =>
     have hla := congrArg (fun k : Γ(X, U) ⟶ Γ(X, U ⊓ V) => k.hom a) hLmap
@@ -300,15 +299,14 @@ private lemma surjective_affineChartSectionMap
     (fun _ _ ↦ Commute.all _ _)
   have hTensorPre : ∀ z : A ⊗[R] B, ∃ x : A ⊗[ℤ] B, ψ x = ePush z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact ⟨0, by simp [ψ]⟩
+    induction z using TensorProduct.inductionOn with
     | add z₁ z₂ hz₁ hz₂ =>
         obtain ⟨x₁, hx₁⟩ := hz₁
         obtain ⟨x₂, hx₂⟩ := hz₂
         exact ⟨x₁ + x₂, by simp [map_add, hx₁, hx₂]⟩
     | tmul a b =>
         refine ⟨a ⊗ₜ[ℤ] b, ?_⟩
-        show ψ (a ⊗ₜ[ℤ] b) = (Algebra.IsPushout.equiv R A B C) (a ⊗ₜ[R] b)
+        change ψ (a ⊗ₜ[ℤ] b) = (Algebra.IsPushout.equiv R A B C) (a ⊗ₜ[R] b)
         rw [Algebra.IsPushout.equiv_tmul]
         simp [ψ, RingHom.algebraMap_toAlgebra]
   have hψsurj : Function.Surjective ψ := by
@@ -318,8 +316,7 @@ private lemma surjective_affineChartSectionMap
   have hpre : ∀ z : A ⊗[ℤ] B,
       ∃ y : Γ(X, U) ⊗[ℤ] Γ(X, V), affineChartSectionMap f U V W hUW hVW y = ψ z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact ⟨0, by simp [affineChartSectionMap, ψ]⟩
+    induction z using TensorProduct.inductionOn with
     | add z₁ z₂ hz₁ hz₂ =>
         obtain ⟨y₁, hy₁⟩ := hz₁
         obtain ⟨y₂, hy₂⟩ := hz₂
@@ -328,7 +325,7 @@ private lemma surjective_affineChartSectionMap
         obtain ⟨a', ha'⟩ := U.topIso.symm.commRingCatIsoToRingEquiv.surjective a
         obtain ⟨b', hb'⟩ := V.topIso.symm.commRingCatIsoToRingEquiv.surjective b
         refine ⟨a' ⊗ₜ[ℤ] b', ?_⟩
-        show (pullback.fst u v).appTop.hom
+        change (pullback.fst u v).appTop.hom
             (U.topIso.symm.commRingCatIsoToRingEquiv a') *
             (pullback.snd u v).appTop.hom
               (V.topIso.symm.commRingCatIsoToRingEquiv b') =
@@ -411,10 +408,10 @@ public theorem isSeparated_of_affine_intersections {X S : Scheme.{u}}
   let O (z : T) : T.Opens := (q z).opensRange
   have hO : iSup O = ⊤ := by
     refine le_antisymm le_top fun z _ => ?_
-    show z ∈ (⨆ z, O z : T.Opens)
+    change z ∈ (⨆ z, O z : T.Opens)
     simp only [Opens.mem_iSup]
     refine ⟨z, ?_⟩
-    show z ∈ Set.range (q z).base
+    change z ∈ Set.range (q z).base
     rw [Scheme.Pullback.range_map]
     exact ⟨⟨⟨(pullback.fst f f) z, hUpt z⟩, rfl⟩,
       ⟨⟨(pullback.snd f f) z, hVpt z⟩, rfl⟩⟩
@@ -467,8 +464,8 @@ public theorem isClosedImmersion_prodLift_of_isSeparated {X S : Scheme.{u}} (f :
         (prodIsoPullback U.toScheme V.toScheme ≪≫
           (pullback.congrHom (terminal.comp_from U.ι) (terminal.comp_from V.ι)).symm).inv from
     prod.hom_ext
-      (by simp [pullback.mapDesc, pullback.map, pullback.congrHom, pullback.lift_fst])
-      (by simp [pullback.mapDesc, pullback.map, pullback.congrHom, pullback.lift_snd])]
+      (by simp [pullback.mapDesc, pullback.map, pullback.congrHom])
+      (by simp [pullback.mapDesc, pullback.map, pullback.congrHom])]
   rw [MorphismProperty.cancel_left_of_respectsIso @IsClosedImmersion,
     MorphismProperty.cancel_right_of_respectsIso @IsClosedImmersion]
   infer_instance

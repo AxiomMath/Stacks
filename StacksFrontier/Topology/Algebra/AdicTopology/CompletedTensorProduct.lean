@@ -10,7 +10,10 @@ public import Mathlib.Topology.Algebra.FilterBasis
 public import Mathlib.Topology.Algebra.GroupCompletion
 public import Mathlib.Topology.Algebra.LinearMapCompletion
 public import Mathlib.Topology.Algebra.LinearTopology
-public import Mathlib.Topology.Algebra.Module.Equiv
+public import Mathlib.Topology.Algebra.Module.Equiv.Basic
+public import Mathlib.Topology.Algebra.Module.Equiv.Pi
+public import Mathlib.Topology.Algebra.Module.Equiv.Prod
+public import Mathlib.Topology.Algebra.Module.Equiv.Submodule
 public import Mathlib.Topology.Algebra.UniformRing
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.Topology.Algebra.AdicTopology.WeaklyAdmissible
@@ -238,7 +241,7 @@ lemma continuous_tmul_const [IsTopologicalAddGroup M] (n : N) :
       (fun m => m ⊗ₜ[R] n) := by
   let _ := tensorProductTopology (R := R) (M := M) (N := N)
   apply continuous_of_continuousAt_zero ((TensorProduct.mk R M N).flip n)
-  show Tendsto (fun m => m ⊗ₜ[R] n) (𝓝 0) (𝓝 (0 ⊗ₜ[R] n))
+  change Tendsto (fun m => m ⊗ₜ[R] n) (𝓝 0) (𝓝 (0 ⊗ₜ[R] n))
   rw [TensorProduct.zero_tmul]
   apply hasBasis_tensorProductTopology.tendsto_right_iff.mpr
   intro i _
@@ -251,7 +254,7 @@ lemma continuous_const_tmul [IsTopologicalAddGroup N] (m : M) :
       (fun n => m ⊗ₜ[R] n) := by
   let _ := tensorProductTopology (R := R) (M := M) (N := N)
   apply continuous_of_continuousAt_zero (TensorProduct.mk R M N m)
-  show Tendsto (fun n => m ⊗ₜ[R] n) (𝓝 0) (𝓝 (m ⊗ₜ[R] 0))
+  change Tendsto (fun n => m ⊗ₜ[R] n) (𝓝 0) (𝓝 (m ⊗ₜ[R] 0))
   rw [TensorProduct.tmul_zero]
   apply hasBasis_tensorProductTopology.tendsto_right_iff.mpr
   intro i _
@@ -412,7 +415,7 @@ public lemma completion_linearTopology_ring
         refine UniformSpace.Completion.induction_on x
           ((P.1.toAddSubgroup.isClosed_of_isOpen P.2).preimage (continuous_mul_const y)) ?_
         intro r
-        show (r : UniformSpace.Completion S) * y ∈ P.1
+        change (r : UniformSpace.Completion S) * y ∈ P.1
         simpa only [Algebra.smul_def,
           show algebraMap S C r = (r : UniformSpace.Completion S) from rfl]
           using P.1.smul_mem r hy }
@@ -540,7 +543,7 @@ private lemma continuous_quotientTensorProductLimitLinearEquiv :
       DiscreteTopology (QuotientTensorProduct i) := fun _ => ⟨rfl⟩
   rw [continuous_induced_rng]
   refine continuous_pi fun i => ?_
-  show Continuous (fun x : QuotientTensorProductLimit (R := R) (M := M) (N := N) =>
+  change Continuous (fun x : QuotientTensorProductLimit (R := R) (M := M) (N := N) =>
     quotientTensorQuotientComponentEquiv i ((x : ∀ i, QuotientTensorProduct i) i))
   exact continuous_of_discreteTopology.comp
     ((continuous_apply i).comp continuous_subtype_val)
@@ -556,7 +559,7 @@ private lemma continuous_quotientTensorProductLimitLinearEquiv_symm :
       DiscreteTopology (TensorProductQuotient i) := fun _ => ⟨rfl⟩
   rw [continuous_induced_rng]
   refine continuous_pi fun i => ?_
-  show Continuous (fun x : TensorProductQuotientLimit (R := R) (M := M) (N := N) =>
+  change Continuous (fun x : TensorProductQuotientLimit (R := R) (M := M) (N := N) =>
     (quotientTensorQuotientComponentEquiv i).symm
       ((x : ∀ i, TensorProductQuotient i) i))
   exact continuous_of_discreteTopology.comp
@@ -623,7 +626,7 @@ private lemma quotientLimit_isClosed :
       TopologicalSpace (TensorProductQuotient i) := fun _ => ⊥
   let : ∀ i : TensorProductSubmoduleIndex (R := R) (M := M) (N := N),
       DiscreteTopology (TensorProductQuotient i) := fun _ => ⟨rfl⟩
-  show IsClosed {x : ∀ i : TensorProductSubmoduleIndex (R := R) (M := M) (N := N),
+  change IsClosed {x : ∀ i : TensorProductSubmoduleIndex (R := R) (M := M) (N := N),
       TensorProductQuotient i |
     ∀ i j hM hN, tensorProductQuotientTransition i j hM hN (x i) = x j}
   simp only [Set.ofPred_forall]
@@ -711,7 +714,7 @@ private lemma continuous_tensorProductQuotientMap
   let : TopologicalSpace (TensorProductQuotient i) := ⊥
   let : DiscreteTopology (TensorProductQuotient i) := ⟨rfl⟩
   apply continuous_of_continuousAt_zero (tensorProductSubmoduleBasis i).mkQ
-  show Tendsto (fun z : M ⊗[R] N => Submodule.Quotient.mk z)
+  change Tendsto (fun z : M ⊗[R] N => Submodule.Quotient.mk z)
     (𝓝 0) (𝓝 (0 : TensorProductQuotient i))
   rw [show 𝓝 (0 : TensorProductQuotient i) = pure 0 from
     congrFun (nhds_discrete (TensorProductQuotient i)) 0, tendsto_pure]
@@ -1001,7 +1004,7 @@ theorem completedTensorProductTensorQuotientMap_coe_tmul
     completedTensorProductTensorQuotientMap (R := R) (M := M) (N := N) i
         (↑(x ⊗ₜ[R] y) : CompletedTensorProduct (R := R) (M := M) (N := N)) =
       Submodule.Quotient.mk x ⊗ₜ[R] Submodule.Quotient.mk y := by
-  show (quotientTensorQuotientComponentEquiv i).symm
+  change (quotientTensorQuotientComponentEquiv i).symm
       (completedTensorProductQuotientMap i ↑(x ⊗ₜ[R] y)) = _
   rw [completedTensorProductQuotientMap_coe_tmul]
   exact TensorProduct.quotientTensorQuotientEquiv_symm_apply_mk_tmul _ _ _ _
@@ -1049,7 +1052,7 @@ private lemma completedTensorProduct_component_eq_zero_of_mem
         (Submodule.Quotient.mk (p := Q) (Ideal.Quotient.mk I (1 : A)))).comp P.mkQ)
   have hP : P ≤ LinearMap.ker φ := by
     intro x hx
-    show φ x = 0
+    change φ x = 0
     have hmk : P.mkQ x = 0 := by
       rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
       exact hx
@@ -1057,8 +1060,8 @@ private lemma completedTensorProduct_component_eq_zero_of_mem
   have hI : (I • (⊤ : Submodule A B)) ≤ LinearMap.ker φ := by
     rw [Submodule.smul_le]
     intro a ha x hx
-    show φ (a • x) = 0
-    show TensorProduct.comm A ((A ⧸ I) ⧸ Q) (B ⧸ P)
+    change φ (a • x) = 0
+    change TensorProduct.comm A ((A ⧸ I) ⧸ Q) (B ⧸ P)
       ((Submodule.Quotient.mk (p := Q) (Ideal.Quotient.mk I (1 : A))) ⊗ₜ[A]
         Submodule.Quotient.mk (p := P) (a • x)) = 0
     rw [Submodule.Quotient.mk_smul, TensorProduct.comm_tmul]
@@ -1092,7 +1095,7 @@ private lemma mem_sup_of_tensor_quotient_eq_zero
   have heQ : eQ (Submodule.Quotient.mk (p := Ideal.map (Ideal.Quotient.mk I) L)
       (Ideal.Quotient.mk I (1 : A))) =
       Ideal.Quotient.mk (I ⊔ L) (1 : A) := by
-    show (DoubleQuot.quotQuotEquivQuotSup I L) ((DoubleQuot.quotQuotMk I L) 1) = _
+    change (DoubleQuot.quotQuotEquivQuotSup I L) ((DoubleQuot.quotQuotMk I L) 1) = _
     exact DoubleQuot.quotQuotEquivQuotSup_quotQuotMk I L 1
   have htransport : eT ((Submodule.Quotient.mk b : B ⧸ J) ⊗ₜ[A]
       (Submodule.Quotient.mk (p := Ideal.map (Ideal.Quotient.mk I) L)
@@ -1100,7 +1103,7 @@ private lemma mem_sup_of_tensor_quotient_eq_zero
         (A ⧸ I) ⧸ Ideal.map (Ideal.Quotient.mk I) L)) =
         (Submodule.Quotient.mk b : B ⧸ J) ⊗ₜ[A]
           (Ideal.Quotient.mk (I ⊔ L) (1 : A)) := by
-    show (TensorProduct.congr (LinearEquiv.refl A (B ⧸ J)) eQ.toLinearEquiv)
+    change (TensorProduct.congr (LinearEquiv.refl A (B ⧸ J)) eQ.toLinearEquiv)
       ((Submodule.Quotient.mk b : B ⧸ J) ⊗ₜ[A]
         Submodule.Quotient.mk (p := Ideal.map (Ideal.Quotient.mk I) L)
           (Ideal.Quotient.mk I (1 : A))) = _
@@ -1129,7 +1132,7 @@ private lemma mem_sup_of_tensor_quotient_eq_zero
     rw [hAlg, Ideal.map_map]
   have hbcomap : b ∈ (Ideal.map (Ideal.Quotient.mk J)
       (Ideal.map (algebraMap A B) (I ⊔ L))).comap (Ideal.Quotient.mk J) := by
-    show (Ideal.Quotient.mk J) b ∈ Ideal.map (Ideal.Quotient.mk J)
+    change (Ideal.Quotient.mk J) b ∈ Ideal.map (Ideal.Quotient.mk J)
       (Ideal.map (algebraMap A B) (I ⊔ L))
     rwa [← hmapcomp]
   rw [Ideal.comap_map_of_surjective (Ideal.Quotient.mk J) Ideal.Quotient.mk_surjective,
@@ -1197,7 +1200,7 @@ public theorem closure_map_eq_ker_completedTensorProduct
     let Q : Ideal (A ⧸ I) := Ideal.map (Ideal.Quotient.mk I) L
     have hQimage : (Q : Set (A ⧸ I)) = Ideal.Quotient.mk I '' (L : Set A) := by
       ext y
-      show y ∈ Ideal.map (Ideal.Quotient.mk I) L ↔ y ∈ Ideal.Quotient.mk I '' (L : Set A)
+      change y ∈ Ideal.map (Ideal.Quotient.mk I) L ↔ y ∈ Ideal.Quotient.mk I '' (L : Set A)
       rw [Ideal.mem_map_iff_of_surjective (Ideal.Quotient.mk I)
         Ideal.Quotient.mk_surjective]
       rfl

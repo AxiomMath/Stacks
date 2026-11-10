@@ -179,12 +179,12 @@ theorem pullback_openEmbedding_range
       c, cTop, hdiag]
     rw [← preservesLimitIso_hom_π]
   refine ⟨?_, ?_⟩
-  · show Topology.IsOpenEmbedding (I.map (pullback.snd j f))
+  · change Topology.IsOpenEmbedding (I.map (pullback.snd j f))
     rw [← hproj]
     exact hπ.comp (TopCat.homeoOfIso eTop).isOpenEmbedding
-  · show Set.range (I.map (pullback.snd j f)) = _
+  · change Set.range (I.map (pullback.snd j f)) = _
     rw [← hproj]
-    show Set.range
+    change Set.range
       ((ConcreteCategory.hom (limit.π cTop WalkingCospan.right)) ∘
         (ConcreteCategory.hom eTop.hom)) = _
     have hsurj : Function.Surjective (ConcreteCategory.hom eTop.hom) :=
@@ -250,7 +250,7 @@ theorem zariskiOpenPullbackComponent_naturality
     ConcreteCategory.mono_of_injective bW.hom hpW.1.isEmbedding.injective
   apply Over.OverMorphism.ext
   apply (cancel_mono bW.hom).1
-  show aMap.left ≫ eW.hom.left ≫ bW.hom = eV.hom.left ≫ bMap.left ≫ bW.hom
+  change aMap.left ≫ eW.hom.left ≫ bW.hom = eV.hom.left ≫ bMap.left ≫ bW.hom
   rw [Over.w eW.hom, Over.w aMap, Over.w bMap, Over.w eV.hom]
 
 /-- Restricting an open `V ⊆ Y` to `f^{-1}V ⊆ X` and then viewing it over `X` is the same as

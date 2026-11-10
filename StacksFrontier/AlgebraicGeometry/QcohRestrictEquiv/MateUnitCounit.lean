@@ -32,8 +32,8 @@ counits of the four adjunctions.
   isomorphism.
 * `Stacks.CategoryTheory.leftMate_app_eq`: **the left comparison is
   `Stacks.CategoryTheory.leftAdjointsCommOfRightAdjointsComm`.**  So the latter, which is
-  constructed through `CategoryTheory.Adjunction.leftAdjointUniq` and therefore has no direct component
-  formula, acquires the two identities below.
+  constructed through `CategoryTheory.Adjunction.leftAdjointUniq` and therefore has no direct
+  component formula, acquires the two identities below.
 * `Stacks.CategoryTheory.map_unit_comp_beckChevalley` and
   `Stacks.CategoryTheory.map_beckChevalley_comp_counit`: the unit and the counit of `adj₄`,
   transported by `L₂` resp. `L₃`, agree with the unit resp. counit of `adj₁` up to the two
@@ -111,15 +111,14 @@ theorem beckChevalley_app (adj₂ : L₂ ⊣ R₂) (adj₃ : L₃ ⊣ R₃) (e :
 adjunctions. -/
 theorem leftMate_eq (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂) (adj₃ : L₃ ⊣ R₃) (adj₄ : L₄ ⊣ R₄)
     (e : R₁ ⋙ R₂ ≅ R₃ ⋙ R₄) :
-    (leftMate adj₁ adj₂ adj₃ adj₄ e).natTrans =
+    leftMate adj₁ adj₂ adj₃ adj₄ e =
       (conjugateEquiv (adj₄.comp adj₃) (adj₂.comp adj₁)).symm e.inv :=
-  congrArg TwoSquare.natTrans
-    (iterated_mateEquiv_conjugateEquiv_symm adj₄ adj₁ adj₂ adj₃ (TwoSquare.mk _ _ _ _ e.inv))
+  iterated_mateEquiv_conjugateEquiv_symm adj₄ adj₁ adj₂ adj₃ (TwoSquare.mk _ _ _ _ e.inv)
 
 /-- **The comparison of the two composite left adjoints is invertible**, with no Beck--Chevalley
 condition: it is the conjugate of the isomorphism `e.inv`. -/
 instance isIso_leftMate (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂) (adj₃ : L₃ ⊣ R₃) (adj₄ : L₄ ⊣ R₄)
-    (e : R₁ ⋙ R₂ ≅ R₃ ⋙ R₄) : IsIso (leftMate adj₁ adj₂ adj₃ adj₄ e).natTrans := by
+    (e : R₁ ⋙ R₂ ≅ R₃ ⋙ R₄) : IsIso (leftMate adj₁ adj₂ adj₃ adj₄ e) := by
   rw [leftMate_eq]
   infer_instance
 
@@ -128,7 +127,7 @@ are morphisms out of the left adjoint `L₂ ⋙ L₁`, and `CategoryTheory.Adjun
 them to the same morphism. -/
 theorem leftMate_app_eq (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂) (adj₃ : L₃ ⊣ R₃) (adj₄ : L₄ ⊣ R₄)
     (e : R₁ ⋙ R₂ ≅ R₃ ⋙ R₄) :
-    (leftMate adj₁ adj₂ adj₃ adj₄ e).natTrans =
+    leftMate adj₁ adj₂ adj₃ adj₄ e =
       (leftAdjointsCommOfRightAdjointsComm adj₁ adj₂ adj₃ adj₄ e).hom := by
   have hnat : ∀ {Y Z : A} (φ : Y ⟶ Z),
       e.hom.app Y ≫ R₄.map (R₃.map φ) ≫ e.inv.app Z = R₂.map (R₁.map φ) := by
@@ -169,7 +168,7 @@ theorem isIso_map_unit_iff (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂) (ad
     (hbc : IsIso ((beckChevalley adj₂ adj₃ e).app (L₄.obj G))) :
     IsIso (L₂.map (adj₄.unit.app G)) ↔ IsIso (adj₁.unit.app (L₂.obj G)) := by
   have : IsIso ((leftMate adj₁ adj₂ adj₃ adj₄ e).app G) :=
-    inferInstanceAs (IsIso ((leftMate adj₁ adj₂ adj₃ adj₄ e).natTrans.app G))
+    inferInstanceAs (IsIso (NatTrans.app (leftMate adj₁ adj₂ adj₃ adj₄ e) G))
   rw [← isIso_comp_right_iff (L₂.map (adj₄.unit.app G)) ((beckChevalley adj₂ adj₃ e).app _),
     map_unit_comp_beckChevalley adj₁ adj₂ adj₃ adj₄ e G, isIso_comp_right_iff]
 
@@ -180,7 +179,7 @@ theorem isIso_map_counit_iff (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂) (
     (hbc : IsIso ((beckChevalley adj₂ adj₃ e).app M)) :
     IsIso (L₃.map (adj₄.counit.app M)) ↔ IsIso (adj₁.counit.app (L₃.obj M)) := by
   have : IsIso ((leftMate adj₁ adj₂ adj₃ adj₄ e).app (R₄.obj M)) :=
-    inferInstanceAs (IsIso ((leftMate adj₁ adj₂ adj₃ adj₄ e).natTrans.app (R₄.obj M)))
+    inferInstanceAs (IsIso (NatTrans.app (leftMate adj₁ adj₂ adj₃ adj₄ e) (R₄.obj M)))
   rw [← isIso_comp_left_iff ((leftMate adj₁ adj₂ adj₃ adj₄ e).app (R₄.obj M))
       (L₃.map (adj₄.counit.app M)),
     ← map_beckChevalley_comp_counit adj₁ adj₂ adj₃ adj₄ e M, isIso_comp_left_iff]

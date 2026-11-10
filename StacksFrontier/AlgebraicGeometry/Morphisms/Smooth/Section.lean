@@ -55,9 +55,9 @@ namespace AlgebraicGeometry.Scheme.Hom
 public lemma appLE_id_eq {S : Scheme.{u}} (U : S.Opens) :
     Scheme.Hom.appLE (𝟙 S) U U (by simp) = 𝟙 Γ(S, U) := by
   have e : U ≤ (𝟙 S) ⁻¹ᵁ U := by simp
-  show Scheme.Hom.app (𝟙 S) U ≫ S.presheaf.map (homOfLE e).op = _
+  change Scheme.Hom.app (𝟙 S) U ≫ S.presheaf.map (homOfLE e).op = _
   rw [Scheme.Hom.id_app]
-  show 𝟙 Γ(S, U) ≫ S.presheaf.map (𝟙 U).op = _
+  change 𝟙 Γ(S, U) ≫ S.presheaf.map (𝟙 U).op = _
   simp
 
 /-- For a section `σ` of `f` and compatible opens, the maps on sections induced by `f` and by `σ`
@@ -181,7 +181,7 @@ private theorem basicOpen_le_preimage_basicOpen_appLE {X S : Scheme.{u}} (f : X 
   rw [Scheme.basicOpen_appLE f _ _ hWT g]
   refine ⟨hg hy, ?_⟩
   have hfy : f (σ y) = y := by simpa using congrArg (fun q : S ⟶ S => q y) hσ
-  show f (σ y) ∈ S.basicOpen g
+  change f (σ y) ∈ S.basicOpen g
   rw [hfy]
   exact hy
 
@@ -360,7 +360,7 @@ public theorem exists_affineOpens_free_conormal_powerSeries
     isScalarTower_of_tower_smul (Localization (.powers h))
   have hfreeA' : Module.Free A' (LocalizedModule.Away h M) :=
     free_of_ringEquiv ringEquiv.toRingEquiv (fun r x => by
-      show r • x = ringEquiv.symm (ringEquiv r) • x
+      change r • x = ringEquiv.symm (ringEquiv r) • x
       rw [ringEquiv.symm_apply_apply]) hfree
   have hfreeJ' : Module.Free A' J'.Cotangent := by
     let cotangentEquiv' := cotangentEquiv.extendScalarsOfIsLocalization (.powers h) A'

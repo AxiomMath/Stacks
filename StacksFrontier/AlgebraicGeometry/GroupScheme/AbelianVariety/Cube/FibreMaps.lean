@@ -42,9 +42,9 @@ theorem le_τz {n : ℕ} (j : Fin n → ι) :
     CechCochains.inter U j ≤ τz z hzk ⁻¹ᵁ faceOpen V U j := by
   intro x hx
   refine ⟨?_, ?_⟩
-  · show (τz z hzk ≫ bx A) x ∈ CechCochains.inter U j
+  · change (τz z hzk ≫ bx A) x ∈ CechCochains.inter U j
     rw [τz_bx]; exact hx
-  · show (τz z hzk ≫ bz A) x ∈ V
+  · change (τz z hzk ≫ bz A) x ∈ V
     rw [τz_bz, Scheme.Hom.comp_apply]
     have : A.hom x ∈ z ⁻¹ᵁ V := by rw [hzV]; trivial
     exact this
@@ -77,7 +77,7 @@ theorem τz_appLE_bz (W : (B A).Opens) (h1 : W ≤ bz A ⁻¹ᵁ V) (O : A.left.
     rw [appLE_comp]
   refine h3.trans ?_
   rw [Stacks.Cech.baseRingHom_eq_appLE A.hom O (Stacks.AffineProduct.le_preimage_top _ _)]
-  show _ = A.hom.appLE ⊤ O _ ((Scheme.ΓSpecIso (.of k)).inv
+  change _ = A.hom.appLE ⊤ O _ ((Scheme.ΓSpecIso (.of k)).inv
     ((Scheme.ΓSpecIso (.of k)).hom (z.appLE V ⊤ _ a)))
   rw [Iso.hom_inv_id_apply]
 
@@ -138,7 +138,7 @@ theorem isScalarTower_rawEv (p : ℕ) :
   let := cochainModule U A.hom p
   let := rawEvModule z hzV U p
   IsScalarTower.of_algebraMap_smul fun c x => by
-    show evz z hzV (algebraMap k (chartRing V) c) • x = c • x
+    change evz z hzV (algebraMap k (chartRing V) c) • x = c • x
     rw [show algebraMap k (chartRing V) c = (Stacks.Cech.baseRingHom A.hom V).hom c from rfl,
       evz_algebraMap z hzk hzV]
 
@@ -201,11 +201,11 @@ theorem restrictFunctorIsoPullback_hom_app {X' X : Scheme.{u}} (ι : X' ⟶ X) [
   have h := Scheme.Modules.restrictFunctorIsoPullback_inv_pullbackSection ι M (ι ''ᵁ O') O'
     (ι.preimage_image_eq O').ge le_rfl c
   have h' : M.val.map (homOfLE (le_refl (ι ''ᵁ O'))).op c = c := by
-    show M.presheaf.map (𝟙 _) c = c
+    change M.presheaf.map (𝟙 _) c = c
     rw [CategoryTheory.Functor.map_id]; rfl
   rw [h'] at h
   conv_lhs => rw [← h]
-  show (Scheme.Modules.Hom.app ((Scheme.Modules.restrictFunctorIsoPullback ι).inv.app M) O' ≫
+  change (Scheme.Modules.Hom.app ((Scheme.Modules.restrictFunctorIsoPullback ι).inv.app M) O' ≫
     Scheme.Modules.Hom.app ((Scheme.Modules.restrictFunctorIsoPullback ι).hom.app M) O') _ = _
   rw [← Scheme.Modules.Hom.comp_app, Iso.inv_hom_id_app]
   simp only [Scheme.Modules.Hom.id_app]
@@ -228,7 +228,7 @@ theorem pbS_restrict {Y X' X : Scheme.{u}} (f : Y ⟶ X') (ι : X' ⟶ X) [IsOpe
   have h2 : Scheme.Modules.Hom.app ((Scheme.Modules.restrictFunctorIsoPullback ι).hom.app M) O' c =
       pbS ι M (ι ''ᵁ O') O' (ι.preimage_image_eq O').ge c' :=
     restrictFunctorIsoPullback_hom_app ι M O' c
-  show Scheme.Modules.Hom.app ((Scheme.Modules.pullbackComp f ι).hom.app M) W
+  change Scheme.Modules.Hom.app ((Scheme.Modules.pullbackComp f ι).hom.app M) W
     (Scheme.Modules.Hom.app ((Scheme.Modules.pullback f).map
       ((Scheme.Modules.restrictFunctorIsoPullback ι).hom.app M)) W
       (pbS f (M.restrict ι) O' W h c)) = pbS (f ≫ ι) M (ι ''ᵁ O') W h' c'
@@ -250,7 +250,7 @@ member `chartCover U V ab` of the chart cover. -/
 theorem coverB_eq_preimage (ab : ι × ι) :
     coverB U ab = jzV z hzk hzV ⁻¹ᵁ chartCover U V ab := by
   ext x
-  show x ∈ coverB U ab ↔ (jzV z hzk hzV ≫ (PV V).ι ≫ q A) x ∈ coverB U ab
+  change x ∈ coverB U ab ↔ (jzV z hzk hzV ≫ (PV V).ι ≫ q A) x ∈ coverB U ab
   rw [jzV_ι_assoc, jz_q]
   rfl
 
@@ -337,7 +337,7 @@ theorem hcommY : τz z hzk ≫ face₁ A = faceYB A ≫ jzV z hzk hzV ≫ (PV V)
   · rw [face₁_q_bx, τz_bx_assoc, jz_q_assoc, faceY_fst]
   · rw [face₁_q_bz, τz_bx, jz_q_assoc, faceY_snd]
   · rw [face₁_r, τz_bz, jz_r]
-    show _ = faceYB A ≫ bx A ≫ A.hom ≫ z
+    change _ = faceYB A ≫ bx A ≫ A.hom ≫ z
     rw [faceY_fst_assoc, ← Category.assoc eA, eA_hom (A := A), Category.id_comp]
 
 /-- The maps `τz ≫ face₂` and `faceXB ≫ jzV ≫ (PV V).ι` agree: both send `y` to `(y, e, z)`. -/
@@ -347,7 +347,7 @@ theorem hcommX : τz z hzk ≫ face₂ A = faceXB A ≫ jzV z hzk hzV ≫ (PV V)
   · rw [face₂_q_bx, τz_bx, jz_q_assoc, faceX_fst]
   · rw [face₂_q_bz, τz_bx_assoc, jz_q_assoc, faceX_snd]
   · rw [face₂_r, τz_bz, jz_r]
-    show _ = faceXB A ≫ bx A ≫ A.hom ≫ z
+    change _ = faceXB A ≫ bx A ≫ A.hom ≫ z
     rw [faceX_fst_assoc]
 
 omit [GrpObj A] in
@@ -391,7 +391,7 @@ theorem evz_evalE (u : FaceCochain V U 0) :
     letI := rawEvModule z hzV U 0
     evz z hzV (evalE V U ha₀ u) =
       evalAt U eA eA_hom a₀ ha₀ (θD z hzk hzV U 0 u) := by
-  show (Scheme.ΓSpecIso (.of k)).hom (z.appLE V ⊤ _ (σe.appLE _ V _ (u (fun _ => a₀)))) =
+  change (Scheme.ΓSpecIso (.of k)).hom (z.appLE V ⊤ _ (σe.appLE _ V _ (u (fun _ => a₀)))) =
     (Scheme.ΓSpecIso (.of k)).hom (eA.appLE _ ⊤ _ ((τz z hzk).appLE _ _ _ (u (fun _ => a₀))))
   rw [appLE_comp, appLE_comp, appLE_congr (zσe_eq z hzk)]
 

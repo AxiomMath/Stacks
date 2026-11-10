@@ -56,7 +56,7 @@ theorem Algebra.isSeparable_of_comp_eq_comp_of_bijective {F K L l : Type*} [Fiel
   have hF : Algebra.IsSeparable F L :=
     Algebra.IsSeparable.of_equiv_equiv (RingEquiv.ofBijective θ hθ).symm (RingEquiv.refl L) (by
       ext x
-      show φ (ι ((RingEquiv.ofBijective θ hθ).symm x)) = algebraMap l L x
+      change φ (ι ((RingEquiv.ofBijective θ hθ).symm x)) = algebraMap l L x
       rw [← RingHom.comp_apply, h, RingHom.comp_apply]
       exact congrArg (algebraMap l L) ((RingEquiv.ofBijective θ hθ).apply_symm_apply x))
   let : Algebra F K := ι.toAlgebra
@@ -177,21 +177,21 @@ theorem exists_point_isSeparable_of_etale
     ((congrArg (· ≫ _) (Over.eqToHom_left hu₀).symm).trans (Over.w (eqToHom hu₀))).symm
   have hπl : B.inclusion.map π.left ≫ eqToHom hY =
       Spec.map (CommRingCat.ofHom (algebraMap l L)) := by
-    show B.inclusion.map (jp ≫ snd.left) ≫ eqToHom hY = _
+    change B.inclusion.map (jp ≫ snd.left) ≫ eqToHom hY = _
     rw [Functor.map_comp, hjp, Category.assoc]
     exact (SpecMap_algebraMap_residueField sl p).symm
   have hw₀ : (Over.forget W ⋙ Over.post B.inclusion).obj w₀ =
       Over.mk (Spec.map (CommRingCat.ofHom (algebraMap Λ L)) ≫ iΛ) := by
     have hΛL : CommRingCat.ofHom (algebraMap Λ L) =
         CommRingCat.ofHom (algebraMap Λ l) ≫ CommRingCat.ofHom (algebraMap l L) := rfl
-    show Over.mk (B.inclusion.map PL.hom) = _
+    change Over.mk (B.inclusion.map PL.hom) = _
     rw [← Over.w π, Functor.map_comp, hUhom, ← Category.assoc, hπl, hΛL, Spec.map_comp,
       Category.assoc]
   have hπ : eqToHom (congrArg Over.left hw₀).symm ≫ B.inclusion.map π.left ≫
       eqToHom (congrArg Over.left hu₀) = Spec.map (CommRingCat.ofHom (algebraMap l L)) :=
     (Category.id_comp _).trans hπl
   have hyon : yoneda.map w₀.hom ≫ a = yoneda.map π ≫ r := by
-    show yoneda.map (ι ≫ fst) ≫ a = yoneda.map (ι ≫ snd) ≫ r
+    change yoneda.map (ι ≫ fst) ≫ a = yoneda.map (ι ≫ snd) ≫ r
     rw [Functor.map_comp, Functor.map_comp, Category.assoc, Category.assoc, hw]
   refine ⟨L, inferInstance, algl, algΛ, inferInstance, hfin, hsep, w₀, hw₀, π, hπ, hyon, ?_⟩
   let qs : W ⟶ V := yoneda.preimage (a ≫ s)

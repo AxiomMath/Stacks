@@ -157,6 +157,8 @@ def translate (p : CompatibleLift D) (a : differentials₁ D ⟶ pushedIdeal₁ 
   (compatibleLiftEquiv D).symm (FirstOrderLiftDiagram.translateHom.{u, u, u}
     (toFirstOrderLiftDiagram D) (compatibleLiftEquiv D p) (actingGroupEquiv D a))
 
+omit [HasWeakSheafify X₂.J AddCommGrpCat.{u}]
+  [X₂.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **Stacks Project, Tag 08UG**, clause (2): the zero homomorphism acts trivially. -/
 @[stacks 08UG "clause (2), for genuine morphisms of ringed topoi: triviality of the action of 0 \
 in the principal homogeneous space structure under Hom_{O_1}(Omega_{O_1/O_{B_1}}, g_* G_2)"]
@@ -164,6 +166,8 @@ theorem translate_zero (p : CompatibleLift D) : translate D p 0 = p := by
   rw [translate, map_zero, FirstOrderLiftDiagram.translateHom_zero.{u, u, u},
     Equiv.symm_apply_apply]
 
+omit [HasWeakSheafify X₂.J AddCommGrpCat.{u}]
+  [X₂.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **Stacks Project, Tag 08UG**, clause (2): the action is additive. -/
 @[stacks 08UG "clause (2), for genuine morphisms of ringed topoi: additivity of the action in \
 the principal homogeneous space structure under Hom_{O_1}(Omega_{O_1/O_{B_1}}, g_* G_2)"]
@@ -172,6 +176,8 @@ theorem translate_add (p : CompatibleLift D) (a b : differentials₁ D ⟶ pushe
   rw [translate, translate, translate, Equiv.apply_symm_apply,
     FirstOrderLiftDiagram.translateHom_add.{u, u, u}, map_add]
 
+omit [HasWeakSheafify X₂.J AddCommGrpCat.{u}]
+  [X₂.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **Stacks Project, Tag 08UG**, clause (2). If there is a morphism of ringed topoi
 `(Sh(𝒞'₂), 𝒪'₂) ⟶ (Sh(𝒞'₁), 𝒪'₁)` fitting into (08UH) compatibly with `ν`, the set of all such
 morphisms is a principal homogeneous space under `Hom_{𝒪₁}(Ω_{𝒪₁/𝒪_{ℬ₁}}, g_*𝒢₂)`: any one of

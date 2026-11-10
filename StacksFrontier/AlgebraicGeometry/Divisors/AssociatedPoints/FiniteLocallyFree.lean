@@ -78,7 +78,7 @@ theorem IsAssociatedPrimeStacks.of_free {R N : Type*} [CommRing R] [AddCommGroup
     · rw [Finsupp.smul_apply, Finsupp.notMem_support_iff.mp hi, smul_zero, Finsupp.zero_apply]
   let J : _ → Ideal R := fun i => (⊥ : Submodule R R).colon (Submodule.span R {c i})
   have hJ : ∀ i (r : R), r ∈ J i ↔ r * c i = 0 := fun i r => by
-    simp [J, Submodule.mem_colon_span_singleton]
+    simp [J]
   have hinf : c.support.inf J ≤ p := fun r hr => by
     rw [Submodule.mem_finsetInf] at hr
     exact (hmem r).2 fun i hi => (hJ i r).1 (hr i hi)

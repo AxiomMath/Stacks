@@ -85,7 +85,7 @@ theorem tag01O1_of_twistData (D : TwistData A) (hd : 0 < d)
               (d : ℤ) n ≫ Θ.app n = P.twisting.app n) → Θ = θ.hom := by
   have := isInvertible_pullbackTwistVeronese_piece_one_of_mem_degreeOpen D d
     (thetaMorphism hd P) (thetaMorphism_mem_degreeOpen hd P)
-  set Q := twistQuadruple D d (thetaMorphism hd P) (thetaMorphism_mem_degreeOpen hd P) hd
+  set Q := twistQuadruple D d (thetaMorphism hd P) (thetaMorphism_mem_degreeOpen hd P)
     (thetaMorphism_comp_toBase hd P) with hQ
   have h1 : Fd.homDegreeOpen A (relativeProj A) hd (Fd.mk f Q) =
       Fd.homDegreeOpen A (relativeProj A) hd (Fd.mk f P) :=

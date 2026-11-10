@@ -167,7 +167,7 @@ theorem smooth_blowupMap_comp_and_exceptional [Smooth f] [Smooth (i ≫ f)] :
     infer_instance
   have hK : Stacks.Blowup.exceptionalIdeal i.ker =
       (AlgebraicGeometry.exceptionalIdeal i.ker).comap (Stacks.Blowup.blowUpIso i.ker).hom := by
-    show i.ker.comap (blowupMap i) = _
+    change i.ker.comap (blowupMap i) = _
     rw [hb, Scheme.IdealSheafData.comap_comp]
   refine ⟨?_, ?_⟩
   · rw [hb, Category.assoc]

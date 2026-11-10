@@ -122,7 +122,7 @@ public lemma restrictionLifting_of_isColimit (F : ℕᵒᵖ ⥤ 𝒟) (R : 𝒟 
   · intro n f g hfg
     have he : (restrictionHomCocone F R N A e).ι.app n f =
         (restrictionHomCocone F R N A e).ι.app n g := by
-      show e.inv.app (op n) ≫ R.map f = e.inv.app (op n) ≫ R.map g
+      change e.inv.app (op n) ≫ R.map f = e.inv.app (op n) ≫ R.map g
       rw [hfg]
     obtain ⟨m, a, b, hab⟩ := (Types.FilteredColimit.isColimit_eq_iff _ hc).mp he
     exact ⟨m, leOfHom a, hab⟩
@@ -169,7 +169,7 @@ public lemma RestrictionLifting.map_source {𝒟' : Type u} [Category.{v} 𝒟']
     let g' := S'.preimage (e.inv.app _ ≫ g ≫ R'.map t.inv ≫ e.hom.app N)
     obtain ⟨m, hm, f, hf⟩ := hF.lift n g'
     refine ⟨m, hm, S.map f ≫ t.hom, ?_⟩
-    show R'.map (S.map f ≫ t.hom) = R'.map (S.map (InverseSequence.tr F hm)) ≫ g
+    change R'.map (S.map f ≫ t.hom) = R'.map (S.map (InverseSequence.tr F hm)) ≫ g
     rw [R'.map_comp, commute f, hf, S'.map_comp, commute (InverseSequence.tr F hm)]
     dsimp only [g']
     rw [S'.map_preimage]
@@ -190,7 +190,7 @@ public lemma RestrictionLifting.map_source {𝒟' : Type u} [Category.{v} 𝒟']
     obtain ⟨m, hm, he⟩ := hF.eq n f' g' hr
     refine ⟨m, hm, ?_⟩
     have h := congrArg (fun z => S.map z ≫ t.hom) he
-    show S.map (InverseSequence.tr F hm) ≫ f = S.map (InverseSequence.tr F hm) ≫ g
+    change S.map (InverseSequence.tr F hm) ≫ f = S.map (InverseSequence.tr F hm) ≫ g
     simpa only [S.map_comp, Category.assoc, hf, hg, Iso.inv_hom_id, Category.comp_id] using h
 
 /-- A morphism out of a term whose restriction vanishes vanishes past some index. -/
@@ -246,7 +246,7 @@ public lemma restrictionLifting_triangle_surj (R : 𝒟 ⥤ 𝒞) [R.Additive] [
       (R.commShiftIso (1 : ℤ)).hom.app _ ≫ (R.map a)⟦(1 : ℤ)⟧' at hnat
     dsimp only [δ]
     rw [R.map_comp, Category.assoc, hnat, zero_comp, ← Category.assoc]
-    show (R.map (T.obj (op m)).mor₃ ≫
+    change (R.map (T.obj (op m)).mor₃ ≫
       (R.commShiftIso (1 : ℤ)).hom.app (T.obj (op m)).obj₁) ≫ (R.map a)⟦(1 : ℤ)⟧' = 0
     rw [ha, Functor.map_comp, Functor.map_comp]
     have hcomm := (R.mapTriangle.map (InverseSequence.tr T hnm)).comm₃
@@ -272,7 +272,7 @@ public lemma restrictionLifting_triangle_surj (R : 𝒟 ⥤ 𝒞) [R.Additive] [
   let hnk := hnm.trans hmk
   let d := R.map ((InverseSequence.tr T hnk).hom₂) ≫ g - R.map b
   have hd : (R.mapTriangle.obj (T.obj (op k))).mor₁ ≫ d = 0 := by
-    show R.map (T.obj (op k)).mor₁ ≫ (R.map ((InverseSequence.tr T hnk).hom₂) ≫ g - R.map b) = 0
+    change R.map (T.obj (op k)).mor₁ ≫ (R.map ((InverseSequence.tr T hnk).hom₂) ≫ g - R.map b) = 0
     rw [Preadditive.comp_sub, sub_eq_zero]
     calc
       _ = R.map ((InverseSequence.tr T hnk).hom₁) ≫ R.map (T.obj (op n)).mor₁ ≫ g := by
@@ -316,7 +316,7 @@ public lemma restrictionLifting_triangle_zero (R : 𝒟 ⥤ 𝒞) [R.Additive] [
     simpa using hm
   obtain ⟨c, hc⟩ := Triangle.yoneda_exact₂ _ (hT (op m)) ((InverseSequence.tr T hnm).hom₂ ≫ f) hb
   have hcR : (R.mapTriangle.obj (T.obj (op m))).mor₂ ≫ R.map c = 0 := by
-    show R.map (T.obj (op m)).mor₂ ≫ R.map c = 0
+    change R.map (T.obj (op m)).mor₂ ≫ R.map c = 0
     rw [← R.map_comp, ← hc, R.map_comp, hf, comp_zero]
   obtain ⟨a, ha⟩ := Triangle.yoneda_exact₃ _ (R.map_distinguished _ (hT (op m))) (R.map c) hcR
   change (R.obj (T.obj (op m)).obj₁)⟦(1 : ℤ)⟧ ⟶ R.obj N at a
@@ -368,7 +368,7 @@ public lemma restrictionLifting_triangle (R : 𝒟 ⥤ 𝒞) [R.Additive] [R.Com
     obtain ⟨m, h, he⟩ := restrictionLifting_triangle_zero R T hT N hK hM hKp n (f - g)
       (by rw [R.map_sub, hfg, sub_self])
     refine ⟨m, h, ?_⟩
-    show (InverseSequence.tr T h).hom₂ ≫ f = (InverseSequence.tr T h).hom₂ ≫ g
+    change (InverseSequence.tr T h).hom₂ ≫ f = (InverseSequence.tr T h).hom₂ ≫ g
     simpa only [Preadditive.comp_sub, sub_eq_zero] using he
 
 end Triangles
@@ -402,7 +402,7 @@ public def proHomComparison (F : ℕᵒᵖ ⥤ 𝒟) (R : 𝒟 ⥤ 𝒞) (c : Co
 public lemma proHomComparison_stage (F : ℕᵒᵖ ⥤ 𝒟) (R : 𝒟 ⥤ 𝒞) (c : Cone (F ⋙ R)) {N : 𝒟}
     {n : ℕ} (f : F.obj (op n) ⟶ N) :
     (proHomComparison F R c).app N (Pro.seqStage F f) = c.π.app (op n) ≫ R.map f := by
-  show ((colimit.ι (F.op ⋙ coyoneda) (op (op n)) ≫ proHomComparison F R c).app N) f = _
+  change ((colimit.ι (F.op ⋙ coyoneda) (op (op n)) ≫ proHomComparison F R c).app N) f = _
   simp only [proHomComparison, colimit.ι_desc]
   rfl
 
@@ -475,7 +475,7 @@ public lemma essentiallyConstantWith_of_natIso {F G : ℕᵒᵖ ⥤ 𝒟} (e : F
   · intro j
     obtain ⟨k, a, b, h⟩ := hc.cofinal j
     refine ⟨k, a, b, ?_⟩
-    show F.map b = F.map a ≫ (e.hom.app i ≫ s) ≫ (c.π.app j ≫ e.inv.app j)
+    change F.map b = F.map a ≫ (e.hom.app i ≫ s) ≫ (c.π.app j ≫ e.inv.app j)
     calc
       F.map b = e.hom.app k ≫ G.map b ≫ e.inv.app j := by simp
       _ = e.hom.app k ≫ G.map a ≫ s ≫ c.π.app j ≫ e.inv.app j := by

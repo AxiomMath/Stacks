@@ -159,9 +159,9 @@ private theorem exists_derivation_of_fst_eq {S : Type*} [CommRing S]
     ((TrivSqZeroExt.sndHom S S).toAddMonoidHom.comp φ.toAddMonoidHom).toIntLinearMap ?_,
     fun s => rfl⟩
   intro a b
-  show (φ (a * b)).snd = a * (φ b).snd + b * (φ a).snd
+  change (φ (a * b)).snd = a * (φ b).snd + b * (φ a).snd
   rw [map_mul]
-  show (φ a).fst * (φ b).snd + (φ a).snd * (φ b).fst = a * (φ b).snd + b * (φ a).snd
+  change (φ a).fst * (φ b).snd + (φ a).snd * (φ b).fst = a * (φ b).snd + b * (φ a).snd
   rw [hfst a, hfst b]
   ring
 
@@ -199,7 +199,7 @@ private theorem exists_derivation_extension_of_formallySmoothNAdic'.{u, v}
   let F₀ : E →+* B := (TrivSqZeroExt.fstHom B B B).toRingHom
   let F : U →+* B := F₀.comp e.symm.toRingHom
   have hI₀ : i₀ ≤ m.comap F₀ := by
-    show m.map (TrivSqZeroExt.inlHom B B) ≤ m.comap F₀
+    change m.map (TrivSqZeroExt.inlHom B B) ≤ m.comap F₀
     rw [Ideal.map_le_iff_le_comap]
     intro b hb
     simpa [F₀, RingHom.comp_apply] using hb
@@ -226,7 +226,7 @@ private theorem exists_derivation_extension_of_formallySmoothNAdic'.{u, v}
   have : T2Space B := (IsAdic.isHausdorff_iff hm).mp inferInstance
   have hjClosed : IsClosed (j : Set U) := by
     rw [hjker]
-    show IsClosed (F ⁻¹' {0})
+    change IsClosed (F ⁻¹' {0})
     exact isClosed_singleton.preimage hF
   let inlU : B →+* U := e.toRingHom.comp (TrivSqZeroExt.inlHom B B)
   let gA : A →+* U := e.toRingHom.comp (derivationTangentMap f D)
@@ -241,11 +241,11 @@ private theorem exists_derivation_extension_of_formallySmoothNAdic'.{u, v}
   have hψ : Continuous ψ := continuous_quot_mk.comp hInlU
   have hcomm : ψ.comp f = (Ideal.Quotient.mk j).comp gA := by
     ext a
-    show Ideal.Quotient.mk j (inlU (f a)) = Ideal.Quotient.mk j (gA a)
+    change Ideal.Quotient.mk j (inlU (f a)) = Ideal.Quotient.mk j (gA a)
     apply (Ideal.Quotient.eq).2
     rw [hjker]
-    show F (inlU (f a) - gA a) = 0
-    show f a - f a = 0
+    change F (inlU (f a) - gA a) = 0
+    change f a - f a = 0
     exact sub_self _
   obtain ⟨φ, hφcont, hφf, hφψ⟩ :=
     exists_continuous_lift_of_isFormallySmooth_of_isAdic
@@ -264,7 +264,7 @@ private theorem exists_derivation_extension_of_formallySmoothNAdic'.{u, v}
   refine ⟨D', fun a ↦ ?_⟩
   have hh : φ (f a) = gA a := congrArg (fun h : A →+* U => h a) hφf
   rw [hD']
-  show (e.symm (φ (f a))).snd = f (D a)
+  change (e.symm (φ (f a))).snd = f (D a)
   rw [hh]
   rfl
 
@@ -315,7 +315,7 @@ private theorem flat_geometricallyRegular_specialFiber_of_isRegularRingHom
     (maximalIdeal A).bijective_algebraMap_quotient_residueField
   let : Algebra k' K := ((algebraMap k K).comp e.symm.toRingHom).toAlgebra
   have : IsScalarTower k k' K := IsScalarTower.of_algebraMap_eq fun x => by
-    show algebraMap k K x = algebraMap k K (e.symm (e x))
+    change algebraMap k K x = algebraMap k K (e.symm (e x))
     rw [e.symm_apply_apply]
   have : Algebra.EssFiniteType k' K := Algebra.EssFiniteType.of_comp k k' K
   have : Algebra.IsGeometricallyRegular k' (k' ⊗[A] B) := (h (maximalIdeal A)).2
@@ -369,8 +369,7 @@ private theorem isAdicComplete_map_maximalIdeal_of_finite
       AdicCompletion.ofTensorProduct (maximalIdeal R) S s ∈
         LinearMap.range (AdicCompletion.of (maximalIdeal R) S) := by
     intro s
-    induction s using TensorProduct.induction_on with
-    | zero => simp
+    induction s using TensorProduct.inductionOn with
     | tmul r x =>
       obtain ⟨r0, hr0⟩ := (AdicCompletion.of_bijective_iff.mpr
         (inferInstance : IsAdicComplete (maximalIdeal R) R)).surjective r
@@ -434,7 +433,7 @@ private theorem exists_derivation_extension_of_isLocalization
   have hfst : (TrivSqZeroExt.fstHom S S S).toRingHom.comp φ = RingHom.id S := by
     apply IsLocalization.ringHom_ext M
     ext r
-    show (φ (algebraMap R S r)).fst = algebraMap R S r
+    change (φ (algebraMap R S r)).fst = algebraMap R S r
     rw [show φ (algebraMap R S r) = g r from IsLocalization.lift_eq hg r]
     rfl
   have hfst' (s : S) : (φ s).fst = s := DFunLike.congr_fun hfst s
@@ -629,17 +628,17 @@ private theorem exists_derivation_isUnit_tensorProduct_of_not_pow
     (IsScalarTower.toAlgHom A C M)
   let : Algebra S U := F.toRingHom.toAlgebra
   have hCSU : IsScalarTower C S U := IsScalarTower.of_algebraMap_eq fun c => by
-    show (1 : B) ⊗ₜ[A] (c : M) = F (1 ⊗ₜ[A] c)
+    change (1 : B) ⊗ₜ[A] (c : M) = F (1 ⊗ₜ[A] c)
     rfl
   have : IsScalarTower B S U := IsScalarTower.of_algebraMap_eq fun b => by
-    show b ⊗ₜ[A] (1 : M) = F (b ⊗ₜ[A] (1 : C))
+    change b ⊗ₜ[A] (1 : M) = F (b ⊗ₜ[A] (1 : C))
     rfl
   let Q : Submonoid S := (nonZeroDivisors C).map
     (Algebra.TensorProduct.includeRight (R := A) (A := B) (B := C))
   have : IsLocalization Q U := IsLocalization.tensorProduct_tensorProduct_right A B
     (nonZeroDivisors C) M (by
       ext c
-      show F (1 ⊗ₜ[A] c) = 1 ⊗ₜ[A] (c : M)
+      change F (1 ⊗ₜ[A] c) = 1 ⊗ₜ[A] (c : M)
       rfl)
   let n : Ideal S := (maximalIdeal B).map (algebraMap B S)
   have : IsAdicComplete n S := isAdicComplete_map_maximalIdeal_of_finite
@@ -690,7 +689,7 @@ private theorem exists_derivation_isUnit_of_ringEquiv
   obtain ⟨D, hD⟩ := h
   let : Differential R := ⟨D⟩
   refine ⟨(Differential.equiv e.symm).deriv, ?_⟩
-  show IsUnit (e (D (e.symm (e x))))
+  change IsUnit (e (D (e.symm (e x))))
   rw [e.symm_apply_apply]
   exact hD.map e
 
@@ -909,7 +908,7 @@ private theorem isGeometricallyRegular_genericFiber_of_completeLocal
   let e : A ⊗[R] C ≃ₐ[A] B :=
     { __ := (Algebra.TensorProduct.comm R A C).toRingEquiv.trans (RingEquiv.ofBijective t ht)
       commutes' := fun x => by
-        show t (1 ⊗ₜ[R] x) = algebraMap A B x
+        change t (1 ⊗ₜ[R] x) = algebraMap A B x
         exact DFunLike.congr_fun htA x }
   constructor
   intro L _ _ _
@@ -1081,9 +1080,9 @@ private theorem geometricallyRegular_closedFiber_of_fiber
   let Φ : (k ⊗[R] S) ≃ₐ[k] m.Fiber S :=
     AlgEquiv.ofRingEquiv (f := ΦR.toRingEquiv) (by
       intro x
-      show β x ⊗ₜ[R] 1 = βk x ⊗ₜ[R] 1
+      change β x ⊗ₜ[R] 1 = βk x ⊗ₜ[R] 1
       rw [show β x = βk x by
-        show β.toRingHom x = (algebraMap k K) x
+        change β.toRingHom x = (algebraMap k K) x
         rw [hβ]])
   let : Algebra.IsSeparable k K := AlgEquiv.Algebra.isSeparable βk
   have hK : Algebra.IsGeometricallyRegular K (m.Fiber S) := h

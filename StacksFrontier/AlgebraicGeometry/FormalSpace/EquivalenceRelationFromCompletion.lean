@@ -119,6 +119,7 @@ theorem exists_factorization_diagonal {C : Type*} [Category C] {A P W : C} (j : 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasLimitsOfShape (Discrete J)` on presheaves over the big fppf site
 /-- Discrete limits of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance (priority := high)
@@ -706,7 +707,7 @@ theorem isEtaleAt_of_isEtale_openSubspaceOfPointsRestrict
   refine ⟨Space.openSubspaceOfPoints B S hS W (Space.pointsMap B S hS W qW ⁻¹' T)ᶜ,
     Space.isOpenSubspace_openSubspaceOfPoints B S hS hW _
       (hT.preimage (Space.continuous_pointsMap B S hS qW)).isOpen_compl, x', hx', ?_⟩
-  show Space.IsEtale B S hS (Space.openSubspaceOfPointsRestrict B S hS a _ _
+  change Space.IsEtale B S hS (Space.openSubspaceOfPointsRestrict B S hS a _ _
     (compl_subset_preimage_compl B S hS a q qW ha T) ≫
       (Space.openSubspaceOfPoints B S hS Y (Space.pointsMap B S hS Y q ⁻¹' T)ᶜ).ι)
   exact Space.isEtale_comp B S hS h (Space.isEtale_ι_of_isOpenSubspace

@@ -191,7 +191,7 @@ public lemma mem_supportedSectionsSubmodule_compl_iff_restrict_eq_zero
     refine ⟨W, i.le, hxW, ?_⟩
     simpa only [Subsingleton.elim j (homOfLE i.le), Subsingleton.elim i (homOfLE i.le)] using h
   · intro hs x hx hxV
-    show F.presheaf.germ U x hx s = 0
+    change F.presheaf.germ U x hx s = 0
     rw [← TopCat.Presheaf.germ_res_apply F.presheaf
       (homOfLE (show U ⊓ V ≤ U from inf_le_left)) x ⟨hx, by simpa using hxV⟩, hs, map_zero]
 
@@ -202,7 +202,7 @@ public lemma mem_supportedSectionsSubmodule_compl_iff_unit_app_eq_zero
     s ∈ (supportedSectionsSubmodule (V : Set X)ᶜ F).toSubmodule.obj (op U) ↔
       ((restrictAdjunction V.ι).unit.app F).app U s = 0 := by
   rw [mem_supportedSectionsSubmodule_compl_iff_restrict_eq_zero]
-  show _ ↔ F.presheaf.map (homOfLE (V.ι.image_preimage_le U)).op s = 0
+  change _ ↔ F.presheaf.map (homOfLE (V.ι.image_preimage_le U)).op s = 0
   have h : V.ι ''ᵁ (V.ι ⁻¹ᵁ U) = U ⊓ V := by
     rw [Scheme.Hom.image_preimage_eq_opensRange_inf, Scheme.Opens.opensRange_ι, inf_comm]
   have aux (W : X.Opens) (i : W ≤ U) (hW : W = U ⊓ V) :
@@ -313,7 +313,7 @@ public lemma comp_eq_zero_iff_restrictFunctor_map_eq_zero (V : X.Opens) {A B D :
           (restrictFunctor V.ι ⋙ pushforward V.ι).map (f ≫ q) :=
       (restrictAdjunction V.ι).unit.naturality (f ≫ q)
     rw [← cancel_mono ((restrictAdjunction V.ι).unit.app B), zero_comp, hnat]
-    show (restrictAdjunction V.ι).unit.app D ≫
+    change (restrictAdjunction V.ι).unit.app D ≫
       (pushforward V.ι).map ((restrictFunctor V.ι).map (f ≫ q)) = 0
     simp [hf]
 
@@ -364,7 +364,7 @@ public lemma map_mem_supportedSectionsSubmodule {F G : X.Modules} (Z : Set X) (�
   intro x hx hxZ
   have hz := hs x hx hxZ
   change F.presheaf.germ U x hx s = 0 at hz
-  show G.presheaf.germ U x hx (φ.app U s) = 0
+  change G.presheaf.germ U x hx (φ.app U s) = 0
   refine (TopCat.Presheaf.stalkFunctor_map_germ_apply U x hx φ.mapPresheaf s).symm.trans ?_
   refine (congrArg _ hz).trans ?_
   exact map_zero _
@@ -399,9 +399,9 @@ public lemma supportedSections_eq_zero_of_restrict {X Y : Scheme.{u}} (f : X ⟶
   change (F.restrict f).presheaf.germ U x hx s = 0 at hz
   have h := congrArg (fun a : Γ(F.restrict f, U) ⟶ F.presheaf.stalk (f x) ↦ a s)
     (germ_restrictStalkNatIso_hom_app f x F hx)
-  show F.presheaf.germ (f ''ᵁ U) (f x) _ ((restrictAppIso f F U).hom s) = 0
+  change F.presheaf.germ (f ''ᵁ U) (f x) _ ((restrictAppIso f F U).hom s) = 0
   refine h.symm.trans ?_
-  show (restrictStalkNatIso f x).hom.app F ((F.restrict f).presheaf.germ U x hx s) = 0
+  change (restrictStalkNatIso f x).hom.app F ((F.restrict f).presheaf.germ U x hx s) = 0
   refine (congrArg _ hz).trans ?_
   exact map_zero _
 
@@ -430,7 +430,7 @@ public lemma isIso_restrictFunctor_map_pullback_map {X Y : Scheme.{u}} (f : X �
     pullbackComp _ _ ≪≫ pullbackCongr (morphismRestrict_ι f V).symm ≪≫ (pullbackComp _ _).symm
   have : IsIso ((Scheme.Modules.pullback (f ⁻¹ᵁ V).ι).map
       ((Scheme.Modules.pullback f).map q)) := (NatIso.isIso_map_iff e q).mpr (by
-    show IsIso ((Scheme.Modules.pullback (f ∣_ V)).map ((Scheme.Modules.pullback V.ι).map q))
+    change IsIso ((Scheme.Modules.pullback (f ∣_ V)).map ((Scheme.Modules.pullback V.ι).map q))
     infer_instance)
   exact (NatIso.isIso_map_iff (restrictFunctorIsoPullback (f ⁻¹ᵁ V).ι)
     ((Scheme.Modules.pullback f).map q)).mpr inferInstance
@@ -442,7 +442,7 @@ public lemma isIso_restrictFunctor_map_of_le {X : Scheme.{u}} {U V : X.Opens} (h
   have e : restrictFunctor U.ι ≅ restrictFunctor V.ι ⋙ restrictFunctor (X.homOfLE h) :=
     restrictFunctorCongr (X.homOfLE_ι h).symm ≪≫ restrictFunctorComp _ _
   exact (NatIso.isIso_map_iff e q).mpr (by
-    show IsIso ((restrictFunctor (X.homOfLE h)).map ((restrictFunctor V.ι).map q))
+    change IsIso ((restrictFunctor (X.homOfLE h)).map ((restrictFunctor V.ι).map q))
     infer_instance)
 
 end AlgebraicGeometry.Scheme.Modules

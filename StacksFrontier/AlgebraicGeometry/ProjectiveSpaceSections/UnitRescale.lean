@@ -94,7 +94,7 @@ theorem Away_lift_comp_map_comp_algebraMap (f f' : A →+* Γ(X, ⊤)) (u : Γ(X
     simpa only [smul_eq_mul] using hff' (m • n) a ha
   have hfr : f' r ^ m = (u : Γ(X, ⊤)) ^ (m * n) * f r ^ m := by
     rw [hff' n r hr, mul_pow, ← pow_mul, mul_comm n m]
-  show (algebraMap Γ(X, ⊤) (Localization.Away (f r))) (f' a) =
+  change (algebraMap Γ(X, ⊤) (Localization.Away (f r))) (f' a) =
     (algebraMap Γ(X, ⊤) (Localization.Away (f r))) (f' r ^ m) *
       IsLocalization.mk' (Localization.Away (f r)) (f a)
         (⟨f r ^ m, m, rfl⟩ : Submonoid.powers (f r))
@@ -139,7 +139,7 @@ theorem fromOfGlobalSections_congr_unit (f f' : A →+* Γ(X, ⊤)) (u : Γ(X, �
     rw [hff' n r hr, map_mul]
     exact ((algebraMap Γ(X, ⊤) (Localization.Away (f r))).isUnit_map
       (u.isUnit.pow n)).mul (IsLocalization.Away.algebraMap_isUnit (f r))
-  show (X.basicOpen (f r)).ι ≫ fromOfGlobalSections 𝒜 f hf =
+  change (X.basicOpen (f r)).ι ≫ fromOfGlobalSections 𝒜 f hf =
     (X.basicOpen (f r)).ι ≫ fromOfGlobalSections 𝒜 f' hf'
   rw [basicOpen_ι_comp_fromOfGlobalSections 𝒜 f hf hn hr, ← Scheme.isoOfEq_hom_ι X hb,
     Category.assoc, basicOpen_ι_comp_fromOfGlobalSections 𝒜 f' hf' hn hr,

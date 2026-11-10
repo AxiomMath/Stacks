@@ -447,7 +447,7 @@ theorem sub_gysinCycleMapAlong_sections_eq_of_familyFibreDifference (C : ChowSit
   obtain ⟨hcomp0, hfin0⟩ := key (zeroSection q) _ _ (ker_zeroSection_eq_zeroScheme q) hn0
   obtain ⟨hcompi, hfini⟩ := key (infinitySection q) _ _ (ker_infinitySection_eq_zeroScheme q) hni
   refine Subtype.ext (Function.locallyFinsuppWithin.ext fun x ↦ ?_)
-  show (gysinCycleMapAlong C (familyStructureMorphism q) q k _ _ (zeroSection q)
+  change (gysinCycleMapAlong C (familyStructureMorphism q) q k _ _ (zeroSection q)
         (isTrivial_zeroScheme_ker_zeroSection q)
         (zeroSection_comp_familyStructureMorphism q) (ker_zeroSection_eq_zeroScheme q) β).1 x -
       (gysinCycleMapAlong C (familyStructureMorphism q) q k _ _ (infinitySection q)

@@ -220,7 +220,7 @@ public theorem isColimitArrowImageCocone {c : Cocone D} (hc : IsColimit c) :
     have h1 : (arrowImageι P D X ≫ c.ι.app X.obj.right) ≫
         hc.desc (descCocone P D φ hφ t) = t.ι.app X := by
       rw [Category.assoc, hc.fac]
-      show arrowImageι P D X ≫ arrowImageFactor P D
+      change arrowImageι P D X ≫ arrowImageFactor P D
           (⟨Arrow.mk (φ X.obj.right), hφ X.obj.right⟩ : P.FullSubcategory) ≫
           t.ι.app ⟨Arrow.mk (φ X.obj.right), hφ X.obj.right⟩ = t.ι.app X
       rw [← t.w (arrowFullSubcategoryHom P φ hφ X (𝟙 X.obj.right)), ← Category.assoc, hstep]
@@ -231,7 +231,7 @@ public theorem isColimitArrowImageCocone {c : Cocone D} (hc : IsColimit c) :
         (arrowImageCocone P D c).ι.app ⟨Arrow.mk (φ i), hφ i⟩ = c.ι.app i := by
       rw [arrowImageCocone_ι_app, ← Category.assoc, arrowImageFactor_ι]
       exact c.w (φ i)
-    show c.ι.app i ≫ f = arrowImageFactor P D (⟨Arrow.mk (φ i), hφ i⟩ : P.FullSubcategory) ≫
+    change c.ι.app i ≫ f = arrowImageFactor P D (⟨Arrow.mk (φ i), hφ i⟩ : P.FullSubcategory) ≫
       t.ι.app ⟨Arrow.mk (φ i), hφ i⟩
     rw [← hf ⟨Arrow.mk (φ i), hφ i⟩, ← Category.assoc, key]
 

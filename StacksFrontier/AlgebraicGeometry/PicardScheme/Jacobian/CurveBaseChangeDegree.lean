@@ -140,7 +140,7 @@ theorem spec_map_algebraMap_overResidueFieldAlgebra (T : Over (Spec (.of k))) (t
     Spec.map (CommRingCat.ofHom (algebraMap k (T.left.residueField t))) =
       T.left.fromSpecResidueField t ≫ T.hom := by
   let := overResidueFieldAlgebra T t
-  show Spec.map (CommRingCat.ofHom (Spec.preimage _).hom) = _
+  change Spec.map (CommRingCat.ofHom (Spec.preimage _).hom) = _
   rw [CommRingCat.ofHom_hom, Spec.map_preimage]
 
 end AlgebraicGeometry

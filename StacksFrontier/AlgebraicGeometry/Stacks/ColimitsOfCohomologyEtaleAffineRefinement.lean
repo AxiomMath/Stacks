@@ -19,8 +19,9 @@ schemes.
 
 That assertion is condition (2) of **Stacks 0GN4** for the collection `B` of the proof of
 **Stacks 0GQV**, namely the objects of the site lying over affine schemes, and it is the
-hypothesis `HasFiniteCoverRefinementsFrom` of the criterion proved in
-`StacksFrontier.CategoryTheory.Sites.Cohomology.FilteredColimits.FiniteCoveringCriterionOnALargeSite`.
+hypothesis `HasFiniteCoverRefinementsFrom` of the criterion proved in the file
+`FiniteCoveringCriterionOnALargeSite.lean` of `StacksFrontier/CategoryTheory/Sites/Cohomology/`
+`FilteredColimits/`.
 It is the étale counterpart of
 `AlgebraicGeometry.Stack.hasFiniteCoverRefinementsFrom_fppfTopology`, which is the same condition
 for the fppf site.

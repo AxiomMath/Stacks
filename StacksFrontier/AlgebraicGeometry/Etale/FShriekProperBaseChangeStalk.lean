@@ -481,7 +481,7 @@ public theorem fShriekStalkToCompactSections_properSupportBaseChange
     (geometricFibreLift B f (t.map (B.inclusion.map g)) ht N) _
     (baseChangeFinalIso B (geometricFibreComparison B p f' f g sq t ht)).inv a.1
   rw [geometricFibreCompSectionsEquiv_apply, geometricFibreCompactSectionsEquiv_apply]
-  show fc'.hom.app _ (fShriekStalkToCompactSections B f' t ht ((abPullback.{u, v} B p).obj F)
+  change fc'.hom.app _ (fShriekStalkToCompactSections B f' t ht ((abPullback.{u, v} B p).obj F)
     ((etaleStalkPresheafFunctor B Y'.obj Y'.property t AddCommGrpCat.{max (u + 1) v}).map
       (properSupportBaseChange.{u, v} B p f' f g sq F).hom
       ((etaleStalkSmallEtalePullObjIso B g t AddCommGrpCat.{max (u + 1) v}

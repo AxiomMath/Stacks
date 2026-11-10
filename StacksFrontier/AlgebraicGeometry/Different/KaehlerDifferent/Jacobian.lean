@@ -175,7 +175,7 @@ theorem fittingIdeal_kaehlerDifferential_quotient_mvPolynomial
   let P := MvPolynomial (Fin n) A
   let J := RingHom.ker (algebraMap P B)
   have hsurj : Function.Surjective (algebraMap P B) := by
-    show Function.Surjective (Ideal.Quotient.mk I)
+    change Function.Surjective (Ideal.Quotient.mk I)
     exact Ideal.Quotient.mk_surjective
   have hJI : J = I := Ideal.mk_ker
   let _ := ConormalSeq.cotangentModule hsurj
@@ -196,7 +196,7 @@ theorem fittingIdeal_kaehlerDifferential_quotient_mvPolynomial
       span_toCotangent_generators_eq_top (R := P) (B := B) hsurj I hJI f rfl
   have hqgen (i : Fin n) : q (cgen i) = fun j => jac j i := by
     funext j
-    show (basis.repr (cmap (cgen i))) j = jac j i
+    change (basis.repr (cmap (cgen i))) j = jac j i
     rw [show cmap (cgen i) = (1 : B) ⊗ₜ[P] KaehlerDifferential.D A P (f i) from
       ConormalSeq.conormalMap_toCotangent A hsurj ⟨f i, hfJ i⟩]
     exact mvPolynomialBasis_baseChange_repr_one_tmul_D n I (f i) j
@@ -222,7 +222,7 @@ theorem fittingIdeal_kaehlerDifferential_quotient_mvPolynomial
     intro x
     obtain ⟨y, hy⟩ := KaehlerDifferential.mapBaseChange_surjective A P B hsurj x
     refine ⟨coords y, ?_⟩
-    show map (coords.symm (coords y)) = x
+    change map (coords.symm (coords y)) = x
     simpa [ψ, map] using hy
   let e : ((Fin n → B) ⧸
       Submodule.span B (Set.range fun i : Fin n => fun j : Fin n => jac j i)) ≃ₗ[B]

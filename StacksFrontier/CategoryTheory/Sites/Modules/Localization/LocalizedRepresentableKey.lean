@@ -24,7 +24,8 @@ compatibility reduces to one equation with no structure map in it, between two m
 `Sh(C/U)`.
 
 This file carries that equation across the bijection of `j_{U!} ⊣ j_U^{-1}`, where the two
-sides become morphisms of `Sh(C)` and every factor is described by a lemma of the library: the factor of
+sides become morphisms of `Sh(C)` and every factor is described by a lemma of the library:
+the factor of
 Stacks 03CF's clause (b) by
 `CategoryTheory.SliceTopos.shriek_overPullbackCompSheafPullbackOverPostIso_hom_app_comp_counit`,
 and the two occurrences of Stacks 04J3's comparison — at `V` restricted along `f'`, and at `U` —

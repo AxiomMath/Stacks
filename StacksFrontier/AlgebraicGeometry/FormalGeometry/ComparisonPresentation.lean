@@ -99,7 +99,7 @@ copies of the structure sheaf, hence quasi-coherent and of finite type. -/
 private lemma isCoherent_free_of_finite {X : Scheme.{u}} [IsLocallyNoetherian X] (ι : Type u)
     [Finite ι] : (SheafOfModules.free (R := X.ringCatSheaf) ι : X.Modules).IsCoherent := by
   have hqc : (SheafOfModules.free (R := X.ringCatSheaf) ι : X.Modules).IsQuasicoherent := by
-    show (∐ fun _ : ι => SheafOfModules.unit X.ringCatSheaf).IsQuasicoherent
+    change (∐ fun _ : ι => SheafOfModules.unit X.ringCatSheaf).IsQuasicoherent
     exact Stacks.AlgebraicGeometry.QuasicoherentColimits.isQuasicoherent_sigma _
   exact Stacks.AlgebraicGeometry.CoherenceCriteria.isCoherent_of_isQuasicoherent_of_isFiniteType _
 
@@ -180,7 +180,7 @@ theorem exists_idealPower_hom_of_section {X : Scheme.{u}} [IsNoetherian X] (V : 
     exact hxK hx
   have hVK : idealComplement K = V := by
     ext x
-    show x ∈ ((V : Set X)ᶜ)ᶜ ↔ x ∈ V
+    change x ∈ ((V : Set X)ᶜ)ᶜ ↔ x ∈ V
     simp
   clear_value K
   subst hVK

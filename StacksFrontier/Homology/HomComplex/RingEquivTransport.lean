@@ -66,7 +66,7 @@ theorem postcomp_precomp {L' L M M' : CochainComplex C ℤ} (g : L' ⟶ L) (h : 
     postcomp R L M M' h ≫ precomp R L' L M' g =
       precomp R L' L M g ≫ postcomp R L' M M' h := by
   refine HomologicalComplex.hom_ext _ _ fun n => ModuleCat.hom_ext <| LinearMap.ext fun z => ?_
-  show (Cochain.ofHom g).comp (z.comp (Cochain.ofHom h) (add_zero n)) (zero_add n) =
+  change (Cochain.ofHom g).comp (z.comp (Cochain.ofHom h) (add_zero n)) (zero_add n) =
     ((Cochain.ofHom g).comp z (zero_add n)).comp (Cochain.ofHom h) (add_zero n)
   exact (Cochain.comp_assoc (Cochain.ofHom g) z (Cochain.ofHom h) (zero_add n) (add_zero n)
     (by omega)).symm
@@ -105,7 +105,7 @@ abbrev relabelComplex :
 theorem relabel_map_smul (s : S) {X Y : ModuleCat.{u} S} (f : X ⟶ Y) :
     (relabel ε).map (s • f) = ε s • (relabel ε).map f := by
   refine ModuleCat.hom_ext <| LinearMap.ext fun x => ?_
-  show _ = ε.symm (ε s) • f.hom x
+  change _ = ε.symm (ε s) • f.hom x
   rw [RingEquiv.symm_apply_apply]
   rfl
 

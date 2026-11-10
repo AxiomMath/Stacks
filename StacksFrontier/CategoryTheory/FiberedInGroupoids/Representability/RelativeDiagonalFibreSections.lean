@@ -56,7 +56,7 @@ variable {𝒞 : Type u₁} [Category.{v₁} 𝒞] {X : Type u₃} [Category.{v�
 /-- **A section of `relVertHomPresheaf` over `a` is a witness that the comparison isomorphism of
 `Y a` descends.** The verticality demanded of a section is automatic, by
 `CategoryTheory.TwoFibreProductOver.isHomLift_id_of_map_eq_iso`. -/
-lemma nonempty_relVertHom_iff (hp : p.IsFiberedInGroupoids)
+lemma nonempty_relVertHom_iff
     (hY : Y ⋙ RelProdP p q F = p𝒯) (hF : F ⋙ q = p) (a : 𝒯) :
     Nonempty (RelVertHom p𝒯 Y a) ↔
       ∃ β : (Y.obj a).x ⟶ (Y.obj a).y, F.map β = (Y.obj a).iso.hom := by
@@ -97,7 +97,7 @@ lemma nonempty_relVertHom_of_isHomLift (hp : p.IsFiberedInGroupoids)
   have _ : (RelProdP p q F).IsStronglyCartesian (Functor.structHom U a)
       (Y.map (Functor.toMkId U a)) :=
     hRP.isStronglyCartesian_homLift _ _
-  exact (nonempty_relVertHom_iff hp hY hF a).mpr (exists_map_eq_iso_of_hom hp hq hF
+  exact (nonempty_relVertHom_iff hY hF a).mpr (exists_map_eq_iso_of_hom hp hq hF
     (Functor.IsStronglyCartesian.domainIsoOfBaseIso (RelProdP p q F) (g := g) hg
       (Y.map (Functor.toMkId U a)) c).inv hA)
 
@@ -119,7 +119,7 @@ lemma exists_nonempty_relVertHom_of_hom (hp : p.IsFiberedInGroupoids)
   -- The base of `A` is the image of `a`, by an isomorphism which is the identity underneath.
   set ι : A.base ≅ (Over.map U.hom).obj a :=
     Over.isoMk (Iso.refl A.base.left) (by
-      show (Iso.refl A.base.left).hom ≫ cb.left ≫ U.hom = A.base.hom
+      change (Iso.refl A.base.left).hom ≫ cb.left ≫ U.hom = A.base.hom
       rw [Iso.refl_hom, Category.id_comp]
       exact Over.w cb) with hι
   have hcb0 : (RelProdP p q F).IsHomLift cb c := by

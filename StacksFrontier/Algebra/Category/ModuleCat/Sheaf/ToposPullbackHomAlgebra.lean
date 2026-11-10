@@ -70,7 +70,8 @@ a relation or a factorization of a *fixed finite number* of sections is cut out 
 
 **The ring and module structures are instances here, and are `def`s upstream.**
 `CategoryTheory.Sheaf.ringObjRing` and `moduleObjModule` are deliberately `def`s, because they
-are stated for an arbitrary `P` and as instances would slow down instance search everywhere.  At the specific
+are stated for an arbitrary `P` and as instances would slow down instance search everywhere.
+At the specific
 `P = coyoneda.obj (op Z)` the carrier is a `Hom` type of a category of sheaves of sets, which no
 other instance in the tree claims, so registering them is safe and removes a `letI` from every
 statement below.

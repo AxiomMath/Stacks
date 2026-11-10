@@ -274,7 +274,7 @@ theorem exists_comp_chartOpens_map_eq {T : SmallEtale B S hS F}
   let hsite : U''.obj.left ⟶ chartOpenOver B S hS T O'' :=
     Over.homMk (ObjectProperty.homMk h₀) (by
       apply B.inclusion.map_injective
-      show h₀ ≫ O''.ι ≫ B.inclusion.map T.obj.left.hom = B.inclusion.map U''.obj.left.hom
+      change h₀ ≫ O''.ι ≫ B.inclusion.map T.obj.left.hom = B.inclusion.map U''.obj.left.hom
       rw [← hw, ← Category.assoc, hh₀, Category.assoc])
   have hι : hsite ≫ chartOpenOverι B S hS T O'' = i.hom.left ≫ chartOpenOverι B S hS T O' := by
     apply (BigFppfOver.toScheme B S hS).map_injective
@@ -282,7 +282,7 @@ theorem exists_comp_chartOpens_map_eq {T : SmallEtale B S hS F}
   refine ⟨ObjectProperty.homMk (CostructuredArrow.homMk hsite ?_), ?_⟩
   · have hc : yoneda.map i.hom.left ≫ yoneda.map (chartOpenOverι B S hS T O') ≫ T.obj.hom =
         U''.obj.hom := CostructuredArrow.w i.hom
-    show yoneda.map hsite ≫ yoneda.map (chartOpenOverι B S hS T O'') ≫ T.obj.hom = U''.obj.hom
+    change yoneda.map hsite ≫ yoneda.map (chartOpenOverι B S hS T O'') ≫ T.obj.hom = U''.obj.hom
     rw [← hc]
     have h1 := congrArg (fun k => yoneda.map k ≫ T.obj.hom) hι
     simp only [Functor.map_comp, Category.assoc] at h1
@@ -291,7 +291,7 @@ theorem exists_comp_chartOpens_map_eq {T : SmallEtale B S hS F}
   · apply ObjectProperty.hom_ext
     apply CostructuredArrow.hom_ext
     apply (BigFppfOver.toScheme B S hS).map_injective
-    show h₀ ≫ (chartScheme T).homOfLE hle = iS
+    change h₀ ≫ (chartScheme T).homOfLE hle = iS
     rw [← cancel_mono O'.ι, Category.assoc, Scheme.homOfLE_ι, hh₀]
 
 end Points
@@ -460,7 +460,8 @@ theorem nonempty_strictTransformSheaf_iso_restrictToChart (hM : M.IsQuasicoheren
     (Stacks.StrictTransform.exceptionalPreimage_eq_compl ((BigFppfOver.toScheme B S hS).map p)
       ((BigFppfOver.toScheme B S hS).map b₀) E₀) _ _ q hq hunit hqm
   have hfst : (BigFppfOver.toScheme B S hS).map (chartPullbackFst cV p b₀ hT) =
-      Limits.pullback.fst ((BigFppfOver.toScheme B S hS).map p) ((BigFppfOver.toScheme B S hS).map b₀) :=
+      Limits.pullback.fst ((BigFppfOver.toScheme B S hS).map p) ((BigFppfOver.toScheme B S hS).map
+          b₀) :=
     rfl
   rw [hfst] at e
   exact ⟨e ≪≫ (restrictToChartIsoPushforward B S hS _ _ _).symm⟩

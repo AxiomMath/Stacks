@@ -283,7 +283,7 @@ instance isNoetherianRing : IsNoetherianRing (NagataRing k) := by
         (disjoint_submonoid_prime i)
     have hle : m ≤ (prime k i).map (algebraMap _ (NagataRing k)) := by
       calc m = (m.comap (algebraMap _ (NagataRing k))).map (algebraMap _ (NagataRing k)) :=
-            (IsLocalization.map_comap (submonoid k) _ m).symm
+            (IsLocalization.map_under (submonoid k) _ m).symm
         _ ≤ _ := Ideal.map_mono hi
     have heq := hm.eq_of_le hprime.ne_top hle
     have hrm : algebraMap _ (NagataRing k) r ∈ m := by
@@ -305,7 +305,7 @@ theorem ringKrullDim_eq_top : ringKrullDim (NagataRing k) = ⊤ := by
     ⟨⟨Ideal.span (X '' s j), inferInstance⟩, hdisj j⟩
   have hq : StrictMono q := by
     intro j j' hjj'
-    rw [Subtype.mk_lt_mk, ← PrimeSpectrum.asIdeal_lt_asIdeal, SetLike.lt_iff_le_and_exists]
+    rw [Subtype.mk_lt_mk, ← PrimeSpectrum.asIdeal_lt_asIdeal, IsConcreteLE.lt_iff_le_and_exists]
     have hj : j.val < 2 ^ n := (Nat.lt_succ_iff.mp j.2).trans_lt n.lt_two_pow_self
     refine ⟨Ideal.span_mono (Set.image_mono fun v hv => ⟨hv.1, hv.2.trans hjj'⟩),
       X ⟨n, ⟨j.val, hj⟩⟩, ?_, ?_⟩

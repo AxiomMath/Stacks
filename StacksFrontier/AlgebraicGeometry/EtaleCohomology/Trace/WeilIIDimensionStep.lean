@@ -132,7 +132,7 @@ theorem LAdicSheaf.isPointwiseMixedOfWeightLE_higherDirectImage
   have heq : B.inclusion.map ιF ≫ B.inclusion.map g ≫ fW =
       (B.inclusion.map g).fiberToSpecResidueField y.1 ≫
       Spec.map (CommRingCat.ofHom (algebraMap k (W.1.residueField y.1))) := by
-    show (B.inclusion.map g).fiberι y.1 ≫ B.inclusion.map g ≫ fW = _
+    change (B.inclusion.map g).fiberι y.1 ≫ B.inclusion.map g ≫ fW = _
     rw [Scheme.Hom.fiber_fac_assoc, fromSpecResidueField_comp_eq_specMap_algebraMap]
     rfl
   have : LocallyOfFiniteType (B.inclusion.map ιF) :=
@@ -171,7 +171,7 @@ theorem LAdicSheaf.isPointwiseMixedOfWeightLE_higherDirectImage
   obtain ⟨w', hw', hz'⟩ := hbound z (by rw [← hjw G r]; exact hz)
   refine ⟨w', hw', ?_⟩
   rw [hz']
-  show ((p ^ (q * Module.finrank k (W.1.residueField y.1)) : ℕ) : ℝ) ^ ((w' : ℝ) / 2) =
+  change ((p ^ (q * Module.finrank k (W.1.residueField y.1)) : ℕ) : ℝ) ^ ((w' : ℝ) / 2) =
     ((p ^ q : ℕ) : ℝ) ^ (((Module.finrank k (W.1.residueField y.1) : ℤ) * w' : ℝ) / 2)
   rw [pow_mul]
   push_cast
@@ -242,7 +242,7 @@ theorem le_or_eq_add_one_of_le_add_one {d : WithBot ℕ∞} {n : ℕ} (hd : d �
       exfalso
       have h : ((⊤ : ℕ∞) : WithBot ℕ∞) ≤ (((n + 1 : ℕ) : ℕ∞) : WithBot ℕ∞) := by
         exact_mod_cast hd
-      exact (ENat.coe_lt_top (n + 1)).not_ge (WithBot.coe_le_coe.1 h)
+      exact (ENat.natCast_lt_top (n + 1)).not_ge (WithBot.coe_le_coe.1 h)
     | coe m =>
       have hm : m ≤ n + 1 := by exact_mod_cast hd
       rcases Nat.lt_or_ge m (n + 1) with h | h

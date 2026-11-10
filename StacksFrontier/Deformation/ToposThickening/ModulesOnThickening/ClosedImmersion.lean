@@ -101,7 +101,7 @@ lemma isIso_prod_fst_emptySheaf (G : Sheaf J (Type w)) :
     let B := G.obj.obj U
     have hfstPair : IsIso (↾_root_.Prod.fst : A × B ⟶ A) := by
       rw [isIso_iff_bijective]
-      show Function.Bijective (fun z : A × B => z.1)
+      change Function.Bijective (fun z : A × B => z.1)
       by_cases hU : (⊥ : Sieve U.unop) ∈ J U.unop
       · let : Unique A :=
           { default := ⟨⟨hU⟩⟩

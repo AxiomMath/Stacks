@@ -136,7 +136,7 @@ public noncomputable def bigZariskiBaseChange_pushforwardIso
   have hS' : BigZariskiOver.topology B S'.1 S'.property = J.over S' := by
     simpa [J] using BigZariskiOver.topology_eq_over B S'
   let e := J.overMapPushforwardBaseChange (Type (u + 1)) h.toCommSq
-  haveI : IsIso e.natTrans := J.isIso_overMapPushforwardBaseChange
+  haveI : IsIso e := J.isIso_overMapPushforwardBaseChange
     (Type (u + 1)) h
   let αg := (Over.map g).sheafPullbackCocontinuousIsoSheafPushforwardContinuous
     (Type (u + 1)) (J.over S') (J.over S)
@@ -144,7 +144,7 @@ public noncomputable def bigZariskiBaseChange_pushforwardIso
     (Type (u + 1)) (J.over T') (J.over T)
   convert (Functor.isoWhiskerLeft
         ((Over.map f).sheafPushforwardCocontinuous (Type (u + 1)) (J.over T) (J.over S)) αg ≪≫
-      asIso e.natTrans ≪≫
+      asIso e ≪≫
       Functor.isoWhiskerRight αg'.symm
         ((Over.map f').sheafPushforwardCocontinuous (Type (u + 1)) (J.over T') (J.over S'))) using 1
   all_goals

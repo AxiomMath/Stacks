@@ -189,7 +189,7 @@ public lemma weaklyPreAdic_tfae (A : Type u) [CommRing A] [TopologicalSpace A]
         · intro hU
           obtain ⟨n, -, hn⟩ := hbasis.mem_iff.mp hU
           refine ⟨J ^ n, hsourceOpenPowers n, ?_⟩
-          show ((Ideal.map e.toRingHom (J ^ n)).closure : Set A) ⊆ U
+          change ((Ideal.map e.toRingHom (J ^ n)).closure : Set A) ⊆ U
           rw [hmapPow n]
           simpa only [Ideal.coe_closure, Submodule.topologicalClosure_coe] using hn
         · rintro ⟨L, hL, hLU⟩
@@ -220,7 +220,7 @@ public lemma weaklyPreAdic_tfae (A : Type u) [CommRing A] [TopologicalSpace A]
         obtain ⟨n, -, hn⟩ := hIadic.hasBasis_nhds_zero.mem_iff.mp hU
         exact ⟨n, hn⟩
     obtain ⟨K, hK⟩ :=
-      RingHom.isPreAdmissible_of_isTaut φ hcont htaut ⟨I, hIdef⟩
+      RingHom.isPreAdmissible_of_isTaut φ htaut ⟨I, hIdef⟩
     refine ⟨⟨K, hK⟩, K, hK, ?_⟩
     intro m hm
     obtain ⟨L, hLopen, hLK⟩ := htaut.2.mem_iff.mp (hK.1.mem_nhds (zero_mem K))
@@ -232,7 +232,7 @@ public lemma weaklyPreAdic_tfae (A : Type u) [CommRing A] [TopologicalSpace A]
       intro x hx
       change x ∈ closure (Ideal.map φ (I ^ (n + 1)) : Set A) at hx
       apply hLK
-      show x ∈ closure (Ideal.map φ L : Set A)
+      change x ∈ closure (Ideal.map φ L : Set A)
       exact closure_mono (Ideal.map_mono hn') hx
     have hbase : Ideal.map φ (I ^ (n + 1)) ≤ E := by
       intro x hx
@@ -316,7 +316,7 @@ public instance isWeaklyAdic_completion (A : Type*) [CommRing A] [TopologicalSpa
     refine ⟨A', ringA', topologyA', topologicalRingA', linearTopologyA', hAdic,
       (UniformSpace.Completion.coeRingHom : A →+* C).comp φ,
       (UniformSpace.Completion.continuous_coe A).comp hφ, ?_⟩
-    exact RingHom.isTaut_comp φ _ hφ (UniformSpace.Completion.continuous_coe A)
+    exact RingHom.isTaut_comp φ _ (UniformSpace.Completion.continuous_coe A)
       hφ_taut (RingHom.isTaut_completion (A := A))
   let : TopologicalRing.IsWeaklyPreAdic C := hpre
   exact TopologicalRing.IsWeaklyAdic.mk
@@ -658,7 +658,6 @@ public lemma exists_fg_isAdic_of_fg_closure_powers_basis
     A A (inferInstance) I.adicTopology (adic_topological_ring I)
     (Ideal.isLinearTopology I) (inferInstance) (inferInstance)
     (inferInstance) (inferInstance) (RingHom.id A)
-    (continuous_id_adic_source I.topologicalClosure I hdef I.le_topologicalClosure)
     (taut_id_adic_source I.topologicalClosure I hdef I.le_topologicalClosure rfl)
     ⟨I, hIfg, rfl⟩ (inferInstance) (inferInstance)
 
@@ -674,11 +673,11 @@ public lemma _root_.Ideal.finite_quotient_comap_subtype {A : Type*} [CommRing A]
   let f : ↥I →ₗ[A] A ⧸ K := (Ideal.Quotient.mkₐ A K).toLinearMap.comp I.subtype
   have hker : LinearMap.ker f = Submodule.comap I.subtype K := by
     ext x
-    show Ideal.Quotient.mk K x.1 = 0 ↔ x.1 ∈ K
+    change Ideal.Quotient.mk K x.1 = 0 ↔ x.1 ∈ K
     exact Ideal.Quotient.eq_zero_iff_mem
   have hrange : LinearMap.range f = Submodule.restrictScalars A (I.map q) := by
     ext z
-    show z ∈ LinearMap.range f ↔ z ∈ I.map q
+    change z ∈ LinearMap.range f ↔ z ∈ I.map q
     refine ⟨?_, ?_⟩
     · rintro ⟨x, rfl⟩
       exact Ideal.mem_map_of_mem q x.2
@@ -710,7 +709,6 @@ public lemma exists_fg_isAdic_of_quotient_closure_sq_finite
     A A (inferInstance) J.adicTopology (adic_topological_ring J)
     (Ideal.isLinearTopology J) (inferInstance) (inferInstance)
     (inferInstance) (inferInstance) (RingHom.id A)
-    (continuous_id_adic_source I J hI hJI)
     (taut_id_adic_source I J hI hJI hcl)
     ⟨J, hJfg, rfl⟩ (inferInstance) (inferInstance)
 
@@ -772,6 +770,7 @@ private theorem map_closure_pow_le {R S : Type*} [CommRing R] [TopologicalSpace 
     _ ≤ Ideal.closure (K ^ n) := closure_mono (Ideal.pow_right_mono hLK n)
 
 set_option synthInstance.maxHeartbeats 80000 in
+-- instance search for the topological and algebra structures on the completed tensor product
 /-- The completed tensor product of weakly pre-adic linearly topologized rings
 over a commutative ring is weakly adic. -/
 @[stacks 0GXJ]
@@ -811,11 +810,11 @@ public theorem completedTensorProduct_isWeaklyAdic
         let φC : C →+* T := RingHom.comp UniformSpace.Completion.coeRingHom
           ((Algebra.TensorProduct.includeRight : C →ₐ[B] A ⊗[B] C).toRingHom)
         have hφA : Continuous φA := by
-          show Continuous (fun a : A => ((a ⊗ₜ[B] (1 : C) : A ⊗[B] C) : T))
+          change Continuous (fun a : A => ((a ⊗ₜ[B] (1 : C) : A ⊗[B] C) : T))
           exact (UniformSpace.Completion.continuous_coe (A ⊗[B] C)).comp
             (TopologicalRing.continuous_tmul_const (R := B) (M := A) (N := C) (1 : C))
         have hφC : Continuous φC := by
-          show Continuous (fun c : C => (((1 : A) ⊗ₜ[B] c : A ⊗[B] C) : T))
+          change Continuous (fun c : C => (((1 : A) ⊗ₜ[B] c : A ⊗[B] C) : T))
           exact (UniformSpace.Completion.continuous_coe (A ⊗[B] C)).comp
             (TopologicalRing.continuous_const_tmul (R := B) (M := A) (N := C) (1 : A))
         let i₀ : ιA := ⟨IA, hIAdef.1, le_rfl⟩

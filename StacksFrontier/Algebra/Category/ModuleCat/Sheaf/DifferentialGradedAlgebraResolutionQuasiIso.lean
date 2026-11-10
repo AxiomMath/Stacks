@@ -145,7 +145,7 @@ theorem toStage_succ_of_eq (K : ℕ) {U : Cᵒᵖ} (x : Letter (resolutionGens B
     (h : x.1.down < K + 1) (hj : x.1.down = K) :
     toStage B (K + 1) x h = newLetter (S := (resolutionStage B K).pairs)
       (F := (resolutionStage B K).F) (castPairs B hj x.2) :=
-  dif_pos hj
+  dite_eq_left hj
 
 /-- A letter of `A` of level below `k` names, in stage `k + 1`, the letter it names in stage
 `k`. -/
@@ -153,7 +153,7 @@ theorem toStage_succ_of_ne (K : ℕ) {U : Cᵒᵖ} (x : Letter (resolutionGens B
     (h : x.1.down < K + 1) (hj : x.1.down ≠ K) :
     toStage B (K + 1) x h = succLetter (S := (resolutionStage B K).pairs)
       (F := (resolutionStage B K).F) (toStage B K x (by omega)) :=
-  dif_neg hj
+  dite_eq_right hj
 
 /-- The letter of a stage named by a letter of `A` has the same degree. -/
 theorem letterDeg_toStage (K : ℕ) {U : Cᵒᵖ} (x : Letter (resolutionGens B) U)
@@ -221,17 +221,18 @@ theorem retractionApp_of_lt (K : ℕ) (U : Cᵒᵖ) (x : Letter (resolutionGens 
     retractionApp B K U x =
       castHom (algPiece (Osharp := Osharp) (resolutionStage B K).F) (letterDeg_toStage B K x h) U
         (algGen (Osharp := Osharp) _ (toStage B K x h)) :=
-  dif_pos h
+  dite_eq_left h
 
 /-- On a letter of level at least `k`, `retractionApp` vanishes. -/
 theorem retractionApp_of_not_lt (K : ℕ) (U : Cᵒᵖ) (x : Letter (resolutionGens B) U)
     (h : ¬ x.1.down < K) : retractionApp B K U x = 0 :=
-  dif_neg h
+  dite_eq_right h
 
 /-- The letter map of the retraction of `Aₖ ⟶ A`: a letter of level below `k` goes to the
 generator of the letter of the stage it names, every other letter to zero. -/
 noncomputable def stageRetractionMap (K : ℕ) :
-    LetterMap (resolutionGens B) (freeGradedAlgebra (Osharp := Osharp) (resolutionStage B K).F) where
+    LetterMap (resolutionGens B)
+      (freeGradedAlgebra (Osharp := Osharp) (resolutionStage B K).F) where
   app U x := retractionApp B K U x
   naturality {U V} f x := by
     change Stacks.sectionRestrict (algPiece (Osharp := Osharp) (resolutionStage B K).F

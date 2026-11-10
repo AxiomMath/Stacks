@@ -145,7 +145,7 @@ theorem IsRigSurjective.comp_isIso {X Y Z : FppfSheaf B S hS} (g : X ⟶ Y) (e :
   have : IsIso e.hom := Functor.map_isIso (sheafToPresheaf _ _) e
   have hsq : IsPullback (𝟙 _) (p ≫ inv e).hom p.hom e.hom :=
     IsPullback.of_horiz_isIso ⟨by
-      show 𝟙 _ ≫ p.hom = ((p ≫ inv e) ≫ e).hom
+      change 𝟙 _ ≫ p.hom = ((p ≫ inv e) ≫ e).hom
       rw [Category.id_comp, Category.assoc, IsIso.inv_hom_id, Category.comp_id]⟩
   have hp' : Space.IsRepresentableByAlgebraicSpacesULift.{u + 1} B S hS (p ≫ inv e).hom :=
     Space.isRepresentableByAlgebraicSpacesULift_of_isPullback B S hS _ _ _ _ hsq hp

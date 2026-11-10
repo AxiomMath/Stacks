@@ -107,7 +107,7 @@ public theorem exists_forall_lt_eq_zero_of_moduleFinite [Module.Finite S M] :
   let P : Submodule S M :=
     { P₀ with
       smul_mem' := fun c m hm => by
-        show c • m ∈ P₀
+        change c • m ∈ P₀
         rw [← DirectSum.sum_support_decompose 𝒨 m, ← DirectSum.sum_support_decompose 𝒮 c,
           Finset.sum_smul]
         refine AddSubmonoid.sum_mem _ fun i _ => ?_
@@ -116,7 +116,7 @@ public theorem exists_forall_lt_eq_zero_of_moduleFinite [Module.Finite S M] :
           (SetLike.GradedSMul.smul_mem (A := 𝒮) (B := 𝒨) (DirectSum.decompose 𝒮 c i).2
             (DirectSum.decompose 𝒨 m j).2)
         have := hsupp m hm j hj
-        show k₀ ≤ (i : ℤ) + j
+        change k₀ ≤ (i : ℤ) + j
         omega }
   have htop : (⊤ : Submodule S M) ≤ P := by
     rw [← hs, Submodule.span_le]

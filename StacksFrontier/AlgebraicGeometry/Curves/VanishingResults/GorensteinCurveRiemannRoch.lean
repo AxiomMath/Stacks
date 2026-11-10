@@ -96,7 +96,7 @@ public theorem curveDegree_dualizingSheafOverField_eq_neg_two_mul_of_isGorenstei
     (isCohenMacaulay_of_isGorenstein X) hequi hdim
   simp only [eulerCharacteristic] at h
   simp only [curveDegree, eulerCharacteristic, Nat.cast_one, one_mul]
-  show _ - _ = -2 * _
+  change _ - _ = -2 * _
   linarith
 
 /-! ### The Riemann--Roch formula of clause (3) -/

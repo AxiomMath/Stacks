@@ -119,12 +119,12 @@ theorem natPowerSystem_mulIso (L : C) (n : ℕ) : ∀ m : ℕ,
     (natPowerSystem L).mulIso n m = powAddIso L n m
   | 0 => by
       refine Iso.ext ?_
-      show (natTensorPow L n ◁ 𝟙 (𝟙_ C)) ≫ (ρ_ (natTensorPow L n)).hom
+      change (natTensorPow L n ◁ 𝟙 (𝟙_ C)) ≫ (ρ_ (natTensorPow L n)).hom
         = (powAddIso L n 0).hom
       rw [MonoidalCategory.whiskerLeft_id, Category.id_comp, powAddIso_zero_right]
   | m + 1 => by
       refine Iso.ext ?_
-      show (natTensorPow L n ◁ 𝟙 (natTensorPow L m ⊗ L)) ≫
+      change (natTensorPow L n ◁ 𝟙 (natTensorPow L m ⊗ L)) ≫
           (α_ (natTensorPow L n) (natTensorPow L m) L).inv ≫
           (((natPowerSystem L).mulIso n m).hom ▷ L) ≫ 𝟙 ((natPowerSystem L).obj (n + m) ⊗ L)
         = (powAddIso L n (m + 1)).hom
@@ -147,10 +147,10 @@ multiplication morphism.** `Stacks.GradedSections.mulMap s m` is the left unitor
 theorem mulMap_eq_powAdd {L : C} {n : ℕ} (s : powSections L n) : ∀ m : ℕ,
     mulMap s m = (λ_ (natTensorPow L m)).inv ≫ (s ▷ natTensorPow L m) ≫ powAdd L n m
   | 0 => by
-      show s = (λ_ (𝟙_ C)).inv ≫ (s ▷ (𝟙_ C)) ≫ (ρ_ (natTensorPow L n)).hom
+      change s = (λ_ (𝟙_ C)).inv ≫ (s ▷ (𝟙_ C)) ≫ (ρ_ (natTensorPow L n)).hom
       rw [rightUnitor_naturality, ← unitors_equal, Iso.inv_hom_id_assoc]
   | m + 1 => by
-      show mulMap s m ▷ L
+      change mulMap s m ▷ L
         = (λ_ (natTensorPow L m ⊗ L)).inv ≫ (s ▷ (natTensorPow L m ⊗ L)) ≫
             (α_ (natTensorPow L n) (natTensorPow L m) L).inv ≫ (powAdd L n m ▷ L)
       rw [coherence_leftUnitor_inv_whiskerRight, mulMap_eq_powAdd s m]

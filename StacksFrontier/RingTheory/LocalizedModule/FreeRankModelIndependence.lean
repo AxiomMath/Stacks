@@ -101,10 +101,10 @@ public theorem Module.nonempty_linearEquiv_pi_localizedModule_away_of_bijective
       (LocalizedModule.mkLinearMap (Submonoid.powers (algebraMap B C g)) Y) f₂
       φ.toAddEquiv (AddEquiv.refl _)
       (fun b x ↦ by
-        show φ (b • x) = (algebraMap B C b) • φ x
+        change φ (b • x) = (algebraMap B C b) • φ x
         rw [IsScalarTower.algebraMap_smul, map_smul])
       (fun b m ↦ by
-        show b • m = (algebraMap B C b) • m
+        change b • m = (algebraMap B C b) • m
         rw [IsScalarTower.algebraMap_smul]) fun _ ↦ rfl
   exact Module.nonempty_linearEquiv_pi_of_isLocalizedModule_of_isLocalization
     (Submonoid.powers g) (LocalizedModule.mkLinearMap (Submonoid.powers g) X) f₂ r h

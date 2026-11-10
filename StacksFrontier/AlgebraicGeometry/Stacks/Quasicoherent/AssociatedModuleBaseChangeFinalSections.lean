@@ -579,7 +579,7 @@ private theorem inv_comp_sectionsUnitTop (y : 𝒳) (𝓕 : (p.obj y).left.1.Mod
       (contains_base B E h S hS p y) 𝓕)) :
     ((PresheafOfModules.toPresheaf _).map (@CategoryTheory.inv _ _ _ _ _ isu)).app
         (op (⊤ : (p.obj y).left.1.Opens)) ≫ sectionsUnitTop B E h S hS p y 𝓕 = 𝟙 _ := by
-  show ((PresheafOfModules.toPresheaf _).map (@CategoryTheory.inv _ _ _ _ _ isu)).app
+  change ((PresheafOfModules.toPresheaf _).map (@CategoryTheory.inv _ _ _ _ _ isu)).app
         (op (⊤ : (p.obj y).left.1.Opens)) ≫
       ((PresheafOfModules.toPresheaf _).map (SmallEtale.sectionsUnit E (p.obj y).left.1
         (contains_base B E h S hS p y) 𝓕)).app (op (⊤ : (p.obj y).left.1.Opens)) = 𝟙 _

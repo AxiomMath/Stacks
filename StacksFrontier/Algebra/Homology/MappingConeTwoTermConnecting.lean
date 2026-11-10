@@ -83,8 +83,6 @@ variable {𝒜 : Type u} [Category.{v} 𝒜] [Abelian 𝒜] {L M : CochainComple
 
 section TwoTerm
 
-variable [IsIso (g.f 0)]
-
 /-- Degree `-1` is the shift by `-1` of degree `0`. -/
 theorem rel_shift : (-1 : ℤ) + 0 = -1 := by omega
 
@@ -102,6 +100,8 @@ theorem cyclesMap_inr :
         (by rw [CochainComplex.next]; omega) (iCycles_comp_inr_comp_d g) := by
   rw [← cancel_mono ((mappingCone g).iCycles (-1)), HomologicalComplex.cyclesMap_i,
     HomologicalComplex.liftCycles_i]
+
+variable [IsIso (g.f 0)]
 
 /-- **The connecting morphism of the cone, read through the identification
 `H⁰(C(g)[-1]) ≅ coker (g^{-1})`.**  On the canonical epimorphism `Z^{-1}(M) ⟶ H^{-1}(M)` it is

@@ -57,9 +57,9 @@ private theorem exists_complement_smul_id_factor
   let e : (M →ₗ[R] M) ⧸ L := L.mkQ LinearMap.id
   let I : Ideal R := (R ∙ e).annihilator
   have haI (a : R) : a ∈ I ↔ ∃ t : P →ₗ[R] M, t.comp d = a • LinearMap.id := by
-    show a ∈ (R ∙ e).annihilator ↔ _
+    change a ∈ (R ∙ e).annihilator ↔ _
     rw [Submodule.mem_annihilator_span_singleton]
-    show a • L.mkQ LinearMap.id = 0 ↔ _
+    change a • L.mkQ LinearMap.id = 0 ↔ _
     rw [← map_smul, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
     rfl
   have htop : Ideal.span ({s} : Set R) ⊔ I = ⊤ := by
@@ -195,7 +195,7 @@ private theorem bijective_precompCokernelMap_of_isLocalizedModule
     rw [precompCokernelMap_mk]
     apply (Submodule.Quotient.eq _).2
     refine ⟨-l, ?_⟩
-    show (-l).comp d = j.comp f - g
+    change (-l).comp d = j.comp f - g
     rw [hf, LinearMap.neg_comp]
     abel
 
@@ -267,7 +267,7 @@ private theorem localizedModuleMk_isLocalizedAtComap
         (LocalizedModule.mkLinearMap S N) y
       obtain ⟨r, hr⟩ := hf s
       have hrmem : r ∈ S.comap f := by
-        show f r ∈ S
+        change f r ∈ S
         rw [hr]
         exact s.property
       refine ⟨⟨n, ⟨r, hrmem⟩⟩, ?_⟩
@@ -279,7 +279,7 @@ private theorem localizedModuleMk_isLocalizedAtComap
         (S := S) (f := LocalizedModule.mkLinearMap S N) hxy
       obtain ⟨r, hr⟩ := hf s
       have hrmem : r ∈ S.comap f := by
-        show f r ∈ S
+        change f r ∈ S
         rw [hr]
         exact s.property
       refine ⟨⟨r, hrmem⟩, ?_⟩
@@ -311,7 +311,7 @@ private theorem localizedKernelMap_isLocalized
   let S' : Submonoid P.B := S
   let T := S'.comap X.toB.toRingHom
   let : Module P.B N := by
-    show Module B N
+    change Module B N
     infer_instance
   let : Module P.B (RingHom.ker X.toB.toRingHom) := X.moduleKernel
   let : Module X.B' N := Module.compHom N X.toB.toRingHom
@@ -320,7 +320,7 @@ private theorem localizedKernelMap_isLocalized
       map_add' := X.kernelEquiv.map_add
       map_smul' := by
         intro r n
-        show X.kernelEquiv (X.toB r • (n : P.N)) = r • X.kernelEquiv n
+        change X.kernelEquiv (X.toB r • (n : P.N)) = r • X.kernelEquiv n
         rw [X.kernelEquiv.map_smul]
         exact X.toB_smul_kernel r (X.kernelEquiv n) }
   let e : N ≃ₗ[X.B'] RingHom.ker X.toB.toRingHom :=
@@ -379,7 +379,7 @@ private theorem exists_localizedExtension
   let qA : C →ₐ[k] Localization S :=
     { q with
       commutes' a := by
-        show q (algebraMap X.B' C (algebraMap k X.B' a)) = _
+        change q (algebraMap X.B' C (algebraMap k X.B' a)) = _
         rw [show q (algebraMap X.B' C (algebraMap k X.B' a)) =
           algebraMap B (Localization S) (fB (algebraMap k X.B' a)) by simp [q, fB]]
         rw [show fB (algebraMap k X.B' a) = algebraMap k B a from X.toB.commutes a]
@@ -406,11 +406,11 @@ private theorem exists_localizedExtension
   let eR : L ≃ₗ[X.B'] RingHom.ker q := IsLocalizedModule.linearEquiv T j g
   let : Module C L := Module.compHom L q
   let : IsScalarTower X.B' C L := IsScalarTower.of_algebraMap_smul fun c n ↦ by
-    show q (algebraMap X.B' C c) • n =
+    change q (algebraMap X.B' C c) • n =
       algebraMap B (Localization S) (X.toB c) • n
     rw [show q (algebraMap X.B' C c) =
       algebraMap B (Localization S) (X.toB c) by
-        show q (algebraMap X.B' C c) = algebraMap B (Localization S) (fB c)
+        change q (algebraMap X.B' C c) = algebraMap B (Localization S) (fB c)
         simp [q]]
   let eC := eR.extendScalarsOfIsLocalization T C
   let : Module (Localization S) (RingHom.ker q) :=
@@ -419,11 +419,11 @@ private theorem exists_localizedExtension
     { eR.toAddEquiv with
       map_smul' := by
         intro b n
-        show eR (b • n) = eR (b • eR.symm (eR n))
+        change eR (b • n) = eR (b • eR.symm (eR n))
         rw [eR.symm_apply_apply] }
   have haction (c : C) (x : RingHom.ker q) : q c • x = c • x := by
     obtain ⟨n, rfl⟩ := eR.surjective x
-    show eR (q c • eR.symm (eR n)) = c • eR n
+    change eR (q c • eR.symm (eR n)) = c • eR n
     rw [eR.symm_apply_apply]
     exact eC.map_smul c n
   let Y : (algebraExtensionProblem k (Localization S) L).CompatibleExtension := by
@@ -439,7 +439,7 @@ private theorem exists_localizedExtension
         map_I := by
           intro i
           have hi : (i : k) = 0 := i.2
-          show (eB (0 : L) : C) = algebraMap k C i
+          change (eB (0 : L) : C) = algebraMap k C i
           simp [hi] }
   refine ⟨Y, ?_⟩
   let : Algebra k Y.B' := Y.algebraA'B'
@@ -448,13 +448,13 @@ private theorem exists_localizedExtension
   refine ⟨f, ?_, ?_, ?_⟩
   · exact (isLocalization_iff_isLocalizationMap T C).mp inferInstance
   · intro c
-    show q (algebraMap X.B' C c) = algebraMap B (Localization S) (X.toB c)
-    show q (algebraMap X.B' C c) = algebraMap B (Localization S) (fB c)
+    change q (algebraMap X.B' C c) = algebraMap B (Localization S) (X.toB c)
+    change q (algebraMap X.B' C c) = algebraMap B (Localization S) (fB c)
     simp [q]
   · intro n
-    show algebraMap X.B' C (X.kernelEquiv n) = (eR (LocalizedModule.mkLinearMap S N n) : C)
+    change algebraMap X.B' C (X.kernelEquiv n) = (eR (LocalizedModule.mkLinearMap S N n) : C)
     rw [← hj_apply, IsLocalizedModule.linearEquiv_apply]
-    show algebraMap X.B' C (X.kernelEquiv n) = algebraMap X.B' C (e n)
+    change algebraMap X.B' C (X.kernelEquiv n) = algebraMap X.B' C (e n)
     rw [he_apply]
 
 /-- Precomposing a localization map with a multiplicative equivalence of its source gives a
@@ -469,13 +469,13 @@ private theorem isLocalizationMap_comp_mulEquiv
   · intro z
     obtain ⟨⟨a, t⟩, ht⟩ := hf.surj z
     refine ⟨⟨e.symm a, ⟨e.symm t, ?_⟩⟩, ?_⟩
-    · show e (e.symm t) ∈ T
+    · change e (e.symm t) ∈ T
       simp
     · simpa using ht
   · intro x y hxy
     obtain ⟨t, ht⟩ := hf.exists_of_eq hxy
     refine ⟨⟨e.symm t, ?_⟩, ?_⟩
-    · show e (e.symm t) ∈ T
+    · change e (e.symm t) ∈ T
       simp
     · apply e.injective
       simpa using ht
@@ -500,16 +500,16 @@ private theorem isLocalizedExtension_of_iso
   have hT : (S.comap X'.toB.toRingHom).comap eA.toRingEquiv.toMulEquiv.toMonoidHom =
       S.comap X.toB.toRingHom := by
     ext c
-    show X'.toB (eA c) ∈ S ↔ X.toB c ∈ S
+    change X'.toB (eA c) ∈ S ↔ X.toB c ∈ S
     rw [heq]
   refine ⟨f.comp eA.toAlgHom, ?_, ?_, ?_⟩
   · rw [← hT]
     exact isLocalizationMap_comp_mulEquiv _ _ hf eA.toRingEquiv.toMulEquiv
   · intro c
-    show Y.toB (f (eA c)) = _
+    change Y.toB (f (eA c)) = _
     rw [hfq, heq]
   · intro n
-    show f (e.toAlgEquiv (X.kernelEquiv n)) = _
+    change f (e.toAlgEquiv (X.kernelEquiv n)) = _
     rw [e.kernelEquiv_comm, hfn]
 
 /-- A lift from a presentation to an extension of `C` by `N` induces its relation map on the
@@ -530,7 +530,7 @@ private theorem exists_cotangentMap_of_lift_of_isScalarTower
   let : Module P.Ring N := Module.compHom N (algebraMap P.Ring B)
   let : IsScalarTower P.Ring B N := IsScalarTower.of_algebraMap_smul fun _ _ ↦ rfl
   have hmem (p : P.ker) : f p ∈ RingHom.ker X.toB.toRingHom := by
-    show X.toB (f p) = 0
+    change X.toB (f p) = 0
     rw [hf, p.property, map_zero]
   let l₀ : P.ker →ₗ[P.Ring] N :=
     { toFun := fun p ↦ X.kernelEquiv.symm ⟨f p, hmem p⟩
@@ -544,7 +544,7 @@ private theorem exists_cotangentMap_of_lift_of_isScalarTower
         apply X.kernelEquiv.injective
         apply Subtype.ext
         simp only [LinearEquiv.apply_symm_apply]
-        show f (a * p) = _
+        change f (a * p) = _
         rw [map_mul]
         have h := kernelEquiv_smul_toB X (f a) (X.kernelEquiv.symm ⟨f p, hmem p⟩)
         rw [LinearEquiv.apply_symm_apply] at h
@@ -552,7 +552,7 @@ private theorem exists_cotangentMap_of_lift_of_isScalarTower
         congr 2
         rw [hf]
         let m : N := X.kernelEquiv.symm ⟨f p, hmem p⟩
-        show (algebraMap B C (algebraMap P.Ring B a)) • m = (algebraMap P.Ring B a) • m
+        change (algebraMap B C (algebraMap P.Ring B a)) • m = (algebraMap P.Ring B a) • m
         exact IsScalarTower.algebraMap_smul (R := B) (A := C) (algebraMap P.Ring B a) m }
   have hl₀ (p : P.ker) : (X.kernelEquiv (l₀ p) : X.B') = f p :=
     congrArg Subtype.val (X.kernelEquiv.apply_symm_apply ⟨f p, hmem p⟩)
@@ -560,7 +560,7 @@ private theorem exists_cotangentMap_of_lift_of_isScalarTower
     apply X.kernelEquiv.injective
     apply Subtype.ext
     rw [hl₀, map_zero, Submodule.coe_zero]
-    show f (p * q) = 0
+    change f (p * q) = 0
     rw [map_mul]
     have h := Ideal.mul_mem_mul (hmem p) (hmem q)
     rw [← pow_two, X.sq_zero] at h
@@ -568,7 +568,7 @@ private theorem exists_cotangentMap_of_lift_of_isScalarTower
   let l₁ := (Ideal.Cotangent.lift l₀ hprod).comp P.cotangentEquivCotangentKer.toLinearMap
   let l := l₁.extendScalarsOfSurjective P.algebraMap_surjective
   refine ⟨l, fun p ↦ ?_⟩
-  show (X.kernelEquiv (Ideal.Cotangent.lift l₀ hprod
+  change (X.kernelEquiv (Ideal.Cotangent.lift l₀ hprod
     (P.ker.toCotangent p)) : X.B') = f p
   rw [Ideal.Cotangent.lift_toCotangent]
   exact hl₀ p
@@ -628,8 +628,8 @@ private theorem exists_cotangentSpaceMap_of_lift_difference
       IsScalarTower.toAlgHom k P.Ring (X.B' ⧸ I) := by
     ext p
     apply Ideal.Quotient.eq.mpr
-    show f p - g p ∈ I
-    show X.toB (f p - g p) = 0
+    change f p - g p ∈ I
+    change X.toB (f p - g p) = 0
     rw [map_sub, hf, hg, sub_self]
   let : Module P.Ring N := Module.compHom N (algebraMap P.Ring B)
   let : IsScalarTower P.Ring B N :=
@@ -637,7 +637,7 @@ private theorem exists_cotangentSpaceMap_of_lift_difference
   let : Module k N := Module.compHom N (algebraMap k B)
   let : IsScalarTower k P.Ring N := IsScalarTower.of_algebraMap_smul (by
     intro a n
-    show (algebraMap P.Ring B (algebraMap k P.Ring a)) • n =
+    change (algebraMap P.Ring B (algebraMap k P.Ring a)) • n =
       (algebraMap k B a) • n
     rw [← IsScalarTower.algebraMap_apply k P.Ring B])
   let eLin : N →ₗ[P.Ring] I :=
@@ -646,7 +646,7 @@ private theorem exists_cotangentSpaceMap_of_lift_difference
       map_smul' := by
         intro r n
         apply Subtype.ext
-        show (X.kernelEquiv ((algebraMap P.Ring B r) • n) : X.B') =
+        change (X.kernelEquiv ((algebraMap P.Ring B r) • n) : X.B') =
           g r * (X.kernelEquiv n : X.B')
         rw [← IsScalarTower.algebraMap_smul (R := B) (A := C)
           (algebraMap P.Ring B r) n, ← hg, kernelEquiv_smul_toB] }
@@ -660,7 +660,7 @@ private theorem exists_cotangentSpaceMap_of_lift_difference
     simp only [t, LinearMap.liftBaseChange_tmul, one_smul,
       Derivation.liftKaehlerDifferential_comp_D]
   rw [ht]
-  show ((e (dN p) : I) : X.B') = f p - g p
+  change ((e (dN p) : I) : X.B') = f p - g p
   rw [show e (dN p) = dI p from e.apply_symm_apply (dI p)]
   exact h
 

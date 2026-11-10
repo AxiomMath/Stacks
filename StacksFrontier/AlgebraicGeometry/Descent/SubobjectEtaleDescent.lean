@@ -112,7 +112,7 @@ theorem exists_comp_eq_snd_of_isPullback_map {b c v a : BigFppfOver B S hS} {k :
     have hβv := congrArg B.inclusion.map (Over.w β)
     simp only [Functor.map_comp] at hwv hβv
     rw [← hwv, ← Category.assoc]
-    show (γ₀ ≫ (BigFppfOver.toScheme B S hS).map w) ≫ _ = _
+    change (γ₀ ≫ (BigFppfOver.toScheme B S hS).map w) ≫ _ = _
     rw [h2]
     exact hβv
   obtain ⟨γ, hγ⟩ := BigFppfOver.exists_hom_of_comp_eq B S hS γ₀ hcompat
@@ -163,7 +163,7 @@ private theorem range_pullback_snd_le_range_yoneda_map (sq : IsPullback m r f (y
   have hβw : β ≫ w = pullback.snd s₀ q :=
     yoneda.map_injective (by rw [Functor.map_comp, hβmap, Category.assoc, he, hα2])
   refine ⟨β ≫ k, ?_⟩
-  show (β ≫ k) ≫ i = pullback.fst s₀ q ≫ s₀
+  change (β ≫ k) ≫ i = pullback.fst s₀ q ≫ s₀
   rw [Category.assoc, hcomm, ← Category.assoc, hβw, ← pullback.condition]
 
 /-- A morphism `l : X ×[Y] yoneda.obj a ⟶ yoneda.obj b` with `l ≫ yoneda.map i = pullback.snd f h`

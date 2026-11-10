@@ -12,7 +12,8 @@ are computed on K-flat complexes by those of complexes.
 ## Implementation notes
 
 This is the part of
-`StacksFrontier.CategoryTheory.Sites.Cohomology.Monoidal.DerivedTensorConstraints` that does not need
+`StacksFrontier.CategoryTheory.Sites.Cohomology.Monoidal.DerivedTensorConstraints` that does not
+need
 `C` to be a `SmallCategory.{u}`, for a site `C : Type c` with `[Category.{u} C]`; the statements
 and proofs are the same, in the namespace `Stacks.SheafOfModules.DerivedMonoidalGeneral`. This
 applies to the small étale ringed site of an algebraic space.

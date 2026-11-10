@@ -60,6 +60,7 @@ namespace AlgebraicGeometry.Space
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of systems of presheaves on the big fppf site is deep
 /-- Pullbacks of inverse systems of presheaves on the big fppf site (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_system_RelativeAmpleOpenLocusOfCutoffBoundedApproximation
@@ -171,7 +172,7 @@ theorem preservesLimit_toScheme_of_overLift_of_baseChangeSizeBounded {J : Type u
       ((c.π.app j).iSup_preimage_eq_top (iSup_affineOpens_eq_top _))).trans_lt ?_
     refine max_lt ((Scheme.mk_affineOpens_le_size _).trans_lt (W.obj j).left.property)
       ((ciSup_le' fun U => ?_).trans_lt hb)
-    show (AlgebraicGeometry.opensCone E c j U.1).pt.size ≤ _
+    change (AlgebraicGeometry.opensCone E c j U.1).pt.size ≤ _
     exact Scheme.size_le_of_isLimit_of_isAffine (AlgebraicGeometry.opensDiagram E j U.1)
       (fun k => U.2.preimage (E.map k.hom))
       (fun k => (Scheme.size_coe_opens_le _ _).trans (hμle k.left))

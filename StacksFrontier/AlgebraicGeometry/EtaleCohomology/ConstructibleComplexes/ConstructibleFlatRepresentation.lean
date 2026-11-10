@@ -115,7 +115,7 @@ theorem isRepresentedByConstructibleFlatEtaleComplex_of_isPerfect
     · exact P₀.prop_of_iso (e.unitIso.app V₁) hR
     · have hmap : ρ.map (e.functor.map g ≫ e.counitIso.hom.app V) =
           e.unitIso.inv.app V₁ ≫ g := by
-        show e.inverse.map _ = _
+        change e.inverse.map _ = _
         have h2 : e.unit.app (ρ.obj V) ≫ e.inverse.map (e.counitIso.hom.app V) = 𝟙 _ :=
           e.unit_inverse_comp V
         simp [Equivalence.inv_fun_map, h2]

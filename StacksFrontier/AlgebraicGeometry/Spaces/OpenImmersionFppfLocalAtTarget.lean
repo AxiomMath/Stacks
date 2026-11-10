@@ -75,6 +75,7 @@ universe u v
 namespace AlgebraicGeometry.Space
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site times out at the default
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 private instance hasPullbacks_presheaf_OpenImmersionFppfLocalAtTarget
@@ -88,6 +89,7 @@ private instance (priority := high) hasPullback_presheaf_OpenImmersionFppfLocalA
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits in the big fppf site times out at the default
 /-- Pullbacks in the big fppf site (instance search times out without this shortcut). -/
 private instance hasPullbacks_site_OpenImmersionFppfLocalAtTarget
     (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :

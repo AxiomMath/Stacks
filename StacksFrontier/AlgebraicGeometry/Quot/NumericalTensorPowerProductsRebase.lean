@@ -260,12 +260,12 @@ theorem bijective_pointsMap_rebaseSchemeSpaceIso_pointsRelocalize (U : BigFppfOv
   refine Function.bijective_iff_has_inverse.2
     ⟨pointsMap B S hS _ (relocalizeSchemeSpaceIso h U).inv.hom, fun y => ?_, fun y => ?_⟩
   · rw [← Function.comp_apply (f := pointsMap B S hS _ _), ← pointsMap_comp]
-    show pointsMap B S hS _
+    change pointsMap B S hS _
       ((relocalizeSchemeSpaceIso h U).hom ≫ (relocalizeSchemeSpaceIso h U).inv).hom y = y
     rw [Iso.hom_inv_id]
     exact congrFun (pointsMap_id B S hS _) y
   · rw [← Function.comp_apply (f := pointsMap B S hS _ _), ← pointsMap_comp]
-    show pointsMap B S hS _
+    change pointsMap B S hS _
       ((relocalizeSchemeSpaceIso h U).inv ≫ (relocalizeSchemeSpaceIso h U).hom).hom y = y
     rw [Iso.inv_hom_id]
     exact congrFun (pointsMap_id B S hS _) y

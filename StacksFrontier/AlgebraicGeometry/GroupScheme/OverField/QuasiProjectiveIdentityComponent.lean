@@ -124,7 +124,7 @@ theorem exists_rationalPoint_connectedComponents_mk [IsAlgClosed k]
   have hqy : q.1 (IsLocalRing.closedPoint k) = y := by
     simpa [q, pointEquivClosedPoint] using
       congrArg Subtype.val ((pointEquivClosedPoint G.X.hom).apply_symm_apply ⟨y, hyc⟩)
-  show _root_.ConnectedComponents.mk (q.1 (⊥ : PrimeSpectrum k)) = _root_.ConnectedComponents.mk x
+  change _root_.ConnectedComponents.mk (q.1 (⊥ : PrimeSpectrum k)) = _root_.ConnectedComponents.mk x
   rw [hbot, hqy]
   exact _root_.ConnectedComponents.coe_eq_coe'.mpr hyC
 
@@ -183,7 +183,7 @@ theorem isQuasiProjective_of_isQuasiProjective_identityComponent [IsAlgClosed k]
   have hiso : IsIso (Sigma.desc f) := by
     refine StacksTag09NE.isIso_sigmaDesc_of_disjointOpenCover _ f ?_ ?_
     · intro c c' hcc'
-      show Disjoint (Set.range (f c)) (Set.range (f c'))
+      change Disjoint (Set.range (f c)) (Set.range (f c'))
       rw [hrange, hrange]
       refine connectedComponent_disjoint fun heq => hcc' ?_
       rw [← hp c, ← hp c']
@@ -197,7 +197,7 @@ theorem isQuasiProjective_of_isQuasiProjective_identityComponent [IsAlgClosed k]
       exact ⟨c, z, hz⟩
   have hf : ∀ c, f c ≫ G.X.hom = H.carrier.X.hom := by
     intro c
-    show ι₀ ≫ (τ c).left ≫ G.X.hom = _
+    change ι₀ ≫ (τ c).left ≫ G.X.hom = _
     rw [Over.w (τ c)]
     exact hcomp
   have hsig : IsQuasiProjective (Sigma.desc fun c => f c ≫ G.X.hom) :=

@@ -388,13 +388,13 @@ theorem isIso_derivedComparison_app_single_of_affineBases (H : IsPullback g' f' 
   refine isIso_of_isIso_derivedPullback _ (fun p : AffinePair g => p.1.2)
     (isOpenCover_affinePairs g) ?_
   rintro ⟨⟨U, V⟩, hU, hV, hUV⟩
-  show IsIso ((modulePullback V.ι.toLRSHom.toShHom).rightDerivedFunctorPlus.map
+  change IsIso ((modulePullback V.ι.toLRSHom.toShHom).rightDerivedFunctorPlus.map
     ((derivedComparison G H.w hG).app
       ((DerivedCategory.Plus.singleFunctor
         (SheafOfModules.{u} (structureSheafRing X.toRingedSpace)) 0).obj F)))
   -- The inclusion of `f' ⁻¹ᵁ V` into `X` factors through `f ⁻¹ᵁ U`.
   have hpre : f' ⁻¹ᵁ (g ⁻¹ᵁ U) = g' ⁻¹ᵁ (f ⁻¹ᵁ U) := by
-    show (f' ≫ g) ⁻¹ᵁ U = (g' ≫ f) ⁻¹ᵁ U
+    change (f' ≫ g) ⁻¹ᵁ U = (g' ≫ f) ⁻¹ᵁ U
     rw [H.w]
   have hUVle : f' ⁻¹ᵁ V ≤ g' ⁻¹ᵁ (f ⁻¹ᵁ U) := hpre ▸ f'.preimage_mono hUV
   -- The restricted square is cartesian.

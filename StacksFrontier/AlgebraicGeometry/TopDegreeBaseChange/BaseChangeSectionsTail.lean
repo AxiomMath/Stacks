@@ -101,7 +101,8 @@ here**: `Stacks.EdgeCompat.singleCompDerived_hom_app_comp_rightDerivedCompNatIso
 (`EdgeCompatCollapseMirror.lean`), which turns the edge morphism of `Rh_*` together with the two
 model crossings into [Stacks, Tag 01XK]'s `Stacks.Cohomology.AffineBase.rightDerivedCompNatIso`,
 and `Stacks.Cohomology.DerivedBaseChange.derivedPushforwardComparisonSquare_comp_lerayComposite`
-(`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/BaseChangeComparisonSections.lean`), which is the comparison of the two
+(`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/BaseChangeComparisonSections.lean`),
+which is the comparison of the two
 iterated derived pushforwards read on derived sections over the two intermediate opens `f'⁻¹(V)`
 and `h⁻¹(V) ⊇ W`. This paragraph only names the ingredients; it does not perform the chase.
 
@@ -147,7 +148,8 @@ crossing of the two models of the iterated derived functor of `Γ(V, -) ∘ f_*`
 Grothendieck's comparison of [Stacks, Tag 01XK] inverted, is `H^n` of the Leray comparison, the
 edge morphism of `RΓ(V, -)`, and `Γ(V, -)` of the crossing for `Rf_*`. And
 `Stacks.Cohomology.DerivedBaseChange.derivedPushforwardComparisonSquare_comp_lerayComposite`
-(`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/BaseChangeComparisonSections.lean`) is the same for
+(`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/BaseChangeComparisonSections.lean`)
+is the same for
 `Stacks.Cohomology.DerivedBaseChange.Mate.derivedPushforwardComparisonSquare`.
 
 *What the chase still owes.* Every ingredient is available, but the identity itself is not
@@ -199,7 +201,8 @@ the next two factors consume.
   is needed anywhere in this factor, and `isLE_derivedPushforward_baseChange` is not used.
 * `Γ(V, h_*(-))` of the crossing at `f''`, and the restriction from `h⁻¹V` to `W`:
   `Stacks.Cohomology.DerivedSectionsLeray.lerayComparison_restrict`
-  (`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/LerayRestrictSections.lean`) is the restriction of the Leray comparison, and the crossing at
+  (`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/LerayRestrictSections.lean`) is
+  the restriction of the Leray comparison, and the crossing at
   `f''` is the first factor again, at `f''` over `W`. The intermediate step it needs is as follows.
   What the previous three factors leave in front of this one is the edge morphism of `RΓ(h⁻¹V, -)`
   at `K`, and the crossing at `f''` over `W` meets the edge morphism of `RΓ(W, -)`; getting from
@@ -213,7 +216,8 @@ the next two factors consume.
   morphism is natural in the **functor**, along any natural transformation of two left exact
   additive functors with compatible right derived functors. That chain is stated at the
   generality the edge morphism is defined at, in
-  `StacksFrontier/CategoryTheory/Sites/Cohomology/HypercohomologyEdge/EdgeMorphismOnARingedSite.lean` —
+ `StacksFrontier/CategoryTheory/Sites/Cohomology/HypercohomologyEdge/EdgeMorphismOnARingedSite.lean`
+  —
   `Stacks.Cohomology.HypercohomologyEdge.HomologyComparison`
   `.cyclesComparison_naturality_natTrans` and `.homologyComparison_naturality_natTrans`
   degreewise, `.homologyComparisonNatTrans_naturality_natTrans` at the transformation level,
@@ -244,9 +248,12 @@ genuine `β` is part of step 2, not of step 1.
 `derivedPushforwardComparisonSquare_comp_lerayComposite` is exactly the Mate-square reading that
 unfolding `β` needs, and it is what the unfolding uses:
 `Stacks.Cohomology.DerivedBaseChange.homology_map_derivedPushforwardComparisonSquare_eq_leray`
-`Composite` (`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/BaseChangeComparisonSectionsHomology.lean`), through its
+`Composite` (
+`…/Topology/Sheaves/Cohomology/DerivedPushforward/BaseChangeComparisonSectionsHomology.lean`),
+through its
 object-level form `…derivedPushforwardComparisonSquare_app_comp_lerayComposite`
-(`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/BaseChangeComparisonSections.lean`, the file's own `_app_comp_leray` one
+(`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/BaseChangeComparisonSections.lean`,
+the file's own `_app_comp_leray` one
 step further along). See step 2a below.
 
 What the tail owes, in order. Steps 1 and 2a are **performed**; steps 2b and 3 are not:
@@ -345,7 +352,8 @@ What the tail owes, in order. Steps 1 and 2a are **performed**; steps 2b and 3 a
    * **The general brick**, which is what decides the route.
      `Stacks.Cohomology.HypercohomologyEdge.HomologyComparison.exactPostcomposeUnit` and
      `…isRightDerivedFunctor_exactPostcomposeUnit`
-     (`StacksFrontier/CategoryTheory/Sites/Cohomology/HypercohomologyEdge/EdgeMorphismExactFunctor.lean`) are the one statement that for `F`
+(`StacksFrontier/CategoryTheory/Sites/Cohomology/HypercohomologyEdge/EdgeMorphismExactFunctor.lean`)
+     are the one statement that for `F`
      additive with a right derived functor `RF` and `G` **exact**, `RF ⋙ G.mapDerivedCategory`
      is a right derived functor of `F ⋙ G`.
      `Stacks.EdgeCompat.sectionsOverOpenRestrictCompUnit` and
@@ -468,7 +476,9 @@ What the tail owes, in order. Steps 1 and 2a are **performed**; steps 2b and 3 a
    a. *Reading `β` — **performed**.* The factor step 1 leaves in front of the edge morphism of
       `RΓ(h⁻¹V, -)` is `H^d(RΓ(V, β))` followed by the Leray inverse, with `β` a **variable**.
       `Stacks.Cohomology.DerivedBaseChange.homology_map_derivedPushforwardComparisonSquare_eq`
-      `_lerayComposite` (`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/BaseChangeComparisonSectionsHomology.lean`) reads it
+      `_lerayComposite` (
+      `…/Topology/Sheaves/Cohomology/DerivedPushforward/BaseChangeComparisonSectionsHomology.lean`)
+      reads it
       at the genuine `β` — `Rf'_*(c)` followed by the Mate square, where `c` is the comparison
       `(h'_*(h')^* F')[0] ⟶ Rh'_*(((h')^* F')[0])` of the two models of `Rh'_*` that
       `derivedAdjunction_unit_comp_map_derivedToOrdinary_eq_single_unit` exhibits. Prefixed by the
@@ -578,7 +588,8 @@ What the tail owes, in order. Steps 1 and 2a are **performed**; steps 2b and 3 a
       the Leray comparison of [Stacks, Tag 0D5W] with **restriction to an open subscheme** —
       `lerayComparison (f ∣_ V) ⊤` against `lerayComparison f V`, and
       `Stacks.DerivedFunctor.singleCompDerivedCompHomologyIsoRightDerived` at the two pairs
-      likewise. `…DerivedSectionsLeray.lerayComparison_restrict` (`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/LerayRestrictSections.lean:439`)
+      likewise. `…DerivedSectionsLeray.lerayComparison_restrict`
+    (`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/LerayRestrictSections.lean:439`)
       is the compatibility at two opens of **one** base, not across an open immersion. *Of those
       two, the Leray one is available at both the `∣_` and the `resLE` shape and the
       `singleCompDerivedCompHomologyIsoRightDerived` one is still absent; step 2b.3 below
@@ -682,7 +693,8 @@ What the tail owes, in order. Steps 1 and 2a are **performed**; steps 2b and 3 a
          Leray comparisons are `CategoryTheory.Functor.rightDerivedDesc`s of their units, so the
          comparison of their sources is an equality of two transformations out of
          `derivedPreimageSections f V` and `…DerivedSectionsLeray.lerayComparison_ext` applies.
-         `StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/LerayRestrictSections.lean` is the template one-for-one: a `…HomotopyIso` splitting the
+         `StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/LerayRestrictSections.lean`
+         is the template one-for-one: a `…HomotopyIso` splitting the
          composite off the homotopy category, a `…Unit`, the `rightDerivedDesc`, and `…_fac_app`
          with its `…_fac_app_comp` form. Two are needed and both are proved, out of the two right
          derived functors of the **same** degreewise sections functor, and into the **same**
@@ -814,7 +826,8 @@ What the tail owes, in order. Steps 1 and 2a are **performed**; steps 2b and 3 a
          `…HigherDirectImage.moduleRestriction` and 08FE's instantiations are written with
          `RingedSpaceModuleAdjunction.modulePullback`. The two are isomorphic by
          `Stacks.Cohomology.ClosedSupportPerfect.pullbackOpenRestrictionIso`
-         (`StacksFrontier/Topology/Sheaves/Cohomology/PerfectComplexes/ClosedSupportPerfect.lean:249`, both are left adjoint to the
+       (`StacksFrontier/Topology/Sheaves/Cohomology/PerfectComplexes/ClosedSupportPerfect.lean:249`,
+         both are left adjoint to the
          pushforward), and that file already carries the derived packaging at the `modulePullback`
          spelling — `derivedRestrictionAlongOpen`, `derivedRestrictionAlongOpenUnit` and
          `derivedRestrictionAlongOpen_isRightDerived`.
@@ -841,7 +854,8 @@ What the tail owes, in order. Steps 1 and 2a are **performed**; steps 2b and 3 a
 
          *The isomorphism those two whiskerings use.*
          `Stacks.Cohomology.DerivedOpenImmersion.derivedPullbackModuleRestrictionIso`
-         (`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPullback/OpenImmersionRestriction.lean:157`) is
+    (`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPullback/OpenImmersionRestriction.lean:157`)
+         is
          `derivedPullback (X.ofRestrict U.isOpenEmbedding) ≅ (moduleRestriction X U)`
          `.mapDerivedCategory` — precisely the `modulePullback → moduleRestriction` bridge at the
          derived level, with the companion `…derivedPullbackOpenRestrictionIso` at the
@@ -883,7 +897,8 @@ What the tail owes, in order. Steps 1 and 2a are **performed**; steps 2b and 3 a
          *A route not taken.* The same bridge at
          ringed-space generality — `derivedPushforwardRestrictIso` instantiated at
          `derivedRestrictionAlongOpen`, whose units and `IsRightDerivedFunctor` instance
-         `StacksFrontier/Topology/Sheaves/Cohomology/PerfectComplexes/ClosedSupportPerfect.lean` already carries, then whiskered by
+         `StacksFrontier/Topology/Sheaves/Cohomology/PerfectComplexes/ClosedSupportPerfect.lean`
+         already carries, then whiskered by
          `derivedRestrictionAlongOpen X U ≅ (moduleRestriction X U).mapDerivedCategory` — also
          elaborates, and so does its scheme instantiation, but the latter needs
          `attribute [local instance 10000] HasDerivedCategory.standard` (at the default priority
@@ -927,7 +942,8 @@ What the tail owes, in order. Steps 1 and 2a are **performed**; steps 2b and 3 a
       exists at two spellings: `AlgebraicGeometry.AffinePushforward.restrictPushforwardIso`
       (`AffinePushforward/Basic.lean:95`, the `Scheme.Modules` spelling) and
       `Stacks.Cohomology.HigherDirectImage.modulePushforwardRestrictIso`
-      (`StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/LocalizationComparison.lean:366`, the ringed-space spelling), each with
+    (`StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/LocalizationComparison.lean:366`,
+      the ringed-space spelling), each with
       its own four-factor construction; the second is the one the crossing above uses, because only
       it carries the characterising `…_hom_app_val_app`.
 
@@ -966,7 +982,8 @@ What the tail owes, in order. Steps 1 and 2a are **performed**; steps 2b and 3 a
       *Where that second passage sits.* 2a's right-hand side does **not** end at
       `h'⁻¹(f'⁻¹V)`. Its last factor is `(lerayCompositeComparison f'' h V).app M`, and
       `Stacks.Cohomology.DerivedSectionsLeray.lerayCompositeComparison i p V`
-      (`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/LerayCompositeSections.lean:125`) has type
+   (`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/LerayCompositeSections.lean:125`)
+      has type
       `derivedPreimageSections (i ≫ p) V ⟶ derivedPushforward i ⋙ derivedPreimageSections p V`,
       so at `(i, p) = (f'', h)` its target is derived sections over `h⁻¹V` — **downstairs on
       `Y''`** — of `Rf''_* M`. That is what step 2a's own paragraph above says ("its right-hand
@@ -987,7 +1004,8 @@ What the tail owes, in order. Steps 1 and 2a are **performed**; steps 2b and 3 a
 
       The **absolute** form of that compatibility is available and unconditional:
       `Stacks.Cohomology.DerivedSectionsLeray.lerayComparison_restrict`
-      (`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/LerayRestrictSections.lean:439`), at `f := f''` and the opens `W ≤ h⁻¹V` of `Y''`, with no
+   (`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/LerayRestrictSections.lean:439`),
+      at `f := f''` and the opens `W ≤ h⁻¹V` of `Y''`, with no
       hypothesis on the morphism, the opens or the degree. Its **relative** form — the same
       statement for `lerayCompositeComparison i p V`, where the target's second factor is
       `preimageSections p V` read over `Γ(V, 𝒪_{Y'})` rather than `sectionsOverOpen Y'' (h⁻¹V)`
@@ -1076,7 +1094,9 @@ What the tail owes, in order. Steps 1 and 2a are **performed**; steps 2b and 3 a
       `Stacks.Cohomology.DerivedSectionsLeray.preimageSectionsCompRestrictSourceUnit`,
       `…derivedPreimageSectionsCompRestrictSource` and its `…_fac_app` (with the `…_fac_app_comp`
       form a rewrite uses), and the identity itself is `lerayComparison_ext` on the composite
-      with the three degreewise helpers `StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/LerayRestrictSections.lean` carries for the absolute
+      with the three degreewise helpers
+      `StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/LerayRestrictSections.lean`
+      carries for the absolute
       case, one for one.
 
       *One elaboration pitfall.* Moving the two model comparisons past the image of the
@@ -1142,7 +1162,9 @@ What the tail owes, in order. Steps 1 and 2a are **performed**; steps 2b and 3 a
       * `Stacks.DerivedIndexing.rightDerivedIso` (`Homology/DerivedIndexing/Basic.lean:474`) has
         its crossing into the sections model twice — in general as
         `Stacks.DerivedFunctor.singleCompDerivedCompHomologyIsoRightDerived_hom_app_comp`
-        `_rightDerivedIso` (`StacksFrontier/Algebra/Homology/DerivedCategory/SingleRightDerivedViaPlus.lean:282`), and at the direct image over an
+        `_rightDerivedIso`
+        (`StacksFrontier/Algebra/Homology/DerivedCategory/SingleRightDerivedViaPlus.lean:282`), and
+        at the direct image over an
         open as `…TopDegreeBaseChange.sectionsOverOpenHomologyComparison_comp_map`
         `_homologyFunctorDerivedPushforwardIso_hom_eq` (`TopDegreeCrossingSections.lean:111`) — and
         its ℕ-versus-ℤ bridge at 01XK over `V` is `…affineOpenCohomologyNatIso`
@@ -1182,7 +1204,8 @@ What the tail owes, in order. Steps 1 and 2a are **performed**; steps 2b and 3 a
          (`Duality/ResLEUnitSections.lean:103`) records that on the underlying morphisms of ringed
          spaces by `rfl`. So the tail's 089W morphism factors through an open immersion, and
          `Stacks.Cohomology.DerivedSectionsLeray.lerayComparison_comp`
-         (`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/LerayCompositeSections.lean:335`) — the Leray comparison of a **composite**, with no
+   (`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/LerayCompositeSections.lean:335`)
+         — the Leray comparison of a **composite**, with no
          hypothesis on either factor — applies at the pair
          `((f''⁻¹W ↪ h'⁻¹(f'⁻¹V)), h' ∣_ (f'⁻¹V))` over `⊤` of `(f'⁻¹V : Scheme)` **with its
          source displayed at the `resLE` spelling and no transport anywhere**: the statement so
@@ -1295,10 +1318,13 @@ What the tail owes, in order. Steps 1 and 2a are **performed**; steps 2b and 3 a
          restriction vocabulary above, with the **pullback** vocabulary (`derivedPullback`,
          `openImmersion`, `extensionByZero`, `ofRestrict`, `localization`), or with the tags
          `089W`, `01E5`, `08FE` or `0D5W` (except one docstring line of
-         `StacksFrontier/CategoryTheory/Sites/Cohomology/HypercohomologyEdge/EdgeMorphismExtend.lean`). Exactly five declarations carry the brick's name — the def
-         (`StacksFrontier/Algebra/Homology/DerivedCategory/DerivedFunctorSingleRightDerived.lean:192`), `…_hom_app_res` (:221),
+      `StacksFrontier/CategoryTheory/Sites/Cohomology/HypercohomologyEdge/EdgeMorphismExtend.lean`).
+         Exactly five declarations carry the brick's name — the def
+      (`StacksFrontier/Algebra/Homology/DerivedCategory/DerivedFunctorSingleRightDerived.lean:192`),
+         `…_hom_app_res` (:221),
          `…_hom_app_comp_rightDerivedIso` and `…_hom_app`
-         (`StacksFrontier/Algebra/Homology/DerivedCategory/SingleRightDerivedViaPlus.lean:282,326`) and `…_hom_app_eq`
+         (`StacksFrontier/Algebra/Homology/DerivedCategory/SingleRightDerivedViaPlus.lean:282,326`)
+         and `…_hom_app_eq`
          (`TopDegreeCrossingSingleModel.lean:89`) — and every one of them has a
          **single** `w`. The two two-functor statements that exist are both **post**composition,
          `w` being the inner factor of `F ⋙ G`:
@@ -1318,19 +1344,25 @@ What the tail owes, in order. Steps 1 and 2a are **performed**; steps 2b and 3 a
            exact and `L.PreservesInjectiveObjects` and `G` merely additive, through `mapInjRes`
            (:126); with the component lemmas `compRightDerivedNatIso_hom_app`,
            `…_hom_app_mapInjRes`, `…_hom_app_eq` and `…_hom_app_eq_of_desc`
-           (`StacksFrontier/Topology/Sheaves/Cohomology/DerivedFunctors/CompositeComparisonOnResolutions.lean:165,322,249,342`), the
+           (`…/Topology/Sheaves/Cohomology/DerivedFunctors/CompositeComparisonOnResolutions.lean`,
+           lines 165, 322, 249, 342), the
            composition law `compRightDerivedNatIso_comp`
-           (`StacksFrontier/Topology/Sheaves/Cohomology/DerivedFunctors/CompositeRightDerivedTransitivity.lean:121`), and the two-engine
+           (
+        `…/Topology/Sheaves/Cohomology/DerivedFunctors/CompositeRightDerivedTransitivity.lean:121`),
+           and the two-engine
            transitivity `rightDerivedCompIso_comp_compRightDerivedNatIso_app`
-           (`StacksFrontier/Topology/Sheaves/Cohomology/DerivedFunctors/TwoEngineTransitivity.lean:167`). **Mathlib has nothing of the kind**
+      (`StacksFrontier/Topology/Sheaves/Cohomology/DerivedFunctors/TwoEngineTransitivity.lean:167`).
+           **Mathlib has nothing of the kind**
            — no Grothendieck spectral sequence, no composition result for `Functor.rightDerived`
            — so this is the library's own.
          * `Stacks.Cohomology.HigherDirectImage.moduleRestriction_preservesInjectiveObjects`
-           (`StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/LocalizationIsomorphisms.lean:131`), carrying `@[stacks 01E1]`, is
+ (`StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/LocalizationIsomorphisms.lean:131`),
+           carrying `@[stacks 01E1]`, is
            an **instance**: restriction of sheaves of modules to an open subspace preserves
            injectives, by the adjunction `j_! ⊣ j^*` with `j_!` preserving monomorphisms. Nothing
            is assumed of the space or the open. Its `OfLE` sibling is at
-           `StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/LocalizationNaturality.lean:224`, and that one's own docstring says
+     `StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/LocalizationNaturality.lean:224`,
+           and that one's own docstring says
            it exists in order to feed `compRightDerivedNatIso`.
          * `CategoryTheory.Functor.mapDerivedCategorySingleFunctor` is **Mathlib's**
            (`Mathlib/Algebra/Homology/DerivedCategory/ExactFunctor.lean:111`):
@@ -1441,7 +1473,9 @@ What the tail owes, in order. Steps 1 and 2a are **performed**; steps 2b and 3 a
 
          1. *the `D(A)`-identity* — **performed**, as
             `Stacks.Cohomology.DerivedCompTransport.mapDerivedCategory_map_singleIsoResCompQh_hom`
-            `_app_comp_factorsh` (`StacksFrontier/Topology/Sheaves/Cohomology/DerivedFunctors/CompositeSingleModelCrossing.lean`) —
+            `_app_comp_factorsh`
+    (`StacksFrontier/Topology/Sheaves/Cohomology/DerivedFunctors/CompositeSingleModelCrossing.lean`)
+            —
             `r.mapDerivedCategory.map ((singleIsoResCompQh (A := C)).hom.app X)`
             `≫ mdcf.hom.app (resH.obj X) = mdcSF.hom.app X ≫ (singleIsoResCompQh (A := A)).hom.app`
             `(r.obj X) ≫ Qh.map (quotient.map (extendResolutionComparison r X))`. This is the
@@ -1547,7 +1581,8 @@ What the tail owes, in order. Steps 1 and 2a are **performed**; steps 2b and 3 a
          heartbeat timeout.
 
          *Two variable-level shapes are duplicated.*
-         `StacksFrontier/Topology/Sheaves/Cohomology/DerivedFunctors/CompositeSingleModelCrossing.lean`'s private `inv_comp_square` is
+    `StacksFrontier/Topology/Sheaves/Cohomology/DerivedFunctors/CompositeSingleModelCrossing.lean`'s
+         private `inv_comp_square` is
          `EdgeCompatCollapseMirror.lean`'s private `inv_comp_of_comp_eq`, and the `hz` argument of
          its private `derived_left` does what that file's private `id_comp_of_eq_id` does. Both
          originals are `private`, so neither is usable from another module; both shapes belong in
@@ -1591,13 +1626,15 @@ What the tail owes, in order. Steps 1 and 2a are **performed**; steps 2b and 3 a
          that factor is `(derivedPreimageSectionsCompIso h' S.f' V).hom.app M`, the inverse of the
          **relative** Leray comparison `…DerivedSectionsLeray.lerayCompositeComparison h' S.f' V`.
          *The direction matters* (see the occurrence at
-         `StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/BaseChangeComparisonSectionsHomology.lean:187:14`). It is
+ `…/Topology/Sheaves/Cohomology/DerivedPushforward/BaseChangeComparisonSectionsHomology.lean:187:14`
+         ). It is
          `derivedPreimageSectionsCompIso i p V`, not `lerayCompositeComparison i p V`, that has
          type `Rh'_* ⋙ derivedPreimageSections f' V ≅ derivedPreimageSections (h' ≫ f') V`; the
          comparison itself runs
          `lerayCompositeComparison i p V : derivedPreimageSections (i ≫ p) V ⟶`
          `derivedPushforward i ⋙ derivedPreimageSections p V`
-         (`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/LerayCompositeSections.lean:125`), and the iso is literally
+  (`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/LerayCompositeSections.lean:125`),
+         and the iso is literally
          `(asIso (lerayCompositeComparison i p V)).symm` (:370). Both are valued in
          `D(ModuleCat Γ(Y', V))`. The **absolute** `lerayComparison h' (f'⁻¹V)` — which is what the
          compatibility above and point 2 produce — has type
@@ -1842,7 +1879,8 @@ is, in the order a chase meets it:
 
    *An alternative route, and an elaboration caveat.*
    `StacksDraft.DerivedModel.rightDerivedModelIso` (`Homology/DerivedCategory/`
-   `StacksFrontier/Homology/DerivedCategory/ModelComparisonTransport.lean`) is the general "a total right derived functor read at two
+   `StacksFrontier/Homology/DerivedCategory/ModelComparisonTransport.lean`) is the general "a total
+   right derived functor read at two
    models" and would also give it in one application — but it requires the comparison of the two
    **targets** to be an equivalence, and `ModuleCat.restrictScalars`
    `(Scheme.Opens.topIso U).inv.hom` carries no `.IsEquivalence` instance,
@@ -1901,7 +1939,8 @@ is, in the order a chase meets it:
    (`…openSubschemeTopRestrictScalars_eq`), so no second construction is hidden.
 
    *Two general transports of `exactPostcomposeUnit`*, in
-   `StacksFrontier/CategoryTheory/Sites/Cohomology/HypercohomologyEdge/EdgeMorphismExactFunctorTransport.lean`, are used because the gluing needs
+   `…/CategoryTheory/Sites/Cohomology/HypercohomologyEdge/EdgeMorphismExactFunctorTransport.lean`,
+   are used because the gluing needs
    to move a transformation past that unit twice over:
    `…HomologyComparison.exactPostcomposeUnit_comp` — postcomposing a comparison `RF ⟶ RF'` of the
    two right derived functors upstairs, with `RF'` not assumed to be a right derived functor of
@@ -2036,7 +2075,8 @@ geometry: both tails are the *same* two-step postcomposition of the unit of `RΓ
 -)` by the two exact restrictions of scalars, taken in the two possible orders — precomposing the
 restriction `r` to the open subscheme first, or postcomposing the scalars first. That is one
 statement at variables of abstract categories, and it is proved in
-`StacksFrontier/CategoryTheory/Sites/Cohomology/HypercohomologyEdge/EdgeMorphismExactFunctorTransport.lean` beside the two transports that file
+`…/CategoryTheory/Sites/Cohomology/HypercohomologyEdge/EdgeMorphismExactFunctorTransport.lean`
+beside the two transports that file
 already carried (axioms: `propext`, `Classical.choice`, `Quot.sound`):
 
 * `Stacks.Cohomology.HypercohomologyEdge.HomologyComparison.exactPostcomposeUnit_precompose`: for
@@ -2990,7 +3030,9 @@ component being `CategoryTheory.ShortComplex.mapHomologyIso` for `G` on the degr
 complex of the image under `F` of the **chosen** injective resolution of `E.obj X` — there is no
 universal property to extend along, so `CategoryTheory.Functor.rightDerived_ext` is unavailable
 and the square has to be checked componentwise. The handle for that is
-`…AffineBase.rightDerivedCompNatIso_hom_app` (`StacksFrontier/AlgebraicGeometry/AffineCohomologyVanishing/AffineBaseComposition.lean`) prints the component
+`…AffineBase.rightDerivedCompNatIso_hom_app`
+(`StacksFrontier/AlgebraicGeometry/AffineCohomologyVanishing/AffineBaseComposition.lean`) prints the
+component
 as that `mapHomologyIso` inverted, conjugated by
 `CategoryTheory.InjectiveResolution.isoRightDerivedObj` for `F` and for `F ⋙ G`. So the square
 reduces to comparing `mapHomologyIso` on two short complexes built from **two different chosen
@@ -3003,7 +3045,8 @@ The library otherwise has only the **complex**-level statement,
 `ExtensionByZeroModules.isKInjective_jStar` ([Stacks, Tag 08BS]), which is about K-injectivity of
 a complex and does not give injectivity of an object; the object-level statement is
 `ExtensionByZeroModules.preservesInjectiveObjects_jStar`
-(`StacksFrontier/Topology/Sheaves/Cohomology/ExtensionByZero/RestrictionOfKInjectives.lean`), with nothing assumed of the space, the open or
+(`StacksFrontier/Topology/Sheaves/Cohomology/ExtensionByZero/RestrictionOfKInjectives.lean`), with
+nothing assumed of the space, the open or
 the sheaf of rings (axioms: `propext`, `Classical.choice`, `Quot.sound`). It is one line:
 `CategoryTheory.Functor.preservesInjectiveObjects_of_isExact` at the adjunction `j_! ⊣ j^*`, whose
 exactness is available — `…jShriek_additive`, `…jShriek_preservesFiniteLimits`,
@@ -3054,7 +3097,8 @@ one's `hv`; no factor of the join is unfolded and neither model comparison, neit
 
 1. **The single-functor crossing is not part of it.** The description above says the passage
    needs "a single-functor crossing to reach the module the `ψ` side's `lInv` sits at".
-   It does not: the passage is stated at an **arbitrary** object `K` of `D(𝒪_Z)`, where `lInv` is simply asked for
+   It does not: the passage is stated at an **arbitrary** object `K` of `D(𝒪_Z)`, where `lInv` is
+   simply asked for
    at `(lerayComparison (i.resLE (p⁻¹V) U e) ⊤).app ((openSubschemeRestrictionOf Z U)`
    `.mapDerivedCategory.obj K)`, and no `CategoryTheory.Functor.mapDerivedCategorySingleFunctor`
    appears anywhere in it. That crossing is needed where the passage meets
@@ -3100,7 +3144,8 @@ or of `n` (axioms: `propext`, `Classical.choice`, `Quot.sound`). The passage is 
 nothing else**: no transformation is built, nothing is inverted and no `rightDerivedDesc` is taken.
 
 *It uses one general brick.*
-`StacksFrontier/Homology/DerivedCategory/MapHomologyIso.lean` carries two readings of `mapDerivedCategoryHomologyIso`'s naturality
+`StacksFrontier/Homology/DerivedCategory/MapHomologyIso.lean` carries two readings of
+`mapDerivedCategoryHomologyIso`'s naturality
 besides `map_homologyFunctor_map`:
 `StacksDraft.DerivedCategoryHomology.homologyFunctor_map_mapDerivedCategory_map` — the same
 naturality solved for the cohomology of the **image** rather than for the image of the cohomology,
@@ -3182,7 +3227,9 @@ morphism and no pushforward in it, so it is not this comparison.
 `((f' ∣_ V), ⊤)`. Getting from the one to the other is **not** a new transport but
 `Stacks.Cohomology.HypercohomologyEdge.HomologyComparison`
 `.derivedHomologyComparison_naturality_natTrans`
-(`StacksFrontier/CategoryTheory/Sites/Cohomology/HypercohomologyEdge/EdgeMorphismOnARingedSite.lean:579`) at the **identity** transformation of
+(
+`…/CategoryTheory/Sites/Cohomology/HypercohomologyEdge/EdgeMorphismOnARingedSite.lean:579`)
+at the **identity** transformation of
 the degreewise functor — both `…DerivedSectionsLeray.lerayUnit f V` and
 `…TopDegreeBaseChange.openSubschemeLerayUnit f V` are units of right derived functors of the
 **same** degreewise `preimageSections f V`, the latter built through the degreewise iso
@@ -3333,7 +3380,8 @@ it**, not a way round it.
   ambient side; it does not remove it.
 * *And the square meets [Stacks, Tag 01E5] at the CHOSEN injective resolutions, which is where
   `preservesInjectiveObjects_jStar` is spent.* `…AffineBase.rightDerivedCompNatIso_hom_app`
-  (`StacksFrontier/AlgebraicGeometry/AffineCohomologyVanishing/AffineBaseComposition.lean`) prints each collapse through
+  (`StacksFrontier/AlgebraicGeometry/AffineCohomologyVanishing/AffineBaseComposition.lean`) prints
+  each collapse through
   `CategoryTheory.injectiveResolution (E.obj Z)` — on the ambient side the chosen resolution of
   `M` on `X`, on the open-subscheme side the chosen resolution of `(openSubschemeRestriction f V)`
   `.obj M` on `f⁻¹V`, those being the two index functors the two statements are written at
@@ -3357,7 +3405,8 @@ it**, not a way round it.
     `ExtensionByZeroModules.jStar` at the structure sheaf (`infer_instance` finds it).
   * `Stacks.Cohomology.HigherDirectImage.restrictChosenResolutionComparison` and
     `…higherDirectImageRestrictIso_chosenResolution`
-    (`StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/RestrictionOfChosenResolutions.lean`) — [Stacks, Tag 01E5] in degree `p`
+(`StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/RestrictionOfChosenResolutions.lean`)
+    — [Stacks, Tag 01E5] in degree `p`
     at the two chosen resolutions, with nothing assumed of `f`, of `V`, of `M` or of `p`. Its last
     factor is `CategoryTheory.ShortComplex.mapHomologyIso` for `moduleRestriction Y V` on the
     degree-`p` short complex of the image under `f_*` of the chosen resolution of `M` — which is
@@ -3384,14 +3433,17 @@ chosen-resolution formulas are in
   and `…_eq_of_desc` says the answer does not depend on the triple;
 * `…DerivedCompTransport.compRightDerivedNatIso_hom_app_mapInjRes` is the same off `I` alone;
 * `Stacks.Cohomology.HigherDirectImage.compRightDerivedNatIso_inv_app_eq`
-  (`StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/LocalizationOnResolutions.lean`) is that reading inverted.
+  (`StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/LocalizationOnResolutions.lean`) is
+  that reading inverted.
 
 What is additionally needed is the formula **at the
 direction in which the comparison of chosen resolutions points**.
 `compRightDerivedNatIso_hom_app_eq`'s comparison runs from `L(I)` **into** `J`, while
 `CategoryTheory.InjectiveResolution.desc` — hence `restrictChosenResolutionComparison`, and the
 clause `CategoryTheory.InjectiveResolution.desc_mapOfPreservesInjectives_f_zero` certifies — runs
-**out of** the chosen `J`. `StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/LocalizationOnResolutions.lean`'s own implementation note describes
+**out of** the chosen `J`.
+`StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/LocalizationOnResolutions.lean`'s own
+implementation note describes
 the route for that direction, `compRightDerivedNatIso_inv_app_eq` together with
 `…DerivedCompTransport.isoRightDerivedObj_hom_eq`, and performs it inside a proof rather than as a
 declaration a chase could rewrite with.
@@ -3401,7 +3453,8 @@ throughout):
 
 * `Stacks.Cohomology.HigherDirectImage.restrictChosenResolutionComparison_ι_f_zero` and
   `…HigherDirectImage.compRightDerivedNatIso_inv_app_chosenResolution`
-  (`StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/SourceEdgeChosenResolutions.lean`) — **the source edge at the two chosen
+  (`StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/SourceEdgeChosenResolutions.lean`)
+  — **the source edge at the two chosen
   resolutions, in the spelling [Stacks, Tag 01E5] is itself built from.** For an additive `P` out
   of the modules on `V`, the component at `M` of 01E1's collapse at the pair
   `((-|_{f⁻¹V}), (f ∣ V)_* ⋙ P)`, inverted, is the computation on the chosen resolution of
@@ -3412,7 +3465,9 @@ throughout):
 * `Stacks.RightDerivedComp.objIso_inv_eq` (`Homology/CompositeCollapseChosenResolution.lean`) and
   `Stacks.Cohomology.HigherDirectImage.restrictCollapse_inv_eq` with
   `…HigherDirectImage.isZero_rightDerived_moduleRestriction`
-  (`StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/RestrictionCollapseChosenResolutions.lean`) — the same at the **objectwise,
+  (
+  `…/Topology/Sheaves/Cohomology/HigherDirectImage/RestrictionCollapseChosenResolutions.lean`)
+  — the same at the **objectwise,
   acyclic** family `Stacks.RightDerivedComp.objIso`, where the formula in that direction was
   for the same reason: `Stacks.RightDerivedComp.objIso_hom_eq` is the mirror with the
   comparison the other way, exactly as `compRightDerivedNatIso_hom_app_eq` is. `objIso` asks only
@@ -3424,7 +3479,9 @@ throughout):
 
 *A duplicate.* `CategoryTheory.InjectiveResolution.mapOfPreservesInjectives`
 (`Algebra/Homology/Resolution/MapInjectiveResolution.lean`) is
-`Stacks.Cohomology.CompositeRightDerived.mapInjRes` (`StacksFrontier/CategoryTheory/Sites/Cohomology/HigherDirectImage/CompositeRightDerivedFunctors.lean`) — **the
+`Stacks.Cohomology.CompositeRightDerived.mapInjRes` (
+`…/CategoryTheory/Sites/Cohomology/HigherDirectImage/CompositeRightDerivedFunctors.lean`)
+— **the
 same `cocomplex`, the same `injective`, the same `ι`, and equal by `rfl`** — differing
 only in asking `[L.PreservesHomology]` where `mapInjRes` asks for the two exactness instances,
 which `CategoryTheory.Functor.preservesHomologyOfExact` supplies.
@@ -3439,10 +3496,13 @@ chosen-resolution formula**, which is what turns the square from a construction 
 
 * the source edge — `compRightDerivedNatIso_inv_app_chosenResolution`, above;
 * the target edge — `…HigherDirectImage.higherDirectImageRestrictIso_chosenResolution`
-  (`StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/RestrictionOfChosenResolutions.lean`), at the **sheaf** level, so a step applying `P` and
+  (
+`StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/RestrictionOfChosenResolutions.lean`),
+  at the **sheaf** level, so a step applying `P` and
   `CategoryTheory.ShortComplex.mapHomologyIso` for `P` is owed before the two meet;
 * the two collapses — `Stacks.Cohomology.AffineBase.rightDerivedCompNatIso_hom_app`
-  (`StacksFrontier/AlgebraicGeometry/AffineCohomologyVanishing/AffineBaseComposition.lean`) at the ambient pair and at the restricted one, both `hpl`s
+  (`StacksFrontier/AlgebraicGeometry/AffineCohomologyVanishing/AffineBaseComposition.lean`) at the
+  ambient pair and at the restricted one, both `hpl`s
   inhabited, by `hpl_of_isAffineOpen` (`AmbientPrefixJoin.lean`) and by the open-subscheme one;
 * the transport between the two sources that 01E5 itself bundles —
   `…HigherDirectImage.rightDerivedPushforwardRestrictIso`, whose chosen-resolution reading is
@@ -3458,8 +3518,11 @@ the end of these notes.***
 
 1. **The two edges are at the same triple and the same direction.**
    `…HigherDirectImage.higherDirectImageRestrictIso_injectiveResolution`
-   (`StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/LocalizationInDegreeZero.lean`) holds at **every** degree — not only positive: the
-   positive-degree half is `…_succ` in `StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/LocalizationOnResolutions.lean` and the degree-zero branch
+   (`StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/LocalizationInDegreeZero.lean`)
+   holds at **every** degree — not only positive: the
+   positive-degree half is `…_succ` in
+   `StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/LocalizationOnResolutions.lean` and
+   the degree-zero branch
    is discharged where the all-degree statement is proved — and its `φ` runs
    `J.cocomplex ⟶ (restriction).mapHomologicalComplex.obj I.cocomplex` with
    `hφ : J.ι.f 0 ≫ φ.f 0 = (restriction).map (I.ι.f 0)`, which is the direction
@@ -3481,7 +3544,8 @@ the end of these notes.***
    *A near-miss.* The same hinge is also packaged
    **complex-level and functorially**, as
    `Stacks.Cohomology.ModuleComparison.homologyMapFunctorIso`
-   (`StacksFrontier/Topology/Sheaves/Cohomology/ModuleComparison/SectionsOverAnOpen.lean`), whose component at a complex `K` is
+   (`StacksFrontier/Topology/Sheaves/Cohomology/ModuleComparison/SectionsOverAnOpen.lean`), whose
+   component at a complex `K` is
    `(K.sc n).mapHomologyIso` — the very factor `rightDerivedCompNatIso_hom_app` carries — and
    whose naturality is literally `ShortComplex.mapHomologyIso_hom_naturality` whiskered along
    `HomologicalComplex.shortComplexFunctor`. It is **not usable here**: it asks
@@ -3505,9 +3569,12 @@ compatibilities and the one point 2 does not name is not a naturality:
   `(S.map R).mapHomologyIso P` and `S.mapHomologyIso R`. The square cannot avoid it: the target
   edge's last factor is `CategoryTheory.ShortComplex.mapHomologyIso` for `moduleRestriction Y V`
   **alone** (`higherDirectImageRestrictIso_chosenResolution`,
-  `StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/RestrictionOfChosenResolutions.lean`), while the ambient collapse at a general additive `P`
+`StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/RestrictionOfChosenResolutions.lean`),
+  while the ambient collapse at a general additive `P`
   carries `mapHomologyIso` for the **composite** `moduleRestriction Y V ⋙ P`
-  (`…AffineBase.rightDerivedCompNatIso_hom_app`, `StacksFrontier/AlgebraicGeometry/AffineCohomologyVanishing/AffineBaseComposition.lean`). Mathlib has no such
+  (`…AffineBase.rightDerivedCompNatIso_hom_app`,
+  `StacksFrontier/AlgebraicGeometry/AffineCohomologyVanishing/AffineBaseComposition.lean`). Mathlib
+  has no such
   lemma: enumerating the environment of `Mathlib.Algebra.Homology.ShortComplex.PreservesHomology`
   gives only the two naturalities, their `_assoc` forms, the primed pair,
   `…LeftHomologyData.mapHomologyIso_eq`, `…LeftHomologyData.mapCyclesIso_eq`,
@@ -3545,7 +3612,8 @@ subsumes the exact one. Its two consumers there are `…Homology.exactHomologyIs
    is `R ᵖ f_* ⋙ (-|_V) ≅ R ᵖ((-|_{f⁻¹V}) ⋙ (f ∣ V)_*)`, i.e. the `P = 𝟭` case, and it is already
    spent **inside** the target edge: `…HigherDirectImage.higherDirectImageRestrictIsoSucc` is
    `(rightDerivedPushforwardRestrictIso ≪≫ compRightDerivedNatIso).symm`
-   (`StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/LocalizationIsomorphisms.lean`), so the source edge and that transport *are* the target edge
+   (`StacksFrontier/Topology/Sheaves/Cohomology/HigherDirectImage/LocalizationIsomorphisms.lean`),
+   so the source edge and that transport *are* the target edge
    in positive degree. What the square needs beside its two edges and two collapses is the derived
    transport **at `P`**, between `R ᵖ(f_* ⋙ (-|_V) ⋙ P)` and `R ᵖ((-|_{f⁻¹V}) ⋙ (f ∣ V)_* ⋙ P)`
    along `Functor.whiskerRight (modulePushforwardRestrictIso f V).inv P`. Hoisted onto a variable
@@ -3603,7 +3671,8 @@ The proof follows the reduction computed above, with three refinements.
    the library inhabits it at the geometric data, the available degenerations being at the two
    *chosen resolutions* and not at the restriction of a short complex, so as a hypothesis it would
    have made the square unusable at the pair (c) needs. It follows from `hamb`, by
-   `CategoryTheory.ShortComplex.preservesLeftHomologyOf_map` (`StacksFrontier/Algebra/Homology/ShortComplex/MapHomologyComp.lean`): for `R`
+   `CategoryTheory.ShortComplex.preservesLeftHomologyOf_map`
+   (`StacksFrontier/Algebra/Homology/ShortComplex/MapHomologyComp.lean`): for `R`
    preserving homology, the pointwise hypothesis on `R ⋙ P` at `S` gives the one on `P` at
    `S.map R`. The content is the converse of `CategoryTheory.Limits.comp_preservesLimit` —
    `R` carries the kernel fork of `S.g` to a limit fork, `R ⋙ P` carries it to a limit fork, and
@@ -3617,7 +3686,8 @@ The proof follows the reduction computed above, with three refinements.
    while the factor in front of it is `H ᵖ((L ⋙ F')[I])`, and the two objects are definitionally
    equal and distinct keys. So every step after the four rewrites is a **term**, and the expensive
    crossing is paid at variables: `CategoryTheory.ShortComplex`
-   `.mapHomologyIso_glue_mapHomologicalComplex` (`StacksFrontier/Algebra/Homology/ShortComplex/MapHomologyGlueComplex.lean`) is the glue stated
+   `.mapHomologyIso_glue_mapHomologicalComplex`
+   (`StacksFrontier/Algebra/Homology/ShortComplex/MapHomologyGlueComplex.lean`) is the glue stated
    at the degree-`p` short complexes of the images of two complexes, in exactly the spellings the
    goal has, so that the consumer matches it syntactically. Written with the short-complex glue
    instantiated directly at the geometric data instead, the `exact` is a 200,000-heartbeat `whnf`
@@ -3633,8 +3703,10 @@ abstract category by two additions to the designated leaf
 `StacksFrontier/CategoryTheory/CompositeCancellation.lean`: `CategoryTheory.map_comp₄` and
 `CategoryTheory.comp_square_cancel`. Both depend on **no axioms at all**. Two same-named
 `private` declarations elsewhere do not collide: `comp_square_cancel` in
-`StacksFrontier/Topology/Sheaves/Cohomology/DerivedFunctors/CompositeSingleModelCrossing.lean` (which imports the leaf) and `map_comp₄` in
-`StacksFrontier/Topology/Sheaves/Cohomology/CechRefinements/CohomologyCompatibility.lean`; they duplicate the new public shapes.
+`StacksFrontier/Topology/Sheaves/Cohomology/DerivedFunctors/CompositeSingleModelCrossing.lean`
+(which imports the leaf) and `map_comp₄` in
+`StacksFrontier/Topology/Sheaves/Cohomology/CechRefinements/CohomologyCompatibility.lean`; they
+duplicate the new public shapes.
 
 ***What the ψ-side join still owes.*** The square is the brick the join waits on; the join itself
 — `prefix_transport_eq_openSubschemeSectionsComparison_comp` against
@@ -3717,7 +3789,8 @@ leaf `Algebra/Homology/ShortComplex/MapHomologyComp.lean`, read off Mathlib's
 `LeftHomologyMapData.natTransApp` directly — it needs only the left hypotheses — and in the
 `inv` arrangement the square meets it at. The companion under exactness of both functors is
 `CategoryTheory.ShortComplex.mapHomologyIso_hom_natTrans`
-(`StacksFrontier/CategoryTheory/Sites/Hypercovering/SpectralSequenceSecondPage.lean`), mentioned in the new lemma's notes;
+(`StacksFrontier/CategoryTheory/Sites/Hypercovering/SpectralSequenceSecondPage.lean`), mentioned in
+the new lemma's notes;
 it is **not** usable here for the same reason the functorial packaging
 `…ModuleComparison.homologyMapFunctorIso` is not.
 
@@ -3725,7 +3798,8 @@ it is **not** usable here for the same reason the functorial packaging
 ambient outer functor the crossing goes through is `sectionsOverOpen Y (V.ι ''ᵁ ⊤) ⋙ res`, a
 **composite**, and nothing in Mathlib or elsewhere in the library carries the pointwise homology
 hypothesis across
-a postcomposition: `…ShortComplex.preservesLeftHomologyOf_map` (`StacksFrontier/Algebra/Homology/ShortComplex/MapHomologyComp.lean`) is the
+a postcomposition: `…ShortComplex.preservesLeftHomologyOf_map`
+(`StacksFrontier/Algebra/Homology/ShortComplex/MapHomologyComp.lean`) is the
 opposite direction, and `CategoryTheory.Limits.comp_preservesLimit` is a lemma, so instance search
 does not compose the two preservation hypotheses a left homology datum asks for.
 `CategoryTheory.ShortComplex.preservesLeftHomologyOf_comp` is proved beside it, with nothing
@@ -4364,7 +4438,7 @@ theorem rightDerivedIso_inv_comp_restrictScalars_pullbackMap :
               (preimage_le_preimage_of_isPullback hsq hWV) F' inferInstance S.d ≫
             (ModuleCat.restrictScalars (h'.resLE (S.f' ⁻¹ᵁ V) (f'' ⁻¹ᵁ W)
                 (preimage_le_preimage_of_isPullback hsq hWV)).appTop.hom).map
-              (restrictPullbackRightDerivedPlusIso (h := h) h'
+              (restrictPullbackRightDerivedPlusIso h'
                 (preimage_le_preimage_of_isPullback hsq hWV) F' S.d).inv) =
       (cohomologyIsoGlobalSectionsRightDerivedPushforward (S.f' ∣_ V) (S.d : ℤ)).hom.app
           ⟨(Scheme.Modules.restrictFunctor (S.f' ⁻¹ᵁ V).ι).obj F', inferInstance⟩ ≫
@@ -4396,7 +4470,7 @@ theorem rightDerivedIso_inv_comp_restrictScalars_pullbackMap :
                       (S.f' ⁻¹ᵁ V).ι F') S.d).inv ≫
                   (ModuleCat.restrictScalars (h'.resLE (S.f' ⁻¹ᵁ V) (f'' ⁻¹ᵁ W)
                       (preimage_le_preimage_of_isPullback hsq hWV)).appTop.hom).map
-                    (restrictPullbackRightDerivedPlusIso (h := h) h'
+                    (restrictPullbackRightDerivedPlusIso h'
                       (preimage_le_preimage_of_isPullback hsq hWV) F' S.d).inv) := by
   have := S.quasiCompact_f'
   have := S.quasiSeparated_f'
@@ -4489,7 +4563,7 @@ theorem sections_pullbackMap_eq_unit_comp_tail
                 (preimage_le_preimage_of_isPullback hsq hWV) F' inferInstance S.d ≫
               (ModuleCat.restrictScalars (h'.resLE (S.f' ⁻¹ᵁ V) (f'' ⁻¹ᵁ W)
                   (preimage_le_preimage_of_isPullback hsq hWV)).appTop.hom).map
-                (restrictPullbackRightDerivedPlusIso (h := h) h'
+                (restrictPullbackRightDerivedPlusIso h'
                   (preimage_le_preimage_of_isPullback hsq hWV) F' S.d).inv)) =
       (Stacks.Cohomology.AffineBase.moduleGlobalSections (V : Scheme)).map
           ((Scheme.Modules.restrictFunctor V.ι).map ξ) ≫
@@ -4516,7 +4590,7 @@ theorem sections_pullbackMap_eq_unit_comp_tail
                       (S.f' ⁻¹ᵁ V).ι F') S.d).inv ≫
                   (ModuleCat.restrictScalars (h'.resLE (S.f' ⁻¹ᵁ V) (f'' ⁻¹ᵁ W)
                       (preimage_le_preimage_of_isPullback hsq hWV)).appTop.hom).map
-                    (restrictPullbackRightDerivedPlusIso (h := h) h'
+                    (restrictPullbackRightDerivedPlusIso h'
                       (preimage_le_preimage_of_isPullback hsq hWV) F' S.d).inv) := by
   have := S.quasiCompact_f'
   have := S.quasiSeparated_f'
@@ -4742,7 +4816,7 @@ theorem psi_side_eq_sections_unit_comp_tail
                     (preimage_le_preimage_of_isPullback hsq hWV) F' inferInstance S.d ≫
                   (ModuleCat.restrictScalars (h'.resLE (S.f' ⁻¹ᵁ V) (f'' ⁻¹ᵁ W)
                       (preimage_le_preimage_of_isPullback hsq hWV)).appTop.hom).map
-                    (restrictPullbackRightDerivedPlusIso (h := h) h'
+                    (restrictPullbackRightDerivedPlusIso h'
                       (preimage_le_preimage_of_isPullback hsq hWV) F' S.d).inv) ≫
               (topDegreeFunctorObjIsoCohomologyUpstairs S F' h' f'' h hsq hWV).inv ≫
                 (topDegreeFunctorObjIsoTargetSections S F' h' f'' h hsq hWV).hom) ≫
@@ -4777,7 +4851,7 @@ theorem psi_side_eq_sections_unit_comp_tail
                             (S.f' ⁻¹ᵁ V).ι F') S.d).inv ≫
                         (ModuleCat.restrictScalars (h'.resLE (S.f' ⁻¹ᵁ V) (f'' ⁻¹ᵁ W)
                             (preimage_le_preimage_of_isPullback hsq hWV)).appTop.hom).map
-                          (restrictPullbackRightDerivedPlusIso (h := h) h'
+                          (restrictPullbackRightDerivedPlusIso h'
                             (preimage_le_preimage_of_isPullback hsq hWV) F' S.d).inv)) ≫
             eqToHom (congrArg
                 (fun ρ : (S.restrictBase V).affineBaseRing →+*
@@ -4879,7 +4953,7 @@ theorem baseChangeSectionsMap_one_tmul_eq_app_pullbackSection_of_tail
                     (preimage_le_preimage_of_isPullback hsq hWV) F' inferInstance S.d ≫
                   (ModuleCat.restrictScalars (h'.resLE (S.f' ⁻¹ᵁ V) (f'' ⁻¹ᵁ W)
                       (preimage_le_preimage_of_isPullback hsq hWV)).appTop.hom).map
-                    (restrictPullbackRightDerivedPlusIso (h := h) h'
+                    (restrictPullbackRightDerivedPlusIso h'
                       (preimage_le_preimage_of_isPullback hsq hWV) F' S.d).inv) ≫
               (topDegreeFunctorObjIsoCohomologyUpstairs S F' h' f'' h hsq hWV).inv ≫
                 (topDegreeFunctorObjIsoTargetSections S F' h' f'' h hsq hWV).hom) ≫

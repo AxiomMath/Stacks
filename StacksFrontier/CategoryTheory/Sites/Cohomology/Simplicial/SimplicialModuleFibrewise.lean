@@ -89,7 +89,6 @@ open Stacks.Cohomology.DerivedLowerShriek
 universe w
 
 variable (C : Type w) [SmallCategory C] (J : GrothendieckTopology C)
-  [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)]
   (O : Sheaf J RingCat.{w})
 
 /-- The natural transformation of fibre inclusions `i_n ⟶ i_m`, with components `(α, 𝟙 U)`,

@@ -133,15 +133,15 @@ cohomology is the product over the unique component `V_0`, and `V_0 = V`. -/
 def varietyEquiv (V : (SmoothProjective k).FullSubcategory) :
     T.extH ((toSchemeCat k).obj V) ≃ₐ[F] T.totalH V :=
   AlgEquiv.ofAlgHom ((T.pullTotal (compIso V default).inv).comp (Pi.evalAlgHom F _ default))
-    (Pi.algHom F _ fun i ↦ T.pullTotal (compIso V i).hom)
+    (AlgHom.pi fun i ↦ T.pullTotal (compIso V i).hom)
     (by
       refine AlgHom.ext fun x ↦ ?_
-      rw [AlgHom.comp_apply, AlgHom.comp_apply, Pi.evalAlgHom_apply, Pi.algHom_apply,
+      rw [AlgHom.comp_apply, AlgHom.comp_apply, Pi.evalAlgHom_apply, AlgHom.pi_apply,
         ← AlgHom.comp_apply, ← pullTotal_comp, Iso.inv_hom_id, pullTotal_id])
     (by
       refine AlgHom.ext fun a ↦ funext fun i ↦ ?_
       obtain rfl := Subsingleton.elim i default
-      rw [AlgHom.comp_apply, Pi.algHom_apply, AlgHom.comp_apply, Pi.evalAlgHom_apply,
+      rw [AlgHom.comp_apply, AlgHom.pi_apply, AlgHom.comp_apply, Pi.evalAlgHom_apply,
         ← AlgHom.comp_apply, ← pullTotal_comp, Iso.hom_inv_id, pullTotal_id]
       rfl)
 

@@ -168,9 +168,9 @@ theorem exists_ne_mem_nodePoints_of_notMem [IsAlgClosed k] [IsReduced X]
   have hz₁' : normalizationOverField k (componentStructure (k := k) Z) z₁ = y := hz₁
   have hz₂' : normalizationOverField k (componentStructure (k := k) Z) z₂ = y := hz₂
   refine ⟨z₁, ?_, z₂, ?_, hne, by rw [hz₁'], by rw [hz₂']⟩
-  · show IsNode k X _
+  · change IsNode k X _
     rwa [hz₁']
-  · show IsNode k X _
+  · change IsNode k X _
     rwa [hz₂']
 
 /-- **A singular point of a component is a node of `X` lying on no other component.** -/
@@ -260,7 +260,7 @@ theorem finrank_globalSections_intersection_eq_ncard [IsAlgClosed k]
       have hcomp : ∀ i : 𝒰.I₀, IsReduced (𝒰.X i) := by
         intro i
         let : Field (K i) := hK i
-        show IsReduced (Spec (.of (K i)))
+        change IsReduced (Spec (.of (K i)))
         infer_instance
       exact IsReduced.of_openCover _ 𝒰
     exact isReduced_of_isOpenImmersion e.inv
@@ -269,9 +269,9 @@ theorem finrank_globalSections_intersection_eq_ncard [IsAlgClosed k]
       (topologicalKrullDim_intersectionWithComplementaryCurve_le_zero hdim.le C)
   rw [finrank_globalSections_eq_natCard_of_isReduced k (I.subschemeι ≫ (X ↘ Spec (.of k))),
     ← Set.ncard_range_of_injective I.subschemeι.isClosedEmbedding.injective, I.range_subschemeι]
-  show ((C ⊔ complementaryCurveIdeal C).support : Set X).ncard = _
+  change ((C ⊔ complementaryCurveIdeal C).support : Set X).ncard = _
   rw [Scheme.IdealSheafData.support_sup]
-  show ((C.support : Set X) ∩ _).ncard = _
+  change ((C.support : Set X) ∩ _).ncard = _
   rw [support_vanishingIdeal_componentCloseds]
 
 /-- **A smooth component of genus zero meeting the rest of the curve in one or two points is a
@@ -323,7 +323,7 @@ theorem isRationalTail_or_isRationalBridge_of_ncard [IsAlgClosed k]
   have key := finrank_globalSections_intersection_eq_ncard hequi hdim hnodal Z
   rw [← heq] at key
   refine ⟨fun h1 => ?_, fun h2 => ?_⟩
-  · exact isRationalTail_of_finrank_globalSections_intersection_eq_one hdim.le C hCdim hne k fC hf
+  · exact isRationalTail_of_finrank_globalSections_intersection_eq_one hdim.le C hCdim hne k fC
       (key.trans h1) hgC
   · exact isRationalBridge_of_finrank_globalSections_intersection_eq_two hdim.le C hCdim hne k fC
       hf (key.trans h2) hgC
@@ -531,8 +531,8 @@ theorem exists_restrictOpens_fixes_and_eq_zero [IsAlgClosed k]
         X.reducedComponentι Z (normalizationOverField k (componentStructure (k := k) Z) z) :=
     fun Z z => by
       rw [← Scheme.Hom.comp_apply, Category.assoc]
-      show (Limits.Sigma.ι _ Z ≫ e.hom ≫ normalizationOverField k p) z = _
-      rw [he, Limits.Sigma.ι_desc, Scheme.Hom.comp_apply]
+      change (Limits.Sigma.ι _ Z ≫ e.hom ≫ normalizationOverField k p) z = _
+      rw [he, Limits.Sigma.ι_comp_desc, Scheme.Hom.comp_apply]
   refine ⟨D', fun Z z hz => ?_, fun h0 => ?_⟩
   · set j := Limits.Sigma.ι _ Z ≫ e.hom
     have hnode : IsNode k X (Scheme.normalization X hX (j z)) := by rw [hpt]; exact hz
@@ -551,7 +551,7 @@ theorem exists_restrictOpens_fixes_and_eq_zero [IsAlgClosed k]
       obtain ⟨⟨Z, z⟩, hz⟩ := (sigmaMk _).surjective (e.inv y)
       refine ⟨Z, z, ?_⟩
       rw [sigmaMk_mk] at hz
-      show (Limits.Sigma.ι _ Z ≫ e.hom) z = y
+      change (Limits.Sigma.ι _ Z ≫ e.hom) z = y
       rw [Scheme.Hom.comp_apply, hz, ← Scheme.Hom.comp_apply, e.inv_hom_id]
       rfl
     refine SheafDerivationOf.ext' fun U s => ?_

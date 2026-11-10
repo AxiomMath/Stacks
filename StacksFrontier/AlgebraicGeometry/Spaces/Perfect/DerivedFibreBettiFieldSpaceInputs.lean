@@ -120,7 +120,7 @@ theorem fieldHom_hom_eq_yoneda_map (p : FieldValuedPoint B S hS F)
     (z : FieldValuedPoint B S hS (fieldValuedPointSpace B S hS p).1) :
     (fieldHom B S hS (X := fieldValuedPointSpace B S hS p) z).hom = yoneda.map z.value :=
   yonedaEquiv.injective (by
-    show yonedaEquiv (fieldMorphism B S hS (fieldValuedPointSpace B S hS p).1 z) = _
+    change yonedaEquiv (fieldMorphism B S hS (fieldValuedPointSpace B S hS p).1 z) = _
     rw [yonedaEquiv_fieldMorphism, yonedaEquiv_yoneda_map])
 
 /-- The morphism of algebraic spaces presented by a morphism of spectra of fields is flat: the
@@ -132,9 +132,9 @@ theorem isFlat_yoneda_map_fieldValuedPoint {G : (BigFppfOver B S hS)ᵒᵖ ⥤ T
   refine (holdsOnEveryEtaleChart_yoneda_map_iff B S hS
     _root_.AlgebraicGeometry.Flat.isEtaleLocalOnSourceAndTarget κ).2 ?_
   let _ : Subsingleton ((BigFppfOver.toScheme B S hS).obj p.siteObject) := by
-    show Subsingleton (Spec (.of p.carrier)); infer_instance
+    change Subsingleton (Spec (.of p.carrier)); infer_instance
   let _ : IsIntegral ((BigFppfOver.toScheme B S hS).obj p.siteObject) := by
-    show IsIntegral (Spec (.of p.carrier)); infer_instance
+    change IsIntegral (Spec (.of p.carrier)); infer_instance
   infer_instance
 
 /-- The morphism of algebraic spaces presented by a field-valued point of the space of a field

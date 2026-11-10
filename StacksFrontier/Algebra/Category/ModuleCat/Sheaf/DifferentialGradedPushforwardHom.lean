@@ -76,10 +76,10 @@ The direct image is in fact constructed:
 `SheafOfModules.DifferentialGradedModule.pushforwardData` of
 `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/DifferentialGradedDerivedPushforward.lean`
 inhabits `PushforwardData`, and
-`SheafOfModules.DifferentialGradedModule.pushforwardHomotopyExtension` of
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/DifferentialGradedPushforwardHomotopyExtension.lean`
-inhabits its `HomotopyExtension`. The internal hom is not, and at the generality of this file it
-cannot be: by
+`SheafOfModules.DifferentialGradedModule.pushforwardHomotopyExtension` of the sibling file
+`DifferentialGradedPushforwardHomotopyExtension.lean` (in `StacksFrontier/Algebra/Category/`
+`ModuleCat/Sheaf/`) inhabits its `HomotopyExtension`. The internal hom is not, and at the
+generality of this file it cannot be: by
 `SheafOfModules.DifferentialGradedModule.commutator_smul_eq_of_isInternalHom_self`, an internal
 hom of a module with itself forces every commutator of the sheaf of rings to annihilate that
 module, so over a sheaf of rings whose commutators act nontrivially `SheafHomFunctorData` is

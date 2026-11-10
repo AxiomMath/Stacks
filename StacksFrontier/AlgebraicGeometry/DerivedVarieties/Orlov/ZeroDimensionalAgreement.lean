@@ -77,7 +77,7 @@ theorem perfectTriangle_distinguished (T : Triangle (DerivedCategory W.Modules))
     (hT : T ∈ distTriang _) (h₁ : IsPerfect (X := W.toRingedSpace) T.obj₁)
     (h₂ : IsPerfect (X := W.toRingedSpace) T.obj₂) (h₃ : IsPerfect (X := W.toRingedSpace) T.obj₃) :
     perfectTriangle T h₁ h₂ h₃ ∈ distTriang (PerfectDerivedCategory W) := by
-  show (ObjectProperty.ι _).mapTriangle.obj _ ∈ distTriang (DerivedCategory W.Modules)
+  change (ObjectProperty.ι _).mapTriangle.obj _ ∈ distTriang (DerivedCategory W.Modules)
   refine isomorphic_distinguished _ hT _
     (Triangle.isoMk _ _ (Iso.refl T.obj₁) (Iso.refl T.obj₂) (Iso.refl T.obj₃) ?_ ?_ ?_)
   · exact (Category.comp_id _).trans (Category.id_comp T.mor₁).symm
@@ -317,7 +317,7 @@ once `n > 2m`, for `𝓕` supported on a closed subset of an affine open. -/
 theorem isZero_homology_imgCone
     (h𝓕qc : 𝓕.IsQuasicoherent) {U : A.left.Opens} (hU : IsAffineOpen U) {Z : Set A.left}
     (hZ : IsClosed Z) (hZU : Z ⊆ U) (hsupp : SheafOfModules.supp 𝓕 ⊆ Z)
-    (n : ℕ) (j : ℤ) (hn : 2 * m < n) (hj₁ : -(m : ℤ) - 1 ≤ j) (hj₂ : j ≤ m) :
+    (n : ℕ) (j : ℤ) (hn : 2 * m < n) (hj₁ : -(m : ℤ) - 1 ≤ j) :
     IsZero ((DerivedCategory.homologyFunctor B.left.Modules j).obj
       ((kernelIntegralTransform A.hom B.hom
         ((DerivedCategory.singleFunctor A.left.Modules 0).obj 𝓕)).obj
@@ -450,12 +450,13 @@ def PointSupported (𝓕 : X.Modules) : Prop :=
   𝓕.IsCoherent ∧ ∃ (U : X.Opens) (_ : IsAffineOpen U) (Z : Set X) (_ : IsClosed Z),
     Z ⊆ U ∧ SheafOfModules.supp 𝓕 ⊆ Z
 
+open Stacks.AlgebraicGeometry.DerivedVarieties.Orlov in
 /-- **A zero-dimensional coherent module is a finite sum of point-supported ones.** -/
 theorem exists_iso_biproduct_pointSupported (𝓕 : X.Modules) (h𝓕 : 𝓕.IsCoherent)
     (hdim : topologicalKrullDim (SheafOfModules.supp 𝓕) = 0) :
     ∃ (n : ℕ) (𝓕ᵢ : Fin n → X.Modules), (∀ i, PointSupported (𝓕ᵢ i)) ∧ Nonempty (𝓕 ≅ ⨁ 𝓕ᵢ) := by
   obtain ⟨n, 𝓕ᵢ, U, x, -, -, hcl, hxU, -, hcoh, hsupp, -, ⟨e⟩⟩ :=
-    Stacks.AlgebraicGeometry.DerivedVarieties.Orlov.exists_iso_biproduct_of_topologicalKrullDim_supp_le_zero
+    exists_iso_biproduct_of_topologicalKrullDim_supp_le_zero
       𝓕 h𝓕 hdim.le
   refine ⟨n, 𝓕ᵢ, fun i => ⟨hcoh i, U i, (U i).2, {x i}, hcl i, ?_, (hsupp i).le⟩, ⟨e⟩⟩
   simpa using hxU i
@@ -590,12 +591,12 @@ theorem fourierMukaiAgreesOnZeroDimensional (K : Type u) [Field K] :
     (fun n => ((AlgebraicGeometry.transformedTerm A B R F R.isPerfect_single_right
       (n + 1))⟦(1 : ℤ)⟧)⟦(n : ℤ)⟧)
     (fun n => Q.sequenceStep n) u w hT m (by
-      intro F' hF' hdim n j hn hj₁ hj₂
+      rintro F' hF' hdim n j hn hj₁ -
       refine isZero_of_pointSupported (fibreHomologyFunctor A.hom B.hom _ j) (fun 𝓕 h => ?_)
         F' hF' hdim
       obtain ⟨h𝓕, h𝓕qc, U, hU, Z, hZ, hZU, hsupp⟩ := hpt 𝓕 h
-      exact (R.isZero_homology_imgCone 𝓕 h𝓕 B F m hm h𝓕qc hU hZ hZU hsupp n j hn hj₁
-        hj₂).of_iso ((DerivedCategory.homologyFunctor B.left.Modules j).mapIso
+      exact (R.isZero_homology_imgCone 𝓕 h𝓕 B F m hm h𝓕qc hU hZ hZU hsupp n j hn
+        hj₁).of_iso ((DerivedCategory.homologyFunctor B.left.Modules j).mapIso
           ((fibreTransformFunctorIso A.hom B.hom hflat 𝓕).app _)))
   -- the splitting
   obtain ⟨N, P, C, hP, hCp, -, hCb, e, -⟩ := exists_stable_biprod_of_smooth_of_fibreBands K

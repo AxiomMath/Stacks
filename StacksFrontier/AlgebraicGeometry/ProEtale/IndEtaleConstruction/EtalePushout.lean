@@ -94,7 +94,7 @@ lemma faithfullyFlat_of_isPushout {X Y Z W : CommRingCat.{u}}
   let : IsScalarTower X Y W := .of_algebraMap_eq' rfl
   let : IsScalarTower X Z W := .of_algebraMap_eq' (by
     have hw := congrArg CommRingCat.Hom.hom h.w
-    show p.hom.comp f.hom = q.hom.comp g.hom
+    change p.hom.comp f.hom = q.hom.comp g.hom
     simpa only [CommRingCat.hom_comp] using hw)
   exact faithfullyFlat_descends_pushout X Y Z W
     (CommRingCat.isPushout_iff_isPushout.mp h) hf hp
@@ -116,7 +116,7 @@ lemma ind_etale_iff_algebra_ind {A C : Type u} [CommRing A] [CommRing C] [Algebr
       (fun D : Under (CommRingCat.of A) ↦ D.hom.hom.Etale)
       (Under.mk (CommRingCat.ofHom (algebraMap A C))) ↔
       (CommAlgCat.etale A).ind.{u} (CommAlgCat.of A C) := by
-  show (CommRingCat.etale.underObj).ind.{u}
+  change (CommRingCat.etale.underObj).ind.{u}
       (Under.mk (CommRingCat.ofHom (algebraMap A C))) ↔ _
   rw [← MorphismProperty.ind_iff_ind_underMk]
   exact (CommAlgCat.ind_etale_iff_ind_algebraMap (R := A) (Λ := C)).symm

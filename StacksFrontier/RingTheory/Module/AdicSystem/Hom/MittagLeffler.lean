@@ -170,7 +170,7 @@ private lemma homRestriction_refl
     (q : (M ⧸ I ^ n • (⊤ : Submodule A M)) →ₗ[A]
       (N ⧸ I ^ n • (⊤ : Submodule A N))) :
     homRestriction I (le_refl n) q = q := by
-  show ((homSystem (M := M) (N := N) I).map (𝟙 (op n))).hom q = q
+  change ((homSystem (M := M) (N := N) I).map (𝟙 (op n))).hom q = q
   rw [CategoryTheory.Functor.map_id]
   rfl
 
@@ -189,7 +189,7 @@ private lemma homSystem_map_apply_mk
         (homOfLE (Nat.le_succ k)).op ≫ (homOfLE h).op := Subsingleton.elim _ _
     rw [homRestriction, he, Functor.map_comp]
     simp only [homSystem, Functor.ofOpSequence_map_homOfLE_succ]
-    show homRestriction I h (homTransition I k f)
+    change homRestriction I h (homTransition I k f)
       (Submodule.Quotient.mk m) = _
     rw [ih, homTransition_apply_mk]
     generalize f (Submodule.Quotient.mk m) = z
@@ -247,7 +247,7 @@ private lemma presentation_hom_approximation
     have he : q (Submodule.Quotient.mk (f r)) = Submodule.Quotient.mk (l r) :=
       (LinearMap.congr_fun hl r).symm
     rw [he]
-    show (Submodule.Quotient.mk (l r) : N ⧸ I ^ n • (⊤ : Submodule A N)) =
+    change (Submodule.Quotient.mk (l r) : N ⧸ I ^ n • (⊤ : Submodule A N)) =
       Submodule.Quotient.mk (u (f r))
     exact (Submodule.Quotient.eq _).2
       (Submodule.smul_top_le_comap_smul_top (I ^ n) (LinearMap.applyₗ r) hu)
@@ -298,7 +298,7 @@ private lemma homSystem_uniform_approximation
       obtain ⟨x, hx⟩ := Submodule.mkQ_surjective
         (I ^ n • (⊤ : Submodule A (M →ₗ[A] N))) z.1
       have hx0 : comparison I n (Submodule.Quotient.mk x) = 0 := by
-        show comparison I n ((I ^ n • (⊤ : Submodule A (M →ₗ[A] N))).mkQ x) = 0
+        change comparison I n ((I ^ n • (⊤ : Submodule A (M →ₗ[A] N))).mkQ x) = 0
         rw [hx]
         exact z.property
       have hix : ι x ∈ I ^ n • (⊤ : Submodule A ((G →₀ A) →ₗ[A] N)) := by
@@ -308,9 +308,9 @@ private lemma homSystem_uniform_approximation
         have hz := LinearMap.congr_fun hx0 (Submodule.Quotient.mk (f r))
         simpa [comparison_apply_mk, ι] using hz
       apply Subtype.ext
-      show a • z.1 = 0
+      change a • z.1 = 0
       rw [← hx]
-      show (Submodule.Quotient.mk (a • x) :
+      change (Submodule.Quotient.mk (a • x) :
         (M →ₗ[A] N) ⧸ I ^ n • (⊤ : Submodule A (M →ₗ[A] N))) = 0
       exact (Submodule.Quotient.mk_eq_zero _).2 (hd n a (hcd ha) x hix)
     · intro a ha
@@ -329,7 +329,7 @@ private lemma homSystem_uniform_approximation
             (homQuotientEquiv (I ^ n) (a • q)).comp f := by
           apply LinearMap.ext
           intro r
-          show (I ^ n • (⊤ : Submodule A N)).mkQ (a • l r) =
+          change (I ^ n • (⊤ : Submodule A N)).mkQ (a • l r) =
             (homQuotientEquiv (I ^ n) (a • q)) (f r)
           rw [map_smul, map_smul]
           exact congrArg (fun t => a • t) (LinearMap.congr_fun hl r)
@@ -338,7 +338,7 @@ private lemma homSystem_uniform_approximation
         have he' : comparison I n (Submodule.Quotient.mk u) = a • q := by
           rw [homRestriction_refl] at he
           exact he.symm
-        show (Submodule.Quotient.mk (a • q) : _ ⧸ LinearMap.range (comparison I n)) = 0
+        change (Submodule.Quotient.mk (a • q) : _ ⧸ LinearMap.range (comparison I n)) = 0
         exact (Submodule.Quotient.mk_eq_zero _).2 ⟨Submodule.Quotient.mk u, he'⟩
 
 private lemma homSystem_isMittagLeffler
@@ -487,7 +487,7 @@ private lemma isoRestriction_refl
     (e : (M ⧸ I ^ n • (⊤ : Submodule A M)) ≃ₗ[A]
       (N ⧸ I ^ n • (⊤ : Submodule A N))) :
     isoRestriction I (le_refl n) e = e := by
-  show ((isoSystem (M := M) (N := N) I).map (𝟙 (op n))) e = e
+  change ((isoSystem (M := M) (N := N) I).map (𝟙 (op n))) e = e
   rw [CategoryTheory.Functor.map_id]
   rfl
 
@@ -501,7 +501,7 @@ private lemma isoRestriction_toLinearMap
   induction k, h using Nat.le_induction with
   | base =>
     rw [homRestriction_refl]
-    show ((isoSystem (M := M) (N := N) I).map (𝟙 (op n)) e).toLinearMap = _
+    change ((isoSystem (M := M) (N := N) I).map (𝟙 (op n)) e).toLinearMap = _
     rw [CategoryTheory.Functor.map_id]
     rfl
   | succ k h ih =>
@@ -525,7 +525,7 @@ private lemma isoRestriction_symm
         (homOfLE (Nat.le_succ k)).op ≫ (homOfLE h).op := Subsingleton.elim _ _
     simp only [isoRestriction, he, Functor.map_comp, isoSystem,
       Functor.ofOpSequence_map_homOfLE_succ]
-    show isoRestriction I h (isoTransition I k e.symm) =
+    change isoRestriction I h (isoTransition I k e.symm) =
       (isoRestriction I h (isoTransition I k e)).symm
     rw [isoTransition_symm, ih]
 
@@ -556,7 +556,7 @@ private lemma isoSystem_isMittagLeffler
   have hf' : comparison I m (Submodule.Quotient.mk f) = em.toLinearMap :=
     hf.symm.trans (isoRestriction_toLinearMap I hmr e).symm
   have hg' : comparison I m (Submodule.Quotient.mk g) = em.symm.toLinearMap := by
-    show comparison I m (Submodule.Quotient.mk g) =
+    change comparison I m (Submodule.Quotient.mk g) =
       (isoRestriction I hmr e).symm.toLinearMap
     rw [← isoRestriction_symm]
     exact hg.symm.trans (isoRestriction_toLinearMap I hmr e.symm).symm
@@ -571,10 +571,10 @@ private lemma isoSystem_isMittagLeffler
   refine ⟨ek, ?_⟩
   have he : h = (homOfLE (leOfHom h.unop)).op := Subsingleton.elim _ _
   rw [he]
-  show isoRestriction I (leOfHom h.unop) ek = isoRestriction I hjr e
+  change isoRestriction I (leOfHom h.unop) ek = isoRestriction I hjr e
   apply LinearEquiv.toLinearMap_injective
   rw [isoRestriction_toLinearMap, isoRestriction_toLinearMap]
-  show homRestriction I (leOfHom h.unop)
+  change homRestriction I (leOfHom h.unop)
     (comparison I k.unop (Submodule.Quotient.mk f)) = homRestriction I hjr e.toLinearMap
   rw [homSystem_map_comparison_mk]
   rw [← homRestriction_trans I hjm hmr, hf, homSystem_map_comparison_mk]

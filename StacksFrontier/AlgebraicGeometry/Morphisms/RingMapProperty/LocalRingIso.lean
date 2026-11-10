@@ -139,7 +139,7 @@ private theorem localRingHom_bijective_of_square
         (Localization.localRingHom ((q.comap v).comap f) (q.comap v) f rfl) :=
     hcgu.symm.trans (hmaps.trans hcvf)
   apply (Function.Bijective.of_comp_iff _ hu).mp
-  show Function.Bijective ((Localization.localRingHom (q.comap g) q g rfl).comp
+  change Function.Bijective ((Localization.localRingHom (q.comap g) q g rfl).comp
     (Localization.localRingHom ((q.comap v).comap f) (q.comap g) u hI))
   rw [htotal]
   simpa only [RingHom.coe_comp] using Function.Bijective.comp hv hf
@@ -328,7 +328,7 @@ private theorem tensor_localRingHom_bijective
     Algebra.TensorProduct.map (AlgHom.id R A) (IsScalarTower.toAlgHom R C _)
   let algEE : Algebra E E' := eMapAlg.toRingHom.toAlgebra
   have : IsScalarTower A E E' := IsScalarTower.of_algebraMap_eq fun x => by
-    show x ⊗ₜ[R] (1 : Localization.AtPrime p) =
+    change x ⊗ₜ[R] (1 : Localization.AtPrime p) =
       eMapAlg (x ⊗ₜ[R] (1 : C))
     rw [Algebra.TensorProduct.map_tmul]
     simp
@@ -337,7 +337,7 @@ private theorem tensor_localRingHom_bijective
   have : IsLocalization M E' := by
     refine IsLocalization.tensorProduct_tensorProduct_right R A p.primeCompl
       (Localization.AtPrime p) ?_
-    show eMapAlg.toRingHom.comp Algebra.TensorProduct.includeRight.toRingHom = _
+    change eMapAlg.toRingHom.comp Algebra.TensorProduct.includeRight.toRingHom = _
     exact congrArg AlgHom.toRingHom <| Algebra.TensorProduct.map_comp_includeRight
       (AlgHom.id R A) (IsScalarTower.toAlgHom R C (Localization.AtPrime p))
   let qE' := q.map (algebraMap E E')
@@ -387,7 +387,7 @@ theorem localRingHom_bijective_stableUnderComposition :
   intro R A B _ _ _ f g hf hg r hr
   let q := Ideal.comap g r
   have : q.IsPrime := Ideal.comap_isPrime g r
-  show Function.Bijective
+  change Function.Bijective
     (Localization.localRingHom (q.comap f) r (g.comp f) (Ideal.comap_comap f g))
   exact localRingHom_bijective_comp (q.comap f) q r f g rfl rfl (hf q) (hg r)
 

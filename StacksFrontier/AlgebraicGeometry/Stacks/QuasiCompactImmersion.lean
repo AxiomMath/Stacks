@@ -116,7 +116,7 @@ theorem hasRelativeProperty_quasiCompact_of_isImmersion
   let y : BigFppfOver B V.left.1 V.left.2 ⥤ 𝒴.val.val.obj :=
     a.toFunctor ⋙ g.hom.hom.toFunctor
   have hy : y ⋙ 𝒴.val.val.p = Over.map V.hom := by
-    show (a.toFunctor ⋙ g.hom.hom.toFunctor) ⋙ 𝒴.val.val.p = Over.map V.hom
+    change (a.toFunctor ⋙ g.hom.hom.toFunctor) ⋙ 𝒴.val.val.p = Over.map V.hom
     rw [Functor.assoc, g.hom.hom.w]
     exact a.w
   have hg'rep : IsRepresentableByAlgebraicSpaces B S hS

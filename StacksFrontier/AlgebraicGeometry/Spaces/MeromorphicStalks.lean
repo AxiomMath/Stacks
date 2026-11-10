@@ -460,7 +460,7 @@ theorem toRegularLocalizationStalk_germ (N : SmallEtaleNeighborhood x)
       (etaleSitePoint B S hS X.1 x X.2).toPresheafFiber N.chart ⟨N.point, N.point_comp⟩
         (smallEtaleRingedTopos B S hS X).O.obj a := by
     rw [← pointStalkRingEquiv_germ_neighborhood B S hS X x N a, RingEquiv.symm_apply_apply]
-  show ((etaleSitePoint B S hS X.1 x X.2).presheafFiber.map
+  change ((etaleSitePoint B S hS X.1 x X.2).presheafFiber.map
       (regularSubpresheaf B S hS X).toLocalizationPresheaf)
     ((pointStalkRingEquiv B S hS X x).symm (etaleLocalRingGerm B S hS X.1 x (op N) a)) = _
   rw [hsymm]
@@ -506,7 +506,7 @@ theorem isLocalization_regularLocalizationStalk :
     refine ⟨⟨etaleLocalRingGerm B S hS X.1 x (op ⟨U, p, hp⟩) a,
       ⟨etaleLocalRingGerm B S hS X.1 x (op ⟨U, p, hp⟩) m.1,
         etaleLocalRingGerm_mem_regularSectionsStalk (op ⟨U, p, hp⟩) m.2⟩⟩, ?_⟩
-    show (etaleSitePoint B S hS X.1 x X.2).toPresheafFiber U ⟨p, hp⟩
+    change (etaleSitePoint B S hS X.1 x X.2).toPresheafFiber U ⟨p, hp⟩
           (regularLocalizationPresheaf B S hS X) w *
         toRegularLocalizationStalk B S hS X x
           (etaleLocalRingGerm B S hS X.1 x (op ⟨U, p, hp⟩) m.1) =
@@ -563,7 +563,7 @@ theorem isLocalization_regularLocalizationStalk :
       ⟨g, congrArg Subtype.val hyp⟩
     have hgc := (etaleLocalRingGerm_map hmor za).trans hc
     have hgd := (etaleLocalRingGerm_map hmor zb).trans hd
-    show etaleLocalRingGerm B S hS X.1 x (op ⟨Y, y, hy⟩) cc.1 * c =
+    change etaleLocalRingGerm B S hS X.1 x (op ⟨Y, y, hy⟩) cc.1 * c =
       etaleLocalRingGerm B S hS X.1 x (op ⟨Y, y, hy⟩) cc.1 * d
     rw [← hgc, ← hgd]
     exact (map_mul (etaleLocalRingGerm B S hS X.1 x (op ⟨Y, y, hy⟩)) _ _).symm.trans

@@ -124,7 +124,7 @@ theorem isZariskiCover_top (hF : IsAlgebraicSpace B S hS F) :
     IsZariskiCover B S hS PUnit.{u + 1} (fun _ ↦ (⊤ : Subfunctor F)) :=
   ⟨fun _ ↦ isOpenSubspace_top hF,
     Presheaf.isLocallySurjective_of_isLocallySurjective_fac _
-      (Sigma.ι_desc (fun _ : PUnit.{u + 1} ↦ (⊤ : Subfunctor F).ι) PUnit.unit)⟩
+      (Sigma.ι_comp_desc (fun _ : PUnit.{u + 1} ↦ (⊤ : Subfunctor F).ι) PUnit.unit)⟩
 
 end Top
 

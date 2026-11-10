@@ -159,7 +159,7 @@ theorem isFiniteType_of_flat_surjective_of_isAffine {X Y : Scheme.{u}} [IsAffine
     isFiniteType_pullback_comp X.isoSpec.inv f M h
   have hN : ((Scheme.Modules.pullback (Spec.map φ)).obj N).IsFiniteType := by
     have hY' : ((Scheme.Modules.pullback (Spec.map φ ≫ Y.isoSpec.inv)).obj M).IsFiniteType := by
-      show ((Scheme.Modules.pullback (Spec.map f.appTop ≫ Y.isoSpec.inv)).obj M).IsFiniteType
+      change ((Scheme.Modules.pullback (Spec.map f.appTop ≫ Y.isoSpec.inv)).obj M).IsFiniteType
       rw [Scheme.isoSpec_inv_naturality f]
       exact hY
     exact isFiniteType_pullback_pullback_of_comp (Spec.map φ) Y.isoSpec.inv M hY'
@@ -322,7 +322,7 @@ theorem affine_sigmaDesc_fpqc {S : Scheme.{u}} [IsAffine S]
         = (Sigma.ι 𝒱.cover.X (𝒱.idx x) ≫ Sigma.desc 𝒱.cover.f) y := rfl
       _ = (𝒱.cover.f (𝒱.idx x)) y :=
           congrArg (fun q : 𝒱.cover.X (𝒱.idx x) ⟶ S => q y)
-            (Sigma.ι_desc 𝒱.cover.f (𝒱.idx x))
+            (Sigma.ι_comp_desc 𝒱.cover.f (𝒱.idx x))
       _ = x := hy
   exact ⟨inferInstance, inferInstance, inferInstance⟩
 
@@ -348,7 +348,7 @@ theorem isFiniteType_of_fpqcCover_affine {S : Scheme.{u}} [IsAffine S] (M : S.Mo
     let j := f.s₀ i
     have hj : ((Scheme.Modules.pullback (𝒰.f j)).obj M).IsFiniteType := h j
     have hcomp := isFiniteType_pullback_comp (f.h₀ i) (𝒰.f j) M hj
-    rw [f.w₀ i, ← Sigma.ι_desc 𝒱.cover.f i] at hcomp
+    rw [f.w₀ i, ← Sigma.ι_comp_desc 𝒱.cover.f i] at hcomp
     exact isFiniteType_pullback_pullback_of_comp (𝒲.f i) g M hcomp
   obtain ⟨hflat, hsurj, _⟩ := affine_sigmaDesc_fpqc 𝒱
   let _ : Flat g := hflat

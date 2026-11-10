@@ -247,7 +247,7 @@ theorem isTrivial_cubeModule_of_openAtUnit [AlgebraicGeometry.IsAbelianVariety k
       rw [comp_translate, Subsingleton.elim (toUnit _) (𝟙 _), Category.id_comp, mul_inv_cancel,
         Hom.one_def, Subsingleton.elim (toUnit _) (𝟙 _), Category.id_comp]
     refine ⟨s ⁻¹ᵁ U', ?_, ?_⟩
-    · show s (a.left (IsLocalRing.closedPoint k)) ∈ U'
+    · change s (a.left (IsLocalRing.closedPoint k)) ∈ U'
       have : s (a.left (IsLocalRing.closedPoint k)) =
           η[A].left (IsLocalRing.closedPoint k) := by
         rw [← has]; rfl
@@ -258,7 +258,7 @@ theorem isTrivial_cubeModule_of_openAtUnit [AlgebraicGeometry.IsAbelianVariety k
       let Y : Over (Spec (.of k)) := Over.mk (jV ≫ (cubeObj A).hom)
       let ψ : Y ⟶ cubeObj A := Over.homMk jV rfl
       rw [← Stacks.SheafOfModules.pullbackPicardClass_eq_zero_iff jV _ hN]
-      show pullbackPicardClass ψ.left _ hN = 0
+      change pullbackPicardClass ψ.left _ hN = 0
       rw [pullbackPicardClass_cubeModule_eq_cubeClass L hL N₁₂ N₁₃ N₂₃ h₁₂ h₁₃ h₂₃
         t₁₂ t₁₃ t₂₃ ψ]
       have h3 : ψ ≫ cubeProj₃ A =

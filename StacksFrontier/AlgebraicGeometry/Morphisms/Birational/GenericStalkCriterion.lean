@@ -173,7 +173,7 @@ public theorem birationalOver_iff_generic_stalk_iso
     have hpEq : pmap.hom ≫ sY = pmap.domain.ι ≫ sX := by
       simpa [pmap, Category.assoc, Scheme.PartialIso.IsOver] using hp
     let : LocallyOfFinitePresentation C.toBaseTarget := by
-      show LocallyOfFinitePresentation sY
+      change LocallyOfFinitePresentation sY
       infer_instance
     let : C.X.Over C.S := ⟨C.toBaseSource⟩
     let : C.Y.Over C.S := ⟨C.toBaseTarget⟩
@@ -190,7 +190,7 @@ public theorem birationalOver_iff_generic_stalk_iso
         (fun _ => hxC) i0
     have hTargetPoint' :
         pmap.hom ⟨C.genericPoint i0, hxC⟩ = genericPoint Y := by
-      show p.target.ι (p.iso.hom ⟨C.genericPoint i0, hxC⟩) = genericPoint Y
+      change p.target.ι (p.iso.hom ⟨C.genericPoint i0, hxC⟩) = genericPoint Y
       simpa [C, i0, pmap] using hTargetPoint0
     have hPoint : data.point = genericPoint Y := hPointAux.trans hTargetPoint'
     have hStalkAux :=
@@ -201,7 +201,7 @@ public theorem birationalOver_iff_generic_stalk_iso
     cases hPoint
     have hStalkIso : IsIso φ := by
       have hPartialStalk : IsIso (pmap.hom.stalkMap x0) := by
-        show IsIso ((p.iso.hom ≫ p.target.ι).stalkMap x0)
+        change IsIso ((p.iso.hom ≫ p.target.ι).stalkMap x0)
         rw [Scheme.Hom.stalkMap_comp]
         let : IsIso (p.iso.hom.stalkMap x0) := inferInstance
         let : IsIso (p.target.ι.stalkMap (p.iso.hom x0)) := by
@@ -250,17 +250,17 @@ public theorem birationalOver_iff_generic_stalk_iso
           (C.toBaseSource.stalkMap (C.genericPoint i)) e
           (C.toBaseTarget.stalkMap (genericPoint Y)) H }
     let : LocallyOfFinitePresentation C.toBaseTarget := by
-      show LocallyOfFinitePresentation sY
+      change LocallyOfFinitePresentation sY
       infer_instance
     have hbij :=
       GenericPointMapContext.bijective_genericPointMapForRationalMaps_of_locallyOfFinitePresentation
         C
     obtain ⟨r, hr⟩ := hbij.2 d
     let : IrreducibleSpace C.X := by
-      show IrreducibleSpace X
+      change IrreducibleSpace X
       infer_instance
     let : IrreducibleSpace C.Y := by
-      show IrreducibleSpace Y
+      change IrreducibleSpace Y
       infer_instance
     let : C.X.Over C.S := ⟨C.toBaseSource⟩
     let : C.Y.Over C.S := ⟨C.toBaseTarget⟩
@@ -335,7 +335,7 @@ public theorem birationalOver_iff_generic_stalk_iso
     have hUY : Scheme.BirationalOver (U.ι ≫ C.toBaseSource) C.toBaseTarget :=
       birationalOver_of_isBirational (U.ι ≫ C.toBaseSource) C.toBaseTarget g.hom
         hbir hgOverEq (Or.inr hloc)
-    show Scheme.BirationalOver sX sY
+    change Scheme.BirationalOver sX sY
     exact (U.birationalOver_of_dense C.toBaseSource g.dense_domain).symm.trans hUY
 
 

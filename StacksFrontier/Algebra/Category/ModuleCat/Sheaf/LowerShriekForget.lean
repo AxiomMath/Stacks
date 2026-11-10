@@ -138,7 +138,7 @@ theorem lowerShriekForgetComparison_homEquiv (M : _root_.SheafOfModules.{w} S) :
         ((lowerShriekForgetComparison F phi).app M) =
       (_root_.SheafOfModules.toSheaf.{w} S).map
         ((_root_.SheafOfModules.pullbackPushforwardAdjunction.{w} phi).unit.app M) := by
-  show (F.sheafAdjunctionContinuous AddCommGrpCat.{w} J K).homEquiv
+  change (F.sheafAdjunctionContinuous AddCommGrpCat.{w} J K).homEquiv
       ((_root_.SheafOfModules.toSheaf.{w} S).obj M)
       ((_root_.SheafOfModules.toSheaf.{w} R).obj
         ((_root_.SheafOfModules.pullback.{w} phi).obj M))
@@ -317,7 +317,7 @@ private theorem smallModulePushforward_isRightAdjoint (R : Sheaf K RingCat.{0}) 
       Presheaf.IsLocallySurjective K (CategoryTheory.toSheafify K P) := fun P =>
     Presheaf.isLocallySurjective_of_surjective (J := ⊥) _ fun X => (hbij P X).2
   have : K.WEqualsLocallyBijective AddCommGrpCat.{0} := by
-    show (⊥ : GrothendieckTopology Bool).WEqualsLocallyBijective AddCommGrpCat.{0}
+    change (⊥ : GrothendieckTopology Bool).WEqualsLocallyBijective AddCommGrpCat.{0}
     exact (GrothendieckTopology.WEqualsLocallyBijective.mk'
       (J := ⊥) (A := AddCommGrpCat.{0}))
   have hPres : (PresheafOfModules.pushforward.{0} (F := smallSiteFunctor)
@@ -367,7 +367,7 @@ private theorem bigRingMap_eq (T : Sheaf Jsmall RingCat.{0}) :
         𝟙 _ := by
     rw [← Functor.map_comp, ← op_comp, ht]
     simp [siteEquivalence]
-  show (RingCat.Hom.hom
+  change (RingCat.Hom.hom
     (T.obj.map (siteEquivalence.{u}.counitIso.hom.app
         (siteEquivalence.{u}.functor.obj (unop X))).op ≫
       T.obj.map (siteEquivalence.{u}.functor.map
@@ -624,7 +624,7 @@ theorem epi_sigmaDesc_extensionByZeroUnitSections
             (extensionByZeroUnitHomEquiv.{u₁, v₁, u, t} S p.1 M).symm p.2) ≫ g) =
         g.val.app U s := by
     intro g
-    rw [← Category.assoc, Sigma.ι_desc]
+    rw [← Category.assoc, Sigma.ι_comp_desc]
     refine (extensionByZeroUnitHomEquiv_naturality.{u₁, v₁, u, t} S U.unop _ g).trans ?_
     rw [Equiv.apply_symm_apply]
     rfl

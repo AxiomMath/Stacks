@@ -121,7 +121,7 @@ theorem globalSectionOfSection_eq_globalSectionOfTerminalSection (X : RingedSite
     globalSectionOfSection X U a =
       globalSectionOfTerminalSection (X := X.over U) Over.mkIdTerminal a := by
   refine (Presheaf.globalSectionsEquivSections _).injective (Subtype.ext (funext fun V => ?_))
-  show globalSectionVal (globalSectionOfSection X U a) V =
+  change globalSectionVal (globalSectionOfSection X U a) V =
     globalSectionVal (globalSectionOfTerminalSection (X := X.over U) Over.mkIdTerminal a) V
   refine (globalSectionVal_globalSectionOfSection X U a V).trans
     (Eq.trans ?_ (globalSectionVal_globalSectionOfTerminalSection (X := X.over U)
@@ -176,7 +176,7 @@ theorem cechCompletionFunctor_iso_compι (A : Type u) [CommRing A] {r : ℕ} (f 
     have hs' : η.app Z ≫ s = 𝟙 Z := hs
     refine ⟨s, hs', ?_⟩
     refine (hbij Z _ (hcomplete Z)).injective ?_
-    show η.app Z ≫ s ≫ η.app Z = η.app Z ≫ 𝟙 _
+    change η.app Z ≫ s ≫ η.app Z = η.app Z ≫ 𝟙 _
     rw [← Category.assoc, hs']
     simp
   have hmap : ∀ Y : DerivedCategory (ModuleCat.{u} A),

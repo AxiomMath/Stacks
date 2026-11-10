@@ -112,7 +112,7 @@ theorem singleZeroHomology_fac {A : Type u} [CommRing A] (Q : ModuleCat.{u} A) :
   dsimp only
   rw [← cancel_mono ((ChainComplex.single₀ (ModuleCat.{u} A)).obj Q).isoHomologyι₀.hom]
   simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id]
-  show (HomologicalComplex.singleObjXSelf (ComplexShape.down ℕ) 0 Q).hom ≫
+  change (HomologicalComplex.singleObjXSelf (ComplexShape.down ℕ) 0 Q).hom ≫
       (HomologicalComplex.singleObjHomologySelfIso (ComplexShape.down ℕ) 0 Q).inv ≫
         ((ChainComplex.single₀ (ModuleCat.{u} A)).obj Q).homologyι 0 =
     ((ChainComplex.single₀ (ModuleCat.{u} A)).obj Q).pOpcycles 0
@@ -143,7 +143,7 @@ theorem koszulAugmentation_homologyMap_zero_isIso
     change ⋀[A]^0 (Fin r → A) at x
     have hf := congrArg (fun (h : (Koszul.seqComplex f).X 0 ⟶ Q) => h.hom x)
       (homologyZeroIso_fac f)
-    show (Ideal.span (Set.range f)).mkQ ((exteriorPower.zeroEquiv A (Fin r → A)) x) =
+    change (Ideal.span (Set.range f)).mkQ ((exteriorPower.zeroEquiv A (Fin r → A)) x) =
       (homologyZeroIso f).hom.hom
         ((Koszul.seqComplex f).isoHomologyι₀.inv.hom
           (((Koszul.seqComplex f).pOpcycles 0).hom x))

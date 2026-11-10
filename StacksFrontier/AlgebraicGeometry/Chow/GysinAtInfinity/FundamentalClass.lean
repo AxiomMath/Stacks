@@ -134,7 +134,7 @@ theorem infinityCap_fundamentalChowClass {T : Scheme.{u}} (g : T ⟶ X) [Locally
         (gysinTripleInclusion L s ≫ (π ≫ f))) (k - 0) := by
   rw [infinityCap_eq_of_isLift C f π j hU L s hcompl htriv
     (isLift_fundamentalChowClass C f π j hU g k hT hW), divisorMiddleCap, middleCap_apply]
-  show chowGroupDegreeEquiv C _ _ (properChowPushforward C _ _ _ _ _ _
+  change chowGroupDegreeEquiv C _ _ (properChowPushforward C _ _ _ _ _ _
     (gysinBivariantCap C (gysinSystemOfInvertible C) (π ≫ f) L s (pullback.fst π g) (k + 1)
       (fundamentalChowClass C (testStr C f π g) (k + 1)))) = _
   rw [gysinBivariantCap_apply, chowGroupDegreeEquiv_fundamentalChowClass,

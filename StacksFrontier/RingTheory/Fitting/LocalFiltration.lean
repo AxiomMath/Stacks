@@ -127,7 +127,7 @@ theorem subsingleton_pi_quotient_span_singleton {c : R} (hc : IsUnit c) (k : ℕ
 /-- Two modules with at most one element are isomorphic. -/
 def subsingletonEquiv (A : Type v) (B : Type w) [AddCommGroup A] [Module R A]
     [AddCommGroup B] [Module R B] [Subsingleton A] [Subsingleton B] : A ≃ₗ[R] B :=
-  LinearEquiv.ofLinear 0 0 (by ext x; exact Subsingleton.elim _ _)
+  LinearEquiv.ofLinearMap 0 0 (by ext x; exact Subsingleton.elim _ _)
     (by ext x; exact Subsingleton.elim _ _)
 
 /-- The graded piece over the zero submodule is the submodule itself. -/
@@ -168,7 +168,7 @@ def gradedQuotComapEquiv (φ : M →ₗ[R] M₂) (hφ : Function.Surjective φ) 
     gradedQuot (N.comap φ) (P.comap φ) ≃ₗ[R] gradedQuot N P := by
   have hres : ∀ x ∈ P.comap φ, φ x ∈ P := fun _ hx => hx
   have hψcoe : ∀ x : ↥(P.comap φ), ((φ.restrict hres x : ↥P) : M₂) = φ (x : M) := fun x => by
-    rw [LinearMap.restrict_coe_apply]
+    rw [LinearMap.coe_restrict_apply]
   have hgsurj : Function.Surjective
       ((Submodule.comap P.subtype N).mkQ ∘ₗ φ.restrict hres) := by
     intro y
@@ -246,7 +246,7 @@ theorem range_lsmul_mul_le (c d : R) :
       LinearMap.range (LinearMap.lsmul R M d) := by
   rintro _ ⟨x, rfl⟩
   refine ⟨c • x, ?_⟩
-  show d • (c • x) = (c * d) • x
+  change d • (c • x) = (c * d) • x
   rw [smul_smul, mul_comm]
 
 /-- What a factor kills is killed by the product. -/
@@ -255,7 +255,7 @@ theorem ker_le_ker_lsmul_mul (c d : R) :
       LinearMap.ker (LinearMap.lsmul R M (c * d)) := by
   intro x hx
   have hx' : d • x = 0 := hx
-  show (c * d) • x = 0
+  change (c * d) • x = 0
   rw [← smul_smul, hx', smul_zero]
 
 /-- Multiplication by one has the whole module as image. -/
@@ -463,12 +463,12 @@ theorem map_ker_lsmul_of_equiv (e : M ≃ₗ[R] M₂) (c : R) :
   refine Submodule.ext fun y => ⟨?_, ?_⟩
   · rintro ⟨x, hx, rfl⟩
     have hx' : c • x = 0 := hx
-    show c • (e x) = 0
+    change c • (e x) = 0
     rw [← e.map_smul, hx', map_zero]
   · intro hy
     have hy' : c • y = 0 := hy
     refine ⟨e.symm y, ?_, by simp⟩
-    show c • (e.symm y) = 0
+    change c • (e.symm y) = 0
     rw [← e.symm.map_smul, hy', map_zero]
 
 /-- The local package transports along an isomorphism of modules. -/
@@ -584,7 +584,7 @@ theorem map_ofBase_range_lsmul (c : R) :
   have hcomm : (ofBase B f) ∘ₗ LinearMap.lsmul R (Cokernel B) c
       = (LinearMap.lsmul R (Cokernel (f • B)) c) ∘ₗ (ofBase B f) := by
     refine LinearMap.ext fun x => ?_
-    show ofBase B f (c • x) = c • (ofBase B f x)
+    change ofBase B f (c • x) = c • (ofBase B f x)
     rw [map_smul]
   rw [← LinearMap.range_comp, hcomm, LinearMap.range_comp,
     ← range_lsmul_eq_range_ofBase B f, ← LinearMap.range_comp, lsmul_comp_lsmul]
@@ -598,7 +598,7 @@ theorem comap_toBase_ker_lsmul (hf : f ∈ nonZeroDivisors R) (c : R) :
   have hcomm : (LinearMap.lsmul R (Cokernel B) c) ∘ₗ (toBase B f)
       = (toBase B f) ∘ₗ (LinearMap.lsmul R (Cokernel (f • B)) c) := by
     refine LinearMap.ext fun x => ?_
-    show c • (toBase B f x) = toBase B f (c • x)
+    change c • (toBase B f x) = toBase B f (c • x)
     rw [map_smul]
   have hkt : LinearMap.ker (toBase B f)
       = LinearMap.ker (LinearMap.lsmul R (Cokernel (f • B)) f) := by
@@ -761,7 +761,7 @@ theorem nonempty_localData [IsLocalRing R] : ∀ (n : ℕ) (A : Matrix (Fin n) (
     · intro k
       have he : Cokernel A ≃ₗ[R] (Fin 0 → R) := subsingletonEquiv _ _
       rw [fittingIdeal_eq_of_linearEquiv_int he (k : ℤ),
-        fittingIdeal_fin_eq_bot_or_top 0 (k : ℤ), if_neg (by push_cast; omega),
+        fittingIdeal_fin_eq_bot_or_top 0 (k : ℤ), ite_eq_right (by push_cast; omega),
         Finset.Icc_eq_empty (by omega), Finset.prod_empty]
       exact Ideal.one_eq_top.symm
     · exact eq_bot_of_subsingleton _

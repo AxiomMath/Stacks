@@ -33,7 +33,7 @@ universe u
 
 namespace AlgebraicGeometry.Scheme.Hom
 
-variable {T U : Scheme.{u}} (π : T ⟶ U) [IsClosedImmersion π] (y : T)
+variable {T U : Scheme.{u}} (π : T ⟶ U) (y : T)
 
 /-- The point of `U` of the pullback of a prime of `𝒪_{T, y}` along the stalk map of `π` is the
 image under `π` of the point of `T` of that prime. -/
@@ -41,6 +41,8 @@ theorem fromSpecStalk_comap_stalkMap (q : PrimeSpectrum (T.presheaf.stalk y)) :
     U.fromSpecStalk (π y) (PrimeSpectrum.comap (π.stalkMap y).hom q) = π (T.fromSpecStalk y q) :=
   congrArg (fun g : Spec (T.presheaf.stalk y) ⟶ U => g q)
     (Scheme.SpecMap_stalkMap_fromSpecStalk π (x := y))
+
+variable [IsClosedImmersion π]
 
 /-- **The primes containing the kernel of the stalk map of a closed immersion.** A prime of
 `𝒪_{U, π y}` contains the kernel of the (surjective) stalk map at `y` if and only if its point

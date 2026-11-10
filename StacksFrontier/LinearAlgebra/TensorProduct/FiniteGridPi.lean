@@ -58,8 +58,7 @@ variable {A A' A'' B B' B'' : Type*} [AddCommGroup A] [Module R A] [AddCommGroup
 /-- `TensorProduct.map` is subtractive in its first argument. -/
 theorem map_sub_left (u u' : A →ₗ[R] A') (q : B →ₗ[R] B') (w : A ⊗[R] B) :
     map (u - u') q w = map u q w - map u' q w := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul x y => simp [TensorProduct.sub_tmul]
   | add w w' hw hw' =>
     rw [map_add, map_add, map_add, hw, hw']
@@ -68,8 +67,7 @@ theorem map_sub_left (u u' : A →ₗ[R] A') (q : B →ₗ[R] B') (w : A ⊗[R] 
 /-- `TensorProduct.map` is subtractive in its second argument. -/
 theorem map_sub_right (u : A →ₗ[R] A') (q q' : B →ₗ[R] B') (w : A ⊗[R] B) :
     map u (q - q') w = map u q w - map u q' w := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul x y => simp [TensorProduct.tmul_sub]
   | add w w' hw hw' =>
     rw [map_add, map_add, map_add, hw, hw']
@@ -118,8 +116,7 @@ theorem exists_map_proj_eq [Finite I] [Finite J] (z : ∀ i, ∀ j, A i ⊗[R] B
           (TensorProduct.comm R (∀ j, B j) (A i)).trans (TensorProduct.piRight R R (A i) B)))
   obtain ⟨w, rfl⟩ := e.surjective z
   refine ⟨w, fun i j => ?_⟩
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul x y => simp [e]
   | add w w' hw hw' => simp [hw, hw']
 

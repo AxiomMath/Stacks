@@ -54,7 +54,7 @@ theorem pushforwardTwistMap_twistMulLeftIntOf {k : ℕ} (a : 𝒜 k) (d e : ℤ)
   intro U
   apply ModuleCat.hom_ext
   refine LinearMap.ext fun s => Subtype.ext (funext fun y => ?_)
-  show fibreMap φ hφ y.1 (LocalizedModule.map _ (LinearMap.mulLeft A (a : A)) (s.1 ⟨_, y.2⟩)) =
+  change fibreMap φ hφ y.1 (LocalizedModule.map _ (LinearMap.mulLeft A (a : A)) (s.1 ⟨_, y.2⟩)) =
     LocalizedModule.map _ (LinearMap.mulLeft B (φ a)) (fibreMap φ hφ y.1 (s.1 ⟨_, y.2⟩))
   induction s.1 ⟨_, y.2⟩ using LocalizedModule.induction_on with
   | h m t =>

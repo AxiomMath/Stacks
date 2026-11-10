@@ -68,7 +68,7 @@ theorem range_h1RootsOfUnityToPicard :
   set e := etaleH1MultiplicativeAddEquivPicard.{w, v, u} X
   constructor
   · rintro ⟨x, rfl⟩
-    show n • e (Sheaf.H.map (rootsOfUnityι.{u, v} X n) 1 x) = 0
+    change n • e (Sheaf.H.map (rootsOfUnityι.{u, v} X n) 1 x) = 0
     rw [← map_nsmul, ← sheafH_map_powMap X n 1,
       (mem_range_sheafH_map_rootsOfUnityι_iff X hn0 hX 1 _).1 ⟨x, rfl⟩, map_zero]
   · intro hy

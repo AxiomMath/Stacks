@@ -51,7 +51,7 @@ private theorem isZero_or_nonempty_iso_of_iso {C : Type*} [Category C] [Preaddit
 `R^q q̄_* 𝐙/ℓ` constructible and `t` finite of finite presentation, through the identity
 compactification of the proper morphism `t ∘ q̄`: every cohomology sheaf of `K` is zero or the
 constant sheaf on a finite module `M` killed by `m > 0`. -/
-theorem isConstructibleEtaleModule_homology_derivedLowerShriek_ofProper_comp_isFinite_of_hasConstantCohomology
+theorem isConstructible_homology_derivedLowerShriek_ofProper_comp_isFinite_of_hasConstantCohomology
     (hℓ : ∀ ℓ : ℕ, ℓ.Prime → ∀ q : ℕ, IsBigSiteConstructibleEtaleModule B T (ZMod ℓ)
       (rightDerivedConstantUnit (B.inclusion.map qbar) q (ZMod ℓ)))
     (m : ℕ) (hm : 0 < m) (M : ModuleCat.{u + 1} Λ) (hM : Module.Finite Λ M)
@@ -114,7 +114,7 @@ theorem isConstructibleEtaleModule_homology_derivedLowerShriek_ofProper_comp_isF
         (CompactificationOf.ofProper _) Λ).obj
         ((DerivedCategory.Plus.singleFunctor _ 0).obj
           ((constantSheaf Ybar.obj.smallEtaleTopology (ModuleCat.{u + 1} Λ)).obj M)))) :=
-  isConstructibleEtaleModule_homology_derivedLowerShriek_ofProper_comp_isFinite_of_hasConstantCohomology
+  isConstructible_homology_derivedLowerShriek_ofProper_comp_isFinite_of_hasConstantCohomology
     B qbar t Λ hℓ m hm M hM hmM _ (hasConstantCohomologyPlus_singleFunctor Λ M) n
 
 end Stacks.EtaleCohomology

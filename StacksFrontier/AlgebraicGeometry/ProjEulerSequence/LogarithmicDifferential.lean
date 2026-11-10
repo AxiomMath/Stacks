@@ -96,10 +96,10 @@ theorem divCoordFun_mem (a : Fin (n + 1)) {V : Opens (ProjectiveSpectrum.top (po
     SetLike.mul_mem_graded (X_mem_one R n a) hv,
     fun y => y.1.asHomogeneousIdeal.toIdeal.primeCompl.mul_mem (hV (ιV y).2) (hnin y),
     fun y => ?_⟩
-  · show m ∈ integerGrading (polyGrading R n) (((1 + k : ℕ) : ℤ) + 0)
+  · change m ∈ integerGrading (polyGrading R n) (((1 + k : ℕ) : ℤ) + 0)
     rwa [show ((1 + k : ℕ) : ℤ) + 0 = (k : ℤ) + 1 by push_cast; ring]
   · have hy : t.1 (ιV y) = Localization.mk m ⟨v, hnin y⟩ := heq y
-    show Localization.mk 1 ⟨MvPolynomial.X a, hV (ιV y).2⟩ * t.1 (ιV y) = _
+    change Localization.mk 1 ⟨MvPolynomial.X a, hV (ιV y).2⟩ * t.1 (ιV y) = _
     rw [hy, Localization.mk_mul]
     exact Localization.mk_eq_mk_iff.mpr (Localization.r_of_eq (by simp))
 
@@ -128,7 +128,7 @@ theorem bijective_smul_coordSection (a : Fin (n + 1))
         ((zeroTwistEquiv (polyGrading R n) V).apply_symm_apply τ)) x
     simp only
     rw [smul_sections_apply, hτ, coordSection_apply]
-    show Localization.mk 1 ⟨MvPolynomial.X a, hV x.2⟩ * t.1 x *
+    change Localization.mk 1 ⟨MvPolynomial.X a, hV x.2⟩ * t.1 x *
       Localization.mk (MvPolynomial.X a) 1 = t.1 x
     rw [mul_comm, ← mul_assoc, Localization.mk_mul, mul_one, one_mul]
     exact (congrArg (· * t.1 x) (Localization.mk_self (⟨MvPolynomial.X a, hV x.2⟩ :
@@ -262,7 +262,7 @@ theorem smul_pderivApp_eq {a b : Fin (n + 1)} (k : Fin (n + 1))
   refine (congrArg₂ (· * ·) (val_of_smul_coordSection R n hVb _ hinv x)
     (congrArg (pderivFiber R n k x.1) (val_of_smul_coordSection R n hVa _ hu x))).trans ?_
   refine (mk_mul_pderivFiber_mk R n x.1 (hVa x.2) (hVb x.2)).trans ?_
-  show _ = ((if b = k then invCoordSection R n b hVb else 0 :
+  change _ = ((if b = k then invCoordSection R n b hVb else 0 :
       moduleSections (polyGrading R n) (twistGrading (polyGrading R n) (-1)) V)).1 x -
     ((if a = k then invCoordSection R n a hVa else 0 :
       moduleSections (polyGrading R n) (twistGrading (polyGrading R n) (-1)) V)).1 x

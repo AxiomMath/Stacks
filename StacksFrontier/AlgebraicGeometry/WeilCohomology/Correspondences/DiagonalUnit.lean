@@ -136,7 +136,7 @@ theorem cycleGroup_addMonoidHom_ext {C : ChowSituation.{u}} {X : Scheme.{u}} {p 
     apply Subtype.ext
     apply Function.locallyFinsuppWithin.ext
     intro y
-    simp only [AddSubgroup.val_finset_sum, AddSubgroup.coe_zsmul,
+    simp only [AddSubgroup.val_finsetSum, AddSubgroup.coe_zsmul,
       Function.locallyFinsuppWithin.coe_sum, Finset.sum_apply,
       Function.locallyFinsuppWithin.coe_zsmul, Pi.smul_apply, smul_eq_mul]
     by_cases hy : α.1 y = 0
@@ -917,8 +917,7 @@ theorem DiagonalClassFamily.ProperIntersectionFormula.composition_graph_id
     composition k sX sX sY Δ hX hX hY 0 s
         (graphCorrespondence sX sX (𝟙 X) (Category.id_comp sX) d) c =
       correspondenceCongr k sX sY (zero_add s).symm c := by
-  induction c using TensorProduct.induction_on with
-  | zero => simp
+  induction c using TensorProduct.inductionOn with
   | tmul q c =>
     rw [graphCorrespondence, composition_tmul, correspondenceCongr_tmul, one_mul,
       hΔ.compositionInt_graph_id k sX sY hX hY s c]
@@ -940,8 +939,7 @@ theorem DiagonalClassFamily.ProperIntersectionFormula.composition_id_graph
     composition k sX sY sY Δ hX hY hY r 0 c
         (graphCorrespondence sY sY (𝟙 Y) (Category.id_comp sY) e) =
       correspondenceCongr k sX sY (add_zero r).symm c := by
-  induction c using TensorProduct.induction_on with
-  | zero => simp
+  induction c using TensorProduct.inductionOn with
   | tmul q c =>
     rw [graphCorrespondence, composition_tmul, correspondenceCongr_tmul, mul_one,
       hΔ.compositionInt_id_graph k sX sY hX hY r c]

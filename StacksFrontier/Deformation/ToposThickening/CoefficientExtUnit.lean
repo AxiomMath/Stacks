@@ -85,7 +85,7 @@ theorem sheafTensorLeft_map_globalSmul
         (PresheafOfModules.tensorObj (O := O.obj) G.val F.val) := by
     refine PresheafOfModules.tensorObj_hom_ext fun U x y ↦ ?_
     let r : ((ringPresheaf O.obj).obj U) := f.val U
-    show x ⊗ₜ[(ringPresheaf O.obj).obj U] (r • y) = r • (x ⊗ₜ[(ringPresheaf O.obj).obj U] y)
+    change x ⊗ₜ[(ringPresheaf O.obj).obj U] (r • y) = r • (x ⊗ₜ[(ringPresheaf O.obj).obj U] y)
     rw [TensorProduct.tmul_smul]
   exact (congrArg (fun ψ => (PresheafOfModules.sheafification
     (𝟙 (commRingSheafToRingSheaf O).obj)).map ψ) h1).trans
@@ -116,6 +116,7 @@ section Scalar
 
 variable [Linear k (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O₀))]
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **A degreewise scalar derives to the scalar.** If a map `a : I₀ ⟶ I₀` of sheaves of modules
 acts on every tensor product `M ⊗_{O₀} I₀` as the scalar `c`, then the induced endomorphism of
 `- ⊗^L I₀` is `c` at every object, for the `k`-linear structure of the derived category induced
@@ -249,11 +250,11 @@ theorem isCoefficientScalar_linearOfHom
     let := Stacks.TensorByBaseModule.linearOfHom k J O₀ θ
     let := Stacks.TensorByBaseModule.tensorByBaseModuleOfHom_linear k J O₀
       (SheafOfModules.unit _) θ
-    show (Stacks.TensorByBaseModule.tensorByBaseModuleOfHom k J O₀ (SheafOfModules.unit _)
+    change (Stacks.TensorByBaseModule.tensorByBaseModuleOfHom k J O₀ (SheafOfModules.unit _)
       θ).map (c • 𝟙 (ModuleCat.of k k)) = _
     rw [Functor.map_smul, CategoryTheory.Functor.map_id]
     exact Category.comp_id _
-  show ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u} O₀).obj M).map
+  change ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u} O₀).obj M).map
     ((coefficientModule θ).map (c • 𝟙 (FGModuleCat.of k k))) = _
   rw [h1]
   have : ∀ U, IsMulCommutative ((Stacks.commRingSheafToRingSheaf O₀).obj.obj U) :=

@@ -169,7 +169,7 @@ theorem fiber_preimage_subset_affine_of_isAffineHom
     exists_isAffineOpen_mem_and_subset (show b y ∈ (⊤ : P.Opens) from trivial)
   refine ⟨a ⁻¹ᵁ V, hV.preimage a, ?_⟩
   intro z hz
-  show a (i z) ∈ V
+  change a (i z) ∈ V
   rw [← Scheme.Hom.comp_apply, h.w, Scheme.Hom.comp_apply, hz]
   exact hy
 

@@ -174,7 +174,7 @@ public theorem pullbackSection_comp {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y �
   dsimp only [Functor.id_obj] at hnat₂
   unfold pullbackSection
   rw [Iso.app_inv, hnat₁, pullbackComp_inv_unit, hnat₂]
-  show ConcreteCategory.hom (((Scheme.Modules.pullback f).obj
+  change ConcreteCategory.hom (((Scheme.Modules.pullback f).obj
       ((Scheme.Modules.pullback g).obj M)).val.map (homOfLE hf).op)
     (ConcreteCategory.hom (((Scheme.Modules.pullback f).obj
       ((Scheme.Modules.pullback g).obj M)).val.map
@@ -237,7 +237,7 @@ public theorem restrictFunctorIsoPullback_inv_pullbackSection {X Y : Scheme.{u}}
     (((Scheme.Modules.pullbackPushforwardAdjunction f).unit.app M).val.app (op U) a)
   unfold pullbackSection
   rw [hnat, restrictFunctorIsoPullback_inv_unit]
-  show (M.restrict f).presheaf.map (homOfLE h).op
+  change (M.restrict f).presheaf.map (homOfLE h).op
     (M.presheaf.map (homOfLE (f.image_preimage_le U)).op a) =
       M.presheaf.map (homOfLE h').op a
   rw [Scheme.Modules.restrict_map]
@@ -347,12 +347,12 @@ public theorem quasicoherentPullbackSectionsIso_hom_one_tmul (R S : CommRingCat.
     simp only [Scheme.Modules.Hom.comp_app, Scheme.Modules.Hom.id_app] at hi
     refine hi.trans ?_
     exact (pullbackTildeIso_hom_app_unit_toOpen R S φ M m).symm
-  show (moduleSpecΓFunctor (R := S)).map
+  change (moduleSpecΓFunctor (R := S)).map
       ((Scheme.Modules.pullback (Spec.map φ)).mapIso eG.symm ≪≫ eT).symm.hom
       ((tilde.isoTop ((ModuleCat.extendScalars φ.hom).obj M)).hom
         ((1 : S) ⊗ₜ[R, φ.hom] m)) = _
   rw [tilde.isoTop_hom]
-  show ((Scheme.Modules.pullback (Spec.map φ)).map eG.hom).app ⊤
+  change ((Scheme.Modules.pullback (Spec.map φ)).map eG.hom).app ⊤
       ((eT.inv.app ⊤)
         (tilde.toOpen ((ModuleCat.extendScalars φ.hom).obj M) ⊤
           ((1 : S) ⊗ₜ[R, φ.hom] m))) = _
@@ -451,7 +451,7 @@ public theorem affinePullbackSectionsSquareIso_hom_pullbackSection
       (le_trans hg (Scheme.Hom.preimage_mono g hUtop))
   have hcomp' : (⊤ : (Spec Γ(Y, V)).Opens) ≤ (bV ≫ f) ⁻¹ᵁ U := by rw [← hmaps]; exact hcomp
   set s := affineSectionsLinearEquiv F hU t with hs
-  show (((Scheme.Modules.pullbackComp bV f).app F).inv.val.app (op ⊤)
+  change (((Scheme.Modules.pullbackComp bV f).app F).inv.val.app (op ⊤)
       (((Scheme.Modules.pullbackCongr hmaps).app F).hom.val.app (op ⊤)
       (((Scheme.Modules.pullbackComp g bU).app F).hom.val.app (op ⊤)
       (((Scheme.Modules.pullback g).map
@@ -494,7 +494,7 @@ public theorem affinePullbackSectionsOuterIso_hom_pullbackSection
   have : IsOpenImmersion hV.fromSpec := hV.isOpenImmersion_fromSpec
   have hVtop : (⊤ : (Spec Γ(Y, V)).Opens) ≤ hV.fromSpec ⁻¹ᵁ V := by
     rw [hV.fromSpec_preimage_self]
-  show (affineSectionsLinearEquiv ((Scheme.Modules.pullback f).obj F) hV)
+  change (affineSectionsLinearEquiv ((Scheme.Modules.pullback f).obj F) hV)
     (((Scheme.Modules.restrictFunctorIsoPullback hV.fromSpec).inv.app
       ((Scheme.Modules.pullback f).obj F)).val.app (op ⊤)
       ((affinePullbackSectionsSquareIso f F hU hV hVU).hom.val.app (op ⊤)
@@ -529,7 +529,7 @@ public theorem affinePullbackSectionsInnerIso_hom_one_tmul
       Scheme.Modules.pullbackSection (Spec.map (f.appLE U V hVU))
         (F.restrict hU.fromSpec) ⊤ ⊤ hg ((affineSectionsLinearEquiv F hU).symm a) := by
   have : IsOpenImmersion hU.fromSpec := hU.isOpenImmersion_fromSpec
-  show (quasicoherentPullbackSectionsIso (CommRingCat.of Γ(X, U)) (CommRingCat.of Γ(Y, V))
+  change (quasicoherentPullbackSectionsIso (CommRingCat.of Γ(X, U)) (CommRingCat.of Γ(Y, V))
       (f.appLE U V hVU) (F.restrict hU.fromSpec)).hom
       ((ModuleCat.extendScalars (f.appLE U V hVU).hom).map
         (affineSectionsLinearEquiv F hU).toModuleIso.symm.hom
@@ -562,7 +562,7 @@ public theorem affinePullbackSectionsBaseChangeIso_one_tmul
         ((1 : Γ(Y, V)) ⊗ₜ[Γ(X, U), (f.appLE U V hVU).hom] a) =
       Scheme.Modules.pullbackSection f F U V hVU a := by
   have hg : (⊤ : (Spec Γ(Y, V)).Opens) ≤ Spec.map (f.appLE U V hVU) ⁻¹ᵁ ⊤ := by simp
-  show (affinePullbackSectionsOuterIso f F hU hV hVU).hom
+  change (affinePullbackSectionsOuterIso f F hU hV hVU).hom
     ((affinePullbackSectionsInnerIso f F hU hVU).hom
       ((1 : Γ(Y, V)) ⊗ₜ[Γ(X, U), (f.appLE U V hVU).hom] a)) = _
   rw [affinePullbackSectionsInnerIso_hom_one_tmul f F hU hVU hg a,

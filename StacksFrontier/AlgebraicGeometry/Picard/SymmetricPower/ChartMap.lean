@@ -102,8 +102,8 @@ theorem chartMap_app_eq {T : Scheme.{u}} (c : T ⟶ chartScheme w) (s : T ⟶ S)
     (e : c ≫ chartStructure w = s) :
     (chartMap w).app (op T) c =
       ⟨s, baseChange X (Over.homMk c e : Over.mk s ⟶ chartOver w) (universalFamily w)⟩ := by
-  show (hilbPresheaf X d).map c.op ⟨chartStructure w, universalFamily w⟩ = _
-  show (⟨c ≫ chartStructure w, familyPullback X d c rfl (universalFamily w)⟩ :
+  change (hilbPresheaf X d).map c.op ⟨chartStructure w, universalFamily w⟩ = _
+  change (⟨c ≫ chartStructure w, familyPullback X d c rfl (universalFamily w)⟩ :
     HilbSections X d T) = _
   rw [sigma_eq_iff]
   refine ⟨e, ?_⟩
@@ -182,7 +182,7 @@ theorem inImage_chartMap_iff {T : Scheme.{u}} [IsAffine T] (s : T ⟶ S)
     conv_rhs => rw [← chartFamily_chartFunctionOf X w h]
     refine (chartFamily_congr w _ _ ?_).trans rfl
     funext l a
-    show c.appTop ((Scheme.ΓSpecIso (chartRingCat w)).inv (tUniv Γ(S, ⊤) w l a)) = t l a
+    change c.appTop ((Scheme.ΓSpecIso (chartRingCat w)).inv (tUniv Γ(S, ⊤) w l a)) = t l a
     rw [chartPoint_appTop_apply]
     exact lift_tUniv ht l a
 

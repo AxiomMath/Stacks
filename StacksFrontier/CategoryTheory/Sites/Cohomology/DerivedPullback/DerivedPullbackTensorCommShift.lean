@@ -167,6 +167,7 @@ noncomputable def pullbackTensorTotalComplexFlipObjIso
     rw [CategoryTheory.Functor.map_id]
     rfl)
 
+omit [HasSheafify X.J (Type u)] [HasSheafify Y.J (Type u)] in
 /-- The component of `pullbackTensorTotalComplexFlipObjIso f L` at `K` is
 `pullbackTensorTotalComplexIso f K L`. -/
 lemma pullbackTensorTotalComplexFlipObjIso_hom_app
@@ -212,7 +213,8 @@ variable {X : RingedTopos.{u, c, u}} {Y : RingedTopos.{u, c', u}}
 
 omit [X.J.HasSheafCompose (forget RingCat.{u})] [X.J.HasSheafCompose (forget AddCommGrpCat.{u})]
   [HasSheafify X.J (Type u)] [Y.J.HasSheafCompose (forget RingCat.{u})]
-  [Y.J.HasSheafCompose (forget AddCommGrpCat.{u})] [HasSheafify Y.J (Type u)] in
+  [Y.J.HasSheafCompose (forget AddCommGrpCat.{u})] [HasSheafify Y.J (Type u)]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- Every object of `D(𝒪')` is the class of a K-flat complex with flat terms. -/
 lemma exists_flatKFlatComplexes_iso
     (L : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))) :

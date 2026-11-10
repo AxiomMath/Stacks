@@ -97,7 +97,7 @@ private lemma regular_affine_of_regular_stalk (X : Scheme.{u})
   let z : PrimeSpectrum Γ(X, U) := ⟨p, hp⟩
   let x : X := U.2.fromSpec z
   have hx : x ∈ U.val := by
-    show z ∈ U.2.fromSpec ⁻¹ᵁ (U : X.Opens)
+    change z ∈ U.2.fromSpec ⁻¹ᵁ (U : X.Opens)
     rw [U.2.fromSpec_preimage_self]
     trivial
   let := X.presheaf.algebra_section_stalk ⟨x, hx⟩
@@ -135,7 +135,7 @@ public lemma regular_atPrime_of_le {R : Type u} [CommRing R] [IsNoetherianRing R
   exact IsRegularLocalRing.of_ringEquiv
     (Localization.localRingEquiv
       (Q.comap (algebraMap R (Localization.AtPrime q))) p (RingEquiv.refl R) (by
-        show Q.comap (algebraMap R (Localization.AtPrime q)) = p.comap (RingHom.id R)
+        change Q.comap (algebraMap R (Localization.AtPrime q)) = p.comap (RingHom.id R)
         simpa using hQ))
 
 /-- A scheme is regular if and only if it is locally Noetherian with regular local rings at
@@ -164,7 +164,7 @@ theorem isRegular_tfae (X : Scheme.{u}) :
       let py := V.2.primeIdealOf ⟨y, hyV⟩
       have hpxy : px ≤ py := by
         rw [PrimeSpectrum.le_iff_specializes]
-        show V.2.isoSpec.hom ⟨x, hxV⟩ ⤳ V.2.isoSpec.hom ⟨y, hyV⟩
+        change V.2.isoSpec.hom ⟨x, hxV⟩ ⤳ V.2.isoSpec.hom ⟨y, hyV⟩
         exact V.2.isoSpec.hom.base.hom.map_specializes
           (Topology.IsInducing.subtypeVal.specializes_iff.mp hxy)
       have : IsNoetherianRing Γ(X, V) := IsLocallyNoetherian.component_noetherian V

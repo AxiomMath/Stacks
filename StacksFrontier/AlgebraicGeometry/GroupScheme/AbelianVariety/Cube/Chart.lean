@@ -234,12 +234,12 @@ include ha₀
 theorem le_σe_preimage : V ≤ σe ⁻¹ᵁ faceOpen V U (fun _ : Fin 1 => a₀) := by
   intro z hz
   refine ⟨?_, ?_⟩
-  · show (σe ≫ bx A) z ∈ CechCochains.inter U (fun _ : Fin 1 => a₀)
+  · change (σe ≫ bx A) z ∈ CechCochains.inter U (fun _ : Fin 1 => a₀)
     rw [σe_bx, mem_inter]
     intro _
     have : A.hom z ∈ eA (A := A) ⁻¹ᵁ U a₀ := by rw [ha₀]; trivial
     exact this
-  · show (σe ≫ bz A) z ∈ V
+  · change (σe ≫ bz A) z ∈ V
     rw [σe_bz]; exact hz
 
 /-- Evaluation of a degree-zero face cochain at the identity point. -/

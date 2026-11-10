@@ -249,7 +249,7 @@ theorem chartAlgebraIso_hom_comp (P : PolynomialChart Λ X structureMap) :
     CommRingCat.ofHom (MvPolynomial.C : Λ →+* MvPolynomial P.variableIndex Λ) ≫
         (chartAlgebraIso Λ X structureMap P).hom =
       CommRingCat.ofHom (algebraMap Λ (chartAlgebra Λ X structureMap P : Type u)) := by
-  show CommRingCat.ofHom (MvPolynomial.C : Λ →+* MvPolynomial P.variableIndex Λ) ≫
+  change CommRingCat.ofHom (MvPolynomial.C : Λ →+* MvPolynomial P.variableIndex Λ) ≫
       (Scheme.ΓSpecIso (CommRingCat.of (MvPolynomial P.variableIndex Λ))).inv ≫
         P.affineEquiv.hom.appTop =
     (Scheme.ΓSpecIso (CommRingCat.of Λ)).inv ≫ P.toBase.appTop

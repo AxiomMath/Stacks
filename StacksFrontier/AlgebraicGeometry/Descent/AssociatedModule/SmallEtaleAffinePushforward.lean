@@ -191,8 +191,7 @@ theorem bijective_restrictionBaseChange_pushforward
   have key : ∀ x, (restrictionBaseChange (R := RD)
         ((PresheafOfModules.pushforward (ringMap ψ)).obj M) f) x = hbc.equiv (e.symm x) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans ((congrArg _ (map_zero _)).trans (map_zero _)).symm
+    induction x using TensorProduct.inductionOn with
     | tmul s mm =>
       refine Eq.trans (restrictionBaseChange_tmul (R := RD)
         ((PresheafOfModules.pushforward (ringMap ψ)).obj M) f s mm) ?_
@@ -499,7 +498,7 @@ def pushforwardAssociatedModuleIso [IsAffineHom (schemeHom B a)]
         ((Scheme.Modules.pushforward (schemeHom B a)).obj 𝓕) :=
   haveI h𝓜 : ((associatedModule B X.obj X.property).obj 𝓕).IsQuasicoherentOnSite :=
     isQuasicoherentOnSite_associatedModule_of_isQuasicoherent B X.obj X.property 𝓕 h𝓕
-  haveI hu : IsIso ((associatedModuleAdjunction B X.obj X.property).unit.app 𝓕) :=
+  haveI : IsIso ((associatedModuleAdjunction B X.obj X.property).unit.app 𝓕) :=
     unitIsoOnQuasicoherent B X.obj X.property ⟨𝓕, h𝓕⟩
   haveI := isIso_counit_pushforward B a _ h𝓜
   (asIso ((associatedModuleAdjunction B Y.obj Y.property).counit.app

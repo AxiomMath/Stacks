@@ -111,21 +111,22 @@ theorem preservesFiniteLimits_associatedSheaf_of_flat
 
 end Stacks.DenseSubsiteBaseChange
 
--- Instance search for the dense-subsite equivalences below exceeds the default budget.
-set_option synthInstance.maxHeartbeats 400000
-
 namespace AlgebraicGeometry.BigFppfSpaceSite
 
 open EtaleAffineSchemesOver
 
 variable {S : Scheme.{u}} (T : BigFppfSpaceSite S) (X : T.Spaces)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the dense-subsite equivalences exceeds the default budget
 /-- The ring sheaf of the ringed spaces-étale site of `X`. -/
 abbrev spacesEtaleRing :
     Sheaf (Space.SpacesEtale.topology T.schemeSite S T.scheme_mem X) RingCat.{u + 1} :=
   Stacks.SheafOfModules.Tensor.ringSheaf
     (Space.spacesEtaleRingedSite T.schemeSite S T.scheme_mem X).O
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the dense-subsite equivalences exceeds the default budget
 /-- **Modules on `X_{spaces,étale}` are modules on its slice at the final object.** -/
 def finalSliceModuleEquivalence :
     SheafOfModules.{u + 1} (spacesEtaleRing T X) ≌
@@ -141,17 +142,23 @@ variable {X} (V₀ : T.Schemes)
   (hV₀ : IsAffine ((BigFppfOver.toScheme T.schemeSite S T.scheme_mem).obj V₀))
   (e : (schemeSpaceFunctor T.schemeSite S T.scheme_mem).obj V₀ ≅ X)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the dense-subsite equivalences exceeds the default budget
 /-- The affine scheme `V₀`, as the terminal affine scheme étale over the final object. -/
 abbrev affineChartTerminal :
     EtaleAffineSchemesOver (Space.SpacesEtale.final T.schemeSite S T.scheme_mem X) :=
   ofIso V₀ hV₀ e
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the dense-subsite equivalences exceeds the default budget
 /-- **The final object of `X_{spaces,étale}` presented by `V₀`**: the algebraic space of `V₀`,
 étale over `X` through the identification `e`. -/
 abbrev affinePoint : Space.SpacesEtale T.schemeSite S T.scheme_mem X :=
   ((toSmallSlice (Space.SpacesEtale.final T.schemeSite S T.scheme_mem X)).obj
     (affineChartTerminal T V₀ hV₀ e)).left
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the dense-subsite equivalences exceeds the default budget
 /-- `affinePoint` is final in `X_{spaces,étale}`. -/
 def isTerminal_affinePoint : IsTerminal (affinePoint T V₀ hV₀ e) :=
   (Space.SpacesEtale.final_isTerminal T.schemeSite S T.scheme_mem X).ofIso
@@ -159,6 +166,8 @@ def isTerminal_affinePoint : IsTerminal (affinePoint T V₀ hV₀ e) :=
       (Space.SpacesEtale.final T.schemeSite S T.scheme_mem X).obj.left from e)
       (by rfl))).symm
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the dense-subsite equivalences exceeds the default budget
 /-- **The associated module `M ↦ M^a`** on `X_{spaces,étale}`, for a module `M` over the ring of
 sections over `affinePoint`: on an affine scheme `U` étale over `X` its sections are
 `𝒪(U) ⊗ M`. -/
@@ -168,6 +177,8 @@ def affineAssociated :
   associatedSheaf (baseChangeIsSheaf (W := Space.SpacesEtale.final T.schemeSite S T.scheme_mem X)
     V₀ hV₀ e) ⋙ (finalSliceModuleEquivalence T X).inverse
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the dense-subsite equivalences exceeds the default budget
 /-- **`M ↦ M^a` is left adjoint to sections over `affinePoint`.** -/
 def affineAssociatedAdjunction :
     affineAssociated T V₀ hV₀ e ⊣
@@ -177,6 +188,8 @@ def affineAssociatedAdjunction :
     (finalSliceModuleEquivalence T X).symm.toAdjunction).ofNatIsoRight
       (NatIso.ofComponents (fun _ ↦ Iso.refl _) (fun _ ↦ rfl))
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the dense-subsite equivalences exceeds the default budget
 /-- **`M ↦ M^a` is fully faithful.** -/
 def affineAssociatedFullyFaithful : (affineAssociated T V₀ hV₀ e).FullyFaithful :=
   (associatedSheafFullyFaithful (baseChangeIsSheaf
@@ -190,6 +203,8 @@ section Flat
 variable {T} {W : Space.SpacesEtale T.schemeSite S T.scheme_mem X}
   (e' : (schemeSpaceFunctor T.schemeSite S T.scheme_mem).obj V₀ ≅ W.obj.left)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the dense-subsite equivalences exceeds the default budget
 /-- **An affine scheme étale over `X` is étale over `V₀`**: the morphism of schemes underlying
 the unique map to the terminal affine scheme étale over `W` is étale. -/
 theorem etale_from_isTerminalOfIso (A : EtaleAffineSchemesOver W) :
@@ -206,6 +221,8 @@ theorem etale_from_isTerminalOfIso (A : EtaleAffineSchemesOver W) :
   exact (Space.presheaf_yoneda_map_etale_iff T.schemeSite S T.scheme_mem φ).1
     ((Space.isEtale_iff_presheaf_of_yoneda T.schemeSite S T.scheme_mem (yoneda.map φ)).1 het)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the dense-subsite equivalences exceeds the default budget
 /-- **The ring maps of the base change are flat**: for an affine scheme `U` étale over `W`, the
 ring of `U` is flat over the ring of `V₀`. -/
 theorem flat_rho_isTerminalOfIso (Y : (EtaleAffineSchemesOver W)ᵒᵖ) :
@@ -221,6 +238,8 @@ theorem flat_rho_isTerminalOfIso (Y : (EtaleAffineSchemesOver W)ᵒᵖ) :
   exact AffineSchemesOver.flat_ringFunctor_map_of_flat
     ((isTerminalOfIso V₀ hV₀ e').from Y.unop).hom inferInstance
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the dense-subsite equivalences exceeds the default budget
 /-- **`M ↦ M^a` on the slice at `W` is exact.** -/
 theorem preservesFiniteLimits_associatedSheaf_isTerminalOfIso :
     PreservesFiniteLimits (associatedSheaf (baseChangeIsSheaf (W := W) V₀ hV₀ e')) :=
@@ -228,6 +247,8 @@ theorem preservesFiniteLimits_associatedSheaf_isTerminalOfIso :
 
 end Flat
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the dense-subsite equivalences exceeds the default budget
 /-- **`M ↦ M^a` is exact.** -/
 theorem preservesFiniteLimits_affineAssociated :
     PreservesFiniteLimits (affineAssociated T V₀ hV₀ e) := by
@@ -244,6 +265,8 @@ section Quasicoherent
 variable {T} {W : Space.SpacesEtale T.schemeSite S T.scheme_mem X}
   (e' : (schemeSpaceFunctor T.schemeSite S T.scheme_mem).obj V₀ ≅ W.obj.left)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the dense-subsite equivalences exceeds the default budget
 /-- **Over an affine object `W` of the spaces-étale site, the direct image `a_{X,*}H` of a locally
 presented module is `M^a`** for its module `M` of sections over `W`. -/
 theorem nonempty_iso_associatedSheaf_pushforward_over
@@ -272,6 +295,8 @@ theorem nonempty_iso_associatedSheaf_pushforward_over
     sliceRingSheaf
   exact ⟨M, ⟨E.unitIso.app _ ≪≫ E.inverse.mapIso i₁.symm⟩⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the dense-subsite equivalences exceeds the default budget
 /-- `M^a` on the slice at `W` has a global presentation. -/
 theorem hasGlobalPresentation_associatedSheaf_isTerminalOfIso (M) :
     ((associatedSheaf (baseChangeIsSheaf V₀ hV₀ e')).obj M).HasGlobalPresentation := by
@@ -281,6 +306,8 @@ theorem hasGlobalPresentation_associatedSheaf_isTerminalOfIso (M) :
 
 end Quasicoherent
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the dense-subsite equivalences exceeds the default budget
 /-- **Every quasi-coherent module on the spaces-étale site of the affine `X` is some `M^a`**
 (Stacks 03DX (2)). -/
 theorem exists_iso_affineAssociated_of_isQuasicoherentOnSite
@@ -295,6 +322,8 @@ theorem exists_iso_affineAssociated_of_isQuasicoherentOnSite
   exact ⟨M, ⟨asIso (a.pullbackPushforwardAdjunctionTopos.unit.app N) ≪≫
     E.unitIso.app _ ≪≫ E.inverse.mapIso (Iso.refl _ ≪≫ i)⟩⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the dense-subsite equivalences exceeds the default budget
 /-- **`M^a` is quasi-coherent.** -/
 theorem isQuasicoherentOnSite_affineAssociated_obj
     (M : ModuleCat.{u + 1} ((spacesEtaleRing T X).obj.obj (op (affinePoint T V₀ hV₀ e)))) :
@@ -314,6 +343,8 @@ theorem isQuasicoherentOnSite_affineAssociated_obj
 
 /-! ### The morphism to the ringed point of global sections -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the dense-subsite equivalences exceeds the default budget
 /-- **The morphism `p : (X_{spaces,étale}, 𝒪_X) ⟶ (pt, Γ(X, 𝒪_X))`** to the ringed point of
 global sections, at the final object `affinePoint`. -/
 abbrev affinePointHom :
@@ -324,6 +355,8 @@ abbrev affinePointHom :
         (Space.spacesEtaleRingedSite T.schemeSite S T.scheme_mem X) (affinePoint T V₀ hV₀ e))) :=
   (RingedSite.toGlobalPoint (isTerminal_affinePoint T V₀ hV₀ e)).toRingedToposSiteHom
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the dense-subsite equivalences exceeds the default budget
 /-- **The pullback along `p` is `M ↦ M^a`** after evaluation at the point. -/
 def affinePointHomPullbackIso :
     (affinePointHom T V₀ hV₀ e).pullbackTopos ≅
@@ -331,6 +364,8 @@ def affinePointHomPullbackIso :
   RingedSite.toGlobalPointPullbackIso (isTerminal_affinePoint T V₀ hV₀ e)
     (affineAssociatedAdjunction T V₀ hV₀ e) (affineAssociatedFullyFaithful T V₀ hV₀ e)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the dense-subsite equivalences exceeds the default budget
 /-- **The pullback along `p` is exact.** -/
 instance preservesFiniteLimits_affinePointHom_pullbackTopos :
     PreservesFiniteLimits (affinePointHom T V₀ hV₀ e).pullbackTopos := by
@@ -343,6 +378,8 @@ instance preservesFiniteLimits_affinePointHom_pullbackTopos :
   have h₃ := @comp_preservesFiniteLimits _ _ _ _ _ _ _ _ h₂ h₁
   exact preservesFiniteLimits_of_natIso (affinePointHomPullbackIso T V₀ hV₀ e).symm
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the dense-subsite equivalences exceeds the default budget
 /-- The pullback along `p` is right exact, being a left adjoint. -/
 instance preservesFiniteColimits_affinePointHom_pullbackTopos :
     PreservesFiniteColimits (affinePointHom T V₀ hV₀ e).pullbackTopos :=
@@ -350,12 +387,16 @@ instance preservesFiniteColimits_affinePointHom_pullbackTopos :
     (affinePointHom T V₀ hV₀ e).pullbackPushforwardAdjunctionTopos.leftAdjoint_preservesColimits
   PreservesColimitsOfSize.preservesFiniteColimits.{0, 0} _
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the dense-subsite equivalences exceeds the default budget
 /-- **The unit `M ⟶ p_*p^*M` is invertible.** -/
 theorem isIso_affinePointHom_unit :
     IsIso (affinePointHom T V₀ hV₀ e).pullbackPushforwardAdjunctionTopos.unit :=
   RingedSite.isIso_toGlobalPoint_unit (isTerminal_affinePoint T V₀ hV₀ e)
     (affineAssociatedAdjunction T V₀ hV₀ e) (affineAssociatedFullyFaithful T V₀ hV₀ e)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the dense-subsite equivalences exceeds the default budget
 /-- **The counit `p^*p_*𝓕 ⟶ 𝓕` is invertible at every quasi-coherent `𝓕`.** -/
 theorem isIso_affinePointHom_counit_app (N : SheafOfModules.{u + 1} (spacesEtaleRing T X))
     (hN : N.IsQuasicoherentOnSite) :
@@ -364,6 +405,8 @@ theorem isIso_affinePointHom_counit_app (N : SheafOfModules.{u + 1} (spacesEtale
   exact RingedSite.isIso_toGlobalPoint_counit_app_of_iso (isTerminal_affinePoint T V₀ hV₀ e)
     (affineAssociatedAdjunction T V₀ hV₀ e) (affineAssociatedFullyFaithful T V₀ hV₀ e) N M i
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the dense-subsite equivalences exceeds the default budget
 /-- **The pullback `p^*M` is quasi-coherent.** -/
 theorem isQuasicoherentOnSite_affinePointHom_pullbackTopos_obj
     (M : SheafOfModules.{u + 1} (Stacks.SheafOfModules.Tensor.ringSheaf

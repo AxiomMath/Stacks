@@ -88,7 +88,7 @@ theorem eq_zero_of_isCartesian
   have hn : situation.{u}.componentModuleMap (ringSheaf A) g n = 0 := by
     apply comp_hom_ext_of_isCartesian hX (SimplexCategory.const ⦋0⦌ n 0)
     intro y
-    show g.val.app (op (tot n)) _ = 0
+    change g.val.app (op (tot n)) _ = 0
     rw [PresheafOfModules.naturality_apply g.val _ y, h0, map_zero]
     rfl
   exact congrArg (fun f => f.val.app (op pt) x) hn

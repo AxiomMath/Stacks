@@ -90,10 +90,10 @@ theorem exists_iso_comp_eq_of_range_eq {Z Z' X : AlgebraicSpaces B S hS} (i : Z 
   refine ⟨⟨ObjectProperty.homMk a, ObjectProperty.homMk b, ObjectProperty.hom_ext _ ?_,
     ObjectProperty.hom_ext _ ?_⟩, ObjectProperty.hom_ext _ ha⟩
   · exact (cancel_mono i.hom).1 (by
-      show (a ≫ b) ≫ i.hom = 𝟙 _ ≫ i.hom
+      change (a ≫ b) ≫ i.hom = 𝟙 _ ≫ i.hom
       rw [Category.assoc, hb, ha, Category.id_comp])
   · exact (cancel_mono i'.hom).1 (by
-      show (b ≫ a) ≫ i'.hom = 𝟙 _ ≫ i'.hom
+      change (b ≫ a) ≫ i'.hom = 𝟙 _ ≫ i'.hom
       rw [Category.assoc, ha, hb, Category.id_comp])
 
 /-- **The ideal sheaf of the base change of a closed subspace to a chart, read off its points.**

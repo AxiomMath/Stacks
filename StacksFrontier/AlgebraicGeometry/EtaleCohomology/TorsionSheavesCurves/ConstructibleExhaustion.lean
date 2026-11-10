@@ -48,7 +48,7 @@ theorem isLeftAdjoint_forget₂_moduleCat :
     (forget₂ (ModuleCat.{u + 1} Λ) AddCommGrpCat.{u + 1}).IsLeftAdjoint := by
   have : (ModuleCat.restrictScalars.{u + 1} (Int.castRingHom Λ)).IsLeftAdjoint :=
     ⟨_, ⟨ModuleCat.restrictCoextendScalarsAdj.{u + 1} (Int.castRingHom Λ)⟩⟩
-  show (ModuleCat.restrictScalars.{u + 1} (Int.castRingHom Λ) ⋙
+  change (ModuleCat.restrictScalars.{u + 1} (Int.castRingHom Λ) ⋙
     forget₂ (ModuleCat.{u + 1} ℤ) AddCommGrpCat.{u + 1}).IsLeftAdjoint
   infer_instance
 
@@ -189,7 +189,7 @@ theorem exists_isColimit_isConstructibleEtaleSheaf_of_nsmul_id_eq_zero (X : Sche
   have : eqv.functor.Additive := Functor.additive_of_preserves_binary_products _
   have : eqv.inverse.Additive := Functor.additive_of_preserves_binary_products _
   have hGB : ℓ • 𝟙 GB = 0 := by
-    show ℓ • 𝟙 (eqv.inverse.obj G) = 0
+    change ℓ • 𝟙 (eqv.inverse.obj G) = 0
     rw [← CategoryTheory.Functor.map_id, ← CategoryTheory.Functor.map_nsmul, hG, Functor.map_zero]
   let M := Stacks.ModuleCatLift.sheafOfEndAction Λ (SmallEtale.topology B X hX) GB
     (uliftZModEndRingHom ℓ GB hGB)
@@ -203,7 +203,7 @@ theorem exists_isColimit_isConstructibleEtaleSheaf_of_nsmul_id_eq_zero (X : Sche
     fun i => ⟨⟨B, hX, ?_⟩, ?_⟩⟩
   · exact isConstructibleAbelianSheaf_congr B XB (eqv.unitIso.app (F₁.obj (D.obj i)))
       (isConstructibleAbelianSheaf_forget₂ Λ B XB _ (hD i))
-  · show ℓ • 𝟙 (eqv.functor.obj (F₁.obj (D.obj i))) = 0
+  · change ℓ • 𝟙 (eqv.functor.obj (F₁.obj (D.obj i))) = 0
     rw [← CategoryTheory.Functor.map_id, ← CategoryTheory.Functor.map_nsmul,
       nsmul_id_sheafCompose_forget₂_eq_zero, Functor.map_zero]
 
@@ -223,7 +223,8 @@ theorem nsmul_section_eq_zero_of_nsmul_id_eq_zero {ℓ : ℕ} {G : Sheaf J AddCo
 theorem locallyKilledBy_of_nsmul_id_eq_zero {P : ℕ → Prop} {ℓ : ℕ} (hℓ : P ℓ)
     {G : Sheaf J AddCommGrpCat.{u + 1}} (hG : ℓ • 𝟙 G = 0) :
     Stacks.Torsion.LocallyKilledBy J P G := fun U x =>
-  ⟨⊤, J.top_mem U, fun _ _ _ => ⟨ℓ, hℓ, nsmul_section_eq_zero_of_nsmul_id_eq_zero J hG _⟩⟩
+  ⟨⊤, J.top_mem U, fun _ f _ =>
+    ⟨ℓ, hℓ, nsmul_section_eq_zero_of_nsmul_id_eq_zero J hG (G.obj.map f.op x)⟩⟩
 
 /-- An abelian sheaf killed by `ℓ` and locally killed by integers prime to `ℓ` is zero. -/
 theorem isZero_of_locallyKilledBy_of_nsmul_id_eq_zero {P : ℕ → Prop} {ℓ : ℕ}
@@ -235,13 +236,13 @@ theorem isZero_of_locallyKilledBy_of_nsmul_id_eq_zero {P : ℕ → Prop} {ℓ : 
   rw [IsZero.iff_id_eq_zero]
   apply Sheaf.hom_ext
   ext U x
-  show x = 0
+  change x = 0
   obtain ⟨R, hR, h⟩ := hG U.unop x
   refine (hsep R hR).ext fun V f hf => ?_
   obtain ⟨n, hn, hx⟩ := h V f hf
   obtain ⟨a, b, hab⟩ := Nat.isCoprime_iff_coprime.mpr (hP n hn)
   have hl := nsmul_section_eq_zero_of_nsmul_id_eq_zero J hℓ (G.obj.map f.op x)
-  show G.obj.map f.op x = G.obj.map f.op 0
+  change G.obj.map f.op x = G.obj.map f.op 0
   rw [map_zero, ← one_zsmul (G.obj.map f.op x), ← hab, add_zsmul, mul_zsmul, mul_zsmul,
     natCast_zsmul, natCast_zsmul, hx, hl, zsmul_zero, zsmul_zero, add_zero]
 
@@ -271,7 +272,7 @@ theorem of_constructible
     exists_isColimit_isConstructibleEtaleSheaf_of_nsmul_id_eq_zero X ℓ G hG
   have hcℓ : ℓ • 𝟙 c.pt = 0 :=
     calc ℓ • 𝟙 c.pt = e.hom ≫ (ℓ • 𝟙 G) ≫ e.inv := by
-          simp [Preadditive.comp_nsmul, Preadditive.nsmul_comp]
+          simp
       _ = 0 := by simp [hG]
   have hnz : ¬ IsZero c.pt := fun h' => hz (h'.of_iso e.symm)
   refine of_iso f e (of_isColimit f hc (fun i => h ℓ hℓ _ (hD i).1 (hD i).2) ?_ ?_ ?_)

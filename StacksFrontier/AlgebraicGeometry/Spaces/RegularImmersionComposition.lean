@@ -132,7 +132,7 @@ private theorem seq_quotient_of_surjective
     (RingHom.quotientKerEquivOfSurjective hq).symm.trans (Ideal.quotEquivOfEq hkerq)
   have he : ∀ k, e (q (g' k)) = Ideal.Quotient.mk (Ideal.span (Set.range f)) (g' k) := by
     intro k
-    show (Ideal.quotEquivOfEq hkerq)
+    change (Ideal.quotEquivOfEq hkerq)
       ((RingHom.quotientKerEquivOfSurjective hq).symm (q (g' k))) = _
     rw [RingHom.quotientKerEquivOfSurjective_symm_apply, Ideal.quotEquivOfEq_mk]
   have h := hQflat (e : B →+* A ⧸ Ideal.span (Set.range f))
@@ -150,7 +150,7 @@ private theorem flat_res {X : Scheme.{u}} {U V : X.Opens} (hU : IsAffineOpen U)
     (hV : IsAffineOpen V) (hVU : V ≤ U) :
     (X.presheaf.map (homOfLE hVU).op).hom.Flat := by
   convert (𝟙 X : X ⟶ X).flat_appLE hU hV (by simpa using hVU) using 1
-  show (X.presheaf.map (homOfLE hVU).op).hom =
+  change (X.presheaf.map (homOfLE hVU).op).hom =
     (CategoryStruct.id Γ(X, U) ≫ X.presheaf.map (homOfLE hVU).op).hom
   rw [Category.id_comp]
 

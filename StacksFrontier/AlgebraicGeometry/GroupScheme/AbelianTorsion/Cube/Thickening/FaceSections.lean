@@ -116,7 +116,7 @@ theorem surjective_quoπ_unit_app_top {k : Type u} [Field k] {X F : Scheme.{u}}
     (baseIdealSheaf R J g) m
   have hinj : Function.Injective (e.hom.app ⊤) :=
     Function.LeftInverse.injective (g := e.inv.app ⊤) fun c => by
-      show (e.hom ≫ e.inv).app ⊤ c = c
+      change (e.hom ≫ e.inv).app ⊤ c = c
       rw [e.hom_inv_id]
       rfl
   intro q
@@ -169,7 +169,7 @@ theorem surjective_quoDrop_app_top_of_iso_unit {k : Type u} [Field k] {X F : Sch
   refine ⟨(cokernel.π (C := F.Modules)
     (Stacks.Algebraization.idealPowerMultiple (baseIdealSheaf R J g) (n + 1 + 1) G').ι).app ⊤ x,
     ?_⟩
-  show (cokernel.π (C := F.Modules)
+  change (cokernel.π (C := F.Modules)
     (Stacks.Algebraization.idealPowerMultiple (baseIdealSheaf R J g) (n + 1 + 1) G').ι ≫
       Stacks.Algebraization.idealPowerQuotientDrop (baseIdealSheaf R J g)
         (Nat.le_succ (n + 1)) G').app ⊤ x = _

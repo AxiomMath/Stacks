@@ -56,8 +56,7 @@ lemma isIso_homEquiv_symm_of_bijective {R S : Type u} [CommRing R] [CommRing S] 
   have hφ1 : ∀ n : N, φ ((1 : S) ⊗ₜ[R, f] n) = g n := homEquiv_symm_apply_one_tmul f g
   have hone : ∀ x : ((extendScalars f).obj N : Type u), ∃ n : N, x = (1 : S) ⊗ₜ[R, f] n := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => exact ⟨0, (tmul_zero _ _).symm⟩
+    induction x using TensorProduct.inductionOn with
     | tmul s n =>
       obtain ⟨r, rfl⟩ := hf.2 s
       refine ⟨r • n, ?_⟩

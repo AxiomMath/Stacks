@@ -133,7 +133,7 @@ private theorem ImpurityData.exists_mem_relativeAssassin_pullback_of_isFinite {f
       ((Scheme.Modules.pullback r).obj (D.pulledBack F)) := by
     refine preimage_relativeAssassin_eq_pullback_of_locallyQuasiFinite D.toT p
       (D.pulledBack F) ▸ ?_
-    show r.base ζ ∈ Stacks.Divisors.relativeAssassin D.toT (D.pulledBack F)
+    change r.base ζ ∈ Stacks.Divisors.relativeAssassin D.toT (D.pulledBack F)
     rw [hζr]
     exact hD.1
   let x : W ⟶ pullback f g := pullback.lift (r ≫ D.toX) (q ≫ e)
@@ -184,11 +184,11 @@ private theorem exists_impurityData_of_finiteNeighborhoodAt {f : X ⟶ S}
   let pVU : V.toScheme ⟶ U.scheme := V.ι ≫ pullback.snd gQ U.toBase
   have : IsFinite pVU := hVfinite
   have hvt : pVT.base v = D.t := by
-    show Q.ι.base ((V.ι ≫ pullback.fst gQ U.toBase).base v) = D.t
+    change Q.ι.base ((V.ι ≫ pullback.fst gQ U.toBase).base v) = D.t
     rw [(hvspec v hv).1]
     rfl
   have hpVTU : pVT ≫ D.g = pVU ≫ U.toBase := by
-    show V.ι ≫ (pullback.fst gQ U.toBase ≫ Q.ι) ≫ D.g =
+    change V.ι ≫ (pullback.fst gQ U.toBase ≫ Q.ι) ≫ D.g =
       (V.ι ≫ pullback.snd gQ U.toBase) ≫ U.toBase
     rw [Category.assoc, Category.assoc]
     exact V.ι ≫= pullback.condition (f := gQ) (g := U.toBase)

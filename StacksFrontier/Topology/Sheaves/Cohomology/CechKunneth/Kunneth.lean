@@ -97,7 +97,7 @@ variable {k : Type u} [Field k] {L₁ L₂ : Type u} [CompleteLattice L₁] [Com
 along the first coordinates of `σ`. -/
 theorem fst_inter_prodCover {n : ℕ} (σ : Fin (n + 1) → ι₁ × ι₂) :
     (inter (prodCover U V) σ).fst = inter U (Prod.fst ∘ σ) := by
-  show Prod.fst (⨅ j, ((U (σ j).1, V (σ j).2) : L₁ × L₂)) = _
+  change Prod.fst (⨅ j, ((U (σ j).1, V (σ j).2) : L₁ × L₂)) = _
   rw [Prod.fst_iInf]
   rfl
 
@@ -105,7 +105,7 @@ theorem fst_inter_prodCover {n : ℕ} (σ : Fin (n + 1) → ι₁ × ι₂) :
 along the second coordinates of `σ`. -/
 theorem snd_inter_prodCover {n : ℕ} (σ : Fin (n + 1) → ι₁ × ι₂) :
     (inter (prodCover U V) σ).snd = inter V (Prod.snd ∘ σ) := by
-  show Prod.snd (⨅ j, ((U (σ j).1, V (σ j).2) : L₁ × L₂)) = _
+  change Prod.snd (⨅ j, ((U (σ j).1, V (σ j).2) : L₁ × L₂)) = _
   rw [Prod.snd_iInf]
   rfl
 
@@ -272,8 +272,7 @@ variable. -/
 theorem HcupT_rTensor_Hmap {a b n : ℕ} (hn : a + b = n) (z : H P U a ⊗[k] H Q V b) :
     HcupT hn ((Hmap U f a).rTensor _ z) =
       Hmap (prodCover U V) (extTensorMapLeft f) n (HcupT hn z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => simp only [map_add, hz, hz']
   | tmul x y =>
     obtain ⟨c, hc, rfl⟩ := Hmk_surjective P U x
@@ -292,8 +291,7 @@ theorem kunnethMap_srcMapLeft (n : ℕ) (x : Src U V P Q n) :
 theorem HcupT_rTensor_δ {a b n : ℕ} (hn : a + b = n) (z : H P'' U a ⊗[k] H Q V b) :
     HcupT (show a + 1 + b = n + 1 by omega) ((h.δ a).rTensor _ z) =
       (h.extTensorLeft Q).δ n (HcupT hn z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => simp only [map_add, hz, hz']
   | tmul x y =>
     obtain ⟨c, hc, rfl⟩ := Hmk_surjective P'' U x
@@ -468,8 +466,7 @@ variable. -/
 theorem HcupT_lTensor_Hmap {a b n : ℕ} (hn : a + b = n) (z : H P U a ⊗[k] H Q V b) :
     HcupT hn ((Hmap V f b).lTensor _ z) =
       Hmap (prodCover U V) (extTensorMapRight f) n (HcupT hn z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => simp only [map_add, hz, hz']
   | tmul x y =>
     obtain ⟨c, hc, rfl⟩ := Hmk_surjective P U x
@@ -489,8 +486,7 @@ connecting maps in the second variable. -/
 theorem HcupT_lTensor_δ {a b n : ℕ} (hn : a + b = n) (z : H P U a ⊗[k] H Q'' V b) :
     HcupT (show a + (b + 1) = n + 1 by omega) (((-1 : ℤ) ^ a) • (h.δ b).lTensor _ z) =
       (h.extTensorRight P).δ n (HcupT hn z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero, smul_zero]
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => simp only [map_add, smul_add, hz, hz']
   | tmul x y =>
     obtain ⟨c, hc, rfl⟩ := Hmk_surjective P U x
@@ -582,10 +578,7 @@ theorem bijective_kunnethMap_of_contraction {R : L₁ᵒᵖ ⥤ ModuleCat.{u} k}
         HcupT (rfl : 0 + 0 = 0) (TensorProduct.map (Hε R U) (Hε S V) z) =
           Hε (extTensor R S) (prodCover U V) z := by
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero =>
-        rw [map_zero, map_zero]
-        exact (map_zero (Hε (extTensor R S) (prodCover U V))).symm
+      induction z using TensorProduct.inductionOn with
       | add z z' hz hz' =>
         rw [map_add, map_add, hz, hz']
         exact (map_add (Hε (extTensor R S) (prodCover U V)) z z').symm
@@ -612,15 +605,15 @@ theorem bijective_kunnethMap_of_contraction {R : L₁ᵒᵖ ⥤ ModuleCat.{u} k}
     rw [show ⇑(kunnethMap U V R S 0) = HcupT (rfl : 0 + 0 = 0) ∘ Equiv.piUnique _ from funext hψ]
     exact hcup.comp (Equiv.piUnique _).bijective
 
-variable [DecidableEq ι₁] [DecidableEq ι₂]
-
-omit [DecidableEq ι₁] in
+omit [Fintype ι₂] in
 /-- **The Künneth formula when the first presheaf has a contraction**, by dévissage in the second
 variable. -/
-theorem bijective_kunnethMap_of_contraction_left {R : L₁ᵒᵖ ⥤ ModuleCat.{u} k}
+theorem bijective_kunnethMap_of_contraction_left [Finite ι₂] {R : L₁ᵒᵖ ⥤ ModuleCat.{u} k}
     (C₁ : Contraction R U) (Q : L₂ᵒᵖ ⥤ ModuleCat.{u} k) (n : ℕ) :
-    Function.Bijective (kunnethMap U V R Q n) :=
-  LESMorphism.bijective (S := fun Q n => Src U V R Q n)
+    Function.Bijective (kunnethMap U V R Q n) := by
+  have := Fintype.ofFinite ι₂
+  classical
+  exact LESMorphism.bijective (S := fun Q n => Src U V R Q n)
     (T := fun Q n => H (extTensor R Q) (prodCover U V) n)
     (ψ := fun Q n => (kunnethMap U V R Q n).toAddMonoidHom) (fun Q => piRestr Q V)
     (fun Q => coker (toPiRestr Q V)) (fun Q => lesRight R (isNerveSES_toPiRestr Q V))
@@ -628,12 +621,16 @@ theorem bijective_kunnethMap_of_contraction_left {R : L₁ᵒᵖ ⥤ ModuleCat.{
 
 variable (U V)
 
+omit [Fintype ι₁] [Fintype ι₂] in
 /-- **The Künneth formula for Čech cohomology over a field.** For presheaves `P` on `L₁` and `Q`
 on `L₂` of vector spaces over a field `k`, and finite families `U`, `V`, the Alexander–Whitney
 product `∏_{p + q = n} Ȟ^p(U, P) ⊗_k Ȟ^q(V, Q) ⟶ Ȟ^n(U × V, P ⊠ Q)` is bijective. -/
-theorem bijective_kunnethMap (P : L₁ᵒᵖ ⥤ ModuleCat.{u} k) (Q : L₂ᵒᵖ ⥤ ModuleCat.{u} k)
-    (n : ℕ) : Function.Bijective (kunnethMap U V P Q n) :=
-  LESMorphism.bijective (S := fun P n => Src U V P Q n)
+theorem bijective_kunnethMap [Finite ι₁] [Finite ι₂] (P : L₁ᵒᵖ ⥤ ModuleCat.{u} k)
+    (Q : L₂ᵒᵖ ⥤ ModuleCat.{u} k) (n : ℕ) : Function.Bijective (kunnethMap U V P Q n) := by
+  have := Fintype.ofFinite ι₁
+  have := Fintype.ofFinite ι₂
+  classical
+  exact LESMorphism.bijective (S := fun P n => Src U V P Q n)
     (T := fun P n => H (extTensor P Q) (prodCover U V) n)
     (ψ := fun P n => (kunnethMap U V P Q n).toAddMonoidHom) (fun P => piRestr P U)
     (fun P => coker (toPiRestr P U)) (fun P => lesLeft Q (isNerveSES_toPiRestr P U))

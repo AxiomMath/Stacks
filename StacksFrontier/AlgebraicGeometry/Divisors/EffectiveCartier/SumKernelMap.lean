@@ -117,12 +117,12 @@ private theorem shortExact_kernels_of_quotients_with_comp
   have := mono_op_f R hR
   have hdiag' : T.op.g ≫ eb.op.hom ≫ R.op.g = ea.op.hom ≫ S.op.g ≫ ec.op.hom :=
     Quiver.Hom.unop_inj (by
-      show (R.f ≫ eb.hom) ≫ T.f = (ec.hom ≫ S.f) ≫ ea.hom
+      change (R.f ≫ eb.hom) ≫ T.f = (ec.hom ≫ S.f) ≫ ea.hom
       rw [Category.assoc, Category.assoc]
       exact hdiag)
   have hρ' : ρ.op ≫ S.op.f = T.op.f ≫ ea.op.hom :=
     Quiver.Hom.unop_inj (by
-      show S.g ≫ ρ = ea.hom ≫ T.g
+      change S.g ≫ ρ = ea.hom ≫ T.g
       exact hρ)
   obtain ⟨g, hz, hse, hchar⟩ := shortExact_kernels_of_shortExact_quotients_with_comp
     S.op T.op R.op hS.exact.op hT.op hR.exact.op ea.op eb.op ec.op hdiag' ρ.op hρ'

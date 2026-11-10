@@ -187,7 +187,7 @@ theorem isFlat_toFieldSpace : IsFlat B S hS f.hom := by
     (@Flat.{u}) Flat.isEtaleLocalOnSourceAndTarget X.2
     (isAlgebraicSpace_yoneda B S hS V) f.hom).2
   refine ⟨U, V, a, 𝟙 _, h, haEtale, ?_, haSurj, by simp [h], by infer_instance⟩
-  show (MorphismProperty.inverseImage (@Etale.{u}) T).relative yoneda (𝟙 (yoneda.obj V))
+  change (MorphismProperty.inverseImage (@Etale.{u}) T).relative yoneda (𝟙 (yoneda.obj V))
   refine ⟨Functor.relativelyRepresentable.of_isIso yoneda (𝟙 (yoneda.obj V)), ?_⟩
   intro A C g fst snd hsquare
   let _ : IsIso (yoneda.map snd) := hsquare.isIso_snd_of_isIso

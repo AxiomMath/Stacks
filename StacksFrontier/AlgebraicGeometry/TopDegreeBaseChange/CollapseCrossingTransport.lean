@@ -30,9 +30,11 @@ spellings the join meets it at.
   spelling of the restricted morphism, the one `collapse_crossing_restrictedMorphism` is stated at.
 
 The **morphism passage** — the whole equation of `collapse_crossing_restrictedMorphism`
-transported to Mathlib's `f ∣_ V` — is *not* here and is not proved anywhere. What is available is the
+transported to Mathlib's `f ∣_ V` — is *not* here and is not proved anywhere. What is available is
+the
 vocabulary in which that equation can be *stated*, in
-`StacksFrontier/AlgebraicGeometry/TopDegreeBaseChange/CollapseCrossingMorphismRestrict.lean`; see its
+`StacksFrontier/AlgebraicGeometry/TopDegreeBaseChange/CollapseCrossingMorphismRestrict.lean`; see
+its
 implementation notes for why the transport itself is still open.
 
 ## Implementation notes
@@ -173,7 +175,8 @@ the crossing use, and the one at which the bespoke
 This is the form that composes with
 `…TopDegreeBaseChange.collapse_crossing_restrictedMorphism`: it reads that crossing's `ψ`-side
 collapse at the single module `E.obj Z` rather than at the composite index functor. The two
-spellings of the restricted morphism cannot be mixed inside one statement — see the implementation notes of
+spellings of the restricted morphism cannot be mixed inside one statement — see the implementation
+notes of
 `BaseChangeSectionsTail.lean` — so the passage is proved at each of them. **Nothing is assumed**
 of `f`, of `V`, of `E`, of `Z` or of `p` beyond the collapse's own pointwise hypothesis, asked at
 both index functors. -/

@@ -60,7 +60,7 @@ private theorem jacobsonSpace_compl_zeroLocus_aux
       fun h => (PrimeSpectrum.mem_basicOpen _ _).mp ((hr f).subset ⟨p, rfl⟩) (h f.property)⟩
   have he (f : I) : Topology.IsOpenEmbedding (map f) := by
     apply Topology.IsOpenEmbedding.of_comp (map f) hs.isOpenEmbedding_subtypeVal
-    show Topology.IsOpenEmbedding
+    change Topology.IsOpenEmbedding
       (PrimeSpectrum.comap (algebraMap R (Localization.Away (f : R))))
     exact PrimeSpectrum.localization_away_isOpenEmbedding
       (Localization.Away (f : R)) (f : R)
@@ -75,7 +75,7 @@ private theorem jacobsonSpace_compl_zeroLocus_aux
     exact ⟨⟨f, hfI⟩, q, Subtype.ext hq⟩
   apply hcover.jacobsonSpace_iff.mpr
   intro f
-  show JacobsonSpace (Set.range (map f))
+  change JacobsonSpace (Set.range (map f))
   have : JacobsonSpace (PrimeSpectrum (Localization.Away (f : R))) :=
     PrimeSpectrum.isJacobsonRing_iff_jacobsonSpace.mp
     (isJacobsonRing_of_isContainedInJacobson_of_isLocalization_away I

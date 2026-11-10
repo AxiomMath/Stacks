@@ -300,7 +300,7 @@ public theorem pullPowSection_localMulSections (n m : ℕ) (W : Z.Opens)
           (Stacks.AmpleProjectiveImmersion.tensorPowerModule Z M (a : ℤ)) (op W)
           ((powCompare M a).hom.app W x)) :=
     fun a x => hom_app_inv_app (powCompare ((Scheme.Modules.pullback k).obj M) a) (k ⁻¹ᵁ W) _
-  show (powCompare
+  change (powCompare
       ((Scheme.Modules.pullback k).obj M) (n + m)).inv.app (k ⁻¹ᵁ W)
       (Hom.app (pullbackIntPowIso k.toLRSHom.toShHom M ((n + m : ℕ) : ℤ)).hom.val
         ((RingedSpaceModuleAdjunction.opensMap k.toLRSHom.toShHom).op.obj (op W))
@@ -310,7 +310,7 @@ public theorem pullPowSection_localMulSections (n m : ℕ) (W : Z.Opens)
   rw [h1]
   refine Eq.trans (congrArg (fun t => (powCompare ((Scheme.Modules.pullback k).obj M)
       (n + m)).inv.app (k ⁻¹ᵁ W) t) h2) ?_
-  show _ = (powCompare ((Scheme.Modules.pullback k).obj M) (n + m)).inv.app (k ⁻¹ᵁ W)
+  change _ = (powCompare ((Scheme.Modules.pullback k).obj M) (n + m)).inv.app (k ⁻¹ᵁ W)
       (Stacks.TensorPowerDivision.localMul ((Scheme.Modules.pullback k).obj M)
         ((powCompare ((Scheme.Modules.pullback k).obj M) n).hom.app (k ⁻¹ᵁ W)
           (pullPowSection k M n W y))

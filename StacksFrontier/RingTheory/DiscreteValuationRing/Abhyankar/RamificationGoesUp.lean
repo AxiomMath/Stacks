@@ -183,7 +183,7 @@ private theorem exists_algHom_of_pi
   have hπ : Function.Surjective π := Function.surjective_eval i
   have hker : RingHom.ker π.toRingHom ≤ RingHom.ker f.toRingHom := by
     intro z hz
-    show f z = 0
+    change f z = 0
     have hz' : z i = 0 := hz
     have hmul : z * Pi.single i (1 : E i) = 0 := by
       ext j
@@ -243,7 +243,7 @@ private theorem isUnramifiedWithRespectTo_of_adjoin_eq_top_of_pow_isUnit
     apply Algebra.adjoin_le_iff.mpr
     apply Set.singleton_subset_iff.mpr
     refine ⟨1 ⊗ₜ[A] AdjoinRoot.root p, ?_⟩
-    show (Algebra.ofId K E) 1 * g (AdjoinRoot.root p) = x
+    change (Algebra.ofId K E) 1 * g (AdjoinRoot.root p) = x
     rw [map_one, one_mul]
     exact AdjoinRoot.liftAlgHom_root p (Algebra.ofId A E) x hp
   have : Algebra.FormallyUnramified A (integralClosure A E) :=
@@ -381,16 +381,14 @@ private theorem lift_field_factor_through_finite_separable_extension
       (Algebra.TensorProduct.includeRight.restrictScalars K) fun _ _ => .all _ _
   have hg : Function.Surjective g := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact ⟨0, map_zero g⟩
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' =>
       obtain ⟨a, rfl⟩ := hz
       obtain ⟨b, rfl⟩ := hz'
       exact ⟨a + b, map_add g a b⟩
     | tmul e f =>
       obtain ⟨a, rfl⟩ := hq e
-      induction a using TensorProduct.induction_on with
-      | zero => exact ⟨0, by simp⟩
+      induction a using TensorProduct.inductionOn with
       | add a b ha hb =>
         obtain ⟨a', ha'⟩ := ha
         obtain ⟨b', hb'⟩ := hb
@@ -400,20 +398,20 @@ private theorem lift_field_factor_through_finite_separable_extension
         have hqla : q (l ⊗ₜ[K] a) = algebraMap L E l * algebraMap K' E a :=
           algHom_tmul_eq_mul q l a
         rw [hqla]
-        show (algebraMap L E l ⊗ₜ[K'] (1 : F)) *
+        change (algebraMap L E l ⊗ₜ[K'] (1 : F)) *
           (1 ⊗ₜ[K'] (algebraMap K' F a * f)) = _
         rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
         rw [← Algebra.smul_def, TensorProduct.tmul_smul, TensorProduct.smul_tmul',
           Algebra.smul_def, mul_comm (algebraMap K' E a)]
   have hcompat (l : L) (a : K') :
       g (l ⊗ₜ[K] algebraMap K' F a) = algebraMap E T (q (l ⊗ₜ[K] a)) := by
-    show (algebraMap L E l ⊗ₜ[K'] (1 : F)) * (1 ⊗ₜ[K'] algebraMap K' F a) = _
+    change (algebraMap L E l ⊗ₜ[K'] (1 : F)) * (1 ⊗ₜ[K'] algebraMap K' F a) = _
     rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
     rw [← mul_one (algebraMap K' F a), ← Algebra.smul_def,
       TensorProduct.tmul_smul, TensorProduct.smul_tmul', Algebra.smul_def]
-    show _ = q (l ⊗ₜ[K] a) ⊗ₜ[K'] (1 : F)
+    change _ = q (l ⊗ₜ[K] a) ⊗ₜ[K'] (1 : F)
     congr 1
-    show q (1 ⊗ₜ[K] a) * algebraMap L E l = _
+    change q (1 ⊗ₜ[K] a) * algebraMap L E l = _
     rw [algHom_tmul_eq_mul q l a, mul_comm]
   have : Algebra.Etale K' F := etale_of_finite_separable K' F
   obtain ⟨M, hfield, halg, hfinite, hsep, p, hp⟩ :=
@@ -424,7 +422,7 @@ private theorem lift_field_factor_through_finite_separable_extension
   refine ⟨M, inferInstance, inferInstance, inferInstance, inferInstance,
     inferInstance, inferInstance, q', hp.comp hg, ?_⟩
   intro l a
-  show p (g (l ⊗ₜ[K] algebraMap K' F a)) = _
+  change p (g (l ⊗ₜ[K] algebraMap K' F a)) = _
   rw [hcompat, p.commutes]
 
 private theorem monogenic_unit_uniformizer_root_is_tame
@@ -476,7 +474,7 @@ private theorem monogenic_unit_uniformizer_root_is_tame
   let : Algebra B M := ((algebraMap F M).comp (algebraMap B F)).toAlgebra
   have : IsScalarTower B F M := .of_algebraMap_eq fun _ => rfl
   have : IsScalarTower B D M := .of_algebraMap_eq fun b => by
-    show algebraMap F M (algebraMap B F b) =
+    change algebraMap F M (algebraMap B F b) =
       algebraMap F M (algebraMap D F (algebraMap B D b))
     rw [← IsScalarTower.algebraMap_apply B D F]
   let j : E →ₐ[L] M :=
@@ -492,7 +490,7 @@ private theorem monogenic_unit_uniformizer_root_is_tame
       simpa only [map_zero, ← IsScalarTower.algebraMap_apply B L F] using hy.symm))
   have hjB (b : B) : j (algebraMap B E b) = algebraMap B M b := by
     rw [IsScalarTower.algebraMap_apply B L E, j.commutes]
-    show algebraMap F M (algebraMap L F (algebraMap B L b)) = _
+    change algebraMap F M (algebraMap L F (algebraMap B L b)) = _
     rw [← IsScalarTower.algebraMap_apply B L F,
       ← IsScalarTower.algebraMap_apply B F M]
   have hjroot : (j root) ^ e = algebraMap D M (algebraMap B D unit) *
@@ -576,7 +574,7 @@ private theorem isTamelyRamifiedWithRespectTo_of_unramified_baseChange_tower
   let : Algebra A₀ C := f.toAlgebra
   have : IsScalarTower A₀ C T := .of_algebraMap_eq fun _ => rfl
   have : IsScalarTower A₀ R T := .of_algebraMap_eq fun a => by
-    show algebraMap A₀ T a = algebraMap R T (algebraMap C R (f a))
+    change algebraMap A₀ T a = algebraMap R T (algebraMap C R (f a))
     rw [← IsScalarTower.algebraMap_apply C R T]
     rfl
   exact isTamelyRamifiedWithRespectTo_of_isUnramifiedWithRespectTo R T M
@@ -625,7 +623,7 @@ private theorem factor_tensorProduct_through_intermediate_field
   have : IsScalarTower L T E := .of_algebraMap_eq fun a => (g.commutes a).symm
   let : Algebra K₀ E := fK₀.toAlgebra
   have : IsScalarTower K₀ T E := .of_algebraMap_eq fun a => by
-    show fK₀ a = g (p (1 ⊗ₜ[K] a))
+    change fK₀ a = g (p (1 ⊗ₜ[K] a))
     rw [← AlgHom.comp_apply, hgp]
     simp [f]
   let qF₀ : F →ₐ[K₀] E := { qF.toRingHom with commutes' := fun _ => rfl }
@@ -634,15 +632,14 @@ private theorem factor_tensorProduct_through_intermediate_field
   have hr : Function.Surjective r := by
     intro z
     obtain ⟨a, rfl⟩ := hq z
-    induction a using TensorProduct.induction_on with
-    | zero => exact ⟨0, by simp⟩
+    induction a using TensorProduct.inductionOn with
     | add a b ha hb =>
       obtain ⟨a', ha'⟩ := ha
       obtain ⟨b', hb'⟩ := hb
       exact ⟨a' + b', by simp [ha', hb']⟩
     | tmul l a =>
       refine ⟨algebraMap L T l ⊗ₜ[K₀] a, ?_⟩
-      show g (algebraMap L T l) * q (1 ⊗ₜ[K] a) = q (l ⊗ₜ[K] a)
+      change g (algebraMap L T l) * q (1 ⊗ₜ[K] a) = q (l ⊗ₜ[K] a)
       rw [g.commutes, algHom_tmul_eq_mul q l a]
   exact ⟨T, inferInstance, inferInstance, inferInstance, inferInstance, inferInstance,
     inferInstance, inferInstance, inferInstance, inferInstance, inferInstance,
@@ -683,7 +680,7 @@ private theorem tame_field_factor_of_unramified_kummer
   let : Algebra A T := ((algebraMap K T).comp (algebraMap A K)).toAlgebra
   have : IsScalarTower A K T := .of_algebraMap_eq fun _ => rfl
   have : IsScalarTower A L T := .of_algebraMap_eq fun a => by
-    show algebraMap K T (algebraMap A K a) = algebraMap L T (algebraMap A L a)
+    change algebraMap K T (algebraMap A K a) = algebraMap L T (algebraMap A L a)
     rw [IsScalarTower.algebraMap_apply K L T, ← IsScalarTower.algebraMap_apply A K L]
   have : IsScalarTower A B T := .of_algebraMap_eq fun a => by
     rw [IsScalarTower.algebraMap_apply A L T, IsScalarTower.algebraMap_apply A B L]
@@ -763,7 +760,7 @@ private theorem tame_field_factor_after_baseChange
   let : Algebra B E' := ((algebraMap E E').comp (algebraMap B E)).toAlgebra
   have : IsScalarTower B E E' := .of_algebraMap_eq fun _ => rfl
   have : IsScalarTower B L E' := .of_algebraMap_eq fun b => by
-    show algebraMap E E' (algebraMap B E b) = algebraMap L E' (algebraMap B L b)
+    change algebraMap E E' (algebraMap B E b) = algebraMap L E' (algebraMap B L b)
     rw [IsScalarTower.algebraMap_apply B L E, ← IsScalarTower.algebraMap_apply L E E']
   have : Module.Finite L E' := Module.Finite.trans E E'
   have : Algebra.IsSeparable L E' := Algebra.IsSeparable.trans L E E'

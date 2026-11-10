@@ -385,7 +385,7 @@ theorem pointCorrHom_tensorUnit_fundamentalClass :
         rw [rationalCodimensionToCodimChow_tmul, one_smul]]
   refine (corrEquivCorrespondence_corrFromPointEquiv_chowGroupToCodimension k _ hpt 0 _
     rfl 1 _).trans (congrArg (fun x ↦ (1 : ℚ) ⊗ₜ[ℤ] x) ?_)
-  rw [chowGroupDegreeEquiv_self, AddEquiv.apply_eq_iff_symm_apply,
+  rw [chowGroupDegreeEquiv_self, ← AddEquiv.eq_symm_apply,
     chowGroupEquivPullbackUnitLeft_symm_apply, chowPushforwardOfIso_mk_coe]
   have := isClosedImmersion_pointSectionEmbedding k (𝟙ₛ).obj.hom (𝟙ₛ).obj.hom
     (InducedCategory.Hom.hom (𝟙 𝟙ₛ)).left (Over.w (InducedCategory.Hom.hom (𝟙 𝟙ₛ)))

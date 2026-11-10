@@ -158,7 +158,7 @@ theorem cochainRes_δ (n m : ℤ) (hnm : n + 1 = m) {U V : Opens X₀} (h : V �
   rw [cochainRes_v, δ_v n m hnm _ p q hpq (q - 1) (p + 1) rfl rfl,
     δ_v n m hnm _ p q hpq (q - 1) (p + 1) rfl rfl, relHomMap_add, relHomMap_units_smul,
     cochainRes_v, cochainRes_v]
-  show P.relHomMap κ _ _ _ (z.v p (q - 1) _ ≫ (P.pull (κ.leg U)).map (L.d (q - 1) q)) +
+  change P.relHomMap κ _ _ _ (z.v p (q - 1) _ ≫ (P.pull (κ.leg U)).map (L.d (q - 1) q)) +
       m.negOnePow • P.relHomMap κ _ _ _ ((P.pull (κ.leg U)).map (K.d p (p + 1)) ≫
         z.v (p + 1) q _) = _
   rw [relHomMap_comp_pullMap, relHomMap_pullMap_comp]
@@ -209,7 +209,7 @@ theorem cochainOpens_isSheaf (hsh : ∀ N N' : M a₀, (P.relHomOpens hP κ N N'
   choose x hx hu using key
   refine ⟨Cochain.mk x, fun i => Cochain.ext _ _ fun p q hpq => ?_, fun y hy =>
     Cochain.ext _ _ fun p q hpq => ?_⟩
-  · show (P.cochainRes κ K L n (hV i) (Cochain.mk x)).v p q hpq = _
+  · change (P.cochainRes κ K L n (hV i) (Cochain.mk x)).v p q hpq = _
     exact hx p q hpq i
   · exact hu p q hpq _ fun i => Cochain.congr_v (hy i) p q hpq
 
@@ -225,7 +225,7 @@ theorem cocycleOpens_isSheaf (hsh : ∀ N N' : M a₀, (P.relHomOpens hP κ N N'
   have hδ : δ 0 1 x = 0 := by
     refine (h1 U V hV hsup (fun i => 0) fun i k => by simp).unique (fun i => ?_) fun i => ?_
     · refine (P.cochainRes_δ κ K L 0 1 (zero_add 1) (hV i) x).trans ?_
-      show δ 0 1 ((P.cochainOpens hP κ K L 0).res (hV i) x) = 0
+      change δ 0 1 ((P.cochainOpens hP κ K L 0).res (hV i) x) = 0
       rw [hx i]
       exact Cocycle.δ_eq_zero _ 1
     · exact map_zero _

@@ -371,10 +371,12 @@ structure maps: the codomain of `Hom(U, V)(φ)` is recorded as `Hom(U, V)_n`, wh
 `∏_{u ∈ U_n} V_n` by definition but not syntactically, so a composite of a structure map with a
 projection of that product is well formed only up to unfolding `power`, and `rw` and `simp` refuse
 to rewrite inside one. `power_map_π` states such a composite once and for all and closes it by
-`Limits.Pi.lift_comp_π`, so it is the identity to apply — by `exact`, or by congruence inside a larger
+`Limits.Pi.lift_comp_π`, so it is the identity to apply — by `exact`, or by congruence inside a
+larger
 composite — where rewriting is unavailable. For the same reason `power_map` is not a `simp` lemma:
 rewriting a composite `Hom(U, V)(φ) ≫ π u` with it leaves a `Limits.Pi.lift` whose codomain is
-still recorded as `Hom(U, V)_n`, where `Limits.Pi.lift_comp_π` in turn no longer applies, so it takes a
+still recorded as `Hom(U, V)_n`, where `Limits.Pi.lift_comp_π` in turn no longer applies, so it
+takes a
 provable goal to a stuck one. It remains available for `rw` and `exact`.
 
 The name follows `CategoryTheory.Limits.FormalCoproduct.power` for the power of an object by a

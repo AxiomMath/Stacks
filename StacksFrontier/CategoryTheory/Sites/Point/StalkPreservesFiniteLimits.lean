@@ -62,18 +62,18 @@ noncomputable def stalkSheafificationComparison [HasWeakSheafify J (Type w)] :
       presheafToSheaf J (Type w) ⋙ p.sheafFiber (A := Type w) :=
   Functor.whiskerRight (toSheafification J (Type w)) (p.presheafFiber (A := Type w))
 
-/-- Precomposition with `(CategoryOfElements.π p.fiber).op`, the first factor of `p.presheafFiber`,
+/-- Precomposition with `(Functor.Elements.π p.fiber).op`, the first factor of `p.presheafFiber`,
 preserves finite limits. -/
 @[sga "4 I 5.0" "special case"]
 theorem presheafStalkWhiskering_preservesFiniteLimits :
     PreservesFiniteLimits ((Functor.whiskeringLeft p.fiber.Elementsᵒᵖ Cᵒᵖ (Type w)).obj
-      (CategoryOfElements.π p.fiber).op) := by
+      (Functor.Elements.π p.fiber).op) := by
   constructor
   intro K _ _
   apply preservesLimitsOfShape_of_evaluation
   intro k
   exact inferInstanceAs (PreservesLimitsOfShape K
-    ((evaluation Cᵒᵖ (Type w)).obj ((CategoryOfElements.π p.fiber).op.obj k)))
+    ((evaluation Cᵒᵖ (Type w)).obj ((Functor.Elements.π p.fiber).op.obj k)))
 
 /-! ### Filtered colimits commute with finite limits in `Type`
 
@@ -279,7 +279,7 @@ theorem presheafStalkColim_preservesColimits :
 /-- Each component of `stalkSheafificationComparison p` is an isomorphism. -/
 private theorem stalkSheafificationComparison_app_isIso [HasWeakSheafify J (Type w)]
     (F : Cᵒᵖ ⥤ Type w) : IsIso ((stalkSheafificationComparison.{w} p).app F) := by
-  show IsIso ((p.presheafFiber (A := Type w)).map ((toSheafification J (Type w)).app F))
+  change IsIso ((p.presheafFiber (A := Type w)).map ((toSheafification J (Type w)).app F))
   exact p.W_isInvertedBy_presheafFiber _
     (GrothendieckTopology.W_adj_unit_app J (sheafificationAdjunction J (Type w)) F)
 
@@ -323,7 +323,7 @@ private theorem presheafFiber_preservesFiniteLimits :
 theorem sheafStalk_preservesFiniteLimits [HasWeakSheafify J (Type w)] :
     PreservesFiniteLimits (p.sheafFiber (A := Type w)) := by
   -- Mathlib's instance for `p.sheafFiber` assumes `LocallySmall.{w} C`, which is not assumed here.
-  show PreservesFiniteLimits (sheafToPresheaf J (Type w) ⋙ p.presheafFiber (A := Type w))
+  change PreservesFiniteLimits (sheafToPresheaf J (Type w) ⋙ p.presheafFiber (A := Type w))
   have : PreservesFiniteLimits (sheafToPresheaf J (Type w)) := inferInstance
   have := presheafFiber_preservesFiniteLimits.{w} p
   exact comp_preservesFiniteLimits _ _

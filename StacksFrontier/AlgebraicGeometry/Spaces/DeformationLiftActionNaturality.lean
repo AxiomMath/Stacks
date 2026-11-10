@@ -128,7 +128,7 @@ theorem comp_restrictForm_comp_eq {A P P' : AlgebraicSpaces C S hS} (g : P' ⟶ 
       t ≫ (modulePullback C S hS g).map θ ≫ γ := by
   rw [QuasiCoherentDescent.restrictForm_eq, H2, ← H1]
   simp only [QuasiCoherentDescent.factorForm, Functor.map_comp, Category.assoc,
-    Iso.inv_hom_id_assoc, Iso.map_inv_hom_id_assoc]
+    Iso.inv_hom_id_assoc, Iso.inv_hom_id_map_assoc]
 
 /-- **A restricted section of `SheafHom(α^*M, N)` read through Stacks 03LU.**  For `r ≫ p = q`,
 a map `θ : (p ≫ α)^*M ⟶ Cφ`, read as a map `p^*α^*M ⟶ p^*N` through Stacks 03LU and `eU`,

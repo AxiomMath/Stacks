@@ -85,8 +85,8 @@ quasi-coherent pieces which is of finite type on affine opens, there is a *coher
 `𝒪_{X'}`-module whose direct image along the projection `π = pullback.snd` is the coproduct
 `∐ₙ Fₙ` of the homogeneous pieces.
 
-This is an input of [Stacks, Tag 0897] part (1), supplied here rather than carried as a hypothesis. The quasi-coherent
-module together with the identification of its direct image of `𝒪_X`-modules is
+This is an input of [Stacks, Tag 0897] part (1), supplied here rather than carried as a hypothesis.
+The quasi-coherent module together with the identification of its direct image of `𝒪_X`-modules is
 `Stacks.AffineGradedAlgebra.exists_isQuasicoherent_pushforward_baseChange_iso_intCoprod`; the
 finite type is
 `Stacks.AffineGradedAlgebra.exists_isFiniteType_pushforward_baseChange_iso_intCoprod`, which
@@ -263,8 +263,8 @@ the action the source defines degreewise from the graded module structure.
 What stands in the way of that comparison is neither side. The `e` used here is
 `baseChangeModuleIsoOfFiniteType`, which is by definition
 `Stacks.AffineGradedAlgebra.pushforwardPullbackIsoIntCoprod` of the `𝓑`-linear
-`baseChangeModuleAlgIsoOfFiniteType`, so the `Γ(𝓑, U)`-linearity is on record. The *other* side — a degreewise action on
-`⨁ₙ H^p(X, Fₙ)` over the `f^* B̃` of this statement — exists too, as
+`baseChangeModuleAlgIsoOfFiniteType`, so the `Γ(𝓑, U)`-linearity is on record. The *other* side — a
+degreewise action on `⨁ₙ H^p(X, Fₙ)` over the `f^* B̃` of this statement — exists too, as
 `Stacks.AlgebraicGeometry.GradedProperCohomology.gradedTildeCohomologyGmodule`
 (`StacksFrontier/AlgebraicGeometry/GradedProperCohomology/GradedTildeDegreewiseAction.lean`): the
 degreewise construction of
@@ -374,7 +374,8 @@ specialization of
 the action the source defines degreewise from the graded module structure. That degreewise
 action over the `f^* B̃` here is
 `Stacks.AlgebraicGeometry.GradedProperCohomology.gradedTildeCohomologyGmodule`, which is not
-restricted to the Rees algebra `⨁ₙ ℐⁿ` of an ideal sheaf. The note on `gradedCohomologySumModuleOfFiniteType` records what the comparison
+restricted to the Rees algebra `⨁ₙ ℐⁿ` of an ideal sheaf. The note on
+`gradedCohomologySumModuleOfFiniteType` records what the comparison
 of the two still needs, and `moduleFinite_gradedTildeCohomologyModule` is the finiteness it
 would yield. `F'` is chosen, so the action depends on that choice.
 

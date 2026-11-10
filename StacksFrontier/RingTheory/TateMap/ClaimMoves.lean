@@ -80,7 +80,7 @@ theorem lciMk_apply (h : MvPolynomial (Fin n) S) (f : Fin n → MvPolynomial (Fi
 /-- The image of `h` in `S[x_1, …, x_n, 1/h]/(f_1, …, f_n)` is a unit. -/
 theorem isUnit_lciMk (h : MvPolynomial (Fin n) S) (f : Fin n → MvPolynomial (Fin n) S) :
     IsUnit (lciMk h f h) := by
-  show IsUnit (Ideal.Quotient.mk _ (algebraMap (MvPolynomial (Fin n) S) (Localization.Away h) h))
+  change IsUnit (Ideal.Quotient.mk _ (algebraMap (MvPolynomial (Fin n) S) (Localization.Away h) h))
   exact (IsLocalization.Away.algebraMap_isUnit h).map _
 
 /-- Each relation `f_i` vanishes in `S[x_1, …, x_n, 1/h]/(f_1, …, f_n)`. -/

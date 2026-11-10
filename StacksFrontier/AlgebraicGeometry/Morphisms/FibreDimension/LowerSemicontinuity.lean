@@ -71,7 +71,7 @@ private theorem exists_relativeDimension_image_mem {X Y : Scheme.{u}} (f : X ⟶
     (hy : b < f.fiberDimension y) :
     ∃ d : ℕ, b < (d : WithBot ℕ∞) ∧ y ∈ f '' (U d : Set X) := by
   have hq : LocallyOfFiniteType (f.fiberToSpecResidueField y) := by
-    show LocallyOfFiniteType (Limits.pullback.snd f (Y.fromSpecResidueField y))
+    change LocallyOfFiniteType (Limits.pullback.snd f (Y.fromSpecResidueField y))
     infer_instance
   have hdim : b < topologicalKrullDim (f.fiber y) := hy
   rw [topologicalKrullDim_eq_iSup_localKrullDim] at hdim

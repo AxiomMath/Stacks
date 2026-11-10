@@ -169,8 +169,7 @@ theorem range_rTensorFunctor_map_le_smul (M : ModuleCat.{u} R) {P Q : ModuleCat.
       I • (⊤ : Submodule R ((rTensorFunctor M).obj Q)) := by
   rintro z ⟨w, rfl⟩
   change LinearMap.rTensor M φ.hom w ∈ I • (⊤ : Submodule R (Q ⊗[R] M))
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul p m =>
       rw [LinearMap.rTensor_tmul]
       exact linearMap_mem_ideal_smul_top I ((TensorProduct.mk R Q M).flip m) (h ⟨p, rfl⟩)

@@ -76,11 +76,11 @@ theorem nonempty_isColimit_cofan_uliftFunctor {ι : Type u}
   have hV' : IsColimit (Cofan.mk V (fun i ↦ (f i).hom ≫ ιV i)) := by
     refine Cofan.IsColimit.mk _ (fun s ↦ Cofan.IsColimit.desc hV (fun i ↦ (f i).inv ≫ s.inj i))
       (fun s i ↦ ?_) (fun s m hm ↦ Cofan.IsColimit.hom_ext hV _ _ fun i ↦ ?_)
-    · show ((f i).hom ≫ ιV i) ≫ _ = _
+    · change ((f i).hom ≫ ιV i) ≫ _ = _
       rw [Category.assoc, hfacV, Iso.hom_inv_id_assoc]
-    · show ιV i ≫ _ = ιV i ≫ _
+    · change ιV i ≫ _ = ιV i ≫ _
       rw [hfacV, ← hm i]
-      show ιV i ≫ m = (f i).inv ≫ ((f i).hom ≫ ιV i) ≫ m
+      change ιV i ≫ m = (f i).inv ≫ ((f i).hom ≫ ιV i) ≫ m
       rw [Category.assoc, Iso.inv_hom_id_assoc]
   let θ : Gsh ≅ V := hGsh.coconePointUniqueUpToIso hV'
   have hθ : ∀ i, ι' i ≫ θ.hom = (f i).hom ≫ ιV i := fun i ↦
@@ -99,12 +99,12 @@ theorem nonempty_isColimit_cofan_uliftFunctor {ι : Type u}
       rw [hf']
       exact (eF i).inv_hom_id
     apply (sheafToPresheaf J (Type (u + 1))).map_injective
-    show Functor.whiskerRight (ιV i).hom uliftFunctor.{u + 1, u} ≫
+    change Functor.whiskerRight (ιV i).hom uliftFunctor.{u + 1, u} ≫
       (Functor.whiskerRight θ.inv.hom uliftFunctor.{u + 1, u} ≫ eG.hom) = (Sigma.ι Fi i).hom
     rw [← Category.assoc, ← Functor.whiskerRight_comp]
-    show Functor.whiskerRight (ιV i ≫ θ.inv).hom uliftFunctor.{u + 1, u} ≫ eG.hom = _
+    change Functor.whiskerRight (ιV i ≫ θ.inv).hom uliftFunctor.{u + 1, u} ≫ eG.hom = _
     rw [h1]
-    show Functor.whiskerRight ((f i).inv.hom ≫ (ι' i).hom) uliftFunctor.{u + 1, u} ≫ eG.hom = _
+    change Functor.whiskerRight ((f i).inv.hom ≫ (ι' i).hom) uliftFunctor.{u + 1, u} ≫ eG.hom = _
     rw [Functor.whiskerRight_comp, hcomp i, Category.assoc, Category.assoc, Category.assoc,
       Iso.inv_hom_id, Category.comp_id, ← Category.assoc, h2]
     exact Category.id_comp _
@@ -130,7 +130,7 @@ theorem nonempty_isColimit_cofan_sheafifiedULift {ι : Type u}
     intro i
     rw [Iso.comp_inv_eq, Category.assoc, Iso.eq_inv_comp]
     apply (sheafToPresheaf J (Type (u + 1))).map_injective
-    show (sheafifiedULiftIso B S hS (A i).obj (A i).property).hom ≫
+    change (sheafifiedULiftIso B S hS (A i).obj (A i).property).hom ≫
         (sheafifiedULiftMap B S hS (ιV i).hom).hom =
       Functor.whiskerRight (ιV i).hom uliftFunctor.{u + 1, u} ≫
         (sheafifiedULiftIso B S hS V.obj V.property).hom
@@ -142,11 +142,11 @@ theorem nonempty_isColimit_cofan_sheafifiedULift {ι : Type u}
   refine ⟨Cofan.IsColimit.mk _
     (fun s ↦ (e V).inv ≫ Cofan.IsColimit.desc hL (fun i ↦ (e (A i)).hom ≫ s.inj i))
     (fun s i ↦ ?_) (fun s m hm ↦ ?_)⟩
-  · show sheafifiedULiftMap B S hS (ιV i).hom ≫ _ = _
+  · change sheafifiedULiftMap B S hS (ιV i).hom ≫ _ = _
     rw [← Category.assoc, he, Category.assoc, hfacL, Iso.inv_hom_id_assoc]
   · rw [Iso.eq_inv_comp]
     refine Cofan.IsColimit.hom_ext hL _ _ fun i ↦ ?_
-    show (sheafCompose J uliftFunctor.{u + 1, u}).map (ιV i) ≫ _ =
+    change (sheafCompose J uliftFunctor.{u + 1, u}).map (ιV i) ≫ _ =
       (sheafCompose J uliftFunctor.{u + 1, u}).map (ιV i) ≫ _
     have he' : (sheafCompose J uliftFunctor.{u + 1, u}).map (ιV i) ≫ (e V).hom =
         (e (A i)).hom ≫ sheafifiedULiftMap B S hS (ιV i).hom := by

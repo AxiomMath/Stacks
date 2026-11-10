@@ -52,12 +52,12 @@ def restrictionTwoSquareRestrictionSquareMate :
       (u'.sheafPushforwardContinuous A J' K') (v'.sheafPushforwardContinuous A J' J) :=
   have := Functor.isContinuous_comp u' v J' K' K
   have := Functor.isContinuous_comp v' u J' J K
-  TwoSquare.mk _ _ _ _ (Functor.sheafPushforwardContinuousNatTrans w.natTrans A J' K)
+  TwoSquare.mk _ _ _ _ (Functor.sheafPushforwardContinuousNatTrans w A J' K)
 
 /-- The square of restrictions, read on a section: restriction along the component of `w`. -/
 theorem restrictionTwoSquare_app_hom_app_restrictionSquareMate (F : Sheaf K A) (V : C'ᵒᵖ) :
-    ((restrictionTwoSquareRestrictionSquareMate A J' J K' K w).natTrans.app F).hom.app V =
-      F.obj.map (w.natTrans.app V.unop).op :=
+    ((restrictionTwoSquareRestrictionSquareMate A J' J K' K w).app F).hom.app V =
+      F.obj.map (w.app V.unop).op :=
   rfl
 
 variable [u.IsCocontinuous J K] [u'.IsCocontinuous J' K']
@@ -71,12 +71,12 @@ adjunctions `u^p ⊣ u_*` and `u'^p ⊣ u'_*`, the square of restrictions of a G
 transpose under `u'^p ⊣ u'_*` of the counit of `u^p ⊣ u_*` restricted along `w`. -/
 theorem mateEquiv_restrictionTwoSquare_restrictionSquareMate [w.GuitartExact] :
     (mateEquiv (u.sheafAdjunctionCocontinuous A J K) (u'.sheafAdjunctionCocontinuous A J' K')
-      (restrictionTwoSquareRestrictionSquareMate A J' J K' K w)).natTrans =
+      (restrictionTwoSquareRestrictionSquareMate A J' J K' K w)) =
       (sheafIsoOfTwoSquareAndMorphismsTwoSquare A J' J K' K w).inv := by
   ext F : 2
   refine ObjectProperty.hom_ext _ ?_
   rw [sheafIsoOfTwoSquare_inv_app_hom_andMorphismsTwoSquare]
-  show ((mateEquiv (u.sheafAdjunctionCocontinuous A J K) (u'.sheafAdjunctionCocontinuous A J' K')
+  change ((mateEquiv (u.sheafAdjunctionCocontinuous A J K) (u'.sheafAdjunctionCocontinuous A J' K')
       (restrictionTwoSquareRestrictionSquareMate A J' J K' K w)).app F).hom = _
   rw [Stacks.CategoryTheory.mateEquiv_app_eq_homEquiv,
     Functor.sheafAdjunctionCocontinuous_homEquiv_apply_hom, TwoSquare.ranBaseChange_app]
@@ -94,7 +94,7 @@ theorem mateEquiv_restrictionTwoSquare_restrictionSquareMate [w.GuitartExact] :
 /-- The mate of the square of restrictions of a Guitart exact `2`-square is invertible. -/
 instance isIso_mateEquiv_restrictionTwoSquare_restrictionSquareMate [w.GuitartExact] :
     IsIso (mateEquiv (u.sheafAdjunctionCocontinuous A J K) (u'.sheafAdjunctionCocontinuous A J' K')
-      (restrictionTwoSquareRestrictionSquareMate A J' J K' K w)).natTrans := by
+      (restrictionTwoSquareRestrictionSquareMate A J' J K' K w)) := by
   rw [mateEquiv_restrictionTwoSquare_restrictionSquareMate]
   infer_instance
 

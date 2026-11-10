@@ -239,11 +239,11 @@ private theorem formallySmoothTop_comp_ringEquiv.{u, v, w, z}
   refine ⟨g.comp e.symm.toRingHom, hg.comp he', ?_, ?_⟩
   · ext x
     have hx := congrArg (fun h : R →+* D => h x) hgq
-    show g (e.symm (e (f x))) = q x
+    change g (e.symm (e (f x))) = q x
     simpa only [RingHom.comp_apply, RingEquiv.symm_apply_apply] using hx
   · ext x
     have hx := congrArg (fun h : S →+* D ⧸ J => h (e.symm x)) hgg
-    show (Ideal.Quotient.mk J) (g (e.symm x)) = gbar x
+    change (Ideal.Quotient.mk J) (g (e.symm x)) = gbar x
     change (Ideal.Quotient.mk J) (g (e.symm x)) = gbar (e (e.symm x)) at hx
     simpa only [RingEquiv.apply_symm_apply] using hx
 
@@ -352,7 +352,7 @@ private theorem idealOfVars_isMaximal (K : Type*) (σ : Type*) [Field K] :
   let J := MvPolynomial.idealOfVars σ K
   have hker : J = RingHom.ker (MvPolynomial.constantCoeff : MvPolynomial σ K →+* K) := by
     ext p
-    show p ∈ J ↔ MvPolynomial.constantCoeff p = 0
+    change p ∈ J ↔ MvPolynomial.constantCoeff p = 0
     rw [← pow_one J, MvPolynomial.mem_pow_idealOfVars_iff']
     constructor
     · intro hp
@@ -361,7 +361,7 @@ private theorem idealOfVars_isMaximal (K : Type*) (σ : Type*) [Field K] :
       have hdegree0 : Finsupp.degree x = 0 := by lia
       have hx0 : x = 0 := (Finsupp.degree_eq_zero_iff x).mp hdegree0
       simpa [hx0, MvPolynomial.constantCoeff_eq] using hp
-  show J.IsMaximal
+  change J.IsMaximal
   rw [hker]
   exact RingHom.ker_isMaximal_of_surjective _ (fun x =>
     ⟨MvPolynomial.C x, MvPolynomial.constantCoeff_C σ x⟩)
@@ -425,7 +425,7 @@ private theorem map_completionIdeal_mvPowerSeries_maximalIdeal
     (J.map (algebraMap P C))
   have hC : J.map (algebraMap P C) = IsLocalRing.maximalIdeal C :=
     IsLocalRing.eq_maximalIdeal ‹(J.map (algebraMap P C)).IsMaximal›
-  show Jhat.map e.toRingHom = IsLocalRing.maximalIdeal (MvPowerSeries σ K)
+  change Jhat.map e.toRingHom = IsLocalRing.maximalIdeal (MvPowerSeries σ K)
   have hecomp : e.toRingHom = c.symm.toRingHom.comp b.toRingHom := by
     ext x
     rfl
@@ -520,14 +520,14 @@ private theorem isFormallySmooth_mvPowerSeries_maximalIdeal.{u, v, w, z}
     map_completionIdeal_mvPowerSeries_maximalIdeal K σ
   have hecoe (p : P) : e (p : U) = algebraMap P B p := by
     apply ca.injective
-    show ca (ca.symm (b (p : U))) = ca (algebraMap P B p)
+    change ca (ca.symm (b (p : U))) = ca (algebraMap P B p)
     rw [ca.apply_symm_apply, ca.commutes, AdicCompletionBridge.adicCompletionRingEquiv_coe]
     rfl
   have hmap : e.toRingHom.comp
       (UniformSpace.Completion.coeRingHom.comp (algebraMap k P)) = algebraMap k B := by
     apply RingHom.ext
     intro x
-    show e (↑(algebraMap k P x)) = algebraMap k B x
+    change e (↑(algebraMap k P x)) = algebraMap k B x
     rw [hecoe, MvPolynomial.algebraMap_apply, MvPowerSeries.algebraMap_apply]
     exact MvPolynomial.coe_C _
   exact isFormallySmooth_adic_congr_target
@@ -625,7 +625,7 @@ public theorem isFormallySmooth_maximalIdeal_of_isRegularLocalRing.{u, v, w}
       (algebraMap k C) b.symm mC mU _ hb' ?_ hC
     apply RingHom.ext
     intro x
-    show b.symm ((algebraMap k C) x) =
+    change b.symm ((algebraMap k C) x) =
       (↑(algebraMap k A x) : U)
     rw [← b.symm_apply_apply (↑(algebraMap k A x) : U)]
     congr 1
@@ -679,7 +679,7 @@ public theorem smoothAt_iff_formallySmoothNAdic_localization.{u, v}
         (maximalIdeal (Localization.AtPrime q)) := by
   let : Algebra (Localization.AtPrime p) (Localization.AtPrime q) :=
     Localization.AtPrime.algebraOfLiesOver p q
-  let : Localization.AtPrime.IsLiesOverAlgebra p q := inferInstance
+  let : IsScalarTower A (Localization.AtPrime p) (Localization.AtPrime q) := inferInstance
   constructor
   · intro h
     let : Algebra.FinitePresentation A B :=
@@ -739,7 +739,7 @@ public theorem smoothAt_iff_formallySmoothNAdic_localization.{u, v}
         ext x
         apply e.injective
         simp only [RingHom.comp_apply]
-        show e (e.symm (gq ((algebraMap (Localization.AtPrime p)
+        change e (e.symm (gq ((algebraMap (Localization.AtPrime p)
           (Localization.AtPrime q)) (algebraMap A (Localization.AtPrime p) x)))) =
           e (Ideal.Quotient.mk _ (fp (algebraMap A (Localization.AtPrime p) x)))
         rw [e.apply_symm_apply, hmk, ← IsScalarTower.algebraMap_apply A (Localization.AtPrime p)
@@ -760,16 +760,16 @@ public theorem smoothAt_iff_formallySmoothNAdic_localization.{u, v}
           rw [← IsLocalization.AtPrime.map_eq_maximalIdeal q,
             Ideal.map_map, Ideal.map_le_iff_le_comap]
           intro x hx
-          show gq (algebraMap B (Localization.AtPrime q) x) ∈ maximalIdeal C
+          change gq (algebraMap B (Localization.AtPrime q) x) ∈ maximalIdeal C
           rw [IsLocalization.liftAlgHom_apply, IsLocalization.lift_eq]
-          show x ∈ Ideal.comap (g : B →+* C) (maximalIdeal C)
+          change x ∈ Ideal.comap (g : B →+* C) (maximalIdeal C)
           rw [hq]
           exact hx
         refine ⟨k, Nat.one_le_iff_ne_zero.mpr hk0, ?_⟩
         intro x hx
         rw [RingHom.mem_ker]
         apply e.injective
-        show e (e.symm (gq x)) = e 0
+        change e (e.symm (gq x)) = e 0
         rw [e.apply_symm_apply, map_zero]
         have hx' : gq x ∈ maximalIdeal C ^ k := (pow_le_pow_left' hmap k) (by
           rw [← Ideal.map_pow]
@@ -797,7 +797,7 @@ public theorem smoothAt_iff_formallySmoothNAdic_localization.{u, v}
       refine ⟨liftA, ?_⟩
       apply AlgHom.ext
       intro x
-      show φ (lift (algebraMap B (Localization.AtPrime q) x)) = g x
+      change φ (lift (algebraMap B (Localization.AtPrime q) x)) = g x
       have hx := congrArg e (DFunLike.congr_fun hlift
         (algebraMap B (Localization.AtPrime q) x))
       change e (Ideal.Quotient.mk _ (lift (algebraMap B

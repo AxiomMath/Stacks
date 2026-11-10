@@ -323,7 +323,7 @@ the projection `X' ⟶ X` followed by the zero section of `ℒ`. -/
 theorem zeroSectionBaseChange_comp_fst :
     zeroSectionBaseChange B D sX ≫ pullback.fst (D.totalSpaceToBase ≫ sX) B.g =
       pullback.fst sX B.g ≫ D.zeroSection := by
-  show ((baseChangeSituation B D sX).zeroSection ≫ (lineBundleBaseChangeIso B D sX).hom) ≫
+  change ((baseChangeSituation B D sX).zeroSection ≫ (lineBundleBaseChangeIso B D sX).hom) ≫
     pullback.fst (D.totalSpaceToBase ≫ sX) B.g = _
   rw [Category.assoc, lineBundleBaseChangeIso_hom_comp_fst]
   exact D.zeroSection_comp_baseChangeToTotalSpace (baseProjection B D sX)
@@ -334,7 +334,7 @@ projection `X' ⟶ S'`. -/
 theorem zeroSectionBaseChange_comp_snd :
     zeroSectionBaseChange B D sX ≫ pullback.snd (D.totalSpaceToBase ≫ sX) B.g =
       pullback.snd sX B.g := by
-  show ((baseChangeSituation B D sX).zeroSection ≫ (lineBundleBaseChangeIso B D sX).hom) ≫
+  change ((baseChangeSituation B D sX).zeroSection ≫ (lineBundleBaseChangeIso B D sX).hom) ≫
     pullback.snd (D.totalSpaceToBase ≫ sX) B.g = _
   rw [Category.assoc, lineBundleBaseChangeIso_hom_comp_snd, ← Category.assoc,
     (baseChangeSituation B D sX).zeroSection_comp_totalSpaceToBase, Category.id_comp]
@@ -451,7 +451,7 @@ theorem zeroSectionBaseChange_chowPushforward_eq_neg (j : ℤ)
       (pullback.snd sX B.g) (pullback.snd (D.totalSpaceToBase ≫ sX) B.g)
       (zeroSectionBaseChange B D sX) (zeroSectionBaseChange_comp_snd B D sX) (j + 1))] at hval
   rw [← hval]
-  show comparisonChowPushforward B D sX (j + 1)
+  change comparisonChowPushforward B D sX (j + 1)
       (zeroSectionChowPushforward B.baseChange (baseChangeSituation B D sX)
         (pullback.snd sX B.g) (j + 1) δ) = _
   rw [zeroSectionChowPushforward_eq_neg_flatPullbackChow_firstChernClassCapChow B.baseChange

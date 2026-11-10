@@ -59,9 +59,9 @@ theorem exists_isOpen_isIrreducible_of_smooth {k : Type u} [Field k] {Y : Scheme
   let j : W i ⟶ Y := Sigma.ι W i ≫ e.inv ≫ V.1.ι
   have := hint i
   refine ⟨Set.range j, j.isOpenEmbedding.isOpen_range, ⟨w, ?_⟩, ?_⟩
-  · show V.1.ι (e.inv (Sigma.ι W i w)) = z
+  · change V.1.ι (e.inv (Sigma.ι W i w)) = z
     rw [hw]
-    show (e.hom ≫ e.inv ≫ V.1.ι) ⟨z, hzV⟩ = z
+    change (e.hom ≫ e.inv ≫ V.1.ι) ⟨z, hzV⟩ = z
     rw [e.hom_inv_id_assoc]
     rfl
   · rw [← Set.image_univ]

@@ -123,7 +123,7 @@ theorem exists_cycle_finsum_properPushforward (k : ℤ) {I : Type*} (T : I → Y
     by_contra h
     simp only [not_exists, not_not] at h
     refine hy ?_
-    show (∑ᶠ i : I, (properPushforward C ((T i).subschemeι ≫ sY) sY (T i).subschemeι rfl k
+    change (∑ᶠ i : I, (properPushforward C ((T i).subschemeι ≫ sY) sY (T i).subschemeι rfl k
       (b i)).1 y) = 0
     rw [show (fun i : I ↦ (properPushforward C ((T i).subschemeι ≫ sY) sY (T i).subschemeι rfl k
       (b i)).1 y) = fun _ ↦ (0 : ℤ) from funext h]

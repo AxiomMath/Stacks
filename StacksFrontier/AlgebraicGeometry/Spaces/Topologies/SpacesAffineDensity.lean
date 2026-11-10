@@ -133,7 +133,7 @@ theorem generate_affineSchemePresieve_mem (U : SpacesEtale B S hS X) :
       (Over.mk ((ObjectProperty.homMk (b x) :
         (schemeSpaceFunctor B S hS).obj (W x) ⟶ (toSpaces B S hS X).obj U) ≫ U.obj.hom)) := by
     intro x
-    show IsEtale B S hS (b x ≫ U.obj.hom.hom)
+    change IsEtale B S hS (b x ≫ U.obj.hom.hom)
     exact isEtale_of_presheaf_etale B S hS
       (U.property (W x) (b x) (presheaf_etale_of_isEtale B S hS (hbEt x)))
   let E : PreZeroHypercover.{u + 1} U :=

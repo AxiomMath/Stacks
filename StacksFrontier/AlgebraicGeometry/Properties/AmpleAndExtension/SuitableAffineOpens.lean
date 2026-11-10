@@ -102,7 +102,7 @@ private theorem exists_separated_open_dense_in_iSup {X : Scheme.{u}} :
       have hdisj : Disjoint V' W := by
         rw [disjoint_iff]
         ext x
-        show (x ∈ V' ∧ x ∈ W) ↔ x ∈ (⊥ : X.Opens)
+        change (x ∈ V' ∧ x ∈ W) ↔ x ∈ (⊥ : X.Opens)
         constructor
         · rintro ⟨hxV, hxW⟩
           have hxW' : x ∈ U (Fin.last n) ∧ x ∉ closure (V' : Set X) := by
@@ -121,7 +121,7 @@ private theorem exists_separated_open_dense_in_iSup {X : Scheme.{u}} :
         by_cases h : x ∈ closure (V' : Set X)
         · exact hV'V h
         · have hxW : x ∈ W := by
-            show x ∈ U (Fin.last n) ∧ x ∈ C
+            change x ∈ U (Fin.last n) ∧ x ∈ C
             exact ⟨hx, by simpa [C] using h⟩
           exact subset_closure (Or.inr hxW)
       have hsplit : (⨆ i : Fin (n + 1), U i) = T ⊔ U (Fin.last n) := by

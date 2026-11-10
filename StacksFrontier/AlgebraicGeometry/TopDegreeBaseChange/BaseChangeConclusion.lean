@@ -17,8 +17,8 @@ Y'' --h-->  Y'
 ```
 the canonical map `γ : h^* R^d f'_* F' ⟶ R^d f''_* (h')^* F'` is an isomorphism.
 
-Everything the reduction of (c) needs is available, and this file performs the reduction: (c) follows
-from the single identity that the Eilenberg-Watts map `ψ` of
+Everything the reduction of (c) needs is available, and this file performs the reduction: (c)
+follows from the single identity that the Eilenberg-Watts map `ψ` of
 `…TopDegreeBaseChange.baseChangeSectionsMap` agrees with `Γ(W, γ⁺)` on the pure tensors `1 ⊗ a`,
 over each compatible pair of affine opens.
 
@@ -63,8 +63,8 @@ that imports it. The consumer composes the two.
 they consume produces it that way, whereas `baseChangeSectionsMap` takes
 `IsAffine (V : Scheme)` as an **instance**, because the Eilenberg-Watts machinery it is built from
 needs it for elaboration. The two are the same statement — `IsAffineOpen V` unfolds to
-`IsAffine (V : Scheme)` — and `haveI` crosses between them; the files of those results already cross it the
-other way, writing `(‹IsAffine (V : Scheme)› : IsAffineOpen V)`.
+`IsAffine (V : Scheme)` — and `haveI` crosses between them; the files of those results already cross
+it the other way, writing `(‹IsAffine (V : Scheme)› : IsAffineOpen V)`.
 
 *The two hypotheses take the affineness as instance binders, and that is forced.* Writing them
 with the instances supplied inside the binder by `haveI` makes the occurrence of

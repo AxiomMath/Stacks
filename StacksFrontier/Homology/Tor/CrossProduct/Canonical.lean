@@ -41,12 +41,10 @@ private lemma hom_ext_extensionScalars_tensor
   apply ModuleCat.hom_ext
   apply TensorProduct.AlgebraTensorModule.ext
   intro x y
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [TensorProduct.zero_tmul, map_zero]
+  induction x using TensorProduct.inductionOn with
   | add x x' hx hx' => simp only [TensorProduct.add_tmul, map_add, hx, hx']
   | tmul a x =>
-    induction y using TensorProduct.induction_on with
-    | zero => simp only [TensorProduct.tmul_zero, map_zero]
+    induction y using TensorProduct.inductionOn with
     | add y y' hy hy' => simp only [TensorProduct.tmul_add, map_add, hy, hy']
     | tmul b y => exact H a b x y
 
@@ -65,7 +63,7 @@ private lemma zeroBaseChange_naturality
     ModuleCat.ExtendScalars.map', zeroBaseChange, moduleTensorMap,
     ModuleCat.moduleTensorLarge]
   simp only [ModuleCat.hom_comp, LinearMap.comp_apply, ModuleCat.hom_ofHom]
-  show (TensorProduct.AlgebraTensorModule.distribBaseChange R A M' N').symm
+  change (TensorProduct.AlgebraTensorModule.distribBaseChange R A M' N').symm
       ((a ⊗ₜ[R] g x) ⊗ₜ[A] (b ⊗ₜ[R] h y)) =
     (LinearMap.baseChange A ((h.hom.lTensor M').comp (g.hom.rTensor N)))
       ((TensorProduct.AlgebraTensorModule.distribBaseChange R A M N).symm
@@ -88,7 +86,7 @@ private lemma epi_moduleTensorMap
     (f : M ⟶ M') (g : N ⟶ N') [Epi f] [Epi g] :
     Epi (moduleTensorMap.{uR, uA, v} f g) := by
   apply (ModuleCat.epi_iff_surjective _).2
-  show Function.Surjective (moduleTensorMap.{uR, uA, v} f g).hom
+  change Function.Surjective (moduleTensorMap.{uR, uA, v} f g).hom
   rw [moduleTensorMap_hom.{uR, uA, v}]
   exact TensorProduct.map_surjective ((ModuleCat.epi_iff_surjective f).1 inferInstance)
     ((ModuleCat.epi_iff_surjective g).1 inferInstance)
@@ -425,7 +423,7 @@ private lemma homologyπ_fromLeftDerivedZero
         P.fromLeftDerivedZero' (extensionScalars f) =
       (extC.{uR, uA, v} f P.complex).iCycles 0 ≫
         (extensionScalars f).map (P.π.f 0) := by
-  show _ ≫ (extC.{uR, uA, v} f P.complex).homologyι 0 ≫ _ = _
+  change _ ≫ (extC.{uR, uA, v} f P.complex).homologyι 0 ≫ _ = _
   rw [homology_π_ι_assoc, ProjectiveResolution.pOpcycles_comp_fromLeftDerivedZero']
 
 private lemma resolutionProduct_degree_zero
@@ -497,7 +495,7 @@ private lemma projective_extensionScalars
     (M : ModuleCat.{max uR uA v} R) [Projective M] :
     Projective ((extensionScalars.{uR, uA, v} f).obj M) := by
   let := f.toAlgebra
-  show Projective (ModuleCat.of A (A ⊗[R] M))
+  change Projective (ModuleCat.of A (A ⊗[R] M))
   infer_instance
 
 private noncomputable def resolutionModel (n m : ℕ)
@@ -566,12 +564,14 @@ public noncomputable def canonical (f : R →+* A) : System.{uR, uA, v} R A f :=
 public noncomputable abbrev product (f : R →+* A) (n m : ℕ) :=
   (canonical.{uR, uA, v} R A f).product n m
 
+set_option linter.checkUnivs false in
 /-- Transport the first of two independently universed module carriers to their common
 universe. -/
 public abbrev liftLeft (M : ModuleCat.{w} R) :
     ModuleCat.{max uR uA w x} R :=
   (ModuleCat.uliftFunctor.{max uR uA x, w} R).obj M
 
+set_option linter.checkUnivs false in
 /-- Transport the second of two independently universed module carriers to their common
 universe. -/
 public abbrev liftRight (N : ModuleCat.{x} R) :

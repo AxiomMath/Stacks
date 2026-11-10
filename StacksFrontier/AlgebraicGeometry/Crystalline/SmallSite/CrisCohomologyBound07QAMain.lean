@@ -69,9 +69,9 @@ theorem annihilated_ker_coker_crisModuleCohomologyMap_of_annihilation07Q9
       ((mono_homologyMap_moduleComparison07Q9_iff _ _ _ _ _ _).2
         (mono_zariskiDirectImage_map_crisModuleUnit_of_isIteratedAlphaPCover T f hf F hF)) y⟩
 
-/-- Let `p` be a prime and `(S, I, γ)` a divided power scheme over `ℤ_(p)` with `p ∈ I` (the
-prime, the `ℤ_(p)`-structure of the base and the local nilpotence of `p` on `X` are part of the
-situation `T`; `p ∈ I` is `hpI`), `S₀ = V(I)`.  Let `f : X' ⟶ X` be an iterated `α_p`-cover of
+/-- Let `p` be a prime and `(S, I, γ)` a divided power scheme over `ℤ_(p)` (the prime, the
+`ℤ_(p)`-structure of the base and the local nilpotence of `p` on `X` are part of the situation
+`T`), `S₀ = V(I)`.  Let `f : X' ⟶ X` be an iterated `α_p`-cover of
 schemes over `S₀` of constant degree `q`, `ℱ` a crystal in quasi-coherent modules on `Cris(X/S)`
 and `ℱ' = f_cris^*ℱ`.  Then the kernel and the cokernel of
 
@@ -82,8 +82,7 @@ are annihilated by `q^{i + 1}`: every class killed by `f^*` is killed by `q^{i +
 @[stacks 07QA "f^* : H^i(Cris(X/S), F) → H^i(Cris(X'/S), F') has kernel and cokernel \
 annihilated by q^(i+1)"]
 theorem annihilated_ker_coker_crisModuleCohomologyMap_of_isIteratedAlphaPCover
-    (hpI : (T.p : Γ(T.S.scheme, ⊤)) ∈ T.S.ideal.obj (op ⊤)) (q : ℕ)
-    (hf : IsIteratedAlphaPCover T.p f) (hq : HasConstantDegree f q)
+    (q : ℕ) (hf : IsIteratedAlphaPCover T.p f) (hq : HasConstantDegree f q)
     (F : SheafOfModules.{u} (structureSheaf T)) (hF : IsQuasiCoherentCrystal T F)
     [HasDerivedCategory.{w} (Sheaf (smallTopology (overSituation T f)) AddCommGrpCat.{u + 1})]
     [HasDerivedCategory.{w} (Sheaf (smallTopology T) AddCommGrpCat.{u + 1})]
@@ -96,7 +95,7 @@ theorem annihilated_ker_coker_crisModuleCohomologyMap_of_isIteratedAlphaPCover
         crisModuleCohomologyMap (overSituation T f) T (𝟙 T.S) f (overSituation_compat T f)
           ((moduleULift T).obj F) i x :=
   annihilated_ker_coker_crisModuleCohomologyMap_of_annihilation07Q9 T f hf F hF q
-    (annihilation07Q9_of_isIteratedAlphaPCover T f hpI hf hq F hF) i
+    (annihilation07Q9_of_isIteratedAlphaPCover T f hf hq F hF) i
 
 end Crystalline.GlobalCrystallineSituation.SmallSite
 

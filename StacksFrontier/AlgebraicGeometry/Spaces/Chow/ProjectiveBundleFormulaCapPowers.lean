@@ -95,7 +95,7 @@ theorem firstChernCapPowCycleMap_firstChernCapPowCycleMap (s i : ℕ) (m : ℤ)
   induction s generalizing m with
   | zero =>
     refine Subtype.ext ?_
-    show (firstChernCapPowCycleMap D sX hX L hL i (m + (0 : ℕ)) α).1 = _
+    change (firstChernCapPowCycleMap D sX hX L hL i (m + (0 : ℕ)) α).1 = _
     exact coe_firstChernCapPowCycleMap_congr D sX hX L hL (by simp) (by simp) _ _ rfl
   | succ s ih =>
     refine Subtype.ext ?_

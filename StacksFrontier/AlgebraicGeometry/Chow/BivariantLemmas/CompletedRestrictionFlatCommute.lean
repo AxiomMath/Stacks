@@ -544,7 +544,7 @@ def completedBivariantRestrictionSequence :
     completedBivariantGroup C (gysinSystemOfInvertible C) sX sY f hf →+
       ∀ n : ℤ, BivariantClass C (gysinSystemOfInvertible C) (pullback.fst f h ≫ sX) (h ≫ sY)
         (pullback.snd f h) (pullbackSnd_comp_structureMorphism_eq C sX sY f hf h) n :=
-  (Pi.addMonoidHom fun n ↦ (bivariantRestrictionAddHom C (gysinSystemOfInvertible C) sX sY f hf
+  (AddMonoidHom.pi fun n ↦ (bivariantRestrictionAddHom C (gysinSystemOfInvertible C) sX sY f hf
     h n (gysinSystemOfInvertible_isNaturalUnderBaseChangeIso C)).comp
       (Pi.evalAddMonoidHom _ n)).comp (completedBivariantSequenceOfInvertible C sX sY f hf)
 

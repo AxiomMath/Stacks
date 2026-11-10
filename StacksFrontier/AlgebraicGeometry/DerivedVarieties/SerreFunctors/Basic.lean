@@ -72,7 +72,7 @@ private theorem homDualPresheaf_map_eval {X Y Z : C} (f : Y ⟶ Z)
       (ConcreteCategory.hom
         ((homDualPresheaf k X ⋙ forget (ModuleCat.{max u w} k)).map f.op)) φ) g =
       φ (g ≫ f) := by
-  show ((Linear.rightComp k X f).dualMap φ) g = φ (g ≫ f)
+  change ((Linear.rightComp k X f).dualMap φ) g = φ (g ≫ f)
   simp [LinearMap.dualMap_apply]
 
 /-- The copresheaf sending `Y` to the linear dual of `Hom(Y, X)`. -/
@@ -92,7 +92,7 @@ private theorem homDualCopresheaf_map_eval {X Y Z : C} (f : Y ⟶ Z)
       (ConcreteCategory.hom
         ((homDualCopresheaf k X ⋙ forget (ModuleCat.{max u w} k)).map f)) φ) g =
       φ (f ≫ g) := by
-  show ((Linear.leftComp k X f).dualMap φ) g = φ (f ≫ g)
+  change ((Linear.leftComp k X f).dualMap φ) g = φ (f ≫ g)
   simp [LinearMap.dualMap_apply]
 
 /-- **Stacks Project, Tag 0FY5.** A linear self-equivalence together with a bifunctorial family
@@ -240,7 +240,7 @@ private theorem serreFunctorLinear
     Functor.Linear k (serreFunctor k h) := by
   refine ⟨?_⟩
   intro X X' f a
-  show serreFunctorMap k h (a • f) = a • serreFunctorMap k h f
+  change serreFunctorMap k h (a • f) = a • serreFunctorMap k h f
   apply (chosenRepLinearEquiv k h X' (chosenRep k h X)).injective
   ext z
   simp only [serreFunctorMap, LinearEquiv.apply_symm_apply]
@@ -377,9 +377,9 @@ private theorem serreFunctorTargetPairing_apply
     (z : Y ⟶ chosenRep k h X) :
     serreFunctorTargetPairing k h X Y a z =
       serrePairingOfRepresentable k h Y (chosenRep k h X) z a := by
-  show ((serrePairingOfRepresentable k h Y (chosenRep k h X)).dualMap
+  change ((serrePairingOfRepresentable k h Y (chosenRep k h X)).dualMap
     (Module.evalEquiv k ((serreFunctor k h).obj X ⟶ (serreFunctor k h).obj Y) a)) z = _
-  show (Module.Dual.eval k ((serreFunctor k h).obj X ⟶ (serreFunctor k h).obj Y) a)
+  change (Module.Dual.eval k ((serreFunctor k h).obj X ⟶ (serreFunctor k h).obj Y) a)
       (serrePairingOfRepresentable k h Y (chosenRep k h X) z) = _
   rfl
 
@@ -397,7 +397,7 @@ private theorem serreFunctorHomLinearEquiv_map
     {X Y : C} (f : X ⟶ Y) :
     serreFunctorHomLinearEquiv k h X Y f = (serreFunctor k h).map f := by
   apply (serreFunctorTargetPairing k h X Y).injective
-  show (serreFunctorTargetPairing k h X Y)
+  change (serreFunctorTargetPairing k h X Y)
       ((serrePairingOfRepresentable k h X Y).trans
         (serreFunctorTargetPairing k h X Y).symm f) =
     (serreFunctorTargetPairing k h X Y) ((serreFunctor k h).map f)

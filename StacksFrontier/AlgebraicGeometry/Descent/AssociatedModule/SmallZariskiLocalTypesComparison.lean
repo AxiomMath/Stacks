@@ -104,9 +104,9 @@ instantiate it at the same morphism, with two further inputs.
   `StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.LocalGenerationBySectionsAgreement`,
   and 03DL (2) is
   `AlgebraicGeometry.SmallZariski.isFiniteLocallyFreeOnSite_associatedModule_iff` in
-  `StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.SmallZariskiFiniteLocallyFreeAgreement`,
-  which goes through the localization of Remark 03FH's comparison at an open of `S` and needs no
-  quasi-coherence either.
+  `StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.SmallZariskiFiniteLocallyFreeAgreement`
+  (its proof goes through the localization of Remark 03FH's comparison at an open of `S` and
+  needs no quasi-coherence either).
 
 ## Main results
 

@@ -148,7 +148,7 @@ theorem exteriorGenerator_comp_d_one :
     A.exteriorGenerator ≫ K.d 1 ≫ A.exteriorPieceZeroIsoUnit.hom = φ := by
   refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun U =>
     ModuleCat.hom_ext (LinearMap.ext fun e => ?_))
-  show A.exteriorPieceZeroIsoUnit.hom.val.app U
+  change A.exteriorPieceZeroIsoUnit.hom.val.app U
       ((K.d 1).val.app U (A.exteriorGenerator.val.app U e)) = φ.val.app U e
   rw [K.d_exteriorGenerator U e, exteriorPieceZeroIsoUnit_smul_one_apply]
   rfl

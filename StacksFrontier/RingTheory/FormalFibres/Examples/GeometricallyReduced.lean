@@ -104,7 +104,7 @@ private theorem fiberMap_injective
       (Algebra.IsPushout.cancelBaseChange_symm_comp_lTensor A B C p.ResidueField)
   have hleft : x ⊗ₜ[B] (1 : C) = y ⊗ₜ[B] (1 : C) := by
     have hh := congrArg e.symm h
-    show (Algebra.TensorProduct.includeLeft :
+    change (Algebra.TensorProduct.includeLeft :
       p.Fiber B →ₐ[p.ResidueField] p.Fiber B ⊗[B] C) x =
       (Algebra.TensorProduct.includeLeft :
       p.Fiber B →ₐ[p.ResidueField] p.Fiber B ⊗[B] C) y
@@ -188,11 +188,11 @@ private theorem geometricReducedness_localizes
   have : IsScalarTower L (L ⊗[k] R) (L ⊗[k] T) :=
     .of_algebraMap_eq (by
       intro x
-      show (algebraMap L (L ⊗[k] T)) x = f (x ⊗ₜ[k] (1 : R))
+      change (algebraMap L (L ⊗[k] T)) x = f (x ⊗ₜ[k] (1 : R))
       have hmap : f (x ⊗ₜ[k] (1 : R)) = x ⊗ₜ[k] (1 : T) := by
         simp [f]
       rw [hmap]
-      show (algebraMap L (L ⊗[k] T)) x =
+      change (algebraMap L (L ⊗[k] T)) x =
         (algebraMap L L) x ⊗ₜ[k] (1 : T)
       exact Algebra.TensorProduct.algebraMap_apply
         (R := k) (S := L) (A := L) (B := T) x)

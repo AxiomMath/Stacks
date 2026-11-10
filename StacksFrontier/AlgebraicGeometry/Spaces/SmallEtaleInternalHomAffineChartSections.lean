@@ -183,7 +183,7 @@ theorem homEquivOfSemilinear_apply (σ : R →+* R') (hσ : Function.Surjective 
     (hb₂ : Function.Bijective f₂) (hs₂ : ∀ (r : R) (x : P₂), f₂ (r • x) = σ r • f₂ x)
     (ψ : P₁ →ₗ[R] P₂) (x : P₁) :
     homEquivOfSemilinear σ hσ f₁ ha₁ hb₁ hs₁ f₂ ha₂ hb₂ hs₂ ψ (f₁ x) = f₂ (ψ x) := by
-  show (AddEquiv.mk' (Equiv.ofBijective f₂ hb₂) ha₂)
+  change (AddEquiv.mk' (Equiv.ofBijective f₂ hb₂) ha₂)
       (ψ ((AddEquiv.mk' (Equiv.ofBijective f₁ hb₁) ha₁).symm
         ((AddEquiv.mk' (Equiv.ofBijective f₁ hb₁) ha₁) x))) = f₂ (ψ x)
   rw [AddEquiv.symm_apply_apply]

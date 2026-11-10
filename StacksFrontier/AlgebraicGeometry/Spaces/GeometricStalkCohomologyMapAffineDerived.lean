@@ -55,7 +55,7 @@ theorem isIso_totalDerivedExtensionScalars_comparison_of_flat {R A : Type u} [Co
     (W := HomologicalComplex.quasiIso (ModuleCat.{u} R) (ComplexShape.up ℤ)) (by
       intro X Y g hg
       have : QuasiIso g := hg
-      show IsIso (DerivedCategory.Q.map
+      change IsIso (DerivedCategory.Q.map
         (((ModuleCat.extendScalars.{u, u, u} f).mapHomologicalComplex _).map g))
       infer_instance)
 

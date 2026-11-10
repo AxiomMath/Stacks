@@ -634,7 +634,7 @@ public theorem eq_of_conjugation
     (hε : D ≫ Hε.hom = Hε.hom ≫ A₂) :
     A₁ = A₂ := by
   refine (Iso.cancel_iso_hom_right A₁ A₂ (Hε.symm ≪≫ H₄ ≪≫ g.mapIso H₂)).mp ?_
-  show A₁ ≫ Hε.inv ≫ H₄.hom ≫ g.map H₂.hom = A₂ ≫ Hε.inv ≫ H₄.hom ≫ g.map H₂.hom
+  change A₁ ≫ Hε.inv ≫ H₄.hom ≫ g.map H₂.hom = A₂ ≫ Hε.inv ≫ H₄.hom ≫ g.map H₂.hom
   rw [← hkey, reassoc_of% h₃, ← Functor.map_comp_assoc, h₁, Functor.map_comp_assoc, hab,
     reassoc_of% hkey, ← g.map_comp, ← h₂, g.map_comp, ← reassoc_of% h₄,
     reassoc_of% inv_comp_eq_of_conjugation hε, hkey]
@@ -654,7 +654,7 @@ public theorem square_of_conjugation
     f.map (H₁.inv ≫ β ≫ H₁.hom) ≫ (PW.obj Uw).1.iso.hom =
       (PW.obj Uw).1.iso.hom ≫ g.map (H₂.inv ≫ γ ≫ H₂.hom) := by
   refine (Iso.cancel_iso_hom_left (H₃ ≪≫ f.mapIso H₁) _ _).mp ?_
-  show (H₃.hom ≫ f.map H₁.hom) ≫ f.map (H₁.inv ≫ β ≫ H₁.hom) ≫ (PW.obj Uw).1.iso.hom =
+  change (H₃.hom ≫ f.map H₁.hom) ≫ f.map (H₁.inv ≫ β ≫ H₁.hom) ≫ (PW.obj Uw).1.iso.hom =
     (H₃.hom ≫ f.map H₁.hom) ≫ (PW.obj Uw).1.iso.hom ≫ g.map (H₂.inv ≫ γ ≫ H₂.hom)
   simp only [Category.assoc]
   rw [← Functor.map_comp_assoc, Iso.hom_inv_id_assoc, Functor.map_comp_assoc,
@@ -688,7 +688,7 @@ public theorem exact_prod_coprod_neg_comp
     obtain ⟨m, h1, h2⟩ := hlift b.1 b.2 (add_neg_eq_zero.mp hb')
     exact ⟨m, Prod.ext h1 h2⟩
   · rintro ⟨m, rfl⟩
-    show s (u m) + -(t (r (v m))) = 0
+    change s (u m) + -(t (r (v m))) = 0
     rw [hcomp m, add_neg_cancel]
 
 /-- Conjugating a vertical self-arrow by a vertical isomorphism gives a vertical arrow. -/
@@ -845,7 +845,8 @@ public theorem exact_infProjPair_infLegDiff
         (secondLegBased.{u, v, w} pF g).w hG.satisfiesRS hF.satisfiesRS QG PF') ?_ ?_
   · -- the two legs agree on the image of an infinitesimal automorphism of `𝒲`
     intro m
-    refine (localizedTangentEquivKernel PF).injective (Subtype.ext (Aut.ext (Iso.ext (Subtype.ext ?_))))
+    refine (localizedTangentEquivKernel PF).injective
+      (Subtype.ext (Aut.ext (Iso.ext (Subtype.ext ?_))))
     exact eq_of_conjugation hkey
       ((localizedTangentEquivKernel PW m).1.asIso.hom.val).w (hc₃ _) (hc₁ m) (hc₄ _) (hc₂ m) (hcε _)
   · -- a pair with equal images is the image of an infinitesimal automorphism of `𝒲`

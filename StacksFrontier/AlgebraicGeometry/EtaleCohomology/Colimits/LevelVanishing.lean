@@ -74,6 +74,7 @@ attribute [local instance] isContinuous_levelEtale isContinuous_levelToLimit
 
 /-! ### The restriction to the site of the limit, at the spelling of the canonical system -/
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (D.map a)] in
 /-- The reading of the site of the limit in Mathlib's small étale site is continuous, at the
 spelling `limitSitePrecoverage`. -/
 theorem isContinuous_limitSmallMathlib_site :
@@ -91,6 +92,7 @@ abbrev limitRestrict :
   (limitSmallMathlib (c := c) (hX := hX)).sheafPushforwardContinuous AddCommGrpCat.{max u v + 1}
     (limitSitePrecoverage D c B hX).toGrothendieck (smallEtaleTopology c.pt)
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (D.map a)] in
 /-- Restriction to the site of the limit is an equivalence. -/
 theorem isEquivalence_limitRestrict : (limitRestrict D c B hX).IsEquivalence :=
   isEquivalence_limitMathlibRestrict D c B hX
@@ -168,7 +170,8 @@ theorem isColimitPresentation_levelLeg_site :
       (limitSitePrecoverage D c B hX) (levelSystem (affineEtaleSiteColimit D c B hD hX hc) d 𝓜)
       ((limitRestrict D c B hX).obj ((smallEtalePullbackAb p).obj 𝓜))
       (fun j => (levelLeg (affineEtaleSiteColimit D c B hD hX hc) d p hp 𝓜 j).hom) :=
-  isColimitPresentation_levelLeg.{v, u} (hequivL := isEquivalence_limitMathlibRestrict D c B hX)
+  isColimitPresentation_levelLeg.{v, u}
+    (hequivL := isEquivalence_limitMathlibRestrict.{v, u} D c B hX)
     (affineEtaleSiteColimit D c B hD hX hc) d p hp 𝓜
 
 /-- The vanishing of `H^n(X_j, (X_j ⟶ S)⁻¹ 𝓜)` at a level `j`. -/

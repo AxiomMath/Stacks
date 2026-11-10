@@ -222,7 +222,7 @@ public theorem exists_ringEquiv_adicCompletion_localization_chartOrigin
       (chartOrigin (maximalIdeal R) h)
   rw [← Localization.AtPrime.map_eq_maximalIdeal]
   refine ⟨E₀.symm.toRingEquiv.trans (chartAdicCompletionAlgEquiv R h).toRingEquiv, fun r => ?_⟩
-  show chartAdicCompletionAlgEquiv R h
+  change chartAdicCompletionAlgEquiv R h
       (E₀.symm (algebraMap (Localization.AtPrime (chartOrigin (maximalIdeal R) h)) _
         (algebraMap (nodalChartRing R h) (Localization.AtPrime (chartOrigin (maximalIdeal R) h))
           (algebraMap R (nodalChartRing R h) r)))) = _

@@ -142,7 +142,7 @@ private theorem liftAddCommGrpSheaf_preservesKernels
     PreservesLimitsOfShape WalkingParallelPair (liftAddCommGrpSheaf J) := by
   have hcomp : PreservesLimitsOfShape WalkingParallelPair
       ((liftAddCommGrpSheaf J) ⋙ sheafToPresheaf J AddCommGrpCat.{u + 1}) := by
-    show PreservesLimitsOfShape WalkingParallelPair
+    change PreservesLimitsOfShape WalkingParallelPair
       (sheafToPresheaf J AddCommGrpCat.{u} ⋙
         (CategoryTheory.Functor.whiskeringRight Cᵒᵖ AddCommGrpCat.{u}
           AddCommGrpCat.{u + 1}).obj AddCommGrpCat.uliftFunctor.{u + 1, u})
@@ -222,7 +222,7 @@ private theorem exists_faithfullyFlat_syntomic_root
     Polynomial.Monic.exists_finite_free_faithfullyFlat_syntomic_map_eq_prod_X_sub_C hP
   by_cases hA : Nontrivial A
   · have hdeg : 0 < P.natDegree := by
-      show 0 < (Polynomial.X ^ n - Polynomial.C (a.val)).natDegree
+      change 0 < (Polynomial.X ^ n - Polynomial.C (a.val)).natDegree
       rw [Polynomial.natDegree_X_pow_sub_C]
       exact hn
     let i : Fin P.natDegree := ⟨0, hdeg⟩
@@ -273,10 +273,10 @@ private theorem syntomic_specMap
     commutes' := by
       intro r
       have h := Scheme.ΓSpecIso_naturality (CommRingCat.ofHom (algebraMap A A'))
-      show eR' (f.appTop.hom r) = (algebraMap A A') (eR r)
+      change eR' (f.appTop.hom r) = (algebraMap A A') (eR r)
       exact congrArg (fun k : R ⟶ CommRingCat.of A' => k r) h
   }
-  show Algebra.Syntomic R R'
+  change Algebra.Syntomic R R'
   exact RingHom.syntomic_of_algEquiv algEquiv.symm
 
 private theorem isSyntomicCovering_rootSpec
@@ -345,7 +345,7 @@ private theorem exists_syntomic_root_cover
   have hbΓ : bΓ ^ n =
       Units.map f.appTop.hom (Units.map e.symm.toMonoidHom a) := by
     apply Units.ext
-    show (e'.symm.toRingHom b.val) ^ n =
+    change (e'.symm.toRingHom b.val) ^ n =
       f.appTop.hom (e.symm.toRingHom a.val)
     calc
       e'.symm.toRingHom b.val ^ n = e'.symm.toRingHom (b.val ^ n) := by rw [map_pow]
@@ -360,7 +360,7 @@ private theorem exists_syntomic_root_cover
       _ = Units.map (pullback.snd f g).appTop.hom
           (Units.map g.appTop.hom (Units.map e.symm.toMonoidHom a)) := by
         apply Units.ext
-        show (pullback.fst f g).appTop.hom
+        change (pullback.fst f g).appTop.hom
             (f.appTop.hom (e.symm.toRingHom a.val)) =
           (pullback.snd f g).appTop.hom
             (g.appTop.hom (e.symm.toRingHom a.val))
@@ -368,9 +368,9 @@ private theorem exists_syntomic_root_cover
       _ = Units.map q.appTop.hom a := by
         congr 1
         apply Units.ext
-        show g.appTop.hom (e.symm.toRingHom a.val) = a.val
+        change g.appTop.hom (e.symm.toRingHom a.val) = a.val
         rw [Scheme.toSpecΓ_appTop]
-        show e (e.symm a.val) = a.val
+        change e (e.symm a.val) = a.val
         exact e.apply_symm_apply a.val
   refine ⟨P, q, ?_, bP, hroot⟩
   exact isSyntomicCovering_pullback
@@ -396,7 +396,7 @@ private theorem units_map_appTop_pow_of_comp {X P W : Scheme.{u}} {q : P ⟶ X}
     have hc'' := congrArg (fun k : Γ(X, ⊤) ⟶ Γ(W, ⊤) => k.hom) hc'.symm
     simpa only [CommRingCat.hom_comp] using hc''
   have hbval : b.val ^ n = q.appTop.hom a.val := congrArg Units.val hb
-  show (g.appTop.hom b.val) ^ n = h.appTop.hom a.val
+  change (g.appTop.hom b.val) ^ n = h.appTop.hom a.val
   rw [← map_pow, hbval, hring, RingHom.comp_apply]
 
 private theorem kummerSequence_shortExact_of_isLocallySurjective_powerSheaf
@@ -423,7 +423,7 @@ private theorem kummerSequence_shortExact_of_isLocallySurjective_powerSheaf
     ShortComplex.ShortExact.mk' hex' (mono_of_isLimit_fork hker') hepi'
   have hcoker' : IsColimit (CokernelCofork.ofπ C'.g C'.zero) := hshort'.gIsCokernel
   have hker : IsLimit (KernelFork.ofι C.f C.zero) := by
-    show IsLimit (KernelFork.ofι (kernel.ι p) (kernel.condition p))
+    change IsLimit (KernelFork.ofι (kernel.ι p) (kernel.condition p))
     exact kernelIsKernel p
   have hcoker : IsColimit (CokernelCofork.ofπ C.g C.zero) := by
     let hff := liftAddCommGrpSheaf_fullyFaithful J
@@ -477,7 +477,7 @@ private theorem isLocallySurjective_powerSheaf_of_refining
     let α : W ⟶ T := Over.homMk (V.f i) (by simp [W])
     let t : (unitsPresheaf F).obj (Opposite.op W) := Units.map g.appTop.hom.toMonoidHom b
     have ht : p₀.app (Opposite.op W) t = (unitsPresheaf F).map α.op x₀ := by
-      show (Units.map g.appTop.hom.toMonoidHom b) ^ n =
+      change (Units.map g.appTop.hom.toMonoidHom b) ^ n =
         Units.map (F.map α).appTop.hom.toMonoidHom x₀
       exact units_map_appTop_pow_of_comp hcomm hb
     have hgen : (Sieve.overEquiv T (Presheaf.imageSieve p₀ x₀)) (V.f i) := by

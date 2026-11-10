@@ -97,7 +97,7 @@ instance toKaroubiMonoidal : (toKaroubi C).Monoidal :=
 /-- The tensor comparison morphism of `toKaroubi C` is an identity. -/
 @[simp] theorem toKaroubi_μ_f (X Y : C) :
     (LaxMonoidal.μ (toKaroubi C) X Y).f = 𝟙 (X ⊗ Y) := by
-  show (𝟙 X ⊗ₘ 𝟙 Y) ≫ 𝟙 (X ⊗ Y) = 𝟙 (X ⊗ Y)
+  change (𝟙 X ⊗ₘ 𝟙 Y) ≫ 𝟙 (X ⊗ Y) = 𝟙 (X ⊗ Y)
   rw [MonoidalCategory.id_tensorHom_id, comp_id]
 
 end Monoidal

@@ -56,7 +56,8 @@ Mathlib's `SheafOfModules.Submodule.instMonoι` is stated for the `SheafOfModule
 supplies the missing one through faithfulness of the forgetful functor to presheaves of modules,
 and a bare `inferInstance` at goal `Mono (submoduleι N)` **does** find it. It is nevertheless
 **not** found by the `[Mono f]` binder of an imported lemma applied to that same term — this
-holds for `Stacks.AlgebraicGeometry.SubmodulePrimitives.obj_ofHom_of_mono` and for `Subobject.mk`, with
+holds for `Stacks.AlgebraicGeometry.SubmodulePrimitives.obj_ofHom_of_mono` and for `Subobject.mk`,
+with
 `submoduleι` declared as a `def` and as an `abbrev`, and with
 `attribute [local instance_reducible] AlgebraicGeometry.Scheme.Modules` in force. Every use below
 therefore passes the instance **positionally**, and `toSubobjectIso` and

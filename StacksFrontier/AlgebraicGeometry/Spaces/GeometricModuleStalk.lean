@@ -87,8 +87,8 @@ noncomputable def moduleStalkLarge (p : J.Point.{w}) (O : Sheaf J CommRingCat.{w
     ModuleCat.{max w m} ((p.presheafFiber (A := CommRingCat.{w})).obj O.obj) :=
   let D := FinallySmall.FilteredFinalModel.{w} (p.fiber.Elementsᵒᵖ)
   let G : D ⥤ p.fiber.Elementsᵒᵖ := FinallySmall.fromFilteredFinalModel _
-  let R := G ⋙ (CategoryOfElements.π p.fiber).op ⋙ (commRingSheafToRingSheaf O).obj
-  let M := G ⋙ (CategoryOfElements.π p.fiber).op ⋙
+  let R := G ⋙ (Functor.Elements.π p.fiber).op ⋙ (commRingSheafToRingSheaf O).obj
+  let M := G ⋙ (Functor.Elements.π p.fiber).op ⋙
     F.val.presheaf ⋙ AddCommGrpCat.uliftFunctor.{w}
   let cR := colimit.cocone R
   let hR : IsColimit cR := colimit.isColimit R
@@ -97,17 +97,17 @@ noncomputable def moduleStalkLarge (p : J.Point.{w}) (O : Sheaf J CommRingCat.{w
   letI (i : D) : Module (R.obj i) (M.obj i) := by
     change Module _ (ULift (F.val.obj _))
     letI : Module ((commRingSheafToRingSheaf O).obj.obj
-        ((CategoryOfElements.π p.fiber).op.obj (G.obj i)))
-        (F.val.obj ((CategoryOfElements.π p.fiber).op.obj (G.obj i))) :=
+        ((Functor.Elements.π p.fiber).op.obj (G.obj i)))
+        (F.val.obj ((Functor.Elements.π p.fiber).op.obj (G.obj i))) :=
       (F.val.obj _).isModule
     infer_instance
   letI : Module cR.pt cM.pt :=
     IsColimit.module R M (fun {i j} f r x => by
       let : Module (R.obj i)
-          (F.val.presheaf.obj ((CategoryOfElements.π p.fiber).op.obj (G.obj i))) :=
+          (F.val.presheaf.obj ((Functor.Elements.π p.fiber).op.obj (G.obj i))) :=
         (F.val.obj _).isModule
       let : Module (R.obj j)
-          (F.val.presheaf.obj ((CategoryOfElements.π p.fiber).op.obj (G.obj j))) :=
+          (F.val.presheaf.obj ((Functor.Elements.π p.fiber).op.obj (G.obj j))) :=
         (F.val.obj _).isModule
       change ULift.up (F.val.map _ (r • x.down)) = ULift.up (_ • F.val.map _ x.down)
       congr 1
@@ -116,7 +116,7 @@ noncomputable def moduleStalkLarge (p : J.Point.{w}) (O : Sheaf J CommRingCat.{w
       ((p.presheafFiber (A := CommRingCat.{w})).obj O.obj) :=
     Functor.Final.colimitIso G _ ≪≫
       (preservesColimitIso (forget₂ CommRingCat RingCat)
-        ((CategoryOfElements.π p.fiber).op ⋙ O.obj)).symm
+        ((Functor.Elements.π p.fiber).op ⋙ O.obj)).symm
   (ModuleCat.restrictScalars e.inv.hom).obj (ModuleCat.of cR.pt cM.pt)
 
 end Stacks

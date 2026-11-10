@@ -54,8 +54,7 @@ private theorem prodRight_baseChange_q₁_eq {D P Q : Type*} [CommRing D] [Algeb
     [AddCommGroup P] [Module A P] [AddCommGroup Q] [Module A Q] (z : D ⊗[A] (P × Q)) :
     TensorProduct.prodRight A D D P Q ((q₁ (A := A) (N₁ := P) (N₂ := Q)).baseChange D z) =
       ((TensorProduct.prodRight A D D P Q z).1, 0) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]; rfl
+  induction z using TensorProduct.inductionOn with
   | add z w hz hw => simp only [map_add, hz, hw, Prod.fst_add, Prod.mk_add_mk, add_zero]
   | tmul d x => simp [q₁]
 
@@ -65,8 +64,7 @@ private theorem prodRight_baseChange_q₂_eq {D P Q : Type*} [CommRing D] [Algeb
     [AddCommGroup P] [Module A P] [AddCommGroup Q] [Module A Q] (z : D ⊗[A] (P × Q)) :
     TensorProduct.prodRight A D D P Q ((q₂ (A := A) (N₁ := P) (N₂ := Q)).baseChange D z) =
       (0, (TensorProduct.prodRight A D D P Q z).2) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]; rfl
+  induction z using TensorProduct.inductionOn with
   | add z w hz hw => simp only [map_add, hz, hw, Prod.snd_add, Prod.mk_add_mk, add_zero]
   | tmul d x => simp [q₂]
 
@@ -95,12 +93,10 @@ private theorem identifiesDirectSum_reduction_iff {E P Q : Type*}
         (TensorProduct.AlgebraTensorModule.cancelBaseChange A R D D Q))
   have hst : ∀ z, θ (t.baseChange D z) = σ (eE z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp only [map_add, hz, hw]
     | tmul d w =>
-      induction w using TensorProduct.induction_on with
-      | zero => simp only [tmul_zero, map_zero]
+      induction w using TensorProduct.inductionOn with
       | add w w' hw hw' => simp only [tmul_add, map_add, hw, hw']
       | tmul r x =>
         simp [t, σ, θ, eE]
@@ -180,8 +176,7 @@ theorem identifiesDirectSum_reduction_congr {E P Q E' P' Q' : Type*}
         LinearEquiv.baseChange A D Q Q' q
           (((TensorProduct.prodRight A D D P Q).toLinearMap ∘ₗ s.baseChange D) x).2) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [map_zero, Prod.fst_zero, Prod.snd_zero, Prod.mk_zero_zero]
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy =>
       simp only [map_add, hx, hy, Prod.fst_add, Prod.snd_add, Prod.mk_add_mk]
     | tmul d x => simp [h]
@@ -235,7 +230,7 @@ private theorem etaIncl_graphToEta (C : BoundedComplex A) {f : A} (hf : IsRegula
       (fpowEquiv f (Module.Flat.isSMulRegular_of_isRegular hf) i g.1.1,
         fpowEquiv f (Module.Flat.isSMulRegular_of_isRegular hf) (i + 1) g.1.2) := by
   refine Prod.ext (Subtype.ext rfl) (Subtype.ext ?_)
-  show fLoc f (C.d i).mulVecLin (fpowMap f _ i g.1.1) = fpowMap f _ (i + 1) g.1.2
+  change fLoc f (C.d i).mulVecLin (fpowMap f _ i g.1.1) = fpowMap f _ (i + 1) g.1.2
   have hx : (C.d i).mulVecLin g.1.1 = f • g.1.2 := sub_eq_zero.mp g.2
   rw [fpowMap_succ]
   simp only [fpowMap_apply, fLoc_zpow_smul, fLoc_toLoc, hx]

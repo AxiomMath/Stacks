@@ -63,6 +63,7 @@ attribute [local instance] pointTopology
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site times out otherwise
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_properKernelPairReduction :
@@ -109,7 +110,7 @@ morphisms to the target. -/
 theorem spaceIso_hom_toTarget (D D' : KernelPairCoequalizer B S hS g) :
     (D.spaceIso D').hom ≫ D'.toTarget = D.toTarget := by
   refine Cofork.IsColimit.hom_ext D.isColimit ?_
-  show D.π ≫ _ = D.π ≫ _
+  change D.π ≫ _ = D.π ≫ _
   rw [π_spaceIso_hom_assoc, D'.fac, D.fac]
 
 /-- The quotient morphism followed by the morphism to the target is `g`, on the underlying
@@ -167,6 +168,7 @@ theorem isSurjective_π_of_isProper (D : KernelPairCoequalizer B S hS g)
 /-! ### Clause (4) -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is slow
 /-- The quotient morphism identifies the two projections of the presheaf fibre product
 `Y ×_X Y`. -/
 theorem pullback_fst_π_eq_pullback_snd_π (D : KernelPairCoequalizer B S hS g) :

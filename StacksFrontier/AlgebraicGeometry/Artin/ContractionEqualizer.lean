@@ -105,8 +105,8 @@ are proved in `StacksFrontier.AlgebraicGeometry.Artin.ContractionEqualizerComple
 sentence of assertion (3) — that `E'_{/Z} ⟶ E_W` is a formal modification, as the base change of
 `g` along `E_W ⟶ W` — and assertion (4) both require `E_W` to be a *locally Noetherian formal
 algebraic space*, which is also the other half of the remark's "observe" sentence. All three are
-proved in `StacksFrontier.AlgebraicGeometry.Artin.ContractionEqualizerSituation` (by Stacks 0AIP, 0AQ8
-and 0GDN).
+proved in `StacksFrontier.AlgebraicGeometry.Artin.ContractionEqualizerSituation` (by Stacks 0AIP,
+0AQ8 and 0GDN).
 
 Assertion (5) speaks only of a morphism `A_{/φ⁻¹(Z)} ⟶ V_{/Z}` factoring through `E_W`, and `E_W`
 is constructed here as the equalizer in the category of fppf sheaves, where formal algebraic spaces

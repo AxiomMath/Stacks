@@ -253,7 +253,7 @@ public theorem dualSymDet_reindex (n : ℕ) (j₁ j₂ : ℤ) (h : j₁ = j₂)
           ((Stacks.ProjectionFormula.tensorRightInvertible S'
               (Scheme.Modules.exteriorPower E' ((n + 1 : ℕ) : ℤ))).map (eqToHom h₂)).op := by
   subst h
-  simp only [eqToHom_refl, CategoryTheory.Functor.map_id, op_id, Category.id_comp, Category.comp_id]
+  simp only [eqToHom_refl, CategoryTheory.Functor.map_id, op_id, Category.id_comp]
   rfl
 
 variable (D : TwistData (Stacks.SymGraded.schemeSheafGradedAlgebra E hqc))
@@ -567,7 +567,7 @@ public theorem topRowIso_baseChange (d : ℤ) :
       (Scheme.Modules.pullback g).map (topRowIso E hqc D hn hfree d).hom ≫
         topRowTargetBaseChange g E hqc E' hqc' hE n d := by
   by_cases h : d ≤ -(n : ℤ) - 1
-  · simp only [topRowIso, dif_pos h, Iso.trans_hom, asIso_hom]
+  · simp only [topRowIso, dite_eq_left h, Iso.trans_hom, asIso_hom]
     exact topRowIso_baseChange_of_le g E hqc E' hqc' hE D D' hn hfree hfree' _ d (by omega)
       (by omega)
   · exact (isZero_topRow_of_le E' hqc' D' hn hfree' (d := d) (by omega)).2.eq_of_tgt _ _

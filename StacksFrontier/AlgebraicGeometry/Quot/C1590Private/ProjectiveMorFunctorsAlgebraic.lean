@@ -99,7 +99,7 @@ theorem exists_isClosedImmersion_graphAmbient_comp_eq
   let eY := PreservesPullback.iso yoneda q₁ q₂
   refine ⟨ObjectProperty.homMk (eY.inv ≫ yoneda.map i), ?_, ?_⟩
   · apply ObjectProperty.hom_ext
-    show eY.inv ≫ yoneda.map i ≫ yoneda.map s =
+    change eY.inv ≫ yoneda.map i ≫ yoneda.map s =
       pullback.fst (yoneda.map q₁) (yoneda.map q₂) ≫ yoneda.map q₁
     rw [← Functor.map_comp, his, Functor.map_comp, ← Category.assoc,
       PreservesPullback.iso_inv_snd]

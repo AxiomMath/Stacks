@@ -98,7 +98,7 @@ private theorem pointsMap_surjective_of_iso {X Y : AlgebraicSpaces B S hS} (e : 
   intro y
   refine ⟨pointsMap B S hS Y.1 e.inv.hom y, ?_⟩
   have he : e.inv.hom ≫ e.hom.hom = 𝟙 Y.1 := congrArg (fun k => k.hom) e.inv_hom_id
-  show (pointsMap B S hS X.1 e.hom.hom ∘ pointsMap B S hS Y.1 e.inv.hom) y = y
+  change (pointsMap B S hS X.1 e.hom.hom ∘ pointsMap B S hS Y.1 e.inv.hom) y = y
   rw [← pointsMap_comp, he, pointsMap_id]
   rfl
 
@@ -142,7 +142,7 @@ private theorem exists_point_of_fpqcCovering
     obtain ⟨U, _, hfpqc, hfac⟩ := hc.2 T η
     let TS := (BigAffineFppf.toScheme B S hS).obj T
     have : Unique TS := by
-      show Unique (Spec (.of p.carrier))
+      change Unique (Spec (.of p.carrier))
       infer_instance
     let xT : TS := default
     have hfamily : Presieve.ofArrows
@@ -189,17 +189,17 @@ private theorem exists_point_of_fpqcCovering
     let k := qmap ≫ ((BigAffineFppf.inclusion B S hS).map (U.f j))
     refine ⟨i, xp.class B S hS (Yi i), ?_⟩
     rw [pointsMap_class]
-    show fpoint.class B S hS Y = p.class B S hS Y
+    change fpoint.class B S hS Y = p.class B S hS Y
     apply FieldValuedPoint.class_eq_class_of_hasCommonExtension
     refine ⟨fpoint, FieldValuedPoint.dominates_refl B S hS Y fpoint, k, ?_⟩
-    show Y.map k.op p.value = fpoint.value
+    change Y.map k.op p.value = fpoint.value
     calc
       Y.map k.op p.value = Y.map k.op (yonedaEquiv η) := by simp [η]
       _ = yonedaEquiv (yoneda.map k ≫ η) := yonedaEquiv_naturality η k
       _ = η.app (Opposite.op qpt.siteObject) (yonedaEquiv (yoneda.map k)) :=
         yonedaEquiv_comp (yoneda.map k) η
       _ = fpoint.value := by
-        show _ = (a ≫ g i).app (Opposite.op qpt.siteObject) qpt.value
+        change _ = (a ≫ g i).app (Opposite.op qpt.siteObject) qpt.value
         rw [hafac, hqpt]
         simp [k, Functor.map_comp, yonedaEquiv]
 

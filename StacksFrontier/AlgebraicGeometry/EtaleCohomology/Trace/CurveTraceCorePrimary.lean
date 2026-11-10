@@ -200,7 +200,7 @@ theorem compactSupportTraceVanishes_of_primary
   let : Module (ZMod (ℓ ^ n)) N := Module.compHom N (algebraMap (ZMod (ℓ ^ n)) Λ)
   have : IsScalarTower (ZMod (ℓ ^ n)) Λ N :=
     ⟨fun a l y => by
-      show ((algebraMap (ZMod (ℓ ^ n)) Λ a) * l) • y = algebraMap (ZMod (ℓ ^ n)) Λ a • l • y
+      change ((algebraMap (ZMod (ℓ ^ n)) Λ a) * l) • y = algebraMap (ZMod (ℓ ^ n)) Λ a • l • y
       rw [mul_smul]⟩
   have hn : 1 ≤ n := le_trans (Nat.one_le_iff_ne_zero.2 Fintype.card_ne_zero) (Nat.le_add_left _ _)
   have hnm : ∀ v : ℕ, ℓ ^ v ∣ Fintype.card H → m + v ≤ n := fun v hv =>

@@ -158,7 +158,7 @@ theorem uliftIntToULiftHom_comp_forget₂_bijective (N : ModuleCat.{u + 1} Λ) :
       (uliftIntToULiftHom Λ ≫ (forget₂ (ModuleCat.{u + 1} Λ) AddCommGrpCat.{u + 1}).map f).hom
         (ULift.up n) = n • f.hom (ULift.up 1) := by
     intro f n
-    show f.hom (n • (1 : ULift.{u + 1} Λ)) = _
+    change f.hom (n • (1 : ULift.{u + 1} Λ)) = _
     rw [map_zsmul]
     rfl
   constructor
@@ -174,7 +174,7 @@ theorem uliftIntToULiftHom_comp_forget₂_bijective (N : ModuleCat.{u + 1} Λ) :
       (g.hom (ULift.up 1)), ?_⟩
     ext ⟨n⟩
     rw [key]
-    show n • (Stacks.Cohomology.GlobalSections.moduleULiftHomAddEquiv.{0, u + 1} Λ N
+    change n • (Stacks.Cohomology.GlobalSections.moduleULiftHomAddEquiv.{0, u + 1} Λ N
       ((Stacks.Cohomology.GlobalSections.moduleULiftHomAddEquiv.{0, u + 1} Λ N).symm
         (g.hom (ULift.up 1)))) = g.hom (ULift.up n)
     rw [AddEquiv.apply_symm_apply, ← map_zsmul]
@@ -356,7 +356,7 @@ def etaleModuleUnderlyingAbelianInverseImageIso :
       (smallEtaleBaseChange g) AddCommGrpCat.{u + 1} X.smallEtaleTopology
       Y.smallEtaleTopology).symm ≪≫
     asIso (coefficientSheafPullbackTwoSquare (smallEtaleBaseChange g) X.smallEtaleTopology
-      Y.smallEtaleTopology (forget₂ (ModuleCat.{u + 1} Λ) AddCommGrpCat.{u + 1})).natTrans
+      Y.smallEtaleTopology (forget₂ (ModuleCat.{u + 1} Λ) AddCommGrpCat.{u + 1}))
 
 /-- **The comparison matches the units**: `U` applied to the unit of `g^{-1} ⊣ g_*` on modules is
 the unit of `g^{-1} ⊣ g_*` on abelian sheaves followed by `g_*` of the comparison. -/

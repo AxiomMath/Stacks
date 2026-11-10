@@ -184,7 +184,7 @@ theorem exists_isRepresentable_system_obj_of_isSiteSmall {I : Type u} [Preorder 
       rw [hcomp]; exact hU
     obtain ⟨y, rfl⟩ := hx
     refine ⟨pointsMap B S hS _ (P.fromPreimage (limit.π D.system (op j))) y, ?_⟩
-    show (pointsMap B S hS P.toFunctor P.ι ∘
+    change (pointsMap B S hS P.toFunctor P.ι ∘
         pointsMap B S hS _ (P.fromPreimage (limit.π D.system (op j)))) y =
       (pointsMap B S hS (limit D.system) (limit.π D.system (op j)) ∘
         pointsMap B S hS (P.preimage (limit.π D.system (op j))).toFunctor
@@ -206,7 +206,8 @@ chosen limit cone `c`, satisfying the convention `SiteContainsBaseChangeLimits` 
 (tag 07SD), let `V` be a quasi-compact open subspace of the stage `i₀`, and suppose the inverse
 image of `V` in the limit is an affine algebraic space. Then the inverse image of `V` in the stage
 `j` is affine for some `j ≥ i₀`. -/
-theorem exists_isAffineSpace_preimage_of_isAffineSpace_preimage_limit_of_siteContainsBaseChangeLimits
+theorem
+    exists_isAffineSpace_preimage_of_isAffineSpace_preimage_limit_of_siteContainsBaseChangeLimits
     {I : Type u} [Preorder I] [IsDirected I (· ≤ ·)]
     (D : Iᵒᵖ ⥤ (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (c : Cone D) (hc : IsLimit c)
     (hconv : SiteContainsBaseChangeLimits B S hS D)
@@ -332,7 +333,7 @@ theorem exists_isRepresentable_system_obj_of_siteContainsBaseChangeLimits {I : T
       rw [hcomp]; exact hU
     obtain ⟨y, rfl⟩ := hx
     refine ⟨pointsMap B S hS _ (P.fromPreimage (limit.π D.system (op j))) y, ?_⟩
-    show (pointsMap B S hS P.toFunctor P.ι ∘
+    change (pointsMap B S hS P.toFunctor P.ι ∘
         pointsMap B S hS _ (P.fromPreimage (limit.π D.system (op j)))) y =
       (pointsMap B S hS (limit D.system) (limit.π D.system (op j)) ∘
         pointsMap B S hS (P.preimage (limit.π D.system (op j))).toFunctor

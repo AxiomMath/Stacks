@@ -66,7 +66,7 @@ theorem kernelRes_kernelRes {U V W : Opens X} (h : V ≤ U) (h' : W ≤ V)
     (a : ↥(kernelIdeal φ.hom (op U))) :
     kernelRes φ h' (kernelRes φ h a) = kernelRes φ (h'.trans h) a := by
   refine Subtype.ext ?_
-  show (A.obj.map (homOfLE h').op).hom ((A.obj.map (homOfLE h).op).hom a.1) =
+  change (A.obj.map (homOfLE h').op).hom ((A.obj.map (homOfLE h).op).hom a.1) =
     (A.obj.map (homOfLE (h'.trans h)).op).hom a.1
   rw [← CommRingCat.comp_apply, ← Functor.map_comp]
   rfl
@@ -120,7 +120,7 @@ theorem presentationScalar_res {U V W : Opens X} (hV : V ≤ U) (hW : W ≤ V)
         (presentationScalar φ (op U) r) =
       ((Stacks.SheafOfModules.Tensor.ringSheaf B).obj.map (homOfLE hW).op).hom
         (presentationScalar φ (op V) ((A.obj.map (homOfLE hV).op).hom r)) := by
-  show (B.obj.map (homOfLE (hW.trans hV)).op).hom ((φ.hom.app (op U)).hom r) =
+  change (B.obj.map (homOfLE (hW.trans hV)).op).hom ((φ.hom.app (op U)).hom r) =
     (B.obj.map (homOfLE hW).op).hom ((φ.hom.app (op V)).hom ((A.obj.map (homOfLE hV).op).hom r))
   rw [← CommRingCat.comp_apply, ← CommRingCat.comp_apply, ← CommRingCat.comp_apply,
     ← φ.hom.naturality, ← φ.hom.naturality, ← Category.assoc, ← Functor.map_comp]
@@ -238,7 +238,7 @@ theorem glue_eq_of_locally {U : Opens X} (a : ↥(kernelIdeal φ.hom (op U)))
     (fun x hx => Opens.mem_iSup.2 ⟨⟨x, hx⟩, ⟨hxV x hx, hxV' x hx⟩⟩) _ _ (fun x => ?_)
   have e := L.res_eq_of_R a (hV' x.1 x.2) (hV x.1 x.2) inf_le_right inf_le_left
     (hR' x.1 x.2) (hR x.1 x.2)
-  show G.val.map _ (L.glue a) = G.val.map _ s
+  change G.val.map _ (L.glue a) = G.val.map _ s
   rwa [sectionRes_sectionRes, sectionRes_sectionRes] at e
 
 /-- A value of a kernel section is its glued value. -/

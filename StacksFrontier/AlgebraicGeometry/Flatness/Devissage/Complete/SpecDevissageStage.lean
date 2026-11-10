@@ -90,7 +90,7 @@ reduction needs the generic point of the fibre of `Spec B → Spec R` over `r` t
 `Ideal.eq_map_of_mem_fiber_of_fiber_le` for the scheme-theoretic fibre; and it needs the
 bijectivity hypothesis `Module.DevissageStage.fiber_bijective`, phrased with
 `LinearMap.baseChange`, in the form `LinearMap.rTensor` that
-`AlgebraicGeometry.isIso_pullback_map_tilde` asks for, which is `LinearMap.baseChange_eq_ltensor`
+`AlgebraicGeometry.isIso_pullback_map_tilde` asks for, which is `LinearMap.baseChange_eq_lTensor`
 followed by `LinearMap.lTensor_bij_iff_rTensor_bij`.
 
 The distinguished point of the stage is `AlgebraicGeometry.Scheme.Hom.fiberGenericPoint`, the
@@ -208,7 +208,7 @@ public theorem isIso_pullback_map_tilde_comp {B : Type u} [CommRing B]
         (inferInstance : Module ↥(CommRingCat.of B) y.asIdeal.ResidueField) :=
       Module.ext' _ _ fun b x => (Algebra.smul_def b x).symm
     rw [hm]
-    rw [LinearMap.baseChange_eq_ltensor] at hbij
+    rw [LinearMap.baseChange_eq_lTensor] at hbij
     exact (LinearMap.lTensor_bij_iff_rTensor_bij _ φ.hom).1 hbij
   infer_instance
 

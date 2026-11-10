@@ -93,11 +93,11 @@ theorem exists_functorialResolution (h : HasFunctorialInjectiveEmbeddings C) :
     ν := Functor.whiskerLeft S (Functor.whiskerRight α (CochainComplex.Plus.ι C))
     quasiIso_ν := fun X => hqis (S.obj X)
     isStrictlyGE := fun X => hge (S.obj X) 0 (by
-      show CochainComplex.IsStrictlyGE
+      change CochainComplex.IsStrictlyGE
         ((HomologicalComplex.single C (ComplexShape.up ℤ) 0).obj X) 0
       infer_instance)
     injective := fun X n => by
-      show Injective ((InjectiveObject.ι C).obj ((F.obj (S.obj X)).obj.X n))
+      change Injective ((InjectiveObject.ι C).obj ((F.obj (S.obj X)).obj.X n))
       infer_instance
     isZero := fun X hX => by
       rw [IsZero.iff_id_eq_zero]
@@ -236,7 +236,7 @@ lemma hypotheses : Hypotheses K (R.bicomplex K) (R.augmentation K) where
       fun p hp => ⟨(p, n - p), ⟨by simp, hp⟩, rfl⟩
   zero_of_neg := R.isZero_bicomplex_X_X K
   exactAt_of_ne_zero p q hq := by
-    show (R.F.obj (K.X p)).ExactAt q
+    change (R.F.obj (K.X p)).ExactAt q
     rw [← quasiIsoAt_iff_exactAt (R.ν.app (K.X p)) q
       (HomologicalComplex.exactAt_single_obj _ _ _ _ hq)]
     infer_instance

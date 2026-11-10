@@ -387,7 +387,7 @@ private noncomputable def isLimit_map_prodMapCone
 pullbacks. -/
 private theorem bigFppfPreservesPullbacks (B : BigFppfSite.{u}) :
     PreservesLimitsOfShape WalkingCospan B.inclusion := by
-  show PreservesLimitsOfShape WalkingCospan
+  change PreservesLimitsOfShape WalkingCospan
     (ObjectProperty.ι (fun X : Scheme.{u} ↦ X.size < B.cutoff))
   infer_instance
 
@@ -430,7 +430,7 @@ private lemma isSheafFor_products
     { I₀ := Q.I₀
       X k := (Over.mk (Q.f k) ⨯ Z).left
       f k := (prod.snd : Over.mk (Q.f k) ⨯ Z ⟶ Z).left }
-  show R.sieve₀ ∈ B.topology Z.left
+  change R.sieve₀ ∈ B.topology Z.left
   apply fppf_cover_sieve_mem_topology B R
   have hQ' : Q.presieve₀ ∈ (Scheme.fppfPrecoverage.comap B.inclusion) X.left := hQ
   exact Precoverage.mem_coverings_of_isPullback Q.f hQ' Z.hom
@@ -493,7 +493,7 @@ private lemma isColimit_product_of_local
   have hcp (i : I) : cH.π.app i ≫ q.app i = cp := by
     have key : (prod.map (𝟙 Y) (c.π.app i) : (Y ⨯ c.pt : Over X.left) ⟶ Y ⨯ D.obj i) ≫
         prod.fst = prod.fst := by simp
-    show (prod.map (𝟙 Y) (c.π.app i) : (Y ⨯ c.pt : Over X.left) ⟶ Y ⨯ D.obj i).left ≫
+    change (prod.map (𝟙 Y) (c.π.app i) : (Y ⨯ c.pt : Over X.left) ⟶ Y ⨯ D.obj i).left ≫
         ((prod.fst : Y ⨯ D.obj i ⟶ Y).left ≫ p) = (prod.fst : Y ⨯ c.pt ⟶ Y).left ≫ p
     rw [← Category.assoc, ← Over.comp_left, key]
   let L := Over.lift H q
@@ -519,7 +519,7 @@ private lemma isColimit_product_of_local
   apply isColimit_mapCocone_of_iso F ((Over.map f).mapCone cL) cM e ep
   · intro i
     apply Over.OverMorphism.ext
-    show 𝟙 ((Y ⨯ c.pt : Over X.left).left) ≫
+    change 𝟙 ((Y ⨯ c.pt : Over X.left).left) ≫
         (prod.map (𝟙 Y) (c.π.app i) : (Y ⨯ c.pt : Over X.left) ⟶ Y ⨯ D.obj i).left =
       (prod.map (𝟙 Y) (c.π.app i) : (Y ⨯ c.pt : Over X.left) ⟶ Y ⨯ D.obj i).left ≫
         𝟙 ((Y ⨯ D.obj i : Over X.left).left)
@@ -569,7 +569,7 @@ public theorem limitPreserving_of_fppfCover
   let p (k : Q.I₀) : (Y k).left ⟶ E.X (s k) :=
     h k ≫ pullback.fst (E.f (s k)) X.hom
   have hp (k) : p k ≫ E.f (s k) = (Y k).hom ≫ X.hom := by
-    show (h k ≫ pullback.fst (E.f (s k)) X.hom) ≫ E.f (s k) = Q.f k ≫ X.hom
+    change (h k ≫ pullback.fst (E.f (s k)) X.hom) ≫ E.f (s k) = Q.f k ≫ X.hom
     rw [Category.assoc, pullback.condition, ← Category.assoc, hw]
   have hcol : Nonempty (IsColimit (((Over.map X.hom).op ⋙ F).mapCocone ct.op)) := by
     apply isColimit_of_products ((Over.map X.hom).op ⋙ F) Dt ct Y
@@ -591,12 +591,12 @@ public theorem limitPreserving_of_fppfCover
   let cM : Cone M := (Over.map X.hom).mapCone ct
   let e : M ≅ Over.forget i₀ ⋙ D := NatIso.ofComponents
     (fun i ↦ Over.isoMk (Iso.refl _) (by
-      show 𝟙 ((D.obj i.left).left) ≫ (D.obj i.left).hom =
+      change 𝟙 ((D.obj i.left).left) ≫ (D.obj i.left).hom =
         (D.map i.hom).left ≫ (D.obj i₀).hom
       rw [Category.id_comp, Over.w]))
     (by intro i j f; ext; simp [M, Dt, H])
   let ep : cM.pt ≅ c.pt := Over.isoMk (Iso.refl _) (by
-    show 𝟙 (c.pt.left) ≫ c.pt.hom = (c.π.app i₀).left ≫ (D.obj i₀).hom
+    change 𝟙 (c.pt.left) ≫ c.pt.hom = (c.π.app i₀).left ≫ (D.obj i₀).hom
     rw [Category.id_comp, Over.w]
     rfl)
   have htail := isColimit_mapCocone_of_iso F cM (c.whisker (Over.forget i₀)) e ep

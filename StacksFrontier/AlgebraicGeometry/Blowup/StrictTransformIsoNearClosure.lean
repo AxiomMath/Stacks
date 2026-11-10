@@ -224,7 +224,7 @@ theorem isIso_strictTransformToBlowUp_morphismRestrict_of_section {X S : Scheme.
   have hw : pullback.lift g W.ι hg ≫ pullback.snd f (blowUpToBase I) = W.ι :=
     pullback.lift_snd _ _ _
   have _ : IsSeparated (pullback.snd f (blowUpToBase I)) := inferInstance
-  show IsIso (((Stacks.StrictTransform.ideal f (blowUpToBase I)
+  change IsIso (((Stacks.StrictTransform.ideal f (blowUpToBase I)
     (exceptionalIdeal I)).subschemeι ≫ pullback.snd f (blowUpToBase I)) ∣_ W)
   rw [Stacks.StrictTransform.ideal_eq_ker_ι f (blowUpToBase I) (exceptionalIdeal I)]
   exact isIso_subschemeι_comp_morphismRestrict_of_section (pullback.snd f (blowUpToBase I))
@@ -389,7 +389,7 @@ theorem exists_centre_isIso_strictTransform_near_closure_of_dominating {X Y : Sc
       have hxV : b₁.base ((a ≫ b₂).base x) ∈ (V : Set Y) := by
         rw [hxmap]
         exact hx.2
-      show (blowUpToBase I).base x ∈ (W : Set Y)
+      change (blowUpToBase I).base x ∈ (W : Set Y)
       rw [← hxmap]
       exact hY₀good (show (a ≫ b₂).base x ∈ _ from ⟨hxV, hKY₀ hx.1⟩)
     exact isIso_strictTransformToBlowUp_morphismRestrict_of_section f I W' _ hg

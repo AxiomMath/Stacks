@@ -257,7 +257,7 @@ private lemma leibnizDefect_smul_D_smul_ιMulti_D (S : SourceDeRham A B) (q : �
         rw [show Equiv.swap (0 : Fin (q + 2)) 1 k.succ.succ = k.succ.succ from
           Equiv.swap_apply_of_ne_of_ne (by simp [Fin.ext_iff]) (by simp [Fin.ext_iff])]
         simp
-  show (sourceDifferential S (q + 1) (leftWedge q (c • D e0) (b0 • W)) :
+  change (sourceDifferential S (q + 1) (leftWedge q (c • D e0) (b0 • W)) :
         ExteriorAlgebra B (Ω[B⁄A]))
       - ((sourceDifferential S 1 (e.symm (c • D e0)) : ExteriorAlgebra B (Ω[B⁄A]))
           * ((b0 • W : ⋀[B]^q (Ω[B⁄A])) : ExteriorAlgebra B (Ω[B⁄A]))
@@ -454,8 +454,7 @@ private theorem tensor_twoFormRightMul_comp_leftWedge
       TensorProduct.map LinearMap.id
         ((leftWedge (p + 1)).flip
           (leftWedge p (exteriorPower.oneEquiv B Omega eta) omega)) T := by
-  induction T using TensorProduct.induction_on with
-  | zero => simp
+  induction T using TensorProduct.inductionOn with
   | add x y hx hy => simp [hx, hy]
   | tmul x y =>
       simp only [TensorProduct.map_tmul]
@@ -503,15 +502,9 @@ private theorem extendedConnection_wedge_step
   let inU := RestrictScalars.addEquiv A B (M ⊗[B] ⋀[B]^1 Omega)
   let out2 := RestrictScalars.addEquiv A B (M ⊗[B] ⋀[B]^2 Omega)
   let out := RestrictScalars.addEquiv A B (M ⊗[B] ⋀[B]^(p + 1 + 1) Omega)
-  show out (E.toLinearMap (p + 1) (inL.symm (L T))) + R T =
+  change out (E.toLinearMap (p + 1) (inL.symm (L T))) + R T =
     V (out2 (E.toLinearMap 1 (inU.symm (U T))))
-  induction T using TensorProduct.induction_on with
-  | zero =>
-      rw [L.map_zero, R.map_zero, U.map_zero,
-        inL.symm.map_zero, (E.toLinearMap (p + 1)).map_zero, out.map_zero,
-        inU.symm.map_zero, (E.toLinearMap 1).map_zero, out2.map_zero,
-        V.map_zero]
-      simp
+  induction T using TensorProduct.inductionOn with
   | add x y hx hy =>
       rw [L.map_add, R.map_add, U.map_add,
         inL.symm.map_add, inU.symm.map_add,
@@ -614,14 +607,13 @@ public theorem extendedConnection_comp_self_eq_zero
   have hbody : ∀ y : M ⊗[B] ⋀[B]^p Omega,
       eo (E.toLinearMap (p + 1) (E.toLinearMap p (ei.symm y))) = 0 := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | add y z hy hz =>
         simp only [map_add]
         rw [hy, hz]
         simp
     | tmul m omega =>
-        show eo (E.toLinearMap (p + 1) (E.toLinearMap p (m ⊗ₜ[B] omega))) = 0
+        change eo (E.toLinearMap (p + 1) (E.toLinearMap p (m ⊗ₜ[B] omega))) = 0
         let em := RestrictScalars.addEquiv A B (M ⊗[B] (⋀[B]^(p + 1) Omega))
         let omega1 := descendedDifferential E.deRhamDifferential p omega
         have hfirst : E.toLinearMap p (m ⊗ₜ[B] omega) = em.symm
@@ -698,7 +690,7 @@ public lemma dividedPowerDifferential_dpow (x : J) (n : ℕ) :
       hJ.dpow n x • dividedPowerDifferential (A := A) hJ x := by
   unfold dividedPowerDifferential
   rw [← sub_eq_zero, ← LinearMap.map_smul]
-  show (dividedPowerDifferentialRelations (A := A) hJ).mkQ
+  change (dividedPowerDifferentialRelations (A := A) hJ).mkQ
     (dividedPowerDifferentialRelation hJ x n) = 0
   rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
   exact Submodule.subset_span (Set.mem_range_self (x, n))
@@ -707,7 +699,7 @@ public lemma dividedPowerDifferential_dpow (x : J) (n : ℕ) :
 differentials `d b` span `Ω[B⁄A]` and the quotient map is surjective. -/
 public lemma dividedPowerDifferentials_span :
     Submodule.span B (Set.range (dividedPowerDifferential (A := A) hJ)) = ⊤ := by
-  show Submodule.span B (Set.range fun b : B ↦
+  change Submodule.span B (Set.range fun b : B ↦
     (dividedPowerDifferentialRelations (A := A) hJ).mkQ (KaehlerDifferential.D A B b)) = ⊤
   have h := congrArg (Submodule.map (dividedPowerDifferentialRelations (A := A) hJ).mkQ)
     (KaehlerDifferential.span_range_derivation A B)
@@ -779,7 +771,7 @@ public theorem generationHypothesis_of_ker_eq_relations {R : Type v} [CommRing R
     apply Submodule.subset_span
     refine ⟨?_, ?_⟩
     · simp only [dividedPowerDifferentialRelation, map_sub, map_smul, hpow, sub_self]
-    · show exteriorPower.map 2 π (sourceDifferential S 1 ((exteriorPower.oneEquiv B Ω[B⁄R]).symm
+    · change exteriorPower.map 2 π (sourceDifferential S 1 ((exteriorPower.oneEquiv B Ω[B⁄R]).symm
         (dividedPowerDifferentialRelation (A := R) hJ x n))) = 0
       rw [dividedPowerDifferentialRelation, map_sub, map_sub, hexact, sourceDifferential_one_smul_D,
         map_sub, map_zero, zero_sub, neg_eq_zero, exteriorPower.map_apply_ιMulti]
@@ -789,7 +781,7 @@ public theorem generationHypothesis_of_ker_eq_relations {R : Type v} [CommRing R
             π (KaehlerDifferential.D R B x)] := by funext j; fin_cases j <;> rfl
       simp only [Function.comp_def]
       rw [heq]
-      show exteriorPower.ιMulti B 2
+      change exteriorPower.ιMulti B 2
         ![π (KaehlerDifferential.D R B (hJ.dpow n x)),
           π (KaehlerDifferential.D R B x)] = 0
       cases n with
@@ -815,7 +807,7 @@ private lemma image_differentials_equiv :
       map_smul' := by
         intro c b
         obtain ⟨a, ha⟩ := c.property
-        show KaehlerDifferential.D A B ((c : B) * b) =
+        change KaehlerDifferential.D A B ((c : B) * b) =
           (c : B) • KaehlerDifferential.D A B b
         rw [← ha, ← Algebra.smul_def, Derivation.map_smul,
           IsScalarTower.algebraMap_smul]
@@ -885,7 +877,7 @@ private lemma complex_exists : Nonempty (DividedPowerDeRhamComplex (A := A) hJ) 
         exact (d i).map_smul c ω }
   refine ⟨{ differential := dA, differential_generator := ?_, differential_squared := ?_ }⟩
   · intro i f
-    show d i (f 0 • exteriorPower.ιMulti B i
+    change d i (f 0 • exteriorPower.ιMulti B i
       (fun j ↦ dividedPowerDifferential (A := A) hJ (f j.succ))) = _
     simpa only [Stacks.DeRham.DifferentialDescent.SourceDeRham.tgtGen,
       Stacks.DeRham.DifferentialDescent.SourceDeRham.tgtGenRes,

@@ -134,7 +134,7 @@ theorem mem_topology_iff_sievePointwiseCover (X : AlgebraicSpaces B S hS)
         (isCovering_of_sievePointwiseCover B S hS X T hTpoint) V f
       obtain ⟨i, y, hy⟩ := hcov x
       refine ⟨P i, p₂ i, ?_, y, ?_⟩
-      · show T (p₂ i ≫ f)
+      · change T (p₂ i ≫ f)
         rw [← (hpb i).w]
         exact T.downward_closed
           (by change T.arrows ((T.arrows.preZeroHypercover).f i); exact i.2) (p₁ i)
@@ -145,7 +145,7 @@ theorem mem_topology_iff_sievePointwiseCover (X : AlgebraicSpaces B S hS)
       obtain ⟨W, g, hg, z, hz⟩ := hRpoint hf y
       change R (g ≫ f) at hg
       refine ⟨W, g ≫ f, hg, z, ?_⟩
-      show pointsMap B S hS ((toSpaces B S hS X).obj W).1
+      change pointsMap B S hS ((toSpaces B S hS X).obj W).1
           (((toSpaces B S hS X).map g).hom ≫ ((toSpaces B S hS X).map f).hom) z = x
       rw [pointsMap_comp, Function.comp_apply, hz, hy]
   · intro hR
@@ -390,7 +390,7 @@ noncomputable def localizationBackwardBase :
 03FV applied to the two étale structure morphisms to `Y`. -/
 theorem localizationBackwardProperty (Z : Over (etaleObject B S hS f hf)) :
     IsEtaleOver B S hS X ((localizationBackwardBase B S hS f hf).obj Z) := by
-  show IsEtale B S hS (((localizationBackwardBase B S hS f hf).obj Z).hom.hom)
+  change IsEtale B S hS (((localizationBackwardBase B S hS f hf).obj Z).hom.hom)
   exact isEtale_of_isEtale_over B S hS
     Z.left.obj.left.property X.property Y.property
     Z.hom.hom.left.hom Z.left.obj.hom.hom f.hom
@@ -480,7 +480,7 @@ theorem spacesEtaleLocalization_forget :
     (spacesEtaleLocalization B S hS f hf).functor ⋙
         Over.forget (etaleObject B S hS f hf) ⋙ SpacesEtale.inclusion B S hS Y =
       SpacesEtale.inclusion B S hS X ⋙ Over.map f := by
-  show localizationForward B S hS f hf ⋙
+  change localizationForward B S hS f hf ⋙
       Over.forget (etaleObject B S hS f hf) ⋙ SpacesEtale.inclusion B S hS Y = _
   apply CategoryTheory.Functor.ext
   · intro U V g
@@ -499,7 +499,7 @@ theorem spacesEtaleLocalization_slice :
     (spacesEtaleLocalization B S hS f hf).functor ⋙
         Over.post (SpacesEtale.toSpaces B S hS Y) =
       SpacesEtale.inclusion B S hS X := by
-  show localizationForward B S hS f hf ⋙ Over.post (SpacesEtale.toSpaces B S hS Y) = _
+  change localizationForward B S hS f hf ⋙ Over.post (SpacesEtale.toSpaces B S hS Y) = _
   apply CategoryTheory.Functor.ext
   · intro U V g
     apply Over.OverMorphism.ext

@@ -61,7 +61,7 @@ theorem subsingleton_ext_constantModuleSheaf_zmod_of_proper {k : Type u} [Field 
   exact (extForgetSheafHAddEquiv (ZMod N) T K q).toEquiv.subsingleton
 
 variable {ℓ : ℕ} [NeZero ℓ] {k : Type u} [Field k] [IsSepClosed k] {W : Scheme.{u}}
-  {f : W ⟶ Spec (.of k)} [LocallyOfFiniteType f] [QuasiCompact f]
+  {f : W ⟶ Spec (.of k)} [QuasiCompact f]
   (jc : CompactificationOf (Over.mk f))
 
 /-- **`H^q_c(Z, M) = 0` for `q > 2 dim Z`.** For a closed subscheme `i : Z → W` of dimension at
@@ -136,7 +136,7 @@ theorem bijective_ext_extensionByZero_counit_of_closed [TopologicalSpace.Noether
   refine ⟨?_, fun x₂ => ?_⟩
   · let φ := (Ext.mk₀ (Φ.map ((etaleModuleExtensionByZeroAdj.{u, 0} (ZMod ℓ) U.ι).counit.app
       L))).postcomp (unitSheaf (X := jc.space) ℓ) (add_zero q)
-    show Function.Injective φ
+    change Function.Injective φ
     rw [injective_iff_map_eq_zero]
     intro x hx
     obtain ⟨x₃, hx₃⟩ := Ext.covariant_sequence_exact₁ (unitSheaf (X := jc.space) ℓ) hS' x hx

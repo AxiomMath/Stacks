@@ -50,7 +50,7 @@ abbrev quotientPreimageArrows : G.arrows.left.Opens := G.source.left ⁻¹ᵁ qu
 theorem quotientPreimageArrows_le_target :
     quotientPreimageArrows G X ≤ G.target.left ⁻¹ᵁ quotientPreimage G X := by
   intro r hr
-  show (objectsToInvariantSpectrum G) (G.target.left r) ∈ X
+  change (objectsToInvariantSpectrum G) (G.target.left r) ∈ X
   rw [← Scheme.Hom.comp_apply, target_comp_objectsToInvariantSpectrum, Scheme.Hom.comp_apply]
   exact hr
 
@@ -82,7 +82,7 @@ theorem range_objectsProjection_subset (c : invariantRing G)
     (hc : Set.range (invariantSpectrumMap G (Localization.Away c)) ⊆ (X : Set _)) :
     Set.range (localizedBaseChange G c).objectsProjection ⊆ (quotientPreimage G X : Set _) := by
   rintro _ ⟨y, rfl⟩
-  show objectsToInvariantSpectrum G ((localizedBaseChange G c).objectsProjection y) ∈ X
+  change objectsToInvariantSpectrum G ((localizedBaseChange G c).objectsProjection y) ∈ X
   rw [← Scheme.Hom.comp_apply, (localizedBaseChange G c).objects_isPullback.w,
     Scheme.Hom.comp_apply]
   exact hc ⟨_, rfl⟩
@@ -109,7 +109,7 @@ theorem range_arrowsProjection_subset (c : invariantRing G)
     Set.range (localizedBaseChange G c).arrowsProjection ⊆
       (quotientPreimageArrows G X : Set _) := by
   rintro _ ⟨y, rfl⟩
-  show G.source.left ((localizedBaseChange G c).arrowsProjection y) ∈ quotientPreimage G X
+  change G.source.left ((localizedBaseChange G c).arrowsProjection y) ∈ quotientPreimage G X
   rw [← Scheme.Hom.comp_apply, (localizedBaseChange G c).projection_source, Scheme.Hom.comp_apply]
   exact range_objectsProjection_subset G X c hc ⟨_, rfl⟩
 
@@ -168,7 +168,7 @@ theorem exists_localized_factorization {T : Scheme.{u}} (g : (quotientPreimage G
     universallyClosed_objectsToInvariantSpectrum G
   obtain ⟨x₀, hx₀⟩ := surjective_objectsToInvariantSpectrum G (X.ι m)
   have hx₀P : x₀ ∈ quotientPreimage G X := by
-    show objectsToInvariantSpectrum G x₀ ∈ X
+    change objectsToInvariantSpectrum G x₀ ∈ X
     rw [hx₀]
     exact (Scheme.Opens.range_ι X).le ⟨m, rfl⟩
   let x₀' : (quotientPreimage G X).toScheme := ⟨x₀, hx₀P⟩
@@ -184,7 +184,7 @@ theorem exists_localized_factorization {T : Scheme.{u}} (g : (quotientPreimage G
     rintro ⟨z, hz, hzm⟩
     obtain ⟨r, hrt, hrs⟩ := (base_objectsToInvariantSpectrum_eq_iff G z x₀).1 (hzm.trans hx₀.symm)
     have hrA : r ∈ quotientPreimageArrows G X := by
-      show G.source.left r ∈ quotientPreimage G X
+      change G.source.left r ∈ quotientPreimage G X
       rw [hrs]
       exact hx₀P
     let r' : (quotientPreimageArrows G X).toScheme := ⟨r, hrA⟩
@@ -199,7 +199,7 @@ theorem exists_localized_factorization {T : Scheme.{u}} (g : (quotientPreimage G
       exact hrt
     apply hz
     refine ⟨quotientPreimageTarget G X r', ?_, htr⟩
-    show g (quotientPreimageTarget G X r') ∈ V
+    change g (quotientPreimageTarget G X r') ∈ V
     rw [Scheme.Hom.comp_apply, Scheme.Hom.comp_apply, hsr] at h1
     rw [h1]
     exact hxV
@@ -378,7 +378,7 @@ theorem existsUnique_quotientRestrict_comp {T : Scheme.{u}}
       (fun m => localizedLift G X (c m) (hc m)) hcovP hℓo
   have hex : quotientRestrict G X ≫ H = g := by
     refine Scheme.Cover.hom_ext 𝒲 _ _ fun m => ?_
-    show localizedLift G X (c m) (hc m) ≫ quotientRestrict G X ≫ H =
+    change localizedLift G X (c m) (hc m) ≫ quotientRestrict G X ≫ H =
       localizedLift G X (c m) (hc m) ≫ g
     rw [← Category.assoc, localizedLift_comp_quotientRestrict G X (c m) (hc m) (e m) (he m),
       Category.assoc, hι m, hf m]
@@ -426,7 +426,7 @@ theorem quotientRestrict_surjective : Function.Surjective (quotientRestrict G X)
   intro m
   obtain ⟨x, hx⟩ := surjective_objectsToInvariantSpectrum G (X.ι m)
   have hxP : x ∈ quotientPreimage G X := by
-    show objectsToInvariantSpectrum G x ∈ X
+    change objectsToInvariantSpectrum G x ∈ X
     rw [hx]
     exact (Scheme.Opens.range_ι X).le ⟨m, rfl⟩
   let p : (quotientPreimage G X).toScheme := ⟨x, hxP⟩

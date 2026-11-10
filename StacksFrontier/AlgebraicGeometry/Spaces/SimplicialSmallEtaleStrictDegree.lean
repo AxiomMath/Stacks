@@ -128,7 +128,7 @@ def componentRealizeSquare (n : SimplexCategory) :
 
 /-- The square of the realization commutes up to an isomorphism. -/
 instance componentRealizeSquare_isIso (n : SimplexCategory) :
-    IsIso (componentRealizeSquare X n).natTrans :=
+    IsIso (componentRealizeSquare X n) :=
   inferInstanceAs (IsIso (NatIso.ofComponents (F := componentRealize X n ⋙ degreeInclusion X n)
     (G := SimplicialSiteSituation.componentFunctor (strictSituation X) n ⋙
       componentTotalComparison X) (fun _ ↦ Iso.refl _) (fun g ↦

@@ -85,7 +85,6 @@ theorem comp_derivationMove_smul_of_comp_derivationMove {X' Y' T W W₂ : Algebr
     (ψ : W₂ ⟶ W) (φ : W ⟶ X') (φ₂ : W₂ ⟶ X') (hφ : ψ ≫ φ = φ₂)
     (pU : (⟨ZU.1.toFunctor, ZU.2.1⟩ : AlgebraicSpaces C S hS) ⟶ ⟨Z.1.toFunctor, Z.2.1⟩)
     (pV : (⟨ZV.1.toFunctor, ZV.2.1⟩ : AlgebraicSpaces C S hS) ⟶ ⟨Z.1.toFunctor, Z.2.1⟩)
-    (hsqU : subspaceInclusion C S hS W ZU ≫ φ = pU ≫ subspaceInclusion C S hS X' Z)
     (hsqV : subspaceInclusion C S hS W₂ ZV ≫ φ₂ = pV ≫ subspaceInclusion C S hS X' Z)
     (α : (⟨Z.1.toFunctor, Z.2.1⟩ : AlgebraicSpaces C S hS) ⟶
       (⟨ZH.1.toFunctor, ZH.2.1⟩ : AlgebraicSpaces C S hS))
@@ -95,9 +94,6 @@ theorem comp_derivationMove_smul_of_comp_derivationMove {X' Y' T W W₂ : Algebr
     (r : (⟨ZV.1.toFunctor, ZV.2.1⟩ : AlgebraicSpaces C S hS) ⟶ ⟨ZU.1.toFunctor, ZU.2.1⟩)
     (hr : subspaceInclusion C S hS W₂ ZV ≫ ψ = r ≫ subspaceInclusion C S hS W ZU)
     (hpr : r ≫ pU = pV)
-    (eU : (modulePullback C S hS pU).obj (conormalModule C S hS X' Z) ≅
-      conormalModule C S hS W ZU)
-    (heU : eU.hom = conormalMap C S hS ZU Z φ pU hsqU)
     (eV : (modulePullback C S hS pV).obj (conormalModule C S hS X' Z) ≅
       conormalModule C S hS W₂ ZV)
     (heV : eV.hom = conormalMap C S hS ZV Z φ₂ pV hsqV)

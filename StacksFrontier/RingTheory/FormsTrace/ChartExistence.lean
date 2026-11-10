@@ -248,7 +248,7 @@ theorem chart_formsMap_injective (F : Finset σ) (p : ℕ) :
       (Carrier (tableOfHom (chartClassify c σ))) p) := by
   refine formsMap_injective_of_leftInverse
     (carrierHom (chartRetraction F) (chartRetraction_classify F)) (fun x => ?_) p
-  show carrierHom _ _ (carrierHom _ _ x) = x
+  change carrierHom _ _ (carrierHom _ _ x) = x
   refine Carrier.ext fun k => ?_
   rw [carrierHom_apply, carrierHom_apply, chartRetraction_chartRename]
 
@@ -268,7 +268,7 @@ theorem chart_isExhaustive :
   choose q hq using hF
   let y : Carrier (tableOfHom (chartClassify c (↥F))) := q
   refine ⟨y, Carrier.ext fun k => ?_⟩
-  show carrierHom _ _ y k = b k
+  change carrierHom _ _ y k = b k
   rw [carrierHom_apply]
   exact hq k
 
@@ -319,7 +319,7 @@ theorem chart_transition_comm [Algebra.FormallySmooth ℤ R]
   obtain ⟨n, hn⟩ := (discr_polynomialChart_nice (σ := ↥F) c hc).pow_smul_kaehler
   have hdiscr : algebraMap (polynomialChart (↥F) R) (polynomialChart (↥F') R)
       (chartDiscr (↥F) c) = chartDiscr (↥F') c := by
-    show chartTransition h _ = _
+    change chartTransition h _ = _
     rw [chartDiscr, chartDiscr, discr_tableOfHom, discr_tableOfHom, ← RingHom.comp_apply,
       chartTransition_classify]
   intro p η
@@ -346,7 +346,7 @@ private theorem chart_isScalarTower_carrier_transition {G k : Finset σ} (hG : G
     IsScalarTower (Carrier (tableOfHom (chartClassify c (↥G))))
       (Carrier (tableOfHom (chartClassify c (↥k)))) (Carrier (tableOfHom (chartClassify c σ))) := by
   refine IsScalarTower.of_algebraMap_eq fun x => Carrier.ext fun j => ?_
-  show carrierHom _ _ x j = carrierHom _ _ (algebraMap _ _ x) j
+  change carrierHom _ _ x j = carrierHom _ _ (algebraMap _ _ x) j
   rw [h, carrierHom_apply, carrierHom_apply, carrierHom_apply, chartRename_chartTransition]
 
 /-- **The trace maps on a polynomial chart, from the charts in finitely many variables.** Let

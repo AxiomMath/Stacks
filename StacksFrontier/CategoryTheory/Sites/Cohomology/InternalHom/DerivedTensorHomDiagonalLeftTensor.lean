@@ -307,7 +307,7 @@ theorem Q_map_tensorComplexAssociator_comp_uncurryMap
         (((Stacks.SheafOfModules.Tensor.tensorComplex X.O).obj A).map (uncurryMap X s)) ≫ z)
       (DerivedCategory.Q.map_comp (tensorTotalIsoTensorComplex X A I).inv q))
   rw [CategoryTheory.Functor.map_comp, e1]
-  simp only [Category.assoc, IsIso.hom_inv_id_assoc, Iso.map_inv_hom_id, Category.comp_id]
+  simp only [Category.assoc, IsIso.hom_inv_id_assoc, Iso.inv_hom_id_map, Category.comp_id]
 
 /-- **The identification of the diagonal after precomposing with a K-flat resolution of the
 internal Hom.** On models `A` (K-flat) for `P`, `B` (K-flat) for `M`, `I` (K-injective) for

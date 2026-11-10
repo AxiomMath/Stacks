@@ -222,15 +222,7 @@ theorem range_denominatorIdealActionStalk (x : X) :
         (AlgebraicGeometry.denominatorIdeal X L s) F).symm t = w :=
       ⟨tensorStalkIso X.toRingedSpace x (AlgebraicGeometry.denominatorIdeal X L s) F w,
         LinearEquiv.symm_apply_apply _ _⟩
-    induction t using TensorProduct.induction_on with
-    | zero =>
-        have h1 : denominatorIdealActionStalk X L F s x
-            ((tensorStalkIso X.toRingedSpace x
-              (AlgebraicGeometry.denominatorIdeal X L s) F).symm 0) = 0 := by
-          rw [map_zero]
-          exact (denominatorIdealActionStalk X L F s x).map_zero
-        rw [h1]
-        exact Submodule.zero_mem _
+    induction t using TensorProduct.inductionOn with
     | add a b ha hb =>
         have h2 : denominatorIdealActionStalk X L F s x
             ((tensorStalkIso X.toRingedSpace x

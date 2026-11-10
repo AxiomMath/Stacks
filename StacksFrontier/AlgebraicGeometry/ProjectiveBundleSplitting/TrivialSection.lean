@@ -124,7 +124,7 @@ theorem exists_section_of_restrict_free {X : Scheme.{u}} (E : X.Modules) [E.IsQu
     (freeModule (X := U.toScheme) (coordIndex.{u} n)) (isQuasicoherentPieces_free _) hE
   obtain ⟨t, ht⟩ := exists_section_freeProjectiveBundle U.toScheme n
   refine ⟨t ≫ e.hom ≫ pullback.snd U.ι (schemeProjectiveBundle E hqc).toBase, ?_⟩
-  show t ≫ e.hom ≫ pullback.snd _ _ ≫ (schemeProjectiveBundle E hqc).toBase = _
+  change t ≫ e.hom ≫ pullback.snd _ _ ≫ (schemeProjectiveBundle E hqc).toBase = _
   rw [← pullback.condition, reassoc_of% he, reassoc_of% ht]
 
 /-- **A nonempty open with a section, on an irreducible base.** A module finite locally free of

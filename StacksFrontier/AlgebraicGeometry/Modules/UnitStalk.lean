@@ -106,7 +106,7 @@ lemma toUnitStalk_germ (x : X) (U : Opens X) (hx : x ∈ U) (g : Γ(X, U)) :
   have hsmul : (unitModule X).presheaf.germ U x hx (g • (1 : Γ(X, U))) =
       X.presheaf.germ U x hx g • (unitModule X).presheaf.germ U x hx (1 : Γ(X, U)) :=
     PresheafOfModules.germ_smul (R := X.presheaf) (unitModule X).val x U hx g (1 : Γ(X, U))
-  show X.presheaf.germ U x hx g • one X x = _
+  change X.presheaf.germ U x hx g • one X x = _
   rw [← germ_one X x U hx, ← hsmul]
   exact congrArg (ConcreteCategory.hom ((unitModule X).presheaf.germ U x hx)) (mul_one g)
 

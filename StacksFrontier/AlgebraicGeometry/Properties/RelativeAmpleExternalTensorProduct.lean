@@ -65,12 +65,12 @@ theorem opensRange_pullbackMap_morphismRestrict (V : S.Opens) :
         (morphismRestrict_ι f V) (morphismRestrict_ι g V)).opensRange =
       (pullback.fst f g ≫ f) ⁻¹ᵁ V := by
   apply TopologicalSpace.Opens.ext
-  show Set.range _ = _
+  change Set.range _ = _
   rw [Scheme.Pullback.range_map, Scheme.Opens.range_ι, Scheme.Opens.range_ι]
   ext w
   have hw : g (pullback.snd f g w) = f (pullback.fst f g w) := by
     rw [← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply, pullback.condition]
-  show f (pullback.fst f g w) ∈ V ∧ g (pullback.snd f g w) ∈ V ↔
+  change f (pullback.fst f g w) ∈ V ∧ g (pullback.snd f g w) ∈ V ↔
     (pullback.fst f g ≫ f) w ∈ V
   rw [Scheme.Hom.comp_apply, hw]
   exact ⟨fun h => h.1, fun h => ⟨h, h⟩⟩

@@ -281,6 +281,7 @@ theorem baseChangeLegComparison_comm {i j : Iᵒᵖ} (a : i ⟶ j)
         (conePi_comp c a).symm).app G))
     hpent₁ ((Iso.inv_comp_eq _).mp hpent₂) hpent₃
 
+omit [∀ i : Iᵒᵖ, HasSheafify (smallEtaleTopology (D.obj i)) AddCommGrpCat.{u + 1}] in
 /-- The comparisons of the legs are natural in the sheaf. -/
 theorem baseChangeLegComparison_naturality (i : Iᵒᵖ)
     {G₁ G₂ : Sheaf (smallEtaleTopology (D.obj i)) AddCommGrpCat.{u + 1}} (f : G₁ ⟶ G₂) :

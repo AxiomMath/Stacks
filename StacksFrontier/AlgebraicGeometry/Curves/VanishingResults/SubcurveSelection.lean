@@ -247,7 +247,7 @@ theorem Scheme.IdealSheafData.exists_mem_genericPoints_mem_supp (Y : X.IdealShea
   have hgy := TopCat.Presheaf.germ_res_apply Y.subscheme.presheaf
     ((TopologicalSpace.Opens.map Y.subschemeι.base).map iU) y hW (f.app U s)
   rw [← hgy]
-  show Y.subscheme.presheaf.germ _ y hW
+  change Y.subscheme.presheaf.germ _ y hW
     ((closedSubschemeStructureSheaf Y).presheaf.map iU.op (f.app U s)) = 0
   rw [hnat]
   exact map_zero _
@@ -674,8 +674,7 @@ theorem notMem_supp_tensorSheaf_of_notMem (L M : X.Modules) {x : X}
   let e := Stacks.SheafOfModules.TensorStalkRingedSpace.tensorStalkIso X.toRingedSpace x L M
   have hz : e a = 0 := by
     generalize e a = t
-    induction t using TensorProduct.induction_on with
-    | zero => rfl
+    induction t using TensorProduct.inductionOn with
     | tmul m n => rw [@Subsingleton.elim _ h1 n 0]; exact TensorProduct.tmul_zero _ _
     | add t₁ t₂ h₁ h₂ => rw [h₁, h₂, add_zero]
   apply ha
@@ -717,7 +716,7 @@ theorem Scheme.Modules.noZeroDimensionalImages_inverse_tensorLeft [IsLocallyNoet
     (((Topology.IsEmbedding.inclusion hsub).isInducing.topologicalKrullDim_le).trans hg)
   exact E.functor.map_injective (by
     rw [Functor.map_zero]
-    haveI : Mono (E.counit.app ω) := inferInstanceAs (Mono (E.counitIso.app ω).hom)
+    have : Mono (E.counit.app ω) := inferInstanceAs (Mono (E.counitIso.app ω).hom)
     exact (cancel_mono (E.counit.app ω)).mp (by rw [h0, zero_comp]))
 
 open Opposite in
@@ -737,7 +736,7 @@ theorem Scheme.IdealSheafData.kernel_ι_comp_eq_zero_of_essImage (Y : X.IdealShe
         (Scheme.IdealSheafData.app_apply_of_eq_zero (kernel.condition _) U s))
   have h1 : a • (show Γ(Scheme.IdealSheafData.ambientStructureSheaf X, U) from (1 : Γ(X, U))) =
       a := mul_one a
-  show g.app U a = (0 : _ ⟶ M).app U s
+  change g.app U a = (0 : _ ⟶ M).app U s
   rw [Scheme.Modules.Hom.zero_app, ← h1, Scheme.Modules.Hom.app_smul, hM U a ha]
   rfl
 

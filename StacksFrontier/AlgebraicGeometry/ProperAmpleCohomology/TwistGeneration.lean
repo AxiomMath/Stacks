@@ -132,7 +132,7 @@ theorem actMap_eq_twistPowMap {F L : C} {m : ℕ} (t : twistSections F L m) (n :
       eqToHom (twistPow_twistPow F L m n) := by
   induction n with
   | zero =>
-      show t = eqToHom (rfl : (𝟙_ C) = 𝟙_ C) ≫ t ≫
+      change t = eqToHom (rfl : (𝟙_ C) = 𝟙_ C) ≫ t ≫
         eqToHom (rfl : twistPow F L m = twistPow F L m)
       simp
   | succ n ih =>
@@ -159,7 +159,7 @@ theorem twistPowMap_sum {A B L : C}
   induction n with
   | zero => rfl
   | succ n ih =>
-      show (_root_.CategoryTheory.MonoidalCategory.tensorRight L).map
+      change (_root_.CategoryTheory.MonoidalCategory.tensorRight L).map
         (twistPowMap L (∑ j ∈ s, f j) n) = _
       rw [ih, (_root_.CategoryTheory.MonoidalCategory.tensorRight L).map_sum]
       rfl

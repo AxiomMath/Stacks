@@ -190,7 +190,7 @@ theorem C1573.isOpenImmersion_schemeTheoreticImage_of_flat_chart (X : AlgebraicS
     rw [hs'def, Category.assoc, pullback.lift_snd]
     exact (Iso.inv_comp_eq _).2 heWι.symm
   have hrange : Subfunctor.range s' = Subfunctor.range s := by
-    haveI : Epi eW.inv := IsIso.epi_of_iso eW.inv
+    have : Epi eW.inv := IsIso.epi_of_iso eW.inv
     rw [hs'def, Subfunctor.range_comp, Subfunctor.range_eq_top, Subfunctor.image_top]
   have hTs' : schemeTheoreticImageSubfunctor B S hS s' = T :=
     schemeTheoreticImageSubfunctor_congr_range' B S hS s' s hXZ hrange

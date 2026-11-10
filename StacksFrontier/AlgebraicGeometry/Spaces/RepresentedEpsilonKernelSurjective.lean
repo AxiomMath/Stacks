@@ -328,8 +328,7 @@ theorem exists_representedEpsilonKernelModel_app_eq_chartKernelPresheafHom
   let k := ((chartKernelPresheafHom B S hS (representedSpaceMap B S hS φ)
     (representedEpsilonChartDiagram B S hS φ hZW)).app (op V)).hom
   let e := ((representedNaiveCotangentKernelIso B S hS φ).hom.val.app (op V.left)).hom
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨0, c.map_zero.trans ((congrArg e k.map_zero).trans e.map_zero).symm⟩
+  induction x using TensorProduct.inductionOn with
   | tmul s m =>
     exact exists_representedEpsilonKernelModel_app_eq_chartKernelPresheafHom_tmul B S hS φ hZW V s m
   | add x y hx hy =>

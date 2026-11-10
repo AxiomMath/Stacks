@@ -194,7 +194,7 @@ theorem cohomologicalTraceFormula_extensionByZero_of_fibration (hΛ : (Nat.card 
   let γ : J' ⟶ J := ObjectProperty.homMk (StructuredArrow.homMk
     (Over.homMk (φ.imageι ≫ pullback.fst J.toBase JA.toBase) (Category.assoc _ _ _)) (by
       ext
-      show (jA ≫ pullback.fst πl JA.immersion) ≫ φ.imageι ≫ pullback.fst J.toBase JA.toBase =
+      change (jA ≫ pullback.fst πl JA.immersion) ≫ φ.imageι ≫ pullback.fst J.toBase JA.toBase =
         J.immersion
       rw [Category.assoc, pullback.lift_fst_assoc, Scheme.Hom.toImage_imageι_assoc,
         pullback.lift_fst]))
@@ -273,7 +273,7 @@ theorem cohomologicalTraceFormula_extensionByZero_of_fibration (hΛ : (Nat.card 
         inferInstanceAs (IsProper (pullback.snd π.left y.1))⟩⟩
   have h₁ := IsPullback.of_hasPullback J'.immersion fy
   have heq : J'.immersion ≫ π.left = g ≫ JA.immersion := by
-    show (jA ≫ pullback.fst πl JA.immersion) ≫ πl = g ≫ JA.immersion
+    change (jA ≫ pullback.fst πl JA.immersion) ≫ πl = g ≫ JA.immersion
     rw [Category.assoc, pullback.condition, pullback.lift_snd_assoc]
   have hpb : IsPullback hUm fyk (g ≫ JA.immersion) y.1 :=
     heq ▸ h₁.paste_vert (IsPullback.of_hasPullback π.left y.1)

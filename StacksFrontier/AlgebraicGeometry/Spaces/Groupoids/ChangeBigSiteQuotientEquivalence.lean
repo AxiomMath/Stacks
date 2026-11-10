@@ -63,7 +63,8 @@ this file, because the equivalence is proved only under that hypothesis.
 `CategoryTheory.Comma.pullbackProj` reports its codomain in the unfolded `CategoryTheory.Over`
 form, which the enlarged site's fppf topology is not accepted against, so the statements below are
 taken relative to `AlgebraicGeometry.Stack.pullbackQuotientStackProj`, which fixes the codomain.
-The comparison of `StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.ChangeBigSiteQuotientComparison`
+The comparison of
+`StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.ChangeBigSiteQuotientComparison`
 is restated against that functor by
 `AlgebraicGeometry.Stack.isFibredOneMorphism_changeBigSiteQuotientComparison'`.
 

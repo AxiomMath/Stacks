@@ -91,7 +91,7 @@ theorem dgActionComponent_d (n i : ℤ) :
           (𝒜.complex.d i (i + 1)) ≫ dgActionComponent M n (i + 1) ≫
             (M.complex.XIsoOfEq (show n + (i + 1) = n + i + 1 by omega)).hom) := by
   refine sheafTensor_hom_ext fun U x y => ?_
-  show homEvalAt (N := M.complex.X (n + i + 1)) U _
+  change homEvalAt (N := M.complex.X (n + i + 1)) U _
       (dgActionComponent M n i ≫ M.complex.d (n + i) (n + i + 1)) =
     homEvalAt (P := ((sheafTensor A).obj (M.complex.X n)).obj (𝒜.complex.X i))
       (N := M.complex.X (n + i + 1)) U _
@@ -102,7 +102,7 @@ theorem dgActionComponent_d (n i : ℤ) :
           (𝒜.complex.d i (i + 1)) ≫ dgActionComponent M n (i + 1) ≫
             (M.complex.XIsoOfEq (show n + (i + 1) = n + i + 1 by omega)).hom))
   rw [map_add, map_zsmul]
-  show (M.complex.d (n + i) (n + i + 1)).val.app U ((dgActionComponent M n i).val.app U _) =
+  change (M.complex.d (n + i) (n + i + 1)).val.app U ((dgActionComponent M n i).val.app U _) =
     (M.complex.XIsoOfEq _).hom.val.app U ((dgActionComponent M (n + 1) i).val.app U
         ((((sheafTensor A).map (M.complex.d n (n + 1))).app (𝒜.complex.X i)).val.app U _)) +
       (Int.negOnePow n : ℤ) • (M.complex.XIsoOfEq _).hom.val.app U
@@ -153,7 +153,7 @@ private theorem ι_d_dgActionDesc (n i : ℤ) :
       (show (ComplexShape.up ℤ).Rel n (n + 1) from rfl) i (n + i + 1) hπ₁,
     HomologicalComplex.mapBifunctor.d₂_eq _ _ _ _ n
       (show (ComplexShape.up ℤ).Rel i (i + 1) from rfl) (n + i + 1) hπ₂,
-    Linear.units_smul_comp, ι_dgActionDesc, ι_dgActionDesc_assoc]
+    Linear.units_smul_comp, ι_dgActionDesc]
   have e₁ : ComplexShape.ε₁ (ComplexShape.up ℤ) (ComplexShape.up ℤ) (ComplexShape.up ℤ) (n, i) =
     1 := rfl
   have e₂ : ComplexShape.ε₂ (ComplexShape.up ℤ) (ComplexShape.up ℤ) (ComplexShape.up ℤ) (n, i) =
@@ -171,7 +171,7 @@ noncomputable def dgAction : dgActionSource M ⟶ M.complex where
     obtain rfl : n + i = k := hni
     refine ((ι_dgActionDesc_assoc M n i (n + i) rfl _).trans ?_).trans
       (ι_d_dgActionDesc M n i).symm
-    simp only [HomologicalComplex.XIsoOfEq_rfl, Iso.refl_hom, Category.comp_id]
+    simp only [HomologicalComplex.XIsoOfEq_rfl, Iso.refl_hom]
     exact dgActionComponent_d M n i
 
 /-- The degree-`k` component of `dgAction M` is `dgActionDesc M k`. -/
@@ -186,7 +186,7 @@ theorem dgActionComponent_naturality
         dgActionComponent N n i =
       dgActionComponent M n i ≫ f.toHomologicalComplex.f (n + i) := by
   refine sheafTensor_hom_ext fun U x y => ?_
-  show (dgActionComponent N n i).val.app U
+  change (dgActionComponent N n i).val.app U
       ((((sheafTensor A).map (f.toHomologicalComplex.f n)).app (𝒜.complex.X i)).val.app U _) =
     (f.toHomologicalComplex.f (n + i)).val.app U ((dgActionComponent M n i).val.app U _)
   rw [tensorFunctor_map_unit_apply (A := A), dgActionComponent_unit_apply,
@@ -237,7 +237,7 @@ theorem dgAction_shift (n : ℤ) (N : _root_.SheafOfModules.DifferentialGradedMo
     p q k hpq (p + n) (k + n) rfl rfl
   rw [dgAction_f, ι_dgActionDesc, HomologicalComplex.comp_f, ← Category.assoc, eR]
   simp only [CochainComplex.shiftFunctorObjXIso, HomologicalComplex.XIsoOfEq_rfl, Iso.refl_hom,
-    Iso.refl_inv, CategoryTheory.Functor.map_id, NatTrans.id_app, Category.id_comp,
+    Iso.refl_inv, Category.id_comp,
     Category.assoc, CochainComplex.shiftFunctor_map_f', dgAction_f, ι_dgActionDesc]
   have hid : ((sheafTensor A).map (𝟙 (M.complex.X (p + n)))).app (𝒜.complex.X q) = 𝟙 _ := by
     rw [CategoryTheory.Functor.map_id, NatTrans.id_app]

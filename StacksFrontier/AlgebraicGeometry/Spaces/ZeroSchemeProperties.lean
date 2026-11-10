@@ -176,7 +176,7 @@ theorem isRegularSection_iff_forall_injective_smul (X : AlgebraicSpaces B S hS)
         Function.Injective fun r : ToType ((Stacks.SheafOfModules.Tensor.ringSheaf
             (smallEtaleRingedSite B S hS X.1 X.2).O).obj.obj U) =>
           r • s.eval U := by
-  show Mono (L.unitHomEquiv.symm s) ↔ _
+  change Mono (L.unitHomEquiv.symm s) ↔ _
   rw [← (SheafOfModules.toSheaf _).mono_map_iff_mono,
     ← (sheafToPresheaf _ AddCommGrpCat.{u}).mono_map_iff_mono,
     CategoryTheory.NatTrans.mono_iff_mono_app]

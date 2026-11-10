@@ -125,7 +125,7 @@ theorem mono_etaleIntModuleExtend_map_of_shortExact
     let instA : Algebra ℤ Λ := ((algebraMap Λ Λ).comp (Int.castRingHom Λ)).toAlgebra
     let instM : Module ℤ Λ := instA.toModule
     refine (ModuleCat.mono_iff_injective _).mpr ?_
-    show Function.Injective ⇑(LinearMap.lTensor Λ (S.f.hom.app V).hom)
+    change Function.Injective ⇑(LinearMap.lTensor Λ (S.f.hom.app V).hom)
     exact ModuleSheafCohomology.lTensor_injective_of_exact_of_isTorsionFree
       (S.f.hom.app V).hom (S.g.hom.app V).hom ((ModuleCat.mono_iff_injective _).mp hEm)
       ((ShortComplex.ShortExact.moduleCat_exact_iff_function_exact

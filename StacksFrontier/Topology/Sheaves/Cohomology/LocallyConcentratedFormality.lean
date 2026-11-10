@@ -234,8 +234,8 @@ theorem overFunctor_map_degreeProj (hV : ⨆ i, V i = ⊤) (M : _root_.SheafOfMo
       (⟨(V i, ℓ i), i, rfl, rfl⟩ : DegreeCoverIndex V ℓ) T.left T.hom.le
   split_ifs with hP <;>
     refine _root_.SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun T => (key T.unop).trans ?_)
-  · exact if_pos hP
-  · exact if_neg hP
+  · exact ite_eq_left hP
+  · exact ite_eq_right hP
 
 section Formality
 
@@ -440,7 +440,7 @@ theorem overFunctor_map_truncι_comp_d (m : ι) (k : ℤ) (hk : k = ℓ m) :
       (_root_.SheafOfModules.overFunctor R (V m)).map (K.d k (k + 1)) = 0 := by
   have he : (_root_.SheafOfModules.overFunctor R (V m)).map
       (proj K hV hX (k + 1) (· = k)) = 𝟙 _ := by
-    rw [overFunctor_map_proj, if_pos hk.symm]
+    rw [overFunctor_map_proj, ite_eq_left hk.symm]
   rw [← Category.comp_id ((_root_.SheafOfModules.overFunctor R (V m)).map (K.d k (k + 1))),
     ← he, ← Functor.map_comp, ← Functor.map_comp, truncι_d_proj, Functor.map_zero]
 
@@ -456,11 +456,11 @@ def isLimitOverFunctorMapTruncι (m : ι) (k : ℤ) (hk : k = ℓ m) :
     fun a P _ => overFunctor_map_proj K hV hX a P m
   have hA : IsIso (F.map (kernel.ι (proj K hV hX k (· < k)))) :=
     KernelFork.IsLimit.isIso_ι _ (KernelFork.mapIsLimit _ (kernelIsKernel _) F)
-      (by rw [hF, if_neg (by omega)])
+      (by rw [hF, ite_eq_right (by omega)])
   let eA := asIso (F.map (kernel.ι (proj K hV hX k (· < k))))
   have hβ : F.map (kernel.ι (proj K hV hX k (· < k)) ≫ K.d k (k + 1) ≫
       proj K hV hX (k + 1) (· = k)) = eA.hom ≫ F.map (K.d k (k + 1)) := by
-    simp only [eA, asIso_hom, F.map_comp, hF, if_pos hk.symm, Category.comp_id]
+    simp only [eA, asIso_hom, F.map_comp, hF, ite_eq_left hk.symm, Category.comp_id]
   refine IsLimit.ofIsoLimit (KernelFork.isLimitOfIsLimitOfIff
     (KernelFork.mapIsLimit _ (kernelIsKernel _) F) (F.map (K.d k (k + 1))) eA
     (fun W φ => by rw [hβ])) (Fork.ext (Iso.refl _) ?_)
@@ -504,19 +504,19 @@ theorem quasiIso_truncInclusion : QuasiIso (truncInclusion K hV hX) := by
     fun a P _ => overFunctor_map_proj K hV hX a P m
   have hA : ∀ k, k ≤ ℓ m → IsIso (F.map (kernel.ι (proj K hV hX k (· < k)))) := fun k hk =>
     KernelFork.IsLimit.isIso_ι _ (KernelFork.mapIsLimit _ (kernelIsKernel _) F)
-      (by rw [hF, if_neg (by omega)])
+      (by rw [hF, ite_eq_right (by omega)])
   have hiso : ∀ k, k < ℓ m → IsIso (F.map (truncι K hV hX k)) := fun k hk => by
     have := hA k hk.le
     have : IsIso (F.map (kernel.ι (kernel.ι (proj K hV hX k (· < k)) ≫ K.d k (k + 1) ≫
         proj K hV hX (k + 1) (· = k)))) :=
       KernelFork.IsLimit.isIso_ι _ (KernelFork.mapIsLimit _ (kernelIsKernel _) F)
-        (by rw [F.map_comp, F.map_comp, hF, if_neg (by omega), comp_zero, comp_zero])
+        (by rw [F.map_comp, F.map_comp, hF, ite_eq_right (by omega), comp_zero, comp_zero])
     rw [truncι, F.map_comp]
     infer_instance
   have hzero : ∀ k, ℓ m < k → IsZero (F.obj (truncX K hV hX k)) := fun k hk => by
     have h0 : F.map (kernel.ι (proj K hV hX k (· < k))) = 0 := by
       have h := F.congr_map (kernel.condition (proj K hV hX k (· < k)))
-      rwa [F.map_comp, hF, if_pos hk, Category.comp_id, F.map_zero] at h
+      rwa [F.map_comp, hF, ite_eq_left hk, Category.comp_id, F.map_zero] at h
     exact IsZero.of_mono_eq_zero (F.map (truncι K hV hX k))
       (by rw [truncι, F.map_comp, h0, comp_zero])
   have hKex : ∀ k, k ≠ ℓ m → ((F.mapHomologicalComplex _).obj K).ExactAt k := fun k hk => by
@@ -558,8 +558,8 @@ theorem quasiIso_truncProj : QuasiIso (truncProj K hV hX) := by
   by_cases hkm : k < ℓ m
   · exact (hH m k hkm.ne).eq_of_tgt _ _
   · have he : F.map (proj K hV hX k (· ≤ k)) = 𝟙 _ := by
-      rw [overFunctor_map_proj, if_pos (by omega)]
-    show F.map ((trunc K hV hX).iCycles k ≫ K.liftCycles ((truncInclusion K hV hX).f k ≫
+      rw [overFunctor_map_proj, ite_eq_left (by omega)]
+    change F.map ((trunc K hV hX).iCycles k ≫ K.liftCycles ((truncInclusion K hV hX).f k ≫
       proj K hV hX k (· ≤ k)) (k + 1) (by simp) (truncInclusion_f_proj_le_d K hV hX k) ≫
         K.homologyπ k) =
       F.map (HomologicalComplex.cyclesMap (truncInclusion K hV hX) k ≫ K.homologyπ k ≫

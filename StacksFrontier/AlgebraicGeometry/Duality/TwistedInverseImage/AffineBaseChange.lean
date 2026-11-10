@@ -75,7 +75,7 @@ theorem twistedInverseImageBaseChangeMap_eq_rightAdjointBaseChange (sq : IsPullb
         (quasiCoherentDerivedPullbackCompIso g' f ≪≫ quasiCoherentDerivedPullbackCongr sq.w)
         (twistedInverseImageAdjunction f (isQuasicoherent_homology_derivedPushforward_of_qcqs f))
         (twistedInverseImageAdjunction f'
-          (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))).natTrans] :
+          (isQuasicoherent_homology_derivedPushforward_of_qcqs f')))] :
     twistedInverseImageBaseChangeMap g' f' f g
         (isQuasicoherent_homology_derivedPushforward_of_qcqs g')
         (isQuasicoherent_homology_derivedPushforward_of_qcqs f)
@@ -95,7 +95,7 @@ theorem twistedInverseImageBaseChangeMap_eq_rightAdjointBaseChange (sq : IsPullb
         (quasiCoherentDerivedPullbackCompIso g' f ≪≫ quasiCoherentDerivedPullbackCongr sq.w)
         (twistedInverseImageAdjunction f (isQuasicoherent_homology_derivedPushforward_of_qcqs f))
         (twistedInverseImageAdjunction f'
-          (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))).natTrans := by
+          (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))) := by
   have hinv := inv_eq_inv_of_eq
     (twistedInverseImagePushforwardBaseChange_eq_rightAdjointSquare g' f' f g sq)
   ext K
@@ -131,7 +131,7 @@ theorem rightAdjointTensorComparison_eq_compareWithPullbackTensor
       compareWithPullbackTensor f hpush α adj H K := by
   unfold Stacks.CategoryTheory.BaseChange.rightAdjointTensorComparison compareWithPullbackTensor
   congr 2
-  show ((quasiCoherentDerivedTensor Y).map (𝟙 H)).app _ ≫
+  change ((quasiCoherentDerivedTensor Y).map (𝟙 H)).app _ ≫
     ((quasiCoherentDerivedTensor Y).obj H).map (adj.counit.app K) = _
   rw [CategoryTheory.Functor.map_id, NatTrans.id_app, Category.id_comp]
 
@@ -177,7 +177,7 @@ theorem isIso_twistedInverseImageBaseChangeMap_app_of_isIso_compareWithPullbackT
   have : NatTrans.IsMonoidal ef.hom :=
     inferInstanceAs (NatTrans.IsMonoidal ((quasiCoherentDerivedPullbackCompIso g' f).hom ≫
       (quasiCoherentDerivedPullbackCongr sq.w).hom))
-  have hbc : IsIso (Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg ef).natTrans := by
+  have hbc : IsIso (Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg ef) := by
     have h := isIso_quasiCoherentDerivedBaseChange_natTrans hpg' hpf hpf' hpg sq hTor
     rwa [quasiCoherentDerivedBaseChange_eq_twoSquare] at h
   have := Stacks.CategoryTheory.BaseChange.isIso_rightAdjointSquare adjf adjf' adjg adjg' eg ef
@@ -234,10 +234,10 @@ theorem isIso_twistedInverseImageBaseChangeMap_app_of_isIso_compareWithPullbackT
       (quasiCoherentDerivedPullback' f') P)
   have : IsIso ((derivedPushforward g').map
       ((Stacks.CategoryTheory.BaseChange.rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja
-        adja').natTrans.app K).hom) :=
+        adja').app K).hom) :=
     inferInstanceAs (IsIso ((ObjectProperty.ι _).map ((quasiCoherentDerivedPushforward g' hpg').map
       ((Stacks.CategoryTheory.BaseChange.rightAdjointBaseChange adjf adjf' adjg adjg' eg ef adja
-        adja').natTrans.app K))))
+        adja').app K))))
   rw [twistedInverseImageBaseChangeMap_eq_rightAdjointBaseChange sq]
   exact isIso_of_isIso_derivedPushforward_map_of_isAffineHom g' _
 

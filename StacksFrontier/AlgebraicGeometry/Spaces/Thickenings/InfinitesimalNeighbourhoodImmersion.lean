@@ -138,8 +138,7 @@ universe w v₁ u₁ u
 namespace Stacks.Sites
 
 
-variable {C : Type u₁} [Category.{v₁} C] {J : GrothendieckTopology C}
-  [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] {O : Sheaf J CommRingCat.{u}}
+variable {C : Type u₁} [Category.{v₁} C] {J : GrothendieckTopology C} {O : Sheaf J CommRingCat.{u}}
 
 /-- **`I · 𝒪 ⊆ I`.** A product of a section of a sheaf of ideals with a section of the structure
 sheaf lies in the sheaf of ideals, because the scalar action on the structure sheaf read as a
@@ -418,7 +417,7 @@ theorem idealUnitLocus_definingIdealSheaf_subset_nthOrderNeighbourhood
       (definingIdealSheaf B S hS X Z) hx
   have hV : IsAffine (chartScheme V) := hVaff
   refine (mem_idealUnitLocus_iff B S hS X _ x).2 ⟨V, ?_, hxV⟩
-  show definingIdealAt B S hS X (nthOrderNeighbourhood B S hS X Z n) (op V) = ⊤
+  change definingIdealAt B S hS X (nthOrderNeighbourhood B S hS X Z n) (op V) = ⊤
   rw [definingIdealAt_nthOrderNeighbourhood_of_isAffine B S hS X Z n V hV,
     show definingIdealAt B S hS X Z (op V) = ⊤ from hVtop]
   exact Ideal.top_pow _ _

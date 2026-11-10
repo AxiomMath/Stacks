@@ -128,7 +128,7 @@ private lemma exists_iso_single_normalized
   let ε := DerivedCategory.singleFunctorCompHomologyFunctorIso C i
   let d : M ≅ H := (F.mapIso e ≪≫ ε.app M).symm ≪≫ comparison
   refine ⟨e ≪≫ S.mapIso d, ?_⟩
-  show F.map (e.hom ≫ S.map d.hom) ≫ ε.hom.app H = comparison.hom
+  change F.map (e.hom ≫ S.map d.hom) ≫ ε.hom.app H = comparison.hom
   have hn : F.map (S.map d.hom) ≫ ε.hom.app H = ε.hom.app M ≫ d.hom :=
     ε.hom.naturality d.hom
   rw [F.map_comp, Category.assoc, hn]
@@ -227,7 +227,7 @@ private lemma finite_projective_homology_of_upper_representative
   obtain ⟨e, he⟩ := exists_iso_biprod_truncLE_truncGE K n (n + 1) c rfl hAmp
   let r : K ⟶ L := e.hom ≫ biprod.fst
   have hr : (t.truncLEι n).app K ≫ r = 𝟙 _ := by
-    show (t.truncLEι n).app K ≫ (e.hom ≫ biprod.fst) = 𝟙 L
+    change (t.truncLEι n).app K ≫ (e.hom ≫ biprod.fst) = 𝟙 L
     rw [← Category.assoc, he.1]
     exact biprod.inl_fst
   have : IsIso (H.map ((t.truncLEι n).app K)) := isIso_homology_truncLEι K n n le_rfl
@@ -342,7 +342,7 @@ private lemma homology_map_injective_of_upper_amplitude
   let T := (t.triangleLEGE (i - 1) i (by omega)).obj Y
   have hT := t.triangleLEGE_distinguished (i - 1) i (by omega) Y
   have hz : T.mor₁ ≫ ((t.truncLEι i).app K ≫ f) = 0 := by
-    show (t.truncLEι (i - 1)).app Y ≫ ((t.truncLEι i).app K ≫ f) = 0
+    change (t.truncLEι (i - 1)).app Y ≫ ((t.truncLEι i).app K ≫ f) = 0
     exact t.zero _ (i - 1) i (by omega)
   obtain ⟨q, hq⟩ := T.yoneda_exact₂ hT ((t.truncLEι i).app K ≫ f) hz
   change J ⟶ M at q
@@ -388,7 +388,7 @@ private lemma exists_normalized_lower_decomposition
     rw [← Category.assoc, heY.1]
     simpa only [biprod.mapIso_hom, biprod.inl_map, Iso.refl_hom] using
       (Category.id_comp (biprod.inl : L ⟶ L ⊞ _))
-  · show H.map e.hom ≫ H.map biprod.snd ≫ _ = _
+  · change H.map e.hom ≫ H.map biprod.snd ≫ _ = _
     rw [← Category.assoc, ← H.map_comp, hπ, H.map_comp, Category.assoc, heJ]
     simp [cJ]
 
@@ -448,12 +448,12 @@ private lemma exists_normalized_three_term_decomposition
   refine ⟨e, ?_, ?_, ?_⟩
   · apply (cancel_epi eL.hom).mp
     rw [← Category.assoc, hLnat, Category.assoc, hY, ← Category.assoc, hL, Category.assoc]
-  · show (t.truncGEπ (i + 1)).app K = e.hom ≫ (biprod.snd : _ ⊞ U ⟶ U)
+  · change (t.truncGEπ (i + 1)).app K = e.hom ≫ (biprod.snd : _ ⊞ U ⟶ U)
     simp only [e, Iso.trans_hom, biprod.mapIso_hom, Category.assoc, biprod.map_snd,
       Iso.refl_hom]
     rw [Category.comp_id]
     exact heU.2
-  · show H.map e.hom ≫ H.map biprod.fst ≫ H.map biprod.snd ≫ _ = _
+  · change H.map e.hom ≫ H.map biprod.fst ≫ H.map biprod.snd ≫ _ = _
     calc
       _ = H.map (e.hom ≫ biprod.fst ≫ biprod.snd) ≫
           (DerivedCategory.singleFunctorCompHomologyFunctorIso

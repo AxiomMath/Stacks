@@ -105,7 +105,7 @@ theorem specMap_residueFieldAtClosedPointEquiv_comp_fromSpecResidueField
   apply Spec.map_inj.mpr
   apply CommRingCat.hom_ext
   ext a
-  show IsLocalRing.ResidueField.map (stalkClosedPointIso B).hom.hom
+  change IsLocalRing.ResidueField.map (stalkClosedPointIso B).hom.hom
     (IsLocalRing.residue _ ((stalkClosedPointIso B).inv.hom a)) =
       IsLocalRing.residue B a
   rw [IsLocalRing.ResidueField.map_residue]
@@ -206,7 +206,7 @@ theorem baseChangeFibreIso_naturality {Y : Scheme.{u}} (g : Y ⟶ S) (c : X ⟶ 
       (baseChangeFibreIso f π t s j h).hom ≫
         pullback.map f s g s c (𝟙 Q) (𝟙 S) (by simp [hc]) (by simp) := by
   apply pullback.hom_ext <;>
-    simp [pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+    simp
 
 include h in
 /-- **Special-fibre data descend along a base change with the same closed point.** Let

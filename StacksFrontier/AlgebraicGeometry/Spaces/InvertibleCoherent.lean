@@ -89,8 +89,8 @@ nearest are taken one at a time below.  The other five need no discussion:
 `StrictlyPerfect.IsDirectSummandOfFiniteFree` of
 `StacksFrontier/Topology/Sheaves/Cohomology/StrictlyPerfect/FiniteFreeSummands.lean`,
 `Stacks09U6.IsDirectSummandOfFiniteFree` of
-`StacksFrontier/Topology/Sheaves/Cohomology/StrictlyPerfectRestriction/PullbackOverASite.lean` and an
-inline `Nonempty (Retract …)` in the formalization of Tag 08C7 are all stated for a ringed
+`StacksFrontier/Topology/Sheaves/Cohomology/StrictlyPerfectRestriction/PullbackOverASite.lean` and
+an inline `Nonempty (Retract …)` in the formalization of Tag 08C7 are all stated for a ringed
 *space*; and `IsFiniteFreeSummand` of
 `StacksFrontier/Topology/Sheaves/Cohomology/StrictlyPerfect/TensorOfFiniteFreeSummands.lean`,
 the most general of
@@ -99,19 +99,19 @@ asks for a `CategoryTheory.MonoidalCategory` structure on the `𝒪_F`-modules, 
 search does not supply at these universes, though it does supply the preadditivity, the finite
 biproducts and the zero object.
 `IsDirectSummandOfFiniteFree` of
-`StacksFrontier/CategoryTheory/Sites/Cohomology/StrictlyPerfect/ConeOfAMorphism.lean` is written with
-`SheafOfModules.free (Fin n)`, which needs `HasWeakSheafify` and `WEqualsLocallyBijective` for
+`StacksFrontier/CategoryTheory/Sites/Cohomology/StrictlyPerfect/ConeOfAMorphism.lean` is written
+with `SheafOfModules.free (Fin n)`, which needs `HasWeakSheafify` and `WEqualsLocallyBijective` for
 the topology, and is monomorphic at ring and module universe `0`; the Tag 0FNZ statements of
 `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/LocalFiniteFreeSummand.lean` spell the same
 condition inline as `Nonempty (Retract (F.over V) (SheafOfModules.free …))` and need those two
 instances on *every* slice.  `AlgebraicGeometry.RingedSite.IsDirectSummandOfFiniteFree` of
-`StacksFrontier/Topology/Sheaves/Cohomology/StrictlyPerfect/FiniteFreeSummands.lean` is the finite-product spelling at a free
-universe, but it carries no slice propagation at all — none of the thirty-five declarations of
-that file restricts it along `AlgebraicGeometry.RingedSite.over`, which is the one thing the
-covering argument below needs of it — and it forces the module universe to equal the ring
-universe.  The localization is not itself the obstacle: `AlgebraicGeometry.RingedSite.over`
-exists, and `AlgebraicGeometry.RingedSite.over_O` identifies the structure sheaf of the slice
-with the restriction of the original on the nose.  The private
+`StacksFrontier/Topology/Sheaves/Cohomology/StrictlyPerfect/FiniteFreeSummands.lean` is the
+finite-product spelling at a free universe, but it carries no slice propagation at all — none of the
+thirty-five declarations of that file restricts it along `AlgebraicGeometry.RingedSite.over`, which
+is the one thing the covering argument below needs of it — and it forces the module universe to
+equal the ring universe.  The localization is not itself the obstacle:
+`AlgebraicGeometry.RingedSite.over` exists, and `AlgebraicGeometry.RingedSite.over_O` identifies the
+structure sheaf of the slice with the restriction of the original on the nose.  The private
 `AlgebraicGeometry.RingedSite.IsFiniteFreeRetract` of
 `StacksFrontier/CategoryTheory/Sites/Cohomology/StrictlyPerfect/LocalNullHomotopy.lean` is the cofan
 spelling introduced for exactly the slice-propagation reason recorded here, but it too is
@@ -141,8 +141,8 @@ an invertible module on the small étale site of an algebraic space over `Scheme
 `AlgebraicGeometry.Space.Modules.{u, u}`.  That is the universe in which Stacks 07UB's
 invertibility conclusion is stated here.  The neighbouring instance
 `AlgebraicGeometry.Space.isCoherent_of_fact_isFiniteLocallyFreeOnSite` of
-`StacksFrontier.AlgebraicGeometry.Spaces.FiniteLocallyFreeCoherent` is at `Modules.{u, m}`, so of the
-two conclusions this is the less general, and unavoidably so.
+`StacksFrontier.AlgebraicGeometry.Spaces.FiniteLocallyFreeCoherent` is at `Modules.{u, m}`, so of
+the two conclusions this is the less general, and unavoidably so.
 
 **Quasi-coherence is not proved separately.**  `AlgebraicGeometry.Space.IsCoherent` is
 quasi-coherence together with coherence on the site, and the first follows from the second at
@@ -251,11 +251,11 @@ theorem isRetractOfFiniteFree_of_isSplitMono_cofan {M N : SheafOfModules.{w} R} 
     simpa using h1
   · intro X Y g x i
     have hnat := PresheafOfModules.naturality_apply s.val g x
-    show (ψ Y) ((s.val.app Y) (M.val.map g x)) i = _
+    change (ψ Y) ((s.val.app Y) (M.val.map g x)) i = _
     rw [hnat]
     exact hψ g ((s.val.app X) x) i
   · intro X Y g y
-    show (r.val.app Y) ((ψ Y).symm (Finsupp.mapRange (R.obj.map g) (map_zero _) y)) = _
+    change (r.val.app Y) ((ψ Y).symm (Finsupp.mapRange (R.obj.map g) (map_zero _) y)) = _
     rw [finsuppEquiv_symm_mapRange ψ hψ]
     exact PresheafOfModules.naturality_apply r.val g ((ψ X).symm y)
 
@@ -419,8 +419,7 @@ theorem bijective_sectionsBaseChange_of_finsuppRetract {M : Modules.{u, m} B S h
             (chartRing B S hS F hF V) (chartRing B S hS F hF V) (Fin n)
             (LinearMap.lTensor (chartRing B S hS F hF V) σU z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul b y =>
         rw [chartBaseChange_tmul M f b y, map_smul, hrestrict y, LinearMap.lTensor_tmul]
         exact smul_mapRange_eq_finsuppScalarRight (chartRestrict (hF := hF) f) (Fin n) b (σU y)
@@ -431,8 +430,7 @@ theorem bijective_sectionsBaseChange_of_finsuppRetract {M : Modules.{u, m} B S h
         = ρV (TensorProduct.finsuppScalarRight (chartRing B S hS F hF U)
             (chartRing B S hS F hF V) (chartRing B S hS F hF V) (Fin n) w) := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction w using TensorProduct.inductionOn with
     | tmul b p =>
         rw [LinearMap.lTensor_tmul, chartBaseChange_tmul M f b (ρU p), ← hρ p, ← map_smul]
         exact congrArg ρV

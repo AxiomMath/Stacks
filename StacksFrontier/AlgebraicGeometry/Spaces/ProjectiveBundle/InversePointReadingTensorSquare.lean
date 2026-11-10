@@ -79,7 +79,7 @@ theorem CategoryTheory.Functor.baseChangeTensorSquare_of_tensorPaste {𝒜 ℬ �
       _ = _ := by
           rw [t']
           simp only [Category.assoc]
-  show cΛL ≫ P.map μ.hom ≫ κ AΛ AL =
+  change cΛL ≫ P.map μ.hom ≫ κ AΛ AL =
     μ'.hom ≫ ((F₁.map cΛ).app A'L ≫ (F₁.obj (P.obj AΛ)).map cL.hom)
   rw [hμ, hμ', P.map_comp]
   simp only [Category.assoc]
@@ -96,7 +96,7 @@ theorem CategoryTheory.Functor.mapIso_trans_hom_eq_of_trans_eq {𝒞 𝒞' 𝒟 
   have k' := congrArg Iso.hom k
   simp only [Iso.trans_hom, Functor.mapIso_hom, Functor.map_comp, Category.assoc] at k'
   rw [Iso.trans_hom, Functor.mapIso_hom, Iso.refl_hom, Category.comp_id, k',
-    Functor.mapIso_hom, Iso.symm_hom, ← Functor.comp_map, Iso.map_inv_hom_id_assoc]
+    Functor.mapIso_hom, Iso.symm_hom, ← Functor.comp_map, Iso.inv_hom_id_map_assoc]
 
 namespace AlgebraicGeometry.Space
 

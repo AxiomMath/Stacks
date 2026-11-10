@@ -109,7 +109,7 @@ theorem fourierTripleCoords_comp_inv :
   have h := fourierTripleCoords_comp_affineSpaceCoordinate k
   refine pullback.hom_ext (pullback.hom_ext ?_ ?_) (pullback.hom_ext ?_ ?_)
   all_goals simp only [Category.assoc, Category.id_comp, fourierTripleCoordsInv,
-    pullback.lift_fst_assoc, pullback.lift_snd_assoc, pullback.lift_fst, pullback.lift_snd]
+    pullback.lift_fst, pullback.lift_snd]
   · exact h 0
   · exact h 1
   · exact (h 1).trans pullback.condition

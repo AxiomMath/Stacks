@@ -89,7 +89,7 @@ abbrev latticeModelModule (ρ : G →* GL (Fin r) ℤ_[ℓ]) (o : LatticeModelIn
 theorem latticeModelModule_nsmul_eq_zero (ρ : G →* GL (Fin r) ℤ_[ℓ]) (o : LatticeModelIndex ρ)
     (x : ULift.{w} (latticeModelModule ρ o)) : ℓ ^ (0 + 1) • x = 0 := by
   refine ULift.ext ?_
-  show ℓ ^ (0 + 1) • x.down = 0
+  change ℓ ^ (0 + 1) • x.down = 0
   induction x.down using Submodule.Quotient.induction_on with
   | H y =>
     rw [← Submodule.Quotient.mk_smul, zero_add, pow_one]

@@ -138,7 +138,7 @@ theorem firstChernComponentCycleAt_genericPointOf (W : X.IdealSheafData)
     firstChernComponentCycleAt C q k chern (genericPointOf W hW) =
       firstChernComponentCycle C q k chern W hW hDim := by
   apply Subtype.ext
-  show (firstChernCapRule C q k chern).totalize (integralComponentAt (genericPointOf W hW)) = _
+  change (firstChernCapRule C q k chern).totalize (integralComponentAt (genericPointOf W hW)) = _
   rw [integralComponentAt_genericPointOf W hW]
   exact (firstChernCapRule C q k chern).totalize_eq W hW hDim
 
@@ -235,7 +235,7 @@ theorem properChowPushforward_firstChernClassCap
     (α : CycleGroup C sX (k + 1)) :
     properChowPushforward C sX sY p hp k hfac (firstChernClassCap C sX k chernX α) =
       firstChernClassCap C sY k chernY (properPushforward C sX sY p hp (k + 1) α) := by
-  show properChowPushforward C sX sY p hp k hfac
+  change properChowPushforward C sX sY p hp k hfac
     (QuotientAddGroup.mk' (rationalEquivalences C sX k)
       ((firstChernCapRule C sX k chernX).extendCycleGroup α)) = _
   rw [properChowPushforward_mk,

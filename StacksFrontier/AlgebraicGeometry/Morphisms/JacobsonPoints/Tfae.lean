@@ -62,7 +62,7 @@ public theorem jacobsonSpace_finiteTypePoints_tfae (S : Scheme.{u}) :
         exact (f.fiberι (f t)).isEmbedding.injective.eq_iff' (f.fiberι_asFiber t)
       rw [← hpre]
       exact ht.preimage (f.fiberι _).continuous
-    exact ⟨mem_closedPoints_iff.mp (f.closePoints_subset_preimage_closedPoints
+    exact ⟨mem_closedPoints_iff.mp (f.closedPoints_subset_preimage_closedPoints
       (mem_closedPoints_iff.mpr ht)),
       (isClosed_asFiber_iff_finite_residueField f t).mp hclosedFiber⟩
   tfae_have 4 → 3 := by
@@ -72,7 +72,7 @@ public theorem jacobsonSpace_finiteTypePoints_tfae (S : Scheme.{u}) :
     refine fun h ↦ Set.ext fun x ↦ ⟨fun hx ↦ ?_, fun hx ↦ ?_⟩
     · change AlgebraicGeometry.IsFiniteTypePoint x at hx
       have : LocallyOfFiniteType (S.fromSpecResidueField x) := hx.1
-      show IsClosed ({x} : Set S)
+      change IsClosed ({x} : Set S)
       simpa only [Scheme.fromSpecResidueField_apply x (IsLocalRing.closedPoint _)] using
         h (Spec (.of (S.residueField x))) (S.fromSpecResidueField x)
           (IsLocalRing.closedPoint (S.residueField x))
@@ -81,7 +81,7 @@ public theorem jacobsonSpace_finiteTypePoints_tfae (S : Scheme.{u}) :
       simpa only [Set.mem_singleton_iff.mp hy] using hfin
   tfae_have 2 → 1 := fun h ↦ ⟨by
     intro Z hZ
-    show closure (Z ∩ {s | IsClosed ({s} : Set S)}) = Z
+    change closure (Z ∩ {s | IsClosed ({s} : Set S)}) = Z
     rw [← h]
     exact closure_inter_finiteTypePoints (S := S) (T := Z) hZ⟩
   tfae_finish

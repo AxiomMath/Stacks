@@ -113,7 +113,7 @@ theorem chartPointMap_schemeStackMap_comp (𝒳 : AlgebraicStacks.{u, w} B S hS)
         ((pointsHomeomorphScheme B S hS V).symm z) := by
     refine (pointsHomeomorphScheme B S hS U).injective ?_
     rw [Homeomorph.apply_symm_apply, hnat]
-  show AlgebraicStacks.pointsMap B S hS (schemeStackMap.{u, w} B S hS g ≫ a)
+  change AlgebraicStacks.pointsMap B S hS (schemeStackMap.{u, w} B S hS g ≫ a)
       ((pointsHomeomorphScheme B S hS V).symm z) =
     AlgebraicStacks.pointsMap B S hS a
       ((pointsHomeomorphScheme B S hS U).symm
@@ -129,7 +129,7 @@ private theorem chartPointSet_eq_of_pointsMap_eq (𝒳 : AlgebraicStacks.{u, w} 
     chartPointSet B S hS 𝒳 U a T = chartPointSet B S hS 𝒳 U b T := by
   let _ := pointTopology B S hS (schemeFibredCategory B S hS U)
   unfold chartPointSet
-  show (AlgebraicStacks.pointsMap B S hS a ∘ _) ⁻¹' T =
+  change (AlgebraicStacks.pointsMap B S hS a ∘ _) ⁻¹' T =
     (AlgebraicStacks.pointsMap B S hS b ∘ _) ⁻¹' T
   rw [h]
 
@@ -201,7 +201,7 @@ theorem isClosedImmersion_arrow_chartReducedSubscheme (𝒳 : AlgebraicStacks.{u
     (hT : @IsClosed _ (pointTopology B S hS 𝒳.val) T) :
     _root_.AlgebraicGeometry.IsClosedImmersion
       (chartReducedSubscheme B S hS 𝒳 U a T hT).arrow := by
-  show _root_.AlgebraicGeometry.IsClosedImmersion
+  change _root_.AlgebraicGeometry.IsClosedImmersion
     (Subobject.mk (chartVanishingIdeal B S hS 𝒳 U a T hT).subschemeι).arrow
   rw [← Subobject.underlyingIso_hom_comp_eq_mk
     (chartVanishingIdeal B S hS 𝒳 U a T hT).subschemeι]
@@ -249,7 +249,7 @@ theorem pullback_subobject_chartReducedSubscheme_eq_of_pointsMap_eq
         ((BigFppfOver.toScheme B S hS).map t)).support := by
     refine Closeds.ext ?_
     rw [Scheme.IdealSheafData.support_comap, Scheme.IdealSheafData.support_comap]
-    show ((BigFppfOver.toScheme B S hS).map s).base ⁻¹'
+    change ((BigFppfOver.toScheme B S hS).map s).base ⁻¹'
         ((chartVanishingIdeal B S hS 𝒳 U a T hT).support : Set _) =
       ((BigFppfOver.toScheme B S hS).map t).base ⁻¹'
         ((chartVanishingIdeal B S hS 𝒳 U a T hT).support : Set _)

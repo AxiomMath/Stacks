@@ -1,6 +1,6 @@
 module
 
-public import Mathlib.Data.Setoid.Basic
+public import Mathlib.Order.Setoid.Basic
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.Spaces.Presentation.Defs
 public import StacksFrontier.AlgebraicGeometry.Spaces.Presentation.BigFppfSite

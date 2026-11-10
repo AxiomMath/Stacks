@@ -44,8 +44,8 @@ lemma galoisCoverComparison_fst {G : Type v} [Group G] [Finite G] {X Y : Scheme.
     Stacks.Descent.galoisCoverComparison f a ≫ pullback.fst f f =
       Limits.Sigma.desc (fun _ : G ↦ 𝟙 X) := by
   ext σ
-  simp only [Stacks.Descent.galoisCoverComparison, Sigma.ι_desc_assoc, pullback.lift_fst,
-    Limits.Sigma.ι_desc]
+  simp only [Stacks.Descent.galoisCoverComparison, Sigma.ι_comp_desc_assoc, pullback.lift_fst,
+    Sigma.ι_comp_desc]
 
 /-- The comparison map lies over the base by the codiagonal followed by the structure map. -/
 lemma galoisCoverComparison_fst_comp {G : Type v} [Group G] [Finite G] {X Y : Scheme.{u}}
@@ -54,7 +54,7 @@ lemma galoisCoverComparison_fst_comp {G : Type v} [Group G] [Finite G] {X Y : Sc
       Limits.Sigma.desc (fun _ : G ↦ f) := by
   rw [← Category.assoc, galoisCoverComparison_fst]
   ext σ
-  simp only [Sigma.ι_desc_assoc, Category.id_comp, Limits.Sigma.ι_desc]
+  simp only [Sigma.ι_comp_desc_assoc, Category.id_comp, Sigma.ι_comp_desc]
 
 /-- The comparison map of a cover with an action, as a morphism of schemes over the base. -/
 def galoisCoverComparisonOver {G : Type v} [Group G] [Finite G] {X Y : Scheme.{u}}
@@ -126,8 +126,8 @@ theorem galoisCoverComparison_isPullback {G : Type v} [Group G] [Finite G]
       (Over.w (b (.op g)).asIso.hom)
       (hab (.op g)))
     (coproductIsCoproduct _) (fun g ↦ by
-      show Sigma.ι _ g ≫ Stacks.Descent.galoisCoverComparison f a = _
-      exact Sigma.ι_desc _ g)
+      change Sigma.ι _ g ≫ Stacks.Descent.galoisCoverComparison f a = _
+      exact Sigma.ι_comp_desc _ g)
 
 /-- **The torsor condition passes to base changes.** -/
 theorem isIso_galoisCoverComparison_of_isPullback {G : Type v} [Group G] [Finite G]
@@ -199,7 +199,7 @@ theorem isIso_galoisCoverComparison_iff_isIso_pullback_map {G : Type v} [Group G
         Hbig.flip.isoPullback_hom_snd, galoisCoverComparison_fst_comp]
   have hc : Stacks.Descent.galoisCoverComparison h b = α.hom ≫ M ≫ β.inv := by
     rw [← Category.assoc, key, Category.assoc, Iso.hom_inv_id, Category.comp_id]
-  show _ ↔ IsIso M
+  change _ ↔ IsIso M
   rw [hc, isIso_comp_left_iff, isIso_comp_right_iff]
 
 /-- An equivariant cartesian square of finite étale covers yields an equivariant isomorphism
@@ -222,7 +222,7 @@ theorem exists_equivariant_iso_of_isPullback {S T : Scheme.{u}} (q : T ⟶ S)
     finiteEtaleBaseChange_map_left_fst q (α g)
   have hM₂ : M ≫ pullback.snd A.hom q = pullback.snd A.hom q :=
     MorphismProperty.Over.w ((finiteEtaleBaseChange q).map (α g))
-  show M ≫ i.hom = i.hom ≫ (β g).left
+  change M ≫ i.hom = i.hom ≫ (β g).left
   apply hn.hom_ext
   · rw [Category.assoc, hi₁, hM₁, Category.assoc, hact, ← Category.assoc, hi₁]
   · rw [Category.assoc, hi₂, hM₂, Category.assoc, MorphismProperty.Over.w (β g), hi₂]
@@ -252,7 +252,7 @@ theorem exists_equivariant_isPullback_of_iso {S T : Scheme.{u}} (q : T ⟶ S)
   have hM₁ : M ≫ pullback.fst A.hom q = pullback.fst A.hom q ≫ (α g).left :=
     finiteEtaleBaseChange_map_left_fst q (α g)
   have hl : φ ≫ M = (β g).left ≫ φ := congrArg (fun m ↦ m.left) he'
-  show (β g).left ≫ φ ≫ pullback.fst A.hom q = (φ ≫ pullback.fst A.hom q) ≫ (α g).left
+  change (β g).left ≫ φ ≫ pullback.fst A.hom q = (φ ≫ pullback.fst A.hom q) ≫ (α g).left
   rw [← Category.assoc, ← hl, Category.assoc, hM₁, Category.assoc]
 
 end GaloisCoverLimits

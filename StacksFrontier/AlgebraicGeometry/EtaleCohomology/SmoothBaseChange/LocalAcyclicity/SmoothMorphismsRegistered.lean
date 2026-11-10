@@ -1,7 +1,7 @@
 module
 
 public import
-    StacksFrontier.AlgebraicGeometry.EtaleCohomology.SmoothBaseChange.LocalAcyclicity.SmoothMorphisms
+  StacksFrontier.AlgebraicGeometry.EtaleCohomology.SmoothBaseChange.LocalAcyclicity.SmoothMorphisms
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.SmoothBaseChange.Unconditional
 import StacksCore.Tactic.EgaSgaAttribute
 
@@ -39,7 +39,7 @@ theorem isUniversallyLocallyAcyclic_of_smooth_unconditional {X S : Scheme.{u}} (
     [Smooth f] : IsUniversallyLocallyAcyclic f :=
   isUniversallyLocallyAcyclic_of_smooth flatReducedFibresBaseChange etaleLocalHigherBaseChange
     higherBaseChangePaste firstFailureNormalization affineCurveCohomologyVanishing
-    curveCohomologyAlgClosedInvariance AlgebraicGeometry.purityAtRegularLocalRings
+    curveCohomologyAlgClosedInvariance
     (fun D hD => Stacks.FundamentalGroup.pulledBackCover_isTamelyRamifiedInCodimensionOne D hD) f
 
 end Stacks.EtaleCohomology.SmoothBaseChange

@@ -64,6 +64,8 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 attribute [local instance] pointTopology
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks in the presheaf category over the big fppf site times out
+-- at the default limit
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_FlatDimensionPurityContainment :
@@ -153,7 +155,7 @@ theorem exists_specializes_of_isPureAbove (hf : IsFinitePresentation B S hS D.f.
       t' := (pointsEquivScheme B S hS T.left).symm t
       t := (pointsEquivScheme B S hS T.left).symm v
       specializes := by
-        show (pointsEquivScheme B S hS T.left) ((pointsEquivScheme B S hS T.left).symm t) ⤳
+        change (pointsEquivScheme B S hS T.left) ((pointsEquivScheme B S hS T.left).symm t) ⤳
           (pointsEquivScheme B S hS T.left) ((pointsEquivScheme B S hS T.left).symm v)
         simpa only [Equiv.apply_symm_apply] using htv
       mapsToChosenPoint := rfl
@@ -167,7 +169,7 @@ theorem exists_specializes_of_isPureAbove (hf : IsFinitePresentation B S hS D.f.
       exact hinvfst
     have hcompX : φ ≫ baseChangeProjection D.f T = P.baseChangeToSource Dg.T Dg.g := by
       apply ObjectProperty.hom_ext
-      show e.inv ≫ (baseChangeProjection D.f T).hom = pullback.snd T.hom.hom D.f.hom
+      change e.inv ≫ (baseChangeProjection D.f T).hom = pullback.snd T.hom.hom D.f.hom
       rw [Iso.inv_comp_eq, D.baseChangeIsoImpurity_hom_snd T]
     have hmod : (modulePullback B S hS φ).obj (D.toFlatnessSituation.baseChangeModule T) ≅
         P.baseChangeModule Dg.T Dg.g :=
@@ -175,7 +177,7 @@ theorem exists_specializes_of_isPureAbove (hf : IsFinitePresentation B S hS D.f.
     have h1 := (isRelativeWeaklyAssociatedPoint_modulePullback_iff B S hS φ
       (isEtale_of_presheaf_etale B S hS (presheaf_etale_of_iso B S hS e.symm))
       (baseChangeInclusion D.f T) (D.toFlatnessSituation.baseChangeModule T) Dg.xi).2 (by
-        show IsRelativeWeaklyAssociatedPoint B S hS _ _
+        change IsRelativeWeaklyAssociatedPoint B S hS _ _
           (pointsMap B S hS _ e.inv (pointsMap B S hS _ e.hom ξ))
         rwa [hinv])
     rw [hcomp] at h1
@@ -191,7 +193,7 @@ theorem exists_specializes_of_isPureAbove (hf : IsFinitePresentation B S hS D.f.
       rw [← hinvfst]
       exact (congrFun (pointsMap_comp B S hS _ e.inv _) θ').symm
     refine (congrArg (pointsToScheme B S hS T.left) h2).trans ?_
-    show pointsToScheme B S hS T.left (pointsMap B S hS Dg.baseChange Dg.toT θ') = v
+    change pointsToScheme B S hS T.left (pointsMap B S hS Dg.baseChange Dg.toT θ') = v
     rw [hθ']
     exact (pointsEquivScheme B S hS T.left).apply_symm_apply v
 

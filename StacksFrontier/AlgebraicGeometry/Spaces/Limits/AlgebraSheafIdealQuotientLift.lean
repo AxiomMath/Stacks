@@ -143,7 +143,7 @@ theorem toIdealQuotient_apply_eq_zero (A : AlgebraSheaf.{u, u} B S hS F hF) (I :
     ((A.toIdealQuotient I).right.hom.app U).hom a = 0 := by
   have h0 : ((Stacks.Sites.toQuotientPresheaf.{u, u + 1, u} I).app U).hom a = 0 :=
     Ideal.Quotient.eq_zero_iff_mem.2 ha
-  show ((toSheafify (SmallEtale.topology B S hS F)
+  change ((toSheafify (SmallEtale.topology B S hS F)
       (Stacks.Sites.quotientPresheaf.{u, u + 1, u} I)).app U).hom
       (((Stacks.Sites.toQuotientPresheaf.{u, u + 1, u} I).app U).hom a) = 0
   rw [h0, map_zero]

@@ -198,7 +198,7 @@ theorem isStrict_relBase_of_imageSieve_mem
     (hloc : ∀ (V : X'.Cᵒᵖ) (x : X'.O.obj.obj V), i.fSharp.hom.app V x = 0 →
       relBaseImageSieve hi ht comm V x ∈ X'.J V.unop) :
     RelBaseIsStrict hi ht comm := by
-  show Epi (relBaseMorphism hi ht comm).idealMap
+  change Epi (relBaseMorphism hi ht comm).idealMap
   refine Stacks.SheafOfModules.EpiMono.epi_of_isLocallySurjective _ ⟨fun {U} x => ?_⟩
   refine X'.J.superset_covering ?_ (hloc (Opposite.op U)
     ((relBaseMorphism hi ht comm).idealI.incl.val.app (Opposite.op U) x)
@@ -261,8 +261,10 @@ theorem fSharpInverseImage_chartPullbackInverseImageSection (W : SmallEtale B S 
   exact directImageChartProjection_structureSharpSet_chartDiagram B S hS f ⟨W, U, p, hp⟩ b
 
 set_option backward.isDefEq.respectTransparency false in
-set_option maxHeartbeats 800000 in
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance synthesis for `pullbackRingSheaf` on the small étale sites is heavy
+set_option maxHeartbeats 800000 in
+-- elaborating the composite through `pullbackRingSheaf` on the small étale sites is heavy
 /-- **The ring map `R(V) ⟶ (f⁻¹R)(W)` attached to an étale chart `W` of `X` above
 `X ×_Y V`**, for an arbitrary sheaf of rings `R` on the small étale site of `Y`: the unit of
 `f⁻¹ ⊣ f_*` followed by the chart projection.

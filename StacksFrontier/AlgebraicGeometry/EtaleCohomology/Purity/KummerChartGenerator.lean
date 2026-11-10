@@ -100,7 +100,7 @@ theorem isIsoStalksOver_torsionSectionSheafHom_of_isPullback_affineLine {V V₀ 
   have : IsIso (rootsOfUnityInverseImageComparison.{u, 0} φ₀ N) :=
     isIso_rootsOfUnityInverseImageComparison φ₀ N hNT
   have : IsIso (kummerSequencePullbackMap φ₀ N).τ₁ := by
-    show IsIso (((smallEtalePullbackAbIsoEtaleAbelianInverseImage φ₀).hom.app _) ≫
+    change IsIso (((smallEtalePullbackAbIsoEtaleAbelianInverseImage φ₀).hom.app _) ≫
       rootsOfUnityInverseImageComparison.{u, 0} φ₀ N)
     infer_instance
   have : IsIso (kummerBaseChangeMap φ (punctured k).ι j φ₀ sq.w N) := by

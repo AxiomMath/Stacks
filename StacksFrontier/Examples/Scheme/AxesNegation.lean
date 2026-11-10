@@ -241,7 +241,7 @@ sign of the `i`-th coordinate, which does not change whether that coordinate van
 theorem axesReflection_preimage_axisOpen (k : Type u) [CommRing k] (i : ℕ) :
     axesReflection k i ⁻¹ᵁ axisOpen k i = axisOpen k i := by
   ext p
-  show axisNeg k i (axisQuotientMap k (MvPolynomial.X i)) ∉ p.asIdeal ↔
+  change axisNeg k i (axisQuotientMap k (MvPolynomial.X i)) ∉ p.asIdeal ↔
     axisQuotientMap k (MvPolynomial.X i) ∉ p.asIdeal
   rw [axisNeg_apply_X_self]
   simp
@@ -299,7 +299,7 @@ theorem isEmpty_of_eq_comp_axesReflection (k : Type u) [Field k] [NeZero (2 : k)
     exact iff_true_intro (f x).property
   have htop : T.basicOpen (g.appTop r) = ⊤ := by
     rw [← Scheme.preimage_basicOpen_top]
-    show g ⁻¹ᵁ (axesScheme k).basicOpen
+    change g ⁻¹ᵁ (axesScheme k).basicOpen
       (e.inv (axisQuotientMap k (MvPolynomial.X i))) = ⊤
     rw [basicOpen_eq_of_affine]
     exact hpre
@@ -321,7 +321,7 @@ theorem axesOriginPoint_closedPoint (k : Type u) [Field k] :
     axesOriginPoint k (IsLocalRing.closedPoint k) = axisOrigin k := by
   refine PrimeSpectrum.ext ?_
   ext a
-  show axisAugmentation k a ∈ IsLocalRing.maximalIdeal k ↔ axisAugmentation k a = 0
+  change axisAugmentation k a ∈ IsLocalRing.maximalIdeal k ↔ axisAugmentation k a = 0
   simp [IsLocalRing.maximalIdeal_eq_bot]
 
 /-- The reflection of any axis fixes the origin `k`-point. -/

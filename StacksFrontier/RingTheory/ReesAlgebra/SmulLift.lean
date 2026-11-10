@@ -186,14 +186,14 @@ public theorem exists_linearMap_of_kills_relations (f : A →+* R) (K : Ideal A)
   have hc : α' (Finsupp.single (⟨⟨g, hg⟩, x⟩ : ↥K × M) 1) =
       (⟨f g • x, hmem⟩ : ↥S) := by
     refine Subtype.ext ?_
-    show α (Finsupp.single (⟨⟨g, hg⟩, x⟩ : ↥K × M) 1) = f g • x
+    change α (Finsupp.single (⟨⟨g, hg⟩, x⟩ : ↥K × M) 1) = f g • x
     rw [hα, Finsupp.linearCombination_single, one_smul]
   have hmk : e (Submodule.Quotient.mk (Finsupp.single (⟨⟨g, hg⟩, x⟩ : ↥K × M) 1)) =
       α' (Finsupp.single (⟨⟨g, hg⟩, x⟩ : ↥K × M) 1) := rfl
   have he : e.symm (⟨f g • x, hmem⟩ : ↥S) =
       Submodule.Quotient.mk (Finsupp.single (⟨⟨g, hg⟩, x⟩ : ↥K × M) 1) := by
     rw [← hc, ← hmk, e.symm_apply_apply]
-  show Submodule.liftQ (LinearMap.ker α') β hker'
+  change Submodule.liftQ (LinearMap.ker α') β hker'
     (e.symm (⟨f g • x, hmem⟩ : ↥S)) = _
   rw [he, Submodule.liftQ_apply, hβ, Finsupp.linearCombination_single, one_smul]
 

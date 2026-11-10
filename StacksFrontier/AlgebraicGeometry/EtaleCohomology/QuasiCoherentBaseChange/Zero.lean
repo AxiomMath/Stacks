@@ -111,12 +111,11 @@ theorem mem_closure_pullbackSections {S S' X T' : Scheme.{u}} [IsAffine S] [IsAf
       v = smulHom _ (k.appTop b) (pullbackSectionsHom p M ⊤ ⊤ (le_preimage_top p ⊤) a)} := by
   obtain ⟨e, he⟩ := exists_linearEquiv_sections_baseChange H M
   obtain ⟨t, rfl⟩ := e.surjective w
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero]; exact zero_mem _
+  induction t using TensorProduct.inductionOn with
   | tmul b a =>
     refine AddSubgroup.subset_closure ⟨b, a, ?_⟩
     rw [he]
-    show (k.appLE ⊤ ⊤ (le_preimage_top k ⊤)).hom b •
+    change (k.appLE ⊤ ⊤ (le_preimage_top k ⊤)).hom b •
       (pullbackSectionsHom p M ⊤ ⊤ (le_preimage_top p ⊤) a :
         Γ((Scheme.Modules.pullback p).obj M, ⊤)) = _
     rw [appLE_top_top_eq_appTop]
@@ -206,11 +205,11 @@ theorem finalSectionsMap_surjective (F : X.Modules) [F.IsQuasicoherent] :
   refine ⟨(finalIso₁ F).inv.app ⊤ ((finalIso₂ F).hom.app ⊤ t.down), ?_⟩
   rw [finalSectionsMap_apply]
   refine ULift.ext ?_
-  show ((finalIso₁ F).inv.app ⊤ ≫ (finalIso₁ F).hom.app ⊤ ≫ (finalIso₂ F).inv.app ⊤)
+  change ((finalIso₁ F).inv.app ⊤ ≫ (finalIso₁ F).hom.app ⊤ ≫ (finalIso₂ F).inv.app ⊤)
     ((finalIso₂ F).hom.app ⊤ t.down) = t.down
   rw [← Category.assoc, ← Scheme.Modules.Hom.comp_app, (finalIso₁ F).inv_hom_id,
     Scheme.Modules.Hom.id_app, Category.id_comp]
-  show ((finalIso₂ F).hom.app ⊤ ≫ (finalIso₂ F).inv.app ⊤) t.down = t.down
+  change ((finalIso₂ F).hom.app ⊤ ≫ (finalIso₂ F).inv.app ⊤) t.down = t.down
   rw [← Scheme.Modules.Hom.comp_app, (finalIso₂ F).hom_inv_id]
   rfl
 
@@ -277,11 +276,11 @@ theorem equiv₀_restriction (F : X.Modules) [F.IsQuasicoherent]
       (((etaleAbelianInverseImageConstantIso.{u, u + 1} g).app
           (AddCommGrpCat.of (ULift ℤ))).inv ≫
         (etaleAbelianInverseImage.{u, u + 1} g).map φ ≫ comparison g F) := by
-    show ((Ext.mk₀ _).comp ((Ext.mk₀ φ).mapExactFunctor _) (zero_add 0)).comp _ (add_zero 0) = _
+    change ((Ext.mk₀ _).comp ((Ext.mk₀ φ).mapExactFunctor _) (zero_add 0)).comp _ (add_zero 0) = _
     rw [Ext.mapExactFunctor_mk₀, Ext.mk₀_comp_mk₀, Ext.mk₀_comp_mk₀, Category.assoc]
     rfl
   rw [h1]
-  show AddCommGrpCat.uliftZMultiplesAddEquiv _
+  change AddCommGrpCat.uliftZMultiplesAddEquiv _
       ((constantSheafAdj Y.smallEtaleTopology AddCommGrpCat.{u + 1}
         (baseChangeFinalIsTerminal g)).homEquiv _ _ (Ext.addEquiv₀ (Ext.addEquiv₀.symm _))) =
     (unit g F).hom.app (op (finalObj X)) (AddCommGrpCat.uliftZMultiplesAddEquiv _

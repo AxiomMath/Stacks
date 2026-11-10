@@ -121,7 +121,7 @@ theorem isIso_rightDerivedFunctorPlusUnit_absoluteCechComplexPlus (f : X ⟶ S)
   rw [← Functor.rightDerived_fac_app (Scheme.Modules.pushforward f).rightDerivedFunctorPlus
     (Scheme.Modules.pushforward f).rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso X.Modules)] at h
-  haveI := hd
+  have := hd
   rwa [isIso_comp_right_iff] at h
 
 /-- The isomorphism of [Stacks, Tag 015E] at the absolute Čech resolution, as an isomorphism of

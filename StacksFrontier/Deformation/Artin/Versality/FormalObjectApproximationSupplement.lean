@@ -204,7 +204,7 @@ private theorem exists_finiteType_versal_approximation_aux_univ
     rw [hbasePoint]
     exact heq_of_eq hiΛ
   have huclosed : IsClosed ({u₀} : Set U.left) := by
-    show IsClosed ({⟨mA, hmA.isPrime⟩} : Set (PrimeSpectrum A))
+    change IsClosed ({⟨mA, hmA.isPrime⟩} : Set (PrimeSpectrum A))
     exact (PrimeSpectrum.isClosed_singleton_iff_isMaximal _).2 hmA
   have hu₀ : AlgebraicGeometry.IsFiniteTypePoint u₀ :=
     finiteTypePoint_of_isClosed u₀ huclosed
@@ -216,7 +216,7 @@ private theorem exists_finiteType_versal_approximation_aux_univ
   let L := U.left.presheaf.stalk u₀
   let C := AlgebraicGeometry.Scheme.completedLocalRing U.left u₀
   let : Algebra A L := by
-    show Algebra A ((Spec (.of A)).presheaf.stalk u₀)
+    change Algebra A ((Spec (.of A)).presheaf.stalk u₀)
     exact StructureSheaf.stalkAlgebra A u₀
   have : IsLocalization.AtPrime L mA :=
     StructureSheaf.IsLocalization.to_stalk (CommRingCat.of A)
@@ -281,7 +281,7 @@ private theorem exists_finiteType_versal_approximation_aux_univ
   have hiCA : iCN ≫ iC = eCQ.hom ≫ iA := by
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    show AlgebraicGeometry.adicThickeningι C (maximalIdeal C) 1 ≫ g =
+    change AlgebraicGeometry.adicThickeningι C (maximalIdeal C) 1 ≫ g =
       Spec.map (CommRingCat.ofHom eAC.symm.toRingHom) ≫ iA.left.hom
     rw [show iA.left.hom = Spec.map (CommRingCat.ofHom
       (Ideal.Quotient.mk (mA ^ 2))) from hiA]
@@ -309,7 +309,7 @@ private theorem exists_finiteType_versal_approximation_aux_univ
   have hxA : (𝒳.val.p ⋙ Over.post B.inclusion).obj xA.1 = U :=
     congrArg ((Over.post B.inclusion).obj) xA.2
   have heqMap : (eqToHom xA.2).left.hom = eqToHom (congrArg Over.left hxA) := by
-    show (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (eqToHom xA.2) = _
+    change (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (eqToHom xA.2) = _
     simp
   have hrbase : ((eqToHom (Deformation.Artin.chosenBase_eq B S hS 𝒳.val.p xCR.obj).symm ≫
       𝒳.val.p.map rC).left.hom ≫ eqToHom (congrArg Over.left hxA)) =
@@ -394,14 +394,14 @@ private theorem exists_finiteType_versal_approximation_aux_univ
   let γ₁ : Yp.base.truncation 1 ⟶ Cbase.truncation 1 :=
     Spec.map (CommRingCat.ofHom (quotientPowRingEquivOfRingEquiv eCY 2).toRingHom)
   have : IsIso γ₁ := by
-    show IsIso (Spec.map (quotientPowRingEquivOfRingEquiv eCY 2).toCommRingCatIso.hom)
+    change IsIso (Spec.map (quotientPowRingEquivOfRingEquiv eCY 2).toCommRingCatIso.hom)
     infer_instance
   have hι₁ : γ₁ ≫ AlgebraicGeometry.adicThickeningι Cbase.R (maximalIdeal Cbase.R) 1 =
       AlgebraicGeometry.adicThickeningι Yp.base.R (maximalIdeal Yp.base.R) 1 ≫
         Spec.map (CommRingCat.ofHom eCY.toRingHom) :=
     (adicThickeningι_comp_specMap eCY 1).symm
   have hcomm₁ : γ₁ ≫ Cbase.truncationToS 1 = Yp.base.truncationToS 1 := by
-    show γ₁ ≫ AlgebraicGeometry.adicThickeningι Cbase.R (maximalIdeal Cbase.R) 1 ≫ Cbase.toS =
+    change γ₁ ≫ AlgebraicGeometry.adicThickeningι Cbase.R (maximalIdeal Cbase.R) 1 ≫ Cbase.toS =
       AlgebraicGeometry.adicThickeningι Yp.base.R (maximalIdeal Yp.base.R) 1 ≫ Yp.base.toS
     rw [← Category.assoc, hι₁, Category.assoc, hYpToS]
   let g₁ : Deformation.Artin.truncationOver B S hS Yp.base Yp.contains 1 ≅
@@ -412,7 +412,7 @@ private theorem exists_finiteType_versal_approximation_aux_univ
   have hg₁ : iY1 = g₁.hom ≫ iCN := by
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    show (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map iY1 =
+    change (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map iY1 =
       (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (g₁.hom ≫ iCN)
     rw [hiY1hom, Functor.map_comp]
     exact hι₁.symm
@@ -621,9 +621,9 @@ private theorem exists_finiteType_versal_approximation_aux_univ
       𝒳.property).obj xCR := hξYp.some
   refine ⟨U, u₀, V, rfl, xA, hxA, hfiniteA, hquasiA, hu₀, ?_, hversalAt,
     ⟨xCR, hformalIso, rC, er, hcartC, hrbase⟩⟩
-  · show Nonempty (U.left.residueField u₀ ≃+* ResidueField ξ.base.R)
+  · change Nonempty (U.left.residueField u₀ ≃+* ResidueField ξ.base.R)
     have eU : U.left.residueField u₀ ≃+* mA.ResidueField := by
-      show (Spec (.of A)).residueField u₀ ≃+* mA.ResidueField
+      change (Spec (.of A)).residueField u₀ ≃+* mA.ResidueField
       simpa [u₀] using
         (Scheme.Spec.residueFieldIso (CommRingCat.of A) u₀).commRingCatIsoToRingEquiv
     let eAquot : A ⧸ mA ≃+* mA.ResidueField :=

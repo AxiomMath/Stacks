@@ -313,12 +313,12 @@ theorem app_comp_siteComb_average_eq (ha : yoneda.relativelyRepresentable a)
   have : IsLocalHom (CommRingCat.ofHom (ρ σ : R →+* R)).hom :=
     inferInstanceAs (IsLocalHom (ρ σ : R →+* R))
   have hρc : ∑ τ, (CommRingCat.ofHom (ρ σ : R →+* R)) (ρ τ c) = 1 := by
-    show ∑ τ, ρ σ (ρ τ c) = 1
+    change ∑ τ, ρ σ (ρ τ c) = 1
     rw [← map_sum, hc, map_one]
   have hzσ : ∀ τ, (e'.inv ≫ (BigFppfOver.toScheme B S hS).map (s σ ≫ Ψ τ)) (closedPoint R) =
       z := fun τ => by
     rw [inv_comp_map_comp_of_map_eq e' _ _ (hs σ)]
-    show (e'.inv ≫ (BigFppfOver.toScheme B S hS).map (Ψ τ))
+    change (e'.inv ≫ (BigFppfOver.toScheme B S hS).map (Ψ τ))
       ((Spec.map (CommRingCat.ofHom (ρ σ : R →+* R))) (closedPoint R)) = _
     rw [Spec_closedPoint]
     exact hz τ

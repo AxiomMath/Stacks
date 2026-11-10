@@ -138,13 +138,13 @@ public theorem isIso_mateEquiv_symm_unboundedBaseChangeMate_univ
     (adjUg : LUg ⊣ unboundedPushforward B (Type (max (u + 1) v)) g)
     (adjUg' : LUg' ⊣ unboundedPushforward B (Type (max (u + 1) v)) g') :
     IsIso ((mateEquiv adjUg' adjUg).symm
-      (unboundedBaseChangeMate B (Type (max (u + 1) v)) f g g' f' P hP₁ hP₂)).natTrans := by
+      (unboundedBaseChangeMate B (Type (max (u + 1) v)) f g g' f' P hP₁ hP₂)) := by
   have hEq : ((toEtaleSite B Y'.obj Y'.property).sheafPushforwardContinuous (Type (max (u + 1) v))
       (topology B Y'.obj Y'.property) Y'.obj.smallEtaleTopology).IsEquivalence :=
     (sheafEquiv B Y'.obj Y'.property (Type (max (u + 1) v))).isEquivalence_inverse
   have hb : IsIso ((mateEquiv (B.smallPullbackAdjunction g' (Type (max (u + 1) v)))
         (B.smallPullbackAdjunction g (Type (max (u + 1) v)))).symm
-      (boundedBaseChangeMate B (Type (max (u + 1) v)) f g g' f' P hP₁ hP₂)).natTrans := by
+      (boundedBaseChangeMate B (Type (max (u + 1) v)) f g g' f' P hP₁ hP₂)) := by
     have hall : ∀ F, IsIso ((smallEtaleBaseChangeNatTransUniv.{u, v} B g' f' f g h).app F) :=
       fun F => isIso_smallEtaleBaseChangeNatTrans_univ.{u, v} B g' f' f g sq h F
     have hiso : IsIso (smallEtaleBaseChangeNatTransUniv.{u, v} B g' f' f g h) :=

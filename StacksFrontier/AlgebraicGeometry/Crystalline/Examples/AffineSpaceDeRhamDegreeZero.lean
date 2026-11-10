@@ -145,7 +145,7 @@ public theorem monomialCoeff_sub_mem (m : Fin T.r →₀ ℕ) (a : T.D) (n : ℕ
     T.monomialCoeff m a - x.coeff m ∈
       T.baseIdeal ^ n • (⊤ : Submodule T.A T.A) := by
   have hof : AdicCompletion.of T.baseIdeal T.A (T.monomialCoeff m a) = T.monomialCoeffHom m a := by
-    show AdicCompletion.of T.baseIdeal T.A ((AdicCompletion.ofLinearEquiv T.baseIdeal T.A).symm
+    change AdicCompletion.of T.baseIdeal T.A ((AdicCompletion.ofLinearEquiv T.baseIdeal T.A).symm
       (T.monomialCoeffHom m a)) = _
     rw [AdicCompletion.of_ofLinearEquiv_symm]
   have hval : (AdicCompletion.of T.baseIdeal T.A (T.monomialCoeff m a)).val n =
@@ -153,7 +153,7 @@ public theorem monomialCoeff_sub_mem (m : Fin T.r →₀ ℕ) (a : T.D) (n : ℕ
   rw [AdicCompletion.of_apply] at hval
   have hright : (T.monomialCoeffHom m a).val n =
       (T.baseIdeal ^ n • (⊤ : Submodule T.A T.A)).mkQ (x.coeff m) := by
-    show T.monomialCoeffLevel m n (a.val n) = _
+    change T.monomialCoeffLevel m n (a.val n) = _
     rw [← hx, T.monomialCoeffLevel_mkQ]
   rw [hright] at hval
   rw [← Submodule.Quotient.eq]
@@ -182,7 +182,7 @@ public theorem eq_zero_of_monomialCoeff_eq_zero {a : T.D} (h : ∀ m, T.monomial
     rw [h m, zero_sub] at hmem
     exact (Submodule.neg_mem_iff _).mp hmem
   rw [← hx]
-  show (T.levelFiltration n).mkQ x = 0
+  change (T.levelFiltration n).mkQ x = 0
   rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
   exact T.mem_levelFiltration_of_forall_coeff n hcoeff
 
@@ -224,8 +224,8 @@ public theorem eq_algebraMap_of_pderiv_eq_zero {a : T.D} (h : ∀ k, T.pderiv k 
     intro m
     rw [T.algebraMap_eq_algebraMap_C, T.monomialCoeff_algebraMap, MvPolynomial.coeff_C]
     by_cases hm : m = 0
-    · rw [if_pos hm, if_pos (by rw [hm])]
-    · rw [if_neg hm, if_neg (by simpa [eq_comm] using hm)]
+    · rw [ite_eq_left hm, ite_eq_left (by rw [hm])]
+    · rw [ite_eq_right hm, ite_eq_right (by simpa [eq_comm] using hm)]
   have hvanish : ∀ m : Fin T.r →₀ ℕ, m ≠ 0 → T.monomialCoeff m a = 0 := by
     intro m hm
     obtain ⟨k, hk⟩ : ∃ k, m k ≠ 0 := by
@@ -250,8 +250,8 @@ public theorem eq_algebraMap_of_pderiv_eq_zero {a : T.D} (h : ∀ k, T.pderiv k 
   refine T.eq_zero_of_monomialCoeff_eq_zero fun m ↦ ?_
   rw [map_sub, hconst m]
   by_cases hm : m = 0
-  · rw [if_pos hm, hm, sub_self]
-  · rw [if_neg hm, hvanish m hm, sub_zero]
+  · rw [ite_eq_left hm, hm, sub_self]
+  · rw [ite_eq_right hm, hvanish m hm, sub_zero]
 
 /-! ### Conclusion (2) of [Stacks, Tag 07LK] for the displayed complex -/
 
@@ -288,7 +288,7 @@ by `d` exactly when all its formal partial derivatives vanish, which for an elem
 `p`-adic completion of a polynomial ring means that it is a constant. -/
 public def kerCompletedDifferentialZeroEquiv :
     LinearMap.ker (T.completedDifferential 0) ≃ₗ[T.A] T.A := by
-  refine LinearEquiv.ofLinear
+  refine LinearEquiv.ofLinearMap
     ((T.monomialCoeff 0).comp (T.completedFormsZeroEquiv.toLinearMap.comp
       (LinearMap.ker (T.completedDifferential 0)).subtype))
     (LinearMap.codRestrict _

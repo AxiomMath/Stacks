@@ -93,7 +93,7 @@ private lemma triangle_homotopy (ea : F ⋙ P₁ ≅ P) (eb : G ⋙ H ≅ P₁) 
       (mapHomotopyCategoryPlusCompIso ea).inv.app K ≫
         (mapHomotopyCategoryPlusCompIso eb).inv.app (F.mapHomotopyCategoryPlus.obj K) := by
   ext
-  show (HomotopyCategory.quotient C (ComplexShape.up ℤ)).map
+  change (HomotopyCategory.quotient C (ComplexShape.up ℤ)).map
         ((mapHomologicalComplexCompIso eb' (ComplexShape.up ℤ)).inv.app K.obj.as) ≫
       (HomotopyCategory.quotient C (ComplexShape.up ℤ)).map
         ((H.mapHomologicalComplex (ComplexShape.up ℤ)).map

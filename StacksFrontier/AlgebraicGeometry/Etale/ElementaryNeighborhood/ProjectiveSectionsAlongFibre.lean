@@ -200,7 +200,7 @@ lemma componentSectionIso_smul {ι : Type u} (Y : ι → Scheme.{u})
   let j : Y i ⟶ ∐ Y := Sigma.ι Y i
   let M := (Scheme.Modules.pullback (Sigma.desc g₀)).obj F
   let e := componentModuleIso Y g₀ F i
-  show (e.hom.app ⊤) ((M.restrictAppIso j ⊤).inv (r • x)) =
+  change (e.hom.app ⊤) ((M.restrictAppIso j ⊤).inv (r • x)) =
     (j.appIso ⊤).hom r • (e.hom.app ⊤) ((M.restrictAppIso j ⊤).inv x)
   rw [Scheme.Modules.smul_restrictAppIso_inv_apply, Scheme.Modules.Hom.app_smul]
 
@@ -226,7 +226,7 @@ lemma componentSectionMap_smul {ι : Type u} (Y : ι → Scheme.{u})
   let res : Γ(M, ⊤) ⟶ Γ(M, O) := M.presheaf.map (homOfLE (le_top : O ≤ ⊤)).op
   let resR : Γ(∐ Y, ⊤) ⟶ Γ(∐ Y, O) := (∐ Y).presheaf.map (homOfLE (le_top : O ≤ ⊤)).op
   let e := componentSectionIso Y g₀ F i
-  show e.hom (res (h.appTop.hom r • x)) =
+  change e.hom (res (h.appTop.hom r • x)) =
     k.appTop.hom (b.appTop.hom r) • e.hom (res x)
   have hring : (j.appIso ⊤).hom (resR (h.appTop.hom r)) =
       k.appTop.hom (b.appTop.hom r) := by
@@ -296,7 +296,7 @@ private theorem projective_sections_sigma
     funext i
     have hi := componentSectionMap_smul Y g₀ F h (h₀ i) (𝟙 T)
       (by simp [h]) r x
-    show (componentSectionIso Y g₀ F i).hom
+    change (componentSectionIso Y g₀ F i).hom
       (M.presheaf.map (homOfLE (le_top : Sigma.ι Y i ''ᵁ ⊤ ≤ ⊤)).op
         (h.appTop.hom r • x)) =
       (h₀ i).appTop.hom r •
@@ -353,7 +353,7 @@ private theorem projective_sections_affineBaseChange
     refine (isLocallyProjective_iff_exists_affineOpen_cover pushM).2
       ⟨PUnit, fun _ => ⊤, TopologicalSpace.IsOpenCover.mk (by simp),
         fun _ => isAffineOpen_top _, fun _ => ?_⟩
-    show Module.Projective Γ(B, ⊤) Γ(M, ⊤)
+    change Module.Projective Γ(B, ⊤) Γ(M, ⊤)
     exact hproj
   exact Scheme.Modules.isLocallyProjective_of_iso
     (Stacks.AlgebraicGeometry.AffineBaseChangeLocality.baseChangeIso
@@ -413,7 +413,7 @@ private theorem elementaryNeighborhood_finiteCommonAffineRefinement
       map_point := V.obj.map_point }
   have hAelementary : A.IsElementary := by
     rw [A.isElementary_iff]
-    show IsIso ((O.ι ≫ V.obj.toBase).residueFieldMap A.point)
+    change IsIso ((O.ι ≫ V.obj.toBase).residueFieldMap A.point)
     rw [Scheme.residueFieldMap_comp]
     exact IsIso.comp_isIso' ((V.obj.isElementary_iff).mp V.property) inferInstance
   refine ⟨A, hAelementary, hA, fun i hi => ?_⟩
@@ -491,7 +491,7 @@ private theorem finite_pointed_projective_charts
       (f.fiberι s).continuous
   have hmem (x : f.fiber s) : x ∈ W x := by
     refine ⟨(U₀ x).point, ?_, (U₀ x).map_point⟩
-    show p₀ x (U₀ x).point ∈ O x
+    change p₀ x (U₀ x).point ∈ O x
     rw [(h₀ x).2.2.2.1]
     exact hOmem x
   obtain ⟨t, ht⟩ := finite_fibre_subcover f s W hopen hmem
@@ -599,11 +599,11 @@ theorem exists_elementary_pointed_projective_cover
   obtain ⟨w, hwz, hwA⟩ := Scheme.Pullback.exists_preimage_pullback
     z A.point (hpz.trans (hpa i).symm)
   refine ⟨Sigma.ι Y₁ i w, ?_, ?_⟩
-  · show (Sigma.ι Y₁ i ≫ g) w = f.fiberι s x
-    rw [Sigma.ι_desc]
+  · change (Sigma.ι Y₁ i ≫ g) w = f.fiberι s x
+    rw [Sigma.ι_comp_desc]
     exact (congrArg (g₀ i) hwz).trans hgz
-  · show (Sigma.ι Y₁ i ≫ h) w = A.point
-    rw [Sigma.ι_desc]
+  · change (Sigma.ι Y₁ i ≫ h) w = A.point
+    rw [Sigma.ι_comp_desc]
     exact hwA
 
 /-- **Stacks Project, Tag 05KW.** Let `f : X ⟶ S` be of finite presentation, let `F` be a

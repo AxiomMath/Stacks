@@ -190,7 +190,7 @@ theorem isFlatAt_of_nontrivial_fibre_of_isFlatOverAtGeometricPoint
       rw [htop]; exact Submodule.mem_top
     refine Submodule.smul_induction_on hn (fun a ha p _ => ?_)
       (fun p q hp hq => Submodule.add_mem _ hp hq)
-    show α a • p ∈ _
+    change α a • p ∈ _
     exact Submodule.smul_mem_smul
       (IsLocalRing.map_maximalIdeal_le α (Ideal.mem_map_of_mem _ ha)) Submodule.mem_top
   have hff : IsFaithfullyFlatOverAtGeometricPoint B S hS f F xbar := by

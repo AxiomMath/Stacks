@@ -112,7 +112,7 @@ theorem ker_app_affineOpenSubschemeι {X : Scheme.{u}} {V : X.Opens} (hV : IsAff
     refine hiso ?_
     rw [map_zero, ← CommRingCat.comp_apply, ← hsplit, affineOpenSubschemeι_appLE,
       CommRingCat.comp_apply]
-    show (Scheme.ΓSpecIso (CommRingCat.of (Γ(X, V) ⧸ J))).inv.hom
+    change (Scheme.ΓSpecIso (CommRingCat.of (Γ(X, V) ⧸ J))).inv.hom
       (Ideal.Quotient.mk J x) = 0
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr hx, map_zero]
 
@@ -140,7 +140,7 @@ theorem Scheme.IdealSheafData.fg_of_iSup_eq_top {X : Scheme.{u}} (K : X.IdealShe
     rw [Ideal.map_map]
     congr 1
     ext y
-    show _ = eq.symm (algebraMap Γ(X, V.1) Γ(X, X.basicOpen (r x)) y)
+    change _ = eq.symm (algebraMap Γ(X, V.1) Γ(X, X.basicOpen (r x)) y)
     rw [AlgEquiv.commutes]
   rw [hmap]
   refine Ideal.FG.map ?_ _
@@ -189,7 +189,7 @@ private theorem app_eq_zero_of_forall_exists_appLE_eq_zero {X Y : Scheme.{u}} (�
   obtain ⟨V', htV', hle, h0⟩ := h t ht
   refine (TopCat.Presheaf.germ_res_apply X.presheaf (homOfLE hle) t htV' (φ.app W x)).symm.trans ?_
   refine Eq.trans ?_ (map_zero _).symm
-  show X.presheaf.germ V' t htV' (φ.appLE W V' hle x) = 0
+  change X.presheaf.germ V' t htV' (φ.appLE W V' hle x) = 0
   rw [h0, map_zero]
 
 include hU hV hC in
@@ -214,7 +214,7 @@ theorem StabilizerChartData.rightStabilisesOn_of_ideal_le_ker_app (D : Stabilize
     (hV' : IsAffineOpen V') (hle : V' ≤ φ.left ⁻¹ᵁ V) : RightStabilisesOn φ U V' f := by
   refine (D.rightStabilisesOn_iff hU hV hC hfib φ hV' hle).mpr fun x hx ↦ ?_
   rw [RingHom.mem_ker]
-  show (φ.left.app V ≫ T.left.presheaf.map (homOfLE hle).op) x = 0
+  change (φ.left.app V ≫ T.left.presheaf.map (homOfLE hle).op) x = 0
   rw [CommRingCat.comp_apply, hker hx, map_zero]
 
 /-- The closed subscheme `V(J)` of the chart `V`, as a scheme over `Spec k`. -/
@@ -385,14 +385,14 @@ theorem iSup_eq_ker_one_of_rightStabilises [GeometricallyIrreducible G.hom] (hU 
       intro f
       obtain ⟨i, hi⟩ := hcov f
       refine (hK i _ incl).mpr ?_ f hi
-      show K i ≤ I.subschemeι.ker
+      change K i ≤ I.subschemeι.ker
       rw [Scheme.IdealSheafData.ker_subschemeι]
       exact le_iSup K i
     have h1 := eq_one_of_forall_rightStabilises incl hU hne hι
     have hker : I = incl.left.ker := (Scheme.IdealSheafData.ker_subschemeι I).symm
-    show _ ≤ I
+    change _ ≤ I
     rw [hker, h1]
-    show _ ≤ ((toUnit _ ≫ η[G]).left).ker
+    change _ ≤ ((toUnit _ ≫ η[G]).left).ker
     rw [Over.comp_left]
     exact Scheme.Hom.le_ker_comp _ _
 

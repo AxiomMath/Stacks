@@ -80,7 +80,7 @@ private lemma irreducibleSpace_tensorMap_iff
       IrreducibleSpace (PrimeSpectrum (B ⊗[k] D)) := by
   let ψ := (Algebra.TensorProduct.map f g).toRingHom
   have hker : RingHom.ker ψ ≤ nilradical (A ⊗[k] C) := by
-    show RingHom.ker (Algebra.TensorProduct.map f g) ≤ _
+    change RingHom.ker (Algebra.TensorProduct.map f g) ≤ _
     rw [Algebra.TensorProduct.map_ker (f := f) (g := g) hf hg]
     apply sup_le
     · calc
@@ -106,7 +106,7 @@ private lemma irreducibleSpace_tensorMap_iff
               (f := (Algebra.TensorProduct.includeRight (R := k) (A := A) (B := C)).toRingHom)
               (I := (⊥ : Ideal C)))
   have hsurj : Function.Surjective ψ := by
-    show Function.Surjective (Algebra.TensorProduct.map f g)
+    change Function.Surjective (Algebra.TensorProduct.map f g)
     exact Algebra.TensorProduct.map_surjective (f := f) (g := g) hf hg
   have hpow : ∀ x : B ⊗[k] D, ∃ n > 0, x ^ n ∈ ψ.range := by
     intro x
@@ -169,7 +169,7 @@ private lemma finrank_eq_one_of_irred_self (k E : Type*) [Field k] [Field E]
   have hsurj : Function.Surjective φ := by
     intro x
     refine ⟨Algebra.TensorProduct.includeLeft (R := k) (S := E) (A := E) (B := E) x, ?_⟩
-    show (AlgHom.id E E x) * (AlgHom.id k E 1) = x
+    change (AlgHom.id E E x) * (AlgHom.id k E 1) = x
     simp
   have hequiv : B ≃ₐ[E] E := AlgEquiv.ofBijective φ ⟨RingHom.injective φ.toRingHom, hsurj⟩
   have hdim : Module.finrank k B = Module.finrank k E :=
@@ -186,7 +186,7 @@ private theorem sepClosure_eq_bot_of_irred_selfProduct
     [Field K] [Algebra k A] [Algebra A K] [Algebra k K] [IsScalarTower k A K]
     [IsFractionRing A K]
     (h : IrreducibleSpace (PrimeSpectrum (A ⊗[k] A))) : separableClosure k K = ⊥ := by
-  rw [eq_bot_iff, SetLike.le_def]
+  rw [eq_bot_iff, IsConcreteLE.le_iff]
   intro α hα
   have hsep : IsSeparable k α := mem_separableClosure_iff.mp hα
   let E := IntermediateField.adjoin k ({α} : Set K)
@@ -212,7 +212,7 @@ private theorem sepClosure_eq_bot_of_irred_selfProduct
   have hcross : (algebraMap A K) a = α * algebraMap A K b := by
     simpa [b, mul_comm] using IsLocalization.mk'_eq_iff_eq_mul.mp hay
   have hαw : j w = α := by
-    show IsLocalization.lift hloc (IsLocalization.mk' B a z) = α
+    change IsLocalization.lift hloc (IsLocalization.mk' B a z) = α
     rw [IsLocalization.lift_mk'_spec hloc a α z]
     simpa [fAK, z, b, mul_comm] using hcross
   have hαrange : α ∈ j.range := ⟨w, hαw⟩
@@ -226,7 +226,7 @@ private theorem sepClosure_eq_bot_of_irred_selfProduct
       isRegular_iff_mem_nonZeroDivisors.mpr
         (powers_le_nonZeroDivisors_of_noZeroDivisors hb hc)
   have hinjA : Function.Injective jA := by
-    show Function.Injective (IsLocalization.lift hloc)
+    change Function.Injective (IsLocalization.lift hloc)
     rw [IsLocalization.lift_injective_iff (M := Submonoid.powers b) (S := B) hloc]
     exact fun x y => ⟨fun hxy => congrArg fAK (hAB hxy), fun hxy => congrArg (algebraMap A B)
       (IsFractionRing.injective A K (by simpa [fAK] using hxy))⟩
@@ -287,7 +287,7 @@ private theorem isGeometricallyIrreducible_of_irreducible_self_tensor
   have hsc : separableClosure k K = ⊥ :=
     sepClosure_eq_bot_of_irred_selfProduct k R K hRR
   have hK : Algebra.IsGeometricallyIrreducible k K := by
-    show GeometricallyIrreducible (Spec.map (CommRingCat.ofHom (algebraMap k K)))
+    change GeometricallyIrreducible (Spec.map (CommRingCat.ofHom (algebraMap k K)))
     exact (separableClosure.eq_bot_iff_geometricallyIrreducible k K).mp hsc
   let : Algebra.IsGeometricallyIrreducible k K := hK
   have hRgeom : Algebra.IsGeometricallyIrreducible k R :=
@@ -323,10 +323,10 @@ public theorem geometricallyIrreducible_iff_irreducibleSpace_self_pullback
     let A := Γ(X, U.1)
     let : Algebra k A :=
       ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appLE ⊤ U.1 (by simp)).hom.toAlgebra
-    show Algebra.IsGeometricallyIrreducible k A
+    change Algebra.IsGeometricallyIrreducible k A
     let g := Spec.map (CommRingCat.ofHom (algebraMap k A))
     have hg : g = U.2.fromSpec ≫ f := by
-      show Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫
+      change Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫
         f.appLE ⊤ U.1 (by simp)) = U.2.fromSpec ≫ f
       rw [← IsAffineOpen.SpecMap_appLE_fromSpec f (isAffineOpen_top _) U.2 (by simp),
         Spec.map_comp, IsAffineOpen.fromSpec_top]

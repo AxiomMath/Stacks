@@ -78,12 +78,12 @@ theorem isZero_obj_of_fg_of_zsmul_eq_zero {C : Type*} [Category.{w} C] [Preaddit
     ext x
     have hhom : (∑ k, π k ≫ ι' k).hom = ∑ k, (π k ≫ ι' k).hom :=
       map_sum AddCommGrpCat.homAddEquiv _ _
-    rw [hhom, AddMonoidHom.finset_sum_apply, Fintype.sum_sum_type]
+    rw [hhom, AddMonoidHom.finsetSum_apply, Fintype.sum_sum_type]
     apply φ.injective
     rw [map_add, map_sum, map_sum, AddCommGrpCat.hom_id, AddMonoidHom.id_apply]
     refine Prod.ext ?_ ?_ <;> simp only [Prod.fst_add, Prod.snd_add, Prod.fst_sum, Prod.snd_sum,
       AddEquiv.toAddMonoidHom_eq_coe, hom_comp, ConcreteCategory.hom_ofHom,
-      AddMonoidHom.coe_comp, AddMonoidHom.coe_coe, AddMonoidHom.coe_fst, Function.comp_apply,
+      AddMonoidHom.coe_comp, AddMonoidHom.coe_ofClass, AddMonoidHom.coe_fst, Function.comp_apply,
       Finsupp.applyAddHom_apply, Finsupp.singleAddHom_apply, AddMonoidHom.inl_apply,
       AddEquiv.apply_symm_apply, LinearMap.toAddMonoidHom_coe, AddMonoidHom.coe_snd,
       AddMonoidHom.inr_apply, Finset.sum_const_zero, add_zero, zero_add, π, ι']

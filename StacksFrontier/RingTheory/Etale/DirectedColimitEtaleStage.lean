@@ -133,7 +133,7 @@ theorem exists_ge_etale_surjective_quotient_of_directed [IsDirectedOrder ι]
   have hcomm : (algebraMap A D).comp (φ j₁) = θ.comp
       (algebraMap (G j₁) (MvPolynomial (Fin n) (G j₁) ⧸ Ideal.span (Set.range q₁))) := by
     ext x
-    show algebraMap A D (φ j₁ x)
+    change algebraMap A D (φ j₁ x)
       = e.symm (Ideal.Quotient.mk (Ideal.span (Set.range g)) (MvPolynomial.map (φ j₁) (C x)))
     rw [MvPolynomial.map_C]
     exact (e.symm.commutes (φ j₁ x)).symm

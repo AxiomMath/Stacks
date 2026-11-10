@@ -159,7 +159,7 @@ section OpenPart
 `o' ≫ b = bU ≫ o` is invertible. -/
 private theorem isIso_natTrans_etaleAbelianDerivedSquare {X X' U U' : Scheme.{u}} (b : X' ⟶ X)
     (o : U ⟶ X) (o' : U' ⟶ X') (bU : U' ⟶ U) (sq : IsPullback o' bU b o) [IsIso bU] :
-    IsIso (etaleAbelianDerivedSquare.{u, v} b o o' bU (o' ≫ b) rfl sq.w).natTrans := by
+    IsIso (etaleAbelianDerivedSquare.{u, v} b o o' bU (o' ≫ b) rfl sq.w) := by
   dsimp only [etaleAbelianDerivedSquare]
   infer_instance
 
@@ -174,7 +174,7 @@ public theorem isIso_map_etaleAbelianDerivedAdjunction_counit_of_isPullback_of_i
     IsIso ((etaleAbelianDerivedInverseImage.{u, v} o').map
       ((etaleAbelianDerivedAdjunction.{u, v} b).counit.app K')) := by
   let α := etaleAbelianDerivedSquare.{u, v} b o o' bU (o' ≫ b) rfl sq.w
-  have hα : IsIso α.natTrans := isIso_natTrans_etaleAbelianDerivedSquare.{u, v} b o o' bU sq
+  have hα : IsIso α := isIso_natTrans_etaleAbelianDerivedSquare.{u, v} b o o' bU sq
   have hβ : IsIso (etaleAbelianDerivedBaseChange.{u, v} b o o' bU sq.w) :=
     isIso_etaleAbelianDerivedBaseChange_of_isOpenImmersion.{u, v} b o o' bU sq
   rw [etaleAbelianDerivedBaseChange_eq_mateEquiv.{u, v} b o o' bU (o' ≫ b) rfl sq.w] at hβ
@@ -193,16 +193,16 @@ public theorem isIso_map_etaleAbelianDerivedAdjunction_counit_of_isPullback_of_i
   have : IsIso ((etaleAbelianDerivedAdjunction.{u, v} bU).counit.app
       ((etaleAbelianDerivedInverseImage.{u, v} o').obj K')) := inferInstance
   have : IsIso ((mateEquiv (etaleAbelianDerivedAdjunction.{u, v} b)
-      (etaleAbelianDerivedAdjunction.{u, v} bU) α).natTrans.app K') := inferInstance
-  have : IsIso (α.natTrans.app ((etaleAbelianDerivedDirectImage.{u, v} b).obj K')) :=
+      (etaleAbelianDerivedAdjunction.{u, v} bU) α).app K') := inferInstance
+  have : IsIso (α.app ((etaleAbelianDerivedDirectImage.{u, v} b).obj K')) :=
     inferInstance
   dsimp only [Functor.id_obj, Functor.comp_obj] at h
-  have : IsIso (α.natTrans.app ((etaleAbelianDerivedDirectImage.{u, v} b).obj K') ≫
+  have : IsIso (α.app ((etaleAbelianDerivedDirectImage.{u, v} b).obj K') ≫
       (etaleAbelianDerivedInverseImage.{u, v} o').map
         ((etaleAbelianDerivedAdjunction.{u, v} b).counit.app K')) := by
     rw [← h]
     infer_instance
-  exact IsIso.of_isIso_comp_left (α.natTrans.app _) _
+  exact IsIso.of_isIso_comp_left (α.app _) _
 
 end OpenPart
 
@@ -376,10 +376,10 @@ public theorem exists_gluing_of_isPullback_of_cohomologyCommutesWithBaseChange
       have hsnd := isIso_map_mor₁_comp_biprod_snd_of_isZero
         (etaleAbelianDerivedInverseImage.{u, v} o) κ ψ δ hT hA hC
       let α := etaleAbelianDerivedSquare.{u, v} b o o' bU (o' ≫ b) rfl sqU.w
-      have hα : IsIso α.natTrans := isIso_natTrans_etaleAbelianDerivedSquare.{u, v} b o o' bU sqU
+      have hα : IsIso α := isIso_natTrans_etaleAbelianDerivedSquare.{u, v} b o o' bU sqU
       have hb' : IsIso ((etaleAbelianDerivedInverseImage.{u, v} o').map
           ((etaleAbelianDerivedInverseImage.{u, v} b).map (κ ≫ biprod.snd))) :=
-        (NatIso.isIso_map_iff (asIso α.natTrans) (κ ≫ biprod.snd)).mp
+        (NatIso.isIso_map_iff (asIso α) (κ ≫ biprod.snd)).mp
           (by dsimp; infer_instance)
       have hε := isIso_map_etaleAbelianDerivedAdjunction_counit_of_isPullback_of_isIso.{u, v}
         b o o' bU sqU K'

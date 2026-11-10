@@ -35,7 +35,8 @@ hypothesis left of the general quasi-compact quasi-separated case of [Stacks Pro
 
 * `Stacks.AlgebraicGeometry.ModuleLimits.qcohFilteredColimitFinitePresentation_of_extension`:
   [Stacks Project, Tag 01PJ] in the shape `QcohFilteredColimitFinitePresentation` names it, which
-  is what `StacksFrontier/AlgebraicGeometry/ModuleLimits/ColimitReindex.lean` and `StacksFrontier/AlgebraicGeometry/ModuleLimits/LocalDescentRefine.lean`
+  is what `StacksFrontier/AlgebraicGeometry/ModuleLimits/ColimitReindex.lean` and
+  `StacksFrontier/AlgebraicGeometry/ModuleLimits/LocalDescentRefine.lean`
   consume as the hypothesis `hfilt`.  Composing it with
   `exists_isFinitePresentation_pullback_iso_of_filteredColim'` discharges the residue of
   [Stacks Project, Tag 01ZR] (1).
@@ -59,8 +60,9 @@ namespace Stacks.AlgebraicGeometry.ModuleLimits
 `Stacks.AlgebraicGeometry.ModuleLimits.QcohFilteredColimitFinitePresentation` names it.
 
 This is the form `StacksFrontier/AlgebraicGeometry/ModuleLimits/ColimitReindex.lean` and
-`StacksFrontier/AlgebraicGeometry/ModuleLimits/LocalDescentRefine.lean` consume as the hypothesis `hfilt`, so composing this
-with `exists_isFinitePresentation_pullback_iso_of_filteredColim'` discharges the residue of
+`StacksFrontier/AlgebraicGeometry/ModuleLimits/LocalDescentRefine.lean` consume as the hypothesis
+`hfilt`, so composing this with `exists_isFinitePresentation_pullback_iso_of_filteredColim'`
+discharges the residue of
 [Stacks Project, Tag 01ZR] (1). -/
 theorem qcohFilteredColimitFinitePresentation_of_extension :
     QcohFilteredColimitFinitePresentation.{u} := by

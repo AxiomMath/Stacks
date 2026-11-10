@@ -245,8 +245,11 @@ def inverseImageOverPullbackIso (f : X ⟶ Y) {W : SmallEtale B S hS X.1}
 
 /-! ### Presentations of the inverse image on charts -/
 
-set_option maxHeartbeats 1600000 in
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance synthesis along the ring-sheaf isomorphisms of `P0`–`P4` is heavy
+set_option maxHeartbeats 1600000 in
+-- elaborating the chain of presentation transports `P0`–`P4` along ring-sheaf isomorphisms
+-- is heavy
 /-- **The inverse image of a quasi-coherent module is presented on a chart carrying an affine
 chart diagram.**  For an étale chart `W` of `X`, an étale chart `V` of `Y` whose underlying
 scheme is affine and `q : W ⟶ V` over `f`, the restriction of `f⁻¹F` to the slice `X_étale/W`

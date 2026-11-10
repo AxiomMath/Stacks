@@ -403,6 +403,7 @@ structure CechToDerivedSectionsSystem where
       sectionsToTotalCechDerived X O U W hW ≫ map W hW
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the `IsIso`/`inv` terms on derived and Čech functors of sheaves of modules
 /-- **Any bounded below injective resolution computes the comparison**: apply the Čech functor to
 the resolution map, invert the injective augmentation, and identify sections of the resolution
 with derived sections. -/

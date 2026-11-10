@@ -64,8 +64,6 @@ attribute [local implicit_reducible] Stacks.SheafOfModules.Tensor.ringSheaf
 namespace DifferentialGradedModule.ChaoticExtension
 
 variable {C : Type u} [Category.{u} C] {C' : Type u} [Category.{u} C'] (F : C' ⥤ C)
-  [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
-  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   {Osharp : Sheaf (⊥ : GrothendieckTopology C) CommRingCat.{u}}
   (A : DifferentialGradedAlgebra.{u, u} (Stacks.SheafOfModules.Tensor.ringSheaf Osharp))
 
@@ -193,7 +191,7 @@ instance : Category (AlongSystem F A) where
   Hom := Hom
   id X := ⟨fun U' => 𝟙 (X.obj U'), fun _ _ => rfl⟩
   comp f g := ⟨fun U' => f.app U' ≫ g.app U', fun a x => by
-    show _ = (g.app _).toFun ((f.app _).toFun _)
+    change _ = (g.app _).toFun ((f.app _).toFun _)
     rw [← f.naturality, ← g.naturality]
     rfl⟩
 
@@ -266,7 +264,7 @@ abbrev diagram : (StructuredArrow U.unop F)ᵒᵖ ⥤
   map g := transition X g.unop
   map_id j := tensor_hom_ext _ fun p x c => by
     refine (transition_pure X (𝟙 j.unop) p x c).trans ?_
-    show pure X j.unop (X.restrFun (𝟙 (Opposite.op j.unop.right)) x) c = _
+    change pure X j.unop (X.restrFun (𝟙 (Opposite.op j.unop.right)) x) c = _
     rw [AlongSystem.restrFun, X.restr_id]
     rfl
   map_comp {i j k} f g := tensor_hom_ext _ fun p x c => by
@@ -274,13 +272,15 @@ abbrev diagram : (StructuredArrow U.unop F)ᵒᵖ ⥤
     refine Eq.trans ?_ (congrArg (transition X g.unop).toFun
       (transition_pure X f.unop p x c)).symm
     refine Eq.trans ?_ (transition_pure X g.unop p (restrPiece X f.unop.right.op x) c).symm
-    show pure X k.unop (X.restrFun (f.unop.right.op ≫ g.unop.right.op) x) c =
+    change pure X k.unop (X.restrFun (f.unop.right.op ≫ g.unop.right.op) x) c =
       pure X k.unop (X.restrFun g.unop.right.op (X.restrFun f.unop.right.op x)) c
     rw [AlongSystem.restrFun, X.restr_comp]
 
 /-- The diagram sends a morphism of `(U/F)ᵒᵖ` to the transition map along it. -/
 @[simp] theorem diagram_map {U : Cᵒᵖ} {i j : (StructuredArrow U.unop F)ᵒᵖ} (g : i ⟶ j) :
     (diagram X U).map g = transition X g.unop := rfl
+
+section Extension
 
 variable [∀ U : C, IsCofiltered (StructuredArrow U F)]
 
@@ -308,6 +308,7 @@ def restrLeg {U V : Cᵒᵖ} (a : V ⟶ U) (b : StructuredArrow V.unop F) :
     (arrowHom F A (pre F a b)) (A.sectionRestriction a) (arrowHom_pre F A a b)
     (restrictScalarsIdInv _)
 
+omit [∀ U : C, IsCofiltered (StructuredArrow U F)] in
 /-- The leg of the restriction map sends `x ⊗ c` to `x ⊗ c|_U`. -/
 theorem restrLeg_pure {U V : Cᵒᵖ} (a : V ⟶ U) (b : StructuredArrow V.unop F) (p : ℤ)
     (x : (X.obj (Opposite.op b.right)).grading p) (c : (A.sectionAlgebra V).A) :
@@ -321,6 +322,7 @@ abbrev preMap {U V : Cᵒᵖ} (a : V ⟶ U) {b b' : StructuredArrow V.unop F} (g
     pre F a b' ⟶ pre F a b :=
   (StructuredArrow.map a.unop).map g
 
+omit [∀ U : C, IsCofiltered (StructuredArrow U F)] in
 /-- The legs of the restriction map commute with the transition maps. -/
 theorem restrLeg_transition {U V : Cᵒᵖ} (a : V ⟶ U) {b b' : StructuredArrow V.unop F}
     (g : b' ⟶ b) (z : (term X b).M) :
@@ -374,6 +376,7 @@ abbrev preCompHom {U V W : Cᵒᵖ} (a : V ⟶ U) (a' : W ⟶ V) (b : Structured
     pre F (a' ≫ a) b ⟶ pre F a (pre F a' b) :=
   StructuredArrow.homMk (𝟙 b.right) (by simp)
 
+omit [∀ U : C, IsCofiltered (StructuredArrow U F)] in
 /-- The leg of the restriction map along an identity is the transition map along
 `preIdHom b`. -/
 theorem restrLeg_id {V : Cᵒᵖ} (b : StructuredArrow V.unop F) (z : (term X b).M) :
@@ -388,6 +391,7 @@ theorem restrLeg_id {V : Cᵒᵖ} (b : StructuredArrow V.unop F) (z : (term X b)
     exact congrArg (pure X _ _) (sectionRestriction_id_apply A V c)
   exact DFunLike.congr_fun key z
 
+omit [∀ U : C, IsCofiltered (StructuredArrow U F)] in
 /-- The leg of the restriction map along a composite is the composite of the legs, followed by
 the transition map along `preCompHom a a' b`. -/
 theorem restrLeg_comp {U V W : Cᵒᵖ} (a : V ⟶ U) (a' : W ⟶ V) (b : StructuredArrow W.unop F)
@@ -448,6 +452,7 @@ variable {X} {Y Z : AlongSystem F A}
 abbrev termMap (f : X ⟶ Y) {U : Cᵒᵖ} (b : StructuredArrow U.unop F) : term X b ⟶ term Y b :=
   (tensorCompFunctor (regular (arrowHom F A b))).map (f.app (Opposite.op b.right))
 
+omit [∀ U : C, IsCofiltered (StructuredArrow U F)] in
 /-- The map on the term at `b` sends `x ⊗ c` to `f(x) ⊗ c`. -/
 theorem termMap_pure (f : X ⟶ Y) {U : Cᵒᵖ} (b : StructuredArrow U.unop F)
     (x : (X.obj (Opposite.op b.right)).M) (c : (A.sectionAlgebra U).A) :
@@ -526,6 +531,8 @@ def extFunctor : AlongSystem F A ⥤ SectionSystem A where
 
 /-- The extension functor sends `f` to `extMap f`. -/
 @[simp] theorem extFunctor_map (f : X ⟶ Y) : (extFunctor F A).map f = extMap f := rfl
+
+end Extension
 
 /-! ### Restriction of presheaves of section modules -/
 

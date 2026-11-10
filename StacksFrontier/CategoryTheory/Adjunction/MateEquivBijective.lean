@@ -37,9 +37,9 @@ variable {C D E F : Type*} [Category* C] [Category* D] [Category* E] [Category* 
 `β : R₁ ⋙ G ⟶ H ⋙ R₂`, the adjoint transpose of `α_c ≫ H φ` is `G` applied to the adjoint
 transpose of `φ`, followed by `β_d`. -/
 public theorem homEquiv_app_comp_map_eq {c : C} {d : D} (φ : L₁.obj c ⟶ d) :
-    adj₂.homEquiv _ _ (α.natTrans.app c ≫ H.map φ) =
-      G.map (adj₁.homEquiv _ _ φ) ≫ (mateEquiv adj₁ adj₂ α).natTrans.app d := by
-  have h₁ := (mateEquiv adj₁ adj₂ α).natTrans.naturality φ
+    adj₂.homEquiv _ _ (α.app c ≫ H.map φ) =
+      G.map (adj₁.homEquiv _ _ φ) ≫ (mateEquiv adj₁ adj₂ α).app d := by
+  have h₁ := (mateEquiv adj₁ adj₂ α).naturality φ
   have h₂ := unit_mateEquiv adj₁ adj₂ α c
   simp only [Functor.comp_map] at h₁
   rw [Adjunction.homEquiv_unit, Adjunction.homEquiv_unit, G.map_comp, Category.assoc, h₁,
@@ -48,23 +48,23 @@ public theorem homEquiv_app_comp_map_eq {c : C} {d : D} (φ : L₁.obj c ⟶ d) 
 
 /-- If a 2-square `α` between two adjunctions is invertible, `G` is bijective on `c ⟶ R₁ d` and
 the mate of `α` is invertible at `d`, then `H` is bijective on `L₁ c ⟶ d`. -/
-public theorem map_bijective_of_mateEquiv (c : C) (d : D) [IsIso (α.natTrans.app c)]
+public theorem map_bijective_of_mateEquiv (c : C) (d : D) [IsIso (α.app c)]
     (hG : Function.Bijective (G.map : (c ⟶ R₁.obj d) → (G.obj c ⟶ G.obj (R₁.obj d))))
-    [IsIso ((mateEquiv adj₁ adj₂ α).natTrans.app d)] :
+    [IsIso ((mateEquiv adj₁ adj₂ α).app d)] :
     Function.Bijective (H.map : (L₁.obj c ⟶ d) → (H.obj (L₁.obj c) ⟶ H.obj d)) := by
   have hpost : Function.Bijective
-      (fun ψ : G.obj c ⟶ G.obj (R₁.obj d) ↦ ψ ≫ (mateEquiv adj₁ adj₂ α).natTrans.app d) :=
+      (fun ψ : G.obj c ⟶ G.obj (R₁.obj d) ↦ ψ ≫ (mateEquiv adj₁ adj₂ α).app d) :=
     ⟨fun _ _ h ↦ (cancel_mono _).1 h,
-      fun ψ ↦ ⟨ψ ≫ inv ((mateEquiv adj₁ adj₂ α).natTrans.app d), by simp⟩⟩
+      fun ψ ↦ ⟨ψ ≫ inv ((mateEquiv adj₁ adj₂ α).app d), by simp⟩⟩
   have hpre : Function.Bijective
-      (fun ψ : H.obj (L₁.obj c) ⟶ H.obj d ↦ α.natTrans.app c ≫ ψ) :=
-    ⟨fun _ _ h ↦ (cancel_epi _).1 h, fun ψ ↦ ⟨inv (α.natTrans.app c) ≫ ψ, by simp⟩⟩
-  have key : (adj₂.homEquiv _ _) ∘ (fun ψ ↦ α.natTrans.app c ≫ ψ) ∘
+      (fun ψ : H.obj (L₁.obj c) ⟶ H.obj d ↦ α.app c ≫ ψ) :=
+    ⟨fun _ _ h ↦ (cancel_epi _).1 h, fun ψ ↦ ⟨inv (α.app c) ≫ ψ, by simp⟩⟩
+  have key : (adj₂.homEquiv _ _) ∘ (fun ψ ↦ α.app c ≫ ψ) ∘
       (H.map : (L₁.obj c ⟶ d) → (H.obj (L₁.obj c) ⟶ H.obj d)) =
-      (fun ψ ↦ ψ ≫ (mateEquiv adj₁ adj₂ α).natTrans.app d) ∘ G.map ∘ (adj₁.homEquiv _ _) := by
+      (fun ψ ↦ ψ ≫ (mateEquiv adj₁ adj₂ α).app d) ∘ G.map ∘ (adj₁.homEquiv _ _) := by
     funext φ
     exact homEquiv_app_comp_map_eq adj₁ adj₂ α φ
-  have h : Function.Bijective ((adj₂.homEquiv _ _) ∘ (fun ψ ↦ α.natTrans.app c ≫ ψ) ∘
+  have h : Function.Bijective ((adj₂.homEquiv _ _) ∘ (fun ψ ↦ α.app c ≫ ψ) ∘
       (H.map : (L₁.obj c ⟶ d) → (H.obj (L₁.obj c) ⟶ H.obj d))) := by
     rw [key]
     exact (hpost.comp hG).comp (adj₁.homEquiv c d).bijective

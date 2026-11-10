@@ -47,7 +47,7 @@ There is `m ≥ 0`, depending only on `n`, `r` and `P`, such that for every fiel
 surjection `q : 𝒪^{⊕ r} ⟶ ℱ` onto a coherent module on `ℙⁿ_k` with Hilbert polynomial `P`, with
 kernel `𝒦`: the twists `𝒦(m)` and `ℱ(m)` have no higher cohomology, `dim_k H⁰(ℱ(m)) = P(m)`,
 `H⁰(q(m))` is surjective, and `𝒦(m)` is globally generated. -/
-theorem exists_twist_cohomology_of_hilbertPolynomial (n r : ℕ) (hr : 1 ≤ r)
+theorem exists_twist_cohomology_of_hilbertPolynomial (n r : ℕ)
     (P : Polynomial ℚ) :
     ∃ m : ℕ, ∀ (k : Type u) [Field k]
       (Q : (projectiveSpaceOverRing n (.of k)).Modules) [Q.IsCoherent]
@@ -63,7 +63,7 @@ theorem exists_twist_cohomology_of_hilbertPolynomial (n r : ℕ) (hr : 1 ≤ r)
       Function.Surjective (cohomologyOverFieldMap k
         (projectiveSpaceOverRing n (.of k) ↘ Spec (.of k)) ((twistFunctorModules k n m).map q) 0) ∧
       SheafOfModules.IsGeneratedByGlobalSections (projectiveTwist n (kernel q) m) := by
-  obtain ⟨m₀, hm₀⟩ := exists_isMRegular_kernel_free_of_hilbertPolynomial n r hr P
+  obtain ⟨m₀, hm₀⟩ := exists_isMRegular_kernel_free_of_hilbertPolynomial n r P
   refine ⟨m₀.toNat, fun k _ Q _ q _ hP => ?_⟩
   have hm : m₀ ≤ ((m₀.toNat : ℕ) : ℤ) := Int.self_le_toNat m₀
   set m : ℤ := ((m₀.toNat : ℕ) : ℤ)

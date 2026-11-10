@@ -61,7 +61,7 @@ theorem isSurjective_iff_isSurjective_of_isThickening
       pointsMap B S hS H.toFunctor H.ι ∘ pointsMap B S hS G.toFunctor f.left := by
     rw [← pointsMap_comp, ← pointsMap_comp]
     exact congrArg (pointsMap B S hS G.toFunctor) f.w.symm
-  show Function.Surjective (pointsMap B S hS G.toFunctor f.left) ↔
+  change Function.Surjective (pointsMap B S hS G.toFunctor f.left) ↔
     Function.Surjective (pointsMap B S hS X.1 f.right)
   rw [← Function.Surjective.of_comp_iff' hb (pointsMap B S hS G.toFunctor f.left), ← hcomm,
     Function.Surjective.of_comp_iff _ ha.2]

@@ -157,7 +157,7 @@ theorem isIso_lerayTail [F'.IsQuasicoherent] [IsAffineHom h] [IsAffineHom h']
         (Stacks.AlgebraicGeometry.AffinePushforwardTExactness.isQuasicoherent_singleFunctor_obj_X
           0 _ inferInstance))
   have hP : IsIso (derivedPullbackSquare h'.toLRSHom.toShHom f''.toLRSHom.toShHom
-      S.f'.toLRSHom.toShHom h.toLRSHom.toShHom sq).natTrans := by
+      S.f'.toLRSHom.toShHom h.toLRSHom.toShHom sq) := by
     dsimp only [derivedPullbackSquare, Mate.derivedPullbackSquare, TwoSquare.mk]
     infer_instance
   have hM : IsIso (Mate.derivedPushforwardComparisonSquare
@@ -167,7 +167,7 @@ theorem isIso_lerayTail [F'.IsQuasicoherent] [IsAffineHom h] [IsAffineHom h']
       (derivedAdjunction h'.toLRSHom.toShHom)
       (derivedPullbackCompIsoLeft h'.toLRSHom.toShHom f''.toLRSHom.toShHom
         S.f'.toLRSHom.toShHom h.toLRSHom.toShHom sq)
-      (derivedPullbackCompIsoCanonical h'.toLRSHom.toShHom S.f'.toLRSHom.toShHom)).natTrans := by
+      (derivedPullbackCompIsoCanonical h'.toLRSHom.toShHom S.f'.toLRSHom.toShHom)) := by
     rw [derivedPushforwardComparisonSquare_eq_conjugateEquiv h'.toLRSHom.toShHom
       f''.toLRSHom.toShHom S.f'.toLRSHom.toShHom h.toLRSHom.toShHom sq]
     exact conjugateEquiv_iso _ _ _

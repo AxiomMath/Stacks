@@ -52,7 +52,8 @@ holds by `rfl` because addition of morphisms of sheaves of modules is computed o
 
 The direct-sum step is `DirectSum.map_injective` and `DirectSum.map_surjective` from Mathlib
 together with `DirectSum.exact_map` from
-`StacksFrontier/Algebra/DirectSum/MapExact.lean`. To reach them the induced map of the graded modules
+`StacksFrontier/Algebra/DirectSum/MapExact.lean`. To reach them the induced map of the graded
+modules
 of sections, which is built as `DirectSum.toAddMonoid` of the inclusions of the summands composed
 with the degreewise maps, is identified with `DirectSum.map` of the degreewise maps; the two agree
 on each summand, which is enough by `DirectSum.addHom_ext`.

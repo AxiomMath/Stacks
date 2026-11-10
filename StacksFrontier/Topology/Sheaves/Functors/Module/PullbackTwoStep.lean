@@ -109,7 +109,7 @@ theorem modulePushforward_eq :
           (underlyingRingHomOfSite (O := inverseImageMiddleRing f) (O' := X.sheaf)
             (ringedSpaceStructureMap f)) ⋙
         _root_.SheafOfModules.pushforward (inverseImageRingHom f.hom.base Y.sheaf) := by
-  show _root_.SheafOfModules.pushforward (structureSheafHom f) = _
+  change _root_.SheafOfModules.pushforward (structureSheafHom f) = _
   rw [structureSheafHom_eq f]
   rfl
 

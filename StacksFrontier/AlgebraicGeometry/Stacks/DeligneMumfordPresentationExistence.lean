@@ -135,7 +135,7 @@ theorem isDeligneMumfordStack_of_isDMOver (𝒳 : AlgebraicStacks.{u, w} B S hS)
       F.map s ((p₀ ≫ F.map (pullback.fst s ι)) q) := by
     rw [← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply, Category.assoc, Category.assoc,
       ← Functor.map_comp, ← Functor.map_comp, pullback.condition]
-  show AlgebraicStacks.pointsMap B S hS (schemeStackMap.{u, w} B S hS ι ≫ b') _ = _
+  change AlgebraicStacks.pointsMap B S hS (schemeStackMap.{u, w} B S hS ι ≫ b') _ = _
   rw [AlgebraicStacks.pointsMap_comp, Function.comp_apply, hnat,
     Equiv.apply_symm_apply, hZpt, key, ← Scheme.Hom.comp_apply, Category.assoc, hq,
     congrFun (AlgebraicStacks.pointsMap_eq_of_hom₂ B S hS θt.hom) z,

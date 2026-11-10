@@ -188,7 +188,7 @@ theorem isDerivedComplete_single_limit_adicQuotientSystem [IsLocallyNoetherian X
   let A := SheafOfModules.{u} RV
   let : Linear (CatCenter A) A := Linear.ofRingMorphism (RingHom.id (CatCenter A))
   let : ∀ W : (Over V)ᵒᵖ, IsMulCommutative (RV.obj.obj W) := fun W ↦ by
-    show IsMulCommutative ((Stacks.SheafOfModules.opensRingedSite X.sheaf).O.obj.obj
+    change IsMulCommutative ((Stacks.SheafOfModules.opensRingedSite X.sheaf).O.obj.obj
       (op W.unop.left))
     infer_instance
   have hLim : PreservesFiniteLimits

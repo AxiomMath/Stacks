@@ -136,7 +136,7 @@ theorem exists_value_lift_of_isPurelyInseparable {U V : BigFppfOver B S hS} (q :
     fun g ↦ congrArg (fun k ↦ k.hom) (Over.w g)
   refine ⟨Over.homMk (⟨ℓs⟩ : p.val.siteObject.left ⟶ V.left) (by
     ext
-    show ℓs ≫ V.hom.hom = p.val.toBase
+    change ℓs ≫ V.hom.hom = p.val.toBase
     rw [← hw q, ← Category.assoc, hℓQ]
     exact hw p.val.value), ?_, hℓpt⟩
   exact (BigFppfOver.toScheme B S hS).map_injective (by rw [Functor.map_comp]; exact hℓQ)
@@ -165,7 +165,7 @@ theorem surjective_pointsMap_of_isPurelyInseparable {U V W : BigFppfOver B S hS}
     intro z
     have hmem : (BigFppfOver.toScheme B S hS).map a z ∈
         (BigFppfOver.toScheme B S hS).map q ⁻¹' {u} := by
-      show (BigFppfOver.toScheme B S hS).map q ((BigFppfOver.toScheme B S hS).map a z) = u
+      change (BigFppfOver.toScheme B S hS).map q ((BigFppfOver.toScheme B S hS).map a z) = u
       rw [← Scheme.Hom.comp_apply, ← Functor.map_comp, hab, Functor.map_comp,
         Scheme.Hom.comp_apply, hφ]
     rwa [hv] at hmem
@@ -207,7 +207,7 @@ theorem geometricFiberComponentCount_eq_one
     exact congrArg ((BigFppfOver.toScheme B S hS).map φ) (Subsingleton.elim _ _)
   obtain ⟨ℓ, hℓq, hℓpt⟩ := exists_value_lift_of_isPurelyInseparable B S hS q u v hv hinsep p hφ
   -- The morphism represented by `p` is `h_φ`, definitionally.
-  show Cardinal.toENat (Cardinal.mk (ConnectedComponents (points B S hS
+  change Cardinal.toENat (Cardinal.mk (ConnectedComponents (points B S hS
     (pullback (pullback.snd f' c ≫ yoneda.map q) (yoneda.map φ))))) = 1
   -- The section `s = (h_ℓ, 1)` of `h_V ×_{h_U} h_{Spec Ω} ⟶ h_{Spec Ω}`.
   obtain ⟨s, hs₁, hs₂⟩ : ∃ s : yoneda.obj p.val.siteObject ⟶

@@ -155,7 +155,7 @@ private theorem twoSquare_paste_of_app {A B C D E F : Type*} [Category A] [Categ
     TwoSquare.mk Tl Lo Ro Bu ((ego₁ ≫ ego₂) ≫ efo) =
       ((TwoSquare.mk Tl Ll Rl Tu ((eg₂₁ ≫ eg₂₂) ≫ ef₂) ≫ᵥ
         TwoSquare.mk Tu Lu Ru Bu ((eg₁₁ ≫ eg₁₂) ≫ ef₁)).whiskerLeft cL).whiskerRight cR := by
-  refine TwoSquare.ext _ _ fun M => ?_
+  refine NatTrans.ext (funext fun M => ?_)
   have hM := h M
   rw [← hd₀ M, ← hd₂ M, ← hd₁ (Ll.obj M)] at hM
   simpa [TwoSquare.vComp, TwoSquare.whiskerLeft, TwoSquare.whiskerRight,
@@ -497,7 +497,7 @@ private theorem derivedBaseChangeMap_eq_app {X' X S' S : RingedSpace.{u, u}} (g'
     (f' : X' ⟶ S') (f : X ⟶ S) (g : S' ⟶ S) (sq : g' ≫ f = f' ≫ g)
     (K : DerivedCategory (SheafOfModules.{u} (structureSheafRing X))) :
     derivedBaseChangeMap g' f' f g sq K =
-      (derivedBaseChangeSquare g' f' f g sq).natTrans.app K :=
+      (derivedBaseChangeSquare g' f' f g sq).app K :=
   rfl
 
 /-- **The conjugate of the composition isomorphism for derived pullback, in the direction that
@@ -622,7 +622,7 @@ private theorem mateEquiv_eq_of_counit {A B C D : Type*} [Category A] [Category 
     (h : ∀ d, L₂.map (β.app d) ≫ adj₂.counit.app (H.obj d) =
       α.app (R₁.obj d) ≫ H.map (adj₁.counit.app d)) :
     mateEquiv adj₁ adj₂ α = β := by
-  refine TwoSquare.ext _ _ fun d => ?_
+  refine NatTrans.ext (funext fun d => ?_)
   apply (adj₂.homEquiv _ _).symm.injective
   rw [Adjunction.homEquiv_counit, Adjunction.homEquiv_counit, mateEquiv_counit, h d]
 
@@ -670,7 +670,7 @@ private theorem twoSquare_hpaste_of_app {A B C D E F : Type*} [Category A] [Cate
     TwoSquare.mk To Lr Rl Bo ((ego₁ ≫ ego₂) ≫ efo) =
       ((TwoSquare.mk Tr Lr Rr Br ((egr₁ ≫ egr₂) ≫ efr) ≫ₕ
         TwoSquare.mk Tl Rr Rl Bl ((egl₁ ≫ egl₂) ≫ efl)).whiskerTop cT).whiskerBottom cB := by
-  refine TwoSquare.ext _ _ fun M => ?_
+  refine NatTrans.ext (funext fun M => ?_)
   have hM := h M
   rw [← hd₀ M, ← hdr M, ← hdl (Tr.obj M)] at hM
   simpa [TwoSquare.hComp, TwoSquare.whiskerTop, TwoSquare.whiskerBottom,

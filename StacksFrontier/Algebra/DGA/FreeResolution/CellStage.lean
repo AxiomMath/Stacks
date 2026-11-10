@@ -42,6 +42,7 @@ namespace Stacks.DGA
 
 variable {R : Type u} [CommRing R]
 
+set_option linter.checkUnivs false in
 private abbrev freeExtensionAlphabet (S T : Type (max u v)) : Type (max u v) :=
   Sum.{max u v, max u v} S T
 
@@ -223,7 +224,7 @@ private theorem exists_kernel_cells
     obtain ⟨y, hy, hdy⟩ := hbound
     refine ⟨⟨n, ⟨(a, y), ha, hda, hy, hdy⟩⟩, rfl, rfl⟩
 
-private theorem isDGAMorphism_comp
+theorem isDGAMorphism_comp
     {A B C : DifferentialGradedAlgebra.{u, max u v} R}
     (f : A.A →ₐ[R] B.A) (g : B.A →ₐ[R] C.A)
     (hf : IsDGAMorphism A B f) (hg : IsDGAMorphism B C g) :
@@ -235,7 +236,7 @@ private theorem isDGAMorphism_comp
     change g (f (A.d a)) = C.d (g (f a))
     rw [hf.2, hg.2]
 
-private theorem isDGAMorphism_id
+theorem isDGAMorphism_id
     (A : DifferentialGradedAlgebra.{u, max u v} R) :
     IsDGAMorphism A A (AlgHom.id R A.A) := by
   constructor

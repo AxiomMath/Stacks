@@ -94,10 +94,10 @@ def spliceD : ∀ n : ℕ, spliceX W F K n ⟶ spliceX W F K (n + 1)
 /-- Consecutive differentials of the splice compose to zero. -/
 theorem spliceD_comp_spliceD : ∀ n : ℕ, spliceD W F K e n ≫ spliceD W F K e (n + 1) = 0
   | 0 => by
-    show unitW W F ≫ (push W).map (e.inv ≫ K.d 0 1) ≫ (push W).map (K.d 1 2) = 0
+    change unitW W F ≫ (push W).map (e.inv ≫ K.d 0 1) ≫ (push W).map (K.d 1 2) = 0
     rw [← Functor.map_comp, Category.assoc, K.d_comp_d, comp_zero, Functor.map_zero, comp_zero]
   | n + 1 => by
-    show (push W).map (K.d (n + 1) (n + 1 + 1)) ≫
+    change (push W).map (K.d (n + 1) (n + 1 + 1)) ≫
       (push W).map (K.d (n + 1 + 1) (n + 1 + 1 + 1)) = 0
     rw [← Functor.map_comp, K.d_comp_d, Functor.map_zero]
 

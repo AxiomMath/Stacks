@@ -51,7 +51,7 @@ over `T` is an element of `F(T)`, and an arrow over `T' ⟶ T` from `ξ' ∈ F(T
 the statement that `ξ` restricts to `ξ'`. -/
 abbrev elementsToOver (F : (LocallyNoetherianOver B S hS)ᵒᵖ ⥤ Type w) :
     F.Elementsᵒᵖ ⥤ Over S :=
-  (CategoryOfElements.π F).leftOp ⋙ toOver B S hS
+  (Functor.Elements.π F).leftOp ⋙ toOver B S hS
 
 /-- **Artin's axiom `[3]`** for a set-valued functor on the locally Noetherian site of `S`:
 for every field `k` of finite type over `S`, every affine open `Spec Λ ⊆ S` through which
@@ -67,11 +67,11 @@ def HasFiniteDimensionalTangentSpaces
     let D := Deformation.Artin.predeformationCategory iΛ (elementsToOver B S hS F) x₀ hx₀
     letI : Category D.carrier := D.category
     ∀ (h : Deformation.IsPredeformationCategory (BasedCategory.ofFunctor D.projection).p)
-      (hS2 : Deformation.SchlessingerConditionS2 (CategoryOfElements.π
+      (hS2 : Deformation.SchlessingerConditionS2 (Functor.Elements.π
         (Deformation.isomorphismClasses (BasedCategory.ofFunctor D.projection) h.cofibered))),
       letI : Fact (Deformation.IsPredeformationCategory
         (BasedCategory.ofFunctor D.projection).p) := ⟨h⟩
-      letI : Fact (Deformation.SchlessingerConditionS2 (CategoryOfElements.π
+      letI : Fact (Deformation.SchlessingerConditionS2 (Functor.Elements.π
         (Deformation.isomorphismClasses (BasedCategory.ofFunctor D.projection)
           h.cofibered))) := ⟨hS2⟩
       FiniteDimensional k (Deformation.artinianTangentSpace Λ k

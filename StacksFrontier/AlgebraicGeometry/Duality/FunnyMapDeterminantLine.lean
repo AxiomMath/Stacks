@@ -195,8 +195,7 @@ theorem twoTermDeterminantEquivDeterminantLine_apply (n : ℕ) (dM : Mneg →ₗ
     twoTermDeterminantEquivDeterminantLine n dM hzero hneg t x =
       (determinantEquivExteriorPower n hzero).symm
         (twoTermDeterminantEval n (determinantEquivExteriorPower n hneg x) t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul z φ =>
       rw [twoTermDeterminantEquivDeterminantLine_apply_tmul, twoTermDeterminantEval_tmul,
         map_smul]
@@ -233,7 +232,7 @@ theorem twoTermDeterminantEquivDeterminantLine_twoTermDeterminantElement (n : �
       twoTermDeterminantElement_eq dM hneg b,
       twoTermDeterminantEquivDeterminantLine_ιMulti_tmul_basisTopDual]
     apply Subtype.ext
-    show ExteriorAlgebra.map dM ((E.symm (exteriorPower.ιMulti R n b) :
+    change ExteriorAlgebra.map dM ((E.symm (exteriorPower.ιMulti R n b) :
       ProjectiveDeterminant.module (R := R) (M := Mneg)) : ExteriorAlgebra R Mneg) = _
     simp [E, ExteriorAlgebra.map_apply_ιMulti]
   refine LinearMap.ext fun x => ?_

@@ -295,7 +295,7 @@ theorem isPseudoCoherent_diagonal (R A : Type u) [CommRing R] [CommRing A] [Alge
   let : Algebra (A ⊗[R] A) A :=
     (Algebra.TensorProduct.lmul' R : A ⊗[R] A →ₐ[R] A).toRingHom.toAlgebra
   let : IsScalarTower R (A ⊗[R] A) A := IsScalarTower.of_algebraMap_eq (fun r => by
-    show _ = (Algebra.TensorProduct.lmul' R : A ⊗[R] A →ₐ[R] A) _
+    change _ = (Algebra.TensorProduct.lmul' R : A ⊗[R] A →ₐ[R] A) _
     simp)
   let : Algebra.FinitePresentation A (A ⊗[R] A) :=
     Algebra.FinitePresentation.baseChange (R := R) (A := A) A
@@ -303,7 +303,7 @@ theorem isPseudoCoherent_diagonal (R A : Type u) [CommRing R] [CommRing A] [Alge
     Algebra.FinitePresentation.trans R A (A ⊗[R] A)
   have hsurj : Function.Surjective (algebraMap (A ⊗[R] A) A) := fun a =>
     ⟨a ⊗ₜ[R] 1, by
-      show (Algebra.TensorProduct.lmul' R : A ⊗[R] A →ₐ[R] A) (a ⊗ₜ[R] 1) = a
+      change (Algebra.TensorProduct.lmul' R : A ⊗[R] A →ₐ[R] A) (a ⊗ₜ[R] 1) = a
       simp⟩
   have hA : StacksDraft.PseudoCoherence.IsPseudoCoherent
       ((DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).obj (ModuleCat.of A A)) := by
@@ -311,7 +311,7 @@ theorem isPseudoCoherent_diagonal (R A : Type u) [CommRing R] [CommRing A] [Alge
       (ModuleCat.of A A), ⟨⟨0, inferInstance⟩, fun i => ?_⟩, ⟨Iso.refl _⟩⟩
     by_cases hi : i = 0
     · subst i
-      show Module.Finite A A ∧ Module.Free A A
+      change Module.Finite A A ∧ Module.Free A A
       exact ⟨inferInstance, inferInstance⟩
     · have : Subsingleton
           (((HomologicalComplex.single (ModuleCat.{u} A) (ComplexShape.up ℤ) 0).obj

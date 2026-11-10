@@ -224,23 +224,27 @@ universe a second parameter makes the localization's own object universe the lev
 universe has to solve `max ?u ?v =?= u` instead of matching a parameter, and `isDefEq` falls back
 to unfolding `AlgebraicGeometry.RingedTopos.localizedRingedTopos`.  One module of
 `StacksFrontier/CategoryTheory/Sites/Modules/Localization/` is large enough for that to exceed the
-heartbeat limit: `StacksFrontier/CategoryTheory/Sites/Modules/Localization/RepresentableRelocalization.lean`, whose statements iterate the localization —
-they localize a localization — and already cost some 55,000 reducible unfoldings apiece.  Its
-repair is to pin the universes explicitly at the consumer,
+heartbeat limit:
+`StacksFrontier/CategoryTheory/Sites/Modules/Localization/RepresentableRelocalization.lean`, whose
+statements iterate the localization — they localize a localization — and already cost some 55,000
+reducible unfoldings apiece.  Its repair is to pin the universes explicitly at the consumer,
 `RingedTopos.localizedRingedTopos.{u, u} X.ringedTopos F` in place of
-`X.ringedTopos.localizedRingedTopos F`, which leaves the unifier nothing to solve.  That is what
-the file does, and its own universe note records it.  No heartbeat limit is raised anywhere
-in the directory, and no option is changed there either.
+`X.ringedTopos.localizedRingedTopos F`, which leaves the unifier nothing to solve.  That is what the
+file does, and its own universe note records it.  No heartbeat limit is raised anywhere in the
+directory, and no option is changed there either.
 
-The other modules of that directory — `StacksFrontier/CategoryTheory/Sites/Modules/Localization/RingedToposRelocalizedMorphism.lean`,
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/ArtinSchreierSequence/StructureSheafComparison.lean` and `StacksFrontier/CategoryTheory/Sites/Modules/Localization/RelocalizedMorphismComparison.lean` — need no pinned
-universes, no bridging lemmas and no opacity attributes beyond the one `attribute [local
-irreducible]` that `StacksFrontier/CategoryTheory/Sites/Modules/Localization/RelocalizedMorphismComparison.lean` carries on
-`RingedToposHom.inverseImageCompLocalizationIso`.  A blanket version of the opacity idea does not
-work:
-`localizedRingedTopos` itself must stay transparent, because its consumers read
-`(localizedRingedTopos X F).C` and `.J` throughout, and making it irreducible turns the one
-timeout into type mismatches across three modules.
+The other modules of that directory —
+`StacksFrontier/CategoryTheory/Sites/Modules/Localization/RingedToposRelocalizedMorphism.lean`,
+`StructureSheafComparison.lean` in
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/ArtinSchreierSequence/`, and
+`StacksFrontier/CategoryTheory/Sites/Modules/Localization/RelocalizedMorphismComparison.lean` —
+need no pinned universes, no bridging lemmas and no opacity attributes beyond the one
+`attribute [local irreducible]` that
+`StacksFrontier/CategoryTheory/Sites/Modules/Localization/RelocalizedMorphismComparison.lean`
+carries on `RingedToposHom.inverseImageCompLocalizationIso`.  A blanket version of the opacity idea
+does not work: `localizedRingedTopos` itself must stay transparent, because its consumers read
+`(localizedRingedTopos X F).C` and `.J` throughout, and making it irreducible turns the one timeout
+into type mismatches across three modules.
 
 The second is the identification of the small étale topos of an open subscheme with that
 localization, which is Stacks 04IE for the étale site, and it is proved on the **topoi**, as
@@ -283,13 +287,14 @@ naive shape.  `representableLocalizationEquivalence` is stated over
 solution — the sections would have to be at `u + 1` or above while they are at `u`.  What forces
 that expression is not the equivalence but the *ringed-site* localization underneath it:
 `AlgebraicGeometry.RingedSite.overMorphismOfTopoi` in
-`StacksFrontier/CategoryTheory/Sites/Localization/RingedSiteLocalization.lean` is stated with both of
-its topoi at `Type (max u v w)`, because its direct image is a right Kan extension along
+`StacksFrontier/CategoryTheory/Sites/Localization/RingedSiteLocalization.lean` is stated with both
+of its topoi at `Type (max u v w)`, because its direct image is a right Kan extension along
 `(Over.forget U).op`, a limit indexed by structured arrows over `Over U` and so of size
 `max u v`.  That is exactly the obstruction `[EssentiallySmall.{v} X.C]` removed for the
 ringed-*topos* localization, and removing it here is the same generalization applied to the
 ringed-site tower, starting at `overMorphismOfTopoi` and reaching `ringedTopos` and then
-`StacksFrontier/CategoryTheory/Sites/Modules/Localization/RepresentableLocalization.lean`.  Nothing above needs it.
+`StacksFrontier/CategoryTheory/Sites/Modules/Localization/RepresentableLocalization.lean`.  Nothing
+above needs it.
 
 The second of those two comparisons is proved.  Stacks 04IE as formed localizes at the
 sheafification of `yoneda.obj U` for `U` an object of the small étale site, whereas Stacks 04IF's
@@ -306,14 +311,15 @@ universe free, stated over `AlgebraicGeometry.SmallEtale.toOver`.
 The remaining part of input (1) is the first comparison, that of the two **structure sheaves**.
 There are two routes.  Transport at the ring level along the
 identification as formed in `OpenLocalization.lean` goes through Stacks 00Y1, whose functor is a
-lower shriek, and so needs `StacksFrontier/CategoryTheory/Sites/Modules/Localization/RepresentableLocalization.lean`'s uniqueness-of-lift machinery at
-these universes, i.e. the ringed-site tower generalized from
+lower shriek, and so needs
+`StacksFrontier/CategoryTheory/Sites/Modules/Localization/RepresentableLocalization.lean`'s
+uniqueness-of-lift machinery at these universes, i.e. the ringed-site tower generalized from
 `AlgebraicGeometry.RingedSite.overMorphismOfTopoi` (71 use sites in 12 modules) through
-`AlgebraicGeometry.RingedSite.ringedTopos` (`.ringedTopos` read in 76 modules).  **That route
-is not taken**: the generalization is feasible — the `[EssentiallySmall.{v} X.C]` it would carry
-*is* discharged by instance search at a single universe, so it is backward compatible at
-`RingedSite.{u, u, u}` — but it is a structural refactor of a whole subtree whose only gain is
-one comparison that the other route buys inside one new construction.
+`AlgebraicGeometry.RingedSite.ringedTopos` (`.ringedTopos` read in 76 modules).  **That route is not
+taken**: the generalization is feasible — the `[EssentiallySmall.{v} X.C]` it would carry *is*
+discharged by instance search at a single universe, so it is backward compatible at
+`RingedSite.{u, u, u}` — but it is a structural refactor of a whole subtree whose only gain is one
+comparison that the other route buys inside one new construction.
 
 The other route identifies the two topoi **by restriction along a functor of sites** instead,
 which the small étale site allows and a general site does not: its topology is subcanonical

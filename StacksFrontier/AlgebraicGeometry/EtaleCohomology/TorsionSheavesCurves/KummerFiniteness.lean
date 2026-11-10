@@ -80,7 +80,7 @@ theorem finite_ext_succ_X₁_of_shortExact {C : Type*} [Category C] [Abelian C] 
     (Abelian.Ext.comp_assoc_of_second_deg_zero y (Abelian.Ext.mk₀ S.g) hS.extClass rfl).trans
       (by rw [hS.comp_extClass, Abelian.Ext.comp_zero])
   rw [Abelian.Ext.add_comp, h0, add_zero] at hz
-  show r _ + t.comp hS.extClass rfl = x
+  change r _ + t.comp hS.extClass rfl = x
   rw [hz]
   abel
 
@@ -172,6 +172,7 @@ variable {k : Type u} [Field k] [IsAlgClosed k] {X : Scheme.{u}} (g : X ⟶ Spec
 
 include g
 
+omit [Smooth g] in
 /-- `H⁰(X, 𝐆_m)` is covered by finitely many translates of its `ℓ`-multiples, on an integral
 scheme locally of finite type over an algebraically closed field: through
 `H⁰(X, 𝐆_m) = Γ(X, 𝒪_X)^*` this is `finite_units_quotient_powMonoidHom_range`. -/
@@ -203,6 +204,7 @@ theorem exists_finset_sheafH_zero_multiplicativeSheaf {ℓ : ℕ} (hℓ : ℓ �
   rw [← hι, hab]
   exact (e.symm_apply_apply x).symm.trans (congrArg e.symm ha.symm)
 
+omit [Smooth g] in
 /-- **`H¹(X, μ_ℓ)` is finite once the `ℓ`-torsion of `H¹(X, 𝐆_m)` is**, on a smooth curve over an
 algebraically closed field, `ℓ` invertible in `k`. The Kummer sequence gives
 `H⁰(X, 𝐆_m) →ℓ H⁰(X, 𝐆_m) → H¹(X, μ_ℓ) → H¹(X, 𝐆_m)[ℓ]`, and the cokernel of the first map is
@@ -213,19 +215,19 @@ theorem finite_sheafH_one_rootsOfUnitySheaf_of_finite {ℓ : ℕ} (hℓk : IsUni
     Finite (Sheaf.H.{w} (Stacks.Kummer.rootsOfUnitySheaf.{u, v} X ℓ) 1) := by
   let S := Stacks.Kummer.kummerSequence.{u, v} X ℓ
   obtain ⟨T, hT⟩ := exists_finset_sheafH_zero_multiplicativeSheaf.{u, v, w} g
-    (ne_zero_of_isUnit_natCast g hℓk)
+    (ne_zero_of_isUnit_natCast hℓk)
   have hSE := Stacks.Kummer.kummerSequence_shortExact.{u, v} X
-    (ne_zero_of_isUnit_natCast g hℓk) (isUnit_natCast_globalSections_of_isUnit g hℓk)
+    (ne_zero_of_isUnit_natCast hℓk) (isUnit_natCast_globalSections_of_isUnit g hℓk)
   refine finite_sheafH_succ_rootsOfUnitySheaf_of_finite hSE 0 T hT ?_
   refine Set.Finite.subset (Set.finite_range fun c : {c : Sheaf.H.{w}
       (Stacks.Kummer.multiplicativeSheaf.{u, v} X) 1 // ℓ • c = 0} =>
       (show Abelian.Ext _ S.X₂ 1 from c.1)) ?_
   rintro _ ⟨x, rfl⟩
   refine ⟨⟨x.comp (Abelian.Ext.mk₀ S.f) (add_zero 1), ?_⟩, rfl⟩
-  show ℓ • x.comp (Abelian.Ext.mk₀ S.f) (add_zero 1) = 0
+  change ℓ • x.comp (Abelian.Ext.mk₀ S.f) (add_zero 1) = 0
   rw [← ext_comp_mk₀_nsmul_id (x.comp (Abelian.Ext.mk₀ S.f) (add_zero 1)) ℓ,
     Abelian.Ext.comp_assoc_of_third_deg_zero, Abelian.Ext.mk₀_comp_mk₀]
-  show x.comp (Abelian.Ext.mk₀ (S.f ≫ S.g)) _ = 0
+  change x.comp (Abelian.Ext.mk₀ (S.f ≫ S.g)) _ = 0
   rw [S.zero, Abelian.Ext.mk₀_zero, Abelian.Ext.comp_zero]
 
 /-- **`H²(X, μ_ℓ)` is finite once `H¹(X, 𝐆_m)/ℓ` is**, on a smooth curve over an algebraically
@@ -238,7 +240,7 @@ theorem finite_sheafH_two_rootsOfUnitySheaf_of_finite {ℓ : ℕ} (hℓk : IsUni
     Finite (Sheaf.H.{w} (Stacks.Kummer.rootsOfUnitySheaf.{u, v} X ℓ) 2) := by
   obtain ⟨T, hT⟩ := exists_finset_add_nsmul_of_finite_quotient ℓ hfin
   have hSE := Stacks.Kummer.kummerSequence_shortExact.{u, v} X
-    (ne_zero_of_isUnit_natCast g hℓk) (isUnit_natCast_globalSections_of_isUnit g hℓk)
+    (ne_zero_of_isUnit_natCast hℓk) (isUnit_natCast_globalSections_of_isUnit g hℓk)
   refine finite_sheafH_succ_rootsOfUnitySheaf_of_finite hSE 1 T hT ?_
   refine Set.Finite.subset (Set.finite_singleton 0) ?_
   rintro _ ⟨x, rfl⟩
@@ -271,7 +273,7 @@ theorem curveStatements_constantSheaf_of_smoothCurve_of_multiplicative
       ((constantSheaf X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v}).obj E) := by
   refine curveStatements_constantSheaf_of_smoothCurve_of g hℓk E hE hdiv (fun q hq1 hq2 => ?_) h6
   obtain ⟨e⟩ := Stacks.Kummer.nonempty_constantSheaf_iso_rootsOfUnitySheaf.{u, v} k g ℓ
-    (Nat.pos_of_ne_zero (ne_zero_of_isUnit_natCast g hℓk)) hℓk E hE
+    (Nat.pos_of_ne_zero (ne_zero_of_isUnit_natCast hℓk)) hℓk E hE
   have hμ : Finite (Sheaf.H.{w} (Stacks.Kummer.rootsOfUnitySheaf.{u, v} X ℓ) q) := by
     obtain rfl | rfl : q = 1 ∨ q = 2 := by omega
     · exact finite_sheafH_one_rootsOfUnitySheaf_of_finite g hℓk hfin1

@@ -207,8 +207,7 @@ theorem envelopeBaseChangeHom_comp_tensorEnvelopeMap :
         envelopeMapOfTensor, envelopePairMap_algebraMap]
       simp
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul a d =>
     rw [tensorEnvelopeMap_tmul, envelopeBaseChangeHom_tmul, envelopeBaseChangeHom_tmul,
       map_mul]
@@ -278,8 +277,7 @@ theorem bijective_envelopeBaseChangeHom_of_flat [Module.Flat B B']
             change D.algebraMap.toRingHom (algebraMap A B a) = D.structureMap.toRingHom a
             rw [← D.algebraMap_comp]
             rfl } : B →ₐ[A] D.object) z) = D₁.algebraMap.toRingHom z := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul a b => exact envelopeBaseChangeHom_tmul_algebraMap φ hφ hJJ₁ D D₁ a b
     | add x y hx hy => simp only [map_add, hx, hy]
   have hκalg (b : B) : κ.toRingHom (D.algebraMap.toRingHom b) =
@@ -290,8 +288,7 @@ theorem bijective_envelopeBaseChangeHom_of_flat [Module.Flat B B']
     rw [← hΦalg]
     change tensorEnvelopeMap hJ'eq.ge D D' (Φe.symm (Φe _)) = _
     rw [RingEquiv.symm_apply_apply]
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul a b =>
       change tensorEnvelopeMap hJ'eq.ge D D' (a ⊗ₜ[A] D.algebraMap.toRingHom b) =
         a ⊗ₜ[A] D'.algebraMap.toRingHom (algebraMap B B' b)
@@ -312,8 +309,7 @@ theorem bijective_envelopeBaseChangeHom_of_flat [Module.Flat B B']
     rw [RingEquiv.symm_apply_apply]
     rfl
   have hΦ'u₂ (y : A₁ ⊗[A] B') : Φ' (u₂ y) = D₁'.algebraMap.toRingHom y := by
-    induction y using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction y using TensorProduct.inductionOn with
     | tmul a b => exact envelopeBaseChangeHom_tmul_algebraMap φ hφ hJ'J₁' D' D₁' a b
     | add x y hx hy => simp only [map_add, hx, hy]
   have hΦ'u₁ (x : D₁.object) : Φ' (u₁ x) = κ₁.toRingHom x := by
@@ -324,13 +320,11 @@ theorem bijective_envelopeBaseChangeHom_of_flat [Module.Flat B B']
     rw [RingEquiv.apply_symm_apply]
   have hleft (z : D₁'.object) : Φ' (Ψ z) = z := by
     obtain ⟨w, rfl⟩ := e₁.surjective z
-    induction w using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction w using TensorProduct.inductionOn with
     | tmul x y => rw [hΨe, map_mul, hΦ'u₁, hΦ'u₂, he₁]
     | add x y hx hy => simp only [map_add, hx, hy]
   have hright (z : T) : Ψ (Φ' z) = z := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul a d =>
       have hsplit : a ⊗ₜ[A] d = (a ⊗ₜ[A] (1 : D'.object)) * ((1 : A₁) ⊗ₜ[A] d) := by
@@ -346,8 +340,7 @@ theorem bijective_envelopeBaseChangeHom_of_flat [Module.Flat B B']
         rw [map_one]
       · clear hsplit
         obtain ⟨w, rfl⟩ := e.surjective d
-        induction w using TensorProduct.induction_on with
-        | zero => simp only [map_zero, TensorProduct.tmul_zero]
+        induction w using TensorProduct.inductionOn with
         | add x y hx hy => rw [map_add, TensorProduct.tmul_add, map_add, map_add, hx, hy]
         | tmul x b' =>
           rw [he]

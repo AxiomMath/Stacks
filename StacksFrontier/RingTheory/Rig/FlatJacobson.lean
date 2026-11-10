@@ -93,7 +93,7 @@ public theorem completedAwayMap_map_ideal
     rw [Ideal.map_map, Ideal.map_map]
     congr 1
     ext x
-    show φf (algebraMap A A_f x) = algebraMap B B_f (φ x)
+    change φf (algebraMap A A_f x) = algebraMap B B_f (φ x)
     dsimp only [φf, IsLocalization.Away.map]
     apply IsLocalization.map_eq
   calc _ = I_f.map ((completedAwayMap φ I f).comp
@@ -163,11 +163,11 @@ private theorem exists_reduction_equiv_adicCompletion
   let fac : R ⧸ I →+* R ⧸ I.radical := Ideal.Quotient.factor Ideal.le_radical
   let ρ : C →+* R ⧸ I.radical := fac.comp ev
   have hker : RingHom.ker ρ = topologicalNilradical C := by
-    show Ideal.comap ev (RingHom.ker fac) = _
+    change Ideal.comap ev (RingHom.ker fac) = _
     rw [Ideal.Quotient.factor_ker,
       Ideal.map_radical_of_surjective Ideal.Quotient.mk_surjective (by rw [Ideal.mk_ker]),
       Ideal.map_quotient_self, Ideal.comap_radical]
-    show (Ideal.comap ev ⊥).radical = _
+    change (Ideal.comap ev ⊥).radical = _
     rw [← RingHom.ker_eq_comap_bot, AdicCompletion.ker_evalOneₐ_eq_map I hIfg, ← hradC]
   have hsurj : Function.Surjective ρ := by
     intro x
@@ -178,7 +178,7 @@ private theorem exists_reduction_equiv_adicCompletion
   let e : C ⧸ topologicalNilradical C ≃+* R ⧸ I.radical :=
     (Ideal.quotEquivOfEq hker.symm).trans e0
   refine ⟨e, fun r => ?_⟩
-  show e (Ideal.Quotient.mk (topologicalNilradical C) (algebraMap R C r)) = _
+  change e (Ideal.Quotient.mk (topologicalNilradical C) (algebraMap R C r)) = _
   simp only [e, e0, RingEquiv.trans_apply, Ideal.quotEquivOfEq_mk,
     RingHom.quotientKerEquivOfSurjective_apply_mk]
   simp [ρ, fac, ev]
@@ -237,7 +237,7 @@ public theorem isTopologicallyOfFiniteType_completedAwayMap
     simpa [ψ, A_loc, B_loc, I_loc, J_loc] using completedAwayMap_comp_algebraMap φ I f
   have hψmap : I_hat.map ψ = J_hat := completedAwayMap_map_ideal φ I f
   have hψcont : Continuous ψ := by
-    show @Continuous A_hat B_hat I_hat.adicTopology J_hat.adicTopology ψ
+    change @Continuous A_hat B_hat I_hat.adicTopology J_hat.adicTopology ψ
     exact continuous_adic_of_map_le I_hat J_hat ψ (by rw [hψmap])
   have hradA : I.radical = a := radical_eq_topologicalNilradical_of_isAdic I hI
   have hradB : (I.map φ).radical = b := radical_eq_topologicalNilradical_of_isAdic (I.map φ) hIφ
@@ -254,8 +254,8 @@ public theorem isTopologicallyOfFiniteType_completedAwayMap
   have hnil : a ≤ Ideal.comap φ b := topologicalNilradical_le_comap_of_continuous φ hφ
   let φred : A ⧸ a →+* B ⧸ b := Ideal.quotientMap b φ hnil
   have hφred : φred.FiniteType := by
-    have htaut := _root_.RingHom.isTaut_of_isAdic φ hφ ⟨I, hI, hIφ⟩
-    show (Ideal.quotientMap b φ hnil).FiniteType
+    have htaut := _root_.RingHom.isTaut_of_isAdic φ ⟨I, hI, hIφ⟩
+    change (Ideal.quotientMap b φ hnil).FiniteType
     exact isFiniteTypeOnReductions_of_isTaut_of_isTopologicallyOfFiniteType
       φ hφ ⟨I, TopologicalRing.isWeakIdealOfDefinition_of_isAdic hI⟩ htaut hφft
   let SA := A_loc ⧸ a_loc
@@ -274,7 +274,7 @@ public theorem isTopologicallyOfFiniteType_completedAwayMap
   have : IsLocalization.Away (φred (Ideal.Quotient.mk a f)) SB := by
     simpa [hφredf] using isLocalization_away_quotient b (φ f)
   have huunit : IsUnit ((iB.comp φred) (Ideal.Quotient.mk a f)) := by
-    show IsUnit (iB (φred (Ideal.Quotient.mk a f)))
+    change IsUnit (iB (φred (Ideal.Quotient.mk a f)))
     exact IsLocalization.Away.algebraMap_isUnit (φred (Ideal.Quotient.mk a f))
   let u : SA →+* SB :=
     IsLocalization.Away.lift (Ideal.Quotient.mk a f) (g := iB.comp φred) huunit
@@ -331,7 +331,7 @@ public theorem isTopologicallyOfFiniteType_completedAwayMap
     obtain ⟨z, rfl⟩ := hsurjA x
     apply eB.injective
     simp only [RingHom.comp_apply]
-    show eB (Ideal.Quotient.mk b_hat (ψ ((algebraMap A_loc A_hat) z))) =
+    change eB (Ideal.Quotient.mk b_hat (ψ ((algebraMap A_loc A_hat) z))) =
       eB (eB.symm (u (eA (Ideal.Quotient.mk a_hat (algebraMap A_loc A_hat z)))))
     rw [show ψ (algebraMap A_loc A_hat z) = algebraMap B_loc B_hat (φloc z) from
       RingHom.congr_fun hψcomp z, heB, RingEquiv.apply_symm_apply, heA]
@@ -360,7 +360,7 @@ public theorem isTopologicallyOfFiniteType_completedAwayMap
     intro x
     obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective x
     apply eB.injective
-    show eB (Ideal.Quotient.mk b_hat (algebraMap B B_hat (φ x))) =
+    change eB (Ideal.Quotient.mk b_hat (algebraMap B B_hat (φ x))) =
       eB (eB.symm (iB (φred (Ideal.Quotient.mk a x))))
     rw [IsScalarTower.algebraMap_apply B B_loc B_hat, heB, RingEquiv.apply_symm_apply]
     rfl
@@ -453,7 +453,7 @@ private lemma flat_atPrime_of_map_comap_eq
   have : IsLocalHom (algebraMap Dp Eq) := Localization.isLocalHom_localRingHom p q ψ rfl
   have hm : ((IsLocalRing.maximalIdeal Dp).comap (algebraMap A Dp)).map (algebraMap A Dp) =
       IsLocalRing.maximalIdeal Dp := by
-    show (((IsLocalRing.maximalIdeal Dp).comap (algebraMap D Dp)).comap i).map
+    change (((IsLocalRing.maximalIdeal Dp).comap (algebraMap D Dp)).comap i).map
       ((algebraMap D Dp).comp i) = _
     rw [show (IsLocalRing.maximalIdeal Dp).comap (algebraMap D Dp) = p from
       IsLocalization.AtPrime.under_maximalIdeal Dp p,
@@ -477,7 +477,7 @@ private lemma map_comap_eq_of_exists_quotient_equiv
   rw [he] at hz
   have hd : i a - x ∈ (q.comap i).map i := Ideal.Quotient.eq.mp hz
   have ha : a ∈ q.comap i := by
-    show i a ∈ q
+    change i a ∈ q
     simpa using q.add_mem (Ideal.map_comap_le hd) hx
   have hia : i a ∈ (q.comap i).map i := Ideal.mem_map_of_mem i ha
   simpa using ((q.comap i).map i).sub_mem hia hd
@@ -548,7 +548,7 @@ public theorem isRigFlat_of_isNaivelyRigFlat_of_isJacobsonRing_quotient
   have : IsLocalHom quotχ := hfinite.to_isIntegral.isLocalHom Ideal.quotientMap_injective
   have hfunit : IsUnit (Ideal.Quotient.mk (q.comap χ) f) := by
     apply IsUnit.of_map quotχ
-    show IsUnit (Ideal.Quotient.mk q (algebraMap B Bhat (φ f)))
+    change IsUnit (Ideal.Quotient.mk q (algebraMap B Bhat (φ f)))
     rw [IsScalarTower.algebraMap_apply B B_f Bhat]
     exact ((IsLocalization.Away.algebraMap_isUnit (φ f)).map
       (algebraMap B_f Bhat)).map (Ideal.Quotient.mk q)

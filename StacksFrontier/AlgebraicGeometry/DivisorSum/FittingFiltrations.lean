@@ -135,8 +135,8 @@ theorem divisorTail_ideal_eq_equationTail {D : ℕ → X.IdealSheafData}
     simp only [Finset.mem_range] at hj
     rw [ideal_pow_apply, hlow j (by omega)]
     rcases le_or_gt i j with hij | hij
-    · rw [if_pos (by omega), if_pos hij, pow_one]
-    · rw [if_neg (by omega), if_neg (by omega), pow_zero]
+    · rw [ite_eq_left (by omega), ite_eq_left hij, pow_one]
+    · rw [ite_eq_right (by omega), ite_eq_right (by omega), pow_zero]
   rw [hfac, ← Finset.prod_filter]
   -- The surviving factors are indexed by `Ico i N`, which is `Icc (i+1) N` shifted by one.
   have hfilter : (Finset.range N).filter (fun j => i ≤ j) = Finset.Ico i N := by

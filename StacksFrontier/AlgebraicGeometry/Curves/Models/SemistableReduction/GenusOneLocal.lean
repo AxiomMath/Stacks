@@ -278,10 +278,10 @@ theorem exists_ne_zero_picardTorsion_specialFiber_baseChange [IsReduced S.specia
     intro h0
     have hz : S.picardTorsionToSpecialFiberRed ℓ x = 0 := by
       apply Subtype.ext
-      show schemePullbackClass S.specialFiberRedι (x : ofScheme S.X) = 0
+      change schemePullbackClass S.specialFiberRedι (x : ofScheme S.X) = 0
       have : S.specialFiberRedι = S.specialFiber.reductionι ≫ S.specialFiberι := rfl
       rw [this, ← schemePullbackClass_comp]
-      show schemePullbackClassHom S.specialFiber.reductionι M = 0
+      change schemePullbackClassHom S.specialFiber.reductionι M = 0
       rw [h0, map_zero]
     exact hx ((S.injective_picardTorsionToSpecialFiberRed ℓ hℓ).eq_iff.1
       (hz.trans (map_zero _).symm))
@@ -293,7 +293,7 @@ theorem exists_ne_zero_picardTorsion_specialFiber_baseChange [IsReduced S.specia
     S.specialFiber (algebraMap S.k K) S.specialFiberToSpec
   refine ⟨⟨schemePullbackClassHom (pullback.fst S.specialFiberToSpec
     (Spec.map (CommRingCat.ofHom (algebraMap S.k K)))) M, ?_⟩, ?_⟩
-  · show (ℓ : ℤ) • schemePullbackClassHom _ M = 0
+  · change (ℓ : ℤ) • schemePullbackClassHom _ M = 0
     rw [← map_zsmul, hM, ← map_zsmul, (Submodule.mem_torsionBy_iff _ _).1 x.2, map_zero,
       map_zero]
   · intro h0
@@ -520,7 +520,7 @@ private theorem isCoprime_natCast_of_pos_of_lt {ℓ : ℕ} (hℓ : ℓ.Prime) {z
   have hzabs : (z.natAbs : ℤ) = z := Int.natAbs_of_nonneg hz.le
   have hlt : z.natAbs < ℓ := by exact_mod_cast (hzabs ▸ hzℓ)
   have hpos : 0 < z.natAbs := Int.natAbs_pos.mpr hz.ne'
-  show Nat.Coprime ℓ z.natAbs
+  change Nat.Coprime ℓ z.natAbs
   exact (hℓ.coprime_iff_not_dvd).2 fun hdvd => absurd (Nat.le_of_dvd hpos hdvd) (by omega)
 
 attribute [local instance] AddSubgroup.torsionBy.zmodModule in

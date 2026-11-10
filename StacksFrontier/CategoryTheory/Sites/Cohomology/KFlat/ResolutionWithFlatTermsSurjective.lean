@@ -80,7 +80,7 @@ public theorem isIso_ιTruncLE_f {C : Type*} [Category* C] [Abelian C]
   have hb : ¬ (ComplexShape.embeddingUpIntLE n).BoundaryLE (n - i).natAbs := by
     rw [ComplexShape.boundaryLE_embeddingUpIntLE_iff, Int.natAbs_eq_zero]
     lia
-  show IsIso ((K.op.πTruncGE (ComplexShape.embeddingUpIntLE n).op).f i).unop
+  change IsIso ((K.op.πTruncGE (ComplexShape.embeddingUpIntLE n).op).f i).unop
   have h3 : IsIso ((K.op.πTruncGE (ComplexShape.embeddingUpIntLE n).op).f i) := by
     dsimp only [HomologicalComplex.πTruncGE, HomologicalComplex.truncGE]
     rw [ComplexShape.Embedding.isIso_liftExtend_f_iff _ _

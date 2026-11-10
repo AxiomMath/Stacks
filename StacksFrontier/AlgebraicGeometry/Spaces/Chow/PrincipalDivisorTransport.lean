@@ -88,7 +88,7 @@ theorem IntegralClosedSubspace.codimension_equivOfIso (Z : IntegralClosedSubspac
       IrreducibleCloseds.orderIsoOfHomeomorph (pointsHomeomorphOfIso B S hS e)
         (integralClosedSubspaceSupport B S hS hX Z) := by
     refine IrreducibleCloseds.ext ?_
-    show subspacePointSet B S hS X' _ = _
+    change subspacePointSet B S hS X' _ = _
     rw [IntegralClosedSubspace.subspacePointSet_equivOfIso,
       IrreducibleCloseds.coe_orderIsoOfHomeomorph]
     rfl
@@ -117,7 +117,7 @@ theorem IntegralClosedSubspace.genericPoint_toPrimeDivisor_equivOfIso
     (continuous_pointsMap B S hS e.hom)
   change IsGenericPoint _ (closure (pointsMap B S hS X e.hom ''
     subspacePointSet B S hS X Z.subspace)) at hgen
-  show IsGenericPoint _ (subspacePointSet B S hS X'
+  change IsGenericPoint _ (subspacePointSet B S hS X'
     (IntegralClosedSubspace.equivOfIso _ _ _ hX hX' hdec hdec' e Z).subspace)
   rw [IntegralClosedSubspace.subspacePointSet_equivOfIso]
   have hcl : IsClosed (pointsMap B S hS X e.hom '' subspacePointSet B S hS X Z.subspace) :=
@@ -143,10 +143,10 @@ private theorem dite_codimension_equivOfIso (Z : IntegralClosedSubspace B S hS X
   have hcod := IntegralClosedSubspace.codimension_equivOfIso hX hX' hdec hdec' e Z
   by_cases h : codimension (integralClosedSubspaceSupport B S hS hX Z) = 1
   · have h' := hcod.trans h
-    rw [dif_pos h', dif_pos h]
+    rw [dite_eq_left h', dite_eq_left h]
     exact H h h' (IntegralClosedSubspace.genericPoint_toPrimeDivisor_equivOfIso hX hX' hdec
       hdec' e Z h h')
-  · rw [dif_neg (hcod ▸ h), dif_neg h]
+  · rw [dite_eq_right (hcod ▸ h), dite_eq_right h]
 
 /-- **The order of vanishing along matched prime divisors.** Let `P` be a prime divisor of `X`
 and `P'` one of `X'` whose generic point is the image of that of `P`. Under the isomorphism of
@@ -211,14 +211,10 @@ theorem PrimeDivisor.rationalFunctionsToGenericTotalFractionRing_mapIso
   have : IsAffine U'.scheme.left.1 := P.isAffine_genericChart B S hS hX hdec
   have : IsReduced U'.scheme.left.1 := P.isReduced_chart B S hS hX hInt U
   have : IsLocallyNoetherian U'.scheme.left.1 := P.isLocallyNoetherian_chart B S hS hX hN U
-  have hCof := ElementaryEtaleNeighborhood.isCofiltered_of_nonempty B S hS X hX
-    (P.genericPoint B S hS X) ⟨U⟩
-  have hCof' := ElementaryEtaleNeighborhood.isCofiltered_of_nonempty B S hS X' hX'
-    (P'.genericPoint B S hS X') ⟨U'⟩
-  have key : P'.neighborhoodTotalFractionRingToGeneric B S hS hX' hdec' U' hCof' =
+  have key : P'.neighborhoodTotalFractionRingToGeneric B S hS hX' hdec' U' =
       (Ring.totalFracRingEquiv (henselianLocalRingEquivOfIso hdec hdec' e hP)
         (K' := P'.genericTotalFractionRing B S hS hX' hdec')).toRingHom.comp
-        (P.neighborhoodTotalFractionRingToGeneric B S hS hX hdec U hCof) := by
+        (P.neighborhoodTotalFractionRingToGeneric B S hS hX hdec U) := by
     refine IsLocalization.ringHom_ext (nonZeroDivisors Γ(U'.scheme.left.1, ⊤))
       (RingHom.ext fun a => ?_)
     simp only [RingHom.comp_apply, RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom]
@@ -231,19 +227,19 @@ theorem PrimeDivisor.rationalFunctionsToGenericTotalFractionRing_mapIso
       (henselianLocalRingEquivOfIso_sectionHom hdec hdec' e hP (op U) a).symm
   calc P'.rationalFunctionsToGenericTotalFractionRing B S hS hX' hdec' hInt' hN'
         (rationalFunctionsMapIso hX' e r)
-      = P'.neighborhoodTotalFractionRingToGeneric B S hS hX' hdec' U' hCof'
+      = P'.neighborhoodTotalFractionRingToGeneric B S hS hX' hdec' U'
           (rationalFunctionsToTotalFractionRing B S hS hX' U'.scheme U'.toSpace
             U'.etale_toSpace (rationalFunctionsMapIso hX' e r)) :=
         (P'.neighborhoodTotalFractionRingToGeneric_pullback_eq B S hS hX' hdec' hInt' hN' U'
-          hCof' _).symm
-    _ = P'.neighborhoodTotalFractionRingToGeneric B S hS hX' hdec' U' hCof'
+          _).symm
+    _ = P'.neighborhoodTotalFractionRingToGeneric B S hS hX' hdec' U'
           (rationalFunctionsToTotalFractionRing B S hS hX U.scheme U.toSpace
             U.etale_toSpace r) :=
         congrArg _ (rationalFunctionsToTotalFractionRing_rationalFunctionsMapIso hX' e U'.scheme
           U.toSpace U.etale_toSpace U'.toSpace U'.etale_toSpace rfl r)
     _ = _ := by
         rw [key, ← P.neighborhoodTotalFractionRingToGeneric_pullback_eq B S hS hX hdec hInt hN U
-          hCof r]
+          r]
         rfl
 
 end PrimeDivisor

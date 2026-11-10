@@ -248,7 +248,7 @@ private theorem point_comp_rightTranslation
     {B : Scheme.{u}} (G : Over B) [GrpObj G]
     (p q : (𝟙_ (Over B)) ⟶ G) :
     p ≫ rightTranslation G q = p * q := by
-  show p ≫ (𝟙 G * (toUnit G ≫ q)) = p * q
+  change p ≫ (𝟙 G * (toUnit G ≫ q)) = p * q
   rw [MonObj.comp_mul]
   simp
 
@@ -257,7 +257,7 @@ private theorem point_comp_leftTranslation
     {B : Scheme.{u}} (G : Over B) [GrpObj G]
     (p q : (𝟙_ (Over B)) ⟶ G) :
     p ≫ leftTranslation G q = q * p := by
-  show p ≫ ((toUnit G ≫ q) * 𝟙 G) = q * p
+  change p ≫ ((toUnit G ≫ q) * 𝟙 G) = q * p
   rw [MonObj.comp_mul]
   simp
 
@@ -376,17 +376,17 @@ private theorem exists_closed_subgroup_on_identity_component
   let H : Over (Spec (.of k)) := Over.mk (I.subschemeι ≫ f)
   let j : H ⟶ U := Over.homMk I.subschemeι
   have hjClosed : IsClosedImmersion j.left := by
-    show IsClosedImmersion I.subschemeι
+    change IsClosedImmersion I.subschemeι
     infer_instance
   have : IrreducibleSpace I.subscheme :=
     ((componentHomeo Z).irreducibleSpace_iff).2 (Subtype.irreducibleSpace Z.property.1)
   have : IsReduced I.subscheme :=
     Scheme.IdealSheafData.isReduced_subscheme_vanishingIdeal T
   let : IrreducibleSpace H.left := by
-    show IrreducibleSpace I.subscheme
+    change IrreducibleSpace I.subscheme
     infer_instance
   let : IsReduced H.left := by
-    show IsReduced I.subscheme
+    change IsReduced I.subscheme
     infer_instance
   let hgeom :=
     geometricallyIrreducible_irreducibleComponent_of_identity
@@ -397,14 +397,14 @@ private theorem exists_closed_subgroup_on_identity_component
   have : PerfectField k := inferInstance
   let D := MonoidalCategoryStruct.tensorObj H H
   have : IrreducibleSpace D.left := by
-    show IrreducibleSpace ↥(CategoryTheory.Limits.pullback p p)
+    change IrreducibleSpace ↥(CategoryTheory.Limits.pullback p p)
     infer_instance
   have : IsReduced D.left := by
-    show IsReduced (CategoryTheory.Limits.pullback p p)
+    change IsReduced (CategoryTheory.Limits.pullback p p)
     exact isReduced_pullback_over_perfectField
       p p
   have : IsReduced ((𝟙_ (Over (Spec (.of k)))).left) := by
-    show IsReduced (Spec (.of k))
+    change IsReduced (Spec (.of k))
     infer_instance
   obtain ⟨e, he⟩ := exists_overHom_factor_through_vanishingIdeal η[U] T I rfl hunitRange
   let m : D ⟶ U := (j ⊗ₘ j) ≫ μ[U]
@@ -444,7 +444,7 @@ private theorem exists_rational_point_lift_to_identityComponent
       (p ≫ ψ).left.base (IsLocalRing.closedPoint k) = x := by
   obtain ⟨px, hpx⟩ := exists_point_of_mem_closedPoints k X f x hxclosed hres
   have : IsReduced ((𝟙_ (Over (Spec (.of k)))).left) := by
-    show IsReduced (Spec (.of k))
+    change IsReduced (Spec (.of k))
     infer_instance
   obtain ⟨q, hq⟩ := exists_overHom_factor_through_vanishingIdeal px
     ⟨(Z : Set X), isClosed_of_mem_irreducibleComponents _ Z.property⟩ (componentIdeal Z.1 Z.2) rfl
@@ -534,12 +534,12 @@ private theorem irreducibleSpace_of_connected_jacobson_group
   have : CompactSpace T.left := Homeomorph.compactSpace (overIsoHomeo eH)
   have : QuasiCompact T.hom := inferInstance
   have : QuasiCompact ((snd T G).left) := by
-    show QuasiCompact (pullback.snd T.hom f)
+    change QuasiCompact (pullback.snd T.hom f)
     infer_instance
   have hprecompact : IsCompact ((snd T G).left ⁻¹ᵁ U : Set D.left) :=
     (snd T G).left.isCompact_preimage hUcompact
   have hWcompact : IsCompact W := by
-    show IsCompact (Set.image m.left.base ((snd T G).left.base ⁻¹' (U : Set X)))
+    change IsCompact (Set.image m.left.base ((snd T G).left.base ⁻¹' (U : Set X)))
     simpa [m] using hprecompact.image m.left.continuous
   have hqsecond (p : (𝟙_ (Over (Spec (.of k)))) ⟶ T) :
       leftTranslateFirst T G p ≫ snd T G = snd T G := by
@@ -608,7 +608,7 @@ private theorem irreducibleSpace_of_connected_jacobson_group
   have : QuasiSeparatedSpace X := inferInstance
   let Wopen : X.Opens := ⟨W, hWopen⟩
   have : CompactSpace Wopen.toScheme := by
-    show CompactSpace (W : Set X)
+    change CompactSpace (W : Set X)
     exact isCompact_iff_compactSpace.mp hWcompact
   let g : Wopen.toScheme ⟶ X := Wopen.ι
   have : QuasiCompact g := inferInstance
@@ -653,22 +653,22 @@ private theorem irreducibleSpace_of_connected_jacobson_group
     let eS : Hscheme.left ≅ T.left := (Over.forget _).mapIso eH
     have sq : IsPullback eS.inv T.hom Hscheme.hom (𝟙 _) :=
       IsPullback.of_horiz_isIso ⟨by
-        show eH.inv.left ≫ Hscheme.hom = T.hom ≫ 𝟙 _
+        change eH.inv.left ≫ Hscheme.hom = T.hom ≫ 𝟙 _
         simpa only [Category.comp_id] using eH.inv.w⟩
     exact MorphismProperty.of_isPullback sq hgeom
   have : GeometricallyIrreducible (snd T G).left := by
-    show GeometricallyIrreducible (pullback.snd T.hom G.hom)
+    change GeometricallyIrreducible (pullback.snd T.hom G.hom)
     infer_instance
   have : UniversallyOpen T.hom := inferInstance
   have : UniversallyOpen (snd T G).left := by
-    show UniversallyOpen (pullback.snd T.hom G.hom)
+    change UniversallyOpen (pullback.snd T.hom G.hom)
     infer_instance
   let j : G ⟶ D := lift (toUnit G ≫ η[T]) (𝟙 G)
   have hjsecond : j ≫ snd T G = 𝟙 G := by simp [j]
   have hjmul : j ≫ m = 𝟙 G := by
     simp only [j, m, comp_lift_assoc, lift_fst_assoc, lift_snd,
       Category.assoc, IsMonHom.one_hom]
-    show (1 : G ⟶ G) * 𝟙 G = 𝟙 G
+    change (1 : G ⟶ G) * 𝟙 G = 𝟙 G
     exact one_mul _
   have hpreserves (C : irreducibleComponents X) :
       m.left '' ((snd T G).left ⁻¹' (C : Set X)) ⊆ (C : Set X) := by
@@ -684,10 +684,10 @@ private theorem irreducibleSpace_of_connected_jacobson_group
   have hvsecond : v ≫ snd T G = m := by simp [v]
   have hvmul : v ≫ m = snd T G := by
     simp only [v, m, comp_lift_assoc, lift_fst_assoc, lift_snd]
-    show ((fst T G ≫ ι[T]) ≫ ψ) *
+    change ((fst T G ≫ ι[T]) ≫ ψ) *
       ((fst T G ≫ ψ) * snd T G) = snd T G
     rw [Category.assoc, GrpObj.inv_hom, ← Category.assoc]
-    show (fst T G ≫ ψ)⁻¹ * ((fst T G ≫ ψ) * snd T G) = snd T G
+    change (fst T G ≫ ψ)⁻¹ * ((fst T G ≫ ψ) * snd T G) = snd T G
     exact inv_mul_cancel_left _ _
   have hWdisjoint : Disjoint W (Z' : Set X) := by
     apply Set.disjoint_left.mpr

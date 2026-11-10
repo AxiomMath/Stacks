@@ -167,7 +167,7 @@ theorem isZero_rightDerived_sheafPushforwardCocontinuous
   have : Subsingleton (Ext ((Presheaf.freeAbelianSheaf J).obj
       (restrictedYoneda.{v₁, v₂, w₁, w₂, a} u y.unop)) H (n + 1)) :=
     ⟨fun b b' => (h y.unop b).trans (h y.unop b').symm⟩
-  show IsZero (AddCommGrpCat.of (Ext ((Presheaf.freeAbelianSheaf J).obj
+  change IsZero (AddCommGrpCat.of (Ext ((Presheaf.freeAbelianSheaf J).obj
       (restrictedYoneda.{v₁, v₂, w₁, w₂, a} u y.unop)) H (n + 1)))
   exact AddCommGrpCat.isZero_of_subsingleton _
 

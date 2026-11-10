@@ -43,7 +43,8 @@ The presheaf of sectionwise localizations is taken to be the restriction of scal
 `𝒪 ⟶ 𝒪[1/f]` of the unit presheaf of `𝒪[1/f]` — that is, the presheaf of rings
 `AlgebraicGeometry.RingedSite.awayPresheaf` read as a presheaf of `𝒪`-modules — rather than the
 sectionwise base change `localizationModulePresheaf` of
-`AlgebraicGeometry.RingedSite.MultiplicativeSubpresheaf` in `StacksFrontier/CategoryTheory/Sites/Modules/ModuleSheafLocalization.lean`. Its
+`AlgebraicGeometry.RingedSite.MultiplicativeSubpresheaf` in
+`StacksFrontier/CategoryTheory/Sites/Modules/ModuleSheafLocalization.lean`. Its
 modules of sections are then the localized rings on the nose, so
 `AlgebraicGeometry.RingedSite.isLocalizationAway_awayPresheaf` applies directly and the
 identification with `𝒪_f` is the sheafification map of `CommRingCat`-valued presheaves with its
@@ -169,7 +170,7 @@ theorem unitToAwayModulePresheaf_comp_awayModuleComparison :
     unitToAwayModulePresheaf X h ≫ awayModuleComparison X h = (unitToAwayModule X h).val := by
   refine PresheafOfModules.hom_ext fun U => ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
   let x' : X.O.obj.obj U := x
-  show ((toSheafify X.J (awayPresheaf h)).app U).hom (((toAwayPresheaf h).app U).hom x') =
+  change ((toSheafify X.J (awayPresheaf h)).app U).hom (((toAwayPresheaf h).app U).hom x') =
     ((toAwaySheaf h).hom.app U).hom x'
   rw [toAwaySheaf_hom]
   rfl

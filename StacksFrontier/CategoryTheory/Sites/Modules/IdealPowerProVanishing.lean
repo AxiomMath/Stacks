@@ -221,6 +221,7 @@ def idealPowTower (I : IdealSubsheaf O) :
     fun n : ℕ => Stacks.SheafOfModules.Submodule.homOfLE
       (idealPow_antitone I (Nat.le_succ (n + 1)))
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The transition maps of the tower of powers are the inclusions.** -/
 theorem idealPowTower_map (I : IdealSubsheaf O) {n m : ℕ} (h : n ≤ m) :
     (idealPowTower I).map (homOfLE h).op =
@@ -243,6 +244,7 @@ theorem idealPowTower_map (I : IdealSubsheaf O) {n m : ℕ} (h : n ≤ m) :
 
 /-! ### The multiplication argument -/
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- A morphism out of `Iⁿ⁺¹` into a sheaf of modules killed by `Iᴺ` annihilates every section
 that lies in the objectwise power `I(U)^(N + (n + 1))`.
 
@@ -274,6 +276,7 @@ private theorem app_eq_zero_of_mem_pow (I : IdealSubsheaf O)
   rw [hxy]
   exact LinearMap.mem_ker.1 hy
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **A morphism out of a power of a sheaf of ideals vanishes on a sufficiently higher power.**
 If `F` is killed by `Iᴺ` and `k ≥ N + n + 1`, every morphism `Iⁿ⁺¹ ⟶ F` becomes zero after
 precomposition with the inclusion `Iᵏ ⊆ Iⁿ⁺¹`.
@@ -301,6 +304,7 @@ theorem homOfLE_comp_eq_zero_of_smul_eq_zero (I : IdealSubsheaf O)
 
 /-! ### Pro-vanishing -/
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The morphisms out of the tower of powers of a sheaf of ideals into a sheaf killed by `Iᴺ`
 pro-vanish.** The level at which a morphism out of level `n` dies is `N + n`, uniformly in the
 morphism; this is `Stacks.Sites.homOfLE_comp_eq_zero_of_smul_eq_zero` read along
@@ -357,6 +361,7 @@ variable [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrp
 
 attribute [local instance] HasDerivedCategory.standard
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The derived form of the pro-vanishing, in degree zero.** The tower of powers of a sheaf of
 ideals and a sheaf of modules killed by `Iᴺ` both placed in degree zero, the morphisms out of the
 tower into the target pro-vanish in `D(O)`.
@@ -451,6 +456,7 @@ theorem smul_eq_zero_of_globalSectionDerivedCenter_app_eq_zero
   rw [h0] at hap
   exact hap.symm
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The dévissage fed by the degree-zero base case: what remains is the higher `Ext`.** Let
 `u : ι → (𝟭 D ⟶ 𝟭 D)` be a family of central elements of `D = D(O)` — multiplication by global
 scalars, in the application — and let `E` be an object with bounded cohomology annihilated by all
@@ -526,6 +532,7 @@ theorem homProVanishing_idealPowTower_singleFunctor_of_isGE_of_isLE
     simp only [Functor.id_obj, Functor.id_map] at h
     rw [← cancel_mono e.inv, ← h, hQZ i, comp_zero, zero_comp]
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The dévissage with the heart-level bridge supplied: only the negative degrees remain.**
 This is `Stacks.Sites.homProVanishing_idealPowTower_singleFunctor_of_isGE_of_isLE` with its
 hypothesis `hu` discharged, for the family of central elements given by multiplication by global

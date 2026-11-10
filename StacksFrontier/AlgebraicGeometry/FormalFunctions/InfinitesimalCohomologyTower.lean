@@ -339,7 +339,7 @@ public theorem infinitesimalCompletedRingHom_eq_of_evalₐ (n : ℕ)
     (ha : AdicCompletion.evalₐ (stalkMaximalIdeal y) n r =
       Ideal.Quotient.mk (stalkMaximalIdeal y ^ n) a) :
     infinitesimalCompletedRingHom f y n r = infinitesimalBaseRingHom f y n a := by
-  show (((Scheme.ΓSpecIso (stalkQuotient y n)).inv ≫
+  change (((Scheme.ΓSpecIso (stalkQuotient y n)).inv ≫
       (infinitesimalStructure f y n).appTop).hom)
     (AdicCompletion.evalₐ (stalkMaximalIdeal y) n r) = _
   rw [ha]

@@ -107,7 +107,7 @@ theorem flat_of_flat_quotient_and_localization
   let locA : B →ₗ[A] L := loc.restrictScalars A
   have hnat : (I.subtype.rTensor L) (eL.symm (locI z)) = 0 := by
     have hloc : eL.symm (locI z) = locA.lTensor I (x - y) := by
-      show eL.symm (locI (eB (x - y))) = locA.lTensor I (x - y)
+      change eL.symm (locI (eB (x - y))) = locA.lTensor I (x - y)
       refine TensorProduct.inductionOn (x - y) ?_ ?_
       · intro i b
         simp [locI, eB, eL, locA, loc]
@@ -197,14 +197,14 @@ theorem notMem_supportSet_of_mem_basicOpen_of_chart
     exact Ideal.subset_span (by simp)
   have hqOpen : hU.primeIdealOf xU ∈ PrimeSpectrum.basicOpen t := by
     rw [← hU.fromSpec_preimage_basicOpen t]
-    show hU.fromSpec (hU.primeIdealOf xU) ∈ X.basicOpen t
+    change hU.fromSpec (hU.primeIdealOf xU) ∈ X.basicOpen t
     rwa [hU.fromSpec_primeIdealOf]
   have htNot : t ∉ (hU.primeIdealOf xU).asIdeal :=
     (PrimeSpectrum.mem_basicOpen t (hU.primeIdealOf xU)).mp hqOpen
   have htmem' : t ∈ (hU.primeIdealOf xU).asIdeal := by
-    show t ∈ (hU.isoSpec.hom xU).asIdeal
+    change t ∈ (hU.isoSpec.hom xU).asIdeal
     rw [← hqIdeal]
-    show m t ∈ q.asIdeal
+    change m t ∈ q.asIdeal
     rw [htq]
     exact q.asIdeal.zero_mem
   exact htNot htmem'
@@ -226,7 +226,7 @@ theorem flat_of_flat_off_relativeEffectiveCartierDivisor
     let j : Y.toScheme ⟶ X := Y.ι
     let IY : Y.toScheme.IdealSheafData := I.comap j
     have hIY : IsEffectiveCartierDivisor IY := by
-      show IsPullbackDefined j I
+      change IsPullbackDefined j I
       exact isPullbackDefined_of_flat j I hI.1
     have hsupp : ∀ z : Y.toScheme, j z ∈ I.supportSet → z ∈ IY.supportSet := fun z hz =>
       Scheme.IdealSheafData.mem_supportSet_iff_mem_support.mpr (by
@@ -273,7 +273,7 @@ theorem flat_of_flat_off_relativeEffectiveCartierDivisor
       flat_restrict_open_of_flatAt gS Z hflatgS
     have hYV : (⊤ : (Y.toScheme).Opens) ≤ gS ⁻¹ᵁ V := by
       intro z hz
-      show f (j z) ∈ V
+      change f (j z) ∈ V
       exact z.2
     have hZV : Z ≤ gS ⁻¹ᵁ V := le_trans (by simp) hYV
     let A := Γ(S, V)
@@ -326,7 +326,7 @@ theorem flat_of_flat_off_relativeEffectiveCartierDivisor
       e.inv ≫ pullback.fst IY.subschemeι U.ι ≫ IY.subschemeι ≫ j ≫ f
     have hgQV : ⊤ ≤ gQ ⁻¹ᵁ V := by
       intro z hz
-      show gS (IY.subschemeι ((pullback.fst IY.subschemeι U.ι) (e.inv z))) ∈ V
+      change gS (IY.subschemeι ((pullback.fst IY.subschemeι U.ι) (e.inv z))) ∈ V
       exact hYV (Set.mem_univ _)
     have hρchart :
         e.inv ≫ pullback.snd IY.subschemeι U.ι ≫ hU.isoSpec.hom =
@@ -341,7 +341,7 @@ theorem flat_of_flat_off_relativeEffectiveCartierDivisor
         intro z hz
         exact hYV (Set.mem_univ z))
     have hβspec : Spec.map βcat = Spec.map ρcat ≫ Spec.map αcat := by
-      show Spec.map (CommRingCat.ofHom (ρ.comp α)) =
+      change Spec.map (CommRingCat.ofHom (ρ.comp α)) =
         Spec.map (CommRingCat.ofHom ρ) ≫ Spec.map (CommRingCat.ofHom α)
       rw [CommRingCat.ofHom_comp, ← Spec.map_comp]
     have hρlift : Spec.map ρcat ≫ hU.fromSpec ≫ gS = gQ := by
@@ -377,7 +377,7 @@ theorem flat_of_flat_off_relativeEffectiveCartierDivisor
     let : Flat gQ := hflatQ
     let : Flat gV := by dsimp [gV]; infer_instance
     have hQflat : Module.Flat A Q := by
-      show β.Flat
+      change β.Flat
       apply (Flat.SpecMap_iff (f := βcat)).mp
       have heq : Spec.map βcat = gV ≫ hV.isoSpec.hom := by
         rw [hG]
@@ -387,7 +387,7 @@ theorem flat_of_flat_off_relativeEffectiveCartierDivisor
     let : Module.Flat A Q := hQflat
     let : Module.Flat A L := hLflat
     have : IsScalarTower A B L := IsScalarTower.of_algebraMap_eq' (by
-      show ψ = (algebraMap B L).comp α
+      change ψ = (algebraMap B L).comp α
       exact (congrArg CommRingCat.Hom.hom
         (gS.appLE_map (show U ≤ gS ⁻¹ᵁ V from fun z _ => hYV (Set.mem_univ z))
           (homOfLE (Y.toScheme.basicOpen_le t)).op)).symm)

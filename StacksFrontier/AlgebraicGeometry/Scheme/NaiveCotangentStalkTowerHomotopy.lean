@@ -109,15 +109,14 @@ maps out of `S ⊗[R] M`, for `M` an `R`-module with basis `β`, which agree on 
 A pure tensor `s ⊗ m` is the finite sum of the pure tensors `(r • s) ⊗ β i` over the basis
 expansion `m = ∑ r • β i`, the coefficients moving into the left-hand factor by
 `TensorProduct.smul_tmul`; so additivity and the hypothesis determine the map on pure tensors,
-and `TensorProduct.induction_on` finishes.  This is what makes a description of a map on basis
+and `TensorProduct.inductionOn` finishes.  This is what makes a description of a map on basis
 elements enough, with no linearity of either side over `R`. -/
 theorem tmul_basis_ext {R S M P : Type*} {ι : Type*} [CommSemiring R] [AddCommMonoid S]
     [AddCommMonoid M] [Module R S] [Module R M] [AddCommMonoid P] (β : Module.Basis ι R M)
     (F G : TensorProduct R S M →+ P)
     (h : ∀ (s : S) (i : ι), F (s ⊗ₜ[R] β i) = G (s ⊗ₜ[R] β i)) (x : TensorProduct R S M) :
     F x = G x := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul s m =>
       rw [← β.linearCombination_repr m, Finsupp.linearCombination_apply, Finsupp.sum,
         TensorProduct.tmul_sum, map_sum, map_sum]

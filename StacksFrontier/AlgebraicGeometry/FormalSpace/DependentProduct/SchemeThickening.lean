@@ -217,9 +217,9 @@ private theorem surjective_liftAlongMk_app (T' : BigFppfOver B S hS) :
   obtain ⟨σ, ⟨hσ₁, hσ₂⟩, -⟩ := existsUnique_lift_of_etale_of_universalHomeomorphism a q hq π₁
     (universalHomeomorphism_pullback_fst_of_isThickening hk _) (l.down ≫ c₀) hβ
   refine ⟨ULift.up σ, ?_⟩
-  show mkApp hex T' (ULift.up σ) = ξ
+  change mkApp hex T' (ULift.up σ) = ξ
   refine LiftAlong.ext _ _ (congrArg ULift.up hσ₁) fun T'' t w h h' ↦ ?_
-  show mkRule hex (ULift.up σ) T'' t w h = ξ.lift T'' t w h'
+  change mkRule hex (ULift.up σ) T'' t w h = ξ.lift T'' t w h'
   refine (bcPoint_eq hex _ w _ (ξ.lift T'' t w h') ?_ (ξ.lift_proj T'' t w h')).symm
   -- the point `(t, w)` factors through the universal point
   have hu : t ≫ a = w.down ≫ k := (congrArg ULift.down h').symm
@@ -238,7 +238,7 @@ private theorem surjective_liftAlongMk_app (T' : BigFppfOver B S hS) :
       (show ULift.up (u ≫ π₂) = w from congrArg ULift.up (pullback.lift_snd _ _ _)) _ _
   rw [← hm', ← hm]
   refine congrArg ULift.up ?_
-  show (u ≫ l.down) ≫ c₀ = t ≫ σ
+  change (u ≫ l.down) ≫ c₀ = t ≫ σ
   rw [Category.assoc, ← hσ₂, ← Category.assoc, pullback.lift_fst]
 
 include hk hq in

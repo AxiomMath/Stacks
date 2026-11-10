@@ -209,7 +209,7 @@ theorem oddExtensionDifferential_sq_zero
       (oddExtensionDifferential 𝒜 dA d f x) = 0 := by
   apply (OddVariableExtension.coefficients 𝒜 d).injective
   rw [oddExtensionDifferential_coefficients, oddExtensionDifferential_coefficients]
-  show (dA (dA x.fst + signRingHom 𝒜 d x.snd * f) +
+  change (dA (dA x.fst + signRingHom 𝒜 d x.snd * f) +
       signRingHom 𝒜 d (dA (show A from x.snd)) * f,
     dA (dA (show A from x.snd))) = (0, 0)
   apply Prod.ext
@@ -217,7 +217,7 @@ theorem oddExtensionDifferential_sq_zero
       (show A from x.snd)
     have hcycle := differential_mul_cycle 𝒜 dA hf_grade hf_cycle
       (signRingHom 𝒜 d (show A from x.snd))
-    show dA (dA x.fst + signRingHom 𝒜 d x.snd * f) +
+    change dA (dA x.fst + signRingHom 𝒜 d x.snd * f) +
         signRingHom 𝒜 d (dA (show A from x.snd)) * f = 0
     rw [map_add]
     rw [IsDifferentialGradedAlgebra.d_sq_zero (𝒜 := 𝒜) (d := dA) x.fst, hcycle]
@@ -226,7 +226,7 @@ theorem oddExtensionDifferential_sq_zero
       eq_neg_of_add_eq_zero_right hanti
     rw [hanti']
     simp
-  · show dA (dA (show A from x.snd)) = 0
+  · change dA (dA (show A from x.snd)) = 0
     exact IsDifferentialGradedAlgebra.d_sq_zero (𝒜 := 𝒜) (d := dA)
       (show A from x.snd)
 
@@ -245,9 +245,9 @@ theorem oddExtensionDifferential_grade_zero
   apply (OddVariableExtension.coefficients 𝒜 d).injective
   rw [oddExtensionDifferential_coefficients]
   apply Prod.ext
-  · show dA x.fst + signRingHom 𝒜 d (show A from x.snd) * f = 0
+  · change dA x.fst + signRingHom 𝒜 d (show A from x.snd) * f = 0
     simp [hfst, hsnd]
-  · show dA (show A from x.snd) = 0
+  · change dA (show A from x.snd) = 0
     simp [hsnd]
 
 theorem oddExtensionDifferential_mem
@@ -308,7 +308,7 @@ private theorem oddPositiveEven_coefficients
     intro e he
     apply Submodule.mem_iSup_of_mem e
     exact (OddVariableExtension.mem_grade_iff 𝒜 d (2 * (e + 1)) (g e)).mp (hg e) |>.1
-  · show (show A from z.snd) ∈ oddPart 𝒜
+  · change (show A from z.snd) ∈ oddPart 𝒜
     rw [hsnd, oddPart, Finsupp.sum]
     apply Submodule.sum_mem
     intro e he
@@ -367,11 +367,11 @@ private theorem oddPart_sq_zero
           abel
         _ = 0 := by
           have hx' : x ∈ oddPart 𝒜 := by
-            show x ∈ ⨆ i : ℕ, 𝒜 (2 * i + 1)
+            change x ∈ ⨆ i : ℕ, 𝒜 (2 * i + 1)
             rw [Submodule.iSup_eq_span]
             exact hx
           have hy' : y ∈ oddPart 𝒜 := by
-            show y ∈ ⨆ i : ℕ, 𝒜 (2 * i + 1)
+            change y ∈ ⨆ i : ℕ, 𝒜 (2 * i + 1)
             rw [Submodule.iSup_eq_span]
             exact hy
           rw [ihx, ihy, oddPart_anticomm 𝒜 hx' hy']
@@ -515,7 +515,7 @@ theorem oddExtensionDifferential_compatible
       dsimp [gKm]
       by_cases hkm : n - 2 = 0
       · rw [hkm, γ.dpow_zero ha]
-        show (1 : A) ∈ ⨆ i : ℕ, 𝒜 (2 * i)
+        change (1 : A) ∈ ⨆ i : ℕ, 𝒜 (2 * i)
         exact Submodule.mem_iSup_of_mem 0 (by simpa using SetLike.one_mem_graded 𝒜)
       · exact positiveEvenPart_le_evenPart 𝒜 (γ.dpow_mem hkm ha)
     have hgKEven : gK ∈ evenPart 𝒜 :=

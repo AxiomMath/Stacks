@@ -126,7 +126,8 @@ skyscrapers under two composite adjunctions, with no colimit computed anywhere; 
 ## What is not done
 
 **No clause of [Stacks, Tag 01SA] is proved here, and no project tag attribute is attached.**
-The statement of Tag 01SA is a nine-field structure with a single unqualified tag; fields 4, 8 and 9 are
+The statement of Tag 01SA is a nine-field structure with a single unqualified tag; fields 4, 8 and 9
+are
 open, and the types of the last two take field 4 as an argument.
 
 The `algebraPullback_isQuasicoherent` clause is now exactly `IsIso (comparison g A)`.  By

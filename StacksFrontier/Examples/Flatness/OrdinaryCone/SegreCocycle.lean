@@ -125,7 +125,7 @@ theorem coeff_mem_component_of_mem_segreComponent {d : ℕ} {p : MvPolynomial (F
       | mem r hr =>
         obtain ⟨⟨i, j⟩, rfl⟩ := hr
         refine Submodule.mem_iInf _ |>.mpr fun b ↦ ?_
-        show (q * segreGen k i j).coeff b ∈ Cone.component k (d + 1)
+        change (q * segreGen k i j).coeff b ∈ Cone.component k (d + 1)
         rw [segreGen, mul_left_comm, coeff_C_mul, coeff_mul_X']
         split_ifs
         · rw [add_comm]
@@ -324,7 +324,7 @@ theorem toSegreFrac_eq_sq_z_div_x {t : segreLiftable k}
     map_div₀, coneFracToPolyFrac_algebraMap, coneFracToPolyFrac_algebraMap, Subalgebra.coe_pow,
     Subalgebra.coe_pow, coe_segreElem, coe_segreElem, segreGen, segreGen, map_pow, map_pow,
     map_mul, map_mul]
-  show _ = (algebraMap (MvPolynomial (Fin 2) (Cone k)) Λ (C (Cone.z k)) /
+  change _ = (algebraMap (MvPolynomial (Fin 2) (Cone k)) Λ (C (Cone.z k)) /
     algebraMap (MvPolynomial (Fin 2) (Cone k)) Λ (C (Cone.x k))) ^ 2
   simp only [Cone.x, Cone.z] at hx ⊢
   field_simp
@@ -422,7 +422,7 @@ theorem exists_segre_wittVector_cocycle (hk : ∀ l : k, ∃ μ : k, μ ^ 2 + μ
     exacts [hAX 0, hAX 1, hAY 0, hAY 1]
   · refine mem_coeffSubring_iff.1 ?_
     fin_cases i <;> fin_cases j <;> simp [σ, β, segreCover, hC, hC']
-  · show (cond (σ 0) AY AX).coeff 0 = _
+  · change (cond (σ 0) AY AX).coeff 0 = _
     rw [show cond (σ 0) AY AX = AX from rfl, hAXd, map_coeff]
     exact toSegreFrac_eq_sq_z_div_x k (by rw [← h0, map_coeff]; rfl)
 

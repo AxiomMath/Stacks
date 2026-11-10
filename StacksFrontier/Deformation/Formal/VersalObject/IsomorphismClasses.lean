@@ -180,7 +180,7 @@ variable (hpre : IsPredeformationCategory 𝓕.p)
 /-- The image of a formal object in the associated functor of isomorphism classes, obtained by
 applying the canonical morphism at every level. -/
 public noncomputable abbrev imageInIsomorphismClasses (ξ : FormalObject 𝓕.p) :
-    FormalObject (CategoryOfElements.π (isomorphismClasses 𝓕 hpre.cofibered)) :=
+    FormalObject (Elements.π (isomorphismClasses 𝓕 hpre.cofibered)) :=
   (formalObjectMapOfCompEq (toIsomorphismClasses 𝓕 hpre.cofibered).toFunctor
     (toIsomorphismClasses 𝓕 hpre.cofibered).w).obj ξ
 
@@ -188,7 +188,7 @@ public noncomputable abbrev imageInIsomorphismClasses (ξ : FormalObject 𝓕.p)
 level by level: the canonical morphism applied to each level, with the transition maps and
 their liftings transported along it. -/
 public noncomputable abbrev levelwiseImage (ξ : FormalObject 𝓕.p) :
-    FormalObject (CategoryOfElements.π (isomorphismClasses 𝓕 hpre.cofibered)) :=
+    FormalObject (Elements.π (isomorphismClasses 𝓕 hpre.cofibered)) :=
   letI φ := toIsomorphismClasses 𝓕 hpre.cofibered
   { base := ξ.base
     level := fun n => φ.toFunctor.obj (ξ.level n)
@@ -230,7 +230,7 @@ public theorem imageInIsomorphismClasses_eq_levelwiseImage (ξ : FormalObject �
 canonical morphism gives to the value of the associated morphism of the original object. -/
 private theorem associatedImage_obj_eq (ξ : FormalObject 𝓕.p)
     (P : ChosenPushforwards 𝓕.p)
-    (Q : ChosenPushforwards (CategoryOfElements.π (isomorphismClasses 𝓕 hpre.cofibered)))
+    (Q : ChosenPushforwards (Elements.π (isomorphismClasses 𝓕 hpre.cofibered)))
     (α : (restrictedCoyoneda ξ.base).Elements) :
     (associatedMorphism
       (categoryOfElements_projection_isCofibered (isomorphismClasses 𝓕 hpre.cofibered))
@@ -241,7 +241,7 @@ private theorem associatedImage_obj_eq (ξ : FormalObject 𝓕.p)
   let φ := toIsomorphismClasses 𝓕 hpre.cofibered
   let ξ' := levelwiseImage 𝓕 hpre ξ
   let α' : (BasedCategory.ofFunctor
-      (CategoryOfElements.π (restrictedCoyoneda ξ'.base))).obj := α
+      (Elements.π (restrictedCoyoneda ξ'.base))).obj := α
   let hq := categoryOfElements_projection_isCofibered (isomorphismClasses 𝓕 hpre.cofibered)
   let a := associatedMorphism hpre.cofibered ξ P
   let b := associatedMorphism hq ξ' Q
@@ -257,11 +257,11 @@ private theorem associatedImage_obj_eq (ξ : FormalObject 𝓕.p)
   let Pα := P (a.factor α)
   let Qα := Q (a.factor α)
   obtain ⟨sq⟩ := pushforwardFunctorsFormTwoCommutativeSquare
-    𝓕.p (CategoryOfElements.π (isomorphismClasses 𝓕 hpre.cofibered)) hq
+    𝓕.p (Elements.π (isomorphismClasses 𝓕 hpre.cofibered)) hq
     φ.toFunctor φ.w Pα Qα
   have hinput : φB.obj x =
       (⟨ξ'.level (a.level α), ξ'.level_eq (a.level α)⟩ :
-        (CategoryOfElements.π (isomorphismClasses 𝓕 hpre.cofibered)).Fiber
+        (Elements.π (isomorphismClasses 𝓕 hpre.cofibered)).Fiber
           (AdicTruncation.obj ξ.base (a.level α))) := Subtype.ext rfl
   have hEq : φA.obj (Pα.obj x) = Qα.obj (φB.obj x) :=
     (isomorphismClassesData 𝓕 hpre.cofibered).quotient.fiber_skeletal α.1 ⟨sq.comm.app x⟩
@@ -269,7 +269,7 @@ private theorem associatedImage_obj_eq (ξ : FormalObject 𝓕.p)
   rw [a.obj_eq α, b.obj_eq α', ← hpushforward]
   change (Qα.obj
       (⟨ξ'.level (a.level α), ξ'.level_eq (a.level α)⟩ :
-        (CategoryOfElements.π (isomorphismClasses 𝓕 hpre.cofibered)).Fiber
+        (Elements.π (isomorphismClasses 𝓕 hpre.cofibered)).Fiber
           (AdicTruncation.obj ξ.base (a.level α)))).1 = (φA.obj (Pα.obj x)).1
   rw [hinput] at hEq
   exact (congrArg Subtype.val hEq).symm
@@ -278,7 +278,7 @@ private theorem associatedImage_obj_eq (ξ : FormalObject 𝓕.p)
 object followed by the canonical morphism. -/
 private theorem associatedImage_eq_comp (ξ : FormalObject 𝓕.p)
     (P : ChosenPushforwards 𝓕.p)
-    (Q : ChosenPushforwards (CategoryOfElements.π (isomorphismClasses 𝓕 hpre.cofibered))) :
+    (Q : ChosenPushforwards (Elements.π (isomorphismClasses 𝓕 hpre.cofibered))) :
     (associatedMorphism
       (categoryOfElements_projection_isCofibered (isomorphismClasses 𝓕 hpre.cofibered))
       (levelwiseImage 𝓕 hpre ξ) Q).toBasedFunctor =
@@ -295,9 +295,9 @@ private theorem associatedImage_eq_comp (ξ : FormalObject 𝓕.p)
       b.toBasedFunctor.obj α = c.obj α :=
     associatedImage_obj_eq 𝓕 hpre ξ P Q α
   refine CategoryTheory.Functor.ext (h_obj := hObj) (h_map := fun α β g => ?_)
-  apply CategoryOfElements.ext
+  apply Elements.hom_ext
   let q := (BasedCategory.ofFunctor
-    (CategoryOfElements.π (isomorphismClasses 𝓕 hpre.cofibered))).p
+    (Elements.π (isomorphismClasses 𝓕 hpre.cofibered))).p
   have hproj := b.toBasedFunctor.w.trans c.w.symm
   change q.map (b.toBasedFunctor.map g) =
     q.map (eqToHom (hObj α) ≫ c.map g ≫ eqToHom (hObj β).symm)
@@ -309,7 +309,6 @@ private theorem associatedImage_eq_comp (ξ : FormalObject 𝓕.p)
     _ = q.map (eqToHom (hObj α) ≫ c.map g ≫ eqToHom (hObj β).symm) := by
       rw [Functor.map_comp, Functor.map_comp, CategoryTheory.eqToHom_map,
         CategoryTheory.eqToHom_map]
-      rfl
 
 -- A based functor is determined by its underlying functor:
 -- `CategoryTheory.BasedCategory.BasedFunctor.ext'`, public in
@@ -368,7 +367,7 @@ public theorem hasBijectiveDifferential_imageInIsomorphismClasses
   let A₂ := artinianDualNumbers.{u, w, v} Λ k
   let mφ := mapIsomorphismClasses hpre.cofibered hT φ A₂
   let Q := chosenPushforwardsOfCofibered
-    (CategoryOfElements.π (isomorphismClasses 𝓕 hpre.cofibered)) hT
+    (Elements.π (isomorphismClasses 𝓕 hpre.cofibered)) hT
   let a := associatedMorphism hpre.cofibered ξ P
   let b := associatedMorphism hT (levelwiseImage 𝓕 hpre ξ) Q
   have hbf := associatedImage_eq_comp 𝓕 hpre ξ P Q
@@ -376,14 +375,14 @@ public theorem hasBijectiveDifferential_imageInIsomorphismClasses
       fun d => mφ (derivationToTangent hpre.cofibered ξ P d) := by
     funext d
     let x := (tangentSpaceDerivationsLinearEquiv ξ.base).symm d
-    let z : Fiber (CategoryOfElements.π (restrictedCoyoneda ξ.base)) A₂ :=
+    let z : Fiber (Elements.π (restrictedCoyoneda ξ.base)) A₂ :=
       ⟨(restrictedCoyoneda ξ.base).elementsMk A₂ x, rfl⟩
     change mapIsomorphismClasses hR hT b.toBasedFunctor A₂
         (classOf (BasedCategory.ofFunctor
-          (CategoryOfElements.π (restrictedCoyoneda ξ.base))) hR z) =
+          (Elements.π (restrictedCoyoneda ξ.base))) hR z) =
       mφ (mapIsomorphismClasses hR hpre.cofibered a.toBasedFunctor A₂
         (classOf (BasedCategory.ofFunctor
-          (CategoryOfElements.π (restrictedCoyoneda ξ.base))) hR z))
+          (Elements.π (restrictedCoyoneda ξ.base))) hR z))
     rw [congrArg (fun G => mapIsomorphismClasses hR hT G A₂) hbf]
     exact congrFun (mapIsomorphismClasses_comp hR hpre.cofibered hT a.toBasedFunctor φ A₂) _
   refine ⟨Q, ?_⟩

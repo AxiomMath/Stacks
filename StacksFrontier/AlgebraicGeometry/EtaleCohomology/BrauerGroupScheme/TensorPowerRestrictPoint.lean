@@ -38,8 +38,8 @@ Every step of the induction proving the main result is phrased as an abstract st
 monoidal natural transformation `τ : F' ⋙ F ⟶ G` between lax monoidal functors, and transported
 to the scheme spelling by `exact`. This is the discipline recorded in the implementation notes of
 `StacksFrontier.AlgebraicGeometry.EtaleCohomology.BrauerGroupScheme.TensorPowerFreeMatrix` and of
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.BrauerGroupScheme.TensorPowerAlgebraPoints`: at the
-scheme spelling the objects of `ModuleSheaf S` carry a monoidal structure which `rw` cannot
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.BrauerGroupScheme.TensorPowerAlgebraPoints`: at
+the scheme spelling the objects of `ModuleSheaf S` carry a monoidal structure which `rw` cannot
 abstract over, and `Stacks.TensorPowers.natTensorPow B (m + 1)` is `natTensorPow B m ⊗ B` only
 definitionally, so no lemma keyed on a tensor product fires against it. Accordingly
 `eps_comp_map_tensor_comp_app` takes the two restricted factors as *variables* together with

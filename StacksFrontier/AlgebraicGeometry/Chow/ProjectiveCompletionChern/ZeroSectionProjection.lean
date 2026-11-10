@@ -725,9 +725,9 @@ theorem flatPullbackChow_properChowPushforward_perfectChernClass_of_isPullback (
       TotalChowClass.op_neg, TotalChowClass.op_zsmul]
     rfl
   rw [hc, map_neg, map_zsmul, map_neg, map_zsmul]
-  show -(((r - 1).factorial : ℤ) • lhsHom 𝒞 r C sX hsq j' k α) = _
+  change -(((r - 1).factorial : ℤ) • lhsHom 𝒞 r C sX hsq j' k α) = _
   rw [lhsHom_eq 𝒞 r C sX hsq j' hsqC, AddMonoidHom.smul_apply, map_zsmul]
-  show _ = _ • rhsHom 𝒞 r C sX j' k α
+  change _ = _ • rhsHom 𝒞 r C sX j' k α
   rw [smul_smul, ← neg_smul]
   congr 1
   obtain ⟨s, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hr

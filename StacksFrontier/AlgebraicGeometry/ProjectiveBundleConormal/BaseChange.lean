@@ -459,7 +459,7 @@ theorem conormalCanonicalMap_baseChange_of_idealSheafLift
       ((congrArg (modulePullback g.toLRSHom.toShHom).map
         (Iso.inv_hom_id (Stacks.CartierConormal.conormalSheafIsoPullbackSelf σ))).trans
           ((modulePullback g.toLRSHom.toShHom).map_id _))
-  show (Stacks.Divisors.conormalSourceBaseChange g E E' hE Q Q' hL hq).hom ≫
+  change (Stacks.Divisors.conormalSourceBaseChange g E E' hE Q Q' hL hq).hom ≫
       ((pullbackSourceIso E' Q' hσ' e').inv ≫
         (modulePullback σ'.toLRSHom.toShHom).map
             (idealSheafLift E' Q' hσ' e' hqe' :

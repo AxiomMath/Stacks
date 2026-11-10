@@ -73,20 +73,20 @@ theorem inr_comp_algebraMap :
       (algebraMap (affineBlowupBaseCompletion I f Q) (Tensor I f Q)).comp
         (algebraMap A (affineBlowupBaseCompletion I f Q)) := by
   ext a
-  show (1 : affineBlowupBaseCompletion I f Q) ⊗ₜ[A] algebraMap A (affineBlowup I f) a =
+  change (1 : affineBlowupBaseCompletion I f Q) ⊗ₜ[A] algebraMap A (affineBlowup I f) a =
     algebraMap A (affineBlowupBaseCompletion I f Q) a ⊗ₜ[A] (1 : affineBlowup I f)
   rw [Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one a, TensorProduct.smul_tmul]
 
 /-- An induction principle for `(A_𝔮)^∧ ⊗_A A[I/f]` phrased with its ring operations: every
 element is a sum of products `r · b` with `r ∈ (A_𝔮)^∧` and `b ∈ A[I/f]`. -/
-theorem tensor_induction {P : Tensor I f Q → Prop} (h0 : P 0)
+theorem tensor_induction {P : Tensor I f Q → Prop}
     (hmul : ∀ r b, P (algebraMap (affineBlowupBaseCompletion I f Q) (Tensor I f Q) r * inr I f Q b))
     (hadd : ∀ x y, P x → P y → P (x + y)) (x : Tensor I f Q) : P x := by
-  refine TensorProduct.induction_on (motive := P) x h0 (fun r b => ?_) hadd
+  refine TensorProduct.inductionOn (motive := P) x (fun r b => ?_) hadd
   have h := hmul r b
   have htm : algebraMap (affineBlowupBaseCompletion I f Q) (Tensor I f Q) r * inr I f Q b =
       r ⊗ₜ[A] b := by
-    show (r ⊗ₜ[A] (1 : affineBlowup I f)) * ((1 : affineBlowupBaseCompletion I f Q) ⊗ₜ[A] b) =
+    change (r ⊗ₜ[A] (1 : affineBlowup I f)) * ((1 : affineBlowupBaseCompletion I f Q) ⊗ₜ[A] b) =
       r ⊗ₜ[A] b
     rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
   rwa [htm] at h
@@ -165,7 +165,7 @@ theorem le_under : I ≤ Q.under A := by
   have h1 : algebraMap A (Localization.AtPrime Q) x ∈ maximalIdeal _ :=
     hJ.out (Ideal.mem_map_of_mem _ hx)
   rw [IsScalarTower.algebraMap_apply A (affineBlowup I f) (Localization.AtPrime Q)] at h1
-  exact (SetLike.ext_iff.mp (Localization.AtPrime.comap_maximalIdeal (I := Q)) _).mp h1
+  exact (SetLike.ext_iff.mp (Localization.AtPrime.under_maximalIdeal (I := Q)) _).mp h1
 
 omit [IsNoetherianRing A] in
 include hJ in
@@ -174,7 +174,7 @@ theorem map_le_maximalIdeal_under :
     I.map (algebraMap A (Localization.AtPrime (Q.under A))) ≤ maximalIdeal _ := by
   rw [Ideal.map_le_iff_le_comap]
   intro x hx
-  show algebraMap A _ x ∈ maximalIdeal (Localization.AtPrime (Q.under A))
+  change algebraMap A _ x ∈ maximalIdeal (Localization.AtPrime (Q.under A))
   rw [← Localization.AtPrime.map_eq_maximalIdeal]
   exact Ideal.mem_map_of_mem _ (le_under I f Q hx)
 
@@ -253,10 +253,10 @@ theorem mem_prime_iff (x : Tensor I f Q) :
 theorem comap_prime_inr : (prime I f Q).comap (inr I f Q) = Q := by
   ext b
   rw [Ideal.mem_comap, mem_prime_iff, toChart_inr]
-  show algebraMap _ (Localization.AtPrime Q) b ∈
+  change algebraMap _ (Localization.AtPrime Q) b ∈
     (maximalIdeal (affineBlowupChartCompletion I f Q)).comap (algebraMap _ _) ↔ b ∈ Q
   rw [comap_maximalIdeal_chartCompletion]
-  exact SetLike.ext_iff.mp (Localization.AtPrime.comap_maximalIdeal (I := Q)) b
+  exact SetLike.ext_iff.mp (Localization.AtPrime.under_maximalIdeal (I := Q)) b
 
 /-- The prime `prime I f Q` contracts to the maximal ideal of `(A_𝔮)^∧`. -/
 theorem comap_prime_algebraMap :
@@ -301,7 +301,7 @@ instance : IsNoetherianRing (Loc I f Q) :=
 /-- The maximal ideal of `T` contracts to `prime I f Q`. -/
 theorem comap_maximalIdeal_loc :
     (maximalIdeal (Loc I f Q)).comap (algebraMap (Tensor I f Q) (Loc I f Q)) = prime I f Q :=
-  Localization.AtPrime.comap_maximalIdeal (I := prime I f Q)
+  Localization.AtPrime.under_maximalIdeal (I := prime I f Q)
 
 /-- The map `A[I/f]_Q → T`. -/
 noncomputable def ιB : Localization.AtPrime Q →+* Loc I f Q :=
@@ -386,7 +386,7 @@ theorem exists_sub_mem_map_baseCompletion (r : affineBlowupBaseCompletion I f Q)
   have hmem : r' - algebraMap _ (AdicCompletion JA _) y ∈
       JA.map (algebraMap _ (AdicCompletion JA (Localization.AtPrime (Q.under A)))) := by
     rw [← AdicCompletion.ker_evalOneₐ_eq_map _ (Ideal.fg_of_isNoetherianRing _), RingHom.mem_ker]
-    show AdicCompletion.evalOneₐ JA (r' - _) = 0
+    change AdicCompletion.evalOneₐ JA (r' - _) = 0
     rw [map_sub, ← hy, show AdicCompletion.evalOneₐ JA
       (algebraMap _ (AdicCompletion JA (Localization.AtPrime (Q.under A))) y) =
         Ideal.Quotient.mk _ y from
@@ -413,7 +413,7 @@ theorem exists_sub_mem_ideal_mul (r : affineBlowupBaseCompletion I f Q) (b : aff
 theorem exists_sub_mem_ideal (x : Tensor I f Q) :
     ∃ b : Localization.AtPrime Q, algebraMap _ (Loc I f Q) x - ιB I f Q b ∈ ideal I f Q := by
   refine tensor_induction I f Q (P := fun x => ∃ b : Localization.AtPrime Q,
-    algebraMap _ (Loc I f Q) x - ιB I f Q b ∈ ideal I f Q) ⟨0, by simp⟩
+    algebraMap _ (Loc I f Q) x - ιB I f Q b ∈ ideal I f Q)
     (exists_sub_mem_ideal_mul I f Q) ?_ x
   rintro x y ⟨b₁, h₁⟩ ⟨b₂, h₂⟩
   refine ⟨b₁ + b₂, ?_⟩
@@ -434,7 +434,7 @@ noncomputable def evalOne : Loc I f Q →+* Localization.AtPrime Q ⧸
 /-- The composite `A[I/f]_Q → T → A[I/f]_Q ⧸ I` is the quotient map. -/
 theorem evalOne_ιB (x : Localization.AtPrime Q) :
     evalOne I f Q (ιB I f Q x) = Ideal.Quotient.mk _ x := by
-  show AdicCompletion.evalOneₐ _ ((ψ I f Q).comp (ιB I f Q) x) = _
+  change AdicCompletion.evalOneₐ _ ((ψ I f Q).comp (ιB I f Q) x) = _
   rw [ψ_comp_ιB]
   exact RingHom.congr_fun (AdicCompletion.evalOneₐ_comp_algebraMap_eq_mk _) x
 

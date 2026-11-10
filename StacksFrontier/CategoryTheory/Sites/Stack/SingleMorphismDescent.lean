@@ -252,13 +252,13 @@ theorem exists_comp_eq_of_mem_singleton_sieve {v : 𝒳} {x : p.Fiber U} (τ : v
   -- the morphism of the fibre over `V` to be glued
   let μ : pullbackFiber p x c ⟶ pullbackFiber p yg c := ⟨CategoryTheory.inv μ₀ ≫ ν, inferInstance⟩
   have hμν : μ₀ ≫ Fiber.fiberInclusion.map μ = ν := by
-    show μ₀ ≫ CategoryTheory.inv μ₀ ≫ ν = ν
+    change μ₀ ≫ CategoryTheory.inv μ₀ ≫ ν = ν
     simp
   have hμ₀' : CategoryTheory.inv μ₀ ≫ τ = IsPreFibered.pullbackMap x.2 c := by
     rw [← hμ₀, IsIso.inv_hom_id_assoc]
   have hμm : Fiber.fiberInclusion.map μ ≫ IsPreFibered.pullbackMap yg.2 c ≫
       IsPreFibered.pullbackMap y'.2 g = CategoryTheory.inv μ₀ ≫ m := by
-    show (CategoryTheory.inv μ₀ ≫ ν) ≫ _ ≫ _ = _
+    change (CategoryTheory.inv μ₀ ≫ ν) ≫ _ ≫ _ = _
     rw [Category.assoc, reassoc_of% hν, hm₁]
   -- the two restrictions of `m` to `V ×_U V`
   let α₁ : (pullbackFiber p (pullbackFiber p x c) (pullback.fst c c)).1 ⟶ v :=

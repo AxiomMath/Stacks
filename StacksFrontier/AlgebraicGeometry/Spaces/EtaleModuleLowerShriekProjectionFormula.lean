@@ -112,7 +112,8 @@ theorem pullbackTensorIsoOfIso_inv_val_app_toSheafify_pushforward
       (TensorSheafification.toSheafify Y.O.obj
           ((Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).property
           (A.val ⊗ M.val)).app (F.op.obj U) (x ⊗ₜ y) :=
-  Stacks.SheafOfModules.RingedToposPullback.tensorIsoOfNatIsoRight_trans_eqToIso_pullbackTensorIso_inv_val_app_toSheafify_pushforward
+  open RingedToposPullback in
+  tensorIsoOfNatIsoRight_trans_eqToIso_pullbackTensorIso_inv_val_app_toSheafify_pushforward
     (AlgebraicGeometry.RingedToposHom.toModulesHom_eq_toRingedToposModulesHom f) e₁ he₁ F ε φ e he
     (pullbackTensorIsoUncurried f) rfl A M U x y
 
@@ -227,7 +228,8 @@ theorem pullbackTensorIsoOfIso_inv_val_app_toSheafify_etale (a : X' ⟶ X) (ha :
           (A.val ⊗ M.val)).app
       ((smallEtalePostcomp B S hS a ha).op.obj V) (s ⊗ₜ t) := by
   have key :=
-    Stacks.Cohomology.DerivedPullbackOfToposHom.pullbackTensorIsoOfIso_inv_val_app_toSheafify_pushforward
+    open Stacks.Cohomology in
+    DerivedPullbackOfToposHom.pullbackTensorIsoOfIso_inv_val_app_toSheafify_pushforward
     (smallEtaleRingedToposHom B S hS a)
     (smallEtalePostcomp B S hS a ha) (smallToposMorphismTypeU_inverseImageIso B S hS a ha) _
     _ (pullbackModulesIsoModulePullback_eq_eqToIso a)
@@ -366,10 +368,10 @@ theorem isIso_etaleModuleLowerShriekProjectionMap (a : X' ⟶ X) (ha : IsEtale B
     (M : SheafOfModules.{u} (ringedToposStructureRingSheaf B S hS X)) :
     IsIso (etaleModuleLowerShriekProjectionMap a ha A M) := by
   have : EssentiallySmall.{u} (smallEtaleRingedSite B S hS X.1 X.2).C := by
-    show EssentiallySmall.{u} (SmallEtale B S hS X.1)
+    change EssentiallySmall.{u} (SmallEtale B S hS X.1)
     infer_instance
   have : EssentiallySmall.{u} (smallEtaleRingedSite B S hS X'.1 X'.2).C := by
-    show EssentiallySmall.{u} (SmallEtale B S hS X'.1)
+    change EssentiallySmall.{u} (SmallEtale B S hS X'.1)
     infer_instance
   exact PullbackInternalHom.isIso_leftAdjointProjectionMap_of_isIso_pullbackHomMap
     (etaleModuleLowerShriekAdjunction B S hS a ha) _ _ _

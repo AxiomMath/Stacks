@@ -187,7 +187,7 @@ theorem isZero_homology_one_derivedLowerShriek_lisseEtaleSheaf_laumonFamilyPr₁
       ((DerivedCategory.Plus.homologyFunctor _ 1).mapIso
         ((derivedLowerShriek.{u, 0} _ (jg₁.baseChange sq) (ZMod (ℓ ^ (0 + 1)))).mapIso eK))
   have h1 := etaleFundamentalGroupMap_laumonFamilyPr₁_fibre_eq_one k' φ y' t γ
-  show (PadicInt.Coe.ringHom (p := ℓ)).mapMatrix (ρ₀ (etaleFundamentalGroupBasePointHom t
+  change (PadicInt.Coe.ringHom (p := ℓ)).mapMatrix (ρ₀ (etaleFundamentalGroupBasePointHom t
     (etaleFundamentalGroupMap u y' γ))).val = _
   rw [hρ₀N _ h1, torsorCover_character_laumonFamily_fibre φ hφ (C h * Polynomial.X)
     (C (φ h) * Polynomial.X) hg y' t p₀ q γ]
@@ -230,7 +230,7 @@ public theorem laumonFamilyFirstProjectionVanishingInput' :
     rw [neg_zero, AddChar.map_zero_eq_one, map_one, Matrix.mul_one, ← Units.val_mul, inv_mul_cancel,
       Units.val_one]
   have hN : ∑ a : k', N a = 0 := by
-    show ∑ a : k',
+    change ∑ a : k',
       (P⁻¹ : GL (Fin (m * d)) ℚ_[ℓ]).val * restrictScalarsScalarAlgHom b m (ψ' (-a)) * P.val = 0
     rw [← Finset.sum_mul, ← Finset.mul_sum, ← map_sum,
       show ∑ a : k', ψ' (-a) = 0 from (Fintype.sum_equiv (Equiv.neg k') _ ψ' fun _ => rfl).trans
@@ -244,7 +244,7 @@ public theorem laumonFamilyFirstProjectionVanishingInput' :
       (congrArg σ₁ hδ).trans (map_one σ₁)
     refine (congrArg Units.val (map_integralModel ρ hρ δ)).trans ?_
     rw [Units.val_mul, Units.val_mul, restrictScalarsRep_val]
-    show (P⁻¹ : GL (Fin (m * d)) ℚ_[ℓ]).val * restrictScalarsMatrix b
+    change (P⁻¹ : GL (Fin (m * d)) ℚ_[ℓ]).val * restrictScalarsMatrix b
       ((characterTwist (σ₁.comp (etaleFundamentalGroupMap (laumonFamilyPr₁ k') z).toMonoidHom)
         (Stacks.ArtinSchreier.artinSchreierCharacter k' (Polynomial (Polynomial k'))
           (laumonKernel k' n₀ c) ψ' z p₀) δ).val) * P.val = _

@@ -91,7 +91,7 @@ theorem comap_mem_minimalPrimes_of_flat_ringHom {A C : Type u} [CommRing A] [Com
   let : Algebra A C := f.toAlgebra
   have : Module.Flat A C := hf
   have : Algebra.HasGoingDown A C := Algebra.HasGoingDown.of_flat
-  show q.comap (algebraMap A C) ∈ minimalPrimes A
+  change q.comap (algebraMap A C) ∈ minimalPrimes A
   have hcp : (q.comap (algebraMap A C)).IsPrime := Ideal.comap_isPrime _ _
   refine ⟨⟨hcp, bot_le⟩, ?_⟩
   rintro P ⟨hP, -⟩ hPq

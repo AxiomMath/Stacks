@@ -175,12 +175,12 @@ theorem shift_zero (M : RightModule.{w} C) : shift M 0 = M := by
   · intro x i
     exact heq_apply_of_eq (fun t => M.module x t) (add_zero i)
   · intro x i j h a b hab
-    show HEq ((-1 : R) ^ (0 : ℤ).natAbs •
+    change HEq ((-1 : R) ^ (0 : ℤ).natAbs •
       M.d (show i + 0 + 1 = j + 0 by omega) a) (M.d h b)
     rw [Int.natAbs_zero, pow_zero, one_smul]
     exact d_heq M (add_zero i) (add_zero j) hab
   · intro x y i q k h a b f hab
-    show HEq (M.act (show i + 0 + q = k + 0 by omega) a f) (M.act h b f)
+    change HEq (M.act (show i + 0 + q = k + 0 by omega) a f) (M.act h b f)
     exact act_heq M (add_zero i) (add_zero k) hab f
 
 /-- The shift by a sum is the composite of the two shifts: `M⟦n + m⟧ = (M⟦m⟧)⟦n⟧`, as an
@@ -199,7 +199,7 @@ theorem shift_add (M : RightModule.{w} C) (n m : ℤ) :
   · intro x i
     exact heq_apply_of_eq (fun t => M.module x t) (e i)
   · intro x i j h a b hab
-    show HEq ((-1 : R) ^ (n + m).natAbs •
+    change HEq ((-1 : R) ^ (n + m).natAbs •
         M.d (show i + (n + m) + 1 = j + (n + m) by omega) a)
       ((-1 : R) ^ n.natAbs • ((-1 : R) ^ m.natAbs •
         M.d (show i + n + m + 1 = j + n + m by omega) b))
@@ -209,7 +209,7 @@ theorem shift_add (M : RightModule.{w} C) (n m : ℤ) :
         (d_heq M (e i)
           (e j) hab))
   · intro x y i q k h a b f hab
-    show HEq (M.act (show i + (n + m) + q = k + (n + m) by omega) a f)
+    change HEq (M.act (show i + (n + m) + q = k + (n + m) by omega) a f)
       (M.act (show i + n + m + q = k + n + m by omega) b f)
     exact act_heq M (e i)
       (e k) hab f

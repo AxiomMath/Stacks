@@ -177,7 +177,7 @@ theorem unitCoassoc_of_cocycle
   -- the coaction as an `R`-algebra map
   obtain ⟨σ, hσ⟩ : ∃ σ : C →ₐ[R] (A ⊗[R] C), ∀ c : C, σ c = κ.inv.hom (ς.hom c) := by
     refine ⟨{ toRingHom := (ς ≫ κ.inv).hom, commutes' := fun r => ?_ }, fun _ => rfl⟩
-    show κ.inv.hom (ς.hom (algebraMap R C r)) = _
+    change κ.inv.hom (ς.hom (algebraMap R C r)) = _
     rw [IsScalarTower.algebraMap_apply R A C, hς, hinvA, Algebra.TensorProduct.algebraMap_apply]
   have hulin : u = σ.toLinearMap := LinearMap.ext fun c => by rw [hu]; exact (hσ c).symm
   -- the third pushout square, with its second leg the tensor product
@@ -187,7 +187,7 @@ theorem unitCoassoc_of_cocycle
       (by simp) (by simp)
     rw [Iso.refl_hom, Category.id_comp, Iso.symm_hom, Category.assoc]
     ext r
-    show κ.inv.hom (kA.hom (algebraMap R A r)) = algebraMap R (A ⊗[R] C) r
+    change κ.inv.hom (kA.hom (algebraMap R A r)) = algebraMap R (A ⊗[R] C) r
     rw [hinvA, Algebra.TensorProduct.algebraMap_apply]
   have hi₃ : ∀ a : A, (CommRingCat.tensorProductIsoOfIsPushout hQ₃').inv.hom (i₃.hom a) =
       a ⊗ₜ[R] (1 : A ⊗[R] C) :=
@@ -323,12 +323,12 @@ theorem exists_cocycleDiagram_of_algebra (R A : Type u) [CommRing R] [CommRing A
           CommRingCat.of R ⟶ CommRingCat.of (A ⊗[R] A))
         = CommRingCat.ofHom (algebraMap R (A ⊗[R] A)) := by
       ext r
-      show (algebraMap R A r) ⊗ₜ[R] (1 : A) = algebraMap R (A ⊗[R] A) r
+      change (algebraMap R A r) ⊗ₜ[R] (1 : A) = algebraMap R (A ⊗[R] A) r
       rw [Algebra.TensorProduct.algebraMap_apply]
     rw [h]
     exact CommRingCat.isPushout_tensorProduct R A (A ⊗[R] A)
   · intro a
-    show a ⊗ₜ[R] (1 : A) = a ⊗ₜ[R] (1 : A)
+    change a ⊗ₜ[R] (1 : A) = a ⊗ₜ[R] (1 : A)
     rfl
   all_goals
     ext a

@@ -182,7 +182,7 @@ public theorem exists_factorsAsPointBlowups_of_birationalOver_unconditional
   set pIso := hbirational.partialIso (X ↘ S) (Y ↘ S)
   have hpmOver : pIso.toPartialMap.IsOver S := by
     refine ⟨?_⟩
-    show (pIso.iso.hom ≫ pIso.target.ι) ≫ (Y ↘ S) = pIso.source.ι ≫ (X ↘ S)
+    change (pIso.iso.hom ≫ pIso.target.ι) ≫ (Y ↘ S) = pIso.source.ι ≫ (X ↘ S)
     rw [Category.assoc]
     exact hbirational.partialIso_isOver (X ↘ S) (Y ↘ S)
   obtain ⟨Z, p, q, hchain, hqS, hagree⟩ :=

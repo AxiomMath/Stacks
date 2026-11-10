@@ -231,7 +231,7 @@ theorem monodromyElt_comp {T T' : X.Etale} [IrreducibleSpace T.left] [Irreducibl
     (b₁ b₂ : T ⟶ U) (r : T' ⟶ T) :
     monodromyElt e (r ≫ b₁) (r ≫ b₂) = monodromyElt e b₁ b₂ := by
   ext m
-  show (trivSectionEquiv e (r ≫ b₂)).symm (trivSection e (r ≫ b₁) m) =
+  change (trivSectionEquiv e (r ≫ b₂)).symm (trivSection e (r ≫ b₁) m) =
     (trivSectionEquiv e b₂).symm (trivSection e b₁ m)
   rw [trivSection_comp, ModuleCat.comp_apply, ← trivSectionEquiv_symm_map e b₂ r]
 
@@ -253,7 +253,7 @@ theorem monodromyComparison_comp {W T T' : X.Etale} [IrreducibleSpace T.left]
     (r : T' ⟶ T) :
     monodromyComparison e n (r ≫ a) (r ≫ b) = monodromyComparison e n a b := by
   ext m
-  show (trivSectionEquiv e (r ≫ b)).symm (F.obj.map (r ≫ a).op (n m)) =
+  change (trivSectionEquiv e (r ≫ b)).symm (F.obj.map (r ≫ a).op (n m)) =
     (trivSectionEquiv e b).symm (F.obj.map a.op (n m))
   rw [op_comp, Functor.map_comp, ModuleCat.comp_apply, trivSectionEquiv_symm_map]
 
@@ -262,7 +262,7 @@ theorem monodromyComparison_map {W W' T : X.Etale} [IrreducibleSpace T.left]
     (n : M ⟶ F.obj.obj (op W)) (g : W' ⟶ W) (a : T ⟶ W') (b : T ⟶ U) :
     monodromyComparison e (n ≫ F.obj.map g.op) a b = monodromyComparison e n (a ≫ g) b := by
   ext m
-  show (trivSectionEquiv e b).symm (F.obj.map a.op (F.obj.map g.op (n m))) =
+  change (trivSectionEquiv e b).symm (F.obj.map a.op (F.obj.map g.op (n m))) =
     (trivSectionEquiv e b).symm (F.obj.map (a ≫ g).op (n m))
   rw [op_comp, Functor.map_comp, ModuleCat.comp_apply]
 
@@ -306,7 +306,7 @@ theorem finite_monodromySet [IsAffine U.left] (X₀ : X.affineOpens) (j : U.left
   let Pz : X.Etale := Scheme.Etale.mk (pullback.fst j j ≫ U.hom)
   let q₁ : Pz ⟶ U := MorphismProperty.Over.homMk (pullback.fst j j) rfl
   let q₂ : Pz ⟶ U := MorphismProperty.Over.homMk (pullback.snd j j) (by
-    show pullback.snd j j ≫ U.hom = pullback.fst j j ≫ U.hom
+    change pullback.snd j j ≫ U.hom = pullback.fst j j ≫ U.hom
     rw [← hj, pullback.condition_assoc])
   choose O hzO hO using fun z : Pz.left ↦ exists_irreducible_opens hX Pz z
   have : CompactSpace Pz.left := inferInstanceAs (CompactSpace P)
@@ -342,7 +342,7 @@ theorem finite_monodromySet [IsAffine U.left] (X₀ : X.affineOpens) (j : U.left
     have h := congrArg (· ≫ pullback.snd j j) hs
     simp only [Category.assoc, tm, pullback.lift_snd] at h
     exact MorphismProperty.Over.Hom.ext h
-  show monodromyElt e (etaleOfOpensι Pz (O z) ≫ q₁) (etaleOfOpensι Pz (O z) ≫ q₂) =
+  change monodromyElt e (etaleOfOpensι Pz (O z) ≫ q₁) (etaleOfOpensι Pz (O z) ≫ q₂) =
     monodromyElt e b₁ b₂
   rw [← monodromyElt_comp e b₁ b₂ s₁, e₁, e₂, monodromyElt_comp e
     (etaleOfOpensι Pz (O z) ≫ q₁) (etaleOfOpensι Pz (O z) ≫ q₂) s₂]
@@ -369,7 +369,7 @@ theorem trivSection_mem_torsorSections {Z : X.Etale} [IrreducibleSpace Z.left] (
   intro T _ a b
   refine ⟨T, inferInstance, a ≫ c, b, ?_⟩
   ext m
-  show (trivSectionEquiv e b).symm (F.obj.map a.op (trivSection e c m)) =
+  change (trivSectionEquiv e b).symm (F.obj.map a.op (trivSection e c m)) =
     (trivSectionEquiv e b).symm (trivSection e (a ≫ c) m)
   rw [trivSection_comp, ModuleCat.comp_apply]
 
@@ -539,7 +539,7 @@ theorem small_torsorSections (W : X.Etale) : Small.{u + 1} (torsorSections e W) 
     refine (F.property M _ hcov).isSeparatedFor.ext fun Y g hg ↦ ?_
     obtain ⟨w, k, rfl⟩ := (Sieve.mem_ofArrows_iff _ _ _).1 hg
     have h' := congrArg (fun φ ↦ (φ w).1) h
-    show n₁.1 ≫ F.obj.map (k ≫ τ w).op = n₂.1 ≫ F.obj.map (k ≫ τ w).op
+    change n₁.1 ≫ F.obj.map (k ≫ τ w).op = n₂.1 ≫ F.obj.map (k ≫ τ w).op
     rw [op_comp, Functor.map_comp, ← Category.assoc, ← Category.assoc]
     exact congrArg (· ≫ F.obj.map k.op) h'
   exact small_of_injective hinj
@@ -608,7 +608,7 @@ theorem isSheaf_shrunkTorsor :
       apply ULift.ext
       apply (shrunkTorsorEquiv e hX hF hK W'.unop).injective
       apply Subtype.ext
-      show (shrunkTorsorEquiv e hX hF hK W'.unop ((shrunkTorsorEquiv e hX hF hK W'.unop).symm
+      change (shrunkTorsorEquiv e hX hF hK W'.unop ((shrunkTorsorEquiv e hX hF hK W'.unop).symm
           ((monodromyTorsor e).toFunctor.map g q))).1 =
         (shrunkTorsorEquiv e hX hF hK W'.unop ((shrunkTorsor e hX hF hK).map g.unop.op
           ((shrunkTorsorEquiv e hX hF hK W.unop).symm q))).1
@@ -687,7 +687,7 @@ theorem isLocallySurjective_shrunkTorsorConstMap :
   refine ⟨(shrunkTorsorEquiv e hX hF hK V).symm n, ?_⟩
   apply (shrunkTorsorEquiv e hX hF hK Z).injective
   apply Subtype.ext
-  show (shrunkTorsorEquiv e hX hF hK Z ((shrunkTorsor e hX hF hK).map (g ≫ T.hom).op
+  change (shrunkTorsorEquiv e hX hF hK Z ((shrunkTorsor e hX hF hK).map (g ≫ T.hom).op
     ((shrunkTorsorEquiv e hX hF hK V).symm n))).1 =
       (shrunkTorsorEquiv e hX hF hK Z ((shrunkTorsor e hX hF hK).map g.op q)).1
   rw [shrunkTorsor_map_equiv, Equiv.apply_symm_apply]
@@ -756,7 +756,7 @@ theorem bijective_of_mem_torsorSections {W : X.Etale} {n : M ⟶ F.obj.obj (op W
   have h : ⇑(F.obj.map s.op) ∘ ⇑(n ≫ F.obj.map r.op) =
       ⇑(trivSectionEquiv e c) ∘ ⇑(monodromyComparison e n (s ≫ r) c) := by
     funext m
-    show F.obj.map s.op (F.obj.map r.op (n m)) =
+    change F.obj.map s.op (F.obj.map r.op (n m)) =
       trivSectionEquiv e c ((trivSectionEquiv e c).symm (F.obj.map (s ≫ r).op (n m)))
     rw [LinearEquiv.apply_symm_apply, op_comp, Functor.map_comp, ModuleCat.comp_apply]
   have h2 : Function.Bijective (⇑(F.obj.map s.op) ∘ ⇑(n ≫ F.obj.map r.op)) := by
@@ -806,7 +806,7 @@ theorem isLocallyInjective_constMapOfSection {W : X.Etale} {n : M ⟶ F.obj.obj 
   have h' := congrArg (F.obj.map τ.op) h
   change F.obj.map τ.op (F.obj.map T.unop.hom.op (n x)) =
     F.obj.map τ.op (F.obj.map T.unop.hom.op (n y)) at h'
-  show F.obj.map (τ ≫ T.unop.hom).op (n x) = F.obj.map (τ ≫ T.unop.hom).op (n y)
+  change F.obj.map (τ ≫ T.unop.hom).op (n x) = F.obj.map (τ ≫ T.unop.hom).op (n y)
   rw [op_comp, Functor.map_comp, ModuleCat.comp_apply, ModuleCat.comp_apply]
   exact h'
 

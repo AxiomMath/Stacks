@@ -133,7 +133,7 @@ theorem preservesZeroMorphisms_coreflectorOfLeftAdjoint [R.PreservesZeroMorphism
     [G.PreservesZeroMorphisms] :
     (coreflectorOfLeftAdjoint G R P L hA).PreservesZeroMorphisms :=
   ⟨fun X Y => InducedCategory.hom_ext (by
-    show G.map (R.map 0) = 0
+    change G.map (R.map 0) = 0
     rw [Functor.map_zero, Functor.map_zero])⟩
 
 /-- **`P` is abelian**, for the coreflector of a fully faithful left adjoint `G ⊣ R` with `R`

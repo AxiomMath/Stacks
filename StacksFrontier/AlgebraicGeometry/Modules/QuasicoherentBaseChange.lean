@@ -287,8 +287,7 @@ theorem isBaseChange_of_span
         (TensorProduct.AlgebraTensorModule.rTensor A N (Algebra.linearMap B (T r))) (p r) ?_
       rw [IsLocalizedModule.map_comp]
       refine LinearMap.ext fun z ↦ ?_
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul b x => simp [hcomp, IsBaseChange.equiv_tmul, algebraMap_smul]
       | add z w h1 h2 => simp only [map_add, h1, h2]
     rw [key]
@@ -337,7 +336,7 @@ theorem isBaseChange_restrictₗ (M : X.Modules) [M.IsQuasicoherent] {U U' : X.O
     fun r ↦ hU.isLocalization_basicOpen _
   let : ∀ r : s, IsScalarTower Γ(X, U') Γ(X, U) Γ(X, X.basicOpen (r : Γ(X, U))) := fun r ↦
     IsScalarTower.of_algebraMap_eq fun c ↦ by
-      show (X.presheaf.map (homOfLE (hle r)).op) c =
+      change (X.presheaf.map (homOfLE (hle r)).op) c =
         (X.presheaf.map (homOfLE (X.basicOpen_le (r : Γ(X, U)))).op)
           ((X.presheaf.map (homOfLE h).op) c)
       rw [← Functor.map_comp_apply]

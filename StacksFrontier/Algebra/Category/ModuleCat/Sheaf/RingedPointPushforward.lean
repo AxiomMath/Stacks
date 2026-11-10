@@ -125,14 +125,14 @@ lemma preservesFiniteLimits_moduleSheafFunctor :
     PreservesFiniteLimits (Sheaf.moduleSheafFunctor R) := by
   have hcomp : PreservesFiniteLimits
       (sheafCompose J (forget AddCommGrpCat.{w}) ⋙ sheafToPresheaf J (Type w)) := by
-    show PreservesFiniteLimits
+    change PreservesFiniteLimits
       (sheafToPresheaf J AddCommGrpCat.{w} ⋙
         (whiskeringRight _ _ _).obj (forget AddCommGrpCat.{w}))
     infer_instance
   have : PreservesFiniteLimits (sheafCompose J (forget AddCommGrpCat.{w})) :=
     preservesFiniteLimits_of_reflects_of_preserves
       (sheafCompose J (forget AddCommGrpCat.{w})) (sheafToPresheaf J (Type w))
-  show PreservesFiniteLimits
+  change PreservesFiniteLimits
     (SheafOfModules.toSheaf.{w} R ⋙ sheafCompose J (forget AddCommGrpCat.{w}))
   exact comp_preservesFiniteLimits _ _
 
@@ -143,7 +143,7 @@ lemma reflectsFiniteLimits_moduleSheafFunctor :
   have : PreservesFiniteLimits (Sheaf.moduleSheafFunctor R) :=
     preservesFiniteLimits_moduleSheafFunctor J R
   have : (SheafOfModules.toSheaf.{w} R).ReflectsIsomorphisms := inferInstance
-  show ReflectsFiniteLimits
+  change ReflectsFiniteLimits
     (SheafOfModules.toSheaf.{w} R ⋙ sheafCompose J (forget AddCommGrpCat.{w}))
   infer_instance
 
@@ -155,7 +155,7 @@ lemma preservesEpimorphisms_moduleSheafFunctor
     [HasSheafify J AddCommGrpCat.{w}]
     [J.WEqualsLocallyBijective AddCommGrpCat.{w}] :
     PreservesEpimorphisms (Sheaf.moduleSheafFunctor R) := by
-  show PreservesEpimorphisms
+  change PreservesEpimorphisms
     (SheafOfModules.toSheaf.{w} R ⋙ sheafCompose J (forget AddCommGrpCat.{w}))
   constructor
   intro M N f hf

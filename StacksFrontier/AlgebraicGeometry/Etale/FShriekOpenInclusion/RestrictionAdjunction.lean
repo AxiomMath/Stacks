@@ -94,7 +94,7 @@ private theorem openBaseChangeMap_isOpenImmersion (B : BigEtaleSite.{u})
   let := hasPullbacks_bigEtaleSite B
   let : PreservesLimitsOfShape WalkingCospan B.inclusion :=
     preservesPullbacks_bigEtaleSiteInclusion B
-  show IsOpenImmersion (B.inclusion.map (pullback.fst W.obj.hom j))
+  change IsOpenImmersion (B.inclusion.map (pullback.fst W.obj.hom j))
   exact MorphismProperty.of_isPullback
     (IsPullback.map B.inclusion (IsPullback.of_hasPullback W.obj.hom j).flip)
     (show IsOpenImmersion (B.inclusion.map j) from inferInstance)
@@ -107,7 +107,7 @@ private theorem openBaseChangeMap_range (B : BigEtaleSite.{u})
       Set.preimage (B.inclusion.map W.obj.hom).base
         (Set.range (B.inclusion.map j).base) := by
   classical
-  show Set.range (B.inclusion.map (pullback.fst W.obj.hom j)).base =
+  change Set.range (B.inclusion.map (pullback.fst W.obj.hom j)).base =
     Set.preimage (B.inclusion.map W.obj.hom).base
       (Set.range (B.inclusion.map j).base)
   let := hasPullbacks_bigEtaleSite B
@@ -275,7 +275,7 @@ private theorem supportSection_postcompose_eq (B : BigEtaleSite.{u})
           ((postcompose B j).obj U) s := by
     apply congrArg sSup
     ext W
-    show SmallEtale.IsZeroOpen B X'.obj X'.property PF U s W ↔
+    change SmallEtale.IsZeroOpen B X'.obj X'.property PF U s W ↔
       SmallEtale.IsZeroOpen B X.obj X.property F
         ((postcompose B j).obj U) s W
     constructor
@@ -300,7 +300,7 @@ private theorem supportSection_postcompose_eq (B : BigEtaleSite.{u})
         rfl
       refine ⟨V', g', ?_, ?_, ?_⟩
       · change IsOpenImmersion (B.inclusion.map g.hom.left) at hg
-        show IsOpenImmersion (B.inclusion.map g.hom.left)
+        change IsOpenImmersion (B.inclusion.map g.hom.left)
         simpa [g'] using hg
       · exact hW
       · have hinj : Function.Injective (F.obj.map eV.hom.op) :=
@@ -313,9 +313,9 @@ private theorem supportSection_postcompose_eq (B : BigEtaleSite.{u})
         have hpoint := congrArg (fun k => k s) hmaps
         have hzeroMap : F.obj.map eV.hom.op (F.obj.map ((postcompose B j).map g').op s) = 0 := by
           simpa [hz] using hpoint
-        show F.obj.map ((postcompose B j).map g').op s = 0
+        change F.obj.map ((postcompose B j).map g').op s = 0
         exact hinj (by simpa [map_zero] using hzeroMap)
-  show (SmallEtale.zeroOpen B X'.obj X'.property PF U s).carrierᶜ =
+  change (SmallEtale.zeroOpen B X'.obj X'.property PF U s).carrierᶜ =
     (SmallEtale.zeroOpen B X.obj X.property F
       ((postcompose B j).obj U) s).carrierᶜ
   exact congrArg Set.compl (congrArg TopologicalSpace.Opens.carrier hzero)
@@ -347,7 +347,7 @@ private theorem mem_zeroOpen_restrict_of_map_mem (B : BigEtaleSite.{u})
   have hzero' : F.obj.map p₂.op (F.obj.map φ.op s) = 0 := by
     calc
       F.obj.map p₂.op (F.obj.map φ.op s) = F.obj.map (φ.op ≫ p₂.op) s := by
-        show (F.obj.map φ.op ≫ F.obj.map p₂.op) s = _
+        change (F.obj.map φ.op ≫ F.obj.map p₂.op) s = _
         rw [← F.obj.map_comp]
       _ = F.obj.map (p₂ ≫ φ).op s := by rw [← op_comp]
       _ = F.obj.map (p₁ ≫ g).op s := by
@@ -376,7 +376,7 @@ private theorem supportSection_restrict_subset (B : BigEtaleSite.{u})
   let φs := T.map φ
   let Z := SmallEtale.zeroOpen B S hS F U s
   let Z' := SmallEtale.zeroOpen B S hS F U' (F.obj.map φ.op s)
-  show (Z' : Set (T.obj U'))ᶜ ⊆ φs.base ⁻¹' ((Z : Set (T.obj U))ᶜ)
+  change (Z' : Set (T.obj U'))ᶜ ⊆ φs.base ⁻¹' ((Z : Set (T.obj U))ᶜ)
   intro x hx
   simp only [Set.mem_preimage, Set.mem_compl_iff] at hx ⊢
   intro hxZ
@@ -406,21 +406,21 @@ private theorem supportSection_restrict_eq (B : BigEtaleSite.{u})
       have hzeroComp : F.obj.map (g ≫ φ).op s = 0 := by
         simpa only [op_comp, F.obj.map_comp, ConcreteCategory.comp_apply] using hzero
       have hcompOpen : IsOpenImmersion (T.map (g ≫ φ)) := by
-        show IsOpenImmersion (T.map g ≫ T.map φ)
+        change IsOpenImmersion (T.map g ≫ T.map φ)
         infer_instance
       let : IsOpenImmersion (T.map (g ≫ φ)) := hcompOpen
       have himage := (SmallEtale.map_eq_zero_iff_le_zeroOpen
         B S hS F U s V (g ≫ φ)).mp hzeroComp
       intro x hx
       have hxg : x ∈ Set.range (T.map g).base := hWr ▸ hx
-      show φs.base x ∈ (Z : Set (T.obj U))
+      change φs.base x ∈ (Z : Set (T.obj U))
       have hxcomp : φs.base x ∈ Set.range (T.map (g ≫ φ)).base := by
         rw [T.map_comp, Scheme.Hom.comp_base, TopCat.coe_comp, Set.range_comp]
         exact ⟨x, hxg, rfl⟩
       exact himage hxcomp
     · intro x hx
       exact mem_zeroOpen_restrict_of_map_mem B S hS F U U' φ s x hx
-  show ((Z' : Set (T.obj U'))ᶜ) =
+  change ((Z' : Set (T.obj U'))ᶜ) =
     φs.base ⁻¹' ((Z : Set (T.obj U))ᶜ)
   rw [hzero]
   simp [Q, Set.preimage_compl]
@@ -453,7 +453,7 @@ private theorem extendSupportedSection_restrict
   have h : Set.preimage ((SmallEtale.toScheme B X hX).map (𝟙 U' ≫ φ)).base
       (Set.range (i ≫ (SmallEtale.toScheme B X hX).map φ).base) =
         Set.preimage ((SmallEtale.toScheme B X hX).map (𝟙 U')).base (Set.range i.base) := by
-    show Set.preimage ((SmallEtale.toScheme B X hX).map φ).base
+    change Set.preimage ((SmallEtale.toScheme B X hX).map φ).base
         (Set.range (((SmallEtale.toScheme B X hX).map φ).base ∘ i.base)) =
       Set.range i.base
     rw [Set.range_comp]
@@ -509,7 +509,7 @@ private theorem supportSection_extendSupportedSection_eq
     have hx : x ∈ SmallEtale.supportSection B X hX F U'
         (F.obj.map φ.op t.val) := by
       rw [hres]
-      show φs.base x ∈ SmallEtale.supportSection B X hX F U t.val
+      change φs.base x ∈ SmallEtale.supportSection B X hX F U t.val
       rw [← hxy] at hy
       exact hy
     rw [hrestrict] at hx

@@ -167,7 +167,7 @@ public theorem specialFiberIdeal_ideal_eq_span
   let φ := chartHom f U
   let _ : Algebra R Γ(X, U) := φ.hom.toAlgebra
   have hj : hU.fromSpec ≫ f = Spec.map (CommRingCat.ofHom (algebraMap R Γ(X, U))) := by
-    show hU.fromSpec ≫ f = Spec.map φ
+    change hU.fromSpec ≫ f = Spec.map φ
     dsimp [φ, chartHom]
     rw [Spec.map_comp]
     simpa [Scheme.isoSpec_Spec_inv, IsAffineOpen.fromSpec_top] using
@@ -183,7 +183,7 @@ public theorem specialFiberIdeal_ideal_eq_span
     have hmap : algebraMap R k = E.toAlgHom.toRingHom.comp (Ideal.Quotient.mk J) := by
       ext r
       exact (E.commutes r).symm
-    show Spec.map (CommRingCat.ofHom (algebraMap R k)) = _
+    change Spec.map (CommRingCat.ofHom (algebraMap R k)) = _
     rw [show eSpec.hom = Spec.map (CommRingCat.ofHom E.toAlgHom.toRingHom) by
       simp [eSpec, Functor.mapIso_hom, Iso.op_hom, Scheme.Spec_map], ← Spec.map_comp,
       ← CommRingCat.ofHom_comp]
@@ -203,7 +203,7 @@ public theorem specialFiberIdeal_ideal_eq_span
       dsimp [pbMap, pullback.map]
       rw [pullback.lift_fst]
       simp
-    show pIso.symm.hom ≫ pbMap ≫ pullback.fst f q = I.subschemeι
+    change pIso.symm.hom ≫ pbMap ≫ pullback.fst f q = I.subschemeι
     rw [hpmap, ← Scheme.Hom.toImage_imageι (f := pullback.fst f g)]
     simp [pIso, I]
   let fibreChart : pullback I.subschemeι U.ι ≅ pullback (hU.fromSpec ≫ f) q := by
@@ -220,7 +220,7 @@ public theorem specialFiberIdeal_ideal_eq_span
     simp only [fibreChart, Iso.trans_hom, asIso_hom, Category.assoc, pullback.map]
     simp only [← Category.assoc, pullback.lift_fst, pullback.lift_snd,
       pullbackSymmetry_hom_comp_fst, pullbackRightPullbackFstIso_hom_fst, Category.comp_id]
-  show _ = Ideal.span {algebraMap R Γ(X, U) π}
+  change _ = Ideal.span {algebraMap R Γ(X, U) π}
   refine ideal_eq_quotient_of_chart I U hU (Ideal.span {algebraMap R Γ(X, U) π})
     (fibreChart ≪≫ specialFiberAffineOpenIso π f hU.fromSpec hj) ?_
   simpa [q, J, Category.assoc, specialFiberAffineOpenIso_hom_fst π f hU.fromSpec hj] using

@@ -260,7 +260,7 @@ private lemma sheafCompose_ulift_preservesEpimorphisms
     (CategoryTheory.Sheaf.isLocallySurjective_iff_epi'
       (J := J) (A := AddCommGrpCat.{v}) (φ := f)).mpr hf
   have hlocal : CategoryTheory.Sheaf.IsLocallySurjective (E.map f) := by
-    show Presheaf.IsLocallySurjective J
+    change Presheaf.IsLocallySurjective J
       (Functor.whiskerRight f.hom AddCommGrpCat.uliftFunctor.{u, v})
     exact (locallySurjective_ulift_iff J f.hom).2 hlow
   exact (CategoryTheory.Sheaf.isLocallySurjective_iff_epi'
@@ -457,7 +457,7 @@ private theorem epi_of_shortExact_generic {X : TopCat.{u}}
     obtain ⟨t₁, ht₁⟩ := harrow j
     change (S.g.hom.app (op W)) t₁ = S.X₃.obj.map (homOfLE Wle).op s at ht₁
     have ht₁r : (S.g.hom.app (op W)) t₁ = s |_ W := by
-      show (S.g.hom.app (op W)) t₁ = S.X₃.obj.map (homOfLE Wle).op s
+      change (S.g.hom.app (op W)) t₁ = S.X₃.obj.map (homOfLE Wle).op s
       rw [show S.X₃.obj.map (homOfLE Wle).op s = s |_ W by rfl]
       exact ht₁
     let t₂ := t.right.2 |_ (t.right.1.unop ⊓ W) - t₁ |_ (t.right.1.unop ⊓ W)
@@ -473,7 +473,7 @@ private theorem epi_of_shortExact_generic {X : TopCat.{u}}
       exact sub_self _
     let P := TopCat.Sheaf.forget (AddCommGrpCat.{max u r}) X
     have : Limits.PreservesFiniteLimits P := by
-      show Limits.PreservesFiniteLimits
+      change Limits.PreservesFiniteLimits
         (sheafToPresheaf (Opens.grothendieckTopology X) AddCommGrpCat.{max u r})
       infer_instance
     have hleft : (S.map P).Exact :=
@@ -497,7 +497,7 @@ private theorem epi_of_shortExact_generic {X : TopCat.{u}}
     have hmap : ((S.f.hom.app (op W)) t₄) |_
         (t.right.1.unop ⊓ W) = t₂ := by
       rw [← TopCat.Presheaf.map_restrict S.f.hom inf_le_right t₄]
-      show (S.f.hom.app (op (t.right.1.unop ⊓ W)))
+      change (S.f.hom.app (op (t.right.1.unop ⊓ W)))
         ((S.X₁.obj.map (homOfLE inf_le_right).op) t₄) = t₂
       rw [ht₄, ht₃]
     have hglue : sf 0 |_ (t.right.1.unop ⊓ W) = sf 1 |_ (t.right.1.unop ⊓ W) := by
@@ -552,7 +552,7 @@ private theorem epi_of_shortExact_generic {X : TopCat.{u}}
                 (0 : S.X₁.obj.obj (op W) ⟶ S.X₃.obj.obj (op W))) t₄ = 0 := by rfl
             rw [hzero, add_zero]
             exact hrestr
-          show (S.g.hom.app (op W))
+          change (S.g.hom.app (op W))
             (t₁ + (S.f.hom.app (op W)) t₄) = S.X₃.obj.map (homOfLE Wle).op s
           exact hw)
     have ht₆ : Nonempty (t₆ ⟶ t) :=
@@ -847,7 +847,7 @@ public theorem isZero_rightDerived_sections_of_isZero_cechHomology
       (ComplexShape.up ℕ) q).mapIso eIndexComplex
     have hSmallIndex : IsZero (((cechComplexFunctor V.obj).obj
         (F.val.presheaf ⋙ AddCommGrpCat.uliftFunctor.{u, v})).homology q) := by
-      show IsZero (((FormalCoproduct.cochainComplexFunctor
+      change IsZero (((FormalCoproduct.cochainComplexFunctor
         ((FormalCoproduct.mk V.ι V.obj).cech)).obj
         (F.val.presheaf ⋙ AddCommGrpCat.uliftFunctor.{u, v})).homology q)
       exact IsZero.of_iso (hF (I := ULift.{v} V.ι) (fun i => V.obj i.down) q hq) eIndexHom

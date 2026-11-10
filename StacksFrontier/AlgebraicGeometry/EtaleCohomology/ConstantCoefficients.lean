@@ -209,7 +209,7 @@ private def overPullbackSheafFiberIso [LocallySmall.{z} C] (p : J.Point.{z})
   Functor.Final.colimitIso
     ((overFunctorElementsEquivalence p.fiber x).functor ⋙
       Over.forget (p.fiber.elementsMk U x)).op
-    ((CategoryOfElements.π p.fiber).op ⋙ F.obj)
+    ((Functor.Elements.π p.fiber).op ⋙ F.obj)
 
 /-- A continuous functor `G` of sites, together with an isomorphism between the fibre functor of
 a point `q` of the target pulled back along `G` and the fibre functor of a point `p` of the
@@ -224,7 +224,7 @@ public def sheafFiberIsoOfAdjOfFiberIso {D : Type uD} [Category.{vD} D]
     {L : Sheaf J A ⥤ Sheaf K A} (adj : L ⊣ G.sheafPushforwardContinuous A J K) :
     L ⋙ q.sheafFiber ≅ p.sheafFiber := by
   let ee := Functor.flipping.functor.mapIso
-    (Functor.isoWhiskerRight (NatIso.op e.symm) (piFunctor (C := A)).flip)
+    (Functor.isoWhiskerRight (NatIso.op e.symm) (piConst (C := A)).flip)
   let e' : q.skyscraperSheafFunctor ⋙ G.sheafPushforwardContinuous A J K ≅
       p.skyscraperSheafFunctor := NatIso.ofComponents
     (fun M => (fullyFaithfulSheafToPresheaf J A).preimageIso (ee.app M))
@@ -406,7 +406,7 @@ instance etaleModuleStalkFunctor_preservesZeroMorphisms (s : GeometricPoint X.ob
   map_zero F G := by
     have h : (etaleModuleStalkFunctor B X Λ s).map (0 : F ⟶ G) =
         colimMap (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B X.obj X.property s)).op
+          (Functor.Elements.π (geometricPointFiber B X.obj X.property s)).op
           ((sheafToPresheaf (SmallEtale.topology B X.obj X.property)
             (ModuleCat.{w} Λ)).map (0 : F ⟶ G))) := rfl
     rw [h]
@@ -414,7 +414,7 @@ instance etaleModuleStalkFunctor_preservesZeroMorphisms (s : GeometricPoint X.ob
     intro j
     rw [ι_colimMap]
     simp only [ObjectProperty.ι_obj, Functor.comp_obj, Functor.op_obj,
-      Functor.Elements.π_obj, ObjectProperty.ι_map, ObjectProperty.zero_hom,
+      ObjectProperty.ι_map, ObjectProperty.zero_hom,
       Functor.whiskerLeft_app, zero_app, zero_comp]
     exact comp_zero.symm
 
@@ -540,7 +540,7 @@ private lemma preimmersion_residueFieldMap_isIso {Y Z : Scheme.{u}}
       IsLocalRing.residue_surjective _
     obtain ⟨a, ha⟩ := f.stalkMap_surjective y b
     refine ⟨IsLocalRing.residue _ a, ?_⟩
-    show IsLocalRing.ResidueField.map (f.stalkMap y).hom (IsLocalRing.residue _ a) = z
+    change IsLocalRing.ResidueField.map (f.stalkMap y).hom (IsLocalRing.residue _ a) = z
     rw [IsLocalRing.ResidueField.map_residue, ha, hb]
 
 /-- The embedding of residue fields recorded by a morphism `l` from the spectrum of a field that
@@ -794,16 +794,17 @@ private lemma toSheafify_comp_toPresheafFiber (p : J.Point.{z})
   dsimp only [constantSheafFiberIso, Iso.trans_inv, Iso.symm_inv]
   congr 1
   exact ((isColimitConstCocone p.fiber.Elementsᵒᵖ T).comp_coconePointUniqueUpToIso_hom
-    (p.isColimitPresheafFiberCocone ((Functor.const _).obj T)) (op (p.fiber.elementsMk U x))).symm.trans
+    (p.isColimitPresheafFiberCocone ((Functor.const _).obj T))
+      (op (p.fiber.elementsMk U x))).symm.trans
     (Category.id_comp _)
 
 /-- The projection from the category of elements of the fibre functor of a point satisfies the
 covering condition of `GrothendieckTopology.Point.ofIsCofiltered`. -/
 private lemma exists_comp_eq_of_mem_point_elements (p : J.Point.{z}) ⦃U : C⦄ (R : Sieve U)
-    (hR : R ∈ J U) ⦃V : p.fiber.Elements⦄ (f : (CategoryOfElements.π p.fiber).obj V ⟶ U) :
+    (hR : R ∈ J U) ⦃V : p.fiber.Elements⦄ (f : (Functor.Elements.π p.fiber).obj V ⟶ U) :
     ∃ (Y : C) (g : Y ⟶ U) (_ : R g) (W : p.fiber.Elements) (q : W ⟶ V)
-      (b : (CategoryOfElements.π p.fiber).obj W ⟶ Y),
-      b ≫ g = (CategoryOfElements.π p.fiber).map q ≫ f := by
+      (b : (Functor.Elements.π p.fiber).obj W ⟶ Y),
+      b ≫ g = (Functor.Elements.π p.fiber).map q ≫ f := by
   obtain ⟨Y, g, hg, y, hy⟩ := p.jointly_surjective _ (J.pullback_stable f hR) V.val
   refine ⟨Y, g ≫ f, hg, p.fiber.elementsMk Y y, ⟨g, hy⟩, 𝟙 _, ?_⟩
   exact Category.id_comp _
@@ -831,7 +832,7 @@ private lemma flat_presheafFiber_of_isFlatModuleStalk [LocallySmall.{z} C]
   let A := forget₂ (ModuleCat.{z} R) AddCommGrpCat
   let φ₀ : A.obj ((Φ.presheafFiber (A := ModuleCat.{z} R)).obj P) ≅
       (Φ.presheafFiber (A := AddCommGrpCat.{z})).obj (P ⋙ A) :=
-    preservesColimitIso A ((CategoryOfElements.π Φ.fiber).op ⋙ P)
+    preservesColimitIso A ((Functor.Elements.π Φ.fiber).op ⋙ P)
   let φ : A.obj ((Φ.presheafFiber (A := ModuleCat.{z} R)).obj P) ≅
       (Φ.presheafFiber (A := AddCommGrpCat.{z})).obj M.val.presheaf :=
     φ₀ ≪≫ asIso (Φ.presheafFiber.map τ)
@@ -843,9 +844,10 @@ private lemma flat_presheafFiber_of_isFlatModuleStalk [LocallySmall.{z} C]
     have h₀ : φ₀.hom (A.map (Φ.toPresheafFiber U x P) m) =
         Φ.toPresheafFiber U x (P ⋙ A) m :=
       ConcreteCategory.congr_hom
-        (ι_preservesColimitIso_hom A ((CategoryOfElements.π Φ.fiber).op ⋙ P) (op (Φ.fiber.elementsMk U x))) m
+        (ι_preservesColimitIso_hom A ((Functor.Elements.π Φ.fiber).op ⋙ P)
+          (op (Φ.fiber.elementsMk U x))) m
     have h₁ := Φ.toPresheafFiber_naturality_apply τ U x m
-    show (Φ.presheafFiber.map τ) (φ₀.hom (A.map (Φ.toPresheafFiber U x P) m)) = _
+    change (Φ.presheafFiber.map τ) (φ₀.hom (A.map (Φ.toPresheafFiber U x P) m)) = _
     rw [h₀, h₁]
     rfl
   let : Module ((Φ.presheafFiber (A := CommRingCat.{z})).obj O.obj)
@@ -858,15 +860,15 @@ private lemma flat_presheafFiber_of_isFlatModuleStalk [LocallySmall.{z} C]
     φ.addCommGroupIsoToAddEquiv
   apply flat_of_semilinear_equiv e ψ
   intro r n
-  have hpres : PreservesColimit ((CategoryOfElements.π Φ.fiber).op ⋙ P)
+  have hpres : PreservesColimit ((Functor.Elements.π Φ.fiber).op ⋙ P)
       (forget (ModuleCat.{z} R)) := by
-    show PreservesColimit _ (forget₂ (ModuleCat.{z} R) AddCommGrpCat ⋙ forget AddCommGrpCat)
+    change PreservesColimit _ (forget₂ (ModuleCat.{z} R) AddCommGrpCat ⋙ forget AddCommGrpCat)
     infer_instance
   obtain ⟨j, m, rfl⟩ :=
-    Concrete.colimit_exists_rep ((CategoryOfElements.π Φ.fiber).op ⋙ P) n
+    Concrete.colimit_exists_rep ((Functor.Elements.π Φ.fiber).op ⋙ P) n
   obtain ⟨@⟨U, x⟩⟩ := j
   change ↑(P.obj (op U)) at m
-  show φ.hom (r • Φ.toPresheafFiber U x P m) = e r • φ.hom (Φ.toPresheafFiber U x P m)
+  change φ.hom (r • Φ.toPresheafFiber U x P m) = e r • φ.hom (Φ.toPresheafFiber U x P m)
   rw [← map_smul (ConcreteCategory.hom (Φ.toPresheafFiber U x P)) r m, key, key, hτ, ← ha U x r]
   exact Stacks.moduleStalkGerm_smul Φ O M U x (a (op U) r) (τ.app (op U) m)
 
@@ -904,7 +906,7 @@ private lemma etaleModuleStalk_flat
   have : UnivLE.{u, w} := ModuleCat.univLE_of_not_subsingleton hM
   have : HasColimitsOfSize.{u, u} AddCommGrpCat.{w} := inferInstance
   let p₀ := geometricSitePoint B X s
-  let Q := CategoryOfElements.π p₀.fiber
+  let Q := Functor.Elements.π p₀.fiber
   have hQ : ∀ ⦃U⦄ (R : Sieve U) (_ : R ∈ SmallEtale.topology B X.obj X.property U)
       ⦃V : p₀.fiber.Elements⦄ (f : Q.obj V ⟶ U),
       ∃ (Y : SmallEtale B X.obj X.property) (g : Y ⟶ U) (_ : R g)
@@ -952,7 +954,7 @@ private lemma etaleModuleStalk_flat
     have : PreservesColimit (Q.op ⋙ F.obj)
         (ModuleCat.uliftFunctor.{max (u + 1) r} Λ ⋙
           forget₂ (ModuleCat.{max (u + 1) w r} Λ) AddCommGrpCat) := by
-      show PreservesColimit (Q.op ⋙ F.obj)
+      change PreservesColimit (Q.op ⋙ F.obj)
         (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat ⋙ AddCommGrpCat.uliftFunctor.{max (u + 1) r})
       infer_instance
     exact preservesColimit_of_reflects_of_preserves

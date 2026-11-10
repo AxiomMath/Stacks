@@ -64,7 +64,7 @@ theorem hasTrivialPicard_of_iso {X Y : Scheme.{u}} (e : X ≅ Y)
     (h : HasTrivialPicard X) : HasTrivialPicard Y := by
   intro L hL
   obtain ⟨g⟩ := h ((Scheme.Modules.pullback e.hom).obj L) <| by
-    show Stacks.Ample.IsInvertibleModule X
+    change Stacks.Ample.IsInvertibleModule X
       ((RingedSpaceModuleAdjunction.modulePullback e.hom.toLRSHom.toShHom).obj L)
     infer_instance
   exact ⟨(pullbackInvPullbackHomIso e L).symm ≪≫

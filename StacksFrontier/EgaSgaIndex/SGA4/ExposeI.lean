@@ -291,8 +291,10 @@ add_to_sga "4 I 2.8.1" "more general" CategoryTheory.Limits.Types.FilteredColimi
 add_to_sga "4 I 2.8.1" "2: kernel identification" CategoryTheory.Limits.colimit_eq_iff
 add_to_sga "4 I 2.9" Ab
 add_to_sga "4 I 2.9" "more general" CategoryTheory.Limits.filtered_colim_preservesFiniteLimits
-add_to_sga "4 I 2.9" "more general"
-  CategoryTheory.Limits.instPreservesFiniteLimitsFunctorColimOfPreservesColimitsOfShapeOfHasFiniteLimitsOfReflectsIsomorphismsForget
+run_cmd Lean.Elab.Command.elabCommand (← `(command| add_to_sga "4 I 2.9" "more general"
+  $(Lean.mkIdent <| .str `CategoryTheory.Limits
+    ("instPreservesFiniteLimitsFunctorColimOfPreservesColimitsOfShapeOf" ++
+      "HasFiniteLimitsOfReflectsIsomorphismsForget"))))
 add_to_sga "4 I 2.9" CategoryTheory.forget
 add_to_sga "4 I 2.9" ModuleCat
 add_to_sga "4 I 2.9" RingCat
@@ -335,8 +337,10 @@ add_to_sga "4 I 3.3" "Fourth clause for sets"
   CategoryTheory.Limits.filtered_colim_preservesFiniteLimits
 add_to_sga "4 I 3.3" "special case"
   CategoryTheory.Limits.filtered_colim_preservesFiniteLimits_of_types
-add_to_sga "4 I 3.3" "Fourth clause for sets"
-  CategoryTheory.Limits.instPreservesFiniteLimitsFunctorColimOfPreservesColimitsOfShapeOfHasFiniteLimitsOfReflectsIsomorphismsForget
+run_cmd Lean.Elab.Command.elabCommand (← `(command| add_to_sga "4 I 3.3" "Fourth clause for sets"
+  $(Lean.mkIdent <| .str `CategoryTheory.Limits
+    ("instPreservesFiniteLimitsFunctorColimOfPreservesColimitsOfShapeOf" ++
+      "HasFiniteLimitsOfReflectsIsomorphismsForget"))))
 add_to_sga "4 I 3.3" CategoryTheory.MorphismProperty.HasFactorization
 add_to_sga "4 I 3.3" CategoryTheory.coyonedaFunctor_preservesLimits
 add_to_sga "4 I 3.3" CategoryTheory.yonedaFunctor_preservesLimits
@@ -410,8 +414,9 @@ add_to_sga "4 I 5.4" "Clause 3"
   CategoryTheory.Presheaf.instIsIsoFunctorLeftKanExtensionUnitOppositeTypeUliftYoneda
 add_to_sga "4 I 5.4" "Clause 3"
   CategoryTheory.Presheaf.instIsLeftKanExtensionOppositeObjFunctorTypeYonedaYonedaMap
+open CategoryTheory in
 add_to_sga "4 I 5.4" "Clause 3"
-  CategoryTheory.Presheaf.instUniqueHomLeftExtensionOppositeOpObjFunctorTypeUliftYonedaMkUliftYonedaMap
+  Presheaf.instUniqueHomLeftExtensionOppositeOpObjFunctorTypeUliftYonedaMkUliftYonedaMap
 add_to_sga "4 I 5.4" "Clause 3"
   CategoryTheory.Presheaf.instUniqueHomLeftExtensionOppositeOpObjFunctorTypeYonedaMkYonedaMap
 add_to_sga "4 I 5.4" "Clause 3" CategoryTheory.Presheaf.isExtensionAlongULiftYoneda
@@ -694,8 +699,9 @@ add_to_sga "4 I 8.5.4" "more general" CategoryTheory.instIsFilteredForall
 add_to_sga "4 I 8.5.4" CategoryTheory.instIsFilteredProd
 add_to_sga "4 I 8.5.4" "more general" CategoryTheory.isCardinalFiltered_pi
 add_to_sga "4 I 8.5.4" "more general" CategoryTheory.isCardinalFiltered_prod
+open CategoryTheory in
 add_to_sga "4 I 8.6.2" "f_! extends f"
-  CategoryTheory.Presheaf.instIsLeftKanExtensionFunctorOppositeTypeLanOpHomCompULiftYonedaIsoULiftYonedaCompLan
+  Presheaf.instIsLeftKanExtensionFunctorOppositeTypeLanOpHomCompULiftYonedaIsoULiftYonedaCompLan
 add_to_sga "4 I 8.6.2" "partial"
   CategoryTheory.Presheaf.instIsLeftKanExtensionOppositeObjFunctorTypeUliftYonedaUliftYonedaMap
 add_to_sga "4 I 8.6.2" "partial"
@@ -713,10 +719,12 @@ add_to_sga "4 I 8.7.4" "partial" CategoryTheory.Equivalence.fullyFaithfulToEssIm
 add_to_sga "4 I 8.7.4" "partial" CategoryTheory.Functor.toEssImageCompι
 add_to_sga "4 I 8.7.5" "more general" CategoryTheory.ObjectProperty.FullSubcategory
 add_to_sga "4 I 8.7.5" "more general" CategoryTheory.ObjectProperty.FullSubcategory.category
+open CategoryTheory.IsCardinalAccessibleCategory in
 add_to_sga "4 I 8.7.5.2" "partial"
-  CategoryTheory.IsCardinalAccessibleCategory.instIsCardinalFilteredCostructuredArrowFullSubcategoryIsCardinalPresentableι
+  instIsCardinalFilteredCostructuredArrowFullSubcategoryIsCardinalPresentableι
+open CategoryTheory.IsFinitelyAccessibleCategory in
 add_to_sga "4 I 8.7.5.2" "Filteredness clause"
-  CategoryTheory.IsFinitelyAccessibleCategory.instIsFilteredCostructuredArrowFullSubcategoryIsFinitelyPresentableι
+  instIsFilteredCostructuredArrowFullSubcategoryIsFinitelyPresentableι
 add_to_sga "4 I 8.7.5.2" "special case" CategoryTheory.Limits.isIndObject_iff
 add_to_sga "4 I 8.7.5.2" "partial"
   CategoryTheory.ObjectProperty.isCardinalFiltered_costructuredArrow_colimitsCardinalClosure_ι
@@ -789,8 +797,9 @@ add_to_sga "4 I 8.9.1" "8.9.1(c)" CategoryTheory.instHasLimitsInd
 add_to_sga "4 I 8.9.1" "8.9.1(c)" CategoryTheory.instHasLimitsOfShapeDiscreteInd
 add_to_sga "4 I 8.9.1" "8.9.1(c), special case"
   CategoryTheory.instHasLimitsOfShapeWalkingParallelPairInd
+open CategoryTheory in
 add_to_sga "4 I 8.9.1" "8.9.1(c)"
-  CategoryTheory.instIsClosedUnderLimitsOfShapeFunctorOppositeTypeIsIndObjectDiscreteOfHasLimitsOfShape
+  instIsClosedUnderLimitsOfShapeFunctorOppositeTypeIsIndObjectDiscreteOfHasLimitsOfShape
 add_to_sga "4 I 8.9.1" "8.9.1(a), the functor c" CategoryTheory.instPreservesLimitsIndYoneda
 add_to_sga "4 I 8.9.1" "d), special case"
   CategoryTheory.instPreservesLimitsOfShapeFunctorIndLimOfFinCategoryOfHasLimitsOfShape
@@ -809,8 +818,9 @@ add_to_sga "4 I 8.9.3" "partial" CategoryTheory.Limits.isIndObject_pi
 add_to_sga "4 I 8.9.3" "special case" CategoryTheory.instHasFiniteLimitsInd
 add_to_sga "4 I 8.9.3" "special case" CategoryTheory.instHasLimitsInd
 add_to_sga "4 I 8.9.3" "special case" CategoryTheory.instHasLimitsOfShapeDiscreteInd
+open CategoryTheory in
 add_to_sga "4 I 8.9.3" "special case"
-  CategoryTheory.instIsClosedUnderLimitsOfShapeFunctorOppositeTypeIsIndObjectDiscreteOfHasLimitsOfShape
+  instIsClosedUnderLimitsOfShapeFunctorOppositeTypeIsIndObjectDiscreteOfHasLimitsOfShape
 add_to_sga "4 I 8.9.3" "partial" CategoryTheory.instIsFilteredForall
 add_to_sga "4 I 8.9.3" "special case" CategoryTheory.instIsFilteredProd
 add_to_sga "4 I 8.9.3" "more general" CategoryTheory.isCardinalFiltered_pi

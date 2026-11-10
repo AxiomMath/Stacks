@@ -139,7 +139,7 @@ private def tensorSingleIso (K : CochainComplex (ModuleCat.{u} R) ℤ) :
         (curriedTensor (ModuleCat.{u} R)) (ComplexShape.up ℤ)).f n
   rw [HomologicalComplex.ι_mapBifunctorMap]
   simp [AdicCompletionTor.complexTensorRight, CochainComplex.singleFunctor,
-    CochainComplex.singleFunctors, HomologicalComplex.single_map_f_self,
+    HomologicalComplex.single_map_f_self,
     HomologicalComplex.singleObjXSelf, HomologicalComplex.singleObjXIsoOfEq]
   rfl
 
@@ -209,7 +209,7 @@ private theorem torIdealPowerSystem_uniform_proZero
     ∀ n : ℕ, (AdicCompletionTor.torIdealPowerSystem I Q i).map
       (homOfLE (Nat.le_add_right n c)).op = 0 := by
   intro n
-  show ((Tor' (ModuleCat.{u} A) i).obj Q).map _ = 0
+  change ((Tor' (ModuleCat.{u} A) i).obj Q).map _ = 0
   rw [idealPowerQuotientModuleSystem_map]
   let e := (Tor_iso_Tor' A i).app Q
   apply (cancel_epi (e.hom.app (torProZeroQuot I (n + c + 1)))).mp
@@ -327,7 +327,7 @@ private theorem tensorQuotient_isLE
   let K : CochainComplex (ModuleCat.{u} R) ℤ :=
     (AdicCompletionTor.complexTensorRight R (ProjectiveResolution.of M).cochainComplex).obj N
   have : K.IsStrictlyLE 0 := by
-    show CochainComplex.IsStrictlyLE
+    change CochainComplex.IsStrictlyLE
       ((((tensoringRight _).obj N).mapHomologicalComplex _).obj
         (ProjectiveResolution.of M).cochainComplex) 0
     infer_instance
@@ -479,7 +479,7 @@ private theorem idealPowerQuotientMap_comp_map (I : Ideal R) (n : ℕ) :
   have hnat := AdicCompletionTor.singleExtendIso.inv.naturality
     (NoetherianAdicCompletion.quotientFactor hle)
   have hmkQ := NoetherianAdicCompletion.mkQ_comp_quotientFactor hle
-  show (DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).map
+  change (DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).map
         (ModuleCat.ofHom (I ^ (n + 1 + 1)).mkQ) ≫
       DerivedCategory.Q.map (AdicCompletionTor.singleExtendIso.inv.app _) ≫
         DerivedCategory.Q.map
@@ -487,7 +487,7 @@ private theorem idealPowerQuotientMap_comp_map (I : Ideal R) (n : ℕ) :
             ComplexShape.embeddingDownNat.extendFunctor _).map
               (NoetherianAdicCompletion.quotientFactor hle)) = _
   rw [← DerivedCategory.Q.map_comp, ← hnat, DerivedCategory.Q.map_comp]
-  show _ ≫ (DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).map
+  change _ ≫ (DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).map
       (NoetherianAdicCompletion.quotientFactor hle) ≫ _ = _
   rw [← Category.assoc, ← Functor.map_comp, hmkQ]
   rfl
@@ -616,7 +616,7 @@ private def adicQuotientToTensorHomologyNatTrans :
     AdicCompletionTor.adicQuotientSystem I M ⟶
       idealPowerTensorTower I T M ⋙ DerivedCategory.homologyFunctor (ModuleCat.{u} R) 0 :=
   NatTrans.ofOpSequence (fun n ↦ adicQuotientToTensorHomology I T M n) (fun n ↦ by
-    haveI : Epi (adicQuotientMk I M (n + 1)) := epi_adicQuotientMk I M (n + 1)
+    have : Epi (adicQuotientMk I M (n + 1)) := epi_adicQuotientMk I M (n + 1)
     refine (cancel_epi (adicQuotientMk I M (n + 1))).1 ?_
     have hle : (homOfLE (n.le_add_right 1)).op = (homOfLE (Nat.le_succ n)).op :=
       Subsingleton.elim _ _
@@ -648,7 +648,7 @@ private theorem reductionHomologyUnit_comp_tensorHomologyAdicQuotientNatIso
   have h : adicQuotientToTensorHomology I T M n ≫
       (tensorHomologyAdicQuotientNatIso I T M).hom.app ⟨n⟩ =
       𝟙 ((AdicCompletionTor.adicQuotientSystem I M).obj ⟨n⟩) := by
-    show (adicQuotientToTensorHomologyNatTrans I T M).app ⟨n⟩ ≫
+    change (adicQuotientToTensorHomologyNatTrans I T M).app ⟨n⟩ ≫
       (asIso (adicQuotientToTensorHomologyNatTrans I T M)).inv.app ⟨n⟩ = 𝟙 _
     exact congrArg (fun α : AdicCompletionTor.adicQuotientSystem I M ⟶
         AdicCompletionTor.adicQuotientSystem I M ↦ α.app ⟨n⟩)
@@ -694,7 +694,7 @@ private theorem boundedTower_to_truncGE_hasEventualInverses
       (φ ≫ Functor.whiskerLeft G (t.truncGEπ 0)) := by
   have hG (i : ℤ) (hi : i ≠ 0) (n : ℕᵒᵖ) :
       IsZero ((homologyFunctor 𝒜 i).obj ((G ⋙ t.truncGE 0).obj n)) := by
-    show IsZero ((homologyFunctor 𝒜 i).obj ((t.truncGE 0).obj (G.obj n)))
+    change IsZero ((homologyFunctor 𝒜 i).obj ((t.truncGE 0).obj (G.obj n)))
     by_cases h : i < 0
     · have : ((t.truncGE 0).obj (G.obj n)).IsGE 0 := t.isGE_truncGE_obj _ 0 0
       exact isZero_of_isGE _ 0 i h
@@ -834,7 +834,7 @@ theorem exists_idealPowerTensor_adicQuotient_comparison_normalized
   let eH : (G ⋙ t.truncGE 0) ⋙ H ≅ AdicCompletionTor.adicQuotientSystem I M :=
     (asIso η).symm ≪≫ tensorHomologyAdicQuotientNatIso I T M
   have hLE : ∀ n : ℕᵒᵖ, DerivedCategory.IsLE ((G ⋙ t.truncGE 0).obj n) 0 := fun n => by
-    show ((DerivedCategory.TStructure.t.truncGE 0).obj (G.obj n)).IsLE 0
+    change ((DerivedCategory.TStructure.t.truncGE 0).obj (G.obj n)).IsLE 0
     have := hGle n
     infer_instance
   have hGE : ∀ n : ℕᵒᵖ, DerivedCategory.IsGE ((G ⋙ t.truncGE 0).obj n) 0 := fun n =>
@@ -878,7 +878,7 @@ theorem exists_idealPowerTensor_adicQuotient_comparison_normalized
     refine (DerivedCategory.bijective_homologyFunctor_map (𝒜 := ModuleCat.{u} R) 0
       (S.obj M) (S.obj ((AdicCompletionTor.adicQuotientSystem I M).obj ⟨n⟩))
       inferInstance inferInstance inferInstance inferInstance).injective ?_
-    show H.map ((NoetherianAdicCompletion.derivedReductionMap I T n).app (S.obj M) ≫
+    change H.map ((NoetherianAdicCompletion.derivedReductionMap I T n).app (S.obj M) ≫
         (Functor.whiskerLeft G (t.truncGEπ 0) ≫ e.hom).app ⟨n⟩) =
       H.map (S.map (ModuleCat.ofHom (I ^ (n + 1) • (⊤ : Submodule R (M : Type u))).mkQ))
     rw [H.map_comp, hproj, hS, hρ]
@@ -926,10 +926,10 @@ private theorem positiveQuotientToQuotient_hasEventualInverses
     NoetherianAdicCompletion.HasEventualInverses (positiveQuotientToQuotient R I M) := by
   intro n
   refine ⟨n + 1, Nat.le_succ n, 𝟙 _, ?_, ?_⟩
-  · show ModuleCat.ofHom (AdicCompletion.transitionMap I M _) ≫ 𝟙 _ = _
+  · change ModuleCat.ofHom (AdicCompletion.transitionMap I M _) ≫ 𝟙 _ = _
     rw [Category.comp_id]
     rfl
-  · show 𝟙 _ ≫ ModuleCat.ofHom (AdicCompletion.transitionMap I M _) = _
+  · change 𝟙 _ ≫ ModuleCat.ofHom (AdicCompletion.transitionMap I M _) = _
     rw [Category.id_comp]
     exact (Functor.ofOpSequence_map_homOfLE_succ
       (X := fun k : ℕ => ModuleCat.of R (M ⧸ (I ^ k • ⊤ : Submodule R M)))
@@ -1081,7 +1081,7 @@ theorem isDerivedLimitWithProjections_tensor_adicQuotient
         (ModuleCat.ofHom (I ^ (n + 1) • (⊤ : Submodule R (M : Type u))).mkQ)) := by
     intro n
     rw [← Category.assoc, hw₁ n]
-    show (T.tensor.obj C).map _ ≫ (T.tensor.obj C).map (π.app ⟨n⟩) = _
+    change (T.tensor.obj C).map _ ≫ (T.tensor.obj C).map (π.app ⟨n⟩) = _
     rw [← Functor.map_comp, hπnorm n]
     rfl
   let χ := Functor.whiskerRight (positiveQuotientToQuotient R I M) (S ⋙ T.tensor.obj C)
@@ -1089,7 +1089,7 @@ theorem isDerivedLimitWithProjections_tensor_adicQuotient
     ((positiveQuotientToQuotient_hasEventualInverses R I M).whiskerRight _)
   refine ⟨_, h₃, fun n => ?_⟩
   rw [← Category.assoc, hw₂ n]
-  show (T.tensor.obj C).map (S.map (adicQuotientMk I M n)) ≫
+  change (T.tensor.obj C).map (S.map (adicQuotientMk I M n)) ≫
       (T.tensor.obj C).map (S.map ((positiveQuotientToQuotient R I M).app ⟨n⟩)) = _
   rw [← Functor.map_comp, ← Functor.map_comp, mkQ_comp_positiveQuotientToQuotient R I M n]
   rfl

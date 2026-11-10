@@ -43,7 +43,7 @@ attribute [local instance] HasDerivedCategory.standard
 
 section Finite
 
-variable (B : BigEtaleSite.{u}) (X : B.Scheme) {k : Type u} [Field k] [Fintype k]
+variable (B : BigEtaleSite.{u}) (X : B.Scheme) {k : Type u} [Field k]
   (f : X.1 ⟶ Spec (.of k)) [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
   [IsAlgClosed kbar]

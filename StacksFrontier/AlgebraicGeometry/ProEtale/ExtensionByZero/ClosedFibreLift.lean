@@ -91,7 +91,7 @@ lemma globalSections_obj_terminalObj (B : BigProetaleSite.{u}) (S : B.Scheme)
     (affineIndEtaleGlobalSections B S).obj (AffineIndEtaleProetale.terminalObj B S) =
       op (indEtaleAlgebraSelf Γ(S.obj, ⊤)) := by
   refine congrArg op (ObjectProperty.FullSubcategory.ext ?_)
-  show Under.mk (B.inclusion.map (𝟙 (⟨S.obj, S.property⟩ : B.Scheme))).appTop =
+  change Under.mk (B.inclusion.map (𝟙 (⟨S.obj, S.property⟩ : B.Scheme))).appTop =
     Under.mk (𝟙 (CommRingCat.of Γ(S.obj, ⊤)))
   rw [inclusion_map_id_appTop]
   rfl

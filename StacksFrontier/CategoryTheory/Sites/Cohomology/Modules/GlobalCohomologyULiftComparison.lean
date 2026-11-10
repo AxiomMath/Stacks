@@ -96,10 +96,11 @@ def sectionsULiftEquiv (G : Cᵒᵖ ⥤ AddCommGrpCat.{u}) :
   left_inv _ := rfl
   right_inv _ := rfl
 
+omit [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- `ℤ_*` is sectionwise torsion free, being the sheafification of a sectionwise free presheaf. -/
 lemma freeFinal_isTorsionFree (U : Cᵒᵖ) : Module.IsTorsionFree ℤ ((freeFinal J).obj.obj U) :=
   ModuleSheafCohomology.isTorsionFree_sheafify J _ (fun V => by
-    show Module.IsTorsionFree ℤ (FreeAbelianGroup PUnit)
+    change Module.IsTorsionFree ℤ (FreeAbelianGroup PUnit)
     exact Module.Flat.isTorsionFree) U
 
 variable [HasSheafify J AddCommGrpCat.{max u' u}]
@@ -116,6 +117,8 @@ def globalSectionsEquivSections (B : Sheaf J AddCommGrpCat.{max u' u}) :
   Types.isLimitEquivSections (isLimitOfPreserves (forget AddCommGrpCat.{max u' u})
     (Sheaf.isLimitConeΓ B))
 
+omit [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u' u}] in
 /-- The section of `globalSectionsEquivSections J B x` over `V` is the restriction of the global
 section `x` to `V`. -/
 lemma globalSectionsEquivSections_apply (B : Sheaf J AddCommGrpCat.{max u' u})
@@ -131,6 +134,9 @@ def liftGlobalSectionsEquiv (A : Sheaf J AddCommGrpCat.{u}) :
   (globalSectionsEquivSections J _).trans
     ((sectionsULiftEquiv.{u'} A.obj).trans (homFreeFinalEquivSections J A).symm)
 
+omit [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify J AddCommGrpCat.{max u' u}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u' u}]
+  [HasGlobalSectionsFunctor J AddCommGrpCat.{max u' u}] in
 /-- Naturality of `(homFreeFinalEquivSections J A).symm` in the abelian sheaf `A`: pushing a
 section forward along `g : A ⟶ A'` corresponds to composing the morphism out of `ℤ_*` with `g`. -/
 lemma homFreeFinalEquivSections_symm_comp {A A' : Sheaf J AddCommGrpCat.{u}} (g : A ⟶ A')
@@ -138,7 +144,7 @@ lemma homFreeFinalEquivSections_symm_comp {A A' : Sheaf J AddCommGrpCat.{u}} (g 
     (homFreeFinalEquivSections J A').symm
         ((Functor.sectionsFunctor _).map (Functor.whiskerRight g.hom (forget _)) s) =
       (homFreeFinalEquivSections J A).symm s ≫ g := by
-  show ((Presheaf.freeAbelianSheafAdj.{u} J).homEquiv _ A').symm
+  change ((Presheaf.freeAbelianSheafAdj.{u} J).homEquiv _ A').symm
       ((A'.obj ⋙ forget AddCommGrpCat.{u}).sectionsEquivHom PUnit
         ((Functor.sectionsFunctor _).map (Functor.whiskerRight g.hom (forget _)) s)) =
     ((Presheaf.freeAbelianSheafAdj.{u} J).homEquiv _ A).symm
@@ -146,18 +152,20 @@ lemma homFreeFinalEquivSections_symm_comp {A A' : Sheaf J AddCommGrpCat.{u}} (g 
   rw [Functor.sectionsEquivHom_naturality]
   exact (Presheaf.freeAbelianSheafAdj.{u} J).homEquiv_naturality_right_symm _ g
 
+omit [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u' u}] in
 /-- Naturality of `liftGlobalSectionsEquiv` in the abelian sheaf. -/
 lemma liftGlobalSectionsEquiv_naturality {A A' : Sheaf J AddCommGrpCat.{u}} (g : A ⟶ A')
     (x : (Sheaf.Γ J AddCommGrpCat.{max u' u}).obj ((uliftSheafFunctor.{u', u} J).obj A)) :
     liftGlobalSectionsEquiv J A'
         ((Sheaf.Γ J AddCommGrpCat.{max u' u}).map ((uliftSheafFunctor.{u', u} J).map g) x) =
       liftGlobalSectionsEquiv J A x ≫ g := by
-  show (homFreeFinalEquivSections J A').symm _ = (homFreeFinalEquivSections J A).symm _ ≫ g
+  change (homFreeFinalEquivSections J A').symm _ = (homFreeFinalEquivSections J A).symm _ ≫ g
   rw [← homFreeFinalEquivSections_symm_comp]
   congr 1
   apply Subtype.ext
   funext V
-  show ULift.down (Sheaf.ΓRes ((uliftSheafFunctor.{u', u} J).obj A') V
+  change ULift.down (Sheaf.ΓRes ((uliftSheafFunctor.{u', u} J).obj A') V
       ((Sheaf.Γ J AddCommGrpCat.{max u' u}).map ((uliftSheafFunctor.{u', u} J).map g) x)) =
     g.hom.app V (ULift.down (Sheaf.ΓRes ((uliftSheafFunctor.{u', u} J).obj A) V x))
   rw [← ConcreteCategory.comp_apply, Sheaf.ΓRes_naturality]

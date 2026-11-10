@@ -6,8 +6,8 @@ public import StacksFrontier.Homology.DerivedCategory.InverseSystem.ProIsomorphi
 /-!
 # [Stacks, Tag 07MZ] reduced to the `R lim` presentation its own proof cites
 
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/CompleteComparisonStatements.lean` states the
-cohomological conclusion of [Stacks, Tag 07MZ] as
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/CompleteComparisonStatements.lean` states
+the cohomological conclusion of [Stacks, Tag 07MZ] as
 `Crystalline.GlobalCrystallineSituation.SmallSite.DeRhamComparison07MZ` and proves nothing about
 it.  This file measures how far that statement is from the inputs the source's own hints name: it
 proves `DeRhamComparison07MZ` from one named proposition, `DerivedLimitPresentation07MZ`, and from

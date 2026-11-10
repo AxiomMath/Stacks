@@ -160,7 +160,7 @@ private noncomputable def quotientTensorProductExtension (i : ι) (j : κ) :
   haveI : DiscreteUniformity ((A ⧸ I i) ⊗[B] (C ⧸ J j)) := inferInstance
   haveI : IsUniformAddGroup ((A ⧸ I i) ⊗[B] (C ⧸ J j)) :=
     ⟨by
-      haveI : DiscreteUniformity
+      have : DiscreteUniformity
           (((A ⧸ I i) ⊗[B] (C ⧸ J j)) × ((A ⧸ I i) ⊗[B] (C ⧸ J j))) := inferInstance
       exact @DiscreteUniformity.uniformContinuous
         (((A ⧸ I i) ⊗[B] (C ⧸ J j)) × ((A ⧸ I i) ⊗[B] (C ⧸ J j))) _ _
@@ -236,7 +236,7 @@ private theorem source_finiteApprox
   intro p hp
   obtain ⟨hI, hJ⟩ := hk p hp
   have hz' : sourceProjection I J k l z = x.1 (k, l) := by
-    show (Algebra.TensorProduct.map (Ideal.Quotient.mkₐ B (I k))
+    change (Algebra.TensorProduct.map (Ideal.Quotient.mkₐ B (I k))
       (Ideal.Quotient.mkₐ B (J l))) z = _
     exact hz
   calc
@@ -246,7 +246,8 @@ private theorem source_finiteApprox
       (RingHom.congr_fun (factor_comp_map_mkₐ hI hJ) z).symm
     _ = x.1 p := by rw [hz']; exact x.2 (k, l) p hI hJ
 
-omit [ContinuousAdd A] [ContinuousAdd C] [IsLinearTopology A A] [IsLinearTopology C C] in
+omit [TopologicalSpace A] [TopologicalSpace C] [ContinuousAdd A] [ContinuousAdd C]
+  [IsLinearTopology A A] [IsLinearTopology C C] bI bJ in
 private theorem sourceProjection_ker (i : ι) (j : κ) (z : A ⊗[B] C) :
     sourceProjection I J i j z = 0 ↔
       z ∈ TopologicalRing.tensorProductSubmodule
@@ -263,13 +264,13 @@ private theorem continuous_sourceProjection (i : ι) (j : κ) :
   let : TopologicalSpace ((A ⧸ I i) ⊗[B] (C ⧸ J j)) := ⊥
   have : DiscreteTopology ((A ⧸ I i) ⊗[B] (C ⧸ J j)) := ⟨rfl⟩
   apply continuous_of_continuousAt_zero (sourceProjection I J i j).toAddMonoidHom
-  show Tendsto (sourceProjection I J i j) (𝓝 0)
+  change Tendsto (sourceProjection I J i j) (𝓝 0)
     (𝓝 (0 : (A ⧸ I i) ⊗[B] (C ⧸ J j)))
   rw [show 𝓝 (0 : (A ⧸ I i) ⊗[B] (C ⧸ J j)) = pure 0 from
     congrFun (nhds_discrete ((A ⧸ I i) ⊗[B] (C ⧸ J j))) 0]
   rw [tendsto_pure]
   exact Filter.mem_of_superset (tensorProductSubmodule_mem_nhds bI bJ i j) fun z hz =>
-    (sourceProjection_ker I J bI bJ i j z).2 hz
+    (sourceProjection_ker I J i j z).2 hz
 
 /-- The canonical comparison with the inverse limit is a topological ring equivalence,
 whose components restrict to the evident algebraic quotient maps. -/
@@ -331,7 +332,7 @@ public theorem exists_completedTensorProductRingEquivQuotientLimit :
     TopologicalRing.tensorProductUniformSpace (R := B) (M := A) (N := C)
   have hcont : Continuous (sourceToQuotientLimit (B := B) (A := A) (C := C) I J) := by
     rw [continuous_induced_rng]
-    show Continuous (fun z : A ⊗[B] C =>
+    change Continuous (fun z : A ⊗[B] C =>
       fun p : ι × κ => sourceProjection I J p.1 p.2 z)
     exact continuous_pi fun p => continuous_sourceProjection I J bI bJ p.1 p.2
   have hind : Topology.IsInducing
@@ -347,13 +348,13 @@ public theorem exists_completedTensorProductRingEquivQuotientLimit :
         (hasBasis_tensorProductTopology_system I J bI bJ).mem_iff.mp hU
       let V : Set (quotientLimit (B := B) I J) := {x | x.1 p = 0}
       have hopenV : IsOpen V := by
-        show IsOpen ((fun x : quotientLimit (B := B) I J => x.1 p) ⁻¹'
+        change IsOpen ((fun x : quotientLimit (B := B) I J => x.1 p) ⁻¹'
           ({0} : Set ((A ⧸ I p.1) ⊗[B] (C ⧸ J p.2))))
         exact IsOpen.preimage ((continuous_apply p).comp continuous_subtype_val)
           (isOpen_discrete ({0} : Set ((A ⧸ I p.1) ⊗[B] (C ⧸ J p.2))))
       refine Filter.mem_of_superset
         (Filter.mem_comap.mpr ⟨V, hopenV.mem_nhds (by simp [V]), ?_⟩) hp
-      exact fun z hz => (sourceProjection_ker I J bI bJ p.1 p.2 z).1 hz
+      exact fun z hz => (sourceProjection_ker I J p.1 p.2 z).1 hz
   have hdense : DenseRange (sourceToQuotientLimit (B := B) (A := A) (C := C) I J) := by
     refine fun x => mem_closure_iff.mpr fun o ho hxo => ?_
     obtain ⟨u, hu, rfl⟩ := isOpen_induced_iff.mp ho
@@ -363,7 +364,7 @@ public theorem exists_completedTensorProductRingEquivQuotientLimit :
     apply hsub
     intro p hp
     have hp' : p ∈ s := Finset.mem_coe.mp hp
-    show sourceProjection I J p.1 p.2 z ∈ v p
+    change sourceProjection I J p.1 p.2 z ∈ v p
     rw [hz p hp']
     exact (hv p hp').2
   have : ∀ p : ι × κ, IsUniformAddGroup ((A ⧸ I p.1) ⊗[B] (C ⧸ J p.2)) :=
@@ -452,11 +453,11 @@ public theorem isOpen_projectionKernel (i : ι) (j : κ) :
     (continuous_completedTensorProductRingEquivQuotientLimit (B := B) I J bI bJ).1
   have hcont : Continuous (projectionRingHom
       (B := B) (A := A) (C := C) I J bI bJ i j) := by
-    show Continuous (((Pi.evalRingHom
+    change Continuous (((Pi.evalRingHom
       (fun p : ι × κ => (A ⧸ I p.1) ⊗[B] (C ⧸ J p.2)) (i, j)).comp
         (Subring.subtype (quotientLimitSubring (B := B) I J))).comp e.toRingHom)
     exact (continuous_apply (i, j)).comp continuous_subtype_val |>.comp he
-  show IsOpen (↑(RingHom.ker (projectionRingHom
+  change IsOpen (↑(RingHom.ker (projectionRingHom
     (B := B) (A := A) (C := C) I J bI bJ i j)) :
       Set (TopologicalRing.CompletedTensorProduct (R := B) (M := A) (N := C)))
   exact (isOpen_discrete ({0} : Set ((A ⧸ I i) ⊗[B] (C ⧸ J j)))).preimage hcont
@@ -554,7 +555,7 @@ public theorem projectionKernel_eq_closure (i : ι) (j : κ) :
     let Q : Submodule B C := (J j).restrictScalars B
     let T := TopologicalRing.tensorProductSubmodule P Q
     have hT : T = ((I i).map il + (J j).map ir).restrictScalars B := by
-      show LinearMap.range (LinearMap.rTensor C P.subtype) ⊔
+      change LinearMap.range (LinearMap.rTensor C P.subtype) ⊔
           LinearMap.range (LinearMap.lTensor A Q.subtype) =
         Submodule.restrictScalars B
           (Ideal.map il (I i) + Ideal.map ir (J j))
@@ -565,9 +566,9 @@ public theorem projectionKernel_eq_closure (i : ι) (j : κ) :
       rfl
     apply Ideal.ext
     intro z
-    have hs := sourceProjection_ker (B := B) (A := A) (C := C) I J bI bJ i j z
+    have hs := sourceProjection_ker (B := B) (A := A) (C := C) I J i j z
     change sourceProjection I J i j z = 0 ↔ z ∈ T at hs
-    show sourceProjection I J i j z = 0 ↔ z ∈ (I i).map il + (J j).map ir
+    change sourceProjection I J i j z = 0 ↔ z ∈ (I i).map il + (J j).map ir
     exact hs.trans (by rw [hT]; rfl)
   have hcomp (z : A ⊗[B] C) :
       projectionRingHom I J bI bJ i j (c z) = sourceProjection I J i j z :=
@@ -596,7 +597,7 @@ public theorem projectionKernel_eq_closure (i : ι) (j : κ) :
     rw [Ideal.add_eq_sup, Ideal.map_sup, Ideal.map_map, Ideal.map_map,
       ← Ideal.add_eq_sup]
   ext x
-  show x ∈ L ↔ x ∈ Ideal.closure
+  change x ∈ L ↔ x ∈ Ideal.closure
     (Ideal.map (c.comp il) (I i) + Ideal.map (c.comp ir) (J j))
   rw [hEq, hK, hfinal]
 

@@ -148,6 +148,8 @@ def ShiftedUnitTransposeClean : Prop :=
             (derivedPullbackShiftedUnitIso (closedSubsetInclusion X Z) b).hom).app
           ((derivedPullback (closedSubsetInclusion X Z)).obj (shiftedUnitObject X a))
 
+omit [PreservesFiniteLimits (modulePushforward (closedSubsetInclusion X Z))]
+  [PreservesFiniteColimits (modulePushforward (closedSubsetInclusion X Z))] in
 /-- The naturality of the commutativity constraint of [Stacks, Tag 0FPT] on the closed subset,
 in the shape `transposeCompatible_of_braidedComparison` consumes. -/
 theorem braidingIso_hom_naturality_closedSubset

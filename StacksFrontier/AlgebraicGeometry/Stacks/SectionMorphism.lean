@@ -83,7 +83,8 @@ Parts (3), (4) and (5) are read at the notions of Properties of Stacks, Section 
 in Stacks 050I and Stacks 050H. Part (4) is not read at Stacks 0CL5 — properness of `s` as a
 1-morphism of algebraic stacks, i.e. separated, of finite type and universally closed — which
 would need Stacks 0512, the diagonal conditions of Stacks 04YS and the locally-of-finite-type
-half of part (1). That is a different statement from the one Stacks 050I supplies, and since the source proves Stacks 050J by specialising
+half of part (1). That is a different statement from the one Stacks 050I supplies, and since the
+source proves Stacks 050J by specialising
 Stacks 050I its conclusions are the conclusions of Stacks 050I; part (4) is therefore
 `AlgebraicGeometry.Stack.isRelativelyProper_section`. The locally-of-finite-type half of part (1)
 is in the library in any case, by way of the same half of Stacks 050H in
@@ -156,9 +157,9 @@ theorem isIso_identityFstGraphUnitHom (pA : A ⥤ C) (pX : X ⥤ C) (F : X ⥤ A
     (hF : F ⋙ pA = pX) (P : TwoFibreProductOver pA pX pA (𝟭 A) F) :
     IsIso (identityFstGraphUnitHom pA pX F hF P) := by
   apply isIso_of_isIso_components pA pX pA (𝟭 A) F (identityFstGraphUnitHom pA pX F hF P)
-  · show IsIso P.iso.hom
+  · change IsIso P.iso.hom
     infer_instance
-  · show IsIso (𝟙 P.y)
+  · change IsIso (𝟙 P.y)
     infer_instance
 
 /-- **The 2-fibre product along an identity first leg is its second factor.** The second

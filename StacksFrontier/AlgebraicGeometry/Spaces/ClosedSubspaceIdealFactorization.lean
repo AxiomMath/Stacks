@@ -244,7 +244,7 @@ theorem exists_comp_eq_iff_forall_chartDiagram_definingIdealAt_le
         rwa [(definingIdealAt_eq_bot_iff_le_ker_of_chartDiagram B S hS f Z P hP d hW'aff
           hdVaff).2 (hker d hW'aff hdVaff), Submodule.mem_bot] at hmem
       rw [op_comp, Functor.map_comp]
-      show ((structureRingSheaf B S hS X).obj.map m'.op).hom
+      change ((structureRingSheaf B S hS X).obj.map m'.op).hom
         (((structureRingSheaf B S hS X).obj.map a.op).hom s) = 0
       rw [hres, map_zero]
     -- hence the inverse image is the whole of `X`, that is, `f` lands in `Z`

@@ -95,10 +95,11 @@ of an arbitrary ringed site, in the binder shape of
 `Stacks.SectionRingGeometric.tensorUnitHomAddEquiv`, with the scheme forms re-derived from them.
 And the multiplicativity of the division is
 `Stacks.TwistedSections.openDivision_gsmul_unitComp`
-(`StacksFrontier/AlgebraicGeometry/TwistedSectionModule/DivisionMultiplicativity.lean`): the division
-over `V` of `(e · sᵐ) · t` by `s ^ (n + m)` is `Stacks.TwistedSections.sliceUnitScalar L V e`
-times the division of `t` by `sⁿ`, and that scalar is an honest function on `V` rather than an
-endomorphism of the slice site's monoidal unit.
+(`StacksFrontier/AlgebraicGeometry/TwistedSectionModule/DivisionMultiplicativity.lean`): the
+division over `V` of `(e · sᵐ) · t` by `s ^ (n + m)` is
+`Stacks.TwistedSections.sliceUnitScalar L V e` times the division of `t` by `sⁿ`, and that
+scalar is an honest function on `V` rather than an endomorphism of the slice site's monoidal
+unit.
 
 **Passing to an arbitrary numerator.** The identity is
 proved for a numerator *presented* as `e · sᵐ` with `e` of degree zero, with the scalar

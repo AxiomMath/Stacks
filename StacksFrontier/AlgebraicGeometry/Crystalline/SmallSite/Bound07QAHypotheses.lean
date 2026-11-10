@@ -361,7 +361,7 @@ theorem mono_homologyFunctor_derivedZariskiDirectImage_map_iff
     rw [← NatIso.naturality_1 e g]
     exact @mono_comp _ _ _ _ _ _ (@IsIso.mono_of_iso _ _ _ _ _ (e.app F).isIso_inv) _
       (@mono_comp _ _ _ _ _ _ this _ (@IsIso.mono_of_iso _ _ _ _ _ (e.app G).isIso_hom))
-  · show Mono ((higherZariskiDirectImage S' 0).map g)
+  · change Mono ((higherZariskiDirectImage S' 0).map g)
     rw [← NatIso.naturality_1 e.symm g]
     exact @mono_comp _ _ _ _ _ _ (@IsIso.mono_of_iso _ _ _ _ _ (e.symm.app F).isIso_inv) _
       (@mono_comp _ _ _ _ _ _ ‹Mono ((zariskiDirectImage S').map g)› _

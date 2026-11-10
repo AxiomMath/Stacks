@@ -101,7 +101,7 @@ theorem cohomologyIsoSectionsRightDerivedPushforward_natCast (n : ℕ) :
     cohomologyIsoSectionsRightDerivedPushforward f (n : ℤ) =
       cohomologyIsoSectionsRightDerivedPushforwardOfNat f n := by
   unfold cohomologyIsoSectionsRightDerivedPushforward
-  rw [dif_pos (Int.natCast_nonneg n)]
+  rw [dite_eq_left (Int.natCast_nonneg n)]
   rfl
 
 end Comparison

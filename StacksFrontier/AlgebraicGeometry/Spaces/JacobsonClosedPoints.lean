@@ -163,7 +163,7 @@ theorem exists_isClosed_pointsToScheme_of_isFiniteTypePoint
     have _ : LocallyOfFiniteType ((BigFppfOver.toScheme B S hS).map r) :=
       hrLft R W (𝟙 (yoneda.obj R)) (𝟙 (yoneda.obj W)) r (presheaf_etale_id B S hS R)
         (presheaf_etale_id B S hS W) (by simp)
-    exact ((BigFppfOver.toScheme B S hS).map r).closePoints_subset_preimage_closedPoints
+    exact ((BigFppfOver.toScheme B S hS).map r).closedPoints_subset_preimage_closedPoints
       hyClosed
   · have hsClass : pointsMap B S hS (yoneda.obj R) (yoneda.map s) c =
         p.class B S hS (yoneda.obj U) := by

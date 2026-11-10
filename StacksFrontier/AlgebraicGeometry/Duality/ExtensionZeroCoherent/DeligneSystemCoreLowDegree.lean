@@ -78,7 +78,7 @@ of opens, which is the form the `Ext`-colimit statements of
 phrased in. -/
 public lemma opensRange_eq_supportCompl : j.opensRange = D.idealSheaf.support.compl := by
   apply TopologicalSpace.Opens.ext
-  show Set.range j.base = (D.idealSheaf.support : Set X)ᶜ
+  change Set.range j.base = (D.idealSheaf.support : Set X)ᶜ
   rw [D.support_idealSheaf, compl_compl]
 
 /-- **The cohomology sheaves of the complex of a Deligne system are coherent.** Its terms are

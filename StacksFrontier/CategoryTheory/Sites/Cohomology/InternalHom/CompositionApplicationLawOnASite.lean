@@ -61,7 +61,7 @@ Stacks 0A8V is carried by `AlgebraicGeometry.RingedSite.derivedSheafHomCompositi
 Stacks 08J8 by `AlgebraicGeometry.RingedSite.derivedCurryHomEquiv` and Stacks 08DM by
 `AlgebraicGeometry.RingedSite.strictlyPerfectHomComparison`.  A compatibility between them is
 asserted by no published statement, which is the reason
-`StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/DerivedCompositionApplicationPinning.lean`
+`DerivedCompositionApplicationPinning.lean` (in this directory)
 carries no attribute either.
 
 ## Implementation notes
@@ -70,8 +70,9 @@ The application morphism is written out as `AlgebraicGeometry.RingedSite.derived
 in every statement, while the existing inputs of Stacks 08J8 state it as the bijection of
 Stacks 08DI at an identity.  The two are the same term by definition, but **no proof below
 crosses between them by conversion**: a `rfl` crossing them reaches the maximum recursion depth,
-and so does a `rw` or a `congrArg` that abstracts a motive through the bijection; this is the same wall
-`StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/DerivedCompositionApplicationPinning.lean`
+and so does a `rw` or a `congrArg` that abstracts a motive through the bijection; this is the same
+wall
+`DerivedCompositionApplicationPinning.lean` (in this directory)
 records.  Every crossing is made instead by *rewriting with*
 `AlgebraicGeometry.RingedSite.derivedCurryHomEquiv_apply`, which computes the bijection against
 the application morphism: at an identity the whiskering it leaves behind collapses by
@@ -160,7 +161,7 @@ taken by `rw`.
 
 It is *not* proved by `rfl`: although the two sides are the same term, the conversion check at
 these arguments reaches the maximum recursion depth, which is the wall
-`StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/DerivedCompositionApplicationPinning.lean`
+`DerivedCompositionApplicationPinning.lean` (in this directory)
 records for the same crossing.  It is proved instead from
 `AlgebraicGeometry.RingedSite.derivedCurryHomEquiv_apply`, the computation of the
 bijection of Stacks 08DI against the application morphism, read at the identity: there the

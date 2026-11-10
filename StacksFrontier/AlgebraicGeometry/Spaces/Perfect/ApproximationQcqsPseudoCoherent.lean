@@ -232,7 +232,7 @@ theorem exists_isZero_homology_of_isPseudoCoherentFrom (X : AlgebraicSpaces B S 
       ((SmallEtale.toOver B S hS X.1).map k')) V''.1.hom) w'
     have e2 := congrFun (pointsMap_comp B S hS _ (yoneda.map
       ((SmallEtale.toOver B S hS X.1).map (k' ≫ h'))) a) w'
-    show pointsMap B S hS _ V''.1.hom _ = _
+    change pointsMap B S hS _ V''.1.hom _ = _
     refine e1.symm.trans (Eq.trans ?_ e2)
     rw [hV, Functor.map_comp, Functor.map_comp, Category.assoc]
   obtain ⟨F, hF⟩ := isCompact_univ.elim_finite_subcover O hO hcov
@@ -316,7 +316,7 @@ theorem isPseudoCoherentFrom_etaleRestrict {X Y : AlgebraicSpaces B S hS} (f : X
   let gx : Wx ⟶ U := ObjectProperty.homMk (CostructuredArrow.homMk q rfl)
   have hc : chartToSpace B S hS X Wx ≫ f = chartToSpace B S hS Y W'' := by
     refine ObjectProperty.hom_ext _ ?_
-    show (yoneda.map q ≫ U.1.hom) ≫ f.hom = W''.1.hom
+    change (yoneda.map q ≫ U.1.hom) ≫ f.hom = W''.1.hom
     rw [Category.assoc]
     exact hm''w
   refine ⟨Wx, gx, Sieve.le_generate _ _ _ ?_, ?_⟩

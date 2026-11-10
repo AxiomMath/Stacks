@@ -119,7 +119,7 @@ theorem moduleClassOfCocycle_eq {I J : Type u} (Ui : I → Opens X) (hUi : ⊤ =
   rw [← hrefa, ← hrefb]
   refine cechCocycleClass_eq_of_eq_add W hW F _ _ _ _ t ?_
   rw [ht]
-  show a.val = b.val + (a - b).val
+  change a.val = b.val + (a - b).val
   rw [AddSubgroup.coe_sub]
   abel
 

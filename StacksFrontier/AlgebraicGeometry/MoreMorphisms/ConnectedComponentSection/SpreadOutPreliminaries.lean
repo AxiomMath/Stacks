@@ -100,11 +100,11 @@ theorem exists_isCompact_opens_preimage_fiber_eq {X S : Scheme.{u}} (f : X ⟶ S
   let O₀ : X.Opens := ⟨O, hO⟩ ⊓ f ⁻¹ᵁ S₀
   have hmemO₀ (x : T) : (f.fiberι s) x.1 ∈ O₀ := by
     refine ⟨?_, ?_⟩
-    · show x.1 ∈ (f.fiberι s) ⁻¹' O
+    · change x.1 ∈ (f.fiberι s) ⁻¹' O
       rw [hpre]
       exact x.2
     · have hbase : f (f.fiberι s x.1) = s := (f.range_fiberι s).le ⟨x.1, rfl⟩
-      show f (f.fiberι s x.1) ∈ S₀
+      change f (f.fiberι s x.1) ∈ S₀
       rw [hbase]
       exact hs₀
   choose A hAaff hAcov hAsub using fun x : T =>

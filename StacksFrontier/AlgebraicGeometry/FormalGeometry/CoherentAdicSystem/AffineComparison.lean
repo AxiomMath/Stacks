@@ -313,7 +313,7 @@ public theorem affine_annihilator_restrict {X : Scheme.{u}} [IsAffine X]
   have hσ : σ = 0 := by
     apply affineQuasicoherentHom_ext
     ext (y : Γ(M, ⊤))
-    show X.presheaf.map (𝟙 (op ⊤)) a • y = 0
+    change X.presheaf.map (𝟙 (op ⊤)) a • y = 0
     rw [X.presheaf.map_id]
     exact ha y
   exact congrArg (fun f : M ⟶ M => f.val.app (op U) x) hσ
@@ -356,7 +356,7 @@ public theorem idealPowerMultiple_le_kernelSubmodule {X : Scheme.{u}}
   apply Submodule.smul_le.mpr
   intro a ha x _
   rw [Stacks.Algebraization.kernelSubmodule_toSubmodule_obj]
-  show f.app U.1 (a • x) = 0
+  change f.app U.1 (a • x) = 0
   rw [Scheme.Modules.Hom.app_smul]
   simpa only [h U, Submodule.mem_bot] using
     Submodule.smul_mem_smul ha (Submodule.mem_top (x := f.app U.1 x))

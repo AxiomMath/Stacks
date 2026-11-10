@@ -182,21 +182,23 @@ end PGroup
 section Sylow
 
 variable {G : Type u} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G]
-  [TotallyDisconnectedSpace G] {A : Type v} [AddCommGroup A] [DistribMulAction G A]
+  {A : Type v} [AddCommGroup A] [DistribMulAction G A]
 
+omit [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G] in
 /-- Membership in the kernel of the action on a module. -/
 theorem mem_actionKer_iff [Finite A] (g : G) :
     g ∈ (MulAction.toPermHom G A).ker ↔ ∀ a : A, g • a = a := by
   rw [MonoidHom.mem_ker]
   exact ⟨fun h a ↦ congrFun (congrArg Equiv.toFun h) a, fun h ↦ Equiv.ext h⟩
 
+omit [IsTopologicalGroup G] [CompactSpace G] in
 /-- The kernel of the action of `G` on a finite module with open stabilizers is open. -/
 theorem isOpen_actionKer [Finite A] (hA : HasOpenStabilizers G A) :
     IsOpen (((MulAction.toPermHom G A).ker : Subgroup G) : Set G) := by
   have hset : (((MulAction.toPermHom G A).ker : Subgroup G) : Set G) =
       ⋂ a : A, {g : G | g • a = a} := by
     ext g
-    simp only [SetLike.mem_coe, mem_actionKer_iff, Set.mem_iInter, Set.mem_setOf_eq]
+    simp only [SetLike.mem_coe, mem_actionKer_iff, Set.mem_iInter, Set.mem_ofPred_eq]
   rw [hset]
   exact isOpen_iInter_of_finite fun a ↦ hA a
 

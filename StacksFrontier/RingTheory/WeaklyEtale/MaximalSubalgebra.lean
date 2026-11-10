@@ -152,12 +152,12 @@ theorem exists_greatest_weaklyEtale_subalgebra
       exact ht B₂.1 B₂.2
     refine ⟨⟨f.range, weaklyEtale_range ht f⟩, ?_, ?_⟩
     · intro x hx
-      show x ∈ f.range
+      change x ∈ f.range
       rw [← B₁.1.range_val] at hx
       rw [Algebra.TensorProduct.productMap_range]
       exact (le_sup_left : B₁.1.val.range ≤ B₁.1.val.range ⊔ B₂.1.val.range) hx
     · intro x hx
-      show x ∈ f.range
+      change x ∈ f.range
       rw [← B₂.1.range_val] at hx
       rw [Algebra.TensorProduct.productMap_range]
       exact (le_sup_right : B₂.1.val.range ≤ B₁.1.val.range ⊔ B₂.1.val.range) hx
@@ -198,7 +198,7 @@ theorem exists_greatest_weaklyEtale_subalgebra
       let y : i.1 := ⟨x, hi⟩
       have he := congrArg CommAlgCat.Hom.hom (hm i)
       have hev := DFunLike.congr_fun he y
-      show (m.hom x) =
+      change (m.hom x) =
         Subalgebra.iSupLift (fun i : ι ↦ i.1) hdir (fun i ↦ (s.ι.app i).hom)
           (hcompat s) S le_rfl x
       rw [Subalgebra.iSupLift_of_mem (K := fun i : ι ↦ i.1) (i := i) (hx := hi)]
@@ -416,7 +416,7 @@ private lemma preserves_finite_products (K : Type u) [Field K]
     intro x
     apply Subtype.ext
     let h : s.pt →ₐ[K] P := AlgHom.pi (fun k : J ↦ (s.π.app ⟨k⟩).hom)
-    show (c.π.app j) (g (h x)) =
+    change (c.π.app j) (g (h x)) =
       ((maxSubalgebra K (F.obj j)).val) ((s.π.app j) x)
     exact DFunLike.congr_fun (congrArg CommAlgCat.Hom.hom (hc.fac t j)) (h x)
   refine IsLimit.mk (fun s ↦ CommAlgCat.ofHom
@@ -430,7 +430,7 @@ private lemma preserves_finite_products (K : Type u) [Field K]
       (DFunLike.congr_fun (congrArg CommAlgCat.Hom.hom (hfac s j)) x)
     change (c.π.app j) (Subtype.val (m x)) = Subtype.val ((s.π.app j) x) at hmx
     change (c.π.app j) (Subtype.val (L x)) = Subtype.val ((s.π.app j) x) at hLx
-    show (c.π.app j) (Subtype.val (m x)) = (c.π.app j) (Subtype.val (L x))
+    change (c.π.app j) (Subtype.val (m x)) = (c.π.app j) (Subtype.val (L x))
     exact hmx.trans hLx.symm
   apply CommAlgCat.hom_ext
   apply AlgHom.ext
@@ -461,7 +461,7 @@ private lemma reduction_iso (K : Type u) [Field K]
       have hnil : IsNilpotent ((x - y : maxSubalgebra K A₀) : A₀) := by
         apply (mem_nilradical).mp
         apply (Ideal.Quotient.eq_zero_iff_mem).mp
-        show q ((x : A₀) - (y : A₀)) = 0
+        change q ((x : A₀) - (y : A₀)) = 0
         rw [map_sub, sub_eq_zero]
         exact hq
       have hnil' : IsNilpotent (x - y : maxSubalgebra K A₀) := by
@@ -483,9 +483,9 @@ private lemma reduction_iso (K : Type u) [Field K]
         ⟨t ⟨y, hy⟩, map_mem_maxSubalgebra_of_weaklyEtale K inferInstance A₀ t _⟩
       refine ⟨z, ?_⟩
       apply Subtype.ext
-      show q (t ⟨y, hy⟩) = (y : R₀)
+      change q (t ⟨y, hy⟩) = (y : R₀)
       exact DFunLike.congr_fun ht (⟨y, hy⟩ : S)
-  show IsIso (CommAlgCat.ofHom f)
+  change IsIso (CommAlgCat.ofHom f)
   exact (CommAlgCat.isoMk (AlgEquiv.ofBijective f hf)).isIso_hom
 
 variable {K : Type u} [Field K] {J : Type v} [SmallCategory J] [IsFiltered J]
@@ -575,11 +575,11 @@ private lemma exists_stage_fin (F : J ⥤ CommAlgCat.{v} K)
       refine ⟨j, y, ?_⟩
       intro i
       refine Fin.cases ?_ ?_ i
-      · show c.ι.app j (F.map f y₀) = x 0
+      · change c.ι.app j (F.map f y₀) = x 0
         rw [← ConcreteCategory.comp_apply, c.w f]
         exact hy₀
       · intro i
-        show c.ι.app j (F.map g (y₁ i)) = x i.succ
+        change c.ι.app j (F.map g (y₁ i)) = x i.succ
         rw [← ConcreteCategory.comp_apply, c.w g]
         exact hy₁ i
 
@@ -635,7 +635,7 @@ private lemma finitePresentation_exists_lift (F : J ⥤ CommAlgCat.{v} K)
     rw [← hr]
     apply Ideal.span_le.mpr
     rintro p ⟨i, rfl⟩
-    show ψ' (r i) = 0
+    change ψ' (r i) = 0
     exact hf i
   let φ : MvPolynomial (Fin n) K ⧸ RingHom.ker π.toRingHom →ₐ[K] F.obj k :=
     Ideal.Quotient.liftₐ (RingHom.ker π.toRingHom) ψ' hkerle
@@ -648,10 +648,10 @@ private lemma finitePresentation_exists_lift (F : J ⥤ CommAlgCat.{v} K)
   intro p
   have heval : e (π p) = (Ideal.Quotient.mkₐ K (RingHom.ker π.toRingHom)) p :=
     Ideal.quotientKerAlgEquivOfSurjective_symm_apply hπ p
-  show c.ι.app k (φ (e (π p))) = g (π p)
+  change c.ι.app k (φ (e (π p))) = g (π p)
   rw [heval]
-  show c.ι.app k (ψ' p) = g (π p)
-  show c.ι.app k (F.map f (ψ p)) = g (π p)
+  change c.ι.app k (ψ' p) = g (π p)
+  change c.ι.app k (F.map f (ψ p)) = g (π p)
   rw [← ConcreteCategory.comp_apply, c.w f]
   exact DFunLike.congr_fun hcomp p
 
@@ -754,7 +754,7 @@ theorem exists_maximalWeaklyEtaleSubalgebraFunctor
     intro x
     rfl
   · intro A' A f hf x
-    show (∃ b : maxSubalgebra K A', (b : A') = x) ↔
+    change (∃ b : maxSubalgebra K A', (b : A') = x) ↔
       ∃ b : maxSubalgebra K A, (b : A) = f x
     constructor
     · rintro ⟨b, rfl⟩
@@ -775,7 +775,7 @@ private lemma tensorProduct_map_subalgebra_injective
     Function.Injective
       (Algebra.TensorProduct.map (AlgHom.id K L) B.val :
         L ⊗[K] B →ₐ[K] L ⊗[K] A) := by
-  show Function.Injective (TensorProduct.map LinearMap.id B.val.toLinearMap)
+  change Function.Injective (TensorProduct.map LinearMap.id B.val.toLinearMap)
   exact Module.Flat.lTensor_preserves_injective_linearMap B.val.toLinearMap
     (fun _ _ h ↦ Subtype.ext h)
 
@@ -822,7 +822,7 @@ private lemma isIdempotentElem_mem_of_isGreatest_weaklyEtale
         ring
       commutes' := by
         intro r
-        show algebraMap K R r * e + algebraMap K R r * (1 - e) = algebraMap K R r
+        change algebraMap K R r * e + algebraMap K R r * (1 - e) = algebraMap K R r
         ring }
   exact hmax f.range (weaklyEtale_range inferInstance f) ⟨![1, 0], by simp [f]⟩
 
@@ -839,8 +839,7 @@ private lemma traceTensor_eq_sum
     [FiniteDimensional K L] [IsGalois K L] (x : L ⊗[K] A) :
     1 ⊗ₜ[K] ((TensorProduct.lid K A) (TensorProduct.map (Algebra.trace K L) LinearMap.id x)) =
       ∑ σ : L ≃ₐ[K] L, Algebra.TensorProduct.map σ.toAlgHom (AlgHom.id K A) x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp [TensorProduct.tmul_add, hx, hy, Finset.sum_add_distrib]
   | tmul l a =>
     simp only [TensorProduct.map_tmul, LinearMap.id_apply, TensorProduct.lid_tmul,
@@ -858,8 +857,7 @@ private lemma traceTensor_basis_sum
   have hb (l : L) (i : ι) : Algebra.trace K L (b.traceDual i * l) = b.repr l i := by
     conv_rhs => rw [← b.traceDual_traceDual]
     rw [Module.Basis.traceDual_repr_apply, Algebra.traceForm_apply, mul_comm]
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp [smul_add, TensorProduct.tmul_add, Finset.sum_add_distrib, hx, hy]
   | tmul l a =>
     simp only [TensorProduct.smul_tmul', smul_eq_mul, TensorProduct.map_tmul,
@@ -894,8 +892,8 @@ private lemma isIdempotentElem_mem_range_tensorProduct_of_isGalois
     have hf : Function.Injective f :=
       Algebra.TensorProduct.includeRight_injective (algebraMap K L).injective
     apply hBmax (D.comap f) (weaklyEtale_comap D hD f hf)
-    show 1 ⊗ₜ[K] t z ∈ D
-    show (1 : L) ⊗ₜ[K] ((TensorProduct.lid K A)
+    change 1 ⊗ₜ[K] t z ∈ D
+    change (1 : L) ⊗ₜ[K] ((TensorProduct.lid K A)
       (TensorProduct.map (Algebra.trace K L) LinearMap.id z)) ∈ D
     rw [traceTensor_eq_sum z]
     exact D.sum_mem fun σ _ ↦ map_mem_of_isGreatest_weaklyEtale D hD hDmax
@@ -914,8 +912,7 @@ private lemma tensorProduct_map_val_comm
       (Algebra.TensorProduct.map f (AlgHom.id K B) x) =
     Algebra.TensorProduct.map f (AlgHom.id K A)
       (Algebra.TensorProduct.map (AlgHom.id K L) B.val x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a b => simp
   | add x y hx hy => simp [hx, hy]
 
@@ -934,7 +931,7 @@ private lemma isIdempotentElem_mem_range_tensorProduct_of_isGalois_infinite
   let f : N ⊗[K] A →ₐ[K] L ⊗[K] A :=
     Algebra.TensorProduct.map N.toIntermediateField.val (AlgHom.id K A)
   have hf : Function.Injective f := by
-    show Function.Injective (TensorProduct.map N.toIntermediateField.val.toLinearMap LinearMap.id)
+    change Function.Injective (TensorProduct.map N.toIntermediateField.val.toLinearMap LinearMap.id)
     exact TensorProduct.map_injective_of_flat_flat _ _ Subtype.val_injective Function.injective_id
   have hz : f z = ∑ i, l i ⊗ₜ[K] a i := by simp [f, z, l']
   have hzi : IsIdempotentElem z := by
@@ -966,18 +963,17 @@ private lemma isIdempotentElem_mem_range_tensorProduct_of_isAlgClosed
   have he (z : E ⊗[K] A) :
       e (algebraMap (E ⊗[K] A) ((E ⊗[K] A) ⊗[E] L) z) =
         Algebra.TensorProduct.map E.val (AlgHom.id K A) z := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw =>
       rw [(algebraMap (E ⊗[K] A) ((E ⊗[K] A) ⊗[E] L)).map_add z w,
         e.map_add, hz, hw, map_add]
     | tmul a b =>
-      show e ((a ⊗ₜ[K] b) ⊗ₜ[E] (1 : L)) = (a : L) ⊗ₜ[K] b
-      simp only [e, RingEquiv.trans_apply, AlgEquiv.coe_ringEquiv]
+      change e ((a ⊗ₜ[K] b) ⊗ₜ[E] (1 : L)) = (a : L) ⊗ₜ[K] b
+      simp only [e, RingEquiv.trans_apply, AlgEquiv.coe_toRingEquiv]
       rw [Algebra.TensorProduct.comm_tmul, Algebra.TensorProduct.cancelBaseChange_tmul]
       simp [Algebra.smul_def]
   have hxi : IsIdempotentElem (e.symm x) := by
-    show e.symm x * e.symm x = e.symm x
+    change e.symm x * e.symm x = e.symm x
     rw [← map_mul, hx.eq]
   obtain ⟨z, hz, hzx⟩ :=
     (Algebra.TensorProduct.bijOn_isIdempotentElem_and_bijective_connectedComponentsMap
@@ -995,7 +991,7 @@ private lemma range_le_of_isIdempotentElem_mem
   rintro _ ⟨x, rfl⟩
   have hφ (i : ι) : φ (Pi.single i 1) ∈ D := by
     apply hD
-    show φ (Pi.single i 1) * φ (Pi.single i 1) = φ (Pi.single i 1)
+    change φ (Pi.single i 1) * φ (Pi.single i 1) = φ (Pi.single i 1)
     rw [← map_mul]
     congr 1
     ext j
@@ -1006,7 +1002,7 @@ private lemma range_le_of_isIdempotentElem_mem
   rw [← hs, map_sum]
   apply D.sum_mem
   intro i _
-  show φ ((x i) • Pi.single i 1) ∈ D
+  change φ ((x i) • Pi.single i 1) ∈ D
   rw [map_smul]
   exact D.smul_mem (hφ i) _
 
@@ -1057,13 +1053,11 @@ private lemma mem_range_tensorProduct_of_map_mem_range
   have hnat (y : E ⊗[K] B) :
       pA (Algebra.TensorProduct.map (AlgHom.id K E) B.val y) =
         Algebra.TensorProduct.map (AlgHom.id K L) B.val (pB y) := by
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul a b => simp [pA, pB]
     | add x y hx hy => simp only [map_add, hx, hy]
   have hid (z : L ⊗[K] A) : pA (Algebra.TensorProduct.map j (AlgHom.id K A) z) = z := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a b => simp [pA, hp']
     | add x y hx hy => simp only [map_add, hx, hy]
   obtain ⟨y, hy⟩ := hx
@@ -1075,8 +1069,7 @@ private lemma cancelBaseChange_one_tmul
     (x : L ⊗[K] A) :
     Algebra.TensorProduct.cancelBaseChange K L E E A ((1 : E) ⊗ₜ[L] x) =
       Algebra.TensorProduct.map (IsScalarTower.toAlgHom K L E) (AlgHom.id K A) x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [TensorProduct.tmul_add, map_add, hx, hy]
   | tmul a b => simp [Algebra.smul_def]
 
@@ -1107,7 +1100,7 @@ theorem maximalWeaklyEtaleSubalgebra_baseChange
     ⟨g ((1 : E) ⊗ₜ[L] x), ⟨(1 : E) ⊗ₜ[L] x, rfl⟩⟩
   apply mem_range_tensorProduct_of_map_mem_range (IsScalarTower.toAlgHom K L E) B x
   refine ⟨y, hy.trans ?_⟩
-  show g ((1 : E) ⊗ₜ[L] x) =
+  change g ((1 : E) ⊗ₜ[L] x) =
     Algebra.TensorProduct.map (IsScalarTower.toAlgHom K L E) (AlgHom.id K A) x
   simp only [g, AlgHom.comp_apply, Algebra.TensorProduct.map_tmul, AlgHom.id_apply,
     AlgEquiv.coe_toAlgHom]

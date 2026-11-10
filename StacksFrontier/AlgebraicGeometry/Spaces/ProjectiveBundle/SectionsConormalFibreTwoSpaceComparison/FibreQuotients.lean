@@ -23,7 +23,7 @@ variable (X : AlgebraicSpaces B S hS) (E : SheafOfModules.{u} (structureRingShea
 variable {T : BigFppfOver B S hS} (u : yoneda.obj T ⟶ X.1)
 variable {X' : AlgebraicSpaces B S hS} (g : X' ⟶ X) {T' : BigFppfOver B S hS}
 variable (v : yoneda.obj T' ⟶ X'.1) (h : T' ⟶ T) (hvh : v ≫ g.hom = yoneda.map h ≫ u)
-variable (hE : E.IsQuasicoherentOnSite) (hb : SymmetricAlgebraBounded X E)
+variable (hE : E.IsQuasicoherentOnSite)
 variable (hb' : SymmetricAlgebraBounded X' ((modulePullback B S hS g).obj E))
 
 /-- The Zariski readings along `u`, `v` and their restrictions along `k : Z ⟶ T'` are
@@ -42,7 +42,7 @@ private theorem isQuasicoherent_pointZariskiModule_fibre_comp {Z : BigFppfOver B
     (isQuasicoherent_pointZariskiModule X' ((modulePullback B S hS g).obj E)
       (isQuasicoherentOnSite_modulePullback_projectiveBundle X E hE g) Z _)
 
-include u h hvh hE hb hb' in
+include u h hvh hE hb' in
 /-- The quotient carried by the base change of the fibre of `𝐏(g^*ℰ)` over `v` is the quotient
 carried by that fibre for the base-changed tautological datum (Tag 01O3). -/
 theorem overQuotient_comp_projectiveBundleBaseChange_twoSpace :
@@ -90,7 +90,7 @@ theorem overQuotient_comp_projectiveBundleBaseChange_twoSpace :
         (pointZariskiModule X E T u) (pointZariskiModule X' ((modulePullback B S hS g).obj E) T' v)
         (pointZariskiModuleTwoSpaceIso X E hE g u v h hvh)))
         (pointFibreProjectiveBundleIso_hom_comp_projectiveBundleBaseChange_comp_toBase X E u g v h
-        hvh hE hb hb')) = Quotient.mk (Stacks.Divisors.invertibleQuotientSetoid
+        hvh hE hb')) = Quotient.mk (Stacks.Divisors.invertibleQuotientSetoid
         ((BigFppfOver.toScheme B S hS).obj ((projectiveBundleSituation X'
         ((modulePullback B S hS g).obj E) (isQuasicoherentOnSite_modulePullback_projectiveBundle X E
         hE g) hb').relativeProjPoints.fibre T' v))
@@ -167,7 +167,7 @@ theorem overQuotient_comp_projectiveBundleBaseChange_twoSpace :
         ((modulePullback B S hS g).obj E) (isQuasicoherentOnSite_modulePullback_projectiveBundle X E
         hE g) hb' T' v)
         (pointFibreProjectiveBundleIso_hom_comp_projectiveBundleBaseChange_comp_toBase X E u g v h
-        hvh hE hb hb'))
+        hvh hE hb'))
 
 include u h hvh hE hb' in
 /-- For the fibre of `𝐏(g^*ℰ)` over `v`, the base-changed tautological datum and the tautological
@@ -262,6 +262,7 @@ theorem overQuotient_baseChange_tautologicalDatum_twoSpace :
     ((projectiveBundleSituation X' ((modulePullback B S hS g).obj E)
       (isQuasicoherentOnSite_modulePullback_projectiveBundle X E hE g)
       hb').relativeProjPoints.fibreHom T' v) hE fun _ _ _ _ => ?_
+  open Stacks.RelativeProj in
   exact Quotient.sound (Stacks.RelativeProj.TautologicalDatum.overQuotient_isEquivalent_of_univ
       ((Stacks.RelativeProj.tautologicalDatum (pointZariskiModule X E T u)).baseChange
           ((BigFppfOver.toScheme B S hS).map h) (pointZariskiModule X E T u)
@@ -272,7 +273,7 @@ theorem overQuotient_baseChange_tautologicalDatum_twoSpace :
       (Stacks.RelativeProj.tautologicalDatumTwistBaseChangeIso ((BigFppfOver.toScheme B S hS).map h)
           (pointZariskiModule X E T u) (pointZariskiModule X' ((modulePullback B S hS g).obj E) T'
           v) (pointZariskiModuleTwoSpaceIso X E hE g u v h hvh))
-      (Stacks.RelativeProj.tautologicalDatum_baseChange_univ_comp_tautologicalDatumTwistBaseChangeIso_hom
+      (tautologicalDatum_baseChange_univ_comp_tautologicalDatumTwistBaseChangeIso_hom
         ((BigFppfOver.toScheme B S hS).map h) (pointZariskiModule X E T u)
             (pointZariskiModule X' ((modulePullback B S hS g).obj E) T' v)
             (pointZariskiModuleTwoSpaceIso X E hE g u v h hvh))
@@ -299,7 +300,7 @@ theorem overQuotient_baseChange_tautologicalDatum_twoSpace :
             ((modulePullback B S hS g).obj E) (isQuasicoherentOnSite_modulePullback_projectiveBundle
             X E hE g) hb' T' v))
 
-include u h hvh hE hb hb' in
+include u h hvh hE hb' in
 /-- The quotient carried by the fibre of `𝐏(g^*ℰ)` over `v` is the quotient carried by its
 section, base changed. -/
 theorem overQuotient_pointFibreProjectiveBundleIso_eq_pointBundleSection :
@@ -421,7 +422,7 @@ theorem overQuotient_pointFibreProjectiveBundleIso_eq_pointBundleSection :
         ((projectiveBundleSituation X' ((modulePullback B S hS g).obj E)
         (isQuasicoherentOnSite_modulePullback_projectiveBundle X E hE g)
         hb').relativeProjPoints.fibreHom T' v))))
-        (pointBundleSection_comp_projectiveBundleBaseChange_comp_toBase X E u g v h hvh hE hb
+        (pointBundleSection_comp_projectiveBundleBaseChange_comp_toBase X E u g v h hE
         hb')) := by
   refine isQuasicoherent_pointZariskiModule_fibre_comp X E u g v h
     ((projectiveBundleSituation X' ((modulePullback B S hS g).obj E)
@@ -449,7 +450,7 @@ theorem overQuotient_pointFibreProjectiveBundleIso_eq_pointBundleSection :
         (pointFibreProjectiveBundleIso_hom_comp_projectiveBundleToBase X'
         ((modulePullback B S hS g).obj E) (isQuasicoherentOnSite_modulePullback_projectiveBundle X E
         hE g) hb' T' v) (pointBundleSection_comp_projectiveBundleBaseChange_comp_toBase X E u g v h
-        hvh hE hb hb'))
+        hE hb'))
 
 end AlgebraicGeometry.Space
 

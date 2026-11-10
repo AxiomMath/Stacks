@@ -656,7 +656,7 @@ private lemma homotopyTensorRightUnitor_app {R : Type u} [CommRing R] (K : C R) 
         (HomotopyCategory.quotient _ _).map (ρ_ K).hom := by
   dsimp only [homotopyTensorRightUnitor, Localization.liftNatIso]
   rw [Localization.liftNatTrans_app]
-  simp [homotopyTensorComparison, Localization.Lifting₂.snd, Localization.Lifting₂.fst]
+  simp [homotopyTensorComparison]
   rfl
 
 private lemma derivedTensorRightUnitorCore_app {R : Type u} [CommRing R]
@@ -743,7 +743,7 @@ private lemma derivedTensorComparison_braiding {R : Type u} [CommRing R]
     ⟨(HomotopyCategory.quotient _ _).obj L, hL⟩]
   rw [homotopyTensorBraiding_app]
   simp only [Functor.map_comp, Category.assoc, Iso.inv_hom_id_app_app_assoc,
-    Iso.map_inv_hom_id_assoc, DerivedCategory.quotientCompQhIso_hom_naturality]
+    Iso.inv_hom_id_map_assoc, DerivedCategory.quotientCompQhIso_hom_naturality]
   rfl
 
 /-- **Stacks 0BYI.** The canonical derived tensor product, equipped with its symmetry functorial
@@ -976,13 +976,9 @@ private lemma derivedAssociator_comparison {R : Type u} [CommRing R]
     Localization.Lifting₃.bifunctorComp₂₃, Localization.Lifting₂.iso, tensorLifting,
     bifunctorComp₁₂Functor, bifunctorComp₂₃Functor,
     bifunctorComp₁₂FunctorObj, bifunctorComp₂₃FunctorObj]
-  simp only [bifunctorComp₁₂FunctorMap_app_app_app_app,
-    whiskeringLeft₂_obj_obj_obj_obj_obj, comp_obj, ObjectProperty.ι_obj,
-    whiskeringRight_obj_obj, curriedTensor_obj_obj, ObjectProperty.tensorObj_obj,
-    NatIso.ofComponents_hom_app, curriedAssociatorNatIso_hom_app_app_app,
+  simp only [ObjectProperty.tensorObj_obj, curriedAssociatorNatIso_hom_app_app_app,
     ObjectProperty.associator_def, ObjectProperty.isoMk_hom, ObjectProperty.homMk_hom,
-    bifunctorComp₂₃FunctorMap_app_app_app_app, NatIso.ofComponents_inv_app,
-    Category.assoc, Iso.map_inv_hom_id_assoc, Iso.inv_hom_id, Category.comp_id]
+    Category.assoc, Iso.inv_hom_id_map_assoc, Iso.inv_hom_id, Category.comp_id]
   rfl
 
 /-- **The canonical associator of a derived tensor product at a triple of objects.**  The

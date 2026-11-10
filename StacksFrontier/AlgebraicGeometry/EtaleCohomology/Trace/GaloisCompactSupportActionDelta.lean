@@ -203,7 +203,7 @@ lemma integralDirectImageCohomologyIso_hom_geometricSmoothModelGaloisAut
           (EtaleModules.{u, 0} Λ (geometricSmoothModel f j kbar).Vb) 0).obj N)) := by
   have hu := Stacks.DerivedFunctor.exactSingleFunctorRightDerivedPlusIso_hom
       (etaleModuleDirectImage.{u, 0} Λ (geometricSmoothModelGaloisAut f j kbar σ))
-  show (DerivedCategory.Plus.homologyFunctor (ModuleCat.{u + 1} Λ) i).map
+  change (DerivedCategory.Plus.homologyFunctor (ModuleCat.{u + 1} Λ) i).map
       ((etaleModuleGlobalSections.{u, 0} Λ
       (geometricSmoothModel f j kbar).Vb).rightDerivedFunctorPlus.map
       ((Stacks.DerivedFunctor.exactSingleFunctorRightDerivedPlusIso (etaleModuleDirectImage.{u, 0} Λ

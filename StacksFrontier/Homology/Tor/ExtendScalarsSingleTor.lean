@@ -68,7 +68,7 @@ public theorem quasiIso_extendScalars_map_of_quasiIso_of_kFlat
     dsimp only [Functor.comp_map]
     infer_instance
   have hEq : IsIso ((extensionOfScalarsComplexGeneral.{u, u, u} φ).map q) := by
-    show IsIso (DerivedCategory.Q.map ((CochainComplex.extendScalarsLarge.{u, u, u} φ).map q))
+    change IsIso (DerivedCategory.Q.map ((CochainComplex.extendScalarsLarge.{u, u, u} φ).map q))
     exact (DerivedCategory.isIso_Q_map_iff_quasiIso _ _).2 hq
   have hT : IsIso (D.comparison.app T) := by
     have hRHS : IsIso (D.comparison.app Q ≫
@@ -167,7 +167,7 @@ public theorem quasiIso_extendScalars_map_single_of_isZero_tor
           (HomologicalComplex.mapHomologicalComplexExtendIso_inv_naturality Ext _ P₀.π
             ComplexShape.embeddingDownNat).symm)).2
         ((HomologicalComplex.quasiIso_extendMap_iff _ _).2 inferInstance)
-    show QuasiIso ((Ext.mapHomologicalComplex (ComplexShape.up ℤ)).map q)
+    change QuasiIso ((Ext.mapHomologicalComplex (ComplexShape.up ℤ)).map q)
     dsimp only [q]
     rw [Functor.map_comp]
     infer_instance

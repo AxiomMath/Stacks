@@ -113,7 +113,7 @@ theorem coevaluationOfObjTensorTwist_comp_whiskerLeft (X Y : C) [ExactPairing X 
   apply hom_ext
   rw [comp_val, comp_val, comp_val, whiskerLeft_val, whiskerRight_val, whiskerRight_val,
     associator_hom_val, unitTwistNegTensorHom_val]
-  show (η_ X X ≫ X ◁ (ρ_ X).inv) ≫ (𝟙 X ⊗ₘ ((@id (X ⟶ Y) f.val) ⊗ₘ 𝟙 (𝟙_ C))) =
+  change (η_ X X ≫ X ◁ (ρ_ X).inv) ≫ (𝟙 X ⊗ₘ ((@id (X ⟶ Y) f.val) ⊗ₘ 𝟙 (𝟙_ C))) =
     (𝟙 (𝟙_ C) ≫ (ρ_ (𝟙_ C)).inv) ≫ ((@id (𝟙_ C ⟶ X ⊗ Y) Q.val) ⊗ₘ 𝟙 (𝟙_ C)) ≫
       (((𝟙 X ⊗ₘ 𝟙 Y) ⊗ₘ 𝟙 (𝟙_ C)) ≫ (α_ X Y (𝟙_ C)).hom)
   rw [id_tensorHom_id, id_tensorHom_id, Category.id_comp, Category.id_comp]

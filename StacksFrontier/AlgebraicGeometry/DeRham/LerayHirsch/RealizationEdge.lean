@@ -119,7 +119,7 @@ theorem exists_abelianGlobalClass {Y : TopCat.{u}} (L : CochainComplex.Plus (Abe
         ((Functor.mapCochainComplexPlusDerivedUnit (sectionsFunctor Y ⊤)).app L)) ≫
       (DerivedCategory.homologyFunctorFactors _ n).hom.app _).hom y)
   refine ⟨s, ?_⟩
-  show ((DerivedCategory.Plus.homologyFunctor _ n).map
+  change ((DerivedCategory.Plus.homologyFunctor _ n).map
       ((Functor.mapCochainComplexPlusDerivedUnit (sectionsFunctor Y ⊤)).app L)).hom
     (((DerivedCategory.homologyFunctorFactors AddCommGrpCat.{u} n).inv.app
       ((sectionsFunctor Y ⊤).mapCochainComplexPlus.obj L).obj).hom
@@ -270,7 +270,7 @@ theorem realizationUnbounded_pushforwardPullback_of_injective
     have hinj := (AddCommGrpCat.mono_iff_injective ((DerivedCategory.Plus.homologyFunctor _ n).map
       (g'.pushforwardPullback ((SheafOfModules.toSheaf
         (structureSheafRing (inverseImageBase f'))).mapCochainComplexPlus.obj I)))).1
-      (by haveI := hp; exact IsSplitMono.mono _)
+      (by have := hp; exact IsSplitMono.mono _)
     exact hinj (hs.symm.trans (abelianGlobalClass_pushforwardPullback g' _ n s).symm)
   subst hx
   exact realizationUnbounded_pushforwardPullback_abelianGlobalClass g' f' f g w I n s
@@ -412,7 +412,7 @@ private theorem homologyFunctor_map_toSheafPushforwardIso_inv
   have h : (DerivedCategory.Plus.homologyFunctor _ n).map
       ((sectionsFunctor (inverseImageBase f).carrier ⊤).rightDerivedFunctorPlus.map
         (DerivedCategory.Plus.Q.map (toSheafPushforwardIso g' f' f g w M).inv)) = 𝟙 _ := by
-    show (DerivedCategory.Plus.homologyFunctor _ n).map
+    change (DerivedCategory.Plus.homologyFunctor _ n).map
       ((sectionsFunctor (inverseImageBase f).carrier ⊤).rightDerivedFunctorPlus.map
         (DerivedCategory.Plus.Q.map (𝟙 _))) = 𝟙 _
     exact (congrArg (DerivedCategory.Plus.homologyFunctor _ n).map

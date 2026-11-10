@@ -214,7 +214,7 @@ lemma isZero_single_X_next (X : ModuleCat.{w} B) :
 /-- `cone(dd)` vanishes in positive degrees. -/
 lemma isZero_cone_X_of_pos (dd : X ⟶ Y) (i : ℤ) (hi : 0 < i) :
     IsZero ((HomologicalComplex.homotopyCofiber (singleMap dd)).X i) := by
-  show IsZero ((CochainComplex.mappingCone (singleMap dd)).X i)
+  change IsZero ((CochainComplex.mappingCone (singleMap dd)).X i)
   rw [CochainComplex.mappingCone.isZero_X_iff]
   exact ⟨HomologicalComplex.isZero_single_obj_X (ComplexShape.up ℤ) 0 X (i + 1) (by omega),
     HomologicalComplex.isZero_single_obj_X (ComplexShape.up ℤ) 0 Y i (by omega)⟩
@@ -252,7 +252,7 @@ lemma projective_shiftSingle_X_zero (Z : ModuleCat.{w} B) :
 lemma singleObjXSelf_inv_singleMap_f (dd : X ⟶ Y) :
     (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 X).inv ≫ (singleMap dd).f 0 ≫
       (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 Y).hom = dd := by
-  show (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 X).inv ≫
+  change (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 X).inv ≫
     ((HomologicalComplex.single (ModuleCat.{w} B) (ComplexShape.up ℤ) 0).map dd).f 0 ≫
       (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 Y).hom = _
   rw [HomologicalComplex.single_map_f_self]
@@ -340,7 +340,7 @@ lemma surjective_Q_map_coneDesc (dd : X ⟶ Y) :
   obtain ⟨a, ha⟩ := (HomotopyCategory.quotient (ModuleCat.{w} B)
     (ComplexShape.up ℤ)).map_surjective k
   refine ⟨coneExtract dd a, ?_⟩
-  show DerivedCategory.Q.map (coneDesc dd (coneExtract dd a)) = y
+  change DerivedCategory.Q.map (coneDesc dd (coneExtract dd a)) = y
   rw [coneDesc_coneExtract, ← TwoTermComplexExt.toHomD_quotient_map a, ha]
   exact hk
 

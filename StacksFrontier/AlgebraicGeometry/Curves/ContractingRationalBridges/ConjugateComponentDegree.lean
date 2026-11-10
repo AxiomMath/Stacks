@@ -123,7 +123,7 @@ theorem comap_vanishingIdeal (Z : Closeds Y) :
     intro x hx
     refine (le_support_iff_le_vanishingIdeal.mpr
       (le_refl (vanishingIdeal (Z.preimage φ.continuous)))) ?_
-    show φ.base ((inv φ).base x) ∈ Z
+    change φ.base ((inv φ).base x) ∈ Z
     rwa [base_inv_base]
 
 end Scheme.IdealSheafData
@@ -248,7 +248,7 @@ theorem vanishingIdeal_comap_of_image_eq {Y : Scheme.{u}} (φ : Y ⟶ Y) [IsIso 
   rw [Scheme.IdealSheafData.comap_vanishingIdeal]
   congr 1
   ext1
-  show (S : Set Y) = φ.base ⁻¹' (T : Set Y)
+  change (S : Set Y) = φ.base ⁻¹' (T : Set Y)
   have hinj : Function.Injective φ.base :=
     Function.LeftInverse.injective (g := (inv φ).base) fun a =>
       congrArg (fun g : Y ⟶ Y => g.base a) (IsIso.hom_inv_id φ)

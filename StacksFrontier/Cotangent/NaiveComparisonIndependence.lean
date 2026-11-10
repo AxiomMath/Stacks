@@ -64,7 +64,7 @@ theorem evalCotangent_eq_add :
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
   have h := LinearMap.congr_fun (Algebra.Extension.Cotangent.map_sub_map s t) x
   simp only [LinearMap.sub_apply, LinearMap.coe_comp, Function.comp_apply] at h
-  show Algebra.Extension.Cotangent.map s x = (s.sub t) (E.cotangentComplex x) +
+  change Algebra.Extension.Cotangent.map s x = (s.sub t) (E.cotangentComplex x) +
     Algebra.Extension.Cotangent.map t x
   exact eq_add_of_sub_eq h
 
@@ -80,7 +80,7 @@ theorem evalCotangentSpace_eq_add :
   have h := LinearMap.congr_fun (Algebra.Extension.CotangentSpace.map_sub_map s t) x
   simp only [LinearMap.sub_apply, LinearMap.coe_comp, LinearMap.coe_restrictScalars,
     Function.comp_apply] at h
-  show Algebra.Extension.CotangentSpace.map s x =
+  change Algebra.Extension.CotangentSpace.map s x =
     (conormalExtension A B (op ⦋0⦌)).cotangentComplex ((s.sub t) x) +
       Algebra.Extension.CotangentSpace.map t x
   exact eq_add_of_sub_eq h
@@ -111,13 +111,13 @@ def evalHomotopyCochain :
 `Stacks.Cotangent.evalHomotopyZero`. -/
 theorem evalHomotopyCochain_v_zero :
     (evalHomotopyCochain A B E s t).v 0 0 (add_zero 0) = evalHomotopyZero A B E s t := by
-  rw [evalHomotopyCochain, Cochain.mk_v, dif_pos rfl, eqToHom_refl, eqToHom_refl,
+  rw [evalHomotopyCochain, Cochain.mk_v, dite_eq_left rfl, eqToHom_refl, eqToHom_refl,
     Category.id_comp, Category.comp_id]
 
 /-- In every degree `p ≠ 0`, the component of `Stacks.Cotangent.evalHomotopyCochain` is zero. -/
 theorem evalHomotopyCochain_v_of_ne (p q : ℤ) (hpq : p + 0 = q) (hp : p ≠ 0) :
     (evalHomotopyCochain A B E s t).v p q hpq = 0 := by
-  rw [evalHomotopyCochain, Cochain.mk_v, dif_neg hp]
+  rw [evalHomotopyCochain, Cochain.mk_v, dite_eq_right hp]
 
 /-- The first of the two conditions of `CochainComplex.mappingCone.liftHomotopy`: the `𝒥/𝒥²`
 components of the two evaluations differ by `δ` of the homotopy. -/

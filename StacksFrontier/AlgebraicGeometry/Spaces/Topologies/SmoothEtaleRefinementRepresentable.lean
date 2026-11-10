@@ -160,6 +160,7 @@ private theorem IsSmoothCovering.comp_etale_atlas {I : Type v} {F : (BigFppfOver
   rw [pointsMap_comp B S hS (yoneda.obj (W i)) (b i) (f i), Function.comp_apply, hq, hr]
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for pullbacks of presheaves on the big fppf site, used throughout the proof
 /-- **Stacks 0CFV.** Every smooth covering of an algebraic space over `S` is refined by an étale
 covering: there are an étale covering of the same target, whose members are schemes of the site,
 and, for each of its members, a member of the given covering together with a morphism to it over

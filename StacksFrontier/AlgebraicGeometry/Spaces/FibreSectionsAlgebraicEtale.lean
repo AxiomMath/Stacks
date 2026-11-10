@@ -149,7 +149,7 @@ theorem restrictionOfScalars_iso_of_iso_data {X X' Z Z' Q : AlgebraicSpaces B S 
   have hZ : IsPullback z'.hom (ObjectProperty.homMk eZ.hom : Z' ⟶ Z).hom
       (ObjectProperty.homMk (𝟙 Q.obj) : Q ⟶ Q).hom z.hom :=
     IsPullback.of_vert_isIso ⟨by
-      show z'.hom ≫ 𝟙 Q.obj = eZ.hom ≫ z.hom
+      change z'.hom ≫ 𝟙 Q.obj = eZ.hom ≫ z.hom
       rw [Category.comp_id, hz]⟩
   have hX : IsPullback x'.hom (ObjectProperty.homMk eX.hom : X' ⟶ X).hom
       (ObjectProperty.homMk eZ.hom : Z' ⟶ Z).hom x.hom :=
@@ -223,7 +223,7 @@ theorem relocalizeFibreOfSectionMap_comp_eq_relocalizedTotalHom {U : BigFppfOver
   have hn' : eZ.hom.app T (wh.app T (FW.map (OverShriek.overMapMkIso U.hom hx).hom.op x.1.2.1)) =
       (OverShriek.overMapMkIso U.hom hx).hom ≫
         eZ.hom.app (op ((Over.map U.hom).obj (Over.mk x.1.1))) (wh.app _ x.1.2.1) := hn
-  show (eZ.hom.app T (wh.app T ((OverShriek.relocalizeFibreOfSectionMap U.hom (wh ≫ ζh)
+  change (eZ.hom.app T (wh.app T ((OverShriek.relocalizeFibreOfSectionMap U.hom (wh ≫ ζh)
       (𝟙 (yoneda.obj U))).app T x))).left =
     ((relocalizedFibreTotalHom Z₀ wh ζh eZ heZ).app (op (Over.mk x.1.1)) x.1.2).left
   rw [hmap, hn', Over.comp_left, OverShriek.overMapMkIso_hom_left, Category.id_comp]
@@ -266,7 +266,7 @@ theorem isAlgebraicSpace_isEtale_restrictionOfScalars_of_relocalizedBase
         relocalizedTotalHom B S hS U Z₀ W₀ w₀ ≫
           ((OverShriek.relocalizeYonedaIso U.hom).app Z₀).inv := by
       rw [relocalizedTotalHom, Category.assoc]
-      show _ = _ ≫ (OverShriek.relocalizeYonedaIso U.hom).hom.app Z₀ ≫
+      change _ = _ ≫ (OverShriek.relocalizeYonedaIso U.hom).hom.app Z₀ ≫
         ((OverShriek.relocalizeYonedaIso U.hom).app Z₀).inv
       rw [show (OverShriek.relocalizeYonedaIso U.hom).hom.app Z₀ =
         ((OverShriek.relocalizeYonedaIso U.hom).app Z₀).hom from rfl,
@@ -330,7 +330,7 @@ theorem isAlgebraicSpace_isEtale_restrictionOfScalars_of_isPullback
   rw [Iso.trans_hom, Functor.mapIso_hom, Category.assoc, ← yoneda.map_comp,
     show iZ.hom ≫ relocalizedBaseHom B S hS U (Over.mk (hrep.snd a).left) = hrep.snd a from
       Over.OverMorphism.ext (by
-        show (relocalizeBaseHom B U.left.1 S U.left.2 hS U.hom
+        change (relocalizeBaseHom B U.left.1 S U.left.2 hS U.hom
           (Over.w (hrep.snd a))).left ≫ (hrep.snd a).left = (hrep.snd a).left
         rw [relocalizeBaseHom_left, Category.id_comp])]
   exact he

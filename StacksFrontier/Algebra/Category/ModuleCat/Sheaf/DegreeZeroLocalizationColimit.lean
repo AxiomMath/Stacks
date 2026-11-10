@@ -159,7 +159,7 @@ public theorem fractionHom_homogeneousSmulHom (hf : f ∈ A d) (n : ℕ)
     (x : B ((n * d : ℕ) : ℤ)) :
     fractionHom A B hf (n + 1) (homogeneousSmulHom A B hf n x) = fractionHom A B hf n x := by
   apply Subtype.ext
-  show LocalizedModule.mk (S := Submonoid.powers f) (f • (x : M))
+  change LocalizedModule.mk (S := Submonoid.powers f) (f • (x : M))
       ⟨f ^ (n + 1), by exact ⟨n + 1, rfl⟩⟩ =
     LocalizedModule.mk (S := Submonoid.powers f) (x : M) ⟨f ^ n, by exact ⟨n, rfl⟩⟩
   rw [LocalizedModule.mk_eq]
@@ -211,7 +211,7 @@ public def coconeFamily (n : ℕ) : M →+ s.pt :=
 
 private theorem coconeFamily_of_mem (n : ℕ) {x : M} (hx : x ∈ B ((n * d : ℕ) : ℤ)) :
     coconeFamily A B hf s n x = AddCommGrpCat.Hom.hom (s.ι.app n) ⟨x, hx⟩ := by
-  show AddCommGrpCat.Hom.hom (s.ι.app n) (decomposeComponent B ((n * d : ℕ) : ℤ) x) = _
+  change AddCommGrpCat.Hom.hom (s.ι.app n) (decomposeComponent B ((n * d : ℕ) : ℤ) x) = _
   rw [decomposeComponent_of_mem B hx]
 
 omit [Decomposition B] in
@@ -257,7 +257,7 @@ public def descHom : GradedModuleDegreeZeroLocalization A B f →+ s.pt :=
 `s` at `x`. -/
 public theorem descHom_fractionHom (n : ℕ) (x : B ((n * d : ℕ) : ℤ)) :
     descHom A B hf s (fractionHom A B hf n x) = AddCommGrpCat.Hom.hom (s.ι.app n) x := by
-  show degreeZeroLocalizationLiftOfDegree A B hf (coconeFamily A B hf s)
+  change degreeZeroLocalizationLiftOfDegree A B hf (coconeFamily A B hf s)
       (fun n k x hx => coconeFamily_pow_smul A B hf s n k hx)
       (fractionHom A B hf n x) = _
   rw [degreeZeroLocalizationLiftOfDegree_fraction A B hf _ _ _ n (x : M) x.2 rfl,

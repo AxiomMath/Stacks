@@ -76,24 +76,24 @@ private theorem henselianLocalRing_subring_of_maximalIdeal_le
   obtain ⟨a, ha, hdiff⟩ := HenselianLocalRing.is_henselian
     (f.map S.subtype) (hf.map S.subtype) (a₀ : A) (by
       rw [Polynomial.eval_map]
-      show Polynomial.eval₂ S.subtype (S.subtype a₀) f ∈ _
+      change Polynomial.eval₂ S.subtype (S.subtype a₀) f ∈ _
       rw [Polynomial.eval₂_at_apply]
       exact hmem) (by
       rw [Polynomial.derivative_map, Polynomial.eval_map]
-      show IsUnit (Polynomial.eval₂ S.subtype (S.subtype a₀) f.derivative)
+      change IsUnit (Polynomial.eval₂ S.subtype (S.subtype a₀) f.derivative)
       rw [Polynomial.eval₂_at_apply]
       exact ha₀'.map S.subtype)
   have haS : a ∈ S := by
     convert S.add_mem (hS hdiff) a₀.property using 1
     exact (sub_add_cancel a a₀).symm
   refine ⟨⟨a, haS⟩, ?_, ?_⟩
-  · show f.eval ⟨a, haS⟩ = 0
+  · change f.eval ⟨a, haS⟩ = 0
     apply Subtype.val_injective
-    show S.subtype (f.eval ⟨a, haS⟩) = 0
+    change S.subtype (f.eval ⟨a, haS⟩) = 0
     rw [← Polynomial.eval₂_at_apply]
-    show Polynomial.eval₂ S.subtype a f = 0
+    change Polynomial.eval₂ S.subtype a f = 0
     simpa only [Polynomial.IsRoot, Polynomial.eval_map] using ha
-  · show (⟨a, haS⟩ : S) - a₀ ∈ maximalIdeal S
+  · change (⟨a, haS⟩ : S) - a₀ ∈ maximalIdeal S
     rw [mem_maximalIdeal, mem_nonunits_iff] at hdiff ⊢
     exact fun hu => hdiff (hu.map S.subtype)
 
@@ -111,7 +111,7 @@ private theorem constantCoeffSubring_isUnit_iff {K : Type*} [Field K]
       PowerSeries.constantCoeff)
   · intro h
     refine isUnit_iff_exists_inv.mpr ⟨⟨f.val⁻¹, ?_⟩, ?_⟩
-    · show PowerSeries.constantCoeff f.val⁻¹ ∈ k
+    · change PowerSeries.constantCoeff f.val⁻¹ ∈ k
       rw [PowerSeries.constantCoeff_inv]
       exact k.inv_mem f.property
     · exact Subtype.ext (PowerSeries.mul_inv_cancel f.val h)
@@ -138,7 +138,7 @@ private theorem constantCoeffSubring_isHenselian {K : Type*} [Field K]
   let := henselianLocalRing_of_isAdicComplete_maximalIdeal (PowerSeries K)
   apply henselianLocalRing_subring_of_maximalIdeal_le
   intro f hf
-  show PowerSeries.constantCoeff f ∈ k
+  change PowerSeries.constantCoeff f ∈ k
   change f ∈ maximalIdeal (PowerSeries K) at hf
   have hzero : PowerSeries.constantCoeff f = 0 := by
     simpa only [mem_maximalIdeal, mem_nonunits_iff,
@@ -159,11 +159,11 @@ private theorem constantCoeffSubring_dvd_X_pow {K : Type*} [Field K]
   have hu : PowerSeries.constantCoeff u ≠ 0 :=
     mt PowerSeries.constantCoeff_divXPowOrder_eq_zero_iff.mp hf'
   let g : constantCoeffSubring k := ⟨PowerSeries.X * u⁻¹, by
-    show PowerSeries.constantCoeff (PowerSeries.X * u⁻¹) ∈ k
+    change PowerSeries.constantCoeff (PowerSeries.X * u⁻¹) ∈ k
     simp⟩
   refine ⟨f.val.order.toNat + 1, g, ?_⟩
   apply Subtype.ext
-  show PowerSeries.X ^ (f.val.order.toNat + 1) = f.val * (PowerSeries.X * u⁻¹)
+  change PowerSeries.X ^ (f.val.order.toNat + 1) = f.val * (PowerSeries.X * u⁻¹)
   calc
     PowerSeries.X ^ (f.val.order.toNat + 1) =
         PowerSeries.X ^ f.val.order.toNat * (u * u⁻¹) * PowerSeries.X := by
@@ -178,10 +178,10 @@ private theorem constantCoeffSubring_X_dvd_sq {K : Type*} [Field K]
     constantCoeffSubringX k ∣ f ^ 2 := by
   obtain ⟨g, hg⟩ := PowerSeries.X_dvd_iff.mpr hf
   refine ⟨⟨PowerSeries.X * g ^ 2, ?_⟩, ?_⟩
-  · show PowerSeries.constantCoeff (PowerSeries.X * g ^ 2) ∈ k
+  · change PowerSeries.constantCoeff (PowerSeries.X * g ^ 2) ∈ k
     simp
   · apply Subtype.ext
-    show f.val ^ 2 = PowerSeries.X * (PowerSeries.X * g ^ 2)
+    change f.val ^ 2 = PowerSeries.X * (PowerSeries.X * g ^ 2)
     rw [hg]
     ring
 
@@ -263,15 +263,15 @@ private theorem structureSheaf_isFinitePresentation (X : Scheme.{u}) :
     constructor
     intro i
     constructor
-    show Finite PUnit.{u + 1}
+    change Finite PUnit.{u + 1}
     infer_instance
   let qc := q.quasiCoherentData
   have hqc : SheafOfModules.QuasicoherentData.IsFinitePresentation.{u, u, u, u} qc := by
     constructor
     intro i
     exact {
-      isFiniteType_generators := ⟨by show Finite PUnit.{u + 1}; infer_instance⟩
-      isFiniteType_relations := ⟨by show Finite (ULift Empty); infer_instance⟩ }
+      isFiniteType_generators := ⟨by change Finite PUnit.{u + 1}; infer_instance⟩
+      isFiniteType_relations := ⟨by change Finite (ULift Empty); infer_instance⟩ }
   have hfree : SheafOfModules.IsFinitePresentation.{u, u, u}
       (SheafOfModules.free (R := X.ringCatSheaf) PUnit.{u + 1}) :=
     SheafOfModules.IsFinitePresentation.mk.{u, u, u} ⟨qc, hqc⟩
@@ -354,7 +354,7 @@ private theorem adjoinRootLinear_exists_pow_mul_eq
   | monomial n r =>
       refine ⟨n, r * b ^ n, ?_⟩
       rw [← C_mul_X_pow_eq_monomial, map_mul, map_pow]
-      show AdjoinRoot.of p a ^ n * (AdjoinRoot.of p r * AdjoinRoot.root p ^ n) =
+      change AdjoinRoot.of p a ^ n * (AdjoinRoot.of p r * AdjoinRoot.root p ^ n) =
         AdjoinRoot.of p (r * b ^ n)
       rw [map_mul, map_pow, ← hrel, mul_pow]
       ring
@@ -370,7 +370,7 @@ private theorem adjoinRootLinear_le_ker_of_comap_eq_bot
   intro z hz
   obtain ⟨n, r, hr⟩ := adjoinRootLinear_exists_pow_mul_eq a b z
   have hmem : r ∈ q.comap (AdjoinRoot.of _) := by
-    show AdjoinRoot.of _ r ∈ q
+    change AdjoinRoot.of _ r ∈ q
     rw [← hr]
     exact q.mul_mem_left _ hz
   have hr0 : r = 0 := by simpa only [hq, Ideal.mem_bot] using hmem
@@ -390,10 +390,10 @@ private theorem closure_ker_inter_fiber_eq_empty
   rintro q ⟨hq, hqp⟩
   have hle : RingHom.ker g ≤ q.asIdeal := (PrimeSpectrum.le_iff_mem_closure _ _).mpr hq
   have hcq : i c ∈ q.asIdeal := by
-    show c ∈ (PrimeSpectrum.comap i q).asIdeal
+    change c ∈ (PrimeSpectrum.comap i q).asIdeal
     simpa only [Set.mem_preimage, Set.mem_singleton_iff] using hqp ▸ hc
   have hrel : i c * t - 1 ∈ q.asIdeal := hle (by
-    show g (i c * t - 1) = 0
+    change g (i c * t - 1) = 0
     rw [map_sub, map_one, hct, sub_self])
   have hone : (1 : A) ∈ q.asIdeal := by
     have := q.asIdeal.sub_mem (q.asIdeal.mul_mem_right t hcq) hrel
@@ -449,11 +449,11 @@ private theorem exampleEval_ker_le_closedPoint_ker {K : Type*} [Field K]
   rw [Polynomial.hom_eval₂, map_zero, PowerSeries.constantCoeff_C] at hc
   have heval : Polynomial.eval₂RingHom k.subtype y
       (p.map (constantCoeffToSubfield k)) = 0 := by
-    show Polynomial.eval₂ k.subtype y (p.map (constantCoeffToSubfield k)) = 0
+    change Polynomial.eval₂ k.subtype y (p.map (constantCoeffToSubfield k)) = 0
     rw [Polynomial.eval₂_map]
     exact hc
   have hp : p.map (constantCoeffToSubfield k) = 0 := hy (heval.trans (map_zero _).symm)
-  show exampleClosedPoint k y (AdjoinRoot.mk _ p) = 0
+  change exampleClosedPoint k y (AdjoinRoot.mk _ p) = 0
   rw [exampleClosedPoint, AdjoinRoot.lift_mk, ← Polynomial.eval_map, hp, Polynomial.eval_zero]
 
 /-- The point `t = 0` of `Spec R[t]/(xt - xy)` lies over the closed point of `Spec R`. -/
@@ -463,7 +463,7 @@ private theorem exampleClosedPoint_comap_ker {K : Type*} [Field K] (k : Subfield
       maximalIdeal (constantCoeffSubring k) := by
   let := constantCoeffSubring_isLocalRing k
   ext r
-  show exampleClosedPoint k y (AdjoinRoot.of _ r) = 0 ↔ _
+  change exampleClosedPoint k y (AdjoinRoot.of _ r) = 0 ↔ _
   rw [exampleClosedPoint, AdjoinRoot.lift_of, mem_maximalIdeal, mem_nonunits_iff,
     constantCoeffSubring_isUnit_iff, not_not]
   exact Subtype.ext_iff
@@ -487,7 +487,7 @@ private theorem example_specializes_to_closed_fiber {K : Type*} [Field K]
         (exampleEval_ker_le_closedPoint_ker k y hy))),
       PrimeSpectrum.ext (exampleClosedPoint_comap_ker k y)⟩
     rw [exampleEval, AdjoinRoot.lift_of]
-    show PowerSeries.X ≠ (0 : PowerSeries K)
+    change PowerSeries.X ≠ (0 : PowerSeries K)
     exact PowerSeries.X_ne_zero
   · exact ⟨q, specializes_rfl, PrimeSpectrum.ext hp⟩
 
@@ -518,7 +518,7 @@ private theorem not_isImpurity_of_isIso
   · have hxy₀ : D.toX.homeomorph D.xi ⤳ y := hxy
     simpa only [Homeomorph.symm_apply_apply] using hxy₀.map D.toX.homeomorph.symm.continuous
   · apply D.g.homeomorph.injective
-    show D.g (D.toT (D.toX.homeomorph.symm y)) = D.g D.t
+    change D.g (D.toT (D.toX.homeomorph.symm y)) = D.g D.t
     rw [← hcomm, D.mapsToChosenPoint]
     simpa [← Scheme.Hom.homeomorph_apply] using hy
 
@@ -538,7 +538,7 @@ private theorem not_isImpurity_of_projection_isIso
   refine not_isImpurity_of_specializes P D (D.toT.homeomorph.symm D.t) ?_
     (D.toT.homeomorph.apply_symm_apply D.t)
   have hs : D.toT.homeomorph D.xi ⤳ D.t := by
-    show D.toT D.xi ⤳ D.t
+    change D.toT D.xi ⤳ D.t
     rw [D.xi_liesOver]
     exact D.specializes
   simpa only [Homeomorph.symm_apply_apply] using hs.map D.toT.homeomorph.symm.continuous
@@ -572,15 +572,15 @@ private theorem isIso_pullback_snd_linearSpec
   let E : A ⊗[R] B ≃+* B :=
     (Algebra.TensorProduct.comm R A B).toRingEquiv.trans e.toRingEquiv
   have hE (b : B) : E (Algebra.TensorProduct.includeRight b) = b := by
-    show e (b ⊗ₜ[R] (1 : A)) = b
+    change e (b ⊗ₜ[R] (1 : A)) = b
     exact e.commutes b
   have : IsIso (CommRingCat.ofHom
       (Algebra.TensorProduct.includeRight : B →ₐ[R] A ⊗[R] B).toRingHom) :=
     isIso_ofHom_of_ringEquiv_apply _ E hE
-  show IsIso (pullback.snd (Spec.map (CommRingCat.ofHom (algebraMap R A)))
+  change IsIso (pullback.snd (Spec.map (CommRingCat.ofHom (algebraMap R A)))
     (Spec.map (CommRingCat.ofHom (algebraMap R B))))
   rw [← pullbackSpecIso_hom_snd R A B]
-  show IsIso ((pullbackSpecIso R A B).hom ≫ Spec.map (CommRingCat.ofHom
+  change IsIso ((pullbackSpecIso R A B).hom ≫ Spec.map (CommRingCat.ofHom
     (Algebra.TensorProduct.includeRight : B →ₐ[R] A ⊗[R] B).toRingHom))
   infer_instance
 
@@ -682,7 +682,7 @@ theorem mem_relativeAssassin_of_fiberToSpecResidueField_isIso
     exact hx
   have : Nonempty (f.fiber s) := ⟨z⟩
   have hgen : IsGenericPoint z (Set.univ : Set (f.fiber s)) := by
-    show closure {z} = Set.univ
+    change closure {z} = Set.univ
     have hsingleton : ({z} : Set (f.fiber s)) = Set.univ := by
       ext y
       simp [Subsingleton.elim y z]
@@ -764,7 +764,7 @@ private theorem example_not_isUniversallyPureRelative
   have hxi : toT xi = t' := by
     apply PrimeSpectrum.ext
     ext r
-    show ev (Algebra.TensorProduct.includeRight r) = 0 ↔ eo r = 0
+    change ev (Algebra.TensorProduct.includeRight r) = 0 ↔ eo r = 0
     simp [ev]
   have hempty : closure {xi} ∩ Set.range (toT.fiberι t) = ∅ := by
     rw [Scheme.Hom.range_fiberι]
@@ -772,17 +772,17 @@ private theorem example_not_isUniversallyPureRelative
       (Algebra.TensorProduct.includeRight : O →ₐ[R] A ⊗[R] O).toRingHom
       ev.toRingHom t (AdjoinRoot.root _)
       ((Algebra.TensorProduct.includeLeft : A →ₐ[R] A ⊗[R] O) (AdjoinRoot.root _))
-    · show exampleClosedPoint k y⁻¹ (AdjoinRoot.root _) = 0
+    · change exampleClosedPoint k y⁻¹ (AdjoinRoot.root _) = 0
       exact AdjoinRoot.lift_root _
     · simp only [AlgHom.toRingHom_eq_coe, RingHom.coe_coe, map_mul]
-      show ev ((1 : A) ⊗ₜ[R] AdjoinRoot.root _) *
+      change ev ((1 : A) ⊗ₜ[R] AdjoinRoot.root _) *
         ev (AdjoinRoot.root _ ⊗ₜ[R] (1 : O)) = 1
       simp only [ev, Algebra.TensorProduct.lift_tmul, map_one, one_mul, mul_one]
-      show exampleEval k y⁻¹ (AdjoinRoot.root _) * exampleEval k y (AdjoinRoot.root _) = 1
+      change exampleEval k y⁻¹ (AdjoinRoot.root _) * exampleEval k y (AdjoinRoot.root _) = 1
       rw [exampleEval, AdjoinRoot.lift_root, exampleEval, AdjoinRoot.lift_root,
         ← map_mul, inv_mul_cancel₀ hy0, map_one]
   have ha : constantCoeffSubringX k ∉ (g t').asIdeal := by
-    show ¬ eo (algebraMap R O (constantCoeffSubringX k)) = 0
+    change ¬ eo (algebraMap R O (constantCoeffSubringX k)) = 0
     rw [eo.commutes]
     exact PowerSeries.X_ne_zero
   have : IsIso (toT.fiberToSpecResidueField t') :=
@@ -813,7 +813,7 @@ private theorem eval₂RingHom_subtype_fieldRange_injective
   obtain ⟨q, rfl⟩ := Polynomial.map_surjective e.toRingHom e.surjective q
   apply congrArg (Polynomial.map e.toRingHom)
   apply h
-  show Polynomial.eval₂ f y p = Polynomial.eval₂ f y q
+  change Polynomial.eval₂ f y p = Polynomial.eval₂ f y q
   change Polynomial.eval₂ f.fieldRange.subtype y (p.map e.toRingHom) =
     Polynomial.eval₂ f.fieldRange.subtype y (q.map e.toRingHom) at hpq
   have he : f.fieldRange.subtype.comp e.toRingHom = f := by

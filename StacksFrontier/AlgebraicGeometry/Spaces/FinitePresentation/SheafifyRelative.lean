@@ -161,7 +161,7 @@ private theorem sectionFiber_isSheaf
       G.map W.hom.op y := by
     apply (hG'.isSeparated R hR).ext
     intro Y f hf
-    show G.map f.left.op (a.app (Opposite.op W.left) t) =
+    change G.map f.left.op (a.app (Opposite.op W.left) t) =
       G.map f.left.op (G.map W.hom.op y)
     have hglue := ht f hf
     change F.map f.left.op t = (x f hf).1 at hglue
@@ -340,7 +340,7 @@ private theorem sectionFiber_toSheafifyMap_locallySurjective
           simp
     refine ⟨⟨F.map g.left.op t, hbase⟩, ?_⟩
     apply Subtype.ext
-    show (toSheafify J F).app (Opposite.op Z.left) (F.map g.left.op t) =
+    change (toSheafify J F).app (Opposite.op Z.left) (F.map g.left.op t) =
       (sheafify J F).map (g.left ≫ f.left).op q.1
     calc
       _ = (sheafify J F).map g.left.op
@@ -383,7 +383,7 @@ private theorem sectionFiber_toSheafifyMap_locallySurjective
                 (f.left ≫ W.hom).op y).symm
     have hη' : ηG.app (Opposite.op V) (a'.app (Opposite.op V) t) =
         ηG.app (Opposite.op V) (G'.map f.op (G.map W.hom.op y)) := by
-      show (toSheafify J G).app (Opposite.op V.left) (a.app (Opposite.op V.left) t) = _
+      change (toSheafify J G).app (Opposite.op V.left) (a.app (Opposite.op V.left) t) = _
       have hmap : G.map (f.left ≫ W.hom).op y =
           G'.map f.op (G.map W.hom.op y) := by
         simp [G', j, ← Functor.map_comp_apply, ← op_comp]
@@ -556,7 +556,7 @@ public theorem relativelyLimitPreserving_sheafifyMap [UnivLE.{max w w', u}]
       (BigFppfOver.topology B X.left.1 X.left.2) P := by
     have hcont : e.inverse.IsContinuous
         (BigFppfOver.topology B X.left.1 X.left.2) (J.over X) := by
-      show X.iteratedSliceBackward.IsContinuous
+      change X.iteratedSliceBackward.IsContinuous
         (B.topology.over X.left) ((B.topology.over (B.obj hS)).over X)
       infer_instance
     exact e.inverse.op_comp_isSheaf_of_isSheaf_type
@@ -615,11 +615,11 @@ public theorem limitPreserving_sectionFiber_of_isLocallyBijective
   let e := Over.iteratedSliceEquiv X
   let K := BigFppfOver.topology B X.left.1 X.left.2
   have hcont : e.inverse.IsContinuous K (J.over X) := by
-    show X.iteratedSliceBackward.IsContinuous (B.topology.over X.left)
+    change X.iteratedSliceBackward.IsContinuous (B.topology.over X.left)
       ((B.topology.over (B.obj hS)).over X)
     infer_instance
   have hcocont : e.inverse.IsCocontinuous K (J.over X) := by
-    show X.iteratedSliceBackward.IsCocontinuous (B.topology.over X.left)
+    change X.iteratedSliceBackward.IsCocontinuous (B.topology.over X.left)
       ((B.topology.over (B.obj hS)).over X)
     infer_instance
   have hQ : Presieve.IsSheaf (J.over X) Q :=

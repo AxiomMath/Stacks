@@ -141,7 +141,7 @@ theorem preservesColimitsOfShape_sigmaEval :
     PreservesColimitsOfShape J (sigmaEval (A := A) T V) := by
   have := preservesColimitsOfShape_whiskeringLeft (A := A) (J := J)
     (Discrete.functor fun t ↦ op (V t))
-  show PreservesColimitsOfShape J
+  change PreservesColimitsOfShape J
     ((Functor.whiskeringLeft (Discrete T) Cᵒᵖ A).obj (Discrete.functor fun t ↦ op (V t)) ⋙
       (colim : (Discrete T ⥤ A) ⥤ A))
   infer_instance

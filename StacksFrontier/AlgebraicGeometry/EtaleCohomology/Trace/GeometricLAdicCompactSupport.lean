@@ -59,7 +59,8 @@ the maps of the inverse system are induced by the transition maps of `F`.
 
 ## Implementation notes
 
-The coefficients are `ℤ_[ℓ]` at every level, as in the statement of Tag 03UT: the levels are restricted to
+The coefficients are `ℤ_[ℓ]` at every level, as in the statement of Tag 03UT: the levels are
+restricted to
 `ℤ_[ℓ]` on the sheaves, before cohomology is taken, so that the inverse system lives in one
 category and its maps are induced by the transition maps of `F` with no comparison of
 cohomology over different rings.
@@ -94,7 +95,6 @@ attribute [local instance] HasDerivedCategory.standard moduleCat_hasLimitsOfSize
 section Negative
 
 variable (k : Type u) [Field k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k))
-  [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
   (j : CompactificationOf (Over.mk f)) (Λ : Type r) [Ring Λ]
 
 /-- `RΓ_c(X, -)` carries a complex concentrated in degrees `≥ a` to one concentrated in degrees
@@ -148,8 +148,7 @@ variable [∀ n : ℕ, HasWeakSheafify
   (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
 variable [IsNoetherian X.1] [Fact ℓ.Prime]
 
-variable {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
-  [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
+variable {k : Type u} [Field k] (f : X.1 ⟶ Spec (.of k))
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
 
 /-- A sheaf of `ℤ_[ℓ]`-modules on the small étale site of Stacks 021B, read on Mathlib's small
@@ -287,7 +286,7 @@ end Pullback
 
 section Frobenius
 
-variable (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
+variable [Fintype k] (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
   (F : LAdicSheaf B X ℓ) (i : ℤ)
 
 /-- **`π_X^*` on `Hⁱ_c(X_k̄, F)`**: the endomorphism of the limit induced by the canonical
@@ -322,13 +321,24 @@ end Frobenius
 
 /-! ### Vanishing in negative degrees -/
 
+omit [∀ (n : ℕ) (S T : B.Scheme) (g : T ⟶ S),
+  ((AlgebraicGeometry.smallEtaleBaseChange B g).sheafPushforwardContinuous
+    (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))
+    (SmallEtale.topology B S.1 S.property)
+    (SmallEtale.topology B T.1 T.property)).IsRightAdjoint]
+  [∀ (n : ℕ) (T : B.Scheme) (V : SmallEtale B T.1 T.property),
+    HasWeakSheafify ((SmallEtale.topology B T.1 T.property).over V)
+      (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
+  [∀ n : ℕ, HasWeakSheafify (SmallEtale.topology B X.1 X.property)
+    (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
+  [AlgebraicGeometry.IsNoetherian X.1] in
 /-- `Hⁱ_c(X_k̄, G|_{X_k̄}) = 0` for `i < 0`. -/
 public theorem isZero_geometricCompactSupportPadicCohomology_obj_of_neg
     (G : Sheaf (SmallEtale.topology B X.1 X.property) (ModuleCat.{u + 1} ℤ_[ℓ])) (i : ℤ)
     (hi : i < 0) :
     IsZero ((geometricCompactSupportPadicCohomology B X ℓ f j kbar i).obj G) := by
   have : ((padicCoefficientComplex B X ℓ).obj G).obj.IsStrictlyGE 0 := by
-    show CochainComplex.IsStrictlyGE ((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).obj
+    change CochainComplex.IsStrictlyGE ((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).obj
       ((SmallEtale.sheafEquiv B X.1 X.property (ModuleCat.{u + 1} ℤ_[ℓ])).functor.obj G)) 0
     infer_instance
   have := isGE_compactSupportFrobeniusFunctor_obj.{u, 0} ℤ_[ℓ] f j kbar
@@ -340,7 +350,8 @@ public theorem LAdicSheaf.isZero_geometricCompactlySupportedCohomology_of_neg
     (F : LAdicSheaf B X ℓ) (i : ℤ) (hi : i < 0) :
     IsZero (LAdicSheaf.geometricCompactlySupportedCohomology B X ℓ f j kbar F i) :=
   (IsZero.iff_id_eq_zero _).2 (limit.hom_ext fun n =>
-    (isZero_geometricCompactSupportPadicCohomology_obj_of_neg B X ℓ f j kbar _ i hi).eq_of_tgt _ _)
+    (isZero_geometricCompactSupportPadicCohomology_obj_of_neg B X ℓ f j kbar
+      (LAdicSheaf.padicLevel B X ℓ F n.unop) i hi).eq_of_tgt _ _)
 
 /-- **`Hⁱ_c(X_k̄, F ⊗ Q_ℓ) = 0` for `i < 0`**, for every ℓ-adic sheaf `F` on a separated scheme of
 finite type over a field, every extension field `k̄` and every compactification: the lower half
@@ -352,3 +363,7 @@ public theorem LAdicSheaf.isZero_rationalGeometricCompactlySupportedCohomology_o
     IsZero (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B X ℓ f j kbar F i) :=
   Functor.map_isZero _
     (LAdicSheaf.isZero_geometricCompactlySupportedCohomology_of_neg B X ℓ f j kbar F i hi)
+
+end EtaleCohomology
+
+end Stacks

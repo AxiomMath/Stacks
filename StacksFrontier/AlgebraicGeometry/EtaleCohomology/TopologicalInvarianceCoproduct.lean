@@ -91,10 +91,10 @@ theorem etale_coprodDesc {V₁ V₂ : Scheme.{u}} (q₁ : V₁ ⟶ Y) (q₂ : V�
     HasRingHomProperty.instIsZariskiLocalAtSource
   rw [IsZariskiLocalAtSource.iff_of_openCover (P := @Etale) (coprodOpenCover.{u, u} V₁ V₂)]
   rintro (⟨⟩ | ⟨⟩)
-  · show Etale (coprod.inl ≫ coprod.desc q₁ q₂)
+  · change Etale (coprod.inl ≫ coprod.desc q₁ q₂)
     rw [coprod.inl_desc]
     infer_instance
-  · show Etale (coprod.inr ≫ coprod.desc q₁ q₂)
+  · change Etale (coprod.inr ≫ coprod.desc q₁ q₂)
     rw [coprod.inr_desc]
     infer_instance
 

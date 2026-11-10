@@ -47,8 +47,7 @@ private theorem dualTensorHom_map_split
     (z : Module.Dual R M ⊗[R] M) :
     dualTensorHom R F F ((TensorProduct.map p.dualMap i) z) =
       i.comp ((dualTensorHom R M M z).comp p) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul φ m =>
     ext x
     simp [TensorProduct.map_tmul, LinearMap.dualMap_apply, dualTensorHom_apply]
@@ -62,8 +61,7 @@ private theorem contractTensor_map_split
     (i : M →ₗ[R] F) (p : F →ₗ[R] M) (h : p.comp i = LinearMap.id)
     (z : Module.Dual R M ⊗[R] M) :
     contractLeft R F ((TensorProduct.map p.dualMap i) z) = contractLeft R M z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul φ m =>
     simp only [TensorProduct.map_tmul, contractLeft_apply, LinearMap.dualMap_apply]
     exact congrArg φ (LinearMap.congr_fun h m)
@@ -85,13 +83,13 @@ private theorem projTrace_eq_freeTrace
   have hz : (dualTensorHomEquiv R F F).symm (i.comp (f.comp p)) =
       TensorProduct.map p.dualMap i z := by
     apply (dualTensorHomEquiv R F F).injective
-    show (dualTensorHomEquiv R F F)
+    change (dualTensorHomEquiv R F F)
         ((dualTensorHomEquiv R F F).symm (i.comp (f.comp p))) =
       dualTensorHom R F F (TensorProduct.map p.dualMap i z)
     rw [LinearEquiv.apply_symm_apply, dualTensorHom_map_split,
       show dualTensorHom R M M z = f from (dualTensorHomEquiv R M M).apply_symm_apply f]
   rw [LinearMap.trace_eq_contract' R F]
-  show contractLeft R M z =
+  change contractLeft R M z =
     contractLeft R F ((dualTensorHomEquiv R F F).symm (i.comp (f.comp p)))
   rw [hz, contractTensor_map_split i p h z]
 
@@ -123,10 +121,9 @@ theorem commRight_symm_comp_lmul_comp_commRight
   rw [Algebra.baseChange_lmul b]
   apply LinearMap.ext
   intro q
-  induction q using TensorProduct.induction_on with
-  | zero => simp
+  induction q using TensorProduct.inductionOn with
   | tmul k y =>
-    show e.symm (algebraMap B (B ⊗[A] K) b * e (k ⊗ₜ[A] y)) = (1 ⊗ₜ[A] b) * (k ⊗ₜ[A] y)
+    change e.symm (algebraMap B (B ⊗[A] K) b * e (k ⊗ₜ[A] y)) = (1 ⊗ₜ[A] b) * (k ⊗ₜ[A] y)
     rw [hx]
     apply e.injective
     simp
@@ -175,7 +172,7 @@ theorem trace_algebraMap_mem_range_of_flat
     rw [← LinearMap.baseChange_comp, hpi, LinearMap.baseChange_id]
   have hpiL : pL.comp iL = LinearMap.id := by
     ext z
-    show e ((pK.comp iK) (e.symm z)) = z
+    change e ((pK.comp iK) (e.symm z)) = z
     rw [hpiK]
     exact e.apply_symm_apply z
   have _ : Module.Projective K L := Module.Projective.of_split iL pL hpiL
@@ -194,7 +191,7 @@ theorem trace_algebraMap_mem_range_of_flat
       _ = r.baseChange K := by
         dsimp [iK, pK, μK, r, μ]
         rw [LinearMap.baseChange_comp, LinearMap.baseChange_comp]
-  show projTrace T ∈ Set.range (algebraMap A K)
+  change projTrace T ∈ Set.range (algebraMap A K)
   exact projTrace_mem_range_of_split iL pL hpiL hcomp
 
 end Stacks.Discriminant

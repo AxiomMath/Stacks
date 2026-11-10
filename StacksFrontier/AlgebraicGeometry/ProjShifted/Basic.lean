@@ -129,7 +129,7 @@ theorem isInternal_shiftedGrading (𝒨 : ℤ → τ) [Decomposition 𝒨] (a : 
     obtain ⟨k, rfl⟩ : ∃ k, (Equiv.addRight a).symm.symm k = j :=
       ⟨(Equiv.addRight a).symm j, (Equiv.addRight a).symm.symm_apply_apply j⟩
     refine .trans ?_ (DirectSum.coeAddMonoidHom_of 𝒨 _ y).symm
-    show DirectSum.coeAddMonoidHom (shiftedGrading 𝒨 a)
+    change DirectSum.coeAddMonoidHom (shiftedGrading 𝒨 a)
         (DirectSum.equivCongrLeft (Equiv.addRight a).symm
           (DirectSum.of (fun i => ↥(𝒨 i)) ((Equiv.addRight a).symm.symm k) y)) = (y : M)
     have h1 := DirectSum.equivCongrLeft_of (β := fun i => ↥(𝒨 i)) (Equiv.addRight a).symm k y

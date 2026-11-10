@@ -57,7 +57,7 @@ theorem topologicalKrullDimAt_fiber_eq_krullDimOfRing_stalk_add_trdeg
   let k := S.residueField (f x)
   let g : f.fiber (f x) ⟶ Spec (.of k) := f.fiberToSpecResidueField (f x)
   let _ : LocallyOfFiniteType g := by
-    show LocallyOfFiniteType (Limits.pullback.snd f (S.fromSpecResidueField (f x)))
+    change LocallyOfFiniteType (Limits.pullback.snd f (S.fromSpecResidueField (f x)))
     infer_instance
   have h := topologicalKrullDimAt_eq_trdeg_add_krullDim_stalk k (f.fiber (f x)) g (f.asFiber x)
   rw [f.trdeg_residueField_fiber x] at h

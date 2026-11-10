@@ -169,7 +169,7 @@ private theorem exists_derivation_detecting_nonsquare {k : Type*} [Field k] [Cha
     fun h => hD (B.repr.injective (by simpa using h))
   obtain ⟨i, hi⟩ := Finsupp.ne_iff.mp hrepr
   refine ⟨(B.coord i).compDer (KaehlerDifferential.D (ZMod 2) k), ?_⟩
-  show B.coord i (KaehlerDifferential.D (ZMod 2) k z) ≠ 0
+  change B.coord i (KaehlerDifferential.D (ZMod 2) k z) ≠ 0
   simpa only [B.coord_apply, Finsupp.zero_apply] using hi
 
 /-- Transport a derivation along an algebra equivalence of its source and target. -/
@@ -220,7 +220,7 @@ private theorem derivation_sq_eq_zero_char_two {k : Type*} [Field k] [CharP k 2]
     z • D z + z • D z = (2 : k) • (z • D z) := (two_smul k (z • D z)).symm
     _ = 0 := by
       have htwo : (2 : k) = 0 := CharP.cast_eq_zero k 2
-      show (2 : k) * (z * D z) = 0
+      change (2 : k) * (z * D z) = 0
       rw [htwo]
       simp
 
@@ -296,7 +296,7 @@ private theorem translateRingHom_involutive {k : Type*} [Field k] [CharP k 2]
         have hc : (MvPolynomial.C (if i = 0 then r else s) : MvPolynomial (Fin 2) k) +
             MvPolynomial.C (if i = 0 then r else s) = 0 := by
           simpa only [map_add, map_zero] using congrArg MvPolynomial.C hz
-        show MvPolynomial.X i + MvPolynomial.C (if i = 0 then r else s) +
+        change MvPolynomial.X i + MvPolynomial.C (if i = 0 then r else s) +
           MvPolynomial.C (if i = 0 then r else s) = MvPolynomial.X i
         linear_combination hc
       simp only [RingHom.map_mul, hp, hX]

@@ -70,16 +70,16 @@ theorem universalDivisorChartMap_comp_map_reducedChartRingHom (c : D.Chart) (Ω 
   intro _ _ _ hcompat
   have := isScalarTower_reducedChartFractionRing (D := D) c.U
   refine MvPolynomial.ringHom_ext (fun a ↦ ?_) (fun j ↦ ?_)
-  · show Algebra.universalDivisorChartMap (reducedChartRing c.U) Ω (reducedChartEquation c)
+  · change Algebra.universalDivisorChartMap (reducedChartRing c.U) Ω (reducedChartEquation c)
         (MvPolynomial.map (reducedChartRingHom c.U) (MvPolynomial.C a)) =
       MvPolynomial.aeval _ (MvPolynomial.C a)
     rw [MvPolynomial.map_C, MvPolynomial.aeval_C]
-    show Algebra.universalDivisorChartMap (reducedChartRing c.U) Ω (reducedChartEquation c)
+    change Algebra.universalDivisorChartMap (reducedChartRing c.U) Ω (reducedChartEquation c)
       (MvPolynomial.C (algebraMap D.k (reducedChartRing c.U) a)) = _
     rw [← hcompat, ← IsScalarTower.algebraMap_apply D.k (reducedChartRing c.U)
         (reducedChartFractionRing c.U),
       ← IsScalarTower.algebraMap_apply D.k (reducedChartFractionRing c.U) Ω]
-  · show Algebra.universalDivisorChartMap (reducedChartRing c.U) Ω (reducedChartEquation c)
+  · change Algebra.universalDivisorChartMap (reducedChartRing c.U) Ω (reducedChartEquation c)
         (MvPolynomial.map (reducedChartRingHom c.U) (MvPolynomial.X j)) =
       MvPolynomial.aeval _ (MvPolynomial.X j)
     rw [MvPolynomial.map_X, MvPolynomial.aeval_X]

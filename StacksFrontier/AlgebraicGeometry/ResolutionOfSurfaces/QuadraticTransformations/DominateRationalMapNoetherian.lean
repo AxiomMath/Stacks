@@ -205,7 +205,7 @@ theorem exists_pointBlowupChain_resolving_partialMap_of_isNoetherian
       ⟨T, V, le_rfl, g, hVT, hTclosed, hTdim, hg, by simp [f'],
         fun q _ _ => exists_isAdmissibleBlowup_dominating_of_isNoetherian q V⟩
   have hTV : ((f'.domain : Set X))ᶜ = (T : Set X) := by
-    show ((V : Set X))ᶜ = _
+    change ((V : Set X))ᶜ = _
     rw [hVT, compl_compl]
   refine ⟨T, Z, p, h, hTclosed, hTdim, fun x hx hxU => ?_, hTV ▸ hchain, hS, ?_⟩
   · have : x ∈ (V : Set X) := hUV hxU

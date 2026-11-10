@@ -299,7 +299,7 @@ theorem exists_nsmul_eq_zero_etaleStalk_of_isConstructibleModuleSheaf (X : B.Sch
     exact Set.mem_iUnion.mp hx
   set t' := GeometricPoint.ofPoint ((st U).piece i).obj z
   have hbase : (t'.map (B.inclusion.map ((st U).inclusion i))).hom default = t.hom default := by
-    show (B.inclusion.map ((st U).inclusion i)).base (t'.hom default) = t.hom default
+    change (B.inclusion.map ((st U).inclusion i)).base (t'.hom default) = t.hom default
     rwa [show t'.hom default = z from GeometricPoint.ofPoint_liesOver _ z]
   obtain ⟨e⟩ := hiso U i t' t hbase
   obtain ⟨n, hn, hy⟩ := exists_nsmul_eq_zero_of_iso.{u, r} Λ e (fun n => n = ∏ U ∈ Us, ∏ i, N U i)

@@ -109,6 +109,7 @@ noncomputable abbrev relClass (U : Cᵒᵖ) (g : kernelIdeal (presentation J A O
   conormalClass.{u, u, u, u} J A (freeAlgebraSheaf J A E) O
     (freeAlgebraSheafCoefficientMap J A E) (presentation J A O a E α) U g
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The map `ℐ/ℐ² ⟶ Ω` of `NL(α)` sends the class of a local relation `g` to `1 ⊗ d g`. -/
 theorem f_relClass (U : Cᵒᵖ) (g : kernelIdeal (presentation J A O a E α).hom U) :
     (presentationConormalSequence.{u, u, u, u} J A O a E α).f.val.app U (relClass U g) =
@@ -174,7 +175,7 @@ theorem _root_.Deformation.AlgebraExtension.MapAlong.ext_of_comp {φ : M ⟶ N}
   obtain ⟨m, hm⟩ := P.exists_incl _ hd
   have hx : P.extension.obj.map f.op x = β.hom.hom.app (op Y) y + P.incl m := by
     rw [hm, add_sub_cancel]
-  show (Q.extension.obj.map f.op) (k₁.hom.hom.app U x) =
+  change (Q.extension.obj.map f.op) (k₁.hom.hom.app U x) =
     (Q.extension.obj.map f.op) (k₂.hom.hom.app U x)
   rw [← NatTrans.naturality_apply k₁.hom.hom, ← NatTrans.naturality_apply k₂.hom.hom, hx,
     map_add, map_add, k₁.kernel_comm, k₂.kernel_comm]
@@ -249,6 +250,7 @@ noncomputable def idealRestriction :
     rw [incl_restriction]
     exact NatTrans.naturality_apply β.hom.hom f (g : (freeAlgebraSheaf J A E).obj.obj U))
 
+omit [Presheaf.IsLocallySurjective J (presentation J A O a E α).hom] in
 /-- The restriction datum of `β` evaluates to the restriction of `β` to `ℐ`. -/
 @[simp]
 theorem idealRestriction_app (U : Cᵒᵖ) (g : kernelIdeal (presentation J A O a E α).hom U) :
@@ -326,7 +328,7 @@ theorem shift_lift_app (U : Cᵒᵖ) (e : E.obj U) :
 /-- Shifting by zero does nothing. -/
 theorem shift_zero : β.shift 0 = β := by
   ext U e
-  show (show P.extension.obj.obj U from β.lift.app U e) + P.incl 0 = β.lift.app U e
+  change (show P.extension.obj.obj U from β.lift.app U e) + P.incl 0 = β.lift.app U e
   rw [P.incl_zero, add_zero]
 
 /-- Shifts add up. -/
@@ -334,7 +336,7 @@ theorem shift_shift
     (θ' : (presentationConormalSequence.{u, u, u, u} J A O a E α).X₂ ⟶ tensorModule M) :
     (β.shift θ).shift θ' = β.shift (θ + θ') := by
   ext U e
-  show (show P.extension.obj.obj U from β.lift.app U e) + P.incl _ + P.incl _ =
+  change (show P.extension.obj.obj U from β.lift.app U e) + P.incl _ + P.incl _ =
     (show P.extension.obj.obj U from β.lift.app U e) + P.incl _
   rw [add_assoc, ← P.incl_add]
   rfl
@@ -347,8 +349,7 @@ theorem comp_comp {L : SheafOfModules.{u} (underlyingRingSheaf O)} {R : AlgebraE
     (h : φ ≫ ψ = χ) : (β.comp k).comp k' = β.comp (k.comp k' h) :=
   rfl
 
-variable [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
-  [J.WEqualsLocallyBijective CommRingCat.{u}]
+variable [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [J.WEqualsLocallyBijective CommRingCat.{u}]
 
 /-- **The homomorphism of a shifted lift**: `(β + θ)(y) = β(y) + θ(1 ⊗ d y)`. -/
 theorem shift_hom_app (U : Cᵒᵖ) (y : (freeAlgebraSheaf J A E).obj.obj U) :
@@ -376,19 +377,18 @@ theorem conormalHom_shift :
     rw [conormalHom_relClass, shift_restriction]
     exact (congrArg (· + _) (β.conormalHom_relClass U g)).symm
 
-omit [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
-  [J.WEqualsLocallyBijective CommRingCat.{u}] in
+omit [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [J.WEqualsLocallyBijective CommRingCat.{u}] in
 /-- Transporting a shifted lift along a morphism of extensions along `φ` is the transported
 lift shifted by `φ ∘ θ`. -/
 theorem shift_comp {φ : M ⟶ N} (k : MapAlong φ P Q) :
     (β.shift θ).comp k = (β.comp k).shift (θ ≫ tensorMap φ) := by
   ext U e
-  show k.hom.hom.app U ((show P.extension.obj.obj U from β.lift.app U e) + P.incl _) =
+  change k.hom.hom.app U ((show P.extension.obj.obj U from β.lift.app U e) + P.incl _) =
     k.hom.hom.app U (β.lift.app U e) + _
   rw [map_add, k.kernel_comm]
   rfl
 
-omit [HasSheafify J AddCommGrpCat] [J.WEqualsLocallyBijective AddCommGrpCat] in
+omit [J.WEqualsLocallyBijective AddCommGrpCat] in
 /-- **Shifting is free**: a shift by `θ` fixes the lift only for `θ = 0`. -/
 theorem shift_injective {θ θ' : (presentationConormalSequence.{u, u, u, u} J A O a E α).X₂ ⟶
     tensorModule M} (h : β.shift θ = β.shift θ') : θ = θ' :=
@@ -402,7 +402,7 @@ theorem exists_eq_shift (β' : GeneratorLift α P) :
   obtain ⟨θ, hθ⟩ := β.exists_tensorHom_sub β'
   refine ⟨θ, ext ?_⟩
   ext U e
-  show β'.lift.app U e = (show P.extension.obj.obj U from β.lift.app U e) + P.incl _
+  change β'.lift.app U e = (show P.extension.obj.obj U from β.lift.app U e) + P.incl _
   rw [hθ, incl_diff, hom_app_variable, hom_app_variable, add_sub_cancel]
 
 end Shift

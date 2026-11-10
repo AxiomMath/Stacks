@@ -54,7 +54,8 @@ unrelated sequence.
 Only the identifications `stage` and `comparison` are produced by existence statements rather
 than named constructions — see
 `StacksFrontier/RingTheory/LocalCohomology/MinimalPrimeFiltration/PrincipalCutFirstCohomology.lean`
-and `StacksFrontier/RingTheory/LocalCohomology/MinimalPrimeFiltration/MinimalPrimeComparison.lean` — which is why the whole package is an existence
+and `StacksFrontier/RingTheory/LocalCohomology/MinimalPrimeFiltration/MinimalPrimeComparison.lean` —
+which is why the whole package is an existence
 statement. Everything else is a construction: `exactSequenceData` takes those two families as
 arguments and builds the data, so a client that has them in hand gets the actual maps rather
 than a chosen witness, and `nonempty_exactSequenceData` is that construction fed by choice.

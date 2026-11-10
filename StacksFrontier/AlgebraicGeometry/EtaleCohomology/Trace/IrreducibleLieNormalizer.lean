@@ -65,7 +65,7 @@ theorem isSolvable_traceRadical (g : LieSubalgebra K (Module.End K V)) :
   set DDI : LieIdeal K g := ⁅DI, DI⁆
   have tf_eq_zero : traceForm K DI V = 0 := by
     ext ⟨x, hx⟩ ⟨y, hy⟩
-    show LinearMap.trace K V ((x : Module.End K V) * y) = 0
+    change LinearMap.trace K V ((x : Module.End K V) * y) = 0
     exact mem_traceRadical.mp (LieSubmodule.lie_le_left I I hy) x
   have module_nilp : LieModule.IsNilpotent (derivedSeries K DI 1) V :=
     LieModule.isNilpotent_derivedSeries_of_traceForm_eq_zero tf_eq_zero
@@ -131,14 +131,14 @@ theorem exists_eq_smul_one_of_forall_commute (g : LieSubalgebra K (Module.End K 
       lie_mem := by
         intro x v hv
         have hv' : (b - c • 1) v = 0 := hv
-        show (b - c • 1) ((x : Module.End K V) v) = 0
+        change (b - c • 1) ((x : Module.End K V) v) = 0
         have e : (b - c • 1) * (x : Module.End K V) = (x : Module.End K V) * (b - c • 1) := by
           rw [sub_mul, mul_sub, (hb x x.2).eq, smul_mul_assoc, mul_smul_comm, one_mul, mul_one]
         rw [← Module.End.mul_apply, e, Module.End.mul_apply, hv', map_zero] }
   obtain ⟨v, hv⟩ := hc.exists_hasEigenvector
   have hW : Nontrivial W := by
     refine nontrivial_of_ne ⟨v, ?_⟩ 0 ?_
-    · show v ∈ LinearMap.ker (b - c • 1)
+    · change v ∈ LinearMap.ker (b - c • 1)
       rw [LinearMap.mem_ker, LinearMap.sub_apply, hv.apply_eq_smul, LinearMap.smul_apply,
         Module.End.one_apply, sub_self]
     · intro h
@@ -176,7 +176,7 @@ theorem exists_sub_smul_one_mem_of_mem_normalizer (g : LieSubalgebra K (Module.E
     intro x hx
     have hc : (⟨⁅b, x⁆, hbnorm x hx⟩ : g) = 0 := by
       refine eq_zero_of_forall_trace_mul_eq_zero g fun y => ?_
-      show LinearMap.trace K V ((y : Module.End K V) * (b * x - x * b)) = 0
+      change LinearMap.trace K V ((y : Module.End K V) * (b * x - x * b)) = 0
       rw [LinearMap.trace_mul_comm, sub_mul, map_sub, mul_assoc, mul_assoc,
         LinearMap.trace_mul_comm K x, mul_assoc, ← map_sub, ← mul_sub]
       exact hbperp ⟨⁅x, (y : Module.End K V)⁆, g.lie_mem hx y.2⟩

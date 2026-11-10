@@ -344,7 +344,7 @@ identification `Γ(Spec Λ) = Λ`. -/
 theorem etaleConstantStructurePresheafMap_app_specNeighborhood (a : Λ) :
     (etaleConstantStructurePresheafMap Λ B hS (specSpace Λ B hS).1).app
       (op (specNeighborhood Λ B hS x).chart) a = (Scheme.ΓSpecIso (CommRingCat.of Λ)).inv a := by
-  show Scheme.Γ.map (openPartToBase Λ B hS (specSpace Λ B hS).1
+  change Scheme.Γ.map (openPartToBase Λ B hS (specSpace Λ B hS).1
     (specNeighborhood Λ B hS x).chart).op ((Scheme.ΓSpecIso (CommRingCat.of Λ)).inv a) = _
   rw [show openPartToBase Λ B hS (specSpace Λ B hS).1 (specNeighborhood Λ B hS x).chart = 𝟙 _
     from B.inclusion.map_id _]
@@ -403,7 +403,7 @@ theorem isZero_cotangentComplexDerived_specStalkMap :
         ((algebraMap Λ _).comp ULift.ringEquiv.toRingHom) =
       (specStalkMap Λ B hS x).comp ULift.ringEquiv.toRingHom := by
     refine RingHom.ext fun a => ?_
-    show chartLocalRingToEtaleLocalRing B _ hS _ (specSpace Λ B hS).2 V
+    change chartLocalRingToEtaleLocalRing B _ hS _ (specSpace Λ B hS).2 V
         ((CommRingCat.ofHom (algebraMap (CommRingCat.of Λ) (Localization.AtPrime p.asIdeal)) ≫
           (Spec.stalkIso (CommRingCat.of Λ) p).inv) a.down) =
       etaleLocalRingGerm B _ hS _ x (op V)

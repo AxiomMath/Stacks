@@ -138,14 +138,16 @@ section EssentiallySmallSite
 variable {C : Type u₁} [Category.{v₁} C] (J : GrothendieckTopology C) [EssentiallySmall.{z} C]
   [HasSheafify J Ab.{z}]
 
+omit [HasSheafify J Ab.{z}] in
 /-- Abelian sheaves with sections at a universe at which the site is essentially small have
 enough injectives, being a Grothendieck abelian category.
 
 Stated for an essentially small site rather than a small one because the small étale site of an
 algebraic space has its objects one universe above its morphisms, and this is needed there at
 the universe of the morphisms. -/
-theorem enoughInjectives_sheaf_essentiallySmall : EnoughInjectives (Sheaf J Ab.{z}) :=
-  (Sheaf.isGrothendieckAbelian_of_essentiallySmall.{z} J Ab.{z}).enoughInjectives
+theorem enoughInjectives_sheaf_essentiallySmall : EnoughInjectives (Sheaf J Ab.{z}) := by
+  have : HasSheafify J Ab.{z} := hasSheafifyEssentiallySmallSite J Ab.{z}
+  exact (Sheaf.isGrothendieckAbelian_of_essentiallySmall.{z} J Ab.{z}).enoughInjectives
 
 omit [EssentiallySmall.{z} C] in
 /-- Global sections of those sheaves is an additive functor, being a right adjoint. -/
@@ -388,6 +390,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 /-! ### Stacks 073E on the equi-universe model, at abelian coefficient universe `u` -/
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- heavy instance synthesis on the small étale model site at coefficient universes `u`, `u + 1`
 /-- **Stacks 073E on the equi-universe model of the small étale site, at abelian coefficient
 universe `u`.** On a quasi-compact and quasi-separated algebraic space, the canonical map from a
 filtered colimit of cohomology groups of abelian sheaves *with sections in the universe of the

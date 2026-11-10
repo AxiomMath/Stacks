@@ -451,7 +451,7 @@ theorem localTransition_eq (a b : S.affineCover.I₀) {V : Scheme.{u}} (q : V �
       D.obj.hom q c₁ c₂ hc₁ hc₂ ≫ localComparisonInv 𝒰 h𝒰 D b i₂ g₂ c₂ hb₂ := by
     rw [← cancel_epi (localComparison 𝒰 h𝒰 D b i₁ g₂ c₁ hb₁),
       localComparison_comp_inv, ← Category.assoc, hB, localComparison_comp_inv]
-  show localComparison 𝒰 h𝒰 D a i₁ g₁ c₁ ha₁ ≫ localComparisonInv 𝒰 h𝒰 D b i₁ g₂ c₁ hb₁ =
+  change localComparison 𝒰 h𝒰 D a i₁ g₁ c₁ ha₁ ≫ localComparisonInv 𝒰 h𝒰 D b i₁ g₂ c₁ hb₁ =
     localComparison 𝒰 h𝒰 D a i₂ g₁ c₂ ha₂ ≫ localComparisonInv 𝒰 h𝒰 D b i₂ g₂ c₂ hb₂
   rw [hinv, ← hA, Category.assoc]
 
@@ -465,7 +465,7 @@ theorem pullHom_localTransition (a b : S.affineCover.I₀) {V : Scheme.{u}}
     (h₂' : g₂' ≫ S.affineCover.f b = c' ≫ 𝒰.f i) :
     pullHom (localTransition 𝒰 h𝒰 D a b g₁ g₂ i c h₁ h₂) m g₁' g₂' hm₁ hm₂ =
       localTransition 𝒰 h𝒰 D a b g₁' g₂' i c' h₁' h₂' := by
-  show pullHom (localComparison 𝒰 h𝒰 D a i g₁ c h₁ ≫
+  change pullHom (localComparison 𝒰 h𝒰 D a i g₁ c h₁ ≫
       localComparisonInv 𝒰 h𝒰 D b i g₂ c h₂) m g₁' g₂' hm₁ hm₂ =
     localComparison 𝒰 h𝒰 D a i g₁' c' h₁' ≫ localComparisonInv 𝒰 h𝒰 D b i g₂' c' h₂'
   rw [pullHom_comp (localComparison 𝒰 h𝒰 D a i g₁ c h₁)
@@ -490,7 +490,7 @@ theorem localTransition_comp (a b d : S.affineCover.I₀) {V : Scheme.{u}}
     (h₂ : g₂ ≫ S.affineCover.f b = c ≫ 𝒰.f i) (h₃ : g₃ ≫ S.affineCover.f d = c ≫ 𝒰.f i) :
     localTransition 𝒰 h𝒰 D a b g₁ g₂ i c h₁ h₂ ≫ localTransition 𝒰 h𝒰 D b d g₂ g₃ i c h₂ h₃ =
       localTransition 𝒰 h𝒰 D a d g₁ g₃ i c h₁ h₃ := by
-  show (localComparison 𝒰 h𝒰 D a i g₁ c h₁ ≫ localComparisonInv 𝒰 h𝒰 D b i g₂ c h₂) ≫
+  change (localComparison 𝒰 h𝒰 D a i g₁ c h₁ ≫ localComparisonInv 𝒰 h𝒰 D b i g₂ c h₂) ≫
       localComparison 𝒰 h𝒰 D b i g₂ c h₂ ≫ localComparisonInv 𝒰 h𝒰 D d i g₃ c h₃ =
     localComparison 𝒰 h𝒰 D a i g₁ c h₁ ≫ localComparisonInv 𝒰 h𝒰 D d i g₃ c h₃
   rw [Category.assoc, ← Category.assoc (localComparisonInv 𝒰 h𝒰 D b i g₂ c h₂),

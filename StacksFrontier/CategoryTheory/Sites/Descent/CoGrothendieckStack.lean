@@ -125,7 +125,7 @@ lemma vertHom_comp_cartesianLift {V W : 𝒮} (f : W ⟶ V) {X Y : F.obj ⟨op V
     vertHom F W ((F.map f.op.toLoc).toFunctor.map α) ≫ CoGrothendieck.cartesianLift Y f =
       CoGrothendieck.cartesianLift X f ≫ vertHom F V α := by
   refine CoGrothendieck.Hom.ext _ _ ?_ ?_
-  · show 𝟙 W ≫ f = f ≫ 𝟙 V
+  · change 𝟙 W ≫ f = f ≫ 𝟙 V
     exact (Category.id_comp f).trans (Category.comp_id f).symm
   · simp only [CoGrothendieck.categoryStruct_comp_fiber, vertHom, op_id, Quiver.Hom.id_toLoc,
       Cat.Hom.id_toFunctor, Category.assoc, map_comp]

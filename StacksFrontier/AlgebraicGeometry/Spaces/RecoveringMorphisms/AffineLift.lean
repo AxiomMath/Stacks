@@ -71,17 +71,18 @@ theorem exists_affineOpen_lift (P : SmallEtale B S hS Y.1)
     (generate_ofArrows_affineOpens_mem_topology P) τ
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for finite limits of sheaves on the small étale site
 /-- **Some affine étale chart of `Y` has a point in the inverse-image stalk.** The functor
 `F ↦ (g⁻¹F)_x̄` carries the terminal sheaf to a point, which lifts along the covering of the
 terminal sheaf by an atlas of `Y`, and then to an affine open of the atlas. -/
 theorem exists_affine_invStalk :
     ∃ (V₀ : SmallEtale B S hS Y.1) (_ : IsAffine (chartSch V₀)),
       Nonempty ((invStalk g x).obj ((SmallEtale.topology B S hS Y.1).yoneda.obj V₀)) := by
-  haveI : HasFiniteProducts (Sheaf (SmallEtale.topology B S hS Y.1) (Type u)) := inferInstance
-  haveI hlim : PreservesFiniteLimits (invStalk g x) := by
+  have : HasFiniteProducts (Sheaf (SmallEtale.topology B S hS Y.1) (Type u)) := inferInstance
+  have hlim : PreservesFiniteLimits (invStalk g x) := by
     have := g.toToposHom.preservesFiniteLimits
     exact comp_preservesFiniteLimits _ _
-  haveI : PreservesFiniteProducts (invStalk g x) :=
+  have : PreservesFiniteProducts (invStalk g x) :=
     ⟨fun n => PreservesFiniteLimits.preservesFiniteLimits (Discrete (Fin n))⟩
   obtain ⟨T, a, hsurj, hetale⟩ := Y.2.exists_atlas
   set Va : SmallEtale B S hS Y.1 := ⟨CostructuredArrow.mk a, hetale⟩

@@ -133,7 +133,7 @@ theorem exists_sectionPow_tensorSection_family_of_affine_cover (F : X.Modules)
     have h0 : F.presheaf.map (homOfLE (hDV i)).op (z (i, l))
         = X.presheaf.map (homOfLE (hDV i)).op (f i) ^ e (i, l)
           • F.presheaf.map (homOfLE (hDU i)).op (t l) := (hz (i, l)).symm
-    show F.presheaf.map (homOfLE (h.trans (hDV i))).op (f i ^ (k - e (i, l)) • z (i, l))
+    change F.presheaf.map (homOfLE (h.trans (hDV i))).op (f i ^ (k - e (i, l)) • z (i, l))
       = X.presheaf.map (homOfLE (h.trans (hDV i))).op (f i) ^ k
           • F.presheaf.map (homOfLE (h.trans (hDU i))).op (t l)
     rw [← map_res_res_module h (hDV i) (f i ^ (k - e (i, l)) • z (i, l))]

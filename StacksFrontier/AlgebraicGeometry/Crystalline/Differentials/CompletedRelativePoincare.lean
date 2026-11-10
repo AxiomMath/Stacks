@@ -20,8 +20,8 @@ the **completed clause** of [Stacks, Lemma 60.19.2, Tag 07LD] for `P`:
 so the comparison `ψ̂ : Ω̂^*_D → Ω̂^*_{D'}` of completed de Rham complexes is a homotopy
 equivalence with retraction `ε̂`.
 
-`StacksFrontier/AlgebraicGeometry/Crystalline/Differentials/RelativePoincareHomotopy.lean` proves the
-uncompleted identity `d (h x) + h (d x) = x - ψ (ε x)` on `Ω^*_{P/A,δ'}`, with the divided power
+`StacksFrontier/AlgebraicGeometry/Crystalline/Differentials/RelativePoincareHomotopy.lean` proves
+the uncompleted identity `d (h x) + h (d x) = x - ψ (ε x)` on `Ω^*_{P/A,δ'}`, with the divided power
 ideal `I` of the base arbitrary and with `W` an arbitrary family.  This module carries that
 identity across the `p`-adic completion.
 
@@ -67,7 +67,8 @@ case `M = D`, the geometric content, and as a homotopy equivalence rather than m
 quasi-isomorphism; the module is put back in by
 `Crystalline.CompletedDeRham.exists_twistedHomotopyEquiv`, which perturbs the `ĥ` below against
 the connection and needs from it the three side conditions of
-`StacksFrontier/AlgebraicGeometry/Crystalline/Differentials/RelativePoincareSpecial.lean`.  The base's
+`StacksFrontier/AlgebraicGeometry/Crystalline/Differentials/RelativePoincareSpecial.lean`.  The
+base's
 divided power ideal `I` stays arbitrary and `W` stays an arbitrary family of variables, exactly as
 in the uncompleted identity.
 

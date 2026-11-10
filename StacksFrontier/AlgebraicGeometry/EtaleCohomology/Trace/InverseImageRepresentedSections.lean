@@ -164,7 +164,7 @@ theorem sectionEquiv_symm_typeUnit (G : Sheaf X.smallEtaleTopology (Type (u + 1)
         (etaleTypeInverseImageAdj g).unit.app G := by
     rw [Adjunction.homEquiv_unit]
     exact ((etaleTypeInverseImageAdj g).unit.naturality _).symm
-  show _ = Sheaf.sectionEquiv X.smallEtaleTopology ((etaleTypeInverseImageAdj g).homEquiv _ _
+  change _ = Sheaf.sectionEquiv X.smallEtaleTopology ((etaleTypeInverseImageAdj g).homEquiv _ _
     ((etaleTypeInverseImage g).map ((Sheaf.sectionEquiv X.smallEtaleTopology).symm e)))
   rw [h1, Sheaf.sectionEquiv_comp, Equiv.apply_symm_apply]
   rfl

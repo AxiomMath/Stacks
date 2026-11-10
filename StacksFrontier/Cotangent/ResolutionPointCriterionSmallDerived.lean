@@ -17,7 +17,8 @@ Tag 08PS is
 
 in `D(Ab)`, resp. `D(B)`, functorially in `ℱ` in `Ab(C_{B/A})`, resp. `Mod(B̲)`. This file proves
 both halves **as isomorphisms in the derived category**, natural in `ℱ`, read at the small model of
-the footnote-restricted site `C_{B/A}` of `StacksFrontier/Cotangent/PolynomialAlgebraSiteSmall.lean`.
+the footnote-restricted site `C_{B/A}` of
+`StacksFrontier/Cotangent/PolynomialAlgebraSiteSmall.lean`.
 
 What was already available is the *degreewise* form:
 `CommAlgCat.smallResolutionLeftDerivedLowerShriekNatIso` and

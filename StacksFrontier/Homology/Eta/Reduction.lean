@@ -945,7 +945,7 @@ lemma tensorSingleTermIso_naturality
     (M.X n ◁ g) ≫ (tensorSingleTermIso M P n).hom =
       (tensorSingleTermIso M N n).hom ≫ ((tensorWithCochainComplex M).map g).f n := by
   dsimp [tensorSingleTermIso, tensorWithCochainComplex]
-  simp only [tensorIso_hom, Iso.refl_hom, Iso.symm_hom, id_tensorHom,
+  simp only [id_tensorHom,
     Functor.map₂HomologicalComplex_obj_map, Category.assoc, ι_mapBifunctorMap,
     curriedTensor_obj_obj, id_f, CategoryTheory.Functor.map_id, NatTrans.id_app,
     curriedTensor_obj_map, Category.id_comp]

@@ -196,7 +196,7 @@ and `Lg' ⊣ Rg'`, of the inverse comparison of the two composites; and that is 
 vertical. -/
 theorem transposedTwoSquare_natTrans_app (adjg : Lg ⊣ Rg) (adjg' : Lg' ⊣ Rg')
     (eg : Lg ⋙ Lf' ≅ Lc) (ef : Lf ⋙ Lg' ≅ Lc) (W : A') :
-    (transposedTwoSquare adjg adjg' eg ef).natTrans.app W = map adjg adjg' ef eg W :=
+    (transposedTwoSquare adjg adjg' eg ef).app W = map adjg adjg' ef eg W :=
   rfl
 
 /-- The comparison of the two composites, read through
@@ -219,10 +219,10 @@ the base change map of the transposed square at `Lg E`, followed by `Rg'` of the
 the two composites at `E`. -/
 theorem pullbackPushforwardSquare_natTrans_app (adjg : Lg ⊣ Rg) (adjg' : Lg' ⊣ Rg')
     (eg : Lg ⋙ Lf' ≅ Lc) (ef : Lf ⋙ Lg' ≅ Lc) (E : A) :
-    (pullbackPushforwardSquare adjg adjg' eg ef).natTrans.app E =
+    (pullbackPushforwardSquare adjg adjg' eg ef).app E =
       map adjg adjg' ef eg (Lg.obj E) ≫ Rg'.map ((pullbackComparisonIso eg ef).hom.app E) := by
   rw [pullbackPushforwardSquare, TwoSquare.hComp]
-  simp only [TwoSquare.natTrans, NatTrans.comp_app, CategoryTheory.Functor.associator_hom_app,
+  simp only [NatTrans.comp_app, CategoryTheory.Functor.associator_hom_app,
     CategoryTheory.Functor.associator_inv_app, Category.id_comp, Category.comp_id]
   rfl
 
@@ -406,7 +406,7 @@ used, and it is what replaces a unit coherence: the two trivializations upstairs
 one trivialization `v` on `B`, along `αg` and along `αf` respectively, and
 `Stacks.AffineProjectionFormula.TensorComparisonCompatible` at `(J, Rf K)` says the transports
 agree after `Lf'`. -/
-theorem αf'_app_comp_targetUnit (adjf : Lf ⊣ Rf) (adjg : Lg ⊣ Rg) (adjg' : Lg' ⊣ Rg')
+theorem αf'_app_comp_targetUnit (adjf : Lf ⊣ Rf)
     (eg : Lg ⋙ Lf' ≅ Lc) (ef : Lf ⋙ Lg' ≅ Lc)
     (TA : A × A ⥤ A) (TB : B × B ⥤ B) (TA' : A' × A' ⥤ A') (TB' : B' × B' ⥤ B')
     (αf : TA ⋙ Lf ⟶ Lf.prod Lf ⋙ TB) (αf' : TA' ⋙ Lf' ⟶ Lf'.prod Lf' ⋙ TB')
@@ -477,11 +477,11 @@ theorem αf_app_comp_targetTensorMap (adjf : Lf ⊣ Rf) (adjg : Lg ⊣ Rg) (adjg
         targetTensorMap adjg adjg' eg ef TB TB' αg' J (Lf.obj (Rf.obj K))
           (pulledBackUnit adjf TA TB αf J K v hαf) hαg'₁ =
       Lf.map (sourceTensorMap adjf adjg TA TB TA' αf αg J K v hαg) ≫
-        (pullbackPushforwardSquare adjg adjg' eg ef).natTrans.app (Rf.obj K) := by
+        (pullbackPushforwardSquare adjg adjg' eg ef).app (Rf.obj K) := by
   have h0 := Stacks.AffineProjectionFormula.adjunctionTensorMap_baseChange_square
     adjg adjg' ef eg TA TB TA' TB' αg αg' αf αf' (Lg.obj J) (Rf.obj K) hsq₁
   simp only [squareCompositeIso_inv_app_eq] at h0
-  have hstar := αf'_app_comp_targetUnit adjf adjg adjg' eg ef TA TB TA' TB' αf αf' αg αg'
+  have hstar := αf'_app_comp_targetUnit adjf eg ef TA TB TA' TB' αf αf' αg αg'
     J K v hαf hαg hαg'₁ hsq₂
   have hnat := map_naturality adjg adjg' ef eg (sourceUnit adjf TA TB TA' αf αg J K v hαg)
   rw [targetTensorMap, sourceTensorMap, pullbackPushforwardSquare_natTrans_app]
@@ -619,7 +619,7 @@ theorem pushforward_map_eq_adjunctionTensorMapRight (hv : IsIso v)
     (pulledBackUnit adjf TA TB αf J K v hαf)
     (isIso_pulledBackUnit adjf TA TB αf J K v hv hd hαf) hαg'₁ hθ hp'₁
   have h₃ := isIso_targetTensorMap adjg adjg' eg ef TB TB' αg' J K v hv hαg'₂ hθ hp'₂
-  have hcompat : (pullbackPushforwardSquare adjg adjg' eg ef).natTrans.app (Rf.obj K) =
+  have hcompat : (pullbackPushforwardSquare adjg adjg' eg ef).app (Rf.obj K) =
       Lf.map (asIso (sourceTensorMap adjf adjg TA TB TA' αf αg J K v hαg)).symm.hom ≫
         αf.app (Rg.obj (Lg.obj J), Rf.obj K) ≫
           (asIso (targetTensorMap adjg adjg' eg ef TB TB' αg' J (Lf.obj (Rf.obj K))

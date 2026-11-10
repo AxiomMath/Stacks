@@ -190,6 +190,7 @@ private theorem comp_comp_square {𝒞 : Type*} [Category* 𝒞] {X₁ X₂ Y₁
   rw [reassoc_of% h₁, h₂, Category.assoc]
 
 set_option maxHeartbeats 1000000 in
+-- elaborating the statement and its `rw`s through nested functors on étale sheaf complexes
 /-- The degree-`p` component of `galoisHomOpSingleExtensionByZeroOverIso_hom_naturality`. -/
 lemma galoisHomOpSingleExtensionByZeroOverIso_hom_f_naturality
     {F₁ F₂ : EtaleModules.{u, 0} Λ Y.left} (v : F₁ ⟶ F₂)
@@ -324,6 +325,7 @@ lemma galoisHomOpDerivedLerayIso_hom_naturality {F₁ F₂ : EtaleModules.{u, 0}
     (homOpRestrictionResolutionMap_naturality Λ i v ω K₀ ι₀)
 
 set_option maxHeartbeats 1000000 in
+-- the term proof checks `galoisDerivedHomOpSingleRespellIso` by definitional unfolding
 omit [HasDerivedCategory.{w₃} (EtaleModules.{u, 0} Λᵐᵒᵖ (fieldBaseChange Y kbar))]
   [HasDerivedCategory.{w₄} (ModuleCat.{u + 1} Λᵐᵒᵖ)] [NeZero n] in
 /-- The respelling `galoisDerivedHomOpSingleRespellIso` is natural in `F`. -/

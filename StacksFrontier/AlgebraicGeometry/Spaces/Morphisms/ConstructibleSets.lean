@@ -189,7 +189,7 @@ theorem isEtaleLocallyConstructible_preimage
           ((schemePointsHomeomorph B S hS V).symm ⁻¹'
             (pointsMap B S hS (yoneda.obj V) q ⁻¹' E)) := by
     ext x
-    show pointsMap B S hS X f (pointsMap B S hS (yoneda.obj U) p
+    change pointsMap B S hS X f (pointsMap B S hS (yoneda.obj U) p
       ((schemePointsHomeomorph B S hS U).symm x)) ∈ E ↔ _
     rw [← pointsMap_comp_apply, hcomm, pointsMap_comp_apply,
       schemePointsHomeomorph_symm_naturality]
@@ -245,7 +245,7 @@ theorem isEtaleLocallyConstructible_image
   have hp₂Etale : IsEtale B S hS p₂.hom := isEtale_of_isPullback B S hS p₁ p₂ gsp fsp sq hg
   have hTXEtale : IsEtale B S hS (t ≫ p₂.hom) := isEtale_comp B S hS htEtale hp₂Etale
   have hsqhom : p₁.hom ≫ g = p₂.hom ≫ f := by
-    show (p₁ ≫ gsp).hom = (p₂ ≫ fsp).hom
+    change (p₁ ≫ gsp).hom = (p₂ ≫ fsp).hom
     rw [sq.w]
   have hcomm : yoneda.map q ≫ g = (t ≫ p₂.hom) ≫ f := by
     rw [hqmap, Category.assoc, Category.assoc, hsqhom]
@@ -282,7 +282,7 @@ theorem isEtaleLocallyConstructible_image
       obtain ⟨x, hx⟩ :=
         (surjective_iff_surjective_pointsMap B S hS W.1 W.property T t).mp htSurj w
       refine ⟨(schemePointsHomeomorph B S hS T) x, ?_, ?_⟩
-      · show pointsMap B S hS (yoneda.obj T) (t ≫ p₂.hom)
+      · change pointsMap B S hS (yoneda.obj T) (t ≫ p₂.hom)
           ((schemePointsHomeomorph B S hS T).symm
             ((schemePointsHomeomorph B S hS T) x)) ∈ E
         rwa [Homeomorph.symm_apply_apply, pointsMap_comp_apply, hx, hw₂]

@@ -44,7 +44,8 @@ comparison is stated across that identification.
 
 ## Route
 
-Everything used is already available, and the proof is the composition of five identifications.  Write
+Everything used is already available, and the proof is the composition of five identifications.
+Write
 `𝓘` for the defining ideal sheaf of [Stacks Project, Tag 03MB] of the closed subspace, `i` for
 the inclusion of that subspace and `e` for the identification `yoneda.obj R ≅` that subspace.
 
@@ -120,7 +121,8 @@ sheaf as the associated module of its Zariski restriction only when the ideal sh
 scheme-theoretic image, whose quasi-coherence is what Morphisms, Lemma [Stacks Project, Tag 01R8]
 derives from quasi-compactness.  Hence the general case is routed through the ambient open of
 [Stacks Project, Tag 04CE], on which the kernel ideal sheaf *is* a defining ideal sheaf:
-`StacksFrontier/AlgebraicGeometry/Spaces/RepresentedImmersionCoborderLift.lean` supplies that ambient
+`StacksFrontier/AlgebraicGeometry/Spaces/RepresentedImmersionCoborderLift.lean` supplies that
+ambient
 as an object of the site, `AlgebraicGeometry.Space.immersionCoborderObj`, with the factorisation
 `AlgebraicGeometry.Space.immersionCoborderLift` of `j` through it whose morphism of schemes is
 `AlgebraicGeometry.Scheme.Hom.liftCoborder` on the nose

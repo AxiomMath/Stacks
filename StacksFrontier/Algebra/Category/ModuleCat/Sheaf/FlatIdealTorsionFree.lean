@@ -46,7 +46,8 @@ attribute [local instance_reducible] TopCat.Sheaf CategoryTheory.sheafCompose
   AlgebraicGeometry.SheafedSpace.sheaf Stacks.SheafOfModules.TensorSheafification.structureSheaf
 
 open AlgebraicGeometry CategoryTheory CategoryTheory.Limits TopologicalSpace Opposite
-open Stacks.SheafOfModules.TensorStalkRingedSpace (O ringStalk grpStalk ringGerm grpGerm stalkModule stalkModule_germ_smul)
+open Stacks.SheafOfModules.TensorStalkRingedSpace
+  (O ringStalk grpStalk ringGerm grpGerm stalkModule stalkModule_germ_smul)
 
 universe u
 

@@ -111,7 +111,7 @@ lemma fiberAfterElementaryEtaleIso_fiberι {X S : Scheme.{u}} (f : X ⟶ S)
             pullback.fst f (eSpec.hom ≫ S.fromSpecResidueField s) := by rw [← h₂fst]
       _ = eCongr.hom ≫ pullback.fst f (eSpec.hom ≫ S.fromSpecResidueField s) := by simp
       _ = pullback.fst f (U.scheme.fromSpecResidueField U.point ≫ U.toBase) := hCongrfst
-  show (e₁ ≪≫ eCongr ≪≫ (asIso h₂).symm).hom ≫
+  change (e₁ ≪≫ eCongr ≪≫ (asIso h₂).symm).hom ≫
       pullback.fst f (S.fromSpecResidueField s) = _
   rw [Iso.trans_hom, Iso.trans_hom]
   calc
@@ -342,7 +342,7 @@ lemma isIso_residueFieldMap_specMap_of_bijective
     rw [heA, heB, hmEq]
     apply CommRingCat.hom_ext
     ext z
-    show IsLocalRing.ResidueField.map ell.hom
+    change IsLocalRing.ResidueField.map ell.hom
         (IsLocalRing.ResidueField.map a.hom.hom z) =
       IsLocalRing.ResidueField.map b.hom.hom (IsLocalRing.ResidueField.map
         ((Spec.map (CommRingCat.ofHom (algebraMap A B))).stalkMap q).hom z)
@@ -436,7 +436,7 @@ theorem exists_etaleNeighborhood_finiteAt {X S : Scheme.{u}} (f : X ⟶ S)
   let W₁ := g ''ᵁ PrimeSpectrum.basicOpen e
   have hsndSpec : e₁.hom ≫ pullback.snd (Spec.map (f.appLE U V hUV)) (Spec.map φ) =
       Spec.map (CommRingCat.ofHom Algebra.TensorProduct.includeLeftRingHom) := by
-    show ((pullbackSpecIso _ R _).inv ≫
+    change ((pullbackSpecIso _ R _).inv ≫
       (pullbackSymmetry (Spec.map φ) (Spec.map (f.appLE U V hUV))).hom) ≫
       pullback.snd (Spec.map (f.appLE U V hUV)) (Spec.map φ) = _
     calc
@@ -486,9 +486,9 @@ theorem exists_etaleNeighborhood_finiteAt {X S : Scheme.{u}} (f : X ⟶ S)
         have hp : (Spec.map φ) (⟨P, hP⟩ : PrimeSpectrum R) =
             hU.primeIdealOf ⟨f x, hxU⟩ := by
           apply PrimeSpectrum.ext
-          show Ideal.under Γ(S, U) P = (hU.primeIdealOf ⟨f x, hxU⟩).asIdeal
+          change Ideal.under Γ(S, U) P = (hU.primeIdealOf ⟨f x, hxU⟩).asIdeal
           exact (Ideal.over_def P _).symm
-        show hU.fromSpec ((Spec.map φ) (⟨P, hP⟩ : PrimeSpectrum R)) = f x
+        change hU.fromSpec ((Spec.map φ) (⟨P, hP⟩ : PrimeSpectrum R)) = f x
         rw [hp]
         exact hU.fromSpec_primeIdealOf ⟨f x, hxU⟩ }
   have hpResidue : P.comap (algebraMap Γ(S, U) R) = (hU.primeIdealOf ⟨f x, hxU⟩).asIdeal := by
@@ -513,10 +513,10 @@ theorem exists_etaleNeighborhood_finiteAt {X S : Scheme.{u}} (f : X ⟶ S)
   have hq₀open : q₀ ∈ PrimeSpectrum.basicOpen e := heP'
   have hq₀base : Spec.map ψ q₀ = U'.point := by
     apply PrimeSpectrum.ext
-    show P'.comap Algebra.TensorProduct.includeLeftRingHom = P
+    change P'.comap Algebra.TensorProduct.includeLeftRingHom = P
     exact (P'.over_def P).symm
   let v₀ : W₁ := ⟨g q₀, by
-    show g q₀ ∈ g ''ᵁ PrimeSpectrum.basicOpen e
+    change g q₀ ∈ g ''ᵁ PrimeSpectrum.basicOpen e
     exact ⟨q₀, hq₀open, rfl⟩⟩
   have hv₀base : (W₁.ι ≫ pullback.snd f U'.toBase) v₀ = U'.point :=
     (Scheme.Hom.comp_apply W₁.ι (pullback.snd f U'.toBase) v₀).trans
@@ -555,7 +555,7 @@ theorem exists_etaleNeighborhood_finiteAt {X S : Scheme.{u}} (f : X ⟶ S)
     have hqlies : q.asIdeal.LiesOver P := by
       refine ⟨?_⟩
       have heq := congrArg (fun y : PrimeSpectrum R => y.asIdeal) hqbase
-      show P = q.asIdeal.comap Algebra.TensorProduct.includeLeftRingHom
+      change P = q.asIdeal.comap Algebra.TensorProduct.includeLeftRingHom
       exact heq.symm
     have hnot : e ∉ q.asIdeal := hqe
     have hqP : q.asIdeal = P' := hunique q.asIdeal q.isPrime hqlies hnot

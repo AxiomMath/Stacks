@@ -64,6 +64,7 @@ abbrev chartAugmentation :
     (symmetricAlgebraSheaf B S hS W F).right.obj.obj (op V) ⟶ Γ(chartScheme V, ⊤) :=
   (vectorBundleAugmentation B S hS W F).right.hom.app (op V)
 
+omit [SheafOfModules.IsFiniteLocallyFree F] [IsAffine (chartScheme V)] in
 /-- The augmentation is a retraction of the structure map. -/
 theorem chartAlgebraMap_comp_chartAugmentation :
     chartAlgebraMap B S hS (symmetricAlgebraSheaf B S hS W F) V ≫
@@ -71,6 +72,7 @@ theorem chartAlgebraMap_comp_chartAugmentation :
   ext r
   exact (vectorBundleAugmentation B S hS W F).comm (op V) r
 
+omit [SheafOfModules.IsFiniteLocallyFree F] in
 /-- The composite of `V ≅ Spec Γ(V, 𝒪)`, the morphism `Spec ε_V` and the chart map
 `Spec Γ(V, Sym(ℰ)) ⟶ V` is the identity of `V`. -/
 theorem specChartMap_comp :
@@ -149,12 +151,13 @@ theorem yonedaEquiv_symm_map_affineChartSpecPoint_pt {T : BigFppfOver B S hS}
       yoneda.map (t ≫ vectorBundleChartHom B S hS W F V) ≫ V.obj.hom := by
   rw [map_affineChartSpecPoint_pt_eq, chart_hom_app_eq, Equiv.symm_apply_apply]
 
+omit [IsAffine (chartScheme V)] in
 /-- The point of `W` given by `s : T ⟶ V` corresponds to the composite `T ⟶ V ⟶ W`. -/
 theorem yonedaEquiv_symm_hom_app {T : BigFppfOver B S hS} (s : T ⟶ V.obj.left) :
     yonedaEquiv.symm (V.obj.hom.app (op T) s) = yoneda.map s ≫ V.obj.hom := by
   rw [chart_hom_app_eq, Equiv.symm_apply_apply]
 
-omit [SheafOfModules.IsFiniteLocallyFree F] in
+omit [SheafOfModules.IsFiniteLocallyFree F] [IsAffine (chartScheme V)] in
 /-- The chart reading of the point of `E` given by `s : T ⟶ V` and the zero section is the
 augmentation followed by pullback of functions along `s`. -/
 theorem chartEval_relativeSpecSectionPoint_vectorBundleAugmentation {T : BigFppfOver B S hS}
@@ -220,14 +223,14 @@ theorem vectorBundleChartToTotal_app_comp_vectorBundleChartZeroSection_mem
   have hs : (s ≫ j) ≫ vectorBundleChartHom B S hS W F V = s := by
     rw [Category.assoc, vectorBundleChartZeroSection_comp_hom, Category.comp_id]
   refine ⟨V.obj.hom.app (op T) s, (relativeSpecPointsEquiv B S hS A T).injective ?_⟩
-  show relativeSpecPointsEquiv B S hS A T
+  change relativeSpecPointsEquiv B S hS A T
       ((relativeSpecSection B S hS A (vectorBundleAugmentation B S hS W F)).app (op T) _) = _
   rw [relativeSpecPointsEquiv_relativeSpecSection_app]
   rw [relativeSpecPointsEquiv_vectorBundleChartToTotal_app]
   have hpt : (relativeSpecSectionPoint B S hS A (vectorBundleAugmentation B S hS W F) T
       (V.obj.hom.app (op T) s)).pt = ((affineChartSpecPoint B S hS _ _ V
         (exists_chartEval_symmetricAlgebraSheaf_eq B S hS W F V)).map B S hS (s ≫ j)).pt := by
-    show V.obj.hom.app (op T) s = _
+    change V.obj.hom.app (op T) s = _
     rw [map_affineChartSpecPoint_pt_eq, hs]
   refine RelativeSpecPoint.ext_of_chartEval B S hS A V
     (fun v x hxv => injective_chartEval_of_isAffine B S hS A

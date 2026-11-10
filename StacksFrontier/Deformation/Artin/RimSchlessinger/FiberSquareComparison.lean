@@ -70,14 +70,14 @@ private lemma square_fac {C X : Type*} [Category C] [Category X]
     Functor.Fiber.fiberInclusion.map
       ((fiberSquareComparison p c f g i j h).obj s).iso.hom ≫
       c.map g (c.obj j s) ≫ c.map j s = c.map f (c.obj i s) ≫ c.map i s := by
-  show Functor.Fiber.fiberInclusion.map
+  change Functor.Fiber.fiberInclusion.map
     (((c.objCompIso f i s).symm ≪≫
       (eqToIso (congrArg c.pullbackFunctor h)).app s ≪≫ c.objCompIso g j s).hom) ≫ _ = _
   simp only [Iso.trans_hom, Iso.symm_hom, Functor.map_comp, Category.assoc]
   rw [c.objCompIso_hom_fac, pullback_eq_fac c _ _ h]
   rw [← c.objCompIso_hom_fac f i s]
   simp only [← Category.assoc, ← Functor.map_comp, Iso.inv_hom_id]
-  show (𝟙 _ ≫ _) ≫ _ = _
+  change (𝟙 _ ≫ _) ≫ _ = _
   simp
 
 /-- A morphism of a fibre commutes with the chosen cartesian lifts, read on underlying
@@ -134,7 +134,7 @@ private lemma square_lift {C X : Type*} [Category C] [Category X]
       apply Functor.fiber_hom_ext_of_cartesian (g ≫ j ≫ r)
         (c.map g (c.obj j t') ≫ c.map j t' ≫ d) inferInstance
       simp only [fiber_map, fiber_comp, Category.assoc]
-      show (c.homMap f ai).1 ≫ (E.obj t').iso.hom.1 ≫
+      change (c.homMap f ai).1 ≫ (E.obj t').iso.hom.1 ≫
           c.map g (c.obj j t') ≫ c.map j t' ≫ d =
         (E.obj s).iso.hom.1 ≫ (c.homMap g bj).1 ≫
           c.map g (c.obj j t') ≫ c.map j t' ≫ d
@@ -230,9 +230,9 @@ lemma pair_lift {C X : Type*} [Category C] [Category X]
   obtain ⟨l, hl, hu⟩ := square_lift p c f g i j h s t r
     (ei.hom.1 ≫ a) (ej.hom.1 ≫ b) (pair_map_condition c f g e.hom a b hab)
   refine ⟨l, ⟨hl.1, ?_, ?_⟩, ?_⟩
-  · show (ei.inv.1 ≫ c.map i s) ≫ l = a
+  · change (ei.inv.1 ≫ c.map i s) ≫ l = a
     rw [Category.assoc, hl.2.1, ← Category.assoc, hii, Category.id_comp]
-  · show (ej.inv.1 ≫ c.map j s) ≫ l = b
+  · change (ej.inv.1 ≫ c.map j s) ≫ l = b
     rw [Category.assoc, hl.2.2, ← Category.assoc, hji, Category.id_comp]
   · intro l' hl'
     apply hu l'
@@ -342,7 +342,7 @@ lemma deformationCone_isPullback
     change s.pt ⟶ c at m
     change m ≫ k₁ = s.fst at hm₁
     change m ≫ k₂ = s.snd at hm₂
-    show (m : s.pt ⟶ c) = ll
+    change (m : s.pt ⟶ c) = ll
     apply (D.morphisms s.pt c).injective
     rw [hll]
     apply hlu
@@ -497,7 +497,7 @@ theorem isEquivalence_fiberSquareComparison_paste
     (squareFiller q c f (g₁ ≫ g₂) (i₁ ≫ i₂) j₂ w)
     (𝟭 _) (𝟭 _) (Iso.refl _) (Iso.refl _) (c.pullbackFunctorCompIso g₁ g₂)
     (fun x => ?_)).mp step3
-  show (squareFiller q c f (g₁ ≫ g₂) (i₁ ≫ i₂) j₂ w).hom.app x =
+  change (squareFiller q c f (g₁ ≫ g₂) (i₁ ≫ i₂) j₂ w).hom.app x =
     𝟙 (c.obj f (c.obj (i₁ ≫ i₂) x)) ≫
       (c.homMap f (c.objCompIso i₁ i₂ x).hom ≫
           (squareFiller q c f g₁ i₁ j₁ w₁).hom.app (c.obj i₂ x) ≫

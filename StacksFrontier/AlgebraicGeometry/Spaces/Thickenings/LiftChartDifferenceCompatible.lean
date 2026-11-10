@@ -273,8 +273,7 @@ identity, by functoriality. -/
 theorem isChartActionPresentationIndependent_of_liftDifference
     {hG : IsThickening C S hS X' Z.1}
     {D : LiftDifferenceFamily C S hS p Z hG q a}
-    (hD : IsLiftDifferenceOfTranslate C S hS D)
-    (hDnat : IsLiftDifferenceRestrictionNatural C S hS D) :
+    (hD : IsLiftDifferenceOfTranslate C S hS D) :
     IsChartActionPresentationIndependent C S hS p Z hG q a := by
   intro _ P₁ hP₁ P₂ hP₂ θ η ζ h
   exact Stacks.eq_translate_add_of_difference (resA := id) (resL := id)

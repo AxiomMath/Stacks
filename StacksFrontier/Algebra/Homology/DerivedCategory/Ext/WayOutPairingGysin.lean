@@ -135,7 +135,7 @@ theorem isDualityPerfect_iff_compTrace (F : C)
   isDualityPerfect_iff_of_addEquiv t (compTrace hN Γ t) c hN.symm (fun i => AddEquiv.refl _)
     (fun j => AddEquiv.ofBijective (Γ.postcomp F rfl) (hβ j))
     (fun i j h x y => by
-      show t ((x.comp y h).comp Γ hN) = t (x.comp (y.comp Γ rfl) _)
+      change t ((x.comp y h).comp Γ hN) = t (x.comp (y.comp Γ rfl) _)
       rw [comp_assoc x y Γ h rfl (by omega)]) hO hD
 
 end ChangeOfDualizing

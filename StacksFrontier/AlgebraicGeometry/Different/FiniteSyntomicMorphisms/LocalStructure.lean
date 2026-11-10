@@ -118,7 +118,7 @@ private theorem exists_isPullback_restrict_of_isPullback {V U Yd Xd : Scheme.{u}
   have hrange : Set.range q.base ⊆ Set.range (π ⁻¹ᵁ Ud).ι.base := by
     rw [Scheme.Opens.range_ι, Set.range_subset_iff]
     intro z
-    show π.base (q.base z) ∈ Ud
+    change π.base (q.base z) ∈ Ud
     have hw : π.base (q.base z) = Ud.ι.base (gU.base (fU.base z)) := by
       simpa only [Scheme.Hom.comp_apply] using congrArg (fun k : V ⟶ Xd => k.base z) hsq.w
     rw [hw]

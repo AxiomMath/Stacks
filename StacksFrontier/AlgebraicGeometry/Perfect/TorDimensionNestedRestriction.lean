@@ -174,7 +174,7 @@ universe u
 
 attribute [local instance] HasDerivedCategory.standard
 
-open AlgebraicGeometry AlgebraicGeometry.RingedSpace
+open _root_.Stacks.AlgebraicGeometry AlgebraicGeometry.RingedSpace
 
 /-- **Locally finite Tor dimension is inherited by the restriction to an open subspace.** If an
 object `E` of `D(𝒪_X)` locally has finite Tor dimension — part (3) of Stacks 08CG — then so does

@@ -71,8 +71,8 @@ the tag asserts.
 
 The two halves which discharge that hypothesis are the descent
 `stalkFreeOfRank_of_fpqcCover` in
-`StacksFrontier.AlgebraicGeometry.Flatness.Flattening.FreeAtGenericPointsStalkDescent`, which gives a
-free stalk of rank `p` at the generic point of every fibre over the base of an fpqc covering, and
+`StacksFrontier.AlgebraicGeometry.Flatness.Flattening.FreeAtGenericPointsStalkDescent`, which gives
+a free stalk of rank `p` at the generic point of every fibre over the base of an fpqc covering, and
 `AlgebraicGeometry.freeAtPointOfRank_of_forall_stalkFreeOfRank`, which spreads those free stalks
 out to neighbourhoods.
 
@@ -84,10 +84,12 @@ fibre over `V`, with the induced map of functions flat of finite presentation an
 geometrically integral fibres, `p` sections generating `Γ(F, U)` and a free stalk of rank `p` at
 the generic point of every fibre together force those sections to be a basis. Its three
 ingredients are
-`Module.nonempty_basis_of_forall_basis_localizedModule_genericFibre`
-(`StacksFrontier/AlgebraicGeometry/Flatness/FinitelyPresented/FreeMapGenericFibreFreeness.lean:171`), which is Stacks 05IA — in the
-form `Module.bijective_of_forall_flat_localizedModule_genericFibre`,
-`StacksFrontier/AlgebraicGeometry/Flatness/FinitelyPresented/FreeMapGenericFibreInjectivity.lean:155` — run at every prime of the base
+`Module.nonempty_basis_of_forall_basis_localizedModule_genericFibre` (
+`StacksFrontier/AlgebraicGeometry/Flatness/FinitelyPresented/FreeMapGenericFibreFreeness.lean:171`),
+which is Stacks 05IA — in the
+form `Module.bijective_of_forall_flat_localizedModule_genericFibre`
+(`FreeMapGenericFibreInjectivity.lean:155` in
+`StacksFrontier/AlgebraicGeometry/Flatness/FinitelyPresented/`) — run at every prime of the base
 with its two hypotheses discharged from a free localization; and the two halves of the
 scheme-to-ring bridge, `AlgebraicGeometry.nonempty_basis_localizedModule_of_stalkFreeOfRank` and
 `AlgebraicGeometry.primeIdealOf_eq_map_appLE_of_isGenericPoint`, the latter being the source's
@@ -159,7 +161,7 @@ theorem freeAtGenericPointsFunctor_isSheaf_fpqc_of_fpqcCover
     Presheaf.IsSheaf (Scheme.fpqcTopology.over D.S) (D.freeAtGenericPointsFunctor p) := by
   have := D.subsingleton_freeAtGenericPointsFunctor_obj p
   rw [isSheaf_iff_isSheaf_of_type]
-  show Presieve.IsSheaf ((Scheme.fpqcPrecoverage.toGrothendieck).over D.S)
+  change Presieve.IsSheaf ((Scheme.fpqcPrecoverage.toGrothendieck).over D.S)
     (D.freeAtGenericPointsFunctor p)
   rw [CategoryTheory.over_toGrothendieck_eq_toGrothendieck_comap_forget
     Scheme.fpqcPrecoverage D.S,
@@ -172,7 +174,7 @@ theorem freeAtGenericPointsFunctor_isSheaf_fpqc_of_fpqcCover
   rw [Presieve.isSheafFor_arrows_iff]
   intro x _
   have hlocal (i : ι) : D.Condition p (Over.mk (𝒰.f i ≫ T.hom)) := by
-    show D.Condition p (Over.mk ((g i).left ≫ T.hom))
+    change D.Condition p (Over.mk ((g i).left ≫ T.hom))
     convert (x i).down.down using 1
     exact CostructuredArrow.obj_ext _ _ rfl (CostructuredArrow.w (g i)).symm
   exact ⟨⟨⟨h T 𝒰 hlocal⟩⟩, fun _ ↦ Subsingleton.elim _ _, fun _ _ ↦ Subsingleton.elim _ _⟩

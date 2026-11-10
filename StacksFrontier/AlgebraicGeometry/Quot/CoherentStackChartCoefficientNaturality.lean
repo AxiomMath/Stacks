@@ -96,6 +96,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} {D : Coheren
   (f : Deformation.Artin.SquareZeroThickening.Hom T₁ T₂)
   [IsAffine ((BigFppfOver.toScheme B S hS).obj x.T.left)]
 
+omit [IsAffine ((BigFppfOver.toScheme B S hS).obj x.T.left)] in
 /-- **The kernel identification is natural in the thickening**: the restriction of `g^♯` to the
 kernels of `Γ(Spec A_k') ⟶ Γ(Spec A)` corresponds to the map `I₁ ⟶ I₂` induced by `f`. -/
 theorem thickeningKerMapOf_comp_kernelModuleIso_hom :
@@ -299,7 +300,7 @@ theorem squareZeroModuleKernelIso_naturality :
     (Deformation.Artin.squareZeroModuleThickeningHom (S := S) (hS := hS) (toS := toS)
         (hA := hA) fMN).kernelMap ≫ (Deformation.Artin.squareZeroModuleKernelIso N).hom =
       (Deformation.Artin.squareZeroModuleKernelIso M).hom ≫ fMN.hom := by
-  show ((Deformation.Artin.squareZeroModuleKernelIso M).hom ≫ fMN.hom ≫
+  change ((Deformation.Artin.squareZeroModuleKernelIso M).hom ≫ fMN.hom ≫
     (Deformation.Artin.squareZeroModuleKernelIso N).inv) ≫
       (Deformation.Artin.squareZeroModuleKernelIso N).hom = _
   simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id]

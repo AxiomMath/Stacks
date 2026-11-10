@@ -203,7 +203,7 @@ def overlapAlgEquivLaurent (R : Type u) [CommRing R] :
     overlapRing R ≃ₐ[R] LaurentPolynomial R :=
   AlgEquiv.ofRingEquiv (f := overlapRingEquivLaurent R) fun r => by
     rw [overlapRingEquivLaurent, algebraMap_overlapRing_eq,
-      IsLocalization.ringEquivOfRingEquiv_eq, AlgEquiv.coe_ringEquiv, AlgEquiv.commutes,
+      IsLocalization.ringEquivOfRingEquiv_eq, AlgEquiv.coe_toRingEquiv, AlgEquiv.commutes,
       Polynomial.algebraMap_eq, LaurentPolynomial.algebraMap_eq_toLaurent, Polynomial.toLaurent_C]
     rfl
 

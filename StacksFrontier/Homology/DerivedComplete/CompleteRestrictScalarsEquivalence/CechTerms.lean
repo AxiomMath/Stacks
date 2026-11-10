@@ -164,7 +164,7 @@ private theorem subsingleton_hom_map_cechTerm
     simpa only [a, g, map_prod] using h
   have hm : IsIso (a • 𝟙 (ModuleCat.of B (Cech.cechMod g M s.val))) := by
     apply (ConcreteCategory.isIso_iff_bijective _).mpr
-    show Function.Bijective (fun x : Cech.cechMod g M s.val => algebraMap A B a • x)
+    change Function.Bijective (fun x : Cech.cechMod g M s.val => algebraMap A B a • x)
     have he : (⇑(algebraMap B (Module.End B (Cech.cechMod g M s.val))
         (algebraMap A B a))) = (fun x => algebraMap A B a • x) := by
       funext x
@@ -370,12 +370,12 @@ private theorem bijective_precomp_cechMap_zero
     := 0) (by rfl)
   apply bijective_precomp_of_iso_square _ (S.map (de.f 0))
     (S.mapIso eX.symm) (S.mapIso eY.symm) _ K hd
-  show S.map eX.inv ≫ S.map (de.f 0) = S.map (d.f 0) ≫ S.map eY.inv
+  change S.map eX.inv ≫ S.map (de.f 0) = S.map (d.f 0) ≫ S.map eY.inv
   rw [← S.map_comp, ← S.map_comp]
   congr 1
-  show eX.inv ≫ (HomologicalComplex.extendMap d ComplexShape.embeddingUpNat).f 0 = _
+  change eX.inv ≫ (HomologicalComplex.extendMap d ComplexShape.embeddingUpNat).f 0 = _
   rw [HomologicalComplex.extendMap_f _ _ (i := 0) (by rfl)]
-  show eX.inv ≫ (eX.hom ≫ d.f 0 ≫ eY.inv) = _
+  change eX.inv ≫ (eX.hom ≫ d.f 0 ≫ eY.inv) = _
   simp only [Iso.inv_hom_id_assoc]
 
 
@@ -414,14 +414,14 @@ private theorem bijective_precomp_algebraMap_of_cechMap
     apply ModuleCat.hom_ext
     ext x
     obtain ⟨x⟩ := x
-    show c.f 0 (ULift.up (cechTermZeroMap f A x)) = eB.hom (g (ULift.up x))
+    change c.f 0 (ULift.up (cechTermZeroMap f A x)) = eB.hom (g (ULift.up x))
     rw [hg, hc]
     rfl
   let S := H ⋙ CochainComplex.singleFunctor (ModuleCat.{v} A) (0 : ℤ) ⋙ DerivedCategory.Q
   apply bijective_precomp_of_iso_square _ (S.map (c.f 0))
     (S.mapIso eA) (S.mapIso eB) _ K
     (bijective_precomp_cechMap_zero A B I f hf c H K hK)
-  show S.map eA.hom ≫ S.map (c.f 0) = S.map g ≫ S.map eB.hom
+  change S.map eA.hom ≫ S.map (c.f 0) = S.map g ≫ S.map eB.hom
   rw [← S.map_comp, ← S.map_comp, he]
 
 private theorem bijective_precomp_algebraMap
@@ -478,7 +478,7 @@ private theorem hom_homology_eq_zero_of_single_hom_eq_zero
     simp only [mkHomFromSingle_f, ← Category.assoc, singleObjCyclesSelfIso_inv_iCycles,
       Iso.inv_hom_id, Category.id_comp]
   rw [← Projective.factorThru_comp f (I.homologyπ n)]
-  show g ≫ I.homologyπ n = 0
+  change g ≫ I.homologyπ n = 0
   rw [← hc, Category.assoc, ← homologyπ_naturality, hφ, comp_zero, comp_zero]
 
 private theorem isZero_of_single_hom_eq_zero
@@ -541,7 +541,7 @@ private theorem isIso_of_bijective_single_postcomp
     obtain ⟨b, hb⟩ := T.coyoneda_exact₃ hT a ha
     obtain ⟨c, hc⟩ := (hf n).surjective b
     rw [hb, ← hc, Category.assoc]
-    show c ≫ f ≫ g = 0
+    change c ≫ f ≫ g = 0
     have hz : f ≫ g = 0 := comp_distTriang_mor_zero₁₂ _ hT
     rw [hz, comp_zero]
   exact (Triangle.isZero₃_iff_isIso₁ _ hT).mp hZ
@@ -612,7 +612,7 @@ private theorem bijective_precomp_singleUnit
   rw [← G.map_comp_assoc (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) n (F.obj P)).inv
     (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) n (F.obj P)).hom,
     Iso.inv_hom_id, G.map_id, Category.id_comp]
-  show ((HomologicalComplex.single C (ComplexShape.up ℤ) n).map (adj.unit.app P)).f n =
+  change ((HomologicalComplex.single C (ComplexShape.up ℤ) n).map (adj.unit.app P)).f n =
     adj.unit.app _ ≫ G.map (F.map (HomologicalComplex.singleObjXSelf _ n P).hom) ≫
       (HomologicalComplex.singleObjXSelf _ n _).inv
   rw [HomologicalComplex.single_map_f_self]

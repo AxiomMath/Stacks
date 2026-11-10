@@ -125,9 +125,9 @@ private lemma locallyInjective_tensorMap_of_locallyFlat
       (F.obj (Opposite.op (X i))).isModule
     let : Module.Flat ((O ⋙ forget₂ CommRingCat.{w} RingCat.{w}).obj
         (Opposite.op (X i))) (F.obj (Opposite.op (X i))) := by
-      show Module.Flat (O.obj (Opposite.op (X i))) (F.obj (Opposite.op (X i)))
+      change Module.Flat (O.obj (Opposite.op (X i))) (F.obj (Opposite.op (X i)))
       exact hflat i
-    show Function.Injective
+    change Function.Injective
       (LinearMap.rTensor (F.obj (Opposite.op (X i)))
         (φ.app (Opposite.op (X i))).hom)
     exact Module.Flat.rTensor_preserves_injective_linearMap
@@ -230,7 +230,7 @@ public lemma moduleSheafification_map_mono_of_locallyInjective
     ((SheafOfModules.toSheaf R).map ((PresheafOfModules.sheafification α).map f) ≫
         η.hom.app N) := by
     rw [← Functor.comp_map, η.hom.naturality f]
-    show Mono (η.hom.app M ≫
+    change Mono (η.hom.app M ≫
       (presheafToSheaf J AddCommGrpCat.{z}).map
         ((PresheafOfModules.toPresheaf R₀).map f))
     exact mono_comp _ _
@@ -296,7 +296,7 @@ private lemma sheafTensor_flip_map_mono
     naturality := by
       intro U V f
       apply (forget₂ CommRingCat.{w} RingCat.{w}).map_injective
-      show (O ⋙ forget₂ CommRingCat.{w} RingCat.{w}).map f ≫ a.app V =
+      change (O ⋙ forget₂ CommRingCat.{w} RingCat.{w}).map f ≫ a.app V =
         a.app U ≫ (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj.map f
       exact a.naturality f
   }
@@ -316,7 +316,7 @@ private lemma sheafTensor_flip_map_mono
   let τ := _root_.PresheafOfModules.tensorHom.{v, u, w, z, z} φ₀ (𝟙 F₀)
   have hτ : Presheaf.IsLocallyInjective J
       ((PresheafOfModules.toPresheaf (O ⋙ forget₂ CommRingCat.{w} RingCat.{w})).map τ) := by
-    show Presheaf.IsLocallyInjective J
+    change Presheaf.IsLocallyInjective J
       ((PresheafOfModules.toPresheaf (O ⋙ forget₂ CommRingCat.{w} RingCat.{w})).map
         ((tensorRight F₀).map φ₀))
     let : PreservesFiniteLimits (SheafOfModules.forget.{z}
@@ -326,7 +326,7 @@ private lemma sheafTensor_flip_map_mono
         (Stacks.SheafOfModules.Tensor.ringSheaf Osharp)).map φ) := Functor.map_mono _ φ
     exact hloc φ₀ (by
       intro U
-      show Function.Injective (((SheafOfModules.forget
+      change Function.Injective (((SheafOfModules.forget
         (Stacks.SheafOfModules.Tensor.ringSheaf Osharp)).map φ).app U).hom
       exact PresheafOfModules.injective_of_mono _ U)
   have hτmono : Mono ((PresheafOfModules.sheafification.{z, v, w, u} ρ).map τ) :=
@@ -349,7 +349,7 @@ private lemma sheafTensor_flip_map_mono
         p₀) :=
     (congrArg (fun morphism ↦ Mono (S.map morphism))
       (_root_.PresheafOfModules.tensorBifunctor_uncurry_map (O := O) φ₀ (𝟙 F₀))).mpr hτmonoS
-  show Mono (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, z, z} Osharp).flip.obj
+  change Mono (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, z, z} Osharp).flip.obj
     (S.obj F₀)).map φ)
   have tensorMono := productMap_mono_of_sheafificationIso S
     ((Functor.uncurry.obj (PresheafOfModules.tensorBifunctor.{v, u, w, z, z} O))) T α
@@ -379,7 +379,7 @@ private lemma isFlat_of_sheafTensor_flip_map_mono
       PreservesLimit (parallelPair f 0) T :=
     fun f => Functor.PreservesHomology.preservesKernels (F := T) f
   have hlim : PreservesFiniteLimits T := T.preservesFiniteLimits_of_preservesKernels
-  show exactFunctor _ _ T
+  change exactFunctor _ _ T
   exact (exactFunctor_iff T).2 ⟨hlim, inferInstance⟩
 
 variable {C : Type u} [Category.{v} C] (J : GrothendieckTopology C)

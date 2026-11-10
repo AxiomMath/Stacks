@@ -158,12 +158,12 @@ theorem exists_finite_surjective_openCover_factorization_of_flat_surjective
           exact congrArg (fun m => (Uc c).ι ≫ g' ≫ m) (Scheme.Hom.isoOpensRange_hom_ι (F.map k))
       _ = t c ≫ F.map h ≫ F.map k := by rw [reassoc_of% (ht c)]
   let t' : ∀ c, W c ⟶ U := fun c => BigFppfOver.homOfCompEq B S hS (T := W c) (W := U) (t c) (by
-    show t c ≫ B.inclusion.map U.hom = ιs c ≫ gbar ≫ B.inclusion.map Y₀.hom
+    change t c ≫ B.inclusion.map U.hom = ιs c ≫ gbar ≫ B.inclusion.map Y₀.hom
     rw [← w h, ← w k, reassoc_of% (key c)])
   have hFt : ∀ c, F.map (t' c) = t c := fun c => BigFppfOver.toScheme_map_homOfCompEq B S hS _ _
   refine ⟨Y', g, hFg ▸ hgfin, hFg ▸ hgsurj, J, W, ι, t', fun c => ?_, fun c => ?_, fun y hy => ?_⟩
   · rw [hFι c]
-    show _root_.AlgebraicGeometry.IsOpenImmersion ((Uc c).ι ≫ e.inv ≫ pullback.fst gbar U₀.ι)
+    change _root_.AlgebraicGeometry.IsOpenImmersion ((Uc c).ι ≫ e.inv ≫ pullback.fst gbar U₀.ι)
     infer_instance
   · apply F.map_injective
     rw [F.map_comp, F.map_comp, F.map_comp, hFι, hFg, hFt]
@@ -171,13 +171,13 @@ theorem exists_finite_surjective_openCover_factorization_of_flat_surjective
   · rw [hFg] at hy
     obtain ⟨p, rfl⟩ : y ∈ Set.range (pullback.fst gbar U₀.ι) := by
       rw [Scheme.Pullback.range_fst, Scheme.Opens.range_ι]
-      show gbar y ∈ (U₀ : Set (F.obj Y₀))
+      change gbar y ∈ (U₀ : Set (F.obj Y₀))
       rwa [hU₀def, Scheme.Hom.coe_opensRange]
     have hs : e.hom p ∈ (⨆ c, Uc c) := by rw [hUc]; trivial
     obtain ⟨c, hc⟩ := TopologicalSpace.Opens.mem_iSup.mp hs
     refine ⟨c, ⟨⟨e.hom p, hc⟩, ?_⟩⟩
     rw [hFι c]
-    show (pullback.fst gbar U₀.ι) (e.inv (e.hom p)) = _
+    change (pullback.fst gbar U₀.ι) (e.inv (e.hom p)) = _
     rw [show e.inv (e.hom p) = p from Scheme.inv_hom_apply e.symm p]
 
 end AlgebraicGeometry.Space
@@ -213,7 +213,7 @@ theorem exists_iso_yoneda_of_isOpenSubspace {Y₀ : BigFppfOver B S hS}
   obtain ⟨V₀, k, i₀, hpb⟩ := hV.2.1 (𝟙 (yoneda.obj Y₀))
   have : IsIso i₀ := hpb.isIso_fst_of_isIso
   refine ⟨V₀, k, asIso i₀, hV.2.2 _ i₀ k hpb, ?_⟩
-  show i₀ ≫ V.ι = _
+  change i₀ ≫ V.ι = _
   simpa only [Category.comp_id, Category.id_comp] using hpb.w
 
 /-- **A flat surjection of algebraic stacks onto an algebraic space, locally of finite

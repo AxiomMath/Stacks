@@ -187,7 +187,7 @@ theorem exists_linearMap_quotient_ne_zero_of_mem_support
     ext a m
     have hm : l (1 ⊗ₜ[A] m) = 0 := LinearMap.congr_fun h m
     have ham : a ⊗ₜ[A] m = a • (1 ⊗ₜ[A] m) := by rw [smul_tmul', smul_eq_mul, mul_one]
-    show l (a ⊗ₜ[A] m) = 0
+    change l (a ⊗ₜ[A] m) = 0
     rw [ham, map_smul, hm, smul_zero]
   have hS : Algebra.algebraMapSubmonoid B p.asIdeal.primeCompl = nonZeroDivisors B := by
     ext b
@@ -299,7 +299,7 @@ theorem isZero_localCohomologyModule_quotient_of_mem_support
       Submodule.Quotient.equiv J (LinearMap.range g) e (by
         simp only [J, f, LinearMap.range_comp, Submodule.map_equiv_eq_comap_symm]
         ext x
-        show e (e.symm x) ∈ LinearMap.range g ↔ x ∈ LinearMap.range g
+        change e (e.symm x) ∈ LinearMap.range g ↔ x ∈ LinearMap.range g
         simp)
     rw [Int.toNat_natCast, Module.supportDim_eq_of_equiv eQ]
     exact supportDim_quotient_range_lt_of_ne_zero A M p g hg d hd

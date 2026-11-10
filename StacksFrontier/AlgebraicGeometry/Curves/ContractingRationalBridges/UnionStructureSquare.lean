@@ -84,10 +84,8 @@ theorem isPushout_subscheme_of_inf_eq_bot (hbot : I ⊓ J = ⊥) :
     (Iso.refl _) (Iso.refl _) (asIso (I ⊓ J).subschemeι) ?_ ?_ ?_ ?_
   · simp
   · simp
-  · simpa using (Scheme.IdealSheafData.inclusion_subschemeι
-      (inf_le_right : I ⊓ J ≤ J)).symm
-  · simpa using (Scheme.IdealSheafData.inclusion_subschemeι
-      (inf_le_left : I ⊓ J ≤ I)).symm
+  · simp
+  · simp
 
 /-- **The structure sheaf of a scheme covered by two closed subschemes is the fibre product of
 their structure sheaves over the structure sheaf of their intersection.** This is

@@ -91,7 +91,7 @@ The residue field `S.residueField y` is by definition `𝒪_{S, y} ⧸ 𝔪`, so
 theorem specResidueFieldToSpecStalk_comp (S : Scheme.{u}) (y : S) :
     Spec.map (quotHom (IsLocalRing.maximalIdeal ↥(S.presheaf.stalk y))) ≫ S.fromSpecStalk y =
       S.fromSpecResidueField y := by
-  show Spec.map (S.residue y) ≫ S.fromSpecStalk y = _
+  change Spec.map (S.residue y) ≫ S.fromSpecStalk y = _
   simp [AlgebraicGeometry.Scheme.fromSpecResidueField]
 
 /-! ### The subscheme cut out by `I 𝒪` on a base change -/

@@ -247,7 +247,7 @@ theorem isLocalizedModule_pi_of_pow_eq {R : Type*} [CommRing R] (t : R) {j : ℕ
   have hbt : ∀ (k : ι) (z : B k), (t * b) • z = z := by
     intro k z
     obtain ⟨z', rfl⟩ := (hunit k ⟨t ^ j, hmem j⟩).2 z
-    show (t * b) • (t ^ j • z') = t ^ j • z'
+    change (t * b) • (t ^ j • z') = t ^ j • z'
     rw [smul_smul, show t * b * t ^ j = t ^ (j + 1) * b by ring, ← htb]
   have hkill : ∀ (m : ℕ) (k : ι) (w : A k), t ^ m • w = 0 → t ^ j • w = 0 := by
     have hpow : ∀ n : ℕ, t ^ j = t ^ (j + n) * b ^ n := by
@@ -282,7 +282,7 @@ theorem isLocalizedModule_pi_of_pow_eq {R : Type*} [CommRing R] (t : R) {j : ℕ
     exact ⟨⟨a, 1⟩, funext fun k ↦ by simp [ha k]⟩
   · refine ⟨⟨t ^ j, hmem j⟩, funext fun k ↦ ?_⟩
     obtain ⟨⟨_, m, rfl⟩, hc⟩ := (hr k).exists_of_eq (congrFun h k)
-    show t ^ j • x₁ k = t ^ j • x₂ k
+    change t ^ j • x₁ k = t ^ j • x₂ k
     rw [← sub_eq_zero, ← smul_sub]
     refine hkill m k _ ?_
     rw [smul_sub, sub_eq_zero]

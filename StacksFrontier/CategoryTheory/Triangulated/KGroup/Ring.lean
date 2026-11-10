@@ -666,7 +666,7 @@ theorem cls_eq_add_of_distinguished_of_prop (P : ObjectProperty C) [P.IsTriangul
     (P.fullyFaithfulι.preimage (X := Z₂) (Y := Z₃) g)
     (P.fullyFaithfulι.preimage (X := Z₃) (Y := Z₁⟦(1 : ℤ)⟧) (δ ≫ e.inv))
   have hT' : T ∈ distTriang P.FullSubcategory := by
-    show P.ι.mapTriangle.obj T ∈ distTriang C
+    change P.ι.mapTriangle.obj T ∈ distTriang C
     simpa [T, e, Z₁, Z₂, Z₃] using hT
   exact cls_eq_add_of_distinguished hT'
 

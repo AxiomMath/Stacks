@@ -105,12 +105,12 @@ public theorem isIso_mateEquiv_natTrans {C : Type u₁} {D : Type u₂} {E : Typ
     [Category.{v₁} C] [Category.{v₂} D] [Category.{v₃} E] [Category.{v₄} F]
     {G : C ⥤ E} {H : D ⥤ F} {L₁ : C ⥤ D} {R₁ : D ⥤ C} {L₂ : E ⥤ F} {R₂ : F ⥤ E}
     (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂) (α : TwoSquare G L₁ L₂ H)
-    [IsIso α.natTrans] [IsIso adj₁.counit] [IsIso adj₂.unit] :
-    IsIso (mateEquiv adj₁ adj₂ α).natTrans := by
+    [IsIso α] [IsIso adj₁.counit] [IsIso adj₂.unit] :
+    IsIso (mateEquiv adj₁ adj₂ α) := by
   rw [NatTrans.isIso_iff_isIso_app]
   intro d
-  have h : (mateEquiv adj₁ adj₂ α).natTrans.app d =
-      adj₂.unit.app (G.obj (R₁.obj d)) ≫ R₂.map (α.natTrans.app (R₁.obj d)) ≫
+  have h : (mateEquiv adj₁ adj₂ α).app d =
+      adj₂.unit.app (G.obj (R₁.obj d)) ≫ R₂.map (α.app (R₁.obj d)) ≫
         R₂.map (H.map (adj₁.counit.app d)) := by
     simp [mateEquiv]
   rw [h]
@@ -175,7 +175,7 @@ public noncomputable def restrictionPullbackBaseChange :
 adjunctions along which the mate is taken are those of equivalences, so their units and counits
 are invertible and `Stacks.CategoryTheory.isIso_mateEquiv_natTrans` applies. -/
 public instance isIso_restrictionPullbackBaseChange :
-    IsIso (restrictionPullbackBaseChange B A f adjU adjB).natTrans :=
+    IsIso (restrictionPullbackBaseChange B A f adjU adjB) :=
   Stacks.CategoryTheory.isIso_mateEquiv_natTrans _ _ _
 
 /-- **The two presentations of the small étale site have the same inverse image along base
@@ -187,7 +187,7 @@ public noncomputable def restrictionPullbackBaseChangeIso :
           (topology B S.obj S.property) S.obj.smallEtaleTopology ⋙ LB ≅
       LU ⋙ (toEtaleSite B T.obj T.property).sheafPushforwardContinuous A
         (topology B T.obj T.property) T.obj.smallEtaleTopology :=
-  asIso (restrictionPullbackBaseChange B A f adjU adjB).natTrans
+  asIso (restrictionPullbackBaseChange B A f adjU adjB)
 
 /-- **The mate of the comparison of inverse images along the restriction functors is the
 comparison of direct images.** Under the two inverse-image/direct-image adjunctions for base
@@ -203,7 +203,7 @@ the one to the other is `CategoryTheory.iterated_mateEquiv_conjugateEquiv`, that
 mate operation of a square of four adjunctions in the two directions gives the conjugate of the
 2-cell one started from, read backwards. -/
 public theorem mateEquiv_restrictionPullbackBaseChange :
-    (mateEquiv adjU adjB (restrictionPullbackBaseChange B A f adjU adjB)).natTrans =
+    (mateEquiv adjU adjB (restrictionPullbackBaseChange B A f adjU adjB)) =
       (toEtaleSitePushforwardBaseChangeIso B f A).hom := by
   rw [restrictionPullbackBaseChange, iterated_mateEquiv_conjugateEquiv
     (toEtaleSiteRestrictionAdjunction B A S) (toEtaleSiteRestrictionAdjunction B A T) adjB adjU]

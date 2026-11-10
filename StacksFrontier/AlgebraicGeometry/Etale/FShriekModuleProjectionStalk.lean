@@ -76,7 +76,7 @@ public theorem isIso_modFShriekProjectionMap_of_W
     IsIso (modFShriekProjectionMap B Λ f F G) := by
   have := ((SmallEtale.topology B Y.obj Y.property).W_iff
     (modFiniteSupportTensorPresheafMap B Λ f F G)).1 h
-  show IsIso ((fShriekModTensorSheafifyIso B Λ f F G).hom ≫
+  change IsIso ((fShriekModTensorSheafifyIso B Λ f F G).hom ≫
     (presheafToSheaf (SmallEtale.topology B Y.obj Y.property) (ModuleCat.{max (u + 1) v} Λ)).map
       (modFiniteSupportTensorPresheafMap B Λ f F G) ≫
     (fShriekModSheafifyIso.{u, v, max (u + 1) v} B Λ f

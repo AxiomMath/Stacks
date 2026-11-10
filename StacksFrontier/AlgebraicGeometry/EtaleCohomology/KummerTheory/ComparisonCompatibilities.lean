@@ -346,7 +346,7 @@ public theorem baseAssociatedModule_map_scalarEnd
       (Over.mk (𝟙 (B.obj hS))) hT s)
     (Stacks.SheafOfModules.terminalSection (ringSheaf S) ⊤ Limits.isTerminalTop s) ?_ N
   intro U
-  show (BigFppfOver.baseStructureMap B S hS τ).hom.app U
+  change (BigFppfOver.baseStructureMap B S hS τ).hom.app U
       ((ringSheaf S).obj.map (Limits.isTerminalTop.from U.unop).op s) =
     (Stacks.SheafOfModules.Tensor.ringSheaf (BigFppfOver.baseRingedSite B S hS τ).O).obj.map
       (hT.from ((BigFppfOver.opensToBig B S hS).obj U.unop)).op s
@@ -361,11 +361,11 @@ public theorem baseAssociatedModule_map_scalarEnd
       BigFppfOver.baseStructureMap_hom_app]
     have h0 : (BigFppfOver.toScheme B S hS).map
         (Over.mkIdTerminal.from ((BigFppfOver.opensToBig B S hS).obj ⊤)) = (⊤ : S.Opens).ι := by
-      show B.inclusion.map
+      change B.inclusion.map
         (Over.mkIdTerminal.from ((BigFppfOver.opensToBig B S hS).obj ⊤)).left = _
       rw [Over.mkIdTerminal_from_left]
       rfl
-    show (forget₂ CommRingCat RingCat).map ((⊤ : S.Opens).topIso.inv) =
+    change (forget₂ CommRingCat RingCat).map ((⊤ : S.Opens).topIso.inv) =
       (forget₂ CommRingCat RingCat).map (Scheme.Γ.map
         ((BigFppfOver.toScheme B S hS).map
           (Over.mkIdTerminal.from ((BigFppfOver.opensToBig B S hS).obj ⊤))).op)
@@ -373,7 +373,7 @@ public theorem baseAssociatedModule_map_scalarEnd
     exact congrArg (forget₂ CommRingCat RingCat).map (CommRingCat.hom_ext rfl)
   refine Eq.trans (NatTrans.naturality_apply
     (BigFppfOver.baseStructureMap B S hS τ).hom (Limits.isTerminalTop.from U.unop).op s) ?_
-  show (Stacks.SheafOfModules.Tensor.ringSheaf (BigFppfOver.baseRingedSite B S hS τ).O).obj.map
+  change (Stacks.SheafOfModules.Tensor.ringSheaf (BigFppfOver.baseRingedSite B S hS τ).O).obj.map
       ((BigFppfOver.opensToBig B S hS).map (Limits.isTerminalTop.from U.unop)).op
       ((BigFppfOver.baseStructureMap B S hS τ).hom.app (op ⊤) s) = _
   rw [hkey]

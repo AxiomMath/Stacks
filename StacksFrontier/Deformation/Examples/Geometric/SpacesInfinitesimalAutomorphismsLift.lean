@@ -84,7 +84,7 @@ theorem spaceSpecialMap_comp_spaceRetraction :
     spaceSpecialMap B hΛ hSpec X hX toK xε.1 ≫ (spaceRetraction B hΛ hSpec X hX toK i).hom =
       𝟙 X := by
   have := isIso_spaceSpecialMap_of_residueFieldObject B hΛ hSpec X hX toK x₀
-  show spaceSpecialMap B hΛ hSpec X hX toK xε.1 ≫ i.left.map ≫
+  change spaceSpecialMap B hΛ hSpec X hX toK xε.1 ≫ i.left.map ≫
     inv (spaceSpecialMap B hΛ hSpec X hX toK x₀.1) = 𝟙 X
   rw [← Category.assoc, spaceSpecialMap_comp B hΛ hSpec X hX toK i, IsIso.hom_inv_id]
 
@@ -112,7 +112,7 @@ theorem spaceRetraction_comp_toK :
         yoneda.map (spaceBaseOverMap B hΛ hSpec x₀.1.hom.base) =
       xε.1.left.toBase ≫ yoneda.map (spaceBaseOverMap B hΛ hSpec i.left.base) := by
   have := isIso_spaceSpecialMap_of_residueFieldObject B hΛ hSpec X hX toK x₀
-  show (i.left.map ≫ inv (spaceSpecialMap B hΛ hSpec X hX toK x₀.1)) ≫ toK ≫ _ = _
+  change (i.left.map ≫ inv (spaceSpecialMap B hΛ hSpec X hX toK x₀.1)) ≫ toK ≫ _ = _
   rw [← (spaceSpecialMap_isPullback B hΛ hSpec X hX toK x₀.1).w, Category.assoc,
     IsIso.inv_hom_id_assoc]
   exact i.left.cartesian.w
@@ -191,7 +191,7 @@ theorem spacePointSpecial_ι_comp_toBase (y : Over (spaceSpecialFiber B hΛ hSpe
     y.left.toBase
   have h2 := @IsIso.inv_hom_id _ _ _ _ _ ht
   have h3 := Subfunctor.toRange_ι (yoneda.map (spaceBaseOverMap B hΛ hSpec y.hom.base))
-  show _ = ((spaceBaseSpecialSubspace B hΛ hSpec y.hom.base).1.fromPreimage y.left.toBase ≫
+  change _ = ((spaceBaseSpecialSubspace B hΛ hSpec y.hom.base).1.fromPreimage y.left.toBase ≫
     @inv _ _ _ _ (Subfunctor.toRange (yoneda.map (spaceBaseOverMap B hΛ hSpec y.hom.base))) ht) ≫
       yoneda.map (spaceBaseOverMap B hΛ hSpec y.hom.base)
   refine h1.symm.trans ?_

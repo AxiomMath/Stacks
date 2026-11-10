@@ -141,7 +141,7 @@ public theorem genericCoordOf_mul_algebraMap (hL : IsTrivializedNear L x)
         algebraMap (X.presheaf.stalk x) X.functionField u =
       genericCoordOf hL hm v := by
   refine (hm.toGenericStalk hL).injective ?_
-  show (genericCoordOf hL (hm.smul_of_isUnit hu) v *
+  change (genericCoordOf hL (hm.smul_of_isUnit hu) v *
     algebraMap (X.presheaf.stalk x) X.functionField u) • toGenericStalk L x m = _
   rw [mul_smul, ← toGenericStalk_smul, smul_genericCoordOf, smul_genericCoordOf]
 

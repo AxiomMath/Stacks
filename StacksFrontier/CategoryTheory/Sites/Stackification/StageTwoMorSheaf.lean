@@ -338,7 +338,7 @@ theorem exists_isAmalgamation_morPresheaf
   refine ⟨t, fun Z k hk ↦ ?_⟩
   refine (eq_morRestrict_of_morSectionHom k t (fam k hk) ?_).symm
   have hΦmem : (R.pullback (eqToHom hX)).arrows (r.map (pullbackFiberMap r x k)) := by
-    show R.arrows (testBase x (pullbackFiberMap r x k))
+    change R.arrows (testBase x (pullbackFiberMap r x k))
     rw [testBase_pullbackFiberMap]
     exact R.downward_closed (show R.arrows k.left from hk)
       (eqToHom (pullbackFiber r x Z.hom).2)

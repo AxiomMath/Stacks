@@ -269,7 +269,7 @@ theorem inverseImage_presheaf_of_isIso (P : MorphismProperty Scheme.{u}) [P.Resp
     (hP : ∀ X : Scheme.{u}, P (𝟙 X)) {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : F ⟶ G)
     [IsIso f] : (P.inverseImage (BigFppfOver.toScheme B S hS)).presheaf f :=
   presheaf_of_isIso B S hS (MorphismProperty.RespectsIso.inverseImage _ _) (fun V => by
-    show P ((BigFppfOver.toScheme B S hS).map (𝟙 V))
+    change P ((BigFppfOver.toScheme B S hS).map (𝟙 V))
     rw [(BigFppfOver.toScheme B S hS).map_id]
     exact hP _) f
 
@@ -288,7 +288,7 @@ theorem preimage_eq_range_yoneda_map_of_le {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ T
     have hw := congrArg (fun m => m.app A h) (r.isPullback φ).w
     simp only [NatTrans.comp_app_apply] at hw
     have hhC : h ∈ ((T.preimage U.ι).preimage (r.fst φ)).obj A := by
-      show (U.ι.app A ((r.fst φ).app A h)) ∈ T.obj A
+      change (U.ι.app A ((r.fst φ).app A h)) ∈ T.obj A
       rw [hw]
       exact hg
     rw [← range_yoneda_snd_eq_preimage B S hS (r.fst φ) c] at hhC
@@ -302,7 +302,7 @@ theorem preimage_eq_range_yoneda_map_of_le {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ T
     have hw := congrArg (fun m => m.app A ((k : A.unop ⟶ c.pullback (r.fst φ)) ≫
       c.snd (r.fst φ))) (r.isPullback φ).w
     simp only [NatTrans.comp_app_apply] at hw
-    show (φ.app A ((yoneda.map (c.snd (r.fst φ) ≫ r.snd φ)).app A k)) ∈ T.obj A
+    change (φ.app A ((yoneda.map (c.snd (r.fst φ) ≫ r.snd φ)).app A k)) ∈ T.obj A
     have hk' : U.ι.app A ((r.fst φ).app A ((k : A.unop ⟶ c.pullback (r.fst φ)) ≫
         c.snd (r.fst φ))) ∈ T.obj A := hk
     rw [hw] at hk'
@@ -397,11 +397,11 @@ theorem exists_closedSubspace_of_isFiniteType {Y : (BigFppfOver B S hS)ᵒᵖ �
       refine subschemePoints_injective B S hS (isImmersion_arrow_mk _) hZimm ?_
       rw [subschemePoints_mk_eq_range, range_yoneda_snd_eq_preimage B S hS e.inv hT'c.2.rep,
         hT'φ]
-    show ((F.map (hT'c.2.rep.snd e.inv)).ker.ideal A').FG
+    change ((F.map (hT'c.2.rep.snd e.inv)).ker.ideal A').FG
     rw [(Scheme.Hom.ker_eq_of_mk_eq hmk).trans J.ker_subschemeι]
     exact hJ A'
   · have h : (T' ⊓ U i).preimage e.inv = (T i).preimage e.inv := by
-      show T'.preimage e.inv ⊓ (U i).preimage e.inv = _
+      change T'.preimage e.inv ⊓ (U i).preimage e.inv = _
       rw [hT'φ, hUpts, hTpts, ← subschemePoints_inf]
       congr 1
       rw [← hJI i]

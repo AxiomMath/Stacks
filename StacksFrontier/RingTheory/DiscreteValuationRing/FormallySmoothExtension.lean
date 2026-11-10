@@ -222,7 +222,7 @@ theorem formallySmooth_iff_weaklyUnramified_and_isSeparableExtension
     let ecomm : C ≃ₐ[k] k ⊗[A] B :=
       { (Algebra.TensorProduct.comm A B k).toRingEquiv with
         commutes' := fun x => by
-          show Algebra.TensorProduct.comm A B k ((1 : B) ⊗ₜ[A] x) = x ⊗ₜ[A] (1 : B)
+          change Algebra.TensorProduct.comm A B k ((1 : B) ⊗ₜ[A] x) = x ⊗ₜ[A] (1 : B)
           simp }
     have hres := RingHom.FormallySmoothNAdic.of_algEquiv
       (ecomm.trans (specialFiber_algEquiv A B hm)) hbase'

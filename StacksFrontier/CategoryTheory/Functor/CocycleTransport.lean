@@ -59,7 +59,7 @@ theorem cocycle_conj {L L' : E₀} (e : L' ≅ L) (α : G₁.obj L ≅ G₀.obj 
     rw [← Functor.comp_map G G' e.inv, reassoc_of% (Q.inv.naturality e.hom)]
     simp only [Functor.comp_map, ← Functor.map_comp, Iso.hom_inv_id, Functor.map_id,
       Category.comp_id]
-  simp only [n, ni, Functor.map_comp, Category.assoc, Iso.map_inv_hom_id_assoc,
+  simp only [n, ni, Functor.map_comp, Category.assoc, Iso.inv_hom_id_map_assoc,
     map_map_inv_hom_assoc, h]
 
 end
@@ -138,7 +138,7 @@ theorem cocycle_of_faithful {c₀ : D₀ ⥤ E₀} {c₁ : D₁ ⥤ E₁} {c₂ 
     (hP S₁ T₁ Q₁₁ t₀ P₁₁ h₁₁).1, (hP S₂ T₁ Q₁₂ t₀ P₁₂ h₁₂).2, (hP S₂ T₀ Q₀₂ t₁ P₀₂ h₀₂).1,
     (hP S₀ T₁ Q₁₀ t₁ P₁₀ h₁₀).2, (hP S₀ T₀ Q₀₀ t₂ P₀₀ h₀₀).1, (hP S₁ T₀ Q₀₁ t₂ P₀₁ h₀₁).2,
     Category.assoc, Iso.inv_hom_id_assoc,
-    ← Iso.app_inv, ← Iso.app_hom, Iso.map_inv_hom_id_assoc, hα₀]
+    ← Iso.app_inv, ← Iso.app_hom, Iso.inv_hom_id_map_assoc, hα₀]
 
 end
 

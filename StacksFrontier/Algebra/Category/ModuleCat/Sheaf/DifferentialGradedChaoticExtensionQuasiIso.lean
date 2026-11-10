@@ -79,7 +79,7 @@ theorem tensorSquareMap_eq_compIso {B' : DifferentialGradedAlgebra.{u, u} R} (θ
         (tensorCompFunctor (regular ψ')).map (plainTranspose θ r) := by
   refine DifferentialGradedModule.Hom.ext
     (tensorObj_linearMap_ext_homogeneous (regular ψ) X _ _ fun p x c => ?_)
-  show (tensorSquareMap θ ψ ψ' _ h r).toFun ((tensorPure (regular ψ) X).toLinearMap (x : X.M) c) =
+  change (tensorSquareMap θ ψ ψ' _ h r).toFun ((tensorPure (regular ψ) X).toLinearMap (x : X.M) c) =
     ((tensorCompFunctor (regular ψ')).map (plainTranspose θ r)).toFun
       ((compForward θ ψ' ψ (fun b => (h b).symm) X).toFun
         ((tensorPure (regular ψ) X).toLinearMap (x : X.M) c))
@@ -132,7 +132,7 @@ theorem plainTranspose_comp_eq_tensorSquareMap
       tensorSquareMap θ ψ₁ ψ₂ χ h g ≫ (restrictScalarsFunctor χ).map (plainTranspose ψ₂ r₂) := by
   refine DifferentialGradedModule.Hom.ext
     (tensorObj_linearMap_ext_homogeneous (regular ψ₁) X₁ _ _ fun p x c => ?_)
-  show k.toFun ((plainTranspose ψ₁ r₁).toFun
+  change k.toFun ((plainTranspose ψ₁ r₁).toFun
       ((tensorPure (regular ψ₁) X₁).toLinearMap (x : X₁.M) c)) =
     (plainTranspose ψ₂ r₂).toFun ((tensorSquareMap θ ψ₁ ψ₂ χ h g).toFun
       ((tensorPure (regular ψ₁) X₁).toLinearMap (x : X₁.M) c))
@@ -204,7 +204,9 @@ end AlongSystem
 
 variable {Z : AlongSystem F A}
 
-omit [∀ U : C, IsCofiltered (StructuredArrow U F)] in
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [∀ U : C, IsCofiltered (StructuredArrow U F)] in
 /-- **The transition maps of the diagram of a good quasi-coherent presheaf along `F` are
 quasi-isomorphisms.** -/
 theorem quasiIso_transition (hgood : Z.IsGood) (hqc : Z.IsQC) {U : Cᵒᵖ}
@@ -213,6 +215,8 @@ theorem quasiIso_transition (hgood : Z.IsGood) (hqc : Z.IsQC) {U : Cᵒᵖ}
   DifferentialGraded.Bimodule.quasiIso_tensorSquareMap _ _ _ _ _ (hqc g.right.op) (hgood _)
     (hgood _)
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The coprojections into the extension of a good quasi-coherent presheaf along `F` are
 quasi-isomorphisms**: the filtered colimit is attained at every term. -/
 theorem quasiIso_ι (hgood : Z.IsGood) (hqc : Z.IsQC) {U : Cᵒᵖ}
@@ -222,6 +226,8 @@ theorem quasiIso_ι (hgood : Z.IsGood) (hqc : Z.IsQC) {U : Cᵒᵖ}
   _root_.DifferentialGradedModule.FilteredColimit.quasiIso_ι _
     (fun _ _ g => quasiIso_transition hgood hqc g.unop) _
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The counit is a quasi-isomorphism over every object**, when the plain comparison maps of `Y`
 along the arrows into the image of `F` are quasi-isomorphisms. -/
 theorem quasiIso_counitApp (Y : SectionSystem A)
@@ -233,7 +239,7 @@ theorem quasiIso_counitApp (Y : SectionSystem A)
   let G := forgetToCochainComplex (A.sectionAlgebra U)
   have htr : ∀ ⦃i j : (StructuredArrow U.unop F)ᵒᵖ⦄ (g : i ⟶ j),
       QuasiIso (G.map ((diagram (restrictSystem F Y) U).map g)) := fun i j g => by
-    show QuasiIso (G.map (transition (restrictSystem F Y) g.unop))
+    change QuasiIso (G.map (transition (restrictSystem F Y) g.unop))
     have := hY j.unop
     refine (quasiIso_iff_comp_right _ (G.map (counitLeg F Y j.unop))).1 ?_
     rw [← G.map_comp, transition_counitLeg F Y g.unop]

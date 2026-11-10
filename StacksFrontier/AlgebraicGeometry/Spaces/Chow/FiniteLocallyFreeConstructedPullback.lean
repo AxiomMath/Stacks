@@ -438,7 +438,7 @@ theorem finsum_finiteLocallyFreeCyclePullback_mult_mul_cycleResidueDegree_eq
             (IsFiniteLocallyFreeOfRank.isFiniteLocallyFree D.site D.base D.base_mem hf))
           (W.subspace.preimage f.hom) hZ (deltaDimension D sY W + ((0 : ℕ) : ℤ)) hdim _ hγY) W
     _ = (d : ℤ) := by
-        rw [cycleCoeffOfModule, if_pos (by simp), Function.update_self,
+        rw [cycleCoeffOfModule, ite_eq_left (by simp), Function.update_self,
           geometricLength_closedSubspaceDirectImageStructureSheaf_preimage_eq D sX hX sY hY f d hf
             W _ hwbarim]
         simp

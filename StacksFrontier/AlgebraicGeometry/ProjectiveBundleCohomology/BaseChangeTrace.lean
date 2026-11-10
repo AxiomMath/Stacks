@@ -76,7 +76,7 @@ public theorem symmetricSituationPullbackHom_zero_pieceZeroIso :
     (((Stacks.SymGraded.pieceZeroIso E).hom.val.app U).hom.map_smul c _)).symm
   refine Eq.trans ?_
     (congrArg (fun (t : S.ringCatSheaf.obj.obj U) => sharp g.toLRSHom.toShHom U (c • t)) h4).symm
-  show sharp g.toLRSHom.toShHom U c * 1 =
+  change sharp g.toLRSHom.toShHom U c * 1 =
     sharp g.toLRSHom.toShHom U (c * (1 : S.ringCatSheaf.obj.obj U))
   rw [mul_one, mul_one]
 
@@ -260,8 +260,8 @@ public theorem topTwistIsoDualDet_baseChange :
   have := isFiniteLocallyFree_of_rank E' hfree'
   have := AlgebraicGeometry.ProperSmoothDeRham.isFiniteLocallyFree_exteriorPower_scheme E (n + 1)
   have := AlgebraicGeometry.ProperSmoothDeRham.isFiniteLocallyFree_exteriorPower_scheme E' (n + 1)
-  have := isInvertible_det E hn hfree
-  have := isInvertible_det E' hn hfree'
+  have := isInvertible_det E hfree
+  have := isInvertible_det E' hfree'
   have e : tensorMap (topTwistIsoDualDet E hqc D hn hfree).hom
       (𝟙 (Scheme.Modules.exteriorPower E ((n + 1 : ℕ) : ℤ))) ≫
       dualEvaluation (Scheme.Modules.exteriorPower E ((n + 1 : ℕ) : ℤ)) =

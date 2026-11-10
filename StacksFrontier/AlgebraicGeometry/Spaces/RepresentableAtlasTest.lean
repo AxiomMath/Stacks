@@ -90,7 +90,7 @@ theorem presheaf_inverseImage_iff_atlas_snd
       P ((BigFppfOver.toScheme B S hS).map (hf.snd q)) := by
   let T : BigFppfOver B S hS ⥤ Scheme.{u} := BigFppfOver.toScheme B S hS
   let Q : MorphismProperty (BigFppfOver B S hS) := P.inverseImage T
-  show Q.presheaf f ↔ P (T.map (hf.snd q))
+  change Q.presheaf f ↔ P (T.map (hf.snd q))
   refine ⟨fun h => h.property_snd q, fun h => ?_⟩
   refine MorphismProperty.relative_of_snd (F := yoneda) (P := Q) hf fun a g => ?_
   let qrep := hq_surj.rep
@@ -103,7 +103,7 @@ theorem presheaf_inverseImage_iff_atlas_snd
   have hxF := (hxC.map yoneda).paste_horiz (hf.isPullback q)
   have hzF := (hzC.map yoneda).paste_horiz (hf.isPullback g)
   have hbase : yoneda.map t ≫ q = yoneda.map s ≫ g := by
-    show yoneda.map (qrep.fst' g) ≫ q = yoneda.map (qrep.snd g) ≫ g
+    change yoneda.map (qrep.fst' g) ≫ q = yoneda.map (qrep.snd g) ≫ g
     rw [qrep.map_fst']
     exact qrep.w g
   let eD := hxF.isoIsPullback _ _ (by simpa only [hbase] using hzF)

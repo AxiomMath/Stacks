@@ -47,7 +47,8 @@ theorem nor any colimit of modules.
 Two universe conventions are inherited. `Module.Flat.rTensor_injective_iff_injective_mapQ_smul_top`
 (Stacks 0AS5) puts `M` and `N` in a single universe `v` with `Small.{v} R`, which is what makes its
 left-hand side -- test modules ranging over `Type v` -- the source's notion of universal
-injectivity; the final statement therefore does the same, as do the companion statements Stacks 05CJ,
+injectivity; the final statement therefore does the same, as do the companion statements
+Stacks 05CJ,
 05CM and 058K. The intermediate lemmas, which do not use Stacks 0AS5, keep all universes
 independent.
 
@@ -120,7 +121,7 @@ private theorem isUnit_of_sub_id_mem_maximalIdeal_smul_top {R : Type u} [CommRin
       b.repr_self, Finsupp.single_apply, eq_comm] using this
   have hdet : residue R (LinearMap.det γ) = 1 := by
     rw [← LinearMap.det_toMatrix b γ, RingHom.map_det]
-    show ((LinearMap.toMatrix b b γ).map (residue R)).det = 1
+    change ((LinearMap.toMatrix b b γ).map (residue R)).det = 1
     rw [hmap, Matrix.det_one]
   refine (LinearMap.isUnit_iff_isUnit_det γ).2 (notMem_maximalIdeal.mp fun hcon ↦ ?_)
   exact one_ne_zero (α := ResidueField R)
@@ -237,7 +238,7 @@ private theorem mem_ideal_smul_top_of_free_of_finite {R : Type u} [CommRing R] [
       rw [hg, Fintype.linearCombination_apply, Finsupp.sum]
       exact Finset.sum_coe_sort T fun n ↦ a n • id n
     rw [hφ]
-    show f x - g c = 0
+    change f x - g c = 0
     rw [hgc, hsum, sub_self]
   -- Factor through a finite free module.
   obtain ⟨k, α, ψ, hfac, hαξ⟩ :=
@@ -247,11 +248,11 @@ private theorem mem_ideal_smul_top_of_free_of_finite {R : Type u} [CommRing R] [
     intro m
     have h1 : φ (m, 0) = f m := by
       rw [hφ]
-      show f m - g 0 = f m
+      change f m - g 0 = f m
       rw [map_zero, sub_zero]
     have h2 : ψ (α (m, 0)) = φ (m, 0) := by rw [hfac]; rfl
     rw [hβdef]
-    show ψ (α (m, 0)) = f m
+    change ψ (α (m, 0)) = f m
     rw [h2, h1]
   -- The factoring map is injective modulo the maximal ideal.
   have hβ : ∀ m : M, β m ∈ maximalIdeal R • (⊤ : Submodule R (Fin k →₀ R)) →

@@ -224,7 +224,7 @@ theorem smulHom_comp_deRhamTermAbIso (n : ℕ) (r : (inverseImageRingSheaf f).ob
     rintro M rfl
     refine NatTrans.ext (funext fun V => ?_)
     ext x
-    show (show (ringSheaf X.sheaf).obj.obj V from (inverseImageStructureMap f).hom.app V
+    change (show (ringSheaf X.sheaf).obj.obj V from (inverseImageStructureMap f).hom.app V
         ((inverseImageRingSheaf f).obj.map (homOfLE le_top).op r)) •
         (show (relativeDifferentialForms f (n : ℤ)).val.obj V from x) =
       (show (ringSheaf X.sheaf).obj.obj V from

@@ -121,7 +121,7 @@ theorem exists_hom_of_hom_glueingFunctor
           ⟨T, hT, hTg⟩)
         (Y := (canonicalAffineGlueableRestriction g f B hU' hU hX' hX hcomm).obj ⟨Z, hZ, hZg⟩) φ)),
         ?_⟩
-  show (ObjectProperty.ι _).map
+  change (ObjectProperty.ι _).map
       ((canonicalAffineGlueableRestriction g f B hU' hU hX' hX hcomm).map
         ((canonicalAffineGlueableRestriction g f B hU' hU hX' hX hcomm).preimage _)) =
     (ObjectProperty.ι _).map (ObjectProperty.homMk
@@ -156,7 +156,7 @@ theorem existsUnique_hom_of_hom_glueingFunctor
         (ObjectProperty.homMk (X := (⟨T, hT, hTg⟩ :
           (affineGlueableSpaces g f B hX).FullSubcategory)) (Y := ⟨Z, hZ, hZg⟩) p) :=
     ObjectProperty.hom_ext _ (hq.trans hp.symm)
-  show (ObjectProperty.ι _).map (ObjectProperty.homMk
+  change (ObjectProperty.ι _).map (ObjectProperty.homMk
       (X := (⟨T, hT, hTg⟩ : (affineGlueableSpaces g f B hX).FullSubcategory))
       (Y := ⟨Z, hZ, hZg⟩) q) =
     (ObjectProperty.ι _).map (ObjectProperty.homMk

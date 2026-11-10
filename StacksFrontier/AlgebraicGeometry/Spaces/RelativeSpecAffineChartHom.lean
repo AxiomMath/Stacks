@@ -162,11 +162,7 @@ theorem appTop_pointSectionsIso_eq_of_chartEval_eq (hA : A.IsQuasicoherent)
         ((pointSectionsIso B S hS T x Vj).hom (α'.right.hom.app (op Vj) s)) := by
   obtain ⟨t, rfl⟩ :=
     (AlgebraSheaf.bijective_sectionsBaseChange_of_isQuasicoherent A hA hV hVj κ).2 s
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    have e : sectionsBaseChange A.underlyingModule κ 0 = (0 : A.right.obj.obj (op Vj)) :=
-      map_zero _
-    rw [e, map_zero, map_zero, map_zero, map_zero, map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul b a =>
     rw [← AlgebraSheaf.sectionsBaseChange_tmul_eq A κ b a,
       appTop_pointSectionsIso_algebraMap_mul_map B S hS κ v x hxv α c e hc₁ hc₂ b a,

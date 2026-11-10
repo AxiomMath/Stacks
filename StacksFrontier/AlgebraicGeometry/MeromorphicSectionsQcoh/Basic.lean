@@ -81,7 +81,7 @@ theorem subsingleton_genericPointStalkModuleOf_sections (F : X.Modules)
     Subsingleton Γ(genericPointStalkModuleOf X F η, U) := by
   have h : (X.fromSpecStalk η.1) ⁻¹ᵁ U = ⊥ :=
     GenericPointGluing.fromSpecStalk_preimage_eq_bot η.2 hη
-  show Subsingleton
+  change Subsingleton
     Γ((Scheme.Modules.pullback (X.fromSpecStalk η.1)).obj F, (X.fromSpecStalk η.1) ⁻¹ᵁ U)
   exact Stacks.Tag0B5PClopenLift.subsingleton_sections_bot _ h
 

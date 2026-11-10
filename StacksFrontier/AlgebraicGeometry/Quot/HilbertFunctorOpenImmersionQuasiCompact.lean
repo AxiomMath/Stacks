@@ -143,11 +143,11 @@ theorem preimage_range_hilbertModelMap_eq (hπ : π ≫ bY = bX)
   set e := hsq.isoIsPullback _ _
     (IsPullback.of_hasPullback (Z.family.Z.ι ≫ pullback.snd bY.hom Ta.hom) (yoneda.map g))
   have hefst : e.hom ≫ pullback.fst _ _ = _ := hsq.isoIsPullback_hom_fst _ _ _
-  show q.app U g ∈ Set.range ((hilbertModelMap hπ hopen hsep MX MY).app U) ↔
+  change q.app U g ∈ Set.range ((hilbertModelMap hπ hopen hsep MX MY).app U) ↔
     g ∈ (factorizationLocus B S hS (schemeBaseChangeOfMap hπ Ta) Z.family.Z.ι
       (Z.family.Z.ι ≫ pullback.snd bY.hom Ta.hom)).obj U
   rw [hqg, mem_range_hilbertModelMap_iff, HilbertPresheafModel.familyEquiv_map]
-  show Z.family.Z.preimage
+  change Z.family.Z.preimage
         (schemeBaseChangeMap bY (HilbertFamilyOver.restrict g Z.toBase)) ≤
       Subfunctor.range (schemeBaseChangeOfMap hπ
         (CostructuredArrow.mk (yoneda.map g ≫ Z.toBase))) ↔

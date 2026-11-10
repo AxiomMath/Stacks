@@ -170,7 +170,7 @@ theorem coproductsRepresentableEtale' : CoproductsRepresentableEtale' B S hS := 
   refine Space.isRepresentableEtale_of_isColimit_cofan.{u + 1, u + 1, u} B S hS (Sigma.ι Z)
     (coproductIsCoproduct Z) (Sigma.desc g) (fun U => ⟨∐ U, Sigma.ι U, ⟨coproductIsCoproduct U⟩⟩)
     fun i => ?_
-  rw [Sigma.ι_desc]
+  rw [Sigma.ι_comp_desc]
   exact hetale i
 
 /-! ### The implication (3) ⇒ (2) -/
@@ -189,7 +189,7 @@ theorem IsQuasiCompactSpace.hasFiniteFormalAtlas' {X : FppfSheaf B S hS}
     fun _ ↦ hetale, ?_⟩
   have : Epi (Sigma.ι (fun _ : PUnit.{u + 2} ↦ Z) PUnit.unit ≫
       Sigma.desc (fun _ : PUnit.{u + 2} ↦ c)) := by
-    rw [Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc]
     exact (Sheaf.isLocallySurjective_iff_epi c).mp hsurjective
   exact (Sheaf.isLocallySurjective_iff_epi _).mpr
     (epi_of_epi (Sigma.ι (fun _ : PUnit.{u + 2} ↦ Z) PUnit.unit) _)

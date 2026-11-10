@@ -274,7 +274,7 @@ theorem completionDifferentialsBaseChange_comp_tensorUnit :
           (X := dividedPowerDifferentials (A := A) delta)).toAddMonoidHom =
       completionDifferentialsMap (A := A) J delta p hp := by
   refine AddMonoidHom.ext fun omega ↦ ?_
-  show completionDifferentialsBaseChange (A := A) J delta p hp
+  change completionDifferentialsBaseChange (A := A) J delta p hp
     (tensorUnit (pAdicIdeal (A := B) p) omega) = _
   rw [tensorUnit_apply, completionDifferentialsBaseChange_tmul, one_smul]
 

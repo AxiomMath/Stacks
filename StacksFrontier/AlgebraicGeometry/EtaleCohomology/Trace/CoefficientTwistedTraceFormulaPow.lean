@@ -69,7 +69,7 @@ public theorem exists_geometricPoint_map_pullback_fst {k : Type u} [Field k] {X 
       exact τ.commutes a
     rw [h₁, Spec.map_preimage]
   refine ⟨⟨Ω, pullback.lift xh (Spec.map (CommRingCat.ofHom τ.toRingHom)) hcomm⟩, ?_⟩
-  show GeometricPoint.mk x.residueField (pullback.lift xh _ hcomm ≫ pullback.fst f _) = x
+  change GeometricPoint.mk x.residueField (pullback.lift xh _ hcomm ≫ pullback.fst f _) = x
   rw [pullback.lift_fst]
 
 variable {ℓ : ℕ} [Fact ℓ.Prime] {O : Type} [CommRing O] [Algebra ℤ_[ℓ] O] {d : ℕ}

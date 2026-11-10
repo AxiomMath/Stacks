@@ -467,7 +467,7 @@ theorem invObj_add_aux (n : ℕ) : ∀ (S : ShortComplex 𝒞), S.ShortExact →
       (D.essImage_cokernel_of_fac u v hv) (D.essImage_cokernel_ι S.X₂)
       (D.essImage_cokernel_ι S.X₃)
     rw [D.invObj_eq_grClass_add S.X₂, D.invObj_eq_grClass_add S.X₃, D.invObj_eq_cls_add u v hv]
-    show D.grClass S.X₂ + D.invObj S'.X₂ = _
+    change D.grClass S.X₂ + D.invObj S'.X₂ = _
     rw [ih S' hS' h', grClass, e₃, grClass]
     abel
 
@@ -999,8 +999,7 @@ def supportedCoherentKZeroRatPushforwardIso [IsLocallyNoetherian Y] [IsLocallyNo
       (supportedCoherentKZeroPushforwardEquiv i Z).toIntLinearEquiv).toModuleIso)
     fun {Z' Z} f => by
       refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-      induction x using TensorProduct.induction_on with
-      | zero => exact (map_zero _).trans (map_zero _).symm
+      induction x using TensorProduct.inductionOn with
       | tmul q a =>
         change q ⊗ₜ[ℤ] supportedCoherentKZeroPushforward i Z
             (supportedCoherentKZeroMap (leOfHom f) a) =

@@ -169,7 +169,7 @@ theorem pointsMap_derealizedObjectPoint_eq
       (derealizedObjectPoint G C hS hU hR hP hY q Rs Gr
         ((eqToHom Gr.objects_eq.symm).left.base y)) =
       (pointsEquivScheme C S hS (schemeSiteObject C hS hY)).symm y := by
-    show pointsMap C S hS Rs.groupoid.objects.obj (eqToHom Rs.objects_eq).hom
+    change pointsMap C S hS Rs.groupoid.objects.obj (eqToHom Rs.objects_eq).hom
       (pointsMap C S hS (yoneda.obj (schemeSiteObject C hS hY))
         (eqToHom (restrictionObjectsObj_eq G C hS hU hR hP hY q Rs).symm)
         ((pointsEquivScheme C S hS (schemeSiteObject C hS hY)).symm

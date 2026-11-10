@@ -467,7 +467,7 @@ theorem lowerPreHom_hom : (lowerPreHom Z F).hom = F.hom ≫ T.fst := rfl
 whiskering of the composite's own first comparison discharged. -/
 theorem lowerPreHom_isoFst_hom :
     (lowerPreHom Z F).isoFst.hom = F.isoFst.hom ≫ (α_ F.hom T.fst S.fst).inv := by
-  show F.isoFst.hom ≫ (F.hom ◁ (𝟙 (T.fst ≫ S.fst))) ≫ (α_ F.hom T.fst S.fst).inv = _
+  change F.isoFst.hom ≫ (F.hom ◁ (𝟙 (T.fst ≫ S.fst))) ≫ (α_ F.hom T.fst S.fst).inv = _
   rw [whiskerLeft_id, Category.id_comp]
 
 /-- The second comparison 2-cell of `CategoryTheory.Bicategory.lowerPreHom`, named because it is
@@ -547,7 +547,7 @@ theorem paste_prehom_rel (hS : IsTwoFibreProduct S) (hT : IsTwoFibreProduct T)
   rw [← (by simpa using hc : θ.hom ▷ T.fst = ν.hom)] at ha
   have ha' : (F.isoFst.hom ≫ (α_ F.hom T.fst S.fst).inv) ≫ ((θ.hom ▷ T.fst) ▷ S.fst)
       = G.isoFst.hom ≫ (α_ G.hom T.fst S.fst).inv := ha
-  show F.isoFst.hom ≫ (θ.hom ▷ (T.fst ≫ S.fst)) = G.isoFst.hom
+  change F.isoFst.hom ≫ (θ.hom ▷ (T.fst ≫ S.fst)) = G.isoFst.hom
   rw [show (F.isoFst.hom ≫ (α_ F.hom T.fst S.fst).inv) ≫ ((θ.hom ▷ T.fst) ▷ S.fst)
       = (F.isoFst.hom ≫ (θ.hom ▷ (T.fst ≫ S.fst))) ≫ (α_ G.hom T.fst S.fst).inv by
     simp only [Category.assoc]

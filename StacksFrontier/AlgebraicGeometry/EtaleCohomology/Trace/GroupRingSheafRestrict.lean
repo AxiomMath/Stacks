@@ -41,7 +41,7 @@ theorem groupRingIsContinuous_groupRingRestrict (hT : GroupRingIsContinuous G T)
       φ ⁻¹' {g : G | of ℤ G g • (toGroupRingRestrict φ.toMonoidHom).symm m =
         (toGroupRingRestrict φ.toMonoidHom).symm m} := by
     ext g
-    rw [Set.mem_setOf_eq, groupRingRestrict_of_smul]
+    rw [Set.mem_ofPred_eq, groupRingRestrict_of_smul]
     rfl
   rw [this]
   exact (hT _).preimage φ.continuous

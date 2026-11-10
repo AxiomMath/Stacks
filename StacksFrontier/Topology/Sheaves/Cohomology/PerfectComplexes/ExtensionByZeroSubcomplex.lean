@@ -36,8 +36,6 @@ universe u
 
 namespace Stacks.Cohomology.LeftDualPerfect
 
-open Classical
-
 variable {T : TopCat.{u}} (O : Sheaf (Opens.grothendieckTopology T) RingCat.{u})
   (P : CochainComplex (SheafOfModules.{u} O) ℤ) {I : ℤ → Type u} (U : ∀ n, I n → Opens T)
   (ιP : ∀ n α, extUnit O (U n α) ⟶ P.X n) (Z : Opens T) (S : Finset (Σ n, I n))
@@ -232,6 +230,7 @@ theorem gMap_ι_smul (n : ℤ) (k : Fin (fib S n).card) {Z' : Opens T} (hZ' : Z'
   exact congrArg (c • ·)
     (resS_elemSecD O (U n) (cofanP O P U ιP n) _ hZ' (imTop_le_imTop_genIdx hS n k))
 
+open Classical in
 omit hS hd in
 /-- The projection of index `β` sends the generator of index `α` to the restricted generator
 of `j_{U_α!} O_{U_α}` when `α = β`, and to zero otherwise. -/
@@ -244,9 +243,9 @@ theorem cofanProj_elemSecD (n : ℤ) (hc : IsColimit (cofanP O P U ιP n)) (α �
   have e := Stacks.SheafOfModules.CoproductSheafification.inj_cofanProj hc β α
   by_cases h : α = β
   · subst h
-    simp only [dif_pos] at e ⊢
+    simp only [dite_eq_left] at e ⊢
     exact congrArg (fun φ => φ.val.app (op Z') (resS (extUnit O (U n α)) hZ' (extGen O (U n α)))) e
-  · simp only [h, dif_neg, not_false_eq_true] at e ⊢
+  · simp only [h, dite_eq_right, not_false_eq_true] at e ⊢
     exact congrArg (fun φ => φ.val.app (op Z') (resS (extUnit O (U n α)) hZ' (extGen O (U n α)))) e
 
 omit hS hd in
@@ -259,6 +258,7 @@ include hS in
 generators of distinct summands of `P^n` are independent over the structure sheaf. -/
 theorem gMap_app_injective (n : ℤ) (hc : IsColimit (cofanP O P U ιP n)) {Z' : Opens T}
     (hZ' : Z' ≤ imTop Z) : Function.Injective ((gMap O P U ιP Z S n).val.app (op Z')) := by
+  classical
   rw [injective_iff_map_eq_zero]
   intro z hz
   have hcoef : ∀ k : Fin (fib S n).card, ∃ c : O.obj.obj (op Z'),
@@ -278,11 +278,11 @@ theorem gMap_app_injective (n : ℤ) (hc : IsColimit (cofanP O P U ιP n)) {Z' :
     have h0 := congrArg ((Stacks.SheafOfModules.CoproductSheafification.cofanProj (hc)
       (genIdx S n k)).val.app (op Z')) (hgz.symm.trans hz)
     rw [map_sum, map_zero, Finset.sum_eq_single k] at h0
-    · rw [map_smul, cofanProj_elemSecD n hc _ _ (hU k), dif_pos rfl] at h0
+    · rw [map_smul, cofanProj_elemSecD n hc _ _ (hU k), dite_eq_left rfl] at h0
       exact eq_zero_of_smul_res_extGen O (U n (genIdx S n k)) (hU k) _ h0
     · intro l _ hlk
       rw [map_smul, cofanProj_elemSecD n hc _ _ (hU l),
-        dif_neg (fun h => hlk (genIdx_injective n h)), smul_zero]
+        dite_eq_right (fun h => hlk (genIdx_injective n h)), smul_zero]
     · intro h; exact absurd (Finset.mem_univ k) h
   rw [srcObj_eq_sum n z]
   refine Finset.sum_eq_zero fun k _ => ?_

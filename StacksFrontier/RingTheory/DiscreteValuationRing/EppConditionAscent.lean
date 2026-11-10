@@ -95,7 +95,7 @@ theorem mem_perfectCore_of_pow_eq {E : Type*} [Field E] {p : ℕ} [ExpChar E p] 
   obtain ⟨z, hz⟩ := mem_perfectCore_iff.mp hx (m + n)
   refine ⟨z, ?_⟩
   apply (iterateFrobenius E p n).injective
-  show (z ^ p ^ m) ^ p ^ n = y ^ p ^ n
+  change (z ^ p ^ m) ^ p ^ n = y ^ p ^ n
   rw [← pow_mul, ← pow_add, hz, hy]
 
 /-! ### The perfect core of a finite extension is separable over the base -/
@@ -197,8 +197,8 @@ so its image is integral over `κ_R` — hence algebraic, and an algebraic exten
 field is perfect.
 
 The integrality step alone is `Algebra.IsIntegral.residueField` in
-`StacksFrontier.RingTheory.Henselian.QuasiFiniteRingMaps`; that module is a leaf whose import chain is
-disproportionate here, so the three-line argument is repeated rather than imported. -/
+`StacksFrontier.RingTheory.Henselian.QuasiFiniteRingMaps`; that module is a leaf whose import chain
+is disproportionate here, so the three-line argument is repeated rather than imported. -/
 theorem perfectField_residueField_of_isIntegral (R S : Type*) [CommRing R] [CommRing S]
     [IsLocalRing R] [IsLocalRing S] [Algebra R S] [IsLocalHom (algebraMap R S)]
     [Algebra.IsIntegral R S] [PerfectField (ResidueField R)] : PerfectField (ResidueField S) := by

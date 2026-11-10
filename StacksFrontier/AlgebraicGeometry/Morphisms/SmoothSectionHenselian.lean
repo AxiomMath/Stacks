@@ -63,7 +63,7 @@ private theorem exists_algHom_of_smooth_of_henselian (R : Type u) [CommRing R]
       rw [← Ideal.Quotient.eq]
       exact hb
     refine ⟨algebraMap R (maximalIdeal R).ResidueField b, ?_⟩
-    show Ideal.ResidueField.map (maximalIdeal R) J (algebraMap R A') Ideal.LiesOver.over
+    change Ideal.ResidueField.map (maximalIdeal R) J (algebraMap R A') Ideal.LiesOver.over
       (algebraMap R _ b) = _
     rwa [Ideal.ResidueField.map_algebraMap, ← sub_eq_zero, ← map_sub,
       Ideal.algebraMap_residueField_eq_zero]
@@ -125,7 +125,7 @@ theorem exists_section_of_smooth_of_henselian (R : Type u) [CommRing R] [Henseli
       ext r
       exact g.commutes r
     rw [← Iso.hom_inv_id_assoc (Scheme.ΓSpecIso (.of R)) (p.appLE ⊤ V e), Category.assoc]
-    show (Scheme.ΓSpecIso (.of R)).hom ≫ φ ≫ _ = _
+    change (Scheme.ΓSpecIso (.of R)).hom ≫ φ ≫ _ = _
     rw [hg, Category.comp_id]
   rw [hcomp, htop, ← Spec.map_comp, Iso.inv_hom_id, Spec.map_id]
 

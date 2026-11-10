@@ -33,11 +33,10 @@ private theorem extendScalars_map_eq_zero_of_mem_smul_top
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul r x =>
-    show r ⊗ₜ[R] f.hom x = 0
+    change r ⊗ₜ[R] f.hom x = 0
     obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective r
     apply (TensorProduct.quotTensorEquivQuotSMul N I).injective
     rw [TensorProduct.quotTensorEquivQuotSMul_mk_tmul, map_zero]
@@ -52,7 +51,7 @@ private theorem ulift_pi_mem_smul_top
   have heq : x = ∑ i, x.down i • (ULift.up (Pi.single i 1) : ULift.{v} (ι → R)) := by
     apply (ULift.moduleEquiv : ULift.{v} (ι → R) ≃ₗ[R] (ι → R)).injective
     simp only [map_sum, map_smul]
-    show x.down = ∑ i, x.down i • Pi.single i (1 : R)
+    change x.down = ∑ i, x.down i • Pi.single i (1 : R)
     funext i
     simp [Finset.sum_apply, Pi.single_apply]
   rw [heq]
@@ -70,17 +69,17 @@ private theorem freeComplex_reduction_d_eq_zero
     intro x
     apply ulift_pi_mem_smul_top
     intro a
-    show ((D.toComplex.d (-i) (-j)).hom x.down) a ∈ I
+    change ((D.toComplex.d (-i) (-j)).hom x.down) a ∈ I
     have hidx : -i = -j + 1 := by omega
     have hd : ∀ k, ∀ h : k = -j + 1, ∀ x : Fin (D.n k) → R,
         ∀ a, ((D.toComplex.d k (-j)).hom x) a ∈ I := by
       rintro k rfl x a
       rw [FreeComplex.toComplex_d_succ]
-      show (∑ b, D.d (-j) a b * x b) ∈ I
+      change (∑ b, D.d (-j) a b * x b) ∈ I
       exact I.sum_mem fun b _ => I.mul_mem_right _ (hD (-j) a b)
     exact hd (-i) hidx x.down a
   · have hd : M.d i j = 0 := M.shape i j hij
-    show (ModuleCat.extendScalars (Ideal.Quotient.mk I)).map (M.d i j) = 0
+    change (ModuleCat.extendScalars (Ideal.Quotient.mk I)).map (M.d i j) = 0
     rw [hd]
     let := extendScalars_additive.{u, u, max v u} (Ideal.Quotient.mk I)
     exact (ModuleCat.extendScalars (Ideal.Quotient.mk I)).map_zero _ _
@@ -90,7 +89,7 @@ private theorem freeComplex_finite_projective_terms
     ∀ i, Module.Finite R (((liftChainComplexFunctor.{u, v} R).obj D.toComplex).X i) ∧
       Projective (((liftChainComplexFunctor.{u, v} R).obj D.toComplex).X i) := by
   intro i
-  show Module.Finite R (ULift.{v} (Fin (D.n (-i)) → R)) ∧
+  change Module.Finite R (ULift.{v} (Fin (D.n (-i)) → R)) ∧
     Projective (ModuleCat.of R (ULift.{v} (Fin (D.n (-i)) → R)))
   exact ⟨inferInstance, ModuleCat.projective_of_free (Module.Free.chooseBasis R _)⟩
 
@@ -187,7 +186,7 @@ private theorem mapExtendScalars_tensorProduct_eq_baseChange
   apply IsLocalizedModule.linearMap_ext T (TensorProduct.mk R S M 1)
     (TensorProduct.mk R S N 1)
   ext x
-  show IsLocalizedModule.map T (TensorProduct.mk R S M 1)
+  change IsLocalizedModule.map T (TensorProduct.mk R S M 1)
     (TensorProduct.mk R S N 1) f (1 ⊗ₜ[R] x) = 1 ⊗ₜ[R] f x
   exact IsLocalizedModule.map_apply _ _ _ _ _
 
@@ -289,13 +288,13 @@ private theorem exists_lift_complex_map
       subst j
       by_cases hi : i ∈ s
       · apply ModuleCat.hom_ext
-        show (N.d i (i + 1)).hom.comp ((q : R) • g₀ i) =
+        change (N.d i (i + 1)).hom.comp ((q : R) • g₀ i) =
           ((q : R) • g₀ (i + 1)).comp (M.d i (i + 1)).hom
         rw [LinearMap.comp_smul, LinearMap.smul_comp, ← sub_eq_zero, ← smul_sub]
         exact hq ⟨i, hi⟩
       · exact (hs i hi).eq_of_src _ _ }
   refine ⟨g', q * t, fun i => ?_⟩
-  show L i ((q : R) • g₀ i) = ((q * t : T) : R) • e i
+  change L i ((q : R) • g₀ i) = ((q * t : T) : R) • e i
   rw [map_smul, hg₀, Submonoid.coe_mul, mul_smul]
 
 private theorem exists_away_bijective_components
@@ -397,7 +396,7 @@ private theorem exists_extendScalars_iso_localizedModuleFunctor
   intro M N f
   apply ModuleCat.ExtendScalars.hom_ext
   intro m
-  show E N ((PseudoCoherence.extendScalarsTensorIso (S := S) N).hom
+  change E N ((PseudoCoherence.extendScalarsTensorIso (S := S) N).hom
     (((ModuleCat.extendScalars (algebraMap R S)).map f).hom
       ((1 : S) ⊗ₜ[R, algebraMap R S] m))) =
     ((ModuleCat.localizedModuleFunctor T).map f).hom

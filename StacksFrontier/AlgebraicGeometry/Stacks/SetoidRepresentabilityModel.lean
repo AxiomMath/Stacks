@@ -145,7 +145,7 @@ theorem isoClassComparisonOfEquiv_obj_eq
   · exact hlbase.trans hrbase.symm
   · let z := eqX.hom.functor.obj x
     have hzbase : z.base = pX.obj x := by
-      show (presheafOfCategories (F ⋙ typeToCat)).p.obj
+      change (presheafOfCategories (F ⋙ typeToCat)).p.obj
           (eqX.hom.functor.obj x) = pX.obj x
       exact BasedFunctor.w_obj ax x
     have hzclass : Discrete.as
@@ -189,7 +189,7 @@ theorem isoClassComparisonOfEquiv_obj_eq
         have htype' := congrArg
           (fun U => Discrete (G.obj (Opposite.op U))) (hxU.symm.trans hxV)
         rw [hrhsfiber]
-        show cast htype (Discrete.mk (eY (Opposite.op (rhs.obj x).base)
+        change cast htype (Discrete.mk (eY (Opposite.op (rhs.obj x).base)
             (Functor.isoClassMk pY
               (⟨f'.hom.obj x, hxU⟩ : pY.Fiber ((rhs.obj x).base))))) = _
         calc

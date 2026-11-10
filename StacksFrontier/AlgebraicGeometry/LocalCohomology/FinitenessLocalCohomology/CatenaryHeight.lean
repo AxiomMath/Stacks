@@ -92,7 +92,7 @@ private theorem liesOver_map_quotientMk {A B : Type*} [CommRing A] [CommRing B] 
   rw [Ideal.liesOver_iff]
   ext x
   obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x
-  show (Ideal.Quotient.mk p a ∈ q.map (Ideal.Quotient.mk p)) ↔
+  change (Ideal.Quotient.mk p a ∈ q.map (Ideal.Quotient.mk p)) ↔
     Ideal.Quotient.mk P (algebraMap A B a) ∈ Q.map (Ideal.Quotient.mk P)
   rw [Ideal.mem_quotient_iff_mem hpq, Ideal.mem_quotient_iff_mem hPQ]
   exact Ideal.mem_of_liesOver (P := Q) (p := q) a
@@ -117,7 +117,7 @@ private theorem isAlgebraic_residueField_of_isIntegral {R S : Type*} [CommRing R
   have : IsScalarTower (R ⧸ q) q.ResidueField Q.ResidueField := by
     refine IsScalarTower.of_algebraMap_eq fun x => ?_
     obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective x
-    show algebraMap R Q.ResidueField x =
+    change algebraMap R Q.ResidueField x =
       Ideal.ResidueField.map q Q (algebraMap R S) Ideal.LiesOver.over
         (algebraMap R q.ResidueField x)
     rw [Ideal.ResidueField.map_algebraMap]
@@ -147,7 +147,7 @@ theorem quotient_height_eq_of_finite_integral
   have hcat : IsUniversallyCatenary R :=
     (isUniversallyCatenary_of_ring_isUniversallyCatenary hA).trans
   have hinj : Function.Injective (algebraMap R S) := by
-    show Function.Injective
+    change Function.Injective
       (Ideal.quotientMap P (algebraMap A B)
         (le_of_eq (Ideal.LiesOver.over (P := P) (p := p))))
     exact Ideal.quotientMap_injective' (by

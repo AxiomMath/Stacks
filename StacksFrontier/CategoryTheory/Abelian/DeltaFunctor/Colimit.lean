@@ -18,7 +18,8 @@ morphisms, and each `Φᵢ` maps into it by a morphism of δ-functors.  A family
 
 The connecting morphisms assemble into a *natural transformation of diagrams* exactly because `δ`
 is natural in the short exact sequence — here applied not to a morphism of short exact sequences,
-as in `StacksFrontier/CategoryTheory/Abelian/DeltaFunctor/FilteredColimit.lean`, but to a morphism of
+as in `StacksFrontier/CategoryTheory/Abelian/DeltaFunctor/FilteredColimit.lean`, but to a morphism
+of
 the index category of `Φ`, through the compatibility `CategoryTheory.DeltaFunctor.Hom.comm` of a
 morphism of δ-functors with the connecting morphisms.  The vanishing and naturality fields are the
 images under `colim` of the corresponding pointwise identities of diagrams, and the three

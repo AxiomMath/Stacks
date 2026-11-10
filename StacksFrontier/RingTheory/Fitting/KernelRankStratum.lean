@@ -262,7 +262,7 @@ theorem finrank_cokerTranspose_kernelRankStratum {K : Type*} [Field K]
       Module.finrank K (LinearMap.range A.mulVecLin) := by
     rw [← Matrix.rank, ← Matrix.rank, Matrix.rank_transpose]
   rw [Module.finrank_fin_fun] at h₁ h₂
-  show finrank K ((Fin n → K) ⧸ LinearMap.range Aᵀ.mulVecLin) = _
+  change finrank K ((Fin n → K) ⧸ LinearMap.range Aᵀ.mulVecLin) = _
   omega
 
 /-- **The rank `r` Fitting ideal is not in a prime above which the kernel has dimension at most
@@ -431,7 +431,7 @@ theorem fittingIdeal_cokerTranspose_pred_eq_bot_kernelRankStratum
   have hbot : fittingIdeal (R := Localization P) (M := Af.cokerTransposeKernelRankStratum)
       ((r : ℤ) - 1) = ⊥ := by
     rw [← fittingIdeal_int_eq_of_linearEquiv_kernelRankStratum eq, fittingIdeal_fin_eq_bot_or_top,
-      if_pos (by omega)]
+      ite_eq_left (by omega)]
   rw [fittingIdeal_cokerTranspose_map_kernelRankStratum, Ideal.map_eq_bot_iff_le_ker] at hbot
   have hxk := hbot hx
   rw [RingHom.mem_ker, IsLocalization.map_eq_zero_iff P] at hxk

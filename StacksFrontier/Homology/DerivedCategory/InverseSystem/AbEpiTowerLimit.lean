@@ -85,7 +85,7 @@ private theorem epi_pi_sub_shift_of_epi_addCommGrpCat (X : ℕ → AddCommGrpCat
       ((Pi.lift fun n ↦ Pi.π X n - Pi.π X (n + 1) ≫ t n) ≫ Pi.π X n)
         ((piIsoPiAddCommGrpCat X).inv x) := rfl
   rw [hπ, Pi.lift_comp_π]
-  show Pi.π X n ((piIsoPiAddCommGrpCat X).inv x) -
+  change Pi.π X n ((piIsoPiAddCommGrpCat X).inv x) -
     (t n) (Pi.π X (n + 1) ((piIsoPiAddCommGrpCat X).inv x)) =
       (piIsoPiAddCommGrpCat X).hom y n
   rw [piIsoPiAddCommGrpCat_inv_apply, piIsoPiAddCommGrpCat_inv_apply]

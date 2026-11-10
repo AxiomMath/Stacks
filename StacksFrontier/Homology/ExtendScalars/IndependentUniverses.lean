@@ -99,7 +99,7 @@ theorem extendScalars_preservesKernel_of_flat (f : R →+* S) (hf : f.Flat)
     refine IsLimit.ofIsoLimit (kernelIsLimit (F.map g)) ?_
     refine Fork.ext e.toModuleIso.symm ?_
     refine hom_ext (LinearMap.ext fun y => ?_)
-    show (Hom.hom (F.map ι)) (e.symm y) = y.val
+    change (Hom.hom (F.map ι)) (e.symm y) = y.val
     exact congrArg Subtype.val (e.apply_symm_apply y)
   have w0 : ι ≫ g = ι ≫ 0 := hcomp0.trans comp_zero.symm
   have key2 : IsLimit (F.mapCone (Fork.ofι ι w0)) := by
@@ -127,7 +127,7 @@ theorem extendScalars_preservesCokernel (f : R →+* S) {X Y : ModuleCat.{w} R} 
   have hcomp0 : g ≫ π = 0 := CokernelCofork.condition (cokernelCocone g)
   have hex : Function.Exact ⇑(Hom.hom g) ⇑(Hom.hom π) := by
     apply LinearMap.exact_iff.mpr
-    show ((Hom.hom g).range).mkQ.ker = (Hom.hom g).range
+    change ((Hom.hom g).range).mkQ.ker = (Hom.hom g).range
     exact Submodule.ker_mkQ _
   have hsurj : Function.Surjective ⇑(Hom.hom π) := Submodule.mkQ_surjective _
   have hFg : ⇑(Hom.hom (F.map g)) = ⇑(LinearMap.lTensor S (Hom.hom g)) := rfl
@@ -231,8 +231,7 @@ def extendScalarsRestrictScalarsIso (e : R ≃+* S) (M : ModuleCat.{max u v w} S
       invFun := ψ
       left_inv := by
         intro x
-        induction x using TensorProduct.induction_on with
-        | zero => simp [ψ, φ, F]
+        induction x using TensorProduct.inductionOn with
         | tmul s m =>
           change ψ (TensorProduct.AlgebraTensorModule.lift F (s ⊗ₜ[R] m)) = s ⊗ₜ[R] m
           rw [TensorProduct.AlgebraTensorModule.lift_tmul]

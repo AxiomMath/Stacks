@@ -223,7 +223,7 @@ theorem isLocallyInjective_morPresheafMap_of_essImage (U : 𝒞) (x y : p'.Fiber
   obtain ⟨S, hS, hS'⟩ := exists_mem_over_arrows_inf J hRx hRy X.unop
   refine (J.over U).superset_covering ?_ hS
   intro g₂ k hk
-  show (morPresheaf p' x y).map k.op s = (morPresheaf p' x y).map k.op t
+  change (morPresheaf p' x y).map k.op s = (morPresheaf p' x y).map k.op t
   have hs : (hH.morPresheafMap x y).app (op g₂) ((morPresheaf p' x y).map k.op s)
       = (hH.morPresheafMap x y).app (op g₂) ((morPresheaf p' x y).map k.op t) := by
     rw [NatTrans.naturality_apply (hH.morPresheafMap x y) k.op s,

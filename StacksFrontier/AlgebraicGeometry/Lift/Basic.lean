@@ -128,7 +128,7 @@ theorem exists_affineOpen_hom_blowUp {Y : Scheme.{u}} (I : X.IdealSheafData) (f 
       f.appLE (U : X.Opens) (V : Y.Opens) hVU from by rw [halg]; rfl]
   have hUa : IsAffineOpen (U : X.Opens) := U.2
   have hVa : IsAffineOpen (V : Y.Opens) := V.2
-  show hVa.isoSpec.hom ≫ Spec.map (f.appLE (U : X.Opens) (V : Y.Opens) hVU) ≫
+  change hVa.isoSpec.hom ≫ Spec.map (f.appLE (U : X.Opens) (V : Y.Opens) hVU) ≫
     hUa.fromSpec = _
   rw [IsAffineOpen.SpecMap_appLE_fromSpec f hUa hVa hVU, ← Category.assoc,
     IsAffineOpen.isoSpec_hom_fromSpec]
@@ -162,7 +162,7 @@ theorem nonempty_over_hom_blowUp (I : X.IdealSheafData)
     have hdense : Scheme.Opens.IsSchemeTheoreticallyDense
         ((Over.mk (pullback.fst (V x : Z.left.Opens).ι (V y : Z.left.Opens).ι ≫
           (V x : Z.left.Opens).ι ≫ Z.hom) : Over X).hom ⁻¹ᵁ supportCompl I) := by
-      show Scheme.Opens.IsSchemeTheoreticallyDense
+      change Scheme.Opens.IsSchemeTheoreticallyDense
         ((pullback.fst (V x : Z.left.Opens).ι (V y : Z.left.Opens).ι ≫
           (V x : Z.left.Opens).ι ≫ Z.hom) ⁻¹ᵁ supportCompl I)
       rw [← Category.assoc, Scheme.Hom.comp_preimage]

@@ -67,8 +67,8 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   [HasDerivedCategory.{d₂} (Stack.fppfModules B S hS 𝒴)]
   [HasDerivedCategory.{d₃} AddCommGrpCat.{u + 1}]
 
--- Lean v4.35.0: the `HasProducts` searches behind `hasExt_of_enoughInjectives` exceed the default.
 set_option synthInstance.maxHeartbeats 400000 in
+-- Lean v4.35.0: the `HasProducts` searches behind `hasExt_of_enoughInjectives` exceed the default.
 /-- **Stacks 0782.** Let `f : 𝒳 ⟶ 𝒴` be a quasi-compact and quasi-separated 1-morphism of
 algebraic stacks and `ℱ` a quasi-coherent `𝒪_𝒳`-module.  There is a spectral sequence with
 `E_2^{p,q} = H^p(𝒴, R^q f_{QCoh,*} ℱ)` converging to `H^{p+q}(𝒳, ℱ)`.

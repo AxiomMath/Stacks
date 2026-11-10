@@ -147,7 +147,7 @@ public theorem exists_iso_pullback_subschemeι_sup (I J : S.IdealSheafData) :
 diagonal. -/
 public theorem lift_eq_comp_diagonal {Y A : Scheme.{u}} (ν : Y ⟶ S) (g : A ⟶ Y) :
     pullback.lift (f := ν) (g := ν) g g rfl = g ≫ pullback.diagonal ν := by
-  apply pullback.hom_ext <;> simp [pullback.lift_fst, pullback.lift_snd]
+  apply pullback.hom_ext <;> simp
 
 end Pullback
 
@@ -166,7 +166,7 @@ coordinates lies in the range of the corresponding member of the family. -/
 public theorem mem_fibrePowerTupleOpens_iff (n : ℕ) (t : Fin n → ι) (z : fibrePower ν n) :
     z ∈ fibrePowerTupleOpens ν ε n t ↔
       ∀ k, (fibrePowerLeg ν n k).base z ∈ Set.range (ε (t k)).base := by
-  show z ∈ (⨅ k, (fibrePowerLeg ν n k) ⁻¹ᵁ (ε (t k)).opensRange) ↔ _
+  change z ∈ (⨅ k, (fibrePowerLeg ν n k) ⁻¹ᵁ (ε (t k)).opensRange) ↔ _
   rw [mem_iInf_opens]
   rfl
 
@@ -178,10 +178,10 @@ public theorem fibrePowerTupleOpens_succ (n : ℕ) (t : Fin (n + 1) → ι) :
       pullback.fst (fibrePowerProj ν n) ν ⁻¹ᵁ
           fibrePowerTupleOpens ν ε n (fun k => t k.castSucc) ⊓
         pullback.snd (fibrePowerProj ν n) ν ⁻¹ᵁ (ε (t (Fin.last n))).opensRange := by
-  show (⨅ k, (fibrePowerLeg ν (n + 1) k) ⁻¹ᵁ (ε (t k)).opensRange) = _
+  change (⨅ k, (fibrePowerLeg ν (n + 1) k) ⁻¹ᵁ (ε (t k)).opensRange) = _
   rw [iInf_fin_castSucc, fibrePowerLeg_last]
   congr 1
-  show (⨅ k : Fin n, (fibrePowerLeg ν (n + 1) k.castSucc) ⁻¹ᵁ (ε (t k.castSucc)).opensRange)
+  change (⨅ k : Fin n, (fibrePowerLeg ν (n + 1) k.castSucc) ⁻¹ᵁ (ε (t k.castSucc)).opensRange)
       = pullback.fst (fibrePowerProj ν n) ν ⁻¹ᵁ
           (⨅ k : Fin n, (fibrePowerLeg ν n k) ⁻¹ᵁ (ε (t k.castSucc)).opensRange)
   rw [preimage_iInf_of_finite]

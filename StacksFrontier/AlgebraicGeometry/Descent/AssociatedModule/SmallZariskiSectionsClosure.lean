@@ -246,7 +246,8 @@ Scope and route as on
 `AlgebraicGeometry.SmallZariski.preservesColimitsOfShape_discrete_associatedSheafFunctor`. -/
 @[stacks 06VE "part (3), small site at τ = Zariski, for the SECTIONS-defined functor 𝓕 ↦ 𝓕ᵃ of \
 Definition 03DU (4) — SmallZariski.associatedSheafFunctor.  The same clause for the \
-pullback-defined functor of Remark 03FH is preservesColimitsOfSize_associatedModuleQcohOfComparison; \
+pullback-defined functor of Remark 03FH is \
+preservesColimitsOfSize_associatedModuleQcohOfComparison; \
 the two functors are identified by associatedModuleQcohIsoAssociatedSheafFunctor"]
 public theorem preservesColimitsOfSize_associatedSheafFunctor :
     PreservesColimitsOfSize.{u, u} (associatedSheafFunctor B S hS) := by

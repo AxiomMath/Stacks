@@ -155,12 +155,14 @@ def torsorPushoutComplexMap :
           Equiv.apply_symm_apply]
         exact φ.comm₂₃ }
 
-omit [PreservesFiniteLimits P] [PreservesFiniteColimits P] in
+omit [HasExt.{w} (Sheaf J AddCommGrpCat.{t})] [HasExt.{w} (Sheaf K AddCommGrpCat.{t})]
+  [PreservesFiniteLimits P] [PreservesFiniteColimits P] in
 /-- The component of `torsorPushoutComplexMap` on the subobjects is `c`. -/
 theorem torsorPushoutComplexMap_τ₁ :
     (torsorPushoutComplexMap J K G adj HY HX c TY TX α hα).τ₁ = c := rfl
 
-omit [PreservesFiniteLimits P] [PreservesFiniteColimits P] in
+omit [HasExt.{w} (Sheaf J AddCommGrpCat.{t})] [HasExt.{w} (Sheaf K AddCommGrpCat.{t})]
+  [PreservesFiniteLimits P] [PreservesFiniteColimits P] in
 /-- The component of `torsorPushoutComplexMap` on the quotients is the comparison
 `constantIntComparison J K G adj` of constant sheaves. -/
 theorem torsorPushoutComplexMap_τ₃ :
@@ -180,7 +182,7 @@ theorem extClass_torsorPushoutComplex_map_comp
         (Abelian.Ext.mk₀ c) (add_zero 1) =
       (Abelian.Ext.mk₀ (constantIntComparison J K G adj)).comp
         (torsorIsoClassesEquivH1 HX (Quotient.mk _ TX)) (zero_add 1) := by
-  show ((torsorPushoutClass HY TY).mapExactFunctor P).comp _ _ =
+  change ((torsorPushoutClass HY TY).mapExactFunctor P).comp _ _ =
     (Abelian.Ext.mk₀ _).comp (torsorPushoutClass HX TX) _
   have hS := torsorPushoutComplex_shortExact HY TY
   refine (congrArg (fun z => z.comp (Abelian.Ext.mk₀ c) (add_zero 1))
@@ -331,7 +333,7 @@ theorem hAddEquiv_torsorClass (H : Sheaf K AddCommGrpCat.{t}) (T : AbelianTorsor
       torsorIsoClassesEquivH1 _ (Quotient.mk _ T') := by
   refine Eq.trans ?_
     (constantIntRestriction_comp_mapExactFunctor_torsorClass J K G H T T' β hβ hact)
-  show (Abelian.Ext.mk₀
+  change (Abelian.Ext.mk₀
     ((Stacks.Cohomology.DenseSubsite.constantSheafRestrictionIso.{t, u₁, v₁, u₂, v₂}
       J K G).app (AddCommGrpCat.of (ULift.{t} ℤ))).inv).comp
       ((torsorIsoClassesEquivH1 H (Quotient.mk _ T)).mapExactFunctor

@@ -51,7 +51,7 @@ theorem exists_fractionField_algebra_tower
       (algebraMap K₁ L).comp (algebraMap K K₁) := by
     apply IsFractionRing.ringHom_ext (A := A) (K := K)
     intro a
-    show algebraMap K L (algebraMap A K a) =
+    change algebraMap K L (algebraMap A K a) =
       algebraMap K₁ L (algebraMap K K₁ (algebraMap A K a))
     calc
       algebraMap K L (algebraMap A K a) = algebraMap A L a :=
@@ -303,7 +303,7 @@ theorem EppCondition.absorb_finiteSupport_or
     let : FaithfulSMul A₁ L := by
       apply (faithfulSMul_iff_algebraMap_injective A₁ L).mpr
       apply (RingHom.injective_iff_ker_eq_bot _).mpr
-      apply Ideal.eq_bot_of_comap_eq_bot (R := A)
+      apply Ideal.eq_bot_of_under_eq_bot (R := A)
       rw [RingHom.ker_eq_comap_bot, Ideal.under_def, Ideal.comap_comap,
         ← IsScalarTower.algebraMap_eq A A₁ L]
       exact Ideal.comap_bot_of_injective _ (FaithfulSMul.algebraMap_injective A L)
@@ -311,7 +311,7 @@ theorem EppCondition.absorb_finiteSupport_or
       (faithfulSMul_iff_algebraMap_injective A₁ B).mpr (by
         intro x y hxy
         apply FaithfulSMul.algebraMap_injective A₁ L
-        show algebraMap B L (algebraMap A₁ B x) =
+        change algebraMap B L (algebraMap A₁ B x) =
           algebraMap B L (algebraMap A₁ B y)
         rw [hxy])
     let hA₁Bext : IsDiscreteValuationRing.IsExtension A₁ B := ⟨⟩
@@ -453,11 +453,11 @@ theorem EppCondition.absorb_mixedLevelSupport_or
     let : Algebra K₁ M := ((algebraMap L M).comp (algebraMap K₁ L)).toAlgebra
     let : IsScalarTower K₁ L M := IsScalarTower.of_algebraMap_eq' rfl
     let : IsScalarTower A₁ C M := IsScalarTower.of_algebraMap_eq fun x => by
-      show algebraMap B M (algebraMap A₁ B x) =
+      change algebraMap B M (algebraMap A₁ B x) =
         algebraMap C M (algebraMap B C (algebraMap A₁ B x))
       rw [IsScalarTower.algebraMap_apply B C M]
     let : IsScalarTower A₁ K₁ M := IsScalarTower.of_algebraMap_eq fun x => by
-      show algebraMap B M (algebraMap A₁ B x) =
+      change algebraMap B M (algebraMap A₁ B x) =
         algebraMap L M (algebraMap K₁ L (algebraMap A₁ K₁ x))
       calc
         algebraMap B M (algebraMap A₁ B x) =
@@ -472,7 +472,7 @@ theorem EppCondition.absorb_mixedLevelSupport_or
         ((FaithfulSMul.algebraMap_injective B C).comp
           (FaithfulSMul.algebraMap_injective A₁ B))
     let : IsLocalHom (algebraMap A₁ C) := by
-      show IsLocalHom ((algebraMap B C).comp (algebraMap A₁ B))
+      change IsLocalHom ((algebraMap B C).comp (algebraMap A₁ B))
       infer_instance
     let hA₁Cext : IsDiscreteValuationRing.IsExtension A₁ C := ⟨⟩
     let : IsDiscreteValuationRing.IsExtension A₁ C := hA₁Cext

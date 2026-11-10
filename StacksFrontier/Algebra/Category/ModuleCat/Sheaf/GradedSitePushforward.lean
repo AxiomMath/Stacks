@@ -12,8 +12,8 @@ sheaf of `R`-modules forward along `F` and restricting its scalars along `φ` gi
 `S`-modules whose sections over `V` are the sections of the original over `F V`. Hence a sheaf of
 graded `R`-algebras `A` pushes forward to a sheaf of graded `S`-algebras
 `SheafOfModules.GradedAlgebra.pushforward φ A`, each of whose structure maps is the corresponding
-one of `A` read at `F V`. This file pushes forward its homomorphisms and generators. The case `F = Over.forget U`,
-`φ = 𝟙` is `SheafOfModules.GradedAlgebra.over`.
+one of `A` read at `F V`. This file pushes forward its homomorphisms and generators. The case
+`F = Over.forget U`, `φ = 𝟙` is `SheafOfModules.GradedAlgebra.over`.
 
 ## Main definitions
 

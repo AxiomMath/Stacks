@@ -336,12 +336,12 @@ theorem base_dividedPowers_unique (γ : DividedPowers (Ideal.span {(p : ℤ_[p])
 theorem baseIdeal_le_relations :
     (base p).ideal.map (algebraMap (base p) (polynomial p)) ≤ relations p := by
   rw [Ideal.map_le_iff_le_comap]
-  show Ideal.span {(p : ℤ_[p])} ≤ _
+  change Ideal.span {(p : ℤ_[p])} ≤ _
   rw [Ideal.span_le]
   intro z hz
   simp only [Set.mem_singleton_iff] at hz
   subst z
-  show algebraMap ℤ_[p] (polynomial p) (p : ℤ_[p]) ∈ relations p
+  change algebraMap ℤ_[p] (polynomial p) (p : ℤ_[p]) ∈ relations p
   exact Ideal.subset_span (by simp)
 
 /-! ### The divided power envelope and its `p`-adic completion -/
@@ -367,7 +367,7 @@ theorem prime_nilpotent_mod_envelope :
   refine ⟨1, ?_⟩
   have hp : (p : (envelope p).object) ∈ (envelope p).object.ideal := by
     have hpbase : (p : base p) ∈ (base p).ideal := by
-      show (p : ℤ_[p]) ∈ Ideal.span {(p : ℤ_[p])}
+      change (p : ℤ_[p]) ∈ Ideal.span {(p : ℤ_[p])}
       exact Ideal.subset_span (by simp)
     have hmap := Ideal.mem_map_of_mem (envelope p).structureMap.toRingHom hpbase
     have hle := (envelope p).structureMap.ideal_comp

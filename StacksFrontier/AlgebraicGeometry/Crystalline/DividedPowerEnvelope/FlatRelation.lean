@@ -59,7 +59,7 @@ public lemma flat_relation_decomposition
   have hscalar (b : B) (z : B') :
       Ideal.Quotient.mk I b • Ideal.Quotient.mk I' z =
       Ideal.Quotient.mk I' (φ b * z) := by
-    show Ideal.quotientMap I' φ (Ideal.map_le_iff_le_comap.mp hI)
+    change Ideal.quotientMap I' φ (Ideal.map_le_iff_le_comap.mp hI)
       (Ideal.Quotient.mk I b) * Ideal.Quotient.mk I' z = _
     rw [Ideal.quotientMap_mk]
     exact (map_mul (Ideal.Quotient.mk I') (φ b) z).symm

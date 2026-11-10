@@ -155,7 +155,7 @@ private lemma property_product_map
       pullback.map x y x' y' u v (𝟙 B) (by simpa using hx) (by simpa using hy) ≫
       h'.isoPullback.inv := by
     apply h'.hom_ext <;>
-      simp [Category.assoc, hf₁, hf₂, pullback.map, pullback.lift_fst, pullback.lift_snd]
+      simp [Category.assoc, hf₁, hf₂, pullback.map]
   rw [he, P.cancel_left_of_respectsIso, P.cancel_right_of_respectsIso]
   exact P.pullbackMap hu hv hx hy
 
@@ -180,13 +180,13 @@ private lemma property_product_chart
       ← Category.assoc, ← Category.assoc, pullback.condition])
   have hm : R m := property_product_map R hu hv rfl rfl hA
     (IsPullback.of_hasPullback uw vw)
-    (by simp [m, pullback.lift_fst]) (by simp [m, pullback.lift_snd])
+    (by simp [m]) (by simp [m])
   have hn : R n := R.of_isPullback
     (product_baseChange hx hy (IsPullback.of_hasPullback uw vw) hP
       (by simp [n]) (by simp [n])).flip hw
   have hf : f = m ≫ n := by
     apply hP.hom_ext <;>
-      simp [Category.assoc, hf₁, hf₂, n, m, pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+      simp [Category.assoc, hf₁, hf₂, n, m]
   rw [hf]
   exact R.comp_mem _ _ hm hn
 
@@ -588,7 +588,7 @@ public theorem torIndependent_baseChange_product_of_isFlat
     Csite.left.property
   have hCschemeSize :
       (AlgebraicGeometry.schemeSizeBelow B.cutoff) (pullback (T.map xsite) (T.map ysite)) := by
-    show (pullback (T.map xsite) (T.map ysite)).size < B.cutoff
+    change (pullback (T.map xsite) (T.map ysite)).size < B.cutoff
     change (T.obj Csite).size < B.cutoff at hCsize
     rw [← Scheme.size_congr cLimitIso]
     exact hCsize
@@ -603,14 +603,14 @@ public theorem torIndependent_baseChange_product_of_isFlat
   let cToV : C ⟶ V₀ := Over.homMk
     (ObjectProperty.homMk (pullback.snd (T.map xsite) (T.map ysite))) (by
       apply ObjectProperty.hom_ext
-      show pullback.snd (T.map xsite) (T.map ysite) ≫
+      change pullback.snd (T.map xsite) (T.map ysite) ≫
         B.inclusion.map (Over.hom V₀) =
         pullback.fst (T.map xsite) (T.map ysite) ≫ B.inclusion.map (Over.hom U₀)
       rw [← hbase ysite, ← hbase xsite, ← Category.assoc, ← Category.assoc, pullback.condition])
   let cSiteToC : Csite ⟶ C := Over.homMk
     (ObjectProperty.homMk cLimitIso.hom) (by
       apply ObjectProperty.hom_ext
-      show cLimitIso.hom ≫
+      change cLimitIso.hom ≫
           (pullback.fst (T.map xsite) (T.map ysite) ≫
             B.inclusion.map (Over.hom U₀)) =
         B.inclusion.map (Over.hom Csite)
@@ -621,7 +621,7 @@ public theorem torIndependent_baseChange_product_of_isFlat
   have hcSiteToV : cSiteToC ≫ cToV = pullback.snd xsite ysite :=
     Over.OverMorphism.ext (ObjectProperty.hom_ext _ hcLimitSnd)
   have : IsIso (T.map cSiteToC) := by
-    show IsIso cLimitIso.hom
+    change IsIso cLimitIso.hom
     infer_instance
   have : IsIso cSiteToC := isIso_of_reflects_iso cSiteToC T
   have hcPBsite : IsPullback cToU cToV xsite ysite :=
@@ -722,11 +722,11 @@ public theorem torIndependent_baseChange_product_of_isFlat
     pullback.lift (T.map pX) (T.map pY) hpCompatT
   let p : Pchart ⟶ C := Over.homMk (ObjectProperty.homMk pMap) (by
     apply ObjectProperty.hom_ext
-    show pMap ≫ pullback.fst (T.map xsite) (T.map ysite) ≫
+    change pMap ≫ pullback.fst (T.map xsite) (T.map ysite) ≫
       (Over.hom U₀).hom = (Over.hom Pchart).hom
     calc
       _ = T.map pX ≫ (Over.hom U₀).hom := by
-        show (pullback.lift (T.map pX) (T.map pY) hpCompatT ≫
+        change (pullback.lift (T.map pX) (T.map pY) hpCompatT ≫
           pullback.fst (T.map xsite) (T.map ysite)) ≫ (Over.hom U₀).hom = _
         rw [pullback.lift_fst]
       _ = (Over.hom Pchart).hom := hbase pX)
@@ -776,7 +776,7 @@ public theorem torIndependent_baseChange_product_of_isFlat
       (by simp only [hp₂, Category.assoc, hpp'Y', reassoc_of% hasnd, haYfst, aY'])
   -- the morphism of the chart of `Z' ×_{X' ×_{B'} Y'} (U' ×_{W'} V')` into `Z'`
   have hqzX : qzZ.hom ≫ zx.hom = qzZU.hom ≫ zuU.hom ≫ u ≫ qxX.hom := by
-    show (qzZU.hom ≫ zuZ.hom) ≫ zx.hom = _
+    change (qzZU.hom ≫ zuZ.hom) ≫ zx.hom = _
     rw [Category.assoc, hzu, huXhom]
   have hqzY : qzZ.hom ≫ zy.hom = qzV.hom ≫ v ≫ qyY.hom := by
     have h := congrArg (fun f => f ≫ qyY.hom) hqz
@@ -854,7 +854,7 @@ public theorem torIndependent_baseChange_product_of_isFlat
   have hPsize : (AlgebraicGeometry.schemeSizeBelow B.cutoff)
       (pullback (pullback.snd (T.map xsite) (T.map ssite))
         (pullback.snd (T.map ysite) (T.map ssite))) := by
-    show _ < B.cutoff
+    change _ < B.cutoff
     rw [Scheme.size_congr eScheme]
     exact Pchart.left.property
   let Aleft : B.Schemes := ⟨_, hPsize⟩
@@ -872,10 +872,10 @@ public theorem torIndependent_baseChange_product_of_isFlat
   have hzzC : T.map zC = zz := by
     apply pullback.hom_ext
     · rw [hzz₁]
-      show T.map zC ≫ T.map cToU = _
+      change T.map zC ≫ T.map cToU = _
       rw [← Functor.map_comp, hzCU]
     · rw [hzz₂]
-      show T.map zC ≫ T.map cToV = _
+      change T.map zC ≫ T.map cToV = _
       rw [← Functor.map_comp, hzCV]
   have hTorNew : AlgebraicGeometry.TorIndependent (T.map pNew) (T.map zC) := by
     rw [hzzC, show T.map pNew = pp by
@@ -889,7 +889,7 @@ public theorem torIndependent_baseChange_product_of_isFlat
     product_baseChange sqX sqY sqP sqP' hpp'X' hpp'Y'
   let cW : yoneda.obj C ⟶ yoneda.obj W₀ := yoneda.map cToU ≫ yoneda.map xsite
   have hcW : cChart ≫ pBase = cW ≫ ws.hom := by
-    show cChart ≫ p'X.hom ≫ x.hom =
+    change cChart ≫ p'X.hom ≫ x.hom =
       (yoneda.map cToU ≫ yoneda.map xsite) ≫ ws.hom
     calc
       cChart ≫ p'X.hom ≫ x.hom = (cChart ≫ p'X.hom) ≫ x.hom :=

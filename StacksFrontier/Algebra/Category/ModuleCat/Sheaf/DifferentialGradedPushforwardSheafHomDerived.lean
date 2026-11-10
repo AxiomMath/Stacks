@@ -137,7 +137,7 @@ theorem eq_zero_of_isLocalOn_of_distinguished (P : C → Prop)
       have hn := e.hom.naturality T.mor₁
       simp only [Functor.id_map, Functor.comp_map] at hn
       rw [zero_comp]
-      show ((shiftFunctor C (-1 : ℤ)).map (g ≫ T.mor₃) ≫ e.hom.app T.obj₁) ≫ T.mor₁ = 0
+      change ((shiftFunctor C (-1 : ℤ)).map (g ≫ T.mor₃) ≫ e.hom.app T.obj₁) ≫ T.mor₁ = 0
       rw [Category.assoc, ← hn, ← Category.assoc, ← Functor.map_comp, Category.assoc,
         comp_distTriang_mor_zero₃₁ T hT, comp_zero, Functor.map_zero, zero_comp]
     have : (shiftFunctor C (-1 : ℤ)).map (g ≫ T.mor₃) = (shiftFunctor C (-1 : ℤ)).map 0 := by
@@ -247,7 +247,7 @@ theorem isFlatObj_shift {Z : HomotopyCategory.{u, u, u} A} (hZ : IsFlatObj Z) (k
     IsFlatObj ((shiftFunctor (HomotopyCategory.{u, u, u} A) k).obj Z) := by
   have e := congrArg CategoryTheory.Quotient.as
     (HomotopyCategory.shiftFunctor_obj_eq.{u, u, u} A k Z.as)
-  show IsFlatObj ((shiftFunctor (HomotopyCategory.{u, u, u} A) k).obj
+  change IsFlatObj ((shiftFunctor (HomotopyCategory.{u, u, u} A) k).obj
     ((HomotopyCategory.quotient A).obj Z.as))
   unfold IsFlatObj
   rw [e]
@@ -362,7 +362,7 @@ theorem quasiIsomorphisms_homotopyPushforwardFunctor_map {H J : HomotopyCategory
   rw [← acyclic_trW_eq_quasiIsomorphisms.{u, u, u} B]
   have := acyclic_isClosedUnderIsomorphisms.{u, u, u} B
   refine ((acyclic.{u, u, u} B).trW_iff_of_distinguished _ hT').2 ?_
-  show ((pushforwardFunctor φ).obj Z.as).complex.Acyclic
+  change ((pushforwardFunctor φ).obj Z.as).complex.Acyclic
   exact SheafOfModules.acyclic_of_forall_exists_preimage _ fun n V x hx =>
     exists_d_eq_of_forall_eq_zero Z.as
       (fun _ hP g => eq_zero_of_isLocalOn_flat hT hs hH hJ hP g)

@@ -188,8 +188,8 @@ had.
 
 The value of the classifying morphism at a point is in the library too, as
 `Stacks.AlgebraicGeometry.ProjectiveSpaceGeneratingSections.morphismOfGeneratingSections_base_eq`
-of `StacksFrontier.AlgebraicGeometry.Constructions.GeneratingSectionsPointValue`: the image of `x` is
-the point cut out by a nonzero functional `φ` as soon as `ψ(v)` vanishes at `x` for every `v` in
+of `StacksFrontier.AlgebraicGeometry.Constructions.GeneratingSectionsPointValue`: the image of `x`
+is the point cut out by a nonzero functional `φ` as soon as `ψ(v)` vanishes at `x` for every `v` in
 the kernel of `φ`. Nor is there a twist gap to route around in that API — the isomorphism
 `φ^* 𝒪(1) ≅ ℒ` is
 `Stacks.AlgebraicGeometry.ProjectiveSpaceGeneratingSections.twistIsoOfGeneratingSections`, clause

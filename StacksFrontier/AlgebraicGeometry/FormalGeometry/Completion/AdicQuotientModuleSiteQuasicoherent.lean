@@ -122,8 +122,7 @@ namespace Stacks.Sites
 
 section Powers
 
-variable {C : Type u₁} [Category.{v₁} C] {J : GrothendieckTopology C}
-  [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] {O : Sheaf J CommRingCat.{u}}
+variable {C : Type u₁} [Category.{v₁} C] {J : GrothendieckTopology C} {O : Sheaf J CommRingCat.{u}}
 
 /-- **`ℐⁿ⁺¹ ⊆ ℐ · ℐⁿ`.** A section of the objectwise power `ℐ(U)ⁿ⁺¹` is a sum of products of a
 section of `ℐ(U)` with a section of `ℐ(U)ⁿ`, and each such product is a scalar multiple of a

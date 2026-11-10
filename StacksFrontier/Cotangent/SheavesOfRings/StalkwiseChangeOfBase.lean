@@ -229,11 +229,11 @@ theorem isDirectedColimitOfTypes_germ (F : (Opens X)ᵒᵖ ⥤ CommRingCat.{u}) 
       (fun _ _ h a => (F.map (nbhdHom h)).hom a)
       (fun i a => (TopCat.Presheaf.germ F (nbhd i) x (mem_nbhd i)).hom a) where
   map_id i a := by
-    show (F.map (𝟙 _)).hom a = a
+    change (F.map (𝟙 _)).hom a = a
     rw [F.map_id]
     rfl
   map_comp i j k hij hjk a := by
-    show (F.map (nbhdHom hij) ≫ F.map (nbhdHom hjk)).hom a = _
+    change (F.map (nbhdHom hij) ≫ F.map (nbhdHom hjk)).hom a = _
     rw [← F.map_comp]
     rfl
   comp i j hij a := TopCat.Presheaf.germ_res_apply F _ x (mem_nbhd j) a

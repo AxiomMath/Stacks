@@ -95,13 +95,13 @@ private lemma stalkIdeal_definingIdealOfHom_le_map_comp (i : Z ⟶ Y) (j : Y ⟶
   have hPU : (⟨A, hA⟩ ⊓ U : X.Opens) ≤ U := inf_le_right
   have hpre : j ⁻¹ᵁ (⟨A, hA⟩ ⊓ U : X.Opens) ≤ Q := by
     intro y' hy'
-    show y' ∈ (Q : Set Y)
+    change y' ∈ (Q : Set Y)
     rw [← hQA]
     exact hy'.1
   have hpreU : j ⁻¹ᵁ (⟨A, hA⟩ ⊓ U : X.Opens) ≤ j ⁻¹ᵁ U :=
     (Opens.map j.base).monotone hPU
   have hyA : j y ∈ (⟨A, hA⟩ : X.Opens) := by
-    show y ∈ j.base ⁻¹' A
+    change y ∈ j.base ⁻¹' A
     rwa [hQA]
   refine (Stacks.RingedSpace.mem_stalkIdeal_iff _).mpr
     ⟨(⟨A, hA⟩ ⊓ U : X.Opens), ⟨hyA, hxU⟩, X.presheaf.map (homOfLE hPU).op s, ?_, ?_⟩
@@ -110,7 +110,7 @@ private lemma stalkIdeal_definingIdealOfHom_le_map_comp (i : Z ⟶ Y) (j : Y ⟶
     have hQ : i.app Q (Y.presheaf.map iQV.op t) = 0 := by
       rw [app_map_apply, show i.app V t = 0 from ht, map_zero]
     refine (mem_definingIdealOfHom_iff' (i ≫ j) _ _).mpr ?_
-    show i.app (j ⁻¹ᵁ (⟨A, hA⟩ ⊓ U : X.Opens))
+    change i.app (j ⁻¹ᵁ (⟨A, hA⟩ ⊓ U : X.Opens))
       (j.app (⟨A, hA⟩ ⊓ U : X.Opens) (X.presheaf.map (homOfLE hPU).op s)) = 0
     rw [hjmap, show homOfLE hpreU = homOfLE hpre ≫ iQU from Subsingleton.elim _ _,
       op_comp, Functor.map_comp, CategoryTheory.comp_apply, heq]
@@ -131,7 +131,7 @@ lemma stalkIdeal_definingIdealOfHom_comp (i : Z ⟶ Y) (j : Y ⟶ X) [IsImmersio
     refine (mem_definingIdealOfHom_iff' i _ _).mpr ?_
     have h0 := (mem_definingIdealOfHom_iff' (i ≫ j) U s).mp hs
     rwa [Scheme.Hom.comp_app] at h0
-  show (j.stalkMap y).hom (X.presheaf.germ U (j y) hxU s) ∈
+  change (j.stalkMap y).hom (X.presheaf.germ U (j y) hxU s) ∈
     Stacks.RingedSpace.stalkIdeal (X := Y.toLocallyRingedSpace) (definingIdealOfHom i) y
   rw [Scheme.Hom.germ_stalkMap_apply]
   exact (Stacks.RingedSpace.mem_stalkIdeal_iff _).mpr ⟨j ⁻¹ᵁ U, hxU, j.app U s, hs', rfl⟩
@@ -188,7 +188,7 @@ lemma exists_open_map_eq_of_germ_eq {W : LocallyRingedSpace.{u}} (x : W) (U V : 
   have hOP : ∀ i, (⨅ i : Fin n, P i) ⊓ U ⊓ V ≤ P i := fun i =>
     le_trans (le_trans inf_le_left inf_le_left) (iInf_le P i)
   have hxInf : x ∈ (⨅ i : Fin n, P i : Opens W) := by
-    show x ∈ ((⨅ i : Fin n, P i : Opens W) : Set W)
+    change x ∈ ((⨅ i : Fin n, P i : Opens W) : Set W)
     rw [Opens.coe_iInf]
     exact Set.mem_iInter.mpr hP
   refine ⟨(⨅ i : Fin n, P i) ⊓ U ⊓ V, ⟨⟨hxInf, hxU⟩, hxV⟩, hOU, hOV, fun i => ?_⟩

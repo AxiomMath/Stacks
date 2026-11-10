@@ -580,7 +580,7 @@ theorem structureSheafModuleHom_isoSpec_val_app_top (V : X.Opens) (hV : IsAffine
     (z : (SheafOfModules.unit (structureSheafRing (Spec Γ(X, V)).toSheafedSpace)).val.obj (op ⊤)) :
     (structureSheafModuleHom (ringedSpaceIso hV.isoSpec).hom).val.app (op ⊤) z =
       V.topIso.inv.hom ((Scheme.ΓSpecIso Γ(X, V)).hom.hom z) := by
-  show (hV.isoSpec.hom.appTop).hom z = _
+  change (hV.isoSpec.hom.appTop).hom z = _
   rw [hV.isoSpec_hom, Scheme.Opens.toSpecΓ_appTop, CommRingCat.hom_comp]
   rfl
 

@@ -295,7 +295,7 @@ theorem exact_lisseEtaleSheaf_map :
   exact ⟨ShortComplex.exact_of_g_is_cokernel _ h, epi_of_isColimit_cofork h⟩
 
 variable {k : Type u} [Field k] [Fintype k] (fX : X.1 ⟶ Spec (.of k))
-  [LocallyOfFiniteType fX] [QuasiCompact fX] [IsSeparated fX]
+  [LocallyOfFiniteType fX] [QuasiCompact fX]
   (j : CompactificationOf (Over.mk fX)) (kbar : Type u) [Field kbar] [Algebra k kbar]
   [IsAlgClosed kbar]
 

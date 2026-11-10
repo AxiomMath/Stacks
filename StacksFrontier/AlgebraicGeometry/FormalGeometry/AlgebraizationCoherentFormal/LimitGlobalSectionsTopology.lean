@@ -80,7 +80,7 @@ theorem adicModuleTopology_nhds_zero_hasBasis :
       (fun k => ((I ^ k • (⊤ : Submodule R M) : Submodule R M) : Set M)) := by
   let : TopologicalSpace R := I.adicTopology
   refine ⟨fun V => ?_⟩
-  show V ∈ @nhds M ((I.ringFilterBasis.moduleFilterBasis (I.adic_module_basis M)).topology) 0 ↔
+  change V ∈ @nhds M ((I.ringFilterBasis.moduleFilterBasis (I.adic_module_basis M)).topology) 0 ↔
     _
   rw [(I.ringFilterBasis.moduleFilterBasis
     (I.adic_module_basis M)).toAddGroupFilterBasis.nhds_zero_hasBasis.mem_iff]
@@ -127,14 +127,14 @@ theorem exists_ker_le_pow_smul_top_of_iInf_induced_eq
   obtain ⟨J, hJfin, V, hV, hVeq⟩ := Filter.mem_iInf.mp hmem
   obtain ⟨n, hn⟩ := hJfin.bddAbove
   refine ⟨n, fun x hx => ?_⟩
-  show x ∈ ((I ^ k • (⊤ : Submodule R M) : Submodule R M) : Set M)
+  change x ∈ ((I ^ k • (⊤ : Submodule R M) : Submodule R M) : Set M)
   rw [hVeq, Set.mem_iInter]
   intro j
   have hxj : g j x = 0 := hmono j n (hn j.2) hx
   let : TopologicalSpace (N j) := ⊥
   obtain ⟨W, hW, hWV⟩ := (mem_nhds_induced (fun x : M ↦ g j x) 0 (V j)).mp (hV j)
   refine hWV ?_
-  show g j x ∈ W
+  change g j x ∈ W
   rw [hxj, ← map_zero (g j)]
   exact mem_of_mem_nhds hW
 
@@ -279,7 +279,7 @@ theorem limitGlobalSections_topology_eq_adicModuleTopology
     (fun n => (limit.π (AdicInverseSystem.cohomologySystem T
       (AdicInverseSystem.moduleCohomologyFunctorInt S.U.toScheme 0)) (op n)).hom)
     (fun n x => ?_) (fun i j hij x hx => ?_) h0
-  · show eL.inv.hom (c.hom (a • x)) = scalarMap S a • eL.inv.hom (c.hom x)
+  · change eL.inv.hom (c.hom (a • x)) = scalarMap S a • eL.inv.hom (c.hom x)
     rw [map_smul]
     exact map_smul eL.inv.hom (scalarMap S a) (c.hom x)
   · have hπ : ∀ y : (limit D : ModuleCat.{u} Γ(S.U.toScheme, ⊤)),
@@ -295,7 +295,7 @@ theorem limitGlobalSections_topology_eq_adicModuleTopology
     · intro hx
       have h1 := congrArg (E.hom.app (op n)).hom ((hπ (c.hom x)).symm.trans hx)
       rwa [← ModuleCat.comp_apply, Iso.inv_hom_id_app, LinearMap.map_zero, hD] at h1
-  · show (limit.π (globalSectionsSystem S F) (op i)).hom x = 0
+  · change (limit.π (globalSectionsSystem S F) (op i)).hom x = 0
     rw [← limit.w (globalSectionsSystem S F) (homOfLE hij).op, ModuleCat.comp_apply,
       show (limit.π (globalSectionsSystem S F) (op j)).hom x = 0 from hx, map_zero]
 

@@ -6,8 +6,8 @@ public import StacksFrontier.AlgebraicGeometry.Morphisms.EtaleNeighbourhood.Cono
 /-!
 # The chart family of Stacks 0CAY at the two completed base changes
 
-This file instantiates the sub-family of common charts of
-`StacksFrontier/AlgebraicGeometry/Morphisms/EtaleNeighbourhood/ConormalApproximationChartFamily.lean`
+This file instantiates the sub-family of common charts of the module
+`StacksFrontier.AlgebraicGeometry.Morphisms.EtaleNeighbourhood.ConormalApproximationChartFamily`
 at the two morphisms Stacks 0CAY compares, namely
 `b = Spec(𝒪^∧_{S,s}) ⟶ Spec(𝒪_{T,t}) ⟶ T` determined by `σ` and the same for `σ'`, and reduces
 `Stacks.ConormalApproximation.HasConormalIso` for them to the *affine* comparison of associated
@@ -67,7 +67,7 @@ theorem preimage_eq_top_specMap_fromSpecStalk {T₀ : T.Opens} (ht : t ∈ T₀)
     (φ : T.presheaf.stalk t ⟶ A) :
     (Spec.map φ ≫ T.fromSpecStalk t) ⁻¹ᵁ T₀ = ⊤ := by
   refine top_le_iff.mp fun z _ => ?_
-  show (T.fromSpecStalk t) ((Spec.map φ) z) ∈ T₀
+  change (T.fromSpecStalk t) ((Spec.map φ) z) ∈ T₀
   have hz : (T.fromSpecStalk t) ((Spec.map φ) z) ∈ {y | y ⤳ t} := by
     rw [← Scheme.range_fromSpecStalk]
     exact ⟨(Spec.map φ) z, rfl⟩
@@ -119,7 +119,7 @@ theorem specTopEquiv_appLE_specMap_fromSpecStalk {T₀ : T.Opens} (ht : t ∈ T�
     specTopEquiv A (((Spec.map φ ≫ T.fromSpecStalk t).appLE T₀ ⊤
           (preimage_eq_top_specMap_fromSpecStalk t ht φ).ge).hom x) =
       completedChartHom t ht φ.hom x := by
-  show (Scheme.ΓSpecIso A).hom.hom _ = _
+  change (Scheme.ΓSpecIso A).hom.hom _ = _
   rw [← CommRingCat.comp_apply, ΓSpecIso_appLE_specMap_fromSpecStalk t ht φ,
     CommRingCat.comp_apply]
   rfl

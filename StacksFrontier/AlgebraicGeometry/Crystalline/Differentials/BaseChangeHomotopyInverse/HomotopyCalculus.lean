@@ -70,8 +70,7 @@ private theorem formWedge_smul (p : ℕ) (b : B) (w : Omega)
 private theorem formWedge_sub (p : ℕ) (v w : Omega)
     (x : M ⊗[B] (⋀[B]^p Omega)) :
     formWedge p (v - w) x = formWedge p v x - formWedge p w x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]; abel
   | tmul m x => simp [formWedge_tmul, TensorProduct.tmul_sub]
 
@@ -82,8 +81,7 @@ theorem formWedge_zero (p : ℕ) (x : M ⊗[B] (⋀[B]^p Omega)) :
 private theorem formWedge_square (p : ℕ) (w : Omega)
     (x : M ⊗[B] (⋀[B]^p Omega)) :
     formWedge (p + 1) w (formWedge p w x) = 0 := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy, add_zero]
   | tmul m x =>
     rw [formWedge_tmul, formWedge_tmul]
@@ -96,8 +94,7 @@ private theorem formWedge_square (p : ℕ) (w : Omega)
 private theorem formWedge_anticomm (p : ℕ) (v w : Omega)
     (x : M ⊗[B] (⋀[B]^p Omega)) :
     formWedge (p + 1) v (formWedge p w x) = -formWedge (p + 1) w (formWedge p v x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]; abel
   | tmul m u =>
     rw [formWedge_tmul, formWedge_tmul, formWedge_tmul, formWedge_tmul, leftWedge_anticomm,
@@ -130,8 +127,7 @@ theorem extendedConnection_leibniz
     connectionDifferentialAddHom S pi hpi hgen nabla p (b • x) =
       b • connectionDifferentialAddHom S pi hpi hgen nabla p x +
       formWedge p (SourceDeRham.targetD pi b) x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [smul_add, map_add, hx, hy]; abel
   | tmul m w =>
     rw [TensorProduct.smul_tmul', connectionDifferentialAddHom_tmul,
@@ -188,8 +184,7 @@ private theorem tensorWedge_cons (p : ℕ) (w : Omega) (v : ⋀[B]^p Omega)
     (t : M ⊗[B] Omega) :
     TensorProduct.map LinearMap.id ((leftWedge (p + 1)).flip (leftWedge p w v)) t =
       -formWedge (p + 1) w (TensorProduct.map LinearMap.id ((leftWedge p).flip v) t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy, neg_add]
   | tmul m x =>
     simp only [TensorProduct.map_tmul, LinearMap.id_apply, LinearMap.flip_apply,
@@ -318,12 +313,11 @@ private theorem integratingHomotopyAddHom_differentialForm
   have horizontal (w : B' ⊗[B] Omega) :
       integratingHomotopyAddHom pi' psi z dec theta p
         (formWedge p (baseFormInclusion pi' psi z dec w) (baseTerm pi' psi z dec p 1 x)) = 0 := by
-    induction w using TensorProduct.induction_on with
-    | zero => simp [formWedge]
+    induction w using TensorProduct.inductionOn with
     | add w w' hw hw' => rw [map_add, formWedge_add, map_add, hw, hw', add_zero]
     | tmul f w => rw [formWedge_baseFormInclusion_tmul, integratingHomotopyAddHom_base]
   rw [← dec.dOne_add_partialZ_smul f, formWedge_add, map_add]
-  show integratingHomotopyAddHom pi' psi z dec theta p
+  change integratingHomotopyAddHom pi' psi z dec theta p
       (formWedge p (baseFormInclusion pi' psi z dec (dec.dOne f))
         (baseTerm pi' psi z dec p 1 x)) + _ = _
   rw [horizontal, zero_add, formWedge_smul, ← baseTerm_smul_one, integratingHomotopyAddHom_dz]
@@ -337,8 +331,7 @@ private theorem integratingHomotopyAddHom_dz_horizontal
         (formWedge p (baseFormInclusion pi' psi z dec w) (baseTerm pi' psi z dec p 1 x))) =
       formWedge p (baseFormInclusion pi' psi z dec
         (TensorProduct.map theta LinearMap.id w)) (baseTerm pi' psi z dec p 1 x) := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp [formWedge_zero]
+  induction w using TensorProduct.inductionOn with
   | add w w' hw hw' =>
     simp only [map_add, formWedge_add, hw, hw']
   | tmul f w =>
@@ -354,7 +347,7 @@ private theorem integratingHomotopyAddHom_dz_differentialForm
       formWedge p (baseFormInclusion pi' psi z dec
         (TensorProduct.map theta LinearMap.id (dec.dOne f))) (baseTerm pi' psi z dec p 1 x) := by
   rw [← dec.dOne_add_partialZ_smul f, formWedge_add, map_add, map_add]
-  show integratingHomotopyAddHom pi' psi z dec theta (p + 1)
+  change integratingHomotopyAddHom pi' psi z dec theta (p + 1)
       (formWedge (p + 1) (SourceDeRham.targetD pi' z)
         (formWedge p (baseFormInclusion pi' psi z dec (dec.dOne f))
           (baseTerm pi' psi z dec p 1 x))) + _ = _
@@ -371,8 +364,7 @@ private theorem map_theta_smul (theta : B' →ₗ[B] B') (p : ℕ) (b : B)
         TensorProduct.map theta (LinearMap.id (R := B) (M := M ⊗[B] (⋀[B]^p Omega))) u := by
   have h1 : ∀ f : B', theta (algebraMap B B' b • f) = algebraMap B B' b • theta f := fun f ↦ by
     rw [IsScalarTower.algebraMap_smul, map_smul, ← IsScalarTower.algebraMap_smul B' b (theta f)]
-  induction u using TensorProduct.induction_on with
-  | zero => simp
+  induction u using TensorProduct.inductionOn with
   | add u v hu hv => simp only [smul_add, map_add, hu, hv]
   | tmul f x =>
     conv_lhs => rw [TensorProduct.smul_tmul']
@@ -387,7 +379,7 @@ theorem integratingHomotopyAddHom_smul (theta : B' →ₗ[B] B') (p : ℕ) (b : 
     (y : (B' ⊗[B] M) ⊗[B'] (⋀[B']^(p + 1) Omega')) :
     integratingHomotopyAddHom pi' psi z dec theta p (algebraMap B B' b • y) =
       algebraMap B B' b • integratingHomotopyAddHom pi' psi z dec theta p y := by
-  show coefficientInclusion pi' psi z dec p
+  change coefficientInclusion pi' psi z dec p
       (TensorProduct.map theta LinearMap.id
         (coefficientRankOneProjection pi' psi z dec p (algebraMap B B' b • y))) = _
   rw [map_smul, map_theta_smul, map_smul]
@@ -520,7 +512,7 @@ private theorem dz_remainder_mem_range
       map_smul, smul_smul, Algebra.smul_def]
   refine ⟨formWedge p w x, ?_⟩
   rw [hscalar, ← dec.dOne_add_partialZ_smul (theta f), hpartialZ_theta, formWedge_add]
-  show baseTerm pi' psi z dec (p + 1) 1 (formWedge p w x) =
+  change baseTerm pi' psi z dec (p + 1) 1 (formWedge p w x) =
     _ - (formWedge p (baseFormInclusion pi' psi z dec (dec.dOne (theta f)))
       (baseTerm pi' psi z dec p 1 x) + _ - _)
   rw [← hdiff]
@@ -658,6 +650,7 @@ def restrictLinearMapTower
     rw [← IsScalarTower.algebraMap_apply R R' S] at h
     exact h
 
+omit [SMulCommClass A' B B'] in
 /-- **The Cartan remainder of the base-change map factors through it.**  This is the body of the
 proof of Lemma 07Q7 that the homotopy identities are checked on: on a base term the remainder is
 `ε(f)ω`, which lies in the image because `ε(f)` lies in `B` by assumption (07Q5); on a `dz`-term
@@ -727,7 +720,7 @@ theorem cartanRemainder_mem_range
   let s : ∀ p, Y p →ₗ[A] Y p := fun p =>
     RestrictScalars.lsmul A B' _ (algebraMap B B' a)
   let g : ∀ p, Y p →ₗ[A] Y p := @cartanRemainder A _ Y yGroup yModule dY hh s
-  show ∀ p y, g p y ∈ LinearMap.range (c p)
+  change ∀ p y, g p y ∈ LinearMap.range (c p)
   have hc_base (p : ℕ) (x : M ⊗[B] (⋀[B]^p Omega)) :
       c p x = baseTerm pi' psi z dec p 1 x :=
     baseChangeMap_eq_coefficientInclusion pi' psi z dec p (c p) (hc_wedge p) x

@@ -193,7 +193,7 @@ theorem nthOrderInclusion_isNthOrderThickening (n : ℕ) :
   have hcover : ⨆ V, (U V).1 = ⊤ := by
     simpa [U] using congrArg (fun V : B.Opens => p ⁻¹ᵁ V) (iSup_affineOpens_eq_top B)
   refine Scheme.IdealSheafData.ext_of_iSup_eq_top U hcover fun V ↦ ?_
-  show ((nthOrderInclusion i n).ker ^ (n + 1)).ideal (U V) = ⊥
+  change ((nthOrderInclusion i n).ker ^ (n + 1)).ideal (U V) = ⊥
   let W := U V
   let φ := (p.app V).hom
   have hKloc : K.ideal V = ((nthOrderInclusion i n).ker.ideal W).comap φ := by
@@ -249,7 +249,7 @@ theorem ker_pow_le_ker_of_comm_square {Z X T T' : Scheme.{u}}
     l.ker ^ n ≤ f.ker := by
   apply (Scheme.IdealSheafData.le_ofIdeals_iff).2
   intro V
-  show (l.ker ^ n).ideal V ≤ RingHom.ker (f.app V).hom
+  change (l.ker ^ n).ideal V ≤ RingHom.ker (f.app V).hom
   intro x hx
   let P := f ⁻¹ᵁ V.1
   let q := f.resLE V.1 P le_rfl
@@ -288,7 +288,7 @@ theorem ker_pow_le_ker_of_comm_square {Z X T T' : Scheme.{u}}
       change (j.ker.ideal W) ^ n = ⊥ at h
       simpa only [J] using h
     have hkerp : p.ker.ideal Ctop = J.comap (w.appIso Ctop).inv.hom := by
-      show (Limits.pullback.fst w j).ker.ideal Ctop = _
+      change (Limits.pullback.fst w j).ker.ideal Ctop = _
       rw [Scheme.IdealSheafData.ker_fst_of_isClosedImmersion,
         Scheme.IdealSheafData.ideal_comap_of_isOpenImmersion]
     have hkerpow : p.ker.ideal Ctop ^ n = ⊥ := by
@@ -309,7 +309,7 @@ theorem ker_pow_le_ker_of_comm_square {Z X T T' : Scheme.{u}}
     have hmap : Ideal.map φ (l.ker.ideal V) ≤ RingHom.ker p.appTop.hom := by
       apply Ideal.map_le_iff_le_comap.mpr
       intro y hy
-      show φ y ∈ RingHom.ker p.appTop.hom
+      change φ y ∈ RingHom.ker p.appTop.hom
       rw [RingHom.mem_ker]
       have hcompzero : (F.appLE V.1 ⊤ hFle).hom y = 0 := by
         have hlzero : (l.app V).hom y = 0 := by
@@ -354,13 +354,13 @@ theorem ker_pow_le_ker_of_comm_square {Z X T T' : Scheme.{u}}
     have hφzero : φ x = 0 := by
       rw [hkerApp, hkerpow] at hφx
       simpa using hφx
-    show g.appTop.hom (V.1.topIso.inv.hom x) = 0
+    change g.appTop.hom (V.1.topIso.inv.hom x) = 0
     rw [← hι]
     simpa [φ] using hφzero
   have hfLE : (f.appLE V.1 P le_rfl).hom x = 0 := by
     have hqval : q.appTop.hom (V.1.topIso.inv.hom x) =
         P.topIso.inv.hom ((f.appLE V.1 P le_rfl).hom x) := by
-      show ((f.resLE V.1 P le_rfl).appTop).hom (V.1.topIso.inv.hom x) = _
+      change ((f.resLE V.1 P le_rfl).appTop).hom (V.1.topIso.inv.hom x) = _
       simp only [Scheme.Hom.appTop, Scheme.Hom.resLE_app_top, CommRingCat.comp_apply]
       rw [Iso.inv_hom_id_apply]
     rw [hqval] at hqzero
@@ -396,7 +396,7 @@ theorem existsUnique_nthOrderLift {T T' : Scheme.{u}}
     obtain ⟨x, hx⟩ := hj'.2 y'
     refine ⟨l.base (a.base x), ?_⟩
     have hpoint := congrArg (fun q : T ⟶ X => q.base x) h
-    show (l ≫ U.ι).base (a.base x) = b.base y'
+    change (l ≫ U.ι).base (a.base x) = b.base y'
     rw [← hx]
     simpa [l, U, i.liftCoborder_ι] using hpoint.symm
   let f : T' ⟶ U.toScheme := IsOpenImmersion.lift U.ι b hrange

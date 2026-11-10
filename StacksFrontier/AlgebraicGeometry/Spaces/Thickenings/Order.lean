@@ -93,11 +93,11 @@ theorem Scheme.ker_pow_eq_bot_of_forall_affineOpens {X Y : Scheme.{u}} (f : X �
     obtain ⟨_, ⟨W, hW, rfl⟩, hxW, -⟩ :=
       Y.isBasis_affineOpens.exists_subset_of_mem_open (Set.mem_univ x) isOpen_univ
     refine TopologicalSpace.Opens.mem_iSup.mpr ⟨⟨W, hW⟩, ?_⟩
-    show x ∈ ((⟨W, hW⟩ : Y.affineOpens).1.ι ''ᵁ
+    change x ∈ ((⟨W, hW⟩ : Y.affineOpens).1.ι ''ᵁ
       (⊤ : (⟨W, hW⟩ : Y.affineOpens).1.toScheme.Opens) : Y.Opens)
     rwa [Scheme.Opens.ι_image_top]
   · intro V
-    show f.ker.ideal _ ^ (n + 1) = ⊥
+    change f.ker.ideal _ ^ (n + 1) = ⊥
     obtain ⟨X₀, f₀, g, hsq, hker⟩ := h V
     have hV : IsAffine V.1.toScheme := V.2
     have hqc : QuasiCompact f₀ := MorphismProperty.of_isPullback hsq.flip inferInstance

@@ -106,7 +106,7 @@ theorem chowToWideLayerHom_injective_and_range (C : ChowSituation.{u}) (sX : X �
       (KZero.toGrothendieckGroup x)
     refine ⟨QuotientAddGroup.mk' (rationalEquivalences C sX k) c, ?_⟩
     rw [chowToWideLayerHom_mk]
-    show coherentDimensionLayerHom C sX k
+    change coherentDimensionLayerHom C sX k
       (KZero.ofGrothendieckGroup (cycleGroupAddEquivDimensionLayer C sX k c)) = _
     rw [hc, KZero.ofGrothendieckGroup_toGrothendieckGroup]
 

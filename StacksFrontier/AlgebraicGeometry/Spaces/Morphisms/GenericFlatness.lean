@@ -400,7 +400,7 @@ private theorem exists_dense_open_genericFlatness_etaleAffine
     have hpu : pointOfEtaleChart B S hS
         ⟨CostructuredArrow.mk (pU ≫ pullback.fst f b), hpE⟩
         (pointsEquivScheme B S hS Ua uu) = x := by
-      show pointsMap B S hS (yoneda.obj Ua) (pU ≫ pullback.fst f b)
+      change pointsMap B S hS (yoneda.obj Ua) (pU ≫ pullback.fst f b)
         ((pointsEquivScheme B S hS Ua).symm (pointsEquivScheme B S hS Ua uu)) = x
       simp only [Equiv.symm_apply_apply, pointsMap_comp, Function.comp_apply, huu, hwX]
     rw [← hpu]
@@ -525,7 +525,7 @@ private theorem exists_etaleCover_genericFlatness
     have hzO₁ : pointsEquivScheme B S hS V₀ v₀ ∈
         (pointsEquivScheme B S hS V₀).symm ⁻¹'
           (pointsMap B S hS (yoneda.obj V₀) q ⁻¹' O) := by
-      show pointsMap B S hS (yoneda.obj V₀) q
+      change pointsMap B S hS (yoneda.obj V₀) q
         ((pointsEquivScheme B S hS V₀).symm (pointsEquivScheme B S hS V₀ v₀)) ∈ O
       rw [Equiv.symm_apply_apply, hv₀]
       exact hyO

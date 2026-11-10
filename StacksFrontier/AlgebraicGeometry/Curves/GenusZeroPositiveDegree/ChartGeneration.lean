@@ -54,7 +54,7 @@ The reductions of the `uⱼ`, `j ≠ i`, are linearly independent in `R/(r)`: a 
 `∑ cⱼ uⱼ = r ρ` becomes `∑ cⱼ xⱼ = ρ` after multiplication by `w`, so it is a constant, which
 independence of the `xⱼ` forbids. So they span `R/(r)`. For `β = ρ w^(m+1)` write
 `ρ = ∑ cⱼ uⱼ + r ρ'`; then `β - ∑ cⱼ xⱼ wᵐ = ρ' wᵐ`, and induction on `m` applies. -/
-theorem adjoin_eq_top_of_leadingTerm {ι : Type*} [Fintype ι] [DecidableEq ι]
+theorem adjoin_eq_top_of_leadingTerm {ι : Type*} [Fintype ι]
     (hk : ∀ c : k, ιB (algebraMap k B c) = ιR (algebraMap k R c))
     (x : ι → B) (u : ι → R) (r : R) (i : ι) (w : B) (hw : w ∈ Algebra.adjoin k (Set.range x))
     (hxi : x i = 1)
@@ -90,14 +90,14 @@ theorem adjoin_eq_top_of_leadingTerm {ι : Type*} [Fintype ι] [DecidableEq ι]
     let c' : ι → k := fun j => if h : j = i then -γ else c ⟨j, h⟩
     have hsum : ∑ j : ι, c' j • x j = 0 := by
       rw [Fintype.sum_eq_add_sum_subtype_ne _ i]
-      have hci : c' i = -γ := dif_pos rfl
-      have hcj : ∀ j : {j // j ≠ i}, c' j = c j := fun j => dif_neg j.2
+      have hci : c' i = -γ := dite_eq_left rfl
+      have hcj : ∀ j : {j // j ≠ i}, c' j = c j := fun j => dite_eq_right j.2
       simp only [hci, hcj, hxi, ← Algebra.algebraMap_eq_smul_one]
       rw [map_neg, hγ, neg_add_cancel]
     have hzero := Fintype.linearIndependent_iff.mp hind c' hsum
     funext j
     have := hzero j
-    rwa [show c' j = c j from dif_neg j.2] at this
+    rwa [show c' j = c j from dite_eq_right j.2] at this
   have hvind : LinearIndependent k v := by
     refine Fintype.linearIndependent_iff.mpr fun c hc => ?_
     have hmem : ∑ j, c j • u j ∈ Ideal.span {r} := by
@@ -266,7 +266,7 @@ theorem adjoin_ratio_eq_top {n : ℕ} (s : Fin (n + 1) → Γ(L, ⊤)) (i : Fin 
     obtain ⟨⟨ρ, ⟨_, m, rfl⟩⟩, hz⟩ := IsLocalization.mk'_surjective (Submonoid.powers r) z
     refine ⟨ρ, m, ?_⟩
     rw [← hz, IsLocalization.mk'_eq_iff_eq_mul]
-    show ιR ρ = ιR ρ * ιB w ^ m * ιR (r ^ m)
+    change ιR ρ = ιR ρ * ιB w ^ m * ιR (r ^ m)
     rw [map_pow, mul_assoc, ← mul_pow, hpr, one_pow, mul_one]
   have hconst : ∀ (β : Γ(X, nvCover s i)) (ρ : Γ(X, nvOpen L t)), ιB β = ιR ρ →
       β ∈ Set.range (algebraMap k Γ(X, nvCover s i)) := by
@@ -293,7 +293,7 @@ theorem adjoin_ratio_eq_top {n : ℕ} (s : Fin (n + 1) → Γ(L, ⊤)) (i : Fin 
     obtain ⟨κ, hκ⟩ := (ConcreteCategory.bijective_of_isIso
       ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop)).2 (X.presheaf.map (homOfLE hcov.ge).op g)
     refine ⟨κ, ?_⟩
-    show (X.presheaf.map (homOfLE le_top).op).hom
+    change (X.presheaf.map (homOfLE le_top).op).hom
       (((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop).hom κ) = β
     rw [hκ, ← hg, hcomp]
   have hWne : Nonempty W := by

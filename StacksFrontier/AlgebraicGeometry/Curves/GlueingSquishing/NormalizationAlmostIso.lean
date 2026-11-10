@@ -113,15 +113,15 @@ theorem isAlmostIso_normalizationOverField_of_exists_isIso (k : Type u) [Field k
         Over.mk (normalizationOverField k p ≫ p) ⟶ Over.mk p) := by
   have := isFinite_normalizationOverField k p
   refine ⟨⟨?_, ?_, ?_, ?_, ?_, hU⟩, mono_hom_pushforwardAlgebra_normalizationOverField k p⟩
-  · show LocallyOfFiniteType (normalizationOverField k p ≫ p)
+  · change LocallyOfFiniteType (normalizationOverField k p ≫ p)
     infer_instance
-  · show QuasiCompact (normalizationOverField k p ≫ p)
+  · change QuasiCompact (normalizationOverField k p ≫ p)
     infer_instance
-  · show LocallyOfFiniteType p
+  · change LocallyOfFiniteType p
     infer_instance
-  · show QuasiCompact p
+  · change QuasiCompact p
     infer_instance
-  · show IsFinite (normalizationOverField k p)
+  · change IsFinite (normalizationOverField k p)
     infer_instance
 
 end AlgebraicGeometry

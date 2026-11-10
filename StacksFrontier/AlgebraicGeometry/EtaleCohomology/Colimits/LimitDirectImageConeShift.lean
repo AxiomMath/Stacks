@@ -59,6 +59,7 @@ section Shift
 variable {I : Type v} [Preorder I] {D : Iᵒᵖ ⥤ Scheme.{u}} (A : Type w) [Category.{w'} A]
   [∀ (i j : Iᵒᵖ) (a : i ⟶ j), (systemPushforward D A a).IsRightAdjoint] (c : Cone D)
 
+omit [∀ (i j : Iᵒᵖ) (a : i ⟶ j), (systemPushforward D A a).IsRightAdjoint] in
 /-- **The associativity pentagon at the projections of a cone**: the comparison
 `f_{j, *} ≅ f_{kj, *} f_{k, *} ≅ f_{kj, *} f_{lk, *} f_{l, *}` agrees with the comparison through
 the composite transition. -/
@@ -96,6 +97,7 @@ def shiftLeg {G : ∀ i : Iᵒᵖ, Sheaf (smallEtaleTopology (D.obj i)) A}
     (systemPushforward D A a).obj (G k) ⟶ (smallEtalePushforward (c.π.app j) A).obj Y :=
   (systemPushforward D A a).map (x k) ≫ (coneProjectionComp A c a).hom.app Y
 
+omit [∀ (i j : Iᵒᵖ) (a : i ⟶ j), (systemPushforward D A a).IsRightAdjoint] in
 /-- **The shifted maps of a compatible family form a cocone over the shifted transition maps.**
 If `x_k = f_{lk, *}x_l ∘ φ^t_{lk}` read through the comparisons, for all `l ⟶ k`, then for
 `l ⟶ k ⟶ j` the shifted map from `l` composed with the shifted transition map is the shifted map
@@ -118,6 +120,7 @@ theorem shiftTransition_comp_shiftLeg {G : ∀ i : Iᵒᵖ, Sheaf (smallEtaleTop
   simp only [Functor.map_comp, Category.assoc]
   rw [hP, reassoc_of% hnat]
 
+omit [∀ (i j : Iᵒᵖ) (a : i ⟶ j), (systemPushforward D A a).IsRightAdjoint] in
 /-- **An identity between shifted maps persists at an earlier level.** If two maps
 `x : Z ⟶ f_{l, *}Y` and `y : Z ⟶ f_{l, *}Y'` satisfy `x' ≫ ρ = y'` after shifting along
 `b : l ⟶ k`, then after shifting along the composite `l ⟶ j` they satisfy the same identity with
@@ -179,6 +182,7 @@ theorem directTransition_eq (F : EtaleSheafSystem DX A) {i j : Iᵒᵖ} (a : i �
     directTransition γ A F a = (systemAdjunction DS A a).homEquiv _ _ (transitionMap γ A F a) :=
   (transitionMap_transpose γ A F a).symm
 
+omit [∀ (i j : Iᵒᵖ) (a : i ⟶ j), (systemPushforward DS A a).IsRightAdjoint] in
 /-- **The direct image of a shifted transition map is the shifted transition map of the direct
 images**, read through the square identifications of the transitions. -/
 theorem shiftTransition_transitionSquareIso (F : EtaleSheafSystem DX A) {l k j : Iᵒᵖ}
@@ -211,6 +215,9 @@ def projectionTranspose (i : Iᵒᵖ) :
   (smallEtalePushforward (γ.app i) A).map (x i) ≫
     (projectionSquareIso γ A cX cS hcS i).hom.app 𝓕
 
+omit [∀ (i j : Iᵒᵖ) (a : i ⟶ j), (systemPushforward DS A a).IsRightAdjoint]
+  [∀ i : Iᵒᵖ, (smallEtalePushforward (cX.π.app i) A).IsRightAdjoint]
+  [∀ i : Iᵒᵖ, (smallEtalePushforward (cS.π.app i) A).IsRightAdjoint] in
 /-- **The transposed cocone maps are compatible with the transition maps of the direct images**,
 whenever the `x_i` are compatible with those of the system. -/
 theorem projectionTranspose_compat
@@ -231,6 +238,9 @@ theorem projectionTranspose_compat
   simp only [Functor.map_comp, Category.assoc]
   rw [projectionSquareIso_paste_app γ A cX cS hcS a 𝓕, reassoc_of% hnat]
 
+omit [∀ (i j : Iᵒᵖ) (a : i ⟶ j), (systemPushforward DS A a).IsRightAdjoint]
+  [∀ i : Iᵒᵖ, (smallEtalePushforward (cX.π.app i) A).IsRightAdjoint]
+  [∀ i : Iᵒᵖ, (smallEtalePushforward (cS.π.app i) A).IsRightAdjoint] in
 /-- **The direct image of a shifted map, against the shifted transposed cocone map.** For
 `a : k ⟶ j`, `g_{j, *}` of the shifted map `f_{kj, *}F_k ⟶ f_{j, *}𝓕` followed by the
 identification of the projection square at `j` is the square identification of the transition

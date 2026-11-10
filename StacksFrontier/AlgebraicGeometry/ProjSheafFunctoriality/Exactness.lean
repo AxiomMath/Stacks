@@ -104,7 +104,7 @@ private theorem associatedModuleSheafMap_eq_zero (φ : M →ₗ[S] N)
     intro z
     induction z using LocalizedModule.induction_on with
     | _ m s => simp [h0 m]
-  show LocalizedModule.map x.1.asHomogeneousIdeal.toIdeal.primeCompl φ
+  change LocalizedModule.map x.1.asHomogeneousIdeal.toIdeal.primeCompl φ
     ((a : ↥(ProjectiveSpectrum.Proj.moduleSections 𝒮 𝒨 (unop U))).1 x) = 0
   exact key _
 

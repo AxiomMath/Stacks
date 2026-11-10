@@ -120,7 +120,7 @@ theorem realizationComponentComparison_isIso (T : SimplicialDerivedSystem S)
     simp only [realizationComponentComparison_ι, realizationComponentInclusion,
       realizationTermMap_homEquiv, Iso.trans_hom, Iso.symm_hom, asIso_inv,
       Limits.Sigma.ι_mapIso_hom_assoc, Limits.biproduct.isoCoproduct_inv,
-      Limits.Sigma.ι_desc_assoc, realizationTermComponentIso_ι]
+      Limits.Sigma.ι_comp_desc_assoc, realizationTermComponentIso_ι]
   rw [he]
   exact Iso.isIso_hom _
 

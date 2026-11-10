@@ -177,7 +177,7 @@ theorem relativeAffineSiteStageSchemes_map_toTarget
       relativeAffineSiteStageToTargetScheme B S hS m i := by
   let := relativeAffineSiteAlgebra B S hS m
   apply ObjectProperty.hom_ext
-  show (specAdjoinFinsetDiagramOver _ _).map f ≫ (specAdjoinFinsetDiagramOverToBase _ _ j ≫ _) =
+  change (specAdjoinFinsetDiagramOver _ _).map f ≫ (specAdjoinFinsetDiagramOverToBase _ _ j ≫ _) =
     specAdjoinFinsetDiagramOverToBase _ _ i ≫ _
   rw [← Category.assoc, specAdjoinFinsetDiagramOver_map_toBase]
 

@@ -68,13 +68,13 @@ theorem eq_zero_of_sq_smul_eq_zero {R : Type u₁} [CommRing R] {A : Type u₂} 
     { carrier := {r | r • D = 0}
       zero_mem' := zero_smul R D
       add_mem' := fun {a b} ha hb ↦ by
-        show (a + b) • D = 0
+        change (a + b) • D = 0
         rw [add_smul, show a • D = 0 from ha, show b • D = 0 from hb, add_zero]
       smul_mem' := fun r a ha ↦ by
-        show (r • a) • D = 0
+        change (r • a) • D = 0
         rw [smul_eq_mul, mul_smul, show a • D = 0 from ha, smul_zero] }
   have hrad : ∀ i, c i ∈ I.radical := fun i ↦ ⟨2, by
-    show (c i ^ 2) • D = 0
+    change (c i ^ 2) • D = 0
     rw [pow_two]
     exact h i⟩
   obtain ⟨k, hk⟩ : (1 : R) ∈ I.radical := hc ▸ Submodule.sum_mem _ fun i _ ↦ hrad i
@@ -102,7 +102,7 @@ open CategoryTheory MonoidalCategory
 theorem braiding_eq_id_of_tmul_comm {R : Type u₁} [CommRing R] (M : ModuleCat.{u₁} R)
     (h : ∀ a b : M, a ⊗ₜ[R] b = b ⊗ₜ[R] a) : (β_ M M).hom = 𝟙 (M ⊗ M) := by
   refine ModuleCat.hom_ext (TensorProduct.ext' fun a b ↦ ?_)
-  show (β_ M M).hom (a ⊗ₜ b) = a ⊗ₜ b
+  change (β_ M M).hom (a ⊗ₜ b) = a ⊗ₜ b
   rw [ModuleCat.MonoidalCategory.braiding_hom_apply]
   exact h b a
 

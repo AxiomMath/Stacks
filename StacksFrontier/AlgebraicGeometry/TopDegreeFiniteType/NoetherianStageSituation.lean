@@ -102,7 +102,7 @@ lemma baseRingToSections_eq_appTop :
   simp only [CategoryTheory.Over.mk_hom, Scheme.Hom.comp_appTop, Scheme.isoSpec_hom]
   rw [Scheme.toSpecΓ_appTop]
   ext r
-  show (X.ringCatSheaf.obj.map (Opens.leTop (⊤ : X.Opens)).op).hom
+  change (X.ringCatSheaf.obj.map (Opens.leTop (⊤ : X.Opens)).op).hom
       (g.appTop.hom ((Scheme.ΓSpecIso Γ(S, ⊤)).hom.hom
         ((Scheme.ΓSpecIso Γ(S, ⊤)).inv.hom r))) = g.appTop.hom r
   rw [h1]

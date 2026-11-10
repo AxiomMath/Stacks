@@ -113,7 +113,7 @@ theorem GradedIntegralComponentRule.extendCycleGroup_rationallyEquivalent
           (schemeDeltaDimension_cycleSupportIndex α i)).1 y).Finite := fun S y ↦
     finite_support_of_locallyFinite _ hE _
       (fun i ↦ GradedIntegralComponentRule.support_zsmul_cycle_subset C p q g d e S _ _ _ _) y
-  show IsRationallyEquivalentToZero C q e (R.extendCycleGroup α - R'.extendCycleGroup α)
+  change IsRationallyEquivalentToZero C q e (R.extendCycleGroup α - R'.extendCycleGroup α)
   refine rationallyEquivalentToZero_finsum C q e
     (fun i : cycleSupportIndex α ↦ α.1 i.1 •
       (R.cycle (integralComponentAt i.1) (isIntegral_integralComponentAt i.1)

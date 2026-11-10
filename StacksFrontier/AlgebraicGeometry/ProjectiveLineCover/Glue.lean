@@ -243,14 +243,14 @@ theorem chartMul_compat {W : Scheme.{u}} (a : W ⟶ Piece.{u} n 0) (b : W ⟶ Pi
   have hx : a ≫ chartMul n 0 = pullback.lift δ (a ≫ pullback.fst _ _) (terminal.hom_ext _ _) ≫
       (projModelIso overlapRing.{u} n).inv ≫ projModelMap n toOverlapX.{u} ≫ mulMapX n coordT := by
     conv_lhs => rw [ha]
-    show _ ≫ (pieceIso n 0).hom ≫ (projModelIso (chartRing.{u} 0) n).inv ≫ mulMapX n coordT = _
+    change _ ≫ (pieceIso n 0).hom ≫ (projModelIso (chartRing.{u} 0) n).inv ≫ mulMapX n coordT = _
     rw [← Category.assoc (pieceIso n 0).hom, ← Category.assoc,
       lift_comp_pieceIso_projModelIso]
     simp only [Category.assoc]
   have hy : b ≫ chartMul n 1 = pullback.lift δ (a ≫ pullback.fst _ _) (terminal.hom_ext _ _) ≫
       (projModelIso overlapRing.{u} n).inv ≫ projModelMap n toOverlapY.{u} ≫ mulMapY n coordS := by
     conv_lhs => rw [hb]
-    show _ ≫ (pieceIso n 1).hom ≫ (projModelIso (chartRing.{u} 1) n).inv ≫ mulMapY n coordS = _
+    change _ ≫ (pieceIso n 1).hom ≫ (projModelIso (chartRing.{u} 1) n).inv ≫ mulMapY n coordS = _
     rw [← Category.assoc (pieceIso n 1).hom, ← Category.assoc,
       lift_comp_pieceIso_projModelIso]
     simp only [Category.assoc]

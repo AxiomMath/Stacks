@@ -48,7 +48,7 @@ theorem comap_chartPrimeAt {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y)
         ((chartDiagramPullback B S hS f d).hom a) =
       (r.stalkMap x).hom (((chartScheme d.V).presheaf.germ ⊤ (r.base x) trivial).hom a) :=
     (Scheme.Hom.germ_stalkMap_apply r ⊤ x trivial a).symm
-  show ((chartScheme d.U).presheaf.germ ⊤ x trivial).hom
+  change ((chartScheme d.U).presheaf.germ ⊤ x trivial).hom
       ((chartDiagramPullback B S hS f d).hom a) ∈ IsLocalRing.maximalIdeal _ ↔
     ((chartScheme d.V).presheaf.germ ⊤ (r.base x) trivial).hom a ∈ IsLocalRing.maximalIdeal _
   rw [h, ← Ideal.mem_comap, IsLocalRing.maximalIdeal_comap]

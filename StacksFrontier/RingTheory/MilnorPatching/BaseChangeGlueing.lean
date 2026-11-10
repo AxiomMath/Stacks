@@ -127,7 +127,7 @@ theorem isBaseChangeAlong_iff_isBaseChange (f : M →ₛₗ[φ] N) :
     refine TensorProduct.AlgebraTensorModule.ext fun s m => ?_
     rw [liftAlong_tmul, LinearEquiv.coe_coe, IsBaseChange.equiv_tmul]
     rfl
-  show Function.Bijective (liftAlong φ f)
+  change Function.Bijective (liftAlong φ f)
   rw [e]
   exact h.equiv.bijective
 
@@ -139,8 +139,7 @@ private theorem comp_liftAlong_eq {f : M →ₛₗ[φ] N} {N' : Type u} [AddComm
     ⇑g ∘ liftAlong φ f = liftAlong φ f' := by
   let := φ.toAlgebra
   refine funext fun t => ?_
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [Function.comp_apply, map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul s m =>
     change g (s • f m) = s • f' m
     rw [map_smul, hg]
@@ -226,8 +225,7 @@ theorem exists_equiv_liftAlong_of_isPushout
     rfl
   have key : ∀ y : S' ⊗[R'] M, L1 (c.symm y) = L2 y := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, map_zero]
+    induction y using TensorProduct.inductionOn with
     | tmul s' m =>
       rw [show s' ⊗ₜ[R'] m = s' • ((1 : S') ⊗ₜ[R'] m) by
           rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one],
@@ -237,7 +235,7 @@ theorem exists_equiv_liftAlong_of_isPushout
         (liftAlong_one_tmul σ (restrictSquare σ ρ β δ hw f) m).symm)
     | add x y hx hy => rw [map_add, map_add, hx, hy, map_add]
   exact ⟨c.toEquiv, fun x => by
-    show L1 x = L2 (c x)
+    change L1 x = L2 (c x)
     rw [← key, LinearEquiv.symm_apply_apply]⟩
 
 /-- **A base change along one side of a cocartesian square of rings is a base change along the
@@ -253,7 +251,7 @@ theorem isBaseChangeAlong_iff_of_isPushout
       IsBaseChangeAlong σ (restrictSquare σ ρ β δ
         (congrArg CommRingCat.Hom.hom h.w.symm) f) := by
   obtain ⟨c, hc⟩ := exists_equiv_liftAlong_of_isPushout σ ρ β δ h f
-  show Function.Bijective _ ↔ Function.Bijective _
+  change Function.Bijective _ ↔ Function.Bijective _
   rw [show ⇑(liftAlong δ f) = _ ∘ ⇑c from funext hc]
   exact Function.Bijective.of_comp_iff _ c.bijective
 
@@ -433,12 +431,12 @@ theorem isBaseChangeAlong_of_isGlued (hsq : IsFibreSquare σ σ' τ π)
   let Ψc : L ≅ ModuleCat.of B' M := Ψ.toModuleIso
   have key₁ : (ModuleCat.extendScalars σ).map Ψc.hom ≫ lift₁ = (adj.counit.app X).fst := by
     refine ModuleCat.ExtendScalars.hom_ext fun l => ?_
-    show liftAlong σ p ((1 : B) ⊗ₜ[B',σ] ψ l) = _
+    change liftAlong σ p ((1 : B) ⊗ₜ[B',σ] ψ l) = _
     rw [liftAlong_one_tmul]
     exact (hψ l).1
   have key₂ : (ModuleCat.extendScalars σ').map Ψc.hom ≫ lift₂ = (adj.counit.app X).snd := by
     refine ModuleCat.ExtendScalars.hom_ext fun l => ?_
-    show liftAlong σ' p' ((1 : A') ⊗ₜ[B',σ'] ψ l) = _
+    change liftAlong σ' p' ((1 : A') ⊗ₜ[B',σ'] ψ l) = _
     rw [liftAlong_one_tmul]
     exact (hψ l).2
   have hb₁ : Function.Bijective ((ModuleCat.extendScalars σ).map Ψc.hom ≫ lift₁) := by
@@ -501,7 +499,7 @@ theorem eq_zero_of_flat (hinj : ∀ x y : B', σ x = σ y → σ' x = σ' y → 
   have h₃ : j.rTensor L ((1 : B') ⊗ₜ[B'] l) = 0 := by
     apply (TensorProduct.prodLeft B' B' B A' L).injective
     rw [LinearMap.rTensor_tmul, map_zero]
-    show (TensorProduct.prodLeft B' B' B A' L) ((algebraMap B' B 1, algebraMap B' A' 1) ⊗ₜ l) = 0
+    change (TensorProduct.prodLeft B' B' B A' L) ((algebraMap B' B 1, algebraMap B' A' 1) ⊗ₜ l) = 0
     rw [TensorProduct.prodLeft_tmul, map_one, map_one, e₁, e₂]
     rfl
   have h₄ : (1 : B') ⊗ₜ[B'] l = 0 := hjt (h₃.trans (map_zero _).symm)
@@ -525,8 +523,7 @@ theorem exists_eq_of_surjective (hsq : IsFibreSquare σ σ' τ π)
     exact ⟨x, hx⟩
   have hrange : ∀ x : B ⊗[B'] L, ∃ l, q l = liftAlong σ q x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => exact ⟨0, by rw [map_zero, map_zero]⟩
+    induction x using TensorProduct.inductionOn with
     | tmul b l =>
       obtain ⟨b', rfl⟩ := hσ b
       exact ⟨b' • l, by rw [q.map_smulₛₗ, liftAlong_tmul]⟩
@@ -540,10 +537,9 @@ theorem exists_eq_of_surjective (hsq : IsFibreSquare σ σ' τ π)
   have hker : ∀ m ∈ RingHom.ker π • (⊤ : Submodule A' N'), ∃ l, q l = 0 ∧ q' l = m := by
     intro m hm
     refine Submodule.smul_induction_on (p := fun m => ∃ l, q l = 0 ∧ q' l = m) hm ?_ ?_
-    · intro a ha y _
+    · rintro a ha y -
       obtain ⟨z, rfl⟩ := hq' y
-      induction z using TensorProduct.induction_on with
-      | zero => exact ⟨0, by rw [map_zero], by rw [map_zero, map_zero, smul_zero]⟩
+      induction z using TensorProduct.inductionOn with
       | tmul a' l =>
         have hz : π (a * a') = τ 0 := by
           rw [map_mul, RingHom.mem_ker.mp ha, zero_mul, map_zero]
@@ -551,8 +547,8 @@ theorem exists_eq_of_surjective (hsq : IsFibreSquare σ σ' τ π)
         refine ⟨r • l, by rw [q.map_smulₛₗ, hr, zero_smul], ?_⟩
         rw [q'.map_smulₛₗ, hr', liftAlong_tmul, smul_smul]
       | add z₁ z₂ h₁ h₂ =>
-        obtain ⟨l₁, h₁q, h₁q'⟩ := h₁ trivial
-        obtain ⟨l₂, h₂q, h₂q'⟩ := h₂ trivial
+        obtain ⟨l₁, h₁q, h₁q'⟩ := h₁
+        obtain ⟨l₂, h₂q, h₂q'⟩ := h₂
         exact ⟨l₁ + l₂, by rw [map_add, h₁q, h₂q, add_zero], by
           rw [map_add, h₁q', h₂q', map_add, smul_add]⟩
     · rintro m₁ m₂ ⟨l₁, h₁q, h₁q'⟩ ⟨l₂, h₂q, h₂q'⟩
@@ -563,7 +559,7 @@ theorem exists_eq_of_surjective (hsq : IsFibreSquare σ σ' τ π)
     let := π.toAlgebra
     rw [← ker_tensorProductMk_of_surjective π hsq.surjective]
     refine hβ.1 ?_
-    show liftAlong π β (1 ⊗ₜ (n' - q' l₀)) = liftAlong π β 0
+    change liftAlong π β (1 ⊗ₜ (n' - q' l₀)) = liftAlong π β 0
     rw [liftAlong_one_tmul, hβm, map_zero]
   obtain ⟨l₁, hl₁, hl₁'⟩ := hker _ hmem
   exact ⟨l₀ + l₁, by rw [map_add, hl₀, hl₁, add_zero], by rw [map_add, hl₁', add_sub_cancel]⟩

@@ -241,7 +241,7 @@ theorem tensorWithComplexDerivedHomMapModulesOver_forget
       tensorWithComplexDerivedHomMap.{u, o} X R K M N := by
   rw [tensorWithComplexDerivedHomMapModulesOver, CategoryTheory.Functor.map_comp,
     Category.assoc]
-  show _ ≫ _ ≫ _ ≫ _ =
+  change _ ≫ _ ≫ _ ≫ _ =
     DerivedCategory.Q.map (tensorWithComplexHomComplexMap.{u, o} X R K M N) ≫
       homComplexToGlobalDerivedHom X
         ((tensorWithComplexDG.{u, u, u, u, u, o} X R K).functor.obj M)

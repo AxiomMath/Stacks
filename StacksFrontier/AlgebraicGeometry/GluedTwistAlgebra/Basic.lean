@@ -121,8 +121,9 @@ Everything is conditional on
 `Stacks.AlgebraicGeometry.ChartTransRelativeProj.IsNestedCocycle A n` in **every** integer degree,
 which is Tag 01MZ's third assertion. That hypothesis is discharged outright, in every integer
 degree, by `Stacks.AlgebraicGeometry.ProjTwistCocycle.isNestedCocycle`, which supersedes the
-degree-one-only `Stacks.AlgebraicGeometry.ChartCocycleRigidity.isNestedCocycle_one`. The hypothesis is kept in the statements below because the glued twist
-`gluedTwist A n hcoc` is indexed by it.
+degree-one-only `Stacks.AlgebraicGeometry.ChartCocycleRigidity.isNestedCocycle_one`. The
+hypothesis is kept in the statements below because the glued twist `gluedTwist A n hcoc` is
+indexed by it.
 
 Quasi-coherence of the pieces and commutativity of the product are fields of `TwistData` and are
 not addressed here.

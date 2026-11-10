@@ -133,7 +133,7 @@ theorem map_bijective_of_reduceModIdeal_eventually (I : Ideal R) (f : X →ₗ[R
     dsimp only
     rw [transitionMap_apply_transitionMap, ← hstep h, transitionMap_apply_transitionMap]
   · refine AdicCompletion.ext fun n ↦ ?_
-    show f.reduceModIdeal (I ^ n)
+    change f.reduceModIdeal (I ^ n)
       (AdicCompletion.transitionMap I X (Nat.le_add_left n N) (x n)) = y.val n
     rw [reduceModIdeal_transitionMap, hx, y.property]
 

@@ -110,8 +110,7 @@ private theorem uliftInt_tensor_hom_ext {P Q : Cᵒᵖ ⥤ AddCommGrpCat.{u}} {V
       f (a ⊗ₜ[AddCommGrpCat.ULiftInt.{u}] b) = g (a ⊗ₜ[AddCommGrpCat.ULiftInt.{u}] b)) :
     f = g := by
   ext x
-  induction x using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy =>
       exact (map_add _ x y).trans ((congrArg₂ (· + ·) hx hy).trans (map_add _ x y).symm)
   | tmul a b => exact h a b
@@ -179,7 +178,7 @@ theorem intTensorModIso_hom_naturality {V W : Cᵒᵖ} (f : V ⟶ W) :
         (TensorProduct.map ((modAbelianPresheaf J A).map f).hom.toIntLinearMap
           ((modAbelianPresheaf J B).map f).hom.toIntLinearMap).toAddMonoidHom := by
   refine uliftInt_tensor_hom_ext fun a b => ?_
-  show (intTensorModIso J A B W).hom
+  change (intTensorModIso J A B W).hom
       ((AddCommGrpCat.uliftIntEquivalence.{u}.inverse.map
           ((modAbelianPresheaf J A).map f) a) ⊗ₜ[AddCommGrpCat.ULiftInt.{u}]
         (AddCommGrpCat.uliftIntEquivalence.{u}.inverse.map
@@ -236,8 +235,7 @@ def modTensorComparison :
       ((modAbelianPresheaf J B).obj V)).toAddMonoidHom
   naturality V W f := by
     ext x
-    induction x using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero _).symm
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy =>
         exact (map_add _ x y).trans ((congrArg₂ (· + ·) hx hy).trans (map_add _ x y).symm)
     | tmul a b =>
@@ -281,7 +279,7 @@ theorem surjective_modTensorComparison_app (V : Cᵒᵖ) :
   obtain ⟨x, hx⟩ :=
     (ConcreteCategory.bijective_of_isIso (intTensorModIso J A B V).hom).surjective s
   refine ⟨x, ?_⟩
-  show TensorProduct.mapOfCompatibleSMul ((constIntCommSheaf J).obj.obj V) ℤ
+  change TensorProduct.mapOfCompatibleSMul ((constIntCommSheaf J).obj.obj V) ℤ
     ((constIntCommSheaf J).obj.obj V) ((modAbelianPresheaf J A).obj V)
     ((modAbelianPresheaf J B).obj V) ((intTensorModIso J A B V).hom x) = t
   rwa [hx]
@@ -317,8 +315,7 @@ theorem intTensorRestrict_comp {V W X : Cᵒᵖ} (f : V ⟶ W) (g : W ⟶ X)
     (y : TensorProduct ℤ ((modAbelianPresheaf J A).obj V) ((modAbelianPresheaf J B).obj V)) :
     intTensorRestrict J A B (f ≫ g) y =
       intTensorRestrict J A B g (intTensorRestrict J A B f y) := by
-  induction y using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  induction y using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, map_add, hx, hy]
   | tmul m n => rw [intTensorRestrict_tmul, intTensorRestrict_tmul, intTensorRestrict_tmul,
       Functor.map_comp, Functor.map_comp]; rfl
@@ -332,8 +329,7 @@ theorem intTensorRestrict_smul {V W : Cᵒᵖ} (f : V ⟶ W) (r : (constIntCommS
     (y : TensorProduct ℤ ((modAbelianPresheaf J A).obj V) ((modAbelianPresheaf J B).obj V)) :
     intTensorRestrict J A B f (r • y) =
       ((constIntCommSheaf J).obj.map f r) • intTensorRestrict J A B f y := by
-  induction y using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction y using TensorProduct.inductionOn with
   | add x y hx hy => rw [smul_add, map_add, map_add, hx, hy, smul_add]
   | tmul m n =>
       rw [TensorProduct.smul_tmul', intTensorRestrict_tmul, intTensorRestrict_tmul,
@@ -386,7 +382,7 @@ theorem intTensorVanishingSieve_generator_mem {V : Cᵒᵖ}
   have hsmB : ((modAbelianPresheaf J B).map g.op) (a • n) =
       ((constIntCommSheaf J).obj.map g.op a) • ((modAbelianPresheaf J B).map g.op n) :=
     B.val.map_smul g.op a n
-  show intTensorRestrict J A B g.op ((a • m) ⊗ₜ[ℤ] n - m ⊗ₜ[ℤ] (a • n)) = 0
+  change intTensorRestrict J A B g.op ((a • m) ⊗ₜ[ℤ] n - m ⊗ₜ[ℤ] (a • n)) = 0
   rw [map_sub, intTensorRestrict_tmul, intTensorRestrict_tmul, hsmA, hsmB,
     hz, Int.cast_smul_eq_zsmul, Int.cast_smul_eq_zsmul, TensorProduct.smul_tmul, sub_self]
 
@@ -408,13 +404,13 @@ theorem intTensorVanishingSieve_mem {V : Cᵒᵖ}
   · intro y₁ y₂ h₁ h₂
     refine J.superset_covering ?_ (J.intersection_covering h₁ h₂)
     intro Y g hg
-    show intTensorRestrict J A B g.op (y₁ + y₂) = 0
+    change intTensorRestrict J A B g.op (y₁ + y₂) = 0
     rw [map_add, show intTensorRestrict J A B g.op y₁ = 0 from hg.1,
       show intTensorRestrict J A B g.op y₂ = 0 from hg.2, add_zero]
   · intro r y h
     refine J.superset_covering ?_ h
     intro Y g hg
-    show intTensorRestrict J A B g.op (r • y) = 0
+    change intTensorRestrict J A B g.op (r • y) = 0
     rw [intTensorRestrict_smul, show intTensorRestrict J A B g.op y = 0 from hg, smul_zero]
 
 /-- **`τ` is locally injective.** -/
@@ -458,7 +454,7 @@ theorem modTensorComparison_naturality_left
         (((constIntPresheafTensor J).map f.val).app
           B₁.val) := by
   refine NatTrans.ext (funext fun V => uliftInt_tensor_hom_ext fun a b => ?_)
-  show (modTensorComparison J A₂ B₁).app V
+  change (modTensorComparison J A₂ B₁).app V
       ((AddCommGrpCat.uliftIntEquivalence.{u}.inverse.map
           (((PresheafOfModules.toPresheaf _).map f.val).app V) a)
         ⊗ₜ[AddCommGrpCat.ULiftInt.{u}] b) =
@@ -485,7 +481,7 @@ theorem modTensorComparison_naturality_right
         ((((constIntPresheafTensor J).obj A₁.val).map
           g.val)) := by
   refine NatTrans.ext (funext fun V => uliftInt_tensor_hom_ext fun a b => ?_)
-  show (modTensorComparison J A₁ B₂).app V
+  change (modTensorComparison J A₁ B₂).app V
       (a ⊗ₜ[AddCommGrpCat.ULiftInt.{u}]
         (AddCommGrpCat.uliftIntEquivalence.{u}.inverse.map
           (((PresheafOfModules.toPresheaf _).map g.val).app V) b)) =

@@ -77,7 +77,7 @@ add_to_stacks 0D00 "the flatness entry of the dictionary, both directions"
   AlgebraicGeometry.Space.isFlatOver_pushforwardStructureSheaf_iff
 
 add_to_stacks 0D00 "the finite-presentation entry of the dictionary, for a Hilbert family"
-  AlgebraicGeometry.Space.isFinitePresentationOnSite_pushforwardStructureSheaf_hilbertFamily_unconditional
+  isFinitePresentationOnSite_pushforwardStructureSheaf_hilbertFamily_unconditional
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} {X Y : AlgebraicSpaces B S hS}
 

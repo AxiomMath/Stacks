@@ -77,10 +77,10 @@ theorem isSeparated_of_sup_eq_top_of_isClosedImmersion_mapDesc
   have hVU : IsClosedImmersion (pullback.mapDesc V.ι U.ι f) := by
     refine (MorphismProperty.arrow_mk_iso_iff (P := @IsClosedImmersion)
       (Arrow.isoMk (pullbackSymmetry V.ι U.ι) (pullbackSymmetry (V.ι ≫ f) (U.ι ≫ f)) ?_)).mpr hUV
-    show (pullbackSymmetry V.ι U.ι).hom ≫ pullback.mapDesc U.ι V.ι f =
+    change (pullbackSymmetry V.ι U.ι).hom ≫ pullback.mapDesc U.ι V.ι f =
       pullback.mapDesc V.ι U.ι f ≫ (pullbackSymmetry (V.ι ≫ f) (U.ι ≫ f)).hom
     apply pullback.hom_ext <;>
-      simp [pullback.mapDesc, pullback.map, pullback.lift_fst, pullback.lift_snd,
+      simp [pullback.mapDesc, pullback.map,
         pullbackSymmetry_hom_comp_fst, pullbackSymmetry_hom_comp_snd]
   have hpiece (i : 𝒱.I₀) :
       IsClosedImmersion (pullback.snd (pullback.diagonal f) (𝒱.f i)) := by

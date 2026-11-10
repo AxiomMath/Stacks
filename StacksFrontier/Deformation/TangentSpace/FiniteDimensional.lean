@@ -98,7 +98,7 @@ theorem finiteDimensional_artinianTangentSpace_of_natural_injection
     (𝓕 : BasedCategory.{v₁, u₁} (ArtinianLocalAlgCat.{u, w, w} Λ k))
     (h𝓕 : IsPredeformationCategory 𝓕.p)
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))
     (G : FGModuleCat.{w} k ⥤ ModuleCat.{u₂} k) [G.Additive] [G.Linear k]
     [FiniteDimensional k (G.obj (FGModuleCat.of k k))]
     (t : ∀ V : FGModuleCat.{w} k,
@@ -109,11 +109,11 @@ theorem finiteDimensional_artinianTangentSpace_of_natural_injection
     (hinj : Function.Injective (t (FGModuleCat.of k k))) :
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2⟩
     FiniteDimensional k (artinianTangentSpace Λ k (isomorphismClasses 𝓕 h𝓕.cofibered)) := by
   let : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2⟩
+    (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2⟩
   let A : FGModuleCat.{w} k := FGModuleCat.of k k
   let U := associatedTangentSpaceSetFunctor 𝓕 h𝓕.cofibered
   let LF := associatedTangentSpaceModuleStructureUnlifted 𝓕 h𝓕 hS2

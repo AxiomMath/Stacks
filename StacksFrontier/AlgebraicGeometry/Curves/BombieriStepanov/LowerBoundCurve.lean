@@ -102,7 +102,7 @@ theorem exists_lower_bound_of_isCurve [Fintype k] (pr : ℕ) [Fact pr.Prime] [Ch
   let e : RatFunc k ≃ₐ[k] F₀ := RatFunc.algEquivOfTranscendental x hx
   let : Algebra k[X] F₀ := ((e : RatFunc k →+* F₀).comp (algebraMap k[X] (RatFunc k))).toAlgebra
   have : IsScalarTower k k[X] F₀ := IsScalarTower.of_algebraMap_eq fun c => by
-    show algebraMap k F₀ c = e (algebraMap k[X] (RatFunc k) (algebraMap k k[X] c))
+    change algebraMap k F₀ c = e (algebraMap k[X] (RatFunc k) (algebraMap k k[X] c))
     rw [← IsScalarTower.algebraMap_apply, AlgEquiv.commutes]
   have : IsFractionRing k[X] F₀ :=
     IsLocalization.isLocalization_of_algEquiv (nonZeroDivisors k[X])

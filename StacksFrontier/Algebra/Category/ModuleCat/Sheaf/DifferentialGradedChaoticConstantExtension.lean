@@ -86,11 +86,11 @@ def structureHom (U : Cᵒᵖ) : (baseDGA R).Hom (A.sectionAlgebra U) where
         simpa [_root_.DifferentialGradedAlgebra.degreeZero,
           _root_.DifferentialGradedAlgebra.degreeZeroGrading, hn] using ha
       subst ha0
-      show A.sectionScalar U 0 ∈ _
+      change A.sectionScalar U 0 ∈ _
       rw [map_zero]
       exact Submodule.zero_mem _
   map_d a := by
-    show A.sectionScalar U 0 = (A.sectionAlgebra U).d (A.sectionScalar U a)
+    change A.sectionScalar U 0 = (A.sectionAlgebra U).d (A.sectionScalar U a)
     rw [map_zero]
     exact (A.sectionAlgebra_d_sectionScalar U a).symm
 
@@ -185,7 +185,8 @@ abbrev extensionBimodule (U : Cᵒᵖ) : DifferentialGraded.Bimodule (baseDGA R)
   DifferentialGraded.Bimodule.regular (structureHom A U)
 
 /-- **The sections `K ⊗_R A(U)`** of the extension of scalars of `K`. -/
-abbrev extensionSections (U : Cᵒᵖ) : _root_.DifferentialGradedModule.{u, u, u} (A.sectionAlgebra U) :=
+abbrev extensionSections (U : Cᵒᵖ) :
+    _root_.DifferentialGradedModule.{u, u, u} (A.sectionAlgebra U) :=
   tensorObj (extensionBimodule A U) (baseModule K)
 
 /-- The pure tensor `x ⊗ b` of `K ⊗_R A(U)`. -/
@@ -231,7 +232,7 @@ theorem extensionPure_one_smul (U : Cᵒᵖ) (x : (baseModule K).M) (b : (A.sect
       extensionPure A K U x (bimElt A U b) := by
   refine ((tensorPure (extensionBimodule A U) (baseModule K)).map_right x _ b).symm.trans ?_
   congr 1
-  show (1 : (A.sectionAlgebra U).A) * b = b
+  change (1 : (A.sectionAlgebra U).A) * b = b
   exact one_mul b
 
 /-- **The restriction homomorphism** `K ⊗_R A(V) ⟶ K ⊗_R A(U)` along `a : V ⟶ U`,
@@ -321,7 +322,7 @@ def extensionSystemMap (f : K ⟶ L) : extensionSystem A K ⟶ extensionSystem A
         (extensionSectionsMap A f U).toFun.toAddMonoidHom.comp
           (extensionRestr A K a).toFun.toAddMonoidHom := by
       refine tensorObj_addHom_ext_homogeneous _ _ _ _ fun p q x y => ?_
-      show (extensionRestr A L a).toFun ((extensionSectionsMap A f V).toFun
+      change (extensionRestr A L a).toFun ((extensionSectionsMap A f V).toFun
           (extensionPure A K V x y)) =
         (extensionSectionsMap A f U).toFun ((extensionRestr A K a).toFun
           (extensionPure A K V x y))
@@ -336,11 +337,11 @@ def extensionSystemFunctor : CochainComplex (ModuleCat.{u} R) ℤ ⥤ SectionSys
   obj K := extensionSystem A K
   map f := extensionSystemMap A f
   map_id K := SectionSystem.hom_ext.{u, u, u, u} fun U => by
-    show (tensorCompFunctor (extensionBimodule A U)).map
+    change (tensorCompFunctor (extensionBimodule A U)).map
       ((_root_.DifferentialGradedModule.degreeZeroTotalFunctor (ULift.{u} ℤ) R).map (𝟙 K)) = 𝟙 _
     rw [CategoryTheory.Functor.map_id, CategoryTheory.Functor.map_id]
   map_comp f g := SectionSystem.hom_ext.{u, u, u, u} fun U => by
-    show (tensorCompFunctor (extensionBimodule A U)).map
+    change (tensorCompFunctor (extensionBimodule A U)).map
       ((_root_.DifferentialGradedModule.degreeZeroTotalFunctor (ULift.{u} ℤ) R).map (f ≫ g)) = _
     rw [CategoryTheory.Functor.map_comp, CategoryTheory.Functor.map_comp]
     rfl

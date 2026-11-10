@@ -126,7 +126,7 @@ public theorem isLocallySurjective_constantPresheafHomOfSections
   refine ⟨W, g, ?_, ?_⟩
   · rw [Sieve.overEquiv_iff]
     refine ⟨e, ?_⟩
-    show F.obj.map (g ≫ V.hom).op (z e) = F.obj.map g.op c
+    change F.obj.map (g ≫ V.hom).op (z e) = F.obj.map g.op c
     rwa [op_comp, Functor.map_comp_apply]
   · refine ⟨y.1 default, ?_⟩
     have h1 : y.1 ≫ (SmallEtale.toScheme B S hS).map g = p.1 := congrArg Subtype.val hy

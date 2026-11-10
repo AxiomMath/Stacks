@@ -169,7 +169,7 @@ an endomorphism `t` of `V` over `U`. -/
 theorem relocalizeRestrict_twist_eq (t : V ⟶ V) (ht : t ≫ f = f) (Y : (Over U)ᵒᵖ ⥤ Type v) :
     (Over.map t).op ⋙ ((Over.map f).op ⋙ Y) = (Over.map f).op ⋙ Y := by
   have hop : (Over.map t).op ⋙ (Over.map f).op = (Over.map f).op := by
-    show (Over.map t ⋙ Over.map f).op = (Over.map f).op
+    change (Over.map t ⋙ Over.map f).op = (Over.map f).op
     exact congrArg Functor.op (overMap_comp_eq f t ht)
   exact (Functor.assoc _ _ _).symm.trans (congrArg (fun F ↦ F ⋙ Y) hop)
 
@@ -280,7 +280,7 @@ private theorem relocalizeDescend_eq_cast (G : (Over V)ᵒᵖ ⥤ Type v)
   have hm : (Over.homMk (𝟙 W.left) (by simpa using h) : W ⟶ Over.mk (p.val.1 ≫ f)) =
       eqToHom hW := Over.OverMorphism.ext (by simp)
   refine ⟨hW, ?_⟩
-  show (((relocalizePresheafFunctor f).obj G).map
+  change (((relocalizePresheafFunctor f).obj G).map
       (Over.homMk (𝟙 W.left) (by simpa using h) : W ⟶ Over.mk (p.val.1 ≫ f)).op
       (β.app (op (Over.mk p.val.1)) p.val.2)) = _
   rw [hm, eqToHom_op, eqToHom_map, typeEqToHom_apply_cast]
@@ -530,9 +530,9 @@ theorem FieldValuedPoint.hasCommonExtension_ofRelocalizeRestrict
   obtain ⟨r, ⟨f, hf⟩, ⟨f', hf'⟩⟩ := hpq
   refine ⟨FieldValuedPoint.ofRelocalizeRestrict B S S' hS hS' g F r,
     ⟨(Over.map g).map f, ?_⟩, ⟨(Over.map g).map f', ?_⟩⟩
-  · show F.map ((Over.map g).map f).op p.value = r.value
+  · change F.map ((Over.map g).map f).op p.value = r.value
     simpa [FieldValuedPoint.ofRelocalizeRestrict] using hf
-  · show F.map ((Over.map g).map f').op q.value = r.value
+  · change F.map ((Over.map g).map f').op q.value = r.value
     simpa [FieldValuedPoint.ofRelocalizeRestrict] using hf'
 
 /-- The map on point sets induced by restricting a presheaf on the big fppf site of `S'` to
@@ -573,10 +573,10 @@ theorem FieldValuedPoint.hasCommonExtension_overMap (U : BigFppfOver B S hS)
   obtain ⟨r, ⟨f, hf⟩, ⟨f', hf'⟩⟩ := hpq
   refine ⟨FieldValuedPoint.overMap B S S' hS hS' g U r,
     ⟨(Over.map g).map f, ?_⟩, ⟨(Over.map g).map f', ?_⟩⟩
-  · show (Over.map g).map f ≫ (Over.map g).map p.value = (Over.map g).map r.value
+  · change (Over.map g).map f ≫ (Over.map g).map p.value = (Over.map g).map r.value
     have h : f ≫ p.value = r.value := hf
     simpa only [Functor.map_comp] using congrArg ((Over.map g).map) h
-  · show (Over.map g).map f' ≫ (Over.map g).map q.value = (Over.map g).map r.value
+  · change (Over.map g).map f' ≫ (Over.map g).map q.value = (Over.map g).map r.value
     have h : f' ≫ q.value = r.value := hf'
     simpa only [Functor.map_comp] using congrArg ((Over.map g).map) h
 
@@ -637,7 +637,7 @@ theorem continuous_pointsOfRelocalizeRestrict (F : (BigFppfOver B S' hS')ᵒᵖ 
   let : TopologicalSpace (points B S' hS' (yoneda.obj U')) :=
     pointTopology B S' hS' (yoneda.obj U')
   let ξ : F.obj (Opposite.op U') := by
-    show G.obj (Opposite.op U)
+    change G.obj (Opposite.op U)
     exact yonedaEquiv a
   let a' : yoneda.obj U' ⟶ F := yonedaEquiv.symm ξ
   let i : yoneda.obj U ⟶ (OverShriek.relocalizeRestrict g).obj (yoneda.obj U') :=
@@ -645,7 +645,7 @@ theorem continuous_pointsOfRelocalizeRestrict (F : (BigFppfOver B S' hS')ᵒᵖ 
   have hi : a = i ≫ (OverShriek.relocalizeRestrict g).map a' := by
     apply yonedaEquiv.injective
     rw [yonedaEquiv_comp]
-    show ξ = F.map (𝟙 (Opposite.op U')) ξ
+    change ξ = F.map (𝟙 (Opposite.op U')) ξ
     simp
   have hcomp : pointsOfRelocalizeRestrict B S S' hS hS' g F ∘
       pointsMap B S hS (yoneda.obj U) a =
@@ -659,13 +659,13 @@ theorem continuous_pointsOfRelocalizeRestrict (F : (BigFppfOver B S' hS')ᵒᵖ 
           (FieldValuedPoint.map B S hS (yoneda.obj U) a p)).value =
         (FieldValuedPoint.map B S' hS' (yoneda.obj U') a'
           (FieldValuedPoint.overMap B S S' hS hS' g U p)).value := by
-      show a.app (Opposite.op p.siteObject) p.value =
+      change a.app (Opposite.op p.siteObject) p.value =
         a'.app (Opposite.op ((Over.map g).obj p.siteObject)) ((Over.map g).map p.value)
       have hiapp : i.app (Opposite.op p.siteObject) p.value = (Over.map g).map p.value := by
         dsimp [i]
-        show (((OverShriek.relocalizeRestrict g).obj (yoneda.obj U')).map p.value.op) (𝟙 U') =
+        change (((OverShriek.relocalizeRestrict g).obj (yoneda.obj U')).map p.value.op) (𝟙 U') =
           (Over.map g).map p.value
-        show (Over.map g).map p.value ≫ 𝟙 U' = _
+        change (Over.map g).map p.value ≫ 𝟙 U' = _
         exact Category.comp_id _
       have hnat := congrArg
         (fun η : yoneda.obj U ⟶ G ↦ η.app (Opposite.op p.siteObject) p.value) hi
@@ -770,7 +770,7 @@ theorem surjective_pointsOfRelocalizeRestrict_fieldExtension (B : BigFppfSite.{u
     rw [hβMap, hαMap, ← Spec.map_comp, ← Spec.map_comp]
     refine congrArg Spec.map (CommRingCat.hom_ext ?_)
     ext b
-    show (algebraMap p.carrier N) (β.hom b) = (algebraMap M N) (α.hom b)
+    change (algebraMap p.carrier N) (β.hom b) = (algebraMap M N) (α.hom b)
     rw [hα, hβ, ← IsScalarTower.algebraMap_apply K p.carrier N,
       ← IsScalarTower.algebraMap_apply K M N]
   let A : BigFppfOver B (Spec (.of M)) hM := Over.mk (⟨nM⟩ : B.obj hN ⟶ B.obj hM)
@@ -989,7 +989,7 @@ theorem siteObject_hom_eq_fieldExtensionMap
     (Spec.homEquiv.symm_apply_apply q.toBase).symm
   have halg' : Spec.homEquiv q.toBase = CommRingCat.ofHom (algebraMap k q.carrier) :=
     CommRingCat.hom_ext halg
-  show q.toBase = B.inclusion.map (fieldExtensionMap B k q.carrier hk q.contained)
+  change q.toBase = B.inclusion.map (fieldExtensionMap B k q.carrier hk q.contained)
   rw [map_fieldExtensionMap, hqSpec, halg']
 
 /-- **Stacks 0A11.** Let `k` be a field, let `X` and `Y` be algebraic spaces over `k` and
@@ -1050,7 +1050,7 @@ theorem bijective_connectedComponents_pullback_of_isGeometricallyConnected
         (fieldFibre B (Spec (.of k)) hk (pullback.snd f g) q)) :=
       connectedSpace_points_of_iso B (Spec (.of k)) hk
         (hsq₁.isoPullback ≪≫ hsq₂.isoPullback.symm) inferInstance
-    show IsConnected (setFibre B (Spec (.of k)) hk (pullback.snd f g) q)
+    change IsConnected (setFibre B (Spec (.of k)) hk (pullback.snd f g) q)
     rw [← range_pointsMap_fst_fieldFibre B (Spec (.of k)) hk (pullback.snd f g) q,
       ← Set.image_univ]
     exact isConnected_univ.image _ (continuous_pointsMap B (Spec (.of k)) hk

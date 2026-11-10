@@ -103,7 +103,7 @@ theorem restrict_invUnitOne (V : (Over U)ᵒᵖ) :
   have hone : ((SheafOfModules.unit ((Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪
     h𝒪).over U)).val.map
       (termRestrict V)).hom (unitOneOver 𝒪 h𝒪 (op (Over.mk (𝟙 U)))) = unitOneOver 𝒪 h𝒪 V := by
-    show ((((Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪).over U).obj.map
+    change ((((Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪).over U).obj.map
       (termRestrict V)).hom
       (1 : (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪).obj.obj (op U))) = _
     exact map_one _
@@ -122,7 +122,7 @@ theorem smul_unitOne (V : (Over U)ᵒᵖ)
     c • unitOneOver 𝒪 h𝒪 V =
       (c : (SheafOfModules.unit ((Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪
         h𝒪).over U)).val.obj V) := by
-  show c * (1 : ((Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪).over U).obj.obj
+  change c * (1 : ((Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪).over U).obj.obj
     V) = c
   exact mul_one c
 

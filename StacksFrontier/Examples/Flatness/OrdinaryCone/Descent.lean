@@ -59,7 +59,7 @@ theorem exists_injective_algHom (Γ₀ : Type w) [CommRing Γ₀] [IsDomain Γ�
         (IsFractionRing.injective A (FractionRing A))
   let g : Γ₀ →ₐ[A] AlgebraicClosure (FractionRing A) := IsAlgClosed.lift
   have hg : Function.Injective g := (RingHom.injective_iff_ker_eq_bot g.toRingHom).mpr <|
-    Ideal.eq_bot_of_comap_eq_bot (R := A) <| by
+    Ideal.eq_bot_of_under_eq_bot (R := A) <| by
       rw [Ideal.under_def, RingHom.comap_ker, show g.toRingHom.comp (algebraMap A Γ₀) =
           algebraMap A (AlgebraicClosure (FractionRing A)) from RingHom.ext g.commutes]
       exact (RingHom.injective_iff_ker_eq_bot _).mp

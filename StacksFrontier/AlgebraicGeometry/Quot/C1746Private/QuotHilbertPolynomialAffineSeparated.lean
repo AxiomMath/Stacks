@@ -117,7 +117,7 @@ private theorem isRepresented_sourceSituation
   refine IsRepresentedSeparatedFinitePresentation.of_iso (D := PS.directImageSituation)
     (D' := PS.sourceSituation) (𝟙 _) (Category.comp_id _) Φ.symm ?_ h
   ext T z
-  show ULift.up (yonedaEquiv (Φ.inv.app T z).1.toBase.hom) =
+  change ULift.up (yonedaEquiv (Φ.inv.app T z).1.toBase.hom) =
     ULift.up (yonedaEquiv z.1.toBase.hom)
   rw [← PS.directImageHilbertPolynomialQuotIso_hom_app_toBase hπ M P (Φ.inv.app T z)]
   exact congrArg (fun y => ULift.up.{u + 1} (yonedaEquiv y.1.toBase.hom))

@@ -101,7 +101,7 @@ equalizes the two morphisms.** -/
 theorem Scheme.Hom.mem_agreeLocus_of_comp_eq {T : Scheme.{u}} (g : T ⟶ W) (hg : g ≫ a = g ≫ b)
     (t : T) : g.base t ∈ Scheme.Hom.agreeLocus f a b h := by
   have hfac : g ≫ pullback.lift a b h = (g ≫ a) ≫ pullback.diagonal f :=
-    pullback.hom_ext (by simp [pullback.lift_fst]) (by simp [pullback.lift_snd, hg])
+    pullback.hom_ext (by simp) (by simp [hg])
   refine ⟨(g ≫ a).base t, ?_⟩
   simpa using (congrArg (fun k => k.base t) hfac).symm
 
@@ -159,7 +159,8 @@ automorphisms of `A` over `X`, then `τ = τ'`: the element of the geometric fib
 a geometric point of `V` is fixed by `τ⁻¹ τ'`, and `Aut A` acts freely on the fibres of a
 connected object. -/
 theorem aut_eq_of_comp_eq {A : FiniteEtaleOver X} [IsConnected A] {V : Scheme.{u}} [Nonempty V]
-    (c : V ⟶ A.left) {τ τ' : Aut A} (h : c ≫ τ.asIso.hom.left = c ≫ τ'.asIso.hom.left) : τ = τ' := by
+    (c : V ⟶ A.left) {τ τ' : Aut A} (h : c ≫ τ.asIso.hom.left = c ≫ τ'.asIso.hom.left) :
+    τ = τ' := by
   let v : V := Classical.arbitrary V
   let x' := (V.algClosedPoint v).map (c ≫ A.hom)
   refine evaluation_aut_injective_of_isConnected (finiteEtaleFiberFintypeFunctor X x') A

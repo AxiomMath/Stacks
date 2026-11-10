@@ -175,7 +175,7 @@ theorem localizedConormalSequence_exact
       (localizedConormalOutgoing P Q eK) := by
   let : Module.Flat C L := IsLocalization.flat L (Submonoid.powers (algebraMap A C a))
   have h := Module.Flat.lTensor_exact L (Algebra.Generators.Cotangent.exact Q P)
-  simp only [← LinearMap.baseChange_eq_ltensor] at h
+  simp only [← LinearMap.baseChange_eq_lTensor] at h
   let e := TensorProduct.AlgebraTensorModule.cancelBaseChange A C L L P.toExtension.Cotangent
   rintro ⟨x, y⟩
   simp only [localizedConormalOutgoing, localizedConormalIncoming,

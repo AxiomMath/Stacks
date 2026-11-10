@@ -642,6 +642,7 @@ noncomputable def exteriorAnnihilatorPushforward (n : ℕ) :
       A.exterior_isExteriorAlgebra B.exterior B.exteriorGenerator B.exterior_isExteriorAlgebra
       i j V x y) n
 
+omit hgen hmul in
 @[reassoc (attr := simp)]
 theorem exteriorAnnihilatorPushforward_ι (n : ℕ) :
     exteriorAnnihilatorPushforward Js G A B n ≫ (B.exteriorAnnihilator n).ι =

@@ -47,7 +47,7 @@ theorem isIso_transitionA_over (F : SheafOfModules.{u} O) (Q : (situation C).com
   have hτ := isIso_sliceTransitionModules_of_presentation C O φ Q P
   have := isIso_beckChevalleyA C O φ Q
   rw [sliceTransitionModules_app_over] at hτ
-  exact @IsIso.of_isIso_comp_left _ _ _ _ _ ((beckChevalleyA C O φ Q).natTrans.app _) _
+  exact @IsIso.of_isIso_comp_left _ _ _ _ _ ((beckChevalleyA C O φ Q).app _) _
     inferInstance hτ
 
 

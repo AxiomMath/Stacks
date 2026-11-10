@@ -242,7 +242,7 @@ theorem exists_pointsMapULift_eq_of_isLocallySurjective_sigmaDesc {I : Type (u +
   let m : (Over.mk (r ≫ V.hom) : BigFppfOver B S hS) ⟶ V := Over.homMk r
   refine ⟨i, Quot.mk _ ⟨K, hK, B.inclusion.map (r ≫ V.hom), (Yi i).obj.map m.op t⟩, ?_⟩
   refine Quot.sound ⟨_, Space.FieldValuedPointULift.dominates_refl B S hS Y.obj _, m ≫ g, ?_⟩
-  show Y.obj.map (m ≫ g).op p.value = (c i).hom.app _ ((Yi i).obj.map m.op t)
+  change Y.obj.map (m ≫ g).op p.value = (c i).hom.app _ ((Yi i).obj.map m.op t)
   rw [op_comp, Y.obj.map_comp, types_comp_apply, ← ht]
   exact (congrArg (fun k => k t) ((c i).hom.naturality m.op)).symm
 
@@ -254,7 +254,7 @@ theorem isSurjective_of_isLocallySurjective {X Y : FppfSheaf B S hS} {f : X ⟶ 
     have := hf
     refine Presheaf.isLocallySurjective_of_isLocallySurjective_fac _
       (f₁ := (Sigma.ι (fun _ : PUnit.{u + 2} ↦ X) PUnit.unit).hom) (f₃ := f.hom) ?_
-    exact congrArg (·.hom) (Sigma.ι_desc (fun _ : PUnit.{u + 2} ↦ f) PUnit.unit)
+    exact congrArg (·.hom) (Sigma.ι_comp_desc (fun _ : PUnit.{u + 2} ↦ f) PUnit.unit)
   intro y
   obtain ⟨-, z, hz⟩ := exists_pointsMapULift_eq_of_isLocallySurjective_sigmaDesc B S hS
     (fun _ : PUnit.{u + 2} ↦ f) hdesc y
@@ -282,7 +282,7 @@ theorem isSurjective_of_isSurjectiveOnAffineBaseChanges {X Y : FppfSheaf B S hS}
       (Quot.mk _ q) = Quot.mk _ point := by
     refine Quot.sound ⟨point, ⟨𝟙 _, ?_⟩,
       ⟨𝟙 _, Functor.map_id_apply Y.obj (Opposite.op T) point.value⟩⟩
-    show Y.obj.map (𝟙 T).op ((uliftYonedaEquiv.{u + 1}.symm point.value).app
+    change Y.obj.map (𝟙 T).op ((uliftYonedaEquiv.{u + 1}.symm point.value).app
       (Opposite.op T) (ULift.up (𝟙 T))) = point.value
     rw [hval]
     exact Functor.map_id_apply Y.obj (Opposite.op T) point.value

@@ -166,18 +166,18 @@ public theorem completedSheafHomComparison_bijective_on_affine
             Γ((internalHomCoherent X G F).obj, U.1) s)) =
           ((sheafHomFunctor X (coherentObj G)).map
             (completionToLimit X I F)).val.app (op U.1) s := by
-        show ((completedSheafHomComparison G F).val.app (op U.1)).hom
+        change ((completedSheafHomComparison G F).val.app (op U.1)).hom
           (eH (AdicCompletion.of (I.ideal U) Γ((internalHomCoherent X G F).obj, U.1) s)) = _
         rw [h1]
         exact h2
       have hfinal := internalHomEvaluation_map (coherentObj G)
         (completionToLimit X I F) U.1 s y
-      show eF.symm (internalHomEvaluation (coherentObj G)
+      change eF.symm (internalHomEvaluation (coherentObj G)
         (limit (C := X.Modules) ((completionFunctor X I).obj F).obj) U.1
           (p (eH (AdicCompletion.of (I.ideal U)
             Γ((internalHomCoherent X G F).obj, U.1) s))) y) = _
       rw [hstep, hfinal, ← h3, LinearEquiv.symm_apply_apply]
-      show _ = AdicCompletion.homCompletionEquiv (I.ideal U)
+      change _ = AdicCompletion.homCompletionEquiv (I.ideal U)
         (AdicCompletion.congr (I.ideal U) e0
           (AdicCompletion.of (I.ideal U) Γ((internalHomCoherent X G F).obj, U.1) s)) y
       have hcg : AdicCompletion.congr (I.ideal U) e0

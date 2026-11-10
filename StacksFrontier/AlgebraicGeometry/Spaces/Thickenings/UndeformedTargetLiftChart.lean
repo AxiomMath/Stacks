@@ -108,7 +108,7 @@ theorem bijective_modulePushforwardCounitApp_conormalChartDiagram
       (conormalChartDiagram C S hS Z T)) := by
   have hiso : IsIso (indexOfChartDiagram C S hS (subspaceInclusion C S hS X' Z)
       (conormalChartDiagram C S hS Z T)).hom.unop := by
-    show IsIso
+    change IsIso
       (chartLift C S hS (subspaceInclusion C S hS X' Z) (conormalChartDiagram C S hS Z T))
     rw [chartLift_conormalChartDiagram]
     exact Iso.isIso_hom _
@@ -390,7 +390,7 @@ theorem LiftChart.chartDiagramPullback_diagram (c : LiftChart C S hS U' α)
       chartDiagramPullback C S hS (subspaceInclusion C S hS X' Z)
         (conormalChartDiagram C S hS Z c.T)
         ((Scheme.Γ.map ((BigFppfOver.toScheme C S hS).map c.ε).op).hom x) := by
-  show ((Scheme.Γ.map ((BigFppfOver.toScheme C S hS).map
+  change ((Scheme.Γ.map ((BigFppfOver.toScheme C S hS).map
       (Z.2.2.rep.snd c.T.1.hom ≫ c.ε)).op).hom x) = _
   rw [Functor.map_comp, op_comp, Functor.map_comp]
   rfl
@@ -726,7 +726,7 @@ theorem LiftChart.snd_comp_twistHom (c : LiftChart C S hS U' α)
   refine hom_eq_of_appTop_eq fun x ↦ ?_
   rw [Functor.map_comp, Functor.map_comp, c.toScheme_map_twistHom hZ hα θ hQ,
     Scheme.Hom.comp_appTop, Scheme.Hom.comp_appTop]
-  show ((BigFppfOver.toScheme C S hS).map (Z.2.2.rep.snd c.T.1.hom)).appTop.hom
+  change ((BigFppfOver.toScheme C S hS).map (Z.2.2.rep.snd c.T.1.hom)).appTop.hom
       ((c.twistScheme hZ hα θ).appTop.hom x) =
     ((BigFppfOver.toScheme C S hS).map (Z.2.2.rep.snd c.T.1.hom)).appTop.hom (c.pullback x)
   rw [c.twistScheme_appTop hZ hα θ x, c.twist_apply hZ hα θ x]
@@ -863,7 +863,7 @@ theorem LiftChart.twist_restrict (c : LiftChart C S hS U' α)
   refine ((c.restrict g).twist_apply hZ hα θ x).trans ?_
   refine Eq.trans ?_ (((structureRingSheaf C S hS X').obj.map g.op).hom.map_add _ _).symm
   refine congrArg₂ (· + ·) ?_ ?_
-  · show ((forget₂ CommRingCat RingCat).map (Scheme.Γ.map ((BigFppfOver.toScheme C S hS).map
+  · change ((forget₂ CommRingCat RingCat).map (Scheme.Γ.map ((BigFppfOver.toScheme C S hS).map
       ((SmallEtale.toOver C S hS X'.1).map g ≫ c.ε)).op)).hom x = _
     rw [Functor.map_comp, op_comp, Functor.map_comp, Functor.map_comp]
     rfl
@@ -886,7 +886,7 @@ theorem LiftChart.map_comp_twistHom (c : LiftChart C S hS U' α)
   refine Eq.trans ?_ (congrArg (fun f ↦ f.appTop.hom x)
     ((c.restrict g).toScheme_map_twistHom hZ hα θ hQ)).symm
   rw [Functor.map_comp, c.toScheme_map_twistHom hZ hα θ hQ, Scheme.Hom.comp_appTop]
-  show ((BigFppfOver.toScheme C S hS).map ((SmallEtale.toOver C S hS X'.1).map g)).appTop.hom
+  change ((BigFppfOver.toScheme C S hS).map ((SmallEtale.toOver C S hS X'.1).map g)).appTop.hom
       ((c.twistScheme hZ hα θ).appTop.hom x) = ((c.restrict g).twistScheme hZ hα θ).appTop.hom x
   rw [c.twistScheme_appTop hZ hα θ x, (c.restrict g).twistScheme_appTop hZ hα θ x,
     c.twist_restrict hZ hα θ g x]
@@ -933,7 +933,7 @@ theorem LiftChart.twist_reroute (c : LiftChart C S hS U' α)
   · have h := congrArg (fun e ↦ ((forget₂ CommRingCat RingCat).map
       (Scheme.Γ.map ((BigFppfOver.toScheme C S hS).map e).op)).hom x) hε₃
     refine Eq.trans ?_ h
-    show _ = ((forget₂ CommRingCat RingCat).map (Scheme.Γ.map
+    change _ = ((forget₂ CommRingCat RingCat).map (Scheme.Γ.map
       ((BigFppfOver.toScheme C S hS).map (ε₃ ≫ (SmallEtale.toOver C S hS Y.1).map r)).op)).hom x
     rw [Functor.map_comp, op_comp, Functor.map_comp, Functor.map_comp]
     rfl
@@ -984,7 +984,7 @@ theorem LiftChart.twistSection_reroute (c : LiftChart C S hS U' α)
     refine Eq.trans ?_ (congrArg (fun f ↦ f.appTop.hom x) (c.toScheme_map_twistHom hZ hα θ hQ)).symm
     rw [Functor.map_comp, (c.reroute r ε₃ hε₃).toScheme_map_twistHom hZ hα θ hQ₃,
       Scheme.Hom.comp_appTop]
-    show ((c.reroute r ε₃ hε₃).twistScheme hZ hα θ).appTop.hom
+    change ((c.reroute r ε₃ hε₃).twistScheme hZ hα θ).appTop.hom
         (((BigFppfOver.toScheme C S hS).map ((SmallEtale.toOver C S hS Y.1).map r)).appTop.hom
           x) = (c.twistScheme hZ hα θ).appTop.hom x
     exact (((c.reroute r ε₃ hε₃).twistScheme_appTop hZ hα θ _).trans

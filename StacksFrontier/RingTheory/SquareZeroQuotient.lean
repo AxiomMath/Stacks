@@ -51,7 +51,7 @@ theorem nilpotent_sub_constant (k : Type u) [Field k] (f : MvPolynomial ℕ k) :
     IsNilpotent ((Ideal.Quotient.mk (sqIdeal k) f : S k) -
       Ideal.Quotient.mk (sqIdeal k) (MvPolynomial.C (MvPolynomial.constantCoeff f))) := by
   let q : MvPolynomial ℕ k →+* S k := Ideal.Quotient.mk (sqIdeal k)
-  show IsNilpotent (q f - q (MvPolynomial.C (MvPolynomial.constantCoeff f)))
+  change IsNilpotent (q f - q (MvPolynomial.C (MvPolynomial.constantCoeff f)))
   induction f using MvPolynomial.induction_on with
   | C a => simp
   | add p r hp hr =>
@@ -72,7 +72,7 @@ theorem nilpotent_sub_constant (k : Type u) [Field k] (f : MvPolynomial ℕ k) :
 /-- The augmentation reads off the constant coefficient. -/
 theorem aug_mk (k : Type u) [Field k] (f : MvPolynomial ℕ k) :
     aug k (Ideal.Quotient.mk (sqIdeal k) f : S k) = MvPolynomial.constantCoeff f := by
-  show (MvPolynomial.aeval (fun _ : ℕ => (0 : k))) f = _
+  change (MvPolynomial.aeval (fun _ : ℕ => (0 : k))) f = _
   simp
 
 /-- The nilradical of the quotient is the kernel of the augmentation. -/
@@ -80,7 +80,7 @@ theorem nilradical_eq_ker_aug (k : Type u) [Field k] :
     nilradical (S k) = RingHom.ker (aug k).toRingHom := by
   ext s
   obtain ⟨f, rfl⟩ := Ideal.Quotient.mk_surjective s
-  show IsNilpotent (Ideal.Quotient.mk (sqIdeal k) f : S k) ↔ aug k _ = 0
+  change IsNilpotent (Ideal.Quotient.mk (sqIdeal k) f : S k) ↔ aug k _ = 0
   rw [aug_mk]
   refine ⟨fun hn => ?_, fun h => by simpa [h] using nilpotent_sub_constant k f⟩
   have hm := hn.map (aug k)

@@ -206,14 +206,14 @@ public theorem injective_restriction_surjective
     ⟨y, mem_supportedSubmodule_of_le I le_rfl y⟩
   have ht : (directImageRestriction I U').val.map (homOfLE h).op t =
       j.val.app (op U') y₀ := by
-    show I.val.restrictₛₗ (prod.map (𝟙 U') (homOfLE h)).op
+    change I.val.restrictₛₗ (prod.map (𝟙 U') (homOfLE h)).op
       (I.val.restrictₛₗ (prod.fst : U' ⨯ U ⟶ U').op y) =
         I.val.restrictₛₗ (prod.snd : U' ⨯ U' ⟶ U').op y
     exact restrictₛₗ_comp_eq I.val (prod.fst : U' ⨯ U ⟶ U').op _ _ y
   have hy := congrArg (fun f => f.val.app (op U') y₀) (Injective.comp_factorThru N.ι j)
   change k.val.app (op U') (j.val.app (op U') y₀) = y at hy
   refine ⟨k.val.app (op U) t, ?_⟩
-  show I.val.map (homOfLE h).op (k.val.app (op U) t) = y
+  change I.val.map (homOfLE h).op (k.val.app (op U) t) = y
   rw [← PresheafOfModules.naturality_apply k.val, ht]
   exact hy
 
@@ -382,7 +382,7 @@ public theorem injective_abelian_restriction_surjective
     ⟨y, fun _ hx hxU => (hxU hx).elim⟩
   have ht : (Abelian.directImageRestriction I U').obj.map (homOfLE h).op t =
       j.hom.app (op U') y₀ := by
-    show I.obj.map (prod.map (𝟙 U') (homOfLE h)).op
+    change I.obj.map (prod.map (𝟙 U') (homOfLE h)).op
       (I.obj.map (prod.fst : U' ⨯ U ⟶ U').op y) =
         I.obj.map (prod.snd : U' ⨯ U' ⟶ U').op y
     rw [← Functor.map_comp_apply]
@@ -391,7 +391,7 @@ public theorem injective_abelian_restriction_surjective
     (Injective.comp_factorThru (Abelian.supportedSheafι I U') j)
   change k.hom.app (op U') (j.hom.app (op U') y₀) = y at hy
   refine ⟨k.hom.app (op U) t, ?_⟩
-  show I.obj.map (homOfLE h).op (k.hom.app (op U) t) = y
+  change I.obj.map (homOfLE h).op (k.hom.app (op U) t) = y
   rw [← ConcreteCategory.comp_apply, ← k.hom.naturality, ConcreteCategory.comp_apply, ht]
   exact hy
 

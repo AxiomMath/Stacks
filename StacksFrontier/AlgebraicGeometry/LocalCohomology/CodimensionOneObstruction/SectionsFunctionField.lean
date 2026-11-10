@@ -178,7 +178,7 @@ theorem moduleFinite_functionField_of_sections {X : Scheme.{u}} [IsIntegral X]
   have htow : IsScalarTower Γ(X, V₀) Γ(X, S) X.functionField := by
     refine IsScalarTower.of_algebraMap_eq' ?_
     refine RingHom.ext fun g => ?_
-    show X.germToFunctionField V₀ g =
+    change X.germToFunctionField V₀ g =
       algebraMap Γ(X, S) X.functionField (X.presheaf.map (homOfLE hSV).op g)
     exact (germToFunctionField_res hSV g).symm
   have := AlgebraicGeometry.functionField_isScalarTower X V₀ ⟨z, hz⟩

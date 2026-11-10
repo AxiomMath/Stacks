@@ -160,7 +160,7 @@ theorem sheafPushforwardContinuousIso_hom_app_hom_app (hcomm : ι₁ ≫ g = φ.
           (Opens.grothendieckTopology X₂)
           (Opens.grothendieckTopology Z₁)).hom.app M).hom.app (op U) =
       M.presheaf.map (homOfLE (le_map_comp_of_comm ι₁ g φ ι₂ hcomm U)).op := by
-  show M.presheaf.map ((Opens.mapIso (φ.hom ≫ ι₂) (ι₁ ≫ g) hcomm.symm).inv.app U).op = _
+  change M.presheaf.map ((Opens.mapIso (φ.hom ≫ ι₂) (ι₁ ≫ g) hcomm.symm).inv.app U).op = _
   exact congrArg (fun m => M.presheaf.map (Opposite.op m)) (Subsingleton.elim _ _)
 
 /-- **`Stacks.Topology.ambientSection` is pseudofunctorial across a commuting square whose left
@@ -367,7 +367,7 @@ theorem ambientSection_comp_ambientTopIso (G : Z₂.Sheaf AddCommGrpCat.{u}) :
             (opensMapAdjunctionOfIso φ) (Opens.grothendieckTopology Z₁)
             (Opens.grothendieckTopology Z₂)).unit.app G).hom.app (op (⊤ : Opens Z₂)) =
         𝟙 (G.presheaf.obj (op (⊤ : Opens Z₂))) := by
-    show G.presheaf.map _ = _
+    change G.presheaf.map _ = _
     exact (congrArg G.presheaf.map (Subsingleton.elim _ (𝟙 (op (⊤ : Opens Z₂))))).trans
       (G.presheaf.map_id (op (⊤ : Opens Z₂)))
   exact (congrArg (fun z => z ≫ (ambientTopIso φ G).hom)

@@ -131,7 +131,7 @@ theorem exists_effectiveCartierDivisor_of_nonvanishing
         fΓ.symm (N.presheaf.map (homOfLE le_top).op (s.eval (op ⊤))) = (1 : Γ(X, U.1)) := by
       have hfsection :
           fΓ (1 : Γ(X, U.1)) = N.presheaf.map (homOfLE le_top).op (s.eval (op ⊤)) := by
-        show ((N.unitHomEquiv.symm s).val.app (op U.1)).hom (1 : Γ(X, U.1)) = _
+        change ((N.unitHomEquiv.symm s).val.app (op U.1)).hom (1 : Γ(X, U.1)) = _
         rw [Scheme.Modules.unitHomEquiv_symm_app_apply, one_smul]
       rw [← hfsection, fΓ.symm_apply_apply]
     have hideal : D.ideal U = ⊤ := by

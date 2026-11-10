@@ -290,24 +290,24 @@ theorem exists_affine_chartDiagram (x : points B S hS X.1) :
   let g' : chartOpenOver B S hS d₀.U U' ⟶ chartOpenOver B S hS d₀.V V' :=
     Over.homMk (ObjectProperty.homMk (g₀.resLE V' U' hU'le)) (by
       apply ObjectProperty.hom_ext
-      show g₀.resLE V' U' hU'le ≫ V'.ι ≫ _ = U'.ι ≫ _
+      change g₀.resLE V' U' hU'le ≫ V'.ι ≫ _ = U'.ι ≫ _
       rw [← Category.assoc, Scheme.Hom.resLE_comp_ι, Category.assoc]
       exact congrArg (U'.ι ≫ ·) (congrArg (fun φ => φ.hom) (Over.w d₀.g)))
   have hg' : g' ≫ chartOpenOverι B S hS d₀.V V' = chartOpenOverι B S hS d₀.U U' ≫ d₀.g :=
     Over.OverMorphism.ext (ObjectProperty.hom_ext _ (Scheme.Hom.resLE_comp_ι _ _))
   refine ⟨⟨(chartOpens B S hS d₀.U).obj U', (chartOpens B S hS d₀.V).obj V', g', ?_⟩, hU', hV',
     ?_⟩
-  · show (yoneda.map (chartOpenOverι B S hS d₀.U U') ≫ d₀.U.obj.hom) ≫ f.hom =
+  · change (yoneda.map (chartOpenOverι B S hS d₀.U U') ≫ d₀.U.obj.hom) ≫ f.hom =
       yoneda.map g' ≫ yoneda.map (chartOpenOverι B S hS d₀.V V') ≫ d₀.V.obj.hom
     rw [Category.assoc, d₀.comm, ← Category.assoc, ← Category.assoc, ← Functor.map_comp,
       ← Functor.map_comp, hg']
   · refine ⟨(pointsEquivScheme B S hS (chartOpenOver B S hS d₀.U U')).symm ⟨u, huU'⟩, ?_⟩
-    show pointsMap B S hS _ (yoneda.map (chartOpenOverι B S hS d₀.U U') ≫ d₀.U.obj.hom) _ = x
+    change pointsMap B S hS _ (yoneda.map (chartOpenOverι B S hS d₀.U U') ≫ d₀.U.obj.hom) _ = x
     rw [pointsMap_comp, Function.comp_apply, ← hy₀]
     congr 1
     apply injective_pointsToScheme B S hS
     rw [pointsToScheme_pointsMap_yoneda]
-    show (BigFppfOver.toScheme B S hS).map (chartOpenOverι B S hS d₀.U U')
+    change (BigFppfOver.toScheme B S hS).map (chartOpenOverι B S hS d₀.U U')
       ((pointsEquivScheme B S hS (chartOpenOver B S hS d₀.U U')) _) = u
     rw [(pointsEquivScheme B S hS (chartOpenOver B S hS d₀.U U')).apply_symm_apply ⟨u, huU'⟩]
     rfl

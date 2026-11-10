@@ -126,7 +126,9 @@ noncomputable def flatLiftOfIso
   flatLiftOfFixedActionIdentity i t f f' hi ht comm F hstrict hF hcff (yonedaExtensionOfIso E κ)
     ((extensionActionMap_yonedaExtensionOfIso i hi F E κ).trans hE)
 
-omit [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify X.J AddCommGrpCat.{w}] in
+omit [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify X.J AddCommGrpCat.{w}]
+  [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [B.J.HasSheafCompose (forget AddCommGrpCat.{wB})] in
 /-- The module of `flatLiftOfIso` is the given module. -/
 theorem flatLiftOfIso_module'
     (E : Abelian.YonedaExtension ((structureRestrict i).obj F)
@@ -137,7 +139,9 @@ theorem flatLiftOfIso_module'
     {M : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)} (κ : M ≅ E.Z.left) :
     (flatLiftOfIso i t f f' hi ht comm F hstrict hF hcff E hE κ).module' = M := rfl
 
-omit [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify X.J AddCommGrpCat.{w}] in
+omit [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify X.J AddCommGrpCat.{w}]
+  [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [B.J.HasSheafCompose (forget AddCommGrpCat.{wB})] in
 /-- The map to `i_*ℱ` of `flatLiftOfIso` is `M ≅ E ⟶ i_*ℱ`. -/
 theorem flatLiftOfIso_π
     (E : Abelian.YonedaExtension ((structureRestrict i).obj F)
@@ -148,7 +152,9 @@ theorem flatLiftOfIso_π
     {M : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)} (κ : M ≅ E.Z.left) :
     (flatLiftOfIso i t f f' hi ht comm F hstrict hF hcff E hE κ).π = κ.hom ≫ E.g := rfl
 
-omit [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify X.J AddCommGrpCat.{w}] in
+omit [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify X.J AddCommGrpCat.{w}]
+  [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
+  [B.J.HasSheafCompose (forget AddCommGrpCat.{wB})] in
 /-- **The class attached to `flatLiftOfIso` is the class of the extension**: the middle terms are
 isomorphic over `ℱ`, and both action maps are the identity. -/
 theorem fixedActionExtensionClass_flatLiftOfIso

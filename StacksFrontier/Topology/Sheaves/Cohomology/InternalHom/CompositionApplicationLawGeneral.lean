@@ -139,8 +139,8 @@ theorem derivedSheafHomCounit_naturality_target (K : DerivedCategory (StructureS
     ((derivedTensor Rc).map (((derivedSheafHom Rc).obj (op K)).map m)).app K ≫
         derivedSheafHomCounit Rc K M' =
       derivedSheafHomCounit Rc K M ≫ m := by
-  rw [Stacks.SheafOfModules.derivedTensor_map_app_comp_derivedSheafHomCounit, derivedSheafHomCounit_eq,
-    ← derivedSheafHomTensorEquiv_naturality_target]
+  rw [Stacks.SheafOfModules.derivedTensor_map_app_comp_derivedSheafHomCounit,
+    derivedSheafHomCounit_eq, ← derivedSheafHomTensorEquiv_naturality_target]
   exact congrArg (fun t => derivedSheafHomTensorEquiv Rc _ K M' t) (Category.id_comp _).symm
 
 /-- The application morphism is dinatural in its source. -/
@@ -151,7 +151,8 @@ theorem derivedSheafHomCounit_dinaturality_source
         derivedSheafHomCounit Rc K M =
       ((derivedTensor Rc).map (((derivedSheafHom Rc).map k.op).app M)).app K' ≫
         derivedSheafHomCounit Rc K' M := by
-  rw [derivedSheafHomCounit_whiskerLeft_eq, Stacks.SheafOfModules.derivedTensor_map_app_comp_derivedSheafHomCounit]
+  rw [derivedSheafHomCounit_whiskerLeft_eq,
+    Stacks.SheafOfModules.derivedTensor_map_app_comp_derivedSheafHomCounit]
 
 /-- The composition morphism of Stacks 0A8V is natural in its target. -/
 theorem derivedSheafHomComposition_naturality_target'

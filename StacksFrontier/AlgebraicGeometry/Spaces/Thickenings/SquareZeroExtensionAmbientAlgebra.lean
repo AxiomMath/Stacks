@@ -62,6 +62,8 @@ section Generic
 attribute [local instance] smallEtaleTopology_subcanonical
 
 set_option maxHeartbeats 800000 in
+-- long `refine`/`congrArg` chains through inverse images and adjunction transports of the
+-- small étale ringed toposes.
 /-- **The algebra compatibility of a realization, from chart transports.** -/
 theorem algebra_compatibility_of_transport {X X' Y : AlgebraicSpaces B S hS} {f : X ⟶ Y}
     (E : SquareZeroExtension B S hS f) (i : X ⟶ X') (p : X' ⟶ Y) (h : i ≫ p = f)
@@ -106,13 +108,13 @@ theorem algebra_compatibility_of_transport {X X' Y : AlgebraicSpaces B S hS} {f 
           (smallEtaleRingedToposHom B S hS (i ≫ p)).toToposHom.adj).hom.app
         ((sheafCompose (SmallEtale.topology B S hS Y.1)
           (CategoryTheory.forget CommRingCat.{u})).obj O)) := fun O => by
-    haveI hfl := ((smallEtaleRingedToposHom B S hS p).toToposHom.comp
+    have hfl := ((smallEtaleRingedToposHom B S hS p).toToposHom.comp
       (smallEtaleRingedToposHom B S hS i).toToposHom).preservesFiniteLimits
-    haveI := (⟨fun _ ↦ hfl.preservesFiniteLimits _⟩ :
+    have := (⟨fun _ ↦ hfl.preservesFiniteLimits _⟩ :
       Limits.PreservesFiniteProducts ((smallEtaleRingedToposHom B S hS p).toToposHom.comp
         (smallEtaleRingedToposHom B S hS i).toToposHom).inverseImage)
-    haveI hfl' := (smallEtaleRingedToposHom B S hS (i ≫ p)).toToposHom.preservesFiniteLimits
-    haveI := (⟨fun _ ↦ hfl'.preservesFiniteLimits _⟩ :
+    have hfl' := (smallEtaleRingedToposHom B S hS (i ≫ p)).toToposHom.preservesFiniteLimits
+    have := (⟨fun _ ↦ hfl'.preservesFiniteLimits _⟩ :
       Limits.PreservesFiniteProducts
         (smallEtaleRingedToposHom B S hS (i ≫ p)).toToposHom.inverseImage)
     refine Eq.trans ((smallEtaleRingedTopos B S hS X).forgetRing.map_comp _ _) ?_

@@ -130,7 +130,7 @@ theorem isLocallySurjective_sigmaDesc_prodLift_of_mem {ι : Type max u v}
         prod.lift ((sheafifiedYoneda J).map (p ≫ prod.fst))
           ((sheafifiedYoneda J).map (p ≫ prod.snd)) := by
     refine Sigma.hom_ext _ _ fun i => ?_
-    rw [← Category.assoc, Sigma.ι_desc, Sigma.ι_desc, prodComparison, prod.comp_lift,
+    rw [← Category.assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc, prodComparison, prod.comp_lift,
       ← Functor.map_comp, ← Functor.map_comp]
   have _ : IsLocallySurjective (Sigma.desc fun _ : ι => (sheafifiedYoneda J).map p) :=
     (Stacks.Sites.QuasiCompactCriterion.isLocallySurjective_sigmaDesc_sheafifiedYoneda_map_iff

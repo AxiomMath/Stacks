@@ -126,7 +126,7 @@ theorem isMittagLefflerCategorical_of_idealBoundaries
         rw [map_sum]
         exact Finset.sum_congr rfl fun l _ =>
           congrArg (fun g => g (y l)) (hdu l n)
-      show d (n + 1) (x - ∑ l, P.map (up l n) (y l)) = 0
+      change d (n + 1) (x - ∑ l, P.map (up l n) (y l)) = 0
       rw [map_sub, hsum, hy, sub_self]
     obtain ⟨z, hz⟩ := hker
     exact ⟨y, z, by rw [hz]; abel⟩
@@ -139,7 +139,7 @@ theorem isMittagLefflerCategorical_of_idealBoundaries
       t n (P.map (map (i + n)) y) = t (n + 1) y := by
     have h : P.map (map (i + n)) ≫ t n = t (n + 1) := by
       rw [← Functor.ofOpSequence_map_homOfLE_succ map (i + n)]
-      show T.map (homOfLE (Nat.le_succ (i + n))).op ≫
+      change T.map (homOfLE (Nat.le_succ (i + n))).op ≫
         T.map (homOfLE (Nat.le_add_right i n)).op = _
       rw [← T.map_comp]
       rfl
@@ -180,14 +180,14 @@ theorem isMittagLefflerCategorical_of_idealBoundaries
   intro m hm
   obtain ⟨n, rfl⟩ := Nat.exists_eq_add_of_le ((Nat.le_add_right i (c + (i + 1))).trans hm)
   have heq := hstable n (by omega)
-  show Subobject.mk (image.ι (t n)) = Subobject.mk (image.ι (t (c + (i + 1))))
+  change Subobject.mk (image.ι (t n)) = Subobject.mk (image.ι (t (c + (i + 1))))
   have hmk {V W : ModuleCat.{v} B} (g : V ⟶ W) :
       Subobject.mk (image.ι g) =
         Subobject.mk (ModuleCat.ofHom (LinearMap.range g.hom).subtype) :=
     Subobject.mk_eq_mk_of_comm _ _ (ModuleCat.imageIsoRange g)
       (ModuleCat.imageIsoRange_hom_subtype g)
   rw [hmk, hmk]
-  show Subobject.mk (ModuleCat.ofHom (J n).subtype) =
+  change Subobject.mk (ModuleCat.ofHom (J n).subtype) =
     Subobject.mk (ModuleCat.ofHom (J (c + (i + 1))).subtype)
   rw [heq]
 

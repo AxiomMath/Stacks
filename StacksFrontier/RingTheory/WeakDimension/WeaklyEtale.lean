@@ -299,8 +299,7 @@ private lemma exactAt_tensorSmallComplex_of_subsingleton
     refine ⟨fun s t => ?_⟩
     have hzero : ∀ x : TensorProduct A (K.X i) W, x = 0 := by
       intro x
-      induction x using TensorProduct.induction_on with
-      | zero => rfl
+      induction x using TensorProduct.inductionOn with
       | tmul m w => rw [hW.elim w 0, TensorProduct.tmul_zero]
       | add x y hx hy => rw [hx, hy, add_zero]
     exact (hzero s).trans (hzero t).symm

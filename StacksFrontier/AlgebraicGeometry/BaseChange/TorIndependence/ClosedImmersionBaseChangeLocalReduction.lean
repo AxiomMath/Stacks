@@ -98,7 +98,7 @@ theorem derivedStalkBaseChangeEqQAt_of_local (sq : IsPullback i' g f i)
     (AlgebraicGeometry.derivedStalkGermAdjunction i' w)
       ((AlgebraicGeometry.derivedPullbackStalkIso f (i' w)).hom.app
         ((derivedPushforward i.toLRSHom.toShHom).obj (DerivedCategory.Q.obj P)))).symm
-  refine combine _ _ _ _ _ _ _ _ _ _ _ ?_ (rhsChaseGeom sq w P) hloc
+  refine combine _ _ _ _ _ _ _ _ _ _ _ ?_ (rhsChaseGeom (i' := i') (f := f) (i := i) w P) hloc
   exact lhsChaseUnit _ _ _ _ _ _ _ _
     (lhsChaseEm _ _ _ _ _ _ _ _ _ (lhsChaseMid _ _ _ _ _ _ _ _ _ _ h1 key)) h9
 

@@ -261,7 +261,7 @@ theorem exists_bundleTensor_comparison (𝔄 : SourceChernSetup.{u, v, v₁, w} 
           iso := B'.isBundle.iso ≪≫ @asIso _ _ _ _ g hgiso
           iso_hom_comp_bundleProj := by
             refine (Category.assoc _ _ _).trans ?_
-            show B'.isBundle.iso.hom ≫ g ≫ Chow.bundleProj E = _
+            change B'.isBundle.iso.hom ≫ g ≫ Chow.bundleProj E = _
             exact (congrArg (B'.isBundle.iso.hom ≫ ·) hgproj).trans hπ } }
   have hBs : Bs.iso.hom = B'.iso.hom ≫ g := by
     unfold BundleObject.iso
@@ -473,13 +473,13 @@ theorem chernSeries_coeff_tensorObjRingedSpace
   | zero =>
     rw [𝔖.chernSeries_rank_zero, 𝔖.chernSeries_rank_zero, UnitalCentralSeries.coeff_one,
       Finset.sum_range_succ, Finset.sum_eq_zero fun j hj => ?_, zero_add]
-    · rw [UnitalCentralSeries.coeff_one, Nat.sub_self, if_pos rfl, one_mul,
+    · rw [UnitalCentralSeries.coeff_one, Nat.sub_self, ite_eq_left rfl, one_mul,
         show 0 + i - i = 0 by omega]
       rcases i with _ | i
       · simp
       · simp
     · have hji : j < i := Finset.mem_range.mp hj
-      rw [UnitalCentralSeries.coeff_one, if_neg (by omega), zero_mul, smul_zero]
+      rw [UnitalCentralSeries.coeff_one, ite_eq_right (by omega), zero_mul, smul_zero]
   | succ r =>
     rw [𝔖.chernSeries_coeff_succ, chernClass_tensorObjRingedSpace 𝔖.toSourceChernSetup
       (fun f L hL => 𝔖.pull_c₁_pullback f L hL) 𝔖.exists_bundleCompare_bundleObject hquot X E L

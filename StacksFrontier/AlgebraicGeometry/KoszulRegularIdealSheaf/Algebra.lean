@@ -97,7 +97,7 @@ theorem extRes_ιMulti (ρ : A →+* B) (n : ℕ) (v : Fin n → (Fin r → A)) 
       = exteriorPower.ιMulti B n (fun i j => ρ (v i j)) := by
   let _i : Algebra A B := ρ.toAlgebra
   refine Subtype.ext ?_
-  show KoszulC.extBaseChange
+  change KoszulC.extBaseChange
       ((exteriorPower.ιMulti A n v : ⋀[A]^n (Fin r → A)) : ExteriorAlgebra A (Fin r → A))
     = ((exteriorPower.ιMulti B n (fun i j => ρ (v i j)) : ⋀[B]^n (Fin r → B)) :
         ExteriorAlgebra B (Fin r → B))
@@ -111,7 +111,7 @@ theorem extRes_add (ρ : A →+* B) (n : ℕ) (x y : ⋀[A]^n (Fin r → A)) :
     extRes ρ n (x + y) = extRes ρ n x + extRes ρ n y := by
   let _i : Algebra A B := ρ.toAlgebra
   refine Subtype.ext ?_
-  show KoszulC.extBaseChange
+  change KoszulC.extBaseChange
       ((x : ExteriorAlgebra A (Fin r → A)) + (y : ExteriorAlgebra A (Fin r → A)))
     = KoszulC.extBaseChange (x : ExteriorAlgebra A (Fin r → A))
       + KoszulC.extBaseChange (y : ExteriorAlgebra A (Fin r → A))
@@ -123,7 +123,7 @@ theorem extRes_smul (ρ : A →+* B) (n : ℕ) (c : A) (x : ⋀[A]^n (Fin r → 
     extRes ρ n (c • x) = ρ c • extRes ρ n x := by
   let _i : Algebra A B := ρ.toAlgebra
   refine Subtype.ext ?_
-  show KoszulC.extBaseChange (c • (x : ExteriorAlgebra A (Fin r → A)))
+  change KoszulC.extBaseChange (c • (x : ExteriorAlgebra A (Fin r → A)))
     = ρ c • KoszulC.extBaseChange (x : ExteriorAlgebra A (Fin r → A))
   rw [map_smul]
   exact (IsScalarTower.algebraMap_smul B c _).symm
@@ -188,7 +188,7 @@ theorem extRes_d (ρ : A →+* B) (f : Fin r → A) (n : ℕ) (x : ⋀[A]^(n + 1
       = d (seqDual fun i => ρ (f i)) n (extRes ρ (n + 1) x) := by
   let _i : Algebra A B := ρ.toAlgebra
   refine Subtype.ext ?_
-  show KoszulC.extBaseChange
+  change KoszulC.extBaseChange
       ((d (seqDual f) n x : ⋀[A]^n (Fin r → A)) : ExteriorAlgebra A (Fin r → A))
     = ((d (seqDual fun i => ρ (f i)) n (extRes ρ (n + 1) x) : ⋀[B]^n (Fin r → B)) :
         ExteriorAlgebra B (Fin r → B))
@@ -277,7 +277,7 @@ theorem isKoszulRegular_iff_forall (f : Fin r → A) :
     rw [← HomologicalComplex.exactAt_iff_isZero_homology,
       HomologicalComplex.exactAt_iff' _ (n + 2) (n + 1) n (by simp) (by simp),
       ShortComplex.moduleCat_exact_iff_ker_sub_range]
-    show LinearMap.ker ((seqComplex f).d (n + 1) n).hom ≤
+    change LinearMap.ker ((seqComplex f).d (n + 1) n).hom ≤
       LinearMap.range ((seqComplex f).d (n + 2) (n + 1)).hom ↔ _
     simp only [seqComplex_d]
     rfl

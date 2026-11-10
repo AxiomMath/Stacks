@@ -86,7 +86,7 @@ theorem stalkMapAt_id (X : Scheme.{u}) (x : X) :
     (𝟙 X : X ⟶ X).stalkMapAt x x rfl = RingHom.id (X.presheaf.stalk x) := by
   unfold stalkMapAt
   rw [Scheme.Hom.stalkMap_id]
-  show (eqToHom (rfl : X.presheaf.stalk x = X.presheaf.stalk x) ≫ 𝟙 _).hom = _
+  change (eqToHom (rfl : X.presheaf.stalk x = X.presheaf.stalk x) ≫ 𝟙 _).hom = _
   simp
 
 /-- Equal morphisms have equal stalk maps at a prescribed image point. -/

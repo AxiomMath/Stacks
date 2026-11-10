@@ -111,7 +111,7 @@ theorem underlyingConstantSheafIso_hom_smul (E : ModuleCat.{u + 1} Λ) {E₀ : T
       (underlyingConstantSheafIso Y E e).hom ≫
         etaleConstantSheafMap Y (e.toAddMonoidHom.comp
           ((DistribSMul.toAddMonoidHom E a).comp e.symm.toAddMonoidHom)) := by
-  show (Stacks.ModuleCatLift.sheafScalarEnd.{u + 1} Λ Y.smallEtaleTopology _ a).asHom ≫ _ = _
+  change (Stacks.ModuleCatLift.sheafScalarEnd.{u + 1} Λ Y.smallEtaleTopology _ a).asHom ≫ _ = _
   refine (Category.assoc _ _ _).symm.trans ((congrArg (· ≫ _)
     (Stacks.ModuleCatLift.constantSheafForget₂Iso_hom_app_scalar.{u + 1} Λ
       Y.smallEtaleTopology E a)).trans ?_)
@@ -119,7 +119,7 @@ theorem underlyingConstantSheafIso_hom_smul (E : ModuleCat.{u + 1} Λ) {E₀ : T
   rw [Functor.mapIso_hom, etaleConstantSheafMap, ← Functor.map_comp, ← Functor.map_comp]
   refine congrArg _ ?_
   ext (x : E)
-  show e (a • x) = e (a • e.symm (e x))
+  change e (a • x) = e (a • e.symm (e x))
   rw [e.symm_apply_apply]
 
 /-- **The comparison is natural in the module.** -/
@@ -139,7 +139,7 @@ theorem underlyingConstantSheafIso_hom_naturality {E E' : ModuleCat.{u + 1} Λ} 
   refine (congrArg (constantSheaf Y.smallEtaleTopology AddCommGrpCat.{u + 1}).map ?_).trans
     (Functor.map_comp (constantSheaf Y.smallEtaleTopology AddCommGrpCat.{u + 1}) _ _)
   ext (x : E)
-  show e' (g x) = e' (g (e.symm (e x)))
+  change e' (g x) = e' (g (e.symm (e x)))
   rw [e.symm_apply_apply]
 
 end Underlying

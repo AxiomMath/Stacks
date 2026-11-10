@@ -144,7 +144,7 @@ theorem exists_affine_etale_atlas_presheaf {X : (BigFppfOver B S hS)ᵒᵖ ⥤ T
     refine J.superset_covering ?_ (J.pullback_stable t₀ hcovU)
     rintro W' k ⟨Z, c, d, ⟨i⟩, hfac⟩
     refine ⟨i, c, ?_⟩
-    show f.app (op W') (c ≫ π i) = X.map (k ≫ g).op s
+    change f.app (op W') (c ≫ π i) = X.map (k ≫ g).op s
     rw [show c ≫ π i = k ≫ t₀ from hfac]
     exact app_comp_eq_map_comp B S hS f k t₀ ht₀
 

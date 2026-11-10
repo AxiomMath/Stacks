@@ -362,12 +362,12 @@ private theorem ker_le_span_sup_sq
           = Finset.univ.sum fun i => c i • (⟨t i, htI i⟩ : ↥(RingHom.ker σ)) := by
         apply Subtype.ext
         rw [AddSubmonoid.coe_finsetSum]
-        show y = Finset.univ.sum fun i =>
+        change y = Finset.univ.sum fun i =>
           ((c i • (⟨t i, htI i⟩ : ↥(RingHom.ker σ)) : ↥(RingHom.ker σ)) : S)
         rw [hy]
         apply Finset.sum_congr rfl
         intro i _
-        show algebraMap R S (c i) * t i = c i • (t i)
+        change algebraMap R S (c i) * t i = c i • (t i)
         rw [Algebra.smul_def]
       rw [hyeq, map_sum]
       apply Finset.sum_congr rfl
@@ -426,7 +426,7 @@ private theorem quotientComparison_graded_range_mem
     intro p
     simp [qm, Ideal.quotientMapₐ, Ideal.quotientMap_mk]
   have hmapJ : Ideal.map Ψ J = Ideal.span (Set.range t) := by
-    show Ideal.map Ψ (idealOfVars _ R) = Ideal.span (Set.range t)
+    change Ideal.map Ψ (idealOfVars _ R) = Ideal.span (Set.range t)
     rw [idealOfVars, Ideal.map_span]
     congr 1
     rw [← Set.range_comp]
@@ -590,7 +590,7 @@ private theorem quotientComparison_two_injective
           simp [this]
         · simp
       rw [hsumj]
-      show p.coeff (Finsupp.single j 1) - a j = 0
+      change p.coeff (Finsupp.single j 1) - a j = 0
       rw [ha]; simp
   have haeval_q : (MvPolynomial.aeval (fun i => t i)) (p - lin) ∈ (RingHom.ker σ)^(1+1) := by
     have := comparisonMap_pow_le σ _ t htI (1+1) hqmem
@@ -721,13 +721,13 @@ private theorem quotientComparison_step_injective_ge_two (h : Algebra.Smooth R S
     eₙ.symm.toAlgHom.comp (Ideal.Quotient.mkₐ R ((RingHom.ker σ) ^ n)) with hg
   have hqsurj : Function.Surjective q := by
     rw [hq]
-    show Function.Surjective (Ideal.Quotient.factor (Ideal.pow_le_pow_right (by omega : n ≤ n +
+    change Function.Surjective (Ideal.Quotient.factor (Ideal.pow_le_pow_right (by omega : n ≤ n +
         1)))
     intro y; obtain ⟨z, rfl⟩ := Ideal.Quotient.mk_surjective y
     exact ⟨Ideal.Quotient.mk _ z, Ideal.Quotient.factor_mk _ z⟩
   have hnil : IsNilpotent (RingHom.ker (q.toRingHom)) := by
     rw [hq]
-    show IsNilpotent (RingHom.ker (Ideal.Quotient.factor (Ideal.pow_le_pow_right (by omega : n ≤
+    change IsNilpotent (RingHom.ker (Ideal.Quotient.factor (Ideal.pow_le_pow_right (by omega : n ≤
         n + 1))))
     rw [Ideal.Quotient.factor_ker]
     refine ⟨2, ?_⟩
@@ -735,7 +735,7 @@ private theorem quotientComparison_step_injective_ge_two (h : Algebra.Smooth R S
     have hle : ((idealOfVars (Fin (Module.finrank R (RingHom.ker σ).Cotangent)) R) ^ n) ^ 2
         ≤ (idealOfVars (Fin (Module.finrank R (RingHom.ker σ).Cotangent)) R) ^ (n + 1) := by
       rw [← pow_mul]; exact Ideal.pow_le_pow_right (by omega)
-    show Ideal.map (Ideal.Quotient.mk _) (_ ^ 2) = ⊥
+    change Ideal.map (Ideal.Quotient.mk _) (_ ^ 2) = ⊥
     rw [Ideal.map_eq_bot_iff_le_ker, Ideal.mk_ker]
     exact hle
   set Θt : S →ₐ[R] MvPolynomial (Fin (Module.finrank R (RingHom.ker σ).Cotangent)) R
@@ -846,7 +846,7 @@ private theorem quotientComparison_step_injective_ge_two (h : Algebra.Smooth R S
           = Ideal.Quotient.mk _ (Ψ (MvPolynomial.X i)) := by
         simp [hΨn1, Ideal.quotientMapₐ, Ideal.quotientMap_mk]
       rw [this]; simp [hΨ]
-    show q (F (Ideal.Quotient.mk _ (MvPolynomial.X i))) = q (Ideal.Quotient.mk _ (MvPolynomial.X
+    change q (F (Ideal.Quotient.mk _ (MvPolynomial.X i))) = q (Ideal.Quotient.mk _ (MvPolynomial.X
         i))
     rw [hF]
     simp only [AlgHom.comp_apply]
@@ -877,7 +877,7 @@ private theorem quotientComparison_step_injective_ge_two (h : Algebra.Smooth R S
     rw [this]; simp [hΨ]
   have hkerq : RingHom.ker q = Jbar ^ n := by
     rw [hq]
-    show RingHom.ker (Ideal.Quotient.factor (Ideal.pow_le_pow_right (by omega : n ≤ n + 1))) = _
+    change RingHom.ker (Ideal.Quotient.factor (Ideal.pow_le_pow_right (by omega : n ≤ n + 1))) = _
     rw [Ideal.Quotient.factor_ker, hJbar, ← Ideal.map_pow]
   have hFsub : ∀ z, F z - z ∈ RingHom.ker q := by
     intro z
@@ -976,7 +976,7 @@ private theorem quotientPow_compatible_algEquiv (h : Algebra.Smooth R S)
   apply Ideal.Quotient.algHom_ext R
   apply MvPolynomial.algHom_ext
   intro i
-  show (Ideal.Quotient.factorₐ R (Ideal.pow_le_pow_right hmn))
+  change (Ideal.Quotient.factorₐ R (Ideal.pow_le_pow_right hmn))
         ((AlgEquiv.ofBijective (Ψn n) (hbij n)) (Ideal.Quotient.mk _ (MvPolynomial.X i)))
       = (AlgEquiv.ofBijective (Ψn m) (hbij m))
           ((Ideal.Quotient.factorₐ R (Ideal.pow_le_pow_right hmn))
@@ -1156,7 +1156,7 @@ map together with an `S`-linear section of the right hand map, the exactness of 
   "injectivity, splitting",
   ega "IV 17.2.5" "affine case",
   sga "3 III 4.25" "(ii) inj. + splitting",
-  ega "0 20.5.14" "injectivity, splitting", ega "0 20.6.22" "partial", ega "0 22.4.4.2" "partial"]
+  ega "0 20.6.22" "partial", ega "0 22.4.4.2" "partial"]
 theorem KaehlerDifferential.split_exact_kerCotangentToTensor_mapBaseChange
     (R P S : Type*) [CommRing R] [CommRing P] [CommRing S] [Algebra R P] [Algebra P S]
     [Algebra R S] [IsScalarTower R P S] [Algebra.FormallySmooth R S]
@@ -1276,8 +1276,8 @@ presentation `P' → S` factoring through `P`, and comparing the two sequences b
 Jacobi-Zariski sequence of `R → P → S`. The implication `1 → 2` of 031J is the step used here,
 and it is the one implication of that proposition needing no hypothesis on `P`.
 
-The whole content of the statement is therefore the first step, isolated below as the `private` lemma
-`Algebra.FormallySmooth.exists_kerSquareLift_comp_eq_id`. Both of Mathlib's forms of it,
+The whole content of the statement is therefore the first step, isolated below as the `private`
+lemma `Algebra.FormallySmooth.exists_kerSquareLift_comp_eq_id`. Both of Mathlib's forms of it,
 `Algebra.FormallySmooth.iff_split_surjection` and `Algebra.FormallySmooth.iff_split_injection`,
 are equivalences carrying `[Algebra.FormallySmooth R P]`, which only their converse directions
 need: for `S = P` the sequence is `0 → 0 → 0 → Ω[P⁄R] → 0` and splits whatever `P` is, so no

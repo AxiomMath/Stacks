@@ -215,16 +215,16 @@ theorem exists_affine_sigma_of_finite_family {A : BigFppfOver B S hS} {I : Type 
   let d : D ⟶ A := Over.homMk ⟨d₀⟩ rfl
   let ι (i : I) : V i ⟶ D := Over.homMk ⟨Sigma.ι Y i⟩ (by
     apply B.inclusion.map_injective
-    show Sigma.ι Y i ≫ d₀ ≫ B.inclusion.map A.hom = B.inclusion.map (V i).hom
-    rw [Sigma.ι_desc_assoc]
-    show B.inclusion.map (v i).left ≫ B.inclusion.map A.hom = _
+    change Sigma.ι Y i ≫ d₀ ≫ B.inclusion.map A.hom = B.inclusion.map (V i).hom
+    rw [Sigma.ι_comp_desc_assoc]
+    change B.inclusion.map (v i).left ≫ B.inclusion.map A.hom = _
     rw [← Functor.map_comp, Over.w])
   have hιd : ∀ i, ι i ≫ d = v i := fun i => by
     refine Over.OverMorphism.ext (B.inclusion.map_injective ?_)
-    show Sigma.ι Y i ≫ d₀ = B.inclusion.map (v i).left
-    exact Sigma.ι_desc _ _
+    change Sigma.ι Y i ≫ d₀ = B.inclusion.map (v i).left
+    exact Sigma.ι_comp_desc _ _
   refine ⟨D, d, ι, ?_, ?_, ?_, ?_, hιd, fun i => ?_, fun x => ?_⟩
-  · show IsAffine (∐ Y)
+  · change IsAffine (∐ Y)
     let instAff (i : I) : IsAffine (Y i) := hV i
     infer_instance
   · have : ∀ i, Flat (T.map (v i)) := hflat
@@ -234,7 +234,7 @@ theorem exists_affine_sigma_of_finite_family {A : BigFppfOver B S hS} {I : Type 
     exact IsZariskiLocalAtSource.sigmaDesc hlfp
   · exact Surjective.sigmaDesc_of_union_range_eq_univ
       (Set.eq_univ_of_forall fun x => Set.mem_iUnion.2 (hcov x))
-  · show AlgebraicGeometry.IsOpenImmersion (Sigma.ι Y i)
+  · change AlgebraicGeometry.IsOpenImmersion (Sigma.ι Y i)
     infer_instance
   · obtain ⟨⟨i, y⟩, rfl⟩ := (sigmaMk Y).surjective x
     exact ⟨i, y, (sigmaMk_mk Y i y).symm⟩

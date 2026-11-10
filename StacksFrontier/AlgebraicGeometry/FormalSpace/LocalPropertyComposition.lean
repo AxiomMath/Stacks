@@ -145,9 +145,9 @@ lemma isLocallySurjective_sigmaDesc_comp
   intro Z g h hgh
   refine (cancel_epi (Sigma.desc q)).1 (Sigma.hom_ext _ _ fun j ↦ ?_)
   have := hw j
-  rw [← Category.assoc, ← Category.assoc, Sigma.ι_desc]
+  rw [← Category.assoc, ← Category.assoc, Sigma.ι_comp_desc]
   refine (cancel_epi (Sigma.desc (w j))).1 (Sigma.hom_ext _ _ fun i ↦ ?_)
-  simpa only [← Category.assoc, Sigma.ι_desc] using
+  simpa only [← Category.assoc, Sigma.ι_comp_desc] using
     Sigma.ι (fun p : Σ j, I j ↦ U p.1 p.2) ⟨j, i⟩ ≫= hgh
 
 /-- The assertion of **Stacks 0AJ3** for the fibre products formed in the proofs of Stacks

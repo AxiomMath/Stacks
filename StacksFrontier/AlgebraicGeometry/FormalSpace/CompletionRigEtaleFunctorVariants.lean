@@ -4,9 +4,10 @@ public import StacksFrontier.AlgebraicGeometry.FormalSpace.CompletionRigEtaleFun
 public import StacksFrontier.AlgebraicGeometry.FormalSpace.CompletionRigEtaleVariants
 
 /-!
-# Variants of the results of `StacksFrontier.AlgebraicGeometry.FormalSpace.CompletionRigEtaleFunctor`
+# Variants of the completion rig-étale functor results
 
-The declarations below extend `StacksFrontier.AlgebraicGeometry.FormalSpace.CompletionRigEtaleFunctor`
+The declarations below extend
+`StacksFrontier.AlgebraicGeometry.FormalSpace.CompletionRigEtaleFunctor`
 and are kept in a module of their own so that that module stays unchanged. A primed name `X'` is a
 variant of the declaration `X` there.
 

@@ -396,7 +396,7 @@ theorem extendsSupportedPerfect_self
     (isEtale_openSubspaceInclusion hW hD hWD) hid
   refine ⟨P, α, hP, hPT, 0, τ.app P ≪≫ (IsFiniteSumOfPositiveShifts.biprodIsoOfIsZeroRight P
     (isZero_zero _)).symm, IsFiniteSumOfPositiveShifts.zero (isZero_zero _), ?_⟩
-  show (etaleModulePullback.{u, u} B S hS (openSubspaceInclusion hW hD hWD)
+  change (etaleModulePullback.{u, u} B S hS (openSubspaceInclusion hW hD hWD)
       (isEtale_openSubspaceInclusion hW hD hWD)).mapDerivedCategory.map α ≫
     (derivedEtaleRestrictComp (openSubspaceInclusion hW hD hWD)
       (openSubspaceHom B S hS W hD) (openSubspaceHom B S hS W hW)
@@ -496,7 +496,7 @@ theorem exists_glued_extension {X Y₁ Z W' : AlgebraicSpaces B S hS}
   simp only [Category.assoc]
   simp only [← derivedEtaleRestrictCompApp_cocycle b (edsOpenHom B S hS hsq) ι₂ inc₂ kU ιZ hb heo
     hι₂ hinc₂ hkU hιZ E2 hkUdef h₂ E4 E.obj]
-  simp only [hφ', Functor.map_comp, Category.assoc, Iso.map_inv_hom_id_assoc]
+  simp only [hφ', Functor.map_comp, Category.assoc, Iso.inv_hom_id_map_assoc]
   simp only [derivedEtaleRestrictCompApp_cocycle b eU.inv ι₁ inc₁ kU ιZ hb hUi hι₁ hinc₁
     hkU hιZ E3 E1 h₁ E4 E.obj]
   simp only [derivedEtaleRestrictCompApp_naturality_assoc b eU.inv inc₁ hb hUi hinc₁ E3, hβ₁,
@@ -530,18 +530,18 @@ theorem extendsSupportedPerfect_step (hZ : B.Contains (⊤_ Scheme.{u}))
   have hUi : IsEtale B S hS eU.inv.hom := isEtale_of_isIso B S hS φU.inv
   have hUh : IsEtale B S hS eU.hom.hom := isEtale_of_isIso B S hS φU.hom
   have hφU : φU.hom ≫ Uo.ι ≫ W₂.ι = W₁.ι := by
-    show Subfunctor.toRange (Subfunctor.homOfLe hle) ≫ Uo.ι ≫ W₂.ι = W₁.ι
+    change Subfunctor.toRange (Subfunctor.homOfLe hle) ≫ Uo.ι ≫ W₂.ι = W₁.ι
     rw [Subfunctor.toRange_ι_assoc, Subfunctor.homOfLe_ι]
   have E1 : eU.inv ≫ openSubspaceHom B S hS W₁ hW₁ =
       edsOpenHom B S hS (W := Y₂) hsq' ≫ openSubspaceHom B S hS W₂ hW₂' := by
     apply ObjectProperty.hom_ext
-    show φU.inv ≫ W₁.ι = Uo.ι ≫ W₂.ι
+    change φU.inv ≫ W₁.ι = Uo.ι ≫ W₂.ι
     rw [← hφU, Iso.inv_hom_id_assoc]
   have E2 : (openSubspaceInclusion hW hW₁ hWW₁ ≫ eU.hom) ≫ edsOpenHom B S hS (W := Y₂) hsq' =
       openSubspaceInclusion hW hW₂' hWW₂ := by
     apply ObjectProperty.hom_ext
     refine (cancel_mono W₂.ι).1 ?_
-    show Subfunctor.homOfLe hWW₁ ≫ φU.hom ≫ Uo.ι ≫ W₂.ι = Subfunctor.homOfLe hWW₂ ≫ W₂.ι
+    change Subfunctor.homOfLe hWW₁ ≫ φU.hom ≫ Uo.ι ≫ W₂.ι = Subfunctor.homOfLe hWW₂ ≫ W₂.ι
     rw [hφU, Subfunctor.homOfLe_ι, Subfunctor.homOfLe_ι]
   -- the supported lifting property on the affine member
   let T₂ : Set (points B S hS W₂.toFunctor) := pointsMap B S hS W₂.toFunctor W₂.ι ⁻¹' T
@@ -627,7 +627,7 @@ theorem exists_isPerfect_restrict_iso_biprod_isFiniteSumOfPositiveShifts
   have H2 : openSubspaceHom B S hS W hW ≫ eT.inv = openSubspaceInclusion hW htop le_top := by
     apply ObjectProperty.hom_ext
     refine (cancel_mono (⊤ : Subfunctor X.1).ι).1 ?_
-    show W.ι ≫ φT.inv ≫ (⊤ : Subfunctor X.1).ι = Subfunctor.homOfLe le_top ≫ _
+    change W.ι ≫ φT.inv ≫ (⊤ : Subfunctor X.1).ι = Subfunctor.homOfLe le_top ≫ _
     rw [hφT, Category.comp_id, Subfunctor.homOfLe_ι]
   have H3 : openSubspaceHom B S hS W hW ≫ 𝟙 X = openSubspaceHom B S hS W hW :=
     Category.comp_id _
@@ -654,7 +654,7 @@ theorem exists_isPerfect_restrict_iso_biprod_isFiniteSumOfPositiveShifts
           (openSubspaceHom B S hS (⊤ : Subfunctor X.1) htop) (openSubspaceHom B S hS W hW)
           hinc hιT hιW (openSubspaceInclusion_comp hW htop le_top) E.obj).hom =
         e.hom ≫ biprod.fst ≫ α := hβ
-    show (etaleDerivedRestrict (openSubspaceHom B S hS W hW) hιW).map
+    change (etaleDerivedRestrict (openSubspaceHom B S hS W hW) hιW).map
         ((etaleDerivedRestrict eT.inv hTi).map β ≫
           (derivedEtaleRestrictCompApp eT.inv (openSubspaceHom B S hS (⊤ : Subfunctor X.1) htop)
             (𝟙 X) hTi hιT hid H1 E.obj).hom ≫ τ.hom.app E.obj) = _

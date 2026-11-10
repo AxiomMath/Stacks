@@ -135,7 +135,7 @@ theorem RelFramedOpen.isScalarTower (i : f.RelFramedOpen g) :
   let := ((f ≫ g).appLE i.W (f ⁻¹ᵁ i.U) i.le_comp).hom.toAlgebra
   let := (f.app i.U).hom.toAlgebra
   refine IsScalarTower.of_algebraMap_eq fun r => ?_
-  show ((f ≫ g).appLE i.W (f ⁻¹ᵁ i.U) i.le_comp).hom r =
+  change ((f ≫ g).appLE i.W (f ⁻¹ᵁ i.U) i.le_comp).hom r =
     (g.appLE i.W i.U i.le ≫ f.app i.U).hom r
   rw [Scheme.Hom.app_eq_appLE, Scheme.Hom.appLE_comp_appLE]
 

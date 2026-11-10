@@ -246,8 +246,7 @@ theorem toPieceₗ_naturality {W W' : (Spec Γ(X, V)).Opens} (j : W' ⟶ W)
     pieceRestrictAdd E hV n j (toPieceₗ E hV n W x) =
       toPieceₗ E hV n W'
         (LinearMap.rTensor _ (AffineBaseChange.specRestrictₗ (R := Γ(X, V)) j) x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul a y => exact pieceRestrictAdd_toPieceₗ_tmul E hV n j a y
   | add y z hy hz => simp only [map_add, hy, hz]
 

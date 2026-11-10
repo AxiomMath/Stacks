@@ -80,7 +80,8 @@ and none of them a restatement of the conclusion:
   and `AlgebraicGeometry.Stack.isQuasiCompactStack_iff_hasAffineSmoothPresentation`. The carried
   hypothesis is the `StackDescentSystem`-free
   `GroupoidPresentationOfAffineSmoothChart`, which *receives* the chart, and
-  `AlgebraicGeometry.Stack.hasSmoothPresentationOverBase` derives the presentation over the base from it. What
+  `AlgebraicGeometry.Stack.hasSmoothPresentationOverBase` derives the presentation over the base
+  from it. What
   remains carried is Stacks 04T4 (4), (5), Stacks 04T5 (2) and the Stacks 050K / 050H bookkeeping.
 
   **Why Stacks 04T4 (4), (5) does not supply it directly.** The available datum is
@@ -193,7 +194,9 @@ and none of them a restatement of the conclusion:
   `AlgebraicGeometry.Stack.quotientStackMap_commutes` is for, and then descend the comparison by
   the fullness and faithfulness of 04W9, a fully faithful functor reflecting isomorphisms.
   `AlgebraicGeometry.GroupoidInAlgebraicSpaces.Hom.id` and `…Hom.comp` are
-  available, so the composites that an isomorphism of groupoids produces can be named. `StacksFrontier/CategoryTheory/Sites/Stackification/UniversalPropertyUniqueness.lean` carries a `set_option`, so the
+  available, so the composites that an isomorphism of groupoids produces can be named.
+  `StacksFrontier/CategoryTheory/Sites/Stackification/UniversalPropertyUniqueness.lean` carries a
+  `set_option`, so the
   construction belongs beside `quotientStackMap` and not there.
 
   Concretely the chain is four steps, of which the last three are unobstructed.
@@ -873,7 +876,8 @@ over `X`.
 Five inputs are carried as explicit hypotheses — `hPresentation`, `hDescent`,
 `hStageStackModel`, `hModelFinitePresentation` and `hModelComparison`. None is a restatement of
 this conclusion, and `hStageStackModel` is a universe-lifting datum rather than a mathematical
-assumption. The module's implementation notes say what each one is, which declaration of the library it
+assumption. The module's implementation notes say what each one is, which declaration of the library
+it
 would come from, and — for Stacks 0CN2 — exactly why the existing result falls short. What is
 discharged here is Stacks 07SF for the limit with its quasi-compactness and
 quasi-separatedness, the essential-surjectivity clause of Stacks 07SK for the object and arrow

@@ -195,7 +195,7 @@ public theorem isLocalCompleteIntersection_isLocalAtTarget_syntomic :
       rw [← P.cancel_left_of_respectsIso (pullbackSymmetry f.hom (gi i).hom).hom,
         pullbackSymmetry_hom_comp_fst]
       exact (hsnd_iff i).1 (hall (gi i) (Presieve.ofArrows.mk i))
-    show IsLocalCompleteIntersection B S hS (pullback.snd (gi i).hom f.hom ≫ f.hom)
+    change IsLocalCompleteIntersection B S hS (pullback.snd (gi i).hom f.hom ≫ f.hom)
     rw [← pullback.condition]
     exact isLocalCompleteIntersection_comp B S hS (hXp i) (Yi i).property
       hYp _ _ hfst

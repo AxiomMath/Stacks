@@ -75,7 +75,7 @@ abbrev pointFunctor : Discrete PUnit.{1} ⥤ (Spec (.of Ω)).Etale :=
 /-- The inclusion `pointFunctor Ω` of the terminal object is full. -/
 instance : (pointFunctor Ω).Full where
   map_surjective {X Y} f := ⟨eqToHom (Subsingleton.elim X Y),
-    (terminalIsTerminal Ω).hom_ext _ _⟩
+    (terminalIsTerminal Ω).hom_ext _ f⟩
 
 variable [IsSepClosed Ω]
 
@@ -116,7 +116,7 @@ def sectionsFullyFaithful :
   preimage_map {F G} φ := by
     ext1
     refine (Functor.IsCoverDense.restrictHomEquivHom (G := pointFunctor Ω) (ℱ := F.obj)
-      (ℱ' := G)).apply_eq_iff_eq_symm_apply.2 ?_
+      (ℱ' := G)).eq_symm_apply.1 ?_
     ext ⟨⟨⟨⟩⟩⟩
     rfl
 

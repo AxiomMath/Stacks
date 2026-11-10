@@ -174,7 +174,7 @@ theorem globalSectionsAlternatingCechRestriction_comp (ℱ : TopCat.Presheaf Ab.
         _root_.Stacks.CategoryTheory.CechComplex.π U ℱ 0 x =
         ℱ.map (homOfLE le_top).op := Pi.lift_comp_π _ x
     rw [hlift, interSectionsIso, Functor.mapIso_hom]
-    show _ = ℱ.map (homOfLE (le_top : CechCochains.inter U x ≤ ⊤)).op
+    change _ = ℱ.map (homOfLE (le_top : CechCochains.inter U x ≤ ⊤)).op
     rw [← ℱ.map_comp]
     exact congrArg ℱ.map (Subsingleton.elim _ _)
   rw [alternatingCechToCech, HomologicalComplex.comp_f, cechComplexIso_hom_f,
@@ -242,7 +242,7 @@ noncomputable def globalSectionsToAlternatingCechRowZero
 theorem isZero_alternatingCechBicomplex_flip_X_X_of_neg
     (L : CochainComplex ((Opens X)ᵒᵖ ⥤ AddCommGrpCat.{u}) ℤ) (p q : ℤ) (hq : q < 0) :
     IsZero ((((alternatingCechBicomplexFunctor U).obj L).flip.X p).X q) := by
-  show IsZero (((alternatingCechComplex U (L.X p)).extend embeddingUpNat).X q)
+  change IsZero (((alternatingCechComplex U (L.X p)).extend embeddingUpNat).X q)
   refine HomologicalComplex.isZero_extend_X _ _ _ fun i hi ↦ ?_
   change (i : ℤ) = q at hi
   omega
@@ -292,7 +292,7 @@ theorem quasiIso_globalSectionsToAlternatingCech_of_injective
       have hC : (alternatingCechComplex U (L.X p)).ExactAt q.toNat := by
         rw [HomologicalComplex.exactAt_iff_isZero_homology]
         exact isZero_alternatingCechHomology_of_injective U (K.X p) q.toNat (by omega)
-      show ((alternatingCechComplex U (L.X p)).extend embeddingUpNat).ExactAt q
+      change ((alternatingCechComplex U (L.X p)).extend embeddingUpNat).ExactAt q
       exact ((alternatingCechComplex U (L.X p)).extend_exactAt_iff embeddingUpNat hq').mpr hC
   have hkernel (p : ℤ) :
       ∃ hα : α.f p ≫ ((DA.flip).X p).d 0 1 = 0,
@@ -304,7 +304,7 @@ theorem quasiIso_globalSectionsToAlternatingCech_of_injective
         (globalSectionsAlternatingCechRestriction X U (L.X p)) hr) :=
       isIso_globalSectionsAlternatingCechRestriction_kernelLift X U hU (K.X p)
     refine ⟨globalSectionsAlternatingCechRestrictionInt_d X U (L.X p), ?_⟩
-    show IsIso (kernel.lift
+    change IsIso (kernel.lift
       (((alternatingCechComplex U (L.X p)).extend embeddingUpNat).d 0 1)
       (globalSectionsAlternatingCechRestriction X U (L.X p) ≫
         ((alternatingCechComplex U (L.X p)).extendXIso embeddingUpNat

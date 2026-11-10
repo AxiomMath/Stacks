@@ -50,7 +50,7 @@ theorem subschemeι_app_eq_zero_iff_mem_of_isQuasicoherent
   obtain ⟨W, hW, hxW, hWV⟩ :=
     Opens.isBasis_iff_nbhd.mp X.isBasis_affineOpens (U := V) (x := x) hx
   refine ⟨W, homOfLE hWV, ?_, hxW⟩
-  show X.presheaf.map (homOfLE hWV).op s ∈ J.obj (op W)
+  change X.presheaf.map (homOfLE hWV).op s ∈ J.obj (op W)
   rw [← subschemeι_app_eq_zero_iff_mem J ⟨W, hW⟩]
   have hnat := ConcreteCategory.congr_hom
     ((idealSheafDataOfSubmodule J).subschemeι.naturality (homOfLE hWV).op) s

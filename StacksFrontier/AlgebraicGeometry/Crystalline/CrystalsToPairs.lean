@@ -198,7 +198,7 @@ public theorem firstOrderEquiv_mul (b b' : firstOrderExtension D Omega) :
         (firstOrderEquiv D Omega b).1 • (firstOrderEquiv D Omega b').2 +
           (firstOrderEquiv D Omega b').1 • (firstOrderEquiv D Omega b).2) := by
   refine Prod.ext (TrivSqZeroExt.fst_mul b b') ?_
-  show (b * b').snd = b.fst • b'.snd + b'.fst • b.snd
+  change (b * b').snd = b.fst • b'.snd + b'.fst • b.snd
   rw [TrivSqZeroExt.snd_mul, op_smul_eq_smul]
 
 /-- A section of `D ⊕ Ω` lies in the ideal `J ⊕ Ω` exactly when its first component lies
@@ -314,8 +314,7 @@ public theorem firstOrderDifferentialPart_smul_P₁ (f : D)
     firstOrderDifferentialPart D Omega M (firstOrderP₁ A D g Omega d f • z) =
       f • firstOrderDifferentialPart D Omega M z +
         d f ⊗ₜ[D] firstOrderReduction D Omega M z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul a m =>
       rw [TensorProduct.smul_tmul', firstOrderDifferentialPart_tmul,
         firstOrderDifferentialPart_tmul, firstOrderReduction_tmul, smul_eq_mul]
@@ -336,8 +335,7 @@ public theorem firstOrderDifferentialPart_lTensor (phi : M →ₗ[D] N)
     firstOrderDifferentialPart D Omega N
         (LinearMap.lTensor (firstOrderExtension D Omega) phi z) =
       LinearMap.lTensor Omega phi (firstOrderDifferentialPart D Omega M z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul a m => simp
   | add x y hx hy => rw [map_add, map_add, map_add, map_add, hx, hy]
 
@@ -348,8 +346,7 @@ public theorem comm_lTensor (phi : M →ₗ[D] N) (z : Omega ⊗[D] M) :
     TensorProduct.comm D Omega N (LinearMap.lTensor Omega phi z) =
       TensorProduct.map phi (LinearMap.id (R := D) (M := Omega))
         (TensorProduct.comm D Omega M z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul w m => simp
   | add x y hx hy => rw [map_add, map_add, map_add, map_add, hx, hy]
 

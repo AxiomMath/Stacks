@@ -119,7 +119,7 @@ private lemma restrictScalars_preservesFiniteColimits {C : Type u} [SmallCategor
     PreservesFiniteColimits (SheafOfModules.restrictScalars.{u} α) := by
   have h : PreservesFiniteColimits
       (SheafOfModules.restrictScalars.{u} α ⋙ SheafOfModules.toSheaf R) := by
-    show PreservesFiniteColimits (SheafOfModules.toSheaf.{u} R')
+    change PreservesFiniteColimits (SheafOfModules.toSheaf.{u} R')
     exact ModuleSheafCohomology.toSheaf_preservesFiniteColimits _ R'
   have h2 : PreservesFiniteColimits (SheafOfModules.toSheaf.{u} R) :=
     ModuleSheafCohomology.toSheaf_preservesFiniteColimits _ R
@@ -193,7 +193,7 @@ lemma isIso_restrictFunctor_map_pushforward_map {X Y : Scheme.{u}} (h : X ⟶ Y)
   subst hW
   have hqV : IsIso ((restrictFunctor (h ⁻¹ᵁ V).ι ⋙
       Scheme.Modules.pushforward (h ∣_ V)).map q) := by
-    show IsIso ((Scheme.Modules.pushforward (h ∣_ V)).map
+    change IsIso ((Scheme.Modules.pushforward (h ∣_ V)).map
       ((restrictFunctor (h ⁻¹ᵁ V).ι).map q))
     infer_instance
   exact (NatIso.isIso_map_iff
@@ -213,7 +213,7 @@ lemma isIso_restrictFunctor_map_unit_of_section {X Y : Scheme.{u}} (g : X ⟶ Y)
       ((Scheme.Modules.pullbackPushforwardAdjunction g).unit.app M)) := by
   have h1 : IsIso (((Scheme.Modules.pullback g) ⋙ Scheme.Modules.pullback h).map
       ((Scheme.Modules.pullbackPushforwardAdjunction g).unit.app M)) := by
-    show IsIso ((Scheme.Modules.pullback h).map ((Scheme.Modules.pullback g).map _))
+    change IsIso ((Scheme.Modules.pullback h).map ((Scheme.Modules.pullback g).map _))
     infer_instance
   have h2 : IsIso ((Scheme.Modules.pullback V.ι).map
       ((Scheme.Modules.pullbackPushforwardAdjunction g).unit.app M)) :=

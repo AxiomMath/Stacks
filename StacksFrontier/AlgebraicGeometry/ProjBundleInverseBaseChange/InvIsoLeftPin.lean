@@ -13,7 +13,8 @@ on `L ⊗ inv`, and `mulIso'`, on `inv ⊗ L`. A comparison `u : a⁻¹ ⟶ b⁻
 
 `u ▷ L₁ ≫ b⁻¹ ◁ ε ≫ b.mulIso' = a.mulIso'`    and    `(ε ⊗ₘ u) ≫ b.mulIso = a.mulIso`,
 
-and `StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.InverseLineDetermination` develops the
+and `StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.InverseLineDetermination` develops
+the
 first. **This file develops the second**, which is the form the geometry of Tag 0B3V's base-change
 clause actually arrives in; see "Why the left form" below.
 

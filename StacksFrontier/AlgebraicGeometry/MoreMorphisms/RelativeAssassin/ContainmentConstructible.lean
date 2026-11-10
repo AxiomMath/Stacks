@@ -441,7 +441,7 @@ private theorem isLocallyConstructible_fibrewiseContainment_spec {X : Scheme.{u}
   let cBase : Cone D := Scheme.Spec.mapCone R.finiteSubalgebrasCocone.op
   let c : Cone D := { pt := Spec R, π := cBase.π }
   have hc : IsLimit c := by
-    show IsLimit cBase
+    change IsLimit cBase
     exact isLimitOfPreserves _ R.finiteSubalgebrasIsColimit.op
   have hDaff : ∀ j, IsAffine (D.obj j) := fun j => inferInstanceAs (IsAffine (Spec _))
   have hDah : ∀ {j k : (Finset R)ᵒᵖ} (ee : j ⟶ k), IsAffineHom (D.map ee) := fun _ => inferInstance

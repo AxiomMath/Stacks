@@ -170,7 +170,7 @@ theorem satisfiesSetTheoreticCondition_of_epi_of_mono_factor
       exact pullback.condition)
   let d : pullback e e ⟶ pullback w w :=
     pullback.lift (pullback.fst e e) (pullback.snd e e) (by
-      show _ ≫ a ≫ p = _ ≫ a ≫ p
+      change _ ≫ a ≫ p = _ ≫ a ≫ p
       rw [ha, ← Category.assoc, ← Category.assoc, pullback.condition])
   have hdc : d ≫ c = 𝟙 _ := by
     apply pullback.hom_ext

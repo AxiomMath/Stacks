@@ -33,7 +33,7 @@ theorem toRingCatSheafHom_square :
       toRingCatSheafHom (g'.toLRSHom.toShHom ≫ toInverseImageBase f) := by
   have h := congrArg (fun m => m.hom) (toInverseImageBase_comp_inverseImageBaseMap g' f' f g w)
   refine Sheaf.hom_ext (NatTrans.ext (funext fun U => ?_))
-  show (forget₂ CommRingCat RingCat).map
+  change (forget₂ CommRingCat RingCat).map
       ((toInverseImageBase f' ≫ inverseImageBaseMap g' f' f g w).hom.c.app U) =
     (forget₂ CommRingCat RingCat).map ((g'.toLRSHom.toShHom ≫ toInverseImageBase f).hom.c.app U)
   rw [PresheafedSpace.congr_app h U]

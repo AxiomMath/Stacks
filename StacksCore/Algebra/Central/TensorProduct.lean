@@ -47,8 +47,7 @@ instance Algebra.IsCentral.baseChange (L : Type*) [Field L] [Algebra k L] [Algeb
   out x h := by
     obtain ⟨x, rfl⟩ := le_of_eq center_tensor_center h
     clear h
-    induction x using TensorProduct.induction_on with
-    | zero => exact zero_mem _
+    induction x using TensorProduct.inductionOn with
     | tmul x y =>
       obtain ⟨r, hr⟩ := (Algebra.IsCentral.center_eq_bot k A).le y.2
       use r • x.1
@@ -72,8 +71,7 @@ theorem Algebra.IsCentral.of_baseChange (L : Type*) [Field L] [Algebra k L]
     have h1 : (1 : L) ⊗ₜ[k] z ∈ Subalgebra.center L (L ⊗[k] A) := by
       rw [Subalgebra.mem_center_iff]
       intro x
-      induction x using TensorProduct.induction_on with
-      | zero => rw [zero_mul, mul_zero]
+      induction x using TensorProduct.inductionOn with
       | tmul c a => rw [Algebra.TensorProduct.tmul_mul_tmul,
           Algebra.TensorProduct.tmul_mul_tmul, one_mul, mul_one,
           Subalgebra.mem_center_iff.mp hz a]

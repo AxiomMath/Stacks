@@ -39,10 +39,10 @@ point of codimension two. This is the content of [Stacks, Tag 0AGT].
 
 ## Implementation notes
 
-Everything is read off the fibre computation of the sibling module
-`StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.EmbeddedResolution.CartierDescent.ChartFibre`,
-which identifies `B/ξB` with the polynomial ring `κ[T]`. From that identification the fibre is a
-principal ideal domain, so:
+Everything is read off the fibre computation of the sibling module `ChartFibre` (that is,
+`StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.EmbeddedResolution.CartierDescent`
+`.ChartFibre`), which identifies `B/ξB` with the polynomial ring `κ[T]`. From that
+identification the fibre is a principal ideal domain, so:
 
 * `(ξ)` is prime because the fibre is a domain, and proper because the fibre is nonzero;
 * a prime of `B` strictly containing `(ξ)` corresponds to a nonzero prime of `κ[T]`, which is
@@ -100,7 +100,7 @@ private lemma finiteType_affineBlowup {A : Type u} [CommRing A] (I : Ideal A) (a
     let f : A →ₗ[A] L :=
       (IsLocalization.mk' L 1 ⟨a, Submonoid.mem_powers a⟩ : L) • Algebra.linearMap A L
     have hf (z : A) : f z = IsLocalization.mk' L z ⟨a, Submonoid.mem_powers a⟩ := by
-      show IsLocalization.mk' L 1 ⟨a, Submonoid.mem_powers a⟩ * algebraMap A L z = _
+      change IsLocalization.mk' L 1 ⟨a, Submonoid.mem_powers a⟩ * algebraMap A L z = _
       rw [mul_comm, ← IsLocalization.mk'_eq_mul_mk'_one]
     obtain ⟨t, ht⟩ := hI
     refine (Subalgebra.fg_iff_finiteType _).mp (Subalgebra.fg_def.mpr
@@ -258,7 +258,7 @@ public theorem height_eq_two_of_lt (A : Type u) [CommRing A] [IsLocalRing A] [Is
       exact Set.mem_singleton p
     calc p.height
         ≤ (({ξ, f} : Set (affineBlowup (Ideal.span ({x, y} : Set A)) x)).ncard : ℕ∞) :=
-          Ideal.height_le_card_of_mem_minimalPrimes_span (Set.toFinite _) hmin
+          Ideal.height_le_ncard_of_mem_minimalPrimes_span (Set.toFinite _) hmin
       _ ≤ 2 := by
           refine Nat.cast_le.mpr ((Set.ncard_insert_le _ _).trans ?_)
           simp
@@ -349,7 +349,7 @@ public theorem isArtinianRing_quotient (A : Type u) [CommRing A] [IsLocalRing A]
     have hLp : L ≤ J.comap (Ideal.Quotient.mk L) := fun z hz => by
       rw [Ideal.mem_comap, Ideal.Quotient.eq_zero_iff_mem.mpr hz]
       exact J.zero_mem
-    exact Ideal.isMaximal_of_isIntegral_of_isMaximal_comap' (Ideal.Quotient.mk L)
+    exact Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (Ideal.Quotient.mk L)
       (RingHom.isIntegral_of_surjective _ Ideal.Quotient.mk_surjective) J
       (isMaximal_of_isPrime_le A hreg hspan L k hxk hL inferInstance hLp)
   exact IsNoetherianRing.isArtinianRing_of_krullDimLE_zero

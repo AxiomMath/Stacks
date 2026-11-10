@@ -231,7 +231,7 @@ theorem SpecMap_algebraMap_residueField_base {A : CommRingCat.{u}} (p : PrimeSpe
     (Spec.map (CommRingCat.ofHom (algebraMap A p.asIdeal.ResidueField))).base z = p := by
   have hz : z.asIdeal = ⊥ := (Ideal.eq_bot_or_top z.asIdeal).resolve_right z.isPrime.ne_top
   apply PrimeSpectrum.ext
-  show Ideal.comap (algebraMap A p.asIdeal.ResidueField) z.asIdeal = p.asIdeal
+  change Ideal.comap (algebraMap A p.asIdeal.ResidueField) z.asIdeal = p.asIdeal
   rw [hz, ← RingHom.ker_eq_comap_bot, Ideal.ker_algebraMap_residueField]
 
 /-- For a ring map `ρ : A ⟶ K` and `M ∈ D(A)`, the cohomology of `L(Spec ρ)^*M̃` has, in each

@@ -90,7 +90,7 @@ theorem IsHomogeneous.neg {n : ℕ} {c : TotalChowClass C sY} (hc : c.IsHomogene
 /-- An integer multiple of a class homogeneous of degree `n` is homogeneous of degree `n`. -/
 theorem IsHomogeneous.zsmul {n : ℕ} {c : TotalChowClass C sY} (hc : c.IsHomogeneous n) (k : ℤ) :
     (k • c).IsHomogeneous n := fun p hp ↦ by
-  show k • c p = 0
+  change k • c p = 0
   rw [hc p hp, smul_zero]
 
 /-- A class homogeneous of degree `m` is homogeneous of degree `n` when `m = n`. -/
@@ -275,14 +275,14 @@ def moduleChernCharacterOrZero (M : X.Modules) :
 theorem moduleChernCharacterOrZero_of_isFiniteLocallyFree (M : X.Modules)
     [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u} M] :
     moduleChernCharacterOrZero C sX M = moduleChernCharacter C sX M := by
-  rw [moduleChernCharacterOrZero, dif_pos
+  rw [moduleChernCharacterOrZero, dite_eq_left
     ‹Stacks.FiniteLocallyFree.IsFiniteLocallyFree.{u, u, u} (R := X.ringCatSheaf) M›]
 
 /-- For a module that is not finite locally free, `moduleChernCharacterOrZero` is `0`. -/
 theorem moduleChernCharacterOrZero_of_not (M : X.Modules)
     (hM : ¬ Stacks.FiniteLocallyFree.IsFiniteLocallyFree.{u, u, u} (R := X.ringCatSheaf) M) :
     moduleChernCharacterOrZero C sX M = 0 := by
-  rw [moduleChernCharacterOrZero, dif_neg hM]
+  rw [moduleChernCharacterOrZero, dite_eq_right hM]
 
 /-- The Chern character map exists and is unique: the extension of `[ℰ] ↦ ch(ℰ)` to a ring map
 on `K_0(Vect(X))`. -/

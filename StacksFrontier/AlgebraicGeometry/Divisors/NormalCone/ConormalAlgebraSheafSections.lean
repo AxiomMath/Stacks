@@ -102,6 +102,7 @@ namespace Stacks.Conormal
 variable {Z X : Scheme.{u}} (i : Z ⟶ X) [IsImmersion i] (U : X.affineOpens)
   (hU : IsClosedImmersion (i.resLE U.1 (i ⁻¹ᵁ U.1) le_rfl))
 
+omit [IsImmersion i] in
 /-- **Restriction to a smaller affine chart carries the kernel ideal into the kernel ideal**, in
 the form `I_U · Γ(X, V) ⊆ I_V` of an inclusion of ideals. -/
 theorem map_chartIdeal_le {U V : X.affineOpens} (hVU : V.1 ≤ U.1) :

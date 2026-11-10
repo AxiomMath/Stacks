@@ -150,7 +150,7 @@ theorem cech_isCoskeletal {X : C}
   have hbij (V : SimplicialObject (FormalCoproduct.{w} (Over X))) :
       Function.Bijective (fun g : V ⟶ K ↦ g.app (op ⦋0⦌) ≫ π 0 0) :=
     SimplicialObject.bijective_app_zero_comp_π π hU hπ V
-  show K.IsCoskeletal 0
+  change K.IsCoskeletal 0
   rw [SimplicialObject.isCoskeletal_iff]
   let L := (SimplexCategory.Truncated.inclusion 0).op
   let α : L ⋙ K ⟶ L ⋙ K := 𝟙 _
@@ -244,7 +244,7 @@ theorem isHypercovering_cech (J : Pretopology C) {U X : C} (f : U ⟶ X)
       IsTerminal.ofIso (FormalCoproduct.isTerminalIncl _ Over.mkIdTerminal) e
     let eT := hT.uniqueUpToIso terminalIsTerminal
     let : Unique (K.obj (op ⦋0⦌)).I := by
-      show Unique (ToType (SimplexCategory.mk 0) → A.I)
+      change Unique (ToType (SimplexCategory.mk 0) → A.I)
       infer_instance
     have hq : Presieve.singleton ((q.φ default).left) ∈ J X := hf
     have hiso : ∀ {P Q : FormalCoproduct (Over X)} (e : P ≅ Q) (i : P.I), IsIso (e.hom.φ i).left :=

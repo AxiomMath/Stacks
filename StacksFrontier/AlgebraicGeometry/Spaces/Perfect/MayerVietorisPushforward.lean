@@ -230,8 +230,8 @@ extension and of its sections (upgrading the set-level
 the two geometric facts that `{U ⟶ X, V ⟶ X}` covers `X` and that `V ×_X V` is covered by its
 diagonal together with its part over `U`, and a bridge identifying the two
 `CategoryTheory.conjugateEquiv` comparisons with restriction of sections along the projections of
-the square.  None of that is needed for Stacks 08GW, and none of it is in the library.  The obstruction
-on that route — that the chart description of
+the square.  None of that is needed for Stacks 08GW, and none of it is in the library.  The
+obstruction on that route — that the chart description of
 `AlgebraicGeometry.Space.modulePushforward` exists only for a *representable* morphism, and that
 `AlgebraicGeometry.Space.IsElementaryDistinguishedSquare` does not supply representability — is
 real, and is simply not on the path.
@@ -732,7 +732,7 @@ theorem mem_distTriang_unitBiprod_of_natural_shortExact
     rfl
   have hz' : biprod.lift fU fV ≫ biprod.desc gU (-gV) = 0 := by
     ext n
-    show (ev n).map (biprod.lift fU fV ≫ biprod.desc gU (-gV)) = 0
+    change (ev n).map (biprod.lift fU fV ≫ biprod.desc gU (-gV)) = 0
     rw [(ev n).map_comp, e1 n, assoc, e2 n, hzero (K.X n)]
   have hS : (ShortComplex.mk _ _ hz').ShortExact := by
     refine HomologicalComplex.shortExact_of_degreewise_shortExact _ (fun n => ?_)

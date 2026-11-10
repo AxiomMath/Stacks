@@ -55,7 +55,7 @@ closure of `{t}` taken in the fibre, and that closure is `{t}` by Tag 02NT. -/
 theorem eq_of_specializes_of_base_eq_of_isIntegralHom (i : T ⟶ S) [IsIntegralHom i] {t t' : T}
     (h : t ⤳ t') (hi : i.base t = i.base t') : t = t' := by
   have hF : i.asFiber t ⤳ (i.fiberHomeo (i.base t)).symm ⟨t', hi.symm⟩ := by
-    show (i.fiberHomeo (i.base t)).symm ⟨t, rfl⟩ ⤳ _
+    change (i.fiberHomeo (i.base t)).symm ⟨t, rfl⟩ ⤳ _
     exact ((subtype_specializes_iff ..).2 h).map (i.fiberHomeo (i.base t)).symm.continuous
   simpa using (congrArg (i.fiberι (i.base t)) (Set.mem_singleton_iff.mp
     (specializes_iff_forall_closed.mp hF _

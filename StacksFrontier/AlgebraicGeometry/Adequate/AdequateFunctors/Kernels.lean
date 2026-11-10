@@ -60,8 +60,7 @@ private noncomputable def moduleExtensionUliftIso {A : Type u} [CommRing A]
   ext x
   cases x with
   | up x =>
-      induction x using TensorProduct.induction_on with
-      | zero => rfl
+      induction x using TensorProduct.inductionOn with
       | tmul b m =>
           change (uliftTensorEquiv A (Y.unop.unop) M)
               (ULift.up (f.unop.unop.hom b ⊗ₜ[A] m)) =
@@ -82,12 +81,11 @@ public lemma isAdequate_moduleExtension {A : Type u} [CommRing A]
   let f : M' ⟶ z := 0
   have hf : (moduleExtensionFunctor.{max u v w, v} A).map f = 0 := by
     ext X x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul b m => simp [f, moduleExtensionFunctor_map_app_tmul]
     | add x y hx hy => simp [hx, hy]
   refine ⟨M', z, f, ?_⟩
-  show Nonempty ((presheafOfModulesUliftFunctor.{max u v, max u v w}
+  change Nonempty ((presheafOfModulesUliftFunctor.{max u v, max u v w}
       (algebraRingDiagram.{v} A)).obj (moduleExtension.{w, v} A M) ≅
     kernel ((moduleExtensionFunctor.{max u v w, v} A).map f))
   exact ⟨moduleExtensionUliftIso (A := A) M ≪≫
@@ -158,11 +156,11 @@ public lemma isAdequate_kernel {A : Type u} [CommRing A]
   let graph : F' ⟶ E.obj M ⊞ E.obj M' := biprod.lift uF (φ' ≫ uG)
   let j : F' ⟶ E.obj P := graph ≫ eP.inv
   have eP_fst : eP.hom ≫ biprod.fst = E.map biprod.fst := by
-    show (Functor.mapBiprod E M M').hom ≫ biprod.fst = E.map biprod.fst
+    change (Functor.mapBiprod E M M').hom ≫ biprod.fst = E.map biprod.fst
     rw [Functor.mapBiprod_hom]
     simp
   have eP_snd : eP.hom ≫ biprod.snd = E.map biprod.snd := by
-    show (Functor.mapBiprod E M M').hom ≫ biprod.snd = E.map biprod.snd
+    change (Functor.mapBiprod E M M').hom ≫ biprod.snd = E.map biprod.snd
     rw [Functor.mapBiprod_hom]
     simp
   have eP_inv_fst : eP.inv ≫ E.map biprod.fst = biprod.fst := by
@@ -245,7 +243,7 @@ public lemma isAdequate_kernel {A : Type u} [CommRing A]
   let liftPair (s : Fork j₂ 0) : s.pt ⟶ kernel φ' :=
     kernel.lift φ' (factorToF s) (factorToF_phi s)
   have liftPair_comp (s : Fork j₂ 0) : liftPair s ≫ η = s.ι := by
-    show kernel.lift φ' (factorToF s) (factorToF_phi s) ≫ kernel.ι φ' ≫ j = s.ι
+    change kernel.lift φ' (factorToF s) (factorToF_phi s) ≫ kernel.ι φ' ≫ j = s.ι
     rw [kernel.lift_ι_assoc, factorToF_comp]
   have hPair : IsLimit (KernelFork.ofι η hη) := by
     refine Fork.IsLimit.mk _ liftPair (fun s => liftPair_comp s) ?_
@@ -261,7 +259,7 @@ public lemma isAdequate_kernel {A : Type u} [CommRing A]
   let eKernel := (uliftKernelIso (A := A) φ).trans
     (hFinal.conePointUniqueUpToIso (kernelIsKernel (E.map H)))
   refine ⟨P, K ⊞ M', H, ?_⟩
-  show Nonempty ((presheafOfModulesUliftFunctor.{max u v, w}
+  change Nonempty ((presheafOfModulesUliftFunctor.{max u v, w}
     (algebraRingDiagram.{v} A)).obj (kernel φ) ≅ kernel (E.map H))
   exact ⟨eKernel⟩
 

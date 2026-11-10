@@ -138,7 +138,7 @@ public theorem scalarUnit_smul (n : ℕ) (r : k) (a : symmetricGrading k M n) :
       ⟨((r • a : symmetricGrading k M n) : SymmetricAlgebra k M),
         mem_twistGrading_zero_of_mem k M n _ (r • a).2⟩ := by
   apply Subtype.ext
-  show (r • (1 : SymmetricAlgebra k M)) • (a : SymmetricAlgebra k M) =
+  change (r • (1 : SymmetricAlgebra k M)) • (a : SymmetricAlgebra k M) =
     r • (a : SymmetricAlgebra k M)
   rw [smul_eq_mul, smul_mul_assoc, one_mul]
 

@@ -245,6 +245,7 @@ public theorem exists_nsmul_eq_map {X Y : C} (φ : L.obj X ⟶ L.obj Y) :
     _ = L.map t ≫ (L.map ψ.s ≫ φ) := by rw [L.map_comp, Category.assoc]
     _ = L.map (t ≫ ψ.f) := by rw [key, L.map_comp]
 
+omit [Preadditive D] [L.Additive] in
 /-- Multiplication by `ℓ ^ k` on an object becomes invertible in the Serre quotient at the
 `ℓ`-power torsion objects. -/
 public theorem isIso_map_nsmul_id (X : C) (k : ℕ) : IsIso (L.map ((ℓ ^ k) • 𝟙 X)) :=
@@ -278,7 +279,7 @@ public instance isLocalizedModule_mapIntLinearMap (X Y : C) :
     IsLocalizedModule (Submonoid.powers (ℓ : ℤ)) (mapIntLinearMap L X Y) where
   map_units x := by
     obtain ⟨k, hk⟩ := x.2
-    haveI := isIso_map_nsmul_id ℓ L X k
+    have := isIso_map_nsmul_id ℓ L X k
     have hsmul : ∀ φ : L.obj X ⟶ L.obj Y, (x : ℤ) • φ = L.map ((ℓ ^ k) • 𝟙 X) ≫ φ := by
       intro φ
       rw [← hk, zpow_nsmul_eq, Functor.map_nsmul, L.map_id, nsmul_id_comp]

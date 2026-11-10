@@ -131,7 +131,7 @@ theorem mapTensorPowerIso_zero (α : TensorComparison O hO O' hO' R L)
         :
     mapTensorPowerIso O hO O' hO' R L α hunit 0 = hunit := by
   apply Iso.ext
-  show (Iso.refl _).hom ≫ (𝟭 _).map hunit.hom = hunit.hom
+  change (Iso.refl _).hom ≫ (𝟭 _).map hunit.hom = hunit.hom
   simp
 
 /-- At `n = 1` the comparison of tensor powers is the tensor comparison at the structure sheaf,

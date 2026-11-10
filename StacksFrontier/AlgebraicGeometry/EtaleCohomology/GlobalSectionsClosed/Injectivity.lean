@@ -50,8 +50,8 @@ The factorization of the comparison map is definitional: `smallEtaleGlobalSectio
 literally that five-fold composite, so `smallEtaleGlobalSectionsMapAt_apply` is `rfl`.
 
 Only surjectivity of the Zariski restriction maps is used, which is why the hypothesis is stated
-with `Function.Surjective` rather than the `Function.Bijective` of the tagged statement; a user holding the
-bijectivity hypothesis supplies `fun G ↦ (h G).2`.
+with `Function.Surjective` rather than the `Function.Bijective` of the tagged statement; a user
+holding the bijectivity hypothesis supplies `fun G ↦ (h G).2`.
 
 ## References
 

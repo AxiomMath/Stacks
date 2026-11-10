@@ -97,7 +97,7 @@ theorem mono_etaleModuleInverseImageAdj_unit_app_of_tensor_iso {X V : Scheme.{u}
     exact eq_zero_of_mono_etaleModuleInverseImageAdj_unit_app Λ i hA _ hPL
   have h2 : φ ▷ (L' ⊗ L) = 0 := by
     rw [whiskerRight_tensor, h1]
-    show (α_ _ _ _).inv ≫ (MonoidalCategory.tensorRight L).map 0 ≫ (α_ _ _ _).hom = 0
+    change (α_ _ _ _).inv ≫ (MonoidalCategory.tensorRight L).map 0 ≫ (α_ _ _ _).hom = 0
     rw [Functor.map_zero, zero_comp, comp_zero]
   have h3 : φ ▷ 𝟙_ _ = 0 := by
     rw [← cancel_epi (P ◁ e.hom), comp_zero, whisker_exchange, h2, zero_comp]

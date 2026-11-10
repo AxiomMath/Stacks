@@ -70,13 +70,13 @@ private lemma hasFiniteMulSupport_shift {x : ℤ → G} (hx : Function.HasFinite
     Function.HasFiniteMulSupport fun n => x (n + 1) := by
   have : (Function.mulSupport fun n => x (n + 1)) = (fun n => n + 1) ⁻¹' Function.mulSupport x :=
     rfl
-  show (Function.mulSupport fun n => x (n + 1)).Finite
+  change (Function.mulSupport fun n => x (n + 1)).Finite
   rw [this]
   exact Set.Finite.preimage (fun a _ b _ h => add_right_cancel h) hx
 
 private lemma hasFiniteMulSupport_alt {x : ℤ → G} (hx : Function.HasFiniteMulSupport x) :
     Function.HasFiniteMulSupport fun n => if Even n then x n else (x n)⁻¹ := by
-  show (Function.mulSupport _).Finite
+  change (Function.mulSupport _).Finite
   refine Set.Finite.subset hx fun n hn => ?_
   by_cases he : Even n <;> simp_all
 
@@ -95,13 +95,13 @@ public lemma finprod_alternating_eq_of_telescope (a b c : ℤ → G)
       simp
     by_cases he : Even n
     · have : ¬ Even (n + 1) := by simpa [Int.even_add_one] using he
-      simp only [alt, he, this, if_true, if_false, ha', inv_inv]
+      simp only [alt, he, this, ite_true, ite_false, ha', inv_inv]
     · have : Even (n + 1) := by simpa [Int.even_add_one] using he
-      simp only [alt, he, this, if_true, if_false, ha', mul_inv_rev, inv_inv]
+      simp only [alt, he, this, ite_true, ite_false, ha', mul_inv_rev, inv_inv]
       simp only [mul_comm, mul_left_comm]
   have hac := hasFiniteMulSupport_alt hc
   have hab := hasFiniteMulSupport_alt hb
-  show ∏ᶠ n : ℤ, alt a n = ∏ᶠ n : ℤ, alt b n
+  change ∏ᶠ n : ℤ, alt a n = ∏ᶠ n : ℤ, alt b n
   have hinv : Function.HasFiniteMulSupport fun x => (alt c (x + 1))⁻¹ :=
     Function.HasFiniteMulSupport.inv (hasFiniteMulSupport_shift hac)
   have h1 : Function.HasFiniteMulSupport fun x => alt c x * (alt c (x + 1))⁻¹ :=
@@ -494,7 +494,7 @@ public theorem perfectDerivedCharSeries_eq_alternatingCharSeries
               (DerivedCategory.quotientCompQhIso (ModuleCat.{v} R)).hom.app P := by
           rw [hn.symm]
         _ = DerivedCategory.Q.map g := by simp [Category.assoc]
-    show (e.inv ≫ (DerivedCategory.quotientCompQhIso (ModuleCat.{v} R)).inv.app P) ≫
+    change (e.inv ≫ (DerivedCategory.quotientCompQhIso (ModuleCat.{v} R)).inv.app P) ≫
         (DerivedCategory.Qh).map (Q.map g) ≫
         ((DerivedCategory.quotientCompQhIso (ModuleCat.{v} R)).hom.app P ≫ e.hom) = f
     calc
@@ -527,7 +527,7 @@ public theorem perfectDerivedCharSeries_eq_alternatingCharSeries
   have hHomVU : Homotopy (v ≫ u) (𝟙 P) :=
     HomotopyCategory.homotopyOfEq (v ≫ u) (𝟙 P)
       (by rw [Functor.map_comp, hu, hv, hVU, Functor.map_id])
-  show alternatingCharSeries R P0 hP0 g0 = alternatingCharSeries R P hP g
+  change alternatingCharSeries R P0 hP0 g0 = alternatingCharSeries R P hP g
   calc
     alternatingCharSeries R P0 hP0 g0 = alternatingCharSeries R P0 hP0 (u ≫ g ≫ v) :=
       alternatingCharSeries_eq_of_homotopy R P0 hP0 h0

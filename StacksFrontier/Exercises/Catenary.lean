@@ -58,7 +58,7 @@ theorem ringKrullDim_quotient_localization_eq_height_map
   let : pbar.IsPrime :=
     Ideal.map_isPrime_of_surjective Ideal.Quotient.mk_surjective (by rwa [Ideal.mk_ker])
   let : pbar.LiesOver p := ⟨by
-    show p = pbar.comap (algebraMap A (A ⧸ q))
+    change p = pbar.comap (algebraMap A (A ⧸ q))
     simp [pbar, Ideal.Quotient.algebraMap_eq, Ideal.comap_map_mk hqp]⟩
   let : IsLocalization
       (Algebra.algebraMapSubmonoid (A ⧸ q) p.primeCompl) (Localization.AtPrime pbar) := by

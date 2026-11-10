@@ -81,8 +81,7 @@ public theorem mem_closure_tensorGerm (X : RingedSpace.{u, u})
           (a ⊗ₜ b))} := by
   set e := Stacks.SheafOfModules.TensorStalkRingedSpace.tensorStalkIso X x F G
   obtain ⟨t, rfl⟩ := e.symm.surjective w
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero]; exact AddSubgroup.zero_mem _
+  induction t using TensorProduct.inductionOn with
   | tmul α β =>
     obtain ⟨V₁, hx₁, a, rfl⟩ := TopCat.Presheaf.exists_germ_eq F.val.presheaf α
     obtain ⟨V₂, hx₂, b, rfl⟩ := TopCat.Presheaf.exists_germ_eq G.val.presheaf β

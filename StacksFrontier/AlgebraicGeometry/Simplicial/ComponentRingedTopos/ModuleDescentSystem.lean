@@ -549,7 +549,7 @@ theorem ringRestriction_sectionsRingHom_self (n : SimplexCategory) (U : S.compon
     (r : (S.totalRingSheaf O).obj.obj (op ((S.inclusion n).obj U))) :
     ringRestriction (eqToHom (inclusion_obj_fibre ((S.inclusion n).obj U)).symm)
       (sectionsRingHom _ r) = r := by
-  show ((S.totalRingSheaf O).obj.map (eqToHom (inclusion_obj_fibre ((S.inclusion n).obj U))).op ≫
+  change ((S.totalRingSheaf O).obj.map (eqToHom (inclusion_obj_fibre ((S.inclusion n).obj U))).op ≫
       (S.totalRingSheaf O).obj.map
         (eqToHom (inclusion_obj_fibre ((S.inclusion n).obj U)).symm).op).hom r = r
   rw [← Functor.map_comp, ← op_comp, eqToHom_trans, eqToHom_refl, op_id, Functor.map_id]

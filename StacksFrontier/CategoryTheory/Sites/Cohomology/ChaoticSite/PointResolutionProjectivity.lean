@@ -123,7 +123,7 @@ instance epi_freeYonedaPresentation : Epi (freeYonedaPresentation Z) := by
     have hι : Sigma.ι (fun W' : C ↦ Presheaf.freeYoneda W' (Projective.over (Z.obj (op W'))))
           W ≫ freeYonedaPresentation Z =
         Presheaf.freeYonedaHomEquiv.symm (Projective.π (Z.obj (op W))) :=
-      Sigma.ι_desc _ _
+      Sigma.ι_comp_desc _ _
     have h2 := congrArg Presheaf.freeYonedaHomEquiv hι
     rw [Equiv.apply_symm_apply] at h2
     simp only [Presheaf.freeYonedaHomEquiv, Equiv.coe_fn_mk, NatTrans.comp_app] at h2

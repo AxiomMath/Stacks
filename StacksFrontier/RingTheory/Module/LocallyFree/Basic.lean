@@ -140,7 +140,7 @@ theorem vanishAtZero_isMaximal : vanishAtZero.IsMaximal :=
 
 /-- `I` is strictly contained in `m`. -/
 theorem vanishNearZero_lt_vanishAtZero : vanishNearZero < vanishAtZero := by
-  refine SetLike.lt_iff_le_and_exists.2 ⟨fun f ⟨ε, hε, hf⟩ ↦ hf 0 (by simpa using hε),
+  refine IsConcreteLE.lt_iff_le_and_exists.2 ⟨fun f ⟨ε, hε, hf⟩ ↦ hf 0 (by simpa using hε),
     ⟨fun x ↦ x, (contDiff_id : ContDiff ℝ (⊤ : ℕ∞) fun x : ℝ ↦ x)⟩, rfl, ?_⟩
   rintro ⟨ε, hε, hg⟩
   linarith [(hg (ε / 2) (by rw [abs_of_pos (by linarith)]; linarith) : ε / 2 = 0)]

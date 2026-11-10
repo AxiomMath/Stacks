@@ -65,12 +65,12 @@ noncomputable def sigmaSubtypeIsoOfIsZero (P : ι → C) (p : ι → Prop) [Deci
     if hi : p i then Sigma.ι (fun j : Subtype p => P j.1) ⟨i, hi⟩ else 0
   hom_inv_id := by
     refine Sigma.hom_ext _ _ fun j => ?_
-    rw [Category.comp_id, ← Category.assoc, Sigma.ι_desc, Sigma.ι_desc, dite_eq_left j.2]
+    rw [Category.comp_id, ← Category.assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc, dite_eq_left j.2]
   inv_hom_id := by
     refine Sigma.hom_ext _ _ fun i => ?_
-    rw [Category.comp_id, ← Category.assoc, Sigma.ι_desc]
+    rw [Category.comp_id, ← Category.assoc, Sigma.ι_comp_desc]
     by_cases hi : p i
-    · rw [dite_eq_left hi, Sigma.ι_desc]
+    · rw [dite_eq_left hi, Sigma.ι_comp_desc]
     · rw [dite_eq_right hi, Limits.zero_comp]
       exact ((h i hi).eq_of_src (Sigma.ι P i) 0).symm
 
@@ -82,7 +82,7 @@ lemma ι_comp_sigmaSubtypeIsoOfIsZero_hom (P : ι → C) (p : ι → Prop) [Deci
     (h : ∀ i, ¬ p i → IsZero (P i)) (j : Subtype p) :
     Sigma.ι (fun j : Subtype p => P j.1) j ≫ (sigmaSubtypeIsoOfIsZero P p h).hom =
       Sigma.ι P j.1 :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The inverse of `sigmaSubtypeIsoOfIsZero P p h` carries the inclusion of `P i` into `∐ P`, for
 `p i`, to the inclusion of the summand indexed by `⟨i, hi⟩` into the subtype coproduct. -/
@@ -92,7 +92,7 @@ lemma sigmaSubtypeIsoOfIsZero_hom_comp_ι (P : ι → C) (p : ι → Prop) [Deci
     (h : ∀ i, ¬ p i → IsZero (P i)) {i : ι} (hi : p i) :
     Sigma.ι P i ≫ (sigmaSubtypeIsoOfIsZero P p h).inv =
       Sigma.ι (fun j : Subtype p => P j.1) ⟨i, hi⟩ := by
-  rw [sigmaSubtypeIsoOfIsZero, Sigma.ι_desc, dite_eq_left hi]
+  rw [sigmaSubtypeIsoOfIsZero, Sigma.ι_comp_desc, dite_eq_left hi]
 
 end Limits
 

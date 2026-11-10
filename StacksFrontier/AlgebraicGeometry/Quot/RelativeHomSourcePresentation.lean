@@ -57,7 +57,7 @@ theorem existsUnique_modulePullback_desc_of_relations {W : AlgebraicSpaces B S h
   let ψ' : E ⟶ (Functor.const I).obj ((modulePushforward B S hS q).obj N) :=
     { app := fun i => adj.homEquiv _ _ (ψ i)
       naturality := fun i j f => by
-        show E.map f ≫ adj.homEquiv _ _ (ψ j) = adj.homEquiv _ _ (ψ i) ≫ 𝟙 _
+        change E.map f ≫ adj.homEquiv _ _ (ψ j) = adj.homEquiv _ _ (ψ i) ≫ 𝟙 _
         rw [Category.comp_id, ← adj.homEquiv_naturality_left, hcompat] }
   have : (modulePullback B S hS q).IsLeftAdjoint := ⟨_, ⟨adj⟩⟩
   have hzero : ∀ {A : Modules.{u, u} B S hS X.1 X.2},
@@ -66,7 +66,7 @@ theorem existsUnique_modulePullback_desc_of_relations {W : AlgebraicSpaces B S h
     have h := adj.homEquiv_naturality_left (0 : A ⟶ A) (0 : (modulePullback B S hS q).obj A ⟶ N)
     rwa [zero_comp, Functor.map_zero, zero_comp] at h
   have hψ' : ∀ i r, κ i r ≫ ψ'.app i = 0 := fun i r => by
-    show κ i r ≫ adj.homEquiv _ _ (ψ i) = 0
+    change κ i r ≫ adj.homEquiv _ _ (ψ i) = 0
     rw [← adj.homEquiv_naturality_left, hkill, hzero]
   obtain ⟨φ', hφ', huniq⟩ :=
     Abelian.existsUnique_desc_of_relations E π hπ P κ hκπ hκ ψ' hψ'

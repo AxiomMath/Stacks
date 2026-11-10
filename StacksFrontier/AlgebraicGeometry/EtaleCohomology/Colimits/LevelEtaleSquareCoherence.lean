@@ -106,7 +106,7 @@ universe v' u' v u
 
 open AlgebraicGeometry
 
-variable {I : Type v} [Preorder I] [Nonempty I] [IsDirected I (· ≤ ·)]
+variable {I : Type v} [Preorder I]
   {D : Iᵒᵖ ⥤ Scheme.{max u v}} {c : Cone D}
   {B : AlgebraicGeometry.BigEtaleSite.{max u v}}
   {hD : ∀ i, B.Contains (D.obj i)} {hX : B.Contains c.pt}
@@ -131,11 +131,13 @@ them. These are the restatements it does find, in the style of
 `AlgebraicGeometry.SmallEtale.isContinuous_inclusionSmallEtaleBaseChange`.
 -/
 
+omit hcont in
 /-- **The transition functor of the site system of Stacks 0EYL is continuous.** -/
 theorem isContinuous_transition {i j : E.system.I} (a : i ⟶ j) :
     (E.system.u a).IsContinuous (E.system.J j) (E.system.J i) :=
   E.system.continuous a
 
+omit hcont in
 /-- **Base change between the small étale sites of two stages is continuous**, in the spelling the
 statements below need. -/
 theorem isContinuous_stageBaseChange {i j : E.system.I} (a : i ⟶ j) :
@@ -158,12 +160,14 @@ theorem isContinuous_levelEtale_comp_stageBaseChange {i j : E.system.I} (a : i �
       (E.system.J j) (stageTopology E i) :=
   Functor.isContinuous_comp _ _ _ (stageTopology E j) _
 
+omit hcont in
 /-- The composite of two transition functors is continuous: the source of the composition
 comparison of the direct images along the transitions. -/
 theorem isContinuous_transition_comp {i j k : E.system.I} (a : i ⟶ j) (b : j ⟶ k) :
     (E.system.u b ⋙ E.system.u a).IsContinuous (E.system.J k) (E.system.J i) :=
   Functor.isContinuous_comp _ _ _ (E.system.J j) _
 
+omit hcont in
 /-- The composite of two stage base changes is continuous: the source of the composition
 comparison of the direct images along the transition morphisms of schemes. -/
 theorem isContinuous_stageBaseChange_comp {i j k : E.system.I} (a : i ⟶ j) (b : j ⟶ k) :
@@ -183,7 +187,6 @@ abbrev levelEtaleRestrict (i : E.system.I) :
     Sheaf (stageTopology E i) A ⥤ Sheaf (E.system.J i) A :=
   (levelEtale E i).sheafPushforwardContinuous A (E.system.J i) (stageTopology E i)
 
-omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- **The restriction to a level is the affine restriction of Stacks 04HR followed by the level
 restriction of Stacks 0EYL**, on the nose: restriction along a composite of functors of sites is
 the composite of the restrictions, `CategoryTheory.Functor.sheafPushforwardContinuousComp` being
@@ -274,6 +277,7 @@ theorem levelEtaleSquare_inv_app_hom_app {i j : E.system.I} (a : i ⟶ j)
       M.obj.map ((transitionIso E a).hom.app (Opposite.unop Y)).op :=
   rfl
 
+omit hcont in
 /-- The presheaf component of the identity comparison of the direct images along the transitions
 of the system. -/
 theorem levelPushIdIso_hom_app_hom_app (i : E.system.I) (N : Sheaf (E.system.J i) A)
@@ -287,6 +291,7 @@ theorem levelPushIdIso_hom_app_hom_app (i : E.system.I) (N : Sheaf (E.system.J i
   exact congrArg (fun z => N.obj.map (Quiver.Hom.op z))
     (eqToHom_app (E.system.id_map i) (Opposite.unop Y))
 
+omit hcont in
 /-- The presheaf component of the identity comparison of the direct images along the transition
 morphisms of schemes. -/
 theorem stagePushIdIso_hom_app_hom_app (i : E.system.I) (M : Sheaf (stageTopology E i) A)
@@ -298,6 +303,7 @@ theorem stagePushIdIso_hom_app_hom_app (i : E.system.I) (M : Sheaf (stageTopolog
     Category.id_comp _
   rw [h, Functor.sheafPushforwardContinuousIso_inv_app_hom_app]
 
+omit hcont in
 /-- The presheaf component of the composition comparison of the direct images along the
 transitions of the system. -/
 theorem levelPushCompIso_hom_app_hom_app {i j k : E.system.I} (a : i ⟶ j) (b : j ⟶ k)
@@ -313,6 +319,7 @@ theorem levelPushCompIso_hom_app_hom_app {i j k : E.system.I} (a : i ⟶ j) (b :
   rw [eqToIso.inv]
   exact eqToHom_app _ (Opposite.unop Y)
 
+omit hcont in
 /-- The presheaf component of the composition comparison of the direct images along the transition
 morphisms of schemes. -/
 theorem stagePushCompIso_hom_app_hom_app {i j k : E.system.I} (a : i ⟶ j) (b : j ⟶ k)

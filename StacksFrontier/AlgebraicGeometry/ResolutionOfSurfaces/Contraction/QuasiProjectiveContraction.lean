@@ -363,7 +363,7 @@ theorem exists_isContractionOfExceptionalCurve_isQuasiProjective {X S : Scheme.{
   have hy₀b : jY.base y₀ ∈ (Db.support : Set Ub.toScheme) := by
     have h1 : y₀ ∈ (DY.support : Set Y.toScheme) := by
       rw [hDYsupp]
-      show Y.ι.base y₀ ∈ (D.support : Set X)
+      change Y.ι.base y₀ ∈ (D.support : Set X)
       rw [hy₀]
       exact subschemeι_mem_support D d₀
     have h3 : DY = Db.comap jY := hDbY.symm
@@ -389,7 +389,7 @@ theorem exists_isContractionOfExceptionalCurve_isQuasiProjective {X S : Scheme.{
   have := hfUb'p
   have : LocallyOfFiniteType gV := by infer_instance
   have hgV : c ≫ gV = Y.ι ≫ (jX ≫ p) := by
-    show c ≫ V''.ι ≫ fUb' ≫ hU.isoSpec.inv ≫ Scheme.Opens.ι U = _
+    change c ≫ V''.ι ≫ fUb' ≫ hU.isoSpec.inv ≫ Scheme.Opens.ι U = _
     rw [← Category.assoc c V''.ι, hcV, Category.assoc, ← Category.assoc cb, hfUb']
     simp only [pU, Category.assoc, Iso.hom_inv_id_assoc, morphismRestrict_ι]
     rw [← Category.assoc, hjY, Category.assoc]
@@ -412,11 +412,11 @@ theorem exists_isContractionOfExceptionalCurve_isQuasiProjective {X S : Scheme.{
       DY.exceptionalTwist nb (cls ((Scheme.Modules.pullback Y.ι).obj L)) := by
     rw [← schemePullbackClass_cls, Stacks.Picard.schemePullbackClass_comp, hcV,
       ← Stacks.Picard.schemePullbackClass_comp, hNbcl]
-    show Stacks.Picard.schemePullbackClassHom jY
+    change Stacks.Picard.schemePullbackClassHom jY
         (cls LU + nb • Stacks.Divisors.picardClass Db) =
       cls ((Scheme.Modules.pullback Y.ι).obj L) + nb • Stacks.Divisors.picardClass DY
     rw [map_add, map_zsmul]
-    show Stacks.Picard.schemePullbackClass jY (cls LU) +
+    change Stacks.Picard.schemePullbackClass jY (cls LU) +
         nb • Stacks.Picard.schemePullbackClass jY (Stacks.Divisors.picardClass Db) = _
     rw [schemePullbackClass_cls, Scheme.IdealSheafData.schemePullbackClass_picardClass]
     have : Stacks.Divisors.IsEffectiveCartierDivisor (Db.comap jY) :=
@@ -428,7 +428,7 @@ theorem exists_isContractionOfExceptionalCurve_isQuasiProjective {X S : Scheme.{
       ((Scheme.Modules.pullbackComp Y.ι jX).app Lb).symm)
   -- glue, by the engine
   obtain ⟨X', b, g, L', hL'inv, hb, hg, hgft, -, hampU, R, hR, hampR⟩ :=
-    exists_contraction_of_ample_chart (jX ≫ p) hE s hs L hL U hU hsU c hc gV hgV nb N hN hNcl
+    exists_contraction_of_ample_chart (jX ≫ p) hE s hs L hL U hsU c hc gV hgV nb N hN hNcl
   have := hL'inv
   have : IsNoetherian X' := hb.isNoetherian
   have : Surjective b := ⟨surjective_of_isContractionOfExceptionalCurve D k e b hb⟩
@@ -441,7 +441,7 @@ theorem exists_isContractionOfExceptionalCurve_isQuasiProjective {X S : Scheme.{
     have : Surjective ψ.left := show Surjective b from inferInstance
     have : UniversallyClosed ψ.left := show UniversallyClosed b from inferInstance
     have : IsSeparated (Over.mk (b ≫ g) : Over S).hom := by
-      show IsSeparated (b ≫ g)
+      change IsSeparated (b ≫ g)
       rw [hg]
       infer_instance
     exact isSeparated_of_surjective_universallyClosed ψ
@@ -451,7 +451,7 @@ theorem exists_isContractionOfExceptionalCurve_isQuasiProjective {X S : Scheme.{
   have hvR : v ∉ R := by
     intro hvR
     have h1 : D.subschemeι.base d₀ ∈ b ⁻¹ᵁ R := by
-      show b.base _ ∈ R
+      change b.base _ ∈ R
       rw [(hbv _).2 (subschemeι_mem_support D d₀)]
       exact hvR
     rw [hR] at h1
@@ -481,7 +481,7 @@ theorem exists_isContractionOfExceptionalCurve_isQuasiProjective {X S : Scheme.{
       have hbo : X'.basicOpen (g.app V h') = g ⁻¹ᵁ S.basicOpen h' :=
         (Scheme.Hom.preimage_basicOpen g h').symm
       have hvY : v ∈ g ⁻¹ᵁ V := by
-        show g.base v ∈ V
+        change g.base v ∈ V
         rw [hgv]
         exact hsV
       refine isAmple_pullbackModule_of_basicOpen_of_compl L' (g ⁻¹ᵁ V) (g ⁻¹ᵁ V ⊓ R)
@@ -490,7 +490,7 @@ theorem exists_isContractionOfExceptionalCurve_isQuasiProjective {X S : Scheme.{
         (fun h => hvR h.2) (fun y hy hyv => ⟨hy, hyR y hyv⟩) (g.app V h') ?_ ?_ (hampR V hV)
         ?_ ?_
       · rw [hbo]
-        show g.base v ∈ S.basicOpen h'
+        change g.base v ∈ S.basicOpen h'
         rw [hgv]
         exact hsh'
       · rw [hbo]

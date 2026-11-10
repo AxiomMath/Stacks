@@ -11,8 +11,8 @@ for every test scheme `V` over `Y` whose structure morphism is locally quasi-fin
 of the source's proof of Stacks 0CX1: the question is Zariski local on `V`, so `V` may be taken
 affine; then the fibre dimensions are bounded, `F_n` is everything for `n` large, and a
 descending induction on `n` reduces to the key case of
-`StacksFrontier/AlgebraicGeometry/Spaces/FlatDimensionKeyCase.lean`, applied over `Z_{n+1}`, which is
-quasi-finite over `V` as a monomorphism of finite presentation, so that purity still applies.
+`StacksFrontier/AlgebraicGeometry/Spaces/FlatDimensionKeyCase.lean`, applied over `Z_{n+1}`, which
+is quasi-finite over `V` as a monomorphism of finite presentation, so that purity still applies.
 
 ## Main results
 

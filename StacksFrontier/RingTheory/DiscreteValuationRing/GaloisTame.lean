@@ -82,7 +82,7 @@ theorem isTamelyRamified_of_isGalois_of_isUnit_finrank
         rw [hk, this] at hdvd
         exact (dvd_pow_self _ (Nat.succ_ne_zero k)).trans hdvd
     · have : ringExpChar (A ⧸ maximalIdeal A) = 1 := by
-        show max (ringChar (A ⧸ maximalIdeal A)) 1 = 1
+        change max (ringChar (A ⧸ maximalIdeal A)) 1 = 1
         rw [hp]
         rfl
       rw [hk, this, one_pow]

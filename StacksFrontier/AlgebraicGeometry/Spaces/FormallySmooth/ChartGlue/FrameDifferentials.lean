@@ -64,7 +64,7 @@ lemma inducedModule_isScalarTower (g : R →ₐ[A'] C) :
   let := inducedModule (N := N) g
   let := inducedBaseModule (A' := A') (C := C) (N := N)
   ⟨fun a r n ↦ by
-    show g (a • r) • n = algebraMap A' C a • (g r • n)
+    change g (a • r) • n = algebraMap A' C a • (g r • n)
     rw [_root_.map_smul, Algebra.smul_def, mul_smul]⟩
 
 /-- The Mathlib derivation attached to a derivation along `g`, for the induced module

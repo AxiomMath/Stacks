@@ -123,7 +123,7 @@ private lemma isKInjective_evaluation
   have : PreservesFiniteLimits (evaluationLeftAdjoint A n) := by
     refine ⟨fun J _ _ => ?_⟩
     exact preservesLimitsOfShape_of_evaluation _ J (fun m => by
-      show PreservesLimitsOfShape J
+      change PreservesLimitsOfShape J
         ((Functor.const (Discrete (n ⟶ m)) : A ⥤ _) ⋙ colim)
       infer_instance)
   have : (evaluationLeftAdjoint A n).IsLeftAdjoint :=
@@ -148,11 +148,11 @@ private lemma freeSystemι_hom_ext {n k : ℕᵒᵖ} (M : A) {P : A}
 private lemma freeSystemι_comp_desc {n k : ℕᵒᵖ} (M : A) {P : A}
     (p : (n ⟶ k) → (M ⟶ P)) (g : n ⟶ k) :
     freeSystemι M g ≫ Sigma.desc (f := fun _ : n ⟶ k => M) p = p g :=
-  Sigma.ι_desc p g
+  Sigma.ι_comp_desc p g
 
 private lemma freeSystemι_comp_map {n k l : ℕᵒᵖ} (M : A) (g : n ⟶ k) (f : k ⟶ l) :
     freeSystemι M g ≫ ((evaluationLeftAdjoint A n).obj M).map f = freeSystemι M (g ≫ f) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 private noncomputable def stepFreeApp (n : ℕ) (M : A) (k : ℕᵒᵖ) :
     ((evaluationLeftAdjoint A (Opposite.op n)).obj M).obj k ⟶
@@ -251,7 +251,7 @@ private lemma evaluationComplexTower_splitEpi [IsGrothendieckAbelian.{wG} A]
     (I : CochainComplex (ℕᵒᵖ ⥤ A) ℤ)
     (hI : ∀ i : ℤ, Injective (I.X i)) (n : ℕ) (i : ℤ) :
     IsSplitEpi (((evaluationComplexTower I).map (homOfLE (Nat.le_succ n)).op).f i) := by
-  show IsSplitEpi ((I.X i).map (homOfLE (Nat.le_succ n)).op)
+  change IsSplitEpi ((I.X i).map (homOfLE (Nat.le_succ n)).op)
   have := hI i
   exact isSplitEpi_transition_of_injective (I.X i) n
 
@@ -330,7 +330,7 @@ private lemma isRightDerivedValueAt_of_terminal
         (MorphismProperty.Under.forget W ⊤ X ⋙ Under.forget X ⋙ F)) := by
   refine ⟨s, 𝟙 _, ?_, fun t => ⟨s, hs.from t, hs.from s, ?_⟩⟩
   · simp [coconeOfDiagramTerminal]
-  · show F.map (hs.from t).right =
+  · change F.map (hs.from t).right =
       F.map (hs.from t).right ≫ 𝟙 _ ≫ F.map (hs.from s).right
     simp
 
@@ -436,7 +436,7 @@ theorem exists_rightDerivedLimit_isDerivedLimit
       (evaluationComplexTower I) (fun n => isKInjective_evaluation I ⟨n⟩)
       (evaluationComplexTower_splitEpi I hinj)
   let eTower : derivedEvaluationTower K ≅ evaluationComplexTower I ⋙ DerivedCategory.Q := by
-    show (evaluationComplexTower J ⋙ DerivedCategory.Q) ≅ _
+    change (evaluationComplexTower J ⋙ DerivedCategory.Q) ≅ _
     exact evaluationDerivedTowerIso f
   have : HasProducts.{0} (DerivedCategory A) :=
     has_smallest_products_of_hasProducts (C := DerivedCategory A)
@@ -447,7 +447,7 @@ theorem exists_rightDerivedLimit_isDerivedLimit
       (limit.isLimit (evaluationComplexTower I))
   refine ⟨inferInstance, c, isRightDerivedValueAt_of_terminal F W _ hs, ?_⟩
   let T := ((lim : (ℕᵒᵖ ⥤ A) ⥤ A).mapHomologicalComplex (ComplexShape.up ℤ)).obj I
-  show IsDerivedLimit (derivedEvaluationTower K)
+  change IsDerivedLimit (derivedEvaluationTower K)
     (DerivedCategory.Qh.obj ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).obj T))
   exact isDerivedLimit_of_iso _
     (isDerivedLimit_of_iso _ (isDerivedLimit_of_natIso _ _ eTower.symm _ hderived)

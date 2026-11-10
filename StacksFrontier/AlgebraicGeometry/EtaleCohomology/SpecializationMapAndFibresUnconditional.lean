@@ -61,7 +61,8 @@ the unbounded `D(X_etale)`: its verticals are `sp` and pullback along `id_X × c
 the maps of Stacks 0GIX, and the unbounded `Rf_*` and `RΓ` are built from K-injective \
 resolutions; the source states that no vertical map exists in general between the cohomologies \
 of `K` on the two fibres, so the right-hand column carries no square"]
-theorem derivedPushforwardStalkToStrictHenselizationSections_comp_sectionsSpecialization_unconditional
+theorem
+    derivedPushforwardStalkToStrictHenselizationSections_comp_sectionsSpecialization_unconditional
     (B : BigEtaleSite.{u}) {X S : Scheme.{u}} (hS : B.Contains S) (f : X ⟶ S)
     (s : GeometricPoint S) (t : GeometricPoint (strictHenselization B S hS s)) :
     derivedPushforwardStalkToStrictHenselizationSections B hS f s ≫

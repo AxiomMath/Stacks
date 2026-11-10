@@ -78,14 +78,14 @@ def dualNumbersUnderRingHom :
 /-- The comparison does not move the residue coordinate. -/
 theorem dualNumbersUnderRingHom_fst (a : TrivSqZeroExt k (ULift.{u} k)) :
     TrivSqZeroExt.fst (dualNumbersUnderRingHom (p := p) (x := x) a) = a.fst := by
-  show TrivSqZeroExt.fst (TrivSqZeroExt.map
+  change TrivSqZeroExt.fst (TrivSqZeroExt.map
     (ULift.moduleEquiv.{u, u, u} (R := k) (M := k)).toLinearMap a) = _
   exact TrivSqZeroExt.fst_map _ _
 
 /-- The comparison acts on the infinitesimal coordinate by forgetting the universe lift. -/
 theorem dualNumbersUnderRingHom_snd (a : TrivSqZeroExt k (ULift.{u} k)) :
     TrivSqZeroExt.snd (dualNumbersUnderRingHom (p := p) (x := x) a) = a.snd.down := by
-  show TrivSqZeroExt.snd (TrivSqZeroExt.map
+  change TrivSqZeroExt.snd (TrivSqZeroExt.map
     (ULift.moduleEquiv.{u, u, u} (R := k) (M := k)).toLinearMap a) = _
   exact TrivSqZeroExt.snd_map _ _
 

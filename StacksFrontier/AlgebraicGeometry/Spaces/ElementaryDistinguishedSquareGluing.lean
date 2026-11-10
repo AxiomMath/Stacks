@@ -279,24 +279,28 @@ local instance (priority := high) hasPullback_overPresheaf_elementaryDistinguish
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` searches for limits in the presheaf category on the big fppf site
 /-- Limits of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance (priority := high) hasLimits_presheaf_elementaryDistinguishedSquareGluing :
     HasLimitsOfSize.{u, u} ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` searches for limits in the sheaf category on the big fppf site
 /-- Limits of sheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance (priority := high) hasLimits_sheaf_elementaryDistinguishedSquareGluing :
     HasLimitsOfSize.{u, u} (Sheaf (BigFppfOver.topology B S hS) (Type u)) := inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` searches for limits in the presheaf category on the big fppf site
 /-- Finite limits of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance (priority := high) hasFiniteLimits_presheaf_elementaryDistinguishedSquareGluing :
     HasFiniteLimits ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` searches for limits in the presheaf category on the big fppf site
 /-- Products of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance (priority := high) hasProducts_presheaf_elementaryDistinguishedSquareGluing :
@@ -310,12 +314,14 @@ local instance (priority := high)
   hasProducts_presheaf_elementaryDistinguishedSquareGluing B S hS K
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` searches for limits in the sheaf category on the big fppf site
 /-- Finite limits of sheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance (priority := high) hasFiniteLimits_sheaf_elementaryDistinguishedSquareGluing :
     HasFiniteLimits (Sheaf (BigFppfOver.topology B S hS) (Type u)) := inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` searches for limits in the sheaf category on the big fppf site
 /-- Products of sheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance (priority := high) hasProducts_sheaf_elementaryDistinguishedSquareGluing :
@@ -330,6 +336,7 @@ local instance (priority := high)
   hasProducts_sheaf_elementaryDistinguishedSquareGluing B S hS K
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` searches for limits in the sheaf category on the big fppf site
 /-- Pullbacks of sheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance (priority := high) hasPullbacks_sheaf_elementaryDistinguishedSquareGluing :
@@ -343,6 +350,7 @@ local instance (priority := high) hasPullback_sheaf_elementaryDistinguishedSquar
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` searches for limits in the sheaf category on the big fppf site
 /-- Strict initial objects of sheaves on the big fppf site (instance search times out without
 this shortcut). -/
 local instance (priority := high)
@@ -1057,7 +1065,7 @@ private theorem exists_sheafPushout_isAlgebraicSpace
       cases a <;> cases b
       exacts [hetid (E.obj U), hf', hi, hv₁]
     change IsEtale B S hS ((Sigma.ι RParts (a, b) ≫ s).hom)
-    simp only [s, Sigma.ι_desc]
+    simp only [s, Sigma.ι_comp_desc]
     exact isEtale_comp B S hS hr₁ (hxs a)
   have htEt : IsEtale B S hS t.hom := by
     refine isEtale_of_finite_coproduct B S hS hRParts hR hX
@@ -1067,7 +1075,7 @@ private theorem exists_sheafPushout_isAlgebraicSpace
       cases a <;> cases b
       exacts [hetid (E.obj U), hi, hf', hv₂]
     change IsEtale B S hS ((Sigma.ι RParts (a, b) ≫ t).hom)
-    simp only [t, Sigma.ι_desc]
+    simp only [t, Sigma.ι_comp_desc]
     exact isEtale_comp B S hS hr₂ (hxs b)
   have hquotRes := isAlgebraicSpace_quotient_of_etale B S hS rel
     (show IsEtale B S hS rel.source.left by rwa [hsr])

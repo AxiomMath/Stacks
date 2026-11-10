@@ -661,7 +661,7 @@ theorem totDTo_cupMap (N : ℤ) (ω : MX gR n N) :
   · let b0 : {b : ℕ // (n i : ℤ) + b = N} := ⟨(N - n i).toNat, by omega⟩
     let b1 : {b : ℕ // (n i : ℤ) + b = N + 1} := ⟨(N - n i).toNat + 1, by push_cast; omega⟩
     rw [Fintype.sum_subsingleton _ b0, Fintype.sum_subsingleton _ b1]
-    show _ = mulTot D EP b1.1 (toForms gR (((-1 : ℤ) ^ n i) •
+    change _ = mulTot D EP b1.1 (toForms gR (((-1 : ℤ) ^ n i) •
       ((Stacks.AlgebraicGeometry.AffineDifferentialsIso.ringDeRhamComplex gR).d b0.1
         (b0.1 + 1)).hom (ω i ⟨b0.1, b0.2⟩))) _ (x i)
     rw [toForms_zsmul, mulTot_zsmul_form, toForms_d]
@@ -669,7 +669,7 @@ theorem totDTo_cupMap (N : ℤ) (ω : MX gR n N) :
     rw [Finset.univ_eq_empty, Finset.sum_empty]
     refine (Finset.sum_eq_zero fun b' _ => ?_).symm
     obtain ⟨_ | c, hc⟩ := b'
-    · show mulTot D EP 0 (toForms gR (dAt gR n ω i 0 hc)) _ (x i) = 0
+    · change mulTot D EP 0 (toForms gR (dAt gR n ω i 0 hc)) _ (x i) = 0
       rw [dAt_zero, toForms_zero]
       exact mulTot_zero_form D EP 0 _ (x i)
     · exfalso
@@ -702,11 +702,11 @@ theorem mulTot_mem_totStep {k : ℕ} (b : ℕ) (hb : k ≤ b)
     (ν : ⋀[A]^b ↑(CommRingCat.KaehlerDifferential gR)) {m N : ℤ} (hN : m + b = N)
     (y : TotX U P m) : mulTot D EP b ν hN y ∈ (filtration D EP).totStep (U := U) k N := by
   intro j t
-  show mulTotAt D EP b ν hN y j.1.1 j.1.2 j.2 t ∈ (filtration D EP).step k j.1.2 t
+  change mulTotAt D EP b ν hN y j.1.1 j.1.2 j.2 t ∈ (filtration D EP).step k j.1.2 t
   rw [mulTotAt]
   split_ifs with hab
   · refine (mem_comapStep _ _ _ _ (D.ψ t).hom _ (EP.e_smul j.1.2 t)).2 ?_
-    show EP.e j.1.2 t (mulAt D EP _ b j.1.2 _ t ν _) ∈ _
+    change EP.e j.1.2 t (mulAt D EP _ b j.1.2 _ t ν _) ∈ _
     rw [e_mulAt]
     exact step_antitone gR (D.φ t) (D.ψ t) (D.comp_φ t) hb _
       (wedgeTo_formsMap_mem gR (D.φ t) (D.ψ t) (D.comp_φ t) _ b _ _ _ ν)
@@ -797,13 +797,13 @@ include hx in
 /-- The image of `unitMap` consists of cocycles. -/
 theorem totDTo_unitMap (q : ℤ) (v : ∀ (_ : {i : I // (n i : ℤ) = q}), A) :
     totDTo U Q q (q + 1) rfl (unitMap D EP n x EQ q v) = 0 := by
-  show totDTo U Q q (q + 1) rfl (∑ i : {i : I // (n i : ℤ) = q},
+  change totDTo U Q q (q + 1) rfl (∑ i : {i : I // (n i : ℤ) = q},
     v i • reTot i.2 (xbar D EP n x EQ i.1)) = 0
   rw [map_sum]
   refine Finset.sum_eq_zero fun i _ => ?_
   rw [map_smul]
   obtain ⟨i, rfl⟩ := i
-  show v ⟨i, rfl⟩ • totDTo U Q (n i) (n i + 1) rfl (xbar D EP n x EQ i) = 0
+  change v ⟨i, rfl⟩ • totDTo U Q (n i) (n i + 1) rfl (xbar D EP n x EQ i) = 0
   rw [totDTo_xbar D EP n x hx EQ i, smul_zero]
 
 include hx in
@@ -885,7 +885,7 @@ theorem mk_cupTerm {k : ℕ} {N : ℤ} {ω : MX gR n N} (hω : ω ∈ ShiftedSum
       (D.formallySmooth t) k _ _ _ hy]
     congr 1
     refine Subtype.ext ?_
-    show EP.e (k + b) t ((∑ b' : {b : ℕ // (n i : ℤ) + b = N},
+    change EP.e (k + b) t ((∑ b' : {b : ℕ // (n i : ℤ) + b = N},
         mulTot D EP b'.1 (toForms gR (ω i b')) b'.2 (x i)) ⟨(p, k + b), hpb⟩ t) = _
     rw [hsum, mulTot_apply, mulTotAt_eq D EP k _ h (x i) p b (k + b) (Nat.add_comm b k) hpb
       (by push_cast at hpb; omega), e_mulAt]
@@ -924,7 +924,7 @@ theorem gradedTransport_cupMap {k : ℕ} {N : ℤ} {ω : MX gR n N}
           (mem_comapStep _ _ _ _ (D.ψ t).hom _ (EP.e_smul (k + b) t)).1
             (cupTerm_mem_totStep D EP n x hω i ⟨(p, k + b), hpb⟩ t)⟩ := by
     refine Subtype.ext ?_
-    show EP.e (k + b) t (cupMap D EP n x N ω ⟨(p, k + b), hpb⟩ t) = _
+    change EP.e (k + b) t (cupMap D EP n x N ω ⟨(p, k + b), hpb⟩ t) = _
     rw [cupMap_apply, Finset.sum_apply, Finset.sum_apply, map_sum]
   rw [e, mk_sum_step D (t := t) (s := Finset.univ) (hf := fun i =>
     (mem_comapStep _ _ _ _ (D.ψ t).hom _ (EP.e_smul (k + b) t)).1
@@ -937,7 +937,7 @@ omit [Fintype ι] [DecidableEq ι] in
 theorem unitMap_single [DecidableEq I] (q : ℤ) (i : {i : I // (n i : ℤ) = q}) :
     unitMap D EP n x EQ q (Pi.single i (1 : A) : ∀ (_ : {i : I // (n i : ℤ) = q}), A) =
       reTot i.2 (xbar D EP n x EQ i.1) := by
-  show ∑ i' : {i : I // (n i : ℤ) = q}, (Pi.single i (1 : A) :
+  change ∑ i' : {i : I // (n i : ℤ) = q}, (Pi.single i (1 : A) :
     ∀ (_ : {i : I // (n i : ℤ) = q}), A) i' • reTot i'.2 (xbar D EP n x EQ i'.1) = _
   rw [Finset.sum_eq_single i (fun i' _ h => by rw [Pi.single_eq_of_ne h, zero_smul])
     (fun h => absurd (Finset.mem_univ i) h), Pi.single_eq_same, one_smul]
@@ -972,7 +972,7 @@ theorem cupHom_graded_comm [DecidableEq I] (k : ℕ) :
   revert ω
   intro (ω : (ShiftedSum.filtration gR n).step k N)
   refine (tensorTotEquiv U (formsN gR k) Q (N - k)).symm.symm.injective ?_
-  show (tensorTotEquiv U (formsN gR k) Q (N - k)) ((tensorTotEquiv U (formsN gR k) Q (N - k)).symm
+  change (tensorTotEquiv U (formsN gR k) Q (N - k)) ((tensorTotEquiv U (formsN gR k) Q (N - k)).symm
       ((gradedTensorData D EP EQ k).degreeEquiv N (Submodule.Quotient.mk
         ⟨cupMap D EP n x N ω.1, cupHom_step_le D EP n x hx k N
           ⟨ω.1, ω.2, cupHom_f_apply D EP n x hx N ω.1⟩⟩))) =
@@ -985,7 +985,7 @@ theorem cupHom_graded_comm [DecidableEq I] (k : ℕ) :
   simp only [map_sum]
   funext ⟨⟨p, b⟩, hpb⟩ t
   rw [Finset.sum_apply, Finset.sum_apply]
-  show (gradedPiece D EP EQ k b t).symm _ = _
+  change (gradedPiece D EP EQ k b t).symm _ = _
   rw [AddEquiv.symm_apply_eq, map_sum]
   refine (gradedTransport D EP k (k + b) t).injective ?_
   rw [map_sum]
@@ -1004,16 +1004,19 @@ theorem cupHom_graded_comm [DecidableEq I] (k : ℕ) :
     refine (gradedTransport_gradedPiece D EP EQ k b t _).trans (congrArg (gradedOpen D EQ k b t) ?_)
     exact congrFun (congrFun (tensorTotEquiv_tmul U (formsN gR k) Q (N - k) _ _) _) t
 
+omit [Fintype ι] [DecidableEq ι] in
 include hx in
 /-- **The cup product map is a quasi-isomorphism once its graded zeroth piece is**: if the map
 `⨁_i A[-n_i] → Tot(Č(U, Q))`, `1_i ↦ x̄_i`, is a quasi-isomorphism between K-flat complexes, then
 the cup product map `⨁_i Ω^•_{A/R}[-n_i] → Tot(Č(U, P))`, `(ω_i)_i ↦ ∑_i x_i ∧ ω_i`, is a
 quasi-isomorphism. -/
-theorem quasiIso_cupHom [DecidableEq I] [QuasiIso (unitHom D EP n x hx EQ)]
+theorem quasiIso_cupHom [Finite ι] [QuasiIso (unitHom D EP n x hx EQ)]
     (hGM : CochainComplex.KFlat.{w, w} (ShiftedSum.unitComplex A n))
     (hGK : CochainComplex.KFlat.{w, w} (cechTot U Q)) :
-    QuasiIso (cupHom D EP n x hx) :=
-  CochainComplex.SubmoduleFiltration.quasiIso_of_graded_iso_tensor_of_kFlat
+    QuasiIso (cupHom D EP n x hx) := by
+  classical
+  have := Fintype.ofFinite ι
+  exact CochainComplex.SubmoduleFiltration.quasiIso_of_graded_iso_tensor_of_kFlat
     (ShiftedSum.filtration gR n) ((filtration D EP).totFiltration (U := U)) (cupHom D EP n x hx)
     (cupHom_step_le D EP n x hx) (unitHom D EP n x hx EQ) hGM hGK (formsN gR)
     (ShiftedSum.gradedIso gR n) (gradedIso D EP EQ) (cupHom_graded_comm D EP n x hx EQ)

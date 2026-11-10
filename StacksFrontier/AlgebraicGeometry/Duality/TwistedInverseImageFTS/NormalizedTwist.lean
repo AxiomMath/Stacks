@@ -776,7 +776,7 @@ include hωS hωS' in
 theorem plusCoh_twistStd :
     haveI := hp.source_noetherian; plusCoh X (twistStd c (ωS' := ωS') 𝒦X) :=
   have := hp.source_noetherian
-  plusCoh_fNewShriek p (isDualizing_stdComplex c (Category.id_comp p) hωS 𝒦X)
+  plusCoh_fNewShriek p (isDualizing_stdComplex c hωS 𝒦X)
     (isDualizing_toStd hωS) _ (plusCoh_of_isDualizing (isDualizing_toStd hωS'))
 
 /-- `p_new^! ω_S'^•` as an object of `D^+_QCoh(𝒪_X)` at the locally small model. -/
@@ -891,7 +891,7 @@ def stdComplexIsoFNewShriek (hpe : f ≫ q = p)
   have := hp.base_noetherian
   have := hq.source_noetherian
   have := isIso_fNewShriekCompHom_app hpe (stdComplex c 𝒦X)
-    (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y) (isDualizing_toStd hωS)
+    (isDualizing_stdComplex c hωS 𝒦Y) (isDualizing_toStd hωS)
     ((toStd S).obj ωS') (plusCoh_of_isDualizing (isDualizing_toStd hωS'))
   stdComplexIsoTwist c hωS hωS' 𝒦X 𝒦X' ≪≫
     (asIso ((fNewShriekCompHom hpe (stdComplex c 𝒦X) (stdComplex c 𝒦Y)
@@ -924,8 +924,8 @@ def fNewShriekIndependenceIso (hpe : f ≫ q = p)
       (plusCoh Y).ι ⋙ fNewShriekStd f (stdComplex c 𝒦X) (stdComplex c 𝒦Y) :=
   have := hq.source_noetherian
   Functor.isoWhiskerLeft _ (fNewShriekStdIsoOfIso f
-    (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y)
-    (isDualizing_stdComplex c (Category.id_comp q) hωS' 𝒦Y')
+    (isDualizing_stdComplex c hωS 𝒦Y)
+    (isDualizing_stdComplex c hωS' 𝒦Y')
     (stdComplexIsoFNewShriek c hpe hωS hωS' 𝒦X 𝒦Y 𝒦X' 𝒦Y'))
 
 end Independence

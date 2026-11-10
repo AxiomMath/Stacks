@@ -99,7 +99,7 @@ public theorem isLimitPreservingOnObjects_fibredCategory (F : (BigFppfOver B S h
         (eqToHom hxbase ≫ (BigAffineFppf.inclusion B S hS).map (D.map j) ≫
           eqToHom y.2.symm) := by
       refine IsHomLift.of_fac _ _ _ hxbase y.2 ?_
-      show (BigAffineFppf.inclusion B S hS).map (D.map j) =
+      change (BigAffineFppf.inclusion B S hS).map (D.map j) =
         (eqToIso hxbase).inv ≫ ((eqToIso hxbase).hom ≫
           (BigAffineFppf.inclusion B S hS).map (D.map j) ≫ (eqToIso y.2).inv) ≫
           (eqToIso y.2).hom
@@ -118,7 +118,7 @@ public theorem isLimitPreservingOnObjects_fibredCategory (F : (BigFppfOver B S h
         eqToHom y.2.symm :=
       IsHomLift.fac' (Deformation.Artin.Approximation.baseFiberedCategory B S hS).based.p
         ((BigAffineFppf.inclusion B S hS).map (c.π.app i)) γ
-    show (fibredCategory B S hS F).based.p.map δ ≫
+    change (fibredCategory B S hS F).based.p.map δ ≫
         eqToHom hxbase ≫ (BigAffineFppf.inclusion B S hS).map (D.map j) ≫
           eqToHom y.2.symm =
       (fibredCategory B S hS F).based.p.map (𝟙 x.1) ≫ γ

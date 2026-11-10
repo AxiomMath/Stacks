@@ -175,7 +175,7 @@ private theorem isFormallySmoothOnObjects_baseChange_polarizedCurvesSmall
         (Stack.schemeSliceMap B integerBase hZ Z z hz)
         (polarizedCurvesSmallToCurvesSmall B hZ h3Z)).fst := by
   have : (Stack.schemeSlice B integerBase hZ Z).val.p.Faithful := by
-    show (Over.map Z.hom).Faithful
+    change (Over.map Z.hom).Faithful
     infer_instance
   refine Stack.isFormallySmoothOnObjects_of_faithful_of_exists_lift ?_
   intro U U' i hU hU' hi x hx y' hy' ψ hψ
@@ -214,7 +214,7 @@ private theorem isFormallySmoothOnObjects_baseChange_polarizedCurvesSmall
       hy := x''.2
       iso := (asIso c).symm
       vertical := by
-        show (curvesSmall B hZ).val.p.IsHomLift _ (inv c)
+        change (curvesSmall B hZ).val.p.IsHomLift _ (inv c)
         have h := IsHomLift.inv (curvesSmall B hZ).val.p
           (𝟙 ((Stack.schemeSlice B integerBase hZ Z).val.p.obj y')) c
         rwa [IsIso.inv_id] at h }

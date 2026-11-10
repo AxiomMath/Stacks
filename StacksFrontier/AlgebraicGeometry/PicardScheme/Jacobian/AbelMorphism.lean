@@ -51,6 +51,7 @@ def abelElement {T : Over S} (m : T ⟶ H) : (functorZero f hdim σ hσ ⋙ forg
     (schemePullbackClass_bcSection_chartClass f σ hσ θ hH m)
     (relativeInvertibleDegreeHomAt_chartClass f hdim σ hσ θ hH hθ m)
 
+omit [Flat f] [LocallyOfFinitePresentation f] in
 /-- The class in `Pic(X_T)` of `abelElement m` is the normalised Abel class of `D_m` translated by
 `θ^{-1}`. -/
 theorem smallEquiv_abelElement {T : Over S} (m : T ⟶ H) :
@@ -59,6 +60,7 @@ theorem smallEquiv_abelElement {T : Over S} (m : T ⟶ H) :
       abelNormalized f σ hσ θ (hH.family m) :=
   smallEquiv_mkZero _ _ _ _ _ _ _
 
+omit [Flat f] [LocallyOfFinitePresentation f] in
 /-- The elements `abelElement` are compatible with base change: `abelElement (a ≫ m)` is the
 pullback along `a` of `abelElement m`. -/
 theorem abelElement_comp {T T' : Over S} (a : T' ⟶ T) (m : T ⟶ H) :
@@ -75,6 +77,7 @@ variable (A : Grp (Over S)) (e : yonedaGrp.obj A ≅ functorZero f hdim σ hσ)
 def abelMorphism : H ⟶ A.X :=
   (e.inv.app (op H)).hom (abelElement f hdim σ hσ θ hθ hH (𝟙 H))
 
+omit [Flat f] [LocallyOfFinitePresentation f] in
 /-- **`γ` classifies the Abel classes**: for every `m : T ⟶ H`, the element of
 `Pic⁰_{X/S,σ}(T)` corresponding under `e` to `m ≫ γ` is `abelElement m`, the rigidified class of
 `𝒪_{X_T}(D_m) ⊗ pr_X^*θ^{-1}`. -/
@@ -89,7 +92,7 @@ theorem abelMorphism_spec {T : Over S} (m : T ⟶ H) :
       (e.hom.naturality m.op)
   have hinv : (e.hom.app (op H)).hom (abelMorphism f hdim σ hσ θ hθ hH A e) =
       abelElement f hdim σ hσ θ hθ hH (𝟙 H) := by
-    show ((e.inv ≫ e.hom).app (op H)).hom _ = _
+    change ((e.inv ≫ e.hom).app (op H)).hom _ = _
     rw [e.inv_hom_id]; rfl
   refine hn.trans ?_
   rw [hinv]
@@ -107,12 +110,14 @@ def abelElementFull {T : Over S} (m : T ⟶ H) : (functor f σ hσ ⋙ forget Gr
   Multiplicative.ofAdd (mkGroup f σ hσ (chartClass f σ hσ 0 hH m)
     (schemePullbackClass_bcSection_chartClass f σ hσ 0 hH m))
 
+omit [Flat f] [LocallyOfFinitePresentation f] [IsProper f] [LocallyOfFiniteType f] in
 /-- The class in `Pic(X_T)` of `abelElementFull m` is the normalised Abel class of `D_m`. -/
 theorem smallEquiv_abelElementFull {T : Over S} (m : T ⟶ H) :
     smallEquiv _ ((Multiplicative.toAdd (abelElementFull f σ hσ hH m) : group f σ hσ T) :
       Stacks.Picard.smallOfScheme (bc f T)) = abelNormalized f σ hσ 0 (hH.family m) :=
   smallEquiv_mkGroup f σ hσ _ (schemePullbackClass_bcSection_chartClass f σ hσ 0 hH m)
 
+omit [Flat f] [LocallyOfFinitePresentation f] [IsProper f] [LocallyOfFiniteType f] in
 /-- The elements `abelElementFull` are compatible with base change: `abelElementFull (a ≫ m)`
 is the pullback along `a` of `abelElementFull m`. -/
 theorem abelElementFull_comp {T T' : Over S} (a : T' ⟶ T) (m : T ⟶ H) :
@@ -127,6 +132,7 @@ morphism classifying the rigidified class of `𝒪(D_univ)`. -/
 def abelMorphismFull : H ⟶ P.X :=
   (eP.inv.app (op H)).hom (abelElementFull f σ hσ hH (𝟙 H))
 
+omit [Flat f] [LocallyOfFinitePresentation f] [IsProper f] [LocallyOfFiniteType f] in
 /-- **`γ_d` classifies the Abel classes**: `m ≫ γ_d` corresponds to the rigidified class of
 `𝒪_{X_T}(D_m)`. -/
 theorem abelMorphismFull_spec {T : Over S} (m : T ⟶ H) :
@@ -138,7 +144,7 @@ theorem abelMorphismFull_spec {T : Over S} (m : T ⟶ H) :
     congrArg (fun φ => GrpCat.Hom.hom φ (abelMorphismFull f σ hσ hH P eP)) (eP.hom.naturality m.op)
   have hinv : (eP.hom.app (op H)).hom (abelMorphismFull f σ hσ hH P eP) =
       abelElementFull f σ hσ hH (𝟙 H) := by
-    show ((eP.inv ≫ eP.hom).app (op H)).hom _ = _
+    change ((eP.inv ≫ eP.hom).app (op H)).hom _ = _
     rw [eP.inv_hom_id]; rfl
   refine hn.trans ?_
   rw [hinv]

@@ -146,7 +146,7 @@ theorem precomposeUnit_whisker (F : E ⥤ A) [F.Additive] [PreservesFiniteLimits
       Functor.whiskerLeft (F.mapHomotopyCategory (ComplexShape.up ℤ)) α ≫
         Functor.whiskerRight F.mapDerivedCategoryFactorsh.inv Rw := by
     refine NatTrans.ext (funext fun K => ?_)
-    show α.app _ ≫ (precomposeTargetIso F Rw).hom.app K =
+    change α.app _ ≫ (precomposeTargetIso F Rw).hom.app K =
       α.app _ ≫ Rw.map (F.mapDerivedCategoryFactorsh.inv.app K)
     have h : (precomposeTargetIso F Rw).hom.app K =
         CategoryStruct.id _ ≫ Rw.map (F.mapDerivedCategoryFactorsh.inv.app K) ≫
@@ -253,7 +253,8 @@ theorem precomposeSourceIso_hom_app (K : HomotopyCategory A (ComplexShape.up ℤ
         CategoryStruct.id _ := rfl
   exact h2.trans ((comp_id_eq _ _ rfl).trans (DerivedCategory.Qh.map_id _))
 
-omit [HasDerivedCategory A'] [PreservesFiniteLimits F] [PreservesFiniteColimits F] in
+omit [EnoughInjectives A] [HasDerivedCategory A] [HasDerivedCategory A'] [PreservesFiniteLimits F]
+    [PreservesFiniteColimits F] in
 /-- **The source comparison of the derived excision is the canonical datum, transported.** The
 isomorphism `excisionSourceIso` is `δ` read on the homotopy category and composed with `Qh`,
 conjugated by the two source identifications that the canonical units of
@@ -265,7 +266,7 @@ theorem excisionSourceIso_hom_eq :
         mapHomotopyCategoryCompQhNatTrans (w ⋙ G) (F ⋙ w') δ.hom ≫
           (precomposeSourceIso F w').hom := by
   refine NatTrans.ext (funext fun K => ?_)
-  show (excisionSourceIso w G F w' δ).hom.app K =
+  change (excisionSourceIso w G F w' δ).hom.app K =
     (postcomposeSourceIso w G).inv.app K ≫
       (mapHomotopyCategoryCompQhNatTrans (w ⋙ G) (F ⋙ w') δ.hom).app K ≫
         (precomposeSourceIso F w').hom.app K

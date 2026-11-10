@@ -207,7 +207,7 @@ lemma grothendieckGroupEquiv_comp_mk' :
       (QuotientAddGroup.mk' (GrothendieckGroup.map P.ι hι).range) =
       GrothendieckGroup.map L hL := by
   ext X
-  rw [AddMonoidHom.comp_apply, QuotientAddGroup.mk'_apply, AddMonoidHom.coe_coe,
+  rw [AddMonoidHom.comp_apply, QuotientAddGroup.mk'_apply, AddMonoidHom.coe_ofClass,
     grothendieckGroupEquiv_mk_of, map_of]
 
 /-- **Stacks 02MX (1)**, exactness at `K₀(A)`: the kernel of the map `K₀(A) → K₀(D)` induced by

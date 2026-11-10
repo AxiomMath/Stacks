@@ -205,7 +205,7 @@ theorem isoLocusAtShifts_stupidTruncLE (K : CochainComplex C ℤ) (a : ℤ) [K.I
       refine Functor.map_isZero _ (Functor.map_isZero _ ?_)
       rw [HomologicalComplex.isZero_stupidTrunc_iff]
       exact ⟨fun i => CochainComplex.isZero_of_isStrictlyGE K a _ (by
-        show a - 1 + ((0 : ℕ) : ℤ) - (i : ℤ) < a
+        change a - 1 + ((0 : ℕ) : ℤ) - (i : ℤ) < a
         omega)⟩
     exact IsZero.isIso (Functor.map_isZero _ hZ) (Functor.map_isZero _ hZ) _
   | succ n ih =>

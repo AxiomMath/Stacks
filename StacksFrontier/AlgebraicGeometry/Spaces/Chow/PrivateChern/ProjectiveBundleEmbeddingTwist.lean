@@ -584,7 +584,6 @@ theorem schemeReadingPullbackIso_congr_iso
         (schemeReading E ψY) ≪≫ schemeReadingPullbackIso E hE ρF wρF :=
   Iso.ext (pullbackCongr_hom_app_schemeReadingPullbackIso E hE hs w'' wρF).symm
 
-include hιπ hglue in
 /-- **The cocycle of the comparisons of readings along `ρ_ℱ = s ≫ ρ_ℰ`**, as an identity of
 isomorphisms. -/
 theorem schemeReadingPullbackIso_cocycle_square
@@ -608,7 +607,6 @@ the chart of `𝐏(ℰ)` and the inverse image of `univ` along `s` agrees with `
 comparisons, then the pulled-back quotient reads as `z`, through the comparison of readings along
 `ρ_ℱ`. -/
 theorem exists_iso_readingMap_comparison_comp {A : Modules.{u, u} B S hS PE.1 PE.2}
-    (hA : A.IsQuasicoherentOnSite)
     (τ : (modulePullback B S hS πE).obj E ⟶ A)
     {L : Modules.{u, u} B S hS (representedAlgebraicSpace B S hS TE).1
       (representedAlgebraicSpace B S hS TE).2} (hL : L.IsQuasicoherentOnSite)
@@ -682,7 +680,7 @@ theorem exists_iso_readingMap_comparison_comp {A : Modules.{u, u} B S hS PE.1 PE
         (isQuasicoherentOnSite_modulePullback_schemeReading E hE (φE ≫ πE))
         (QuasiCoherentDescent.pullbackComparison B S hS φE πE _ rfl E).symm)
       (hH := schemeReadingPullbackIso_eq_comparison E hE s w')
-      (hC := schemeReadingPullbackIso_cocycle_square hE πE πF ι hιπ s hs φE φF hglue wρE wρF w'
+      (hC := schemeReadingPullbackIso_cocycle_square hE πE πF s hs φE φF wρE wρF w'
         w''))
     (sq := squareComparison_trans πE πF ι hιπ φE φF (representedSpaceMap B S hS s) hglue w')
     (hspec := hspec')
@@ -774,7 +772,7 @@ theorem exists_iso_readingMap_embedding {X PE PF : AlgebraicSpaces B S hS}
     (hglue : φF ≫ ι = representedSpaceMap B S hS s ≫ φE)
     (wρE : representedSpaceMap B S hS ρE ≫ ψY = φE ≫ πE)
     (wρF : representedSpaceMap B S hS ρF ≫ ψY = φF ≫ πF)
-    {A : Modules.{u, u} B S hS PE.1 PE.2} (hA : A.IsQuasicoherentOnSite)
+    {A : Modules.{u, u} B S hS PE.1 PE.2}
     (τ : (modulePullback B S hS πE).obj E ⟶ A)
     {L : Modules.{u, u} B S hS (representedAlgebraicSpace B S hS TE).1
       (representedAlgebraicSpace B S hS TE).2} (hL : L.IsQuasicoherentOnSite)
@@ -819,7 +817,7 @@ theorem exists_iso_readingMap_embedding {X PE PF : AlgebraicSpaces B S hS}
         readingMap TF ((modulePullback B S hS φF).map
           ((modulePullback B S hS πF).map q ≫ τF)) := by
   obtain ⟨θ₀, hθ₀⟩ := hspec
-  have h1 := exists_iso_readingMap_comparison_comp hE πE πF ι hιπ s hs φE φF hglue wρE wρF hA τ hL
+  have h1 := exists_iso_readingMap_comparison_comp hE πE πF ι hιπ s hs φE φF hglue wρE wρF τ hL
     aE χ hτ univ εL hχ _ θ₀ hsc hθ₀
   have h2 := exists_iso_readingMap_comp hE hF q φF πF wρF univF εF τF aF χF hτF hχF
   exact exists_iso_comp_eq_trans h1 (exists_iso_comp_eq_symm h2)
@@ -862,7 +860,7 @@ theorem exists_iso_of_readingMap_chart {X PE PF : AlgebraicSpaces B S hS}
       (isQuasicoherentOnSite_modulePullback_of_isQuasicoherentOnSite B S hS _ _
         (isQuasicoherentOnSite_modulePullback_of_isQuasicoherentOnSite B S hS _ _ hA))
       (isQuasicoherentOnSite_modulePullback_of_isQuasicoherentOnSite B S hS _ _ hAF) _ _ H
-  show (⋃ _ : Unit, Set.range (pointsMap B S hS _ φF.hom)) = Set.univ
+  change (⋃ _ : Unit, Set.range (pointsMap B S hS _ φF.hom)) = Set.univ
   rw [Set.iUnion_const]
   exact Set.range_eq_univ.mpr hsurj
 
@@ -917,7 +915,7 @@ theorem exists_projectiveBundleEmbedding_twistIso [Epi q] :
     (projectiveBundleAtlas_comp_projectiveBundleEmbedding hfreeE hfreeF q hq)
     (representedSpaceMap_projectiveBundleChartProj_comp E hfreeE)
     (representedSpaceMap_projectiveBundleChartProj_comp F hfreeF)
-    (projectiveBundleTwist E hfreeE).property (projectiveBundleTautological E hfreeE).hom
+    (projectiveBundleTautological E hfreeE).hom
     (isQuasicoherentOnSite_projectiveBundleChartTwist E hfreeE)
     (projectiveBundleTwistAtlasIso E hfreeE) (projectiveBundleChartQuotient E hfreeE)
     (by convert modulePullback_map_projectiveBundleTautological E hfreeE using 2)

@@ -206,7 +206,7 @@ private theorem length_quotient_sup_eq_ord_quotient
       change w ∈ Ideal.span {a} at hw
       rw [Ideal.mem_span_singleton] at hw
       rcases hw with ⟨c, rfl⟩
-      show Ideal.Quotient.mk q (a * c) ∈
+      change Ideal.Quotient.mk q (a * c) ∈
         Ideal.span {Ideal.Quotient.mk q a}
       rw [Ideal.mem_span_singleton]
       exact ⟨Ideal.Quotient.mk q c, by simp [map_mul]⟩
@@ -218,7 +218,7 @@ private theorem length_quotient_sup_eq_ord_quotient
       refine ⟨a * c', ?_, ?_⟩
       · rw [Ideal.mem_span_singleton]
         exact ⟨c', rfl⟩
-      · show Ideal.Quotient.mk q (a * c') = z
+      · change Ideal.Quotient.mk q (a * c') = z
         rw [map_mul, hc']
         exact hc.symm
   have hE : Module.length R (R ⧸ (Ideal.span {a} ⊔ q)) =
@@ -300,7 +300,7 @@ private theorem length_coker_eq_sum_ord_of_diagonal
     have hUV : U ≤ V.comap φ := by
       apply Submodule.span_le.mpr
       rintro z (rfl : z = x 0)
-      show φ (x 0) ∈ V
+      change φ (x 0) ∈ V
       rw [hdiag]
       exact V.smul_mem _ (Submodule.mem_span_singleton_self _)
     let ψ := U.mapQ V φ hUV
@@ -313,7 +313,7 @@ private theorem length_coker_eq_sum_ord_of_diagonal
       (prime_factors_quotient_tail q x hxf) (span_quotient_tail_eq_top y hy)
       (prime_factors_quotient_tail q y hyf) ψ hψ (fun i => a i.succ) (fun i => ha i.succ)
       (fun i => by
-        show V.mkQ (φ (x i.succ)) = a i.succ • V.mkQ (y i.succ)
+        change V.mkQ (φ (x i.succ)) = a i.succ • V.mkQ (y i.succ)
         rw [hdiag, map_smul])
     let φU := (φ.domRestrict U).codRestrict V (fun z => hUV z.property)
     let xU : U := ⟨x 0, Submodule.mem_span_singleton_self _⟩
@@ -370,10 +370,10 @@ private theorem length_quotient_scale_suffix
           (Ideal.IsPrime.ne_top ‹q.IsPrime›) (Ideal.eq_top_of_isUnit_mem q h isUnit_one)
       · exact ha)
     (fun i => by
-      show (if i.val < k then x i else a • x i) = (if i.val < k then 1 else a) • x i
+      change (if i.val < k then x i else a • x i) = (if i.val < k then 1 else a) • x i
       split_ifs <;> simp)
   rw [Submodule.range_subtype] at h
-  show Module.length R (M ⧸ P) = _
+  change Module.length R (M ⧸ P) = _
   rw [h]
   have heq (i : Fin l) : Ring.ord (R ⧸ q) (Ideal.Quotient.mk q (if i.val < k then 1 else a)) =
       if i.val < k then 0 else Ring.ord (R ⧸ q) (Ideal.Quotient.mk q a) := by
@@ -397,7 +397,7 @@ private theorem exists_smul_generators_mem_range
     obtain ⟨a, ha, haz⟩ := h ((LinearMap.range φ).mkQ (y i))
     refine ⟨⟨a, ha⟩, ?_⟩
     apply (Submodule.Quotient.mk_eq_zero _).mp
-    show (LinearMap.range φ).mkQ (a • y i) = 0
+    change (LinearMap.range φ).mkQ (a • y i) = 0
     rw [map_smul]
     exact haz
   choose a ha using hex
@@ -431,7 +431,7 @@ private theorem length_coker_ne_top_of_localized_surjective
   have hs : (fun i : Fin l => if i.val < 0 then y i else (a : R) • y i) =
       (fun i => (a : R) • y i) := by funext i; simp
   rw [hs, Nat.sub_zero] at hlen
-  show Module.length R (N ⧸ P) ≠ ⊤
+  change Module.length R (N ⧸ P) ≠ ⊤
   rw [hlen, nsmul_eq_mul]
   exact WithTop.mul_ne_top (ENat.natCast_ne_top _) (Ring.ord_ne_top
     (mem_nonZeroDivisors_of_ne_zero (Ideal.Quotient.eq_zero_iff_mem.not.mpr a.property)))

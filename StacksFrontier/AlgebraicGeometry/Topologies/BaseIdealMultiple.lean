@@ -223,7 +223,7 @@ theorem scalarMultiplesSubsheaf_isFiniteType (hF : IsFiniteType X.J F.val) :
     intro W h hh
     obtain ⟨c, hc⟩ := hs W.left h.left ((Sieve.overEquiv_symm_iff S h).mp hh)
     apply le_localClosure (sectionsSpan (F.over (U i)) gF)
-    show (F.val.restrictₛₗ h.left.op (b (op V) a • x) : F.val.obj (op W.left)) ∈
+    change (F.val.restrictₛₗ h.left.op (b (op V) a • x) : F.val.obj (op W.left)) ∈
       Submodule.span ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op W.left))
         (Set.range (fun j => (F.val.restrictₛₗ W.hom.op (gN j).val : F.val.obj (op W.left))))
     rw [map_smulₛₗ,
@@ -236,7 +236,7 @@ theorem scalarMultiplesSubsheaf_isFiniteType (hF : IsFiniteType X.J F.val) :
     have hw : W.hom = h.left ≫ f := (Over.w h).symm
     have he : (F.val.restrictₛₗ W.hom.op (gN (e (a, j))).val : F.val.obj (op W.left)) =
         b (op W.left) a • F.val.restrictₛₗ (h.left ≫ f).op (g j) := by
-      show (F.val.restrictₛₗ W.hom.op
+      change (F.val.restrictₛₗ W.hom.op
         (b (op (U i)) (e.symm (e (a, j))).1 • g (e.symm (e (a, j))).2) :
           F.val.obj (op W.left)) = _
       rw [Equiv.symm_apply_apply, map_smulₛₗ, hb, hw]
@@ -292,7 +292,7 @@ theorem baseIdealMultiple_le_iff (N : F.Submodule) :
   constructor
   · intro h U
     refine le_trans ?_ (h U)
-    show _ ≤ (baseIdealMultiple X F A φ I).toSubmodule.obj U
+    change _ ≤ (baseIdealMultiple X F A φ I).toSubmodule.obj U
     simp only [baseIdealMultiple, SheafOfModules.Submodule.toSubmodule_sInf,
       PresheafOfModules.Submodule.sInf_obj]
     refine le_iInf₂ fun K hK => ?_

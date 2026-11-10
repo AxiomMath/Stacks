@@ -167,6 +167,7 @@ theorem exists_fieldValuedPoint_presheafPreimmersion (V : BigFppfOver B S hS)
 /-! ### Descent of the inducing property to the point space -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site times out otherwise
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance (priority := high) hasPullbacks_presheaf_fibreOverFieldPoint :
@@ -256,7 +257,7 @@ private theorem exists_hom_siteObject_comp_fieldMorphism (hY : IsAlgebraicSpace 
     (FieldValuedPoint.map B S hS Z φ q) (by rw [← pointsMap_class, h])
   refine ⟨w, ?_⟩
   rw [← fieldMorphism_map B S hS Z φ q]
-  show yoneda.map w ≫ yonedaEquiv.symm p.value = yonedaEquiv.symm _
+  change yoneda.map w ≫ yonedaEquiv.symm p.value = yonedaEquiv.symm _
   rw [yonedaEquiv_symm_naturality_left, hw]
 
 /-- Let `p` be a field-valued point of an algebraic space `Y` with `Spec k ⟶ Y` a

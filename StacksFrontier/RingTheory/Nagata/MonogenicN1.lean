@@ -99,7 +99,7 @@ open Polynomial IsLocalRing
 /-- A Noetherian normal domain is N-1: its integral closure is itself. -/
 theorem isN1_of_isIntegrallyClosed (R : Type*) [CommRing R] [IsDomain R] [IsNoetherianRing R]
     [IsIntegrallyClosed R] : IsN1 R := by
-  show Module.Finite R (integralClosure R (FractionRing R))
+  change Module.Finite R (integralClosure R (FractionRing R))
   rw [IsIntegrallyClosed.integralClosure_eq_bot (R := R) (FractionRing R)]
   exact Module.Finite.equiv
     (Algebra.botEquivOfInjective
@@ -188,7 +188,7 @@ theorem isFractionRing_of_injective {A C K : Type u} [CommRing A] [IsDomain A] [
     refine mem_nonZeroDivisors_of_ne_zero fun hc => hbK ?_
     rw [IsScalarTower.algebraMap_apply A C K, hc, map_zero]
   refine ⟨⟨algebraMap A C a, ⟨algebraMap A C b, hbC⟩⟩, ?_⟩
-  show z * algebraMap C K (algebraMap A C b) = algebraMap C K (algebraMap A C a)
+  change z * algebraMap C K (algebraMap A C b) = algebraMap C K (algebraMap A C a)
   rw [← IsScalarTower.algebraMap_apply A C K, ← IsScalarTower.algebraMap_apply A C K, ← hz,
     div_mul_cancel₀ _ hbK]
 
@@ -374,7 +374,7 @@ theorem surjective_and_ker_quotient_span_singleton {A B K : Type u} [CommRing A]
       simp only [map_sub, map_mul, Polynomial.aeval_X, Polynomial.aeval_C] at hcong
       linear_combination hcong
     refine ⟨f.coeff 0, ?_⟩
-    show Ideal.Quotient.mk (Ideal.span {y₀}) (algebraMap A B (f.coeff 0))
+    change Ideal.Quotient.mk (Ideal.span {y₀}) (algebraMap A B (f.coeff 0))
       = Ideal.Quotient.mk _ (Polynomial.aeval y₀ f)
     rw [heq, map_add, Ideal.Quotient.eq_zero_iff_mem.2
       (Ideal.mem_span_singleton.2 ⟨Polynomial.aeval y₀ g, rfl⟩), add_zero]
@@ -488,7 +488,7 @@ theorem isN1_of_forall_isN1_atPrime {A C D K : Type u} [CommRing A] [IsDomain A]
     refine ⟨⟨α * a ^ k', ⟨α' * a ^ (n + k), ?_⟩⟩, ?_⟩
     · rw [hmemN, map_mul, map_pow]
       exact hα'u.mul (hau.pow (n + k))
-    · show z * algebraMap A E (α' * a ^ (n + k)) = algebraMap A E (α * a ^ k')
+    · change z * algebraMap A E (α' * a ^ (n + k)) = algebraMap A E (α * a ^ k')
       simp only [map_mul, map_pow]
       linear_combination (-(z * algebraMap A E a ^ (n + k))) * hk2' +
         (algebraMap A E a ^ k * algebraMap A E a ^ k' * F (m : C)) * hz' +
@@ -705,7 +705,7 @@ theorem isLocalization_of_comap {A C T : Type u} [CommRing A] [CommRing C] [Comm
     have Hm : algebraMap C T (algebraMap A C s) ^ m * algebraMap C T (u : C)
         = algebraMap C T (algebraMap A C γ) := by
       rw [← map_pow, ← map_mul, hm]
-    show z * algebraMap A T (γ * s ^ n) = algebraMap A T (α * s ^ m)
+    change z * algebraMap A T (γ * s ^ n) = algebraMap A T (α * s ^ m)
     simp only [IsScalarTower.algebraMap_apply A C T, map_mul, map_pow]
     rw [← Hm, ← Hn, ← hz]
     ring
@@ -714,7 +714,7 @@ theorem isLocalization_of_comap {A C T : Type u} [CommRing A] [CommRing C] [Comm
     obtain ⟨u, hu⟩ := IsLocalization.exists_of_eq (M := q.primeCompl) (S := T) hxx
     obtain ⟨m, γ, hm⟩ := exists_pow_mul_eq_algebraMap y hgen s a hs (u : C)
     refine ⟨⟨γ, key (u : C) u.2 m γ hm⟩, hAC ?_⟩
-    show algebraMap A C (γ * x) = algebraMap A C (γ * x')
+    change algebraMap A C (γ * x) = algebraMap A C (γ * x')
     rw [map_mul, map_mul, ← hm, mul_assoc, mul_assoc, hu]
 
 /-- **The source's application of Tag 0330.** Let `A` be a normal Nagata domain with fraction
@@ -1249,7 +1249,7 @@ theorem isN1_atPrime_of_exists_monic {A C K : Type u} [CommRing A] [IsDomain A]
     let : Algebra C L := ((algebraMap K L).comp (algebraMap C K)).toAlgebra
     have : IsScalarTower C K L := IsScalarTower.of_algebraMap_eq fun _ => rfl
     have hACL : ∀ a : A, algebraMap A L a = algebraMap C L (algebraMap A C a) := fun a => by
-      show algebraMap K L (algebraMap A K a) = algebraMap K L (algebraMap C K (algebraMap A C a))
+      change algebraMap K L (algebraMap A K a) = algebraMap K L (algebraMap C K (algebraMap A C a))
       rw [← IsScalarTower.algebraMap_apply A C K]
     have : IsScalarTower A C L := IsScalarTower.of_algebraMap_eq hACL
     have hCLinj : Function.Injective (algebraMap C L) := fun a b hab =>

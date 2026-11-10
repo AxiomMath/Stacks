@@ -65,7 +65,8 @@ the reduction leaves is a sheaf of graded algebras on the test scheme whose degr
 over the chosen open carry a multiplicative, unital family of maps into a commutative ring,
 together with a map out of `ℒ` into its degree-one piece. The natural candidate — the structure
 sheaf in every degree with its own multiplication, pushed forward from a scheme over the test
-scheme — is constructed: `Stacks.AlgebraicGeometry.ProjF1Dehomogenization.pushforwardUnitGradedAlgebra` of
+scheme — is constructed:
+`Stacks.AlgebraicGeometry.ProjF1Dehomogenization.pushforwardUnitGradedAlgebra` of
 `StacksFrontier.AlgebraicGeometry.ProjF1Dehomogenization.Trivialization` is `g_*𝒪_X` in every degree
 for an arbitrary morphism `g : X ⟶ T` into the test scheme, and `datumOfGenerator` descends a
 datum from it there, in `datumOfTrivialization`; the map out of `ℒ` is a trivialization of `g^*ℒ`

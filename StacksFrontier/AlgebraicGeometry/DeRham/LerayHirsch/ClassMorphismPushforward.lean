@@ -162,7 +162,7 @@ theorem pushforwardComparisonQ_eq_app
   simp only [Stacks.Cohomology.CupProductAndDerivedPushforwardOnRingedSpaces.pushforwardComparisonQ,
     Stacks.DeRham.GysinCohomologyBaseChange.derivedPushforwardUnitQ, NatTrans.comp_app,
     Functor.whiskerLeft_app, Functor.whiskerRight_app, Functor.associator_hom_app,
-    Functor.associator_inv_app, e, Category.id_comp, Category.comp_id]
+    Functor.associator_inv_app, e, Category.id_comp]
   exact eq_comp_id_comp _ _ rfl
 
 /-- **The comparison `h_* ⟶ Rh_*` commutes with the shift**: at the translate `K[n]` it is the

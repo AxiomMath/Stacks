@@ -123,7 +123,7 @@ variable [∀ U : X.C, HasSheafify (X.J.over U) AddCommGrpCat.{w}]
   [HasDerivedCategory.{dY} (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))]
   [HasDerivedCategory.{dX} (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))]
 
-omit [∀ U : X.C, HasSheafify (X.J.over U) AddCommGrpCat.{w}]
+omit hFc [∀ U : X.C, HasSheafify (X.J.over U) AddCommGrpCat.{w}]
   [∀ U : X.C, (X.J.over U).WEqualsLocallyBijective AddCommGrpCat.{w}]
   [∀ W : Y.C, HasSheafify (Y.J.over W) AddCommGrpCat.{w}]
   [∀ W : Y.C, (Y.J.over W).WEqualsLocallyBijective AddCommGrpCat.{w}]

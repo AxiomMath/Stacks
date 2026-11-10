@@ -82,7 +82,7 @@ theorem bigFppfRestrictedRationalPointEquiv_comp {X Y : Over S}
     bigFppfRestrictedRationalPointEquiv B S hS Y
         (ξ ≫ (bigFppfRestrictedYoneda B S hS).map h) =
       bigFppfRestrictedRationalPointEquiv B S hS X ξ ≫ h := by
-  show yonedaEquiv (ξ ≫ (bigFppfRestrictedYoneda B S hS).map h) = yonedaEquiv ξ ≫ h
+  change yonedaEquiv (ξ ≫ (bigFppfRestrictedYoneda B S hS).map h) = yonedaEquiv ξ ≫ h
   rw [yonedaEquiv_comp]
   rfl
 
@@ -98,7 +98,7 @@ theorem yoneda_map_comp_bigFppfOverRestrictedYonedaIso_inv {W W' : BigFppfOver B
           ((Over.post (X := B.obj hS) B.inclusion).map g) := by
   ext X v
   change X.unop ⟶ W at v
-  show (Over.post (X := B.obj hS) B.inclusion).map (v ≫ g) =
+  change (Over.post (X := B.obj hS) B.inclusion).map (v ≫ g) =
     (Over.post (X := B.obj hS) B.inclusion).map v ≫
       (Over.post (X := B.obj hS) B.inclusion).map g
   rw [Functor.map_comp]

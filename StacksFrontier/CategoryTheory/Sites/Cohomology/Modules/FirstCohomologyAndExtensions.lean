@@ -255,10 +255,10 @@ theorem cohomologyDeltaFunctorAddCommGrp_isUniversal (R : Sheaf J RingCat.{u}) :
     (cohomologyDeltaFunctorAddCommGrp R).IsUniversal := by
   apply DeltaFunctor.isUniversal_of_isZero_injective
   intro n I hI
-  show IsZero ((moduleToLiftedAddCommGrp R).obj
+  change IsZero ((moduleToLiftedAddCommGrp R).obj
     (((universalCohomologyDeltaFunctor R).functor (n + 1)).obj I))
   rw [universalCohomologyDeltaFunctor_functor R (n + 1)]
-  show IsZero ((moduleToLiftedAddCommGrp R).obj
+  change IsZero ((moduleToLiftedAddCommGrp R).obj
     (((globalSectionsFunctor R).rightDerived (n + 1)).obj I))
   exact Functor.map_isZero (moduleToLiftedAddCommGrp R)
     (Functor.isZero_rightDerived_obj_injective_succ (globalSectionsFunctor R) n I)
@@ -417,7 +417,7 @@ theorem extOneEquivFirstCohomology_extClass (R : Sheaf J RingCat.{u})
         (Ext.mk₀ (𝟙 (SheafOfModules.unit R))) =
         ULift.up (𝟙 (SheafOfModules.unit R)) := by
       dsimp [extZeroIsoCoyoneda]
-      show ULift.up (Ext.addEquiv₀ (Ext.mk₀ (𝟙 (SheafOfModules.unit R)))) = _
+      change ULift.up (Ext.addEquiv₀ (Ext.mk₀ (𝟙 (SheafOfModules.unit R)))) = _
       rw [hExt]
     have h2 : ((unitCoyonedaSectionsIso R).hom.app (SheafOfModules.unit R))
         (((extZeroIsoCoyoneda R).hom.app (SheafOfModules.unit R))
@@ -425,7 +425,7 @@ theorem extOneEquivFirstCohomology_extClass (R : Sheaf J RingCat.{u})
         ULift.up ((SheafOfModules.unit R).unitHomEquiv (𝟙 _)) := by
       rw [h1]
       dsimp [unitCoyonedaSectionsIso]
-      show ULift.up ((SheafOfModules.unit R).unitHomEquiv (𝟙 _)) = _
+      change ULift.up ((SheafOfModules.unit R).unitHomEquiv (𝟙 _)) = _
       rfl
     have h3 : ((cohomologyZeroIsoAddCommGrp R).hom.app (SheafOfModules.unit R))
         (((unitCoyonedaSectionsIso R).hom.app (SheafOfModules.unit R))
@@ -434,11 +434,11 @@ theorem extOneEquivFirstCohomology_extClass (R : Sheaf J RingCat.{u})
         ULift.up ((cohomologyZeroMap R).app (SheafOfModules.unit R)
           ((SheafOfModules.unit R).unitHomEquiv (𝟙 _))) := by
       rw [h2]
-      show ULift.up ((cohomologyZeroMap R).app (SheafOfModules.unit R)
+      change ULift.up ((cohomologyZeroMap R).app (SheafOfModules.unit R)
         ((SheafOfModules.unit R).unitHomEquiv (𝟙 _))) = _
       rfl
     dsimp [extCohomologyDeltaZeroIso]
-    show ((cohomologyZeroIsoAddCommGrp R).hom.app (SheafOfModules.unit R))
+    change ((cohomologyZeroIsoAddCommGrp R).hom.app (SheafOfModules.unit R))
         (((unitCoyonedaSectionsIso R).hom.app (SheafOfModules.unit R))
           (((extZeroIsoCoyoneda R).hom.app (SheafOfModules.unit R))
             (Ext.mk₀ (𝟙 (SheafOfModules.unit R))))) = _
@@ -453,7 +453,7 @@ theorem extOneEquivFirstCohomology_extClass (R : Sheaf J RingCat.{u})
   rw [hzero] at h
   have hclass : (extDeltaFunctorForUnit R).δ hS 0
       (Ext.mk₀ (𝟙 (SheafOfModules.unit R))) = hS.extClass := by
-    show (Ext.mk₀ (𝟙 (SheafOfModules.unit R))).comp hS.extClass (zero_add 1) = hS.extClass
+    change (Ext.mk₀ (𝟙 (SheafOfModules.unit R))).comp hS.extClass (zero_add 1) = hS.extClass
     exact Ext.mk₀_id_comp _
   rw [hclass] at h
   rw [extOneEquivFirstCohomology_apply, ← h]

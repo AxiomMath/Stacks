@@ -140,7 +140,7 @@ theorem exists_hasSemistableReductionAtMaximalIdeals_of_local
     have hA : IsUnit (ℓ : A) := by
       simpa using (hℓR.map (algebraMap R (integralClosure R K'))).map
         (algebraMap (integralClosure R K') A)
-    show (ℓ : IsLocalRing.ResidueField A) ≠ 0
+    change (ℓ : IsLocalRing.ResidueField A) ≠ 0
     rwa [← map_natCast (IsLocalRing.residue A), IsLocalRing.residue_ne_zero_iff_isUnit]
   have hτ : Nonempty (AddSubgroup.torsionBy (Stacks.Picard.ofScheme S.C) (ℓ : ℤ) ≃+
       (Fin (2 * genus S.C_to_K) → ZMod ℓ)) := by

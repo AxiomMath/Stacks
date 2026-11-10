@@ -92,7 +92,7 @@ theorem _root_.TopologicalSpace.Opens.exists_map_obj_eq_of_isClosedEmbedding (U 
   obtain ⟨W', hW'o, hW'⟩ := hf.isInducing.isOpen_iff.1 W.isOpen
   refine ⟨⟨W', hW'o⟩ ⊓ U, inf_le_right, ?_⟩
   ext x
-  show x ∈ f ⁻¹' W' ∧ f x ∈ U ↔ x ∈ W
+  change x ∈ f ⁻¹' W' ∧ f x ∈ U ↔ x ∈ W
   rw [hW']
   exact ⟨fun h => h.1, fun h => ⟨h, hW h⟩⟩
 
@@ -424,7 +424,7 @@ theorem smul_idealQuotientBySquare_eq_zero (U : (Opens Y.carrier)ᵒᵖ)
   refine (Stacks.SheafOfModules.isSheaf_forgetPresheaf (idealQuotientBySquare Y I) _
     (hπ.imageSieve_mem (U := U.unop) m)).isSeparatedFor.ext fun V g hg => ?_
   obtain ⟨t, ht⟩ := hg
-  show (idealQuotientBySquare Y I).val.map g.op (a • m) =
+  change (idealQuotientBySquare Y I).val.map g.op (a • m) =
     (idealQuotientBySquare Y I).val.map g.op 0
   rw [map_zero, PresheafOfModules.map_smul]
   have ht' : (cokernel.π (idealSquareInclusion Y I)).val.app (op V) t =

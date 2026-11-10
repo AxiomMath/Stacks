@@ -211,13 +211,15 @@ def fppfComparisonInverseImageSquareIso :
       (fppfOverMorphism f).adj)).symm
       (fppfComparisonPushforwardSquareIso f)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- Synthesising the pointwise left Kan extension instance needs the limits of presheaves on
+-- `BigFppfOver`, which times out under the default `synthInstance.maxHeartbeats`.
 /-- Restriction of sheaves along `Over.map f : Spaces/Y ⥤ Spaces/X` is a right adjoint. -/
 instance isRightAdjoint_overMap_sheafPushforwardContinuous_fppf :
     ((Over.map f).sheafPushforwardContinuous (Type (u + 1))
       ((fppfTopology B S hS).over Y) ((fppfTopology B S hS).over X)).IsRightAdjoint :=
   haveI : ∀ F : (Over Y)ᵒᵖ ⥤ Type (u + 1), (Over.map f).op.HasPointwiseLeftKanExtension F :=
-    fun _ ↦ by
-      set_option synthInstance.maxHeartbeats 400000 in exact inferInstance
+    fun _ ↦ inferInstance
   ⟨_, ⟨Functor.sheafPullbackConstruction.sheafAdjunctionContinuous (Over.map f) (Type (u + 1))
     ((fppfTopology B S hS).over Y) ((fppfTopology B S hS).over X)⟩⟩
 

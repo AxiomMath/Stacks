@@ -816,10 +816,10 @@ public theorem exists_tangent_generating_object
     (𝓕 : BasedCategory.{vF, uF} (ArtinianLocalAlgCat.{u, max v w, w} Λ k))
     (hpre : IsPredeformationCategory.{u, v, w} 𝓕.p)
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 hpre.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓕 hpre.cofibered)))
     [Fact (IsPredeformationCategory.{u, v, w} 𝓕.p)]
     [Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 hpre.cofibered)))]
+      (Functor.Elements.π (isomorphismClasses 𝓕 hpre.cofibered)))]
     [FiniteDimensional k (tangentSpaceArtinian.{u, w, v} Λ k
       (isomorphismClasses 𝓕 hpre.cofibered))] :
     ∃ (d : ℕ) (x : 𝓕.obj), ∃ _hx : 𝓕.p.obj x =
@@ -972,7 +972,7 @@ private theorem exists_mvPowerSeries_lift_of_formallySmooth
   have hgC (r : R) : g (MvPowerSeries.C r) = f.hom (c r) :=
     (DFunLike.congr_fun hc r).symm
   have hfac : f.hom.comp hA = g := by
-    apply AlgHom.coe_ringHom_injective
+    apply AlgHom.toRingHom_injective
     apply MvPowerSeries.hom_ext_of_isNilpotent d
     · intro r
       change f.hom (h (MvPowerSeries.C r)) = g (MvPowerSeries.C r)
@@ -1449,7 +1449,7 @@ private theorem associatedMorphism_mapIsomorphismClasses_classOf
         (categoryOfElements_projection_isCofibered (restrictedCoyoneda ξ.base)) hp
         M.toBasedFunctor α.1
         (classOf (BasedCategory.ofFunctor
-          (CategoryOfElements.π (restrictedCoyoneda ξ.base)))
+          (Functor.Elements.π (restrictedCoyoneda ξ.base)))
           (categoryOfElements_projection_isCofibered (restrictedCoyoneda ξ.base))
           ⟨α, rfl⟩) =
       (isomorphismClasses (BasedCategory.ofFunctor p) hp).map (M.factor α)
@@ -1781,7 +1781,7 @@ public theorem exists_formalObject_differential_surjective_and_level_lifts
     (hS2 : SchlessingerConditionS2 𝓕.p)
     [Fact (IsPredeformationCategory.{u, v, w} 𝓕.p)]
     [Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 hpre.cofibered)))]
+      (Functor.Elements.π (isomorphismClasses 𝓕 hpre.cofibered)))]
     [FiniteDimensional k (tangentSpaceArtinian.{u, w, v} Λ k
       (isomorphismClasses 𝓕 hpre.cofibered))] :
     ∃ ξ : FormalObject 𝓕.p,
@@ -1988,7 +1988,7 @@ public theorem exists_versalFormalObject
     (hfin :
       letI : Fact (IsPredeformationCategory.{u, v, w} 𝓕.p) := ⟨hpre⟩
       letI : Fact (SchlessingerConditionS2
-          (CategoryOfElements.π (isomorphismClasses 𝓕 hpre.cofibered))) :=
+          (Functor.Elements.π (isomorphismClasses 𝓕 hpre.cofibered))) :=
         ⟨schlessingerConditionS2_of_isIsomorphismClasses 𝓕 hpre.cofibered hS2 (Or.inl hpre)⟩
       FiniteDimensional k (tangentSpaceArtinian.{u, w, v} Λ k
         (isomorphismClasses 𝓕 hpre.cofibered))) :
@@ -1996,7 +1996,7 @@ public theorem exists_versalFormalObject
   classical
   let : Fact (IsPredeformationCategory.{u, v, w} 𝓕.p) := ⟨hpre⟩
   let : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 hpre.cofibered))) :=
+      (Functor.Elements.π (isomorphismClasses 𝓕 hpre.cofibered))) :=
     ⟨schlessingerConditionS2_of_isIsomorphismClasses 𝓕 hpre.cofibered hS2 (Or.inl hpre)⟩
   let : FiniteDimensional k (tangentSpaceArtinian.{u, w, v} Λ k
     (isomorphismClasses 𝓕 hpre.cofibered)) := hfin

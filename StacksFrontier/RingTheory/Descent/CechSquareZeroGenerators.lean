@@ -59,7 +59,7 @@ lemma moduleOfSurjective_smul (π : B →+* B₁) (hπ : Function.Surjective π)
     (hM : Module.IsTorsionBySet B M (RingHom.ker π)) (β : B) (m : M) :
     (moduleOfSurjective π hπ hM).toSMul.smul (π β) m = β • m := by
   let := hM.module
-  show ((RingHom.quotientKerEquivOfSurjective hπ).symm (π β)) • m = β • m
+  change ((RingHom.quotientKerEquivOfSurjective hπ).symm (π β)) • m = β • m
   have : (RingHom.quotientKerEquivOfSurjective hπ).symm (π β) = Ideal.Quotient.mk _ β := by
     rw [RingEquiv.symm_apply_eq]; rfl
   rw [this]
@@ -377,7 +377,7 @@ theorem bijective_cechComparison_ideal {p₁ p₂ : B →+* C} (hp₂ : p₂.Fla
       congr 1
       exact Subtype.ext (hφ₂ _)
     · intro c
-      show cechComparison φ₂ (Ψ (c • (0 : N.map p₂))) = c • (0 : N.map p₂)
+      change cechComparison φ₂ (Ψ (c • (0 : N.map p₂))) = c • (0 : N.map p₂)
       simp
     · intro x y hx hy ihx ihy c
       have e : (⟨x + y, Submodule.add_mem _ hx hy⟩ : N.map p₂) = ⟨x, hx⟩ + ⟨y, hy⟩ := rfl

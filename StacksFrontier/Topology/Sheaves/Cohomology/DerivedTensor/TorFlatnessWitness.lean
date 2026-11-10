@@ -61,7 +61,7 @@ this is `AlgebraicGeometry.SheafOfModules.sheafTensorRight_exact_iff_preservesMo
 read at a ringed space. -/
 theorem flat_iff_isFlat {X : RingedSpace.{u, u}} (F : OXMod.{u, u} X) :
     OXModule.Flat F ↔ AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := X.sheaf) F := by
-  show (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf).flip.obj
+  change (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf).flip.obj
       F)).PreservesMonomorphisms ↔ _
   exact
     (AlgebraicGeometry.SheafOfModules.sheafTensorRight_exact_iff_preservesMonomorphisms

@@ -139,7 +139,7 @@ public theorem relativeSingularIdeal_comap_etale {X Y S : Scheme.{u}} (f : X ⟶
   have : LocallyOfFiniteType (g ≫ f) :=
     MorphismProperty.comp_mem _ g f inferInstance inferInstance
   have hiso := Scheme.Hom.isIso_relativeDifferentialsMap_of_comp g f
-  show (fittingIdeal (Scheme.Hom.relativeDifferentials f) 1).comap g =
+  change (fittingIdeal (Scheme.Hom.relativeDifferentials f) 1).comap g =
     fittingIdeal (Scheme.Hom.relativeDifferentials (g ≫ f)) 1
   rw [fittingIdeal_comap g (Scheme.Hom.relativeDifferentials f) 1]
   exact fittingIdeal_congr (asIso (Scheme.Hom.relativeDifferentialsMap g f (g ≫ f) (𝟙 S)

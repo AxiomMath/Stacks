@@ -239,7 +239,7 @@ private lemma projResComplex_quasiIso (N : ModuleCat.{u} S) :
     QuasiIso ((ProjectiveResolution.of N).π' :
       FaithfullyFlat.projResComplex N ⟶
         (CochainComplex.singleFunctor (ModuleCat.{u} S) 0).obj N) := by
-  show QuasiIso (HomologicalComplex.extendMap (ProjectiveResolution.of N).π
+  change QuasiIso (HomologicalComplex.extendMap (ProjectiveResolution.of N).π
     ComplexShape.embeddingDownNat ≫ _)
   have hπ : QuasiIso (ProjectiveResolution.of N).π := ProjectiveResolution.quasiIso _
   have hπ' : QuasiIso (HomologicalComplex.extendMap (ProjectiveResolution.of N).π
@@ -643,7 +643,7 @@ theorem relativeStalkIso_inv_comp (q : PrimeSpectrum A) :
       ((specMap R A).stalkMap q ≫ (Spec.stalkIso (CommRingCat.of A) q).hom) =
       CommRingCat.ofHom (Localization.localRingHom (Ideal.under R q.asIdeal) q.asIdeal
         (algebraMap R A) rfl) := by
-    show (Spec.stalkIso (CommRingCat.of R) (PrimeSpectrum.comap (algebraMap R A) q)).inv ≫
+    change (Spec.stalkIso (CommRingCat.of R) (PrimeSpectrum.comap (algebraMap R A) q)).inv ≫
         ((specMap R A).stalkMap q ≫ (Spec.stalkIso (CommRingCat.of A) q).hom) =
         CommRingCat.ofHom (Localization.localRingHom
           (PrimeSpectrum.comap (algebraMap R A) q).asIdeal q.asIdeal (algebraMap R A) rfl)

@@ -119,10 +119,10 @@ private theorem mem_comap_pow_smul_top (A : Type u) [CommRing A] (I : Ideal A)
     · intro b hb y _
       rw [comap_uliftRingEquiv_pow] at hb
       have hb' : b.down ∈ I ^ n := hb
-      show b.down • y.down ∈ I ^ n • (⊤ : Submodule A (M : Type u))
+      change b.down • y.down ∈ I ^ n • (⊤ : Submodule A (M : Type u))
       exact Submodule.smul_mem_smul hb' Submodule.mem_top
     · intro y z hy hz
-      show y.down + z.down ∈ I ^ n • (⊤ : Submodule A (M : Type u))
+      change y.down + z.down ∈ I ^ n • (⊤ : Submodule A (M : Type u))
       exact Submodule.add_mem _ hy hz
   · intro hx
     have key : ∀ y : (M : Type u), y ∈ I ^ n • (⊤ : Submodule A (M : Type u)) →
@@ -268,7 +268,7 @@ theorem map_mkQ_comp_uliftAdicQuotientModuleSystemIso (A : Type u) [CommRing A] 
       uliftAdicQuotientInvMap A I M n := rfl
   have hcancel := (uliftAdicQuotientModuleSystemIso A I M).hom_inv_id_app (⟨n⟩ : ℕᵒᵖ)
   rw [happ] at hcancel
-  show uliftQuotientSurjection A I M n ≫
+  change uliftQuotientSurjection A I M n ≫
       (uliftAdicQuotientModuleSystemIso A I M).hom.app (⟨n⟩ : ℕᵒᵖ) = uliftTowerMkQ A I M n
   rw [← cancel_mono (uliftAdicQuotientInvMap A I M n), Category.assoc, hcancel,
     Category.comp_id]

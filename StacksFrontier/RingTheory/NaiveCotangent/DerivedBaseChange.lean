@@ -104,10 +104,7 @@ private lemma cotangent_baseChange_surjective
     rw [← P.ker_baseChange T]
     exact x.2
   obtain ⟨y, hy⟩ := P.ker.map_includeRight_eq.le hx
-  induction y using TensorProduct.induction_on generalizing x with
-  | zero =>
-      obtain rfl : x = 0 := Subtype.ext hy.symm
-      exact ⟨0, by simp⟩
+  induction y using TensorProduct.inductionOn generalizing x with
   | add y z iy iz =>
       let xy : (P.baseChange (T := T)).ker :=
         ⟨(LinearMap.lTensor T (P.ker.restrictScalars R).subtype) y, by
@@ -123,7 +120,7 @@ private lemma cotangent_baseChange_surjective
       rw [map_add, ha, hb, ← map_add]
       congr 1
       apply Subtype.ext
-      show (LinearMap.lTensor T (P.ker.restrictScalars R).subtype) y +
+      change (LinearMap.lTensor T (P.ker.restrictScalars R).subtype) y +
         (LinearMap.lTensor T (P.ker.restrictScalars R).subtype) z = x.1
       simpa using hy
   | tmul t z =>
@@ -147,20 +144,20 @@ private lemma cotangent_baseChange_surjective
           (LinearMap.lTensor T (P.ker.restrictScalars R).subtype) (t ⊗ₜ[R] z) =
             r * (P.toBaseChange T).toRingHom z.1 := by
         simp only [LinearMap.lTensor_tmul]
-        show (t ⊗ₜ[R] (z : P.Ring)) =
+        change (t ⊗ₜ[R] (z : P.Ring)) =
           (t ⊗ₜ[R] (1 : P.Ring)) * (1 ⊗ₜ[R] (z : P.Ring))
         simp
       rw [LinearMap.lTensor_tmul] at hmul
       rw [hmul]
-      show (P.baseChange.σ (t ⊗ₜ[R] (1 : S)) *
+      change (P.baseChange.σ (t ⊗ₜ[R] (1 : S)) *
         (P.toBaseChange T).toRingHom z.1 -
         r * (P.toBaseChange T).toRingHom z.1) ∈ P.baseChange.ker ^ 2
       rw [← sub_mul, pow_two]
       apply Ideal.mul_mem_mul
-      · show algebraMap P.baseChange.Ring (T ⊗[R] S)
+      · change algebraMap P.baseChange.Ring (T ⊗[R] S)
           (P.baseChange.σ (t ⊗ₜ[R] (1 : S)) - r) = 0
         rw [map_sub, P.baseChange.algebraMap_σ]
-        show (t ⊗ₜ[R] (1 : S)) -
+        change (t ⊗ₜ[R] (1 : S)) -
           (Algebra.TensorProduct.map (AlgHom.id T T)
             (IsScalarTower.toAlgHom R P.Ring S)) (t ⊗ₜ[R] (1 : P.Ring)) = 0
         simp
@@ -176,7 +173,7 @@ private lemma cotangent_map_surjective_of_ring_surjective
   obtain ⟨x, rfl⟩ := Algebra.Extension.Cotangent.mk_surjective x
   obtain ⟨y, hy⟩ := hf x.1
   have hyker : y ∈ P.ker := by
-    show algebraMap P.Ring S y = 0
+    change algebraMap P.Ring S y = 0
     have h := f.algebraMap_toRingHom y
     have hx : algebraMap Q.Ring S x.1 = 0 := x.2
     rw [hy] at h
@@ -209,22 +206,22 @@ lemma cotangentSpace_baseChange_bijective
     simp only [f, b, b', Module.Basis.baseChange_apply,
       LinearMap.liftBaseChange_tmul, one_smul]
     rw [P.cotangentSpaceBasis_apply, P'.cotangentSpaceBasis_apply]
-    show (Algebra.Extension.CotangentSpace.map h)
+    change (Algebra.Extension.CotangentSpace.map h)
       ((1 : S) ⊗ₜ[P.toExtension.Ring]
         KaehlerDifferential.D R P.toExtension.Ring (MvPolynomial.X i)) = _
     rw [Algebra.Extension.CotangentSpace.map_tmul]
     have hXi : h.toAlgHom (MvPolynomial.X i) = (MvPolynomial.X i : P'.Ring) := by
-      show (MvPolynomial.algebraTensorAlgEquiv R T)
+      change (MvPolynomial.algebraTensorAlgEquiv R T)
         (1 ⊗ₜ[R] (MvPolynomial.X i)) = _
       simp [MvPolynomial.algebraTensorAlgEquiv_tmul]
     rw [hXi]
     simp
   have hf : f = b'.repr.symm.toLinearMap ∘ₗ b.repr.toLinearMap := by
     refine b.ext fun i ↦ ?_
-    show f (b i) = b'.repr.symm (b.repr (b i))
+    change f (b i) = b'.repr.symm (b.repr (b i))
     rw [b.repr_self, b'.repr_symm_single_one]
     exact hb i
-  show Function.Bijective f
+  change Function.Bijective f
   rw [hf]
   exact (b.repr.trans b'.repr.symm).bijective
 
@@ -243,7 +240,7 @@ private lemma cotangent_generators_baseChange_surjective
       Algebra.Extension.Cotangent.map g ∘ₗ
         (Algebra.Extension.Cotangent.map (P.toExtension.toBaseChange T)).liftBaseChange S' := by
     rw [LinearMap.liftBaseChange_comp, ← Algebra.Extension.Cotangent.map_comp]
-  show Function.Surjective ((Algebra.Extension.Cotangent.map h).liftBaseChange S')
+  change Function.Surjective ((Algebra.Extension.Cotangent.map h).liftBaseChange S')
   rw [heq]
   exact (cotangent_map_surjective_of_ring_surjective g
     (MvPolynomial.algebraTensorAlgEquiv R T).surjective).comp
@@ -261,8 +258,7 @@ private lemma cotangentComplex_comp_liftBaseChange
         AlgebraTensorModule.lTensor U U P.cotangentComplex := by
   apply LinearMap.ext
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [LinearMap.comp_apply, map_add, hx, hy]
   | tmul s x =>
     simp only [LinearMap.comp_apply, LinearMap.liftBaseChange_tmul,
@@ -310,22 +306,22 @@ private lemma intrinsic_toKaehler_baseChange
   apply b.ext
   intro i
   simp only [LinearMap.comp_apply, b, Module.Basis.baseChange_apply]
-  show Pc'.toExtension.toKaehler
+  change Pc'.toExtension.toKaehler
       (fc₀ (1 ⊗ₜ[S] Pc.cotangentSpaceBasis i)) =
     (KaehlerDifferential.tensorKaehlerEquiv R T S S')
       (1 ⊗ₜ[S] Pc.toExtension.toKaehler (Pc.cotangentSpaceBasis i))
   rw [LinearMap.liftBaseChange_tmul, one_smul, Pc.toKaehler_cotangentSpaceBasis,
     KaehlerDifferential.tensorKaehlerEquiv_tmul_D, Pc.cotangentSpaceBasis_apply]
-  show Pc'.toExtension.toKaehler
+  change Pc'.toExtension.toKaehler
     ((Algebra.Extension.CotangentSpace.map hc)
       ((1 : S) ⊗ₜ[Pc.toExtension.Ring]
         KaehlerDifferential.D R Pc.toExtension.Ring (MvPolynomial.X i))) = _
   rw [Algebra.Extension.CotangentSpace.map_tmul]
   have hh : hc.toAlgHom (MvPolynomial.X i) =
       MvPolynomial.X (algebraMap S S' i) := by
-    show (Pc.defaultHom Pc').toAlgHom (MvPolynomial.X i) = _
+    change (Pc.defaultHom Pc').toAlgHom (MvPolynomial.X i) = _
     rw [Algebra.Generators.Hom.toAlgHom_X]
-    show Pc'.σ (algebraMap S S' (Pc.val i)) = _
+    change Pc'.σ (algebraMap S S' (Pc.val i)) = _
     simp [Pc, Pc']
   rw [hh]
   simpa [Pc, Pc'] using Pc'.toKaehler_tmul_D (algebraMap S S' i)
@@ -372,8 +368,7 @@ public lemma cotangent_maps_agree_on_tensored_cycles
         AlgebraTensorModule.lTensor U U P.cotangentComplex := by
     apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp only [LinearMap.comp_apply, map_add, hx, hy]
     | tmul u z =>
         have hz := DFunLike.congr_fun (Algebra.Extension.Cotangent.map_sub_map f g) z
@@ -413,7 +408,7 @@ private lemma intrinsic_cycle_surjective
     (cotangent_generators_baseChange_square Pc)
     (cotangentSpace_baseChange_bijective Pc)
     (cotangent_generators_baseChange_surjective Pc)
-  show ∀ y : Pc'.toExtension.Cotangent,
+  change ∀ y : Pc'.toExtension.Cotangent,
     Pc'.toExtension.cotangentComplex y = 0 → ∃ x, dc x = 0 ∧ fc₁ x = y
   intro y hy
   let yy : Pc'.toExtension.H1Cotangent := ⟨y, hy⟩

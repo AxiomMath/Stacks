@@ -62,7 +62,7 @@ namespace Stacks.Trace
 
 section Span
 
-variable (B K L : Type*) [CommRing B] [IsDomain B] [Field K] [Field L] [Algebra B L]
+variable (B K L : Type*) [CommRing B] [Field K] [Field L] [Algebra B L]
   [IsFractionRing B L] [Algebra K L] [Module.Finite K L]
 
 /-- The image of a domain `B` in a fraction field `L` of `B` spans `L` over any subfield `K` for

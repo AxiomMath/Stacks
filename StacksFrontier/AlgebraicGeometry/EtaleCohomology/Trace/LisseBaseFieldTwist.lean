@@ -109,7 +109,7 @@ theorem etaleFundamentalGroupMulEquiv_finiteFieldFrobenius {z z' : GeometricPoin
   apply Iso.ext
   apply NatTrans.ext
   funext V
-  show t.inv.app V ≫ (finiteFieldFrobenius p q hcard z).asIso.hom.app V ≫ t.hom.app V =
+  change t.inv.app V ≫ (finiteFieldFrobenius p q hcard z).asIso.hom.app V ≫ t.hom.app V =
     (finiteFieldFrobenius p q hcard z').asIso.hom.app V
   rw [finiteFieldFrobenius_hom_app, finiteFieldFrobenius_hom_app, t.hom.naturality,
     Iso.inv_hom_id_app_assoc]
@@ -132,20 +132,20 @@ theorem inv_finiteFieldFrobenius_hom :
   ext w
   have hinv' : ∀ v, σ.asIso.inv.app V (σ.asIso.hom.app V v) = v := fun v =>
     ConcreteCategory.congr_hom (σ.asIso.app V).hom_inv_id v
-  show σ.asIso.inv.app V w = (finiteEtaleFiberMap _).app V w
+  change σ.asIso.inv.app V w = (finiteEtaleFiberMap _).app V w
   rw [← hinv' ((finiteEtaleFiberMap (galoisPointHom kbar (arithmeticFrobenius k kbar p q hcard).symm
     (𝟙 (Spec (.of k))))).app V w)]
   congr 1
   apply Subtype.ext
   symm
-  show (frobeniusSourceIso p q (baseFieldGeometricPoint kbar)).hom ≫
+  change (frobeniusSourceIso p q (baseFieldGeometricPoint kbar)).hom ≫
       Spec.map (CommRingCat.ofHom (arithmeticFrobenius k kbar p q hcard).symm.toAlgHom.toRingHom) ≫
         w.1 = w.1
   rw [frobeniusSourceIso_hom, ← Category.assoc, ← Spec.map_comp, ← CommRingCat.ofHom_comp]
   have hid : (iterateFrobenius kbar p q).comp
       (arithmeticFrobenius k kbar p q hcard).symm.toAlgHom.toRingHom = RingHom.id kbar := by
     ext a
-    show ((arithmeticFrobenius k kbar p q hcard).symm a) ^ p ^ q = a
+    change ((arithmeticFrobenius k kbar p q hcard).symm a) ^ p ^ q = a
     rw [← hcard, ← arithmeticFrobenius_apply k kbar p q hcard, AlgEquiv.apply_symm_apply]
   rw [hid, CommRingCat.ofHom_id, Spec.map_id, Category.id_comp]
 

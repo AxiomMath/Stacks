@@ -90,7 +90,7 @@ theorem exists_sigma_lift {L : Type u} (ξ : L → EtaleSmoothLift B S hS ι hι
   have hincl : ∀ l, (ξ l).inclusion ≫ e l = (ιX l).hom.left ≫ incl := by
     intro l
     refine ObjectProperty.hom_ext _ ?_
-    show (ξ l).inclusion.hom ≫ (iA l).inv ≫ yoneda.map (cA l) =
+    change (ξ l).inclusion.hom ≫ (iA l).inv ≫ yoneda.map (cA l) =
       ((iN l).inv ≫ yoneda.map (cN l)) ≫ yoneda.map incV
     rw [Category.assoc, ← Functor.map_comp, hinc, Functor.map_comp, hil]
     simp
@@ -100,9 +100,9 @@ theorem exists_sigma_lift {L : Type u} (ξ : L → EtaleSmoothLift B S hS ι hι
     refine Space.isPullback_of_isPullback_hom B S hS ?_
     refine h.of_iso (iN l) (iA l) (Iso.refl _) (Iso.refl _) ?_ ?_ ?_ ?_
     · rw [hil]; simp
-    · show yoneda.map (cN l) ≫ 𝟙 _ = (iN l).hom ≫ ((iN l).inv ≫ yoneda.map (cN l))
+    · change yoneda.map (cN l) ≫ 𝟙 _ = (iN l).hom ≫ ((iN l).inv ≫ yoneda.map (cN l))
       simp
-    · show yoneda.map (cA l) ≫ 𝟙 _ = (iA l).hom ≫ ((iA l).inv ≫ yoneda.map (cA l))
+    · change yoneda.map (cA l) ≫ 𝟙 _ = (iA l).hom ≫ ((iA l).inv ≫ yoneda.map (cA l))
       simp
     · simp; rfl
   have he : Space.IsEtaleCovering B S hS (fun l => (ξ l).ambient.obj) (fun l => (e l).hom) :=
@@ -176,7 +176,7 @@ theorem exists_sigma_lift {L : Type u} (ξ : L → EtaleSmoothLift B S hS ι hι
       γ := fun l => inv (ψ l)
       coherence := hcoh }
   refine ⟨⟨GD.glue, rfl⟩, GD.glueHom, fun l => ?_⟩
-  show (proj : EtaleSmoothLift B S hS ι hι W x hx ⥤ _).IsHomLift
+  change (proj : EtaleSmoothLift B S hS ι hι W x hx ⥤ _).IsHomLift
     ((proj : EtaleSmoothLift B S hS ι hι W x hx ⥤ _).map (GD.glueHom l)) (GD.glueHom l)
   infer_instance
 

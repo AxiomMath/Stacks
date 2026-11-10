@@ -354,16 +354,16 @@ private theorem universallyClosed_of_arrowIso
   intro Z hZ a
   let a' := a ≫ e.hom.right
   let : IsIso e.hom.left := by
-    show IsIso (Arrow.leftFunc.mapIso e).hom
+    change IsIso (Arrow.leftFunc.mapIso e).hom
     infer_instance
   let : IsIso e.hom.right := by
-    show IsIso (Arrow.rightFunc.mapIso e).hom
+    change IsIso (Arrow.rightFunc.mapIso e).hom
     infer_instance
   let p : pullback a f ≅ pullback a' f' :=
     asIso (pullback.map a f a' f' (𝟙 Z) e.hom.left e.hom.right
       (by simp [a']) e.hom.w.symm)
   have hp : p.hom ≫ pullback.fst a' f' = pullback.fst a f := by
-    show (pullback.map a f a' f' (𝟙 Z) e.hom.left e.hom.right
+    change (pullback.map a f a' f' (𝟙 Z) e.hom.left e.hom.right
       (by simp [a']) e.hom.w.symm) ≫ pullback.fst a' f' = pullback.fst a f
     dsimp only [pullback.map]
     rw [pullback.lift_fst, Category.comp_id]
@@ -460,11 +460,11 @@ private theorem relativeDimensionLE_of_relocalize
         (pointsOverLargerBaseEquiv B S S' hS hS' g (yoneda.obj c.U) p) =
           p'.class B S' hS' _ at h
       rw [← h, ← Space.pointsMap_comp_apply, Iso.inv_hom_id, Space.pointsMap_id_apply]
-    show Space.pointsMap B S' hS' _
+    change Space.pointsMap B S' hS' _
       ((relocalizedYonedaIso g c.U).hom ≫ R.map c.a)
       (p'.class B S' hS' _) = ex x
     rw [Space.pointsMap_comp_apply, hp]
-    show Space.pointsMap B S' hS' _ (R.map c.a)
+    change Space.pointsMap B S' hS' _ (R.map c.a)
       (pointsOverLargerBaseEquiv B S S' hS hS' g (yoneda.obj c.U) p) = ex x
     rw [← pointsOverLargerBaseEquiv_naturality, c.maps_to]
   let c' : Space.EtaleChartAtPoint B S' hS' (R.map f.hom) (ex x) := {

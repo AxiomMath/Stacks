@@ -101,7 +101,7 @@ theorem exists_eval_comb {I : Type w} [Fintype I] {N : SheafOfModules.{w} R}
   have h1 := congrArg (fun z ↦ π.val.app X z) (free_eval_eq_sum (R := R) (I := I) y)
   rw [map_sum] at h1
   refine h1.trans (Finset.sum_congr rfl fun j _ ↦ ?_)
-  show (SheafOfModules.ιFree (R := R) j ≫ π).val.app X _ = _
+  change (SheafOfModules.ιFree (R := R) j ≫ π).val.app X _ = _
   rw [← SheafOfModules.unitHomEquiv_symm_freeHomEquiv_apply π j]
   rfl
 

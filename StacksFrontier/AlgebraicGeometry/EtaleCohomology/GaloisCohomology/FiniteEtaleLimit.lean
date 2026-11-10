@@ -197,9 +197,9 @@ theorem ofHom_etaleCohomologyPullback_ofCoconeLeg_comp
   ext y
   exact etaleCohomologyPullback_ofCoconeLeg_comp ι hι c g hg a G q y
 
+set_option maxHeartbeats 1000000 in
 -- The kernel check of the final step (identifying the zero of `AddCommGrpCat.of (Sheaf.H _ q)`
 -- with that of `Sheaf.H _ q`) needs more than the default heartbeats.
-set_option maxHeartbeats 1000000 in
 include hι hg in
 /-- **Injectivity on the limit from injectivity at the stages.** If the cohomology of the system of
 inverse images `ι_i⁻¹ G` has the cohomology of `g⁻¹ G` as colimit and every pullback

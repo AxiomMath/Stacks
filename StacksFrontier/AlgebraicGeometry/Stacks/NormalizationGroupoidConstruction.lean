@@ -81,7 +81,7 @@ noncomputable def ptMk (T : (BigFppfOver C S hS)ᵒᵖ) (x : X.obj T) (y : Y.obj
 @[simp]
 theorem ptMk_fst (T : (BigFppfOver C S hS)ᵒᵖ) (x : X.obj T) (y : Y.obj T)
     (h : f.app T x = g.app T y) : (pullback.fst f g).app T (ptMk f g T x y h) = x := by
-  show ((pullbackObjIso f g T).inv ≫ (pullback.fst f g).app T) _ = x
+  change ((pullbackObjIso f g T).inv ≫ (pullback.fst f g).app T) _ = x
   rw [pullbackObjIso_inv_comp_fst]
   exact Types.pullbackIsoPullback_inv_fst_apply (f.app T) (g.app T) ⟨(x, y), h⟩
 
@@ -89,7 +89,7 @@ theorem ptMk_fst (T : (BigFppfOver C S hS)ᵒᵖ) (x : X.obj T) (y : Y.obj T)
 @[simp]
 theorem ptMk_snd (T : (BigFppfOver C S hS)ᵒᵖ) (x : X.obj T) (y : Y.obj T)
     (h : f.app T x = g.app T y) : (pullback.snd f g).app T (ptMk f g T x y h) = y := by
-  show ((pullbackObjIso f g T).inv ≫ (pullback.snd f g).app T) _ = y
+  change ((pullbackObjIso f g T).inv ≫ (pullback.snd f g).app T) _ = y
   rw [pullbackObjIso_inv_comp_snd]
   exact Types.pullbackIsoPullback_inv_snd_apply (f.app T) (g.app T) ⟨(x, y), h⟩
 
@@ -308,7 +308,7 @@ theorem compose_eq (T : (BigFppfOver C S hS)ᵒᵖ) (a b : G.arrows.obj.obj T)
     (h : G.source.hom.app T a = G.target.hom.app T b) :
     G.toGroupoidInFunctors.compose T a b h =
       G.comp.hom.app T (ptMk G.source.hom G.target.hom T a b h) := by
-  show G.comp.hom.app T ((composableToPullback G.source.hom G.target.hom).app T ⟨(a, b), h⟩) = _
+  change G.comp.hom.app T ((composableToPullback G.source.hom G.target.hom).app T ⟨(a, b), h⟩) = _
   congr 1
   apply pt_ext _ _ T
   · rw [pullbackFst_app_composableToPullback, ptMk_fst]
@@ -329,7 +329,7 @@ omit hfin in
 theorem comp_hom_target :
     G.comp.hom ≫ G.target.hom = pullback.fst G.source.hom G.target.hom ≫ G.target.hom := by
   ext T p
-  show G.target.hom.app T (G.comp.hom.app T p) =
+  change G.target.hom.app T (G.comp.hom.app T p) =
     G.target.hom.app T ((pullback.fst G.source.hom G.target.hom).app T p)
   rw [← ptMk_eta G T p, ← compose_eq, ptMk_fst]
   exact (G.toGroupoidInFunctors.pointwiseData T).target_comp _ _ _
@@ -659,7 +659,7 @@ theorem isSmooth : GroupoidInAlgebraicSpaces.IsSmooth C S hS (groupoid G hG hfin
 theorem isPullback_source :
     IsPullback (hom G hG hfin).toGroupoidHom.mapArrows (groupoid G hG hfin).source.hom
       G.source.hom (hom G hG hfin).toGroupoidHom.mapObjects := by
-  show IsPullback (proj G hfin) (src G hfin) G.source.hom (data G hfin).hom
+  change IsPullback (proj G hfin) (src G hfin) G.source.hom (data G hfin).hom
   exact (IsPullback.of_hasPullback (data G hfin).hom G.source.hom).flip
 
 end AlgebraicGeometry.GroupoidInAlgebraicSpaces.Normalized

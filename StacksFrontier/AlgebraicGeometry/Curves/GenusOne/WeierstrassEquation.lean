@@ -152,7 +152,7 @@ theorem exists_weierstrassCurve_iso [IsProper f] [SmoothOfRelativeDimension 1 f]
     have hz : (weierstrassGradedHom (Stacks.AmpleFiniteAvoidance.grading L) C φ hker
         (algebraMap_mem_grading_zero L k) hv) (coordOf C 2) =
         DirectSum.of (powSections L) 1 (pointSection hx 3) := by
-      show φ (MvPolynomial.X 2) = _
+      change φ (MvPolynomial.X 2) = _
       rw [hφ, MvPolynomial.aeval_X]
       rfl
     rw [hz, Stacks.SectionRingProjMorphism.projHomOfIsAmple_preimage_projBasicOpen L hL _

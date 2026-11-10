@@ -89,9 +89,9 @@ lemma formalCoproductMap_id (α : Type) [hα : ∀ x : α → ι, HasProduct (fu
   let : HasProduct (fun a ↦ D (FormalCoproduct.Hom.f (𝟙 (formalCoproduct D α)) x a)) := hα x
   let : HasProduct (fun a ↦ D ((formalCoproductMap D (id : α → α)).f x a)) := hα x
   refine ⟨rfl, ?_⟩
-  show (formalCoproductMap D (id : α → α)).φ x ≫ 𝟙 _ = 𝟙 _
+  change (formalCoproductMap D (id : α → α)).φ x ≫ 𝟙 _ = 𝟙 _
   rw [Category.comp_id]
-  show (Pi.lift fun a ↦ Pi.π (fun b : α ↦ D (x b)) a) = 𝟙 _
+  change (Pi.lift fun a ↦ Pi.π (fun b : α ↦ D (x b)) a) = 𝟙 _
   exact Pi.hom_ext _ _ fun a ↦ by simp
 
 /-- Reindexing is contravariantly functorial. -/
@@ -111,10 +111,10 @@ lemma formalCoproductMap_comp {α β γ : Type}
   let : HasProduct (fun a ↦ D ((formalCoproductMap D (h ∘ g)).f x a)) :=
     hα (fun a ↦ x (h (g a)))
   refine ⟨rfl, ?_⟩
-  show (formalCoproductMap D (h ∘ g)).φ x ≫ 𝟙 _ =
+  change (formalCoproductMap D (h ∘ g)).φ x ≫ 𝟙 _ =
     (formalCoproductMap D h ≫ formalCoproductMap D g).φ x
   rw [Category.comp_id]
-  show (Pi.lift fun a ↦ Pi.π (fun c : γ ↦ D (x c)) (h (g a))) =
+  change (Pi.lift fun a ↦ Pi.π (fun c : γ ↦ D (x c)) (h (g a))) =
     (Pi.lift fun b ↦ Pi.π (fun c : γ ↦ D (x c)) (h b)) ≫
       (Pi.lift fun a ↦ Pi.π (fun b : β ↦ D (x (h b))) (g a))
   exact Pi.hom_ext _ _ fun a ↦ by simp

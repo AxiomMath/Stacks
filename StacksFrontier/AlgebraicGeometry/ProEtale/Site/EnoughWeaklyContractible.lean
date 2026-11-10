@@ -295,11 +295,11 @@ theorem isWeaklyContractible_of_isWContractible (U : BigAffineProetale B S hS)
     · obtain ⟨Z, c₁, c₂, hc₁, hc₂⟩ := href i
       let c : X i ⟶ Z := ObjectProperty.homMk (Over.homMk c₂ (by
         have hw : Q.map c₁ ≫ U.obj.hom = Z.obj.hom := Over.w (I.map c₁)
-        show c₂ ≫ Z.obj.hom = g i ≫ U.obj.hom
+        change c₂ ≫ Z.obj.hom = g i ≫ U.obj.hom
         rw [← hw, ← Category.assoc, ← hc₂]))
       have hc : c ≫ c₁ = f i := by
         refine I.map_injective (q.map_injective ?_)
-        show Q.map c ≫ Q.map c₁ = Q.map (f i)
+        change Q.map c ≫ Q.map c₁ = Q.map (f i)
         rw [hQf, show Q.map c = c₂ from rfl]
         exact hc₂.symm
       rw [← hc]
@@ -394,11 +394,11 @@ theorem isWeaklyContractible_of_isWContractible (U : SmallAffineProetale B S hS)
     · obtain ⟨Z, c₁, c₂, hc₁, hc₂⟩ := href i
       let c : X i ⟶ Z := ObjectProperty.homMk (ObjectProperty.homMk (Over.homMk c₂ (by
         have hw : Q.map c₁ ≫ U.obj.obj.hom = Z.obj.obj.hom := c₁.hom.hom.w
-        show c₂ ≫ Z.obj.obj.hom = g i ≫ U.obj.obj.hom
+        change c₂ ≫ Z.obj.obj.hom = g i ≫ U.obj.obj.hom
         rw [← hw, ← Category.assoc, ← hc₂])))
       have hc : c ≫ c₁ = f i := by
         refine I.map_injective (q.map_injective ?_)
-        show Q.map c ≫ Q.map c₁ = Q.map (f i)
+        change Q.map c ≫ Q.map c₁ = Q.map (f i)
         rw [hQf, show Q.map c = c₂ from rfl]
         exact hc₂.symm
       rw [← hc]

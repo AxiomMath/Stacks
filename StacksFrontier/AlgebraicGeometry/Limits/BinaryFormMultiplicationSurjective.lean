@@ -291,7 +291,7 @@ theorem exists_mem_basicOpen_binaryFormMul (G : coordRing.{u} (n + 1)) (d : ℕ)
   set B := MvPolynomial (Fin (n + 1)) (ULift.{u} ℤ)
   let η : Spec (CommRingCat.of B) := (⊥ : PrimeSpectrum B)
   refine ⟨testPoint n η, ?_⟩
-  show η ∈ (testPoint.{u} n ≫ binaryFormMul n) ⁻¹ᵁ Proj.basicOpen (coordGrading.{u} (n + 1)) G
+  change η ∈ (testPoint.{u} n ≫ binaryFormMul n) ⁻¹ᵁ Proj.basicOpen (coordGrading.{u} (n + 1)) G
   have hpre := (congrArg (fun f : Spec (CommRingCat.of B) ⟶ Proj (coordGrading.{u} (n + 1)) =>
       f ⁻¹ᵁ Proj.basicOpen (coordGrading.{u} (n + 1)) G) (testPoint_binaryFormMul.{u} n)).trans
     (Proj.fromOfGlobalSections_preimage_basicOpen _ _ _ hd hG)
@@ -305,7 +305,7 @@ theorem exists_mem_basicOpen_binaryFormMul (G : coordRing.{u} (n + 1)) (d : ℕ)
       RingHom.comp_apply, coeffHom_eq_algebraMap, MvPolynomial.coe_eval₂Hom,
       MvPolynomial.aeval_def]
   rw [hsec, basicOpen_eq_of_affine]
-  show MvPolynomial.aeval (splitCoeffs.{u} n) G ∉ (⊥ : Ideal B)
+  change MvPolynomial.aeval (splitCoeffs.{u} n) G ∉ (⊥ : Ideal B)
   rw [Ideal.mem_bot]
   exact Stacks.ProjectiveChart.aeval_coeff_prod_X_add_C_ne_zero hG hG0
 

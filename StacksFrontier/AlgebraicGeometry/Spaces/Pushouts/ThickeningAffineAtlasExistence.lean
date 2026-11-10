@@ -203,7 +203,6 @@ private theorem isEtaleEquivalenceRelation_relation_of_isPushout
       ((BigFppfOver.toScheme B S hS).map gR) ((BigFppfOver.toScheme B S hS).map aR)
       ((BigFppfOver.toScheme B S hS).map bR))
     (hk : Stacks.Thickenings.IsThickening ((BigFppfOver.toScheme B S hS).map k))
-    (hkR : Stacks.Thickenings.IsThickening ((BigFppfOver.toScheme B S hS).map kR))
     [_root_.AlgebraicGeometry.IsAffineHom ((BigFppfOver.toScheme B S hS).map g)]
     [_root_.AlgebraicGeometry.IsAffineHom ((BigFppfOver.toScheme B S hS).map gR)]
     (hsi : IsPullback kR s₀ s' k) (hti : IsPullback kR t₀ t' k)
@@ -232,13 +231,13 @@ private theorem isEtaleEquivalenceRelation_relation_of_isPushout
   have hsbS := toScheme_map_comp_eq B S hS hsb
   have htaS := toScheme_map_comp_eq B S hS hta
   have htbS := toScheme_map_comp_eq B S hS htb
-  obtain ⟨eRel⟩ := Stacks.Pushout.nonempty_equivalenceRelation_of_isPushout hP hk hRel hkR
+  obtain ⟨eRel⟩ := Stacks.Pushout.nonempty_equivalenceRelation_of_isPushout hP hk hRel
     (hsi.map F) (hsf.map F) (hti.map F) (htf.map F) hsaS hsbS htaS htbS (equiv_of hR').some
     (equiv_of hT).some
   have : AlgebraicGeometry.Etale (F.map s) :=
-    Stacks.Pushout.etale_of_isPushout_relation hP hk hRel hkR (hsi.map F) (hsf.map F) hsaS hsbS
+    Stacks.Pushout.etale_of_isPushout_relation hP hk hRel (hsi.map F) (hsf.map F) hsaS hsbS
   have : AlgebraicGeometry.Etale (F.map t) :=
-    Stacks.Pushout.etale_of_isPushout_relation hP hk hRel hkR (hti.map F) (htf.map F) htaS htbS
+    Stacks.Pushout.etale_of_isPushout_relation hP hk hRel (hti.map F) (htf.map F) htaS htbS
   have : IsEquivalenceRelation (F.map t) (F.map s) := eRel.isEquivalenceRelation
   exact
     { isEquivalenceRelation := by
@@ -335,7 +334,7 @@ theorem exists_chartCube_of_charts
       isPushout_chart := hP, isPushout_relation := hRel
       aR_s := hsa, aR_t := hta, bR_s := hsb, bR_t := htb
       etaleRelation := isEtaleEquivalenceRelation_relation_of_isPushout B S hS hp'E hqE hR' hT
-        hP hRel hk hkR hsi hti hsf htf hsa hsb hta htb }
+        hP hRel hk hsi hti hsf htf hsa hsb hta htb }
   obtain ⟨E, aY, bY, qm, hpush, -, hqmS, hqmE, haX', hbY⟩ :=
     exists_pushout_chart_of_thickeningAffineAtlas B S hS A hi
   exact ⟨P, a, b, E, aY, bY, qm, hP, hpush, hqmS, hqmE, haX', hbY, ⟨A⟩⟩

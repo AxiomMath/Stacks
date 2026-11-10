@@ -104,8 +104,8 @@ invertible. -/
 theorem isIso_mateEquiv_natTrans_of_conjugateEquiv_eq (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂)
     (adj₃ : F₁ ⊣ U₁) (adj₄ : F₂ ⊣ U₂) (α : TwoSquare F₁ L₁ L₂ F₂) (π : U₂ ⋙ R₁ ⟶ R₂ ⋙ U₁)
     (h : conjugateEquiv (adj₁.comp adj₄) (adj₃.comp adj₂) α = π)
-    (hπ : IsIso ((mateEquiv adj₄ adj₃).symm (TwoSquare.mk _ _ _ _ π)).natTrans) :
-    IsIso (mateEquiv adj₁ adj₂ α).natTrans := by
+    (hπ : IsIso ((mateEquiv adj₄ adj₃).symm (TwoSquare.mk _ _ _ _ π))) :
+    IsIso (mateEquiv adj₁ adj₂ α) := by
   have key : mateEquiv adj₁ adj₂ α = (mateEquiv adj₄ adj₃).symm (TwoSquare.mk _ _ _ _ π) := by
     rw [Equiv.eq_symm_apply]
     ext X
@@ -134,7 +134,8 @@ variable {X : RingedTopos.{v₁, u₁, w₁}} {Y : RingedTopos.{v₂, u₂, w₂
 /-- The transport of the direct image of sheaves of modules along an equality of four-field
 morphisms of ringed topoi is, on underlying sheaves of sets, the transport along the equality of
 their underlying morphisms of topoi. -/
-theorem _root_.Stacks.Sheaves.RingedToposModules.moduleSheafFunctor_map_eqToIso_pushforwardModules_hom_app
+theorem
+  _root_.Stacks.Sheaves.RingedToposModules.moduleSheafFunctor_map_eqToIso_pushforwardModules_hom_app
     {ψ ψ' : Stacks.Sheaves.RingedToposModules.RingedToposHom X Y} (h : ψ = ψ')
     (ht : ψ.toToposHom = ψ'.toToposHom)
     (N : SheafOfModules.{w₁} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
@@ -176,7 +177,7 @@ theorem eqToIso_trans_pushforwardModulesIso (f : RingedToposHom X Y) :
     moduleSheafFunctor_map_pushforwardModulesIso,
     moduleSheafFunctor_map_eqToIso_toModulesHom_eq_hom_app,
     moduleSheafFunctor_map_toModulesPushforwardIso_hom_app_eq_id]
-  show 𝟙 (f.toToposHom.pushforward.obj
+  change 𝟙 (f.toToposHom.pushforward.obj
       (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O) N)) ≫
     𝟙 (f.toToposHom.pushforward.obj
       (Sheaf.moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O) N)) = 𝟙 _
@@ -351,7 +352,7 @@ theorem isIso_moduleBaseChangeMap_transport {T T' U Z : AlgebraicSpaces B S hS} 
       (TwoSquare.mk _ _ _ _
         ((modulePushforwardCompIso B S hS u' t).hom ≫
           eqToHom (congrArg (fun k : T' ⟶ Z => modulePushforward B S hS k) sq.w) ≫
-          (modulePushforwardCompIso B S hS t' u).inv))).natTrans := by
+          (modulePushforwardCompIso B S hS t' u).inv))) := by
   rw [← modulePullbackAdjunction_eq_transport, ← modulePullbackAdjunction_eq_transport]
   exact isIso_moduleBaseChangeMap_of_isEtale B S hS u' t' t u sq hu
 
@@ -481,7 +482,7 @@ theorem isIso_mateEquiv_symm_smallEtaleToposPushforwardCompIso_square
           eqToHom (congrArg (fun m : T' ⟶ W ↦
             RingedToposHom.pushforwardModules.{u, u + 1, u, u, u + 1, u}
               (smallEtaleRingedToposHom B S hS m)) sq.w) ≫
-          (smallEtaleToposPushforwardCompIso t' u).hom))).natTrans := by
+          (smallEtaleToposPushforwardCompIso t' u).hom))) := by
   have := isIso_moduleBaseChangeMap_transport u' t t' u sq hu
   exact @Adjunction.isIso_mateEquiv_symm_of_transport _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
     _ _ (smallEtaleToposPullbackSpellingIso u') (smallEtaleToposPushforwardSpellingIso u')
@@ -526,7 +527,7 @@ theorem isIso_mateEquiv_smallEtaleToposPullbackCompIso_square {T T' U W : Algebr
       (TwoSquare.mk _ _ _ _ ((smallEtaleToposPullbackCompIso t' u).hom ≫
         eqToHom (congrArg (fun m : T' ⟶ W ↦
           (smallEtaleRingedToposHom B S hS m).toModulesHom.pullbackModules) sq.w.symm) ≫
-        (smallEtaleToposPullbackCompIso u' t).inv))).natTrans :=
+        (smallEtaleToposPullbackCompIso u' t).inv))) :=
   isIso_mateEquiv_natTrans_of_conjugateEquiv_eq _ _
     (RingedToposHom.pullbackAdjPushforwardModules (smallEtaleRingedToposHom B S hS u))
     (RingedToposHom.pullbackAdjPushforwardModules (smallEtaleRingedToposHom B S hS u')) _ _
@@ -557,7 +558,7 @@ def extensionByZeroBaseChangeModules {T T' U W : AlgebraicSpaces B S hS} (u' : T
     (TwoSquare.mk _ _ _ _ ((smallEtaleToposPullbackCompIso t' u).hom ≫
       eqToHom (congrArg (fun m : T' ⟶ W ↦
         (smallEtaleRingedToposHom B S hS m).toModulesHom.pullbackModules) h.symm) ≫
-      (smallEtaleToposPullbackCompIso u' t).inv))).natTrans
+      (smallEtaleToposPullbackCompIso u' t).inv)))
 
 /-- **Extension by zero commutes with base change** (Stacks 03DJ with 03LX): for a cartesian
 square of algebraic spaces with `u` étale, the base change map `u'_!(t'^*F) ⟶ t^*(u_!F)` is an

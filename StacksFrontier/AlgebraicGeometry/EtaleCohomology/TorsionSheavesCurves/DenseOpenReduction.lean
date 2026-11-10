@@ -26,8 +26,8 @@ positive degrees — over `X`, over every open `U ⊆ X` and over every scalar e
 (`FinitePointsCohomology.lean`) — is finite in degree zero when `F` is constructible
 (`ClosedPartFiniteSections.lean`), and is unchanged in degree zero by extension of the separably
 closed ground field (`ScalarExtensionDegreeZero.lean`, Tag 0A3I). The sheaf `j_! j^{-1} F` is
-constructible when `F` is (`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Constructible/ExtensionByZeroRestrictionConstructible.lean`, remark (b) of the
-source).
+constructible when `F` is (`Constructible/ExtensionByZeroRestrictionConstructible.lean`, remark
+(b) of the source).
 
 ## Main results
 
@@ -91,7 +91,7 @@ noncomputable abbrev closedComplementι : closedComplement j ⟶ X :=
 /-- The image of `j` is the complement of the image of its closed complement. -/
 theorem range_eq_compl_range_closedComplementι :
     Set.range j.base = (Set.range (closedComplementι j).base)ᶜ := by
-  show _ = (Set.range (closedComplementIdeal j).subschemeι)ᶜ
+  change _ = (Set.range (closedComplementIdeal j).subschemeι)ᶜ
   rw [Scheme.IdealSheafData.range_subschemeι, closedComplementIdeal,
     Scheme.IdealSheafData.coe_support_vanishingIdeal]
   simp
@@ -137,6 +137,7 @@ variable {k : Type u} [Field k] [IsSepClosed k] {X X' : Scheme.{u}} (π : X ⟶ 
 
 include π
 
+omit [QuasiCompact π] in
 /-- The direct image of a sheaf on the finite closed complement has no positive-degree étale
 cohomology. -/
 theorem closedPart_subsingleton
@@ -151,6 +152,7 @@ theorem closedPart_subsingleton
     (isZero_etaleRestriction_etaleAbelianDirectImage _ j
       (range_eq_compl_range_closedComplementι j) G) q hq
 
+omit [QuasiCompact π] in
 /-- The restriction to an open `U ⊆ X` of a direct image from the finite closed complement has no
 positive-degree étale cohomology. -/
 theorem closedPart_subsingleton_open (U : X.Opens)
@@ -167,6 +169,7 @@ theorem closedPart_subsingleton_open (U : X.Opens)
   exact subsingleton_sheafH_inverseImage_etaleAbelianDirectImage.{u, v, w} (closedComplementι j) j
     (range_eq_compl_range_closedComplementι j) U.ι hcl hsep G q hq
 
+omit [IsSepClosed k] in
 /-- The pullback to a scalar extension `X_{k'}` of a direct image from the finite closed
 complement has no positive-degree étale cohomology. -/
 theorem closedPart_subsingleton_scalarExtension (k' : Type u) [Field k'] [Algebra k k']
@@ -221,7 +224,7 @@ theorem isZero_of_isPrimePowerTorsion_of_isPrimeToCharacteristicTorsion {p : ℕ
   obtain ⟨a, b, hab⟩ : ∃ a b : ℤ, (n : ℤ) * a + (p ^ r : ℕ) * b = 1 := by
     refine ⟨Nat.gcdA n (p ^ r), Nat.gcdB n (p ^ r), ?_⟩
     rw [← Nat.gcd_eq_gcd_ab, hcop]; rfl
-  show G.obj.map f.op x = G.obj.map f.op (0 : G.obj.obj (Opposite.op U))
+  change G.obj.map f.op x = G.obj.map f.op (0 : G.obj.obj (Opposite.op U))
   rw [map_zero]
   set y := G.obj.map f.op x
   calc y = (1 : ℤ) • y := (one_smul _ _).symm
@@ -236,7 +239,7 @@ section Statements
 /-- A map between subsingleton groups is bijective. -/
 theorem bijective_addMonoidHom_of_subsingleton {A B : Type*} [AddGroup A] [AddGroup B]
     [Subsingleton A] [Subsingleton B] (f : A →+ B) : Function.Bijective f :=
-  ⟨fun a b _ => Subsingleton.elim a b, fun b => ⟨0, Subsingleton.elim _ _⟩⟩
+  ⟨Function.injective_of_subsingleton _, Function.surjective_to_subsingleton _⟩
 
 /-- Étale cohomology which vanishes in positive degrees and is finite in degree zero is finite in
 every degree. -/
@@ -291,6 +294,7 @@ theorem closedPart_bijective_scalarExtension (k' : Type u) [Field k'] [Algebra k
     have := closedPart_subsingleton_scalarExtension.{u, v, w} π j k' G q hq
     exact bijective_addMonoidHom_of_subsingleton _
 
+omit [IsSepClosed k] in
 /-- **The eight statements pass from the sub-object to the middle term** of a short exact
 sequence whose quotient has no positive-degree cohomology, has bijective restriction to every
 scalar extension and no degree-two cohomology on opens, provided constructibility of the middle
@@ -380,6 +384,7 @@ theorem curveStatements_of_curveStatements_extensionByZero
   · exact isConstructibleEtaleAbelianSheaf_extensionByZero_etaleRestriction B hX j F hc
   · exact finite_H_zero_etaleAbelianDirectImage_inverseImage B hX (closedComplementι j) F hc
 
+omit [IsSepClosed k] in
 /-- **The eight statements pass from the middle term to the sub-object** of a short exact
 sequence whose quotient has no positive-degree cohomology, finite degree-zero cohomology,
 bijective restriction to every scalar extension and no degree-one cohomology on opens, for a

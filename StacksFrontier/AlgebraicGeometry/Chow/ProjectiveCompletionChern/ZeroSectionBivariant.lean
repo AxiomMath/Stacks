@@ -116,7 +116,7 @@ theorem properChowPushforward_flatPullbackChow_of_isIso {A B : Scheme.{u}} (sA :
   have hinv : inv ψ ≫ sA = sB := by rw [← hψ, IsIso.inv_hom_id_assoc]
   have h1 := flatPullbackChowOfRelativeDimension_of_isIso C sA sB ψ hψ
     (relativeDimension_of_isIso ψ) (inv ψ) (IsIso.inv_hom_id ψ) hinv k y
-  show properChowPushforward C sA sB ψ hψ _ _ (flatPullbackChowOfRelativeDimension C sA sB ψ hψ
+  change properChowPushforward C sA sB ψ hψ _ _ (flatPullbackChowOfRelativeDimension C sA sB ψ hψ
     0 (relativeDimension_of_isIso ψ) k y) ≍ y
   rw [h1]
   refine (properChowPushforward_heq C sA sB ψ hψ (by simp) (chowGroupCast_heq C _ _ _)).trans ?_
@@ -188,6 +188,9 @@ variable {X : Scheme.{u}} (𝒞 : X.Modules)
   {X₀ : Scheme.{u}} (sX₀ : X₀ ⟶ C.S) [LocallyOfFiniteType sX₀] (s : X ⟶ X₀)
   [LocallyOfFiniteType s] (hs : s ≫ sX₀ = sX)
 
+omit [LocallyOfFiniteType sX] [LocallyOfFiniteType (proj 𝒞)] [Flat (proj 𝒞)]
+  [LocallyOfFiniteType (Scheme.Modules.vectorBundleToBase X 𝒞)]
+  [Flat (Scheme.Modules.vectorBundleToBase X 𝒞)] in
 /-- The inclusion `j : C ⟶ E` is a morphism over the base. -/
 theorem vectorBundleIncl_comp_structure :
     vectorBundleIncl 𝒞 r ≫ proj 𝒞 ≫ sX = Scheme.Modules.vectorBundleToBase X 𝒞 ≫ sX := by
@@ -241,6 +244,9 @@ def rhsClass {q : ℤ} (c : BivariantClass C (gysinSystemOfInvertible C) (proj �
     (vectorBundleIncl_comp_structure 𝒞 r C sX) (comp_comp_structureMorphism_eq rfl hs)
     (-((0 : ℕ) : ℤ)) q (inclFlatClass 𝒞 r C sX) c
 
+omit [LocallyOfFiniteType (proj 𝒞)] [Flat (proj 𝒞)]
+  [LocallyOfFiniteType (Scheme.Modules.vectorBundleToBase X 𝒞)]
+  [Flat (Scheme.Modules.vectorBundleToBase X 𝒞)] [LocallyOfFiniteType s] in
 /-- `j ≫ π ≫ s = p ≫ s`: the inclusion `j : C ⟶ E` is a morphism over `X₀`. -/
 theorem incl_proj_comp :
     vectorBundleIncl 𝒞 r ≫ proj 𝒞 ≫ s = Scheme.Modules.vectorBundleToBase X 𝒞 ≫ s := by
@@ -262,18 +268,27 @@ def projBase :
   pullback.lift (pullback.fst _ t ≫ Scheme.Modules.vectorBundleToBase X 𝒞) (pullback.snd _ t)
     (by rw [Category.assoc, pullback.condition])
 
+omit [LocallyOfFiniteType (proj 𝒞)] [Flat (proj 𝒞)]
+  [LocallyOfFiniteType (Scheme.Modules.vectorBundleToBase X 𝒞)]
+  [Flat (Scheme.Modules.vectorBundleToBase X 𝒞)] [LocallyOfFiniteType s] in
 /-- The first projection of `C ×_{X₀} T ⟶ E ×_{X₀} T` is `j` on the first factor. -/
 theorem inclBase_fst :
     inclBase 𝒞 r s t ≫ pullback.fst (proj 𝒞 ≫ s) t =
       pullback.fst (Scheme.Modules.vectorBundleToBase X 𝒞 ≫ s) t ≫ vectorBundleIncl 𝒞 r :=
   pullback.lift_fst _ _ _
 
+omit [LocallyOfFiniteType (proj 𝒞)] [Flat (proj 𝒞)]
+  [LocallyOfFiniteType (Scheme.Modules.vectorBundleToBase X 𝒞)]
+  [Flat (Scheme.Modules.vectorBundleToBase X 𝒞)] [LocallyOfFiniteType s] in
 /-- The map `C ×_{X₀} T ⟶ E ×_{X₀} T` commutes with the projections to `T`. -/
 theorem inclBase_snd :
     inclBase 𝒞 r s t ≫ pullback.snd (proj 𝒞 ≫ s) t =
       pullback.snd (Scheme.Modules.vectorBundleToBase X 𝒞 ≫ s) t :=
   pullback.lift_snd _ _ _
 
+omit [LocallyOfFiniteType (proj 𝒞)] [Flat (proj 𝒞)]
+  [LocallyOfFiniteType (Scheme.Modules.vectorBundleToBase X 𝒞)]
+  [Flat (Scheme.Modules.vectorBundleToBase X 𝒞)] [LocallyOfFiniteType s] in
 /-- The first projection of `C ×_{X₀} T ⟶ X ×_{X₀} T` is `p` on the first factor. -/
 theorem projBase_fst :
     projBase 𝒞 s t ≫ pullback.fst s t =
@@ -281,12 +296,18 @@ theorem projBase_fst :
         Scheme.Modules.vectorBundleToBase X 𝒞 :=
   pullback.lift_fst _ _ _
 
+omit [LocallyOfFiniteType (proj 𝒞)] [Flat (proj 𝒞)]
+  [LocallyOfFiniteType (Scheme.Modules.vectorBundleToBase X 𝒞)]
+  [Flat (Scheme.Modules.vectorBundleToBase X 𝒞)] [LocallyOfFiniteType s] in
 /-- The map `C ×_{X₀} T ⟶ X ×_{X₀} T` commutes with the projections to `T`. -/
 theorem projBase_snd :
     projBase 𝒞 s t ≫ pullback.snd s t =
       pullback.snd (Scheme.Modules.vectorBundleToBase X 𝒞 ≫ s) t :=
   pullback.lift_snd _ _ _
 
+omit [LocallyOfFiniteType (proj 𝒞)] [Flat (proj 𝒞)]
+  [LocallyOfFiniteType (Scheme.Modules.vectorBundleToBase X 𝒞)]
+  [Flat (Scheme.Modules.vectorBundleToBase X 𝒞)] [LocallyOfFiniteType s] in
 /-- The map `C ×_{X₀} T ⟶ X ×_{X₀} T` induced by `p` is the one induced by `j` followed by the
 base change of `π`. -/
 theorem inclBase_comp :
@@ -296,6 +317,9 @@ theorem inclBase_comp :
       projBase_fst, Category.assoc, vectorBundleIncl_proj]
   · rw [Category.assoc, bivariantPushforwardBaseChange_snd, inclBase_snd, projBase_snd]
 
+omit [LocallyOfFiniteType (proj 𝒞)] [Flat (proj 𝒞)]
+  [LocallyOfFiniteType (Scheme.Modules.vectorBundleToBase X 𝒞)]
+  [Flat (Scheme.Modules.vectorBundleToBase X 𝒞)] [LocallyOfFiniteType s] in
 /-- The square formed by `j : C ⟶ E` and its base change `C ×_{X₀} T ⟶ E ×_{X₀} T` is
 cartesian. -/
 theorem isPullback_inclBase :
@@ -306,6 +330,9 @@ theorem isPullback_inclBase :
   rw [inclBase_snd, incl_proj_comp 𝒞 r s]
   exact IsPullback.of_hasPullback _ _
 
+omit [LocallyOfFiniteType (proj 𝒞)] [Flat (proj 𝒞)]
+  [LocallyOfFiniteType (Scheme.Modules.vectorBundleToBase X 𝒞)]
+  [Flat (Scheme.Modules.vectorBundleToBase X 𝒞)] [LocallyOfFiniteType s] in
 /-- Under the identification `C ×_X (X ×_{X₀} T) ≅ C ×_{X₀} T`, the map `projBase` is the second
 projection. -/
 theorem pullbackRightPullbackFstIso_hom_projBase :
@@ -316,6 +343,9 @@ theorem pullbackRightPullbackFstIso_hom_projBase :
   · rw [Category.assoc, projBase_fst, pullbackRightPullbackFstIso_hom_fst_assoc, pullback.condition]
   · rw [Category.assoc, projBase_snd, pullbackRightPullbackFstIso_hom_snd]
 
+omit [LocallyOfFiniteType (proj 𝒞)] [Flat (proj 𝒞)]
+  [LocallyOfFiniteType (Scheme.Modules.vectorBundleToBase X 𝒞)]
+  [Flat (Scheme.Modules.vectorBundleToBase X 𝒞)] [LocallyOfFiniteType s] in
 /-- Under the identification `C ×_E (E ×_{X₀} T) ≅ C ×_{X₀} T`, the map `inclBase` is the second
 projection. -/
 theorem pullbackRightPullbackFstIso_hom_map_inclBase :
@@ -331,6 +361,9 @@ theorem pullbackRightPullbackFstIso_hom_map_inclBase :
   · simp only [Category.assoc, inclBase_snd, pullback.map_snd, Category.comp_id,
       pullbackRightPullbackFstIso_hom_snd]
 
+omit [LocallyOfFiniteType (proj 𝒞)] [Flat (proj 𝒞)]
+  [LocallyOfFiniteType (Scheme.Modules.vectorBundleToBase X 𝒞)]
+  [Flat (Scheme.Modules.vectorBundleToBase X 𝒞)] [LocallyOfFiniteType s] in
 /-- The identification `E ×_E (E ×_{X₀} T) ≅ E ×_{X₀} T` is the second projection. -/
 theorem pullbackRightPullbackFstIso_hom_map_id :
     (pullbackRightPullbackFstIso (proj 𝒞 ≫ s) t (𝟙 (space 𝒞))).hom ≫
@@ -347,6 +380,8 @@ theorem pullbackRightPullbackFstIso_hom_map_id :
 
 end Squares
 
+omit [Flat (proj 𝒞)] [LocallyOfFiniteType (Scheme.Modules.vectorBundleToBase X 𝒞)]
+  [Flat (Scheme.Modules.vectorBundleToBase X 𝒞)] in
 /-- **The cap of `c_r(i_*𝒪_X) ∘ c`** is the operation of `c_r(i_*𝒪_X)` on the cap of `c`. -/
 theorem copy_comp_chernTopClass_cap_heq {q : ℤ} (c : BivariantClass C (gysinSystemOfInvertible C)
     (proj 𝒞 ≫ sX) sX₀ (proj 𝒞 ≫ s) (comp_comp_structureMorphism_eq rfl hs) q) {T : Scheme.{u}}
@@ -373,6 +408,9 @@ instance isOpenImmersion_inclBase {T : Scheme.{u}} (t : T ⟶ X₀) :
     IsOpenImmersion (inclBase 𝒞 r s t) :=
   MorphismProperty.of_isPullback (isPullback_inclBase 𝒞 r s t) inferInstance
 
+omit [LocallyOfFiniteType sX] [LocallyOfFiniteType (proj 𝒞)] [Flat (proj 𝒞)]
+  [LocallyOfFiniteType (Scheme.Modules.vectorBundleToBase X 𝒞)]
+  [Flat (Scheme.Modules.vectorBundleToBase X 𝒞)] [LocallyOfFiniteType s] in
 /-- The map `C ×_{X₀} T ⟶ E ×_{X₀} T` is a morphism over `X`, after structure maps to the base. -/
 private theorem inclBase_comp_structure {T : Scheme.{u}} (t : T ⟶ X₀) :
     inclBase 𝒞 r s t ≫ pullback.fst (proj 𝒞 ≫ s) t ≫ proj 𝒞 ≫ sX =
@@ -436,6 +474,7 @@ theorem lhsClass_cap_heq {q : ℤ}
     (relativeDimension_incl_snd 𝒞 r hsq (inclBase 𝒞 r s t)) _ _).trans ?_
   exact (heq_of_eq hL).trans ((chowGroupCast_heq C _ _ _).trans HEq.rfl)
 
+omit [Flat (proj 𝒞)] [Flat (Scheme.Modules.vectorBundleToBase X 𝒞)] in
 /-- The cap of `(-1)^{r-1} (r-1)! (j^* ∘ c)` on `t : T ⟶ X₀` is `(-1)^{r-1} (r-1)!` times the
 flat pullback along `C ×_{X₀} T ⟶ E ×_{X₀} T` of the cap of `c`. -/
 theorem copy_rhsClass_cap_heq {q : ℤ}

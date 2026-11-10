@@ -113,7 +113,7 @@ theorem restrictYonedaEquiv_comp_restrictedSection (Y : (BigFppfOver B S hS)ᵒ�
   apply yonedaEquiv.injective
   simp only [OverShriek.restrictYonedaEquiv, Equiv.trans_apply, Equiv.apply_symm_apply,
     yonedaEquiv_comp, yonedaEquiv_yoneda_map, restrictedSection]
-  show Y.map ((Over.map g).map k).op v = Y.map (Over.homMk U.hom rfl :
+  change Y.map ((Over.map g).map k).op v = Y.map (Over.homMk U.hom rfl :
     (Over.map g).obj U ⟶ Over.mk g).op v
   have hk : (Over.map g).map k = (Over.homMk U.hom rfl : (Over.map g).obj U ⟶ Over.mk g) :=
     Over.OverMorphism.ext (by simpa using Over.w k)
@@ -436,7 +436,7 @@ theorem chartFunctionsFromFibre_chartFunctionsToFibre
       s := by
   refine Subtype.ext (funext fun d => ?_)
   refine Eq.trans ?_ (s.property (toChartOfFibreChart B S hS f hT g v hv d.unop).op)
-  show _ = (Scheme.Γ.map (B.inclusion.map (𝟙 d.unop.left.left)).op).hom _
+  change _ = (Scheme.Γ.map (B.inclusion.map (𝟙 d.unop.left.left)).op).hom _
   rw [CategoryTheory.Functor.map_id, op_id, CategoryTheory.Functor.map_id]
   rfl
 
@@ -494,7 +494,7 @@ theorem chartFunctionsToFibre_chartFunctionsFromFibre
       t := by
   refine Subtype.ext (funext fun c => ?_)
   refine Eq.trans ?_ (t.property (toFibreChartOfChart B S hS f hT g v hv c.unop).op)
-  show _ = (Scheme.Γ.map (B.inclusion.map (𝟙 c.unop.left.left)).op).hom (t.val
+  change _ = (Scheme.Γ.map (B.inclusion.map (𝟙 c.unop.left.left)).op).hom (t.val
     (op (fibreChartOfChart B S hS f hT g v hv (chartOfFibreChart B S hS f hT g v hv c.unop))))
   rw [CategoryTheory.Functor.map_id, op_id, CategoryTheory.Functor.map_id]
   rfl
@@ -606,7 +606,7 @@ theorem isIso_structureSharp_of_bijective_algebraMap
   have hvv : yonedaEquiv.symm v = yoneda.map kI.hom ≫ V.obj.hom :=
     yonedaEquiv.symm_apply_eq.2 (yonedaEquiv_naturality _ _)
   have hv : IsEtaleChart B S hS Y.1 (CostructuredArrow.mk (yonedaEquiv.symm v)) := by
-    show (MorphismProperty.presheaf (MorphismProperty.inverseImage
+    change (MorphismProperty.presheaf (MorphismProperty.inverseImage
       (@AlgebraicGeometry.Etale.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme B S hS))) (yonedaEquiv.symm v)
     rw [hvv]

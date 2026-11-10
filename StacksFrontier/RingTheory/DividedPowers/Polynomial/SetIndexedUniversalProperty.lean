@@ -70,7 +70,7 @@ private theorem finiteStageIdealImage_span (A : DividedPowerRing.{u}) (W : Type 
       intro a ha
       apply Ideal.subset_span
       refine ⟨∅, algebraMap A (DividedPowerAlgebra A ((∅ : Finset W) →₀ A)) a, ?_, ?_⟩
-      · show _ ∈ Ideal.map (algebraMap A
+      · change _ ∈ Ideal.map (algebraMap A
           (DividedPowerAlgebra A ((∅ : Finset W) →₀ A))) A.ideal ⊔ _
         exact Ideal.mem_sup_left (Ideal.mem_map_of_mem _ ha)
       · simp [finiteStageInclusion]
@@ -89,7 +89,7 @@ private theorem finiteStageIdealImage_span (A : DividedPowerRing.{u}) (W : Type 
         exact hcomp.symm
       apply Ideal.subset_span
       refine ⟨E, y, ?_, rfl⟩
-      show y ∈ Ideal.map (algebraMap A (DividedPowerAlgebra A (E →₀ A)))
+      change y ∈ Ideal.map (algebraMap A (DividedPowerAlgebra A (E →₀ A)))
         A.ideal ⊔ RingHom.ker (dividedPowerPolynomialAugmentation A E).toRingHom
       exact Ideal.mem_sup_right hy
 
@@ -110,11 +110,11 @@ public theorem existsUnique_dPMorphism_from_setIndexedDividedPowerPolynomial
   let g : (W →₀ A) →ₗ[A] C := Finsupp.linearCombination A fun i => (k i : C)
   have hg : ∀ x, g x ∈ C.ideal := by
     intro x
-    show (Finsupp.linearCombination A fun i => (k i : C)) x ∈ C.ideal
+    change (Finsupp.linearCombination A fun i => (k i : C)) x ∈ C.ideal
     rw [Finsupp.linearCombination_apply]
     apply C.ideal.sum_mem
     intro i hi
-    show algebraMap A C (x i) * (k i : C) ∈ C.ideal
+    change algebraMap A C (x i) * (k i : C) ∈ C.ideal
     exact C.ideal.mul_mem_left _ (k i).property
   let gAlg : DividedPowerAlgebra A (W →₀ A) →ₐ[A] C :=
     DividedPowerAlgebra.lift C.dividedPowers g hg
@@ -133,13 +133,13 @@ public theorem existsUnique_dPMorphism_from_setIndexedDividedPowerPolynomial
     intro n
     simp only [dividedPowerPolynomialMonomialBasis_apply,
       AlgHom.toLinearMap_apply, AlgHom.comp_apply]
-    show gAlg (finiteStageInclusion A E
+    change gAlg (finiteStageInclusion A E
         (dividedPowerPolynomialMonomial A n)) =
       ψA (dividedPowerPolynomialMonomial A n)
     simp only [dividedPowerPolynomialMonomial, Finsupp.prod, map_prod]
     apply Finset.prod_congr rfl
     intro i hi
-    show gAlg (finiteStageInclusion A E
+    change gAlg (finiteStageInclusion A E
         (dividedPowerPolynomialVariableMonomial A i (n i))) =
       ψ (dividedPowerPolynomialVariableMonomial A i (n i))
     rw [finiteStageInclusion_dp]
@@ -148,7 +148,7 @@ public theorem existsUnique_dPMorphism_from_setIndexedDividedPowerPolynomial
           C.dividedPowers.dpow (n i) (k i.1 : C) := by
             simp only [dividedPowerPolynomialVariableMonomial, gAlg,
               DividedPowerAlgebra.lift_apply_dp]
-            show C.dividedPowers.dpow (n i)
+            change C.dividedPowers.dpow (n i)
               ((Finsupp.linearCombination A fun j => (k j : C))
                 (Finsupp.single (i : W) 1)) = _
             rw [Finsupp.linearCombination_single]
@@ -160,7 +160,7 @@ public theorem existsUnique_dPMorphism_from_setIndexedDividedPowerPolynomial
             rw [← hψ.2 i]
             have hdp := ψ.dpow_comp (n := n i)
               (dividedPowerPolynomialVariable A i) hvarmem
-            show C.dividedPowers.dpow (n i)
+            change C.dividedPowers.dpow (n i)
                 (ψ.toRingHom (dividedPowerPolynomialVariable A i)) =
               ψ.toRingHom (dividedPowerPolynomialVariableMonomial A i (n i))
             rw [hdp, dividedPowerPolynomialDividedPowers_dpow_variable]
@@ -194,16 +194,16 @@ public theorem existsUnique_dPMorphism_from_setIndexedDividedPowerPolynomial
   have hcoeff :
       φ.comp (setIndexedDividedPowerPolynomialCoefficientDPMorphism A W) = f := by
     ext a
-    show gAlg (algebraMap A (setIndexedDividedPowerPolynomialAlgebra A W) a) = f a
+    change gAlg (algebraMap A (setIndexedDividedPowerPolynomialAlgebra A W) a) = f a
     calc
       gAlg (algebraMap A (setIndexedDividedPowerPolynomialAlgebra A W) a) =
           algebraMap A C a := gAlg.commutes a
       _ = f a := rfl
   have hvar : ∀ i : W, φ (dividedPowerPolynomialVariable A i) = (k i : C) := by
     intro i
-    show gAlg (DividedPowerAlgebra.dp A 1 (Finsupp.single i 1)) = (k i : C)
+    change gAlg (DividedPowerAlgebra.dp A 1 (Finsupp.single i 1)) = (k i : C)
     rw [DividedPowerAlgebra.lift_apply_dp]
-    show C.dividedPowers.dpow 1
+    change C.dividedPowers.dpow 1
       ((Finsupp.linearCombination A fun j => (k j : C)) (Finsupp.single i 1)) = _
     rw [Finsupp.linearCombination_single]
     simpa using C.dividedPowers.dpow_one (k i).property
@@ -226,13 +226,13 @@ public theorem existsUnique_dPMorphism_from_setIndexedDividedPowerPolynomial
     intro χ hχ1 hχ2
     constructor
     · ext a
-      show χ (finiteStageInclusion A E
+      change χ (finiteStageInclusion A E
         (algebraMap A (DividedPowerAlgebra A (E →₀ A)) a)) = f a
       rw [(finiteStageInclusion A E).commutes]
       exact congrArg (fun q : _root_.DividedPowers.DPMorphism A.dividedPowers
         C.dividedPowers => q a) hχ1
     · intro i
-      show χ (finiteStageInclusion A E (dividedPowerPolynomialVariable A i)) = (k i.1 : C)
+      change χ (finiteStageInclusion A E (dividedPowerPolynomialVariable A i)) = (k i.1 : C)
       have hv : finiteStageInclusion A E (dividedPowerPolynomialVariable A i) =
           dividedPowerPolynomialVariable A i.1 := by
         simpa [dividedPowerPolynomialVariable, dividedPowerPolynomialVariableMonomial] using

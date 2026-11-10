@@ -52,6 +52,7 @@ section Map
 variable {D : Type*} [Category* D] [Abelian D] (G : C ⥤ D) (T : ℕᵒᵖ ⥤ C)
   (v : ∀ n, towerObj T n ⟶ towerObj T (n + 1))
 
+omit [Abelian C] [Abelian D] in
 /-- A functor carries the iterated Verschiebung to the iterated Verschiebung of the image tower. -/
 theorem map_verschiebungMap {a b : ℕ} (h : a ≤ b) :
     G.map (verschiebungMap T v h) = verschiebungMap (T ⋙ G) (fun n => G.map (v n)) h := by
@@ -64,10 +65,10 @@ theorem map_verschiebungMap {a b : ℕ} (h : a ≤ b) :
 theorem IsVerschiebung.map [G.Additive] {ℓ : ℕ} (hv : IsVerschiebung T v ℓ) :
     IsVerschiebung (T ⋙ G) (fun n => G.map (v n)) ℓ where
   v_t n := by
-    show G.map (v n) ≫ G.map (towerMap T (Nat.le_succ n)) = _
+    change G.map (v n) ≫ G.map (towerMap T (Nat.le_succ n)) = _
     rw [← G.map_comp, hv.v_t n, G.map_nsmul, G.map_id]; rfl
   t_v n := by
-    show G.map (towerMap T (Nat.le_succ n)) ≫ G.map (v n) = _
+    change G.map (towerMap T (Nat.le_succ n)) ≫ G.map (v n) = _
     rw [← G.map_comp, hv.t_v n, G.map_nsmul, G.map_id]; rfl
 
 end Map

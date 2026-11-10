@@ -38,7 +38,8 @@ construction delivers it.
   clauses (1) and (3) of Tag 0GDX, with the congruence of Tag 0CAW clause (3). The whole of Tag
   0GDX is proved in two other files, independently of one another:
   `StacksDraft.ArtinApproximation.exists_common_elementaryEtaleNeighborhood_absoluteApproximation`
-  in `StacksFrontier/AlgebraicGeometry/Morphisms/EtaleNeighbourhood/RelativeMapApproximation.lean`, and
+  in `StacksFrontier/AlgebraicGeometry/Morphisms/EtaleNeighbourhood/RelativeMapApproximation.lean`,
+  and
   `AlgebraicGeometry.exists_elementaryEtaleNeighborhood_absoluteApproximation_full_section` in
   `StacksFrontier/AlgebraicGeometry/Morphisms/EtaleNeighbourhood/AbsoluteApproximationFull.lean`.
 
@@ -53,7 +54,8 @@ uses.
 *Where clauses (2) and (4) of Tag 0GDX are.* They are proved, twice over and independently, and
 both statements carry a registration for the whole conclusion:
 `StacksDraft.ArtinApproximation.exists_common_elementaryEtaleNeighborhood_absoluteApproximation`
-in `StacksFrontier/AlgebraicGeometry/Morphisms/EtaleNeighbourhood/RelativeMapApproximation.lean`, and
+in `StacksFrontier/AlgebraicGeometry/Morphisms/EtaleNeighbourhood/RelativeMapApproximation.lean`,
+and
 `AlgebraicGeometry.exists_elementaryEtaleNeighborhood_absoluteApproximation_full_section` in
 `StacksFrontier.AlgebraicGeometry.Morphisms.EtaleNeighbourhood.AbsoluteApproximationFull`. What
 neither of them carries is the congruence recorded here, which belongs to Tag 0CAW and not to Tag
@@ -271,7 +273,8 @@ simultaneously one of `(Y ×_{T, τ} V, y_τ)`. THOSE ARE PROVED ELSEWHERE, twic
 independently, and both of those statements carry a registration for the whole conclusion: all \
 four clauses are \
 `AlgebraicGeometry.exists_elementaryEtaleNeighborhood_absoluteApproximation_full_section` in \
-`StacksFrontier.AlgebraicGeometry.Morphisms.EtaleNeighbourhood.AbsoluteApproximationFull`, and also \
+`StacksFrontier.AlgebraicGeometry.Morphisms.EtaleNeighbourhood.AbsoluteApproximationFull`, \
+and also \
 `StacksDraft.ArtinApproximation.exists_common_elementaryEtaleNeighborhood_absoluteApproximation` \
 in `StacksFrontier.AlgebraicGeometry.Morphisms.EtaleNeighbourhood.RelativeMapApproximation`. NO \
 hypothesis beyond the source's is carried: \

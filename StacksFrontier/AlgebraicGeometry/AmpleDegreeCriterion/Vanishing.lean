@@ -57,14 +57,14 @@ shape is how two spellings of one debt get created.
 `hvan` is an implication out of `0 < deg 𝓛` on purpose, and both halves keep that shape.
 Assumed unconditionally, the vanishing hypothesis of [Stacks, Tag 0B5P] makes `𝓛` ample
 outright: the left side of the biconditional becomes constantly true and what remains to prove
-is `0 < deg 𝓛`, which the hypothesis set would then have to force. As implications, nothing is forced —
-`hasAffinePowerOfDegreePos_of_not_pos` and
+is `0 < deg 𝓛`, which the hypothesis set would then have to force. As implications, nothing is
+forced — `hasAffinePowerOfDegreePos_of_not_pos` and
 `hasIdealSheafH1VanishingOfAffinePower_of_not_pos` inhabit both halves at every invertible
 module of non-positive degree, by `fun h => absurd h hneg`, so the pair is consistent with both
 sides of the biconditional being false.
 
-The second half does not mathematically need the positivity premise — its content is an implication out of
-the existence of an affine `X_s` — and it carries it anyway, so that the pair can be shown
+The second half does not mathematically need the positivity premise — its content is an implication
+out of the existence of an affine `X_s` — and it carries it anyway, so that the pair can be shown
 non-forcing without first having to decide whether a non-positive-degree module can have an
 affine nonvanishing locus on some power.
 

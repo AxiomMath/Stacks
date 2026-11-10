@@ -297,7 +297,7 @@ theorem isFinitePresentation_isFlatOver_of_completeDevissageAt
   have : ((Scheme.Modules.pullback e.hom).obj F).IsFiniteType :=
     SheafOfModules.pullback_isFiniteType e.hom.toLRSHom.toShHom F
   have hz₁ : (e.hom ≫ g) z₁ = IsLocalRing.closedPoint A := by
-    show g (e.hom z₁) = _
+    change g (e.hom z₁) = _
     rw [hez, hz]
   have hD₁ : Nonempty (CompleteDevissageAt (e.hom ≫ g) ((Scheme.Modules.pullback e.hom).obj F)
       z₁) := by

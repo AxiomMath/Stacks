@@ -78,7 +78,7 @@ opens. -/
 private lemma hasEnoughObjects_of_isBasis (T : Type u) [TopologicalSpace T]
     (B : Set (Opens T)) (hB : Opens.IsBasis B) :
     (Opens.grothendieckTopology T).HasEnoughObjects (fun U => U ∈ B) := by
-  show ∀ U : Opens T, ∃ (I : Type u) (Ui : I → Opens T)
+  change ∀ U : Opens T, ∃ (I : Type u) (Ui : I → Opens T)
     (f : ∀ i, Ui i ⟶ U), Sieve.ofArrows Ui f ∈ Opens.grothendieckTopology T U ∧
       ∀ i, Ui i ∈ B
   intro U
@@ -222,7 +222,7 @@ public theorem cohomology_isLimit_of_isDerivedLimit_of_epi
         Nonempty (IsLimit (Cone.mk _ τ)) := ⟨τ', hτ', hτlimit⟩
   obtain ⟨e, he⟩ := exists_iso_of_distTriang_of_common_second p p' _ δ δ' hδ hδ'
   refine ⟨(Functor.const ℕᵒᵖ).map (H.map e.hom) ≫ σ, fun n => ?_, ?_⟩
-  · show H.map e.hom ≫ σ.app (op n) = H.map (p ≫ Pi.π (fun n : ℕ => K'.obj ⟨n⟩) n)
+  · change H.map e.hom ≫ σ.app (op n) = H.map (p ≫ Pi.π (fun n : ℕ => K'.obj ⟨n⟩) n)
     rw [hσ n]
     exact (H.map_comp _ _).symm.trans (congrArg H.map
       ((Category.assoc e.hom p' (Pi.π (fun n : ℕ => K'.obj ⟨n⟩) n)).symm.trans

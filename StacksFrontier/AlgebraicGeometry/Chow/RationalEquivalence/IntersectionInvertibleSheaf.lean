@@ -111,7 +111,7 @@ theorem length_quotient_ker_eq_length {R S : Type*} [CommRing R] [CommRing S]
       map_smul' := by
         intro r z
         obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective z
-        show e (algebraMap R (R ⧸ RingHom.ker f) r *
+        change e (algebraMap R (R ⧸ RingHom.ker f) r *
           Ideal.Quotient.mk (RingHom.ker f) a) = f r * f a
         rw [map_mul]
         simp [e, RingHom.quotientKerEquivOfSurjective_apply_mk] }
@@ -132,7 +132,7 @@ theorem length_self_eq_of_ringEquiv {R S : Type*} [CommRing R] [CommRing S]
       map_add' := e.map_add
       map_smul' := by
         intro r x
-        show e (f r * x) = e r * e x
+        change e (f r * x) = e r * e x
         rw [hf]
         exact e.map_mul r x }
   let : IsScalarTower R S S := IsScalarTower.of_algebraMap_eq fun _ => rfl
@@ -241,7 +241,7 @@ theorem isIso_stalkMap_fromSpecStalk {X : Scheme.{u}} (x : X)
   have hloc : IsIso ((Spec.map (CommRingCat.ofHom
       (algebraMap R (Localization.AtPrime q.asIdeal)))).stalkMap
       (PrimeSpectrum.comap e.toRingHom p)) :=
-    AlgebraicGeometry.isIso_SpecMap_stakMap_localization (CommRingCat.of R)
+    AlgebraicGeometry.isIso_specMap_stalkMap_localization (CommRingCat.of R)
       q.asIdeal.primeCompl (PrimeSpectrum.comap e.toRingHom p)
   have he : IsIso ((Spec.map eIso.hom).stalkMap pS) :=
     ((AlgebraicGeometry.isIso_iff_isIso_stalkMap (Spec.map eIso.hom)).mp hSpecIso).2 pS
@@ -264,7 +264,7 @@ theorem isIso_stalkMap_fromSpecStalk {X : Scheme.{u}} (x : X)
   have hfirst' : IsIso ((Spec.map g).stalkMap pS) := by rwa [hgerm]
   have hfromSpecIso : ∀ z : Spec R, IsIso (hU.fromSpec.stalkMap z) :=
     (IsOpenImmersion.iff_isIso_stalkMap).mp hU.isOpenImmersion_fromSpec |>.2
-  show IsIso ((X.fromSpecStalk x).stalkMap pS)
+  change IsIso ((X.fromSpecStalk x).stalkMap pS)
   rw [← hU.fromSpecStalk_eq_fromSpecStalk hxU, IsAffineOpen.fromSpecStalk,
     Scheme.Hom.stalkMap_comp]
   exact IsIso.comp_isIso' (hfromSpecIso _) hfirst'
@@ -309,10 +309,10 @@ theorem stalk_vanishingIdeal_mem_minimalPrimes {Y : Scheme.{u}} (x : Y)
   have hmapmin : Ideal.map g.hom q ∈ (⊥ : Ideal A).minimalPrimes := by
     have hbot : Ideal.map g.hom (⊥ : Ideal Γ(Y, U)) = ⊥ := by simp
     rw [← hbot]
-    show Ideal.map (algebraMap Γ(Y, U) A) q ∈
+    change Ideal.map (algebraMap Γ(Y, U) A) q ∈
       (Ideal.map (algebraMap Γ(Y, U) A) (⊥ : Ideal Γ(Y, U))).minimalPrimes
     rw [IsLocalization.minimalPrimes_map p.asIdeal.primeCompl A (⊥ : Ideal Γ(Y, U))]
-    show Ideal.under Γ(Y, U) (Ideal.map (algebraMap Γ(Y, U) A) q) ∈
+    change Ideal.under Γ(Y, U) (Ideal.map (algebraMap Γ(Y, U) A) q) ∈
       (⊥ : Ideal Γ(Y, U)).minimalPrimes
     rw [IsLocalization.under_map_of_isPrime_disjoint p.asIdeal.primeCompl A hq hdisj]
     exact hqmin
@@ -426,7 +426,7 @@ theorem stalk_vanishingIdeal_eq_of_mem_minimalPrimes {X : Scheme.{u}} (x : X)
     refine Ideal.map_le_iff_le_comap.mpr fun a ha => ?_
     refine (PrimeSpectrum.mem_vanishingIdeal _ _).mp ha
       (PrimeSpectrum.comap (X.presheaf.germ U.1 x hxU).hom p) ?_
-    show U.2.fromSpecStalk hxU p ∈ (W : Set X)
+    change U.2.fromSpecStalk hxU p ∈ (W : Set X)
     rw [U.2.fromSpecStalk_eq_fromSpecStalk hxU]
     exact hpW
 
@@ -440,7 +440,7 @@ theorem structureSheafStalkLinearEquiv_germ {X : Scheme.{u}} (x : X) (U : X.Open
         (TopCat.Presheaf.germ (C := AddCommGrpCat.{u})
           (structureSheafModule X).val.presheaf U x hx a) =
       (X.presheaf.germ U x hx).hom a := by
-  show SemilinearStalk.commStalkRingEquiv X.presheaf x
+  change SemilinearStalk.commStalkRingEquiv X.presheaf x
     (LocallyFreeRank.unitStalkLEquiv (X.presheaf ⋙ forget₂ CommRingCat RingCat) x
       (TopCat.Presheaf.germ
         (PresheafOfModules.unit (X.presheaf ⋙ forget₂ CommRingCat RingCat)).presheaf U x hx a))
@@ -464,7 +464,7 @@ theorem stalkLMap_unitHomEquiv_symm_apply {X : Scheme.{u}} (L : X.Modules)
     (C := AddCommGrpCat.{u}) (structureSheafModule X).val.presheaf r
   rw [structureSheafStalkLinearEquiv_germ x U hx a,
     ← commStalkRingEquiv_germ X.presheaf x U hx a]
-  show (TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
+  change (TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
       ((PresheafOfModules.toPresheaf X.ringCatSheaf.obj).map (L.unitHomEquiv.symm s).val)
       (TopCat.Presheaf.germ (C := AddCommGrpCat.{u})
         ((PresheafOfModules.toPresheaf X.ringCatSheaf.obj).obj
@@ -472,7 +472,7 @@ theorem stalkLMap_unitHomEquiv_symm_apply {X : Scheme.{u}} (L : X.Modules)
   rw [TopCat.Presheaf.stalkFunctor_map_germ_apply U x hx
     ((PresheafOfModules.toPresheaf X.ringCatSheaf.obj).map (L.unitHomEquiv.symm s).val) a]
   let aR : ToType (X.ringCatSheaf.obj.obj (.op U)) := a
-  show TopCat.Presheaf.germ (C := AddCommGrpCat.{u}) L.val.presheaf U x hx
+  change TopCat.Presheaf.germ (C := AddCommGrpCat.{u}) L.val.presheaf U x hx
       (aR • s.eval (.op U)) = _
   rw [PresheafOfModules.germ_ringCat_smul L.val x U hx aR (s.eval (.op U))]
   have hs := s.property (homOfLE (show U ≤ ⊤ from le_top)).op
@@ -511,7 +511,7 @@ theorem specMapIso_quotientMk {R : Type u} [CommRing R] (I J : Ideal R) (h : I =
         op (CommRingCat.of (R ⧸ K))) h))).hom ≫
       Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk J)) =
     Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I)) := by
-  show Scheme.Spec.map (eqToHom (congrArg (fun K : Ideal R =>
+  change Scheme.Spec.map (eqToHom (congrArg (fun K : Ideal R =>
       op (CommRingCat.of (R ⧸ K))) h)) ≫
       Scheme.Spec.map (op (CommRingCat.ofHom (Ideal.Quotient.mk J))) =
     Scheme.Spec.map (op (CommRingCat.ofHom (Ideal.Quotient.mk I)))
@@ -619,7 +619,7 @@ theorem schemeDeltaDimension_le_of_isClosedImmersion (C : ChowSituation.{u})
       relativeDimension C.dimensionFunction f (i Wc.isIrreducible.genericPoint) := by
     rw [deltaDimension_eq_of_isGenericPoint C (i ≫ f) Wc _ hη,
       relativeDimension_comp_closedImmersion C.dimensionFunction i f]
-  show (deltaDimension C (i ≫ f) Wc : EInt) ≤ (k : EInt)
+  change (deltaDimension C (i ≫ f) Wc : EInt) ≤ (k : EInt)
   rw [hδ]
   exact WithBotTop.coe_le_coe.mpr hdim
 
@@ -734,7 +734,7 @@ theorem componentMultiplicity_id_eq_length_localization {X : Scheme.{u}} (x : X)
   have hlen := length_self_eq_of_ringEquiv fId hId e
   change @Module.length A A _ _ (Module.compHom A fId) = _ at hlen
   unfold componentMultiplicity
-  show ((@Module.length A A _ _ (Module.compHom A fId)).toNat : ℤ) = _
+  change ((@Module.length A A _ _ (Module.compHom A fId)).toNat : ℤ) = _
   exact_mod_cast congrArg ENat.toNat hlen
 
 /-! ### Local description of the two cycles -/
@@ -802,7 +802,7 @@ theorem cycleAssociatedToClosedSubscheme_id_apply_eq_length (C : ChowSituation.{
       ⟨W.1, W.2.1, isClosed_of_mem_irreducibleComponents W.1 W.2⟩
       (genericPoints.ofComponent W).1 (genericPoints.isGenericPoint_ofComponent W)]
     exact hW
-  show (cycleAssociatedToClosedSubscheme C f (𝟙 Y) (k + 1)).1
+  change (cycleAssociatedToClosedSubscheme C f (𝟙 Y) (k + 1)).1
     ((𝟙 Y) (genericPoints.ofComponent W).1) = _
   rw [cycleAssociatedToClosedSubscheme_apply C f (𝟙 Y) (k + 1)
     (genericPoints.ofComponent W) hdim]
@@ -875,14 +875,14 @@ theorem length_quotient_eq_sum_components (C : ChowSituation.{u}) {Y : Scheme.{u
     by_cases hxW : x ∈ (W.1 : Set Y)
     · simp only [hxW, finsum_true]
     · simp only [hxW, finsum_false]
-      show _ * _ = 0
+      change _ * _ = 0
       refine mul_eq_zero_of_right _ ?_
       refine cycleAssociatedToClosedSubscheme_apply_eq_zero _ _ _ _ _ ?_
       rintro ⟨ξ, hξx, _⟩
       refine hxW ?_
       have hx : x ∈ (Scheme.IdealSheafData.vanishingIdeal
           ⟨W.1.1, isClosed_of_mem_irreducibleComponents W.1.1 W.1.2⟩ ⊔ D).support := by
-        show x ∈ (_ : Set Y)
+        change x ∈ (_ : Set Y)
         rw [← Scheme.IdealSheafData.range_subschemeι]
         exact ⟨ξ.1, hξx⟩
       rw [Scheme.IdealSheafData.support_sup] at hx
@@ -890,7 +890,7 @@ theorem length_quotient_eq_sum_components (C : ChowSituation.{u}) {Y : Scheme.{u
       change x ∈ (_ : Set Y) at hxI
       rw [Scheme.IdealSheafData.coe_support_vanishingIdeal] at hxI
       exact hxI
-  show _ = ∑ᶠ W : T, F W
+  change _ = ∑ᶠ W : T, F W
   rw [hrestrict]
   let E := e.trans (irreducibleComponentsEquivMinimalPrimes x)
   refine (finsum_eq_of_bijective E E.bijective ?_).symm
@@ -905,12 +905,12 @@ theorem length_quotient_eq_sum_components (C : ChowSituation.{u}) {Y : Scheme.{u
     (Scheme.IdealSheafData.vanishingIdeal
       ⟨W.1.1.1, isClosed_of_mem_irreducibleComponents W.1.1.1 W.1.1.2⟩)
     D (k := k) hD x (by
-      show x ∈ (_ : Set Y)
+      change x ∈ (_ : Set Y)
       rw [Scheme.IdealSheafData.coe_support_vanishingIdeal]
       exact W.2)
     hxD hxdim U hxU a haD p hI
   have hmult := cycleAssociatedToClosedSubscheme_id_apply_eq_length C f k W.1.1 W.1.2 x p hpW
-  show _ * _ = _ * _
+  change _ * _ = _ * _
   rw [hcoef]
   exact congrArg (fun z : ℤ => z * _) hmult
 
@@ -999,7 +999,7 @@ theorem zeroCycle_eq_sum_components (C : ChowSituation.{u}) {Y : Scheme.{u}}
             (eΓ.symm 1) := by
       rw [← TopCat.Presheaf.germ_res_apply L.val.presheaf
         (homOfLE (show U.1 ≤ ⊤ from le_top)) x₀ hxU (s.eval (op ⊤))]
-      show TopCat.Presheaf.germ (C := AddCommGrpCat.{u}) L.val.presheaf U.1 x₀ hxU
+      change TopCat.Presheaf.germ (C := AddCommGrpCat.{u}) L.val.presheaf U.1 x₀ hxU
         (L.presheaf.map (homOfLE le_top).op (s.eval (op ⊤))) = _
       rw [hsU]
       exact PresheafOfModules.germ_smul L.val x₀ U.1 hxU a (eΓ.symm 1)
@@ -1033,7 +1033,7 @@ theorem zeroCycle_eq_sum_components (C : ChowSituation.{u}) {Y : Scheme.{u}}
       exact Module.length_ne_top_iff.mpr hfin
     exact length_quotient_eq_sum_components C f D k hY hD x₀
       (by
-        show x₀ ∈ (D.support : Set Y)
+        change x₀ ∈ (D.support : Set Y)
         rw [← Scheme.IdealSheafData.range_subschemeι]
         exact ⟨ξ.1, rfl⟩)
       hξdim U hxU a hDstalk haRegular ham hfinite

@@ -123,7 +123,7 @@ theorem isLocallyProjective_pushforward_of_projective_sections {Y T : Scheme.{u}
   refine (isLocallyProjective_iff_exists_affineOpen_cover _).2
     ⟨PUnit, fun _ => ⊤, TopologicalSpace.IsOpenCover.mk (by simp),
       fun _ => isAffineOpen_top _, fun _ => ?_⟩
-  show Module.Projective Γ(T, ⊤) Γ(G, ⊤)
+  change Module.Projective Γ(T, ⊤) Γ(G, ⊤)
   exact hproj
 
 /-! ### Sections of étale morphisms -/

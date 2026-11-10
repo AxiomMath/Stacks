@@ -15,7 +15,8 @@ which is locally nonempty; and the *trivial `G`-torsor* is `G` acting on itself 
 translation, which is indeed locally nonempty because it has a global section.
 
 All four notions, together with the verification that the trivial pseudo-torsor is a torsor,
-are developed in `StacksFrontier.CategoryTheory.Sites.Cohomology.Torsors.TrivialityAndGlobalSections`,
+are developed in
+`StacksFrontier.CategoryTheory.Sites.Cohomology.Torsors.TrivialityAndGlobalSections`,
 where they are the vocabulary of Stacks 03AI: a torsor is trivial exactly when it has a global
 section. This file registers the tag against those declarations.
 

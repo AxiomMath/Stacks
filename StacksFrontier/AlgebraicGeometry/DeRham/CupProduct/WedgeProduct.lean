@@ -22,7 +22,8 @@ multiplications `Ωᵖ ⊗_A Ωᵠ ⟶ Ωᵖ⁺ᵠ` to assemble into a single mo
 out of the total complex of the tensor-product bicomplex. This file assembles it.
 
 The components and the Leibniz rule they satisfy are supplied by
-`StacksFrontier.AlgebraicGeometry.DeRham.CupProduct.Basic`; what is added here is the descent of that
+`StacksFrontier.AlgebraicGeometry.DeRham.CupProduct.Basic`; what is added here is the descent of
+that
 family to the total complex, together with the identification of the resulting morphism on local
 pure tensors, which is what pins it down as the wedge product rather than some other morphism of
 complexes.

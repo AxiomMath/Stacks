@@ -106,7 +106,7 @@ theorem laumonFourierLineLatticeInput : LaumonFourierLineLatticeInput.{u} := by
   have hσc : ∀ g, (σ.comp π.toMonoidHom) (φ g) =
       σ γ * (σ₁.comp (etaleFundamentalGroupMap (laumonFamilyPr₁ k') z).toMonoidHom) g *
         (σ γ)⁻¹ := fun g => by
-    show σ (π (φ g)) = _
+    change σ (π (φ g)) = _
     rw [show π (φ g) = _ from hγ g, map_mul, map_mul, map_inv]
     rfl
   have hχ : ∀ g, χm (φ g) = artinSchreierCharacter k' (Polynomial (Polynomial k'))
@@ -122,16 +122,16 @@ theorem laumonFourierLineLatticeInput : LaumonFourierLineLatticeInput.{u} := by
   have : N.Normal := MonoidHom.normal_ker _
   have hN : ∀ g ∈ N, ρ₀ g = σ (π g) := fun g hg => by
     have h1 : χm g = 1 := by
-      show ψ.toMonoidHom.toHomUnits
+      change ψ.toMonoidHom.toHomUnits
         (((torsorCover k R (laumonModelKernel k n)).character wm pm)⁻¹ g) = 1
       rw [MonoidHom.inv_apply, MonoidHom.mem_ker.1 hg, inv_one, map_one]
-    show σ (π g) * Units.map (Matrix.scalar (Fin m) : E →+* Matrix (Fin m) (Fin m) E).toMonoidHom
+    change σ (π g) * Units.map (Matrix.scalar (Fin m) : E →+* Matrix (Fin m) (Fin m) E).toMonoidHom
       (χm g) = σ (π g)
     rw [h1, map_one, mul_one]
   have hfac : ∀ n₁ ∈ N, ∀ n₂ ∈ N, π.toMonoidHom n₁ = π.toMonoidHom n₂ → ρm n₁ = ρm n₂ := by
     intro n₁ h₁ n₂ h₂ he
     refine integralModel_eq_of_eq _ hρ₀ ?_
-    show Units.map (restrictScalarsMonoidHom b m) (ρ₀ n₁) =
+    change Units.map (restrictScalarsMonoidHom b m) (ρ₀ n₁) =
       Units.map (restrictScalarsMonoidHom b m) (ρ₀ n₂)
     rw [hN n₁ h₁, hN n₂ h₂]
     exact congrArg (fun g => Units.map (restrictScalarsMonoidHom b m) (σ g)) he

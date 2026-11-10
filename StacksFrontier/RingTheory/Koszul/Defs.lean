@@ -196,7 +196,7 @@ nonzero alternating forms of degree larger than the rank. -/
 theorem seqComplex_isZero_of_lt (f : Fin r → R) (j : ℕ) (hj : r < j) :
     Limits.IsZero ((seqComplex f).X j) := by
   apply ModuleCat.isZero_iff_subsingleton.mpr
-  show Subsingleton (⋀[R]^j (Fin r → R))
+  change Subsingleton (⋀[R]^j (Fin r → R))
   apply exteriorPower.subsingleton_of_span_eq_top_of_card_lt
     (Pi.basisFun R (Fin r)) (Pi.basisFun R (Fin r)).span_eq j
   simpa using hj

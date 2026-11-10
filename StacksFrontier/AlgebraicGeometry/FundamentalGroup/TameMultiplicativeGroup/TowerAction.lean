@@ -49,7 +49,7 @@ theorem tau_eq {m : ℕ} (γ : Gamma (inverseCharacter (Fintype.card k))) {ω : 
     (hω : ω ∈ (towerPoint k m).range) {z : Ring (towerField k m)} (hz : towerPoint k m z = ω) :
     tau k m γ ⟨ω, hω⟩ = towerPoint k m (deck k m γ z) := by
   have h : (⟨ω, hω⟩ : (towerPoint k m).range) = rangeEquiv k m z := Subtype.ext hz.symm
-  show towerPoint k m (deck k m γ ((rangeEquiv k m).symm ⟨ω, hω⟩)) = _
+  change towerPoint k m (deck k m γ ((rangeEquiv k m).symm ⟨ω, hω⟩)) = _
   rw [h, RingEquiv.symm_apply_apply]
 
 /-- `τ_γ` maps the image of `k₀^{(m)}` into itself. -/

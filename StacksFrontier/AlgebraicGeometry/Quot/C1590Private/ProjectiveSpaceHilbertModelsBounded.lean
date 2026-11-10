@@ -60,11 +60,11 @@ theorem isAlgebraicSpaceAtlasSizeLE_yoneda (V : BigFppfOver B integerBase B.cont
   ⟨isAlgebraicSpace_yoneda B integerBase B.contains_integerBase V, V, 𝟙 _,
     presheaf_id_of_iso B integerBase B.contains_integerBase _ (fun _ _ f hf => by
       have : IsIso f := hf
-      show Surjective ((𝒯).map f)
+      change Surjective ((𝒯).map f)
       infer_instance) V,
     presheaf_id_of_iso B integerBase B.contains_integerBase _ (fun _ _ f hf => by
       have : IsIso f := hf
-      show Etale ((𝒯).map f)
+      change Etale ((𝒯).map f)
       infer_instance) V, le_rfl⟩
 
 /-- **`Quot^P` has an atlas of size at most `max |U| |X_P|`**, namely the identity of

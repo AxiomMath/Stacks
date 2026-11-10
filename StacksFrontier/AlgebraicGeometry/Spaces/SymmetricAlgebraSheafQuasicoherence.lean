@@ -218,6 +218,7 @@ def symDirectSumIsoUnderlyingModule :
       (symmetricAlgebraSheaf B S hS W F)).symm
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance synthesis for the coproduct `∐` of the pieces of `Sym(ℱ)` over the étale site is slow
 /-- The module underlying the algebra sheaf `Sym(ℱ)` is the coproduct `∐_{n ∈ ℤ} Symⁿ(ℱ)` of the
 homogeneous pieces of the graded `Sym(ℱ)`. -/
 def symCoprodIsoUnderlyingModule :
@@ -229,6 +230,7 @@ def symCoprodIsoUnderlyingModule :
 /-! ### Quasi-coherence -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance synthesis for the coproduct `∐` of the pieces of `Sym(ℱ)` over the étale site is slow
 /-- The coproduct `∐_{n ∈ ℤ} Symⁿ(ℱ)` is quasi-coherent once every piece of `Sym(ℱ)` in a
 non-negative degree is.
 

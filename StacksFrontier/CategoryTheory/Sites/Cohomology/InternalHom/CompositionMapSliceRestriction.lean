@@ -132,7 +132,7 @@ theorem compositionMap_over :
   refine tensorTotal_hom_ext (X.over U) fun W t r β γ ↦ ?_
   simp only [HomologicalComplex.comp_f, SheafOfModules.comp_val,
     PresheafOfModules.comp_app, ModuleCat.comp_apply]
-  show ((sheafHomRestrictionComplexIso X U K M).hom.f (t + r)).val.app (op W)
+  change ((sheafHomRestrictionComplexIso X U K M).hom.f (t + r)).val.app (op W)
     (((((SheafOfModules.overFunctor.{u}
         (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapHomologicalComplex
       (ComplexShape.up ℤ)).map (compositionMap X K L M)).f (t + r)).val.app (op W)

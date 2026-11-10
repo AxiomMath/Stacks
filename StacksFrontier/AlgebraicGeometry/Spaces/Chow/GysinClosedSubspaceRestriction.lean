@@ -27,8 +27,8 @@ cycle-level form of this.
 * `AlgebraicGeometry.Space.cycleGroupClosedPushforward_closedSubspaceCycle_eq_of_range_eq`: the
   cycles of two closed subspaces of spaces embedded in `X` with the same image have the same
   pushforward to `X`.
-* `AlgebraicGeometry.Space.isCanonicallyRationallyEquivalentToZeroWithin_gysinCycleMap_closedSubspaceCyclePushforward_sub`:
-  the comparison above.
+* the comparison above, in the namespace `AlgebraicGeometry.Space`:
+  `isCanonicallyRationallyEquivalentToZeroWithin_gysinCycleMap_closedSubspaceCyclePushforward_sub`.
 
 ## References
 
@@ -105,7 +105,7 @@ theorem cycleGroupClosedPushforward_closedSubspaceCycle_eq_of_range_eq (sX : X �
     have hinv : inv (Subfunctor.toRange (Y₂.ι ≫ j₂)) ≫ Y₂.ι ≫ j₂ =
         (Subfunctor.range (Y₂.ι ≫ j₂)).ι := by
       rw [IsIso.inv_comp_eq, Subfunctor.toRange_ι]
-    show (Subfunctor.toRange (Y₁.ι ≫ j₁) ≫ Subfunctor.homOfLe hrange.le ≫
+    change (Subfunctor.toRange (Y₁.ι ≫ j₁) ≫ Subfunctor.homOfLe hrange.le ≫
       inv (Subfunctor.toRange (Y₂.ι ≫ j₂))) ≫ Y₂.ι ≫ j₂ = Y₁.ι ≫ j₁
     simp only [Category.assoc, hinv, Subfunctor.homOfLe_ι, Subfunctor.toRange_ι]
   exact cycleGroupClosedPushforward_closedSubspaceCycle_eq_of_iso D sX hX hj₁ hj₂ s₁ hT₁ s₂ hT₂
@@ -150,7 +150,7 @@ theorem preimage_closedSubspaceComponentImage
   · intro hy
     have h1 := congrArg (fun f => f.app U (⟨y, hy⟩ : V.subspace.toFunctor.obj U)) hφ
     simp only at h1
-    show Y.1.ι.app U y ∈ (closedSubspaceComponentImage D sX hX Y.1 Y.2 V).subspace.obj U
+    change Y.1.ι.app U y ∈ (closedSubspaceComponentImage D sX hX Y.1 Y.2 V).subspace.obj U
     have h2 : Y.1.ι.app U y = (closedSubspaceComponentImage D sX hX Y.1 Y.2 V).subspace.ι.app U
         (φ.hom.app U ⟨y, hy⟩) := h1.symm
     rw [h2]
@@ -175,7 +175,7 @@ theorem closedSubspaceComponentImage_le
     have hid : φ.hom.app U (φ.inv.app U z) = z := by
       simp
     rw [← h, hid]
-  show (closedSubspaceComponentImage D sX hX Y.1 Y.2 V).subspace.ι.app U z ∈ Y.1.obj U
+  change (closedSubspaceComponentImage D sX hX Y.1 Y.2 V).subspace.ι.app U z ∈ Y.1.obj U
   rw [h1]
   exact (V.subspace.ι.app U (φ.inv.app U z)).2
 
@@ -494,9 +494,9 @@ theorem
     (fun V => β.1 V • (K (img V) - pushY k (KY V)))
     (fun V => by
       by_cases hV : β.1 V = 0
-      · simp only [hV, if_true, zero_smul]
+      · simp only [hV, ite_true, zero_smul]
         exact isCycleFamilySumWithin_zero D p hp k _
-      · simp only [hV, if_false]
+      · simp only [hV, ite_false]
         exact (isCanonicallyRationallyEquivalentToZeroWithin_gysinComponentCycle_sub.{v} D p hp s
           Y hL k V).zsmul neg_mem_canonicalPrincipalDivisors _)
     (α := closedSubspaceCyclePushforward D p hp E k
@@ -507,7 +507,8 @@ theorem
   · refine h.mono (Set.iUnion_subset fun V => ?_)
     split_ifs with hV
     · exact Set.empty_subset _
-    · exact Set.inter_subset_inter subset_rfl (Set.subset_iUnion_of_subset V (by rw [if_neg hV]))
+    · exact Set.inter_subset_inter subset_rfl
+        (Set.subset_iUnion_of_subset V (by rw [ite_eq_right hV]))
   -- the coefficients
   have hreindex : ∑ᶠ Z' : IntegralClosedSubspace D.site D.base D.base_mem X,
       (pushY (k + 1) β).1 Z' * (K Z').1 Z = ∑ᶠ V, β.1 V * (K (img V)).1 Z := by
@@ -516,12 +517,12 @@ theorem
     · intro Z' hZ'
       by_contra hne
       refine hZ' ?_
-      show (pushY (k + 1) β).1 Z' * _ = 0
+      change (pushY (k + 1) β).1 Z' * _ = 0
       rw [hpush0 _ _ Z' fun V hV => hne ⟨V, hV⟩, zero_mul]
   have hfinX : Function.HasFiniteSupport fun V => β.1 V * (K (img V)).1 Z := by
     refine ((hΦ.finite_support (pushY (k + 1) β) Z).preimage himg.injOn).subset fun V hV => ?_
     simpa only [Function.mem_support, Set.mem_preimage, hpush] using hV
-  show (closedSubspaceCyclePushforward D p hp E k
+  change (closedSubspaceCyclePushforward D p hp E k
       (gysinCycleMap D p E hE k rule (pushY (k + 1) β))).1 Z -
     (pushY k (closedSubspaceCyclePushforward D (Y.1.ι ≫ p) hYg Y' k
       (gysinCycleMap D (Y.1.ι ≫ p) Y' hY' k ruleY β))).1 Z = _
@@ -536,11 +537,11 @@ theorem
           ∑ᶠ V, β.1 V * (KY V).1 V₀ := hΨ.apply β V₀
     rw [hpush, hB, ← finsum_sub_distrib hfinX (hΨ.finite_support β V₀)]
     refine finsum_congr fun V => ?_
-    show _ = β.1 V * ((K (img V)).1 (img V₀) - (pushY k (KY V)).1 (img V₀))
+    change _ = β.1 V * ((K (img V)).1 (img V₀) - (pushY k (KY V)).1 (img V₀))
     rw [hpush, mul_sub]
   · rw [hpush0 _ _ Z fun V hV => hZ ⟨V, hV⟩, sub_zero]
     refine finsum_congr fun V => ?_
-    show _ = β.1 V * ((K (img V)).1 Z - (pushY k (KY V)).1 Z)
+    change _ = β.1 V * ((K (img V)).1 Z - (pushY k (KY V)).1 Z)
     rw [hpush0 _ _ Z fun V hV => hZ ⟨V, hV⟩, sub_zero]
 
 end Restriction

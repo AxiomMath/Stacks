@@ -116,7 +116,7 @@ private theorem uliftFamily_hasProducts
           | mk h =>
             cases h
             simp [D, D', F])
-  show HasLimit D'
+  change HasLimit D'
   rw [← hD]
   exact ⟨⟨c, hc⟩⟩
 
@@ -175,7 +175,7 @@ private theorem extendScalarsPresheafHomAddEquiv_precomp
       extendScalarsPresheafHomAddEquiv R F M
         (extendScalarsPresheafMap R g ≫ f) := by
   ext V x
-  show (f.app V) (1 ⊗ₜ[ℤ] g.app V x) =
+  change (f.app V) (1 ⊗ₜ[ℤ] g.app V x) =
     (f.app V) (1 ⊗ₜ[ℤ] g.app V x)
   rfl
 
@@ -493,7 +493,7 @@ private theorem injective_moduleCechCohomology_isZero_aux
       (cechComplex E'
         (M'.presheaf ⋙
           AddCommGrpCat.uliftFunctor.{u, max (max a u v w t) v})).ExactAt p := by
-    show ((liftedCechComplexFunctor E').obj M'.presheaf).ExactAt p
+    change ((liftedCechComplexFunctor E').obj M'.presheaf).ExactAt p
     exact hLift
   have hCechLift : (cechComplex E' M'.presheaf).ExactAt p :=
     hLift'.of_iso ((cechComplexFunctor E').mapIso η).symm

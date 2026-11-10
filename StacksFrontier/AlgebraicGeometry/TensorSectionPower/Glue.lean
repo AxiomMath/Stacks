@@ -86,7 +86,8 @@ spellings named below is not on Tag 01PW's path.
 
 The graded module the map is defined on **does** exist, as of
 `Stacks.TwistedSectionModule.twistModule` (`TwistedSectionModule/Monoidal.lean`), with its
-`ℤ`-grading in `StacksFrontier/AlgebraicGeometry/TwistedSectionModule/Grading.lean` and the source `Γ_*(X, 𝓕, L)_{(s)}` of 0B5L's map named over
+`ℤ`-grading in `StacksFrontier/AlgebraicGeometry/TwistedSectionModule/Grading.lean` and the source
+`Γ_*(X, 𝓕, L)_{(s)}` of 0B5L's map named over
 library vocabulary as `Stacks.TwistedSectionModule.sectionAtNonvanishingOpen`; its degree-`m`
 summand is `Stacks.TwistedSectionModule.twistPow F L m`, the **right**-to-left iterate
 `(⋯(𝓕 ⊗ L) ⊗ ⋯) ⊗ L`. That is a different bracketing from the `F ⊗ powObj M k` below — the
@@ -194,7 +195,7 @@ theorem exists_tensorSection_family_of_trivializing_cover (M : X.Modules)
     have h0 : F.presheaf.map (homOfLE (hDV i)).op (z ν i)
         = X.presheaf.map (homOfLE (hDV i)).op (f i) ^ e ν i
           • F.presheaf.map (homOfLE (hDU i)).op (t ν) := (hz ν i).symm
-    show F.presheaf.map (homOfLE (h.trans (hDV i))).op (f i ^ (k - e ν i) • z ν i)
+    change F.presheaf.map (homOfLE (h.trans (hDV i))).op (f i ^ (k - e ν i) • z ν i)
       = X.presheaf.map (homOfLE (h.trans (hDV i))).op (f i) ^ k
           • F.presheaf.map (homOfLE (h.trans (hDU i))).op (t ν)
     rw [← map_res_res_module h (hDV i) (f i ^ (k - e ν i) • z ν i)]

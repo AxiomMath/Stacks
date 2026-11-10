@@ -119,7 +119,7 @@ public theorem exists_etaleNeighborhood_openCopies_decomposition_of_isProperOver
           _ = s := by rw [hz, N.map_point]
       let t : T := ⟨pullback.fst f N.toBase z, hzZ, hf⟩
       apply hW w' ((Fintype.equivFin T) t)
-      show pullback.fst f N.toBase (W.ι
+      change pullback.fst f N.toBase (W.ι
         ((W.ι ≫ pullback.snd f N.toBase).fiberι N.point w')) = x _
       rw [hw']
       exact congrArg Subtype.val ((Fintype.equivFin T).symm_apply_apply t).symm

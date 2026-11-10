@@ -119,7 +119,7 @@ theorem specMap_ulift_isOpenImmersion {C : Type v} {D : Type w}
   let _ : Algebra (ULift.{max v w} C) (ULift.{max v w} Cg) := iC.toAlgebra
   let _ : IsLocalization.Away (ULift.up g) (ULift.{max v w} Cg) := by
     refine IsLocalization.Away.mk (ULift.up g) ?_ ?_ ?_
-    · show IsUnit (ULift.up (algebraMap C Cg g))
+    · change IsUnit (ULift.up (algebraMap C Cg g))
       exact IsUnit.map (ULift.ringEquiv : ULift.{max v w} Cg ≃+* Cg).symm.toMonoidHom
         (IsLocalization.map_units Cg
           ⟨g, (Submonoid.mem_powers_iff g g).mpr ⟨1, by simp⟩⟩)
@@ -138,7 +138,7 @@ theorem specMap_ulift_isOpenImmersion {C : Type v} {D : Type w}
   let _ : Algebra (ULift.{max v w} D) (ULift.{max v w} Dg) := iD.toAlgebra
   let _ : IsLocalization.Away (ULift.up (f g)) (ULift.{max v w} Dg) := by
     refine IsLocalization.Away.mk (ULift.up (f g)) ?_ ?_ ?_
-    · show IsUnit (ULift.up (algebraMap D Dg (f g)))
+    · change IsUnit (ULift.up (algebraMap D Dg (f g)))
       exact IsUnit.map (ULift.ringEquiv : ULift.{max v w} Dg ≃+* Dg).symm.toMonoidHom
         (IsLocalization.map_units Dg
           ⟨f g, (Submonoid.mem_powers_iff (f g) (f g)).mpr ⟨1, by simp⟩⟩)
@@ -175,7 +175,7 @@ theorem specMap_ulift_isOpenImmersion {C : Type v} {D : Type w}
     rw [← AlgebraicGeometry.Spec.map_comp, ← AlgebraicGeometry.Spec.map_comp]
     congr 1
     ext x
-    show algebraMap D Dg (f x.down) =
+    change algebraMap D Dg (f x.down) =
       Localization.awayMap f g (algebraMap C Cg x.down)
     exact (awayMap_comp_algebraMap x.down).symm
   have hcomp : AlgebraicGeometry.IsOpenImmersion
@@ -183,12 +183,12 @@ theorem specMap_ulift_isOpenImmersion {C : Type v} {D : Type w}
     rw [hsq]
     infer_instance
   have hq : q ∈ (AlgebraicGeometry.Spec.map (CommRingCat.ofHom iD)).opensRange := by
-    show (q : PrimeSpectrum (ULift.{max v w} D)) ∈ Set.range
+    change (q : PrimeSpectrum (ULift.{max v w} D)) ∈ Set.range
       (PrimeSpectrum.comap (algebraMap (ULift.{max v w} D) (ULift.{max v w} Dg)))
     rw [PrimeSpectrum.localization_away_comap_range
       (R := ULift.{max v w} D) (S := ULift.{max v w} Dg)
       (r := ULift.up (f g))]
-    show ULift.up (f g) ∉ (q : PrimeSpectrum (ULift.{max v w} D)).asIdeal
+    change ULift.up (f g) ∉ (q : PrimeSpectrum (ULift.{max v w} D)).asIdeal
     have hnot : f g ∉
         (PrimeSpectrum.comap (eD.symm : D →+* ULift.{max v w} D) q).asIdeal := by
       simpa [q₀, hD, PrimeSpectrum.homeomorphOfRingEquiv] using hfg
@@ -224,7 +224,7 @@ lemma tensorContract_smul_diagonal (A : Type u) (C : Type v)
     tensorContract A C f (c • j.1) = c * tensorContract A C f j.1 := by
   let d : C ⊗[A] C := c ⊗ₜ[A] (1 : C) - (1 : C) ⊗ₜ[A] c
   have hd : d ∈ RingHom.ker (Algebra.TensorProduct.lmul' A).toRingHom := by
-    show (Algebra.TensorProduct.lmul' A) d = 0
+    change (Algebra.TensorProduct.lmul' A) d = 0
     simp [d, Algebra.TensorProduct.lmul'_apply_tmul]
   have hjann : j.1 ∈
       (RingHom.ker (Algebra.TensorProduct.lmul' A).toRingHom).annihilator := j.2
@@ -238,8 +238,7 @@ lemma tensorContract_smul_diagonal (A : Type u) (C : Type v)
   have hright (z : C ⊗[A] C) :
       tensorContract A C f (((1 : C) ⊗ₜ[A] c) * z) =
         c * tensorContract A C f z := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp [tensorContract]
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy =>
         calc
           tensorContract A C f (((1 : C) ⊗ₜ[A] c) * (x + y)) =
@@ -265,7 +264,7 @@ lemma tensorContract_smul_functional (A : Type u) (C : Type v)
     tensorContract A C (c • f) j.1 = c * tensorContract A C f j.1 := by
   let d : C ⊗[A] C := c ⊗ₜ[A] (1 : C) - (1 : C) ⊗ₜ[A] c
   have hd : d ∈ RingHom.ker (Algebra.TensorProduct.lmul' A).toRingHom := by
-    show (Algebra.TensorProduct.lmul' A) d = 0
+    change (Algebra.TensorProduct.lmul' A) d = 0
     simp [d, Algebra.TensorProduct.lmul'_apply_tmul]
   have hjann : j.1 ∈
       (RingHom.ker (Algebra.TensorProduct.lmul' A).toRingHom).annihilator := j.2
@@ -278,8 +277,7 @@ lemma tensorContract_smul_functional (A : Type u) (C : Type v)
   have hleft (z : C ⊗[A] C) :
       tensorContract A C (c • f) z =
         tensorContract A C f ((c ⊗ₜ[A] (1 : C)) * z) := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp [tensorContract]
+    induction z using TensorProduct.inductionOn with
     | tmul x y =>
         simp [tensorContract, TensorProduct.lift.tmul,
           algebraDualModule_smul_apply]
@@ -288,8 +286,7 @@ lemma tensorContract_smul_functional (A : Type u) (C : Type v)
   have hright :
       tensorContract A C f (((1 : C) ⊗ₜ[A] c) * j.1) =
         c * tensorContract A C f j.1 := by
-    induction j.1 using TensorProduct.induction_on with
-    | zero => simp [tensorContract]
+    induction j.1 using TensorProduct.inductionOn with
     | tmul x y =>
         simp [tensorContract, TensorProduct.lift.tmul]
     | add x y hx hy =>
@@ -314,8 +311,7 @@ lemma tensorContract_add (A : Type u) (C : Type v)
     (z : C ⊗[A] C) :
     tensorContract A C (f + g) z =
       tensorContract A C f z + tensorContract A C g z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp [tensorContract]
+  induction z using TensorProduct.inductionOn with
   | tmul x y => simp [tensorContract, TensorProduct.lift.tmul]
   | add x y hx hy =>
       calc
@@ -372,7 +368,7 @@ lemma finiteModelExtendedPairing_tmul {A : Type u} {C : Type v} {B : Type w}
     (j : ↑(diagonalAnnihilator A C)) :
     finiteModelExtendedPairing f (b ⊗ₜ[C] j) =
       b * algebraMap C B (tensorContract A C f j.1) := by
-  show b * algebraMap C B (tensorContract A C f j.1) = _
+  change b * algebraMap C B (tensorContract A C f j.1) = _
   rfl
 
 /-- The extended pairing, as a `C`-linear map in the functional. -/
@@ -386,8 +382,7 @@ def dualToFiniteModelPairing {A : Type u} {C : Type v} {B : Type w}
     intro f g
     apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp [finiteModelExtendedPairing]
+    induction z using TensorProduct.inductionOn with
     | tmul b j =>
         change b * algebraMap C B (tensorContract A C (f + g) j.1) =
           b * algebraMap C B (tensorContract A C f j.1) +
@@ -399,8 +394,7 @@ def dualToFiniteModelPairing {A : Type u} {C : Type v} {B : Type w}
     intro c f
     apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp [finiteModelExtendedPairing]
+    induction z using TensorProduct.inductionOn with
     | tmul b j =>
         simp only [finiteModelExtendedPairing_tmul, LinearMap.smul_apply]
         rw [tensorContract_smul_functional]

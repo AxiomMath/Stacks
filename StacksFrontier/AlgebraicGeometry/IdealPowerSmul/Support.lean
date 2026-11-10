@@ -192,7 +192,7 @@ theorem exists_supp_idealPowSmul_subset [IsNoetherian X] (F : X.Modules) [F.IsQu
   refine ⟨n, fun x hxsupp ↦ ?_⟩
   by_contra hxZ
   obtain ⟨i, hxi⟩ := Opens.mem_iSup.mp (show x ∈ ⨆ i, (V i).1 by rw [hV]; trivial)
-  obtain ⟨f, hf, hfp⟩ := SetLike.not_le_iff_exists.mp fun h ↦
+  obtain ⟨f, hf, hfp⟩ := IsConcreteLE.not_le_iff_exists.mp fun h ↦
     hxZ ((mem_closed_iff_vanishingIdeal_le Z₁ (V i) x hxi).mpr h)
   refine notMem_supp_of_smul_eq_zero F (idealPowSmul (closedIdeal Z₂) n F)
     (isQuasicoherent_idealPowSmul _ n F) (V i) x hxi (f ^ n) ?_ ?_ hxsupp

@@ -113,7 +113,7 @@ theorem C1573.eq_zero_of_comp_projection_eq_zero
   obtain ⟨n⟩ := n
   refine (cancel_epi (smallEtaleAdicQuotientProjection B (Spec (.of A)) hA X.1 X.2
     (baseIdealSubmodule X.1 X.2 I) (n + 1) M.obj)).1 ?_
-  show smallEtaleAdicQuotientProjection B (Spec (.of A)) hA X.1 X.2 _ (n + 1) M.obj ≫
+  change smallEtaleAdicQuotientProjection B (Spec (.of A)) hA X.1 X.2 _ (n + 1) M.obj ≫
       idealPowerQuotientMapOfHom B (Spec (.of A)) hA X.1 X.2 _ (n + 1) φ.hom =
     smallEtaleAdicQuotientProjection B (Spec (.of A)) hA X.1 X.2 _ (n + 1) M.obj ≫
       idealPowerQuotientMapOfHom B (Spec (.of A)) hA X.1 X.2 _ (n + 1) (0 : M ⟶ N).hom

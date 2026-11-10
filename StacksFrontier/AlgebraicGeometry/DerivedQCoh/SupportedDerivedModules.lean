@@ -234,7 +234,8 @@ private theorem isZero_derivedRestrict_of_supported (T : Set X) (V : X.Opens)
 
 /-- **An object whose cohomology is supported on `T` restricts to zero on an open subscheme
 disjoint from `T`.** -/
-public alias isZero_derivedRestrict_of_cohomologySupportedOn_of_subset_compl := isZero_derivedRestrict_of_supported
+public alias isZero_derivedRestrict_of_cohomologySupportedOn_of_subset_compl :=
+  isZero_derivedRestrict_of_supported
 
 /-- **An object restricting to zero on an open subscheme is supported on its complement.** -/
 public theorem cohomologySupportedOn_compl_opens_of_isZero_derivedRestrict (U : X.Opens)

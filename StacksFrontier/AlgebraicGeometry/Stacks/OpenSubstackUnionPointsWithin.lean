@@ -100,7 +100,7 @@ private theorem range_algebraicSpaceMap_iff_nonempty
     have ht' : Over.homMk t.val.fst t.property = f := by
       rw [← spacesOverSmallerBaseFunctor_hom_app_forgetIso_inv_app B T.left.1 S T.left.2 hS
         T.hom ⟨F, hF⟩ (Opposite.op V) t, ht, he]
-      show (((spacesOverSmallerBaseFunctor B T.left.1 S T.left.2 hS T.hom).obj
+      change (((spacesOverSmallerBaseFunctor B T.left.1 S T.left.2 hS T.hom).obj
         ⟨F, hF⟩).1.hom).app (Opposite.op V)
         ((e.inv.app (Opposite.op V)) ((e.hom.app (Opposite.op V)) s)) = f
       rw [Iso.hom_inv_id_app_apply]
@@ -225,7 +225,7 @@ private theorem exists_openImmersion_representation {T : BigFppfOver B S hS}
     have heq := congrArg (fun t => t.app (Opposite.op Y) a) hv
     change (α.app (Opposite.op Y) a).val = a ≫ v at heq
     rw [← heq]
-    show (α.app (Opposite.op Y) ((inv α).app (Opposite.op Y) ⟨g, hg⟩)).val = g
+    change (α.app (Opposite.op Y) ((inv α).app (Opposite.op Y) ⟨g, hg⟩)).val = g
     have hcancel := congrArg (fun t => t.app (Opposite.op Y) ⟨g, hg⟩)
       (IsIso.inv_hom_id α)
     exact congrArg Subtype.val hcancel
@@ -307,7 +307,7 @@ private theorem exists_fieldValuedPoint_over_point {𝒳 : AlgebraicStacks.{u, w
   have hmap : 𝒳.val.val.p.map g = eqToHom h ≫ a := by
     simpa using IsHomLift.fac' 𝒳.val.val.p a g
   rw [hmap, D.map_comp]
-  show f (e.hom (e.inv _)) = t
+  change f (e.hom (e.inv _)) = t
   simp [f, Scheme.fromSpecResidueField_apply]
 
 /-! ### The union -/

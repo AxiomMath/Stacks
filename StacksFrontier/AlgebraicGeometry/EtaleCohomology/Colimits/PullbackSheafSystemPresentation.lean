@@ -72,7 +72,7 @@ theorem EtaleSheafSystem.isPullbackCocone_ofCocone :
   intro i j a
   have hp := smallEtalePullbackAbComp'_assoc_app (c.π.app i) (D.map a) (ι j) (c.π.app j)
     (c.w a).symm (ι i) (hι a).symm g (hg j).symm (hg i).symm G
-  show (conePullbackComp c a).inv.app _ ≫ (smallEtalePullbackAb (c.π.app i)).map
+  change (conePullbackComp c a).inv.app _ ≫ (smallEtalePullbackAb (c.π.app i)).map
     ((smallEtalePullbackAbComp' (D.map a) (ι j) (ι i) (hι a).symm).hom.app G) ≫
       (smallEtalePullbackAbComp' (c.π.app i) (ι i) g (hg i).symm).hom.app G =
     (smallEtalePullbackAbComp' (c.π.app j) (ι j) g (hg j).symm).hom.app G

@@ -214,8 +214,7 @@ private lemma residuePairMap_commonField_eval (n m : ℕ+) {L : Type*} [Field L]
   classical
   let : Algebra ℤ L := Ring.toIntAlgebra _
   refine RingHom.ext fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul a b => simp [residuePairMap]
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 
@@ -242,8 +241,7 @@ lemma closure_iUnion_range_residuePairMap_meets_diagonal (_hp : Function.Injecti
   let δ : A ⊗[ℤ] A →+* B :=
     (Algebra.TensorProduct.productMap f.toIntAlgHom f.toIntAlgHom).toRingHom
   have hfactor (z : A ⊗[ℤ] A) : Ideal.Quotient.mk M (δ z) = fbar (diagonalMap A z) := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a b => simp [δ, fbar, diagonalMap]
     | add x y hx hy => simp only [map_add, hx, hy]
   refine ⟨PrimeSpectrum.comap (diagonalMap A) q, ?_, q, rfl⟩

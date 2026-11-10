@@ -170,7 +170,7 @@ theorem of_algEquiv (e : A₂ ≃ₐ[R] A) {K₂ : DerivedCategory (ModuleCat.{u
     e'.toRingEquiv.symm.symm.toRingHom.comp (f₂.comp e.symm.toRingEquiv.toRingHom)
   have hh : h = (Algebra.TensorProduct.includeLeftRingHom : A →+* A ⊗[R] R') := by
     ext a
-    show Algebra.TensorProduct.congr e (AlgEquiv.refl : R' ≃ₐ[R] R')
+    change Algebra.TensorProduct.congr e (AlgEquiv.refl : R' ≃ₐ[R] R')
       (e.symm a ⊗ₜ[R] (1 : R')) = a ⊗ₜ[R] (1 : R')
     rw [Algebra.TensorProduct.congr_apply, Algebra.TensorProduct.map_tmul]
     simp
@@ -225,7 +225,7 @@ theorem baseChangeBaseChangeAlgEquiv_comp (R' : Type u) [CommRing R'] [Algebra R
   let : Algebra R₁ R' := ((algebraMap R R').comp (algebraMap R₁ R)).toAlgebra
   let : IsScalarTower R₁ R R' := IsScalarTower.of_algebraMap_eq fun _ => rfl
   ext a
-  show Algebra.TensorProduct.commRight R₁ R' A₁
+  change Algebra.TensorProduct.commRight R₁ R' A₁
       (Algebra.TensorProduct.cancelBaseChange R₁ R R' R' A₁
         (Algebra.TensorProduct.congr (AlgEquiv.refl : R' ≃ₐ[R] R')
           (Algebra.TensorProduct.commRight R₁ R A₁).symm

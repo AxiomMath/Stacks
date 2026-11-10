@@ -50,10 +50,10 @@ The geometric input is the existence, over a faithfully flat map of Noetherian r
 of `S` lying over `𝔭` *of the same height*
 (`Ideal.exists_isPrime_liesOver_height_eq_of_faithfullyFlat`) — the source's `𝔮` corresponding to
 a minimal prime of the fibre ring `S ⊗_R κ(𝔭)`. Mathlib has neither this nor its ingredients, and
-they are proved here as they are in the companion statement 0353, each under the hypothesis its proof
-uses (`Algebra.HasGoingDown R S` rather than flatness, and an arbitrary ideal rather than `𝔭S`):
-a prime minimal over `I` has height zero in `R ⧸ I`; a prime minimal over `𝔭S` lies over `𝔭`; and
-such a prime has the height of `𝔭`, by Lemma 00ON with a vanishing fibre term. Being needed by
+they are proved here as they are in the companion statement 0353, each under the hypothesis its
+proof uses (`Algebra.HasGoingDown R S` rather than flatness, and an arbitrary ideal rather than
+`𝔭S`): a prime minimal over `I` has height zero in `R ⧸ I`; a prime minimal over `𝔭S` lies over `𝔭`;
+and such a prime has the height of `𝔭`, by Lemma 00ON with a vanishing fibre term. Being needed by
 0352, 0353 and 07NG alike, the existence statement is a missing lemma of the theory rather than a
 convenience of this file.
 

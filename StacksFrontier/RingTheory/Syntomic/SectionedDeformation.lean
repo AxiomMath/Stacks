@@ -350,7 +350,8 @@ private theorem Algebra.exists_finite_syntomic_lift_of_square_presentation
     obtain ⟨cf, -, hcf⟩ := hx
     choose cl hcl using fun b => hsurj (cf b)
     have hx0 : φ (∑ b ∈ sB, cl b • lf b) = φ x := by
-      set_option synthInstance.maxHeartbeats 200000 in rw [map_sum φ, ← hcf]
+      rw [show φ (∑ b ∈ sB, cl b • lf b) = ∑ b ∈ sB, φ (cl b • lf b) from
+        map_sum φ.toAddMonoidHom _ _, ← hcf]
       refine Finset.sum_congr rfl fun b _ => ?_
       rw [hsmul, hcl b, hlf b]
     have hd : x - ∑ b ∈ sB, cl b • lf b ∈

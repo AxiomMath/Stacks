@@ -117,6 +117,7 @@ variable (k : Type u) [Field k] [Fintype k] (Λ : Type) [CommRing Λ] [Finite Λ
 
 local notation "𝔸f" => affineLineStructureMap k
 
+omit [Finite Λ] in
 /-- `a⁻¹(p⁻¹ P ⊗ N)` vanishes on an open `W` that `a ≫ p` maps into an open on which `P`
 vanishes, for `N` locally free. -/
 private theorem isZero_restriction_inverseImage_tensor_of_range_subset {V Q Y U : Scheme.{u}}

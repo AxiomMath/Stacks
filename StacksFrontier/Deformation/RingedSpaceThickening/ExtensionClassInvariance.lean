@@ -121,7 +121,7 @@ theorem conormalToIdeal_eq_comp
     P.conormalToIdeal = conormalMap h hα ≫ P'.conormalToIdeal := by
   refine conormal_hom_ext.{u, u, u, u} (generatorsPresentation f E α) G (fun U x ↦ ?_)
   refine (conormalDesc_toAssociatedModule.{u, u, u, u} _ G P.idealRestriction U x).trans ?_
-  show _ = P'.conormalToIdeal.val.app U ((conormalMap h hα).val.app U _)
+  change _ = P'.conormalToIdeal.val.app U ((conormalMap h hα).val.app U _)
   refine Eq.trans ?_ (congrArg (P'.conormalToIdeal.val.app U)
     (Stacks.Sites.Conormal.conormalSheafMapOfFac_toAssociatedModule.{u, u, u, u}
       (Opens.grothendieckTopology X.carrier) X.sheaf _ _ _ _ _ _ U _)).symm

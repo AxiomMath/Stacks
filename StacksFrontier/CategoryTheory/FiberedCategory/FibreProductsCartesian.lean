@@ -78,7 +78,7 @@ private lemma exists_lift_of_commSq
     Limits.pullback.lift (p.map f') (p.map k)
       (by rw [← Functor.map_comp, ← Functor.map_comp, hfk]) ≫ eqToHom hw.symm with hα_def
   have hα_eq : α ≫ p.map a = p.map k := by
-    simp [hα_def, ha, Limits.pullback.lift_snd]
+    simp [hα_def, ha]
   obtain ⟨u, ⟨_, huComp⟩, _⟩ :=
     Functor.IsStronglyCartesian.universal_property p (p.map a) a
       (R' := p.obj t) (a' := t) α (p.map k) hα_eq.symm k
@@ -132,7 +132,7 @@ private lemma lift_comp_eq_of_isStronglyCartesian
   have h_comp : (u ≫ b) ≫ φ = f' ≫ φ := by
     rw [Category.assoc, hba, ← Category.assoc, hua, hfk]
   have h_map : p.map (u ≫ b) = p.map f' := by
-    simp [p.map_comp, hu, hb, Limits.pullback.lift_fst]
+    simp [p.map_comp, hu, hb]
   exact eq_of_map_eq_of_comp_eq p φ h_map h_comp
 
 /-- Given `φ : x ⟶ y` strongly cartesian over `p φ`, an existing fibre product

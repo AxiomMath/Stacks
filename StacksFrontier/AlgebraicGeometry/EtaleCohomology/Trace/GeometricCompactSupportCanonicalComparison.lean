@@ -248,7 +248,7 @@ theorem dominatingFstMap_self_eq_dominatingSndMap :
     (Over.homMk (CompactificationOf.Hom.map (c₁.dominatingFst c₁)) (c₁.dominatingFstMap_toBase c₁))
     (Over.homMk (CompactificationOf.Hom.map (c₁.dominatingSnd c₁)) (c₁.dominatingSndMap_toBase c₁))
     m.opensRange hU (by
-      show m.opensRange.ι ≫ CompactificationOf.Hom.map (c₁.dominatingFst c₁) =
+      change m.opensRange.ι ≫ CompactificationOf.Hom.map (c₁.dominatingFst c₁) =
         m.opensRange.ι ≫ CompactificationOf.Hom.map (c₁.dominatingSnd c₁)
       rw [← cancel_epi m.isoOpensRange.hom, ← Category.assoc, ← Category.assoc,
         m.isoOpensRange_hom_ι]

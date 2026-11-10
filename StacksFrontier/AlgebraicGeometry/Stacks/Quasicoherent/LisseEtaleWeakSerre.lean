@@ -192,7 +192,7 @@ theorem coversAreCovering :
     refine Precoverage.generate_mem_toGrothendieck
       ⟨fun _ q _ => 𝒳.val.isFiberedInGroupoids.isStronglyCartesian q, ?_⟩
     rw [GrothendieckTopology.mem_toPrecoverage_iff, Presieve.map_ofArrows]
-    show Sieve.ofArrows _ _ ∈ (etaleTopology B).over (B.obj hS) _
+    change Sieve.ofArrows _ _ ∈ (etaleTopology B).over (B.obj hS) _
     rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
     refine Precoverage.generate_mem_toGrothendieck ?_
     rw [etalePrecoverage_eq_comap, Precoverage.mem_comap_iff, Presieve.map_ofArrows]

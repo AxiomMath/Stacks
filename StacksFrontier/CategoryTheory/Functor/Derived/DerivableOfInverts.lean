@@ -116,7 +116,7 @@ lemma valueCoconeOfInverts_ι_app_comp (F : D ⥤ D') (W : MorphismProperty D)
     (hW : W.IsInvertedBy F) (X : D) (s : W.Under ⊤ X) :
     (valueCoconeOfInverts F W hW X).ι.app s ≫ F.map s.hom = 𝟙 (F.obj s.right) := by
   have h := hW s.hom s.prop
-  show (@asIso _ _ _ _ (F.map s.hom) h).inv ≫ F.map s.hom = _
+  change (@asIso _ _ _ _ (F.map s.hom) h).inv ≫ F.map s.hom = _
   simp
 
 /-- The cone with vertex `F.obj X` on the pro-object
@@ -150,7 +150,7 @@ lemma comp_valueConeOfInverts_π_app (F : D ⥤ D') (W : MorphismProperty D)
     (hW : W.IsInvertedBy F) (X : D) (s : W.Over ⊤ X) :
     F.map s.hom ≫ (valueConeOfInverts F W hW X).π.app s = 𝟙 (F.obj s.left) := by
   have h := hW s.hom s.prop
-  show F.map s.hom ≫ (@asIso _ _ _ _ (F.map s.hom) h).inv = _
+  change F.map s.hom ≫ (@asIso _ _ _ _ (F.map s.hom) h).inv = _
   simp
 
 variable (F : D ⥤ D') (W : MorphismProperty D) [W.ContainsIdentities]
@@ -162,11 +162,11 @@ theorem isRightDerivedValueAt_valueCoconeOfInverts (hW : W.IsInvertedBy F) (X : 
     F.IsRightDerivedValueAt W X (valueCoconeOfInverts F W hW X) := by
   refine ⟨MorphismProperty.Under.mk ⊤ (𝟙 X) (W.id_mem X), 𝟙 _, ?_, fun s => ?_⟩
   · have h := hW (𝟙 X) (W.id_mem X)
-    show 𝟙 _ ≫ (@asIso _ _ _ _ (F.map (𝟙 X)) h).inv = 𝟙 _
+    change 𝟙 _ ≫ (@asIso _ _ _ _ (F.map (𝟙 X)) h).inv = 𝟙 _
     simp
   · refine ⟨s, 𝟙 s, MorphismProperty.Under.homMk s.hom (by simp), ?_⟩
     have h₁ := hW s.hom s.prop
-    show F.map (𝟙 s.right) = (@asIso _ _ _ _ (F.map s.hom) h₁).inv ≫ 𝟙 _ ≫ F.map s.hom
+    change F.map (𝟙 s.right) = (@asIso _ _ _ _ (F.map s.hom) h₁).inv ≫ 𝟙 _ ≫ F.map s.hom
     simp
 
 /-- A functor inverting `W` has a value of its left derived functor at every object, namely its
@@ -176,12 +176,12 @@ theorem isLeftDerivedValueAt_valueConeOfInverts (hW : W.IsInvertedBy F) (X : D) 
     F.IsLeftDerivedValueAt W X (valueConeOfInverts F W hW X) := by
   refine ⟨MorphismProperty.Over.mk ⊤ (𝟙 X) (W.id_mem X), 𝟙 _, ?_, fun s => ?_⟩
   · have h := hW (𝟙 X) (W.id_mem X)
-    show (@asIso _ _ _ _ (F.map (𝟙 X)) h).inv ≫ 𝟙 _ = 𝟙 _
+    change (@asIso _ _ _ _ (F.map (𝟙 X)) h).inv ≫ 𝟙 _ = 𝟙 _
     simp
   · have h₁ := hW s.hom s.prop
     refine ⟨s, 𝟙 s, MorphismProperty.Over.homMk
       (B := MorphismProperty.Over.mk ⊤ (𝟙 X) (W.id_mem X)) s.hom (Category.comp_id _), ?_⟩
-    show F.map (𝟙 s.left) = F.map s.hom ≫ 𝟙 _ ≫ (@asIso _ _ _ _ (F.map s.hom) h₁).inv
+    change F.map (𝟙 s.left) = F.map s.hom ≫ 𝟙 _ ≫ (@asIso _ _ _ _ (F.map s.hom) h₁).inv
     simp
 
 /-- A functor inverting `W` is right derivable with respect to `W`: the right derived functor

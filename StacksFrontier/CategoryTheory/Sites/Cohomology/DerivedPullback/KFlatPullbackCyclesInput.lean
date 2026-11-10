@@ -38,7 +38,7 @@ objects are both limits of `parallelPair (K.d n (n + 1)) 0` — `kernelIsKernel`
 comparison morphism is built.
 
 The K-flatness hypotheses of the two sides already agree: `CyclesIsFlat` is written with
-`Stacks.SheafOfModules.KFlat.KFlat O.O`, Tag 0G7C with
+`Stacks.SheafOfModules.KFlat O.O`, Tag 0G7C with
 `CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor O.O)`, and
 `Stacks.SheafOfModules.KFlat.kFlat_iff_kFlatBifunctor` is `Iff.rfl`, so the hypothesis is passed
   through
@@ -136,10 +136,10 @@ theorem kFlat_pullbackComplex_of_pullbackPreserves
     (hpf : PullbackPreservesIsFlat f)
     (hex : PullbackPreservesShortExact f)
     (K : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat Y.O K)
+    (hK : Stacks.SheafOfModules.KFlat Y.O K)
     (hflatK : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O)
       (K.X i)) :
-    Stacks.SheafOfModules.KFlat.KFlat X.O ((pullbackComplex f).obj K) :=
+    Stacks.SheafOfModules.KFlat X.O ((pullbackComplex f).obj K) :=
   kFlat_pullbackComplex f hmos hpf hex (cyclesIsFlat Y) K hK hflatK
 
 omit [X.J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
@@ -161,10 +161,10 @@ theorem kFlat_pullbackComplex_of_acyclic
     (hpf : PullbackPreservesIsFlat f)
     (M : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
     (hMacyc : M.Acyclic)
-    (hMk : Stacks.SheafOfModules.KFlat.KFlat Y.O M)
+    (hMk : Stacks.SheafOfModules.KFlat Y.O M)
     (hflat : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O)
       (M.X i)) :
-    Stacks.SheafOfModules.KFlat.KFlat X.O ((pullbackComplex f).obj M) :=
+    Stacks.SheafOfModules.KFlat X.O ((pullbackComplex f).obj M) :=
   kFlat_pullbackComplex_of_isFlat_cycles f hmos hpf M hflat
     (cyclesIsFlat Y M hMacyc hMk hflat)
 

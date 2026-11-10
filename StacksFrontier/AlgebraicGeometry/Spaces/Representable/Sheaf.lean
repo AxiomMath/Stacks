@@ -45,7 +45,7 @@ public theorem isSheaf_of_relativelyRepresentable
   let J := AlgebraicGeometry.BigFppfOver.topology B S hS
   let _ : B.topology.Subcanonical := BigFppfSite.subcanonical_topology B
   let _ : J.Subcanonical := by
-    show (B.topology.over (B.obj hS)).Subcanonical
+    change (B.topology.over (B.obj hS)).Subcanonical
     infer_instance
   have hG' : Presieve.IsSheaf J G :=
     (CategoryTheory.isSheaf_iff_isSheaf_of_type J G).1 hG
@@ -78,7 +78,7 @@ public theorem isSheaf_of_relativelyRepresentable
     have htrestrict : R.functorInclusion ≫ tYon = fNat := by
       ext Y z
       rcases z with ⟨f, hf⟩
-      show F.map f.op t = fNat.app Y ⟨f, hf⟩
+      change F.map f.op t = fNat.app Y ⟨f, hf⟩
       simpa [fNat, AlgebraicGeometry.compatibleFamilyToNatTrans] using ht f hf
     have hta : tYon ≫ a = gG := hgGuniq (tYon ≫ a) <| by
       simpa [Category.assoc] using congrArg (fun q : R.functor ⟶ F => q ≫ a) htrestrict

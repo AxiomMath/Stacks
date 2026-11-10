@@ -167,7 +167,7 @@ public theorem proIsoDeligneSystem_values_comp_of_truncGELE
   let P : (ℕᵒᵖ ⥤ BoundedCoherentDerived U) → Prop := fun F =>
     ProIsoDeligneSystem j' ((DeligneSystem.values j).system (F.obj (op 0)) ⋙ R)
   obtain ⟨a, b, ha, hb⟩ := exists_isGE_isLE_boundedCoherentTStructure K
-  show P ((Functor.const ℕᵒᵖ).obj K)
+  change P ((Functor.const ℕᵒᵖ).obj K)
   rcases le_or_gt a b with hab | hab
   · refine (boundedCoherentTStructure U).prop_of_truncGELE P (fun e h => ?_)
       (fun T hT h₁ h₃ => proIsoDeligneSystem_values_comp_π₂ R (T.obj (op 0)) (hT _) h₁ h₃)

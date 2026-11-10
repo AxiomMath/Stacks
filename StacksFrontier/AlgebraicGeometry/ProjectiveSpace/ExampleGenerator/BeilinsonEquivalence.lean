@@ -333,7 +333,7 @@ theorem isZero_of_qcoh_of_hom_generator_eq_zero :
     have h0 := h m (Ψ.fullyFaithfulFunctor.preimage (eS.hom ≫ k.inv ≫ g'))
     have h1 : eS.hom ≫ k.inv ≫ g' = 0 := by
       rw [← Ψ.fullyFaithfulFunctor.map_preimage (eS.hom ≫ k.inv ≫ g'), h0, Functor.map_zero]
-    show g' = 0
+    change g' = 0
     have h2 : g' = (k.hom ≫ eS.inv) ≫ (eS.hom ≫ k.inv ≫ g') := by simp
     rw [h2, h1, comp_zero]
   have hz' : IsZero (Ψ.functor.obj L) := (ObjectProperty.ι _).map_isZero hz

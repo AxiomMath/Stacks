@@ -130,7 +130,7 @@ theorem mapEquiv_symm_apply {R : Type*} [CommRing R] {N₁ N₂ : Type*}
     (mapEquiv e).symm y = mapEquiv e.symm y := by
   rw [LinearEquiv.symm_apply_eq]
   apply Subtype.ext
-  show y.1 = ExteriorAlgebra.map e.toLinearMap (ExteriorAlgebra.map e.symm.toLinearMap y.1)
+  change y.1 = ExteriorAlgebra.map e.toLinearMap (ExteriorAlgebra.map e.symm.toLinearMap y.1)
   rw [← AlgHom.comp_apply, ExteriorAlgebra.map_comp_map, LinearEquiv.comp_coe,
     LinearEquiv.symm_trans_self, LinearEquiv.refl_toLinearMap, ExteriorAlgebra.map_id,
     AlgHom.id_apply]
@@ -333,13 +333,13 @@ theorem isQuasiIso_iff_bijective_kernelDifferential (a : Hom K L)
         exact sub_eq_zero.mpr hKxy⟩
       have hminus : a.hMinus z' = a.hMinus 0 := by
         apply Subtype.ext
-        show a.neg (x - y) = a.neg 0
+        change a.neg (x - y) = a.neg 0
         rw [map_sub, x.property, y.property, sub_self, map_zero]
       exact Subtype.ext (sub_eq_zero.mp (congrArg Subtype.val (hqa.1.1 hminus)))
     · intro z
       have hzq : a.hZero (Submodule.Quotient.mk z.1) = a.hZero 0 := by
         rw [map_zero]
-        show Submodule.Quotient.mk (a.zero z.1) = 0
+        change Submodule.Quotient.mk (a.zero z.1) = 0
         rw [z.property]
         rfl
       obtain ⟨x, hx⟩ := (Submodule.Quotient.mk_eq_zero _).mp (hqa.2.1 hzq)
@@ -352,7 +352,7 @@ theorem isQuasiIso_iff_bijective_kernelDifferential (a : Hom K L)
         have hkval : a.neg (k : K₁) = a.neg x := congrArg Subtype.val hk
         rw [hkval, sub_self]
       · apply Subtype.ext
-        show K (x - (k : K₁)) = z
+        change K (x - (k : K₁)) = z
         rw [map_sub, hx]
         exact sub_eq_self.mpr k.property
   · intro hd
@@ -363,7 +363,7 @@ theorem isQuasiIso_iff_bijective_kernelDifferential (a : Hom K L)
         exact congrArg Subtype.val hxy
       have h0 : a.kernelDifferential ⟨_, hk⟩ = a.kernelDifferential 0 := by
         apply Subtype.ext
-        show K ((x : K₁) - y) = K 0
+        change K ((x : K₁) - y) = K 0
         rw [map_sub, x.property, y.property, sub_self, map_zero]
       exact Subtype.ext (sub_eq_zero.mp (congrArg Subtype.val (hd.1 h0)))
     · intro y
@@ -376,7 +376,7 @@ theorem isQuasiIso_iff_bijective_kernelDifferential (a : Hom K L)
       refine ⟨⟨x - k, ?_⟩, ?_⟩
       · rw [LinearMap.mem_ker, map_sub, hKk, sub_self]
       · apply Subtype.ext
-        show a.neg (x - (k : K₁)) = y
+        change a.neg (x - (k : K₁)) = y
         rw [map_sub, k.property, sub_zero, hx]
     · intro x y hxy
       induction x using Submodule.Quotient.induction_on with | _ x =>
@@ -503,7 +503,7 @@ theorem kernelDeterminantEquiv_baseChange_tmul {M : Type v} {N : Type w}
     coe_baseChangeEquiv_tmul, coe_kernelDeterminantEquiv_tmul f hf x y z hz]
   have hsub : (LinearMap.ker (f.baseChange A)).subtype ∘ₗ
       (kernelBaseChangeEquiv A f hf).toLinearMap = (LinearMap.ker f).subtype.baseChange A := rfl
-  show ExteriorAlgebra.map (LinearMap.ker (f.baseChange A)).subtype
+  change ExteriorAlgebra.map (LinearMap.ker (f.baseChange A)).subtype
       (ExteriorAlgebra.map (kernelBaseChangeEquiv A f hf).toLinearMap
         ((exteriorAlgebraBaseChange R A (LinearMap.ker f)).symm
           (a ⊗ₜ[R] (x : ExteriorAlgebra R (LinearMap.ker f))))) * _ = _
@@ -595,7 +595,7 @@ theorem detEquiv_eq_arrowCongr_of_bijective (a : Hom K L) (hn : Function.Bijecti
   apply Subtype.ext
   rw [coe_kernelDeterminantEquiv_tmul _ _ _ _ ((φ w : ProjectiveDeterminant.module (M := K₀)) :
     ExteriorAlgebra R K₀) rfl]
-  show ExteriorAlgebra.map (LinearMap.ker a.zero).subtype
+  change ExteriorAlgebra.map (LinearMap.ker a.zero).subtype
     (ExteriorAlgebra.map a.kernelDifferential (x : ExteriorAlgebra R _)) * _ = _
   rw [hx, AlgHom.commutes, AlgHom.commutes, ← Algebra.smul_def]
   rfl
@@ -620,10 +620,10 @@ theorem detEquiv_id (K : K₁ →ₗ[R] K₀) (ha : (Hom.id K).IsDegreewiseSurje
   have hx : (mapEquiv (LinearEquiv.ofBijective _ hb₁)).symm x = x := by
     rw [LinearEquiv.symm_apply_eq]
     apply Subtype.ext
-    show x.1 = ExteriorAlgebra.map LinearMap.id x.1
+    change x.1 = ExteriorAlgebra.map LinearMap.id x.1
     rw [ExteriorAlgebra.map_id, AlgHom.id_apply]
   rw [hx]
-  show ExteriorAlgebra.map LinearMap.id (φ x).1 = (φ x).1
+  change ExteriorAlgebra.map LinearMap.id (φ x).1 = (φ x).1
   rw [ExteriorAlgebra.map_id, AlgHom.id_apply]
 
 end Hom
@@ -694,8 +694,7 @@ theorem determinantLineBaseChangeMap_delta (K : K₁ →ₗ[R] K₀) (hK : IsRan
     determinantLineBaseChangeMap A K (delta K hK) = delta (K.baseChange A) hK' := by
   refine LinearMap.ext fun x => ?_
   obtain ⟨t, rfl⟩ := (baseChangeEquiv (R := R) (A := A) (M := K₁)).surjective x
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add t t' ht ht' => simp only [map_add, ht, ht']
   | tmul a y =>
       rw [determinantLineBaseChangeMap_apply_baseChangeEquiv_tmul]
@@ -717,6 +716,8 @@ variable {K : K₁ →ₗ[R] K₀} {L : L₁ →ₗ[R] L₀}
 
 namespace Hom
 
+omit [Module.Finite R K₁] [Module.Projective R K₁] [Module.Finite R K₀] [Module.Projective R K₀]
+  [Module.Finite R L₁] [Module.Finite R L₀] in
 /-- The canonical element of the kernel complex of a base change is the base change of the
 canonical element of the kernel complex. -/
 theorem delta_kernelDifferential_baseChange (a : Hom K L) (ha : a.IsDegreewiseSurjective)
@@ -733,7 +734,7 @@ theorem delta_kernelDifferential_baseChange (a : Hom K L) (ha : a.IsDegreewiseSu
       mapEquiv (kernelBaseChangeEquiv A a.zero ha.2)
         (baseChangeEquiv (c ⊗ₜ[R] delta a.kernelDifferential h x)) := by
   apply Subtype.ext
-  show ExteriorAlgebra.map (a.baseChange A).kernelDifferential
+  change ExteriorAlgebra.map (a.baseChange A).kernelDifferential
       (ExteriorAlgebra.map (kernelBaseChangeEquiv A a.neg ha.1).toLinearMap
         ((exteriorAlgebraBaseChange R A (LinearMap.ker a.neg)).symm
           (c ⊗ₜ[R] (x : ExteriorAlgebra R (LinearMap.ker a.neg))))) =
@@ -745,6 +746,7 @@ theorem delta_kernelDifferential_baseChange (a : Hom K L) (ha : a.IsDegreewiseSu
     ExteriorAlgebra.map_comp_map, ← AlgHom.comp_apply, ExteriorAlgebra.map_comp_map,
     kernelDifferential_baseChange A a ha]
 
+omit [Module.Finite R K₁] [Module.Projective R K₁] in
 private theorem compatibility_baseChange_left (a : Hom K L) (ha : a.IsDegreewiseSurjective)
     [Module.Finite R (LinearMap.ker a.neg)] [Module.Projective R (LinearMap.ker a.neg)]
     [Module.Finite R (LinearMap.ker a.zero)] [Module.Projective R (LinearMap.ker a.zero)]
@@ -789,6 +791,7 @@ private theorem compatibility_baseChange_right (a : Hom K L) (ha : a.IsDegreewis
       (determinantLineBaseChangeMap_apply_baseChangeEquiv_tmul A K ψ _ _))
 
 set_option maxHeartbeats 1000000 in
+-- nested `TensorProduct.inductionOn` with `simp` over base-changed determinant modules
 set_option synthInstance.maxHeartbeats 200000 in
 private theorem compatibility_baseChange (a : Hom K L) (ha : a.IsDegreewiseSurjective)
     [Module.Finite R (LinearMap.ker a.neg)] [Module.Projective R (LinearMap.ker a.neg)]
@@ -811,14 +814,12 @@ private theorem compatibility_baseChange (a : Hom K L) (ha : a.IsDegreewiseSurje
   obtain ⟨u, rfl⟩ := (baseChangeEquiv (R := R) (A := A)
     (M := LinearMap.ker a.neg)).surjective x'
   obtain ⟨v, rfl⟩ := (baseChangeEquiv (R := R) (A := A) (M := L₁)).surjective y
-  induction u using TensorProduct.induction_on with
-  | zero => simp only [map_zero, TensorProduct.zero_tmul]
+  induction u using TensorProduct.inductionOn with
   | add u u' hu hu' =>
       simp only [LinearEquiv.map_add, LinearMap.map_add, TensorProduct.add_tmul]
       rw [hu, hu']
   | tmul a₁ x₀ =>
-      induction v using TensorProduct.induction_on with
-      | zero => simp only [map_zero, TensorProduct.tmul_zero]
+      induction v using TensorProduct.inductionOn with
       | add v v' hv hv' =>
           simp only [LinearEquiv.map_add, LinearMap.map_add, TensorProduct.tmul_add]
           rw [hv, hv']
@@ -831,6 +832,7 @@ private theorem compatibility_baseChange (a : Hom K L) (ha : a.IsDegreewiseSurje
           exact (compatibility_baseChange_right A a ha c ψ a₁ b x₀ y₀).symm
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for `Module` structures on base-changed kernels and determinant lines
 /-- **The equivalence of determinant lines of a degreewise-surjective quasi-isomorphism commutes
 with base change.** -/
 theorem detEquiv_baseChange (a : Hom K L) (ha : a.IsDegreewiseSurjective) (hqa : a.IsQuasiIso)
@@ -864,14 +866,13 @@ theorem detEquiv_baseChange (a : Hom K L) (ha : a.IsDegreewiseSurjective) (hqa :
   have hD' : D'.equiv = e := by
     refine (D'.unique e fun ψ x y => ?_).symm
     obtain ⟨t, rfl⟩ := (determinantLineBaseChange A K).surjective ψ
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | add t t' ht ht' =>
         simp only [map_add, LinearMap.add_apply, TensorProduct.tmul_add, ht, ht']
     | tmul c ψ =>
         rw [determinantLineBaseChange_tmul, he]
         exact compatibility_baseChange A a ha D _ c ψ x y
-  show D'.equiv _ = _
+  change D'.equiv _ = _
   rw [hD']
   simpa using he 1 φ
 
@@ -921,12 +922,10 @@ def cancelBaseChange (K : K₁ →ₗ[R] K₀) :
   zero := (TensorProduct.AlgebraTensorModule.cancelBaseChange R A A' A' K₀).toLinearMap
   comm := by
     refine LinearMap.ext fun t => ?_
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction t using TensorProduct.inductionOn with
     | add t t' ht ht' => simp only [map_add, ht, ht']
     | tmul a' t =>
-        induction t using TensorProduct.induction_on with
-        | zero => simp only [TensorProduct.tmul_zero, map_zero]
+        induction t using TensorProduct.inductionOn with
         | add t t' ht ht' => simp only [TensorProduct.tmul_add, map_add, ht, ht']
         | tmul a k => simp
 
@@ -937,8 +936,7 @@ def lid (K : K₁ →ₗ[R] K₀) : Hom (K.baseChange R) K where
   zero := (TensorProduct.lid R K₀).toLinearMap
   comm := by
     refine LinearMap.ext fun t => ?_
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction t using TensorProduct.inductionOn with
     | add t t' ht ht' => simp only [map_add, ht, ht']
     | tmul r k => simp
 
@@ -994,13 +992,11 @@ theorem detEquiv_cancelBaseChange (K : K₁ →ₗ[R] K₀)
     (bijective_cancelBaseChange_neg A A' K))).surjective y
   rw [LinearEquiv.symm_apply_apply]
   obtain ⟨t, rfl⟩ := (baseChangeEquiv (R := A) (A := A') (M := A ⊗[R] K₁)).surjective y
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | add t t' ht ht' => simp only [map_add, ht, ht']
   | tmul a' w =>
       obtain ⟨s, rfl⟩ := (baseChangeEquiv (R := R) (A := A) (M := K₁)).surjective w
-      induction s using TensorProduct.induction_on with
-      | zero => simp only [map_zero, TensorProduct.tmul_zero]
+      induction s using TensorProduct.inductionOn with
       | add s s' hs hs' => simp only [map_add, TensorProduct.tmul_add, hs, hs']
       | tmul a x => exact detEquiv_cancelBaseChange_tmul A A' K φ a a' x
 
@@ -1015,8 +1011,7 @@ theorem detEquiv_lid (K : K₁ →ₗ[R] K₀) (ha : (lid K).IsDegreewiseSurject
   obtain ⟨y, rfl⟩ := (mapEquiv (LinearEquiv.ofBijective _ (bijective_lid_neg K))).surjective y
   rw [LinearEquiv.symm_apply_apply]
   obtain ⟨t, rfl⟩ := (baseChangeEquiv (R := R) (A := R) (M := K₁)).surjective y
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | add t t' ht ht' => simp only [map_add, ht, ht']
   | tmul r x =>
       rw [determinantLineBaseChangeMap_apply_baseChangeEquiv_tmul]

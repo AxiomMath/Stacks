@@ -189,7 +189,7 @@ private lemma exists_base_open_preimage_le {S X : Scheme.{u}} (f : X ⟶ S) [IsP
   have hC : IsClosed C := W.2.isClosed_compl
   let U : S.Opens := ⟨(f '' C)ᶜ, (f.isClosedMap C hC).isOpen_compl⟩
   refine ⟨U, ?_, ?_⟩
-  · show s ∉ f '' C
+  · change s ∉ f '' C
     rintro ⟨x, hxC, hxs⟩
     exact hxC (hW x hxs)
   · intro x hxU
@@ -206,7 +206,7 @@ private lemma fiberHom_isPullback {X Y S : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ 
       (f ≫ g).fiberToSpecResidueField s := pullback.lift_snd ..
   refine (IsPullback.of_right ?_ h1
     (IsPullback.of_hasPullback g (S.fromSpecResidueField s)).flip).flip
-  show IsPullback (fiberHom f g s ≫ g.fiberToSpecResidueField s)
+  change IsPullback (fiberHom f g s ≫ g.fiberToSpecResidueField s)
     ((f ≫ g).fiberι s) (S.fromSpecResidueField s) (f ≫ g)
   rw [h2]
   exact (IsPullback.of_hasPullback (f ≫ g) (S.fromSpecResidueField s)).flip
@@ -261,7 +261,7 @@ private lemma flatAt_of_isIso_fiber {S : Scheme.{u}} [IsNoetherian S] {X Y : Ove
     · have hX' : AlgebraicGeometry.IsFlatOverAt X.hom.toLRSHom.toShHom F x :=
         (isFlatOverAt_unit_iff_isFlatAt X.hom x).mpr hXflat
       simpa [f, g, p.w] using hX'
-    · show AlgebraicGeometry.IsFlatOverAt fiberMapR sourceFiberModule sourcePoint
+    · change AlgebraicGeometry.IsFlatOverAt fiberMapR sourceFiberModule sourcePoint
       exact hpull
   -- The two module-theoretic hypotheses of the fibrewise criterion are supplied by name: its base
   -- sheaf of rings is written `structureSheafRing X.toRingedSpace`, and instance search does not
@@ -414,7 +414,7 @@ public theorem exists_isIso_baseChange_of_flatAt_of_isIso_fiber
     ⟨{y | Scheme.Hom.finrank pU.left y = 1},
       (Scheme.Hom.isLocallyConstant_finrank pU.left).isOpen_fiber 1⟩
   obtain ⟨W, husW, hW⟩ := exists_base_open_preimage_le gU us R fun y hy => by
-    show Scheme.Hom.finrank pU.left y = 1
+    change Scheme.Hom.finrank pU.left y = 1
     let z := (gU.fiberHomeo us).symm ⟨y, hy⟩
     have hz : gU.fiberι us z = y := gU.fiberι_fiberHomeo_symm us ⟨y, hy⟩
     have hcompat : Scheme.Hom.finrank fiberMapU z = Scheme.Hom.finrank pU.left y := by
@@ -429,7 +429,7 @@ public theorem exists_isIso_baseChange_of_flatAt_of_isIso_fiber
     have hbase : gU (pullback.fst gU W.ι z) ∈ W := by
       rw [← Scheme.Hom.comp_apply, pullback.condition, Scheme.Hom.comp_apply]
       exact (pullback.snd gU W.ι z).2
-    show Scheme.Hom.finrank fW z = 1
+    change Scheme.Hom.finrank fW z = 1
     exact (Scheme.Hom.finrank_pullback_snd pU.left (pullback.fst gU W.ι) z).trans
       (hW (pullback.fst gU W.ι z) hbase)
   have hIsoQ : IsIso ((Over.pullback (W.ι ≫ U.ι)).map p).left :=

@@ -62,7 +62,7 @@ theorem exists_mem_range_app_of_sigmaDesc {I : Type*} {G : I → Cᵒᵖ ⥤ Typ
     ∃ i, (Sigma.desc f).app c t ∈ Set.range ((f i).app c) := by
   have hfac : (Sigma.desc fun i => lift (f i) (le_iSup (fun j => range (f j)) i)) ≫
       (⨆ i, range (f i)).ι = Sigma.desc f :=
-    Sigma.hom_ext _ _ fun i => by rw [Sigma.ι_desc_assoc, lift_ι, Sigma.ι_desc]
+    Sigma.hom_ext _ _ fun i => by rw [Sigma.ι_comp_desc_assoc, lift_ι, Sigma.ι_comp_desc]
   have hmem : (Sigma.desc f).app c t ∈ (⨆ i, range (f i)).obj c := by
     rw [← hfac]
     exact ((Sigma.desc fun i => lift (f i) (le_iSup (fun j => range (f j)) i)).app c t).property
@@ -107,7 +107,8 @@ theorem exists_representing_cover_of_isRepresentable
   · intro y
     have hd : (Sigma.desc fun i => yoneda.map (yoneda.preimage (f i ≫ e.hom))) =
         Sigma.desc f ≫ e.hom :=
-      Sigma.hom_ext _ _ fun i => by rw [Sigma.ι_desc, Sigma.ι_desc_assoc, yoneda.map_preimage]
+      Sigma.hom_ext _ _ fun i => by
+        rw [Sigma.ι_comp_desc, Sigma.ι_comp_desc_assoc, yoneda.map_preimage]
     have hls : Presheaf.IsLocallySurjective (BigFppfOver.topology B S hS)
         (Sigma.desc fun i => yoneda.map (yoneda.preimage (f i ≫ e.hom))) := by
       rw [hd]
@@ -313,7 +314,7 @@ theorem exists_charts_sheafify_iSup {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     obtain ⟨t, ht⟩ : ∃ t : (yoneda.obj (T i)).obj (op W'), (w i).hom.app (op W') t = v :=
       ⟨(w i).inv.app (op W') v, by simp⟩
     refine ⟨(Sigma.ι (fun j => yoneda.obj (T j)) i).app (op W') t, Subtype.ext ?_⟩
-    rw [← NatTrans.comp_app_apply, Sigma.ι_desc]
+    rw [← NatTrans.comp_app_apply, Sigma.ι_comp_desc]
     have h2 : (((f i).app (op W') t).1 : F.obj (op W')) =
         ((w i).hom ≫ (X i).ι).app (op W') t := by
       rw [← hfL i]

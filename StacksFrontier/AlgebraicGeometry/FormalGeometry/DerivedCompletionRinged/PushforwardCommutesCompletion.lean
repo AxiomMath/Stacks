@@ -136,16 +136,17 @@ now available and the last two steps are not:
 * **Tag 0944 is the obstruction, and inside it the base case is.** The map is
   `Stacks.Cohomology.ProjectionFormulaOnRingedTopoi.projectionFormulaMap` of
   [Stacks, Tag 0B56]; the dévissage in the complex on the base is carried out on a ringed topos
-  in `StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedTensor/ProjectionFormulaPerfect.lean`, by
-  `isIso_projectionFormulaMap_of_isStrictlyPerfect` of the namespace
+  in `StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedTensor/ProjectionFormulaPerfect.lean`,
+  by `isIso_projectionFormulaMap_of_isStrictlyPerfect` of the namespace
   `Stacks.Cohomology.ProjectionFormulaPerfectDevissage`, and the Koszul complex is strictly perfect
   (`AlgebraicGeometry.RingedSite.isStrictlyPerfect_koszulPowerComplex`), so the dévissage is
   enough — but it takes the base case as the hypothesis
   `hunit : ∀ i n, IsIso (projectionFormulaMap … ((singleUnit Y.O i)⟦n⟧))`, and nothing
   discharges it. The base case is
   `Stacks.AlgebraicGeometry.ProjectionFormula.isIso_adjunctionTensorMap_unitObj`, and the
-  inventory of its four inputs in `StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedTensor/ProjectionFormulaPerfect.lean` now stands as
-  follows.
+  inventory of its four inputs in
+  `StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedTensor/ProjectionFormulaPerfect.lean` now
+  stands as follows.
 
   Three are available: the right unitors of the two derived tensor products
   (`Stacks.DerivedTensor.RingedSite.DerivedTensorProduct.rightUnitIso`, [Stacks, Tag 0FPT]) and
@@ -156,8 +157,9 @@ now available and the last two steps are not:
   `SheafOfModules.pullbackObjUnitToUnit f.fSharpRing`. That invertibility is *unconditional* for
   a morphism of ringed topoi presented by a morphism of sites, by cancellation in
   `Stacks.Sheaves.DerivedPullback.pullbackModulesSiteIso_hom_app_unit_comp_pullbackObjUnitToUnit`
-  of `StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/PullbackToposUnitComparison.lean`, which identifies it with the inverse of
-  the corepresentability isomorphism
+  of
+  `StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/PullbackToposUnitComparison.lean`,
+  which identifies it with the inverse of the corepresentability isomorphism
   `Stacks.Sheaves.RingedToposModules.pullbackModulesObjUnitIso` of [Stacks, Tag 03LU]: it is an
   isomorphism composed with it, so it is one. Mathlib proves it only for a `Final` presenting
   functor (`SheafOfModules.pullbackObjUnitToUnit`), and no declaration of this library records
@@ -168,11 +170,12 @@ now available and the last two steps are not:
   coherence of [Stacks, Tag 07A4] **in the derived category**. Its module-level form is proved,
   unconditionally in the morphism of sites, by
   `Stacks.Sheaves.DerivedPullback.pullbackToposRightUnitorCoherence` of
-  `StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/PullbackToposRightUnitorCoherence.lean`, which inhabits the proposition
+  `PullbackToposRightUnitorCoherence.lean` in
+  `StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/`, which inhabits the proposition
   `Stacks.Sheaves.DerivedPullback.PullbackToposRightUnitorCoherence` that
-  `StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/PullbackToposUnitorCoherence.lean` states. What is owed is the passage from it
-  to the derived statement: `𝒪[0]` is K-flat with flat terms, so the comparison of
-  [Stacks, Tag 07A4] at it is computed degreewise by
+  `StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/PullbackToposUnitorCoherence.lean`
+  states. What is owed is the passage from it to the derived statement: `𝒪[0]` is K-flat with flat
+  terms, so the comparison of [Stacks, Tag 07A4] at it is computed degreewise by
   `Stacks.Sheaves.DerivedPullback.pullbackToposTensorTotalIso`, and the derived right unitor is
   computed by `rightUnitIso_hom_eq`; assembling those into the derived coherence is the one
   remaining step, and no declaration does it. (The discharged base case
@@ -416,7 +419,7 @@ sheaves of ideals subject only to `hI`, which is where the construction already 
   constructed as a mate and hence natural in `K`, at an arbitrary pair of sheaves of ideals
   subject only to the relation of [Stacks, Tag 099J] between them. Its invertibility at every
   object of `D(𝒪')`, which is the tag's assertion, is
-  `AlgebraicGeometry.RingedSite.isIso_derivedCompletionPushforwardComparison_inverseImageIdealSheaf_of_isFiniteType`
+  `RingedSite.isIso_derivedCompletionPushforwardComparison_inverseImageIdealSheaf_of_isFiniteType`
   of `PushforwardCommutesCompletionLocalToGlobal.lean`, at the tag's own data: `ℐ` of finite
   type and `ℐ' = f^{-1}ℐ · 𝒪_X`"]
 def derivedCompletionPushforwardComparison :

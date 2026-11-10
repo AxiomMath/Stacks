@@ -70,7 +70,7 @@ theorem bijOn_zsmul_zsmulTorsion {N n : ℤ} (h : IsCoprime N n) :
   obtain ⟨a, b, hab⟩ := h
   refine ⟨fun _ hx => zsmul_mem_zsmulTorsion hx, injOn_zsmul_zsmulTorsion ⟨a, b, hab⟩,
     fun y hy => ⟨a • y, zsmul_mem_zsmulTorsion hy, ?_⟩⟩
-  show N • a • y = y
+  change N • a • y = y
   have hNa : N * a = 1 - b * n := by rwa [mul_comm N a, eq_sub_iff_add_eq]
   rw [← mul_smul, hNa, sub_smul, one_smul, mul_smul, mem_zsmulTorsion.1 hy, smul_zero, sub_zero]
 
@@ -88,7 +88,7 @@ theorem bijOn_zsmulTorsion_of_comp_eq_zsmul (f : A →+ B) (g : B →+ A) {N n :
   refine ⟨mapsTo_zsmulTorsion f n, ?_, ?_⟩
   · intro x hx y hy hxy
     refine injOn_zsmul_zsmulTorsion h hx hy ?_
-    show N • x = N • y
+    change N • x = N • y
     rw [← hgf, ← hgf, hxy]
   · intro y hy
     obtain ⟨z, hz, hzy⟩ := (bijOn_zsmul_zsmulTorsion (A := B) h).surjOn hy

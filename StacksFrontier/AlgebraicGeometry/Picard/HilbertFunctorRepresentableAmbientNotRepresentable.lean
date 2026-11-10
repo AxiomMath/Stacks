@@ -139,7 +139,7 @@ theorem preimage_coordOpen_truncObj (n : ℕ) :
     (truncObj k n).hom ⁻¹ᵁ coordOpen k = ⊥ := by
   have h : PrimeSpectrum.basicOpen (truncMk k n (MvPolynomial.X (0 : Fin 1))) = ⊥ :=
     (PrimeSpectrum.basicOpen_eq_bot_iff _).mpr (isNilpotent_truncMk_coord k n)
-  show Spec.map (CommRingCat.ofHom (truncMk k n)) ⁻¹ᵁ
+  change Spec.map (CommRingCat.ofHom (truncMk k n)) ⁻¹ᵁ
     PrimeSpectrum.basicOpen (MvPolynomial.X (0 : Fin 1)) = ⊥
   rw [SpecMap_preimage_basicOpen]
   exact h
@@ -182,7 +182,7 @@ theorem pow_appTop_coord_ne_zero (n : ℕ) :
     intro a c hac
     rw [← CommRingCat.hom_inv_apply (Scheme.ΓSpecIso (.of (truncRing k n))) a,
       ← CommRingCat.hom_inv_apply (Scheme.ΓSpecIso (.of (truncRing k n))) c, hac]
-  show (Spec.map (CommRingCat.ofHom (truncMk k n))).appTop
+  change (Spec.map (CommRingCat.ofHom (truncMk k n))).appTop
       ((Scheme.ΓSpecIso (.of (MvPolynomial (Fin 1) k))).inv
         (MvPolynomial.X (0 : Fin 1))) ^ n ≠ 0
   rw [specMap_truncMk_appTop_coord, ← map_pow, ← map_pow]

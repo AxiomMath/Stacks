@@ -487,7 +487,7 @@ theorem exists_iso_pointPullback_of_trivialization
     (RestrictEq.inv_comp_iff (asIso m.1)).2 hR1
   have hcomp' : (asIso m.1).inv ≫ φ₁ ≫ ψ = φ₂ ≫ ψ := by
     have h := hζ (pullback.fst v v) (pullback.snd v v) pullback.condition
-    show (asIso m.1).inv ≫ (IsPreFibered.pullbackMap O.2 (pullback.fst v v) ≫ ι) ≫ inv ι ≫ ζ =
+    change (asIso m.1).inv ≫ (IsPreFibered.pullbackMap O.2 (pullback.fst v v) ≫ ι) ≫ inv ι ≫ ζ =
       (IsPreFibered.pullbackMap O.2 (pullback.snd v v) ≫ ι) ≫ inv ι ≫ ζ
     simp only [Category.assoc, IsIso.hom_inv_id_assoc]
     rw [h]

@@ -142,7 +142,7 @@ theorem mapCocone_ι_comp_comparisonHom (κ : Q ⟶ (Functor.const P).obj T.obj)
       (presheafToSheaf K A).map (c.ι.app p) := rfl
   rw [hι, ← Category.assoc, ← Functor.map_comp, hη, Iso.comp_inv_eq]
   refine Sheaf.hom_ext ?_
-  show sheafifyMap K (κ.app p) =
+  change sheafifyMap K (κ.app p) =
     sheafifyLift K (κ.app p) T.property ≫ toSheafify K T.obj
   refine sheafify_hom_ext K _ _ ((presheafToSheaf K A).obj T.obj).property ?_
   rw [← toSheafify_naturality, ← Category.assoc, toSheafify_sheafifyLift]
@@ -202,7 +202,7 @@ theorem le_iSupSectionIdeal (ι : P → IdealSubsheaf O) (p : P) (X : Cᵒᵖ) :
     sectionIdeal (ι p) X ≤ iSupSectionIdeal ι X :=
   le_iSup (fun q => sectionIdeal (ι q) X) p
 
-omit [Category.{w', w} P] in
+omit [Category.{w', w} P] [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- Restriction along a morphism of the site maps sections of the supremum to sections of the
 supremum. -/
 theorem map_mem_iSupSectionIdeal (ι : P → IdealSubsheaf O) {X Y : Cᵒᵖ} (f : X ⟶ Y)
@@ -248,6 +248,7 @@ def quotientPresheafToISup (ι : P → IdealSubsheaf O) (p : P) :
     ext a
     rfl
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The objectwise comparison attached to the identical inclusion of a sheaf of ideals is the
 identity. -/
 theorem quotientPresheafMapOfLE_refl (I : IdealSubsheaf O) (h : I ≤ I) :
@@ -367,7 +368,7 @@ def iSupQuotientLift (ι : P → IdealSubsheaf O) {R : Cᵒᵖ ⥤ CommRingCat.{
     obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective (I := iSupSectionIdeal ι X) x
     exact ConcreteCategory.congr_hom (g.naturality f) a
 
-omit [Category.{w', w} P] in
+omit [Category.{w', w} P] [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- For `I ≤ I'`, the comparison `O/I ⟶ O/I'` followed by the factorization of `g` through `O/I'`
 is the factorization of `g` through `O/I`. -/
 theorem quotientPresheafMapOfLE_comp_quotientPresheafLift {I I' : IdealSubsheaf O} (h : I ≤ I')
@@ -381,7 +382,7 @@ theorem quotientPresheafMapOfLE_comp_quotientPresheafLift {I I' : IdealSubsheaf 
   ext a
   rfl
 
-omit [Category.{w', w} P] in
+omit [Category.{w', w} P] [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The comparison `O/I_p ⟶ O/⨆ I` followed by the factorization of `g` through `O/⨆ I` is the
 factorization of `g` through `O/I_p`. -/
 theorem quotientPresheafToISup_comp_iSupQuotientLift (ι : P → IdealSubsheaf O)
@@ -394,7 +395,7 @@ theorem quotientPresheafToISup_comp_iSupQuotientLift (ι : P → IdealSubsheaf O
   apply CommRingCat.hom_ext
   apply Ideal.Quotient.ringHom_ext
   ext a
-  show ((iSupQuotientLift ι g hI).app X).hom
+  change ((iSupQuotientLift ι g hI).app X).hom
       ((Ideal.Quotient.factor (le_iSupSectionIdeal ι p X))
         (Ideal.Quotient.mk (sectionIdeal (ι p) X) a)) = (g.app X).hom a
   rw [Ideal.Quotient.factor_mk]
@@ -404,7 +405,7 @@ theorem quotientPresheafToISup_comp_iSupQuotientLift (ι : P → IdealSubsheaf O
 
 variable {R : Cᵒᵖ ⥤ CommRingCat.{u}}
 
-omit [Category.{w', w} P] in
+omit [Category.{w', w} P] [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The factorization of `g` through `O/⨆ I` sends the class of a section `a` to `g a`. -/
 theorem iSupQuotientLift_app_mk (ι : P → IdealSubsheaf O) (g : O.obj ⟶ R)
     (hI : ∀ (p : P) (X : Cᵒᵖ) (a : O.obj.obj X), a ∈ (ι p).obj X → (g.app X).hom a = 0)
@@ -413,7 +414,7 @@ theorem iSupQuotientLift_app_mk (ι : P → IdealSubsheaf O) (g : O.obj ⟶ R)
       (g.app X).hom a :=
   rfl
 
-omit [Category.{w', w} P] in
+omit [Category.{w', w} P] [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The sieve of sections of `O/⨆ I` locally in the image of the comparison is the sieve of
 sections locally in the image of the morphism it factors.**  The objectwise quotient map is
 surjective, so a local preimage in the quotient is the class of a local preimage in `O`. -/
@@ -430,7 +431,7 @@ theorem imageSieve_iSupQuotientLift (ι : P → IdealSubsheaf O) (g : O.obj ⟶ 
     exact ⟨Ideal.Quotient.mk (iSupSectionIdeal ι (op V)) a,
       (iSupQuotientLift_app_mk ι g hI (op V) a).trans ha⟩
 
-omit [Category.{w', w} P] in
+omit [Category.{w', w} P] [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The comparison is locally surjective exactly when the morphism it factors is.** -/
 theorem isLocallySurjective_iSupQuotientLift_iff (ι : P → IdealSubsheaf O) (g : O.obj ⟶ R)
     (hI : ∀ (p : P) (X : Cᵒᵖ) (a : O.obj.obj X), a ∈ (ι p).obj X → (g.app X).hom a = 0) :
@@ -455,7 +456,7 @@ def memSieve (ι : P → IdealSubsheaf O) {X : Cᵒᵖ} (a : O.obj.obj X) : Siev
     rw [this]
     exact map_mem_sectionIdeal (ι p) k.op hp
 
-omit [Category.{w', w} P] in
+omit [Category.{w', w} P] [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- A morphism `h : V ⟶ X` lies in `memSieve ι a` exactly when the restriction of `a` along `h`
 lies in the ideal of sections of some member of the family. -/
 theorem mem_memSieve_iff (ι : P → IdealSubsheaf O) {X : Cᵒᵖ} (a : O.obj.obj X) {V : C}
@@ -463,6 +464,7 @@ theorem mem_memSieve_iff (ι : P → IdealSubsheaf O) {X : Cᵒᵖ} (a : O.obj.o
     memSieve ι a h ↔ ∃ p, O.obj.map h.op a ∈ sectionIdeal (ι p) (op V) :=
   Iff.rfl
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The equalizer sieve of two classes in the quotient by the supremum is the sieve of
 restrictions of the difference of representatives lying in some member of the family. -/
 theorem equalizerSieve_mk_eq_memSieve (ι : P → IdealSubsheaf O) [IsFiltered P]
@@ -475,13 +477,14 @@ theorem equalizerSieve_mk_eq_memSieve (ι : P → IdealSubsheaf O) [IsFiltered P
   have hmap : ∀ c : O.obj.obj X, (iSupQuotientPresheaf ι).map h.op
       (Ideal.Quotient.mk (iSupSectionIdeal ι X) c) =
       Ideal.Quotient.mk (iSupSectionIdeal ι (op V)) (O.obj.map h.op c) := fun _ => rfl
-  show (iSupQuotientPresheaf ι).map h.op (Ideal.Quotient.mk (iSupSectionIdeal ι X) a) =
+  change (iSupQuotientPresheaf ι).map h.op (Ideal.Quotient.mk (iSupSectionIdeal ι X) a) =
       (iSupQuotientPresheaf ι).map h.op (Ideal.Quotient.mk (iSupSectionIdeal ι X) b) ↔
     ∃ p, O.obj.map h.op (a - b) ∈ sectionIdeal (ι p) (op V)
   rw [hmap, hmap, map_sub]
   exact ⟨fun hab => (mem_iSupSectionIdeal_iff ι hι _ _).1 ((Submodule.Quotient.eq _).1 hab),
     fun hab => (Submodule.Quotient.eq _).2 ((mem_iSupSectionIdeal_iff ι hι _ _).2 hab)⟩
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The comparison is locally injective exactly when every section of `O` killed by the
 morphism it factors locally lies in some member of the family.**
 

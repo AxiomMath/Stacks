@@ -250,7 +250,12 @@ local notation "e₀" => canonicalFiniteLocallyConstantAbelianSheafEquivalence B
 
 attribute [local instance] sheafEquiv_functor_additive
 
-omit [QuasiCompact f] [IsSeparated f] in
+omit [QuasiCompact f] [IsSeparated f] [AlgebraicGeometry.IsNoetherian X.1]
+  [∀ (n : ℕ) (S T : B.Scheme) (f : T ⟶ S),
+    ((AlgebraicGeometry.smallEtaleBaseChange B f).sheafPushforwardContinuous
+      (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))
+      (SmallEtale.topology B S.1 S.property)
+      (SmallEtale.topology B T.1 T.property)).IsRightAdjoint] in
 /-- **The local term at a rational point `y` of the twisted trace formula is the image of
 `tr σ(F_x)`**, `x` the closed point of degree one hit by `y` and `F_x` its geometric Frobenius
 element. -/

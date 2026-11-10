@@ -101,7 +101,8 @@ that is done, this file does not give degree zero of the map **Stacks 073K**, pa
 which is `AlgebraicGeometry.Space.higherDirectImageBaseChangeMap` in degree `0`;  it gives degree
 zero of the underived map that one descends from.  The same absence is recorded, for the
 corresponding comparison map of **Stacks 0GN5** at a square of schemes, in the implementation
-notes of `StacksFrontier/AlgebraicGeometry/FlatModuleCohomologyBaseChange/DegreewiseComparison.lean`.
+notes of
+`StacksFrontier/AlgebraicGeometry/FlatModuleCohomologyBaseChange/DegreewiseComparison.lean`.
 
 The route is nevertheless mapped out, and every input it needs is proved and public.
 `Stacks.Cohomology.BaseChange.derived_fac_app` pins the descended map through the derived-functor

@@ -91,7 +91,7 @@ public theorem range_differentialAt_succ (i : ℕ) :
   apply le_antisymm
   · rw [LinearMap.range_le_ker_iff]
     ext y
-    show T.differential (T.differential y.1) = 0
+    change T.differential (T.differential y.1) = 0
     exact IsDifferentialGradedAlgebra.d_sq_zero (𝒜 := T.grade) (d := T.differential) y.1
   · intro x hx
     obtain ⟨y, hy, hdy⟩ := T.exact_positive (i + 1) x.1 (by omega) x.2
@@ -115,7 +115,7 @@ public theorem range_differentialAt_zero :
   let : IsDifferentialGradedAlgebra T.grade T.differential := T.dga
   apply le_antisymm
   · rintro x ⟨y, rfl⟩
-    show T.augmentation (T.differential y.1) = 0
+    change T.augmentation (T.differential y.1) = 0
     exact T.augmentation_differential y.1
   · intro x hx
     obtain ⟨y, hy, hdy⟩ := T.exact_zero x.1 x.2 hx

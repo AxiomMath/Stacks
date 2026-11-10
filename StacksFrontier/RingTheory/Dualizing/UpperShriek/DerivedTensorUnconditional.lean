@@ -21,8 +21,8 @@ Stacks 0C0H, a bijective ring map, with nothing carried.
 The file also records the readings of Stacks 0BZU and Stacks 0E4B at module universe equal to the
 ring universe. Those two tags hold at an arbitrary module universe, in
 `StacksFrontier.RingTheory.Dualizing.UpperShriek.DerivedTensor` and
-`StacksFrontier.RingTheory.Dualizing.UpperShriek.CompleteIntersection`; the statements here are those
-read at `v = u`, which is the generality the rest of this module works in, together with
+`StacksFrontier.RingTheory.Dualizing.UpperShriek.CompleteIntersection`; the statements here are
+those read at `v = u`, which is the generality the rest of this module works in, together with
 `Dualizing.PolynomialPresentation.tensorFormula`, which builds the isomorphism at the *canonical*
 Tate tensor factor and so makes no choice at all.
 

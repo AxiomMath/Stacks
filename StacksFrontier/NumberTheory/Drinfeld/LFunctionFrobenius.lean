@@ -119,7 +119,7 @@ public theorem charpoly_coefficientMatrixRingHom_conj {R O : Type*} [CommRing R]
     rw [← map_inv]
     rfl
   rw [map_mul, map_mul]
-  show (Q.val * _ * coefficientMatrixRingHom b r ((P⁻¹ : GL (Fin r) O) :
+  change (Q.val * _ * coefficientMatrixRingHom b r ((P⁻¹ : GL (Fin r) O) :
     Matrix (Fin r) (Fin r) O)).charpoly = _
   rw [← hQ, Matrix.charpoly_mul_comm, ← Matrix.mul_assoc, ← Units.val_mul, inv_mul_cancel,
     Units.val_one, Matrix.one_mul]
@@ -163,11 +163,11 @@ public theorem localEulerFactor_frobeniusDataOfPath
     exact (Iso.self_symm_id_assoc t t').symm
   have hF : geometricFrobeniusFamily f base y =
       g * (frobeniusDataOfPath base y t).element⁻¹ * g⁻¹ := by
-    show (frobeniusDataOfPath base y t').element⁻¹ = _
+    change (frobeniusDataOfPath base y t').element⁻¹ = _
     rw [hg]
     group
   rw [FrobeniusMatrices.localFactor]
-  show _ = localEulerFactor (σ (geometricFrobeniusFamily f base y)).val _
+  change _ = localEulerFactor (σ (geometricFrobeniusFamily f base y)).val _
   rw [hF, map_mul, map_mul, Units.val_mul, Units.val_mul, map_inv]
   exact (localEulerFactor_conj _ _ (by rw [← Units.val_mul]; simp)).symm
 
@@ -267,7 +267,7 @@ public theorem localFactor_frobeniusMatrices_coefficientRepresentationSheaf
   have := finite_residueField f y.1 y.2
   rw [LAdicSheaf.localFactor_frobeniusMatrices, FrobeniusMatrices.localFactor,
     charPowerSeries_eq_localCharSeries_matrixOf]
-  show PowerSeries.invOfUnit _ 1 = PowerSeries.invOfUnit _ 1
+  change PowerSeries.invOfUnit _ 1 = PowerSeries.invOfUnit _ 1
   congr 1
   refine localCharSeries_eq_of_charpoly_eq _ _ ?_ _
   rw [matrixOf, LinearMap.charpoly_toMatrix]

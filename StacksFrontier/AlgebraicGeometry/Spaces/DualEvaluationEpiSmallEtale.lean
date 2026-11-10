@@ -71,7 +71,8 @@ that `AlgebraicGeometry.Space.modulesMonoidalCategory` carries and the one
 elaborator's default budget.  Nothing below or downstream uses the counit.
 
 **No coevaluation is used.**  The implementation notes of
-`StacksFrontier.AlgebraicGeometry.Spaces.Perfect.ResolutionPropertyFiniteLocallyFreeDualTwist` record
+`StacksFrontier.AlgebraicGeometry.Spaces.Perfect.ResolutionPropertyFiniteLocallyFreeDualTwist`
+record
 the coevaluation `𝒪_F ⟶ M ⊗ M^∨` of Stacks 0FNY as the obstruction to the dual twist.  It is not
 needed: the twisted map of the source's last step is written down directly from the trace in
 `AlgebraicGeometry.Space.directImageDualDescent`, and a duality would only be used to *recognise*

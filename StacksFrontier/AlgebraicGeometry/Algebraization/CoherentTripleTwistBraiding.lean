@@ -279,12 +279,26 @@ public theorem pullbackTensorModulesIso_braid {X S : Scheme.{u}} (g : X ⟶ S)
 /-- The "outer" square of the reordering of a double twist, built from
 `Stacks.Algebraization.alpha_twistZ_eq_tensorHom` by
 `Stacks.Algebraization.whiskerRight_tensorHom_comp_whiskerRight`. Split off into its own
-declaration, in pure term mode with no ascribed type, so that this application gets a heartbeat
-budget of its own; this is the idiom recorded in the implementation notes of
+declaration, in pure term mode, so that this application gets a heartbeat budget of its own;
+this is the idiom recorded in the implementation notes of
 `StacksFrontier.AlgebraicGeometry.Algebraization.CoherentTripleTwistSuccessor`. -/
-private noncomputable def alpha_twistZ_tensorInvertible_braid_hw {A : Type u} [CommRing A]
+private theorem alpha_twistZ_tensorInvertible_braid_hw {A : Type u} [CommRing A]
     [IsLocalRing A] {f : A} (T : CoherentTriple A f) {L Q : CoherentTriple A f}
-    (hL : IsInvertibleTriple L) (hQ : IsInvertibleTriple Q) (n : ℤ) :=
+    (hL : IsInvertibleTriple L) (n : ℤ) :
+    letI := hL.invertible_F
+    letI := hL.invertible_F₀
+    MonoidalCategoryStruct.whiskerRight (C := Scheme.Modules _)
+        (pullbackTensorModulesIso (morphismRestrict (closedImmersion A f)
+          (Stacks.Divisors.puncturedSpectrum A)) T.F
+          (tensorPowScheme (Stacks.Divisors.puncturedSpectrum A).toScheme L.F n)).hom
+        ((Scheme.Modules.pullback (morphismRestrict (closedImmersion A f)
+          (Stacks.Divisors.puncturedSpectrum A))).obj Q.F) ≫
+      ((T.alpha.hom ⊗ₘ (hL.alphaPow n).hom) ⊗ₘ Q.alpha.hom) =
+    ((T.twistZ L hL n).alpha.hom ⊗ₘ Q.alpha.hom) ≫
+      MonoidalCategoryStruct.whiskerRight (C := Scheme.Modules _)
+        (pullbackTensorModulesIso (puncturedClosedFibre A f).ι T.F₀
+          (tensorPowScheme (closedFibre A f) L.F₀ n)).hom
+        ((Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj Q.F₀) :=
   letI := hL.invertible_F
   letI := hL.invertible_F₀
   whiskerRight_tensorHom_comp_whiskerRight Q.alpha.hom
@@ -302,9 +316,56 @@ private noncomputable def alpha_twistZ_tensorInvertible_braid_hw {A : Type u} [C
 `Stacks.Algebraization.alpha_tensorInvertible_eq_tensorHom` read through
 `Stacks.Algebraization.whiskerRight_inv_tensorHom_comp`. Split off for the same reason as
 `alpha_twistZ_tensorInvertible_braid_hw`. -/
-private noncomputable def alpha_twistZ_tensorInvertible_braid_hmid {A : Type u} [CommRing A]
+private theorem alpha_twistZ_tensorInvertible_braid_hmid {A : Type u} [CommRing A]
     [IsLocalRing A] {f : A} (T : CoherentTriple A f) {L Q : CoherentTriple A f}
-    (hL : IsInvertibleTriple L) (hQ : IsInvertibleTriple Q) (n : ℤ) :=
+    (hL : IsInvertibleTriple L) (hQ : IsInvertibleTriple Q) (n : ℤ) :
+    letI := hL.invertible_F
+    letI := hL.invertible_F₀
+    ((α_ ((Scheme.Modules.pullback (morphismRestrict (closedImmersion A f)
+            (Stacks.Divisors.puncturedSpectrum A))).obj T.F)
+          ((Scheme.Modules.pullback (morphismRestrict (closedImmersion A f)
+            (Stacks.Divisors.puncturedSpectrum A))).obj
+            (tensorPowScheme (Stacks.Divisors.puncturedSpectrum A).toScheme L.F n))
+          ((Scheme.Modules.pullback (morphismRestrict (closedImmersion A f)
+            (Stacks.Divisors.puncturedSpectrum A))).obj Q.F)).hom ≫
+        (Scheme.Modules.pullback (morphismRestrict (closedImmersion A f)
+            (Stacks.Divisors.puncturedSpectrum A))).obj T.F ◁
+          (β_ ((Scheme.Modules.pullback (morphismRestrict (closedImmersion A f)
+              (Stacks.Divisors.puncturedSpectrum A))).obj
+              (tensorPowScheme (Stacks.Divisors.puncturedSpectrum A).toScheme L.F n))
+            ((Scheme.Modules.pullback (morphismRestrict (closedImmersion A f)
+              (Stacks.Divisors.puncturedSpectrum A))).obj Q.F)).hom ≫
+        (α_ ((Scheme.Modules.pullback (morphismRestrict (closedImmersion A f)
+            (Stacks.Divisors.puncturedSpectrum A))).obj T.F)
+          ((Scheme.Modules.pullback (morphismRestrict (closedImmersion A f)
+            (Stacks.Divisors.puncturedSpectrum A))).obj Q.F)
+          ((Scheme.Modules.pullback (morphismRestrict (closedImmersion A f)
+            (Stacks.Divisors.puncturedSpectrum A))).obj
+            (tensorPowScheme (Stacks.Divisors.puncturedSpectrum A).toScheme L.F n))).inv) ≫
+      MonoidalCategoryStruct.whiskerRight (C := Scheme.Modules _)
+        (pullbackTensorModulesIso (morphismRestrict (closedImmersion A f)
+          (Stacks.Divisors.puncturedSpectrum A)) T.F Q.F).inv
+        ((Scheme.Modules.pullback (morphismRestrict (closedImmersion A f)
+          (Stacks.Divisors.puncturedSpectrum A))).obj
+          (tensorPowScheme (Stacks.Divisors.puncturedSpectrum A).toScheme L.F n)) ≫
+      ((T.tensorInvertible Q hQ).alpha.hom ⊗ₘ (hL.alphaPow n).hom) =
+    ((T.alpha.hom ⊗ₘ (hL.alphaPow n).hom) ⊗ₘ Q.alpha.hom) ≫
+      ((α_ ((Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj T.F₀)
+          ((Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj
+            (tensorPowScheme (closedFibre A f) L.F₀ n))
+          ((Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj Q.F₀)).hom ≫
+        (Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj T.F₀ ◁
+          (β_ ((Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj
+              (tensorPowScheme (closedFibre A f) L.F₀ n))
+            ((Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj Q.F₀)).hom ≫
+        (α_ ((Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj T.F₀)
+          ((Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj Q.F₀)
+          ((Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj
+            (tensorPowScheme (closedFibre A f) L.F₀ n))).inv) ≫
+      MonoidalCategoryStruct.whiskerRight (C := Scheme.Modules _)
+        (pullbackTensorModulesIso (puncturedClosedFibre A f).ι T.F₀ Q.F₀).inv
+        ((Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj
+          (tensorPowScheme (closedFibre A f) L.F₀ n)) :=
   letI := hL.invertible_F
   letI := hL.invertible_F₀
   comp_eq_of_square_pair _ _ _ _ _ _ _
@@ -318,20 +379,79 @@ private noncomputable def alpha_twistZ_tensorInvertible_braid_hmid {A : Type u} 
 
 /-- The inner half of the assembly of
 `Stacks.Algebraization.alpha_twistZ_tensorInvertible_braid`, with the twist's identification
-already unfolded to its `⊗ₘ` form. Split off with no ascribed type so that the unification of
+already unfolded to its `⊗ₘ` form. Stated through `type_of%` of its own proof term, so that its
+statement is the type that term is inferred to have, and split off so that the unification of
 `Stacks.Algebraization.comp_eq_of_inner_squares`'s twelve morphism metavariables gets a heartbeat
 budget of its own, separate from the ones spent computing `hmid` and `hw`. -/
-private noncomputable def alpha_twistZ_tensorInvertible_braid_inner {A : Type u} [CommRing A]
+private theorem alpha_twistZ_tensorInvertible_braid_inner {A : Type u} [CommRing A]
     [IsLocalRing A] {f : A} (T : CoherentTriple A f) {L Q : CoherentTriple A f}
-    (hL : IsInvertibleTriple L) (hQ : IsInvertibleTriple Q) (n : ℤ) :=
-  letI := hL.invertible_F
-  letI := hL.invertible_F₀
-  comp_eq_of_inner_squares _ _ _ _ _ _ _ _ _ _ _ _
-    (pullbackTensorModulesIso_braid (morphismRestrict (closedImmersion A f)
-      (Stacks.Divisors.puncturedSpectrum A)) T.F
-      (tensorPowScheme (Stacks.Divisors.puncturedSpectrum A).toScheme L.F n) Q.F)
-    (alpha_twistZ_tensorInvertible_braid_hmid T hL hQ n)
-    (alpha_twistZ_tensorInvertible_braid_hw T hL hQ n)
+    (hL : IsInvertibleTriple L) (hQ : IsInvertibleTriple Q) (n : ℤ) :
+    type_of% (letI := hL.invertible_F
+      letI := hL.invertible_F₀
+      comp_eq_of_inner_squares _ _ _ _ _ _ _ _ _ _ _ _
+        (pullbackTensorModulesIso_braid (morphismRestrict (closedImmersion A f)
+          (Stacks.Divisors.puncturedSpectrum A)) T.F
+          (tensorPowScheme (Stacks.Divisors.puncturedSpectrum A).toScheme L.F n) Q.F)
+        (alpha_twistZ_tensorInvertible_braid_hmid T hL hQ n)
+        (alpha_twistZ_tensorInvertible_braid_hw T (Q := Q) hL n)) := by
+  have h :=
+    letI := hL.invertible_F
+    letI := hL.invertible_F₀
+    comp_eq_of_inner_squares _ _ _ _ _ _ _ _ _ _ _ _
+      (pullbackTensorModulesIso_braid (morphismRestrict (closedImmersion A f)
+        (Stacks.Divisors.puncturedSpectrum A)) T.F
+        (tensorPowScheme (Stacks.Divisors.puncturedSpectrum A).toScheme L.F n) Q.F)
+      (alpha_twistZ_tensorInvertible_braid_hmid T hL hQ n)
+      (alpha_twistZ_tensorInvertible_braid_hw T (Q := Q) hL n)
+  exact h
+
+/-- `alpha_twistZ_tensorInvertible_braid_inner` restated with its fibre-side morphisms spelled
+over `(Stacks.Algebraization.puncturedClosedFibre A f).toScheme`, the spelling in which
+`alpha_twistZ_tensorInvertible_braid_aux` is stated. Split off so that converting between the
+two spellings of the punctured closed fibre gets a heartbeat budget of its own. -/
+private theorem alpha_twistZ_tensorInvertible_braid_inner' {A : Type u} [CommRing A]
+    [IsLocalRing A] {f : A} (T : CoherentTriple A f) {L Q : CoherentTriple A f}
+    (hL : IsInvertibleTriple L) (hQ : IsInvertibleTriple Q) (n : ℤ) :
+    letI := hL.invertible_F
+    letI := hL.invertible_F₀
+    (Scheme.Modules.pullback (morphismRestrict (closedImmersion A f)
+          (Stacks.Divisors.puncturedSpectrum A))).map
+        ((α_ T.F (tensorPowScheme (Stacks.Divisors.puncturedSpectrum A).toScheme L.F n) Q.F).hom ≫
+          T.F ◁ (β_ (tensorPowScheme (Stacks.Divisors.puncturedSpectrum A).toScheme L.F n)
+            Q.F).hom ≫
+          (α_ T.F Q.F
+            (tensorPowScheme (Stacks.Divisors.puncturedSpectrum A).toScheme L.F n)).inv) ≫
+      (pullbackTensorModulesIso (morphismRestrict (closedImmersion A f)
+          (Stacks.Divisors.puncturedSpectrum A))
+          (tensorModules (Stacks.Divisors.puncturedSpectrum A).toScheme T.F Q.F)
+          (tensorPowScheme (Stacks.Divisors.puncturedSpectrum A).toScheme L.F n)).hom ≫
+      ((T.tensorInvertible Q hQ).alpha.hom ⊗ₘ (hL.alphaPow n).hom) =
+    (pullbackTensorModulesIso (morphismRestrict (closedImmersion A f)
+          (Stacks.Divisors.puncturedSpectrum A))
+          (tensorModules (Stacks.Divisors.puncturedSpectrum A).toScheme T.F
+            (tensorPowScheme (Stacks.Divisors.puncturedSpectrum A).toScheme L.F n)) Q.F).hom ≫
+      ((T.twistZ L hL n).alpha.hom ⊗ₘ Q.alpha.hom) ≫
+      MonoidalCategoryStruct.whiskerRight (C := Scheme.Modules _)
+        (pullbackTensorModulesIso (puncturedClosedFibre A f).ι T.F₀
+          (tensorPowScheme (closedFibre A f) L.F₀ n)).hom
+        ((Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj Q.F₀) ≫
+      ((α_ ((Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj T.F₀)
+          ((Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj
+            (tensorPowScheme (closedFibre A f) L.F₀ n))
+          ((Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj Q.F₀)).hom ≫
+        (Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj T.F₀ ◁
+          (β_ ((Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj
+              (tensorPowScheme (closedFibre A f) L.F₀ n))
+            ((Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj Q.F₀)).hom ≫
+        (α_ ((Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj T.F₀)
+          ((Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj Q.F₀)
+          ((Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj
+            (tensorPowScheme (closedFibre A f) L.F₀ n))).inv) ≫
+      MonoidalCategoryStruct.whiskerRight (C := Scheme.Modules _)
+        (pullbackTensorModulesIso (puncturedClosedFibre A f).ι T.F₀ Q.F₀).inv
+        ((Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj
+          (tensorPowScheme (closedFibre A f) L.F₀ n)) :=
+  alpha_twistZ_tensorInvertible_braid_inner T hL hQ n
 
 /-- The outer assembly of `Stacks.Algebraization.alpha_twistZ_tensorInvertible_braid`: the inner
 half pasted against the reordering square on the closed-fibre side by
@@ -339,15 +459,46 @@ half pasted against the reordering square on the closed-fibre side by
 `alpha_twistZ_tensorInvertible_braid_inner` so that each of the two stages gets a heartbeat budget
 of its own, which is what the two spellings of the punctured closed fibre cost here; see the
 implementation notes of this file. -/
-private noncomputable def alpha_twistZ_tensorInvertible_braid_aux {A : Type u} [CommRing A]
+private theorem alpha_twistZ_tensorInvertible_braid_aux {A : Type u} [CommRing A]
     [IsLocalRing A] {f : A} (T : CoherentTriple A f) {L Q : CoherentTriple A f}
-    (hL : IsInvertibleTriple L) (hQ : IsInvertibleTriple Q) (n : ℤ) :=
-  letI := hL.invertible_F
-  letI := hL.invertible_F₀
-  comp_eq_of_outer_square _ _ _ _ _ _ _ _ _ _ _
-    (alpha_twistZ_tensorInvertible_braid_inner T hL hQ n)
-    (pullbackTensorModulesIso_braid (puncturedClosedFibre A f).ι T.F₀
-      (tensorPowScheme (closedFibre A f) L.F₀ n) Q.F₀)
+    (hL : IsInvertibleTriple L) (hQ : IsInvertibleTriple Q) (n : ℤ) :
+    letI := hL.invertible_F
+    letI := hL.invertible_F₀
+    (Scheme.Modules.pullback (morphismRestrict (closedImmersion A f)
+          (Stacks.Divisors.puncturedSpectrum A))).map
+        ((α_ T.F (tensorPowScheme (Stacks.Divisors.puncturedSpectrum A).toScheme L.F n) Q.F).hom ≫
+          T.F ◁ (β_ (tensorPowScheme (Stacks.Divisors.puncturedSpectrum A).toScheme L.F n)
+            Q.F).hom ≫
+          (α_ T.F Q.F
+            (tensorPowScheme (Stacks.Divisors.puncturedSpectrum A).toScheme L.F n)).inv) ≫
+      (pullbackTensorModulesIso (morphismRestrict (closedImmersion A f)
+          (Stacks.Divisors.puncturedSpectrum A))
+          (tensorModules (Stacks.Divisors.puncturedSpectrum A).toScheme T.F Q.F)
+          (tensorPowScheme (Stacks.Divisors.puncturedSpectrum A).toScheme L.F n)).hom ≫
+      ((T.tensorInvertible Q hQ).alpha.hom ⊗ₘ (hL.alphaPow n).hom) ≫
+      (pullbackTensorModulesIso (puncturedClosedFibre A f).ι
+          (tensorModules (closedFibre A f) T.F₀ Q.F₀)
+          (tensorPowScheme (closedFibre A f) L.F₀ n)).inv =
+    ((pullbackTensorModulesIso (morphismRestrict (closedImmersion A f)
+          (Stacks.Divisors.puncturedSpectrum A))
+          (tensorModules (Stacks.Divisors.puncturedSpectrum A).toScheme T.F
+            (tensorPowScheme (Stacks.Divisors.puncturedSpectrum A).toScheme L.F n)) Q.F).hom ≫
+        ((T.twistZ L hL n).alpha.hom ⊗ₘ Q.alpha.hom) ≫
+        (pullbackTensorModulesIso (puncturedClosedFibre A f).ι
+          (tensorModules (closedFibre A f) T.F₀
+            (tensorPowScheme (closedFibre A f) L.F₀ n)) Q.F₀).inv) ≫
+      (Scheme.Modules.pullback (puncturedClosedFibre A f).ι).map
+        ((α_ T.F₀ (tensorPowScheme (closedFibre A f) L.F₀ n) Q.F₀).hom ≫
+          T.F₀ ◁ (β_ (tensorPowScheme (closedFibre A f) L.F₀ n) Q.F₀).hom ≫
+          (α_ T.F₀ Q.F₀ (tensorPowScheme (closedFibre A f) L.F₀ n)).inv) := by
+  have h :=
+    letI := hL.invertible_F
+    letI := hL.invertible_F₀
+    comp_eq_of_outer_square _ _ _ _ _ _ _ _ _ _ _
+      (alpha_twistZ_tensorInvertible_braid_inner' T hL hQ n)
+      (pullbackTensorModulesIso_braid (puncturedClosedFibre A f).ι T.F₀
+        (tensorPowScheme (closedFibre A f) L.F₀ n) Q.F₀)
+  exact h
 
 /-- **The reordering of a double twist carries the identification of `(T ⊗ L^{⊗ n}) ⊗ Q` to the
 identification of `(T ⊗ Q) ⊗ L^{⊗ n}`.** This is the compatibility square that makes the

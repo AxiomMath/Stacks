@@ -222,7 +222,8 @@ come in two presentations — the one `β'` and `θ` carry (through
 `Stacks.Algebraization.adicBaseChangeCoherent`) and the one the general level lemmas produce
 (through `Stacks.Coherent.pullbackCoherentModules`). They are literally the same term:
 `adicBaseChangeCoherent` carries no `haveI` in its body, so the abbrev unfolds to
-`(pullbackCoherentModules g').obj 𝓕`. Each of the following checks in one declaration, well under a second each:
+`(pullbackCoherentModules g').obj 𝓕`. Each of the following checks in one declaration, well under a
+second each:
 `(adicBaseChangeCoherent B J π 𝓕).obj = (Scheme.Modules.pullback g').obj 𝓕.obj`, the same
 underneath `idealPowerQuotient` and underneath `π'_*`, the two-fold
 `Stacks.Coherent.coherentAdicPullback` at a level against `π'^*g^*` of the level, the sources of

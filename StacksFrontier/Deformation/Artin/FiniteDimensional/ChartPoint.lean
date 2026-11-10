@@ -56,7 +56,7 @@ theorem finite_residueField_of_isClosed_of_field {k : Type u} [Field k] {X : Sch
   change LocallyOfFiniteType (Spec.map _) at hcomp
   rw [AlgebraicGeometry.HasRingHomProperty.Spec_iff (P := @LocallyOfFiniteType)] at hcomp
   let : Algebra.FiniteType k (X.residueField x) := by
-    show RingHom.FiniteType (algebraMap k (X.residueField x))
+    change RingHom.FiniteType (algebraMap k (X.residueField x))
     convert hcomp using 1
     simp only [RingHom.algebraMap_toAlgebra]
     rw [← Scheme.Γevaluation_naturality]
@@ -133,7 +133,7 @@ theorem exists_chart_point_of_lift
     rw [Over.eqToHom_left] at hw
     exact hw.symm
   have hbase : B.inclusion.map L.hom = Spec.map (CommRingCat.ofHom (algebraMap Λ l)) ≫ iΛ := by
-    show B.inclusion.map (jT ≫ m ≫ U.hom) = _
+    change B.inclusion.map (jT ≫ m ≫ U.hom) = _
     rw [Functor.map_comp, Functor.map_comp, hjT, hUhom]
     have hΛl : CommRingCat.ofHom (algebraMap Λ l) =
         CommRingCat.ofHom (algebraMap Λ k) ≫ CommRingCat.ofHom (algebraMap k l) := rfl

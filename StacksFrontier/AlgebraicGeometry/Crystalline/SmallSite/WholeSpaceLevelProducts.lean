@@ -30,8 +30,8 @@ whose thickened and ambient schemes are affine (the open `U ⊆ X` of `A` is arb
 the same thing as a morphism of divided power thickenings of `Γ(X, ⊤)/Γ(S, ⊤)` between the rings of
 global sections, in the opposite direction: this is
 `Crystalline.GlobalCrystallineSituation.homOfAffineSections` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/BigSite/AffineSections.lean`, read through the counit of
-the equivalence `𝒞ᵒᵖ ≌ Cris(Γ(X, ⊤)/Γ(S, ⊤))`.  The object of `CRIS(Γ(X, ⊤)/Γ(S, ⊤))` attached
+`StacksFrontier/AlgebraicGeometry/Crystalline/BigSite/AffineSections.lean`, read through the counit
+of the equivalence `𝒞ᵒᵖ ≌ Cris(Γ(X, ⊤)/Γ(S, ⊤))`.  The object of `CRIS(Γ(X, ⊤)/Γ(S, ⊤))` attached
 to `A` lies in the *big* category, since `Γ(X, ⊤) → Γ(U, ⊤)` is not bijective.
 
 **Algebra.**  The finite level `D(n)/(p)^{N + e}` is the coproduct of `n + 1` copies of

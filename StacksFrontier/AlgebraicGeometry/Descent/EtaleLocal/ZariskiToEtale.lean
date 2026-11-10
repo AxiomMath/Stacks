@@ -50,7 +50,7 @@ theorem exists_surjective_etale_onto_openImage
   have hgRange : (⊤ : V.Opens) ≤ g ⁻¹ᵁ O := fun y _ => ⟨y, rfl⟩
   let gO : V ⟶ O.toScheme := V.topIso.inv ≫ g.resLE O ⊤ hgRange
   have hgOι : gO ≫ O.ι = g := by
-    show V.topIso.inv ≫ (g.resLE O ⊤ hgRange ≫ O.ι) = g
+    change V.topIso.inv ≫ (g.resLE O ⊤ hgRange ≫ O.ι) = g
     rw [Scheme.Hom.resLE_comp_ι, ← Category.assoc, Scheme.toIso_inv_ι, Category.id_comp]
   have hEt : Etale gO := by
     have : Etale (g.resLE O ⊤ hgRange) := inferInstance

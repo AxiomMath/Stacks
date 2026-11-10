@@ -214,7 +214,7 @@ private lemma exists_isRegular_ofList_eq_map_maximalIdeal {A B : Type u} [CommRi
       (q.map (Ideal.Quotient.mk I)) q Ideal.Quotient.mk_surjective ▸ inferInstance
   have : IsScalarTower A (B ⧸ I) (T ⧸ I.map (algebraMap B T)) :=
     .of_algebraMap_eq fun a => by
-      show Ideal.Quotient.mk _ (algebraMap A T a) =
+      change Ideal.Quotient.mk _ (algebraMap A T a) =
         Ideal.Quotient.mk _ (algebraMap B T (algebraMap A B a))
       rw [IsScalarTower.algebraMap_apply A B T]
   -- the fibre of `B ⧸ I` at `q'` is a complete intersection over `κ(p)`

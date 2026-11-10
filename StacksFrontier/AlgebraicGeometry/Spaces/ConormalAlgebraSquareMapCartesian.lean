@@ -187,7 +187,7 @@ theorem isInducedByPullback_conormalAlgebraSquareAmbientComparison_app (i : Z �
     (kernelIdealSheaf B S hS (f ≫ i')) (structureRingSheaf_mul_comm B S hS X')
     (kernelIdealSheaf_le_comp B S hS f i' f i' rfl) n (op d.V) s
   rw [conormalAlgebraSquareAmbientComparison_app]
-  show ((((kernelIdealGradedPullbackHom B S hS i g (f ≫ i') hsq).app n).val.app (op d.U)
+  change ((((kernelIdealGradedPullbackHom B S hS i g (f ≫ i') hsq).app n).val.app (op d.U)
       (((modulePullback B S hS g).map
         ((kernelIdealGradedAlgebraCompHom B S hS f i' f i' rfl).app n)).val.app (op d.U)
           (modulePullbackUnitSection B S hS g _ d s)))).1 = _

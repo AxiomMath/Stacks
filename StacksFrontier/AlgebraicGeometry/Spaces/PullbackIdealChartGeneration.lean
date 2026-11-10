@@ -457,7 +457,7 @@ theorem pullbackChartIdeal_le_map
       chartSectionsRestrict B S hS Y (smallBaseChangeProdLift B S hS f hf v w)
         (chartIdealPullbackHom B S hS f hf (SmallEtale.prodObj B S hS X.1 Q Q')
           (chartSectionsRestrict B S hS X (SmallEtale.prodSnd B S hS X.1 Q Q') a)) := by
-    show chartSectionsRestrict B S hS Y w (chartIdealPullbackHom B S hS f hf Q' a) = _
+    change chartSectionsRestrict B S hS Y w (chartIdealPullbackHom B S hS f hf Q' a) = _
     rw [restrict_chartIdealPullbackHom_restrict, smallBaseChangeProdLift_snd]
   rw [hgen]
   have hmem := restrict_chartIdealPullbackHom_mem_map B S hS f hf I hI

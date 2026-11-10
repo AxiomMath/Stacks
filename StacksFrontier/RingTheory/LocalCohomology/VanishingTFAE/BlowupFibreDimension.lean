@@ -58,7 +58,7 @@ theorem coe_support_specIdealSheaf (A : Type u) [CommRing A] (I : Ideal A) :
       = PrimeSpectrum.zeroLocus (I : Set A) := by
   rw [specIdealSheaf, Scheme.IdealSheafData.coe_support_ofIdealTop,
     AlgebraicGeometry.Spec_zeroLocus]
-  show PrimeSpectrum.zeroLocus
+  change PrimeSpectrum.zeroLocus
     ((Ideal.comap (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom
       (I.map (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom) : Ideal A) : Set A) = _
   rw [Ideal.comap_map_of_surjective' (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom
@@ -72,7 +72,7 @@ theorem coe_support_specIdealSheaf (A : Type u) [CommRing A] (I : Ideal A) :
 theorem complementZeroLocus_eq (A : Type u) [CommRing A] (I : Ideal A) :
     complementZeroLocus A I = (specIdealSheaf A I).support.compl := by
   apply TopologicalSpace.Opens.ext
-  show (PrimeSpectrum.zeroLocus (I : Set A))ᶜ = _
+  change (PrimeSpectrum.zeroLocus (I : Set A))ᶜ = _
   rw [← coe_support_specIdealSheaf A I]
   rfl
 
@@ -86,7 +86,7 @@ theorem exists_affineHom_to_blowUp {X : Scheme.{u}} (J : X.IdealSheafData) (W : 
     isIso_blowUp_restrict_compl_support J
   have hpre : blowUpToBase J ⁻¹ᵁ J.support.compl = (exceptionalIdeal J).support.compl := by
     apply TopologicalSpace.Opens.ext
-    show (blowUpToBase J).base ⁻¹' ((J.support : Set X)ᶜ)
+    change (blowUpToBase J).base ⁻¹' ((J.support : Set X)ᶜ)
       = ((exceptionalIdeal J).support : Set (blowUp J))ᶜ
     rw [Set.preimage_compl, Scheme.IdealSheafData.support_comap]
     rfl

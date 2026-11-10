@@ -475,7 +475,7 @@ theorem capPow_bundleChernCapFamily_succ (m d : ℤ) (hd : m + r - r = d + 1)
   refine (bundleChernCapFamily_heq_of_eq C sU r 𝒞 m β
     (i' := (⟨r - j, by omega⟩ : Fin (r + 1)).castSucc)
     (Fin.ext (by simp only [Fin.val_succ, Fin.val_castSucc]; omega))).trans ?_
-  show GenuineChern.chernCap C (r + 1) sU (completionModule 𝒞) m _ β ≍ _
+  change GenuineChern.chernCap C (r + 1) sU (completionModule 𝒞) m _ β ≍ _
   rw [(chernCap_completionModule C sU r 𝒞 m).2]
 
 /-- The summand of index `0` of the relation of Stacks 02U6 for `𝒞 ⊕ 𝒪_U` vanishes, the top Chern
@@ -485,7 +485,7 @@ theorem bundleChernCapFamily_completionModule_zero (m : ℤ) (β : chowGroup C s
       by simp⟩ = 0 := by
   refine eq_of_heq ((bundleChernCapFamily_heq_of_eq C sU r 𝒞 m β
     (i' := Fin.last (r + 1)) (Fin.ext (by simp))).trans ?_)
-  show GenuineChern.chernCap C (r + 1) sU (completionModule 𝒞) m (Fin.last (r + 1)) β ≍ _
+  change GenuineChern.chernCap C (r + 1) sU (completionModule 𝒞) m (Fin.last (r + 1)) β ≍ _
   rw [(chernCap_completionModule C sU r 𝒞 m).1 β]
   exact (chowGroupCast_heq C sU (by simp) (0 : chowGroup C sU _)).symm.trans
     (heq_of_eq (map_zero _))

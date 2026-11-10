@@ -80,7 +80,7 @@ def roundTripHomotopyCounit :
   CategoryTheory.Quotient.natTransLift _
     { app := fun M => (HomotopyCategory.quotient A).map ((roundTripCounit φ₁ φ₂ η hη).app M)
       naturality := fun M N f => by
-        show (HomotopyCategory.quotient A).map
+        change (HomotopyCategory.quotient A).map
             ((pullbackFunctor φ₂).map ((pullbackFunctor φ₁).map f)) ≫
             (HomotopyCategory.quotient A).map ((roundTripCounit φ₁ φ₂ η hη).app N) =
           (HomotopyCategory.quotient A).map ((roundTripCounit φ₁ φ₂ η hη).app M) ≫
@@ -89,6 +89,8 @@ def roundTripHomotopyCounit :
         exact congrArg (HomotopyCategory.quotient A).map
           ((roundTripCounit φ₁ φ₂ η hη).naturality f) }
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The component of `roundTripHomotopyCounit` at the class of `M` is the class of the canonical
 map `(roundTripCounit φ₁ φ₂ η hη).app M`. -/
 theorem roundTripHomotopyCounit_app (M : DifferentialGradedModule.{u, m, m} A) :

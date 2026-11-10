@@ -102,7 +102,7 @@ private theorem finite_support_specializationTerm (α : FiberCycleGroup sX η r)
       (f.isProperMap.isClosedMap _ isClosed_closure)
   obtain ⟨a, haclos, hav⟩ := himg hclos
   refine ⟨⟨a, hav, haclos⟩, ?_⟩
-  show ofFiberCycle sX η _ ((sX.fiberι η).base x) ≠ 0
+  change ofFiberCycle sX η _ ((sX.fiberι η).base x) ≠ 0
   rw [ofFiberCycle_apply_fiberι]
   exact hαx
 
@@ -218,7 +218,7 @@ private theorem fiberSpecializationMap_properPushforward_coeff (α : FiberCycleG
     · exact (inverseImageComponentRule (fieldChowSituation (S.residueField s))
         (sY.fiberToSpecResidueField s) (sY.fiberι s) (r : ℤ)).mem_closure_of_apply_ne_zero _ z
         (right_ne_zero_of_mul hv)
-    · show ofFiberCycle sY η _ ((sY.fiberι η).base v) ≠ 0
+    · change ofFiberCycle sY η _ ((sY.fiberι η).base v) ≠ 0
       rw [ofFiberCycle_apply_fiberι]
       exact left_ne_zero_of_mul hv
   have hweight : ∀ x : sX.fiber η,
@@ -325,7 +325,7 @@ theorem fiberSubschemeCycle_comap_eq_specializationIntegralCycle (sX : X ⟶ Spe
         ((integralComponentAt ((sX.fiberι (genericPoint (Spec (.of R)))).base ξ)).comap
           (sX.fiberι (IsLocalRing.closedPoint R))) =
       specializationIntegralCycle sX r ξ := by
-  show _ = fiberSubschemeCycle sX (IsLocalRing.closedPoint R) r
+  change _ = fiberSubschemeCycle sX (IsLocalRing.closedPoint R) r
     (specializationSpecialFibre sX ξ)
   rw [specializationSpecialFibre, specializationClosure,
     map_integralComponentAt (sX.fiberι (genericPoint (Spec (.of R)))) ξ]

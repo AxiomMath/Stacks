@@ -186,8 +186,8 @@ def moduleHomSectionsEquivOfIso (e : M ≅ M') (U : W.Opens) :
     moduleHomSections M' N U ≃+ moduleHomSections M N U where
   toFun θ := e.hom.over U ≫ θ
   invFun φ := e.inv.over U ≫ φ
-  left_inv θ := Iso.map_inv_hom_id_assoc e _ θ
-  right_inv φ := Iso.map_hom_inv_id_assoc e _ φ
+  left_inv θ := Iso.inv_hom_id_map_assoc e _ θ
+  right_inv φ := Iso.hom_inv_id_map_assoc e _ φ
   map_add' _ _ := Preadditive.comp_add _ _ _ _ _ _
 
 /-- **`Stacks.Thickenings.moduleHomSectionsEquivOfIso` commutes with restriction of sections**:

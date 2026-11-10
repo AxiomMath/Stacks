@@ -231,7 +231,7 @@ theorem dominates_relocalizedFieldPoint (g : B.obj hS ⟶ B.obj hZ)
   obtain ⟨a, ha⟩ := h
   refine ⟨(Over.map g).map a, ?_⟩
   apply Subtype.ext
-  show (⟨_, F.map (Over.homMk a.left rfl :
+  change (⟨_, F.map (Over.homMk a.left rfl :
       Over.mk (a.left ≫ q.siteObject.hom) ⟶ q.siteObject).op q.value⟩ :
     Σ t : (B.obj p.contained) ⟶ B.obj hS, F.obj (op (Over.mk t))) =
     ⟨p.siteObject.hom, p.value⟩
@@ -291,7 +291,7 @@ theorem relocalizedPointsMap_surjective (g : B.obj hS ⟶ B.obj hZ)
   refine ⟨r, FieldValuedPoint.dominates_refl _ _ _ _ r, ?_⟩
   let a : r.siteObject ⟶ p.siteObject := Over.homMk (𝟙 _) (by
     apply ObjectProperty.hom_ext
-    show (𝟙 _) ≫ p.toBase = _
+    change (𝟙 _) ≫ p.toBase = _
     simp only [Category.id_comp]
     exact congrArg (fun t => B.inclusion.map t)
       (relocalizedSectionEquiv B S Z hS hZ g F p.siteObject p.value).2.symm)
@@ -337,9 +337,9 @@ theorem exists_relocalized_yoneda_factorization (g : B.obj hS ⟶ B.obj hZ)
   let e : W ≅ (Over.map g).obj U := Over.isoMk (Iso.refl _) x.2
   refine ⟨U, e, yonedaEquiv.symm x.1.2, ?_⟩
   apply yonedaEquiv.injective
-  show x = _
+  change x = _
   apply Subtype.ext
-  show x.1 = ⟨_, F.map
+  change x.1 = ⟨_, F.map
     (Over.homMk (𝟙 W.left) rfl : Over.mk ((𝟙 W.left) ≫ x.1.1) ⟶ U).op x.1.2⟩
   exact (OverShriek.sigmaMk_eq_self F x.1.2 _ rfl).symm
 
@@ -376,7 +376,7 @@ theorem presheaf_relocalized (g : B.obj hS ⟶ B.obj hZ) (P : MorphismProperty S
         Iso.hom_inv_id, Category.comp_id]
     · simp [R]
     · simp [iU, R, Category.assoc]
-  · show P ((BigFppfOver.toScheme B Z hZ).map ((Over.map g).map v ≫ e.inv))
+  · change P ((BigFppfOver.toScheme B Z hZ).map ((Over.map g).map v ≫ e.inv))
     rw [Functor.map_comp]
     exact MorphismProperty.RespectsIso.postcomp P
       ((BigFppfOver.toScheme B Z hZ).map e.inv) _ (ha.property_snd b')

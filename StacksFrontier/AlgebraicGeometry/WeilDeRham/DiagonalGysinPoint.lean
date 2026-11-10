@@ -206,7 +206,7 @@ theorem dimPartPieceGysin_diagonal_eq_point {X P : Scheme.{u}}
         (properPushforwardFactorsThroughRationalEquivalence_of_isProper _ _ _ _ _ _)
         (fundamentalChowClass (fieldChowSituation k)
           ((δU ≫ (dimPart (p ≫ sX) (d + d)).ι) ≫ p ≫ sX) (((d + d : ℕ) : ℤ) - (d : ℤ))) := by
-    show chowGroupRestrict (fieldChowSituation k) (p ≫ sX)
+    change chowGroupRestrict (fieldChowSituation k) (p ≫ sX)
         ((dimPart (p ≫ sX) (d + d)).ι ≫ p ≫ sX) (dimPart (p ≫ sX) (d + d)).ι rfl _
         (properChowPushforward (fieldChowSituation k) sX (p ≫ sX) δ hδ _
           (properPushforwardDescends _ _ _ _ _ _)
@@ -222,7 +222,7 @@ theorem dimPartPieceGysin_diagonal_eq_point {X P : Scheme.{u}}
         (by rw [hm]; exact hdimX)]
   rw [h1]
   -- the Gysin map on the piece is the cap with `j^!` at the test scheme `P_{2d} ⟶ P`, restricted
-  show chowGroupDegreeEquiv _ _ _
+  change chowGroupDegreeEquiv _ _ _
     ((dimPartPieceGysinClass sX (p ≫ sX) hj d (d + d)).capTargetHom _ _ _ _ _ _ _ _ _) = _
   rw [chowGroupDegreeEquiv_eq_iff_heq, BivariantClass.capTargetHom_apply]
   refine (dimPartPieceGysinClass_capTarget_heq sX (p ≫ sX) hj d (d + d) _ _).trans ?_
@@ -303,7 +303,7 @@ theorem dimPartPieceGysin_diagonal_eq_point {X P : Scheme.{u}}
   have : IsIso (dimPartPiece sX (p ≫ sX) j d (d + d)).ι := by
     apply isIso_of_isOpenImmersion_of_opensRange_eq_top
     rw [Scheme.Opens.opensRange_ι]
-    show (dimPart sX d).ι ⁻¹ᵁ (j ⁻¹ᵁ dimPart (p ≫ sX) (d + d)) = ⊤
+    change (dimPart sX d).ι ⁻¹ᵁ (j ⁻¹ᵁ dimPart (p ≫ sX) (d + d)) = ⊤
     rw [dimPart_eq_top_of_relativeDimension (p ≫ sX) hPd]
     simp
   rw [chowGroupRestrict_properChowPushforward_of_isIso (fieldChowSituation k) _ _ _ _ _
@@ -315,7 +315,7 @@ theorem dimPartPieceGysin_diagonal_eq_point {X P : Scheme.{u}}
         (properChowPushforward (fieldChowSituation k) (𝟙 _) sX x hx ((d : ℤ) - d)
           (properPushforwardFactorsThroughRationalEquivalence_of_isProper _ _ _ _ _ _)
           (fundamentalChowClass (fieldChowSituation k) (𝟙 _) ((d : ℤ) - d))) := by
-    show chowGroupRestrict (fieldChowSituation k) sX (partBase sX d) (dimPart sX d).ι rfl _
+    change chowGroupRestrict (fieldChowSituation k) sX (partBase sX d) (dimPart sX d).ι rfl _
       (properChowPushforward (fieldChowSituation k) (𝟙 _) sX x hx _
         (properPushforwardDescends _ _ _ _ _ _)
         (chowCodimTotal k (𝟙 _) 0 _ (chowCodimFundamental k (𝟙 _)))) = _

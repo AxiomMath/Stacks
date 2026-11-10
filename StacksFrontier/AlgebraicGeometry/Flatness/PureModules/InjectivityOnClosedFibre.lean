@@ -108,7 +108,7 @@ theorem mem_relativeAssassin_of_isWeaklyAssociatedPoint_of_flat
   have : IsNoetherianRing (B ⧸ Ideal.map (algebraMap R B) (IsLocalRing.maximalIdeal R)) := by
     have : IsLocallyNoetherian (f.fiber (f x)) := by
       have : LocallyOfFiniteType (f.fiberToSpecResidueField (f x)) := by
-        show LocallyOfFiniteType (Limits.pullback.snd f (S.fromSpecResidueField (f x)))
+        change LocallyOfFiniteType (Limits.pullback.snd f (S.fromSpecResidueField (f x)))
         infer_instance
       exact LocallyOfFiniteType.isLocallyNoetherian (f.fiberToSpecResidueField (f x))
     rw [RingHom.algebraMap_toAlgebra]

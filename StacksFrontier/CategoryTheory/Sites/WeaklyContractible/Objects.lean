@@ -127,7 +127,7 @@ lemma piPre_isLocallySurjective (hf : (Sieve.ofArrows Ui f) ∈ J U) :
     refine ⟨(Sigma.ι (fun i => yoneda.obj (Ui i)) i).app (op V) b, ?_⟩
     have hcomp : (Sigma.ι (fun i => yoneda.obj (Ui i)) i) ≫ Stacks.WeaklyContractible.piPre Ui f =
         yoneda.map (f i) :=
-      Sigma.ι_desc _ i
+      Sigma.ι_comp_desc _ i
     rw [← NatTrans.comp_app_apply, hcomp]
     simp only [yoneda_map_app, yoneda_obj_map, Quiver.Hom.unop_op]
     exact hb.symm
@@ -197,7 +197,7 @@ theorem surjective_sections_of_hasRightInverse
       Adjunction.homEquiv_naturality_left, Equiv.apply_symm_apply]
     apply Limits.Sigma.hom_ext
     intro i
-    rw [hα, ← Category.assoc, Sigma.ι_desc, piPre, ← Category.assoc, Sigma.ι_desc]
+    rw [hα, ← Category.assoc, Sigma.ι_comp_desc, piPre, ← Category.assoc, Sigma.ι_comp_desc]
     apply yonedaEquiv.injective
     rw [yonedaEquiv_comp, yonedaEquiv_comp, Equiv.apply_symm_apply, yonedaEquiv_yoneda_map]
     exact Presheaf.app_localPreimage φ.hom s (f' i) (hmem i)

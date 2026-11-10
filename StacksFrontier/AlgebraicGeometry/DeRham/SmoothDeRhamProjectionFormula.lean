@@ -82,12 +82,12 @@ def deRhamCochainComplexQcohTerm (i : ℤ) : X.Modules :=
 differential forms of that degree. -/
 theorem deRhamCochainComplexQcohTerm_of_nonneg {i : ℤ} (hi : 0 ≤ i) :
     deRhamCochainComplexQcohTerm f i = Scheme.Hom.relativeDifferentialForms f (i.toNat : ℤ) :=
-  if_pos hi
+  ite_eq_left hi
 
 /-- In a negative degree the module of `deRhamCochainComplexQcohTerm` is the zero sheaf. -/
 theorem deRhamCochainComplexQcohTerm_of_neg {i : ℤ} (hi : i < 0) :
     deRhamCochainComplexQcohTerm f i = 0 :=
-  if_neg (not_le.2 hi)
+  ite_eq_right (not_le.2 hi)
 
 /-- Every term of `deRhamCochainComplexQcohTerm` is quasi-coherent. -/
 theorem isQuasicoherent_deRhamCochainComplexQcohTerm (i : ℤ) :
@@ -122,7 +122,7 @@ def deRhamCochainComplexXIsoQcohTerm (i : ℤ) :
   else
     IsZero.iso
       (HomologicalComplex.isZero_extend_X _ ComplexShape.embeddingUpNat i
-        (fun n => by simpa using ((not_le.1 hi).trans_le (Int.ofNat_zero_le n)).ne'))
+        (fun n => by simpa using ((not_le.1 hi).trans_le (Int.natCast_nonneg n)).ne'))
       (by
         rw [deRhamCochainComplexQcohTerm_of_neg f (not_le.1 hi)]
         exact (pushforward (toInverseImageBase f)).map_isZero (isZero_zero _))

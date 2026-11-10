@@ -79,7 +79,7 @@ theorem mapHomotopyCategory_unit_comp_compIso
         (smallEtalePullbackAb (h ≫ c)) (smallEtalePushforwardAb h)
         (smallEtalePushforwardAbPullbackUnit c h)).app J := by
   rw [Stacks.DerivedFunctor.mapHomotopyCategoryOfComp_app]
-  show (HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
+  change (HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
       (((smallEtaleAdjunctionAb h).mapHomologicalComplexAdjunction (ComplexShape.up ℤ)).unit.app
         (((smallEtalePullbackAb c).mapHomologicalComplex (ComplexShape.up ℤ)).obj J.as)) ≫
     (HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
@@ -121,7 +121,7 @@ theorem smallEtaleDerivedPushforwardAbPullbackUnit_app_eq (K : smallEtaleDerived
       (smallEtalePullbackAb c).mapDerivedCategoryFactorsh.inv
       (HomotopyCategory.quasiIso (Sheaf (smallEtaleTopology Z) Ab.{u + 1}) (.up ℤ)) _ _ _ ?_
     ext J
-    show (smallEtalePullbackAb c).mapDerivedCategoryFactorsh.inv.app J ≫
+    change (smallEtalePullbackAb c).mapDerivedCategoryFactorsh.inv.app J ≫
         (smallEtaleDerivedPushforwardAbPullbackUnit c h).app (DerivedCategory.Qh.obj J) =
       (smallEtalePullbackAb c).mapDerivedCategoryFactorsh.inv.app J ≫ γ.app _
     rw [smallEtaleDerivedPushforwardAbPullbackUnit_fac_app]

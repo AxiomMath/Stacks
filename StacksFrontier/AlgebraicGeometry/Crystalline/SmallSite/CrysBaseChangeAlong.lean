@@ -57,7 +57,7 @@ of the sections of `𝒪_{X/S}` as the global sections of the ambient scheme. -/
 theorem crysSectionTopAlong_smul (B : CrystallineThickening S) (b : crysSheafRing S B.obj)
     (s : F.val.obj (op B)) :
     crysSectionTop F B (b • s) = ambientRingSection B.obj b • crysSectionTop F B s := by
-  show crysSiteRestrict F (B.restrictOpenHom ⊤) (b • s) = _
+  change crysSiteRestrict F (B.restrictOpenHom ⊤) (b • s) = _
   rw [crysSiteRestrict_smul]
   exact (crysAmbientModuleSection_smul F B b _).symm
 
@@ -72,7 +72,7 @@ def crysCrossAlongAux :
     (fun t ↦ AddMonoidHom.mk' (fun s ↦ t ⊗ₜ crysSectionTop F A s)
       (fun s s' ↦ (congrArg (fun y ↦ t ⊗ₜ[Γ(A.obj.thickening.target.scheme, ⊤)] y)
           (map_add (crysSectionTopHom F A) s s')).trans (TensorProduct.tmul_add _ _ _)))
-    (fun t t' ↦ AddMonoidHom.ext fun s ↦ TensorProduct.add_tmul _ _ _)
+    (fun t t' ↦ AddMonoidHom.ext fun s ↦ TensorProduct.add_tmul t t' (crysSectionTop F A s))
 
 /-- **The base change of sections along `k`, carried to the tensor product over the ambient
 sections**, `t ⊗ s ↦ t ⊗ s|_{T}`. -/
@@ -81,7 +81,7 @@ def crysCrossAlong :
       ringAlong k.hom ⊗[Γ(A.obj.thickening.target.scheme, ⊤)]
         Γ(ambientSchemeOf A.obj (moduleRestrictionSheaf F A), ⊤) :=
   TensorProduct.liftAddHom (crysCrossAlongAux F k) (fun b t s ↦ by
-    show (b • t) ⊗ₜ crysSectionTop F A s = t ⊗ₜ crysSectionTop F A (b • s)
+    change (b • t) ⊗ₜ crysSectionTop F A s = t ⊗ₜ crysSectionTop F A (b • s)
     rw [crysSectionTopAlong_smul, ← ambientRingSection_smul_eq_smul, TensorProduct.smul_tmul])
 
 /-- `...SmallSite.crysCrossAlong` sends `t ⊗ s` to `t ⊗ s|_{T}`. -/
@@ -97,7 +97,8 @@ def crysCrossInvAlongAux :
     (fun t ↦ AddMonoidHom.mk' (fun x ↦ t ⊗ₜ (crysSectionTopEquiv F A).symm x)
       (fun x y ↦ (congrArg (fun z ↦ t ⊗ₜ[crysSheafRing S A.obj] z)
           (map_add (crysSectionTopEquiv F A).symm x y)).trans (TensorProduct.tmul_add _ _ _)))
-    (fun t t' ↦ AddMonoidHom.ext fun x ↦ TensorProduct.add_tmul _ _ _)
+    (fun t t' ↦ AddMonoidHom.ext fun x ↦
+      TensorProduct.add_tmul t t' ((crysSectionTopEquiv F A).symm x))
 
 /-- The inverse of `...SmallSite.crysCrossAlong`. -/
 def crysCrossInvAlong :
@@ -105,12 +106,12 @@ def crysCrossInvAlong :
         Γ(ambientSchemeOf A.obj (moduleRestrictionSheaf F A), ⊤) →+
       ringAlong k.hom ⊗[crysSheafRing S A.obj] F.val.obj (op A) :=
   TensorProduct.liftAddHom (crysCrossInvAlongAux F k) (fun r t x ↦ by
-    show (r • t) ⊗ₜ (crysSectionTopEquiv F A).symm x =
+    change (r • t) ⊗ₜ (crysSectionTopEquiv F A).symm x =
       t ⊗ₜ (crysSectionTopEquiv F A).symm (r • x)
     have hx : (crysSectionTopEquiv F A).symm (r • x) =
         siteRingSection A.obj r • (crysSectionTopEquiv F A).symm x := by
       rw [AddEquiv.symm_apply_eq, crysSectionTopEquiv_apply, crysSectionTopAlong_smul]
-      show r • x = r • crysSectionTopEquiv F A ((crysSectionTopEquiv F A).symm x)
+      change r • x = r • crysSectionTopEquiv F A ((crysSectionTopEquiv F A).symm x)
       rw [AddEquiv.apply_symm_apply]
     rw [hx, ambientSmul_eq_siteSmul, TensorProduct.smul_tmul])
 
@@ -130,15 +131,13 @@ def crysCrossEquivAlong :
   invFun := crysCrossInvAlong F k
   map_add' := map_add (crysCrossAlong F k)
   left_inv z := by
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul t s =>
         rw [crysCrossAlong_tmul, crysCrossInvAlong_tmul, ← crysSectionTopEquiv_apply,
           AddEquiv.symm_apply_apply]
     | add z z' hz hz' => rw [map_add, map_add, hz, hz']
   right_inv w := by
-    induction w using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction w using TensorProduct.inductionOn with
     | tmul t x =>
         rw [crysCrossInvAlong_tmul, crysCrossAlong_tmul, ← crysSectionTopEquiv_apply,
           AddEquiv.apply_symm_apply]
@@ -159,7 +158,7 @@ def crysBaseChangeAlongAux :
 def crysBaseChangeAlong :
     ringAlong k.hom ⊗[crysSheafRing S A.obj] F.val.obj (op A) →+ F.val.obj (op A') :=
   TensorProduct.liftAddHom (crysBaseChangeAlongAux F k) (fun b t s ↦ by
-    show siteRingAlong k.hom (b • t) • crysRestrict F k s =
+    change siteRingAlong k.hom (b • t) • crysRestrict F k s =
       siteRingAlong k.hom t • crysRestrict F k (b • s)
     rw [siteRingAlong_smul, map_smulₛₗ, mul_smul, smul_comm]
     rfl)
@@ -168,11 +167,6 @@ def crysBaseChangeAlong :
 @[simp] theorem crysBaseChangeAlong_tmul (t : ringAlong k.hom) (s : F.val.obj (op A)) :
     crysBaseChangeAlong F k (t ⊗ₜ s) = siteRingAlong k.hom t • crysRestrict F k s :=
   TensorProduct.liftAddHom_tmul _ _ t s
-
-section Affine
-
-variable [IsAffine A.obj.thickening.target.scheme] [IsAffine A'.obj.thickening.target.scheme]
-  [(ambientSchemeOf A.obj (moduleRestrictionSheaf F A)).IsQuasicoherent]
 
 /-- `...SmallSite.crysCrossAlong`, with its target named at the extension of scalars of
 `AlgebraicGeometry.affinePullbackSectionsBaseChangeIso`. -/
@@ -196,6 +190,11 @@ theorem crysCrossModuleAlong_tmul (t : ringAlong k.hom) (s : F.val.obj (op A)) :
         (k.hom.targetHom.hom.appLE ⊤ ⊤ (top_le_preimage_ambient k.hom)).hom]
         crysSectionTop F A s :=
   crysCrossAlong_tmul F k t s
+
+section Affine
+
+variable [IsAffine A.obj.thickening.target.scheme] [IsAffine A'.obj.thickening.target.scheme]
+  [(ambientSchemeOf A.obj (moduleRestrictionSheaf F A)).IsQuasicoherent]
 
 /-- **The affine chain along `k`**: the change of spelling, the base-change comparison of
 [Stacks, Tag 01I9] and the comparison map of [Stacks, Tag 07IQ] on global sections. -/
@@ -265,8 +264,7 @@ whole ambient scheme. -/
 theorem crysSectionTop_crysBaseChangeAlong
     (z : ringAlong k.hom ⊗[crysSheafRing S A.obj] F.val.obj (op A)) :
     crysSectionTopHom F A' (crysBaseChangeAlong F k z) = crysAmbientChainAlong F k z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul t s =>
       rw [crysBaseChangeAlong_tmul, crysAmbientChainAlong_tmul, crysSectionTopHom_apply,
         crysSectionTopAlong_smul]

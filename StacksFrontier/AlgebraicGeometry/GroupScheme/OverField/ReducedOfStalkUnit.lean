@@ -87,7 +87,7 @@ lemma unit_left_pullbackFst {k K : Type u} [Field k] [Field K]
     (η[Over.mk (pullback.snd G.hom g)]).left ≫ pullback.fst G.hom g =
       g ≫ (η[Over.mk G.hom]).left := by
   simp only [Over.grpObjMkPullbackSnd_one]
-  simp [pullback.lift_fst]
+  simp
 
 /-- A morphism from a reduced scheme whose image lies in the image of a closed immersion factors
 through it. -/
@@ -138,7 +138,7 @@ theorem isReduced_of_forall_isReduced_stalk_unit_of_irreducible {k : Type u} [Fi
   have : Subsingleton (Spec (.of Ω)) := show Subsingleton (PrimeSpectrum Ω) from inferInstance
   have hpt : pullback.fst H.hom b (identityPoint Ω HG) =
       (η[H]).left (IsLocalRing.closedPoint K) := by
-    show ((η[H']).left ≫ pullback.fst H.hom b) _ = _
+    change ((η[H']).left ≫ pullback.fst H.hom b) _ = _
     rw [unit_left_pullbackFst H b, Scheme.Hom.comp_apply]
     exact congrArg _ (Subsingleton.elim _ _)
   suffices hred : _root_.IsReduced (H'.left.presheaf.stalk (identityPoint Ω HG)) by
@@ -196,9 +196,9 @@ theorem isReduced_of_forall_isReduced_stalk_unit_of_irreducible {k : Type u} [Fi
   obtain ⟨g, hg⟩ := exists_lift_of_isClosedImmersion i q
     (by rw [hqr]; exact Set.singleton_subset_iff.mpr ⟨x, rfl⟩)
   refine ⟨Over.homMk g ?_, hie.injective ?_⟩
-  · show g ≫ C.carrier.X.hom = 𝟙 _
+  · change g ≫ C.carrier.X.hom = 𝟙 _
     rw [← hiw, ← Category.assoc, hg, hq]
-  · show (g ≫ i) _ = i x
+  · change (g ≫ i) _ = i x
     rw [hg]
     exact hqr.subset ⟨_, rfl⟩
 

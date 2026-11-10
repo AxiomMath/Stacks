@@ -54,7 +54,7 @@ public noncomputable abbrev residueFieldBase : ArtinianLocalAlgCat.{u, w, w} Λ 
 it sends the class of `a` back to `a`. -/
 public theorem residueFieldBase_residueEquiv_residue (a : k) :
     (residueFieldBase Λ k).residueEquiv (IsLocalRing.residue k a) = a := by
-  show ((Ideal.quotientEquivAlgOfEq Λ (IsLocalRing.maximalIdeal_eq_bot (R := k))).trans
+  change ((Ideal.quotientEquivAlgOfEq Λ (IsLocalRing.maximalIdeal_eq_bot (R := k))).trans
     (AlgEquiv.quotientBot Λ k)) (Ideal.Quotient.mk _ a) = a
   rw [AlgEquiv.trans_apply, Ideal.quotientEquivAlgOfEq_mk, AlgEquiv.quotientBot_mk]
 

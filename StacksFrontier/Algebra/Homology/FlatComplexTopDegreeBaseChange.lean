@@ -60,8 +60,7 @@ theorem homologyMap_extendScalars_eq_zero_of_homologyMap_eq_zero
     (fun i => (K.d i (i + 1)).hom) (q + 1) n hKn hexK (ringModule ι))).mpr hx
   obtain ⟨w, rfl⟩ := hxr
   clear hx
-  induction w using TensorProduct.induction_on with
-  | zero => exact ⟨0, (map_zero _).trans (((congrArg _ (map_zero _)).trans (map_zero _)).symm)⟩
+  induction w using TensorProduct.inductionOn with
   | tmul s z =>
     obtain ⟨y, hy⟩ := key z.1 z.2
     refine ⟨(show S from s) • y, ?_⟩

@@ -231,7 +231,7 @@ theorem degeneratesAt_iff_finrank_eq_sum_antidiagonal (hE : SpectralSequence.Abu
   refine forall_congr' fun n => ?_
   have := hH n
   rw [Finset.sum_congr rfl fun pq _ => hlen pq.1 pq.2]
-  show Module.length k (F.obj (H n)) = _ ↔ _
+  change Module.length k (F.obj (H n)) = _ ↔ _
   rw [Module.length_eq_finrank, ← Nat.cast_sum, Nat.cast_inj]
 
 end Length

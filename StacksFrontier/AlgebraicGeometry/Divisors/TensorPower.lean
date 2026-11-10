@@ -323,6 +323,7 @@ noncomputable def tensorProductRightUnitor
     (asIso (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction O hO).counit).app M
 
 set_option maxHeartbeats 1000000 in
+-- elaborating the large nested sheaf tensor product terms and their sheafification isos
 /-- The associativity constraint of the sheaf tensor product. The sheafification units compare
 each nested sheaf tensor product with the sheafification of the corresponding triple presheaf
 tensor product; Tag 05NA makes those comparisons isomorphisms, and between them sits the

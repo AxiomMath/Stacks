@@ -75,7 +75,7 @@ theorem range_isoHom_comp {F F' G : 𝒞ᵒᵖ ⥤ Type v₀} (e : F' ≅ F) (g 
     exact ⟨e.hom.app V y, rfl⟩
   · rintro ⟨y, rfl⟩
     refine ⟨e.inv.app V y, ?_⟩
-    show (e.inv ≫ e.hom ≫ g).app V y = g.app V y
+    change (e.inv ≫ e.hom ≫ g).app V y = g.app V y
     rw [Iso.inv_hom_id_assoc]
 
 /-- **The range of the first projection of a pullback of presheaves of sets** is the inverse
@@ -86,7 +86,7 @@ theorem range_pullback_fst {F G H : 𝒞ᵒᵖ ⥤ Type v₀} (b : F ⟶ H) (m :
   constructor
   · rintro ⟨z, rfl⟩
     refine ⟨(pullback.snd b m).app V z, ?_⟩
-    show ((pullback.snd b m) ≫ m).app V z = ((pullback.fst b m) ≫ b).app V z
+    change ((pullback.snd b m) ≫ m).app V z = ((pullback.fst b m) ≫ b).app V z
     rw [pullback.condition]
   · rintro ⟨w, hw⟩
     let z₀ : pullback (b.app V) (m.app V) :=
@@ -109,7 +109,7 @@ theorem smallEtalePostcomp_obj_idChart {Y : AlgebraicSpaces B S hS} (V : SmallEt
       (idChart B S hS V.obj.left) = V := by
   apply ObjectProperty.FullSubcategory.ext
   refine Eq.trans ?_ (CostructuredArrow.eq_mk V.obj).symm
-  show CostructuredArrow.mk (𝟙 (yoneda.obj V.obj.left) ≫ V.obj.hom) =
+  change CostructuredArrow.mk (𝟙 (yoneda.obj V.obj.left) ≫ V.obj.hom) =
     CostructuredArrow.mk V.obj.hom
   rw [Category.id_comp]
 

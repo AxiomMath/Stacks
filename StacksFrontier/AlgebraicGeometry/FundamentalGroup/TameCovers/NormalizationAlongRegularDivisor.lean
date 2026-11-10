@@ -24,14 +24,9 @@ locally on `X` the morphism `Y' ⟶ X` is a finite disjoint union of standard mo
 
 The proof is `AlgebraicGeometry.TameCovers.normalization_of_isTamelyRamifiedInCodimensionOne`,
 which derives every part of the tag from Abhyankar's lemma for a regular divisor
-([Stacks, Tag 0EYG]) and smooth base change of normalization ([Stacks, Tag 03GV]), with the two
-inputs of Abhyankar's lemma discharged:
-
-* purity for regular local rings, `AlgebraicGeometry.purityAtRegularLocalRings`
-  ([Stacks, Tag 0BMA] (1));
-* tameness pulls back along the étale charts,
-  `Stacks.FundamentalGroup.pulledBackCover_isTamelyRamifiedInCodimensionOne`
-  ([Stacks, Tag 0EYD]).
+([Stacks, Tag 0EYG]) and smooth base change of normalization ([Stacks, Tag 03GV]), with the
+input of Abhyankar's lemma, that tameness pulls back along the étale charts, discharged by
+`Stacks.FundamentalGroup.pulledBackCover_isTamelyRamifiedInCodimensionOne` ([Stacks, Tag 0EYD]).
 
 The normalization of `X` in `Y` is Mathlib's relative normalization of `Y ⟶ X ∖ D ⟶ X`, and
 `D'` is the closed subscheme cut out by the radical of the pulled-back ideal sheaf
@@ -95,7 +90,6 @@ public theorem normalization_of_isTamelyRamifiedInCodimensionOne_of_isRegular {X
             pullback.snd _ g := by
   have hDreg' := (isRegular_tfae D.subscheme).out 1 2
   obtain ⟨h1, h2, h3, h4, h5⟩ := normalization_of_isTamelyRamifiedInCodimensionOne
-    purityAtRegularLocalRings
     (fun S h ↦ Stacks.FundamentalGroup.pulledBackCover_isTamelyRamifiedInCodimensionOne S h)
     D hD (hDreg'.mp hDreg).2 f hf
   have : IsFinite (f ≫ Scheme.Opens.ι (D.support.compl : X.Opens)).fromNormalization :=

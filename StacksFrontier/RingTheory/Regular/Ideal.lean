@@ -162,7 +162,7 @@ private theorem span_range_algEquiv_symm_eq_map {A : Type*} [CommRing A] (I J : 
         (algebraMap (A ⧸ I) (Localization.Away (Ideal.Quotient.mk I g))).comp q := by
       ext x
       exact e.commutes (q x)
-    show Ideal.map ((algebraMap (A ⧸ I)
+    change Ideal.map ((algebraMap (A ⧸ I)
         (Localization.Away (Ideal.Quotient.mk I g))).comp q) J =
       Ideal.map ((e.toRingHom.comp (Ideal.Quotient.mk Ig)).comp a) J
     exact congrArg (Ideal.map · J) hmaps.symm
@@ -177,7 +177,7 @@ private theorem map_inf_sq_eq_map_mul_atPrime_of_le {A : Type*} [CommRing A] {I 
       Ideal.map (algebraMap A (Localization.AtPrime P)) (I * J) := by
   let AP := Localization.AtPrime P
   let aP : A →+* AP := algebraMap A AP
-  show Ideal.map aP (I ⊓ J ^ 2) = Ideal.map aP (I * J)
+  change Ideal.map aP (I ⊓ J ^ 2) = Ideal.map aP (I * J)
   let q : A →+* A ⧸ I := Ideal.Quotient.mk I
   let Pbar : Ideal (A ⧸ I) := Ideal.map q P
   have hPbar : Pbar.IsPrime :=
@@ -252,7 +252,7 @@ private theorem bijective_canonicalMap_of_isQuasiRegular
   let P := fun s : Σ n, Fin n → R =>
     Function.Bijective (quasiRegularCanonicalMap (M := M) s.2)
   change P (List.equivSigmaTuple (List.equivSigmaTuple.symm ⟨r, f⟩)) at h
-  show P ⟨r, f⟩
+  change P ⟨r, f⟩
   simpa only [Equiv.apply_symm_apply] using h
 
 set_option backward.isDefEq.respectTransparency false in
@@ -271,7 +271,7 @@ private theorem isMQuasiregularSeq_of_bijective_canonicalMap
     intro d m
     simp only [LinearMap.comp_apply, LinearMap.restrictScalars_apply,
       LinearEquiv.coe_coe, Finsupp.lsum_single]
-    show phiMonoR f d m = quasiRegularCanonicalMap f (e.symm (Finsupp.single d m))
+    change phiMonoR f d m = quasiRegularCanonicalMap f (e.symm (Finsupp.single d m))
     simp only [e, TensorProduct.equivFinsuppOfBasisLeft_symm_apply, Finsupp.sum_single_index,
       TensorProduct.tmul_zero]
     obtain ⟨m, rfl⟩ := Submodule.mkQ_surjective (Jid f • (⊤ : Submodule R M)) m
@@ -285,14 +285,14 @@ private theorem isMQuasiregularSeq_of_bijective_canonicalMap
     apply Finsupp.lhom_ext
     intro d m
     obtain ⟨m, rfl⟩ := Submodule.mkQ_surjective _ m
-    show Quasiregular.qregPhi f (Finsupp.single d (Submodule.Quotient.mk m)) =
+    change Quasiregular.qregPhi f (Finsupp.single d (Submodule.Quotient.mk m)) =
       (Finsupp.lsum R fun d => phiMonoR f d)
         (qf (Finsupp.single d (Submodule.Quotient.mk m)))
     rw [show qf (Finsupp.single d (Submodule.Quotient.mk m)) =
         Finsupp.single d (Submodule.Quotient.mk m)
       by simp [qf, Finsupp.mapRange.linearEquiv_apply, q]]
     simp only [Quasiregular.qregPhi, Finsupp.lsum_single, LinearMap.comp_apply]
-    show DirectSum.lof R ℕ (fun n => Tcomp M f n) (d.sum fun _ k => k)
+    change DirectSum.lof R ℕ (fun n => Tcomp M f n) (d.sum fun _ k => k)
       (Submodule.Quotient.mk ⟨(∏ i, f i ^ d i) • m, _⟩) = imgTargetLin f d m
     have hd : d.sum (fun _ k => k) = qrMdeg d := by
       simp [Finsupp.sum_fintype, qrMdeg]
@@ -304,7 +304,7 @@ private theorem isMQuasiregularSeq_of_bijective_canonicalMap
       rintro n hm rfl
       rfl
     exact hl _ _ hd
-  show Function.Bijective (Quasiregular.qregPhi (M := M) f)
+  change Function.Bijective (Quasiregular.qregPhi (M := M) f)
   rw [hphi, hmap]
   exact (h.comp e.symm.bijective).comp qf.bijective
 

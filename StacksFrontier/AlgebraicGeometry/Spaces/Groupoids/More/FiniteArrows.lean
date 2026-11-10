@@ -555,7 +555,7 @@ theorem tgt_unit (X : Obj P) : tgt P (unit P X) = X := by
   · have hsrc : source w = target (P.identityArrow X.base) :=
       (X.source_eq w hw).trans (P.target_identityArrow X.base).symm
     refine (mem_tgt_iff P (unit P X) w hsrc).2 ?_
-    show comp ⟨(w, P.identityArrow X.base), hsrc⟩ ∈ X.arrows
+    change comp ⟨(w, P.identityArrow X.base), hsrc⟩ ∈ X.arrows
     rwa [P.comp_identityArrow_snd w X.base
       (hsrc.trans (P.target_identityArrow X.base)) hsrc]
 
@@ -573,7 +573,7 @@ theorem tgt_inv (a : Arr P) : tgt P (inv P a) = src P a := by
       h₁] at h2
   · have hsrc : source w = target (P.inverseArrow a.arrow) := translate_composable P a hw
     refine (mem_tgt_iff P (inv P a) w hsrc).2 ?_
-    show comp ⟨(w, P.inverseArrow a.arrow), hsrc⟩ ∈ (tgt P a).arrows
+    change comp ⟨(w, P.inverseArrow a.arrow), hsrc⟩ ∈ (tgt P a).arrows
     exact ⟨⟨w, hw⟩, rfl⟩
 
 /-- The target of a composite is the target of its first factor. -/
@@ -604,7 +604,7 @@ theorem tgt_compose (q : { p : Arr P × Arr P // src P p.1 = tgt P p.2 }) :
     rw [hq] at hc
     have h2 := (mem_tgt_iff P q.1.2 _ h₁).1 hc
     refine (mem_tgt_iff P (compose P q) w hsrc).2 ?_
-    show comp ⟨(w, comp ⟨(q.1.1.arrow, q.1.2.arrow), hab⟩), hsrc⟩ ∈ q.1.2.obj.arrows
+    change comp ⟨(w, comp ⟨(q.1.1.arrow, q.1.2.arrow), hab⟩), hsrc⟩ ∈ q.1.2.obj.arrows
     rwa [← P.comp_assoc w q.1.1.arrow q.1.2.arrow hsrc1 hab h₁ hsrc]
 
 end FiniteArrows

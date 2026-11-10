@@ -85,19 +85,19 @@ theorem sum_mul_altVec (F : (n → n) → R) :
   rw [Finset.sum_comm]
   refine Finset.sum_congr rfl fun σ _ ↦ ?_
   rw [Finset.sum_eq_single_of_mem (σ : n → n) (Finset.mem_univ _)
-    (fun g _ hg ↦ by rw [if_neg (Ne.symm hg), mul_zero]), if_pos rfl, mul_comm]
+    (fun g _ hg ↦ by rw [ite_eq_right (Ne.symm hg), mul_zero]), ite_eq_left rfl, mul_comm]
 
 /-- The coordinate of the alternating vector at a permutation `σ` is the sign of `σ`. -/
 @[simp]
 theorem altVec_coe_perm (σ : Equiv.Perm n) :
     altVec R (σ : n → n) = ((Equiv.Perm.sign σ : ℤ) : R) := by
   rw [altVec, Finset.sum_eq_single_of_mem σ (Finset.mem_univ _)
-    (fun τ _ hτ ↦ if_neg fun h ↦ hτ (Equiv.coe_fn_injective h)), if_pos rfl]
+    (fun τ _ hτ ↦ ite_eq_right fun h ↦ hτ (Equiv.coe_fn_injective h)), ite_eq_left rfl]
 
 /-- The alternating vector vanishes at an index which is not a permutation. -/
 theorem altVec_eq_zero_of_not_bijective {f : n → n} (hf : ¬ Function.Bijective f) :
     altVec R f = 0 :=
-  Finset.sum_eq_zero fun σ _ ↦ if_neg fun h ↦ hf (by rw [← h]; exact σ.bijective)
+  Finset.sum_eq_zero fun σ _ ↦ ite_eq_right fun h ↦ hf (by rw [← h]; exact σ.bijective)
 
 /-- The coordinate of the alternating vector at the identity index is `1`. -/
 @[simp]
@@ -145,9 +145,9 @@ theorem tensorPow_one : tensorPow (1 : Matrix n n R) = 1 := by
   by_cases h : f = g
   · subst h
     simp
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     obtain ⟨k, hk⟩ : ∃ k, f k ≠ g k := Function.ne_iff.mp h
-    exact Finset.prod_eq_zero (Finset.mem_univ k) (if_neg hk)
+    exact Finset.prod_eq_zero (Finset.mem_univ k) (ite_eq_right hk)
 
 /-- The Kronecker power of a product is the product of the Kronecker powers. -/
 theorem tensorPow_mul (u v : Matrix n n R) :

@@ -136,10 +136,10 @@ private lemma h1Cotangent_delta_naturality (x : H1Cotangent S T) :
     | add z w hz hw => simp only [RingHom.map_add, LinearMap.map_add, hz, hw]
   obtain ⟨x, hx⟩ := x
   obtain ⟨y, rfl⟩ := Extension.Cotangent.mk_surjective x
-  show Generators.H1Cotangent.δ Q (Generators.self R A)
+  change Generators.H1Cotangent.δ Q (Generators.self R A)
     (Extension.H1Cotangent.map f.toExtensionHom ⟨Extension.Cotangent.mk y, hx⟩) =
       g (Generators.H1Cotangent.δ P (Generators.self R S) ⟨Extension.Cotangent.mk y, hx⟩)
-  show Generators.H1Cotangent.δ Q (Generators.self R A) ⟨_, _⟩ = _
+  change Generators.H1Cotangent.δ Q (Generators.self R A) ⟨_, _⟩ = _
   simp only [LinearMap.domRestrict_apply, Extension.Cotangent.map_mk,
     Generators.H1Cotangent.δ_eq_δAux]
   exact haux y.val
@@ -352,7 +352,7 @@ private lemma h1Cotangent_delta_naturality_base
     | add z w hz hw => simp only [map_add, hz, hw]
   obtain ⟨x, hx⟩ := x
   obtain ⟨y, rfl⟩ := Extension.Cotangent.mk_surjective x
-  show Generators.H1Cotangent.δ Q (Generators.self R' S) ⟨_, _⟩ = _
+  change Generators.H1Cotangent.δ Q (Generators.self R' S) ⟨_, _⟩ = _
   simp only [H1Cotangent.δ, Q, Generators.H1Cotangent.δ_eq_δAux]
   exact haux y.val
 
@@ -529,13 +529,15 @@ private lemma h1Cotangent_delta_naturality_square
       congr 1
       rw [Finsupp.prod_mapDomain_index (fun _ ↦ pow_zero _) (fun _ _ _ ↦ pow_add _ _ _)]
       simp [Finsupp.prod, map_prod, map_pow]
-    | add z w hz hw => rw [map_add (MvPolynomial.rename (R := S) ⇑(algebraMap T B)) z w]; simp only [RingHom.map_add, LinearMap.map_add, hz, hw]
+    | add z w hz hw =>
+      rw [map_add (MvPolynomial.rename (R := S) ⇑(algebraMap T B)) z w]
+      simp only [RingHom.map_add, LinearMap.map_add, hz, hw]
   obtain ⟨x, hx⟩ := x
   obtain ⟨y, rfl⟩ := Extension.Cotangent.mk_surjective x
-  show Generators.H1Cotangent.δ Q (Generators.self R A)
+  change Generators.H1Cotangent.δ Q (Generators.self R A)
     (Extension.H1Cotangent.map f.toExtensionHom ⟨Extension.Cotangent.mk y, hx⟩) =
       g (t (Generators.H1Cotangent.δ P (Generators.self R S) ⟨Extension.Cotangent.mk y, hx⟩))
-  show Generators.H1Cotangent.δ Q (Generators.self R A) ⟨_, _⟩ = _
+  change Generators.H1Cotangent.δ Q (Generators.self R A) ⟨_, _⟩ = _
   simp only [LinearMap.domRestrict_apply, Extension.Cotangent.map_mk,
     Generators.H1Cotangent.δ_eq_δAux]
   exact haux y.val
@@ -727,7 +729,7 @@ private lemma eq_zero_of_mapBaseChange_eq_zero_of_regular_tensorProduct
     (isBaseChange_h1Cotangent_tensorProduct k L A).equiv_tmul 1 x |>.trans (one_smul _ _)
   have hcomm : d.comp e.toLinearMap = f.comp h := by
     ext x
-    show d (e (1 ⊗ₜ[L] x)) = f (h (1 ⊗ₜ[L] x))
+    change d (e (1 ⊗ₜ[L] x)) = f (h (1 ⊗ₜ[L] x))
     simp only [d, e, f, h, LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.trans_apply,
       AlgebraTensorModule.cancelBaseChange_symm_tmul, LinearEquiv.baseChange_tmul,
       LinearMap.baseChange_tmul]
@@ -744,7 +746,7 @@ private lemma eq_zero_of_mapBaseChange_eq_zero_of_regular_tensorProduct
   obtain ⟨x, hx⟩ := (hex (c.symm v)).mp hw
   have hh : h x = v := by dsimp [h]; rw [hx, c.apply_symm_apply]
   have he : e x = 0 := hd (by
-    show d (e x) = d 0
+    change d (e x) = d 0
     rw [map_zero]
     calc
       d (e x) = f (h x) := DFunLike.congr_fun hcomm x
@@ -786,7 +788,7 @@ private lemma isPurelyInseparable_of_first_root_extension
   obtain ⟨a, ha⟩ := h x
   refine ⟨1, a, ?_⟩
   apply Subtype.val_injective
-  show algebraMap k E a = (x : E) ^ (p ^ 1)
+  change algebraMap k E a = (x : E) ^ (p ^ 1)
   simpa only [pow_one] using ha
 
 set_option maxHeartbeats 1500000 in
@@ -1065,7 +1067,7 @@ private lemma h1Cotangent_map_liftBaseChange_injective
       (Algebra.H1Cotangent.map k S (ResidueField S) (ResidueField S)) ∘ₗ i := by
     apply TensorProduct.AlgebraTensorModule.ext
     intro c x
-    show d (a.baseChange (ResidueField S) (c ⊗ₜ x)) =
+    change d (a.baseChange (ResidueField S) (c ⊗ₜ x)) =
       Algebra.H1Cotangent.map k S (ResidueField S) (ResidueField S) (i (c ⊗ₜ x))
     simp only [a, i, d, LinearMap.baseChange_tmul, LinearMap.liftBaseChange_tmul, map_smul]
     congr 1
@@ -1073,7 +1075,7 @@ private lemma h1Cotangent_map_liftBaseChange_injective
       ← Algebra.Extension.H1Cotangent.map_comp_apply]
     rw [Algebra.Extension.H1Cotangent.map_eq]
   apply Function.Injective.of_comp_right (g := a.baseChange (ResidueField S)) _ ha
-  show Function.Injective (d ∘ₗ a.baseChange (ResidueField S))
+  change Function.Injective (d ∘ₗ a.baseChange (ResidueField S))
   rw [hsquare]
   exact hS.comp hi
 
@@ -1125,11 +1127,11 @@ private lemma cotangent_map_injective_of_h1Cotangent_map_injective
   have hsquare (x : Algebra.H1Cotangent R (ResidueField R)) :
       Algebra.Extension.Cotangent.map g (eR x) =
         eS (Algebra.H1Cotangent.map R S (ResidueField R) (ResidueField S) x) := by
-    show (Algebra.Extension.Cotangent.map g)
+    change (Algebra.Extension.Cotangent.map g)
       (Algebra.Extension.H1Cotangent.map P.extendScalars.defaultHom x).val =
         (Algebra.Extension.H1Cotangent.map Q.extendScalars.defaultHom
           (Algebra.H1Cotangent.map R S (ResidueField R) (ResidueField S) x)).val
-    show (Algebra.Extension.H1Cotangent.map g'
+    change (Algebra.Extension.H1Cotangent.map g'
       (Algebra.Extension.H1Cotangent.map P.extendScalars.defaultHom x)).val = _
     simp only [Algebra.H1Cotangent.map, ← Algebra.Extension.H1Cotangent.map_comp_apply]
     rw [Algebra.Extension.H1Cotangent.map_eq]
@@ -1141,12 +1143,12 @@ private lemma cotangent_map_injective_of_h1Cotangent_map_injective
             (ResidueField S) := by
       apply TensorProduct.AlgebraTensorModule.ext
       intro c x
-      show d (eR.toLinearMap.baseChange (ResidueField S) (c ⊗ₜ x)) = _
+      change d (eR.toLinearMap.baseChange (ResidueField S) (c ⊗ₜ x)) = _
       simpa only [d, LinearMap.baseChange_tmul, LinearMap.liftBaseChange_tmul, map_smul,
         LinearMap.comp_apply, LinearEquiv.coe_coe] using congrArg (c • ·) (hsquare x)
     apply Function.Injective.of_comp_right (g := eR.toLinearMap.baseChange (ResidueField S))
       _ (LinearMap.baseChange_surjective _ eR.surjective)
-    show Function.Injective (d ∘ₗ eR.toLinearMap.baseChange (ResidueField S))
+    change Function.Injective (d ∘ₗ eR.toLinearMap.baseChange (ResidueField S))
     rw [heq]
     exact eS.injective.comp hinj
   let f := (residueCotangentEquiv S).toLinearMap ∘ₗ d ∘ₗ
@@ -1156,13 +1158,13 @@ private lemma cotangent_map_injective_of_h1Cotangent_map_injective
       (residueCotangentEquiv R).symm).injective), ?_⟩
   intro x
   let x' : P.ker := ⟨x, by
-    show residue R x = 0
+    change residue R x = 0
     exact (residue_eq_zero_iff (R := R) x).mpr x.property⟩
   have hx : (residueCotangentEquiv R).symm ((maximalIdeal R).toCotangent x) =
       Algebra.Extension.Cotangent.mk x' := by
     apply (residueCotangentEquiv R).injective
     simpa only [LinearEquiv.apply_symm_apply] using (residueCotangentEquiv_mk R x').symm
-  show residueCotangentEquiv S
+  change residueCotangentEquiv S
     (d (((residueCotangentEquiv R).symm.toLinearMap.baseChange (ResidueField S))
       (1 ⊗ₜ (maximalIdeal R).toCotangent x))) = _
   simp only [LinearMap.baseChange_tmul, LinearEquiv.coe_coe, hx, d,
@@ -1249,12 +1251,12 @@ public theorem flat_localization_and_regular_quotient_of_basis_kaehlerDifferenti
   let ψ : P →ₐ[k] F := MvPolynomial.aeval y
   have hψ : F.val.comp ψ = (IsScalarTower.toAlgHom k A (ResidueField A)).comp φ := by
     ext i
-    show algebraMap F (ResidueField A) (MvPolynomial.aeval y (MvPolynomial.X i)) =
+    change algebraMap F (ResidueField A) (MvPolynomial.aeval y (MvPolynomial.X i)) =
       residue A (φ (MvPolynomial.X i))
     simpa only [MvPolynomial.aeval_X] using (hφ i).symm
   have hker : RingHom.ker ψ.toRingHom = q := by
     ext a
-    show ψ a = 0 ↔ φ a ∈ maximalIdeal A
+    change ψ a = 0 ↔ φ a ∈ maximalIdeal A
     rw [← residue_eq_zero_iff]
     have h := DFunLike.congr_fun hψ a
     change algebraMap F (ResidueField A) (ψ a) = residue A (φ a) at h
@@ -1287,7 +1289,7 @@ public theorem flat_localization_and_regular_quotient_of_basis_kaehlerDifferenti
     apply mapBaseChange_residueField_injective_of_linearIndependent k (Fin m) A₀ F
     have hy : ∀ i, algebraMap A₀ F (algebraMap P A₀ (MvPolynomial.X i)) = y i := by
       intro i
-      show g (algebraMap P A₀ (MvPolynomial.X i)) = y i
+      change g (algebraMap P A₀ (MvPolynomial.X i)) = y i
       rw [hg, MvPolynomial.aeval_X]
     convert b.linearIndependent using 1
     funext i

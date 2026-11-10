@@ -11,8 +11,7 @@ public import StacksFrontier.RingTheory.LocalCohomology.MinimalPrimeFiltration.D
 public import StacksFrontier.Topology.Dimension.DimensionFunctionObstruction
 public import StacksCore.Tactic.StacksAttribute
 
-import all
-  StacksFrontier.AlgebraicGeometry.LocalCohomology.ImprovingCoherentModules.DepthTwoExtensionExistence
+import all StacksFrontier.AlgebraicGeometry.LocalCohomology.ImprovingCoherentModules.DepthTwoExtensionExistence
 import all StacksFrontier.AlgebraicGeometry.LocalCohomology.ImprovingCoherentModules.NestedImprovement
 
 /-!

@@ -162,9 +162,9 @@ theorem upperShriekStdOpenIso_hom_app_comp_upperShriekStdCompIso_hom_app
       (comparison U.left).inverse.map ((upperShriekCompIso i f (openCompactification i) c
         (c.precompOpen i.left)).inv.app ((plusCohToQCohPlus Y.left).obj L)).hom.hom := by
     simp only [upperShriekStdCompIso, upperShriekCompStdIso, Iso.trans_hom, NatTrans.comp_app,
-      Functor.isoWhiskerLeft_hom, Functor.isoWhiskerRight_hom, Functor.whiskerLeft_app,
-      Functor.whiskerRight_app, Functor.associator_hom_app, Functor.associator_inv_app,
-      Iso.symm_hom, Category.id_comp, Category.comp_id, Functor.comp_map]
+      Functor.isoWhiskerRight_hom,
+      Functor.whiskerRight_app, Functor.associator_inv_app,
+      Iso.symm_hom, Category.id_comp, Functor.comp_map]
     exact congrArg (_ ≫ ·) (Category.id_comp _)
   have hP :
       (upperShriekStdPrecompOpenIso i f c (c.precompOpen i.left)).hom.app L =
@@ -179,7 +179,7 @@ theorem upperShriekStdOpenIso_hom_app_comp_upperShriekStdCompIso_hom_app
   set ε := (upperShriekStdPlusCohCompIso f c).hom.app L
   have F₁ := congrArg (fun t => (comparison U.left).inverse.map t.hom)
     ((upperShriekOpenIso i).inv.naturality ε)
-  simp only [Functor.comp_map, ObjectProperty.FullSubcategory.comp_hom, Functor.map_comp] at F₁
+  simp only [ObjectProperty.FullSubcategory.comp_hom, Functor.map_comp] at F₁
   have F₂ := (pullModelConj i.left).inv.naturality ε.hom
   simp only [Functor.comp_map] at F₂
   have F₃ : (pull i.left).map ((comparison X.left).unitIso.hom.app

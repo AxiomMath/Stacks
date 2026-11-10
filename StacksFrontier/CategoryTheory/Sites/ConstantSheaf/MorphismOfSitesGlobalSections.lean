@@ -337,6 +337,15 @@ def lanTerminalToTerminal :
     u.op.lan.obj ((⊤_ (Sheaf J (Type u))).obj) ⟶ (⊤_ (Sheaf K (Type u))).obj :=
   (isTerminal_terminalSheaf_obj K).from _
 
+end ConstantSheafInverseImage
+
+section LanTerminal
+
+variable {A : Type u} [SmallCategory A] {B : Type u} [SmallCategory B]
+  (u : A ⥤ B) (J : GrothendieckTopology A) (K : GrothendieckTopology B)
+  [u.IsContinuous J K]
+  [PreservesFiniteLimits (u.sheafPullback (Type u) J K)]
+
 /-- The canonical map `lanTerminalToTerminal u J K` becomes an isomorphism after
 sheafification, that is, it lies in `K.W`. -/
 theorem w_lanTerminalToTerminal : K.W (lanTerminalToTerminal u J K) := by
@@ -356,6 +365,17 @@ theorem w_lanTerminalToTerminal : K.W (lanTerminalToTerminal u J K) := by
   rw [h₂.hom_ext ((presheafToSheaf K (Type u)).map (lanTerminalToTerminal u J K))
     (h₁.uniqueUpToIso h₂).hom]
   infer_instance
+
+end LanTerminal
+
+section ConstantSheafInverseImage
+
+variable {A : Type u} [SmallCategory A] {B : Type u} [SmallCategory B]
+  (u : A ⥤ B) (J : GrothendieckTopology A) (K : GrothendieckTopology B)
+  [u.IsContinuous J K]
+  [(u.sheafPushforwardContinuous (Type u) J K).IsRightAdjoint]
+  [(u.sheafPushforwardContinuous Ab.{u} J K).IsRightAdjoint]
+  [PreservesFiniteLimits (u.sheafPullback (Type u) J K)]
 
 /-- **The inverse image of the constant abelian sheaf on `ℤ` is the constant abelian sheaf on
 `ℤ`** — the abelian half of [Stacks, Tag 00XO], with no terminal object on either site and no

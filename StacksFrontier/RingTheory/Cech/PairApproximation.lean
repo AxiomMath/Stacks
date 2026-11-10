@@ -322,7 +322,7 @@ theorem exists_ge_ge (p q : PairApprox A I) : ∃ r : PairApprox A I, p ≤ r �
                 show D.val.comp (Subalgebra.inclusion hpD) = p.sub.val from
                   AlgHom.ext fun _ => rfl,
                 p.map_ideal] }, le_def.2 ⟨hpD, rfl⟩, le_def.2 ⟨hqD, ?_⟩⟩
-  show p.ideal.map (Subalgebra.inclusion hpD) = q.ideal.map (Subalgebra.inclusion hqD)
+  change p.ideal.map (Subalgebra.inclusion hpD) = q.ideal.map (Subalgebra.inclusion hqD)
   rw [← hf, ← hg, Ideal.map_span, Ideal.map_span, ← Set.range_comp, ← Set.range_comp]
   exact hFD
 

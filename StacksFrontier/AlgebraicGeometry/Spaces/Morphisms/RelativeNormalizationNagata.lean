@@ -224,10 +224,10 @@ private theorem isFinite_of_affine_etale_tests
     let a : Tj ⟶ V := Over.homMk a₀
     have ha : T.map a = cover.f j := B.inclusion.map_preimage _
     have hTaff : IsAffine (T.obj Tj) := by
-      show IsAffine (cover.X j); infer_instance
+      change IsAffine (cover.X j); infer_instance
     have haEtale : (MorphismProperty.inverseImage
         (@AlgebraicGeometry.Etale.{u} : MorphismProperty Scheme.{u}) T) a := by
-      show AlgebraicGeometry.Etale (T.map a)
+      change AlgebraicGeometry.Etale (T.map a)
       rw [ha]; infer_instance
     have hqa : (MorphismProperty.inverseImage
         (@AlgebraicGeometry.Etale.{u} : MorphismProperty Scheme.{u}) T).presheaf
@@ -249,7 +249,7 @@ private theorem isFinite_of_affine_etale_tests
     have hscheme := (hsq.of_map_of_faithful yoneda).map T
     rw [ha] at hscheme
     have _ : _root_.AlgebraicGeometry.IsFinite (T.map (hrep.snd q')) := hfinite
-    show _root_.AlgebraicGeometry.IsFinite (Limits.pullback.snd (T.map (hrep.snd q)) (cover.f j))
+    change _root_.AlgebraicGeometry.IsFinite (Limits.pullback.snd (T.map (hrep.snd q)) (cover.f j))
     rw [← hscheme.isoPullback_inv_snd]
     infer_instance
   have hVspace : IsAlgebraicSpace B S hS (yoneda.obj V) := isAlgebraicSpace_yoneda B S hS V

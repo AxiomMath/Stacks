@@ -142,7 +142,7 @@ def fieldBaseChangeConstantComplexIso :
       have h₂ := (etaleModuleInverseImageConstantIso.{u, 0} Λ
         (pullback.snd Y.hom (specAlgebraMap k kbar))).inv.naturality (N.obj.d i j)
       dsimp only [Functor.comp_map, Functor.comp_obj] at h₁ h₂
-      show ((etaleModuleInverseImageConstantIso.{u, 0} Λ (fieldBaseChangeProj Y kbar)).hom.app
+      change ((etaleModuleInverseImageConstantIso.{u, 0} Λ (fieldBaseChangeProj Y kbar)).hom.app
             (N.obj.X i) ≫ (etaleModuleInverseImageConstantIso.{u, 0} Λ
               (pullback.snd Y.hom (specAlgebraMap k kbar))).inv.app (N.obj.X i)) ≫
           (etaleModuleInverseImage.{u, 0} Λ (pullback.snd Y.hom (specAlgebraMap k kbar))).map
@@ -155,6 +155,7 @@ def fieldBaseChangeConstantComplexIso :
               (pullback.snd Y.hom (specAlgebraMap k kbar))).inv.app (N.obj.X j)
       rw [← Category.assoc, h₁, Category.assoc, Category.assoc, h₂]))
 
+omit [Fintype k] in
 /-- Perfectness of `RΓ(Y_k̄, N_Y|_{Y_k̄})` is perfectness of `RΓ(Spec k̄, Rf_*(f^{-1} N_{k̄}))`. -/
 theorem isPerfect_selfMapCohomology_constant_of_frobeniusRestriction
     (h₁ : StacksDraft.Perfect.IsPerfect.{0, u + 1, u + 2} (DerivedCategory.Plus.ι.obj
@@ -208,6 +209,7 @@ variable (Λ : Type) [CommRing Λ] [Finite Λ] {k : Type u} [Field k] [Fintype k
   [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
   (N : CochainComplex.Plus (ModuleCat.{u + 1} Λ))
 
+omit [Finite Λ] [Fintype k] in
 /-- Perfectness of `RΓ_c(X_k̄, N_X)` for `X` proper, compactified by itself, is perfectness of
 `RΓ(Spec k̄, Rf_*(f^{-1} N_{k̄}))`. -/
 theorem isPerfect_selfMapCohomology_constant_of_ofProper

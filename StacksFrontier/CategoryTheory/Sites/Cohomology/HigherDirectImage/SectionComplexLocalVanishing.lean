@@ -168,7 +168,7 @@ theorem equalizerSieve_mem_of_restriction (hΨ : CoverPreserving J₀ J Ψ)
   let y := (e.hom.app (op U)) x
   refine J.superset_covering ?_ (hΨ.cover_preserve (hloc y))
   rintro W f ⟨V, g, h, hg, rfl⟩
-  show ((pushforwardSections J K u I).homology p).map (h ≫ Ψ.map g).op x =
+  change ((pushforwardSections J K u I).homology p).map (h ≫ Ψ.map g).op x =
     ((pushforwardSections J K u I).homology p).map (h ≫ Ψ.map g).op 0
   rw [map_zero, op_comp, Functor.map_comp, ConcreteCategory.comp_apply]
   have hg' : ((pushforwardSections J₀ K₀ (𝟭 C₀)

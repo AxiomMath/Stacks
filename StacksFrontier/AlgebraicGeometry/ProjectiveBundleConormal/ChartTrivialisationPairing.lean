@@ -150,7 +150,7 @@ theorem isoUnitOver_inv_val_app_one (W : Opens Y.carrier) (a : N.val.obj (op W))
     (isoUnitOver N W a ha).inv.val.app A (1 : Y.presheaf.obj (op A.unop.left)) =
       N.val.map (homOfLE (leOfHom A.unop.hom)).op a := by
   refine Eq.trans (isoUnitOver_inv_val_app N W a ha A 1) ?_
-  show (1 : Y.presheaf.obj (op A.unop.left)) •
+  change (1 : Y.presheaf.obj (op A.unop.left)) •
     (N.val.map (homOfLE (leOfHom A.unop.hom)).op a) = _
   exact one_smul _ _
 
@@ -216,8 +216,8 @@ If `t : Γ(L, U)` spans the sections of an invertible `L` on an affine open `U`,
 `θ⁻¹(1) = t`, restricted to `U.ι ''ᵁ V`.
 
 **This is the first of the two section formulas that item 2 of the "What is not done" of
-`StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.ChartMeeting` recorded as missing from the
-whole development**, and with it the obstruction `hpair` of clause 3's chart computation becomes
+`StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.ChartMeeting` recorded as missing from
+the whole development**, and with it the obstruction `hpair` of clause 3's chart computation becomes
 an identity rather than an unknown unit. The chain is
 `Stacks.ProjectiveBundleConormal.restrictIsoUnitOfOverIsoUnit_inv_val_app`, the unit comparison
 (`Stacks.AlgebraicGeometry.IdealPowerHomColimit.restrictUnitIso_inv_val_app_one`, the one link the
@@ -344,8 +344,8 @@ inverse pair.** The two sections `τ⁻¹(1)` and `(restrictInverseTwistIso L U 
 `1`.
 
 **This is the second of the two section formulas that item 2 of the "What is not done" of
-`StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.ChartMeeting` recorded as missing.** It is
-`Stacks.ProjectiveBundleConormal.restrictInverseTwistIso_hom_val_app` read at
+`StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.ChartMeeting` recorded as missing.** It
+is `Stacks.ProjectiveBundleConormal.restrictInverseTwistIso_hom_val_app` read at
 `(restrictInverseTwistIso L U τ).inv (1)` — where the left-hand side is `1` because an isomorphism
 undoes its inverse — followed by
 `Stacks.ProjectiveBundleConormal.invertibleEvaluation_tensorSectionsAt`, with the restriction of

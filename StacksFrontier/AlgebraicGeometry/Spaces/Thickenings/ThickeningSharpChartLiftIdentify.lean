@@ -76,7 +76,7 @@ theorem ringSheafHom_ext_of_cover {X : AlgebraicSpaces B S hS}
       (c.hom.app V x)]
     exact congrArg _ (congrArg (fun r : F.obj.obj V ⟶ G.obj.obj (op K') ↦ ConcreteCategory.hom r x)
       (c.hom.naturality m.op)).symm
-  show (G.obj ⋙ CategoryTheory.forget RingCat.{u}).map (g ≫ m).op (a.hom.app V x) =
+  change (G.obj ⋙ CategoryTheory.forget RingCat.{u}).map (g ≫ m).op (a.hom.app V x) =
     (G.obj ⋙ CategoryTheory.forget RingCat.{u}).map (g ≫ m).op (b.hom.app V x)
   rw [key a, key b, h K' hm]
 

@@ -71,12 +71,12 @@ private theorem exists_quotientInf_lift_pair (I J : Ideal R) (x : R ⧸ I) (y : 
   refine ⟨Ideal.Quotient.mk (I ⊓ J) (a - i), ?_, ?_⟩
   · simp only [quotientInfToI, Ideal.quotientMap_mk, RingHom.id_apply]
     apply Ideal.Quotient.eq.mpr
-    show (a - i) - a ∈ I
+    change (a - i) - a ∈ I
     rw [show (a - i) - a = -i by ring]
     simpa using I.neg_mem hi
   · simp only [quotientInfToJ, Ideal.quotientMap_mk, RingHom.id_apply]
     apply Ideal.Quotient.eq.mpr
-    show (a - i) - b ∈ J
+    change (a - i) - b ∈ J
     rwa [show a - i - b = j by linear_combination -hij]
 
 private theorem existsUnique_function_of_cover
@@ -95,7 +95,7 @@ private theorem existsUnique_function_of_cover
   have hA (x : A) : h (a x) = f x := by
     have hx : a x ∈ Set.range a := ⟨x, rfl⟩
     have hxchoose : Classical.choose hx = x := ha (Classical.choose_spec hx)
-    show (if hz : a x ∈ Set.range a then f (Classical.choose hz) else _) = f x
+    change (if hz : a x ∈ Set.range a then f (Classical.choose hz) else _) = f x
     rw [dite_eq_left hx, hxchoose]
   have hB (y : B) : h (b y) = g y := by
     dsimp [h]
@@ -247,10 +247,10 @@ private theorem topSubschemeRestriction_compat {S : Scheme.{u}} [IsAffine S]
       simpa using h U))
   have : Epi qI := ConcreteCategory.epi_of_surjective _ Ideal.Quotient.mk_surjective
   have hIapp : I.subschemeι.appTop = qI ≫ (topSubschemeIso I).inv := by
-    show I.subschemeι.app (⊤ : S.Opens) = _
+    change I.subschemeι.app (⊤ : S.Opens) = _
     simpa [qI, topSubschemeIso, U] using I.subschemeι_app U
   have hJapp : J.subschemeι.appTop = qJ ≫ (topSubschemeIso J).inv := by
-    show J.subschemeι.app (⊤ : S.Opens) = _
+    change J.subschemeι.app (⊤ : S.Opens) = _
     simpa [qJ, topSubschemeIso, U] using J.subschemeι_app U
   apply (cancel_epi qI).mp
   calc
@@ -422,10 +422,10 @@ private theorem support_inf_eq_sup {S : Scheme.{u}} (I J : S.IdealSheafData) :
     apply Scheme.IdealSheafData.support_antitone
     apply le_inf
     · intro U
-      show I.ideal U * J.ideal U ≤ I.ideal U
+      change I.ideal U * J.ideal U ≤ I.ideal U
       exact Ideal.mul_le_left
     · intro U
-      show I.ideal U * J.ideal U ≤ J.ideal U
+      change I.ideal U * J.ideal U ≤ J.ideal U
       exact Ideal.mul_le_right
   · exact sup_le (Scheme.IdealSheafData.support_antitone inf_le_left)
       (Scheme.IdealSheafData.support_antitone inf_le_right)
@@ -493,7 +493,7 @@ private theorem comap_inf_of_isOpenImmersion {X Y : Scheme.{u}}
   apply Scheme.IdealSheafData.ext
   funext U
   let V : Y.affineOpens := ⟨f ''ᵁ (U : X.Opens), U.2.image_of_isOpenImmersion f⟩
-  show ((I ⊓ J).comap f).ideal U = (I.comap f ⊓ J.comap f).ideal U
+  change ((I ⊓ J).comap f).ideal U = (I.comap f ⊓ J.comap f).ideal U
   rw [Scheme.IdealSheafData.ideal_comap_of_isOpenImmersion (I := I ⊓ J) f U]
   have h₁ : (I ⊓ J).ideal V = I.ideal V ⊓ J.ideal V :=
     congrArg (fun F => F V) (Scheme.IdealSheafData.ideal_inf (I := I) (J := J))
@@ -533,13 +533,13 @@ private theorem branchMaps_agree_on_overlap {S T : Scheme.{u}}
     exact hC
   obtain ⟨z, hz⟩ := hCrange
   have hzI' : I.subschemeι (cI z) = I.subschemeι x := by
-    show ((cI ≫ I.subschemeι) z) = I.subschemeι x
+    change ((cI ≫ I.subschemeι) z) = I.subschemeι x
     rw [Scheme.IdealSheafData.inclusion_subschemeι]
     exact hz
   have hzI : cI z = x :=
     (IsClosedImmersion.isClosedEmbedding I.subschemeι).injective hzI'
   have hzJ' : J.subschemeι (cJ z) = J.subschemeι y := by
-    show ((cJ ≫ J.subschemeι) z) = J.subschemeι y
+    change ((cJ ≫ J.subschemeι) z) = J.subschemeι y
     rw [Scheme.IdealSheafData.inclusion_subschemeι]
     exact hz.trans hS
   have hzJ : cJ z = y :=
@@ -827,11 +827,11 @@ private lemma exists_unionOpen_lift {S T : Scheme.{u}} (I J : S.IdealSheafData)
       (hb : ∀ y, b (Scheme.IdealSheafData.inclusion hK y) = φ y) (z) :
       ((subschemeOpenIso K V.1).hom ≫ (K.subschemeι ⁻¹ᵁ V.1).ι ≫ φ) z ∈ (U : T.Opens) := by
     let y := (K.subschemeι ⁻¹ᵁ V.1).ι ((subschemeOpenIso K V.1).hom z)
-    show φ y ∈ (U : T.Opens)
+    change φ y ∈ (U : T.Opens)
     rw [← hb y]
     apply hVU
     rw [← Scheme.Hom.comp_apply, Scheme.IdealSheafData.inclusion_subschemeι]
-    show K.subschemeι ((K.subschemeι ⁻¹ᵁ V.1).ι ((subschemeOpenIso K V.1).hom z)) ∈ V.1
+    change K.subschemeι ((K.subschemeι ⁻¹ᵁ V.1).ι ((subschemeOpenIso K V.1).hom z)) ∈ V.1
     rw [Scheme.Opens.ι_apply _ ((subschemeOpenIso K V.1).hom z)]
     exact ((subschemeOpenIso K V.1).hom z).property
   have hf' (z) : f' z ∈ (U : T.Opens) := hmem inf_le_left f hbI z
@@ -872,7 +872,7 @@ private lemma union_exists_lift {S T : Scheme.{u}} (I J : S.IdealSheafData)
       pullback.fst (D.f x) (D.f y) ≫ k x = pullback.snd (D.f x) (D.f y) ≫ k y := by
     intro x y
     change (I ⊓ J).subscheme at x y
-    show pullback.fst ((I ⊓ J).subschemeι ⁻¹ᵁ (V x).1).ι
+    change pullback.fst ((I ⊓ J).subschemeι ⁻¹ᵁ (V x).1).ι
         ((I ⊓ J).subschemeι ⁻¹ᵁ (V y).1).ι ≫ k x =
       pullback.snd ((I ⊓ J).subschemeι ⁻¹ᵁ (V x).1).ι
         ((I ⊓ J).subschemeι ⁻¹ᵁ (V y).1).ι ≫ k y
@@ -898,9 +898,9 @@ private lemma union_exists_lift {S T : Scheme.{u}} (I J : S.IdealSheafData)
     apply (C K hK).hom_ext
     intro x
     change (I ⊓ J).subscheme at x
-    show (K.subschemeι ⁻¹ᵁ (V x).1).ι ≫ _ = _
+    change (K.subschemeι ⁻¹ᵁ (V x).1).ι ≫ _ = _
     rw [← subschemeOpenInclusion_ι_assoc]
-    show subschemeOpenInclusion hK (V x).1 ≫ D.f x ≫ D.glueMorphisms k hglue = _
+    change subschemeOpenInclusion hK (V x).1 ≫ D.f x ≫ D.glueMorphisms k hglue = _
     exact (congrArg (fun t => subschemeOpenInclusion hK (V x).1 ≫ t)
       (D.ι_glueMorphisms k hglue x)).trans (hφ x)
   exact ⟨D.glueMorphisms k hglue, glue_incl inf_le_left f hkI, glue_incl inf_le_right g hkJ⟩

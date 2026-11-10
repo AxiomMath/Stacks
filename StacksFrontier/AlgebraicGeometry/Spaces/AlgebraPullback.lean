@@ -144,8 +144,8 @@ def algebraPullback (g : Y ⟶ X) :
     · simp
   map_comp φ ψ := by
     refine AlgebraSheaf.Hom.ext (pushout.hom_ext ?_ ?_)
-    · simp [pushout.inl_desc, pushout.inl_desc_assoc]
-    · simp [pushout.inr_desc, pushout.inr_desc_assoc]
+    · simp
+    · simp
 
 /-- The sections of the pullback algebra are the pushout of the inverse image of `A` and the
 structure sheaf of `Y` over the inverse image of the structure sheaf of `X`. -/

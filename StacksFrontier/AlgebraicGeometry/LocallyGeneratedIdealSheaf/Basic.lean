@@ -122,7 +122,7 @@ theorem isPrincipal_ideal_comap_ι (J : X.IdealSheafData) (U : X.affineOpens)
     (h : (J.ideal U).IsPrincipal) :
     ((J.comap U.1.ι).ideal ⟨⊤, isAffineOpen_top U.1⟩).IsPrincipal := by
   have hA : Γ(U.1.toScheme, ⊤) = Γ(X, U.1) := by
-    show Γ(X, (Scheme.Hom.opensFunctor U.1.ι).obj ⊤) = Γ(X, U.1)
+    change Γ(X, (Scheme.Hom.opensFunctor U.1.ι).obj ⊤) = Γ(X, U.1)
     rw [Scheme.Opens.ι_image_top]
   have key : ∀ {A B : CommRingCat.{u}} (hAB : A = B) {P : Ideal A} {Q : Ideal B},
       HEq P Q → Q.IsPrincipal → P.IsPrincipal := by

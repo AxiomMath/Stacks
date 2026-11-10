@@ -4,7 +4,7 @@ public import Mathlib.Algebra.Homology.DerivedCategory.Basic
 public import Mathlib.Algebra.Homology.HomotopyCategory.ShortExact
 public import Mathlib.CategoryTheory.Functor.OfSequence
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 public import StacksFrontier.RingTheory.Module.AdicSystem.Homology
 
 @[expose] public section
@@ -312,9 +312,9 @@ theorem Cinv_naturality {M : C} (f : M ⟶ M) [HasDerivedCategory C]
   set cmC : ∀ m, CochainComplex.mappingCone (Ssgl m).f ⟶ Kcx f m :=
     fun m => CochainComplex.mappingCone.map (Ssgl m).f
       (sgl.map (iterate f (m + 1))) (sgl.map (a₀ m)) (𝟙 _) (by
-        show (Ssgl m).f ≫ 𝟙 _ = sgl.map (a₀ m) ≫ sgl.map (iterate f (m + 1))
+        change (Ssgl m).f ≫ 𝟙 _ = sgl.map (a₀ m) ≫ sgl.map (iterate f (m + 1))
         rw [Category.comp_id, ← Functor.map_comp]
-        show sgl.map (Abelian.factorThruCoimage (g m))
+        change sgl.map (Abelian.factorThruCoimage (g m))
             = sgl.map (a₀ m ≫ iterate f (m + 1))
         rw [hsq0]) with hcmC
   have hCinv (m : ℕ) : Cinv f c hstab m
@@ -329,7 +329,7 @@ theorem Cinv_naturality {M : C} (f : M ⟶ M) [HasDerivedCategory C]
         = kernel.lift (g k) (kernel.ι (g (k+1)) ≫ f) hfac2 ≫ kernel.ι (g k) := by
       rw [kernel.lift_ι]
     rw [← Category.assoc, hw, Category.assoc]
-    show _ ≫ kernel.ι (g k) ≫ cokernel.π (kernel.ι (g k)) = 0
+    change _ ≫ kernel.ι (g k) ≫ cokernel.π (kernel.ι (g k)) = 0
     rw [cokernel.condition, comp_zero]
   set τ₁ : ∀ k, Abelian.coimage (g (k+1)) ⟶ Abelian.coimage (g k) :=
     fun k => cokernel.desc (kernel.ι (g (k+1))) (f ≫ Abelian.coimage.π (g k)) (hkτ k) with hτ₁
@@ -348,17 +348,17 @@ theorem Cinv_naturality {M : C} (f : M ⟶ M) [HasDerivedCategory C]
     fun k => cokernel.desc (g (k+1)) (cokernel.π (g k)) (hcok0 k) with hτ₃
   set φ : ∀ k, S (k+1) ⟶ S k := fun k => ShortComplex.Hom.mk (τ₁ k) (𝟙 M) (τ₃ k)
     (by
-      show τ₁ k ≫ Abelian.factorThruCoimage (g k) = Abelian.factorThruCoimage (g (k+1)) ≫ 𝟙 M
+      change τ₁ k ≫ Abelian.factorThruCoimage (g k) = Abelian.factorThruCoimage (g (k+1)) ≫ 𝟙 M
       rw [Category.comp_id]; exact (hidA k).symm)
     (by
-      show 𝟙 M ≫ cokernel.π (g k) = cokernel.π (g (k+1)) ≫ τ₃ k
+      change 𝟙 M ≫ cokernel.π (g k) = cokernel.π (g (k+1)) ≫ τ₃ k
       rw [Category.id_comp]; exact (cokernel.π_desc _ _ _).symm) with hφ
   set dm : ∀ k,
       CochainComplex.mappingCone (Ssgl (k+1)).f ⟶ CochainComplex.mappingCone (Ssgl k).f :=
     fun k => CochainComplex.mappingCone.map (Ssgl (k+1)).f (Ssgl k).f
       (sgl.map (τ₁ k)) (sgl.map (𝟙 M))
       (by
-        show sgl.map (Abelian.factorThruCoimage (g (k+1))) ≫ sgl.map (𝟙 M)
+        change sgl.map (Abelian.factorThruCoimage (g (k+1))) ≫ sgl.map (𝟙 M)
             = sgl.map (τ₁ k) ≫ sgl.map (Abelian.factorThruCoimage (g k))
         rw [← Functor.map_comp, ← Functor.map_comp]
         congr 1
@@ -469,22 +469,22 @@ theorem Cinv_Kproj {M : C} (f : M ⟶ M) [HasDerivedCategory C]
       (sgl.map (cokernel.π (iterate f (m + c + 1)))) hKzero
   have hKproj : Kproj f (m + c)
       = DerivedCategory.Q.map (CochainComplex.mappingCone.descShortComplex SK) := by
-    show DerivedCategory.Q.map (CochainComplex.mappingCone.descShortComplex
+    change DerivedCategory.Q.map (CochainComplex.mappingCone.descShortComplex
       (ShortComplex.mk (sgl.map (iterate f (m + c + 1)))
         (sgl.map (cokernel.π (iterate f (m + c + 1)))) _))
       = DerivedCategory.Q.map (CochainComplex.mappingCone.descShortComplex SK)
     rfl
   let φ : SK ⟶ Ssgl := ShortComplex.Hom.mk (sgl.map (Abelian.coimage.π g)) (𝟙 _) (𝟙 _)
     (by
-      show sgl.map (Abelian.coimage.π g) ≫ Ssgl.f
+      change sgl.map (Abelian.coimage.π g) ≫ Ssgl.f
           = sgl.map (iterate f (m + c + 1)) ≫ 𝟙 _
-      show sgl.map (Abelian.coimage.π g) ≫ sgl.map (Abelian.factorThruCoimage g)
+      change sgl.map (Abelian.coimage.π g) ≫ sgl.map (Abelian.factorThruCoimage g)
           = sgl.map (iterate f (m + c + 1)) ≫ 𝟙 _
       rw [Category.comp_id, ← Functor.map_comp, hfac])
     (by
-      show (𝟙 _ : sgl.obj M ⟶ sgl.obj M) ≫ Ssgl.g
+      change (𝟙 _ : sgl.obj M ⟶ sgl.obj M) ≫ Ssgl.g
           = sgl.map (cokernel.π (iterate f (m + c + 1))) ≫ 𝟙 _
-      show (𝟙 _ : sgl.obj M ⟶ sgl.obj M) ≫ sgl.map (cokernel.π g)
+      change (𝟙 _ : sgl.obj M ⟶ sgl.obj M) ≫ sgl.map (cokernel.π g)
           = sgl.map (cokernel.π (iterate f (m + c + 1))) ≫ 𝟙 _
       rw [Category.id_comp, Category.comp_id])
   let coimDesc := CochainComplex.mappingCone.map SK.f Ssgl.f φ.τ₁ φ.τ₂ (φ.comm₁₂).symm
@@ -500,7 +500,7 @@ theorem Cinv_Kproj {M : C} (f : M ⟶ M) [HasDerivedCategory C]
           (sgl.map (iterate f (m + c + 1))) (sgl.map (iterate f (m + 1)))
           (sgl.map (iterate f c)) (𝟙 _)
           (by rw [Category.comp_id, ← Functor.map_comp, ← iterate_add]; congr 2; omega) := by
-    show CochainComplex.mappingCone.map (sgl.map (iterate f (m + c + 1)))
+    change CochainComplex.mappingCone.map (sgl.map (iterate f (m + c + 1)))
             (sgl.map (Abelian.factorThruCoimage g)) (sgl.map (Abelian.coimage.π g)) (𝟙 _) _
         ≫ CochainComplex.mappingCone.map (sgl.map (Abelian.factorThruCoimage g))
             (sgl.map (iterate f (m + 1))) (sgl.map a₀) (𝟙 _) _
@@ -568,13 +568,13 @@ theorem Kproj_Cinv {M : C} (f : M ⟶ M) [HasDerivedCategory C]
       (sgl.map (cokernel.π (iterate f (m + 1)))) hKzero_m
   have hKproj_m : Kproj f m
       = DerivedCategory.Q.map (CochainComplex.mappingCone.descShortComplex SKm) := by
-    show DerivedCategory.Q.map (CochainComplex.mappingCone.descShortComplex
+    change DerivedCategory.Q.map (CochainComplex.mappingCone.descShortComplex
       (ShortComplex.mk (sgl.map (iterate f (m + 1)))
         (sgl.map (cokernel.π (iterate f (m + 1)))) _))
       = DerivedCategory.Q.map (CochainComplex.mappingCone.descShortComplex SKm)
     rfl
   have hgfac : g = iterate f c ≫ iterate f (m + 1) := by
-    show iterate f (m + c + 1) = iterate f c ≫ iterate f (m + 1)
+    change iterate f (m + c + 1) = iterate f c ≫ iterate f (m + 1)
     rw [← iterate_add]; congr 1; omega
   have hτ₃zero : g ≫ cokernel.π (iterate f (m + 1)) = 0 := by
     rw [hgfac, Category.assoc, cokernel.condition, comp_zero]
@@ -584,13 +584,13 @@ theorem Kproj_Cinv {M : C} (f : M ⟶ M) [HasDerivedCategory C]
     cokernel.π_desc _ _ _
   let φ' : Ssgl ⟶ SKm := ShortComplex.Hom.mk (sgl.map a₀) (𝟙 _) (sgl.map τ₃M)
     (by
-      show sgl.map a₀ ≫ SKm.f = Ssgl.f ≫ 𝟙 _
-      show sgl.map a₀ ≫ sgl.map (iterate f (m + 1))
+      change sgl.map a₀ ≫ SKm.f = Ssgl.f ≫ 𝟙 _
+      change sgl.map a₀ ≫ sgl.map (iterate f (m + 1))
           = sgl.map (Abelian.factorThruCoimage g) ≫ 𝟙 _
       rw [Category.comp_id, ← Functor.map_comp, ← hsq0])
     (by
-      show (𝟙 _ : sgl.obj M ⟶ sgl.obj M) ≫ SKm.g = Ssgl.g ≫ sgl.map τ₃M
-      show (𝟙 _ : sgl.obj M ⟶ sgl.obj M) ≫ sgl.map (cokernel.π (iterate f (m + 1)))
+      change (𝟙 _ : sgl.obj M ⟶ sgl.obj M) ≫ SKm.g = Ssgl.g ≫ sgl.map τ₃M
+      change (𝟙 _ : sgl.obj M ⟶ sgl.obj M) ≫ sgl.map (cokernel.π (iterate f (m + 1)))
           = sgl.map (cokernel.π g) ≫ sgl.map τ₃M
       rw [Category.id_comp, ← Functor.map_comp, hτ₃π])
   have hnat : CochainComplex.mappingCone.map Ssgl.f SKm.f φ'.τ₁ φ'.τ₂ (φ'.comm₁₂).symm
@@ -628,7 +628,7 @@ theorem Kproj_Cinv {M : C} (f : M ⟶ M) [HasDerivedCategory C]
         congr 2
         apply (cancel_epi (cokernel.π (iterate f (m + k + 2)))).1
         rw [← Category.assoc, cokernel.π_desc, Category.id_comp, cokernel.π_desc]
-        show cokernel.π (iterate f (m + 1))
+        change cokernel.π (iterate f (m + 1))
             = cokernel.π (iterate f (m + k + 2))
               ≫ cokernel.desc (iterate f (m + k + 2)) (cokernel.π (iterate f (m + 1))) hz
         rw [cokernel.π_desc]

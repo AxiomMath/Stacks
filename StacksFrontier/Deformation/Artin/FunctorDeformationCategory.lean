@@ -85,7 +85,7 @@ theorem isFiberedInGroupoids_elements_leftOp (G : Cᵒᵖ ⥤ Type w) :
   unique_lift {x y z} φ ψ f hf := by
     have hz : G.map f.op y.unop.2 = z.unop.2 := by
       rw [← φ.unop.2, ← ψ.unop.2]
-      show G.map f.op (G.map φ.unop.1 x.unop.2) = G.map ψ.unop.1 x.unop.2
+      change G.map f.op (G.map φ.unop.1 x.unop.2) = G.map ψ.unop.1 x.unop.2
       have e : φ.unop.1 ≫ f.op = ψ.unop.1 := Quiver.Hom.unop_inj hf
       rw [← Functor.map_comp_apply, e]
     refine ⟨(Functor.Elements.homMk (x := y.unop) (y := z.unop) f.op hz).op, ⟨rfl, ?_⟩, ?_⟩
@@ -224,10 +224,10 @@ theorem satisfiesRS_elements_of_satisfiesRSFunctor (h : SatisfiesRSFunctor B S h
     obtain ⟨t, ⟨ht₁, ht₂⟩, -⟩ := hRS a b hab
     refine ⟨elementsFiberMk t, ⟨CategoricalPullback.mkIso
       (eqToIso (by
-        show (c.pullbackFunctor j').obj _ = _
+        change (c.pullbackFunctor j').obj _ = _
         rw [elements_pullbackFunctor_obj_eq, ht₁]))
       (eqToIso (by
-        show (c.pullbackFunctor i').obj _ = _
+        change (c.pullbackFunctor i').obj _ = _
         rw [elements_pullbackFunctor_obj_eq, ht₂]))
       (Subsingleton.elim _ _)⟩⟩
   exact { }
@@ -276,7 +276,7 @@ def ranSectionOf {U₀ : LocallyNoetherianOver B S hS} (t : F.obj (op U₀)) :
 /-- The family attached to `t ∈ F(U₀)` takes the value `t` at the identity of `U₀`. -/
 theorem ranSectionOf_val_id {U₀ : LocallyNoetherianOver B S hS} (t : F.obj (op U₀)) :
     (ranSectionOf t).1 U₀ (𝟙 _) = t := by
-  show F.map (𝟙 U₀).op t = t
+  change F.map (𝟙 U₀).op t = t
   simp
 
 /-- A compatible family over a locally Noetherian object is the family of its value at the
@@ -285,9 +285,9 @@ theorem ranSectionOf_val_id_eq {U₀ : LocallyNoetherianOver B S hS}
     (s : (bigSiteRan F).obj (op U₀.obj)) : ranSectionOf (s.1 U₀ (𝟙 _)) = s := by
   apply Subtype.ext
   funext U f
-  show F.map (ObjectProperty.homMk f : U ⟶ U₀).op (s.1 U₀ (𝟙 _)) = s.1 U f
+  change F.map (ObjectProperty.homMk f : U ⟶ U₀).op (s.1 U₀ (𝟙 _)) = s.1 U f
   rw [s.2]
-  show s.1 U (f ≫ 𝟙 _) = s.1 U f
+  change s.1 U (f ≫ 𝟙 _) = s.1 U f
   rw [Category.comp_id]
 
 /-- The family attached to an element is compatible with restriction along a morphism of
@@ -298,7 +298,7 @@ theorem ranSectionOf_map {U₀ U₁ : LocallyNoetherianOver B S hS} (g : U₁ �
     (bigSiteRan F).map g.hom.op (ranSectionOf t) = ranSectionOf (F.map g.op t) := by
   apply Subtype.ext
   funext U f
-  show F.map (ObjectProperty.homMk (f ≫ g.hom) : U ⟶ U₀).op t =
+  change F.map (ObjectProperty.homMk (f ≫ g.hom) : U ⟶ U₀).op t =
     F.map (ObjectProperty.homMk f : U ⟶ U₁).op (F.map g.op t)
   rw [← Functor.map_comp_apply, ← op_comp]
   rfl
@@ -387,7 +387,7 @@ theorem elementsToBigSiteRan_surjective (y' : (bigSiteRan F).Elementsᵒᵖ)
     ∃ y : F.Elementsᵒᵖ, (elementsToBigSiteRan F).obj y = y' := by
   obtain ⟨@⟨⟨T⟩, s⟩⟩ := y'
   refine ⟨op (F.elementsMk (op ⟨T, hy'⟩) (s.1 ⟨T, hy'⟩ (𝟙 _))), ?_⟩
-  show op ((bigSiteRan F).elementsMk (op T) (ranSectionOf (s.1 ⟨T, hy'⟩ (𝟙 _)))) =
+  change op ((bigSiteRan F).elementsMk (op T) (ranSectionOf (s.1 ⟨T, hy'⟩ (𝟙 _)))) =
     op ((bigSiteRan F).elementsMk (op T) s)
   rw [ranSectionOf_val_id_eq (U₀ := ⟨T, hy'⟩) s]
 

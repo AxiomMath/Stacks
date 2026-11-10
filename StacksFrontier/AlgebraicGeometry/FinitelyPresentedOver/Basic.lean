@@ -128,7 +128,7 @@ theorem exists_hom_comp_eq {X : Scheme.{u}} (F : X.Modules)
   refine ⟨⟨Over.mk (cokernel.desc d B.1.hom hd), SheafOfModules.isFinitePresentation_cokernel d⟩,
     ObjectProperty.homMk (Over.homMk (cokernel.π d)),
     ObjectProperty.hom_ext _ (Over.OverMorphism.ext ?_)⟩
-  show f.1.left ≫ cokernel.π d = g.1.left ≫ cokernel.π d
+  change f.1.left ≫ cokernel.π d = g.1.left ≫ cokernel.π d
   rw [← sub_eq_zero, ← Preadditive.sub_comp]
   exact cokernel.condition d
 

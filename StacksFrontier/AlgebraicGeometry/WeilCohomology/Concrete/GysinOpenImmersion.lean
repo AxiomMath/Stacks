@@ -73,7 +73,7 @@ theorem chowCohomologyCap_restrictionOfEq_id (c : chowCohomologyComponent C G sY
   have hfs : pullback.fst (𝟙 Y) (𝟙 Y) = (identityBaseChangeIso (𝟙 Y)).hom := by
     rw [asIso_hom, ← Category.comp_id (pullback.fst (𝟙 Y) (𝟙 Y)), pullback.condition,
       Category.comp_id]
-  show _ = chowPushforwardOfIso C (pullback.fst (𝟙 Y) (𝟙 Y) ≫ sY) sY
+  change _ = chowPushforwardOfIso C (pullback.fst (𝟙 Y) (𝟙 Y) ≫ sY) sY
     (pullback.fst (𝟙 Y) (𝟙 Y)) rfl (k - p) _
   rw [chowPushforwardOfIso_congr_apply C _ _ _ _ hfs rfl (by rw [← hfs])]
   rfl
@@ -163,7 +163,7 @@ instance (d : ℕ) : IsOpenImmersion (dimPartMap sX sU hj d) := by
 /-- The map `U_d ⟶ X_d` commutes with the structure morphisms of `U_d` and `X_d` to the base. -/
 theorem dimPartMap_comp_partBase (d : ℕ) :
     dimPartMap sX sU hj d ≫ partBase sX d = partBase sU d := by
-  show dimPartMap sX sU hj d ≫ (dimPart sX d).ι ≫ sX = (dimPart sU d).ι ≫ sU
+  change dimPartMap sX sU hj d ≫ (dimPart sX d).ι ≫ sX = (dimPart sU d).ι ≫ sU
   rw [dimPartMap_ι_assoc, hj]
 
 /-- The restriction `j_{d,d} : U_{d,d} ⟶ X_d` of `j` to the piece of `U_d` over `X_d` is the

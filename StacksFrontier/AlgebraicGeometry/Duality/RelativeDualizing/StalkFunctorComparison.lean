@@ -84,7 +84,7 @@ theorem commStalkIso_inv_smul {Y : TopCat.{u}} (R : Y.Presheaf CommRingCat.{u}) 
     (SemilinearStalk.commStalkIso R y).inv.hom r • m = r • m := by
   have h : SemilinearStalk.commStalkRingEquiv R y
       ((SemilinearStalk.commStalkIso R y).inv.hom r) = r := by
-    show ((SemilinearStalk.commStalkIso R y).inv ≫
+    change ((SemilinearStalk.commStalkIso R y).inv ≫
       (SemilinearStalk.commStalkIso R y).hom).hom r = r
     rw [Iso.inv_hom_id]
     rfl

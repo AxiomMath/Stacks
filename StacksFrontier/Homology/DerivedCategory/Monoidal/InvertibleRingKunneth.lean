@@ -57,7 +57,7 @@ public theorem scalarNatTrans_app_tensorObj (a b : R) (A B : ModuleCat.{u} R) :
     (scalarNatTrans (a * b)).app (A ⊗ B) =
       (scalarNatTrans a).app A ⊗ₘ (scalarNatTrans b).app B := by
   refine ModuleCat.hom_ext (TensorProduct.ext' fun x y => ?_)
-  show (a * b) • (x ⊗ₜ[R] y) = (a • x) ⊗ₜ[R] (b • y)
+  change (a * b) • (x ⊗ₜ[R] y) = (a • x) ⊗ₜ[R] (b • y)
   rw [TensorProduct.tmul_smul, TensorProduct.smul_tmul', mul_comm, mul_smul,
     ← TensorProduct.smul_tmul']
 
@@ -169,7 +169,7 @@ public def summandπ : (zeroDiffTotal F F').X 0 ⟶ F n ⊗ F' (-n) :=
 
 public theorem summandι_summandπ : summandι F F' n ≫ summandπ F F' n = 𝟙 _ := by
   refine (HomologicalComplex.ι_mapBifunctorDesc (i₁ := n) (i₂ := -n) (h := π_neg n) ..).trans ?_
-  rw [dif_pos rfl]
+  rw [dite_eq_left rfl]
   exact eqToHom_refl _ _
 
 end Summand
@@ -178,7 +178,7 @@ end Summand
 public theorem scalarNatTrans_app_tensorObj_left (a : R) (A B : ModuleCat.{u} R) :
     (scalarNatTrans a).app (A ⊗ B) = (scalarNatTrans a).app A ▷ B := by
   refine ModuleCat.hom_ext (TensorProduct.ext' fun x y => ?_)
-  show a • (x ⊗ₜ[R] y) = (a • x) ⊗ₜ[R] y
+  change a • (x ⊗ₜ[R] y) = (a • x) ⊗ₜ[R] y
   rw [TensorProduct.smul_tmul']
 
 section Summand
@@ -201,9 +201,9 @@ public theorem summandπ_summandι (f : ℤ → R)
       have h' : p + q = 0 := hpq
       omega
     subst hq
-    rw [dif_pos rfl, if_pos rfl, MonoidalCategory.id_whiskerRight]
+    rw [dite_eq_left rfl, ite_eq_left rfl, MonoidalCategory.id_whiskerRight]
     exact (Category.id_comp _).trans (Category.id_comp _).symm
-  · rw [dif_neg hp, if_neg hp, MonoidalPreadditive.zero_whiskerRight, Limits.zero_comp]
+  · rw [dite_eq_right hp, ite_eq_right hp, MonoidalPreadditive.zero_whiskerRight, Limits.zero_comp]
     exact Limits.zero_comp.symm
 
 end Summand

@@ -168,8 +168,7 @@ theorem absModFiberMap_mem (n : ℤ) (x : absModComponents L N n) :
   | zero => simp
   | add x y hx hy => simpa using (absModGrading L N n).add_mem hx hy
   | of pq x =>
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simpa using (absModGrading L N n).add_mem hx hy
     | tmul b a =>
       rw [← DirectSum.lof_eq_of (R := R), absModFiberMap_lof_tmul]
@@ -284,8 +283,7 @@ theorem absModDifferential_sq :
     absModDifferential L N ∘ₗ absModDifferential L N = 0 := by
   refine LinearMap.ext fun x ↦ ?_
   change absModDifferential L N (absModDifferential L N x) = 0
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp [map_add, hx, hy]
   | tmul b a =>
     induction b using DirectSum.Decomposition.inductionOn L.grading with

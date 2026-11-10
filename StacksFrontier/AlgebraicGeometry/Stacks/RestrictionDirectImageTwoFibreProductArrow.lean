@@ -98,7 +98,7 @@ theorem twoFibreProductArrow_comp
   have hb : f.map u.b =
       P.iso.inv ≫ (c.sliceFunctor (chartFiberObj B S hS G q eG V)).map u.a ≫ Q.iso.hom := by
     rw [u.w, ← Category.assoc, P.iso.inv_hom_id, Category.id_comp]
-  show f.map u.b ≫ Q.iso.inv ≫ c.map Q.x.hom (chartFiberObj B S hS G q eG V) =
+  change f.map u.b ≫ Q.iso.inv ≫ c.map Q.x.hom (chartFiberObj B S hS G q eG V) =
     P.iso.inv ≫ c.map P.x.hom (chartFiberObj B S hS G q eG V)
   rw [hb]
   simp only [Category.assoc]

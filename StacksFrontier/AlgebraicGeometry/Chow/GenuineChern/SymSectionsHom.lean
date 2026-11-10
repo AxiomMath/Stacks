@@ -129,11 +129,8 @@ theorem ker_sectionHom_eq_span_of_split (t₀ : Γ(E₁, V))
   have hi1 : i 1 = t₀ := by simp [hi]
   have hrange : LinearMap.range i = LinearMap.ker (sectionsLinearMap u V) := by
     rw [hexact, hi, LinearMap.span_singleton_eq_range]
-  have hinj : Function.Injective i := by
-    refine (injective_iff_map_eq_zero i).2 fun r hr => ?_
-    simpa [hi, hl] using congrArg l hr
   obtain ⟨hker, hreg⟩ := Stacks.Chow.GenuineChern.ker_symAlgMap_eq_span_singleton_of_exact'
-    i (sectionsLinearMap u V) hinj hsurj hrange l (by rw [hi1, hl])
+    i (sectionsLinearMap u V) hsurj hrange l (by rw [hi1, hl])
   rw [hi1] at hker hreg
   refine ⟨?_, ?_, ?_⟩
   · have hcomp : ∀ x, ((schemeSheafGradedAlgebraHom u hqc₁ hqc₂).sectionHom V) x =
@@ -141,13 +138,13 @@ theorem ker_sectionHom_eq_span_of_split (t₀ : Γ(E₁, V))
       rw [← symSectionRingEquiv_sectionHom, RingEquiv.symm_apply_apply]
     ext x
     rw [RingHom.mem_ker]
-    show ((schemeSheafGradedAlgebraHom u hqc₁ hqc₂).sectionHom V) x = 0 ↔ _
+    change ((schemeSheafGradedAlgebraHom u hqc₁ hqc₂).sectionHom V) x = 0 ↔ _
     rw [hcomp, map_eq_zero_iff _ e₂.symm.injective, ← RingHom.mem_ker, hker,
       Ideal.mem_span_singleton', Ideal.mem_span_singleton', e₁.symm.surjective.exists]
     simp only [← map_mul, RingEquiv.symm_apply_eq]
   · exact Stacks.Chow.GenuineChern.isRegular_ringEquiv e₁.symm hreg
   · rw [← mem_symmetricPower_symSectionRingEquiv E₁ hV hqc₁ 1, RingEquiv.apply_symm_apply]
-    show _ ∈ LinearMap.range (SymmetricAlgebra.ι Γ(X, V) Γ(E₁, V)) ^ 1
+    change _ ∈ LinearMap.range (SymmetricAlgebra.ι Γ(X, V) Γ(E₁, V)) ^ 1
     rw [pow_one]
     exact LinearMap.mem_range_self _ t₀
 

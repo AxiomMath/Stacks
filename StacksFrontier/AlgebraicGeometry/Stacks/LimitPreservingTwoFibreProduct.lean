@@ -139,7 +139,7 @@ private lemma factor_through_stage
     dsimp only [ηs, ηk]
     simp only [Category.assoc, Functor.toPullbackFiber_fac,
       Functor.pullbackFiberProj_fac]
-    show G.map δk ≫ G.map d = G.map δ
+    change G.map δk ≫ G.map d = G.map δ
     rw [← G.map_comp, Functor.IsStronglyCartesian.fac]
   refine ⟨k, s, xk, δk, γk, hδk, ?_, ?_⟩
   · have hh : pY.IsHomLift (𝟙 (Dg.obj k) ≫ 𝟙 (Dg.obj k) ≫ si) γk := by
@@ -258,7 +258,7 @@ private lemma descentObj_twoFibreProduct
       hy := zk.2
       iso := asIso αk
       vertical := by
-        show pM.IsHomLift (𝟙 (Dg.obj k')) αk
+        change pM.IsHomLift (𝟙 (Dg.obj k')) αk
         infer_instance }
   refine ⟨k', ⟨Wk, rfl⟩,
     { hbase := cc.π.app k'
@@ -269,7 +269,7 @@ private lemma descentObj_twoFibreProduct
       w := hsquare }, ?_⟩
   refine IsHomLift.of_fac' (TwoFibreProductOver.structureFunctor pA pZ pM F G)
     (cc.π.app k') _ rfl rfl ?_
-  show cc.π.app k' = eqToHom rfl ≫ cc.π.app k' ≫ eqToHom rfl
+  change cc.π.app k' = eqToHom rfl ≫ cc.π.app k' ≫ eqToHom rfl
   simp
 
 /-- Two transitions into one stage are equalized by a single further stage. -/
@@ -625,7 +625,7 @@ private lemma descentHom_twoFibreProduct
     refine IsHomLift.of_fac'
       (TwoFibreProductOver.structureFunctor pA pZ pM F G) (𝟙 (Dg.obj k₁)) Ψ'
       hPk₁b hQk₁b ?_
-    show Ψ'.hbase = eqToHom hPk₁b ≫ 𝟙 (Dg.obj k₁) ≫ eqToHom hQk₁b.symm
+    change Ψ'.hbase = eqToHom hPk₁b ≫ 𝟙 (Dg.obj k₁) ≫ eqToHom hQk₁b.symm
     rw [hΨ'def, TwoFibreProductOver.Hom.mk'_hbase,
       IsHomLift.fac' pA (𝟙 (Dg.obj k₁)) Ψ'a]
     simp
@@ -682,11 +682,11 @@ private lemma descentHom_twoFibreProduct
       (TwoFibreProductOver.structureFunctor pA pZ pM F G).IsStronglyCartesian
         (Dg.map r ≫ Dg.map (tA ≫ sA)) (σ ≫ dQ)).toIsHomLift
   · refine TwoFibreProductOver.Hom.ext' ?_ ?_
-    · show Δk'.a ≫ Ψ'a ≫ σ.a ≫ dQ.a = Φ.a ≫ Ε.a
+    · change Δk'.a ≫ Ψ'a ≫ σ.a ≫ dQ.a = Φ.a ≫ Ε.a
       rw [← Category.assoc Ψ'a σ.a, hΨ'afac, ← Category.assoc,
         ← Category.assoc, hΔk'ρa, hΔkΨa]
       exact congrArg TwoFibreProductOver.Hom.a hΘfac
-    · show Δk'.b ≫ Ψ'b ≫ σ.b ≫ dQ.b = Φ.b ≫ Ε.b
+    · change Δk'.b ≫ Ψ'b ≫ σ.b ≫ dQ.b = Φ.b ≫ Ε.b
       rw [← Category.assoc Ψ'b σ.b, hΨ'bfac, ← Category.assoc,
         ← Category.assoc, hΔk'ρb, hΔkΨb]
       exact congrArg TwoFibreProductOver.Hom.b hΘfac

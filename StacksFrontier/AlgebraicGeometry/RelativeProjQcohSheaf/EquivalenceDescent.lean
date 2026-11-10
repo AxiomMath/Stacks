@@ -178,7 +178,7 @@ theorem mulPairIso_assoc {p p' p'' s t r : ℤ}
   subst h1
   subst h2
   subst h3
-  simp only [Iso.trans_hom, reindexIso_self, Iso.refl_hom, Category.comp_id, Category.assoc]
+  simp only [Iso.trans_hom, reindexIso_self, Iso.refl_hom, Category.comp_id]
   exact mulIso_assoc M p p' p''
 
 /-- The isomorphism against which the multiplicativity square at the indices `(n, m + 1)` is
@@ -640,7 +640,7 @@ theorem isCompAt_of_mul_of_exists {p q p' q' s t : ℤ}
       Q.twisting.app q' := hg'
   have hep : Epi (P.twisting.app p) := P.epi_app_of_pos hp0
   have hep' : Epi (P.twisting.app p') := P.epi_app_of_pos hp'0
-  haveI htens : Epi (MonoidalCategoryStruct.tensorHom (P.twisting.app p)
+  have htens : Epi (MonoidalCategoryStruct.tensorHom (P.twisting.app p)
       (P.twisting.app p')) := epi_tensorHom T.toRingedSpace _ _
   have key : MonoidalCategoryStruct.tensorHom (P.twisting.app p) (P.twisting.app p') ≫
         (mulPairIso P.L hs).hom ≫ δ =
@@ -658,13 +658,13 @@ construction of the family needs**: a comparison in the degrees `(p, q)` which i
 over a comparison in the degrees `(p', q')` compatible with `ψ`, into a comparison in the degrees
 `(p + p', q + q')` compatible with `ψ`, is itself compatible with `ψ`.
 
-Only the second pair of degrees has to be positive. Both quotients are cancelled, but on the
+Only the degree `q'` of the second pair has to be positive. Both quotients are cancelled, but on the
 first factor there is nothing to cancel: the surjection `ψ'_{q'}` of the second factor is
 whiskered into the first, which is an epimorphism because a tensor product of epimorphisms is,
 and the remaining whiskering by the invertible `(L')^{⊗ q'}` is faithful. -/
 theorem isCompAt_of_mul {p q p' q' s t : ℤ}
     (hp : p * d = q * d') (hp' : p' * d = q' * d') (hs : p + p' = s) (ht : q + q' = t)
-    (hst : s * d = t * d') (hp'0 : 0 < p') (hq'0 : 0 < q')
+    (hst : s * d = t * d') (hq'0 : 0 < q')
     (g : (laurent P.L).piece p ⟶ (laurent Q.L).piece q)
     (g' : (laurent P.L).piece p' ⟶ (laurent Q.L).piece q')
     (δ : (laurent P.L).piece s ⟶ (laurent Q.L).piece t)
@@ -679,10 +679,10 @@ theorem isCompAt_of_mul {p q p' q' s t : ℤ}
   rw [← hmul, ← Category.assoc, MonoidalCategory.tensorHom_comp_tensorHom, e2] at key
   have key2 := (Iso.cancel_iso_hom_right _ _ (mulPairIso Q.L ht)).mp key
   rw [tensorHom_def', tensorHom_def'] at key2
-  haveI heq' : Epi (Q.twisting.app q') := Q.epi_app_of_pos hq'0
-  haveI hw : Epi ((pullbackFunctor (ringedSpaceHom f)).map (eqToHom (congrArg A.piece hp')) ≫
+  have heq' : Epi (Q.twisting.app q') := Q.epi_app_of_pos hq'0
+  have hw : Epi ((pullbackFunctor (ringedSpaceHom f)).map (eqToHom (congrArg A.piece hp')) ≫
       Q.twisting.app q') := epi_comp _ _
-  haveI hwl : Epi (MonoidalCategoryStruct.whiskerLeft
+  have hwl : Epi (MonoidalCategoryStruct.whiskerLeft
       ((pullbackFunctor (ringedSpaceHom f)).obj (A.piece (p * d)))
       ((pullbackFunctor (ringedSpaceHom f)).map (eqToHom (congrArg A.piece hp')) ≫
         Q.twisting.app q')) := by
@@ -753,7 +753,7 @@ theorem isCompAt_scaledIso (hm₀ : a₀ * d = a₀' * d') (ha₀ : 0 < a₀) (h
   · exact isCompAt_scaledIso_of_pos β hm₀ ha₀ hβ hH hn
   refine isCompAt_of_mul (scaledDegEq hm₀ n) (scaledDegEq hm₀ (1 - n))
     (degMul (show n + (1 - n) = 1 by ring) a₀) (degMul (show n + (1 - n) = 1 by ring) a₀')
-    (scaledDegEq hm₀ 1) (mul_pos (by omega) ha₀) (mul_pos (by omega) ha₀')
+    (scaledDegEq hm₀ 1) (mul_pos (by omega) ha₀')
     (scaledIso β n).hom (scaledIso β (1 - n)).hom (scaledIso β 1).hom
     (isCompAt_scaledIso_of_pos β hm₀ ha₀ hβ hH (by omega)) hβ
     ((scaledIso_mul β n (1 - n) 1 (by ring) (by ring)).symm)

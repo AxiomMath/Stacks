@@ -89,8 +89,7 @@ noncomputable def mixedMapRight {G G' : PresheafOfModules.{w} (ringPresheaf O₁
           map_add' := map_add _
           map_smul' := ?_ })
     intro s t
-    induction t using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero, smul_zero]
+    induction t using TensorProduct.inductionOn with
     | add a b ha hb => rw [smul_add, map_add, ha, hb, map_add, smul_add]
     | tmul a x => rfl
   naturality := by

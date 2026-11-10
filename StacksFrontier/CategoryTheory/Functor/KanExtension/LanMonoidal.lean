@@ -67,7 +67,7 @@ theorem lanUnit_app_comp_whiskerLeft_δ (P Q : C ⥤ H) :
         LaxMonoidal.μ ((whiskeringLeft _ _ H).obj L) _ _) := rfl
   rw [hδ]
   simp only [lanAdjunction_unit]
-  show L.lanUnit.app (P ⊗ Q) ≫ ((whiskeringLeft C D H).obj L).map _ = _
+  change L.lanUnit.app (P ⊗ Q) ≫ ((whiskeringLeft C D H).obj L).map _ = _
   refine h.trans ?_
   ext X
   simp

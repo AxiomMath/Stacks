@@ -34,7 +34,8 @@ the kernel of `φ`.
 
 **The universe of the module sections is free, and that is the point of this file.**
 `Stacks.Sites.Conormal.quotientDerivationEquiv` of
-`StacksFrontier/CategoryTheory/Sites/Modules/CorepresentingConormalSequence.lean` is the same descent
+`StacksFrontier/CategoryTheory/Sites/Modules/CorepresentingConormalSequence.lean` is the same
+descent
 at the objectwise quotient `𝒜/ker φ`, but it is stated for a coefficient module whose sections
 live at `max w u v z`, the maximum of the universes of the site's objects, its arrows, its rings
 and a small model.  On a site whose objects live one universe above its arrows and its rings —
@@ -84,7 +85,8 @@ noncomputable abbrev restrictModuleAlong {P : Cᵒᵖ ⥤ CommRingCat.{w}} (ψ :
 /-- **An `ℛ`-derivation of `𝒬` read as an `ℛ`-derivation of `𝒜`.**  Precomposition with `φ` on
 sections; additivity, the Leibniz rule and compatibility with restriction are inherited, and the
 scalar action is the same because `𝒜` acts on `M` through `φ`. -/
-noncomputable def restrictDerivation (D : PresheafOfModulesOfCommRing.Derivation' M.val (a ≫ φ.hom)) :
+noncomputable def restrictDerivation
+    (D : PresheafOfModulesOfCommRing.Derivation' M.val (a ≫ φ.hom)) :
     PresheafOfModulesOfCommRing.Derivation' (restrictModuleAlong J M φ.hom) a where
   d {X} := (D.d (X := X)).comp (φ.hom.app X).hom.toAddMonoidHom
   d_mul {X} x y := by
@@ -101,13 +103,15 @@ noncomputable def restrictDerivation (D : PresheafOfModulesOfCommRing.Derivation
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- `Stacks.Sites.Conormal.restrictDerivation` is precomposition with `φ` on sections. -/
-lemma restrictDerivation_d (D : PresheafOfModulesOfCommRing.Derivation' M.val (a ≫ φ.hom)) (X : Cᵒᵖ) (x : A.obj.obj X) :
+lemma restrictDerivation_d (D : PresheafOfModulesOfCommRing.Derivation' M.val (a ≫ φ.hom))
+    (X : Cᵒᵖ) (x : A.obj.obj X) :
     (restrictDerivation J a φ M D).d x = D.d ((φ.hom.app X) x) :=
   rfl
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The restriction along `φ` of a derivation of `𝒬` annihilates the kernel of `φ`. -/
-lemma restrictDerivation_eq_zero_of_mem_kernel (D : PresheafOfModulesOfCommRing.Derivation' M.val (a ≫ φ.hom)) (X : Cᵒᵖ)
+lemma restrictDerivation_eq_zero_of_mem_kernel
+    (D : PresheafOfModulesOfCommRing.Derivation' M.val (a ≫ φ.hom)) (X : Cᵒᵖ)
     (x : A.obj.obj X) (hx : (φ.hom.app X) x = 0) :
     (restrictDerivation J a φ M D).d x = 0 :=
   (restrictDerivation_d J a φ M D X x).trans ((congrArg D.d hx).trans (map_zero D.d))
@@ -118,7 +122,8 @@ derivation is additive but not linear, so the lift through the objectwise quotie
 noncomputable def quotientDerivationOfVanishing
     (D : PresheafOfModulesOfCommRing.Derivation' (restrictModuleAlong J M φ.hom) a)
     (hD : ∀ (X : Cᵒᵖ) (x : A.obj.obj X), (φ.hom.app X) x = 0 → D.d x = 0) :
-    PresheafOfModulesOfCommRing.Derivation' (restrictModuleAlong J M (quotientToTarget φ.hom)) (a ≫ toQuotient φ.hom) where
+    PresheafOfModulesOfCommRing.Derivation' (restrictModuleAlong J M (quotientToTarget φ.hom))
+      (a ≫ toQuotient φ.hom) where
   d {X} := QuotientAddGroup.lift (kernelIdeal φ.hom X).toAddSubgroup D.d
     fun x hx ↦ hD X x (RingHom.mem_ker.1 hx)
   d_mul {X} x y := by
@@ -136,7 +141,8 @@ noncomputable def quotientDerivationOfVanishing
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The lift of a derivation to the image presheaf agrees with it on the classes of sections of
 `𝒜`.  This is the defining equation of `Stacks.Sites.Conormal.quotientDerivationOfVanishing`. -/
-lemma quotientDerivationOfVanishing_mk (D : PresheafOfModulesOfCommRing.Derivation' (restrictModuleAlong J M φ.hom) a)
+lemma quotientDerivationOfVanishing_mk
+    (D : PresheafOfModulesOfCommRing.Derivation' (restrictModuleAlong J M φ.hom) a)
     (hD : ∀ (X : Cᵒᵖ) (x : A.obj.obj X), (φ.hom.app X) x = 0 → D.d x = 0)
     (X : Cᵒᵖ) (x : A.obj.obj X) :
     (quotientDerivationOfVanishing J a φ M D hD).d ((toQuotient φ.hom).app X x) = D.d x :=
@@ -147,7 +153,8 @@ variable [Presheaf.IsLocallySurjective J φ.hom]
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **Two derivations of `𝒬` agreeing on the sections coming from `𝒜` are equal**, because `φ`
 is locally surjective and the coefficient sheaf is separated. -/
-theorem derivation_ext_of_isLocallySurjective (D E : PresheafOfModulesOfCommRing.Derivation' M.val (a ≫ φ.hom))
+theorem derivation_ext_of_isLocallySurjective
+    (D E : PresheafOfModulesOfCommRing.Derivation' M.val (a ≫ φ.hom))
     (h : ∀ (X : Cᵒᵖ) (x : A.obj.obj X),
       D.d ((φ.hom.app X) x) = E.d ((φ.hom.app X) x)) : D = E := by
   ext X x

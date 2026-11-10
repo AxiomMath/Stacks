@@ -90,7 +90,7 @@ theorem exists_chart_of_isClosed (x : Fin 3 → Γ(Spec (.of A), ⊤))
       map_nonunit (ε : Γ(Spec (.of A), ⊤) →+* A) (x j) (hspan ▸ Ideal.subset_span ⟨j, rfl⟩)
     rw [hc] at hxj
     have hinv : (Scheme.ΓSpecIso (.of A)).inv.hom (ε (x j)) = x j := by
-      show ((Scheme.ΓSpecIso (.of A)).hom ≫ (Scheme.ΓSpecIso (.of A)).inv).hom (x j) = x j
+      change ((Scheme.ΓSpecIso (.of A)).hom ≫ (Scheme.ΓSpecIso (.of A)).inv).hom (x j) = x j
       rw [Iso.hom_inv_id]
       rfl
     have h2 : (Scheme.ΓSpecIso (.of A)).inv.hom (ε (x j)) ∈ Ideal.comap _ y.asIdeal := hxj

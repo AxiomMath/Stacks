@@ -35,7 +35,7 @@ variable {F : Type u₁} [Category.{v₁} F]
 variable (p : F ⥤ ArtinianLocalAlgCat.{u, w, w} Λ k)
 variable (U : ArtinianLocalAlgCat.{u, w, w} Λ k ⥤ Type uU)
 variable (f : BasedFunctor
-    (BasedCategory.ofFunctor (CategoryOfElements.π U))
+    (BasedCategory.ofFunctor (Functor.Elements.π U))
     (BasedCategory.ofFunctor p))
 
 /-- The canonical quotient morphism associated to a smooth presentation is an equivalence if

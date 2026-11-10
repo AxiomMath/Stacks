@@ -134,16 +134,14 @@ theorem bijective_restrictionBaseChange_iff_of_arrowIso_freeModuleUniverse
   obtain ⟨w', hw'⟩ := exists_largeTensorMap_of_arrowIso M g₁ g (inv α) (inv β) hsq'
   have hww' : ∀ z, w' (w z) = z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul c x =>
       rw [hw, hw', ← CommRingCat.comp_apply, ← R.map_comp, IsIso.hom_inv_id, R.map_id,
         CommRingCat.id_apply, largeSectionMap_comp, IsIso.hom_inv_id, largeSectionMap_id]
     | add z z' hz hz' => rw [map_add, map_add, hz, hz']
   have hw'w : ∀ z, w (w' z) = z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul c x =>
       rw [hw', hw, ← CommRingCat.comp_apply, ← R.map_comp, IsIso.inv_hom_id, R.map_id,
         CommRingCat.id_apply, largeSectionMap_comp, IsIso.inv_hom_id, largeSectionMap_id]
@@ -153,13 +151,7 @@ theorem bijective_restrictionBaseChange_iff_of_arrowIso_freeModuleUniverse
   have hcomp : ∀ z, (restrictionBaseChange M g₁).hom (w z) =
       largeSectionMap M β ((restrictionBaseChange M g).hom z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero =>
-      refine (congrArg _ (map_zero w)).trans ?_
-      refine (map_zero (restrictionBaseChange M g₁).hom).trans ?_
-      refine Eq.trans ?_
-        (congrArg (largeSectionMap M β) (map_zero (restrictionBaseChange M g).hom)).symm
-      exact (largeSectionMap_zero M β).symm
+    induction z using TensorProduct.inductionOn with
     | tmul c x =>
       rw [hw]
       refine (largeRestrictionBaseChange_tmul M g₁ _ _).trans ?_

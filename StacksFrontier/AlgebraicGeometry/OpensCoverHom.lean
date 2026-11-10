@@ -63,7 +63,7 @@ theorem existsUnique_hom_of_opens_cover {T Z : Scheme.{u}} {s : Type*} (W : s �
   refine ⟨𝒰.glueMorphisms g ?_, fun a => 𝒰.ι_glueMorphisms g _ a,
     fun f' hf' => 𝒰.hom_ext _ _ fun a => (hf' a).trans (𝒰.ι_glueMorphisms g _ a).symm⟩
   intro a b
-  show pullback.fst (W a).ι (W b).ι ≫ g a = pullback.snd (W a).ι (W b).ι ≫ g b
+  change pullback.fst (W a).ι (W b).ι ≫ g a = pullback.snd (W a).ι (W b).ι ≫ g b
   rw [← cancel_epi (isPullback_opens_inf (W a) (W b)).isoPullback.hom, ← Category.assoc,
     ← Category.assoc, IsPullback.isoPullback_hom_fst, IsPullback.isoPullback_hom_snd]
   exact hg a b

@@ -62,8 +62,6 @@ theorem chowGroup_eq_zero {k : ℤ}
   obtain rfl : c = 0 := Subtype.ext (by simpa [cyclesOfDimension_eq_bot C f hk] using c.2)
   simp
 
-variable [IsLocallyNoetherian X]
-
 /-- The filtration of `K'₀(X)` by dimension of supports is exhaustive at any bound for the
 relative dimension: if every point of `X` has relative dimension at most `hi` over the base,
 then `F_{hi} K'₀(X) = K'₀(X)`. -/

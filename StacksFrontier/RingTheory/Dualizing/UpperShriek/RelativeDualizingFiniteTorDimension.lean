@@ -75,14 +75,15 @@ the source's route.
 perfectness under isomorphism and shift, which `StacksFrontier.Homology.Perfect.Basic` has as
 `private lemma isPerfect_of_iso` and `private lemma isPerfect_shift` and so cannot be cited from
 here; they are kept private.  Promoting those two is a dedup target, and the same two restatements
-occur in `StacksFrontier/Homology/Perfect/MinimalRepresentative.lean:3163` and in several other files.
+occur in `StacksFrontier/Homology/Perfect/MinimalRepresentative.lean:3163` and in several other
+files.
 
 ### Universes
 
 The module universe is the ring universe, as in
 `StacksFrontier.RingTheory.Dualizing.UpperShriek.RelativePerfection`; the statements of
-`StacksFrontier.RingTheory.Dualizing.UpperShriek.RelativeDualizing` at an independent module universe
-are transported along `ULift.moduleEquiv` where they are consumed.
+`StacksFrontier.RingTheory.Dualizing.UpperShriek.RelativeDualizing` at an independent module
+universe are transported along `ULift.moduleEquiv` where they are consumed.
 
 ## References
 
@@ -301,7 +302,7 @@ private def restrictScalarsUpperShriekIsoShift (p : PolynomialPresentation (alge
 /-- The structure map `R → A` factors through the polynomial algebra of the presentation. -/
 private theorem algebraMap_eq_comp (p : PolynomialPresentation (algebraMap R A)) :
     algebraMap R A = p.toRingHom.comp (algebraMap R p.Poly) := by
-  show algebraMap R A = p.toRingHom.comp MvPolynomial.C
+  change algebraMap R A = p.toRingHom.comp MvPolynomial.C
   exact p.commutes.symm
 
 /-- **The relative dualizing complex is a perfect object of `D(P)`**, for `P` the polynomial

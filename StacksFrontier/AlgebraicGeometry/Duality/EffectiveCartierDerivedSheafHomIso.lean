@@ -149,7 +149,7 @@ theorem sheafHomComplexSingleIso_naturality_source (ι : A' ⟶ A) :
     apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro s
-    show ((AddCommGrpCat.Hom.hom
+    change ((AddCommGrpCat.Hom.hom
         (((sheafHomComplex X (sgl X A') (sgl X B)).sectionsIso U).hom.f 0)
         (((homMap X ((HomologicalComplex.single (SheafOfModules.{u}
           (Stacks.SheafOfModules.Tensor.ringSheaf X.O))

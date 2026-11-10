@@ -82,7 +82,7 @@ theorem chowClassCanonical_sectionGysin_properPushforward_eq (α' : CycleGroup D
       properPushforwardChernDefect_sectionGysinChernRule_eq_zero_of_not_le D p hp p' hp' f hfbase
         hf L s hL k W' hW' hW'E')
     (fun W' hW' hW'E' a =>
-      isRationallyEquivalentToZeroWithinCanonical_zsmul_properPushforwardChernDefect_sectionGysinChernRule_of_le
+      isRationallyEquivalentToZeroWithinCanonical_zsmul_chernDefect_sectionGysinChernRule_of_le
         D p hp p' hp' f hfbase hf L s hL k W'
         (fun g hg hdim c hc => isPrincipalDivisorCycleOfGood_subspaceProperCyclePushforward D p'
           hp' p hp hfbase hf k W' g hg hW' hdim c hc) hW' hW'E' a)

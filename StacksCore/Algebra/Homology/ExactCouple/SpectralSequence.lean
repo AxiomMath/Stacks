@@ -391,14 +391,14 @@ lemma factors_of_eq {s : ℤ} {n : ℕ}
 theorem Z_one :
     E.Z () 1 = (Subobject.pullback (e₁.hom ≫ X.f)).obj (imageSubobject (X.α ^ 0).asHom) := by
   rw [Z_self]
-  simp only [pow_zero, End.one_def]
+  simp only [pow_zero, End.one_asHom]
   rw [Subobject.imageSubobject_eq_top_of_epi, Subobject.pullback_top]
 
 /-- `B_1 = 0 = g(Ker α^0)` under `E_1 ≅ E`. -/
 theorem B_one :
     E.B () 1 = (Subobject.exists (X.g ≫ e₁.inv)).obj (kernelSubobject (X.α ^ 0).asHom) := by
   rw [B_self]
-  simp only [pow_zero, End.one_def]
+  simp only [pow_zero, End.one_asHom]
   rw [Subobject.kernelSubobject_eq_bot_of_mono, (Subobject.existsPullbackAdj _).gc.l_bot]
 
 /-- The data carried through the 011T induction at stage `s` (with `n = s - 1`), for an

@@ -124,7 +124,7 @@ theorem small_val_obj_of_small_pullbackModules
     refine ((SheafOfModules.toSheaf _).obj N).isSeparated _ _ hcov x y ?_
     rintro Z f ⟨Z', g, k, hk, rfl⟩
     cases hk
-    show N.val.presheaf.map (g ≫ c).op x = N.val.presheaf.map (g ≫ c).op y
+    change N.val.presheaf.map (g ≫ c).op x = N.val.presheaf.map (g ≫ c).op y
     rw [op_comp, Functor.map_comp, ConcreteCategory.comp_apply, ConcreteCategory.comp_apply, hxy]
   exact @small_of_injective _ _ h₁ _ hinj
 
@@ -155,8 +155,10 @@ theorem exists_toSpacesEtaleDerivedModules_obj_iso_of_derivedPullback_iso
   have : (spacesEtaleRingedToposHom a).toModulesHom.pullbackModules.Additive :=
     Stacks.Sheaves.DerivedPullback.pullbackModules_additive
       (spacesEtaleRingedToposHom a).toModulesHom
-  have := Space.preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact a
-    (Space.isFlat_of_isEtale T.fppfSite S T.fppf_mem ha)
+  open Space in
+  have := (
+  preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact
+    a (Space.isFlat_of_isEtale T.fppfSite S T.fppf_mem ha))
   have : PreservesFiniteColimits (spacesEtaleRingedToposHom a).toModulesHom.pullbackModules :=
     Stacks.Sheaves.DerivedPullback.pullbackModules_preservesFiniteColimits
       (spacesEtaleRingedToposHom a).toModulesHom

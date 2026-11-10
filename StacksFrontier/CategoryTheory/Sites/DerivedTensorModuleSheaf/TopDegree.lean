@@ -52,7 +52,7 @@ omit [Abelian B] [∀ X, (T.obj X).Additive] in
 image of the differential of the termwise complex `p ↦ T(K^p, M)`. -/
 theorem rowComplex_d_comp_map_pOpcycles (M : B) :
     (rowComplex T K M).d (b - 1) b ≫ (T.map (K.pOpcycles b)).app M = 0 := by
-  show (T.map (K.d (b - 1) b)).app M ≫ _ = 0
+  change (T.map (K.d (b - 1) b)).app M ≫ _ = 0
   rw [← NatTrans.comp_app, ← T.map_comp, K.d_pOpcycles, T.map_zero, NatTrans.app_zero]
 
 /-- The map `coker(T(K^{b-1}, M) → T(K^b, M)) ⟶ T(coker(K^{b-1} → K^b), M)` induced by the

@@ -31,8 +31,6 @@ that every component belongs to the given covering sieve. The two implications
 
 @[expose] public section
 
-add_to_stacks 0981 ProetaleWContractible.IsWContractible
-
 add_to_stacks 098F "w-contractible implies the covering-refinement condition"
   ProetaleWContractible.everyProetaleCoverHasZariskiRefinement_of_wContractible
 

@@ -106,8 +106,7 @@ theorem surjective_chartStalkTensorComparison {x : GeometricPoint B S hS X}
     have hkey : ∀ w', geometricModuleStalkGerm B S hS ⟨X, hX⟩ x F M
         (sectionsBaseChange F (gM ≫ gU).hom w') ∈ R := by
       intro w'
-      induction w' using TensorProduct.induction_on with
-      | zero => simpa only [map_zero] using Submodule.zero_mem R
+      induction w' using TensorProduct.inductionOn with
       | add a b ha hb => simpa only [map_add] using Submodule.add_mem R ha hb
       | tmul b t =>
         have hb : geometricModuleStalkGerm B S hS ⟨X, hX⟩ x F M

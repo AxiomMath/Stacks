@@ -162,10 +162,10 @@ public theorem bijective_algebraMap_residueField_integralClosure_of_nonempty_alg
   have hcomm : (σ.comp (algebraMap (ResidueField A) (quadraticAlgebra A))).comp
       (algebraMap k (ResidueField A)) = algebraMap k m.asIdeal.ResidueField := by
     refine RingHom.ext fun c ↦ ?_
-    show σ (algebraMap (ResidueField A) (quadraticAlgebra A)
+    change σ (algebraMap (ResidueField A) (quadraticAlgebra A)
       (algebraMap k (ResidueField A) c)) = _
     rw [← IsScalarTower.algebraMap_apply k (ResidueField A) (quadraticAlgebra A) c]
-    show etot (Ideal.Quotient.mk Ibar (algebraMap k (quadraticAlgebra A) c)) = _
+    change etot (Ideal.Quotient.mk Ibar (algebraMap k (quadraticAlgebra A) c)) = _
     rw [← Ideal.Quotient.mk_algebraMap (R₁ := k)]
     exact etot.commutes c
   refine ⟨(algebraMap k m.asIdeal.ResidueField).injective, ?_⟩
@@ -183,7 +183,7 @@ private theorem fieldToResidue_normalization_apply
       ((normalizationOverField k f).residueFieldMap x').hom
         ((X.residue (normalizationOverField k f x')).hom
           ((fieldToStalk f (normalizationOverField k f x')).hom c)) := by
-  show ((normalizationSchemeOverField k f).Γevaluation x').hom
+  change ((normalizationSchemeOverField k f).Γevaluation x').hom
     ((Scheme.Hom.appTop (normalizationOverField k f ≫ f)).hom
       ((Scheme.ΓSpecIso (.of k)).inv.hom c)) = _
   rw [show Scheme.Hom.appTop (normalizationOverField k f ≫ f) =
@@ -274,7 +274,7 @@ public theorem bijective_fieldToResidue_normalization_of_isNodalAlgebra
       (fieldToResidue (ν ≫ f) x').hom : k → _) = algebraMap k m.asIdeal.ResidueField :=
     funext hcommk
   refine (Function.Bijective.of_comp_iff' (EquivLike.bijective ψ) _).mp ?_
-  show Function.Bijective (((ψ : _ →+* m.asIdeal.ResidueField).comp
+  change Function.Bijective (((ψ : _ →+* m.asIdeal.ResidueField).comp
     (fieldToResidue (ν ≫ f) x').hom : k → _))
   rw [hfun]
   exact hmres

@@ -107,7 +107,7 @@ private theorem isCompAt_powCmp (hm : a' * d' = a * d)
   have key := congrArg (fun z => (pullbackFunctor (ringedSpaceHom f)).map
       (eqToHom (congrArg A.piece (show n * a * d = n * (a * d) by ring))) ≫
         z ≫ (powPowIso Q.L a' n).inv) (hψ n)
-  show P.twisting.app (n * a) ≫ (powCmp γ n).hom = _
+  change P.twisting.app (n * a) ≫ (powCmp γ n).hom = _
   simpa only [powCmp, Iso.trans_hom, Iso.symm_hom, gradedAppIso_hom, Twisting.scaleApp,
     CategoryTheory.eqToHom_map, Category.assoc, eqToHom_trans_assoc, eqToHom_refl,
     Category.id_comp, Iso.hom_inv_id, Category.comp_id] using key

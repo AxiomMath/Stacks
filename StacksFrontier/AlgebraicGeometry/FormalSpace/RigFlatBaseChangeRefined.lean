@@ -49,8 +49,8 @@ theorem propertyIsLocalNoetherian_of_adicStar'
     (hP : TopologicalRing.AdicStarPropertyIsLocal'.{u} P) :
     TopologicalRing.PropertyIsLocalNoetherian'.{u} P := by
   refine ⟨?_, ?_, ?_, ?_⟩
-  · intro B A B' A' _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-    intro eB eA heB heBs heA heAs f hf hB hA hB' hA'
+  · intro B A B' A' _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ eB eA heB heBs heA heAs f hf hB hA hB'
+      hA'
     refine hP.isomorphismInvariant eB eA heB heBs heA heAs f hf ?_ ?_ ?_ ?_ <;>
       exact exists_fg_isAdic_of_isAdic_and_isNoetherian ‹_›
   · repeat' intro

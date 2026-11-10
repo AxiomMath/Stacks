@@ -144,7 +144,7 @@ theorem relativeHomPoint_sections {Z X Q : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u
     {x : X ⟶ Q} (H : RelativeHomConstruction B S hS Z X Q z x) {U : BigFppfOver B S hS}
     (ξ : yoneda.obj U ⟶ H.functor) :
     relativeHomPoint H (H.sections U (yonedaEquiv ξ)) = ξ := by
-  show (yonedaEquiv.symm ((H.sections U).symm (H.sections U (yonedaEquiv ξ))) :
+  change (yonedaEquiv.symm ((H.sections U).symm (H.sections U (yonedaEquiv ξ))) :
     yoneda.obj U ⟶ H.functor) = ξ
   rw [Equiv.symm_apply_apply, Equiv.symm_apply_apply]
 
@@ -329,7 +329,7 @@ theorem relativeHomFibreMap_comp (g : X' ⟶ X) (hg : g.hom ≫ x.hom = x'.hom)
       relativeHomFibreMap HX' g hg p ≫ relativeHomPostcompose HX' HX g.hom hg := by
   ext T v
   refine (HX.sections T.unop).injective ?_
-  show HX.sections T.unop
+  change HX.sections T.unop
       ((relativeHomPoint HX p).app T ((p.fibreSections g).projection.app T v)) =
     HX.sections T.unop ((relativeHomPostcompose HX' HX g.hom hg).app T
       ((relativeHomFibreMap HX' g hg p).app T v))
@@ -419,7 +419,7 @@ theorem RelativeMorphism.ofFibrePair_toFibrePair (g : X' ⟶ X) (hg : g.hom ≫ 
     (h : RelativeMorphism.postcomp g.hom hg r = RelativeMorphism.restrict c p) :
     r = p.ofFibrePair g hg (p.toFibrePair g hg c r h) := by
   refine RelativeMorphism.ext_of_base_eq (p.base_eq_of_postcomp_eq g hg c r h) ?_
-  show r.morphism = (pullback.congrHom (p.base_eq_of_postcomp_eq g hg c r h) rfl).hom ≫
+  change r.morphism = (pullback.congrHom (p.base_eq_of_postcomp_eq g hg c r h) rfl).hom ≫
       (pullbackBaseChangeIso p.base z.hom c).inv ≫
         pullback.lift (pullback.snd c (pullback.fst p.base z.hom))
             ((pullbackBaseChangeIso p.base z.hom c).hom ≫
@@ -623,7 +623,7 @@ theorem hasProperty_isEtale_relativeHomPostcompose
     (HX.sections U (yonedaEquiv ξ))).2
   have hp : relativeHomPoint HX (HX.sections U (yonedaEquiv ξ)) = ξ :=
     relativeHomPoint_sections HX ξ
-  show IsEtale B S hS (pullback.fst ξ (relativeHomPostcompose HX' HX g.hom hg))
+  change IsEtale B S hS (pullback.fst ξ (relativeHomPostcompose HX' HX g.hom hg))
   rw [← hp]
   refine IsEtale.of_iso_comp
     (relativeHomFibreIso HX' HX g hg (HX.sections U (yonedaEquiv ξ))) ?_
@@ -659,7 +659,7 @@ theorem isSurjective_relativeHomPostcompose (hg_etale : IsEtale B S hS g.hom)
         p₀.class B S hS HX.functor := by
       refine Quot.sound ⟨p₀, ⟨𝟙 U, ?_⟩,
         FieldValuedPoint.dominates_refl B S hS HX.functor p₀⟩
-      show HX.functor.map (𝟙 (op U))
+      change HX.functor.map (𝟙 (op U))
         ((FieldValuedPoint.map B S hS (yoneda.obj U) ξ e).value) = p₀.value
       rw [CategoryTheory.Functor.map_id]
       exact hval

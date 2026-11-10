@@ -122,7 +122,7 @@ theorem degreeZeroMap_comp {N : SheafOfModules.{u} (structureRingSheaf T.toRinge
     degreeZeroMap M ψ ≫ h =
       (ρ_ ((pullbackFunctor (ringedSpaceHom f)).obj (M.piece 0))).inv ≫
         unitSummand M (L := L) ≫ b 0 := by
-  show ((ρ_ _).inv ≫ unitSummand M (L := L) ≫ pureTensor M ψ 0) ≫ h = _
+  change ((ρ_ _).inv ≫ unitSummand M (L := L) ≫ pureTensor M ψ 0) ≫ h = _
   rw [Category.assoc, Category.assoc, hh 0]
 
 end Stacks.AlgebraicGeometry.RelativeProjQcohSheaf.Twisting

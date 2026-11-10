@@ -132,7 +132,7 @@ def homSingleUnitPushforwardEquiv {V W : Scheme.{u}} (p : V ⟶ W)
         (((Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces.derivedPushforward
           p.toLRSHom.toShHom).commShiftIso i).app B)))
 
-variable {k : Type u} [Field k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) [Smooth f] [IsProper f]
+variable {k : Type u} [Field k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k))
 
 /-- **The negative-degree vanishing of the first term of the display of [Stacks, Tag 0G0E]**: for
 `i < 0` every morphism

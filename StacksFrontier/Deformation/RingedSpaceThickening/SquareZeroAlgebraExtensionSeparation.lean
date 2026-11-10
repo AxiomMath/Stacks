@@ -302,7 +302,7 @@ def twistApp (U : (Opens X.carrier)ᵒᵖ) : (pairRing P Q).obj.obj U →+* Q.sh
 theorem twistApp_naturality {U V : (Opens X.carrier)ᵒᵖ} (i : U ⟶ V)
     (x : (pairRing P Q).obj.obj U) :
     twistApp θ V ((pairRing P Q).obj.map i x) = Q.sheaf.obj.map i (twistApp θ U x) := by
-  show ((liftSnd P Q).hom.app V).hom ((pairRing P Q).obj.map i x) +
+  change ((liftSnd P Q).hom.app V).hom ((pairRing P Q).obj.map i x) +
       Q.incl V (derivation θ V ((pairRing P Q).obj.map i x)) =
     (Q.sheaf.obj.map i).hom (((liftSnd P Q).hom.app U).hom x +
       Q.incl U (derivation θ U x))
@@ -373,7 +373,7 @@ theorem descendedTwist_app (U : (Opens X.carrier)ᵒᵖ) (x : (pairRing P Q).obj
 theorem twist_comp_reduction : twist θ ≫ Q.reduction = pairPresentation P Q := by
   apply Sheaf.hom_ext
   ext U x
-  show (Q.reduction.hom.app U).hom (((twist θ).hom.app U).hom x) = _
+  change (Q.reduction.hom.app U).hom (((twist θ).hom.app U).hom x) = _
   rw [twist_app, map_add, Q.reduction_incl, add_zero, reduction_liftSnd]
 
 /-- The morphism `𝒪'₁ ⟶ 𝒪'₂` commutes with the reductions to `𝒪_X`. -/
@@ -396,7 +396,7 @@ theorem base_comp_descendedTwist : P.base ≫ descendedTwist θ hθ = Q.base := 
     refine Eq.trans ?_ hQ
     apply Sheaf.hom_ext
     ext U a
-    show ((twist θ).hom.app U).hom (((pairCoefficient P Q).hom.app U).hom a) = _
+    change ((twist θ).hom.app U).hom (((pairCoefficient P Q).hom.app U).hom a) = _
     rw [twist_app, derivation_coefficient, Q.incl_zero, add_zero]
     rfl
   exact (congrArg (· ≫ descendedTwist θ hθ) hP).symm.trans ((Category.assoc _ _ _).trans
@@ -411,7 +411,7 @@ theorem ideal_descendedTwist_lift (U : (Opens X.carrier)ᵒᵖ) (x : (pairRing P
       P.ideal.app U ⟨_, hx⟩ := by
   have hx' := mem_kernelIdeal_pairPresentation P Q U x hx
   have h2 : ((liftSnd P Q).hom.app U).hom x ∈ kernelIdeal Q.reduction.hom U := by
-    show (Q.reduction.hom.app U).hom _ = 0
+    change (Q.reduction.hom.app U).hom _ = 0
     rw [reduction_liftSnd]
     exact hx'
   have hsplit : (⟨((descendedTwist θ hθ).hom.app U).hom (((liftFst P Q).hom.app U).hom x),
@@ -435,7 +435,7 @@ theorem ideal_descendedTwist (U : (Opens X.carrier)ᵒᵖ) (y : kernelIdeal P.re
   have hxk : ((liftFst P Q).hom.app (op V)).hom x ∈ kernelIdeal P.reduction.hom (op V) := by
     rw [show ((liftFst P Q).hom.app (op V)).hom x = (P.sheaf.obj.map g.op).hom y.1 from hx]
     exact Stacks.Sites.Conormal.map_kernel P.reduction.hom g.op y.2
-  show G.val.map g.op _ = G.val.map g.op _
+  change G.val.map g.op _ = G.val.map g.op _
   rw [← Q.ideal.app_map, ← P.ideal.app_map]
   refine Eq.trans ?_ ((ideal_descendedTwist_lift θ hθ (op V) x hxk).trans
     (congrArg (P.ideal.app (op V)) (Subtype.ext hx)))

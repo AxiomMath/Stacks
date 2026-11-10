@@ -252,7 +252,7 @@ theorem pointsMap_geometricFibreToSource_geometricFibrePoint
     (geometricFibrePoint B S hS f xbar).val.class B S hS _ from rfl, pointsMap_class]
   refine FieldValuedPoint.class_eq_class_of_hasCommonExtension B S hS X.1
     ⟨_, FieldValuedPoint.dominates_refl B S hS X.1 _, ⟨𝟙 _, ?_⟩⟩
-  show X.1.map (𝟙 xbar.val.siteObject).op xbar.val.value =
+  change X.1.map (𝟙 xbar.val.siteObject).op xbar.val.value =
     (geometricFibreToSource B S hS f (geometricPointMap f.hom xbar)).hom.app _
       (yonedaEquiv (hp.lift (yonedaEquiv.symm xbar.val.value) (𝟙 _) _))
   rw [op_id, Functor.map_id_apply]

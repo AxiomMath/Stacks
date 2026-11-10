@@ -263,7 +263,7 @@ public theorem dualizingExtSystemToLimit_comp (M : ℕᵒᵖ ⥤ ModuleCat.{u} A
     rw [← op_comp, CategoryTheory.Limits.limit.w]
   have key : (dualizingExtSystem M ω i).map (homOfLE h) ≫
       dualizingExtSystemToLimit M ω i n = dualizingExtSystemToLimit M ω i m := by
-    show (dualizingExtFunctor ω i).map ((M.map (homOfLE h).op).op) ≫
+    change (dualizingExtFunctor ω i).map ((M.map (homOfLE h).op).op) ≫
       (dualizingExtFunctor ω i).map (CategoryTheory.Limits.limit.π M (op n)).op = _
     rw [← Functor.map_comp, hw]
     rfl

@@ -71,7 +71,7 @@ theorem properPushforward_val_congr_structure (C : ChowSituation.{u}) {A B : Sch
     (c : CycleGroup C sA k) (c' : CycleGroup C sA' k') (hc : c.1 = c'.1) :
     (properPushforward C sA sB f hf k c).1 = (properPushforward C sA' sB' f hf' k' c').1 := by
   subst hsA hsB
-  show AlgebraicCycle.map f _ _ c.1 = AlgebraicCycle.map f _ _ c'.1
+  change AlgebraicCycle.map f _ _ c.1 = AlgebraicCycle.map f _ _ c'.1
   rw [hc]
 
 /-- Flat pullback of cycles depends on the structure morphisms only through their values and the
@@ -128,7 +128,7 @@ theorem gysinCycleMapAlong_congr_zeroScheme {Z : Scheme.{u}} (q : Z ⟶ C.S)
       rintro ⟨c₁, h₁⟩ ⟨c₂, h₂⟩ (rfl : c₁ = c₂)
       rfl
     exact key _ _ hcyc
-  show (gysinCycleMapRuleAlong C p q k L s i).extendCycleGroup =
+  change (gysinCycleMapRuleAlong C p q k L s i).extendCycleGroup =
     (gysinCycleMapRuleAlong C p q k L' s' i).extendCycleGroup
   rw [hrule]
 
@@ -338,7 +338,7 @@ theorem restrictCap_flatPullback {T T' : Scheme.{u}} (g : T ⟶ T₀) [LocallyOf
       (isPullback_bivariantBaseChangeMap (pullback.snd p w) g h) hd) ((r : ℤ) + e)
     (c.cap (g ≫ w) e β₀)
   have hflat := c.cap_flatPullback (g ≫ w) h d hd e β₀
-  show _ = (flatPullback C _ _ (bivariantBaseChangeMap (pullback.snd p w) g h) _ d _ ((r : ℤ) + e)
+  change _ = (flatPullback C _ _ (bivariantBaseChangeMap (pullback.snd p w) g h) _ d _ ((r : ℤ) + e)
     (c.restrictCap w g e β)).1
   rw [c.restrictCap_eq w g e β, key]
   refine Function.locallyFinsuppWithin.ext fun x ↦ ?_

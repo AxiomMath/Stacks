@@ -258,7 +258,7 @@ theorem cocycleOfRelationHom_mem (φ : relationModule b e →ₗ[MonoidAlgebra k
       σ γ (eW.symm (φ (relationDiscrepancy b e δ m))) :=
     (symm_smul_of eW heW γ _).trans rfl
   rw [map_add, hleft, hshift]
-  show σ γ (eW.symm (φ (relationDiscrepancy b e δ m))) +
+  change σ γ (eW.symm (φ (relationDiscrepancy b e δ m))) +
       eW.symm (φ (relationDiscrepancy b e γ (eV (ρ γ⁻¹ v)))) =
     (Representation.linHom ρ σ) γ (cocycleOfRelationHom b e eV eW (ρ := ρ) φ δ) v +
       cocycleOfRelationHom b e eV eW (ρ := ρ) φ γ v

@@ -160,20 +160,20 @@ theorem isBaseChange_of_quotientLinearEquiv (f : X →ₗ[R] Y)
   have hg : K • (⊤ : Submodule R X) ≤ g.ker := by
     intro x hx
     refine Submodule.smul_induction_on hx (fun r hr x _ ↦ ?_) (fun x y hx hy ↦ g.ker.add_mem hx hy)
-    show g (r • x) = 0
+    change g (r • x) = 0
     have hr' : algebraMap R S r = 0 := RingHom.mem_ker.mp (hK ▸ hr)
     rw [map_smul, ← IsScalarTower.algebraMap_smul S, hr', zero_smul]
   let L := (K • (⊤ : Submodule R X)).liftQ g hg
   refine ⟨LinearMap.extendScalarsOfSurjective hs (L.comp E.symm.toLinearMap), ?_, ?_⟩
   · ext x
-    show L (E.symm (f x)) = g x
+    change L (E.symm (f x)) = g x
     rw [← hE, E.symm_apply_apply]
     rfl
   · intro F hF
     ext y
     obtain ⟨z, rfl⟩ := E.surjective y
     obtain ⟨x, rfl⟩ := Submodule.mkQ_surjective _ z
-    show F (E (Submodule.Quotient.mk x)) = L (E.symm (E (Submodule.Quotient.mk x)))
+    change F (E (Submodule.Quotient.mk x)) = L (E.symm (E (Submodule.Quotient.mk x)))
     rw [E.symm_apply_apply, hE]
     exact LinearMap.congr_fun hF x
 
@@ -261,9 +261,9 @@ theorem formsQuotientMap_ιMulti (i : ℕ)
         fun j ↦ (1 : B ⧸ K) ⊗ₜ[B] v j) =
       fun j ↦ differentialsQuotientMap J delta K hK hd (v j) := by
     funext j
-    show differentialsQuotientBaseChangeEquiv J delta K hK hd ((1 : B ⧸ K) ⊗ₜ[B] v j) = _
+    change differentialsQuotientBaseChangeEquiv J delta K hK hd ((1 : B ⧸ K) ⊗ₜ[B] v j) = _
     rw [differentialsQuotientBaseChangeEquiv_tmul, one_smul]
-  show exteriorPower.map i (differentialsQuotientBaseChangeEquiv J delta K hK hd).toLinearMap
+  change exteriorPower.map i (differentialsQuotientBaseChangeEquiv J delta K hK hd).toLinearMap
       (ExteriorAlgebra.exteriorPowerBaseChangeMap B (B ⧸ K)
         (dividedPowerDifferentials (A := A) delta) i (exteriorPower.ιMulti B i v)) = _
   rw [ExteriorAlgebra.exteriorPowerBaseChangeMap_ιMulti, exteriorPower.map_apply_ιMulti, hv]
@@ -426,7 +426,7 @@ theorem formsQuotientMap_eq (i : ℕ) (x : dividedPowerDifferentialForms (A := A
     (delta := delta) (quotientDividedPowersOfSubDPIdeal J delta K hK)
     (Ideal.Quotient.mkₐ A K) i
     (F := formsQuotientMapₛₗ J delta K hK hd i) fun omega ↦ ?_) x
-  show formsQuotientMap J delta K hK hd i _ = _
+  change formsQuotientMap J delta K hK hd i _ = _
   rw [formsQuotientMap_ιMulti, mapDifferentialFormsOfDPMorphism_ιMulti]
   exact congrArg _ (funext fun j ↦ differentialsQuotientMap_eq J delta K hK hd (omega j))
 
@@ -445,6 +445,7 @@ variable {C : Type*} [CommRing C] [Algebra A C]
 
 include hf
 
+omit hK in
 /-- **`B ⟶ C ⧸ K'` is a divided power morphism**, being `f` followed by the quotient map. -/
 theorem isDPMorphism_quotientComp :
     DividedPowers.IsDPMorphism delta (quotientDividedPowersOfSubDPIdeal L epsilon K' hK')
@@ -466,7 +467,7 @@ theorem isDPMorphism_quotientMapₐ :
     (quotientDividedPowersOfSubDPIdeal L epsilon K' hK')
     (Ideal.Quotient.mkₐ A K).toRingHom (Ideal.quotientMapₐ K' f hKK').toRingHom
     rfl (isDPMorphism_quotientMkₐ J delta K hK)
-    (isDPMorphism_quotientComp J delta K hK L epsilon K' hK' f hf)
+    (isDPMorphism_quotientComp J delta L epsilon K' hK' f hf)
 
 include hd hK' hd' hKK'
 
@@ -526,11 +527,11 @@ theorem formsQuotientMap_naturality (i : ℕ)
     (Ideal.Quotient.mkₐ A K) (Ideal.quotientMapₐ K' f hKK')
     (isDPMorphism_quotientMkₐ J delta K hK)
     (isDPMorphism_quotientMapₐ J delta K hK L epsilon K' hK' f hf hKK')
-    (isDPMorphism_quotientComp J delta K hK L epsilon K' hK' f hf) i x).symm.trans
+    (isDPMorphism_quotientComp J delta L epsilon K' hK' f hf) i x).symm.trans
     (mapDifferentialFormsOfDPMorphism_comp (A := A) (J := J) (delta := delta)
     epsilon (quotientDividedPowersOfSubDPIdeal L epsilon K' hK')
     f (Ideal.Quotient.mkₐ A K') hf (isDPMorphism_quotientMkₐ L epsilon K' hK')
-    (isDPMorphism_quotientComp J delta K hK L epsilon K' hK' f hf) i x)
+    (isDPMorphism_quotientComp J delta L epsilon K' hK' f hf) i x)
 
 section Tensor
 
@@ -578,7 +579,7 @@ theorem pAdicIdeal_pow_le_comap_ringHom {R R' : Type*} [CommRing R] [CommRing R'
     DividedPowers.pAdicIdeal (A := R) p ^ k ≤
       (DividedPowers.pAdicIdeal (A := R') p ^ k).comap f := by
   rw [← Ideal.map_le_iff_le_comap]
-  show Ideal.map f (Ideal.span {(p : R)} ^ k) ≤ Ideal.span {(p : R')} ^ k
+  change Ideal.map f (Ideal.span {(p : R)} ^ k) ≤ Ideal.span {(p : R')} ^ k
   rw [Ideal.span_singleton_pow, Ideal.span_singleton_pow, Ideal.map_span, Set.image_singleton,
     Ideal.span_le, Set.singleton_subset_iff, SetLike.mem_coe, map_pow, map_natCast]
   exact Ideal.mem_span_singleton_self _

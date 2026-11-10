@@ -65,7 +65,7 @@ variable [hA : baseChangeA.IsLeftDerivedFunctor comparisonA
 
 variable (P : CochainComplex (ModuleCat.{max v uR uA uRp} R) ℤ)
   (hP : CochainComplex.KFlat.{uR, max v uA uRp} P)
-  (p : P ⟶ algebraComplex.{max v uRp} (algebraMap R A)) [QuasiIso p]
+  (p : P ⟶ algebraComplex.{max v uRp} (algebraMap R A))
 
 /-- An element of a degree of a complex, read in the restriction of scalars of that complex. -/
 def resC.{u₁, u₂, w} {S : Type u₁} {T : Type u₂} [Ring S] [Ring T] (φ : S →+* T)
@@ -175,6 +175,7 @@ theorem chainIdentity_piece₃' (K : CochainComplex (ModuleCat.{max v uR uA uRp}
       (Algebra.TensorProduct.includeRight : R' →ₐ[R] TensorProduct R A R').toRingHom
     (chainExtendScalarsSwap.{uR, uA, uRp, v} K) a _ _ (chainIdentity_piece₃ K a u k)
 
+set_option linter.checkUnivs false in
 /-- The pure tensor `(1 ⊗ k) ⊗ (1 ⊗ z)` of the tensor product of the base changes. -/
 def tmulBC (K P : CochainComplex (ModuleCat.{max v uR uA uRp} R) ℤ) (a b : ℤ) (k : K.X a)
     (z : P.X b) : (((moduleTensor.{uRp, max (max v uR) uRp (max uA uRp)} R').obj
@@ -363,6 +364,7 @@ theorem comp₅_hom_ext_tmulBC (K P : CochainComplex (ModuleCat.{max v uR uA uRp
   exact extendScalars_tensor_hom_ext_tmulBC.{uR, uA, uRp, v} K P a b _ _
     fun k z => h a b n hab k z
 
+set_option linter.checkUnivs false in
 /-- A map of complexes of `R'`-modules on an element of a degree, with all universe levels
 spelled `max v uR uA uRp`. -/
 def evalB {X Y : HomologicalComplex (ModuleCat.{max v uR uA uRp} R') (ComplexShape.up ℤ)}
@@ -433,7 +435,6 @@ theorem chainIdentity_evalB_piece₁ (K : CochainComplex (ModuleCat.{max v uR uA
 
 /-- `Dualizing.chainIdentity_piece₂'` read through `Dualizing.evalB`. -/
 theorem chainIdentity_evalB_piece₂ (K : CochainComplex (ModuleCat.{max v uR uA uRp} R) ℤ) (a : ℤ)
-    (hab : (ComplexShape.up ℤ).π (ComplexShape.up ℤ) (ComplexShape.up ℤ) (a, 0) = a)
     (k : K.X a) (z : P.X 0) : evalB.{uR, uA, uRp, v}
         (chainBaseChangeComparison.{uR, uA, uRp, v} baseChangeR comparisonR baseChangeA comparisonA
         (((ModuleCat.extendScalars.{uR, uA, max v uR uA uRp} (algebraMap R A)).mapHomologicalComplex
@@ -463,7 +464,6 @@ theorem chainIdentity_evalB_piece₂ (K : CochainComplex (ModuleCat.{max v uR uA
 
 /-- `Dualizing.chainIdentity_piece₃'` read through `Dualizing.evalB`. -/
 theorem chainIdentity_evalB_piece₃ (K : CochainComplex (ModuleCat.{max v uR uA uRp} R) ℤ) (a : ℤ)
-    (hab : (ComplexShape.up ℤ).π (ComplexShape.up ℤ) (ComplexShape.up ℤ) (a, 0) = a)
     (k : K.X a) (z : P.X 0) : evalB.{uR, uA, uRp, v}
         (((ModuleCat.restrictScalars.{max v uR uA uRp}
         (Algebra.TensorProduct.includeRight : R' →ₐ[R] TensorProduct R
@@ -500,7 +500,6 @@ theorem chainIdentity_evalB_piece₃ (K : CochainComplex (ModuleCat.{max v uR uA
 
 /-- `Dualizing.chainIdentity_piece₄'` read through `Dualizing.evalB`. -/
 theorem chainIdentity_evalB_piece₄ (K : CochainComplex (ModuleCat.{max v uR uA uRp} R) ℤ) (a : ℤ)
-    (hab : (ComplexShape.up ℤ).π (ComplexShape.up ℤ) (ComplexShape.up ℤ) (a, 0) = a)
     (k : K.X a) (z : P.X 0) : evalB.{uR, uA, uRp, v}
         (extendRestrictComplexIso.{max v uR}
         (Algebra.TensorProduct.includeRight : R' →ₐ[R] TensorProduct R A R').toRingHom
@@ -742,9 +741,9 @@ theorem chainIdentity_aux (K : CochainComplex (ModuleCat.{max v uR uA uRp} R) �
   have h₂ := chainIdentity_evalB_tensor.{uR, uA, uRp, v} P K e he a 0 a hab k z
   have h₃ := chainIdentity_evalB_piece₁.{uR, uA, uRp, v} (R' := R') P p K a hab k z
   have h₄ := chainIdentity_evalB_piece₂.{uR, uA, uRp, v} baseChangeR comparisonR baseChangeA
-      comparisonA P p K a hab k z
-  have h₅ := chainIdentity_evalB_piece₃.{uR, uA, uRp, v} (R' := R') P p K a hab k z
-  have h₆ := chainIdentity_evalB_piece₄.{uR, uA, uRp, v} (R' := R') P p K a hab k z
+      comparisonA P p K a k z
+  have h₅ := chainIdentity_evalB_piece₃.{uR, uA, uRp, v} (R' := R') P p K a k z
+  have h₆ := chainIdentity_evalB_piece₄.{uR, uA, uRp, v} (R' := R') P p K a k z
   have hr := chainIdentity_evalB_rhs.{uR, uA, uRp, v} baseChangeR comparisonR baseChangeA
       comparisonA P p K a hab k z
   exact (evalB_eq_trans _ (evalB_eq_trans _ (evalB_eq_trans _ (evalB_eq_trans _ h₂ h₃) h₄) h₅)

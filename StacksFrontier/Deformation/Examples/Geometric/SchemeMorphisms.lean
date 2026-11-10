@@ -299,7 +299,7 @@ theorem schemeMorphismFamilyFunctor_cofiberedInGroupoids
     {Λ : Type u} {k : Type v} [CommRing Λ] [Field k] [Algebra Λ k] :
     IsCofiberedInGroupoids (schemeMorphismFamilyFunctor.{u, v} (Λ := Λ) (k := k)) := by
   let p := schemeMorphismFamilyFunctor.{u, v} (Λ := Λ) (k := k)
-  show p.op.IsFiberedInGroupoids
+  change p.op.IsFiberedInGroupoids
   refine ⟨?_, ?_⟩
   · intro V U f x hx
     subst U
@@ -308,7 +308,7 @@ theorem schemeMorphismFamilyFunctor_cofiberedInGroupoids
     let α : P ⟶ Q := baseChangeHom P f.unop
     have hLift : p.op.IsHomLift f α.op := by
       apply IsHomLift.of_fac' (p := p.op) f α.op rfl rfl
-      show Opposite.op f.unop = f
+      change Opposite.op f.unop = f
       rfl
     exact ⟨Opposite.op Q, α.op, hLift⟩
   · intro x y z φ ψ f h
@@ -319,7 +319,7 @@ theorem schemeMorphismFamilyFunctor_cofiberedInGroupoids
     let ψ₀ : P ⟶ R := ψ.unop
     let g : Q.base ⟶ R.base := f.unop
     have hbase : φ₀.base ≫ g = ψ₀.base := by
-      show (p.map φ₀) ≫ f.unop = p.map ψ₀
+      change (p.map φ₀) ≫ f.unop = p.map ψ₀
       exact congrArg Quiver.Hom.unop h
     obtain ⟨χ, ⟨hχbase, hχcomp⟩, hχuniq⟩ := family_factor φ₀ ψ₀ g hbase
     refine ⟨χ.op, ⟨?_, ?_⟩, ?_⟩
@@ -331,10 +331,10 @@ theorem schemeMorphismFamilyFunctor_cofiberedInGroupoids
         · have hm := congrArg Quiver.Hom.unop hχ'.1
           change (schemeMorphismFamilyFunctor (Λ := Λ) (k := k)).map χ'.unop = f.unop at hm
           rw [schemeMorphismFamilyFunctor_map] at hm
-          show χ'.unop.base = f.unop
+          change χ'.unop.base = f.unop
           exact hm
         · have hc := congrArg Quiver.Hom.unop hχ'.2
-          show φ₀ ≫ χ'.unop = ψ₀
+          change φ₀ ≫ χ'.unop = ψ₀
           simpa [φ₀, ψ₀, P, Q, R] using hc)
       simpa using congrArg Quiver.Hom.op hχ'eq
 

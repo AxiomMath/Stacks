@@ -46,13 +46,13 @@ theorem properCyclePushforward_id_coe (hB : 𝟙 X ≫ sX = sX)
   funext Z'
   have hc := IntegralClosedSubspace.closureImage_id D hX.1 (D.isDecentSpace_of_isGood sX hX)
   rw [properPushforward_apply, finsum_eq_single _ Z' fun Z hZ => ?_]
-  · rw [properCycleMult, if_pos (hc Z'), properCycleDegree, if_pos (by rw [hc Z'])]
+  · rw [properCycleMult, ite_eq_left (hc Z'), properCycleDegree, ite_eq_left (by rw [hc Z'])]
     have hone : functionFieldDegree D sX hX sX hX (𝟙 X) Z' = 1 :=
       IntegralClosedSubspace.degreeOverClosureImage_eq_one_of_isClosedImmersion D.site D.base
         D.base_mem hX.1 (D.isDecentSpace_of_isGood sX hX) (D.isDecentSpace_of_isGood sX hX)
         (isClosedImmersion_of_isIso D.site D.base D.base_mem (𝟙 X)) Z'
     rw [hone, Nat.cast_one, mul_one]
-  · rw [properCycleMult, if_neg (by rw [hc Z]; exact hZ), mul_zero]
+  · rw [properCycleMult, ite_eq_right (by rw [hc Z]; exact hZ), mul_zero]
 
 end Identity
 
@@ -72,7 +72,7 @@ variable (D : BaseSpaceDimensionSituation.{u})
 theorem bundleTopPowerIdentity_of_isIso :
     BundleTopPowerIdentity D sX hX sP hP π hπB 0 hflat hrel hp L hL := by
   intro k α
-  have hid := isFlat_and_hasRelativeDimension_zero_of_isIso D sX hX sX hX (𝟙 X)
+  have hid := isFlat_and_hasRelativeDimension_zero_of_isIso D sX hX (𝟙 X)
   have hidp : IsProper D.site D.base D.base_mem (𝟙 X) :=
     isProper_of_isClosedImmersion D.site D.base D.base_mem hX.1 hX.1 _
       (isClosedImmersion_of_isIso D.site D.base D.base_mem (𝟙 X))
@@ -95,13 +95,13 @@ theorem bundleFormulaSurjective_of_isIso :
   obtain ⟨β, rfl⟩ := QuotientAddGroup.mk_surjective b
   have hd0 : d 0 = N := by have := hd 0; simpa using this
   have hψB : inv π ≫ sP = sX := by rw [← hπB, IsIso.inv_hom_id_assoc]
-  have hψ := isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP sX hX (inv π)
-  have hid := isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP sP hP (𝟙 P)
+  have hψ := isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP (inv π)
+  have hid := isFlat_and_hasRelativeDimension_zero_of_isIso D sP hP (𝟙 P)
   refine ⟨fun i => chowClassCanonical.{u + 1} D sX hX (d i)
     (cycleGroupCast D sX (by rw [Fin.fin_one_eq_zero i, hd0])
       (flatPullbackMap D sX hX sP hP (inv π) hψB 0 hψ.1 hψ.2 N N (by simp) β)), ?_⟩
   simp only [bundleFormulaMap, ProjectiveBundleRelation.bundleSum_apply]
-  show chowClassCanonical.{u + 1} D sP hP N _ = chowClassCanonical.{u + 1} D sP hP N β
+  change chowClassCanonical.{u + 1} D sP hP N _ = chowClassCanonical.{u + 1} D sP hP N β
   congr 1
   refine Subtype.ext ?_
   have h1 := congrArg (fun ψ => (ψ β).1)

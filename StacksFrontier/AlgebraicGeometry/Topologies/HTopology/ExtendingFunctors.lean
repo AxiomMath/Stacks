@@ -277,7 +277,7 @@ theorem exists_isStandardHCovering_refinement_over {V : Over S} (hV : IsAffine V
     exists_isStandardHCovering_refinement.{u, v, v} (fun i ↦ (Y i).left) (fun i ↦ (f i).left) hf
   refine ⟨K, fun j ↦ Over.mk (q j ≫ V.hom), fun j ↦ Over.homMk (q j) rfl,
     fun j ↦ φ.s₀ j, fun j ↦ Over.homMk (φ.h₀ j) ?_, hstd, fun j ↦ ?_⟩
-  · show φ.h₀ j ≫ (Y (φ.s₀ j)).hom = q j ≫ V.hom
+  · change φ.h₀ j ≫ (Y (φ.s₀ j)).hom = q j ≫ V.hom
     rw [← Over.w (f (φ.s₀ j)), ← Category.assoc]
     exact congrArg (· ≫ V.hom) (φ.w₀ j)
   · refine Over.OverMorphism.ext ?_

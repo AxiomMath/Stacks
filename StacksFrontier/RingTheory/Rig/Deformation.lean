@@ -187,7 +187,7 @@ private lemma polynomialRemainder_monomial_mem_pow_mul
       polynomialRemainder I ψ ψ' δ p * P (MvPolynomial.X j) +
         (P' p - P p) * δ j := by
     intro p j
-    show P' (p * MvPolynomial.X j) - P (p * MvPolynomial.X j) -
+    change P' (p * MvPolynomial.X j) - P (p * MvPolynomial.X j) -
         (∑ i, P (MvPolynomial.pderiv i (p * MvPolynomial.X j)) * δ i) =
       (P' p - P p - ∑ i, P (MvPolynomial.pderiv i p) * δ i) * P (MvPolynomial.X j) +
         (P' p - P p) * δ j
@@ -248,7 +248,7 @@ private lemma polynomialRemainder_monomial_mem_pow_mul
           (congrArg (fun q : MvPolynomial _ _ ↦ q.coeff t) hEq).symm
       exact hb0 ▸ (I ^ n).zero_mem
   have hJa : Ja b ≤ Jn := by
-    show Ideal.map (algebraMap A C) (Ideal.span {b}) ≤
+    change Ideal.map (algebraMap A C) (Ideal.span {b}) ≤
       (I.map (algebraMap A C)) ^ n
     rw [← Ideal.map_pow]
     exact Ideal.map_mono ((Ideal.span_singleton_le_iff_mem _).2 hb)
@@ -387,7 +387,7 @@ public theorem eval_add_variables_eq_linear_add_error
     have hpd : Continuous (MvPolynomial.pderiv i :
         MvPolynomial σ (A ⧸ I ^ n) → MvPolynomial σ (A ⧸ I ^ n)) :=
       continuous_of_discreteTopology
-    show Continuous fun f ↦ MvPolynomial.pderiv i (coefficientProjection I σ n f)
+    change Continuous fun f ↦ MvPolynomial.pderiv i (coefficientProjection I σ n f)
     exact hpd.comp hπ
   have hEcont : @Continuous (RestrictedPowerSeries I σ) C
       (limitTopology I σ) ((I.map (algebraMap A C)).adicTopology) E := by
@@ -396,7 +396,7 @@ public theorem eval_add_variables_eq_linear_add_error
         (fun f : RestrictedPowerSeries I σ ↦
         ∑ i, ψ (partialDerivative I i f) * δ i) :=
       continuous_finsetSum _ fun i _ ↦ (hψ.comp (hD i)).mul continuous_const
-    show @Continuous (RestrictedPowerSeries I σ) C
+    change @Continuous (RestrictedPowerSeries I σ) C
       (limitTopology I σ) ((I.map (algebraMap A C)).adicTopology)
       (fun f ↦ ψ' f - ψ f - ∑ i, ψ (partialDerivative I i f) * δ i)
     exact (hψ'.sub hψ).sub hsum
@@ -490,7 +490,7 @@ public theorem eval_add_variables_eq_linear_add_error
     intro m
     refine Filter.Tendsto.congr' ?_ tendsto_const_nhds
     filter_upwards [Filter.eventually_atTop.mpr ⟨m + 1, fun n hn ↦ hn⟩] with n hn
-    show coefficientProjection I σ m g =
+    change coefficientProjection I σ m g =
       coefficientProjection I σ m (polynomialRingHom I σ (p n))
     rw [coefficientProjection_polynomialRingHom]
     exact (hred m n (by omega)).symm
@@ -511,7 +511,7 @@ public theorem eval_add_variables_eq_linear_add_error
         intro k hNk hk
         by_cases hkl' : k ≤ l
         · have hold := ih k hNk hkl'
-          show qSum ij (l + 1) - qSum ij k ∈ J ^ N
+          change qSum ij (l + 1) - qSum ij k ∈ J ^ N
           rw [hqSum_succ]
           rw [show qSum ij l + qCoefficient l ij - qSum ij k =
             (qSum ij l - qSum ij k) + qCoefficient l ij by ring]

@@ -108,7 +108,7 @@ private noncomputable def complexTensorSplitEquiv :
 /-- A scheme `Spec R` with `R ≃+* ℂ × ℂ` has exactly two points. -/
 private theorem card_spec_eq_two_of_ringEquiv {R : Type*} [CommRing R] (e : R ≃+* ℂ × ℂ) :
     Nat.card (Spec (.of R)) = 2 := by
-  show Nat.card (PrimeSpectrum R) = 2
+  change Nat.card (PrimeSpectrum R) = 2
   rw [Nat.card_congr ((PrimeSpectrum.comapEquiv e).toEquiv.trans
     (PrimeSpectrum.primeSpectrumProd ℂ ℂ))]
   simp
@@ -178,7 +178,7 @@ private theorem liftedComplexTensorSpec_two_points :
 private theorem liftedComplexTensorSpecMap_not_injective :
     ¬ Function.Injective (liftedComplexTensorSpecMap.{u}).base := by
   have : Subsingleton (Spec (.of (ULift.{u} ℂ))) := by
-    show Subsingleton (PrimeSpectrum (ULift.{u} ℂ))
+    change Subsingleton (PrimeSpectrum (ULift.{u} ℂ))
     exact uliftPrimeSpectrum_subsingleton
   exact not_injective_of_card_two _ liftedComplexTensorSpec_two_points
 
@@ -218,7 +218,7 @@ public theorem complexTensor_ringEquiv_prod :
       e ((1 / 2 : ℝ) • (1 + Complex.I ⊗ₜ[ℝ] Complex.I)) = (1, 0) := by
   refine ⟨complexTensorSplitEquiv.toRingEquiv, ?_⟩
   unfold complexTensorSplitEquiv
-  show (complexTensorSplitHom.restrictScalars ℝ)
+  change (complexTensorSplitHom.restrictScalars ℝ)
     ((1 / 2 : ℝ) • (1 + Complex.I ⊗ₜ[ℝ] Complex.I)) = (1, 0)
   rw [map_smul]
   ext <;> norm_num [complexTensorSplitHom]

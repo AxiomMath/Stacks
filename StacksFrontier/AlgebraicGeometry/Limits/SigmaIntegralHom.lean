@@ -63,7 +63,7 @@ variable {ι : Type u} [Small.{u} ι] {Y : ι → Scheme.{u}} {S : Scheme.{u}}
 `W` in the coproduct. -/
 private lemma preimage_sigmaι_preimage_sigmaDesc (i : ι) :
     Sigma.ι Y i ⁻¹ᵁ (Sigma.desc q ⁻¹ᵁ W) = q i ⁻¹ᵁ W := by
-  rw [← Scheme.Hom.comp_preimage, Sigma.ι_desc]
+  rw [← Scheme.Hom.comp_preimage, Sigma.ι_comp_desc]
 
 /-- The image in `∐ Y` of the part of the summand `Y i` lying over `W` is contained in the part
 of `∐ Y` lying over `W`. -/
@@ -145,7 +145,7 @@ theorem isIntegralHom_sigmaDesc [∀ i, IsIntegralHom (q i)]
     refine (∐ Y).sheaf.eq_of_locally_eq' O (Sigma.desc q ⁻¹ᵁ W) (fun i ↦ homOfLE (hle i))
       hsup.ge _ 0 fun i ↦ ?_
     classical
-    show (r i).hom _ = (r i).hom 0
+    change (r i).hom _ = (r i).hom 0
     rw [map_zero, Polynomial.hom_eval₂, ← CommRingCat.hom_comp, hcomp i]
     by_cases hi : i ∈ hfin.toFinset
     · rw [← Finset.mul_prod_erase _ _ hi, Polynomial.eval₂_mul, hp0 i, zero_mul]

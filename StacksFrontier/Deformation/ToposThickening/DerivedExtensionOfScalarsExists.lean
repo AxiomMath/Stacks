@@ -161,6 +161,7 @@ instance containsZero_flatObjects (O : Sheaf J CommRingCat.{u}) :
     (flatObjects.{v', u, u'} O).ContainsZero :=
   Stacks.SheafOfModules.FlatCoproduct.containsZero_isFlat_ofSize.{v', u', u} O
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- A binary direct sum of flat sheaves of modules is flat: the hypothesis `hsum` of Stacks
 0794. -/
 theorem flatObjects_biprod (O : Sheaf J CommRingCat.{u})
@@ -180,6 +181,7 @@ theorem flatObjects_cover (O : Sheaf J CommRingCat.{u})
     Stacks.SheafOfModules.FlatCover.exists_epi_from_isFlat_ofSize.{v', u', u} O X
   exact ⟨Y, hY, p, hp⟩
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- A sheaf of modules isomorphic to a flat one is flat. -/
 theorem flatObjects_of_iso {O : Sheaf J CommRingCat.{u}}
     {X Y : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O)} (e : X ≅ Y)
@@ -187,6 +189,7 @@ theorem flatObjects_of_iso {O : Sheaf J CommRingCat.{u}}
     flatObjects O Y :=
   Stacks.SheafOfModules.FlatCoproduct.isFlat_of_iso_ofSize.{v', u', u} O e hX
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- A zero sheaf of modules is flat. -/
 theorem flatObjects_of_isZero {O : Sheaf J CommRingCat.{u}}
     {X : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O)} (hX : IsZero X) :
@@ -246,6 +249,7 @@ private theorem isZero_cycles_of_isStrictlyLE {O : Sheaf J CommRingCat.{u}} (a :
     [L.IsStrictlyLE a] {n : ℤ} (h : a < n) : IsZero (L.cycles n) :=
   (L.isZero_of_isStrictlyLE a n).of_mono (L.iCycles n)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The cycles of a complex of flat sheaves of modules which is acyclic and vanishes above `a`
 are flat in every degree `a + 1 - k`, by induction on `k`.
 
@@ -269,6 +273,7 @@ private theorem flatObjects_cycles_aux {O : Sheaf J CommRingCat.{u}} (a : ℤ)
     rw [show a + 1 - (↑(m + 1) : ℤ) + 1 = a + 1 - m by omega]
     exact ih
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The cycles of a bounded above acyclic complex of flat sheaves of modules are flat.** -/
 theorem flatObjects_cycles_of_acyclic {O : Sheaf J CommRingCat.{u}} (a : ℤ)
     (L : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O)) ℤ)

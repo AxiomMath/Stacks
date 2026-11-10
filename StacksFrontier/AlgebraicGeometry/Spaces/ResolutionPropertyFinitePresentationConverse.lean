@@ -184,7 +184,7 @@ theorem epi_of_epi_etaleModulePullback_chartHom_map {M N : Modules.{u, u} B S hS
   · refine Set.eq_univ_of_forall fun x => ?_
     obtain ⟨v, hv⟩ := D.isSurjective_φ x
     refine Set.mem_iUnion.2 ⟨(), v, ?_⟩
-    show pointsMap B S hS _ (D.j ≫ D.π) v = x
+    change pointsMap B S hS _ (D.j ≫ D.π) v = x
     rw [D.comp_eq]
     exact hv
   · rw [← NatIso.naturality_2 (modulePullbackIsoEtaleModulePullback B S hS g hg)]

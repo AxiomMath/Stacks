@@ -179,7 +179,7 @@ theorem sieveOfSection_range_chartFiberToInvRep_mem (V : SmallEtale B S hS Y.1)
     refine ((W_chartFiberToInvRep f V).homEquiv
       (invRep (smallEtaleRingedToposHom B S hS f) V).obj
       (invRep (smallEtaleRingedToposHom B S hS f) V).property).injective ?_
-    show m ≫ r ≫ (Stacks.Sites.sheafOfMonoι
+    change m ≫ r ≫ (Stacks.Sites.sheafOfMonoι
         (Q := invRep (smallEtaleRingedToposHom B S hS f) V) m).hom =
       m ≫ 𝟙 (invRep (smallEtaleRingedToposHom B S hS f) V).obj
     rw [← Category.assoc, hr', Stacks.Sites.sheafOfMonoUnit_ι, Category.comp_id]

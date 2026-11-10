@@ -244,7 +244,7 @@ theorem card_le_card_of_forall_exists_pow_eq_mul [IsNoetherianRing B] [IsLocalRi
   obtain ⟨L, hL⟩ : ∃ L : ℕ, Module.length B (B ⧸ Ideal.span (s : Set B)) = L := by
     have h := HilbertSamuel.length_quotient_lt_top (Ideal.span (s : Set B)) hs B 0
     rw [zero_add, pow_one, Ideal.smul_top_eq_self] at h
-    exact ⟨_, (ENat.coe_toNat h.ne).symm⟩
+    exact ⟨_, (ENat.natCast_toNat h.ne).symm⟩
   set r := Fintype.card ι
   set d := s.card
   by_contra hrd

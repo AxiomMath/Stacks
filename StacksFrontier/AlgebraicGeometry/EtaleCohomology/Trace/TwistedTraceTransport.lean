@@ -61,7 +61,8 @@ public theorem LAdicSheaf.rationalStalkMap_id' (F : LAdicSheaf B X ℓ) (s : Geo
 public def LAdicSheaf.rationalStalkLinearEquiv {F F' : LAdicSheaf B X ℓ} (Φ : F ≅ F')
     (s : GeometricPoint X.1) :
     LAdicSheaf.rationalStalkLeft B X ℓ F s ≃ₗ[ℚ_[ℓ]] LAdicSheaf.rationalStalkLeft B X ℓ F' s :=
-  LinearEquiv.ofLinear (LAdicSheaf.rationalStalkMap Φ.hom s) (LAdicSheaf.rationalStalkMap Φ.inv s)
+  LinearEquiv.ofLinearMap (LAdicSheaf.rationalStalkMap Φ.hom s)
+    (LAdicSheaf.rationalStalkMap Φ.inv s)
     (by rw [← LAdicSheaf.rationalStalkMap_comp', Φ.inv_hom_id, LAdicSheaf.rationalStalkMap_id'])
     (by rw [← LAdicSheaf.rationalStalkMap_comp', Φ.hom_inv_id, LAdicSheaf.rationalStalkMap_id'])
 
@@ -85,7 +86,7 @@ public theorem LAdicSheaf.trace_rationalStalkMap_comp_rationalStalkFrobenius_of_
   have := hy
   refine trace_comp_pow_eq_of_linearEquiv_comm (LAdicSheaf.rationalStalkLinearEquiv Φ _)
     _ _ _ _ ?_ ?_ k
-  · show LAdicSheaf.rationalStalkMap Φ.hom _ ∘ₗ _ = _ ∘ₗ LAdicSheaf.rationalStalkMap Φ.hom _
+  · change LAdicSheaf.rationalStalkMap Φ.hom _ ∘ₗ _ = _ ∘ₗ LAdicSheaf.rationalStalkMap Φ.hom _
     rw [← LAdicSheaf.rationalStalkMap_comp', ← LAdicSheaf.rationalStalkMap_comp', h]
   · exact (LAdicSheaf.rationalStalkEnd_comp_rationalStalkMap Φ.hom (frobeniusPointHom X.1 y)).symm
 
@@ -108,6 +109,7 @@ public def LAdicSheaf.geometricCompactlySupportedCohomologyMapIso {F F' : LAdicS
     rw [← LAdicSheaf.geometricCompactlySupportedCohomologyMap_comp, Φ.inv_hom_id,
       LAdicSheaf.geometricCompactlySupportedCohomologyMap_id]
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **Twisted traces on compactly supported cohomology along an isomorphism of ℓ-adic
 sheaves.** -/
 public theorem LAdicSheaf.trace_rationalMap_comp_rationalFrobenius_pow_of_iso

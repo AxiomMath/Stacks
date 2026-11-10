@@ -101,7 +101,7 @@ abbrev singleComplex (M : Mod R) : CochainComplex (Mod R) ℤ :=
 omit [HasDerivedCategory.{d} (Mod R)] in
 /-- `ℰ[0]` is K-flat, `ℰ` being flat. -/
 theorem kFlat_singleComplex_of_hasRightDual :
-    Stacks.SheafOfModules.KFlat.KFlat R (singleComplex E) :=
+    Stacks.SheafOfModules.KFlat R (singleComplex E) :=
   Stacks.SheafOfModules.KFlatResolution.kFlat_single_of_isFlat R E
     (isFlat_of_hasRightDual E) 0
 
@@ -192,8 +192,8 @@ theorem mapHomologicalComplex_counit_app_single (M : Mod R) :
   refine HomologicalComplex.hom_ext _ _ fun i => ?_
   by_cases h : i = 0
   · subst h
-    simp only [CochainComplex.singleFunctor, CochainComplex.singleFunctors, Functor.comp_obj,
-      CochainComplex.shiftFunctor_obj_X', Functor.flip_obj_obj, curriedTensor_obj_obj,
+    simp only [CochainComplex.singleFunctor, Functor.comp_obj,
+      Functor.flip_obj_obj, curriedTensor_obj_obj,
       Functor.mapHomologicalComplex_obj_X, singleComplex, Functor.id_obj,
       Functor.mapCochainComplexSingleFunctor, Adjunction.mapHomologicalComplex,
       NatTrans.mapHomologicalComplex, Adjunction.mkOfUnitCounit_counit, HomologicalComplex.comp_f,

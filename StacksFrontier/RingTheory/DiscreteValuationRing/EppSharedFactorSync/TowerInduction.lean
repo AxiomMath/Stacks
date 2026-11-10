@@ -146,7 +146,7 @@ theorem familyTowerSolvable_of_forall_factorFamily (p : ℕ) [Fact p.Prime]
   have : ∀ i k, IsScalarTower K (M i) (F i k) := fun i k =>
     IsScalarTower.of_algebraMap_eq fun x => by
       have ht : (algebraMap K (M i) x) ⊗ₜ[K] (1 : K₁) = (1 : M i) ⊗ₜ[K] algebraMap K K₁ x := by
-        show (Algebra.TensorProduct.includeLeft : M i →ₐ[K] _) (algebraMap K (M i) x) =
+        change (Algebra.TensorProduct.includeLeft : M i →ₐ[K] _) (algebraMap K (M i) x) =
           (Algebra.TensorProduct.includeRight : K₁ →ₐ[K] _) (algebraMap K K₁ x)
         rw [AlgHom.commutes, AlgHom.commutes]
       have hx := congrArg (φ i k) ht
@@ -166,26 +166,21 @@ theorem familyTowerSolvable_of_forall_factorFamily (p : ℕ) [Fact p.Prime]
     ((algebraMap (M i) (F i k)).comp (algebraMap (S i) (M i))).toAlgebra
   have : ∀ i k, IsScalarTower (S i) (M i) (F i k) := fun i k => by
     first
-      | infer_instance
       | exact IsScalarTower.of_algebraMap_eq fun _ => rfl
   have : ∀ i k, IsScalarTower (S i) (N i) (F i k) := fun i k => by
     first
-      | infer_instance
-      | exact IsScalarTower.of_algebraMap_eq fun _ => rfl
       | exact IsScalarTower.of_algebraMap_eq fun b => by
           rw [IsScalarTower.algebraMap_apply (S i) (M i) (F i k),
             IsScalarTower.algebraMap_apply (S i) (N i) (M i)]
           rfl
   have htSCF : ∀ i k, IsScalarTower (S i) (C i) (F i k) := fun i k => by
     first
-      | infer_instance
       | exact IsScalarTower.of_algebraMap_eq fun b => by
           rw [IsScalarTower.algebraMap_apply (S i) (M i) (F i k),
             IsScalarTower.algebraMap_apply (S i) (C i) (M i),
             ← IsScalarTower.algebraMap_apply (C i) (M i) (F i k)]
   have : ∀ i k, IsScalarTower A (S i) (F i k) := fun i k => by
     first
-      | infer_instance
       | exact IsScalarTower.of_algebraMap_eq fun a => by
           rw [IsScalarTower.algebraMap_apply A (C i) (F i k),
             IsScalarTower.algebraMap_apply A (S i) (C i),
@@ -235,7 +230,6 @@ theorem familyTowerSolvable_of_forall_factorFamily (p : ℕ) [Fact p.Prime]
   have htSHF : ∀ i k, IsScalarTower (S i) (H i (jj i k)) (F i k) :=
     fun i k => by
     first
-      | infer_instance
       | exact IsScalarTower.of_algebraMap_eq fun b => by
           rw [IsScalarTower.algebraMap_apply (S i) (N i) (F i k),
             IsScalarTower.algebraMap_apply (N i) (H i (jj i k)) (F i k),
@@ -372,7 +366,7 @@ theorem familyTowerSolvable_of_forall_factorFamily (p : ℕ) [Fact p.Prime]
       algebraMap (C i) (integralClosure (C i) (F i k)) (algebraMap A (C i) a) =
         algebraMap R (integralClosure (C i) (F i k)) (algebraMap A R a) := fun k a => by
     apply Subtype.ext
-    show algebraMap (C i) (F i k) (algebraMap A (C i) a) =
+    change algebraMap (C i) (F i k) (algebraMap A (C i) a) =
       algebraMap K₁ (F i k) (algebraMap A K₁ a)
     rw [← IsScalarTower.algebraMap_apply A (C i) (F i k),
       ← IsScalarTower.algebraMap_apply A K₁ (F i k)]
@@ -689,12 +683,12 @@ theorem familyTowerSolvableAux_all (p : ℕ) [Fact p.Prime]
         IsScalarTower.of_algebraMap_eq' rfl
       have : ∀ i, IsScalarTower A K (E i) := fun i =>
         IsScalarTower.of_algebraMap_eq fun a => by
-          show algebraMap (L i) (E i) (algebraMap A (L i) a) =
+          change algebraMap (L i) (E i) (algebraMap A (L i) a) =
             algebraMap (L i) (E i) (algebraMap K (L i) (algebraMap A K a))
           rw [← IsScalarTower.algebraMap_apply A K (L i)]
       have : ∀ i, IsScalarTower A (B i) (E i) := fun i =>
         IsScalarTower.of_algebraMap_eq fun a => by
-          show algebraMap (L i) (E i) (algebraMap A (L i) a) =
+          change algebraMap (L i) (E i) (algebraMap A (L i) a) =
             algebraMap (L i) (E i) (algebraMap (B i) (L i) (algebraMap A (B i) a))
           rw [← IsScalarTower.algebraMap_apply A (B i) (L i)]
       have : ∀ i, IsScalarTower K (E i) (M i) := fun i =>
@@ -709,7 +703,7 @@ theorem familyTowerSolvableAux_all (p : ℕ) [Fact p.Prime]
           rfl
       have : ∀ i, IsScalarTower A (E i) (M i) := fun i =>
         IsScalarTower.of_algebraMap_eq fun a => by
-          show algebraMap A (M i) a =
+          change algebraMap A (M i) a =
             algebraMap (L i) (M i) (algebraMap A (L i) a)
           calc
             _ = algebraMap K (M i) (algebraMap A K a) :=

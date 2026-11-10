@@ -41,8 +41,8 @@ The hypothesis is read in the sieve-and-chosen-pullbacks rendering of a stack
 (`CategoryTheory.Functor.IsStack`, Stacks 026F) and the conclusion in the rendering by covering
 families with genuine fibre-product overlaps (`CategoryTheory.Functor.IsStackInGroupoids`,
 Stacks 02ZI); the two are compared in
-`StacksFrontier/CategoryTheory/Sites/Stack/StackBridge.lean`, which is also where the definition of a
-stack in groupoids is shown to be the conjunction of the two conditions of Stacks 02ZJ. The
+`StacksFrontier/CategoryTheory/Sites/Stack/StackBridge.lean`, which is also where the definition of
+a stack in groupoids is shown to be the conjunction of the two conditions of Stacks 02ZJ. The
 universe of the index type of the covering families is left free, so the conclusion is asserted for
 families indexed in every universe.
 

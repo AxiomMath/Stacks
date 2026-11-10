@@ -209,7 +209,7 @@ public lemma sheafScalarEnd_naturality {F₁ F₂ : Sheaf J (ModuleCat.{w} Λ)} 
       (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).map φ ≫
         (sheafScalarEnd Λ J F₂ a).asHom := by
   refine ObjectProperty.hom_ext _ (NatTrans.ext (funext fun U => ?_))
-  show ((F₁.obj.obj U).smul a).asHom ≫
+  change ((F₁.obj.obj U).smul a).asHom ≫
       (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w}).map (φ.hom.app U) =
     (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w}).map (φ.hom.app U) ≫ ((F₂.obj.obj U).smul a).asHom
   exact (ModuleCat.smul_naturality (φ.hom.app U) a).symm

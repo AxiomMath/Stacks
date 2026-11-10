@@ -239,7 +239,8 @@ private noncomputable def localGeneratorsDataOfLocallyGenerated
 
 section RingedSite
 
-variable (X : AlgebraicGeometry.RingedSite.{u, v, w}) (F : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
+variable (X : AlgebraicGeometry.RingedSite.{u, v, w})
+  (F : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
   [∀ U : X.C, HasWeakSheafify (X.J.over U) AddCommGrpCat.{w}]
   [∀ U : X.C, (X.J.over U).WEqualsLocallyBijective AddCommGrpCat.{w}]
 

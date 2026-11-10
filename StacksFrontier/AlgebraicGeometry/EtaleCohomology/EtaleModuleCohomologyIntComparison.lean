@@ -135,7 +135,7 @@ theorem rightDerivedPlusRestrictScalarsIntIso_hom_smul (N : EtaleModules.{u, 0} 
       ((etaleModuleGlobalSections.{u, 0} ℤ Y).rightDerivedPlus i).map
           ((etaleModuleRestrictScalarsNatTrans (Int.castRingHom Λ) (restrictScalarsIntSMul a) Y).app
             N) := by
-    show (DerivedCategory.Plus.homologyFunctor _ i).map
+    change (DerivedCategory.Plus.homologyFunctor _ i).map
         ((mapDerivedCategoryPlusNatTrans (restrictScalarsIntSMul a)).app _) ≫ _ =
       _ ≫ (DerivedCategory.Plus.homologyFunctor _ i).map
         ((etaleModuleDerivedGlobalSections.{u, 0} ℤ Y).map
@@ -183,7 +183,7 @@ theorem rightDerivedPlusRestrictScalarsIntIso_hom_naturality {N N' : EtaleModule
             N).hom) ≫
       ((etaleModuleGlobalSections.{u, 0} ℤ Y).rightDerivedPlus i).map
         ((etaleModuleRestrictScalars (Int.castRingHom Λ) Y).map g) := by
-    show (DerivedCategory.Plus.homologyFunctor _ i).map
+    change (DerivedCategory.Plus.homologyFunctor _ i).map
         ((ModuleCat.restrictScalars.{u + 1} (Int.castRingHom Λ)).mapDerivedCategoryPlus.map
           ((etaleModuleDerivedGlobalSections.{u, 0} Λ Y).map
             ((DerivedCategory.Plus.singleFunctor _ 0).map g))) ≫ _ =

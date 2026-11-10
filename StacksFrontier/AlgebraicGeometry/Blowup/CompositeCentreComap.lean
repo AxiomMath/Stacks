@@ -89,9 +89,9 @@ public theorem supportSet_subset_union_image_comap (I J : X.IdealSheafData) :
   · exact Set.mem_union_left _ hxI
   · obtain ⟨y, hy⟩ := exists_blowUpToBase_eq_of_notMem_support I hxI
     refine Set.mem_union_right _ ⟨y, ?_, hy⟩
-    show y ∈ ((J.comap (blowUpToBase I)).support : Set (blowUp I))
+    change y ∈ ((J.comap (blowUpToBase I)).support : Set (blowUp I))
     rw [Scheme.IdealSheafData.support_comap, TopologicalSpace.Closeds.coe_preimage]
-    show (blowUpToBase I).base y ∈ (J.support : Set X)
+    change (blowUpToBase I).base y ∈ (J.support : Set X)
     rw [hy]
     exact hx
 

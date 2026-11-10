@@ -49,7 +49,7 @@ theorem projective_restrictScalars_algebraMap_of_projective {R B : Type u} [Comm
       right_inv := fun _ ↦ rfl
       map_add' := fun _ _ ↦ rfl
       map_smul' := fun r b ↦ by
-        show _ = algebraMap R B r • (b : B)
+        change _ = algebraMap R B r • (b : B)
         rw [smul_eq_mul, Algebra.smul_def] }
   exact Module.Projective.of_equiv' e
 

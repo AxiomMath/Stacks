@@ -104,7 +104,7 @@ theorem relativeInfinitesimalAutomorphisms_eq_bot_comp
     ((mem_relativeInfinitesimalAutomorphisms_iff hp g f hf b).2 hkey)
   have ha' : a ∈ relativeInfinitesimalAutomorphisms hp g' f' hf' := by
     rw [mem_relativeInfinitesimalAutomorphisms_iff, hsq, hb1]
-    show f' ≫ 𝟙 x'.1 = f'
+    change f' ≫ 𝟙 x'.1 = f'
     simp
   exact (Subgroup.eq_bot_iff_forall _).1 h' a ha'
 
@@ -157,7 +157,7 @@ private theorem exists_kernelCoordinate
     intro b
     rw [mem_maximalIdeal, mem_nonunits_iff,
       ← ArtinianLocalAlgCat.hom_eq_zero_iff_not_isUnit B A₀ hA₀ ρ b]
-    show i₀ (ρ.hom b) = 0 ↔ _
+    change i₀ (ρ.hom b) = 0 ↔ _
     exact ⟨fun h => i₀.injective (by simpa using h), fun h => by simp [h]⟩
   have hσsurj : Function.Surjective σ := by
     intro c
@@ -201,7 +201,7 @@ private theorem exists_kernelCoordinate
         rw [show (Quotient.mk _ c : B ⧸ maximalIdeal B) =
           Ideal.Quotient.mk (maximalIdeal B) c from rfl, this,
           he₁_mk, he₁_mk, map_mul]
-  show e₁ (e₂.symm (b • j)) = σ b * e₁ (e₂.symm j)
+  change e₁ (e₂.symm (b • j)) = σ b * e₁ (e₂.symm j)
   rw [LinearEquiv.map_smul, hquot]
 
 /-- A bijective morphism of `𝒞_Λ` is an isomorphism. -/
@@ -315,7 +315,7 @@ private theorem exists_dualNumberPullback
     intro t
     have hw := congrArg (fun q : Y ⟶ A => q.hom t) hPB.w
     have hw' : g.hom (pr₁.hom t) = g.hom (pr₂.hom t) := by simpa using hw
-    show g.hom (pr₂.hom t - pr₁.hom t) = 0
+    change g.hom (pr₂.hom t - pr₁.hom t) = 0
     rw [map_sub, ← hw', sub_self]
   set d : Y → RingHom.ker g.hom.toRingHom := fun t => ⟨pr₂.hom t - pr₁.hom t, hdiff t⟩
     with hddef
@@ -333,24 +333,24 @@ private theorem exists_dualNumberPullback
     { toFun := fun t => (i₀ (ρ.hom (pr₁.hom t)), ψ (d t))
       map_one' := by
         refine TrivSqZeroExt.ext ?_ ?_
-        · show i₀ (ρ.hom (pr₁.hom 1)) = (1 : k)
+        · change i₀ (ρ.hom (pr₁.hom 1)) = (1 : k)
           rw [map_one, map_one, map_one]
-        · show ψ (d 1) = (0 : k)
+        · change ψ (d 1) = (0 : k)
           rw [hd0 1 (by simp), map_zero]
       map_mul' := by
         intro t s
         refine TrivSqZeroExt.ext ?_ ?_
-        · show i₀ (ρ.hom (pr₁.hom (t * s))) =
+        · change i₀ (ρ.hom (pr₁.hom (t * s))) =
             i₀ (ρ.hom (pr₁.hom t)) * i₀ (ρ.hom (pr₁.hom s))
           rw [map_mul, map_mul, map_mul]
-        · show ψ (d (t * s)) =
+        · change ψ (d (t * s)) =
             (i₀ (ρ.hom (pr₁.hom t)), ψ (d t)).fst •
                 (i₀ (ρ.hom (pr₁.hom s)), ψ (d s)).snd +
               MulOpposite.op (i₀ (ρ.hom (pr₁.hom s)), ψ (d s)).fst •
                 (i₀ (ρ.hom (pr₁.hom t)), ψ (d t)).snd
           have hkey : d (t * s) = pr₁.hom t • d s + pr₂.hom s • d t := by
             apply Subtype.ext
-            show pr₂.hom (t * s) - pr₁.hom (t * s) =
+            change pr₂.hom (t * s) - pr₁.hom (t * s) =
               pr₁.hom t * (pr₂.hom s - pr₁.hom s) + pr₂.hom s * (pr₂.hom t - pr₁.hom t)
             rw [map_mul, map_mul]
             ring
@@ -359,20 +359,20 @@ private theorem exists_dualNumberPullback
           ring
       map_zero' := by
         refine TrivSqZeroExt.ext ?_ ?_
-        · show i₀ (ρ.hom (pr₁.hom 0)) = (0 : k)
+        · change i₀ (ρ.hom (pr₁.hom 0)) = (0 : k)
           rw [map_zero, map_zero, map_zero]
-        · show ψ (d 0) = (0 : k)
+        · change ψ (d 0) = (0 : k)
           rw [hd0 0 (by simp), map_zero]
       map_add' := by
         intro t s
         refine TrivSqZeroExt.ext ?_ ?_
-        · show i₀ (ρ.hom (pr₁.hom (t + s))) =
+        · change i₀ (ρ.hom (pr₁.hom (t + s))) =
             i₀ (ρ.hom (pr₁.hom t)) + i₀ (ρ.hom (pr₁.hom s))
           rw [map_add, map_add, map_add]
-        · show ψ (d (t + s)) = ψ (d t) + ψ (d s)
+        · change ψ (d (t + s)) = ψ (d t) + ψ (d s)
           have hadd : d (t + s) = d t + d s := by
             apply Subtype.ext
-            show pr₂.hom (t + s) - pr₁.hom (t + s) =
+            change pr₂.hom (t + s) - pr₁.hom (t + s) =
               (pr₂.hom t - pr₁.hom t) + (pr₂.hom s - pr₁.hom s)
             rw [map_add, map_add]
             ring
@@ -380,11 +380,11 @@ private theorem exists_dualNumberPullback
       commutes' := by
         intro r
         refine TrivSqZeroExt.ext ?_ ?_
-        · show i₀ (ρ.hom (pr₁.hom (algebraMap Λ Y r))) =
+        · change i₀ (ρ.hom (pr₁.hom (algebraMap Λ Y r))) =
             (algebraMap Λ (DualNumber k) r).fst
           rw [AlgHom.commutes, AlgHom.commutes, AlgEquiv.commutes,
             TrivSqZeroExt.algebraMap_eq_inl', TrivSqZeroExt.fst_inl]
-        · show ψ (d (algebraMap Λ Y r)) = (algebraMap Λ (DualNumber k) r).snd
+        · change ψ (d (algebraMap Λ Y r)) = (algebraMap Λ (DualNumber k) r).snd
           rw [TrivSqZeroExt.algebraMap_eq_inl', TrivSqZeroExt.snd_inl]
           rw [hd0 _ (by rw [AlgHom.commutes, AlgHom.commutes]), map_zero] }
   have hδfst : ∀ t : Y, (δ t).fst = i₀ (ρ.hom (pr₁.hom t)) := fun _ => rfl
@@ -420,7 +420,7 @@ private theorem exists_dualNumberPullback
         exact not_isUnit_zero hfst
       residue_comm := by
         intro t
-        show Aε.residueEquiv (residue Aε (iε.symm (δ t))) = Y.residueEquiv (residue Y t)
+        change Aε.residueEquiv (residue Aε (iε.symm (δ t))) = Y.residueEquiv (residue Y t)
         rw [← e.residue_comm (iε.symm (δ t)), hγcomp t]
         exact (pr₁ ≫ ρ).residue_comm t }
   have hγhom : ∀ t : Y, γ.hom t = iε.symm (δ t) := fun _ => rfl
@@ -476,7 +476,7 @@ private theorem exists_dualNumberPullback
       obtain ⟨t, ht1, ht2⟩ := hYsurj b (b + c.val) hgc.symm
       have hdt : d t = c := by
         apply Subtype.ext
-        show pr₂.hom t - pr₁.hom t = c.val
+        change pr₂.hom t - pr₁.hom t = c.val
         rw [ht1, ht2]
         ring
       have hδt : δ t = iε zε := by
@@ -501,7 +501,7 @@ private theorem exists_dualNumberPullback
     apply ArtinianLocalAlgCat.hom_ext
     refine AlgHom.ext fun x => ?_
     have hd0' : d (u.hom x) = 0 := hd0 _ (congrArg (fun q : T ⟶ B => q.hom x) hu).symm
-    show γ.hom (u.hom x) = i.hom (ρ.hom (pr₁.hom (u.hom x)))
+    change γ.hom (u.hom x) = i.hom (ρ.hom (pr₁.hom (u.hom x)))
     apply iε.injective
     rw [hγhom, iε.apply_symm_apply, hinlHom]
     refine TrivSqZeroExt.ext ?_ ?_

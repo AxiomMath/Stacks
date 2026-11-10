@@ -397,7 +397,7 @@ theorem fibreNonzero_of_le [IsLocalRing R] {I : Ideal R} {a : R} (ha : a ∈ I)
       ⟨algebraMap R K m, h4 (range_le_affineBlowupImage ha ⟨m, rfl⟩)⟩ := by
     intro m
     apply Subtype.ext
-    show awayToFractionField a haz ((algebraMap R B m : Localization.Away a)) = algebraMap R K m
+    change awayToFractionField a haz ((algebraMap R B m : Localization.Away a)) = algebraMap R K m
     have : (algebraMap R B m : Localization.Away a) = algebraMap R (Localization.Away a) m := rfl
     rw [this, awayToFractionField_comp]
   intro (htop : (IsLocalRing.maximalIdeal R).map (algebraMap R B) = ⊤)

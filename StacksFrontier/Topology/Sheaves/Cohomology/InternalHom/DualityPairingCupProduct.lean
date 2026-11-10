@@ -198,7 +198,8 @@ namespace Stacks.SheafOfModules
 
 attribute [local instance 10000] HasDerivedCategory.standard
 
-attribute [local instance] Stacks.Topology.SheafTensorAdditiveOnOpens.sheafTensorAdditive Stacks.Topology.SheafTensorAdditiveOnOpens.sheafTensorObjAdditive
+attribute [local instance] Stacks.Topology.SheafTensorAdditiveOnOpens.sheafTensorAdditive
+  Stacks.Topology.SheafTensorAdditiveOnOpens.sheafTensorObjAdditive
   Stacks.Topology.SheafTensorAdditiveOnOpens.hasMapBifunctorSheafTensor
 
 section RingedSpace
@@ -240,7 +241,8 @@ theorem canonicalLeftUnitor_unit_eq :
     _ (DerivedMonoidal.kFlat_tensorUnit_complexes X.sheaf)
   have h₃ := Stacks.Cohomology.DerivedProjectionFormula.derivedTensorRightUnitorNatIso_hom_app_q
     X (Stacks.DerivedTensor.RingedSite.unitComplex (Stacks.RingedSpace.toRingedSite X))
-  have h₄ := (Stacks.DerivedTensor.RingedSite.canonicalDerivedTensorProduct X.sheaf).comparisonRight_eq_comparison
+  have h₄ := (Stacks.DerivedTensor.RingedSite.canonicalDerivedTensorProduct
+      X.sheaf).comparisonRight_eq_comparison
     (Stacks.DerivedTensor.RingedSite.unitComplex (Stacks.RingedSpace.toRingedSite X))
     (Stacks.DerivedTensor.RingedSite.unitComplex (Stacks.RingedSpace.toRingedSite X))
     (Stacks.SheafOfModules.isKFlat_single_unit (Stacks.RingedSpace.toRingedSite X).O)
@@ -403,7 +405,7 @@ theorem derivedSectionTensor_eq_canonical {A B : DerivedCategory (StructureSheaf
           (Stacks.Cohomology.DerivedProjectionFormula.singleUnit X) ≫
         ((Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor X.sheaf).obj A).map y) ≫
         ((derivedTensorCanonicalIso X).inv.app A).app B := by
-  letI := derivedMonoidalStructure X.sheaf
+  let := derivedMonoidalStructure X.sheaf
   have h := tensor_unit_transport (derivedTensorCanonicalIso X) x y
     (λ_ (𝟙_ (DerivedCategory (StructureSheafModules X.sheaf))))
     ((Stacks.RingedSpace.derivedTensorRightUnitorNatIso X).app
@@ -488,7 +490,8 @@ theorem globalCupProductZero_eq_symm (K M : DerivedCategory (StructureSheafModul
         (derivedSectionTensor X.sheaf
           (RingedSite.derivedStructureSheafGlobalSectionsEquiv (ringedSite X.sheaf) K ξ)
           (RingedSite.derivedStructureSheafGlobalSectionsEquiv (ringedSite X.sheaf) M η)) :=
-  (AddEquiv.eq_symm_apply _).mpr (derivedStructureSheafGlobalSectionsEquiv_globalCupProductZero X K M ξ η)
+  (AddEquiv.eq_symm_apply _).mpr
+    (derivedStructureSheafGlobalSectionsEquiv_globalCupProductZero X K M ξ η)
 
 attribute [local instance] Stacks.Topology.RingedSpaceSheafifyOpens.hasSheafifyOverOpen
   Stacks.Topology.RingedSpaceSheafifyOpens.wEqualsLocallyBijectiveOverOpen

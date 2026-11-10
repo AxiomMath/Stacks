@@ -54,8 +54,8 @@ in source and target, and split idempotents in the source — because those prop
 `SingleObjWithZero.map PowerSeries.constantCoeff` as well. Whether the implication is *false* for
 `derivedForget` is the question of whether that functor admits a system of the kind the criterion
 asks for, i.e. a self-extension of infinite order that it does not see; the implementation notes
-of `StacksFrontier/CategoryTheory/Functor/Derived/ValueReflection.lean` describe the expected example
-over `ℤ[x]/(x²)` and the Ext computation it needs, which is not formalised here.
+of `StacksFrontier/CategoryTheory/Functor/Derived/ValueReflection.lean` describe the expected
+example over `ℤ[x]/(x²)` and the Ext computation it needs, which is not formalised here.
 
 *Why not an additive category.* `SingleObjWithZero R` has a zero object but no biproducts, so it
 is not additive, let alone triangulated. Additivity is not among the hypotheses of
@@ -121,18 +121,18 @@ instance category : Category.{u} (SingleObjWithZero R) where
   comp f g := Mor.comp' f g
   id_comp {a _} f := Mor.ext <| by
     rcases a with _ | _
-    · show (0 : R) * f.val = f.val
+    · change (0 : R) * f.val = f.val
       rw [zero_mul, f.val_eq_zero (Or.inl rfl)]
-    · show (1 : R) * f.val = f.val
+    · change (1 : R) * f.val = f.val
       rw [one_mul]
   comp_id {_ b} f := Mor.ext <| by
     rcases b with _ | _
-    · show f.val * (0 : R) = f.val
+    · change f.val * (0 : R) = f.val
       rw [mul_zero, f.val_eq_zero (Or.inr rfl)]
-    · show f.val * (1 : R) = f.val
+    · change f.val * (1 : R) = f.val
       rw [mul_one]
   assoc f g h := Mor.ext <| by
-    show f.val * g.val * h.val = f.val * (g.val * h.val)
+    change f.val * g.val * h.val = f.val * (g.val * h.val)
     rw [mul_assoc]
 
 /-- The element of `R` underlying a morphism of `CategoryTheory.SingleObjWithZero R`. -/
@@ -169,10 +169,10 @@ instance : HasZeroMorphisms (SingleObjWithZero R) where
   zero _ _ := ⟨⟨0, fun _ => rfl⟩⟩
   comp_zero := by
     intro a b f c
-    exact hom_ext (by show hom f * (0 : R) = 0; rw [mul_zero])
+    exact hom_ext (by change hom f * (0 : R) = 0; rw [mul_zero])
   zero_comp := by
     intro a b c f
-    exact hom_ext (by show (0 : R) * hom f = 0; rw [zero_mul])
+    exact hom_ext (by change (0 : R) * hom f = 0; rw [zero_mul])
 
 /-- The zero morphism has underlying element `0`. -/
 @[simp]
@@ -200,9 +200,9 @@ theorem isIso_iff_isUnit {f : (SingleObjWithZero.star : SingleObjWithZero R) ⟶
     exact ⟨⟨hom f, hom g, by simpa using congrArg hom h₁, by simpa using congrArg hom h₂⟩, rfl⟩
   · obtain ⟨u, hu⟩ := h
     refine ⟨⟨⟨(↑u⁻¹ : R), fun h => by simp at h⟩, hom_ext ?_, hom_ext ?_⟩⟩
-    · show hom f * (↑u⁻¹ : R) = 1
+    · change hom f * (↑u⁻¹ : R) = 1
       rw [← hu, Units.mul_inv]
-    · show (↑u⁻¹ : R) * hom f = 1
+    · change (↑u⁻¹ : R) * hom f = 1
       rw [← hu, Units.inv_mul]
 
 /-- **A morphism into `star` whose underlying element vanishes is not invertible**, the identity
@@ -245,6 +245,7 @@ def objMap : SingleObjWithZero R → SingleObjWithZero S
   | .zero => .zero
   | .star => .star
 
+omit [Ring R] [Ring S] in
 /-- `objMap` sends an object to `zero` exactly when the object is `zero`. -/
 @[simp]
 theorem objMap_eq_zero_iff {a : SingleObjWithZero R} :
@@ -263,12 +264,12 @@ def map (φ : R →+* S) : SingleObjWithZero R ⥤ SingleObjWithZero S where
   map_id a := by
     refine hom_ext ?_
     rcases a with _ | _
-    · show φ (hom (𝟙 _)) = hom (𝟙 (SingleObjWithZero.zero : SingleObjWithZero S))
+    · change φ (hom (𝟙 _)) = hom (𝟙 (SingleObjWithZero.zero : SingleObjWithZero S))
       rw [hom_id_zero, hom_id_zero, map_zero]
-    · show φ (hom (𝟙 _)) = hom (𝟙 (SingleObjWithZero.star : SingleObjWithZero S))
+    · change φ (hom (𝟙 _)) = hom (𝟙 (SingleObjWithZero.star : SingleObjWithZero S))
       rw [hom_id_star, hom_id_star, map_one]
   map_comp f g := hom_ext (by
-    show φ (hom (f ≫ g)) = φ (hom f) * φ (hom g)
+    change φ (hom (f ≫ g)) = φ (hom f) * φ (hom g)
     rw [hom_comp, map_mul])
 
 /-- The functor `map φ` acts on underlying elements by `φ`. -/
@@ -292,10 +293,10 @@ theorem reflectsIsomorphisms_map [Nontrivial S] (φ : R →+* S)
     · rw [show f = 𝟙 _ from hom_ext (by rw [hom_eq_zero f (Or.inl rfl), hom_id_zero])]
       infer_instance
     · refine absurd hiso (not_isIso_of_hom_eq_zero ((map φ).map f) ?_)
-      show φ (hom f) = 0
+      change φ (hom f) = 0
       rw [hom_eq_zero f (Or.inl rfl), map_zero]
     · refine absurd hiso (not_isIso_of_hom_eq_zero' ((map φ).map f) ?_)
-      show φ (hom f) = 0
+      change φ (hom f) = 0
       rw [hom_eq_zero f (Or.inr rfl), map_zero]
     · exact isIso_iff_isUnit.2 (hφ (hom f) (isIso_iff_isUnit.1 hiso))
 
@@ -305,12 +306,12 @@ def powSystem (t : R) : ℕ ⥤ SingleObjWithZero R where
   obj _ := .star
   map {n m} _ := ⟨t ^ (m - n), fun h => by simp at h⟩
   map_id n := hom_ext (by
-    show t ^ (n - n) = hom (𝟙 (SingleObjWithZero.star : SingleObjWithZero R))
+    change t ^ (n - n) = hom (𝟙 (SingleObjWithZero.star : SingleObjWithZero R))
     rw [hom_id_star, Nat.sub_self, pow_zero])
   map_comp {n m k} f g := hom_ext <| by
     have hnm : n ≤ m := leOfHom f
     have hmk : m ≤ k := leOfHom g
-    show t ^ (k - n) = t ^ (m - n) * t ^ (k - m)
+    change t ^ (k - n) = t ^ (m - n) * t ^ (k - m)
     rw [← pow_add]
     congr 1
     omega

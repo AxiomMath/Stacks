@@ -116,7 +116,7 @@ theorem baseDifferentialsTopMap_tmul (c : C) (ω : KaehlerDifferential A B) :
   let : Algebra C C' := f.toRingHom.toAlgebra
   have : IsScalarTower B C C' :=
     IsScalarTower.of_algebraMap_eq fun b => (f.commutes b).symm
-  show (f c * (1 : C')) ⊗ₜ[B] ω = f c ⊗ₜ[B] ω
+  change (f c * (1 : C')) ⊗ₜ[B] ω = f c ⊗ₜ[B] ω
   rw [mul_one]
 
 /-- **The adjoint of the first component is the cancellation isomorphism**, so it is invertible.

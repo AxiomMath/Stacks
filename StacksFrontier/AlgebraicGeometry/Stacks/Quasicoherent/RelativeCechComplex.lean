@@ -170,7 +170,7 @@ public theorem reindexMap_fac (F : Xᵒᵖ ⥤ AddCommGrpCat.{max uU uX vX w})
   let β : q.op ⋙ term p f F m ⟶ q.op ⋙ F := Functor.whiskerLeft
     (Tuple.reindex p f φ.toOrderHom).op
     ((Tuple.projection p f m).op.ranCounit.app ((Tuple.projection p f m).op ⋙ F))
-  show (((q.op.ranAdjunction AddCommGrpCat.{max uU uX vX w}).homEquiv _ _).symm
+  change (((q.op.ranAdjunction AddCommGrpCat.{max uU uX vX w}).homEquiv _ _).symm
     (((q.op.ranAdjunction AddCommGrpCat.{max uU uX vX w}).homEquiv _ _) β)) = β
   simp
 

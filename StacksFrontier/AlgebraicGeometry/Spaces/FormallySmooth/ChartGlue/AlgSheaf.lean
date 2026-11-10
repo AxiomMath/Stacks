@@ -141,7 +141,7 @@ theorem exists_of_map_specMap_eq (hff : (algebraMap (ringOf B S hS T') D).Faithf
       have hl₂ := (isPullback_specMap_tensor (D := D) B S hS T').lift_snd _ _ hst'
       obtain ⟨l, hl⟩ := BigFppfOver.exists_hom_of_comp_eq B S hS
         (Y := specObj B S hS T' (D ⊗[ringOf B S hS T'] D) hDD) l' (by
-          show l' ≫ specStr B S hS T' _ ≫ B.inclusion.map T'.hom = _
+          change l' ≫ specStr B S hS T' _ ≫ B.inclusion.map T'.hom = _
           rw [← specMap_comm B S hS T' (Algebra.TensorProduct.includeLeft :
             D →ₐ[ringOf B S hS T'] D ⊗[ringOf B S hS T'] D), Category.assoc]
           rw [← Category.assoc, hl₁]

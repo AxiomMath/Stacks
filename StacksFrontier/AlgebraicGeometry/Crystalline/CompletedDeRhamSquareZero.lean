@@ -309,8 +309,7 @@ public theorem differential_differential_toCompletedTensor
     differential p D Om wedge deRham M nabla hleib (i + 1)
       (differential p D Om wedge deRham M nabla hleib i
         (toCompletedTensor p D (Om i) M y)) = 0 := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul m ω =>
     exact differential_differential_tmul p D Om wedge deRham M nabla hleib dx theta s hext hexp
       hdx hcomm i m ω
@@ -484,7 +483,7 @@ public theorem isIntegrable : IsIntegrable 2 D (Om 1) dx nabla := by
 
 /-- The module of the counterexample is `p`-adically complete: the `p`-adic ideal is zero. -/
 public theorem isPAdicallyComplete : IsPAdicallyComplete 2 D M := by
-  show IsAdicComplete (pAdicIdeal (A := D) 2) M
+  change IsAdicComplete (pAdicIdeal (A := D) 2) M
   rw [pAdicIdeal_eq_bot]
   infer_instance
 

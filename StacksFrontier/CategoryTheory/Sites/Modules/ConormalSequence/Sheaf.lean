@@ -155,8 +155,7 @@ lemma tensorMapOfFacₛₗ_comp (hψ : ψ ≫ φ₂ = φ₁) (hχ : χ ≫ φ₃
     (t : (A₁.obj X ⧸ kernelIdeal φ₁ X) ⊗[A₁.obj X] ((differentialsPresheaf a₁).obj X)) :
     tensorMapOfFacₛₗ φ₁ φ₃ (ψ ≫ χ) hψχ a₁ a₃ hab X t =
       tensorMapOfFacₛₗ φ₂ φ₃ χ hχ a₂ a₃ hb X (tensorMapOfFacₛₗ φ₁ φ₂ ψ hψ a₁ a₂ ha X t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul b ω =>
       refine (TensorProduct.map_tmul _ _ b ω).trans ?_
       refine Eq.symm (Eq.trans (congrArg (tensorMapOfFacₛₗ φ₂ φ₃ χ hχ a₂ a₃ hb X)

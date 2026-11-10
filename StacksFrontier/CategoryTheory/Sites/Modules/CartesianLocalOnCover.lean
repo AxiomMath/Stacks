@@ -148,7 +148,7 @@ theorem bijective_restrictionBaseChangeOfSquare
   let modT := moduleOfRingHom M (R.map f.op ≫ R.map qt.op)
   let : IsScalarTower (R.obj (.op V)) (R.obj (.op W)) (R.obj (.op T)) := by
     refine IsScalarTower.of_algebraMap_eq (fun x => ?_)
-    show (R.map f.op ≫ R.map qt.op).hom x = ((R.map gw.op) ≫ (R.map pt.op)).hom x
+    change (R.map f.op ≫ R.map qt.op).hom x = ((R.map gw.op) ≫ (R.map pt.op)).hom x
     rw [hcomm]
   let : IsScalarTower (R.obj (.op V)) (R.obj (.op U)) (R.obj (.op T)) :=
     IsScalarTower.of_algebraMap_eq (fun _ => rfl)
@@ -164,7 +164,7 @@ theorem bijective_restrictionBaseChangeOfSquare
       e (a ⊗ₜ b) = algebraMap (R.obj (.op W)) (R.obj (.op T)) a *
         algebraMap (R.obj (.op U)) (R.obj (.op T)) b := by
     intro a b
-    show CommRingCat.pushoutTensorLinearEquiv _ _ _ _ (R.map f.op) (R.map gw.op) (R.map qt.op)
+    change CommRingCat.pushoutTensorLinearEquiv _ _ _ _ (R.map f.op) (R.map gw.op) (R.map qt.op)
       (R.map pt.op) hpo (b ⊗ₜ a) = _
     rw [CommRingCat.pushoutTensorLinearEquiv_tmul]
     exact mul_comm _ _
@@ -284,11 +284,11 @@ theorem isIso_restrictionBaseChange_of_cover
       restrictionLinearOf M (R.map f.op ≫ R.map (q i).op) (R.map f.op) (q i) rfl)
   let δ : ∀ c : I × I, M.obj (.op (W c.1)) →ₗ[R.obj (.op V)] M.obj (.op (Wp c)) := fun c =>
     restrictionLinearOf M (R.map (gp c).op) (R.map (g c.1).op) (w1 c) (by
-      show R.map ((w1 c ≫ g c.1)).op = _
+      change R.map ((w1 c ≫ g c.1)).op = _
       rw [op_comp, R.map_comp])
   let δ' : ∀ c : I × I, M.obj (.op (W c.2)) →ₗ[R.obj (.op V)] M.obj (.op (Wp c)) := fun c =>
     restrictionLinearOf M (R.map (gp c).op) (R.map (g c.2).op) (w2 c) (by
-      show R.map ((w1 c ≫ g c.1)).op = _
+      change R.map ((w1 c ≫ g c.1)).op = _
       rw [hw c, op_comp, R.map_comp])
   let ρ : ∀ c : I × I, M.obj (.op (T c.1)) →ₗ[R.obj (.op V)] M.obj (.op (Tp c)) := fun c =>
     restrictionLinearOf M (R.map f.op ≫ R.map (qp c).op)
@@ -330,7 +330,7 @@ theorem isIso_restrictionBaseChange_of_cover
       have hcompat : Presieve.Arrows.PullbackCompatible
           (M.presheaf ⋙ forget AddCommGrpCat) g (fun i => M.map (g i).op x) := by
         intro i j
-        show M.map (pullback.fst (g i) (g j)).op (M.map (g i).op x) =
+        change M.map (pullback.fst (g i) (g j)).op (M.map (g i).op x) =
           M.map (pullback.snd (g i) (g j)).op (M.map (g j).op x)
         rw [← M.map_comp_apply, ← M.map_comp_apply, ← op_comp, ← op_comp, pullback.condition]
       obtain ⟨t, -, huniq⟩ := hV _ hcompat
@@ -349,12 +349,12 @@ theorem isIso_restrictionBaseChange_of_cover
       · rintro ⟨t, rfl⟩
         funext c
         have e1 : (δ c (ε t c.1) : M.obj (.op (Wp c))) = M.map ((w1 c ≫ g c.1)).op t := by
-          show (M.map (w1 c).op (M.map (g c.1).op t) : M.obj (.op (Wp c))) = _
+          change (M.map (w1 c).op (M.map (g c.1).op t) : M.obj (.op (Wp c))) = _
           rw [← M.map_comp_apply, ← op_comp]
         have e2 : (δ' c (ε t c.2) : M.obj (.op (Wp c))) = M.map ((w2 c ≫ g c.2)).op t := by
-          show (M.map (w2 c).op (M.map (g c.2).op t) : M.obj (.op (Wp c))) = _
+          change (M.map (w2 c).op (M.map (g c.2).op t) : M.obj (.op (Wp c))) = _
           rw [← M.map_comp_apply, ← op_comp]
-        show δ c (ε t c.1) - δ' c (ε t c.2) = 0
+        change δ c (ε t c.1) - δ' c (ε t c.2) = 0
         rw [e1, e2, hw c]
         exact sub_self _
     · intro x y hxy
@@ -362,13 +362,13 @@ theorem isIso_restrictionBaseChange_of_cover
           (M.presheaf ⋙ forget AddCommGrpCat) (fun i => pullback.fst f (g i))
           (fun i => M.map (q i).op x) := by
         intro i j
-        show M.map (pullback.fst (q i) (q j)).op (M.map (q i).op x) =
+        change M.map (pullback.fst (q i) (q j)).op (M.map (q i).op x) =
           M.map (pullback.snd (q i) (q j)).op (M.map (q j).op x)
         rw [← M.map_comp_apply, ← M.map_comp_apply, ← op_comp, ← op_comp, pullback.condition]
       obtain ⟨t, -, huniq⟩ := hU _ hcompat
       exact (huniq x fun _ => rfl).trans (huniq y fun i => (congrFun hxy i).symm).symm
     · intro t c
-      show M.map (mc c).op (M.map (q c.1).op t) = M.map (mc' c).op (M.map (q c.2).op t)
+      change M.map (mc c).op (M.map (q c.1).op t) = M.map (mc' c).op (M.map (q c.2).op t)
       rw [← M.map_comp_apply, ← M.map_comp_apply, ← op_comp, ← op_comp, hmc1 c, hmc1' c]
     · intro c b x
       have hm : (M.map (mc c).op (M.map (pr c.1).op x) : M.obj (.op (Tp c)))
@@ -376,7 +376,7 @@ theorem isIso_restrictionBaseChange_of_cover
         rw [← M.map_comp_apply, ← M.map_comp_apply, ← op_comp, ← op_comp, hmc2 c]
       have hsc : ((R ⋙ forget₂ CommRingCat RingCat).map (mc c).op) ((R.map (q c.1).op).hom b)
           = (R.map (qp c).op).hom b := by
-        show ((R.map (q c.1).op) ≫ (R.map (mc c).op)).hom b = (R.map (qp c).op).hom b
+        change ((R.map (q c.1).op) ≫ (R.map (mc c).op)).hom b = (R.map (qp c).op).hom b
         rw [← R.map_comp, ← op_comp, hmc1 c]
       have key : ((R ⋙ forget₂ CommRingCat RingCat).map (mc c).op) ((R.map (q c.1).op).hom b) •
             (M.map (mc c).op (M.map (pr c.1).op x) : M.obj (.op (Tp c)))
@@ -391,7 +391,7 @@ theorem isIso_restrictionBaseChange_of_cover
         rw [← M.map_comp_apply, ← M.map_comp_apply, ← op_comp, ← op_comp, hmc2' c]
       have hsc : ((R ⋙ forget₂ CommRingCat RingCat).map (mc' c).op) ((R.map (q c.2).op).hom b)
           = (R.map (qp c).op).hom b := by
-        show ((R.map (q c.2).op) ≫ (R.map (mc' c).op)).hom b = (R.map (qp c).op).hom b
+        change ((R.map (q c.2).op) ≫ (R.map (mc' c).op)).hom b = (R.map (qp c).op).hom b
         rw [← R.map_comp, ← op_comp, hmc1' c]
       have key : ((R ⋙ forget₂ CommRingCat RingCat).map (mc' c).op) ((R.map (q c.2).op).hom b) •
             (M.map (mc' c).op (M.map (pr c.2).op y) : M.obj (.op (Tp c)))

@@ -125,7 +125,7 @@ private lemma isTransitionInvariant_preimage_base {X Y : Scheme.{u}} {f : X ⟶ 
   have h2 : (D.over.hom ≫ f) (pullback.fst (D.over.hom ≫ f) f w) =
       f (pullback.snd (D.over.hom ≫ f) f w) := by
     rw [← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply, pullback.condition]
-  show (D.over.hom ≫ f)
+  change (D.over.hom ≫ f)
       (pullback.snd f (D.over.hom ≫ f) (D.transitionPullbackIso.hom w)) ∈ Y₀
   rw [Scheme.Hom.comp_apply, h1, ← h2]
   exact hw
@@ -142,7 +142,7 @@ private lemma mem_target_image_source_preimage_self {S : Scheme.{u}} (G : Groupo
   have ht : G.identity.left ≫ G.target.left = 𝟙 G.objects.left := by
     rw [← Over.comp_left, G.target_identity, Over.id_left]
   refine ⟨G.identity.left.base u, ?_, ?_⟩
-  · show G.source.left.base (G.identity.left.base u) = u
+  · change G.source.left.base (G.identity.left.base u) = u
     rw [← Scheme.Hom.comp_apply, hs]
     rfl
   · rw [← Scheme.Hom.comp_apply, ht]
@@ -219,7 +219,7 @@ private lemma groupoidClass_subset_range (v : E.over.left) :
       (E.transitionPullbackIso.hom ((descentDatumGroupoidArrowsIso E).hom r)) =
       (descentDatumGroupoidArrowsIso E).hom r :=
     (Scheme.homeoOfIso E.transitionPullbackIso).symm_apply_apply _
-  show pullback.fst (E.over.hom ≫ f) f
+  change pullback.fst (E.over.hom ≫ f) f
       (E.transitionPullbackIso.inv
         (E.transitionPullbackIso.hom ((descentDatumGroupoidArrowsIso E).hom r))) = _
   rw [hinv, ← htgt]
@@ -279,7 +279,7 @@ private lemma exists_isTransitionInvariant_isAffineOpen_mem {d : ℕ} [IsFiniteL
         ∀ t ∈ groupoidClass E v, ∃ i, g i = t := by
     refine ⟨fun i => ((Function.invFun emb (ULift.up i) : groupoidClass E v) : E.over.left),
       fun i => (Function.invFun emb (ULift.up i)).2, fun t ht => ⟨(emb ⟨t, ht⟩).down, ?_⟩⟩
-    show ((Function.invFun emb (emb ⟨t, ht⟩) : groupoidClass E v) : E.over.left) = t
+    change ((Function.invFun emb (emb ⟨t, ht⟩) : groupoidClass E v) : E.over.left) = t
     rw [Function.leftInverse_invFun emb.injective ⟨t, ht⟩]
   obtain ⟨U, hUaff, hUmem⟩ :=
     hU ((E.over.hom ≫ f) v) g fun i => comp_eq_of_mem_groupoidClass E v (g i) (hgT i)

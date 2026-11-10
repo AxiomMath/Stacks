@@ -121,13 +121,12 @@ theorem equiv_corrClass (hγ : e.PreservesCycleClass)
     (d r i : ℤ) (t : Correspondence (fieldChowSituation k) X.obj.hom Y.obj.hom d r) :
     e.equiv (prod X Y) (W.corrClass X Y d r i t) =
       ((e.κ ^ i : Fˣ) : F) • W'.corrClass X Y d r i t := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add t t' h h' => rw [map_add, map_add, h, h', map_add, smul_add]
   | tmul q α =>
     rw [corrClass_tmul, corrClass_tmul, map_smul, smul_comm]
     congr 1
-    show e.equiv _ ((W.cycleClassCoord (prod X Y) i _ : W.grade (prod X Y) (2 * i)) :
+    change e.equiv _ ((W.cycleClassCoord (prod X Y) i _ : W.grade (prod X Y) (2 * i)) :
       W.H (prod X Y)) = _ • ((W'.cycleClassCoord (prod X Y) i _ : W'.grade (prod X Y) (2 * i)) :
         W'.H (prod X Y))
     rw [← coe_gradeEquiv, e.gradeEquiv_cycleClassCoord hγ, SetLike.val_smul]
@@ -170,6 +169,7 @@ theorem gradeEquiv_blockMap (hγ : e.PreservesCycleClass) (htr : e.PreservesTrac
       exact map_zero _
 
 set_option maxHeartbeats 1600000 in
+-- nested `DirectSum.induction_on` with `simp` over the graded correspondence maps
 /-- **`e` intertwines the actions of correspondences** `a ↦ pr₂,*(γ(c) ∪ pr₁^*a)`. -/
 theorem gradeEquiv_corrMap (hγ : e.PreservesCycleClass) (htr : e.PreservesTrace)
     (X Y : (SmoothProjectiveScheme k).FullSubcategory) (r n : ℤ) (c : Corr k X.obj.hom Y.obj.hom r)

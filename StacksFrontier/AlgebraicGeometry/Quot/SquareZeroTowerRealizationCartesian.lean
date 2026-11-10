@@ -107,7 +107,7 @@ theorem isPullback_towerRealizationHom
       rw [this]
       simp
     · simp only [towerRealizationClosedMap, limitBaseRangeIso, Space.rangeSpaceIso]
-      show (Rz.closedSpaceIso.inv.hom ≫ (towerStructureMap ξ 0).hom ≫
+      change (Rz.closedSpaceIso.inv.hom ≫ (towerStructureMap ξ 0).hom ≫
           (Space.rangeIsoPresheaf B S hS _ hj₀).hom) ≫ ((Space.rangeIsoPresheaf B S hS _ hj₀).inv ≫
           (Space.rangeIsoPresheaf B S hS _ hj).hom) =
         Rz.closedSpaceIso.inv.hom ≫ (towerStructureMap ξ 0).hom ≫
@@ -116,7 +116,7 @@ theorem isPullback_towerRealizationHom
         ((Category.assoc _ _ _).trans
           (congrArg ((towerStructureMap ξ 0).hom ≫ ·) (Iso.hom_inv_id_assoc _ _))))
     · simp
-    · show (Subfunctor.range (yoneda.map (c.ι.app 0))).ι ≫ 𝟙 _ =
+    · change (Subfunctor.range (yoneda.map (c.ι.app 0))).ι ≫ 𝟙 _ =
         ((Space.rangeIsoPresheaf B S hS _ hj₀).inv ≫ (Space.rangeIsoPresheaf B S hS _ hj).hom) ≫
           (Subfunctor.range (yoneda.map _)).ι ≫ yoneda.map (c.ι.app n)
       rw [Category.comp_id, Category.assoc, Space.rangeIsoPresheaf_hom,

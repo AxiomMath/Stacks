@@ -90,7 +90,7 @@ theorem isIso_of_isIso_unit_of_isIso_inverseImage_map {A : EtaleModules.{u, r} �
   rw [CategoryTheory.Functor.id_map] at hn
   have : IsIso (φ ≫ adj.unit.app ((etaleModuleDirectImage.{u, r} Λ j).obj B)) := by
     rw [hn]
-    show IsIso (adj.unit.app A ≫ (etaleModuleDirectImage.{u, r} Λ j).map
+    change IsIso (adj.unit.app A ≫ (etaleModuleDirectImage.{u, r} Λ j).map
       ((etaleModuleInverseImage.{u, r} Λ j).map φ))
     infer_instance
   exact IsIso.of_isIso_comp_right φ (adj.unit.app ((etaleModuleDirectImage.{u, r} Λ j).obj B))
@@ -168,7 +168,7 @@ theorem isIso_mapHomotopyCategoryPlusNatTrans_app_single {F G : A ⥤ B} [F.Addi
     HomologicalComplex.Hom.isIso_of_components _
   have : IsIso ((HomotopyCategory.Plus.ι B).map ((Functor.mapHomotopyCategoryPlusNatTrans α).app
       ((HomotopyCategory.Plus.singleFunctor A 0).obj M))) := by
-    show IsIso ((HomotopyCategory.quotient B (ComplexShape.up ℤ)).map
+    change IsIso ((HomotopyCategory.quotient B (ComplexShape.up ℤ)).map
       ((NatTrans.mapHomologicalComplex α (ComplexShape.up ℤ)).app
         ((HomologicalComplex.single A (ComplexShape.up ℤ) 0).obj M)))
     infer_instance
@@ -204,7 +204,8 @@ unit of `RF`, is the degreewise `α` followed by the derived-functor unit of `RF
 (`Stacks.Cohomology.DerivedBaseChangePlus.derivedBaseChangePlus_fac`), and both units are
 invertible on `H⁰` as `F` and `F'` are left exact
 (`CategoryTheory.Functor.isZero_and_preservesFiniteLimits_and_isIso_iff_preservesFiniteLimits`). -/
-theorem _root_.Stacks.Cohomology.DerivedBaseChangePlus.isIso_homology_zero_derivedBaseChangePlus_app_single
+theorem
+_root_.Stacks.Cohomology.DerivedBaseChangePlus.isIso_homology_zero_derivedBaseChangePlus_app_single
     (M : A) (hM : IsIso (α.app M)) :
     IsIso ((DerivedCategory.Plus.homologyFunctor B' 0).map
       ((Stacks.Cohomology.DerivedBaseChangePlus.derivedBaseChangePlus F F' G G' α).app
@@ -214,7 +215,7 @@ theorem _root_.Stacks.Cohomology.DerivedBaseChangePlus.isIso_homology_zero_deriv
   set H0 := DerivedCategory.Plus.homologyFunctor B' 0
   refine (NatTrans.isIso_app_iff_of_iso (Functor.whiskerRight β H0)
     ((Functor.singleFunctorPlusIsoCompQh (A := A) 0).app M).symm).1 ?_
-  show IsIso (H0.map (β.app (DerivedCategory.Plus.Qh.obj K)))
+  change IsIso (H0.map (β.app (DerivedCategory.Plus.Qh.obj K)))
   have hfac := congrArg H0.map
     (Stacks.Cohomology.DerivedBaseChangePlus.derivedBaseChangePlus_fac F F' G G' α K)
   rw [Functor.map_comp] at hfac

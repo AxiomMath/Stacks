@@ -48,11 +48,11 @@ theorem Module.free_of_isTorsionFree_of_ringKrullDim_le_one
   · let : Field R := hField.toField
     infer_instance
   · have hone : (1 : WithBot ℕ∞) ≤ ringKrullDim R := by
-      show (1 : WithBot ℕ∞) ≤ Order.krullDim (PrimeSpectrum R)
+      change (1 : WithBot ℕ∞) ≤ Order.krullDim (PrimeSpectrum R)
       rw [Order.one_le_krullDim_iff]
       refine ⟨⟨⊥, Ideal.isPrime_bot⟩, ⟨IsLocalRing.maximalIdeal R,
         (IsLocalRing.maximalIdeal.isMaximal R).isPrime⟩, ?_⟩
-      show (⊥ : Ideal R) < IsLocalRing.maximalIdeal R
+      change (⊥ : Ideal R) < IsLocalRing.maximalIdeal R
       exact bot_lt_iff_ne_bot.mpr fun h =>
         hField (IsLocalRing.isField_iff_maximalIdeal_eq.mpr h)
     have hRegDim : IsRegularLocalRing R ∧ ringKrullDim R = 1 :=

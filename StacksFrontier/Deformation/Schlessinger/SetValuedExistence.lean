@@ -60,7 +60,7 @@ isomorphism.
 
 A category cofibered in sets over `𝒞_Λ` is represented, as in Stacks 06HJ and 06HY, by the
 category of elements `F.Elements` of a set-valued functor together with its projection
-`CategoryOfElements.π F`; `CategoryTheory.BasedCategory.ofFunctor` turns that projection into
+`Elements.π F`; `CategoryTheory.BasedCategory.ofFunctor` turns that projection into
 a based category, and it is made locally `implicit_reducible` as in
 `StacksFrontier.Deformation.Formal.VersalObject.IsomorphismClasses`, because a based category and
 the based category of its own structure functor agree only up to unfolding that definition.
@@ -105,9 +105,9 @@ variable {C : Type u} [Category.{v} C]
 /-- The fibrewise isomorphism class of an element of `F(A)`, that element being viewed as an
 object of the fibre of the category of elements of `F` over `A`. -/
 public noncomputable def classOfElement (F : C ⥤ Type t)
-    (hq : IsCofiberedInGroupoids (CategoryOfElements.π F)) {A : C} (a : F.obj A) :
-    (isomorphismClasses (BasedCategory.ofFunctor (CategoryOfElements.π F)) hq).obj A :=
-  classOf (BasedCategory.ofFunctor (CategoryOfElements.π F)) hq ⟨F.elementsMk A a, rfl⟩
+    (hq : IsCofiberedInGroupoids (Elements.π F)) {A : C} (a : F.obj A) :
+    (isomorphismClasses (BasedCategory.ofFunctor (Elements.π F)) hq).obj A :=
+  classOf (BasedCategory.ofFunctor (Elements.π F)) hq ⟨F.elementsMk A a, rfl⟩
 
 /-- A category of elements is its own functor of fibrewise isomorphism classes: taking the
 class of an element is a bijection `F(A) → \overline{F}(A)`.
@@ -116,26 +116,26 @@ It is surjective because every object of the fibre over `A` is an element of `F(
 injective because an isomorphism in that fibre lies over the identity of `A`, so the
 functoriality equation it carries identifies its two elements. -/
 public theorem bijective_classOfElement (F : C ⥤ Type t)
-    (hq : IsCofiberedInGroupoids (CategoryOfElements.π F)) (A : C) :
+    (hq : IsCofiberedInGroupoids (Elements.π F)) (A : C) :
     Function.Bijective (classOfElement F hq (A := A)) := by
   refine ⟨fun a b hab ↦ ?_, fun z ↦ ?_⟩
   · have hcast := congrArg (cast (isomorphismClasses_obj
-      (BasedCategory.ofFunctor (CategoryOfElements.π F)) hq A)) hab
-    have hqa := classOf_eq (BasedCategory.ofFunctor (CategoryOfElements.π F)) hq
+      (BasedCategory.ofFunctor (Elements.π F)) hq A)) hab
+    have hqa := classOf_eq (BasedCategory.ofFunctor (Elements.π F)) hq
       (A := A) ⟨F.elementsMk A a, rfl⟩
-    have hqb := classOf_eq (BasedCategory.ofFunctor (CategoryOfElements.π F)) hq
+    have hqb := classOf_eq (BasedCategory.ofFunctor (Elements.π F)) hq
       (A := A) ⟨F.elementsMk A b, rfl⟩
     rw [classOfElement, classOfElement, hqa, hqb] at hcast
     obtain ⟨i⟩ := Quotient.exact hcast
     have hbase : i.hom.1.hom = 𝟙 A := by
-      have : (CategoryOfElements.π F).IsHomLift (𝟙 A) i.hom.1 := i.hom.2
-      have h := (IsHomLift.fac (p := CategoryOfElements.π F) (𝟙 A) i.hom.1).symm
-      simp only [CategoryOfElements.π] at h
+      have : (Elements.π F).IsHomLift (𝟙 A) i.hom.1 := i.hom.2
+      have h := (IsHomLift.fac (p := Elements.π F) (𝟙 A) i.hom.1).symm
+      simp only [Elements.π] at h
       erw [eqToHom_refl, Category.id_comp, Category.comp_id] at h
       exact h
     simpa [hbase] using i.hom.1.map_val
   · obtain ⟨⟨@⟨B, b⟩, hB⟩, hx⟩ :=
-      classOf_surjective (BasedCategory.ofFunctor (CategoryOfElements.π F)) hq A z
+      classOf_surjective (BasedCategory.ofFunctor (Elements.π F)) hq A z
     change B = A at hB
     cases hB
     exact ⟨b, hx⟩
@@ -143,28 +143,27 @@ public theorem bijective_classOfElement (F : C ⥤ Type t)
 /-- The canonical bijection from the value of a set-valued functor at `A` to the value at `A`
 of the functor of fibrewise isomorphism classes of its category of elements. -/
 public noncomputable def elementsIsomorphismClassesEquiv (F : C ⥤ Type t)
-    (hq : IsCofiberedInGroupoids (CategoryOfElements.π F)) (A : C) :
+    (hq : IsCofiberedInGroupoids (Elements.π F)) (A : C) :
     F.obj A ≃
-      (isomorphismClasses (BasedCategory.ofFunctor (CategoryOfElements.π F)) hq).obj A :=
+      (isomorphismClasses (BasedCategory.ofFunctor (Elements.π F)) hq).obj A :=
   Equiv.ofBijective _ (bijective_classOfElement F hq A)
 
 /-- The canonical bijection of `Deformation.elementsIsomorphismClassesEquiv` is natural: the
 class of a functorial image is the image of a class. -/
 public theorem elementsIsomorphismClassesEquiv_naturality (F : C ⥤ Type t)
-    (hq : IsCofiberedInGroupoids (CategoryOfElements.π F)) {A B : C} (f : A ⟶ B)
+    (hq : IsCofiberedInGroupoids (Elements.π F)) {A B : C} (f : A ⟶ B)
     (a : F.obj A) :
     elementsIsomorphismClassesEquiv F hq B (F.map f a) =
-      (isomorphismClasses (BasedCategory.ofFunctor (CategoryOfElements.π F)) hq).map f
+      (isomorphismClasses (BasedCategory.ofFunctor (Elements.π F)) hq).map f
         (elementsIsomorphismClassesEquiv F hq A a) := by
   let g : F.elementsMk A a ⟶ F.elementsMk B (F.map f a) :=
     Functor.Elements.homMk f rfl
-  have : (BasedCategory.ofFunctor (CategoryOfElements.π F)).p.IsHomLift f g :=
-    IsHomLift.of_fac' (CategoryOfElements.π F) f g rfl rfl
+  have : (BasedCategory.ofFunctor (Elements.π F)).p.IsHomLift f g :=
+    IsHomLift.of_fac' (Elements.π F) f g rfl rfl
       (by
-        simp only [g, Functor.Elements.homMk, CategoryOfElements.π]
-        erw [eqToHom_refl, Category.id_comp, Category.comp_id]
-        rfl)
-  exact (map_classOf (BasedCategory.ofFunctor (CategoryOfElements.π F)) hq f
+        simp only [g, Functor.Elements.homMk, Elements.π]
+        erw [eqToHom_refl, Category.id_comp, Category.comp_id])
+  exact (map_classOf (BasedCategory.ofFunctor (Elements.π F)) hq f
     ⟨F.elementsMk A a, rfl⟩ ⟨F.elementsMk B (F.map f a), rfl⟩ g).symm
 
 end
@@ -177,12 +176,14 @@ variable {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
 
 variable (F : ArtinianLocalAlgCat.{u, max v w, w} Λ k ⥤ Type t)
     (hpre : IsPredeformationCategory.{u, v, w}
-      (BasedCategory.ofFunctor (CategoryOfElements.π F)).p)
+      (BasedCategory.ofFunctor (Elements.π F)).p)
     [Fact (IsPredeformationCategory.{u, v, w}
-      (BasedCategory.ofFunctor (CategoryOfElements.π F)).p)]
-    [Fact (SchlessingerConditionS2 (CategoryOfElements.π
-      (isomorphismClasses (BasedCategory.ofFunctor (CategoryOfElements.π F))
+      (BasedCategory.ofFunctor (Elements.π F)).p)]
+    [Fact (SchlessingerConditionS2 (Elements.π
+      (isomorphismClasses (BasedCategory.ofFunctor (Elements.π F))
         hpre.cofibered)))]
+
+include hpre
 
 /-- The additive group underlying the canonical `k`-vector-space structure of Stacks 06IH on
 the tangent space `TF = F(k[ε])` of a set-valued predeformation functor whose
@@ -205,7 +206,7 @@ public noncomputable def setValuedTangentSpaceAddEquiv :
     letI := setValuedTangentSpaceAddCommGroup.{u, v, w, t} F hpre
     tangentSpaceArtinian.{u, w, v} Λ k F ≃+
       tangentSpaceArtinian.{u, w, v} Λ k
-        (isomorphismClasses (BasedCategory.ofFunctor (CategoryOfElements.π F))
+        (isomorphismClasses (BasedCategory.ofFunctor (Elements.π F))
           hpre.cofibered) :=
   letI := setValuedTangentSpaceAddCommGroup.{u, v, w, t} F hpre
   ⟨elementsIsomorphismClassesEquiv F hpre.cofibered (artinianDualNumbers Λ k),
@@ -230,7 +231,7 @@ public noncomputable def setValuedTangentSpaceLinearEquiv :
     letI := setValuedTangentSpaceModule.{u, v, w, t} F hpre
     tangentSpaceArtinian.{u, w, v} Λ k F ≃ₗ[k]
       tangentSpaceArtinian.{u, w, v} Λ k
-        (isomorphismClasses (BasedCategory.ofFunctor (CategoryOfElements.π F))
+        (isomorphismClasses (BasedCategory.ofFunctor (Elements.π F))
           hpre.cofibered) :=
   letI := setValuedTangentSpaceAddCommGroup.{u, v, w, t} F hpre
   letI := setValuedTangentSpaceModule.{u, v, w, t} F hpre
@@ -249,7 +250,7 @@ public theorem finiteDimensional_tangentSpace_isomorphismClasses_of_setValued
          letI := setValuedTangentSpaceModule.{u, v, w, t} F hpre
          FiniteDimensional k (tangentSpaceArtinian.{u, w, v} Λ k F)) :
     FiniteDimensional k (tangentSpaceArtinian.{u, w, v} Λ k
-      (isomorphismClasses (BasedCategory.ofFunctor (CategoryOfElements.π F))
+      (isomorphismClasses (BasedCategory.ofFunctor (Elements.π F))
         hpre.cofibered)) :=
   @LinearEquiv.finiteDimensional k (tangentSpaceArtinian.{u, w, v} Λ k F) _
     (setValuedTangentSpaceAddCommGroup.{u, v, w, t} F hpre)
@@ -273,13 +274,13 @@ private theorem facts_elements_isomorphismClasses
         ∀ (g : B ⟶ A) (gε : B ⟶ Aε) (hPB : IsPullback gε g e d),
           Function.Bijective (fibreProductComparison F g gε d e hPB.w)) :
     Fact (IsPredeformationCategory.{u, v, w}
-        (BasedCategory.ofFunctor (CategoryOfElements.π F)).p) ∧
-      Fact (SchlessingerConditionS2 (CategoryOfElements.π
-        (isomorphismClasses (BasedCategory.ofFunctor (CategoryOfElements.π F))
+        (BasedCategory.ofFunctor (Elements.π F)).p) ∧
+      Fact (SchlessingerConditionS2 (Elements.π
+        (isomorphismClasses (BasedCategory.ofFunctor (Elements.π F))
           ((isPredeformationCategory_iff F).2 hpre).cofibered))) :=
   ⟨⟨(isPredeformationCategory_iff F).2 hpre⟩,
     ⟨schlessingerConditionS2_of_isIsomorphismClasses
-      (BasedCategory.ofFunctor (CategoryOfElements.π F))
+      (BasedCategory.ofFunctor (Elements.π F))
       ((isPredeformationCategory_iff F).2 hpre).cofibered
       ((schlessingerConditionS2_elements_iff F).2 hH2)
       (Or.inl ((isPredeformationCategory_iff F).2 hpre))⟩⟩
@@ -319,13 +320,13 @@ public theorem exists_versalFormalObject_of_schlessingerConditions
           Function.Bijective (fibreProductComparison F g gε d e hPB.w))
     (hH3 :
       letI : Fact (IsPredeformationCategory.{u, v, w}
-          (BasedCategory.ofFunctor (CategoryOfElements.π F)).p) :=
+          (BasedCategory.ofFunctor (Elements.π F)).p) :=
         ⟨(isPredeformationCategory_iff F).2 hpre⟩
-      letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
-          (isomorphismClasses (BasedCategory.ofFunctor (CategoryOfElements.π F))
+      letI : Fact (SchlessingerConditionS2 (Elements.π
+          (isomorphismClasses (BasedCategory.ofFunctor (Elements.π F))
             ((isPredeformationCategory_iff F).2 hpre).cofibered))) :=
         ⟨schlessingerConditionS2_of_isIsomorphismClasses
-          (BasedCategory.ofFunctor (CategoryOfElements.π F))
+          (BasedCategory.ofFunctor (Elements.π F))
           ((isPredeformationCategory_iff F).2 hpre).cofibered
           ((schlessingerConditionS2_elements_iff F).2 hH2)
           (Or.inl ((isPredeformationCategory_iff F).2 hpre))⟩
@@ -334,10 +335,10 @@ public theorem exists_versalFormalObject_of_schlessingerConditions
       letI := setValuedTangentSpaceModule.{u, v, w, t} F
         ((isPredeformationCategory_iff F).2 hpre)
       FiniteDimensional k (tangentSpaceArtinian.{u, w, v} Λ k F)) :
-    ∃ ξ : FormalObject (CategoryOfElements.π F),
+    ∃ ξ : FormalObject (Elements.π F),
       IsVersal ((isPredeformationCategory_iff F).2 hpre).cofibered ξ := by
   obtain ⟨_, _⟩ := facts_elements_isomorphismClasses.{u, v, w, t} F hpre hH2
-  exact exists_versalFormalObject Λ k (BasedCategory.ofFunctor (CategoryOfElements.π F))
+  exact exists_versalFormalObject Λ k (BasedCategory.ofFunctor (Elements.π F))
     ((isPredeformationCategory_iff F).2 hpre)
     ((schlessingerConditionS1_elements_iff F).2 hH1)
     ((schlessingerConditionS2_elements_iff F).2 hH2)
@@ -370,13 +371,13 @@ public theorem exists_hull_of_schlessingerConditions
           Function.Bijective (fibreProductComparison F g gε d e hPB.w))
     (hH3 :
       letI : Fact (IsPredeformationCategory.{u, v, w}
-          (BasedCategory.ofFunctor (CategoryOfElements.π F)).p) :=
+          (BasedCategory.ofFunctor (Elements.π F)).p) :=
         ⟨(isPredeformationCategory_iff F).2 hpre⟩
-      letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
-          (isomorphismClasses (BasedCategory.ofFunctor (CategoryOfElements.π F))
+      letI : Fact (SchlessingerConditionS2 (Elements.π
+          (isomorphismClasses (BasedCategory.ofFunctor (Elements.π F))
             ((isPredeformationCategory_iff F).2 hpre).cofibered))) :=
         ⟨schlessingerConditionS2_of_isIsomorphismClasses
-          (BasedCategory.ofFunctor (CategoryOfElements.π F))
+          (BasedCategory.ofFunctor (Elements.π F))
           ((isPredeformationCategory_iff F).2 hpre).cofibered
           ((schlessingerConditionS2_elements_iff F).2 hH2)
           (Or.inl ((isPredeformationCategory_iff F).2 hpre))⟩
@@ -385,15 +386,15 @@ public theorem exists_hull_of_schlessingerConditions
       letI := setValuedTangentSpaceModule.{u, v, w, t} F
         ((isPredeformationCategory_iff F).2 hpre)
       FiniteDimensional k (tangentSpaceArtinian.{u, w, v} Λ k F)) :
-    ∃ ξ : FormalObject (CategoryOfElements.π F),
+    ∃ ξ : FormalObject (Elements.π F),
       IsHull ((isPredeformationCategory_iff F).2 hpre).cofibered ξ := by
   obtain ⟨_, _⟩ := facts_elements_isomorphismClasses.{u, v, w, t} F hpre hH2
   obtain ⟨ξ, hminimal, hbijective⟩ :=
     exists_minimalVersal_hasBijectiveDifferential_of_separable
-      (BasedCategory.ofFunctor (CategoryOfElements.π F))
+      (BasedCategory.ofFunctor (Elements.π F))
       ((isPredeformationCategory_iff F).2 hpre)
       (exists_minimalVersal_hasBijectiveDifferentialOnDerivationOrbits Λ k
-        (BasedCategory.ofFunctor (CategoryOfElements.π F))
+        (BasedCategory.ofFunctor (Elements.π F))
         ((isPredeformationCategory_iff F).2 hpre)
         ((schlessingerConditionS1_elements_iff F).2 hH1)
         ((schlessingerConditionS2_elements_iff F).2 hH2)
@@ -425,13 +426,13 @@ public theorem exists_hull_of_schlessingerConditions_isClassical
           Function.Bijective (fibreProductComparison F g gε d e hPB.w))
     (hH3 :
       letI : Fact (IsPredeformationCategory.{u, v, w}
-          (BasedCategory.ofFunctor (CategoryOfElements.π F)).p) :=
+          (BasedCategory.ofFunctor (Elements.π F)).p) :=
         ⟨(isPredeformationCategory_iff F).2 hpre⟩
-      letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
-          (isomorphismClasses (BasedCategory.ofFunctor (CategoryOfElements.π F))
+      letI : Fact (SchlessingerConditionS2 (Elements.π
+          (isomorphismClasses (BasedCategory.ofFunctor (Elements.π F))
             ((isPredeformationCategory_iff F).2 hpre).cofibered))) :=
         ⟨schlessingerConditionS2_of_isIsomorphismClasses
-          (BasedCategory.ofFunctor (CategoryOfElements.π F))
+          (BasedCategory.ofFunctor (Elements.π F))
           ((isPredeformationCategory_iff F).2 hpre).cofibered
           ((schlessingerConditionS2_elements_iff F).2 hH2)
           (Or.inl ((isPredeformationCategory_iff F).2 hpre))⟩
@@ -440,7 +441,7 @@ public theorem exists_hull_of_schlessingerConditions_isClassical
       letI := setValuedTangentSpaceModule.{u, v, w, t} F
         ((isPredeformationCategory_iff F).2 hpre)
       FiniteDimensional k (tangentSpaceArtinian.{u, w, v} Λ k F)) :
-    ∃ ξ : FormalObject (CategoryOfElements.π F),
+    ∃ ξ : FormalObject (Elements.π F),
       IsHull ((isPredeformationCategory_iff F).2 hpre).cofibered ξ := by
   let : IsNoetherianRing Λ := hΛ.isNoetherianRing
   let : Module.Finite Λ k := hΛ.moduleFinite

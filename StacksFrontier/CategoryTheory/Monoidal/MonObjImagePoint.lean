@@ -447,7 +447,7 @@ representation to the induced representation**, conjugated by the comparison of 
 theorem imageRep_naturality :
     e.hom ≫ imageRep D q = imageRep C p ≫ (internalEndCongr (imageIsoLeft e h)).hom := by
   apply Mon.Hom.ext'
-  show e.hom.hom ≫ imageRepHom D q = imageRepHom C p ≫ internalEndCongrHom (imageIsoLeft e h)
+  change e.hom.hom ≫ imageRepHom D q = imageRepHom C p ≫ internalEndCongrHom (imageIsoLeft e h)
   apply uncurry_injective
   rw [uncurry_natural_left, uncurry_natural_left, imageRepHom, imageRepHom, uncurry_curry,
     uncurry_internalEndCongrHom, whisker_exchange_assoc,

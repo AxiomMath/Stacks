@@ -222,7 +222,9 @@ public theorem exists_externalTensor_triangEnvelope_diagonal
   have hCcoh : ∀ j : ℕ, (C.X j).IsCoherent := by
     intro j
     cases j with
-    | zero => exact AlgebraicGeometry.isCoherent_of_moduleIso (h0.symm) (isCoherent_diagonalUnit (R := k) f)
+    | zero =>
+      exact AlgebraicGeometry.isCoherent_of_moduleIso (h0.symm)
+        (isCoherent_diagonalUnit (R := k) f)
     | succ j =>
       exact AlgebraicGeometry.isCoherent_of_moduleIso (hterm j).symm
         (isCoherent_externalTensorProduct (R := k) f (E j) (G j) (hE j) (hG j))

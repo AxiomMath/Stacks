@@ -117,7 +117,7 @@ private theorem adjoint_eq (A C : Object B S hS) (m : A ⟶ C) :
   let d := Classical.choice (exists_categoryData (B := B) (S := S) (hS := hS))
   let : Category (Object B S hS) := d.category
   let r := (Equiv.cast (d.hom_type A C)) m
-  show (Scheme.Modules.pullbackPushforwardAdjunction
+  change (Scheme.Modules.pullbackPushforwardAdjunction
       (Object.schemeMap r.1)).homEquiv C.module A.module
       (((Scheme.Modules.pullbackPushforwardAdjunction
         (Object.schemeMap r.1)).homEquiv C.module A.module).symm r.2) = r.2
@@ -222,7 +222,7 @@ private theorem isStronglyCartesian_of_isIso
   obtain rfl : rawBase = g₀ ≫ e.1 :=
     ((congrArg Sigma.fst hraw).symm.trans ((isHomLift_iff_raw_base_eq _ τ).mp hτ)).trans (by
       rw [hbaseM]
-      show eqToHom rX.symm ≫ (g ≫ p.map m) ≫ eqToHom rC =
+      change eqToHom rX.symm ≫ (g ≫ p.map m) ≫ eqToHom rC =
         (eqToHom rX.symm ≫ g ≫ eqToHom rA) ≫ (eqToHom rA.symm ≫ p.map m ≫ eqToHom rC)
       simp [Category.assoc])
   obtain ⟨γ, hγ, hγuniq⟩ := FMap.existsUnique_comp_of_isIso e.1 e.2 g₀ rawMod
@@ -351,7 +351,7 @@ public theorem isStronglyCartesian_iff :
   obtain ⟨η, _, hη⟩ := existsUnique_moduleFactor m hsc A.module A.quasicoherent e.2
   have hγ' : γ ≫ e.2 = 𝟙 A.module := by
     apply (hη _ ?_).trans (hη (𝟙 A.module) (Category.comp_id e.2)).symm
-    show e.2 ≫ (γ ≫ e.2) = e.2
+    change e.2 ≫ (γ ≫ e.2) = e.2
     rw [← Category.assoc, hγ, Category.id_comp]
   exact ⟨⟨γ, hγ, hγ'⟩⟩
 

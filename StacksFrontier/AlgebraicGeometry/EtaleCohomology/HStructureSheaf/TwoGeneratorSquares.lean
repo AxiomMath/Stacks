@@ -167,7 +167,7 @@ theorem quasiIso_cSquare_perfectionModule_of_twoGenerator (sq : GeneratorAlmostB
       ((Stacks.AlmostBlowUp.bijective_appTop_exceptionalToCenter A f₁ f₂).2.comp
         (ConcreteCategory.bijective_of_isIso (iZ.inv.app ⊤)).2)
   have hcover := AlgebraicGeometry.Proj.basicOpen_sup_basicOpen_eq_top
-    (Stacks.AlmostBlowUp.exceptionalGrading A f₁ f₂) he₀ he₁ hespan
+    (Stacks.AlmostBlowUp.exceptionalGrading A f₁ f₂) hespan
   have : CompactSpace (Proj (Stacks.AlmostBlowUp.exceptionalGrading A f₁ f₂)) := by
     refine ⟨?_⟩
     have h₀ := (Proj.isAffineOpen_basicOpen (Stacks.AlmostBlowUp.exceptionalGrading A f₁ f₂)

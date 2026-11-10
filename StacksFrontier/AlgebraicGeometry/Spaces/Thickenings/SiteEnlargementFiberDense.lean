@@ -216,7 +216,7 @@ theorem glueValue_restrict (hg' : U'.obj.hom ≫ ((changeBigSite B B' h S hS).ma
   let p := (chartTransportFullyFaithful B B' h S hS X).preimage (n ≫ c.lift)
   have hp : (chartTransport B B' h S hS X).map p = n ≫ c.lift :=
     (chartTransportFullyFaithful B B' h S hS X).map_preimage _
-  show F'.obj.map n.op (F'.obj.map c.lift.op _) = _
+  change F'.obj.map n.op (F'.obj.map c.lift.op _) = _
   rw [map_op_map_op_apply, ← hp]
   refine (x.naturality p _ _ (by
     rw [← glueMap_comp]; exact glueMap_comm g' hg' _)).symm.trans ?_

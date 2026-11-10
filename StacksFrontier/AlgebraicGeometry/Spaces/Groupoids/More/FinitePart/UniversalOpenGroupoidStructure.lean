@@ -147,6 +147,7 @@ open AlgebraicGeometry CategoryTheory CategoryTheory.Limits
 universe u
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` on presheaves over the big fppf site is expensive
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance AlgebraicGeometry.Space.hasPullbacks_presheaf_universalOpenGroupoidStructure
@@ -274,7 +275,7 @@ public theorem arrowMap_comp_source (F : FinitePartUniversalOpen G) :
   have hbase : F.objectProjection.hom = F.universalOpen.toBase.hom :=
     congrArg (fun k : F.objects ⟶ G.objects => k.hom) F.universalOpen_base.symm
   rw [ObjectProperty.FullSubcategory.comp_hom, ObjectProperty.FullSubcategory.comp_hom, hbase]
-  show F.universalOpen.subspace.ι ≫
+  change F.universalOpen.subspace.ι ≫
       pullback.snd F.universalOpen.toBase.hom G.source.hom ≫ G.source.hom =
     (F.universalOpen.subspace.ι ≫
       pullback.fst F.universalOpen.toBase.hom G.source.hom) ≫ F.universalOpen.toBase.hom
@@ -372,7 +373,7 @@ is the statement that the arrow `z` of a triple `(u, Z, z)` lies in `Z`. -/
 public theorem tautologicalSection_mem (F : FinitePartUniversalOpen G)
     (V : (AlgebraicGeometry.BigFppfOver C S hS)ᵒᵖ) (y : F.arrows.obj.obj V) :
     F.tautologicalSection.app V y ∈ F.sourcePair.subspace.obj V := by
-  show (AlgebraicGeometry.Space.baseChangeAmbientMap C S hS G.source
+  change (AlgebraicGeometry.Space.baseChangeAmbientMap C S hS G.source
     F.universalOpen.toBase F.source).app V (F.tautologicalSection.app V y) ∈
       F.universalOpen.subspace.obj V
   rw [show (AlgebraicGeometry.Space.baseChangeAmbientMap C S hS G.source
@@ -436,7 +437,7 @@ public theorem targetUnitSection_comp_untwistMap (F : FinitePartUniversalOpen G)
         (G.target.hom.app V (F.arrowMap.hom.app V y))) =
         G.target.hom.app V (F.arrowMap.hom.app V y) := by
       rwa [← hfstUp, ← hsndUp]
-    show G.comp.hom.app V
+    change G.comp.hom.app V
         ((untwistPair G F.arrowMap (F.arrowMap ≫ G.target) rfl).app V
           (F.targetUnitSection.app V y)) = F.arrowMap.hom.app V y
     exact ((comp_hom_app G V _ hcondUp).trans
@@ -452,7 +453,7 @@ public theorem targetPair_containsUnit (F : FinitePartUniversalOpen G) :
   refine ⟨Subfunctor.lift F.targetUnitSection ?_, Subfunctor.lift_ι _ _⟩
   intro V y hy
   obtain ⟨y, rfl⟩ := hy
-  show (untwistMap G F.arrowMap (F.source ≫ F.universalOpen.toBase)
+  change (untwistMap G F.arrowMap (F.source ≫ F.universalOpen.toBase)
       (F.arrowMap ≫ G.target) F.arrowMap_comp_source' rfl).app V
       (F.targetUnitSection.app V y) ∈ F.sourcePair.subspace.obj V
   rw [show (untwistMap G F.arrowMap (F.source ≫ F.universalOpen.toBase)
@@ -496,7 +497,7 @@ public theorem arrowMap_comp_target (F : FinitePartUniversalOpen G) :
   apply ObjectProperty.hom_ext
   rw [ObjectProperty.FullSubcategory.comp_hom, ObjectProperty.FullSubcategory.comp_hom,
     F.objectProjection_spec]
-  show F.arrowMap.hom ≫ G.target.hom =
+  change F.arrowMap.hom ≫ G.target.hom =
     (Subfunctor.lift F.targetClassify F.targetClassify_range ≫ F.objectsEquiv.inv) ≫
       F.objectsEquiv.hom ≫
       (finitePartWithSection C S hS G.source F.unit F.unit_source).toSubfunctor.ι ≫

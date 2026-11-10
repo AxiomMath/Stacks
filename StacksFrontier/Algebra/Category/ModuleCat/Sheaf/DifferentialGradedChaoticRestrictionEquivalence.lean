@@ -98,6 +98,7 @@ abbrev homotopyAdjunction : homotopyExtension F A ⊣ homotopyRestriction F A :=
 /-! ### Restriction on the derived categories -/
 
 
+omit [∀ U : C, IsCofiltered (StructuredArrow U F)] in
 /-- Restriction followed by the localization `K(A') ⥤ D(A', d)` inverts quasi-isomorphisms. -/
 theorem quasiIsomorphisms_isInvertedBy_restriction :
     (quasiIsomorphisms.{u, u, u} A).IsInvertedBy
@@ -324,6 +325,7 @@ theorem isIso_derivedAdjunction_counit_app (K : derivedCategory.{u, u, u} A)
 
 /-! ### Quasi-coherence -/
 
+omit [∀ U : C, IsCofiltered (StructuredArrow U F)] in
 /-- **Restriction preserves quasi-coherence.** -/
 theorem qc_derivedRestriction (K : derivedCategory.{u, u, u} A) (hK : Chaotic.QC A K) :
     Chaotic.QC (A.restrict F) ((derivedRestriction F A).obj K) := by

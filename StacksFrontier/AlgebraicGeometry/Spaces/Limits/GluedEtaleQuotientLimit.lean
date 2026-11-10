@@ -103,10 +103,10 @@ theorem relProj_naturality {a b : J} (g : a ⟶ b) :
   have nV : πV.app b = πV.app a ≫ D.ambient.map g := ((Cone.mk Vinf πV).w g).symm
   have nW : πW.app b = πW.app a ≫ D.chart.map g := ((Cone.mk Winf πW).w g).symm
   apply relation_hom_ext
-  · show inlV winf hwinf ιinf ≫ D.relProj winf hwinf ιinf πU πW πV hwU hιV a ≫
+  · change inlV winf hwinf ιinf ≫ D.relProj winf hwinf ιinf πU πW πV hwU hιV a ≫
       D.relTransition g = inlV winf hwinf ιinf ≫ D.relProj winf hwinf ιinf πU πW πV hwU hιV b
     rw [inlV_relationMap_assoc, inlV_relationMap, inlV_relationMap, nV, Category.assoc]
-  · show inrQ winf hwinf ιinf ≫ D.relProj winf hwinf ιinf πU πW πV hwU hιV a ≫
+  · change inrQ winf hwinf ιinf ≫ D.relProj winf hwinf ιinf πU πW πV hwU hιV a ≫
       D.relTransition g = inrQ winf hwinf ιinf ≫ D.relProj winf hwinf ιinf πU πW πV hwU hιV b
     rw [inrQ_relationMap_assoc, inrQ_relationMap, inrQ_relationMap, ← Category.assoc]
     congr 1
@@ -220,12 +220,12 @@ theorem isPullback_limitChart_kernel :
   have fac₁ : ∀ s : PullbackCone f' f', hR.lift (cone s) ≫ yoneda.map (tgt winf hwinf ιinf) =
       s.fst := fun s => by
     refine hVinf.hom_ext fun j => ?_
-    show _ ≫ cV.π.app j = s.fst ≫ cV.π.app j
+    change _ ≫ cV.π.app j = s.fst ≫ cV.π.app j
     rw [Category.assoc, ← ρt j, ← Category.assoc, hfac, ℓ_tgt]
   have fac₂ : ∀ s : PullbackCone f' f', hR.lift (cone s) ≫ yoneda.map (src winf hwinf ιinf) =
       s.snd := fun s => by
     refine hVinf.hom_ext fun j => ?_
-    show _ ≫ cV.π.app j = s.snd ≫ cV.π.app j
+    change _ ≫ cV.π.app j = s.snd ≫ cV.π.app j
     rw [Category.assoc, ← ρs j, ← Category.assoc, hfac, ℓ_src]
   refine ⟨⟨hw⟩, ⟨PullbackCone.IsLimit.mk _ (fun s => hR.lift (cone s)) fac₁ fac₂
     (fun s m hm₁ hm₂ => ?_)⟩⟩

@@ -180,8 +180,7 @@ lemma compComparison_fac_app (αF : Ft ⋙ Q₂ ⟶ Q₁ ⋙ RF) (αG : Gt ⋙ Q
       Q₃.map (d.inv.app X) ≫ αG.app (Ft.obj X) ≫ RG.map (αF.app X) := by
   have h := RP.rightDerived_fac_app αP W₁ (RF ⋙ RG)
     (Functor.whiskerRight d.inv Q₃ ≫ Functor.rightDerivedCompUnit αF αG) X
-  simp only [NatTrans.comp_app, Functor.whiskerRight_app, Functor.rightDerivedCompUnit_app,
-    Category.assoc] at h
+  simp only [NatTrans.comp_app, Functor.whiskerRight_app, Functor.rightDerivedCompUnit_app] at h
   exact h
 
 end Comparison
@@ -233,7 +232,7 @@ theorem squareMap_vertical_paste
   ext X
   simp only [NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app,
     Functor.associator_hom_app, Functor.associator_inv_app, Functor.comp_obj, Category.comp_id,
-    Category.id_comp, whiskerUnit, Functor.comp_map]
+    Category.id_comp, whiskerUnit]
   have hc := (compComparison W₂ αF αG αP d).naturality (φK.inv.app X)
   simp only [Functor.comp_map, Functor.comp_obj] at hc
   have hτ := (squareMap W₃ φL φM αG' αG e₂).naturality (αF'.app X)
@@ -437,8 +436,8 @@ lemma homotopySquareIso_vertical_paste (e₁ : F' ⋙ L ≅ K ⋙ F) (e₂ : G' 
         (Functor.mapHomotopyCategoryCompIso d c).hom.app ((K.mapHomotopyCategory c).obj X) := by
   obtain ⟨X, rfl⟩ := HomotopyCategory.quotient_obj_surjective X
   simp only [homotopySquareIso_hom_app, mapHomotopyCategoryCompIso_hom_app,
-    Functor.mapHomotopyCategory_obj, HomotopyCategory.quotient_obj_as]
-  show (HomotopyCategory.quotient C₆ c).map ((M.mapHomologicalComplex c).map
+    HomotopyCategory.quotient_obj_as]
+  change (HomotopyCategory.quotient C₆ c).map ((M.mapHomologicalComplex c).map
         ((NatTrans.mapHomologicalComplex d'.hom c).app X)) ≫
       (HomotopyCategory.quotient C₆ c).map ((NatTrans.mapHomologicalComplex e.hom c).app X) =
     (HomotopyCategory.quotient C₆ c).map

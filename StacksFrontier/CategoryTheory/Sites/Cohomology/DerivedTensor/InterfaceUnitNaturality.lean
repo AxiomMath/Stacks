@@ -68,7 +68,7 @@ lemma tensorComplexUnitIsoFreeSections_naturality
         (Stacks.SheafOfModules.Tensor.sheafTensor S) (ComplexShape.up ℤ) ≫
         (Stacks.SheafOfModules.tensorComplexUnitIsoFreeSections S K').hom =
       (Stacks.SheafOfModules.tensorComplexUnitIsoFreeSections S K).hom ≫ φ := by
-  show _ ≫ (totalSingleIso _ K' _).hom ≫ (rowComplexUnitIsoFreeSections S K').hom =
+  change _ ≫ (totalSingleIso _ K' _).hom ≫ (rowComplexUnitIsoFreeSections S K').hom =
     ((totalSingleIso _ K _).hom ≫ (rowComplexUnitIsoFreeSections S K).hom) ≫ φ
   rw [← Category.assoc, totalSingleIso_hom_naturality, Category.assoc, Category.assoc]
   congr 1

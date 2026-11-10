@@ -115,10 +115,10 @@ private theorem isReflexive_stalk_of_equiv_finsupp {X : TopCat.{u}}
       have hcm := AlgebraicGeometry.SheafOfModules.commStalk_smul_eq R x M (r.symm c) m
       rwa [r.apply_symm_apply] at hcm
     rw [hc]
-    show Finsupp.mapRange.addEquiv r.toAddEquiv (g.toAddEquiv ((r.symm c) • m)) = c • _
+    change Finsupp.mapRange.addEquiv r.toAddEquiv (g.toAddEquiv ((r.symm c) • m)) = c • _
     rw [show g.toAddEquiv ((r.symm c) • m) = (r.symm c) • g m from g.map_smul _ m]
     ext i
-    show r ((r.symm c) * (g m) i) = c * r ((g m) i)
+    change r ((r.symm c) * (g m) i) = c * r ((g m) i)
     rw [map_mul, r.apply_symm_apply]
   exact Module.equiv (AddEquiv.toLinearEquiv h hsmul).symm
 

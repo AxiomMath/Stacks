@@ -115,7 +115,7 @@ theorem SheafDerivation.eq_zero_of_hasAtWorstNodalSingularities (k : Type u) [Fi
     rw [show (Limits.Sigma.ι _ Z ≫ e.hom) ≫ normalizationOverField k (X ↘ Spec (.of k)) ≫
         (X ↘ Spec (.of k)) = (Limits.Sigma.ι _ Z ≫ (e.hom ≫ normalizationOverField k
           (X ↘ Spec (.of k)))) ≫ (X ↘ Spec (.of k)) by simp only [Category.assoc], he,
-      Limits.Sigma.ι_desc, Category.assoc]
+      Limits.Sigma.ι_comp_desc, Category.assoc]
   have hC : IsCurve k (normalizationOverField k fC ≫ fC) :=
     isCurve_normalizationOverField_comp k fC
   have hS : Smooth (normalizationOverField k fC ≫ fC) :=

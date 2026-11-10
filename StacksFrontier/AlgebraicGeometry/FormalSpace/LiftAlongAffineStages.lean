@@ -368,7 +368,7 @@ theorem liftAlongSection_comp_liftAlongMap {X I W W' : FppfSheaf B S hS} {i : I 
       = q ≫ liftAlongSection B S hS hi (p := p') := by
   refine Sheaf.hom_ext (NatTrans.ext (funext fun T ↦ ConcreteCategory.hom_ext _ _ fun y ↦ ?_))
   refine LiftAlong.ext _ _ ?_ fun T' t w h h' ↦ ?_
-  · show i.hom.app T (p.hom.app T y)
+  · change i.hom.app T (p.hom.app T y)
       = i.hom.app T (p'.hom.app T (q.hom.app T y))
     rw [← comp_app_apply B S hS q p' T.unop y, hq]
   · exact app_map_op B S hS q t y
@@ -454,7 +454,7 @@ theorem exists_affine_etale_charts_of_isRepresentableEtale
   set wU : liftSheaf B S hS (schemeSpace U) ⟶ Z :=
     ⟨Functor.whiskerRight fU uliftFunctor.{u + 1} ≫ ζ.hom⟩ with hwU
   have hwUet : Space.IsEtaleULift.{u + 1} B S hS wU.hom := by
-    show Space.IsEtaleULift.{u + 1} B S hS
+    change Space.IsEtaleULift.{u + 1} B S hS
       (Functor.whiskerRight fU uliftFunctor.{u + 1} ≫ ζ.hom)
     rw [Space.isEtaleULift_comp_isIso_iff]
     exact (Space.isEtaleULift_whiskerRight_iff B S hS fU).mpr
@@ -475,7 +475,7 @@ theorem exists_affine_etale_charts_of_isRepresentableEtale
     hAaff, fun m ↦ ?_, fun m ↦ ?_, ?_⟩
   · rw [Functor.map_comp]
     exact MorphismProperty.comp_mem _ _ _ (hopet _ (hιopen m)) hu₀et
-  · show liftSheafMap B S hS (schemeSpaceMap (ι m)) ≫ wU ≫ f
+  · change liftSheafMap B S hS (schemeSpaceMap (ι m)) ≫ wU ≫ f
       = liftSheafMap B S hS (schemeSpaceMap (ι m ≫ u₀))
     rw [← hu₀, liftSheafMap_schemeSpaceMap_comp]
   intro N z
@@ -497,7 +497,7 @@ theorem exists_affine_etale_charts_of_isRepresentableEtale
   have hρw : liftSheafMap B S hS (schemeSpaceMap ρ) ≫ wU
       = liftSheafMap B S hS (schemeSpaceMap qN) ≫ z := by
     refine Sheaf.hom_ext ?_
-    show Functor.whiskerRight (yoneda.map ρ) uliftFunctor.{u + 1} ≫
+    change Functor.whiskerRight (yoneda.map ρ) uliftFunctor.{u + 1} ≫
         (Functor.whiskerRight fU uliftFunctor.{u + 1} ≫ ζ.hom)
       = Functor.whiskerRight (yoneda.map qN) uliftFunctor.{u + 1} ≫ z.hom
     rw [← hz', ← Category.assoc, ← Category.assoc, ← Functor.whiskerRight_comp,
@@ -533,11 +533,11 @@ theorem exists_affine_etale_charts_of_isRepresentableEtale
             ((BigFppfOver.toScheme B S hS).map (ι m)) :=
       (Iso.inv_comp_eq _).mpr ((hsq m).isoPullback_hom_fst).symm
     rw [Functor.map_comp, Functor.map_comp]
-    show (BigFppfOver.toScheme B S hS).map qN
+    change (BigFppfOver.toScheme B S hS).map qN
       ((BigFppfOver.toScheme B S hS).map (Limits.pullback.fst ρ (ι m))
         ((BigFppfOver.toScheme B S hS).map (πp m n) e)) = x
     rw [hn]
-    show (BigFppfOver.toScheme B S hS).map qN
+    change (BigFppfOver.toScheme B S hS).map qN
       (((hsq m).isoPullback.inv ≫
         (BigFppfOver.toScheme B S hS).map (Limits.pullback.fst ρ (ι m))) p) = x
     rw [hfst, hp₁, hq]

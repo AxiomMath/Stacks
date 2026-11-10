@@ -987,7 +987,7 @@ private theorem exists_functorial_injective_resolution_isStrictlyGE'
       naturality := fun K L f ↦ by
         ext n
         exact η'.naturality (f.hom.f n) } (fun K n ↦ hη' _) (fun K n hK ↦ ?_)
-  show IsZero ((J' ⋙ InjectiveObject.ι C).obj (K.obj.X n))
+  change IsZero ((J' ⋙ InjectiveObject.ι C).obj (K.obj.X n))
   rw [IsZero.iff_id_eq_zero, ← (J' ⋙ InjectiveObject.ι C).map_id,
     (IsZero.iff_id_eq_zero _).1 hK, Functor.map_zero]
 

@@ -197,7 +197,7 @@ identity. -/
 public theorem opensSectionsRestrict_self
     (F : Sheaf (MayerVietoris.topology X) AddCommGrpCat.{u + 1}) {U : X.Opens} (h : U ≤ U) :
     opensSectionsRestrict F h = 𝟙 _ := by
-  show F.obj.map ((MayerVietoris.opensToSite X).map (homOfLE h)).op = 𝟙 _
+  change F.obj.map ((MayerVietoris.opensToSite X).map (homOfLE h)).op = 𝟙 _
   rw [show homOfLE h = 𝟙 U from rfl, CategoryTheory.Functor.map_id, op_id,
     CategoryTheory.Functor.map_id]
 
@@ -308,7 +308,7 @@ public theorem exists_sectionsDifference_preimage_of_leg {X Y : Scheme.{u}} (f :
         leg (U ⊓ V) σ := by
   obtain ⟨a, b, hab⟩ := hG σ
   refine ⟨leg U a, leg V b, ?_⟩
-  show opensSectionsRestrict 𝒢 (f.preimage_mono (inf_le_left : U ⊓ V ≤ U)) (leg U a) -
+  change opensSectionsRestrict 𝒢 (f.preimage_mono (inf_le_left : U ⊓ V ≤ U)) (leg U a) -
       opensSectionsRestrict 𝒢 (f.preimage_mono (inf_le_right : U ⊓ V ≤ V)) (leg V b) = _
   rw [hleg (inf_le_left : U ⊓ V ≤ U) a, hleg (inf_le_right : U ⊓ V ≤ V) b, ← map_sub, hab]
 

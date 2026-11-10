@@ -71,7 +71,6 @@ namespace Stacks.SheafOfModules
 section Bridge
 
 variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
-  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [HasWeakSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   (O : Sheaf J CommRingCat.{w})
 

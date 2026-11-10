@@ -173,7 +173,7 @@ theorem fibreBettiFunction_structureModule_eq_one
         (fun V : Scheme.{u} => _root_.AlgebraicGeometry.IsReduced V) := fun w => by
     have hw : IsGeometricallyReducedFibreAt B S hS (pullback.snd g.hom (yoneda.map t)) hQ' hT
         w.image := by
-      show w.image ∈ geometricallyReducedFibreLocus B S hS _ _ _
+      change w.image ∈ geometricallyReducedFibreLocus B S hS _ _ _
       rw [geometricallyReducedFibreLocus_pullback B S hS g.hom (yoneda.map t) P.2 hU hT]
       exact hred _
     exact (isGeometricallyReducedFibreAt_iff_forall_isReduced B S hS _ hQ' hT w.image).1 hw w.1
@@ -183,7 +183,7 @@ theorem fibreBettiFunction_structureModule_eq_one
         (fibreOverFieldValuedPoint B S hS q'.hom w.1) := fun w => by
     refine (connectedPoints_fibreOverFieldValuedPoint_iff B S hS hQ' hT q'.hom w.1).2 ?_
     refine connectedPullback_of_numberGeometricConnectedComponents_eq_one B S hS hQ' hT q'.hom w ?_
-    show numberGeometricConnectedComponents B S hS (pullback.snd g.hom (yoneda.map t)) w.image = 1
+    change numberGeometricConnectedComponents B S hS (pullback.snd g.hom (yoneda.map t)) w.image = 1
     rw [numberGeometricConnectedComponents_baseChange B S hS P.2 hU hT g.hom (yoneda.map t),
       Function.comp_apply, pointsMap_residueFieldSiteHom]
     exact hz
@@ -354,7 +354,7 @@ theorem numberGeometricConnectedComponents_eq_one_of_fibreBettiFunction_le_one
     (pointsHomeomorphOfIso B S hS eQ).connectedSpace_iff.mp hQconn
   rw [numberGeometricConnectedComponents_eq B S hS P.2 (isAlgebraicSpace_yoneda B S hS U)
     g.hom p]
-  show Cardinal.toENat (Cardinal.mk (ConnectedComponents
+  change Cardinal.toENat (Cardinal.mk (ConnectedComponents
     (points B S hS (pullback g.hom (yonedaEquiv.symm p.val.value))))) = 1
   have := hfib
   rw [Cardinal.mk_eq_one, map_one]
@@ -418,7 +418,7 @@ theorem isOpen_setOf_numberGeometricConnectedComponents_eq_one
   have hb := fibreBettiFunction_structureModule_eq_one g h0E0S hg hfl hfp hred z hz
   have hev : ∀ᶠ y in nhds (e z), fibreBettiFunction g (structureModule P) 0 y < 2 :=
     husc (e z) 2 (by
-      show fibreBettiFunction g (structureModule P) 0 (pointsToScheme B S hS U z) < 2
+      change fibreBettiFunction g (structureModule P) 0 (pointsToScheme B S hS U z) < 2
       rw [hb]
       norm_num)
   filter_upwards [e.continuous.continuousAt.eventually hev,

@@ -48,7 +48,7 @@ theorem mem_bot_of_mem_adjoin_of_mem_adjoin_inv {s x : Ω} (hs : Transcendental 
   obtain ⟨p, rfl⟩ := h₁
   obtain ⟨q, hq⟩ := h₂
   change aeval s⁻¹ q = aeval s p at hq
-  show aeval s p ∈ _
+  change aeval s p ∈ _
   have hs0 : s ≠ 0 := by
     rintro rfl
     exact hs isAlgebraic_zero
@@ -124,8 +124,8 @@ theorem linearIndependent_of_isAlgebraic (hs : Transcendental F s)
   have hcoeff : ∀ n, ∀ j ∈ t, (P j).coeff n = 0 := by
     intro n
     have h := congrArg (fun R : E[X] ↦ ((R.coeff n : E) : N)) hQ0
-    simp only [Q, finset_sum_coeff, coeff_C_mul, coeff_map, coeff_zero, ZeroMemClass.coe_zero,
-      AddSubmonoidClass.coe_finset_sum, MulMemClass.coe_mul] at h
+    simp only [Q, finsetSum_coeff, coeff_C_mul, coeff_map, coeff_zero, ZeroMemClass.coe_zero,
+      AddSubmonoidClass.coe_finsetSum, MulMemClass.coe_mul] at h
     have h' : ∑ j ∈ t, (P j).coeff n • v j = 0 := by
       rw [← h]
       refine Finset.sum_congr rfl fun j _ ↦ ?_
@@ -134,7 +134,7 @@ theorem linearIndependent_of_isAlgebraic (hs : Transcendental F s)
     exact (linearIndependent_iff'.mp hv) t _ h'
   have hPi : P i = 0 := Polynomial.ext fun n ↦ by rw [hcoeff n i hi, coeff_zero]
   have hci : algebraMap A K (c i) = 0 := by
-    show (c i : K) = 0
+    change (c i : K) = 0
     rw [← hP i, hPi, map_zero]
   rw [hc i hi] at hci
   exact (mul_eq_zero.mp hci).resolve_left (Finset.prod_ne_zero_iff.mpr fun j _ ↦ hb0 j)

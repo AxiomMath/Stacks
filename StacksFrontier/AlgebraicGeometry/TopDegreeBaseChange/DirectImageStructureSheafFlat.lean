@@ -53,7 +53,7 @@ theorem algebraMap_baseSectionsAlgebra_apply {R : Type u} [CommRing R]
     (W : Over (Spec (CommRingCat.of R))) (r : R) :
     algebraMap R Γ(W.left, ⊤) r =
       (W.hom.appTop).hom ((Scheme.ΓSpecIso (CommRingCat.of R)).inv.hom r) := by
-  show (W.left.presheaf.map (homOfLE (le_refl (⊤ : W.left.Opens))).op).hom
+  change (W.left.presheaf.map (homOfLE (le_refl (⊤ : W.left.Opens))).op).hom
     ((W.hom.appTop).hom ((Scheme.ΓSpecIso (CommRingCat.of R)).inv.hom r)) = _
   rw [show (homOfLE (le_refl (⊤ : W.left.Opens))).op = 𝟙 _ from rfl,
     CategoryTheory.Functor.map_id]
@@ -72,7 +72,7 @@ theorem flat_of_flat_globalSections {R : Type u} [CommRing R]
   let := Module.compHom (B : Type u) φ
   refine Module.Flat.of_linearEquiv
     (AddEquiv.toLinearEquiv e.commRingCatIsoToRingEquiv.toAddEquiv fun r x ↦ ?_).symm
-  show (e.hom).hom (algebraMap R Γ(W.left, ⊤) r * x) = φ r * (e.hom).hom x
+  change (e.hom).hom (algebraMap R Γ(W.left, ⊤) r * x) = φ r * (e.hom).hom x
   rw [map_mul, he]
 
 variable {X Y S : Scheme.{u}} (f : X ⟶ Y) (q : Y ⟶ S)

@@ -96,6 +96,7 @@ private noncomputable def pullbackIsoTensorOfIsTerminal {D : Type w} [Category.{
 variable {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_FlatMultiplication :
@@ -107,6 +108,7 @@ local instance (priority := high) hasPullback_presheaf_FlatMultiplication
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks in `Over B` of presheaves on the big fppf site is deep
 /-- Pullbacks in a slice of presheaves on the big fppf site (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_over_FlatMultiplication (B : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u) :

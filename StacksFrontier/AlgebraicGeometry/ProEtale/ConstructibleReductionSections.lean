@@ -137,9 +137,11 @@ theorem exists_isZero_homology_of_locallyHasFiniteTorDimension [Nonempty X]
   obtain ⟨a, b, hab⟩ := hSV f hf
   have hW : (⊥ : Sieve W) ∉ J W := Scheme.ProEt.bot_notMem_topology_of_nonempty (h.left y)
   refine ⟨b, fun i hi => ?_⟩
-  let O := Stacks.SheafOfModules.Tensor.ringSheaf (constantCoefficientRingedSite.{u, max (u + 1) w, w} X R).O
+  let O := Stacks.SheafOfModules.Tensor.ringSheaf
+    (constantCoefficientRingedSite.{u, max (u + 1) w, w} X R).O
   let F := SheafOfModules.overFunctor.{max (u + 1) w} O W
-  have : PreservesFiniteLimits F := Stacks.SheafOfModules.LocalCokernel.overFunctor_preservesFiniteLimits W
+  have : PreservesFiniteLimits F :=
+    Stacks.SheafOfModules.LocalCokernel.overFunctor_preservesFiniteLimits W
   have : PreservesFiniteColimits F :=
     Stacks.SheafOfModules.LocalCokernel.overFunctor_preservesFiniteColimits W
   have : F.Additive := Functor.additive_of_preserves_binary_products _
@@ -185,7 +187,8 @@ def derivedCoefficientModuleSheafEquivalenceConstantIso
     (derivedCoefficientModuleSheafEquivalence.{u, max (u + 1) w, w} X R).functor.obj
         (DerivedCategory.Q.obj (((constantSheaf (Scheme.ProEt.topology X)
           (ModuleCat.{max (u + 1) w} R) ⋙
-            moduleSheafOverConstantCoefficientsFunctor.{u, max (u + 1) w, w} X R).mapHomologicalComplex
+            moduleSheafOverConstantCoefficientsFunctor.{u, max (u + 1) w, w}
+              X R).mapHomologicalComplex
               (ComplexShape.up ℤ)).obj E)) ≅
       (constantDerivedFunctor X R).obj (DerivedCategory.Q.obj E) :=
   let c := constantSheaf (Scheme.ProEt.topology X) (ModuleCat.{max (u + 1) w} R)
@@ -266,7 +269,8 @@ theorem isMittagLefflerCategorical_derivedReductionSectionsSystem_of_derivedExte
       ((derivedCoefficientModuleSheafEquivalence.{u, max (u + 1) w, w} X Λ).functor.obj K)) := by
   let J := Scheme.ProEt.topology X
   let K' := (derivedCoefficientModuleSheafEquivalence.{u, max (u + 1) w, w} X Λ).functor.obj K
-  obtain ⟨P, p, hP, hp⟩ := Stacks.ModuleSheaf.exists_kFlat_quasiIso (DerivedCategory.Q.objPreimage K')
+  obtain ⟨P, p, hP, hp⟩ :=
+    Stacks.ModuleSheaf.exists_kFlat_quasiIso (DerivedCategory.Q.objPreimage K')
   let eP : DerivedCategory.Q.obj P ≅ K' :=
     asIso (DerivedCategory.Q.map p) ≪≫ DerivedCategory.Q.objObjPreimageIso K'
   have hconst : ∀ n : ℕ, ∃ E : DerivedCategory (ModuleCat.{max (u + 1) w} (Λ ⧸ I ^ (n + 1))),
@@ -303,7 +307,8 @@ theorem exists_derivedExtendScalars_iso_constantDerivedFunctor
     (hconstant : ∀ n : ℕ, 1 ≤ n →
       ∃ E : CochainComplex (ModuleCat.{max (u + 1) w} (Λ ⧸ I ^ n)) ℤ,
         Nonempty ((Tn n).baseChange.obj K ≅ DerivedCategory.Q.obj
-          (((constantSheafOverCoefficients.{u, max (u + 1) w, w} X (Λ ⧸ I ^ n)).mapHomologicalComplex
+          (((constantSheafOverCoefficients.{u, max (u + 1) w, w}
+            X (Λ ⧸ I ^ n)).mapHomologicalComplex
             (ComplexShape.up ℤ)).obj E))) (n : ℕ) :
     ∃ E : DerivedCategory (ModuleCat.{max (u + 1) w} (Λ ⧸ I ^ (n + 1))),
       Nonempty ((Stacks.ModuleSheaf.derivedExtendScalars (Scheme.ProEt.topology X)
@@ -346,7 +351,8 @@ theorem isMittagLefflerCategorical_derivedReductionSectionsSystem [IsAffine X]
     (hconstant : ∀ n : ℕ, 1 ≤ n →
       ∃ E : CochainComplex (ModuleCat.{max (u + 1) w} (Λ ⧸ I ^ n)) ℤ,
         Nonempty ((Tn n).baseChange.obj K ≅ DerivedCategory.Q.obj
-          (((constantSheafOverCoefficients.{u, max (u + 1) w, w} X (Λ ⧸ I ^ n)).mapHomologicalComplex
+          (((constantSheafOverCoefficients.{u, max (u + 1) w, w}
+            X (Λ ⧸ I ^ n)).mapHomologicalComplex
             (ComplexShape.up ℤ)).obj E))) :
     IsMittagLefflerCategorical (derivedReductionSectionsSystem X Λ I
       ((derivedCoefficientModuleSheafEquivalence.{u, max (u + 1) w, w} X Λ).functor.obj K)) := by

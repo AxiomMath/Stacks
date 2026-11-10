@@ -179,7 +179,7 @@ private theorem exists_isQuasiCompactSpace_isEtale_of_isCompact
   · refine ⟨W, 𝟙 _, ?_, (surjective_iff_surjective_pointsMap B S hS (yoneda.obj W)
       (isAlgebraicSpace_yoneda B S hS W) W (𝟙 _)).2
         (isSurjective_id B S hS (yoneda.obj W)), isEtale_id B S hS (yoneda.obj W)⟩
-    show CompactSpace V.toScheme
+    change CompactSpace V.toScheme
     exact isCompact_iff_compactSpace.mp (by simpa using hV)
   · refine (isEtale_iff_presheaf_of_yoneda B S hS _).mpr
       (etale_comp_of_scheme B S hS j f ?_ ((isEtale_iff_presheaf_of_yoneda B S hS f).mp hf))
@@ -257,7 +257,7 @@ theorem hasLocallyFiniteIrreducibleComponents_iff_finite_codimensionZeroPoints
     refine ⟨⟨pointsToScheme B S hS U y,
       (localRingDimension_eq_zero_iff_all_etale_genericPoints B S hS hG x).mp hx U v _ hvEtale
         (hy ▸ chartPoint_pointsToScheme B S hS U v y)⟩, ?_⟩
-    show pointsMap B S hS (yoneda.obj U) v
+    change pointsMap B S hS (yoneda.obj U) v
       ((schemePointsHomeomorph B S hS U).symm (pointsToScheme B S hS U y)) = x
     rw [← schemePointsHomeomorph_apply B S hS U y,
       (schemePointsHomeomorph B S hS U).symm_apply_apply y]
@@ -270,7 +270,7 @@ theorem hasLocallyFiniteIrreducibleComponents_iff_finite_codimensionZeroPoints
       intro p hp
       exact (localRingDimension_eq_zero_iff_genericPoint_of_isRepresentable B S hS
         (isAlgebraicSpace_yoneda B S hS W) inferInstance p).mpr hp
-    show (irreducibleComponents V.toScheme).Finite
+    change (irreducibleComponents V.toScheme).Finite
     rw [← hW]
     exact finite_irreducibleComponents_of_finite_genericPoints
       (schemePointsHomeomorph B S hS W).symm hgeneric
@@ -665,7 +665,7 @@ theorem bijOn_codimensionZeroPoints_hom (D : NormalizationData B S hS F)
       refine localRingDimension_eq_zero_of_mem_genericPoints B S hS hF U f hfe' _ ?_
       rw [pointsToScheme_pointsMap B S hS p z]
       exact hbij.1 hu
-    show localRingDimension B S hS (pointsMap B S hS D.space D.hom x) = 0
+    change localRingDimension B S hS (pointsMap B S hS D.space D.hom x) = 0
     rw [← hz, ← hcomm z]
     exact hgoal
   · obtain ⟨zU, hzU⟩ := hfSurj (pointsMap B S hS D.space D.hom x)
@@ -864,7 +864,7 @@ theorem existsUnique_lift_hom (D : NormalizationData B S hS F)
   refine ⟨gSheaf.hom, ?_, ?_⟩
   · refine Sheaf.hom_ext_iff.mp (Cofork.IsColimit.hom_ext hcol
       (k := gSheaf ≫ (⟨D.hom⟩ : NF ⟶ FF)) (l := (⟨f⟩ : ZF ⟶ FF)) (Sheaf.hom_ext ?_))
-    show ((yoneda.map q ≫ v) ≫ gSheaf.hom) ≫ D.hom = (yoneda.map q ≫ v) ≫ f
+    change ((yoneda.map q ≫ v) ≫ gSheaf.hom) ≫ D.hom = (yoneda.map q ≫ v) ≫ f
     rw [hfg, hgW]
   · intro g' hg'
     have hcompat : ((yoneda.map q ≫ v) ≫ g') ≫ D.hom = yoneda.map b ≫ u := by
@@ -878,7 +878,7 @@ theorem existsUnique_lift_hom (D : NormalizationData B S hS F)
     have hafter : (yoneda.map q ≫ v) ≫ g' = gW := by rw [← hdg, hdSite]
     refine Sheaf.hom_ext_iff.mp (Cofork.IsColimit.hom_ext hcol
       (k := (⟨g'⟩ : ZF ⟶ NF)) (l := gSheaf) (Sheaf.hom_ext ?_))
-    show (yoneda.map q ≫ v) ≫ g' = (yoneda.map q ≫ v) ≫ gSheaf.hom
+    change (yoneda.map q ≫ v) ≫ g' = (yoneda.map q ≫ v) ≫ gSheaf.hom
     rw [hafter, hfg]
 
 /-! ### Finiteness of the normalization of a Nagata algebraic space -/

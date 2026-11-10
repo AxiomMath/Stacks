@@ -174,7 +174,7 @@ private lemma denominators_notLe_of_mem_associatedPrimes (X : Scheme.{u})
   obtain ⟨x, hxU, hqx⟩ :
       ∃ (x : X) (hxU : x ∈ U), (hU.primeIdealOf ⟨x, hxU⟩).asIdeal = q := by
     have hmem : hU.fromSpec (⟨q, ‹q.IsPrime›⟩ : PrimeSpectrum Γ(X, U)) ∈ U := by
-      show _ ∈ (U : Set X)
+      change _ ∈ (U : Set X)
       rw [← hU.range_fromSpec]
       exact Set.mem_range_self _
     exact ⟨_, hmem, congrArg PrimeSpectrum.asIdeal

@@ -277,7 +277,7 @@ private lemma range_geometricFiberMapOfComp
     (Scheme.Hom.fiberMapComp i f y) (𝟙 _) (𝟙 _) e₁ e₂
   have h := Scheme.Pullback.range_map ((i ≫ f).fiberToSpecResidueField y) r
     (f.fiberToSpecResidueField y) r (Scheme.Hom.fiberMapComp i f y) (𝟙 _) (𝟙 _) e₁ e₂
-  show Set.range m.base =
+  change Set.range m.base =
     (pullback.fst (f.fiberToSpecResidueField y) r).base ⁻¹'
       Set.range (Scheme.Hom.fiberMapComp i f y).base
   simpa only [Scheme.Hom.id_base, TopCat.hom_id, ContinuousMap.coe_id, Set.range_id,
@@ -355,7 +355,7 @@ private lemma exists_isOpen_le_geometricIrreducibleComponentCount
   · simpa [U.map_point] using Set.mem_image_of_mem U.toBase hu
   · rintro z ⟨u', huV, rfl⟩
     have heq := congrFun (geometricIrreducibleComponentCount_pullback f U.toBase) u'
-    show (d : ℕ∞) ≤ geometricIrreducibleComponentCount f (U.toBase u')
+    change (d : ℕ∞) ≤ geometricIrreducibleComponentCount f (U.toBase u')
     exact (hlocal u' huV).trans_eq (by simpa [Function.comp_apply] using heq)
 
 /-- Pairwise disjoint opens of an étale base change, each meeting the fibre over the
@@ -399,7 +399,7 @@ private lemma injective_of_mem_opens_of_subsingleton {P U : Scheme.{u}} (p : P �
   have hmem (k : Fin d) :
       z k ∈ Set.range (geometricFiberMapOfComp (D (b k)).ι p u K).base := by
     rw [range_geometricFiberMapOfComp, Scheme.Hom.range_fiberMapComp]
-    show q (z k) ∈ Set.range (D (b k)).ι.base
+    change q (z k) ∈ Set.range (D (b k)).ι.base
     exact ⟨⟨q (z k), hb k⟩, rfl⟩
   obtain ⟨w, hw⟩ := hmem i
   have hjmem := hmem j
@@ -435,7 +435,7 @@ theorem isOpen_geometricIrreducibleComponentCount_ge {X Y : Scheme.{u}} (f : X �
   have hzbase (i : Fin d) : p (q (z i)) = U.point :=
     (p.fiberHomeo U.point (pullback.fst (p.fiberToSpecResidueField U.point) r (z i))).2
   have hehom (i : Fin d) : e.hom (z i) = z₀ i := by
-    show e.hom (e.inv (z₀ i)) = z₀ i
+    change e.hom (e.inv (z₀ i)) = z₀ i
     simp
   have hzfst (i : Fin d) : pullback.fst f U.toBase (q (z i)) = f.fiberι y (x₀ i) := by
     have h := congrArg (fun k : geometricFiber p U.point K ⟶ X => k (z i)) he

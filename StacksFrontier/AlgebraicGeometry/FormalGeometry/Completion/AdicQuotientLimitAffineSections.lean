@@ -110,7 +110,7 @@ public theorem adicQuotientLimitSectionsEquiv_of (X : Scheme.{u}) [IsLocallyNoet
     (s : Γ(F.obj, U)) :
     adicQuotientLimitSectionsEquiv X I F U (AdicCompletion.of (I.ideal U) Γ(F.obj, U) s) =
       Scheme.Modules.Hom.app (adicQuotientLimitComparison X I F) U.1 s := by
-  show (AlgebraicGeometry.sectionsLinearEquivOfIso
+  change (AlgebraicGeometry.sectionsLinearEquivOfIso
       (NeighbourhoodHoms.adicCompletionLimitIso I F) U.1).symm
       (completionSectionsEquiv X I F U (AdicCompletion.of (I.ideal U) Γ(F.obj, U) s)) = _
   rw [completionSectionsEquiv_of]

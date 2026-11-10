@@ -85,9 +85,9 @@ theorem bijective_mk₀_comp_of_iso {E : Type*} [Category E] [Abelian E] [HasExt
     Function.Bijective (fun z : Ext X' Y n => (Ext.mk₀ e.hom).comp z (zero_add n)) := by
   refine Function.bijective_iff_has_inverse.mpr ⟨fun z => (Ext.mk₀ e.inv).comp z (zero_add n),
     fun z => ?_, fun z => ?_⟩
-  · show (Ext.mk₀ e.inv).comp ((Ext.mk₀ e.hom).comp z (zero_add n)) (zero_add n) = z
+  · change (Ext.mk₀ e.inv).comp ((Ext.mk₀ e.hom).comp z (zero_add n)) (zero_add n) = z
     rw [Ext.mk₀_comp_mk₀_assoc, e.inv_hom_id, Ext.mk₀_id_comp]
-  · show (Ext.mk₀ e.hom).comp ((Ext.mk₀ e.inv).comp z (zero_add n)) (zero_add n) = z
+  · change (Ext.mk₀ e.hom).comp ((Ext.mk₀ e.inv).comp z (zero_add n)) (zero_add n) = z
     rw [Ext.mk₀_comp_mk₀_assoc, e.hom_inv_id, Ext.mk₀_id_comp]
 
 /-- A degree zero class killed by composition with an epimorphism is zero. -/

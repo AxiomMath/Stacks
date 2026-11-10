@@ -103,14 +103,14 @@ theorem isFlatOver_modulePushforward_of_isFinite {Z Y T : AlgebraicSpaces B S hS
       V := d.V
       g := p ≫ d.g
       comm := by
-        show hrep.fst d.U.obj.hom ≫ φ.hom ≫ g.hom = yoneda.map (p ≫ d.g) ≫ d.V.obj.hom
+        change hrep.fst d.U.obj.hom ≫ φ.hom ≫ g.hom = yoneda.map (p ≫ d.g) ≫ d.V.obj.hom
         rw [Functor.map_comp, Category.assoc, ← d.comm, ← Category.assoc, ← Category.assoc]
         exact congrArg (· ≫ g.hom) (isPullback_baseChangeChartHom B S hS φ hrep d.U).w }
   have hW := hflat e
   change AlgebraicGeometry.IsFlatOver _ (restrictToChart B S hS Z.2 G W) at hW
   have : SheafOfModules.IsQuasicoherent (restrictToChart B S hS Z.2 G W) :=
     isQuasicoherent_restrictToChart B S hS Z G hG W
-  show AlgebraicGeometry.IsFlatOver _ (restrictToChart B S hS Y.2 _ d.U)
+  change AlgebraicGeometry.IsFlatOver _ (restrictToChart B S hS Y.2 _ d.U)
   rw [restrictToChart_eq_restrictToChartScheme] at hW ⊢
   refine (AlgebraicGeometry.isFlatOver_iff_of_moduleIso _
     (restrictToChartSchemeModulePushforwardIso B S hS φ hrep d.U G)).2 ?_

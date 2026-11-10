@@ -138,7 +138,7 @@ private theorem etale_of_forget_ι_comp (f : actionRelationScheme U G ⟶ U)
         (Over.forget S).map (Sigma.ι (fun _ : G ↦ U) g) ≫ f.left := by
       apply Sigma.hom_ext
       intro g
-      rw [← Category.assoc, actionRelationUnderlyingIso_inv_ι, Sigma.ι_desc]
+      rw [← Category.assoc, actionRelationUnderlyingIso_inv_ι, Sigma.ι_comp_desc]
     rw [h]
     exact IsZariskiLocalAtSource.sigmaDesc hf
   have h : Etale ((e.hom ≫ e.inv) ≫ f.left) := Etale.etale_comp e.hom (e.inv ≫ f.left)
@@ -168,7 +168,7 @@ private theorem actionRelationIdentity_source :
 
 private theorem actionRelationIdentity_target (a : G →* Aut U) :
     actionRelationIdentity U G ≫ actionRelationTarget U G a = 𝟙 U := by
-  simp only [actionRelationIdentity, actionRelationTarget, Sigma.ι_desc]
+  simp only [actionRelationIdentity, actionRelationTarget, Sigma.ι_comp_desc]
   rw [map_one]
   rfl
 
@@ -184,9 +184,9 @@ private theorem actionRelationInverse_target (a : G →* Aut U) :
   calc
     _ = ((a g).asIso.hom ≫ Sigma.ι (fun _ : G ↦ U) g⁻¹) ≫
         actionRelationTarget U G a := by
-          rw [← Category.assoc, actionRelationInverse, Sigma.ι_desc]
+          rw [← Category.assoc, actionRelationInverse, Sigma.ι_comp_desc]
     _ = (a g).asIso.hom ≫ ((a g⁻¹).asIso.hom) := by
-          rw [Category.assoc, actionRelationTarget, Sigma.ι_desc]
+          rw [Category.assoc, actionRelationTarget, Sigma.ι_comp_desc]
     _ = 𝟙 U := by
           rw [a.map_inv g, Aut.inv_asIso]
           exact Iso.hom_inv_id _
@@ -201,11 +201,11 @@ private theorem actionRelationInverse_source (a : G →* Aut U) :
   calc
     _ = ((a g).asIso.hom ≫ Sigma.ι (fun _ : G ↦ U) g⁻¹) ≫
         actionRelationSource U G := by
-          rw [← Category.assoc, actionRelationInverse, Sigma.ι_desc]
+          rw [← Category.assoc, actionRelationInverse, Sigma.ι_comp_desc]
     _ = (a g).asIso.hom := by
           simp [actionRelationSource]
     _ = Sigma.ι (fun _ : G ↦ U) g ≫ actionRelationTarget U G a := by
-          rw [actionRelationTarget, Sigma.ι_desc]
+          rw [actionRelationTarget, Sigma.ι_comp_desc]
 
 private theorem actionRelationComposition_exists (a : G →* Aut U) :
     ∃ c : pullback (actionRelationSource U G) (actionRelationTarget U G a) ⟶
@@ -242,39 +242,31 @@ private theorem actionRelationComposition_exists (a : G →* Aut U) :
       (d := d) (Iso.refl P) hf hg
       (by
         intro i j
-        simpa [Cofan.inj, d, m, pullback.map] using
-          (pullback.lift_fst (pullback.fst (f i) (g j) ≫ Sigma.ι F i)
-            (pullback.snd (f i) (g j) ≫ Sigma.ι F j) _))
+        simp [Cofan.inj, d, m, pullback.map])
       (by
         intro i j
-        simpa [Cofan.inj, d, m, pullback.map] using
-          (pullback.lift_snd (pullback.fst (f i) (g j) ≫ Sigma.ι F i)
-            (pullback.snd (f i) (g j) ≫ Sigma.ι F j) _))
+        simp [Cofan.inj, d, m, pullback.map])
   have hmFst (i j : G) :
       m (i, j) ≫ pullback.fst (actionRelationSource U G)
           (actionRelationTarget U G a) =
         pullback.fst (f i) (g j) ≫ Sigma.ι F i := by
-    simpa [m, pullback.map] using
-      (pullback.lift_fst (pullback.fst (f i) (g j) ≫ Sigma.ι F i)
-        (pullback.snd (f i) (g j) ≫ Sigma.ι F j) _)
+    simp [m, pullback.map]
   have hmSnd (i j : G) :
       m (i, j) ≫ pullback.snd (actionRelationSource U G)
           (actionRelationTarget U G a) =
         pullback.snd (f i) (g j) ≫ Sigma.ι F j := by
-    simpa [m, pullback.map] using
-      (pullback.lift_snd (pullback.fst (f i) (g j) ≫ Sigma.ι F i)
-        (pullback.snd (f i) (g j) ≫ Sigma.ι F j) _)
+    simp [m, pullback.map]
   let c : P ⟶ actionRelationScheme U G :=
     Cofan.IsColimit.desc hd fun p ↦
       pullback.snd (f p.1) (g p.2) ≫ Sigma.ι F (p.1 * p.2)
   refine ⟨c, ?_, ?_⟩
   · apply Cofan.IsColimit.hom_ext hd
     rintro ⟨i, j⟩
-    show (d.inj (i, j) ≫ c) ≫ actionRelationTarget U G a =
+    change (d.inj (i, j) ≫ c) ≫ actionRelationTarget U G a =
       (d.inj (i, j) ≫ pullback.fst (actionRelationSource U G)
         (actionRelationTarget U G a)) ≫ actionRelationTarget U G a
     rw [Cofan.IsColimit.fac hd]
-    show (pullback.snd (f i) (g j) ≫ Sigma.ι F (i * j)) ≫
+    change (pullback.snd (f i) (g j) ≫ Sigma.ι F (i * j)) ≫
         actionRelationTarget U G a =
       (m (i, j) ≫ pullback.fst (actionRelationSource U G)
           (actionRelationTarget U G a)) ≫ actionRelationTarget U G a
@@ -285,7 +277,7 @@ private theorem actionRelationComposition_exists (a : G →* Aut U) :
       (pullback.snd (f i) (g j) ≫ Sigma.ι F (i * j)) ≫
           actionRelationTarget U G a =
         pullback.snd (f i) (g j) ≫ (a (i * j)).asIso.hom := by
-          rw [Category.assoc, actionRelationTarget, Sigma.ι_desc]
+          rw [Category.assoc, actionRelationTarget, Sigma.ι_comp_desc]
       _ = pullback.snd (f i) (g j) ≫ ((a j).asIso.hom ≫ (a i).asIso.hom) := by rw [hmul]
       _ = pullback.fst (f i) (g j) ≫ (a i).asIso.hom := by
           have hbase : pullback.fst (f i) (g j) =
@@ -296,23 +288,23 @@ private theorem actionRelationComposition_exists (a : G →* Aut U) :
           rw [← Category.assoc, ← hbase]
       _ = (m (i, j) ≫ pullback.fst (actionRelationSource U G)
           (actionRelationTarget U G a)) ≫ actionRelationTarget U G a := by
-          rw [hmFst, Category.assoc, actionRelationTarget, Sigma.ι_desc]
+          rw [hmFst, Category.assoc, actionRelationTarget, Sigma.ι_comp_desc]
   · apply Cofan.IsColimit.hom_ext hd
     rintro ⟨i, j⟩
-    show (d.inj (i, j) ≫ c) ≫ actionRelationSource U G =
+    change (d.inj (i, j) ≫ c) ≫ actionRelationSource U G =
       (d.inj (i, j) ≫ pullback.snd (actionRelationSource U G)
         (actionRelationTarget U G a)) ≫ actionRelationSource U G
     rw [Cofan.IsColimit.fac hd]
-    show (pullback.snd (f i) (g j) ≫ Sigma.ι F (i * j)) ≫
+    change (pullback.snd (f i) (g j) ≫ Sigma.ι F (i * j)) ≫
         actionRelationSource U G =
       (m (i, j) ≫ pullback.snd (actionRelationSource U G)
           (actionRelationTarget U G a)) ≫ actionRelationSource U G
     rw [hmSnd]
-    show pullback.snd (f i) (g j) ≫
+    change pullback.snd (f i) (g j) ≫
         (Sigma.ι F (i * j) ≫ Sigma.desc (fun _ : G ↦ 𝟙 U)) =
       pullback.snd (f i) (g j) ≫
         (Sigma.ι F j ≫ Sigma.desc (fun _ : G ↦ 𝟙 U))
-    rw [Sigma.ι_desc, Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc, Sigma.ι_comp_desc]
 
 omit [Group G] in
 private theorem actionRelationFieldPoint_factors {k : Type u} [Field k]
@@ -338,18 +330,18 @@ omit [Group G] in
 private theorem actionRelationUnderlyingInclusion_source (g : G) :
     actionRelationUnderlyingInclusion U G g ≫ (actionRelationSource U G).left =
       𝟙 U.left := by
-  show (Over.forget S).map (Sigma.ι (fun _ : G ↦ U) g) ≫
+  change (Over.forget S).map (Sigma.ι (fun _ : G ↦ U) g) ≫
       (Over.forget S).map (actionRelationSource U G) = 𝟙 U.left
   rw [← (Over.forget S).map_comp]
-  exact congrArg Over.Hom.left (Sigma.ι_desc (fun _ : G ↦ 𝟙 U) g)
+  exact congrArg Over.Hom.left (Sigma.ι_comp_desc (fun _ : G ↦ 𝟙 U) g)
 
 private theorem actionRelationUnderlyingInclusion_target (a : G →* Aut U) (g : G) :
     actionRelationUnderlyingInclusion U G g ≫ (actionRelationTarget U G a).left =
       (a g).asIso.hom.left := by
-  show (Over.forget S).map (Sigma.ι (fun _ : G ↦ U) g) ≫
+  change (Over.forget S).map (Sigma.ι (fun _ : G ↦ U) g) ≫
       (Over.forget S).map (actionRelationTarget U G a) = _
   rw [← (Over.forget S).map_comp]
-  exact congrArg Over.Hom.left (Sigma.ι_desc (fun g : G ↦ (a g).asIso.hom) g)
+  exact congrArg Over.Hom.left (Sigma.ι_comp_desc (fun g : G ↦ (a g).asIso.hom) g)
 
 omit [Small.{u} G] in
 private theorem actionRelation_fixedPoint_forces_identity (a : G →* Aut U)
@@ -635,7 +627,7 @@ theorem contains_actionRelationScheme (a : G →* Aut (underlyingOver B hS V))
   have hcongr := Scheme.size_congr (actionRelationUnderlyingIso W G)
   have hreindex : (∐ fun _ : G ↦ W.left).size = (∐ Y).size :=
     Scheme.size_congr (Sigma.reindex eG Y)
-  show (actionRelationScheme W G).left.size < B.cutoff
+  change (actionRelationScheme W G).left.size < B.cutoff
   rw [hcongr, hreindex]
   by_cases hne : Nonempty W.left
   · let κ : Cardinal.{u} := W.left.size

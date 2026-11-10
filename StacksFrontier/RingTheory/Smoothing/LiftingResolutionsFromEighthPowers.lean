@@ -118,7 +118,7 @@ private lemma eighthPowerPrefixIdeal_le_comap
     eighthPowerPrefixIdeal π i ≤ q.comap (algebraMap R Λ) := by
   apply Ideal.span_le.mpr
   rintro x ⟨j, hj, rfl⟩
-  show algebraMap R Λ (π j ^ 8) ∈ q
+  change algebraMap R Λ (π j ^ 8) ∈ q
   rw [map_pow]
   exact Ideal.pow_mem_of_mem (I := q) (a := algebraMap R Λ (π j))
     (hπq j) 8 (by norm_num)
@@ -222,7 +222,7 @@ private lemma smoothAt_quotient_of_smoothAt
     exact ha hp
   let tA : R' ⊗[R] A := (1 : R') ⊗ₜ[R] a
   have hpoint : eA (mkA a) = tA := by
-    show eA (Ideal.Quotient.mk IA a) = _
+    change eA (Ideal.Quotient.mk IA a) = _
     rw [Algebra.TensorProduct.quotIdealMapEquivQuotTensor_mk]
   have hnot : tA ∉ Ideal.map eA.toRingHom p := by
     intro hm
@@ -263,7 +263,7 @@ private lemma singularIdeal_map_quotient_le
   let : Algebra R' A' := Ideal.Quotient.algebraQuotientMapQuotient
   apply Ideal.map_le_iff_le_comap.mpr
   intro a ha
-  show a ∈ (singularIdeal R' A' : Ideal A').comap mkA
+  change a ∈ (singularIdeal R' A' : Ideal A').comap mkA
   rw [Ideal.mem_comap, singularIdeal, PrimeSpectrum.mem_vanishingIdeal]
   intro p hp
   let pA : Ideal A := p.comap mkA
@@ -415,7 +415,7 @@ private lemma isResolvableAt_transport
   let : IsScalarTower R B Λ := hRBΛ
   let : IsScalarTower R' A' B := IsScalarTower.of_algebraMap_eq' (by
     ext r
-    show (algebraMap R B) (eR.symm r) =
+    change (algebraMap R B) (eR.symm r) =
       (algebraMap A B) (eA.symm (algebraMap R' A' r))
     have hr : eA (algebraMap R A (eR.symm r)) = algebraMap R' A' r := by
       simpa using hRA (eR.symm r)
@@ -423,7 +423,7 @@ private lemma isResolvableAt_transport
       IsScalarTower.algebraMap_apply R A B (eR.symm r)])
   let : IsScalarTower A' B Λ' := IsScalarTower.of_algebraMap_eq' (by
     ext a
-    show algebraMap A' Λ' a =
+    change algebraMap A' Λ' a =
       eΛ ((algebraMap B Λ) ((algebraMap A B) (eA.symm a)))
     calc
       algebraMap A' Λ' a = eΛ (algebraMap A Λ (eA.symm a)) := by
@@ -432,7 +432,7 @@ private lemma isResolvableAt_transport
         rw [← IsScalarTower.algebraMap_apply A B Λ (eA.symm a)])
   let : IsScalarTower R' B Λ' := IsScalarTower.of_algebraMap_eq' (by
     ext r
-    show algebraMap R' Λ' r =
+    change algebraMap R' Λ' r =
       eΛ ((algebraMap B Λ) ((algebraMap R B) (eR.symm r)))
     calc
       algebraMap R' Λ' r = eΛ (algebraMap R Λ (eR.symm r)) := by
@@ -447,7 +447,7 @@ private lemma isResolvableAt_transport
     singularIdeal_base_ring_equiv eR.symm
   let eAA : A ≃ₐ[R'] A' := AlgEquiv.ofRingEquiv (f := eA) (by
     intro r
-    show eA (algebraMap R A (eR.symm r)) = algebraMap R' A' r
+    change eA (algebraMap R A (eR.symm r)) = algebraMap R' A' r
     simpa using hRA (eR.symm r))
   have hsingA : Ideal.map eA.toRingHom (singularIdeal R A) =
       singularIdeal R' A' := by
@@ -676,12 +676,12 @@ private lemma quotientResolvable_quotient
   let : IsScalarTower (T.R ⧸ J') (T.A ⧸ JA') (T.Λ ⧸ JL') :=
     IsScalarTower.of_algebraMap_eq (fun _ => rfl)
   have hJA' : JA.map (Ideal.Quotient.mk IA) = JA' := by
-    show Ideal.map (Ideal.Quotient.mk IA) (Ideal.map (algebraMap S.R S.A) J) =
+    change Ideal.map (Ideal.Quotient.mk IA) (Ideal.map (algebraMap S.R S.A) J) =
       Ideal.map (algebraMap T.R T.A) (Ideal.map (Ideal.Quotient.mk I) J)
     rw [Ideal.map_map, Ideal.map_map]
     congr 1
   have hJL' : JL.map (Ideal.Quotient.mk IL) = JL' := by
-    show Ideal.map (Ideal.Quotient.mk IL)
+    change Ideal.map (Ideal.Quotient.mk IL)
         (Ideal.map (algebraMap S.A S.Λ) (Ideal.map (algebraMap S.R S.A) J)) =
       Ideal.map (algebraMap T.A T.Λ)
         (Ideal.map (algebraMap T.R T.A) (Ideal.map (Ideal.Quotient.mk I) J))
@@ -707,7 +707,7 @@ private lemma quotientResolvable_quotient
     intro x
     obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective x
     obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective x
-    show eA (Ideal.Quotient.mk JA' (Ideal.Quotient.mk IA (algebraMap S.R S.A x))) = _
+    change eA (Ideal.Quotient.mk JA' (Ideal.Quotient.mk IA (algebraMap S.R S.A x))) = _
     rw [heA, heR]
     rfl
   have hAL : ∀ x, eL (algebraMap (T.A ⧸ JA') (T.Λ ⧸ JL') x) =
@@ -715,12 +715,12 @@ private lemma quotientResolvable_quotient
     intro x
     obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective x
     obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective x
-    show eL (Ideal.Quotient.mk JL' (Ideal.Quotient.mk IL (algebraMap S.A S.Λ x))) = _
+    change eL (Ideal.Quotient.mk JL' (Ideal.Quotient.mk IL (algebraMap S.A S.Λ x))) = _
     rw [heL, heA]
     rfl
   have hq : Ideal.map eL.symm.toRingHom (Ideal.map (Ideal.Quotient.mk KL) S.q) =
       Ideal.map (Ideal.Quotient.mk JL') T.q := by
-    show Ideal.map eL.symm.toRingHom (Ideal.map (Ideal.Quotient.mk KL) S.q) =
+    change Ideal.map eL.symm.toRingHom (Ideal.map (Ideal.Quotient.mk KL) S.q) =
       Ideal.map (Ideal.Quotient.mk JL') (Ideal.map (Ideal.Quotient.mk IL) S.q)
     simp only [Ideal.map_map]
     congr 1
@@ -812,11 +812,11 @@ private lemma resolve_of_quotient_single_eighthPower
     ((algebraMap (S.A ⧸ IA) (S.Λ ⧸ IL)).comp
       (algebraMap (S.R ⧸ IR) (S.A ⧸ IA))).toAlgebra
   have hIAspan : IA = Ideal.span {(algebraMap S.R S.A π) ^ 8} := by
-    show Ideal.map (algebraMap S.R S.A) (Ideal.span {π ^ 8}) = _
+    change Ideal.map (algebraMap S.R S.A) (Ideal.span {π ^ 8}) = _
     rw [Ideal.map_span]
     simp [map_pow]
   have hILspan : IL = Ideal.span {(algebraMap S.R S.Λ π) ^ 8} := by
-    show Ideal.map (algebraMap S.A S.Λ)
+    change Ideal.map (algebraMap S.A S.Λ)
         (Ideal.map (algebraMap S.R S.A) (Ideal.span {π ^ 8})) = _
     rw [Ideal.map_map, IsScalarTower.algebraMap_eq S.R S.A S.Λ]
     rw [Ideal.map_span]
@@ -845,37 +845,37 @@ private lemma resolve_of_quotient_single_eighthPower
       algebraMap (S.R ⧸ IR) (S.A ⧸ IA') (mkR x) =
         Ideal.Quotient.mk IA' (algebraMap S.R S.A x) := by
     intro x
-    show eA.toRingHom
+    change eA.toRingHom
       (algebraMap (S.R ⧸ IR) (S.A ⧸ IA) (mkR x)) = _
     rw [Ideal.Quotient.algebraMap_quotient_map_quotient]
-    show eA (Ideal.Quotient.mk IA (algebraMap S.R S.A x)) = _
+    change eA (Ideal.Quotient.mk IA (algebraMap S.R S.A x)) = _
     exact Ideal.quotientEquiv_mk IA IA' (RingEquiv.refl S.A)
       (by simpa using hIAspan.symm) (algebraMap S.R S.A x)
   have hbaseAL : ∀ a : S.A,
       algebraMap (S.A ⧸ IA') (S.Λ ⧸ IL') (Ideal.Quotient.mk IA' a) =
         Ideal.Quotient.mk IL' (algebraMap S.A S.Λ a) := by
     intro a
-    show eL.toRingHom
+    change eL.toRingHom
       (algebraMap (S.A ⧸ IA) (S.Λ ⧸ IL)
         (eA.symm.toRingHom (Ideal.Quotient.mk IA' a))) = _
-    show eL (algebraMap (S.A ⧸ IA) (S.Λ ⧸ IL)
+    change eL (algebraMap (S.A ⧸ IA) (S.Λ ⧸ IL)
       (eA.symm (Ideal.Quotient.mk IA' a))) = _
     have hA : eA.symm (Ideal.Quotient.mk IA' a) = Ideal.Quotient.mk IA a := by
       simp [eA]
     rw [hA]
-    show eL (Ideal.Quotient.mk IL (algebraMap S.A S.Λ a)) = _
+    change eL (Ideal.Quotient.mk IL (algebraMap S.A S.Λ a)) = _
     exact Ideal.quotientEquiv_mk IL IL' (RingEquiv.refl S.Λ)
       (by simpa using hILspan.symm) (algebraMap S.A S.Λ a)
   have hRA : ∀ r, eA (algebraMap (S.R ⧸ IR) (S.A ⧸ IA) r) =
       algebraMap (S.R ⧸ IR) (S.A ⧸ IA') (eR r) := by
     intro r
-    show eA.toRingHom (algebraMap (S.R ⧸ IR) (S.A ⧸ IA) r) =
+    change eA.toRingHom (algebraMap (S.R ⧸ IR) (S.A ⧸ IA) r) =
       (eA.toRingHom.comp (algebraMap (S.R ⧸ IR) (S.A ⧸ IA))) (eR r)
     simp [eR]
   have hAΛ : ∀ a, eL (algebraMap (S.A ⧸ IA) (S.Λ ⧸ IL) a) =
       algebraMap (S.A ⧸ IA') (S.Λ ⧸ IL') (eA a) := by
     intro a
-    show eL.toRingHom ((algebraMap (S.A ⧸ IA) (S.Λ ⧸ IL)) a) =
+    change eL.toRingHom ((algebraMap (S.A ⧸ IA) (S.Λ ⧸ IL)) a) =
       (eL.toRingHom.comp ((algebraMap (S.A ⧸ IA) (S.Λ ⧸ IL)).comp
         eA.symm.toRingHom) (eA.toRingHom a))
     simp
@@ -917,7 +917,7 @@ private lemma resolve_of_quotient_single_eighthPower
       bar (Ideal.Quotient.mk IA' (algebraMap S.R S.A x)) =
         algebraMap (S.R ⧸ IR) B (mkR x) := by
     intro x
-    show algebraMap (S.A ⧸ IA') B
+    change algebraMap (S.A ⧸ IA') B
       (Ideal.Quotient.mk IA' (algebraMap S.R S.A x)) = _
     rw [← hbaseA x,
       IsScalarTower.algebraMap_apply (S.R ⧸ IR) (S.A ⧸ IA') B (mkR x)]
@@ -973,7 +973,7 @@ private lemma resolve_of_quotient_single_eighthPower
         (algebraMap (S.A ⧸ IA') (S.Λ ⧸ IL')).comp
           (eA.toRingHom.comp mkA) := by
       ext a
-      show Ideal.Quotient.mk IL' (algebraMap S.A S.Λ a) =
+      change Ideal.Quotient.mk IL' (algebraMap S.A S.Λ a) =
         algebraMap (S.A ⧸ IA') (S.Λ ⧸ IL')
           (eA (Ideal.Quotient.mk IA a))
       rw [show eA (Ideal.Quotient.mk IA a) = Ideal.Quotient.mk IA' a by
@@ -1022,7 +1022,7 @@ private lemma resolve_of_quotient_single_eighthPower
               apply Ideal.radical_mono
               have hx : Ideal.map c.toRingHom
                   (singularIdeal (S.R ⧸ IR) B) ≤ Ideal.map mkL' H_B := by
-                show Ideal.map c.toRingHom
+                change Ideal.map c.toRingHom
                     (singularIdeal (S.R ⧸ IR) B) ≤
                   Ideal.map (Ideal.Quotient.mk IL')
                     ((Ideal.map G.toRingHom
@@ -1037,7 +1037,7 @@ private lemma resolve_of_quotient_single_eighthPower
           (mem_singularIdeal_of_smoothAway (R := S.R) (B := B') π hAway)
           8 (by norm_num))
     have hker : IL' ≤ H_B := by
-      show Ideal.span {(algebraMap S.R S.Λ π) ^ 8} ≤ H_B
+      change Ideal.span {(algebraMap S.R S.Λ π) ^ 8} ≤ H_B
       exact (Ideal.span_singleton_le_iff_mem _).mpr hπ8
     have hpre : H_A ≤ Ideal.comap mkL' ((Ideal.map mkL' H_B).radical) :=
       Ideal.map_le_iff_le_comap.mp hmod
@@ -1215,7 +1215,7 @@ private theorem canBeResolved_of_quotient_eighthPowerIdeal_aux
             exact h'
           have htq : algebraMap T.R T.Λ t ∈ T.q := by
             apply Ideal.mem_map_of_mem
-            show algebraMap S.A S.Λ (algebraMap S.R S.A (π (Fin.last n))) ∈ S.q
+            change algebraMap S.A S.Λ (algebraMap S.R S.A (π (Fin.last n))) ∈ S.q
             rw [← IsScalarTower.algebraMap_apply]
             exact hπq (Fin.last n)
           have htR : ∀ x : T.R, x * t = 0 ↔ x * t ^ 2 = 0 := by
@@ -1234,7 +1234,7 @@ private theorem canBeResolved_of_quotient_eighthPowerIdeal_aux
           have htstandard : IsStrictlyStandard (R := T.R) (A := T.A)
               (algebraMap T.R T.A t) :=
             by
-              show IsStrictlyStandard (R := S.R ⧸ I)
+              change IsStrictlyStandard (R := S.R ⧸ I)
                 (Ideal.Quotient.mk (I.map (algebraMap S.R S.A))
                   (algebraMap S.R S.A (π (Fin.last n))))
               exact strictlyStandard_quotient I _ (hstandard (Fin.last n))

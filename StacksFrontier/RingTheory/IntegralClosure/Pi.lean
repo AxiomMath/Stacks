@@ -129,7 +129,7 @@ theorem isIntegral_pi_iff (ι : Type*) [Finite ι] (R : ι → Type*) (S : ι �
     -- conclude
     refine ⟨F, hFmonic, ?_⟩
     funext i
-    show (Pi.evalRingHom S i) (Polynomial.eval₂ (algebraMap (∀ i, R i) (∀ i, S i)) s F)
+    change (Pi.evalRingHom S i) (Polynomial.eval₂ (algebraMap (∀ i, R i) (∀ i, S i)) s F)
         = (0 : ∀ i, S i) i
     rw [Polynomial.hom_eval₂]
     have key : (Pi.evalRingHom S i).comp (algebraMap (∀ i, R i) (∀ i, S i))
@@ -162,7 +162,7 @@ theorem isIntegral_pi_iff_const
   let := Fintype.ofFinite ι
   choose p hp hz using h
   refine ⟨∏ i, p i, Polynomial.monic_prod_of_monic _ _ (fun i _ => hp i), funext fun i => ?_⟩
-  show (Pi.evalAlgHom R S i) (Polynomial.aeval x (∏ j, p j)) = 0
+  change (Pi.evalAlgHom R S i) (Polynomial.aeval x (∏ j, p j)) = 0
   rw [← Polynomial.aeval_algHom_apply]
   simp only [Pi.evalAlgHom_apply, map_prod]
   exact Finset.prod_eq_zero (Finset.mem_univ i) (hz i)

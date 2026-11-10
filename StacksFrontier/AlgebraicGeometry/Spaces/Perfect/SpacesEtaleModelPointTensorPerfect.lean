@@ -2,8 +2,7 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.Spaces.SpacesEtaleModelToPointBaseChange
 public import StacksFrontier.AlgebraicGeometry.Spaces.Perfect.SpacesEtaleModelPerfectPullback
-public import
-  StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.DerivedPullbackFiniteProjectiveComplex
+public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.DerivedPullbackFiniteProjectiveComplex
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.Perfect.StructureSheafPerfect
 public import
   StacksFrontier.CategoryTheory.Sites.Cohomology.StrictlyPerfect.MapOutOfALocallyConstantComplex

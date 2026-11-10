@@ -160,7 +160,7 @@ theorem smoothAt_of_isVersalAt_of_agreementLocus (hp : p.IsFiberedInGroupoids)
     rw [Scheme.residueFieldMap_comp]
     exact IsIso.comp_isIso' (hπres _ hclosed) hres
   have hclosedU : (α ≫ π).base cp = u₀ := by
-    show π.base (α.base cp) = u₀
+    change π.base (α.base cp) = u₀
     rw [hclosed, ← Scheme.Hom.comp_apply, hi]
     rfl
   have hcB : B.Contains (Spec B₀) := contains_spec_of_isIso_residueFieldMap B
@@ -203,16 +203,16 @@ theorem smoothAt_of_isVersalAt_of_agreementLocus (hp : p.IsFiberedInGroupoids)
     rw [Functor.map_comp, Functor.map_comp, Functor.map_comp, hczV, hd'V, eqToHom_map,
       eqToHom_map]
     simp only [Category.assoc, eqToHom_trans_assoc, eqToHom_refl, Category.id_comp]
-    show eqToHom _ ≫ Spec.map Φ ≫ β = eqToHom _ ≫ α ≫ π'
+    change eqToHom _ ≫ Spec.map Φ ≫ β = eqToHom _ ≫ α ≫ π'
     rw [hcomm]
   obtain ⟨iyz, ⟨hiyz, -⟩, -⟩ := hp.unique_lift cz d' _ hfac
   -- the two arrows as lifts of morphisms of schemes over `S`
   have hyq : q.obj y = Over.mk ((α ≫ π) ≫ ((Over.post B.inclusion).obj (p.obj x)).hom) := by
-    show (Over.post B.inclusion).obj (p.obj y) = _
+    change (Over.post B.inclusion).obj (p.obj y) = _
     rw [hy]
     rfl
   have hzq : q.obj z = Over.mk (β ≫ B.inclusion.map Uξ) := by
-    show (Over.post B.inclusion).obj (p.obj z) = _
+    change (Over.post B.inclusion).obj (p.obj z) = _
     rw [hz]
     rfl
   have hiLift : q.IsHomLift (Over.homMk
@@ -221,7 +221,7 @@ theorem smoothAt_of_isVersalAt_of_agreementLocus (hp : p.IsFiberedInGroupoids)
     refine IsHomLift.of_fac' q _ iyz hyq hzq ?_
     apply Over.OverMorphism.ext
     rw [Over.comp_left, Over.comp_left, Over.eqToHom_left, Over.eqToHom_left]
-    show V.map (p.map iyz) = _
+    change V.map (p.map iyz) = _
     rw [hiyz, Functor.map_comp, Functor.map_comp, eqToHom_map, eqToHom_map]
     rfl
   have hdLift : q.IsHomLift (Over.homMk
@@ -231,7 +231,7 @@ theorem smoothAt_of_isVersalAt_of_agreementLocus (hp : p.IsFiberedInGroupoids)
     apply Over.OverMorphism.ext
     rw [Over.comp_left, Over.comp_left, Over.eqToHom_left, Over.eqToHom_left, eqToHom_refl,
       Category.comp_id]
-    show V.map (p.map d) = _
+    change V.map (p.map d) = _
     rw [hdV]
     rfl
   obtain ⟨b, hb⟩ := IsVersalAt.exists_lift_of_isSmallExtension_of_isHomLift q
@@ -331,7 +331,7 @@ theorem exists_localRetraction_of_isVersalAt (hp : p.IsFiberedInGroupoids) [p.Fa
     Over.mk (ObjectProperty.homMk (X := B.obj hW) (Y := B.obj hS)
       (j₀ ≫ B.inclusion.map (p.obj ξ').hom))
   have hsW : s ≫ π ≫ B.inclusion.map (p.obj x).hom = B.inclusion.map W.hom := by
-    show s ≫ π ≫ _ = j₀ ≫ _
+    change s ≫ π ≫ _ = j₀ ≫ _
     rw [hZS, ← Category.assoc, hs]
   obtain ⟨w, β, cw, hw, hβ, hcw⟩ := hcover W s hsW
   have hcwV : V.map (p.map cw) = eqToHom (congrArg V.obj hw) ≫ j₀ :=

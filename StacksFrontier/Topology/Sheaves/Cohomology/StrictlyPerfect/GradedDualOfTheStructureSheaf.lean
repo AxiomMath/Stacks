@@ -108,6 +108,7 @@ def structureSheafComplexXZeroIso :
 /-- The graded dual pairing of
 `Stacks.SheafOfModules.OnSpace.exactPairingDualGradedObjectOfLocallyFiniteFreeSummand` at the
 complex `𝒪_X[0]`, with bound `{0}`. -/
+@[instance_reducible]
 def exactPairingDualGradedObjectStructureSheaf :
     @ExactPairing _ _ (Strict.gradedMonoidalCategoryRingSheaf X.sheaf)
       ((structureSheafComplex X).X : GradedObject ℤ (Strict.Mod X.sheaf))
@@ -140,6 +141,7 @@ theorem isLocallyStrictlyPerfect_structureSheafComplex :
 /-- The graded dual pairing of
 `Stacks.SheafOfModules.OnSpace.exactPairingDualGradedObjectOfLocallyStrictlyPerfect` at the
 complex `𝒪_X[0]`, with bound `{0}`. -/
+@[instance_reducible]
 def exactPairingDualGradedObjectStructureSheafOfCovering :
     @ExactPairing _ _ (Strict.gradedMonoidalCategoryRingSheaf X.sheaf)
       ((structureSheafComplex X).X : GradedObject ℤ (Strict.Mod X.sheaf))

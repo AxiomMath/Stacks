@@ -699,6 +699,8 @@ theorem chartTwistMapRefl_hom (n : ℤ) :
       ((Stacks.AlgebraicGeometry.Tag07ZGTwist.twistAlgebra (dQ.algebra T f)).piece n)))).trans
     (map_refl_hom_comp_comp_map_refl_inv _ _ _ _ _)
 
+open Stacks.AlgebraicGeometry.Tag07ZGTwist
+  (pullbackTensorIso_inv_comp_map_mulSheaf_comp_chartTwistAlgebraHom) in
 /-- **The chart maps `θ_n` carry the pulled-back multiplication of the twists of `P ×_X T` to the
 pulled-back multiplication of the twists of `Q ×_X T`.** -/
 theorem chartTwistMapRefl_mul (i j : ℤ)
@@ -722,7 +724,7 @@ theorem chartTwistMapRefl_mul (i j : ℤ)
       hψ.chartTwistMapRefl T f p hp q hq hM₁ hM₂ (i + j) := by
   subst hm₁ hm₂
   refine ObjectProperty.hom_ext _ ?_
-  exact (Stacks.AlgebraicGeometry.Tag07ZGTwist.pullbackTensorIso_inv_comp_map_mulSheaf_comp_chartTwistAlgebraHom
+  exact (pullbackTensorIso_inv_comp_map_mulSheaf_comp_chartTwistAlgebraHom
     (hψ.hom T f) ((BigFppfOver.toScheme B S hS).map (hψ.chartMapHom T f))
     ((BigFppfOver.toScheme B S hS).map (hψ.chartIncl T f)) p q (hψ.chartSchemeIso T f).hom
     (hψ.toScheme_map_chartMapHom_comp_of_eq T f p hp)

@@ -285,7 +285,8 @@ Tag 01VK that move between relative and absolute ampleness over the two affine b
 
 Quasi-projectivity is `Stacks.HProjective.IsQuasiProjective`, the library-name form of
 Tag 01VW's `IsQuasiProjective`; the registered statement of the tag depends on an unproved result
-and cannot be proved with clean axioms, as the module documentation records declaration by declaration.
+and cannot be proved with clean axioms, as the module documentation records declaration by
+declaration.
 
 **No Stacks Tag 0BDE attribute is attached**: this theorem carries a hypothesis the tag lacks. -/
 theorem isQuasiProjective_of_fieldExtension (hdesc : AmpleFieldDescent.{u})

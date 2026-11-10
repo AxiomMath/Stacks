@@ -122,7 +122,7 @@ theorem kernelDeterminantEquiv_tmul_mapEquiv
           ↥(⨅ n : N, LinearMap.ker (LinearMap.mulLeft R (ExteriorAlgebra.ι R n)))) :
         ExteriorAlgebra R N) := by
     rw [determinantAnnihilatorEquiv_val]
-    show _ = ExteriorAlgebra.map ε.toLinearMap (w : ExteriorAlgebra R M)
+    change _ = ExteriorAlgebra.map ε.toLinearMap (w : ExteriorAlgebra R M)
     rw [hεf]
   have hprop := (ProjectiveDeterminant.determinantTensorDeterminantEquiv_of_exact
       (LinearMap.ker f).subtype f (LinearMap.ker f).injective_subtype
@@ -272,7 +272,7 @@ theorem ι_mapIso_isoMk {K K' : PerfectTwoTermComplex R} (e : K.obj ≅ K'.obj) 
 chosen presentations of its source and target. -/
 theorem detIsoEquiv_eq {K K' : PerfectTwoTermComplex R} (e : K.obj ≅ K'.obj) :
     detIsoEquiv e = presentationTransport (presentation R K) (presentation R K') e := by
-  show presentationTransport (presentation R K) (presentation R K')
+  change presentationTransport (presentation R K) (presentation R K')
     ((perfectTwoTermComplexProperty R).ι.mapIso
       (ObjectProperty.isoMk (perfectTwoTermComplexProperty R) e)) = _
   rw [ι_mapIso_isoMk]
@@ -287,7 +287,7 @@ theorem detIsoEquiv_trans {K K' K'' : PerfectTwoTermComplex R} (e : K.obj ≅ K'
     (e' : K'.obj ≅ K''.obj) :
     detIsoEquiv (e ≪≫ e') = (detIsoEquiv e).trans (detIsoEquiv e') := by
   refine LinearEquiv.ext fun x => ?_
-  show detIsoEquiv (e ≪≫ e') x = detIsoEquiv e' (detIsoEquiv e x)
+  change detIsoEquiv (e ≪≫ e') x = detIsoEquiv e' (detIsoEquiv e x)
   refine (DFunLike.congr_fun (detIsoEquiv_eq (e ≪≫ e')) x).trans ?_
   refine (DFunLike.congr_fun (presentationTransport_comp (presentation R K)
     (presentation R K') (presentation R K'') e e') x).symm.trans ?_
@@ -426,8 +426,7 @@ theorem detBaseChange_detIsoEquiv (hφ : letI : Algebra R A := φ.toAlgebra; Mod
   have : Module.Flat R A := hφ
   refine LinearMap.ext fun t => ?_
   simp only [LinearMap.comp_apply, LinearEquiv.coe_coe]
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul b x =>
       have hsm : (b ⊗ₜ[R] x : A ⊗[R] ((det R).obj ⟨K⟩).of.obj) = b • (1 ⊗ₜ[R] x) := by
         rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]

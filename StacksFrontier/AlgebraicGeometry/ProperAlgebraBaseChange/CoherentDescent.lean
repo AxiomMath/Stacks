@@ -65,7 +65,8 @@ quasi-coherent here, so by [Stacks, Tag 01XZ]
 Noetherian and that `F'` is of finite type.
 
 The first is now proved, in the setting of the tag: `isLocallyNoetherian_scheme` in
-`StacksFrontier/AlgebraicGeometry/ProperAlgebraBaseChange/Basic.lean` derives it from `A` Noetherian,
+`StacksFrontier/AlgebraicGeometry/ProperAlgebraBaseChange/Basic.lean` derives it from `A`
+Noetherian,
 `B` of finite type over `A` and `f` proper, by the Hilbert basis theorem and the fact that a
 scheme locally of finite type over a locally Noetherian scheme is locally Noetherian, applied to
 the *proper* `f' : X' ⟶ Spec B` rather than to the affine `π`. So `isCoherent_descendedModule`
@@ -192,7 +193,7 @@ theorem finite_sections_descendedModule_of_finite_sections_realisation (V : X.Op
         have h := (E.inv.val.app (Opposite.op V)).hom.map_smul
           ((ρ.inv.hom.app (Opposite.op V)).hom t) x
         refine Eq.trans (congrArg (E.inv.val.app (Opposite.op V)).hom ?_) h
-        show (t • x : ((F.ungradedSheafModule hc).val.obj (Opposite.op V)))
+        change (t • x : ((F.ungradedSheafModule hc).val.obj (Opposite.op V)))
           = (ρ.hom.hom.app (Opposite.op V)).hom
               ((ρ.inv.hom.app (Opposite.op V)).hom t) • x
         rw [hρ] }

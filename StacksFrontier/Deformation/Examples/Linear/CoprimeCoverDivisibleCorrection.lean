@@ -38,8 +38,8 @@ them.
 
 ## Why this is the shape the converse of Stacks 0DZ7 asks for
 
-`StacksFrontier/Deformation/Examples/Linear/FlatAlgebraLiftCoprimeCover.lean` reduces the converse of
-Stacks 0DZ7 at a principal multiplicative set to an auxiliary-free gluing principle: for a
+`StacksFrontier/Deformation/Examples/Linear/FlatAlgebraLiftCoprimeCover.lean` reduces the converse
+of Stacks 0DZ7 at a principal multiplicative set to an auxiliary-free gluing principle: for a
 comaximal pair `f, g` in a finite type flat `A`-algebra `B` with `A → B_h` syntomic for every
 `h ∈ (f)`, and a surjection `A' → A` of Noetherian rings with nilpotent kernel, a flat `A'`-lift of
 `B_g` produces one of `B`. It is proved there at a square-zero kernel; past square zero the
@@ -126,8 +126,8 @@ presents it" — and it is absent still.
 So the gluing principle itself is **not** proved, Stacks 0DZ7 is **not** closed, and no Stacks
 attribute is claimed. What this file settles is the local-global algebra the argument runs on, and
 in particular that the obstacle recorded in the implementation notes of
-`StacksFrontier/Deformation/Examples/Linear/FlatAlgebraLiftCoprimeCover.lean` — that non-additivity of
-the obstruction variation prevents the Čech correction from being arranged — is not an obstacle:
+`StacksFrontier/Deformation/Examples/Linear/FlatAlgebraLiftCoprimeCover.lean` — that non-additivity
+of the obstruction variation prevents the Čech correction from being arranged — is not an obstacle:
 the correction on the non-syntomic member can be made one on which the variation is identically
 zero.
 
@@ -146,7 +146,8 @@ namespace Deformation.Examples.CoprimeCover
 /-! ### Comaximality -/
 
 /-- A comaximal pair of elements, in the form the gluing principle of
-`StacksFrontier/Deformation/Examples/Linear/FlatAlgebraLiftCoprimeCover.lean` states it, is a coprime
+`StacksFrontier/Deformation/Examples/Linear/FlatAlgebraLiftCoprimeCover.lean` states it, is a
+coprime
 pair. -/
 theorem isCoprime_of_sup_span_singleton_eq_top {B : Type u} [CommRing B] {f g : B}
     (hfg : Ideal.span {f} ⊔ Ideal.span {g} = ⊤) : IsCoprime f g :=

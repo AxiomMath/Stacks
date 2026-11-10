@@ -92,13 +92,13 @@ theorem isPushout_specTopMap_of_isPullback {A A' B B' : CommRingCat.{u}}
     (Iso.refl _) (Iso.refl _) (Iso.refl _) (Spec.toTop.mapIso e.op)
   · exact Category.comp_id _ |>.trans (Category.id_comp _).symm
   · exact Category.comp_id _ |>.trans (Category.id_comp _).symm
-  · show Spec.topMap (CommRingCat.pullbackCone q p).fst ≫
+  · change Spec.topMap (CommRingCat.pullbackCone q p).fst ≫
       Spec.topMap e.hom = _
     simp only [Iso.refl_hom]
     rw [← Spec.topMap_comp]
     congr 1
     exact h.isoIsPullback_hom_fst B A' h₀
-  · show Spec.topMap (CommRingCat.pullbackCone q p).snd ≫
+  · change Spec.topMap (CommRingCat.pullbackCone q p).snd ≫
       Spec.topMap e.hom = _
     simp only [Iso.refl_hom]
     rw [← Spec.topMap_comp]
@@ -239,7 +239,7 @@ private theorem preimage_basicOpen_colimitι_comp {A A' B B' : CommRingCat.{u}} 
     exact PrimeSpectrum.comap_basicOpen q'.hom r
   · rw [← colimit.w (span (Spec.sheafedSpaceMap q) (Spec.sheafedSpaceMap p) ⋙
       SheafedSpace.forgetToPresheafedSpace) WalkingSpan.Hom.fst, Category.assoc]
-    show (Opens.map (Spec.sheafedSpaceMap q).hom.base).obj
+    change (Opens.map (Spec.sheafedSpaceMap q).hom.base).obj
       ((Opens.map (colimit.ι _ WalkingSpan.left ≫ k).base).obj (PrimeSpectrum.basicOpen r)) = _
     rw [hl]
     exact PrimeSpectrum.comap_basicOpen q.hom (p' r)
@@ -285,30 +285,30 @@ private theorem isPullback_colimitSectionsCone_extend_basicOpen
     (LB := D.obj (op WalkingSpan.left)) (LP := D.obj (op WalkingSpan.right))
     (LA := D.obj (op WalkingSpan.zero))
   · apply CommRingCat.hom_ext_iff.mp
-    show CommRingCat.ofHom (algebraMap B' c'.pt) ≫
+    change CommRingCat.ofHom (algebraMap B' c'.pt) ≫
         (k.c.app (op U) ≫ c.π.app (op WalkingSpan.left)) =
       p' ≫ CommRingCat.ofHom (algebraMap B (D.obj (op WalkingSpan.left)))
     rw [colimitSectionsCone_π, PresheafedSpace.colimitPresheafObjIsoComponentwiseLimit_hom_π]
-    show CommRingCat.ofHom (algebraMap B' c'.pt) ≫
+    change CommRingCat.ofHom (algebraMap B' c'.pt) ≫
       (colimit.ι F WalkingSpan.left ≫ k).c.app (op U) = _
     rw [PresheafedSpace.congr_app hk₁]
     exact StructureSheaf.toOpen_comp_comap_assoc p'.hom U _
   · apply CommRingCat.hom_ext_iff.mp
-    show CommRingCat.ofHom (algebraMap B' c'.pt) ≫
+    change CommRingCat.ofHom (algebraMap B' c'.pt) ≫
         (k.c.app (op U) ≫ c.π.app (op WalkingSpan.right)) =
       q' ≫ CommRingCat.ofHom (algebraMap A' (D.obj (op WalkingSpan.right)))
     rw [colimitSectionsCone_π, PresheafedSpace.colimitPresheafObjIsoComponentwiseLimit_hom_π]
-    show CommRingCat.ofHom (algebraMap B' c'.pt) ≫
+    change CommRingCat.ofHom (algebraMap B' c'.pt) ≫
       (colimit.ι F WalkingSpan.right ≫ k).c.app (op U) = _
     rw [PresheafedSpace.congr_app hk₂]
     exact StructureSheaf.toOpen_comp_comap_assoc q'.hom U _
   · apply CommRingCat.hom_ext_iff.mp
-    show CommRingCat.ofHom (algebraMap B (D.obj (op WalkingSpan.left))) ≫
+    change CommRingCat.ofHom (algebraMap B (D.obj (op WalkingSpan.left))) ≫
       D.map WalkingSpan.Hom.fst.op = q ≫
         CommRingCat.ofHom (algebraMap A (D.obj (op WalkingSpan.zero)))
     exact StructureSheaf.toOpen_comp_comap_assoc q.hom _ _
   · apply CommRingCat.hom_ext_iff.mp
-    show CommRingCat.ofHom (algebraMap A' (D.obj (op WalkingSpan.right))) ≫
+    change CommRingCat.ofHom (algebraMap A' (D.obj (op WalkingSpan.right))) ≫
       D.map WalkingSpan.Hom.snd.op = p ≫
         CommRingCat.ofHom (algebraMap A (D.obj (op WalkingSpan.zero)))
     exact StructureSheaf.toOpen_comp_comap_assoc p.hom _ _
@@ -393,7 +393,7 @@ theorem isPushout_specSheafedSpaceMap_of_isPullback
   have hk' (j : WalkingSpan) (f : _ ⟶ _) (hf : colimit.ι F j ≫ k = f) :
       colimit.ι (F ⋙ SheafedSpace.forgetToPresheafedSpace) j ≫ k' =
         SheafedSpace.forgetToPresheafedSpace.map f := by
-    show colimit.ι (F ⋙ SheafedSpace.forgetToPresheafedSpace) j ≫
+    change colimit.ι (F ⋙ SheafedSpace.forgetToPresheafedSpace) j ≫
       e.inv ≫ SheafedSpace.forgetToPresheafedSpace.map k = _
     rw [← Category.assoc, ι_preservesColimitIso_inv, ← Functor.map_comp, hf]
   have he : IsIso e.inv.c := PresheafedSpace.c_isIso_of_iso e.inv

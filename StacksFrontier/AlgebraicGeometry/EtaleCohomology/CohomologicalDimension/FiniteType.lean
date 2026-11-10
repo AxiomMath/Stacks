@@ -26,7 +26,8 @@ ring `K`.
 * `AlgebraicGeometry.Scheme.Hom.etaleCohomologicalDimension_lt_top_of_finiteType`:
   **part (1)**, from the affine case through the reduction
   `AlgebraicGeometry.Scheme.Hom.etaleCohomologicalDimension_lt_top_of_finiteType_of_isAffine`
-  (in `StacksFrontier.AlgebraicGeometry.EtaleCohomology.CohomologicalDimension.FiniteTypeReduction`).
+  (in
+  `StacksFrontier.AlgebraicGeometry.EtaleCohomology.CohomologicalDimension.FiniteTypeReduction`).
 
 Part (2), `AlgebraicGeometry.Scheme.etaleCohomologicalDimension_lt_top_of_finiteType`, is
 proved in the module

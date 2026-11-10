@@ -369,7 +369,7 @@ theorem bridgedComparison_conormalToCotangentApp (y : conormalTerm A B (op ⦋1�
   rw [bridgedComparison]
   simp only [ModuleCat.hom_comp, LinearMap.comp_apply, ModuleCat.hom_ofHom]
   rw [h0]
-  show Algebra.Extension.Cotangent.map (toConormalExtension A B 0)
+  change Algebra.Extension.Cotangent.map (toConormalExtension A B 0)
       (naiveCotangentComparison A B
         ((standardResolutionExtension A B 1).cotangentComplex
           (Algebra.Extension.Cotangent.map (ofConormalExtension A B 1) y))) = _
@@ -465,7 +465,7 @@ theorem objD_conormal_zero :
     AlternatingFaceMapComplex.objD (conormalSimplicialModule A B) 0 =
       conormalMap A B (SimplexCategory.δ (0 : Fin 2)).op -
         conormalMap A B (SimplexCategory.δ (1 : Fin 2)).op := by
-  show ∑ i : Fin 2, ((-1 : ℤ) ^ (i : ℕ)) • _ = _
+  change ∑ i : Fin 2, ((-1 : ℤ) ^ (i : ℕ)) • _ = _
   rw [Fin.sum_univ_two]
   simp [SimplicialObject.δ, conormalSimplicialModule, sub_eq_add_neg]
   abel
@@ -479,7 +479,7 @@ theorem conormalComplex_d_negOne_zero :
           conormalMap A B (SimplexCategory.δ (1 : Fin 2)).op) ≫
         (conormalComplexXZeroIso A B).inv := by
   rw [← objD_conormal_zero]
-  show ((conormalMooreComplex A B).extend (ComplexShape.embeddingUpIntLE (0 : ℤ))).d _ _ = _
+  change ((conormalMooreComplex A B).extend (ComplexShape.embeddingUpIntLE (0 : ℤ))).d _ _ = _
   rw [HomologicalComplex.extend_d_eq _ (ComplexShape.embeddingUpIntLE (0 : ℤ))
     (i := 1) (j := 0) (by simp) (by simp), alternatingFaceMapComplex_obj_d]
   rfl
@@ -757,7 +757,7 @@ theorem cotangentMap_comp_evalCotangent_id :
           (Algebra.Extension.Hom.id (conormalExtension A B (op ⦋0⦌))) =
       evalCotangent A B (standardResolutionExtension A B 0) (toConormalExtension A B 0) := by
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-  show Algebra.Extension.Cotangent.map
+  change Algebra.Extension.Cotangent.map
       (Algebra.Extension.Hom.id (conormalExtension A B (op ⦋0⦌)))
       (Algebra.Extension.Cotangent.map (toConormalExtension A B 0) x) =
     Algebra.Extension.Cotangent.map (toConormalExtension A B 0) x
@@ -772,7 +772,7 @@ theorem cotangentSpaceMap_comp_evalCotangentSpace_id :
       evalCotangentSpace A B (standardResolutionExtension A B 0)
         (toConormalExtension A B 0) := by
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-  show Algebra.Extension.CotangentSpace.map
+  change Algebra.Extension.CotangentSpace.map
       (Algebra.Extension.Hom.id (conormalExtension A B (op ⦋0⦌)))
       (Algebra.Extension.CotangentSpace.map (toConormalExtension A B 0) x) =
     Algebra.Extension.CotangentSpace.map (toConormalExtension A B 0) x

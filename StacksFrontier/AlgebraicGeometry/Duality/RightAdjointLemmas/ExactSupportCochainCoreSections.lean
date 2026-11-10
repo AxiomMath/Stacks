@@ -142,7 +142,7 @@ theorem cochainCore_of_sectionsCore (hs : S.SheafHomPushforwardSectionsCore)
   refine HomologicalComplex.hom_ext _ _ fun n => ?_
   refine _root_.SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun ⟨U⟩ => ?_)
   refine ModuleCat.hom_ext (LinearMap.ext fun s => ?_)
-  show (S.modulePushforwardSheafHomExactSupportAdjunction.counit.app (I.X n)).val.app (op U)
+  change (S.modulePushforwardSheafHomExactSupportAdjunction.counit.app (I.X n)).val.app (op U)
         (RingedSite.applyHomSection (ringedSite S.Z.sheaf)
           (RingedSite.sheafHomComplex (ringedSite S.Z.sheaf)
             (RingedSite.structureSheafComplex (ringedSite S.Z.sheaf))

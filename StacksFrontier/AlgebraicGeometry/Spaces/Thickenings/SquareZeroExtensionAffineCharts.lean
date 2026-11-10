@@ -112,8 +112,7 @@ theorem _root_.IsBaseChange.ker_of_retraction (πA : A' →+* A) (πB : B' →+*
   refine ⟨fun t t' htt' => ?_, fun j => ?_⟩
   · have hret : ∀ t, Θ (κ.liftBaseChange B' t) = t := by
       intro t
-      induction t using TensorProduct.induction_on with
-      | zero => rw [map_zero, map_zero]
+      induction t using TensorProduct.inductionOn with
       | tmul b x => rw [LinearMap.liftBaseChange_tmul, hΘ]
       | add t t' ht ht' => rw [map_add, map_add, ht, ht']
     exact (hret t).symm.trans ((congrArg Θ htt').trans (hret t'))
@@ -342,10 +341,7 @@ theorem ker_le_map_ker_of_isAffineChart :
     E.quasicoherent U V hU hV g).2 y
   let L := (E.ι (op V)).comp (sectionsBaseChange E.I g).toAddMonoidHom
   change L t ∈ _
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    rw [map_zero]
-    exact Submodule.zero_mem _
+  induction t using TensorProduct.inductionOn with
   | tmul o m =>
     change E.ι (op V) (sectionsBaseChange E.I g (o ⊗ₜ m)) ∈ _
     rw [chartBaseChange_tmul, E.ι_smul hV]

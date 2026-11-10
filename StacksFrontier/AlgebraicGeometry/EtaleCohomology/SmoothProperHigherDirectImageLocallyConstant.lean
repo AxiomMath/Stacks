@@ -112,7 +112,7 @@ theorem isFiniteTypeLocallyConstant_of_forall_mem_range (Z : B.Scheme)
     ⟨Over.mk (Y := (V p.1 p.2).obj.left) ((V p.1 p.2).obj.hom ≫ w p.1), by
       have := hwe p.1
       have : Etale (B.inclusion.map (V p.1 p.2).obj.hom) := (V p.1 p.2).property
-      show Etale (B.inclusion.map ((V p.1 p.2).obj.hom ≫ w p.1))
+      change Etale (B.inclusion.map ((V p.1 p.2).obj.hom ≫ w p.1))
       rw [Functor.map_comp]
       infer_instance⟩
   let T := SmallEtale.final B Z.obj Z.property
@@ -133,7 +133,7 @@ theorem isFiniteTypeLocallyConstant_of_forall_mem_range (Z : B.Scheme)
       (Category.comp_id _).symm.trans (Over.w (hT.from (Xp ⟨x', i⟩)).hom)
     refine ⟨⟨x', i⟩, (SmallEtale.toScheme B _ _).map k v, ?_⟩
     rw [hfrom]
-    show (B.inclusion.map ((V x' i).obj.hom ≫ w x')) _ = x'
+    change (B.inclusion.map ((V x' i).obj.hom ≫ w x')) _ = x'
     have hv' : (B.inclusion.map (V x' i).obj.hom) ((SmallEtale.toScheme B _ _).map k v) = y := by
       rw [← hgi, ← hv, Functor.map_comp]
       rfl
@@ -215,7 +215,7 @@ theorem exists_opens_nsmul_smallEtaleStalkAb_eq_zero {X : Scheme.{u}} (F : Etale
   · let l0 : Spec (.of yb.residueField) ⟶ (V i).left := v.left
     have hv : l0 ≫ (V i).hom = yb.hom := Over.w v
     refine ⟨l0 (default : Spec (.of yb.residueField)), ?_⟩
-    show (l0 ≫ (V i).hom) (default : Spec (.of yb.residueField)) = y
+    change (l0 ≫ (V i).hom) (default : Spec (.of yb.residueField)) = y
     rw [hv]
     exact X.algClosedPointHom_apply y _
   · refine fun h0 => natCast_ne_zero_of_ringChar hn hchar ?_
@@ -258,7 +258,7 @@ theorem exists_isAffineOpen_nsmul_smallEtaleStalkAb_eq_zero {X S : Scheme.{u}} (
       rw [← X.evaluation_ne_zero_iff_mem_basicOpen (U := ⊤) y.1 trivial, map_natCast]
       exact hn0 y
     have h2 : f y.1 ∈ S.basicOpen ((n y : ℕ) : Γ(S, ⊤)) := by
-      show y.1 ∈ f ⁻¹ᵁ S.basicOpen ((n y : ℕ) : Γ(S, ⊤))
+      change y.1 ∈ f ⁻¹ᵁ S.basicOpen ((n y : ℕ) : Γ(S, ⊤))
       rwa [Scheme.preimage_basicOpen, map_natCast]
     exact (congrArg (· ∈ S.basicOpen ((n y : ℕ) : Γ(S, ⊤))) (show f y.1 = s from y.2)).mp h2
   have hprod : ∀ T' : Finset (f ⁻¹' {s}),
@@ -276,12 +276,13 @@ theorem exists_isAffineOpen_nsmul_smallEtaleStalkAb_eq_zero {X S : Scheme.{u}} (
   refine ⟨U, N, hsU, hU, hN, ?_, ?_⟩
   · refine S.toRingedSpace.isUnit_of_isUnit_germ U _ fun x hx => ?_
     have h1 := (S.mem_basicOpen ((N : ℕ) : Γ(S, ⊤)) x trivial).1 (hUU₀ hx).1
-    rwa [map_natCast] at h1 ⊢
+    rw [map_natCast] at h1 ⊢
+    assumption
   · intro t ht a
     have htW : t.hom default ∈ W := by_contra fun h => (hUU₀ ht).2 ⟨_, h, rfl⟩
     obtain ⟨y, hyT, hy⟩ := Set.mem_iUnion₂.1 htW
     obtain ⟨m, hm⟩ : n y ∣ N := Finset.dvd_prod_of_mem _ hyT
-    show N • a = 0
+    change N • a = 0
     rw [hm, mul_comm, ← smul_smul, hkill y t hy a, smul_zero]
 
 /-- An integer killing the abelian stalk of `F` at the geometric point `t ≫ g` kills the abelian
@@ -366,9 +367,9 @@ theorem isFiniteTypeLocallyConstantModuleSheaf_rightDerived_of_smooth_of_isPrope
     nsmul_id_eq_zero_of_forall_smallEtaleStalkAb Λ FU N fun t a =>
       nsmul_smallEtaleStalkAb_inverseImage_eq_zero Λ (pullback.fst f U.ι) F t N
         (hkill (GeometricPoint.mk _ (t.hom ≫ pullback.fst f U.ι)) (by
-          show (t.hom ≫ pullback.fst f U.ι ≫ f) default ∈ U
+          change (t.hom ≫ pullback.fst f U.ι ≫ f) default ∈ U
           rw [sq.w]
-          show U.ι ((t.hom ≫ fU) default) ∈ U
+          change U.ι ((t.hom ≫ fU) default) ∈ U
           exact ((t.hom ≫ fU) default).2)) a
   have hunit : IsUnit ((N : ℕ) : Γ(UB.obj, ⊤)) := by
     have h := hNU.map (U.topIso.inv).hom

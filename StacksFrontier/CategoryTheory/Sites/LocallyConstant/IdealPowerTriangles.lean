@@ -179,17 +179,17 @@ second are both the image of `Iⁿ` in `Λ/Iⁿ⁺¹`. -/
 theorem shortExact_idealPowShortComplex : (idealPowShortComplex Λ I n).ShortExact := by
   refine ShortComplex.ShortExact.mk' ?_ ?_ ?_
   · rw [ShortComplex.moduleCat_exact_iff_range_eq_ker]
-    show LinearMap.range (idealPowSuccQuotInclHom Λ I n)
+    change LinearMap.range (idealPowSuccQuotInclHom Λ I n)
       = LinearMap.ker (quotIdealPowSuccProjHom Λ I n)
     rw [range_idealPowSuccQuotInclHom, ker_quotIdealPowSuccProjHom]
-  · show Mono (idealPowSuccQuotIncl Λ I n)
+  · change Mono (idealPowSuccQuotIncl Λ I n)
     rw [ModuleCat.mono_iff_injective]
-    show Function.Injective (idealPowSuccQuotInclHom Λ I n)
+    change Function.Injective (idealPowSuccQuotInclHom Λ I n)
     rw [← LinearMap.ker_eq_bot]
     exact ker_idealPowSuccQuotInclHom Λ I n
-  · show Epi (quotIdealPowSuccProj Λ I n)
+  · change Epi (quotIdealPowSuccProj Λ I n)
     rw [ModuleCat.epi_iff_surjective]
-    show Function.Surjective (quotIdealPowSuccProjHom Λ I n)
+    change Function.Surjective (quotIdealPowSuccProjHom Λ I n)
     rw [← LinearMap.range_eq_top]
     exact range_quotIdealPowSuccProjHom Λ I n
 

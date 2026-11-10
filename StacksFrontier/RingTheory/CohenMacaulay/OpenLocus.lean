@@ -77,7 +77,8 @@ in Lemma 00R7 are the quotients `M/(𝔪B)M`; they are identified with the ring 
 The ring maps `R_𝔭 → R[t]_{𝔯'}` and `R_𝔭 → S_𝔯` are essentially of finite presentation because
 the target is a localization of `R_𝔭 ⊗_R R[t]` respectively `R_𝔭 ⊗_R S`.
 
-*Lemma 00RF.* The source's proof is the argument of Lemma 00RH over a field, and it is recovered here as the case `R = k` of Lemma 00RH, the fibre
+*Lemma 00RF.* The source's proof is the argument of Lemma 00RH over a field, and it is recovered
+here as the case `R = k` of Lemma 00RH, the fibre
 ring over a field being the local ring itself.
 
 *Lemma 00RI.* The source proves density by applying Lemma 00RG to the fibre, whose Cohen–Macaulay
@@ -247,7 +248,7 @@ theorem includeRight_eq_zero_of_mem (x : X) (hx : x ∈ p.map (algebraMap R X)) 
   have : p.map (algebraMap R X) ≤ RingHom.ker (includeRight : X →ₐ[R] p.Fiber X).toRingHom := by
     refine Ideal.map_le_iff_le_comap.mpr fun a ha ↦ ?_
     rw [Ideal.mem_comap, RingHom.mem_ker]
-    show includeRight (algebraMap R X a) = 0
+    change includeRight (algebraMap R X a) = 0
     rw [AlgHom.commutes, IsScalarTower.algebraMap_apply R p.ResidueField,
       Ideal.algebraMap_residueField_eq_zero.mpr ha, map_zero]
   exact this hx
@@ -281,11 +282,11 @@ theorem isLocalization_fiberToQuotient
     refine congrArg PrimeSpectrum.asIdeal ((PrimeSpectrum.preimageEquivFiber R X
       (⟨p, ‹_›⟩ : PrimeSpectrum R)).symm.injective (a₁ := ⟨_, this⟩) (a₂ := ⟨P, ‹_›⟩)
       (Subtype.ext (PrimeSpectrum.ext ?_)))
-    show Ideal.comap _ _ = Ideal.comap _ _
+    change Ideal.comap _ _ = Ideal.comap _ _
     rw [hP]
     ext x
     rw [Ideal.mem_comap, Ideal.mem_comap]
-    show algebraMap (p.Fiber X) _ (1 ⊗ₜ x) ∈ _ ↔ _
+    change algebraMap (p.Fiber X) _ (1 ⊗ₜ x) ∈ _ ↔ _
     rw [hφ, ← IsLocalization.AtPrime.to_map_mem_maximal_iff (Localization.AtPrime r) r x]
     have hmk : maximalIdeal (Localization.AtPrime r ⧸ J) =
         (maximalIdeal (Localization.AtPrime r)).map (Ideal.Quotient.mk J) :=
@@ -304,7 +305,7 @@ theorem isLocalization_fiberToQuotient
   · obtain ⟨w, rfl⟩ := Ideal.Quotient.mk_surjective z
     obtain ⟨⟨x, s⟩, rfl⟩ := IsLocalization.mk'_surjective r.primeCompl w
     have hs : (1 ⊗ₜ[R] (s : X) : p.Fiber X) ∈ P.primeCompl := by
-      show (includeRight : X →ₐ[R] p.Fiber X).toRingHom (s : X) ∉ P
+      change (includeRight : X →ₐ[R] p.Fiber X).toRingHom (s : X) ∉ P
       rw [← Ideal.mem_comap (f := (includeRight : X →ₐ[R] p.Fiber X).toRingHom), hP]
       exact s.2
     refine ⟨⟨1 ⊗ₜ x, ⟨_, hs⟩⟩, ?_⟩
@@ -317,7 +318,7 @@ theorem isLocalization_fiberToQuotient
       ← Ideal.map_map, IsLocalization.algebraMap_mem_map_algebraMap_iff r.primeCompl] at h0
     obtain ⟨v, hv, hvt⟩ := h0
     have hvP : (1 ⊗ₜ[R] v : p.Fiber X) ∉ P := by
-      show (includeRight : X →ₐ[R] p.Fiber X).toRingHom v ∉ P
+      change (includeRight : X →ₐ[R] p.Fiber X).toRingHom v ∉ P
       rw [← Ideal.mem_comap (f := (includeRight : X →ₐ[R] p.Fiber X).toRingHom), hP]
       exact hv
     have huP : algebraMap R (p.Fiber X) u ∉ P := by
@@ -330,7 +331,7 @@ theorem isLocalization_fiberToQuotient
     refine ⟨⟨(1 ⊗ₜ v) * algebraMap R (p.Fiber X) u,
       (inferInstance : P.IsPrime).mul_notMem hvP huP⟩, ?_⟩
     rw [← sub_eq_zero, ← mul_sub, mul_assoc, ← Algebra.smul_def, ht]
-    show (includeRight : X →ₐ[R] p.Fiber X) v * includeRight t = 0
+    change (includeRight : X →ₐ[R] p.Fiber X) v * includeRight t = 0
     rw [← map_mul]
     exact includeRight_eq_zero_of_mem p _ hvt
 
@@ -355,11 +356,11 @@ theorem essentiallyOfFinitePresentation_localRingHom {R X : Type*} [CommRing R] 
       (Localization.AtPrime r) := .of_algebraMap_eq fun c ↦ (f.commutes c).symm
   have : IsScalarTower X (Localization.AtPrime p ⊗[R] X) (Localization.AtPrime r) :=
     .of_algebraMap_eq fun x ↦ by
-      show _ = f (1 ⊗ₜ x)
+      change _ = f (1 ⊗ₜ x)
       simp [f]
   have hle : Algebra.algebraMapSubmonoid X p.primeCompl ≤ r.primeCompl := by
     rintro _ ⟨a, ha, rfl⟩
-    show algebraMap R X a ∉ r
+    change algebraMap R X a ∉ r
     rwa [← Ideal.mem_comap, ← Ideal.under_def, ← Ideal.over_def r p]
   have := IsLocalization.isLocalization_of_submonoid_le (Localization.AtPrime p ⊗[R] X)
     (Localization.AtPrime r) _ _ hle
@@ -464,7 +465,7 @@ theorem flat_localization_iff [Module.Flat R T] [Algebra.FinitePresentation R T]
   have hψ : ∀ a : MvPolynomial σ R, algebraMap (MvPolynomial σ R) (p.Fiber T) a =
       1 ⊗ₜ algebraMap (MvPolynomial σ R) T a := by
     intro a
-    show ψ (e.symm (algebraMap (MvPolynomial σ R) (MvPolynomial σ p.ResidueField) a)) = _
+    change ψ (e.symm (algebraMap (MvPolynomial σ R) (MvPolynomial σ p.ResidueField) a)) = _
     rw [he]
     simp [ψ]
   let g : T →ₐ[MvPolynomial σ R] p.Fiber T :=
@@ -478,7 +479,7 @@ theorem flat_localization_iff [Module.Flat R T] [Algebra.FinitePresentation R T]
       refine ⟨MvPolynomial.C c ⊗ₜ t, ?_⟩
       rw [Algebra.TensorProduct.lift_tmul, Algebra.ofId_apply, ← MvPolynomial.algebraMap_eq,
         ← IsScalarTower.algebraMap_apply, Algebra.TensorProduct.algebraMap_apply]
-      show (algebraMap p.ResidueField p.ResidueField c) ⊗ₜ[R] (1 : T) * (1 ⊗ₜ t) = _
+      change (algebraMap p.ResidueField p.ResidueField c) ⊗ₜ[R] (1 : T) * (1 ⊗ₜ t) = _
       rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul, Algebra.algebraMap_self,
         RingHom.id_apply]
     | add x y hx hy =>
@@ -516,9 +517,9 @@ theorem flat_localization_iff [Module.Flat R T] [Algebra.FinitePresentation R T]
       (Localization.AtPrime r ⧸ IM) := by
     refine .of_algebraMap_eq fun k ↦ ?_
     obtain ⟨x, rfl⟩ := e.surjective k
-    show fiberToQuotient p r IM hIM (ψ (e.symm (e x))) =
+    change fiberToQuotient p r IM hIM (ψ (e.symm (e x))) =
       Ideal.quotientMap IM _ hIBM (fiberToQuotient p r' IB hIB (e.toRingEquiv.symm (e x)))
-    show fiberToQuotient p r IM hIM (ψ (e.symm (e x))) =
+    change fiberToQuotient p r IM hIM (ψ (e.symm (e x))) =
       Ideal.quotientMap IM _ hIBM (fiberToQuotient p r' IB hIB (e.symm (e x)))
     rw [e.symm_apply_apply]
     induction x using TensorProduct.inductionOn with
@@ -557,10 +558,10 @@ theorem flat_localization_iff [Module.Flat R T] [Algebra.FinitePresentation R T]
     refine ⟨fun b x y ↦ ?_⟩
     obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective x
     obtain ⟨y, rfl⟩ := Ideal.Quotient.mk_surjective y
-    show Ideal.quotientMap IM _ hIBM (Ideal.Quotient.mk IB (b • x)) * Ideal.Quotient.mk IM y =
+    change Ideal.quotientMap IM _ hIBM (Ideal.Quotient.mk IB (b • x)) * Ideal.Quotient.mk IM y =
       b • (Ideal.Quotient.mk IM (algebraMap _ _ x) * Ideal.Quotient.mk IM y)
     rw [Ideal.quotientMap_mk, ← map_mul, ← map_mul, smul_eq_mul]
-    show _ = Ideal.Quotient.mk IM (b • (algebraMap _ _ x * y))
+    change _ = Ideal.Quotient.mk IM (b • (algebraMap _ _ x * y))
     rw [Algebra.smul_def, map_mul, map_mul, map_mul, map_mul, mul_assoc, map_mul]
   have hIBIM : IB.map (algebraMap (Localization.AtPrime r') (Localization.AtPrime r)) = IM := by
     rw [hIBdef, hIMdef, Ideal.map_map, ← IsScalarTower.algebraMap_eq]
@@ -801,7 +802,7 @@ theorem Algebra.isOpen_setOf_isMaximalCohenMacaulay_fiber_and_dense_fiber
       rw [← Topology.IsInducing.subtypeVal.specializes_iff]
       exact (PrimeSpectrum.le_iff_specializes _ _).mp hmx
     refine closure_mono (Set.singleton_subset_iff.mpr ?_) (specializes_iff_mem_closure.mp hsp)
-    show Module.IsMaximalCohenMacaulay _ _
+    change Module.IsMaximalCohenMacaulay _ _
     exact isMaximalCohenMacaulay_fiberRing_of_mem_minimalPrimes R m (by rwa [hmp])
 
 /-- **Stacks 00RL.** Let `R → S` be flat, of finite presentation and with Cohen–Macaulay fibres,

@@ -210,7 +210,7 @@ public theorem map_coeffMulLeft_algebraMap (T : TangentFunctorData A B S hS toS 
   have h : coeffMulLeft hR (algebraMap A R a) =
       a • 𝟙 (⟨ModuleCat.of A R, hR⟩ : SiteModule A B) := by
     ext w
-    show algebraMap A R a * w = a • w
+    change algebraMap A R a * w = a • w
     rw [Algebra.smul_def]
   rw [h]
   simp
@@ -294,11 +294,11 @@ public theorem coeffCompareProd_smul (a : A)
       ⟨ModuleCat.of A k, hk⟩).obj : Type u)) :
     coeffCompareProd A k B hA hk hAk hkk (a • m) =
       algebraMap A k a • coeffCompareProd A k B hA hk hAk hkk m := by
-  show a • m = algebraMap A k a • m
+  change a • m = algebraMap A k a • m
   refine Prod.ext ?_ ?_
-  · show a • m.1 = algebraMap A k a • m.1
+  · change a • m.1 = algebraMap A k a • m.1
     rw [Algebra.smul_def, smul_eq_mul]
-  · show a • m.2 = algebraMap A k a • m.2
+  · change a • m.2 = algebraMap A k a • m.2
     rw [Algebra.smul_def, smul_eq_mul]
 
 /-- The comparison `Deformation.Artin.coeffCompareProd` is bijective, being the identity. -/

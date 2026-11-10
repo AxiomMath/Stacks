@@ -496,7 +496,7 @@ theorem exact_schemeMorphismSixTerm_thirdFourthSpot_localizedTangent
     refine ⟨(localizedTangentPairEquivGlobalLiftsOverBaseAutPairCross pX pY hpX hpY QX QY
       (eqToHom ((firstOrderPushforwardCross_base QY).trans
         (firstOrderPushforwardCross_base QX).symm))).symm g, ?_⟩
-    show globalLiftsOverBaseConjDerivation f pX pY hf eC hm ℓ₀ _ = D
+    change globalLiftsOverBaseConjDerivation f pX pY hf eC hm ℓ₀ _ = D
     rw [Equiv.apply_symm_apply]
     exact hg
   · rintro ⟨t, ht⟩

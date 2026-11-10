@@ -99,7 +99,7 @@ lemma mem_isolatedPoints_of_mem_genericPoints_of_isClosed [NoetherianSpace X] {x
   have hcomp : ({x} : Set X) ∈ irreducibleComponents X := hcl.closure_eq ▸ hx
   have hcompl : ({x} : Set X)ᶜ = ⋃ C ∈ irreducibleComponents X \ {({x} : Set X)}, C := by
     ext y
-    simp only [Set.mem_compl_iff, Set.mem_singleton_iff, Set.mem_iUnion, Set.mem_diff,
+    simp only [Set.mem_compl_iff, Set.mem_singleton_iff, Set.mem_iUnion, Set.mem_sdiff,
       exists_prop]
     refine ⟨fun hy => ⟨irreducibleComponent y, ⟨irreducibleComponent_mem_irreducibleComponents y,
       fun h => hy (h ▸ mem_irreducibleComponent : y ∈ ({x} : Set X))⟩, mem_irreducibleComponent⟩,
@@ -110,7 +110,7 @@ lemma mem_isolatedPoints_of_mem_genericPoints_of_isClosed [NoetherianSpace X] {x
   refine ⟨hcl, isClosed_compl_iff.mp ?_⟩
   rw [hcompl]
   exact ((NoetherianSpace.finite_irreducibleComponents (α := X)).subset
-    Set.diff_subset).isClosed_biUnion fun C hC => isClosed_of_mem_irreducibleComponents C hC.1
+    Set.sdiff_subset).isClosed_biUnion fun C hC => isClosed_of_mem_irreducibleComponents C hC.1
 
 end IsolatedPoints
 

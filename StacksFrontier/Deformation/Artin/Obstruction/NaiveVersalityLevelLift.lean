@@ -257,7 +257,7 @@ public theorem levelLifts_of_surjective_derivedTensorFibre_neg_one
         residueMap (CC.projection.obj y) z :=
     fun z => (CC.projection.map gg).residue_comm z
   have harr : (CC.objects x).arrow ≫ αarr = r₀ := by
-    show (CC.objects x).arrow ≫ (CC.morphisms (η.level N) x c).arrow ≫ r N = r₀
+    change (CC.objects x).arrow ≫ (CC.morphisms (η.level N) x c).arrow ≫ r N = r₀
     rw [← Category.assoc, (CC.morphisms (η.level N) x c).triangle, hclosed N]
   have hcomp : Spec.map (CommRingCat.ofHom (residueMap (CC.projection.obj x))) ≫
       Spec.map (CommRingCat.ofHom (φ : A →+* CC.projection.obj x)) =
@@ -323,9 +323,9 @@ public theorem levelLifts_of_surjective_derivedTensorFibre_neg_one
   have hγhom : γ.hom = (CC.projection.map c).hom.comp
       ((eqToHom (η.level_eq N).symm).hom.comp
         (Ideal.Quotient.mkₐ Λ (Deformation.AdicTruncation.ideal η.base N))) := by
-    show (Deformation.artinianToComplete.map fL).hom.comp
+    change (Deformation.artinianToComplete.map fL).hom.comp
       (Deformation.quotientProjection η.base N).hom = _
-    show fL.hom.comp (Ideal.Quotient.mkₐ Λ (Deformation.AdicTruncation.ideal η.base N)) = _
+    change fL.hom.comp (Ideal.Quotient.mkₐ Λ (Deformation.AdicTruncation.ideal η.base N)) = _
     rw [show fL.hom = (CC.projection.map c).hom.comp (eqToHom (η.level_eq N).symm).hom from
       Deformation.ArtinianLocalAlgCat.comp_hom _ _]
     exact AlgHom.comp_assoc _ _ _

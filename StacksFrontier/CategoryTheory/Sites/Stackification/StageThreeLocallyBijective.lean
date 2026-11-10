@@ -169,7 +169,7 @@ theorem isLocallyInjective_morPresheafMap (hF : IsFibredOneMorphism p r F)
       ← fiberInclusion_map_fiberFunctorOfCompEq_map hF.comp_eq n, h1]
   obtain ⟨-, R₀, hR₀, hagree⟩ := hinj _ _ h2
   refine mem_over_of_forall_pullbackFiberMap x g hR₀ fun g' k hk ↦ ?_
-  show morRestrict p x y k m = morRestrict p x y k n
+  change morRestrict p x y k m = morRestrict p x y k n
   refine morSectionHom_injective ?_
   rw [morSectionHom_morRestrict, morSectionHom_morRestrict]
   simp only [morSectionHom]
@@ -210,7 +210,7 @@ theorem isLocallySurjective_morPresheafMap (hF : IsFibredOneMorphism p r F)
   obtain ⟨m, hm⟩ := exists_morSectionHom_eq (r := p) (x := x) (y := y) (g := g')
     (f ≫ IsPreFibered.pullbackMap y.2 g.hom)
   refine ⟨m, ?_⟩
-  show (hF.morPresheafMap x y).app (op g') m =
+  change (hF.morPresheafMap x y).app (op g') m =
     morRestrict r ((fiberFunctorOfCompEq hF.comp_eq U).obj x)
       ((fiberFunctorOfCompEq hF.comp_eq U).obj y) k t
   refine morSectionHom_injective ?_

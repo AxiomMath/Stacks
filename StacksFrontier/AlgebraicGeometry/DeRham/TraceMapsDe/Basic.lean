@@ -230,7 +230,7 @@ private lemma fracInclusion_fixed (z : FractionRing A) :
     fracFlip (fracInclusion z) = fracInclusion z := by
   obtain ⟨a, d, hd, hz⟩ := IsFractionRing.div_surjective A z
   rw [← hz]
-  show fracFlip (fracInclusion
+  change fracFlip (fracInclusion
       (algebraMap A (FractionRing A) a / algebraMap A (FractionRing A) d)) =
     fracInclusion (algebraMap A (FractionRing A) a / algebraMap A (FractionRing A) d)
   rw [map_div₀ fracInclusion, map_div₀ fracFlip, fracInclusion_algebraMap, fracFlip_algebraMap,
@@ -338,7 +338,7 @@ private lemma differentialMap_range_le_quadratic_span :
   | mem w hw =>
       rcases hw with ⟨a, rfl⟩
       rw [KaehlerDifferential.map_D]
-      show KaehlerDifferential.D ℂ B (a : B) ∈ _
+      change KaehlerDifferential.D ℂ B (a : B) ∈ _
       exact D_mem_quadratic_span a
   | zero => exact Submodule.zero_mem _
   | add w₁ w₂ hw₁ hw₂ ih₁ ih₂ =>

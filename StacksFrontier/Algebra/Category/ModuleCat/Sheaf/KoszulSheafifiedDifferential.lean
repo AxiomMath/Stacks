@@ -10,7 +10,8 @@ public import Mathlib.Algebra.Ring.NegOnePow
 
 Let `A` be a graded algebra of presheaves of modules on the family `P`, let `α` be a locally
 bijective map of presheaves of rings, and let `A.sheafify α` be the sheafified graded algebra of
-`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.GradedAlgebraSheafification`. This file sheafifies a
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.GradedAlgebraSheafification`.
+This file sheafifies a
 *degree-lowering family* `dPre n : P n ⟶ P (n - 1)`:
 
 * the sheafified family `Stacks.GradedAlgebra.sheafifyD` is the sheafification functor applied

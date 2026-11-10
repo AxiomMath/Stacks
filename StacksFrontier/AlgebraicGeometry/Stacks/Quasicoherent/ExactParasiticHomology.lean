@@ -146,18 +146,18 @@ theorem exists_affine_flat_etale_ofArrows (hp : p.IsFiberedInGroupoids) (W : �
     intro j
     obtain ⟨e, -⟩ := hβ j
     have : IsAffine (U.X (β j)) := by
-      show IsAffine (Spec ((B.inclusion.obj (p.obj W).left).affineOpenCover.X (β j)))
+      change IsAffine (Spec ((B.inclusion.obj (p.obj W).left).affineOpenCover.X (β j)))
       exact isAffine_Spec _
     have hIso : IsIso e.hom := e.isIso_hom
     exact @IsAffine.of_isIso _ _ e.hom hIso inferInstance
   have hVflat : ∀ j, Flat (B.inclusion.map (V.f j)) := by
     intro j
     obtain ⟨e, he⟩ := hβ j
-    show Flat ((V.map B.inclusion).f j)
+    change Flat ((V.map B.inclusion).f j)
     rw [← he]
     infer_instance
   have hVet : IsEtaleCovering ⟨(p.obj W).left, V⟩ := by
-    show (V.map B.inclusion).presieve₀ ∈ Scheme.precoverage @Etale _
+    change (V.map B.inclusion).presieve₀ ∈ Scheme.precoverage @Etale _
     refine (Scheme.presieve₀_mem_precoverage_iff (V.map B.inclusion)).2 ⟨fun x => ?_, fun j => ?_⟩
     · obtain ⟨i, z, rfl⟩ := U.exists_eq x
       obtain ⟨e, he⟩ := hα i
@@ -170,9 +170,9 @@ theorem exists_affine_flat_etale_ofArrows (hp : p.IsFiberedInGroupoids) (W : �
   let vmap (j : V.I₀) : Vobj j ⟶ p.obj W := Over.homMk (V.f j)
   have hBcover : Sieve.ofArrows Vobj vmap ∈
       BigFppfOver.baseOverTopology B S hS .etale (p.obj W) := by
-    show Sieve.ofArrows Vobj vmap ∈ (B.etaleTopology.over (B.obj hS)) (p.obj W)
+    change Sieve.ofArrows Vobj vmap ∈ (B.etaleTopology.over (B.obj hS)) (p.obj W)
     rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
-    show Sieve.ofArrows V.X V.f ∈ B.etaleTopology (p.obj W).left
+    change Sieve.ofArrows V.X V.f ∈ B.etaleTopology (p.obj W).left
     have hpre : V.presieve₀ ∈ B.etalePrecoverage (p.obj W).left := ⟨V, rfl, hV, hVet⟩
     simpa [PreZeroHypercover.presieve₀] using Precoverage.generate_mem_toGrothendieck hpre
   choose y φ hφ using fun j => hp.exists_lift (vmap j) W rfl
@@ -344,7 +344,7 @@ theorem exists_eq_of_exact_of_flatObject {F G H : quasicoherentModules B S hS �
   obtain ⟨hinj, hrange⟩ := injective_and_range_eq_ker_of_isLimit_kernelFork B S hS 𝒳 β
     (kernelIsKernel β) x hx
   obtain ⟨κ, hκ⟩ : g ∈ LinearMap.range ((kernel.ι β).hom.val.app (op x)).hom := by
-    show g ∈ LinearMap.range ((KernelFork.ofι (kernel.ι β) (kernel.condition β)).ι.hom.val.app
+    change g ∈ LinearMap.range ((KernelFork.ofι (kernel.ι β) (kernel.condition β)).ι.hom.val.app
       (op x)).hom
     rwa [hrange]
   obtain ⟨f, hf⟩ := surjective_app_of_epi_of_isAffineOver B S hS 𝒳 F.property (kernel β).property
@@ -389,13 +389,13 @@ theorem isParasitic_homology_of_exact (τ : SiteKind)
   have hc' : c' = T.toCycles.val.app (op v) f :=
     (iCycles_app_injective_and_range T (op v)).1
       (hf.symm.trans (iCycles_app_toCycles_app T (op v) f).symm)
-  show T.homology.val.map (e ≫ E.f i).op h = 0
+  change T.homology.val.map (e ≫ E.f i).op h = 0
   rw [op_comp, PresheafOfModules.map_comp_apply]
-  show T.homology.val.map e.op (T.homology.val.map (E.f i).op h) = 0
+  change T.homology.val.map e.op (T.homology.val.map (E.f i).op h) = 0
   rw [← hc, ← PresheafOfModules.naturality_apply]
-  show T.homologyπ.val.app (op v) c' = 0
+  change T.homologyπ.val.app (op v) c' = 0
   rw [hc']
-  show (T.toCycles ≫ T.homologyπ).val.app (op v) f = 0
+  change (T.toCycles ≫ T.homologyπ).val.app (op v) f = 0
   rw [T.toCycles_comp_homologyπ]
   rfl
 
@@ -431,7 +431,7 @@ theorem isParasitic_of_isParasitic_homology (τ : SiteKind)
   obtain ⟨c', hc'⟩ : ι.hom.val.app (op (E.X j)) κ ∈
       LinearMap.range (T.iCycles.val.app (op (E.X j))).hom := by
     rw [(iCycles_app_injective_and_range T (op (E.X j))).2]
-    show _ ∈ LinearMap.ker (β.hom.val.app (op (E.X j))).hom
+    change _ ∈ LinearMap.ker (β.hom.val.app (op (E.X j))).hom
     rw [← (hK _ (hEflat j)).2]
     exact ⟨κ, rfl⟩
   have hπ' : (ShortComplex.mk T.toCycles T.homologyπ T.toCycles_comp_homologyπ).g.val.app
@@ -469,7 +469,7 @@ theorem isParasitic_of_isParasitic_homology (τ : SiteKind)
     (PresheafOfModules.naturality_apply π.hom.val g₂ κ).symm
   have f3 : π.hom.val.app (op (E₂.X l)) (α'.hom.val.app (op (E₂.X l)) t) = 0 :=
     congrArg (fun φ => (φ.hom.val.app (op (E₂.X l))) t) hπ
-  show Cq.obj.val.map (E₂.f l ≫ E.f j).op c = 0
+  change Cq.obj.val.map (E₂.f l ≫ E.f j).op c = 0
   rw [f1]
   exact (congrArg (Cq.obj.val.map g₂) hκ.symm).trans
     (f2.trans ((congrArg (π.hom.val.app (op (E₂.X l))) hres).trans f3))

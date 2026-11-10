@@ -166,7 +166,7 @@ theorem restrictTensorHomotopyTrans_comp_app (χ : Ak.Hom Am) (σ : Am.Hom An)
       (restrictTensorHomotopyTrans χ P Q τχ).app ((restrictScalarsHomotopyFunctor σ).obj Z) ≫
         (restrictTensorHomotopyTrans σ Q S τσ).app Z := by
   obtain ⟨Y⟩ := Z
-  show (restrictTensorHomotopyTrans (σ.comp χ) P S τν).app ((toHomotopyCategory An).obj Y) =
+  change (restrictTensorHomotopyTrans (σ.comp χ) P S τν).app ((toHomotopyCategory An).obj Y) =
     (restrictTensorHomotopyTrans χ P Q τχ).app
         ((toHomotopyCategory Am).obj ((restrictScalarsFunctor σ).obj Y)) ≫
       (restrictTensorHomotopyTrans σ Q S τσ).app ((toHomotopyCategory An).obj Y)

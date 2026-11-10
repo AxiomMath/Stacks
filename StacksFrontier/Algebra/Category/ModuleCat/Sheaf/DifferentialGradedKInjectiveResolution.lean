@@ -201,14 +201,14 @@ private theorem quasiIso_colimMap {J : Type*} [SmallCategory J] [HasColimitsOfSh
   have : QuasiIso ψ := by
     rw [HomologicalComplex.quasiIso_iff_evaluation]
     intro j
-    show QuasiIso (α.app j)
+    change QuasiIso (α.app j)
     exact hα j
   have : QuasiIso ((G.mapHomologicalComplex (ComplexShape.up ℤ)).map ψ) := by
     have : G.Additive := ⟨by
       intro Y Z f g
       apply colimit.hom_ext
       intro j
-      show colimit.ι Y j ≫ colim.map (f + g) = colimit.ι Y j ≫ (colim.map f + colim.map g)
+      change colimit.ι Y j ≫ colim.map (f + g) = colimit.ι Y j ≫ (colim.map f + colim.map g)
       rw [colimit.ι_map, Preadditive.comp_add, colimit.ι_map, colimit.ι_map]
       simp⟩
     have : G.PreservesHomology := by infer_instance
@@ -224,7 +224,7 @@ private theorem quasiIso_colimMap {J : Type*} [SmallCategory J] [HasColimitsOfSh
       naturality := by
         intro i j f
         exact congrArg (fun φ => φ.f n) (α.naturality f) }
-  show colimit.ι (D ⋙ HomologicalComplex.eval B (ComplexShape.up ℤ) n) j ≫
+  change colimit.ι (D ⋙ HomologicalComplex.eval B (ComplexShape.up ℤ) n) j ≫
       colim.map αn = αn.app j ≫
       colimit.ι (D' ⋙ HomologicalComplex.eval B (ComplexShape.up ℤ) n) j
   exact colimit.ι_map _ _

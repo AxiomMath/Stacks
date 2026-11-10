@@ -215,7 +215,7 @@ instance degreeHomSquare_guitartExact : (degreeHomSquare a n).GuitartExact :=
   degreeTwoSquare_guitartExact U n
 
 /-- The natural transformation of the degree square of `h` is an isomorphism. -/
-instance isIso_degreeHomSquare_natTrans : IsIso (degreeHomSquare a n).natTrans :=
+instance isIso_degreeHomSquare_natTrans : IsIso (degreeHomSquare a n) :=
   inferInstanceAs (IsIso (degreeInclusionCompToBigFppfTotalIso U n).inv)
 
 /-- A presheaf on the total site maps the components of the degree square to identities. -/
@@ -224,7 +224,7 @@ theorem comp_map_degreeHomSquare_app {D : Type*} [Category* D]
     (V : SpacesEtale T.schemeSite S T.scheme_mem (U.obj (op n))) {W : D}
     (x : W ⟶ P.obj (op ((slicesι U n).obj
       ((SpacesEtale.inclusion T.schemeSite S T.scheme_mem (U.obj (op n))).obj V)))) :
-    x ≫ P.map ((degreeHomSquare a n).natTrans.app V).op = x := by
+    x ≫ P.map ((degreeHomSquare a n).app V).op = x := by
   have key : ∀ k : (slicesι U n).obj
       ((SpacesEtale.inclusion T.schemeSite S T.scheme_mem (U.obj (op n))).obj V) ⟶
         (slicesι U n).obj
@@ -246,7 +246,7 @@ theorem degreeRingedSiteHom_fsharp_app
 theorem degreeRingedSiteHom_fsharp_compat
     (V : (SpacesEtale T.schemeSite S T.scheme_mem (U.obj (op n)))ᵒᵖ) :
     (bigFppfTotalRingedSiteHom a).fsharp.hom.app ((degreeInclusion U n).op.obj V) ≫
-        (bigFppfTotalRingedSite a).O.obj.map ((degreeHomSquare a n).natTrans.app V.unop).op =
+        (bigFppfTotalRingedSite a).O.obj.map ((degreeHomSquare a n).app V.unop).op =
       (degreeRingedSiteHom a n).fsharp.hom.app V := by
   rw [degreeRingedSiteHom_fsharp_app]
   exact comp_map_degreeHomSquare_app a n (bigFppfTotalRingedSite a).O.obj V.unop _
@@ -278,7 +278,7 @@ big structure sheaf of `U_n`. -/
 theorem bigFppfTotalStructureSheaf_map_slicesι {V W : Over (U.obj (op n))} (g : V ⟶ W) :
     (bigFppfTotalStructureSheaf a).obj.map ((slicesι U n).map g).op =
       (BigFppfSpaceSite.structureSheaf T (U.obj (op n))).obj.map g.op := by
-  show (BigFppfSpaceSite.structureSheaf T X).obj.map
+  change (BigFppfSpaceSite.structureSheaf T X).obj.map
     ((SimplicialOver.augmentationFunctor U a).map ((slicesι U n).map g)).op = _
   rw [BigFppfSpaceSite.structureSheaf_map, BigFppfSpaceSite.structureSheaf_map]
   exact congrArg

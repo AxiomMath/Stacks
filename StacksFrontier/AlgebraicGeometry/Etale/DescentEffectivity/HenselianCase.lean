@@ -148,12 +148,12 @@ theorem isFinite_pullbackSnd_of_descended_changeDatum {S X Z Z' : Scheme.{u}} {f
     have hcomm : (P.objIso D).hom.left ≫ ((Over.pullback (pullback.fst f c)).obj D.over).hom =
         (D.changeDatum c).over.hom := (P.objIso D).hom.w
     have : IsIso (P.objIso D).hom.left := by
-      show IsIso ((Over.forget _).map (P.objIso D).hom)
+      change IsIso ((Over.forget _).map (P.objIso D).hom)
       infer_instance
     have heq : ((Over.pullback (pullback.fst f c)).obj D.over).hom =
         inv (P.objIso D).hom.left ≫ (D.changeDatum c).over.hom := by
       rw [← hcomm, IsIso.inv_hom_id_assoc]
-    show IsFinite ((Over.pullback (pullback.fst f c)).obj D.over).hom
+    change IsFinite ((Over.pullback (pullback.fst f c)).obj D.over).hom
     rw [heq]
     infer_instance
   have hu : pullback.lift q r hq ≫ pullback.fst f c = q := pullback.lift_fst _ _ _

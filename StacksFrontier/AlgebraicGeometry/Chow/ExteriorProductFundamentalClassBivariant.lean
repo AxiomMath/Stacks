@@ -126,8 +126,6 @@ theorem chowGroupDegreeEquiv_flatPullbackChowSnd_eq_chowExteriorProduct (C : Cho
     [LocallyOfFiniteType sT] [IsIntegral X] (d : ℕ)
     (hrel : AlgebraicGeometry.RelativeDimension (pullback.snd sX sT) d)
     (hd : relativeDimension C.dimensionFunction sX (genericPoint X) = (d : ℤ)) (k : ℤ)
-    (hright : FlatPullbackFactorsThroughRationalEquivalenceOnPointClosureFibres C sX sT k)
-    (hleft : FlatPullbackFactorsThroughRationalEquivalenceOnPointClosureFibres C sT sX (d : ℤ))
     (hfac : FlatPullbackFactorsThroughRationalEquivalence C (pullback.fst sX sT ≫ sX) sT
       (pullback.snd sX sT) pullback.condition.symm d hrel k)
     (c : chowGroup C sT k) :
@@ -193,11 +191,7 @@ theorem isExteriorProductBivariantClass_flatPullbackBivariantClass (C : ChowSitu
       (chowGroupCongr C (Category.comp_id sT).symm k γ) γ
       (chowGroupCongr_heq C (Category.comp_id sT).symm k γ))
   have hprod := chowGroupDegreeEquiv_flatPullbackChowSnd_eq_chowExteriorProduct C hδ sX sT d
-    hrel hd k
-    (flatPullbackFactorsThroughRationalEquivalenceOnPointClosureFibres_of_descends C hfp sX sT k)
-    (flatPullbackFactorsThroughRationalEquivalenceOnPointClosureFibres_of_descends C hfp sT sX
-      (d : ℤ))
-    hfac' γ
+    hrel hd k hfac' γ
   refine ((chowGroupDegreeEquiv_eq_iff_heq C (pullback.fst sX sT ≫ sX)
     (by ring : (d : ℤ) + k = k - -(d : ℤ)) _ _).2 ?_).symm
   exact (hprod ▸ chowGroupDegreeEquiv_heq C (pullback.fst sX sT ≫ sX)

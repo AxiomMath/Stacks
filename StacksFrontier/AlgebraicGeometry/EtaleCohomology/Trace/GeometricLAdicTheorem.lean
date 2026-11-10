@@ -52,7 +52,7 @@ variable [∀ n : ℕ, HasWeakSheafify
 variable [IsNoetherian X.1] [Fact ℓ.Prime]
 
 variable {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
-  [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
+  [LocallyOfFiniteType f] [QuasiCompact f]
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [IsAlgClosed kbar]
   [Algebra k kbar] (p q : ℕ) [Fact p.Prime] [CharP k p] [CharP kbar p]
   (hcard : Fintype.card k = p ^ q)

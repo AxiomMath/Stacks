@@ -167,7 +167,7 @@ theorem isLocalization_residueField_chartPrimeAt (Z : AlgebraicSpaces D.site D.b
     refine ⟨fun a b hab => ?_, Ideal.Quotient.mk_surjective⟩
     have h0 : a - b ∈ IsLocalRing.maximalIdeal ((chartScheme V).presheaf.stalk w) := by
       rw [← IsLocalRing.residue_eq_zero_iff]
-      show ((chartScheme V).residue w).hom (a - b) = 0
+      change ((chartScheme V).residue w).hom (a - b) = 0
       rw [map_sub, hab, sub_self]
     have hmax : IsLocalRing.maximalIdeal ((chartScheme V).presheaf.stalk w) = ⊥ := by
       let := hfield.toField
@@ -292,7 +292,7 @@ theorem length_localizedModule_chartRing_eq_functionFieldDegree_mul {f : X ⟶ Y
       (Algebra.linearMap (chartRing D.site D.base D.base_mem Y hY.1 d.V)
         (fibreChartFieldPoint D d w).carrier), Module.length_eq_finrank, Module.finrank_self]
     rfl
-  show _ = _ *
+  change _ = _ *
     Module.length (Localization.AtPrime (chartPrimeAt D.site D.base D.base_mem hY.1 d.V w))
       (LocalizedModule (chartPrimeAt D.site D.base D.base_mem hY.1 d.V w).primeCompl
         (chartRing D.site D.base D.base_mem Y hY.1 d.V))

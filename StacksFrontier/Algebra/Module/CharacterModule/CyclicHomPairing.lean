@@ -147,7 +147,7 @@ theorem exists_zmodToRatCircle_eq {x : AddCircle (1 : ℚ)} (hx : n • x = 0) :
   obtain ⟨m, hm⟩ := hx
   refine ⟨(m : ZMod n), ?_⟩
   rw [zmodToRatCircle, ZMod.lift_coe, zmultiplesHom_apply, ← AddCircle.coe_zsmul]
-  show ((m • (1 / n : ℚ) : ℚ) : AddCircle (1 : ℚ)) = ((q : ℚ) : AddCircle (1 : ℚ))
+  change ((m • (1 / n : ℚ) : ℚ) : AddCircle (1 : ℚ)) = ((q : ℚ) : AddCircle (1 : ℚ))
   congr 1
   rw [zsmul_eq_mul, mul_one] at hm
   rw [zsmul_eq_mul, hm, nsmul_eq_mul, mul_one_div]

@@ -109,7 +109,7 @@ theorem d_coneRetractionX (P : ConePackage f) (n : ℤ) :
     P.cone.complex.d n (n + 1) ≫ P.coneRetractionX (n + 1) =
       ((P.componentIso n).hom ≫ biprod.fst) ≫ f.toHomologicalComplex.f (n + 1) +
         P.coneRetractionX n ≫ L.complex.d n (n + 1) := by
-  show P.cone.complex.d n (n + 1) ≫ (P.componentIso (n + 1)).hom ≫ biprod.snd =
+  change P.cone.complex.d n (n + 1) ≫ (P.componentIso (n + 1)).hom ≫ biprod.snd =
     ((P.componentIso n).hom ≫ biprod.fst) ≫ f.toHomologicalComplex.f (n + 1) +
       ((P.componentIso n).hom ≫ biprod.snd) ≫ L.complex.d n (n + 1)
   simp only [Category.assoc]
@@ -145,7 +145,7 @@ theorem coneSectionX_projection (P : ConePackage f) (n : ℤ) :
 /-- The inclusion of a cone is split by the second coordinate of the degreewise splitting. -/
 theorem inclusion_coneRetractionX (P : ConePackage f) (n : ℤ) :
     P.inclusion.toHomologicalComplex.f n ≫ P.coneRetractionX n = 𝟙 _ := by
-  show P.inclusion.toHomologicalComplex.f n ≫ (P.componentIso n).hom ≫ biprod.snd = 𝟙 _
+  change P.inclusion.toHomologicalComplex.f n ≫ (P.componentIso n).hom ≫ biprod.snd = 𝟙 _
   rw [P.inclusion_f n]
   simp
 

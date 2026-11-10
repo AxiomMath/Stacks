@@ -47,7 +47,7 @@ image of `a` under the universe-lowering equivalence. -/
 public theorem residueFieldObject_residueEquiv_residue (a : ULift.{w} k) :
     (residueFieldObject.{u, w, w} Λ k).residueEquiv
       (IsLocalRing.residue (ULift.{w} k) a) = ULift.algEquiv (R := Λ) (A := k) a := by
-  show ((Ideal.quotientEquivAlgOfEq Λ
+  change ((Ideal.quotientEquivAlgOfEq Λ
       (IsLocalRing.maximalIdeal_eq_bot (R := ULift.{w} k))).trans
       ((AlgEquiv.quotientBot Λ (ULift.{w} k)).trans
         (ULift.algEquiv (R := Λ) (A := k))))

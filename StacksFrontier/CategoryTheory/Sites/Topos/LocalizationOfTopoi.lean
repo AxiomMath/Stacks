@@ -679,23 +679,23 @@ private theorem homEquiv_shriekAdjunction_counit_comp
         ((Over.forget (⟨F, hF⟩ : Sheaf J (Type v))).map
             ((sheafEquivalence F J hF).counit.app T) ≫ β) =
       homEquivFiberSheaf F J hF T G β := by
-  show ((((sheafEquivalence F J hF).toAdjunction.comp (forgetAdjunction F J hF)).ofNatIsoRight
+  change ((((sheafEquivalence F J hF).toAdjunction.comp (forgetAdjunction F J hF)).ofNatIsoRight
     (restrictionInvCompInverseIso F J hF)).homEquiv _ G) _ = _
   rw [Adjunction.homEquiv_ofNatIsoRight_apply, Adjunction.comp_homEquiv]
-  show (sheafEquivalence F J hF).toAdjunction.homEquiv _ _
+  change (sheafEquivalence F J hF).toAdjunction.homEquiv _ _
       ((forgetAdjunction F J hF).homEquiv _ G
         ((Over.forget (⟨F, hF⟩ : Sheaf J (Type v))).map
           ((sheafEquivalence F J hF).counit.app T) ≫ β)) ≫
       (restrictionInvCompInverseIso F J hF).hom.app G = _
   rw [forgetAdjunction, Adjunction.mkOfHomEquiv_homEquiv]
-  show (sheafEquivalence F J hF).toAdjunction.homEquiv _ _
+  change (sheafEquivalence F J hF).toAdjunction.homEquiv _ _
       (homEquivShriek F J hF _ G
         (((sheafEquivalence F J hF).counit.app T).left ≫ β)) ≫
       (restrictionInvCompInverseIso F J hF).hom.app G = _
   rw [homEquivShriek_naturality_left, Adjunction.homEquiv_unit,
     show (restrictionInvCompInverseIso F J hF).hom.app G =
       (sheafEquivalence F J hF).unitInv.app ((restrictionFunctor F J).obj G) from rfl]
-  show (sheafEquivalence F J hF).unit.app _ ≫
+  change (sheafEquivalence F J hF).unit.app _ ≫
       (sheafEquivalence F J hF).inverse.map
         ((sheafEquivalence F J hF).counit.app T ≫ homEquivShriek F J hF T G β) ≫
       (sheafEquivalence F J hF).unitInv.app _ = _
@@ -726,7 +726,7 @@ private theorem shriekAdjunction_counit_app
           ((sheafEquivalence F J hF).functor.obj ((restrictionFunctor F J).obj G)) G).symm
         ((sheafEquivalence F J hF).unitInv.app ((restrictionFunctor F J).obj G)) := by
   rw [← Adjunction.homEquiv_symm_id]
-  show ((((sheafEquivalence F J hF).toAdjunction.comp (forgetAdjunction F J hF)).ofNatIsoRight
+  change ((((sheafEquivalence F J hF).toAdjunction.comp (forgetAdjunction F J hF)).ofNatIsoRight
       (restrictionInvCompInverseIso F J hF)).homEquiv _ G).symm (𝟙 _) = _
   rw [Adjunction.homEquiv_ofNatIsoRight_symm_apply, Category.id_comp, Adjunction.comp_homEquiv]
   have hinner : ((sheafEquivalence F J hF).toAdjunction.homEquiv
@@ -738,11 +738,11 @@ private theorem shriekAdjunction_counit_app
       show (restrictionInvCompInverseIso F J hF).inv.app G =
         (sheafEquivalence F J hF).unit.app ((restrictionFunctor F J).obj G) from rfl]
     exact (sheafEquivalence F J hF).functor_unit_comp _
-  show ((forgetAdjunction F J hF).homEquiv _ G).symm
+  change ((forgetAdjunction F J hF).homEquiv _ G).symm
       (((sheafEquivalence F J hF).toAdjunction.homEquiv _ _).symm
         ((restrictionInvCompInverseIso F J hF).inv.app G)) = _
   rw [hinner, forgetAdjunction, Adjunction.mkOfHomEquiv_homEquiv]
-  show (homEquivFiberSheaf F J hF _ G).symm
+  change (homEquivFiberSheaf F J hF _ G).symm
       (((fiberFunctor F J hF).asEquivalence.toAdjunction.homEquiv _
         ((restrictionFunctor F J).obj G)).symm (𝟙 _)) = _
   rw [Adjunction.homEquiv_symm_id]

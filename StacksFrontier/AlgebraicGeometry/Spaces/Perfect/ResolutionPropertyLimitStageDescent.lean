@@ -32,8 +32,8 @@ property.  This file carries out the proof of the source that some `X_i` has it:
   1–4, with the clauses of Stacks 07V7, Stacks 0D2X(1), the existence part of Stacks 0GUY with `π`
   of finite presentation as its inputs; the converse of Stacks 0GV1 (with `π_*𝒪_Y` of finite
   presentation) is proved, without Noetherian hypotheses, in
-  `StacksFrontier.AlgebraicGeometry.Spaces.ResolutionPropertyFinitePresentationConverse`.  These inputs
-  are not yet proved here; the theorem carries no `stacks` attribute.
+  `StacksFrontier.AlgebraicGeometry.Spaces.ResolutionPropertyFinitePresentationConverse`.  These
+  inputs are not yet proved here; the theorem carries no `stacks` attribute.
 
 ## References
 

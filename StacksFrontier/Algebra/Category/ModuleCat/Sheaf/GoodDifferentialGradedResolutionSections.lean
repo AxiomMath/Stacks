@@ -184,7 +184,7 @@ private theorem sectionMap_ι_app_map {J : Type*} [Category J]
     (U : Cᵒᵖ) (x : (P.obj i).totalSections U) :
     (sectionMap (c.ι.app j) U).toFun ((sectionMap (P.map f) U).toFun x) =
       (sectionMap (c.ι.app i) U).toFun x := by
-  show totalSectionsMap U (fun n ↦ (c.ι.app j).toHomologicalComplex.f n)
+  change totalSectionsMap U (fun n ↦ (c.ι.app j).toHomologicalComplex.f n)
       (totalSectionsMap U (fun n ↦ (P.map f).toHomologicalComplex.f n) x) =
     totalSectionsMap U (fun n ↦ (c.ι.app i).toHomologicalComplex.f n) x
   rw [← totalSectionsMap_comp]
@@ -254,7 +254,7 @@ theorem leftOrthogonal_sectionModule_of_isColimit_nat
     isColimitOfPreserves (pieceSectionsFunctor (A := A) n U) hc
   -- the embeddings of the stages are injective
   have hemb : ∀ i, Function.Injective (emb i).toFun := fun i ↦ by
-    show Function.Injective (totalSectionsMap U fun n ↦ (c.ι.app i).toHomologicalComplex.f n)
+    change Function.Injective (totalSectionsMap U fun n ↦ (c.ι.app i).toHomologicalComplex.f n)
     refine (DirectSum.map_injective _).2 fun n y y' hyy' ↦ ?_
     obtain ⟨j, f, hf⟩ := (Types.FilteredColimit.isColimit_eq_iff' (hcn n)
       (show (P ⋙ pieceSectionsFunctor n U).obj i from y)
@@ -378,7 +378,7 @@ theorem exists_flat_quasiIso_sectionwise (M : DifferentialGradedModule.{t, m, m}
   have hF : ∀ n, F.map (homOfLE (Nat.le_succ n)) = gg n :=
     Functor.ofSequence_map_homOfLE_succ gg
   let c : Cocone F := ⟨M, NatTrans.ofSequence (F := F) (fun n ↦ (r n).1.2) fun n ↦ by
-    show F.map (homOfLE (Nat.le_succ n)) ≫ (r (n + 1)).1.2 = (r n).1.2 ≫ 𝟙 M
+    change F.map (homOfLE (Nat.le_succ n)) ≫ (r (n + 1)).1.2 = (r n).1.2 ≫ 𝟙 M
     rw [hF n, Category.comp_id]
     exact hcomm (r n)⟩
   have : HasColimitsOfShape ℕ (DifferentialGradedModule.{t, m, m} A) := hasColimitsOfShape_nat

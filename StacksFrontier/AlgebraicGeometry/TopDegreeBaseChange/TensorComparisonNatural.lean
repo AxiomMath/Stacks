@@ -99,7 +99,7 @@ theorem tensorLocalSection_naturality {Z : Scheme.{u}} (A : Z.Modules) {B B' : Z
         (tensorLocalSection Z A B' V (ψ.app V t)) S x,
       imageSections_tensorLocalSection A B' (ψ.app V t) rfl (V.ι_image_le S) x,
       ModuleLimits.Hom_app_presheaf_map ψ (V.ι_image_le S) t]
-    show (((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨Z.toRingedSpace.presheaf,
+    change (((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨Z.toRingedSpace.presheaf,
         Z.toRingedSpace.IsSheaf⟩).obj A).map ψ)).val.app (op (V.ι ''ᵁ S))).hom
         (toTensorSheafSection Z.toRingedSpace A B (op (V.ι ''ᵁ S))
           (x ⊗ₜ[Z.presheaf.obj (op (V.ι ''ᵁ S))]
@@ -193,13 +193,13 @@ theorem higherDirectImageTensorMap_naturality (ψ : G ⟶ G') :
           ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨X.toRingedSpace.presheaf,
             X.toRingedSpace.IsSheaf⟩).obj F).map ((Scheme.Modules.pullback f).map ψ))) := by
   refine hom_ext_of_tensorSection fun W a t => ?_
-  show ((higherDirectImageTensorMap f F G' n).val.app W).hom
+  change ((higherDirectImageTensorMap f F G' n).val.app W).hom
       ((((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨Y.toRingedSpace.presheaf,
         Y.toRingedSpace.IsSheaf⟩).obj (topDirectImage f F n)).map ψ)).val.app W).hom
         (toTensorSheafSection Y.toRingedSpace (topDirectImage f F n) G W
           (a ⊗ₜ[Y.presheaf.obj W] t))) = _
   rw [sheafTensor_obj_map_toTensorSheafSection (topDirectImage f F n) ψ W a t]
-  show Scheme.Modules.Hom.app (higherDirectImageTensorMap f F G' n) W.unop
+  change Scheme.Modules.Hom.app (higherDirectImageTensorMap f F G' n) W.unop
       (toTensorSheafSection Y.toRingedSpace (topDirectImage f F n) G' (op W.unop)
         (a ⊗ₜ[Y.presheaf.obj (op W.unop)] (ψ.app W.unop t))) = _
   rw [higherDirectImageTensorMap_tmul f F G' n W.unop a (ψ.app W.unop t),

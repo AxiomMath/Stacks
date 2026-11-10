@@ -430,7 +430,7 @@ theorem piPushPullMap_comp_productPushPullIsoSheafHom (f : K ⟶ L) :
       (productPushPullIsoSheafHom J L).hom ≫ piSheafHomMap J f := by
   apply NatTrans.ext
   funext X
-  show Pi.lift (fun i : K.I ↦
+  change Pi.lift (fun i : K.I ↦
         Pi.π (fun j : L.I ↦ (localizationPullback (L.obj j) J ⋙
           localizationPushforward (L.obj j) J).obj X) (f.f i) ≫
           (pushPullContraMap J (f.φ i)).app X) ≫
@@ -490,7 +490,7 @@ theorem piSheafHomMap_eq_conjugateEquiv (f : K ⟶ L) :
     piSheafHomMap J f = conjugateEquiv (coproductProductAdjunction J L)
       (coproductProductAdjunction J K) (coproductProdFunctorMap J f) := by
   refine eq_conjugateEquiv _ _ _ _ (fun X ↦ ?_)
-  show Limits.Sigma.map (fun j : K.I ↦ (prod.functor.obj (componentSheafifiedYoneda J K j)).map
+  change Limits.Sigma.map (fun j : K.I ↦ (prod.functor.obj (componentSheafifiedYoneda J K j)).map
         (Pi.lift (fun i : K.I ↦
           Pi.π (fun l : L.I ↦
             (SheafHomAdj.sheafHomFunctor (componentSheafifiedYoneda J L l)).obj X) (f.f i) ≫
@@ -546,7 +546,7 @@ theorem sheafifiedFormalCoproductIso_inv_map (f : K ⟶ L) (i : K.I) :
   refine Eq.trans (congrArg (phiSheafify J f i ≫ ·)
     (ι_comp_sigmaComparison (presheafToSheaf J (Type u))
       (fun l : L.I ↦ (yoneda (C := C)).obj (L.obj l)) (f.f i))) ?_
-  show (presheafToSheaf J (Type u)).map ((yoneda (C := C)).map (f.φ i)) ≫
+  change (presheafToSheaf J (Type u)).map ((yoneda (C := C)).map (f.φ i)) ≫
       (presheafToSheaf J (Type u)).map
         (Limits.Sigma.ι (fun l : L.I ↦ (yoneda (C := C)).obj (L.obj l)) (f.f i)) =
     (presheafToSheaf J (Type u)).map
@@ -580,7 +580,7 @@ theorem coproductProdFunctorMap_comp_coproductProdFunctorIso (f : K ⟶ L) :
   rw [Iso.inv_comp_eq]
   apply NatTrans.ext
   funext X
-  show Limits.Sigma.desc (fun i : K.I ↦ (prod.functor.map (phiSheafify J f i)).app X ≫
+  change Limits.Sigma.desc (fun i : K.I ↦ (prod.functor.map (phiSheafify J f i)).app X ≫
           Limits.Sigma.ι (fun j : L.I ↦
             (prod.functor.obj (componentSheafifiedYoneda J L j)).obj X) (f.f i)) ≫
         (coproductOfProductsIso J (fun l : L.I ↦ componentSheafifiedYoneda J L l) X).hom ≫
@@ -659,7 +659,7 @@ theorem piPushPullMap_id (K : FormalCoproduct.{u} C) :
     piPushPullMap J (𝟙 K) = 𝟙 (productPushPullFunctor J K) := by
   apply NatTrans.ext
   funext X
-  show Pi.lift (fun i : K.I ↦
+  change Pi.lift (fun i : K.I ↦
       Pi.π (fun j : K.I ↦ (localizationPullback (K.obj j) J ⋙
         localizationPushforward (K.obj j) J).obj X) i ≫
         (pushPullContraMap J (𝟙 (K.obj i))).app X) =

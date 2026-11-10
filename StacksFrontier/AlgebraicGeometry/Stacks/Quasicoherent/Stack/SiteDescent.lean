@@ -544,7 +544,7 @@ private lemma moduleDescentFunctor_essSurj
       rw [ht]
       exact (D.hom_self q a ha).trans (moduleTransition_id (M i) a).symm
     hom_comp Y q i j l a b c ha hb hc := by
-      show (t q a b ha hb ≫ t q b c hb hc).hom = (t q a c ha hc).hom
+      change (t q a b ha hb ≫ t q b c hb hc).hom = (t q a c ha hc).hom
       refine inj a c _ _ ?_
       rw [moduleTransition_comp, ht, ht, ht]
       exact D.hom_comp q c b a hc hb ha
@@ -557,7 +557,7 @@ private lemma moduleDescentFunctor_essSurj
     }, fun i => (M i).property⟩
   refine ⟨Opposite.op E, ⟨Pseudofunctor.DescentData.isoMk (fun i => Iso.refl _) ?_⟩⟩
   intro Y q i j a b ha hb
-  show Functor.pullbackFiberHom (𝟙 (ofModule (M i))) a ≫ D.hom q a b ha hb =
+  change Functor.pullbackFiberHom (𝟙 (ofModule (M i))) a ≫ D.hom q a b ha hb =
     moduleTransition (M i) (M j) a b (t q b a hb ha) ≫
       Functor.pullbackFiberHom (𝟙 (ofModule (M j))) b
   simp only [Functor.pullbackFiberHom_id, Category.comp_id]

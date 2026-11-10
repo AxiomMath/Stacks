@@ -51,8 +51,7 @@ theorem bijective_iff_of_tmul (a : A →+* A') (b : B →+* B') (α : A ≃+* B)
     (h : ∀ (c : A') (x : P), θ (β c ⊗ₜ[B] x) = δ (c ⊗ₜ[A] x)) :
     Function.Bijective δ ↔ Function.Bijective θ := by
   have hcomp (z) : θ (tensorMap a b α β hsq hA hB hP z) = δ z := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul c x => exact h c x
     | add z z' hz hz' => rw [map_add, map_add, hz, hz', map_add]
   rw [← funext hcomp]

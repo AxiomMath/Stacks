@@ -56,7 +56,7 @@ theorem finitePresentation_pullback {S T : Scheme.{u}} (g : T ⟶ S)
     (X : Over S) (hX : FinitePresentation X.hom) :
     FinitePresentation ((Over.pullback g).obj X).hom := by
   obtain ⟨hlfp, hqc, hqs⟩ := hX
-  show LocallyOfFinitePresentation (pullback.snd X.hom g) ∧
+  change LocallyOfFinitePresentation (pullback.snd X.hom g) ∧
     QuasiCompact (pullback.snd X.hom g) ∧ QuasiSeparated (pullback.snd X.hom g)
   exact ⟨inferInstance, inferInstance, inferInstance⟩
 
@@ -100,7 +100,7 @@ theorem isLocalizedModule_appTop_pullback_basicOpen
   have : IsScalarTower Γ(T, ⊤) P B' :=
     IsScalarTower.of_algebraMap_eq (appTop_fst_apply_eq_appTop_snd_apply p U.ι)
   have : IsLocalization.Away h P := by
-    show IsLocalization.Away h Γ(T.basicOpen h, ⊤)
+    change IsLocalization.Away h Γ(T.basicOpen h, ⊤)
     infer_instance
   have hs : IsPushout (CommRingCat.ofHom (algebraMap Γ(T, ⊤) B))
       (CommRingCat.ofHom (algebraMap Γ(T, ⊤) P))
@@ -128,7 +128,7 @@ theorem exists_good_open_of_isAffine
   let _ : Algebra A B := f.left.appTop.hom.toAlgebra
   have : IsScalarTower R A B := IsScalarTower.of_algebraMap_eq fun r ↦ by
     have hw := congrArg (fun q : X.left ⟶ T ↦ q.appTop.hom r) f.w
-    show X.hom.appTop.hom r = f.left.appTop.hom (Y.hom.appTop.hom r)
+    change X.hom.appTop.hom r = f.left.appTop.hom (Y.hom.appTop.hom r)
     simpa only [Scheme.Hom.comp_appTop, CommRingCat.hom_comp, RingHom.comp_apply] using hw.symm
   have : IsNoetherianRing R :=
     IsLocallyNoetherian.component_noetherian ⟨⊤, isAffineOpen_top T⟩
@@ -166,7 +166,7 @@ theorem exists_good_open_of_isAffine
     have : IsScalarTower R A A' := IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
     have : IsScalarTower R B B' := IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
     have : IsLocalization.Away h P := by
-      show IsLocalization.Away h Γ(T.basicOpen h, ⊤)
+      change IsLocalization.Away h Γ(T.basicOpen h, ⊤)
       infer_instance
     let mA : A →ₗ[R] A' := (IsScalarTower.toAlgHom R A A').toLinearMap
     let mB : B →ₗ[R] B' := (IsScalarTower.toAlgHom R B B').toLinearMap
@@ -215,10 +215,10 @@ theorem exists_affine_source_cover {T : Scheme.{u}} (X : Over T) [CompactSpace X
   let 𝒰 := X.left.affineCover.finiteSubcover
   let q : (∐ fun i : 𝒰.I₀ ↦ 𝒰.X i) ⟶ X.left := Sigma.desc 𝒰.f
   refine ⟨Over.mk (q ≫ X.hom), Over.homMk q, 𝒰, ?_, ?_, fun i ↦ inferInstance,
-    fun i ↦ Sigma.ι _ i, fun i ↦ Sigma.ι_desc _ _⟩
-  · show IsAffine (∐ fun i : 𝒰.I₀ ↦ 𝒰.X i)
+    fun i ↦ Sigma.ι _ i, fun i ↦ Sigma.ι_comp_desc _ _⟩
+  · change IsAffine (∐ fun i : 𝒰.I₀ ↦ 𝒰.X i)
     infer_instance
-  · show LocallyOfFiniteType (Sigma.desc 𝒰.f)
+  · change LocallyOfFiniteType (Sigma.desc 𝒰.f)
     let _ : IsZariskiLocalAtSource @LocallyOfFiniteType :=
       HasRingHomProperty.instIsZariskiLocalAtSource (Q := RingHom.FiniteType)
     exact IsZariskiLocalAtSource.sigmaDesc
@@ -354,7 +354,7 @@ theorem exists_good_open_of_isIntegral
   have hgood (i : 𝒰.I₀) : ∃ U : T.Opens, Nonempty U ∧
       ImageCommutesWithBaseChange ((Over.pullback U.ι).map (fi i)) := by
     have : IsAffine (Yi i).left := by
-      show IsAffine (𝒰.X i)
+      change IsAffine (𝒰.X i)
       infer_instance
     have : CompactSpace (Xi i).left := by
       have : QuasiCompact (pullback.snd f.left (𝒰.f i)) :=
@@ -362,11 +362,11 @@ theorem exists_good_open_of_isIntegral
           (IsPullback.of_hasPullback f.left (𝒰.f i)) inferInstance
       exact QuasiCompact.compactSpace_of_compactSpace (pullback.snd f.left (𝒰.f i))
     have : LocallyOfFiniteType (Yi i).hom := by
-      show LocallyOfFiniteType (𝒰.f i ≫ Y.hom)
+      change LocallyOfFiniteType (𝒰.f i ≫ Y.hom)
       have : IsOpenImmersion (𝒰.f i) := 𝒰.map_prop i
       infer_instance
     have : LocallyOfFiniteType (Xi i).hom := by
-      show LocallyOfFiniteType (pullback.fst f.left (𝒰.f i) ≫ X.hom)
+      change LocallyOfFiniteType (pullback.fst f.left (𝒰.f i) ≫ X.hom)
       have : IsOpenImmersion (𝒰.f i) := 𝒰.map_prop i
       infer_instance
     exact exists_good_open_of_isAffine_target (Xi i) (Yi i) (fi i)
@@ -397,7 +397,7 @@ theorem exists_good_open_of_isIntegral
   let bi0 (i : 𝒰.I₀) := (Over.pullback U.ι).map (bi i)
   let 𝒞 := overPullbackOpenCover Y 𝒰 U.ι
   have hCf (i : 𝒰.I₀) : 𝒞.f i = (bi0 i).left := rfl
-  show ImageCommutesWithBaseChange f0
+  change ImageCommutesWithBaseChange f0
   intro T' g
   let f1 := (Over.pullback g).map f0
   let Yi1 (i : 𝒰.I₀) := (Over.pullback g).obj (Yi0 i)
@@ -414,7 +414,7 @@ theorem exists_good_open_of_isIntegral
       f1.left.ker.comap (bi1 i).left =
         (f0.left.ker.comap (pullback.fst Y0.hom g)).comap (bi1 i).left := by
     have hoi : IsOpenImmersion (bi i).left := by
-      show IsOpenImmersion (𝒰.f i)
+      change IsOpenImmersion (𝒰.f i)
       exact 𝒰.map_prop i
     have : IsOpenImmersion (bi0 i).left :=
       MorphismProperty.of_isPullback (isPullback_overPullback_map (bi i) U.ι).flip inferInstance
@@ -443,7 +443,7 @@ theorem exists_good_open_of_isIntegral
   let ci (i : 𝒰.I₀) : Ci i ⟶ Y0 := Over.homMk (𝒞.f i)
   let di (i : 𝒰.I₀) : Ci i ≅ Yi0 i :=
     Over.isoMk (Iso.refl _) (by
-      show 𝟙 (Yi0 i).left ≫ (Yi0 i).hom = 𝒞.f i ≫ Y0.hom
+      change 𝟙 (Yi0 i).left ≫ (Yi0 i).hom = 𝒞.f i ≫ Y0.hom
       rw [Category.id_comp, hCf i]
       exact (bi0 i).w.symm)
   let e (i : 𝒰.I₀) : 𝒟.X i ≅ (Yi1 i).left :=
@@ -451,14 +451,14 @@ theorem exists_good_open_of_isIntegral
   have he (i : 𝒰.I₀) : (e i).hom ≫ (bi1 i).left = 𝒟.f i := by
     have hdi : (di i).hom ≫ bi0 i = ci i := by
       apply Over.OverMorphism.ext
-      show (di i).hom.left ≫ (bi0 i).left = 𝒞.f i
+      change (di i).hom.left ≫ (bi0 i).left = 𝒞.f i
       rw [hCf i]
-      show (𝟙 (Yi0 i).left) ≫ (bi0 i).left = (bi0 i).left
+      change (𝟙 (Yi0 i).left) ≫ (bi0 i).left = (bi0 i).left
       simp
     have hmap := congrArg (fun q : Ci i ⟶ Y0 ↦ ((Over.pullback g).map q).left) hdi
     simpa only [Functor.map_comp, Over.comp_left, Functor.mapIso_hom, Over.forget_map,
       e, bi1, 𝒟, overPullbackOpenCover, ci] using hmap
-  show f1.left.ker = f0.left.ker.comap (pullback.fst Y0.hom g)
+  change f1.left.ker = f0.left.ker.comap (pullback.fst Y0.hom g)
   apply idealSheafData_eq_of_comap_eq_openCover 𝒟
   intro i
   have hi := congrArg

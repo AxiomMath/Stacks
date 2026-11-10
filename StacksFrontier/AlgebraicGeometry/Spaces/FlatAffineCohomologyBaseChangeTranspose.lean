@@ -177,24 +177,29 @@ theorem affineCohomologyBaseChangeIso_hom_tmul_one (hZ : B.Contains (⊤_ Scheme
   have := hasInjectiveResolutions_modules B S hS D.X.1 D.X.2
   have := hasInjectiveResolutions_modules B S hS D.X'.1 D.X'.2
   have := enoughInjectives_modules B S hS D.X.1 D.X.2
-  letI hV₀ : IsTerminal V₀ := isTerminal_of_isIso_chart B S hS D.Y V₀
   have hY : IsAffineSpace B S hS D.Y.1 := isAffineSpace_of_isIso_chart B S hS D.Y V₀
   have hY' : IsAffineSpace B S hS D.Y'.1 := isAffineSpace_of_isIso_chart B S hS D.Y' V₀'
   have hg' : yoneda.relativelyRepresentable D.g'.hom := D.relativelyRepresentable_g' hY hY'
-  have hiso : (D.tensorOneMap V₀ V₀' hV₀ ≫ (D.pushforwardTensorChartIso hg' V₀ V₀' hV₀).hom) ≫
+  have hiso : (D.tensorOneMap V₀ V₀' (isTerminal_of_isIso_chart B S hS D.Y V₀) ≫
+        (D.pushforwardTensorChartIso hg' V₀ V₀' (isTerminal_of_isIso_chart B S hS D.Y V₀)).hom) ≫
       ((modulePushforwardChartIso B S hS D.g' hg').app D.pulledBack).inv =
       (modulePullbackAdjunction B S hS D.g').unit.app D.F :=
-    (Iso.comp_inv_eq _).2 (D.tensorOneMap_comp_pushforwardTensorChartIso hg' V₀ V₀' hV₀)
+    (Iso.comp_inv_eq _).2
+      (D.tensorOneMap_comp_pushforwardTensorChartIso hg' V₀ V₀'
+        (isTerminal_of_isIso_chart B S hS D.Y V₀))
   have key := congrArg (fun m => ModuleCat.Hom.hom m
       (h ⊗ₜ[baseChartRing B S hS D.Y V₀] (1 : baseChartRing B S hS D.Y V₀)))
     (D.spanHom_comp_affineCohomologyBaseChangeIso_hom V₀ V₀' hZ hg hqc hqs i)
   refine Eq.trans ?_ (Eq.trans key ?_)
   · exact congrArg (fun z => (D.affineCohomologyBaseChangeIso hZ hg hqc hqs V₀ V₀' i).hom.hom
       (h ⊗ₜ[baseChartRing B S hS D.Y V₀] z)) (one_smul _ _).symm
-  · have hPhi := (((cohomologyFunctorOverBaseChart B S hS D.f hV₀ i).map_comp
-        (D.tensorOneMap V₀ V₀' hV₀ ≫ (D.pushforwardTensorChartIso hg' V₀ V₀' hV₀).hom)
+  · have hPhi := (((cohomologyFunctorOverBaseChart B S hS D.f
+          (isTerminal_of_isIso_chart B S hS D.Y V₀) i).map_comp
+        (D.tensorOneMap V₀ V₀' (isTerminal_of_isIso_chart B S hS D.Y V₀) ≫
+          (D.pushforwardTensorChartIso hg' V₀ V₀' (isTerminal_of_isIso_chart B S hS D.Y V₀)).hom)
         ((modulePushforwardChartIso B S hS D.g' hg').app D.pulledBack).inv).symm.trans
-      (congrArg (cohomologyFunctorOverBaseChart B S hS D.f hV₀ i).map hiso))
+      (congrArg (cohomologyFunctorOverBaseChart B S hS D.f
+        (isTerminal_of_isIso_chart B S hS D.Y V₀) i).map hiso))
     have hPhih := DFunLike.congr_fun (congrArg ModuleCat.Hom.hom hPhi)
       ((TensorProduct.rid (baseChartRing B S hS D.Y V₀)
         (D.affineCohomologyOverBaseChart V₀ i)).toModuleIso.hom.hom
@@ -204,13 +209,13 @@ theorem affineCohomologyBaseChangeIso_hom_tmul_one (hZ : B.Contains (⊤_ Scheme
           (h ⊗ₜ[baseChartRing B S hS D.Y V₀] (1 : baseChartRing B S hS D.Y V₀)) = h :=
       (TensorProduct.rid_tmul h (1 : baseChartRing B S hS D.Y V₀)).trans (one_smul _ h)
     refine Eq.trans (congrArg (fun y => ModuleCat.Hom.hom
-        ((baseChartRestrictScalars B S hS D.Y hV₀).map
+        ((baseChartRestrictScalars B S hS D.Y (isTerminal_of_isIso_chart B S hS D.Y V₀)).map
           (D.restrictScalarsSquareIso.hom.app
             (((globalSectionsFunctor.{u + 1, u, u, u}
               (ringSheaf (smallEtaleRingedSite B S hS D.X'.1 D.X'.2).O)).rightDerived
                 i).obj D.pulledBack)))
         (ModuleCat.Hom.hom ((globalSectionsRestrictScalars B S hS D.f ⋙
-            baseChartRestrictScalars B S hS D.Y hV₀).map
+            baseChartRestrictScalars B S hS D.Y (isTerminal_of_isIso_chart B S hS D.Y V₀)).map
           (D.cohomologyPushforwardIso hg hY hY' i).inv) y)) hPhih) ?_
     exact congrArg _ (congrArg _ (congrArg _ hr))
 

@@ -231,7 +231,7 @@ theorem isLocalizedModule_annihilatorModule (I : X.IdealSheafData) (F : X.Module
       | smul r p _ hp => rw [smul_eq_mul, mul_smul, hp, smul_zero]
     refine ⟨M + k, annihilatorMk I F n (a ^ M • x₀)
       ((mem_idealPowerAnnihilator_affineOpen I F n ⟨U, hU⟩ _).mpr hmem), annihilatorVal_inj ?_⟩
-    show a ^ (M + k) • annihilatorVal z = restrictₗ F (X.basicOpen_le a) (a ^ M • x₀)
+    change a ^ (M + k) • annihilatorVal z = restrictₗ F (X.basicOpen_le a) (a ^ M • x₀)
     rw [map_smul, ← hx₀, smul_smul, ← pow_add]
   · -- injectivity up to powers of `a`, inherited from `F`
     intro y hy

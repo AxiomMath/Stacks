@@ -396,7 +396,7 @@ theorem laumonLatticeLevelDichotomyInput_of_levelIsogeny
                 (algebraMap E (AlgebraicClosure E'')) * A := by
         rw [hT₁ g, Matrix.map_mul, Matrix.map_mul, Matrix.map_map]
         rfl
-      show A' *ᵥ (_ *ᵥ v) ∈ W
+      change A' *ᵥ (_ *ᵥ v) ∈ W
       rw [Matrix.mulVec_mulVec, ← Matrix.mul_one (A' * _), ← hAA', ← Matrix.mul_assoc,
         ← hσK, ← Matrix.mulVec_mulVec]
       exact hW _ ⟨g, rfl⟩ _ hv

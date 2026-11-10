@@ -298,7 +298,7 @@ private theorem ConormalAlgebraHom.IsCanonical.map_eq_chartConormalMap
       chartIdealPow_map_mem i i' f g comm U U' hGU hFU n a⟩
   have hb' : b = b' := by
     apply Subtype.ext
-    show (g.app U'.1 ≫ X.presheaf.map (homOfLE hGU).op).hom
+    change (g.app U'.1 ≫ X.presheaf.map (homOfLE hGU).op).hom
         (a : Γ(X', U'.1)) =
       (g.app U'.1 ≫ X.presheaf.map (homOfLE hGU).op).hom
         (a : Γ(X', U'.1))
@@ -342,7 +342,7 @@ private lemma conormalPiece_negative_subsingleton {Z X : Scheme.{u}}
     (Stacks.Conormal.conormalAlgebra i).negative_isZero n hn
   have hid : 𝟙 F = 0 := (CategoryTheory.Limits.IsZero.iff_id_eq_zero F).mp hzero
   have hzeroVal : (0 : F ⟶ F).val = 0 := by
-    show (SheafOfModules.forget Z.ringCatSheaf).map
+    change (SheafOfModules.forget Z.ringCatSheaf).map
       (0 : F ⟶ F) = 0
     exact (SheafOfModules.forget Z.ringCatSheaf).map_zero F F
   have hidVal : 𝟙 F.val = 0 := by

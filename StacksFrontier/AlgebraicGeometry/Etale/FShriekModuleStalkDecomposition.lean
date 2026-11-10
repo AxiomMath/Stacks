@@ -108,7 +108,7 @@ public instance additive_presheafFiber {C : Type u₁} [Category.{v₁} C]
     [Preadditive A] [HasColimitsOfSize.{t, t} A] :
     (Φ.presheafFiber (A := A)).Additive := by
   change ((Functor.whiskeringLeft _ _ _).obj
-    (CategoryOfElements.π Φ.fiber).op ⋙ colim).Additive
+    (Functor.Elements.π Φ.fiber).op ⋙ colim).Additive
   infer_instance
 
 /-- The fibre functor of a point of a site on sheaves with values in a preadditive category is

@@ -262,8 +262,6 @@ variable {X Y : Scheme.{u}} (pr : Y ⟶ X) (p : ℕ) [Fact p.Prime]
   (ga gb : Y ⟶ Y) (hga : pr = ga ≫ pr) (m : Y ⟶ X) (hgb : m = gb ≫ pr)
   (hm : m = pr ≫ absoluteFrobeniusPow X p hX n)
   (hcomp : absoluteFrobeniusPow Y p hY n = ga ≫ gb)
-  [HasSheafify X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v}]
-  [HasSheafify Y.smallEtaleTopology AddCommGrpCat.{max (u + 1) v}]
 
 /-- **The Frobenius coherence between direct images.**  This is the conjugate, under the
 inverse-image/direct-image adjunctions, of the coefficient coherence
@@ -612,9 +610,6 @@ public lemma frobeniusRestrictionSiteCoherence'_inv (U : X.Etale) :
     ((absoluteFrobeniusPowEtaleSiteIso Y p hY hn).inv_hom_id_app
       ((smallEtaleBaseChange pr).obj U))
 
-variable [HasSheafify X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v}]
-  [HasSheafify Y.smallEtaleTopology AddCommGrpCat.{max (u + 1) v}]
-
 /-- **The Frobenius coherence between direct images, in the other order.** -/
 public theorem etaleAbelianDirectImageFrobeniusCoherence' :
     ((Functor.rightUnitor (etaleAbelianDirectImage.{u, v} pr)).inv ≫
@@ -650,6 +645,8 @@ public theorem etaleAbelianDirectImageFrobeniusCoherence' :
     directImageMapHomApp, Category.id_comp, Category.comp_id, Category.assoc]
   exact h
 
+variable [HasSheafify X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v}]
+  [HasSheafify Y.smallEtaleTopology AddCommGrpCat.{max (u + 1) v}]
 variable [∀ F : X.Etaleᵒᵖ ⥤ AddCommGrpCat.{max (u + 1) v},
     (smallEtaleBaseChange (absoluteFrobeniusPow X p hX n)).op.HasLeftKanExtension F]
   [∀ F : Y.Etaleᵒᵖ ⥤ AddCommGrpCat.{max (u + 1) v},

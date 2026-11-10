@@ -263,7 +263,7 @@ public theorem proZero_restrict_sup (C : ℕᵒᵖ ⥤ DerivedCategory X.Modules
   refine ⟨m₂, hnm₁.trans hm₁m₂, ?_⟩
   set T := O₁ ⊔ O₂
   have hcover : T.ι ⁻¹ᵁ O₁ ⊔ T.ι ⁻¹ᵁ O₂ = ⊤ := by
-    show T.ι ⁻¹ᵁ T = ⊤
+    change T.ι ⁻¹ᵁ T = ⊤
     exact T.ι_preimage_self
   -- a morphism vanishing on `O` vanishes on the open `T ∩ O` of `T`
   have restr : ∀ (O : X.Opens) {E F : DerivedCategory X.Modules} (φ : E ⟶ F),
@@ -299,7 +299,7 @@ public theorem proZero_of_isOpenImmersion_cover {X : Scheme.{u}} [CompactSpace X
     intro x
     obtain ⟨Y, f, hf, hx, hC⟩ := h x
     refine ⟨f.opensRange, ?_, fun n => ?_⟩
-    · show x ∈ (f.opensRange : Set X)
+    · change x ∈ (f.opensRange : Set X)
       rw [Scheme.Hom.coe_opensRange]
       exact hx
     · obtain ⟨m, hnm, e⟩ := hC n

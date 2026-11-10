@@ -70,7 +70,7 @@ public def algebraClosureBaseIso : Spec (.of kbar₂) ≅ Spec (.of kbar₁) :=
 @[reassoc]
 public lemma algebraClosureBaseIso_hom_comp :
     (algebraClosureBaseIso σ).hom ≫ specAlgebraMap k kbar₁ = specAlgebraMap k kbar₂ := by
-  show Spec.map _ ≫ Spec.map _ = Spec.map _
+  change Spec.map _ ≫ Spec.map _ = Spec.map _
   rw [← Spec.map_comp]
   congr 1
   ext x

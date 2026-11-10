@@ -76,7 +76,7 @@ private theorem exists_extension_with_sup_eq_of_product_bot
   have hMmem : L ⊔ Ideal.span {x} ∈ S :=
     ⟨hL.1.trans le_sup_left, sup_le hL.2.1 (Ideal.span_le.mpr (Set.singleton_subset_iff.mpr hxI)),
       hMK.trans hL.2.2⟩
-  exact hmax _ hMmem (SetLike.lt_iff_le_and_exists.mpr ⟨le_sup_left, x,
+  exact hmax _ hMmem (IsConcreteLE.lt_iff_le_and_exists.mpr ⟨le_sup_left, x,
     Ideal.mem_sup_right (Ideal.mem_span_singleton_self x), fun h => hxnot (Ideal.mem_sup_left h)⟩)
 
 /-- In a category cofibered in groupoids, a morphism lying over `g` factors through the
@@ -161,7 +161,7 @@ theorem exists_least_lifting_ideal
       obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective z
       exact ⟨b, rfl⟩
     have hq'ker : RingHom.ker q'.hom.toRingHom = L' := by
-      show RingHom.ker (Ideal.Quotient.mk L') = L'
+      change RingHom.ker (Ideal.Quotient.mk L') = L'
       rw [Ideal.mk_ker]
     have hkerq : RingHom.ker q.hom.toRingHom ≤ RingHom.ker q'.hom.toRingHom :=
       hqker.le.trans (hLL'.trans hq'ker.ge)
@@ -207,10 +207,10 @@ theorem exists_least_lifting_ideal
         r ≫ fst = qK := by
     let P := ArtinianLocalAlgCat.pullbackObj_of_surjective gK gJ' (Or.inl hgK)
     let rHom : B →ₐ[Λ] P := by
-      show B →ₐ[Λ] AlgHom.pullback gK.hom gJ'.hom
+      change B →ₐ[Λ] AlgHom.pullback gK.hom gJ'.hom
       exact AlgHom.codRestrict (AlgHom.prod qK.hom qJ'.hom)
         (AlgHom.pullback gK.hom gJ'.hom) (fun b => by
-          show gK.hom (qK.hom b) = gJ'.hom (qJ'.hom b)
+          change gK.hom (qK.hom b) = gJ'.hom (qJ'.hom b)
           exact (hKf b).trans (hJf b).symm)
     have hfst (b : B) :
         (ArtinianLocalAlgCat.pullbackFst_of_surjective gK gJ' (Or.inl hgK)).hom (rHom b) =
@@ -223,16 +223,16 @@ theorem exists_least_lifting_ideal
       obtain ⟨bJ, rfl⟩ := hqJ' zJ
       have hd : bK - bJ ∈ (J' : Submodule B B) ⊔ K := by
         rw [hsup]
-        show f.hom (bK - bJ) = 0
+        change f.hom (bK - bJ) = 0
         rw [map_sub, ← hKf, ← hJf, sub_eq_zero]
         exact hz
       obtain ⟨j, hj, k₀, hk₀, hdiff⟩ := Submodule.mem_sup.mp hd
       have hkzero : qK.hom k₀ = 0 := RingHom.mem_ker.mp (hqKker.ge hk₀)
       have hjzero : qJ'.hom j = 0 := RingHom.mem_ker.mp (hqJ'ker.ge hj)
       refine ⟨bK - k₀, Subtype.ext (Prod.ext ?_ ?_)⟩
-      · show qK.hom (bK - k₀) = qK.hom bK
+      · change qK.hom (bK - k₀) = qK.hom bK
         rw [map_sub, hkzero, sub_zero]
-      · show qJ'.hom (bK - k₀) = qJ'.hom bJ
+      · change qJ'.hom (bK - k₀) = qJ'.hom bJ
         rw [show bK - k₀ = bJ + j by linear_combination -hdiff, map_add, hjzero, add_zero]
     have hker : RingHom.ker rHom.toRingHom = J' ⊓ K := by
       ext b
@@ -245,7 +245,7 @@ theorem exists_least_lifting_ideal
         have h := congrArg (AlgHom.pullbackFst gK.hom gJ'.hom) (RingHom.mem_ker.mp hb)
         have hz0 : AlgHom.pullbackFst gK.hom gJ'.hom (0 : P) = 0 := rfl
         exact h.trans hz0
-      · show (qK.hom b, qJ'.hom b) = (0, 0)
+      · change (qK.hom b, qJ'.hom b) = (0, 0)
         exact Prod.ext (RingHom.mem_ker.mp (hqKker.ge hb.2)) (RingHom.mem_ker.mp (hqJ'ker.ge hb.1))
     refine ⟨{ hom := rHom
               isLocal := IsLocalHom.of_surjective rHom.toRingHom hsurj

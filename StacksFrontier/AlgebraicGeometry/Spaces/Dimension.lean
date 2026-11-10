@@ -126,7 +126,7 @@ theorem dimensionAtPoint_eq_of_etale_chart (B : BigFppfSite.{u}) (S : Scheme.{u}
     have hUS := topologicalKrullDimAt_eq_of_etale r.hom xU
     rw [show (Scheme.Opens.ι r.source) xU = X.point by simp [xU, Scheme.Opens.ι_apply]] at hUX
     rw [r.map_point] at hUS
-    show (topologicalKrullDimAt Y.scheme Y.point = d) ↔
+    change (topologicalKrullDimAt Y.scheme Y.point = d) ↔
       (topologicalKrullDimAt X.scheme X.point = d)
     rw [← hUS, ← hUX]
   have hall := (forall_etale_chart_iff_exists_etale_chart B S hS F hF x P hP).2

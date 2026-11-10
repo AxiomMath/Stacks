@@ -201,6 +201,7 @@ public abbrev ringDiagram (A : Type u) [CommRing A] :
   unopUnop (CommAlgCat.{uB} A) ⋙ forget₂ (CommAlgCat.{uB} A) CommRingCat.{uB} ⋙
     forget₂ CommRingCat.{uB} RingCat.{uB}
 
+set_option linter.checkUnivs false in
 /-- A module-valued functor on commutative `A`-algebras whose algebra universe `uB` and
 value universe `uM` are unrelated to each other and to the universe of `A`. -/
 public abbrev ModuleValuedFunctor (A : Type u) [CommRing A] :=
@@ -279,7 +280,7 @@ private lemma evalLaurentOne_comp_constant (A : Type u) (B : Type uB) [CommRing 
     [CommRing B] [Algebra A B] :
     (evalLaurentOne A B).comp (constantLaurentMap A B) = AlgHom.id A B := by
   refine AlgHom.ext fun b ↦ ?_
-  show LaurentPolynomial.eval₂ (RingHom.id B) (1 : Bˣ) (LaurentPolynomial.C b) = b
+  change LaurentPolynomial.eval₂ (RingHom.id B) (1 : Bˣ) (LaurentPolynomial.C b) = b
   simp
 
 private lemma gradedLaurentMap_of_mem (A : Type u) (B : Type uB) [CommRing A]
@@ -287,7 +288,7 @@ private lemma gradedLaurentMap_of_mem (A : Type u) (B : Type uB) [CommRing A]
     (d : ℕ) (b : B) (hb : b ∈ 𝒜 d) :
     gradedLaurentMap A B 𝒜 b =
       LaurentPolynomial.C b * LaurentPolynomial.T (d : ℤ) := by
-  show (DirectSum.liftRingHom _) (DirectSum.decompose 𝒜 b) = _
+  change (DirectSum.liftRingHom _) (DirectSum.decompose 𝒜 b) = _
   rw [DirectSum.decompose_of_mem 𝒜 hb]
   simp [DirectSum.liftRingHom_apply]
 
@@ -300,10 +301,10 @@ private lemma evalLaurentOne_comp_graded (A : Type u) (B : Type uB) [CommRing A]
   conv_lhs => rw [← DirectSum.sum_support_decompose 𝒜 b]
   rw [map_sum]
   refine Finset.sum_congr rfl fun d _ ↦ ?_
-  show (evalLaurentOne A B) ((gradedLaurentMap A B 𝒜)
+  change (evalLaurentOne A B) ((gradedLaurentMap A B 𝒜)
       ↑((DirectSum.decompose 𝒜 b) d)) = _
   rw [gradedLaurentMap_of_mem A B 𝒜 d _ (DirectSum.decompose 𝒜 b d).property]
-  show LaurentPolynomial.eval₂ (RingHom.id B) (1 : Bˣ)
+  change LaurentPolynomial.eval₂ (RingHom.id B) (1 : Bˣ)
     (LaurentPolynomial.C _ * LaurentPolynomial.T (d : ℤ)) = _
   simp
 
@@ -360,7 +361,7 @@ private lemma laurentModule_eq (A : Type u) (B : Type uB) [CommRing A] [CommRing
       (AddMonoidAlgebra.instModule : Module B (LaurentPolynomial B)) := by
   apply Module.ext'
   intro b p
-  show LaurentPolynomial.C b * p = b • p
+  change LaurentPolynomial.C b * p = b • p
   ext k
   rw [← LaurentPolynomial.single_eq_C,
     AddMonoidAlgebra.coeff_single_zero_mul,
@@ -453,12 +454,12 @@ private lemma laurentBaseChangeCanonical (A : Type u) (B : Type uB) [CommRing A]
       map_add' _ _ := by simp [map_add] }
   have he' (x : M) : e' (1 ⊗ₜ[B] x) =
       F.map ((CommAlgCat.ofHom (constantLaurentMap A B)).op.op) x := by
-    show e (t.symm (1 ⊗ₜ[B] x)) = _
+    change e (t.symm (1 ⊗ₜ[B] x)) = _
     rw [laurentTensorTransport_symm_tmul A B M]
     exact he x
   have he'_tmul (q : LaurentPolynomial B) (x : M) :
       e' (q ⊗ₜ[B] x) = q • F.map ((CommAlgCat.ofHom (constantLaurentMap A B)).op.op) x := by
-    show e (t.symm (q ⊗ₜ[B] x)) = _
+    change e (t.symm (q ⊗ₜ[B] x)) = _
     rw [laurentTensorTransport_symm_tmul A B M]
     let : AddCommMonoid (LaurentPolynomial B) :=
       (inferInstance : CommRing (LaurentPolynomial B)).toCommSemiring.toAddCommMonoid
@@ -472,16 +473,15 @@ private lemma laurentBaseChangeCanonical (A : Type u) (B : Type uB) [CommRing A]
     toAddEquiv := e'
     map_smul' := by
       intro p z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul q x =>
           rw [TensorProduct.smul_tmul']
-          show e' ((p * q) ⊗ₜ[B] x) = p • e' (q ⊗ₜ[B] x)
+          change e' ((p * q) ⊗ₜ[B] x) = p • e' (q ⊗ₜ[B] x)
           rw [he'_tmul, he'_tmul, mul_smul]
           rfl
       | add z w hz hw =>
           rw [smul_add]
-          show e' (p • z + p • w) = p • e' (z + w)
+          change e' (p • z + p • w) = p • e' (z + w)
           rw [e'.map_add, e'.map_add, smul_add]
           exact congrArg₂ (· + ·) hz hw
   }
@@ -518,13 +518,13 @@ private lemma laurentBaseChange_eval_tmul_T (A : Type u) (B : Type uB) [CommRing
     (constantLaurentMap A B) e he]
   let m' : F.obj (Opposite.op (Opposite.op (CommAlgCat.of A (LaurentPolynomial B)))) :=
     F.map ((CommAlgCat.ofHom (constantLaurentMap A B)).op.op) m
-  show F.map ((CommAlgCat.ofHom (evalLaurentOne A B)).op.op)
+  change F.map ((CommAlgCat.ofHom (evalLaurentOne A B)).op.op)
     ((LaurentPolynomial.T k : LaurentPolynomial B) • m') = m
   rw [F.map_smul]
   have ht : evalLaurentOne A B (LaurentPolynomial.T k) = 1 := by
-    show LaurentPolynomial.eval₂ (RingHom.id B) (1 : Bˣ) (LaurentPolynomial.T k) = 1
+    change LaurentPolynomial.eval₂ (RingHom.id B) (1 : Bˣ) (LaurentPolynomial.T k) = 1
     simp
-  show evalLaurentOne A B (LaurentPolynomial.T k) •
+  change evalLaurentOne A B (LaurentPolynomial.T k) •
       F.map ((CommAlgCat.ofHom (evalLaurentOne A B)).op.op) m' = m
   rw [ht, one_smul]
   exact map_map_of_comp_eq_id A B (LaurentPolynomial B) F _ _ (evalLaurentOne_comp_constant A B) m
@@ -561,7 +561,7 @@ private lemma laurentBaseChange_eval_graded (A : Type u) (B : Type uB) [CommRing
   rw [← laurentBaseChange_eval A B F e he]
   let m' : F.obj (Opposite.op (Opposite.op (CommAlgCat.of A (LaurentPolynomial B)))) :=
     F.map ((CommAlgCat.ofHom (gradedLaurentMap A B 𝒜)).op.op) x
-  show F.map ((CommAlgCat.ofHom (evalLaurentOne A B)).op.op) (e (e.symm m')) = x
+  change F.map ((CommAlgCat.ofHom (evalLaurentOne A B)).op.op) (e (e.symm m')) = x
   rw [e.apply_symm_apply]
   exact map_map_of_comp_eq_id A B (LaurentPolynomial B) F _ _ (evalLaurentOne_comp_graded A B 𝒜) x
 
@@ -591,11 +591,11 @@ private lemma outerTUnit_zpow (B : Type uB) [CommRing B] (k : ℤ) :
   | zero => simp [LaurentPolynomial.T_zero]
   | succ k ih =>
     rw [zpow_add_one, Units.val_mul, ih]
-    show LaurentPolynomial.T k * LaurentPolynomial.T 1 = LaurentPolynomial.T (k + 1)
+    change LaurentPolynomial.T k * LaurentPolynomial.T 1 = LaurentPolynomial.T (k + 1)
     rw [← LaurentPolynomial.T_add]
   | pred k ih =>
     rw [zpow_sub_one, Units.val_mul, ih]
-    show (LaurentPolynomial.T (-(k : ℤ)) : LaurentPolynomial (LaurentPolynomial B)) *
+    change (LaurentPolynomial.T (-(k : ℤ)) : LaurentPolynomial (LaurentPolynomial B)) *
       LaurentPolynomial.T (-1) = LaurentPolynomial.T (-(k : ℤ) - 1)
     rw [← LaurentPolynomial.T_add]
     congr 1
@@ -608,13 +608,13 @@ private lemma innerTUnit_zpow (B : Type uB) [CommRing B] (k : ℤ) :
   | zero => simp [LaurentPolynomial.T_zero]
   | succ k ih =>
     rw [zpow_add_one, Units.val_mul, ih]
-    show LaurentPolynomial.C (LaurentPolynomial.T k) *
+    change LaurentPolynomial.C (LaurentPolynomial.T k) *
       LaurentPolynomial.C (LaurentPolynomial.T 1) =
       LaurentPolynomial.C (LaurentPolynomial.T (k + 1))
     rw [← map_mul, ← LaurentPolynomial.T_add]
   | pred k ih =>
     rw [zpow_sub_one, Units.val_mul, ih]
-    show LaurentPolynomial.C (LaurentPolynomial.T (-(k : ℤ)) : LaurentPolynomial B) *
+    change LaurentPolynomial.C (LaurentPolynomial.T (-(k : ℤ)) : LaurentPolynomial B) *
       LaurentPolynomial.C (LaurentPolynomial.T (-1) : LaurentPolynomial B) =
       LaurentPolynomial.C (LaurentPolynomial.T (-(k : ℤ) - 1) : LaurentPolynomial B)
     rw [← map_mul, ← LaurentPolynomial.T_add]
@@ -656,7 +656,7 @@ private lemma diagonalLaurentMap_C (A : Type u) (B : Type uB) [CommRing A] [Comm
     [Algebra A B] (b : B) :
     diagonalLaurentMap A B (LaurentPolynomial.C b) =
       LaurentPolynomial.C (LaurentPolynomial.C b) := by
-  show (LaurentPolynomial.eval₂ _ _) (LaurentPolynomial.C b) = _
+  change (LaurentPolynomial.eval₂ _ _) (LaurentPolynomial.C b) = _
   rw [LaurentPolynomial.eval₂_C]
   rfl
 
@@ -664,7 +664,7 @@ private lemma gradedOuterLaurentMap_C (A : Type u) (B : Type uB) [CommRing A] [C
     [Algebra A B] (𝒜 : ℕ → Submodule A B) [GradedAlgebra 𝒜] (b : B) :
     gradedOuterLaurentMap A B 𝒜 (LaurentPolynomial.C b) =
       LaurentPolynomial.C (gradedLaurentMap A B 𝒜 b) := by
-  show (LaurentPolynomial.eval₂ _ _) (LaurentPolynomial.C b) = _
+  change (LaurentPolynomial.eval₂ _ _) (LaurentPolynomial.C b) = _
   rw [LaurentPolynomial.eval₂_C]
   rfl
 
@@ -672,7 +672,7 @@ private lemma diagonalLaurentMap_T (A : Type u) (B : Type uB) [CommRing A] [Comm
     [Algebra A B] (k : ℤ) :
     diagonalLaurentMap A B (LaurentPolynomial.T k) =
       LaurentPolynomial.T k * LaurentPolynomial.C (LaurentPolynomial.T k) := by
-  show (LaurentPolynomial.eval₂ _ _) (LaurentPolynomial.T k) = _
+  change (LaurentPolynomial.eval₂ _ _) (LaurentPolynomial.T k) = _
   rw [LaurentPolynomial.eval₂_T,
     mul_zpow (outerTUnit B) (innerTUnit B) k, Units.val_mul,
     outerTUnit_zpow, innerTUnit_zpow]
@@ -680,7 +680,7 @@ private lemma diagonalLaurentMap_T (A : Type u) (B : Type uB) [CommRing A] [Comm
 private lemma gradedOuterLaurentMap_T (A : Type u) (B : Type uB) [CommRing A] [CommRing B]
     [Algebra A B] (𝒜 : ℕ → Submodule A B) [GradedAlgebra 𝒜] (k : ℤ) :
     gradedOuterLaurentMap A B 𝒜 (LaurentPolynomial.T k) = LaurentPolynomial.T k := by
-  show (LaurentPolynomial.eval₂ _ _) (LaurentPolynomial.T k) = _
+  change (LaurentPolynomial.eval₂ _ _) (LaurentPolynomial.T k) = _
   rw [LaurentPolynomial.eval₂_T, outerTUnit_zpow]
 
 private lemma diagonal_comp_graded (A : Type u) (B : Type uB) [CommRing A] [CommRing B]
@@ -695,7 +695,7 @@ private lemma diagonal_comp_graded (A : Type u) (B : Type uB) [CommRing A] [Comm
       gradedLaurentMap_of_mem A B 𝒜 d b hb, map_mul]
     ring
   refine AlgHom.ext fun b ↦ ?_
-  show diagonalLaurentMap A B (gradedLaurentMap A B 𝒜 b) =
+  change diagonalLaurentMap A B (gradedLaurentMap A B 𝒜 b) =
     gradedOuterLaurentMap A B 𝒜 (gradedLaurentMap A B 𝒜 b)
   classical
   conv_lhs => rw [← DirectSum.sum_support_decompose 𝒜 b]
@@ -727,13 +727,13 @@ private lemma map_gradedOuter_weightedTerm (A : Type u) (B : Type uB) [CommRing 
           (F.map ((CommAlgCat.ofHom (gradedLaurentMap A B 𝒜)).op.op) m) := by
   let m' : F.obj (Opposite.op (Opposite.op (CommAlgCat.of A (LaurentPolynomial B)))) :=
     F.map ((CommAlgCat.ofHom (constantLaurentMap A B)).op.op) m
-  show F.map ((CommAlgCat.ofHom (gradedOuterLaurentMap A B 𝒜)).op.op)
+  change F.map ((CommAlgCat.ofHom (gradedOuterLaurentMap A B 𝒜)).op.op)
     ((LaurentPolynomial.T k : LaurentPolynomial B) • m') = _
   rw [F.map_smul]
-  show gradedOuterLaurentMap A B 𝒜 (LaurentPolynomial.T k) •
+  change gradedOuterLaurentMap A B 𝒜 (LaurentPolynomial.T k) •
     F.map ((CommAlgCat.ofHom (gradedOuterLaurentMap A B 𝒜)).op.op) m' = _
   rw [gradedOuterLaurentMap_T]
-  show (LaurentPolynomial.T k : LaurentPolynomial (LaurentPolynomial B)) •
+  change (LaurentPolynomial.T k : LaurentPolynomial (LaurentPolynomial B)) •
     F.map ((CommAlgCat.ofHom (gradedOuterLaurentMap A B 𝒜)).op.op)
       (F.map ((CommAlgCat.ofHom (constantLaurentMap A B)).op.op) m) = _
   congr 1
@@ -751,13 +751,13 @@ private lemma map_diagonal_weightedTerm (A : Type u) (B : Type uB) [CommRing A]
             F.map ((CommAlgCat.ofHom (constantLaurentMap A B)).op.op) m) := by
   let m' : F.obj (Opposite.op (Opposite.op (CommAlgCat.of A (LaurentPolynomial B)))) :=
     F.map ((CommAlgCat.ofHom (constantLaurentMap A B)).op.op) m
-  show F.map ((CommAlgCat.ofHom (diagonalLaurentMap A B)).op.op)
+  change F.map ((CommAlgCat.ofHom (diagonalLaurentMap A B)).op.op)
     ((LaurentPolynomial.T k : LaurentPolynomial B) • m') =
     (LaurentPolynomial.T k : LaurentPolynomial (LaurentPolynomial B)) •
       F.map ((CommAlgCat.ofHom (constantLaurentMap A (LaurentPolynomial B))).op.op)
         ((LaurentPolynomial.T k : LaurentPolynomial B) • m')
   rw [F.map_smul]
-  show diagonalLaurentMap A B (LaurentPolynomial.T k) •
+  change diagonalLaurentMap A B (LaurentPolynomial.T k) •
     F.map ((CommAlgCat.ofHom (diagonalLaurentMap A B)).op.op) m' = _
   rw [diagonalLaurentMap_T]
   have hc : F.map ((CommAlgCat.ofHom (diagonalLaurentMap A B)).op.op) m' =
@@ -767,7 +767,7 @@ private lemma map_diagonal_weightedTerm (A : Type u) (B : Type uB) [CommRing A]
   let m'' : F.obj (Opposite.op (Opposite.op
       (CommAlgCat.of A (LaurentPolynomial (LaurentPolynomial B))))) :=
     F.map ((CommAlgCat.ofHom (constantLaurentMap A (LaurentPolynomial B))).op.op) m'
-  show ((LaurentPolynomial.T k : LaurentPolynomial (LaurentPolynomial B)) *
+  change ((LaurentPolynomial.T k : LaurentPolynomial (LaurentPolynomial B)) *
       LaurentPolynomial.C (LaurentPolynomial.T k)) • m'' =
     (LaurentPolynomial.T k : LaurentPolynomial (LaurentPolynomial B)) •
       (LaurentPolynomial.C (LaurentPolynomial.T k)) • m''
@@ -793,7 +793,7 @@ private lemma outerBaseChange_gradedTerm (A : Type u) (B : Type uB) [CommRing A]
           F.map ((CommAlgCat.ofHom (constantLaurentMap A B)).op.op) m) := by
   let m' : F.obj (Opposite.op (Opposite.op (CommAlgCat.of A (LaurentPolynomial B)))) :=
     F.map ((CommAlgCat.ofHom (gradedLaurentMap A B 𝒜)).op.op) m
-  show e ((LaurentPolynomial.T k : LaurentPolynomial (LaurentPolynomial B)) ⊗ₜ[
+  change e ((LaurentPolynomial.T k : LaurentPolynomial (LaurentPolynomial B)) ⊗ₜ[
     LaurentPolynomial B] m') = _
   rw [flatBaseChange_tmul A (LaurentPolynomial B)
     (LaurentPolynomial (LaurentPolynomial B)) F
@@ -820,7 +820,7 @@ private lemma outerBaseChange_diagonalTerm (A : Type u) (B : Type uB) [CommRing 
   let m' : F.obj (Opposite.op (Opposite.op (CommAlgCat.of A (LaurentPolynomial B)))) :=
     (LaurentPolynomial.T k : LaurentPolynomial B) •
       F.map ((CommAlgCat.ofHom (constantLaurentMap A B)).op.op) m
-  show e ((LaurentPolynomial.T k : LaurentPolynomial (LaurentPolynomial B)) ⊗ₜ[
+  change e ((LaurentPolynomial.T k : LaurentPolynomial (LaurentPolynomial B)) ⊗ₜ[
     LaurentPolynomial B] m') = _
   rw [flatBaseChange_tmul A (LaurentPolynomial B)
     (LaurentPolynomial (LaurentPolynomial B)) F
@@ -976,12 +976,12 @@ private lemma weightCoefficients_of_expansion (A : Type u) (B : Type uB) [CommRi
   have hz₂ : ∀ (j : ℤ), weightedValue j
       (0 : F.obj (Opposite.op (Opposite.op (CommAlgCat.of A B)))) = 0 := by
     intro j
-    show (LaurentPolynomial.T j : LaurentPolynomial B) •
+    change (LaurentPolynomial.T j : LaurentPolynomial B) •
       F.map ((CommAlgCat.ofHom (constantLaurentMap A B)).op.op)
         (0 : F.obj (Opposite.op (Opposite.op (CommAlgCat.of A B)))) = 0
     rw [map_zero, smul_zero]
   intro k
-  show weightedValue k (y k) = gradedValue (y k)
+  change weightedValue k (y k) = gradedValue (y k)
   exact (laurentCoefficients_eq_of_tensor_sum (LaurentPolynomial B)
     (F.obj (Opposite.op (Opposite.op (CommAlgCat.of A B))))
     (F.obj (Opposite.op (Opposite.op (CommAlgCat.of A (LaurentPolynomial B)))))

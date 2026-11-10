@@ -259,7 +259,7 @@ theorem unitorInv_comp_unitorHom (n : ℤ) :
     unitorInv N n ≫ unitorHom N n = 𝟙 (N.piece n) := by
   refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun X ↦ ?_)
   refine ModuleCat.hom_ext (LinearMap.ext fun y ↦ ?_)
-  show PresheafOfModules.Hom.app (unitorHom N n).val X
+  change PresheafOfModules.Hom.app (unitorHom N n).val X
       (PresheafOfModules.Hom.app (unitorInv N n).val X y) = y
   rw [unitorInv_apply, unitorHom_tmul]
   exact gradedCast_eq_of_heq (zero_add n) (N.one_smul n X y)

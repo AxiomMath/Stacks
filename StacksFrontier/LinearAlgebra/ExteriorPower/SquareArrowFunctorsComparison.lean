@@ -451,7 +451,7 @@ lemma vanishesOnZero_tensor_right (Φ : SemilinearArrowFunctor.{u}) (hΨ : Ψ.Va
 lemma vanishesOnZero_exteriorPower {n : ℕ} (hn : n ≠ 0) (hΦ : Φ.VanishesOnZero) :
     (exteriorPower n Φ).VanishesOnZero := fun A X h₀ h₁ ↦ by
   rw [IsZero.iff_id_eq_zero]
-  show 𝟙 ((ModuleCat.exteriorPower.functor A n).obj ((Φ.obj A).obj X)) = 0
+  change 𝟙 ((ModuleCat.exteriorPower.functor A n).obj ((Φ.obj A).obj X)) = 0
   rw [← CategoryTheory.Functor.map_id, (hΦ A X h₀ h₁).eq_of_src (𝟙 _) 0,
     ModuleCat.exteriorPower.functor_map_zero hn]
 

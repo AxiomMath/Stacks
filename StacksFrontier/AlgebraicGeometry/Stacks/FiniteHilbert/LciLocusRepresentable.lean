@@ -188,7 +188,7 @@ theorem hasOpenLciLocus (hFrep : IsRepresentableByAlgebraicSpaces B S hS F)
             (Over.map Q.U.hom).map (Space.toTerminalHom B Q.U.left.1 Q.U.left.2 T) ≫
           eqToHom (Functor.congr_obj hy (Over.mk (𝟙 Q.U.left))).symm) ≫
         eqToHom (congrArg Object.U hQ.symm) := by
-    show (y.map (Space.toTerminalHom B Q.U.left.1 Q.U.left.2 T)).f ≫
+    change (y.map (Space.toTerminalHom B Q.U.left.1 Q.U.left.2 T)).f ≫
       (eqToHom hQ.symm : y.obj (Over.mk (𝟙 Q.U.left)) ⟶ Q).f = _
     rw [hbaseMap, hunitMap]
     rfl

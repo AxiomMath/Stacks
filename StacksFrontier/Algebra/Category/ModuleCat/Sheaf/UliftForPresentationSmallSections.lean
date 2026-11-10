@@ -130,7 +130,7 @@ theorem exists_iso_uliftForPresentationMap_of_mono {Y : SheafOfModules.{m} R}
   refine ⟨shrinkSections S, uliftForPresentationMapDown (e.hom ≫ i), ?_, e,
     (uliftForPresentationMap_down _).symm⟩
   refine (uliftForPresentationFunctor.{u, v, r, m, t} (R := R)).mono_of_mono_map ?_
-  show Mono (uliftForPresentationMap.{u, v, r, m, t} _)
+  change Mono (uliftForPresentationMap.{u, v, r, m, t} _)
   rw [uliftForPresentationMap_down]
   infer_instance
 

@@ -194,7 +194,7 @@ theorem smooth_pullback_snd_affineCover_of_hasSmoothStagePullbacks
     hpb.map (sheafToPresheaf J (Type (u + 1)))
   have hsnd := smooth_map_pullback_snd_of_isPullback B S hS φ hφ h₀ hh₀ ai p c' hpbP hp
   have hsq' := (IsPullback.of_hasPullback h₀ ai).map Sch
-  show AlgebraicGeometry.Smooth (pullback.snd (Sch.map h₀) ((Sch.obj T).affineCover.f i))
+  change AlgebraicGeometry.Smooth (pullback.snd (Sch.map h₀) ((Sch.obj T).affineCover.f i))
   rw [← hai]
   rw [← hsq'.isoPullback_hom_snd] at hsnd
   have : MorphismProperty.RespectsIso (@AlgebraicGeometry.Smooth.{u}) :=
@@ -219,7 +219,7 @@ theorem hasPropertyULift_isSmoothULift_of_stage_pullbacks
   let Sch := BigFppfOver.toScheme B S hS
   let a := g.hom
   let _ : (BigFppfOver.topology B S hS).Subcanonical := bigFppfOver_subcanonical B S hS
-  show Space.IsSmoothULift.{u + 1} B S hS (pullback.fst ξ a)
+  change Space.IsSmoothULift.{u + 1} B S hS (pullback.fst ξ a)
   intro U' V' φ b h hφ hb hsq
   obtain ⟨h₀, hh₀⟩ : ∃ h₀ : U' ⟶ T, Y.map h₀ = φ ≫ pullback.fst ξ a :=
     ⟨Y.preimage _, Y.map_preimage _⟩

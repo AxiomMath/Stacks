@@ -461,9 +461,10 @@ variable (Λ : Type r) [CommRing Λ] [IsNoetherianRing Λ]
     HasWeakSheafify ((SmallEtale.topology B T.obj T.property).over V)
       (ModuleCat.{max (u + 1) w} Λ)]
 
+omit [IsNoetherianRing Λ] in
 /-- **Restriction along a sheet preserves constructibility of sheaves of modules.** By
 Stacks 03S3 restriction along an étale morphism is the inverse image along it, and Stacks 095G
-for modules over a Noetherian ring says that inverse image preserves constructibility. -/
+says that inverse image preserves constructibility. -/
 public theorem isConstructibleModuleSheaf_splitSheetRestriction
     (hsp : Stacks.Etale.IsSplitOver (B.inclusion.map p) (𝟙 (B.inclusion.obj S))) (i : hsp.I)
     (F : Sheaf (SmallEtale.topology B T.1 T.property) (ModuleCat.{max (u + 1) w} Λ))

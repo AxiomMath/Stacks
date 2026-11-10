@@ -242,7 +242,8 @@ omit [CompactSpace (kbar ≃ₐ[k] kbar)] [Finite Λ] in
 /-- The Galois evaluation pairing is Galois-equivariant: `⟨σ a, e⟩ = σ ⟨a, σ⁻¹ e⟩`. -/
 lemma galoisHomOpPair_galois (n p q : ℤ) (h : p + n = q) (σ : kbar ≃ₐ[k] kbar)
     (a : ((galoisHomOpA Y kbar L).X n).obj.obj.V) (e : ((galoisHomOpE Y kbar L Kc).X p).obj.obj.V) :
-    galoisHomOpPair Y kbar L Kc n p q h ((((galoisHomOpA Y kbar L).X n).obj.obj.ρ σ).asHom.hom a) e =
+    galoisHomOpPair Y kbar L Kc n p q h
+        ((((galoisHomOpA Y kbar L).X n).obj.obj.ρ σ).asHom.hom a) e =
       (((galoisHomOpG Y kbar Kc).X q).obj.obj.ρ σ).asHom.hom (galoisHomOpPair Y kbar L Kc n p q h a
         ((((galoisHomOpE Y kbar L Kc).X p).obj.obj.ρ σ⁻¹).asHom.hom e)) := by
   have hinv : (((galoisHomOpE Y kbar L Kc).X p).obj.obj.ρ σ).asHom.hom
@@ -254,7 +255,7 @@ lemma galoisHomOpPair_galois (n p q : ℤ) (h : p + n = q) (σ : kbar ≃ₐ[k] 
     (etaleHomOpSectionPairing Y L Kc n p q h) σ a
     ((((galoisHomOpE Y kbar L Kc).X p).obj.obj.ρ σ⁻¹).asHom.hom e)
   conv_lhs => rw [← hinv]
-  show homOpPairingSign n p • galoisGlobalSectionsPairing Y kbar
+  change homOpPairingSign n p • galoisGlobalSectionsPairing Y kbar
       (etaleHomOpSectionPairing Y L Kc n p q h)
         ((((galoisHomOpA Y kbar L).X n).obj.obj.ρ σ).asHom.hom a)
         ((((galoisHomOpE Y kbar L Kc).X p).obj.obj.ρ σ).asHom.hom
@@ -273,7 +274,7 @@ lemma galoisHomOpPair_balanced (n p q : ℤ) (h : p + n = q) (r : Λ)
     (a : ((galoisHomOpA Y kbar L).X n).obj.obj.V) (e : ((galoisHomOpE Y kbar L Kc).X p).obj.obj.V) :
     galoisHomOpPair Y kbar L Kc n p q h (r • a) e =
       galoisHomOpPair Y kbar L Kc n p q h a (((RingEquiv.opOp Λ).toRingHom r).unop • e) := by
-    show homOpPairingSign n p • galoisGlobalSectionsPairing Y kbar _ (r • a) e =
+    change homOpPairingSign n p • galoisGlobalSectionsPairing Y kbar _ (r • a) e =
       homOpPairingSign n p • galoisGlobalSectionsPairing Y kbar _ a (MulOpposite.op r • e)
     exact congrArg (homOpPairingSign n p • ·)
       (galoisGlobalSectionsPairing_smul_left_eq_smul_right Y kbar _ r (MulOpposite.op r)
@@ -310,7 +311,7 @@ lemma galoisHomOpPair_leibniz (n p q q' : ℤ) (h : p + n = q) (hq : q + 1 = q')
         have hδ : δ = homOpComplexD _ L (etaleHomOpTarget Y Kc) p := homOpComplex_d _ _ _ p
         rw [hδ]
         exact homOpEval_d _ L (etaleHomOpTarget Y Kc) n p q' (by omega) U a c
-      show (etaleHomOpSectionPairing Y L Kc (n + 1) p q' (by omega)).app U
+      change (etaleHomOpSectionPairing Y L Kc (n + 1) p q' (by omega)).app U
           (((L.d n (n + 1)).hom.app U).hom a) c =
         (p + 1).negOnePow • ((etaleHomOpSectionPairing Y L Kc n (p + 1) q' (by omega)).app U a
           ((δ.hom.app U).hom c) - ((Kc.d (q' - 1) q').hom.app U).hom
@@ -326,7 +327,7 @@ lemma galoisHomOpPair_leibniz (n p q q' : ℤ) (h : p + n = q) (hq : q + 1 = q')
     have key := hA.symm.trans (hB.trans (congrArg ((p + 1).negOnePow • ·)
       (congrArg₂ (· - ·) hC hD)))
     obtain ⟨hs₁, hs₂⟩ := homOpPairingSign_leibniz n p
-    show homOpPairingSign (n + 1) p • galoisGlobalSectionsPairing Y kbar
+    change homOpPairingSign (n + 1) p • galoisGlobalSectionsPairing Y kbar
         (etaleHomOpSectionPairing Y L Kc (n + 1) p q' (by omega))
           ((etaleModuleGlobalSections.{u, 0} Λ (fieldBaseChange Y kbar)).map
             ((etaleModuleInverseImage.{u, 0} Λ (fieldBaseChangeProj Y kbar)).map

@@ -88,7 +88,7 @@ theorem locRestrictScalarsEquiv_fLoc (d : M →ₗ[B] N) (d' : M →ₗ[A] N) (h
     refine IsLocalizedModule.ext (Submonoid.powers c)
       (LocalizedModule.mkLinearMap (Submonoid.powers c) M)
       (isUnit_algebraMap_loc c N) (LinearMap.ext fun m => ?_)
-    show locRestrictScalarsEquiv (B := B) c N (EtaPow.fLoc c d' (EtaPow.toLoc c M m)) =
+    change locRestrictScalarsEquiv (B := B) c N (EtaPow.fLoc c d' (EtaPow.toLoc c M m)) =
       EtaPow.fLoc (algebraMap A B c) d (locRestrictScalarsEquiv (B := B) c M (EtaPow.toLoc c M m))
     rw [EtaPow.fLoc_toLoc, locRestrictScalarsEquiv_toLoc, locRestrictScalarsEquiv_toLoc,
       EtaPow.fLoc_toLoc, hd]

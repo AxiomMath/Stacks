@@ -97,7 +97,7 @@ theorem Module.FinitePresentation.of_ringEquiv {T : Type u} [CommRing T] {T' : T
   have _ : Module.FinitePresentation T T' :=
     Module.FinitePresentation.of_equiv
       (AddEquiv.toLinearEquiv (R := T) e.symm.toAddEquiv fun c x => by
-        show e.symm (e c * x) = c * e.symm x
+        change e.symm (e c * x) = c * e.symm x
         rw [map_mul, RingEquiv.symm_apply_apply]).symm
   have _ : Module.FinitePresentation T N' := Module.FinitePresentation.trans T N' T'
   exact Module.FinitePresentation.of_equiv (AddEquiv.toLinearEquiv f hf).symm
@@ -119,7 +119,7 @@ theorem Module.Flat.of_ringEquiv {T : Type u} [CommRing T] {T' : Type v} [CommRi
   have _ : Module.Flat T T' :=
     Module.Flat.of_linearEquiv
       (AddEquiv.toLinearEquiv (R := T) e.symm.toAddEquiv fun c x => by
-        show e.symm (e c * x) = c * e.symm x
+        change e.symm (e c * x) = c * e.symm x
         rw [map_mul, RingEquiv.symm_apply_apply])
   have _ : Module.Flat T N' := Module.Flat.trans T T' N'
   exact Module.Flat.of_linearEquiv (AddEquiv.toLinearEquiv f hf)
@@ -246,12 +246,10 @@ theorem mvPolynomialBaseChangeEquiv_symm_smul
     (mvPolynomialBaseChangeEquiv R (Blowup I a) n M).symm (u • z) =
       polyBaseChangeAlgEquiv I a n u •
         (mvPolynomialBaseChangeEquiv R (Blowup I a) n M).symm z := by
-  induction u using TensorProduct.induction_on with
-  | zero => simp
+  induction u using TensorProduct.inductionOn with
   | add u u' hu hu' => rw [add_smul, map_add, hu, hu', map_add, add_smul]
   | tmul b p =>
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' => rw [smul_add, map_add, hz, hz', map_add, smul_add]
     | tmul c m =>
       have hq : ∀ q x : MvPolynomial (Fin n) (Blowup I a), ∀ y : M,
@@ -466,13 +464,13 @@ theorem flat_quotient_of_ringEquiv {B : Type u} [CommRing B] {D : Type v} [CommR
   have hgg' : ∀ x, g' (g x) = x := by
     intro x
     obtain ⟨v, rfl⟩ := Submodule.Quotient.mk_surjective L x
-    show Submodule.Quotient.mk
+    change Submodule.Quotient.mk
       (vecMap n r φ.symm.toRingHom (vecMap n r φ.toRingHom v)) = _
     rw [vecMap_vecMap, φ.symm_toRingHom_comp_toRingHom, vecMap_id]
   have hg'g : ∀ y, g (g' y) = y := by
     intro y
     obtain ⟨w, rfl⟩ := Submodule.Quotient.mk_surjective Q y
-    show Submodule.Quotient.mk
+    change Submodule.Quotient.mk
       (vecMap n r φ.toRingHom (vecMap n r φ.symm.toRingHom w)) = _
     rw [vecMap_vecMap, φ.toRingHom_comp_symm_toRingHom, vecMap_id]
   have hsmul : ∀ (b : B) (p : MvPolynomial (Fin n) B),
@@ -486,7 +484,7 @@ theorem flat_quotient_of_ringEquiv {B : Type u} [CommRing B] {D : Type v} [CommR
     { toFun := g, invFun := g', left_inv := hgg', right_inv := hg'g, map_add' := map_add g }
     fun b x => ?_
   obtain ⟨v, rfl⟩ := Submodule.Quotient.mk_surjective L x
-  show Submodule.Quotient.mk (vecMap n r φ.toRingHom (b • v)) =
+  change Submodule.Quotient.mk (vecMap n r φ.toRingHom (b • v)) =
     φ b • Submodule.Quotient.mk (p := Q) (vecMap n r φ.toRingHom v)
   rw [← Submodule.Quotient.mk_smul]
   exact congrArg _ (funext fun i => hsmul b (v i))

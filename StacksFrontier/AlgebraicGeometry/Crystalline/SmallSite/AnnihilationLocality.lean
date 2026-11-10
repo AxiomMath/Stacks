@@ -264,7 +264,7 @@ theorem smul_id_eq_zero_of_forall_le (M : Sheaf (opensTopology S) AddCommGrpCat.
     fun i V hV t ↦ by simpa using ConcreteCategory.congr_hom (h i V hV) t
   refine Sheaf.hom_ext ?_
   ext V s
-  show (AddCommGrpCat.Hom.hom ((q • 𝟙 (M.obj.obj V))) s) = _
+  change (AddCommGrpCat.Hom.hom ((q • 𝟙 (M.obj.obj V))) s) = _
   have hsheaf := TopCat.Sheaf.eq_of_locally_eq' (F := M) (fun i ↦ V.unop ⊓ U i) V.unop
     (fun _ ↦ homOfLE inf_le_left) (by rw [← inf_iSup_eq, hU, inf_top_eq]) (q • s) 0 ?_
   · simpa using hsheaf

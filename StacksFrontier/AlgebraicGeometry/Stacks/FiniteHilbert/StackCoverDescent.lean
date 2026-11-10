@@ -100,12 +100,12 @@ theorem exists_fpqc_cover_refining {U : BigFppfOver B S hS} {I : Type w}
       X j := Over.mk (E.f j ≫ U.hom)
       f j := Over.homMk (E.f j) }
   let a' (j : E'.I₀) : E'.X j ⟶ V (idx j) := Over.homMk (a j) (by
-    show a j ≫ (V (idx j)).hom = E.f j ≫ U.hom
+    change a j ≫ (V (idx j)).hom = E.f j ≫ U.hom
     rw [← Over.w (f (idx j)), ← Category.assoc]
     exact congrArg (fun z => z ≫ U.hom) (ha j))
   have ha' (j : E'.I₀) : a' j ≫ f (idx j) = E'.f j := Over.OverMorphism.ext (ha j)
   refine ⟨E', ?_, fun j => ⟨_, a' j, _, ⟨idx j⟩, ha' j⟩, hfpqc⟩
-  show Sieve.ofArrows E'.X E'.f ∈ (B.topology.over (B.obj hS)) U
+  change Sieve.ofArrows E'.X E'.f ∈ (B.topology.over (B.obj hS)) U
   rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
   exact Precoverage.generate_mem_toGrothendieck ⟨E, rfl, hE⟩
 
@@ -260,7 +260,7 @@ theorem exists_site_cocone_of_scheme_cocone {U : BigFppfOver B S hS} {I : Type w
     rw [Functor.map_comp, Functor.map_comp, hq₀, hg₀map]
     exact (sq i).w
   let g' (i : I) : W i ⟶ Z' := Over.homMk (g₀ i) (by
-    show g₀ i ≫ (q₀ ≫ U.hom) = (W i).hom
+    change g₀ i ≫ (q₀ ≫ U.hom) = (W i).hom
     rw [← Category.assoc, hg₀, Category.assoc, Over.w, Over.w])
   have hq' : (BigFppfOver.toScheme B S hS).map q' = q := hq₀
   have hg' (i : I) : (BigFppfOver.toScheme B S hS).map (g' i) = g i := hg₀map i
@@ -415,7 +415,7 @@ theorem exists_fpqc_cocone_of_diagram {U : BigFppfOver B S hS} {I : Type v}
       prodMapLastTwo (φ j k).hom = prodMapFirstThird (φ i k).hom := by
     let uT := (c₁₂ i j k).f ≫ (a i j).f ≫ f i
     have h23 : (c₂₃ i j k).f ≫ ((a j k).f ≫ f j) = uT := by
-      show (c₂₃ i j k).f ≫ ((a j k).f ≫ f j) = (c₁₂ i j k).f ≫ (a i j).f ≫ f i
+      change (c₂₃ i j k).f ≫ ((a j k).f ≫ f j) = (c₁₂ i j k).f ≫ (a i j).f ≫ f i
       rw [← Category.assoc, ← show (c₁₂ i j k).f ≫ (b i j).f =
         (c₂₃ i j k).f ≫ (a j k).f from congrArg Hom.f (h₂ i j k), Category.assoc, (sq i j).w]
     have h13 : (c₁₃ i j k).f ≫ ((a i k).f ≫ f i) = uT := by
@@ -444,27 +444,27 @@ theorem exists_fpqc_cocone_of_diagram {U : BigFppfOver B S hS} {I : Type v}
     have hn3 : m₁₃ ≫ sourceOverMap (b i k) (sq i k).w.symm = z₃ :=
       (sourceOverMap_comp_eq _ _ _ _ (h₃ i j k).symm _ _ _ _).trans hm3
     have ht1 : t.hom ≫ prod.fst = m₁₂ ≫ (l i j).hom := by
-      show (t₀.hom ≫ prod.map (l i j).hom (𝟙 (X k))) ≫ prod.fst = _
+      change (t₀.hom ≫ prod.map (l i j).hom (𝟙 (X k))) ≫ prod.fst = _
       rw [Category.assoc, prod.map_fst, ← Category.assoc, ht₁]
     have ht2 : t.hom ≫ prod.snd = p₃ := by
-      show (t₀.hom ≫ prod.map (l i j).hom (𝟙 (X k))) ≫ prod.snd = _
+      change (t₀.hom ≫ prod.map (l i j).hom (𝟙 (X k))) ≫ prod.snd = _
       rw [Category.assoc, prod.map_snd, Category.comp_id, ht₂]
     have htphi : t.hom ≫ prod.fst ≫ (φ i j).hom = m₁₂ ≫ (r i j).hom := by
       rw [← Category.assoc, ht1, Category.assoc, hlφ]
     refine productTransition_cocycle (qY i) (qY j) (φ i j).hom (φ j k).hom (φ i k).hom
       (hφ₁ i j) (hφ₂ i j) (hφ₁ j k) (hφ₁ i k) t m n ?_ ?_ ?_ ?_ ?_
-    · show (m₂₃ ≫ (l j k).hom) ≫ prod.fst = _
+    · change (m₂₃ ≫ (l j k).hom) ≫ prod.fst = _
       rw [Category.assoc, hl, ← Category.assoc _ _ prod.snd, ← Category.assoc t.hom, htphi,
         Category.assoc, hr]
       exact hm23.symm
-    · show (m₂₃ ≫ (l j k).hom) ≫ prod.snd = _
+    · change (m₂₃ ≫ (l j k).hom) ≫ prod.snd = _
       rw [Category.assoc, hp₂, ← Category.assoc (r j k).hom, hr, ← Category.assoc, hm3, ht2]
-    · show (m₁₃ ≫ (l i k).hom) ≫ prod.fst = _
+    · change (m₁₃ ≫ (l i k).hom) ≫ prod.fst = _
       rw [Category.assoc, hl, ← Category.assoc _ _ prod.fst, ht1, Category.assoc, hl]
       exact hm12.symm
-    · show (m₁₃ ≫ (l i k).hom) ≫ prod.snd = _
+    · change (m₁₃ ≫ (l i k).hom) ≫ prod.snd = _
       rw [Category.assoc, hp₂, ← Category.assoc (r i k).hom, hr, ← Category.assoc, hn3, ht2]
-    · show (m₂₃ ≫ (l j k).hom) ≫ (φ j k).hom ≫ prod.snd =
+    · change (m₂₃ ≫ (l j k).hom) ≫ (φ j k).hom ≫ prod.snd =
         (m₁₃ ≫ (l i k).hom) ≫ (φ i k).hom ≫ prod.snd
       rw [Category.assoc, Category.assoc, ← Category.assoc (l j k).hom,
         ← Category.assoc (l i k).hom, hlφ, hlφ, hr, hr]
@@ -472,7 +472,7 @@ theorem exists_fpqc_cocone_of_diagram {U : BigFppfOver B S hS} {I : Type v}
   let E : DescentData (fun i => H.map (f i)) :=
     { obj i := Over.mk (H.map (P i).q)
       gluing i j := Over.isoMk (φ i j) (by
-        show (φ i j).hom ≫ prod.map (𝟙 (X i)) (qY j) = prod.map (qY i) (𝟙 (X j))
+        change (φ i j).hom ≫ prod.map (𝟙 (X i)) (qY j) = prod.map (qY i) (𝟙 (X j))
         refine prod.hom_ext ?_ ?_
         · simpa only [Category.assoc, prod.map_fst, prod.map_fst_assoc, Category.comp_id]
             using hφ₁ i j

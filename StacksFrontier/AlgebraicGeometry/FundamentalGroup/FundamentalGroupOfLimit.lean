@@ -44,8 +44,8 @@ all sufficiently large `i` is `∀ j : Over i₀, ConnectedSpace (D.obj j.left)`
 limit is taken over that tail. Mathlib's `CategoryTheory.Over.initial_forget` and
 `CategoryTheory.IsCofiltered.over` make the tail a cofiltered initial subsystem, so the limit cone
 restricts to a limit cone over it and the results of
-`StacksFrontier.AlgebraicGeometry.FundamentalGroup.FiniteEtaleOverLimit` apply to the tail as well as
-to the whole system.
+`StacksFrontier.AlgebraicGeometry.FundamentalGroup.FiniteEtaleOverLimit` apply to the tail as well
+as to the whole system.
 
 Connectedness of the limit is proved topologically, from the quasi-compactness statements of
 Mathlib's theory of limits with affine transition morphisms: a clopen subset of the limit and its
@@ -161,11 +161,11 @@ theorem preconnectedSpace_of_isLimit {I : Type u} [Category.{u} I] [IsCofiltered
   have hVn : c.π.app n ⁻¹ᵁ Vn = V := by
     rw [← Scheme.Hom.comp_preimage, c.w r, eVk]
   have hcover : Un ⊔ Vn = ⊤ := by
-    show (D.map (p ≫ d) ⁻¹ᵁ Uk) ⊔ (D.map (p ≫ d) ⁻¹ᵁ Vk) = ⊤
+    change (D.map (p ≫ d) ⁻¹ᵁ Uk) ⊔ (D.map (p ≫ d) ⁻¹ᵁ Vk) = ⊤
     rw [← Scheme.Hom.preimage_sup, D.map_comp, Scheme.Hom.comp_preimage, hd]
     rfl
   have hdisjoint : Un ⊓ Vn ≤ ⊥ := by
-    show (D.map (p ≫ d) ⁻¹ᵁ Uk) ⊓ (D.map (p ≫ d) ⁻¹ᵁ Vk) ≤ ⊥
+    change (D.map (p ≫ d) ⁻¹ᵁ Uk) ⊓ (D.map (p ≫ d) ⁻¹ᵁ Vk) ≤ ⊥
     rw [← Scheme.Hom.preimage_inf, hpq, D.map_comp, Scheme.Hom.comp_preimage]
     exact Scheme.Hom.preimage_mono (D.map q) he
   have H := (isPreconnected_iff_subset_of_disjoint.mp
@@ -263,7 +263,7 @@ private theorem finiteEtaleFiberProjection_naturality {X Y : Scheme.{u}} (f : X 
         ((finiteEtaleFiberFunctor x).map ((finiteEtaleBaseChange f).map g) p) =
       (finiteEtaleFiberFunctor (x.map f)).map g (finiteEtaleFiberProjection f x V p) := by
   apply Subtype.ext
-  show (p.1 ≫ ((finiteEtaleBaseChange f).map g).left) ≫ pullback.fst W.hom f
+  change (p.1 ≫ ((finiteEtaleBaseChange f).map g).left) ≫ pullback.fst W.hom f
       = (p.1 ≫ pullback.fst V.hom f) ≫ g.left
   calc (p.1 ≫ ((finiteEtaleBaseChange f).map g).left) ≫ pullback.fst W.hom f
       = p.1 ≫ ((finiteEtaleBaseChange f).map g).left ≫ pullback.fst W.hom f :=
@@ -298,7 +298,7 @@ private theorem etaleFundamentalGroupMap_action {X Y : Scheme.{u}} [ConnectedSpa
   have key : ∀ z : finiteEtaleFiber x V,
       (finiteEtaleFiberProjection f x W ((finiteEtaleFiberFunctor x).map k z)).1 = z.1 ≫ g := by
     intro z
-    show (z.1 ≫ k.left) ≫ pullback.fst W.hom f = z.1 ≫ g
+    change (z.1 ≫ k.left) ≫ pullback.fst W.hom f = z.1 ≫ g
     exact (Category.assoc _ _ _).trans (congrArg (z.1 ≫ ·) hk)
   have h := etaleFundamentalGroupMap_finiteEtaleFiberProjection f x W σ
     ((finiteEtaleFiberFunctor x).map k p)
@@ -355,13 +355,14 @@ theorem etaleFundamentalGroupMap_triangle {X Y Z : Scheme.{u}} [ConnectedSpace X
     have h₃ := etaleFundamentalGroupMap_action (f ≫ g) x σ _ V
       (pullback.fst _ _ ≫ pullback.fst _ _)
       (by
-        show (pullback.fst (pullback.snd V.hom g) f ≫ pullback.fst V.hom g) ≫ V.hom =
+        change (pullback.fst (pullback.snd V.hom g) f ≫ pullback.fst V.hom g) ≫ V.hom =
           pullback.snd (pullback.snd V.hom g) f ≫ (f ≫ g)
         rw [Category.assoc, pullback.condition, ← Category.assoc, pullback.condition,
           Category.assoc]) s
     change _ = (((etaleFundamentalGroupMap f x σ).asIso.app _).hom
       (finiteEtaleFiberProjection f x _ s)).1 at h₁
-    change _ = (((etaleFundamentalGroupMap g (x.map f) (etaleFundamentalGroupMap f x σ)).asIso.app _).hom
+    change _ = (((etaleFundamentalGroupMap g (x.map f)
+      (etaleFundamentalGroupMap f x σ)).asIso.app _).hom
       (finiteEtaleFiberProjection g (x.map f) V r)).1 at h₂
     rw [hs] at h₁
     rw [hr, ha] at h₂
@@ -519,7 +520,7 @@ private theorem limitCompIsoApp_hom_left_fst {I : Type u} [Category.{u} I] (D : 
       ≫ ((finiteEtaleLimitCompIso D c e).hom.app V).left = 𝟙 _ := by
     rw [← MorphismProperty.Comma.comp_left, ← NatTrans.comp_app, Iso.inv_hom_id]
     rfl
-  show ((finiteEtaleLimitCompIso D c e).inv.app V).left ≫ pullback.fst V.hom (c.π.app i) = _
+  change ((finiteEtaleLimitCompIso D c e).inv.app V).left ≫ pullback.fst V.hom (c.π.app i) = _
   rw [show pullback.fst V.hom (c.π.app i) = finiteEtaleBaseChangeProj (c.π.app i) V from rfl,
     ← hproj, ← Category.assoc, ← Category.assoc, hinv, Category.id_comp]
   rfl
@@ -622,7 +623,7 @@ private theorem pullbackFiberAut_naturality {X Y : Scheme.{u}} (f : X ⟶ Y)
         (finiteEtaleFiberFunctor x).map ((finiteEtaleBaseChange f).map g) := by
   ext p
   apply (finiteEtaleFiberProjection_bijective f x W).1
-  show finiteEtaleFiberProjection f x W
+  change finiteEtaleFiberProjection f x W
       ((pullbackFiberAut f x σ W).asIso.hom
         ((finiteEtaleFiberFunctor x).map ((finiteEtaleBaseChange f).map g) p)) =
     finiteEtaleFiberProjection f x W
@@ -652,7 +653,7 @@ private theorem pullbackFiberAut_naturality_of_square {X A B : Scheme.{u}} [Conn
     simp [GeometricPoint.map, Category.assoc, hf]
   ext p
   apply (finiteEtaleFiberProjection_bijective b x W).1
-  show finiteEtaleFiberProjection b x W
+  change finiteEtaleFiberProjection b x W
       ((pullbackFiberAut b x τ W).asIso.hom ((finiteEtaleFiberFunctor x).map h p)) =
     finiteEtaleFiberProjection b x W
       ((finiteEtaleFiberFunctor x).map h ((pullbackFiberAut a x σ V).asIso.hom p))
@@ -668,7 +669,7 @@ private theorem pullbackFiberAut_naturality_of_square {X A B : Scheme.{u}} [Conn
   rw [← eq_of_heq H]
   have hp := congrArg Subtype.val (pullbackFiberAut_projection a x σ V p)
   change (((pullbackFiberAut a x σ V).asIso.hom p).1 ≫ pullback.fst V.hom a) = _ at hp
-  show _ = (((pullbackFiberAut a x σ V).asIso.hom p).1 ≫ h.left) ≫ pullback.fst W.hom b
+  change _ = (((pullbackFiberAut a x σ V).asIso.hom p).1 ≫ h.left) ≫ pullback.fst W.hom b
   rw [← hp]
   exact (Category.assoc _ _ _).trans
     ((congrArg (((pullbackFiberAut a x σ V).asIso.hom p).1 ≫ ·) hh.symm).trans
@@ -746,8 +747,6 @@ private theorem exists_etaleFundamentalGroup_of_compatible_stages_of_models {I :
     [Category.{u} I] (D : I ⥤ Scheme.{u}) (c : Cone D)
     [∀ i : I, ConnectedSpace (D.obj i)] [ConnectedSpace c.pt] (x : GeometricPoint c.pt)
     (σ : ∀ i, EtaleFundamentalGroup (D.obj i) (x.map (c.π.app i)))
-    (hσ : ∀ {i j : I} (e : i ⟶ j),
-      HEq (etaleFundamentalGroupMap (D.map e) (x.map (c.π.app i)) (σ i)) (σ j))
     (hmodel : ∀ V : FiniteEtaleOver c.pt, ∃ (i : I) (W : FiniteEtaleOver (D.obj i)),
       Nonempty (V ≅ (finiteEtaleBaseChange (c.π.app i)).obj W))
     (hnat : ∀ (i j : I) (V : FiniteEtaleOver (D.obj i)) (W : FiniteEtaleOver (D.obj j))
@@ -801,7 +800,7 @@ private theorem etaleFundamentalGroupToCompatibleFamily_surjective_of_models {I 
   have (i : Over i₀) : ConnectedSpace (E.obj i) := hconn i
   have : ConnectedSpace (c.whisker (Over.forget i₀)).pt := inferInstanceAs (ConnectedSpace c.pt)
   obtain ⟨τ, hτ⟩ := exists_etaleFundamentalGroup_of_compatible_stages_of_models E
-    (c.whisker (Over.forget i₀)) x σ.1 σ.2 hmodel (hnat σ)
+    (c.whisker (Over.forget i₀)) x σ.1 hmodel (hnat σ)
   refine ⟨τ, ?_⟩
   apply Subtype.ext
   funext i

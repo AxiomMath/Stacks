@@ -199,7 +199,7 @@ theorem invMap_eq (n : ℕ) (y : Y.obj (op (invLevel hk hc n))) (x : X.obj (op (
       (LinearMap.ker (f.app (op (kerBound hk n))).hom).liftQ (tr X (le_kerBound hk n)).hom
         (invMap_ker hk n) (e.symm ((tr Y (le_cokBound hc (kerBound hk n))).hom.codRestrict _
           (invMap_range hk hc n) y)) := rfl
-  show invMapLinear hk hc n y = _
+  change invMapLinear hk hc n y = _
   rw [key, he]
   rfl
 
@@ -486,9 +486,9 @@ theorem eq_π_s (y : ∀ n, D.quotientSystem.obj (op n))
   have hσ : D.quotientSystem.map σ (y k.unop) = y i := hy i k.unop (leOfHom σ.unop)
   have hτ : D.quotientSystem.map τ (y k.unop) = y n := hy n k.unop (leOfHom τ.unop)
   rw [← hτ]
-  show _ = (D.quotientSystem.map τ).hom (y k.unop)
+  change _ = (D.quotientSystem.map τ).hom (y k.unop)
   rw [h1]
-  show c.π.app (op n) (s (y i)) = c.π.app (op n) (s (D.quotientSystem.map σ (y k.unop)))
+  change c.π.app (op n) (s (y i)) = c.π.app (op n) (s (D.quotientSystem.map σ (y k.unop)))
   rw [hσ]
 
 /-- The projections of the value are injective from the retraction level on. -/
@@ -497,7 +497,7 @@ theorem π_injective {n : ℕ} (hn : i ≤ n) : Function.Injective (c.π.app (op
   have hi : c.π.app (op i) z = c.π.app (op i) w := by
     have hw := c.w (homOfLE hn).op
     rw [← hw]
-    show (D.quotientSystem.map _) (c.π.app (op n) z) = (D.quotientSystem.map _) _
+    change (D.quotientSystem.map _) (c.π.app (op n) z) = (D.quotientSystem.map _) _
     exact congrArg _ hzw
   rw [← s_π_apply D hc z, ← s_π_apply D hc w, hi]
 
@@ -521,7 +521,7 @@ theorem smul_mem_range_ι {a : R} (ha : a ∈ I ^ (i + 1)) (x : compatibleFamili
     a • x ∈ LinearMap.range D.ι := by
   refine D.mem_range_ι_of_toQuotient_eq_zero _ ?_
   refine D.toQuotient_eq_zero_of_level hc (a • x) le_rfl ?_
-  show D.toQuotient i (a • x.1 i) = 0
+  change D.toQuotient i (a • x.1 i) = 0
   rw [map_smul, D.smul_quotient_eq_zero ha]
 
 end EssentiallyConstant
@@ -661,7 +661,7 @@ theorem kernelsProZero_comparison : KernelsProZero D.comparison := by
   refine ⟨n + D.kerLevel n + i, by omega, fun q hq => ?_⟩
   obtain ⟨x, rfl⟩ := Submodule.mkQ_surjective
     (I ^ (n + D.kerLevel n + i + 1) • (⊤ : Submodule R (compatibleFamilies P))) q
-  show Submodule.Quotient.mk x = (0 : _ ⧸ _)
+  change Submodule.Quotient.mk x = (0 : _ ⧸ _)
   rw [Submodule.Quotient.mk_eq_zero]
   exact D.mem_pow_smul_of_eq_zero hc (n := n) (m := n + D.kerLevel n + i) x (by omega)
     (by omega) hq
@@ -682,7 +682,7 @@ theorem cokernelsProZero_comparison : CokernelsProZero D.comparison := by
     rw [map_sub, hyz, hx₁, sub_self]
   obtain ⟨m, hm⟩ := (D.toQuotient_eq_zero_iff n _).1 h0
   refine ⟨Submodule.Quotient.mk (x₁ + D.ι m), ?_⟩
-  show (x₁ + D.ι m).1 n = _
+  change (x₁ + D.ι m).1 n = _
   simp only [Submodule.coe_add, Pi.add_apply, ι_apply_coe, hm, add_sub_cancel]
 
 /-- **The pro-isomorphism `(Pₙ) ≅ {lim P / I^{n+1} lim P}`.** -/
@@ -698,7 +698,7 @@ theorem replacementProIso_φ_μ (n : ℕ) (m : M) :
     (D.replacementProIso hc).φ n (D.μ ((D.replacementProIso hc).α n) m) =
       Submodule.Quotient.mk (D.ι m) := by
   refine (ofProZero_φ_eq _ _ n _ (Submodule.Quotient.mk (D.ι m)) ?_).trans rfl
-  show D.μ _ m = tr P _ (D.μ _ m)
+  change D.μ _ m = tr P _ (D.μ _ m)
   rw [D.μ_tr]
 
 /-- **The cokernels of `M/I^{n+1}M → lim P / I^{n+1} lim P` are annihilated by `I^{i+1}`.** -/
@@ -722,7 +722,7 @@ theorem smul_eq_zero_of_quotientMap_eq_zero (n : ℕ) {a : R}
   obtain ⟨x, rfl⟩ := Submodule.mkQ_surjective _ q
   have hx : D.ι x ∈ I ^ (n + 1) • (⊤ : Submodule R (compatibleFamilies P)) :=
     (Submodule.Quotient.mk_eq_zero _).1 hq
-  show Submodule.Quotient.mk (a • x) = (0 : _ ⧸ _)
+  change Submodule.Quotient.mk (a • x) = (0 : _ ⧸ _)
   rw [Submodule.Quotient.mk_eq_zero]
   rcases lt_or_ge (n + 1) (i + 1) with hsmall | hlarge
   · exact Submodule.smul_mem_smul
@@ -840,7 +840,7 @@ public theorem map_comp_replacementProIso_φ (κ : Fm ⟶ P)
   apply LinearMap.ext
   intro y
   obtain ⟨x, rfl⟩ := hπ_surj ((D.replacementProIso hc).α n) y
-  show (D.replacementProIso hc).φ n (κ.app (op _) (π _ x)) =
+  change (D.replacementProIso hc).φ n (κ.app (op _) (π _ x)) =
     (D.levelsMap Fm π hπ_tr hπ_surj hπ_ker).app (op n) (tr Fm _ (π _ x))
   rw [hκ, D.replacementProIso_φ_μ hc n x, hπ_tr, D.levelsMap_app_π]
 

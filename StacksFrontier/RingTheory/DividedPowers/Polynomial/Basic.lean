@@ -146,7 +146,7 @@ private theorem inverse_factorial_moore (ι : Type w) (m : ℕ) :
   rw [← mul_one (Ring.inverse (m.factorial : MvPolynomial ι ℚ))]
   apply (Ring.inverse_mul_eq_iff_eq_mul _ 1 _ hu).2
   have hf : (m.factorial : ℚ) ≠ 0 := by exact_mod_cast Nat.factorial_ne_zero m
-  show (1 : MvPolynomial ι ℚ) =
+  change (1 : MvPolynomial ι ℚ) =
     MvPolynomial.C (m.factorial : ℚ) * MvPolynomial.C ((m.factorial : ℚ)⁻¹)
   rw [← map_mul, mul_inv_cancel₀ hf, map_one]
 
@@ -341,7 +341,7 @@ public theorem variable_mem_positiveIdeal (A : Type u) [CommRing A]
     {ι : Type w} (i : ι) :
     dividedPowerPolynomialVariable A i ∈ dividedPowerPolynomialPositiveIdeal A ι := by
   classical
-  show dividedPowerPolynomialAugmentation A ι
+  change dividedPowerPolynomialAugmentation A ι
     (DividedPowerAlgebra.dp A 1 (Finsupp.single i 1)) = 0
   simp [dividedPowerPolynomialAugmentation, dividedPowersBot_dpow_eq]
 
@@ -365,7 +365,7 @@ public theorem variableMonomial_mem_positiveIdeal (A : Type u) [CommRing A]
     dividedPowerPolynomialVariableMonomial A i n ∈
       dividedPowerPolynomialPositiveIdeal A ι := by
   classical
-  show dividedPowerPolynomialAugmentation A ι
+  change dividedPowerPolynomialAugmentation A ι
     (DividedPowerAlgebra.dp A n (Finsupp.single i 1)) = 0
   simp [dividedPowerPolynomialAugmentation, dividedPowersBot_dpow_eq, hn]
 
@@ -416,14 +416,14 @@ public theorem positiveIdeal_eq_span_monomials (A : Type u) [CommRing A]
     | smul a x _ hx =>
       simpa [Algebra.smul_def, map_mul, mul_sub] using
         Submodule.smul_of_tower_mem P a hx
-  show RingHom.ker (dividedPowerPolynomialAugmentation A ι).toRingHom = P
+  change RingHom.ker (dividedPowerPolynomialAugmentation A ι).toRingHom = P
   apply le_antisymm
   · intro x hx
     have hax : dividedPowerPolynomialAugmentation A ι x = 0 := hx
     simpa [hax] using hgen x
   · apply Ideal.span_le.mpr
     rintro x ⟨n, hn, rfl⟩
-    show dividedPowerPolynomialAugmentation A ι
+    change dividedPowerPolynomialAugmentation A ι
       (dividedPowerPolynomialMonomial A n) = 0
     simp [augmentation_monomial A n, hn]
 
@@ -441,7 +441,7 @@ public theorem positiveIdeal_eq_span_variableMonomials (A : Type u) [CommRing A]
     rintro x ⟨n, hn, rfl⟩
     obtain ⟨i, hi⟩ := Finsupp.support_nonempty_iff.mpr hn
     have hni : n i ≠ 0 := Finsupp.mem_support_iff.mp hi
-    show n.prod (fun i m ↦ DividedPowerAlgebra.dp A m (Finsupp.single i 1)) ∈ _
+    change n.prod (fun i m ↦ DividedPowerAlgebra.dp A m (Finsupp.single i 1)) ∈ _
     rw [← n.mul_prod_erase' i
       (fun j m ↦ DividedPowerAlgebra.dp A m (Finsupp.single j 1))
       (fun j ↦ DividedPowerAlgebra.dp_zero (m := Finsupp.single j (1 : A)))]
@@ -539,7 +539,7 @@ private theorem integralTensorIncludeLeft_flat
   let : Algebra (integralPositiveDividedPowerRing ι)
       (TensorProduct ℤ (DividedPowerAlgebra ℤ (ι →₀ ℤ)) R) :=
     (integralTensorIncludeLeft R ι).toAlgebra
-  show Module.Flat (integralPositiveDividedPowerRing ι)
+  change Module.Flat (integralPositiveDividedPowerRing ι)
     (TensorProduct ℤ (DividedPowerAlgebra ℤ (ι →₀ ℤ)) R)
   let e : @RingHom (integralPositiveDividedPowerRing ι)
       (DividedPowerAlgebra ℤ (ι →₀ ℤ))
@@ -558,19 +558,15 @@ private theorem integralTensorIncludeLeft_flat
         (TensorProduct ℤ (DividedPowerAlgebra ℤ (ι →₀ ℤ)) R)) := by
     apply Module.ext'
     intro a x
-    induction x using TensorProduct.induction_on with
-    | zero =>
-        show (0 : TensorProduct ℤ (DividedPowerAlgebra ℤ (ι →₀ ℤ)) R) =
-          (integralTensorIncludeLeft R ι a) * 0
-        simp
+    induction x using TensorProduct.inductionOn with
     | tmul x y =>
-        show (e a * x) ⊗ₜ[ℤ] y =
+        change (e a * x) ⊗ₜ[ℤ] y =
           ((e a) ⊗ₜ[ℤ] (1 : R)) * (x ⊗ₜ[ℤ] y)
         simp
     | add x y hx hy =>
         change a • x = (integralTensorIncludeLeft R ι a) * x at hx
         change a • y = (integralTensorIncludeLeft R ι a) * y at hy
-        show a • (x + y) = (integralTensorIncludeLeft R ι a) * (x + y)
+        change a • (x + y) = (integralTensorIncludeLeft R ι a) * (x + y)
         simpa [smul_add, mul_add] using congrArg₂ (· + ·) hx hy
   rw [← hmod]
   exact Module.Flat.baseChange ℤ (integralPositiveDividedPowerRing ι) R
@@ -598,7 +594,7 @@ private theorem integralPositiveDividedPowersTensor_isDPMorphism
         DividedPowerAlgebra ℤ (ι →₀ ℤ) →ₐ[ℤ]
           TensorProduct ℤ (DividedPowerAlgebra ℤ (ι →₀ ℤ)) R).toRingHom :=
   by
-    show _root_.DividedPowers.IsDPMorphism
+    change _root_.DividedPowers.IsDPMorphism
       (integralPositiveDividedPowerRing ι).dividedPowers
       (DividedPowerRing.extendedDividedPowersOfMapEqBotOrIsPrincipalOrFlat
         (integralPositiveDividedPowerRing ι) (integralTensorIncludeLeft R ι)
@@ -621,7 +617,7 @@ private theorem integralPositiveDividedPowersTensor_dpow_variable
         DividedPowerAlgebra ℤ (ι →₀ ℤ) →ₐ[ℤ]
           TensorProduct ℤ (DividedPowerAlgebra ℤ (ι →₀ ℤ)) R)
         (dividedPowerPolynomialVariableMonomial ℤ i n) := by
-  show (integralPositiveDividedPowersTensor R ι).dpow n
+  change (integralPositiveDividedPowersTensor R ι).dpow n
     ((Algebra.TensorProduct.includeLeft :
       DividedPowerAlgebra ℤ (ι →₀ ℤ) →ₐ[ℤ]
         TensorProduct ℤ (DividedPowerAlgebra ℤ (ι →₀ ℤ)) R).toRingHom
@@ -671,7 +667,7 @@ private theorem integralTensorAugmentation_ker (R : Type*) [CommRing R]
         (Algebra.TensorProduct.includeLeft :
           DividedPowerAlgebra ℤ (ι →₀ ℤ) →ₐ[ℤ]
             TensorProduct ℤ (DividedPowerAlgebra ℤ (ι →₀ ℤ)) R) := by
-  show RingHom.ker
+  change RingHom.ker
     ((Algebra.TensorProduct.lid ℤ R).toRingHom.comp
       (Algebra.TensorProduct.map
         (dividedPowerPolynomialAugmentation ℤ ι) (AlgHom.id ℤ R)).toRingHom) = _
@@ -702,7 +698,7 @@ private theorem map_inf_ker_eq_mul_of_leftInverse
       · rw [map_mul]
         exact I.mul_mem_left (g a) hx.1
       · have haP : a - f (g a) ∈ P := by
-          show g (a - f (g a)) = 0
+          change g (a - f (g a)) = 0
           rw [map_sub, h (g a), sub_self]
         have hfxK : f (g x) ∈ K := Ideal.mem_map_of_mem f hx.1
         have hprod : f (g x) * (a - f (g a)) ∈ K * P :=
@@ -962,7 +958,7 @@ private theorem coefficientTensorToDividedPowerAlgebra_comp_lift
     (coefficientTensorDividedPowerAlgebraLift A ι)
   have h : F.toLinearMap = LinearMap.id := by
     refine LinearMap.ext_on_range (monomial_span_eq_top A ι) fun n ↦ ?_
-    show F (dividedPowerPolynomialMonomial A n) = dividedPowerPolynomialMonomial A n
+    change F (dividedPowerPolynomialMonomial A n) = dividedPowerPolynomialMonomial A n
     dsimp [F]
     rw [coefficientTensorDividedPowerAlgebraLift_monomial]
     exact coefficientTensorToDividedPowerAlgebra_monomial A ι n
@@ -979,7 +975,7 @@ private theorem coefficientTensorDividedPowerAlgebraLift_comp
     (coefficientTensorToDividedPowerAlgebra A ι)
   have h : F.toLinearMap = LinearMap.id := by
     refine LinearMap.ext_on_range (coefficientTensorBasis A ι).span_eq fun n ↦ ?_
-    show F (coefficientTensorBasis A ι n) = coefficientTensorBasis A ι n
+    change F (coefficientTensorBasis A ι n) = coefficientTensorBasis A ι n
     dsimp [F]
     rw [coefficientTensorBasis_apply,
       coefficientTensorToDividedPowerAlgebra_monomial,
@@ -1157,7 +1153,7 @@ private theorem coefficientPositiveDividedPowers_dpow_variable
     dividedPowerPolynomialVariable ℤ i from rfl]
   unfold coefficientPositiveDividedPowers
   rw [_root_.DividedPowers.ofRingEquiv_dpow]
-  show (coefficientTensorDividedPowerAlgebraEquiv A ι)
+  change (coefficientTensorDividedPowerAlgebraEquiv A ι)
     ((coefficientTensorPositiveDividedPowers A ι).dpow n
       ((coefficientTensorDividedPowerAlgebraEquiv A ι).symm
         ((coefficientTensorDividedPowerAlgebraEquiv A ι)
@@ -1303,11 +1299,11 @@ private theorem polynomialLift_ideal_comp (A : DividedPowerRing.{u})
   classical
   rw [Ideal.map_le_iff_le_comap]
   refine polynomialIdeal_le_of_mem A ι _ (fun a ha ↦ ?_) fun i m hm ↦ ?_
-  · show polynomialLift A C f k
+  · change polynomialLift A C f k
       (algebraMap A (DividedPowerAlgebra A (ι →₀ A)) a) ∈ C.ideal
     rw [polynomialLift_coeff]
     exact f.ideal_comp (Ideal.mem_map_of_mem f.toRingHom ha)
-  · show polynomialLift A C f k
+  · change polynomialLift A C f k
       (dividedPowerPolynomialVariableMonomial A i m) ∈ C.ideal
     rw [polynomialLift_variableMonomial]
     exact C.dividedPowers.dpow_mem hm (k i).property
@@ -1384,7 +1380,7 @@ public theorem existsUnique_dPMorphism_from_dividedPowerPolynomial
     have hmonomial (n : ι →₀ ℕ) :
         ψ (dividedPowerPolynomialMonomial A n) =
           φ (dividedPowerPolynomialMonomial A n) := by
-      show ψ.toRingHom
+      change ψ.toRingHom
           (n.prod fun i m ↦ DividedPowerAlgebra.dp A m (Finsupp.single i 1)) =
         φ.toRingHom (n.prod fun i m ↦ DividedPowerAlgebra.dp A m (Finsupp.single i 1))
       rw [map_finsuppProd, map_finsuppProd]
@@ -1392,19 +1388,19 @@ public theorem existsUnique_dPMorphism_from_dividedPowerPolynomial
       intro i hi
       have hvarmem := variable_mem_polynomialIdeal A i
       have hdp := dividedPowerPolynomialDividedPowers_dpow_variable A ι i (n i)
-      show ψ.toRingHom (dividedPowerPolynomialVariableMonomial A i (n i)) =
+      change ψ.toRingHom (dividedPowerPolynomialVariableMonomial A i (n i)) =
         φ.toRingHom (dividedPowerPolynomialVariableMonomial A i (n i))
       rw [← hdp, ← ψ.dpow_comp _ hvarmem, ← φ.dpow_comp _ hvarmem]
-      show C.dividedPowers.dpow (n i) (ψ (dividedPowerPolynomialVariable A i)) =
+      change C.dividedPowers.dpow (n i) (ψ (dividedPowerPolynomialVariable A i)) =
         C.dividedPowers.dpow (n i) (φ (dividedPowerPolynomialVariable A i))
       rw [hψ.2 i]
-      show C.dividedPowers.dpow (n i) (k i) =
+      change C.dividedPowers.dpow (n i) (k i) =
         C.dividedPowers.dpow (n i)
           (polynomialLift A C f k (dividedPowerPolynomialVariable A i))
       rw [polynomialLift_variable]
     apply _root_.DividedPowers.DPMorphism.ext
     funext x
-    show ψ x = φ x
+    change ψ x = φ x
     have hx : x ∈ Submodule.span A
         (Set.range (dividedPowerPolynomialMonomial A (ι := ι))) := by
       rw [monomial_span_eq_top]

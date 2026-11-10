@@ -6,8 +6,7 @@ public import StacksFrontier.AlgebraicGeometry.NagataNormalization.IntegralClosu
 public import StacksFrontier.AlgebraicGeometry.Normalization.NormalizedBlowUpDescentExtra
 public import StacksFrontier.AlgebraicGeometry.NormalizationBaseChange.Normal
 public import StacksFrontier.AlgebraicGeometry.Properties.Nagata
-public import
-  StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.RationalSingularities.NormalizedBlowUpReduction
+public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.RationalSingularities.NormalizedBlowUpReduction
 public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.Resolution.NormalizedBlowUps
 import StacksCore.Tactic.EgaSgaAttribute
 
@@ -70,7 +69,8 @@ blows up the singular closed points of a rational surface singularity until the 
 is invertible, and [Stacks, Tag 0BGE], which resolves a rational double point.
 
 Checked tag by tag, that residue is smaller than the two names suggest: the inputs of those two
-tags are largely available. Of the eight tags the source's proof of Tag 0BBV cites, seven are carried:
+tags are largely available. Of the eight tags the source's proof of Tag 0BBV cites, seven are
+carried:
 [Stacks, Tag 0ESN] on the strict transform of a module after a Fitting blowup
 (`AlgebraicGeometry.isFiniteLocallyFreeOfRank_strictTransform_of_dense` and its siblings in
 `Blowup/Transform/FittingFlatten.lean`), Tag 0BBT, Tag 0AWX
@@ -155,9 +155,9 @@ private theorem isSeparated_and_universallyClosed_normalizedBlowUp {X : Scheme.{
   let : IsProper (blowUpToBase I) := isProper_blowUpToBase_of_fg I hfg
   let : IsSeparated (Scheme.normalization (blowUp I) hfin) := IsSeparated.of_isAffineHom _
   refine ⟨?_, ?_⟩
-  · show IsSeparated (Scheme.normalization (blowUp I) hfin ≫ blowUpToBase I)
+  · change IsSeparated (Scheme.normalization (blowUp I) hfin ≫ blowUpToBase I)
     infer_instance
-  · show UniversallyClosed (Scheme.normalization (blowUp I) hfin ≫ blowUpToBase I)
+  · change UniversallyClosed (Scheme.normalization (blowUp I) hfin ≫ blowUpToBase I)
     infer_instance
 
 /-- Every stage of a sequence of normalized blowups over `Spec A` which descends from the

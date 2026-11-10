@@ -46,7 +46,7 @@ private theorem etale_compact_hasUniversallyBoundedFibers
       have : Algebra.Etale _ _ := hφ.toAlgebra
       have : Algebra.EssFiniteType (Γ(Z, U)) (Γ(Y, V)) :=
         Algebra.EssFiniteType.of_finiteType (Γ(Z, U)) (Γ(Y, V))
-      show Algebra.QuasiFinite _ _
+      change Algebra.QuasiFinite _ _
       infer_instance
   }
   exact hasUniversallyBoundedFibers_of_locallyQuasiFinite_of_compactSpace g
@@ -116,7 +116,7 @@ private lemma pullback_diagonal_compl_fiber_ne
   intro hx
   change j.base x = x₀ at hx
   have hUmem : U.ι.base (Limits.pullback.snd z q x) ∈ U.1 := by
-    show U.ι.base (Limits.pullback.snd z q x) ∈ U
+    change U.ι.base (Limits.pullback.snd z q x) ∈ U
     exact (Limits.pullback.snd z q x).property
   have heq : U.ι.base (Limits.pullback.snd z q x) =
       d.base (z.base (IsLocalRing.closedPoint K)) := by
@@ -142,7 +142,7 @@ private lemma pullback_diagonal_compl_fiber_ne
                 Limits.pullback.lift (𝟙 _) (z ≫ d) (by simp [d, p]) ≫
                   Limits.pullback.snd z p = z ≫ d :=
               Limits.pullback.lift_snd (𝟙 _) (z ≫ d) (by simp [d, p])
-            show (Limits.pullback.snd z p)
+            change (Limits.pullback.snd z p)
                 ((Limits.pullback.lift (𝟙 _) (z ≫ d) (by simp [d, p]))
                   (IsLocalRing.closedPoint K)) = _
             exact congrArg (fun t : Spec (.of K) ⟶ Limits.pullback g g =>
@@ -265,7 +265,7 @@ private theorem relative_of_pullback_snd_comp_etale
     rw [Category.assoc, Scheme.Hom.resLE_comp_ι, ← Category.assoc,
       Scheme.toIso_inv_ι, Category.id_comp]
   have : gO.IsOver S := ⟨by
-    show gO ≫ (O.ι ≫ Z ↘ S) = Y ↘ S
+    change gO ≫ (O.ι ≫ Z ↘ S) = Y ↘ S
     rw [← Category.assoc, hgOι, comp_over]⟩
   have hrOι : rO ≫ O.ι = r := by simp [rO, r, Category.assoc, hgOι]
   have hpb : IsPullback (pullback.fst rO gO) (pullback.snd rO gO) r g := by
@@ -305,7 +305,7 @@ private theorem relative_postcomp_etale_affine_bound
       let p₂ : T ⟶ Y := pullback.snd g g
       let d : Y ⟶ T := pullback.diagonal g
       have : d.IsOver S := ⟨by
-        show d ≫ (p₂ ≫ Y ↘ S) = Y ↘ S
+        change d ≫ (p₂ ≫ Y ↘ S) = Y ↘ S
         rw [← Category.assoc, show d ≫ p₂ = 𝟙 Y from pullback.diagonal_snd g,
           Category.id_comp]⟩
       obtain ⟨U, hU, hUA, hq⟩ := etale_diagonal_complement_bounds g n hn
@@ -321,7 +321,7 @@ private theorem relative_postcomp_etale_affine_bound
         intro b
         cases b
         · have hcomp : W.f false ≫ (k ≫ p₂) = pullback.snd k d := by
-            show (pullback.fst k d ≫ k ≫ p₂) = _
+            change (pullback.fst k d ≫ k ≫ p₂) = _
             rw [← Category.assoc, pullback.condition, Category.assoc]
             simp [d, p₂]
           rw [hcomp]
@@ -330,7 +330,7 @@ private theorem relative_postcomp_etale_affine_bound
           have hc : R c := relative_pullback_snd B S hS P k U.ι hk
           have : IsAffine U.toScheme := hUA
           have hcomp : W.f true ≫ (k ≫ p₂) = c ≫ q := by
-            show (pullback.fst k U.ι ≫ k ≫ p₂) = c ≫ q
+            change (pullback.fst k U.ι ≫ k ≫ p₂) = c ≫ q
             rw [← Category.assoc, pullback.condition, Category.assoc]
           rw [hcomp]
           exact ih (n - 1) (by omega) c hc q hq
@@ -398,7 +398,7 @@ private theorem relative_postcomp_etale
         m (etale_compact_hasUniversallyBoundedFibers m)
       exact relative_postcomp_etale_affine_bound B S hS P aQ haQ m n hn
     have hcomp : 𝒲.f j ≫ s = aQ ≫ m := by
-      show aC ≫ cQ ≫ qO = aQ ≫ v ≫ qO
+      change aC ≫ cQ ≫ qO = aQ ≫ v ≫ qO
       rw [← Category.assoc, pullback.condition, Category.assoc]
     rwa [hcomp]
   let e := pullbackRightPullbackFstIso g b f
@@ -435,7 +435,7 @@ private theorem relativeLargestOpen_postcomp_etale
   unfold relativeLargestOpen
   congr 1
   ext U
-  show R (U.ι ≫ (f ≫ g)) ↔ R (U.ι ≫ f)
+  change R (U.ι ≫ (f ≫ g)) ↔ R (U.ι ≫ f)
   rw [← Category.assoc]
   exact ⟨relative_cancel_postcomp_etale B S hS P _ g,
     fun h => relative_postcomp_etale B S hS P _ h g⟩
@@ -473,7 +473,7 @@ theorem mem_relativeLargestOpen_etaleAt
   have hAV : A ≤ f' ⁻¹ᵁ V := inf_le_right
   let h : A.toScheme ⟶ V.toScheme := f'.resLE V A hAV
   have : Etale a := by
-    show Etale (A.ι ≫ g')
+    change Etale (A.ι ≫ g')
     rw [← Scheme.homOfLE_ι X' (inf_le_left : A ≤ U), Category.assoc]
     have : Etale (U.ι ≫ g') := hU
     infer_instance
@@ -486,7 +486,7 @@ theorem mem_relativeLargestOpen_etaleAt
   have hrestr : i ≫ f' = h ≫ V.ι := (Scheme.Hom.resLE_comp_ι f' hAV).symm
   have hsource := preimage_relativeLargestOpen_etale B S hS P i f'
   have htarget := relativeLargestOpen_postcomp_etale B S hS P h V.ι
-  show a.base z ∈ W f ↔ i.base z ∈ W f'
+  change a.base z ∈ W f ↔ i.base z ∈ W f'
   change (a.base z ∈ W f) = (z ∈ W h) at hsq
   rw [Iff.of_eq hsq, ← htarget, ← hrestr, ← hsource]
   rfl

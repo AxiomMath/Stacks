@@ -63,6 +63,7 @@ attribute [local instance] HasDerivedCategory.standard Sheaf.monoidalCategory
 variable {X : Scheme.{u}} {Λ : Type (max (u + 1) w)} [CommRing Λ] [IsNoetherianRing Λ]
   {I : Ideal Λ}
 
+omit [IsNoetherianRing Λ] in
 /-- **The limit of a tower of sheaves of `Λ`-modules on `X_proét` with epimorphic transition maps
 is its derived limit**, the projections being the limit projections placed in degree zero
 (Stacks 0947 (3)). -/
@@ -89,7 +90,7 @@ theorem isDerivedLimitWithProjections_singleFunctor_limit_of_epi
         by_cases hi : i = 0
         · subst hi
           have := hG n
-          show Epi (((HomologicalComplex.single _ _ 0).map
+          change Epi (((HomologicalComplex.single _ _ 0).map
             (G.map (homOfLE (Nat.le_succ n)).op)).f 0)
           rw [HomologicalComplex.single_map_f_self]
           infer_instance
@@ -107,6 +108,7 @@ theorem isDerivedLimitWithProjections_singleFunctor_limit_of_epi
       (IsLimit.conePointUniqueUpToIso_hom_comp hc (limit.isLimit F) ⟨n⟩)
   rwa [heq] at h
 
+omit [IsNoetherianRing Λ] in
 /-- **The completed constant sheaf is the derived limit of the constant sheaves
 `\underline{Λ/Iⁿ}`**: `\underline{Λ}^∧ = R lim \underline{Λ/Iⁿ}` in the derived category of sheaves
 of `Λ`-modules on `X_proét`, the projections being the reductions. -/
@@ -124,6 +126,7 @@ theorem isDerivedLimitWithProjections_singleFunctor_completedConstantSheaf :
     Stacks.ModuleSheaf.epi_constantAdicQuotientTower_map (Scheme.ProEt.topology X) Λ I _ _
   exact h
 
+omit [IsNoetherianRing Λ] in
 /-- **`\underline{Λ}^∧ = R lim (\underline{Λ} ⊗_Λ^L \underline{Λ/Iⁿ})`**: the completed constant
 sheaf is the derived limit of the derived reductions of the constant sheaf `\underline{Λ}`. -/
 theorem isDerivedLimitWithProjections_derivedReductionTower_completedConstantSheaf :
@@ -292,9 +295,9 @@ theorem isIso_whiskerRight_singleFunctor_map_completedConstantSheafMap (n : ℤ)
     isIso_whiskerRight_singleFunctor_zero_map_completedConstantSheafMap N hN
   have h₁ : IsIso (g⟦-n⟧' ▷ M) := by
     have : IsIso (g⟦-n⟧' ▷ M ≫ ((MonoidalCategory.tensorRight M).commShiftIso (-n)).hom.app _) := by
-      show IsIso ((shiftFunctor _ (-n) ⋙ MonoidalCategory.tensorRight M).map g ≫ _)
+      change IsIso ((shiftFunctor _ (-n) ⋙ MonoidalCategory.tensorRight M).map g ≫ _)
       rw [((MonoidalCategory.tensorRight M).commShiftIso (-n)).hom.naturality g]
-      show IsIso (_ ≫ (g ▷ M)⟦-n⟧')
+      change IsIso (_ ≫ (g ▷ M)⟦-n⟧')
       infer_instance
     exact IsIso.of_isIso_comp_right _
       (((MonoidalCategory.tensorRight M).commShiftIso (-n)).hom.app _)

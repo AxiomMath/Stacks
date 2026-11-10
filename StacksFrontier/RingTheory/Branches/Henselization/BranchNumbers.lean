@@ -88,7 +88,7 @@ private theorem RingHom.ker_isMaximal_of_range_contains_algebraic_field
   let : Field S := (Subalgebra.isField_of_algebraic S).toField
   have hker : RingHom.ker g = RingHom.ker f := by
     ext x
-    show g x = 0 ↔ f x = 0
+    change g x = 0 ↔ f x = 0
     exact Subtype.ext_iff
   rw [← hker]
   exact RingHom.ker_isMaximal_of_surjective g hg
@@ -158,8 +158,7 @@ private theorem integral_tensorProduct_rightAlgebra
   let : Algebra S (B ⊗[R] S) := Algebra.TensorProduct.rightAlgebra
   constructor
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact isIntegral_zero
+  induction z using TensorProduct.inductionOn with
   | tmul b s =>
     have hb : IsIntegral S (b ⊗ₜ[R] (1 : S)) :=
       (Algebra.IsIntegral.isIntegral b).map_of_comp_eq
@@ -246,14 +245,14 @@ theorem numberOfBranches_characterizations
   refine ⟨?_, ?_, ?_, ?_⟩
   · intro h
     constructor
-    · show (minimalPrimes Ah).encard = ⊤
+    · change (minimalPrimes Ah).encard = ⊤
       exact Set.encard_eq_top (minimalPrimes_infinite_of_faithfullyFlat h)
-    · show (minimalPrimes Ash).encard = ⊤
+    · change (minimalPrimes Ash).encard = ⊤
       exact Set.encard_eq_top (minimalPrimes_infinite_of_faithfullyFlat h)
-  · show (minimalPrimes Ah).encard = 1 ↔ _
+  · change (minimalPrimes Ah).encard = 1 ↔ _
     rw [encard_eq_one_iff_existsUnique]
     exact isUnibranch_iff_henselization_has_unique_minimalPrime A Ah |>.symm
-  · show (minimalPrimes Ash).encard = 1 ↔ _
+  · change (minimalPrimes Ash).encard = 1 ↔ _
     rw [encard_eq_one_iff_existsUnique]
     exact isGeometricallyUnibranch_iff_strictHenselization_has_unique_minimalPrime
       A Ash ksep |>.symm

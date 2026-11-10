@@ -418,7 +418,7 @@ public lemma homConstMapLinearEquiv_comp {P P' : ProSeq 𝒟} (g : P ⟶ P')
     homConstMapLinearEquiv F θ hθ P' (y ≫ (map F).map g) =
       homConstMapLinearEquiv F θ hθ P y ≫ g := by
   refine constHom_ext_value fun N x => ?_
-  show θ N (constHomValue y (((map F).map g).unop.hom.app (F.obj N)
+  change θ N (constHomValue y (((map F).map g).unop.hom.app (F.obj N)
       ((F.lanUnit.app P'.points).app N x))) =
     θ N (constHomValue y ((F.lanUnit.app P.points).app N (g.unop.hom.app N x)))
   congr 2
@@ -468,7 +468,7 @@ public theorem proDualityLinearEquiv_naturality {M' : ℕᵒᵖ ⥤ 𝒟} {P' : 
   apply (bijective_dualPairingMap t e' ρ' ι' hι' hperf').1
   rw [dualPairingMap_homConstMapLinearEquiv_proDualityLinearEquiv]
   ext v'
-  show l (φ v') = t (constHomValue (homConstMapLinearEquiv F θ hθ P
+  change l (φ v') = t (constHomValue (homConstMapLinearEquiv F θ hθ P
     (proDualityLinearEquiv F θ hθ t e ρ ι hι hperf l)) (g.unop.hom.app ω (ρ' v')))
   rw [hg]
   exact (LinearMap.congr_fun (dualPairingMap_homConstMapLinearEquiv_proDualityLinearEquiv
@@ -500,7 +500,7 @@ public lemma θ_pushforwardProjection (n : ℕ) (y : const.obj A' ⟶ (map F).ob
           (Pro.seqStage M (𝟙 (M.obj (op n))))) := by
       rw [Iso.hom_inv_id]; rfl
     exact h
-  show θ _ (constHomValue y (((map F).map e.hom).unop.hom.app _
+  change θ _ (constHomValue y (((map F).map e.hom).unop.hom.app _
       ((mapOfIso F M).hom.unop.hom.app _ ((Pro.seqHomColimIso (M ⋙ F)).inv.app _
         (Pro.seqStage (M ⋙ F) (𝟙 (F.obj (M.obj (op n))))))))) =
     constHomValue (homConstMapLinearEquiv F θ hθ P y) (e.hom.unop.hom.app _
@@ -540,7 +540,7 @@ public theorem isHomeomorph_proDualityLinearEquiv :
     intro l n
     apply (θ (M.obj (op n))).injective
     rw [LinearEquiv.apply_symm_apply]
-    show θ _ (pushforwardProjection F e n (proDualityLinearEquiv F θ hθ t e ρ ι hι hperf l)) = _
+    change θ _ (pushforwardProjection F e n (proDualityLinearEquiv F θ hθ t e ρ ι hι hperf l)) = _
     rw [θ_pushforwardProjection (hθ := hθ)]
     refine eq_of_compPairing t (hperf n).2 fun g => ?_
     rw [ha, ← dualPairingMap_apply_ι t e ρ ι hι,
@@ -563,11 +563,11 @@ public lemma extensionByZeroIso_hom_app_seqStage (K : 𝒞) {N : 𝒟} {n : ℕ}
     (extensionByZeroIso jstar A.toAssignment K).hom.unop.hom.app N
         ((Pro.seqHomColimIso (A.system K)).inv.app N (Pro.seqStage (A.system K) g)) =
       (A.restrictIso K).inv.app (op n) ≫ jstar.map g := by
-  show (A.systemHomIso K).hom.app N ((Pro.seqHomColimIso (A.system K)).hom.app N
+  change (A.systemHomIso K).hom.app N ((Pro.seqHomColimIso (A.system K)).hom.app N
     ((Pro.seqHomColimIso (A.system K)).inv.app N (Pro.seqStage (A.system K) g))) = _
   rw [Iso.inv_hom_id_app_apply]
   refine (proHomComparison_stage (A.system K) jstar (A.restrictCone K) g).trans ?_
-  show (𝟙 K ≫ (A.restrictIso K).inv.app (op n)) ≫ jstar.map g = _
+  change (𝟙 K ≫ (A.restrictIso K).inv.app (op n)) ≫ jstar.map g = _
   rw [Category.id_comp]
 
 end Values

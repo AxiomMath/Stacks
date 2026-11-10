@@ -61,8 +61,8 @@ triangle `hom_comp_ungradedToGradedRight`, and that is checked by applying the f
 `sheafCompose J (forget₂ CommRingCat RingCat)` and reducing to the unit compatibility.
 
 **The implementation note of
-`StacksFrontier.AlgebraicGeometry.Constructions.GradedAlgebraSheafQuasicoherent` records this upgrade
-as not done, and declines it.** That file needed quasi-coherence of
+`StacksFrontier.AlgebraicGeometry.Constructions.GradedAlgebraSheafQuasicoherent` records this
+upgrade as not done, and declines it.** That file needed quasi-coherence of
 `Stacks.RelativeSpec.gradedAlgebraSheaf` and obtained it by re-instantiating the generic
 comparison `Stacks.GradedAlgebra.directSumIsoUnderlyingModule` at that realization, rather than
 transporting quasi-coherence across the `RingCat` iso. Its reasoning stands and nothing here
@@ -169,7 +169,7 @@ theorem structureMap_comp_ringSheafIsoUngradedSheaf_inv :
         (ringSheafIsoUngradedSheaf X A hA).inv =
       A.ungradedStructureMap := by
   refine Sheaf.hom_ext ?_
-  show (A.toPresheafGradedAlgebra.structureHom ≫ ungradedRingUnit X A hA) ≫
+  change (A.toPresheafGradedAlgebra.structureHom ≫ ungradedRingUnit X A hA) ≫
     (ringSheafIsoUngradedSheaf X A hA).inv.hom = _
   rw [Category.assoc, ungradedRingUnit_comp_ringSheafIsoUngradedSheaf_inv]
   rfl

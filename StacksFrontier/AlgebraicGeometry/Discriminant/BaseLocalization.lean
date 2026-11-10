@@ -248,12 +248,7 @@ public noncomputable def dualizingModule_equiv_of_isLocalization_away
     eAdd.toLinearEquiv (by
       intro b z
       change eTensor ((algebraMap B E b) • z) = b • eTensor z
-      induction z using TensorProduct.induction_on with
-      | zero =>
-        calc
-          eTensor ((algebraMap B E b) • (0 : M₀ ⊗[Fbc.middle] E)) =
-              eTensor 0 := by rw [smul_zero]
-          _ = 0 := map_zero eTensor
+      induction z using TensorProduct.inductionOn with
       | add z z' hz hz' =>
         calc
           eTensor ((algebraMap B E b) • (z + z')) =
@@ -351,17 +346,17 @@ private theorem dualizingModule_equiv_of_isLocalization_away_tmul_aux
     simp [eSource, eTensor, LinearEquiv.rTensor_tmul]
   have hBase : eBC ((1 : E) ⊗ₜ[B] dualizingModule.tmul F φ b) =
       dualizingModule.tmul Fbc φC ((1 : Af) ⊗ₜ[A] b) := by
-    show hBC.equiv ((1 : E) ⊗ₜ[B] dualizingModule.tmul F φ b) = _
+    change hBC.equiv ((1 : E) ⊗ₜ[B] dualizingModule.tmul F φ b) = _
     rw [IsBaseChange.equiv_tmul, one_smul,
       dualizingModule.baseChange_tmul]
   have hRet : eRet (dualizingModule.tmul Fbc φC ((1 : Af) ⊗ₜ[A] b)) =
       dualizingModule.tmul Fret φC b := by
     have hd : eAf ((1 : Af) ⊗ₜ[A] b) = b := by
-      show eB (algebraMap B E b) = b
+      change eB (algebraMap B E b) = b
       exact eB.commutes b
     simp only [eRet, Fret]
     rw [dualizingModule_retargetEquiv_tmul, hd]
-  show dualizingModuleEquiv Fret G
+  change dualizingModuleEquiv Fret G
       ((eSource.symm.trans (eBC.trans eRet)) (dualizingModule.tmul F φ b)) = _
   simp only [LinearEquiv.trans_apply]
   rw [hSource, hBase, hRet]
@@ -419,7 +414,7 @@ public theorem dualizingModule_equiv_of_isLocalization_away_tmul
     let : Algebra F.middle Fbc.middle := Algebra.TensorProduct.rightAlgebra
     let : IsScalarTower A F.middle Fbc.middle := IsScalarTower.of_algebraMap_eq' (by
       ext a
-      show (algebraMap A Af a) ⊗ₜ[A] (1 : F.middle) =
+      change (algebraMap A Af a) ⊗ₜ[A] (1 : F.middle) =
         (1 : Af) ⊗ₜ[A] algebraMap A F.middle a
       exact Algebra.TensorProduct.tmul_one_eq_one_tmul a)
     let : Algebra F.middle (F.middle ⊗[A] Af) := Algebra.TensorProduct.leftAlgebra
@@ -428,7 +423,7 @@ public theorem dualizingModule_equiv_of_isLocalization_away_tmul
     let eSwap : Fbc.middle ≃ₐ[F.middle] F.middle ⊗[A] Af :=
       AlgEquiv.ofRingEquiv (f := eSwapRing) (by
         intro c
-        show Algebra.TensorProduct.comm A Af F.middle (1 ⊗ₜ[A] c) = c ⊗ₜ[A] 1
+        change Algebra.TensorProduct.comm A Af F.middle (1 ⊗ₜ[A] c) = c ⊗ₜ[A] 1
         simp)
     let eLoc : F.middle ⊗[A] Af ≃ₐ[F.middle]
         Localization.Away (algebraMap A F.middle f) :=
@@ -445,7 +440,7 @@ public theorem dualizingModule_equiv_of_isLocalization_away_tmul
       simp only [RingHom.comp_apply]
       rw [← IsScalarTower.algebraMap_apply A Af Fbc.middle a,
         ← IsScalarTower.algebraMap_apply A Af G.middle a]
-      show eMiddle (algebraMap A Fbc.middle a) = algebraMap A G.middle a
+      change eMiddle (algebraMap A Fbc.middle a) = algebraMap A G.middle a
       rw [IsScalarTower.algebraMap_apply A F.middle Fbc.middle a,
         IsScalarTower.algebraMap_apply A F.middle G.middle a]
       simp [eMiddle, eSwap, eLoc, eToG]
@@ -456,7 +451,7 @@ public theorem dualizingModule_equiv_of_isLocalization_away_tmul
     have hqr (c : F.middle) :
         q (r c) = algebraMap F.middle Fbc.middle c := by
       apply eAfMiddle.injective
-      show eAfMiddle (eAfMiddle.symm (r c)) =
+      change eAfMiddle (eAfMiddle.symm (r c)) =
         eAfMiddle (algebraMap F.middle Fbc.middle c)
       rw [eAfMiddle.apply_symm_apply]
       calc
@@ -469,11 +464,11 @@ public theorem dualizingModule_equiv_of_isLocalization_away_tmul
           (algebraMap B E).comp (algebraMap G.middle B) := by
       apply IsLocalization.ringHom_ext (Submonoid.powers (algebraMap A F.middle f))
       ext c
-      show algebraMap Fbc.middle E (q (r c)) =
+      change algebraMap Fbc.middle E (q (r c)) =
         algebraMap B E (G.algebraTarget.algebraMap (r c))
       rw [hqr]
       rw [hr]
-      show Algebra.TensorProduct.map (AlgHom.id A Af)
+      change Algebra.TensorProduct.map (AlgHom.id A Af)
           (IsScalarTower.toAlgHom A F.middle B) ((1 : Af) ⊗ₜ[A] c) =
         (1 : Af) ⊗ₜ[A] algebraMap F.middle B c
       rw [Algebra.TensorProduct.map_tmul]
@@ -526,7 +521,7 @@ public theorem dualizingModule_equiv_of_isLocalization_away_tmul
             have hr' : algebraMap F.middle G.middle c = r c := rfl
             rw [hr', hqr]
           _ = algebraMap A Af (φ c) := by
-            show (Module.Dual.baseChange Af φ)
+            change (Module.Dual.baseChange Af φ)
               ((1 : Af) ⊗ₜ[A] c) = algebraMap A Af (φ c)
             rw [Module.Dual.baseChange_apply_tmul]
             simp [Algebra.smul_def]
@@ -534,7 +529,7 @@ public theorem dualizingModule_equiv_of_isLocalization_away_tmul
       exact (IsUnit.mul_right_inj (hfAf.pow n)).mp hmul.symm
     have hCompat (c : G.middle) :
         algebraMap Fret.middle B (q c) = G.algebraTarget.algebraMap c := by
-      show eAf (algebraMap Fbc.middle E (q c)) = algebraMap G.middle B c
+      change eAf (algebraMap Fbc.middle E (q c)) = algebraMap G.middle B c
       have h := congrArg eAf (DFunLike.congr_fun hTarget c)
       change eB (algebraMap Fbc.middle E (q c)) =
         eB (algebraMap B E (algebraMap G.middle B c)) at h
@@ -596,11 +591,10 @@ private theorem baseChange_map_comp_algebraMap
         (IsScalarTower.toAlgHom A C B)).toRingHom := by
   apply RingHom.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => simp only [map_add, hz, hz']
   | tmul a c =>
-    show (Algebra.TensorProduct.map (AlgHom.id A Af)
+    change (Algebra.TensorProduct.map (AlgHom.id A Af)
         (IsScalarTower.toAlgHom A D B))
         ((Algebra.TensorProduct.map (AlgHom.id A Af) r) (a ⊗ₜ[A] c)) =
       (Algebra.TensorProduct.map (AlgHom.id A Af)
@@ -622,14 +616,13 @@ private theorem dual_baseChange_comp_map
       Module.Dual.baseChange Af (φ.comp r.toLinearMap) := by
   apply LinearMap.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => simp only [LinearMap.map_add, hz, hz']
   | tmul a c =>
-    show (Module.Dual.baseChange Af φ) (g (a ⊗ₜ[A] c)) =
+    change (Module.Dual.baseChange Af φ) (g (a ⊗ₜ[A] c)) =
       (Module.Dual.baseChange Af (φ.comp r.toLinearMap)) (a ⊗ₜ[A] c)
     rw [hg]
-    show φ (r c) • a = φ (r c) • a
+    change φ (r c) • a = φ (r c) • a
     rfl
 
 /-- The comparison from a factorization `H` with injective middle algebra to a refinement `F`
@@ -707,14 +700,14 @@ public theorem dualizingModule_equiv_of_isLocalization_away_natural
       toRingHom := (Algebra.TensorProduct.map (AlgHom.id A Af) fF).toRingHom
       commutes' := by
         intro a
-        show (Algebra.TensorProduct.map (AlgHom.id A Af) fF)
+        change (Algebra.TensorProduct.map (AlgHom.id A Af) fF)
           (a ⊗ₜ[A] (1 : F.middle)) = a ⊗ₜ[A] (1 : H.middle)
         simp [Algebra.TensorProduct.map_tmul] }
     let rF'bc : F'bc.middle →ₐ[Af] Hbc.middle := {
       toRingHom := (Algebra.TensorProduct.map (AlgHom.id A Af) fF').toRingHom
       commutes' := by
         intro a
-        show (Algebra.TensorProduct.map (AlgHom.id A Af) fF')
+        change (Algebra.TensorProduct.map (AlgHom.id A Af) fF')
           (a ⊗ₜ[A] (1 : F'.middle)) = a ⊗ₜ[A] (1 : H.middle)
         simp [Algebra.TensorProduct.map_tmul] }
     have hTargetF :
@@ -727,12 +720,12 @@ public theorem dualizingModule_equiv_of_isLocalization_away_natural
       baseChange_map_comp_algebraMap (Af := Af) rF' hF'
     have hCompatF (c : Fret.middle) :
         algebraMap Hret.middle B (rFbc c) = algebraMap Fret.middle B c := by
-      show eAf (algebraMap Hbc.middle E (rFbc c)) =
+      change eAf (algebraMap Hbc.middle E (rFbc c)) =
         eAf (algebraMap Fbc.middle E c)
       exact congrArg eAf (DFunLike.congr_fun hTargetF c)
     have hCompatF' (c : F'ret.middle) :
         algebraMap Hret.middle B (rF'bc c) = algebraMap F'ret.middle B c := by
-      show eAf (algebraMap Hbc.middle E (rF'bc c)) =
+      change eAf (algebraMap Hbc.middle E (rF'bc c)) =
         eAf (algebraMap F'bc.middle E c)
       exact congrArg eAf (DFunLike.congr_fun hTargetF' c)
     have hDualF (φ : Module.Dual A H.middle) :
@@ -747,7 +740,7 @@ public theorem dualizingModule_equiv_of_isLocalization_away_natural
       let fH := algebraMap A H.middle f
       let fB := algebraMap H.middle B fH
       have hfB : fB = algebraMap A B f := by
-        show algebraMap H.middle B (algebraMap A H.middle f) = algebraMap A B f
+        change algebraMap H.middle B (algebraMap A H.middle f) = algebraMap A B f
         exact (IsScalarTower.algebraMap_apply A H.middle B f).symm
       have hfBunit : IsUnit fB := by
         rw [hfB]
@@ -764,13 +757,13 @@ public theorem dualizingModule_equiv_of_isLocalization_away_natural
       let : IsScalarTower A H.middle Hbc.middle :=
         IsScalarTower.of_algebraMap_eq' (by
           ext a
-          show (algebraMap A Af a) ⊗ₜ[A] (1 : H.middle) =
+          change (algebraMap A Af a) ⊗ₜ[A] (1 : H.middle) =
             (1 : Af) ⊗ₜ[A] algebraMap A H.middle a
           exact Algebra.TensorProduct.tmul_one_eq_one_tmul a)
       let eSwap : Hbc.middle ≃ₐ[H.middle] H.middle ⊗[A] Af :=
         AlgEquiv.ofRingEquiv (f := eSwapRing) (by
           intro c
-          show Algebra.TensorProduct.comm A Af H.middle
+          change Algebra.TensorProduct.comm A Af H.middle
             (algebraMap H.middle Hbc.middle c) = c ⊗ₜ[A] 1
           rw [show algebraMap H.middle Hbc.middle c = (1 : Af) ⊗ₜ[A] c by rfl]
           simp)
@@ -795,24 +788,24 @@ public theorem dualizingModule_equiv_of_isLocalization_away_natural
         ext c
         have hL : algebraMap Hbc.middle B
             (algebraMap H.middle Hbc.middle c) = algebraMap H.middle B c := by
-          show eAf (algebraMap Hbc.middle E
+          change eAf (algebraMap Hbc.middle E
             (algebraMap H.middle Hbc.middle c)) = _
-          show eAf ((Algebra.TensorProduct.map (AlgHom.id A Af)
+          change eAf ((Algebra.TensorProduct.map (AlgHom.id A Af)
             (IsScalarTower.toAlgHom A H.middle B))
               ((1 : Af) ⊗ₜ[A] c)) = _
           rw [Algebra.TensorProduct.map_tmul]
-          show eB (algebraMap B E (algebraMap H.middle B c)) = _
+          change eB (algebraMap B E (algebraMap H.middle B c)) = _
           exact eB.commutes (algebraMap H.middle B c)
         have hR : eAway (away (eMiddle (algebraMap H.middle Hbc.middle c))) =
             algebraMap H.middle B c := by
           rw [eMiddle.commutes]
-          show eAway (away (algebraMap H.middle (Localization.Away fH) c)) = _
-          show eAway ((Localization.awayMap (algebraMap H.middle B) fH)
+          change eAway (away (algebraMap H.middle (Localization.Away fH) c)) = _
+          change eAway ((Localization.awayMap (algebraMap H.middle B) fH)
             (algebraMap H.middle (Localization.Away fH) c)) = _
           rw [Localization.awayMap, IsLocalization.Away.map, IsLocalization.map_eq]
           exact eAway.commutes (algebraMap H.middle B c)
         exact hL.trans hR.symm
-      show Function.Injective (algebraMap Hbc.middle B)
+      change Function.Injective (algebraMap Hbc.middle B)
       rw [hMap]
       exact eAway.injective.comp (hAway.comp eMiddle.injective)
     let lhs : dualizingModule F →ₗ[B] dualizingModule G' :=
@@ -824,12 +817,11 @@ public theorem dualizingModule_equiv_of_isLocalization_away_natural
     have hmaps : ∀ w : dualizingModule H, lhs (eHF w) = rhs (eHF w) := by
       intro w
       induction w using dualizingModule.induction_on with
-      | zero => simp [lhs, rhs]
       | add y z hy hz =>
         rw [map_add eHF, map_add, map_add, hy, hz]
       | tmul φ b =>
         rw [dualizingModuleEquiv_tmul_comp H F hH rF hF φ b]
-        show dualizingModuleEquiv G G'
+        change dualizingModuleEquiv G G'
             (dualizingModule_equiv_of_isLocalization_away f F G
               (dualizingModule.tmul F (φ.comp rF.toLinearMap) b)) =
           dualizingModule_equiv_of_isLocalization_away f F' G'

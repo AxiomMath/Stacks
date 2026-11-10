@@ -98,10 +98,10 @@ for every `n ≥ 1`. Then the base change map `Lg^*_comp Rf_* K ⟶ Rf'_* L(g')^
 isomorphism. -/
 @[stacks 09C9]
 theorem isIso_proetaleCompletedBaseChangeMap_of_isProper [IsNoetherianRing Λ] (I : Ideal Λ)
-    (hI : AddMonoid.IsTorsion (Λ ⧸ I))
+    (hI : IsAddTorsion (Λ ⧸ I))
     {X Y X' Y' : Scheme.{u}} (f : X ⟶ Y) [IsProper f] (g : Y' ⟶ Y) (g' : X' ⟶ X) (f' : X' ⟶ Y')
     (sq : IsPullback g' f' f g)
-    (K : ProetaleDerivedCategory Λ X) (hK : IsDerivedComplete I K)
+    (K : ProetaleDerivedCategory Λ X)
     (hbdd : ∀ n : ℕ, 1 ≤ n → ∃ a : ℤ, ((proetaleDerivedReduction Λ I X n).obj K).IsGE a)
     (het : ∀ n : ℕ, 1 ≤ n → ∀ q : ℤ, (Scheme.etaleInverseImage.{u, 0, u + 1} X Λ).essImage
       ((DerivedCategory.homologyFunctor _ q).obj ((proetaleDerivedReduction Λ I X n).obj K)))
@@ -116,7 +116,7 @@ theorem isIso_proetaleCompletedBaseChangeMap_of_isProper [IsNoetherianRing Λ] (
   obtain ⟨K', hK', ⟨eK⟩⟩ :=
     Stacks.ConstantModuleTensor.exists_iso_Qh_obj_quotient_obj_of_isKInjective
       Stacks.Injectives.exists_kInjective_resolution_of_grothendieck K
-  refine isIso_proetaleCompletedBaseChangeMap_of_isIso_baseChange Λ I f g f' g' sq.w.symm K hK P a b
+  refine isIso_proetaleCompletedBaseChangeMap_of_isIso_baseChange Λ I f g f' g' sq.w.symm K P a b
     eP K' hK' eK.symm ?_
   let R := Stacks.ConstantModuleTensor.resolution Λ (ModuleCat.of Λ (Λ ⧸ I ^ 1))
   have : R.IsKProjective := CochainComplex.isKProjective_of_projective R 0

@@ -96,7 +96,7 @@ private noncomputable def pullbackFactorMap : pullback f (vᵢ i) ⟶ pullback f
 /-- The comparison morphism of a factor commutes with the projection to `X`. -/
 private lemma pullbackFactorMap_fst :
     pullbackFactorMap f V vᵢ v hv i ≫ pullback.fst f v = pullback.fst f (vᵢ i) := by
-  show pullback.lift (pullback.fst f (vᵢ i)) (pullback.snd f (vᵢ i) ≫ Sigma.ι V i) _ ≫ _ = _
+  change pullback.lift (pullback.fst f (vᵢ i)) (pullback.snd f (vᵢ i) ≫ Sigma.ι V i) _ ≫ _ = _
   exact pullback.lift_fst _ _ _
 
 /-- The comparison morphism of a factor carries the projection to the coproduct to the projection
@@ -104,7 +104,7 @@ to the factor followed by the coproduct inclusion. -/
 private lemma pullbackFactorMap_snd :
     pullbackFactorMap f V vᵢ v hv i ≫ pullback.snd f v =
       pullback.snd f (vᵢ i) ≫ Sigma.ι V i := by
-  show pullback.lift (pullback.fst f (vᵢ i)) (pullback.snd f (vᵢ i) ≫ Sigma.ι V i) _ ≫ _ = _
+  change pullback.lift (pullback.fst f (vᵢ i)) (pullback.snd f (vᵢ i) ≫ Sigma.ι V i) _ ≫ _ = _
   exact pullback.lift_snd _ _ _
 
 /-- The morphism out of a cone over `pullback.snd f v` and `Sigma.ι V i` witnessing that the
@@ -187,7 +187,7 @@ private lemma exists_opens_isolating_fiber {U X : Scheme.{u}} (g : U ⟶ X)
     exact e.isOpen_image.mpr hiso
   obtain ⟨W, hW, hWpre⟩ := Topology.IsInducing.subtypeVal.isOpen_iff.mp hsub
   refine ⟨⟨W, hW⟩, ?_, ?_⟩
-  · show pt ∈ Subtype.val ⁻¹' W
+  · change pt ∈ Subtype.val ⁻¹' W
     rw [hWpre]
     exact Set.mem_singleton pt
   · intro z hz hzg
@@ -230,13 +230,13 @@ private lemma exists_etale_dominating_at_point
     intro y hy
     obtain ⟨z, rfl⟩ := hy
     refine ⟨⟨f (g' z), hyT z⟩, ?_⟩
-    show (TopologicalSpace.Opens.inclusion' T) ⟨f (g' z), hyT z⟩ = f (g' z)
+    change (TopologicalSpace.Opens.inclusion' T) ⟨f (g' z), hyT z⟩ = f (g' z)
     rfl
   let w : U' ⟶ V := IsOpenImmersion.lift v (g' ≫ f) hmap
   have hw : w ≫ v = g' ≫ f := IsOpenImmersion.lift_fac v (g' ≫ f) hmap
   let m : U' ⟶ pullback f v := pullback.lift g' w (by rw [hw])
   have hmcomp : m ≫ pullback.fst f v = g' := by
-    simpa [m] using (pullback.lift_fst g' w (by rw [hw]))
+    simp [m]
   have hmEtale : Etale m := by
     let _ : Etale (m ≫ pullback.fst f v) := by rw [hmcomp]; infer_instance
     exact Etale.of_comp (f := m) (g := pullback.fst f v)
@@ -255,7 +255,7 @@ private lemma exists_etale_dominating_at_point
     have hx : g' z' = x := hf.injective ((congrArg f hz').trans hfx)
     refine ⟨z', ?_⟩
     apply (pullback.fst f v).isOpenEmbedding.injective
-    show (m ≫ pullback.fst f v) z' = pullback.fst f v p
+    change (m ≫ pullback.fst f v) z' = pullback.fst f v p
     rw [hmcomp]
     exact hx
   let 𝒰 : (pullback f v).Cover.{u} Scheme.etalePrecoverage :=
@@ -263,7 +263,7 @@ private lemma exists_etale_dominating_at_point
       X := fun _ => U'
       f := fun _ => m
       mem₀ := by
-        show Presieve.ofArrows (fun _ : PUnit.{u + 1} => U') (fun _ => m) ∈
+        change Presieve.ofArrows (fun _ : PUnit.{u + 1} => U') (fun _ => m) ∈
           Scheme.etalePrecoverage (pullback f v)
         rw [Presieve.ofArrows_pUnit]
         exact (Scheme.singleton_mem_precoverage_iff (P := @Etale) m).2 ⟨hmSurj, hmEtale⟩ }
@@ -271,7 +271,7 @@ private lemma exists_etale_dominating_at_point
   let _ : Scheme.IsJointlySurjectivePreserving (@Etale : MorphismProperty Scheme.{u}) :=
     Scheme.isJointlySurjectivePreserving @Etale
   let _ : Scheme.JointlySurjective Scheme.etalePrecoverage := by
-    show Scheme.JointlySurjective (Scheme.precoverage @Etale)
+    change Scheme.JointlySurjective (Scheme.precoverage @Etale)
     refine ⟨?_⟩
     intro Z R hR x
     rcases hR with ⟨hR, hEt⟩
@@ -287,7 +287,7 @@ private lemma exists_etale_dominating_at_point
     apply Sigma.hom_ext
     intro i
     have hfi : 𝒰.f i = m := by cases i; rfl
-    have hid : Sigma.ι Wj i ≫ Sigma.desc a = a i := Sigma.ι_desc a i
+    have hid : Sigma.ι Wj i ≫ Sigma.desc a = a i := Sigma.ι_comp_desc a i
     calc
       Sigma.ι Wj i ≫ Sigma.desc a ≫ g' = (Sigma.ι Wj i ≫ Sigma.desc a) ≫ g' :=
         (Category.assoc _ _ _).symm
@@ -344,7 +344,7 @@ theorem hasPropertyC_of_isIntegralHom_of_isClosedEmbedding
   intro U g _
   choose V v hv h hh z hz using fun x : U => exists_etale_dominating_at_point f hf g x
   let vbig : (∐ V) ⟶ Y := Sigma.desc v
-  have hvbig (i : U) : Sigma.ι V i ≫ vbig = v i := Sigma.ι_desc v i
+  have hvbig (i : U) : Sigma.ι V i ≫ vbig = v i := Sigma.ι_comp_desc v i
   let q (i : U) : pullback f (v i) ⟶ pullback f vbig :=
     pullbackFactorMap f V v vbig hvbig i
   have hqfst (i : U) : q i ≫ pullback.fst f vbig = pullback.fst f (v i) :=
@@ -368,7 +368,7 @@ theorem hasPropertyC_of_isIntegralHom_of_isClosedEmbedding
       (f := pullback.snd f vbig) (g := Sigma.ι V w.1) p w.2 hw.symm
     let k := isPullback_pullbackFactorMap f V v vbig hvbig w.1
     have hp' : q w.1 (k.isoPullback.inv r) = p := by
-      show (k.isoPullback.inv ≫ q w.1) r = p
+      change (k.isoPullback.inv ≫ q w.1) r = p
       rw [k.isoPullback_inv_fst]
       exact hr₁
     exact (TopologicalSpace.Opens.mem_iSup).2 ⟨w.1, ⟨k.isoPullback.inv r, hp'⟩⟩
@@ -414,8 +414,8 @@ theorem hasPropertyC_of_isIntegralHom_of_isClosedEmbedding
   have hsurj : Function.Surjective hbig := by
     intro x
     refine ⟨e.hom (Sigma.ι (fun i : U => pullback f (v i)) x (z x)), ?_⟩
-    show (Sigma.ι (fun i : U => pullback f (v i)) x ≫ e.hom ≫ hbig) (z x) = x
-    rw [hecomp, Sigma.ι_desc]
+    change (Sigma.ι (fun i : U => pullback f (v i)) x ≫ e.hom ≫ hbig) (z x) = x
+    rw [hecomp, Sigma.ι_comp_desc]
     exact hz x
   have hvbig_etale : Etale vbig :=
     have : IsZariskiLocalAtSource (@Etale : MorphismProperty Scheme.{u}) :=

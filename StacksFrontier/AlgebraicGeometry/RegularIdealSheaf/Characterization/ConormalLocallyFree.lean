@@ -79,7 +79,7 @@ private lemma coefficients_mem_of_local_quasiRegular_generators (X : RingedSpace
     apply (germInRestriction_mem_span_iff X U x (leOfHom i hx) f V hx s).mpr
     exact germ_mem_span_of_isGeneratedByOn X J U V f hgen (leOfHom i) s hs x hx
   have hφ (j : Fin r) : φ (X.presheaf.map i.op (f j)) = g j := by
-    show germInRestriction X U x _ V hx (X.presheaf.map i.op (f j)) = _
+    change germInRestriction X U x _ V hx (X.presheaf.map i.op (f j)) = _
     rw [germInRestriction_res X U x (leOfHom i hx) V U hx (leOfHom i hx) i,
       germInRestriction_self]
     rfl
@@ -198,7 +198,7 @@ private lemma conormalPresentation_apply (X : RingedSpace.{u})
       Finsupp.single k a = a • ModuleCat.freeMk k :=
     (Finsupp.smul_single_one k a).symm
   simp only [hsingle, map_smul]
-  show c.sum (fun k a => a • (conormalPresentation X J U f).app V (ModuleCat.freeMk k)) = _
+  change c.sum (fun k a => a • (conormalPresentation X J U f).app V (ModuleCat.freeMk k)) = _
   simp only [conormalPresentation_freeMk]
   exact Finsupp.sum_fintype _ _ (fun _ => zero_smul _ _)
 
@@ -224,11 +224,11 @@ private lemma conormalPresentation_locallySurjective (X : RingedSpace.{u})
   let c : ULift.{u} (Fin r) →₀ (X.presheaf.obj (op W) ⧸ sectionIdeal X J (op W)) :=
     Finsupp.equivFunOnFinite.symm (fun k => Ideal.Quotient.mk _ (a k.down))
   refine ⟨c, ?_⟩
-  show (conormalPresentation X J U f).app (op Z) c =
+  change (conormalPresentation X J U f).app (op Z) c =
     Construction.gradedMap _ _ (X.presheaf.map iV.op).hom
       (sectionIdeal_map X J iV.op) 1 (Submodule.Quotient.mk s)
   rw [conormalPresentation_apply]
-  show (∑ k : ULift.{u} (Fin r),
+  change (∑ k : ULift.{u} (Fin r),
     (Ideal.Quotient.mk (sectionIdeal X J (op W)) (a k.down)) •
     conormalClass (sectionIdeal X J (op W))
       ⟨X.presheaf.map iU.op (f k.down).val, _⟩) = _
@@ -319,7 +319,7 @@ private lemma freePresheafMap_conormalGeneratingSections (X : RingedSpace.{u})
   apply PresheafOfModules.sections_ext
   intro V
   rw [constantFreeHomEquiv_apply, freePresheafMap_freeMk, constantFreeHomEquiv_apply]
-  show (conormalSheafificationUnitOver X J U).app V
+  change (conormalSheafificationUnitOver X J U).app V
       ((gradedPresheaf X J 1).map V.unop.hom.op
         (conormalClass (sectionIdeal X J (op U)) (f k.down))) =
     (conormalSheafificationUnitOver X J U).app V
@@ -371,14 +371,14 @@ private lemma quasiRegularMap_isIso_one (X : RingedSpace.{u}) (U : Opens X) :
   have hg : g 0 = 1 := by
     apply (ConcreteCategory.bijective_of_isIso
       (X.toPresheafedSpace.restrictStalkIso U.isOpenEmbedding x).hom).1
-    show (X.toPresheafedSpace.restrictStalkIso U.isOpenEmbedding x).hom
+    change (X.toPresheafedSpace.restrictStalkIso U.isOpenEmbedding x).hom
       ((X.restrict U.isOpenEmbedding).presheaf.germ ⊤ x trivial
         (sectionOnRestriction X U 1)) = _
     exact (restrictStalkIso_germ_onRestriction X U x 1).trans ((map_one _).trans (map_one _).symm)
   have hI : Jid g = ⊤ := (Ideal.eq_top_iff_one _).mpr (hg ▸
     Ideal.subset_span (Set.mem_range_self (f := g) 0))
   have : Subsingleton (qrRbar g) := by
-    show Subsingleton (_ ⧸ Jid g)
+    change Subsingleton (_ ⧸ Jid g)
     rw [hI]
     infer_instance
   have : Subsingleton (Target ((X.restrict U.isOpenEmbedding).presheaf.stalk x) g) :=
@@ -412,7 +412,7 @@ lemma conormalSheaf_isFiniteLocallyFree (X : RingedSpace.{u})
     { I := X
       X := U
       coversTop := (Opens.coversTop_iff X U).2 (by
-        show iSup U = ⊤
+        change iSup U = ⊤
         apply top_unique
         intro x _
         exact Opens.mem_iSup.mpr ⟨x, hx x⟩)
@@ -496,7 +496,7 @@ private lemma gradedPieceToTarget_injective {R : Type u} [CommRing R] {r : ℕ}
   intro z hz
   induction z using Submodule.Quotient.induction_on with | _ a =>
   apply (Submodule.Quotient.mk_eq_zero _).mpr
-  show (a : R) ∈ Jid f ^ (n + 1)
+  change (a : R) ∈ Jid f ^ (n + 1)
   have hz' : (DirectSum.lof R ℕ (fun k => Tcomp R f k) n)
       (Submodule.Quotient.mk (⟨(a : R), by simp [JpowM]⟩ : JpowM R f n)) = 0 := hz
   have h := congrArg (DirectSum.component R ℕ (fun k => Tcomp R f k) n) hz'
@@ -520,7 +520,7 @@ private lemma polynomialQuasiRegularCanonicalMap_surjective
     apply LinearMap.ext
     intro p
     simp [e, q]
-  show Function.Surjective ((quasiRegularCanonicalMap (M := R) f).comp
+  change Function.Surjective ((quasiRegularCanonicalMap (M := R) f).comp
     ((TensorProduct.mk (qrRbar f) _ _).flip (q0 1)))
   rw [← he]
   exact (quasiRegularCanonicalMap_surjective f).comp e.surjective
@@ -559,7 +559,7 @@ private lemma relations_le_ker_coordWordsMap
     relations I n ≤ (coordWordsMap I L n).ker := by
   rw [relations, Submodule.span_le]
   intro z hz
-  show coordWordsMap I L n z = 0
+  change coordWordsMap I L n z = 0
   cases hz with
   | add a i x y => simp [MultilinearMap.map_update_add]
   | smul a i c x => simp [MultilinearMap.map_update_smul]
@@ -589,7 +589,7 @@ private noncomputable def coordSymmetricMap
     (L : I →ₗ[R] MvPolynomial (Fin r) (R ⧸ I))
     (hsq : ∀ x : I, (x : R) ∈ I ^ 2 → L x = 0) {n : ℕ} (a : Fin n → I) :
     coordSymmetricMap I L hsq n (wordClass I n a) = ∏ j, L (a j) := by
-  show coordWordsMap I L n (word I a) = _
+  change coordWordsMap I L n (word I a) = _
   rw [coordWordsMap_word, coordProduct_apply]
 
 end Coordinates
@@ -617,7 +617,7 @@ private lemma coordSymmetricMapBar_tupleWordMap {R : Type u} [CommRing R] {r : �
   | single t c =>
     simp only [tupleWordMap, tuplePolynomialMap, Finsupp.linearCombination_single, map_smul]
     congr 1
-    show Construction.coordSymmetricMap (Jid f) L hsq n
+    change Construction.coordSymmetricMap (Jid f) L hsq n
       (Construction.wordClass (Jid f) n (idealGenerator f ∘ t)) = _
     rw [Construction.coordSymmetricMap_wordClass]
     simp only [Function.comp_apply, hL]

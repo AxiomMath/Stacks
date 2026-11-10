@@ -7,7 +7,7 @@ public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ExtensionByZeroBa
 public import
   StacksFrontier.AlgebraicGeometry.EtaleCohomology.ExtensionByZero.FiniteDirectImageModuleUniverse
 public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.TorsionModulesCurves.IntegralHomCohomologyCollapse
+ StacksFrontier.AlgebraicGeometry.EtaleCohomology.TorsionModulesCurves.IntegralHomCohomologyCollapse
 public import
   StacksFrontier.AlgebraicGeometry.EtaleCohomology.DerivedLowerShriek.InducedCompactification
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.DerivedDirectImageComposition

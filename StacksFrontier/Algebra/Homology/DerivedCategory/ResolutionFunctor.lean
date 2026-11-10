@@ -15,7 +15,7 @@ public import Mathlib.CategoryTheory.Triangulated.TStructure.TruncLTGE
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Altitude
@@ -616,15 +616,15 @@ lemma isTriangulated_of_quasiIso :
           ((localizerMorphism C).functor.commShiftIso 1).hom.app (F.obj T.obj₁) := hc₃
   refine isomorphic_distinguished _ hT' _ (Triangle.isoMk _ _ (Iso.refl _) (Iso.refl _)
     (@asIso _ _ _ _ u hiso) ?_ ?_ ?_)
-  · show F.map T.mor₁ ≫ 𝟙 (F.obj T.obj₂) = 𝟙 (F.obj T.obj₁) ≫ F.map T.mor₁
+  · change F.map T.mor₁ ≫ 𝟙 (F.obj T.obj₂) = 𝟙 (F.obj T.obj₁) ≫ F.map T.mor₁
     rw [Category.id_comp, Category.comp_id]
-  · show F.map T.mor₂ ≫ u = 𝟙 (F.obj T.obj₂) ≫ g₂
+  · change F.map T.mor₂ ≫ u = 𝟙 (F.obj T.obj₂) ≫ g₂
     rw [Category.id_comp]
     apply hom_ext (α.app T.obj₂) (hα _)
     rw [Functor.map_comp, app_naturality_assoc]
     exact hc₂
   · have hξ : (F.commShiftIso (1 : ℤ)).hom.app T.obj₁ = commShiftIsoApp F α hα 1 T.obj₁ := rfl
-    show (F.map T.mor₃ ≫ (F.commShiftIso (1 : ℤ)).hom.app T.obj₁) ≫
+    change (F.map T.mor₃ ≫ (F.commShiftIso (1 : ℤ)).hom.app T.obj₁) ≫
         (shiftFunctor (HomotopyCategory.Plus (InjectiveObject C)) 1).map (𝟙 (F.obj T.obj₁)) =
       u ≫ g₃
     rw [CategoryTheory.Functor.map_id]
@@ -940,7 +940,7 @@ private theorem homotopyInjPlus_cone
   have e := Pretriangulated.isoTriangleOfIso₁₂ T T₂ hT hT₂ (eqToIso hKeq.symm) (eqToIso hLeq.symm)
       hcomm
   have hmem : homotopyInjPlus A T₂.obj₃ := by
-    show homotopyInjPlus A ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).obj
+    change homotopyInjPlus A ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).obj
         (CochainComplex.mappingCone φ))
     rw [homotopyInjPlus_quotient_obj_iff]
     exact injPlus_mappingCone A K L φ hK hL
@@ -954,7 +954,7 @@ theorem homotopyInjPlus_ext₂' :
       (homotopyInjPlus A).isoClosure T.obj₂ := by
   intro T hT h1 h3
   have hinv1 : homotopyInjPlus A T.invRotate.obj₁ := by
-    show homotopyInjPlus A ((shiftFunctor _ (-1 : ℤ)).obj T.obj₃)
+    change homotopyInjPlus A ((shiftFunctor _ (-1 : ℤ)).obj T.obj₃)
     exact homotopyInjPlus_shift A T.obj₃ (-1) h3
   exact homotopyInjPlus_cone A T.invRotate (Pretriangulated.inv_rot_of_distTriang T hT) hinv1 h1
 

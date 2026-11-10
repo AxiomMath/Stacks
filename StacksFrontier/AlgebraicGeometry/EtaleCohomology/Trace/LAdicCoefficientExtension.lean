@@ -174,7 +174,7 @@ public theorem smul_eq_toZModPow_val_nsmul {M : Type*} [AddCommGroup M] [Module 
 public theorem sheaf_natCast_nsmul_eq_zero {C : Type*} [Category C] {J : GrothendieckTopology C}
     {N : ℕ} {P Q : Sheaf J (ModuleCat.{u + 1} (ZMod N))} (g : P ⟶ Q) : N • g = 0 := by
   ext U x
-  show N • (g.hom.app U).hom x = 0
+  change N • (g.hom.app U).hom x = 0
   rw [← Nat.cast_smul_eq_nsmul (ZMod N), ZMod.natCast_self, zero_smul]
 
 /-- **Every ring homomorphism `ℤ_ℓ → End F` is the canonical one.**  In particular an action of a
@@ -192,7 +192,8 @@ public theorem LAdicSheaf.eq_scalarRingHom (F : LAdicSheaf B X ℓ) (φ : ℤ_[�
     rw [← Nat.cast_pow, ← nsmul_one, smul_mul_assoc, one_mul]
     exact sheaf_natCast_nsmul_eq_zero (N := ℓ ^ (n + 1)) ((φ d).asHom.app n)
   calc (φ c).asHom.app n
-      = (((PadicInt.toZModPow (n + 1) c).val : End F) + (ℓ : End F) ^ (n + 1) * φ d).asHom.app n := by
+      = (((PadicInt.toZModPow (n + 1) c).val : End F) +
+          (ℓ : End F) ^ (n + 1) * φ d).asHom.app n := by
         refine congrArg (fun e : End F => e.asHom.app n) ?_
         conv_lhs => rw [hd]
         rw [map_add, map_mul, map_pow, map_natCast, map_natCast]
@@ -228,11 +229,11 @@ public theorem LAdicSheaf.stalkMap_scalarEnd (F : LAdicSheaf B X ℓ) (s : Geome
       (PadicInt.toZModPow (n + 1) c).val • 𝟙 _ := by
     rw [finiteLevelStalkMap_congr s n (φ := LAdicSheaf.scalarEnd F c)
       (ψ := (PadicInt.toZModPow (n + 1) c).val • 𝟙 F) rfl]
-    show finiteLevelStalkMapAddHom F F s n _ = _
+    change finiteLevelStalkMapAddHom F F s n _ = _
     rw [map_nsmul]
-    show _ • finiteLevelStalkMap (𝟙 F) s n = _
+    change _ • finiteLevelStalkMap (𝟙 F) s n = _
     rw [finiteLevelStalkMap_id]
-  show (finiteLevelStalkMap (LAdicSheaf.scalarEnd F c) s n).hom (v.1 n) =
+  change (finiteLevelStalkMap (LAdicSheaf.scalarEnd F c) s n).hom (v.1 n) =
     PadicInt.toZModPow (n + 1) c • v.1 n
   rw [h]
   exact val_nsmul_eq_smul _ (v.1 n)
@@ -273,6 +274,7 @@ public theorem LAdicSheaf.pow_nsmul_geometricCompactSupportPadicCohomology (F : 
       LAdicSheaf.pow_nsmul_id_padicLevel, Functor.map_zero]
   exact (ConcreteCategory.congr_hom h y : _)
 
+omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **Multiplication by `c ∈ ℤ_ℓ` acts on `Hⁱ_c(X_k̄, F)` as the scalar `c`.** -/
 public theorem LAdicSheaf.geometricCompactlySupportedCohomologyMap_scalarEnd
     (F : LAdicSheaf B X ℓ) (i : ℤ) (c : ℤ_[ℓ])
@@ -281,7 +283,7 @@ public theorem LAdicSheaf.geometricCompactlySupportedCohomologyMap_scalarEnd
       (LAdicSheaf.scalarEnd F c) i).hom v = c • v := by
   refine Concrete.limit_ext _ _ _ fun n => ?_
   induction n using Opposite.rec with | op n => ?_
-  show (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar
+  change (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar
       (LAdicSheaf.scalarEnd F c) i ≫
     LAdicSheaf.geometricCompactlySupportedCohomologyπ B X ℓ f j kbar F i n).hom v =
     (LAdicSheaf.geometricCompactlySupportedCohomologyπ B X ℓ f j kbar F i n).hom (c • v)
@@ -334,7 +336,6 @@ public instance stalk_isScalarTower (s : GeometricPoint X.1) :
     IsScalarTower ℤ_[ℓ] O (LAdicSheaf.stalk B X ℓ F.toLAdicSheaf s) where
   smul_assoc c o v := by
     rw [smul_stalk_def, smul_stalk_def, Algebra.smul_def, map_mul, End.mul_asHom, act_algebraMap]
-    change LAdicSheaf.stalkMap ((F.act o).asHom ≫ LAdicSheaf.scalarEnd F.toLAdicSheaf c) s v = _
     rw [LAdicSheaf.stalkMap_comp, LinearMap.comp_apply, LAdicSheaf.stalkMap_scalarEnd]
 
 /-- **The action of an endomorphism of the geometric point (e.g. the geometric Frobenius) on the
@@ -366,12 +367,15 @@ public instance compactlySupportedCohomologyModule (i : ℤ) :
     ((LAdicSheaf.geometricCompactlySupportedCohomologyEndRingHom f j kbar F.toLAdicSheaf i).comp
       F.act)
 
+omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- `o ∈ O` acts on `Hⁱ_c(X_k̄, F)` as the map induced by its action on the sheaf. -/
 public theorem smul_compactlySupportedCohomology_def (i : ℤ) (o : O)
     (v : LAdicSheaf.geometricCompactlySupportedCohomology B X ℓ f j kbar F.toLAdicSheaf i) :
-    o • v = (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar (F.act o).asHom i).hom v :=
+    o • v =
+      (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar (F.act o).asHom i).hom v :=
   rfl
 
+omit [Fintype k] in
 /-- The `O`-module structure on `Hⁱ_c(X_k̄, F)` extends its `ℤ_ℓ`-module structure. -/
 public instance compactlySupportedCohomology_isScalarTower (i : ℤ) :
     IsScalarTower ℤ_[ℓ] O
@@ -379,8 +383,6 @@ public instance compactlySupportedCohomology_isScalarTower (i : ℤ) :
   smul_assoc c o v := by
     rw [smul_compactlySupportedCohomology_def, smul_compactlySupportedCohomology_def,
       Algebra.smul_def, map_mul, End.mul_asHom, act_algebraMap]
-    change (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar
-      ((F.act o).asHom ≫ LAdicSheaf.scalarEnd F.toLAdicSheaf c) i).hom v = _
     rw [LAdicSheaf.geometricCompactlySupportedCohomologyMap_comp, ModuleCat.hom_comp,
       LinearMap.comp_apply, LAdicSheaf.geometricCompactlySupportedCohomologyMap_scalarEnd]
 
@@ -399,6 +401,7 @@ public def geometricCompactlySupportedFrobenius (p q : ℕ) [Fact p.Prime] [Char
       (LAdicSheaf.geometricCompactlySupportedCohomologyMap_frobenius f j kbar p q hcard
         (F.act o).asHom i) v
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- Restricted to `ℤ_ℓ`, the `O`-linear `π_X^*` on `Hⁱ_c(X_k̄, F)` is the `ℤ_ℓ`-linear one. -/
 public theorem geometricCompactlySupportedFrobenius_restrictScalars (p q : ℕ) [Fact p.Prime]
     [CharP k p] (hcard : Fintype.card k = p ^ q) (i : ℤ) :
@@ -447,9 +450,9 @@ public def matrixEndRingHom : Matrix ι ι (End A) →+* End (⨁ fun _ : ι => 
     rw [Category.id_comp, biproduct.ι_π, Matrix.one_apply]
     by_cases h : i = k
     · subst h
-      rw [if_pos rfl, dif_pos rfl, eqToHom_refl]
+      rw [ite_eq_left rfl, dite_eq_left rfl, eqToHom_refl]
       rfl
-    · rw [if_neg (Ne.symm h), dif_neg h] <;> rfl
+    · rw [ite_eq_right (Ne.symm h), dite_eq_right h]; rfl
   map_mul' M N := End.ext <| pow_hom_ext A ι fun i k => by
     dsimp only
     rw [ι_matrix_π A ι (fun i j => (M * N) j i)]
@@ -457,7 +460,7 @@ public def matrixEndRingHom : Matrix ι ι (End A) →+* End (⨁ fun _ : ι => 
       (fun i j => (N j i).asHom) ≫ biproduct.matrix (f := fun _ : ι => A) (g := fun _ : ι => A)
         (fun i j => (M j i).asHom)) ≫ biproduct.π _ k
     rw [Category.assoc, biproduct.matrix_π, biproduct.matrix_desc, biproduct.ι_desc,
-      Matrix.mul_apply, End.sum_asHom] <;> rfl
+      Matrix.mul_apply, End.sum_asHom]; rfl
   map_zero' := End.ext <| pow_hom_ext A ι fun i k => by
     dsimp only
     rw [ι_matrix_π A ι (fun i j => (0 : Matrix ι ι (End A)) j i)]
@@ -472,7 +475,7 @@ public def matrixEndRingHom : Matrix ι ι (End A) →+* End (⨁ fun _ : ι => 
       (fun i j => (M j i).asHom) + biproduct.matrix (f := fun _ : ι => A) (g := fun _ : ι => A)
         (fun i j => (N j i).asHom)) ≫ biproduct.π _ k
     rw [Preadditive.add_comp, Preadditive.comp_add, ι_matrix_π A ι (fun i j => M j i),
-      ι_matrix_π A ι (fun i j => N j i), Matrix.add_apply] <;> rfl
+      ι_matrix_π A ι (fun i j => N j i), Matrix.add_apply]; rfl
 
 /-- The components of the action of a matrix. -/
 public theorem ι_matrixEndRingHom_π (M : Matrix ι ι (End A)) (i k : ι) :

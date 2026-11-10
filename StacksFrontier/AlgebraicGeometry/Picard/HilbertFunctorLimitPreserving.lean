@@ -85,15 +85,14 @@ with values in the schemes over `X`. -/
 def ambientFunctor {S : Scheme.{u}} (X : Over S) : Over S ⥤ Over X.left where
   obj T := Over.mk (pullback.fst X.hom T.hom)
   map g := Over.homMk (familyBaseChangeMap X g) (by
-    simp [familyBaseChangeMap, pullback.map, pullback.lift_fst])
+    simp [familyBaseChangeMap, pullback.map])
   map_id T := by
     ext
     apply pullback.hom_ext <;> simp [familyBaseChangeMap, pullback.map]
   map_comp f g := by
     ext
     apply pullback.hom_ext <;>
-      simp [familyBaseChangeMap, pullback.map, Category.assoc,
-        pullback.lift_fst, pullback.lift_snd, pullback.lift_snd_assoc]
+      simp [familyBaseChangeMap, pullback.map, Category.assoc]
 
 /-- Comparison of the ambient scheme functor with `CategoryTheory.Over.pullback`: the two differ
 by the order of the factors of the fibre product. -/

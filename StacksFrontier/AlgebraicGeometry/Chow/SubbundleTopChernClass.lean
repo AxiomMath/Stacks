@@ -371,7 +371,8 @@ scheme is `N' ⊆ N`; for an integral closed subscheme `Y ⊆ X` the preimages `
 `(p')^{-1}Y` are integral with the expected `δ`-dimensions, so that `p^*[Y] = [p^{-1}Y]` and
 `(p')^*[Y] = [(p')^{-1}Y]`, and the restriction of `s` to `p^{-1}Y` cuts out `(p')^{-1}Y` by a
 regular sequence; Tag 0FA9 then gives the displayed equality. None of those ingredients is in
-this repository — the canonical section of `p^*ℰ` is not constructed, and Tag 0FA9 is formalized only
+this repository — the canonical section of `p^*ℰ` is not constructed, and Tag 0FA9 is formalized
+only
 with its reduced case assumed and only at rank one — so the equality is carried as a hypothesis.
 
 It is not the tag's own equality: the cap product here is taken on the test scheme `N` with the

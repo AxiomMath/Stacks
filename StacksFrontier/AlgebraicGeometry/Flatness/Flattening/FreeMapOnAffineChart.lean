@@ -76,7 +76,7 @@ private theorem isIso_freeGeneratingSections_ofEpi_inv
     IsIso ((SheafOfModules.free.generatingSections I).ofEpi e.inv).π := by
   rw [SheafOfModules.GeneratingSections.ofEpi_π, SheafOfModules.free.generatingSections_π]
   dsimp [SheafOfModules.free.generatingSections]
-  show IsIso (𝟙 (SheafOfModules.free I) ≫ e.inv)
+  change IsIso (𝟙 (SheafOfModules.free I) ≫ e.inv)
   simpa only [Category.id_comp] using e.isIso_inv
 
 /-- A map of modules conjugated by two isomorphisms stays an isomorphism after pullback to an
@@ -204,7 +204,7 @@ theorem exists_affineOpen_freeMap_isIso_surjective {Z T : Scheme.{u}} (q : Z ⟶
     rw [← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply, hj]
     exact hv
   have hvj : W₁.ι v = Z.homOfLE hle w.1 := (q ⁻¹ᵁ A₀).ι.isOpenEmbedding.injective hvz
-  show (Z.homOfLE hle) w.1 ∈ W₁
+  change (Z.homOfLE hle) w.1 ∈ W₁
   rw [← hvj]
   exact v.2
 

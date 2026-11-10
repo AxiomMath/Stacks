@@ -127,7 +127,7 @@ along the affine-spectrum functor, which is continuous. -/
 public theorem isSheaf_affineSectionFunctor (F : SheafOfModules.{max u m} B.structureSheaf) :
     Presheaf.IsSheaf (affineSubsiteTopology B)
       (affineSectionFunctor.{u, max u m} B F A (𝟙 (Spec A))).presheaf := by
-  show Presheaf.IsSheaf (affineSubsiteTopology B)
+  change Presheaf.IsSheaf (affineSubsiteTopology B)
     ((affineSpecOver B A (𝟙 (Spec A))).op ⋙ F.val.presheaf)
   exact (affineSpecOver B A (𝟙 (Spec A))).op_comp_isSheaf_of_isSheaf
     (affineSubsiteTopology B) B.topology F.val.presheaf F.isSheaf

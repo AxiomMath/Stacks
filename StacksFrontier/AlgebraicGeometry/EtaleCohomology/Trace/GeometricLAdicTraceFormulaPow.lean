@@ -50,7 +50,7 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) (ℓ : ℕ) [Fact ℓ.Prime]
   [∀ (n : ℕ) (T : B.Scheme), HasWeakSheafify (SmallEtale.topology B T.obj T.property)
     (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
   {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k)) [LocallyOfFiniteType f]
-  [QuasiCompact f] [IsSeparated f] (j : CompactificationOf (Over.mk f))
+  [QuasiCompact f] (j : CompactificationOf (Over.mk f))
   (kbar : Type u) [Field kbar] [IsAlgClosed kbar] [Algebra k kbar]
   (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
   [IsNoetherian X.1]
@@ -114,7 +114,7 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) (ℓ : ℕ) [Fact ℓ.Prime]
   [∀ (n : ℕ) (T : B.Scheme), HasWeakSheafify (SmallEtale.topology B T.obj T.property)
     (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
   {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k)) [LocallyOfFiniteType f]
-  [QuasiCompact f] [IsSeparated f] (j : CompactificationOf (Over.mk f))
+  [QuasiCompact f] (j : CompactificationOf (Over.mk f))
   (kbar : Type u) [Field kbar] [Algebra k kbar] [IsAlgClosure k kbar]
   (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
   [IsNoetherian X.1]

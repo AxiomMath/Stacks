@@ -99,7 +99,7 @@ theorem locallyOfFiniteType_pY_bridgePushoutSituation
   have : Module.Finite k Γ(C.subscheme, ⊤) :=
     Stacks.AlgebraicGeometry.ProperSectionsGeom.moduleFinite_globalSections_of_isProper k
       (C.subschemeι ≫ (X ↘ Spec (.of k)))
-  show LocallyOfFiniteType (Spec.map (bridgeSectionsStructureMap (k := k) C))
+  change LocallyOfFiniteType (Spec.map (bridgeSectionsStructureMap (k := k) C))
   exact HasRingHomProperty.Spec_iff.mpr
     (inferInstanceAs (Algebra.FiniteType k Γ(C.subscheme, ⊤)))
 
@@ -195,7 +195,7 @@ theorem exists_isPullback_completedLocalRing_pushout_bridge
       (Scheme.IdealSheafData.inclusion
         (le_sup_left : C ≤ intersectionWithComplementaryCurveIdeal C)).appTop := by
     ext c
-    show eAlg.symm (algebraMap (Γ(C.subscheme, ⊤) : Type u) (∀ i, Ki i) c) = _
+    change eAlg.symm (algebraMap (Γ(C.subscheme, ⊤) : Type u) (∀ i, Ki i) c) = _
     rw [eAlg.symm.commutes, RingHom.algebraMap_toAlgebra]
   have hjaux : (Scheme.IdealSheafData.inclusion
         (le_sup_left : C ≤ intersectionWithComplementaryCurveIdeal C) ≫

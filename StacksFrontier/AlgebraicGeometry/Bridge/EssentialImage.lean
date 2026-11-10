@@ -96,7 +96,7 @@ private lemma restrictScalars_smul_eq_zero {C : Type*} [Category C]
     (U : Cᵒᵖ) (a : R.obj U) (ha : (α.app U).hom a = 0)
     (m : ((PresheafOfModules.restrictScalars α).obj M').obj U) :
     a • m = 0 := by
-  show a • (show (ModuleCat.restrictScalars (α.app U).hom).obj (M'.obj U) from m) = 0
+  change a • (show (ModuleCat.restrictScalars (α.app U).hom).obj (M'.obj U) from m) = 0
   rw [ModuleCat.restrictScalars.smul_def, ha, zero_smul]
   rfl
 
@@ -229,7 +229,7 @@ private lemma stalk_annihilates_of_structureMap_eq_zero
     exact hm₀
   have hmapW : (i.hom.c.app (op W)).hom aW = 0 := by
     have heq : (i.hom.c.app (op W)).hom aW = (q.map iWU₀.op).hom q₀ := by
-      show ((X.presheaf.map iWU₀.op ≫ i.hom.c.app (op W)).hom) a₀ =
+      change ((X.presheaf.map iWU₀.op ≫ i.hom.c.app (op W)).hom) a₀ =
         ((i.hom.c.app (op U₀) ≫ q.map iWU₀.op).hom) a₀
       rw [i.hom.c.naturality iWU₀.op]
     exact heq.trans (by simpa using hqzero)
@@ -357,7 +357,7 @@ private lemma modulePullback_unit_stalk_bijective_at_image
           ((PresheafOfModules.toPresheaf (structureSheafRing X).obj).obj
             ((modulePullback i ⋙ modulePushforward i).obj G).val)
           V (i.hom.base z) hxV (η.val.app (op V) s) := by
-    show ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} (i.hom.base z)).map ηab)
+    change ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} (i.hom.base z)).map ηab)
         (TopCat.Presheaf.germ (C := AddCommGrpCat.{u})
           ((PresheafOfModules.toPresheaf (structureSheafRing X).obj).obj
             ((𝟭 (SheafOfModules (structureSheafRing X))).obj G).val)
@@ -377,7 +377,7 @@ private lemma modulePullback_unit_stalk_bijective_at_image
   intro m
   obtain ⟨V, hxV, s, rfl⟩ := TopCat.Presheaf.exists_germ_eq G.val.presheaf m
   refine (congrArg (fun t => ePull ((ConcreteCategory.hom pullSt) t)) (hηgerm V hxV s)).trans ?_
-  show ePull (TopCat.Presheaf.stalkPushforward AddCommGrpCat.{u} i.hom.base F.val.presheaf z
+  change ePull (TopCat.Presheaf.stalkPushforward AddCommGrpCat.{u} i.hom.base F.val.presheaf z
     (TopCat.Presheaf.germ (C := AddCommGrpCat.{u})
       ((TopCat.Presheaf.pushforward AddCommGrpCat.{u} i.hom.base).obj
         F.val.presheaf) V (i.hom.base z) hxV ((η.val.app (op V)) s))) = _
@@ -401,10 +401,10 @@ private lemma modulePullback_unit_stalk_bijective_off_range
   let q := (TopCat.Presheaf.pushforward CommRingCat.{u} i.hom.base).obj Z.presheaf
   have hzeroStructure : (TopCat.Presheaf.stalkFunctor CommRingCat.{u} x).map i.hom.c
       (1 : X.presheaf.stalk x) = 0 := by
-    show (ConcreteCategory.hom
+    change (ConcreteCategory.hom
       ((TopCat.Presheaf.stalkFunctor CommRingCat.{u} x).map i.hom.c)) 1 = 0
     rw [map_one]
-    show (1 : q.stalk x) = 0
+    change (1 : q.stalk x) = 0
     exact (subsingleton_of_isTerminal_commRingCat
       (ClosedImmersionSheaves.isTerminalStalkPushforwardOfNotMemRange
         i.hom.base Z.sheaf.property hi x hx)).elim _ _

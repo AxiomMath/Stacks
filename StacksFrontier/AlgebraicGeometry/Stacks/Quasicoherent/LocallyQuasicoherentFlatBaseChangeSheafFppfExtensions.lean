@@ -230,7 +230,7 @@ theorem isFlatOver_pi_overFamily {x : 𝒳} (F : PreZeroHypercover.{u} x)
   have hw : (∏ᶜ fun j ↦ Over.mk ((overFamily F).f (k j))).hom.left =
       (∏ᶜ fun j ↦ Over.mk ((overFamily F).f (k j))).left.hom := by
     simpa using Over.w (∏ᶜ fun j ↦ Over.mk ((overFamily F).f (k j))).hom
-  show Flat (B.inclusion.map (p.map (∏ᶜ fun j ↦ Over.mk ((overFamily F).f (k j))).left.hom).left)
+  change Flat (B.inclusion.map (p.map (∏ᶜ fun j ↦ Over.mk ((overFamily F).f (k j))).left.hom).left)
   rw [← hw]
   exact hprod.1
 
@@ -398,10 +398,10 @@ theorem epi_fppfToEtaleSheafOfModules_map_g_of_shortExact
   refine ⟨((PresheafOfModules.toPresheaf _).obj T.X₂.val).map l.op t, ?_⟩
   have hnat := NatTrans.naturality_apply ((PresheafOfModules.toPresheaf _).map T.g.val) l.op t
   refine hnat.trans ?_
-  show ((PresheafOfModules.toPresheaf _).obj T.X₃.val).map l.op
+  change ((PresheafOfModules.toPresheaf _).obj T.X₃.val).map l.op
     (((PresheafOfModules.toPresheaf _).map T.g.val).app (op Y.obj) t) = _
   rw [ht]
-  show (((PresheafOfModules.toPresheaf _).obj T.X₃.val).map m.op ≫
+  change (((PresheafOfModules.toPresheaf _).obj T.X₃.val).map m.op ≫
       ((PresheafOfModules.toPresheaf _).obj T.X₃.val).map l.op) s =
     ((PresheafOfModules.toPresheaf _).obj T.X₃.val).map f.op s
   rw [← Functor.map_comp, ← op_comp, hfac]

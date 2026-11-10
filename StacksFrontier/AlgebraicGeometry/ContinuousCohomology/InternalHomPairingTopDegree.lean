@@ -208,21 +208,21 @@ lemma ComplexPairing.topDegreePairing_homologyπ (P : ComplexPairing R φ A E G)
   have hc : (c : Cochain _ _ d) = P.homComplexMap.f d ((underlyingAb S A).iCycles d x) :=
     (CohomologyClass.coe_leftHomologyData_cyclesIso_hom _ _ d w).trans
       (ConcreteCategory.congr_hom (HomologicalComplex.cyclesMap_i P.homComplexMap d) x)
-  show CohomologyClass.homologyEval d (CochainComplex.HomComplex.homologyAddEquiv _ _ d
+  change CohomologyClass.homologyEval d (CochainComplex.HomComplex.homologyAddEquiv _ _ d
       (HomologicalComplex.homologyMap P.homComplexMap d ((underlyingAb S A).homologyπ d x)))
         ((underlyingAb R E).homologyπ 0 y) = _
   rw [h1, CohomologyClass.homologyAddEquiv_homologyπ]
-  show (HomologicalComplex.homologyMap (Cocycle.equivHomShift.symm c) 0)
+  change (HomologicalComplex.homologyMap (Cocycle.equivHomShift.symm c) 0)
       ((underlyingAb R E).homologyπ 0 y) = _
   refine (ConcreteCategory.congr_hom
     (HomologicalComplex.homologyπ_naturality (Cocycle.equivHomShift.symm c) 0) y).trans ?_
-  show ((underlyingAb ℤ G)⟦d⟧).homologyπ 0
+  change ((underlyingAb ℤ G)⟦d⟧).homologyπ 0
     (HomologicalComplex.cyclesMap (Cocycle.equivHomShift.symm c) 0 y) = _
   congr 1
   apply (AddCommGrpCat.mono_iff_injective (((underlyingAb ℤ G)⟦d⟧).iCycles 0)).1 inferInstance
   refine (ConcreteCategory.congr_hom
     (HomologicalComplex.cyclesMap_i (Cocycle.equivHomShift.symm c) 0) y).trans (h ▸ ?_)
-  show ((Cochain.rightShift (c : Cochain (underlyingAb R E) (underlyingAb ℤ G) d) d 0
+  change ((Cochain.rightShift (c : Cochain (underlyingAb R E) (underlyingAb ℤ G) d) d 0
     (zero_add d)).v 0 0 (add_zero 0))
       ((underlyingAb R E).iCycles 0 y) = _
   rw [Cochain.rightShift_v _ d 0 (zero_add d) 0 0 (add_zero 0) d (zero_add d), hc]
@@ -292,6 +292,7 @@ def traceTargetDerivedHomologyIso (d : ℤ) :
       ((DerivedCategory.singleFunctorIsoCompQ _ d).app (ratCircle.{v, w} Q)).symm ≪≫
     (DerivedCategory.singleFunctorCompHomologyFunctorIso _ d).app (ratCircle.{v, w} Q)
 
+omit [CompactSpace Q] in
 /-- **A lift `t : P ⟶ T` of the derived trace induces the trace on `H^d`**, in the derived
 category: `H^d(t)` followed by `H^d(T) ≅ ℚ/ℤ` is `tr`. -/
 theorem homologyFunctor_map_traceLift
@@ -317,6 +318,7 @@ def traceTargetHomologyIso (d : ℤ) : (traceTarget.{v, w} Q d).homology d ≅ r
   ((DerivedCategory.homologyFunctorFactors _ d).app (traceTarget.{v, w} Q d)).symm ≪≫
     traceTargetDerivedHomologyIso.{v, w} Q d
 
+omit [CompactSpace Q] in
 /-- **A lift `t : P ⟶ T` of the derived trace induces the trace on `H^d`**, on cohomology of
 complexes: `H^d(t)` followed by `H^d(T) ≅ ℚ/ℤ` is `tr`, read through `H^d(P) ≅ H^d(Q P)`. -/
 theorem homologyMap_traceLift

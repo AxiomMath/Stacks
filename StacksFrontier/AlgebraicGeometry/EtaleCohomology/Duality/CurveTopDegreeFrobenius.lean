@@ -52,7 +52,7 @@ theorem constantExtRestriction_geometricFrobeniusBaseChange_two_of_curve {ℓ : 
   have hN0 : ℓ ^ n ≠ 0 := (pow_pos hp.pos n).ne'
   have hNk : IsUnit (((ℓ ^ n : ℕ)) : K) := by rw [Nat.cast_pow]; exact hℓ.pow n
   have : NeZero (((ℓ ^ n : ℕ)) : K) := ⟨hNk.ne_zero⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot K (ℓ ^ n)
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot K (ℓ ^ n)
   let fY := pullback.snd Y.hom (specAlgebraMap k K)
   let g := geometricFrobeniusBaseChange Y K p f hcard
   have hg' : g ≫ fY = fY ≫ Spec.map (CommRingCat.ofHom (RingHom.id K)) := by

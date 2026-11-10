@@ -170,7 +170,7 @@ theorem exists_covering_refining_proetaleCovering (B : BigProetaleSite.{u}) (T :
   obtain ⟨-, β, hβX, hβf⟩ := hcomb'
   refine ⟨Rfam, hR, fun j ↦ ?_⟩
   have hbase : S.arrows (B.inclusion.map (Q.f (β j))) := by
-    show S.arrows (B.inclusion.map (f (β j).1 (β j).2.down ≫ V.f (β j).1))
+    change S.arrows (B.inclusion.map (f (β j).1 (β j).2.down ≫ V.f (β j).1))
     rw [Functor.map_comp]
     exact href (β j).1 (β j).2.down
   have hmem : S.arrows (B.inclusion.map (Rfam.f j)) := by

@@ -272,7 +272,7 @@ theorem dense_range_pointsMap_schemeStackMap_fractionField
       Spec (.of K) ⟶ Spec (.of R)) (IsLocalRing.closedPoint K) =
       genericPoint (Spec (.of R)) := by
     apply PrimeSpectrum.ext
-    show Ideal.comap (algebraMap R K) (IsLocalRing.maximalIdeal K) = _
+    change Ideal.comap (algebraMap R K) (IsLocalRing.maximalIdeal K) = _
     rw [genericPoint_eq_bot_of_affine, IsLocalRing.maximalIdeal_eq_bot,
       Ideal.comap_bot_of_injective _ (IsFractionRing.injective R K)]
     rfl

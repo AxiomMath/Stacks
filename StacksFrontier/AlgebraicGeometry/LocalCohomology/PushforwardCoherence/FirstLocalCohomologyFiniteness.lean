@@ -142,7 +142,7 @@ theorem primeIdealOf_top_eq_map (A : Type u) [CommRing A] (x : PrimeSpectrum A) 
     exact hx.symm.trans (PrimeSpectrum.comap_comp_apply
       (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom
       (Scheme.ΓSpecIso (CommRingCat.of A)).hom.hom x)
-  show y.asIdeal = Ideal.map (e : A →+* Γ(X, ⊤)) x.asIdeal
+  change y.asIdeal = Ideal.map (e : A →+* Γ(X, ⊤)) x.asIdeal
   ext s
   rw [hy, PrimeSpectrum.comap_asIdeal, Ideal.mem_comap,
     Ideal.mem_map_iff_of_surjective (e : A →+* Γ(X, ⊤)) e.surjective]
@@ -224,14 +224,14 @@ theorem subschemeIsoSpecQuotient_hom_comp_subschemeι (A : Type u) [CommRing A]
     congr 1
     apply CommRingCat.hom_ext
     ext a
-    show (subschemeQuotientEquiv A W J hW).symm
+    change (subschemeQuotientEquiv A W J hW).symm
       (Ideal.Quotient.mk (W.ideal V) ((Scheme.ΓSpecIso (CommRingCat.of A)).inv a)) =
         Ideal.Quotient.mk J a
     apply (subschemeQuotientEquiv A W J hW).injective
     rw [RingEquiv.apply_symm_apply]
     exact (Ideal.quotientEquiv_mk J (W.ideal V)
       (Scheme.ΓSpecIso (CommRingCat.of A)).commRingCatIsoToRingEquiv.symm _ a).symm
-  show Spec.map (subschemeQuotientEquiv A W J hW).toCommRingCatIso.inv ≫
+  change Spec.map (subschemeQuotientEquiv A W J hW).toCommRingCatIso.inv ≫
     (W.subschemeCover.f V ≫ W.subschemeι) = _
   exact (congrArg (Spec.map (subschemeQuotientEquiv A W J hW).toCommRingCatIso.inv ≫ ·) step).trans
     tail
@@ -444,7 +444,7 @@ theorem forall_quotientPrime_iff (A : Type u) [CommRing A] (I p : Ideal A)
       (h ⟨_, this⟩ (by simpa only [PrimeSpectrum.comap, Ideal.comap_map_mk hpq] using hq))
   · let q := PrimeSpectrum.comap (Ideal.Quotient.mk p) z
     have hpq : p ≤ q.asIdeal := fun a ha => by
-      show Ideal.Quotient.mk p a ∈ z.asIdeal
+      change Ideal.Quotient.mk p a ∈ z.asIdeal
       rw [Ideal.Quotient.eq_zero_iff_mem.mpr ha]
       exact z.asIdeal.zero_mem
     have heq : q.asIdeal.map (Ideal.Quotient.mk p) = z.asIdeal :=
@@ -516,7 +516,7 @@ theorem one_le_ringKrullDim_quotient_adicCompletion_localization (A : Type u) [C
         (Localization.AtPrime z.asIdeal)) r) :
     1 ≤ ringKrullDim (AdicCompletion (maximalIdeal (Localization.AtPrime z.asIdeal))
       (Localization.AtPrime z.asIdeal) ⧸ r) := by
-  obtain ⟨a, haI, hap⟩ := SetLike.not_le_iff_exists.mp hpI
+  obtain ⟨a, haI, hap⟩ := IsConcreteLE.not_le_iff_exists.mp hpI
   let B := Localization.AtPrime z.asIdeal
   let b := Ideal.Quotient.mk p.asIdeal a
   have hbl : algebraMap (A ⧸ p.asIdeal) B b ≠ 0 := fun h =>
@@ -548,7 +548,7 @@ theorem isAssociatedPoint_tilde_iff (A : Type u) [CommRing A] [IsNoetherianRing 
   let f : M ≃+ Γ(G, ⊤) := (tilde.isoTop (R := CommRingCat.of A) M).toLinearEquiv.toAddEquiv
   have hf : ∀ r m, f (r • m) = e r • f m := by
     intro r m
-    show (tilde.isoTop (R := CommRingCat.of A) M).hom (r • m) = _
+    change (tilde.isoTop (R := CommRingCat.of A) M).hom (r • m) = _
     rw [map_smul]
     exact Scheme.Modules.smul_Spec_def r (f m)
   have h := isAssociatedPrimeStacks_iff_of_semilinear e f hf (p := p.asIdeal)

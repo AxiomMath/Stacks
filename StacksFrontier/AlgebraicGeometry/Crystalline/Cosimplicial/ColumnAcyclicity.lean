@@ -269,8 +269,7 @@ private theorem tensor_map_map_eq_self {R S : Type*} [CommRing R] [CommRing S] {
     {f : M →ₛₗ[σ] M'} {g : N →ₛₗ[σ] N'} {f' : M' →ₛₗ[τ] M} {g' : N' →ₛₗ[τ] N}
     (hf : ∀ x, f' (f x) = x) (hg : ∀ y, g' (g y) = y) (z : M ⊗[R] N) :
     TensorProduct.map f' g' (TensorProduct.map f g z) = z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul y ω => rw [TensorProduct.map_tmul, TensorProduct.map_tmul, hf, hg]
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -730,8 +729,7 @@ theorem columnTensorShapeMapₛₗ_natural (a : ℕ) (ha : 0 < a) {n m : Simplex
       (MonoidalCategory.tensorObj (columnModule s f hf W)
         (columnFormsModule s f hf a)).restrictₛₗ φ.op.op
         (columnTensorShapeMapₛₗ s f hf W a ha n z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul y ω =>
     rw [columnTensorShapeMapₛₗ_apply, columnTensorShapeMapₛₗ_apply,
       TensorProduct.map_tmul, TensorProduct.map_tmul, TensorProduct.map_tmul,

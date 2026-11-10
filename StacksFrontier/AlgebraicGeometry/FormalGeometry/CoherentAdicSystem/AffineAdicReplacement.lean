@@ -269,7 +269,7 @@ public theorem exists_coherentAdicSystem_of_affineAdicReplacement
   refine ⟨N, e, σ, fun n => ?_, fun c hker₀ n => ?_, fun c hcok₀ n => ?_⟩
   · -- compatibility with `τ`
     refine hext ?_
-    show E.map (τ.app _ ≫ φs n) = E.map (F.obj.map _ ≫ s (op n))
+    change E.map (τ.app _ ≫ φs n) = E.map (F.obj.map _ ≫ s (op n))
     rw [E.map_comp, E.map_comp, hs, hφs, ← Category.assoc]
     exact (congrArg (· ≫ (v (op n)).hom) (hσ₀ n)).trans (Category.assoc _ _ _)
   · -- the kernel

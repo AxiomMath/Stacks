@@ -129,7 +129,7 @@ theorem yonedaToPoints_naturality (F : C ⥤ Over S) {X Y : C} (g : X ⟶ Y) :
     yonedaToPoints F X ≫ F.op.whiskerLeft (yoneda.map (F.map g)) =
       yoneda.map g ≫ yonedaToPoints F Y := by
   ext T h
-  show F.map h ≫ F.map g = F.map (h ≫ g)
+  change F.map h ≫ F.map g = F.map (h ≫ g)
   rw [F.map_comp]
 
 /-- The comparison morphism carries the source map of a pre-relation on the image of `X` to the
@@ -222,7 +222,7 @@ theorem exists_iso_quotientSheaf_of_descent (F : C ⥤ Over S) [F.Full] [F.Faith
         (𝟙 (quotientSheaf J F j)) := by
       rw [quotientSheafDesc_unique J F j (quotientSheaf J F j) (toQuotientSheaf J F j)
         (sourceMap_toQuotientSheaf J F j) ⟨p ≫ q⟩ (by
-          show toQuotientSheaf J F j ≫ p ≫ q = toQuotientSheaf J F j
+          change toQuotientSheaf J F j ≫ p ≫ q = toQuotientSheaf J F j
           rw [← Category.assoc, htp, Category.assoc, hq, hchart, ← Category.assoc,
             hyi', Category.id_comp]),
         quotientSheafDesc_unique J F j (quotientSheaf J F j) (toQuotientSheaf J F j)
@@ -284,7 +284,7 @@ theorem exists_iso_yoneda_of_descent_of_represents (F : C ⥤ Over S) [F.Full] [
   refine ⟨π₀, e₁ ≪≫ asIso q.hom ≪≫ (asIso (yonedaToPoints F V₀)).symm, ?_⟩
   have hstep : f ≫ e₁.hom ≫ q.hom = yoneda.map π₀ ≫ yonedaToPoints F V₀ := by
     rw [← Category.assoc, he₁]
-    show yonedaToPoints F X ≫ toQuotientSheaf J F j ≫ q.hom = _
+    change yonedaToPoints F X ≫ toQuotientSheaf J F j ≫ q.hom = _
     rw [hqfac, ← hπ₀]
     exact yonedaToPoints_naturality F π₀
   simp [reassoc_of% hstep]

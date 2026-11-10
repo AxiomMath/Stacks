@@ -243,7 +243,7 @@ Koszul transition map postcomposed with `K → A`. -/
 public theorem KoszulTateStage.proTransition_up (t : KoszulTateStage f m')
     (s : KoszulTateStage f m) (x : ExteriorAlgebra R (Fin r → R)) :
     t.proTransition s (t.up x) = s.up (koszulPowerTransitionHom f t.topPower m' x) := by
-  show s.up (t.down (t.up x)) = _
+  change s.up (t.down (t.up x)) = _
   rw [t.down_up]
 
 /-- The lower square of the ladder: the Tate transition map postcomposed with `A → K` is the
@@ -251,7 +251,7 @@ Koszul transition map precomposed with `A' → K'`. -/
 public theorem KoszulTateStage.down_proTransition (t : KoszulTateStage f m')
     (s : KoszulTateStage f m) (a : t.A.carrier) :
     s.down (t.proTransition s a) = koszulPowerTransitionHom f s.topPower m (t.down a) := by
-  show s.down (s.up (t.down a)) = _
+  change s.down (s.up (t.down a)) = _
   rw [s.down_up]
 
 /-- The Tate transition map preserves degrees. -/
@@ -265,7 +265,7 @@ public theorem KoszulTateStage.proTransition_d (t : KoszulTateStage f m')
     (s : KoszulTateStage f m) (h : m' = s.topPower) (a : t.A.carrier) :
     t.proTransition s (t.d a) = s.d (t.proTransition s a) := by
   subst h
-  show s.up (t.down (t.d a)) = s.d (s.up (t.down a))
+  change s.up (t.down (t.d a)) = s.d (s.up (t.down a))
   rw [t.down_d, s.up_d]
 
 /-- The Tate transition map preserves divided powers. -/
@@ -273,7 +273,7 @@ public theorem KoszulTateStage.proTransition_dpow (t : KoszulTateStage f m')
     (s : KoszulTateStage f m) (k : ℕ) (a : t.A.carrier)
     (ha : a ∈ positiveEvenPart t.A.grade) :
     t.proTransition s (t.A.gamma.dpow k a) = s.A.gamma.dpow k (t.proTransition s a) := by
-  show s.up (t.down (t.A.gamma.dpow k a)) = s.A.gamma.dpow k (s.up (t.down a))
+  change s.up (t.down (t.A.gamma.dpow k a)) = s.A.gamma.dpow k (s.up (t.down a))
   rw [t.down_dpow k a ha,
     s.up_dpow k _ (algHom_mem_positiveEvenPart t.A.grade (exteriorGrade R (Fin r → R))
       t.down t.down_grade ha)]

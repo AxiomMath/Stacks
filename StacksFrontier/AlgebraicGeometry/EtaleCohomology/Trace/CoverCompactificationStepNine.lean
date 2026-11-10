@@ -84,7 +84,7 @@ lemma openOverAut_comp_openOverHom (a : V ≅ V) (ha : a.hom ≫ f = f) :
   ext1
   exact (C.j_comp_extend pU hjU a.hom ha).symm
 
-omit [IsCurve k pU] [Smooth pU] in
+omit [PerfectField k] [IsCurve k pU] [Smooth pU] [IsOpenImmersion jU] [IsFinite f] [Etale f] in
 /-- Over `k`, the inclusion `W ⟶ V̄` intertwines the restriction of `σ_a` to `W` with `σ_a`. -/
 lemma boundaryOverAut_comp_boundaryOverHom (a : V ≅ V) (ha : a.hom ≫ f = f) :
     C.boundaryOverAut hjU a ha ≫ C.boundaryOverHom = C.boundaryOverHom ≫ C.extendOver hjU a ha := by
@@ -114,6 +114,7 @@ section BaseChange
 variable {k : Type u} [Field k] [Fintype k] {Z Y : Over (Spec (.of k))} (i : Z ⟶ Y) (kbar : Type u)
   [Field kbar] [Algebra k kbar]
 
+omit [Fintype k] in
 /-- The base change to `k̄` of an open immersion over `k` is an open immersion. -/
 lemma isOpenImmersion_fieldBaseChangeMap [IsOpenImmersion i.left] :
     IsOpenImmersion (fieldBaseChangeMap i kbar) :=
@@ -122,6 +123,7 @@ lemma isOpenImmersion_fieldBaseChangeMap [IsOpenImmersion i.left] :
   MorphismProperty.pullbackMap (P := @IsOpenImmersion) (inferInstanceAs (IsOpenImmersion i.left))
     (inferInstanceAs (IsOpenImmersion (𝟙 _))) (Over.w i).symm (Category.id_comp _).symm
 
+omit [Fintype k] in
 /-- Base change to `k̄` is functorial. -/
 lemma fieldBaseChangeMap_comp {X : Over (Spec (.of k))} (i' : Y ⟶ X) :
     fieldBaseChangeMap (i ≫ i') kbar = fieldBaseChangeMap i kbar ≫ fieldBaseChangeMap i' kbar := by
@@ -153,7 +155,7 @@ variable {k : Type u} [Field k] [Fintype k] [PerfectField k] {U Ub V : Scheme.{u
   [CharP k p] [CharP kbar p] (hcard : Fintype.card k = p ^ q) (Λ : Type) [CommRing Λ]
   (N : CochainComplex.Plus (ModuleCat.{u + 1} Λ))
 
-omit [IsCurve k pU] [Smooth pU] in
+omit [IsCurve k pU] [Smooth pU] [IsOpenImmersion jU] [IsFinite f] [Etale f] in
 include hjU in
 /-- **Step 9 of [Stacks, Tag 03UG] on the compactification of a Galois cover.**  Let
 `f : V ⟶ U` be a connected finite étale cover of a smooth curve over the finite field `k` with
@@ -242,10 +244,10 @@ theorem perfectDerivedTrace_twistedFrobenius_coverCompactification_eq_zero
       (Set.range (fieldBaseChangeMap C.boundaryOverHom kbar).base)ᶜ := by
     have h1 := range_fieldBaseChangeMap C.openOverHom kbar
     have h2 := range_fieldBaseChangeMap C.boundaryOverHom kbar
-    show Set.range (fieldBaseChangeMap C.openOverHom kbar) = _
+    change Set.range (fieldBaseChangeMap C.openOverHom kbar) = _
     rw [h1, show Set.range (fieldBaseChangeMap C.boundaryOverHom kbar).base =
       Set.range (fieldBaseChangeMap C.boundaryOverHom kbar) from rfl, h2]
-    show _ ⁻¹' Set.range C.j.base = (_ ⁻¹' Set.range C.boundaryι.base)ᶜ
+    change _ ⁻¹' Set.range C.j.base = (_ ⁻¹' Set.range C.boundaryι.base)ᶜ
     rw [C.range_j_eq_compl, Set.preimage_compl]
   exact perfectDerivedTrace_twistedFrobenius_extensionByZeroConstant_eq_zero Λ C.toOver
     (C.extendOver hjU a ha) kbar p q hcard C.j C.boundaryι C.range_j_eq_compl a.hom

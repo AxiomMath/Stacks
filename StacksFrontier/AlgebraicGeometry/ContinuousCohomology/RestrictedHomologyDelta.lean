@@ -68,7 +68,7 @@ lemma invariant_character_eq_zero {c : CharacterModule V}
       intro a
       have h1 : c (σ g⁻¹⁻¹ (a • v)) = c (a • v) := DFunLike.congr_fun (hc g⁻¹) (a • v)
       rw [inv_inv] at h1
-      show c (a • (σ g v - v)) = 0
+      change c (a • (σ g v - v)) = 0
       rw [smul_sub, ← map_smul, map_sub, h1, sub_self]
     | zero => intro a; rw [smul_zero, map_zero]
     | add y z _ _ hy hz => intro a; rw [smul_add, map_add, hy, hz, add_zero]
@@ -112,11 +112,11 @@ theorem natCard_invariants_eq_natCard_coinvariants_characterRepresentation [Fini
   let P : Submodule Λᵐᵒᵖᵐᵒᵖ (CharacterModule (CharacterModule V)) :=
     { carrier := {c | ∀ g, characterRepresentation σ' g c = c}
       add_mem' := fun {a b} ha hb g ↦ by
-        show characterRepresentation σ' g (a + b) = a + b
+        change characterRepresentation σ' g (a + b) = a + b
         rw [map_add, ha g, hb g]
       zero_mem' := fun g ↦ map_zero _
       smul_mem' := fun r c hc g ↦ by
-        show characterRepresentation σ' g (r • c) = r • c
+        change characterRepresentation σ' g (r • c) = r • c
         rw [map_smul, hc g] }
   have : Finite (CharacterModule V) := CharacterModule.finite V
   have : Finite (Stacks.Trace.coinvariants σ') :=
@@ -125,12 +125,12 @@ theorem natCard_invariants_eq_natCard_coinvariants_characterRepresentation [Fini
     ← Nat.card_congr (invariantsCharacterEquiv σ' P fun _ ↦ Iff.rfl).toEquiv]
   have hev : ∀ (g : G) (v : V), characterRepresentation σ' g (AddMonoidHom.eval v) =
       AddMonoidHom.eval (σ g v) := fun g v ↦ DFunLike.ext _ _ fun c ↦ by
-    show c (σ g⁻¹⁻¹ v) = c (σ g v)
+    change c (σ g⁻¹⁻¹ v) = c (σ g v)
     rw [inv_inv]
   exact Nat.card_congr (Equiv.subtypeEquiv
     (Equiv.ofBijective (AddMonoidHom.eval : V →+ CharacterModule (CharacterModule V))
       (CharacterModule.eval_bijective V)) fun v ↦ by
-      show (∀ g, σ g v = v) ↔ ∀ g, characterRepresentation σ' g (AddMonoidHom.eval v) =
+      change (∀ g, σ g v = v) ↔ ∀ g, characterRepresentation σ' g (AddMonoidHom.eval v) =
         AddMonoidHom.eval v
       refine forall_congr' fun g ↦ ?_
       rw [hev]

@@ -296,7 +296,7 @@ theorem exists_comap_appTop_eq_of_iUnion_range_eq_univ {Z : Scheme.{u}} [IsAffin
     (Scheme.isoSpec_hom_naturality (g i))
   simp only [Scheme.Hom.comp_apply] at hnat
   have hid : Z.isoSpec.hom (Z.isoSpec.inv q) = q := by
-    show (Z.isoSpec.inv ≫ Z.isoSpec.hom) q = q
+    change (Z.isoSpec.inv ≫ Z.isoSpec.hom) q = q
     rw [Z.isoSpec.inv_hom_id]
     rfl
   rw [show PrimeSpectrum.comap (g i).appTop.hom ((Y i).isoSpec.hom y) =

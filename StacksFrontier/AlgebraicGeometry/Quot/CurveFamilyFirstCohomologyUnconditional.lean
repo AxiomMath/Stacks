@@ -284,7 +284,7 @@ theorem homology_representedAffineDerivedExtension {X : CurveFamily B hZ}
   have hw : gY ≫ Space.chartToSpace B integerBase hZ (schemeSpace X.base) V =
       schemeSpaceMap (X.baseChangeHom h).baseMap := by
     refine InducedCategory.hom_ext ?_
-    show yoneda.map w ≫ V.obj.hom = yoneda.map (w ≫ jV)
+    change yoneda.map w ≫ V.obj.hom = yoneda.map (w ≫ jV)
     rw [Functor.map_comp]
     congr 1
     exact (Functor.map_preimage yoneda

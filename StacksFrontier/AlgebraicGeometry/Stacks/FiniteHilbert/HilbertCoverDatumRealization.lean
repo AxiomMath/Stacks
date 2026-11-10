@@ -187,7 +187,7 @@ theorem exists_objectOver_isPullback_of_isPullback_toScheme
     rw [B.inclusion.map_comp, B.inclusion.map_comp, hpr' i, hw']
     exact (hpb i).w
   let pr : ∀ i, Zo i ⟶ Wo := fun i ↦ Over.homMk (pr' i) (by
-    show pr' i ≫ w' ≫ T.hom = (Zo i).hom
+    change pr' i ≫ w' ≫ T.hom = (Zo i).hom
     rw [← Category.assoc, hsq i, Category.assoc, Over.w (g i), Over.w (c i)])
   refine ⟨Wo, wo, pr, Iso.refl ((BigFppfOver.toScheme B S hS).obj Wo),
     by rwa [hwo], by simpa using hwo, fun i ↦ (Category.comp_id _).trans (hpr' i), fun i ↦ ?_⟩
@@ -228,7 +228,7 @@ theorem exists_fiber_isCartesian_of_isPullback_toScheme
   refine isCartesian_of_isHomLift (g i) _ ?_
   refine CategoryTheory.IsHomLift.of_fac'
     (finiteCoverProjection (B := B) (S := S) (hS := hS) (d := d)) (g i) _ rfl rfl ?_
-  show g i = eqToHom rfl ≫ g i ≫ eqToHom rfl
+  change g i = eqToHom rfl ≫ g i ≫ eqToHom rfl
   simp
 
 end Stack

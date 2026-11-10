@@ -113,7 +113,7 @@ theorem chartIdealPowHomEquiv_symm_apply (hZ : B.Contains (⊤_ Scheme.{u}))
       chartAlpha B S hS X I hIc G F hZ hN hIq hFq hG A k φ := by
   refine congrArg (chartSchemeModuleHomEquiv B S hS X (idealPowModule I k G) F
     (isQuasicoherentOnSite_idealPowModule B S hS X I G hZ hN hIq hG k) hFq A).symm ?_
-  show (chartSchemeModuleIsoChartPush B S hS X (idealPowModule I k G)
+  change (chartSchemeModuleIsoChartPush B S hS X (idealPowModule I k G)
         (isQuasicoherentOnSite_idealPowModule B S hS X I G hZ hN hIq hG k) A).hom ≫
       ((chartPushFactorIso B S hS X I hIc G hIq hG.toIsQuasicoherentOnSite A k).hom ≫ φ ≫
         (Iso.refl (chartPush B S hS X F A)).inv) ≫

@@ -121,6 +121,7 @@ theorem relativeDualizingComplex_eq_twistedInverseImage_obj (f : X ⟶ S) [IsPro
       (twistedInverseImage f (isQuasicoherent_homology_derivedPushforward_of_qcqs f)).obj ωS :=
   rfl
 
+omit [IsLocalRing Γ(S, ⊤)] in
 /-- **The chart description of `ω_X^• = f^!ω_S^•` over the affine open `⊤` of `S`**: for every
 affine `U ⊆ X` and every polynomial presentation of `Γ(S, ⊤) → Γ(X, U)`, the restriction
 `ω_X^•|_U` is the associated sheaf of the algebraic upper shriek of the model `ω_A^•`. This is
@@ -143,6 +144,7 @@ theorem hasTopCharts_relativeDualizingComplex (f : X ⟶ S) [IsProper f]
   exact fun U hU p => isTildeModelOnAnyModel_of_iso ((ObjectProperty.ι _).mapIso
     ((upperShriekProperIso (ftsHomToBase f)).app ωS)) (hcharts U hU p)
 
+omit [IsLocalRing Γ(S, ⊤)] in
 /-- **`ω_X^• = f^!ω_S^•` is a dualizing complex on `X`** ([Stacks, Tag 0AA3]): on each affine
 chart it is the algebraic upper shriek of a dualizing complex, which is dualizing, and dualizing
 complexes glue. -/
@@ -192,7 +194,7 @@ theorem relativeDualizingModule_eq_homology_neg_two (f : X ⟶ S) [IsProper f]
           (isQuasicoherent_homology_derivedPushforward_of_qcqs f) ωS).obj := by
   have hdeg : (-(ENat.toNat ((topologicalKrullDim X).getD 0) : ℤ)) = (-2 : ℤ) := by
     rw [hX]; rfl
-  show (DerivedCategory.homologyFunctor X.Modules
+  change (DerivedCategory.homologyFunctor X.Modules
     (-(ENat.toNat ((topologicalKrullDim X).getD 0) : ℤ))).obj _ = _
   rw [hdeg]
 

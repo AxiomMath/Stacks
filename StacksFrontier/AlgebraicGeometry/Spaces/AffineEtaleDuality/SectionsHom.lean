@@ -84,7 +84,7 @@ lemma homComplexSliceIso_hom_apply (n : ℤ)
       (RingedSite.restrictComplex (Xs A B hX) J V) n) (p q : ℤ) (hpq : p + n = q) :
     ((homComplexSliceIso P J V).hom.f n z).down.v p q hpq =
       sliceHomAddEquiv (P.X p) (J.X q) V (z.v p q hpq) := by
-  show (cochainAddEquiv (sliceHomAddEquivs P J V) n z).v p q hpq = _
+  change (cochainAddEquiv (sliceHomAddEquivs P J V) n z).v p q hpq = _
   rw [cochainAddEquiv_v]
 
 /-- **The sections over `V` of `SheafHom^•(ε^* P̃, J)` are `Hom^•_A(P, J(V))`**, up to the

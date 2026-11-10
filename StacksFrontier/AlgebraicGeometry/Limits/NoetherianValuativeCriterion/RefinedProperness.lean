@@ -155,7 +155,7 @@ private theorem exists_isAffine_denseRange_refinement {U X : Scheme.{u}} (h : U 
   have : LocallyOfFiniteType q := IsZariskiLocalAtSource.sigmaDesc fun i => inferInstance
   let e := AlgebraicGeometry.sigmaMk (fun i : C.I₀ => C.X i)
   have hqeval (i : C.I₀) (y : C.X i) : q (e ⟨i, y⟩) = C.f i y := by
-    rw [AlgebraicGeometry.sigmaMk_mk, ← Scheme.Hom.comp_apply, Sigma.ι_desc]
+    rw [AlgebraicGeometry.sigmaMk_mk, ← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
   have : QuasiCompact q := by
     apply (quasiCompact_iff_forall_isAffineOpen (f := q)).2
     intro V hV
@@ -165,7 +165,7 @@ private theorem exists_isAffine_denseRange_refinement {U X : Scheme.{u}} (h : U 
       obtain ⟨⟨i, y⟩, rfl⟩ := e.surjective x
       rw [e.injective.mem_set_image]
       simp [Set.mem_sigma_iff, hqeval]
-    show IsCompact (q ⁻¹' (V : Set U))
+    change IsCompact (q ⁻¹' (V : Set U))
     rw [hpre]
     exact (Set.isCompact_sigma Set.finite_univ fun i _ =>
       QuasiCompact.isCompact_preimage (f := C.f i) (U := (V : Set U)) V.2 hV.isCompact).image
@@ -300,7 +300,7 @@ private theorem liftCondition_morphismRestrict {U X S : Scheme.{u}} (h : U ⟶ X
     refine ⟨⟨b.base a, ?_⟩, rfl⟩
     have hval : f.base (b.base a) = iS.base (D.i₂.base a) := by
       simpa [D₀] using congrArg (fun k : Spec (.of D.R) ⟶ S => k a) hb₂
-    show f.base (b.base a) ∈ V
+    change f.base (b.base a) ∈ V
     rw [hval]
     exact (D.i₂.base a).property
   refine ⟨IsOpenImmersion.lift iX b hrange, ?_, ?_⟩
@@ -351,7 +351,7 @@ theorem isProper_of_exists_discreteLift_of_denseRange
       refine le_antisymm le_top ?_
       rw [← X.affineCover.iSup_opensRange]
       exact iSup_le fun j => le_iSup_of_le (some j) le_rfl
-    show DenseRange (h ∣_ (f ⁻¹ᵁ V)).base
+    change DenseRange (h ∣_ (f ⁻¹ᵁ V)).base
     rw [morphismRestrict_base]
     exact (TopologicalSpace.IsOpenCover.denseRange_iff_restrictPreimage hcover).mp hdense none
   exact isProper_of_exists_discreteLift_of_denseRange_of_compactSpace h0208

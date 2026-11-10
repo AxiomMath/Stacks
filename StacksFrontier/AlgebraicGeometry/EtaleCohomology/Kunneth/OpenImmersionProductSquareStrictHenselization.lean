@@ -93,8 +93,8 @@ theorem isIso_higherBaseChangeMapAb_of_isPullback_strictHenselizationToBase
   let pE : E ⟶ (Functor.const (nbhdIndex a₀)ᵒᵖ).obj X :=
     { app := fun i => (N.obj i).hom
       naturality := fun i i' a => by
-        show (N.map a).left ≫ (N.obj i').hom = (N.obj i).hom ≫ 𝟙 X
-        simpa using (N.map a).w }
+        change (N.map a).left ≫ (N.obj i').hom = (N.obj i).hom ≫ 𝟙 X
+        simp }
   have : ∀ i, Etale (pE.app i) := fun i => (N.obj i).prop
   have hcE : ∀ i, c.π.app i ≫ pE.app i = strictHenselizationToBase B X hS s :=
     nbhdCone_π_comp_hom B X hS s Gα a₀

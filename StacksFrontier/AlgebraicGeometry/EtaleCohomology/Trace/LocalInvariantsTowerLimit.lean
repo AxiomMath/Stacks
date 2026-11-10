@@ -129,7 +129,7 @@ public def towerLimitLift : I →ₗ[ℤ_[ℓ]] (limit C : ModuleCat.{w} ℤ_[�
 public theorem towerLimitLift_π (n : ℕ) (v : I) :
     (limit.π C (op n)).hom (towerLimitLift ε hε hεs I hI t hεt C Ψ hΨ v) =
       (Ψ n).hom (towerLevelLift ε hε hεs I hI n v) := by
-  show ((limit.lift C (towerLimitCone ε hε hεs I hI t hεt C Ψ hΨ) ≫ limit.π C (op n)).hom
+  change ((limit.lift C (towerLimitCone ε hε hεs I hI t hεt C Ψ hΨ) ≫ limit.π C (op n)).hom
     (ULift.up v)) = _
   rw [limit.lift_π]
   rfl
@@ -173,7 +173,7 @@ public theorem towerLimitLift_mulVec [PreservesLimit C (forget (ModuleCat.{w} �
       c (towerLimitLift ε hε hεs I hI t hεt C Ψ hΨ v) := by
   refine Concrete.limit_ext C _ _ fun n => ?_
   induction n using Opposite.rec with | op n => ?_
-  show (limit.π C (op n)).hom _ = (limit.π C (op n)).hom _
+  change (limit.π C (op n)).hom _ = (limit.π C (op n)).hom _
   rw [hc, towerLimitLift_π, towerLimitLift_π, ← hac]
   congr 1
   refine towerLevelLift_eq ε hε hεs I hI n _ _ ?_
@@ -289,7 +289,7 @@ public theorem injective_rationalLift (hL : Function.Injective L) :
     Function.Injective (rationalLift H L) := by
   have : Module.Flat ℤ_[ℓ] ℚ_[ℓ] := IsLocalization.flat ℚ_[ℓ] (nonZeroDivisors ℤ_[ℓ])
   have h : Function.Injective (L.baseChange ℚ_[ℓ]) := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap L hL
   exact (extendScalarsPadicEquiv H).symm.injective.comp
     (h.comp (isBaseChange_integralSubmoduleInclusion Irat).equiv.symm.injective)
@@ -305,7 +305,7 @@ public theorem rationalLift_mulVec (A : Matrix (Fin r) (Fin r) ℤ_[ℓ]) (c : H
         (rationalLift H L z) := by
   obtain ⟨N, v, hv⟩ := exists_padicVecInclusion_eq_pow_smul (z : Fin r → ℚ_[ℓ])
   have hvI : v ∈ integralSubmodule Irat := by
-    show padicVecInclusion v ∈ Irat
+    change padicVecInclusion v ∈ Irat
     rw [hv]
     exact Irat.smul_mem _ z.2
   have hAv : padicVecInclusion (A *ᵥ v) =
@@ -314,13 +314,13 @@ public theorem rationalLift_mulVec (A : Matrix (Fin r) (Fin r) ℤ_[ℓ]) (c : H
     funext i
     exact RingHom.map_mulVec (algebraMap ℤ_[ℓ] ℚ_[ℓ]) A v i
   have hAvI : A *ᵥ v ∈ integralSubmodule Irat := by
-    show padicVecInclusion (A *ᵥ v) ∈ Irat
+    change padicVecInclusion (A *ᵥ v) ∈ Irat
     rw [hAv]
     exact Irat.smul_mem _ hz
   have hℓ : ((ℓ : ℚ_[ℓ]) ^ N) ≠ 0 :=
     pow_ne_zero _ (Nat.cast_ne_zero.2 (Fact.out : ℓ.Prime).ne_zero)
   refine smul_right_injective _ hℓ ?_
-  show ((ℓ : ℚ_[ℓ]) ^ N) • rationalLift H L ⟨_, hz⟩ =
+  change ((ℓ : ℚ_[ℓ]) ^ N) • rationalLift H L ⟨_, hz⟩ =
     ((ℓ : ℚ_[ℓ]) ^ N) • ((ModuleCat.extendScalars.{0, 0, w} (algebraMap ℤ_[ℓ] ℚ_[ℓ])).map c).hom
       (rationalLift H L z)
   rw [← map_smul, ← map_smul, ← map_smul]

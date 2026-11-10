@@ -85,7 +85,7 @@ theorem exists_reducedComponent_hom_of_surjective {X Y : Scheme.{u}} (c : X ⟶ 
     exact one_le_topologicalKrullDim_of_specializes_of_ne hs fun h =>
       hx'ne (congrArg Subtype.val h).symm
   let ζ : genericPointsOne X := ⟨η, mem_genericPointsOne_iff.mpr ⟨by
-    show closure ({η} : Set X) ∈ irreducibleComponents X
+    change closure ({η} : Set X) ∈ irreducibleComponents X
     rw [hη]
     exact irreducibleComponent_mem_irreducibleComponents x, hdim⟩⟩
   -- the factorization

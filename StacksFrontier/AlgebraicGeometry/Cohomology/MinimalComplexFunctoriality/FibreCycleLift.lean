@@ -75,7 +75,7 @@ theorem fibreElt_add (M : ModuleCat.{u} A) (x y : M) :
 /-- The map `x ↦ 1 ⊗ x` sends `a • x` to `χ a • (1 ⊗ x)`. -/
 theorem fibreElt_smul (M : ModuleCat.{u} A) (a : A) (x : M) :
     fibreElt χ M (a • x) = χ a • fibreElt χ M x := by
-  show TensorProduct.tmul A _ (a • x) =
+  change TensorProduct.tmul A _ (a • x) =
     TensorProduct.tmul A (χ a • (show fibreScalars χ from (1 : S))) x
   rw [← TensorProduct.smul_tmul]
   rfl
@@ -94,7 +94,7 @@ theorem fibreElt_span (M : ModuleCat.{u} A) :
       (ModuleCat.extendScalars χ).obj M ⟶ ModuleCat.of S (↑((ModuleCat.extendScalars χ).obj M) ⧸ N))
       = 0 := by
     refine ModuleCat.ExtendScalars.hom_ext fun x => ?_
-    show N.mkQ (fibreElt χ M x) = 0
+    change N.mkQ (fibreElt χ M x) = 0
     rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
     exact Submodule.subset_span ⟨x, rfl⟩
   rw [eq_top_iff]
@@ -368,14 +368,14 @@ theorem d_zero_one_eq_zero (F : CochainComplex (ModuleCat.{u} A) ℤ)
       ext y
       rfl
     rw [hk, Functor.map_comp, ModuleCat.comp_apply]
-    show (ModuleCat.extendScalars χ).map _ (((ModuleCat.extendScalars χ).map b).hom x) = 0
+    change (ModuleCat.extendScalars χ).map _ (((ModuleCat.extendScalars χ).map b).hom x) = 0
     rw [hx, map_zero]
   have hcomp : ∀ k, F.d 0 1 ≫ (θ k).f 1 = 0 := by
     intro k
     rw [← (θ k).comm, hG k, comp_zero]
   ext x
   apply hb
-  show b (F.d 0 1 x) = b 0
+  change b (F.d 0 1 x) = b 0
   rw [map_zero]
   funext k
   exact congrArg (fun φ => φ.hom x) (hcomp k)
@@ -429,7 +429,7 @@ theorem fibreComplex_d_eq_zero (F : CochainComplex (ModuleCat.{u} A) ℤ) (r : �
   by_cases hij : j = i + 1
   · subst hij
     refine ModuleCat.ExtendScalars.hom_ext fun x => ?_
-    show (ModuleCat.extendScalars χ).map (F.d i (i + 1)) (fibreElt χ _ x) = 0
+    change (ModuleCat.extendScalars χ).map (F.d i (i + 1)) (fibreElt χ _ x) = 0
     rw [map_fibreElt]
     have : Module.Free A (F.X (i + 1)) := hfree _
     refine fibreElt_eq_zero_of_mem χ _ _ (mem_of_fibreElt_eq_zero ρ _ _ ?_)
@@ -607,7 +607,7 @@ private theorem exists_smul_eq_fibreElt_of_d_eq_zero {P : CochainComplex (Module
         P.d 0 1 ((t : R) • m) = 0 := by
   obtain ⟨s, m, hsm⟩ := exists_smul_eq_fibreElt χ (P.X 0) c
   have hdm : fibreElt (algebraMap R (Loc χ)) _ (P.d 0 1 m) = 0 := by
-    show (fibreComplex (algebraMap R (Loc χ)) P).d 0 1 (fibreElt (algebraMap R (Loc χ)) _ m) = 0
+    change (fibreComplex (algebraMap R (Loc χ)) P).d 0 1 (fibreElt (algebraMap R (Loc χ)) _ m) = 0
     rw [← hsm, map_smul, hc, smul_zero]
   obtain ⟨t, ht⟩ := exists_smul_eq_zero_of_fibreElt_eq_zero χ (P.X 1) _ hdm
   exact ⟨s, t, m, hsm, by rwa [map_smul]⟩
@@ -653,7 +653,7 @@ theorem isCyclicInDegreeZero_unitComplex :
     let e := HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 (ModuleCat.of A A)
     refine ⟨e.hom m, ?_⟩
     have h1 : m = e.inv (e.hom m) := by
-      show m = (e.hom ≫ e.inv) m
+      change m = (e.hom ≫ e.inv) m
       rw [e.hom_inv_id]
       rfl
     conv_lhs => rw [h1]
@@ -701,7 +701,7 @@ private theorem projective_unitComplex_X (i : ℤ) : Projective ((unitComplex A)
 
 /-- The unit complex is concentrated in degrees at most `0`. -/
 private theorem isStrictlyLE_unitComplex : (unitComplex A).IsStrictlyLE 0 := by
-  show ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj (ModuleCat.of A A)).IsStrictlyLE 0
+  change ((CochainComplex.singleFunctor (ModuleCat.{u} A) 0).obj (ModuleCat.of A A)).IsStrictlyLE 0
   infer_instance
 
 /-- A degree-`0` cycle `x` of a complex is the image of the generator under a map from the unit
@@ -715,7 +715,7 @@ private theorem exists_unitComplex_hom_f_unitGen {P : CochainComplex (ModuleCat.
       simp [LinearMap.toSpanSingleton_apply, hx])
   refine ⟨y, ?_⟩
   rw [HomologicalComplex.mkHomFromSingle_f]
-  show (LinearMap.toSpanSingleton A (P.X 0) x)
+  change (LinearMap.toSpanSingleton A (P.X 0) x)
     ((HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 (ModuleCat.of A A)).hom
       ((HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 (ModuleCat.of A A)).inv 1)) = x
   rw [← ModuleCat.comp_apply, Iso.inv_hom_id]
@@ -843,7 +843,7 @@ private theorem exists_cycle_fibreElt_ne_zero {Q : CochainComplex (ModuleCat.{u}
   · intro hzero
     have hw : fibreMap χA w = 0 := by
       refine hUK.hom_ext ?_
-      show fibreElt χA _ (w.f 0 (fibreElt α _ (unitGen R))) = 0
+      change fibreElt χA _ (w.f 0 (fibreElt α _ (unitGen R))) = 0
       exact hzero
     have hw' : fibreMap χA (fibreMap α zR) ≫ eG.inv = 0 := by
       rw [← hw]
@@ -908,7 +908,7 @@ private theorem eq_zero_of_fibre_map_eq_zero_of_homotopyEquiv
         (zeroDiffHomologyIso_hom_naturality hFmin (hGmin k) (fibreMap χA (θ k)) 1)
       simp only [ModuleCat.hom_comp, LinearMap.comp_apply] at this
       rw [this]
-      show (zG k 1).hom ((ModuleCat.extendScalars χA).map ((θ k).f 1) x) = 0
+      change (zG k 1).hom ((ModuleCat.extendScalars χA).map ((θ k).f 1) x) = 0
       rw [hx' k, map_zero]
     rw [hθ, HomologicalComplex.homologyMap_comp, HomologicalComplex.homologyMap_comp] at h2
     have h3 : HomologicalComplex.homologyMap (fibreMap χA (fibreMap α (ψ k))) 1
@@ -949,7 +949,7 @@ private theorem exists_unit_map_loc_homologyMap_ne_zero {P : CochainComplex (Mod
   let gen := fibreElt χA _ (fibreElt α _ (unitGen R))
   let φ := fibreMap χA (fibreMap α y ≫ hF.inv)
   have hφ : φ.f 0 gen = (χ t * χ s) • fibreElt χA _ e := by
-    show fibreElt χA _ (hF.inv.f 0 (fibreElt α _ (y.f 0 (unitGen R)))) = _
+    change fibreElt χA _ (hF.inv.f 0 (fibreElt α _ (y.f 0 (unitGen R)))) = _
     rw [hy, fibreElt_smul, ← hsm, smul_smul, map_smul, fibreElt_smul]
     have h2 : fibreElt χA _ (hF.inv.f 0 c) = fibreElt χA _ e :=
       congrArg (fun ψ => ψ.hom (fibreElt χA _ e)) hid
@@ -1152,7 +1152,7 @@ theorem exists_unit_map_derived_ne_zero (D : TotalDerivedExtensionScalars.{u, u,
       simp
     have h2 := (DerivedCategory.homologyFunctorFactors (ModuleCat.{u} K) n).hom.naturality
       (fibreMap χ (ψt k))
-    show (DerivedCategory.homologyFunctor _ n).map (D.functor.mapIso eM ≪≫ τ P bP).hom ≫
+    change (DerivedCategory.homologyFunctor _ n).map (D.functor.mapIso eM ≪≫ τ P bP).hom ≫
         (DerivedCategory.homologyFunctorFactors _ n).hom.app _ ≫
           HomologicalComplex.homologyMap (fibreMap χ (ψt k)) n =
       (DerivedCategory.homologyFunctor _ n).map (D.functor.map (ψ k)) ≫

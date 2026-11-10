@@ -151,7 +151,7 @@ public theorem exists_complementUnitQuotient_iso :
       specPrincipalQuotientπ A f n := he₀
   have hnat := (Scheme.Modules.restrictFunctorIsoPullback
     (complementZeroLocus A a).ι).inv.naturality (specPrincipalQuotientπ A f n)
-  show unitIdealPowerQuotientπ ((specIdealSheaf A (Ideal.span {f})).comap
+  change unitIdealPowerQuotientπ ((specIdealSheaf A (Ideal.span {f})).comap
         (complementZeroLocus A a).ι) n ≫
       (idealPowerQuotientMap
           ((specIdealSheaf A (Ideal.span {f})).comap (complementZeroLocus A a).ι)

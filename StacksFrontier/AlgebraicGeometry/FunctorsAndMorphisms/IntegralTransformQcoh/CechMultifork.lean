@@ -346,7 +346,7 @@ theorem cechUnit_comp_cechRestr {V W : X.Opens} [QuasiCompact V.ι] [QuasiSepara
     [QuasiCompact W.ι] [QuasiSeparated W.ι] (h : W ≤ V) (G : Scheme.QuasicoherentModules X) :
     (cechUnit V).app G ≫ (cechRestr h).app G = (cechUnit W).app G :=
   (SheafOfModules.isQuasicoherent X.ringCatSheaf).ι.map_injective (by
-    show ((cechUnit V).app G).hom ≫ ((cechRestr h).app G).hom = ((cechUnit W).app G).hom
+    change ((cechUnit V).app G).hom ≫ ((cechRestr h).app G).hom = ((cechUnit W).app G).hom
     rw [cechUnit_app_hom, cechUnit_app_hom, cechRestr_app_hom]
     exact restrictAdjunction_unit_comp_restrictPushModMap h G.obj)
 

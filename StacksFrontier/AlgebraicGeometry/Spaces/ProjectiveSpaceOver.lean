@@ -116,7 +116,7 @@ theorem isOpenImmersion_standardChartPoints (n : ℕ) :
   let c := standardChartSite B S hS n
   have hc : IsOpenImmersion B S hS (yoneda.map c) := by
     apply MorphismProperty.relative_map (P := Q)
-    show _root_.AlgebraicGeometry.IsOpenImmersion
+    change _root_.AlgebraicGeometry.IsOpenImmersion
       (_root_.AlgebraicGeometry.projectiveSpaceOver.affineChart n 0 (standardChartEquiv n) S)
     infer_instance
   have heq : F.op.whiskerLeft (yoneda.map (standardChartOver S n)) =

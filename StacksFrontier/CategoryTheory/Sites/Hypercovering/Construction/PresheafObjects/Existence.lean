@@ -60,7 +60,7 @@ theorem isCovering_toPretopology_over_of_isCoveringOver (J : Pretopology C) {X :
     {U V : FormalCoproduct.{q} (Over X)} (f : U ⟶ V) (hf : IsCoveringOver J f) :
     IsCovering (J.toGrothendieck.over X).toPretopology f := by
   intro j
-  show Sieve.generate (Presieve.ofArrows _ _) ∈ (J.toGrothendieck.over X) _
+  change Sieve.generate (Presieve.ofArrows _ _) ∈ (J.toGrothendieck.over X) _
   rw [← Sieve.ofArrows, GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
   have harr : (fun i : { i : U.I // f.f i = j } ↦
         (f.φ i.1 ≫ eqToHom (congrArg V.obj i.2)).left) =

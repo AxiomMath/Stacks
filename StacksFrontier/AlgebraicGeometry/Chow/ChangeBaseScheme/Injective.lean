@@ -118,10 +118,10 @@ private theorem exists_flatPullbackWeight_ne_zero_of_eq (B : FlatBaseChangeSitua
   rw [deltaDimension_eq_of_isGenericPoint _ _ _ ζ.1 (genericPoints.isGenericPoint ζ)] at hdZ
   have hjζ : j.base ζ.1 = (I.comap q).subschemeι.base ξ.1 := by
     have hinv : e.inv.base (e.hom.base ξ.1) = ξ.1 := by
-      show ((e.hom ≫ e.inv) ξ.1) = ξ.1
+      change ((e.hom ≫ e.inv) ξ.1) = ξ.1
       rw [Iso.hom_inv_id]
       rfl
-    show (I.comap q).subschemeι.base (e.inv.base ζ.1) = _
+    change (I.comap q).subschemeι.base (e.inv.base ζ.1) = _
     rw [show ζ.1 = e.hom.base ξ.1 from rfl, hinv]
   have hdim : relativeDimension B.baseChange.dimensionFunction (pullback.snd f B.g)
       ((I.comap q).subschemeι.base ξ.1) = k + B.c := by

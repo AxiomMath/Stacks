@@ -390,7 +390,7 @@ theorem squareRingHom_comp :
       (squareRingHom q' g' g'' h' w' M' M'' ε' e e he he le_rfl V' V'' hV').comp
         (squareRingHom q g g' h w M M' ε e e he he le_rfl V V' hV) := by
   refine DirectSum.ringHom_ext fun n a => ?_
-  show squareRingHom (q' ≫ q) g g'' (h' ≫ h) (comp_square_comm q q' g g' g'' h h' w w') M M''
+  change squareRingHom (q' ≫ q) g g'' (h' ≫ h) (comp_square_comm q q' g g' g'' h h' w w') M M''
         ((Scheme.Modules.pullbackComp q' q).symm.app M ≪≫
           (Scheme.Modules.pullback q').mapIso ε ≪≫ ε') e e he he le_rfl V V''
         (le_preimage_comp h h' V V' V'' hV hV') (DirectSum.of _ n a) =

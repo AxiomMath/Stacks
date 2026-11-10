@@ -111,7 +111,7 @@ theorem IsStack.hom_ext_of_locally (hst : p.IsStack J) (hp : p.IsFiberedInGroupo
     obtain ⟨ε, -, hε⟩ := hp.exists_isHomLift_id_comp (g := g) φ (IsPreFibered.pullbackMap a.2 g)
     refine pullbackFiberHom_uniq M' g _ ?_
     rw [pullbackFiberHom_fac]
-    show IsPreFibered.pullbackMap a.2 g ≫ m = IsPreFibered.pullbackMap a.2 g ≫ m'
+    change IsPreFibered.pullbackMap a.2 g ≫ m = IsPreFibered.pullbackMap a.2 g ≫ m'
     rw [← hε, Category.assoc, Category.assoc, he]
   exact congrArg Subtype.val hMM'
 

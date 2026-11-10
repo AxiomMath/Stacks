@@ -216,7 +216,7 @@ theorem det_stabRestrict_exp [IsAlgClosed K] {S : Submodule K (n → K)} {M : Ma
     have hΦ : ∀ (X : Matrix n n K) (hX : X ∈ stabilizerSubalgebra S),
         Φ X = LinearMap.toMatrix b b (stabRestrict X hX) := by
       intro X hX
-      show LinearMap.toMatrix b b _ = _
+      change LinearMap.toMatrix b b _ = _
       congr 1
       refine LinearMap.ext fun w => ?_
       have hw : ((stabRestrict X hX w : S) : n → K) = X *ᵥ w := stabRestrict_apply hX w
@@ -291,7 +291,7 @@ theorem det_stabRestrict_exp_eq_one [IsAlgClosed K] {G : Subgroup (Matrix n n K)
           (hstab _ (LieSubalgebra.subset_lieSpan ⟨g, hg, rfl⟩)) =
           stabRestrict (ladicLog ℓ (g : Matrix n n K)) hL :=
         LinearMap.ext fun w => Subtype.ext (by
-          rw [stabRestrict_apply, LinearMap.restrict_coe_apply, Matrix.toLinAlgEquiv'_apply])
+          rw [stabRestrict_apply, LinearMap.coe_restrict_apply, Matrix.toLinAlgEquiv'_apply])
       rw [e]
       exact trace_stabRestrict_ladicLog_eq_zero (hG g hg) (hGS g hg) hL hm (hdet _)
     | zero =>
@@ -317,7 +317,7 @@ theorem det_stabRestrict_exp_eq_one [IsAlgClosed K] {G : Subgroup (Matrix n n K)
       rw [e, map_sub, LinearMap.trace_mul_comm, sub_self]
   have eA : (Matrix.toLinAlgEquiv' A).restrict (hstab _ hA) = stabRestrict A hAS :=
     LinearMap.ext fun w => Subtype.ext (by
-      rw [stabRestrict_apply, LinearMap.restrict_coe_apply, Matrix.toLinAlgEquiv'_apply])
+      rw [stabRestrict_apply, LinearMap.coe_restrict_apply, Matrix.toLinAlgEquiv'_apply])
   have h0 := htr _ hA
   rw [eA] at h0
   rw [(det_stabRestrict_exp hAn hAS hE).2, h0, exp_zero]

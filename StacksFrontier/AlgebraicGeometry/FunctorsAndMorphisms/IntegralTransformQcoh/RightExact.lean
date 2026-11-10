@@ -68,6 +68,7 @@ universe u
 namespace AlgebraicGeometry
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the colimits of quasi-coherent modules (`inferInstance` below) is heavy
 /-- Quasi-coherent modules on a scheme have finite coproducts.  The coproducts are built here
 from the ones indexed by `Type u` rather than left to instance search, which does not
 find them in this file: `inferInstance` closes this statement in a file importing only
@@ -108,7 +109,7 @@ theorem isQuasicoherent_tensorLeftFunctor_pullback
           (forget₂ CommRingCat RingCat) ((pullback X.hom Y.hom).ringCatSheaf.2)⟩).obj
       (K.obj))).obj
       ((Scheme.Modules.pullback (pullback.fst X.hom Y.hom)).obj M.obj))).IsQuasicoherent := by
-  show ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(((pullback X.hom
+  change ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(((pullback X.hom
     Y.hom).toRingedSpace)).presheaf, (((pullback X.hom
     Y.hom).toRingedSpace)).IsSheaf⟩).obj (K.obj)).obj
     (((Scheme.Modules.pullback (pullback.fst X.hom Y.hom)).obj M.obj)))).IsQuasicoherent

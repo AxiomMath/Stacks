@@ -164,7 +164,7 @@ private lemma exists_hom_of_forall_openCover {X Y Z : Scheme.{u}} (U : X.Opens)
   let g : Y ⟶ Z := 𝒰.glueMorphisms t hcompat
   have hgι : ∀ i, pullback.fst pY (𝒱.f i) ≫ g = t i := fun i => 𝒰.ι_glueMorphisms t hcompat i
   refine ⟨g, 𝒰.hom_ext _ _ fun i => ?_, ?_⟩
-  · show pullback.fst pY (𝒱.f i) ≫ g ≫ pZ = pullback.fst pY (𝒱.f i) ≫ pY
+  · change pullback.fst pY (𝒱.f i) ≫ g ≫ pZ = pullback.fst pY (𝒱.f i) ≫ pY
     rw [reassoc_of% (hgι i)]
     exact (ht i).trans pullback.condition.symm
   -- the glued morphism restricts to `φ` over `U`
@@ -173,7 +173,7 @@ private lemma exists_hom_of_forall_openCover {X Y Z : Scheme.{u}} (U : X.Opens)
   let c₁ := pullback.fst (pullback.fst pY U.ι) (pullback.fst pY (𝒱.f i))
   let c₂ := pullback.snd (pullback.fst pY U.ι) (pullback.fst pY (𝒱.f i))
   have hc : c₁ ≫ pullback.fst pY U.ι = c₂ ≫ pullback.fst pY (𝒱.f i) := pullback.condition
-  show c₁ ≫ pullback.fst pY U.ι ≫ g = c₁ ≫ φ ≫ pullback.fst pZ U.ι
+  change c₁ ≫ pullback.fst pY U.ι ≫ g = c₁ ≫ φ ≫ pullback.fst pZ U.ι
   have hW : (c₂ ≫ pullback.fst pY (𝒱.f i)) ≫ pY = (c₁ ≫ pullback.snd pY U.ι) ≫ U.ι := by
     rw [← hc, Category.assoc, Category.assoc, pullback.condition]
   have hl : pullback.lift (c₂ ≫ pullback.fst pY (𝒱.f i)) (c₁ ≫ pullback.snd pY U.ι) hW = c₁ :=
@@ -210,7 +210,7 @@ theorem full_finiteEtaleBaseChange_of_openCover {X : Scheme.{u}} (U : X.Opens)
   apply MorphismProperty.Over.Hom.ext
   apply pullback.hom_ext
   · exact (finiteEtaleBaseChange_map_left_fst U.ι _).trans hgU
-  · show _ = φl ≫ pullback.snd Z.hom U.ι
+  · change _ = φl ≫ pullback.snd Z.hom U.ι
     rw [hφ]
     exact MorphismProperty.Over.w _
 

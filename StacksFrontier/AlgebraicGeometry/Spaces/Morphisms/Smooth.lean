@@ -179,7 +179,7 @@ theorem smoothAt_iff_smoothAt_of_isPullback {X Y Y' X' : Scheme.{u}} {f : X ⟶ 
     InfinitesimalLifting.SmoothAt f' x' ↔ InfinitesimalLifting.SmoothAt f (g' x') := by
   have : LocallyOfFinitePresentation f' :=
     MorphismProperty.IsStableUnderBaseChange.of_isPullback sq inferInstance
-  show Stacks.SmoothAtJacobian.Condition1 f' x' ↔
+  change Stacks.SmoothAtJacobian.Condition1 f' x' ↔
     Stacks.SmoothAtJacobian.Condition1 f (g' x')
   rw [Stacks.SmoothAtJacobian.condition1_iff_mem_smoothLocus f' x',
     Stacks.SmoothAtJacobian.condition1_iff_mem_smoothLocus f (g' x'),
@@ -587,7 +587,7 @@ private theorem isSmoothAt_of_isSmoothAt_of_isPullback_of_flat_lfp (sq : IsPullb
           (congrFun (pointsMap_comp B S hS X₁.1 e.hom e.inv) x').symm
         rw [h₁, hz', h₂, e.hom_inv_id, pointsMap_id, id_eq] }
   have hsource : chartF.sourcePoint B S hS = T.map pU (chartF'.sourcePoint B S hS) := by
-    show (T.map (r.value ≫ pU)) (IsLocalRing.closedPoint r.carrier) =
+    change (T.map (r.value ≫ pU)) (IsLocalRing.closedPoint r.carrier) =
       T.map pU ((T.map r.value) (IsLocalRing.closedPoint r.carrier))
     rw [Functor.map_comp]
     exact Scheme.Hom.comp_apply _ _ _
@@ -727,7 +727,7 @@ private theorem maximalSmoothOpen_le_preimage (sq : IsPullback g' f' f g)
   intro Z x hx
   have he := congrArg (fun k => k.app Z ⟨x, hx⟩) ht
   change (t.app Z ⟨x, hx⟩).1 = g'.hom.app Z x at he
-  show g'.hom.app Z x ∈ W.obj Z
+  change g'.hom.app Z x ∈ W.obj Z
   rw [← he]
   exact (t.app Z ⟨x, hx⟩).property
 

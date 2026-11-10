@@ -514,7 +514,7 @@ theorem supportLocalCohomologyToModule_naturality (J : Ideal A) (hJ : J.FG)
         (derivedPowerTorsionProperty A J hJ).ι).map (S.map f)) ≫ H.map (ε.app (S.obj N)) =
       H.map (ε.app (S.obj M)) ≫ H.map (S.map f) :=
     (H.map_comp _ _).symm.trans ((congrArg H.map h1).trans (H.map_comp _ _))
-  show H.map ((localCohomologyFunctor A J hJ ⋙ (derivedPowerTorsionProperty A J hJ).ι).map
+  change H.map ((localCohomologyFunctor A J hJ ⋙ (derivedPowerTorsionProperty A J hJ).ι).map
       (S.map f)) ≫ H.map (ε.app (S.obj N)) ≫ β.hom.app N =
     (H.map (ε.app (S.obj M)) ≫ β.hom.app M) ≫ f
   refine (Category.assoc _ _ _).symm.trans ?_

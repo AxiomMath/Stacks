@@ -146,7 +146,7 @@ theorem eq_compTo_of {U V W : BigFppfOver 𝒞 S hS} {x : TorsorsFor hB G P}
   have hb' : Hom.base ψ = eqToHom hs ≫ g ≫ eqToHom hr.symm := hb
   refine Functor.Restriction.eq_compTo g f rfl r s ψ
     (IsHomLift.of_fac' _ g ψ s.hpt r.hpt hb) (Hom.ext ?_ hm)
-  show Hom.base ψ ≫ Hom.base r.hom = Hom.base s.hom
+  change Hom.base ψ ≫ Hom.base r.hom = Hom.base s.hom
   rw [hb', hrb, hsb]
   simp
 
@@ -224,7 +224,7 @@ theorem exists_glued_sec {U : BigFppfOver 𝒞 S hS} {I : Type w} {V : I → Big
         rw [CategoryTheory.Functor.map_comp, Category.assoc]
     _ = (D.x i).sec := by
         rw [hb i]
-        show yoneda.map (eqToHom (hxb i)) ≫ yoneda.map (eqToHom (hxb i).symm) ≫ (D.x i).sec = _
+        change yoneda.map (eqToHom (hxb i)) ≫ yoneda.map (eqToHom (hxb i).symm) ≫ (D.x i).sec = _
         rw [← Category.assoc, ← CategoryTheory.Functor.map_comp, eqToHom_trans, eqToHom_refl,
           CategoryTheory.Functor.map_id, Category.id_comp]
 
@@ -459,7 +459,7 @@ theorem isRestrictionOf_toBase {Ux V W : BigFppfOver 𝒞 S hS}
   have L := compTo_toBaseRestriction b A hA g fx hfx xr' xrW'
   have Lid := compTo_id_ofBaseRestriction b T hT g₀ hs g hfy rT
   have h' := (congrArg (ψW' ≫ ·) Lid.symm).trans h
-  show _ ≫ _ = _ ≫ _
+  change _ ≫ _ = _ ≫ _
   refine Eq.trans ?_ (congrArg (· ≫ _) L.symm)
   refine Hom.ext ?_ ?_
   · have e := congrArg Hom.base h'

@@ -140,7 +140,7 @@ theorem derivedHomReflectorUnit_app_comp_derivedHomReflectorCompIso_hom_app
         (derivedHomReflectorCompIso C K L Φ Z q hΦ).hom.app X =
       (RightModule.derivedQ (endDGCategory C K)).map
         ((evaluationOnK.{v} C K).map (η.app (Φ.obj X))) := by
-  show ((derivedEvaluationUnit C K L Φ η).app X ≫
+  change ((derivedEvaluationUnit C K L Φ η).app X ≫
       (derivedHomReflectorCompIso C K L Φ Z q hΦ).inv.app X) ≫
     (derivedHomReflectorCompIso C K L Φ Z q hΦ).hom.app X = _
   rw [Category.assoc, Iso.inv_hom_id_app, Category.comp_id, derivedEvaluationUnit_app]

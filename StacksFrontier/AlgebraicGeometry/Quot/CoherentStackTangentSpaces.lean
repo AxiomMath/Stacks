@@ -77,7 +77,7 @@ theorem hasFiniteDimensionalTangentSpaces [IsLocallyNoetherian S]
   have : Module.Finite Γ(S, U.1) k := hfin
   let iU : Spec (.of Γ(S, U.1)) ⟶ S := U.2.fromSpec
   have hfac : Spec.map (CommRingCat.ofHom (algebraMap Γ(S, U.1) k)) ≫ iU = i₀ := by
-    show Spec.map φ ≫ U.2.fromSpec = i₀
+    change Spec.map φ ≫ U.2.fromSpec = i₀
     rw [Spec.map_comp, Category.assoc, U.2.SpecMap_appLE_fromSpec i₀ (isAffineOpen_top _),
       IsAffineOpen.fromSpec_top, Scheme.isoSpec_Spec]
     simp

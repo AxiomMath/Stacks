@@ -236,7 +236,7 @@ theorem descends_of_mayerVietoris [IsDirected J (· ≤ ·)]
     have hzk' : cN (n - 1) k z = z' := hzk
     obtain ⟨l, hjl, hkl⟩ := directed_of (· ≤ ·) j k
     refine ⟨l, tP n j l hjl x - boundary (n - 1) n hn₁ l (tN (n - 1) k l hkl z), ?_⟩
-    show cP n l _ = ψ
+    change cP n l _ = ψ
     rw [map_sub, hcP n j l hjl x, hsb (n - 1) n hn₁ l _, hcN (n - 1) k l hkl z, hzk', hz']
     exact sub_sub_cancel _ _
   · have hxx' : cP n i x = cP n i x' := hxx
@@ -267,7 +267,7 @@ theorem descends_of_mayerVietoris [IsDirected J (· ≤ ·)]
       exact (hedb (n - 1) n hn₁ m).apply_apply_eq_zero _
     have h5 : tP n i m (hij.trans (hjl.trans hlm)) (x - x') = 0 :=
       (htP n i j m hij (hjl.trans hlm) (x - x')).symm.trans h4
-    show tP n i m _ x = tP n i m _ x'
+    change tP n i m _ x = tP n i m _ x'
     exact sub_eq_zero.mp ((map_sub (tP n i m (hij.trans (hjl.trans hlm))) x x').symm.trans h5)
 
 end Ladder

@@ -59,7 +59,8 @@ identities are the two identities of the given isomorphism.
 Equations between morphisms of sheaves of commutative rings are proved by applying
 `sheafCompose J (forget CommRingCat)`, which is faithful because `forget CommRingCat` is, and
 then appealing to the two `_forget` lemmas. This is cheaper than the route through
-`fullyFaithfulForgetCommRingSheaf` used in `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/ToposCommRingImageAdjunction.lean`, because the
+`fullyFaithfulForgetCommRingSheaf` used in
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/ToposCommRingImageAdjunction.lean`, because the
 hypotheses needed to mention the underlying sheaf of sets are present here anyway.
 
 ## References
@@ -111,14 +112,16 @@ noncomputable def pullbackCommRingSheafMapOfNatTrans (e : Φ ⟶ Φ')
            (e.app (Sheaf.ringSheaf (SheafOfModules.Tensor.ringSheaf O))) x).symm) }⟩
 
 omit [J.HasSheafCompose (forget RingCat.{ww})]
-  [J.HasSheafCompose (forget₂ CommRingCat.{ww} RingCat.{ww})] in
+  [J.HasSheafCompose (forget₂ CommRingCat.{ww} RingCat.{ww})]
+  [K.HasSheafCompose (forget₂ CommRingCat.{ww'} RingCat.{ww'})] in
 /-- Transporting along the identity natural transformation does nothing. -/
 lemma pullbackCommRingSheafMapOfNatTrans_id (O : Sheaf K CommRingCat.{ww'}) :
     pullbackCommRingSheafMapOfNatTrans J (𝟙 Φ) O = 𝟙 (pullbackCommRingSheaf J Φ O) :=
   rfl
 
 omit [J.HasSheafCompose (forget RingCat.{ww})]
-  [J.HasSheafCompose (forget₂ CommRingCat.{ww} RingCat.{ww})] in
+  [J.HasSheafCompose (forget₂ CommRingCat.{ww} RingCat.{ww})]
+  [K.HasSheafCompose (forget₂ CommRingCat.{ww'} RingCat.{ww'})] in
 /-- Transporting along a composite is the composite of the transports. -/
 lemma pullbackCommRingSheafMapOfNatTrans_comp
     {Φ'' : Sheaf K (Type ww') ⥤ Sheaf J (Type ww)} [PreservesFiniteProducts Φ'']
@@ -148,7 +151,8 @@ variable [J.HasSheafCompose (forget CommRingCat.{ww})]
   [K.HasSheafCompose (forget CommRingCat.{ww'})]
 
 omit [J.HasSheafCompose (forget RingCat.{ww})]
-  [J.HasSheafCompose (forget₂ CommRingCat.{ww} RingCat.{ww})] in
+  [J.HasSheafCompose (forget₂ CommRingCat.{ww} RingCat.{ww})]
+  [K.HasSheafCompose (forget₂ CommRingCat.{ww'} RingCat.{ww'})] in
 /-- On underlying sheaves of sets, the map induced by a natural transformation of pullback
 functors *is* that natural transformation. -/
 lemma pullbackCommRingSheafMapOfNatTrans_forget (e : Φ ⟶ Φ')
@@ -159,7 +163,8 @@ lemma pullbackCommRingSheafMapOfNatTrans_forget (e : Φ ⟶ Φ')
   rfl
 
 omit [J.HasSheafCompose (forget RingCat.{ww})]
-  [J.HasSheafCompose (forget₂ CommRingCat.{ww} RingCat.{ww})] in
+  [J.HasSheafCompose (forget₂ CommRingCat.{ww} RingCat.{ww})]
+  [K.HasSheafCompose (forget₂ CommRingCat.{ww'} RingCat.{ww'})] in
 /-- On underlying sheaves of sets, the isomorphism induced by a natural isomorphism of pullback
 functors is that natural isomorphism. -/
 @[simp]

@@ -94,7 +94,7 @@ theorem affine_descent_of_refinement (P : MorphismProperty Scheme.{u})
       (g : X' ⟶ X) (f : X ⟶ Y), Surjective g → Q g → P (g ≫ f) → P f)
     (hQ : Q (Sigma.desc V.f)) : P f := by
   refine affine_descent_of_finite_affineCover P f V (fun i ↦ ?_) hAffine hQ
-  show P (V.cover.f i ≫ f)
+  change P (V.cover.f i ≫ f)
   have : IsOpenImmersion (r.h₀ i) := hOpen i
   rw [← r.w₀ i]
   exact IsZariskiLocalAtSource.comp (hU (r.s₀ i)) (r.h₀ i)
@@ -123,7 +123,7 @@ theorem isLocalAtSource_of_affineCriterion (P : MorphismProperty Scheme.{u})
     (U.toPreZeroHypercover.f i) (hCoverProp U i) f hf, fun h ↦ ?_⟩
   refine (IsZariskiLocalAtTarget.iff_of_openCover (P := P) Y.affineCover).2 fun j ↦ ?_
   let v := Y.affineCover.f j
-  show P (pullback.snd f v)
+  change P (pullback.snd f v)
   rw [IsZariskiLocalAtSource.iff_of_openCover (P := P) (pullback f v).affineCover]
   intro k
   let w := (pullback f v).affineCover.f k

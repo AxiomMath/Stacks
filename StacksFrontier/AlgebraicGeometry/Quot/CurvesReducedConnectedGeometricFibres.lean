@@ -191,7 +191,7 @@ theorem isGeometricallyReducedFamily_iff_forall_geometricPoint (X : CurveFamily 
     X.toBase.hom X.total.property (schemeSpace X.base).property _).mp (h _) y.1 rfl, fun h x => ?_⟩
   obtain ⟨p, rfl⟩ := Quot.exists_rep x
   obtain ⟨q, hq, hdom⟩ := Space.exists_dominates_isAlgClosed _ p
-  show Space.IsGeometricallyReducedFibreAt B integerBase hZ X.toBase.hom X.total.property
+  change Space.IsGeometricallyReducedFibreAt B integerBase hZ X.toBase.hom X.total.property
     (schemeSpace X.base).property (p.class B integerBase hZ _)
   rw [← Space.FieldValuedPoint.class_eq_class_of_hasCommonExtension B integerBase hZ _
       ⟨q, Space.FieldValuedPoint.dominates_refl B integerBase hZ _ q, hdom⟩,
@@ -266,7 +266,7 @@ theorem connectedPoints_fibre_curveFamilyOfScheme_iff
   let : Algebra k y.1.carrier := φ.hom.toAlgebra
   have hφ' : (BigFppfOver.toScheme B integerBase hZ).map y.1.value =
       Spec.map (CommRingCat.ofHom (algebraMap k y.1.carrier)) := hφ.symm
-  show ConnectedSpace ↥(pullback X.hom
+  change ConnectedSpace ↥(pullback X.hom
     ((BigFppfOver.toScheme B integerBase hZ).map y.1.value)) ↔ _
   rw [hφ', geometricallyConnected_iff_baseChange_fieldExtension k y.1.carrier X.hom,
     geometricallyConnected_iff_connectedSpace y.1.carrier]

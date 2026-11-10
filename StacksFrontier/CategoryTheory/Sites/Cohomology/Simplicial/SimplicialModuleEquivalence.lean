@@ -110,7 +110,7 @@ theorem isSheaf_uncurryModPresheaf
       (Functor.prodSectionSnd n).op ⋙ (uncurryModPresheaf C J O G).presheaf ≅
         (G.obj (op n)).val.presheaf)).2 (G.obj (op n)).isSheaf
   ext x
-  show (G.obj (op n)).val.map f ((G.map (𝟙 (op n))).val.app (op X.unop) x) =
+  change (G.obj (op n)).val.map f ((G.map (𝟙 (op n))).val.app (op X.unop) x) =
     (G.obj (op n)).val.map f x
   rw [G.map_id]
   rfl

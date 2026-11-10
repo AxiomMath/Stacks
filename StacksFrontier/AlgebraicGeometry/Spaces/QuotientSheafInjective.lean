@@ -308,7 +308,7 @@ theorem exists_restrictionArrows_point {T : Over S} (a b : T ⟶ U₀) (q : T �
     (hqt : a ≫ g = q ≫ G.target) (hqs : q ≫ G.source = b ≫ g) :
     ∃ pt : T ⟶ restrictionArrows G g,
       pt ≫ restrictionTarget G g = a ∧ pt ≫ restrictionSource G g = b := by
-  show ∃ pt : T ⟶ pullback (pullback.snd g G.target) (pullback.fst G.source g),
+  change ∃ pt : T ⟶ pullback (pullback.snd g G.target) (pullback.fst G.source g),
       pt ≫ (pullback.fst (pullback.snd g G.target) (pullback.fst G.source g) ≫
         pullback.fst g G.target) = a ∧
       pt ≫ (pullback.snd (pullback.snd g G.target) (pullback.fst G.source g) ≫

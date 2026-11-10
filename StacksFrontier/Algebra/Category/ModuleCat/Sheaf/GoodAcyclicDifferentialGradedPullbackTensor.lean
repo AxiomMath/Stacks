@@ -121,6 +121,7 @@ theorem acyclic_pullbackTensor_of_isKFlat_of_acyclic
   acyclic_of_isTensorProduct_of_isKFlat_of_acyclic hflat hac
     (isTensorProduct_pullbackTensorFunctor_obj PD D Q)
 
+omit [HasWeakSheafify J (Type m)] in
 /-- **Tag 0FSI at the pullback-tensor.** For a good acyclic right differential graded `A`-module
 `𝒬`, the value `f^*𝒬 ⊗_{𝒜} 𝒩` of the functor `ℳ ↦ f^*ℳ ⊗_𝒜 𝒩` of Tag 0FTE is acyclic. -/
 theorem acyclic_pullbackTensor_of_isGood_of_acyclic
@@ -156,6 +157,7 @@ variable {Y : AlgebraicGeometry.RingedTopos.{v₂, u₂, max u₁ v₁}}
 
 attribute [local instance] Stacks.TensorSheafWorld.monoidalCategory
 
+omit [HasSheafify Y.J (Type (max u₁ v₁))] in
 /-- **Tag 0FSI at the pullback-tensor over a morphism of ringed topoi**, with goodness read at
 the definition of Tag 0FSA. Let `𝒬` be a good right differential graded `ℬ`-module on `Y`, let
 `f : X ⟶ Y` be a morphism of ringed topoi, let `𝒜` be a sheaf of differential graded algebras on

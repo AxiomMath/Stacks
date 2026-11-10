@@ -63,7 +63,8 @@ Nothing here is rewritten with `rw`. The two spellings of the degree-`n` compone
 `(componentRingedTopos P n).J`, which the morphism of ringed topoi uses, and
 `componentTopology n`, which the morphism of sites uses — are equal by `Eq.refl`, but a rewrite
 across them cannot place its motive, exactly as recorded in the implementation notes of
-`StacksFrontier/AlgebraicGeometry/Simplicial/ComponentRingedTopos/ComponentPullbackRestriction.lean`.
+`ComponentPullbackRestriction.lean`, in this file's directory
+`StacksFrontier/AlgebraicGeometry/Simplicial/ComponentRingedTopos/`.
 For the same reason the implicit site arguments of `CategoryTheory.SheafOfModules.pushforward`
 and `…pushforwardCongr` are given by name: without that they are still metavariables when the
 continuity instance is sought, and instance search cannot assign a metavariable it did not

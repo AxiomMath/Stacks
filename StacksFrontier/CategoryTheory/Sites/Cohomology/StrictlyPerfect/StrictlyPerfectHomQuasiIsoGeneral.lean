@@ -273,11 +273,11 @@ public lemma strictlyPerfectHomDegreeIso_hom_comp_desc
         (isZero_internalHomSheaf_notMem_negSupport X E F hE n)).hom ≫ Sigma.desc g =
       ∑ i ∈ (hE.image (fun i : ℤ => -i)).toFinset,
         Pi.π (fun q : ℤ => internalHomSheaf X (E.X (-q)) (F.X (n - q))) i ≫ g i := by
-    show (∑ i ∈ (hE.image (fun i : ℤ => -i)).toFinset,
+    change (∑ i ∈ (hE.image (fun i : ℤ => -i)).toFinset,
         Pi.π (fun q : ℤ => internalHomSheaf X (E.X (-q)) (F.X (n - q))) i ≫
           Sigma.ι (fun q : ℤ => internalHomSheaf X (E.X (-q)) (F.X (n - q))) i) ≫
       Sigma.desc g = _
-    simp only [Preadditive.sum_comp, Category.assoc, Sigma.ι_desc]
+    simp only [Preadditive.sum_comp, Category.assoc, Sigma.ι_comp_desc]
   unfold strictlyPerfectHomDegreeIso
   rw [Iso.trans_hom, Category.assoc, hsum, Preadditive.comp_sum]
   have hterm : ∀ i : ℤ,
@@ -377,7 +377,7 @@ lemma internalHomPreG_add {A B C : SheafOfModules.{w} (Stacks.SheafOfModules.Ten
     internalHomPre X (C := C) (f + g) =
       internalHomPre X (C := C) f + internalHomPre X (C := C) g := by
   ext U a
-  show (restrFun X.O.obj (unop U)).map (homOf X (f + g)) ≫
+  change (restrFun X.O.obj (unop U)).map (homOf X (f + g)) ≫
       (a : (restrFun X.O.obj (unop U)).obj (valOf X B) ⟶
         (restrFun X.O.obj (unop U)).obj (valOf X C)) =
     (restrFun X.O.obj (unop U)).map (homOf X f) ≫
@@ -396,7 +396,7 @@ lemma internalHomPreG_zero
     {A B C : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)} :
     internalHomPre X (C := C) (0 : A ⟶ B) = 0 := by
   ext U a
-  show (restrFun X.O.obj (unop U)).map (homOf X (0 : A ⟶ B)) ≫
+  change (restrFun X.O.obj (unop U)).map (homOf X (0 : A ⟶ B)) ≫
       (a : (restrFun X.O.obj (unop U)).obj (valOf X B) ⟶
         (restrFun X.O.obj (unop U)).obj (valOf X C)) = 0
   rw [restrFunG_map_zero]
@@ -758,7 +758,7 @@ theorem homUnitEvaluationG_d (k n m : ℤ) (hnm : n + 1 = m)
     (congrArg (fun z => AddCommGrpCat.Hom.hom z s)
       (((sheafHomComplex X E F).sectionsIso U.unop).hom.comm n m)).symm
   have hdU : (restrictComplex X E U.unop).d k (k + 1) = 0 := by
-    show (SheafOfModules.overFunctor (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U.unop).map
+    change (SheafOfModules.overFunctor (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U.unop).map
       (E.d k (k + 1)) = 0
     rw [hd, Functor.map_zero]
   have key : ∀ z : CochainComplex.HomComplex.Cochain (restrictComplex X E U.unop)
@@ -769,7 +769,7 @@ theorem homUnitEvaluationG_d (k n m : ℤ) (hnm : n + 1 = m)
     rw [CochainComplex.HomComplex.δ_v n m hnm z k (k + m) rfl (k + n) (k + 1) (by omega) rfl,
       hdU, zero_comp, smul_zero, add_zero]
   apply ULift.ext
-  show (((AddCommGrpCat.Hom.hom (((sheafHomComplex X E F).sectionsIso U.unop).hom.f m)
+  change (((AddCommGrpCat.Hom.hom (((sheafHomComplex X E F).sectionsIso U.unop).hom.f m)
       (((sheafHomComplex X E F).obj.d n m).val.app U s)).v k (k + m) rfl).val.app
         (op (Over.mk (𝟙 U.unop)))) (e.inv.val.app U
           (1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U)) =
@@ -802,7 +802,7 @@ theorem homUnitEvaluationG_naturality
   ext U s
   have h := sectionsIso_homMap_v X (𝟙 E) f U.unop n k (k + n) rfl s
   apply ULift.ext
-  show (((AddCommGrpCat.Hom.hom
+  change (((AddCommGrpCat.Hom.hom
     (((sheafHomComplex X E G).sectionsIso U.unop).hom.f n)
       (((homMap X (𝟙 E) f).f n).val.app U s)).v k (k + n) rfl).val.app
         (op (Over.mk (𝟙 U.unop))))
@@ -1012,7 +1012,7 @@ theorem homMap_single_quasiIso_of_unitPower (f : F ⟶ G) [QuasiIso f] (k : ℤ)
     rw [unitPower_zero]
     exact homMap_quasiIso_of_isZero X (Sg.map_isZero (isZero_zero _)) f
   | succ r ih =>
-    show QuasiIso (homMap X (𝟙 (Sg.obj (unitPower X r ⊞
+    change QuasiIso (homMap X (𝟙 (Sg.obj (unitPower X r ⊞
       SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))) f)
     let T := (unitPowerShortComplex X r).map Sg
     have hT (p : ℤ) : (T.map (HomologicalComplex.eval _ _ p)).Splitting :=
@@ -1280,7 +1280,7 @@ omit [HasSheafify X.J AddCommGrpCat.{max u v w}]
   [X.J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
   [HasSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- `RetractOfLiftWith` is closed under finite biproducts. -/
-lemma RetractOfLiftWith.biproduct {J : Type} [Fintype J]
+lemma RetractOfLiftWith.biproduct {J : Type} [Finite J]
     (f : J → SheafOfModules.{max u v w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
     (h : ∀ j, RetractOfLiftWith X Pr (f j)) : RetractOfLiftWith X Pr (⨁ f) := by
   choose D hD ρ using h
@@ -1470,7 +1470,7 @@ theorem RetractOfLiftWith.sheafHomComplex_X
   refine RetractOfLiftWith.coproduct_of_finite_support Pr _ (hE.image (fun i : ℤ => -i)).toFinset
     (fun q hq => isZero_internalHomSheaf_notMem_negSupport X E F hE n q hq) fun q hq => ?_
   have hq' : ¬ IsZero (E.X (-q)) := by
-    simp only [Set.Finite.mem_toFinset, Set.mem_image, Set.mem_setOf_eq] at hq
+    simp only [Set.Finite.mem_toFinset, Set.mem_image, Set.mem_ofPred_eq] at hq
     obtain ⟨i, hi, rfl⟩ := hq
     simpa using hi
   exact RetractOfLiftWith.internalHomSheaf_of_isFiniteFreeSummand Pr (hEt _) _

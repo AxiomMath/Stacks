@@ -140,7 +140,7 @@ private theorem eulerCharComplex_shift (R : Type u) [CommRing R]
     (i.negOnePow : ℤ) • K0.mk
       ({ carrier := (P⟦n⟧).X i, finite := finite_shift R P n hfinite i, projective :=
         projective_shift R P n hprojective i } : FGProj R)
-  show (∑ᶠ i : ℤ, g i) = (n.negOnePow : ℤ) • ∑ᶠ i : ℤ, f i
+  change (∑ᶠ i : ℤ, g i) = (n.negOnePow : ℤ) • ∑ᶠ i : ℤ, f i
   calc
     (∑ᶠ i : ℤ, g i) =
         ∑ᶠ i : ℤ, (n.negOnePow : ℤ) • f (i + n) := by
@@ -155,7 +155,7 @@ private theorem eulerCharComplex_shift (R : Type u) [CommRing R]
                   n) } : FGProj R) :=
             K0.mk_eq_of_iso _ _ (P.shiftFunctorObjXIso n i (i + n) rfl).toLinearEquiv
           rw [hclass]
-          show (i.negOnePow : ℤ) • _ =
+          change (i.negOnePow : ℤ) • _ =
             (n.negOnePow : ℤ) • ((i + n).negOnePow : ℤ) • _
           have hs : (i.negOnePow : ℤ) =
               (n.negOnePow : ℤ) * ((i + n).negOnePow : ℤ) := by
@@ -326,7 +326,7 @@ private theorem k0_term_eq_cycles (h : Homotopy (𝟙 P) 0)
     let := cycles_projective R P h hprojective (i+1)
     infer_instance
   have : CategoryTheory.Projective ((cyclesShortComplex R P i).X₃) := by
-    show CategoryTheory.Projective (P.cycles (i+1))
+    change CategoryTheory.Projective (P.cycles (i+1))
     infer_instance
   let s := (cyclesShortComplex_shortExact R P hacyclic i).splittingOfProjective
   let e : P.X i ≅ ModuleCat.of R (P.cycles i × P.cycles (i+1)) :=
@@ -456,7 +456,7 @@ private theorem eulerCharComplex_cone
       (cone_projective R f hprojectiveP hprojectiveQ) =
     -eulerCharComplex R P hfiniteP hprojectiveP +
       eulerCharComplex R Q hfiniteQ hprojectiveQ := by
-  show (∑ᶠ i : ℤ, (i.negOnePow : ℤ) •
+  change (∑ᶠ i : ℤ, (i.negOnePow : ℤ) •
     K0.mk
       ({ carrier := (CochainComplex.mappingCone f).X i
          finite := cone_finite R f hfiniteP hfiniteQ i
@@ -572,14 +572,13 @@ private theorem exists_eulerChar_representative
     [HasDerivedCategory.{w} (ModuleCat.{u} R)]
     (K : DerivedCategory (ModuleCat.{u} R)) (hK : StacksDraft.Perfect.IsPerfect K) :
     ∃ x : K0 R, ∃ (P : CochainComplex (ModuleCat.{u} R) ℤ) (a b : ℤ)
-      (hGE : P.IsStrictlyGE a) (hLE : P.IsStrictlyLE b)
       (hfinite : ∀ i : ℤ, Module.Finite R (P.X i))
       (hprojective : ∀ i : ℤ, Module.Projective R (P.X i)),
-      Nonempty (K ≅ DerivedCategory.Q.obj P) ∧
+      P.IsStrictlyGE a ∧ P.IsStrictlyLE b ∧ Nonempty (K ≅ DerivedCategory.Q.obj P) ∧
         x = eulerCharComplex R P hfinite hprojective := by
   obtain ⟨P, a, b, hGE, hLE, hfinite, hprojective, e⟩ := hK
   exact ⟨eulerCharComplex R P hfinite hprojective,
-    P, a, b, hGE, hLE, hfinite, hprojective, e, rfl⟩
+    P, a, b, hfinite, hprojective, hGE, hLE, e, rfl⟩
 
 private noncomputable def eulerCharPerfect
     [HasDerivedCategory.{w} (ModuleCat.{u} R)]
@@ -595,9 +594,9 @@ private theorem eulerCharPerfect_eq
     (hprojective : ∀ i : ℤ, Module.Projective R (P.X i))
     (e : K ≅ DerivedCategory.Q.obj P) :
     eulerCharPerfect R ⟨K, hK⟩ = eulerCharComplex R P hfinite hprojective := by
-  obtain ⟨Q, aQ, bQ, hGEQ, hLEQ, hfiniteQ, hprojectiveQ, ⟨eQ⟩, heq⟩ :=
+  obtain ⟨Q, aQ, bQ, hfiniteQ, hprojectiveQ, hGEQ, hLEQ, ⟨eQ⟩, heq⟩ :=
     Classical.choose_spec (exists_eulerChar_representative R K hK)
-  show Classical.choose (exists_eulerChar_representative R K hK) = _
+  change Classical.choose (exists_eulerChar_representative R K hK) = _
   rw [heq]
   exact eulerCharComplex_eq_of_derivedIso R aQ bQ a b hGEQ hLEQ hGE hLE
     hfiniteQ hprojectiveQ hfinite hprojective (eQ.symm ≪≫ e)

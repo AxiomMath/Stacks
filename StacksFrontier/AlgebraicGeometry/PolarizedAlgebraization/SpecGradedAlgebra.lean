@@ -92,8 +92,7 @@ private theorem addMonoidHom_ext_tmul {R M N P : Type*} [CommSemiring R] [AddCom
     [AddCommMonoid N] [AddCommMonoid P] [Module R M] [Module R N] (F G : M ⊗[R] N →+ P)
     (h : ∀ (m : M) (n : N), F (m ⊗ₜ[R] n) = G (m ⊗ₜ[R] n)) : F = G := by
   ext x
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy]
   | tmul m n => exact h m n
 
@@ -127,7 +126,7 @@ def homogeneousSectionTop {k : ℕ} (b : 𝒢 k) :
 /-- The section named by `b` is the image of `b` under `M ⟶ Γ(Spec R, M̃)`. -/
 theorem homogeneousSectionTop_eq {k : ℕ} (b : 𝒢 k) :
     homogeneousSectionTop 𝒢 b = tilde.toOpen (ModuleCat.of R (𝒢 k)) ⊤ b := by
-  show (1 : Γ(Spec R, ⊤)) • Stacks.AffineBaseChange.toOpenₗ (ModuleCat.of R (𝒢 k)) ⊤ b = _
+  change (1 : Γ(Spec R, ⊤)) • Stacks.AffineBaseChange.toOpenₗ (ModuleCat.of R (𝒢 k)) ⊤ b = _
   exact one_smul _ _
 
 /-- The section named by a sum is the sum of the sections. -/
@@ -183,7 +182,7 @@ degree `k`. -/
 theorem globalSectionsRingHom_of {k : ℕ} (b : 𝒢 k) :
     globalSectionsRingHom 𝒢 (b : B) =
       DirectSum.of ((specSheafGradedAlgebra 𝒢).sectionPieces ⊤) k (homogeneousSectionTop 𝒢 b) := by
-  show globalSectionsDirectSumHom 𝒢 (DirectSum.decompose 𝒢 (b : B)) = _
+  change globalSectionsDirectSumHom 𝒢 (DirectSum.decompose 𝒢 (b : B)) = _
   rw [DirectSum.decompose_coe, globalSectionsDirectSumHom, DirectSum.toSemiring_of]
   rfl
 
@@ -208,14 +207,14 @@ theorem bijective_globalSectionsHom : Function.Bijective (globalSectionsHom 𝒢
     have : (globalSectionsDirectSumHom 𝒢).toAddMonoidHom = DirectSum.map (globalSectionsPiece 𝒢) :=
       DirectSum.addHom_ext fun k b => by
         rw [DirectSum.map_of]
-        show globalSectionsDirectSumHom 𝒢 (DirectSum.of (fun k => 𝒢 k) k b) = _
+        change globalSectionsDirectSumHom 𝒢 (DirectSum.of (fun k => 𝒢 k) k b) = _
         rw [globalSectionsDirectSumHom, DirectSum.toSemiring_of]
         rfl
     exact congrArg DFunLike.coe this
   have hb : Function.Bijective (DirectSum.map (globalSectionsPiece 𝒢)) :=
     ⟨(DirectSum.map_injective _).mpr fun k => (bijective_globalSectionsPiece 𝒢 k).1,
       (DirectSum.map_surjective _).mpr fun k => (bijective_globalSectionsPiece 𝒢 k).2⟩
-  show Function.Bijective (globalSectionsDirectSumHom 𝒢 ∘ DirectSum.decompose 𝒢)
+  change Function.Bijective (globalSectionsDirectSumHom 𝒢 ∘ DirectSum.decompose 𝒢)
   rw [hmap]
   exact hb.comp (DirectSum.decomposeRingEquiv 𝒢).bijective
 
@@ -299,7 +298,7 @@ theorem chiApp_toOpen (p : 𝒢 →+*ᵍ A'.grading ⊤)
   have h1 := ConcreteCategory.congr_hom (tilde.toOpen_map_app (chiLinear 𝒢 f A' p hp k) U) b
   have h2 := ConcreteCategory.congr_hom (Scheme.Modules.toOpen_fromTildeΓ_app
     ((Scheme.Modules.pushforward (Spec.map f)).obj (A'.piece (k : ℤ))) U) (chiValue 𝒢 f A' p k b)
-  show (Scheme.Modules.fromTildeΓ _).val.app (op U)
+  change (Scheme.Modules.fromTildeΓ _).val.app (op U)
     ((tilde.map (chiLinear 𝒢 f A' p hp k)).val.app (op U)
       (tilde.toOpen (ModuleCat.of R (𝒢 k)) U b)) = _
   refine (congrArg _ h1).trans ?_
@@ -390,7 +389,7 @@ theorem chiApp_mul_pieceCmp (p : 𝒢 →+*ᵍ A'.grading ⊤)
   have key : ∀ (s t : Γ(Spec R, Y)) (b : 𝒢 m) (b' : 𝒢 n),
       G₁ (s ⊗ₜ[R] b) (t ⊗ₜ[R] b') = G₂ (s ⊗ₜ[R] b) (t ⊗ₜ[R] b') := by
     intro s t b b'
-    show (chiApp 𝒢 f A' p hp ((m : ℤ) + (n : ℤ))).val.app (op Y)
+    change (chiApp 𝒢 f A' p hp ((m : ℤ) + (n : ℤ))).val.app (op Y)
         ((Stacks.SpecGraded.pieceCmp (intExtend 𝒢) ((m : ℤ) + (n : ℤ))).app (op Y)
           (Stacks.SpecGraded.mulSec (intExtend 𝒢) (op Y) (m : ℤ) (n : ℤ) (s ⊗ₜ[R] b)
             (t ⊗ₜ[R] b'))) =
@@ -441,7 +440,7 @@ theorem chiApp_map_mul (p : 𝒢 →+*ᵍ A'.grading ⊤)
   obtain ⟨U⟩ := U
   rcases i with m | m
   · rcases j with n | n
-    · show (chiApp 𝒢 f A' p hp ((m : ℤ) + (n : ℤ))).val.app (op U) _ = _
+    · change (chiApp 𝒢 f A' p hp ((m : ℤ) + (n : ℤ))).val.app (op U) _ = _
       refine Stacks.eq_of_isSeparated _
         ((Opens.grothendieckTopology ↥(Spec R)).intersection_covering
           (Stacks.cmpSieve_mem (Stacks.SpecGraded.pieceCmp (intExtend 𝒢) (m : ℤ)) x)
@@ -489,7 +488,7 @@ theorem chiApp_map_one (p : 𝒢 →+*ᵍ A'.grading ⊤)
   obtain ⟨U⟩ := U
   refine (chiApp_pieceCmp 𝒢 f A' p hp 0 U 1 ⟨1, SetLike.GradedOne.one_mem⟩).trans ?_
   have e : ((p ((⟨1, SetLike.GradedOne.one_mem⟩ : 𝒢 0) : B) : A'.sectionRing ⊤) 0) = A'.one ⊤ := by
-    show ((p 1 : A'.sectionRing ⊤) 0) = _
+    change ((p 1 : A'.sectionRing ⊤) 0) = _
     rw [map_one, DirectSum.one_def, DirectSum.of_eq_same]
     rfl
   rw [map_one, one_smul, e]
@@ -554,6 +553,7 @@ theorem specGradedHom_app_unitApp (k : ℕ) (b : 𝒢 k) :
   rw [show homogeneousSectionTop 𝒢 b = _ from homogeneousSectionTop_eq 𝒢 b]
   exact chiApp_toOpen 𝒢 f A' p hp k ⊤ b
 
+omit A' p hp in
 /-- **Maps out of `(Spec f)^* B̃_k` are determined by the pullbacks of the sections named by the
 elements of `B_k`.** -/
 theorem hom_ext_pullback_piece (k : ℕ) {F : (Spec S).Modules}
@@ -623,7 +623,7 @@ theorem isIso_specGradedHom_app
           (tilde M)).val.app (op ⊤) (tilde.toOpen M ⊤ b))
       have h3 := specGradedHom_app_unitApp 𝒢 f A' p hp m b
       rw [homogeneousSectionTop_eq, map_le_top_preimage_top] at h3
-      show ((specGradedHom 𝒢 f A' p hp).app (m : ℤ)).val.app (op ⊤)
+      change ((specGradedHom 𝒢 f A' p hp).app (m : ℤ)).val.app (op ⊤)
         (e.inv.val.app (op ⊤) (tilde.toOpen ((ModuleCat.extendScalars f.hom).obj M) ⊤
           ((1 : S) ⊗ₜ[R, f.hom] b))) = _
       rw [← AlgebraicGeometry.pullbackTildeIso_hom_app_unit_toOpen R S f M b]
@@ -632,8 +632,7 @@ theorem isIso_specGradedHom_app
     have heq : ∀ x : (let := f.hom.toAlgebra; S ⊗[R] 𝒢 m),
         φ.hom x = pieceBaseChangeMap 𝒢 f A' p hp m x := by
       intro x
-      induction x using TensorProduct.induction_on with
-      | zero => exact (map_zero φ.hom).trans (map_zero (pieceBaseChangeMap 𝒢 f A' p hp m)).symm
+      induction x using TensorProduct.inductionOn with
       | add x y hx hy =>
         exact (map_add φ.hom x y).trans ((congrArg₂ (· + ·) hx hy).trans
           (map_add (pieceBaseChangeMap 𝒢 f A' p hp m) x y).symm)
@@ -651,7 +650,7 @@ theorem isIso_specGradedHom_app
     have hψ : IsIso ψ := by
       have h : ψ = (tilde.adjunction.homEquiv _ _).symm φ := (Equiv.symm_apply_apply _ _).symm
       rw [h, Adjunction.homEquiv_counit]
-      show IsIso (tilde.map φ ≫ Scheme.Modules.fromTildeΓ (A'.piece (m : ℤ)))
+      change IsIso (tilde.map φ ≫ Scheme.Modules.fromTildeΓ (A'.piece (m : ℤ)))
       have i1 : IsIso (tilde.map φ) := (tilde.functor S).map_isIso φ
       have : (A'.piece (m : ℤ)).IsQuasicoherent := A'.isQuasicoherent _
       have i2 := Scheme.Modules.isIso_fromTildeΓ_of_isQuasicoherent (A'.piece (m : ℤ))

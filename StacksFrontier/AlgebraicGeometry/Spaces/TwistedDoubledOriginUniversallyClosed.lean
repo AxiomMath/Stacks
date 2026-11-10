@@ -136,6 +136,7 @@ theorem universallyClosed_surjective_specMap_algebraMap [FiniteDimensional k K] 
 variable (B : BigFppfSite.{u}) (hS : B.Contains (base k))
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site over the base (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_TwistedDoubledOriginUniversallyClosed :
@@ -314,7 +315,7 @@ applies. -/
 theorem universallyClosed_doubledProjOver : UniversallyClosed (doubledProjOver k K).left := by
   have : Surjective (doubledChartsToGlued k K) := (doubledChartsToGlued_fppf k K).2.2
   have : UniversallyClosed (doubledChartsToGlued k K ≫ (doubledProjOver k K).left) := by
-    show UniversallyClosed (doubledChartsToGlued k K ≫
+    change UniversallyClosed (doubledChartsToGlued k K ≫
       (Stacks.Examples.doubleSectionCover (cover K) (puncturedCover K)).proj)
     rw [doubledChartsToGlued_comp_proj]
     infer_instance
@@ -327,7 +328,7 @@ theorem doubledSelfProductToGlued_comp_doubledProjOver :
       prod.fst (X := coverOverBase k K) (Y := coverOverBase k K) := by
   ext1
   rw [Over.comp_left, doubledSelfProductToGlued_left]
-  show (coverSelfProductIso k K hdegree σ hσ).hom ≫ doubledChartsToGlued k K ≫
+  change (coverSelfProductIso k K hdegree σ hσ).hom ≫ doubledChartsToGlued k K ≫
       (Stacks.Examples.doubleSectionCover (cover K) (puncturedCover K)).proj = _
   rw [doubledChartsToGlued_comp_proj, coverSelfProductIso, Iso.trans_hom, Category.assoc,
     ← coverFiberProductSplitIso_inv_fst k K hdegree σ hσ, Iso.hom_inv_id_assoc]
@@ -408,7 +409,7 @@ theorem exists_isIso_baseChangePresheaf_comp_doubledProjOver :
   rw [← Category.assoc, ← Category.assoc,
     Stacks.Groupoids.toQuotientPresheaf_comp_quotientPresheafToPoints,
     toQuotientPresheaf_comp_quotientToBaseChange, coverSelfProductToBaseChange_comp_fst]
-  show (pointsFunctor k B hS).map _ ≫ (pointsFunctor k B hS).map _ = _
+  change (pointsFunctor k B hS).map _ ≫ (pointsFunctor k B hS).map _ = _
   rw [← Functor.map_comp, doubledSelfProductToGlued_comp_doubledProjOver]
 
 /-! ### The fibre over the origin -/

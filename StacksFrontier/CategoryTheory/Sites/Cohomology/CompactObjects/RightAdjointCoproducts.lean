@@ -76,7 +76,7 @@ theorem isIso_of_generator_hom_bijective (generator : C)
   obtain ⟨lift, hlift⟩ := Triangle.coyoneda_exact₃ _ htriangle map hboundary
   obtain ⟨preimage, hpreimage⟩ := (hhom _ hobject).2 lift
   rw [hlift, ← hpreimage, Category.assoc]
-  show preimage ≫ (morphism ≫ next) = 0
+  change preimage ≫ (morphism ≫ next) = 0
   have hnext : morphism ≫ next = 0 := comp_distTriang_mor_zero₁₂ _ htriangle
   rw [hnext, comp_zero]
 

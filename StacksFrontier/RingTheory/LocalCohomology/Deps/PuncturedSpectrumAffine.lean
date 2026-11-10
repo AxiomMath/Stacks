@@ -125,7 +125,7 @@ theorem isAffineOpen_puncturedSpectrum_of_krullDimLE_one
     have : Subsingleton (PrimeSpectrum (↑(CommRingCat.of A))) :=
       Ring.KrullDimLE.subsingleton_primeSpectrum (↑(CommRingCat.of A))
     have : Subsingleton (Spec (.of A)) := by
-      show Subsingleton (PrimeSpectrum (↑(CommRingCat.of A)))
+      change Subsingleton (PrimeSpectrum (↑(CommRingCat.of A)))
       infer_instance
     intro x _ y _
     exact Subsingleton.elim x y

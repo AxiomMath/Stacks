@@ -41,7 +41,7 @@ theorem scaleHom_kummerMap (c : Fˣ) (hc : c ^ n = 1) (z : Ring k) :
     · intro a
       simp only [RingHom.comp_apply, kummerMap_C, scaleHom_C]
     · simp only [RingHom.comp_apply]
-      show scaleHom F c (kummerMap k F n (coord k)) = kummerMap k F n (coord k)
+      change scaleHom F c (kummerMap k F n (coord k)) = kummerMap k F n (coord k)
       rw [kummerMap_coord, map_pow, scaleHom_coord, mul_pow, ← map_pow, ← C_pow,
         ← Units.val_pow_eq_pow_val, hc, Units.val_one, C_1, map_one, one_mul]
   exact RingHom.congr_fun this z
@@ -56,7 +56,7 @@ theorem coeffHom_kummerMap (σ : F →+* F) (hσ : ∀ a : k, σ (algebraMap k F
     · intro a
       simp only [RingHom.comp_apply, kummerMap_C, coeffHom_C, hσ]
     · simp only [RingHom.comp_apply]
-      show coeffHom F σ (kummerMap k F n (coord k)) = kummerMap k F n (coord k)
+      change coeffHom F σ (kummerMap k F n (coord k)) = kummerMap k F n (coord k)
       rw [kummerMap_coord, map_pow, coeffHom_coord]
   exact RingHom.congr_fun this z
 
@@ -73,7 +73,7 @@ theorem deck_kummerMap (m : ℕ) (γ : Gamma (inverseCharacter (Fintype.card k))
     deck k m γ (kummerMap k (towerField k m) (towerN k m) z) =
       kummerMap k (towerField k m) (towerN k m) z := by
   rw [deck_apply]
-  show scaleHom _ _ (coeffHom _ _ _) = _
+  change scaleHom _ _ (coeffHom _ _ _) = _
   rw [coeffHom_kummerMap _ _ (fun a ↦ frobAut_inv_pow_algebraMap k m _ a),
     scaleHom_kummerMap _ _ (zetaPow_pow_towerN k m _)]
 
@@ -114,7 +114,7 @@ theorem towerTransition_scaleHom (m : ℕ) (c : (towerField k m)ˣ) (c' : (tower
     refine ringHom_ext_ring _ (fun a ↦ ?_) ?_
     · simp only [RingHom.comp_apply, scaleHom_C, towerTransition_C]
     · simp only [RingHom.comp_apply, scaleHom_coord, map_mul, towerTransition_C,
-        towerTransition_coord, map_pow, mul_pow, ← h, C_pow]
+        towerTransition_coord, map_pow, mul_pow, ← h]
   exact RingHom.congr_fun this z
 
 /-- For `a ∣ b` and `x ∈ ℤ/b`, the representative of the image of `x` in `ℤ/a` is the
@@ -145,7 +145,7 @@ theorem frobAut_incl (m : ℕ) (a : towerField k m) :
 /-- The inverse Frobenius of `𝔽_{(m+1)!}` restricts to the inverse Frobenius of `𝔽_{m!}`. -/
 theorem frobAut_inv_incl (m : ℕ) (a : towerField k m) :
     (frobAut k (m + 1))⁻¹ (towerIncl k m a) = towerIncl k m ((frobAut k m)⁻¹ a) := by
-  show (frobAut k (m + 1)).symm _ = towerIncl k m ((frobAut k m).symm a)
+  change (frobAut k (m + 1)).symm _ = towerIncl k m ((frobAut k m).symm a)
   rw [RingEquiv.symm_apply_eq, frobAut_incl, RingEquiv.apply_symm_apply]
 
 /-- Every power of the inverse Frobenius of `𝔽_{(m+1)!}` restricts to the same power of the
@@ -156,7 +156,7 @@ theorem frobAut_inv_pow_incl (m e : ℕ) (a : towerField k m) :
   | zero => rfl
   | succ e ih =>
     rw [pow_succ, pow_succ]
-    show ((frobAut k (m + 1))⁻¹ ^ e) ((frobAut k (m + 1))⁻¹ (towerIncl k m a)) =
+    change ((frobAut k (m + 1))⁻¹ ^ e) ((frobAut k (m + 1))⁻¹ (towerIncl k m a)) =
       towerIncl k m (((frobAut k m)⁻¹ ^ e) ((frobAut k m)⁻¹ a))
     rw [frobAut_inv_incl, ih]
 
@@ -165,7 +165,7 @@ theorem towerTransition_deck (m : ℕ) (γ : Gamma (inverseCharacter (Fintype.ca
     (z : Ring (towerField k m)) :
     towerTransition k m (deck k m γ z) = deck k (m + 1) γ (towerTransition k m z) := by
   rw [deck_apply, deck_apply]
-  show towerTransition k m (scaleHom _ _ (coeffHom _ _ z)) =
+  change towerTransition k m (scaleHom _ _ (coeffHom _ _ z)) =
     scaleHom _ _ (coeffHom _ _ (towerTransition k m z))
   rw [towerTransition_scaleHom k m _ (zetaPow k (m + 1) (redN k (m + 1)
     (Multiplicative.toAdd γ.left))), towerTransition_coeffHom k m _
@@ -175,7 +175,7 @@ theorem towerTransition_deck (m : ℕ) (γ : Gamma (inverseCharacter (Fintype.ca
       rw [inv_pow, frobAut_pow_factorial, inv_one]
     rw [frobAut_inv_pow_incl, pow_eq_pow_mod _ hord, redF_val_mod]
   · apply Subtype.ext
-    show (((zetaPow k (m + 1) _ : (towerField k (m + 1))ˣ) : towerField k (m + 1)) : Omega k) ^
+    change (((zetaPow k (m + 1) _ : (towerField k (m + 1))ˣ) : towerField k (m + 1)) : Omega k) ^
       towerRatio k m = (((zetaPow k m _ : (towerField k m)ˣ) : towerField k m) : Omega k)
     rw [zetaPow, zetaPow, Units.val_pow_eq_pow_val, Units.val_pow_eq_pow_val,
       IntermediateField.coe_pow, IntermediateField.coe_pow, coe_zetaUnit, coe_zetaUnit,
@@ -235,7 +235,7 @@ theorem exists_eq_towerPoint_comp_deck (m : ℕ) (ψ : Ring (towerField k m) →
         kummerMap k (towerField k m) (towerN k m) (algebraMap k[X] (Ring k) (C a)) := by
       rw [kummerMap_C, IsScalarTower.algebraMap_apply (towerField k m) (towerField k m)[X]
         (Ring (towerField k m)), ← C_eq_algebraMap]
-    show ψ (algebraMap (towerField k m) (Ring (towerField k m))
+    change ψ (algebraMap (towerField k m) (Ring (towerField k m))
       (algebraMap k (towerField k m) a)) = _
     rw [this, hψ, algebraMap_C, algebraMap_omega]
   let ρ : (towerField k m) →ₐ[k] (towerField k m) :=
@@ -267,22 +267,22 @@ theorem exists_eq_towerPoint_comp_deck (m : ℕ) (ψ : Ring (towerField k m) →
           frobAut k m ^ (redF m (-((i.1 : ℕ) : ProfiniteIntegers))).val = 1 := by
         rw [← pow_add, hc, pow_mul, frobAut_pow_factorial, one_pow]
       rw [inv_pow, ← eq_inv_of_mul_eq_one_left h1]
-    show ψ (algebraMap _ _ (C a)) =
+    change ψ (algebraMap _ _ (C a)) =
       towerPoint k m (scaleHom _ _ (coeffHom _ _ (algebraMap _ (Ring (towerField k m)) (C a))))
     rw [coeffHom_C, scaleHom_C, towerPoint_algebraMap, eval₂_C]
-    show ψ (algebraMap _ _ (C a)) = (((((frobAut k m)⁻¹ ^
+    change ψ (algebraMap _ _ (C a)) = (((((frobAut k m)⁻¹ ^
       (redF m (-((i.1 : ℕ) : ProfiniteIntegers))).val) a : towerField k m)) : Omega k)
     rw [hτ, frobAut_pow_apply, IntermediateField.coe_pow]
     have hρ : ((ρ a : towerField k m) : Omega k) =
         ψ (algebraMap _ (Ring (towerField k m)) (C a)) := by
-      show ψ (algebraMap (towerField k m) (Ring (towerField k m)) a) = _
+      change ψ (algebraMap (towerField k m) (Ring (towerField k m)) a) = _
       rw [IsScalarTower.algebraMap_apply (towerField k m) (towerField k m)[X]
         (Ring (towerField k m)), ← C_eq_algebraMap]
     rw [← hρ, ← hi, AlgHom.coe_pow, FiniteField.coe_frobeniusAlgHom, pow_iterate,
       IntermediateField.coe_pow]
-  · show s = towerPoint k m (scaleHom _ _ (coeffHom _ _ (coord _)))
+  · change s = towerPoint k m (scaleHom _ _ (coeffHom _ _ (coord _)))
     rw [coeffHom_coord, scaleHom_coord, map_mul, towerPoint_algebraMap, eval₂_C, towerPoint_coord]
-    show s = (((zetaPow k m (redN k m (j : RestrictedProfiniteIntegers (Fintype.card k))) :
+    change s = (((zetaPow k m (redN k m (j : RestrictedProfiniteIntegers (Fintype.card k))) :
       (towerField k m)ˣ) : towerField k m) : Omega k) * towerRoot k m
     rw [map_natCast, zetaPow_natCast, Units.val_pow_eq_pow_val, IntermediateField.coe_pow,
       coe_zetaUnit, hj, div_mul_cancel₀ _ (towerRoot_ne_zero k m)]
@@ -305,7 +305,7 @@ theorem deck_coord (m : ℕ) (γ : Gamma (inverseCharacter (Fintype.card k))) :
     towerPoint k m (deck k m γ (coord (towerField k m))) =
       towerZeta k m ^ (redN k m (Multiplicative.toAdd γ.left)).val * towerRoot k m := by
   rw [deck_apply]
-  show towerPoint k m (scaleHom _ _ (coeffHom _ _ (coord _))) = _
+  change towerPoint k m (scaleHom _ _ (coeffHom _ _ (coord _))) = _
   rw [coeffHom_coord, scaleHom_coord, map_mul, towerPoint_algebraMap, eval₂_C, towerPoint_coord]
   exact congrArg (· * towerRoot k m) (coe_zetaPow k m _)
 
@@ -315,7 +315,7 @@ theorem deck_C (m : ℕ) (γ : Gamma (inverseCharacter (Fintype.card k))) (a : t
     deck k m γ (algebraMap _ (Ring (towerField k m)) (C a)) = algebraMap _ (Ring (towerField k m))
       (C (((frobAut k m)⁻¹ ^ (redF m (Multiplicative.toAdd γ.right)).val) a)) := by
   rw [deck_apply]
-  show scaleHom _ _ (coeffHom _ _ _) = _
+  change scaleHom _ _ (coeffHom _ _ _) = _
   rw [coeffHom_C, scaleHom_C]
   rfl
 
@@ -388,7 +388,7 @@ theorem deck_eq_of_red_eq (m : ℕ) {γ γ' : Gamma (inverseCharacter (Fintype.c
     (hr : redF m (Multiplicative.toAdd γ.right) = redF m (Multiplicative.toAdd γ'.right)) :
     deck k m γ = deck k m γ' := RingEquiv.ext fun z ↦ by
   rw [deck_apply, deck_apply]
-  show scaleHom _ (zetaPow k m (redN k m _)) (coeffHom _ (((frobAut k m)⁻¹ ^
+  change scaleHom _ (zetaPow k m (redN k m _)) (coeffHom _ (((frobAut k m)⁻¹ ^
       (redF m _).val : RingAut _)).toRingHom z) =
     scaleHom _ (zetaPow k m (redN k m _)) (coeffHom _ (((frobAut k m)⁻¹ ^
       (redF m _).val : RingAut _)).toRingHom z)
@@ -413,6 +413,7 @@ theorem exists_dvd_towerN_of_coprime (n : ℕ) (hn0 : n ≠ 0) (hcop : (Fintype.
     ∃ m, n ∣ towerN k m :=
   exists_dvd_towerN_aux k n hn0 hcop
 
+omit [Field k] in
 /-- `N_m ∣ N_{m'}` whenever `m ≤ m'`. -/
 theorem towerN_dvd_of_le {m m' : ℕ} (h : m ≤ m') : towerN k m ∣ towerN k m' := by
   induction h with

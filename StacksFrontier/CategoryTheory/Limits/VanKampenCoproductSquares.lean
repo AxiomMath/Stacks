@@ -73,8 +73,8 @@ theorem IsUniversalColimit.isPullback_of_forall_isPullback {G : I → C} {cG : C
   let e : ∀ i, pullback a (cG.inj i) ≅ pullback t (cG.inj i) := fun i =>
     (hi i).isoIsPullback _ _ (hPi i)
   have hcompat : ∀ i, pullback.fst a (cG.inj i) ≫ m = (e i).hom ≫ pullback.fst t (cG.inj i) :=
-    fun i => pullback.hom_ext (by simp [m, e, pullback.lift_fst])
-      (by simp [m, e, t, pullback.lift_snd, pullback.condition])
+    fun i => pullback.hom_ext (by simp [m, e])
+      (by simp [m, e, t, pullback.condition])
   let inv : pullback b c ⟶ X :=
     Cofan.IsColimit.desc hP fun i => (e i).inv ≫ pullback.fst a (cG.inj i)
   have hfac : ∀ i, pullback.fst t (cG.inj i) ≫ inv = (e i).inv ≫ pullback.fst a (cG.inj i) :=

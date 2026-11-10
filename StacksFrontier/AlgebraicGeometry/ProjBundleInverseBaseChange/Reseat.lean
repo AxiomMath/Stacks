@@ -82,7 +82,8 @@ statement about Tag 01CU's multiplication, not about a monoidal structure.
 
 **That identification is proved**, in the sibling module
 `StacksFrontier.AlgebraicGeometry.ProjBundleInverseBaseChange.MulNegOne`:
-`Stacks.ProjBundleInverseBaseChange.negOneMulIso'_eq`. **No section is involved**: the statement on sections,
+`Stacks.ProjBundleInverseBaseChange.negOneMulIso'_eq`. **No section is involved**: the statement
+on sections,
 `Stacks.ProjectiveBundleConormal.sectionMulNegOne_eq_negOneMulIso` together with
 `Stacks.SheafOfModules.Invertible.mulNegOneIso_toSheafify`, is not used. The whole
 content is the naturality of the braiding of the tensor product sheaf

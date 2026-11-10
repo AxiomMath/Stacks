@@ -40,7 +40,7 @@ universe u
 
 namespace DirectSum
 
-variable {κ : Type*} [DecidableEq κ] {M : κ → Type*} [∀ k, AddCommGroup (M k)] {J : Type*}
+variable {κ : Type*} {M : κ → Type*} [∀ k, AddCommGroup (M k)] {J : Type*}
   {N : J → κ → Type*} [∀ j k, AddCommGroup (N j k)]
   (F : ∀ j, (⨁ k, M k) →+ ⨁ k, N j k) (φ : ∀ j k, M k →+ N j k)
   (hF : ∀ j x k, F j x k = φ j k (x k))
@@ -55,26 +55,26 @@ theorem bijective_pi_of_bijective_apply [Finite J]
   classical
   have := Fintype.ofFinite J
   refine ⟨fun x y hxy => DirectSum.ext fun k => (hφ k).1 (funext fun j => ?_), fun y => ?_⟩
-  · show φ j k (x k) = φ j k (y k)
+  · change φ j k (x k) = φ j k (y k)
     rw [← hF, ← hF]
     exact congrArg (fun z : ⨁ k, N j k => z k) (congrFun hxy j)
   · let T : Finset κ := (Finset.univ : Finset J).biUnion fun j => DFinsupp.support (y j)
     let g : ∀ k, M k := fun k => ((hφ k).2 fun j => y j k).choose
     refine ⟨(DFinsupp.mk T fun k => g k : ⨁ k, M k), funext fun j => DirectSum.ext fun k => ?_⟩
     rw [hF]
-    show φ j k (DFinsupp.mk T (fun k => g k) k) = y j k
+    change φ j k (DFinsupp.mk T (fun k => g k) k) = y j k
     rw [DFinsupp.mk_apply]
     by_cases hk : k ∈ T
-    · rw [dif_pos hk]
+    · rw [dite_eq_left hk]
       exact congrFun ((hφ k).2 fun j => y j k).choose_spec j
-    · rw [dif_neg hk, map_zero]
+    · rw [dite_eq_right hk, map_zero]
       exact (DFinsupp.notMem_support_iff.mp fun h =>
         hk (Finset.mem_biUnion.mpr ⟨j, Finset.mem_univ j, h⟩)).symm
 
 include hF in
 /-- **A family of maps of direct sums acting componentwise and jointly injectively in every
 component reflects homogeneity**: if every `F j x` lies in the `n`-th summand, so does `x`. -/
-theorem mem_range_of_of_apply
+theorem mem_range_of_of_apply [DecidableEq κ]
     (hφ : ∀ k, Function.Injective fun z : M k => fun j => φ j k z) (x : ⨁ k, M k) (n : κ)
     (h : ∀ j, F j x ∈ (DirectSum.of (N j) n).range) :
     x ∈ (DirectSum.of M n).range := by
@@ -85,7 +85,7 @@ theorem mem_range_of_of_apply
   · rw [DirectSum.of_eq_of_ne _ _ _ hk]
     refine hφ k (funext fun j => ?_)
     obtain ⟨z, hz⟩ := h j
-    show φ j k 0 = φ j k (x k)
+    change φ j k 0 = φ j k (x k)
     rw [map_zero, ← hF, ← hz, DirectSum.of_eq_of_ne _ _ _ hk]
 
 end DirectSum
@@ -154,9 +154,10 @@ theorem bijective_evenDeRhamPullback :
   DirectSum.bijective_pi_of_bijective_apply
     (fun i => (evenDeRhamPullback (U i).ι ((U i).ι ≫ p) p (𝟙 B)
       (Category.comp_id _).symm).toAddMonoidHom)
-    (fun i k => deRhamPullbackSquare (U i).ι ((U i).ι ≫ p) p (𝟙 B) (Category.comp_id _).symm _)
-    (fun i x k => evenDeRhamPullback_apply_component _ _ _ _ _ x k)
-    (fun k => bijective_deRhamPullbackSquare p U hU hdisj hcov _)
+    (fun i k => deRhamPullbackSquare (U i).ι ((U i).ι ≫ p) p (𝟙 B) (Category.comp_id _).symm
+      ((2 * k : ℕ) : ℤ))
+    (fun i x k => evenDeRhamPullback_apply_component (U i).ι ((U i).ι ≫ p) p (𝟙 B) _ x k)
+    (fun k => bijective_deRhamPullbackSquare p U hU hdisj hcov ((2 * k : ℕ) : ℤ))
 
 include hU hdisj hcov in
 /-- **The decomposition of even-degree de Rham cohomology along open and closed pieces is
@@ -169,9 +170,10 @@ theorem mem_evenDeRhamGrade_of_evenDeRhamPullback (a : evenDeRhamRing p) (n : �
   DirectSum.mem_range_of_of_apply
     (fun i => (evenDeRhamPullback (U i).ι ((U i).ι ≫ p) p (𝟙 B)
       (Category.comp_id _).symm).toAddMonoidHom)
-    (fun i k => deRhamPullbackSquare (U i).ι ((U i).ι ≫ p) p (𝟙 B) (Category.comp_id _).symm _)
-    (fun i x k => evenDeRhamPullback_apply_component _ _ _ _ _ x k)
-    (fun k => (bijective_deRhamPullbackSquare p U hU hdisj hcov _).1) a n h
+    (fun i k => deRhamPullbackSquare (U i).ι ((U i).ι ≫ p) p (𝟙 B) (Category.comp_id _).symm
+      ((2 * k : ℕ) : ℤ))
+    (fun i x k => evenDeRhamPullback_apply_component (U i).ι ((U i).ι ≫ p) p (𝟙 B) _ x k)
+    (fun k => (bijective_deRhamPullbackSquare p U hU hdisj hcov ((2 * k : ℕ) : ℤ)).1) a n h
 
 end Stacks.DeRhamClopen
 

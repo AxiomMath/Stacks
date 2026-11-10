@@ -216,8 +216,8 @@ theorem exists_pow_comp_cokernel_eq_zero (hI : IsFiniteTypeQuasicoherentIdeal B 
   have := isClosedUnderKernels_quasicoherentSheaves_schemeUniverse B S hS Y.1 Y.2
   have := isClosedUnderCokernels_quasicoherentSheaves B S hS Y.1 Y.2
   let c := complementSection B S hS Y I G s ≫ cokernel.π (complementUnit B S hS Y I G)
-  haveI : Epi (Abelian.factorThruImage c) := Abelian.instEpiFactorThruImage c
-  haveI : Mono (Abelian.image.ι c) := equalizer.ι_mono
+  have : Epi (Abelian.factorThruImage c) := Abelian.instEpiFactorThruImage c
+  have : Mono (Abelian.image.ι c) := equalizer.ι_mono
   have hH := isQuasicoherentOnSite_complementPushPull B S hS Y I hZ hYqs hUqc G hG
   have hC : (cokernel (complementUnit B S hS Y I G)).IsQuasicoherentOnSite :=
     ObjectProperty.prop_cokernel _ _ hG hH
@@ -235,7 +235,7 @@ theorem exists_pow_comp_cokernel_eq_zero (hI : IsFiniteTypeQuasicoherentIdeal B 
       ((modulePullbackIsoEtaleModulePullback B S hS (idealComplementι B S hS Y I) hι).app _).symm
   have := preservesFiniteLimits_restrictToIdealComplement B S hS Y I
   have := preservesMonomorphisms_restrictToIdealComplement B S hS Y I
-  haveI : Mono ((restrictToIdealComplement B S hS Y I).map (Abelian.image.ι c)) :=
+  have : Mono ((restrictToIdealComplement B S hS Y I).map (Abelian.image.ι c)) :=
     Functor.map_mono _ _
   have hRM : IsZero ((restrictToIdealComplement B S hS Y I).obj (Abelian.image c)) :=
     IsZero.of_mono ((restrictToIdealComplement B S hS Y I).map (Abelian.image.ι c)) hRC
@@ -244,7 +244,7 @@ theorem exists_pow_comp_cokernel_eq_zero (hI : IsFiniteTypeQuasicoherentIdeal B 
   refine ⟨n, ?_⟩
   have h0 : idealSheafPowModuleι B S hS Y I (n + 1) ≫ Abelian.factorThruImage c = 0 :=
     idealSheafPowModuleι_succ_comp_eq_zero B S hS Y I n _ hn
-  show idealSheafPowModuleι B S hS Y I (n + 1) ≫ c = 0
+  change idealSheafPowModuleι B S hS Y I (n + 1) ≫ c = 0
   rw [← Abelian.image.fac c, ← Category.assoc, h0, zero_comp]
 
 
@@ -322,7 +322,7 @@ theorem val_app_eq_zero_of_generates {C : Type*} [Category C] {J : GrothendieckT
         ∑ i, a i • M.val.restrictₛₗ (g ≫ f).op (s i) := ha.symm
     have hi : ∀ i, (d.val.app (op Y)).hom (M.val.restrictₛₗ (g ≫ f).op (s i)) = 0 :=
       fun i => by
-        show (d.val.app (op Y)).hom ((M.val.map (g ≫ f).op).hom (s i)) = 0
+        change (d.val.app (op Y)).hom ((M.val.map (g ≫ f).op).hom (s i)) = 0
         rw [PresheafOfModules.naturality_apply, hd i]
         exact map_zero _
     rw [hz, map_sum]
@@ -410,7 +410,7 @@ theorem exists_smul_eq_zero_of_mem_ker (hI : IsFiniteTypeQuasicoherentIdeal B S 
   -- the sectionwise kernel, its quasi-coherence and its vanishing on the complement
   let K := homKernelSubmodule B S hS Y ρ
   have hD : (idealSheafPowModule B S hS Y I (n + 1)).IsQuasicoherentOnSite := by
-    show ((SheafOfModules.idealSheafPow I (n + 1)).toSheafOfModules).IsQuasicoherentOnSite
+    change ((SheafOfModules.idealSheafPow I (n + 1)).toSheafOfModules).IsQuasicoherentOnSite
     rw [idealSheafPow_eq_idealPowSubmodule B S hS Y I]
     exact isQuasicoherentOnSite_idealPowSubmodule B S hS Y.1 Y.2 I _
       (SheafOfModules.isQuasicoherentOnSite_unit _) hI.1 (n + 1)
@@ -435,10 +435,10 @@ theorem exists_smul_eq_zero_of_mem_ker (hI : IsFiniteTypeQuasicoherentIdeal B S 
     dd ij.2 • q ij.1 - dd ij.1 • q ij.2
   have hτ : ∀ ij, (ρ.val.app (op W)).hom (τ ij) = 0 := by
     intro ij
-    show (ρ.val.app (op W)).hom (dd ij.2 • q ij.1 - dd ij.1 • q ij.2) = 0
+    change (ρ.val.app (op W)).hom (dd ij.2 • q ij.1 - dd ij.1 • q ij.2) = 0
     rw [map_sub, map_smul, map_smul]
     refine idealSheafPowSection_ext B S hS ?_
-    show dd ij.2 * dd ij.1 - dd ij.1 * dd ij.2 = 0
+    change dd ij.2 * dd ij.1 - dd ij.1 * dd ij.2 = 0
     rw [mul_comm, sub_self]
   -- the `τᵢⱼ` in a finite type quasi-coherent submodule of the kernel, killed by some `ℐᴺ`
   have hKcart := isCartesianOnAffineCharts_of_isQuasicoherentOnSite B S hS Y.1 Y.2 _ hKq
@@ -480,7 +480,7 @@ theorem exists_smul_eq_zero_of_mem_ker (hI : IsFiniteTypeQuasicoherentIdeal B S 
     obtain ⟨α, rfl⟩ := hspan k
     have hsum : ∑ i, α i * dd i = 0 := by
       rw [← hφ]
-      show ((idealSheafPowModuleι B S hS Y I (n + 1)).val.app (op W)).hom
+      change ((idealSheafPowModuleι B S hS Y I (n + 1)).val.app (op W)).hom
         ((ρ.val.app (op W)).hom (∑ i, α i • q i)) = 0
       rw [hk, map_zero]
     have hexp : dd j • ∑ i, α i • q i =
@@ -511,7 +511,7 @@ theorem exists_smul_eq_zero_of_mem_ker (hI : IsFiniteTypeQuasicoherentIdeal B S 
     obtain ⟨γ, rfl⟩ := hspan q'
     refine ⟨γ, ?_⟩
     rw [← hφ]
-    show c = ((idealSheafPowModuleι B S hS Y I (n + 1)).val.app (op W)).hom
+    change c = ((idealSheafPowModuleι B S hS Y I (n + 1)).val.app (op W)).hom
       ((ρ.val.app (op W)).hom (∑ j, γ j • q j))
     rw [hq']
     rfl
@@ -528,7 +528,7 @@ theorem exists_smul_eq_zero_of_mem_ker (hI : IsFiniteTypeQuasicoherentIdeal B S 
         exact h ▸ h'
       obtain ⟨γ, rfl⟩ := hc c hc'
       refine Subtype.ext ?_
-      show (b * ∑ j, γ j * dd j) • (submoduleSection B S hS x).1 = 0
+      change (b * ∑ j, γ j * dd j) • (submoduleSection B S hS x).1 = 0
       rw [mul_smul, Finset.sum_smul, Finset.smul_sum]
       refine Finset.sum_eq_zero fun j _ => ?_
       rw [mul_smul, smul_comm, hd _ (submoduleSection B S hS x).2 b hb' j, smul_zero]
@@ -545,7 +545,7 @@ theorem exists_smul_eq_zero_of_mem_ker (hI : IsFiniteTypeQuasicoherentIdeal B S 
 /-- `ℐⁿ` is quasi-coherent, for a quasi-coherent sheaf of ideals `ℐ`. -/
 theorem isQuasicoherentOnSite_idealSheafPowModule (hI : I.toSheafOfModules.IsQuasicoherentOnSite)
     (n : ℕ) : (idealSheafPowModule B S hS Y I n).IsQuasicoherentOnSite := by
-  show ((SheafOfModules.idealSheafPow I n).toSheafOfModules).IsQuasicoherentOnSite
+  change ((SheafOfModules.idealSheafPow I n).toSheafOfModules).IsQuasicoherentOnSite
   rw [idealSheafPow_eq_idealPowSubmodule B S hS Y I]
   exact isQuasicoherentOnSite_idealPowSubmodule B S hS Y.1 Y.2 I _
     (SheafOfModules.isQuasicoherentOnSite_unit _) hI n
@@ -566,14 +566,14 @@ theorem isFiniteTypeOnSite_idealSheafPowModule
   have key : SheafOfModules.idealSheafPow I n =
       Stacks.Sites.idealPowSmul (M := SheafOfModules.unit (structureRingSheaf B S hS Y)) I n ⊤ :=
     idealSheafPow_eq_idealPowSubmodule B S hS Y I n
-  show SheafOfModules.IsFiniteTypeOnSite (SheafOfModules.idealSheafPow I n).toSheafOfModules
+  change SheafOfModules.IsFiniteTypeOnSite (SheafOfModules.idealSheafPow I n).toSheafOfModules
   rw [key]
   exact Stacks.SheafOfModules.isFiniteTypeOnSite_of_presheaf_isFiniteType _ h
 
 /-- The inclusion `ℐⁿ ⟶ 𝒪_Y` becomes an isomorphism on the open complement. -/
 theorem isIso_restrictToIdealComplement_map_idealSheafPowModuleι (n : ℕ) :
     IsIso ((restrictToIdealComplement B S hS Y I).map (idealSheafPowModuleι B S hS Y I n)) := by
-  show IsIso ((restrictToIdealComplement B S hS Y I).map (SheafOfModules.idealSheafPow I n).ι)
+  change IsIso ((restrictToIdealComplement B S hS Y I).map (SheafOfModules.idealSheafPow I n).ι)
   rw [idealSheafPow_eq_idealPowSubmodule B S hS Y I]
   exact isIso_restrictToIdealComplement_map_idealPowModuleι B S hS Y I n (unitSheafModule B S hS Y)
 

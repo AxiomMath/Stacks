@@ -128,7 +128,7 @@ public lemma degreeMap_mul (J : Ideal A) (φ : Fin r → J →ₗ[A] A)
       have hsub : (⟨(x : A) * (y : A), hmem⟩ : ↥(J ^ m : Ideal A)) = (y : A) • x := by
         ext
         exact hxy
-      show degreeMap J φ (m + 0) _ = _
+      change degreeMap J φ (m + 0) _ = _
       simp only [Nat.add_zero]
       rw [hsub, (degreeMap J φ m).map_smul]
       simp [degreeMap, Algebra.smul_def, mul_comm]
@@ -146,7 +146,7 @@ public lemma degreeMap_mul (J : Ideal A) (φ : Fin r → J →ₗ[A] A)
         apply Subtype.ext
         have hxyM : (x : A) * (y : A) ∈ J ^ ((m + n) + 1) := by
           simpa [pow_add, pow_succ, mul_assoc] using Ideal.mul_mem_mul x.property y.property
-        show φ j ⟨(x : A) * (y : A), Ideal.pow_le_self (by omega) hxyM⟩ =
+        change φ j ⟨(x : A) * (y : A), Ideal.pow_le_self (by omega) hxyM⟩ =
           (x : A) * φ j ⟨(y : A), Ideal.pow_le_self (by omega) y.property⟩
         have hinput : (⟨(x : A) * (y : A), Ideal.pow_le_self (by omega) hxyM⟩ : J) =
             (x : A) • (⟨(y : A), Ideal.pow_le_self (by omega) y.property⟩ : J) := by
@@ -244,7 +244,7 @@ public lemma reesLinearMap_monomial (J : Ideal A) (φ : Fin r → J →ₗ[A] A)
   · have hm : Polynomial.monomial n a ∈ reesAlgebra J := reesAlgebra.monomial_mem.mpr ha
     have hcoeff : ∀ i, (Polynomial.monomial n a).coeff i ∈ J ^ i :=
       (mem_reesAlgebra_iff J (Polynomial.monomial n a)).mp hm
-    show (∑ i ∈ Finset.range (((Polynomial.monomial n a).natDegree) + 1),
+    change (∑ i ∈ Finset.range (((Polynomial.monomial n a).natDegree) + 1),
       degreeMap J φ i ⟨(Polynomial.monomial n a).coeff i, hcoeff i⟩) =
         degreeMap J φ n ⟨a, ha⟩
     rw [Polynomial.natDegree_monomial_eq n hzero, Finset.sum_eq_single n]
@@ -271,7 +271,7 @@ public lemma reesLinearMap_mul (J : Ideal A) (φ : Fin r → J →ₗ[A] A) (p q
     ⟨Polynomial.monomial i (z.val.coeff i), reesAlgebra.monomial_mem.mpr (z.property i)⟩
   have hsum : ∀ z : reesAlgebra J, z = ∑ i ∈ z.val.support, term z i := fun z => by
     apply Subtype.ext
-    show z.val = (Subalgebra.val (reesAlgebra J)) (∑ i ∈ z.val.support, term z i)
+    change z.val = (Subalgebra.val (reesAlgebra J)) (∑ i ∈ z.val.support, term z i)
     rw [map_sum]
     simpa [term] using z.val.as_sum_support
   rw [hsum p, hsum q, Finset.sum_mul_sum]
@@ -306,11 +306,11 @@ public theorem extendLinearMaps_degreeOne (J : Ideal A) (φ : Fin r → J →ₗ
   classical
   rw [extendLinearMaps, AlgHom.ofLinearMap_apply, degreeOne,
     reesLinearMap_monomial J φ 1 (x : A) (by simp)]
-  show degreeMap J φ (0 + 1) ⟨(x : A), by simp⟩ = _
+  change degreeMap J φ (0 + 1) ⟨(x : A), by simp⟩ = _
   rw [degreeMap_succ]
   refine Finset.sum_congr rfl fun j _ => ?_
   simp only [degreeMap, phiOnPow]
-  show MvPolynomial.C (φ j (⟨(x : A), x.property⟩ : J)) * _ = _
+  change MvPolynomial.C (φ j (⟨(x : A), x.property⟩ : J)) * _ = _
   exact congrArg (fun t => MvPolynomial.C t * MvPolynomial.X j)
     (congrArg (φ j) (Subtype.ext rfl))
 
@@ -381,11 +381,11 @@ public theorem aeval_extendLinearMaps_eq (I : Ideal A) (c : ℕ) (f : Fin r → 
       Ψ (degreeOne (I ^ c) x) =
         (Subalgebra.val (reesAlgebra (I ^ c))) (degreeOne (I ^ c) x) := by
     intro x
-    show E (extendLinearMaps (I ^ c) φ (degreeOne (I ^ c) x)) = _
+    change E (extendLinearMaps (I ^ c) φ (degreeOne (I ^ c) x)) = _
     rw [hE, extendLinearMaps_degreeOne]
     simp only [MvPolynomial.aeval_sum, map_mul, MvPolynomial.aeval_C, MvPolynomial.aeval_X]
     simp only [degreeOne]
-    show (∑ j : Fin r, Polynomial.C (φ j x) * Polynomial.monomial 1 (f j)) =
+    change (∑ j : Fin r, Polynomial.C (φ j x) * Polynomial.monomial 1 (f j)) =
       Polynomial.monomial 1 (x : A)
     simp only [Polynomial.C_mul_monomial]
     have hsum : (∑ j, (φ j x : A) * f j) = (x : A) :=

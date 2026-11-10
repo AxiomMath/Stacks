@@ -214,7 +214,7 @@ public lemma Scheme.algebraMap_residueFieldIsoOfAffine (X : Scheme.{u}) [IsAffin
     CommRingCat.ofHom (algebraMap Γ(X, ⊤) (X.isoSpec.hom x).asIdeal.ResidueField) ≫
         (X.residueFieldIsoOfAffine x).hom = X.Γevaluation x := by
   let _ := (X.isoSpec.hom x).isPrime
-  show CommRingCat.ofHom (algebraMap Γ(X, ⊤) (X.isoSpec.hom x).asIdeal.ResidueField) ≫
+  change CommRingCat.ofHom (algebraMap Γ(X, ⊤) (X.isoSpec.hom x).asIdeal.ResidueField) ≫
       ((Scheme.Spec.residueFieldIso Γ(X, ⊤) (X.isoSpec.hom x)).symm ≪≫
         asIso (X.isoSpec.hom.residueFieldMap x)).hom = _
   rw [Iso.trans_hom, Iso.symm_hom, asIso_hom, ← Category.assoc,
@@ -223,7 +223,7 @@ public lemma Scheme.algebraMap_residueFieldIsoOfAffine (X : Scheme.{u}) [IsAffin
       (Spec Γ(X, ⊤)).residue (X.isoSpec.hom x) =
       (Spec Γ(X, ⊤)).Γevaluation (X.isoSpec.hom x) := rfl
   rw [Category.assoc (Scheme.ΓSpecIso Γ(X, ⊤)).inv, h, Scheme.Γevaluation_naturality]
-  show (Scheme.ΓSpecIso Γ(X, ⊤)).inv ≫ Scheme.Hom.appTop X.toSpecΓ ≫ X.Γevaluation x = _
+  change (Scheme.ΓSpecIso Γ(X, ⊤)).inv ≫ Scheme.Hom.appTop X.toSpecΓ ≫ X.Γevaluation x = _
   rw [← Category.assoc, Scheme.toSpecΓ_appTop, Iso.inv_hom_id, Category.id_comp]
 
 /-- `AlgebraicGeometry.Scheme.residueFieldIsoOfAffine`, precomposed with the identification of
@@ -284,13 +284,13 @@ public theorem purelyTranscendental_residueField_appTop {Y S : Scheme.{u}} [IsAf
     have hb' : CommRingCat.ofHom (algebraMap Γ(S, ⊤) r.ResidueField) ≫ b = S.Γevaluation s :=
       S.algebraMap_congr_residueFieldIsoOfAffine s r hr
     have hm' : S.Γevaluation s ≫ m = g.appTop ≫ Y.Γevaluation y := by
-      show S.Γevaluation s ≫ (S.residueFieldCongr hgy).inv ≫ g.residueFieldMap y = _
+      change S.Γevaluation s ≫ (S.residueFieldCongr hgy).inv ≫ g.residueFieldMap y = _
       rw [← Scheme.Γevaluation_residueFieldCongr hgy]
       simp only [Category.assoc, Iso.hom_inv_id_assoc]
       exact Scheme.Γevaluation_naturality g y
     have hc' : Y.Γevaluation y ≫ c =
         CommRingCat.ofHom (algebraMap Γ(Y, ⊤) p.ResidueField) := by
-      show Y.Γevaluation y ≫ (Y.residueFieldIsoOfAffine y).inv ≫
+      change Y.Γevaluation y ≫ (Y.residueFieldIsoOfAffine y).inv ≫
         CommRingCat.ofHom (Ideal.ResidueField.congr hp).toRingHom = _
       have hinv : Y.Γevaluation y ≫ (Y.residueFieldIsoOfAffine y).inv =
           CommRingCat.ofHom

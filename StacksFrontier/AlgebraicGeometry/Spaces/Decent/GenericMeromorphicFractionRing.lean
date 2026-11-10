@@ -44,23 +44,17 @@ attribute [local instance] pointTopology
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hX : IsAlgebraicSpace B S hS X)
-    (hdec : IsDecentSpace B S hS X) (hInt : IsIntegralSpace B S hS X)
+    (hdec : IsDecentSpace B S hS X)
     (Z : PrimeDivisor B S hS X)
 
 section Generic
 
-variable (R : Type u) [CommRing R] [IsLocalRing R]
+variable (R : Type u) [CommRing R]
   [Algebra ((Z.genericChart B S hS hX hdec).scheme.left.1.presheaf.stalk
     (Z.genericChart B S hS hX hdec).point) R]
-  [IsLocalRing.IsHenselization
-    ((Z.genericChart B S hS hX hdec).scheme.left.1.presheaf.stalk
-      (Z.genericChart B S hS hX hdec).point)
-    (IsLocalRing.ResidueField
-      ((Z.genericChart B S hS hX hdec).scheme.left.1.presheaf.stalk
-        (Z.genericChart B S hS hX hdec).point)) R]
   (hR : B.Contains (Spec (.of R)))
 
-include hX hdec hInt Z in
+include hX hdec Z in
 /-- The ring of meromorphic functions of `Spec(𝒪^h_{X, ξ})` over the identity étale chart is a
 total ring of fractions of `𝒪^h_{X, ξ}`, for a reduced Noetherian henselization `𝒪^h_{X, ξ}` at
 the generic point `ξ` of a prime divisor. -/
@@ -99,14 +93,14 @@ theorem PrimeDivisor.isFractionRing_genericMeromorphicFunctions
         (op (Z.genericHenselianChart B S hS hX hdec R hR))) :=
     isFractionRing_meromorphicFunctionSheaf_obj B S hS
       (Z.genericHenselianSpace B S hS hX hdec R hR)
-      (Z.forall_localRingDimension_genericHenselianSpace_eq_zero B S hS hX hdec hInt R hR hred)
+      (Z.forall_localRingDimension_genericHenselianSpace_eq_zero B S hS hX hdec R hR hred)
       (Z.hasLocallyFiniteIrreducibleComponents_genericHenselianSpace B S hS hX hdec R hR hnoeth)
       (Z.genericHenselianChart B S hS hX hdec R hR)
       (inferInstanceAs (IsAffine (Spec (CommRingCat.of R))))
   exact IsFractionRing.of_ringEquiv_left
     (Scheme.ΓSpecIso (CommRingCat.of R)).symm.commRingCatIsoToRingEquiv fun _ => rfl
 
-include hX hdec hInt Z in
+include hX hdec Z in
 /-- `AlgebraicGeometry.Space.PrimeDivisor.isFractionRing_genericMeromorphicFunctions` over
 `AlgebraicGeometry.Space.meromorphicChartRing`, with the algebra structure given by
 `AlgebraicGeometry.Space.PrimeDivisor.genericToMeromorphicFunctions`. -/
@@ -121,7 +115,7 @@ theorem PrimeDivisor.isFractionRing_genericMeromorphicChartRing
       (Z.genericHenselianSpace B S hS hX hdec R hR).obj
       (Z.genericHenselianSpace B S hS hX hdec R hR).property
       (Z.genericHenselianChart B S hS hX hdec R hR)) :=
-  Z.isFractionRing_genericMeromorphicFunctions B S hS hX hdec hInt R hR hred hnoeth
+  Z.isFractionRing_genericMeromorphicFunctions B S hS hX hdec R hR hred hnoeth
 
 end Generic
 

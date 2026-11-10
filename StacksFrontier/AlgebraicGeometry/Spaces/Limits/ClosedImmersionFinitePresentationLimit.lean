@@ -129,7 +129,7 @@ theorem exists_isLimit_closedSubspaces_of_isClosedImmersion (Y : AlgebraicSpaces
     fun i ↦ ?_, ⟨IsLimit.ofIsoLimit A.isLimit
       (Cone.extendIso (closedSubspaceCone B S hS (fun i ↦ (A.stage i).1) A.stage_antitone C.1
         A.le_stage) (asIso (Subfunctor.toRange f)).symm)⟩⟩
-  show (Subfunctor.toRange f ≫ Subfunctor.homOfLe (A.le_stage i)) ≫ (A.stage i).1.ι = f
+  change (Subfunctor.toRange f ≫ Subfunctor.homOfLe (A.le_stage i)) ≫ (A.stage i).1.ι = f
   rw [Category.assoc, Subfunctor.homOfLe_ι, Subfunctor.toRange_ι]
 
 end AlgebraicGeometry.Space

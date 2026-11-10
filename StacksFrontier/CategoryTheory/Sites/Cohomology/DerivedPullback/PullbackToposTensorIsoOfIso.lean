@@ -138,6 +138,10 @@ theorem conjugateEquiv_pullbackToposIsoOfIso :
   rw [h₁, h₂, h₃]
   exact Category.assoc _ _ _
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- On underlying sheaves of sets the comparison of the four-field direct image with Mathlib's,
 followed by any morphism, is that morphism: the comparison is the identity there. -/
 private theorem map_pushforwardModulesToposIso_hom_app_comp' (f : RingedToposSiteHom X Y)
@@ -154,14 +158,18 @@ private theorem map_pushforwardModulesToposIso_hom_app_comp' (f : RingedToposSit
     (RingedSite.Hom.ofRingedToposSiteHom f hmos).ringedToposHom N
   have h₂ : (Sheaf.moduleSheafFunctor (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).map
       ((RingedSite.Hom.ofRingedToposSiteHom f hmos).pushforwardToposIso.hom.app N) = 𝟙 _ :=
-    moduleSheafFunctor_map_ofSheafHom _ _ _
-  show (Sheaf.moduleSheafFunctor (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).map
+    moduleSheafFunctor_map_ofSheafHom.{u, u, u} _ _ _
+  change (Sheaf.moduleSheafFunctor (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).map
       ((AlgebraicGeometry.RingedToposHom.pushforwardModulesIso
           (RingedSite.Hom.ofRingedToposSiteHom f hmos).ringedToposHom).hom.app N ≫
         (RingedSite.Hom.ofRingedToposSiteHom f hmos).pushforwardToposIso.hom.app N) ≫ m = m
   rw [Functor.map_comp, h₁, h₂]
   exact (Category.assoc _ _ _).trans ((Category.id_comp _).trans (Category.id_comp m))
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The inverse comparison of the four-field direct image with Mathlib's is the identity on
 underlying sheaves of sets, read as a morphism followed by anything. -/
 private theorem map_pushforwardModulesToposIso_inv_app_comp' (f : RingedToposSiteHom X Y)
@@ -179,6 +187,8 @@ private theorem map_pushforwardModulesToposIso_inv_app_comp' (f : RingedToposSit
     (by rw [← Category.assoc, ← Functor.map_comp, Iso.hom_inv_id_app, CategoryTheory.Functor.map_id,
       Category.id_comp])
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **On underlying sheaves of sets, `Ψ_* ≅ Φ_*` is restriction along `e`**: the transformation
 `ψ.u_* ⟶ φ.u_*` of direct images of sheaves of sets induced by `e.inv : φ.u ⟶ ψ.u`. -/
 theorem moduleSheafFunctor_map_pushforwardModulesIsoOfIso_hom_app

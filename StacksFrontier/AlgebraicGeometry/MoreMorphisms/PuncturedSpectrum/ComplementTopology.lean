@@ -73,7 +73,7 @@ theorem fromSpecStalk_preimage_eq_puncturedSpectrum
   have hfclosed : f (closedPoint A) = (ξ : X) := Scheme.fromSpecStalk_closedPoint
   apply Opens.ext
   ext p
-  show f p ∈ U ↔ p ∈ ({closedPoint A} : Set (PrimeSpectrum A))ᶜ
+  change f p ∈ U ↔ p ∈ ({closedPoint A} : Set (PrimeSpectrum A))ᶜ
   constructor
   · rintro hpU rfl
     rw [hfclosed] at hpU
@@ -82,7 +82,7 @@ theorem fromSpecStalk_preimage_eq_puncturedSpectrum
     by_contra hpU
     let y : ↑((U : Set X)ᶜ) := ⟨f p, hpU⟩
     have hspec : f p ⤳ (ξ : X) := by
-      simpa only [f, Scheme.range_fromSpecStalk, Set.mem_setOf_eq] using
+      simpa only [f, Scheme.range_fromSpecStalk, Set.mem_ofPred_eq] using
         Set.mem_range_self (f := ⇑f) p
     have hspec' : y ⤳ ξ := Topology.IsInducing.subtypeVal.specializes_iff |>.1 hspec
     let C : Set ↑((U : Set X)ᶜ) := closure ({y} : Set ↑((U : Set X)ᶜ))
@@ -105,7 +105,7 @@ theorem fromSpecStalk_preimage_eq_puncturedSpectrum
 theorem isAffineOpen_fromSpecStalk_preimage
     (X : Scheme.{u}) (U : X.Opens) [IsAffineHom U.ι] (ξ : X) :
     IsAffineOpen (X.fromSpecStalk ξ ⁻¹ᵁ U) := by
-  show IsAffine ((X.fromSpecStalk ξ ⁻¹ᵁ U).toScheme)
+  change IsAffine ((X.fromSpecStalk ξ ⁻¹ᵁ U).toScheme)
   exact IsAffine.of_isIso (isPullback_morphismRestrict (X.fromSpecStalk ξ) U).isoPullback.hom
 
 /-- On a locally Noetherian scheme, every point in the closure of an open subscheme `U` is a

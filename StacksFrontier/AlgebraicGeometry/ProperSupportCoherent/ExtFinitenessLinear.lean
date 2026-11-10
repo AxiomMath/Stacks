@@ -70,7 +70,7 @@ theorem smul_eq_of_toCatCenter_eq {R S : Type*} [Ring R] [Ring S]
     apply CatCenter.ext_of_localization DerivedCategory.Q
       (HomologicalComplex.quasiIso C (ComplexShape.up ℤ))
     intro L
-    show a • 𝟙 (DerivedCategory.Q.obj L) = b • 𝟙 (DerivedCategory.Q.obj L)
+    change a • 𝟙 (DerivedCategory.Q.obj L) = b • 𝟙 (DerivedCategory.Q.obj L)
     calc a • 𝟙 (DerivedCategory.Q.obj L)
         = DerivedCategory.Q.map (a • 𝟙 L) := by
           rw [Functor.Linear.map_smul, CategoryTheory.Functor.map_id]
@@ -158,7 +158,7 @@ theorem globalSectionsOver_linear :
   intro M N g a
   apply ModuleCat.hom_ext
   ext x
-  show (g.val.app (op ⊤)).hom
+  change (g.val.app (op ⊤)).hom
       (baseRingToSections A X (op ⊤) a • (show M.val.obj (op ⊤) from x)) = _
   rw [map_smul, AlgebraicGeometry.CoherentModuleFunctors.baseRingToSections_top]
   rfl

@@ -251,7 +251,32 @@ theorem heq_restrictModuleTensorIso_hom_zariskiReadingRestrictPullbackTensorIso_
 /-- The ninth square of `AlgebraicGeometry.Space.zariskiReadingTensorSquareAux` from
 `AlgebraicGeometry.SmallEtale.pullbackTensorIso_restrictModulePullbackObjIso`, as a function of
 the identification of the two restriction comparisons with tensor products after base change. -/
-def zariskiReadingTensorSquareRestrictPullbackAux := fun hg => (
+theorem zariskiReadingTensorSquareRestrictPullbackAux : type_of% (fun hg => (
+  Functor.restrictionTensorSquare_transport
+    (_root_.AlgebraicGeometry.SmallEtale.pullbackTensorIso_restrictModulePullbackObjIso
+      (associatedBigEtaleSite B) h.left ((representedReindexEquivalenceTopos T).inverse.obj N)
+      ((representedReindexEquivalenceTopos T).inverse.obj M)
+      (isQuasicoherentOnSite_representedReindexEquivalenceTopos_inverse T N hN)
+      (isQuasicoherentOnSite_representedReindexEquivalenceTopos_inverse T M hM))
+    rfl rfl rfl HEq.rfl HEq.rfl HEq.rfl (heq_pullbackFunctor_schemeHom h)
+    heq_sheafTensor_zariskiRingedSite_toScheme heq_restrictModule_toScheme
+    (heq_restrictModule_obj_sheafTensor_obj _ _) (heq_sheafTensor_obj_restrictModule_obj _ _)
+    (heq_pullbackFunctor_obj_restrictModule_obj h _) (heq_restrictModule_obj_pullback_obj h _)
+    (heq_pullbackFunctor_obj_restrictModule_obj h _)
+    (heq_restrictModule_obj_pullback_obj h _) (heq_pullback_obj_sheafTensor_obj h _ _)
+    (heq_sheafTensor_obj_pullback_obj h _ _)
+    (heq_restrictModuleTensorIso_hom_zariskiReadingRestrictTensorIso_topos N M hN hM)
+    (heq_pullbackTensorIso_hom_comparisonBifunctorIso h _ _)
+    (heq_restrictModulePullbackObjIso_hom h _
+      (isQuasicoherentOnSite_representedReindexEquivalenceTopos_inverse T N hN))
+    (heq_restrictModulePullbackObjIso_hom h _
+      (isQuasicoherentOnSite_representedReindexEquivalenceTopos_inverse T M hM))
+    (heq_restrictModulePullbackObjIso_hom_sheafTensor h _ _
+      (isQuasicoherentOnSite_representedReindexEquivalenceTopos_inverse T N hN)
+      (isQuasicoherentOnSite_representedReindexEquivalenceTopos_inverse T M hM))
+    (heq_pullbackTensorIsoTransport_hom_zariskiReadingEtaleBaseChangeTensorIso h _ _) hg :
+      HypothesisOf₁₁_9 (zariskiReadingTensorSquareAux h N M hN hM))) :=
+  fun hg => (
   Functor.restrictionTensorSquare_transport
     (_root_.AlgebraicGeometry.SmallEtale.pullbackTensorIso_restrictModulePullbackObjIso
       (associatedBigEtaleSite B) h.left ((representedReindexEquivalenceTopos T).inverse.obj N)

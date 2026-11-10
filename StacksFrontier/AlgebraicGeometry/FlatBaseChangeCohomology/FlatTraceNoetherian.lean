@@ -265,7 +265,7 @@ theorem bijective_sectionsBaseChangeMap_of_flat (H : IsPullback p k iX q) [IsAff
     (fun a : ι => p ⁻¹ᵁ V a) (p ⁻¹ᵁ U)
     (fun a => homOfLE (Scheme.Hom.preimage_mono p (hVle a))) hcover
     (sectionsBaseChangeMap H F U w) t fun a => ?_⟩
-  show pullbackBaseResHom k p F (hVle a) (sectionsBaseChangeMap H F U w) = _
+  change pullbackBaseResHom k p F (hVle a) (sectionsBaseChangeMap H F U w) = _
   rw [← sectionsBaseChangeMap_comm_res H F (hVle a) w, hwa a, hz a]
   rfl
 
@@ -322,9 +322,9 @@ theorem sectionsBaseChangeEquiv_symm_smul (U : X.Opens) (r : Γ(X, U))
   induction z with
   | tmul b x =>
     rw [LinearMap.lTensor_tmul, sectionsBaseChangeEquiv_tmul, sectionsBaseChangeEquiv_tmul]
-    show (p.app U).hom r • (b • _) = b • pullbackUnitSections p F U (r • x)
+    change (p.app U).hom r • (b • _) = b • pullbackUnitSections p F U (r • x)
     rw [pullbackUnitSections_smul p F U r x]
-    show (p.app U).hom r • ((k.appLE ⊤ (p ⁻¹ᵁ U) (le_preimage_top k _)).hom b •
+    change (p.app U).hom r • ((k.appLE ⊤ (p ⁻¹ᵁ U) (le_preimage_top k _)).hom b •
         pullbackUnitSections p F U x) =
       (k.appLE ⊤ (p ⁻¹ᵁ U) (le_preimage_top k _)).hom b •
         ((p.app U).hom r • pullbackUnitSections p F U x)
@@ -388,7 +388,7 @@ theorem traceSections_apply_tmul (f : letI := baseAlgebra q; Γ(T, ⊤) →ₗ[�
   let := baseAlgebra q
   let := baseModule iX F U
   let := baseModule k ((Scheme.Modules.pullback p).obj F) (p ⁻¹ᵁ U)
-  show TensorProduct.lid Γ(S, ⊤) Γ(F, U) (LinearMap.rTensor Γ(F, U) f
+  change TensorProduct.lid Γ(S, ⊤) Γ(F, U) (LinearMap.rTensor Γ(F, U) f
     ((sectionsBaseChangeEquiv H hq hX F U).symm (b • pullbackUnitSections p F U x))) = _
   rw [← sectionsBaseChangeEquiv_tmul H hq hX F U b x, LinearEquiv.symm_apply_apply,
     LinearMap.rTensor_tmul, TensorProduct.lid_tmul]
@@ -435,7 +435,7 @@ theorem twistedUnit_comp_trace (f : letI := baseAlgebra q; Γ(T, ⊤) →ₗ[Γ(
   ext U x
   let := baseModule iX F U
   refine (trace_app_twistedUnit_app H hq hX F f b U x).trans ?_
-  show (iX.appLE ⊤ U (le_preimage_top iX U)).hom (f b) • x =
+  change (iX.appLE ⊤ U (le_preimage_top iX U)).hom (f b) • x =
     X.presheaf.map (isTerminalTop.from U).op ((iX.appLE ⊤ ⊤ (le_preimage_top iX ⊤)).hom (f b)) • x
   congr 1
   exact (congrArg (fun m : Γ(S, ⊤) ⟶ Γ(X, U) => m.hom (f b))

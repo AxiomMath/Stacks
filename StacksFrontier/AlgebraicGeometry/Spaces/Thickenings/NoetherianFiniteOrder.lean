@@ -164,7 +164,7 @@ theorem isNthOrderThickening_of_atlas {X : AlgebraicSpaces B S hS} {R : Subfunct
         toScheme_map_toOver_map_openChartInclusion B S hS X.1 dglob.U O]
       rfl
     rw [hmap]
-    show ((BigFppfOver.toScheme B S hS).map (Yoneda.fullyFaithful.preimage p))
+    change ((BigFppfOver.toScheme B S hS).map (Yoneda.fullyFaithful.preimage p))
       ((Scheme.Opens.ι O) y) = x
     rw [hy]
     exact hw
@@ -185,7 +185,7 @@ theorem isNthOrderThickening_of_atlas {X : AlgebraicSpaces B S hS} {R : Subfunct
     simp only [Scheme.IdealSheafData.ideal_pow, Pi.pow_apply,
       Scheme.IdealSheafData.ideal_bot, Pi.bot_apply] at h
     exact h
-  show definingIdealAt B S hS X ⟨R, hR.1⟩ (op d.U) ^ (n + 1) = ⊥
+  change definingIdealAt B S hS X ⟨R, hR.1⟩ (op d.U) ^ (n + 1) = ⊥
   rw [show (⟨R, hR.1⟩ : ClosedSubspaces B S hS X.1) =
     ⟨R.preimage (𝟙 X : X ⟶ X).hom,
       isClosedSubspace_preimage B S hS (𝟙 X : X ⟶ X).hom R X.2 X.2 hR.1⟩ from rfl, hkey]

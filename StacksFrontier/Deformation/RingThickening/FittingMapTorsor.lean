@@ -152,7 +152,7 @@ private lemma kernelInclusion_smul
     (D : CompatibleSquareZeroDeformationDiagram.{u₁, u₂, u₃, u₄,
       v₁, v₂, v₃, v₄, w₁, w₂}) (z : D.X₂.B') (n : D.S₂.N) :
     kernelInclusion D (D.X₂.toB z • n) = z * kernelInclusion D n := by
-  show ((D.X₂.kernelEquiv (D.X₂.toB z • n) :
+  change ((D.X₂.kernelEquiv (D.X₂.toB z • n) :
     RingHom.ker D.X₂.toB.toRingHom) : D.X₂.B') =
     z * (D.X₂.kernelEquiv n : D.X₂.B')
   rw [map_smul, D.X₂.toB_smul_kernel]
@@ -175,7 +175,7 @@ private lemma kernelInclusion_fittingMapDifference
       v₁, v₂, v₃, v₄, w₁, w₂}) (φ ψ : D.FittingMap) (x : D.X₁.B') :
     kernelInclusion D (fittingMapDifference D φ ψ x) =
       φ.toRingHom x - ψ.toRingHom x := by
-  show ((D.X₂.kernelEquiv (D.X₂.kernelEquiv.symm _)) : D.X₂.B') = _
+  change ((D.X₂.kernelEquiv (D.X₂.kernelEquiv.symm _)) : D.X₂.B') = _
   rw [LinearEquiv.apply_symm_apply]
   rfl
 
@@ -352,7 +352,7 @@ private lemma fittingMapVsub_derivation_apply
       (fittingMapVsub D φ ψ)) (D.X₁.toB x) =
         fittingMapDifference D φ ψ x := by
   rw [fittingMapVsub, LinearEquiv.apply_symm_apply]
-  show fittingMapDifferenceDesc D φ ψ (D.X₁.toB x) = _
+  change fittingMapDifferenceDesc D φ ψ (D.X₁.toB x) = _
   exact fittingMapDifferenceDesc_apply D φ ψ x
 
 private lemma fittingMap_ext
@@ -447,7 +447,7 @@ theorem fittingMap_addTorsor_kaehlerDifferentialHom
             φ.toRingHom b' - ψ.toRingHom b'} := by
   refine ⟨⟨fittingMapAddTorsor D h, ?_⟩⟩
   intro φ ψ b'
-  show kernelInclusion D
+  change kernelInclusion D
       ((KaehlerDifferential.linearMapEquivDerivation D.S₁.A D.S₁.B
         (fittingMapVsub D φ ψ))
         (D.X₁.toB b')) = φ.toRingHom b' - ψ.toRingHom b'

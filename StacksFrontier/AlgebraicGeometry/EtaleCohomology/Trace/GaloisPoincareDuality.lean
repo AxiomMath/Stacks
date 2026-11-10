@@ -362,7 +362,7 @@ def galoisPoincareDualityComponentIso
                 _ n Λ M)
             (isLocallyConstantInjective_representationSheaf_cyclotomic B X f K y n hn)).symm.op))
 
-omit [Algebra (ZMod n) Λ] [K₀.cocomplex.IsStrictlyGE 0] in
+omit [Smooth f] [Algebra (ZMod n) Λ] [K₀.cocomplex.IsStrictlyGE 0] in
 /-- The square of the derived pairings for the chosen lift of `π : N ⟶ M`. -/
 theorem galoisPoincareDerivedPairing_naturality {M N : FiniteTypeContinuousModule.{0, u + 1, u + 1}
     Λ (EtaleFundamentalGroup X.1 (y.map (fieldBaseChangeObjProj B X f K

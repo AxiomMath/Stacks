@@ -109,7 +109,6 @@ section Level
 variable {I : Type v} [Preorder I] [IsDirected I (· ≤ ·)] [Nonempty I]
   {DX DS : Iᵒᵖ ⥤ Scheme.{max u v}} (γ : DX ⟶ DS) {cX : Cone DX}
   (cS : Cone DS) (hcS : IsLimit cS)
-  [∀ i : Iᵒᵖ, QuasiCompact (γ.app i)] [∀ i : Iᵒᵖ, QuasiSeparated (γ.app i)]
   (F : EtaleSheafSystem DX (Type (max u v + 1)))
   {𝓕 : Sheaf (smallEtaleTopology cX.pt) (Type (max u v + 1))}
   (x : ∀ i : Iᵒᵖ, F.obj i ⟶ (smallEtalePushforward (cX.π.app i) (Type (max u v + 1))).obj 𝓕)
@@ -130,6 +129,7 @@ def IsSetDirectImageFamily
 abbrev setLegProjection :=
   projectionTranspose γ (Type (max u v + 1)) cX cS hcS F x
 
+omit [IsDirected I (· ≤ ·)] [Nonempty I] in
 /-- The transposed cocone maps form an `IsSetDirectImageFamily`. -/
 theorem isSetDirectImageFamily_setLegProjection
     (hx : ∀ {i j : Iᵒᵖ} (a : i ⟶ j),
@@ -141,6 +141,7 @@ theorem isSetDirectImageFamily_setLegProjection
 variable {σ : ∀ i : Iᵒᵖ, directImage γ (Type (max u v + 1)) F i ⟶
   (smallEtalePushforward (cS.π.app i) (Type (max u v + 1))).obj 𝒢}
 
+omit [Nonempty I] in
 /-- **The factorisation at a level**, through the filtered colimit of sections over the base
 changes of affine étale `S_{i₀}`-schemes to `X_{i₀}`. -/
 theorem existsUnique_setLevelMap
@@ -192,6 +193,7 @@ theorem existsUnique_setLevelMap
         ((transitionSquareIso γ (Type (max u v + 1)) (geIndexToBase i₀ j)).hom.app
           (F.obj ((geIndexOpFunctor i₀).obj j)) ≫ ·) h₂)))
 
+omit [Nonempty I] in
 /-- **The factorisation at a level, read on `S`.** For a compatible family `σ_i` there is a unique
 `ρ : h_{i₀, *}g_* 𝓕 ⟶ h_{i₀, *}𝒢` such that, for every transition `a : i ⟶ i₀`, the shifted
 transposed cocone map from `i` followed by `ρ` is the shifted `σ_i`. -/
@@ -257,7 +259,7 @@ change to `X` of every `V ×_{S_{i₀}} X_{i₀}`, `V` affine étale over `S_{i�
 colimit of those of the `F_i`. Then for every sheaf of sets `𝒢` on `S` and every family
 `σ_i : g_{i, *}F_i ⟶ h_{i, *}𝒢` compatible with the transition maps of the direct images there is
 a unique `χ : g_* 𝓕 ⟶ 𝒢` with `h_{i, *}χ ∘ π_i = σ_i`. -/
-theorem existsUnique_setDirectImage_desc (hcX : IsLimit cX)
+theorem existsUnique_setDirectImage_desc
     [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (DS.map a)]
     (hx : ∀ {i j : Iᵒᵖ} (a : i ⟶ j),
       x j = F.mapTranspose a ≫ (systemPushforward DX (Type (max u v + 1)) a).map (x i) ≫
@@ -315,7 +317,7 @@ theorem existsUnique_setDirectImage_desc (hcX : IsLimit cX)
     exact (congrArg (directTransition γ (Type (max u v + 1)) F (𝟙 i) ≫ ·)
       (hρ i.unop (𝟙 i))).trans (hσ (𝟙 i)).symm
   · refine hρu i.unop _ fun {m} a => ?_
-    show shiftLeg (c := cS) (setLegProjection γ cS hcS F x) a ≫
+    change shiftLeg (c := cS) (setLegProjection γ cS hcS F x) a ≫
         (smallEtalePushforward (cS.π.app (op i.unop)) (Type (max u v + 1))).map χ' =
       shiftLeg (c := cS) σ a
     have hn := (coneProjectionComp (Type (max u v + 1)) cS a).hom.naturality χ'
@@ -344,6 +346,7 @@ variable {I : Type v} [Preorder I] [IsDirected I (· ≤ ·)] [Nonempty I]
       τ j = F.mapTranspose a ≫ (systemPushforward D (Type (max u v + 1)) a).map (τ i) ≫
         (coneProjectionComp (Type (max u v + 1)) c a).hom.app 𝒦)
 
+omit [Nonempty I] [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffineHom (D.map a)] in
 include hx hsec hτ in
 /-- **The factorisation at a level, for the presentation itself.** A compatible family
 `τ_i : F_i ⟶ f_{i, *}𝒦` induces a unique `ρ : f_{i₀, *}𝓕 ⟶ f_{i₀, *}𝒦` such that, for every
@@ -417,7 +420,7 @@ theorem existsUnique_desc_of_sectionsColimit :
     rw [h]
     exact (hτ (𝟙 i)).symm
   · refine hρu i.unop _ fun {m} a => ?_
-    show shiftLeg (c := c) x a ≫
+    change shiftLeg (c := c) x a ≫
         (smallEtalePushforward (c.π.app (op i.unop)) (Type (max u v + 1))).map χ' =
       shiftLeg (c := c) τ a
     have hn := (coneProjectionComp (Type (max u v + 1)) c a).hom.naturality χ'

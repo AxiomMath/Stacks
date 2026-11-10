@@ -110,7 +110,7 @@ public theorem _root_.CategoryTheory.IsProfiniteCompletion.bijective
     apply (hcP.2 P hcP.1).1
     apply ContinuousMonoidHom.ext
     intro x
-    show c (f (c x)) = c x
+    change c (f (c x)) = c x
     rw [hfc]
   exact ⟨fun x y hxy => (hfc x).symm.trans ((congrArg f hxy).trans (hfc y)),
     fun y => ⟨f y, DFunLike.congr_fun hcf y⟩⟩
@@ -298,7 +298,7 @@ public theorem galoisEquivEtaleFundamentalGroup_app_finiteEtaleFiberIso_hom
       ConcreteCategory.hom (((CategoryTheory.canonicalHom G) σ).asIso.hom.app
         (E.functor.obj Y)) x at h
     rwa [CategoryTheory.canonicalHom_apply] at h
-  show ConcreteCategory.hom ((eSource (data.hom a)).asIso.hom.app Y)
+  change ConcreteCategory.hom ((eSource (data.hom a)).asIso.hom.app Y)
       (ConcreteCategory.hom ((finiteEtaleFiberIso K L Ω).hom.app Y) y) =
     ConcreteCategory.hom ((finiteEtaleFiberIso K L Ω).hom.app Y)
       (ConcreteCategory.hom ((E.functor.obj Y).obj.ρ σ).asHom y)

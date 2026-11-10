@@ -101,12 +101,12 @@ theorem finiteDimensional_tangentSpace_representation (V : Type m) [AddCommGroup
     let ee := tangentSpaceEquivSelfExt (Λ := Λ) V ρ₀
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨ee.1⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 ee.1.cofibered))) := ⟨ee.2.1⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 ee.1.cofibered))) := ⟨ee.2.1⟩
     FiniteDimensional k (artinianTangentSpace Λ k (isomorphismClasses 𝓕 ee.1.cofibered)) := by
   intro 𝓕 ee
   let : Fact (IsPredeformationCategory 𝓕.p) := ⟨ee.1⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓕 ee.1.cofibered))) := ⟨ee.2.1⟩
+    (Functor.Elements.π (isomorphismClasses 𝓕 ee.1.cofibered))) := ⟨ee.2.1⟩
   let L := ee.2.2.1
   let : Module.Finite k (Abelian.Ext
     ((Rep.equivalenceModuleMonoidAlgebra (k := k) (G := Γ)).functor.obj (Rep.of ρ₀))
@@ -123,7 +123,7 @@ theorem exists_hull_isomorphismClasses_representation (V : Type m) [AddCommGroup
     let 𝓕 := BasedCategory.ofFunctor (deformationCategoryProjection (Λ := Λ) V ρ₀)
     let hpre := (tangentSpaceEquivSelfExt (Λ := Λ) V ρ₀).1
     let F := isomorphismClasses 𝓕 hpre.cofibered
-    ∃ ξ : FormalObject (CategoryOfElements.π F),
+    ∃ ξ : FormalObject (Functor.Elements.π F),
       IsVersal (categoryOfElements_projection_isCofibered F) ξ ∧
         HasBijectiveDifferential (categoryOfElements_projection_isCofibered F) ξ := by
   intro 𝓕 hpre F
@@ -134,7 +134,7 @@ theorem exists_hull_isomorphismClasses_representation (V : Type m) [AddCommGroup
   let : Algebra.IsSeparable (residueImageField Λ k) k := hΛ.isSeparable
   let : Fact (IsPredeformationCategory.{u, w, w} 𝓕.p) := ⟨hpre⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓕 hpre.cofibered))) := ⟨ee.2.1⟩
+    (Functor.Elements.π (isomorphismClasses 𝓕 hpre.cofibered))) := ⟨ee.2.1⟩
   let : FiniteDimensional k (tangentSpaceArtinian.{u, w, w} Λ k
       (isomorphismClasses 𝓕 hpre.cofibered)) :=
     finiteDimensional_tangentSpaceArtinian_of_artinianTangentSpace 𝓕 hpre ee.2.1

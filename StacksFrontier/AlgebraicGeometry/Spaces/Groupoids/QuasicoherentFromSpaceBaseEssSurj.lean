@@ -469,7 +469,7 @@ theorem chartLegSnd_arrowChartTwist (ht : IsEtale B S hS G.target.hom)
     chartLegSnd B S hS φ hφet (arrowChartTwist B S hS G φ hφet hφ ht hs W) =
       chartLegFst B S hS W ≫ G.target := by
   apply ObjectProperty.hom_ext
-  show yoneda.map (𝟙 W.1.left) ≫ (W.1.hom ≫ G.target.hom) = W.1.hom ≫ G.target.hom
+  change yoneda.map (𝟙 W.1.left) ≫ (W.1.hom ≫ G.target.hom) = W.1.hom ≫ G.target.hom
   rw [yoneda.map_id, Category.id_comp]
 
 end Twist
@@ -579,7 +579,7 @@ morphisms gives an isomorphism of quasi-coherent modules on the groupoid. -/
 theorem nonempty_iso_of_hom_iso {M N : QuasicoherentModule B S hS G} (e : M.F.obj ≅ N.F.obj)
     (hc : QuasicoherentModule.Compatible e.hom) : Nonempty (M ≅ N) := by
   have : IsIso ((QuasicoherentModule.forget G).map (QuasicoherentModule.homMk e.hom hc)) := by
-    show IsIso e.hom
+    change IsIso e.hom
     infer_instance
   have := isIso_of_reflects_iso (QuasicoherentModule.homMk e.hom hc)
     (QuasicoherentModule.forget G)

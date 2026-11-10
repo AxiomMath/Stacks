@@ -70,7 +70,7 @@ theorem baseSpecMap_id (A : ArtinianLocalAlgCat.{u, v, w} Λ k) :
 theorem baseSpecMap_comp {A B C : ArtinianLocalAlgCat.{u, v, w} Λ k} (f : A ⟶ B) (g : B ⟶ C) :
     baseSpecMap (f ≫ g) = baseSpecMap g ≫ baseSpecMap f := by
   simp only [baseSpecMap, ArtinianLocalAlgCat.comp_hom]
-  show Spec.map (CommRingCat.ofHom (g.hom.toRingHom.comp f.hom.toRingHom)) = _
+  change Spec.map (CommRingCat.ofHom (g.hom.toRingHom.comp f.hom.toRingHom)) = _
   rw [CommRingCat.ofHom_comp, Spec.map_comp]
 
 /-- The closed point of the spectrum of an object of `𝒞_Λ`, as a map from the spectrum of the
@@ -91,7 +91,7 @@ theorem residueSpecMap_naturality {Λ k : Type u} [CommRing Λ] [Field k] [Algeb
       CommRingCat.ofHom (Deformation.Artin.residueMap A) := by
     ext a
     exact f.residue_comm a
-  show Spec.map _ ≫ Spec.map _ = Spec.map _
+  change Spec.map _ ≫ Spec.map _ = Spec.map _
   rw [← Spec.map_comp, hring]
 
 end Deformation.Examples

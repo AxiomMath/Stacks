@@ -205,12 +205,10 @@ theorem contractRight_productTrace_mul (z : 𝔇.H X ⊗[F] 𝔇.H X) (w : 𝔇.
             𝔇.pull (prodMap (snd X Y) (snd X Y)) (𝔇.kunnethMap Y Y w))) =
       𝔇.kunnethMap X Y (DiagonalExpansion.contractRight (𝔇.untwistTrace X d lamX) z ⊗ₜ
         DiagonalExpansion.contractRight (𝔇.untwistTrace Y e lamY) w) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => simp only [map_add, add_mul, TensorProduct.add_tmul, hz, hz']
   | tmul a b =>
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | add w w' hw hw' => simp only [map_add, mul_add, TensorProduct.tmul_add, hw, hw']
   | tmul a' b' =>
   induction b using DirectSum.Decomposition.inductionOn (𝔇.grade X) with
@@ -240,8 +238,7 @@ theorem untwistTrace_coe_tateTwistCoordinates
   exact congrArg lamX (LinearEquiv.symm_apply_apply _ a)
 
 /-- `λ_X ⊗ λ_Y` on a class whose coordinates are `pr₁^*a ∪ pr₂^*b`. -/
-theorem productTrace_of_coe_tateTwistCoordinates {i j : ℤ} (a : 𝔇.H X) (b : 𝔇.H Y)
-    (ha : a ∈ 𝔇.grade X i) (hb : b ∈ 𝔇.grade Y j)
+theorem productTrace_of_coe_tateTwistCoordinates (a : 𝔇.H X) (b : 𝔇.H Y)
     (z : tateTwist F 𝔇.tate (𝔇.grade (prod X Y) (2 * ((d + e : ℕ) : ℤ))) (d + e : ℕ))
     (hz : (tateTwistCoordinates (V := 𝔇.grade (prod X Y) (2 * ((d + e : ℕ) : ℤ))) 𝔇.coord
       ((d + e : ℕ) : ℤ) z : 𝔇.H (prod X Y)) =
@@ -389,7 +386,7 @@ theorem kunnethTrace_toWeilData : (h.toWeilData hA1 hA3 hA5 hA6).KunnethTrace :=
   have hμ := h.trace_prod_toWeilData hA1 hA3 hA5 hA6 hA4 hA7 X Y hX hY hXY
   refine ⟨fun a b ↦ ?_, fun i j hij hi a b ↦ ?_⟩ <;>
   refine (LinearMap.congr_fun hμ _).trans ((𝔇.productTrace_of_coe_tateTwistCoordinates hA5 X Y d e
-    _ _ _ _ (Submodule.coe_mem _) (Submodule.coe_mem _) _
+    _ _ _ _ _
     (h.coe_tateTwistCoordinates_cupTw_toWeilData hA1 hA3 hA5 hA6 X Y _ _ _ _ _ _ _ _ a b)).trans ?_)
   · exact congrArg₂ (fun x y ↦ x * y) (𝔇.untwistTrace_coe_tateTwistCoordinates X d _ a)
       (𝔇.untwistTrace_coe_tateTwistCoordinates Y e _ b)

@@ -118,7 +118,8 @@ while a consumer that only *states* the hypothesis needs no such instance, becau
 `CategoryTheory.Limits.HasCoproduct`, which instance search supplies on an abelian category.
 
 The `[HasBiproduct E]` binders of the two biproduct lemmas are therefore load-bearing for
-*consumability* and not for the proof, in both directions: with that local instance in scope, deleting the binder still compiles, while with the
+*consumability* and not for the proof, in both directions: with that local instance in scope,
+deleting the binder still compiles, while with the
 binder deleted *and* the local instance absent the application fails to synthesize
 `HasBiproduct E`. The binder exists so that a file which does not activate the local instance can
 still supply it.
@@ -386,7 +387,8 @@ witnessing family is the family of *all* coherent modules, and the surjection on
 single-summand coproduct `∐_{j : Fin 1} 𝒢 ⟶ 𝒢`, which is a split epimorphism.
 
 This rules out vacuity, which no check of the axioms used detects: a hypothesis set can be
-fully proved, free of extra axioms, and satisfied by nothing at all. It takes the conclusion as its hypothesis, so it does **not**
+fully proved, free of extra axioms, and satisfied by nothing at all. It takes the conclusion as its
+hypothesis, so it does **not**
 discharge the hypotheses on projective space — there the family is the twists and the finiteness
 of their cohomology is [Stacks, Tag 01XT], which is absent. What it establishes is that the set is
 consistent, and that it holds wherever the conclusion does. The ring-base analogue of

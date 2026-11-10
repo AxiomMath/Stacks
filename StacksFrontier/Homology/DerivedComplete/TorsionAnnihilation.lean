@@ -145,7 +145,7 @@ private lemma adicModule_completeSpace
     rw [SModEq.sub_mem] at hb'
     have := (I ^ i • (⊤ : Submodule R M)).add_mem ha hb'
     refine ⟨x n - L, ?_, by simp⟩
-    show x n - L ∈ I ^ i • (⊤ : Submodule R M)
+    change x n - L ∈ I ^ i • (⊤ : Submodule R M)
     simpa only [sub_add_sub_cancel] using this
 
 private lemma adicModule_isGroupComplete
@@ -179,7 +179,7 @@ private lemma adicModule_continuous_linearMap
   let : TopologicalSpace M := I.adicModuleTopology M
   let : TopologicalSpace N := I.adicModuleTopology N
   apply continuous_of_continuousAt_zero f
-  show Tendsto f (nhds 0) (nhds (f 0))
+  change Tendsto f (nhds 0) (nhds (f 0))
   rw [map_zero, (adicModule_hasBasis R I M).tendsto_iff (adicModule_hasBasis R I N)]
   refine fun n _ => ⟨n, trivial, fun x hx => ?_⟩
   exact (show (I ^ n • (⊤ : Submodule R M)).map f ≤ I ^ n • (⊤ : Submodule R N) by
@@ -209,7 +209,7 @@ private lemma adicModule_isOpenMap_pow_smul
     ext x
     simp only [Set.mem_image, SetLike.mem_coe, I, mem_principal_pow_smul_top,
       exists_exists_eq_and, smul_smul, ← pow_add]
-  show IsOpen ((fun x : M => f ^ n • x) ''
+  change IsOpen ((fun x : M => f ^ n • x) ''
     ((I ^ k • (⊤ : Submodule R M) : Submodule R M) : Set M))
   rw [heq]
   exact adicModule_isOpen_pow R I M (n + k)
@@ -271,7 +271,7 @@ private lemma exists_pow_smul_mem_range_of_isAdicComplete
       rintro _ ⟨x, hx, rfl⟩
       obtain ⟨y, hy⟩ := hx
       refine ⟨f ^ m • y, hm ((mem_principal_pow_smul_top R f K m _).mpr ⟨y, rfl⟩), ?_⟩
-      show i (f ^ m • y) = f ^ (n + m) • x
+      change i (f ^ m • y) = f ^ (n + m) • x
       rw [map_smul, hy, pow_add, mul_comm (f ^ n), mul_smul]
       rfl
     have hsub : g '' (N n : Set L) ⊆ closure (i '' (V : Set K)) :=
@@ -370,13 +370,13 @@ private theorem exists_pow_smul_eq_zero_of_isDerivedCompleteModule_of_injective
       obtain ⟨n, hn⟩ := ht (p.hom x)
       refine ⟨n, ?_⟩
       rw [hS.exact.moduleCat_range_eq_ker]
-      show p.hom (f ^ n • x) = 0
+      change p.hom (f ^ n • x) = 0
       rwa [map_smul])
   refine ⟨t, fun x => ?_⟩
   obtain ⟨y, rfl⟩ := hS.moduleCat_surjective_g x
   obtain ⟨z, hz⟩ := ht y
   have hpz : p.hom (i.hom z) = 0 := by
-    show (i ≫ p).hom z = 0
+    change (i ≫ p).hom z = 0
     rw [w]
     rfl
   rw [← p.hom.map_smul, ← hz]
@@ -406,7 +406,7 @@ private theorem exists_pow_smul_eq_zero_of_isDerivedCompleteModule
   have hx : Function.Injective (LinearMap.lsmul B B Polynomial.X) :=
     Polynomial.monic_X.isRegular.left
   have hsmul (n : ℕ) (x : MB) : (Polynomial.X : B) ^ n • x = f ^ n • (x : M) := by
-    show φ (Polynomial.X ^ n) • (x : M) = _
+    change φ (Polynomial.X ^ n) • (x : M) = _
     rw [map_pow, hφ]
   obtain ⟨n, hn⟩ := exists_pow_smul_eq_zero_of_isDerivedCompleteModule_of_injective
     B Polynomial.X hx MB hMB fun x => (ht x).imp fun n hn => (hsmul n x).trans hn

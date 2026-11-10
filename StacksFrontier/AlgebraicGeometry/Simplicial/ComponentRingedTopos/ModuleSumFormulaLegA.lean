@@ -65,8 +65,8 @@ its abelian counterpart `…sigma_ι_comp_componentLowerShriekRestrictionIsoCopr
 The canonical map this file compares the summand inclusion against is *not*
 `CategoryTheory.SimplicialSiteSituation.moduleSumFormulaLeg`, the leg built from
 `CategoryTheory.SimplicialSiteSituation.fiberTransitionModules` in
-`StacksFrontier/AlgebraicGeometry/Simplicial/ComponentRingedTopos/ModuleSumFormulaLeg.lean`, which is
-the shape of the abelian counterpart. That leg is well typed — the summand
+`StacksFrontier/AlgebraicGeometry/Simplicial/ComponentRingedTopos/ModuleSumFormulaLeg.lean`, which
+is the shape of the abelian counterpart. That leg is well typed — the summand
 `CategoryTheory.SimplicialSiteSituation.transitionPullbackModules` and the transition of
 Stacks 09WF now sit over one and the same functor, by
 `AlgebraicGeometry.RingedToposHom.toRingedToposModulesHom_eq_toModulesHom` — and so is the
@@ -100,8 +100,8 @@ propositionally.
 
 The statement that transposes the comparison away now exists too, as
 `CategoryTheory.SimplicialSite.homEquiv_transitionPullbackModulesIsoA_hom_app_comp`, beside the
-comparison itself in
-`StacksFrontier/AlgebraicGeometry/Simplicial/ComponentRingedTopos/ModuleSumFormulaCaseASummand.lean`.
+comparison itself in the module
+`StacksFrontier.AlgebraicGeometry.Simplicial.ComponentRingedTopos.ModuleSumFormulaCaseASummand`.
 Writing `CategoryTheory.Adjunction.homEquiv_leftAdjointUniq_hom_app_comp` out at this comparison
 directly does not work, and the reason is worth recording because it is not the one the rest of
 these notes would predict. It is *not* the propositional-only agreement of the two readings of

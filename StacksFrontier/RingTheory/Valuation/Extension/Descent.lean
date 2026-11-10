@@ -160,7 +160,7 @@ private theorem dvd_of_forall_height_one
     (Localization.AtPrime p) (Ideal.span {f}) a).mp hamem
   exact hs (hle (by
     rw [Submodule.mem_colon_singleton, Submodule.mem_bot]
-    show Ideal.Quotient.mk (Ideal.span {f}) (s * a) = 0
+    change Ideal.Quotient.mk (Ideal.span {f}) (s * a) = 0
     exact Ideal.Quotient.eq_zero_iff_mem.mpr hsa))
 
 /-- Flat extension preserves intersections indexed by an arbitrary finite type. -/
@@ -350,7 +350,7 @@ theorem exists_eq_unit_mul_pow_of_flat_local
     have : IsDiscreteValuationRing (Localization.AtPrime q) :=
       isDiscreteValuationRing_at_height_one q hqh
     have : IsLocalHom (algebraMap (Localization.AtPrime p) (Localization.AtPrime q)) := by
-      show IsLocalHom (Localization.localRingHom p q (algebraMap A B) Ideal.LiesOver.over)
+      change IsLocalHom (Localization.localRingHom p q (algebraMap A B) Ideal.LiesOver.over)
       infer_instance
     have : Module.Flat (Localization.AtPrime p) (Localization.AtPrime q) :=
       RingHom.Flat.localRingHom (RingHom.flat_algebraMap_iff.mpr ‹Module.Flat A B›)
@@ -362,7 +362,7 @@ theorem exists_eq_unit_mul_pow_of_flat_local
       (by omega) (algebraMap A (Localization.AtPrime p) f)
       (algebraMap B (Localization.AtPrime q) h)
       (Units.map (algebraMap B (Localization.AtPrime q)).toMonoidHom w)
-    show algebraMap (Localization.AtPrime p) (Localization.AtPrime q)
+    change algebraMap (Localization.AtPrime p) (Localization.AtPrime q)
       (algebraMap A (Localization.AtPrime p) f) =
         algebraMap B (Localization.AtPrime q) (w : B) *
           (algebraMap B (Localization.AtPrime q) h) ^ n

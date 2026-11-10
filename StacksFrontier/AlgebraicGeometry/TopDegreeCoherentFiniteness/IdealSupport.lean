@@ -33,7 +33,6 @@ theorem exists_isIso_restrict_ideal_ι {Z : Scheme.{u}} [IsIntegral Z]
     ∃ U : Z.Opens, genericPoint Z ∈ U ∧
       IsIso ((Scheme.Modules.restrictFunctor U.ι).map H.ι) := by
   classical
-
   have hs : ∃ (U : Z.Opens) (s : Γ(H.toSheafOfModules, U)),
       (s.val : Γ(Z, U)) ≠ 0 := by
     by_contra! h
@@ -92,7 +91,7 @@ theorem genericPoint_mem_supp_ideal {Z : Scheme.{u}} [IsIntegral Z]
     (NatIso.isIso_map_iff
       (Scheme.Modules.restrictStalkNatIso U.ι (⟨genericPoint Z, hU⟩ : U)) H.ι).mp
         (by
-          show IsIso ((Scheme.Modules.toPresheaf _ ⋙ TopCat.Presheaf.stalkFunctor Ab.{u} _).map
+          change IsIso ((Scheme.Modules.toPresheaf _ ⋙ TopCat.Presheaf.stalkFunctor Ab.{u} _).map
             ((Scheme.Modules.restrictFunctor U.ι).map H.ι))
           infer_instance)
   let O : Z.Modules := SheafOfModules.unit Z.ringCatSheaf

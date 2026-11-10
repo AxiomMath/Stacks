@@ -186,7 +186,7 @@ theorem toRightDerivedZero_comp_pullbackHgroup_id {X X' : RingedSpace.{u, u}} (G
   · have h := congrArg (fun τ => τ.app K') hfac
     simp only [NatTrans.comp_app, Functor.whiskerLeft_app] at h
     rw [hleray, NatIso.isIso_inv_app, ← h]
-    show ((derivedGlobalSectionsUnit X').app K' ≫ (lerayComparisonAb G).app
+    change ((derivedGlobalSectionsUnit X').app K' ≫ (lerayComparisonAb G).app
         (DerivedCategory.Qh.obj K')) ≫
           inv ((lerayComparisonAb G).app (DerivedCategory.Qh.obj K')) = _
     rw [Category.assoc, IsIso.hom_inv_id, Category.comp_id]

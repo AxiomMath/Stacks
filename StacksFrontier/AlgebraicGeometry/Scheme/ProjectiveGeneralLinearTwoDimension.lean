@@ -306,7 +306,7 @@ theorem ringKrullDim_projectiveGeneralLinearTwoRing :
 /-- **`PGL₂` over a field has dimension three.** -/
 theorem topologicalKrullDim_projectiveGeneralLinearTwoScheme :
     topologicalKrullDim (projectiveGeneralLinearTwoScheme k).left = 3 := by
-  show topologicalKrullDim (PrimeSpectrum (projectiveGeneralLinearTwoRing k)) = 3
+  change topologicalKrullDim (PrimeSpectrum (projectiveGeneralLinearTwoRing k)) = 3
   rw [PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim,
       ringKrullDim_projectiveGeneralLinearTwoRing]
 

@@ -56,7 +56,6 @@ variable [∀ (n : ℕ) (T : B.Scheme) (V : SmallEtale B T.1 T.property),
   [∀ n : ℕ, HasWeakSheafify (SmallEtale.topology B X.1 X.property)
     (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
   {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
-  [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
   (p n : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ n)
 

@@ -57,12 +57,14 @@ local instance (priority := high) hasPullback_presheaf_ContractionSolutionModifi
     HasLimit (cospan f g) :=
   hasPullbacks_presheaf_ContractionSolutionModificationMap.has_limit _
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- Instance search for these pullbacks times out at the default `synthInstance.maxHeartbeats`.
 /-- Pullbacks of fppf sheaves in `Type (u + 1)` on `BigFppfOver B S hS`: instance search for them
 times out under Lean v4.35.0. -/
 local instance (priority := high) hasPullbacks_sheaf_ContractionSolutionModificationMap
     {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
     HasPullbacks (Sheaf (BigFppfOver.topology B S hS) (Type (u + 1))) := by
-  set_option synthInstance.maxHeartbeats 400000 in infer_instance
+  infer_instance
 
 local instance (priority := high) hasLimit_cospan_sheaf_ContractionSolutionModificationMap
     {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
@@ -450,7 +452,7 @@ theorem comp_modificationHom (V : LocallyNoetherianOver B S hS) (ξ : yoneda.obj
   apply yonedaEquiv.injective
   rw [yonedaEquiv_comp]
   refine h.trans ?_
-  show yonedaEquiv (modificationMor c α A V (yonedaEquiv.symm (yonedaEquiv ξ))) = _
+  change yonedaEquiv (modificationMor c α A V (yonedaEquiv.symm (yonedaEquiv ξ))) = _
   rw [Equiv.symm_apply_apply]
 
 end AlgebraicGeometry.Artin.ContractionSituation

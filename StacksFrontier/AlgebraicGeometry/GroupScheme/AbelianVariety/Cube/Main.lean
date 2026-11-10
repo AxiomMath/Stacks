@@ -42,7 +42,7 @@ section Glue
 
 variable [IsAlgClosed k] [IsAbelianVariety k A] (N : (P A).Modules)
   [hN : AlgebraicGeometry.SheafOfModules.IsInvertible (P A).presheaf (P A).ringCatSheaf.property N]
-  {ι : Type u} [Fintype ι] [DecidableEq ι] {U : ι → A.left.Opens} {a₀ : ι}
+  {ι : Type u} [Finite ι] {U : ι → A.left.Opens} {a₀ : ι}
   (ha₀ : eA (A := A) ⁻¹ᵁ U a₀ = ⊤) (hUaff : ∀ a, IsAffineOpen (U a))
   (hUcov : (⊤ : A.left.Opens) = ⨆ a, U a)
   {g₁ : Γ((Scheme.Modules.pullback (face₁ A)).obj N, ⊤)} (hg₁ : IsGen _ g₁)
@@ -62,6 +62,8 @@ include ha₀ hUaff hUcov hg₁ hg₂ hnorm in
 /-- **A global section restricting to the face generator**, when all fibres are trivial. -/
 theorem exists_global (hall : ∀ (z : Spec (.of k) ⟶ A.left) (hzk : z ≫ A.hom = 𝟙 _), Good N z hzk) :
     ∃ s : Γ(N, ⊤), pbS (face₁ A) N ⊤ (face₁ A ⁻¹ᵁ ⊤) le_rfl s = resTop _ g₁ _ := by
+  classical
+  have := Fintype.ofFinite ι
   have : Smooth A.hom := Stacks.Groupoids.smooth_hom A
   have hU : ∀ (n : ℕ) (i : Fin (n + 1) → ι), IsAffineOpen (CechCochains.inter U i) :=
     fun n i => Stacks.Cech.inter_isAffineOpen A.hom U hUaff i
@@ -101,7 +103,7 @@ theorem exists_global (hall : ∀ (z : Spec (.of k) ⟶ A.left) (hzk : z ≫ A.h
     rw [TopologicalSpace.Opens.mem_iSup] at hx ⊢
     obtain ⟨c, hc⟩ := hx
     refine ⟨c, ?_⟩
-    show x ∈ (PV (U c)).ι ''ᵁ ⊤
+    change x ∈ (PV (U c)).ι ''ᵁ ⊤
     rw [Scheme.Opens.ι_image_top]
     exact hc
   obtain ⟨gs, hgs, -⟩ := TopCat.Sheaf.existsUnique_gluing' (⟨N.presheaf, Scheme.Modules.isSheaf N⟩ :
@@ -137,7 +139,7 @@ theorem isUnit_pullbackMulNegOne (e : SheafOfModules.unit Y.ringCatSheaf ≅
   obtain ⟨m₀, n₀, h1⟩ := Stacks.AlgebraicGeometry.PicardBaseChange.exists_pullbackMulNegOne_eq_one
     p L ⟨e.symm⟩
   have hres : ∀ {G : Y.Modules} (x : Γ(G, ⊤)), resTop G x ⊤ = x := fun {G} x => by
-    show G.presheaf.map (homOfLE (le_top : (⊤ : Y.Opens) ≤ ⊤)).op x = x
+    change G.presheaf.map (homOfLE (le_top : (⊤ : Y.Opens) ≤ ⊤)).op x = x
     rw [show homOfLE (le_top : (⊤ : Y.Opens) ≤ ⊤) = 𝟙 _ from rfl, op_id,
       CategoryTheory.Functor.map_id]
     rfl

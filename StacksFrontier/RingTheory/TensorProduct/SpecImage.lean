@@ -206,7 +206,7 @@ theorem mem_range_iff_not_isNilpotent (T : Type*) [CommRing T] [Algebra k T]
         (Localization.Away g)).toRingEquiv.toEquiv.nontrivial_congr,
       nontrivial_away_iff_aux]
   -- Reduce to nilpotency of `1 ⊗ₜ g`, then transport along the fibre isomorphism.
-  show ¬ IsNilpotent ((1 : residueField R p) ⊗ₜ[R] g) ↔ _
+  change ¬ IsNilpotent ((1 : residueField R p) ⊗ₜ[R] g) ↔ _
   rw [not_iff_not, ← bigEquivAux_one_tmul k R T p g]
   exact (IsNilpotent.map_iff (bigEquivAux k R T p).injective).symm
 

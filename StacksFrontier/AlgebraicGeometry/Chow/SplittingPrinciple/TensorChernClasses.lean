@@ -552,7 +552,7 @@ theorem firstChernShift_congr (e : A ≅ B) (hA : InvertibleChernCapDescends C p
   match i with
   | 0 => rfl
   | j + 1 =>
-      show firstChernCapStep C p n A hA j (h j) = firstChernCapStep C p n B hB j (h j)
+      change firstChernCapStep C p n A hA j (h j) = firstChernCapStep C p n B hB j (h j)
       rw [firstChernCapStep_congr C p A B n e hA hB j]
 
 /-- **Stacks 02SP for the shift operators.** The shift of a module isomorphic to `A ⊗ B` is the
@@ -565,7 +565,7 @@ theorem firstChernShift_eq_add_of_iso_tensorObj (e : D ≅ Scheme.Modules.tensor
   match i with
   | 0 => exact (zero_add (0 : chowGroup C p (n - ((0 : ℕ) : ℤ)))).symm
   | j + 1 =>
-      show firstChernCapStep C p n D hD j (h j)
+      change firstChernCapStep C p n D hD j (h j)
           = firstChernCapStep C p n A hA j (h j) + firstChernCapStep C p n B hB j (h j)
       rw [firstChernCapStep_eq_add_of_iso_tensorObj C p A B D n e hA hB hD j]
       rfl
@@ -711,7 +711,7 @@ theorem elemSymmChernCap_eq_esymRec (α : chowGroup C p n) :
       | zero => rw [esymRec_degree_zero]; rfl
       | succ k =>
           rw [esymRec_succ, firstChernShiftSeq_of_lt C p n L hfac m hm']
-          show elemSymmChernCap C p n L hfac (m + 1) hm (k + 1) α = _
+          change elemSymmChernCap C p n L hfac (m + 1) hm (k + 1) α = _
           rw [elemSymmChernCap_succ C p n L hfac m hm k]
           simp only [AddMonoidHom.add_apply, AddMonoidHom.coe_comp, Function.comp_apply]
           rw [ih (Nat.le_of_succ_le hm) (k + 1), ih (Nat.le_of_succ_le hm) k]
@@ -955,7 +955,8 @@ quotients N_j, and for E tensor F with quotients M_k, together with hquot, the s
 lexicographic identification M_{i*s+j} iso L_i tensor N_j.  The source gets these from Stacks \
 02UL and the injectivity of pi^*, and that reduction CANNOT be performed in this repository, for \
 the two independent reasons recorded in the Stacks 0FA5 clause of \
-StacksFrontier.AlgebraicGeometry.Chow.SplittingPrinciple.DualChernClasses: Stacks 02UL is formalized as \
+StacksFrontier.AlgebraicGeometry.Chow.SplittingPrinciple.DualChernClasses: \
+Stacks 02UL is formalized as \
 Stacks.Chow.exists_splittingMorphism and delivers \
 Stacks.WeilCohomology.HasInvertibleFiltration, an inductive Prop from which the tower of modules \
 and maps that Stacks 02UJ needs -- which is data -- cannot be eliminated; and nothing in this \
@@ -1051,7 +1052,8 @@ this development has no bivariant ring in which `c₁(ℱ)²` would be a class. 
 CORRECTION OF FORM: the source states c_2(E tensor F) = r c_2(F) + s c_2(E) + binom(r,2) \
 c_1(F)^2 + (r*s - 1) c_1(F) c_1(E) + binom(s,2) c_1(E)^2 in the bivariant ring A^*(X).  This \
 development has no bivariant ring and no total Chern class, for the reason recorded in the Stacks \
-02UH clause of StacksFrontier.AlgebraicGeometry.Chow.ChernWhitney.CapProductRelation, so -- exactly \
+02UH clause of StacksFrontier.AlgebraicGeometry.Chow.ChernWhitney.CapProductRelation, \
+so -- exactly \
 as for Stacks 02UJ and Stacks 0FA5, which this result is read on top of -- the identity is stated \
 degree by degree as cap products against a fixed cycle: for every n and every alpha in CycleGroup \
 C p n, c_2(E tensor F) cap alpha = s times (c_2(E) cap alpha) plus r times (c_2(F) cap alpha) \

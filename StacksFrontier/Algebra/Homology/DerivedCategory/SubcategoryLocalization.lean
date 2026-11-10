@@ -85,7 +85,7 @@ theorem complexSubcategoryQuotient_obj_surjective :
     Function.Surjective (complexSubcategoryQuotient P).obj := fun X ↦ by
   obtain ⟨L, hL⟩ := HomotopyCategory.quotient_obj_surjective X.obj
   refine ⟨⟨L, ?_⟩, by ext; exact hL⟩
-  show P ((HomotopyCategory.quotient C (ComplexShape.up ℤ)).obj L)
+  change P ((HomotopyCategory.quotient C (ComplexShape.up ℤ)).obj L)
   rw [hL]
   exact X.property
 

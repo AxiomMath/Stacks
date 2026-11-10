@@ -44,9 +44,7 @@ theorem Stacks.liftBaseChange_apply_eq_of_tmul {R S N N' : Type u} [CommRing R] 
     (hadd : ∀ z w, e (z + w) = e z + e w)
     (htmul : ∀ (b : S) (m : N), e (TensorProduct.tmul R b m) = b • ρ m) (z : TensorProduct R S N) :
     ρ.liftBaseChange S z = e z := by
-  have h0 : e 0 = 0 := by simpa using hadd 0 0
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, h0]
+  induction z using TensorProduct.inductionOn with
   | tmul b m => rw [LinearMap.liftBaseChange_tmul, htmul]
   | add z w hz hw => rw [map_add, hz, hw, hadd]
 
@@ -124,7 +122,7 @@ theorem bijective_liftBaseChange_chartRestrictLinear {X Y : AlgebraicSpaces C S 
     (chartRestrictLinear f N P φ d)
     (fun z => φ.val.app (op d.U) (Space.modulePullbackChartBaseChange C S hS f N d z))
     (fun z w => by rw [map_add, map_add]) (fun b m => ?_) (hφb.comp hb)
-  show φ.val.app (op d.U) (Space.modulePullbackChartBaseChange C S hS f N d
+  change φ.val.app (op d.U) (Space.modulePullbackChartBaseChange C S hS f N d
     (TensorProduct.tmul _ b m)) = b • chartRestrict f N P φ d m
   rw [Space.modulePullbackChartBaseChange_tmul, map_smul]
   rfl

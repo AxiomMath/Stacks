@@ -79,11 +79,11 @@ theorem exists_factor_formalSpectrumInclusion (hA : TopologicalRing.IsWeaklyAdmi
     (isQuasiCompactObject_over_of_compact_scheme B S hS T) (x ≫ (inv p).hom)
   refine ⟨eI.inverse.obj i, ξ', ?_⟩
   have h1 : (inv p).hom ≫ p.hom = 𝟙 _ := by
-    show (sheafToPresheaf (BigFppfOver.topology B S hS) _).map (inv p) ≫
+    change (sheafToPresheaf (BigFppfOver.topology B S hS) _).map (inv p) ≫
       (sheafToPresheaf (BigFppfOver.topology B S hS) _).map p = 𝟙 _
     rw [← Functor.map_comp, IsIso.inv_hom_id, CategoryTheory.Functor.map_id]
   have h2 : (colimit.ι E i).hom ≫ p.hom = (formalSpectrumInclusion D (eI.inverse.obj i)).hom := by
-    show (sheafToPresheaf (BigFppfOver.topology B S hS) _).map (colimit.ι E i) ≫
+    change (sheafToPresheaf (BigFppfOver.topology B S hS) _).map (colimit.ι E i) ≫
       (sheafToPresheaf (BigFppfOver.topology B S hS) _).map p = _
     rw [← Functor.map_comp, colimit.ι_pre]
     rfl

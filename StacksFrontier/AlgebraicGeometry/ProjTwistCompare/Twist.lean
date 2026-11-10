@@ -96,7 +96,8 @@ the pullbacks is `Stacks.PullbackTensorIso.pullbackTensorIso`, unconditional, an
 now elaborates verbatim — see
 `StacksFrontier/AlgebraicGeometry/ProjTwistTheta/Multiplication.lean`, which writes it in
 library vocabulary and bounds the five transport steps that remain. The unit law is not
-proved either, but **only one of its two inputs is missing.** Tag 01MY's `twistUnitMap` is in this library and in this very
+proved either, but **only one of its two inputs is missing.** Tag 01MY's `twistUnitMap` is in this
+library and in this very
 namespace — `Stacks.AlgebraicGeometry.ProjTwistCompare.twistUnitMap`, the morphism `𝒪_X ⟶ 𝒪(0)`
 of `StacksFrontier/AlgebraicGeometry/ProjTwistCompare/Unit.lean` — and it is an *isomorphism*, by
 `Stacks.AlgebraicGeometry.ProjEulerSequence.isIso_twistUnitMap`, for an arbitrary nonnegatively
@@ -340,7 +341,8 @@ public def twistMap (ψ : 𝒜 →+*ᵍ ℬ) (n : ℤ) :
 /-! ### The bundle -/
 
 /-- Tag 01MY's bundle: the morphism induced by a graded ring homomorphism on its domain of
-definition, together with its comparison maps on every integer twist. The statements of Tags 01MZ and
+definition, together with its comparison maps on every integer twist. The statements of Tags 01MZ
+and
 01NO quantify over this record rather than over the two pieces separately. -/
 public structure ProjMapData (ψ : 𝒜 →+*ᵍ ℬ) where
   /-- The morphism of schemes `U(ψ) ⟶ Proj 𝒜`. -/

@@ -64,7 +64,7 @@ private lemma tensorMap_eq_of_generators
   obtain ⟨s, rfl⟩ := (Submodule.mem_span_singleton.mp
     (hb ▸ (Submodule.mem_top : y ∈ (⊤ : Submodule K B))))
   simp only [map_smul]
-  show s • (r • f (a ⊗ₜ[K] b)) = s • (r • g (a ⊗ₜ[K] b))
+  change s • (r • f (a ⊗ₜ[K] b)) = s • (r • g (a ⊗ₜ[K] b))
   rw [hfg]
 
 /-- The image of the zero endomorphism is a subsingleton. -/
@@ -118,7 +118,6 @@ private theorem periodicGamma_compare_equiv_zero
   have hE : IsFiniteLength R E := hM.of_injective (Submodule.injective_subtype E)
   have : Subsingleton Z := subsingleton_range_zero
   have hnZ : moduleLength R Z = 0 := moduleLength_range_zero
-
   let zseq : AdmissibleSequence R Z :=
     ⟨fun i => Fin.elim0 (hnZ ▸ i), fun i _ _ ↦ Fin.elim0 (hnZ ▸ i)⟩
   have hzspan : Submodule.span R (Set.range zseq.1) = ⊤ := by
@@ -188,7 +187,7 @@ private theorem periodicGamma_compare_equiv_zero
         hadm10⟩ : AdmissibleSequence R M) = xseq := by
     apply Subtype.ext
     funext a
-    show Fin.append (fun b ↦ i10 (zseq.1 b)) lift (Fin.cast hlen10 a) = xseq.1 a
+    change Fin.append (fun b ↦ i10 (zseq.1 b)) lift (Fin.cast hlen10 a) = xseq.1 a
     rw [Fin.append_left_nil _ _ hnZ]
     simp [lift]
   obtain ⟨hlen01, hadm01, hval01⟩ := h01 yseq zseq hyne hzne
@@ -199,7 +198,7 @@ private theorem periodicGamma_compare_equiv_zero
         AdmissibleSequence R M) = eseq := by
     apply Subtype.ext
     funext a
-    show Fin.append (fun b ↦ i01 (yseq.1 b))
+    change Fin.append (fun b ↦ i01 (yseq.1 b))
         (fun i => Fin.elim0 (hnZ ▸ i)) (Fin.cast hlen01 a) = eseq.1 a
     rw [Fin.append_right_nil _ _ hnZ]
     rfl
@@ -209,7 +208,7 @@ private theorem periodicGamma_compare_equiv_zero
           (symbol zseq ⊗ₜ[K] symbol yseq) =
         F ((periodicGamma (e : M →ₗ[R] M) 0 h0e hM)
           (symbol zseq ⊗ₜ[K] symbol yseq)) := by
-    show determinantExactSequenceMap i01 p01 hi01 hp01 hip01 hE hM hZ
+    change determinantExactSequenceMap i01 p01 hi01 hp01 hip01 hE hM hZ
           (symbol yseq ⊗ₜ[K] symbol zseq) =
       F (determinantExactSequenceMap i10 p10 hi10 hp10 hip10 hZ hM hE
           (symbol zseq ⊗ₜ[K] symbol yseq))
@@ -267,7 +266,7 @@ theorem periodicDeterminant_equiv_zero
     simp
   have hspec : IsPeriodicDeterminant
       (e : M →ₗ[R] M) 0 he0 h0e hM (determinantAutomorphism e hM) := by
-    show (periodicGamma (0 : M →ₗ[R] M) e he0 hM).comp
+    change (periodicGamma (0 : M →ₗ[R] M) e he0 hM).comp
         (TensorProduct.comm K
           (determinant R (LinearMap.range (0 : M →ₗ[R] M)))
           (determinant R (LinearMap.range (e : M →ₗ[R] M)))).toLinearMap =
@@ -343,7 +342,7 @@ theorem periodicDeterminant_zero_equiv
     simp
   have hspec : IsPeriodicDeterminant
       0 (e : M →ₗ[R] M) h0e he0 hM ((determinantAutomorphism e hM)⁻¹) := by
-    show gamma10.comp commAB =
+    change gamma10.comp commAB =
       (((-1 : K) ^
           (moduleLength R (LinearMap.range (0 : M →ₗ[R] M)) *
             moduleLength R (LinearMap.range (e : M →ₗ[R] M)))) *

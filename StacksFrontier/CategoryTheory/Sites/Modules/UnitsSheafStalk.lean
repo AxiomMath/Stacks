@@ -128,6 +128,7 @@ section Transport
 
 variable (P : Sheaf X.J (Type w) ⥤ Type t) [PreservesFiniteLimits P]
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **The cartesian square of the units subsheaf survives a left-exact functor to sets.** This
 is the whole content of the finite-limit description of the units subsheaf. -/
 theorem isPullback_map_unitsPair :
@@ -159,10 +160,11 @@ private theorem map_unitsInvPair_apply (u : P.obj (units X)) :
   rw [unitsInvPair, Functor.map_lift_apply]
   rfl
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The image of a section of the units subsheaf is invertible in the transported ring. -/
 theorem unitsObjVal_mul_unitsObjInv (u : P.obj (units X)) :
     unitsObjVal X P u * unitsObjInv X P u = 1 := by
-  show Sheaf.ringMulObj (ringStructureSheaf X) P (unitsObjVal X P u) (unitsObjInv X P u) =
+  change Sheaf.ringMulObj (ringStructureSheaf X) P (unitsObjVal X P u) (unitsObjInv X P u) =
     Sheaf.ringOneObj (ringStructureSheaf X) P
   rw [Sheaf.ringMulObj, ← map_unitsPair_apply, ← Functor.map_comp_apply,
     unitsPair_comp_ringMulHom, Functor.map_comp_apply, Functor.map_terminalFrom_apply,
@@ -172,7 +174,7 @@ omit [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The inverse section is a two-sided inverse in the transported ring. -/
 theorem unitsObjInv_mul_unitsObjVal (u : P.obj (units X)) :
     unitsObjInv X P u * unitsObjVal X P u = 1 := by
-  show Sheaf.ringMulObj (ringStructureSheaf X) P (unitsObjInv X P u) (unitsObjVal X P u) =
+  change Sheaf.ringMulObj (ringStructureSheaf X) P (unitsObjInv X P u) (unitsObjVal X P u) =
     Sheaf.ringOneObj (ringStructureSheaf X) P
   rw [Sheaf.ringMulObj, ← map_unitsInvPair_apply, ← Functor.map_comp_apply,
     unitsInvPair_comp_ringMulHom, Functor.map_comp_apply, Functor.map_terminalFrom_apply,
@@ -187,6 +189,7 @@ noncomputable def unitsObjToUnits (u : P.obj (units X)) :
   val_inv := unitsObjVal_mul_unitsObjInv X P u
   inv_val := unitsObjInv_mul_unitsObjVal X P u
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The underlying element of `unitsObjToUnits X P u` is the image of `u` under `P` applied to the
 inclusion of the units subsheaf. -/
 @[simp]
@@ -195,6 +198,7 @@ theorem unitsObjToUnits_val (u : P.obj (units X)) :
       P.map (unitsIncl X) u :=
   rfl
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **The units subsheaf is carried to the unit group of the transported ring.** A section of
 the image of the units subsheaf is determined by, and determines, a unit of the transported
 ring: the cartesian square describing the units subsheaf is preserved, and over sets a
@@ -212,7 +216,7 @@ theorem bijective_unitsObjToUnits : Function.Bijective (unitsObjToUnits X P) := 
           (↑v⁻¹ : P.obj (Sheaf.ringSheaf (ringStructureSheaf X))))
         default
         (by
-          show Sheaf.ringMulObj (ringStructureSheaf X) P _ _ =
+          change Sheaf.ringMulObj (ringStructureSheaf X) P _ _ =
             Sheaf.ringOneObj (ringStructureSheaf X) P
           exact v.val_inv)
     refine ⟨u, Units.ext ?_⟩
@@ -225,18 +229,21 @@ noncomputable def unitsObjEquiv :
     P.obj (units X) ≃ (P.obj (Sheaf.ringSheaf (ringStructureSheaf X)))ˣ :=
   Equiv.ofBijective _ (bijective_unitsObjToUnits X P)
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The bijection `unitsObjEquiv X P` sends `u` to `unitsObjToUnits X P u`. -/
 @[simp]
 theorem unitsObjEquiv_apply (u : P.obj (units X)) :
     unitsObjEquiv X P u = unitsObjToUnits X P u :=
   rfl
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **The bijection is compatible with the inclusion of the units subsheaf.** -/
 theorem unitsObjEquiv_apply_val (u : P.obj (units X)) :
     (unitsObjEquiv X P u : P.obj (Sheaf.ringSheaf (ringStructureSheaf X))) =
       P.map (unitsIncl X) u :=
   rfl
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **The sections of the transported structure sheaf which lift through the transported units
 subsheaf are exactly the units.** This is the transported form of
 `AlgebraicGeometry.RingedSite.isUnit_iff_exists_unitsSheaf`; for a stalk functor it is the
@@ -272,6 +279,7 @@ noncomputable def stalkUnitsEquiv (p : PointOfTopos.{w, v, u} X.J) :
   letI := p.preservesFiniteLimits
   unitsObjEquiv X p.inverseImage
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **The identification of stalks is compatible with the inclusion of the units subsheaf.** -/
 theorem stalkUnitsEquiv_apply_val (p : PointOfTopos.{w, v, u} X.J)
     (u : p.stalk (units X)) :
@@ -279,6 +287,7 @@ theorem stalkUnitsEquiv_apply_val (p : PointOfTopos.{w, v, u} X.J)
     (stalkUnitsEquiv X p u : stalkRingObj X p) = p.inverseImage.map (unitsIncl X) u :=
   rfl
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **An element of a stalk of the structure sheaf is invertible exactly when it comes from the
 stalk of the units subsheaf.** -/
 theorem isUnit_stalk_iff (p : PointOfTopos.{w, v, u} X.J) (a : stalkRingObj X p) :

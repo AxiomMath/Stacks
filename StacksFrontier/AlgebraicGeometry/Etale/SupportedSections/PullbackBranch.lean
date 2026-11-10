@@ -116,11 +116,11 @@ public theorem supportSection_restrict_subset_preimage
           Set ((SmallEtale.toScheme B S hS).obj U)) := by
       intro y hy
       obtain ⟨z, rfl⟩ := hy
-      show g.base (((SmallEtale.toScheme B S hS).map j).base z) ∈ _
+      change g.base (((SmallEtale.toScheme B S hS).map j).base z) ∈ _
       have hmem : ((SmallEtale.toScheme B S hS).map j).base z ∈
           (W : Set ((SmallEtale.toScheme B S hS).obj U')) :=
         hjrange ▸ Set.mem_range_self z
-      show ((SmallEtale.toScheme B S hS).map j).base z ∈
+      change ((SmallEtale.toScheme B S hS).map j).base z ∈
         g.base ⁻¹' (zeroOpen B S hS F U s : Set _)
       exact hmem
     have hzero : F.obj.map (j ≫ f).op s = 0 :=
@@ -129,7 +129,7 @@ public theorem supportSection_restrict_subset_preimage
         (zeroOpen B S hS F U' (F.obj.map f.op s) :
           Set ((SmallEtale.toScheme B S hS).obj U')) := by
       unfold zeroOpen
-      show W ≤ sSup {W | IsZeroOpen
+      change W ≤ sSup {W | IsZeroOpen
         B S hS F U' (F.obj.map f.op s) W}
       exact le_sSup ⟨V, j, inferInstance, hjrange.symm,
         by simpa [Functor.map_comp, Category.assoc] using hzero⟩
@@ -137,7 +137,7 @@ public theorem supportSection_restrict_subset_preimage
   intro x hx
   change x ∉ (zeroOpen B S hS F U'
       (F.obj.map f.op s) : Set _) at hx
-  show g.base x ∉
+  change g.base x ∉
     (zeroOpen B S hS F U s : Set _)
   intro hx'
   exact hx (hzeroOpen hx')
@@ -173,7 +173,7 @@ private theorem smallEtale_cover_of_jointlySurjective_etale
     SmallEtale.inclusion B S hS ⋙ Over.forget (B.obj S hS) ⋙ B.inclusion
   have hscheme : (E.map H).presieve₀ ∈
       Scheme.etalePrecoverage (H.obj X) := by
-    show Presieve.ofArrows _ _ ∈ Scheme.precoverage (fun _ _ f => Etale f) (H.obj X)
+    change Presieve.ofArrows _ _ ∈ Scheme.precoverage (fun _ _ f => Etale f) (H.obj X)
     rw [Scheme.ofArrows_mem_precoverage_iff
       (P := fun _ _ f => Etale f)]
     exact ⟨hcover, hetale⟩
@@ -191,7 +191,7 @@ private theorem smallEtale_cover_of_jointlySurjective_etale
   let E' : PreZeroHypercover X :=
       ⟨Vfamily.I₀,
       fun i => ⟨Over.mk (Vfamily.f i ≫ X.obj.hom), by
-        show Etale (B.inclusion.map (Vfamily.f i ≫ X.obj.hom))
+        change Etale (B.inclusion.map (Vfamily.f i ≫ X.obj.hom))
         rw [Functor.map_comp]
         let := hVEtale i
         let := X.property
@@ -199,7 +199,7 @@ private theorem smallEtale_cover_of_jointlySurjective_etale
       fun i => CategoryTheory.ObjectProperty.homMk
         (Over.homMk (Vfamily.f i))⟩
   have hselected : SmallEtale.IsCovering B S hS ⟨X, E'⟩ := by
-    show B.IsCovering
+    change B.IsCovering
       ⟨H₀.obj X, (E'.map (SmallEtale.inclusion B S hS)).map
         (Over.forget (B.obj S hS))⟩
     have hfamily :
@@ -393,20 +393,20 @@ private theorem pullback_point_in_diagonal_of_mem_closed_branch
     rw [Scheme.Pullback.range_map]
     exact ⟨hfst, hsnd⟩
   have hmfst : m ≫ pullback.fst q q = pullback.fst g g ≫ i := by
-    show pullback.lift (pullback.fst g g ≫ i) (pullback.snd g g ≫ i) _ ≫
+    change pullback.lift (pullback.fst g g ≫ i) (pullback.snd g g ≫ i) _ ≫
       pullback.fst q q = pullback.fst g g ≫ i
     exact pullback.lift_fst _ _ _
   have hmsnd : m ≫ pullback.snd q q = pullback.snd g g ≫ i := by
-    show pullback.lift (pullback.fst g g ≫ i) (pullback.snd g g ≫ i) _ ≫
+    change pullback.lift (pullback.fst g g ≫ i) (pullback.snd g g ≫ i) _ ≫
       pullback.snd q q = pullback.snd g g ≫ i
     exact pullback.lift_snd _ _ _
   have hfac : pullback.diagonal g ≫ m = i ≫ pullback.diagonal q := by
     apply pullback.hom_ext
-    · show pullback.diagonal g ≫ (m ≫ pullback.fst q q) =
+    · change pullback.diagonal g ≫ (m ≫ pullback.fst q q) =
         i ≫ (pullback.diagonal q ≫ pullback.fst q q)
       rw [hmfst]
       simp [← Category.assoc]
-    · show pullback.diagonal g ≫ (m ≫ pullback.snd q q) =
+    · change pullback.diagonal g ≫ (m ≫ pullback.snd q q) =
         i ≫ (pullback.diagonal q ≫ pullback.snd q q)
       rw [hmsnd]
       simp [← Category.assoc]
@@ -418,7 +418,7 @@ private theorem pullback_point_in_diagonal_of_mem_closed_branch
         rw [hfac]
   have hmr : Set.range m.base ⊆ Set.range (pullback.diagonal q).base := by
     rw [hm]
-    show Set.range ((pullback.diagonal q).base ∘
+    change Set.range ((pullback.diagonal q).base ∘
       ((asIso (pullback.diagonal g)).inv ≫ i).base) ⊆ _
     rw [Set.range_comp]
     exact Set.image_subset_iff.mpr (fun _ _ => Set.mem_range_self _)

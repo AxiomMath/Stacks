@@ -135,7 +135,7 @@ theorem cechComplementHomologyZeroIsoCyclesShrink_hom_naturality (g : M ⟶ N)
     (hZ M _ (by omega))
     (hZ N _ (by omega))
     (hZ N _ (by omega))
-  show (Stacks.MappingCone.homologyIsoCycles
+  change (Stacks.MappingCone.homologyIsoCycles
       (extendedCechAugmentationShrink.{v} f N) 0 _ _).hom
       ((DerivedCategory.homologyFunctorFactors (ModuleCat.{v} R) 0).hom.app
         (CochainComplex.mappingCone (extendedCechAugmentationShrink.{v} f N))
@@ -153,7 +153,7 @@ theorem cechComplementHomologyZeroEquivKerShrink_naturality (g : M ⟶ N)
         ((DerivedCategory.homologyFunctor (ModuleCat.{v} R) 0).map
           ((cechComplementFunctorShrink.{v} f).map g) z) =
       kerCechDShrinkOneMap.{v} f g (cechComplementHomologyZeroEquivKerShrink.{v} f M z) := by
-  show (cechCyclesOneIsoKerShrink.{v} f N).hom ((extendedCechCyclesOneIsoShrink.{v} f N).hom
+  change (cechCyclesOneIsoKerShrink.{v} f N).hom ((extendedCechCyclesOneIsoShrink.{v} f N).hom
       ((cechComplementHomologyZeroIsoCyclesShrink.{v} f N).hom
         ((DerivedCategory.homologyFunctor (ModuleCat.{v} R) 0).map
           ((cechComplementFunctorShrink.{v} f).map g) z))) = _
@@ -171,7 +171,7 @@ theorem cechComplementHomologyZeroEquivKerFree_naturality (g : M ⟶ N)
         ((DerivedCategory.homologyFunctor (ModuleCat.{v} R) 0).map
           ((cechComplementFunctorShrink.{v} f).map g) z) =
       kerCechDOneMap f g (cechComplementHomologyZeroEquivKerFree.{v} f M z) := by
-  show kerCechDShrinkOneEquivKer.{v} f N (cechComplementHomologyZeroEquivKerShrink.{v} f N
+  change kerCechDShrinkOneEquivKer.{v} f N (cechComplementHomologyZeroEquivKerShrink.{v} f N
       ((DerivedCategory.homologyFunctor (ModuleCat.{v} R) 0).map
         ((cechComplementFunctorShrink.{v} f).map g) z)) = _
   rw [cechComplementHomologyZeroEquivKerShrink_naturality,

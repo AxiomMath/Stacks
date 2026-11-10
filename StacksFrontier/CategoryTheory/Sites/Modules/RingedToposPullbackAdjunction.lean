@@ -75,6 +75,8 @@ noncomputable def homEquivModules (f : RingedToposSiteHom X Y)
     (f.pullbackTopos.obj G ⟶ F) ≃ (G ⟶ f.pushforwardTopos.obj F) :=
   (f.pullbackPushforwardAdjunctionTopos).homEquiv G F
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The bijection of `homEquivModules` is natural in the `O_Y`-module `G`. -/
 theorem homEquivModules_naturality_left (f : RingedToposSiteHom X Y)
     {G G' : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)}
@@ -83,6 +85,8 @@ theorem homEquivModules_naturality_left (f : RingedToposSiteHom X Y)
     f.homEquivModules G' F (f.pullbackTopos.map g ≫ h) = g ≫ f.homEquivModules G F h :=
   (f.pullbackPushforwardAdjunctionTopos).homEquiv_naturality_left g h
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The bijection of `homEquivModules` is natural in the `O_X`-module `F`. -/
 theorem homEquivModules_naturality_right (f : RingedToposSiteHom X Y)
     {G : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)}

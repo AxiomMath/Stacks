@@ -83,7 +83,7 @@ theorem isEffective_pullback_of_singleArrow (hp : p.IsFiberedInGroupoids)
   have hT : Sieve.generate (Presieve.singleton e) ≤ R.pullback v := by
     intro Y h hh
     obtain ⟨k, rfl⟩ := exists_comp_eq_of_mem_generate_singleton hh
-    show R.arrows ((k ≫ e) ≫ v)
+    change R.arrows ((k ≫ e) ≫ v)
     rw [assoc, hb₀]
     exact R.downward_closed hRb k
   refine (D.pullback v).isEffective_of_restrict hmor hT he ?_
@@ -129,7 +129,7 @@ theorem isEffective_pullback_of_singleArrow (hp : p.IsFiberedInGroupoids)
     have e₂k : ε₂ ≫ (h₂ ≫ v) = (ε₂ ≫ k Y₂ h₂ hh₂) ≫ b₀ := by rw [assoc, hkb]
     have e₁k : ε₁ ≫ (h₁ ≫ v) = (ε₁ ≫ k Y₁ h₁ hh₁) ≫ b₀ := by rw [assoc, hkb]
     have ekk : (ε₁ ≫ k Y₁ h₁ hh₁) ≫ b₀ = (ε₂ ≫ k Y₂ h₂ hh₂) ≫ b₀ := e₁k.symm.trans (heqv.trans e₂k)
-    show Fiber.fiberInclusion.map (D.iso hm₁ hm₂ ε₁ ε₂ heqv).hom ≫
+    change Fiber.fiberInclusion.map (D.iso hm₁ hm₂ ε₁ ε₂ heqv).hom ≫
         IsPreFibered.pullbackMap (D.obj (h₂ ≫ v) hm₂).2 ε₂ ≫
           (Fiber.fiberInclusion.map (D.contract hRb (k Y₂ h₂ hh₂) hm₂ (hkb Y₂ h₂ hh₂)).inv ≫
             IsPreFibered.pullbackMap (D.obj b₀ hRb).2 (k Y₂ h₂ hh₂) ≫ ζ₀) =

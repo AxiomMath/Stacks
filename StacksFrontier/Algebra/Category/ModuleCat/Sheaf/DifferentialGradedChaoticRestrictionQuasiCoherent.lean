@@ -331,7 +331,7 @@ theorem derivedRestrictionSquare_relation
   simp only [Functor.map_comp] at hm
   rw [derivedRestrictionSquare_hom_app']
   simp only [restrictScalarsClassIsoOfIso, Iso.trans_hom, Functor.mapIso_hom, Functor.map_comp,
-    Category.assoc, Iso.map_hom_inv_id_assoc]
+    Category.assoc, Iso.hom_inv_id_map_assoc]
   rw [← reassoc_of% n1, ← reassoc_of% n2, Iso.hom_inv_id_assoc, ← reassoc_of% hm]
 
 /-- **The transposes of the two derived restriction maps of a square are invertible together**,
@@ -432,7 +432,7 @@ theorem Hom.sectionHom_comp_sectionRestriction {U V : Cᵒᵖ} (a : V ⟶ U) :
     (B.sectionRestriction a).comp (φ.sectionHom hφ V) =
       (φ.sectionHom hφ U).comp (A.sectionRestriction a) := by
   refine _root_.DifferentialGradedAlgebra.Hom.ext_toAlgebraHom (AlgHom.ext fun x ↦ ?_)
-  show B.sectionRestrictRing a (φ.sectionRing hφ V x) =
+  change B.sectionRestrictRing a (φ.sectionRing hφ V x) =
     φ.sectionRing hφ U (A.sectionRestrictRing a x)
   have key : (B.sectionRestrictRing a).comp (φ.sectionRing hφ V) =
       (φ.sectionRing hφ U).comp (A.sectionRestrictRing a) := by
@@ -460,7 +460,7 @@ theorem restrictionObj_act (U : Cᵒᵖ) (x : (restrictionObj φ hφ N).totalSec
   have key : (restrictionObj φ hφ N).act U =
       AddMonoidHom.flip ((AddMonoidHom.flip (N.act U)).comp (φ.sectionRing hφ U).toAddMonoidHom) :=
     DirectSum.addHom_ext fun n p ↦ DirectSum.addHom_ext fun i q ↦ by
-      show (restrictionObj φ hφ N).act U (DirectSum.of _ n p) (DirectSum.of _ i q) =
+      change (restrictionObj φ hφ N).act U (DirectSum.of _ n p) (DirectSum.of _ i q) =
         N.act U (DirectSum.of (N.sectionsPiece U) n (show N.sectionsPiece U n from p))
           (φ.sectionRing hφ U (DirectSum.of _ i q))
       rw [DifferentialGradedAlgebra.Hom.sectionRing_of, act_of, actOn_of, act_of, actOn_of]
@@ -549,7 +549,7 @@ theorem regularModule_act (A : DifferentialGradedAlgebra.{t, a} R) (U : Cᵒᵖ)
       (fun x y ↦ AddMonoidHom.ext fun s ↦
         add_mul (show A.toGradedAlgebra.totalSections U from x) (show _ from y) s) :=
     DirectSum.addHom_ext fun n p ↦ DirectSum.addHom_ext fun i q ↦ by
-      show (regularModule A).act U (DirectSum.of _ n p) (DirectSum.of _ i q) =
+      change (regularModule A).act U (DirectSum.of _ n p) (DirectSum.of _ i q) =
         DirectSum.of (A.toGradedAlgebra.sectionsPiece U) n
             (show A.toGradedAlgebra.sectionsPiece U n from p) *
           DirectSum.of (A.toGradedAlgebra.sectionsPiece U) i q
@@ -583,11 +583,11 @@ theorem sectionMap_regularRestrictionHom (U : Cᵒᵖ) :
             (regularSectionModuleIso B U).hom =
       (regularSectionModuleIso A U).hom ≫ (φ.sectionHom hφ U).toRegularRestriction := by
   refine _root_.DifferentialGradedModule.Hom.ext (LinearMap.ext fun x ↦ ?_)
-  show sectionMapAdd (regularRestrictionHom φ hφ) U x = φ.sectionRing hφ U x
+  change sectionMapAdd (regularRestrictionHom φ hφ) U x = φ.sectionRing hφ U x
   have key : sectionMapAdd (regularRestrictionHom φ hφ) U =
       (φ.sectionRing hφ U).toAddMonoidHom :=
     DirectSum.addHom_ext fun n p ↦ by
-      show sectionMapAdd (regularRestrictionHom φ hφ) U (DirectSum.of _ n p) =
+      change sectionMapAdd (regularRestrictionHom φ hφ) U (DirectSum.of _ n p) =
         φ.sectionRing hφ U (DirectSum.of (A.toGradedAlgebra.sectionsPiece U) n
           (show A.toGradedAlgebra.sectionsPiece U n from p))
       rw [sectionMapAdd_of, DifferentialGradedAlgebra.Hom.sectionRing_of]

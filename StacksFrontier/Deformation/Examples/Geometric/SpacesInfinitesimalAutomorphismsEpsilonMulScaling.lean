@@ -84,7 +84,7 @@ theorem chartDiagramPullback_familyChartScalar
   change (Scheme.ΓSpecIso (CommRingCat.of P.base)).inv.hom (σ.hom a) =
     (Spec.map (CommRingCat.ofHom σ.hom.toRingHom)).appTop.hom
       ((Scheme.ΓSpecIso (CommRingCat.of P.base)).inv.hom a) at h
-  show _ = (pullbackToGlobalFunctions B (Spec (.of Λ)) hΛ (spaceTotalSpace B hΛ hSpec P)
+  change _ = (pullbackToGlobalFunctions B (Spec (.of Λ)) hΛ (spaceTotalSpace B hΛ hSpec P)
     (spaceBaseOver B hΛ hSpec P.base) (spaceTotalToBase B hΛ hSpec P)
     ((Scheme.ΓSpecIso (CommRingCat.of P.base)).inv.hom (σ.hom a))).1 (op d.U)
   rw [h]
@@ -148,7 +148,7 @@ theorem modulePullback_map_specialEpsilonMul_comp_idealSheafMap (c : P.base)
   refine ((modulePullbackAdjunction B (Spec (.of Λ)) hΛ J).homEquiv _ _).injective ?_
   refine (modulePushforwardHomEquiv B (Spec (.of Λ)) hΛ J _ _).injective ?_
   refine ModuleFMap.ext B (Spec (.of Λ)) hΛ (funext fun d => funext fun s => ?_)
-  show (modulePullbackHomFMap B (Spec (.of Λ)) hΛ J _ _ _).app d s =
+  change (modulePullbackHomFMap B (Spec (.of Λ)) hΛ J _ _ _).app d s =
     (modulePullbackHomFMap B (Spec (.of Λ)) hΛ J _ _ _).app d s
   refine (modulePullbackHomFMap_app B (Spec (.of Λ)) hΛ J _ _ _ d s).trans
     (Eq.trans ?_ (modulePullbackHomFMap_app B (Spec (.of Λ)) hΛ J _ _ _ d s).symm)
@@ -191,7 +191,7 @@ theorem modulePullback_map_specialEpsilonMul_comp_idealSheafMap (c : P.base)
       ((specialEpsilonMul B hΛ hSpec P f εA hk).val.app (op d.V) s).1 =
       familyChartScalar B hΛ hSpec P d.U εA *
         ((familyBaseFunction B hΛ hSpec P c).1 (op d.U) * pbs) := by
-    show chartDiagramPullback B (Spec (.of Λ)) hΛ J d
+    change chartDiagramPullback B (Spec (.of Λ)) hΛ J d
       (familyChartScalar B hΛ hSpec P d.V εA * s') = _
     let tU : ToType ((structureRingSheaf B (Spec (.of Λ)) hΛ
       (spaceTotalSpace B hΛ hSpec P)).obj.obj (op d.U)) := familyChartScalar B hΛ hSpec P d.U εA

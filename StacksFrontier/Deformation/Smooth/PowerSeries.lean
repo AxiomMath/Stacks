@@ -53,7 +53,7 @@ private theorem isSmooth_restrictedRepresentableMap_iff_lifts
               ∃ sB : S ⟶ artinianToComplete.obj B,
                 (restrictedCoyoneda S).map q sB = sA ∧
                   (restrictedCoyonedaMap f).app B sB = rB := by
-  show IsSmooth (elementsBasedFunctor (restrictedCoyonedaMap f)) ↔ _
+  change IsSmooth (elementsBasedFunctor (restrictedCoyonedaMap f)) ↔ _
   exact isSmooth_elementsBasedFunctor_iff (restrictedCoyonedaMap f)
 
 @[ega "0 19.3.4.1" "(ii)"]
@@ -81,7 +81,7 @@ private theorem exists_algHom_mvPowerSeries_of_nilpotent
       nhds_discrete, Filter.comap_pure]
     congr 1
     ext x
-    show x.2 + -x.1 = 0 ↔ x.1 = x.2
+    change x.2 + -x.1 = 0 ↔ x.1 = x.2
     constructor
     · intro hx
       have hx' : x.2 - x.1 = 0 := by simpa [sub_eq_add_neg] using hx
@@ -134,7 +134,7 @@ private theorem relativeCotangent_isTorsionByMaximalIdeal
       (maximalIdeal S : Set S) := by
     rw [Module.isTorsionBySet_quotient_iff]
     intro x a ha
-    show (a : S) * (x : S) ∈
+    change (a : S) * (x : S) ∈
       (RingHom.ker (algebraMap Λ k)).map (algebraMap Λ S) + maximalIdeal S ^ 2
     have hprod : (a : S) * (x : S) ∈ maximalIdeal S * maximalIdeal S :=
       Ideal.mul_mem_mul ha x.2
@@ -188,7 +188,7 @@ private theorem relativeCotangent_finiteDimensional
   obtain ⟨s, hs⟩ := Module.finite_def.mp hfinite
   let W : Submodule k (relativeCotangentSpaceOverBase S) :=
     Submodule.span k (s : Set (relativeCotangentSpaceOverBase S))
-  show Module.Finite k (relativeCotangentSpaceOverBase S)
+  change Module.Finite k (relativeCotangentSpaceOverBase S)
   rw [Module.finite_def]
   refine ⟨s, ?_⟩
   apply top_unique
@@ -208,9 +208,9 @@ private theorem relativeCotangent_finiteDimensional
         let h := relativeCotangent_isTorsionByMaximalIdeal S
         have hscalar :
             algebraMap k (ResidueField S) (S.residueEquiv (residue S a)) = residue S a := by
-          show S.residueEquiv.symm (S.residueEquiv (residue S a)) = _
+          change S.residueEquiv.symm (S.residueEquiv (residue S a)) = _
           exact S.residueEquiv.symm_apply_apply _
-        show a • y =
+        change a • y =
           (algebraMap k (ResidueField S) (S.residueEquiv (residue S a))) • y
         rw [hscalar]; exact (h.mk_smul a y).symm
       rw [hsmul]; exact ha
@@ -458,7 +458,7 @@ private theorem eval₂Hom_isLocalHom
   let J : Ideal (MvPowerSeries (Fin n) A) :=
     Ideal.span (Set.range (MvPowerSeries.X : Fin n → MvPowerSeries (Fin n) A))
   have hmap : Ideal.map F J ≤ maximalIdeal B := by
-    show Ideal.map F
+    change Ideal.map F
         (Ideal.span (Set.range (MvPowerSeries.X : Fin n → MvPowerSeries (Fin n) A))) ≤ _
     rw [Ideal.map_span]
     apply Ideal.span_le.2
@@ -474,7 +474,7 @@ private theorem eval₂Hom_isLocalHom
     rw [IsLocalRing.mem_maximalIdeal, mem_nonunits_iff]
     intro hφunit; exact hc ((isUnit_map_iff φ c).mp hφunit)
   have hxJ : x - MvPowerSeries.C c ∈ J := by
-    show x - MvPowerSeries.C c ∈
+    change x - MvPowerSeries.C c ∈
       Ideal.span (Set.range (MvPowerSeries.X : Fin n → MvPowerSeries (Fin n) A))
     apply (Stacks.MvPowerSeries.RegularParameters.mem_span_X_iff_constantCoeff_eq_zero n _).2
     simp [c]
@@ -509,7 +509,7 @@ private theorem smooth_lift_firstOrder
     obtain ⟨s, rfl⟩ := Ideal.Quotient.mk_surjective y
     obtain ⟨p, hp⟩ := hφ s
     refine ⟨Ideal.Quotient.mk (AdicTruncation.ideal P 1) p, ?_⟩
-    show Ideal.Quotient.mk (AdicTruncation.ideal S 1) (φ.hom p) = _
+    change Ideal.Quotient.mk (AdicTruncation.ideal S 1) (φ.hom p) = _
     rw [hp]
   let rB : R ⟶ artinianToComplete.obj B :=
     r ≫ quotientProjection P 1
@@ -522,7 +522,7 @@ private theorem smooth_lift_firstOrder
     intro x
     have hval : φ.hom (r.hom x) = f.hom x := by
       simpa using congrArg (fun z : R ⟶ S => z.hom x) hfac
-    show Ideal.Quotient.mk (AdicTruncation.ideal S 1) (f.hom x) =
+    change Ideal.Quotient.mk (AdicTruncation.ideal S 1) (f.hom x) =
       q.hom (Ideal.Quotient.mk (AdicTruncation.ideal P 1) (r.hom x))
     rw [← hval]
     rfl
@@ -764,13 +764,13 @@ private theorem rebasePowerSeries_relativeCotangent_span_X
     (rebasePowerSeriesResidueEquiv R n).symm.toAlgHom.toRingHom.toAlgebra
   have hk : RingHom.ker (algebraMap R k) = maximalIdeal R := by
     ext x
-    show R.residueEquiv (residue R x) = 0 ↔ x ∈ maximalIdeal R
+    change R.residueEquiv (residue R x) = 0 ↔ x ∈ maximalIdeal R
     rw [map_eq_zero_iff _ R.residueEquiv.injective, residue_eq_zero_iff]
   let J := relativeCotangentSubmodule (rebasePowerSeries R n)
   let xclass : Fin n → relativeCotangentSpaceOverBase (rebasePowerSeries R n) := fun i =>
     Submodule.Quotient.mk (p := J) (⟨(MvPowerSeries.X i : ↑(rebasePowerSeries R n)),
       X_mem_maximalIdeal i⟩ : maximalIdeal ↑(rebasePowerSeries R n))
-  show Submodule.span k (Set.range xclass) = ⊤
+  change Submodule.span k (Set.range xclass) = ⊤
   apply top_unique
   intro z _
   change maximalIdeal ↑(rebasePowerSeries R n) ⧸ J at z
@@ -828,15 +828,15 @@ private theorem rebasePowerSeries_relativeCotangent_span_X
       have hrelJ : (x - ∑ i : Fin n, y i) ∈ J := by
         dsimp only [J, relativeCotangentSubmodule]
         rw [hk]
-        show (x - ∑ i : Fin n, y i) ∈
+        change (x - ∑ i : Fin n, y i) ∈
           Submodule.comap (maximalIdeal ↑(rebasePowerSeries R n)).subtype
             ((maximalIdeal R).map (algebraMap R ↑(rebasePowerSeries R n)) +
               maximalIdeal ↑(rebasePowerSeries R n) ^ 2)
         rw [Submodule.mem_comap]
-        show ((x - ∑ i : Fin n, y i : maximalIdeal ↑(rebasePowerSeries R n)) :
+        change ((x - ∑ i : Fin n, y i : maximalIdeal ↑(rebasePowerSeries R n)) :
           ↑(rebasePowerSeries R n)) ∈ _
         rw [Submodule.coe_sub, Submodule.coe_sum]
-        show ((x : ↑(rebasePowerSeries R n)) -
+        change ((x : ↑(rebasePowerSeries R n)) -
           ∑ i : Fin n, (y i : ↑(rebasePowerSeries R n))) ∈
           ((maximalIdeal R).map
             (algebraMap R ↑(rebasePowerSeries R n)) :
@@ -861,13 +861,13 @@ private theorem rebasePowerSeries_relativeCotangent_span_X
       have hscalar : algebraMap k (ResidueField ↑(rebasePowerSeries R n))
           (R.residueEquiv (residue R (a i))) = residue ↑(rebasePowerSeries R n) c := by
         apply (rebasePowerSeriesResidueEquiv R n).injective
-        show (rebasePowerSeriesResidueEquiv R n)
+        change (rebasePowerSeriesResidueEquiv R n)
             ((rebasePowerSeriesResidueEquiv R n).symm
               (R.residueEquiv (residue R (a i)))) =
           (rebasePowerSeriesResidueEquiv R n) (residue Q (MvPowerSeries.C (a i) : Q))
         rw [AlgEquiv.apply_symm_apply, rebasePowerSeriesResidueEquiv_apply]
         simp [MvPowerSeries.constantCoeff_C]
-      show algebraMap k (ResidueField ↑(rebasePowerSeries R n))
+      change algebraMap k (ResidueField ↑(rebasePowerSeries R n))
           (R.residueEquiv (residue R (a i))) • xclass i = _
       rw [hscalar]
       calc
@@ -878,10 +878,10 @@ private theorem rebasePowerSeries_relativeCotangent_span_X
         _ = c • xclass i := htor.mk_smul c _
         _ = Submodule.Quotient.mk (y i) := by
           rw [hxclass]
-          show Submodule.Quotient.mk (c • xP) = Submodule.Quotient.mk (y i)
+          change Submodule.Quotient.mk (c • xP) = Submodule.Quotient.mk (y i)
           apply congrArg (Submodule.Quotient.mk (p := J))
           apply Subtype.ext
-          show (MvPowerSeries.C (a i) • (MvPowerSeries.X i : Q)) =
+          change (MvPowerSeries.C (a i) • (MvPowerSeries.X i : Q)) =
             (MvPowerSeries.C (a i) * MvPowerSeries.X i : Q)
           rfl
     change (Submodule.Quotient.mk (p := J) (x : maximalIdeal ↑(rebasePowerSeries R n)) :
@@ -898,7 +898,7 @@ private theorem rebasePowerSeries_relativeCotangent_span_X
         ∑ i : Fin n, (R.residueEquiv (residue R (a i))) • xclass i := by
       exact Finset.sum_congr rfl fun i _ => (hsmul i).symm
     exact hq.trans (hmap.trans hsums)
-  show (Submodule.Quotient.mk (x : maximalIdeal ↑(rebasePowerSeries R n)) :
+  change (Submodule.Quotient.mk (x : maximalIdeal ↑(rebasePowerSeries R n)) :
       relativeCotangentSpaceOverBase (rebasePowerSeries R n)) ∈
     Submodule.span k (Set.range xclass)
   rw [hquot]
@@ -967,7 +967,7 @@ private theorem isSmooth_restrictedRepresentableMap_of_isPowerSeriesOver
     intro i
     simp [qR, sAR, hg, hb, a]
   have hmap : qR.comp g = sAR := by
-    refine AlgHom.coe_ringHom_injective ?_
+    refine AlgHom.toRingHom_injective ?_
     refine MvPowerSeries.hom_ext_of_isNilpotent n _ _ (fun r => ?_) (fun i => ?_)
       (fun i => ?_)
     · rw [MvPowerSeries.c_eq_algebraMap]
@@ -1031,7 +1031,7 @@ public theorem restrictedRepresentableMap_isSmooth_iff_isPowerSeriesOver
       Submodule.Quotient.mk
         (⟨MvPowerSeries.X i, X_mem_maximalIdeal i⟩ : maximalIdeal (MvPowerSeries (Fin n) R))
     have himage (i : Fin n) : L (v i) = b i := by
-      show Submodule.Quotient.mk
+      change Submodule.Quotient.mk
         (⟨g.hom (MvPowerSeries.X i), _⟩ : maximalIdeal B) = b i
       convert hclass i using 1
       congr 1
@@ -1059,7 +1059,7 @@ public theorem restrictedRepresentableMap_isSmooth_iff_isPowerSeriesOver
             commutes' := fun c => by
               have hh := g.hom.commutes (algebraMap Λ R c)
               change g.hom (MvPowerSeries.C (algebraMap Λ R c)) = _ at hh
-              show g.hom (algebraMap Λ (MvPowerSeries (Fin n) R) c) = _
+              change g.hom (algebraMap Λ (MvPowerSeries (Fin n) R) c) = _
               rw [MvPowerSeries.algebraMap_apply]
               exact hh.trans (f.hom.commutes c) }
         isLocal := g.isLocal
@@ -1068,7 +1068,7 @@ public theorem restrictedRepresentableMap_isSmooth_iff_isPowerSeriesOver
       { hom :=
           { toRingHom := MvPowerSeries.C
             commutes' := fun c => by
-              show MvPowerSeries.C (algebraMap Λ R c) =
+              change MvPowerSeries.C (algebraMap Λ R c) =
                 algebraMap Λ (MvPowerSeries (Fin n) R) c
               exact MvPowerSeries.algebraMap_apply.symm }
         isLocal := (rebasePowerSeriesStructureMap R n).isLocal
@@ -1101,10 +1101,10 @@ public theorem restrictedRepresentableMap_isSmooth_iff_isPowerSeriesOver
     have hLM (x : relativeCotangentSpaceOverBase B) : L (M x) = x := by
       obtain ⟨x, rfl⟩ := Submodule.Quotient.mk_surjective
         (relativeCotangentSubmodule B) x
-      show Submodule.Quotient.mk
+      change Submodule.Quotient.mk
         (⟨g.hom (s.hom x.val), _⟩ : maximalIdeal B) = Submodule.Quotient.mk x
       apply (Submodule.Quotient.eq _).2
-      show g.hom (s.hom x.val) - x.val ∈
+      change g.hom (s.hom x.val) - x.val ∈
         (RingHom.ker (algebraMap R k)).map (algebraMap R S) + maximalIdeal S ^ 2
       exact (show maximalIdeal S ^ 2 ≤
         (RingHom.ker (algebraMap R k)).map (algebraMap R S) + maximalIdeal S ^ 2 from

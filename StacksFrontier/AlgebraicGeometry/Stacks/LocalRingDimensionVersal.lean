@@ -154,7 +154,7 @@ private theorem pointMap_comp_algebraMap_eq {V W : BigFppfOver B S hS} {Λ l L :
   have hptL : pointMap huL = Spec.map (CommRingCat.ofHom (algebraMap l L)) ≫ pointMap hu₀ := by
     have hπ' := eq_eqToHom_comp_comp_eqToHom (congrArg Over.left hw₀) (congrArg Over.left hu₀) hπ
     simp only [pointMap]
-    show _ ≫ B.inclusion.map (π.left ≫ u₀.hom.left) = _
+    change _ ≫ B.inclusion.map (π.left ≫ u₀.hom.left) = _
     rw [Functor.map_comp, hπ']
     simp
   refine ⟨hptL, ?_⟩
@@ -268,10 +268,10 @@ theorem twoMul_ringKrullDim_eq_of_chartPoints (D : VersalSituation.{u, w})
           Spec.map (CommRingCat.ofHom (algebraMap k l)) := by
       rw [← Spec.map_comp, ← CommRingCat.ofHom_comp]
     simp only [ηL, Functor.map_comp, Over.comp_left]
-    show _ ≫ ((Over.post D.B.inclusion).map (D.𝒳.val.val.p.map (Φ.map πL))).left ≫ _ ≫ _ = _
+    change _ ≫ ((Over.post D.B.inclusion).map (D.𝒳.val.val.p.map (Φ.map πL))).left ≫ _ ≫ _ = _
     rw [show ((Over.post D.B.inclusion).map (D.𝒳.val.val.p.map (Φ.map πL))).left =
       ((Φ ⋙ D.𝒳.val.val.p ⋙ Over.post D.B.inclusion).map πL).left from rfl, h1']
-    show _ ≫ (_ ≫ D.B.inclusion.map π.left ≫ _) ≫ _ ≫ _ = _
+    change _ ≫ (_ ≫ D.B.inclusion.map π.left ≫ _) ≫ _ ≫ _ = _
     rw [hπ', hη', hcomp]
     simp
   -- Stacks 07WX
@@ -306,7 +306,7 @@ theorem twoMul_ringKrullDim_eq_of_chartPoints (D : VersalSituation.{u, w})
       rw [← AffineChart.ringMap_comp cL _ _ hr (by rw [← hptL]; exact range_pointMap cL)]
       exact AffineChart.ringMap_congr cL _ _ hptL
     rw [h1]
-    show algebraMap l L (c₀.ringMap (pointMap hu₀) (range_pointMap (hv₀ := hu₀) c₀) r) = _
+    change algebraMap l L (c₀.ringMap (pointMap hu₀) (range_pointMap (hv₀ := hu₀) c₀) r) = _
     rw [hr]
   obtain ⟨AV, ⟨eV⟩, hAV⟩ := exists_sliceEquivalence_of_isSeparable cL hfinL.1 hfinL.2 hlV
   -- the chart of `W`, over that of `V`
@@ -379,7 +379,7 @@ theorem twoMul_ringKrullDim_eq_of_chartPoints (D : VersalSituation.{u, w})
         hw₀).symm) := by
     have hL : T.pt.val.val.p.IsHomLift (𝟙 w₀.left) ψ := eψ.hom.2
     have hmap := IsHomLift.fac' T.pt.val.val.p (𝟙 w₀.left) ψ
-    show (Over.post D.B.inclusion).map (T.pt.val.val.p.map ψ) = _
+    change (Over.post D.B.inclusion).map (T.pt.val.val.p.map ψ) = _
     rw [hmap]
     apply Over.OverMorphism.ext
     simp only [eqToHom_map, Over.eqToHom_left, Category.id_comp, eqToHom_trans]
@@ -504,7 +504,7 @@ theorem schemePoint_chartFieldPoint {V : BigFppfOver B S hS} {Λ L : Type u} [Co
       (pointMap hu).base (closedPt (.of L)) := by
   have hm : (BigFppfOver.toScheme B S hS).map (chartFieldPoint iΛ u hu).value = pointMap hu :=
     (toScheme_map_eqToHom_comp _ u.hom).trans rfl
-  show ((BigFppfOver.toScheme B S hS).map (chartFieldPoint iΛ u hu).value).base
+  change ((BigFppfOver.toScheme B S hS).map (chartFieldPoint iΛ u hu).value).base
     (closedPt (.of L)) = _
   rw [hm]
   rfl
@@ -555,7 +555,7 @@ theorem isFiniteTypePoint_pointsMap_chartFieldPoint {𝒳 : AlgebraicStacks.{u, 
   let pt := (BigFppfOver.toScheme B S hS).map (chartFieldPoint iΛ u hu).value
   have hcomp : pt ≫ B.inclusion.map V.hom =
       Spec.map (CommRingCat.ofHom (algebraMap Λ L)) ≫ iΛ := by
-    show B.inclusion.map (chartFieldPoint iΛ u hu).value.left ≫ B.inclusion.map V.hom = _
+    change B.inclusion.map (chartFieldPoint iΛ u hu).value.left ≫ B.inclusion.map V.hom = _
     rw [← Functor.map_comp, Over.w (chartFieldPoint iΛ u hu).value]
     rfl
   have : LocallyOfFiniteType (pt ≫ B.inclusion.map V.hom) := by
@@ -689,7 +689,7 @@ theorem hasLocalRingDimension_of_isVersal (D : VersalSituation.{u, w})
         rw [← Function.comp_apply (f := Space.pointsMap D.B D.S D.hS Q sQ),
           ← Space.pointsMap_comp, hes, Space.pointsMap_id]
         rfl
-      show Space.localRingDimension D.B D.S D.hS (Space.pointsMap D.B D.S D.hS Q sQ
+      change Space.localRingDimension D.B D.S D.hS (Space.pointsMap D.B D.S D.hS Q sQ
           (Space.pointsMap D.B D.S D.hS (yoneda.obj V) eδ (pν.class D.B D.S D.hS _))) = _
       rw [hid]
       have hch := Space.localRingDimension_eq_of_chartPoint D.B D.S D.hS

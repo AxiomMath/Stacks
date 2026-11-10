@@ -65,7 +65,7 @@ theorem appIso_inv_mem_ideal_map (U : Y.Opens) [QuasiCompact U.ι]
   rw [Scheme.IdealSheafData.ideal_map D U.ι _ hA, Ideal.mem_comap,
     ← CommRingCat.comp_apply, Scheme.Hom.appIso_inv_app]
   have hle : (⟨U.ι ⁻¹ᵁ (U.ι ''ᵁ A.1), hA⟩ : U.toScheme.affineOpens) ≤ A := by
-    show U.ι ⁻¹ᵁ (U.ι ''ᵁ A.1) ≤ A.1
+    change U.ι ⁻¹ᵁ (U.ι ''ᵁ A.1) ≤ A.1
     rw [Scheme.Hom.preimage_image_eq]
   convert Ideal.mem_comap.mp (D.ideal_le_comap_ideal hle hg) using 3
   exact congrArg (fun h => U.toScheme.presheaf.map (Quiver.Hom.op h)) (Subsingleton.elim _ _)

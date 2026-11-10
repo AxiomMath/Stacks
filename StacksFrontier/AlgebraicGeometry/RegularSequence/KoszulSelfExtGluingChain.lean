@@ -69,8 +69,8 @@ each point of the *support* of the quotient. Away from that support the sheaf of
 contains the unit section, and the one-term sequence `(1)` is then itself such a sequence, so the
 opens carrying a Koszul presentation cover all of `X`:
 `Stacks.AlgebraicGeometry.RegularIdealSheaf.coversTop_koszulPresentationOpen` of
-`StacksFrontier.AlgebraicGeometry.RegularIdealSheaf.KoszulUnitCover`, indexed by the subtype of opens
-that carry one. An earlier form of this note expected a degenerate case over the zero sheaf of
+`StacksFrontier.AlgebraicGeometry.RegularIdealSheaf.KoszulUnitCover`, indexed by the subtype of
+opens that carry one. An earlier form of this note expected a degenerate case over the zero sheaf of
 rings on the opens where the quotient vanishes; that is not what the cover needs.
 
 **Where the three remaining inputs of that instantiation come from.** The first two are two
@@ -254,6 +254,7 @@ variable {F : _root_.SheafOfModules.{u} (structureSheafRing X)}
         (ComplexShape.up ℤ) 0).obj (cokernel Φ)) ≅
     DerivedCategory.Q.obj I)
 
+omit [HasWeakSheafify ((Opens.grothendieckTopology X.carrier).over U) CommRingCat.{u}] in
 include K hgen hI e in
 /-- **The composition-product algebra of the restriction to `U` of a global resolution is
 annihilated by the sheaf of ideals.** The comparison of the two models over `U` identifies its
@@ -280,6 +281,7 @@ theorem smul_openSubspaceRestrictComplex_piece_eq_zero (n : ℤ) (V : (Opens ↥
     (restrictedModelComparisonUnitalOfGenerated U f K Φ hgen I hI e) n
     (smul_homologyPiece_eq_zero (openSubspace U).sheaf K n V b hb) m
 
+omit [HasWeakSheafify ((Opens.grothendieckTopology X.carrier).over U) CommRingCat.{u}] in
 include K hgen hI e in
 /-- **The descended third link: the Koszul complex over `U` against the restriction of a global
 resolution.** If the descended composition-product algebra of the Koszul cochain complex over
@@ -309,6 +311,7 @@ theorem isExteriorAlgebra_id_descend_openSubspaceRestrictComplex
     (restrictedModelComparisonUnitalOfGenerated U f K Φ hgen I hI e)
     (fun n => isIso_restrictedModelComparisonUnitalOfGenerated_app U f K Φ hgen I hI e n) h
 
+omit [HasWeakSheafify ((Opens.grothendieckTopology X.carrier).over U) CommRingCat.{u}] in
 include K hgen hI e in
 /-- **The open-subspace reading of the restriction of the global composition-product algebra is
 annihilated by the sheaf of ideals.** The first link of the chain identifies its pieces with
@@ -323,6 +326,7 @@ theorem smul_openSubspaceGradedAlgebra_piece_eq_zero (n : ℤ) (V : (Opens ↥U)
   UnitalHom.smul_piece_eq_zero (openSubspaceHomologyGradedAlgebraOfSpaceHom U I) n
     (smul_openSubspaceRestrictComplex_piece_eq_zero U f K Φ hgen I hI e n V b hb) m
 
+omit [HasWeakSheafify ((Opens.grothendieckTopology X.carrier).over U) CommRingCat.{u}] in
 include K hgen hI e in
 /-- **The descended first link: the open subspace against the restriction to the slice site.**
 If the descent of the composition-product algebra of the restriction to `U` of a resolution

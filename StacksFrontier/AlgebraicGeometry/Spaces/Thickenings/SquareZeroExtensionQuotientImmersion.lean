@@ -95,7 +95,7 @@ theorem chartInclusionOver_comp_chartRealizedSchemeOverMap {U V : SmallEtale B S
     E.chartInclusionOver V hV ≫ E.chartRealizedSchemeOverMap hS g hU hV =
       (SmallEtale.toOver B S hS X.1).map g ≫ E.chartInclusionOver U hU :=
   BigFppfOver.map_toScheme_injective B S hS (by
-    show (BigFppfOver.toScheme B S hS).map _ = (BigFppfOver.toScheme B S hS).map _
+    change (BigFppfOver.toScheme B S hS).map _ = (BigFppfOver.toScheme B S hS).map _
     rw [Functor.map_comp, Functor.map_comp, toScheme_map_chartInclusionOver,
       toScheme_map_chartInclusionOver, toScheme_map_chartRealizedSchemeOverMap]
     exact E.chartInclusion_comp_chartRealizedSchemeMap g)

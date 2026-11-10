@@ -178,7 +178,7 @@ public theorem isRoot_zpow_mul_conj_of_curve
         congr 1
         push_cast
         ring
-    show ι' ((dg : E) * (((contragredient σ (geometricFrobeniusFamily f x y) : GL (Fin m) E) :
+    change ι' ((dg : E) * (((contragredient σ (geometricFrobeniusFamily f x y) : GL (Fin m) E) :
         Matrix (Fin m) (Fin m) E) ^ (N / dg)).trace) =
       c ^ N * starRingEnd ℂ (ι' ((dg : E) * ((g : Matrix (Fin m) (Fin m) E) ^ (N / dg)).trace))
     rw [hval, map_mul, map_mul, map_natCast, map_mul, map_natCast,

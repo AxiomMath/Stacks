@@ -78,8 +78,7 @@ theorem residueHom_surjective : Function.Surjective (residueHom l V) := fun x =>
 /-- The first projection of `k[V] ⊗_k l` is `w ↦ 1 ⊗ residueHom l V w`. -/
 theorem tensorFst_eq (w : TrivSqZeroExt k V ⊗[k] l) :
     Deformation.tensorFst l V w = 1 ⊗ₜ residueHom l V w := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | add a b ha hb => rw [map_add, map_add, ha, hb, TensorProduct.tmul_add]
   | tmul a x =>
     rw [residueHom_tmul, LinearMap.rTensor_tmul, TensorProduct.tmul_smul,
@@ -307,8 +306,7 @@ theorem closedPointMap_baseChangeMorph {V V' : FGModuleCat.{u} k} (f : V ⟶ V')
   apply CommRingCat.hom_ext
   apply RingHom.ext
   intro w
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | add a b ha hb => rw [map_add, map_add, ha, hb]
   | tmul a x =>
     change residueHom l V' (TrivSqZeroExt.map f.hom.hom a ⊗ₜ x) = residueHom l V (a ⊗ₜ x)

@@ -110,7 +110,7 @@ theorem eq_of_comp_pointBlowUpToBase_eq {A Z : Scheme.{u}} [IsIntegral Z] {a : A
     intro g hg
     rintro _ ⟨v, rfl⟩
     rw [Scheme.Opens.range_ι]
-    show b (g (V.ι v)) ∈ Vc
+    change b (g (V.ι v)) ∈ Vc
     have hv : (g₁ ≫ b) (V.ι v) ∈ Vc := v.2
     rw [← hg] at hv
     simpa using hv
@@ -250,7 +250,7 @@ theorem exists_mul_of_mem_of_le_prime {B : Type*} [CommRing B] [IsDomain B] [IsL
     exact absurd this (by decide)
   obtain ⟨y, rfl⟩ := Ideal.mem_span_singleton.mp (hheq ▸ hJp hx : x ∈ Ideal.span {h})
   refine ⟨h, y, ?_, ?_, rfl⟩
-  · exact (IsLocalRing.mem_maximalIdeal _).mpr hprime.not_unit
+  · exact (IsLocalRing.mem_maximalIdeal _).mpr hprime.not_isUnit
   · rw [IsLocalRing.mem_maximalIdeal, mem_nonunits_iff]
     intro hy
     refine hJ (h * y) (mem_nonZeroDivisors_of_ne_zero hx0) (le_antisymm ?_ ?_)
@@ -332,7 +332,7 @@ theorem pointBlowUpToBase_subschemeι_exceptionalIdeal {W : Scheme.{u}} {w : W}
       (⟨{w}, hw⟩ : Closeds W))).subschemeι z) ∈
       (((Scheme.IdealSheafData.vanishingIdeal (⟨{w}, hw⟩ : Closeds W)).comap
         (pointBlowUpToBase hw)).support : Set (pointBlowUp hw)) := by
-    show _ ∈ ((exceptionalIdeal (Scheme.IdealSheafData.vanishingIdeal
+    change _ ∈ ((exceptionalIdeal (Scheme.IdealSheafData.vanishingIdeal
       (⟨{w}, hw⟩ : Closeds W))).support : Set (pointBlowUp hw))
     rw [← Scheme.IdealSheafData.range_subschemeι]
     exact ⟨z, rfl⟩
@@ -357,7 +357,7 @@ theorem ringKrullDim_stalk_eq_one_or_two_of_isClosed {W : Scheme.{u}}
     refine genericPoint_notMem_supportSet
       (Scheme.IdealSheafData.vanishingIdeal (⟨{w}, hw⟩ : Closeds W))
       (vanishingIdeal_singleton_ne_bot hW.topologicalKrullDim_eq w hw) ?_
-    show genericPoint W ∈
+    change genericPoint W ∈
       ((Scheme.IdealSheafData.vanishingIdeal (⟨{w}, hw⟩ : Closeds W)).support : Set W)
     rw [Scheme.IdealSheafData.coe_support_vanishingIdeal]
     simpa using hwη.symm
@@ -422,7 +422,7 @@ theorem exists_comp_eq_pointBlowUpToBase_of_square {A W : Scheme.{u}}
   have hgenA : genericPoint A ≠ a := by
     intro h
     apply genericPoint_notMem_supportSet M hMbot
-    show genericPoint A ∈ (M.support : Set A)
+    change genericPoint A ∈ (M.support : Set A)
     rw [hMdef, Scheme.IdealSheafData.coe_support_vanishingIdeal]
     exact h
   have hgenZ : (g' ≫ b) (genericPoint (pointBlowUp hw)) ≠ a := by
@@ -483,7 +483,7 @@ theorem exists_comp_eq_pointBlowUpToBase_of_square {A W : Scheme.{u}}
       intro h
       apply genericPoint_notMem_supportSet_of_isEffectiveCartierDivisor hD'cart
       rw [← h, Scheme.IdealSheafData.mem_supportSet_iff_mem_support]
-      show ζ ∈ (D'.support : Set (pointBlowUp ha))
+      change ζ ∈ (D'.support : Set (pointBlowUp ha))
       rw [← Scheme.IdealSheafData.range_subschemeι]
       exact ⟨_, rfl⟩
     exact not_lt_lt_lt hA' (lt_of_specializes_of_ne h1 hz)
@@ -540,7 +540,7 @@ theorem exists_comp_eq_pointBlowUpToBase_of_square {A W : Scheme.{u}}
       set Mw := Scheme.IdealSheafData.vanishingIdeal (⟨{w}, hw⟩ : Closeds W) with hMwdef
       let Uw : W.Opens := ⟨Mw.supportᶜ, Mw.support.isClosed.isOpen_compl⟩
       have hxU : x ∈ Uw := by
-        show x ∉ (Mw.support : Set W)
+        change x ∉ (Mw.support : Set W)
         rw [hMwdef, Scheme.IdealSheafData.coe_support_vanishingIdeal]
         exact hxw'
       have hisoU : IsIso (π ∣_ Uw) := isIso_blowUp_restrict_compl_support Mw
@@ -688,7 +688,7 @@ theorem exists_comp_eq_pointBlowUpToBase_of_not_mem_isomorphismLocus {A B : Sche
   have hgen : g (genericPoint B) = genericPoint A := hbg.genericPoint_eq
   have hdense : Dense ((g ⁻¹ᵁ Vc : B.Opens) : Set B) := by
     refine (g ⁻¹ᵁ Vc : B.Opens).2.dense ⟨genericPoint B, ?_⟩
-    show g (genericPoint B) ∈ Vc
+    change g (genericPoint B) ∈ Vc
     rw [hgen]
     exact genericPoint_notMem_supportSet _ hMbot
   let fpm : B.PartialMap (pointBlowUp ha) :=
@@ -698,7 +698,7 @@ theorem exists_comp_eq_pointBlowUpToBase_of_not_mem_isomorphismLocus {A B : Sche
         (pointBlowUpToBase ha ⁻¹ᵁ Vc).ι }
   have : fpm.IsOver A := by
     refine ⟨?_⟩
-    show ((g ∣_ Vc) ≫ (asIso (pointBlowUpToBase ha ∣_ Vc)).inv ≫
+    change ((g ∣_ Vc) ≫ (asIso (pointBlowUpToBase ha ∣_ Vc)).inv ≫
       (pointBlowUpToBase ha ⁻¹ᵁ Vc).ι) ≫ pointBlowUpToBase ha = (g ⁻¹ᵁ Vc).ι ≫ g
     have key : (asIso (pointBlowUpToBase ha ∣_ Vc)).inv ≫
         (pointBlowUpToBase ha ⁻¹ᵁ Vc).ι ≫ pointBlowUpToBase ha = Vc.ι := by
@@ -922,7 +922,7 @@ theorem birationalOver_iff_exists_factorsAsPointBlowups_of_isIntegralRegularSurf
   have hover := hbirational.partialIso_isOver (X ↘ S) (Y ↘ S)
   have hpmOver : pIso.toPartialMap.IsOver S := by
     refine ⟨?_⟩
-    show (pIso.iso.hom ≫ pIso.target.ι) ≫ (Y ↘ S) = pIso.source.ι ≫ (X ↘ S)
+    change (pIso.iso.hom ≫ pIso.target.ι) ≫ (Y ↘ S) = pIso.source.ι ≫ (X ↘ S)
     rw [Category.assoc]
     exact hover
   obtain ⟨T, Z, p, q, -, -, -, hchain, hqS, hagree⟩ :=

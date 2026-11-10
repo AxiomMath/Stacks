@@ -136,7 +136,7 @@ private theorem isReduced_genericPointResidueSpectrum (X : Scheme.{u}) :
   unfold genericPointResidueSpectrum
   have : ∀ i, IsReduced ((sigmaOpenCover
       (fun η : genericPoints X ↦ Spec (.of (X.residueField η.1)))).X i) := by
-    show ∀ η : genericPoints X, IsReduced (Spec (.of (X.residueField η.1)))
+    change ∀ η : genericPoints X, IsReduced (Spec (.of (X.residueField η.1)))
     intro η
     infer_instance
   exact IsReduced.of_openCover _ (sigmaOpenCover _)
@@ -149,7 +149,7 @@ theorem isReduced_normalizationScheme (X : Scheme.{u})
   have := quasiCompactFromGenericPointResidueFields X hX
   have := quasiSeparatedFromGenericPointResidueFields X
   have := isReduced_genericPointResidueSpectrum X
-  show IsReduced (fromGenericPointResidueFields X).normalization
+  change IsReduced (fromGenericPointResidueFields X).normalization
   infer_instance
 
 /-! ### The canonical factorization through the reduction -/
@@ -232,7 +232,7 @@ theorem genericPointResidueSpectrumReductionIso_hom_fromGenericPointResidueField
     genericPointResidueSpectrum
   refine Limits.Sigma.hom_ext _ _ fun ζ ↦ ?_
   rw [Limits.Sigma.whiskerEquiv_hom, Limits.Sigma.ι_comp_map'_assoc, Iso.symm_inv, asIso_hom,
-    Limits.Sigma.ι_desc, Limits.Sigma.ι_desc_assoc]
+    Limits.Sigma.ι_comp_desc, Limits.Sigma.ι_comp_desc_assoc]
   exact Scheme.Hom.SpecMap_residueFieldMap_fromSpecResidueField X.nilradical.subschemeι ζ.1
 
 /-! ### The normalization of `X` is the normalization of its reduction -/

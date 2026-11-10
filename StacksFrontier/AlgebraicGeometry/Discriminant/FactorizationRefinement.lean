@@ -103,7 +103,7 @@ lemma unit_image_of_range_localization
   let q : PrimeSpectrum B := ⟨M.comap (algebraMap B Bc), hM.isPrime.comap _⟩
   let p : PrimeSpectrum F.middle := PrimeSpectrum.comap (algebraMap F.middle B) q
   have hpc : p ∈ PrimeSpectrum.basicOpen c := by
-    show c ∉ p.asIdeal
+    change c ∉ p.asIdeal
     intro hcp
     have : algebraMap B Bc (algebraMap F.middle B c) ∈ M := hcp
     exact hM.ne_top (Ideal.eq_top_of_isUnit_mem _ this
@@ -112,7 +112,7 @@ lemma unit_image_of_range_localization
   let q0 : PrimeSpectrum B := PrimeSpectrum.comap (algebraMap B Bg) q'
   have hq0 : PrimeSpectrum.comap (algebraMap F.middle B) q0 = p := by
     apply PrimeSpectrum.ext
-    show Ideal.comap (algebraMap F.middle B)
+    change Ideal.comap (algebraMap F.middle B)
       (Ideal.comap (algebraMap B Bg) q'.asIdeal) = p.asIdeal
     rw [Ideal.comap_comap]
     have htower : (algebraMap B Bg).comp (algebraMap F.middle B) =
@@ -153,7 +153,7 @@ lemma awayMap_bijective_if_unit
     exact ⟨n, by simp⟩
   have hmap : φ.comp (algebraMap B Bc) =
       (algebraMap Bg T).comp (algebraMap B Bg) := by
-    show (IsLocalization.map T (algebraMap B Bg) hy).comp (algebraMap B Bc) = _
+    change (IsLocalization.map T (algebraMap B Bg) hy).comp (algebraMap B Bc) = _
     exact IsLocalization.map_comp hy
   have hBg : φ.comp ψ₁ = algebraMap Bg T := by
     apply IsLocalization.ringHom_ext (.powers g)
@@ -349,14 +349,14 @@ theorem exists_common_finite_open_factorization
       apply ULift.ext
       exact fG.commutes a }
   have hOpenF : Topology.IsOpenEmbedding (PrimeSpectrum.comap fF.toRingHom) := by
-    show Topology.IsOpenEmbedding (PrimeSpectrum.comap (algebraMap F.middle B))
+    change Topology.IsOpenEmbedding (PrimeSpectrum.comap (algebraMap F.middle B))
     exact F.isOpenEmbedding_comap
   have hAwayF : ∀ g : B₁,
       (PrimeSpectrum.basicOpen g : Set (PrimeSpectrum B₁)) ⊆
         Set.range (PrimeSpectrum.comap fF.toRingHom) →
       Function.Bijective (Localization.awayMap fF.toRingHom g) := by
     intro g hg
-    show Function.Bijective (Localization.awayMap (algebraMap F.middle B) g)
+    change Function.Bijective (Localization.awayMap (algebraMap F.middle B) g)
     exact F.awayMap_bijective g hg
   let : AlgebraicGeometry.IsOpenImmersion
       (AlgebraicGeometry.Spec.map (CommRingCat.ofHom fF'.toRingHom)) :=
@@ -384,7 +384,7 @@ theorem exists_common_finite_open_factorization
   let : Algebra C B := fC.toAlgebra
   let hscalar : IsScalarTower A C B := IsScalarTower.of_algebraMap_eq' (by
     ext a
-    show fC (algebraMap A C a) = algebraMap A B a
+    change fC (algebraMap A C a) = algebraMap A B a
     calc
       fC (algebraMap A C a) = fC (rF (algebraMap A B₁ a)) := by rw [rF.commutes]
       _ = fF (algebraMap A B₁ a) :=
@@ -399,7 +399,7 @@ theorem exists_common_finite_open_factorization
     have : AlgebraicGeometry.IsOpenImmersion
         (AlgebraicGeometry.Spec.map (CommRingCat.ofHom C.val.toRingHom)) := hopenC
     have h0 : Topology.IsOpenEmbedding (PrimeSpectrum.comap C.val.toRingHom) := by
-      show Topology.IsOpenEmbedding (AlgebraicGeometry.Spec.map
+      change Topology.IsOpenEmbedding (AlgebraicGeometry.Spec.map
         (CommRingCat.ofHom C.val.toRingHom)).base
       exact (AlgebraicGeometry.Spec.map
         (CommRingCat.ofHom C.val.toRingHom)).isOpenEmbedding

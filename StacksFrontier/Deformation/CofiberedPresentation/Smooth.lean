@@ -104,7 +104,7 @@ private theorem isSmooth_comp_equivalence_elements
     rfl
   let j : e.obj x' ≅ z := (asIso (e.map k₀)).symm ≪≫ i
   have hj : 𝓨.p.IsHomLift (𝟙 B) j.hom := by
-    show 𝓨.p.IsHomLift (𝟙 B) (inv (e.map k₀) ≫ i.hom)
+    change 𝓨.p.IsHomLift (𝟙 B) (inv (e.map k₀) ≫ i.hom)
     let : 𝓨.p.IsHomLift (asIso α).hom (asIso (e.map k₀)).hom := by
       simpa using hEk₀
     have hinv : 𝓨.p.IsHomLift (inv α) (inv (e.map k₀)) :=
@@ -130,7 +130,7 @@ private theorem isSmooth_comp_equivalence_elements
     dsimp [a']
     infer_instance
   refine ⟨x', h', a', hh', ha', ?_⟩
-  show g.map (e.map h') = (g.map j.hom ≫ a) ≫ h
+  change g.map (e.map h') = (g.map j.hom ≫ a) ≫ h
   rw [hmap]
   dsimp [m]
   rw [Functor.map_comp, hcomm]
@@ -198,7 +198,7 @@ private theorem isSmooth_comp_basedEquivalence
   let m : E.functor.obj (E.inverse.obj z) ⟶ E.functor.obj x := i ≫ hz
   let h' : E.inverse.obj z ⟶ x := E.equiv.functor.preimage m
   have hmap : E.functor.map h' = m := by
-    show E.equiv.functor.map h' = m
+    change E.equiv.functor.map h' = m
     simpa only [h'] using E.equiv.functor.map_preimage m
   have hm : 𝓧.p.IsHomLift f₀ h' := by
     let : 𝓨.p.IsHomLift f₀ (E.functor.map h') := by
@@ -212,7 +212,7 @@ private theorem isSmooth_comp_basedEquivalence
     dsimp [a']
     infer_instance
   refine ⟨E.inverse.obj z, h', a', hm, ha', ?_⟩
-  show g.map (E.functor.map h') = (g.map i ≫ a) ≫ h
+  change g.map (E.functor.map h') = (g.map i ≫ a) ≫ h
   rw [hmap]
   dsimp [m]
   rw [Functor.map_comp, hcomm]
@@ -389,7 +389,7 @@ private theorem uliftElementsCounitVertical
       (Functor.Elements.π (U ⋙ uliftFunctor.{uL, uU}))).p.IsHomLift
         (𝟙 ((Functor.Elements.π (U ⋙ uliftFunctor.{uL, uU})).obj x))
         ((uliftElementsEquivalence U).counitIso.hom.app x) := by
-  show (BasedCategory.ofFunctor
+  change (BasedCategory.ofFunctor
     (Functor.Elements.π (U ⋙ uliftFunctor.{uL, uU}))).p.IsHomLift
       (𝟙 ((Functor.Elements.π (U ⋙ uliftFunctor.{uL, uU})).obj x)) (𝟙 x)
   exact IsHomLift.id rfl
@@ -400,7 +400,7 @@ private theorem uliftElementsUnitVertical
     (BasedCategory.ofFunctor (Functor.Elements.π U)).p.IsHomLift
       (𝟙 ((Functor.Elements.π U).obj x))
       ((uliftElementsEquivalence U).unitIso.hom.app x) := by
-  show (BasedCategory.ofFunctor (Functor.Elements.π U)).p.IsHomLift
+  change (BasedCategory.ofFunctor (Functor.Elements.π U)).p.IsHomLift
     (𝟙 ((Functor.Elements.π U).obj x)) (𝟙 x)
   exact IsHomLift.id rfl
 

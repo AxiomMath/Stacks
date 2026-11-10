@@ -57,7 +57,7 @@ public theorem krullDimLE_zero_of_isIntegral {R A : Type*} [CommRing R] [CommRin
   let := hR.toField
   refine Ring.KrullDimLE.mk₀ fun I hI ↦ ?_
   have : I.IsPrime := hI
-  refine Ideal.isMaximal_of_isIntegral_of_isMaximal_comap' φ hφ I ?_
+  refine Ideal.isMaximal_of_isIntegral_of_isMaximal_comap φ hφ I ?_
   have hp : (I.comap φ).IsPrime := Ideal.IsPrime.comap φ
   have : I.comap φ = ⊥ := (Ideal.eq_bot_or_top (I.comap φ)).resolve_right hp.ne_top
   rw [this]

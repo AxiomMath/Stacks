@@ -124,6 +124,7 @@ theorem comparison_obj_ofSection (T : SheafTorsors G.obj)
 /-! ### Hypothesis (2) of Stacks 046N -/
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search in the fibred categories of torsors over the big fppf site
 /-- Hypothesis (2) of Stacks 046N for the comparison functor `G-Torsors ⥤ 𝒢/ℬ-Torsors`: every
 object of every fibre of `𝒢/ℬ-Torsors` is, locally on its base, in the essential image of the
 comparison functor on fibres. -/

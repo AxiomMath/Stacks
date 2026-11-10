@@ -78,7 +78,7 @@ open CategoryTheory CategoryTheory.Limits Opposite
 /-- Evaluating a finite sum of morphisms of abelian groups is the sum of the evaluations. -/
 public lemma hom_sum_apply {M N : AddCommGrpCat.{a}} {ι : Type*} (s : Finset ι)
     (g : ι → (M ⟶ N)) (z : M) : (∑ j ∈ s, g j) z = ∑ j ∈ s, g j z := by
-  show (AddCommGrpCat.homAddEquiv (∑ j ∈ s, g j)) z = _
+  change (AddCommGrpCat.homAddEquiv (∑ j ∈ s, g j)) z = _
   rw [map_sum]
   exact AddMonoidHom.finsetSum_apply _ _ _
 

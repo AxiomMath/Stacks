@@ -169,7 +169,7 @@ private theorem rel_fibreTestPoint_iff (j : PreRelation R U) {T : BigFppfOver B 
   · rintro ⟨ρ, hrt, hrs⟩
     have hbase : R.hom.app (op T) ρ = γ := by
       rw [← Over.w j.target]
-      show U.hom.app (op T) (j.target.left.app (op T) ρ) = γ
+      change U.hom.app (op T) (j.target.left.app (op T) ρ) = γ
       rw [hrt, x.2]
     refine ⟨⟨yonedaEquiv.symm ρ, ?_⟩, ?_, ?_⟩ <;>
       simp only [yonedaEquiv_symm_naturality_right, hbase, hrt, hrs]
@@ -189,10 +189,10 @@ theorem isSetTheoreticPreEquivalenceRelation_of_isPreEquivalenceRelation
     obtain ⟨ρ, hrt, hrs⟩ := (rel_fibreTestPoint_iff j x x).mp
       ((hj (fieldObject (hS := hS) k hk b) (yonedaEquiv.symm β)).refl (fibreTestPoint x))
     refine ⟨⟨k, hk, b, ρ⟩, 𝟙 _, ?_, ?_⟩
-    · show j.source.left.app (op (fieldObject (hS := hS) k hk b)) ρ =
+    · change j.source.left.app (op (fieldObject (hS := hS) k hk b)) ρ =
         U.left.map (𝟙 (fieldObject (hS := hS) k hk b)).op x.1
       simpa only [op_id, Functor.map_id_apply] using hrs
-    · show j.target.left.app (op (fieldObject (hS := hS) k hk b)) ρ =
+    · change j.target.left.app (op (fieldObject (hS := hS) k hk b)) ρ =
         U.left.map (𝟙 (fieldObject (hS := hS) k hk b)).op x.1
       simpa only [op_id, Functor.map_id_apply] using hrt
   · -- Symmetry: reverse the arrow over the same extension field.

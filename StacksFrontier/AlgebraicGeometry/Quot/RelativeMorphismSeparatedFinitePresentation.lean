@@ -12,14 +12,10 @@ immersion (Stacks 0DPM, `AlgebraicGeometry.Space.isSeparated_relativeHomProjecti
 locally of finite presentation by Stacks 0D1C
 (`AlgebraicGeometry.Space.isLocallyOfFinitePresentation_relativeHomProjection`).
 
-The second clause takes a hypothesis `hilb`: the existence of algebraic models of the Hilbert
-functors over `B` locally of finite presentation, the form of Stacks 0D01 stated as
-`AlgebraicGeometry.Space.HasHilbertModelsOver`.
-
 ## Main results
 
 * `AlgebraicGeometry.Space.isSeparated_and_isLocallyOfFinitePresentation_relativeHomProjection`:
-  `Mor_B(Y, X) ⟶ B` is separated and locally of finite presentation, given `hilb`.
+  `Mor_B(Y, X) ⟶ B` is separated and locally of finite presentation.
 
 ## References
 
@@ -43,12 +39,11 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 /-- For `z : Z ⟶ Q` flat, proper and of finite presentation and `x : X ⟶ Q` separated and of
 finite presentation, the projection `Mor_Q(Z, X) ⟶ Q` is separated and locally of finite
-presentation (Stacks 0DPN), given `hilb`, the algebraic models of the Hilbert functors over `Q`
-of Stacks 0D01. -/
+presentation (Stacks 0DPN). -/
 theorem isSeparated_and_isLocallyOfFinitePresentation_relativeHomProjection
     (hsep : IsSeparated B S hS x) (hxfp : IsFinitePresentation B S hS x)
     (hfp : IsFinitePresentation B S hS z) (hflat : IsFlat B S hS z)
-    (hproper : IsProper B S hS z) (hilb : HasHilbertModelsOver hQ) :
+    (hproper : IsProper B S hS z) :
     IsSeparated B S hS (relativeHomProjection B S hS Z X Q z x hZ hX hQ) ∧
       IsLocallyOfFinitePresentation B S hS (relativeHomProjection B S hS Z X Q z x hZ hX hQ) :=
   ⟨isSeparated_relativeHomProjection hZ hX hQ hsep hxfp hfp hflat hproper,

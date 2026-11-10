@@ -191,7 +191,7 @@ theorem isOpenImmersion_of_isSmooth_of_mono (f : X ⟶ Y)
   have : Mono (yoneda.map snd) := sq.mono_snd_of_mono
   have : Mono snd := Functor.mono_of_mono_map yoneda inferInstance
   have : Mono ((BigFppfOver.toScheme B S hS).map snd) := mono_toScheme_map B S hS snd
-  show _root_.AlgebraicGeometry.IsOpenImmersion ((BigFppfOver.toScheme B S hS).map snd)
+  change _root_.AlgebraicGeometry.IsOpenImmersion ((BigFppfOver.toScheme B S hS).map snd)
   exact IsOpenImmersion.of_flat_of_mono _
 
 /-- **An étale monomorphism of algebraic spaces over `S` is an open immersion.** An étale

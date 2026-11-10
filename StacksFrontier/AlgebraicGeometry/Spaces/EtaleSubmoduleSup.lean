@@ -97,7 +97,7 @@ theorem etaleSubmoduleAlong_sup {Z : AlgebraicSpaces B S hS} (k : Y ⟶ Z)
     etaleSubmoduleAlong B S hS k hk h hh hkh (N₁ ⊔ N₂) =
       etaleSubmoduleAlong B S hS k hk h hh hkh N₁ ⊔
         etaleSubmoduleAlong B S hS k hk h hh hkh N₂ := by
-  show etaleSubmoduleIterToCompOrderIso B S hS k hk h hh hkh
+  change etaleSubmoduleIterToCompOrderIso B S hS k hk h hh hkh
       (etaleSubmoduleRestrict B S hS k hk (N₁ ⊔ N₂)) = _
   rw [etaleSubmoduleRestrict_sup, OrderIso.map_sup]
   rfl
@@ -179,6 +179,7 @@ theorem subobject_mk_sup_ι (K₁ K₂ : M.Submodule) :
     · rw [biprod.inr_desc_assoc, hf, biprod.inr_desc, submoduleHomOfLE_ι]
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the sheaf-of-modules structures on the étale ringed site is heavy
 /-- **The supremum of two submodules of finite type is of finite type.** -/
 theorem isFiniteType_sup (K₁ K₂ : M.Submodule) (h₁ : K₁.toSheafOfModules.IsFiniteType)
     (h₂ : K₂.toSheafOfModules.IsFiniteType) : (K₁ ⊔ K₂).toSheafOfModules.IsFiniteType := by

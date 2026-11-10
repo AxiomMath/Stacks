@@ -46,7 +46,8 @@ coefficient, and isolates that one input as a hypothesis.
   an ample module and `f` is quasi-compact, which relative ampleness supplies.
 
 * `Stacks.AmplePullbackPart1.quasiSeparatedSpace_of_isAmple`: **a scheme carrying an ample
-  invertible module is quasi-separated**, with no premise. This is the fourth of the four ingredients
+  invertible module is quasi-separated**, with no premise. This is the fourth of the four
+  ingredients
   that `StacksFrontier/AlgebraicGeometry/AmpleQuasiAffinePullback/Basic.lean` lists as missing; its
   stated obstacle, that clause (4) of [Stacks, Tag 01Q3] is "also unproved here", is false.
 
@@ -56,7 +57,8 @@ Of the four ingredients that file lists, the second is proved in the sibling fil
 
 ## Three claims of `AmpleQuasiAffinePullback/Basic.lean` that do not hold
 
-That file's list of four missing ingredients for part (1) overstates what is missing, in three places.
+That file's list of four missing ingredients for part (1) overstates what is missing, in three
+places.
 The citations below are `file:line`.
 
 1. Its fourth entry says that quasi-separatedness of `X` is out of reach because
@@ -66,12 +68,14 @@ The citations below are `file:line`.
    `Stacks.SectionExtension.isBasisAffineNonvanishing_of_isAmple`
    (`../SectionExtension/AmpleConsumers.lean:119`), from
    `Stacks.SectionExtension.isSectionRatio_of_isAmple` (`../SectionExtension/Ample.lean:501`);
-   clause (3) is `isBasisNonvanishing_of_isAmple` (`StacksFrontier/AlgebraicGeometry/SectionExtension/AmpleConsumers.lean:112`). The consequence is
+   clause (3) is `isBasisNonvanishing_of_isAmple`
+   (`StacksFrontier/AlgebraicGeometry/SectionExtension/AmpleConsumers.lean:112`). The consequence is
    `Stacks.AmplePullbackPart1.quasiSeparatedSpace_of_isAmple` below, three lines.
 2. The same file says of `Stacks.AmpleQuasiAffinePullback.BasicOpenIsPow` and
    `Stacks.AmplePullback.BasicOpenIsPowNonvanishing` that "nothing in the repository proves
    either". **Both are proved from ampleness**:
-   `Stacks.SectionExtension.basicOpenIsPow_of_isAmple` (`StacksFrontier/AlgebraicGeometry/SectionExtension/AmpleConsumers.lean:144`) and
+   `Stacks.SectionExtension.basicOpenIsPow_of_isAmple`
+   (`StacksFrontier/AlgebraicGeometry/SectionExtension/AmpleConsumers.lean:144`) and
    `basicOpenIsPowNonvanishing_of_isAmple` (`:149`). What remains open about them is only the case
    of a *non-ample* module, which is what part (2) needs.
 3. Its third entry, the comparison `Γ(U.ι^* G, ⊤) ≅ Γ(G, U)`, is not missing either; see
@@ -131,7 +135,8 @@ genuine content of Tag 01PW that the repository does not have.
 ## What is not done, and no tag is attached
 
 Neither label of [Stacks, Tag 0892] is closed here and no attribute is attached. Part (1) stands
-on `Stacks.AmplePullbackPart1.EventualAffineDatum`, which the statement of Tag 0892 does not have as a
+on `Stacks.AmplePullbackPart1.EventualAffineDatum`, which the statement of Tag 0892 does not have as
+a
 hypothesis, so the label is not attached. Two further pieces of bookkeeping are
 owed before the argument above can be written down even granted Tag 01PW: the nonvanishing open
 of a section over an open subscheme and its compatibility with restriction along the open
@@ -302,7 +307,8 @@ theorem exists_threshold_isAmple (hX : CompactSpace X) (h : EventualAffineDatum 
 which ampleness also gives, this is the whole hypothesis of [Stacks, Tag 01PW] on the scheme.
 
 `StacksFrontier/AlgebraicGeometry/AmpleQuasiAffinePullback/Basic.lean` lists this as the fourth of
-the four ingredients missing for part (1), on the ground that `QuasiSeparatedSpace.of_isTopologicalBasis`
+the four ingredients missing for part (1), on the ground that
+`QuasiSeparatedSpace.of_isTopologicalBasis`
 asks for a
 *basis* of opens with quasi-compact pairwise intersections and "that the affine `X_s` form a basis
 is clause (4) of Stacks Tag 01Q3, also unproved here". **Clause (4) is proved, with no premise**,

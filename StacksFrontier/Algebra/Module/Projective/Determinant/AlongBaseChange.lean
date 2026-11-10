@@ -144,7 +144,7 @@ theorem exteriorMap_mk_one (y : ExteriorAlgebra R M) :
     refine ExteriorAlgebra.hom_ext (LinearMap.ext fun m => ?_)
     simp only [LinearMap.comp_apply, AlgHom.toLinearMap_apply, exteriorMap_ι,
       TensorProduct.mk_apply, F, AlgHom.comp_apply, Algebra.TensorProduct.includeRight_apply,
-      AlgHom.restrictScalars_apply, AlgEquiv.toAlgHom_eq_coe, AlgHom.coe_coe]
+      AlgHom.restrictScalars_apply]
     rw [← exteriorAlgebraBaseChange_ι R S M m]
     exact ((exteriorAlgebraBaseChange R S M).symm_apply_apply _).symm
   rw [h]
@@ -161,7 +161,7 @@ theorem isBaseChange_detMap {φ : M →ₗ[R] N} (h : IsBaseChange S φ) :
     (baseChangeEquiv (R := R) (A := S) (M := M)).trans (mapEquiv h.equiv)
   refine IsBaseChange.of_equiv E fun x => ?_
   apply Subtype.ext
-  show ExteriorAlgebra.map h.equiv.toLinearMap
+  change ExteriorAlgebra.map h.equiv.toLinearMap
       ((baseChangeEquiv (R := R) (A := S) (M := M) (1 ⊗ₜ[R] x) :
         ExteriorAlgebra S (S ⊗[R] M))) = exteriorMap (S := S) φ (x : ExteriorAlgebra R M)
   rw [coe_baseChangeEquiv_tmul, ← exteriorMap_mk_one]
@@ -169,6 +169,7 @@ theorem isBaseChange_detMap {φ : M →ₗ[R] N} (h : IsBaseChange S φ) :
   congr 2
   exact LinearMap.ext fun m => by simp
 
+omit [Module.Finite S N] [Module.Projective S N] in
 /-- A base change has, at a prime of `S`, the rank of its source at the prime below. -/
 theorem rankAtStalk_of_isBaseChange {φ : M →ₗ[R] N} (h : IsBaseChange S φ)
     (q : PrimeSpectrum S) :

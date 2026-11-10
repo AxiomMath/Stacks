@@ -175,7 +175,7 @@ isomorphism that is the identity on sections. -/
 theorem isSectionIdentity_splitRestrictionIso_hom {i : X ⟶ X₁} (π : SplitMono i)
     (M : SheafOfModules.{u} (structureSheafRing X)) :
     IsSectionIdentity (splitRestrictionIso i π M).hom := by
-  show IsSectionIdentity ((splitRestrictionCompIso i π).hom.app M)
+  change IsSectionIdentity ((splitRestrictionCompIso i π).hom.app M)
   simp only [splitRestrictionCompIso, Iso.trans_hom, NatTrans.comp_app, eqToIso.hom]
   refine isSectionIdentity_comp (isSectionIdentity_modulePushforwardComp_hom _ _ M) ?_
   exact isSectionIdentity_comp

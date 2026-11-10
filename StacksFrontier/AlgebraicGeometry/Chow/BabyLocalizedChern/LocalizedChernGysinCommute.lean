@@ -426,10 +426,10 @@ theorem properPushforward_localizedChernClassAtInfinity
         (pullbackSnd_comp_structureMorphism_eq C _ f _ (comp_comp_structureMorphism_eq rfl rfl) g)
         (k - p) (c4.cap g k α) := by
     rw [BivariantClass.idRule_apply]
-    show chowPush C _ _ _ _ _ (chowPush C _ _ _ _ _ _) = _
+    change chowPush C _ _ _ _ _ (chowPush C _ _ _ _ _ _) = _
     rw [chowPush_snd_chowPush_baseChange_bivariantClassCongr C (gysinSystemOfInvertible C) jZ
       (𝟙 X) (Category.comp_id jZ).symm rfl (Category.id_comp f)]
-    show chowPush C _ _ _ _ _ (chowPush C _ _ _ _ _ _) = _
+    change chowPush C _ _ _ _ _ (chowPush C _ _ _ _ _ _) = _
     rw [chowPush_snd_chowPush_baseChange_bivariantClassCongr C (gysinSystemOfInvertible C)
       (preimageProjection f b jZ) jZ pullback.condition (preimageProjection_comp C f b jZ) rfl]
   rw [e1]
@@ -464,7 +464,7 @@ theorem properPushforward_localizedChernClassAtInfinity
       (chowCohomologyRestriction_chernClassOnPreimage_eq_zero C jZ hQ hres)
       (chowCohomologyRestriction_chernClassAtInfinity_preimage C f b jZ hQ p)
       (chowCohomologyRestriction_chernClassAtInfinity_eq_zero C f b iV hQ p hres)]
-    show chowPush C _ _ _ _ _ (chowPush C _ _ _ _ _ z) =
+    change chowPush C _ _ _ _ _ (chowPush C _ _ _ _ _ z) =
       chowPush C _ _ _ _ _ (chowPush C _ _ _ _ _ z)
     rw [chowPush_comp C _ _ _ _ _ _ rfl, chowPush_comp C _ _ _ _ _ _ rfl]
     · exact chowPush_congr C _ _ (pullbackRightPullbackFstIso_hom_snd _ _ _) _ _ _ _

@@ -279,7 +279,7 @@ theorem exists_relSeries_cokernelIsoStep_aux (n : ℕ) :
     obtain ⟨k, hk⟩ := hmon σ
     refine ⟨k, Subtype.ext ?_⟩
     ext x
-    show (MulAction.toPermHom π V.V σ ^ ℓ ^ k) x = x
+    change (MulAction.toPermHom π V.V σ ^ ℓ ^ k) x = x
     rw [← map_pow]
     exact hk x
   have : Finite Q := inferInstance
@@ -287,7 +287,7 @@ theorem exists_relSeries_cokernelIsoStep_aux (n : ℕ) :
     hQ.card_modEq_card_fixedPoints _
   have hzQ : (0 : V.V) ∈ MulAction.fixedPoints Q V.V := by
     rintro ⟨g, σ, rfl⟩
-    show (V.ρ σ).asHom.hom 0 = 0
+    change (V.ρ σ).asHom.hom 0 = 0
     exact map_zero _
   obtain ⟨x, hxQ, hx0⟩ : ∃ x ∈ MulAction.fixedPoints Q V.V, x ≠ 0 := by
     have hdvd' : ℓ ∣ Nat.card (MulAction.fixedPoints Q V.V) := by
@@ -321,14 +321,14 @@ theorem exists_relSeries_cokernelIsoStep_aux (n : ℕ) :
       comm := fun σ ↦ by
         ext y
         obtain ⟨z, rfl, hz⟩ := hψ y
-        show ψ (((Θ.obj ⟨K, hK⟩).ρ σ).asHom.hom (z • k₁)) = (V.ρ σ).asHom.hom (ψ (z • k₁))
+        change ψ (((Θ.obj ⟨K, hK⟩).ρ σ).asHom.hom (z • k₁)) = (V.ρ σ).asHom.hom (ψ (z • k₁))
         rw [hK_triv, hz, map_zsmul, hxfix] }
   obtain ⟨s', hs'⟩ := Θ.map_surjective φ
   set s : K ⟶ G.obj := s'.hom
   have hs'eq : s' = ObjectProperty.homMk s := rfl
   have hsk₁ : (Θ.map s').hom k₁ = x := by
     rw [hs']
-    show ψ k₁ = x
+    change ψ k₁ = x
     simpa using hψgen 1
   have hℓK : ∀ y : (Θ.obj ⟨K, hK⟩).V, ℓ • y = 0 :=
     nsmul_eq_zero_of_nsmul_id P Θ (htors ⟨K, hK⟩)
@@ -362,7 +362,8 @@ theorem exists_relSeries_cokernelIsoStep_aux (n : ℕ) :
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
     refine Fintype.card_lt_of_surjective_not_injective _ hqsurj fun hinj ↦ hx0 (hinj ?_)
     rw [hqx, map_zero]
-  have hmon' : ∀ σ : π, ∃ k : ℕ, ∀ y : (Θ.obj G').V, ((Θ.obj G').ρ (σ ^ (ℓ ^ k))).asHom.hom y = y := by
+  have hmon' : ∀ σ : π, ∃ k : ℕ, ∀ y : (Θ.obj G').V,
+      ((Θ.obj G').ρ (σ ^ (ℓ ^ k))).asHom.hom y = y := by
     intro σ
     obtain ⟨k, hk⟩ := hmon σ
     refine ⟨k, fun y ↦ ?_⟩

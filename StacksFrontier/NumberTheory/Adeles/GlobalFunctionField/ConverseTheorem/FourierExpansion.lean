@@ -521,10 +521,10 @@ public theorem fourier_inversion [NeZero (ringChar k : Λ)] [HasEnoughRootsOfUni
   calc φ z = (hOne k K D : Λ)⁻¹ * ∑ g : AdeleRing K ⧸ H,
         φ (Quotient.out g) * (if z - Quotient.out g ∈ H then (hOne k K D : Λ) else 0) := by
         rw [Finset.sum_eq_single (z : AdeleRing K ⧸ H)]
-        · rw [if_pos ((hiff _).2 rfl), hφ.apply_out, mul_comm,
+        · rw [ite_eq_left ((hiff _).2 rfl), hφ.apply_out, mul_comm,
             mul_inv_cancel_right₀ (hOne_cast_ne_zero k D)]
         · intro g _ hg
-          rw [if_neg (fun h => hg ((hiff g).1 h)), mul_zero]
+          rw [ite_eq_right (fun h => hg ((hiff g).1 h)), mul_zero]
         · exact fun h => absurd (Finset.mem_univ _) h
     _ = (hOne k K D : Λ)⁻¹ * ∑ g : AdeleRing K ⧸ H, φ (Quotient.out g) *
         ∑ ξ : S, ψ (diag k K ξ * (z - Quotient.out g)) := by

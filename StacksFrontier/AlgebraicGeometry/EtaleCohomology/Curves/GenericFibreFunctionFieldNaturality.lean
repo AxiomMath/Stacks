@@ -208,7 +208,7 @@ theorem genericFibreToFunctionField_appTop {X U V : Scheme.{u}} [IrreducibleSpac
       (h.stalkMap (genericPoint U)).hom
         ((eqToHom (congrArg V.presheaf.stalk hη.symm)).hom
           ((genericFibreToFunctionField gV).hom a)) := by
-    show (hη ▸ h.stalkMap (genericPoint U)).hom _ = _
+    change (hη ▸ h.stalkMap (genericPoint U)).hom _ = _
     rw [← Stacks.Chow.stalkMap_eqToHom_eq_cast h (genericPoint U) (genericPoint V) hη]
     rfl
   rw [hdffm]

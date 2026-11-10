@@ -237,7 +237,7 @@ theorem injective_readBack (he : Function.Bijective (crysExtensionSectionsMap F 
 theorem readBack_ringConnection (he : Function.Bijective (crysExtensionSectionsMap F B))
     (s : F.val.obj (op B)) :
     readBack F hVB hV (ringConnection hVB hV he s) = connectionDifference F B s := by
-  show diffAction F B ((tensorFlipAdd F B hVB hV).symm
+  change diffAction F B ((tensorFlipAdd F B hVB hV).symm
     (tensorFlipAdd F B hVB hV (connection he s))) = _
   rw [AddEquiv.symm_apply_apply, diffAction_connection]
 
@@ -251,7 +251,7 @@ theorem readBack_tmul_smul_crysD (m : F.val.obj (op B))
           (crysSheafRingMap (firstOrderThickeningSiteP₁ S B.obj) b -
             crysSheafRingMap (firstOrderThickeningSiteP₀ S B.obj) b)) •
         crysSiteRestrict F (firstOrderThickeningCrysP₀ S B) m := by
-  show diffAction F B ((tensorFlipAdd F B hVB hV).symm
+  change diffAction F B ((tensorFlipAdd F B hVB hV).symm
     (m ⊗ₜ[GlobalCrystallineSituation.crysFormRing S B.obj]
       (c • GlobalCrystallineSituation.crysD S B.obj b))) = _
   rw [tensorFlipAdd_symm_tmul, LinearEquiv.map_smul, affineCrysOmegaEquiv_symm_crysD,
@@ -276,8 +276,7 @@ theorem readBack_restrictTensor (k : B ⟶ B')
       ↥((GlobalCrystallineSituation.crysDifferentials S).obj (op B'.obj))) :
     readBack F hVB hV (restrictTensor F k z) =
       crysSiteRestrict F (thickeningMap k) (readBack F hVB' hV' z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, restrict_zero]
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, crysSiteRestrict_add]
   | tmul m η =>
       have key : ∀ η ∈ Submodule.span (GlobalCrystallineSituation.crysFormRing S B'.obj)
@@ -456,7 +455,7 @@ theorem crysFormMap_leftWedge (k : B ⟶ B') (i : ℕ)
     GlobalCrystallineSituation.crysFormMap S k.hom (leftWedge i η ω) =
       leftWedge i (restrictOmega k η) (GlobalCrystallineSituation.crysFormMap S k.hom ω) := by
   refine Subtype.ext ?_
-  show ExteriorAlgebra.mapₛₗ _ _ (ExteriorAlgebra.ι _ η * ω.val) =
+  change ExteriorAlgebra.mapₛₗ _ _ (ExteriorAlgebra.ι _ η * ω.val) =
     ExteriorAlgebra.ι _ (restrictOmega k η) * ExteriorAlgebra.mapₛₗ _ _ ω.val
   rw [map_mul, ExteriorAlgebra.mapₛₗ_ι]
   rfl
@@ -471,12 +470,7 @@ theorem restrictForms_leftWedge (k : B ⟶ B') (i : ℕ)
       TensorProduct.map LinearMap.id
           ((leftWedge i).flip (GlobalCrystallineSituation.crysFormMap S k.hom ω))
         (restrictTensor F k z) := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      rw [(TensorProduct.map LinearMap.id ((leftWedge i).flip ω)).map_zero,
-        (restrictForms F k (i + 1)).map_zero, (restrictTensor F k).map_zero,
-        (TensorProduct.map LinearMap.id
-          ((leftWedge i).flip (GlobalCrystallineSituation.crysFormMap S k.hom ω))).map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul m η =>
       rw [TensorProduct.map_tmul, restrictForms_tmul, restrictTensor_tmul, TensorProduct.map_tmul]
       exact congrArg (crysSiteRestrict F k m ⊗ₜ[GlobalCrystallineSituation.crysFormRing S B.obj] ·)
@@ -510,10 +504,7 @@ theorem extDiff_naturality (k : B ⟶ B') (i : ℕ)
         ↥((GlobalCrystallineSituation.crysDifferentials S).obj (op B'.obj))) :
     extDiff hVB hV he i (restrictForms F k i x) =
       restrictForms F k (i + 1) (extDiff hVB' hV' he' i x) := by
-  induction x using TensorProduct.induction_on with
-  | zero =>
-      rw [(restrictForms F k i).map_zero, (extDiff hVB hV he i).map_zero,
-        (extDiff hVB' hV' he' i).map_zero, (restrictForms F k (i + 1)).map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul m ω =>
       rw [restrictForms_tmul, extDiff_tmul, extDiff_tmul, map_add, restrictForms_tmul,
         restrictForms_leftWedge, ← ringConnection_naturality hVB hV hVB' hV' he he']

@@ -97,7 +97,7 @@ theorem surjective_degreeZeroToGlobalSections_of_le (q₀ : ℕ)
     (b : ℤ) (hb : (q₀ : ℤ) ≤ b) :
     Function.Surjective (degreeZeroToGlobalSections 𝒜 (twistGrading (S := A) 𝒜 b)) := by
   obtain ⟨k, rfl⟩ : ∃ k : ℕ, b = (k : ℤ) :=
-    ⟨b.toNat, (Int.toNat_of_nonneg ((Int.ofNat_nonneg q₀).trans hb)).symm⟩
+    ⟨b.toNat, (Int.toNat_of_nonneg ((Int.natCast_nonneg q₀).trans hb)).symm⟩
   intro s
   obtain ⟨a, ha⟩ := h k (by exact_mod_cast hb) s
   exact ⟨⟨(a : A), Stacks.AlgebraicGeometry.ProjTwistSections.mem_twistGrading_zero 𝒜 a⟩, ha⟩
@@ -143,11 +143,11 @@ theorem moduleFinite_twistedSectionsComponent
   have hcoh : _root_.SheafOfModules.IsCoherent (twistSheafOfModules 𝒜 F d) :=
     AlgebraicGeometry.ProjectiveSpectrum.Proj.isCoherent_twistSheafOfModules 𝒜
       (adjoin_degreeOne_eq_top 𝒜 x hx hgen) F hF d
-  have _h : Module.Finite (𝒜 0)
+  have : Module.Finite (𝒜 0)
       ((ModuleCat.restrictScalars.{u} (coeffScalar 𝒜)).obj
         (((Stacks.Cohomology.sectionsFunctor (AlgebraicGeometry.Proj 𝒜) ⊤).rightDerived 0).obj
           (twistSheafOfModules 𝒜 F d))) :=
-    moduleFinite_cohomology_of_isCoherent 𝒜 x hx hgen (twistSheafOfModules 𝒜 F d) hcoh 0
+    moduleFinite_cohomology_of_isCoherent 𝒜 x hgen (twistSheafOfModules 𝒜 F d) hcoh 0
   Module.Finite.equiv
     (((ModuleCat.restrictScalars.{u} (coeffScalar 𝒜)).mapIso
       ((Stacks.Cohomology.sectionsFunctor
@@ -181,7 +181,7 @@ theorem exists_forall_mem_degreeOneSections (hF : _root_.SheafOfModules.IsCohere
       ∀ s : twistedSectionsComponent 𝒜 F ((1 : ℤ) + d),
         s ∈ degreeOneSections 𝒜 F d := by
   obtain ⟨q₀, hq₀⟩ := exists_forall_surjective_degreeSection 𝒜 x hx hgen
-  have := isNoetherianRing 𝒜 x hx hgen
+  have := isNoetherianRing 𝒜 x hgen
   exact exists_forall_mem_degreeOneSections_of_hasTwistQuotients 𝒜 (q₀ : ℤ)
     (adjoin_degreeOne_eq_top 𝒜 x hx hgen)
     (fun b hb => surjective_degreeZeroToGlobalSections_of_le 𝒜 q₀ hq₀ b hb)

@@ -100,7 +100,6 @@ open Stacks.SheafOfModules.TensorColimits
   (tensorCommIso tensorSheafificationIsoGeneral tensorLeft_preservesColimits)
 
 variable {C : Type u} [Category.{u} C] (J : GrothendieckTopology C)
-  [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
   [HasWeakSheafify J AddCommGrpCat.{u}]
 
@@ -147,8 +146,6 @@ open Stacks.SheafOfModules.Tensor (ringSheaf)
 open AlgebraicGeometry.SheafOfModules.PresheafOfModules (tensorRight)
 
 variable (X : RingedSite.{u, u, u}) (U : X.C)
-  [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
-  [(X.J.over U).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
   [HasWeakSheafify X.J AddCommGrpCat.{u}]
   [(X.J.over U).WEqualsLocallyBijective AddCommGrpCat.{u}]
@@ -233,7 +230,7 @@ public theorem isFlat_over
         Functor.isoWhiskerRight
           (tensorLeftIsoSheafTensorRight (X.J.over U) (X.O.over U) (F.over U)).symm
           (extendByZero X U))
-  show exactFunctor _ _
+  change exactFunctor _ _
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (X.O.over U)).flip.obj (F.over U))
   exact ObjectProperty.IsClosedUnderIsomorphisms.of_iso
     (tensorLeftIsoSheafTensorRight (X.J.over U) (X.O.over U) (F.over U)) hG

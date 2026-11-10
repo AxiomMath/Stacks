@@ -91,7 +91,7 @@ attribute [local instance high]
 theorem Scheme.trdegLESet_mono (K : Type u) [Field K] {X : Scheme.{u}} (f : X ⟶ Spec (.of K))
     {a a' : ℕ} (h : a ≤ a') : Scheme.trdegLESet K f a ⊆ Scheme.trdegLESet K f a' := by
   intro x hx
-  simp only [Scheme.trdegLESet, Set.mem_setOf_eq] at hx ⊢
+  simp only [Scheme.trdegLESet, Set.mem_ofPred_eq] at hx ⊢
   exact hx.trans (by exact_mod_cast h)
 
 /-- **Cohomology of a sheaf supported in transcendence degree `δ`, on a scheme of finite type

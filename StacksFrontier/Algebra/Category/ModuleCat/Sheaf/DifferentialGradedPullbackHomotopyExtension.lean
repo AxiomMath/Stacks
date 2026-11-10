@@ -133,7 +133,7 @@ theorem extensionRestrictionHomEquiv_id
         ((pullbackTensorFunctorData α hO hP φ₀ hφ₀).functor.obj Q)
         (𝟙 ((pullbackTensorFunctorData α hO hP φ₀ hφ₀).functor.obj Q)) =
       extensionUnit φ₀ hφ₀ (pullbackTensorFunctorData α hO hP φ₀ hφ₀) Q := by
-  show extensionUnit φ₀ hφ₀ (pullbackTensorFunctorData α hO hP φ₀ hφ₀) Q ≫
+  change extensionUnit φ₀ hφ₀ (pullbackTensorFunctorData α hO hP φ₀ hφ₀) Q ≫
       (restriction φ₀ hφ₀).map (𝟙 _) = _
   rw [CategoryTheory.Functor.map_id, Category.comp_id]
 

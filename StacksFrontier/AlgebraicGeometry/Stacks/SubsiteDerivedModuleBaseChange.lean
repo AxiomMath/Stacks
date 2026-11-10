@@ -76,8 +76,8 @@ unbounded derived functors — available.
 *An isomorphism, not an equality.* A right derived functor is determined only up to a canonical
 isomorphism, so the conclusions are isomorphisms of functors, and `Rf_*`, `Rf'_*` are carried as
 data together with their comparisons from the degreewise direct images and the
-`IsRightDerivedFunctor` property, as in
-`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/BaseChangeOverASquareOfSites.lean`.
+`IsRightDerivedFunctor` property, as in the module
+`StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPushforward.BaseChangeOverASquareOfSites`.
 Nothing in the library names the unbounded total right derived functor of
 `Stacks.SheafOfModules.pushforwardCocontinuous`.
 

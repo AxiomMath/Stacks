@@ -160,7 +160,7 @@ private theorem map_eq_map_of_constCoeff_id
         simp only [RingHom.comp_apply]
         rw [← PowerSeries.coeff_zero_eq_constantCoeff_apply,
           ← MvPowerSeries.coeff_zero_eq_constantCoeff_apply]
-        show MvPowerSeries.coeff (0 : Fin n →₀ ℕ)
+        change MvPowerSeries.coeff (0 : Fin n →₀ ℕ)
             (PowerSeries.coeff 0 (MvPowerSeries.finSuccEquiv R n f)) =
           MvPowerSeries.coeff (0 : Fin (n + 1) →₀ ℕ) f
         rw [MvPowerSeries.coeff_coeff_finSuccEquiv]
@@ -225,7 +225,7 @@ private theorem map_eq_map_of_constCoeff_id
             Ideal.map MvPowerSeries.C p := by
           dsimp [I']
           rw [Ideal.map_map, Ideal.map_map]
-          show Ideal.map ((e.symm.toRingHom.comp e.toRingHom).comp
+          change Ideal.map ((e.symm.toRingHom.comp e.toRingHom).comp
             MvPowerSeries.C) p = _
           rw [hecomp]
           simp
@@ -426,7 +426,7 @@ private theorem injective_of_surjective_of_isNoetherianRing
       monotone' := by
         apply monotone_nat_of_le_succ
         intro n x hx
-        show (f ^ (n + 1)) x = 0
+        change (f ^ (n + 1)) x = 0
         simpa only [RingHom.coe_pow, Function.iterate_succ_apply', map_zero] using
           congrArg f hx }
   obtain ⟨N, hN⟩ :=
@@ -440,7 +440,7 @@ private theorem injective_of_surjective_of_isNoetherianRing
   have hx0 : f (x - y) = 0 := by rw [map_sub, hxy, sub_self]
   obtain ⟨z, hz⟩ := hs N (x - y)
   have hzker : z ∈ RingHom.ker (f ^ (N + 1)) := by
-    show (f ^ (N + 1)) z = 0
+    change (f ^ (N + 1)) z = 0
     rw [← hz] at hx0
     simpa only [RingHom.coe_pow, Function.iterate_succ_apply'] using hx0
   have hNk : RingHom.ker (f ^ N) = RingHom.ker (f ^ (N + 1)) := by
@@ -615,7 +615,7 @@ private theorem maximalIdeal_powerSeries (A : Type*) [CommRing A] [IsLocalRing A
         Ideal.span {(PowerSeries.X : PowerSeries A)} := by
   ext f
   rw [Stacks.MvPowerSeries.RegularParameters.mem_maximalIdeal_iff_constantCoeff_mem]
-  show PowerSeries.constantCoeff f ∈ IsLocalRing.maximalIdeal A ↔ _
+  change PowerSeries.constantCoeff f ∈ IsLocalRing.maximalIdeal A ↔ _
   simpa only [pow_one, Nat.lt_one_iff, forall_eq, PowerSeries.coeff_zero_eq_constantCoeff] using
     (mem_map_C_sup_span_X_pow_iff (IsLocalRing.maximalIdeal A) 1 f).symm
 
@@ -707,7 +707,7 @@ private theorem isOpen_maximalIdeal_pow_piTopology
   let U : Set (MvPowerSeries (Fin n) A) :=
     ⋂ e ∈ E, (MvPowerSeries.coeff e) ⁻¹' ((IsLocalRing.maximalIdeal A ^ N : Ideal A) : Set A)
   have hU : IsOpen U := by
-    show IsOpen (⋂ e ∈ E,
+    change IsOpen (⋂ e ∈ E,
       (MvPowerSeries.coeff e) ⁻¹' ((IsLocalRing.maximalIdeal A ^ N : Ideal A) : Set A))
     refine isOpen_biInter_finset fun e _ => ?_
     exact (isOpen_discrete _).preimage (MvPowerSeries.WithPiTopology.continuous_coeff A e)
@@ -774,25 +774,25 @@ theorem formallyHomotopic_refl (f : R ⟶ S) : FormallyHomotopic f f := by
     { toRingHom := l₀
       commutes' := fun a => by
         rw [MvPowerSeries.algebraMap_apply]
-        show f.hom (MvPowerSeries.constantCoeff
+        change f.hom (MvPowerSeries.constantCoeff
           (MvPowerSeries.C (algebraMap Λ R a))) = algebraMap Λ S a
         rw [MvPowerSeries.constantCoeff_C]
         exact f.hom.commutes a }
   have hh : IsLocalHom h₀ := by
     refine isLocalHom_of_leftInverse MvPowerSeries.constantCoeff fun x => ?_
-    show MvPowerSeries.constantCoeff (MvPowerSeries.C x : MvPowerSeries (Fin 0) R) = x
+    change MvPowerSeries.constantCoeff (MvPowerSeries.C x : MvPowerSeries (Fin 0) R) = x
     rfl
   have hl₀ : IsLocalHom (MvPowerSeries.constantCoeff : P →+* R) :=
     ⟨fun x hx => (MvPowerSeries.isUnit_iff_constantCoeff).2 hx⟩
   have hl : IsLocalHom l₀ :=
     ⟨fun x hx => hl₀.map_nonunit _ (f.isLocal.map_nonunit _ hx)⟩
   refine ⟨0, h, l, hh, hl, fun a => ?_, fun a => ?_, fun a => ?_⟩
-  · show MvPowerSeries.constantCoeff (MvPowerSeries.C a : MvPowerSeries (Fin 0) R) = a
+  · change MvPowerSeries.constantCoeff (MvPowerSeries.C a : MvPowerSeries (Fin 0) R) = a
     exact MvPowerSeries.constantCoeff_C (σ := Fin 0) a
-  · show f.hom a = f.hom (MvPowerSeries.constantCoeff
+  · change f.hom a = f.hom (MvPowerSeries.constantCoeff
       (MvPowerSeries.C a : MvPowerSeries (Fin 0) R))
     rw [MvPowerSeries.constantCoeff_C]
-  · show f.hom a = f.hom (MvPowerSeries.constantCoeff
+  · change f.hom a = f.hom (MvPowerSeries.constantCoeff
       (MvPowerSeries.C a : MvPowerSeries (Fin 0) R))
     rw [MvPowerSeries.constantCoeff_C]
 
@@ -810,7 +810,7 @@ theorem formallyHomotopic_symm {f g : R ⟶ S}
     intro a
     calc
       e (algebraMap Λ P a) = h₀ (algebraMap Λ R a) := by
-        show F (algebraMap Λ P a) = _
+        change F (algebraMap Λ P a) = _
         rw [MvPowerSeries.algebraMap_apply]
         exact hC (algebraMap Λ R a)
       _ = algebraMap Λ P a := h₀.commutes a
@@ -827,7 +827,7 @@ theorem formallyHomotopic_symm {f g : R ⟶ S}
   let l' : P →ₐ[Λ] S :=
     { toRingHom := l.toRingHom.comp e.toRingHom
       commutes' := fun a => by
-        show l (e (algebraMap Λ P a)) = algebraMap Λ S a
+        change l (e (algebraMap Λ P a)) = algebraMap Λ S a
         rw [hefix]
         exact l.commutes a }
   have hccF : ∀ x : P, MvPowerSeries.constantCoeff (F x) = MvPowerSeries.constantCoeff x :=
@@ -840,7 +840,7 @@ theorem formallyHomotopic_symm {f g : R ⟶ S}
           MvPowerSeries.constantCoeff (F (h' a)) := (hccF (h' a)).symm
       _ = MvPowerSeries.constantCoeff (MvPowerSeries.C a) := by
         refine congrArg _ ?_
-        show e (e.symm (MvPowerSeries.C a)) = MvPowerSeries.C a
+        change e (e.symm (MvPowerSeries.C a)) = MvPowerSeries.C a
         exact e.apply_symm_apply _
       _ = a := MvPowerSeries.constantCoeff_C a
   have he_local : IsLocalHom e.toRingHom :=
@@ -850,10 +850,10 @@ theorem formallyHomotopic_symm {f g : R ⟶ S}
   have lloc' : IsLocalHom l'.toRingHom :=
     ⟨fun x hx => he_local.map_nonunit x (lloc.map_nonunit (e x) hx)⟩
   refine ⟨n, h', l', hloc', lloc', hcc', fun a => ?_, fun a => ?_⟩
-  · show g.hom a = l (e (MvPowerSeries.C a))
+  · change g.hom a = l (e (MvPowerSeries.C a))
     rw [show e (MvPowerSeries.C a) = h₀ a from hC a]
     exact hg a
-  · show f.hom a = l (e (h' a))
+  · change f.hom a = l (e (h' a))
     rw [show e (h' a) = MvPowerSeries.C a by simp [h', e]]
     exact hf a
 
@@ -897,7 +897,7 @@ theorem formallyHomotopic_trans {f g h : R ⟶ S}
       (fun a => MvPowerSeries.constantCoeff_C a) (fun i => MvPowerSeries.constantCoeff_X _) x
   let β : R →+* B := iota.comp h₁.toRingHom
   have hβCC (a : R) : MvPowerSeries.constantCoeff (β a) = a := by
-    show MvPowerSeries.constantCoeff (iota (h₁ a)) = a
+    change MvPowerSeries.constantCoeff (iota (h₁ a)) = a
     rw [hiotaCC, h₁cc]
   let yvars : Fin m → B := fun j => MvPowerSeries.X (Fin.natAdd n j)
   have hyvars : MvPowerSeries.HasEval yvars :=
@@ -914,17 +914,17 @@ theorem formallyHomotopic_trans {f g h : R ⟶ S}
       (fun j => MvPowerSeries.constantCoeff_X _) x
   let h₃₀ : R →+* B := G.comp h₂.toRingHom
   have h₃cc (a : R) : MvPowerSeries.constantCoeff (h₃₀ a) = a := by
-    show MvPowerSeries.constantCoeff (G (h₂ a)) = a
+    change MvPowerSeries.constantCoeff (G (h₂ a)) = a
     rw [hGCC, h₂cc]
   have hiota_scalar (a : Λ) : iota (algebraMap Λ P a) = algebraMap Λ B a := by
     rw [MvPowerSeries.algebraMap_apply, hiotaC, MvPowerSeries.algebraMap_apply]
   have hβ_scalar (a : Λ) : β (algebraMap Λ R a) = algebraMap Λ B a := by
-    show iota (h₁ (algebraMap Λ R a)) = _
+    change iota (h₁ (algebraMap Λ R a)) = _
     rw [h₁.commutes, hiota_scalar]
   let h₃ : R →ₐ[Λ] B :=
     { toRingHom := h₃₀
       commutes' := fun a => by
-        show G (h₂ (algebraMap Λ R a)) = algebraMap Λ B a
+        change G (h₂ (algebraMap Λ R a)) = algebraMap Λ B a
         rw [h₂.commutes]
         rw [MvPowerSeries.algebraMap_apply, hGC, hβ_scalar] }
   have h₃local : IsLocalHom h₃.toRingHom :=
@@ -963,11 +963,11 @@ theorem formallyHomotopic_trans {f g h : R ⟶ S}
   have hLcont : Continuous L :=
     (WithIdeal.uniformContinuous_of_map_le (f := L) hLmap).continuous
   have hL_l1_X (i : Fin n) : L (xvars i) = l₁ (MvPowerSeries.X i) := by
-    show L (MvPowerSeries.X (Fin.castAdd m i)) = _
+    change L (MvPowerSeries.X (Fin.castAdd m i)) = _
     rw [hLX]
     simp [z, Fin.addCases_left]
   have hL_l2_X (j : Fin m) : L (yvars j) = l₂ (MvPowerSeries.X j) := by
-    show L (MvPowerSeries.X (Fin.natAdd n j)) = _
+    change L (MvPowerSeries.X (Fin.natAdd n j)) = _
     rw [hLX]
     simp [z, Fin.addCases_right]
   have hL_iota_formula : ∀ x : P,
@@ -975,7 +975,7 @@ theorem formallyHomotopic_trans {f g h : R ⟶ S}
         MvPowerSeries.eval₂ f.hom.toRingHom (fun i => l₁ (MvPowerSeries.X i)) x := by
     intro x
     rw [hiota_eval]
-    show (L ∘ MvPowerSeries.eval₂ MvPowerSeries.C xvars) x = _
+    change (L ∘ MvPowerSeries.eval₂ MvPowerSeries.C xvars) x = _
     rw [MvPowerSeries.comp_eval₂ continuous_of_discreteTopology hxvars hLcont]
     congr 1
     · ext a
@@ -1023,7 +1023,7 @@ theorem formallyHomotopic_trans {f g h : R ⟶ S}
     rw [RingHom.comp_apply, hL_iota_formula, hl₁_eval]
   have hL_beta : L.comp β = l₂.toRingHom.comp MvPowerSeries.C := by
     ext a
-    show L (iota (h₁ a)) = l₂ (MvPowerSeries.C a)
+    change L (iota (h₁ a)) = l₂ (MvPowerSeries.C a)
     rw [← RingHom.comp_apply, hLiota]
     exact (hg a).symm.trans (hg' a)
   have hL_G_formula : ∀ x : Q,
@@ -1031,7 +1031,7 @@ theorem formallyHomotopic_trans {f g h : R ⟶ S}
         (fun j => l₂ (MvPowerSeries.X j)) x := by
     intro x
     rw [hG_eval]
-    show (L ∘ MvPowerSeries.eval₂ β yvars) x = _
+    change (L ∘ MvPowerSeries.eval₂ β yvars) x = _
     rw [MvPowerSeries.comp_eval₂ continuous_of_discreteTopology hyvars hLcont, hL_beta]
     congr 1
     funext j
@@ -1047,9 +1047,9 @@ theorem formallyHomotopic_trans {f g h : R ⟶ S}
     ext x
     rw [RingHom.comp_apply, hL_G_formula, hl₂_eval]
   refine ⟨n + m, h₃, l₃, h₃local, hLlocal, h₃cc, fun a => ?_, fun a => ?_⟩
-  · show f.hom.toRingHom a = L (MvPowerSeries.C a)
+  · change f.hom.toRingHom a = L (MvPowerSeries.C a)
     exact (hLC a).symm
-  · show h.hom a = L (G (h₂ a))
+  · change h.hom a = L (G (h₂ a))
     calc
       h.hom a = l₂ (h₂ a) := hh a
       _ = L (G (h₂ a)) := by

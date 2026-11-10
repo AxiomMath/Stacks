@@ -113,6 +113,8 @@ variable {S : Scheme.{u}} (T : BigFppfSpaceSite S) {X : T.Spaces} (A : T.Schemes
   (s : (schemeSpaceFunctor T.schemeSite S T.scheme_mem).obj A ⟶ X)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits of presheaves on the big fppf site exceeds the default
+-- budget
 /-- Discrete limits of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discrete_presheaf_bigFppfRepresentableTransport

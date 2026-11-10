@@ -227,7 +227,7 @@ lemma ratioSMul_mem (hp : p ∈ 𝒮 (e + d)) (hq : q ∈ 𝒮 e) {n c : ℤ} (h
   smul_mk_mem_moduleSections 𝒮 𝒨 _ (ratioDen_mem 𝒮 hp hq n)
     (fun x => denMonomial_mem_primeCompl 𝒮 (hW x.2) n.toNat (-n).toNat) (fun k m hm => by
       have hsm := SetLike.GradedSMul.smul_mem (A := 𝒮) (B := 𝒨) (ratioNum_mem 𝒮 hp hq n) hm
-      show _ ∈ 𝒨 (((denDeg e d n + k : ℕ) : ℤ) + c)
+      change _ ∈ 𝒨 (((denDeg e d n + k : ℕ) : ℤ) + c)
       rw [shift_index_eq (d := d) hc k]
       exact hsm) _ (fun _ => rfl) ς
 
@@ -243,10 +243,10 @@ lemma ratioInvSMul_mem (hp : p ∈ 𝒮 (e + d)) (hq : q ∈ 𝒮 e) {n c : ℤ}
     (fun x => numMonomial_mem_primeCompl 𝒮 (hW x.2) n.toNat (-n).toNat) (fun k m hm => by
       have hm' : m ∈ 𝒨 ((k : ℤ) + c) := hm
       have hsm := SetLike.GradedSMul.smul_mem (A := 𝒮) (B := 𝒨) (ratioDen_mem 𝒮 hp hq n) hm'
-      show _ ∈ 𝒨 ((numDeg e d n + k : ℕ) : ℤ)
+      change _ ∈ 𝒨 ((numDeg e d n + k : ℕ) : ℤ)
       rw [show ((numDeg e d n + k : ℕ) : ℤ)
           = (denDeg e d n : ℕ) +ᵥ ((k : ℤ) + c) from by
-        show _ = ((denDeg e d n : ℕ) : ℤ) + ((k : ℤ) + c)
+        change _ = ((denDeg e d n : ℕ) : ℤ) + ((k : ℤ) + c)
         have h := shift_index_eq (d := d) (e := e) hc k
         push_cast at h ⊢
         linarith]
@@ -266,10 +266,10 @@ lemma bijective_ratioModuleHom (hp : p ∈ 𝒮 (e + d)) (hq : q ∈ 𝒮 e) {n 
     ⟨fun ϑ => ⟨fun x => ratioFunInv 𝒮 n hW x • ϑ.1 x,
       ratioInvSMul_mem 𝒮 𝒨 hp hq hc hW ϑ⟩, fun ς => ?_, fun ϑ => ?_⟩
   · refine Subtype.ext (funext fun x => ?_)
-    show ratioFunInv 𝒮 n hW x • ratioFun 𝒮 n hW x • ς.1 x = ς.1 x
+    change ratioFunInv 𝒮 n hW x • ratioFun 𝒮 n hW x • ς.1 x = ς.1 x
     rw [smul_smul, mul_comm, ratioFun_mul_inv, one_smul]
   · refine Subtype.ext (funext fun x => ?_)
-    show ratioFun 𝒮 n hW x • ratioFunInv 𝒮 n hW x • ϑ.1 x = ϑ.1 x
+    change ratioFun 𝒮 n hW x • ratioFunInv 𝒮 n hW x • ϑ.1 x = ϑ.1 x
     rw [smul_smul, ratioFun_mul_inv, one_smul]
 
 /-! ### Bijectivity on the sections of the presheaf tensor product -/

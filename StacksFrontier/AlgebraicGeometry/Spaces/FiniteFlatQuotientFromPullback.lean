@@ -141,7 +141,7 @@ theorem quotientSheaf_isRepresented_of_isPullback {S : Scheme.{u}} (G : Groupoid
     rw [← he]
     infer_instance
   have : IsIso k.left := by
-    show IsIso ((Over.forget S).map k)
+    change IsIso ((Over.forget S).map k)
     infer_instance
   have hR := isLocallySurjective_points_map_of_fppf B S hS k
   obtain ⟨q, hq, hfac⟩ :=

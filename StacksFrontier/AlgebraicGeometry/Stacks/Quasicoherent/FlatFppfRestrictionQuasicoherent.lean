@@ -285,7 +285,7 @@ theorem liftedSectionsIsoOfSheafified_hom_smul {x z : 𝒳} (φ : z ⟶ x)
   let X : Over (p.obj x).left.1 := Over.mk (B.inclusion.map (p.map φ).left)
   let e1 := restrictModuleToSmallEtaleFinalIso B E h S hS p hp z (etaleTopology B)
     (etaleTopology_le_topology B) F
-  let e2 := (liftedSmallEtaleIsoOfSheafified B E h S hS p hp F hlqc φ 𝓕 h𝓕 hMx eU hiso).app
+  let e2 := (liftedSmallEtaleIsoOfSheafified B E h S hS p hp F hlqc φ 𝓕 hMx eU hiso).app
     (op fin)
   let e3 := (SmallEtale.associatedModulePresheafIso E Wz hWz G).app (op fin)
   let e4 := (Stacks.Sites.quasiCoherentPresheafBaseChangeIso 𝓕 X).inv.app (op T)

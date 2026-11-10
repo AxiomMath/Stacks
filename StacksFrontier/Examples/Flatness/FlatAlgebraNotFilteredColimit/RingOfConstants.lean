@@ -108,7 +108,7 @@ lemma isUnit_derivationConstants_iff {R B M : Type*}
   apply isUnit_iff_exists_inv.mpr
   refine ⟨⟨(↑u⁻¹ : B), hDinv⟩, ?_⟩
   apply Subtype.ext
-  show (x : B) * (↑u⁻¹ : B) = 1
+  change (x : B) * (↑u⁻¹ : B) = 1
   rw [← hu, Units.mul_inv]
 
 /-- The constants of a derivation on a local algebra form a local ring. -/
@@ -199,7 +199,7 @@ private lemma maximalIdeal_derivationConstants_eq_span
     let y : derivationConstants D := ⟨b - algebraMap R B r * s, hy⟩
     have heq : x = t * y + algebraMap R (derivationConstants D) r * z := by
       apply Subtype.ext
-      show (x : B) = (t : B) * (b - algebraMap R B r * s) + algebraMap R B r * (z : B)
+      change (x : B) = (t : B) * (b - algebraMap R B r * s) + algebraMap R B r * (z : B)
       rw [hz, hb]
       ring
     rw [heq]

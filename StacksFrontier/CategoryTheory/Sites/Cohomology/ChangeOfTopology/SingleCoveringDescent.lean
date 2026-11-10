@@ -155,7 +155,7 @@ theorem exists_homology_derivedCohomologyComparison_eq_of_triangle (S : Cohomolo
             Y).mapDerivedCategoryPlus.obj T.obj₁) := by
     simp [derivedCohomologyComparison]
   rw [hdef, Functor.map_comp, ConcreteCategory.comp_apply, hβ']
-  show ((DerivedCategory.Plus.homologyFunctor Ab.{max u v} ((n : ℤ) + 1)).map
+  change ((DerivedCategory.Plus.homologyFunctor Ab.{max u v} ((n : ℤ) + 1)).map
       ((derivedGlobalSectionsComparisonPlusIso S Y).inv.app _) ≫
     (DerivedCategory.Plus.homologyFunctor Ab.{max u v} ((n : ℤ) + 1)).map
       ((derivedGlobalSectionsComparisonPlusIso S Y).hom.app _)) ξ = ξ
@@ -343,7 +343,7 @@ theorem exists_homology_singleDerivedPullback_eq_of_map (S : CohomologyCompariso
     apply (isIso_iff_of_reflects_iso _ DerivedCategory.Plus.ι).1
     rw [DerivedCategory.isIso_iff]
     intro i
-    show IsIso ((DerivedCategory.Plus.homologyFunctor _ i).map
+    change IsIso ((DerivedCategory.Plus.homologyFunctor _ i).map
       (pull.mapDerivedCategoryPlus.map σ))
     rcases eq_or_ne i 0 with rfl | hi
     · exact DerivedCategory.Plus.isIso_homology_mapDerivedCategoryPlus_map pull σ 0 hσ₀
@@ -360,7 +360,7 @@ theorem exists_homology_singleDerivedPullback_eq_of_map (S : CohomologyCompariso
   let c := pull.mapDerivedCategoryPlus.map ((t.truncLEι (n : ℤ)).app
     (push.rightDerivedFunctorPlus.obj N)) ≫ adj.counit.app N
   have hc : pull.mapDerivedCategoryPlus.map u' ≫ c = e' ≫ w := by
-    show pull.mapDerivedCategoryPlus.map u' ≫ pull.mapDerivedCategoryPlus.map
+    change pull.mapDerivedCategoryPlus.map u' ≫ pull.mapDerivedCategoryPlus.map
         ((t.truncLEι (n : ℤ)).app (push.rightDerivedFunctorPlus.obj N)) ≫ adj.counit.app N =
       (pull.mapDerivedCategoryPlus.map σ ≫
         adj.counit.app ((DerivedCategory.Plus.singleFunctor _ 0).obj F)) ≫ w
@@ -407,7 +407,7 @@ theorem exists_homology_singleDerivedPullback_eq_of_map (S : CohomologyCompariso
         (pull.mapDerivedCategoryPlus.map (Triangle.mk u' g h).mor₁)) ξ' = 0 := by
     apply (AddCommGrpCat.mono_iff_injective _).1 hcmono
     rw [map_zero, ← ConcreteCategory.comp_apply, ← Functor.map_comp, ← Functor.map_comp]
-    show (DerivedCategory.Plus.homologyFunctor Ab.{max u v} ((n : ℤ) + 1)).map
+    change (DerivedCategory.Plus.homologyFunctor Ab.{max u v} ((n : ℤ) + 1)).map
       ((globalSectionsOver S.fineCoverage.toGrothendieck Y).rightDerivedFunctorPlus.map
         (pull.mapDerivedCategoryPlus.map u' ≫ c)) ξ' = 0
     rw [hc]
@@ -431,7 +431,7 @@ theorem exists_homology_singleDerivedPullback_eq_of_map (S : CohomologyCompariso
     rw [← hn, ← Category.assoc, ← Functor.map_comp, hue]
     rfl
   rw [← hdef, Functor.map_comp, ConcreteCategory.comp_apply]
-  show (DerivedCategory.Plus.homologyFunctor Ab.{max u v} ((n : ℤ) + 1)).map
+  change (DerivedCategory.Plus.homologyFunctor Ab.{max u v} ((n : ℤ) + 1)).map
     ((globalSectionsOver S.fineCoverage.toGrothendieck Y).rightDerivedFunctorPlus.map e')
       ((DerivedCategory.Plus.homologyFunctor Ab.{max u v} ((n : ℤ) + 1)).map
         ((derivedCohomologyComparison S Y).app (Triangle.mk u' g h).obj₁) β) = ξ
@@ -496,7 +496,7 @@ theorem mono_baseChangeUnit_app (K : Precoverage C) [K.IsStableUnderBaseChange]
     exact ⟨_, c, 𝟙 _, ⟨⟩, by simp [c]⟩
   refine (hE.isSeparated _ hcov').ext ?_
   rintro V _ ⟨W, k, l, ⟨⟩, rfl⟩
-  show F.obj.map (k ≫ c).op a = F.obj.map (k ≫ c).op b
+  change F.obj.map (k ≫ c).op a = F.obj.map (k ≫ c).op b
   rw [op_comp, F.obj.map_comp, ConcreteCategory.comp_apply, ConcreteCategory.comp_apply]
   exact congrArg _ hab
 
@@ -616,7 +616,7 @@ theorem exists_cohomologyComparison_eq_of_restriction_eq_zero (S : CohomologyCom
         (DerivedCategory.Plus.singleFunctor _ 0).map (push.map (η.app F)) ≫
           Stacks.DerivedIndexing.singleDerivedUnit push 0 (Φ.obj F) ≫
             push.rightDerivedFunctorPlus.map σΦ := by
-      show _ ≫ push.rightDerivedFunctorPlus.map
+      change _ ≫ push.rightDerivedFunctorPlus.map
         ((DerivedCategory.Plus.singleFunctor (AbelianSheaves Jf Y) 0).map (η.app F) ≫ σΦ) = _
       rw [Functor.map_comp, ← Category.assoc, hnat, Category.assoc]
     rw [hfac, Functor.map_comp, Functor.map_comp]
@@ -680,11 +680,11 @@ theorem exists_cohomologyComparison_eq_of_restriction_eq_zero (S : CohomologyCom
         (Γf.rightDerivedPlus ((n + 1 : ℕ) : ℤ)).map (η.app F) ≫
           (Stacks.DerivedIndexing.rightDerivedPlusEdge Φ Γf ((n + 1 : ℕ) : ℤ)).app F) ξ = 0 := by
       refine hB.symm.trans ?_
-      show (Stacks.DerivedIndexing.rightDerivedIso (Φ ⋙ Γf) (n + 1)).hom.app F
+      change (Stacks.DerivedIndexing.rightDerivedIso (Φ ⋙ Γf) (n + 1)).hom.app F
         (((Γf.rightDerived (n + 1)).map (η.app F) ≫
           (Stacks.Cohomology.RightDerivedEdge.edge Φ Γf (n + 1)).app F) ξ) = 0
       rw [hA]
-      show (Stacks.DerivedIndexing.rightDerivedIso (Φ ⋙ Γf) (n + 1)).hom.app F
+      change (Stacks.DerivedIndexing.rightDerivedIso (Φ ⋙ Γf) (n + 1)).hom.app F
         (Stacks.sheafCohomologyRestriction (Jf.over Y) c (n + 1) F ξ) = 0
       rw [hres]
       exact map_zero _
@@ -710,11 +710,11 @@ theorem exists_cohomologyComparison_eq_of_restriction_eq_zero (S : CohomologyCom
   refine ⟨(Stacks.DerivedIndexing.rightDerivedIso Γc (n + 1)).inv.app (push.obj F) β, ?_⟩
   apply (AddCommGrpCat.mono_iff_injective
     ((Stacks.DerivedIndexing.rightDerivedIso Γf (n + 1)).hom.app F)).1 inferInstance
-  show ((cohomologyComparison S Y (n + 1)).app F ≫
+  change ((cohomologyComparison S Y (n + 1)).app F ≫
       (Stacks.DerivedIndexing.rightDerivedIso Γf (n + 1)).hom.app F)
     ((Stacks.DerivedIndexing.rightDerivedIso Γc (n + 1)).inv.app (push.obj F) β) = ξD
   rw [cohomologyComparison_comp_rightDerivedIso]
-  show ((Stacks.DerivedIndexing.rightDerivedIso Γc (n + 1)).inv.app (push.obj F) ≫
+  change ((Stacks.DerivedIndexing.rightDerivedIso Γc (n + 1)).inv.app (push.obj F) ≫
       (Stacks.DerivedIndexing.rightDerivedIso Γc (n + 1)).hom.app (push.obj F) ≫
       (Stacks.DerivedIndexing.rightDerivedPlusEdge push Γc ((n + 1 : ℕ) : ℤ)).app F) β = ξD
   rw [Iso.inv_hom_id_app_assoc, Stacks.DerivedIndexing.rightDerivedPlusEdge_app_eq]
@@ -847,7 +847,7 @@ theorem CohomologyComparison.singleCoveringDescent (S : CohomologyComparison C) 
     intro Z w hw
     obtain ⟨Y₀, a, v, hRv, hav⟩ : Sieve.generate R w.left := hw
     have hav' : a ≫ (Over.mk (v ≫ V.hom) : Over X₀).hom = Z.hom := by
-      show a ≫ v ≫ V.hom = Z.hom
+      change a ≫ v ≫ V.hom = Z.hom
       rw [← Category.assoc, hav]
       exact Over.w w
     have hfacw : (Over.homMk a hav' : Z ⟶ Over.mk (v ≫ V.hom)) ≫

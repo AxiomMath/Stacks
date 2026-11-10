@@ -43,7 +43,7 @@ theorem isGE_totalDerivedExtensionScalars_obj_of_flat (f : R →+* S) (hf : f.Fl
   refine IsZero.of_iso ?_ (derivedExtensionScalarsHomologyIso.{u, u, u} f hf K i)
   have : Subsingleton ((DerivedCategory.homologyFunctor (ModuleCat.{u} R) i).obj K) :=
     ModuleCat.subsingleton_of_isZero ((DerivedCategory.isGE_iff K a).1 hK i hi)
-  show IsZero (ModuleCat.of S (TensorProduct R S
+  change IsZero (ModuleCat.of S (TensorProduct R S
     ((DerivedCategory.homologyFunctor (ModuleCat.{u} R) i).obj K)))
   exact ModuleCat.isZero_of_subsingleton _
 

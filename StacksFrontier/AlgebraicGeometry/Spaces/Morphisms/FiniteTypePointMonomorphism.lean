@@ -163,7 +163,7 @@ private theorem isFlat_fieldValuedPoint_of_isReduced_of_singleton
   obtain ⟨T, k, hk, ⟨e⟩, c, hcsurj, hcflat⟩ :=
     (isReduced_and_singleton_points_iff_hasFlatFieldCover B S hS Z hZ).1 ⟨hred, hne, hsub⟩
   have hkB : B.Contains (Spec (.of k)) := by
-    show (Spec (.of k)).size < B.cutoff
+    change (Spec (.of k)).size < B.cutoff
     rw [← Scheme.size_congr e]
     exact T.left.property
   let a : B.obj hkB ⟶ T.left := B.inclusion.preimage e.inv

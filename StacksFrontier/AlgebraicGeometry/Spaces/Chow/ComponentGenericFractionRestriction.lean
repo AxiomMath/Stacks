@@ -197,10 +197,6 @@ theorem PrimeDivisor.rationalFunctionsToGenericTotalFractionRing_eq_mk'_ringEqui
   let : IsLocalRing ↥(Z''.genericHenselianLocalRing B S hS hX'' hX''int.isDecentSpace) :=
     henselianLocalRing_isLocalRing B S hS X'' hX'' (Z''.genericPoint B S hS X'')
       hX''int.isDecentSpace
-  have hCof : IsCofiltered
-      (ElementaryEtaleNeighborhood B S hS X'' hX'' (Z''.genericPoint B S hS X'')) :=
-    ElementaryEtaleNeighborhood.isCofiltered_of_nonempty B S hS X'' hX''
-      (Z''.genericPoint B S hS X'') ⟨U⟩
   obtain ⟨e, he⟩ := exists_ringEquiv_henselianLocalRing_quotient_sectionsToHenselianLocalRing
     B S hS hX hXd x V hX'' hX''int.isDecentSpace U j hj hsurj
   have hval : ∀ a : Γ(V.scheme.left.1, ⊤),
@@ -212,10 +208,10 @@ theorem PrimeDivisor.rationalFunctionsToGenericTotalFractionRing_eq_mk'_ringEqui
       hX''int.isDecentSpace U ((j.left.1.appTop).hom t) ∈
       (↥(Z''.genericHenselianLocalRing B S hS hX'' hX''int.isDecentSpace))⁰ :=
     Z''.nonZeroDivisors_le_comap_neighborhoodSectionsToGenericHenselianLocalRing B S hS hX''
-      hX''int.isDecentSpace U hCof ht
+      hX''int.isDecentSpace U ht
   refine ⟨e, (hval t).symm ▸ hnz, ?_⟩
   rw [← Z''.neighborhoodTotalFractionRingToGeneric_pullback_eq B S hS hX''
-    hX''int.isDecentSpace hX''int hX''N U hCof r, hr,
+    hX''int.isDecentSpace hX''int hX''N U r, hr,
     PrimeDivisor.neighborhoodTotalFractionRingToGeneric, IsLocalization.map_mk', hval s]
   exact congrArg _ (Subtype.ext (hval t).symm)
 

@@ -192,7 +192,8 @@ morphism of schemes is invertible, in the `AlgebraicGeometry.SheafOfModules.IsIn
 spelling of invertibility and at the `AlgebraicGeometry.Scheme.Modules.pullback` spelling of the
 pullback.
 
-Both halves of that sentence are the point. `Stacks.Modules.isInvertible_pullback` is in the library, with
+Both halves of that sentence are the point. `Stacks.Modules.isInvertible_pullback` is in the
+library, with
 a global instance, but for the *other* of the two invertibility classes
 (`Stacks.SheafOfModules.IsInvertible`), and it is the `AlgebraicGeometry` one that
 `Stacks.SheafOfModules.Invertible.tensorPower` and `AlgebraicGeometry.Scheme.Modules.IsAmple`

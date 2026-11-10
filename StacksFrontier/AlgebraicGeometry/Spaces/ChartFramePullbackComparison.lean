@@ -158,7 +158,7 @@ theorem homEquivOfFrames_comp {F F' : Modules.{u, u} B S hS X.1 X.2}
       homEquivOfFrames f hf hW M he E he' hW' hlift hcoord hlift' F φ ≫ ψ := by
   apply (SheafOfModules.fullyFaithfulForget _).map_injective
   refine hom_ext_of_frames he' hW' (sval F') (isSheaf_sval B S hS F') (fun k a => ?_)
-  show (homEquivOfFrames f hf hW M he E he' hW' hlift hcoord hlift' F' (φ ≫ ψ)).val.app _ _ =
+  change (homEquivOfFrames f hf hW M he E he' hW' hlift hcoord hlift' F' (φ ≫ ψ)).val.app _ _ =
     ψ.val.app _ ((homEquivOfFrames f hf hW M he E he' hW' hlift hcoord hlift' F φ).val.app _ _)
   refine (homEquivOfFrames_app_frame f hf hW M he E he' hW' hlift hcoord hlift' F' (φ ≫ ψ)
     k a).trans ?_

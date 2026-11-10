@@ -1,7 +1,7 @@
 module
 
 public import
-  StacksFrontier.AlgebraicGeometry.FundamentalGroup.LocalConnectedness.PuncturedSpectrumDescent.Gluing
+StacksFrontier.AlgebraicGeometry.FundamentalGroup.LocalConnectedness.PuncturedSpectrumDescent.Gluing
 public import StacksFrontier.AlgebraicGeometry.Morphisms.Unramified.Diagonal
 public import StacksFrontier.AlgebraicGeometry.Descent.Scheme.SingleMorphismAction
 
@@ -494,9 +494,9 @@ lemma actPullback_gluingPullbackIsoOfFstSndIso {Z : Scheme.{u}} (v : Z ⟶ Y.lef
   have hB : pullback.lift v x hv ≫ (pullbackRightPullbackFstIso f f Y.hom).inv =
       pullback.lift v (pullback.lift (v ≫ Y.hom) x hv') hvp := by
     refine pullback.hom_ext ?_ (pullback.hom_ext ?_ ?_)
-    · simp [pullback.lift_fst]
-    · simp [pullback.lift_fst, pullback.lift_fst_assoc, pullback.lift_snd]
-    · simp [pullback.lift_snd]
+    · simp
+    · simp
+    · simp
   have key : pullback.lift v x hv ≫ (gluingPullbackIsoOfFstSndIso f Y φ).hom ≫
         pullback.snd f (Y.hom ≫ f) =
       pullback.lift v (pullback.lift (v ≫ Y.hom) x hv') hvp ≫ (fstSndLeftIso f Y φ).hom ≫
@@ -678,7 +678,7 @@ theorem actPullbackLaw_gluingIsoPullbackFstSnd [Unramified Y.hom] [IsSeparated Y
       (le_of_eq (preimage_preimage_of_comp_eq (hlift _ _ hρ' hρ') U).symm)) ?_ ?_ ?_
   all_goals
     rw [Scheme.Hom.resLE_comp_ι]
-    refine pullback.hom_ext ?_ ?_ <;> simp [pullback.lift_fst, pullback.lift_snd]
+    refine pullback.hom_ext ?_ ?_ <;> simp
 
 /-- The descent datum relative to `f` with scheme `Y` and gluing isomorphism
 `AlgebraicGeometry.gluingIsoPullbackFstSnd`, read in pullback form. -/

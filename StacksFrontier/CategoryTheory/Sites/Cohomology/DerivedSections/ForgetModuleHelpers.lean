@@ -185,7 +185,6 @@ public lemma tensorSheaf_map_acyclic (O : Sheaf J RingCat.{u})
     letI := (tensorSheafAdjunction J O).left_adjoint_additive
     ((tensorSheaf J O).mapHomologicalComplex (.up ℤ) |>.obj K).Acyclic := by
   let := (tensorSheafAdjunction J O).left_adjoint_additive
-  letI := (tensorSheafAdjunction J O).leftAdjoint_preservesColimits
   let T := tensorSheaf J O
   let S (i : ℤ) := ShortComplex.mk (K.iCycles i) (K.toCycles i (i + 1))
     (iCycles_comp_toCycles K i)

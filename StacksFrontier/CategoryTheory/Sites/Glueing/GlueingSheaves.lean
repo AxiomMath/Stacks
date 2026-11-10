@@ -990,9 +990,9 @@ private lemma homEquivIteratedSlice_naturality {T T' : Over S} (q : T' ⟶ T)
   exact
     app_eq_conj α κ
       (by
-        show 𝟙 _ ≫ ((Over.forget T).op ⋙ M.obj).map κ.inv.op ≫ 𝟙 _ = _; simp)
+        change 𝟙 _ ≫ ((Over.forget T).op ⋙ M.obj).map κ.inv.op ≫ 𝟙 _ = _; simp)
       (by
-        show (𝟙 _ ≫ ((Over.forget T).op ⋙ N.obj).map κ.hom.op) ≫ 𝟙 _ = _; simp)
+        change (𝟙 _ ≫ ((Over.forget T).op ⋙ N.obj).map κ.hom.op) ≫ 𝟙 _ = _; simp)
 
 /-- The presheaf of morphisms of the pseudofunctor of sheaves on the slice sites of `C/S` is the
 internal hom presheaf of the site `C/S`. -/

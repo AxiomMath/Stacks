@@ -58,7 +58,7 @@ theorem presheaf_map_homOfLE_apply_apply {X : LTRS.{u}} {U V T : Opens X} (h₁ 
     (h₂ : T ≤ V) (s : (X.presheaf.obj (op U)).α) :
     (X.presheaf.map (homOfLE h₂).op).1 ((X.presheaf.map (homOfLE h₁).op).1 s) =
       (X.presheaf.map (homOfLE (h₂.trans h₁)).op).1 s := by
-  show (X.presheaf.map (homOfLE h₁).op ≫ X.presheaf.map (homOfLE h₂).op).1 s = _
+  change (X.presheaf.map (homOfLE h₁).op ≫ X.presheaf.map (homOfLE h₂).op).1 s = _
   rw [← X.presheaf.map_comp]
   rfl
 

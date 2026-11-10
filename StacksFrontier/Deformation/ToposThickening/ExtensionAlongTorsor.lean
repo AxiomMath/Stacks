@@ -82,7 +82,7 @@ theorem exists_addTorsor_extensionAlong (S : ShortComplex C) (hS : S.ShortExact)
     (Preadditive.leftComp M S.f)
     (fun a b h => (cancel_epi S.g).1 (by simpa [Preadditive.leftComp] using h))
     (fun b => by
-      show S.f ≫ b = 0 ↔ ∃ a, -(S.g ≫ a) = b
+      change S.f ≫ b = 0 ↔ ∃ a, -(S.g ≫ a) = b
       constructor
       · intro hb
         obtain ⟨a, ha⟩ := CokernelCofork.IsColimit.desc' hS.gIsCokernel b hb
@@ -92,7 +92,7 @@ theorem exists_addTorsor_extensionAlong (S : ShortComplex C) (hS : S.ShortExact)
     c hne
   refine ⟨T, fun φ d => ?_⟩
   refine (hT φ d).trans ?_
-  show d.val + -(S.g ≫ φ) = _
+  change d.val + -(S.g ≫ φ) = _
   abel
 
 variable {S : ShortComplex C} {M : C} {c : S.X₁ ⟶ M}
@@ -186,7 +186,7 @@ theorem exists_extensionAlong_of_isExtensionKernel (hS : S.ShortExact) [Epi c]
     exact (Category.comp_id _).symm)
   have : Mono v := mono_of_mono_fac hvu
   refine ⟨⟨q ≫ v, by rw [← Category.assoc, hv]⟩, ?_⟩
-  show kernelSubobject (q ≫ v) = K'
+  change kernelSubobject (q ≫ v) = K'
   rw [kernelSubobject_comp_mono]
   refine le_antisymm (Subobject.le_of_factors ?_) (Subobject.le_of_factors ?_)
   · rw [hqK, kernelSubobject_arrow_comp]
@@ -403,9 +403,9 @@ theorem exists_addTorsor_extensionKernelIn (hS : S.ShortExact) {G : Type*} [AddG
   obtain ⟨d, rfl⟩ := h₂ K' hK'
   have hd : E.symm ⟨extensionKernelIn j d, hK'⟩ = d :=
     E.symm_apply_eq.2 rfl
-  show (E (g φ +ᵥ E.symm ⟨extensionKernelIn j d, hK'⟩)).val = _
+  change (E (g φ +ᵥ E.symm ⟨extensionKernelIn j d, hK'⟩)).val = _
   rw [hd]
-  show extensionKernelIn j (g φ +ᵥ d) = _
+  change extensionKernelIn j (g φ +ᵥ d) = _
   rw [extensionKernelIn, show (g φ +ᵥ d).val = d.val - S.g ≫ g φ from hT₀ (g φ) d]
   exact extensionKernelIn_sub j hS d (g φ)
 

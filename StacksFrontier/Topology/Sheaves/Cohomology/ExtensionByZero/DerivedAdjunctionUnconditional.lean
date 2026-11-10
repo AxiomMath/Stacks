@@ -49,7 +49,7 @@ theorem isIso_mapDerivedCategory_unit
   have : IsIso ((adj.mapHomologicalComplex (ComplexShape.up ℤ)).unit.app K) := by
     have : ∀ n, IsIso (((adj.mapHomologicalComplex (ComplexShape.up ℤ)).unit.app K).f n) :=
       fun n ↦ by
-        show IsIso (adj.unit.app (K.X n))
+        change IsIso (adj.unit.app (K.X n))
         infer_instance
     exact HomologicalComplex.Hom.isIso_of_components _
   rw [mapDerivedCategory, Adjunction.localization_unit_app]

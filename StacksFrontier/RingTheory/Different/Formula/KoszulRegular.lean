@@ -87,7 +87,7 @@ private theorem isKoszulRegular_localizationAwayRelation {R : Type u} [CommRing 
     (Equiv.refl Unit) finOneEquiv
   refine isKoszulRegular_of_presentation_relation_eq P (by simp) ?_
   funext i
-  show MvPolynomial.rename (Equiv.refl Unit)
+  change MvPolynomial.rename (Equiv.refl Unit)
     ((Algebra.Presentation.localizationAway (Localization.Away r) r).relation
       (finOneEquiv i)) = _
   rw [Algebra.Presentation.localizationAway_relation]
@@ -188,7 +188,7 @@ theorem localizedRelations_isKoszulRegular :
   have hreg := isKoszulRegular_ringEquiv E.toRingEquiv (appendedRelations_isKoszulRegular A n h f)
   have hcomp (p : MvPolynomial (Fin n) A) :
       E (MvPolynomial.rename Sum.inr p) = MvPolynomial.C p := by
-    show (E.toAlgHom.comp (MvPolynomial.rename Sum.inr)) p = _
+    change (E.toAlgHom.comp (MvPolynomial.rename Sum.inr)) p = _
     rw [MvPolynomial.sumAlgEquiv_comp_rename_inr]
     rfl
   let t : MvPolynomial Unit (MvPolynomial (Fin n) A) :=
@@ -199,7 +199,7 @@ theorem localizedRelations_isKoszulRegular :
     induction k using Fin.addCases with
     | left i =>
         simp only [appendedRelations, Fin.append_left]
-        show E _ = t
+        change E _ = t
         rw [map_sub, map_mul, hcomp, MvPolynomial.sumAlgEquiv_X_inl, map_one]
     | right i =>
         simp only [appendedRelations, Fin.append_right]
@@ -249,7 +249,7 @@ private theorem isKoszulRegular_tensor_away_X_sub_C {B : Type v} [CommRing B] [A
   have : IsScalarTower B (B ⊗[A] Q) (B ⊗[A] P) :=
     IsScalarTower.of_algebraMap_eq (R := B) (S := B ⊗[A] Q) (A := B ⊗[A] P) (by
       intro x
-      show x ⊗ₜ[A] (1 : P) = φ (x ⊗ₜ[A] (1 : Q))
+      change x ⊗ₜ[A] (1 : P) = φ (x ⊗ₜ[A] (1 : Q))
       simp [φ])
   have : IsLocalization ((Submonoid.powers h).map
       (Algebra.TensorProduct.includeRight (R := A) (A := B))) (B ⊗[A] P) :=

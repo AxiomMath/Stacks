@@ -117,7 +117,7 @@ public theorem exists_isSeparable_smooth_isProjectiveMorphism_geometricallyIrred
     isSeparable_globalSections_of_connectedSpace_of_geometricallyReduced k q
   -- The structure morphism factors through `Spec Γ(Z, ⊤)`.
   have hfac : Z.toSpecΓ ≫ Spec.map (CommRingCat.ofHom (algebraMap k Γ(Z, ⊤))) = q := by
-    show Z.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ q.appTop) = q
+    change Z.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ q.appTop) = q
     rw [Spec.map_comp, ← Category.assoc, ← Scheme.toSpecΓ_naturality, Category.assoc,
       toSpecΓ_SpecMap_ΓSpecIso_inv, Category.comp_id]
   -- The second factor is etale, `Γ(Z, ⊤)` being a finite separable extension of `k`.

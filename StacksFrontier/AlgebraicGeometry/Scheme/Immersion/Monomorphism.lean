@@ -127,12 +127,12 @@ public theorem exists_iso_coproduct_spec_of_mono {ι : Type v} [Small.{u} ι] (k
       have hi : i ∈ J := ⟨y, x, hx'.symm⟩
       refine ⟨Sigma.ι (fun j : J ↦ Spec (.of (k j.1))) ⟨i, hi⟩ x, ?_⟩
       dsimp [g]
-      rw [← Scheme.Hom.comp_apply, Sigma.ι_desc]; exact hx'
+      rw [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]; exact hx'
     · rintro ⟨z, rfl⟩
       obtain ⟨j, x, hx⟩ := exists_sigmaι_eq (fun j : J ↦ Spec (.of (k j.1))) z
       obtain ⟨y, x', hy⟩ := j.2
       refine ⟨y, ?_⟩
-      rw [← hx, ← Scheme.Hom.comp_apply, Sigma.ι_desc]
+      rw [← hx, ← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
       simpa only [Subsingleton.elim x x'] using hy
   exact ⟨J, IsOpenImmersion.isoOfRangeEq f g hrange,
     IsOpenImmersion.isoOfRangeEq_hom_fac f g hrange⟩

@@ -300,7 +300,7 @@ theorem exists_prod_pow_smul_mem_succ {e : ℕ} (f : Fin (e + 2) → Γ(Y, ⊤))
     intro j
     have hUUj : U ≤ CechCochains.inter (fun i => (⊤ : Y.Opens) ⊓ Y.basicOpen (f i))
         (faceIndex e j).1 := interTop_le_interFace f ⊤ j
-    show Y.presheaf.map (homOfLE (le_top : U ≤ ⊤)).op P ^ (S + 1) •
+    change Y.presheaf.map (homOfLE (le_top : U ≤ ⊤)).op P ^ (S + 1) •
         F.presheaf.map (homOfLE hUUj).op (a (faceIndex e j)) = _
     exact pow_succ_smul_res_eq_res F hUUj (hPj j) (hkm j) (hkS j)
   have htop : Y.presheaf.map (homOfLE (le_top : U ≤ ⊤)).op P ^ (S + 1) •

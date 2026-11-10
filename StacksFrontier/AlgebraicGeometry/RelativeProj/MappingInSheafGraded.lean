@@ -103,7 +103,7 @@ public theorem projZeroRingHom'_strHom_comp_ofHom (w : W ⟶ U.toScheme)
       ↥(A.grading U 0)) : A.sectionRing U) = A.strHom U x :=
     congrArg Subtype.val
       (GradedRing.projZeroRingHom'_apply_coe _ ⟨_, A.strHom_mem U x⟩)
-  show ψ ((GradedRing.projZeroRingHom' (A.grading U) (A.strHom U x) :
+  change ψ ((GradedRing.projZeroRingHom' (A.grading U) (A.strHom U x) :
     ↥(A.grading U 0)) : A.sectionRing U) = _
   rw [hcoe]
   exact hψ0 x

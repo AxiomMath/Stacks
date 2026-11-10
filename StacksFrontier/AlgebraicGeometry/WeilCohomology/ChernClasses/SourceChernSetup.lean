@@ -72,7 +72,6 @@ surjection, and the rank of that kernel is
 `Stacks.WeilCohomology.BundleObject.isFiniteLocallyFreeOfRank_kernel_quot`. -/
 @[ega "IV 19.4.11", sga "6 VII 1.8" "partial"]
 def toBundleDatum (B : BundleObject S X E r) : BundleDatum S X E r :=
-  haveI hepi : Epi B.quot := B.epi_quot
   { bundle := B.bundle
     proj := B.proj
     flat := B.flat_map_proj
@@ -82,7 +81,7 @@ def toBundleDatum (B : BundleObject S X E r) : BundleDatum S X E r :=
     incl := kernel.ι B.quot
     quot := B.quot
     incl_comp_quot := kernel.condition B.quot
-    shortExact := { exact := ShortComplex.exact_kernel B.quot }
+    shortExact := { exact := ShortComplex.exact_kernel B.quot, epi_g := B.epi_quot }
     sub_rank := B.isFiniteLocallyFreeOfRank_kernel_quot }
 
 /-- The bundle of `B.toBundleDatum` is the projective bundle `B.bundle`. -/
@@ -213,7 +212,7 @@ variable {C : Type w} [Category.{v₁} C] {S : C ⥤ Scheme.{u}} (𝔄 : ChernSe
 subgroup. -/
 theorem natCast_mem_grade_zero (X : C) (n : ℕ) : (n : 𝔄.A X) ∈ 𝔄.grade X 0 := by
   induction n with
-  | zero => simpa using (𝔄.grade X 0).zero_mem
+  | zero => simp
   | succ k ih => rw [Nat.cast_succ]; exact (𝔄.grade X 0).add_mem ih (𝔄.one_mem X)
 
 end ChernSetup

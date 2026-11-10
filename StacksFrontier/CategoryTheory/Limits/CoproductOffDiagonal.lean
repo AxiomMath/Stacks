@@ -61,17 +61,17 @@ def sigmaIsoOfIsZeroOffDiagonal :
   inv := sigmaDiagonalToPairs T
   hom_inv_id := by
     refine Sigma.hom_ext _ _ fun p => ?_
-    rw [Category.comp_id, ← Category.assoc, sigmaPairsToDiagonal, Sigma.ι_desc]
+    rw [Category.comp_id, ← Category.assoc, sigmaPairsToDiagonal, Sigma.ι_comp_desc]
     by_cases hp : p.2 = p.1
     · obtain ⟨a, b⟩ := p
       cases hp
-      rw [dif_pos (rfl : a = a)]
+      rw [dite_eq_left (rfl : a = a)]
       simp [sigmaDiagonalToPairs]
     · exact (h p.1 p.2 hp).eq_of_src _ _
   inv_hom_id := by
     refine Sigma.hom_ext _ _ fun n => ?_
-    rw [Category.comp_id, ← Category.assoc, sigmaDiagonalToPairs, Sigma.ι_desc,
-      sigmaPairsToDiagonal, Sigma.ι_desc, dif_pos (rfl : n = n)]
+    rw [Category.comp_id, ← Category.assoc, sigmaDiagonalToPairs, Sigma.ι_comp_desc,
+      sigmaPairsToDiagonal, Sigma.ι_comp_desc, dite_eq_left (rfl : n = n)]
     simp
 
 /-- The isomorphism carries the `(n, n)`-th inclusion of the double coproduct to the `n`-th
@@ -79,8 +79,8 @@ inclusion of the diagonal coproduct. -/
 @[simp] theorem ι_comp_sigmaIsoOfIsZeroOffDiagonal_hom (n : ι) :
     Sigma.ι (fun p : ι × ι => T p.1 p.2) (n, n) ≫ (sigmaIsoOfIsZeroOffDiagonal T h).hom =
       Sigma.ι (fun n => T n n) n := by
-  show Sigma.ι (fun p : ι × ι => T p.1 p.2) (n, n) ≫ sigmaPairsToDiagonal T = _
-  rw [sigmaPairsToDiagonal, Sigma.ι_desc, dif_pos (rfl : n = n)]
+  change Sigma.ι (fun p : ι × ι => T p.1 p.2) (n, n) ≫ sigmaPairsToDiagonal T = _
+  rw [sigmaPairsToDiagonal, Sigma.ι_comp_desc, dite_eq_left (rfl : n = n)]
   simp
 
 /-- The inverse of the isomorphism carries the `n`-th inclusion of the diagonal coproduct to the
@@ -88,8 +88,8 @@ inclusion of the diagonal coproduct. -/
 @[simp] theorem ι_comp_sigmaIsoOfIsZeroOffDiagonal_inv (n : ι) :
     Sigma.ι (fun n => T n n) n ≫ (sigmaIsoOfIsZeroOffDiagonal T h).inv =
       Sigma.ι (fun p : ι × ι => T p.1 p.2) (n, n) := by
-  show Sigma.ι (fun n => T n n) n ≫ sigmaDiagonalToPairs T = _
-  rw [sigmaDiagonalToPairs, Sigma.ι_desc]
+  change Sigma.ι (fun n => T n n) n ≫ sigmaDiagonalToPairs T = _
+  rw [sigmaDiagonalToPairs, Sigma.ι_comp_desc]
 
 end CategoryTheory.Limits
 

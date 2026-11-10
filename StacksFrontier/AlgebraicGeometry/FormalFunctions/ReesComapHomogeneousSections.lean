@@ -80,7 +80,7 @@ theorem reesAlgebraCongr_mem_reesGrading {I : Ideal R} {J : Ideal R'}
     (h : J = I.map (e : R →+* R')) {k : ℕ} (b : ↥(reesGrading I k)) :
     reesAlgebraCongr e h (b : ↥(reesAlgebra I)) ∈ reesGrading J k := by
   intro i hi
-  show (((b : ↥(reesAlgebra I)) : Polynomial R).map (e : R →+* R')).coeff i = 0
+  change (((b : ↥(reesAlgebra I)) : Polynomial R).map (e : R →+* R')).coeff i = 0
   rw [Polynomial.coeff_map, b.2 i hi, map_zero]
 
 /-- **The transport of the Rees algebra along a ring isomorphism is `e` on the degree-`k`

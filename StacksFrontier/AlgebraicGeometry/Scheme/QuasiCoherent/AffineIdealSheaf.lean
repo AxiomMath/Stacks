@@ -92,7 +92,7 @@ private theorem map_ΓSpecIso_hom_map_inv {A : Type u} [CommRing A] (I : Ideal A
         (Scheme.ΓSpecIso (CommRingCat.of A)).hom.hom = I := by
   rw [Ideal.map_map]
   refine (congrArg (Ideal.map · I) ?_).trans (Ideal.map_id I)
-  show (Scheme.ΓSpecIso (CommRingCat.of A)).hom.hom.comp
+  change (Scheme.ΓSpecIso (CommRingCat.of A)).hom.hom.comp
     (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom = RingHom.id A
   rw [← CommRingCat.hom_comp, (Scheme.ΓSpecIso (CommRingCat.of A)).inv_hom_id]
   rfl
@@ -123,7 +123,7 @@ theorem exists_eq_specIdealSheaf (A : Type u) [CommRing A]
   rw [ideal_specIdealSheaf_top, Ideal.map_map]
   refine Eq.symm ((congrArg (Ideal.map · (J.ideal ⟨⊤, isAffineOpen_top _⟩)) ?_).trans
     (Ideal.map_id _))
-  show (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom.comp
+  change (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom.comp
     (Scheme.ΓSpecIso (CommRingCat.of A)).hom.hom = RingHom.id _
   rw [← CommRingCat.hom_comp, (Scheme.ΓSpecIso (CommRingCat.of A)).hom_inv_id]
   rfl
@@ -200,7 +200,7 @@ theorem ker_specMap_quotientMk {A : Type u} [CommRing A] (I : Ideal A) :
           (Scheme.ΓSpecIso (CommRingCat.of (A ⧸ I))).inv := by
     simp
   rw [happ]
-  show RingHom.ker ((Scheme.ΓSpecIso (CommRingCat.of (A ⧸ I))).inv.hom.comp
+  change RingHom.ker ((Scheme.ΓSpecIso (CommRingCat.of (A ⧸ I))).inv.hom.comp
     ((Ideal.Quotient.mk I).comp (Scheme.ΓSpecIso (CommRingCat.of A)).hom.hom)) = _
   rw [RingHom.ker_comp_of_injective _ (injective_ΓSpecIso_inv (A ⧸ I)),
     ← RingHom.comap_ker, Ideal.mk_ker, comap_ΓSpecIso_hom]

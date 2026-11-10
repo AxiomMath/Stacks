@@ -8,10 +8,10 @@ public import StacksFrontier.AlgebraicGeometry.Crystalline.SmallSite.WholeSpaceS
 /-!
 # The affine first-order and second-order results at the cosimplicial system of [Stacks, Tag 07JN]
 
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/WholeSpaceSystemAffine.lean` shows that every
-object of the cosimplicial system `(X, T(n)_e, δ(n))` of [Stacks, Proposition 60.20.1, Tag 07JN]
-has affine ambient divided power scheme.  That is the one hypothesis beyond the source's own under
-which the affine results about a crystal are stated:
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/WholeSpaceSystemAffine.lean` shows that
+every object of the cosimplicial system `(X, T(n)_e, δ(n))` of [Stacks, Proposition 60.20.1, Tag
+07JN] has affine ambient divided power scheme.  That is the one hypothesis beyond the source's own
+under which the affine results about a crystal are stated:
 
 * `Crystalline.GlobalCrystallineSituation.bijective_extensionSectionsMap` — the sections of a
   crystal over the first-order universal thickening `(U, T', δ')` of [Stacks, Tag 07J2] are the

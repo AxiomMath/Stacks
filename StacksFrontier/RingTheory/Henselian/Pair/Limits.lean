@@ -375,7 +375,7 @@ theorem henselianPair_colimit
       let D : Fin 2 → Polynomial (F.obj j) :=
         ![qf - qg * qh, 1 - qg * Q 3 - qh * Q 4]
       have hD0 : (D 0).map ((Ideal.Quotient.mk K).comp (c.ι.app j).hom) = 0 := by
-        show (qf - qg * qh).map ((Ideal.Quotient.mk K).comp (c.ι.app j).hom) = 0
+        change (qf - qg * qh).map ((Ideal.Quotient.mk K).comp (c.ι.app j).hom) = 0
         rw [Polynomial.map_sub, Polynomial.map_mul]
         apply sub_eq_zero.mpr
         calc
@@ -387,7 +387,7 @@ theorem henselianPair_colimit
                 rw [← Polynomial.map_map, hqg, hGred,
                   ← Polynomial.map_map, hqh, hHred]
       have hD1 : (D 1).map ((Ideal.Quotient.mk K).comp (c.ι.app j).hom) = 0 := by
-        show (1 - qg * Q 3 - qh * Q 4).map
+        change (1 - qg * Q 3 - qh * Q 4).map
           ((Ideal.Quotient.mk K).comp (c.ι.app j).hom) = 0
         simp only [Polynomial.map_sub, Polynomial.map_mul, Polynomial.map_one]
         rw [← Polynomial.map_map, hqg, hGred,
@@ -537,9 +537,9 @@ private lemma padicInt_exists_quadratic_data (p : ℕ) [Fact p.Prime] (hp : Odd 
     · subst p; norm_num only [map_ofNat]; rfl
     · simp
   have ht' : 1 - t ∈ m := by
-    show 1 - t ∈ IsLocalRing.maximalIdeal ℤ_[p]
+    change 1 - t ∈ IsLocalRing.maximalIdeal ℤ_[p]
     rw [← PadicInt.ker_toZMod]
-    show PadicInt.toZMod (1 - t) = 0
+    change PadicInt.toZMod (1 - t) = 0
     simp [ht]
   have h2 : IsUnit (2 : ℤ_[p]) := by
     apply isUnit_of_map_unit PadicInt.toZMod
@@ -561,7 +561,7 @@ private lemma padicInt_exists_quadratic_data (p : ℕ) [Fact p.Prime] (hp : Odd 
 private lemma isIdempotentElem_half_one_sub_of_sq_eq_one {R : Type*} [CommRing R]
     {v y : R} (hv : 2 * v = 1) (hy : y ^ 2 = 1) :
     IsIdempotentElem (v * (1 - y)) := by
-  show (v * (1 - y)) * (v * (1 - y)) = v * (1 - y)
+  change (v * (1 - y)) * (v * (1 - y)) = v * (1 - y)
   linear_combination (v * (1 - y)) * hv +
     v ^ 2 * hy
 
@@ -642,7 +642,7 @@ private lemma ringHom_eq_of_ker_eq_span {R S : Type*} [CommRing R] [CommRing S]
     g x = h (f x) := by
   obtain ⟨n, hn⟩ := ZMod.intCast_surjective (f x)
   have hm : x - (n : R) ∈ RingHom.ker f := by
-    show f (x - (n : R)) = 0
+    change f (x - (n : R)) = 0
     simp [hn]
   rw [hf, Ideal.mem_span_singleton] at hm
   obtain ⟨y, hy⟩ := hm
@@ -661,7 +661,7 @@ private lemma tensor_quotient_equiv_zmod {R : Type*} [CommRing R]
     (fun _ _ => Commute.all _ _)).toRingHom
   have hF : I ≤ RingHom.ker F := by
     rw [Ideal.span_le, Set.singleton_subset_iff]
-    show F (p : A) = 0
+    change F (p : A) = 0
     exact (map_natCast F p).trans (ZMod.natCast_self p)
   let G : A ⧸ I →+* ZMod p := Ideal.Quotient.lift I F hF
   have hp : (p : A ⧸ I) = 0 := by
@@ -680,13 +680,12 @@ private lemma tensor_quotient_equiv_zmod {R : Type*} [CommRing R]
     intro x
     obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective x
     rw [hFG]
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul x y =>
       have hxy : (x ⊗ₜ[ℤ] y : A) =
           (x ⊗ₜ[ℤ] (1 : R)) * ((1 : R) ⊗ₜ[ℤ] y) := by
         simp only [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
-      show H (f x * f y) = q (x ⊗ₜ[ℤ] y)
+      change H (f x * f y) = q (x ⊗ₜ[ℤ] y)
       rw [map_mul, hxy, map_mul, hleft, hright]
     | add x y hx hy => simp only [map_add, hx, hy]
   have hHG : Function.RightInverse H G := by
@@ -926,10 +925,10 @@ theorem henselianPair_pi_iff {J : Type u} (A : J → Type v) [∀ j, CommRing (A
           exact hφmk j x
         rw [Polynomial.map_map, Polynomial.map_map, hcomp, ← Polynomial.map_map]
       · rw [hGmap, hgred]
-        show g₀.map ((Pi.evalRingHom (fun j ↦ A j ⧸ I j) j).comp qpi) = _
+        change g₀.map ((Pi.evalRingHom (fun j ↦ A j ⧸ I j) j).comp qpi) = _
         rw [Polynomial.map_map]
       · rw [hHmap, hhred]
-        show h₀.map ((Pi.evalRingHom (fun j ↦ A j ⧸ I j) j).comp qpi) = _
+        change h₀.map ((Pi.evalRingHom (fun j ↦ A j ⧸ I j) j).comp qpi) = _
         rw [Polynomial.map_map]
 
 end
@@ -948,7 +947,7 @@ private lemma exists_of_compatible
               (Polynomial.eval₂RingHom (c.π.app j).hom (x j))
           naturality := by
             intro j k f
-            show 𝟙 _ ≫ CommRingCat.ofHom
+            change 𝟙 _ ≫ CommRingCat.ofHom
                 (Polynomial.eval₂RingHom (c.π.app k).hom (x k)) =
               CommRingCat.ofHom (Polynomial.eval₂RingHom (c.π.app j).hom (x j)) ≫ F.map f
             rw [Category.id_comp]
@@ -1062,7 +1061,7 @@ theorem henselianPair_limit
     refine ⟨α, ⟨?_, ?_⟩, ?_⟩
     · apply Ideal.mem_iInf.mpr
       intro j
-      show (c.π.app j).hom (α - (1 : c.pt)) ∈ I j
+      change (c.π.app j).hom (α - (1 : c.pt)) ∈ I j
       simpa [hα j] using hαmem j
     · rw [Polynomial.IsRoot]
       apply eq_of_apply_eq hc

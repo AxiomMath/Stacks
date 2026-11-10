@@ -419,8 +419,7 @@ lemma ringHom_tensor_ext_left_right
     (hR : ∀ s : S, f ((1 : R') ⊗ₜ[R] s) = g ((1 : R') ⊗ₜ[R] s)) :
     f = g := by
   refine RingHom.ext fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a b =>
     rw [← mul_one a, ← one_mul b, ← Algebra.TensorProduct.tmul_mul_tmul, map_mul, map_mul, hL, hR]
   | add x y hx hy => rw [map_add, map_add, hx, hy]

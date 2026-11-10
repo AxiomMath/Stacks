@@ -66,7 +66,7 @@ theorem range_baseChange_eq (d : C₀ →ₗ[R] C₁) (S : Type u) [CommRing S] 
       (TensorProduct.AlgebraTensorModule.lTensor S S ((LinearMap.range d).subtype)) := by
   refine SetLike.ext' ?_
   have h1 : (⇑(d.baseChange S) : S ⊗[R] C₀ → S ⊗[R] C₁) = ⇑(LinearMap.lTensor S d) :=
-    LinearMap.baseChange_eq_ltensor d
+    LinearMap.baseChange_eq_lTensor d
   have h2 : (⇑(TensorProduct.AlgebraTensorModule.lTensor S S ((LinearMap.range d).subtype)) :
       S ⊗[R] (LinearMap.range d) → S ⊗[R] C₁) =
       ⇑(LinearMap.lTensor S (LinearMap.range d).subtype) :=
@@ -164,7 +164,7 @@ theorem cechFitting_baseChange {A A' : Type u} [CommRing A] [Algebra k A] [CommR
     (isAffineOpen_sqCover fX U hUaff gA fA hA)
   have hcongr := cechD_congr fA' (fun i => g ⁻¹ᵁ (sqCover U gA i)) e
   rw [cechFitting, cechFitting]
-  show _ = Ideal.map (algebraMap A A') _
+  change _ = Ideal.map (algebraMap A A') _
   rw [← fittingCoker_baseChange _ hmodel A']
   have h1 := (hmodel.baseChange A').of_linearEquiv _ _ _ hcomm
   have h2 := h1.of_linearEquiv _ _ _ hcongr
@@ -193,7 +193,7 @@ theorem specMap_chartAlgebra {A : CommRingCat.{u}} (j : Spec A ⟶ T) :
     letI := chartAlgebra tT j
     Spec.map (CommRingCat.ofHom (algebraMap k A)) = j ≫ tT := by
   let := chartAlgebra tT j
-  show Spec.map (CommRingCat.ofHom (Spec.preimage (j ≫ tT)).hom) = _
+  change Spec.map (CommRingCat.ofHom (Spec.preimage (j ≫ tT)).hom) = _
   rw [CommRingCat.ofHom_hom, Spec.map_preimage]
 
 omit [IsProper fX] in
@@ -383,7 +383,7 @@ theorem exists_affineOpen_schemePullbackClass_fromSpec_eq_zero {T : Scheme.{u}}
   have hVW' : V ≤ (𝟙 T) ⁻¹ᵁ W := hVW
   have hfac : hV'.fromSpec = (hV'.isoSpec.inv ≫ T.homOfLE hVW') ≫ ((𝟙 T) ⁻¹ᵁ W).ι := by
     rw [Category.assoc, Scheme.homOfLE_ι, IsAffineOpen.isoSpec_inv_ι]
-  show Stacks.Picard.schemePullbackClass hV'.fromSpec N = 0
+  change Stacks.Picard.schemePullbackClass hV'.fromSpec N = 0
   rw [hfac, ← Stacks.Picard.schemePullbackClass_comp, hW']
   exact (Stacks.Picard.schemePullbackClassHom (hV'.isoSpec.inv ≫ T.homOfLE hVW')).map_zero
 

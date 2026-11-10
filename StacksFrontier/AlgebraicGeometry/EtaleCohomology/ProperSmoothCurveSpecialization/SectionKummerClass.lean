@@ -52,16 +52,19 @@ theorem isClosedImmersion_section : IsClosedImmersion σ := by
 def sectionBaseChange : Spec (.of Ω) ⟶ Z :=
   sq.lift (t ≫ σ) (𝟙 _) (by rw [Category.assoc, hσ, Category.comp_id, Category.id_comp])
 
+omit [IsSeparated p] in
 /-- The base-changed section followed by `h : Z ⟶ Y` is `t ≫ σ`. -/
 @[reassoc (attr := simp)]
 theorem sectionBaseChange_h : sectionBaseChange p σ hσ t sq ≫ h = t ≫ σ :=
   sq.lift_fst _ _ _
 
+omit [IsSeparated p] in
 /-- The base-changed section is a section of `pZ : Z ⟶ Spec Ω`. -/
 @[reassoc (attr := simp)]
 theorem sectionBaseChange_pZ : sectionBaseChange p σ hσ t sq ≫ pZ = 𝟙 _ :=
   sq.lift_snd _ _ _
 
+omit [IsSeparated p] in
 /-- The base change of the section is the inverse image of the section. -/
 theorem isPullback_sectionBaseChange :
     IsPullback (sectionBaseChange p σ hσ t sq) t h σ := by
@@ -88,7 +91,7 @@ theorem isIso_subschemeι_ker_sectionBaseChange :
   have h1 : (sectionBaseChange p σ hσ t sq).toImage ≫
       ((sectionBaseChange p σ hσ t sq).ker.subschemeι ≫ pZ) = 𝟙 _ := by
     rw [← Category.assoc]
-    show ((sectionBaseChange p σ hσ t sq).toImage ≫ (sectionBaseChange p σ hσ t sq).imageι) ≫
+    change ((sectionBaseChange p σ hσ t sq).toImage ≫ (sectionBaseChange p σ hσ t sq).imageι) ≫
       pZ = _
     rw [Scheme.Hom.toImage_imageι, sectionBaseChange_pZ]
   have : IsIso ((sectionBaseChange p σ hσ t sq).toImage ≫
@@ -128,7 +131,7 @@ theorem isPullbackDefined_ker_section : Stacks.Divisors.IsPullbackDefined h σ.k
   have : SmoothOfRelativeDimension 1 pZ :=
     have := smoothOfRelativeDimension_isStableUnderBaseChange (n := 1)
     MorphismProperty.of_isPullback sq inferInstance
-  show Stacks.Divisors.IsEffectiveCartierDivisor _
+  change Stacks.Divisors.IsEffectiveCartierDivisor _
   rw [comap_ker_section p σ hσ t sq]
   exact Stacks.Hilbert.isEffectiveCartierDivisor_ker_section _ (sectionBaseChange_pZ p σ hσ t sq)
 
@@ -156,6 +159,7 @@ attribute [local instance]
 
 variable {ℓ : ℕ} (hℓ0 : ℓ ≠ 0) (hℓ : IsUnit (ℓ : R))
 
+omit [IsSeparated p] [SmoothOfRelativeDimension 1 p] in
 include p hℓ in
 /-- An integer invertible in `R` is invertible on every scheme over `R`. -/
 theorem isUnit_natCast_appTop_of_isUnit : IsUnit ((ℓ : ℕ) : Γ(Y, ⊤)) := by
@@ -203,7 +207,7 @@ theorem smoothProperCurveTrace_pullback_kummerClass (hℓΩ : IsUnit (ℓ : Ω))
     Stacks.Kummer.etaleH1MultiplicativeAddEquivPicard_naturality, AddEquiv.apply_symm_apply]
   have := picardDegree_schemePullbackClass_picardClass_ker p σ hσ t sq
     (IsCurve.topologicalKrullDim_eq_one (f := pZ)).le
-  show ((Stacks.Picard.picardDegree pZ _
+  change ((Stacks.Picard.picardDegree pZ _
     (Stacks.Picard.schemePullbackClass h (Stacks.Divisors.picardClass σ.ker)) : ℤ) : ZMod ℓ) = 1
   rw [this, Int.cast_one]
 

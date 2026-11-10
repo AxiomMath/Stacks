@@ -120,7 +120,7 @@ theorem isSmoothVariety_affineSpace :
 
 /-- `𝔸⁴_ℂ` has dimension `4`. -/
 theorem topologicalKrullDim_affineSpace : topologicalKrullDim (𝔸⁴) = 4 := by
-  show topologicalKrullDim (PrimeSpectrum P) = 4
+  change topologicalKrullDim (PrimeSpectrum P) = 4
   rw [PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim,
     MvPolynomial.ringKrullDim_of_isNoetherianRing_of_finite, ringKrullDim_eq_zero_of_field,
     Nat.card_fin]
@@ -150,7 +150,7 @@ theorem exists_ringEquiv_adicCompletion_stalk_origin_nodalSurface :
         (polyToSeries : P →+* MvPowerSeries (Fin 4) ℂ) := by
     refine RingHom.ext fun q => ?_
     refine (congrArg branchCoordEquiv.symm (hE q)).trans ?_
-    show branchCoordEquiv.symm _ = branchCoordEquiv.symm (polyToSeries q)
+    change branchCoordEquiv.symm _ = branchCoordEquiv.symm (polyToSeries q)
     rw [polyToSeries, MvPolynomial.coeToMvPowerSeries.algHom_apply, Algebra.algebraMap_self,
       MvPowerSeries.map_id, RingHom.id_apply]
   have key : ∀ I : Ideal P,
@@ -159,7 +159,7 @@ theorem exists_ringEquiv_adicCompletion_stalk_origin_nodalSurface :
           (algebraMap originStalk (AdicCompletion (maximalIdeal originStalk) originStalk))).map e =
       ((I.map (polyToSeries : P →+* MvPowerSeries (Fin 4) ℂ)).map branchCoordEquiv.symm) := by
     intro I
-    show ((I.map _).map _).map
+    change ((I.map _).map _).map
         (e : AdicCompletion (maximalIdeal originStalk) originStalk →+*
           MvPowerSeries (Fin 4) ℂ) = _
     rw [Ideal.map_map, Ideal.map_map, hcomp, ← Ideal.map_map]

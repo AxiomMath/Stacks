@@ -70,7 +70,8 @@ The instance Tag 0801 needs **is** constructed, in the sibling file
 ideal `twistKerGradedIdeal`. For
 `𝒯_d = p_*(i_*(i^*𝒪(d)))` the `targetMul` and `map_mul` fields amount to a graded-algebra
 structure on the pullback of the twists along `i` and to the compatibility of the unit of the
-pullback-pushforward adjunction with it, and both inputs are in the library: the graded structure is `Stacks.Conormal.gradedPullback`
+pullback-pushforward adjunction with it, and both inputs are in the library: the graded structure is
+`Stacks.Conormal.gradedPullback`
 (`StacksFrontier/AlgebraicGeometry/ConormalAlgebra/GradedPullback.lean`), the pullback of a sheaf of
 graded algebras along a morphism of schemes, and the compatibility is its
 `gradedPullback_mul_pullbackSection` read through `pullbackSection_self`.

@@ -70,7 +70,7 @@ public def homCompletionEquiv (I : Ideal A) :
 determines the equivalence, and is the form in which Stacks 00MB and Stacks 09BB use it. -/
 public theorem homCompletionEquiv_of_apply (I : Ideal A) (f : M →ₗ[A] N) (m : M) :
     homCompletionEquiv I (of I (M →ₗ[A] N) f) m = of I N (f m) := by
-  show Stacks.AdicSystem.HomComparison.completedHomEquiv I (of I (M →ₗ[A] N) f)
+  change Stacks.AdicSystem.HomComparison.completedHomEquiv I (of I (M →ₗ[A] N) f)
     ((ofTensorProductEquivOfFiniteNoetherian I M) (1 ⊗ₜ[A] m)) = _
   simp [Stacks.AdicSystem.HomComparison.completedHomEquiv_of_apply]
 
@@ -91,7 +91,7 @@ public theorem linearMap_ext_of {A : Type u} [CommRing A] {I : Ideal A} (hI : I.
       (eval I M n x)
     have hx : x - of I M m ∈ I ^ n • (⊤ : Submodule A (AdicCompletion I M)) := by
       rw [pow_smul_top_eq_ker_eval (I := I) (M := M) hI]
-      show eval I M n (x - of I M m) = 0
+      change eval I M n (x - of I M m) = 0
       rw [map_sub, eval_of, hm, sub_self]
     have hmap (k : AdicCompletion I M →ₗ[A] N) :
         k (x - of I M m) ∈ I ^ n • (⊤ : Submodule A N) :=

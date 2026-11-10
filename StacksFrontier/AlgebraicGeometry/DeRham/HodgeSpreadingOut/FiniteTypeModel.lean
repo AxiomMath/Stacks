@@ -100,7 +100,7 @@ theorem affineStageCone_π_app_spec (A : CommRingCat.{u}) (j : (Finset Γ(Spec A
       Spec.map (CommRingCat.ofHom
           (Algebra.adjoin ℤ ((j.unop : Finset Γ(Spec A, ⊤)) : Set Γ(Spec A, ⊤))).val.toRingHom ≫
         (Scheme.ΓSpecIso A).hom) := by
-  show (Spec A).isoSpec.hom ≫ (specAdjoinFinsetCone Γ(Spec A, ⊤)).π.app j = _
+  change (Spec A).isoSpec.hom ≫ (specAdjoinFinsetCone Γ(Spec A, ⊤)).π.app j = _
   rw [Scheme.isoSpec_Spec_hom, Spec.map_comp]
   rfl
 

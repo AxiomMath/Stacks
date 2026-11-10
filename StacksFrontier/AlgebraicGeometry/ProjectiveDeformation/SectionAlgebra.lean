@@ -773,7 +773,7 @@ the degree-zero piece is the structure sheaf, the tail pieces are those of `A`, 
 zero objects. -/
 theorem isQuasicoherent_tailPiece (hqc : ∀ n : ℤ, ((A.piece n : S.Modules)).IsQuasicoherent)
     (n : ℤ) : (((tailTruncation A d₀ hd).piece n : S.Modules)).IsQuasicoherent := by
-  show (((tailPiece A d₀ n) : S.Modules)).IsQuasicoherent
+  change (((tailPiece A d₀ n) : S.Modules)).IsQuasicoherent
   by_cases h0 : n = 0
   · rw [tailPiece_eq_unit A d₀ h0]
     exact Stacks.AlgebraicGeometry.AffineQcohPushforward.isQuasicoherent_unit S

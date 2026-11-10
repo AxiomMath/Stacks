@@ -173,7 +173,7 @@ theorem fiberPullbackMap_id (a : p.Fiber S) :
     IsHomLift.id (IsPreFibered.pullbackObj_proj a.2 f)
   refine IsCartesian.ext p f (IsPreFibered.pullbackMap a.2 f) _ _ ?_
   rw [fiberPullbackMap_fac]
-  show IsPreFibered.pullbackMap a.2 f ≫ 𝟙 _ = _
+  change IsPreFibered.pullbackMap a.2 f ≫ 𝟙 _ = _
   simp
 
 /-- The base change of a composite is the composite of the base changes. -/

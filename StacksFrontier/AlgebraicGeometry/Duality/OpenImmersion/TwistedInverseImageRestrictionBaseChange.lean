@@ -36,7 +36,7 @@ twisted inverse images, which is what makes `ξ` exist at all.
 
 `StacksFrontier/AlgebraicGeometry/Duality/TwistedInverseImage/BaseChangeConjugate.lean` reduces
 `IsIso ξ` for a general square to [Stacks, Tag 08IB], which this repository does not have, and
-`StacksFrontier/AlgebraicGeometry/Duality/OpenImmersion/TwistedInverseImageRestrictionConjugate.lean`
+`StacksFrontier.AlgebraicGeometry.Duality.OpenImmersion.TwistedInverseImageRestrictionConjugate`
 reduces it, along an open immersion, to invertibility of the comparison
 
 `β : Rf_* ⋙ j^* ⟶ (j')^* ⋙ Rf'_*`
@@ -262,20 +262,20 @@ mate of `β` across `jj` and `h` is the conjugate of `α`; so if that mate is in
 `Stacks.Cohomology.DerivedBaseChange.isIso_mateEquiv_app_of_isIso_counit` applies to `α`. -/
 private theorem isIso_twoSquare_of_isIso_mateEquiv (a : L ⊣ R) (b : L' ⊣ R') (h : H ⊣ I)
     (jj : J ⊣ W) [IsIso h.counit] [IsIso jj.counit] (e : R ⋙ H ≅ J ⋙ R')
-    (β : TwoSquare R J H R') [IsIso (mateEquiv jj h β).natTrans] :
-    IsIso β.natTrans := by
+    (β : TwoSquare R J H R') [IsIso (mateEquiv jj h β)] :
+    IsIso β := by
   have hβ : mateEquiv a b ((mateEquiv a b).symm β) = β := Equiv.apply_symm_apply _ _
   have hiter := iterated_mateEquiv_conjugateEquiv a b h jj ((mateEquiv a b).symm β)
   rw [hβ] at hiter
   have : IsIso (conjugateEquiv (a.comp jj) (h.comp b) ((mateEquiv a b).symm β)) := by
     rw [← hiter]
     infer_instance
-  have : IsIso ((mateEquiv a b).symm β).natTrans :=
+  have : IsIso ((mateEquiv a b).symm β) :=
     conjugateEquiv_of_iso (a.comp jj) (h.comp b) _
-  have happ : ∀ A, IsIso ((mateEquiv a b ((mateEquiv a b).symm β)).natTrans.app A) := fun A =>
+  have happ : ∀ A, IsIso ((mateEquiv a b ((mateEquiv a b).symm β)).app A) := fun A =>
     Stacks.Cohomology.DerivedBaseChange.isIso_mateEquiv_app_of_isIso_counit a b h jj _ e A
   rw [hβ] at happ
-  have : ∀ A, IsIso (β.natTrans.app A) := happ
+  have : ∀ A, IsIso (β.app A) := happ
   exact NatIso.isIso_of_isIso_app _
 
 end Abstract
@@ -312,7 +312,7 @@ private theorem isIso_counit_quasiCoherentDerivedRestrictAdjunction {V Y : Schem
 
 /-- **The comparison `(Rf_*K)|_V ⟶ Rf'_*(K|_U)` of [Stacks, Tag 08FE] is invertible on the
 quasi-coherent derived categories.**  This is the slot that
-`StacksFrontier/AlgebraicGeometry/Duality/OpenImmersion/TwistedInverseImageRestrictionConjugate.lean`
+`StacksFrontier.AlgebraicGeometry.Duality.OpenImmersion.TwistedInverseImageRestrictionConjugate`
 leaves open; see the module documentation for the argument. -/
 @[stacks 08FE "invertibility of \
   Stacks.Duality.OpenImmersion.quasiCoherentDerivedRestrictBaseChangeSquare, the mate of \
@@ -335,7 +335,7 @@ theorem isIso_quasiCoherentDerivedRestrictBaseChangeSquare (sq : IsPullback j' f
       (TwoSquare.mk _ _ _ _ (quasiCoherentDerivedRestrictBaseChangeSquare j' f' f j hpushj'
         hpushf hpushf' hpushj
         (fun K i => derivedCategoryB_derivedRestrict j K.obj K.property i)
-        (fun K i => derivedCategoryB_derivedRestrict j' K.obj K.property i) sq.w))).natTrans := by
+        (fun K i => derivedCategoryB_derivedRestrict j' K.obj K.property i) sq.w))) := by
     rw [mateEquiv_quasiCoherentDerivedRestrictBaseChangeSquare]
     infer_instance
   exact isIso_twoSquare_of_isIso_mateEquiv

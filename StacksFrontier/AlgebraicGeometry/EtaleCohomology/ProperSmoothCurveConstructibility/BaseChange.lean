@@ -42,8 +42,8 @@ Tag 095T in the proof of [Stacks, Tag 0GKV].
   `g⁻¹ R^q f_* ℱ ≅ R^q f'_* g'⁻¹ ℱ` for a torsion sheaf `ℱ`.
 * `Stacks.EtaleCohomology.etaleModuleInverseImageHomologyDerivedDirectImageConstantIso`: the
   isomorphism `g⁻¹ R^q f_* M̲ ≅ R^q f'_* M̲`.
-* `Stacks.EtaleCohomology.isConstructibleEtaleModule_homology_derivedDirectImage_constant_of_isPullback`:
-  constructibility of `R^q f_* M̲` passes to the base change.
+* `isConstructibleEtaleModule_homology_derivedDirectImage_constant_of_isPullback` (in the
+  namespace `Stacks.EtaleCohomology`): constructibility of `R^q f_* M̲` passes to the base change.
 
 ## References
 
@@ -82,7 +82,7 @@ theorem torsionCohomologyProperty_etaleModuleForgetDerived_of_natCast_eq_zero
   Stacks.Torsion.torsionSheafProperty_of_iso X.smallEtaleTopology
     (((_root_.Stacks.EtaleCohomology.etaleModuleForgetAb.{u, r} Λ X).mapDerivedCategoryHomologyIso
       q).app K).symm
-    (fun U x ↦ ⟨⊤, (X.smallEtaleTopology).top_mem U, fun V v _ ↦
+    (fun U _ ↦ ⟨⊤, (X.smallEtaleTopology).top_mem U, fun V _ _ ↦
       ⟨n, hn0, nsmul_etaleModuleForget_eq_zero Λ hn X _ (Opposite.op V) _⟩⟩)
 
 end Torsion

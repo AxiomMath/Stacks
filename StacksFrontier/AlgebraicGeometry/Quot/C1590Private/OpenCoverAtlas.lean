@@ -89,7 +89,7 @@ theorem atlas_comp_of_open_cover
     have _ : (MorphismProperty.inverseImage
         (@Etale.{u} : MorphismProperty Scheme.{u}) Tfun).IsStableUnderComposition := by
       refine ⟨fun {_ _ _} a b ha hb => ?_⟩
-      show Etale (Tfun.map (a ≫ b))
+      change Etale (Tfun.map (a ≫ b))
       rw [Functor.map_comp]
       have _ : Etale (Tfun.map a) := ha
       have _ : Etale (Tfun.map b) := hb

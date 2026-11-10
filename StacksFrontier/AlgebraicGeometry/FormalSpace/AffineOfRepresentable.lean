@@ -224,13 +224,12 @@ theorem exists_isAffineHom_isPullback_of_isRepresentable'
     exists_affine_baseChange_of_isRepresentableByAlgebraicSpaces B S hS f hX hY hf T hT ξ
   exact ⟨W, q, p, hW, hq, hpb⟩
 
-/-- The statement of `exists_isAffineHom_isPullback_of_isRepresentable'`, with a separatedness
-hypothesis on the target. -/
+/-- The statement of `exists_isAffineHom_isPullback_of_isRepresentable'`; a separatedness
+hypothesis on the target is not needed. -/
 theorem exists_isAffineHom_isPullback_of_isRepresentable
     {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hX : IsAffineFormalAlgebraicSpace B S hS X)
     (hY : IsAffineFormalAlgebraicSpace B S hS Y)
-    (hYsep : FormalSpace.IsSeparated B S hS Y)
     (hf : Space.IsRepresentableByAlgebraicSpacesULift.{u + 1} B S hS f.hom)
     (T : BigFppfOver B S hS) (hT : IsAffine ((BigFppfOver.toScheme B S hS).obj T))
     (ξ : (Sheaf.sheafifiedYoneda (BigFppfOver.topology B S hS)).obj T ⟶ Y) :
@@ -241,10 +240,10 @@ theorem exists_isAffineHom_isPullback_of_isRepresentable
         IsPullback p ((Sheaf.sheafifiedYoneda (BigFppfOver.topology B S hS)).map q) f ξ :=
   exists_isAffineHom_isPullback_of_isRepresentable' B S hS f hX hY hf T hT ξ
 
-/-- The statement of `exists_isAffineHom_isPullback_of_isRepresentable'`, with an affineness
-hypothesis on the base scheme `S`. -/
+/-- The statement of `exists_isAffineHom_isPullback_of_isRepresentable'`; an affineness
+hypothesis on the base scheme `S` is not needed. -/
 theorem exists_isAffineHom_isPullback_of_isRepresentable_of_isAffineBase
-    (hSaff : IsAffine S) {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
+    {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hX : IsAffineFormalAlgebraicSpace B S hS X)
     (hY : IsAffineFormalAlgebraicSpace B S hS Y)
     (hf : Space.IsRepresentableByAlgebraicSpacesULift.{u + 1} B S hS f.hom)

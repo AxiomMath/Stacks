@@ -59,7 +59,7 @@ public def coeffCompare : (ModuleCat.of A k : Type u) →+ (ModuleCat.of k k : T
 `Algebra.smul_def`. -/
 public theorem coeffCompare_smul (a : A) (m : (ModuleCat.of A k : Type u)) :
     coeffCompare A k (a • m) = algebraMap A k a • coeffCompare A k m := by
-  show a • m = algebraMap A k a • m
+  change a • m = algebraMap A k a • m
   rw [Algebra.smul_def, smul_eq_mul]
 
 /-- The comparison `Deformation.Artin.coeffCompare` is bijective, being the identity. -/

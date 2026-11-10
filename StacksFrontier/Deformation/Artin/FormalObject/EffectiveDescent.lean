@@ -509,7 +509,7 @@ theorem FormalObject.exists_realization_of_realization_baseChange
     have key := hσext n q₁ q₂ hP.w g hg hgρl
     have htr : trn n q₁ q₂ hP.w (g ≫ ρ) hgρl = r₂ ≫ R'.r n :=
       transportAlong_eq hp q₁ q₂ hP.w _ hgρl r₁ r₂ h₁ h₂ hgρ.symm e.symm
-    show r₁ ≫ R'.r n ≫ ζ₀ = r₂ ≫ R'.r n ≫ ζ₀
+    change r₁ ≫ R'.r n ≫ ζ₀ = r₂ ≫ R'.r n ≫ ζ₀
     rw [← Category.assoc, ← hgρ, ← Category.assoc, ← htr, ← key, Category.assoc, Category.assoc,
       hρζ₀]
   choose rx hrxl hrxb using fun n => (hrx n).exists

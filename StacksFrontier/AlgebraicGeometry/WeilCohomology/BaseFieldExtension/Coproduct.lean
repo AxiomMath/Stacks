@@ -42,13 +42,13 @@ theorem injective_one_tmul : Injective fun v : V => (1 : F') ⊗ₜ[F] v := by
 /-- An `F`-linear map is bijective once its extension of scalars to `F'` is. -/
 theorem bijective_of_bijective_baseChange (f : V →ₗ[F] W)
     (h : Bijective (f.baseChange F')) : Bijective f := by
-  rw [LinearMap.baseChange_eq_ltensor] at h
+  rw [LinearMap.baseChange_eq_lTensor] at h
   exact (Module.FaithfullyFlat.lTensor_bijective_iff_bijective F F' f).mp h
 
 /-- An `F`-linear map is injective once its extension of scalars to `F'` is. -/
 theorem injective_of_injective_baseChange (f : V →ₗ[F] W)
     (h : Injective (f.baseChange F')) : Injective f := by
-  rw [LinearMap.baseChange_eq_ltensor] at h
+  rw [LinearMap.baseChange_eq_lTensor] at h
   exact (Module.FaithfullyFlat.lTensor_injective_iff_injective F F' f).mp h
 
 end LinearAlgebra

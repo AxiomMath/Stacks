@@ -64,7 +64,7 @@ theorem equidimensional_of_connectedSpace_of_topologicalKrullDim_eq_one {T : Typ
   intro W hW
   have hWc : IsClosed W := isClosed_of_mem_irreducibleComponents W hW
   let W' : TopologicalSpace.IrreducibleCloseds T := ⟨W, hW.1, hWc⟩
-  show topologicalKrullDim (W' : Set T) = 1
+  change topologicalKrullDim (W' : Set T) = 1
   rw [topologicalKrullDim_coe_eq_height W']
   have hle : (Order.height W' : WithBot ℕ∞) ≤ 1 := hdim ▸ Order.height_le_krullDim W'
   have hne : Order.height W' ≠ 0 := by
@@ -91,7 +91,7 @@ theorem equidimensional_of_connectedSpace_of_topologicalKrullDim_eq_one {T : Typ
         exact subset_closure rfl
     have hηc : IsClosed ({η} : Set T) := hWη ▸ hWc
     have hgen : η ∈ genericPoints T := by
-      show closure {η} ∈ irreducibleComponents T
+      change closure {η} ∈ irreducibleComponents T
       rw [hη]
       exact hW
     have huniv := eq_univ_of_isClosed_of_mem_genericPoints hηc hgen
@@ -105,7 +105,7 @@ theorem equidimensional_of_connectedSpace_of_topologicalKrullDim_eq_one {T : Typ
     have h0 := topologicalKrullDim_zero_of_discreteTopology (X := T)
     rw [hdim] at h0
     exact absurd h0 (by decide)
-  exact le_antisymm hle (by exact_mod_cast ENat.one_le_iff_ne_zero.mpr hne)
+  exact le_antisymm hle (by exact_mod_cast Order.one_le_iff_ne_zero.mpr hne)
 
 /-- A scheme with a quasi-compact morphism locally of finite type to `Spec k` is Noetherian. -/
 private theorem isNoetherian_of_morphismProperty {k : Type u} [Field k] {Z : Scheme.{u}}
@@ -245,7 +245,7 @@ theorem invertibleCurveDegree_neg_and_isRationalTail_of_lt_finrank_cohomologyOve
   · have : IsIntegral Y.subscheme := isIntegral_of_irreducibleSpace_of_isReduced _
     exact isRationalTail_of_finrank_globalSections_intersection_eq_one hdim.le Y hY
       (nonempty_complementaryCurve_of_support_ne_univ Y hYX) Γ(Y.subscheme, ⊤)
-      Y.subscheme.toSpecΓ hf h1 hg
+      Y.subscheme.toSpecΓ h1 hg
 
 /-- **Stacks Project, Tag 0E3J.** Let `X` be a proper scheme of dimension one over a field `k`
 with `H⁰(X, 𝒪_X) = k` and at-worst-nodal singularities. If `X` has no rational tail, then for
@@ -362,7 +362,7 @@ theorem invertibleCurveDegree_pullback_dualizingSheafOverField_neg_of_isRational
     C.subscheme.toSpecΓ hCdim
   have hneg := invertibleCurveDegree_eq_neg_of_isRationalTail hdim hC Γ(C.subscheme, ⊤)
     C.subscheme.toSpecΓ hf hS (Iso.refl _) (Iso.refl _)
-  show invertibleCurveDegree k fC _ (ShortComplex.mk a b w).X₂ < 0
+  change invertibleCurveDegree k fC _ (ShortComplex.mk a b w).X₂ < 0
   rw [hneg]
   have : 0 < Module.finrank k Γ(C.subscheme, ⊤) := by
     have := (isField_and_finite_globalSections k fC).2

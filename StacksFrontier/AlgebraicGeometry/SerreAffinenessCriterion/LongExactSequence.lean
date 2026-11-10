@@ -88,7 +88,8 @@ about `secF` rather than about `Hgroup _ _ 0`: it is the form its consumers need
 
 **No `stacks` attribute is attached.** These are two readings of the exactness axioms of
 [Stacks, Tag 010Q], which is already tagged on
-`CategoryTheory.DeltaFunctor` (`StacksCore/CategoryTheory/Abelian/DeltaFunctor/Basic.lean`); they are
+`CategoryTheory.DeltaFunctor` (`StacksCore/CategoryTheory/Abelian/DeltaFunctor/Basic.lean`);
+they are
 not themselves numbered results of the source.
 
 ## References
@@ -189,7 +190,8 @@ an epimorphism of quasi-coherent modules to an epimorphism for `U` affine, and p
 no step with that proof.
 
 This is kept as an `example` rather than a theorem precisely because the statement is already
-in the library: its purpose is to witness that the long exact sequence extracted above has the strength
+in the library: its purpose is to witness that the long exact sequence extracted above has
+the strength
 its own proof claims. -/
 example {M N : X.Modules} (ψ : M ⟶ N) [M.IsQuasicoherent] [N.IsQuasicoherent] [Epi ψ]
     (hU : IsAffineOpen U) : Epi ((secF X.ringCatSheaf U).map ψ) := by

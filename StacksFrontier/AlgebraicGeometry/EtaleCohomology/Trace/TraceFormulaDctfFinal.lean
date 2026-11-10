@@ -88,7 +88,7 @@ theorem perfectDerivedTrace_canonicalCompactSupportFrobenius_eq_sum_of_isCtf_of_
           (canonicalCompactSupportFrobenius.{u, 0} Λ f J kbar p q hcard K)) =
         ∑ x : rationalPoints f, perfectDerivedTrace Λ ⟨_, hKs (rationalGeometricPoint kbar x.1)⟩
           (DerivedCategory.Q.map (rationalPointStalkFrobenius.{u, 0} Λ kbar p q hcard x.1 K)) :=
-  perfectDerivedTrace_canonicalCompactSupportFrobenius_eq_sum_of_isCtf_of_isSeparated_of_properDirectImageCtfInput
+  perfectDerivedTrace_compactSupportFrobenius_eq_sum_of_isCtf_of_properDirectImageCtfInput
     hΛ (properDirectImageCtfInput B Λ) f J K hX hK
 
 end Stacks.EtaleCohomology

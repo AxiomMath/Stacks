@@ -43,8 +43,7 @@ private theorem exists_isUnit_apply_one_tmul [IsLocalRing S] (e : S ⊗[R] M ≃
     (IsLocalRing.mem_maximalIdeal _).mpr (mem_nonunits_iff.mpr (hcon x))
   have key : ∀ v : S ⊗[R] M, e v ∈ IsLocalRing.maximalIdeal S := by
     intro v
-    induction v using TensorProduct.induction_on with
-    | zero => simp
+    induction v using TensorProduct.inductionOn with
     | tmul s x =>
       rw [TensorProduct.tmul_eq_smul_one_tmul, map_smul]
       exact Submodule.smul_mem _ _ (hmem x)
@@ -62,8 +61,7 @@ private theorem bijective_lTensor_toSpanSingleton {x : M} (e : S ⊗[R] M ≃ₗ
   have hcomp : ∀ v : S ⊗[R] R, e (((LinearMap.toSpanSingleton R M x).lTensor S) v) =
       (TensorProduct.rid R S) v * e (1 ⊗ₜ[R] x) := by
     intro v
-    induction v using TensorProduct.induction_on with
-    | zero => simp
+    induction v using TensorProduct.inductionOn with
     | tmul s r =>
       rw [LinearMap.lTensor_tmul, LinearMap.toSpanSingleton_apply, ← TensorProduct.smul_tmul,
         TensorProduct.tmul_eq_smul_one_tmul, map_smul, TensorProduct.rid_tmul, smul_eq_mul]

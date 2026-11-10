@@ -555,7 +555,7 @@ theorem exists_finite_subset_span_alpha (V V' : U.affineOpens)
       hspan.ge Submodule.mem_top
     obtain ⟨k, c, y, hy⟩ := Submodule.mem_span_set'.mp hmem
     refine ⟨Set.range fun i : Fin k ↦ (y i).2.choose, Set.finite_range _, fun ht' hs' ↦ ?_⟩
-    show α.app W.1
+    change α.app W.1
         (pullbackSectionHom t F V.1 W.1 ht n) ∈
       Submodule.span Γ(R, W.1)
         (pullbackSectionHom s F V'.1 W.1 hs ''

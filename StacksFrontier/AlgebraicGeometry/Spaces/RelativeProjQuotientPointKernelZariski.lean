@@ -467,7 +467,7 @@ theorem mul_mem_kerSubmodule_of_imageSubmodule [IsAffine ((BigFppfOver.toScheme 
   obtain ⟨c', hc'⟩ := (mem_imageSubmodule_iff_of_isAffine φ hG (hE d) _ W'.property
     ((E.piece d).val.map k.op a)).1 ((Stacks.SheafOfModules.ImageSubsheaf.imageSubmodule φ).map_mem
       k.op ha)
-  show πt.val.app (op ((AffineEtale.inclusion B S hS (yoneda.obj T)).obj W'))
+  change πt.val.app (op ((AffineEtale.inclusion B S hS (yoneda.obj T)).obj W'))
     ((E.piece (d + m)).val.map k.op ((E.mul d m).app V a b)) = 0
   refine (congrArg (πt.val.app (op ((AffineEtale.inclusion B S hS (yoneda.obj T)).obj W')))
     ((E.mul d m).naturality k.op a b)).trans ?_

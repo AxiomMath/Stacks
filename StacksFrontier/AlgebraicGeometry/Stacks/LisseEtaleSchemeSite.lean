@@ -135,11 +135,11 @@ theorem bot_mem_topology_of_isEmpty
     exact i.elim
   have hE : IsCovering.{u, w} B S hS (schemeStack.{u, w} B S hS U) ⟨V, E⟩ := by
     refine ⟨⟨?_, ?_⟩, ?_⟩
-    · show (E.map G).presieve₀ ∈ Scheme.fppfPrecoverage.comap B.inclusion _
+    · change (E.map G).presieve₀ ∈ Scheme.fppfPrecoverage.comap B.inclusion _
       rw [Precoverage.mem_comap_iff, ← PreZeroHypercover.presieve₀_map, hb]
       exact Scheme.bot_mem_precoverage _ _
     · simp [E]
-    · show ((E.map G).map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage _
+    · change ((E.map G).map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage _
       rw [hb]
       exact Scheme.bot_mem_precoverage _ _
   simpa [E] using (precoverage.{u, w} B S hS

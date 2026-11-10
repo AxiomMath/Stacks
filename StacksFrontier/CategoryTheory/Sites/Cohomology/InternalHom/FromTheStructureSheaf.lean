@@ -262,11 +262,11 @@ private lemma over_sections_eval_bijective
     exact congrArg (fun x ↦ (M.over U).val.presheaf.map ha.op x) h
   · refine ⟨PresheafOfModules.sectionsMk (fun V ↦ (M.val.map V.unop.hom.op) y) ?_, ?_⟩
     · intro V W f
-      show (M.val.map f.unop.left.op) ((M.val.map V.unop.hom.op) y) =
+      change (M.val.map f.unop.left.op) ((M.val.map V.unop.hom.op) y) =
         (M.val.map W.unop.hom.op) y
       rw [← M.val.map_comp_apply]
       exact M.val.congr_map_apply (by simp only [← op_comp, Over.w]) y
-    · show (M.val.presheaf.map (𝟙 (op U))) y = y
+    · change (M.val.presheaf.map (𝟙 (op U))) y = y
       rw [CategoryTheory.Functor.map_id]
       rfl
 
@@ -335,7 +335,7 @@ lemma structureSheafHomEvaluation_naturality (g : I ⟶ J) :
       structureSheafHomEvaluation X I ≫ g := by
   refine HomologicalComplex.hom_ext _ _ fun n ↦ SheafOfModules.hom_ext
     (PresheafOfModules.hom_ext fun U ↦ ModuleCat.hom_ext (LinearMap.ext fun s ↦ ?_))
-  show ((structureSheafHomEvaluation X J).f n).val.app U
+  change ((structureSheafHomEvaluation X J).f n).val.app U
       (((homMap X (𝟙 (structureSheafComplex X)) g).f n).val.app U s) =
     (g.f n).val.app U (((structureSheafHomEvaluation X I).f n).val.app U s)
   rw [structureSheafHomEvaluation_apply, structureSheafHomEvaluation_apply,

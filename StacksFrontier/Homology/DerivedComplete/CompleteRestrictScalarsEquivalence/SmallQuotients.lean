@@ -147,7 +147,7 @@ private theorem bijective_quotientMap_conjugate
       simp
     rw [hx]
     simp [e, f']
-  show Function.Bijective (Ideal.quotientMap (I'.map f') f' Ideal.le_comap_map)
+  change Function.Bijective (Ideal.quotientMap (I'.map f') f' Ideal.le_comap_map)
   rw [← he]
   exact e.bijective
 
@@ -319,7 +319,7 @@ private theorem exists_preimage_derived_map_of_roof
   let g' : N ⟶ L := FC.preimage (e.hom ≫ g)
   have : QuasiIso s' := by
     rw [← HomologicalComplex.quasiIso_map_iff_of_preservesHomology s' F]
-    show QuasiIso (FC.map s')
+    change QuasiIso (FC.map s')
     simpa only [s', Functor.map_preimage] using (inferInstance : QuasiIso (e.hom ≫ s))
   refine ⟨inv (DerivedCategory.Q.map s') ≫ DerivedCategory.Q.map g', ?_⟩
   apply (cancel_epi (F.mapDerivedCategory.map (DerivedCategory.Q.map s'))).mp
@@ -445,7 +445,7 @@ private theorem surjective_map_restrictScalars_Q_of_small_quotients
       Functor.mapDerivedCategoryFactors_hom_naturality]
     rfl
   refine ⟨lB.inv ≫ G.mapDerivedCategory.map v'.hom ≫ mB.hom, ?_⟩
-  show F.mapDerivedCategory.map (lB.inv ≫ G.mapDerivedCategory.map v'.hom ≫ mB.hom) = u
+  change F.mapDerivedCategory.map (lB.inv ≫ G.mapDerivedCategory.map v'.hom ≫ mB.hom) = u
   apply (cancel_mono cM.hom).mp
   rw [← show cL.hom ≫ u₀ = u ≫ cM.hom by simp [u₀]]
   apply (cancel_epi (sq.hom.app (DerivedCategory.Q.obj L') ≫ F.mapDerivedCategory.map lB.hom)).mp
@@ -543,7 +543,7 @@ private theorem surjective_map_restrictScalars_of_small_quotients
     (isDerivedComplete_of_iso B _ eM.symm hM)
     (F.map eL.hom ≫ f ≫ F.map eM.inv)
   refine ⟨eL.inv ≫ g ≫ eM.hom, ?_⟩
-  show F.map (eL.inv ≫ g ≫ eM.hom) = f
+  change F.map (eL.inv ≫ g ≫ eM.hom) = f
   change F.map g = _ at hg
   simp only [Functor.map_comp, hg, ← Functor.map_comp_assoc, Iso.inv_hom_id,
     CategoryTheory.Functor.map_id, Category.id_comp, Category.assoc]
@@ -592,7 +592,7 @@ private theorem isEquivalence_restrictScalars_of_small_quotients
     apply eq_zero_of_map_eq_zero_of_surjective_retraction F Δ htri
       (surjective_map_restrictScalars_of_small_quotients A B I hI hflat hquot hquotSmall Z Y.obj hZ
         Y.property)
-    show F.map (f.hom - g.hom) = 0
+    change F.map (f.hom - g.hom) = 0
     rw [Functor.map_sub, sub_eq_zero]
     exact congrArg (fun k => k.hom) hfg⟩
   let : T.EssSurj := ⟨fun X => by

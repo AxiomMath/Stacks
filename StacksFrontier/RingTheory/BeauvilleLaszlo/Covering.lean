@@ -103,7 +103,7 @@ public theorem quotient_pow_equiv_adicCompletion {R : Type*} [CommRing R]
         simp [I]
       _ = RingHom.ker (AdicCompletion.evalₐ I n).toRingHom := by
         ext x
-        show x ∈ ((I ^ n).map (algebraMap R (AdicCompletion I R))).restrictScalars R ↔
+        change x ∈ ((I ^ n).map (algebraMap R (AdicCompletion I R))).restrictScalars R ↔
           AdicCompletion.evalₐ I n x = 0
         rw [← Ideal.smul_top_eq_map,
           AdicCompletion.pow_smul_top_eq_ker_eval (Submodule.fg_span_singleton f)]
@@ -111,7 +111,7 @@ public theorem quotient_pow_equiv_adicCompletion {R : Type*} [CommRing R]
         have hEq : (I ^ n • ⊤ : Ideal R) = I ^ n := by
           ext
           simp
-        show AdicCompletion.eval I R n x = 0 ↔
+        change AdicCompletion.eval I R n x = 0 ↔
           Ideal.quotientEquivAlgOfEq R hEq (AdicCompletion.eval I R n x) = 0
         exact (map_eq_zero_iff _ (Ideal.quotientEquivAlgOfEq R hEq).injective).symm
   have hle : I ^ n ≤ (J ^ n).comap (algebraMap R (AdicCompletion I R)) := by
@@ -231,20 +231,20 @@ private theorem primeSpectrumCoverOfQuotientMapBijective
     let q : PrimeSpectrum S := PrimeSpectrum.comap (Ideal.Quotient.mk J) qbar
     refine ⟨Sum.inl q, ?_⟩
     apply PrimeSpectrum.ext
-    show Ideal.comap φ (Ideal.comap (Ideal.Quotient.mk J) qbar.asIdeal) = p.asIdeal
-    show Ideal.comap ((Ideal.Quotient.mk J).comp φ) qbar.asIdeal = p.asIdeal
+    change Ideal.comap φ (Ideal.comap (Ideal.Quotient.mk J) qbar.asIdeal) = p.asIdeal
+    change Ideal.comap ((Ideal.Quotient.mk J).comp φ) qbar.asIdeal = p.asIdeal
     rw [← Ideal.quotientMap_comp_mk (f := φ) Ideal.le_comap_map]
-    show Ideal.comap (qmap.comp (Ideal.Quotient.mk I)) qbar.asIdeal = p.asIdeal
+    change Ideal.comap (qmap.comp (Ideal.Quotient.mk I)) qbar.asIdeal = p.asIdeal
     rw [← Ideal.comap_comap]
-    show Ideal.comap (Ideal.Quotient.mk I) (Ideal.comap qmap qbar.asIdeal) = p.asIdeal
+    change Ideal.comap (Ideal.Quotient.mk I) (Ideal.comap qmap qbar.asIdeal) = p.asIdeal
     have he : Ideal.comap qmap qbar.asIdeal = pbar.asIdeal := by
-      show Ideal.comap e.toRingHom (Ideal.map e.toRingHom pbar.asIdeal) = pbar.asIdeal
+      change Ideal.comap e.toRingHom (Ideal.map e.toRingHom pbar.asIdeal) = pbar.asIdeal
       simpa only [RingEquiv.toRingHom_eq_coe] using
         congrArg (Ideal.comap (e : (R ⧸ I) →+* (S ⧸ J)))
           (Ideal.map_comap_of_equiv e (I := pbar.asIdeal)) |>.trans
             (Ideal.comap_of_equiv e)
     rw [he]
-    show Ideal.comap (Ideal.Quotient.mk I)
+    change Ideal.comap (Ideal.Quotient.mk I)
       (Ideal.map (Ideal.Quotient.mk I) p.asIdeal) = p.asIdeal
     rw [Ideal.comap_map_of_surjective _ Ideal.Quotient.mk_surjective]
     exact sup_eq_left.2 (by rwa [← RingHom.ker_eq_comap_bot, Ideal.mk_ker])

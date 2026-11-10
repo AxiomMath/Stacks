@@ -96,8 +96,7 @@ theorem bijective_of_bijective_chartMap {S : Type*} [CommRing S] [Algebra A S]
     { toFun := chartMap p₁ p₂ β
       map_add' := map_add _
       map_smul' := fun s x => by
-        induction x using TensorProduct.induction_on with
-        | zero => simp
+        induction x using TensorProduct.inductionOn with
         | tmul s' b =>
           rw [TensorProduct.smul_tmul', smul_eq_mul, chartMap_tmul, RingHom.id_apply, hsmulC,
             chartMap_tmul, map_mul, map_mul, mul_assoc]
@@ -110,8 +109,7 @@ theorem bijective_of_bijective_chartMap {S : Type*} [CommRing S] [Algebra A S]
       map_smul' := fun s b => by rw [hsmulB, map_mul, RingHom.id_apply, hsmulC] }
   have hcounit : ∀ x : S ⊗[A] B, counit A S B x = δ (chartMap p₁ p₂ β x) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul s b =>
       rw [counit_tmul, chartMap_tmul, map_mul, ← AlgHom.comp_apply δ p₁,
         ← AlgHom.comp_apply δ p₂, hδ₁, hδ₂, hsmulB]
@@ -126,8 +124,7 @@ theorem bijective_of_bijective_chartMap {S : Type*} [CommRing S] [Algebra A S]
   have hΨ₁ : ∀ x : S ⊗[A] B, Ψ (AlgebraTensorModule.lTensor S S
       ((φe.symm.toLinearMap ∘ₗ p₁l).restrictScalars A) x) = e₁₂ (chartMap p₁ p₂ β x) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul s b =>
       simp only [Ψ, AlgebraTensorModule.lTensor_tmul, LinearMap.coe_comp, Function.comp_apply,
         LinearMap.lTensor_tmul, LinearMap.coe_restrictScalars, LinearEquiv.coe_coe,
@@ -139,8 +136,7 @@ theorem bijective_of_bijective_chartMap {S : Type*} [CommRing S] [Algebra A S]
   have hΨ₂ : ∀ x : S ⊗[A] B, Ψ (AlgebraTensorModule.lTensor S S
       (TensorProduct.mk A S B 1) x) = e₁₃ (chartMap p₁ p₂ β x) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul s b =>
       simp only [Ψ, AlgebraTensorModule.lTensor_tmul, TensorProduct.mk_apply,
         LinearMap.coe_comp, Function.comp_apply, LinearMap.lTensor_tmul,
@@ -153,12 +149,12 @@ theorem bijective_of_bijective_chartMap {S : Type*} [CommRing S] [Algebra A S]
     { coaction := φe.symm.toLinearMap ∘ₗ p₁l
       counit_coaction := fun b => by
         rw [hcounit]
-        show δ (chartMap p₁ p₂ β (φe.symm (p₁ b))) = b
+        change δ (chartMap p₁ p₂ β (φe.symm (p₁ b))) = b
         rw [← hφe, LinearEquiv.apply_symm_apply, ← AlgHom.comp_apply, hδ₁]
         rfl
       coassoc := fun b => by
         apply hΨinj
-        show Ψ (AlgebraTensorModule.lTensor S S
+        change Ψ (AlgebraTensorModule.lTensor S S
             ((φe.symm.toLinearMap ∘ₗ p₁l).restrictScalars A) (φe.symm (p₁ b))) =
           Ψ (AlgebraTensorModule.lTensor S S (TensorProduct.mk A S B 1) (φe.symm (p₁ b)))
         rw [hΨ₁, hΨ₂, ← hφe, LinearEquiv.apply_symm_apply, ← AlgHom.comp_apply,
@@ -166,7 +162,7 @@ theorem bijective_of_bijective_chartMap {S : Type*} [CommRing S] [Algebra A S]
   have hdesc : ∀ b : B, b ∈ d.descended ↔ b ∈ Set.range (algebraMap A B) := by
     intro b
     rw [d.mem_descended_iff]
-    show φe.symm (p₁ b) = 1 ⊗ₜ b ↔ _
+    change φe.symm (p₁ b) = 1 ⊗ₜ b ↔ _
     rw [LinearEquiv.symm_apply_eq, hφe, chartMap_tmul, map_one, map_one, one_mul]
     constructor
     · exact hA b
@@ -183,7 +179,7 @@ theorem bijective_of_bijective_chartMap {S : Type*} [CommRing S] [Algebra A S]
   have key : ∀ s : S, β s = d.equivBaseChange (s ⊗ₜ ι 1) := by
     intro s
     rw [Datum.equivBaseChange_tmul]
-    show β s = s • algebraMap A B 1
+    change β s = s • algebraMap A B 1
     rw [map_one, hsmulB, mul_one]
   have hβ : (β : S → B) = (d.equivBaseChange.restrictScalars A) ∘
       (LinearMap.lTensor S ι) ∘ (TensorProduct.rid A S).symm := by

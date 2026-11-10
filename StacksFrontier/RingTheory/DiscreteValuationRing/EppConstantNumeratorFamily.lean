@@ -433,7 +433,7 @@ theorem isWeakSolution_of_split_constant_artinSchreier_parameter
     intro x y h
     apply Subtype.ext
     apply ι.injective
-    show ι (x : E) = ι (y : E)
+    change ι (x : E) = ι (y : E)
     rw [← hsquare x, ← hsquare y, h]
   let _ : FaithfulSMul R Q := (faithfulSMul_iff_algebraMap_injective R Q).mpr hinj
   let _ : IsLocalHom (algebraMap B Q) := by
@@ -441,8 +441,8 @@ theorem isWeakSolution_of_split_constant_artinSchreier_parameter
     infer_instance
   have hcontr : (IsLocalRing.maximalIdeal Q).under R = IsLocalRing.maximalIdeal R := by
     apply IsLocalRing.eq_maximalIdeal
-    apply Ideal.IsIntegral.isMaximal_of_isMaximal_comap (R := B)
-    show ((IsLocalRing.maximalIdeal Q).under R |>.under B).IsMaximal
+    apply Ideal.IsIntegral.isMaximal_of_isMaximal_under (R := B)
+    change ((IsLocalRing.maximalIdeal Q).under R |>.under B).IsMaximal
     rw [Ideal.under_under, Ideal.under_def, IsLocalRing.maximalIdeal_comap]
     infer_instance
   let _ : IsLocalHom (algebraMap R Q) :=

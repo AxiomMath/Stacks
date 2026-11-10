@@ -1014,11 +1014,13 @@ theorem sections_pushforward_map_homGeneralPushforwardInverseIso_hom_app (N : Sh
       (HomGeneral.mk (X := XD') (Y := YA') e'.inverse hm' fs') N (@Opposite.op (𝒯 YA').C
         (g₀.toRingedToposSiteHom.u.obj W)) x)
 
-omit hc₃ in
+omit hc₃ hc₄ hc₅ fs' in
 /-- The comparison of the two pushforwards along `g₀`, at a pushforward along the morphism of
 ringed sites of `e'`, is the cast of sections. -/
-theorem sections_pushforwardModulesIsoPushforward_hom_app (N : SheafOfModules.{w} (𝒪 (𝒯 XD').O)) (W
-    : (𝒯 YA).C)
+theorem sections_pushforwardModulesIsoPushforward_hom_app
+    (fs' : letI : e'.inverse.IsContinuous YA'.J XD'.J := hm'.toIsContinuous
+      YA'.O ⟶ (e'.inverse.sheafPushforwardContinuous CommRingCat.{w} YA'.J XD'.J).obj XD'.O)
+    (N : SheafOfModules.{w} (𝒪 (𝒯 XD').O)) (W : (𝒯 YA).C)
     (x : (Sheaf.sectionsFunctor (𝒯 YA).J (@Opposite.op (𝒯 YA).C W)).obj ((Sheaf.moduleSheafFunctor
       (𝒪 (𝒯 YA).O)).obj (((pushforwardModules (HomGeneral.mk (X := XD') (Y := YA') e'.inverse hm'
       fs').toRingedToposHom.toRingedToposModulesHom) ⋙ (pushforwardModules
@@ -1215,6 +1217,7 @@ theorem sections_lhs_first_two (hμ : SectionsInvApp (μ := μ) (Rμ := Rμ)) (N
       φe) (H₁ := H₁) (H₂ := H₂) (φ₂r.obj N) W (Rμ N (e.inverse.obj W) (castSectionsInverse (e := e)
       (hm := hm) (fs := fs) (φe := φe) (H₁ := H₁) (H₂ := H₂) (Φm.obj N) W x))))
 
+omit hc₅ in
 /-- The last three factors of the left-hand side of `Stacks.Mates.RightAdjointSquareCompat` on
 sections: `τ₁⁻¹`, then the casts of sections. -/
 theorem sections_lhs_last_three (N : SheafOfModules.{w} (𝒪 (𝒯 XD').O)) (W : (𝒯 YA).C) (y : _) :
@@ -1235,6 +1238,8 @@ theorem sections_lhs_last_three (N : SheafOfModules.{w} (𝒪 (𝒯 XD').O)) (W 
         fs').toRingedToposHom.toRingedToposModulesHom).obj N) W ((Sheaf.sectionsFunctor (𝒯 YA).J
         (@Opposite.op (𝒯 YA).C W)).map ((Sheaf.moduleSheafFunctor (𝒪 (𝒯 YA).O)).map (τ₁.inv.app N))
         y)) :=
+  have : g₀.toRingedToposSiteHom.u.IsContinuous (𝒯 YA).J (𝒯 YA').J :=
+    g₀.toRingedToposSiteHom.isContinuous
   (congrArg (fun z => ((Sheaf.sectionsFunctor (𝒯 YA).J (@Opposite.op (𝒯 YA).C W)).map
       ((Sheaf.moduleSheafFunctor (𝒪 (𝒯 YA).O)).map ((SheafOfModules.pushforward.{w}
       g₀.toRingedToposSiteHom.fSharpRing).map ((homGeneralPushforwardInverseIso (e := e') (hm :=
@@ -1245,6 +1250,7 @@ theorem sections_lhs_last_three (N : SheafOfModules.{w} (𝒪 (𝒯 XD').O)) (W 
     (sections_pushforward_map_homGeneralPushforwardInverseIso_hom_app (e' := e') (hm' := hm') (fs'
       := fs') (H₁' := H₁') (H₂' := H₂') (φe' := φe') (g₀ := g₀) N W _)
 
+omit hc₅ in
 /-- The left-hand side of `Stacks.Mates.RightAdjointSquareCompat` on sections, up to its last
 factor, when the three comparisons of pushforwards are those of morphisms of ringed sites. -/
 theorem sections_lhs_eq_of_homGeneral (hμ : SectionsInvApp (μ := μ) (Rμ := Rμ))
@@ -1276,6 +1282,8 @@ theorem sections_lhs_eq_of_homGeneral (hμ : SectionsInvApp (μ := μ) (Rμ := R
         e) (hm := hm) (fs := fs) (φe := φe) (H₁ := H₁) (H₂ := H₂) (φ₂r.obj N) W (Rμ N
         (e.inverse.obj W) (castSectionsInverse (e := e) (hm := hm) (fs := fs) (φe := φe) (H₁ := H₁)
         (H₂ := H₂) (Φm.obj N) W x)))))))) :=
+  have : g₀.toRingedToposSiteHom.u.IsContinuous (𝒯 YA).J (𝒯 YA').J :=
+    g₀.toRingedToposSiteHom.isContinuous
   sections_comp₆_eq (M₅ := ((pushforwardModules (HomGeneral.mk (X := XD') (Y := YA') e'.inverse hm'
       fs').toRingedToposHom.toRingedToposModulesHom) ⋙ (pushforwardModules
       g₀.toRingedToposHom.toRingedToposModulesHom)).obj N) _ _ _ _ _ _ x
@@ -1308,6 +1316,7 @@ theorem sections_lhs_eq_of_homGeneral (hμ : SectionsInvApp (μ := μ) (Rμ := R
       := H₁) (H₂ := H₂) (φ₂r.obj N) W (Rμ N (e.inverse.obj W) (castSectionsInverse (e := e) (hm :=
       hm) (fs := fs) (φe := φe) (H₁ := H₁) (H₂ := H₂) (Φm.obj N) W x))))))
 
+omit hc₅ in
 /-- The left-hand side of `Stacks.Mates.RightAdjointSquareCompat` on sections when the three
 comparisons of pushforwards are those of morphisms of ringed sites. -/
 theorem sections_lhs_of_homGeneral (hμ : SectionsInvApp (μ := μ) (Rμ := Rμ))
@@ -1337,10 +1346,13 @@ theorem sections_lhs_of_homGeneral (hμ : SectionsInvApp (μ := μ) (Rμ := Rμ)
           e'.unitIso.inv.app (sbc.obj (e.inverse.obj W))).op
         ((Sheaf.sectionsFunctor (𝒯 XD).J (@Opposite.op (𝒯 XD).C (e.inverse.obj W))).map
           ((Sheaf.moduleSheafFunctor (𝒪 (𝒯 XD).O)).map (χ.hom.app N)) x) :=
+  have : g₀.toRingedToposSiteHom.u.IsContinuous (𝒯 YA).J (𝒯 YA').J :=
+    g₀.toRingedToposSiteHom.isContinuous
   (sections_lhs_eq_of_homGeneral (e := e) (hm := hm) (fs := fs) (φe := φe) (H₁ := H₁) (H₂ := H₂)
       (e' := e') (hm' := hm') (fs' := fs') (φe' := φe') (H₁' := H₁') (H₂' := H₂') (g₀ := g₀) (μ :=
       μ) (τ₁ := τ₁) (τ₂ := τ₂) (Rμ := Rμ) hμ N W x).trans (h₇ N W x)
 
+omit hc₅ in
 /-- `Stacks.ReindexSquare.LHSSections` when the three comparisons of pushforwards are those of
 morphisms of ringed sites, from `μ` on sections and the value of the remaining composite. -/
 theorem lhsSections_of_homGeneral (hμ : SectionsInvApp (μ := μ) (Rμ := Rμ))
@@ -1360,10 +1372,13 @@ theorem lhsSections_of_homGeneral (hμ : SectionsInvApp (μ := μ) (Rμ := Rμ))
       (homGeneralPushforwardInverseIso (e := e') (hm := hm') (fs := fs') (φe := φe') (H₁ := H₁')
         (H₂ := H₂')) (homGeneralPushforwardInverseIso (e := e) (hm := hm) (fs := fs) (φe := φe) (H₁
         := H₁) (H₂ := H₂)) :=
+  have : g₀.toRingedToposSiteHom.u.IsContinuous (𝒯 YA).J (𝒯 YA').J :=
+    g₀.toRingedToposSiteHom.isContinuous
   fun N W x => sections_lhs_of_homGeneral (e := e) (hm := hm) (fs := fs) (φe := φe) (H₁ := H₁) (H₂
       := H₂) (e' := e') (hm' := hm') (fs' := fs') (φe' := φe') (H₁' := H₁') (H₂' := H₂') (g₀ := g₀)
       (s := s) (χ := χ) (μ := μ) (τ₁ := τ₁) (τ₂ := τ₂) (Rμ := Rμ) hμ h₇ N W x
 
+omit hc₅ in
 /-- `Stacks.Mates.RightAdjointSquareCompat` for the two equivalences of pushforwards of morphisms
 of ringed sites `e` and `e'`, the three comparisons of pushforwards along morphisms of ringed
 sites, and a square `Sg` of right adjoints satisfying `Stacks.ReindexSquare.SectionsSquareInv`,
@@ -1388,6 +1403,8 @@ theorem rightAdjointSquareCompat_of_homGeneral
       (homGeneralPushforwardInverseIso (e := e) (hm := hm) (fs := fs) (φe := φe) (H₁ := H₁)
         (H₂ := H₂))
       Sg :=
+  have : g₀.toRingedToposSiteHom.u.IsContinuous (𝒯 YA).J (𝒯 YA').J :=
+    g₀.toRingedToposSiteHom.isContinuous
   rightAdjointSquareCompat_of_sections (s := s) (χ := χ) (μ := μ)
     (hSg := hSg)
     (hL := lhsSections_of_homGeneral (e := e) (hm := hm) (fs := fs) (φe := φe) (H₁ := H₁)
@@ -2247,7 +2264,6 @@ def RepresentedRightAdjointCompatGeneral : Prop :=
     (φe' := representedReindexRingHom B S hS T')
     (H₁' := representedReindexRing_counit B S hS T') (H₂' := representedReindexRing_unit B S hS T')
     (g₀ := smallEtaleRingedSiteHom (associatedBigEtaleSite B) g.left)
-    (hc₅ := isContinuous_smallEtaleRingedSiteHom_u_toRingedTopos B S hS g)
     (hc₆ := isContinuous_representedSmallBaseChange_toRingedTopos B S hS g hg)
     (s := representedSmallEtaleBaseChangeIso B S hS g hg)
     (χ := modulePushforwardChartIso B S hS (representedSpaceMap B S hS g) hg)
@@ -2295,7 +2311,6 @@ theorem representedRightAdjointCompatGeneral :
     (φe' := representedReindexRingHom B S hS T')
     (H₁' := representedReindexRing_counit B S hS T') (H₂' := representedReindexRing_unit B S hS T')
     (g₀ := smallEtaleRingedSiteHom (associatedBigEtaleSite B) g.left)
-    (hc₅ := isContinuous_smallEtaleRingedSiteHom_u_toRingedTopos B S hS g)
     (hc₆ := isContinuous_representedSmallBaseChange_toRingedTopos B S hS g hg)
     (s := representedSmallEtaleBaseChangeIso B S hS g hg)
     (χ := modulePushforwardChartIso B S hS (representedSpaceMap B S hS g) hg)

@@ -141,7 +141,7 @@ theorem openComplement_eq_openSubspaceOfPoints_compl (T : Subfunctor F) :
       rintro E y ⟨f, rfl⟩
       have hfa : (yoneda.map a.unop ≫ yonedaEquiv.symm x).app E f =
           F.map f.op (F.map a x) := by
-        show F.map (f ≫ a.unop).op x = _
+        change F.map (f ≫ a.unop).op x = _
         rw [op_comp, F.map_comp, types_comp_apply, Quiver.Hom.op_unop]
       rw [hfa]
       exact T.map f.op ha

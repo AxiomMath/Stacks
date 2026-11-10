@@ -144,7 +144,7 @@ private lemma schemeDeltaDimension_comap_le_of_avoid
     havoid _ hmemZ he hmemD
   have hlt : relativeDimension C.dimensionFunction p
       (D.subschemeι ((Z.comap D.subschemeι).subschemeι ξ)) ≤ k := by omega
-  show (relativeDimension C.dimensionFunction
+  change (relativeDimension C.dimensionFunction
     ((Z.comap D.subschemeι).subschemeι ≫ D.subschemeι ≫ p) ξ : EInt) ≤ _
   rw [relativeDimension_comp_closedImmersion C.dimensionFunction
       (Z.comap D.subschemeι).subschemeι (D.subschemeι ≫ p) ξ,
@@ -273,7 +273,7 @@ private theorem intersectionCycleCoeff_comap_eq_length_quotient_sup
         (X.presheaf.stalk (D.subschemeι x) ⧸
           (Ideal.span {a} ⊔
             IdealSheafData.stalk Z (D.subschemeι x)))).toNat : ℤ) := by
-  show closedSubschemeCycleCoeff C (D.subschemeι ≫ p)
+  change closedSubschemeCycleCoeff C (D.subschemeι ≫ p)
     (Z.comap D.subschemeι).subschemeι k x = _
   rw [closedSubschemeCycleCoeff_comap_eq_length C (D.subschemeι ≫ p) D.subschemeι Z k x
     hgeneric hdim]
@@ -527,7 +527,7 @@ theorem gysinRule_extendCycleGroup_cycleAssociatedToClosedSubscheme
       Z.subschemeι (k + 1) y hy
     refine havoid y (hζ ▸ subschemeι_mem_support Z ζ.1) hyrel ?_
     apply Scheme.IdealSheafData.support_antitone hle
-    show y ∈ ((reducedPointClosure y).support : Set X)
+    change y ∈ ((reducedPointClosure y).support : Set X)
     rw [reducedPointClosure_support]
     exact subset_closure (Set.mem_singleton y)
   have hcoeff : ∀ x : (Stacks.Divisors.zeroScheme X L (s.eval (.op ⊤))).subscheme,
@@ -726,7 +726,7 @@ theorem gysinHomomorphismOfInvertible_cycleAssociatedToClosedSubscheme
           ((Stacks.Divisors.zeroScheme X L (s.eval (.op ⊤))).subschemeι ≫ p)
           ((Z.comap (Stacks.Divisors.zeroScheme X L (s.eval (.op ⊤))).subschemeι).subschemeι)
             k) := by
-  show QuotientAddGroup.mk ((gysinRule C p k L (s.eval (.op ⊤))
+  change QuotientAddGroup.mk ((gysinRule C p k L (s.eval (.op ⊤))
     (firstChernComponentClass C p k L)).extendCycleGroup
       (cycleAssociatedToClosedSubscheme C p Z.subschemeι (k + 1))) = _
   rw [gysinRule_extendCycleGroup_cycleAssociatedToClosedSubscheme C p k L s Z hZ hDZ]

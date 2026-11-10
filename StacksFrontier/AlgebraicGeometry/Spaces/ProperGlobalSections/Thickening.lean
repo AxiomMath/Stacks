@@ -64,7 +64,7 @@ theorem globalSectionsPushforwardIsoSite_hom_structureProjection
     ((smallEtaleRingedToposModulesHom B S hS
         (subspaceInclusion B S hS X Z)).toToposHom.pushforwardTerminalHomEquiv
       _ φ)).1) key).trans ?_
-  show (terminalHomEquivSections (Sheaf.ringSheaf (Stacks.SheafOfModules.Tensor.ringSheaf
+  change (terminalHomEquivSections (Sheaf.ringSheaf (Stacks.SheafOfModules.Tensor.ringSheaf
       (smallEtaleRingedTopos B S hS ⟨Z.1.toFunctor, Z.2.1⟩).O))
     ((smallEtaleRingedToposModulesHom B S hS
         (subspaceInclusion B S hS X Z)).toToposHom.pushforwardTerminalHomEquiv

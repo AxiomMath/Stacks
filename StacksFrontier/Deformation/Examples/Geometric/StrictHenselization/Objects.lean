@@ -776,7 +776,6 @@ private noncomputable def fiberStrictSpecializationHom
   convert X.hom.cartesian.paste_horiz
     (fiberSpecialization_isPushout Psh X hsh).flip using 1
   all_goals first
-    | rfl
     | apply CommRingCat.hom_ext
       ext x
       change algebraMap k Psh x = algebraMap P Psh (algebraMap k P x)

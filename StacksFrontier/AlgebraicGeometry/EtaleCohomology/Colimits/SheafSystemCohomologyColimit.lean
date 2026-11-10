@@ -227,7 +227,7 @@ private instance quasiSeparatedSpace_left_mk_id {X : Scheme.{u}} [QuasiSeparated
 /-- Restriction between two final objects of a small étale site is inverse to restriction the
 other way. -/
 lemma map_map_of_isTerminal {X : Scheme.{u}} (G : Sheaf (smallEtaleTopology X) Ab.{u + 1})
-    {T T' : X.Etale} (hT : IsTerminal T) (hT' : IsTerminal T') (g : T ⟶ T') (g' : T' ⟶ T)
+    {T T' : X.Etale} (hT : IsTerminal T) (g : T ⟶ T') (g' : T' ⟶ T)
     (s : ToType (G.obj.obj (op T))) : G.obj.map g.op (G.obj.map g'.op s) = s := by
   rw [presheaf_map_map_apply, hT.hom_ext (g ≫ g') (𝟙 _), op_id, CategoryTheory.Functor.map_id,
     ConcreteCategory.id_apply]
@@ -260,7 +260,7 @@ theorem EtaleSheafSystem.isSystemColimit_etaleCohomologyPullback_zero
         (Scheme.Etale.mk (𝟙 (D.obj k)))).op x), ?_⟩
     refine (Sheaf.H.equiv₀ 𝓖 (MorphismProperty.Over.mkIdTerminal _ _)).injective
       ((F.equiv₀_etaleCohomologyPullback_π c ι a x).trans ?_)
-    rw [hx, map_map_of_isTerminal 𝓖 hT0 hVt]
+    rw [hx, map_map_of_isTerminal 𝓖 hT0]
   · intro i y hy
     let V₀ := Scheme.Etale.mk (𝟙 (D.obj i))
     let hTi : IsTerminal V₀ := MorphismProperty.Over.mkIdTerminal _ _
@@ -270,16 +270,16 @@ theorem EtaleSheafSystem.isSystemColimit_etaleCohomologyPullback_zero
       (Sheaf.H.equiv₀ (F.obj i) (MorphismProperty.Over.mkIdTerminal _ _) y)
     have hyx : y = (Sheaf.H.equiv₀ (F.obj i) (MorphismProperty.Over.mkIdTerminal _ _)).symm
         ((F.obj i).obj.map (hW.from V₀).op x) := by
-      rw [map_map_of_isTerminal (F.obj i) hTi hW, AddEquiv.symm_apply_apply]
+      rw [map_map_of_isTerminal (F.obj i) hTi, AddEquiv.symm_apply_apply]
     have h0 := F.equiv₀_etaleCohomologyPullback_π c ι (𝟙 i) x
     rw [← hyx, show etaleCohomologyPullback (c.π.app i) (ι i) 0 y = 0 from hy, map_zero] at h0
     have hx0 : (F.pushforwardLeg c ι (𝟙 i)).hom.app (op V₀) x = 0 :=
-      (map_map_of_isTerminal 𝓖 hVt hT0 (hT0.from _) (hVt.from _) _).symm.trans
+      (map_map_of_isTerminal 𝓖 hVt (hT0.from _) (hVt.from _) _).symm.trans
         ((congrArg _ h0.symm).trans (map_zero _))
     obtain ⟨l, b, hb⟩ := EtaleSheafSystem.exists_pushforwardTransition_apply_eq_zero c hc F ι hι
       hpres V₀ (𝟙 i) x hx0
     refine ⟨l, b, (Sheaf.H.equiv₀ (F.obj l) (MorphismProperty.Over.mkIdTerminal _ _)).injective ?_⟩
-    show Sheaf.H.equiv₀ (F.obj l) _ (etaleCohomologyPullback (D.map b) (F.map b) 0 y) = _
+    change Sheaf.H.equiv₀ (F.obj l) _ (etaleCohomologyPullback (D.map b) (F.map b) 0 y) = _
     rw [hyx, F.equiv₀_etaleCohomologyPullback_map b (𝟙 i) x, hb, map_zero]
     exact map_zero _
 
@@ -339,6 +339,7 @@ lemma etaleCohomologyPullback_comp_mk₀_of_comm {X Y : Scheme.{u}} (f : X ⟶ Y
       etaleCohomologyPullback f ψ p (x.comp (Ext.mk₀ g) (add_zero p)) := by
   rw [etaleCohomologyPullback_comp_mk₀, etaleCohomologyPullback_mk₀_comp, h]
 
+omit [IsDirected I (· ≤ ·)] [Nonempty I] in
 /-- **The inductive step of Stacks 09YQ for one short exact sequence.** Let
 `0 ⟶ F ⟶ G ⟶ Q ⟶ 0` be a short exact sequence of systems with `G` injective and
 `0 ⟶ 𝓕 ⟶ 𝓖 ⟶ 𝓠 ⟶ 0` a compatible short exact sequence of colimit presentations with
@@ -357,7 +358,7 @@ theorem EtaleSheafSystem.isEtaleCohomologyColimit_succ_of_shortExact (p : ℕ)
     (ι : ∀ i : Iᵒᵖ, (smallEtalePullbackAb (c.π.app i)).obj (F.obj i) ⟶ 𝓕)
     (ιG : ∀ i : Iᵒᵖ, (smallEtalePullbackAb (c.π.app i)).obj (G.obj i) ⟶ 𝓖)
     (ιQ : ∀ i : Iᵒᵖ, (smallEtalePullbackAb (c.π.app i)).obj (Q.obj i) ⟶ 𝓠)
-    (hιG : LimitHigherDirectImage.IsPullbackCocone c G ιG) (u : 𝓕 ⟶ 𝓖) (v : 𝓖 ⟶ 𝓠)
+    (u : 𝓕 ⟶ 𝓖) (v : 𝓖 ⟶ 𝓠)
     (huv : u ≫ v = 0) (hlim : (ShortComplex.mk u v huv).ShortExact)
     (hu : ∀ i, (smallEtalePullbackAb (c.π.app i)).map (α i) ≫ ιG i = ι i ≫ u)
     (hv : ∀ i, (smallEtalePullbackAb (c.π.app i)).map (β i) ≫ ιQ i = ιG i ≫ v)
@@ -374,7 +375,6 @@ theorem EtaleSheafSystem.isEtaleCohomologyColimit_succ_of_shortExact (p : ℕ)
       etaleCohomologyPullback_comp_extClass (D.map a) (hE j) (hE i) (F.map a) (G.map a)
         (Q.map a) (hα a) (hβ a) p x)
     (fun i => AddCommGrpCat.ofHom (etaleCohomologyPullback (c.π.app i) (ι i) (p + 1))) hA hB
-    (fun a => AddCommGrpCat.ext fun x => G.etaleCohomologyPullback_π_comp c hιG a p x)
     (AddCommGrpCat.ofHom ((Ext.mk₀ v).postcomp _ (add_zero p)))
     (AddCommGrpCat.ofHom (hlim.extClass.postcomp _ rfl))
     (fun i => AddCommGrpCat.ext fun x =>
@@ -411,7 +411,7 @@ theorem EtaleSheafSystem.isEtaleCohomologyColimit_succ (p : ℕ)
     hv⟩ := LimitHigherDirectImage.exists_injective_shortExact_presentation c F 𝓕 ι hι hpres
   exact isEtaleCohomologyColimit_succ_of_shortExact p α β hαβ hE hα hβ
     (fun i => ⟨fun x y => (Ext.eq_zero_of_injective x).trans (Ext.eq_zero_of_injective y).symm⟩)
-    ι ιG ιQ hιG u v huv hlim hu hv (ih G 𝓖 ιG hιG hG) (ih Q 𝓠 ιQ hιQ hQ) (hvan G 𝓖 ιG hιG hG)
+    ι ιG ιQ u v huv hlim hu hv (ih G 𝓖 ιG hιG hG) (ih Q 𝓠 ιQ hιQ hQ) (hvan G 𝓖 ιG hιG hG)
 
 end Induction
 

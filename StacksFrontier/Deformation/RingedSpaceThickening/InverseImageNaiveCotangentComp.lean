@@ -236,7 +236,7 @@ theorem structureConormalPushMap_comp :
     (Opens.grothendieckTopology Y.carrier) (inverseImageBaseRing (g ≫ f)) Y.sheaf
     (structureRingMap (g ≫ f))
   refine Stacks.Sites.Conormal.conormal_hom_ext.{u, u, u, u} _ _ (fun U x => ?_)
-  show ((structureConormalPushMap f g).val.app U) _ =
+  change ((structureConormalPushMap f g).val.app U) _ =
     ((liftConormalPushMap f g).val.app _) (((conormalPushMap f g).val.app U) _)
   have h1 := Stacks.Sites.Conormal.conormalSheafMapPush_toAssociatedModule g.hom.base X.sheaf
     Y.sheaf (structureComorphism g) (sourceCanonicalPresentation f) (yCanonicalPresentation f g)
@@ -332,7 +332,7 @@ theorem structureTensorPushMap_comp :
     (Opens.grothendieckTopology Y.carrier) (inverseImageBaseRing (g ≫ f)) Y.sheaf
     (structureRingMap (g ≫ f))
   refine Stacks.Sites.Conormal.tensorSheaf_hom_ext.{u, u, u, u} _ _ _ _ _ _ _ (fun U x => ?_)
-  show ((structureTensorPushMap f g).val.app U) _ =
+  change ((structureTensorPushMap f g).val.app U) _ =
     ((liftTensorPushMap f g).val.app _) (((tensorPushMap f g).val.app U) _)
   have h1 := Stacks.Sites.Conormal.tensorSheafMapPush_tensorDifferential g.hom.base X.sheaf
     Y.sheaf (structureComorphism g) (sourceCanonicalPresentation f) (yCanonicalPresentation f g)

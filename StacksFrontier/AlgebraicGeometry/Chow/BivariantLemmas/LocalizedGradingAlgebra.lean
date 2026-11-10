@@ -16,7 +16,8 @@ closed immersion of schemes locally of finite type over `S`. **Stacks 0FA0** say
 multiplication into `A⁽ᵐᵃˣ⁽ᵖ⁼ᑫ⁾⁾(Z ⟶ X)`. The group, the three degreewise pairings the source
 builds the product from and the product itself are in
 `StacksFrontier.AlgebraicGeometry.Chow.BivariantLemmas.LocalizedGrading` and
-`StacksFrontier.AlgebraicGeometry.Chow.BivariantLemmas.LocalizedGradingMultiplication`. This file adds
+`StacksFrontier.AlgebraicGeometry.Chow.BivariantLemmas.LocalizedGradingMultiplication`. This file
+adds
 the remaining structure of the graded algebra: the multiplication as a biadditive map, its unit,
 and the two unit laws.
 
@@ -177,7 +178,8 @@ two-sided unital here, and `Stacks.Chow.localizedBivariantGradingMonoid` is its 
 
 The group Stacks 0FA0 asserts the graded algebra on has negative-degree factors: its product
 `∏_{i ≤ p - 1} Aⁱ(X)` runs over **all** integers `i ≤ p - 1`, negative ones included, and the
-remark says nothing about whether they vanish, and contains no parenthetical to that effect. So a unit
+remark says nothing about whether they vanish, and contains no parenthetical to that effect. So a
+unit
 law stated on a subgroup cut out by such a vanishing would be narrower than the source's assertion.
 
 Both laws hold on the whole group, and what carries them is the index range of the sums. The degree
@@ -226,7 +228,7 @@ namespace Stacks.Chow
 are the pairs for which both factors of a product lie in `A^*(X)` while the degree `i + j` slot of
 `A⁽ʳ⁾(Z ⟶ X)` is the localized group, and the source's three pairings give no value for them. -/
 theorem localizedGrading_add_lt_of_admissible {p q r : ℕ} (hr : p + q ≤ r + 1) {i j : ℤ}
-    (hi : 0 ≤ i) (hip : i < (p : ℤ)) (hj : 0 ≤ j) (hjq : j < (q : ℤ)) : i + j < (r : ℤ) := by
+    (hip : i < (p : ℤ)) (hjq : j < (q : ℤ)) : i + j < (r : ℤ) := by
   omega
 
 /-- When `p + q ≤ r + 1` fails and both `p` and `q` are positive, such a pair of degrees does
@@ -601,7 +603,7 @@ theorem localizedBivariantGradingMul_vanishesInNegativeDegrees (p q r : ℕ)
     LocalizedGrading.VanishesInNegativeDegrees C G sX f r
       (localizedBivariantGradingMul C G sX f hRG hgysP hgys hgysc p q r a b) := by
   refine ⟨fun i hi ↦ ?_, fun i hi ↦ absurd hi ?_⟩
-  · show ∑ j ∈ Finset.Icc (min 0 i.1) (max 0 i.1),
+  · change ∑ j ∈ Finset.Icc (min 0 i.1) (max 0 i.1),
         localizedGradingMulAmbientTerm C G sX f hRG hgysP hgys hgysc p q a b i.1 j = 0
     refine Finset.sum_eq_zero fun j hj ↦ ?_
     rw [Finset.mem_Icc] at hj
@@ -713,7 +715,7 @@ theorem localizedBivariantGradingInternalMul_singleLow_eq_zero (p : ℕ)
         (localizedGradingSingleLow C G sX f p j v) = 0 := by
   refine Prod.ext (funext fun d ↦ ?_) (funext fun d ↦ ?_)
   · obtain ⟨dv, hdv⟩ := d
-    show ∑ t ∈ Finset.Icc (min 0 dv) (max 0 dv), _ = (0 : chowCohomologyComponent C G sX dv)
+    change ∑ t ∈ Finset.Icc (min 0 dv) (max 0 dv), _ = (0 : chowCohomologyComponent C G sX dv)
     refine Finset.sum_eq_zero fun t _ ↦ ?_
     unfold localizedGradingMulAmbientTerm
     by_cases ht : t = i.1
@@ -723,7 +725,7 @@ theorem localizedBivariantGradingInternalMul_singleLow_eq_zero (p : ℕ)
     · rw [localizedGradingComponentOnAmbient_singleLow_of_ne C G sX f hRG hgysP hgysc p i u t ht,
         chowCohomologyComposite_zero_left, map_zero]
   · obtain ⟨dv, hdv⟩ := d
-    show ∑ t ∈ Finset.Icc (min 0 dv) (max 0 dv),
+    change ∑ t ∈ Finset.Icc (min 0 dv) (max 0 dv),
         localizedGradingMulLocalizedTerm C G sX f hgys hgysc p p
         (localizedGradingSingleLow C G sX f p i u) (localizedGradingSingleLow C G sX f p j v)
         dv t = (0 : BivariantClass C G (f ≫ sX) sX f rfl dv)
@@ -752,7 +754,7 @@ theorem localizedBivariantGradingInternalMul_singleLow_snd (p : ℕ) (i : {i : �
       bivariantClassDegreeCongr C G (f ≫ sX) sX f rfl (by ring : i.1 + (n - i.1) = n)
         (localizedMulChowBivariant C G sX f hgys hgysc i.1 (n - i.1) u
           (c.2 ⟨n - i.1, hin⟩)) := by
-  show ∑ t ∈ Finset.Icc (min 0 n) (max 0 n),
+  change ∑ t ∈ Finset.Icc (min 0 n) (max 0 n),
       localizedGradingMulLocalizedTerm C G sX f hgys hgysc p p
         (localizedGradingSingleLow C G sX f p i u) c n t = _
   rw [Finset.sum_eq_single_of_mem i.1 (Finset.mem_Icc.2 ⟨by omega, by omega⟩) ?_]
@@ -832,7 +834,7 @@ def localizedBivariantGradingOne (p : ℕ) :
 theorem localizedBivariantGradingOne_fst_zero (p : ℕ) (h : (0 : ℤ) < (p : ℤ)) :
     (localizedBivariantGradingOne C G sX f hgysinX p).1 ⟨0, h⟩ =
       bivariantIdentityClass C sX G hgysinX := by
-  show (if h' : (0 : ℤ) = (0 : ℤ) then
+  change (if h' : (0 : ℤ) = (0 : ℤ) then
       bivariantClassDegreeCongr C G sX sX (𝟙 X) (Category.id_comp sX) h'
         (bivariantIdentityClass C sX G hgysinX)
     else 0) = bivariantIdentityClass C sX G hgysinX
@@ -1036,7 +1038,7 @@ theorem localizedBivariantGradingInternalMul_one_left (p : ℕ) (hp : 1 ≤ p)
         (localizedBivariantGradingOne C G sX f hgysinX p) b = b := by
   refine Prod.ext (funext fun i ↦ ?_) (funext fun i ↦ ?_)
   · obtain ⟨iv, hiv⟩ := i
-    show ∑ j ∈ Finset.Icc (min 0 iv) (max 0 iv), _ = _
+    change ∑ j ∈ Finset.Icc (min 0 iv) (max 0 iv), _ = _
     rw [Finset.sum_eq_single_of_mem (0 : ℤ) (zero_mem_Icc_min_max iv) ?_]
     · unfold localizedGradingMulAmbientTerm
       rw [localizedGradingComponentOnAmbient_localizedBivariantGradingOne_zero C G sX f hRG
@@ -1051,7 +1053,7 @@ theorem localizedBivariantGradingInternalMul_one_left (p : ℕ) (hp : 1 ≤ p)
       rw [localizedGradingComponentOnAmbient_localizedBivariantGradingOne_of_ne C G sX f hRG
           hgysP hgysc hgysinX p j hjne, chowCohomologyComposite_zero_left, map_zero]
   · obtain ⟨n, hn⟩ := i
-    show ∑ j ∈ Finset.Icc (min 0 n) (max 0 n), _ = _
+    change ∑ j ∈ Finset.Icc (min 0 n) (max 0 n), _ = _
     rw [Finset.sum_eq_single_of_mem (0 : ℤ) (zero_mem_Icc_min_max n) ?_]
     · unfold localizedGradingMulLocalizedTerm
       rw [dite_eq_right (by omega : ¬ (p : ℤ) ≤ (0 : ℤ)), dite_eq_left (by omega : (p : ℤ) ≤ n - 0),
@@ -1090,7 +1092,7 @@ theorem localizedBivariantGradingInternalMul_one_right (p : ℕ) (hp : 1 ≤ p)
         (localizedBivariantGradingOne C G sX f hgysinX p) = b := by
   refine Prod.ext (funext fun i ↦ ?_) (funext fun i ↦ ?_)
   · obtain ⟨iv, hiv⟩ := i
-    show ∑ j ∈ Finset.Icc (min 0 iv) (max 0 iv), _ = _
+    change ∑ j ∈ Finset.Icc (min 0 iv) (max 0 iv), _ = _
     rw [Finset.sum_eq_single_of_mem iv (self_mem_Icc_min_max iv) ?_]
     · unfold localizedGradingMulAmbientTerm
       rw [localizedGradingComponentOnAmbient_of_lt C G sX f hRG hgysP hgysc p b iv hiv,
@@ -1106,7 +1108,7 @@ theorem localizedBivariantGradingInternalMul_one_right (p : ℕ) (hp : 1 ≤ p)
           hgysP hgysc hgysinX p (iv - j) (by omega), chowCohomologyComposite_zero_right,
         map_zero]
   · obtain ⟨n, hn⟩ := i
-    show ∑ j ∈ Finset.Icc (min 0 n) (max 0 n),
+    change ∑ j ∈ Finset.Icc (min 0 n) (max 0 n),
         localizedGradingMulLocalizedTerm C G sX f hgys hgysc p p b
           (localizedBivariantGradingOne C G sX f hgysinX p) n j = _
     rw [Finset.sum_eq_single_of_mem n (self_mem_Icc_min_max n) ?_]

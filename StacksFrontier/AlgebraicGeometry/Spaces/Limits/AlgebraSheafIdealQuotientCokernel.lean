@@ -46,7 +46,8 @@ be rechecked, membership in the two submodules being the same predicate on the s
   `AlgebraicGeometry.Space.AlgebraSheaf.isLocallySurjective_idealQuotientMapOfLE`: the quotient
   morphism `A ⟶ A/I` and the comparison `A/I ⟶ A/I'` of an inclusion of sheaves of ideals are
   locally surjective.  These two are stated here rather than in
-  `StacksFrontier.AlgebraicGeometry.Spaces.Limits.FiniteAlgebraSurjectiveSystem`, since the epimorphism they produce is what the bridge runs on.
+  `StacksFrontier.AlgebraicGeometry.Spaces.Limits.FiniteAlgebraSurjectiveSystem`, since the
+  epimorphism they produce is what the bridge runs on.
 * `AlgebraicGeometry.Space.AlgebraSheaf.exact_idealQuotientShortComplex`: `I ⟶ A ⟶ A/I` is
   exact.
 * `AlgebraicGeometry.Space.AlgebraSheaf.isQuasicoherent_idealQuotient`: **`A/I` is quasi-coherent
@@ -257,7 +258,7 @@ theorem isLocallySurjective_toIdealQuotient (A : AlgebraSheaf.{u, u} B S hS F hF
       (Stacks.Sites.toQuotientPresheaf.{u, u + 1, u} I) :=
     Presheaf.isLocallySurjective_of_surjective _ _
       (Stacks.Sites.toQuotientPresheaf_app_surjective.{u, u + 1, u} I)
-  show Presheaf.IsLocallySurjective _
+  change Presheaf.IsLocallySurjective _
     (Stacks.Sites.toQuotientPresheaf.{u, u + 1, u} I ≫
       toSheafify (SmallEtale.topology B S hS F)
         (Stacks.Sites.quotientPresheaf.{u, u + 1, u} I))

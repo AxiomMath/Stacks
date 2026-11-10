@@ -108,12 +108,12 @@ def baseChangeAlgEquiv :
 theorem baseChangeAlgEquiv_tmul (s : S) (p : MvPolynomial (Fin (m + 1)) R) :
     baseChangeAlgEquiv K S (s ⊗ₜ[R] Ideal.Quotient.mk (coefficientIdeal K) p) =
       Ideal.Quotient.mk _ (C s * MvPolynomial.map (algebraMap R S) p) := by
-  show Ideal.quotientEquivAlg _ _ (MvPolynomial.algebraTensorAlgEquiv R S)
+  change Ideal.quotientEquivAlg _ _ (MvPolynomial.algebraTensorAlgEquiv R S)
       (coefficientIdeal_baseChange_eq_map K S)
       (Algebra.TensorProduct.tensorQuotientEquiv S (MvPolynomial (Fin (m + 1)) R) S
         (coefficientIdeal K) (s ⊗ₜ[R] Ideal.Quotient.mk (coefficientIdeal K) p)) = _
   rw [Algebra.TensorProduct.tensorQuotientEquiv_apply_tmul]
-  show Ideal.Quotient.mk _ (MvPolynomial.algebraTensorAlgEquiv R S (s ⊗ₜ[R] p)) = _
+  change Ideal.Quotient.mk _ (MvPolynomial.algebraTensorAlgEquiv R S (s ⊗ₜ[R] p)) = _
   rw [MvPolynomial.algebraTensorAlgEquiv_tmul, smul_eq_C_mul]
 
 /-- The comparison of the base-changed quotient with the quotient over the extended base,

@@ -158,7 +158,7 @@ public theorem subsingleton_localizedModule_quotient_range {F G : X.Modules}
     have hgerm : Stacks.ModuleStalkSpecialization.germₗ G hx ((t : Γ(X, U)) • y) =
         Stacks.ModuleStalkSpecialization.germₗ G hx (f.app U z) := by
       rw [map_smul]
-      show (X.presheaf.germ U x hx (t : Γ(X, U))) • G.presheaf.germ U x hx y = _
+      change (X.presheaf.germ U x hx (t : Γ(X, U))) • G.presheaf.germ U x hx y = _
       rw [← hw]
       refine (@LinearMap.map_smul _ _ _ _ _ _
         (PresheafOfModules.instModuleCarrierStalkCommRingCatCarrierAbPresheafOpensCarrier
@@ -173,7 +173,7 @@ public theorem subsingleton_localizedModule_quotient_range {F G : X.Modules}
     have hzero : (r * t : Γ(X, U)) • (Submodule.Quotient.mk y :
         Γ(G, U) ⧸ LinearMap.range (Stacks.AlgebraicGeometry.QcohLimits.appₗ f U)) = 0 := by
       rw [← Submodule.Quotient.mk_smul, Submodule.Quotient.mk_eq_zero, mul_smul]
-      show r • ((t : Γ(X, U)) • y) ∈ _
+      change r • ((t : Γ(X, U)) • y) ∈ _
       have hrt' : r • ((t : Γ(X, U)) • y) = r • f.app U z := hrt
       rw [hrt']
       exact ⟨r • z, by rw [map_smul]; rfl⟩
@@ -263,7 +263,7 @@ public theorem isDepthTwoEmbedding_sections [IsLocallyNoetherian X] {T' : Set X}
   finite := Stacks.AlgebraicGeometry.CoherentFinite.finite_sections G hU
   supp p hp := subsingleton_localizedModule_quotient_range_fromSpec φ hU p (hiso _ hp).2
   depth p hp := by
-    show 2 ≤ Module.depth (Localization.AtPrime p.asIdeal) (IsLocalRing.maximalIdeal _)
+    change 2 ≤ Module.depth (Localization.AtPrime p.asIdeal) (IsLocalRing.maximalIdeal _)
       (LocalizedModule p.asIdeal.primeCompl Γ(G, U))
     exact (hdepth _ hp).trans_eq (depth_localizedModule_sections_eq hU G p).symm
 

@@ -116,9 +116,9 @@ public theorem completedTensorProduct_isNoetherianRing_of_isFiniteTypeOnReductio
       Rig.IsFiniteTypeOnReductions (algebraMap B C) hBC) :
     IsNoetherianRing (CompletedTensorProduct (R := B) (M := A) (N := C)) := by
   rcases hQ with hQA | hQC
-  · exact completedTensorProduct_isNoetherianRing hBA hBC hA hC
+  · exact completedTensorProduct_isNoetherianRing hA hC
       ⟨topologicalNilradical_le_comap _ hBA, hQA⟩
-  · have hNoeth := completedTensorProduct_isNoetherianRing hBC hBA hC hA
+  · have hNoeth := completedTensorProduct_isNoetherianRing hC hA
       ⟨topologicalNilradical_le_comap _ hBC, hQC⟩
     let : IsNoetherianRing (CompletedTensorProduct (R := B) (M := C) (N := A)) := hNoeth
     exact isNoetherianRing_of_ringEquiv _
@@ -157,7 +157,7 @@ private theorem propertyIsLocalNoetherian_of_propertyIsLocal
     (P : ∀ {B A : Type u} [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
       [CommRing A] [TopologicalSpace A] [IsTopologicalRing A], (B →+* A) → Prop)
     (hP : PropertyIsLocal P) : PropertyIsLocalNoetherian P := by
-  show PropertyIsLocal P (fun R ↦ IsAdic R ∧ IsNoetherianRing R)
+  change PropertyIsLocal P (fun R ↦ IsAdic R ∧ IsNoetherianRing R)
   refine ⟨?_, ?_, ?_⟩
   · intro A B A' B' _ _ _ _ _ _ _ _ _ _ D _ _ hA' hB' hProp
     exact hP.localizationPreserves D
@@ -255,7 +255,7 @@ private theorem completionRingMap_compatible {R S T : Type*} [CommRing R] [CommR
       (Ideal.Quotient.factorPow (I.map (algebraMap R S)) h) := by
     ext s
     rfl
-  show (Ideal.Quotient.factorPow _ h)
+  change (Ideal.Quotient.factorPow _ h)
     (completionQuotientMap I f n (AdicCompletion.evalₐ _ n x)) = _
   rw [show (Ideal.Quotient.factorPow _ h)
       (completionQuotientMap I f n (AdicCompletion.evalₐ _ n x)) =
@@ -338,8 +338,7 @@ private theorem tensorQuotientPowEquiv_right
     (f : D →ₐ[B] E) (x : (A ⧸ I ^ m) ⊗[B] D) :
     completionQuotientMap I (tensorRightMap (A := A) f) m (tensorQuotientPowEquiv I m x) =
       tensorQuotientPowEquiv I m (Algebra.TensorProduct.map (AlgHom.id B _) f x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a d =>
     obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective a
     rfl
@@ -373,8 +372,7 @@ private theorem tensorQuotientPowEquiv_left_of_le
         (tensorQuotientPowEquiv I m x) =
       tensorQuotientPowEquiv I n (Algebra.TensorProduct.map
         (Ideal.Quotient.factorₐ B h) (AlgHom.id B D) x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a d =>
     obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective a
     rfl
@@ -472,8 +470,7 @@ private noncomputable def tensorDoubleOfStages (I : Ideal A) (J : Ideal C)
             (Ideal.Quotient.factorₐ B hj) z =
           Algebra.TensorProduct.map (Ideal.Quotient.factorₐ B hi) (AlgHom.id B _)
             (Algebra.TensorProduct.map (AlgHom.id B _) (Ideal.Quotient.factorₐ B hj) z) := by
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul a c => rfl
       | add z w hz hw => simp only [map_add, hz, hw]
     rw [hsplit]
@@ -510,14 +507,13 @@ private theorem tensorStageRingMap_comp (I : Ideal A) (J : Ideal C)
   simp only [tensorStageRingMap, eval_completionRingMap]
   obtain ⟨s, hs⟩ := Ideal.Quotient.mk_surjective (AdicCompletion.evalₐ _ i x)
   rw [← hs]
-  show Ideal.Quotient.mk _
+  change Ideal.Quotient.mk _
       (tensorRightMap (Ideal.Quotient.factorₐ B h')
         (tensorRightMap (Ideal.Quotient.factorₐ B h) s)) =
     Ideal.Quotient.mk _ (tensorRightMap (Ideal.Quotient.factorₐ B (h.trans h')) s)
   congr 1
   clear hs
-  induction s using TensorProduct.induction_on with
-  | zero => simp
+  induction s using TensorProduct.inductionOn with
   | tmul a c =>
     obtain ⟨c, rfl⟩ := Ideal.Quotient.mk_surjective c
     rfl
@@ -558,7 +554,7 @@ private theorem completionRingMap_eq_linearMap
   apply completion_ext
   intro n
   rw [eval_completionRingMap]
-  show completionQuotientMap I f n (Ideal.quotientEquivAlgOfEq S (by simp) (x.val n)) =
+  change completionQuotientMap I f n (Ideal.quotientEquivAlgOfEq S (by simp) (x.val n)) =
     Ideal.quotientEquivAlgOfEq T (by simp) (quotEquivMapPow I T n
       (LinearMap.reduceModIdeal (I ^ n) f.toLinearMap
         ((quotEquivMapPow I S n).symm (x.val n))))
@@ -597,7 +593,7 @@ attribute [local instance] tensorQuotient_scalarTower
 private theorem tensorStageRingMap_algebraMap (I : Ideal A) (J : Ideal C)
     {m n : ℕ} (h : J ^ n ≤ J ^ m) (c : C) :
     tensorStageRingMap (B := B) I J h (algebraMap C _ c) = algebraMap C _ c := by
-  show completionRingMap I (tensorRightMap (Ideal.Quotient.factorₐ B h))
+  change completionRingMap I (tensorRightMap (Ideal.Quotient.factorₐ B h))
     (algebraMap (A ⊗[B] (C ⧸ J ^ n)) _ (1 ⊗ₜ[B] Ideal.Quotient.mk _ c)) = _
   rw [completionRingMap_algebraMap]
   rfl
@@ -656,10 +652,10 @@ private theorem flat_of_tensorDoubleLimit
       commutes' := fun c ↦ by
         apply completion_ext
         intro m
-        show AdicCompletion.evalₐ _ m
+        change AdicCompletion.evalₐ _ m
           (tensorStageProjection I J n (e (algebraMap C T c))) = _
         rw [eval_tensorStageProjection, he]
-        show tensorQuotientPowEquiv I m
+        change tensorQuotientPowEquiv I m
           (Ideal.Quotient.mk _ (1 : A) ⊗ₜ[B] Ideal.Quotient.mk _ c) = _
         rw [tensorQuotientPowEquiv_tmul]
         rfl }
@@ -683,7 +679,7 @@ private theorem flat_of_tensorDoubleLimit
   let g (s : Cone F) (x : s.pt) : T :=
     e.symm (tensorDoubleOfStages I J (fun n ↦ (s.π.app (.op n)) x) (hx s x))
   have hg (s : Cone F) (x : s.pt) (n : ℕ) : p n (g s x) = (s.π.app (.op n)) x := by
-    show tensorStageProjection I J n (e (e.symm _)) = _
+    change tensorStageProjection I J n (e (e.symm _)) = _
     rw [e.apply_symm_apply]
     exact tensorStageProjection_ofStages I J (fun n ↦ (s.π.app (.op n)) x) (hx s x) n
   let lift (s : Cone F) : s.pt ⟶ cn.pt := ModuleCat.ofHom
@@ -696,7 +692,7 @@ private theorem flat_of_tensorDoubleLimit
               (map_add (p n) (g s x) (g s y)).symm))
       map_smul' := fun c x ↦ by
         refine hsep fun n ↦ ?_
-        show p n (g s (c • x)) = p n (c • g s x)
+        change p n (g s (c • x)) = p n (c • g s x)
         exact (hg s (c • x) n).trans
           (((s.π.app (.op n)).hom.map_smul c x).trans
             ((congrArg (c • ·) (hg s x n).symm).trans
@@ -707,7 +703,7 @@ private theorem flat_of_tensorDoubleLimit
       intro s f hf
       ext x
       refine hsep fun n ↦ ?_
-      show p n (f x) = p n (g s x)
+      change p n (f x) = p n (g s x)
       rw [hg]
       exact congrArg (fun f : s.pt ⟶ F.obj (.op n) ↦ f x) (hf (.op n)))
   let qmod : ∀ n : ℕ, Module (C ⧸ J ^ n) (F.obj (.op n)) := fun n ↦
@@ -715,7 +711,7 @@ private theorem flat_of_tensorDoubleLimit
   have hscalar : ∀ n : ℕ, let := qmod n
       IsScalarTower C (C ⧸ J ^ n) (F.obj (.op n)) := by
     intro n
-    show IsScalarTower C (C ⧸ J ^ n) (tensorStage (B := B) I J n)
+    change IsScalarTower C (C ⧸ J ^ n) (tensorStage (B := B) I J n)
     infer_instance
   have hflat' : ∀ n : ℕ, let := qmod n
       Module.Flat (C ⧸ J ^ n) (F.obj (.op n)) := hflat
@@ -783,7 +779,7 @@ private theorem flat_completedTensorProduct_of_isNoetherianRing_stages
     (B := B) (fun m : ℕ ↦ IA ^ m) (fun n : ℕ ↦ JC ^ n) bI bJ
   apply flat_of_tensorDoubleLimit IA JC T e ?_ hstageFlat
   intro c m n
-  show (e (↑((1 : A) ⊗ₜ[B] c) : T)).val (m, n) = _
+  change (e (↑((1 : A) ⊗ₜ[B] c) : T)).val (m, n) = _
   rw [he]
   simp only [Algebra.TensorProduct.map_tmul, map_one]
   rfl
@@ -864,14 +860,14 @@ private theorem isNoetherianRing_tensor_quotient_of_isAdic_of_isTopologicallyOfF
   obtain ⟨k, hk⟩ := (isAdic_iff.mp hI).2 _ hpre
   let K : Ideal A := (I ^ k).map (algebraMap B A)
   have hKopen : IsOpen (K : Set A) := by
-    show IsOpen (((I ^ k).map (algebraMap B A) : Ideal A) : Set A)
+    change IsOpen (((I ^ k).map (algebraMap B A) : Ideal A) : Set A)
     rw [Ideal.map_pow]
     exact (isAdic_iff.mp hIA).1 k
   have hKft := finiteType_quotient_of_isTopologicallyOfFiniteType hft K hKopen
   have hle : K ≤ RingHom.ker
       ((Algebra.TensorProduct.includeLeft : A →ₐ[B] A ⊗[B] D) : A →+* A ⊗[B] D) := by
     refine Ideal.map_le_of_le_comap fun b hb ↦ ?_
-    show (Algebra.TensorProduct.includeLeft : A →ₐ[B] A ⊗[B] D) (algebraMap B A b) = 0
+    change (Algebra.TensorProduct.includeLeft : A →ₐ[B] A ⊗[B] D) (algebraMap B A b) = 0
     rw [AlgHom.commutes, ← (Algebra.TensorProduct.includeRight : D →ₐ[B] A ⊗[B] D).commutes,
       IsScalarTower.algebraMap_apply B C D, Ideal.Quotient.algebraMap_eq,
       (Ideal.Quotient.eq_zero_iff_mem).mpr (hk hb), map_zero]
@@ -881,12 +877,11 @@ private theorem isNoetherianRing_tensor_quotient_of_isAdic_of_isTopologicallyOfF
     Algebra.TensorProduct.lift Algebra.TensorProduct.includeRight g fun _ _ ↦ Commute.all _ _
   have hsurj : Function.Surjective h := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact ⟨0, map_zero h⟩
+    induction z using TensorProduct.inductionOn with
     | tmul a d =>
       refine ⟨d ⊗ₜ[B] Ideal.Quotient.mk K a, ?_⟩
       rw [Algebra.TensorProduct.lift_tmul]
-      show (1 : A) ⊗ₜ[B] d * (a ⊗ₜ[B] (1 : D)) = a ⊗ₜ[B] d
+      change (1 : A) ⊗ₜ[B] d * (a ⊗ₜ[B] (1 : D)) = a ⊗ₜ[B] d
       rw [Algebra.TensorProduct.tmul_mul_tmul, one_mul, mul_one]
     | add x y hx hy =>
       obtain ⟨x', rfl⟩ := hx
@@ -915,7 +910,7 @@ public theorem flatAdicFiniteType_isStableUnderBaseChange :
   have hBweak := isCountablyWeaklyAdmissible_of_isAdic hB
   have hred : Rig.IsFiniteTypeOnReductions (algebraMap B A) hBA :=
     Rig.isFiniteTypeOnReductions_of_isTaut_of_isTopologicallyOfFiniteType (algebraMap B A) hBA
-      hBweak.1.1 (RingHom.isTaut_of_isAdic (algebraMap B A) hBA hR.1) hR.2
+      hBweak.1.1 (RingHom.isTaut_of_isAdic (algebraMap B A) hR.1) hR.2
   have hstage (J : Ideal C) (_ : IsIdealOfDefinition J) (hJ : _root_.IsAdic J) (n : ℕ) :
       IsNoetherianRing (A ⊗[B] (C ⧸ J ^ n)) :=
     isNoetherianRing_tensor_quotient_of_isAdic_of_isTopologicallyOfFiniteType hBC hR.1 hR.2

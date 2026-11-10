@@ -94,7 +94,7 @@ private theorem mem_range_genericFiberSpec (s : Spec (.of R)) (hs : s ≠ closed
     exact hs (PrimeSpectrum.ext (IsLocalRing.eq_maximalIdeal
       (Ring.DimensionLEOne.maximalOfPrime h0 s.isPrime)))
   refine ⟨closedPoint K, PrimeSpectrum.ext ?_⟩
-  show Ideal.comap (algebraMap R K) (maximalIdeal K) = s.asIdeal
+  change Ideal.comap (algebraMap R K) (maximalIdeal K) = s.asIdeal
   rw [h0, IsLocalRing.maximalIdeal_eq_bot, ← RingHom.ker_eq_comap_bot]
   exact (RingHom.injective_iff_ker_eq_bot _).mp (IsFractionRing.injective R K)
 

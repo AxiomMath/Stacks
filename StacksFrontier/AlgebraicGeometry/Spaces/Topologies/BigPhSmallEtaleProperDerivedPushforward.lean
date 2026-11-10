@@ -71,6 +71,7 @@ variable {S : Scheme.{u}} (P : BigPHSpaceSite S) (E : BigEtaleSpaceSite S)
   (h : P.fppfSite = E.fppfSite) {X Y : P.Spaces} (f : Y ⟶ X)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the categories of abelian sheaves on the big ph sites
 /-- The direct image `f_{big,ph,*}` of abelian sheaves on the big ph sites, as the right
 adjoint attached to cocontinuity of `Over.map f`. -/
 abbrev phAbelianPushforward :
@@ -80,6 +81,7 @@ abbrev phAbelianPushforward :
     (BigPHSpaceOver.topology P Y) (BigPHSpaceOver.topology P X)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the categories of abelian sheaves on the big ph and étale sites
 /-- **The big square of Stacks 0DGW on abelian sheaves**:
 `ε_{X,*} ∘ f_{big,ph,*} = f_{big,étale,*} ∘ ε_{Y,*}`. -/
 def phToBigEtale_comp_phAbelianPushforwardIso :

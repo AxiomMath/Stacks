@@ -7,9 +7,9 @@ public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.TensorAssociatorSe
 # The generator formula for the conormal sheaf of an affine surjection
 
 Let `φ : R ⟶ S` be a surjection of commutative rings, so that `Spec φ` is a closed immersion with
-ideal sheaf `(ker φ)^~`. `StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.AffineZeroSection`
-builds the two identifications
-`Stacks.ClosedImmersion.AffineConormal.surjIdealSheafIso` and
+ideal sheaf `(ker φ)^~`.
+`StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.AffineZeroSection` builds the two
+identifications `Stacks.ClosedImmersion.AffineConormal.surjIdealSheafIso` and
 `Stacks.ClosedImmersion.AffineConormal.surjConormalBaseChangeIso` but, as its implementation notes
 record, leaves the second computing on nothing: the generator formula a consumer needs was beyond
 the elaborator's budget. **This file supplies it.**

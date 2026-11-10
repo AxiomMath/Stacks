@@ -61,7 +61,7 @@ private lemma isZero_over_of_locallySurjOn_zero (K : SheafOfModules.{u} R) (W : 
       ⟶ K) W) :
     IsZero (K.over W) := by
   have h0 : ((0 : K ⟶ K).over W) = (0 : K.over W ⟶ K.over W) := by
-    show (SheafOfModules.overFunctor R W).map (0 : K ⟶ K) = 0
+    change (SheafOfModules.overFunctor R W).map (0 : K ⟶ K) = 0
     rfl
   have hepi : Epi ((0 : K ⟶ K).over W) :=
     epi_over_of_locallySurjOn (Y := auxiliaryRingedSpace X) (0 : K ⟶ K) W h

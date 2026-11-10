@@ -174,10 +174,10 @@ theorem continuous_pseudoDiscrete_pushforward {Y Z : TopCat.{u}} [PrespectralSpa
           ((α.app (op V')).hom.comp (G.map (homOfLE hV'le).op).hom) := by
     rw [← CommRingCat.hom_comp, ← CommRingCat.hom_comp, ← CommRingCat.hom_comp,
       α.naturality, Category.assoc]
-    show (α.app (op V) ≫ F.map _).hom = (α.app (op V) ≫ F.map _ ≫ F.map _).hom
+    change (α.app (op V) ≫ F.map _).hom = (α.app (op V) ≫ F.map _ ≫ F.map _).hom
     rw [← F.map_comp]
     congr 2
-  show Continuous[pseudoDiscreteTopology G V, ⊥]
+  change Continuous[pseudoDiscreteTopology G V, ⊥]
     ((F.map (homOfLE W.2.2).op).hom.comp (α.app (op V)).hom)
   rw [heq]
   let _ : TopologicalSpace (G.obj (op V)) := pseudoDiscreteTopology G V
@@ -392,7 +392,7 @@ theorem spfLimitMap_eq (I₀ I₀' : IdealsOfDefinition A) :
 `I₀` of `A`. -/
 theorem spfMapC_eq (I₀ I₀' : IdealsOfDefinition A) :
     spfMapC A B hφ I₀ hA = spfMapC A B hφ I₀' hA := by
-  show spfLimitMap A B hφ I₀ hA ≫ _ = spfLimitMap A B hφ I₀' hA ≫ _
+  change spfLimitMap A B hφ I₀ hA ≫ _ = spfLimitMap A B hφ I₀' hA ≫ _
   rw [spfLimitMap_eq A B hφ hA I₀ I₀']
 
 /-- `Spf φ` does not depend on the chosen ideal of definition `I₀` of `A`, so it is canonically

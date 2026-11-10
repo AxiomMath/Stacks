@@ -89,6 +89,7 @@ theorem PrimeDivisor.genericPoint_notMem_support [IsIntegral X] (Z : PrimeDiviso
 
 variable [IsLocallyNoetherian X]
 
+omit [IsLocallyNoetherian X] in
 /-- **The ideal sheaf of the positive part of a Weil divisor is the unit ideal at the generic
 point** of an integral scheme: every prime divisor misses that point, so every factor of the
 product is the unit ideal there. -/
@@ -145,7 +146,7 @@ theorem two_le_codimension_compl_weilDivisorInvertibleOpen (D : WeilDivisor X) (
   rw [← coheight_eq_codimension_closureSingleton]
   by_contra hlt
   refine hx (IdealSheafData.mem_principalOpen_of_stalk_isPrincipal _ ?_)
-  rcases ENat.le_one_iff_eq_zero_or_eq_one.mp (ENat.lt_two_iff.mp (lt_of_not_ge hlt)) with
+  rcases Order.le_one_iff.mp (ENat.lt_two_iff.mp (lt_of_not_ge hlt)) with
     hzero | hone
   · have hle : x ≤ genericPoint X :=
       Scheme.le_iff_specializes.mpr (genericPoint_specializes x)
@@ -177,7 +178,7 @@ variable (U : X.Opens)
 
 include hU
 
-omit [IsIntegral X] [IsNormal X] in
+omit [IsLocallyNoetherian X] [IsIntegral X] [IsNormal X] in
 /-- **The order of `𝒪_X(D)` along a prime divisor of the open subscheme.**  The ideal sheaf
 induces, in the local ring at the generic point of a prime divisor `W` of `U`, the `D_Z`-th power
 of the maximal ideal, where `Z` is the prime divisor of `X` that `W` comes from. -/

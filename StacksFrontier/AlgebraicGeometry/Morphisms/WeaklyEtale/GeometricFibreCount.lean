@@ -95,10 +95,10 @@ private lemma discreteTopology_geometricFiber {X Y : Scheme.{u}} (f : X ⟶ Y)
     pullback.snd (f.fiberToSpecResidueField y)
       (Spec.map (CommRingCat.ofHom (algebraMap (Y.residueField y) K)))
   have : LocallyQuasiFinite (f.fiberToSpecResidueField y) := by
-    show LocallyQuasiFinite (pullback.snd f (Y.fromSpecResidueField y))
+    change LocallyQuasiFinite (pullback.snd f (Y.fromSpecResidueField y))
     infer_instance
   have hg : LocallyQuasiFinite g := by
-    show LocallyQuasiFinite (pullback.snd (f.fiberToSpecResidueField y)
+    change LocallyQuasiFinite (pullback.snd (f.fiberToSpecResidueField y)
       (Spec.map (CommRingCat.ofHom (algebraMap (Y.residueField y) K))))
     infer_instance
   have h := g.isDiscrete_preimage_singleton (Classical.arbitrary (Spec (CommRingCat.of K)))

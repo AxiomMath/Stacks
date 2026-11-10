@@ -374,7 +374,7 @@ private theorem exists_ne_zero_smul_mem {A F W : Type*} [CommRing A] [Nontrivial
   apply Submodule.sum_mem
   intro i hi
   obtain ⟨ri, hri⟩ := hb i hi
-  show (b : A) • (c i • i) ∈ Y
+  change (b : A) • (c i • i) ∈ Y
   have key : (b : A) • (c i • i) = ri • i := by
     rw [← IsScalarTower.algebraMap_smul F (b : A) (c i • i), smul_smul,
       ← Algebra.smul_def, ← hri, IsScalarTower.algebraMap_smul F ri i]
@@ -455,9 +455,9 @@ theorem latticeQuot_length_finite (hdim : ringKrullDim R = 1)
     obtain ⟨c, hc⟩ := c
     obtain ⟨d, rfl⟩ := Ideal.mem_span_singleton'.mp hc
     obtain ⟨a, rfl⟩ := Submodule.Quotient.mk_surjective _ q
-    show (d * r) • (Submodule.Quotient.mk a) = 0
+    change (d * r) • (Submodule.Quotient.mk a) = 0
     rw [← Submodule.Quotient.mk_smul, Submodule.Quotient.mk_eq_zero, Submodule.mem_comap]
-    show (d * r) • (a : V) ∈ Y
+    change (d * r) • (a : V) ∈ Y
     rw [mul_smul]
     exact Y.smul_mem d (rAY a a.property)
   -- finiteness endgame
@@ -557,7 +557,7 @@ theorem latticeDist_additivity (hdim : ringKrullDim R = 1)
     have hLfin1 : Module.length R (↥B₁ ⧸ Submodule.comap B₁.subtype (B₁ ⊓ B₂)) ≠ ⊤ := by
       intro h; rw [e1, h, add_top] at hfinf1; exact hfinf1 rfl
     have t1 : c (B₁ ⊓ B₂) = c B₁ + lenQuot B₁ B₂ := by
-      show (Module.length R (↥A ⧸ Submodule.comap A.subtype (B₁ ⊓ B₂))).toNat
+      change (Module.length R (↥A ⧸ Submodule.comap A.subtype (B₁ ⊓ B₂))).toNat
         = (Module.length R (↥A ⧸ Submodule.comap A.subtype B₁)).toNat + lenQuot B₁ B₂
       rw [e1, ENat.toNat_add hfA1 hLfin1]; rfl
     have := congrArg (Nat.cast (R := ℤ)) t1
@@ -1073,7 +1073,7 @@ theorem latticeDist_integral'
       exact Submodule.subset_span ⟨j, rfl⟩
   have hinfNeN : N ⊓ eN = eN := inf_eq_right.mpr heNle
   have hinfeNN : eN ⊓ N = eN := inf_eq_left.mpr heNle
-  show (lenQuot N eN : ℤ) - (lenQuot eN N : ℤ) = (ordOnRing r : ℤ)
+  change (lenQuot N eN : ℤ) - (lenQuot eN N : ℤ) = (ordOnRing r : ℤ)
   have hq2 : lenQuot eN N = 0 := by
     unfold lenQuot
     rw [hinfeNN, Submodule.comap_subtype_self]

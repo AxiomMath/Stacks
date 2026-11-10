@@ -143,10 +143,9 @@ theorem comparisonValues_wedgeMap (i : ℕ) (ω : Om i) (z : CompletedTensor p D
       comparisonWedgeComposite D D' σ M M' mu Om Om' psi wedge i ω y =
         LinearMap.lTensor M' (wedge' i (psi i ω)) (TensorProduct.map mu (psi 1) y) := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction y using TensorProduct.inductionOn with
     | tmul m η =>
-      show mu m ⊗ₜ[D'] psi (i + 1) (wedge i ω η) =
+      change mu m ⊗ₜ[D'] psi (i + 1) (wedge i ω η) =
         mu m ⊗ₜ[D'] wedge' i (psi i ω) (psi 1 η)
       rw [hpsi_wedge i ω η]
     | add y z hy hz => simp only [map_add, hy, hz]
@@ -172,8 +171,7 @@ private theorem rawDifferential_comparisonValues (i : ℕ) (y : M ⊗[D] Om i) :
         (TensorProduct.map mu (psi i) y) =
       comparisonValues p D D' σ M M' mu Om Om' psi (i + 1)
         (rawDifferential p D Om wedge deRham M nabla hleib i y) := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction y using TensorProduct.inductionOn with
   | tmul m ω =>
     rw [TensorProduct.map_tmul, rawDifferential_tmul, rawDifferential_tmul, map_add,
       comparisonValues_wedgeMap p D D' σ M M' mu Om Om' psi wedge wedge' hpsi_wedge,
@@ -195,10 +193,10 @@ theorem differential_comparisonValues (i : ℕ) (x : CompletedTensor p D (Om i) 
     ((pAdicIdeal (A := D) p) ^ k • ⊤ : Submodule D (M ⊗[D] Om i)) (x.val k)
   have hBi : (comparisonValues p D D' σ M M' mu Om Om' psi i x).val k =
       Submodule.Quotient.mk (TensorProduct.map mu (psi i) y) := by
-    show adicQuotientMap (TensorProduct.map mu (psi i)) (map_pAdicIdeal_le p σ) k (x.val k) = _
+    change adicQuotientMap (TensorProduct.map mu (psi i)) (map_pAdicIdeal_le p σ) k (x.val k) = _
     rw [← hy]
     rfl
-  show levelDifferential p D' Om' wedge' deRham' M' nabla' hleib' i k
+  change levelDifferential p D' Om' wedge' deRham' M' nabla' hleib' i k
       ((comparisonValues p D D' σ M M' mu Om Om' psi i x).val k) =
     adicQuotientMap (TensorProduct.map mu (psi (i + 1))) (map_pAdicIdeal_le p σ) k
       ((differential p D Om wedge deRham M nabla hleib i x).val k)
@@ -228,7 +226,7 @@ theorem completedRingMap_id (n : SimplexCategory) (x : E.completedRing p n.len) 
     E.completedRingMap p (𝟙 n) x = x :=
   adicCompletionMapₛₗ_id_apply (ringHomₛₗ (E.map (𝟙 n)).toRingHom) _
     (fun y => by
-      show (E.map (𝟙 n)) y = y
+      change (E.map (𝟙 n)) y = y
       rw [E.map_id n]
       rfl) x
 
@@ -239,7 +237,7 @@ theorem completedRingMap_comp {m n k : SimplexCategory} (φ : m ⟶ n) (ψ : n �
   adicCompletionMapₛₗ_comp_apply (ringHomₛₗ (E.map φ).toRingHom)
     (ringHomₛₗ (E.map ψ).toRingHom) (ringHomₛₗ (E.map (φ ≫ ψ)).toRingHom) _ _ _
     (fun y => by
-      show (E.map (φ ≫ ψ)) y = (E.map ψ) ((E.map φ) y)
+      change (E.map (φ ≫ ψ)) y = (E.map ψ) ((E.map φ) y)
       rw [E.map_comp φ ψ]
       rfl) x
 
@@ -309,10 +307,9 @@ theorem tensorMap_id (n : SimplexCategory) (a : ℕ) (x : W.obj a n.len) :
     W.tensorMap (𝟙 n) a x = x :=
   adicCompletionMapₛₗ_id_apply _ _
     (fun y => by
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul x ω =>
-        show (W.map (𝟙 n) x) ⊗ₜ[E.completedRing p n.len] (E.formsMap p (𝟙 n) a ω) = _
+        change (W.map (𝟙 n) x) ⊗ₜ[E.completedRing p n.len] (E.formsMap p (𝟙 n) a ω) = _
         rw [W.map_id_apply, E.formsMap_id]
       | add y z hy hz => rw [map_add, hy, hz]) x
 
@@ -325,10 +322,9 @@ theorem tensorMap_comp {m n k : SimplexCategory} (φ : m ⟶ n) (ψ : n ⟶ k) (
     (TensorProduct.map (W.map ψ) (E.formsMapCompleted p ψ a))
     (TensorProduct.map (W.map (φ ≫ ψ)) (E.formsMapCompleted p (φ ≫ ψ) a)) _ _ _
     (fun y => by
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul x ω =>
-        show (W.map (φ ≫ ψ) x) ⊗ₜ[E.completedRing p k.len] (E.formsMap p (φ ≫ ψ) a ω) = _
+        change (W.map (φ ≫ ψ) x) ⊗ₜ[E.completedRing p k.len] (E.formsMap p (φ ≫ ψ) a ω) = _
         rw [W.map_comp_apply, E.formsMap_comp]
         rfl
       | add y z hy hz => simp only [map_add, hy, hz]) x

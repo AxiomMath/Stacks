@@ -112,7 +112,7 @@ theorem guitartExact_twoFibreProductSquare
   have hefac : e.hom ≫ g.map β = α := Functor.IsStronglyCartesian.fac pY q (g.map β) hq α
   let z₀ : w.StructuredArrowRightwards α :=
     TwoSquare.StructuredArrowRightwards.mk w α P₀ (𝟙 x) β (by
-      show f.map (𝟙 x) ≫ e.hom ≫ g.map β = α
+      change f.map (𝟙 x) ≫ e.hom ≫ g.map β = α
       rw [f.map_id, Category.id_comp, hefac])
   have hfrom (z₁ : w.StructuredArrowRightwards α) : z₀ ⟶ z₁ := by
     refine Classical.choice ?_

@@ -100,7 +100,7 @@ theorem isLocalizedModule_homologyMap (S : Submonoid R)
       obtain ⟨w₀, rfl⟩ := (hb s (n - 1)).2 w
       rw [← sub_eq_zero, ← map_sub, homologyπ_eq_zero_iff]
       refine ⟨w₀, (hb s n).1 ?_⟩
-      show (s : R) • Y'.d (n - 1) n w₀ = (s : R) • Y'.iCycles n (z₁ - z₂)
+      change (s : R) • Y'.d (n - 1) n w₀ = (s : R) • Y'.iCycles n (z₁ - z₂)
       rw [← map_smul, ← map_smul]
       exact hw
     · intro x
@@ -109,12 +109,12 @@ theorem isLocalizedModule_homologyMap (S : Submonoid R)
       have hd : Y'.d n (n + 1) y₀ = 0 := by
         refine (hb s (n + 1)).1 (?_ : (s : R) • Y'.d n (n + 1) y₀ = (s : R) • 0)
         rw [smul_zero, ← map_smul]
-        show Y'.d n (n + 1) ((fun y : Y'.X n => (s : R) • y) y₀) = 0
+        change Y'.d n (n + 1) ((fun y : Y'.X n => (s : R) • y) y₀) = 0
         rw [hy₀]
         exact hid Y' z
       obtain ⟨z₀, hz₀⟩ := exists_cycles_of_d_eq_zero Y' n y₀ hd
       refine ⟨Y'.homologyπ n z₀, ?_⟩
-      show (s : R) • Y'.homologyπ n z₀ = Y'.homologyπ n z
+      change (s : R) • Y'.homologyπ n z₀ = Y'.homologyπ n z
       rw [← map_smul]
       congr 1
       apply hinj Y'
@@ -126,7 +126,7 @@ theorem isLocalizedModule_homologyMap (S : Submonoid R)
     change (s : R) • Y'.iCycles n z = ℓ.f n m at hms
     have hdm : (ℓ.f (n + 1)).hom (Y.d n (n + 1) m) = (ℓ.f (n + 1)).hom 0 := by
       rw [map_zero]
-      show ℓ.f (n + 1) (Y.d n (n + 1) m) = 0
+      change ℓ.f (n + 1) (Y.d n (n + 1) m) = 0
       rw [hcomm, ← hms, map_smul, hid Y' z, smul_zero]
     obtain ⟨t, ht⟩ := IsLocalizedModule.exists_of_eq (S := S) (f := (ℓ.f (n + 1)).hom) hdm
     rw [smul_zero, Submonoid.smul_def] at ht
@@ -134,7 +134,7 @@ theorem isLocalizedModule_homologyMap (S : Submonoid R)
       (by rw [map_smul]; exact ht)
     refine ⟨⟨Y.homologyπ n c, t * s⟩, ?_⟩
     rw [Submonoid.smul_def]
-    show ((t * s : S) : R) • Y'.homologyπ n z =
+    change ((t * s : S) : R) • Y'.homologyπ n z =
       HomologicalComplex.homologyMap ℓ n (Y.homologyπ n c)
     rw [hmap, ← map_smul]
     congr 1
@@ -152,7 +152,7 @@ theorem isLocalizedModule_homologyMap (S : Submonoid R)
     change (s : R) • w = ℓ.f (n - 1) m at hms
     have heq : (ℓ.f n).hom ((s : R) • Y.iCycles n (z₁ - z₂)) =
         (ℓ.f n).hom (Y.d (n - 1) n m) := by
-      show ℓ.f n ((s : R) • Y.iCycles n (z₁ - z₂)) = ℓ.f n (Y.d (n - 1) n m)
+      change ℓ.f n ((s : R) • Y.iCycles n (z₁ - z₂)) = ℓ.f n (Y.d (n - 1) n m)
       rw [hcomm, ← hms, map_smul, map_smul, hw]
     obtain ⟨t, ht⟩ := IsLocalizedModule.exists_of_eq (S := S) (f := (ℓ.f n).hom) heq
     rw [Submonoid.smul_def, Submonoid.smul_def] at ht
@@ -169,10 +169,11 @@ namespace IsLocalizedModule
 variable {R : Type u} [CommRing R] (S : Submonoid R)
 
 /-- **A direct sum of localizations is a localization.** -/
-theorem directSum_lmap {ι : Type*} [DecidableEq ι] {M M' : ι → Type*}
+theorem directSum_lmap {ι : Type*} {M M' : ι → Type*}
     [∀ i, AddCommGroup (M i)] [∀ i, Module R (M i)] [∀ i, AddCommGroup (M' i)]
     [∀ i, Module R (M' i)] (f : ∀ i, M i →ₗ[R] M' i) [∀ i, IsLocalizedModule S (f i)] :
     IsLocalizedModule S (DirectSum.lmap f) := by
+  classical
   refine ⟨fun s => ?_, fun y => ?_, fun {x₁ x₂} hx => ?_⟩
   · have hb : ∀ i, Function.Bijective (fun y : M' i => (s : R) • y) := fun i =>
       CochainComplex.bijective_smul_of_isLocalizedModule (f i) s
@@ -186,7 +187,7 @@ theorem directSum_lmap {ι : Type*} [DecidableEq ι] {M M' : ι → Type*}
         { toFun := g i
           map_zero' := (hb i).1 ((hg' i 0).trans (smul_zero _).symm)
           map_add' := fun a b => (hb i).1 ((hg' i (a + b)).trans (by
-            show a + b = (s : R) • (g i a + g i b)
+            change a + b = (s : R) • (g i a + g i b)
             rw [smul_add, hg' i a, hg' i b])) }
       refine ⟨DFinsupp.mapRange.addMonoidHom gl y, ?_⟩
       ext i
@@ -197,7 +198,7 @@ theorem directSum_lmap {ι : Type*} [DecidableEq ι] {M M' : ι → Type*}
       obtain ⟨⟨x, s⟩, hxs⟩ := IsLocalizedModule.surj S (f i) y
       refine ⟨⟨DirectSum.of M i x, s⟩, ?_⟩
       rw [Submonoid.smul_def] at hxs ⊢
-      show (s : R) • DirectSum.lof R ι M' i y = DirectSum.lmap f (DirectSum.lof R ι M i x)
+      change (s : R) • DirectSum.lof R ι M' i y = DirectSum.lmap f (DirectSum.lof R ι M i x)
       rw [DirectSum.lmap_lof, ← map_smul, hxs]
     | add y₁ y₂ h₁ h₂ =>
       obtain ⟨⟨x₁, s₁⟩, e₁⟩ := h₁
@@ -216,7 +217,7 @@ theorem directSum_lmap {ι : Type*} [DecidableEq ι] {M M' : ι → Type*}
     rw [← sub_eq_zero, ← smul_sub]
     ext i
     rw [DirectSum.zero_apply]
-    show ((∏ j ∈ (x₁ - x₂).support, c j : S) : R) • (x₁ - x₂) i = 0
+    change ((∏ j ∈ (x₁ - x₂).support, c j : S) : R) • (x₁ - x₂) i = 0
     by_cases hi : i ∈ (x₁ - x₂).support
     · rw [← Finset.mul_prod_erase _ _ hi, Submonoid.coe_mul, mul_comm, mul_smul]
       have := hc i
@@ -240,10 +241,11 @@ private theorem exists_iso_directSum_of_isColimit {J : Type w} [DecidableEq J]
 /-- **A colimit of localizations is a localization.** If two coproducts of modules are compared
 by a map restricting on each summand to a localization at `S`, that map is a localization at
 `S`. -/
-theorem of_isColimit_cofan {J : Type w} [DecidableEq J] {M M' : J → ModuleCat.{max w v} R}
+theorem of_isColimit_cofan {J : Type w} {M M' : J → ModuleCat.{max w v} R}
     {c : Cofan M} (hc : IsColimit c) {c' : Cofan M'} (hc' : IsColimit c')
     (g : c.pt ⟶ c'.pt) (f : ∀ j, M j ⟶ M' j) (hfg : ∀ j, c.inj j ≫ g = f j ≫ c'.inj j)
     (hf : ∀ j, IsLocalizedModule S (f j).hom) : IsLocalizedModule S g.hom := by
+  classical
   obtain ⟨e, he⟩ := exists_iso_directSum_of_isColimit hc
   obtain ⟨e', he'⟩ := exists_iso_directSum_of_isColimit hc'
   have hg : g ≫ e'.hom = e.hom ≫ ModuleCat.ofHom (DirectSum.lmap fun j => (f j).hom) := by

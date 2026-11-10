@@ -80,11 +80,11 @@ theorem exteriorPower_basis_eq_stdWedge {j : ℕ} (S : Finset (Fin r)) (hS : S.c
       ExteriorAlgebra R (Fin r → R)) = stdWedge S := by
   subst hS
   rw [exteriorPower.basis_apply]
-  show ExteriorAlgebra.ιMulti R S.card _ = _
+  change ExteriorAlgebra.ιMulti R S.card _ = _
   rw [ExteriorAlgebra.ιMulti_apply]
   simp only [Function.comp_apply, Pi.basisFun_apply,
     Set.powersetCard.ofFinEmbEquiv_symm_apply]
-  show (List.ofFn (fun i ↦ ExteriorAlgebra.ι R
+  change (List.ofFn (fun i ↦ ExteriorAlgebra.ι R
     (Pi.single ((S.orderEmbOfFin rfl) i) (1 : R) : Fin r → R))).prod = _
   rw [List.ofFn_comp' (S.orderEmbOfFin (k := S.card) rfl)
     (fun j : Fin r ↦ ExteriorAlgebra.ι R (Pi.single j (1 : R) : Fin r → R)),
@@ -268,7 +268,7 @@ theorem sc_sw (S T : Finset (Fin r)) : sc f n T (sw f n S) = if S = T then 1 els
 /-- The ordered wedge `e_S` has cohomological degree `-|S|` in `K_{n+1}`. -/
 theorem sw_mem (S : Finset (Fin r)) : sw f n S ∈ (stageAlg f n).grading (-(S.card : ℤ)) := by
   have h := powAlgebra_grading_neg_natCast f (n + 1) S.card
-  show stdWedge S ∈ (powAlgebra f (n + 1)).grading (-(S.card : ℤ))
+  change stdWedge S ∈ (powAlgebra f (n + 1)).grading (-(S.card : ℤ))
   rw [h]
   exact stdWedge_mem S
 
@@ -559,7 +559,7 @@ theorem tensorCoord_absRestr {n n' : ℕ} (a : stage.{u} n' ⟶ stage n) (t : �
     (h := (coefficientKoszulTransitionTerm f n' n K t).hom.comp (tensorCoord f n' K t))
     fun p k T => ?_) w
   funext S
-  show tensorCoord f n K t (absRestr (powDiagram f) K a (absTmul (powDiagram f) K _ (lofR K p k)
+  change tensorCoord f n K t (absRestr (powDiagram f) K a (absTmul (powDiagram f) K _ (lofR K p k)
     (sw f n' T))) S = (coefficientKoszulTransitionTerm f n' n K t).hom
       (tensorCoord f n' K t (lofR K p k ⊗ₜ[R] sw f n' T)) S
   rw [absRestr_tmul, coefficientKoszulTransitionTerm_apply, tensorCoord_tmul,
@@ -578,11 +578,11 @@ theorem tensorCoord_absMap {L : CochainComplex (ModuleCat.{u} R) ℤ} (g : K ⟶
       (coefficientMapTerm g t).hom.comp (tensorCoord f n K t) := by
     refine TensorProduct.ext' fun x e => ?_
     funext S
-    show tensorCoord f n L t (absMap (powDiagram f) g (stage n)
+    change tensorCoord f n L t (absMap (powDiagram f) g (stage n)
         (absTmul (powDiagram f) K _ x e)) S = (g.f (t + S.card)).hom (tensorCoord f n K t
           (x ⊗ₜ[R] e) S)
     rw [absMap_tmul]
-    show sc f n S e • compR L (t + S.card) (DirectSum.lmap (fun n => (g.f n).hom) x) =
+    change sc f n S e • compR L (t + S.card) (DirectSum.lmap (fun n => (g.f n).hom) x) =
       (g.f (t + S.card)).hom (sc f n S e • compR K (t + S.card) x)
     rw [map_smul]
     rfl
@@ -593,7 +593,7 @@ theorem tensorCoord_lofR_one (t : ℤ) (k : K.X t) :
     tensorCoord f n K t (lofR K t k ⊗ₜ[R] 1) = (coefficientKoszulUnitTerm (r := r) K t).hom k := by
   funext S
   rw [← sw_empty f n, tensorCoord_lofR_sw]
-  show _ = (if h : S = ∅ then (eqToHom (by subst S; simp) : K.X t ⟶ K.X (t + S.card)).hom
+  change _ = (if h : S = ∅ then (eqToHom (by subst S; simp) : K.X t ⟶ K.X (t + S.card)).hom
     else 0) k
   by_cases hS : S = ∅
   · subst hS
@@ -846,7 +846,7 @@ theorem extendSectionsTowerIso_naturality {L : CochainComplex (ModuleCat.{u} R) 
       (extendSectionsTowerIso f K).hom.app (op n) ≫
         ((coefficientKoszulTower f).map g).app (op n) := by
   ext t x
-  show extSecCoord f L n t ((((extendSectionsTowerMap f g).app (op n)).f t).hom x) =
+  change extSecCoord f L n t ((((extendSectionsTowerMap f g).app (op n)).f t).hom x) =
     (coefficientMapTerm g t).hom (extSecCoord f K n t x)
   exact (extSecCoord_apply f L n t _).trans ((congrArg
     (fun z => tensorCoord f n L t (absEquiv (powDiagram f) L (stage n) z))
@@ -860,7 +860,7 @@ theorem extendUnit_extendSectionsTowerIso (n : ℕ) (p : ℤ) :
       ((coefficientKoszulAugmentation f n).app K).f p := by
   rw [coefficientKoszulAugmentation_f]
   ext k
-  show extSecCoord f K n p (extendUnitElt (liftedPowAlg f) K p (stage n) k) =
+  change extSecCoord f K n p (extendUnitElt (liftedPowAlg f) K p (stage n) k) =
     (coefficientKoszulUnitTerm (r := r) K p).hom k
   have h1 : extSecElt f K n p (extendUnitElt (liftedPowAlg f) K p (stage n) k) =
       unitElt (sysAlg (powDiagram f)) K (stage n) (baseElt K p k) := rfl

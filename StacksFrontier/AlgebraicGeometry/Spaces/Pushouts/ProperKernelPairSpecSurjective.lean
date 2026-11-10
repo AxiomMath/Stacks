@@ -112,7 +112,7 @@ theorem schemeTheoreticImageSubfunctor_kernelPairSpecπ_eq_top (hg : IsProper B 
   have hℓι : ℓo ≫ ιWo = kernelPairSpecπOver hg := Over.OverMorphism.ext hℓ
   have heq : kernelPairFstOver g ≫ ℓo = kernelPairSndOver g ≫ ℓo :=
     Over.OverMorphism.ext (hmono _ _ (by
-      show (pullback.fst g g ≫ ℓ) ≫ ιW = (pullback.snd g g ≫ ℓ) ≫ ιW
+      change (pullback.fst g g ≫ ℓ) ≫ ιW = (pullback.snd g g ≫ ℓ) ≫ ιW
       rw [Category.assoc, Category.assoc, hℓ]
       exact kernelPairSpecπ_equalizes hg))
   have hsharp : pushforwardAlgebraMap B S hS ℓo ≫ kernelPairFstMap g =
@@ -127,7 +127,7 @@ theorem schemeTheoreticImageSubfunctor_kernelPairSpecπ_eq_top (hg : IsProper B 
   have hrι : r ≫ ιWo = 𝟙 _ := by
     refine eq_of_pushforwardAlgebraMap_eq B S hS X'o ?_
     rw [pushforwardAlgebraMap_comp, pushforwardAlgebraMap_id, hr]
-    show pushforwardAlgebraMap B S hS ιWo ≫ AlgebraSheaf.equalizerAlgebraLift _ _ _ hsharp ≫
+    change pushforwardAlgebraMap B S hS ιWo ≫ AlgebraSheaf.equalizerAlgebraLift _ _ _ hsharp ≫
       (kernelPairSpecIso hg).inv = _
     have key : pushforwardAlgebraMap B S hS ιWo ≫
         AlgebraSheaf.equalizerAlgebraLift _ _ _ hsharp = (kernelPairSpecIso hg).hom :=

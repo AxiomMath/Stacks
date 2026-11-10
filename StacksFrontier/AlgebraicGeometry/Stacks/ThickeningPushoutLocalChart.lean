@@ -116,7 +116,7 @@ private lemma map_app_id_eq_of_yoneda_map_comp_eq.{v, w} {C : Type w} [Category.
   change m'.app (op A) (𝟙 A ≫ k) = j.app (op A) (m.app (op A) (𝟙 A)) at h'
   refine Eq.trans ?_ h'
   refine (NatTrans.naturality_apply m' k.op (𝟙 A')).symm.trans ?_
-  show m'.app (op A) (k ≫ 𝟙 A') = m'.app (op A) (𝟙 A ≫ k)
+  change m'.app (op A) (k ≫ 𝟙 A') = m'.app (op A) (𝟙 A ≫ k)
   rw [Category.comp_id, Category.id_comp]
 
 /-- **Stacks 07WN, the construction of a local preimage on charts.** -/
@@ -129,7 +129,6 @@ theorem nonempty_localChartData (hlift : SchemeChartLiftProperty B S hS)
     (hsu : HasRelativeProperty.{u, u, u + 1, u} B S hS (Space.surjectiveMorphismProperty B S hS)
       f₀ hf₀)
     {X X' Y Y' : BigFppfOver B S hS} (i : X ⟶ X') (f : X ⟶ Y) (a : X' ⟶ Y') (b : Y ⟶ Y')
-    (w : i ≫ a = f ≫ b)
     (hi : Stacks.Thickenings.IsThickening ((BigFppfOver.toScheme B S hS).map i))
     [IsAffineHom ((BigFppfOver.toScheme B S hS).map f)]
     (hsq : IsPushout ((BigFppfOver.toScheme B S hS).map i)
@@ -193,7 +192,7 @@ theorem nonempty_localChartData (hlift : SchemeChartLiftProperty B S hS)
   have hmapτ' : yoneda.map τ'.1 = m' ≫ ρX' := by
     apply yonedaEquiv.injective
     rw [yonedaEquiv_comp, yonedaEquiv_yoneda_map]
-    show τ'.1 = ρX'.app (op U'₁) (m'.app (op U'₁) (𝟙 U'₁))
+    change τ'.1 = ρX'.app (op U'₁) (m'.app (op U'₁) (𝟙 U'₁))
     rw [← hτ']
     exact (chartFst_app_tripSection eQ τ').symm
   have ht'sm : Smooth (Φs.map τ'.1) := by
@@ -418,7 +417,7 @@ theorem fiberSquareComparison_isEquivalence_of_schemeChartLift.{w'}
   refine fiberSquareComparison_isEquivalence_of_isAlgebraicStack_of_localPreimage 𝒵 h𝒵
     w hi hsq (fun e => ?_)
   obtain ⟨U₀, f₀, hf₀, hsm, hsu⟩ := exists_atlas_of_isAlgebraicStack 𝒵 h𝒵
-  obtain ⟨D⟩ := nonempty_localChartData hlift _ f₀ hf₀ hsm hsu i f a b w hi hsq
+  obtain ⟨D⟩ := nonempty_localChartData hlift _ f₀ hf₀ hsm hsu i f a b hi hsq
     𝒵.p.chosenPullbacks e.fst e.snd e.iso
   have := D.smooth_q
   exact ⟨D.P, D.q, D.surjective_q, inferInstance, inferInstance,

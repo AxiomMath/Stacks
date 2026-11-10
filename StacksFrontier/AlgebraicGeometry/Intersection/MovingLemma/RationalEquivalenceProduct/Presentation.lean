@@ -105,6 +105,7 @@ def fibreComponentSets {ι : Type*} (W : ι → (projectiveLineProduct p).IdealS
 
 variable {k p}
 
+omit [IsAlgClosed k] in
 /-- For a finite family `W`, the set `fibreComponentSets k p W` is finite. -/
 theorem finite_fibreComponentSets {ι : Type*} [Finite ι]
     (W : ι → (projectiveLineProduct p).IdealSheafData) : (fibreComponentSets k p W).Finite := by
@@ -113,6 +114,7 @@ theorem finite_fibreComponentSets {ι : Type*} [Finite ι]
   have : IsNoetherian X := ⟨⟩
   exact Set.finite_iUnion fun i => (finite_componentSets _).union (finite_componentSets _)
 
+omit [IsAlgClosed k] [IsVariety k p] in
 /-- Every member of `fibreComponentSets k p W` is closed in `X`. -/
 theorem isClosed_of_mem_fibreComponentSets {ι : Type*}
     {W : ι → (projectiveLineProduct p).IdealSheafData} {A : Set X}
@@ -122,6 +124,7 @@ theorem isClosed_of_mem_fibreComponentSets {ι : Type*}
   · exact isClosed_of_mem_componentSets (zeroFiber p (W i)).support.isClosed hi
   · exact isClosed_of_mem_componentSets (infinityFiber p (W i)).support.isClosed hi
 
+omit [IsAlgClosed k] [IsVariety k p] in
 /-- Every member of `fibreComponentSets k p W` is irreducible. -/
 theorem isIrreducible_of_mem_fibreComponentSets {ι : Type*}
     {W : ι → (projectiveLineProduct p).IdealSheafData} {A : Set X}
@@ -131,6 +134,7 @@ theorem isIrreducible_of_mem_fibreComponentSets {ι : Type*}
   · exact isIrreducible_of_mem_componentSets hi
   · exact isIrreducible_of_mem_componentSets hi
 
+omit [IsAlgClosed k] in
 /-- **Every member of the family has dimension `r`.** -/
 theorem topologicalKrullDim_of_mem_fibreComponentSets {ι : Type*}
     {W : ι → (projectiveLineProduct p).IdealSheafData} [∀ i, IsIntegral (W i).subscheme] {r : ℕ}
@@ -175,7 +179,7 @@ theorem torFormulaCycleIntersectionProduct_sum_mem_ratCycles (n r s : ℕ)
   have : IsLocallyNoetherian X := isLocallyNoetherian_of_isRegular hX
   have : CompactSpace X := QuasiCompact.compactSpace_of_compactSpace p
   have : IsNoetherian X := ⟨⟩
-  show cycleIntersectionProductLeftHom (torFormulaSubvarietyProductTotal (fieldChowSituation k)
+  change cycleIntersectionProductLeftHom (torFormulaSubvarietyProductTotal (fieldChowSituation k)
     p hX ((r : ℤ) + s - n)) (Function.locallyFinsuppWithin.single z 1) _ ∈ _
   rw [map_sum]
   refine AddSubgroup.sum_mem _ fun i _ => ?_

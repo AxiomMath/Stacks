@@ -84,10 +84,10 @@ theorem isIso_etaleModuleBaseChange_app_of_isIntegralHom (sq : IsPullback i' g' 
   let di' : etaleModuleUnderlyingAbelian (X := Z') Λ ⋙ smallEtalePushforwardAb i' ⟶
       etaleModuleDirectImage.{u, 0} Λ i' ⋙ etaleModuleUnderlyingAbelian (X := X') Λ := 𝟙 _
   have : IsIso di := by
-    show IsIso (𝟙 (etaleModuleDirectImage.{u, 0} Λ i ⋙ etaleModuleUnderlyingAbelian (X := X) Λ))
+    change IsIso (𝟙 (etaleModuleDirectImage.{u, 0} Λ i ⋙ etaleModuleUnderlyingAbelian (X := X) Λ))
     infer_instance
   have : IsIso di' := by
-    show IsIso (𝟙 (etaleModuleDirectImage.{u, 0} Λ i' ⋙ etaleModuleUnderlyingAbelian (X := X') Λ))
+    change IsIso (𝟙 (etaleModuleDirectImage.{u, 0} Λ i' ⋙ etaleModuleUnderlyingAbelian (X := X') Λ))
     infer_instance
   have hAb := isIso_smallEtaleBaseChangeAb_of_isIntegralHom g i i' g' sq
   rw [show smallEtaleBaseChangeAb g i i' g' sq.w = _ from
@@ -113,7 +113,7 @@ theorem isIso_etaleModuleBaseChange_app_of_isIntegralHom (sq : IsPullback i' g' 
     ((etaleAbelianDirectImageCompIso'.{u, 0} g' i (i' ≫ g) sq.w).hom ≫
       (etaleAbelianDirectImageCompIso'.{u, 0} i' g (i' ≫ g) rfl).inv)
   have hAb' : IsIso ((mateEquiv (smallEtaleAdjunctionAb g') (smallEtaleAdjunctionAb g)).symm
-      T).natTrans := hAb
+      T) := hAb
   rw [etaleModuleBaseChange_eq_mateEquiv_symm]
   refine Stacks.CategoryTheory.isIso_mateEquiv_symm_of_reflectsIsomorphisms
     (etaleModuleInverseImageAdj.{u, 0} Λ g') (etaleModuleInverseImageAdj.{u, 0} Λ g)
@@ -131,7 +131,7 @@ theorem isIso_etaleModuleBaseChange_app_of_isIntegralHom (sq : IsPullback i' g' 
         B.smallEtaleTopology (forget₂ (ModuleCat.{u + 1} Λ) AddCommGrpCat.{u + 1}) :=
     fun h => Equiv.apply_symm_apply _ _
   rw [key g', key g]
-  refine TwoSquare.ext _ _ fun M => ?_
+  refine NatTrans.ext (funext fun M => ?_)
   refine Sheaf.hom_ext ?_
   refine NatTrans.ext (funext fun U => ?_)
   rfl

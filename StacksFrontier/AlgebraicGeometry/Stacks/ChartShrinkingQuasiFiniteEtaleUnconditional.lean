@@ -205,8 +205,8 @@ spaces: `AlgebraicGeometry.Stack.hasRelativeProperty_unramified_of_isUnramified`
 `AlgebraicGeometry.Stack.isUnramified_of_hasRelativeProperty_unramified`, whose étale-smooth
 diagram comes from
 `AlgebraicGeometry.Stack.hasSurjectiveEtaleSmoothDiagram_of_isRepresentableByAlgebraicSpaces`
-and not from **Stacks 0CIA**. Given that comparison, an open `W` with `hW` and the base-change containment
-`hBaseChange` are not needed as hypotheses.
+and not from **Stacks 0CIA**. Given that comparison, an open `W` with `hW` and the base-change
+containment `hBaseChange` are not needed as hypotheses.
 
 Étaleness of `f|_W` is **Stacks 06LU** for 1-morphisms of algebraic stacks,
 `AlgebraicGeometry.Stack.isEtale_fullSubcategoryInclusion_comp_of_isUnramified`, applied to the

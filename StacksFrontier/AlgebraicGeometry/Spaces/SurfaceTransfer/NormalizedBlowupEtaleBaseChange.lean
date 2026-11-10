@@ -55,6 +55,7 @@ attribute [local instance] pointTopology
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is slow
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_NormalizedBlowupEtaleBaseChange :
@@ -222,7 +223,7 @@ theorem IsNormalizationOfBlowupAtClosedPoint.exists_iso {T W₁ W₂ : Algebraic
   let μ : W₁.obj ≅ W₂.obj := e₁ ≪≫ asIso m ≪≫ e₂.symm
   refine ⟨ObjectProperty.isoMk _ μ, ?_⟩
   apply ObjectProperty.hom_ext
-  show μ.hom ≫ q₂.hom = q₁.hom
+  change μ.hom ≫ q₂.hom = q₁.hom
   rw [h₁e, h₂e]
   simp only [μ, Iso.trans_hom, Iso.symm_hom, asIso_hom, Category.assoc, Iso.inv_hom_id_assoc]
   rw [reassoc_of% hm.w, ← ObjectProperty.FullSubcategory.comp_hom, hε]

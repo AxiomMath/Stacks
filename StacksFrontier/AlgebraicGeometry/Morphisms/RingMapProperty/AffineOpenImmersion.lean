@@ -115,7 +115,7 @@ private theorem isOpenImmersion_of_precomp_equiv
   let : Algebra S Cold := ((algebraMap T Cold).comp f).toAlgebra
   have : IsLocalization.Away s Cold := hloc
   have : IsLocalization.Away (f s) C := by
-    show IsLocalization.Away (f s) (Localization.Away (f (e x)))
+    change IsLocalization.Away (f s) (Localization.Away (f (e x)))
     exact IsLocalization.Away.of_associated (Associated.of_eq (by simp [x] : f (e x) = f s))
   let E₃ : Cold ≃ₐ[T] C :=
     IsLocalization.algEquiv (Submonoid.powers (f s)) Cold C
@@ -170,7 +170,7 @@ private theorem isOpenImmersion_tensorProduct
     (algebraMap R' (R' ⊗[R] A)).IsOpenImmersion := by
   let B := TensorProduct R R' A
   let ψ : R' →+* B := algebraMap R' B
-  show ∀ (q' : Ideal B) [q'.IsPrime], ∃ f : R', ψ f ∉ q' ∧ _
+  change ∀ (q' : Ideal B) [q'.IsPrime], ∃ f : R', ψ f ∉ q' ∧ _
   intro q' hq'
   let q : Ideal A := q'.comap (Algebra.TensorProduct.includeRight : A →ₐ[R] B).toRingHom
   have : q.IsPrime := Ideal.IsPrime.comap _
@@ -302,7 +302,7 @@ theorem isOpenImmersion_stableUnderComposition :
       IsLocalization.Away.sec_spec r (algebraMap S S₁ s)
   let T₂ := Localization.Away (algebraMap T S₂ (g (f r)))
   have hfrT₂ : IsLocalization.Away (algebraMap S S₂ (f r)) T₂ := by
-    show IsLocalization.Away (algebraMap T S₂ (g (f r))) T₂
+    change IsLocalization.Away (algebraMap T S₂ (g (f r))) T₂
     infer_instance
   let : Algebra S₁ T₂ :=
     (IsLocalization.Away.map S₁ T₂ (algebraMap S S₂) (f r)).toAlgebra
@@ -319,7 +319,7 @@ theorem isOpenImmersion_stableUnderComposition :
   let : SMul T T₂ := (inferInstance : Algebra T T₂).toSMul
   have hmapS : (algebraMap S₁ T₂).comp (algebraMap S S₁) = algebraMap S T₂ := by
     ext x
-    show IsLocalization.Away.map S₁ T₂ (algebraMap S S₂) (f r)
+    change IsLocalization.Away.map S₁ T₂ (algebraMap S S₂) (f r)
         (algebraMap S S₁ x) =
       algebraMap S₂ T₂ ((algebraMap T S₂) (g x))
     simp only [IsLocalization.Away.map, IsLocalization.map_eq]

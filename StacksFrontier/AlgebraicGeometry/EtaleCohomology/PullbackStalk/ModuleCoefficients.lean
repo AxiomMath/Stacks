@@ -136,7 +136,7 @@ public theorem isLocallySurjective_of_surjective_etaleStalkMapOfCoefficients
   refine ⟨Y, g ≫ r.hom, ⟨F.obj.map (g ≫ l.hom).op c, ?_⟩, y', ?_⟩
   · rwa [NatTrans.naturality_apply, op_comp, op_comp, G.obj.map_comp, G.obj.map_comp,
       ConcreteCategory.comp_apply, ConcreteCategory.comp_apply]
-  · show Φ.fiber.map (g ≫ r.hom) y' = q
+  · change Φ.fiber.map (g ≫ r.hom) y' = q
     rw [Functor.map_comp_apply, hy']
     exact r.map_val
 
@@ -333,7 +333,7 @@ public theorem epi_of_epi_smallEtalePullback_module
     have hepi : Epi ((etaleStalkFunctorModule B X.1 X.property Λ x).map
         ((smallEtaleModulePullbackFunctor B Λ f).map α)) := by
       have := hα
-      show Epi ((geometricPointSitePoint B X.1 X.property x).sheafFiber.map
+      change Epi ((geometricPointSitePoint B X.1 X.property x).sheafFiber.map
         ((smallEtaleModulePullbackFunctor B Λ f).map α))
       infer_instance
     exact surjective_etaleStalkMap_of_surjective_pullback_stalkMap B Λ f α x

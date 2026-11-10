@@ -21,8 +21,8 @@ on its positive even part, and let `d > 0` be even. This file transports the can
 structure of Tag 07H5 to the positive even part of `A⟨T⟩`, extends it by zero to an operation
 on all of `A⟨T⟩`, and computes that operation on the coefficient algebra, on the formal
 monomials and on homogeneous elements. It ends with the square-zero facts about products of
-two odd homogeneous elements used for the `dpow_mul_odd` axiom. All declarations here are
-private auxiliaries for
+two odd homogeneous elements used for the `dpow_mul_odd` axiom. Apart from the general lemma
+`positiveEvenPart_inter_grade_zero_eq_zero`, all declarations here are private auxiliaries for
 `StacksFrontier.RingTheory.DividedPowers.TateResolution.EvenVariableDividedPowers.Structure`.
 
 ## References
@@ -73,7 +73,7 @@ private theorem evenPolynomialDPARingEquiv_symm_dp (B : Type*) [CommRing B]
   have hmap : evenPolynomialDPARingEquiv B
       (EvenVariableAlgebra.monomial n (1 : B)) =
       DividedPowerAlgebra.dp B n (Finsupp.single () (1 : B)) := by
-    show evenPolynomialDPAEquiv B _ = _
+    change evenPolynomialDPAEquiv B _ = _
     exact evenPolynomialDPAEquiv_basis B n
   have := congrArg (evenPolynomialDPARingEquiv B).symm hmap
   simpa using this.symm
@@ -92,7 +92,7 @@ private theorem evenDPAToExtension_algebraMap (d : ℕ) [Fact (Even d)]
       (algebraMap (evenSubalgebra 𝒜)
         (DividedPowerAlgebra (evenSubalgebra 𝒜)
           (Unit →₀ evenSubalgebra 𝒜)) b)
-  show ((evenPolynomialToEvenSubalgebraEquiv d p :
+  change ((evenPolynomialToEvenSubalgebraEquiv d p :
     evenSubalgebra (EvenVariableAlgebra.grade 𝒜 d)) :
     EvenVariableAlgebra A) = coeffEmbedding (b : A)
   rw [show p = EvenVariableAlgebra.monomial 0 b from
@@ -116,7 +116,7 @@ private theorem evenDPAToExtension_dp_monomial (d : ℕ) [Fact (Even d)]
     (evenPolynomialDPARingEquiv (evenSubalgebra 𝒜)).symm
       (DividedPowerAlgebra.dp (evenSubalgebra 𝒜) n
         (Finsupp.single () (1 : evenSubalgebra 𝒜)))
-  show ((evenPolynomialToEvenSubalgebraEquiv d p :
+  change ((evenPolynomialToEvenSubalgebraEquiv d p :
     evenSubalgebra (EvenVariableAlgebra.grade 𝒜 d)) :
     EvenVariableAlgebra A) = EvenVariableAlgebra.monomial n (1 : A)
   rw [show p = EvenVariableAlgebra.monomial n (1 : evenSubalgebra 𝒜) from
@@ -286,7 +286,7 @@ private theorem evenExtensionDpow_coeffEmbedding
         (DividedPowerAlgebra (evenSubalgebra 𝒜)
           (Unit →₀ evenSubalgebra 𝒜)) b) := by
     simpa [z, b] using (evenDPAToExtension_algebraMap d b).symm
-  show ((evenExtensionDividedPowers d hd γ).dpow n z :
+  change ((evenExtensionDividedPowers d hd γ).dpow n z :
     EvenVariableAlgebra A) = _
   rw [hz, evenExtensionDividedPowers_dpow_algebraMap d hd γ n b hx,
     evenDPAToExtension_algebraMap]
@@ -319,7 +319,7 @@ private theorem evenExtensionDpow_monomial_one
     rw [dividedPowerPolynomialIdeal]
     apply Submodule.mem_sup_right
     apply RingHom.mem_ker.mpr
-    show dividedPowerPolynomialAugmentation B Unit
+    change dividedPowerPolynomialAugmentation B Unit
       (DividedPowerAlgebra.dp B 1 (Finsupp.single () (1 : B))) = 0
     rw [dividedPowerPolynomialAugmentation_dp_single]
     simp
@@ -342,7 +342,7 @@ private theorem evenExtensionDpow_monomial_one
             hcoefEven⟩ := by
     rw [map_mul, map_natCast, evenDPAToExtension_dp_monomial]
     apply Subtype.ext
-    show (Nat.uniformBell n i : EvenVariableAlgebra A) *
+    change (Nat.uniformBell n i : EvenVariableAlgebra A) *
         monomial (n * i) (1 : A) = _
     rw [show (Nat.uniformBell n i : EvenVariableAlgebra A) =
       coeffEmbedding (Nat.uniformBell n i : A) by simp,
@@ -352,7 +352,7 @@ private theorem evenExtensionDpow_monomial_one
       simp [dividedPowerMonomialCoefficient,
         Nat.mul_comm]
     simp [hcoeff, EvenVariableAlgebra.monomial]
-  show ((evenExtensionDividedPowers d hd γ).dpow n z :
+  change ((evenExtensionDividedPowers d hd γ).dpow n z :
     EvenVariableAlgebra A) = _
   rw [hz, evenExtensionDividedPowers, DividedPowers.ofRingEquiv_dpow_apply]
   simp only [
@@ -388,7 +388,7 @@ private theorem evenExtensionDpow_monomial
     ⟨monomial i a, positiveEvenPart_le_evenPart _ hpos⟩
   have hz : Z = X * Y := by
     apply Subtype.ext
-    show monomial i a = coeffEmbedding a * monomial i (1 : A)
+    change monomial i a = coeffEmbedding a * monomial i (1 : A)
     rw [show coeffEmbedding a = monomial 0 a by rfl,
       EvenVariableAlgebra.monomial_mul_monomial]
     simp [EvenVariableAlgebra.monomial]
@@ -397,7 +397,7 @@ private theorem evenExtensionDpow_monomial
   have hmul' := congrArg (fun z : evenSubalgebra
       (EvenVariableAlgebra.grade 𝒜 d) => (z : EvenVariableAlgebra A)) hmul
   rw [evenExtensionDpow_of_mem d hd γ n hpos]
-  show ((evenExtensionDividedPowers d hd γ).dpow n Z :
+  change ((evenExtensionDividedPowers d hd γ).dpow n Z :
       EvenVariableAlgebra A) = _
   calc
     (((evenExtensionDividedPowers d hd γ).dpow n Z :
@@ -409,7 +409,7 @@ private theorem evenExtensionDpow_monomial
         evenSubalgebra (EvenVariableAlgebra.grade 𝒜 d)) : EvenVariableAlgebra A) := hmul'
     _ = monomial (n * i) (dividedPowerMonomialCoefficient n i • a ^ n) := by
       rw [Subalgebra.coe_mul, Subalgebra.coe_pow]
-      show ((X : evenSubalgebra (EvenVariableAlgebra.grade 𝒜 d)) :
+      change ((X : evenSubalgebra (EvenVariableAlgebra.grade 𝒜 d)) :
           EvenVariableAlgebra A) ^ n *
         (((evenExtensionDividedPowers d hd γ).dpow n Y :
           evenSubalgebra (EvenVariableAlgebra.grade 𝒜 d)) : EvenVariableAlgebra A) = _
@@ -429,7 +429,8 @@ private theorem evenExtensionDpow_monomial
       simpa using (Nat.cast_commute
         (dividedPowerMonomialCoefficient n i) (a ^ n)).eq.symm
 
-private theorem positiveEvenPart_inter_grade_zero_eq_zero
+/-- An element of the positive even part of a graded algebra that lies in degree `0` is zero. -/
+theorem positiveEvenPart_inter_grade_zero_eq_zero
     {R : Type u} {A : Type v} [CommRing R] [Ring A] [Algebra R A]
     (𝒜 : ℕ → Submodule R A) [GradedAlgebra 𝒜]
     (x : A) (hx : x ∈ positiveEvenPart 𝒜) (hx0 : x ∈ 𝒜 0) : x = 0 := by
@@ -457,7 +458,7 @@ private theorem evenExtensionDpow_zero_mem_grade
     (γ : DividedPowerStructure 𝒜) (n k : ℕ) :
     evenExtensionDpow d hd γ n 0 ∈ EvenVariableAlgebra.grade 𝒜 d (2 * n * k) := by
   rw [evenExtensionDpow_of_mem d hd γ n (Submodule.zero_mem _)]
-  show ((evenExtensionDividedPowers d hd γ).dpow n
+  change ((evenExtensionDividedPowers d hd γ).dpow n
     (0 : evenSubalgebra (EvenVariableAlgebra.grade 𝒜 d)) :
       EvenVariableAlgebra A) ∈ _
   by_cases hn : n = 0
@@ -538,7 +539,7 @@ private theorem evenExtensionDpow_mem_grade
                 n * ((2 * k - i * d) + i * d) := by ring
             _ = n * (2 * k) := congrArg (fun t : ℕ ↦ n * t) hsum
             _ = 2 * n * k := by ring
-        show evenExtensionDpow d hd γ n (monomial i a) ∈
+        change evenExtensionDpow d hd γ n (monomial i a) ∈
           EvenVariableAlgebra.grade 𝒜 d (2 * n * k)
         rw [evenExtensionDpow_monomial d hd γ n i (Nat.pos_of_ne_zero hi) haEven]
         rw [← hdegree]
@@ -568,7 +569,7 @@ private theorem evenExtensionDpow_mem_grade
             (w : EvenVariableAlgebra A)) hadd
       rw [evenExtensionDpow_of_mem d hd γ n
         ((positiveEvenPart _).add_mem hypos hzpos)]
-      show ((evenExtensionDividedPowers d hd γ).dpow n (Y + Z) :
+      change ((evenExtensionDividedPowers d hd γ).dpow n (Y + Z) :
         EvenVariableAlgebra A) ∈ EvenVariableAlgebra.grade 𝒜 d (2 * n * k)
       rw [hadd']
       apply Submodule.sum_mem

@@ -375,7 +375,7 @@ lemma fibreExtensionHomEquiv_naturality [HasSheafify J AddCommGrpCat.{u}]
     fibreExtensionHomEquiv C J n U Z' (a ≫ k) =
       ((fibreRestriction C J n).map k).hom.app (op U)
         (fibreExtensionHomEquiv C J n U Z a) := by
-  show extensionByZeroUnitAbHomEquiv.{u} J U ((fibreRestriction C J n).obj Z')
+  change extensionByZeroUnitAbHomEquiv.{u} J U ((fibreRestriction C J n).obj Z')
       ((fibreAdjunction C J n).homEquiv _ _ (a ≫ k)) = _
   rw [(fibreAdjunction C J n).homEquiv_naturality_right]
   exact extensionByZeroUnitAbHomEquiv_naturality.{u} J (U := U) _ _

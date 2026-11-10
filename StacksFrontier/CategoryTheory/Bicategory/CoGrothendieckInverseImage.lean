@@ -371,7 +371,7 @@ theorem ι_map_fiber_comp_cartesianLift {Y Y' : ∫ᶜ F} (m : Y ⟶ Y') :
     (ι F Y.base).map m.fiber ≫ cartesianLift Y'.fiber m.base = m := by
   ext
   · exact Category.id_comp _
-  · show (m.fiber ≫ (F.mapId (⟨op Y.base⟩ : LocallyDiscrete 𝒮ᵒᵖ)).inv.toNatTrans.app _) ≫
+  · change (m.fiber ≫ (F.mapId (⟨op Y.base⟩ : LocallyDiscrete 𝒮ᵒᵖ)).inv.toNatTrans.app _) ≫
         (F.map (𝟙 (⟨op Y.base⟩ : LocallyDiscrete 𝒮ᵒᵖ))).toFunctor.map (𝟙 _) ≫
         (F.mapComp m.base.op.toLoc (𝟙 (⟨op Y.base⟩ : LocallyDiscrete 𝒮ᵒᵖ))).inv.toNatTrans.app
           Y'.fiber = _

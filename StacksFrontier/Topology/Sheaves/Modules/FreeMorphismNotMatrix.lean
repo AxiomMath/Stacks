@@ -151,7 +151,7 @@ private lemma continuous_of_uniform_zero (g : Point → ℝ) (n : ℕ)
     change g origin ∈ V at hp
     refine ⟨uniformNeighborhood n, ?_, isOpen_uniformNeighborhood n, Or.inl rfl⟩
     intro p hp'
-    show g p ∈ V
+    change g p ∈ V
     rw [hzero p hp']
     simpa only [Set.mem_preimage, hzero origin (Or.inl rfl)] using hp
   · refine ⟨branchOpen i ((f i) ⁻¹' V), ?_,
@@ -218,7 +218,7 @@ private lemma homOfGlobalSection_one (X : RingedSpace.{0, 0})
     (F : SheafOfModules.{0} (structureSheafRing X)) (s : F.val.obj (op ⊤)) (U : Opens X) :
     (homOfGlobalSection X F s).val.app (op U) ((1 : (structureSheafRing X).obj.obj (op U))) =
       F.val.map (homOfLE le_top).op s := by
-  show (F.unitHomEquiv (homOfGlobalSection X F s)).val (op U) = _
+  change (F.unitHomEquiv (homOfGlobalSection X F s)).val (op U) = _
   rw [homOfGlobalSection, Equiv.apply_symm_apply]
   rfl
 
@@ -262,7 +262,7 @@ private lemma restrict_columnScalar (j : ℕ) {U V : Opens ringedSpace} (h : V �
 
 private lemma columnScalar_zero (j : ℕ) (U : Opens ringedSpace)
     (hU : ∀ p : ringedSpace, p ∈ U → p ∈ uniformNeighborhood j) : columnScalar j U = 0 := by
-  show columnScalarRaw j U = 0
+  change columnScalarRaw j U = 0
   exact TopCat.hom_ext (ContinuousMap.ext fun p => columnFunction_zero j p.1 (hU p.1 p.2))
 
 private noncomputable def columnCover (j : ℕ) : Option ℕ → Opens ringedSpace
@@ -292,7 +292,7 @@ private lemma restrict_columnLocalSection (j i : ℕ) {U : Opens ringedSpace}
       columnScalar j U • basisSection ringedSpace U (j, i) := by
   have h : U ≤ columnCover j (some i) := leOfHom f.unop
   obtain rfl : f = (homOfLE h).op := Subsingleton.elim _ _
-  show (SheafOfModules.free (R := structureSheafRing ringedSpace) (ℕ × ℕ)).val.map (homOfLE h).op
+  change (SheafOfModules.free (R := structureSheafRing ringedSpace) (ℕ × ℕ)).val.map (homOfLE h).op
     (columnLocalSection j (some i)) = _
   unfold columnLocalSection
   rw [PresheafOfModules.map_smul, restrict_basisSection]
@@ -367,7 +367,7 @@ private lemma columnSection_project (j i : ℕ) (x : {x : ℝ // x ≠ 0}) (k : 
   rw [map_smul, freeProjection_basis ringedSpace k (j, i) (columnCover j (some i))]
   by_cases hk : k = (j, i)
   · simp only [ite_eq_left hk]
-    show cutoff ((j + 1) * (x : ℝ)) * 1 = _
+    change cutoff ((j + 1) * (x : ℝ)) * 1 = _
     exact mul_one _
   · simp only [ite_eq_right hk, smul_zero]
     rfl
@@ -384,7 +384,7 @@ private lemma freeMorphism_basis (j : ℕ) (U : Opens ringedSpace) :
         (homOfLE le_top).op (columnSection j) := by
   have h : SheafOfModules.ιFree (R := structureSheafRing ringedSpace) j ≫ freeMorphism =
       homOfGlobalSection ringedSpace _ (columnSection j) :=
-    CategoryTheory.Limits.Sigma.ι_desc _ _
+    CategoryTheory.Limits.Sigma.ι_comp_desc _ _
   have he := congrArg (fun f : SheafOfModules.unit (structureSheafRing ringedSpace) ⟶
     SheafOfModules.free (R := structureSheafRing ringedSpace) (ℕ × ℕ) =>
       f.val.app (op U) ((1 : (structureSheafRing ringedSpace).obj.obj (op U)))) h
@@ -399,7 +399,7 @@ private lemma freeMorphism_project (U : Opens ringedSpace) (j i : ℕ)
   rw [freeMorphism_basis, PresheafOfModules.naturality_apply]
   exact columnSection_project j i x k
 
-private lemma freeProjection_sum_eq_zero (X : RingedSpace.{0, 0}) {I : Type} [DecidableEq I]
+private lemma freeProjection_sum_eq_zero (X : RingedSpace.{0, 0}) {I : Type}
     (U : Opens X) (g : I →₀ (structureSheafRing X).obj.obj (op U)) (i : I)
     (hi : i ∉ g.support) :
     (SheafOfModules.freeProjection (R := structureSheafRing X) i).val.app (op U)

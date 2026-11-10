@@ -122,7 +122,7 @@ private lemma trdeg_residueField_lt_aleph0
   have : p.asIdeal.IsPrime := p.isPrime
   have hbase : (((Scheme.ΓSpecIso (.of k)).inv ≫
       (Spec (.of k)).Γevaluation (f x)).hom).EssFiniteType := by
-    show (((Scheme.ΓSpecIso (.of k)).inv ≫
+    change (((Scheme.ΓSpecIso (.of k)).inv ≫
       (Spec (.of k)).presheaf.germ ⊤ (f x) trivial ≫
       (Spec (.of k)).residue (f x)).hom).EssFiniteType
     rw [← Scheme.Spec.algebraMap_residueFieldIso_inv]
@@ -133,7 +133,7 @@ private lemma trdeg_residueField_lt_aleph0
           (Scheme.Spec.residueFieldIso (.of k) (f x)).symm.commRingCatIsoToRingEquiv.surjective))
   let : Algebra.EssFiniteType k (X.residueField x) := by
     rw [← RingHom.essFiniteType_algebraMap]
-    show (((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫ X.Γevaluation x).hom).EssFiniteType
+    change (((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫ X.Γevaluation x).hom).EssFiniteType
     rw [← Scheme.Γevaluation_naturality]
     exact hbase.comp (RingHom.EssFiniteType.residueFieldMap
       (LocallyOfFiniteType.stalkMap f x))
@@ -224,7 +224,7 @@ private theorem globalSection_germ_smul
       (TopCat.Presheaf.stalk (C := Ab.{u}) L.val.presheaf x) :=
     PresheafOfModules.instModuleCarrierStalkCommRingCatCarrierAbPresheafOpensCarrier
       (R := X.toRingedSpace.presheaf) L.val x
-  show (TopCat.Presheaf.germ (C := Ab.{u}) L.val.presheaf ⊤ x (Set.mem_univ x)).hom
+  change (TopCat.Presheaf.germ (C := Ab.{u}) L.val.presheaf ⊤ x (Set.mem_univ x)).hom
       ((algebraMap k Γ(X, ⊤) r) • t) =
     (TopCat.Presheaf.germ X.toRingedSpace.presheaf ⊤ x (Set.mem_univ x)).hom
         (algebraMap k Γ(X, ⊤) r) •

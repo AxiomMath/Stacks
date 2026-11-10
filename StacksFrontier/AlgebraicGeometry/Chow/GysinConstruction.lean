@@ -211,7 +211,7 @@ theorem gysinHomomorphism_of_not_le (W : X.IdealSheafData) (hW : IsIntegral W.su
         (cycleAssociatedToClosedSubscheme C
           ((Stacks.Divisors.zeroScheme X L s).subschemeι ≫ p)
           ((W.comap (Stacks.Divisors.zeroScheme X L s).subschemeι).subschemeι) k) := by
-  show QuotientAddGroup.mk
+  change QuotientAddGroup.mk
     ((gysinRule C p k L s chern).extendCycleGroup
       (cycleAssociatedToClosedSubscheme C p W.subschemeι (k + 1))) = _
   rw [(gysinRule C p k L s chern).extendCycleGroup_cycleAssociatedToClosedSubscheme W hW hDim]

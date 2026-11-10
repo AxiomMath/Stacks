@@ -317,7 +317,7 @@ theorem isIso_etaleModuleExtendScalarsHomotopy_map
   have hout : QuasiIso s.out :=
     (HomotopyCategory.quotient_map_mem_quasiIso_iff s.out).1
       (by rwa [HomotopyCategory.quotient_map_out s])
-  show IsIso (DerivedCategory.Qh.map
+  change IsIso (DerivedCategory.Qh.map
     (((etaleModuleExtendScalarsUniv.{u, r} φ X).mapHomotopyCategory (ComplexShape.up ℤ)).map s))
   rw [← HomotopyCategory.quotient_map_out s]
   exact (DerivedCategory.isIso_Qh_map_iff _).2

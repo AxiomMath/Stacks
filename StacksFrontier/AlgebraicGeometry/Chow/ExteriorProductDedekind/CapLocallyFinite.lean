@@ -176,7 +176,7 @@ theorem BivariantClass.cap_mk_eq_mk_of_locallyFinite (c : BivariantClass C G sX 
   classical
   have hproper : IsProper (Sigma.desc j) := isProper_sigmaDesc_of_locallyFinite V j hfin
   set π := Sigma.desc j with hπ
-  have hιπ : ∀ i, Sigma.ι V i ≫ π = j i := fun i ↦ Sigma.ι_desc j i
+  have hιπ : ∀ i, Sigma.ι V i ≫ π = j i := fun i ↦ Sigma.ι_comp_desc j i
   have hcl : ∀ i, IsClosedImmersion (Sigma.ι V i) := isClosedImmersion_sigmaι V
   have hstrV : ∀ i, Sigma.ι V i ≫ ((π ≫ g) ≫ sY) = (j i ≫ g) ≫ sY := fun i ↦ by
     rw [← hιπ i]; simp

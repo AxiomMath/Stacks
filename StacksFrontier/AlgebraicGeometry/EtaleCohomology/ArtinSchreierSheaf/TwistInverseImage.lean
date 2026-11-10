@@ -134,12 +134,6 @@ public theorem artinSchreierCharacter_map [ConnectedSpace (Spec (.of A))]
 variable (B : BigEtaleSite.{u}) (hX : schemeSizeBelow B.cutoff (Spec (.of A)))
   (hY : schemeSizeBelow B.cutoff (Spec (.of A')))
   {ℓ : ℕ} [Fact ℓ.Prime] [Algebra ℤ_[ℓ] O] {d : ℕ} (b : Module.Basis (Fin d) ℤ_[ℓ] O) {r : ℕ}
-  [∀ (n : ℕ) (S T : B.Scheme) (f : T ⟶ S),
-    ((AlgebraicGeometry.smallEtaleBaseChange B f).sheafPushforwardContinuous
-      (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))
-      (SmallEtale.topology B S.1 S.property)
-      (SmallEtale.topology B T.1 T.property)).IsRightAdjoint]
-  [IsNoetherian (Spec (.of A))] [IsNoetherian (Spec (.of A'))]
   [ConnectedSpace (Spec (.of A))] [ConnectedSpace (Spec (.of A'))]
 
 attribute [local instance] hasWeakSheafify_smallEtale_levels
@@ -157,6 +151,7 @@ variable (y : GeometricPoint (Spec (.of A')))
   (hρ : Continuous (restrictScalarsRepresentation B (specObject A B hX)
     (y.map (Spec.map (CommRingCat.ofHom φ.toRingHom))) b ρ))
 
+omit [Fintype k] in
 include hρ in
 /-- The composite of a continuous representation with the map of fundamental groups is
 continuous. -/
@@ -180,16 +175,23 @@ public theorem restrictScalarsRepresentation_artinSchreierTwist_comp :
   rw [artinSchreierCharacter_map k g φ ψ y p₀' p₀]
   rfl
 
+variable [∀ (n : ℕ) (S T : B.Scheme) (f : T ⟶ S),
+    ((AlgebraicGeometry.smallEtaleBaseChange B f).sheafPushforwardContinuous
+      (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))
+      (SmallEtale.topology B S.1 S.property)
+      (SmallEtale.topology B T.1 T.property)).IsRightAdjoint]
+  [IsNoetherian (Spec (.of A))] [IsNoetherian (Spec (.of A'))]
+
 /-- **The inverse image of `ℱ_ρ ⊗ L_ψ(g)` along `Spec A' → Spec A` is `ℱ_{ρ ∘ φ_*} ⊗ L_ψ(φ(g))`**
 (as ℓ-adic sheaves; the actions of `O` correspond by
 `Stacks.ArtinSchreier.artinSchreierTwistSheafInverseImageIso_hom_act`). -/
 public def artinSchreierTwistSheafInverseImageIso :=
   representationCoefficientSheafInverseImageIso B φS y _
     (continuous_restrictScalarsRepresentation_artinSchreierTwist k A g ψ B hX b _ p₀ ρ hρ)
-    (coefficientScalarRingHom b r) (fun o σ => coefficientScalarRingHom_commute b r o _) _
+    (coefficientScalarRingHom b r) (fun o _ => coefficientScalarRingHom_commute b r o _) _
     (continuous_restrictScalarsRepresentation_artinSchreierTwist k A' (φ g) ψ B hY b y p₀' _
       (continuous_restrictScalarsRepresentation_comp_map k φ B hX hY b y ρ hρ))
-    (fun o σ => coefficientScalarRingHom_commute b r o _)
+    (fun o _ => coefficientScalarRingHom_commute b r o _)
     (restrictScalarsRepresentation_artinSchreierTwist_comp k g φ ψ B hX hY b y p₀ p₀' ρ)
     (artinSchreierTwistSheaf k A g ψ B hX b _ p₀ ρ hρ) rfl
     (artinSchreierTwistSheaf k A' (φ g) ψ B hY b y p₀'
@@ -202,10 +204,10 @@ public theorem artinSchreierTwistSheafInverseImageIso_eq :
     artinSchreierTwistSheafInverseImageIso k g φ ψ B hX hY b y p₀ p₀' ρ hρ =
       representationCoefficientSheafInverseImageIso B φS y _
     (continuous_restrictScalarsRepresentation_artinSchreierTwist k A g ψ B hX b _ p₀ ρ hρ)
-    (coefficientScalarRingHom b r) (fun o σ => coefficientScalarRingHom_commute b r o _) _
+    (coefficientScalarRingHom b r) (fun o _ => coefficientScalarRingHom_commute b r o _) _
     (continuous_restrictScalarsRepresentation_artinSchreierTwist k A' (φ g) ψ B hY b y p₀' _
       (continuous_restrictScalarsRepresentation_comp_map k φ B hX hY b y ρ hρ))
-    (fun o σ => coefficientScalarRingHom_commute b r o _)
+    (fun o _ => coefficientScalarRingHom_commute b r o _)
     (restrictScalarsRepresentation_artinSchreierTwist_comp k g φ ψ B hX hY b y p₀ p₀' ρ)
     (artinSchreierTwistSheaf k A g ψ B hX b _ p₀ ρ hρ) rfl
     (artinSchreierTwistSheaf k A' (φ g) ψ B hY b y p₀'

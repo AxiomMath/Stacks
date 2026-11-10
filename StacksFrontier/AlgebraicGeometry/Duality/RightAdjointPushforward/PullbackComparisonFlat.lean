@@ -178,7 +178,7 @@ theorem isIso_twistedInverseImageCompareWithPullback_of_flat (K : quasiCoherentD
     rw [compareWithPullbackTensor_eq_comparisonMap f hpush α (fun _ _ => rfl) adj]
     have := isIso_comparisonMap_of_flat f K (derivedStructureSheaf Y)
     infer_instance
-  show IsIso (compareWithPullbackTensor f hpush α adj K (derivedStructureSheaf Y) ≫
+  change IsIso (compareWithPullbackTensor f hpush α adj K (derivedStructureSheaf Y) ≫
     (twistedInverseImage f hpush).map (ρ.hom.app K))
   infer_instance
 

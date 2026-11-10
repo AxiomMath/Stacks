@@ -96,9 +96,9 @@ theorem ker_eq_map_of_isPushout_of_surjective
     let k' : C →+* B ⧸ J := qlift.comp e.symm.toRingHom
     have w : f ≫ CommRingCat.ofHom q = g ≫ CommRingCat.ofHom k' := by
       ext a
-      show q (f.hom a) = qlift (e.symm (g.hom a))
+      change q (f.hom a) = qlift (e.symm (g.hom a))
       rw [RingHom.quotientKerEquivOfSurjective_symm_apply (f := g.hom) hg]
-      show q (f.hom a) = (Ideal.Quotient.lift _ lift hlift) (Ideal.Quotient.mk _ a)
+      change q (f.hom a) = (Ideal.Quotient.lift _ lift hlift) (Ideal.Quotient.mk _ a)
       rw [Ideal.Quotient.lift_mk]
       rfl
     let d : D ⟶ CommRingCat.of (B ⧸ J) := hp.desc (CommRingCat.ofHom q)
@@ -193,7 +193,7 @@ def quotientRingMap (C : FirstOrderThickeningChart.{u}) :
 /-- The ideal defining the first-order thickening on the base chart is square-zero. -/
 theorem baseIdeal_sq_eq_bot (C : FirstOrderThickeningChart.{u}) :
     (baseIdeal C) ^ 2 = ⊥ := by
-  show (RingHom.ker (C.j.app C.U').hom) ^ 2 = ⊥
+  change (RingHom.ker (C.j.app C.U').hom) ^ 2 = ⊥
   have _ : IsClosedImmersion C.j := C.j_firstOrder.1
   rw [← Scheme.Hom.ker_apply C.j ⟨C.U', C.U'_affine⟩]
   exact congrArg (fun K : Scheme.IdealSheafData C.S' => K.ideal ⟨C.U', C.U'_affine⟩)
@@ -211,7 +211,7 @@ theorem sourceIdeal_eq_ker (C : FirstOrderThickeningChart.{u}) :
   have hUYi : UY ≤ C.i ⁻¹ᵁ C.V' := le_rfl
   have hUY : UY = C.i ⁻¹ᵁ C.V' ⊓ C.f ⁻¹ᵁ UT := by
     ext x
-    show C.i x ∈ C.V' ↔ C.i x ∈ C.V' ∧ C.j (C.f x) ∈ C.U'
+    change C.i x ∈ C.V' ↔ C.i x ∈ C.V' ∧ C.j (C.f x) ∈ C.U'
     refine ⟨fun hx => ⟨hx, ?_⟩, And.left⟩
     have hcomm : C.f' (C.i x) = C.j (C.f x) := by
       simpa [Scheme.Hom.comp_apply] using congrArg (fun g : C.X ⟶ C.S' => g x) C.cartesian.w

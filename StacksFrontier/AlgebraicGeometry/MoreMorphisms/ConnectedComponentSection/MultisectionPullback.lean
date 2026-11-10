@@ -99,7 +99,7 @@ theorem open_fiber_comparison_isPullback
       (pullback.fst (U.ι ≫ f) g) g (U.ι ≫ f) := by
     convert (IsPullback.of_hasPullback (U.ι ≫ f) g).flip using 1
     dsimp [j, pullback.map]
-    simpa using (pullback.lift_snd _ _ _)
+    simp
   exact houter.of_right hp (IsPullback.of_hasPullback f g).flip
 
 /-- The comparison map from the fibre of `U.ι ≫ f` to the fibre of `f` is an open embedding. -/
@@ -152,7 +152,7 @@ theorem pullback_map_isPullback_over_base
       (pullback.snd f (π ≫ g)) f (π ≫ g) := by
     convert (IsPullback.of_hasPullback f (π ≫ g)) using 1
     dsimp [m, pullback.map]
-    simpa using (pullback.lift_fst _ _ _)
+    simp
   exact houter.of_right hp (IsPullback.of_hasPullback f g)
 
 /-- The comparison map of a pullback base change is compatible with the first projections. -/
@@ -161,7 +161,7 @@ theorem pullback_map_fst
     (pullback.map f (π ≫ g) f g (𝟙 X) π (𝟙 Y) (by simp) (by simp)) ≫ pullback.fst f g =
       pullback.fst f (π ≫ g) := by
   dsimp [pullback.map]
-  simpa using pullback.lift_fst _ _ _
+  simp
 
 /-- `AlgebraicGeometry.ConnectedComponentSection.pullback_map_isPullback_over_base` and
 `AlgebraicGeometry.ConnectedComponentSection.pullback_map_fst` for a base map presented as any

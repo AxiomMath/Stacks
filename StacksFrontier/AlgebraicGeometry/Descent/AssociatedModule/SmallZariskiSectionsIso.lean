@@ -418,7 +418,7 @@ public noncomputable def sectionsUnit :
       (PresheafOfModules.pushforward.{u} (structureMap B S hS).hom).obj
         (associatedModuleOfSections B S hS F).val where
   app V := sectionsUnitApp B S hS F V
-  naturality {U V} h := sectionsUnitApp_naturality B S hS F h
+  naturality h := sectionsUnitApp_naturality B S hS F h
 
 /-- **Pulling sections back to the objects of the small Zariski site is an isomorphism.**  Each
 component is the map of `AlgebraicGeometry.isIso_pullbackSectionHom_of_opensRange_eq` at the

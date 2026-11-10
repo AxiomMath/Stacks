@@ -266,7 +266,7 @@ lemma exists_glued_quotSection (hE : E.sieve₀ ∈ J U) (z : cocycles1 E S.X₁
     intro Y₁ Y₂ Z g₁ g₂ f₁ f₂ h₁ h₂ _
     obtain ⟨i₁, ⟨a₁⟩⟩ := exists_hom_over_member E f₁ (hmem h₁)
     obtain ⟨i₂, ⟨a₂⟩⟩ := exists_hom_over_member E f₂ (hmem h₂)
-    show (sliceComplex U S).X₃.obj.map g₁.op (fam f₁ h₁) =
+    change (sliceComplex U S).X₃.obj.map g₁.op (fam f₁ h₁) =
       (sliceComplex U S).X₃.obj.map g₂.op (fam f₂ h₂)
     rw [← hfam f₁ h₁ i₁ a₁, ← hfam f₂ h₂ i₂ a₂, ← Functor.map_comp_apply,
       ← Functor.map_comp_apply, ← op_comp, ← op_comp]
@@ -362,7 +362,7 @@ def cocycleSection (hE : E.sieve₀ ∈ J U) (z : cocycles1 E S.X₁.obj)
       (memberToTerminal E i), hq]
     rfl⟩
 
-omit [HasExt.{h} (Sheaf J AddCommGrpCat.{t})] in
+omit [HasExt.{h} (Sheaf J AddCommGrpCat.{t})] [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{t})] in
 include hS in
 /-- **The transition cocycle of the torsor of a Čech cocycle is that cocycle.** The difference
 of the two restricted local sections inside the torsor of lifts is, by definition of the
@@ -379,7 +379,7 @@ lemma transitionCochain_cocycleTorsor (hE : E.sieve₀ ∈ J U) (z : cocycles1 E
   refine torsorDifference_eq_of_act (S.X₁.over U) (cocycleTorsor E S hS hE z b hb)
     (op (∏ᶜ fun j ↦ Over.mk (E.f (k j)) : Over U)) _ _ ((z : cechCochain E S.X₁.obj 1) k) ?_
   refine Subtype.ext ?_
-  show S.f.hom.app (op ((∏ᶜ fun j ↦ Over.mk (E.f (k j)) : Over U).left))
+  change S.f.hom.app (op ((∏ᶜ fun j ↦ Over.mk (E.f (k j)) : Over U).left))
         ((z : cechCochain E S.X₁.obj 1) k) +
       S.X₂.obj.map (Pi.π (fun j ↦ Over.mk (E.f (k j))) (0 : Fin 2)).left.op
         (cochainFam E S.X₂.obj b (k 0)) =
@@ -387,7 +387,7 @@ lemma transitionCochain_cocycleTorsor (hE : E.sieve₀ ∈ J U) (z : cocycles1 E
       (cochainFam E S.X₂.obj b (k 1))
   rw [map_cochainFam_sub E S z b hb k, sub_add_cancel]
 
-omit [HasExt.{h} (Sheaf J AddCommGrpCat.{t})] in
+omit [HasExt.{h} (Sheaf J AddCommGrpCat.{t})] [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{t})] in
 include hS in
 /-- **The torsor of a Čech cocycle is locally trivial on the covering family**, because it has
 a section over every member. -/
@@ -399,7 +399,7 @@ lemma isLocallyTrivialOn_cocycleTorsor (hE : E.sieve₀ ∈ J U) (z : cocycles1 
       (cocycleTorsor E S hS hE z b hb)) :=
   ⟨cocycleTorsor E S hS hE z b hb, rfl, fun i ↦ ⟨cocycleSection E S hS hE z b hb i⟩⟩
 
-omit [HasExt.{h} (Sheaf J AddCommGrpCat.{t})] in
+omit [HasExt.{h} (Sheaf J AddCommGrpCat.{t})] [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{t})] in
 include hS in
 /-- **The Čech class of the torsor of a Čech cocycle is the class of that cocycle.** This is
 the inverse map of Stacks 0A6G: a Čech class realized by a degree-zero cochain of the middle

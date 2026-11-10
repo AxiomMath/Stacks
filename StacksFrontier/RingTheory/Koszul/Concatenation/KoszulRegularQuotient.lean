@@ -108,7 +108,7 @@ private theorem tensorSingleZeroInclusion_isIso
           rfl)
         else (tensorSingleZero_isZero_XX M K p q hp).to_ _
     refine ⟨r, ?_, ?_⟩
-    · show D.ιTotal _ 0 n n _ ≫ r = _
+    · change D.ιTotal _ 0 n n _ ≫ r = _
       simp [r, HomologicalComplex₂.ι_totalDesc]
       rfl
     · apply HomologicalComplex₂.total.hom_ext (ComplexShape.down ℕ)
@@ -117,7 +117,7 @@ private theorem tensorSingleZeroInclusion_isIso
       · subst p
         have hq : q = n := by change 0 + q = n at h; omega
         subst q
-        show D.ιTotal _ 0 n n _ ≫ r ≫ D.ιTotal _ 0 n n _ = _
+        change D.ιTotal _ 0 n n _ ≫ r ≫ D.ιTotal _ 0 n n _ = _
         rw [← Category.assoc]
         simp [r, HomologicalComplex₂.ι_totalDesc]
         rfl
@@ -140,7 +140,7 @@ private theorem koszul_baseChange_iso
   apply ModuleCat.hom_ext
   apply TensorProduct.ext'
   intro s z
-  show Koszul.d (Koszul.seqDual (fun k => algebraMap A S (f k))) j
+  change Koszul.d (Koszul.seqDual (fun k => algebraMap A S (f k))) j
       (β (j + 1) (s ⊗ₜ[A] z)) = β j (s ⊗ₜ[A] Koszul.d (Koszul.seqDual f) j z)
   have h := KoszulC.d_baseChange_comm f β hβ j z
   have hs (k : ℕ) (w : ⋀[A]^k (Fin r → A)) :

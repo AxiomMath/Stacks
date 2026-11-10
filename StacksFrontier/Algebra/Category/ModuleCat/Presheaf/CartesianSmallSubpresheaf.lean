@@ -78,8 +78,7 @@ omit [Category.{u} C] in
 theorem exists_list_eq_sum_tmul {S T N : Type u} [CommRing S] [AddCommGroup T] [Module S T]
     [AddCommGroup N] [Module S N] (t : T ⊗[S] N) :
     ∃ L : List (T × N), t = (L.map fun p => p.1 ⊗ₜ[S] p.2).sum := by
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨[], by simp⟩
+  induction t using TensorProduct.inductionOn with
   | tmul a n => exact ⟨[(a, n)], by simp⟩
   | add t t' ht ht' =>
     obtain ⟨L, rfl⟩ := ht
@@ -106,8 +105,7 @@ theorem exists_list_restrictionBaseChange_eq (t : (ModuleCat.extendScalars (R.ma
     (M.obj X)) :
     ∃ L : List (R.obj Y × M.obj X),
       (restrictionBaseChange.{u₁, u, u, u} M g).hom t = restrictionSum M g L := by
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨[], (map_zero _).trans (by simp [restrictionSum])⟩
+  induction t using TensorProduct.inductionOn with
   | tmul a m =>
     exact ⟨[(a, m)], (restrictionBaseChange_tmul' M g a m).trans (by simp [restrictionSum])⟩
   | add t t' ht ht' =>
@@ -350,7 +348,7 @@ theorem vanWit_spec {X Y : Cᵒᵖ} (g : X ⟶ Y) (L : List (R.obj Y × M.obj X)
   have hv : vanWit M hM g L =
       (have := hM g; exists_fg_tensor_eq_zero_of_isIso M g L h).choose := by
     unfold vanWit
-    rw [dif_pos h]
+    rw [dite_eq_left h]
   exact hspec.2.2 N (hv ▸ hN) L' hL'
 
 /-- The sections added at one stage of the closure at the representative `i`: restrictions of
@@ -505,7 +503,7 @@ theorem mk_closure_le (hP₀ : ∀ i, #(P₀ i) ≤ μ) (i : I) :
     simp only [SetLike.mem_coe, Set.mem_iUnion]
     rw [mem_closure_iff]
     exact ⟨fun ⟨n, h⟩ => ⟨⟨n⟩, h⟩, fun ⟨n, h⟩ => ⟨n.down, h⟩⟩
-  show #(closureFamily M hM r P₀ i : Set (M.obj (r i))) ≤ μ
+  change #(closureFamily M hM r P₀ i : Set (M.obj (r i))) ≤ μ
   rw [this]
   exact mk_iUnion_le_of_le hμ ((mk_le_aleph0_iff.2 inferInstance).trans hμ) fun n =>
     mk_stage_le M hM r P₀ hμ hI hR hHom hP₀ n.down i
@@ -638,7 +636,7 @@ theorem exists_small_cartesian_submodule (hr : ∀ X : Cᵒᵖ, ∃ i, Nonempty 
       exact (mk_le_one_iff_set_subsingleton.2 (by simp)).trans (one_le_aleph0.trans hμ)
   refine ⟨closureSubmodule M hM r P₀, ?_, fun i => ?_, fun g => ?_⟩
   · refine mem_closureSubmodule_of_mem M hM r P₀ (stage_le_closure M hM r P₀ 0 i₀ ?_)
-    show s ∈ P₀ i₀
+    change s ∈ P₀ i₀
     simp only [P₀, Function.update_self]
     exact Submodule.subset_span rfl
   · rw [closureSubmodule_obj_eq]

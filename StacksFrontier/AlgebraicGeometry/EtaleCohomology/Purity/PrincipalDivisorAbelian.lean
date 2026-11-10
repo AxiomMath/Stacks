@@ -85,6 +85,7 @@ theorem nsmul_id_rootsOfUnityPunctured (k : Type u) [Field k] :
     simpa [Stacks.Kummer.powMap, Preadditive.comp_nsmul] using this
   rw [← CategoryTheory.Functor.map_id, ← Functor.map_nsmul, hμ, Functor.map_zero]
 
+omit [IsAlgClosed k] in
 include hℓ in
 /-- The torsion hypothesis of smooth base change for `j⁻¹ μ_ℓ`. -/
 theorem torsion_rootsOfUnityPunctured (t : GeometricPoint (punctured k).toScheme)

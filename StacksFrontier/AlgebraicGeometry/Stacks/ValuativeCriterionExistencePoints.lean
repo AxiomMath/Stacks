@@ -266,7 +266,7 @@ private theorem nonempty_lift_of_bijective {B : BigFppfSite.{u}} {T : Scheme.{u}
     Over.homMk (ObjectProperty.homMk (Spec.map (CommRingCat.ofHom fi)) :
       B.obj q.field_mem ⟶ B.obj d.square.field_mem) (by
       apply ObjectProperty.hom_ext
-      show Spec.map (CommRingCat.ofHom fi) ≫
+      change Spec.map (CommRingCat.ofHom fi) ≫
         (Spec.map (CommRingCat.ofHom (algebraMap d.square.R d.square.K)) ≫ d.square.base) =
         Spec.map (CommRingCat.ofHom (algebraMap q.R q.K)) ≫ q.base
       rw [← Category.assoc, ← ValuativeSquare.specMap_ofHom_comp, ← hfrac,
@@ -274,18 +274,18 @@ private theorem nonempty_lift_of_bijective {B : BigFppfSite.{u}} {T : Scheme.{u}
   have h1 : a₀ ≫ d.specialOver = 𝟙 (siteObject B T hT q.ring_mem q.base) := by
     apply Over.OverMorphism.ext
     apply B.inclusion.map_injective
-    show Spec.map (CommRingCat.ofHom ri) ≫ B.inclusion.map d.specialOver.left = 𝟙 _
+    change Spec.map (CommRingCat.ofHom ri) ≫ B.inclusion.map d.specialOver.left = 𝟙 _
     rwa [d.specialOver_left]
   have h2 : k₀ ≫ d.genericOver = 𝟙 (siteObject B T hT q.field_mem
       (Spec.map (CommRingCat.ofHom (algebraMap q.R q.K)) ≫ q.base)) := by
     apply Over.OverMorphism.ext
     apply B.inclusion.map_injective
-    show Spec.map (CommRingCat.ofHom fi) ≫ B.inclusion.map d.genericOver.left = 𝟙 _
+    change Spec.map (CommRingCat.ofHom fi) ≫ B.inclusion.map d.genericOver.left = 𝟙 _
     rwa [d.genericOver_left]
   have h3 : q.genericMap ≫ a₀ = k₀ ≫ d.square.genericMap := by
     apply Over.OverMorphism.ext
     apply B.inclusion.map_injective
-    show Spec.map (CommRingCat.ofHom (algebraMap q.R q.K)) ≫ Spec.map (CommRingCat.ofHom ri) =
+    change Spec.map (CommRingCat.ofHom (algebraMap q.R q.K)) ≫ Spec.map (CommRingCat.ofHom ri) =
       Spec.map (CommRingCat.ofHom fi) ≫
         Spec.map (CommRingCat.ofHom (algebraMap d.square.R d.square.K))
     rw [← ValuativeSquare.specMap_ofHom_comp, ← ValuativeSquare.specMap_ofHom_comp, hfrac]
@@ -391,7 +391,7 @@ private theorem exists_dominatingExtension_lift_core
   let js : KS ⟶ RS := Over.homMk
     (ObjectProperty.homMk (Spec.map (CommRingCat.ofHom (algebraMap q.R q.K))))
   have hKS : pU.obj KU = KS := by
-    show Over.mk _ = Over.mk _
+    change Over.mk _ = Over.mk _
     congr 1
   obtain ⟨X, hX, i, hi, hz⟩ :=
     TwoFibreProductOver.exists_mk_of_section e KU (yonedaEquiv q.generic)
@@ -462,7 +462,7 @@ private theorem exists_dominatingExtension_lift_core
         (γQ.isHomLift' (Over.mk (𝟙 KS)))
     have hcomp : γQ.app (Over.mk (𝟙 KS)) ≫ δ.app (Over.mk (𝟙 KS)) = 𝟙 _ :=
       congrArg (fun η => η.app (Over.mk (𝟙 KS))) (@IsIso.inv_hom_id _ _ _ _ δ hδiso)
-    show inv (γQ.app (Over.mk (𝟙 KS))) ≫ _ = c
+    change inv (γQ.app (Over.mk (𝟙 KS))) ≫ _ = c
     rw [IsIso.inv_eq_of_hom_inv_id hcomp]
     exact hδfac
   obtain ⟨d, hdExt, ⟨l⟩⟩ := H Q hq
@@ -497,19 +497,19 @@ private theorem exists_dominatingExtension_lift_core
   let k' : K₁ ⟶ KU := Over.homMk
     (ObjectProperty.homMk (Spec.map (CommRingCat.ofHom d.fieldMap))) (by
       apply ObjectProperty.hom_ext
-      show Spec.map (CommRingCat.ofHom d.fieldMap) ≫
+      change Spec.map (CommRingCat.ofHom d.fieldMap) ≫
         (Spec.map (CommRingCat.ofHom (algebraMap q.R q.K)) ≫ q.base) = _
       rw [← Category.assoc, ← hfrac, Category.assoc]
       rfl)
   have hsq : j' ≫ a' = k' ≫ ju := Over.OverMorphism.ext (B.inclusion.map_injective hfrac)
   have hR₁ : pU.obj R₁ = siteObject B S hS d.ring_mem
       (Spec.map (CommRingCat.ofHom d.ringMap) ≫ Q.base) := by
-    show Over.mk _ = Over.mk _
+    change Over.mk _ = Over.mk _
     congr 1
   have hK₁ : pU.obj K₁ = siteObject B S hS d.field_mem
       (Spec.map (CommRingCat.ofHom (algebraMap d.R' d.K')) ≫
         Spec.map (CommRingCat.ofHom d.ringMap) ≫ Q.base) := by
-    show Over.mk _ = Over.mk _
+    change Over.mk _ = Over.mk _
     congr 1
   have hn'' : 𝒳.val.val.p.IsHomLift (pU.map k') (n ≫ cG) := by
     exact isHomLift_of_inclusion_map_left_heq hn' _ hK₁.symm hKS.symm
@@ -536,7 +536,7 @@ private theorem exists_dominatingExtension_lift_core
       specialOver := a', specialOver_left := rfl
       generic_comm := rfl, special_comm := rfl }
   refine ⟨e₁, hdExt, ⟨Space.ValuativeSquare.liftOfSection q₁ z ?_ ?_⟩⟩
-  · show F.map j'.op z = yonedaEquiv (yoneda.map k' ≫ q.generic)
+  · change F.map j'.op z = yonedaEquiv (yoneda.map k' ≫ q.generic)
     rwa [← yonedaEquiv.symm_apply_apply q.generic, yonedaEquiv_symm_naturality_left,
       Equiv.apply_symm_apply]
   · exact Over.mkIdTerminal.hom_ext _ _
@@ -685,14 +685,14 @@ theorem valuativeCriterionExistence_of_baseChange
   have hRR : (Over.map U.hom).obj RR = siteObject B S hS e₁.ring_mem
       (Spec.map (CommRingCat.ofHom e₁.ringMap) ≫ q.base) := by
     refine congrArg Over.mk (ObjectProperty.hom_ext _ ?_)
-    show d.square.base ≫ q.base = Spec.map (CommRingCat.ofHom d.ringMap) ≫ q.base
+    change d.square.base ≫ q.base = Spec.map (CommRingCat.ofHom d.ringMap) ≫ q.base
     rw [hbase]
     rfl
   have hKR : (Over.map U.hom).obj KR = siteObject B S hS e₁.field_mem
       (Spec.map (CommRingCat.ofHom (algebraMap e₁.R' e₁.K')) ≫
         Spec.map (CommRingCat.ofHom e₁.ringMap) ≫ q.base) := by
     refine congrArg Over.mk (ObjectProperty.hom_ext _ ?_)
-    show (Spec.map (CommRingCat.ofHom (algebraMap d.square.R d.square.K)) ≫
+    change (Spec.map (CommRingCat.ofHom (algebraMap d.square.R d.square.K)) ≫
       d.square.base) ≫ q.base = _
     rw [hbase]
     exact Category.assoc _ _ _
@@ -701,7 +701,7 @@ theorem valuativeCriterionExistence_of_baseChange
       siteObject B S hS q.field_mem
         (Spec.map (CommRingCat.ofHom (algebraMap q.R q.K)) ≫ q.base) := by
     refine congrArg Over.mk (ObjectProperty.hom_ext _ ?_)
-    show (Spec.map (CommRingCat.ofHom (algebraMap q.R q.K)) ≫ 𝟙 _) ≫ q.base = _
+    change (Spec.map (CommRingCat.ofHom (algebraMap q.R q.K)) ≫ 𝟙 _) ≫ q.base = _
     rw [Category.comp_id]
     rfl
   refine ⟨e₁, nonempty_dottedArrow_of_span B q e₁ n.b ?_ m.b ?_

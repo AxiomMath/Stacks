@@ -143,7 +143,7 @@ lemma exists_epi_isFreeSum (G : s.Cᵒᵖ ⥤ AddCommGrpCat.{max w uD vD uC vC})
         (FreeAbelianGroup.lift fun g : (sigmaYoneda s x).obj y => G.map g.2.down.op g.1.2)
       naturality := fun y y' f => by
         ext z
-        show (FreeAbelianGroup.lift fun g : (sigmaYoneda s x).obj y' => G.map g.2.down.op g.1.2)
+        change (FreeAbelianGroup.lift fun g : (sigmaYoneda s x).obj y' => G.map g.2.down.op g.1.2)
             (FreeAbelianGroup.map _ z) =
           G.map f ((FreeAbelianGroup.lift fun g : (sigmaYoneda s x).obj y =>
             G.map g.2.down.op g.1.2) z)
@@ -152,7 +152,7 @@ lemma exists_epi_isFreeSum (G : s.Cᵒᵖ ⥤ AddCommGrpCat.{max w uD vD uC vC})
         | of g =>
           rw [FreeAbelianGroup.map_of_apply, FreeAbelianGroup.lift_apply_of,
             FreeAbelianGroup.lift_apply_of]
-          show G.map (f.unop ≫ g.2.down).op g.1.2 = G.map f (G.map g.2.down.op g.1.2)
+          change G.map (f.unop ≫ g.2.down).op g.1.2 = G.map f (G.map g.2.down.op g.1.2)
           rw [op_comp, Functor.map_comp, Quiver.Hom.op_unop]
           rfl
         | neg g ih => simp only [map_neg, ih]

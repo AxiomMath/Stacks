@@ -297,7 +297,7 @@ theorem eq_galoisAction (σ : K ≃ₐ[ResidueField A] K) (ψ : Lift A K →ₐ[
     (h : ∀ b, toField A K (ψ b) = σ (toField A K b)) : ψ = (galoisAction hA K σ).toAlgHom :=
   Algebra.FormallyUnramified.ext' (toField A K)
     (by rw [ker_toField]; exact isNilpotent_maximalIdeal_lift hA K) _ _
-    fun b => by rw [h, AlgEquiv.toAlgHom_eq_coe, AlgEquiv.coe_algHom, toField_galoisAction]
+    fun b => by rw [h, AlgEquiv.coe_toAlgHom, toField_galoisAction]
 
 end Action
 
@@ -330,8 +330,7 @@ theorem surjective_galoisTensorPi : Function.Surjective (galoisTensorPi (galoisA
   have hred : ∀ t : K ⊗[ResidueField A] K, ∃ n ∈ N,
       ∀ σ, toField A K (n σ) = IsGalois.tensorProductPi (ResidueField A) K t σ := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => exact ⟨0, N.zero_mem, fun σ => by simp⟩
+    induction t using TensorProduct.inductionOn with
     | tmul x y =>
       obtain ⟨b, rfl⟩ := toField_surjective A K x
       obtain ⟨b', rfl⟩ := toField_surjective A K y

@@ -147,13 +147,13 @@ public theorem smallEtalePullbackStalkIso_germ_univ (B : BigEtaleSite.{u})
     (t : F.obj.obj (Opposite.op V.1)) :
     ((smallEtalePullbackStalkIsoUniv B f x).hom.app F)
       ((colimit.ι
-        ((CategoryOfElements.π (geometricPointFiber B T.1 T.property x)).op ⋙
+        ((Functor.Elements.π (geometricPointFiber B T.1 T.property x)).op ⋙
           (((smallEtaleBaseChange B f).sheafPullback (Type (max (u + 1) v))
             (SmallEtale.topology B S.1 S.property)
             (SmallEtale.topology B T.1 T.property)).obj F).obj)
         (Opposite.op U)) (pullbackSectionAlongUniv B f F V.1 U.1 a t)) =
       (colimit.ι
-        ((CategoryOfElements.π (geometricPointFiber B S.1 S.property
+        ((Functor.Elements.π (geometricPointFiber B S.1 S.property
           (x.map (B.inclusion.map f)))).op ⋙ F.obj)
         (Opposite.op V)) t := by
   let J := SmallEtale.topology B S.1 S.property
@@ -184,19 +184,19 @@ public theorem smallEtalePullbackStalkIso_germ_univ (B : BigEtaleSite.{u})
     hasColimitsOfShape_of_finallySmall _ (Type (max (u + 1) v))
   let eComap := q.sheafFiberComapIso u hcover (Type (max (u + 1) v))
   let eStalk := CategoryOfElements.sheafColimIsoOfNatIsoGeneral.{_, _, _, max (u + 1) v} J eFiber
-  show ((eComap.symm ≪≫ eStalk.symm).hom.app F)
-      (colimit.ι ((CategoryOfElements.π q.fiber).op ⋙
+  change ((eComap.symm ≪≫ eStalk.symm).hom.app F)
+      (colimit.ι ((Functor.Elements.π q.fiber).op ⋙
         ((u.sheafPullback (Type (max (u + 1) v)) J K).obj F).obj)
         (Opposite.op U) (pullbackSectionAlongUniv B f F V.1 U.1 a t)) =
-    colimit.ι ((CategoryOfElements.π p.fiber).op ⋙ F.obj) (Opposite.op V) t
+    colimit.ι ((Functor.Elements.π p.fiber).op ⋙ F.obj) (Opposite.op V) t
   have hpoint : q.fiber.map a U.2 = eFiber.hom.app V.1 V.2 := by
     apply (geometricPointFiberBaseChangeEquiv B f x V.1).symm.injective
-    show (geometricPointFiberBaseChangeEquiv B f x V.1).symm (q.fiber.map a U.2) =
+    change (geometricPointFiberBaseChangeEquiv B f x V.1).symm (q.fiber.map a U.2) =
       (geometricPointFiberBaseChangeEquiv B f x V.1).symm
         (geometricPointFiberBaseChangeEquiv B f x V.1 V.2)
     rw [Equiv.symm_apply_apply]
     apply Subtype.ext
-    show (U.2.1 ≫ (SmallEtale.toScheme B T.1 T.property).map a) ≫
+    change (U.2.1 ≫ (SmallEtale.toScheme B T.1 T.property).map a) ≫
       eqToHom (smallEtaleBaseChange_toScheme_obj_eq B f V.1) ≫
         B.inclusion.map (pullback.fst V.1.obj.hom f) = V.2.1
     simpa using ha

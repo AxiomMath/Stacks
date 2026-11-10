@@ -214,7 +214,7 @@ public theorem relativeUnit_app (u : Y ⟶ Z) (b : Z ⟶ X) (M : X.Modules) :
     (relativeUnit u b).app M =
       (pushforward b).map ((pullbackPushforwardAdjunction u).unit.app ((pullback b).obj M) ≫
         (pushforward u).map ((pullbackComp u b).hom.app M)) := by
-  show (Functor.whiskerRight
+  change (Functor.whiskerRight
       (Functor.whiskerLeft (pullback b) (pullbackPushforwardAdjunction u).unit)
         (pushforward b)).app M ≫
       (Functor.whiskerRight (pullbackComp u b).hom (pushforward (u ≫ b))).app M = _

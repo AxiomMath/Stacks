@@ -76,7 +76,8 @@ the model whenever `G` is a flat sheaf of `𝒪_S`-modules.**
 
 ## Implementation notes
 
-**A natural isomorphism this file does not build, and why 05VD does not need it.**  Stacks 05VD for `ε` itself — that `ε^*G` is a flat sheaf of
+**A natural isomorphism this file does not build, and why 05VD does not need it.**  Stacks 05VD
+for `ε` itself — that `ε^*G` is a flat sheaf of
 `𝒪`-modules on the small étale site — could also be obtained from
 `isFlat_pullbackModulesToEtale_obj` together with
 `AlgebraicGeometry.SmallEtale.isFlat_iff_smallModelModuleRestriction`, provided the two

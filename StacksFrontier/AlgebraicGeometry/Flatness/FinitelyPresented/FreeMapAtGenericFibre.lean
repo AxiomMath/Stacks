@@ -64,7 +64,7 @@ public theorem Algebra.ker_map_id_of_flat {D C N P : Type*} [CommRing D] [CommRi
     RingHom.ker (Algebra.TensorProduct.map (AlgHom.id D C) f) =
       (RingHom.ker f).map (Algebra.TensorProduct.includeRight : N →ₐ[D] C ⊗[D] N) := by
   rw [← Submodule.restrictScalars_inj D]
-  show LinearMap.ker
+  change LinearMap.ker
     (TensorProduct.AlgebraTensorModule.lTensor D C f.toLinearMap) = _
   rw [Module.Flat.ker_lTensor_eq, Ideal.map_includeRight_eq]
   rfl
@@ -79,11 +79,10 @@ public theorem Algebra.ker_algebraMap_tensorProduct_left (D C N : Type*) [CommRi
   have he : (algebraMap C (C ⊗[D] N)).comp e.toRingHom =
       (Algebra.TensorProduct.map (AlgHom.id D C) (Algebra.ofId D N)).toRingHom := by
     refine RingHom.ext fun x ↦ ?_
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
     | tmul x y =>
-      show (y • x) ⊗ₜ[D] (1 : N) = x ⊗ₜ[D] algebraMap D N y
+      change (y • x) ⊗ₜ[D] (1 : N) = x ⊗ₜ[D] algebraMap D N y
       rw [TensorProduct.smul_tmul]
       simp [Algebra.smul_def]
   have h := Algebra.ker_map_id_of_flat (C := C) (Algebra.ofId D N)

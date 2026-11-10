@@ -48,11 +48,11 @@ theorem exact_map (a : ∀ i, β₁ i →+ β₂ i) (b : ∀ i, β₂ i →+ β�
   · have hker : ∀ i, b i (w i) = 0 := fun i => by
       rw [← map_apply b i w, hw, DFinsupp.zero_apply]
     refine ⟨DFinsupp.mapRange (fun i y => if y = 0 then 0 else u i y)
-      (fun i => if_pos rfl) w, DFinsupp.ext fun i => ?_⟩
+      (fun i => ite_eq_left rfl) w, DFinsupp.ext fun i => ?_⟩
     rw [map_apply, DFinsupp.mapRange_apply]
     by_cases hi : w i = 0
-    · rw [if_pos hi, map_zero, hi]
-    · rw [if_neg hi]
+    · rw [ite_eq_left hi, map_zero, hi]
+    · rw [ite_eq_right hi]
       exact hu i (w i) (hker i)
   · rintro ⟨z, rfl⟩
     refine DFinsupp.ext fun i => ?_

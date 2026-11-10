@@ -65,7 +65,7 @@ theorem isLocalization_totalQuotientPresheaf_obj_of_isAffineOpen
     Algebra.algebra_ext _ _ fun _ ↦ rfl
   let : Algebra Γ(X, U) (S.localizationPresheaf.obj (Opposite.op U)) :=
     (X.presheaf.toTotalQuotientPresheaf.app (Opposite.op U)).hom.toAlgebra
-  show @IsLocalization (Γ(X, U)) _ (nonZeroDivisors Γ(X, U))
+  change @IsLocalization (Γ(X, U)) _ (nonZeroDivisors Γ(X, U))
     (S.localizationPresheaf.obj (Opposite.op U)) _
     ((X.presheaf.toTotalQuotientPresheaf.app (Opposite.op U)).hom.toAlgebra)
   rw [← hS]

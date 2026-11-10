@@ -259,7 +259,7 @@ theorem exists_isIso_comp_pullback_snd_of_descendedObject
       (sieve_generate_singleton_mem_topology_over B S hS (pullback.fst x t)
         (MorphismProperty.of_isPullback sqX.flip hts) (MorphismProperty.of_isPullback sqX.flip hte))
     rintro Z κ ⟨Z', u, _, ⟨⟩, hfac⟩
-    show κ ≫ x = κ ≫ y
+    change κ ≫ x = κ ≫ y
     rw [← hfac, Category.assoc, Category.assoc, hxy']
   -- two locally bijective morphisms of sheaves are isomorphisms
   let φ : (⟨yoneda.obj o, BigFppfOver.isSheaf_yoneda_obj B S hS o⟩ :

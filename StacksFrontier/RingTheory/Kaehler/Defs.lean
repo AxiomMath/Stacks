@@ -69,13 +69,12 @@ add_to_sga "1 III 5.2" "special case" KaehlerDifferential.linearMapEquivDerivati
 add_to_sga "3 VIIA 1.3.1" "special case" KaehlerDifferential.linearMapEquivDerivation
 add_to_ega "IV 16.5.14" "partial" KaehlerDifferential.linearMapEquivDerivation
 add_to_ega "IV 16.5.7" "special case" KaehlerDifferential.linearMapEquivDerivation
-add_to_ega "IV 16.5.3" "(ii), affine case" KaehlerDifferential.linearMapEquivDerivation
+add_to_ega "IV 16.5.3" "(ii), affine/ring case" KaehlerDifferential.linearMapEquivDerivation
 add_to_sga "3 II 3.14" "affine case" KaehlerDifferential.linearMapEquivDerivation
 add_to_stacks 00RO "the map is `α ↦ α ∘ d`"
   KaehlerDifferential.linearMapEquivDerivation_apply_apply
 add_to_ega "0 20.4.8" "(ii), discrete case"
   KaehlerDifferential.linearMapEquivDerivation
-add_to_ega "IV 16.5.3" "(ii), affine/ring case" KaehlerDifferential.linearMapEquivDerivation
 
 -- The former @[stacks 00RW] declarations are Mathlib's definition of `Ω[S⁄R]` as `J / J ^ 2`.
 add_to_stacks 00RW "`Ω[S⁄R]` is `J / J ^ 2`" KaehlerDifferential

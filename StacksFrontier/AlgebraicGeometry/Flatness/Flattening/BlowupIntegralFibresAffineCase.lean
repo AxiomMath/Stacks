@@ -102,7 +102,7 @@ theorem isSolvable_of_affine_of_basicOpen (D : FlatteningSituation.{u}) [IsAffin
     refine FreeOnSurjectiveOpen.map (Stacks.Blowup.blowUpPullbackIso D.f ℐ).symm
       (blowUpIso ℐ).symm ?_ ?_ hStacks
     · have hb := Stacks.Blowup.blowUpPullbackIso_hom_blowUpPullbackToBlowUp D.f ℐ
-      show pullback.snd D.f (Stacks.Blowup.blowUpToBase ℐ) ≫ (blowUpIso ℐ).inv =
+      change pullback.snd D.f (Stacks.Blowup.blowUpToBase ℐ) ≫ (blowUpIso ℐ).inv =
         (Stacks.Blowup.blowUpPullbackIso D.f ℐ).inv ≫ pullback.snd D.f (blowUpToBase ℐ)
       rw [← Iso.inv_hom_id_assoc (Stacks.Blowup.blowUpPullbackIso D.f ℐ)
         (pullback.snd D.f (Stacks.Blowup.blowUpToBase ℐ)), hb, Category.assoc, Category.assoc,

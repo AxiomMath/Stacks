@@ -108,7 +108,7 @@ theorem comp_eq_sigmaι_of_le (s : P ⟶ ∐ fun _ : ι => P)
     exact hV v.2
   have hfac := IsOpenImmersion.lift_fac (Sigma.ι (fun _ : ι => P) i) (V.ι ≫ s) hrange
   have hid : IsOpenImmersion.lift (Sigma.ι (fun _ : ι => P) i) (V.ι ≫ s) hrange = V.ι := by
-    rw [← Category.comp_id (IsOpenImmersion.lift _ _ _), ← Sigma.ι_desc (fun _ : ι => 𝟙 P) i,
+    rw [← Category.comp_id (IsOpenImmersion.lift _ _ _), ← Sigma.ι_comp_desc (fun _ : ι => 𝟙 P) i,
       ← Category.assoc, hfac, Category.assoc, hs, Category.comp_id]
   exact hfac.symm.trans (congrArg (fun t => t ≫ Sigma.ι (fun _ : ι => P) i) hid)
 
@@ -129,7 +129,7 @@ theorem splitCoverBaseChangeIso_hom_comp_splitCoverMap
     (splitCoverBaseChangeIso h κ).hom ≫ splitCoverMap V σ =
       (finiteEtaleBaseChange h).map w ≫ (splitCoverBaseChangeIso h ι).hom := by
   refine MorphismProperty.Over.Hom.ext ?_
-  show (splitCoverPullbackIso h κ).hom ≫ sigmaIndexMap V σ =
+  change (splitCoverPullbackIso h κ).hom ≫ sigmaIndexMap V σ =
     ((Over.pullback h).map ((finiteEtaleOverForgetOver P).map w)).left ≫
       (splitCoverPullbackIso h ι).hom
   have hfst : ∀ b : κ, Sigma.ι (fun _ : κ => V) b ≫ (splitCoverPullbackIso h κ).inv ≫
@@ -142,10 +142,10 @@ theorem splitCoverBaseChangeIso_hom_comp_splitCoverMap
       splitCoverPullbackIso_inv_fst]
     refine Eq.trans (Category.assoc _ _ _).symm ?_
     refine Eq.trans (congrArg (fun t => t ≫ ((finiteEtaleOverForgetOver P).map w).left)
-      (Sigma.ι_desc (fun i : κ => h ≫ Sigma.ι (fun _ : κ => P) i) b)) ?_
+      (Sigma.ι_comp_desc (fun i : κ => h ≫ Sigma.ι (fun _ : κ => P) i) b)) ?_
     refine Eq.trans (Category.assoc _ _ _) ?_
     refine Eq.trans (hσ b) ?_
-    exact (Sigma.ι_desc (fun i : ι => h ≫ Sigma.ι (fun _ : ι => P) i) (σ b)).symm
+    exact (Sigma.ι_comp_desc (fun i : ι => h ≫ Sigma.ι (fun _ : ι => P) i) (σ b)).symm
   have key : (splitCoverPullbackIso h κ).inv ≫
       ((Over.pullback h).map ((finiteEtaleOverForgetOver P).map w)).left =
         sigmaIndexMap V σ ≫ (splitCoverPullbackIso h ι).inv := by
@@ -172,7 +172,7 @@ theorem comp_splitCover_hom (w : splitCover P κ ⟶ splitCover P ι) (j : κ) :
   refine Eq.trans (Category.assoc _ _ _) ?_
   refine Eq.trans (congrArg (fun t => Sigma.ι (fun _ : κ => P) j ≫ t)
     (MorphismProperty.Over.w w)) ?_
-  exact Sigma.ι_desc (fun _ : κ => 𝟙 P) j
+  exact Sigma.ι_comp_desc (fun _ : κ => 𝟙 P) j
 
 /-- **The Zariski refinement of Stacks Tag 0BNA.** Two morphisms of split finite étale covers of
 `P` become induced by maps of the index types over a small enough open neighbourhood of any point
@@ -349,7 +349,7 @@ theorem exists_etale_isColimit_baseChangeCofork {X : Scheme.{u}} {Y Z : FiniteEt
   obtain ⟨V, huV, σ, τ, eY, eZ, ha, hb⟩ := exists_isOpen_splitData (h₂ ≫ h₁)
     (finiteEtaleOverIsoMk eY0 heY0) (finiteEtaleOverIsoMk eZ0 heZ0) a b u₂
   refine ⟨V.toScheme, V.ι ≫ (h₂ ≫ h₁), inferInstance, ⟨u₂, huV⟩, ?_, ?_, ?_⟩
-  · show h₁.base (h₂.base u₂) = x
+  · change h₁.base (h₂.base u₂) = x
     rw [hu₂, hu₁]
   · intro P' k g' hk hg' c hc S s q hs
     subst hg'

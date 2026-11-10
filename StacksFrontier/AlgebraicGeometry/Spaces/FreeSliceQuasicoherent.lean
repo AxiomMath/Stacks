@@ -17,7 +17,8 @@ an étale chart of `F`.  The forward implication of Descent, Proposition 03DX(2)
 through this tree as the hypothesis `hEss` of
 `AlgebraicGeometry.Space.SmallEtale.isCartesianOnAffineCharts_of_isQuasicoherentOnSite_of_essSurj`:
 *every quasi-coherent module on the slice of the small étale site of `F` at an affine chart is an
-`Mᵃ`*.  A hypothesis of that shape is exactly the kind no compiler check can detect — a theorem resting on a
+`Mᵃ`*.  A hypothesis of that shape is exactly the kind no compiler check can detect — a theorem
+resting on a
 false or unsatisfiable hypothesis compiles, is axiom-clean, and is vacuous — so it needs a
 witness that its antecedent and its conclusion are simultaneously satisfiable at some module.
 

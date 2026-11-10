@@ -203,14 +203,14 @@ theorem isPullback_monoPushforward_unit [Mono i] :
     have hover := s.sect_over _ a ha
     simp only [op_id, Functor.map_id_apply] at hover
     refine ⟨a, ?_, ?_⟩
-    · show monoPushforward.unitSection i u₀ a = s
+    · change monoPushforward.unitSection i u₀ a = s
       refine MonoPushforwardSection.ext hover ?_
       funext T' g
       have h := s.sect_comp (𝟙 T.unop) g a ha
       rw [Category.comp_id] at h
       simp [monoPushforward.unitSection, h]
     · apply hinj
-      show i.app T (u₀.app T a) = i.app T b
+      change i.app T (u₀.app T a) = i.app T b
       rw [hover, hsb]
 
 namespace monoPushforward
@@ -269,9 +269,9 @@ lemma map_π (h : i ≫ e = i') : map (u₀ := u₀) e h ≫ π i' u₀ = π i u
 /-- `map e h` carries the unit of the pushforward along `i` to that along `i'`. -/
 lemma unit_map (h : i ≫ e = i') : unit i u₀ ≫ map e h = unit i' u₀ := by
   ext T a
-  show mapSection e h (unitSection i u₀ (T := T.unop) a) = unitSection i' u₀ a
+  change mapSection e h (unitSection i u₀ (T := T.unop) a) = unitSection i' u₀ a
   refine MonoPushforwardSection.ext ?_ rfl
-  show e.app T (i.app T (u₀.app T a)) = i'.app T (u₀.app T a)
+  change e.app T (i.app T (u₀.app T a)) = i'.app T (u₀.app T a)
   rw [← h]
   rfl
 

@@ -83,7 +83,7 @@ public theorem reachSection_comp_reachMap (G : GroupoidScheme S) {U' : Over S}
     (g : U' ⟶ G.objects) : reachSection G g ≫ restrictionReachMap G g = g := by
   have h : reachSection G g ≫ pullback.snd g G.target = g ≫ G.identity :=
     pullback.lift_snd _ _ _
-  show reachSection G g ≫ pullback.snd g G.target ≫ G.source = g
+  change reachSection G g ≫ pullback.snd g G.target ≫ G.source = g
   rw [← Category.assoc, h, Category.assoc, G.source_identity, Category.comp_id]
 
 /-- Every point in the image of `g` is in the image of the reach map of `g`. -/

@@ -70,7 +70,7 @@ theorem isWeaklyAssociatedPrime_tensorProduct_iff_fibre_of_finiteTypeModel'
   let : p.IsPrime := Ideal.IsPrime.comap _
   have hp : qA.comap (algebraMap R A) = p := by
     ext r
-    show algebraMap A S (algebraMap R A r) ∈ q ↔ algebraMap R S r ∈ q
+    change algebraMap A S (algebraMap R A r) ∈ q ↔ algebraMap R S r ∈ q
     rw [← IsScalarTower.algebraMap_apply R A S]
   have hdisj : Disjoint (V : Set S) (q : Set S) :=
     Set.disjoint_left.mpr fun s hs hq => hV hs hq
@@ -129,7 +129,7 @@ theorem isWeaklyAssociatedPrime_tensorProduct_iff_fibre_of_essentiallyOfFiniteTy
   let : Module R N₀ := Module.compHom N₀ (algebraMap R A)
   let : IsScalarTower R A N₀ := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   let : IsScalarTower R S N₀ := IsScalarTower.of_algebraMap_smul fun r m => by
-    show algebraMap R S r • m = algebraMap A S (algebraMap R A r) • m
+    change algebraMap R S r • m = algebraMap A S (algebraMap R A r) • m
     rw [← hcomp]
     rfl
   let : IsLocalizedModule U φ := hφ

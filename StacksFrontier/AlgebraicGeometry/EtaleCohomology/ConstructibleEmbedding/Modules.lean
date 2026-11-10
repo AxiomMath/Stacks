@@ -105,7 +105,7 @@ theorem notMem_etaleModuleSupport {X : Scheme.{u}} (K : EtaleModules.{u, u + 1} 
   let c : GeometricPoint (Spec (.of Ω')) := { residueField := Ω', hom := 𝟙 _ }
   let q : GeometricPoint X := c.map (ι ≫ s)
   have hq : t.hom default = q.hom default := by
-    show t.hom default = (𝟙 _ ≫ ι ≫ s) default
+    change t.hom default = (𝟙 _ ≫ ι ≫ s) default
     rw [ht]
     exact (hs _).symm
   refine IsZero.of_iso ?_ ((etaleStalkPresheafFunctorIsoOfEqBase B X hX hq
@@ -221,7 +221,7 @@ theorem exists_mono_biproduct_lift_locallyConstant {X : Scheme.{u}} [IsNoetheria
     fun N hN k m => htor (c k) N hN m, fun k => hgen (c k)⟩
   obtain ⟨x, hx, hy⟩ := hS y
   refine ⟨e.symm ⟨x, hx⟩, ?_⟩
-  show y ∉ T (c (e.symm ⟨x, hx⟩))
+  change y ∉ T (c (e.symm ⟨x, hx⟩))
   rwa [show c (e.symm ⟨x, hx⟩) = x by simp [c]]
 
 end Stacks.EtaleCohomology

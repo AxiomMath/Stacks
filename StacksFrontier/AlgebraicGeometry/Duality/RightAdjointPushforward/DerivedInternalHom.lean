@@ -33,8 +33,8 @@ which makes the displayed isomorphism canonical.
 K-injective resolutions of Tag 079P, and the derived extension of restriction of scalars is
 `CategoryTheory.Functor.mapDerivedCategory`, restriction of scalars being exact. Tag 0BV1 with
 nothing assumed beyond the morphism `f` is therefore
-`AlgebraicGeometry.derivedHomSheaf_comp_derivedRestriction_iso`, in
-`StacksFrontier/AlgebraicGeometry/Duality/RightAdjointPushforward/ConstructedDerivedAdjunction.lean`,
+`AlgebraicGeometry.derivedHomSheaf_comp_derivedRestriction_iso`, in the module
+`StacksFrontier.AlgebraicGeometry.Duality.RightAdjointPushforward.ConstructedDerivedAdjunction`,
 which carries the tag with no caveat. The theorem below is the reduction it is obtained from, and
 it is kept in the general form because the conclusion then depends on no choice of model for any
 of the three derived functors.
@@ -279,9 +279,7 @@ public theorem derivedSheafHom_comp_derivedRestriction_iso_derivedInternalHom
   let e := Functor.rightDerivedUnique (derivedSheafHom ⋙ derivedRestriction)
     derivedInternalHom α derivedInternalHomComparison W₀
   have he : α ≫ whiskerLeft DerivedCategory.Qh e.hom = derivedInternalHomComparison := by
-    simpa [e, Functor.rightDerivedUnique] using
-      (Functor.rightDerivedNatTrans_fac (derivedSheafHom ⋙ derivedRestriction)
-        derivedInternalHom α derivedInternalHomComparison W₀ (𝟙 _))
+    simp [e, Functor.rightDerivedUnique]
   exact ⟨e, he, fun e' he' => Iso.ext <| Functor.rightDerived_ext
     (RF := derivedSheafHom ⋙ derivedRestriction) (α := α) (W := W₀) derivedInternalHom
     e'.hom e.hom (he'.trans he.symm)⟩

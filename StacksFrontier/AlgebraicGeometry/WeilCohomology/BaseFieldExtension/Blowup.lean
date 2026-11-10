@@ -82,7 +82,7 @@ theorem ker_baseChange_map :
     ((baseChange k k').map i).hom.left.ker = i.hom.left.ker.comap (baseChangeProj X) := by
   have sq := isPullback_baseChange_map (k' := k') i
   have : IsClosedImmersion ((toScheme k).map i) := ‹IsClosedImmersion i.hom.left›
-  show ((toScheme k').map ((baseChange k k').map i)).ker = _
+  change ((toScheme k').map ((baseChange k k').map i)).ker = _
   rw [← sq.isoPullback_hom_fst, Scheme.Hom.ker_comp_of_isIso]
   exact Scheme.IdealSheafData.ker_fst_of_isClosedImmersion _ _
 
@@ -92,7 +92,7 @@ theorem range_baseChange_map :
     Set.range ((baseChange k k').map i).hom.left.base =
       (baseChangeProj X).base ⁻¹' Set.range i.hom.left.base := by
   have sq := isPullback_baseChange_map (k' := k') i
-  show Set.range ((toScheme k').map ((baseChange k k').map i)).base =
+  change Set.range ((toScheme k').map ((baseChange k k').map i)).base =
     (baseChangeProj X).base ⁻¹' Set.range ((toScheme k).map i).base
   rw [← Scheme.Pullback.range_fst]
   apply Set.Subset.antisymm
@@ -130,7 +130,7 @@ theorem exists_blowup_baseChange :
     pullback.lift (h : (toScheme k').obj (SmoothProjectiveScheme.blowupObj
         ((baseChange k k').map i)) ⟶ (toScheme k).obj (SmoothProjectiveScheme.blowupObj i))
       (SmoothProjectiveScheme.blowupObj ((baseChange k k').map i)).obj.hom (by
-        show h ≫ Stacks.Blowup.blowUpToBase i.hom.left.ker ≫ X.obj.hom =
+        change h ≫ Stacks.Blowup.blowUpToBase i.hom.left.ker ≫ X.obj.hom =
           (Stacks.Blowup.blowUpToBase ((baseChange k k').map i).hom.left.ker ≫
             ((baseChange k k').obj X).obj.hom) ≫ ArtinSchreier.specExt k k'
         rw [← Category.assoc, ← hw, Category.assoc, (isPullback_baseChangeProj (k' := k') X).w]
@@ -143,7 +143,7 @@ theorem exists_blowup_baseChange :
   refine ⟨homMk l hl0, ?_⟩
   apply hom_ext'
   rw [Functor.map_comp]
-  show l ≫ _ = _
+  change l ≫ _ = _
   apply (isPullback_baseChangeProj X).hom_ext
   · rw [Category.assoc, baseChangeProj_naturality, ← Category.assoc, hl1]
     exact hw.symm

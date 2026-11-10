@@ -79,8 +79,8 @@ Tag 0DNU and its input Tag 0DNS bottom out in the same place:
 `Deformation.Artin.InfHomRepresentation`, which the library's Tag 0DNR
 `Deformation.Artin.existsUnique_infFlatBaseChange` carries, and which has no producer — no def,
 instance or theorem in the library concludes it. Three of its six fields cannot be filled from
-anything in the library. `baseChangeQ`, `homRepX` and `homRepY` ask for a finitely presented `A`-module
-`Q` with `Inf_x(M) = Hom_A(Q, M)` naturally in `M`, that is for `Q = e^*Ω_{G/A}` and the
+anything in the library. `baseChangeQ`, `homRepX` and `homRepY` ask for a finitely presented
+`A`-module `Q` with `Inf_x(M) = Hom_A(Q, M)` naturally in `M`, that is for `Q = e^*Ω_{G/A}` and the
 representability of `Inf_x` by it, which is Tag 0617 and Tag 061C with Tags 05ZF and 05ZC for
 the base change: no module standing for `e^*Ω_{G/A}` exists in the library, and no declaration
 anywhere identifies `Inf_x`, or a tangent functor, with a `Hom`-module. The Tag 07YA transitions

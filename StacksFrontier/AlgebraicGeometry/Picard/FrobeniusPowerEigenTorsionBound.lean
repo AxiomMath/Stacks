@@ -52,7 +52,7 @@ theorem galoisTwist_fixed_of_frobenius_pow_fixed (X : Over (Spec (.of k)))
     (τ : K ≃ₐ[k] K) (hτ : τ ∈ E.fixingSubgroup) :
     schemePullbackClass (galoisTwist k K X τ) x = x := by
   let := galoisPicardAction k K X
-  show τ • x = x
+  change τ • x = x
   obtain ⟨E₁, hE₁, p, y, hp₁, hp₂, hpy⟩ := exists_finiteSubextension_schemePullbackClass_eq X x
   have hle := fixingSubgroup_le_stabilizer_galoisPicardAction X E₁ p hp₁ hp₂ y
   rw [hpy] at hle
@@ -67,7 +67,7 @@ theorem galoisTwist_fixed_of_frobenius_pow_fixed (X : Over (Spec (.of k)))
   -- `ρ = F^{-j} τ` is trivial on `E₂`
   have hρ : F ^ (-(j.1 : ℤ)) * τ ∈ E₂.fixingSubgroup := by
     rw [← IntermediateField.restrictNormalHom_ker, MonoidHom.mem_ker, map_mul, map_zpow]
-    show (F.restrictNormal E₂) ^ (-(j.1 : ℤ)) * τ.restrictNormal E₂ = 1
+    change (F.restrictNormal E₂) ^ (-(j.1 : ℤ)) * τ.restrictNormal E₂ = 1
     rw [restrictNormal_frobeniusAlgEquivOfAlgebraic, ← hj, zpow_neg, zpow_natCast,
       inv_mul_cancel]
   -- hence `F^j` fixes `E`, so `m ∣ j`
@@ -253,9 +253,9 @@ theorem finite_setOf_frobenius_pow_fixed_isOfFinAddOrder (m : ℕ) [NeZero m] :
     have key : schemePullbackClassHom pr (n • w) = schemePullbackClassHom pr 0 := by
       rw [map_nsmul, map_zero]
       exact (congrArg (n • ·) hw).trans h2
-    show IsOfFinAddOrder w
+    change IsOfFinAddOrder w
     exact isOfFinAddOrder_iff_nsmul_eq_zero.2 ⟨n, hn, hinj key⟩
-  · show schemePullbackClass e.hom (schemePullbackClass pr w) = z
+  · change schemePullbackClass e.hom (schemePullbackClass pr w) = z
     rw [hw, schemePullbackClass_comp, Iso.hom_inv_id, schemePullbackClass_id]
 
 omit [IsProper Y.hom] [Smooth Y.hom] [GeometricallyIrreducible Y.hom] [IsCurve k Y.hom] in

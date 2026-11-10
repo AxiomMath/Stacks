@@ -181,11 +181,13 @@ def unitGeneratorOfUnit (U : X.C)
   · exact (mul_assoc (unitVal X V y) b.inv b.val).trans
       ((congrArg (fun z => unitVal X V y * z) b.inv_val).trans (mul_one (unitVal X V y)))
 
+omit [X.J.WEqualsLocallyBijective AddCommGrpCat] [HasWeakSheafify X.J AddCommGrpCat] in
 /-- The section underlying the local generator attached to a unit is that unit. -/
 theorem unitGeneratorOfUnit_val (U : X.C)
     (a : ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op U) : Type w)ˣ) :
     (unitGeneratorOfUnit X U a).val = ofUnitVal X U a.val := rfl
 
+omit [X.J.WEqualsLocallyBijective AddCommGrpCat] [HasWeakSheafify X.J AddCommGrpCat] in
 /-- A section of the structure sheaf which is a unit is a local generator of the structure
 sheaf viewed as a module over itself. -/
 theorem generatorSections_property_of_unit (U : X.C)
@@ -225,7 +227,7 @@ theorem scalarEndOfTerminal_mul {T : X.C} (hT : IsTerminal T)
     inferInstanceAs (CommRing (X.O.obj.obj (op T)))
   ext U x
   let ρ := ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.map (hT.from U.unop).op).hom
-  show ρ r' • (ρ r • x) = ρ (r * r') • x
+  change ρ r' • (ρ r • x) = ρ (r * r') • x
   exact (smul_smul (ρ r') (ρ r) x).trans (congrArg (fun z => z • x)
     ((map_mul ρ r' r).symm.trans (congrArg ρ (mul_comm r' r))))
 
@@ -632,6 +634,7 @@ def trivializationTorsorHomFiber :
         (unitPairUnit_val (schemeFunctionsRingedSite J F hO) hT n a U s).symm
     exact (congrArg Additive.ofMul hu).trans (ofMul_mul _ _)
 
+omit [HasExt (Sheaf J AddCommGrpCat)] in
 /-- **The torsor of trivializations of the unit pair at `a` is the Kummer fibre torsor of
 `a⁻¹`.** -/
 theorem trivializationTorsor_unitPair_isIsomorphic :
@@ -647,6 +650,7 @@ theorem trivializationTorsor_unitPair_isIsomorphic :
   ⟨trivializationTorsorHomFiber J F hO h n hX hroot hS hT a,
     inferInstanceAs (IsIso (unitPairFiberIso J F hO h n hT a).hom)⟩
 
+omit [HasExt (Sheaf J AddCommGrpCat)] in
 /-- Hence the two torsors have the same isomorphism class. -/
 theorem trivializationTorsor_unitPair_class_eq :
     Quotient.mk (torsorSetoid (rootsOfUnitySheaf J F h n))

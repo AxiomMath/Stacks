@@ -139,8 +139,8 @@ noncomputable def tensorConstLeft (A : Type w) [AddCommGroup A] :
   obj M := AddCommGrpCat.of (A ⊗[ℤ] M)
   map {M N} f := AddCommGrpCat.ofHom
     (LinearMap.lTensor A (AddMonoidHom.toIntLinearMap f.hom)).toAddMonoidHom
-  map_id M := by ext x; induction x using TensorProduct.induction_on <;> simp_all
-  map_comp f g := by ext x; induction x using TensorProduct.induction_on <;> simp_all
+  map_id M := by ext x; induction x using TensorProduct.inductionOn <;> simp_all
+  map_comp f g := by ext x; induction x using TensorProduct.inductionOn <;> simp_all
 
 /-- The right adjoint of `tensorConstLeft A`: the functor `T ↦ Hom_ℤ(A, T)`. -/
 noncomputable def homConstLeft (A : Type w) [AddCommGroup A] :
@@ -249,27 +249,27 @@ theorem intHom_apply {M : AddCommGrpCat.{w}} (m : M) (k : intObj.{w}) :
 theorem intHom_add {M : AddCommGrpCat.{w}} (m m' : M) :
     intHom (m + m') = intHom m + intHom m' := by
   ext k
-  show k.down • (m + m') = k.down • m + k.down • m'
+  change k.down • (m + m') = k.down • m + k.down • m'
   exact smul_add _ _ _
 
 theorem intHom_zsmul {M : AddCommGrpCat.{w}} (c : ℤ) (m : M) :
     intHom (c • m) = c • intHom m := by
   ext k
-  show k.down • (c • m) = c • (k.down • m)
+  change k.down • (c • m) = c • (k.down • m)
   exact smul_comm _ _ _
 
 theorem intHom_comp {M N : AddCommGrpCat.{w}} (m : M) (φ : M ⟶ N) :
     intHom (φ.hom m) = intHom m ≫ φ := by
   ext k
-  show k.down • (φ.hom m) = φ.hom (k.down • m)
+  change k.down • (φ.hom m) = φ.hom (k.down • m)
   exact (map_zsmul φ.hom _ _).symm
 
 theorem intHom_eq_zsmul_id (k : ℤ) :
     intHom (M := intObj.{w}) (ULift.up k) = k • CategoryStruct.id intObj.{w} := by
   refine AddCommGrpCat.hom_ext (AddMonoidHom.ext fun j => ?_)
-  show j.down • (ULift.up k : ULift.{w} ℤ) = k • j
+  change j.down • (ULift.up k : ULift.{w} ℤ) = k • j
   refine ULift.down_injective ?_
-  show j.down * k = k * j.down
+  change j.down * k = k * j.down
   exact mul_comm _ _
 
 /-! ### The canonical comparison for an additive endofunctor -/

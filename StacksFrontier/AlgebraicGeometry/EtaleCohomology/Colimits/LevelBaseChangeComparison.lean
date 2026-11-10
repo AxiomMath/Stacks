@@ -6,7 +6,7 @@ public import StacksFrontier.CategoryTheory.Adjunction.Mates
 
 /-! # Base change through the two site equivalences of Stacks 03Q6's system of sheaves
 
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/BaseChangeAlgebraSystemInverseImages.lean`
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Colimits.BaseChangeAlgebraSystemInverseImages`
 records that three equivalences of abelian sheaf categories separate a level of the site system
 of Stacks 0EYL from the small étale site of the scheme the level sits over, and that transporting
 the system `𝒢_i = (Y_i ⟶ X)^{-1} ℱ` onto the levels needs each of them to be compatible with
@@ -141,7 +141,7 @@ an `InverseSystemOfFiniteSites.AbelianSheafSystem`:
   `InverseSystemOfFiniteSites.inverseImageSystem` read on those `R_i`. That is
   `Stacks.EtaleCohomology.TransitionBaseChange.projSquare` with
   `projSquare_id_inv_app` and `projSquare_comp_inv_app`, in
-  `StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/StageProjectionBaseChangeCoherence.lean`.
+  `StacksFrontier.AlgebraicGeometry.EtaleCohomology.Colimits.StageProjectionBaseChangeCoherence`.
 
 The **coherence of the small affine étale comparison** is no longer among them: it is
 `transitionAffineIso_id_hom_app` and `transitionAffineIso_comp_hom_app` above. Nor is its
@@ -330,6 +330,7 @@ def transitionAffineIso :
     (AlgebraicGeometry.SmallAffineEtale.inclusion B (D.obj (stage E i)) (hD (stage E i)))
     (transitionIso E a)
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- **The components of `transitionAffineIso` are those of `transitionIso`.** Read in the small
 étale site of `X_i`, the small affine étale comparison is the comparison of the two fibre-product
 squares that `componentIso_hom_fst` and `componentIso_hom_snd` pin down, so everything proved
@@ -376,6 +377,7 @@ def stageAffineCompIso {i j k : E.system.I} (a : i ⟶ j) (b : j ⟶ k)
   AlgebraicGeometry.smallAffineEtaleBaseChange_factoredCompIso B (stageMap E a) (stageMap E b)
     (stageMap E (a ≫ b)) (stageMap_comp E a b).symm
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- **The identity law of the small affine étale comparison.** At an identity arrow of the index
 category `transitionAffineIso` is, read across `stageAffineIdIso`, the canonical identification of
 `(system.u (𝟙 i)).obj Y` with `Y` coming from `InverseSystemOfFiniteSites.id_map`.
@@ -398,6 +400,7 @@ theorem transitionAffineIso_id_hom_app (i : E.system.I) [IsAffine (D.obj (stage 
   rw [Functor.map_comp, transitionAffineIso_hom_app_inclusion E (𝟙 i) Y, h2]
   exact transitionIso_id_hom_app E i Y
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- **The composition law of the small affine étale comparison.** At a composite `a ≫ b` the
 comparison is the comparison at `a`, followed by the base change along `stageMap a` of the
 comparison at `b`, read across `stageAffineCompIso` and the canonical identification coming from
@@ -461,6 +464,7 @@ variable {I : Type v} [Preorder I] [Nonempty I] [IsDirected I (· ≤ ·)]
   (A : Type u') [Category.{v'} A]
 
 
+omit [∀ i : Iᵒᵖ, IsAffine (D.obj i)] in
 /-- **The transition functor of the site system of Stacks 0EYL is continuous**, in the spelling
 in which the statement below needs it. `InverseSystemOfFiniteSites.continuous` is a theorem rather
 than an instance — continuity is half of the system's `isMorphismOfSites` field — so instance

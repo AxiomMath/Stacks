@@ -60,8 +60,8 @@ clauses hold on an arbitrary ringed site, which is where this development states
 are those results read on the site of opens of a ringed space, and so repeat no tag.
 
 **The stalks need not be local rings.** A route through the converse half of Tag 0B8M —
-invertible implies locally free of rank one — would need that hypothesis: Tag 0B8M exhibits a ringed space
-where the converse fails (one point, with a ring of nontrivial Picard group), and this
+invertible implies locally free of rank one — would need that hypothesis: Tag 0B8M exhibits a ringed
+space where the converse fails (one point, with a ring of nontrivial Picard group), and this
 development proves it only for local stalks, as
 `Stacks.SheafOfModules.Invertible.isLocallyTrivial_of_isInvertible`. The site-level route uses no
 trivialization of `L` at all, only Tag 0B8N (b), so no locality hypothesis appears in
@@ -91,7 +91,8 @@ provides, and the braiding of the tensor product sheaf to put the invertible fac
 Tag 01CD, and this lemma isolates exactly that input.
 
 **Not every consumer of an invertible module sheaf on a pullback needs the pulled-back
-pairing.** For **invertibility of the pullback itself** Tag 01CD is not needed: `Stacks.Modules.isInvertible_pullback`
+pairing.** For **invertibility of the pullback itself** Tag 01CD is not needed:
+`Stacks.Modules.isInvertible_pullback`
 (`StacksFrontier/AlgebraicGeometry/PullbackInvertible/Basic.lean`) proves that `f^*L` is
 invertible for an *arbitrary* morphism of schemes, with no Tag 01CD component and with no tensor
 product formed anywhere — it trivializes `L` on a cover by the converse half of Tag 0B8M,

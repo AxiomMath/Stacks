@@ -78,7 +78,7 @@ theorem hasResolutionProperty_of_isNoetherian_of_coe_support_idealSheafDataOfHom
   refine hasResolutionProperty_of_isNoetherian_of_support_idealSheafDataOfHom U E hE θ hqc hU
     hcov fun j => ?_
   refine Opens.ext ?_
-  show (((@idealSheafDataOfHom X (E j) (hqc j) (θ j)).support : Set X))ᶜ = (U j : Set X)
+  change (((@idealSheafDataOfHom X (E j) (hqc j) (θ j)).support : Set X))ᶜ = (U j : Set X)
   rw [hsupp j, compl_compl]
 
 end AlgebraicGeometry

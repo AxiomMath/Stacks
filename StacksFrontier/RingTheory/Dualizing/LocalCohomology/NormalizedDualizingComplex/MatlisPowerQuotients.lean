@@ -60,12 +60,12 @@ private theorem maximalIdealPowerQuotient_isFiniteLength
         rw [← IsLocalRing.map_maximalIdeal_of_surjective
           (Ideal.Quotient.mk I) Ideal.Quotient.mk_surjective,
           ← Ideal.map_pow]
-        show Ideal.map (Ideal.Quotient.mk I)
+        change Ideal.map (Ideal.Quotient.mk I)
           (IsLocalRing.maximalIdeal A ^ (n + 1)) = ⊥
         rw [Ideal.map_eq_bot_iff_le_ker, Ideal.mk_ker]
       have : IsArtinianRing (A ⧸ I) :=
         (isArtinianRing_iff_isNilpotent_maximalIdeal (A ⧸ I)).mpr hnil
-      show IsFiniteLength A (A ⧸ I)
+      change IsFiniteLength A (A ⧸ I)
       exact isFiniteLength_iff_isNoetherian_isArtinian.mpr
         ⟨isNoetherian_quotient I,
           isArtinian_of_surjective_algebraMap
@@ -153,7 +153,7 @@ theorem highUniverse_forget_preservesSequentialColimits
       (forget (ModuleCat.{max v u} (ULift.{v} A)))
     infer_instance
   have : PreservesColimitsOfShape ℕ e.inverse := by infer_instance
-  show PreservesColimitsOfShape ℕ
+  change PreservesColimitsOfShape ℕ
     (e.inverse ⋙ forget (ModuleCat.{max v u} (ULift.{v} A)))
   infer_instance
 

@@ -91,7 +91,7 @@ theorem functionField_pullback_ringHom_ext {R : Type*} [CommRing R]
   refine IsLocalization.ringHom_ext (nonZeroDivisors (X.functionField ⊗[k] Y.functionField))
     (RingHom.ext fun t => t.inductionOn (fun a b => ?_)
       (fun x y hx hy => by simp only [map_add, hx, hy]))
-  show φ (functionFieldTensorToPullback k f g (a ⊗ₜ b)) =
+  change φ (functionFieldTensorToPullback k f g (a ⊗ₜ b)) =
     ψ (functionFieldTensorToPullback k f g (a ⊗ₜ b))
   rw [functionFieldTensorToPullback_tmul, map_mul, map_mul, h₁, h₂]
 
@@ -649,7 +649,7 @@ theorem functionFieldMap_mu_mem_of_leftInvariant
         (AlgHom.id k G.left.functionField) K₁.val).toRingHom)
       (injective_tensorProductMap_id G K₁.val))
   have hμ : functionFieldMap μ[G].left b = ψ w := by
-    show _ = e.symm _
+    change _ = e.symm _
     rw [hw, RingEquiv.symm_apply_apply]
   rw [hμ]
   refine TensorProduct.RationalGroup.map_mem_of_forall_algebraMap_mem
@@ -660,7 +660,7 @@ theorem functionFieldMap_mu_mem_of_leftInvariant
     have h : ψ (algebraMap (G.left.functionField ⊗[k] K₁) _ (c ⊗ₜ a)) =
         functionFieldMap (pullback.fst G.hom G.hom) c *
           functionFieldMap (pullback.snd G.hom G.hom) (a : G.left.functionField) := by
-      show e.symm (IsFractionRing.map _ (algebraMap (G.left.functionField ⊗[k] K₁) _
+      change e.symm (IsFractionRing.map _ (algebraMap (G.left.functionField ⊗[k] K₁) _
         (c ⊗ₜ a))) = _
       rw [IsFractionRing.map, IsLocalization.map_eq, RingEquiv.symm_apply_eq]
       exact (pullbackFunctionFieldEquiv_mul k G.hom G.hom c (a : G.left.functionField)).symm

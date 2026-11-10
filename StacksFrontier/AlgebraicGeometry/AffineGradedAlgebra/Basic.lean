@@ -115,6 +115,7 @@ def pieceRestrict {U V : ((Spec R).Opens)ᵒᵖ} (f : U ⟶ V) (n : ℤ) :
     (Γ(Spec R, U.unop) ⊗[R] 𝒢 n) →ₗ[R] (Γ(Spec R, V.unop) ⊗[R] 𝒢 n) :=
   LinearMap.rTensor _ (AffineBaseChange.specRestrictₗ (R := R) f.unop)
 
+omit [SetLike.GradedMonoid 𝒢] in
 /-- The restriction of a pure tensor `a ⊗ x` is the restriction of `a` tensored with `x`. -/
 @[simp]
 theorem pieceRestrict_tmul {U V : ((Spec R).Opens)ᵒᵖ} (f : U ⟶ V) (n : ℤ)
@@ -127,11 +128,9 @@ theorem mulSec_naturality {U V : ((Spec R).Opens)ᵒᵖ} (f : U ⟶ V) (i j : �
     (x : Γ(Spec R, U.unop) ⊗[R] 𝒢 i) (y : Γ(Spec R, U.unop) ⊗[R] 𝒢 j) :
     pieceRestrict 𝒢 f (i + j) (mulSec 𝒢 U i j x y) =
       mulSec 𝒢 V i j (pieceRestrict 𝒢 f i x) (pieceRestrict 𝒢 f j y) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a x =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul b y =>
           rw [mulSec_tmul, pieceRestrict_tmul, pieceRestrict_tmul, pieceRestrict_tmul,
             mulSec_tmul]
@@ -180,14 +179,11 @@ theorem mulSec_assoc (U : ((Spec R).Opens)ᵒᵖ) (i j k : ℤ)
     tensorCongr (A := Γ(Spec R, U.unop)) (congrArg 𝒢 (add_assoc i j k))
         (mulSec 𝒢 U (i + j) k (mulSec 𝒢 U i j x y) z) =
       mulSec 𝒢 U i (j + k) x (mulSec 𝒢 U j k y z) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a x =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul b y =>
-          induction z using TensorProduct.induction_on with
-          | zero => simp
+          induction z using TensorProduct.inductionOn with
           | tmul c z =>
               rw [mulSec_tmul, mulSec_tmul, mulSec_tmul, mulSec_tmul, tensorCongr_tmul]
               exact tmul_congr_of_val_eq (_root_.mul_assoc a b c) (_root_.mul_assoc (x : S) y z)
@@ -203,8 +199,7 @@ theorem mulSec_one_mul (U : ((Spec R).Opens)ᵒᵖ) (i : ℤ)
     (x : Γ(Spec R, U.unop) ⊗[R] 𝒢 i) :
     tensorCongr (A := Γ(Spec R, U.unop)) (congrArg 𝒢 (zero_add i))
         (mulSec 𝒢 U 0 i ((1 : Γ(Spec R, U.unop)) ⊗ₜ[R] gOne 𝒢) x) = x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a x =>
       rw [mulSec_tmul, tensorCongr_tmul]
       exact tmul_congr_of_val_eq (_root_.one_mul a) (_root_.one_mul (x : S))
@@ -216,8 +211,7 @@ theorem mulSec_mul_one (U : ((Spec R).Opens)ᵒᵖ) (i : ℤ)
     (x : Γ(Spec R, U.unop) ⊗[R] 𝒢 i) :
     tensorCongr (A := Γ(Spec R, U.unop)) (congrArg 𝒢 (add_zero i))
         (mulSec 𝒢 U i 0 x ((1 : Γ(Spec R, U.unop)) ⊗ₜ[R] gOne 𝒢)) = x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a x =>
       rw [mulSec_tmul, tensorCongr_tmul]
       exact tmul_congr_of_val_eq (_root_.mul_one a) (_root_.mul_one (x : S))
@@ -229,11 +223,9 @@ theorem mulSec_comm (U : ((Spec R).Opens)ᵒᵖ) (i j : ℤ)
     (x : Γ(Spec R, U.unop) ⊗[R] 𝒢 i) (y : Γ(Spec R, U.unop) ⊗[R] 𝒢 j) :
     tensorCongr (A := Γ(Spec R, U.unop)) (congrArg 𝒢 (add_comm i j))
         (mulSec 𝒢 U i j x y) = mulSec 𝒢 U j i y x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a x =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul b y =>
           rw [mulSec_tmul, mulSec_tmul, tensorCongr_tmul]
           exact tmul_congr_of_val_eq (_root_.mul_comm a b) (_root_.mul_comm (x : S) y)

@@ -156,7 +156,7 @@ instance isIso_glueFibreLift (a : (Points T).obj) : IsIso (glueFibreLift G a) :=
       (((Functor.map_comp yoneda _ _).symm.trans
           (congrArg yoneda.map (glueFibreLift_proj G a))).trans
         (IsPullback.isoIsPullback_hom_snd _ _ _ _).symm)
-  haveI : IsIso (yoneda.map (glueFibreLift G a)) := by rw [e]; exact Iso.isIso_hom _
+  have : IsIso (yoneda.map (glueFibreLift G a)) := by rw [e]; exact Iso.isIso_hom _
   exact isIso_of_fully_faithful yoneda _
 
 /-- The functor `G`, read in the Grothendieck construction of the modules on the arrows. -/

@@ -14,8 +14,9 @@ This is the step of the source proof of [Stacks, Tag 07RM] that reads
 
 and it is the only use that proof makes of the colimit assertion of [Stacks, Tag 01PG]. The two
 halves it needs — that every section over an affine open lies in *some* finite type quasi-coherent
-submodule, and that finitely many such submodules have a common upper bound — are both in the library, the
-first as `Stacks.AlgebraicGeometry.Tag01PGColimitClose.affineSections_of_qcqs` and the second as
+submodule, and that finitely many such submodules have a common upper bound — are both in the
+library, the first as `Stacks.AlgebraicGeometry.Tag01PGColimitClose.affineSections_of_qcqs` and the
+second as
 `AlgebraicGeometry.finiteTypeQuasicoherentSubobject_isFiltered`. Their
 composition is what the source's "choose `i`" step is.
 
@@ -34,8 +35,8 @@ composition is what the source's "choose `i`" step is.
   form a consumer that has to pull the module back along a morphism needs.
 * `Stacks.Tag07RMSectionLift.exists_hom_forall_mem_range_pushforward`: the specialisation to
   `ℱ = f_* ℒ`, which is where [Stacks, Tag 07RM] applies it. Quasi-coherence of `f_* ℒ` is
-  [Stacks, Tag 01LC], available as the instance `AlgebraicGeometry.pushforward_isQuasicoherent`, so it
-  costs nothing here.
+  [Stacks, Tag 01LC], available as the instance `AlgebraicGeometry.pushforward_isQuasicoherent`, so
+  it costs nothing here.
 
 ## Implementation notes
 
@@ -50,8 +51,8 @@ along `CategoryTheory.Subobject.underlying_arrow`, not a `rw`: the sections of
 `AlgebraicGeometry.Scheme.Modules` objects are typed through
 `CategoryTheory.ConcreteCategory.hom`, and `AlgebraicGeometry.Scheme.Modules.Hom.comp_app` is
 `rfl`, so `congrArg` checks at default transparency and goes through where keyed matching does not
-— the barrier recorded in `StacksFrontier/AlgebraicGeometry/ColimitClose/Basic.lean`, met here from the
-other side. Zero compiler options in this file.
+— the barrier recorded in `StacksFrontier/AlgebraicGeometry/ColimitClose/Basic.lean`, met here from
+the other side. Zero compiler options in this file.
 
 ## Where Tag 07RM is, and why no tag is attached here
 
@@ -194,7 +195,8 @@ theorem exists_hom_forall_mem_range_pushforward {Y : Scheme.{u}} (f : Y ⟶ X)
 
 /-- **Tag `07RM` at the bundle predicate `Stacks.Tag087SBundle.IsProjective`.**
 
-This is the statement of Tag `07RM` with its own binder list reproduced verbatim and in its own order —
+This is the statement of Tag `07RM` with its own binder list reproduced verbatim and in its own
+order —
 the same `{X S : Scheme}`, the same `(f : X ⟶ S)`, the same `[CompactSpace S]` and
 `[QuasiSeparatedSpace S]`, the same quasi-projectivity hypothesis and the same existential
 conclusion — with the statement's two folded predicates replaced by their library forms

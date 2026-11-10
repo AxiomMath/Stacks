@@ -45,7 +45,8 @@ a statement that assumes that descent assumes what it would have to prove.
 ## References
 
 * [Epp, *Elimination of wild ramification*][epp1973]
-* `StacksFrontier.RingTheory.DiscreteValuationRing.EppConditionalDescent` — why staying finite matters
+* `StacksFrontier.RingTheory.DiscreteValuationRing.EppConditionalDescent` — why staying finite
+  matters
 -/
 
 @[expose] public section

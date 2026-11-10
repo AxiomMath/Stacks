@@ -209,7 +209,7 @@ public theorem restrictionStalkMap_comp_etaleRestrictionIso :
     ⟨(smallEtalePostcomposeBaseChangeAdjunction_structureMorphism B X hX U).counit.app
         N.unop.1, by
       refine Subtype.ext ?_
-      show SmallEtale.fiberPointLift B U.obj.hom s N.unop.1 hs x ≫
+      change SmallEtale.fiberPointLift B U.obj.hom s N.unop.1 hs x ≫
         (SmallEtale.toScheme B X hX).map
           ((smallEtalePostcomposeBaseChangeAdjunction_structureMorphism B X hX U).counit.app
             N.unop.1) = N.unop.2.1
@@ -217,7 +217,7 @@ public theorem restrictionStalkMap_comp_etaleRestrictionIso :
       exact SmallEtale.fiberPointLift_comp_fst B U.obj.hom s N.unop.1 hs x⟩
   have hgerm := etaleStalkSmallEtalePullObjIso_germ B U.obj.hom
     (x.toGeometricPoint B U.obj.hom s) AddCommGrpCat.{u + 1} F ⟨Wlift⟩ N.unop (𝟙 W) (by
-      show SmallEtale.fiberPointLift B U.obj.hom s N.unop.1 hs x ≫
+      change SmallEtale.fiberPointLift B U.obj.hom s N.unop.1 hs x ≫
           (SmallEtale.toScheme B U.obj.left.1 U.obj.left.property).map (𝟙 W) ≫
           B.inclusion.map (pullback.fst N.unop.1.obj.hom U.obj.hom) = N.unop.2.1
       rw [CategoryTheory.Functor.map_id, Category.id_comp]
@@ -246,7 +246,6 @@ public theorem restrictionStalkMap_comp_etaleRestrictionIso :
     erw [← Category.assoc, colimit.ι_map, Category.assoc,
       restrictionStalkMap_germ B X hX U s x F W Wlift]
     rfl
-
   have h4 : pullbackSectionAlongHom B U.obj.hom AddCommGrpCat.{u + 1} F N.unop.1 W (𝟙 W) ≫
         ((etaleRestrictionIso B X hX U).hom.app F).1.app (op W) =
       F.obj.map ((smallEtalePostcomposeBaseChangeAdjunction_structureMorphism B X hX U
@@ -264,7 +263,7 @@ public theorem restrictionStalkMap_comp_etaleRestrictionIso :
           (SmallEtale.toGeometricPoint_map B U.obj.hom s x)) =
       colimit.ι (SmallEtale.etaleStalkDiagram B X hX s F.obj) (op A') :=
     colimit_ι_comp_eqToHom B X hX s.residueField x.2 F.obj N.unop.1 N.unop.2 hs rfl
-  show colimit.ι (SmallEtale.etaleStalkDiagram B X hX
+  change colimit.ι (SmallEtale.etaleStalkDiagram B X hX
         ((x.toGeometricPoint B U.obj.hom s).map (B.inclusion.map U.obj.hom)) F.obj)
         (op N.unop) ≫
       ((etaleStalkSmallEtalePullObjIso B U.obj.hom (x.toGeometricPoint B U.obj.hom s)

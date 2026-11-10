@@ -122,7 +122,7 @@ theorem exists_toScheme_map_adicCompletionQuotientObjHom_eq (V : BigFppfOver B S
   let X := (BigFppfOver.toScheme B S hS).obj V
   let p : PrimeSpectrum Γ(X, ⊤) := X.isoSpec.hom y
   have hyp : X.isoSpec.inv p = y := by
-    show (X.isoSpec.hom ≫ X.isoSpec.inv) y = y
+    change (X.isoSpec.hom ≫ X.isoSpec.inv) y = y
     simp
   have hp : p ∈ PrimeSpectrum.zeroLocus (I : Set Γ(X, ⊤)) :=
     (Set.ext_iff.mp (Scheme.isoSpec_inv_preimage_zeroLocus X (I : Set Γ(X, ⊤))) p).mp
@@ -153,9 +153,9 @@ theorem exists_isClosedImmersion_of_isClosed (V : BigFppfOver B S hS)
     Space.hasImageIn_adicCompletionQuotientObjHom B S hS V Iid hI 1, ?_,
     fun x hx => exists_toScheme_map_adicCompletionQuotientObjHom_eq V Iid one_ne_zero
       ((hI x).mp hx)⟩
-  · show IsAffine (Spec _)
+  · change IsAffine (Spec _)
     infer_instance
-  · show IsClosedImmersion (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (Iid ^ 1))) ≫
+  · change IsClosedImmersion (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (Iid ^ 1))) ≫
       ((BigFppfOver.toScheme B S hS).obj V).isoSpec.inv)
     infer_instance
 
@@ -232,7 +232,7 @@ theorem exists_reduction_comp_eq_of_isLimit
       rwa [h2]
     have h1 := FormalSpace.completionSheafMap_presheafSection (F := yoneda.obj V')
       (G := yoneda.obj (D.obj i).obj) B S hS (yoneda.map φ) Z t ht ht'
-    show xx.hom.app (op U) ((Space.completionSheafMap B S hS (yoneda.map φ) Z).hom.app (op U)
+    change xx.hom.app (op U) ((Space.completionSheafMap B S hS (yoneda.map φ) Z).hom.app (op U)
       (FormalSpace.presheafSection B S hS t ht)) = _
     rw [h1]
     have hcongr : ∀ {a b : (yoneda.obj (D.obj i).obj).obj (op U)} (hab : a = b)

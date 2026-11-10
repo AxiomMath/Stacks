@@ -61,7 +61,7 @@ theorem left_hom_assoc {B : AlgebraicGeometry.BigFppfSite.{u}} {S : Scheme.{u}}
     {hS : B.Contains S} {X Y Z W : AlgebraicGeometry.BigFppfOver B S hS}
     (f : X ⟶ Y) (g : Y ⟶ Z) (h : Z ⟶ W) :
     (f ≫ g).left.hom ≫ h.left.hom = (f ≫ g ≫ h).left.hom := by
-  show (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (f ≫ g) ≫
+  change (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (f ≫ g) ≫
       (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map h =
     (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (f ≫ g ≫ h)
   rw [← Functor.map_comp, Category.assoc]
@@ -383,7 +383,7 @@ public theorem completedFormalBase_residue_props
       (AdicCompletion.residueField_map_bijective L)
   let j := Spec.map (CommRingCat.ofHom e.toRingHom)
   have hjiso : IsIso j := by
-    show IsIso (Spec.map e.toCommRingCatIso.hom)
+    change IsIso (Spec.map e.toCommRingCatIso.hom)
     infer_instance
   have hjopen : IsOpenImmersion j := inferInstance
   have hjft : LocallyOfFiniteType j := locallyOfFiniteType_of_isOpenImmersion j
@@ -476,7 +476,7 @@ public theorem completedFormalBase_truncationToS
         (Spec.map (CommRingCat.ofHom (algebraMap (U.left.presheaf.stalk u₀)
             (AlgebraicGeometry.Scheme.completedLocalRing U.left u₀))) ≫
           U.left.fromSpecStalk u₀) ≫ U.hom := by
-  show AlgebraicGeometry.adicThickeningι _ _ n ≫
+  change AlgebraicGeometry.adicThickeningι _ _ n ≫
       (completedFormalBase U u₀ hu₀).toS = _
   rw [completedFormalBase_toS, Category.assoc]
   rfl
@@ -599,7 +599,7 @@ private theorem exists_completeLocal_lift
       exact (f 0).isLocal.map_nonunit x hq⟩
     residue_comm := fun x => by
       rw [← Deformation.AdicTruncation.residueEquiv_residue_mk S 0 (aΛ x)]
-      show (Deformation.AdicTruncation.obj S 0).residueEquiv
+      change (Deformation.AdicTruncation.obj S 0).residueEquiv
         (residue (Deformation.AdicTruncation.obj S 0)
           (Ideal.Quotient.mk (Deformation.AdicTruncation.ideal S 0) (aΛ x))) = _
       rw [ha₀]
@@ -634,7 +634,7 @@ theorem exists_base_map_of_reduction_maps
         (Deformation.AdicTruncation.transition η.base n) :=
     (IsHomLift.commSq Q _ (g n)).w
   rw [Category.assoc, ← hgn, ← Category.assoc]
-  show (an (n + 1) ≫ g n).base ≫ eqToHom (hn n) = _
+  change (an (n + 1) ≫ g n).base ≫ eqToHom (hn n) = _
   rw [ha]
 
 /-- A bijective morphism of Artinian local algebras is an isomorphism. -/
@@ -647,7 +647,7 @@ theorem isIso_of_bijective_artinianLocalHom
     hom := e.symm.toAlgHom
     isLocal := IsLocalHom.of_surjective _ e.symm.surjective
     residue_comm := fun s => by
-      show R.residueEquiv (residue R (e.symm s)) = S.residueEquiv (residue S s)
+      change R.residueEquiv (residue R (e.symm s)) = S.residueEquiv (residue S s)
       have h := f.residue_comm (e.symm s)
       change S.residueEquiv (residue S (e (e.symm s))) =
         R.residueEquiv (residue R (e.symm s)) at h

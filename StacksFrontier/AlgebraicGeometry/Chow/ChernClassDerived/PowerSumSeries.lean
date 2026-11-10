@@ -267,7 +267,7 @@ variable (E : X.Modules) (r : ℕ)
 
 /-- **`P_0 = r`**: the degree-zero power sum is the rank. -/
 theorem powerSumTotal_zero : powerSumTotal C sX E r 0 = (r : TotalChowClass C sX) :=
-  if_pos rfl
+  ite_eq_left rfl
 
 /-- For `p ≠ 0`, `P_p(ℰ)` is the universal polynomial `P_p` evaluated at the Chern sequence of
 `ℰ` in the ring of Chern classes. -/
@@ -275,7 +275,7 @@ theorem powerSumTotal_of_ne_zero {p : ℕ} (hp : p ≠ 0) :
     powerSumTotal C sX E r p =
       ((AlgebraicGeometry.powerSumEval (chernSeq C sX E r) p : chernRing C sX) :
         TotalChowClass C sX) :=
-  if_neg hp
+  ite_eq_right hp
 
 /-- **`P_p(ℰ)` is homogeneous of degree `p`**: the polynomial `P_p` is weighted homogeneous of
 degree `p` and `c_i(ℰ)` has degree `i`. -/
@@ -333,7 +333,7 @@ theorem chernSeq_eq_sum_of_shortExact (S : ShortComplex X.Modules) (hS : S.Short
       chernRing C sX) : TotalChowClass C sX) = ∑ j ∈ range (n + 1),
         ((chernSeq C sX S.X₁ r₁ (n - j) : TotalChowClass C sX) * chernSeq C sX S.X₃ r₂ j) from
       map_sum (chernRing C sX).subtype _ _]
-  show TotalChowClass.homComponent n (totalChern C sX S.X₂ (r₁ + r₂)) = _
+  change TotalChowClass.homComponent n (totalChern C sX S.X₂ (r₁ + r₂)) = _
   rw [totalChern_eq_mul_of_shortExact C sX S hS r₁ r₂, TotalChowClass.homComponent_mul_sum]
   rfl
 

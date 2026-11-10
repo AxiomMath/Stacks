@@ -41,7 +41,6 @@ namespace Stacks.EtaleCohomology
 variable {k : Type u} [Field k] {U Y : Scheme.{u}} (p : U ⟶ Spec (.of k)) (q : Y ⟶ Spec (.of k))
   [IsCurve k p] [IsCurve k q] (j : U ⟶ Y) [IsOpenImmersion j] [IsIntegral U] [IsIntegral Y]
 
-include p q in
 /-- A nonempty open subscheme of an irreducible scheme is dense. -/
 theorem isDominant_of_isOpenImmersion_of_isCurve : IsDominant j :=
   ⟨j.isOpenEmbedding.isOpen_range.dense (Set.range_nonempty _)⟩
@@ -52,7 +51,7 @@ point of `U`, so its image is not the generic point of `Y`, and every other poin
 one-dimensional integral scheme is closed. -/
 theorem isClosed_singleton_base_of_mem_closedPoints (x : closedPoints U) :
     IsClosed ({j.base x.1} : Set Y) := by
-  have := isDominant_of_isOpenImmersion_of_isCurve p q j
+  have := isDominant_of_isOpenImmersion_of_isCurve j
   refine Stacks.AlgebraicGeometry.AmpleDimensionOne.isClosed_singleton_of_ne_genericPoint Y
     (IsCurve.topologicalKrullDim_eq_one q) fun h => ?_
   have hη : j.base (genericPoint U) = genericPoint Y :=
@@ -108,12 +107,12 @@ variable [IsLocallyNoetherian U] [IsLocallyNoetherian Y] [NoetherianSpace U] [No
 /-- **The divisor of a rational function restricts to its divisor on the open subcurve.** -/
 theorem closedPointDivisorRestriction_closedPointDivisorOfUnit
     (f : Additive (Y.functionField)ˣ) :
-    haveI := isDominant_of_isOpenImmersion_of_isCurve p q j
+    haveI := isDominant_of_isOpenImmersion_of_isCurve j
     closedPointDivisorRestriction p q j (closedPointDivisorOfUnit Y f) =
       closedPointDivisorOfUnit U (Additive.ofMul
         (Units.map (Stacks.Chow.functionFieldEquiv_openImmersion j).toMonoidHom
           (Additive.toMul f))) := by
-  have := isDominant_of_isOpenImmersion_of_isCurve p q j
+  have := isDominant_of_isOpenImmersion_of_isCurve j
   refine Finsupp.ext fun x => ?_
   rw [closedPointDivisorRestriction_apply, closedPointDivisorOfUnit_apply,
     closedPointDivisorOfUnit_apply]
@@ -142,6 +141,7 @@ theorem surjective_closedPointClassGroupRestriction :
     obtain ⟨d', rfl⟩ := surjective_closedPointDivisorRestriction p q j d
     exact ⟨QuotientAddGroup.mk d', rfl⟩
 
+omit [IsLocallyNoetherian U] [IsLocallyNoetherian Y] [NoetherianSpace U] [NoetherianSpace Y] in
 /-- A divisor whose restriction to `U` vanishes is a combination of the points outside `U`. -/
 theorem mem_closure_of_closedPointDivisorRestriction_eq_zero (d : closedPoints Y →₀ ℤ)
     (hd : closedPointDivisorRestriction p q j d = 0) :
@@ -162,7 +162,7 @@ private theorem ker_closedPointClassGroupRestriction_le :
     (closedPointClassGroupRestriction p q j).ker ≤ AddSubgroup.closure
       ((fun y => (QuotientAddGroup.mk (Finsupp.single y (1 : ℤ)) : closedPointClassGroup Y)) ''
         {y : closedPoints Y | y.1 ∉ Set.range j.base}) := by
-  have := isDominant_of_isOpenImmersion_of_isCurve p q j
+  have := isDominant_of_isOpenImmersion_of_isCurve j
   intro c hc
   induction c using QuotientAddGroup.induction_on with
   | H d =>

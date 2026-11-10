@@ -10,7 +10,8 @@ import StacksCore.Tactic.EgaSgaAttribute
 
 Stacks Tag 0801 says that a closed subscheme `Z` of a quasi-compact relative `Proj_S(A)` is the
 relative `Proj` of the quotient of `A` by the graded ideal of homogeneous sections vanishing on
-`Z`. Its formal statement bundles that into Tag 0801's `ClosedSubschemeProjPresentation`, a structure with
+`Z`. Its formal statement bundles that into Tag 0801's `ClosedSubschemeProjPresentation`, a
+structure with
 seven fields: the graded quotient, a projection-formula twist comparison, degreewise
 surjectivity of the quotient maps, the identification of their kernel with the vanishing
 sections, everywhere-definedness of the induced map on `Proj`, the isomorphism `Z ≅ Proj` of the
@@ -56,7 +57,8 @@ immersion `i : Z ⟶ Proj 𝒮`:
   `Stacks.AlgebraicGeometry.SegreClosedImmersion.isClosedImmersion_mapHomOfTop` — Stacks
   Tag 01N1 part (2) on the whole of `Proj` rather than on the domain of definition.
 
-The presentation's `twist_comparison` has **no absolute analogue**: it compares the twist of `i_* 𝒪_Z`
+The presentation's `twist_comparison` has **no absolute analogue**: it compares the twist of
+`i_* 𝒪_Z`
 with the pushforward of the restricted twist, and over an absolute `Proj` the kernel clause is
 stated directly against the pullback of global sections, with no projection formula in the way.
 
@@ -272,7 +274,7 @@ theorem quotientMk_coe_eq_zero_iff {Z : Scheme.{u}} (i : Z ⟶ Proj 𝒮) [IsClo
       rwa [hsame]
     · have hzero : (DirectSum.decompose 𝒮 (a : S)) k = 0 :=
         Subtype.ext (DirectSum.decompose_of_mem_ne 𝒮 a.2 (Ne.symm hk))
-      show equationHom 𝒮 i k ((DirectSum.decompose 𝒮 (a : S)) k) = 0
+      change equationHom 𝒮 i k ((DirectSum.decompose 𝒮 (a : S)) k) = 0
       rw [hzero]
       exact map_zero _
 
@@ -342,7 +344,8 @@ def SaturationIdentification {Z : Scheme.{u}} (i : Z ⟶ Proj 𝒮) [IsClosedImm
 
 /-- **Stacks Tag 0801's presentation at the absolute `Proj`, from the one clause named above.**
 Four of
-the seven fields of Tag 0801's presentation are discharged from existing results, one has no absolute analogue, and
+the seven fields of Tag 0801's presentation are discharged from existing results, one has no
+absolute analogue, and
 `SaturationIdentification` supplies only the isomorphism and its compatibility. -/
 theorem projQuotientPresentation_of_saturationIdentification
     {Z : Scheme.{u}} (i : Z ⟶ Proj 𝒮) [IsClosedImmersion i] (h : SaturationIdentification 𝒮 i) :

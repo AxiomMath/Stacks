@@ -83,7 +83,7 @@ private theorem residueMap_bijective
   · intro b
     obtain ⟨a, ha⟩ := IsLocalRing.residue_surjective (R := A) (A.residueEquiv.symm b)
     refine ⟨a, ?_⟩
-    show A.residueEquiv (IsLocalRing.residue A a) = b
+    change A.residueEquiv (IsLocalRing.residue A a) = b
     rw [ha, A.residueEquiv.apply_symm_apply]
 
 /-- Conjugating an endomorphism by the `eqToHom` of an equality is the identity iff it is. -/
@@ -166,7 +166,7 @@ private theorem infinitesimalAutomorphisms_equiv_restrictionKernel_of_constructi
   have hz₀arrowOp : IsIso z₀obj.arrow.op := by
     let φ := z₀obj.arrow.op
     have hbaseop : IsIso (p.op.map φ) := by
-      show IsIso (p.map z₀obj.arrow).op
+      change IsIso (p.map z₀obj.arrow).op
       infer_instance
     have hstrong : p.op.IsStronglyCocartesian (p.op.map φ) φ :=
       isStronglyCocartesian_of_isCofiberedInGroupoids
@@ -265,7 +265,7 @@ private theorem infinitesimalAutomorphisms_equiv_restrictionKernel_of_constructi
       rw [← r_eq, Category.assoc, hf]
   have kernel_mem_iff (b : Aut xε') :
       b ∈ MonoidHom.ker restriction ↔ r ≫ b.asIso.hom.val.unop = r := by
-    show (b ∈ relativeInfinitesimalAutomorphisms
+    change (b ∈ relativeInfinitesimalAutomorphisms
       (p := p.op) (x' := xε') (x := x₀') hpop
       (p.op.map r.op) r.op (Functor.IsHomLift.map (p := p.op) r.op)) ↔ _
     rw [mem_relativeInfinitesimalAutomorphisms_iff]
@@ -319,7 +319,7 @@ private theorem infinitesimalAutomorphisms_equiv_restrictionKernel_of_constructi
       have hunop := congrArg Quiver.Hom.unop hbase
       simpa [f, Functor.op_map] using hunop.symm
     have hq : q.map f = 𝟙 (q.obj y) := by
-      show (Over.post B.inclusion).map (p.map f) = _
+      change (Over.post B.inclusion).map (p.map f) = _
       rw [hmap]
       exact (Over.post B.inclusion).map_id _
     let m : DeformationMorphism iΛ q x₀ hx₀
@@ -381,7 +381,7 @@ private theorem infinitesimalAutomorphisms_equiv_restrictionKernel_of_constructi
     ⟨forward_injective, forward_surjective⟩
   refine ⟨E, ?_, ?_⟩
   · intro a
-    show (toAutHom a).asIso.hom.val.unop = _
+    change (toAutHom a).asIso.hom.val.unop = _
     exact toAut_hom a
   · intro E' hE'
     apply MulEquiv.ext

@@ -45,7 +45,7 @@ theorem rightDerived_map_smul_id (RF : D ⥤ H) {F : C ⥤ H} {L : C ⥤ D} (α 
   have h : γ = r • 𝟙 RF := by
     refine RF.rightDerived_ext α W RF γ (r • 𝟙 RF) ?_
     ext Y
-    show α.app Y ≫ RF.map (r • 𝟙 (L.obj Y)) = α.app Y ≫ (r • 𝟙 (RF.obj (L.obj Y)))
+    change α.app Y ≫ RF.map (r • 𝟙 (L.obj Y)) = α.app Y ≫ (r • 𝟙 (RF.obj (L.obj Y)))
     calc α.app Y ≫ RF.map (r • 𝟙 (L.obj Y)) = α.app Y ≫ (L ⋙ RF).map (r • 𝟙 Y) := by
           rw [← L.map_id, ← L.map_smul]
           rfl

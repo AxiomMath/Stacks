@@ -92,7 +92,8 @@ extension of scalars, as in [Stacks, Tag 0A6A]: a consumer whose base change is
 localization case of `Dualizing.extBaseChangeLinearEquiv`, assembled from the same comparisons
 before it existed; they are a dedup target against it, the localization of a module being its
 base change to the localized ring.  (`Dualizing.localizedExtLinearEquiv` is in turn duplicated by
-a `private` copy in `StacksFrontier/RingTheory/Dualizing/UpperShriek/CompleteIntersectionLocal.lean`.)
+a `private` copy in
+`StacksFrontier/RingTheory/Dualizing/UpperShriek/CompleteIntersectionLocal.lean`.)
 
 `Dualizing.extAdicSystemCompletionAddEquiv` is stated additively because its two halves are
 linear over different rings: flat base change for `Ext` is linear over `A^∧` and the collapse of
@@ -158,7 +159,7 @@ public theorem isIso_derivedHomBaseChange_single [IsNoetherianRing A] (hflat : M
       ((DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).obj (ModuleCat.of A M)) L) := by
   let X := (DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).obj (ModuleCat.of A M)
   have hXpc : StacksDraft.PseudoCoherence.IsPseudoCoherent X := by
-    show StacksDraft.PseudoCoherence.IsModulePseudoCoherent (R := A) M
+    change StacksDraft.PseudoCoherence.IsModulePseudoCoherent (R := A) M
     exact (StacksDraft.PseudoCoherence.pseudoCoherent_iff_boundedAbove_finite_homology
       X 0 M).2.2.mpr inferInstance
   exact Stacks.DerivedHom.BaseChangeIso.isIso_derivedHomBaseChange.{u, u, u} (algebraMap A S)
@@ -373,7 +374,7 @@ public theorem tensorAdicCompletionEquivOfPowSMulTopEqBot_one_tmul (N : Type u)
     tensorAdicCompletionEquivOfPowSMulTopEqBot I N hN ((1 : AdicCompletion I A) ⊗ₜ x) = x := by
   let : IsAdicComplete I N :=
     Stacks.AdicCompletion.PowerTorsionQuotient.isAdicComplete_of_pow_smul_top_eq_bot hN
-  show (LinearEquiv.ofBijective (AdicCompletion.of I N)
+  change (LinearEquiv.ofBijective (AdicCompletion.of I N)
       (AdicCompletion.of_bijective I N)).symm
     ((AdicCompletion.ofTensorProductEquivOfFiniteNoetherian I N)
       ((1 : AdicCompletion I A) ⊗ₜ x)) = x

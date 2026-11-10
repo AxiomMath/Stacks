@@ -250,14 +250,14 @@ def extensionUnit (N : ModuleCat.{v} (R.obj U)) : N ⟶ (extension R U N).obj U 
         change (if p = 𝟙 U then n + n' else 0) =
           (if p = 𝟙 U then n else 0) + (if p = 𝟙 U then n' else 0)
         by_cases h : p = 𝟙 U
-        · rw [if_pos h, if_pos h, if_pos h]
-        · rw [if_neg h, if_neg h, if_neg h, add_zero]
+        · rw [ite_eq_left h, ite_eq_left h, ite_eq_left h]
+        · rw [ite_eq_right h, ite_eq_right h, ite_eq_right h, add_zero]
       map_smul' := fun r n => funext fun p => by
         change (if p = 𝟙 U then r • n else 0) =
           (R.map p).hom r • if p = 𝟙 U then n else 0
         by_cases h : p = 𝟙 U
-        · rw [if_pos h, if_pos h, h, ring_map_id_apply]
-        · rw [if_neg h, if_neg h, smul_zero] }
+        · rw [ite_eq_left h, ite_eq_left h, h, ring_map_id_apply]
+        · rw [ite_eq_right h, ite_eq_right h, smul_zero] }
 
 open Classical in
 /-- The family `extensionUnit R U N n` is `n` at the identity and `0` elsewhere. -/
@@ -278,7 +278,7 @@ theorem extensionUnit_comp_extensionProj (N : ModuleCat.{v} (R.obj U)) :
   classical
   ext n
   change (if (𝟙 U : U ⟶ U) = 𝟙 U then n else 0) = n
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 /-- `extensionUnit` is natural in the module. -/
 theorem extensionUnit_naturality {N N' : ModuleCat.{v} (R.obj U)} (g : N ⟶ N') :
@@ -289,8 +289,8 @@ theorem extensionUnit_naturality {N N' : ModuleCat.{v} (R.obj U)} (g : N ⟶ N')
   refine funext fun p => ?_
   change g (if p = 𝟙 U then n else 0) = if p = 𝟙 U then g n else 0
   by_cases h : p = 𝟙 U
-  · rw [if_pos h, if_pos h]
-  · rw [if_neg h, if_neg h, map_zero]
+  · rw [ite_eq_left h, ite_eq_left h]
+  · rw [ite_eq_right h, ite_eq_right h, map_zero]
 
 /-- `extensionProj` is natural in the module. -/
 theorem extensionProj_naturality {N N' : ModuleCat.{v} (R.obj U)} (g : N ⟶ N') :

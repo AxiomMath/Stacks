@@ -107,7 +107,7 @@ theorem isLocallySurjective_fromPreimage {F F' : Dᵒᵖ ⥤ Type u} (Z : Subfun
   refine J.superset_covering ?_ (hπ.imageSieve_mem (x : F.obj (op U)))
   rintro V b ⟨y, hy⟩
   refine ⟨⟨y, ?_⟩, Subtype.ext hy⟩
-  show π.app (op V) y ∈ Z.obj (op V)
+  change π.app (op V) y ∈ Z.obj (op V)
   rw [hy]
   exact Z.map b.op x.2
 

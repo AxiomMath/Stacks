@@ -133,7 +133,7 @@ theorem affineLineSectionsEquiv_map {X Y : Scheme.{u}} [IsAffine X] [IsAffine Y]
   apply Polynomial.ringHom_ext
   · intro a
     simp only [RingHom.comp_apply, Polynomial.coe_mapRingHom, Polynomial.map_C]
-    show affineLineSectionsEquiv (X := X)
+    change affineLineSectionsEquiv (X := X)
       ((AffineSpace.map (ULift.{u} PUnit) f).appTop
         ((affineLineSectionsEquiv (X := Y)).symm (Polynomial.C a))) = _
     rw [affineLineSectionsEquiv_symm_C]
@@ -145,7 +145,7 @@ theorem affineLineSectionsEquiv_map {X Y : Scheme.{u}} [IsAffine X] [IsAffine Y]
       simpa only [Scheme.Hom.comp_appTop, CommRingCat.comp_apply] using h
     rw [hsections, ← affineLineSectionsEquiv_symm_C, RingEquiv.apply_symm_apply]
   · simp only [RingHom.comp_apply, Polynomial.coe_mapRingHom, Polynomial.map_X]
-    show affineLineSectionsEquiv (X := X)
+    change affineLineSectionsEquiv (X := X)
       ((AffineSpace.map (ULift.{u} PUnit) f).appTop
         ((affineLineSectionsEquiv (X := Y)).symm Polynomial.X)) = Polynomial.X
     rw [affineLineSectionsEquiv_symm_X, AffineSpace.map_appTop_coord,
@@ -169,7 +169,7 @@ theorem polynomial_descends_to_eqLocus {A B : Type*} [CommRing A] [CommRing B]
     (s t : A →+* B) (p : Polynomial A) (h : p.map s = p.map t) :
     ∃ q : Polynomial (s.eqLocus t), q.map (Subring.subtype (s.eqLocus t)) = p := by
   have hc (n : ℕ) : p.coeff n ∈ s.eqLocus t := by
-    show s (p.coeff n) = t (p.coeff n)
+    change s (p.coeff n) = t (p.coeff n)
     simpa only [Polynomial.coeff_map] using congrArg (fun q : Polynomial B => q.coeff n) h
   refine ⟨p.toSubring (s.eqLocus t) ?_, ?_⟩
   · intro a ha
@@ -186,7 +186,7 @@ theorem isIntegral_of_monic_polynomial_invariant {A B : Type*} [CommRing A] [Com
   obtain ⟨q, hq⟩ := polynomial_descends_to_eqLocus s t p hinv
   refine ⟨q, Polynomial.monic_of_injective (Subring.subtype_injective (s.eqLocus t))
     (hq ▸ hp), ?_⟩
-  show Polynomial.eval₂ (Subring.subtype (s.eqLocus t)) x q = 0
+  change Polynomial.eval₂ (Subring.subtype (s.eqLocus t)) x q = 0
   rw [← Polynomial.eval_map, hq]
   exact hroot
 

@@ -75,7 +75,7 @@ theorem flat_quotient_span_range_baseChange
     { e₁.toRingEquiv with
       commutes' := by
         intro a
-        show Algebra.TensorProduct.quotientTensorEquiv (R := A) (S := A) (T := A')
+        change Algebra.TensorProduct.quotientTensorEquiv (R := A) (S := A) (T := A')
             (A := B) I (Ideal.Quotient.mk I (1 : B) ⊗ₜ[A] a) =
           Ideal.Quotient.mk (I.map j.toRingHom) ((1 : B) ⊗ₜ[A] a)
         rw [Algebra.TensorProduct.quotientTensorEquiv_apply_tmul]

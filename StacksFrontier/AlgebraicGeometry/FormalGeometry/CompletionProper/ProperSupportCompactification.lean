@@ -209,11 +209,11 @@ public theorem exists_closeds_image_isProperOver {Y Y' S : Scheme.{u}} (j : Y �
   have hqp : IsProper (q ≫ p) := isProper_subschemeι_vanishingIdeal_comp_comp j p W hW
   have : UniversallyClosed q := UniversallyClosed.of_comp_of_isSeparated q p
   have htop : IsProperOver (q ≫ p) (⊤ : Closeds V.subscheme) := by
-    show IsProper ((Scheme.IdealSheafData.vanishingIdeal
+    change IsProper ((Scheme.IdealSheafData.vanishingIdeal
       (⊤ : Closeds V.subscheme)).subschemeι ≫ (q ≫ p))
     infer_instance
   refine ⟨q.closedImage ⊤, ?_, isProperOver_closedImage q p ⊤ htop⟩
-  show q '' Set.univ = j '' (W : Set Y)
+  change q '' Set.univ = j '' (W : Set Y)
   rw [Set.image_univ]
   have hrange : Set.range q.base = j.base '' Set.range V.subschemeι.base := by
     rw [hq]

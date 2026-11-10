@@ -141,7 +141,7 @@ private theorem finrank_sections_eq_sum_stalks
     Module.Finite.of_surjective
       ((Algebra.linearMap A (R m)).restrictScalars k)
       (IsArtinianRing.localization_surjective m.asIdeal.primeCompl (R m))
-  show Module.finrank k A = ∑ m : MaximalSpectrum A, Module.finrank k (R m)
+  change Module.finrank k A = ∑ m : MaximalSpectrum A, Module.finrank k (R m)
   calc
     Module.finrank k A = Module.finrank k (∀ m : MaximalSpectrum A, R m) :=
       (e.toLinearEquiv.restrictScalars k).finrank_eq
@@ -212,7 +212,7 @@ private theorem isRegular_germ_of_affine {X : Scheme.{u}} (U : X.affineOpens)
     U.2.isLocalization_stalk ⟨x, hx⟩
   have hflat : Module.Flat Γ(X, U.1) (X.presheaf.stalk x) :=
     IsLocalization.flat (X.presheaf.stalk x) p.asIdeal.primeCompl
-  show _root_.IsRegular (algebraMap Γ(X, U.1) (X.presheaf.stalk x) a)
+  change _root_.IsRegular (algebraMap Γ(X, U.1) (X.presheaf.stalk x) a)
   exact isRegular_map_of_flat _ (RingHom.flat_algebraMap_iff.mpr hflat) ha
 
 private theorem exists_common_affine_generators
@@ -251,7 +251,7 @@ private theorem surjective_coprod_desc_of_comp_subschemeι {X : Scheme.{u}}
     Function.Surjective (coprod.desc iI iJ) := by
   intro z
   have hx : (I * J).subschemeι z ∈ (I * J).support := by
-    show (I * J).subschemeι z ∈ ((I * J).support : Set X)
+    change (I * J).subschemeι z ∈ ((I * J).support : Set X)
     rw [← Scheme.IdealSheafData.range_subschemeι]
     exact ⟨z, rfl⟩
   have hx : (I * J).subschemeι z ∈ I.support ⊔ J.support := by
@@ -263,18 +263,18 @@ private theorem surjective_coprod_desc_of_comp_subschemeι {X : Scheme.{u}}
   · obtain ⟨y, hy⟩ : (I * J).subschemeι z ∈ Set.range I.subschemeι :=
       I.range_subschemeι ▸ hxI
     refine ⟨(coprod.inl : I.subscheme ⟶ I.subscheme ⨿ J.subscheme) y, ?_⟩
-    show (coprod.inl ≫ coprod.desc iI iJ) y = z
+    change (coprod.inl ≫ coprod.desc iI iJ) y = z
     rw [coprod.inl_desc]
     apply Scheme.Hom.injective (I * J).subschemeι
-    show (iI ≫ (I * J).subschemeι) y = (I * J).subschemeι z
+    change (iI ≫ (I * J).subschemeι) y = (I * J).subschemeι z
     rwa [hiI]
   · obtain ⟨y, hy⟩ : (I * J).subschemeι z ∈ Set.range J.subschemeι :=
       J.range_subschemeι ▸ hxJ
     refine ⟨(coprod.inr : J.subscheme ⟶ I.subscheme ⨿ J.subscheme) y, ?_⟩
-    show (coprod.inr ≫ coprod.desc iI iJ) y = z
+    change (coprod.inr ≫ coprod.desc iI iJ) y = z
     rw [coprod.inr_desc]
     apply Scheme.Hom.injective (I * J).subschemeι
-    show (iJ ≫ (I * J).subschemeι) y = (I * J).subschemeι z
+    change (iJ ≫ (I * J).subschemeι) y = (I * J).subschemeι z
     rwa [hiJ]
 
 /-- A locally quasi-finite morphism `g`, locally of finite type, is finite as soon as `p ≫ g` is
@@ -381,7 +381,7 @@ private theorem stalkMap_algebraMap {k : Type u} [Field k] {X Y : Scheme.{u}}
     letI := stalkAlgebra (i ≫ f) y
     i.stalkMap y (algebraMap k (X.presheaf.stalk (i y)) a) =
       algebraMap k (Y.presheaf.stalk y) a := by
-  show i.stalkMap y (X.presheaf.germ ⊤ (i y) (by simp)
+  change i.stalkMap y (X.presheaf.germ ⊤ (i y) (by simp)
     (f.appTop ((Scheme.ΓSpecIso (.of k)).inv a))) =
       Y.presheaf.germ ⊤ y (by simp)
         (i.appTop (f.appTop ((Scheme.ΓSpecIso (.of k)).inv a)))
@@ -429,7 +429,7 @@ private theorem localDegree_eq_finrank_quotient
     obtain ⟨e'⟩ := nonempty_stalk_quotient_algEquiv f I U x hxU hx
     simpa only [localDegree, dite_eq_left hx] using e'.toLinearEquiv.finrank_eq.symm
   · simp only [localDegree, dite_eq_right hx]
-    show 0 = Module.finrank k (X.presheaf.stalk x ⧸
+    change 0 = Module.finrank k (X.presheaf.stalk x ⧸
       (I.ideal U).map (X.presheaf.germ U x hxU).hom)
     rw [map_ideal_germ_eq_top_of_notMem_supportSet I U x hxU hx]
     exact (Module.finrank_zero_of_subsingleton (R := k)).symm
@@ -542,7 +542,7 @@ private theorem localDegree_mul
   rw [localDegree_eq_finrank_quotient f (I * J) U x hxU,
     localDegree_eq_finrank_quotient f I U x hxU,
     localDegree_eq_finrank_quotient f J U x hxU]
-  show Module.finrank k (X.presheaf.stalk x ⧸ ((I * J).ideal U).map ρ) =
+  change Module.finrank k (X.presheaf.stalk x ⧸ ((I * J).ideal U).map ρ) =
     Module.finrank k (X.presheaf.stalk x ⧸ (I.ideal U).map ρ) +
       Module.finrank k (X.presheaf.stalk x ⧸ (J.ideal U).map ρ)
   rw [hIJ, hI', hJ']
@@ -557,7 +557,7 @@ private theorem finrank_sections_eq_finsum_localDegree
     Module.finrank k Γ(I.subscheme, ⊤) = ∑ᶠ x, localDegree f I x := by
   classical
   rw [finrank_sections_eq_finsum_stalks]
-  show (∑ᶠ y : I.supportSet,
+  change (∑ᶠ y : I.supportSet,
     let := stalkAlgebra (I.subschemeι ≫ f) y
     Module.finrank k (I.subscheme.presheaf.stalk y)) = _
   calc

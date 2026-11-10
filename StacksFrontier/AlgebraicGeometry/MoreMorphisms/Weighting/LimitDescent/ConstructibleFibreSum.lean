@@ -159,7 +159,7 @@ private lemma finSepDegree_comp_openImmersion
   let : Algebra B C := (j.residueFieldMap x).hom.toAlgebra
   let : Algebra A C := ((j ≫ f).residueFieldMap x).hom.toAlgebra
   let : IsScalarTower A B C := IsScalarTower.of_algebraMap_eq fun a ↦ by
-    show ((j ≫ f).residueFieldMap x).hom a =
+    change ((j ≫ f).residueFieldMap x).hom a =
       (j.residueFieldMap x).hom ((f.residueFieldMap (j x)).hom a)
     rw [Scheme.residueFieldMap_comp]
     rfl
@@ -185,13 +185,13 @@ private lemma separableDegreeWeightedFiberSum_indicator_open
     congrArg (fun n : ℕ ↦ (n : ℤ)) (finSepDegree_comp_openImmersion U.ι f x)
   unfold separableDegreeWeightedFiberSum
   simp only [Pi.one_apply, one_mul]
-  show (∑ᶠ x : X, if f x = y then (U : Set X).indicator (1 : X → ℤ) x * d x else 0) =
+  change (∑ᶠ x : X, if f x = y then (U : Set X).indicator (1 : X → ℤ) x * d x else 0) =
     ∑ᶠ x : U, if (U.ι ≫ f) x = y then
       (let := ((U.ι ≫ f).residueFieldMap x).hom.toAlgebra;
         (Field.finSepDegree (Y.residueField ((U.ι ≫ f) x))
           (U.toScheme.residueField x) : ℤ)) else 0
   simp_rw [hdegree]
-  show _ = ∑ᶠ x : U, if f x.1 = y then d x.1 else 0
+  change _ = ∑ᶠ x : U, if f x.1 = y then d x.1 else 0
   rw [finsum_subtype_eq_finsum_cond (f := fun x : X ↦ if f x = y then d x else 0)
     (fun x ↦ x ∈ U)]
   simp only
@@ -218,7 +218,7 @@ private lemma separableDegreeWeightedFiberSum_add
     by_contra hxy
     simp only [Set.mem_preimage, Set.mem_singleton_iff] at hxy
     simp [hxy] at hx
-  show (∑ᶠ x, if f x = y then (w x + w' x) * d x else 0) =
+  change (∑ᶠ x, if f x = y then (w x + w' x) * d x else 0) =
     (∑ᶠ x, if f x = y then w x * d x else 0) +
       ∑ᶠ x, if f x = y then w' x * d x else 0
   have heq (x : X) : (if f x = y then (w x + w' x) * d x else 0) =
@@ -240,7 +240,7 @@ private lemma finite_of_constructible_partition
   have hO : ∀ j, IsOpen (O j) := by
     intro j
     apply WithConstructibleTopology.isOpen_iff.mpr
-    show @IsOpen Y (constructibleTopology Y) (E j)
+    change @IsOpen Y (constructibleTopology Y) (E j)
     rw [constructibleTopology_eq_generateFrom_isConstructible]
     exact TopologicalSpace.isOpen_generateFrom_of_mem (hE j)
   obtain ⟨t, ht⟩ := isCompact_univ.elim_finite_subcover O hO (by
@@ -378,7 +378,7 @@ private lemma indicator_mem_span_open_retrocompact
   have hOne : (1 : X → ℤ) ∈ M := by
     apply Submodule.subset_span
     exact ⟨Set.univ, isOpen_univ, IsRetrocompact.univ, by simp⟩
-  show E.indicator 1 ∈ M
+  change E.indicator 1 ∈ M
   induction hE using Topology.IsConstructible.empty_union_induction with
   | open_retrocompact U hU hUc =>
     exact Submodule.subset_span ⟨U, hU, hUc, rfl⟩
@@ -473,7 +473,7 @@ private lemma constructible_integral_of_constructible_levels
       (IsRetrocompact_iff_isSpectralMap_subtypeVal.mp hUc)
     have hV : FinitePresentation (V.ι ≫ f) :=
       ⟨inferInstance, inferInstance, inferInstance⟩
-    show H (separableDegreeWeightedFiberSum f ((V : Set X).indicator 1))
+    change H (separableDegreeWeightedFiberSum f ((V : Set X).indicator 1))
     rw [separableDegreeWeightedFiberSum_indicator_open f V]
     have h := hmap (numGeometricConnectedComponents (V.ι ≫ f))
       (finite_range_numGeometricConnectedComponents _ hV)
@@ -483,7 +483,7 @@ private lemma constructible_integral_of_constructible_levels
     funext y
     exact separableDegreeWeightedFiberSum_one_eq_components _ y
   have hspan := mem_span_open_retrocompact_of_constructible_levels w hfinite hlevels
-  show H (separableDegreeWeightedFiberSum f w)
+  change H (separableDegreeWeightedFiberSum f w)
   clear hfinite hlevels
   induction hspan using Submodule.span_induction with
   | mem v hv =>

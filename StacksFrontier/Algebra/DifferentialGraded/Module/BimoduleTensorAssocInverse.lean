@@ -171,7 +171,7 @@ theorem assocPairHom_add_left (N : Bimodule A B) (N' : Bimodule B C)
     (y : N.rightModule.grading q) :
     assocPairHom N N' M (x + x') y = assocPairHom N N' M x y + assocPairHom N N' M x' y :=
   Subtype.ext (LinearMap.ext fun z => by
-    show assocPure N N' M ((x : M.M) + (x' : M.M)) (compPure N N' (y : N.rightModule.M) z) =
+    change assocPure N N' M ((x : M.M) + (x' : M.M)) (compPure N N' (y : N.rightModule.M) z) =
       assocPure N N' M (x : M.M) (compPure N N' (y : N.rightModule.M) z) +
         assocPure N N' M (x' : M.M) (compPure N N' (y : N.rightModule.M) z)
     rw [map_add (assocPure N N' M), LinearMap.add_apply])
@@ -182,7 +182,7 @@ theorem assocPairHom_smul_left (N : Bimodule A B) (N' : Bimodule B C)
     (y : N.rightModule.grading q) :
     assocPairHom N N' M (r • x) y = r • assocPairHom N N' M x y :=
   Subtype.ext (LinearMap.ext fun z => by
-    show assocPure N N' M (r • (x : M.M)) (compPure N N' (y : N.rightModule.M) z) =
+    change assocPure N N' M (r • (x : M.M)) (compPure N N' (y : N.rightModule.M) z) =
       r • assocPure N N' M (x : M.M) (compPure N N' (y : N.rightModule.M) z)
     rw [map_smul (assocPure N N' M), LinearMap.smul_apply])
 
@@ -192,7 +192,7 @@ theorem assocPairHom_add_right (N : Bimodule A B) (N' : Bimodule B C)
     (y y' : N.rightModule.grading q) :
     assocPairHom N N' M x (y + y') = assocPairHom N N' M x y + assocPairHom N N' M x y' :=
   Subtype.ext (LinearMap.ext fun z => by
-    show assocPure N N' M (x : M.M)
+    change assocPure N N' M (x : M.M)
         (compPure N N' ((y : N.rightModule.M) + (y' : N.rightModule.M)) z) =
       assocPure N N' M (x : M.M) (compPure N N' (y : N.rightModule.M) z) +
         assocPure N N' M (x : M.M) (compPure N N' (y' : N.rightModule.M) z)
@@ -204,7 +204,7 @@ theorem assocPairHom_smul_right (N : Bimodule A B) (N' : Bimodule B C)
     (y : N.rightModule.grading q) :
     assocPairHom N N' M x (r • y) = r • assocPairHom N N' M x y :=
   Subtype.ext (LinearMap.ext fun z => by
-    show assocPure N N' M (x : M.M) (compPure N N' (r • (y : N.rightModule.M)) z) =
+    change assocPure N N' M (x : M.M) (compPure N N' (r • (y : N.rightModule.M)) z) =
       r • assocPure N N' M (x : M.M) (compPure N N' (y : N.rightModule.M) z)
     rw [map_smul (compPure N N'), LinearMap.smul_apply, map_smul])
 
@@ -234,7 +234,7 @@ theorem assocEval_apply (N : Bimodule A B) (N' : Bimodule B C)
     (z : (assocHomPresentation N N' M).module.M)
     (hz : z ∈ (assocHomPresentation N N' M).module.grading m) :
     assocEval N N' M z = ((assocHomPresentation N N' M).homogeneousEquiv m ⟨z, hz⟩).1 := by
-  show (DirectSum.toModule R ℤ _ (assocEvalComponent N N' M))
+  change (DirectSum.toModule R ℤ _ (assocEvalComponent N N' M))
     ((DirectSum.decomposeLinearEquiv (assocHomPresentation N N' M).module.grading)
       ((⟨z, hz⟩ : (assocHomPresentation N N' M).module.grading m) :
         (assocHomPresentation N N' M).module.M)) = _
@@ -343,7 +343,7 @@ theorem assocInvRowFun_apply (N : Bimodule A B) (N' : Bimodule B C)
     (M : DifferentialGradedModule.{u, u, u} A) {p q : ℤ} (x : M.grading p)
     (y : N.rightModule.grading q) :
     assocInvRowFun N N' M x (y : N.rightModule.M) = assocInvPiece N N' M p q x y := by
-  show (DirectSum.toModule R ℤ (assocHomPresentation N N' M).module.M
+  change (DirectSum.toModule R ℤ (assocHomPresentation N N' M).module.M
       fun i => assocInvPiece N N' M p i x)
       ((DirectSum.decomposeLinearEquiv N.rightModule.grading)
         (y : N.rightModule.M)) = _
@@ -393,7 +393,7 @@ theorem assocInvTotal_apply (N : Bimodule A B) (N' : Bimodule B C)
       ((((assocHomPresentation N N' M).homogeneousEquiv (p + q)).symm
         (assocPairHom N N' M x y)) : (assocHomPresentation N N' M).module.M) := by
   have h : assocInvTotal N N' M (x : M.M) = assocInvRowFun N N' M x := by
-    show (DirectSum.toModule R ℤ _ fun i => assocInvRow N N' M i)
+    change (DirectSum.toModule R ℤ _ fun i => assocInvRow N N' M i)
       ((DirectSum.decomposeLinearEquiv M.grading) (x : M.M)) = _
     rw [DirectSum.decomposeLinearEquiv_apply_coe, DirectSum.toModule_lof]
     rfl

@@ -85,12 +85,12 @@ theorem sectionTameComponent_locallyFinite :
   refine ⟨⟨pointClosurePoint x hm,
     ringKrullDim_pointClosureStalk_eq_one_of_dimensionFunction δ h hd⟩, ⟨?_, ?_⟩,
     subschemeι_pointClosurePoint x hm⟩
-  · show (integralComponentAt x).subschemeι (pointClosurePoint x hm) ∈ (U : Set X)
+  · change (integralComponentAt x).subschemeι (pointClosurePoint x hm) ∈ (U : Set X)
     rw [subschemeι_pointClosurePoint x hm]
     exact hx'U
   · intro hzero
     refine hne ?_
-    show milnorKOneTransport _ (stalkMilnorBoundary _ _ _ α) = 0
+    change milnorKOneTransport _ (stalkMilnorBoundary _ _ _ α) = 0
     exact (congrArg _ hzero).trans (map_zero _)
 
 /-- **The first displayed arrow of Stacks 0EAY at `i = 1`**, from the tame symbol of
@@ -150,7 +150,7 @@ theorem sectionOrdComponent_locallyFinite :
   have hm := specializes_iff_mem_closure.mp h
   have hdim := ringKrullDim_pointClosureStalk_eq_one_of_dimensionFunction δ h hd
   refine ⟨pointClosurePoint x hm, ⟨?_, ?_, ?_⟩, subschemeι_pointClosurePoint x hm⟩
-  · show (integralComponentAt x).subschemeι (pointClosurePoint x hm) ∈ (U : Set X)
+  · change (integralComponentAt x).subschemeι (pointClosurePoint x hm) ∈ (U : Set X)
     rw [subschemeι_pointClosurePoint x hm]
     exact hx'U
   · intro hzO
@@ -164,12 +164,12 @@ theorem sectionOrdComponent_locallyFinite :
         (pointClosurePoint x hm)) :=
       Ring.krullDimLE_iff.2 (by rw [hdim]; exact_mod_cast le_rfl)
     have h0 : sectionOrdHom δ x x' h hd α = 0 := by
-      show ordInt _ (f : ↥(X.residueField x)) f.ne_zero = 0
+      change ordInt _ (f : ↥(X.residueField x)) f.ne_zero = 0
       have hval : algebraMap _ ↥(X.residueField x) u = (f : ↥(X.residueField x)) := hue
       rw [← ordInt_val_congr ((integralComponentAt x).subscheme.presheaf.stalk
         (pointClosurePoint x hm)) hval (by rw [hval]; exact f.ne_zero) f.ne_zero]
       exact ordInt_eq_zero_of_isUnit _ hu _
-    show (milnorKTheoryZeroAddEquiv _).symm (sectionOrdHom δ x x' h hd α) = 0
+    change (milnorKTheoryZeroAddEquiv _).symm (sectionOrdHom δ x x' h hd α) = 0
     rw [h0, map_zero]
   · exact coheight_eq_one_of_oneDimPoint ⟨pointClosurePoint x hm, hdim⟩
 

@@ -346,7 +346,7 @@ private lemma exists_lift_of_isClosedImmersion {Ω : Type u} [Field Ω] {W Y : S
   let q := pullback.snd f a
   have : Surjective q := ⟨fun z => by
     have hz : a z ∈ Set.range f := (Subsingleton.elim z (IsLocalRing.closedPoint Ω)) ▸ ha
-    show z ∈ Set.range q
+    change z ∈ Set.range q
     rw [Scheme.Pullback.range_snd f a]
     exact hz⟩
   have : IsIso q := isIso_of_isClosedImmersion_of_surjective q

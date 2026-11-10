@@ -128,7 +128,7 @@ categories fibred in groupoids over the big fppf site. -/
 structure morphisms to `S`. -/
 private theorem toScheme_map_comp_inclusion_map_hom {X Y : BigFppfOver B S hS} (f : X ⟶ Y) :
     (BigFppfOver.toScheme B S hS).map f ≫ B.inclusion.map Y.hom = B.inclusion.map X.hom := by
-  show B.inclusion.map f.left ≫ B.inclusion.map Y.hom = _
+  change B.inclusion.map f.left ≫ B.inclusion.map Y.hom = _
   rw [← Functor.map_comp, Over.w f]
 
 /-- Factorisation through a strongly cartesian morphism: a morphism lifting `f'`, where `f'`
@@ -277,7 +277,7 @@ private theorem exists_cover_spreadOut {I : Type u} [Category.{u} I] [IsCofilter
   have : Stacks.Morphisms.IsFiniteLocallyFreeOfRank
       ((Over.pullback (cs.π.app i₁)).obj X₁).hom d := by
     have h : e.inv.left ≫ T.map q = pullback.snd X₁.hom (cs.π.app i₁) := Over.w e.inv
-    show Stacks.Morphisms.IsFiniteLocallyFreeOfRank (pullback.snd X₁.hom (cs.π.app i₁)) d
+    change Stacks.Morphisms.IsFiniteLocallyFreeOfRank (pullback.snd X₁.hom (cs.π.app i₁)) d
     rw [← h]
     exact Stacks.Morphisms.isFiniteLocallyFreeOfRank_precomp ((Over.forget _).mapIso e.symm) _ hq
   -- Stacks 06AC, degree `d`: the model is finite locally free of degree `d` at a later stage
@@ -318,7 +318,7 @@ private theorem exists_cover_spreadOut {I : Type u} [Category.{u} I] [IsCofilter
     pullback.lift_snd _ _ _
   let g : Z ⟶ Z' := Over.homMk (ObjectProperty.homMk gs) (by
     ext1
-    show gs ≫ pullback.snd X₁.hom (Ds.map k) ≫ B.inclusion.map (D.obj i').obj.hom = _
+    change gs ≫ pullback.snd X₁.hom (Ds.map k) ≫ B.inclusion.map (D.obj i').obj.hom = _
     rw [← Category.assoc, hgs₂, Category.assoc]
     exact (congrArg (T.map q ≫ ·) (toScheme_map_comp_inclusion_map_hom B S hS
       ((BigAffineFppf.inclusion B S hS).map (c.π.app i')))).trans
@@ -389,7 +389,7 @@ private theorem exists_object_spreadOut
   let ρ : ∀ k : Over i', inc.obj (D'.obj k) ⟶ inc.obj (D.obj k.left) := fun k =>
     Over.homMk (ObjectProperty.homMk (pullback.fst (Ds.map k.hom) (T.map q'))) (by
       ext1
-      show pullback.fst (Ds.map k.hom) (T.map q') ≫ B.inclusion.map (D.obj k.left).obj.hom =
+      change pullback.fst (Ds.map k.hom) (T.map q') ≫ B.inclusion.map (D.obj k.left).obj.hom =
         pullback.snd (Ds.map k.hom) (T.map q') ≫ B.inclusion.map Z'.hom
       exact (congrArg (pullback.fst (Ds.map k.hom) (T.map q') ≫ ·)
         (toScheme_map_comp_inclusion_map_hom B S hS (inc.map (D.map k.hom)))).symm.trans
@@ -449,7 +449,7 @@ private theorem exists_object_spreadOut
     have hout : IsPullback (T.map (inc.map (c'.π.app k)) ≫ pullback.snd (Ds.map k.hom) (T.map q'))
         (T.map q) (T.map q') (T.map (inc.map (c.π.app k.left)) ≫ Ds.map k.hom) := by
       rw [hπ₂]
-      show IsPullback _ _ _ (T.map (inc.map (c.π.app k.left)) ≫ T.map (inc.map (D.map k.hom)))
+      change IsPullback _ _ _ (T.map (inc.map (c.π.app k.left)) ≫ T.map (inc.map (D.map k.hom)))
       rw [← Functor.map_comp, ← Functor.map_comp, c.w]
       exact hsq
     refine IsPullback.of_right hout ?_ (IsPullback.of_hasPullback (Ds.map k.hom) (T.map q')).flip

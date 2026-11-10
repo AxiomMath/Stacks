@@ -54,17 +54,17 @@ private theorem exists_transcendental_residue_of_sum_eq_zero
   apply (hu.algebraicClosure (E := ResidueField R))
   refine ⟨P, fun hP => ?_, ?_⟩
   · have h := congrArg (fun Q : E[X] => Q.coeff k₀) hP
-    simp only [P, Polynomial.finset_sum_coeff, Polynomial.coeff_C_mul_X_pow,
-      Polynomial.coeff_zero, Finset.sum_ite_eq, if_pos hk₀] at h
+    simp only [P, Polynomial.finsetSum_coeff, Polynomial.coeff_C_mul_X_pow,
+      Polynomial.coeff_zero, Finset.sum_ite_eq, ite_eq_left hk₀] at h
     have h' := congrArg Subtype.val h
-    simp only [coe, dif_pos hk₀, hwk₀, map_one, ZeroMemClass.coe_zero] at h'
+    simp only [coe, dite_eq_left hk₀, hwk₀, map_one, ZeroMemClass.coe_zero] at h'
     exact one_ne_zero h'
   · simp only [P, map_sum, map_mul, Polynomial.aeval_C, Polynomial.aeval_X_pow]
     have h := congrArg (residue R) hwsum
     simp only [map_sum, map_mul, map_pow, map_zero] at h
     rw [← h]
     refine Finset.sum_congr rfl fun k hk => ?_
-    simp only [coe, dif_pos hk]
+    simp only [coe, dite_eq_left hk]
     rfl
 
 namespace ValuationRing
@@ -109,14 +109,14 @@ theorem exists_ratio_transcendental_residue {A B : Type*} [CommRing A] [CommRing
   -- a nonzero element of `A` divisible by `b`
   have hb0 : b ≠ 0 := fun h => hb (by rw [h, map_zero])
   obtain ⟨c, hcmem, hc0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot
-    (Ideal.comap_ne_bot_of_integral_mem hb0 (Ideal.mem_span_singleton_self b)
+    (Ideal.under_ne_bot_of_integral_mem hb0 (Ideal.mem_span_singleton_self b)
       (Algebra.IsIntegral.isIntegral (R := A) b))
   obtain ⟨b', hb'⟩ := Ideal.mem_span_singleton'.mp (Ideal.mem_comap.mp hcmem)
   have hψc : ψ c ≠ 0 := fun h => hc0 (hψ (h.trans (map_zero ψ).symm))
   -- `u * ψ c = φ e` for `e = a * b'` integral over `A`
   set e := a * b'
   have hue : u * ψ c = φ e := by
-    show u * φ (algebraMap A B c) = φ (a * b')
+    change u * φ (algebraMap A B c) = φ (a * b')
     rw [← hb', map_mul, map_mul, hab, mul_comm (φ b') (φ b), mul_assoc]
   obtain ⟨Q, hQm, hQ⟩ := Algebra.IsIntegral.isIntegral (R := A) e
   set n := Q.natDegree
@@ -129,7 +129,7 @@ theorem exists_ratio_transcendental_residue {A B : Type*} [CommRing A] [CommRing
     simp only [p, ψ, RingHom.comp_apply, map_mul, map_pow, ← hue]
     ring
   have hpn : ψ (p n) ≠ 0 := by
-    show ψ (Q.coeff Q.natDegree * c ^ Q.natDegree) ≠ 0
+    change ψ (Q.coeff Q.natDegree * c ^ Q.natDegree) ≠ 0
     rw [hQm.coeff_natDegree, one_mul, map_pow]
     exact pow_ne_zero _ hψc
   -- a coefficient of least valuation

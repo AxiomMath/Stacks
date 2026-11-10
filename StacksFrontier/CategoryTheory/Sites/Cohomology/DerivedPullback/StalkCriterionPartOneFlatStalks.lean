@@ -7,7 +7,8 @@ import StacksCore.Tactic.StacksAttribute
 /-!
 # Discharging the flatness obligation of part (1) of Stacks 0DEN
 
-`StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.StalkCriterionPartOne` proves part (1)
+`StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.StalkCriterionPartOne`
+proves part (1)
 of Stacks 0DEN from two `Prop`-valued obligations,
 `Stacks.Sheaves.KFlatStalkCriterion.StalkFlatOfSumExtensionByZero` (the stalk of a direct sum of
 extensions by zero `j_{U!}O_U` is a flat module over the stalk ring) and

@@ -97,7 +97,7 @@ public theorem reesToAffineBlowupEquiv_awayMk {X : Scheme.{u}} (I : X.IdealSheaf
     (congr 1; simp)
   refine Subtype.ext ?_
   rw [_root_.affineBlowupAlgebra.fraction_coe]
-  show AlgebraicGeometry.reesToLocalization I U a
+  change AlgebraicGeometry.reesToLocalization I U a
       (HomogeneousLocalization.Away.mk
         ((AlgebraicGeometry.reesSituation I).sectionRingGrading U.1)
         (AlgebraicGeometry.reesDegreeOne I U a).2 n x hx') = _
@@ -137,7 +137,7 @@ public theorem reesToBase_reesChartGradedHom_of {X : Scheme.{u}} (I : X.IdealShe
     AlgebraicGeometry.reesToBase_of I U n ((reesSituationModel I).compare U n y)
   have h4 := (reesSituationModel I).coe_reesPieceEquiv_compare U n y
   have h5 := reesPieceAffineEquiv_coe I (n : ℤ) (Int.natCast_nonneg n) U y
-  show AlgebraicGeometry.reesToBase I U
+  change AlgebraicGeometry.reesToBase I U
     ((reesSituationModel I).sectionHom U
       (reesChartHom I ⟨U.1, U.2⟩
         (DirectSum.of ((reesSheafGradedAlgebra I).sectionPieces U.1) n y))) = _

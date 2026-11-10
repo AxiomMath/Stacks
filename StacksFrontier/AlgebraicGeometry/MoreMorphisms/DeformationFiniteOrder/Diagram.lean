@@ -120,11 +120,11 @@ theorem isIso_residueFieldMap_of_surjective_stalkMap {X Y : Scheme.{u}} (f : X �
       obtain ⟨r, hr⟩ := X.residue_surjective x a
       obtain ⟨s, hs⟩ := h r
       refine ⟨Y.residue (f x) s, ?_⟩
-      show (f.residueFieldMap x).hom ((Y.residue (f x)).hom s) = a
+      change (f.residueFieldMap x).hom ((Y.residue (f x)).hom s) = a
       rw [← RingHom.comp_apply]
-      show (Y.residue (f x) ≫ f.residueFieldMap x) s = a
+      change (Y.residue (f x) ≫ f.residueFieldMap x) s = a
       rw [Scheme.residue_residueFieldMap]
-      show (X.residue x).hom ((f.stalkMap x).hom s) = a
+      change (X.residue x).hom ((f.stalkMap x).hom s) = a
       rw [hs, hr]⟩
 
 /-- The canonical map from a fibre of `f` to the corresponding fibre of `f'` in a flat

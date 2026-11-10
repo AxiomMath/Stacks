@@ -223,7 +223,8 @@ theorem baseChangeMap_fac (hg : IsFlat B S hS D.g.hom) :
     Functor.whiskerRight
         (pushforwardModules (X := smallEtaleRingedTopos B S hS D.X)
           (Y := smallEtaleRingedTopos B S hS D.Y)
-          (smallEtaleRingedToposHom B S hS D.f).toRingedToposModulesHom).rightDerivedFunctorPlusUnith
+          (smallEtaleRingedToposHom B S hS
+            D.f).toRingedToposModulesHom).rightDerivedFunctorPlusUnith
         (D.flatPullbackBase hg) ≫
       (Functor.associator _ _ _).hom ≫
       Functor.whiskerLeft DerivedCategory.Plus.Qh (D.baseChangeMap hg) =

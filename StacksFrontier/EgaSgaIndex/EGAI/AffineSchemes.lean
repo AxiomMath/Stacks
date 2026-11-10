@@ -421,28 +421,48 @@ add_to_ega "I 1.3.6" "partial" AlgebraicGeometry.Scheme.isOpenImmersion_SpecMap_
 add_to_ega "I 1.3.6" AlgebraicGeometry.basicOpenIsoSpecAway
 add_to_ega "I 1.3.6" "partial" AlgebraicGeometry.basicOpenIsoSpecAway_hom_SpecMap
 add_to_ega "I 1.3.6" "partial" PrimeSpectrum.localization_away_isOpenEmbedding
-add_to_ega "I 1.3.7" "Case M = A"
-  AlgebraicGeometry.IsAffineOpen.instAwayCarrierObjOppositeOpensCarrierCarrierCommRingCatSpecPresheafOpOpensBasicOpen
-add_to_ega "I 1.3.7" "Case M = A"
-  AlgebraicGeometry.StructureSheaf.instAwayObjOppositeOpensCarrierTopObjFunctorTypeIsSheafGrothendieckTopologyStructureSheafInTypeOpBasicOpen
-add_to_ega "I 1.3.7"
-  AlgebraicGeometry.StructureSheaf.instAwayObjOppositeOpensCarrierTopObjFunctorTypeIsSheafGrothendieckTopologyStructureSheafInTypeOpBasicOpenToOpenₗ
+-- The auto-generated instance names below are longer than a line, so each identifier is
+-- assembled from two pieces before being handed to `add_to_ega`.
+run_cmd do
+  let decl := Lean.mkIdent <| .str `AlgebraicGeometry.IsAffineOpen <|
+      "instAwayCarrierObjOppositeOpensCarrierCarrierCommRingCat" ++
+      "SpecPresheafOpOpensBasicOpen"
+  Lean.Elab.Command.elabCommand (← `(command| add_to_ega "I 1.3.7" "Case M = A" $decl:ident))
+run_cmd do
+  let decl := Lean.mkIdent <| .str `AlgebraicGeometry.StructureSheaf <|
+      "instAwayObjOppositeOpensCarrierTopObjFunctorTypeIsSheaf" ++
+      "GrothendieckTopologyStructureSheafInTypeOpBasicOpen"
+  Lean.Elab.Command.elabCommand (← `(command| add_to_ega "I 1.3.7" "Case M = A" $decl:ident))
+run_cmd do
+  let decl := Lean.mkIdent <| .str `AlgebraicGeometry.StructureSheaf <|
+      "instAwayObjOppositeOpensCarrierTopObjFunctorTypeIsSheaf" ++
+      "GrothendieckTopologyStructureSheafInTypeOpBasicOpenToOpenₗ"
+  Lean.Elab.Command.elabCommand (← `(command| add_to_ega "I 1.3.7" $decl:ident))
 add_to_ega "I 1.3.7" AlgebraicGeometry.StructureSheaf.toOpenₗ_top_bijective
 add_to_ega "I 1.3.7" "Case M = A" AlgebraicGeometry.isIso_toSpecΓ
 add_to_ega "I 1.3.7" AlgebraicGeometry.tilde.isIso_toOpen_top
-add_to_ega "I 1.3.13" "partial"
-  AlgebraicGeometry.instCommRingObjOppositeOpensCarrierTopObjFunctorTypeIsSheafGrothendieckTopologyStructureSheafInType
+run_cmd do
+  let decl := Lean.mkIdent <| .str `AlgebraicGeometry <|
+      "instCommRingObjOppositeOpensCarrierTopObjFunctorTypeIsSheaf" ++
+      "GrothendieckTopologyStructureSheafInType"
+  Lean.Elab.Command.elabCommand (← `(command| add_to_ega "I 1.3.13" "partial" $decl:ident))
 add_to_ega "I 1.3.13" CategoryTheory.ModObj.mk
 add_to_ega "I 1.3.13" CategoryTheory.Mod_
 add_to_ega "I 1.3.13" CommAlgCat
 add_to_ega "I 1.3.13" Module
 add_to_ega "I 1.3.14" "partial" Algebra.adjoin_toSubmodule_le
-add_to_ega "I 1.4.1" "special case"
-  AlgebraicGeometry.IsAffineOpen.instAwayCarrierObjOppositeOpensCarrierCarrierCommRingCatSpecPresheafOpOpensBasicOpen
+run_cmd do
+  let decl := Lean.mkIdent <| .str `AlgebraicGeometry.IsAffineOpen <|
+      "instAwayCarrierObjOppositeOpensCarrierCarrierCommRingCat" ++
+      "SpecPresheafOpOpensBasicOpen"
+  Lean.Elab.Command.elabCommand (← `(command| add_to_ega "I 1.4.1" "special case" $decl:ident))
 add_to_ega "I 1.4.1" "c ⇒ a for V = Spec A"
   AlgebraicGeometry.Scheme.Modules.isIso_fromTildeΓ_of_isQuasicoherent
-add_to_ega "I 1.4.1" "special case"
-  AlgebraicGeometry.StructureSheaf.instAwayObjOppositeOpensCarrierTopObjFunctorTypeIsSheafGrothendieckTopologyStructureSheafInTypeOpBasicOpen
+run_cmd do
+  let decl := Lean.mkIdent <| .str `AlgebraicGeometry.StructureSheaf <|
+      "instAwayObjOppositeOpensCarrierTopObjFunctorTypeIsSheaf" ++
+      "GrothendieckTopologyStructureSheafInTypeOpBasicOpen"
+  Lean.Elab.Command.elabCommand (← `(command| add_to_ega "I 1.4.1" "special case" $decl:ident))
 add_to_ega "I 1.4.1" "special case" AlgebraicGeometry.exists_eq_pow_mul_of_isAffineOpen
 add_to_ega "I 1.4.1" "special case"
   AlgebraicGeometry.exists_eq_pow_mul_of_isCompact_of_isQuasiSeparated

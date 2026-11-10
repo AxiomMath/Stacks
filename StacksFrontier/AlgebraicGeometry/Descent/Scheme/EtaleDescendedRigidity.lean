@@ -100,7 +100,7 @@ lemma canonicalProjection_naturality (f : X ⟶ S) {U U' : Over S} (h : U ⟶ U'
     rw [← Over.comp_left, ← Over.comp_left]
     exact congrArg Over.Hom.left ((canonicalPullbackFunctor f).map ((trivialFunctor S).map h))
   rw [Category.assoc, Category.assoc, hlift] at key
-  show (((canonicalFunctor f).map h).hom ()).left ≫
+  change (((canonicalFunctor f).map h).hom ()).left ≫
       ((canonicalObjIso f U').hom.left ≫ pullback.fst U'.hom f) =
     ((canonicalObjIso f U).hom.left ≫ pullback.fst U.hom f) ≫ h.left
   rw [Category.assoc]
@@ -125,7 +125,7 @@ lemma objIsoCanonical_hom_left_comp_canonicalProjection :
   have hcancel : (canonicalObjIso a U).inv.left ≫ (canonicalObjIso a U).hom.left =
       𝟙 ((Over.pullback a).obj U).left := by
     rw [← Over.comp_left, (canonicalObjIso a U).inv_hom_id, Over.id_left]
-  show (Over.isoMk hpb.isoPullback _ ≪≫ (canonicalObjIso a U).symm).hom.left ≫
+  change (Over.isoMk hpb.isoPullback _ ≪≫ (canonicalObjIso a U).symm).hom.left ≫
     (canonicalObjIso a U).hom.left ≫ pullback.fst U.hom a = φ
   rw [Iso.trans_hom, Over.comp_left, Iso.symm_hom, Category.assoc,
     ← Category.assoc ((canonicalObjIso a U).inv.left), hcancel, Category.id_comp]
@@ -297,7 +297,7 @@ theorem existsUnique_hom_comp_proj_eq (hff : (etaleDescentFunctor f).FullyFaithf
   obtain ⟨e, he, huniq⟩ := existsUnique_canonicalFunctor_map_eq_of_etale f hff
     (Q.canonicalIso ≪≫ Q'.canonicalIso.symm).hom
   refine ⟨e, ?_, fun e' he' ↦ huniq e' (Q.canonicalFunctor_map_eq_of_proj_comp_eq Q' he')⟩
-  show Q.proj ≫ e.left = Q'.proj
+  change Q.proj ≫ e.left = Q'.proj
   have h := congrArg (fun k ↦ (k.hom ()).left ≫ DescentData.canonicalProjection f Q'.base) he
   simp only [Iso.trans_hom, DescentData.comp_hom, Over.comp_left, Iso.symm_hom,
     Category.assoc, Q'.canonicalIso_inv_hom_left_comp_canonicalProjection,

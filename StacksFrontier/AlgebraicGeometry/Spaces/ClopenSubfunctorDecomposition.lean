@@ -73,7 +73,7 @@ theorem mem_sheafify_bot_iff {C : Type*} [Category C] (J : GrothendieckTopology 
     s ∈ ((⊥ : Subfunctor F).sheafify J).obj U ↔ (⊥ : Sieve (unop U)) ∈ J (unop U) := by
   have hsieve : (⊥ : Subfunctor F).sieveOfSection s = ⊥ :=
     le_antisymm (fun _ _ h => h) bot_le
-  show (⊥ : Subfunctor F).sieveOfSection s ∈ J (unop U) ↔ _
+  change (⊥ : Subfunctor F).sieveOfSection s ∈ J (unop U) ↔ _
   rw [hsieve]
 
 /-- **Distinct legs of a coproduct of algebraic spaces are locally disjoint.** The ranges of two

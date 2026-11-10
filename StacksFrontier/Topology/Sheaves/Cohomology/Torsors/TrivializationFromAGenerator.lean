@@ -91,9 +91,9 @@ theorem generatorSectionsUnitIso_apply_one (X : RingedSpace.{u, u})
   let t : M.sections := generatorOverSections X L U s
   have hval := congrArg (fun q : M.sections => q.val top) (M.unitHomEquiv.apply_symm_apply t)
   rw [SheafOfModules.unitHomEquiv_apply_coe] at hval
-  show ((M.unitHomEquiv.symm t).val.app top).hom (1 : R.obj.obj top) = s.val
+  change ((M.unitHomEquiv.symm t).val.app top).hom (1 : R.obj.obj top) = s.val
   rw [hval]
-  show (L.val.map (𝟙 (op U))).hom s.val = s.val
+  change (L.val.map (𝟙 (op U))).hom s.val = s.val
   exact congrArg (fun g => g.hom s.val) (L.val.map_id (op U))
 
 /-- The unit section of the structure sheaf trivializes it over the whole space. -/

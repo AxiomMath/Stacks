@@ -336,7 +336,7 @@ theorem lift_prodRatios_comp_awayMap_left (hd : 0 < d) (hD : 0 < d + d) :
     (show (n + n) * d = n * (d + d) by ring) ▸ Nat.add_mul n n d ▸
       SetLike.mul_mem_graded hxd (HomogeneousRatios.pow_mem hg n)
   have hmem : x * g ^ n ∈ 𝒜 (n • (d + d)) := by simpa [smul_eq_mul] using hmem2
-  show (prodRatios ψ hf hg hVf hVg).lift hD (awayMap 𝒜 hg rfl (Away.mk 𝒜 hf n x hx)) = _
+  change (prodRatios ψ hf hg hVf hVg).lift hD (awayMap 𝒜 hg rfl (Away.mk 𝒜 hf n x hx)) = _
   rw [HomogeneousLocalization.awayMap_mk,
     HomogeneousRatios.lift_mk _ hD n (x * g ^ n) hmem ⟨x * g ^ n, hmem2⟩ rfl,
     HomogeneousRatios.lift_mk _ hd n x hx ⟨x, hxd⟩ rfl, homogeneousRatios_toFun_eq]
@@ -356,7 +356,7 @@ theorem lift_prodRatios_comp_awayMap_right (hd : 0 < d) (hD : 0 < d + d) :
     (show (n + n) * d = n * (d + d) by ring) ▸ Nat.add_mul n n d ▸
       SetLike.mul_mem_graded hxd (HomogeneousRatios.pow_mem hf n)
   have hmem : x * f ^ n ∈ 𝒜 (n • (d + d)) := by simpa [smul_eq_mul] using hmem2
-  show (prodRatios ψ hf hg hVf hVg).lift hD (awayMap 𝒜 hf (mul_comm f g)
+  change (prodRatios ψ hf hg hVf hVg).lift hD (awayMap 𝒜 hf (mul_comm f g)
     (Away.mk 𝒜 hg n x hx)) = _
   rw [HomogeneousLocalization.awayMap_mk,
     HomogeneousRatios.lift_mk _ hD n (x * f ^ n) hmem ⟨x * f ^ n, hmem2⟩ rfl,

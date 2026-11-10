@@ -56,9 +56,7 @@ pullbacks of the family, which differs from
 autoparameter of `CategoryTheory.Pseudofunctor.DescentData'.pullHom'`. -/
 public theorem memberDatumSelfCondition (i : I) :
     pullHom' (sq := memberChosenPullback B S hS X) (memberHom B S hS G X F hF e)
-      (objHom B S hS (X i)) (𝟙 (objScheme B S hS (X i))) (𝟙 (objScheme B S hS (X i)))
-      (pullHom'_self'._proof_4 (f := fun i ↦ objHom B S hS (X i)) i)
-      (pullHom'_self'._proof_4 (f := fun i ↦ objHom B S hS (X i)) i) = 𝟙 _ :=
+      (objHom B S hS (X i)) (𝟙 (objScheme B S hS (X i))) (𝟙 (objScheme B S hS (X i))) = 𝟙 _ :=
   memberHom_self_law B S hS G X F hF e i
 
 /-- **The cocycle law of the descent datum, in the structure's own spelling.**  This is the
@@ -72,26 +70,20 @@ public theorem memberDatumCompCondition (i₁ i₂ i₃ : I) :
           (memberChosenPullback₃ B S hS X i₁ i₂ i₃).p
           (memberChosenPullback₃ B S hS X i₁ i₂ i₃).p₁
           (memberChosenPullback₃ B S hS X i₁ i₂ i₃).p₂
-          (pullHom'₁₂_eq_pullHom_of_chosenPullback₃._proof_2
-            (memberChosenPullback₃ B S hS X) i₁ i₂ i₃)
-          (pullHom'₁₂_eq_pullHom_of_chosenPullback₃._proof_4
-            (memberChosenPullback₃ B S hS X) i₁ i₂ i₃) ≫
+          (memberChosenPullback₃ B S hS X i₁ i₂ i₃).w₁
+          (memberChosenPullback₃ B S hS X i₁ i₂ i₃).w₂ ≫
         pullHom' (sq := memberChosenPullback B S hS X) (memberHom B S hS G X F hF e)
           (memberChosenPullback₃ B S hS X i₁ i₂ i₃).p
           (memberChosenPullback₃ B S hS X i₁ i₂ i₃).p₂
           (memberChosenPullback₃ B S hS X i₁ i₂ i₃).p₃
-          (pullHom'₁₂_eq_pullHom_of_chosenPullback₃._proof_4
-            (memberChosenPullback₃ B S hS X) i₁ i₂ i₃)
-          (pullHom'₁₃_eq_pullHom_of_chosenPullback₃._proof_3
-            (memberChosenPullback₃ B S hS X) i₁ i₂ i₃) =
+          (memberChosenPullback₃ B S hS X i₁ i₂ i₃).w₂
+          (memberChosenPullback₃ B S hS X i₁ i₂ i₃).w₃ =
       pullHom' (sq := memberChosenPullback B S hS X) (memberHom B S hS G X F hF e)
         (memberChosenPullback₃ B S hS X i₁ i₂ i₃).p
         (memberChosenPullback₃ B S hS X i₁ i₂ i₃).p₁
         (memberChosenPullback₃ B S hS X i₁ i₂ i₃).p₃
-        (pullHom'₁₂_eq_pullHom_of_chosenPullback₃._proof_2
-          (memberChosenPullback₃ B S hS X) i₁ i₂ i₃)
-        (pullHom'₁₃_eq_pullHom_of_chosenPullback₃._proof_3
-          (memberChosenPullback₃ B S hS X) i₁ i₂ i₃) :=
+        (memberChosenPullback₃ B S hS X i₁ i₂ i₃).w₁
+        (memberChosenPullback₃ B S hS X i₁ i₂ i₃).w₃ :=
   Stacks.comp_eq_of_eq
     (pullHom'₁₂_eq_pullHom_of_chosenPullback₃ (sq := memberChosenPullback B S hS X)
       (memberChosenPullback₃ B S hS X) (memberHom B S hS G X F hF e) i₁ i₂ i₃)

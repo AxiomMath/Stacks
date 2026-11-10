@@ -36,8 +36,8 @@ It is an input of the source and not a weakening.  Situation 09RD indexes its di
 set in the universe of the schemes, and over a larger index set Stacks 09RE — the scheme-level
 statement 09RI reduces to — is **false**:
 `AlgebraicGeometry.DescentSituation.exists_not_isHomColimit` of
-`StacksFrontier/AlgebraicGeometry/Perfect/LimitHomDescent/Counterexample.lean` exhibits a situation of
-type 09RD over a preorder in `Type (u+1)` with `E₀ = K₀ = 𝒪_{S₀}` perfect, pseudo-coherent, of
+`StacksFrontier/AlgebraicGeometry/Perfect/LimitHomDescent/Counterexample.lean` exhibits a situation
+of type 09RD over a preorder in `Type (u+1)` with `E₀ = K₀ = 𝒪_{S₀}` perfect, pseudo-coherent, of
 finite Tor dimension and with quasi-coherent cohomology, for which the conclusion fails.  The
 scheme-level `AlgebraicGeometry.DescentSituation.isHomColimit` carries the same restriction,
 `I : Type u`.

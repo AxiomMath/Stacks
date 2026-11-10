@@ -117,7 +117,7 @@ public theorem comparisonComp_overComparison
       comparisonComp (pushforwardOver X) (overComparison φ X) := by
   ext : 2
   funext Y
-  show φ.hom.app Y ≫ R'.obj.map (prod.snd).op ≫
+  change φ.hom.app Y ≫ R'.obj.map (prod.snd).op ≫
       R'.obj.map ((e.hom.app Y.unop).left).op =
     R.obj.map (prod.snd).op ≫ φ.hom.app _
   have h1 : R'.obj.map ((prod.snd : F.obj X ⨯ F.obj Y.unop ⟶ F.obj Y.unop)).op ≫

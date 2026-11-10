@@ -144,7 +144,7 @@ private lemma fiberGlobalSectionsMap_finite {X Y : Scheme.{u}}
     RingHom.Finite.of_surjective _
       (ConcreteCategory.bijective_of_isIso
         (Scheme.ΓSpecIso (.of (Y.residueField y))).inv).surjective
-  show (α.appTop.hom.comp _).Finite
+  change (α.appTop.hom.comp _).Finite
   exact RingHom.Finite.comp hα hΓ
 
 /-- The global sections of the fibre form a finite module over the residue field. -/
@@ -166,7 +166,7 @@ private lemma fiberGlobalSectionsMap_flat {X Y : Scheme.{u}}
   have hΓ : ((Scheme.ΓSpecIso (.of (Y.residueField y))).inv.hom).Flat :=
     RingHom.Flat.of_bijective
       (ConcreteCategory.bijective_of_isIso (Scheme.ΓSpecIso (.of (Y.residueField y))).inv)
-  show (α.appTop.hom.comp _).Flat
+  change (α.appTop.hom.comp _).Flat
   exact RingHom.Flat.comp hΓ hα
 
 private lemma fiber_isoSpec_comp_SpecMap {X Y : Scheme.{u}}
@@ -176,11 +176,11 @@ private lemma fiber_isoSpec_comp_SpecMap {X Y : Scheme.{u}}
       f.fiberToSpecResidueField y := by
   let F := f.fiber y
   let α := f.fiberToSpecResidueField y
-  show F.isoSpec.hom ≫ Spec.map (CommRingCat.ofHom (fiberGlobalSectionsMap f y)) = α
+  change F.isoSpec.hom ≫ Spec.map (CommRingCat.ofHom (fiberGlobalSectionsMap f y)) = α
   dsimp [fiberGlobalSectionsMap]
   rw [Spec.map_comp]
   have hn := Scheme.isoSpec_hom_naturality α
-  show (f.fiber y).isoSpec.hom ≫ Spec.map α.appTop ≫
+  change (f.fiber y).isoSpec.hom ≫ Spec.map α.appTop ≫
     Spec.map (Scheme.ΓSpecIso (.of (Y.residueField y))).inv = α
   calc
     _ = (α ≫ (Spec (Y.residueField y)).isoSpec.hom) ≫
@@ -251,7 +251,8 @@ private noncomputable def specResidueFieldAlgEquiv
       ((Scheme.ΓSpecIso (.of B)).inv ≫ (Spec (.of B)).Γevaluation r) b := by
     have hh := congrArg (fun m => m b)
       (Scheme.Spec.algebraMap_residueFieldIso_inv (.of B) r)
-    convert hh using 1 <;> rfl
+    convert hh using 1
+    rfl
   calc
     e (algebraMap B ((Spec (.of B)).residueField r) b) =
         e (i.inv (algebraMap B r.asIdeal.ResidueField b)) := by
@@ -318,7 +319,7 @@ private lemma weightedFiberSum_eq_fiber_sum
     ((f.fiberHomeo y).finite_iff.mp (inferInstance : Finite (f.fiber y)))
   let : Fintype (f.fiber y) := Fintype.ofFinite _
   let : Finite {x : X // p x} := by
-    show Finite (↑s)
+    change Finite (↑s)
     exact hs
   let : Fintype {x : X // p x} := Fintype.ofFinite _
   let e : {x : X // p x} ≃ f.fiber y := (f.fiberHomeo y).toEquiv.symm
@@ -526,7 +527,7 @@ private lemma fiberStalkLength_eq_ramificationIdx {X Y : Scheme.{u}}
     (Spec.stalkIso (.of B) r).commRingCatIsoToRingEquiv
   have : IsArtinianRing (Localization.AtPrime r.asIdeal) :=
     IsArtinianRing.localization_artinian r.asIdeal.primeCompl _
-  show Module.length (F.presheaf.stalk z) (F.presheaf.stalk z) =
+  change Module.length (F.presheaf.stalk z) (F.presheaf.stalk z) =
     r.asIdeal.ramificationIdx k
   rw [length_ringEquiv_self (e₁.trans e₂)]
   rw [Ideal.ramificationIdx_eq (p := (⊥ : Ideal k)) r.asIdeal, Ideal.map_bot]
@@ -548,12 +549,12 @@ private lemma fiber_point_eq_asFiber {X Y : Scheme.{u}} (f : X ⟶ Y)
   let x := f.fiberι y z
   have hxy : f x = y := by
     have hh := congrArg (fun a : f.fiber y ⟶ Y => a z) (f.fiber_fac y)
-    show f x = y
+    change f x = y
     simpa [x] using hh
   refine ⟨hxy, ?_⟩
   apply (f.fiberHomeo y).injective
   apply Subtype.ext
-  show f.fiberι y z = f.fiberι y (hxy ▸ f.asFiber x)
+  change f.fiberι y z = f.fiberι y (hxy ▸ f.asFiber x)
   rw [fiberι_cast_asFiber]
 
 private noncomputable def residueFieldMap_equiv_of_closedImmersion {X Y : Scheme.{u}}
@@ -609,7 +610,7 @@ private lemma inertiaDeg_eq_finSepDegree_mul_finInsepDegree
   let : p.IsMaximal := Ideal.bot_isMaximal
   let : Algebra (Localization.AtPrime p) (Localization.AtPrime q.1) :=
     Localization.AtPrime.algebraOfLiesOver p q.1
-  let : Localization.AtPrime.IsLiesOverAlgebra p q.1 := inferInstance
+  let : IsScalarTower k (Localization.AtPrime p) (Localization.AtPrime q.1) := inferInstance
   let : Algebra k q.1.ResidueField := fiberPrimeResidueFieldAlgebra q
   let epk : p.ResidueField ≃+* k :=
     p.algEquivResidueFieldOfField.toRingEquiv.symm
@@ -620,7 +621,7 @@ private lemma inertiaDeg_eq_finSepDegree_mul_finInsepDegree
       algebraMap p.ResidueField q.1.ResidueField := by
     apply RingHom.ext
     intro a
-    show ψ (epk.symm (epk a)) = ψ a
+    change ψ (epk.symm (epk a)) = ψ a
     simp
   have hfin := Algebra.finrank_eq_of_equiv_equiv epk (RingEquiv.refl _)
     hcompat
@@ -690,7 +691,7 @@ private lemma flatWeightTerm_eq_ramificationInertia
     rw [hlen]
     simp
   have hInertia := inertiaDeg_eq_finSepDegree_mul_finInsepDegree q
-  show ((Module.length (X.presheaf.stalk x)
+  change ((Module.length (X.presheaf.stalk x)
       ((X.presheaf.stalk x) ⧸ Ideal.map (f.stalkMap x).hom
         (IsLocalRing.maximalIdeal (Y.presheaf.stalk (f x))))).toNat : ℤ) *
       (Field.finInsepDegree k (X.residueField x) : ℤ) *
@@ -734,7 +735,7 @@ private lemma localFiberLength_eq_of_etale_square {X Y U V : Scheme.{u}}
   have hxy : f (h u) = g (π u) := by
     simpa only [Scheme.Hom.comp_apply] using congrArg (fun q : U ⟶ Y => q u) comm
   have hpoint : (h ≫ f) u = (π ≫ g) u := by
-    show f (h u) = g (π u)
+    change f (h u) = g (π u)
     exact hxy
   let eY : Y.presheaf.stalk (f (h u)) ≅ Y.presheaf.stalk (g (π u)) :=
     Y.presheaf.stalkCongr (.of_eq hxy)
@@ -747,7 +748,7 @@ private lemma localFiberLength_eq_of_etale_square {X Y U V : Scheme.{u}}
   have hflat : Module.Flat A B := Flat.stalkMap h u
   let : Module.Flat A B := hflat
   let : IsLocalHom (algebraMap A B) := by
-    show IsLocalHom (h.stalkMap u).hom
+    change IsLocalHom (h.stalkMap u).hom
     infer_instance
   have hmax : Ideal.map (algebraMap A B) (IsLocalRing.maximalIdeal A) =
       IsLocalRing.maximalIdeal B := map_maximalIdeal_stalkMap_eq h u
@@ -770,7 +771,7 @@ private lemma localFiberLength_eq_of_etale_square {X Y U V : Scheme.{u}}
       have hh := IsLocalRing.map_ringEquiv_maximalIdeal eY.commRingCatIsoToRingEquiv
       change Ideal.map eY.commRingCatIsoToRingEquiv.toRingHom
           (IsLocalRing.maximalIdeal (Y.presheaf.stalk (f (h u)))) = _ at hh
-      show Ideal.map eY.commRingCatIsoToRingEquiv.toRingHom
+      change Ideal.map eY.commRingCatIsoToRingEquiv.toRingHom
           (IsLocalRing.maximalIdeal (Y.presheaf.stalk (f (h u)))) = _
       exact hh
     rw [← Ideal.map_map, hiso]
@@ -780,7 +781,7 @@ private lemma localFiberLength_eq_of_etale_square {X Y U V : Scheme.{u}}
           (IsLocalRing.maximalIdeal (Y.presheaf.stalk (f (h u))))) =
       Ideal.map (π.stalkMap u).hom
       (IsLocalRing.maximalIdeal (V.presheaf.stalk (π u))) := by
-    show Ideal.map (h.stalkMap u).hom
+    change Ideal.map (h.stalkMap u).hom
         (Ideal.map (f.stalkMap (h u)).hom
           (IsLocalRing.maximalIdeal (Y.presheaf.stalk (f (h u))))) = _
     calc
@@ -793,7 +794,7 @@ private lemma localFiberLength_eq_of_etale_square {X Y U V : Scheme.{u}}
             (IsLocalRing.maximalIdeal (Y.presheaf.stalk (f (h u))))) := by rw [Ideal.map_map]
       _ = Ideal.map (π.stalkMap u).hom
           (IsLocalRing.maximalIdeal (V.presheaf.stalk (π u))) := by rw [hbase]
-  show Module.length B (B ⧸ Ideal.map (π.stalkMap u).hom
+  change Module.length B (B ⧸ Ideal.map (π.stalkMap u).hom
       (IsLocalRing.maximalIdeal (V.presheaf.stalk (π u)))) =
     Module.length A (A ⧸ Ideal.map (f.stalkMap (h u)).hom
       (IsLocalRing.maximalIdeal (Y.presheaf.stalk (f (h u)))))
@@ -869,7 +870,7 @@ lemma finInsepDegree_residueField_eq_of_etale_square
       apply Algebra.algebra_ext
       intro a
       obtain ⟨r, rfl⟩ := IsLocalRing.residue_surjective (R := C) a
-      show IsLocalRing.residue D ((g.stalkMap (π u)).hom r) =
+      change IsLocalRing.residue D ((g.stalkMap (π u)).hom r) =
         IsLocalRing.ResidueField.map (g.stalkMap (π u)).hom (IsLocalRing.residue C r)
       rw [IsLocalRing.ResidueField.map_residue]
     let : Algebra (IsLocalRing.ResidueField C) (IsLocalRing.ResidueField D) := a₀
@@ -888,11 +889,11 @@ lemma finInsepDegree_residueField_eq_of_etale_square
         RingHom.comp e₂ (algebraMap (IsLocalRing.ResidueField C)
           (IsLocalRing.ResidueField D)) := by
       ext a
-      show (g.residueFieldMap (π u)).hom (eK.hom (e₁ a)) =
+      change (g.residueFieldMap (π u)).hom (eK.hom (e₁ a)) =
         algebraMap (IsLocalRing.ResidueField C) (IsLocalRing.ResidueField D) a
       rw [hmap]
       have hk : eK.hom (e₁ a) = a := by
-        show eK.commRingCatIsoToRingEquiv (e₁ a) = a
+        change eK.commRingCatIsoToRingEquiv (e₁ a) = a
         exact eK.commRingCatIsoToRingEquiv.apply_symm_apply a
       rw [hk]
       rfl
@@ -998,17 +999,17 @@ private lemma flatQuasiFiniteWeight_fiberSum_eq_finrank
     invFun := fun q ↦ F.isoSpec.inv ⟨q.1, q.2.1⟩
     left_inv := by
       intro z
-      show F.isoSpec.inv (F.isoSpec.hom z) = z
+      change F.isoSpec.inv (F.isoSpec.hom z) = z
       simp
     right_inv := by
       intro q
       apply Subtype.ext
-      show (F.isoSpec.hom (F.isoSpec.inv ⟨q.1, q.2.1⟩)).asIdeal = q.1
+      change (F.isoSpec.hom (F.isoSpec.inv ⟨q.1, q.2.1⟩)).asIdeal = q.1
       have hp := F.isoSpec.schemeIsoToHomeo.apply_symm_apply
         (⟨q.1, q.2.1⟩ : Spec (.of B))
       have hp' : F.isoSpec.hom (F.isoSpec.inv ⟨q.1, q.2.1⟩) =
           ⟨q.1, q.2.1⟩ := by
-        show F.isoSpec.schemeIsoToHomeo
+        change F.isoSpec.schemeIsoToHomeo
           (F.isoSpec.schemeIsoToHomeo.symm ⟨q.1, q.2.1⟩) = _
         exact hp
       exact congrArg PrimeSpectrum.asIdeal hp' }
@@ -1026,7 +1027,7 @@ private lemma flatQuasiFiniteWeight_fiberSum_eq_finrank
     have hβ : (Spec.map (CommRingCat.ofHom φ)).finrank = φ.finrank :=
       Scheme.Hom.finrank_SpecMap_eq_finrank hfiniteφ hflatφ
     have hmodule : φ.finrank (IsLocalRing.closedPoint k) = Module.finrank k B := by
-      show Module.rankAtStalk B (IsLocalRing.closedPoint k) = Module.finrank k B
+      change Module.rankAtStalk B (IsLocalRing.closedPoint k) = Module.finrank k B
       exact congrFun (Module.rankAtStalk_eq_finrank_of_free (R := k) (M := B))
         (IsLocalRing.closedPoint k)
     calc
@@ -1087,7 +1088,7 @@ theorem flatQuasiFiniteWeight_pos {X Y : Scheme.{u}} (f : X ⟶ Y)
     finite_residueField_of_locallyQuasiFinite f x
   have hinsep_pos : 0 < Field.finInsepDegree (Y.residueField (f x)) (X.residueField x) :=
     Nat.pos_iff_ne_zero.mpr (NeZero.ne _)
-  show 0 < ((Module.length (X.presheaf.stalk x) Q).toNat : ℤ) *
+  change 0 < ((Module.length (X.presheaf.stalk x) Q).toNat : ℤ) *
     (Field.finInsepDegree (Y.residueField (f x)) (X.residueField x) : ℤ)
   exact_mod_cast mul_pos hlen_nat_pos hinsep_pos
 
@@ -1134,6 +1135,7 @@ the dimension of the fibre over the residue field of its image.
 This is the fibre-sum identity which `AlgebraicGeometry.flatQuasiFiniteWeight_isWeighting`
 consumes internally to conclude local constancy; stated on its own it is the degree of a fibre
 of a finite flat morphism, which is what the push-pull formula of Stacks 02RH needs. -/
-alias separableDegreeWeightedFiberSum_flatQuasiFiniteWeight := flatQuasiFiniteWeight_fiberSum_eq_finrank
+alias separableDegreeWeightedFiberSum_flatQuasiFiniteWeight :=
+  flatQuasiFiniteWeight_fiberSum_eq_finrank
 
 end AlgebraicGeometry

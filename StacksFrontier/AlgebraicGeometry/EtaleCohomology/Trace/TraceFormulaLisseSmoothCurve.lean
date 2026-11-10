@@ -52,8 +52,9 @@ variable {k : Type u} [Field k] [Fintype k] {U : Scheme.{u}} (pU : U ⟶ Spec (.
   (p q : ℕ) [Fact p.Prime] [CharP k p] [CharP kbar p] (hcard : Fintype.card k = p ^ q)
   {Λ : Type} [Ring Λ] [Finite Λ] (hcop : Nat.Coprime (Nat.card Λ) (Fintype.card k))
 
+omit [Fintype k] in
 /-- The smooth projective model of a smooth curve over a perfect field, as a compactification. -/
-theorem exists_compactification_isCurve_isProjective :
+theorem exists_compactification_isCurve_isProjective [Finite k] :
     ∃ J : CompactificationOf (Over.mk pU), IsCurve k J.toBase ∧ IsProjective J.toBase := by
   obtain ⟨-, Y, q', j', hj', hjq, hcurve, hproj, -, -, -, -⟩ :=
     exists_smooth_isProjectiveMorphism_compactification_of_perfectField k pU
@@ -64,6 +65,7 @@ theorem exists_compactification_isCurve_isProjective :
       ⟨inferInstanceAs (IsOpenImmersion j'), inferInstanceAs (IsProper q')⟩⟩
   exact ⟨J, hcurve, (isProjective_iff_isProjectiveMorphism_of_isAffine q').2 hproj⟩
 
+omit [Fintype k] [Smooth pU] in
 /-- **The perfectness input through a projective curve compactification**: `RΓ_c(U_k̄, D)` is
 perfect for every sheaf `D` on `U_étale` locally constant with finite projective values over a
 finite ring, by [Stacks, Tag 03TV]. -/

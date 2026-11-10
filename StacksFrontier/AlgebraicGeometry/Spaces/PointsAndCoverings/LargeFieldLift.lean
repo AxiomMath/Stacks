@@ -266,7 +266,7 @@ theorem exists_lift_of_large_field
   have hpk : (⟨k, hk, b, lSite⟩ : FieldValuedPoint B S hS (yoneda.obj U')).class B S hS
       (yoneda.obj U') = xu :=
     (canonicalSiteFieldPoint_class_eq B S hS U' _ u' (by
-      show (BigFppfOver.toScheme B S hS).map lSite (IsLocalRing.closedPoint k) = u'
+      change (BigFppfOver.toScheme B S hS).map lSite (IsLocalRing.closedPoint k) = u'
       rw [hlSite, hlpt])).symm.trans hpu
   refine ⟨p.app _ (p'.app _ lSite), ?_, ?_⟩
   · have h : a.app (Opposite.op (Over.mk (⟨b⟩ : B.obj hk ⟶ B.obj hS)))
@@ -275,7 +275,7 @@ theorem exists_lift_of_large_field
       simpa [NatTrans.comp_app, types_comp_apply, yoneda_map_app] using
         congrArg (fun n => n.app (Opposite.op (Over.mk (⟨b⟩ : B.obj hk ⟶ B.obj hS))) lSite) hp'a
     rw [h, hlα, hgy]
-  · show (FieldValuedPoint.map B S hS (yoneda.obj U) p
+  · change (FieldValuedPoint.map B S hS (yoneda.obj U) p
       (FieldValuedPoint.map B S hS (yoneda.obj U') p' ⟨k, hk, b, lSite⟩)).class B S hS F = x
     rw [← pointsMap_class, ← pointsMap_class, hpk, hxu, hxu₀]
 

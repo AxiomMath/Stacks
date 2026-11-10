@@ -17,7 +17,7 @@ public import Mathlib.CategoryTheory.Functor.OfSequence
 public import Mathlib.CategoryTheory.Localization.Adjunction
 public import Mathlib.CategoryTheory.Triangulated.Yoneda
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 public import Mathlib.Order.CompletePartialOrder
 
 @[expose] public section
@@ -132,12 +132,12 @@ noncomputable def PisColimit : IsColimit (Pcocone F) where
     intro i
     rw [← Category.assoc]
     simp only [Pleg, biproduct.ι_desc]
-    rw [Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc]
     exact (iota_app_legComp F s n i).symm
   uniq s m hm := by
     apply Sigma.hom_ext
     intro j
-    rw [Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc]
     have h1 : biproduct.ι (fun (i : Fin (j+1)) => F.obj i.val) (Fin.last j) ≫ Pleg F j
         = Sigma.ι (fun n => F.obj n) j := by
       simp only [Pleg, biproduct.ι_desc]
@@ -213,12 +213,12 @@ noncomputable def SisColimit : IsColimit (Scocone F) where
     intro i
     rw [← Category.assoc]
     simp only [Sleg, biproduct.ι_desc]
-    rw [Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc]
     exact (iota_app_SlegComp F s n i).symm
   uniq s m hm := by
     apply Sigma.hom_ext
     intro j
-    rw [Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc]
     have h1 : biproduct.ι (fun (i : Fin (j+1)) => F.obj i.val) (Fin.last j) ≫ Sleg F (j+1)
         = Sigma.ι (fun n => F.obj n) j := by
       simp only [Sleg, biproduct.ι_desc]
@@ -266,7 +266,7 @@ omit [HasColimitsOfShape ℕ A] in
 theorem Pleg_can (n : ℕ) : Pleg F n ≫ can F = pimap F n ≫ colimit.ι F n := by
   apply biproduct.hom_ext'
   intro i
-  simp only [Pleg, can, pimap, biproduct.ι_desc_assoc, Sigma.ι_desc]
+  simp only [Pleg, can, pimap, biproduct.ι_desc_assoc, Sigma.ι_comp_desc]
   rw [colimit.w F (homOfLE (Nat.le_of_lt_succ i.isLt))]
 
 /-- The isomorphism `colim (P F) ≅ ∐ₙ Fₙ`. -/
@@ -337,7 +337,7 @@ omit [HasColimit F] [HasColimitsOfShape ℕ A] in
 theorem Sleg_tel (n : ℕ) : Sleg F n ≫ tel F = jmap F n ≫ Pleg F n := by
   apply biproduct.hom_ext'
   intro i
-  simp only [Sleg, jmap, tel, biproduct.ι_desc_assoc, Sigma.ι_desc]
+  simp only [Sleg, jmap, tel, biproduct.ι_desc_assoc, Sigma.ι_comp_desc]
   simp only [jsummand, Preadditive.sub_comp, Category.assoc, Pleg, biproduct.ι_desc]
 
 /-- The isomorphism `colim (S F) ≅ ∐ₙ Fₙ`. -/
@@ -585,9 +585,9 @@ theorem diagram_SES
           (Sigma.desc (fun n => colimit.ι F n)) hz) := by
   refine ⟨Dsc F, Dsc_shortExact F, ⟨?_⟩⟩
   refine ShortComplex.isoMk (eSiso F) (ePiso F) (Iso.refl (colimit F)) ?_ ?_
-  · show (eSiso F).hom ≫ _ = colim.map (jnt F) ≫ (ePiso F).hom
+  · change (eSiso F).hom ≫ _ = colim.map (jnt F) ≫ (ePiso F).hom
     exact colimMap_j F
-  · show (ePiso F).hom ≫ _ = colim.map (pi F) ≫ 𝟙 _
+  · change (ePiso F).hom ≫ _ = colim.map (pi F) ≫ 𝟙 _
     rw [Category.comp_id]
     exact colimMap_pi F
 
@@ -602,8 +602,8 @@ theorem telescope_general_hz {A : Type*} [Category A] [Abelian A]
         ≫ Sigma.desc (fun n => colimit.ι F n) = 0 := by
   apply Sigma.hom_ext
   intro n
-  rw [Sigma.ι_desc_assoc, comp_zero, Preadditive.sub_comp, Category.assoc,
-    Sigma.ι_desc, Sigma.ι_desc, colimit.w F (homOfLE n.le_succ), sub_self]
+  rw [Sigma.ι_comp_desc_assoc, comp_zero, Preadditive.sub_comp, Category.assoc,
+    Sigma.ι_comp_desc, Sigma.ι_comp_desc, colimit.w F (homOfLE n.le_succ), sub_self]
 
 /-- **The mapping-telescope short exact sequence.**
 If `A` has exact sequential colimits, the telescope sequence

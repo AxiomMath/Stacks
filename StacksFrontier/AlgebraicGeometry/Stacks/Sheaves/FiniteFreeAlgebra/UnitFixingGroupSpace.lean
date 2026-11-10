@@ -124,7 +124,7 @@ variable (𝒞 : BigFppfSite.{u}) (S : Scheme.{u}) (hS : 𝒞.Contains S) (d : �
 /-- The unit-fixing subgroup scheme of `GL_d` over the integers belongs to every big fppf site:
 its coordinate ring is a quotient of the coordinate ring of `GL_d`. -/
 theorem contains_unitFixingScheme : 𝒞.Contains (unitFixingScheme.{u} d) := by
-  show (Spec (CommRingCat.of (unitFixingCoordinateRing.{u} d))).size < 𝒞.cutoff
+  change (Spec (CommRingCat.of (unitFixingCoordinateRing.{u} d))).size < 𝒞.cutoff
   refine Scheme.size_Spec_lt_of_mk_le_max 𝒞.aleph0_lt_cutoff 𝒞.cutoff_isStrongPrelimit
     (R := generalLinearCoordinateRing.{u} d) (contains_generalLinearScheme 𝒞 d) ?_
   exact (Cardinal.mk_le_of_surjective Ideal.Quotient.mk_surjective).trans (le_max_right _ _)

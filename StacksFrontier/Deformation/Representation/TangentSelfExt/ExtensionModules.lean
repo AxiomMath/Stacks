@@ -60,7 +60,7 @@ attribute [local implicit_reducible] Rep.equivalenceModuleMonoidAlgebra
 /-- The `ε`-coordinate of a product of dual numbers. -/
 theorem dualNumber_snd_mul {k : Type*} [CommRing k] (r s : DualNumber k) :
     (r * s).snd = r.fst * s.snd + r.snd * s.fst := by
-  show r.fst * s.snd + s.fst * r.snd = _
+  change r.fst * s.snd + s.fst * r.snd = _
   rw [mul_comm s.fst r.snd]
 
 /-- The dual number `ε` is square-zero. -/
@@ -104,7 +104,7 @@ lemma extensionMiddle_finite
         abel
       map_smul' := by
         intro a x
-        show f (a • x.1) + s (a • x.2) = a • (f x.1 + s x.2)
+        change f (a • x.1) + s (a • x.2) = a • (f x.1 + s x.2)
         rw [map_smul, map_smul, smul_add] }
   have hlift : Function.Surjective lift := by
     intro b
@@ -245,7 +245,7 @@ theorem extensionDualNumberModule_eps_smul
     (f : A →ₗ[k] B) (g : B →ₗ[k] A) (hgf : g.comp f = 0) (x : B) :
     letI := extensionDualNumberModule f g hgf
     (DualNumber.eps : DualNumber k) • x = f (g x) := by
-  show (DualNumber.eps).fst • x + (DualNumber.eps).snd • (f.comp g) x = _
+  change (DualNumber.eps).fst • x + (DualNumber.eps).snd • (f.comp g) x = _
   simp
 
 /-- In the dual-number action on the middle term, a scalar from the base field acts
@@ -257,7 +257,7 @@ theorem extensionDualNumberModule_inl_smul
     (a : k) (x : B) :
     letI := extensionDualNumberModule f g hgf
     (TrivSqZeroExt.inl a : DualNumber k) • x = a • x := by
-  show (TrivSqZeroExt.inl a).fst • x + (TrivSqZeroExt.inl a).snd • (f.comp g) x = _
+  change (TrivSqZeroExt.inl a).fst • x + (TrivSqZeroExt.inl a).snd • (f.comp g) x = _
   simp
 
 /-- The middle term of a short exact sequence `A → B → A` is finite over the dual
@@ -409,8 +409,7 @@ noncomputable def extensionPairTensorEquiv
       ((TensorProduct.lid k A).prodCongr (TensorProduct.lid k A))
   have hmap : ⇑(extensionPairTensorMap h0) = ⇑e := by
     funext z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul r a =>
       change (r.fst • a, r.snd • a) = e (r ⊗ₜ[k] a)
@@ -458,7 +457,7 @@ theorem extensionDualNumberModule_isBaseChange
   let hk : B →ₗ[k] Q :=
     { h.toAddHom with
       map_smul' := fun a x ↦ by
-        show h (a • x) = a • h x
+        change h (a • x) = a • h x
         rw [← extensionDualNumberModule_inl_smul f g hgf a x, map_smul,
           hscalar, TrivSqZeroExt.fst_inl] }
   have hkill (v : A) : h (f v) = 0 := by
@@ -706,7 +705,7 @@ theorem exists_squareZero_pair_kernelMap
     · rintro x ⟨v, rfl⟩
       apply LinearMap.mem_ker.2
       rw [hgk, hf]
-      show g ((TrivSqZeroExt.inr (1, 0) : TrivSqZeroExt k (k × k)) • s v.1 +
+      change g ((TrivSqZeroExt.inr (1, 0) : TrivSqZeroExt k (k × k)) • s v.1 +
         (TrivSqZeroExt.inr (0, 1) : TrivSqZeroExt k (k × k)) • s v.2) = 0
       rw [map_add, map_smul, map_smul]
       have hscalar (r : TrivSqZeroExt k (k × k)) (z : N) : r • z = r.fst • z := by
@@ -727,7 +726,7 @@ theorem exists_squareZero_pair_kernelMap
         (squareZero_pair_radical_annihilates_kernel hmap b g hg _ (hker z)).2
       refine ⟨(gk y, gk z), ?_⟩
       rw [hf]
-      show j₁ (s (gk y)) + j₂ (s (gk z)) = x
+      change j₁ (s (gk y)) + j₂ (s (gk z)) = x
       rw [hjy, hjz]
       exact h
 

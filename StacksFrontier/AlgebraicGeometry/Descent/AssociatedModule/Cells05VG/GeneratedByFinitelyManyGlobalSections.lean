@@ -107,12 +107,12 @@ theorem exists_isGeneratedByGlobalSectionsOfCard_of_hasFiniteGlobalGenerators
     obtain ⟨c, hcx⟩ := hc f hf
     refine ⟨∑ i : Fin n, c i •
       (_root_.SheafOfModules.freeSection (R := R) (ULift.up i)).eval (op W), ?_⟩
-    show (p.val.app (op W)).hom
+    change (p.val.app (op W)).hom
       (∑ i : Fin n, c i •
         (_root_.SheafOfModules.freeSection (R := R) (ULift.up i)).eval (op W)) =
       N.val.map f.op x
     simp only [map_sum, map_smul]
-    show (∑ i : Fin n, c i •
+    change (∑ i : Fin n, c i •
       p.val.app (op W) ((_root_.SheafOfModules.freeSection (R := R)
         (ULift.up i)).val (op W))) = _
     simpa only [hp] using hcx

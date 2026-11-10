@@ -129,7 +129,7 @@ theorem exists_elementary_chart_projective_sections_covering_baseChange_fibre
   let k₀ : Z ⟶ V₀ := yoneda.preimage (c ≫ pullback.snd f b₀)
   have hk₀ : yoneda.map k₀ = c ≫ pullback.snd f b₀ := yoneda.map_preimage _
   have hsq : U.obj.hom ≫ f = yoneda.map k₀ ≫ V.obj.hom := by
-    show (c ≫ pullback.fst f b₀) ≫ f = yoneda.map k₀ ≫ b₀
+    change (c ≫ pullback.fst f b₀) ≫ f = yoneda.map k₀ ≫ b₀
     rw [hk₀, Category.assoc, Category.assoc, sq.w]
   have hUaff : IsAffine ((BigFppfOver.toScheme B S hS).obj
       ((SmallEtale.toOver B S hS X).obj U)) := hZaff
@@ -152,7 +152,7 @@ theorem exists_elementary_chart_projective_sections_covering_baseChange_fibre
       ((pointsEquivScheme B S hS A).symm a₀) = v := by
     refine injective_pointsToScheme B S hS V₀ ?_
     rw [pointsToScheme_pointsMap_yoneda]
-    show (BigFppfOver.toScheme B S hS).map q
+    change (BigFppfOver.toScheme B S hS).map q
       ((pointsEquivScheme B S hS A) ((pointsEquivScheme B S hS A).symm a₀)) = vs
     rw [Equiv.apply_symm_apply, hqa]
   have hyoneda : yoneda.map r ≫ yoneda.map k₀ = yoneda.map h ≫ yoneda.map q := by

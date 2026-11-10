@@ -67,7 +67,7 @@ theorem pointwiseArrow_hom_ext {x y : PointwiseFibration G} (m m' : x ⟶ y)
 theorem fiber_id (x : PointwiseFibration G) :
     Pseudofunctor.CoGrothendieck.Hom.fiber (𝟙 x) = eqToHom (by
       exact (G.objects.obj.map_id_apply (op x.base) x.fiber).symm) := by
-  show ((evaluationGroupoidFunctor G.toGroupoidInFunctors ⋙
+  change ((evaluationGroupoidFunctor G.toGroupoidInFunctors ⋙
     Grpd.forgetToCat).toPseudofunctor'.mapId ⟨op x.base⟩).inv.toNatTrans.app x.fiber = _
   simp only [Cat.Hom.id_toFunctor, Functor.id_obj, Functor.toPseudofunctor'_mapId, Functor.comp_obj,
     Functor.comp_map, eqToIso.inv, Cat.Hom₂.eqToHom_toNatTrans]
@@ -101,7 +101,7 @@ theorem fiber_comp {x y z : PointwiseFibration G} (m : x ⟶ y) (m' : y ⟶ z) :
           change G.objects.obj.map m.base.op (G.objects.obj.map m'.base.op z.fiber) =
             G.objects.obj.map (m.base ≫ m'.base).op z.fiber
           rw [op_comp]; exact (Functor.map_comp_apply _ _ _ _).symm) := by
-  show m.fiber ≫ _ ≫ ((evaluationGroupoidFunctor G.toGroupoidInFunctors ⋙
+  change m.fiber ≫ _ ≫ ((evaluationGroupoidFunctor G.toGroupoidInFunctors ⋙
     Grpd.forgetToCat).toPseudofunctor'.mapComp m'.base.op.toLoc
       m.base.op.toLoc).inv.toNatTrans.app z.fiber = _
   simp only [Cat.Hom.comp_toFunctor, Functor.comp_obj, Functor.toPseudofunctor'_mapComp,

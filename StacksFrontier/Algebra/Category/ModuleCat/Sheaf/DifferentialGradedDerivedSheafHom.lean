@@ -8,7 +8,7 @@ public import
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.DifferentialGradedRightDerivedExtension
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.DifferentialGradedDerivedSumsProducts
 public import
-  StacksFrontier.Algebra.Category.ModuleCat.Sheaf.DifferentialGradedDerivedPullbackTensorFactorization
+StacksFrontier.Algebra.Category.ModuleCat.Sheaf.DifferentialGradedDerivedPullbackTensorFactorization
 public import StacksFrontier.CategoryTheory.Functor.Derived.Absolute
 import StacksCore.Tactic.EgaSgaAttribute
 

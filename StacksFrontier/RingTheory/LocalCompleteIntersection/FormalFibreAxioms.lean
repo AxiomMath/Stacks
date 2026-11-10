@@ -140,7 +140,7 @@ public theorem localCompleteIntersectionProperty_fieldExtension (P : RingMapProp
   let : Algebra.EssFiniteType R (R ⊗[k] K) := Algebra.EssFiniteType.baseChange k K R
   let : IsNoetherianRing (R ⊗[k] K) := Algebra.EssFiniteType.isNoetherianRing R (R ⊗[k] K)
   rw [hP] at h
-  show P (algebraMap K (R ⊗[k] K))
+  change P (algebraMap K (R ⊗[k] K))
   rw [hP]
   exact isLocalCompleteIntersectionRing_tensorProduct_of_essFiniteType k R K h
 
@@ -219,7 +219,7 @@ public theorem localCompleteIntersectionProperty_regularAscent (P : RingMapPrope
   let Eiter : Q.Fiber D ≃+* (Q.ResidueField ⊗[q.ResidueField] q.Fiber C) :=
     iteratedFiberRingEquiv q Q
   let : CommRing (Q.Fiber D) := by
-    show CommRing (Q.ResidueField ⊗[p.asIdeal.Fiber B] D)
+    change CommRing (Q.ResidueField ⊗[p.asIdeal.Fiber B] D)
     exact Algebra.TensorProduct.instCommRing
       (R := p.asIdeal.Fiber B) (A := Q.ResidueField) (B := D)
   exact isLocalCompleteIntersectionRing_of_ringEquiv Eiter.symm

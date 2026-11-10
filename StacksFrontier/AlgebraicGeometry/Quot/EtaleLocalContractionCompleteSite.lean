@@ -229,7 +229,7 @@ theorem exists_contraction_of_isAdicComplete_of_siteObject (Λ : Type u) [CommRi
     rw [reassoc_of% hh, hfX', Category.assoc, Iso.hom_inv_id, Category.comp_id]
   let γ : QX ⟶ Q := Over.homMk (ObjectProperty.homMk h) (by
     apply ObjectProperty.hom_ext
-    show (h ≫ fY) ≫ ε.inv ≫ W.hom.hom = QX.hom.hom
+    change (h ≫ fY) ≫ ε.inv ≫ W.hom.hom = QX.hom.hom
     rw [Category.assoc, ← Category.assoc fY, ← Category.assoc h, hγ]
     exact congrArg (fun m => m.hom) (Over.w qX))
   have hγq : γ ≫ q = qX := Over.OverMorphism.ext (ObjectProperty.hom_ext _ hγ)

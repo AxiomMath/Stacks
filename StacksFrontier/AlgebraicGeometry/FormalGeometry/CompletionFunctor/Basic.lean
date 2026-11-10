@@ -195,7 +195,7 @@ private lemma idealPowerMultiple_le_comapLocal {X : Scheme.{u}}
   refine (idealPowerMultiple_le_iff I n M _).2 fun U => ?_
   set J := I.ideal U ^ n with hJ
   set fU : Γ(M, U) →ₗ[Γ(X, U)] Γ(N, U) := ModuleCat.Hom.hom (f.val.app (op U.1)) with hfU
-  show J • (⊤ : Submodule Γ(X, U) Γ(M, U)) ≤ (Q.toSubmodule.obj (op U.1)).comap fU
+  change J • (⊤ : Submodule Γ(X, U) Γ(M, U)) ≤ (Q.toSubmodule.obj (op U.1)).comap fU
   calc
     J • (⊤ : Submodule Γ(X, U) Γ(M, U)) =
         J • ((⊤ : Submodule Γ(X, U) Γ(N, U)).comap fU) := by simp

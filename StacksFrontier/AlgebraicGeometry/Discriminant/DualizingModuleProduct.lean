@@ -69,7 +69,7 @@ theorem dualizingModule.tmul_zero {A : Type u} {B : Type v}
     (F : FiniteOpenFactorization.{u, v, w} A B)
     (f : Module.Dual A F.middle) : dualizingModule.tmul F f 0 = 0 := by
   let := algebraDualModule A F.middle
-  show f ⊗ₜ[F.middle] (0 : B) = 0
+  change f ⊗ₜ[F.middle] (0 : B) = 0
   exact TensorProduct.tmul_zero (R := F.middle) (N := B) f
 
 /-- The canonical comparison between two finite-open factorizations kills a pure tensor whose
@@ -363,9 +363,8 @@ theorem dualizingModule_addMonoidHom_ext_tmul
     (h : ∀ φ b, f (dualizingModule.tmul F φ b) =
       g (dualizingModule.tmul F φ b)) : f = g := by
   refine AddMonoidHom.ext fun z => ?_
-  show f z = g z
-  induction z using TensorProduct.induction_on with
-  | zero => exact f.map_zero.trans g.map_zero.symm
+  change f z = g z
+  induction z using TensorProduct.inductionOn with
   | tmul φ b => exact h φ b
   | add x y hx hy =>
       calc
@@ -398,7 +397,7 @@ theorem dualizingModule_addMonoidHom_ext_common
   have hcomp : f.comp e.toLinearMap.toAddMonoidHom =
       g.comp e.toLinearMap.toAddMonoidHom := by
     refine dualizingModule_addMonoidHom_ext_tmul H _ _ fun φ b => ?_
-    show f (e (dualizingModule.tmul H φ b)) =
+    change f (e (dualizingModule.tmul H φ b)) =
       g (e (dualizingModule.tmul H φ b))
     rw [heq φ b]
     exact h φ b
@@ -541,15 +540,15 @@ theorem dualizingModule_product_ext
           e.symm.toLinearMap)).comp
           (e.toLinearMap.comp (LinearMap.inl A FB.middle FC.middle)) = φ := by
         ext a
-        show φ ((e.symm (e (a, 0))).1) = φ a
+        change φ ((e.symm (e (a, 0))).1) = φ a
         rw [e.symm_apply_apply]
-      show dualizingModuleProdEquiv F FB FC _ = _
+      change dualizingModuleProdEquiv F FB FC _ = _
       rw [dualizingModuleProdEquiv_tmul F FB FC e hcompat]
       refine Prod.ext ?_ ?_
       · exact congrArg (fun χ : Module.Dual A FB.middle =>
           dualizingModule.tmul FB χ b) key
       · exact dualizingModule.tmul_zero FC _
-    show L (E' (dualizingModule.tmul FB φ b, 0)) =
+    change L (E' (dualizingModule.tmul FB φ b, 0)) =
       R (E' (dualizingModule.tmul FB φ b, 0))
     rw [← he]
     simpa [E, E'] using hB φ b
@@ -563,15 +562,15 @@ theorem dualizingModule_product_ext
           e.symm.toLinearMap)).comp
           (e.toLinearMap.comp (LinearMap.inr A FB.middle FC.middle)) = φ := by
         ext a
-        show φ ((e.symm (e (0, a))).2) = φ a
+        change φ ((e.symm (e (0, a))).2) = φ a
         rw [e.symm_apply_apply]
-      show dualizingModuleProdEquiv F FB FC _ = _
+      change dualizingModuleProdEquiv F FB FC _ = _
       rw [dualizingModuleProdEquiv_tmul F FB FC e hcompat]
       refine Prod.ext ?_ ?_
       · exact dualizingModule.tmul_zero FB _
       · exact congrArg (fun χ : Module.Dual A FC.middle =>
           dualizingModule.tmul FC χ c) key
-    show L (E' (0, dualizingModule.tmul FC φ c)) =
+    change L (E' (0, dualizingModule.tmul FC φ c)) =
       R (E' (0, dualizingModule.tmul FC φ c))
     rw [← he]
     simpa [E, E'] using hC φ c
@@ -579,7 +578,7 @@ theorem dualizingModule_product_ext
   obtain ⟨⟨b, c⟩, rfl⟩ := (dualizingModuleProdEquiv F FB FC).symm.surjective ω
   have hb := DFunLike.congr_fun hB' b
   have hc := DFunLike.congr_fun hC' c
-  show L (E' (b, c)) = R (E' (b, c))
+  change L (E' (b, c)) = R (E' (b, c))
   change L (E' (b, 0)) = R (E' (b, 0)) at hb
   change L (E' (0, c)) = R (E' (0, c)) at hc
   rw [show (b, c) = (b, 0) + (0, c) by simp, map_add, map_add, map_add, hb, hc]
@@ -652,7 +651,7 @@ theorem dualizingModuleProdEquiv_naturality
   have hL : L = R := by
     apply dualizingModule_product_ext H HB HC (AlgEquiv.refl) (fun _ => rfl)
     · intro φ b
-      show dualizingModuleProdEquiv G GB GC
+      change dualizingModuleProdEquiv G GB GC
           (dualizingModuleEquiv H G _) =
         (dualizingModuleEquiv FB GB
           (dualizingModuleProdEquiv F FB FC (dualizingModuleEquiv H F _)).1,
@@ -674,7 +673,7 @@ theorem dualizingModuleProdEquiv_naturality
               (dualizingModuleEquiv_tmul_zero (secondFactorization F) FC _)).trans
             (map_zero (dualizingModuleEquiv FC GC))).symm)
     · intro φ c
-      show dualizingModuleProdEquiv G GB GC
+      change dualizingModuleProdEquiv G GB GC
           (dualizingModuleEquiv H G _) =
         (dualizingModuleEquiv FB GB
           (dualizingModuleProdEquiv F FB FC (dualizingModuleEquiv H F _)).1,

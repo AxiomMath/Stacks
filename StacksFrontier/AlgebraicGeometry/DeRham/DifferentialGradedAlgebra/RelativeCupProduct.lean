@@ -254,7 +254,7 @@ theorem pushforward_pushforward_eq_of_comm (w : f ≫ q = p ≫ h)
         ((TopCat.Sheaf.pushforward CommRingCat.{u} f.base).obj N) := by
   have hb : p.base ≫ h.base = f.base ≫ q.base := by
     rw [← Scheme.Hom.comp_base, ← w, Scheme.Hom.comp_base]
-  show (TopCat.Sheaf.pushforward CommRingCat.{u} (p.base ≫ h.base)).obj N =
+  change (TopCat.Sheaf.pushforward CommRingCat.{u} (p.base ≫ h.base)).obj N =
     (TopCat.Sheaf.pushforward CommRingCat.{u} (f.base ≫ q.base)).obj N
   rw [hb]
 

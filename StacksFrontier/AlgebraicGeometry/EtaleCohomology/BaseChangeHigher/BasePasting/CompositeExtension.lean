@@ -122,10 +122,10 @@ morphism. -/
 public lemma smallEtaleBaseChangeAb_eq_mateEquiv (f' : X' ⟶ S) (g : T ⟶ S) (h : Y ⟶ X')
     (e : Y ⟶ T) (w : h ≫ f' = e ≫ g) (P : Y ⟶ S) (hPh : P = h ≫ f') (hPe : P = e ≫ g) :
     smallEtaleBaseChangeAb f' g h e w =
-      (mateEquiv (smallEtaleAdjunctionAb g) (smallEtaleAdjunctionAb h)
+      mateEquiv (smallEtaleAdjunctionAb g) (smallEtaleAdjunctionAb h)
         (TwoSquare.mk _ _ _ _
           ((smallEtalePullbackAbCompIso' h f' P hPh).hom ≫
-            (smallEtalePullbackAbCompIso' e g P hPe).inv))).natTrans := by
+            (smallEtalePullbackAbCompIso' e g P hPe).inv)) := by
   have hdef : smallEtaleBaseChangeAb f' g h e w =
       mate (smallEtaleAdjunctionAb f') (smallEtaleAdjunctionAb e)
         (smallEtalePushforwardAb g) (smallEtalePushforwardAb h)

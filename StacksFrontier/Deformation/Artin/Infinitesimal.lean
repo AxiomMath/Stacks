@@ -327,11 +327,11 @@ public lemma lift_morphism_isIso (q : Y ⥤ C) (hq : q.IsFiberedInGroupoids)
       (Over.mk (d ≫ eqToHom hy.symm)) m.1
   · apply Subtype.ext
     apply Over.OverMorphism.ext
-    show (m.1 ≫ inv m.1).left = Over.Hom.left (𝟙 s.1)
+    change (m.1 ≫ inv m.1).left = Over.Hom.left (𝟙 s.1)
     exact congrArg Over.Hom.left (IsIso.hom_inv_id m.1)
   · apply Subtype.ext
     apply Over.OverMorphism.ext
-    show (inv m.1 ≫ m.1).left = Over.Hom.left (𝟙 t.1)
+    change (inv m.1 ≫ m.1).left = Over.Hom.left (𝟙 t.1)
     exact congrArg Over.Hom.left (IsIso.inv_hom_id m.1)
 
 /-- The image under `F` of the structure arrow of a lift along `a` lies over `a`. -/
@@ -460,7 +460,7 @@ public theorem liftFunctor_unique (p : X ⥤ C) (q : Y ⥤ C)
       ηapp s ≫ M.toFunctor.map m = L.toFunctor.map m ≫ ηapp t := by
     apply Subtype.ext
     apply Over.OverMorphism.ext
-    show (ηapp s).1.left ≫ (M.toFunctor.map m).1.left =
+    change (ηapp s).1.left ≫ (M.toFunctor.map m).1.left =
       (L.toFunctor.map m).1.left ≫ (ηapp t).1.left
     apply Functor.IsStronglyCartesian.ext q c (M.comparison t) (𝟙 V')
     calc
@@ -478,7 +478,7 @@ public theorem liftFunctor_unique (p : X ⥤ C) (q : Y ⥤ C)
   let η : L.toFunctor ≅ M.toFunctor := NatIso.ofComponents ηcomponents
     (fun {s t} m => (ηapp_natural m).symm)
   have hηapp (t : Lift p a x hx) : η.hom.app t = ηapp t := by
-    show (η.app t).hom = (ηcomponents t).hom
+    change (η.app t).hom = (ηcomponents t).hom
     exact congrArg Iso.hom (NatIso.ofComponents.app ηcomponents
       (fun {s t} m => (ηapp_natural m).symm) t)
   refine ⟨η, ?_, ?_⟩
@@ -651,6 +651,7 @@ public theorem exists_factorization_through_base
 
 /-- The square-zero kernel of a deformation situation `q : A' →+* A`, as a module over `A`
 through the isomorphism `A' ⧸ RingHom.ker q ≃+* A`. -/
+@[instance_reducible]
 noncomputable def kerModule {A' : Type u₁} {A : Type u} [CommRing A'] [CommRing A]
     (q : A' →+* A) (hq : IsDeformationSituation q) : Module A (RingHom.ker q) :=
   letI : Module (A' ⧸ RingHom.ker q) (RingHom.ker q) :=
@@ -677,7 +678,7 @@ theorem kerModule_smul {A' : Type u₁} {A : Type u} [CommRing A'] [CommRing A]
         rw [hq.2] at hm
         ext
         simpa using hm
-  show ((RingHom.quotientKerEquivOfSurjective hq.1).symm (q x)) • y = x • y
+  change ((RingHom.quotientKerEquivOfSurjective hq.1).symm (q x)) • y = x • y
   have hxy : (RingHom.quotientKerEquivOfSurjective hq.1).symm (q x) = Ideal.Quotient.mk _ x := by
     rw [RingEquiv.symm_apply_eq]; rfl
   rw [hxy]; rfl
@@ -954,7 +955,7 @@ private theorem leftCompositionAction_hom
     (t₁ t₂ : Deformation.Lift p g x)
     (a : infinitesimalAutomorphisms hp t₁) (f : t₁ ⟶ t₂) :
     (leftCompositionAction hp t₁ t₂ a f).hom = (a⁻¹).1.asIso.hom.val ≫ f.hom := by
-  simp [leftCompositionAction, compositionMap, fiberAut_hom_one, fiber_id_val]
+  simp [leftCompositionAction, compositionMap, fiber_id_val]
 
 private theorem leftOrbitInverse_apply
     (hp : Deformation.IsCofiberedInGroupoids p)
@@ -965,7 +966,7 @@ private theorem leftOrbitInverse_apply
   apply Deformation.Lift.Hom.ext
   rw [leftCompositionAction_hom]
   dsimp [leftOrbitInverse]
-  show (h.hom ≫ inv f.hom) ≫ f.hom = h.hom
+  change (h.hom ≫ inv f.hom) ≫ f.hom = h.hom
   simp [Category.assoc]
 
 private theorem rightCompositionAction_hom
@@ -973,7 +974,7 @@ private theorem rightCompositionAction_hom
     (t₁ t₂ : Deformation.Lift p g x)
     (f : t₁ ⟶ t₂) (b : infinitesimalAutomorphisms hp t₂) :
     (rightCompositionAction hp t₁ t₂ f b).hom = f.hom ≫ (b⁻¹).1.asIso.hom.val := by
-  simp [rightCompositionAction, compositionMap, fiberAut_hom_one, fiber_id_val]
+  simp [rightCompositionAction, compositionMap, fiber_id_val]
 
 private theorem rightOrbitInverse_apply
     (hp : Deformation.IsCofiberedInGroupoids p)
@@ -984,7 +985,7 @@ private theorem rightOrbitInverse_apply
   apply Deformation.Lift.Hom.ext
   rw [rightCompositionAction_hom]
   dsimp [rightOrbitInverse]
-  show f.hom ≫ (inv f.hom ≫ h.hom) = h.hom
+  change f.hom ≫ (inv f.hom ≫ h.hom) = h.hom
   simp
 
 /-- The identity automorphism acts trivially on the left. -/
@@ -993,7 +994,7 @@ public theorem leftComposition_one (hp : Deformation.IsCofiberedInGroupoids p)
     (t₁ t₂ : Deformation.Lift p g x) (f : t₁ ⟶ t₂) :
     leftCompositionAction hp t₁ t₂ 1 f = f := by
   apply Deformation.Lift.Hom.ext
-  simp [leftCompositionAction_hom, fiberAut_hom_one, fiber_id_val]
+  simp [leftCompositionAction_hom, fiber_id_val]
 
 /-- The left action is compatible with multiplication of automorphisms. -/
 @[stacks 07YB "groupoid_actions"]
@@ -1013,7 +1014,7 @@ public theorem rightComposition_one (hp : Deformation.IsCofiberedInGroupoids p)
     (t₁ t₂ : Deformation.Lift p g x) (f : t₁ ⟶ t₂) :
     rightCompositionAction hp t₁ t₂ f 1 = f := by
   apply Deformation.Lift.Hom.ext
-  simp [rightCompositionAction_hom, fiberAut_hom_one, fiber_id_val]
+  simp [rightCompositionAction_hom, fiber_id_val]
 
 /-- The right action is compatible with multiplication of automorphisms. -/
 @[stacks 07YB "groupoid_actions"]

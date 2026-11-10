@@ -129,7 +129,7 @@ theorem faithfullyFlat_prod_away {A B₀ C₀ : Type u} [CommRing A] [CommRing B
   · obtain ⟨P, hP, hPp⟩ := exists_isPrime_comap_eq_of_map_le I hsurjC hinjC p.asIdeal hp
     refine ⟨⟨P.comap (RingHom.fst C₀ L₀), Ideal.comap_isPrime _ _⟩, ?_⟩
     ext1
-    show Ideal.comap (algebraMap B₀ (C₀ × L₀)) (P.comap (RingHom.fst C₀ L₀)) = p.asIdeal
+    change Ideal.comap (algebraMap B₀ (C₀ × L₀)) (P.comap (RingHom.fst C₀ L₀)) = p.asIdeal
     rw [Ideal.comap_comap]
     exact hPp
   · obtain ⟨i, hi⟩ : ∃ i, g i ∉ p.asIdeal.comap (algebraMap A B₀) :=
@@ -148,7 +148,7 @@ theorem faithfullyFlat_prod_away {A B₀ C₀ : Type u} [CommRing A] [CommRing B
         (RingHom.snd C₀ L₀)
     refine ⟨⟨Q, Ideal.comap_isPrime _ _⟩, ?_⟩
     ext1
-    show Ideal.comap (algebraMap B₀ (C₀ × L₀)) (Ideal.comap (RingHom.snd C₀ L₀)
+    change Ideal.comap (algebraMap B₀ (C₀ × L₀)) (Ideal.comap (RingHom.snd C₀ L₀)
       (Ideal.comap (Pi.evalRingHom (fun i => Localization.Away (algebraMap A B₀ (g i))) i)
         (p.asIdeal.map (algebraMap B₀ (Localization.Away f))))) = p.asIdeal
     rw [Ideal.comap_comap, Ideal.comap_comap]
@@ -177,7 +177,7 @@ theorem etale_away_prod {A C L : Type u} [CommRing A] [CommRing C] [CommRing L]
   have hx : algebraMap A (C × L) x = (algebraMap A C x, algebraMap A L x) := rfl
   rw [← hx] at hloc
   have : IsScalarTower A (C × L) (Cx × Lx) := IsScalarTower.of_algebraMap_eq fun a => by
-    show (algebraMap A Cx a, algebraMap A Lx a) =
+    change (algebraMap A Cx a, algebraMap A Lx a) =
       (algebraMap C Cx (algebraMap A C a), algebraMap L Lx (algebraMap A L a))
     rw [IsScalarTower.algebraMap_apply A C Cx, IsScalarTower.algebraMap_apply A L Lx]
   have := etale_prod A Cx Lx
@@ -229,7 +229,7 @@ theorem map_algebraMap_pi_away_eq_top {A B₀ : Type*} [CommRing A] [CommRing B�
   refine eq_top_of_forall_map_eval _ fun i => ?_
   rw [Ideal.map_map]
   refine Ideal.eq_top_of_isUnit_mem _ (Ideal.mem_map_of_mem _ (hg i)) ?_
-  show IsUnit (algebraMap A (Localization.Away (algebraMap A B₀ (g i))) (g i))
+  change IsUnit (algebraMap A (Localization.Away (algebraMap A B₀ (g i))) (g i))
   rw [IsScalarTower.algebraMap_apply A B₀ (Localization.Away (algebraMap A B₀ (g i)))]
   exact IsLocalization.Away.algebraMap_isUnit _
 
@@ -329,7 +329,7 @@ theorem isScalarTower_prodMap {A C L C₀ L₀ : Type*} [CommRing A] [CommRing C
     (h : algebraMap (C × L) (C₀ × L₀) = (algebraMap C C₀).prodMap (ψ : L →+* L₀)) :
     IsScalarTower A (C × L) (C₀ × L₀) := IsScalarTower.of_algebraMap_eq fun a => by
   rw [h]
-  show (algebraMap A C₀ a, algebraMap A L₀ a) = _
+  change (algebraMap A C₀ a, algebraMap A L₀ a) = _
   rw [IsScalarTower.algebraMap_apply A C C₀]
   exact Prod.ext rfl (ψ.commutes a).symm
 

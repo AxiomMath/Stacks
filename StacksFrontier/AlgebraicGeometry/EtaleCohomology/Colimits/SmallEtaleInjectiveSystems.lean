@@ -83,8 +83,8 @@ of `Iᵒᵖ` are equal by proof irrelevance and `(c ≫ a) ≫ b` and `c ≫ a �
 size `v`, while the coefficients are `AddCommGrpCat.{u + 1}`. It is already a hypothesis of
 `Stacks.EtaleCohomology.SmallEtaleLimitCohomology.nonempty_devissage` and of the dimension shift,
 so the statement proved here is as strong as those consume; see the implementation notes of
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/SmallEtaleKaroubiColimit.lean` on why it is
-not a restriction on the mathematics.
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/SmallEtaleKaroubiColimit.lean` on why it
+is not a restriction on the mathematics.
 
 ## References
 
@@ -94,8 +94,8 @@ not a restriction on the mathematics.
 
 Tags covered: none. Tag 0EXZ is registered in
 `StacksFrontier/CategoryTheory/Sites/InverseSystem/CohomologyOfColimitOfFiniteSites.lean` and in
-`StacksFrontier/CategoryTheory/Sites/InverseSystem/InjectiveSystemsOnStrongSystems.lean`; this file is
-its instance for the small étale sites, not a further occurrence of the tag.
+`StacksFrontier/CategoryTheory/Sites/InverseSystem/InjectiveSystemsOnStrongSystems.lean`; this file
+is its instance for the small étale sites, not a further occurrence of the tag.
 -/
 
 @[expose] public noncomputable section
@@ -156,6 +156,8 @@ private def incomingRestriction {i j : Iᵒᵖ} (a : i ⟶ j) {k : Iᵒᵖ} (β 
   ((systemAdjunction D A a).homEquiv _ _).symm
     ((systemPushforwardComp D A β a).inv.app (N k))
 
+omit [∀ (i : Iᵒᵖ) (T : Type v),
+    HasLimitsOfShape (Discrete T) (Sheaf (smallEtaleTopology (D.obj i)) A)] in
 /-- The counit is the transpose of the identity. -/
 private lemma homEquiv_symm_id {i j : Iᵒᵖ} (a : i ⟶ j)
     (X : Sheaf (smallEtaleTopology (D.obj i)) A) :
@@ -164,6 +166,8 @@ private lemma homEquiv_symm_id {i j : Iᵒᵖ} (a : i ⟶ j)
       (systemAdjunction D A a).counit.app X := by
   rw [Adjunction.homEquiv_counit, CategoryTheory.Functor.map_id, Category.id_comp]
 
+omit [∀ (i : Iᵒᵖ) (T : Type v),
+    HasLimitsOfShape (Discrete T) (Sheaf (smallEtaleTopology (D.obj i)) A)] in
 /-- Transposing twice is the identity, read as a cancellation against the counit. -/
 private lemma map_homEquiv_counit {i j : Iᵒᵖ} (a : i ⟶ j)
     {X : Sheaf (smallEtaleTopology (D.obj j)) A} {Y : Sheaf (smallEtaleTopology (D.obj i)) A}
@@ -172,6 +176,8 @@ private lemma map_homEquiv_counit {i j : Iᵒᵖ} (a : i ⟶ j)
         (systemAdjunction D A a).counit.app Y = g :=
   (Adjunction.homEquiv_counit ..).symm.trans (Equiv.symm_apply_apply _ g)
 
+omit [∀ (i : Iᵒᵖ) (T : Type v),
+    HasLimitsOfShape (Discrete T) (Sheaf (smallEtaleTopology (D.obj i)) A)] in
 /-- Naturality of the adjunction bijection in the source, for the inverse image along a
 transition. -/
 private lemma map_comp_homEquiv_symm {i j : Iᵒᵖ} (a : i ⟶ j)
@@ -181,6 +187,8 @@ private lemma map_comp_homEquiv_symm {i j : Iᵒᵖ} (a : i ⟶ j)
       ((systemAdjunction D A a).homEquiv X' Y).symm (f ≫ g) :=
   ((systemAdjunction D A a).homEquiv_naturality_left_symm f g).symm
 
+omit [∀ (i : Iᵒᵖ) (T : Type v),
+    HasLimitsOfShape (Discrete T) (Sheaf (smallEtaleTopology (D.obj i)) A)] in
 /-- Naturality of the adjunction bijection in the target, for the inverse image along a
 transition. -/
 private lemma homEquiv_symm_comp {i j : Iᵒᵖ} (a : i ⟶ j)
@@ -190,6 +198,8 @@ private lemma homEquiv_symm_comp {i j : Iᵒᵖ} (a : i ⟶ j)
       ((systemAdjunction D A a).homEquiv X Y).symm f ≫ g :=
   (systemAdjunction D A a).homEquiv_naturality_right_symm f g
 
+omit [∀ (i : Iᵒᵖ) (T : Type v),
+    HasLimitsOfShape (Discrete T) (Sheaf (smallEtaleTopology (D.obj i)) A)] in
 /-- Naturality of the comparison of iterated inverse images. -/
 private lemma pullbackComp_inv_naturality {i j k : Iᵒᵖ} (a : i ⟶ j) (b : j ⟶ k)
     {X Y : Sheaf (smallEtaleTopology (D.obj k)) A} (g : X ⟶ Y) :
@@ -198,6 +208,8 @@ private lemma pullbackComp_inv_naturality {i j k : Iᵒᵖ} (a : i ⟶ j) (b : j
       (systemPullback D A (a ≫ b)).map g ≫ (systemPullbackComp D A a b).inv.app Y := by
   simpa only [Functor.comp_map] using ((systemPullbackComp D A a b).inv.naturality g).symm
 
+omit [∀ (i : Iᵒᵖ) (T : Type v),
+    HasLimitsOfShape (Discrete T) (Sheaf (smallEtaleTopology (D.obj i)) A)] in
 /-- `Stacks.EtaleCohomology.SmallEtaleLimitCohomology.pullbackComp_inv_naturality` with a map
 composed on the right, which is the form in which the cocycle computation uses it. -/
 private lemma pullbackComp_inv_naturality_assoc {i j k : Iᵒᵖ} (a : i ⟶ j) (b : j ⟶ k)
@@ -209,6 +221,8 @@ private lemma pullbackComp_inv_naturality_assoc {i j k : Iᵒᵖ} (a : i ⟶ j) 
       (systemPullback D A (a ≫ b)).map g ≫ (systemPullbackComp D A a b).inv.app Y ≫ h :=
   (reassoc_of% pullbackComp_inv_naturality D A a b g) h
 
+omit [∀ (i : Iᵒᵖ) (T : Type v),
+    HasLimitsOfShape (Discrete T) (Sheaf (smallEtaleTopology (D.obj i)) A)] in
 /-- **The cocycle condition on a single factor.** The restriction maps of the factor at
 `γ : m ⟶ i` compose along `i ⟶ j ⟶ k` through the comparison of iterated inverse images. This is
 the content of the cocycle condition of the product system at the factors indexed by arrows, and
@@ -228,6 +242,8 @@ private lemma incomingRestriction_comp {i j k : Iᵒᵖ} (a : i ⟶ j) (b : j �
     (Category.assoc _ _ _).trans <|
       (_ ≫= (systemPushforwardComp D A a b).inv_hom_id_app _).trans (Category.comp_id _)
 
+omit [∀ (i : Iᵒᵖ) (T : Type v),
+    HasLimitsOfShape (Discrete T) (Sheaf (smallEtaleTopology (D.obj i)) A)] in
 /-- **The cocycle condition on the extra factor.** The counit of the adjunction along `a ≫ b` is
 the counit along `a` preceded by the restriction map of the factor at `a` and by the comparison of
 iterated inverse images.
@@ -324,10 +340,14 @@ private def envelopeComponent (i : Iᵒᵖ) : ∀ d : Option (Incoming i),
   | some ⟨k, β⟩ => (systemAdjunction D A β).homEquiv (F.obj i) (injectiveEnvelope D A F k)
       (F.map β ≫ Injective.ι (F.obj k))
 
+omit [∀ (i : Iᵒᵖ) (T : Type v),
+    HasLimitsOfShape (Discrete T) (Sheaf (smallEtaleTopology (D.obj i)) A)] in
 /-- The component of the embedding at the extra factor is the chosen monomorphism. -/
 private lemma envelopeComponent_none (i : Iᵒᵖ) :
     envelopeComponent D A F i none = Injective.ι (F.obj i) := rfl
 
+omit [∀ (i : Iᵒᵖ) (T : Type v),
+    HasLimitsOfShape (Discrete T) (Sheaf (smallEtaleTopology (D.obj i)) A)] in
 /-- The component of the embedding at the factor indexed by an arrow. -/
 private lemma envelopeComponent_some {i k : Iᵒᵖ} (β : k ⟶ i) :
     envelopeComponent D A F i (some ⟨k, β⟩) =
@@ -345,6 +365,8 @@ private lemma envelopeMap_π (i : Iᵒᵖ) (d : Option (Incoming i)) :
       envelopeComponent D A F i d :=
   Pi.lift_comp_π _ _
 
+omit [∀ (i : Iᵒᵖ) (T : Type v),
+    HasLimitsOfShape (Discrete T) (Sheaf (smallEtaleTopology (D.obj i)) A)] in
 /-- The component of the embedding at the composite arrow `β ≫ a`, expressed through the
 component at `β` and the transition along `a`. This is where the cocycle condition of `F` is
 consumed. -/
@@ -393,6 +415,8 @@ private lemma mono_envelopeMap (i : Iᵒᵖ) : Mono (envelopeMap D A F i) := by
     rw [envelopeMap_π, envelopeComponent_none]; infer_instance
   exact mono_of_mono _ (Pi.π (incomingFactor D A (injectiveEnvelope D A F) i) none)
 
+omit [∀ (i j : Iᵒᵖ) (a : i ⟶ j), (systemPushforward D A a).IsRightAdjoint]
+  [∀ i : Iᵒᵖ, EnoughInjectives (Sheaf (smallEtaleTopology (D.obj i)) A)] in
 /-- **The product is injective** as soon as the chosen sheaves are: the direct image along a
 transition preserves injective objects, and a product of injectives is injective. -/
 private lemma injective_productObject

@@ -380,7 +380,7 @@ public lemma isLocalizedEquivalence_inclusionLocalizerMorphism (W : MorphismProp
     refine ⟨M.X₁, ObjectProperty.homMk (M.w ≫ t₁), ObjectProperty.homMk (M.w ≫ t₂), ?_, ?_, ?_⟩
     · exact homMk_comp_eq M.w hs
     · exact homMk_comp_eq M.w hff
-    · show W ((M.w ≫ t₁) ≫ P.ι.map φ₁.s)
+    · change W ((M.w ≫ t₁) ≫ P.ι.map φ₁.s)
       rw [Category.assoc]
       exact W.comp_mem _ _ M.hw ht
   have hes : (inclusionLocalizedFunctor W P).EssSurj := by

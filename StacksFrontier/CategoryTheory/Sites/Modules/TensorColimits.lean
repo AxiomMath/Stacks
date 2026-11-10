@@ -207,8 +207,8 @@ private lemma isIso_sheafification_map_presheafTensorLeft_map (R : Sheaf J CommR
       (g : P ⟶ Q), IsIso (L.map g) ↔
         J.W ((_root_.PresheafOfModules.toPresheaf _).map g) := by
     intro P Q g
-    show MorphismProperty.isomorphisms _ (L.map g) ↔ _
-    show ((MorphismProperty.isomorphisms _).inverseImage L) g ↔ _
+    change MorphismProperty.isomorphisms _ (L.map g) ↔ _
+    change ((MorphismProperty.isomorphisms _).inverseImage L) g ↔ _
     rw [← _root_.PresheafOfModules.inverseImage_W_toPresheaf_eq_inverseImage_isomorphisms]
     rfl
   let T : _root_.PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj ⥤
@@ -221,7 +221,7 @@ private lemma isIso_sheafification_map_presheafTensorLeft_map (R : Sheaf J CommR
   let e : presheafTensorLeft J R F ≅ T := PresheafOfModules.tensorLeftIsoTensorRight F
   have he : (presheafTensorLeft J R F).map f = e.hom.app P ≫ T.map f ≫ e.inv.app Q := by
     rw [← e.hom.naturality_assoc, e.hom_inv_id_app, Category.comp_id]
-  show IsIso (L.map _)
+  change IsIso (L.map _)
   rw [he, L.map_comp, L.map_comp]
   infer_instance
 

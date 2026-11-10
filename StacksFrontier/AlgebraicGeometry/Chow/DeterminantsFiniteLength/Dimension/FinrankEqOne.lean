@@ -79,7 +79,7 @@ private lemma quotientSymbolMap_symbol
     (e : AdmissibleSequence R M) :
     quotientSymbolMap R M Q q f hf0 hqf hlen (symbol e) =
       quotientSymbol R M Q q f hf0 hqf hlen e := by
-  show quotientSymbolRaw R M Q q f hf0 hqf hlen (Finsupp.single e 1) = _
+  change quotientSymbolRaw R M Q q f hf0 hqf hlen (Finsupp.single e 1) = _
   exact quotientSymbolRaw_single R M Q q f hf0 hqf hlen e
 
 private lemma determinant_nontrivial_of_moduleLength_eq_zero
@@ -99,7 +99,7 @@ private lemma determinant_nontrivial_of_moduleLength_eq_zero
   let e : AdmissibleSequence R M :=
     ⟨fun i => (hfin i).elim, fun i => (hfin i).elim⟩
   have hφ : φ (symbol e) = 1 := by
-    show raw (Finsupp.single e 1) = 1
+    change raw (Finsupp.single e 1) = 1
     simp [raw]
   have hs : symbol e ≠ 0 := by
     intro hs
@@ -140,7 +140,7 @@ public theorem finrank_determinant_eq_one {R : Type u} {M : Type v} [CommRing R]
           have hQdet : Nontrivial (determinant R (N ⧸ S)) :=
             ih (moduleLength R (N ⧸ S)) hQlt (N ⧸ S) hQfin rfl
           have hqf : q f = 0 := by
-            show S.mkQ f = 0
+            change S.mkQ f = 0
             exact (Submodule.Quotient.mk_eq_zero S).2
               (Submodule.mem_span_singleton_self f)
           obtain ⟨e, he⟩ := exists_admissible_generator hN

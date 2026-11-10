@@ -65,7 +65,7 @@ public lemma range_morphismRestrict {X Y : Scheme.{u}} (f : X ⟶ Y) (W : Y.Open
     exact ⟨y.1, (morphismRestrict_base_coe f W y).symm⟩
   · rintro ⟨z, hz⟩
     have hzW : z ∈ f ⁻¹ᵁ W := by
-      show f.base z ∈ (W : Set Y)
+      change f.base z ∈ (W : Set Y)
       rw [hz]
       exact x.2
     exact ⟨⟨z, hzW⟩, Subtype.ext ((morphismRestrict_base_coe f W ⟨z, hzW⟩).trans hz)⟩
@@ -224,7 +224,7 @@ public theorem proIsoDeligneSystem_of_sup_eq_top [IsNoetherian X] (U V W : X.Ope
     ⟨isEssentiallyConstantPro_of_cover (U.ι ⁻¹ᵁ V) (U.ι ⁻¹ᵁ W) ?_ _ (ess V hV) (ess W hW)
       (ess (V ⊓ W) hVW'), restrictionLifting_of_cover U V W hVW F hV.restrictionLifting
         hW.restrictionLifting hVW'.restrictionLifting⟩
-  show U.ι ⁻¹ᵁ (V ⊔ W) = ⊤
+  change U.ι ⁻¹ᵁ (V ⊔ W) = ⊤
   rw [hVW]
   rfl
 
@@ -248,7 +248,7 @@ public theorem proIsoDeligneSystem_sup [IsNoetherian X] (U A B : X.Opens)
     rw [range_morphismRestrict, range_morphismRestrict, Scheme.Opens.range_ι,
       Scheme.Opens.range_ι]
     ext x
-    show T.ι.base ((T.ι ⁻¹ᵁ O).ι.base x) ∈ (U : Set X) ↔
+    change T.ι.base ((T.ι ⁻¹ᵁ O).ι.base x) ∈ (U : Set X) ↔
       O.ι.base ((T.ι ∣_ O).base x) ∈ (U : Set X)
     rw [apply_eq_of_comp_eq (morphismRestrict_ι T.ι O),
       apply_eq_of_comp_eq (morphismRestrict_ι T.ι O).symm, morphismRestrict_ι]
@@ -304,7 +304,7 @@ public theorem proIsoDeligneSystem_iff_forall_restrict (j : U ⟶ X) [IsOpenImme
     (htop.restrict X.topIso.inv U₀.ι ?_)
   rw [range_morphismRestrict]
   ext x
-  show x ∈ Set.range U₀.ι.base ↔ (⊤ : X.Opens).ι.base (X.topIso.inv.base x) ∈ Set.range U₀.ι.base
+  change x ∈ Set.range U₀.ι.base ↔ (⊤ : X.Opens).ι.base (X.topIso.inv.base x) ∈ Set.range U₀.ι.base
   rw [apply_eq_of_comp_eq X.toIso_inv_ι]
   rfl
 

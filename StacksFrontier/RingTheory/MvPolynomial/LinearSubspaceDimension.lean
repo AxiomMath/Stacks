@@ -258,7 +258,7 @@ theorem ringKrullDim_quotient_span_linearForm (W : Submodule κ (ι → κ)) :
     rintro _ ⟨j, rfl⟩
     obtain ⟨a, ha⟩ := hμsurj (Pi.single j 1)
     refine ⟨Ideal.Quotient.mk _ (linearForm a), ?_⟩
-    show ψ (linearForm a) = X j
+    change ψ (linearForm a) = X j
     rw [hkey a, ha, linearForm_single]
   calc ((d : ℕ) : WithBot ℕ∞)
       = ringKrullDim (MvPolynomial (Fin d) κ) := by

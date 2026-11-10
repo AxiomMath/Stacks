@@ -255,7 +255,7 @@ theorem koszulScalar_comp (e e' : Fin r → ℕ) :
     koszulScalar X f e ≫ koszulScalar X f e' = koszulScalar X f (e + e') := by
   refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun U => ?_)
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-  show koszulRingValue X f e' U • (koszulRingValue X f e U • x) =
+  change koszulRingValue X f e' U • (koszulRingValue X f e U • x) =
     koszulRingValue X f (e + e') U • x
   rw [← mul_smul]
   exact congrArg (fun c : ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj.obj U => c • x)
@@ -267,7 +267,7 @@ theorem koszulScalar_zero :
       𝟙 (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) := by
   refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun U => ?_)
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-  show koszulRingValue X f 0 U • x = x
+  change koszulRingValue X f 0 U • x = x
   rw [show koszulRingValue X f 0 U = 1 from koszulValue_zero X f U]
   exact one_smul _ x
 

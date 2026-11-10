@@ -183,6 +183,7 @@ theorem LAdicSheaf.traceAtLevel_geometricPerfectTower_of_etale [Etale f] [IsFini
     ext x
     simp
 
+omit [IsSeparated f] in
 /-- **The trace formula of [Stacks, Tag 03V2] in dimension zero.**  For `X` finite étale over `k`
 and an ℓ-adic sheaf `F` on `X`,
 `∑_{x ∈ X(k)} Tr(π_x | F_x̄) = ∑ᵢ (-1)ⁱ Tr(π_X^* | Hⁱ_c(X_k̄, F))`. -/
@@ -200,7 +201,7 @@ theorem LAdicSheaf.traceFormula_of_etale [Etale f] [IsFinite f] (F : LAdicSheaf.
     kbar p q hcard F _ (LAdicSheaf.traceAtLevel_geometricPerfectTower_of_etale B X ℓ f j kbar p q
       hcard F)).symm
 
-omit [Fintype k] [CharP kbar p] in
+omit [Fintype k] [CharP kbar p] [IsSeparated f] in
 /-- **`Hⁱ_c(X_k̄, F ⊗ ℚ_ℓ)` vanishes for `i ≠ 0` in dimension zero.** -/
 theorem LAdicSheaf.subsingleton_rationalGeometricCompactlySupportedCohomology_of_isFinite [Finite k]
     [IsFinite f] (F : LAdicSheaf.{u, u + 1} B X ℓ) {i : ℤ} (hi : i ≠ 0) :
@@ -235,7 +236,7 @@ variable [∀ (n : ℕ) (T : B.Scheme), HasWeakSheafify (SmallEtale.topology B T
   (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
 
 omit [CharP kbar p] [∀ n : ℕ, HasWeakSheafify (SmallEtale.topology B X.1 X.property)
-    (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))] in
+    (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))] [IsSeparated f] in
 /-- **The Euler product in dimension zero.**  For `X` finite étale over `k` and an ℓ-adic sheaf
 `F`, `det(1 - π_X^* T | H⁰_c(X_k̄, F)) = ∏_{x ∈ |X|} det(1 - π_x T ^ (deg x) | F_x̄)`. -/
 theorem LAdicSheaf.charPowerSeries_rationalGeometricCompactlySupportedFrobenius_eq_prod
@@ -292,7 +293,7 @@ theorem LAdicSheaf.charPowerSeries_rationalGeometricCompactlySupportedFrobenius_
 namespace LAdicSheaf
 
 omit [CharP kbar p] [∀ n : ℕ, HasWeakSheafify (SmallEtale.topology B X.1 X.property)
-    (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))] in
+    (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))] [IsSeparated f] in
 /-- **Weights in dimension zero.**  Let `X` be finite étale over a finite field `k` with `p ^ q`
 elements and `F` an ℓ-adic sheaf on `X`, pointwise `ι`-mixed of weights `≤ w`.  Then every complex
 root of the characteristic polynomial of `π_X^*` on `Hⁱ_c(X_k̄, F ⊗ ℚ_ℓ)` along `ι` has absolute

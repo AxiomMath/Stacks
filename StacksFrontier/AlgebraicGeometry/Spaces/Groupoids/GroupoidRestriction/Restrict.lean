@@ -130,7 +130,7 @@ public noncomputable def restrict
         G.comp_over
       have hlift : cp ≫ pullback.fst G.source.hom G.target.hom = firstMap := by
         dsimp [cp, composableToPullback]
-        simpa [firstMap] using (pullback.lift_fst _ _ _)
+        simp [firstMap]
       have hcp : (cp ≫ pullback.fst G.source.hom G.target.hom).app T p = p.val.1 := by
         have heq := congrArg (fun k => (ConcreteCategory.hom (k.app T)) p) hlift
         simpa [firstMap] using heq
@@ -207,10 +207,10 @@ public noncomputable def restrict
             naturality := by intro X Y f; ext q; rfl }
           have hcpFst : cp ≫ pullback.fst src.hom tgt.hom = firstMap := by
             dsimp [cp, composableToPullback]
-            simpa [firstMap] using (pullback.lift_fst _ _ _)
+            simp [firstMap]
           have hcpSnd : cp ≫ pullback.snd src.hom tgt.hom = secondMap := by
             dsimp [cp, composableToPullback]
-            simpa [secondMap] using (pullback.lift_snd _ _ _)
+            simp [secondMap]
           have hfst : (pullback.fst src.hom tgt.hom).app T (cp.app T pH) = rh.1 := by
             have hh := congrArg (fun k => (ConcreteCategory.hom (k.app T)) pH) hcpFst
             simpa [firstMap, pH] using hh
@@ -316,10 +316,10 @@ public noncomputable def restrict
       naturality := by intro X Y f; ext q; rfl }
     have hcpFst : cp ≫ pullback.fst src.hom tgt.hom = firstMap := by
       dsimp [cp, composableToPullback]
-      simpa [firstMap] using (pullback.lift_fst _ _ _)
+      simp [firstMap]
     have hcpSnd : cp ≫ pullback.snd src.hom tgt.hom = secondMap := by
       dsimp [cp, composableToPullback]
-      simpa [secondMap] using (pullback.lift_snd _ _ _)
+      simp [secondMap]
     have hfst : (pullback.fst src.hom tgt.hom).app T (cp.app T p) = a := by
       have hh := congrArg (fun k => (ConcreteCategory.hom (k.app T)) p) hcpFst
       simpa [firstMap, p] using hh
@@ -675,7 +675,7 @@ public theorem restrict_isRestriction
     apply ObjectProperty.hom_ext
     ext T z
     refine (restrictionCompositionData_underlying_comp_app G g T z).trans ?_
-    show G.comp.hom.app T ((composableToPullback G.source.hom G.target.hom).app T _) =
+    change G.comp.hom.app T ((composableToPullback G.source.hom G.target.hom).app T _) =
       G.comp.hom.app T (m.hom.app T z)
     congr 1
     refine (pullbackAppEquiv G.source.hom G.target.hom T).injective

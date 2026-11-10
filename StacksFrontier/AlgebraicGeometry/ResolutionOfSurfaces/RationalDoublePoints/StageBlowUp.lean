@@ -138,7 +138,7 @@ theorem isIso_stalkMap_blowUpToBase_of_ne
       (Scheme.IdealSheafData.vanishingIdeal (⟨{w}, hw⟩ : Closeds W))).stalkMap q) :=
   isIso_stalkMap_of_isIso_morphismRestrict _
     (isIso_blowUpToBase_restrict_compl_support _) (by
-      show (blowUpToBase (Scheme.IdealSheafData.vanishingIdeal (⟨{w}, hw⟩ : Closeds W))) q ∉
+      change (blowUpToBase (Scheme.IdealSheafData.vanishingIdeal (⟨{w}, hw⟩ : Closeds W))) q ∉
         ((Scheme.IdealSheafData.vanishingIdeal (⟨{w}, hw⟩ : Closeds W)).support : Set W)
       rw [Scheme.IdealSheafData.coe_support_vanishingIdeal]
       exact hq)

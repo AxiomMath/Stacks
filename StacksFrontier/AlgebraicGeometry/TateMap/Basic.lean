@@ -45,7 +45,7 @@ theorem isQuasiFiniteSyntomic_specMap (A B : Type u) [CommRing A] [CommRing B] [
   · rw [HasRingHomProperty.Spec_iff (P := @LocallyQuasiFinite)]
     exact RingHom.quasiFinite_algebraMap.mpr inferInstance
   · rw [HasRingHomProperty.Spec_iff (P := @Syntomic)]
-    show RingHom.Syntomic (algebraMap A B)
+    change RingHom.Syntomic (algebraMap A B)
     have h : (algebraMap A B).toAlgebra = ‹Algebra A B› := Algebra.algebra_ext _ _ fun _ ↦ rfl
     rw [RingHom.syntomic_iff, h]
     infer_instance

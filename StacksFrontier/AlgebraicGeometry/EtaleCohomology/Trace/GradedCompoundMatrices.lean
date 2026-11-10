@@ -88,11 +88,11 @@ public theorem det_ite_eq_zero_of_sum_ne {a b : ι → ℤ} {B : Matrix ι ι R}
     (Matrix.of fun i j => if a i = b j then B i j else 0).det = 0 := by
   rcases lt_or_gt_of_ne h with h | h
   · refine det_eq_zero_of_sum_lt (a := fun i => -a i) (b := fun j => -b j) (fun i j hij => ?_) ?_
-    · rw [Matrix.of_apply, if_neg (by omega)]
+    · rw [Matrix.of_apply, ite_eq_right (by omega)]
     · simp only [Finset.sum_neg_distrib]
       omega
   · exact det_eq_zero_of_sum_lt (a := a) (b := b)
-      (fun i j hij => by rw [Matrix.of_apply, if_neg (by omega)]) h
+      (fun i j hij => by rw [Matrix.of_apply, ite_eq_right (by omega)]) h
 
 variable {d : ι → ℤ}
 

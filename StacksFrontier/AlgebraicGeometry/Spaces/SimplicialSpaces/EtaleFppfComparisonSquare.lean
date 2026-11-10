@@ -63,8 +63,6 @@ open Stacks.CategoryTheory.Hypercovering
 
 universe u
 
-set_option synthInstance.maxHeartbeats 400000
-
 namespace AlgebraicGeometry.Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
@@ -266,6 +264,9 @@ instance totalForget_isCocontinuous_fppfTopology :
   exact SimplicialSemiRepresentable.totalForget_isCocontinuous
     ((fppfPretopology B S hS).toGrothendieck.over A.right) (fppfHypercover A)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- The instance searches through the fppf total site and its sheaf categories exceed the
+-- default synthesis budget.
 /-- **The augmentation `a_fppf : Sh((Spaces/U)_{fppf,total}) → Sh((Spaces/X)_fppf)`** of
 Section 09X8, on sheaves of sets: the morphism of topoi of the localization functor
 `V/U_n ↦ V/X`, which is continuous and cocontinuous. -/
@@ -301,6 +302,9 @@ abbrev fppfAugmentationComposite (G : Sheaf (fppfTotalSituation A).totalTopology
 
 variable {A}
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- The instance searches through the fppf total site and its sheaf categories exceed the
+-- default synthesis budget.
 /-- The leg in simplicial degree `k` of the cone exhibiting `h₋₁,* a_{fppf,*} G` as `a_* h_* G`:
 its section over `V` is the restriction along the projection `V ×_X U_k ⟶ V`, read on the
 right Kan extension of `G` along `V/U_n ↦ V/X`. -/
@@ -370,6 +374,9 @@ theorem etaleAugmentationDiagram_comparison_map_hom_app
           (EtaleComponent.baseObj m V.unop)).op :=
   etaleAugmentationDiagram_map_hom_app A ((etaleFppfComparisonMorphism A).pushforward.obj G) φ V
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- The instance searches through the fppf total site and its sheaf categories exceed the
+-- default synthesis budget.
 /-- The legs of the cone are compatible with the transitions of the cosimplicial sheaf, on
 sections. -/
 theorem fppfAugmentationConeLeg_comp_app
@@ -400,6 +407,9 @@ theorem fppfAugmentationConeLeg_comp
   rw [ObjectProperty.FullSubcategory.comp_hom, NatTrans.comp_app]
   exact fppfAugmentationConeLeg_comp_app G φ V
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- The instance searches through the fppf total site and its sheaf categories exceed the
+-- default synthesis budget.
 /-- **The cone exhibiting `h₋₁,* a_{fppf,*} G` over the cosimplicial sheaf computing
 `a_* h_* G`.** -/
 def fppfAugmentationCone (G : Sheaf (fppfTotalSituation A).totalTopology (Type (u + 1))) :
@@ -407,7 +417,7 @@ def fppfAugmentationCone (G : Sheaf (fppfTotalSituation A).totalTopology (Type (
   pt := fppfAugmentationComposite A G
   π :=
     { app := fun k ↦ fppfAugmentationConeLeg G k
-      naturality := fun m n φ ↦ (Category.id_comp _).trans (fppfAugmentationConeLeg_comp G φ).symm }
+      naturality := fun _ _ φ ↦ (Category.id_comp _).trans (fppfAugmentationConeLeg_comp G φ).symm }
 
 /-- The objects `V ×_X U_k / U_k` of the fppf total site with their projections to `V`, as a
 cosimplicial object of the category of objects of the fppf total site over `V/X`; the
@@ -469,7 +479,7 @@ every factorization through some `V ×_X U_k / U_k` comes from that one by a tra
 instance fppfBaseArrows_initial (V : SpacesEtale B S hS A.right) :
     (fppfBaseArrows V).Initial where
   out j := by
-    haveI : Nonempty (CostructuredArrow (fppfBaseArrows V) j) := ⟨fppfBaseArrowsFactor j⟩
+    have : Nonempty (CostructuredArrow (fppfBaseArrows V) j) := ⟨fppfBaseArrowsFactor j⟩
     refine zigzag_isConnected fun Q₁ Q₂ ↦ ?_
     obtain ⟨f₁⟩ := nonempty_hom_fppfBaseArrowsFactor Q₁
     obtain ⟨f₂⟩ := nonempty_hom_fppfBaseArrowsFactor Q₂
@@ -482,11 +492,14 @@ def fppfBaseArrowsDiagramIso (G : Sheaf (fppfTotalSituation A).totalTopology (Ty
     fppfBaseArrows V.unop ⋙ StructuredArrow.proj _ _ ⋙ G.obj ≅
       (etaleAugmentationDiagram A ((etaleFppfComparisonMorphism A).pushforward.obj G) ⋙
         sheafToPresheaf _ _) ⋙ (evaluation _ _).obj V :=
-  NatIso.ofComponents (fun _ ↦ Iso.refl _) fun {m n} φ ↦
+  NatIso.ofComponents (fun _ ↦ Iso.refl _) fun φ ↦
     (Category.comp_id _).trans
       ((etaleAugmentationDiagram_comparison_map_hom_app A G φ V).symm.trans
         (Category.id_comp _).symm)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- The instance searches through the fppf total site and its sheaf categories exceed the
+-- default synthesis budget.
 /-- **The sections over `V` of `h₋₁,* a_{fppf,*} G` are those of `a_* h_* G`.** The sections of the
 right Kan extension `a_{fppf,*} G` over `V/X` are the limit of `G` over the objects of the fppf
 total site over `V/X`, and the objects `V ×_X U_k / U_k` are initial among them. -/
@@ -508,6 +521,9 @@ def fppfAugmentationConeIsLimit (G : Sheaf (fppfTotalSituation A).totalTopology 
   isLimitOfReflects (sheafToPresheaf _ _)
     (evaluationJointlyReflectsLimits _ fun V ↦ fppfAugmentationConeIsLimitApp G V)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- The instance searches through the fppf total site and its sheaf categories exceed the
+-- default synthesis budget.
 /-- The legs of the cone are natural in the sheaf on the fppf total site. -/
 theorem fppfAugmentationConeLeg_naturality
     {G G' : Sheaf (fppfTotalSituation A).totalTopology (Type (u + 1))} (f : G ⟶ G')
@@ -523,7 +539,7 @@ theorem fppfAugmentationConeLeg_naturality
   let L := SimplicialSemiRepresentable.totalForget (fppfHypercover A)
   have h₁ := (L.op.ran.map f.hom).naturality (fppfBaseProjection k V.unop).op
   have h₂ := NatTrans.congr_app (L.op.ranCounit.naturality f.hom) (op (fppfBaseTotal k V.unop))
-  show (L.op.ran.map f.hom).app _ ≫ (L.op.ran.obj G'.obj).map (fppfBaseProjection k V.unop).op ≫
+  change (L.op.ran.map f.hom).app _ ≫ (L.op.ran.obj G'.obj).map (fppfBaseProjection k V.unop).op ≫
       (L.op.ranCounit.app G'.obj).app (op (fppfBaseTotal k V.unop)) =
     ((L.op.ran.obj G.obj).map (fppfBaseProjection k V.unop).op ≫
       (L.op.ranCounit.app G.obj).app (op (fppfBaseTotal k V.unop))) ≫
@@ -533,6 +549,9 @@ theorem fppfAugmentationConeLeg_naturality
       ((NatTrans.comp_app _ _ _).symm.trans (h₂.trans (NatTrans.comp_app _ _ _)))).trans
         (Category.assoc _ _ _).symm)))
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- The instance searches through the fppf total site and its sheaf categories exceed the
+-- default synthesis budget.
 variable (A) in
 /-- **Stacks 0DH5, on direct images**: the square
 ```

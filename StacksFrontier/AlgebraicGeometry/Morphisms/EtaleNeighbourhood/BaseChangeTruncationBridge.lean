@@ -141,8 +141,8 @@ private theorem congrHom_hom_comp {C : Type*} [Category C] {X Y Z : C} (f : X �
     ((pullback.congrHom (rfl : f = f) h).hom ≫ pullback.fst f g₂ = pullback.fst f g₁) ∧
       ((pullback.congrHom (rfl : f = f) h).hom ≫ pullback.snd f g₂ = pullback.snd f g₁) := by
   constructor
-  · simp [pullback.congrHom, pullback.map, pullback.lift_fst]
-  · simp [pullback.congrHom, pullback.map, pullback.lift_snd]
+  · simp [pullback.congrHom, pullback.map]
+  · simp [pullback.congrHom, pullback.map]
 
 /-- **The two iterated base changes along equal composites agree.** For `p : Y ⟶ T` and two
 morphisms `b_i : A_i ⟶ T` equipped with `g_i : B ⟶ A_i` whose composites `g_i ≫ b_i` agree, the
@@ -688,7 +688,7 @@ theorem exists_truncationEquiv_stalk_pullback_fromSpecStalk
       maximalIdeal D₁ ^ N := by
     refine Ideal.ext fun x => ?_
     rw [RingHom.mem_ker]
-    show ε (Ideal.Quotient.mk (maximalIdeal D₁ ^ N) x) = 0 ↔ _
+    change ε (Ideal.Quotient.mk (maximalIdeal D₁ ^ N) x) = 0 ↔ _
     rw [map_eq_zero_iff _ ε.injective, Ideal.Quotient.eq_zero_iff_mem]
   have hker₂ : RingHom.ker (algebraMap D₂ (D₂ ⧸ maximalIdeal D₂ ^ N)) =
       maximalIdeal D₂ ^ N := by

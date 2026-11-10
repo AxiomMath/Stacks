@@ -224,7 +224,7 @@ theorem squareZeroArrow_comp_squareZeroConstants :
     squareZeroArrow A B S hS toS hA M ≫ squareZeroConstants hS toS hA M = 𝟙 _ := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom (TrivSqZeroExt.fstHom A A M.obj).toRingHom) ≫
+  change Spec.map (CommRingCat.ofHom (TrivSqZeroExt.fstHom A A M.obj).toRingHom) ≫
       Spec.map (CommRingCat.ofHom (TrivSqZeroExt.inlHom A M.obj)) = 𝟙 _
   have h : CommRingCat.ofHom (TrivSqZeroExt.inlHom A M.obj) ≫
       CommRingCat.ofHom (TrivSqZeroExt.fstHom A A M.obj).toRingHom = 𝟙 (CommRingCat.of A) :=

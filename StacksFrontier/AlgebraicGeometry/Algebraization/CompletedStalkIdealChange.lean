@@ -106,7 +106,7 @@ public theorem exists_linearEquiv_limit_of_isAdicComplete {J : Ideal A} {L : Typ
           (Submodule.smul_mono_left (Ideal.pow_le_pow_right hmn)))
     obtain ⟨l₀, hl₀⟩ := IsPrecomplete.prec (inferInstance : IsPrecomplete J L) hcauchy
     refine ⟨l₀, Subtype.ext (funext fun n => ?_)⟩
-    show π n l₀ = y.1 n
+    change π n l₀ = y.1 n
     have hmem : l (n + 1) - l₀ ∈ LinearMap.ker (π n) := by
       rw [hker n]
       exact SModEq.sub_mem.mp (hl₀ (n + 1))
@@ -279,7 +279,7 @@ public theorem exists_linearEquiv_limit_transfer :
             rw [Stacks.Coherent.transferIndex, pow_mul]
         _ ≤ IdealSheafData.stalk 𝒥 x ^ (n + 1) :=
             pow_le_pow_left' (IdealSheafData.stalk_pow_le hpow x) (n + 1)
-    show LinearMap.ker (((modulesStalkFunctor X x).map
+    change LinearMap.ker (((modulesStalkFunctor X x).map
       (Stacks.Coherent.transferProjection 𝒥 a F.obj n)).hom.comp p) = _
     have hmap : (IdealSheafData.stalk 𝒥 x ^ (n + 1) •
           (⊤ : Submodule (X.presheaf.stalk x) ((modulesStalkFunctor X x).obj
@@ -550,7 +550,7 @@ public theorem adicClosedFibreThrough_transfer_eq_singleton_iff
     ext Q
     obtain ⟨q, rfl⟩ := hfsurj Q
     rw [hfinj.mem_set_image]
-    simp only [adicClosedFibreThrough, Set.mem_setOf_eq, transferPrime_asIdeal]
+    simp only [adicClosedFibreThrough, Set.mem_ofPred_eq, transferPrime_asIdeal]
     constructor
     · rintro ⟨h1, h2, h3⟩
       have hq := (hprime q).mp h1
@@ -564,7 +564,7 @@ public theorem adicClosedFibreThrough_transfer_eq_singleton_iff
         (map_stalk_le_iff_completedLocalIdeal_le hpow hle x (f q)).mp
           ((completedLocalIdeal_le_iff_map_le hpow hle x q).mp h3)⟩
   rw [himage, ← map_completedMaximalIdeal_transfer hpow hle x]
-  show _ ↔ f '' _ = {f (completedMaximalIdeal 𝒥 x)}
+  change _ ↔ f '' _ = {f (completedMaximalIdeal 𝒥 x)}
   rw [← Set.image_singleton (f := f)]
   exact (Set.image_injective.mpr hfinj).eq_iff.symm
 

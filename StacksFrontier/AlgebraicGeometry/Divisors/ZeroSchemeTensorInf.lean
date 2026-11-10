@@ -289,12 +289,12 @@ theorem exists_affineOpens_inf_ideal_le (a : Γ(M, ⊤)) (b : Γ(N, ⊤))
       (coord_restrict_of_generator N b hV w₀ β₀ hβ₀) hk
   by_cases hx : x ∈ (zeroScheme X M a).supportSet
   · obtain ⟨y, hy⟩ : ∃ y, (zeroScheme X M a).subschemeι.base y = x := by
-      show x ∈ Set.range (zeroScheme X M a).subschemeι
+      change x ∈ Set.range (zeroScheme X M a).subschemeι
       rwa [Scheme.IdealSheafData.range_subschemeι]
     have hVaff : IsAffineOpen ((zeroScheme X M a).subschemeι ⁻¹ᵁ W.1) :=
       W.2.preimage (zeroScheme X M a).subschemeι
     have hyV : y ∈ (zeroScheme X M a).subschemeι ⁻¹ᵁ W.1 := by
-      show (zeroScheme X M a).subschemeι.base y ∈ W.1
+      change (zeroScheme X M a).subschemeι.base y ∈ W.1
       rwa [hy]
     obtain ⟨k, hyk, -, ⟨e⟩⟩ := AlgebraicGeometry.exists_basicOpen_linearEquiv
       ((Scheme.Modules.pullback (zeroScheme X M a).subschemeι).obj N)

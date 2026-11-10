@@ -49,7 +49,7 @@ theorem archimedean_of_isAlgebraic_rat (F : Type u) [Field F] [LinearOrder F]
     [IsStrictOrderedRing F] [Algebra ℚ F] [Algebra.IsAlgebraic ℚ F] : Archimedean F := by
   let v := (ArchimedeanClass.addValuation F).toValuation
   let q : ℚ →+* v.integer := (algebraMap ℚ F).codRestrict v.integer fun a => by
-    show 0 ≤ ArchimedeanClass.mk (algebraMap ℚ F a)
+    change 0 ≤ ArchimedeanClass.mk (algebraMap ℚ F a)
     simpa using ArchimedeanClass.mk_ratCast_nonneg (R := F) a
   let : Algebra ℚ v.integer := q.toAlgebra
   have : IsScalarTower ℚ v.integer F := .of_algebraMap_eq fun _ => rfl
@@ -82,7 +82,7 @@ unity. -/
 theorem primitiveRoot_of_prime_finrank [FiniteDimensional F E] [IsAlgClosed E] [CharZero E]
     {p : ℕ} (hp : p.Prime) (hd : finrank F E = p) : (primitiveRoots p F).Nonempty := by
   have : NeZero p := ⟨hp.ne_zero⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot E p
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot E p
   have hi : IsIntegral F ζ := IsIntegral.of_finite F ζ
   have hdvd : (minpoly F ζ).natDegree ∣ p := hd ▸ minpoly.degree_dvd hi
   have hbound : (minpoly F ζ).natDegree < p := by
@@ -205,7 +205,7 @@ theorem isSquare_add_sq_of_finrank_two [FiniteDimensional F E] [IsAlgClosed E] [
     rw [hm.irreducible_iff_roots_eq_zero_of_degree_le_three (by omega) (by omega),
       roots_eq_zero_iff_isRoot_eq_bot hm.ne_zero]
     ext x
-    show f.IsRoot x ↔ False
+    change f.IsRoot x ↔ False
     rw [iff_false]
     intro hx
     have hx' : (x - a) ^ 2 + b ^ 2 = 0 := by simpa [hfdef, IsRoot.def] using hx
@@ -245,7 +245,7 @@ theorem nonempty_linearOrder_of_finrank_two [FiniteDimensional F E] [IsAlgClosed
         by_contra h
         exact hno (by simpa [h] using hna.div ha) }
   have : HasMemOrNegMem C := ⟨fun x => by
-    show IsSquare x ∨ IsSquare (-x)
+    change IsSquare x ∨ IsSquare (-x)
     exact (em (IsSquare x)).imp_right (isSquare_neg_of_not_isSquare_of_finrank_two F E hd x)⟩
   let : LinearOrder F := .mkOfAddGroupCone C
   have : IsOrderedRing F := .mkOfCone C

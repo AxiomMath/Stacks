@@ -41,7 +41,7 @@ variable (S : GlobalCrystallineSituation.{u}) (A : Type u) [CommRing A]
   (Dr : DividedPowerRing.{u}) (g : A →+* Dr) (Om : ℕ → Type u) [∀ i, AddCommGroup (Om i)]
   [∀ i, Module (Dr : Type u) (Om i)] [Module (Dr : Type u)ᵐᵒᵖ (Om 1)]
   [IsCentralScalar (Dr : Type u) (Om 1)] (der : DividedPowerDerivation A Dr g (Om 1)) (p : ℕ)
-  {ι : Type uI} [Fintype ι] (dx : ι → Om 1)
+  {ι : Type uI} [Finite ι] (dx : ι → Om 1)
   (wedge : ∀ i, Om i →ₗ[(Dr : Type u)] Om 1 →ₗ[(Dr : Type u)] Om (i + 1))
   (deRham : ∀ i, Om i →+ Om (i + 1))
   (hleib : CompletedDeRham.IsGradedLeibniz Dr Om wedge deRham

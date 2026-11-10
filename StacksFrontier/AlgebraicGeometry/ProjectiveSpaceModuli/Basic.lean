@@ -76,7 +76,7 @@ theorem nvOpen_pullbackCoordSection {X : Scheme.{u}} {n : ℕ}
   have hsec : pullbackCoordSection.{u} g i =
       Stacks.NonvanishingPullback.pullbackGlobalSection g (twistingSheafAtUniverse.{u} n)
         (coordGlobalSection.{u} n i) := by
-    show ((Scheme.Modules.pullback g).obj (twistingSheafAtUniverse.{u} n)).presheaf.map
+    change ((Scheme.Modules.pullback g).obj (twistingSheafAtUniverse.{u} n)).presheaf.map
         (eqToHom (show g ⁻¹ᵁ (⊤ : (projectiveSpaceAtUniverse.{u} n).Opens) = ⊤ from rfl)).op
         (Stacks.NonvanishingPullback.pullbackGlobalSection g (twistingSheafAtUniverse.{u} n)
           (coordGlobalSection.{u} n i)) = _
@@ -329,7 +329,7 @@ private theorem nvCover_eq {X : Scheme.{u}} {n : ℕ} {M N : X.Modules}
     (hβ : ∀ i, Scheme.Modules.Hom.app β.hom ⊤ (s i) = tt i) (i : Fin (n + 1)) :
     nvCover tt i = nvCover s i := by
   refine TopologicalSpace.Opens.ext (Set.ext fun x => ?_)
-  show x ∈ Stacks.Ample.nonvanishingLocus N (tt i) ↔
+  change x ∈ Stacks.Ample.nonvanishingLocus N (tt i) ↔
     x ∈ Stacks.Ample.nonvanishingLocus M (s i)
   rw [← hβ i, Stacks.Ample.nonvanishingLocus_congr β (s i)]
 

@@ -73,7 +73,7 @@ theorem restrictFunctorIsoPullback_hom_app_app (M : X.Modules) (W : U.toScheme.O
         (Scheme.Modules.pullbackPushforwardAdjunction U.ι) M)) x
   have hge := (U.ι.preimage_image_eq W).ge
   have h3 : (M.restrict U.ι).presheaf.map (homOfLE hge).op z = x := by
-    show M.presheaf.map (homOfLE (U.ι.image_mono hge)).op
+    change M.presheaf.map (homOfLE (U.ι.image_mono hge)).op
       (M.presheaf.map (homOfLE (U.ι.image_preimage_le O)).op x) = x
     rw [← ConcreteCategory.comp_apply, ← Functor.map_comp,
       Subsingleton.elim ((homOfLE (U.ι.image_preimage_le O)).op ≫
@@ -99,7 +99,7 @@ theorem restrictFormsIso_hom_app (n : ℤ) (W : U.toScheme.Opens)
     Scheme.Modules.Hom.app (restrictFormsIso U a a' t hcomm hiso n).hom W x =
       (relativeDifferentialForms a' n).presheaf.map (homOfLE (U.ι.preimage_image_eq W).ge).op
         (relativeDifferentialFormsPullback U.ι a a' t hcomm n (U.ι ''ᵁ W) x) := by
-  show Scheme.Modules.Hom.app (relativeDifferentialFormsMap U.ι a a' t hcomm n) W
+  change Scheme.Modules.Hom.app (relativeDifferentialFormsMap U.ι a a' t hcomm n) W
       (Scheme.Modules.Hom.app ((Scheme.Modules.restrictFunctorIsoPullback U.ι).hom.app _) W x) = _
   rw [restrictFunctorIsoPullback_hom_app_app]
   exact modules_hom_app_presheaf_map _ (U.ι.preimage_image_eq W).ge _

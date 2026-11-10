@@ -305,7 +305,7 @@ private lemma presheafPullbackForgetIso_hom_app_leftKanExtensionUnit
   let κ := (presheafPullbackForgetIso E).hom.app X.toSheafedSpace.sheaf.obj
   let xR := ConcreteCategory.hom
     ((G.op.leftKanExtensionUnit X.toSheafedSpace.sheaf.obj).app (op W)) s
-  show (ConcreteCategory.hom (κ.app (op V))) xR = _
+  change (ConcreteCategory.hom (κ.app (op V))) xR = _
   let : G.op.HasLeftKanExtension
       (X.toSheafedSpace.sheaf.obj ⋙ forget CommRingCat) :=
     Functor.HasLeftKanExtension.mk _
@@ -444,13 +444,13 @@ private lemma pullbackSheafForgetIso_hom_unit (X : Scheme.{u}) (E : Set X) (W : 
       TopCat.Sheaf.pullbackPushforwardAdjunction,
       Functor.sheafAdjunctionContinuous,
       Functor.sheafPullbackConstruction.sheafAdjunctionContinuous]
-    show (ConcreteCategory.hom
+    change (ConcreteCategory.hom
         (((adj₁.leftAdjointUniq adj₂).hom.app X.toSheafedSpace.sheaf).hom.app (op V)))
         ((ConcreteCategory.hom ((adj₁.unit.app X.toSheafedSpace.sheaf).hom.app
           (op W))) s) = _
     exact hRunitVal
   dsimp [adj₁, adj₂] at hFunit
-  show f4.hom.hom.app (op V)
+  change f4.hom.hom.app (op V)
       (f3.hom.hom.app (op V)
         (f2.hom.hom.app (op V)
           (f1.hom.hom.app (op V)
@@ -565,7 +565,7 @@ private lemma pullbackSheafForgetIso_hom_stageToSubset (X : Scheme.{u}) {I : Typ
           ((sectionsRingDiagram_obj_forget X U i) ▸ s) := by
   let hS := pullbackSheafForgetIso X E
   have hSub := sectionsOnSubset_eq X E
-  show hS.hom.hom.app (op ⊤)
+  change hS.hom.hom.app (op ⊤)
       ((forget CommRingCat).map (Scheme.stageToSubset X U E hE' i) s) =
     hSub ▸ stageToSubset (structureSheafToTypes X) U E hE' i
       ((sectionsRingDiagram_obj_forget X U i) ▸ s)
@@ -629,12 +629,12 @@ theorem colimit_sectionsRing_iso_sectionsRingOnSubset (X : Scheme.{u})
     left_inv := by
       intro x
       have hh := congrArg (fun f ↦ f.hom.app (op ⊤)) hS.hom_inv_id
-      show hS.inv.hom.app (op ⊤) (hS.hom.hom.app (op ⊤) x) = x
+      change hS.inv.hom.app (op ⊤) (hS.hom.hom.app (op ⊤) x) = x
       exact congrArg (fun f ↦ f x) hh
     right_inv := by
       intro x
       have hh := congrArg (fun f ↦ f.hom.app (op ⊤)) hS.inv_hom_id
-      show hS.hom.hom.app (op ⊤) (hS.inv.hom.app (op ⊤) x) = x
+      change hS.hom.hom.app (op ⊤) (hS.inv.hom.app (op ⊤) x) = x
       exact congrArg (fun f ↦ f x) hh
   }
   have hStage := pullbackSheafForgetIso_hom_stageToSubset X U E hE'
@@ -662,7 +662,7 @@ theorem colimit_sectionsRing_iso_sectionsRingOnSubset (X : Scheme.{u})
     have hci := hCol.comp_coconePointUniqueUpToIso_hom hcType i
     ext s
     dsimp [Functor.mapCocone]
-    show hStIso.hom
+    change hStIso.hom
       ((forget CommRingCat).map g
         ((forget CommRingCat).map (colimit.ι (Scheme.sectionsRingDiagram X U) i) s)) =
       eCol.hom ((forget CommRingCat).map (colimit.ι (Scheme.sectionsRingDiagram X U) i) s)
@@ -674,10 +674,10 @@ theorem colimit_sectionsRing_iso_sectionsRingOnSubset (X : Scheme.{u})
       _ = cType.ι.app i s := by
         cases hSub
         dsimp [c]
-        show (ConcreteCategory.hom (hS.hom.hom.app (op ⊤)))
+        change (ConcreteCategory.hom (hS.hom.hom.app (op ⊤)))
           ((ConcreteCategory.hom ((forget CommRingCat).map (c.ι.app i))) s) = _
         rw [hStage]
-        show stageToSubset (structureSheafToTypes X) U E hE' i s =
+        change stageToSubset (structureSheafToTypes X) U E hE' i s =
           eAPH ((colimit.ι dAPH i) s)
         exact (heAPH i s).symm
       _ = eCol.hom ((forget CommRingCat).map
@@ -754,12 +754,12 @@ theorem spec_sectionsRingOnSubset_iso_limit (X : Scheme.{u})
             Scheme.Spec.map (limit.π d.op (op i)) := by
     convert hstep2 using 1
     exact Category.assoc _ _ _
-  show (Spec.map e.op.hom.unop ≫
+  change (Spec.map e.op.hom.unop ≫
     Spec.map (limitOpIsoOpColimit d).inv.unop ≫
       (preservesLimitIso Scheme.Spec d.op).hom) ≫
         limit.π (d.op ⋙ Scheme.Spec) (op i) = _
   rw [hgoal2]
-  show Scheme.Spec.map e.op.hom ≫
+  change Scheme.Spec.map e.op.hom ≫
     Scheme.Spec.map (limitOpIsoOpColimit d).inv ≫
       Scheme.Spec.map (limit.π d.op (op i)) = _
   rw [← Scheme.Spec.map_comp, limitOpIsoOpColimit_inv_comp_π, ← Scheme.Spec.map_comp]

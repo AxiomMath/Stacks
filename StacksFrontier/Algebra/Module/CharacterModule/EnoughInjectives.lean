@@ -257,7 +257,7 @@ theorem moduleCat_hasFunctorialInjectiveEmbeddings :
         IsFunctorialInjectiveEmbeddings₃ (ModuleCat.{max u v} R) (jModuleArrowFunctor R) := by
   refine ⟨rfl, ?_, ?_⟩
   · intro M
-    show Mono (ModuleCat.ofHom (jModuleEmbedding R M))
+    change Mono (ModuleCat.ofHom (jModuleEmbedding R M))
     rw [ModuleCat.mono_iff_injective]
     exact jModuleEmbedding_injective R M
   · intro M

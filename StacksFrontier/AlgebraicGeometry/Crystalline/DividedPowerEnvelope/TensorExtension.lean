@@ -96,7 +96,7 @@ private lemma kernel_rTensor_injective [Algebra B B'] {P : Type u} [CommRing P]
         obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective x
         obtain ⟨y, rfl⟩ := Ideal.Quotient.mk_surjective y
         apply Ideal.Quotient.eq.mpr
-        show x - y ∈ RingHom.ker φ.toRingHom
+        change x - y ∈ RingHom.ker φ.toRingHom
         change φ.toRingHom x = φ.toRingHom y at hxy
         apply RingHom.mem_ker.mpr
         rw [map_sub, hxy, sub_self]
@@ -228,20 +228,20 @@ private lemma kernelQuotient_exact (hφ : Function.Surjective φ) :
     rw [← hmapPI] at hφp
     obtain ⟨pI, hpI, heq⟩ := hφp
     let k : (RingHom.ker φ.toRingHom).restrictScalars B := ⟨p - pI, by
-      show φ (p - pI) = 0
+      change φ (p - pI) = 0
       change φ pI = φ p at heq
       rw [map_sub, heq, sub_self]⟩
     refine ⟨Submodule.Quotient.mk k, ?_⟩
-    show (Submodule.Quotient.mk (k : P) : P ⧸ presentationSmul (P := P) I) =
+    change (Submodule.Quotient.mk (k : P) : P ⧸ presentationSmul (P := P) I) =
       Submodule.Quotient.mk p
     apply (Submodule.Quotient.eq (presentationSmul (P := P) I)).mpr
-    show (p - pI) - p ∈ presentationSmul (P := P) I
+    change (p - pI) - p ∈ presentationSmul (P := P) I
     convert (presentationSmul (P := P) I).neg_mem hpI using 1; abel
   · intro z hz
     obtain ⟨k, rfl⟩ := hz
     obtain ⟨k, rfl⟩ := Submodule.Quotient.mk_surjective (kernelSmul (P := P) I φ) k
-    show (presentationQuotientMap I φ) ((kernelQuotientIncl I φ) (Submodule.Quotient.mk k)) = 0
-    show (Submodule.Quotient.mk (φ (k : P)) : B' ⧸ targetSmul (B' := B') I) = 0
+    change (presentationQuotientMap I φ) ((kernelQuotientIncl I φ) (Submodule.Quotient.mk k)) = 0
+    change (Submodule.Quotient.mk (φ (k : P)) : B' ⧸ targetSmul (B' := B') I) = 0
     have hk : φ (k : P) = 0 := RingHom.mem_ker.mp k.property
     rw [hk]
     rfl
@@ -269,7 +269,7 @@ private lemma tensorQuotEquiv_tmul (M : Type u) [AddCommGroup M] [Module B M]
   simp only [tensorQuotEquiv, LinearEquiv.trans_apply,
     TensorProduct.AlgebraTensorModule.cancelBaseChange_symm_tmul,
     LinearEquiv.lTensor_tmul]
-  show n ⊗ₜ[B ⧸ I] ((TensorProduct.quotTensorEquivQuotSMul _ I)
+  change n ⊗ₜ[B ⧸ I] ((TensorProduct.quotTensorEquivQuotSMul _ I)
       (1 ⊗ₜ[B] m)) = _
   rw [show (1 : B ⧸ I) = Ideal.Quotient.mk I 1 from rfl,
     TensorProduct.quotTensorEquivQuotSMul_mk_tmul, one_smul]
@@ -300,8 +300,7 @@ private lemma presentationKernel_tensor_injective
           ((LinearMap.lTensor N (presentationKernelIncl φ)) t) =
         (LinearMap.lTensor N (kernelQuotientIncl I φ)) (tensorQuotEquiv I _ N t) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction t using TensorProduct.inductionOn with
     | add a b ha hb => simp only [map_add, ha, hb]
     | tmul n k =>
       simp only [LinearMap.lTensor_tmul, tensorQuotEquiv_tmul]
@@ -384,12 +383,12 @@ private lemma baseIdeal_smul_envelope_module_quotient_eq_bot
   obtain ⟨d, rfl⟩ :=
     Submodule.Quotient.mk_surjective
       (D.object.ideal.restrictScalars B : Submodule B D.object) q
-  show a • (Submodule.Quotient.mk d :
+  change a • (Submodule.Quotient.mk d :
     D.object ⧸ D.object.ideal.restrictScalars B) = 0
   rw [← Submodule.Quotient.mk_smul]
   apply (Submodule.Quotient.mk_eq_zero
     (D.object.ideal.restrictScalars B : Submodule B D.object)).mpr
-  show a • d ∈ D.object.ideal
+  change a • d ∈ D.object.ideal
   rw [Algebra.smul_def]
   exact D.object.ideal.mul_mem_right d
     (D.algebraMap.ideal_comp (Ideal.mem_map_of_mem D.algebraMap.toRingHom
@@ -446,8 +445,7 @@ private lemma tensor_ideal_range_le_prod {R Y : Type u} {X : Type max u v} [Comm
         (K.map (Algebra.TensorProduct.includeRight : Y →ₐ[R] X ⊗[R] Y))).restrictScalars R := by
   intro z hz
   obtain ⟨t, rfl⟩ := hz
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add t s ht hs => simpa only [map_add] using add_mem ht hs
   | tmul x y =>
     simp only [LinearMap.comp_apply, LinearMap.rTensor_tmul,
@@ -459,7 +457,7 @@ private lemma tensor_ideal_range_le_prod {R Y : Type u} {X : Type max u v} [Comm
         K.map (Algebra.TensorProduct.includeRight : Y →ₐ[R] X ⊗[R] Y) :=
       Ideal.mem_map_of_mem _ y.property
     have hprod := Ideal.mul_mem_mul hx hy
-    show (x : X) ⊗ₜ[R] (y : Y) ∈
+    change (x : X) ⊗ₜ[R] (y : Y) ∈
       (I.map (Algebra.TensorProduct.includeLeftRingHom : X →+* X ⊗[R] Y)) •
         (K.map (Algebra.TensorProduct.includeRight : Y →ₐ[R] X ⊗[R] Y))
     rw [Ideal.smul_eq_mul]
@@ -616,7 +614,7 @@ private lemma envelope_tensor_extends [Algebra B B']
   have hcomp : algebraMap B B' =
       (algebraMap P B').comp (algebraMap B P) := by
     ext b
-    show algebraMap B B' b = φ (MvPolynomial.C b)
+    change algebraMap B B' b = φ (MvPolynomial.C b)
     exact (MvPolynomial.aeval_C id b).symm
   let : IsScalarTower B P B' := IsScalarTower.of_algebraMap_eq' hcomp
   exact envelope_tensor_extends_of_free_presentation f J hJ D hflat hTor φ hφ

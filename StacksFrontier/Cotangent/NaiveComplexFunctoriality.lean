@@ -93,19 +93,19 @@ def naiveComplexMapComponent (i : ℤ) : (naiveComplex P).X i ⟶ (naiveComplex 
 /-- In degree `-1` the component of the induced map is `naiveComplexMapNegOne`. -/
 theorem naiveComplexMapComponent_negOne :
     naiveComplexMapComponent θ (-1) = naiveComplexMapNegOne θ := by
-  rw [naiveComplexMapComponent, dif_pos rfl, eqToHom_refl, eqToHom_refl, Category.id_comp,
+  rw [naiveComplexMapComponent, dite_eq_left rfl, eqToHom_refl, eqToHom_refl, Category.id_comp,
     Category.comp_id]
 
 /-- In degree `0` the component of the induced map is `naiveComplexMapZero`. -/
 theorem naiveComplexMapComponent_zero :
     naiveComplexMapComponent θ 0 = naiveComplexMapZero θ := by
-  rw [naiveComplexMapComponent, dif_neg (by decide), dif_pos rfl, eqToHom_refl, eqToHom_refl,
-    Category.id_comp, Category.comp_id]
+  rw [naiveComplexMapComponent, dite_eq_right (by decide), dite_eq_left rfl, eqToHom_refl,
+    eqToHom_refl, Category.id_comp, Category.comp_id]
 
 /-- In cohomological degrees other than `-1` and `0`, the component of the induced map is zero. -/
 theorem naiveComplexMapComponent_eq_zero (i : ℤ) (h : i ≠ -1) (h' : i ≠ 0) :
     naiveComplexMapComponent θ i = 0 := by
-  rw [naiveComplexMapComponent, dif_neg h, dif_neg h']
+  rw [naiveComplexMapComponent, dite_eq_right h, dite_eq_right h']
 
 /-- **The map of naive cotangent complexes induced by a morphism of extensions.** -/
 def naiveComplexMap : naiveComplex P ⟶ naiveComplex P' where

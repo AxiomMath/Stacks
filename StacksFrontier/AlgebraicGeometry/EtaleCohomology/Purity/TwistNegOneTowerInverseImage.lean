@@ -81,7 +81,7 @@ theorem etaleModuleForgetAb_map_rootsOfUnityModuleInverseImageIso_hom {X Y : Sch
         rootsOfUnityInverseImageComparison.{u, 0} π N := by
   rw [rootsOfUnityModuleInverseImageIso, Functor.FullyFaithful.preimageIso_hom,
     Functor.FullyFaithful.map_preimage]
-  show _ ≫ (etaleAbelianInverseImage.{u, 0} π).map (𝟙 _) ≫ _ ≫ 𝟙 _ = _
+  change _ ≫ (etaleAbelianInverseImage.{u, 0} π).map (𝟙 _) ≫ _ ≫ 𝟙 _ = _
   rw [CategoryTheory.Functor.map_id, Category.id_comp]
   simp only [Iso.symm_hom, Iso.app_inv, rootsOfUnityInverseImageIso_hom]
   exact congrArg (_ ≫ ·) (Category.comp_id _)

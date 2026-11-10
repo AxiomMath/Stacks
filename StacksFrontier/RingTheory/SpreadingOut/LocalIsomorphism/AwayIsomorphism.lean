@@ -111,7 +111,7 @@ public theorem exists_algHom_comp_eq {R A B C : Type*} [CommRing R] [CommRing A]
   have key : ∀ a, L (π a) = g a := fun a =>
     RingHom.liftOfSurjective_comp_apply π.toRingHom hπ ⟨g.toRingHom, hle⟩ a
   refine ⟨{ L with commutes' := fun r => ?_ }, ?_⟩
-  · show L (algebraMap R B r) = algebraMap R C r
+  · change L (algebraMap R B r) = algebraMap R C r
     rw [← π.commutes r, key, g.commutes]
   · ext a; exact key a
 
@@ -215,7 +215,7 @@ public theorem exists_mem_algHom_localizationAway_of_finitePresentation {R : Typ
       (j := (f2.comp h : T1 →ₐ[T] Tm).toRingHom) (k := f1.toRingHom) (by ext x; simp)
   ext x
   obtain ⟨a, rfl⟩ := hπ x
-  show (f2.restrictScalars R) (ψ (π a)) = φ (π a)
+  change (f2.restrictScalars R) (ψ (π a)) = φ (π a)
   rw [AlgHom.restrictScalars_apply,
     show ψ (π a) = ψP a from by
       rw [← hψ]; rfl,
@@ -299,7 +299,7 @@ public theorem exists_notMem_algEquiv_localizationAway_of_isLocalization_atPrime
   let algBfA' : Algebra Bf A' := (Localization.awayMap (algebraMap B A) f₀).toAlgebra
   have htower : IsScalarTower B Bf A' := by
     refine IsScalarTower.of_algebraMap_eq fun x => ?_
-    show algebraMap B A' x = (Localization.awayMap (algebraMap B A) f₀) (algebraMap B Bf x)
+    change algebraMap B A' x = (Localization.awayMap (algebraMap B A) f₀) (algebraMap B Bf x)
     rw [IsScalarTower.algebraMap_apply B A A']
     exact (IsLocalization.map_eq _ _).symm
   have : Algebra.FinitePresentation Bf A' :=
@@ -344,7 +344,7 @@ public theorem exists_notMem_algEquiv_localizationAway_of_isLocalization_atPrime
   obtain ⟨a, hamem, hann⟩ :=
     exists_mem_mul_eq_zero_of_fg (Submonoid.map (algebraMap A A') Q.primeCompl) L hker fun x hx =>
       show algebraMap A' L x = 0 by
-        show τ x = 0
+        change τ x = 0
         rw [← hlσ' x, show σ' x = 0 from hx, map_zero]
   obtain ⟨s, hs, rfl⟩ := hamem
   set a : A' := algebraMap A A' s with hadef
@@ -374,7 +374,7 @@ public theorem exists_notMem_algEquiv_localizationAway_of_isLocalization_atPrime
     rw [IsScalarTower.algebraMap_apply B A' (Localization.Away a), hmapcomp,
       IsScalarTower.algebraMap_apply B Bf (Localization.Away (σ2 a))]
     congr 1
-    show σ' (algebraMap B A' x) = algebraMap B Bf x
+    change σ' (algebraMap B A' x) = algebraMap B Bf x
     exact σ'.commutes x
   let φ : Localization.Away a →ₐ[B] Localization.Away (σ2 a) :=
     { Localization.awayMap σ2.toRingHom a with commutes' := hcomm }
@@ -447,7 +447,7 @@ public theorem solution {R : Type u} [CommRing R] {S : Type v} [CommRing S] [Alg
     isLocalization_atPrime_map (Submonoid.powers g') T Sq' q' hdisj
   have : IsScalarTower S T Sq' := by
     refine IsScalarTower.of_algebraMap_eq fun x => ?_
-    show algebraMap S Sq' x = fT (ψ x)
+    change algebraMap S Sq' x = fT (ψ x)
     exact (congrArg (fun g : S →ₐ[R] Sq' => g x) hcomp).symm
   obtain ⟨f, hf, a, haQ, ⟨e1⟩⟩ :=
     exists_notMem_algEquiv_localizationAway_of_isLocalization_atPrime (B := S) (A := T) (L := Sq')
@@ -458,7 +458,7 @@ public theorem solution {R : Type u} [CommRing R] {S : Type v} [CommRing S] [Alg
     IsLocalization.algEquiv (Submonoid.powers r) (Localization.Away r) (Localization.Away a)
   refine ((e2.restrictScalars R).trans ?_).symm
   refine AlgEquiv.ofRingEquiv (f := e1.toRingEquiv) fun x => ?_
-  show e1 (algebraMap R (Localization.Away a) x) = algebraMap R (Localization.Away f) x
+  change e1 (algebraMap R (Localization.Away a) x) = algebraMap R (Localization.Away f) x
   rw [IsScalarTower.algebraMap_apply R S (Localization.Away a),
     IsScalarTower.algebraMap_apply R S (Localization.Away f), e1.commutes]
 

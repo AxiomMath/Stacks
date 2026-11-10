@@ -118,19 +118,19 @@ theorem deformationSpaceToBase_app_eq_chartIncl (W : X.affineOpens) (g : Γ(X, W
     ((deformationSpaceToBase I).app W.1).hom g =
       chartIncl I 0 W.1 (extReesOfMem I W 0 g (by simp)) := by
   refine (congrArg (fun q => q.hom g) (toBase_app (extReesSituation I) W.1)).trans ?_
-  show ((universalAlgebraMap (extReesSituation I)).right.app (op W.1)).hom
+  change ((universalAlgebraMap (extReesSituation I)).right.app (op W.1)).hom
     (((extReesAlgebraSheaf I).hom.hom.app (op W.1)).hom g) = _
   congr 1
   have hw := ConcreteCategory.congr_hom (NatTrans.congr_app (congrArg (fun φ => φ.hom)
     (Under.w (ungradedAlgebraSheafIsoGradedAlgebraSheaf X (extReesGradedAlgebra I)
       (extReesGradedAlgebra_mul_comm I)).hom)) (op W.1)) g
   refine hw.symm.trans ?_
-  show ((ungradedAlgebraSheafIsoGradedAlgebraSheaf X (extReesGradedAlgebra I)
+  change ((ungradedAlgebraSheafIsoGradedAlgebraSheaf X (extReesGradedAlgebra I)
       (extReesGradedAlgebra_mul_comm I)).hom.right.hom.app (op W.1)).hom
     ((ungradedCommUnit X (extReesGradedAlgebra I) (extReesGradedAlgebra_mul_comm I) W.1).hom
       ((extReesGradedAlgebra I).toPresheafGradedAlgebra.structureMap (op W.1) g)) = _
   congr 2
-  show (show X.ringCatSheaf.obj.obj (op W.1) from g) •
+  change (show X.ringCatSheaf.obj.obj (op W.1) from g) •
     (1 : (extReesGradedAlgebra I).toPresheafGradedAlgebra.Total (op W.1)) = _
   rw [Stacks.GradedAlgebra.one_eq_incl, ← Stacks.GradedAlgebra.incl_smul]
   congr 1

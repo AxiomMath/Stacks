@@ -72,7 +72,7 @@ lemma ringKrullDim_stalk_eq_dimensionFunction_sub_genericPoint
   set η := genericPoint T
   have hη : closure ({η} : Set T) = Set.univ := (genericPoint_spec T).def
   have hmax (z : IrreducibleCloseds T) : z ≤ closureSingleton η := by
-    show (z : Set T) ⊆ closure ({η} : Set T)
+    change (z : Set T) ⊆ closure ({η} : Set T)
     rw [hη]
     exact Set.subset_univ _
   have hcod := codim_closure_singleton_eq_delta_diff
@@ -92,7 +92,7 @@ lemma map_vanishingIdeal_closure_singleton {X Y : Scheme.{u}} (f : X ⟶ Y) (x :
   rw [Scheme.IdealSheafData.map_vanishingIdeal]
   congr 1
   apply Closeds.ext
-  show closure (f '' closure ({x} : Set X)) = closure ({f x} : Set Y)
+  change closure (f '' closure ({x} : Set X)) = closure ({f x} : Set Y)
   rw [closure_image_closure f.continuous, Set.image_singleton]
 
 /-- The point `x` is the generic point of the reduced closed subscheme supported on

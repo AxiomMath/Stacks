@@ -91,7 +91,7 @@ theorem isFlat_and_isLocallyOfFinitePresentation_strictTransform_of_etaleCover
   have hsq : IsPullback can.hom (pullback.fst f₂.hom b₂.hom) (pullback.fst f.hom b.hom) u.hom := by
     refine IsPullback.of_right ?_ (pullback.lift_fst _ _ _)
       (IsPullback.of_hasPullback f.hom b.hom).flip
-    show IsPullback (pullback.lift _ _ hw ≫ pullback.snd f.hom b.hom) _ _ _
+    change IsPullback (pullback.lift _ _ hw ≫ pullback.snd f.hom b.hom) _ _ _
     rw [pullback.lift_snd]
     exact hP2.flip
   have hcanE : IsEtale B S hS can.hom :=
@@ -120,7 +120,7 @@ theorem isFlat_and_isLocallyOfFinitePresentation_strictTransform_of_etaleCover
     ((strictTransformSubfunctor B S hS f₂ b₂ E.1).ι ≫
       (strictTransformPullbackToBlowUp B S hS f₂ b₂).hom) at hlfp
   rw [heq] at hflat hlfp
-  show IsFlat B S hS (G.ι ≫ (strictTransformPullbackToBlowUp B S hS f b).hom) ∧
+  change IsFlat B S hS (G.ι ≫ (strictTransformPullbackToBlowUp B S hS f b).hom) ∧
     IsLocallyOfFinitePresentation B S hS
       (G.ι ≫ (strictTransformPullbackToBlowUp B S hS f b).hom)
   have hsqG := Subfunctor.isPullback_preimage can.hom G

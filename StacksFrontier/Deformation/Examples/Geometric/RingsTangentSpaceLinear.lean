@@ -116,7 +116,7 @@ public lemma conormalCokernelPush_smul (b : B) (c : M →ₗ[B] N) (y : extOneCo
 public lemma naiveCotangentExtOneMap_add (c d : M →ₗ[B] N) (x : naiveCotangentExtOne A B M) :
     naiveCotangentExtOneMap A B (c + d) x
       = naiveCotangentExtOneMap A B c x + naiveCotangentExtOneMap A B d x := by
-  show (extCokernelIso A B N).symm (conormalCokernelPush A B (c + d)
+  change (extCokernelIso A B N).symm (conormalCokernelPush A B (c + d)
       (extCokernelIso A B M x)) = _
   rw [conormalCokernelPush_add]
   exact map_add (extCokernelIso A B N).symm _ _
@@ -131,7 +131,7 @@ finite-dimensionality criterion for a tangent space consumes. -/
 public lemma naiveCotangentExtOneMap_smul (b : B) (c : M →ₗ[B] N)
     (x : naiveCotangentExtOne A B M) :
     naiveCotangentExtOneMap A B (b • c) x = b • naiveCotangentExtOneMap A B c x := by
-  show (extCokernelLinearIso A B N).symm (conormalCokernelPush A B (b • c)
+  change (extCokernelLinearIso A B N).symm (conormalCokernelPush A B (b • c)
       (extCokernelIso A B M x)) =
     b • (extCokernelLinearIso A B N).symm (conormalCokernelPush A B c (extCokernelIso A B M x))
   rw [conormalCokernelPush_smul, map_smul]
@@ -240,7 +240,7 @@ public lemma tensorRightMap_smul (a : k) (f : V →ₗ[k] V') :
   refine LinearMap.ext fun x => ?_
   induction x with
   | tmul p v =>
-      show p ⊗ₜ[k] (a • f v) = algebraMap k P a • (p ⊗ₜ[k] f v)
+      change p ⊗ₜ[k] (a • f v) = algebraMap k P a • (p ⊗ₜ[k] f v)
       rw [← TensorProduct.smul_tmul, Algebra.smul_def, ← smul_eq_mul,
         TensorProduct.smul_tmul']
   | add x y hx hy => simp [hx, hy]

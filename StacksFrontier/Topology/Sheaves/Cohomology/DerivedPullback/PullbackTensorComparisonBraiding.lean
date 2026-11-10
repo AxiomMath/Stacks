@@ -201,8 +201,10 @@ not exposed, so it cannot be finished by unfolding.  Everything below is written
 this definition pays for the identification **once**. -/
 def complexBraidingPair (Z : RingedSpace.{u, u})
     (K L : CochainComplex (AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.Modules Z) ℤ) :
-    (totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).obj (K, L) ⟶
-      (totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).obj (L, K) :=
+    (totalComplexPair
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).obj (K, L) ⟶
+      (totalComplexPair
+          (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)).obj (L, K) :=
   (β_ K L).hom
 
 /-- `Stacks.Cohomology.DerivedPullbackTensor.complexBraidingPair` is the Koszul symmetry. -/
@@ -258,12 +260,14 @@ def pullbackTensorModel
     (K L : CochainComplex (AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.Modules Y) ℤ) :
     (Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces.derivedPullback f).obj
         (DerivedCategory.Q.obj
-          ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L))) ⟶
+          ((totalComplexPair
+            (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L))) ⟶
       DerivedCategory.Q.obj
         ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf)).obj
           ((pullbackComplex f).obj K, (pullbackComplex f).obj L)) :=
   (derivedPullbackNatTrans f).app
-      ((totalComplexPair (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L)) ≫
+      ((totalComplexPair
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.sheaf)).obj (K, L)) ≫
     DerivedCategory.Q.map ((pullbackTensorComplexNatIso f).hom.app (K, L))
 
 /-- **The model identification of Tag 079U, with both comparisons of Tag 06YU at the pinned

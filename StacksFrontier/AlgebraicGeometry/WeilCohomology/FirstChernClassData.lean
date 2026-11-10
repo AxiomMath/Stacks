@@ -88,11 +88,10 @@ variable {F : Type*} [Field F] {L : Type*} [AddCommGroup L] [Module F L]
 /-- The coordinates in twist zero are the canonical identification `V(0) = V`. -/
 theorem tateTwistCoordinates_zero (c : L ≃ₗ[F] F) (x : tateTwist F L V 0) :
     tateTwistCoordinates c 0 x = tateTwistZero x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul v l =>
     rw [tateTwistCoordinates_tmul]
-    show _ = (TensorProduct.rid F V) (v ⊗ₜ (TensorPower.algebraMap₀ (R := F) (M := L)).symm l)
+    change _ = (TensorProduct.rid F V) (v ⊗ₜ (TensorPower.algebraMap₀ (R := F) (M := L)).symm l)
     rw [TensorProduct.rid_tmul]
     congr 1
     induction l using PiTensorProduct.induction_on with

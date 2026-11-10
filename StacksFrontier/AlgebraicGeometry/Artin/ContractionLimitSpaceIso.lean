@@ -38,6 +38,7 @@ namespace AlgebraicGeometry.Space
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_ContractionLimitSpaceIso :
@@ -82,7 +83,7 @@ theorem isIso_of_stage_section {I : Type u} [Category.{u} I] (E : I ⥤ BigFppfO
   let n₂ : M ⟶ E.obj k₁.left := n₁ ≫ pullback.fst (E.map k₁.hom) n₀
   -- the stage `k₃ = k₂ ≫ k₁`
   let k₃ : Over i := Over.mk (k₂.hom ≫ k₁.hom)
-  show IsIso (pullback.fst (yoneda.map (pullback.snd (E.map k₃.hom) n₀ ≫ n₀)) p)
+  change IsIso (pullback.fst (yoneda.map (pullback.snd (E.map k₃.hom) n₀ ≫ n₀)) p)
   have hτ : pullback.fst (E.map k₃.hom) n₀ ≫ E.map k₂.hom ≫ E.map k₁.hom =
       pullback.snd (E.map k₃.hom) n₀ ≫ n₀ := by
     rw [← Functor.map_comp]

@@ -138,7 +138,7 @@ theorem quasiIso_isInvertedBy_representedZariskiPullbackOnHomotopy :
     (representedZariskiModulePullbackRepresentedZariskiPullbackExact B S hS U)
     (ComplexShape.up ℤ)).hom.naturality f₀
   dsimp only [Functor.comp_map] at h₁
-  show IsIso (DerivedCategory.Qh.map
+  change IsIso (DerivedCategory.Qh.map
     (((representedZariskiModulePullbackRepresentedZariskiPullbackExact B S hS U).mapHomotopyCategory
       (ComplexShape.up ℤ)).map ((HomotopyCategory.quotient _ _).map f₀)))
   have h₂ : IsIso (DerivedCategory.Qh.map ((HomotopyCategory.quotient _ _).map

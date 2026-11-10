@@ -112,11 +112,11 @@ theorem natCard_lifts_eq_of_forall_fixed [Fintype κ] (Ω : Type u) [Field Ω] [
     set q := (liftsEquivFieldValuedPoints A j Ω).symm t
     rw [← (liftsEquivFieldValuedPoints A j Ω).apply_symm_apply t]
     refine Subtype.ext (pullback.hom_ext ?_ ?_)
-    · show (Spec.map _ ≫ pullback.lift q.1 _ _) ≫ pullback.fst A.hom j =
+    · change (Spec.map _ ≫ pullback.lift q.1 _ _) ≫ pullback.fst A.hom j =
         pullback.lift q.1 _ _ ≫ pullback.fst A.hom j
       rw [Category.assoc, pullback.lift_fst]
       exact hfix q
-    · show (Spec.map _ ≫ pullback.lift q.1 _ _) ≫ pullback.snd A.hom j =
+    · change (Spec.map _ ≫ pullback.lift q.1 _ _) ≫ pullback.snd A.hom j =
         pullback.lift q.1 _ _ ≫ pullback.snd A.hom j
       rw [Category.assoc, pullback.lift_snd, ← Spec.map_comp]
       congr 2

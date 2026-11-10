@@ -151,7 +151,7 @@ theorem exists_epi_isSumOfExtensionByZeroUnits [Small.{w} C] (M : SheafOfModules
       f.val.app (op (ev i).1) (ev i).2 = g.val.app (op (ev i).1) (ev i).2 := by
     have hh := congrArg (fun k => Sigma.ι
       (fun i : ι => extensionByZeroUnit R (U i)) i ≫ k) h
-    simp only [← Category.assoc, Sigma.ι_desc] at hh
+    simp only [← Category.assoc, Sigma.ι_comp_desc] at hh
     have he := congrArg
       (Stacks.Sites.ExtensionByZero.extensionByZeroUnitHomEquiv J R (U i) N) hh
     rwa [Stacks.Sites.ExtensionByZero.extensionByZeroUnitHomEquiv_naturality,

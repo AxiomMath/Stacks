@@ -282,7 +282,7 @@ theorem cechTermRestrict_comm (p : ℕ) (x : cechTerm g M p) :
     cechTermRestrict f M g e he (p + 1) (cechD g M p x) =
       cechD f M p (cechTermRestrict f M g e he p x) := by
   refine DirectSum.ext_component R fun T => ?_
-  show (cechTermRestrict f M g e he (p + 1) (cechD g M p x)) T =
+  change (cechTermRestrict f M g e he (p + 1) (cechD g M p x)) T =
     (cechD f M p (cechTermRestrict f M g e he p x)) T
   rw [cechTermRestrict_apply, cechD_component, map_sum, cechD_component]
   simp only [map_zsmul, cechTermRestrict_apply]

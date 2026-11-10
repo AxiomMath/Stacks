@@ -75,13 +75,13 @@ theorem surjective_algebraMap_univGrading_zero :
       have h2 : d.degree = 0 := by rw [Finsupp.degree_eq_weight_one]; exact h1
       exact ((Finsupp.degree_eq_zero_iff d).mp h2).symm
   refine ⟨a.coeff 0, Subtype.ext ?_⟩
-  show Ideal.Quotient.mk _ (algebraMap _ _ (a.coeff 0)) = Ideal.Quotient.mk _ a
+  change Ideal.Quotient.mk _ (algebraMap _ _ (a.coeff 0)) = Ideal.Quotient.mk _ a
   conv_rhs => rw [hC]
   rfl
 
 /-- **The universal family is proper.** -/
 instance isProper_univToBase : IsProper (univToBase.{u} n M m) := by
-  haveI : IsClosedImmersion (Spec.map (CommRingCat.ofHom
+  have : IsClosedImmersion (Spec.map (CommRingCat.ofHom
       (algebraMap (CoeffRing.{u} n M m) ↥(univGrading.{u} n M m 0)))) :=
     IsClosedImmersion.spec_of_surjective _ (surjective_algebraMap_univGrading_zero n M m)
   infer_instance

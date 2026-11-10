@@ -43,17 +43,18 @@ private noncomputable def sigmaOptionIso {ι : Type v} [Finite ι]
   hom_inv_id := by
     ext i
     cases i with
-    | none => simp only [← Category.assoc, Limits.Sigma.ι_desc, Limits.coprod.inl_desc,
+    | none => simp only [← Category.assoc, Limits.Sigma.ι_comp_desc, Limits.coprod.inl_desc,
         Category.comp_id]
     | some i =>
-      rw [Limits.Sigma.ι_desc_assoc, Category.assoc, Limits.coprod.inr_desc,
-        Limits.Sigma.ι_desc, Category.comp_id]
+      rw [Limits.Sigma.ι_comp_desc_assoc, Category.assoc, Limits.coprod.inr_desc,
+        Limits.Sigma.ι_comp_desc, Category.comp_id]
   inv_hom_id := by
     apply Limits.coprod.hom_ext
-    · simp only [← Category.assoc, Limits.coprod.inl_desc, Limits.Sigma.ι_desc, Category.comp_id]
+    · simp only [← Category.assoc, Limits.coprod.inl_desc, Limits.Sigma.ι_comp_desc,
+        Category.comp_id]
     · simp only [← Category.assoc, Limits.coprod.inr_desc]
       ext i
-      simp only [← Category.assoc, Limits.Sigma.ι_desc, Category.comp_id]
+      simp only [← Category.assoc, Limits.Sigma.ι_comp_desc, Category.comp_id]
 
 /-- A morphism from a finite coproduct of schemes is finite when its restriction to every
 component is finite. -/
@@ -76,7 +77,7 @@ instance isFinite_sigmaDesc {ι : Type v} [Finite ι]
       have hf' := ih hι (Y := Y ∘ e) (f := fun i ↦ f (e i))
       have heq : E.inv ≫ Limits.Sigma.desc (fun i ↦ f (e i)) = Limits.Sigma.desc f := by
         ext i
-        rw [← e.apply_symm_apply i, Limits.Sigma.ι_reindex_inv_assoc, Limits.Sigma.ι_desc]
+        rw [← e.apply_symm_apply i, Limits.Sigma.ι_reindex_inv_assoc, Limits.Sigma.ι_comp_desc]
         simp
       rw [← heq]
       infer_instance
@@ -93,12 +94,12 @@ instance isFinite_sigmaDesc {ι : Type v} [Finite ι]
           Limits.Sigma.desc f := by
         ext i
         cases i with
-        | none => simp only [← Category.assoc, sigmaOptionIso, Limits.Sigma.ι_desc,
+        | none => simp only [← Category.assoc, sigmaOptionIso, Limits.Sigma.ι_comp_desc,
             Limits.coprod.inl_desc]
         | some i =>
           dsimp only [sigmaOptionIso]
-          rw [← Category.assoc, Limits.Sigma.ι_desc, Category.assoc, Limits.coprod.inr_desc,
-            Limits.Sigma.ι_desc, Limits.Sigma.ι_desc]
+          rw [← Category.assoc, Limits.Sigma.ι_comp_desc, Category.assoc, Limits.coprod.inr_desc,
+            Limits.Sigma.ι_comp_desc, Limits.Sigma.ι_comp_desc]
       rw [← heq]
       infer_instance
   exact fun _ _ _ _ ↦ hp inferInstance

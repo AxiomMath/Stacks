@@ -83,8 +83,8 @@ hypothesis is not used by them.
 
 ## Universe situation
 
-A single universe `u`, as in the tagged statement: `Scheme.{u}` and `SheafOfModules.{u}`. This is forced
-by `RingedSpaceModuleAdjunction`, whose module pullback exists only for `RingedSpace.{u, u}`.
+A single universe `u`, as in the tagged statement: `Scheme.{u}` and `SheafOfModules.{u}`. This is
+forced by `RingedSpaceModuleAdjunction`, whose module pullback exists only for `RingedSpace.{u, u}`.
 
 ## What is not done
 

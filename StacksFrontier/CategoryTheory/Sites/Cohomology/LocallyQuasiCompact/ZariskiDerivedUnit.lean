@@ -175,7 +175,7 @@ theorem abelianDerivedComparisonAdjunction_unit_isIso
   have _ : IsIso adj.unit := abelianComparisonAdjunction_unit_isIso.{u, w, v} S X
   have hterm (P : CochainComplex C ℤ) : IsIso (adjC.unit.app P) := by
     have (i : ℤ) : IsIso ((adjC.unit.app P).f i) := by
-      show IsIso (adj.unit.app (P.X i))
+      change IsIso (adj.unit.app (P.X i))
       infer_instance
     exact HomologicalComplex.Hom.isIso_of_components _
   rw [NatTrans.isIso_iff_isIso_app]

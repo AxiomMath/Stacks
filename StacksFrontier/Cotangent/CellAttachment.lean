@@ -177,7 +177,7 @@ lemma cellMap_value (b : CellBoundary P d I) {Δ Δ' : SimplexCategory}
 lemma cellMap_id (b : CellBoundary P d I) (Δ : SimplexCategory) :
     cellMap b (𝟙 Δ) = AlgHom.id A _ := by
   classical
-  apply AlgHom.coe_ringHom_injective
+  apply AlgHom.toRingHom_injective
   apply MvPolynomial.ringHom_ext
   · intro r
     simp [cellMap_C]
@@ -188,7 +188,7 @@ lemma cellMap_id (b : CellBoundary P d I) (Δ : SimplexCategory) :
 lemma cellMap_comp (b : CellBoundary P d I) {Δ Δ' Δ'' : SimplexCategory}
     (f : Δ ⟶ Δ') (g : Δ' ⟶ Δ'') :
     cellMap b (f ≫ g) = (cellMap b f).comp (cellMap b g) := by
-  apply AlgHom.coe_ringHom_injective
+  apply AlgHom.toRingHom_injective
   apply MvPolynomial.ringHom_ext
   · intro r
     simp [cellMap_C]
@@ -291,7 +291,7 @@ noncomputable def cellDesc (b : CellBoundary P d I)
   app := cellDescApp b f t
   naturality Δ Δ' g := by
     apply CommAlgCat.hom_ext
-    apply AlgHom.coe_ringHom_injective
+    apply AlgHom.toRingHom_injective
     apply MvPolynomial.ringHom_ext
     · intro r
       change cellDescApp b f t Δ' (cellMap b g.unop (MvPolynomial.C r)) =

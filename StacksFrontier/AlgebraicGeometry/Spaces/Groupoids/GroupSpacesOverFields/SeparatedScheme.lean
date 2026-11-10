@@ -82,7 +82,7 @@ theorem exists_section_of_isAlgebraicResidue (Ω : Type u) [Field Ω] [Algebra K
   have hK' : CommRingCat.ofHom (algebraMap K Ω) ≫ ψ₀ = CommRingCat.ofHom (algebraMap K Ω) := by
     apply Spec.map_injective
     rw [Spec.map_comp, hψ₀]
-    show (σ ≫ t) ≫ _ = _
+    change (σ ≫ t) ≫ _ = _
     rw [Category.assoc, ← hst, ← Category.assoc, hσ, Category.id_comp]
   let ψ : Ω →ₐ[K] Ω := ⟨ψ₀.hom, fun c => congrArg (fun g => g.hom c) hK'⟩
   have : IsIso ψ₀ := (ConcreteCategory.isIso_iff_bijective ψ₀).2
@@ -134,7 +134,7 @@ theorem isRepresentable_of_relocalizeRestrict_algebraicClosure
       (BigFppfOver.toScheme C _ hK).map Y.hom ≫ Spec.map (CommRingCat.ofHom (algebraMap K Ω)) := by
     have h := congrArg (fun g => g.hom) (Over.w Y.hom)
     simp only [EΩ] at h
-    show _ = Y.hom.left.hom ≫ _
+    change _ = Y.hom.left.hom ≫ _
     rw [← Category.comp_id (Spec.map _), ← Iso.refl_inv, ← Category.assoc, ← Category.assoc]
     exact h.symm
   obtain ⟨a, ha, hax⟩ := exists_section_of_isAlgebraicResidue K Ω _ W.hom.hom
@@ -167,13 +167,13 @@ theorem exists_mvRatFunc_contains_lt (k : Type u) [Field k] (hk : C.Contains (Sp
   have hcard : Cardinal.mk (MvRatFunc σ k) = κplus := by
     have h₁ : Cardinal.mk (MvRatFunc σ k) =
         max (max (Cardinal.mk k) (Cardinal.mk σ)) Cardinal.aleph0 := by
-      show Cardinal.mk (FractionRing (MvPolynomial σ k)) = _
+      change Cardinal.mk (FractionRing (MvPolynomial σ k)) = _
       rw [Cardinal.mk_fractionRing, MvPolynomial.cardinalMk_eq_max_lift]
       simp only [Cardinal.lift_id]
     rw [h₁, hσ, max_eq_right (hkbound.trans (Order.le_succ bound)),
       max_eq_left (hwbound.trans (Order.le_succ bound))]
   refine ⟨σ, ?_, ?_⟩
-  · show (Spec (CommRingCat.of (MvRatFunc σ k))).size < C.cutoff
+  · change (Spec (CommRingCat.of (MvRatFunc σ k))).size < C.cutoff
     rw [AlgebraicGeometry.Scheme.size_Spec, hcard]
     exact max_lt C.aleph0_lt_cutoff hsucclt
   · rw [hcard]
@@ -209,11 +209,11 @@ theorem exists_representation_algebraicClosure (k : Type u) [Field k]
   have hcomm : h ≫ specExtensionHom k L C hk hL =
       specExtensionHom K Ω C hK hΩ ≫ specExtensionHom k K C hk hK := by
     apply ObjectProperty.hom_ext
-    show Spec.map _ ≫ Spec.map _ = Spec.map _ ≫ Spec.map _
+    change Spec.map _ ≫ Spec.map _ = Spec.map _ ≫ Spec.map _
     rw [← Spec.map_comp, ← Spec.map_comp]
     congr 1
     ext c
-    show ι (algebraMap k L c) = algebraMap K Ω (algebraMap k K c)
+    change ι (algebraMap k L c) = algebraMap K Ω (algebraMap k K c)
     rw [ι.commutes, ← IsScalarTower.algebraMap_apply]
   let W : BigFppfOver C (Spec (.of Ω)) hΩ := (Over.pullback h).obj Y₀
   refine ⟨W, ⟨(Over.mapPullbackAdj h).compYonedaIso.app Y₀ ≪≫

@@ -58,7 +58,7 @@ theorem isOpenHilbertSubfunctor_supportedIn (X : Over S) (d : ℕ) (U : X.left.O
   intro T Z
   refine ⟨⟨(Z.notSupportedLocus U)ᶜ, (Z.isClosed_notSupportedLocus U).isOpen_compl⟩,
     fun T' g => ?_⟩
-  show (baseChange X g Z).SupportedIn U ↔ _
+  change (baseChange X g Z).SupportedIn U ↔ _
   rw [HilbertFamily.baseChange_supportedIn_iff]
   exact ⟨fun h _ ⟨t, ht⟩ => ht ▸ h t, fun h t => h ⟨t, rfl⟩⟩
 
@@ -92,11 +92,11 @@ theorem familyAmbientMap_familyBaseChangeMap {X Y : Over S} (i : X ⟶ Y) {T' T 
     familyAmbientMap i T' ≫ familyBaseChangeMap Y g =
       familyBaseChangeMap X g ≫ familyAmbientMap i T := by
   refine pullback.hom_ext ?_ ?_
-  · show _ ≫ _ ≫ familyProjection Y T = _ ≫ _ ≫ familyProjection Y T
+  · change _ ≫ _ ≫ familyProjection Y T = _ ≫ _ ≫ familyProjection Y T
     rw [familyBaseChangeMap_comp_familyProjection, familyAmbientMap_familyProjection,
       familyAmbientMap_familyProjection, ← Category.assoc,
       familyBaseChangeMap_comp_familyProjection]
-  · show _ ≫ _ ≫ ((Over.pullback T.hom).obj Y).hom = _ ≫ _ ≫ ((Over.pullback T.hom).obj Y).hom
+  · change _ ≫ _ ≫ ((Over.pullback T.hom).obj Y).hom = _ ≫ _ ≫ ((Over.pullback T.hom).obj Y).hom
     rw [familyAmbientMap_hom, (isPullback_familyBaseChangeMap Y g).w,
       familyAmbientMap_hom_assoc, (isPullback_familyBaseChangeMap X g).w]
 
@@ -261,7 +261,7 @@ def HilbertFamily.extendOpen [ClosedInAmbient X d U] {T : Over S}
 theorem HilbertFamily.extendOpen_supportedIn [ClosedInAmbient X d U] {T : Over S}
     (Z : HilbertFamily (restrictOver X U) T d) : Z.extendOpen.SupportedIn U := by
   intro z
-  show familyProjection X T ((Z.ideal.map _).subschemeι z) ∈ U
+  change familyProjection X T ((Z.ideal.map _).subschemeι z) ∈ U
   rw [← extendOpenLift_fac]
   exact familyProjection_familyAmbientMap_restrictOverι_mem _
 
@@ -275,7 +275,7 @@ theorem HilbertFamily.restrictOpen_extendOpen [ClosedInAmbient X d U] {T : Over 
     simpa using (IsPullback.of_vert_isIso (fst := Z.ideal.subschemeι) (snd := 𝟙 _)
       (f := 𝟙 _) (g := Z.ideal.subschemeι) ⟨by simp⟩).paste_horiz
       (IsKernelPair.id_of_mono j)
-  show (Z.ideal.map j).comap j = Z.ideal
+  change (Z.ideal.map j).comap j = Z.ideal
   rw [map_eq_ker, ← Scheme.IdealSheafData.ker_fst_of_isClosedImmersion,
     ← sq.isoPullback_inv_fst, Scheme.Hom.ker_comp_of_isIso, Scheme.IdealSheafData.ker_subschemeι]
 
@@ -284,7 +284,7 @@ theorem HilbertFamily.extendOpen_restrictOpen [ClosedInAmbient X d U] {T : Over 
     (Z : HilbertFamily X T d) (hZ : Z.SupportedIn U) : (Z.restrictOpen hZ).extendOpen = Z := by
   ext1
   have := isIso_pullback_snd_of_supportedIn (U := U) Z.ideal hZ
-  show (Z.ideal.comap _).map _ = Z.ideal
+  change (Z.ideal.comap _).map _ = Z.ideal
   rw [map_eq_ker, comap_subschemeι_comp, Scheme.Hom.ker_comp_of_isIso,
     Scheme.IdealSheafData.ker_subschemeι]
 

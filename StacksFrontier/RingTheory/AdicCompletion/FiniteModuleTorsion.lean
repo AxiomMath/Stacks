@@ -109,8 +109,7 @@ public lemma extendScalarsTensorEquiv_map
     (ModuleCat.extendScalars.{u, v, w} (algebraMap R S)).map ψ
         (extendScalarsTensorEquiv M x) =
       extendScalarsTensorEquiv N (LinearMap.baseChange S ψ.hom x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul s m =>
     rw [extendScalarsTensorEquiv_tmul, LinearMap.baseChange_tmul,
       extendScalarsTensorEquiv_tmul]
@@ -136,11 +135,11 @@ public theorem finite_restrictScalars_of_annihilated
   let : Module (S ⧸ J) M := hkill.module
   let : IsScalarTower S (S ⧸ J) M :=
     IsScalarTower.of_algebraMap_smul fun s m => by
-      show (Ideal.Quotient.mk J s) • m = s • m
+      change (Ideal.Quotient.mk J s) • m = s • m
       exact hkill.mk_smul s m
   let : IsScalarTower R (S ⧸ J) M :=
     IsScalarTower.of_algebraMap_smul fun r m => by
-      show (Ideal.Quotient.mk J (algebraMap R S r)) • m = r • m
+      change (Ideal.Quotient.mk J (algebraMap R S r)) • m = r • m
       rw [hkill.mk_smul]
       rfl
   let : Module.Finite (S ⧸ J) M := Module.Finite.of_restrictScalars_finite S (S ⧸ J) M
@@ -175,7 +174,7 @@ public theorem quotientMap_pow_surjective_of_flat
     intro x
     refine ⟨n + 1, Nat.succ_pos _, fun a ha => ?_⟩
     obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective x
-    show Ideal.Quotient.mk (I ^ n) (a * b) = 0
+    change Ideal.Quotient.mk (I ^ n) (a * b) = 0
     exact Ideal.Quotient.eq_zero_iff_mem.mpr
       ((I ^ n).mul_mem_right b (Ideal.pow_le_pow_right (Nat.le_succ n) ha))
   have hunit :=

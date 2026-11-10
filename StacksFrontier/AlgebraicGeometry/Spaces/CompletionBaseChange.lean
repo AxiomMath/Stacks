@@ -114,8 +114,9 @@ private theorem isAlgebraicSpace_yoneda_base :
 
 /-! ### The base change -/
 
-omit [IsLocalRing A] in
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out otherwise
+omit [IsLocalRing A] in
 /-- Pullbacks of presheaves on the big fppf site over `Spec A` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_CompletionBaseChange :
@@ -221,7 +222,7 @@ theorem hasEtaleLocalProperty_isLocallyNoetherian_completionSpace
     (pullback.snd f (completionBaseMap A B hA hAc)) hft ?_
   refine hasEtaleLocalProperty_of_representable B (Spec (.of A)) hA _ _
     (completionBase A B hA hAc) (Iso.refl _) ?_
-  show IsLocallyNoetherian
+  change IsLocallyNoetherian
     (Spec (CommRingCat.of (AdicCompletion (IsLocalRing.maximalIdeal A) A)))
   infer_instance
 

@@ -250,7 +250,7 @@ private lemma isQuasicoherent_of_exactFour {S : Scheme.{u}} [IsAffine S]
 private theorem opensRange_comp_preimage {X Y : Scheme.{u}} (j : Y ⟶ X)
     [IsOpenImmersion j] (W U : X.Opens) (hW : j.opensRange = W) (hUW : U ≤ W) :
     Set.range ((j ⁻¹ᵁ U).ι ≫ j).base = U := by
-  show (((j ⁻¹ᵁ U).ι ≫ j).opensRange : Set X) = U
+  change (((j ⁻¹ᵁ U).ι ≫ j).opensRange : Set X) = U
   rw [Scheme.Hom.opensRange_comp, Scheme.Opens.opensRange_ι,
     Scheme.Hom.image_preimage_eq_opensRange_inf, hW]
   exact inf_eq_right.mpr hUW
@@ -320,12 +320,12 @@ private theorem rightDerived_isQuasicoherent_sup_step
   let iCR := iC.toLRSHom.toShHom
   let fYR := fY.toLRSHom.toShHom
   have hcoverR : Set.range iAR.hom.base ∪ Set.range iBR.hom.base = Set.univ := by
-    show Set.range iA.base ∪ Set.range iB.base = Set.univ
+    change Set.range iA.base ∪ Set.range iB.base = Set.univ
     rw [Scheme.Opens.range_ι, Scheme.Opens.range_ι]
     simpa [iA, iB] using congrArg (fun T : Y.Opens => (T : Set Y)) hcover
   have hinterR : Set.range iCR.hom.base = Set.range iAR.hom.base ∩
       Set.range iBR.hom.base := by
-    show Set.range iC.base = Set.range iA.base ∩ Set.range iB.base
+    change Set.range iC.base = Set.range iA.base ∩ Set.range iB.base
     simpa [iA, iB, iC] using hintersection
   let : SheafedSpace.IsOpenImmersion iAR := by infer_instance
   let : SheafedSpace.IsOpenImmersion iBR := by infer_instance
@@ -346,7 +346,7 @@ private theorem rightDerived_isQuasicoherent_sup_step
     have hC : C = j ⁻¹ᵁ (U ⊓ V) := by
       ext y
       simp [A, B, C]
-    show Set.range (C.ι ≫ j).base = U ⊓ V
+    change Set.range (C.ι ≫ j).base = U ⊓ V
     rw [hC]
     exact opensRange_comp_preimage j (U ⊔ V) (U ⊓ V) (SetLike.coe_injective hRange)
       (inf_le_left.trans le_sup_left)
@@ -356,7 +356,7 @@ private theorem rightDerived_isQuasicoherent_sup_step
       ((Stacks.Cohomology.RelativeMayerVietoris.restrictedHigherDirectImage
         fYR i.toLRSHom.toShHom m).obj MY).IsQuasicoherent := by
     intro Z i _ P hP hr m hm
-    show (((Scheme.Modules.pushforward (i ≫ (j ≫ f))).rightDerived m).obj
+    change (((Scheme.Modules.pushforward (i ≫ (j ≫ f))).rightDerived m).obj
       ((Scheme.Modules.pullback i).obj MY)).IsQuasicoherent
     exact isQuasicoherent_of_iso _ _ (nestedOpenHigherDirectImageIso f j i M m).symm
       (hP (i ≫ j) hr m hm)
@@ -395,7 +395,7 @@ private theorem rightDerived_isQuasicoherent_sup_step
       (isQuasicoherent_biprodFunctor_obj FA FB MY hFA hFB) hFC
       (isQuasicoherent_biprodFunctor_obj GA GB MY hGA hGB) hGC
   rw [← hn'_add]
-  show (((Scheme.Modules.pushforward (j ≫ f)).rightDerived nNext).obj
+  change (((Scheme.Modules.pushforward (j ≫ f)).rightDerived nNext).obj
     ((Scheme.Modules.pullback j).obj M)).IsQuasicoherent
   exact hmiddle
 
@@ -431,7 +431,7 @@ private theorem rightDerived_isQuasicoherent_of_qcqs_affineTarget
         have : QuasiCompact j := by
           rw [quasiCompact_iff_forall_isAffineOpen]
           intro W hW
-          show IsCompact (j.base ⁻¹' (W : Set X))
+          change IsCompact (j.base ⁻¹' (W : Set X))
           apply j.isOpenEmbedding.isEmbedding.isCompact_iff.mpr
           rw [Set.image_preimage_eq_inter_range]
           simpa [Set.inter_comm] using
@@ -463,7 +463,7 @@ private theorem isQuasicoherent_higherDirectImage_of_nat {X S : Scheme.{u}} (f :
   AlgebraicGeometry.isQuasicoherent_of_restrict_isAffineOpen _ (fun U hU => by
     let FU := (Scheme.Modules.restrictFunctor (f ⁻¹ᵁ U).ι).obj F
     have hFU : FU.IsQuasicoherent := by
-      show ((Scheme.Modules.restrictFunctor (f ⁻¹ᵁ U).ι).obj F).IsQuasicoherent
+      change ((Scheme.Modules.restrictFunctor (f ⁻¹ᵁ U).ι).obj F).IsQuasicoherent
       infer_instance
     let : FU.IsQuasicoherent := hFU
     have hLocalNat :

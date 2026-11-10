@@ -72,8 +72,7 @@ lemma tensor_repr_map {R B C D ι : Type u}
     (b : Module.Basis ι R B) (h : C →ₐ[R] D) (x : C ⊗[R] B) (i : ι) :
     (b.baseChange D).repr (Algebra.TensorProduct.map h (AlgHom.id R B) x) i =
       h ((b.baseChange C).repr x i) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul c z => simp [Module.Basis.baseChange_repr_tmul]
   | add x y hx hy => simp [hx, hy]
 
@@ -164,7 +163,7 @@ private lemma exists_universal_tensor_hom_mk_le
     have hkJ : J ≤ RingHom.ker k.toRingHom := (descent C k).mpr (by
       rw [hk]
       intro p hp
-      show h (π p) = 0
+      change h (π p) = 0
       rw [show π p = 0 from hp, map_zero])
     let l : Q →ₐ[R] C := Ideal.Quotient.liftₐ J k hkJ
     refine ⟨l, ?_⟩
@@ -240,7 +239,7 @@ lemma relativeHom_isSheaf {S : Scheme.{u}} (Z X : Over S) :
       ((prod.functor.obj Z).op ⋙ yoneda.obj X) := by
   let J := Scheme.zariskiTopology.over S
   have : (prod.functor.obj Z).IsContinuous J J := by
-    show (Over.star Z ⋙ Over.forget Z).IsContinuous J J
+    change (Over.star Z ⋙ Over.forget Z).IsContinuous J J
     exact Functor.isContinuous_comp _ _ J (J.over Z) J
   apply Functor.op_comp_isSheaf_of_isSheaf _ J J
   exact (isSheaf_iff_isSheaf_of_type _ _).mpr
@@ -318,7 +317,7 @@ lemma specTensorHomEquiv_natural
     (A B Q C : CommAlgCat.{u} R) (e : A →ₐ[R] B ⊗[R] Q) (k : Q →ₐ[R] C) :
     specTensorHomEquiv R F A B C ((Algebra.TensorProduct.map (AlgHom.id R B) k).comp e) =
       prod.map (𝟙 _) (algSpecHomEquiv R F Q C k) ≫ specTensorHomEquiv R F A B Q e := by
-  show (specTensorIso R F B C).inv ≫ F.map
+  change (specTensorIso R F B C).inv ≫ F.map
     ((CommAlgCat.ofHom (Algebra.TensorProduct.map (AlgHom.id R B) k)).op ≫
       (CommAlgCat.ofHom e).op) = _
   rw [Functor.map_comp, ← Category.assoc, specTensorIso_natural, Category.assoc]
@@ -391,7 +390,7 @@ lemma relativeHom_representableBy_affine_mk_le
   let F : (CommAlgCat.{u} R)ᵒᵖ ⥤ Over S :=
     algSpec R ⋙ Over.map S.isoSpec.inv
   have hFaff (C : CommAlgCat.{u} R) : IsAffine (F.obj (op C)).left := by
-    show IsAffine (Spec (.of C))
+    change IsAffine (Spec (.of C))
     infer_instance
   have hFess (T : Over S) (hT : IsAffine T.left) :
       ∃ C : CommAlgCat.{u} R, Nonempty (F.obj (op C) ≅ T) := by

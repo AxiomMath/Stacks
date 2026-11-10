@@ -81,7 +81,7 @@ site. -/
 public abbrev etaleStalkSheafificationMap (P : (SmallEtale B S hS)ᵒᵖ ⥤ A) :
     etaleStalk B S hS s P ⟶
       etaleStalk B S hS s ((presheafToSheaf (SmallEtale.topology B S hS) A).obj P).obj :=
-  colim.map (Functor.whiskerLeft (CategoryOfElements.π (geometricPointFiber B S hS s)).op
+  colim.map (Functor.whiskerLeft (Functor.Elements.π (geometricPointFiber B S hS s)).op
     (toSheafify (SmallEtale.topology B S hS) P))
 
 /-- Sheafification does not change the stalk of a presheaf at a geometric point: the map it
@@ -120,10 +120,10 @@ omit [HasProducts.{u} A] in
 through the comparison of the two stalks. -/
 public lemma colimit_ι_comp_etaleStalkSheafificationMap (P : (SmallEtale B S hS)ᵒᵖ ⥤ A)
     (U : (geometricPointFiber B S hS s).Elementsᵒᵖ) :
-    colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ P) U ≫
+    colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ P) U ≫
         etaleStalkSheafificationMap B S hS s P =
       (toSheafify (SmallEtale.topology B S hS) P).app (op U.unop.1) ≫
-        colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+        colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
           ((presheafToSheaf (SmallEtale.topology B S hS) A).obj P).obj) U :=
   colimit.ι_map _ U
 

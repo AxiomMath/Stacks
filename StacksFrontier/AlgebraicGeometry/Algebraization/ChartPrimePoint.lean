@@ -97,7 +97,7 @@ def pointOfPrimeY (P : PrimeSpectrum S.A) (hIP : S.I ≤ P.asIdeal) : S.Y :=
 theorem Yι_base_pointOfPrimeY (P : PrimeSpectrum S.A) (hIP : S.I ≤ P.asIdeal) :
     S.Yι.base (pointOfPrimeY S P hIP) = P := by
   refine PrimeSpectrum.ext (R := S.A) ?_
-  show (P.asIdeal.map (Ideal.Quotient.mk S.I)).comap (Ideal.Quotient.mk S.I) = P.asIdeal
+  change (P.asIdeal.map (Ideal.Quotient.mk S.I)).comap (Ideal.Quotient.mk S.I) = P.asIdeal
   exact Ideal.comap_map_mk hIP
 
 /-- **The two points attached to `P` are the same point of `Spec(A)`.** -/
@@ -117,12 +117,12 @@ theorem distanceToZ_ne_top [IsLocalRing S.A] (hmax : IsLocalRing.maximalIdeal S.
   let x₀ : S.Y := pointOfPrimeY S (IsLocalRing.closedPoint S.A) (S.I_le_a.trans hmax.ge)
   have hzx : z ⤳ x₀ := by
     refine (PrimeSpectrum.le_iff_specializes (R := S.A ⧸ S.I) z x₀).mp ?_
-    show z.asIdeal ≤ (IsLocalRing.maximalIdeal S.A).map (Ideal.Quotient.mk S.I)
+    change z.asIdeal ≤ (IsLocalRing.maximalIdeal S.A).map (Ideal.Quotient.mk S.I)
     calc z.asIdeal = (z.asIdeal.comap (Ideal.Quotient.mk S.I)).map (Ideal.Quotient.mk S.I) :=
           (Ideal.map_comap_of_surjective _ Ideal.Quotient.mk_surjective _).symm
       _ ≤ _ := Ideal.map_mono (IsLocalRing.le_maximalIdeal (Ideal.comap_ne_top _ z.isPrime.ne_top))
   have hx₀Z : x₀ ∈ (S.closedSubsetZ : Set S.Y) := by
-    show ((S.a.map (Ideal.Quotient.mk S.I) : Ideal (S.A ⧸ S.I)) : Set (S.A ⧸ S.I)) ⊆
+    change ((S.a.map (Ideal.Quotient.mk S.I) : Ideal (S.A ⧸ S.I)) : Set (S.A ⧸ S.I)) ⊆
       (((IsLocalRing.maximalIdeal S.A).map (Ideal.Quotient.mk S.I) : Ideal (S.A ⧸ S.I)) :
         Set (S.A ⧸ S.I))
     rw [hmax]
@@ -134,7 +134,7 @@ theorem distanceToZ_ne_top [IsLocalRing S.A] (hmax : IsLocalRing.maximalIdeal S.
     rw [AlgebraizationSituation.distanceToZ,
       distanceFunction_eq_iInf_of_nonempty S.Y S.closedSubsetZ z hconn]
     exact iInf_le _ s
-  exact ne_top_of_le_ne_top (ENat.coe_ne_top _) hle
+  exact ne_top_of_le_ne_top (ENat.natCast_ne_top _) hle
 
 /-! ### The primes of a completed chart ring -/
 
@@ -189,9 +189,9 @@ theorem comap_chartRing_localization_eq (hf : f ∈ S.a) :
     q.asIdeal.comap (algebraMap (Localization.Away f) (chartRing S f)) =
       chartPrimeOfPoint S (pointOfPrime S _ (not_le_comap_chartRing q hf)) f := by
   rw [chartPrimeOfPoint, underlyingPrime_pointOfPrime]
-  show _ = ((q.asIdeal.comap (algebraMap (Localization.Away f) (chartRing S f))).comap
+  change _ = ((q.asIdeal.comap (algebraMap (Localization.Away f) (chartRing S f))).comap
     (algebraMap S.A (Localization.Away f))).map (algebraMap S.A (Localization.Away f))
-  exact (IsLocalization.map_comap (Submonoid.powers f) (Localization.Away f) _).symm
+  exact (IsLocalization.map_under (Submonoid.powers f) (Localization.Away f) _).symm
 
 /-- **A prime `𝔮 ⊇ I B` of the completed chart ring is the completed chart prime of the point
 under it.** For `f ∈ 𝔞`, the prime `P` of `A` under `𝔮` is a point `y` of `U ∩ Y`, and

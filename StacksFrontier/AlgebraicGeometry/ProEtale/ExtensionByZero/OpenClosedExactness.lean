@@ -100,7 +100,7 @@ theorem Scheme.ProEt.ofArrows_mem_topology_of_isAffine {S : Scheme.{u}} {V : S.P
     (hcov : ⋃ m, (f (a m)).left '' (W m : Set (T (a m)).left) = Set.univ) :
     Sieve.ofArrows T f ∈ Scheme.ProEt.topology S V := by
   refine Precoverage.generate_mem_toGrothendieck ?_
-  show Presieve.map (Scheme.ProEt.forget S ⋙ Over.forget S) (Presieve.ofArrows T f) ∈
+  change Presieve.map (Scheme.ProEt.forget S ⋙ Over.forget S) (Presieve.ofArrows T f) ∈
     Scheme.proetalePrecoverage _
   rw [Presieve.map_ofArrows, mem_proetalePrecoverage_iff_exists_affine_open_cover]
   have : IsAffine ((Scheme.ProEt.forget S ⋙ Over.forget S).obj V) := ‹IsAffine V.left›
@@ -175,7 +175,7 @@ theorem isZero_of_forall_isAffine {X : Scheme.{u}}
     refine eq_of_equalizerSieve_mem H s 0 ((Scheme.ProEt.topology X).superset_covering ?_
       (generate_isAffineIndEtaleOverEtale_mem X W))
     rintro V g ⟨T, a, b, hT, rfl⟩
-    show H.obj.map (a ≫ b).op s = H.obj.map (a ≫ b).op 0
+    change H.obj.map (a ≫ b).op s = H.obj.map (a ≫ b).op 0
     rw [op_comp, Functor.map_comp, ConcreteCategory.comp_apply, hH T hT.1 (H.obj.map b.op s),
       map_zero, map_zero]
   rw [key s, key t]
@@ -235,7 +235,7 @@ theorem exists_finite_cover_of_isZero_proetaleInverseImage {Z X : Scheme.{u}} (i
   have h₃ : ((g' k).left ≫ pullback.fst (V' k).hom i ≫ (φ k).left) w =
       ((E.f k).left ≫ pullback.fst V.hom i) w := by rw [h₂]
   refine h₃.trans ?_
-  show pullback.fst V.hom i ((E.f k).left w) = x
+  change pullback.fst V.hom i ((E.f k).left w) = x
   rw [show (E.f k).left w = z from hw, hz]
 
 variable {Z U X : Scheme.{u}} (i : Z ⟶ X) [IsClosedImmersion i] (j : U ⟶ X) [IsOpenImmersion j]
@@ -263,7 +263,7 @@ theorem isZero_of_isZero_proetaleRestriction_of_isZero_proetaleInverseImage
     | none => ιU
     | some k => φ k
   have hVU : CompactSpace (T none).left := by
-    show CompactSpace (Limits.pullback (C := Scheme.{u}) V.hom j)
+    change CompactSpace (Limits.pullback (C := Scheme.{u}) V.hom j)
     have : QuasiSeparatedSpace ((𝟭 Scheme.{u}).obj V.left) :=
       inferInstanceAs (QuasiSeparatedSpace V.left)
     have : CompactSpace ((𝟭 Scheme.{u}).obj V.left) := inferInstanceAs (CompactSpace V.left)
@@ -291,7 +291,7 @@ theorem isZero_of_isZero_proetaleRestriction_of_isZero_proetaleInverseImage
       exact (e.symm.surjective.iUnion_comp (fun o ↦ (f o).left '' (W' o : Set (T o).left))))
   refine eq_of_equalizerSieve_mem H s 0 ((Scheme.ProEt.topology X).superset_covering ?_ hmem)
   rintro Y g ⟨Y', g₁, g₂, ⟨o⟩, rfl⟩
-  show H.obj.map (g₁ ≫ f o).op s = H.obj.map (g₁ ≫ f o).op 0
+  change H.obj.map (g₁ ≫ f o).op s = H.obj.map (g₁ ≫ f o).op 0
   rw [op_comp, Functor.map_comp, ConcreteCategory.comp_apply, map_zero]
   cases o with
   | none => rw [show H.obj.map (f none).op s = 0 from hsU, map_zero]

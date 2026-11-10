@@ -103,7 +103,7 @@ local instance (priority := 100000) monoidalCategoryStructComplexesAC :
 /-- **The K-flat comparison of Stacks 06YU**, ascribed at the bifunctor spelling of its source and
 at the `⊗` spelling of its target. -/
 def derivedTensorComparisonHom (K L : CochainComplex (StructureSheafModules Rc) ℤ)
-    (hK : KFlat.KFlat Rc K) (hL : KFlat.KFlat Rc L) :
+    (hK : KFlat Rc K) (hL : KFlat Rc L) :
     ((derivedTensor Rc).obj (DerivedCategory.Q.obj K)).obj (DerivedCategory.Q.obj L) ⟶
       DerivedCategory.Q.obj ((K ⊗ L : CochainComplex (StructureSheafModules Rc) ℤ)) :=
   ((derivedTensorAsSiteDatum Rc).comparison K L hK hL).hom
@@ -112,7 +112,7 @@ def derivedTensorComparisonHom (K L : CochainComplex (StructureSheafModules Rc) 
 K-flat comparison to the tensorator of the K-flat localization.** -/
 theorem reseatIso_comp_derivedTensorComparisonHom
     (K L : CochainComplex (StructureSheafModules Rc) ℤ)
-    (hK : KFlat.KFlat Rc K) (hL : KFlat.KFlat Rc L) :
+    (hK : KFlat Rc K) (hL : KFlat Rc L) :
     letI : MonoidalCategory (DerivedCategory (StructureSheafModules Rc)) :=
       DerivedMonoidal.derivedMonoidal Rc
     (reseatIso (derivedTensorMonoidalIso Rc) (DerivedCategory.Q.obj K)
@@ -182,7 +182,7 @@ end Monoidal
 /-- **The associativity clause of Stacks 0FPT at the ringed-space re-seating**, as a
 proposition. -/
 def DerivedAssociatorComparison (K L M : CochainComplex (StructureSheafModules Rc) ℤ)
-    (hK : KFlat.KFlat Rc K) (hL : KFlat.KFlat Rc L) (hM : KFlat.KFlat Rc M) : Prop :=
+    (hK : KFlat Rc K) (hL : KFlat Rc L) (hM : KFlat Rc M) : Prop :=
   derivedWhiskerRight Rc (derivedTensorComparisonHom Rc K L hK hL)
         (DerivedCategory.Q.obj M) ≫
       derivedTensorComparisonHom Rc (K ⊗ L) M
@@ -204,7 +204,7 @@ carried across by the K-flat comparison of Stacks 06YU: on the classes of K-flat
 
 the equation spelled out in `Stacks.SheafOfModules.DerivedAssociatorComparison`. -/
 theorem derivedAssociator_comparison (K L M : CochainComplex (StructureSheafModules Rc) ℤ)
-    (hK : KFlat.KFlat Rc K) (hL : KFlat.KFlat Rc L) (hM : KFlat.KFlat Rc M) :
+    (hK : KFlat Rc K) (hL : KFlat Rc L) (hM : KFlat Rc M) :
     DerivedAssociatorComparison Rc K L M hK hL hM :=
   let : MonoidalCategory (DerivedCategory (StructureSheafModules Rc)) :=
     DerivedMonoidal.derivedMonoidal Rc

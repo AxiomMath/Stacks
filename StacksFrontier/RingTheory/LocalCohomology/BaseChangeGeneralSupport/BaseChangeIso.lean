@@ -61,7 +61,7 @@ private lemma derivedPowerTorsionProperty_of_iso.{w', v'} {C : Type w'} [CommRin
 private lemma bijective_comp_iso {C : Type*} [Category C] {W X Y : C} (φ : X ⟶ Y) [IsIso φ] :
     Function.Bijective (fun g : W ⟶ X ↦ g ≫ φ) := by
   refine ⟨fun a b h ↦ (cancel_mono φ).1 h, fun h ↦ ⟨h ≫ CategoryTheory.inv φ, ?_⟩⟩
-  show (h ≫ CategoryTheory.inv φ) ≫ φ = h
+  change (h ≫ CategoryTheory.inv φ) ≫ φ = h
   rw [Category.assoc, IsIso.inv_hom_id, Category.comp_id]
 
 variable [IsNoetherianRing A] [IsNoetherianRing B]

@@ -259,8 +259,7 @@ private noncomputable def scalarExtensionMonoidal
             (AlgebraTensorModule.distribBaseChange R S M N ((1 : S) ⊗ₜ[R] t)) =
           AlgebraTensorModule.distribBaseChange R S M' N
             ((1 : S) ⊗ₜ[R] TensorProduct.map g.hom LinearMap.id t)
-        induction t using TensorProduct.induction_on with
-        | zero => simp
+        induction t using TensorProduct.inductionOn with
         | add x y hx hy => simp only [TensorProduct.tmul_add, map_add, hx, hy]
         | tmul m n => rfl)
       (μIso_inv_natural_right := fun {N N'} M g ↦ by
@@ -270,8 +269,7 @@ private noncomputable def scalarExtensionMonoidal
             (AlgebraTensorModule.distribBaseChange R S M N ((1 : S) ⊗ₜ[R] t)) =
           AlgebraTensorModule.distribBaseChange R S M N'
             ((1 : S) ⊗ₜ[R] TensorProduct.map LinearMap.id g.hom t)
-        induction t using TensorProduct.induction_on with
-        | zero => simp
+        induction t using TensorProduct.inductionOn with
         | add x y hx hy => simp only [TensorProduct.tmul_add, map_add, hx, hy]
         | tmul m n => rfl)
       (oplax_associativity := fun M N K ↦ by
@@ -284,12 +282,10 @@ private noncomputable def scalarExtensionMonoidal
           TensorProduct.map LinearMap.id (AlgebraTensorModule.distribBaseChange R S N K).toLinearMap
             (AlgebraTensorModule.distribBaseChange R S M (N ⊗[R] K)
               ((1 : S) ⊗ₜ[R] TensorProduct.assoc R M N K t))
-        induction t using TensorProduct.induction_on with
-        | zero => simp
+        induction t using TensorProduct.inductionOn with
         | add x y hx hy => simp only [TensorProduct.tmul_add, map_add, hx, hy]
         | tmul x k =>
-          induction x using TensorProduct.induction_on with
-          | zero => simp only [TensorProduct.zero_tmul, TensorProduct.tmul_zero, map_zero]
+          induction x using TensorProduct.inductionOn with
           | add x y hx hy => simp only [TensorProduct.add_tmul, TensorProduct.tmul_add, map_add, hx,
             hy]
           | tmul m n => rfl)
@@ -334,12 +330,10 @@ private noncomputable def scalarExtensionBraided
       (TensorProduct.comm S (S ⊗[R] M) (S ⊗[R] N)).toLinearMap
   apply TensorProduct.ext'
   intro x y
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [TensorProduct.zero_tmul, map_zero]
+  induction x using TensorProduct.inductionOn with
   | add x x' hx hx' => simp only [TensorProduct.add_tmul, map_add, hx, hx']
   | tmul a m =>
-    induction y using TensorProduct.induction_on with
-    | zero => simp only [TensorProduct.tmul_zero, map_zero]
+    induction y using TensorProduct.inductionOn with
     | add y y' hy hy' => simp only [TensorProduct.tmul_add, map_add, hy, hy']
     | tmul b n =>
       simp only [LinearMap.comp_apply, LinearEquiv.coe_coe,
@@ -370,8 +364,7 @@ private noncomputable def canonicalGenericIso
       apply ModuleCat.hom_ext
       apply LinearMap.ext
       intro t
-      induction t using TensorProduct.induction_on with
-      | zero => simp only [map_zero]
+      induction t using TensorProduct.inductionOn with
       | add x y hx hy => simp only [map_add, hx, hy]
       | tmul s m => rfl)
 
@@ -511,7 +504,7 @@ private theorem moduleProperty_piRing (k : Fin 4) {ι : Type*} [Finite ι]
         map_add' := fun x y ↦ Pi.single_add i x y
         map_smul' := fun x y ↦ by
           ext j
-          show Pi.single i (x i * y) j = x j * Pi.single i y j
+          change Pi.single i (x i * y) j = x j * Pi.single i y j
           by_cases h : j = i
           · subst j; simp
           · simp [h] }
@@ -567,14 +560,14 @@ private theorem eq_zero_of_glueing_baseChange
   apply Subtype.ext
   apply Prod.ext
   · apply (c.canonicalGeneric M).injective
-    show (c.canonicalGeneric M)
+    change (c.canonicalGeneric M)
       ((c.sectionsObj (c.canonical.obj M) (c.canonicalSectionsUnit.app M m)).1.1) =
         (c.canonicalGeneric M) 0
     rw [map_zero]
     exact (c.canonicalSectionsUnit_generic M m).trans hs
   · funext i
     apply (c.canonicalLocal M i).injective
-    show (c.canonicalLocal M i)
+    change (c.canonicalLocal M i)
       ((c.sectionsObj (c.canonical.obj M) (c.canonicalSectionsUnit.app M m)).1.2 i) =
         (c.canonicalLocal M i) 0
     rw [map_zero, c.canonicalSectionsUnit_local]
@@ -621,8 +614,7 @@ private noncomputable def tensorPiLeft
       (LinearEquiv.piCongrRight fun i ↦ TensorProduct.comm R M (S i)))
   refine e.toAddEquiv.toLinearEquiv ?_
   intro s x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [smul_add, map_add, hx, hy]
   | tmul a m =>
     ext i
@@ -636,10 +628,10 @@ private theorem moduleProperty_baseChange_prod (k : Fin 4) (R S T M : Type*)
   let : Algebra (S × T) S := (RingHom.fst S T).toAlgebra
   let : Algebra (S × T) T := (RingHom.snd S T).toAlgebra
   let : IsScalarTower R (S × T) S := IsScalarTower.of_algebraMap_smul fun r s ↦ by
-    show algebraMap R S r * s = r • s
+    change algebraMap R S r * s = r • s
     exact (Algebra.smul_def r s).symm
   let : IsScalarTower R (S × T) T := IsScalarTower.of_algebraMap_smul fun r t ↦ by
-    show algebraMap R T r * t = r • t
+    change algebraMap R T r * t = r • t
     exact (Algebra.smul_def r t).symm
   exact (moduleProperty_equiv_iff k (TensorProduct.prodLeft R (S × T) S T M)).mpr
     (moduleProperty_prodRing k S T (S ⊗[R] M) (T ⊗[R] M) hs ht)
@@ -700,12 +692,10 @@ private theorem doubleTensor_hom_ext
       ψ ((1 : T) ⊗ₜ[S] ((1 : S) ⊗ₜ[R] m))) : φ = ψ := by
   apply LinearMap.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul t x =>
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp only [TensorProduct.tmul_add, map_add, hx, hy]
     | tmul s m =>
       have eq : t ⊗ₜ[S] (s ⊗ₜ[R] m) =
@@ -768,7 +758,7 @@ private theorem scalarComparison_isMonoidal
   · apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro s
-    show τ.app (ModuleCat.of R (ULift.{max u₁ u₂ u₃ u₄ w} R))
+    change τ.app (ModuleCat.of R (ULift.{max u₁ u₂ u₃ u₄ w} R))
         (s.down ⊗ₜ[S] ((1 : S) ⊗ₜ[R] ULift.up (1 : R))) =
       s.down ⊗ₜ[T] ((1 : T) ⊗ₜ[R] (ULift.up (1 : R) : ULift.{max u₁ u₂ u₃ u₄ w} R))
     have h := congrArg (fun x ↦ s.down • x)
@@ -787,11 +777,10 @@ private theorem scalarComparison_isMonoidal
     apply ModuleCat.hom_ext
     apply doubleTensor_hom_ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [TensorProduct.tmul_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp only [TensorProduct.tmul_add, map_add, hx, hy]
     | tmul m n =>
-      show (Functor.OplaxMonoidal.δ G M N)
+      change (Functor.OplaxMonoidal.δ G M N)
           (τ.app (M ⊗ N) ((1 : U) ⊗ₜ[S] ((1 : S) ⊗ₜ[R] (m ⊗ₜ[R] n)))) =
         (τ.app M ((1 : U) ⊗ₜ[S] ((1 : S) ⊗ₜ[R] m))) ⊗ₜ[U]
           (τ.app N ((1 : U) ⊗ₜ[S] ((1 : S) ⊗ₜ[R] n)))

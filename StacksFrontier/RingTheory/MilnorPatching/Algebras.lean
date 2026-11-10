@@ -229,7 +229,7 @@ private noncomputable def pullbackLinearEquivCompatiblePairs
       (pushoutCompatibleSystem toBase surjection BtoD A'toC' AtoC DtoC C'toC hD hC').iso.hom
           ((1 : A) ⊗ₜ[B,toBase] d) = (1 : A) ⊗ₜ[A',surjection] c ↔
         DtoC d = C'toC c := by
-    show eC'.symm (eD ((1 : A) ⊗ₜ[B] d)) = (1 : A) ⊗ₜ[A'] c ↔ _
+    change eC'.symm (eD ((1 : A) ⊗ₜ[B] d)) = (1 : A) ⊗ₜ[A'] c ↔ _
     rw [LinearEquiv.symm_apply_eq]
     simp only [eD, eC', pushoutLinearEquiv_tmul, map_one, one_mul]
   exact
@@ -242,9 +242,9 @@ private noncomputable def pullbackLinearEquivCompatiblePairs
         intro r p
         apply Subtype.ext
         apply Prod.ext
-        · show (f r).1.1 * p.1.1 = BtoD (base.pullbackCone.fst.hom r) * p.1.1
+        · change (f r).1.1 * p.1.1 = BtoD (base.pullbackCone.fst.hom r) * p.1.1
           rw [hf₁]
-        · show (f r).1.2 * p.1.2 = A'toC' (base.pullbackCone.snd.hom r) * p.1.2
+        · change (f r).1.2 * p.1.2 = A'toC' (base.pullbackCone.snd.hom r) * p.1.2
           rw [hf₂] }
 
 /-- **Milnor patching, flatness.** The fibre product `D ×_C C'` of two flat algebras over the two
@@ -384,11 +384,11 @@ public theorem pullback_baseChange
   constructor
   · have : Algebra.IsPushout R B P D := ⟨IsBaseChange.of_equiv
       (AlgEquiv.ofBijective d₁ hh.1).toLinearEquiv (fun p => by
-        show (1 : B) • p.1.1 = p.1.1; simp)⟩
+        change (1 : B) • p.1.1 = p.1.1; simp)⟩
     exact (CommRingCat.isPushout_of_isPushout R B P D).flip
   · have : Algebra.IsPushout R A' P C' := ⟨IsBaseChange.of_equiv
       (AlgEquiv.ofBijective d₂ hh.2).toLinearEquiv (fun p => by
-        show (1 : A') • p.1.2 = p.1.2; simp)⟩
+        change (1 : A') • p.1.2 = p.1.2; simp)⟩
     exact (CommRingCat.isPushout_of_isPushout R A' P C').flip
 
 private noncomputable abbrev flatComparison
@@ -483,7 +483,7 @@ private theorem flatComparison_essSurj
       RingHom.codRestrict
         ((BtoD.comp base.pullbackCone.fst.hom).prod
           (A'toC'.comp base.pullbackCone.snd.hom)) _ (fun r => by
-            show DtoC (BtoD (base.pullbackCone.fst.hom r)) =
+            change DtoC (BtoD (base.pullbackCone.fst.hom r)) =
               C'toC (A'toC' (base.pullbackCone.snd.hom r))
             have hd := DFunLike.congr_fun (congrArg CommRingCat.Hom.hom hD.w)
               (base.pullbackCone.fst.hom r)
@@ -504,7 +504,7 @@ private theorem flatComparison_essSurj
     let i₂ : (E.obj Y).snd ≅ X.snd :=
       MorphismProperty.Under.isoMk h₂.isoPushout.symm h₂.inr_isoPushout_inv
     refine ⟨Y, flatComparison_mkIso _ _ _ _ _ Y X i₁ i₂ ?_⟩
-    show (pushout.inl _ _ ≫ h₁.isoPushout.inv) ≫
+    change (pushout.inl _ _ ≫ h₁.isoPushout.inv) ≫
         pushout.inl X.fst.hom (CommRingCat.ofHom toBase) ≫ X.iso.hom.right =
       (pushout.inl _ _ ≫ h₂.isoPushout.inv) ≫
         pushout.inl X.snd.hom (CommRingCat.ofHom surjection)
@@ -546,19 +546,15 @@ public theorem flat_baseChange_pullback
     h₂.flip.isoPushout.symm hA.isoPushout.symm
   · apply pushout.hom_ext <;>
       simp [T, rb, r, b, Under.pushout, Category.assoc, h₁.w,
-        pushout.inl_desc_assoc, pushout.inr_desc_assoc,
         IsPushout.inl_isoPushout_inv, IsPushout.inr_isoPushout_inv]
   · apply pushout.hom_ext <;>
       simp [T, ra', r, a', Under.pushout, Category.assoc, h₂.w,
-        pushout.inl_desc_assoc, pushout.inr_desc_assoc,
         IsPushout.inl_isoPushout_inv, IsPushout.inr_isoPushout_inv]
   · apply pushout.hom_ext <;>
       simp [T, ba, b, a, Under.pushout, Category.assoc, hD.w,
-        pushout.inl_desc_assoc, pushout.inr_desc_assoc,
         IsPushout.inl_isoPushout_inv, IsPushout.inr_isoPushout_inv]
   · apply pushout.hom_ext <;>
       simp [T, a'a, a', a, Under.pushout, Category.assoc, hC'.w, comm,
-        pushout.inl_desc_assoc, pushout.inr_desc_assoc,
         IsPushout.inl_isoPushout_inv, IsPushout.inr_isoPushout_inv]
 
 set_option backward.isDefEq.respectTransparency false in
@@ -707,15 +703,15 @@ private theorem module_subsingleton_of_baseChange
           intro a b
           apply Subtype.ext
           apply Prod.ext
-          · show (0 : B) = 0 + 0; simp
-          · show j.1.1.2 * (a + b) = j.1.1.2 * a + j.1.1.2 * b
+          · change (0 : B) = 0 + 0; simp
+          · change j.1.1.2 * (a + b) = j.1.1.2 * a + j.1.1.2 * b
             exact mul_add _ _ _
         map_smul' := by
           intro r a
           apply Subtype.ext
           apply Prod.ext
-          · show (0 : B) = r.1.1 * 0; simp
-          · show j.1.1.2 * (r.1.2 * a) = r.1.2 * (j.1.1.2 * a)
+          · change (0 : B) = r.1.1 * 0; simp
+          · change j.1.1.2 * (r.1.2 * a) = r.1.2 * (j.1.1.2 * a)
             ring }
     let g : A' ⊗[R] M →ₗ[R] M :=
       TensorProduct.lift ((LinearMap.lsmul R M).comp l)
@@ -747,7 +743,7 @@ private theorem tensor_cokernel_subsingleton_of_surjective
   have hzero (x : T ⊗[R] (N ⧸ LinearMap.range f)) : x = 0 := by
     obtain ⟨n, rfl⟩ := LinearMap.lTensor_surjective T (LinearMap.range f).mkQ_surjective x
     obtain ⟨m, rfl⟩ := hf n
-    show ((LinearMap.lTensor T (LinearMap.range f).mkQ).comp
+    change ((LinearMap.lTensor T (LinearMap.range f).mkQ).comp
       (LinearMap.lTensor T f)) m = 0
     rw [← LinearMap.lTensor_comp, hc]
     simp
@@ -798,13 +794,13 @@ private theorem finiteType_of_baseChange
     (Sum.elim (fun ⟨x, i⟩ => ps x i) (fun ⟨x, i⟩ => pt x i))
   apply Algebra.FiniteType.of_surjective f
   apply surjective_of_baseChange base f.toLinearMap
-  · show Function.Surjective (Algebra.TensorProduct.map (.id B B) f)
+  · change Function.Surjective (Algebra.TensorProduct.map (.id B B) f)
     rw [← AlgHom.range_eq_top, eq_top_iff, ← hs, Algebra.adjoin_le_iff]
     intro x hx
     let i : s := ⟨x, hx⟩
     use ∑ j : Fin (ks i), bs i j ⊗ₜ MvPolynomial.X (Sum.inl ⟨i, j⟩)
     simpa [f, i] using (hbs i).symm
-  · show Function.Surjective (Algebra.TensorProduct.map (.id A' A') f)
+  · change Function.Surjective (Algebra.TensorProduct.map (.id A' A') f)
     rw [← AlgHom.range_eq_top, eq_top_iff, ← ht, Algebra.adjoin_le_iff]
     intro x hx
     let i : t := ⟨x, hx⟩
@@ -936,12 +932,12 @@ private theorem module_fp_tensor_of_algebra_fp
   let e : U ≃ₐ[T] T ⊗[R] P :=
     { eR with
       commutes' := fun t => by
-        show eR ((1 ⊗ₜ[R] t) ⊗ₜ[Q] (1 : P)) = t ⊗ₜ[R] (1 : P)
-        show (Algebra.TensorProduct.comm R P T)
+        change eR ((1 ⊗ₜ[R] t) ⊗ₜ[Q] (1 : P)) = t ⊗ₜ[R] (1 : P)
+        change (Algebra.TensorProduct.comm R P T)
           ((Algebra.TensorProduct.cancelBaseChange R Q P P T)
             ((1 : P) ⊗ₜ[Q] ((1 : Q) ⊗ₜ[R] t))) = _
         rw [Algebra.TensorProduct.cancelBaseChange_tmul]
-        show t ⊗ₜ[R] ((1 : Q) • (1 : P)) = t ⊗ₜ[R] (1 : P)
+        change t ⊗ₜ[R] ((1 : Q) • (1 : P)) = t ⊗ₜ[R] (1 : P)
         rw [one_smul] }
   have : Algebra.FinitePresentation T U := Algebra.FinitePresentation.equiv e.symm
   have : Algebra.FinitePresentation T (Q ⊗[R] T) :=
@@ -1038,7 +1034,7 @@ private theorem field_factor
       base.surjective_surjection
     exact Or.inl ⟨(toBase.pullbackFst surjection).liftOfSurjective hs ⟨f, hf⟩,
       RingHom.liftOfSurjective_comp _ hs _⟩
-  · obtain ⟨j, hj, hfj⟩ := SetLike.not_le_iff_exists.mp hf
+  · obtain ⟨j, hj, hfj⟩ := IsConcreteLE.not_le_iff_exists.mp hf
     have hj₁ : j.1.1 = 0 := hj
     have hj₂ : surjection j.1.2 = 0 :=
       j.2.symm.trans ((congrArg toBase hj₁).trans (map_zero _))
@@ -1051,9 +1047,9 @@ private theorem field_factor
     have hlmul (a b : A') : l a * l b = j * l (a * b) := by
       apply Subtype.ext
       apply Prod.ext
-      · show (0 : B) * 0 = j.1.1 * 0
+      · change (0 : B) * 0 = j.1.1 * 0
         simp
-      · show (j.1.2 * a) * (j.1.2 * b) = j.1.2 * (j.1.2 * (a * b))
+      · change (j.1.2 * a) * (j.1.2 * b) = j.1.2 * (j.1.2 * (a * b))
         ring
     let g : A' →+* K :=
       { toFun := fun a => f (l a) / f j
@@ -1066,7 +1062,7 @@ private theorem field_factor
     refine Or.inr ⟨g, RingHom.ext fun r => ?_⟩
     have h : l r.1.2 = j * r :=
       Subtype.ext (Prod.ext (by change 0 = j.1.1 * r.1.1; simp [hj₁]) rfl)
-    show f (l r.1.2) / f j = f r
+    change f (l r.1.2) / f j = f r
     rw [h, map_mul, mul_div_cancel_left₀ _ hfj]
 private theorem smooth_of_baseChange
     {A A' B : Type u} [CommRing A] [CommRing A'] [CommRing B]
@@ -1246,7 +1242,7 @@ private theorem properties_equiv
     · intro h
       exact (RingHom.FinitePresentation.of_bijective eS.bijective).comp
         (h.comp (RingHom.FinitePresentation.of_bijective eR.bijective))
-  · show f'.Etale ↔ f.Etale
+  · change f'.Etale ↔ f.Etale
     rw [RingHom.etale_iff_formallyUnramified_and_smooth,
       RingHom.etale_iff_formallyUnramified_and_smooth]
     exact and_congr hunram hsmooth
@@ -1296,18 +1292,18 @@ private theorem isPushout_ulift
   have he (t : ULift.{v} T) (s : ULift.{v} S) :
       e (t ⊗ₜ[ULift.{v} R] s) = i.ulift t * h.ulift s := by
     apply ULift.ext
-    show (Algebra.IsPushout.equiv R T S U)
+    change (Algebra.IsPushout.equiv R T S U)
       (((Algebra.TensorProduct.uliftEquiv.{v,v,v,v} R T T S).symm (t ⊗ₜ s)).down) = _
     rw [Algebra.TensorProduct.down_uliftEquiv_symm_tmul, Algebra.IsPushout.equiv_tmul]
     rfl
   let ea : (ULift.{v} T ⊗[ULift.{v} R] ULift.{v} S) ≃ₐ[ULift.{v} T] ULift.{v} U :=
     { e with
       commutes' := fun t => by
-        show e (t ⊗ₜ[ULift.{v} R] (1 : ULift.{v} S)) = i.ulift t
+        change e (t ⊗ₜ[ULift.{v} R] (1 : ULift.{v} S)) = i.ulift t
         rw [he, map_one, mul_one] }
   have : Algebra.IsPushout (ULift.{v} R) (ULift.{v} T) (ULift.{v} S) (ULift.{v} U) :=
     ⟨IsBaseChange.of_equiv ea.toLinearEquiv (fun s => by
-      show e ((1 : ULift.{v} T) ⊗ₜ[ULift.{v} R] s) = h.ulift s
+      change e ((1 : ULift.{v} T) ⊗ₜ[ULift.{v} R] s) = h.ulift s
       rw [he, map_one, one_mul])⟩
   exact (CommRingCat.isPushout_of_isPushout (ULift.{v} R) (ULift.{v} T)
     (ULift.{v} S) (ULift.{v} U)).flip
@@ -1435,7 +1431,7 @@ public theorem ringHom_properties_pullback_iff_and_reconstruction
   let toD' : base.fibreProduct →+* RingHom.pullback DtoC C'toC :=
     RingHom.codRestrict ((BtoD.comp toB).prod (A'toC'.comp toA'))
       (RingHom.pullback DtoC C'toC) (fun x ↦ by
-        show DtoC (BtoD (toB x)) = C'toC (A'toC' (toA' x))
+        change DtoC (BtoD (toB x)) = C'toC (A'toC' (toA' x))
         have hd : DtoC.comp BtoD = AtoC.comp toBase := ringPushout_comm hD
         have hc : C'toC.comp A'toC' = AtoC.comp surjection := ringPushout_comm hC'
         calc

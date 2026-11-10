@@ -373,7 +373,7 @@ theorem pred_of_isPullback_of_flat
     {k : Z' ⟶ Z} {g : X' ⟶ X} [Flat g] (H : IsPullback j k g i) (h : Pred i) : Pred j := by
   have hjD : ∀ z, j.base z ∈ g ⁻¹ᵁ i.coborderRange := by
     intro z
-    show g.base (j.base z) ∈ i.coborderRange
+    change g.base (j.base z) ∈ i.coborderRange
     rw [← Scheme.Hom.comp_apply, H.w]
     exact subset_coborder ⟨k.base z, rfl⟩
   let l : Z' ⟶ (g ⁻¹ᵁ i.coborderRange).toScheme :=

@@ -134,7 +134,7 @@ private theorem closedImmersion_iff_universallyClosed_locallyFiniteType_mono
       (universallyClosed_iff_schemeProperty B S hS hX hY f hrep).mp huc
     have hlftSch : Plft.presheaf f :=
       (locallyOfFiniteType_iff_schemeProperty B S hS hX hY f hrep).mp hlft
-    show Pci.presheaf f
+    change Pci.presheaf f
     refine ⟨hrep, ?_⟩
     intro U V g fst snd hpb
     have hu : _root_.AlgebraicGeometry.UniversallyClosed (q.map snd) :=

@@ -174,7 +174,7 @@ private theorem isIso_twoSquare_natTrans_of_torIndependent {g' : X' ⟶ X} {f' :
       (quasiCoherentDerivedAdjunction f' (isQuasicoherent_homology_derivedPullback' f')
         (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))
       (quasiCoherentDerivedPullbackCompIso f' g)
-      (quasiCoherentDerivedPullbackCompIso g' f ≪≫ quasiCoherentDerivedPullbackCongr sq.w)).natTrans
+      (quasiCoherentDerivedPullbackCompIso g' f ≪≫ quasiCoherentDerivedPullbackCongr sq.w))
     := by
   have h := isIso_quasiCoherentDerivedBaseChange_natTrans
     (isQuasicoherent_homology_derivedPushforward_of_qcqs g')
@@ -209,7 +209,7 @@ theorem isIso_rightAdjointBaseChange_app_iff_of_paste_of_torIndependent {g' : X'
         (quasiCoherentDerivedPullbackCompIso j' f' ≪≫ quasiCoherentDerivedPullbackCongr sq₂.w)
         (twistedInverseImageAdjunction f' (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))
         (twistedInverseImageAdjunction f''
-          (isQuasicoherent_homology_derivedPushforward_of_qcqs f''))).natTrans.app
+          (isQuasicoherent_homology_derivedPushforward_of_qcqs f''))).app
       ((quasiCoherentDerivedPullback' g).obj K)) →
     (IsIso ((Stacks.CategoryTheory.BaseChange.rightAdjointBaseChange
         (quasiCoherentDerivedAdjunction f (isQuasicoherent_homology_derivedPullback' f)
@@ -224,7 +224,7 @@ theorem isIso_rightAdjointBaseChange_app_iff_of_paste_of_torIndependent {g' : X'
         (quasiCoherentDerivedPullbackCompIso p f ≪≫ quasiCoherentDerivedPullbackCongr sqO.w)
         (twistedInverseImageAdjunction f (isQuasicoherent_homology_derivedPushforward_of_qcqs f))
         (twistedInverseImageAdjunction f''
-          (isQuasicoherent_homology_derivedPushforward_of_qcqs f''))).natTrans.app K) ↔
+          (isQuasicoherent_homology_derivedPushforward_of_qcqs f''))).app K) ↔
       IsIso ((quasiCoherentDerivedPullback' j').map
         ((Stacks.CategoryTheory.BaseChange.rightAdjointBaseChange
         (quasiCoherentDerivedAdjunction f (isQuasicoherent_homology_derivedPullback' f)
@@ -239,7 +239,7 @@ theorem isIso_rightAdjointBaseChange_app_iff_of_paste_of_torIndependent {g' : X'
         (quasiCoherentDerivedPullbackCompIso g' f ≪≫ quasiCoherentDerivedPullbackCongr sq₁.w)
         (twistedInverseImageAdjunction f (isQuasicoherent_homology_derivedPushforward_of_qcqs f))
         (twistedInverseImageAdjunction f'
-          (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))).natTrans.app K))) := by
+          (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))).app K))) := by
   have hb₁ := isIso_twoSquare_natTrans_of_torIndependent sq₁ h₁
   have hb₂ := isIso_twoSquare_natTrans_of_torIndependent sq₂ h₂
   have hbO := isIso_twoSquare_natTrans_of_torIndependent sqO hO
@@ -301,7 +301,7 @@ theorem isIso_rightAdjointBaseChange_app_iff_of_paste {g' : X' ⟶ X} {f' : X' �
         (quasiCoherentDerivedPullbackCompIso j' f' ≪≫ quasiCoherentDerivedPullbackCongr sq₂.w)
         (twistedInverseImageAdjunction f' (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))
         (twistedInverseImageAdjunction f''
-          (isQuasicoherent_homology_derivedPushforward_of_qcqs f''))).natTrans.app
+          (isQuasicoherent_homology_derivedPushforward_of_qcqs f''))).app
       ((quasiCoherentDerivedPullback' g).obj K)) →
     (IsIso ((Stacks.CategoryTheory.BaseChange.rightAdjointBaseChange
         (quasiCoherentDerivedAdjunction f (isQuasicoherent_homology_derivedPullback' f)
@@ -316,7 +316,7 @@ theorem isIso_rightAdjointBaseChange_app_iff_of_paste {g' : X' ⟶ X} {f' : X' �
         (quasiCoherentDerivedPullbackCompIso p f ≪≫ quasiCoherentDerivedPullbackCongr sqO.w)
         (twistedInverseImageAdjunction f (isQuasicoherent_homology_derivedPushforward_of_qcqs f))
         (twistedInverseImageAdjunction f''
-          (isQuasicoherent_homology_derivedPushforward_of_qcqs f''))).natTrans.app K) ↔
+          (isQuasicoherent_homology_derivedPushforward_of_qcqs f''))).app K) ↔
       IsIso ((quasiCoherentDerivedPullback' j').map
         ((Stacks.CategoryTheory.BaseChange.rightAdjointBaseChange
         (quasiCoherentDerivedAdjunction f (isQuasicoherent_homology_derivedPullback' f)
@@ -331,7 +331,7 @@ theorem isIso_rightAdjointBaseChange_app_iff_of_paste {g' : X' ⟶ X} {f' : X' �
         (quasiCoherentDerivedPullbackCompIso g' f ≪≫ quasiCoherentDerivedPullbackCongr sq₁.w)
         (twistedInverseImageAdjunction f (isQuasicoherent_homology_derivedPushforward_of_qcqs f))
         (twistedInverseImageAdjunction f'
-          (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))).natTrans.app K))) := by
+          (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))).app K))) := by
   have : Flat f' := MorphismProperty.of_isPullback sq₁ inferInstance
   exact isIso_rightAdjointBaseChange_app_iff_of_paste_of_torIndependent sq₁ sq₂ sqO hp hq
     (torIndependent_of_flat_left f g) (torIndependent_of_flat_left f' j)
@@ -367,7 +367,7 @@ theorem isIso_map_rightAdjointBaseChange_app_of_isAffineOpen (sq : IsPullback g'
         (quasiCoherentDerivedPullbackCompIso g' f ≪≫ quasiCoherentDerivedPullbackCongr sq.w)
         (twistedInverseImageAdjunction f (isQuasicoherent_homology_derivedPushforward_of_qcqs f))
         (twistedInverseImageAdjunction f'
-          (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))).natTrans.app K)) := by
+          (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))).app K)) := by
   have : IsAffine V.toScheme := hV
   have : IsAffine V'.toScheme := hV'
   have : IsProper f' := MorphismProperty.of_isPullback sq inferInstance
@@ -388,7 +388,7 @@ theorem isIso_map_rightAdjointBaseChange_app_of_isAffineOpen (sq : IsPullback g'
   have sqO := sq₂.paste_horiz sq
   have hk : f' ⁻¹ᵁ V' ≤ g' ⁻¹ᵁ (f ⁻¹ᵁ V) := by
     intro x hx
-    show f.base (g'.base x) ∈ V
+    change f.base (g'.base x) ∈ V
     rw [← Scheme.Hom.comp_apply, sq.w, Scheme.Hom.comp_apply]
     exact hVV' hx
   have hp : g'.resLE (f ⁻¹ᵁ V) (f' ⁻¹ᵁ V') hk ≫ (f ⁻¹ᵁ V).ι = (f' ⁻¹ᵁ V').ι ≫ g' :=

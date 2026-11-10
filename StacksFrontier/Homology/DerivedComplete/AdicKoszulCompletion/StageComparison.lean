@@ -94,11 +94,11 @@ private theorem comparison_inverse_naturality
     Category.id_comp] at naturality
   apply (cancel_mono (tensor.comparison target factor targetFlat factorFlat).hom).1
   simp only [Category.assoc]
-  show DerivedCategory.Q.map (morphism ⊗ₘ 𝟙 factor) ≫
+  change DerivedCategory.Q.map (morphism ⊗ₘ 𝟙 factor) ≫
       (tensor.comparison target factor targetFlat factorFlat).inv ≫
       (tensor.comparison target factor targetFlat factorFlat).hom = _
   rw [Iso.inv_hom_id, Category.comp_id]
-  show _ = (tensor.comparison source factor sourceFlat factorFlat).inv ≫
+  change _ = (tensor.comparison source factor sourceFlat factorFlat).inv ≫
     ((tensor.tensor.map (DerivedCategory.Q.map morphism)).app (DerivedCategory.Q.obj factor) ≫
       (tensor.comparison target factor targetFlat factorFlat).hom)
   rw [naturality, Iso.inv_hom_id_assoc]
@@ -128,7 +128,7 @@ private theorem tensorComparisonIso_naturality_from_kFlat
   have chosenEquation : ordinary.map resolution ≫
       (KoszulCompletion.tensorComparisonIso tensor target factor factorFlat).hom =
       (tensor.comparison chosen factor chosenFlat factorFlat).inv ≫ derived.map resolution := by
-    show ordinary.map resolution ≫
+    change ordinary.map resolution ≫
       (inv (ordinary.map resolution) ≫ (tensor.comparison chosen factor chosenFlat factorFlat).inv ≫
         derived.map resolution) = _
     rw [IsIso.hom_inv_id_assoc]
@@ -137,7 +137,7 @@ private theorem tensorComparisonIso_naturality_from_kFlat
   let : QuasiIso left := leftQuasiIso
   have : IsIso (ordinary.map left) := ordinaryTensorFunctor_map_isIso factor factorFlat left
   apply (cancel_epi (ordinary.map left)).1
-  show ordinary.map left ≫ (ordinary.map morphism ≫ _) = _
+  change ordinary.map left ≫ (ordinary.map morphism ≫ _) = _
   calc
     ordinary.map left ≫ (ordinary.map morphism ≫
         (KoszulCompletion.tensorComparisonIso tensor target factor factorFlat).hom) =
@@ -177,7 +177,7 @@ private theorem tensorComparisonIso_naturality
   have : IsIso (ordinary.map projection) :=
     ordinaryTensorFunctor_map_isIso factor factorFlat projection
   apply (cancel_epi (ordinary.map projection)).1
-  show ordinary.map projection ≫ (ordinary.map morphism ≫ _) =
+  change ordinary.map projection ≫ (ordinary.map morphism ≫ _) =
     ordinary.map projection ≫ (_ ≫ derived.map morphism)
   calc
     ordinary.map projection ≫ (ordinary.map morphism ≫
@@ -255,7 +255,7 @@ private theorem tensorComparisonIso_right_naturality
     rw [← Functor.map_comp, ← Functor.map_comp]
     simp only [tensorHom_comp_tensorHom, Category.id_comp, Category.comp_id]
   apply (cancel_epi ((ordinaryTensorFunctor source).map projection)).1
-  show DerivedCategory.Q.map (projection ⊗ₘ 𝟙 source) ≫ _ = _
+  change DerivedCategory.Q.map (projection ⊗ₘ 𝟙 source) ≫ _ = _
   calc
     DerivedCategory.Q.map (projection ⊗ₘ 𝟙 source) ≫
         (DerivedCategory.Q.map (𝟙 coefficient ⊗ₘ morphism) ≫
@@ -311,7 +311,7 @@ private theorem tensorComparisonIso_rightUnitor_arbitrary
   simp only [tensorComparisonNatIso, NatIso.ofComponents_inv_app] at naturality
   apply (cancel_epi ((derivedTensorFunctor tensor (𝟙_ _)).map projection)).1
   rw [← Category.assoc, naturality, Category.assoc]
-  show _ ≫ (DerivedCategory.Q.map (projection ⊗ₘ 𝟙 _) ≫
+  change _ ≫ (DerivedCategory.Q.map (projection ⊗ₘ 𝟙 _) ≫
     DerivedCategory.Q.map (ρ_ coefficient).hom) = _
   rw [← Functor.map_comp, tensorHom_id, rightUnitor_naturality, Functor.map_comp, ← Category.assoc,
     KoszulCompletion.tensorComparisonIso_rightUnitor tensor resolution resolutionFlat unitFlat]
@@ -359,7 +359,7 @@ private theorem standardKoszulStage_flat
     (standardKoszulStage family none power).KFlat := by
   let complex := Koszul.seqComplex (fun index => family index ^ (power + 1))
   let (degree : ℕ) : Projective (complex.X degree) := by
-    show Projective (ModuleCat.of ring (⋀[ring]^degree (Fin rank → ring)))
+    change Projective (ModuleCat.of ring (⋀[ring]^degree (Fin rank → ring)))
     exact ModuleCat.projective_of_free ((Pi.basisFun ring (Fin rank)).exteriorPower degree)
   let (degree : ℤ) : Module.Flat ring ((complex.extend ComplexShape.embeddingDownNat).X degree) :=
     inferInstance
@@ -471,7 +471,7 @@ private theorem coefficientStageComparisonIso_augmentation
   refine (derivedTensorUnit_naturality tensor (factors.app complex).hom
     (DerivedCategory.Q.map unitMap) =≫ _).trans ?_
   simp only [Category.assoc]
-  show _ ≫ _ ≫ ((tensor.tensor.map (factors.app complex).hom).app (DerivedCategory.Q.obj factor) ≫
+  change _ ≫ _ ≫ ((tensor.tensor.map (factors.app complex).hom).app (DerivedCategory.Q.obj factor) ≫
     (tensor.tensor.map (factors.app complex).inv).app (DerivedCategory.Q.obj factor)) = _
   rw [← NatTrans.comp_app, ← Functor.map_comp, Iso.hom_inv_id, tensor.tensor.map_id,
     NatTrans.id_app, Category.comp_id]

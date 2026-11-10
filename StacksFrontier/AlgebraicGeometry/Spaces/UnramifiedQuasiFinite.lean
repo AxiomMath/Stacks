@@ -63,7 +63,8 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 /-- **Stacks 05W0, the global consequence.** An unramified morphism of algebraic spaces over `S`
 is locally quasi-finite: on every commuting square of étale scheme charts the induced scheme
 morphism is unramified, hence locally of finite type and locally quasi-finite. -/
-@[stacks 05W0 "global consequence", stacks 05W0 "an unramified morphism is locally quasi-finite", ega "IV 17.4.3"]
+@[stacks 05W0 "global consequence",
+  stacks 05W0 "an unramified morphism is locally quasi-finite", ega "IV 17.4.3"]
 theorem isLocallyQuasiFinite_of_isUnramified {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (f : X ⟶ Y) (h : IsUnramified B S hS f) :
     IsLocallyQuasiFinite B S hS f :=

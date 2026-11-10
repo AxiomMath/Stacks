@@ -402,7 +402,8 @@ over `A` at every geometric point lying over `Z`.  Then the submodule of section
 supported on the exceptional preimage is zero, so its inclusion is the zero morphism.
 
 This is the input `hloc` needed by
-`AlgebraicGeometry.Space.isIso_strictTransformSheafQuotient_of_isFlatOverAtGeometricPoint`: the exceptional divisor is an effective Cartier divisor on `A'`
+`AlgebraicGeometry.Space.isIso_strictTransformSheafQuotient_of_isFlatOverAtGeometricPoint`: the
+exceptional divisor is an effective Cartier divisor on `A'`
 because `b` is a blowup, the pullback `pr_X^*F` is quasi-coherent by Stacks 03GA and flat over
 `A'` above the exceptional divisor by part (1) of Stacks 05VW, so
 `AlgebraicGeometry.Space.hasNoSectionsSupportedIn_preimage_of_isFlatOverAtGeometricPoint`

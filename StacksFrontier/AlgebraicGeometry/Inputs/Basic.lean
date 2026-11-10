@@ -53,18 +53,19 @@ This file does two things, neither of which is new mathematics.
 **[Stacks, Tag 09MS] is not proved and no `stacks` attribute is attached in this directory.** The
 tag is a single *biconditional* carrying one unlabelled attribute, so no part of it can be
 registered separately, and the theorem below still carries two hypotheses the source does not
-grant. The two remaining obligations need [Stacks, Tag 01Y9] (nilpotence of the ideal of a surjective
-closed immersion into a Noetherian scheme), [Stacks, Tag 0B8S] (the boundary map of the graded
-sum is a derivation) and [Stacks, Tag 01XR], none of which is formalized in the library, under
-its tag or under another name.
+grant. The two remaining obligations need [Stacks, Tag 01Y9] (nilpotence of the ideal of a
+surjective closed immersion into a Noetherian scheme), [Stacks, Tag 0B8S] (the boundary map of the
+graded sum is a derivation) and [Stacks, Tag 01XR], none of which is formalized in the library,
+under its tag or under another name.
 
 [Stacks, Tag 01QY] is a different and better case.
 Its content is available at the level of ringed **topoi**, which is [Stacks, Tag 08M3]:
 `AlgebraicGeometry.ClosedRingedImmersion.pushforwardModules_fullyFaithful`
 (`Algebra/Category/ModuleCat/Sheaf/PushforwardFullyFaithful/Basic.lean:147`) and
 `AlgebraicGeometry.ClosedRingedImmersion.pushforwardModules_essImage_iff_ideal_annihilates`
-(`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/PushforwardEssentialImageDirect/Criterion.lean:129`), the second of which characterizes the
-essential image exactly by annihilation by the kernel ideal. What remains is therefore the
+(`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/PushforwardEssentialImageDirect/Criterion.lean`
+line 129), the second of which characterizes the essential image exactly by annihilation by
+the kernel ideal. What remains is therefore the
 08KS-from-08M3 **bridge**, whose local-surjectivity half is also proved
 (`Stacks.AlgebraicGeometry.ClosedImmersionTFAE.isLocallySurjective_c_of_isClosedImmersion`,
 `StacksFrontier/AlgebraicGeometry/ClosedImmersionTFAE/Basic.lean`), and not the theorem.

@@ -89,8 +89,7 @@ theorem TensorProduct.exists_one_tmul_eq_of_surjective {R A M : Type*} [CommRing
     [CommRing A] [Algebra R A] [AddCommGroup M] [Module R M]
     (hψ : Function.Surjective (algebraMap R A)) (z : A ⊗[R] M) :
     ∃ m : M, (1 : A) ⊗ₜ[R] m = z := by
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, TensorProduct.tmul_zero _ _⟩
+  induction z using TensorProduct.inductionOn with
   | tmul a m =>
     obtain ⟨r, rfl⟩ := hψ a
     refine ⟨r • m, ?_⟩
@@ -238,7 +237,7 @@ include hk hV in
 theorem mem_kernelIdealSheafZPow_of_mem_pow (n : ℕ) {x : chartRing B S hS X.1 X.2 V}
     (hx : x ∈ conormalChartIdeal B S hS k V ^ n) :
     x ∈ (kernelIdealSheafZPow B S hS k (n : ℤ)).obj (op V) := by
-  show x ∈ Stacks.Sites.sectionIdeal (O := (smallEtaleRingedSite B S hS X.1 X.2).O)
+  change x ∈ Stacks.Sites.sectionIdeal (O := (smallEtaleRingedSite B S hS X.1 X.2).O)
     (kernelIdealSheafZPow B S hS k (n : ℤ)) (op V)
   rwa [sectionIdeal_kernelIdealSheafZPow_eq_pow B S hS k hk V hV n]
 

@@ -199,7 +199,7 @@ def slotDerivation (k : ι) : Derivation A P Ω[P⁄A] :=
 theorem slotDerivation_slotIncl (k k' : ι) (b : R k') :
     slotDerivation e k (slotIncl e k' b) =
       if k = k' then KaehlerDifferential.D A P (slotIncl e k' b) else 0 := by
-  show slotLin e k (e.symm (e (PiTensorProduct.singleAlgHom k' b))) = _
+  change slotLin e k (e.symm (e (PiTensorProduct.singleAlgHom k' b))) = _
   rw [AlgEquiv.symm_apply_apply, PiTensorProduct.singleAlgHom_apply, slotLin,
     PiTensorProduct.lift.tprod, slotMultilinear_apply]
   split_ifs with h
@@ -221,24 +221,26 @@ theorem kaehlerSlotProj_D (k k' : ι) (b : R k') :
       if k = k' then KaehlerDifferential.D A P (slotIncl e k' b) else 0 := by
   rw [kaehlerSlotProj, Derivation.liftKaehlerDifferential_comp_D, slotDerivation_slotIncl]
 
+omit [Fintype ι] in
 /-- **`Ω_{P/A}` is spanned by the differentials of the factors.** -/
-theorem span_kaehler_slotIncl :
+theorem span_kaehler_slotIncl [Finite ι] :
     Submodule.span P (⋃ k, Set.range fun b : R k ↦ KaehlerDifferential.D A P (slotIncl e k b)) =
       ⊤ := by
+  have := Fintype.ofFinite ι
   set N := Submodule.span P
     (⋃ k, Set.range fun b : R k ↦ KaehlerDifferential.D A P (slotIncl e k b))
   let S₀ : Subalgebra A P :=
     { carrier := {x | KaehlerDifferential.D A P x ∈ N}
       mul_mem' := fun {x y} hx hy ↦ by
-        show KaehlerDifferential.D A P (x * y) ∈ N
+        change KaehlerDifferential.D A P (x * y) ∈ N
         rw [Derivation.leibniz]
         exact N.add_mem (N.smul_mem x hy) (N.smul_mem y hx)
       add_mem' := fun {x y} hx hy ↦ by
-        show KaehlerDifferential.D A P (x + y) ∈ N
+        change KaehlerDifferential.D A P (x + y) ∈ N
         rw [map_add]
         exact N.add_mem hx hy
       algebraMap_mem' := fun a ↦ by
-        show KaehlerDifferential.D A P (algebraMap A P a) ∈ N
+        change KaehlerDifferential.D A P (algebraMap A P a) ∈ N
         rw [Derivation.map_algebraMap]
         exact N.zero_mem }
   have hS : ∀ x : P, x ∈ S₀ := fun x ↦ by
@@ -384,7 +386,7 @@ theorem IsSlotFamily.transport (h : IsSlotFamily g π) (φ : (B : Type u) →ₐ
     (hφψ : ∀ y, φ (ψ y) = y) (hψφ : ∀ x, ψ (φ x) = x) :
     IsSlotFamily (fun k b ↦ φ (g k b)) fun k ↦ transportSlot φ hφ ψ hψ hφψ (π k) where
   map_d k k' b := by
-    show oneFormsMap φ hφ (π k (oneFormsMap ψ hψ _)) = _
+    change oneFormsMap φ hφ (π k (oneFormsMap ψ hψ _)) = _
     rw [oneFormsMap_dividedPowerDifferential, hψφ, h.map_d]
     split_ifs
     · exact oneFormsMap_dividedPowerDifferential φ hφ _
@@ -419,7 +421,7 @@ theorem IsSlotFamily.transport (h : IsSlotFamily g π) (φ : (B : Type u) →ₐ
     have h3 : oneFormsMap φ hφ (oneFormsMap ψ hψ ω) = ω := by
       have hc : (oneFormsMap φ hφ).toAddMonoidHom.comp (oneFormsMap ψ hψ).toAddMonoidHom =
           AddMonoidHom.id _ := by
-        show (mapDifferentialsOfDPMorphism (A := A) (J := B.ideal) (delta := B.dividedPowers)
+        change (mapDifferentialsOfDPMorphism (A := A) (J := B.ideal) (delta := B.dividedPowers)
           B'.dividedPowers φ hφ).comp (mapDifferentialsOfDPMorphism (A := A) (J := B'.ideal)
             (delta := B'.dividedPowers) B.dividedPowers ψ hψ) = _
         rw [mapDifferentialsOfDPMorphism_comp]

@@ -301,7 +301,7 @@ theorem mem_graphIdeal_of_locally_mem {X : Cᵒᵖ} (s : ↥((modules N).sqZeroE
   have hfst : π.hom.app X (sqZeroExtFst s) = 0 := by
     refine eq_of_locally_eq (isSheaf_forgetCommRing B) hS _ _ fun Y f hf => ?_
     obtain ⟨g, hg⟩ := hs f hf
-    show (B.obj.map f.op).hom (π.hom.app X (sqZeroExtFst s)) = (B.obj.map f.op).hom 0
+    change (B.obj.map f.op).hom (π.hom.app X (sqZeroExtFst s)) = (B.obj.map f.op).hom 0
     rw [naturality_app, map_zero, ← sqZeroExtFst_map, ← hg, graphSection_fst]
     exact g.2
   refine ⟨⟨sqZeroExtFst s, hfst⟩, sqZeroExt_ext (graphSection_fst π N ψ X _) ?_⟩
@@ -312,7 +312,7 @@ theorem mem_graphIdeal_of_locally_mem {X : Cᵒᵖ} (s : ↥((modules N).sqZeroE
       Conormal.map_kernel π.hom f.op hfst⟩ := by
     refine Subtype.ext ?_
     rw [← graphSection_fst π N ψ (op Y) g, hg, sqZeroExtFst_map]
-  show (modules N).map f.op ((ψ.app X) ⟨sqZeroExtFst s, hfst⟩ + sqZeroExtSnd s)
+  change (modules N).map f.op ((ψ.app X) ⟨sqZeroExtFst s, hfst⟩ + sqZeroExtSnd s)
       = (modules N).map f.op 0
   rw [map_zero, map_add, ← ψ.app_map, ← sqZeroExtSnd_map, ← hg, graphSection_snd, hg']
   exact add_neg_cancel _
@@ -365,7 +365,7 @@ projection onto `ℬ` gives the projection of the trivial extension followed by 
 theorem pushoutMk_comp_pushoutProj :
     pushoutMk π N ψ ≫ pushoutProj π N ψ = sqZeroExtSheafProj R N ≫ π := by
   apply Sheaf.hom_ext
-  show (Stacks.Sites.toQuotientPresheaf (graphIdealSubsheaf π N ψ) ≫
+  change (Stacks.Sites.toQuotientPresheaf (graphIdealSubsheaf π N ψ) ≫
       toSheafify K (Stacks.Sites.quotientPresheaf (graphIdealSubsheaf π N ψ))) ≫
       sheafifyLift K (quotientToTarget π N ψ) B.property =
     sqZeroExtProj (modules N) ≫ π.hom
@@ -415,13 +415,13 @@ theorem pushoutInr_eq_toSheafify (X : Cᵒᵖ) (n : ↥((modules N).obj X)) :
 /-- The inclusion of `𝒢` is additive. -/
 theorem pushoutInr_add (X : Cᵒᵖ) (n m : ↥((modules N).obj X)) :
     pushoutInr π N ψ X (n + m) = pushoutInr π N ψ X n + pushoutInr π N ψ X m := by
-  show ((pushoutMk π N ψ).hom.app X).hom (inrSection N X (n + m)) = _
+  change ((pushoutMk π N ψ).hom.app X).hom (inrSection N X (n + m)) = _
   rw [inrSection_add]
   exact map_add ((pushoutMk π N ψ).hom.app X).hom _ _
 
 /-- The inclusion of `𝒢` sends zero to zero. -/
 theorem pushoutInr_zero (X : Cᵒᵖ) : pushoutInr π N ψ X 0 = 0 := by
-  show ((pushoutMk π N ψ).hom.app X).hom (inrSection N X 0) = _
+  change ((pushoutMk π N ψ).hom.app X).hom (inrSection N X 0) = _
   rw [inrSection_zero]
   exact map_zero ((pushoutMk π N ψ).hom.app X).hom
 
@@ -429,10 +429,10 @@ theorem pushoutInr_zero (X : Cᵒᵖ) : pushoutInr π N ψ X 0 = 0 := by
 theorem pushoutInr_map {X Y : Cᵒᵖ} (f : X ⟶ Y) (n : ↥((modules N).obj X)) :
     ((pushoutSheaf π N ψ).obj.map f).hom (pushoutInr π N ψ X n) =
       pushoutInr π N ψ Y ((modules N).map f n) := by
-  show ((pushoutSheaf π N ψ).obj.map f).hom
+  change ((pushoutSheaf π N ψ).obj.map f).hom
     ((pushoutMk π N ψ).hom.app X (inrSection N X n)) = _
   rw [← NatTrans.naturality_apply (pushoutMk π N ψ).hom f (inrSection N X n)]
-  show ((pushoutMk π N ψ).hom.app Y).hom (((modules N).sqZeroExtMap f).hom
+  change ((pushoutMk π N ψ).hom.app Y).hom (((modules N).sqZeroExtMap f).hom
     (inrSection N X n)) = _
   rw [sqZeroExtMap_inrSection]
   rfl
@@ -465,9 +465,9 @@ theorem pushoutMk_mul_pushoutInr (X : Cᵒᵖ) (w : ↥((modules N).sqZeroExtObj
 /-- The composite `𝒢 ⟶ (R ⋉ 𝒢)/J ⟶ ℬ` is zero. -/
 theorem pushoutProj_pushoutInr (X : Cᵒᵖ) (n : ↥((modules N).obj X)) :
     (pushoutProj π N ψ).hom.app X (pushoutInr π N ψ X n) = 0 := by
-  show ((pushoutMk π N ψ).hom.app X ≫ (pushoutProj π N ψ).hom.app X) (inrSection N X n) = 0
+  change ((pushoutMk π N ψ).hom.app X ≫ (pushoutProj π N ψ).hom.app X) (inrSection N X n) = 0
   rw [← NatTrans.comp_app, pushoutMk_comp_pushoutProj_hom]
-  show π.hom.app X (sqZeroExtFst (inrSection N X n)) = 0
+  change π.hom.app X (sqZeroExtFst (inrSection N X n)) = 0
   rw [inrSection_fst, map_zero]
 
 /-- The inclusion of `𝒢` into the pushout, as a homomorphism of the additive groups of local

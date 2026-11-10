@@ -67,8 +67,8 @@ discharge it, and it is carried because that clause is not available in this rep
 * the source proves item (2) by a different route — representability by algebraic spaces
   (**Stacks 0CJ9**), descent along a smooth chart (**Stacks 04XD**), and then the
   algebraic-spaces isomorphism clause, which is item (3) of **Stacks 0CGX**. That clause is
-  itself not formalized: `StacksFrontier.AlgebraicGeometry.Spaces.Deformations.FlatDeformation` proves
-  items (2), (9), (12), (15), (16), (17) and (18) of 0CGX and no isomorphism item.
+  itself not formalized: `StacksFrontier.AlgebraicGeometry.Spaces.Deformations.FlatDeformation`
+  proves items (2), (9), (12), (15), (16), (17) and (18) of 0CGX and no isomorphism item.
 
 The companion file `StacksFrontier.AlgebraicGeometry.Stacks.LiftingAffinesEtaleMorphism` carries the
 étale clause of the same lemma for the same reason.

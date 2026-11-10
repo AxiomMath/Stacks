@@ -93,7 +93,7 @@ lemma liftStupidTrunc_ι [e.IsTruncGE]
     {L : HomologicalComplex A c'} [L.IsStrictlySupported e] (f : L ⟶ K) :
     liftStupidTrunc K e f ≫ ιStupidTrunc K e = f := by
   ext i'
-  show (liftStupidTrunc K e f).f i' ≫ (ιStupidTrunc K e).f i' = f.f i'
+  change (liftStupidTrunc K e f).f i' ≫ (ιStupidTrunc K e).f i' = f.f i'
   by_cases hi' : ∃ i, e.f i = i'
   · obtain ⟨i, hi⟩ := hi'
     rw [ιStupidTrunc_f K e hi]
@@ -102,7 +102,7 @@ lemma liftStupidTrunc_ι [e.IsTruncGE]
     subst hi
     simp only [stupidTruncXIso, restrictionXIso, restrictionMap, Iso.trans_hom,
       Category.assoc, Iso.inv_hom_id_assoc]
-    show (𝟙 (L.X (e.f i))) ≫ f.f (e.f i) ≫ 𝟙 (K.X (e.f i)) = f.f (e.f i)
+    change (𝟙 (L.X (e.f i))) ≫ f.f (e.f i) ≫ 𝟙 (K.X (e.f i)) = f.f (e.f i)
     simp only [Category.id_comp, Category.comp_id]
   · exact (L.isZero_X_of_isStrictlySupported e i' (by simpa using hi')).eq_of_src _ _
 
@@ -214,16 +214,16 @@ lemma stupidTruncGEShortComplex_shortExact (p : ℤ) :
     (stupidTruncGEShortComplex K p).ShortExact := by
   refine shortExact_of_degreewise_shortExact _ fun n => ?_
   let S := (stupidTruncGEShortComplex K p).map (eval C (.up ℤ) n)
-  show S.ShortExact
+  change S.ShortExact
   by_cases hn : n = p
   · subst n
     apply (ShortComplex.Splitting.ofIsZeroOfIsIso S ?_ ?_).shortExact
     · exact isZero_stupidTruncGE_X K (p + 1) p (by omega)
-    · show IsIso ((stupidTruncGEπ K p).f p)
+    · change IsIso ((stupidTruncGEπ K p).f p)
       rw [stupidTruncGEπ_f]
       infer_instance
   · apply (ShortComplex.Splitting.ofIsIsoOfIsZero S ?_ ?_).shortExact
-    · show IsIso ((stupidTruncGEMapLE K (show p ≤ p + 1 by omega)).f n)
+    · change IsIso ((stupidTruncGEMapLE K (show p ≤ p + 1 by omega)).f n)
       by_cases hpn : p < n
       · rw [stupidTruncGEMapLE_f K _ n (by omega)]
         infer_instance

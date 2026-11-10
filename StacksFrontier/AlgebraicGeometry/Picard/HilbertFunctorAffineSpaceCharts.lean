@@ -166,7 +166,7 @@ theorem IsChart.baseChange {T' T : Over S} [IsAffine T.left] [IsAffine T'.left] 
     obtain ⟨⟨c, b⟩, rfl⟩ := hx
     obtain ⟨cb, rfl⟩ := hZ b
     refine ⟨fun l ↦ c * g.left.appTop (cb l), ?_⟩
-    show _ = _ * _
+    change _ = _ * _
     rw [baseChangeMap_appTop_chartMap]
     simp only [chartMap, Finset.mul_sum, map_mul, mul_assoc]
   | zero => exact ⟨0, chartMap_zero _ _⟩
@@ -203,7 +203,7 @@ theorem notMem_support_iff_subsingleton_tensorProduct [Module.Finite A C] (hK : 
     exact .of_mul_eq_one _ hb
   constructor
   · intro hp
-    rw [Module.mem_support_iff_of_finite, SetLike.not_le_iff_exists] at hp
+    rw [Module.mem_support_iff_of_finite, IsConcreteLE.not_le_iff_exists] at hp
     obtain ⟨a, ha, hap⟩ := hp
     obtain ⟨u, hu⟩ := hunit a hap
     refine subsingleton_of_forall_eq 0 fun x ↦ ?_
@@ -374,7 +374,7 @@ theorem toSpecΓ_apply_eq_fieldPointPrime {T T'' : Over S} (h : T'' ⟶ T)
     T.left.toSpecΓ (h.left x) = fieldPointPrime h hK := by
   rw [← Scheme.Hom.comp_apply, Scheme.toSpecΓ_naturality, Scheme.Hom.comp_apply, Spec.map_apply]
   refine PrimeSpectrum.ext ?_
-  show Ideal.comap h.left.appTop.hom (T''.left.toSpecΓ x).asIdeal = RingHom.ker _
+  change Ideal.comap h.left.appTop.hom (T''.left.toSpecΓ x).asIdeal = RingHom.ker _
   rw [toSpecΓ_apply_asIdeal_eq_bot hK, ← RingHom.ker_eq_comap_bot]
   rfl
 
@@ -434,7 +434,7 @@ theorem isChart_baseChange_iff_of_mem {T T'' : Over S} (V : T.left.Opens) (hV : 
   set h' : T''.left ⟶ V := IsOpenImmersion.lift V.ι h.left hsub
   have hfac : h' ≫ V.ι = h.left := IsOpenImmersion.lift_fac _ _ _
   let h'' : T'' ⟶ Over.restrict T V := Over.homMk h' (by
-    show h' ≫ (V.ι ≫ T.hom) = _
+    change h' ≫ (V.ι ≫ T.hom) = _
     rw [← Category.assoc, hfac, Over.w h])
   have hh : h = h'' ≫ Over.restrictι T V := by
     ext1
@@ -443,14 +443,14 @@ theorem isChart_baseChange_iff_of_mem {T T'' : Over S} (V : T.left.Opens) (hV : 
     rw [← Scheme.Hom.comp_apply, hfac, hx])
   rw [hh, baseChange_comp, isChart_baseChange_iff h'' hK,
     ← toSpecΓ_apply_eq_fieldPointPrime h'' hK x]
-  show (V : Scheme).toSpecΓ (h' x) ∉ _ ↔ _
+  change (V : Scheme).toSpecΓ (h' x) ∉ _ ↔ _
   rw [hy]
 
 /-- The locus of points `t ∈ T` over which the family `Z` is a chart: every field-valued point
 of `T` hitting `t` pulls `Z` back to a family satisfying the chart condition. -/
 def chartLocus {T : Over S} (Z : HilbertFamily (affineSpaceOver S n) T d)
     (W : Fin d → MvPolynomial n Γ(S, ⊤)) : Set T.left :=
-  {t | ∀ (T'' : Over S) (h : T'' ⟶ T), IsAffine T''.left → ∀ hK : IsField Γ(T''.left, ⊤),
+  {t | ∀ (T'' : Over S) (h : T'' ⟶ T), IsAffine T''.left → IsField Γ(T''.left, ⊤) →
     t ∈ Set.range h.left → IsChart (baseChange _ h Z) W}
 
 /-- Membership in the chart locus, read on an affine open. -/
@@ -459,7 +459,7 @@ theorem mem_chartLocus_iff_of_mem {T : Over S} (V : T.left.Opens) (hV : IsAffine
     (y : V) :
     V.ι y ∈ chartLocus Z W ↔
       (V : Scheme).toSpecΓ y ∉ cokernelSupport (baseChange _ (Over.restrictι T V) Z) W := by
-  rw [chartLocus, Set.mem_setOf_eq]
+  rw [chartLocus, Set.mem_ofPred_eq]
   constructor
   · intro hy
     have hK := isField_residueFieldOver T (V.ι y)
@@ -543,7 +543,7 @@ theorem isOpenHilbertSubfunctor_chartSubfunctor (W : Fin d → MvPolynomial n Γ
   rw [mem_chartSubfunctor_iff]
   constructor
   · rintro hZ _ ⟨t', rfl⟩
-    show ∀ (T'' : Over S) (h : T'' ⟶ T), IsAffine T''.left → ∀ hK : IsField Γ(T''.left, ⊤),
+    change ∀ (T'' : Over S) (h : T'' ⟶ T), IsAffine T''.left → ∀ hK : IsField Γ(T''.left, ⊤),
       g.left t' ∈ Set.range h.left → IsChart (baseChange _ h Z) W
     rintro T'' h _ hK ⟨x, hx⟩
     have hK₀ := isField_residueFieldOver T' t'
@@ -627,7 +627,7 @@ theorem span_monomialFun_eq_top [IsAffine S] {T : Over S} [IsAffine T.left]
     have := hpoly c P
     simp only [HilbertFamily.structural, HilbertFamily.toAmbient, Scheme.Hom.comp_appTop,
       CommRingCat.hom_comp, RingHom.comp_apply] at this
-    show Z.ideal.subschemeι.appTop (_ * _) ∈ N
+    change Z.ideal.subschemeι.appTop (_ * _) ∈ N
     rw [map_mul]
     exact this
   | zero =>
@@ -690,7 +690,7 @@ theorem isChart_of_mem_chartSubfunctor {W : Fin d → MvPolynomial n Γ(S, ⊤)}
     rw [← toSpecΓ_apply_eq_fieldPointPrime _ hK x] at h
     refine h ?_
     rw [hx, ← Scheme.isoSpec_hom]
-    show (T.left.isoSpec.inv ≫ T.left.isoSpec.hom) p ∈ _
+    change (T.left.isoSpec.inv ≫ T.left.isoSpec.hom) p ∈ _
     rwa [Iso.inv_hom_id]
   let := Z.structural.appTop.hom.toAlgebra
   rw [cokernelSupport, Module.support_eq_empty_iff,

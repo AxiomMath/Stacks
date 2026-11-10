@@ -81,9 +81,7 @@ theorem propertyIsInvariantUnderTargetIso_of_propertyIsLocalNoetherian
       [CommRing R₂] [TopologicalSpace R₂] [IsTopologicalRing R₂], (R₁ →+* R₂) → Prop}
     (hP : TopologicalRing.PropertyIsLocalNoetherian'.{u} P) :
     PropertyIsInvariantUnderTargetIso'.{u} P := by
-  intro A R R'
-  intro _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-  intro hA hR hR' ψ e hψ he hes hψP
+  intro A R R' _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ hA hR hR' ψ e hψ he hes hψP
   have h := (hP.isomorphismInvariant (RingEquiv.refl A) e continuous_id continuous_id he hes ψ hψ
     ⟨hA, inferInstance⟩ ⟨hR, inferInstance⟩ ⟨hA, inferInstance⟩ ⟨hR', inferInstance⟩).mp hψP
   rwa [comp_refl_symm] at h

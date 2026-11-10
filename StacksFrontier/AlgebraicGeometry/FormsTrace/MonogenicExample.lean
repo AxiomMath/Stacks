@@ -16,7 +16,8 @@ Proposition 0FLC gives the map of de Rham complexes `Θ_{Spec B/Spec A}`
 (`AlgebraicGeometry.Scheme.ΓSpecIso`), this map is the trace map
 `Θ_{B/A} = Stacks.FormsTrace.frameTrace A B` of rings
 (`AlgebraicGeometry.absoluteFormsSectionsEquiv_formsTrace_app_top`). So the computations of
-Example 0FLD (`StacksFrontier.RingTheory.FormsTrace.MonogenicExample`) are computations of the map of
+Example 0FLD (`StacksFrontier.RingTheory.FormsTrace.MonogenicExample`) are computations of the map
+of
 Proposition 0FLC.
 
 ## Main results
@@ -96,7 +97,7 @@ theorem absoluteFormsSectionsEquiv_formsTrace_app_top (pb : PowerBasis A B) (hdi
     IsScalarTower.of_algebraMap_eq fun _ => rfl
   have : IsScalarTower A B Γ(Spec (.of B), g ⁻¹ᵁ ⊤) :=
     IsScalarTower.of_algebraMap_eq fun r => by
-      show (g.app ⊤).hom (algebraMap A Γ(Spec (.of A), ⊤) r) = _
+      change (g.app ⊤).hom (algebraMap A Γ(Spec (.of A), ⊤) r) = _
       rw [hA, heB, hcomm]
       rfl
   let pb' := powerBasisOfRingEquiv eA eB hcomm pb

@@ -73,7 +73,8 @@ of `Crystalline.levelTensorProj`, and the recipe of the tag — the field `compa
 system of [Stacks, Tag 07JN] and not through the datum of this module. `Functor.IsEquivalence` of
 the functor of this module is not mentioned below; by `...SmallSite.faithful_functor07JG_iff` even
 its faithfulness is the faithfulness half of the conclusion of [Stacks, Tag 07JH], whose remaining
-content is analysed in `StacksFrontier/AlgebraicGeometry/Crystalline/LevelFaithfulSurjectivity.lean`.
+content is analysed in
+`StacksFrontier/AlgebraicGeometry/Crystalline/LevelFaithfulSurjectivity.lean`.
 
 What the assembled datum consumes is, in full:
 
@@ -92,7 +93,8 @@ What the assembled datum consumes is, in full:
    [Stacks, Tag 07J6] and it is proved nowhere in the tree.
 4. The source's two coefficient computations over `D(1)` and `D(2)` — `theta`, `thetaPow`,
    `hfam`, `hco`, `hfin` — which items (07JD) and (07JE) are derived from in
-   `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/LevelComparisonTaylor.lean` and which were
+   `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/LevelComparisonTaylor.lean` and which
+   were
    carried before this module too.
 
 Item (07JB) is **not** carried at the system of [Stacks, Tag 07JN]: it is
@@ -323,8 +325,7 @@ theorem levelBaseChange_smul (F : QuasiCoherentCrystal S) (e : ℕ)
     (z : firstOrderExtension D Omega ⊗[(D : Type u)] L.levelSections F e) :
     R.levelBaseChange F e (b' • z) =
       R.thickeningRingHom e b' • R.levelBaseChange F e z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul b m =>
       rw [TensorProduct.smul_tmul', R.levelBaseChange_tmul, R.levelBaseChange_tmul,
         smul_eq_mul, map_mul, smul_smul]
@@ -337,8 +338,7 @@ theorem levelSectionsι_levelBaseChange (F : QuasiCoherentCrystal S) (e : ℕ)
     (z : firstOrderExtension D Omega ⊗[(D : Type u)] L.levelSections F e) :
     L.levelSectionsι F e (R.levelBaseChange F e z) =
       firstOrderReduction D Omega (L.levelSections F e) z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, L.levelSectionsι_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul b m =>
       rw [R.levelBaseChange_tmul, L.levelSectionsι_smul, R.thickeningRingHom_ι,
         L.levelSectionsι_levelSectionsP₀, firstOrderReduction_tmul]
@@ -355,8 +355,7 @@ theorem levelBaseChange_lTensor_levelRestrict (F : QuasiCoherentCrystal S) (e : 
     R.levelBaseChange F e
         (LinearMap.lTensor (firstOrderExtension D Omega) (L.levelRestrict F e) z) =
       L.firstOrderLevelRestrict F e (R.levelBaseChange F (e + 1) z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero, L.firstOrderLevelRestrict_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul b y =>
       rw [LinearMap.lTensor_tmul, R.levelBaseChange_tmul, R.levelBaseChange_tmul,
         L.firstOrderLevelRestrict_smul, R.thickeningRingHom_restrict,
@@ -371,8 +370,7 @@ theorem levelBaseChange_lTensor_levelSectionsMap {F G : QuasiCoherentCrystal S} 
         (LinearMap.lTensor (firstOrderExtension D Omega) (L.levelSectionsMap psi e) z) =
       crystalHomApp psi (firstOrderThickeningCrysObject S (L.levelSystem.obj e))
         (R.levelBaseChange F e z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul b m =>
       rw [LinearMap.lTensor_tmul, R.levelBaseChange_tmul, R.levelBaseChange_tmul,
         crystalHomApp_smul_firstOrder]

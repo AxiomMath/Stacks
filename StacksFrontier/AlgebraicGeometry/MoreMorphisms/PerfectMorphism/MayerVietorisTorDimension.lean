@@ -147,8 +147,6 @@ def restrictedDerivedPushforwardIso {Z X W : Scheme.{u}} (G : X ⟶ W) (i : Z �
     [IsOpenImmersion i] :
     canonicalRightDerived (restrictedPushforwardAlong (hom G) (hom i)) ≅
       (Scheme.Modules.pullback i).mapDerivedCategory ⋙ schemeDerivedPushforward (i ≫ G) :=
-  have hli : PreservesFiniteLimits (Scheme.Modules.pullback i) :=
-    pullback_preservesFiniteLimits_of_isOpenImmersion i
   have hiR : (Scheme.Modules.pullback i).mapDerivedCategory.IsRightDerivedFunctor
       (Scheme.Modules.pullback i).mapDerivedCategoryFactorsh.inv
       (HomotopyCategory.quasiIso X.Modules (ComplexShape.up ℤ)) :=
@@ -208,9 +206,9 @@ theorem hasFiniteTorDimension_restrictFunctor {Z : Scheme.{u}} (O : Z.Opens)
     HasFiniteTorDimension (O.toScheme).toRingedSpace
       ((Scheme.Modules.restrictFunctor O.ι).mapDerivedCategory.obj B) := by
   obtain ⟨a, b, hab⟩ := hB
+  open Stacks.AlgebraicGeometry.PerfectProperDirectImage in
   refine ⟨min a b, max a b,
-    (Stacks.AlgebraicGeometry.PerfectProperDirectImage.hasTorAmplitude_restrictModules_iff_restrictFunctor
-      Z O B _ _).1 ?_⟩
+    (hasTorAmplitude_restrictModules_iff_restrictFunctor Z O B _ _).1 ?_⟩
   exact hasTorAmplitude_restrictModules.{u, u + 1} (X := Z.toRingedSpace) O B (min a b) (max a b)
     min_le_max
     (FlatOpcycles.hasTorAmplitude_mono.{u, u + 1} hab (min_le_left a b) (le_max_right a b))

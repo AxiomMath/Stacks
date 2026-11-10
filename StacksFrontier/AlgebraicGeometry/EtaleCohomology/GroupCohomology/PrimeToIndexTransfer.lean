@@ -54,7 +54,7 @@ universe u v
 
 namespace Stacks.GroupCohomology
 
-variable {G : Type u} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+variable {G : Type u} [Group G]
   {M : Type v} [AddCommGroup M] [DistribMulAction G M]
 
 /-- The action of a group element commutes with multiplication by an integer. -/
@@ -81,6 +81,8 @@ lemma isCocycle₂_sub_dOne_const {F : G × G → M} (hF : IsCocycle₂ F) :
   · rw [isCocycle₂_apply_one hF g]
     simp only [dOne_apply]
     abel
+
+variable [TopologicalSpace G] [IsTopologicalGroup G]
 
 section Transfer
 

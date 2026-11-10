@@ -172,7 +172,7 @@ public theorem omegaColimStalkEquiv_ofΩ_D (i : OrderDual (TopologicalSpace.Open
       KaehlerDifferential.D (Stacks.KaehlerDifferential.Colimit.Rinf (trans O₁ (x := x)))
         (Stacks.KaehlerDifferential.Colimit.Sinf (trans O₂ (x := x)))
         (Ring.DirectLimit.of _ _ i a) := by
-    show Stacks.KaehlerDifferential.Colimit.Theta (trans O₁) (trans O₂) (isCompatible φ x) _ = _
+    change Stacks.KaehlerDifferential.Colimit.Theta (trans O₁) (trans O₂) (isCompatible φ x) _ = _
     rw [omegaColimTheta_ofΩ]
     exact Stacks.KaehlerDifferential.Colimit.sqMap_D _ _ _ _ _ _ _ a
   rw [h₁, kaehlerDifferentialRingEquiv_D, stalkRingEquiv_of]

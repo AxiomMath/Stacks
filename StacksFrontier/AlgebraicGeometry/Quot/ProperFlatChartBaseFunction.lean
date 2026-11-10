@@ -30,18 +30,15 @@ open Stacks.Sheaves.ToposPushforward (inverseImageCommRingFunctor)
 
 attribute [local instance] MorphismOfTopoi.preservesFiniteLimits
 
+open AlgebraicGeometry.Space
 attribute [local instance high]
-  AlgebraicGeometry.Space.preservesFiniteProducts_smallEtalePostcomp_AlgebraExtensionEtaleRestriction
-  AlgebraicGeometry.Space.hasLimitsOfShape_discrete_EtaleRestrictionInverseImageGlobalSection
-  AlgebraicGeometry.Space.hasTerminal_topos_EtaleRestrictionInverseImageGlobalSection
-  AlgebraicGeometry.Space.hasLimitsOfShape_discreteF_ProperFlatDeformationMapGlobalSection
-  AlgebraicGeometry.Space.hasLimitsOfShape_discrete₀_ProperFlatDeformationMapGlobalSection
-  AlgebraicGeometry.Space.hasDiscreteLimits_topos_ProperFlatDeformationMapGlobalSection
-  AlgebraicGeometry.Space.hasTerminal_topos_ProperFlatDeformationMapGlobalSection
-
--- Lean v4.35.0: `HasLimitsOfShape (Discrete J) (Cᵒᵖ ⥤ Type u)` (for `⊤_ Sheaf J (Type u)`)
--- exceeds the default typeclass budget.
-set_option synthInstance.maxHeartbeats 400000
+  preservesFiniteProducts_smallEtalePostcomp_AlgebraExtensionEtaleRestriction
+  hasLimitsOfShape_discrete_EtaleRestrictionInverseImageGlobalSection
+  hasTerminal_topos_EtaleRestrictionInverseImageGlobalSection
+  hasLimitsOfShape_discreteF_ProperFlatDeformationMapGlobalSection
+  hasLimitsOfShape_discrete₀_ProperFlatDeformationMapGlobalSection
+  hasDiscreteLimits_topos_ProperFlatDeformationMapGlobalSection
+  hasTerminal_topos_ProperFlatDeformationMapGlobalSection
 
 /-- File-local shortcut: the inverse image of a morphism of topoi preserves finite products
 (instance search through the generic paths times out). -/

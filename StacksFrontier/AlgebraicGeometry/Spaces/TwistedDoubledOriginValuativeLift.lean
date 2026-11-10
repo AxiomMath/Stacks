@@ -146,7 +146,7 @@ theorem not_nonempty_hom_formalDisk
   let Q := (quadraticGaloisTwistedDoubledOrigin k K hdegree σ hσ B hS).obj
   let s₀ : yoneda.obj z ⟶ Q := yoneda.map izd ≫ hs.some
   let u : (points F (zeroBaseOverBase k)).obj (Opposite.op z) := by
-    show F.obj z ⟶ zeroBaseOverBase k
+    change F.obj z ⟶ zeroBaseOverBase k
     exact Over.homMk (𝟙 _) (Category.id_comp _)
   let e := Classical.choice (twistedRelationQuotient_zeroFibre (k := k) (K := K) σ B hS)
   let w := e.hom.app (Opposite.op z)

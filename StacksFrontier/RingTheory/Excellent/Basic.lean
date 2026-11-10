@@ -193,7 +193,7 @@ private lemma isJ1_of_isLocalization
     (B : Type*) [CommRing B] [Algebra A B] [IsLocalization M B]
     (h : IsJ1 A) : IsJ1 B := by
   have hopen := h.preimage (PrimeSpectrum.continuous_comap (algebraMap A B))
-  show IsOpen {p : PrimeSpectrum B |
+  change IsOpen {p : PrimeSpectrum B |
     IsRegularLocalRing (Localization.AtPrime p.asIdeal)}
   convert hopen using 1
   ext p
@@ -205,7 +205,7 @@ private lemma isJ1_of_isLocalization
     (p.asIdeal.comap (algebraMap A B)).primeCompl
     (Localization.AtPrime (p.asIdeal.comap (algebraMap A B)))
     (Localization.AtPrime p.asIdeal)
-  show IsRegularLocalRing (Localization.AtPrime p.asIdeal) ↔
+  change IsRegularLocalRing (Localization.AtPrime p.asIdeal) ↔
     IsRegularLocalRing (Localization.AtPrime (p.asIdeal.comap (algebraMap A B)))
   exact ⟨fun _ => IsRegularLocalRing.of_ringEquiv e.symm.toRingEquiv,
     fun _ => IsRegularLocalRing.of_ringEquiv e.toRingEquiv⟩
@@ -246,7 +246,7 @@ private lemma isCatenary_of_isLocalization_07qu
       inj' := PrimeSpectrum.localization_comap_injective B M
       map_rel_iff' := by
         intro p q
-        show p.asIdeal.under A ≤ q.asIdeal.under A ↔ p.asIdeal ≤ q.asIdeal
+        change p.asIdeal.under A ≤ q.asIdeal.under A ↔ p.asIdeal ≤ q.asIdeal
         refine ⟨fun hpq => ?_, Ideal.comap_mono (f := algebraMap A B)⟩
         rw [← IsLocalization.map_under M B p.asIdeal,
           ← IsLocalization.map_under M B q.asIdeal]
@@ -258,7 +258,7 @@ private lemma isCatenary_of_isLocalization_07qu
     refine ⟨?_⟩
     rintro _ _ q hq x ⟨-, hxq⟩
     change Disjoint (M : Set A) q.asIdeal at hq
-    show Disjoint (M : Set A) x.asIdeal
+    change Disjoint (M : Set A) x.asIdeal
     rw [Set.disjoint_left] at hq ⊢
     intro a ha hax
     exact hq ha (hxq hax)
@@ -309,7 +309,7 @@ private theorem exists_isIntegrallyClosed_away_of_isJ1
   let η : PrimeSpectrum A := ⟨⊥, Ideal.isPrime_bot⟩
   have hη : η ∈ {x : PrimeSpectrum A |
       IsRegularLocalRing (Localization.AtPrime x.asIdeal)} := by
-    show IsRegularLocalRing (Localization.AtPrime (⊥ : Ideal A))
+    change IsRegularLocalRing (Localization.AtPrime (⊥ : Ideal A))
     let : Field (Localization.AtPrime (⊥ : Ideal A)) := IsField.toField <| by
       simp [IsLocalRing.isField_iff_maximalIdeal_eq,
         ← Localization.AtPrime.map_eq_maximalIdeal]
@@ -454,7 +454,7 @@ private lemma isReduced_tensor_completion_finite_extension
   let : Algebra A B := ((algebraMap (A ⧸ p) B).comp (algebraMap A (A ⧸ p))).toAlgebra
   have : IsScalarTower A (A ⧸ p) B := IsScalarTower.of_algebraMap_eq' rfl
   have : IsScalarTower A B K := IsScalarTower.of_algebraMap_eq fun a => by
-    show algebraMap A K a = algebraMap (A ⧸ p) K (algebraMap A (A ⧸ p) a)
+    change algebraMap A K a = algebraMap (A ⧸ p) K (algebraMap A (A ⧸ p) a)
     exact IsScalarTower.algebraMap_apply A (A ⧸ p) K a
   have : Module.Finite A B := Module.Finite.trans (A ⧸ p) B
   have : IsFractionRing B K :=

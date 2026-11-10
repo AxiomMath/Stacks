@@ -105,7 +105,7 @@ theorem mem_associatedPoints_iff_mem_weaklyAssociatedPoints {X : Scheme.{u}} (F 
     (x : X) (h : (IsLocalRing.maximalIdeal (X.presheaf.stalk x)).FG) :
     x ∈ Stacks.Divisors.associatedPoints F ↔
       x ∈ Stacks.Divisors.weaklyAssociatedPoints F := by
-  show IsAssociatedPrimeStacks _ (TopCat.Presheaf.stalk (C := Ab.{u}) F.val.presheaf x)
+  change IsAssociatedPrimeStacks _ (TopCat.Presheaf.stalk (C := Ab.{u}) F.val.presheaf x)
       (IsLocalRing.maximalIdeal (X.presheaf.stalk x)) ↔
     IsWeaklyAssociatedPrime _ (TopCat.Presheaf.stalk (C := Ab.{u}) F.val.presheaf x)
       (IsLocalRing.maximalIdeal (X.presheaf.stalk x))

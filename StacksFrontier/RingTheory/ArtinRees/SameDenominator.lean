@@ -144,7 +144,7 @@ theorem mk_mkQ_eq_zero_iff (J T : Ideal A) (n : ℕ) {z : A} (hz : z ∈ power (
         ⟨Ideal.Quotient.mk T z, mk_mem_power_quotient J T n hz⟩ = 0 ↔
       z ∈ J ^ (n + 1) ⊔ T := by
   rw [AssociatedGraded.mk, Submodule.Quotient.mk_eq_zero]
-  show Ideal.Quotient.mk T z ∈ power (M := A ⧸ T) J (n + 1) ↔ _
+  change Ideal.Quotient.mk T z ∈ power (M := A ⧸ T) J (n + 1) ↔ _
   rw [← mem_power_map_iff J T (n + 1), ring_power_eq, ← Ideal.map_pow, mk_mem_map_iff]
 
 /-- **The criterion is exactly the existence of an identity-induced comparison.** The comparison

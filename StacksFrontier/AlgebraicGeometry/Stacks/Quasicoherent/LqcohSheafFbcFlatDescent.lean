@@ -183,7 +183,7 @@ theorem lqcohSheafFbcFppfModules_fppfModulesPushforward_of_isAffineRepresentable
         .fppf f h𝒳 h𝒴 F (fun _ _ ψ hx hx' hψ =>
           (isLocallyQuasicoherent_iff_forall_isIso_restrictionBaseChange B E h S hS _ _ F').1
             hF.1 ψ hx hx' hψ) φ hy hy' hφ
-  exact ⟨hlqc, hasSheafFlatBaseChangeProperty_of_isIso_restrictionBaseChange B E h S hS _ _ _ hlqc
+  exact ⟨hlqc, hasSheafFlatBaseChangeProperty_of_isIso_restrictionBaseChange B E h S hS _ _ _
     fun {_ _} φ hy hy' hφ => isIso_restrictionBaseChange_stackModuleDirectImage B S hS @Flat .fppf
       f h𝒳 h𝒴 F (fun _ _ ψ hx hx' hψ =>
         isIso_restrictionBaseChange_of_flat B E h S hS _ _ F.val hF ψ hψ hx hx') φ hy hy' hφ⟩

@@ -375,7 +375,7 @@ theorem psiOfIso_unit :
   dsimp only [Functor.id_obj, Functor.op_obj, unop_op, Functor.comp_obj]
   simp only [Category.assoc, Category.id_comp]
   rw [hn, ← Category.assoc ((inv φ.hom).app _) (φ.hom.app _), hi, Category.id_comp]
-  show φ.hom.app (op W) ≫
+  change φ.hom.app (op W) ≫
       (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.map
         (eqv.counit.app (eqv.functor.obj W)).op ≫
       (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.map (eqv.functor.map (eqv.unit.app W)).op =

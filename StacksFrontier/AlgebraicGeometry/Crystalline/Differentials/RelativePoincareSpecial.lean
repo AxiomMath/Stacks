@@ -7,8 +7,8 @@ public import StacksFrontier.AlgebraicGeometry.Crystalline.Differentials.Complet
 
 Let `A` be a ring, let `(B, I, δ)` be a divided power ring which is an `A`-algebra, let `W` index
 a family of divided power variables and let `P = B⟨x_w : w ∈ W⟩`.
-`StacksFrontier/AlgebraicGeometry/Crystalline/Differentials/RelativePoincareHomotopy.lean` proves the
-contraction identity `d h + h d = id - ψ ε` on `Ω^*_{P/A,δ'}`, and
+`StacksFrontier/AlgebraicGeometry/Crystalline/Differentials/RelativePoincareHomotopy.lean` proves
+the contraction identity `d h + h d = id - ψ ε` on `Ω^*_{P/A,δ'}`, and
 `StacksFrontier/AlgebraicGeometry/Crystalline/Differentials/CompletedRelativePoincare.lean` carries
 it across the `p`-adic completion.  A contraction is not enough for the perturbation argument of
 [Stacks, Lemma 60.21.2, Tag 07LD]: that argument needs the homotopy to be a **special** deformation
@@ -28,7 +28,8 @@ The homotopy is the sector map of the Koszul contraction `ι_φ` against a coord
 `Crystalline.DividedPowerPolynomial.relativeSectorHomotopy`.  So:
 
 * `h ∘ h = 0` is `ι_φ ∘ ι_φ = 0`, which is
-  `StacksFrontier.LinearAlgebra.ExteriorPower.Koszul`'s `exteriorPower.contraction_comp_contraction`,
+  `StacksFrontier.LinearAlgebra.ExteriorPower.Koszul`'s
+  `exteriorPower.contraction_comp_contraction`,
   the two signs squaring to `1`.  The two bidegrees with too few variable differentials for a
   second contraction are killed by `h` outright, and the sector is the same for both applications
   — `h` lowers the number of variable differentials and leaves the total multi-index alone — which
@@ -247,7 +248,7 @@ theorem relativeFormsRetraction_relativeSectorMapDeg (K : W →₀ ℕ) (hK : K 
         (sectorSubsetDown W K j I) omega := by
     rw [relativeSectorMapDeg_apply, relativeSectorMap_sectorBasis]
     rfl
-  show relativeFormsRetraction A B W n (relativeSectorMapDeg A B W K i j n hn
+  change relativeFormsRetraction A B W n (relativeSectorMapDeg A B W K i j n hn
     (sectorExteriorBasis B W K j I ⊗ₜ[(B : Type uB)] omega)) = 0
   rw [hgen]
   refine relativeFormsRetraction_decompositionGenerator_ne_zero A B W i j n hn _ _ ?_ omega

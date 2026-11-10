@@ -113,7 +113,7 @@ theorem exists_open_geometricallyIrreducible_of_awayModel {R : CommRingCat.{u}} 
   -- Both open subschemes are nonempty, hence irreducible, hence integral.
   have hWmem : genericPoint (Spec R) ∈ W := genericPoint_mem_basicOpen R ha
   have hmem : genericPoint X ∈ f ⁻¹ᵁ W := by
-    show f (genericPoint X) ∈ W
+    change f (genericPoint X) ∈ W
     rw [hgen]
     exact hWmem
   have hWne : Nonempty W.toScheme := ⟨⟨genericPoint (Spec R), hWmem⟩⟩

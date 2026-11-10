@@ -164,7 +164,8 @@ sheaves of `K^∧` is a *consequence* of part (2) rather than an input to it.
 The real obstruction is **naturality in `U`**. Sheafification consumes a morphism of presheaves
 (`Stacks.AlgebraicGeometry.MeromorphicConstantModule.isIso_sheafification_map_of_bijective_basis`)
 and gluing on a basis consumes a compatible family
-(`Stacks.BasisRestriction.moduleSheafIsoOfSectionIsoOnBasis`), while [Stacks, Tag 0A0L] is formalized
+(`Stacks.BasisRestriction.moduleSheafIsoOfSectionIsoOnBasis`), while [Stacks, Tag 0A0L] is
+formalized
 as `Nonempty (… ≅ …)` separately for each `U`, and a family of non-canonical isomorphisms
 sheafifies to nothing. What supplies the naturality is a *canonical* affine comparison, and three
 results of the library make one available:

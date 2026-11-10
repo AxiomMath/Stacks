@@ -95,7 +95,7 @@ public theorem isIso_constantSheafToSheaf_of_isSepClosed (k : Type u) [Field k] 
       rw [(Iso.comp_hom_eq_id _).1 (Sites.constantPresheafFiberIso_ι Φ M T q)]
       infer_instance
     have : IsIso ((constantPresheafToPresheaf F).app (op T)) := by
-      show IsIso (F.obj.map (toEtaleMkId T).op)
+      change IsIso (F.obj.map (toEtaleMkId T).op)
       rw [← toEtaleMkId_unique (𝟙 T), op_id, F.obj.map_id]
       infer_instance
     have : IsIso (Φ.toPresheafFiber T q F.obj) :=

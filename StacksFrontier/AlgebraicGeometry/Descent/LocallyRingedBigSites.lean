@@ -135,7 +135,7 @@ public theorem locallyEitherUnit_globalFunctions
     exact hmaps i z
   have hmap : ((F.op ⋙ Scheme.Γ).map (e ≫ g i).op) =
       (F.map (g i)).appTop ≫ (F.map e).appTop := by
-    show (F.map (e ≫ g i)).appTop = _
+    change (F.map (e ≫ g i)).appTop = _
     rw [F.map_comp, Scheme.Hom.comp_appTop]
   by_cases hx : r i ∈ Y.basicOpen b
   · refine Or.inl ?_

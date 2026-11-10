@@ -137,7 +137,7 @@ theorem automorphismGroupHasProperty_isFiniteOverBase_of_isFinite_inertia
   have e' : (isTerminal_siteTerminalSpace B S hS U).from F =
       (Space.isTerminal_yoneda_obj_base B U.left.1 U.left.2).from F ≫ t :=
     (isTerminal_siteTerminalSpace B S hS U).hom_ext _ _
-  show Space.IsFinite B U.left.1 U.left.2 ((isTerminal_siteTerminalSpace B S hS U).from F)
+  change Space.IsFinite B U.left.1 U.left.2 ((isTerminal_siteTerminalSpace B S hS U).from F)
   rw [e']
   exact Space.isFinite_comp B U.left.1 U.left.2 h₄ (Space.isFinite_of_isIso B U.left.1 U.left.2 t)
 

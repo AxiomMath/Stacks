@@ -61,9 +61,8 @@ theorem surjective_etaleCohomologyRestrictionMap_zero_of_surjective_unit
   have hβ : β' ≫ ((sheafSections X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v}).obj
       (op T)).map η = β := by
     apply (AddCommGrpCat.uliftZMultiplesAddEquiv _).injective
-    simp only [AddCommGrpCat.uliftZMultiplesAddEquiv_apply, AddCommGrpCat.hom_comp,
-      AddMonoidHom.coe_comp, Function.comp_apply]
-    show (η.hom.app (op T)) (β' (ULift.up 1)) = β (ULift.up 1)
+    simp only [AddCommGrpCat.uliftZMultiplesAddEquiv_apply]
+    change (η.hom.app (op T)) (β' (ULift.up 1)) = β (ULift.up 1)
     rw [← hb]
     congr 1
     exact (AddCommGrpCat.uliftZMultiplesAddEquiv (F.obj.obj (op T))).apply_symm_apply b
@@ -74,16 +73,17 @@ theorem surjective_etaleCohomologyRestrictionMap_zero_of_surjective_unit
   have hif : (etaleAbelianInverseImage.{u, v} i).map f = c.hom ≫ g := by
     apply (adj.homEquiv _ _).injective
     rw [Adjunction.homEquiv_unit]
-    show adj.unit.app _ ≫ (etaleAbelianDirectImage.{u, v} i).map
+    change adj.unit.app _ ≫ (etaleAbelianDirectImage.{u, v} i).map
       ((etaleAbelianInverseImage.{u, v} i).map f) = g''
     rw [← hf]
     exact (adj.unit.naturality f).symm
   refine ⟨Ext.mk₀ f, ?_⟩
   rw [etaleCohomologyRestrictionMap_apply, Ext.mapExactFunctor_mk₀, Ext.mk₀_comp_mk₀]
-  show Ext.mk₀ (c.inv ≫ (etaleAbelianInverseImage.{u, v} i).map f) = y
+  change Ext.mk₀ (c.inv ≫ (etaleAbelianInverseImage.{u, v} i).map f) = y
   rw [hif, Iso.inv_hom_id_assoc]
   exact Ext.mk₀_homEquiv₀_apply y
 
+omit [HasExt.{w} (Sheaf X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v})] in
 /-- The unit of `j⁻¹ ⊣ j_*` for the restriction along an étale morphism, on sections: it is the
 restriction map of `F` along the counit `j(V ×_X U) ⟶ V` of composition with `j` against base
 change along `j`. -/

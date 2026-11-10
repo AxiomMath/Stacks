@@ -18,7 +18,8 @@ of `𝒪_X`-modules appear in this repository in two models:
   global cup product of Section 0FKU and the global Künneth maps of Tags 0G7V and 0G49 are stated.
 
 The implementation notes of
-`StacksFrontier.Topology.Sheaves.Cohomology.CechTotalComplex.ModuleValuedDerivedSections` record that
+`StacksFrontier.Topology.Sheaves.Cohomology.CechTotalComplex.ModuleValuedDerivedSections` record
+that
 "the two agree on bounded below complexes, but that comparison is not made here".  This file makes
 it.  The argument is the one of
 `StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.BoundedComparison`, which does the

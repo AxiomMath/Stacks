@@ -121,7 +121,7 @@ theorem Module.Flat.flatQuotSMul_iff_flat_tensor_of_isPushout
   have towQR'T : IsScalarTower (R ⧸ I) R' T := IsScalarTower.of_algebraMap_eq' rfl
   have towQT : IsScalarTower R (R ⧸ I) T :=
     IsScalarTower.of_algebraMap_eq fun r => by
-      show (algebraMap R T) r
+      change (algebraMap R T) r
         = (algebraMap R' T) ((algebraMap (R ⧸ I) R') ((algebraMap R (R ⧸ I)) r))
       rw [← IsScalarTower.algebraMap_apply R (R ⧸ I) R',
         ← IsScalarTower.algebraMap_apply R R' T]
@@ -147,13 +147,13 @@ theorem Module.Flat.flatQuotSMul_iff_flat_tensor_of_isPushout
     IsScalarTower.of_algebraMap_eq (by
       intro a
       induction a using Quotient.ind with | _ a =>
-      show (algebraMap A A') a = (algebraMap T A') ((algebraMap A T) a)
+      change (algebraMap A A') a = (algebraMap T A') ((algebraMap A T) a)
       exact IsScalarTower.algebraMap_apply A T A' a)
   have towQJT : IsScalarTower (R ⧸ I) (A ⧸ I.map (algebraMap R A)) T :=
     IsScalarTower.of_algebraMap_eq (by
       intro r
       induction r using Quotient.ind with | _ r =>
-      show (algebraMap R' T) ((algebraMap (R ⧸ I) R') ((algebraMap R (R ⧸ I)) r))
+      change (algebraMap R' T) ((algebraMap (R ⧸ I) R') ((algebraMap R (R ⧸ I)) r))
         = (algebraMap A T) ((algebraMap R A) r)
       rw [← IsScalarTower.algebraMap_apply R (R ⧸ I) R',
         ← IsScalarTower.algebraMap_apply R R' T, ← IsScalarTower.algebraMap_apply R A T])
@@ -165,7 +165,7 @@ theorem Module.Flat.flatQuotSMul_iff_flat_tensor_of_isPushout
     IsScalarTower.of_algebraMap_eq (by
       intro r
       induction r using Quotient.ind with | _ r =>
-      show (algebraMap R' A') ((algebraMap (R ⧸ I) R') ((algebraMap R (R ⧸ I)) r))
+      change (algebraMap R' A') ((algebraMap (R ⧸ I) R') ((algebraMap R (R ⧸ I)) r))
         = (algebraMap A A') ((algebraMap R A) r)
       rw [← IsScalarTower.algebraMap_apply R (R ⧸ I) R',
         ← IsScalarTower.algebraMap_apply R R' A', ← IsScalarTower.algebraMap_apply R A A'])
@@ -231,7 +231,7 @@ theorem Module.Flat.quotMaximalIdeal_of_isPushout_of_isField
     IsScalarTower.of_algebraMap_eq' rfl
   have towRQT : IsScalarTower R (R ⧸ IsLocalRing.maximalIdeal R) T :=
     IsScalarTower.of_algebraMap_eq fun r => by
-      show (algebraMap R T) r = (algebraMap R' T)
+      change (algebraMap R T) r = (algebraMap R' T)
         ((algebraMap (R ⧸ IsLocalRing.maximalIdeal R) R')
           ((algebraMap R (R ⧸ IsLocalRing.maximalIdeal R)) r))
       rw [← IsScalarTower.algebraMap_apply R (R ⧸ IsLocalRing.maximalIdeal R) R',
@@ -248,7 +248,7 @@ theorem Module.Flat.quotMaximalIdeal_of_isPushout_of_isField
     IsScalarTower.of_algebraMap_eq (by
       intro r
       induction r using Quotient.ind with | _ r =>
-      show (algebraMap R' T) ((algebraMap (R ⧸ IsLocalRing.maximalIdeal R) R')
+      change (algebraMap R' T) ((algebraMap (R ⧸ IsLocalRing.maximalIdeal R) R')
           ((algebraMap R (R ⧸ IsLocalRing.maximalIdeal R)) r))
         = (algebraMap A T) ((algebraMap R A) r)
       rw [← IsScalarTower.algebraMap_apply R (R ⧸ IsLocalRing.maximalIdeal R) R',

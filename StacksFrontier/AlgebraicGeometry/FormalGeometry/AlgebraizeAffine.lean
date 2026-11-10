@@ -705,7 +705,7 @@ public theorem completionModuleEquiv_naturality
       ((AdicCompletion.map I (topSectionsMap a)).restrictScalars Γ(X, ⊤))) ?_) z
   intro s
   refine completedModuleAsBase_ext X I _ fun n => ?_
-  show (Stacks.Coherent.affineLevelProjection X I _ n).hom
+  change (Stacks.Coherent.affineLevelProjection X I _ n).hom
       ((completedModuleHomBase X I
         ((completionFunctor X (Scheme.IdealSheafData.ofIdealTop I)).map a)).hom
           (completionModuleEquiv X I F (AdicCompletion.of I Γ(F.obj, ⊤) s))) =
@@ -817,7 +817,7 @@ public theorem affine_exists_module_algebraization
     · have hx' : E (completedModuleMap X I α' x) = 0 := LinearMap.mem_ker.1 hx
       exact LinearMap.mem_ker.2 (E.injective (hx'.trans (map_zero E).symm))
     · refine LinearMap.mem_ker.2 ?_
-      show E (completedModuleMap X I α' x) = 0
+      change E (completedModuleMap X I α' x) = 0
       rw [LinearMap.mem_ker.1 hx, map_zero]
   have hrangeφ : (LinearMap.range (completedModuleMap X I α')).map E.toLinearMap =
       LinearMap.range φ := (LinearMap.range_comp _ _).symm
@@ -846,7 +846,7 @@ public theorem affine_exists_module_algebraization
       AdicCompletion.ofTensorProduct_tmul, one_smul]
   have hEinv : E.symm ((1 : AdicCompletion I Γ(X, ⊤)) ⊗ₜ[Γ(X, ⊤)] (ψ m)) =
       completionModuleEquiv X I G (AdicCompletion.of I Γ(G.obj, ⊤) (ψ m)) := by
-    show completionModuleEquivₛ X I G
+    change completionModuleEquivₛ X I G
       (AdicCompletion.ofTensorProductEquivOfFiniteNoetherian I N
         ((1 : AdicCompletion I Γ(X, ⊤)) ⊗ₜ[Γ(X, ⊤)] (ψ m))) = _
     rw [hofT, completionModuleEquivₛ_apply]
@@ -1235,8 +1235,7 @@ public theorem tensorProduct_linearMap_ext {R : Type*} {S : Type*} [CommRing R] 
     {P : Type*} [AddCommGroup P] [Module S P] (f g : TensorProduct R S M →ₗ[S] P)
     (h : ∀ m : M, f ((1 : S) ⊗ₜ[R] m) = g ((1 : S) ⊗ₜ[R] m)) : f = g := by
   refine LinearMap.ext fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul s m =>
     have hs : (s ⊗ₜ[R] m : TensorProduct R S M) = s • ((1 : S) ⊗ₜ[R] m) := by
       rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
@@ -1291,7 +1290,7 @@ public theorem affine_exists_algebraization (X : Scheme.{u}) [IsAffine X]
   have hΘval : ∀ m : M₀, Θ₀ (e ((1 : AdicCompletion I Γ(X, ⊤)) ⊗ₜ[Γ(X, ⊤)] m)) =
       completionModuleEquiv X I F (AdicCompletion.of I Γ(F.obj, ⊤) (δ m)) := by
     intro m
-    show completionModuleEquivₛ X I F (AdicCompletion.congr I δ
+    change completionModuleEquivₛ X I F (AdicCompletion.congr I δ
       (AdicCompletion.ofTensorProductEquivOfFiniteNoetherian I M₀
         (e.symm (e ((1 : AdicCompletion I Γ(X, ⊤)) ⊗ₜ[Γ(X, ⊤)] m))))) = _
     rw [e.symm_apply_apply, AdicCompletion.ofTensorProductEquivOfFiniteNoetherian_apply,
@@ -1313,7 +1312,7 @@ public theorem affine_exists_algebraization (X : Scheme.{u}) [IsAffine X]
       have hnat := completionModuleEquiv_naturality X I a
         (AdicCompletion.of I Γ(F.obj, ⊤) (δ m))
       rw [AdicCompletion.map_of, hfac m] at hnat
-      show completedModuleMap X I (ObjectProperty.homMk α)
+      change completedModuleMap X I (ObjectProperty.homMk α)
           (e ((1 : AdicCompletion I Γ(X, ⊤)) ⊗ₜ[Γ(X, ⊤)] m)) =
         completedModuleMap X I
           ((completionFunctor X (Scheme.IdealSheafData.ofIdealTop I)).map a)

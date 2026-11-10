@@ -359,15 +359,28 @@ theorem toTensor_derivedCohomologyTensorProduct (i j : ℤ) :
           (homologyDerivedTensorKFlatIso Rc (DerivedCategory.Q.obj P)
             (DerivedCategory.Q.obj Q) (i + j)).inv := rfl
   rw (transparency := .default) [hdef,
-    Category.assoc (f := (@tensorIso _ _ (monoidalSpace' Rc) _ _ _ _ (homologyKFlatRepresentativeIso Rc (DerivedCategory.Q.obj P) i) (homologyKFlatRepresentativeIso Rc (DerivedCategory.Q.obj Q) j)).inv),
-    Category.assoc (f := tensorComplexHomology Rc (kFlatRepresentative Rc (DerivedCategory.Q.obj P)) (kFlatRepresentative Rc (DerivedCategory.Q.obj Q)) i j),
+    Category.assoc (f := (@tensorIso _ _ (monoidalSpace' Rc) _ _ _ _
+      (homologyKFlatRepresentativeIso Rc (DerivedCategory.Q.obj P) i)
+      (homologyKFlatRepresentativeIso Rc (DerivedCategory.Q.obj Q) j)).inv),
+    Category.assoc (f := tensorComplexHomology Rc
+      (kFlatRepresentative Rc (DerivedCategory.Q.obj P))
+      (kFlatRepresentative Rc (DerivedCategory.Q.obj Q)) i j),
     homologyDerivedTensorKFlatIso_inv_toTensor Rc P Q w hw v hv,
     tensorComplexHomology_naturality Rc w v i j,
     ← homologyKFlatRepresentativeIso_hom_homologyFunctorFactors Rc P w hw i,
     ← homologyKFlatRepresentativeIso_hom_homologyFunctorFactors Rc Q v hv j,
     ← MonoidalCategory.tensorHom_comp_tensorHom,
-    Category.assoc (f := @MonoidalCategoryStruct.tensorHom _ _ (monoidalSpace' Rc).toMonoidalCategoryStruct _ _ _ _ (homologyKFlatRepresentativeIso Rc (DerivedCategory.Q.obj P) i).hom (homologyKFlatRepresentativeIso Rc (DerivedCategory.Q.obj Q) j).hom),
-    show @MonoidalCategoryStruct.tensorHom _ _ (monoidalSpace' Rc).toMonoidalCategoryStruct _ _ _ _ (homologyKFlatRepresentativeIso Rc (DerivedCategory.Q.obj P) i).hom (homologyKFlatRepresentativeIso Rc (DerivedCategory.Q.obj Q) j).hom = (@tensorIso _ _ (monoidalSpace' Rc) _ _ _ _ (homologyKFlatRepresentativeIso Rc (DerivedCategory.Q.obj P) i) (homologyKFlatRepresentativeIso Rc (DerivedCategory.Q.obj Q) j)).hom from rfl,
+    Category.assoc (f := @MonoidalCategoryStruct.tensorHom _ _
+      (monoidalSpace' Rc).toMonoidalCategoryStruct _ _ _ _
+      (homologyKFlatRepresentativeIso Rc (DerivedCategory.Q.obj P) i).hom
+      (homologyKFlatRepresentativeIso Rc (DerivedCategory.Q.obj Q) j).hom),
+    show @MonoidalCategoryStruct.tensorHom _ _
+        (monoidalSpace' Rc).toMonoidalCategoryStruct _ _ _ _
+        (homologyKFlatRepresentativeIso Rc (DerivedCategory.Q.obj P) i).hom
+        (homologyKFlatRepresentativeIso Rc (DerivedCategory.Q.obj Q) j).hom =
+      (@tensorIso _ _ (monoidalSpace' Rc) _ _ _ _
+        (homologyKFlatRepresentativeIso Rc (DerivedCategory.Q.obj P) i)
+        (homologyKFlatRepresentativeIso Rc (DerivedCategory.Q.obj Q) j)).hom from rfl,
     Iso.inv_hom_id_assoc]
   rfl
 
@@ -377,12 +390,18 @@ end Cycles
 section Composition
 
 variable (K L M : CochainComplex (StructureSheafModules Rc) ℤ)
-  (wLM : kFlatRepresentative Rc (DerivedCategory.Q.obj (RingedSite.sheafHomComplex (ringedSite Rc) L M).obj) ⟶ (RingedSite.sheafHomComplex (ringedSite Rc) L M).obj)
+  (wLM : kFlatRepresentative Rc
+      (DerivedCategory.Q.obj (RingedSite.sheafHomComplex (ringedSite Rc) L M).obj) ⟶
+    (RingedSite.sheafHomComplex (ringedSite Rc) L M).obj)
   (hwLM : DerivedCategory.Q.map wLM =
-    (kFlatRepresentativeIso Rc (DerivedCategory.Q.obj (RingedSite.sheafHomComplex (ringedSite Rc) L M).obj)).hom)
-  (vKL : kFlatRepresentative Rc (DerivedCategory.Q.obj (RingedSite.sheafHomComplex (ringedSite Rc) K L).obj) ⟶ (RingedSite.sheafHomComplex (ringedSite Rc) K L).obj)
+    (kFlatRepresentativeIso Rc
+      (DerivedCategory.Q.obj (RingedSite.sheafHomComplex (ringedSite Rc) L M).obj)).hom)
+  (vKL : kFlatRepresentative Rc
+      (DerivedCategory.Q.obj (RingedSite.sheafHomComplex (ringedSite Rc) K L).obj) ⟶
+    (RingedSite.sheafHomComplex (ringedSite Rc) K L).obj)
   (hvKL : DerivedCategory.Q.map vKL =
-    (kFlatRepresentativeIso Rc (DerivedCategory.Q.obj (RingedSite.sheafHomComplex (ringedSite Rc) K L).obj)).hom)
+    (kFlatRepresentativeIso Rc
+      (DerivedCategory.Q.obj (RingedSite.sheafHomComplex (ringedSite Rc) K L).obj)).hom)
 
 include hwLM hvKL in
 /-- **The composition product on the cohomology sheaves of derived internal Homs is the
@@ -398,7 +417,8 @@ of internal Hom complexes of Stacks 0A91, so the identification of the two pairi
 `Stacks.SheafOfModules.toTensor_derivedCohomologyTensorProduct` composed with the map that the
 composition morphism induces on cohomology. -/
 theorem homComplexDerivedComposition_derivedCohomologyTensorProduct (i j : ℤ) :
-    derivedCohomologyTensorProduct Rc (DerivedCategory.Q.obj (RingedSite.sheafHomComplex (ringedSite Rc) L M).obj)
+    derivedCohomologyTensorProduct Rc
+          (DerivedCategory.Q.obj (RingedSite.sheafHomComplex (ringedSite Rc) L M).obj)
           (DerivedCategory.Q.obj (RingedSite.sheafHomComplex (ringedSite Rc) K L).obj) i j ≫
         (DerivedCategory.homologyFunctor (StructureSheafModules Rc) (i + j)).map
           (RingedSite.homComplexDerivedComposition (ringedSite Rc)
@@ -412,14 +432,20 @@ theorem homComplexDerivedComposition_derivedCohomologyTensorProduct (i j : ℤ) 
         homologyComposition Rc K L M i j := by
   have hdc : RingedSite.homComplexDerivedComposition (ringedSite Rc)
       (canonicalDerivedTensorProduct (ringedSite Rc)) K L M =
-      (canonicalDerivedTensorProduct (ringedSite Rc)).toTensor (RingedSite.sheafHomComplex (ringedSite Rc) L M).obj (RingedSite.sheafHomComplex (ringedSite Rc) K L).obj ≫
+      (canonicalDerivedTensorProduct (ringedSite Rc)).toTensor
+          (RingedSite.sheafHomComplex (ringedSite Rc) L M).obj
+          (RingedSite.sheafHomComplex (ringedSite Rc) K L).obj ≫
         DerivedCategory.Q.map (compositionTotalMap Rc K L M) := rfl
   have hnat := DerivedCategory.homologyFunctorFactors_hom_naturality
     (compositionTotalMap Rc K L M) (i + j)
   rw (transparency := .default) [hdc, Functor.map_comp,
     Category.assoc (f := (DerivedCategory.homologyFunctor (StructureSheafModules Rc) (i + j)).map
-      ((canonicalDerivedTensorProduct (ringedSite Rc)).toTensor (RingedSite.sheafHomComplex (ringedSite Rc) L M).obj (RingedSite.sheafHomComplex (ringedSite Rc) K L).obj)),
-    hnat, reassoc_of% toTensor_derivedCohomologyTensorProduct Rc (RingedSite.sheafHomComplex (ringedSite Rc) L M).obj (RingedSite.sheafHomComplex (ringedSite Rc) K L).obj wLM hwLM vKL hvKL i j]
+      ((canonicalDerivedTensorProduct (ringedSite Rc)).toTensor
+        (RingedSite.sheafHomComplex (ringedSite Rc) L M).obj
+        (RingedSite.sheafHomComplex (ringedSite Rc) K L).obj)),
+    hnat, reassoc_of% toTensor_derivedCohomologyTensorProduct Rc
+      (RingedSite.sheafHomComplex (ringedSite Rc) L M).obj
+      (RingedSite.sheafHomComplex (ringedSite Rc) K L).obj wLM hwLM vKL hvKL i j]
   rfl
 
 
@@ -430,10 +456,12 @@ a formula for `Stacks.SheafOfModules.homologyComposition` in terms of the derive
 product. -/
 theorem homologyComposition_eq_derived (i j : ℤ) :
     homologyComposition Rc K L M i j =
-      (((DerivedCategory.homologyFunctorFactors (StructureSheafModules Rc) i).app (RingedSite.sheafHomComplex (ringedSite Rc) L M).obj) ⊗ᵢ
+      (((DerivedCategory.homologyFunctorFactors (StructureSheafModules Rc) i).app
+            (RingedSite.sheafHomComplex (ringedSite Rc) L M).obj) ⊗ᵢ
           ((DerivedCategory.homologyFunctorFactors (StructureSheafModules Rc) j).app
             (RingedSite.sheafHomComplex (ringedSite Rc) K L).obj)).inv ≫
-        (derivedCohomologyTensorProduct Rc (DerivedCategory.Q.obj (RingedSite.sheafHomComplex (ringedSite Rc) L M).obj)
+        (derivedCohomologyTensorProduct Rc
+            (DerivedCategory.Q.obj (RingedSite.sheafHomComplex (ringedSite Rc) L M).obj)
             (DerivedCategory.Q.obj (RingedSite.sheafHomComplex (ringedSite Rc) K L).obj) i j ≫
           (DerivedCategory.homologyFunctor (StructureSheafModules Rc) (i + j)).map
               (RingedSite.homComplexDerivedComposition (ringedSite Rc)
@@ -446,7 +474,8 @@ theorem homologyComposition_eq_derived (i j : ℤ) :
             (RingedSite.sheafHomComplex (ringedSite Rc) L M).obj).hom ⊗ₘ
           ((DerivedCategory.homologyFunctorFactors (StructureSheafModules Rc) j).app
             (RingedSite.sheafHomComplex (ringedSite Rc) K L).obj).hom) =
-        (((DerivedCategory.homologyFunctorFactors (StructureSheafModules Rc) i).app (RingedSite.sheafHomComplex (ringedSite Rc) L M).obj) ⊗ᵢ
+        (((DerivedCategory.homologyFunctorFactors (StructureSheafModules Rc) i).app
+            (RingedSite.sheafHomComplex (ringedSite Rc) L M).obj) ⊗ᵢ
           ((DerivedCategory.homologyFunctorFactors (StructureSheafModules Rc) j).app
             (RingedSite.sheafHomComplex (ringedSite Rc) K L).obj)).hom from rfl,
       Iso.inv_hom_id_assoc]
@@ -461,7 +490,8 @@ theorem homologyMul_eq_toBilinear (i j : ℤ) :
       PresheafOfModules.toBilinear
         (((PresheafOfModules.sheafificationAdjunction
               (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf (ringedSite Rc).O).obj)).unit.app
-            (((RingedSite.sheafHomComplex (ringedSite Rc) L M).obj.homology i).val ⊗ ((RingedSite.sheafHomComplex (ringedSite Rc) K L).obj.homology j).val)) ≫
+            (((RingedSite.sheafHomComplex (ringedSite Rc) L M).obj.homology i).val ⊗
+              ((RingedSite.sheafHomComplex (ringedSite Rc) K L).obj.homology j).val)) ≫
           (homologyComposition Rc K L M i j).val) := rfl
 
 end Composition
@@ -492,7 +522,8 @@ end KInjective
 section CompositionKInjective
 
 variable (K L M : CochainComplex (StructureSheafModules Rc) ℤ)
-  [(RingedSite.sheafHomComplex (ringedSite Rc) L M).obj.IsKInjective] [(RingedSite.sheafHomComplex (ringedSite Rc) K L).obj.IsKInjective]
+      [(RingedSite.sheafHomComplex (ringedSite Rc) L M).obj.IsKInjective]
+      [(RingedSite.sheafHomComplex (ringedSite Rc) K L).obj.IsKInjective]
 
 /-- **The derived composition product on the cohomology sheaves of internal Homs is the
 cycle-level composition pairing**, with no hypothesis beyond K-injectivity of the two internal
@@ -501,10 +532,12 @@ Hom complexes the pairing is formed on. By
 K-injective and `L` is K-flat, and whenever `L` is K-injective and `K` is K-flat. -/
 theorem homologyComposition_eq_derived_of_isKInjective (i j : ℤ) :
     homologyComposition Rc K L M i j =
-      (((DerivedCategory.homologyFunctorFactors (StructureSheafModules Rc) i).app (RingedSite.sheafHomComplex (ringedSite Rc) L M).obj) ⊗ᵢ
+      (((DerivedCategory.homologyFunctorFactors (StructureSheafModules Rc) i).app
+            (RingedSite.sheafHomComplex (ringedSite Rc) L M).obj) ⊗ᵢ
           ((DerivedCategory.homologyFunctorFactors (StructureSheafModules Rc) j).app
             (RingedSite.sheafHomComplex (ringedSite Rc) K L).obj)).inv ≫
-        (derivedCohomologyTensorProduct Rc (DerivedCategory.Q.obj (RingedSite.sheafHomComplex (ringedSite Rc) L M).obj)
+        (derivedCohomologyTensorProduct Rc
+            (DerivedCategory.Q.obj (RingedSite.sheafHomComplex (ringedSite Rc) L M).obj)
             (DerivedCategory.Q.obj (RingedSite.sheafHomComplex (ringedSite Rc) K L).obj) i j ≫
           (DerivedCategory.homologyFunctor (StructureSheafModules Rc) (i + j)).map
               (RingedSite.homComplexDerivedComposition (ringedSite Rc)
@@ -515,7 +548,8 @@ theorem homologyComposition_eq_derived_of_isKInjective (i j : ℤ) :
     (kFlatRepresentativeComparison Rc (RingedSite.sheafHomComplex (ringedSite Rc) L M).obj)
     (Q_map_kFlatRepresentativeComparison Rc (RingedSite.sheafHomComplex (ringedSite Rc) L M).obj)
     (kFlatRepresentativeComparison Rc (RingedSite.sheafHomComplex (ringedSite Rc) K L).obj)
-    (Q_map_kFlatRepresentativeComparison Rc (RingedSite.sheafHomComplex (ringedSite Rc) K L).obj) i j
+    (Q_map_kFlatRepresentativeComparison Rc (RingedSite.sheafHomComplex (ringedSite Rc) K L).obj)
+      i j
 
 end CompositionKInjective
 

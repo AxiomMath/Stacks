@@ -96,12 +96,12 @@ public theorem henselianPair_comap_of_surjective_of_isNilpotent_ker
     rw [h1, Ideal.map_comap_of_surjective _ Ideal.Quotient.mk_surjective]
     refine le_antisymm (Ideal.map_le_iff_le_comap.mpr fun x hx => ?_) fun y hy => ?_
     · rw [Ideal.mem_comap]
-      show eρ (eρ.symm x) ∈ I
+      change eρ (eρ.symm x) ∈ I
       rw [eρ.apply_symm_apply]
       exact hx
     · rw [Ideal.mem_comap] at hy
       have hyval : y = algebraMap S (R ⧸ RingHom.ker f) (eρ y) := by
-        show y = eρ.symm (eρ y)
+        change y = eρ.symm (eρ y)
         rw [eρ.symm_apply_apply]
       rw [hyval]
       exact Ideal.mem_map_of_mem _ hy
@@ -151,7 +151,7 @@ public theorem injective_naiveCotangentExtOneTowerMap_henselization
   have hJcY : J ≤ cY.comap (σ : B →+* Y.B') := by
     intro x hx
     rw [Ideal.mem_comap, hcY, Ideal.mem_comap]
-    show Y.toB (σ x) ∈ J.map (algebraMap B Bh)
+    change Y.toB (σ x) ∈ J.map (algebraMap B Bh)
     rw [hσ x]
     exact Ideal.mem_map_of_mem _ hx
   obtain ⟨τ, ⟨hτ1, hτ2⟩, -⟩ :=
@@ -164,10 +164,10 @@ public theorem injective_naiveCotangentExtOneTowerMap_henselization
     have hcomp : Y.toB.toRingHom.comp τ = RingHom.id Bh := by
       refine (huq (Y.toB.toRingHom.comp τ) ⟨RingHom.ext fun p => ?_, fun x hx => ?_⟩).trans
         (huq (RingHom.id Bh) ⟨RingHom.ext fun p => rfl, fun x hx => hx⟩).symm
-      · show Y.toB (τ (algebraMap B Bh p)) = algebraMap B Bh p
+      · change Y.toB (τ (algebraMap B Bh p)) = algebraMap B Bh p
         rw [hτ, hσ]
       · rw [Ideal.mem_comap]
-        show Y.toB (τ x) ∈ J.map (algebraMap B Bh)
+        change Y.toB (τ x) ∈ J.map (algebraMap B Bh)
         have hx' : τ x ∈ cY := hτ2 hx
         rwa [hcY, Ideal.mem_comap] at hx'
     intro c
@@ -175,7 +175,7 @@ public theorem injective_naiveCotangentExtOneTowerMap_henselization
   let τA : Bh →ₐ[k] Y.B' :=
     { τ with
       commutes' := fun a => by
-        show τ (algebraMap k Bh a) = algebraMap k Y.B' a
+        change τ (algebraMap k Bh a) = algebraMap k Y.B' a
         rw [IsScalarTower.algebraMap_apply k B Bh a, hτ]
         exact σ.commutes a }
   rw [← hYζ]

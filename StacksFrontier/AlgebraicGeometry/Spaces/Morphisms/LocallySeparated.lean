@@ -91,7 +91,7 @@ theorem isLocallySeparated_baseChange
     (BigFppfOver.toScheme B S hS)
   have : P.IsStableUnderBaseChange :=
     MorphismProperty.relative_isStableUnderBaseChange _
-  show P.diagonal (pullback.snd f g)
+  change P.diagonal (pullback.snd f g)
   exact P.diagonal.pullback_snd f g (show P.diagonal f from hf)
 
 /-- **Stacks 03KR.** If a composite is locally separated, so is its first
@@ -109,7 +109,7 @@ theorem isLocallySeparated_of_comp
   have : P.presheaf.IsStableUnderBaseChange :=
     MorphismProperty.relative_isStableUnderBaseChange P
   change IsImmersion B S hS (pullback.diagonal (f ≫ g)) at hfg
-  show IsImmersion B S hS (pullback.diagonal f)
+  change IsImmersion B S hS (pullback.diagonal f)
   exact MorphismProperty.of_isPullback (diagonal_comp_isPullback f g) hfg
 
 end AlgebraicGeometry.Space

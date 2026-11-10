@@ -413,7 +413,7 @@ def identityOpenFiniteSubgroupoid (u : G.objects.left) : OpenFiniteSubgroupoid G
 theorem range_identityOpenFiniteSubgroupoid_inclusion (u : G.objects.left) :
     Set.range (identityOpenFiniteSubgroupoid G u).inclusion.mapArrows.left.base =
       {G.identity.left.base u} := by
-  show Set.range (openOverι G.arrows (identityArrowOpens G u)).left.base =
+  change Set.range (openOverι G.arrows (identityArrowOpens G u)).left.base =
     {G.identity.left.base u}
   exact congrArg (fun V : G.arrows.left.Opens => (V : Set G.arrows.left))
     (opensRange_openOverι_left G.arrows (identityArrowOpens G u))

@@ -166,8 +166,7 @@ private lemma galoisActionOnBaseChange_comp_projections (K : Type u) [Field K] [
           pullback.snd X.hom (spectrumMap k K) =
         pullback.snd X.hom (spectrumMap k K) ≫ specMapAlgAut k K τ := by
   constructor <;>
-    simp [galoisActionOnBaseChange, spectrumMap, pullback.map, pullback.lift_fst,
-      pullback.lift_snd]
+    simp [galoisActionOnBaseChange, spectrumMap, pullback.map]
 
 /-- Restriction of Galois automorphisms commutes with the canonical map on the connected
 components of the two geometric base changes. -/

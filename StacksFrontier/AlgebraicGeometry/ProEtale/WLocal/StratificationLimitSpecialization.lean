@@ -107,11 +107,11 @@ theorem exists_specializes_to_closedScheme (L : StratificationLimit A)
       simp
     have hmap : (closedPointMap i).base ((L.closedStage (Opposite.unop i)).inv.base z) =
         (closedStrataMap (Opposite.unop i)).base z := by
-      show (closedStrataMap (Opposite.unop i)).base
+      change (closedStrataMap (Opposite.unop i)).base
         ((L.closedStage (Opposite.unop i)).hom.base
           ((L.closedStage (Opposite.unop i)).inv.base z)) = _
       rw [hstagePoint]
-    show (closedPointMap i).base _ ∈ closure ({ambientPoint i} : Set _)
+    change (closedPointMap i).base _ ∈ closure ({ambientPoint i} : Set _)
     rw [hmap]
     exact specializes_iff_mem_closure.mp hz
   have hcompact (i : I) : IsCompact (Z i) := by
@@ -147,7 +147,7 @@ theorem exists_specializes_to_closedScheme (L : StratificationLimit A)
       simpa [ambientPoint, Scheme.Hom.comp_base, Function.comp_apply] using
         congrArg (fun g => g y) hα
     have hspec : ambientPoint i ⤳ (closedPointMap i).base z := specializes_iff_mem_closure.mpr hz
-    show (closedPointMap j).base ((D.map f).base z) ∈ closure ({ambientPoint j} : Set _)
+    change (closedPointMap j).base ((D.map f).base z) ∈ closure ({ambientPoint j} : Set _)
     rw [hambient, hpoint]
     exact specializes_iff_mem_closure.mp (hspec.map p.continuous)
   let : ∀ {i j : I} (f : i ⟶ j), IsAffineHom (D.map f) := by
@@ -178,7 +178,7 @@ theorem exists_specializes_to_closedScheme (L : StratificationLimit A)
     have hinc := congrArg (fun g => g z) (L.inclusion_spec E)
     have hleft : (L.schemeStage E).inv.base (ambientPoint i) =
         (L.schemeProjection.app i).base y := by
-      show ((L.schemeStage E).hom ≫ (L.schemeStage E).inv).base
+      change ((L.schemeStage E).hom ≫ (L.schemeStage E).inv).base
         ((L.schemeProjection.app i).base y) = _
       rw [Iso.hom_inv_id]
       rfl
@@ -189,7 +189,7 @@ theorem exists_specializes_to_closedScheme (L : StratificationLimit A)
         simpa [x, closedPointMap, Scheme.Hom.comp_base, Function.comp_apply,
           Category.assoc] using hinc
       rw [← hinc']
-      show ((L.schemeStage E).hom ≫ (L.schemeStage E).inv).base (x i) = _
+      change ((L.schemeStage E).hom ≫ (L.schemeStage E).inv).base (x i) = _
       rw [Iso.hom_inv_id]
       rfl
     have hs' := hs.map (L.schemeStage E).inv.continuous

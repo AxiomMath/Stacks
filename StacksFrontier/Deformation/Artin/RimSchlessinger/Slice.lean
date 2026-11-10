@@ -310,10 +310,10 @@ public theorem pushout_test_over {𝒟 : Type u₂} [Category.{v₂} 𝒟] {ℰ 
           Over.w v, Over.w j']
     refine ⟨Over.homMk (G.preimage d) hstruct, ?_, ?_⟩
     · refine Over.OverMorphism.ext (G.map_injective ?_)
-      show G.map (j'.left ≫ G.preimage d) = G.map v.left
+      change G.map (j'.left ≫ G.preimage d) = G.map v.left
       rw [G.map_comp, hpre, hdj]
     · refine Over.OverMorphism.ext (G.map_injective ?_)
-      show G.map (i'.left ≫ G.preimage d) = G.map u.left
+      change G.map (i'.left ≫ G.preimage d) = G.map u.left
       rw [G.map_comp, hpre, hdi]
 
 end Transport

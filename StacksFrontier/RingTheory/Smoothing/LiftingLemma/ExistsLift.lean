@@ -112,7 +112,7 @@ public theorem exists_finitePresentation_lift_smoothAt
         (Ideal.quotientKerAlgEquivOfSurjective hφ)).symm }
   have hP_lift (p : MvPolynomial (Fin n) (R ⧸ Ideal.span {π ^ 2})) :
       P.lift p = φ p := by
-    show (Ideal.quotientKerAlgEquivOfSurjective hφ)
+    change (Ideal.quotientKerAlgEquivOfSurjective hφ)
       ((Ideal.quotientEquivAlgOfEq (R ⧸ Ideal.span {π ^ 2}) hF')
         (Ideal.Quotient.mk (Ideal.span (Set.range F)) p)) = φ p
     rw [Ideal.quotientEquivAlgOfEq_mk, Ideal.quotientKerAlgEquivOfSurjective_mk]
@@ -167,7 +167,7 @@ public theorem exists_finitePresentation_lift_smoothAt
       aBar x * F ℓ ∈
         Presentation.selectedRelIdeal P (VRows x) + P.relIdeal ^ 2 := by
     apply hRel x ℓ (aBar x)
-    show P.lift (aBar x) = a x
+    change P.lift (aBar x) = a x
     rw [hP_lift, haBar]
   have hSelected (x : idx) (ℓ : Fin m) :
       ∃ (h : (VRows x) →
@@ -251,7 +251,7 @@ public theorem exists_finitePresentation_lift_smoothAt
       MvPolynomial.pderiv
         ((UCols x).orderIsoOfFin (hU x) i).1
         (G ((VRows x).orderIsoOfFin (hV x) j).1)
-    show (MvPolynomial.map (Ideal.Quotient.mk (Ideal.span {π ^ 2}))) M.det =
+    change (MvPolynomial.map (Ideal.Quotient.mk (Ideal.span {π ^ 2}))) M.det =
       Matrix.det (fun j i =>
         MvPolynomial.pderiv
           ((UCols x).orderIsoOfFin (hU x) i).1
@@ -260,7 +260,7 @@ public theorem exists_finitePresentation_lift_smoothAt
     congr 1
     apply Matrix.ext
     intro j i
-    show MvPolynomial.map (Ideal.Quotient.mk (Ideal.span {π ^ 2}))
+    change MvPolynomial.map (Ideal.Quotient.mk (Ideal.span {π ^ 2}))
       (MvPolynomial.pderiv ((UCols x).orderIsoOfFin (hU x) i).1
         (G ((VRows x).orderIsoOfFin (hV x) j).1)) = _
     rw [← MvPolynomial.pderiv_map, hG]
@@ -421,13 +421,13 @@ public theorem exists_finitePresentation_lift_smoothAt
       evS (liftX p) = (MvPolynomial.aeval lam) p := by
     have h : evS.comp liftX = MvPolynomial.aeval lam := by
       ext i
-      show (MvPolynomial.aeval values)
+      change (MvPolynomial.aeval values)
         ((MvPolynomial.rename (R := R) (fun j : Fin n => (Sum.inl j : Fin n ⊕ Fin m)))
           (MvPolynomial.X i)) = (MvPolynomial.aeval lam) (MvPolynomial.X i)
       simp only [MvPolynomial.rename_X, MvPolynomial.aeval_X, values]
     exact congrArg (fun f : MvPolynomial (Fin n) R →ₐ[R] Λ => f p) h
   have hEvZ (j : Fin m) : evS (z j) = algebraMap R Λ π * μ j := by
-    show (MvPolynomial.aeval values) (MvPolynomial.X (Sum.inr j)) = _
+    change (MvPolynomial.aeval values) (MvPolynomial.X (Sum.inr j)) = _
     rw [MvPolynomial.aeval_X]
   have hRelationZero (j : Fin m) : evS (relation j) = 0 := by
     simp only [relation, map_sub, map_mul]
@@ -467,7 +467,7 @@ public theorem exists_finitePresentation_lift_smoothAt
               ring_nf
         _ = 0 := sub_eq_zero.mpr he
     have hlin := (hΛ _).mpr hsq
-    show tπ * (A * μ ℓ - (∑ j : VRows x, B j * μ j.1) - E₀ -
+    change tπ * (A * μ ℓ - (∑ j : VRows x, B j * μ j.1) - E₀ -
       tπ ^ 2 * (∑ ab : Fin m × Fin m, Q ab * (μ ab.1 * μ ab.2))) = 0
     simpa only [mul_comm tπ] using hlin
   have hChartRelationZero (ij : Fin r × Fin m) :
@@ -511,7 +511,7 @@ public theorem exists_finitePresentation_lift_smoothAt
       ((Ideal.Quotient.mk _).comp g.toRingHom) (by
       intro d hd
       obtain ⟨e, he⟩ := Ideal.mem_span_singleton.mp hd
-      show Ideal.Quotient.mk _ (g d) = 0
+      change Ideal.Quotient.mk _ (g d) = 0
       apply (Ideal.Quotient.eq_zero_iff_mem).2
       rw [he, map_mul]
       exact Ideal.mem_span_singleton.mpr
@@ -525,7 +525,7 @@ public theorem exists_finitePresentation_lift_smoothAt
     intro x hx
     have hx : x = π ^ 2 := by simpa using hx
     subst x
-    show algebraMap R D (π ^ 2) ∈ Ideal.span {algebraMap R D π}
+    change algebraMap R D (π ^ 2) ∈ Ideal.span {algebraMap R D π}
     rw [map_pow]
     exact Ideal.mem_span_singleton.mpr
       ⟨algebraMap R D π, by ring⟩
@@ -552,7 +552,7 @@ public theorem exists_finitePresentation_lift_smoothAt
         simp only [AlgHom.toRingHom_eq_coe, RingHom.coe_comp, RingHom.coe_coe, Function.comp_apply,
           MvPolynomial.map_C, MvPolynomial.algHom_C, ULift.algEquiv, RingEquiv.toEquiv_eq_coe,
           AlgEquiv.symm_mk, ψ, xD, evalD]
-        show (Ideal.quotientMap (Ideal.span {algebraMap R D π})
+        change (Ideal.quotientMap (Ideal.span {algebraMap R D π})
           (algebraMap R D) hbase) (Ideal.Quotient.mk _ s) =
             Ideal.Quotient.mk _ (algebraMap R D s)
         exact Ideal.quotientMap_mk
@@ -573,7 +573,7 @@ public theorem exists_finitePresentation_lift_smoothAt
     simpa only [map_sub, map_mul, hC, sub_eq_zero] using hz
   have hψF (j : Fin m) : ψ (F j) = 0 := by
     rw [← hG j, hψEvalD]
-    show Ideal.Quotient.mk _
+    change Ideal.Quotient.mk _
       (ULift.up (Ideal.Quotient.mk J (liftX (G j)))) = 0
     rw [hRelationJ j]
     apply (Ideal.Quotient.eq_zero_iff_mem).2
@@ -603,10 +603,10 @@ public theorem exists_finitePresentation_lift_smoothAt
     rfl
   have hcπ : c (algebraMap (R ⧸ Ideal.span {π ^ 2}) C
       (Ideal.Quotient.mk (Ideal.span {π ^ 2}) π)) = 0 := by
-    show cAlg (algebraMap (R ⧸ Ideal.span {π ^ 2}) C
+    change cAlg (algebraMap (R ⧸ Ideal.span {π ^ 2}) C
       (Ideal.Quotient.mk (Ideal.span {π ^ 2}) π)) = 0
     rw [cAlg.commutes]
-    show Ideal.Quotient.mk _ (algebraMap R D π) = 0
+    change Ideal.Quotient.mk _ (algebraMap R D π) = 0
     exact (Ideal.Quotient.eq_zero_iff_mem).2 (Ideal.subset_span (Set.mem_singleton _))
   let cQuotAlg : (C ⧸ Ideal.span {
       algebraMap (R ⧸ Ideal.span {π ^ 2}) C
@@ -635,7 +635,7 @@ public theorem exists_finitePresentation_lift_smoothAt
   let : Semiring (D ⧸ Ideal.span {algebraMap R D π}) := Ideal.Quotient.semiring _
   have hcR (x : R) : c (algebraMap (R ⧸ Ideal.span {π ^ 2}) C
       (Ideal.Quotient.mk _ x)) = Ideal.Quotient.mk _ (algebraMap R D x) := by
-    show cAlg (algebraMap (R ⧸ Ideal.span {π ^ 2}) C
+    change cAlg (algebraMap (R ⧸ Ideal.span {π ^ 2}) C
       (Ideal.Quotient.mk _ x)) = _
     rw [cAlg.commutes]
     exact Ideal.quotientMap_mk
@@ -644,7 +644,7 @@ public theorem exists_finitePresentation_lift_smoothAt
         algebraMap (R ⧸ Ideal.span {π ^ 2}) C
           (Ideal.Quotient.mk (Ideal.span {π ^ 2}) π)})
       (D ⧸ Ideal.span {algebraMap R D π}) (Ideal.Quotient.mk _ x) = c x := by
-    show cQuot (Ideal.Quotient.mk _ x) = c x
+    change cQuot (Ideal.Quotient.mk _ x) = c x
     rfl
   have hcompatX (i : Fin n) :
       reduceD (ψ (MvPolynomial.X i)) =
@@ -652,12 +652,12 @@ public theorem exists_finitePresentation_lift_smoothAt
     simp only [ψ, MvPolynomial.aeval_X]
     rw [show f (φ (MvPolynomial.X i)) =
       Ideal.Quotient.mk _ (lam i) from (hLam i).symm, hreduceΛ]
-    show reduceD (Ideal.Quotient.mk _
+    change reduceD (Ideal.Quotient.mk _
       (ULift.up (Ideal.Quotient.mk J (liftX (MvPolynomial.X i))))) = _
     rw [hreduceD]
     congr 1
-    show g₀ (Ideal.Quotient.mk J (liftX (MvPolynomial.X i))) = lam i
-    show evS (liftX (MvPolynomial.X i)) = lam i
+    change g₀ (Ideal.Quotient.mk J (liftX (MvPolynomial.X i))) = lam i
+    change evS (liftX (MvPolynomial.X i)) = lam i
     rw [hEvLiftX]
     simp
   have hcompatC (s : R ⧸ Ideal.span {π ^ 2}) :
@@ -666,7 +666,7 @@ public theorem exists_finitePresentation_lift_smoothAt
     obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective s
     simp only [MvPolynomial.C_eq_algebraMap, ψ.commutes, φ.commutes, f.commutes]
     rw [hquot, hreduceΛ]
-    show reduceD (Ideal.Quotient.mk _ (algebraMap R D x)) = _
+    change reduceD (Ideal.Quotient.mk _ (algebraMap R D x)) = _
     rw [hreduceD, g.commutes]
   have hcompatPoly : reduceD.comp ψ.toRingHom =
       reduceΛ.comp (f.toRingHom.comp φ.toRingHom) := by
@@ -680,7 +680,7 @@ public theorem exists_finitePresentation_lift_smoothAt
   have hcak (i : Fin r) :
       c (ak i) = Ideal.Quotient.mk (Ideal.span {algebraMap R D π})
         (ULift.up (Ideal.Quotient.mk J (liftX (aPoly (k i))))) := by
-    show c (a (k i)) = _
+    change c (a (k i)) = _
     rw [← haBar (k i), hcφ, ← haPoly (k i), hψEvalD]
     rfl
   have hJacFactor (i : Fin r) :
@@ -690,7 +690,7 @@ public theorem exists_finitePresentation_lift_smoothAt
         Ideal.Quotient.mk (Ideal.span {algebraMap R D π})
           (ULift.up (Ideal.Quotient.mk J (liftX (jacLift (k i))))) := by
     rw [← hcak i]
-    show c (a (k i)) = _
+    change c (a (k i)) = _
     dsimp only [a]
     rw [hMinor (k i), map_mul, hP_lift, hcφ,
       ← hJacLift (k i), hψEvalD]
@@ -706,9 +706,9 @@ public theorem exists_finitePresentation_lift_smoothAt
     refine ⟨i, ?_⟩
     intro hdi
     apply hi
-    show ak i ∈ p
+    change ak i ∈ p
     rw [hpc]
-    show c (ak i) ∈ Ideal.map
+    change c (ak i) ∈ Ideal.map
       (Ideal.Quotient.mk (Ideal.span {algebraMap R D π})) q
     rw [hcak]
     exact Ideal.mem_map_of_mem _ hdi
@@ -778,7 +778,7 @@ public theorem exists_finitePresentation_lift_smoothAt
       hcQuot, hcφ, hψEvalD]
     rfl
   have hdpushπ : dpush (MvPolynomial.C π) = 0 := by
-    show Ideal.Quotient.mk _ (φ (MvPolynomial.map
+    change Ideal.Quotient.mk _ (φ (MvPolynomial.map
       (Ideal.Quotient.mk (Ideal.span {π ^ 2})) (MvPolynomial.C π))) = 0
     rw [MvPolynomial.map_C, show φ (MvPolynomial.C
       (Ideal.Quotient.mk (Ideal.span {π ^ 2}) π)) =
@@ -786,7 +786,7 @@ public theorem exists_finitePresentation_lift_smoothAt
         (Ideal.Quotient.mk (Ideal.span {π ^ 2}) π) from φ.commutes _]
     exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.subset_span (Set.mem_singleton _))
   have hdpushG (l : Fin m) : dpush (G l) = 0 := by
-    show Ideal.Quotient.mk _ (φ (MvPolynomial.map _ (G l))) = 0
+    change Ideal.Quotient.mk _ (φ (MvPolynomial.map _ (G l))) = 0
     rw [hG, hFzero, map_zero]
   have hdpushsurj : Function.Surjective dpush := by
     intro a
@@ -842,16 +842,16 @@ public theorem exists_finitePresentation_lift_smoothAt
         (eD (Ideal.Quotient.mk J (liftX (aPoly (k i))))) ∉ q := by
       intro hh
       apply hai
-      show ak i ∈ p
+      change ak i ∈ p
       rw [hpc]
-      show c (ak i) ∈ q
+      change c (ak i) ∈ q
       rw [hcak]
       exact hh
     have hjρ : Ideal.Quotient.mk (Ideal.span {algebraMap R D π})
         (eD (Ideal.Quotient.mk J (liftX (jacLift (k i))))) ∉ q := by
       intro hh
       apply haρ
-      show Ideal.Quotient.mk _ (ULift.up (Ideal.Quotient.mk J
+      change Ideal.Quotient.mk _ (ULift.up (Ideal.Quotient.mk J
         (liftX (aPoly (k i))))) ∈ q
       rw [hJacFactor]
       exact q.mul_mem_left _ hh

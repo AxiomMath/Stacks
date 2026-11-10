@@ -225,16 +225,16 @@ private theorem endRingChangeEquiv_algebraMap
   let E' := (ModuleCat.restrictScalars (e.symm : S →+* R)).obj E
   let : Module S E' := E'.isModule
   let sc : SMulCommClass S S E' := ⟨fun s t x => by
-    show e.symm s • (e.symm t • x) = e.symm t • (e.symm s • x)
+    change e.symm s • (e.symm t • x) = e.symm t • (e.symm s • x)
     rw [smul_smul, smul_smul, mul_comm]⟩
   let tower : IsScalarTower S S E' := ⟨fun s t x => by
-    show e.symm (s * t) • x = e.symm s • (e.symm t • x)
+    change e.symm (s * t) • x = e.symm s • (e.symm t • x)
     rw [map_mul]
     exact mul_smul _ _ _⟩
   let : Algebra S (Module.End S E') :=
     @Module.End.instAlgebra S S E' _ _ _ E'.isModule E'.isModule sc inferInstance tower
   ext x
-  show r • x = e.symm (e r) • x
+  change r • x = e.symm (e r) • x
   simp
 
 private theorem algebraMap_end_bijective
@@ -257,10 +257,10 @@ private theorem algebraMap_end_bijective
   let E' := (ModuleCat.restrictScalars (e.symm : S →+* R)).obj E
   let : Module S E' := E'.isModule
   let sc : SMulCommClass S S (↑E') := ⟨fun s t x => by
-    show e.symm s • (e.symm t • x) = e.symm t • (e.symm s • x)
+    change e.symm s • (e.symm t • x) = e.symm t • (e.symm s • x)
     rw [smul_smul, smul_smul, mul_comm]⟩
   let tower : IsScalarTower S S (↑E') := ⟨fun s t x => by
-    show e.symm (s * t) • x = e.symm s • (e.symm t • x)
+    change e.symm (s * t) • x = e.symm s • (e.symm t • x)
     rw [map_mul]
     exact mul_smul _ _ _⟩
   let : Algebra S (Module.End S (↑E')) :=
@@ -330,7 +330,7 @@ private theorem isArtinian_ringChange_iff
       map_add' := by intros; rfl
       map_smul' := by
         intro r x
-        show r • x = e.symm (e r) • x
+        change r • x = e.symm (e r) • x
         simp }
   have hl : Function.Bijective l := ⟨fun _ _ h => h, fun y => ⟨y, rfl⟩⟩
   exact (LinearMap.isArtinian_iff_of_bijective l hl).symm
@@ -468,10 +468,10 @@ private theorem isNoetherian_hom_of_isArtinian
   let : Module S M' := M'.isModule
   let : Module S E' := E'.isModule
   let sc : SMulCommClass S S E' := ⟨fun s t x => by
-    show e.symm s • (e.symm t • x) = e.symm t • (e.symm s • x)
+    change e.symm s • (e.symm t • x) = e.symm t • (e.symm s • x)
     rw [smul_smul, smul_smul, mul_comm]⟩
   let tower : IsScalarTower S S E' := ⟨fun s t x => by
-    show e.symm (s * t) • x = e.symm s • (e.symm t • x)
+    change e.symm (s * t) • x = e.symm s • (e.symm t • x)
     rw [map_mul]
     exact mul_smul _ _ _⟩
   let : SMulCommClass S S E' := sc
@@ -556,7 +556,7 @@ private theorem eval_bijective_freeRankOne
   let q := freeRankOneHomLinear R E
   have hq (f : M ⟶ E) : q (f (ULift.up (1 : R))) = f := by
     ext s
-    show s.down • f (ULift.up (1 : R)) = f s
+    change s.down • f (ULift.up (1 : R)) = f s
     have hs : s = s.down • ULift.up (1 : R) := by ext; simp
     rw [hs, map_smul]
     simp
@@ -576,7 +576,7 @@ private theorem eval_bijective_freeRankOne
     have h := congrArg (fun k : Module.End R E => k (f (ULift.up (1 : R)))) hr
     change r • f (ULift.up (1 : R)) = a.hom (q (f (ULift.up (1 : R)))) at h
     rw [hq] at h
-    show f (ULift.up r) = a.hom f
+    change f (ULift.up r) = a.hom f
     simpa only [show ULift.up r = r • ULift.up (1 : R) from by ext; simp,
       map_smul] using h
 
@@ -608,7 +608,7 @@ private theorem evalLinear_surjective_of_surjective
   ext g
   have h := congrArg (fun k : (F →ₗ[R] E) →ₗ[R] E => k (df g)) ha
   change (df g) a = c (df g) at h
-  show g (f a) = b g
+  change g (f a) = b g
   have h' : g (f a) = c (df g) := by simpa [df, LinearMap.lcomp] using h
   exact h'.trans (hc g)
 
@@ -643,7 +643,7 @@ private theorem evalLinear_bijective_of_surjective
     obtain ⟨a, ha⟩ := hf (x - y)
     have ha₀ : (LinearMap.lcomp R E df) (evalLinear R E F a) = 0 := by
       ext g
-      show g (f a) = 0
+      change g (f a) = 0
       rw [ha]
       exact congrArg (fun k : (M →ₗ[R] E) →ₗ[R] E => k g) hzero
     obtain ⟨b, hb⟩ := (hex₂ _).mp ha₀
@@ -881,7 +881,7 @@ private theorem dual_exact_of_exact
     refine ⟨ξ, ?_⟩
     rw [hcomp, LinearMap.comp_apply]
     ext y
-    show ξ (g.range.subtype (gr y)) = φ y
+    change ξ (g.range.subtype (gr y)) = φ y
     rw [hξ (gr y)]
     exact congrArg (fun t : (M₂ →ₗ[R] E) => t y) hψ
   · rintro ⟨ξ, rfl⟩
@@ -924,7 +924,7 @@ private theorem evalLinear_bijective_ker
   · intro x y hxy
     apply Subtype.val_injective
     apply hF.1
-    show evalLinear R E F (k x) = evalLinear R E F (k y)
+    change evalLinear R E F (k x) = evalLinear R E F (k y)
     rw [← hnatk, ← hnatk, hxy]
   · intro α
     obtain ⟨z, hz⟩ := hF.2 ((LinearMap.lcomp R E dk) α)
@@ -970,7 +970,7 @@ private theorem exists_finCopresentation
         have h := f'.map_smul (e r) x
         change f' (e.symm (e r) • x) =
           (fun j => e.symm (e r) • (f' x) j) at h
-        show f' (r • x) = (fun j => r • (f' x) j)
+        change f' (r • x) = (fun j => r • (f' x) j)
         simpa only [e.symm_apply_apply] using h }
   let g : (Fin n → E) →ₗ[R] (Fin m → E) :=
     { toFun := g'
@@ -980,7 +980,7 @@ private theorem exists_finCopresentation
         have h := g'.map_smul (e r) x
         change g' (fun j => e.symm (e r) • x j) =
           (fun j => e.symm (e r) • (g' x) j) at h
-        show g' (fun j => r • x j) = (fun j => r • (g' x) j)
+        change g' (fun j => r • x j) = (fun j => r • (g' x) j)
         simpa only [e.symm_apply_apply] using h }
   exact ⟨n, m, f, g, hf', hfg'⟩
 

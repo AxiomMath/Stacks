@@ -101,7 +101,7 @@ theorem of_mem_truncation {k n : ℤ} (hkn : k ≤ n) (s : shiftedSectionsCompon
 
 /-- **A finite family of homogeneous elements of `⨁_n Γ(X, M(n)~)`, reindexed by `Fin` and read
 as a family of sections.** -/
-theorem exists_fin_homogeneous_span {ι : Type*} [Fintype ι] (dy : ι → ℤ)
+theorem exists_fin_homogeneous_span {ι : Type*} [Finite ι] (dy : ι → ℤ)
     (Y : ι → shiftedModuleGlobalSections 𝒜 𝒨)
     (hY : ∀ j, Y j ∈ shiftedModuleGlobalSectionsGrading 𝒜 𝒨 (dy j))
     (hdy : ∀ j, (0 : ℤ) ≤ dy j) :
@@ -114,6 +114,7 @@ theorem exists_fin_homogeneous_span {ι : Type*} [Fintype ι] (dy : ι → ℤ)
             (DirectSum.of (fun j : ℤ => shiftedSectionsComponent 𝒜 𝒨 j) (dy' k) (y' k) :
               shiftedModuleGlobalSections 𝒜 𝒨)) := by
   classical
+  have := Fintype.ofFinite ι
   let := (globalSectionsModuleMap 𝒜 𝒨).moduleInst
   have hof : ∀ j : ι,
       DirectSum.of (fun k : ℤ => shiftedSectionsComponent 𝒜 𝒨 k) (dy j)
@@ -149,7 +150,7 @@ theorem exists_irrelevant_pow_mem_image_of_section [Module.Finite A M] (p : ℤ)
             degreeNToGlobalSections 𝒜 𝒨 ((i : ℤ) + p) m := by
   classical
   let := (globalSectionsModuleMap 𝒜 𝒨).moduleInst
-  have : IsNoetherianRing A := Stacks.ProjCoherentDegreeOne.isNoetherianRing 𝒜 xg hxg hxgen
+  have : IsNoetherianRing A := Stacks.ProjCoherentDegreeOne.isNoetherianRing 𝒜 xg hxgen
   have hspan : Ideal.span (Set.range xg) = (HomogeneousIdeal.irrelevant 𝒜).toIdeal :=
     (generates_algebra_iff_generates_irrelevant 𝒜 xg (fun _ => 1) (fun _ => Nat.one_pos)
       hxg).mp hxgen

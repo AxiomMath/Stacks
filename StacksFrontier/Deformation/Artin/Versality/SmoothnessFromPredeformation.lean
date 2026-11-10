@@ -210,7 +210,7 @@ private theorem predeformation_ringHom_of_homLift
     (f : A ⟶ B) (g : a ⟶ b) (hg : D.projection.IsHomLift f g)
     (ha : (D.objects a).algebra = A) (hb : (D.objects b).algebra = B) :
     (D.morphisms a b g).ringHom = eqToHom ha ≫ f ≫ eqToHom hb.symm := by
-  letI := hg
+  let := hg
   rw [← D.morphism_projection, IsHomLift.fac' D.projection f g]
   simp
 
@@ -277,7 +277,7 @@ private theorem exists_raw_deformation_lift_of_isSmooth
       (DY.objects b) := hobj' ▸ (DY.morphisms (G.toFunctor.obj a') b t)
   have ha' : (DX.objects a').algebra = (DY.objects b).algebra := by
     rw [← DX.object_projection]
-    letI : DX.projection.IsHomLift g.ringHom h := hh
+    let : DX.projection.IsHomLift g.ringHom h := hh
     exact IsHomLift.domain_eq DX.projection g.ringHom h
   refine ⟨DX.objects a', ha', hraw, traw, ?_, ?_, ?_⟩
   · simpa only [Category.comp_id, eqToHom_refl] using
@@ -336,8 +336,8 @@ private theorem contains_spec_artinianLocalAlg
   have hft : LocallyOfFiniteType (Spec.map (CommRingCat.ofHom (algebraMap Λ k))) :=
     locallyOfFiniteType_of_comp _ iΛ
   have hft' : (algebraMap Λ k).FiniteType := HasRingHomProperty.Spec_iff.mp hft
-  letI : Algebra.FiniteType Λ k := RingHom.finiteType_algebraMap.mp hft'
-  letI : Algebra.FiniteType Λ A := artinianLocalAlg_finiteType A
+  let : Algebra.FiniteType Λ k := RingHom.finiteType_algebraMap.mp hft'
+  let : Algebra.FiniteType Λ A := artinianLocalAlg_finiteType A
   have : LocallyOfFiniteType (Spec.map (CommRingCat.ofHom (algebraMap Λ A))) :=
     HasRingHomProperty.Spec_iff.mpr (RingHom.finiteType_algebraMap.mpr ‹Algebra.FiniteType Λ A›)
   exact Scheme.size_lt_of_locallyOfFiniteType_of_quasiCompact
@@ -556,7 +556,7 @@ private theorem exists_scheme_lift_of_affine_factorization
     (hcomm : α ≫ g.left.hom = Spec.map (CommRingCat.ofHom φ.hom.toRingHom) ≫ β) :
     ∃ γ : Spec (.of A') ⟶ W.left.1,
       Spec.map (CommRingCat.ofHom φ.hom.toRingHom) ≫ γ = α ∧ γ ≫ g.left.hom = β := by
-  letI : Algebra Λ k := ((algebraMap R k).comp r).toAlgebra
+  let : Algebra Λ k := ((algebraMap R k).comp r).toAlgebra
   have hbase (T : Type u) [CommRing T] [Algebra R T] :
       Spec.map (CommRingCat.ofHom ((algebraMap R T).comp r)) ≫ iΛ =
         Spec.map (CommRingCat.ofHom (algebraMap R T)) ≫ iR := by
@@ -565,9 +565,9 @@ private theorem exists_scheme_lift_of_affine_factorization
       Spec.map_comp, Category.assoc, hi]
   have hk : Spec.map (CommRingCat.ofHom (algebraMap Λ k)) ≫ iΛ =
       Spec.map (CommRingCat.ofHom (algebraMap R k)) ≫ iR := hbase k
-  letI : LocallyOfFiniteType (Spec.map (CommRingCat.ofHom (algebraMap Λ k)) ≫ iΛ) :=
+  let : LocallyOfFiniteType (Spec.map (CommRingCat.ofHom (algebraMap Λ k)) ≫ iΛ) :=
     hk.symm ▸ inferInstance
-  letI : QuasiCompact (Spec.map (CommRingCat.ofHom (algebraMap Λ k)) ≫ iΛ) :=
+  let : QuasiCompact (Spec.map (CommRingCat.ofHom (algebraMap Λ k)) ≫ iΛ) :=
     hk.symm ▸ inferInstance
   exact exists_scheme_lift_of_isSmoothOnPredeformationCategories B S hS W V g hs
     iΛ w₀ (hw₀.trans hk.symm)
@@ -587,13 +587,13 @@ private theorem smoothAt_of_isSmoothOnPredeformationCategories
     InfinitesimalLifting.SmoothAt g.left.hom w := by
   have hg : g.left.hom ≫ V.hom.hom = W.hom.hom :=
     congrArg (fun z => z.hom) g.w
-  haveI : LocallyOfFiniteType (g.left.hom ≫ V.hom.hom) := hg.symm ▸ inferInstance
-  letI : IsLocallyNoetherian (B.obj hS).obj := ‹IsLocallyNoetherian S›
+  have : LocallyOfFiniteType (g.left.hom ≫ V.hom.hom) := hg.symm ▸ inferInstance
+  let : IsLocallyNoetherian (B.obj hS).obj := ‹IsLocallyNoetherian S›
   apply (Deformation.Artin.smoothAt_iff_isVersalAt (S := S) g.left.hom V.hom.hom w hw).mpr
   let U : Over S := Over.mk (g.left.hom ≫ V.hom.hom)
   let s : S := basePoint U w
   let R := S.presheaf.stalk s
-  letI : Algebra R (W.left.1.residueField w) := residueFieldAlgebra U w
+  let : Algebra R (W.left.1.residueField w) := residueFieldAlgebra U w
   obtain ⟨O, hO, hsO, _⟩ := exists_isAffineOpen_mem_and_subset
     (show s ∈ (⊤ : S.Opens) from trivial)
   let r : Γ(S, O) →+* R := (S.presheaf.germ O s hsO).hom
@@ -605,12 +605,12 @@ private theorem smoothAt_of_isSmoothOnPredeformationCategories
     rw [← hg]
     exact (Scheme.Spec_stalkClosedPointTo_fromSpecStalk
       (residueFieldBasePoint U w)).symm
-  letI : LocallyOfFiniteType (W.left.1.fromSpecResidueField w) := hw.1
-  letI : QuasiCompact (W.left.1.fromSpecResidueField w) := hw.2
-  letI : LocallyOfFiniteType
+  let : LocallyOfFiniteType (W.left.1.fromSpecResidueField w) := hw.1
+  let : QuasiCompact (W.left.1.fromSpecResidueField w) := hw.2
+  let : LocallyOfFiniteType
       (Spec.map (CommRingCat.ofHom (algebraMap R (W.left.1.residueField w))) ≫
         S.fromSpecStalk s) := hwbase ▸ inferInstance
-  letI : QuasiCompact
+  let : QuasiCompact
       (Spec.map (CommRingCat.ofHom (algebraMap R (W.left.1.residueField w))) ≫
         S.fromSpecStalk s) := by
     rw [← hwbase]
@@ -619,7 +619,7 @@ private theorem smoothAt_of_isSmoothOnPredeformationCategories
     (Over.mk (Over.homMk (U := U) g.left.hom (by rfl))) rfl
   dsimp only [Deformation.Artin.IsVersalAt]
   intro A A' φ hφ y z hy hz i hi' a ha
-  letI : Algebra (S.presheaf.stalk (basePoint U w))
+  let : Algebra (S.presheaf.stalk (basePoint U w))
       (U.left.residueField w) := residueFieldAlgebra U w
   let α : Spec (.of A) ⟶ W.left.1 :=
     eqToHom (congrArg Over.left hy).symm ≫ a.left.left
@@ -719,12 +719,12 @@ public theorem smooth_of_isSmoothOnPredeformationCategories
     (hs : Deformation.Artin.IsSmoothOnPredeformationCategories B S hS
       (Over.map W.hom) (Over.map V.hom) (Over.map g.left)
       (by rw [← Over.mapComp_eq, g.w])) : Smooth g.left.hom := by
-  letI : IsLocallyNoetherian (B.obj hS).obj := ‹IsLocallyNoetherian S›
-  letI : IsLocallyNoetherian V.left.1 :=
+  let : IsLocallyNoetherian (B.obj hS).obj := ‹IsLocallyNoetherian S›
+  let : IsLocallyNoetherian V.left.1 :=
     LocallyOfFiniteType.isLocallyNoetherian V.hom.hom
   have hg : g.left.hom ≫ V.hom.hom = W.hom.hom := congrArg (fun z => z.hom) g.w
-  letI : LocallyOfFiniteType (g.left.hom ≫ V.hom.hom) := hg.symm ▸ inferInstance
-  letI : LocallyOfFiniteType g.left.hom := locallyOfFiniteType_of_comp _ V.hom.hom
+  let : LocallyOfFiniteType (g.left.hom ≫ V.hom.hom) := hg.symm ▸ inferInstance
+  let : LocallyOfFiniteType g.left.hom := locallyOfFiniteType_of_comp _ V.hom.hom
   exact smooth_of_smoothAt_finiteTypePoints g.left.hom
     (smoothAt_of_isSmoothOnPredeformationCategories B S hS W V g hs)
 

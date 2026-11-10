@@ -162,7 +162,7 @@ theorem nonempty_limChart_stageChartOf_hom
   have hmS : mS ≫ a.hom.left = μ := by
     apply (BigFppfOver.toScheme B S hS).map_injective
     rw [Functor.map_comp]
-    show B.inclusion.map (B.inclusion.preimage m) ≫ _ = _
+    change B.inclusion.map (B.inclusion.preimage m) ≫ _ = _
     rwa [Functor.map_preimage]
   refine ⟨ObjectProperty.homMk (CostructuredArrow.homMk mS ?_)⟩
   rwa [← CostructuredArrow.w a.hom, ← Category.assoc, ← Functor.map_comp, hmS]

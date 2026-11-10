@@ -113,7 +113,7 @@ theorem exists_lift_of_range_subset_closedSet (hU : IsAlgebraicSpace B S hS U)
       (Spec.map (CommRingCat.ofHom (algebraMap q.R q.K)) ≫ q.base)))
       (fun Y : Scheme.{u} => IsReduced Y) := by
     refine hasEtaleLocalProperty_of_representable B S hS _ _ _ (Iso.refl _) ?_
-    show IsReduced (Spec (.of q.K))
+    change IsReduced (Spec (.of q.K))
     infer_instance
   obtain ⟨γ', hγ'⟩ := (exists_lift_reducedClosedSubspace_iff_pointsMap_range_subset B S hS U hU
     Zs hZs (isAlgebraicSpace_yoneda B S hS _) hred γ).2 hγ
@@ -322,11 +322,11 @@ theorem exists_lift_of_range_subset_openSubspace {U₂ : Subfunctor U}
       Nset hNo hN₂ hjN hsq₁ hg₁ ht hr hrN hfac φ (yoneda.map e.genericOver ≫ γ₂)
       (by rw [hφgen]; simp only [Category.assoc]) hcl'
     refine ⟨e.trans e', Or.inl ⟨h, ?_, ?_⟩⟩
-    · show yoneda.map e'.square.fracHom ≫ h =
+    · change yoneda.map e'.square.fracHom ≫ h =
         yoneda.map (e'.genericOver ≫ e.genericOver) ≫ γ ≫ a₁
       rw [hgen, Functor.map_comp, ← hγ₂]
       simp only [Category.assoc]
-    · show h ≫ g₁ = yoneda.map (e'.specialOver ≫ e.specialOver) ≫ σ
+    · change h ≫ g₁ = yoneda.map (e'.specialOver ≫ e.specialOver) ≫ σ
       rw [hsp, Functor.map_comp, Category.assoc, hφsp]
 
 /-- **The valuative step of the proof of Stacks 0F4B** (its eighth paragraph, with the chart `N`

@@ -303,7 +303,7 @@ theorem endDegree_mul_zpow_inv_eq_eval_charpoly_tateModuleMap (hℓk : IsUnit (�
   apply Subtype.val_injective
   have h := congrArg (fun F => F.eval (n : ℚ_[ℓ])) (charpoly_tateModuleMap A ℓ α hℓk)
   simp only [eval_intCast_map, eval_intCast_endCharPoly, map_natCast] at h
-  show ((endDegree A (α * ((𝟙 A) ^ n)⁻¹) : ℤ_[ℓ]) : ℚ_[ℓ]) = _
+  change ((endDegree A (α * ((𝟙 A) ^ n)⁻¹) : ℤ_[ℓ]) : ℚ_[ℓ]) = _
   rw [PadicInt.coe_natCast, ← h]
   rfl
 
@@ -328,7 +328,7 @@ theorem endDegree_eq_det_tateModuleMap (hℓk : IsUnit (ℓ : k)) :
   apply Subtype.val_injective
   have h := congrArg (fun F => F.coeff 0) (charpoly_toMatrix_tateModuleMap A ℓ α hℓk b)
   simp only [coeff_map, coeff_zero_endCharPoly, map_natCast] at h
-  show ((endDegree A α : ℤ_[ℓ]) : ℚ_[ℓ]) = _
+  change ((endDegree A α : ℤ_[ℓ]) : ℚ_[ℓ]) = _
   rw [PadicInt.coe_natCast]
   exact h.symm
 

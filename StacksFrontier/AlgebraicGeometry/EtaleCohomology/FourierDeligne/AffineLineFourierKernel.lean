@@ -82,7 +82,7 @@ theorem specHomRingHom_comp_specMap (f : X ⟶ Spec (CommRingCat.of R)) (β : S 
 theorem specHomRingHom_toSpecΓ_comp_specMap (α : R →+* Γ(X, ⊤)) :
     specHomRingHom (X.toSpecΓ ≫ Spec.map (CommRingCat.ofHom α)) = α := by
   rw [specHomRingHom_comp_specMap]
-  show ((Scheme.ΓSpecIso Γ(X, ⊤)).inv ≫ X.toSpecΓ.appTop).hom.comp α = α
+  change ((Scheme.ΓSpecIso Γ(X, ⊤)).inv ≫ X.toSpecΓ.appTop).hom.comp α = α
   rw [Scheme.toSpecΓ_appTop, Iso.inv_hom_id]
   rfl
 
@@ -229,7 +229,7 @@ theorem affineSpaceOrigin_map {σ : Type} (φ : Polynomial k →ₐ[k] MvPolynom
     (hφ : MvPolynomial.constantCoeff (φ Polynomial.X) = 0) :
     (affineSpaceOrigin k σ).map (Spec.map (CommRingCat.ofHom φ.toRingHom)) =
       affineLineOrigin k := by
-  show GeometricPoint.mk (AlgebraicClosure k) (Spec.map _ ≫ Spec.map _) =
+  change GeometricPoint.mk (AlgebraicClosure k) (Spec.map _ ≫ Spec.map _) =
     GeometricPoint.mk (AlgebraicClosure k) (Spec.map _)
   rw [← Spec.map_comp]
   congr 2
@@ -239,7 +239,7 @@ theorem affineSpaceOrigin_map {σ : Type} (φ : Polynomial k →ₐ[k] MvPolynom
       AlgHom.toRingHom_eq_coe, RingHom.coe_coe, Polynomial.coe_eval₂RingHom,
       ← Polynomial.algebraMap_eq, AlgHom.commutes, MvPolynomial.algebraMap_eq,
       MvPolynomial.eval₂Hom_C]
-    show _ = Polynomial.eval₂ _ _ (Polynomial.C c)
+    change _ = Polynomial.eval₂ _ _ (Polynomial.C c)
     rw [Polynomial.eval₂_C]
   · simp only [CommRingCat.hom_comp, CommRingCat.hom_ofHom, RingHom.comp_apply,
       AlgHom.toRingHom_eq_coe, RingHom.coe_coe, Polynomial.coe_eval₂RingHom, Polynomial.eval₂_X,
@@ -252,7 +252,7 @@ theorem affineSpaceOrigin_map_mvPolynomial {σ τ : Type}
     (hφ : ∀ i, MvPolynomial.constantCoeff (φ (.X i)) = 0) :
     (affineSpaceOrigin k τ).map (Spec.map (CommRingCat.ofHom φ.toRingHom)) =
       affineSpaceOrigin k σ := by
-  show GeometricPoint.mk (AlgebraicClosure k) (Spec.map _ ≫ Spec.map _) =
+  change GeometricPoint.mk (AlgebraicClosure k) (Spec.map _ ≫ Spec.map _) =
     GeometricPoint.mk (AlgebraicClosure k) (Spec.map _)
   rw [← Spec.map_comp]
   congr 2
@@ -391,7 +391,7 @@ theorem range_fourierOffAntidiagonalι :
     (fourierAntidiagonalRingHom k).toRingHom))
   rw [h₁] at e₁
   rw [h₂] at e₂
-  show Set.range ⇑(fourierOffAntidiagonalι k) = (Set.range ⇑(fourierAntidiagonalι k))ᶜ
+  change Set.range ⇑(fourierOffAntidiagonalι k) = (Set.range ⇑(fourierAntidiagonalι k))ᶜ
   rw [e₁, e₂]
   ext p
   exact Iff.of_eq (congrArg (fun S : Set (PrimeSpectrum (MvPolynomial (Fin 3) k)) =>

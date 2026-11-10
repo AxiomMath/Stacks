@@ -91,8 +91,7 @@ theorem isSmooth_baseProjection_curvesSmall_iff_schemeDeformation :
     (predeformationEquivalenceOfEquivalenceOver B hZ iΛ (curvesFiberedCategory B hZ).val.p
       (curvesSmallBased B hZ).p (curveFamilyOfScheme X B hZ hk hdim)
       (curvesToSchemesOver_obj_curveFamilyOfScheme X B hZ hk hdim iΛ) hpX
-      (isFiberedInGroupoids_curvesSmall B hZ) (curvesSmallEquivalenceOver B hZ))
-    (predeformationCategory_isPredeformationCategory B hZ iΛ _ _ _ hpX).cofibered).symm).trans
+      (isFiberedInGroupoids_curvesSmall B hZ) (curvesSmallEquivalenceOver B hZ))).symm).trans
     (isSmooth_baseProjection_schemeDeformation_iff_curves B hZ X hk hdim iΛ).symm
 
 /-- **The smooth locus of the stack of curves and deformations of a curve** (the equivalence of

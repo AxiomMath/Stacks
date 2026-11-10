@@ -131,7 +131,7 @@ theorem baseChangeComparison_comp_baseChangeToX :
 theorem appTop_baseChangeComparison_baseChangeScalar (x : F) :
     (D.baseChangeComparison K F M).appTop (D.baseChangeScalar F x) =
       (D.baseChangeFamily K).baseChangeScalar M (algebraMap F M x) := by
-  show (D.baseChangeComparison K F M).appTop
+  change (D.baseChangeComparison K F M).appTop
     ((D.baseChangeToSpec F).appTop ((Scheme.ΓSpecIso (.of F)).inv x)) = _
   rw [← CommRingCat.comp_apply, ← Scheme.Hom.comp_appTop,
     (D.isPullback_baseChangeComparison K F M).w, Scheme.Hom.comp_appTop,

@@ -412,7 +412,7 @@ private theorem ker_eq_ker_of_trace_sub_trace_eq_zsmul
     apply e.injective
     rw [map_zero]
     refine funext fun j => ?_
-    show (e (f a)) j = 0
+    change (e (f a)) j = 0
     obtain ⟨ψ⟩ := IntermediateField.nonempty_algHom_of_splits
       (F := F) (E := E j) (K := Ω) (fun y =>
         ⟨Algebra.IsIntegral.isIntegral y, IsAlgClosed.splits _⟩)

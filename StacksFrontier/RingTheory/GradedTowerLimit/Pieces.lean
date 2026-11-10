@@ -65,7 +65,7 @@ abbrev pieceSystem (d : ℕ) : ℕᵒᵖ ⥤ ModuleCat.{u} (limit Rg : CommRingC
 /-- The map of `pieceSystem d` along `n ≤ n + 1` is the transition map `trLimit n d`. -/
 theorem pieceSystem_map_succ (d n : ℕ) (x : T.𝒜 (n + 1) d) :
     (T.pieceSystem d).map (homOfLE (Nat.le_succ n)).op x = T.trLimit n d x := by
-  show (Functor.ofOpSequence (X := fun n => ModuleCat.of (limit Rg : CommRingCat.{u})
+  change (Functor.ofOpSequence (X := fun n => ModuleCat.of (limit Rg : CommRingCat.{u})
     (T.𝒜 n d)) fun n => ModuleCat.ofHom (T.trLimit n d)).map (homOfLE (Nat.le_succ n)).op x = _
   rw [Functor.ofOpSequence_map_homOfLE_succ]
   rfl
@@ -117,7 +117,7 @@ def limitToPiece (d : ℕ) :
 def limitPieceEquiv (d : ℕ) :
     (limit (T.pieceSystem d) : ModuleCat.{u} (limit Rg : CommRingCat.{u})) ≃ₗ[
       (limit Rg : CommRingCat.{u})] T.piece d :=
-  LinearEquiv.ofLinear (T.limitToPiece d) (limit.lift (T.pieceSystem d) (T.pieceCone d)).hom
+  LinearEquiv.ofLinearMap (T.limitToPiece d) (limit.lift (T.pieceSystem d) (T.pieceCone d)).hom
     (by
       ext y n
       change ((limit.π (T.pieceSystem d) (op n) (limit.lift _ (T.pieceCone d) y) : T.𝒜 n d) :

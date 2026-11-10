@@ -430,7 +430,7 @@ theorem IntegralClosedSubspace.pushforward_closureImage
         pointsMap B S hS W.subspace.toFunctor W.subspace.ι := by
     rw [← pointsMap_comp, ← pointsMap_comp, hm]
   refine injective_integralClosedSubspaceSupport B S hS hX (IrreducibleCloseds.ext ?_)
-  show subspacePointSet B S hS X _ = subspacePointSet B S hS X _
+  change subspacePointSet B S hS X _ = subspacePointSet B S hS X _
   rw [IntegralClosedSubspace.subspacePointSet_pushforward,
     IntegralClosedSubspace.subspacePointSet_closureImage,
     IntegralClosedSubspace.subspacePointSet_closureImage,
@@ -506,7 +506,7 @@ theorem PrimeDivisor.pointsMap_genericPoint_closureImage (hX : IsAlgebraicSpace 
   have : T0Space (points B S hS X) := t0Space_points_of_isDecentSpace B S hS hX hXdec
   refine IsGenericPoint.eq ?_
     ((Z.closureImage B S hS hX hU hXdec hj).isGenericPoint_genericPoint B S hS X)
-  show closure {pointsMap B S hS U j (Z.genericPoint B S hS U)} =
+  change closure {pointsMap B S hS U j (Z.genericPoint B S hS U)} =
     subspacePointSet B S hS X (Z.closureImage B S hS hX hU hXdec hj).subspace
   have hgen : closure {Z.genericPoint B S hS U} =
       subspacePointSet B S hS U Z.subspace :=
@@ -704,7 +704,7 @@ theorem exists_rationallyEquivalent_add_cycleGroupClosedPushforward (sX : X ⟶ 
       (D.isDecentSpace_of_isGood sX hX) hi sX hX.2.2 sY hic k γ) = δ := by
     rw [hγ]
     abel
-  show IsRationallyEquivalentToZero.{v} D sX hX k (α - (β + _))
+  change IsRationallyEquivalentToZero.{v} D sX hX k (α - (β + _))
   rw [hkey]
   exact hδ
 

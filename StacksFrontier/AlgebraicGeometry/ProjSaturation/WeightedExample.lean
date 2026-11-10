@@ -93,7 +93,7 @@ abbrev squareIdeal : Ideal (MvPolynomial (Fin 2) ℚ) :=
 
 theorem weight_apply (d : Fin 2 →₀ ℕ) : Finsupp.weight weight d = 2 * d 0 + 3 * d 1 := by
   rw [Finsupp.weight_eq_sum, Fin.sum_univ_two]
-  simp only [weight, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, smul_eq_mul]
+  simp only [weight, Matrix.cons_val_zero, Matrix.cons_val_one, smul_eq_mul]
   ring
 
 /-- A polynomial is homogeneous of degree `n` for the weights `(2, 3)` exactly when every
@@ -121,7 +121,7 @@ theorem grading_one_eq_bot : grading 1 = ⊥ := by
   refine le_antisymm (fun f hf => ?_) bot_le
   rw [Submodule.mem_bot]
   refine MvPolynomial.ext _ _ fun d => ?_
-  rw [MvPolynomial.coeff_zero]
+  rw [AddMonoidAlgebra.coeff_zero]
   by_contra hc
   have h := (mem_grading_iff f).mp hf d (MvPolynomial.mem_support_iff.mpr hc)
   omega
@@ -178,7 +178,8 @@ theorem X_zero_pow_mul_X_one_eq_monomial (n : ℕ) :
     (MvPolynomial.X 0 : MvPolynomial (Fin 2) ℚ) ^ n * MvPolynomial.X 1 =
       MvPolynomial.monomial (Finsupp.single (0 : Fin 2) n + Finsupp.single (1 : Fin 2) 1) 1 := by
   rw [← pow_one (MvPolynomial.X (1 : Fin 2) : MvPolynomial (Fin 2) ℚ),
-    MvPolynomial.X_pow_eq_monomial, MvPolynomial.X_pow_eq_monomial, MvPolynomial.monomial_mul,
+    MvPolynomial.X_pow_eq_monomial, MvPolynomial.X_pow_eq_monomial,
+    MvPolynomial.monomial_mul_monomial,
     one_mul]
 
 /-- **Stacks 0BXK, in the counterexample of its last paragraph: `xⁿ · y ∉ I` for every `n`.** The
@@ -192,7 +193,7 @@ theorem X_zero_pow_mul_X_one_notMem_squareIdeal (n : ℕ) :
   have hd : (Finsupp.single (0 : Fin 2) n + Finsupp.single (1 : Fin 2) 1) ∈
       ((MvPolynomial.X 0 : MvPolynomial (Fin 2) ℚ) ^ n * MvPolynomial.X 1).support := by
     rw [MvPolynomial.mem_support_iff, X_zero_pow_mul_X_one_eq_monomial n,
-      MvPolynomial.coeff_monomial, if_pos rfl]
+      MvPolynomial.coeff_monomial, ite_eq_left rfl]
     exact one_ne_zero
   have hle := h _ hd
   rw [Finsupp.add_apply, Finsupp.single_eq_of_ne (by decide), Finsupp.single_eq_same] at hle

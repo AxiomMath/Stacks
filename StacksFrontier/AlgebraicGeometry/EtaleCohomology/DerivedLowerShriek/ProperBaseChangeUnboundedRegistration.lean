@@ -20,4 +20,6 @@ The compatibility of the base change isomorphisms with the isomorphisms of [Stac
 * [Stacks Project, Tag 0F0C](https://stacks.math.columbia.edu/tag/0F0C)
 -/
 
-add_to_stacks 0F7L "the isomorphism g⁻¹ ∘ Rf_! ≅ Rf'_! ∘ (g')⁻¹ on unbounded D(X_étale, Λ), Λ a torsion ring" Stacks.EtaleCohomology.derivedLowerShriekUnboundedBaseChangeIso
+add_to_stacks 0F7L
+  "the isomorphism g⁻¹ ∘ Rf_! ≅ Rf'_! ∘ (g')⁻¹ on unbounded D(X_étale, Λ), Λ a torsion ring"
+  Stacks.EtaleCohomology.derivedLowerShriekUnboundedBaseChangeIso

@@ -93,7 +93,7 @@ theorem exists_reduced_etale_chart_injective_globalSections
       etale_comp_of_scheme B S hS pHom q hpEtale hqEtale⟩
   let gα : PChart ⟶ cop.unop := ObjectProperty.homMk <|
     CostructuredArrow.homMk α (by
-      show yoneda.map α ≫ cop.unop.1.hom = yoneda.map pHom ≫ q
+      change yoneda.map α ≫ cop.unop.1.hom = yoneda.map pHom ≫ q
       rw [hpHom]; exact hpb.w.symm)
   let gp : PChart ⟶ AChart := ObjectProperty.homMk <| CostructuredArrow.homMk pHom rfl
   refine gamma_injective_of_etale_surjection B S hS α hαSurj hαEtale ?_

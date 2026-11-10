@@ -166,7 +166,7 @@ theorem geometricallyIntegral_algebraMap_iff_residueField :
       exact Ideal.map_quotient_self _
     let : Algebra p.ResidueField K := (IsFractionRing.lift hg).toAlgebra
     have : IsScalarTower R p.ResidueField K := IsScalarTower.of_algebraMap_eq fun r => by
-      show algebraMap R K r = IsFractionRing.lift hg (algebraMap R p.ResidueField r)
+      change algebraMap R K r = IsFractionRing.lift hg (algebraMap R p.ResidueField r)
       rw [← Ideal.algebraMap_quotient_residueField_mk, IsFractionRing.lift_algebraMap]
       exact (Ideal.Quotient.lift_mk _ _ _).symm
     have := (Algebra.isGeometricallyIntegral_iff_isDomain_tensorProduct _ _).mp (h p) K

@@ -1,7 +1,6 @@
 module
 
-public import
-  StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.TensorBaseChange.LocalizedModuleCriterion
+public import StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.TensorBaseChange.LocalizedModuleCriterion
 public import StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.TensorBaseChange.RingTensor
 public import StacksFrontier.Homology.Tor.DerivedTensorFlatBaseChange
 
@@ -39,8 +38,7 @@ variable {R A R' A' : Type u}
 theorem bijective_modelBaseRingMap_self : Function.Bijective (modelBaseRingMap R A R' R') := by
   have h : modelBaseRingMap R A R' R' = RingHom.id _ := by
     refine RingHom.ext fun x ↦ ?_
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a r => rfl
     | add x y hx hy => rw [map_add, hx, hy, map_add]
   exact h ▸ Function.bijective_id
@@ -78,7 +76,7 @@ theorem isLocalizedModule_modelTermMap_self (S : Submonoid (A ⊗[R] R'))
   let := (modelRingMap R A R' A' R').toAlgebra
   have := isLocalization_modelRingMap_self S hloc
   have : IsScalarTower A (A ⊗[R] R') A' := IsScalarTower.of_algebraMap_eq fun a ↦ by
-    show algebraMap A A' a = modelRingMap R A R' A' R' (a ⊗ₜ[R] 1)
+    change algebraMap A A' a = modelRingMap R A R' A' R' (a ⊗ₜ[R] 1)
     rw [modelRingMap_tmul, map_one, map_one, mul_one]
   let e : (A ⊗[R] R') ⊗[A] X ≃ₗ[A ⊗[R] R']
       ((A ⊗[R] R') ⊗[A] X) ⊗[A ⊗[R] R'] ((A ⊗[R] R') ⊗[R'] R') :=
@@ -94,11 +92,10 @@ theorem isLocalizedModule_modelTermMap_self (S : Submonoid (A ⊗[R] R'))
   have hfac : ((modelTermMap (R := R) (A := A) (R' := R') (A' := A') (R₀ := R')).app
       (ModuleCat.of A X)).hom ∘ₗ e.toLinearMap = i ∘ₗ gX := by
     refine LinearMap.ext fun t ↦ ?_
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction t using TensorProduct.inductionOn with
     | add t t' ht ht' => simp only [map_add, ht, ht']
     | tmul c x =>
-      show modelTermAdd (R := R) (A := A) (R' := R') (A' := A') (R₀ := R') X
+      change modelTermAdd (R := R) (A := A) (R' := R') (A' := A') (R₀ := R') X
         ((c ⊗ₜ[A] x) ⊗ₜ[A ⊗[R] R'] ((1 : A ⊗[R] R') ⊗ₜ[R'] (1 : R'))) = _
       simp only [modelTermAdd_tmul, modelUnitAddHom_tmul, map_one, one_mul]
       rfl

@@ -52,7 +52,8 @@ sheafification and derived-category instances, all of which hold on every
 `AlgebraicGeometry.RingedSite.{u, u, u}` and on each of its slices; in particular it does **not**
 carry `HasBinaryProducts`, which the superficially similar
 `Stacks.Cohomology.isIso_of_isIso_mapDerivedCategory_overFunctor` of
-`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedLocality/InvertibilityOnACovering.lean` does and which would be a hypothesis on the
+`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedLocality/InvertibilityOnACovering.lean` does
+and which would be a hypothesis on the
 site that neither [Stacks, Tag 0998] nor [Stacks, Tag 099F] makes.
 
 The covering family is indexed by the objects of the sieve together with their structure maps,

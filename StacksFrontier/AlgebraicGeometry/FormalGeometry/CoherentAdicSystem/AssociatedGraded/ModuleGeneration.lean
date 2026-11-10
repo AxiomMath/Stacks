@@ -102,21 +102,21 @@ private theorem associatedGraded_mapIdeal_smul_mem_power
   | mem x hx =>
       intro m
       obtain ⟨r, hr, rfl⟩ := hx
-      show (algebraMap R S r) • m ∈ I ^ n • (⊤ : Submodule R M)
+      change (algebraMap R S r) • m ∈ I ^ n • (⊤ : Submodule R M)
       rw [IsScalarTower.algebraMap_smul]
       exact Submodule.smul_mem_smul hr Submodule.mem_top
   | zero =>
       intro m
-      show (0 : S) • m ∈ I ^ n • (⊤ : Submodule R M)
+      change (0 : S) • m ∈ I ^ n • (⊤ : Submodule R M)
       simp
   | add x y hx hy ihx ihy =>
       intro m
-      show (x + y) • m ∈ I ^ n • (⊤ : Submodule R M)
+      change (x + y) • m ∈ I ^ n • (⊤ : Submodule R M)
       rw [add_smul]
       exact Submodule.add_mem _ (ihx m) (ihy m)
   | smul a x hx ih =>
       intro m
-      show (a * x) • m ∈ I ^ n • (⊤ : Submodule R M)
+      change (a * x) • m ∈ I ^ n • (⊤ : Submodule R M)
       rw [show a * x = x * a by rw [mul_comm], mul_smul]
       exact ih (a • m)
 
@@ -166,7 +166,7 @@ private theorem associatedGraded_piece_closure_smul_generators_of_residue_surjec
             apply Subtype.ext
             simp [associatedGradedPowerSaturation, smul_add]
           rw [hsum]
-          show Submodule.Quotient.mk
+          change Submodule.Quotient.mk
             (associatedGradedPowerSaturation I n a m₁ +
              associatedGradedPowerSaturation I n a m₂) ∈ H
           rw [Submodule.Quotient.mk_add]
@@ -204,7 +204,7 @@ private theorem associatedGraded_piece_closure_smul_generators_of_residue_surjec
                   (algebraMap R S ((a : R) * r)) • m := by
                 rw [← IsScalarTower.algebraMap_smul (A := S)]
               rw [h₁, h₂, map_mul, ← sub_smul, mul_sub]
-            show (a : R) • (c • m) - ((a' : R) • m) ∈
+            change (a : R) • (c • m) - ((a' : R) • m) ∈
               AssociatedGraded.power (M := M) I (n + 1)
             rw [hval]
             exact herr
@@ -228,7 +228,7 @@ private theorem associatedGraded_piece_closure_smul_generators_of_residue_surjec
         rw [← heq]
         exact hgen
       · intro z hz w hw ihz ihw _
-        show Submodule.Quotient.mk
+        change Submodule.Quotient.mk
           ((⟨z, hz⟩ : AssociatedGraded.power (M := M) I n) + ⟨w, hw⟩) ∈ H
         rw [Submodule.Quotient.mk_add]
         exact AddSubgroup.add_mem H (ihz hz) (ihw hw)
@@ -255,7 +255,7 @@ private theorem adicCompletion_residue_surjective
       RingHom.ker (AdicCompletion.evalOneₐ I).toRingHom := by
     apply RingHom.mem_ker.mpr
     rw [map_sub]
-    show (AdicCompletion.evalOneₐ I).toRingHom c -
+    change (AdicCompletion.evalOneₐ I).toRingHom c -
       (AdicCompletion.evalOneₐ I).toRingHom
         (algebraMap R (AdicCompletion I R) r) = 0
     rw [hEval, hr', sub_self]

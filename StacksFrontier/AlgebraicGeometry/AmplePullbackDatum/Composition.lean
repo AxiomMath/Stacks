@@ -25,9 +25,9 @@ ampleness of `M` at the affine open `U`, and relative ampleness of `L` restricte
 
 * `Stacks.AmplePullbackDatum.isRelativelyAmple_morphismRestrict`: **relative ampleness restricts to
   an open of the base**, `Stacks.RelativeAmple.IsRelativelyAmple (f ∣_ V) (L|_{f⁻¹V})`.
-  `StacksFrontier/AlgebraicGeometry/RelativeAmple/Basic.lean` records that "the stability of relative
-  ampleness under restriction of the base to an open is also not stated"; it is a special case of
-  the base change already proved.
+  `StacksFrontier/AlgebraicGeometry/RelativeAmple/Basic.lean` records that "the stability of
+  relative ampleness under restriction of the base to an open is also not stated"; it is a special
+  case of the base change already proved.
 * `Stacks.AmplePullbackDatum.relativeEventualAffineDatum`:
   `Stacks.RelativeAmpleCompositionThreshold.RelativeEventualAffineDatum`, with no premise.
 * `Stacks.AmplePullbackDatum.exists_threshold_isRelativelyAmple_comp`: **[Stacks, Tag 0C4K]**, with
@@ -75,7 +75,8 @@ namespace Stacks.AmplePullbackDatum
 `f ∣_ V : f⁻¹V ⟶ V`.
 
 `StacksFrontier/AlgebraicGeometry/RelativeAmple/Basic.lean` and
-`StacksFrontier/AlgebraicGeometry/RelativeAmpleComposition/Basic.lean` both record this as not stated.
+`StacksFrontier/AlgebraicGeometry/RelativeAmpleComposition/Basic.lean` both record this as not
+stated.
 It needs nothing new: `AlgebraicGeometry.isPullback_morphismRestrict` says that `f ∣_ V` is the
 base change of `f` along `V.ι`, and base change of relative ampleness is [Stacks, Tag 0893],
 `Stacks.AmpleBridge.relativelyAmpleBaseChange`. -/

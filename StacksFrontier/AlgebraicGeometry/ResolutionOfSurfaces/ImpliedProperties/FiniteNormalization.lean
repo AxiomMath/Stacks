@@ -127,7 +127,7 @@ private theorem normalization_restrict_isFinite_of_regular_alteration
   have : IsIntegral X := hf.2.2.1
   have hgeneric := ((tfae_isDominant_of_isIntegral f).out 1 2).mp hf.2.1
   have hηV : genericPoint X ∈ V := by
-    show f (genericPoint X) ∈ U.1
+    change f (genericPoint X) ∈ U.1
     rw [hgeneric]
     exact (genericPoint_spec Y).mem_open_set_iff U.1.2 |>.mpr (by simpa using ‹Nonempty U.1›)
   have : Nonempty V := ⟨⟨genericPoint X, hηV⟩⟩
@@ -172,7 +172,7 @@ private theorem normalization_restrict_isFinite_of_regular_alteration
     intro a b hab
     apply (Scheme.ΓSpecIso (.of A)).symm.commRingCatIsoToRingEquiv.injective
     apply hinjW
-    show (V.toScheme.presheaf.map (homOfLE hWtop).op).hom
+    change (V.toScheme.presheaf.map (homOfLE hWtop).op).hom
         (((Scheme.ΓSpecIso (.of A)).inv ≫ g.appTop).hom a) =
       (V.toScheme.presheaf.map (homOfLE hWtop).op).hom
         (((Scheme.ΓSpecIso (.of A)).inv ≫ g.appTop).hom b)
@@ -251,7 +251,7 @@ private theorem normalization_restrict_isFinite_of_isFinite_regular_alteration
   have : IsIntegral X := hf.2.2.1
   have hgeneric := ((tfae_isDominant_of_isIntegral f).out 1 2).mp hf.2.1
   have hηV : genericPoint X ∈ V := by
-    show f (genericPoint X) ∈ U.1
+    change f (genericPoint X) ∈ U.1
     rw [hgeneric]
     exact (genericPoint_spec Y).mem_open_set_iff U.1.2 |>.mpr (by simpa using ‹Nonempty U.1›)
   have : Nonempty V := ⟨⟨genericPoint X, hηV⟩⟩
@@ -296,7 +296,7 @@ private theorem normalization_restrict_isFinite_of_isFinite_regular_alteration
     intro a b hab
     apply (Scheme.ΓSpecIso (.of A)).symm.commRingCatIsoToRingEquiv.injective
     apply hinjW
-    show (V.toScheme.presheaf.map (homOfLE hWtop).op).hom
+    change (V.toScheme.presheaf.map (homOfLE hWtop).op).hom
         (((Scheme.ΓSpecIso (.of A)).inv ≫ g.appTop).hom a) =
       (V.toScheme.presheaf.map (homOfLE hWtop).op).hom
         (((Scheme.ΓSpecIso (.of A)).inv ≫ g.appTop).hom b)

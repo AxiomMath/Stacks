@@ -288,7 +288,7 @@ theorem nonempty_sectionModule_shifted_iso (K : DifferentialGradedModule.{t, a, 
   let Sh : DifferentialGradedModule.{t, a, a} A :=
     ⟨(CochainComplex.shiftFunctor (SheafOfModules.{a} R) 1).obj K.complex, μ, h_assoc, h_one,
       h_leib⟩
-  show Nonempty (Sh.sectionModule U ≅ _)
+  change Nonempty (Sh.sectionModule U ≅ _)
   -- the reindexing of the direct sum of sections
   let e : Sh.totalSections U →+ K.totalSections U :=
     DirectSum.toAddMonoid fun n ↦ DirectSum.of (K.sectionsPiece U) (n + 1)
@@ -318,14 +318,14 @@ theorem nonempty_sectionModule_shifted_iso (K : DifferentialGradedModule.{t, a, 
     { toFun := uliftIntLinear e
       map_smul := by
         intro x b
-        show e (Sh.act U x b) = K.act U (e x) b
+        change e (Sh.act U x b) = K.act U (e x) b
         induction x using DirectSum.induction_on with
         | zero =>
             rw [map_zero (Sh.act U), map_zero e, map_zero (K.act U)]
             exact map_zero e
         | add x y hx hy =>
             rw [map_add (Sh.act U), map_add e, map_add (K.act U)]
-            show e (Sh.act U x b + Sh.act U y b) = K.act U (e x) b + K.act U (e y) b
+            change e (Sh.act U x b + Sh.act U y b) = K.act U (e x) b + K.act U (e y) b
             rw [map_add, hx, hy]
         | of n p =>
             induction b using DirectSum.induction_on with
@@ -338,13 +338,13 @@ theorem nonempty_sectionModule_shifted_iso (K : DifferentialGradedModule.{t, a, 
                     (ha n i U) p q)
       map_grading := by
         rintro n x ⟨p, rfl⟩
-        show e (DirectSum.of (Sh.sectionsPiece U) n p) ∈
+        change e (DirectSum.of (Sh.sectionsPiece U) n p) ∈
           Stacks.ExternalGrading.intSummand (K.sectionsPiece U) (n + 1)
         rw [he]
         exact Stacks.ExternalGrading.of_mem_intSummand _ _ _
       map_d := by
         refine LinearMap.ext fun x ↦ ?_
-        show e (Sh.sectionD U x) = ((1 : ℤ).negOnePow : ℤ) • K.sectionD U (e x)
+        change e (Sh.sectionD U x) = ((1 : ℤ).negOnePow : ℤ) • K.sectionD U (e x)
         induction x using DirectSum.induction_on with
         | zero => rw [map_zero, map_zero, map_zero, smul_zero]
         | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add, smul_add]

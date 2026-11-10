@@ -110,7 +110,7 @@ theorem of_surjective_of_ker_eq_ker_smul_top
       rw [hlift, hlift] at hzw
       have hmem : x - y ∈ RingHom.ker (algebraMap A S) • (⊤ : Submodule A M) := by
         rw [← hker]
-        show f (x - y) = 0
+        change f (x - y) = 0
         rw [map_sub, hzw, sub_self]
       have hz := (hmkzero (x - y)).2 hmem
       rwa [map_sub, sub_eq_zero] at hz

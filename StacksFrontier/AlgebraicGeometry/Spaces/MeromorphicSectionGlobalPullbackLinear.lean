@@ -146,7 +146,7 @@ theorem meromorphicSectionSheaf_eq_of_cover
         ((meromorphicSectionSheaf.{u, u} B S hS F hF M).val.map p.op).hom
           (((meromorphicSectionSheaf.{u, u} B S hS F hF M).val.map (a i).op).hom z) := fun z ↦ by
     rw [op_comp, PresheafOfModules.map_comp_apply]
-  show ((meromorphicSectionSheaf.{u, u} B S hS F hF M).val.map (p ≫ a i).op).hom x =
+  change ((meromorphicSectionSheaf.{u, u} B S hS F hF M).val.map (p ≫ a i).op).hom x =
     ((meromorphicSectionSheaf.{u, u} B S hS F hF M).val.map (p ≫ a i).op).hom y
   rw [hcomp, hcomp, h i]
 

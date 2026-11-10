@@ -108,6 +108,8 @@ instance preservesHomology_moduleSheafification :
 /-- The family of global sections, read over each object. -/
 abbrev cechFamily (V : X.Cᵒᵖ) (i : Fin r) : X.O.obj.obj V := globalSectionVal (f i) V
 
+omit [HasWeakSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify X.J AddCommGrpCat.{u}] in
 /-- The restrictions of a global section agree with the values of the family. -/
 theorem cechFamily_map {V W : X.Cᵒᵖ} (a : V ⟶ W) (i : Fin r) :
     (X.O.obj.map a).hom (cechFamily X f V i) = cechFamily X f W i :=
@@ -172,6 +174,8 @@ variable (X : RingedSite.{u, u, u})
   (f : Fin r → Presheaf.globalSections (X.O.obj ⋙ forget CommRingCat.{u}))
   (g : Fin s → Presheaf.globalSections (X.O.obj ⋙ forget CommRingCat.{u}))
 
+omit [HasWeakSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify X.J AddCommGrpCat.{u}] in
 /-- The subfamily condition, read over each object. -/
 theorem cechFamily_order_embedding (e : Fin r ↪o Fin s) (he : ∀ i, g (e i) = f i)
     (V : X.Cᵒᵖ) (i : Fin r) : cechFamily X g V (e i) = cechFamily X f V i :=
@@ -183,6 +187,8 @@ def cechPresheafRestrict (e : Fin r ↪o Fin s) (he : ∀ i, g (e i) = f i) :
   Stacks.CechPresheaf.cechPresheafRestrict X.O.obj (cechFamily X f) (cechFamily_map X f)
     (cechFamily X g) (cechFamily_map X g) e (cechFamily_order_embedding X f g e he)
 
+omit [HasWeakSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify X.J AddCommGrpCat.{u}] in
 /-- **The restriction map of the presheaves of Čech complexes is a map over `𝒪`.** -/
 theorem cechPresheafRestrict_comp_augmentation (e : Fin r ↪o Fin s)
     (he : ∀ i, g (e i) = f i) :
@@ -192,6 +198,8 @@ theorem cechPresheafRestrict_comp_augmentation (e : Fin r ↪o Fin s)
     (cechFamily X f) (cechFamily_map X f) (cechFamily X g) (cechFamily_map X g) e
     (cechFamily_order_embedding X f g e he)
 
+omit [HasWeakSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify X.J AddCommGrpCat.{u}] in
 /-- **The restriction map of the presheaves of Čech complexes is a quasi-isomorphism as soon as
 the two families span the same ideal of sections over every object.** -/
 theorem quasiIso_cechPresheafRestrict (e : Fin r ↪o Fin s) (he : ∀ i, g (e i) = f i)
@@ -221,6 +229,7 @@ theorem quasiIso_sheafifiedCechRestrict (e : Fin r ↪o Fin s) (he : ∀ i, g (e
   exact HomologicalComplex.quasiIso_map_of_preservesHomology (cechPresheafRestrict X f g e he)
     (moduleSheafificationFunctor X)
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] in
 /-- **The comparison is a map over `𝒪`.** -/
 theorem sheafifiedCechRestrict_comp_augmentation (e : Fin r ↪o Fin s)
     (he : ∀ i, g (e i) = f i) :

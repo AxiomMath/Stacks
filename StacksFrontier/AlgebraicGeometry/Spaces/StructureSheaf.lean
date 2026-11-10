@@ -401,7 +401,7 @@ theorem injective_sections_apply_of_presheafSurjective
     let : Q.IsStableUnderBaseChange := by
       constructor
       intro X Y Y' T' f g f' g' hs hg
-      show AlgebraicGeometry.Etale (T.map g')
+      change AlgebraicGeometry.Etale (T.map g')
       exact MorphismProperty.IsStableUnderBaseChange.of_isPullback
         (P := (@AlgebraicGeometry.Etale.{u} : MorphismProperty Scheme.{u})) (hs.map T) hg
     have hVQ : Q.presheaf V.1.hom := V.2
@@ -425,20 +425,20 @@ theorem injective_sections_apply_of_presheafSurjective
       ⟨CostructuredArrow.mk (yoneda.map a ≫ V.1.hom), hP₀chart⟩
     let qchart : Pchart ⟶ W :=
       ObjectProperty.homMk (CostructuredArrow.homMk q (by
-        show yoneda.map q ≫ W.1.hom = yoneda.map a ≫ V.1.hom
+        change yoneda.map q ≫ W.1.hom = yoneda.map a ≫ V.1.hom
         exact hPB.w.symm))
     let TS := SmallEtale.toSchemes B S hS F
     let qS := TS.map qchart
     have hqS_eq : qS = (BigFppfOver.forget B S hS).map q := rfl
     have hqS_etale : AlgebraicGeometry.Etale (B.inclusion.map qS) := by
-      show AlgebraicGeometry.Etale (T.map q)
+      change AlgebraicGeometry.Etale (T.map q)
       exact hqEtale
     have hqS_surjective : AlgebraicGeometry.Surjective (B.inclusion.map qS) := by
-      show AlgebraicGeometry.Surjective (T.map q)
+      change AlgebraicGeometry.Surjective (T.map q)
       exact hqSurjective
     let E₀ : Covering B.Schemes := ⟨TS.obj W, PreZeroHypercover.singleton qS⟩
     have hE₀ : IsEtaleCovering E₀ := by
-      show (PreZeroHypercover.singleton (B.inclusion.map qS)).presieve₀ ∈
+      change (PreZeroHypercover.singleton (B.inclusion.map qS)).presieve₀ ∈
         Scheme.precoverage (@AlgebraicGeometry.Etale) (B.inclusion.obj (TS.obj W))
       rw [PreZeroHypercover.presieve₀_singleton,
         Scheme.singleton_mem_precoverage_iff (P := @AlgebraicGeometry.Etale)]
@@ -468,7 +468,7 @@ theorem injective_sections_apply_of_presheafSurjective
     let Ui (i : E'.I₀) : C₀ := Over.mk (E'.f i ≫ Wover.hom)
     let liftToPullback (i : E'.I₀) : Ui i ⟶ R.pullback W.1.hom :=
       Over.homMk (chartArrow i) (by
-        show chartArrow i ≫ (R.pullback W.1.hom).hom = E'.f i ≫ Wover.hom
+        change chartArrow i ≫ (R.pullback W.1.hom).hom = E'.f i ≫ Wover.hom
         calc
           chartArrow i ≫ (R.pullback W.1.hom).hom
               = chartArrow i ≫ (q.left ≫ Wover.hom) := by
@@ -477,17 +477,17 @@ theorem injective_sections_apply_of_presheafSurjective
           _ = (chartArrow i ≫ q.left) ≫ Wover.hom := by rw [← Category.assoc]
           _ = E'.f i ≫ Wover.hom := by
             congr 1
-            show chartArrow i ≫ qS = E'.f i
+            change chartArrow i ≫ qS = E'.f i
             exact (chartArrow_fac i).symm)
     have liftToPullback_comp (i : E'.I₀) :
         liftToPullback i ≫ q = Over.homMk (E'.f i) := by
       apply Over.OverMorphism.ext
-      show chartArrow i ≫ (BigFppfOver.forget B S hS).map q = E'.f i
+      change chartArrow i ≫ (BigFppfOver.forget B S hS).map q = E'.f i
       rw [← hqS_eq, chartArrow_fac i]
     let familyObj : ∀ i : E'.I₀, SmallEtale B S hS F := fun i ↦ by
       have hriEtale : AlgebraicGeometry.Etale (T.map (liftToPullback i)) := by
         have hcomp : T.map (liftToPullback i) ≫ T.map q = B.inclusion.map (E'.f i) := by
-          show B.inclusion.map (chartArrow i ≫
+          change B.inclusion.map (chartArrow i ≫
             (BigFppfOver.forget B S hS).map q) = _
           rw [← hqS_eq, chartArrow_fac i]
         let : AlgebraicGeometry.Etale (T.map q) := hqEtale
@@ -500,7 +500,7 @@ theorem injective_sections_apply_of_presheafSurjective
         hchart _ _ hriEtale hP₀chart⟩
     let familyMap : ∀ i : E'.I₀, familyObj i ⟶ W := fun i ↦
       ObjectProperty.homMk <| CostructuredArrow.homMk (Over.homMk (E'.f i)) (by
-        show yoneda.map (Over.homMk (E'.f i)) ≫ W.1.hom =
+        change yoneda.map (Over.homMk (E'.f i)) ≫ W.1.hom =
           yoneda.map (liftToPullback i) ≫ (yoneda.map a ≫ V.1.hom)
         calc
           yoneda.map (Over.homMk (E'.f i)) ≫ W.1.hom =
@@ -519,20 +519,20 @@ theorem injective_sections_apply_of_presheafSurjective
         rfl
       · apply heq_of_eq
         funext i
-        show TS.map (familyMap i) = E'.f i
+        change TS.map (familyMap i) = E'.f i
         apply B.inclusion.map_injective
         simp [TS, SmallEtale.toSchemes, SmallEtale.toOver, familyMap]
     have hcover : SmallEtale.IsCovering B S hS F ⟨W, Esmall⟩ := by
-      show B.etaleCovering ⟨TS.obj W, Esmall.map TS⟩
+      change B.etaleCovering ⟨TS.obj W, Esmall.map TS⟩
       rw [hmap]
       exact hE'cover
     refine ⟨Esmall, ⟨Esmall, rfl, hcover⟩, ?_⟩
     intro i
-    show s.1 (op (familyObj i)) = t.1 (op (familyObj i))
+    change s.1 (op (familyObj i)) = t.1 (op (familyObj i))
     let hi : familyObj i ⟶ V :=
       ObjectProperty.homMk <| CostructuredArrow.homMk
         (liftToPullback i ≫ a) (by
-          show yoneda.map (liftToPullback i ≫ a) ≫ V.1.hom =
+          change yoneda.map (liftToPullback i ≫ a) ≫ V.1.hom =
             yoneda.map (liftToPullback i) ≫ (yoneda.map a ≫ V.1.hom)
           simp [Functor.map_comp, Category.assoc])
     exact (s.property hi.op).symm.trans

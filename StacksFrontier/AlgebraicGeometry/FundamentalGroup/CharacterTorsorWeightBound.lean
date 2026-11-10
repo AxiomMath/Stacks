@@ -112,7 +112,7 @@ theorem exists_forall_encard_invariant_zmod_le_of_isProper
     hdense hO hUo
   have hVo := (hext 0).1
   obtain ⟨Y, eY, heY⟩ := exists_quotientCover hVo
-  have := connectedSpace_of_quotient_equiv hVo Y eY heY
+  have := connectedSpace_of_quotient_equiv Y eY heY
   obtain ⟨K₀, iF, iA, iM, r, hr, iP, iS, iG, iC⟩ := exists_constantField_of_finiteEtale k f Y
   have : Finite K₀ := Module.finite_of_finite k
   let : Fintype K₀ := Fintype.ofFinite K₀
@@ -153,7 +153,7 @@ theorem exists_forall_encard_invariant_zmod_le_of_isProper
   have hℓK : ∀ e : ℕ, IsUnit ((ℓ ^ e : ℕ) : K) := fun e => by
     rw [Nat.cast_pow]
     exact (by simpa using hℓK₀.map (algebraMap K₀ K) : IsUnit (ℓ : K)).pow e
-  choose ζ hζ using fun e : ℕ => HasEnoughRootsOfUnity.exists_primitiveRoot K (ℓ ^ e)
+  choose ζ hζ using fun e : ℕ => HasEnoughRootsOfUnity.exists_isPrimitiveRoot K (ℓ ^ e)
   -- the sets of invariant characters
   set S : ∀ e : ℕ, Set (↥(H ⊓ U) → ZMod (ℓ ^ e)) := fun e =>
     {χ | (∀ a b, χ (a * b) = χ a + χ b) ∧ IsLocallyConstant χ ∧
@@ -192,14 +192,14 @@ theorem exists_forall_encard_invariant_zmod_le_of_isProper
     exact (MonoidHom.mem_ker).1 n.2.1
   have htor : ∀ e, ∀ χ ∈ S e, ((ℓ : ℤ) ^ e) • Φ e χ = 0 := by
     intro e χ _
-    show ((ℓ : ℤ) ^ e) • h1RootsOfUnityToPicard.{u + 1, 0, u} _ (ℓ ^ e) (c e χ) = 0
+    change ((ℓ : ℤ) ^ e) • h1RootsOfUnityToPicard.{u + 1, 0, u} _ (ℓ ^ e) (c e χ) = 0
     rw [← map_zsmul, show ((ℓ : ℤ) ^ e) = ((ℓ ^ e : ℕ) : ℤ) by push_cast; rfl, natCast_zsmul,
       nsmul_sheafH_rootsOfUnity_eq_zero, map_zero]
   have heig : ∀ e, ∀ χ ∈ S e, Stacks.Picard.frobeniusPicardHom (Over.mk r) (Φ e χ) =
       (Fintype.card K₀ : ℤ) • Φ e χ := by
     intro e χ hχ
     obtain ⟨χ', hadd', D, -, hcD⟩ := hc e χ hχ
-    show Stacks.Picard.frobeniusPicardHom (Over.mk r)
+    change Stacks.Picard.frobeniusPicardHom (Over.mk r)
         (h1RootsOfUnityToPicard.{u + 1, 0, u} _ (ℓ ^ e) (c e χ)) =
       (Fintype.card K₀ : ℤ) • h1RootsOfUnityToPicard.{u + 1, 0, u} _ (ℓ ^ e) (c e χ)
     rw [hcD]

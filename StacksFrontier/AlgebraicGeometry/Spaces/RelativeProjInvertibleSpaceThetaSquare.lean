@@ -123,7 +123,7 @@ theorem pullback_map_eq_of_chain {N : U₀.Modules} {Q' : U'.Modules} {N₂ : Us
   have hn := pullbackChainIso_hom_naturality k e₁ cl h e₂ hk φ
   simp only [pullbackChainTransportIso, Iso.trans_inv, Iso.trans_hom, Functor.mapIso_inv,
     Functor.mapIso_hom, Iso.symm_inv, Iso.symm_hom, Functor.map_comp, Category.assoc,
-    Iso.map_hom_inv_id_assoc]
+    Iso.hom_inv_id_map_assoc]
   rw [reassoc_of% hn, Iso.inv_hom_id_assoc]
 
 end PieceChain

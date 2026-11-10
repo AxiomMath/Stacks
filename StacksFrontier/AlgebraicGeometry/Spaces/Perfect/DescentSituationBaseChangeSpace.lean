@@ -56,6 +56,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   (hTqs : IsAbsolutelyQuasiSeparated B S hS hZ T) (u : T ⟶ Y)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks in this presheaf category exceeds the default limit
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_DescentSituationBaseChangeSpace :

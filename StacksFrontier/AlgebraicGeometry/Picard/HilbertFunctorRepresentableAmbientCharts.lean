@@ -146,7 +146,7 @@ theorem preimage_puncturedAffineSpace_coordinateMorphism (k : Type u) [Field k] 
     obtain rfl : a = b := by
       rw [← coordinateMorphism_chartInclusion_apply k n 0 a,
         ← coordinateMorphism_chartInclusion_apply k n 1 b, ha, hb]
-    show coordinateMorphism k n x ∈ puncturedAffineSpace k n
+    change coordinateMorphism k n x ∈ puncturedAffineSpace k n
     rw [← ha, coordinateMorphism_chartInclusion_apply k n 0 a]
     by_contra hna
     rw [eq_affineOrigin_of_notMem_puncturedAffineSpace k n hna] at ha hb

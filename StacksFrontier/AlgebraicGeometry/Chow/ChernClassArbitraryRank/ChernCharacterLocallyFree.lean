@@ -94,7 +94,7 @@ theorem list_prod_homComponent_totalChernClassOfModule_eq_zero [CompactSpace X] 
     ρ.down f)
   congr 1
   refine List.ofFn_inj.2 (funext fun j ↦ ?_)
-  show TotalChowClass.res _ rfl (TotalChowClass.homComponent _ _) = _
+  change TotalChowClass.res _ rfl (TotalChowClass.homComponent _ _) = _
   rw [TotalChowClass.res_homComponent, res_totalChernClassOfModule_rankLocus]
 
 /-- The list form: a product of at least `m` Chern classes of positive degree vanishes when
@@ -258,7 +258,7 @@ theorem exists_chernPolynomialClass_powerSumChernPolynomial_eq_zero [CompactSpac
     fun k ↦ chernProductSubgroup C sX E ⌈(k : ℚ) / R'⌉₊ with hA
   have : SetLike.GradedMonoid A :=
     { one_mem := by
-        show (1 : TotalChowClass C sX) ∈ chernProductSubgroup C sX E ⌈((0 : ℕ) : ℚ) / R'⌉₊
+        change (1 : TotalChowClass C sX) ∈ chernProductSubgroup C sX E ⌈((0 : ℕ) : ℚ) / R'⌉₊
         simp only [Nat.cast_zero, zero_div, Nat.ceil_zero]
         exact list_prod_mem_chernProductSubgroup C sX E [] (by simp) le_rfl
       mul_mem := fun i j a b ha hb ↦ by
@@ -372,7 +372,7 @@ theorem rankTotalClass_apply_zero_eq_rankClassOfLocallyFree :
   have h := TotalChowClass.res_rfl_apply (rankLocus E r).ι (rankTotalClass C sX E) 0
   rw [rankTotalClass, res_rankFunctionClass_rankLocus] at h
   refine h.symm.trans ?_
-  show (r : ℤ) • (1 : TotalChowClass C ((rankLocus E r).ι ≫ sX)) 0 = _
+  change (r : ℤ) • (1 : TotalChowClass C ((rankLocus E r).ι ≫ sX)) 0 = _
   rw [TotalChowClass.one_apply_zero]
   rfl
 

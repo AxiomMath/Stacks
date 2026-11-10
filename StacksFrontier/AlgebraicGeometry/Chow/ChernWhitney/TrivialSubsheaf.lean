@@ -242,7 +242,7 @@ theorem projectiveBundleChernRelation_chernFamilyExtendByZero
   have hQ : ∑ i : Fin (r + 2), (-1 : ℤ) ^ i.val •
       projectiveBundleChernTerm C sX sQ ϖ hsQ (r + 1) hϖ hfacQ twistQ k i.val
         (Nat.lt_succ_iff.mp i.isLt) (e ⟨r + 1 - i.val, by omega⟩) = 0 := he
-  show ∑ i : Fin (r + 3), (-1 : ℤ) ^ i.val •
+  change ∑ i : Fin (r + 3), (-1 : ℤ) ^ i.val •
       projectiveBundleChernTerm C sX sP π hsP (r + 2) hπ hfacP twistP k i.val
         (Nat.lt_succ_iff.mp i.isLt)
         (chernFamilyExtendByZero C sX r k e ⟨r + 2 - i.val, by omega⟩) = 0

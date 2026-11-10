@@ -181,7 +181,7 @@ theorem rightAcyclic_pushforward_of_isFlasque {X Y : Scheme.{u}} (f : X ⟶ Y) (
   let : TopCat.Sheaf.IsFlasque ((SheafOfModules.toSheaf
       (structureSheafRing X.toLocallyRingedSpace.toRingedSpace)).obj M) :=
     inferInstanceAs (TopCat.Sheaf.IsFlasque ((SheafOfModules.toSheaf X.ringCatSheaf).obj M))
-  show IsZero (((RingedSpaceModuleAdjunction.modulePushforward
+  change IsZero (((RingedSpaceModuleAdjunction.modulePushforward
     (X := X.toLocallyRingedSpace.toRingedSpace) (Y := Y.toLocallyRingedSpace.toRingedSpace)
       f.toLRSHom.toShHom).rightDerivedPlus i).obj M)
   exact Stacks.Cohomology.FlasquePushforward.isZero_rightDerivedPlus_modulePushforward_of_isFlasque

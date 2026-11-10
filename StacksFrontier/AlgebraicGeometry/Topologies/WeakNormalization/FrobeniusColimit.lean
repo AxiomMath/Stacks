@@ -103,7 +103,7 @@ theorem frobeniusDiagram_forget_preservesColimit :
   let c := CommRingCat.FilteredColimits.colimitCocone.{0, u} D
   have hc : IsColimit c := CommRingCat.FilteredColimits.colimitCoconeIsColimit.{0, u} D
   have hcF : IsColimit ((forget CommRingCat.{u}).mapCocone c) := by
-    show IsColimit (Types.TypeMax.colimitCocone (D ⋙ forget CommRingCat.{u}))
+    change IsColimit (Types.TypeMax.colimitCocone (D ⋙ forget CommRingCat.{u}))
     exact Types.TypeMax.colimitCoconeIsColimit (D ⋙ forget CommRingCat.{u})
   exact preservesColimit_of_preserves_colimit_cocone hc hcF
 
@@ -111,7 +111,7 @@ theorem frobeniusDiagram_forget_preservesColimit :
 private theorem frobeniusDiagram_map_succ (n : ℕ) :
     (frobeniusDiagram p A).map (homOfLE (Nat.le_succ n)) =
       CommRingCat.ofHom (frobeniusEndomorphism p A) := by
-  show (Functor.ofSequence (X := fun _ => CommRingCat.of A)
+  change (Functor.ofSequence (X := fun _ => CommRingCat.of A)
     fun _ => CommRingCat.ofHom (frobeniusEndomorphism p A)).map _ = _
   rw [Functor.ofSequence_map_homOfLE_succ]
 
@@ -137,7 +137,7 @@ theorem frobeniusDiagram_map_zero_apply (n : ℕ) (a : A) :
     (frobeniusDiagram p A).map (homOfLE (Nat.zero_le n)) a = a ^ p ^ n := by
   induction n generalizing a with
   | zero =>
-      show a = a ^ p ^ 0
+      change a = a ^ p ^ 0
       simp
   | succ n ih =>
       let D := frobeniusDiagram p A
@@ -246,7 +246,7 @@ theorem existsUnique_frobeniusColimit_iso_absoluteWeakNormalization
     intro a ha
     rw [mem_nilradical]
     have ha' : colimit.ι D 0 a = 0 := by
-      show (algebraMap A C) a = 0
+      change (algebraMap A C) a = 0
       exact RingHom.mem_ker.mp ha
     have ha'' : colimit.ι D 0 a = colimit.ι D 0 0 := by simpa using ha'
     obtain ⟨k, f, g, hfg⟩ := CategoryTheory.Limits.Concrete.colimit_exists_of_rep_eq D a 0 ha''
@@ -308,7 +308,7 @@ theorem existsUnique_frobeniusColimit_iso_absoluteWeakNormalization
     RingEquiv.toCommRingCatIso (ULift.ringEquiv (R := C) : U ≃+* C)
   let eSpec : Spec (CommRingCat.of C) ≅ Spec (CommRingCat.of U) := Scheme.Spec.mapIso eRing.op
   have hecomp : eSpec.hom ≫ fU = f := by
-    show Spec.map eRing.hom ≫ Spec.map (CommRingCat.ofHom (algebraMap A U)) =
+    change Spec.map eRing.hom ≫ Spec.map (CommRingCat.ofHom (algebraMap A U)) =
       Spec.map (CommRingCat.ofHom (algebraMap A C))
     rw [← Spec.map_comp]
     congr 1
@@ -320,7 +320,7 @@ theorem existsUnique_frobeniusColimit_iso_absoluteWeakNormalization
   have hleft : Function.Injective (pullback.fst fU f) := by
     have hmap : Function.Injective (Spec.map (CommRingCat.ofHom
         (_root_.Algebra.TensorProduct.includeLeftRingHom (R := A) (A := U) (B := C)))) := by
-      show Function.Injective (PrimeSpectrum.comap (algebraMap U T))
+      change Function.Injective (PrimeSpectrum.comap (algebraMap U T))
       exact hspecT.1.injective
     intro x y hxy
     refine (Scheme.homeoOfIso ePull).injective (hmap ?_)
@@ -375,13 +375,13 @@ theorem existsUnique_frobeniusColimit_iso_absoluteWeakNormalization
     have hproj (z : ↑(pullback f f)) :
         pullback.fst fU f ((Scheme.homeoOfIso ePullback) z) = eSpec.hom (pullback.fst f f z) := by
       rw [Scheme.homeoOfIso_apply]
-      show (pHom ≫ pullback.fst fU f) z = _
+      change (pHom ≫ pullback.fst fU f) z = _
       rw [pHomFst, Scheme.Hom.comp_apply]
     rw [hproj x, hproj y, hxy]
   have hUI : UniversallyInjective f := by
     refine (UniversallyInjective.iff_diagonal f).2 ⟨fun z => ⟨pullback.fst f f z, ?_⟩⟩
     refine hfstSelf ?_
-    show (pullback.diagonal f ≫ pullback.fst f f) (pullback.fst f f z) = pullback.fst f f z
+    change (pullback.diagonal f ≫ pullback.fst f f) (pullback.fst f f z) = pullback.fst f f z
     rw [pullback.diagonal_fst]
     rfl
   have hsurj : Surjective f := ⟨hfhomeo.surjective⟩

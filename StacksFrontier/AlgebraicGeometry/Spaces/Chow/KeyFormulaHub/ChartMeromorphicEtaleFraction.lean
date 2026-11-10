@@ -116,7 +116,7 @@ theorem affineChartMeromorphicToEtaleFractionRing_map {x : GeometricPoint B S hS
     (RingHom.ext fun a ↦ ?_)) φ
   have hnat := ConcreteCategory.congr_hom
     ((toMeromorphicFunctionSheaf B S hS F.1 F.2).hom.naturality m.hom.op) a
-  show affineChartMeromorphicToEtaleFractionRing B S hS F hwa hfin N' hN'
+  change affineChartMeromorphicToEtaleFractionRing B S hS F hwa hfin N' hN'
       (((meromorphicFunctionSheaf B S hS F.1 F.2).obj.map m.hom.op).hom
         (((toMeromorphicFunctionSheaf B S hS F.1 F.2).hom.app (op N.chart)).hom a)) =
     affineChartMeromorphicToEtaleFractionRing B S hS F hwa hfin N hN

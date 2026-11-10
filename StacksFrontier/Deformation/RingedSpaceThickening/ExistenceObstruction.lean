@@ -235,7 +235,7 @@ theorem isPushout_of_shortExact {A B D A' B' : C} {f : A ⟶ B} {g : B ⟶ D} {f
       hpush h'
   exact (isPushout_pushoutShortComplex (ShortComplex.mk f g hfg) a).of_iso
     (Iso.refl A) (Iso.refl B) (Iso.refl A') (@asIso _ _ _ _ _ hiso)
-    (by simp) (by simp) (by simpa using htl) (by simpa using htr)
+    (by simp) (by simp) (by simp) (by simp)
 
 omit [Abelian C] in
 /-- Extend a morphism into an injective object across a monomorphism whose source and target
@@ -406,13 +406,16 @@ theorem mono_idealAction_of_flat (P : SheafOfModules.{u} (structureSheafRing X')
     (hP : AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := X'.sheaf) P) :
     Mono (idealAction i P) := by
   have hT : PreservesFiniteLimits
-      ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨X'.presheaf, X'.IsSheaf⟩).flip.obj P) := hP.1
+      ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨X'.presheaf,
+          X'.IsSheaf⟩).flip.obj P) := hP.1
   have hj : Mono (idealSheafι i) :=
     inferInstanceAs
       (Mono (kernel.ι (SheafOfModules.unitToPushforwardObjUnit (structureSheafHom i))))
-  have h : Mono ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨X'.presheaf, X'.IsSheaf⟩)).map
+  have h : Mono ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      ⟨X'.presheaf, X'.IsSheaf⟩)).map
       (((idealSheafι i), (𝟙 P)) : (_, _) ⟶ (_, _))) := by
-    have hm : ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨X'.presheaf, X'.IsSheaf⟩).flip.obj P).PreservesMonomorphisms :=
+    have hm : ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨X'.presheaf,
+        X'.IsSheaf⟩).flip.obj P).PreservesMonomorphisms :=
       CategoryTheory.preservesMonomorphisms_of_preservesLimitsOfShape _
     exact @mono_comp _ _ _ _ _ _ (@Functor.map_mono _ _ _ _ _ hm _ _ (idealSheafι i) hj)
       _ (@IsIso.mono_of_iso _ _ _ _ _ (Functor.map_isIso _ (𝟙 P)))
@@ -423,8 +426,9 @@ theorem mono_idealAction_of_flat (P : SheafOfModules.{u} (structureSheafRing X')
 theorem tensorSheafMap_id_zero {Y : RingedSpace.{u, u}}
     (A : SheafOfModules.{u} (structureSheafRing Y))
     (B C : SheafOfModules.{u} (structureSheafRing Y)) :
-    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((Y)).presheaf, ((Y)).IsSheaf⟩)).map (((𝟙 A), (0 : B ⟶ C)) : (_, _) ⟶ (_, _))) = 0 := by
-  letI := Stacks.SheafOfModules.Tensor.sheafTensor_obj_additive.{u, u, u, u, u}
+    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((Y)).presheaf,
+        ((Y)).IsSheaf⟩)).map (((𝟙 A), (0 : B ⟶ C)) : (_, _) ⟶ (_, _))) = 0 := by
+  let := Stacks.SheafOfModules.Tensor.sheafTensor_obj_additive.{u, u, u, u, u}
     ⟨Y.presheaf, Y.IsSheaf⟩ A
   exact (congrArg (fun z => ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       ⟨Y.presheaf, Y.IsSheaf⟩).map (𝟙 A)).app B ≫ z)
@@ -436,9 +440,15 @@ theorem tensorSheafMap_id_comp_eq_zero {Y : RingedSpace.{u, u}}
     (A : SheafOfModules.{u} (structureSheafRing Y))
     {B C D : SheafOfModules.{u} (structureSheafRing Y)} (f : B ⟶ C) (g : C ⟶ D)
     (h : f ≫ g = 0) :
-    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((Y)).presheaf, ((Y)).IsSheaf⟩)).map (((𝟙 A), f) : (_, _) ⟶ (_, _))) ≫ ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((Y)).presheaf, ((Y)).IsSheaf⟩)).map (((𝟙 A), g) : (_, _) ⟶ (_, _))) = 0 :=
+    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((Y)).presheaf,
+        ((Y)).IsSheaf⟩)).map (((𝟙 A), f) : (_, _) ⟶ (_, _))) ≫ ((Functor.uncurry.obj
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((Y)).presheaf,
+        ((Y)).IsSheaf⟩)).map (((𝟙 A), g) : (_, _) ⟶ (_, _))) = 0 :=
   (tensorSheafMap_comp_right A f g).trans
-    ((congrArg (fun z => ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((Y)).presheaf, ((Y)).IsSheaf⟩)).map (((𝟙 A), z) : (_, _) ⟶ (_, _)))) h).trans (tensorSheafMap_id_zero A B D))
+    ((congrArg (fun z => ((Functor.uncurry.obj
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((Y)).presheaf,
+        ((Y)).IsSheaf⟩)).map (((𝟙 A), z) : (_, _) ⟶ (_, _)))) h).trans
+        (tensorSheafMap_id_zero A B D))
 
 /-- Tensoring identities on both factors acts trivially on a following morphism. -/
 private theorem tensorSheafMap_id_id_comp {Y : RingedSpace.{u, u}}
@@ -460,9 +470,12 @@ private theorem map_comp_eq_zero_of_comp_eq_zero {C D : Type*} [Category C] [Cat
 theorem idealAction_eq_zero_of_epi {N M : SheafOfModules.{u} (structureSheafRing X')} (π : N ⟶ M)
     (hπ : Epi π) (h : idealAction i N ≫ π = 0) : idealAction i M = 0 := by
   have := hπ
-  have hepi : Epi (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map (((𝟙 (idealSheafModule i)), π) : (_, _) ⟶ (_, _)))) :=
+  have hepi : Epi (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map (((𝟙 (idealSheafModule i)), π) : (_, _) ⟶ (_, _)))) :=
     idealTensorFunctor_epi i π hπ
-  refine (cancel_epi (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map (((𝟙 (idealSheafModule i)), π) : (_, _) ⟶ (_, _))))).1 ?_
+  refine (cancel_epi (((Functor.uncurry.obj
+      (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X')).presheaf,
+      ((X')).IsSheaf⟩)).map (((𝟙 (idealSheafModule i)), π) : (_, _) ⟶ (_, _))))).1 ?_
   exact ((idealAction_naturality i π).symm.trans h).trans comp_zero.symm
 
 /-- A submodule of a module with vanishing ideal action has vanishing ideal action. -/
@@ -474,7 +487,8 @@ theorem idealAction_eq_zero_of_mono {A B : SheafOfModules.{u} (structureSheafRin
 
 /-- The quotient of a module by the image of the ideal action carries the zero action. -/
 theorem idealAction_cokernel_eq_zero {N : SheafOfModules.{u} (structureSheafRing X')}
-    (t : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X')).presheaf, ((X')).IsSheaf⟩).obj ((AlgebraicGeometry.SheafOfModules.idealSheaf i))).obj (N)) ⟶ N)
+    (t : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X')).presheaf,
+        ((X')).IsSheaf⟩).obj ((AlgebraicGeometry.SheafOfModules.idealSheaf i))).obj (N)) ⟶ N)
     (ht : t = idealAction i N) : idealAction i (cokernel t) = 0 :=
   idealAction_eq_zero_of_epi i (cokernel.π t) inferInstance
     ((congrArg (fun z => z ≫ cokernel.π t) ht).symm.trans (cokernel.condition t))
@@ -486,28 +500,42 @@ theorem firstOrderExtensionAction_comp_lift (hi : IsFirstOrderThickening i)
       ((modulePushforward i).obj F) ((modulePushforward i).obj K) 0)
     {P : SheafOfModules.{u} (structureSheafRing X')} (p : P ⟶ ambientPushforward i F)
     (l : P ⟶ E.Z.left) (hl : l ≫ E.g = p) :
-    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map (((𝟙 (AlgebraicGeometry.SheafOfModules.idealSheaf i)), p) : (_, _) ⟶ (_, _))) ≫
+    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+        ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map
+        (((𝟙 (AlgebraicGeometry.SheafOfModules.idealSheaf i)), p) : (_, _) ⟶ (_, _))) ≫
         (extensionTensorComparison i F ≫
             (modulePushforward i).map (firstOrderExtensionAction i F K hi E).val) ≫ E.f =
       idealAction i P ≫ l := by
   have hbase := firstOrderExtensionAction_comp i F K hi E
-  have h₁ : ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map (((𝟙 (AlgebraicGeometry.SheafOfModules.idealSheaf i)), l) : (_, _) ⟶ (_, _))) ≫
-      ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map (((𝟙 (AlgebraicGeometry.SheafOfModules.idealSheaf i)), E.g) : (_, _) ⟶ (_, _))) =
-      ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map (((𝟙 (AlgebraicGeometry.SheafOfModules.idealSheaf i)), p) : (_, _) ⟶ (_, _))) :=
+  have h₁ : ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map
+      (((𝟙 (AlgebraicGeometry.SheafOfModules.idealSheaf i)), l) : (_, _) ⟶ (_, _))) ≫
+      ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+          ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map
+          (((𝟙 (AlgebraicGeometry.SheafOfModules.idealSheaf i)), E.g) : (_, _) ⟶ (_, _))) =
+      ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+          ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map
+          (((𝟙 (AlgebraicGeometry.SheafOfModules.idealSheaf i)), p) : (_, _) ⟶ (_, _))) :=
     (tensorSheafMap_comp_right _ l E.g).trans
-      (congrArg (fun z => ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map (((𝟙 (AlgebraicGeometry.SheafOfModules.idealSheaf i)), z) : (_, _) ⟶ (_, _)))) hl)
+      (congrArg (fun z => ((Functor.uncurry.obj
+          (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X')).presheaf,
+          ((X')).IsSheaf⟩)).map
+          (((𝟙 (AlgebraicGeometry.SheafOfModules.idealSheaf i)), z) : (_, _) ⟶ (_, _)))) hl)
   rw [idealAction_naturality i l, ← hbase, ← h₁, Category.assoc]
 
 /-- The map `γ` of the first step of the source proof. -/
 theorem exists_idealAction_factorThru_of_injective (hi : IsFirstOrderThickening i)
     (F K : SheafOfModules.{u} (structureSheafRing X)) (hK : Injective K)
-    (c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K)
+    (c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf,
+        ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K)
     (P : SheafOfModules.{u} (structureSheafRing X')) (p : P ⟶ ambientPushforward i F)
     (hp : Epi p) (hflat : AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := X'.sheaf) P)
     (hzero : idealAction i P ≫ p = 0) :
     ∃ γ : kernel p ⟶ ambientPushforward i K,
       kernel.lift p (idealAction i P) hzero ≫ γ =
-        ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map (((𝟙 (idealSheafModule i)), p) : (_, _) ⟶ (_, _))) ≫
+        ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+            ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map
+            (((𝟙 (idealSheafModule i)), p) : (_, _) ⟶ (_, _))) ≫
           extensionTensorComparison i F ≫ (modulePushforward i).map c := by
   classical
   have hfull : (modulePushforward i).Full :=
@@ -520,21 +548,32 @@ theorem exists_idealAction_factorThru_of_injective (hi : IsFirstOrderThickening 
   have hmono : Mono (kernel.lift p (idealAction i P) hzero) := by
     have := mono_idealAction_of_flat i P hflat
     exact mono_of_mono_fac hmk
-  have htm : ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map (((𝟙 (idealSheafModule i)), (kernel.ι p)) : (_, _) ⟶ (_, _))) ≫
+  have htm : ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map (((𝟙 (idealSheafModule i)),
+      (kernel.ι p)) : (_, _) ⟶ (_, _))) ≫
       kernel.lift p (idealAction i P) hzero = idealAction i (kernel p) := by
     refine (cancel_mono (kernel.ι p)).1 ?_
     rw [Category.assoc, hmk, idealAction_naturality]
-  have hzeroK : ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map (((𝟙 (idealSheafModule i)), (kernel.ι p)) : (_, _) ⟶ (_, _))) ≫
-      ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map (((𝟙 (idealSheafModule i)), p) : (_, _) ⟶ (_, _))) = 0 :=
+  have hzeroK : ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map (((𝟙 (idealSheafModule i)),
+      (kernel.ι p)) : (_, _) ⟶ (_, _))) ≫
+      ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+          ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map
+          (((𝟙 (idealSheafModule i)), p) : (_, _) ⟶ (_, _))) = 0 :=
     tensorSheafMap_id_comp_eq_zero (A := idealSheafModule i) (B := kernel p) (C := P)
       (D := ambientPushforward i F) (kernel.ι p) p (kernel.condition p)
-  have hta : ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map (((𝟙 (idealSheafModule i)), (kernel.ι p)) : (_, _) ⟶ (_, _))) ≫
-        (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map (((𝟙 (idealSheafModule i)), p) : (_, _) ⟶ (_, _))) ≫
+  have hta : ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map (((𝟙 (idealSheafModule i)),
+      (kernel.ι p)) : (_, _) ⟶ (_, _))) ≫
+        (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+            ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map
+            (((𝟙 (idealSheafModule i)), p) : (_, _) ⟶ (_, _))) ≫
             extensionTensorComparison i F ≫ (modulePushforward i).map c) = 0 :=
     (Category.assoc _ _ _).symm.trans
       ((congrArg (fun z => z ≫ (extensionTensorComparison i F ≫
         (modulePushforward i).map c)) hzeroK).trans zero_comp)
-  have key : ∀ {T S Kp J : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} ⟨X'.presheaf, X'.IsSheaf⟩)} (M' : T ⟶ S) (k : S ⟶ Kp) [Mono k]
+  have key : ∀ {T S Kp J : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u}
+      ⟨X'.presheaf, X'.IsSheaf⟩)} (M' : T ⟶ S) (k : S ⟶ Kp) [Mono k]
       (R : S ⟶ J) (hR : M' ≫ R = 0)
       (H : ∀ μ : cokernel M' ⟶ cokernel (M' ≫ k), Mono μ →
         ∀ a : cokernel M' ⟶ J, ∃ b, μ ≫ b = a),
@@ -558,19 +597,25 @@ theorem firstOrderExtensionAction_eq_of_lift (hi : IsFirstOrderThickening i)
     (F K : SheafOfModules.{u} (structureSheafRing X))
     (E : CategoryTheory.Abelian.YonedaExtension
       ((modulePushforward i).obj F) ((modulePushforward i).obj K) 0)
-    (c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K)
+    (c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf,
+        ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K)
     {P : SheafOfModules.{u} (structureSheafRing X')} (p : P ⟶ ambientPushforward i F) (hp : Epi p)
     (l : P ⟶ E.Z.left) (hl : l ≫ E.g = p)
     (hc : idealAction i P ≫ l =
-      (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map (((𝟙 (idealSheafModule i)), p) : (_, _) ⟶ (_, _))) ≫
+      (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+          ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map
+          (((𝟙 (idealSheafModule i)), p) : (_, _) ⟶ (_, _))) ≫
         (extensionTensorComparison i F ≫ (modulePushforward i).map c)) ≫ E.f) :
     (firstOrderExtensionAction i F K hi E).val = c := by
   have := hp
   have hmono : Mono E.f := E.mono_f
-  have hepi : Epi (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map (((𝟙 (idealSheafModule i)), p) : (_, _) ⟶ (_, _)))) :=
+  have hepi : Epi (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map (((𝟙 (idealSheafModule i)), p) : (_, _) ⟶ (_, _)))) :=
     idealTensorFunctor_epi i p hp
   apply extensionTensorComparison_cancel i hi.1 _ c
-  rw [← cancel_epi ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map (((𝟙 (idealSheafModule i)), p) : (_, _) ⟶ (_, _))), ← cancel_mono E.f, Category.assoc,
+  rw [← cancel_epi ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+      ⟨((X')).presheaf, ((X')).IsSheaf⟩)).map
+      (((𝟙 (idealSheafModule i)), p) : (_, _) ⟶ (_, _))), ← cancel_mono E.f, Category.assoc,
     firstOrderExtensionAction_comp_lift i hi F K E p l hl, hc]
 
 /-- The first step of the source proof: when `𝒦` is an injective `𝒪_X`-module, every `𝒪_X`-linear
@@ -580,7 +625,8 @@ The extension is the pushout of `0 ⟶ 𝒥 ⟶ ℋ' ⟶ i_* ℱ ⟶ 0` along th
 `c`, where `ℋ'` is a flat `𝒪_{X'}`-module covering `i_* ℱ` (**Stacks 05NI**). -/
 theorem exists_firstOrderExtension_of_injective (hi : IsFirstOrderThickening i)
     (F K : SheafOfModules.{u} (structureSheafRing X)) (hK : Injective K)
-    (c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K) :
+    (c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf,
+        ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K) :
     ∃ E : CategoryTheory.Abelian.YonedaExtension
       ((modulePushforward i).obj F) ((modulePushforward i).obj K) 0,
       (firstOrderExtensionAction i F K hi E).val = c := by
@@ -651,7 +697,8 @@ theorem extClass_eq_zero_of_exists_extension
     [HasDerivedCategory (SheafOfModules.{u} (structureSheafRing X))]
     (hi : IsFirstOrderThickening i) (F K J Q : SheafOfModules.{u} (structureSheafRing X))
     (hJ : Injective J) (j : K ⟶ J) (q : J ⟶ Q) (hjq : j ≫ q = 0)
-    (c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K)
+    (c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf,
+        ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K)
     (E : CategoryTheory.Abelian.YonedaExtension
       ((modulePushforward i).obj F) ((modulePushforward i).obj J) 0)
     (hE : (firstOrderExtensionAction i F J hi E).val = c ≫ j)
@@ -696,7 +743,8 @@ theorem exists_extension_of_extClass_eq_zero
     (hi : IsFirstOrderThickening i) (F K J Q : SheafOfModules.{u} (structureSheafRing X))
     (j : K ⟶ J) (q : J ⟶ Q) (hjq : j ≫ q = 0)
     (hKJ : (ShortComplex.mk j q hjq).ShortExact)
-    (c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K)
+    (c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf,
+        ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K)
     (E : CategoryTheory.Abelian.YonedaExtension
       ((modulePushforward i).obj F) ((modulePushforward i).obj J) 0)
     (hE : (firstOrderExtensionAction i F J hi E).val = c ≫ j)
@@ -763,7 +811,8 @@ theorem exists_extension_of_extClass_eq_zero
 `i_*(𝒥 ⟶ 𝒬)`. This is the data the source proof produces in its first two steps. -/
 structure ObstructionPresentation (hi : IsFirstOrderThickening i)
     (F K : SheafOfModules.{u} (structureSheafRing X))
-    (c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K) where
+    (c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf,
+        ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K) where
   /-- An injective `𝒪_X`-module containing `𝒦`. -/
   J : SheafOfModules.{u} (structureSheafRing X)
   /-- The quotient `𝒬 = 𝒥/𝒦`. -/
@@ -802,7 +851,8 @@ noncomputable def ObstructionPresentation.obstruction
     [HasExt (SheafOfModules.{u} (structureSheafRing X))]
     [HasDerivedCategory (SheafOfModules.{u} (structureSheafRing X))]
     {hi : IsFirstOrderThickening i} {F K : SheafOfModules.{u} (structureSheafRing X)}
-    {c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K}
+    {c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf,
+        ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K}
     (P : ObstructionPresentation i hi F K c) : CategoryTheory.Abelian.Ext F K 2 :=
   (CategoryTheory.Abelian.YonedaExtension.shortExact P.quotientExtension).extClass.comp
     P.exact.extClass (by decide)
@@ -813,7 +863,8 @@ theorem ObstructionPresentation.obstruction_eq_zero_iff
     [HasExt (SheafOfModules.{u} (structureSheafRing X))]
     [HasDerivedCategory (SheafOfModules.{u} (structureSheafRing X))]
     {hi : IsFirstOrderThickening i} {F K : SheafOfModules.{u} (structureSheafRing X)}
-    {c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K}
+    {c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf,
+        ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K}
     (P : ObstructionPresentation i hi F K c) :
     P.obstruction = 0 ↔ ∃ E : CategoryTheory.Abelian.YonedaExtension
       ((modulePushforward i).obj F) ((modulePushforward i).obj K) 0,
@@ -836,7 +887,8 @@ result to `X`, which is possible because the canonical map of the pushout is
 `c ≫ (𝒦 ⟶ 𝒥) ≫ (𝒥 ⟶ 𝒬) = 0` by Tag 08L5 part (1) and **Stacks 08KS**. -/
 theorem exists_obstructionPresentation (hi : IsFirstOrderThickening i)
     (F K : SheafOfModules.{u} (structureSheafRing X))
-    (c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K) :
+    (c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf,
+        ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K) :
     Nonempty (ObstructionPresentation i hi F K c) := by
     classical
     have hfull : (modulePushforward i).Full :=
@@ -930,7 +982,8 @@ theorem ObstructionPresentation.obstruction_eq
     [HasExt (SheafOfModules.{u} (structureSheafRing X))]
     [HasDerivedCategory (SheafOfModules.{u} (structureSheafRing X))]
     {hi : IsFirstOrderThickening i} {F K : SheafOfModules.{u} (structureSheafRing X)}
-    {c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K}
+    {c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf,
+        ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K}
     (P P' : ObstructionPresentation i hi F K c) : P.obstruction = P'.obstruction := by
   classical
   have hfull : (modulePushforward i).Full :=
@@ -1015,7 +1068,8 @@ noncomputable def obstructionClass
     [HasExt (SheafOfModules.{u} (structureSheafRing X))]
     [HasDerivedCategory (SheafOfModules.{u} (structureSheafRing X))]
     (hi : IsFirstOrderThickening i) (F K : SheafOfModules.{u} (structureSheafRing X))
-    (c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K) :
+    (c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf,
+        ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K) :
     CategoryTheory.Abelian.Ext F K 2 :=
   (Classical.choice (exists_obstructionPresentation i hi F K c)).obstruction
 
@@ -1026,7 +1080,8 @@ theorem obstructionClass_eq
     [HasExt (SheafOfModules.{u} (structureSheafRing X))]
     [HasDerivedCategory (SheafOfModules.{u} (structureSheafRing X))]
     (hi : IsFirstOrderThickening i) (F K : SheafOfModules.{u} (structureSheafRing X))
-    (c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K)
+    (c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf,
+        ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K)
     (P : ObstructionPresentation i hi F K c) :
     obstructionClass i hi F K c = P.obstruction :=
   ObstructionPresentation.obstruction_eq
@@ -1038,7 +1093,8 @@ theorem obstructionClass_eq_zero_iff
     [HasExt (SheafOfModules.{u} (structureSheafRing X))]
     [HasDerivedCategory (SheafOfModules.{u} (structureSheafRing X))]
     (hi : IsFirstOrderThickening i) (F K : SheafOfModules.{u} (structureSheafRing X))
-    (c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K) :
+    (c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf,
+        ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K) :
     obstructionClass i hi F K c = 0 ↔
       ∃ E : CategoryTheory.Abelian.YonedaExtension
         ((modulePushforward i).obj F) ((modulePushforward i).obj K) 0,
@@ -1056,7 +1112,8 @@ noncomputable def extensionExistenceObstruction
     [HasExt (SheafOfModules.{u} (structureSheafRing X))]
     [HasDerivedCategory (SheafOfModules.{u} (structureSheafRing X))]
     (hi : IsFirstOrderThickening i) (F K : SheafOfModules.{u} (structureSheafRing X))
-    (c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K) :
+    (c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf,
+        ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K) :
     { o : CategoryTheory.Abelian.zExt F K 2 //
       o = 0 ↔ ∃ E : CategoryTheory.Abelian.YonedaExtension
           ((modulePushforward i).obj F) ((modulePushforward i).obj K) 0,
@@ -1073,7 +1130,8 @@ theorem extensionExistenceObstruction_val
     [HasExt (SheafOfModules.{u} (structureSheafRing X))]
     [HasDerivedCategory (SheafOfModules.{u} (structureSheafRing X))]
     (hi : IsFirstOrderThickening i) (F K : SheafOfModules.{u} (structureSheafRing X))
-    (c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K) :
+    (c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf,
+        ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K) :
     (extensionExistenceObstruction i hi F K c).val = (obstructionClass i hi F K c).hom := rfl
 
 /-- The element of the subtype of Tag 08L8 is the Yoneda product attached to any presentation of
@@ -1082,7 +1140,8 @@ theorem extensionExistenceObstruction_val_eq
     [HasExt (SheafOfModules.{u} (structureSheafRing X))]
     [HasDerivedCategory (SheafOfModules.{u} (structureSheafRing X))]
     (hi : IsFirstOrderThickening i) (F K : SheafOfModules.{u} (structureSheafRing X))
-    (c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K)
+    (c : (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} ⟨((X)).presheaf,
+        ((X)).IsSheaf⟩).obj ((idealSheafPullback i))).obj (F)) ⟶ K)
     (P : ObstructionPresentation i hi F K c) :
     (extensionExistenceObstruction i hi F K c).val = P.obstruction.hom :=
   congrArg (fun x : CategoryTheory.Abelian.Ext F K 2 => x.hom)

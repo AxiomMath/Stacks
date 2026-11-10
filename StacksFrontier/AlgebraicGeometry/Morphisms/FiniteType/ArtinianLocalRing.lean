@@ -50,7 +50,7 @@ theorem finiteType_iff_residueField_comp_finiteType
           (Spec.map (CommRingCat.ofHom (IsLocalRing.residue A)) ≫ f)) := by
   let g : Spec (CommRingCat.of (IsLocalRing.ResidueField A)) ⟶
       Spec (CommRingCat.of A) := Spec.map (CommRingCat.ofHom (IsLocalRing.residue A))
-  show (LocallyOfFiniteType f ∧ QuasiCompact f) ↔
+  change (LocallyOfFiniteType f ∧ QuasiCompact f) ↔
     (LocallyOfFiniteType (g ≫ f) ∧ QuasiCompact (g ≫ f))
   constructor
   · rintro ⟨hf, hfc⟩
@@ -80,7 +80,7 @@ theorem finiteType_iff_residueField_comp_finiteType
         intro y _
         have hy : y = g (IsLocalRing.closedPoint (IsLocalRing.ResidueField A)) :=
           Subsingleton.elim _ _
-        show f y ∈ U.1
+        change f y ∈ U.1
         rw [hy]
         exact hVU hxV
       set W : (Spec (CommRingCat.of A)).Opens := f ⁻¹ᵁ U
@@ -119,7 +119,7 @@ theorem finiteType_iff_residueField_comp_finiteType
             (IsLocalRing.residue A).comp φA := by
           ext x
           rw [hcompMap]
-          show eκ (g.appTop (f.appLE U ⊤ hVUf' x)) =
+          change eκ (g.appTop (f.appLE U ⊤ hVUf' x)) =
             IsLocalRing.residue A (eA (f.appLE U ⊤ hVUf' x))
           exact congrArg
             (fun k : Γ(Spec (CommRingCat.of A), ⊤) ⟶

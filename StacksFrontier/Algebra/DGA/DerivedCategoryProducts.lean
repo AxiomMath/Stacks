@@ -51,8 +51,8 @@ its index type is restricted to `Finite`; the body of Mathlib's proof is shape-a
 only shape-dependent input it needs is `P.isoClosure.prop_pi`, i.e. closure of the acyclic objects
 under `I`-indexed products. Nothing in the tree concludes that, and the route to it runs through a
 degreewise description of the product of differential graded modules, which exists only inside the
-`private` blocks of `StacksFrontier/Algebra/DifferentialGraded/Module/HomotopyCategoryLimits.lean` and of the Stacks Tag 09JJ development. The
-report accompanying this file names the chain.
+`private` blocks of `StacksFrontier/Algebra/DifferentialGraded/Module/HomotopyCategoryLimits.lean`
+and of the Stacks Tag 09JJ development. The report accompanying this file names the chain.
 
 ## References
 

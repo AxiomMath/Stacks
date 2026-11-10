@@ -296,7 +296,7 @@ theorem injective_primeToPMap_of_forall_lift (φ : G →ₜ* H) (hφ : Function.
   rw [primeToPMap_primeToPMk, primeToPMap_primeToPMk, primeToPMk_eq_primeToPMk] at hab
   rw [primeToPMk_eq_primeToPMk]
   refine primeToPKernel_comap_le_of_forall_lift φ hφ hlift ?_
-  show φ.toMonoidHom (x⁻¹ * y) ∈ primeToPKernel p H
+  change φ.toMonoidHom (x⁻¹ * y) ∈ primeToPKernel p H
   rwa [map_mul, map_inv]
 
 end Functoriality
@@ -404,7 +404,7 @@ theorem forall_lift_of_isProP_ker [CompactSpace G] [T2Space H] (hp : p.Prime) (�
     Topology.IsQuotientMap.of_surjective_continuous hφ φ.continuous
   refine ⟨N.map φ.toMonoidHom, hnorm.map _ hφ, ?_, hcm⟩
   rw [← hq.isOpen_preimage]
-  show IsOpen (φ.toMonoidHom ⁻¹' (N.map φ.toMonoidHom : Set H))
+  change IsOpen (φ.toMonoidHom ⁻¹' (N.map φ.toMonoidHom : Set H))
   rwa [← Subgroup.coe_comap, hcm]
 
 end ProPKer

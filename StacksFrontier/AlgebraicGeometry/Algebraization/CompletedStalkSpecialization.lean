@@ -252,7 +252,7 @@ theorem ringKrullDim_quotient_completedStalkPrime
 `AlgebraicGeometry.Scheme.fromSpecStalk`. -/
 theorem exists_fromSpecStalk_eq_of_specializes {y y' : X} (h : y ⤳ y') :
     ∃ p : PrimeSpectrum (X.presheaf.stalk y'), X.fromSpecStalk y' p = y := by
-  show y ∈ Set.range (X.fromSpecStalk y')
+  change y ∈ Set.range (X.fromSpecStalk y')
   rwa [Scheme.range_fromSpecStalk]
 
 

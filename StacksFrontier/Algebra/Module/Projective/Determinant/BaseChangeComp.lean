@@ -35,7 +35,7 @@ generators.
 
 The square of exterior algebras is proved in the direction of the *inverses* of the three
 comparisons. That direction starts at `B ⊗_R ⋀_R M`, which is a tensor product, so
-`TensorProduct.induction_on` applies; `B`-semilinearity then reduces matters to the pure tensors
+`TensorProduct.inductionOn` applies; `B`-semilinearity then reduces matters to the pure tensors
 `1 ⊗ₜ w`. On those, both composites are `R`-algebra maps out of `⋀_R M` — the inverses of the
 comparisons are algebra equivalences, `Algebra.TensorProduct.includeRight` is an algebra map, and
 `ExteriorAlgebra.map` of a linear map is an algebra map, all put over `R` by
@@ -130,7 +130,7 @@ commutes**, read in the direction of the inverses of the three comparisons:
   ⋀_B (B ⊗_R M) --------------------------------------------------->  ⋀_B (B ⊗_A (A ⊗_R M))
 ```
 This is the direction the proof runs in: the source is a tensor product, so
-`TensorProduct.induction_on` and `B`-semilinearity reduce the statement to
+`TensorProduct.inductionOn` and `B`-semilinearity reduce the statement to
 `ProjectiveDeterminant.exteriorAlgebraBaseChange_symm_one_tmul_one_tmul`. -/
 theorem exteriorAlgebraBaseChange_symm_comp :
     (exteriorAlgebraBaseChange A B (A ⊗[R] M)).symm.toLinearMap ∘ₗ
@@ -140,8 +140,7 @@ theorem exteriorAlgebraBaseChange_symm_comp :
       (ExteriorAlgebra.map (cancelBaseChange R A B B M).symm.toLinearMap).toLinearMap ∘ₗ
         (exteriorAlgebraBaseChange R B M).symm.toLinearMap := by
   refine LinearMap.ext fun v => ?_
-  induction v using TensorProduct.induction_on with
-  | zero => simp
+  induction v using TensorProduct.inductionOn with
   | add v w hv hw => simp only [map_add, hv, hw]
   | tmul b w =>
       have hb : (b : B) ⊗ₜ[R] w = b • ((1 : B) ⊗ₜ[R] w) :=
@@ -218,9 +217,8 @@ namespace TwoTermComplex
 
 universe u
 
-variable (R : Type u) [CommRing R] (A : Type u) [CommRing A] [Algebra R A] [Module.Flat R A]
+variable (R : Type u) [CommRing R] (A : Type u) [CommRing A] [Algebra R A]
 variable (B : Type u) [CommRing B] [Algebra A B] [Algebra R B] [IsScalarTower R A B]
-  [Module.Flat A B] [Module.Flat R B]
 variable {K₁ : Type u} [AddCommGroup K₁] [Module R K₁] [Module.Finite R K₁]
   [Module.Projective R K₁]
 variable {K₀ : Type u} [AddCommGroup K₀] [Module R K₀] [Module.Finite R K₀]
@@ -246,14 +244,12 @@ theorem determinantLineBaseChange_comp (f : K₁ →ₗ[R] K₀) (φ : determina
   obtain ⟨v, rfl⟩ := (ProjectiveDeterminant.baseChangeEquiv
     (R := A) (A := B) (M := A ⊗[R] K₁)).surjective y
   simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.symm_apply_apply]
-  induction v using TensorProduct.induction_on with
-  | zero => simp
+  induction v using TensorProduct.inductionOn with
   | add v w hv hw => simp only [map_add, hv, hw]
   | tmul b z =>
       obtain ⟨u, rfl⟩ := (ProjectiveDeterminant.baseChangeEquiv
         (R := R) (A := A) (M := K₁)).surjective z
-      induction u using TensorProduct.induction_on with
-      | zero => simp
+      induction u using TensorProduct.inductionOn with
       | add u u' hu hu' => simp only [map_add, TensorProduct.tmul_add, hu, hu']
       | tmul a x =>
           refine (LinearEquiv.eq_symm_apply _).mpr ?_

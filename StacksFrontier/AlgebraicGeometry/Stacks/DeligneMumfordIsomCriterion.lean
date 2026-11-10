@@ -205,8 +205,8 @@ theorem holdsOnEveryEtaleChart_isomSpace_iff_pullbackSnd (P : MorphismProperty S
   refine h₁.trans ((Space.holdsOnEveryEtaleChart_relocalizeToYoneda_iff B V.left.1 U.left.1
     V.left.2 U.left.2 e.left P R).symm.trans ?_)
   have hsq := OverShriek.isPullback_relocalizeRestrictCounit e.left I hT π τ
-  haveI : HasPullback π τ := hasPullback_presheaf_deligneMumfordIsomCriterion π τ
-  show PU (OverShriek.relocalizeToYoneda e.left R) ↔ PU (pullback.snd π τ)
+  have : HasPullback π τ := hasPullback_presheaf_deligneMumfordIsomCriterion π τ
+  change PU (OverShriek.relocalizeToYoneda e.left R) ↔ PU (pullback.snd π τ)
   rw [← hsq.isoPullback_hom_snd]
   exact PU.cancel_left_of_respectsIso hsq.isoPullback.hom (pullback.snd π τ)
 
@@ -238,7 +238,7 @@ theorem holdsOnEveryEtaleChart_isomSpace_iff_of_isIso (P : MorphismProperty Sche
     Space.holdsOnEveryEtaleChart_respectsIso_presheaf B U.left.1 U.left.2 P
   have hsnd : pullback.snd π τ = pullback.fst π τ ≫ π ≫ CategoryTheory.inv τ := by
     rw [pullback.condition_assoc, IsIso.hom_inv_id, Category.comp_id]
-  show PU (pullback.snd π τ) ↔ PU (terminal.from I)
+  change PU (pullback.snd π τ) ↔ PU (terminal.from I)
   rw [hsnd, PU.cancel_left_of_respectsIso, PU.cancel_right_of_respectsIso]
   exact holdsOnEveryEtaleChart_iff_of_isTerminal B U.left.1 U.left.2
     (Over.mkIdTerminal.isTerminalObj yoneda _) terminalIsTerminal _ _
@@ -285,7 +285,7 @@ theorem holdsOnEveryEtaleChart_isomSpace_of_relativeDiagonal (P : MorphismProper
   let y := W ⋙ Δ.toFunctor
   have hy : y ⋙ (twoFibreProduct B S hS 𝒴.val 𝒳.val 𝒳.val f.hom.hom f.hom.hom).val.p =
       Over.map U.hom := by
-    show W ⋙ (Δ.toFunctor ⋙ (twoFibreProduct B S hS 𝒴.val 𝒳.val 𝒳.val f.hom.hom
+    change W ⋙ (Δ.toFunctor ⋙ (twoFibreProduct B S hS 𝒴.val 𝒳.val 𝒳.val f.hom.hom
       f.hom.hom).val.p) = _
     rw [Δ.w]
     exact hW

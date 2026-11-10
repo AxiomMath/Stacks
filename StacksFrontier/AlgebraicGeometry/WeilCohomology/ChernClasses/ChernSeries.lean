@@ -138,7 +138,7 @@ protected theorem mul_comm' (a b : UnitalCentralSeries R) :
 protected theorem inv_mul_cancel' (a : UnitalCentralSeries R) :
     a.inv.mul a = UnitalCentralSeries.one :=
   val_injective (by
-    show PowerSeries.invOfUnit a.val 1 * a.val = 1
+    change PowerSeries.invOfUnit a.val 1 * a.val = 1
     rw [mul_comm]
     exact PowerSeries.mul_invOfUnit a.val 1 (by rw [a.constantCoeff_val, Units.val_one]))
 
@@ -169,14 +169,14 @@ theorem coeff_mem_center (a : UnitalCentralSeries R) (n : ℕ) :
 
 /-- The constant term is `1`. -/
 @[simp] theorem coeff_zero (a : UnitalCentralSeries R) : a.coeff 0 = 1 := by
-  show ((PowerSeries.coeff 0 a.val : Subring.center R) : R) = 1
+  change ((PowerSeries.coeff 0 a.val : Subring.center R) : R) = 1
   rw [PowerSeries.coeff_zero_eq_constantCoeff_apply, a.constantCoeff_val]
   rfl
 
 /-- **The convolution formula**: this is property (1) of Tag 0FI5 read on components. -/
 theorem coeff_mul (a b : UnitalCentralSeries R) (n : ℕ) :
     (a * b).coeff n = ∑ p ∈ Finset.HasAntidiagonal.antidiagonal n, a.coeff p.1 * b.coeff p.2 := by
-  show ((PowerSeries.coeff n (a.val * b.val) : Subring.center R) : R) = _
+  change ((PowerSeries.coeff n (a.val * b.val) : Subring.center R) : R) = _
   rw [PowerSeries.coeff_mul]
   exact map_sum (Subring.center R).subtype
     (fun p : ℕ × ℕ => PowerSeries.coeff p.1 a.val * PowerSeries.coeff p.2 b.val)
@@ -184,7 +184,7 @@ theorem coeff_mul (a b : UnitalCentralSeries R) (n : ℕ) :
 
 /-- The components of the unit series: `1` in degree `0` and `0` elsewhere. -/
 theorem coeff_one (n : ℕ) : (1 : UnitalCentralSeries R).coeff n = if n = 0 then 1 else 0 := by
-  show ((PowerSeries.coeff n (1 : PowerSeries (Subring.center R)) : Subring.center R) : R) = _
+  change ((PowerSeries.coeff n (1 : PowerSeries (Subring.center R)) : Subring.center R) : R) = _
   rw [PowerSeries.coeff_one]
   split_ifs <;> rfl
 
@@ -194,7 +194,7 @@ theorem coeff_one (n : ℕ) : (1 : UnitalCentralSeries R).coeff n = if n = 0 the
 
 /-- Over the zero ring there is only one unital central series. -/
 theorem subsingleton (h : Subsingleton R) : Subsingleton (UnitalCentralSeries R) :=
-  ⟨fun a b => ext fun n => h.elim _ _⟩
+  ⟨fun a b => ext fun n => h.elim (a.coeff n) (b.coeff n)⟩
 
 /-- **The components of the inverse satisfy the inverting recursion.** Comparing the coefficients
 of `a a⁻¹ = 1` in degree `n + 1` and using `a_0 = 1` solves for the `(n+1)`-st component of the
@@ -203,7 +203,7 @@ theorem coeff_inv_succ (a : UnitalCentralSeries R) (n : ℕ) :
     (a⁻¹).coeff (n + 1) =
       -∑ p ∈ Finset.HasAntidiagonal.antidiagonal n, a.coeff (p.1 + 1) * (a⁻¹).coeff p.2 := by
   have h := coeff_mul a a⁻¹ (n + 1)
-  rw [mul_inv_cancel, coeff_one, if_neg (Nat.succ_ne_zero n),
+  rw [mul_inv_cancel, coeff_one, ite_eq_right (Nat.succ_ne_zero n),
     Finset.Nat.sum_antidiagonal_succ, a.coeff_zero, one_mul] at h
   exact eq_neg_of_add_eq_zero_left h.symm
 
@@ -239,7 +239,7 @@ def ofCoeff (a : ℕ → R) (hmem : ∀ n, a n ∈ Subring.center R) (h0 : a 0 =
 /-- The components of `ofCoeff a hmem h0` are the prescribed values `a n`. -/
 @[simp] theorem coeff_ofCoeff (a : ℕ → R) (hmem : ∀ n, a n ∈ Subring.center R) (h0 : a 0 = 1)
     (n : ℕ) : (ofCoeff a hmem h0).coeff n = a n := by
-  show ((PowerSeries.coeff n (PowerSeries.mk fun k => (⟨a k, hmem k⟩ : Subring.center R)) :
+  change ((PowerSeries.coeff n (PowerSeries.mk fun k => (⟨a k, hmem k⟩ : Subring.center R)) :
     Subring.center R) : R) = a n
   rw [PowerSeries.coeff_mk]
 

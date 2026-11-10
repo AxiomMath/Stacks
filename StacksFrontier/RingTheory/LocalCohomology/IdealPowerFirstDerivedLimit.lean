@@ -159,13 +159,13 @@ theorem mem_adicTowerCollapseKernel_iff {n : ℕ} (h : m₀ ≤ n)
     (x : (localCohomologyAdicTower.{u, v} A T I s M).obj (op n)) :
     x ∈ adicTowerCollapseKernel.{u, v} T I M s m₀ n ↔
       ((localCohomologyAdicTower.{u, v} A T I s M).map (homOfLE h).op).hom x = 0 := by
-  rw [adicTowerCollapseKernel, dif_pos h]
+  rw [adicTowerCollapseKernel, dite_eq_left h]
   exact LinearMap.mem_ker
 
 /-- Below level `m₀` the subsystem is zero. -/
 theorem adicTowerCollapseKernel_of_lt {n : ℕ} (h : ¬ m₀ ≤ n) :
     adicTowerCollapseKernel.{u, v} T I M s m₀ n = ⊥ := by
-  rw [adicTowerCollapseKernel, dif_neg h]
+  rw [adicTowerCollapseKernel, dite_eq_right h]
 
 /-- Two consecutive transition maps of the tower compose to the transition map between the
 extreme indices. -/
@@ -356,7 +356,7 @@ theorem smul_id_firstDerivedLimitLocalCohomologyAdicTower_eq_zero_of_isMittagLef
     (hML : IsMittagLefflerCategorical (adicTowerCollapseKernelTower.{u, v} T I M s m₀))
     {a : A} (ha : a ∈ I ^ m₀) :
     a • 𝟙 (firstDerivedLimitLocalCohomologyAdicTower.{u, v} T I M s) = 0 := by
-  show a • 𝟙 (cokernel (milnorDifferenceLocalCohomologyAdicTower.{u, v} T I M s)) = 0
+  change a • 𝟙 (cokernel (milnorDifferenceLocalCohomologyAdicTower.{u, v} T I M s)) = 0
   have hepi : Epi (Limits.Pi.lift fun n : ℕ ↦
       Limits.Pi.π
           (fun n : ℕ ↦ (adicTowerCollapseKernelTower.{u, v} T I M s m₀).obj (op n)) n -
@@ -389,7 +389,8 @@ theorem smul_id_firstDerivedLimitLocalCohomologyAdicTower_eq_zero_of_isMittagLef
 section ClosedPoint
 
 /-- **Part (7) of [Stacks, Tag 0EFY] at `T = {𝔪}` over a Noetherian local ring.** Every element
-of `I^{m₀}` annihilates `R¹lim H^s_𝔪(M/IⁿM)`, for every `m₀` and every degree `s`.
+of `I^{m₀}` annihilates `R¹lim H^s_𝔪(M/IⁿM)`, for every `m₀` and every degree `s`; in fact
+every element of the ring does, which is how it is stated.
 
 The system `{H^s_𝔪(M/IⁿM)}` is itself Mittag-Leffler here, by
 `isMittagLefflerCategorical_localCohomologyAdicTower_closedPoint`, so its Milnor difference is an
@@ -407,7 +408,7 @@ then genuinely the annihilation and not a vanishing; that route is
 R¹lim Hˢ_𝔪(M/IⁿM), for every m₀ and in every degree"]
 theorem smul_id_firstDerivedLimitLocalCohomologyAdicTower_eq_zero_closedPoint (A : Type u)
     [CommRing A] [IsLocalRing A] [IsNoetherianRing A] (J : Ideal A) (N : ModuleCat.{u} A)
-    [Module.Finite A N] (i : ℤ) (m₀ : ℕ) {a : A} (ha : a ∈ J ^ m₀) :
+    [Module.Finite A N] (i : ℤ) (a : A) :
     a • 𝟙 (firstDerivedLimitLocalCohomologyAdicTower.{u, u}
       {IsLocalRing.closedPoint A} J N i) = 0 := by
   have hepi : Epi (milnorDifferenceLocalCohomologyAdicTower.{u, u}
@@ -419,7 +420,7 @@ theorem smul_id_firstDerivedLimitLocalCohomologyAdicTower_eq_zero_closedPoint (A
     hepi.left_cancellation _ _ (by rw [cokernel.condition, comp_zero])
   have hid : 𝟙 (firstDerivedLimitLocalCohomologyAdicTower.{u, u}
       {IsLocalRing.closedPoint A} J N i) = 0 := by
-    show 𝟙 (cokernel (milnorDifferenceLocalCohomologyAdicTower.{u, u}
+    change 𝟙 (cokernel (milnorDifferenceLocalCohomologyAdicTower.{u, u}
       {IsLocalRing.closedPoint A} J N i)) = 0
     rw [← cancel_epi (cokernel.π (milnorDifferenceLocalCohomologyAdicTower.{u, u}
       {IsLocalRing.closedPoint A} J N i)), Category.comp_id, comp_zero, hπ]

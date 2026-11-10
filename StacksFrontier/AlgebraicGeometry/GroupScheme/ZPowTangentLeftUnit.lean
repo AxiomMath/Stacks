@@ -185,7 +185,7 @@ theorem pullbackLift_comp_mul_eq_add (v w : DottedTangentArrow G.hom ((η[G]).le
     have hring : (dualNumberCongr
         (G.left.residueFieldCongr (rfl : x = x)).commRingCatIsoToRingEquiv).toRingHom =
         RingHom.id _ := RingHom.ext fun ⟨_, _⟩ => rfl
-    show u.val = Spec.map (CommRingCat.ofHom (dualNumberCongr
+    change u.val = Spec.map (CommRingCat.ofHom (dualNumberCongr
       (G.left.residueFieldCongr (rfl : x = x)).commRingCatIsoToRingEquiv).toRingHom) ≫ u.val
     rw [hring]
     simp

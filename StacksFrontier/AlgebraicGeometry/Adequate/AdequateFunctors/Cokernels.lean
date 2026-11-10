@@ -71,7 +71,7 @@ private lemma presheafUlift_preserves_cokernel
   intro X
   have : PreservesColimit (parallelPair f 0)
       (E ⋙ PresheafOfModules.evaluation R X) := by
-    show PreservesColimit (parallelPair f 0)
+    change PreservesColimit (parallelPair f 0)
       (PresheafOfModules.evaluation R X ⋙ ModuleCat.uliftFunctor.{w', w} (R.obj X))
     infer_instance
   exact isColimitOfPreserves (E ⋙ PresheafOfModules.evaluation R X)
@@ -122,7 +122,7 @@ public lemma isAdequate_cokernel {A : Type u} [CommRing A]
     presheafUlift_preserves_cokernel (A := A) φ
   let eQ : E.obj (cokernel φ) ≅ cokernel φ' := PreservesCokernel.iso E φ
   refine ⟨N, P, moduleHomOfExtensionNatTrans fQ, ?_⟩
-  show Nonempty (E.obj (cokernel φ) ≅
+  change Nonempty (E.obj (cokernel φ) ≅
     kernel ((moduleExtensionFunctor.{max u v w, v} A).map
       (moduleHomOfExtensionNatTrans fQ)))
   refine ⟨?_⟩

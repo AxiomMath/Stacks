@@ -136,11 +136,11 @@ theorem degreeOver_left_eq_relIndex_stabilizer {A' V : FiniteEtaleOver Z}
     MorphismProperty.Over.mk ⊤ f.left ⟨inferInstance, inferInstance⟩
   have : ConnectedSpace Vb.left := (inferInstance : ConnectedSpace V.left)
   have : IsProper (Vb.hom ≫ (A'.hom ≫ qZ)) := by
-    show IsProper (f.left ≫ (A'.hom ≫ qZ))
+    change IsProper (f.left ≫ (A'.hom ≫ qZ))
     rw [w]
     infer_instance
   have : IsCurve K (Vb.hom ≫ (A'.hom ≫ qZ)) := by
-    show IsCurve K (f.left ≫ (A'.hom ≫ qZ))
+    change IsCurve K (f.left ≫ (A'.hom ≫ qZ))
     rw [w]
     infer_instance
   obtain ⟨a₀⟩ : Nonempty A'.left := ConnectedSpace.toNonempty

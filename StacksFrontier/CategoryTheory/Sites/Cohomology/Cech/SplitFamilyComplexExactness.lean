@@ -215,8 +215,9 @@ variable {J : GrothendieckTopology C} (R : Sheaf J RingCat.{w})
   [HasSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   {X : C} (E : PreZeroHypercover.{w} X) [HasFiniteProducts (Over X)]
 
-omit [HasFiniteProducts C] [HasSheafify J AddCommGrpCat.{w}]
-  [J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
+omit [HasFiniteProducts C] [∀ V : C, HasWeakSheafify (J.over V) AddCommGrpCat.{w}]
+  [∀ V : C, (J.over V).WEqualsLocallyBijective AddCommGrpCat.{w}]
+  [HasSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- The sheaf-level Čech complex is the Čech complex of the Čech diagram, as a presheaf with
 values in the sheaves of modules. -/
 theorem complexFunctor_obj_eq (F : SheafOfModules.{w} R) :

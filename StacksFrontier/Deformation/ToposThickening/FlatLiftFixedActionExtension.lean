@@ -62,7 +62,6 @@ variable {X : RingedTopos.{v, u, w}} {X' : RingedTopos.{v', u', w}}
   [X.J.HasSheafCompose (forget RingCat.{w})] [X'.J.HasSheafCompose (forget RingCat.{w})]
   [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [X'.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
-  [X.J.HasSheafCompose (forget AddCommGrpCat.{w})]
   [X'.J.HasSheafCompose (forget AddCommGrpCat.{w})]
   [HasWeakSheafify X'.J AddCommGrpCat.{w}]
   [X'.J.WEqualsLocallyBijective AddCommGrpCat.{w}]

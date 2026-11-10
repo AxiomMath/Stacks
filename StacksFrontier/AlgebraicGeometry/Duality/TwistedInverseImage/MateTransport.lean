@@ -87,7 +87,7 @@ theorem mateEquiv_ofNatIsoRight_bot (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ 
     (α : TwoSquare G L₁ L₂ H) :
     mateEquiv adj₁ (adj₂.ofNatIsoRight e) α =
       TwoSquare.mk _ _ _ _
-        ((mateEquiv adj₁ adj₂ α).natTrans ≫ Functor.whiskerLeft H e.hom) := by
+        (mateEquiv adj₁ adj₂ α ≫ Functor.whiskerLeft H e.hom) := by
   ext X
   simp [mateEquiv, Adjunction.ofNatIsoRight]
 
@@ -99,14 +99,14 @@ theorem mateEquiv_ofNatIsoRight_top (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ 
     (α : TwoSquare G L₁ L₂ H) :
     mateEquiv (adj₁.ofNatIsoRight e) adj₂ α =
       TwoSquare.mk _ _ _ _
-        (Functor.whiskerRight e.inv G ≫ (mateEquiv adj₁ adj₂ α).natTrans) := by
+        (Functor.whiskerRight e.inv G ≫ mateEquiv adj₁ adj₂ α) := by
   ext X
   have h1 := adj₂.unit.naturality (G.map (e.inv.app X))
-  have h2 := α.natTrans.naturality (e.inv.app X)
+  have h2 := α.naturality (e.inv.app X)
   simp only [Functor.id_map, Functor.comp_map] at h1 h2
   have key : G.map (e.inv.app X) ≫ adj₂.unit.app (G.obj (R₁.obj X)) ≫
-        R₂.map (α.natTrans.app (R₁.obj X)) =
-      adj₂.unit.app (G.obj (R₁'.obj X)) ≫ R₂.map (α.natTrans.app (R₁'.obj X)) ≫
+        R₂.map (α.app (R₁.obj X)) =
+      adj₂.unit.app (G.obj (R₁'.obj X)) ≫ R₂.map (α.app (R₁'.obj X)) ≫
         R₂.map (H.map (L₁.map (e.inv.app X))) := by
     rw [← Category.assoc, h1, Category.assoc, ← R₂.map_comp, h2, R₂.map_comp]
   simpa [mateEquiv, Adjunction.ofNatIsoRight] using

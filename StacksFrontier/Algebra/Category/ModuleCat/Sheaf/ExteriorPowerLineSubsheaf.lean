@@ -90,7 +90,7 @@ theorem wedge_formula_of_ιMulti {R : Type*} [CommRing R] {P M Q : Type*} [AddCo
   have key : Φ₁ = Φ₂ := by
     refine linearMap_ext (AlternatingMap.ext fun v ↦ ?_)
     refine linearMap_ext (AlternatingMap.ext fun w ↦ ?_)
-    show (L (ιMulti R 1 v ⊗ₜ map (k + 1) g (ιMulti R (k + 1) w)) : ExteriorAlgebra R M) =
+    change (L (ιMulti R 1 v ⊗ₜ map (k + 1) g (ιMulti R (k + 1) w)) : ExteriorAlgebra R M) =
       ExteriorAlgebra.ι R (a (oneEquiv R P (ιMulti R 1 v))) *
         (ιMulti R (k + 1) w : ExteriorAlgebra R M)
     rw [oneEquiv_ιMulti]

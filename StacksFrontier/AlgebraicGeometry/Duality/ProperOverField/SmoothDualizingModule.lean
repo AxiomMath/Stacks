@@ -64,7 +64,7 @@ theorem nonempty_relativeDualizingModule_iso_of_iso_singleFunctor (M : X.Modules
     exact ⟨(hzero _).iso (hzero _)⟩
   · refine ⟨?_⟩
     have h := toNat_topologicalKrullDim_getD_of_smoothOfRelativeDimension d f
-    show (DerivedCategory.homologyFunctor X.Modules
+    change (DerivedCategory.homologyFunctor X.Modules
       (-(ENat.toNat ((topologicalKrullDim X).getD 0) : ℤ))).obj
         (relativeDualizingComplex f hpush ωY).obj ≅ M
     rw [h]

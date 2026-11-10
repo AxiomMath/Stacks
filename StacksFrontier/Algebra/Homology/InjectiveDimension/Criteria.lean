@@ -144,7 +144,7 @@ private lemma hom_homology_eq_zero_of_single_hom_eq_zero (I : CochainComplex C �
     simp only [mkHomFromSingle_f, ← Category.assoc, singleObjCyclesSelfIso_inv_iCycles,
       Iso.inv_hom_id, Category.id_comp]
   rw [← Projective.factorThru_comp f (I.homologyπ n)]
-  show g ≫ I.homologyπ n = 0
+  change g ≫ I.homologyπ n = 0
   rw [← hc, Category.assoc, ← homologyπ_naturality, hφ, comp_zero, comp_zero]
 
 /-- A map between objects isomorphic to `Q A` and `Q I`, with `I` K-injective, vanishes when

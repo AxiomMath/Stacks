@@ -70,7 +70,7 @@ private lemma eq_of_le_of_ringKrullDim_quotient_eq {R : Type*} [CommRing R] {I I
     (hI : ringKrullDim (R ⧸ I) = n) (hI' : ringKrullDim (R ⧸ I') = n) : I = I' := by
   have := hdom
   by_contra hne
-  obtain ⟨x, hxI', hxI⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hle hne)
+  obtain ⟨x, hxI', hxI⟩ := IsConcreteLE.exists_of_lt (lt_of_le_of_ne hle hne)
   have hkill : ringKrullDim (R ⧸ I') + 1 ≤ ringKrullDim (R ⧸ I) :=
     ringKrullDim_succ_le_of_surjective (Ideal.Quotient.factor hle)
       (Ideal.Quotient.factor_surjective hle)

@@ -127,13 +127,13 @@ theorem bcMap_id (M : ModuleCat.{u} R) : bcMap ρ (𝟙 M) = 𝟙 _ := by
 /-- A scalar `a` with `ρ a = 1` acts as the identity on a base change along `ρ`. -/
 theorem smul_bcObj_eq_self {M : ModuleCat.{u} R} {a : R} (ha : ρ a = 1) (t : bcObj ρ M) :
     a • t = t := by
-  show ρ a • (t : (ModuleCat.extendScalars.{u, u, u} ρ).obj M) = t
+  change ρ a • (t : (ModuleCat.extendScalars.{u, u, u} ρ).obj M) = t
   rw [ha, one_smul]
 
 /-- A scalar `a` with `ρ a = 0` acts as zero on a base change along `ρ`. -/
 theorem smul_bcObj_eq_zero {M : ModuleCat.{u} R} {a : R} (ha : ρ a = 0) (t : bcObj ρ M) :
     a • t = 0 := by
-  show ρ a • (t : (ModuleCat.extendScalars.{u, u, u} ρ).obj M) = 0
+  change ρ a • (t : (ModuleCat.extendScalars.{u, u, u} ρ).obj M) = 0
   rw [ha, zero_smul]
 
 /-- In a finite free module, an element killed by the base-change unit lies in `(ker ρ) • ⊤`. -/

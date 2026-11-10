@@ -541,19 +541,19 @@ theorem exists_smooth_isStandardSmooth_retraction (R : Type u) (A : Type v) [Com
   -- the retraction
   let τ : MvPolynomial (Fin c) C →+* A := ρ.comp (killY C c).toRingHom
   have hτ : IsUnit (τ jac) := by
-    show IsUnit (ρ (killY C c jac))
+    change IsUnit (ρ (killY C c jac))
     rw [hkill, map_pow, map_neg, map_one]
     exact isUnit_one.neg.pow n
   refine ⟨B, inferInstance, inferInstance, inferInstance, inferInstance, hSmoothAB, hStd,
     IsLocalization.Away.lift jac hτ, ?_⟩
   ext a
-  show IsLocalization.Away.lift jac hτ (algebraMap A B a) = a
+  change IsLocalization.Away.lift jac hτ (algebraMap A B a) = a
   have h1 : (algebraMap A B a) = algebraMap (MvPolynomial (Fin c) C) B
       (algebraMap C (MvPolynomial (Fin c) C) (algebraMap A C a)) := by
     rw [IsScalarTower.algebraMap_apply A (MvPolynomial (Fin c) C) B,
       IsScalarTower.algebraMap_apply A C (MvPolynomial (Fin c) C)]
   rw [h1, IsLocalization.Away.lift_eq]
-  show ρ (killY C c (algebraMap C (MvPolynomial (Fin c) C) (algebraMap A C a))) = a
+  change ρ (killY C c (algebraMap C (MvPolynomial (Fin c) C) (algebraMap A C a))) = a
   rw [killY_algebraMap]
   exact DFunLike.congr_fun hρ a
 

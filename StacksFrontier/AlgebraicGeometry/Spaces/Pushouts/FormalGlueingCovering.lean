@@ -77,7 +77,7 @@ private theorem fromSpecStalk_stalkMap_bijective (X : Scheme.{u}) (x : X)
         ((Spec (X.presheaf.stalk x)).presheaf.stalk p) := hf
     have : IsLocalHom (algebraMap (X.presheaf.stalk ((X.fromSpecStalk x) p))
         ((Spec (X.presheaf.stalk x)).presheaf.stalk p)) := by
-      show IsLocalHom ((X.fromSpecStalk x).stalkMap p).hom
+      change IsLocalHom ((X.fromSpecStalk x).stalkMap p).hom
       infer_instance
     have : Module.FaithfullyFlat (X.presheaf.stalk ((X.fromSpecStalk x) p))
         ((Spec (X.presheaf.stalk x)).presheaf.stalk p) :=
@@ -247,7 +247,7 @@ private theorem exists_affine_fpqcCovering_of_closed_locus
     · obtain ⟨q, hq, hqx⟩ := hZ x hx
       obtain ⟨p, hp⟩ := localization_closed_point_lifts I q hq
       refine ⟨none, p, ?_⟩
-      show f (PrimeSpectrum.comap
+      change f (PrimeSpectrum.comap
         (algebraMap A (_root_.AlgebraicGeometry.ProEtale.localizationRing I (1 : A))) p) = x
       rw [hp, hqx]
     · obtain ⟨j, hj⟩ := hcover x hx
@@ -295,14 +295,14 @@ private theorem exists_affine_fpqcCovering_of_affine_closed_locus
     intro x hx
     obtain ⟨w, hw, hfw⟩ := hZ x hx
     have hew : e.inv (e.hom w) = w := by
-      show (e.hom ≫ e.inv) w = w
+      change (e.hom ≫ e.inv) w = w
       rw [e.hom_inv_id]
       rfl
     refine ⟨e.hom w, ?_, ?_⟩
     · rw [← hI]
-      show e.inv (e.hom w) ∈ C
+      change e.inv (e.hom w) ∈ C
       rwa [hew]
-    · show f (e.inv (e.hom w)) = x
+    · change f (e.inv (e.hom w)) = x
       rwa [hew]
   have hflat : ∀ q ∈ PrimeSpectrum.zeroLocus (I : Set Γ(W, ⊤)),
       ((e.inv ≫ f).stalkMap q).hom.Flat := by
@@ -329,7 +329,7 @@ private theorem flat_yoneda_map
     {U V : BigFppfOver site S hS} (f : U ⟶ V)
     (hf : Flat ((BigFppfOver.toScheme site S hS).map f)) :
     IsFlat site S hS (yoneda.map f) := by
-  show HoldsOnEveryEtaleChart site S hS (@Flat) (yoneda.map f)
+  change HoldsOnEveryEtaleChart site S hS (@Flat) (yoneda.map f)
   rw [holdsOnEveryEtaleChart_iff_representable
     (B := site) (S := S) (hS := hS) (P := @Flat)
     (hP := Flat.isEtaleLocalOnSourceAndTarget)
@@ -392,7 +392,7 @@ theorem represented_fpqc_family
     let p₁ (i : I) : P i ⟶ Tsch := pullback.snd (fs i) t
     let p₂ (i : I) : P i ⟶ Xs i := pullback.fst (fs i) t
     have hP (i : I) : site.Contains (P i) := by
-      show (P i).size < site.cutoff
+      change (P i).size < site.cutoff
       exact Scheme.size_pullback_lt (κ := site.cutoff) (fs i) t (hX i) hT
     have hsiteCover : Presieve.ofArrows P p₁ ∈ Scheme.fpqcPrecoverage Tsch := by
       let : Precoverage.IsStableUnderBaseChange Scheme.fpqcPrecoverage := inferInstance
@@ -408,7 +408,7 @@ theorem represented_fpqc_family
     let v (j : Fin n) : Z j ⟶ P (idx j) := (V j).ι
     let q (j : Fin n) : Z j ⟶ Tsch := v j ≫ p₁ (idx j)
     have hZ (j : Fin n) : site.Contains (Z j) := by
-      show (Z j).size < site.cutoff
+      change (Z j).size < site.cutoff
       exact Scheme.size_lt_of_isOpenImmersion (v j) (hP (idx j))
     have hZaffine (j : Fin n) : IsAffine (Z j) := hVaff j
     let qsite (j : Fin n) : site.obj (hZ j) ⟶ TOver.left :=
@@ -425,16 +425,16 @@ theorem represented_fpqc_family
     let lift₂ (j : Fin n) : ZOver j ⟶ TOver :=
       Over.homMk (qsite j) (by
         apply site.inclusion.map_injective
-        show site.inclusion.map (qsite j ≫ TOver.hom) =
+        change site.inclusion.map (qsite j ≫ TOver.hom) =
           site.inclusion.map (rsite j ≫ (X (idx j)).hom)
         rw [Functor.map_comp, Functor.map_comp,
           site.inclusion.map_preimage, site.inclusion.map_preimage]
         have hw := congrArg site.inclusion.map (Over.w (f (idx j)))
         have ht := congrArg site.inclusion.map (Over.w tOver)
-        show (v j ≫ p₁ (idx j)) ≫ site.inclusion.map TOver.hom =
+        change (v j ≫ p₁ (idx j)) ≫ site.inclusion.map TOver.hom =
           (v j ≫ p₂ (idx j)) ≫ site.inclusion.map (X (idx j)).hom
         rw [← hw, ← ht, Functor.map_comp, Functor.map_comp]
-        show (v j ≫ p₁ (idx j)) ≫ t ≫ site.inclusion.map Y.hom =
+        change (v j ≫ p₁ (idx j)) ≫ t ≫ site.inclusion.map Y.hom =
           (v j ≫ p₂ (idx j)) ≫ fs (idx j) ≫ site.inclusion.map Y.hom
         simp only [Category.assoc]
         exact congrArg (fun k => v j ≫ k ≫ site.inclusion.map Y.hom)
@@ -464,16 +464,16 @@ theorem represented_fpqc_family
         simp only [Set.mem_iUnion, Set.mem_image] at hx
         rcases hx with ⟨j, z, hz, hzx⟩
         refine ⟨ULift.up j, ⟨z, hz⟩, ?_⟩
-        show p₁ (idx j) (v j ⟨z, hz⟩) = x
+        change p₁ (idx j) (v j ⟨z, hz⟩) = x
         rw [show v j ⟨z, hz⟩ = z by rfl]
         exact hzx
       have hsource : (fun j : J => TschFunctor.obj (Paff j)) = fun j => Z j.down :=
         funext fun j => rfl
       have hmap : (fun j : J => TschFunctor.map (pi j)) = fun j : J => q j.down :=
         funext fun j => by
-        show OverScheme.map (Tinc.map (pi j)) = q j.down
+        change OverScheme.map (Tinc.map (pi j)) = q j.down
         rw [hpi j]
-        show site.inclusion.map (qsite j.down) = q j.down
+        change site.inclusion.map (qsite j.down) = q j.down
         exact site.inclusion.map_preimage _
       dsimp [U]
       rw [Presieve.map_ofArrows]
@@ -487,18 +487,18 @@ theorem represented_fpqc_family
     · intro j
       let i := idx j.down
       refine ⟨i, yoneda.map (lift₁ j.down), ?_⟩
-      show yoneda.map (lift₁ j.down) ≫ yoneda.map (f i) =
+      change yoneda.map (lift₁ j.down) ≫ yoneda.map (f i) =
         yoneda.map (Tinc.map (U.f j)) ≫ h
       rw [← htmap, show Tinc.map (U.f j) = lift₂ j.down from hpi j,
         ← Functor.map_comp, ← Functor.map_comp]
       congr 1
       apply Over.OverMorphism.ext
       apply site.inclusion.map_injective
-      show site.inclusion.map (rsite j.down ≫ (f i).left) =
+      change site.inclusion.map (rsite j.down ≫ (f i).left) =
         site.inclusion.map (qsite j.down ≫ tOver.left)
       rw [Functor.map_comp, Functor.map_comp,
         site.inclusion.map_preimage, site.inclusion.map_preimage]
-      show (v j.down ≫ p₂ i) ≫ fs i = (v j.down ≫ p₁ i) ≫ t
+      change (v j.down ≫ p₂ i) ≫ fs i = (v j.down ≫ p₁ i) ≫ t
       simp only [Category.assoc]
       rw [pullback.condition]
 
@@ -528,7 +528,7 @@ theorem flatAt_of_isFlat_germ {A T : Scheme.{u}} (f : A ⟶ T) (a : A)
   have hwj : j w = ⟨a, by simp⟩ := by
     simpa [j, w] using (Scheme.homOfLE_apply' hWr₀ a haW)
   have hkflat : (k.stalkMap w).hom.Flat := by
-    show _root_.AlgebraicGeometry.IsFlatAt k.toLRSHom.toShHom w
+    change _root_.AlgebraicGeometry.IsFlatAt k.toLRSHom.toShHom w
     exact Flat.stalkMap k w
   have hjbij : Function.Bijective (j.stalkMap w).hom :=
     ConcreteCategory.bijective_of_isIso (j.stalkMap w)
@@ -538,7 +538,7 @@ theorem flatAt_of_isFlat_germ {A T : Scheme.{u}} (f : A ⟶ T) (a : A)
       exact hflat
     have heq := Scheme.Hom.stalkMap_comp k r.hom w
     rw [heq]
-    show RingHom.Flat ((k.stalkMap w).hom.comp (r.hom.stalkMap (k w)).hom)
+    change RingHom.Flat ((k.stalkMap w).hom.comp (r.hom.stalkMap (k w)).hom)
     exact RingHom.Flat.comp hrflat hkflat
   have hrightFlat : ((j ≫ r₀.hom).stalkMap w).hom.Flat := by
     have hleft := hkcomp
@@ -557,7 +557,7 @@ theorem flatAt_of_isFlat_germ {A T : Scheme.{u}} (f : A ⟶ T) (a : A)
   have hcompFlat :
       ((f.stalkMap (A.topIso.hom p₀) ≫ A.topIso.hom.stalkMap p₀).hom).Flat := by
     rw [← Scheme.Hom.stalkMap_comp]
-    show ((r₀.hom.stalkMap p₀).hom).Flat
+    change ((r₀.hom.stalkMap p₀).hom).Flat
     exact hr₀flat
   have hcompRingFlat :
       ((A.topIso.hom.stalkMap p₀).hom.comp
@@ -603,15 +603,15 @@ private theorem flatAt_chart_of_factor
     representative := q
     point := IsLocalRing.closedPoint q.carrier
     maps_to := by
-      show pointsMap B S hS (yoneda.obj W) a
+      change pointsMap B S hS (yoneda.obj W) a
         (pointsMap B S hS (yoneda.obj C) (yoneda.map c)
           (p.class B S hS (yoneda.obj C))) = _
-      show (pointsMap B S hS (yoneda.obj W) a ∘
+      change (pointsMap B S hS (yoneda.obj W) a ∘
         pointsMap B S hS (yoneda.obj C) (yoneda.map c)) _ = _
       rw [← pointsMap_comp, ← hr, pointsMap_comp]
       rfl }
   have he : e.sourcePoint B S hS = G.map c z := by
-    show G.map c (G.map p.value (IsLocalRing.closedPoint _)) = G.map c z
+    change G.map c (G.map p.value (IsLocalRing.closedPoint _)) = G.map c z
     exact congrArg (G.map c) (schemePointRepresentative_point B S hS C z)
   have hflat := flatAt_of_isFlat_germ (G.map h) (e.sourcePoint B S hS)
     (D.flat_at_preimage_Z x e)
@@ -628,7 +628,7 @@ private theorem exists_lift_to_preimage_of_comm
   have hrange : Subfunctor.range a ≤ Z.preimage f := by
     intro T x hx
     obtain ⟨y, rfl⟩ := hx
-    show f.app T (a.app T y) ∈ Z.obj T
+    change f.app T (a.app T y) ∈ Z.obj T
     have heq := congrArg (fun k : H ⟶ G => k.app T y) h
     change (b.app T y).val = f.app T (a.app T y) at heq
     rw [← heq]
@@ -849,7 +849,7 @@ private theorem factorsThrough_openComplement_of_range_disjoint
   let z : yoneda.obj Q'.unop ⟶ Z.toFunctor := yonedaEquiv.symm ⟨b.app Q' k, hk⟩
   have hz : z ≫ Z.ι = yoneda.map k ≫ b := by
     apply yonedaEquiv.injective
-    show ((z.app Q' (𝟙 Q'.unop)).val) = b.app Q' (𝟙 _ ≫ k)
+    change ((z.app Q' (𝟙 Q'.unop)).val) = b.app Q' (𝟙 _ ≫ k)
     rw [Category.id_comp]
     exact congrArg Subtype.val
       ((yonedaEquiv (X := Q'.unop) (F := Z.toFunctor)).apply_symm_apply
@@ -857,7 +857,7 @@ private theorem factorsThrough_openComplement_of_range_disjoint
   let l' : Q'.unop ⟶ hZ.2.1.pullback b := hZ.2.1.lift z k hz
   have hl : l' ≫ hZ.2.1.snd b = k := hZ.2.1.lift_snd z k hz
   refine ⟨fun q => hd (G.map (e.unop ≫ r) q) ⟨G.map l' q, ?_⟩⟩
-  show (G.map l' ≫ G.map (hZ.2.1.snd b)) q =
+  change (G.map l' ≫ G.map (hZ.2.1.snd b)) q =
     (G.map (e.unop ≫ r) ≫ G.map d) q
   rw [← G.map_comp, hl, ← G.map_comp]
   rfl
@@ -899,7 +899,7 @@ private theorem closed_chart_range_covered
   have hpq : q ≫ h = p ≫ i := by
     apply yoneda.map_injective
     rw [Functor.map_comp, Functor.map_comp, hh, hq, ← Category.assoc, hs.1.w t]
-    show (yoneda.map p ≫ t) ≫ pullback.snd D.f b = yoneda.map p ≫ yoneda.map i
+    change (yoneda.map p ≫ t) ≫ pullback.snd D.f b = yoneda.map p ≫ yoneda.map i
     simp only [Category.assoc, t, pullback.lift_snd]
   let k := a' ≫ pullback.fst D.f b ≫ D.f
   have hk : k = yoneda.map h ≫ b := by
@@ -913,11 +913,11 @@ private theorem closed_chart_range_covered
   rintro x ⟨zt, rfl⟩
   obtain ⟨pt, hpt⟩ := hp.surj zt
   refine ⟨G.map q pt, ⟨G.map l' pt, ?_⟩, ?_⟩
-  · show (G.map l' ≫ G.map (R.snd k)) pt = G.map q pt
+  · change (G.map l' ≫ G.map (R.snd k)) pt = G.map q pt
     rw [← G.map_comp, hl']
-  · show (G.map q ≫ G.map h) pt = G.map i zt
+  · change (G.map q ≫ G.map h) pt = G.map i zt
     rw [← G.map_comp, hpq, G.map_comp]
-    show G.map i (G.map p pt) = G.map i zt
+    change G.map i (G.map p pt) = G.map i zt
     rw [hpt]
 
 /-- A factorization of the underlying morphism of schemes through another morphism of the site
@@ -934,7 +934,7 @@ private theorem exists_overHom_of_comp
   have hl : l ≫ h.left = d.left := by
     apply B.inclusion.map_injective
     rw [Functor.map_comp]
-    show B.inclusion.map l ≫
+    change B.inclusion.map l ≫
       (BigFppfOver.toScheme B S hS).map h =
       (BigFppfOver.toScheme B S hS).map d
     dsimp only [l]

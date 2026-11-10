@@ -148,11 +148,11 @@ public theorem IndEtale.exists_algebraMap_eq [IsSepClosed K] (hB : IndEtale K B)
   refine ⟨c j, ?_⟩
   rw [map_sum, Finset.sum_eq_single j]
   · simp only [map_smul]
-    show c j • (χ : B →+* D) (e j) = _
+    change c j • (χ : B →+* D) (e j) = _
     rw [show (χ : B →+* D) (e j) = 1 from hj, Algebra.smul_def, mul_one]
   · intro i _ hij
     simp only [map_smul]
-    show c i • (χ : B →+* D) (e i) = 0
+    change c i • (χ : B →+* D) (e i) = 0
     rw [show (χ : B →+* D) (e i) = 0 from hi i hij, smul_zero]
   · simp
 

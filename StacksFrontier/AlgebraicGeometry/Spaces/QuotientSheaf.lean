@@ -175,7 +175,7 @@ theorem toQuotientSheaf_quotientSheafDesc (J : GrothendieckTopology C)
     (k : points F U ⟶ A.obj)
     (h : sourceMap F j ≫ k = targetMap F j ≫ k) :
     toQuotientSheaf J F j ≫ (quotientSheafDesc J F j A k h).hom = k := by
-  show toQuotientPresheaf F j ≫ toSheafify J (quotientPresheaf F j) ≫
+  change toQuotientPresheaf F j ≫ toSheafify J (quotientPresheaf F j) ≫
     sheafifyLift J (coequalizer.desc k h) A.property = k
   rw [toSheafify_sheafifyLift]
   exact coequalizer.π_desc k h
@@ -234,10 +234,10 @@ theorem toQuotientSheaf_comp_quotientSheafMap
     toQuotientSheaf J F j ≫ (quotientSheafMap J F j j' r f hs ht).hom =
       (F.op.whiskerLeft (yoneda.map f)) ≫ toQuotientSheaf J F j' := by
   rw [toQuotientSheaf, quotientSheafMap]
-  show toQuotientPresheaf F j ≫ toSheafify J (quotientPresheaf F j) ≫
+  change toQuotientPresheaf F j ≫ toSheafify J (quotientPresheaf F j) ≫
       sheafifyMap J (quotientPresheafMap F j j' r f hs ht) = _
   rw [← toSheafify_naturality]
-  show (coequalizer.π (sourceMap F j) (targetMap F j)) ≫
+  change (coequalizer.π (sourceMap F j) (targetMap F j)) ≫
       quotientPresheafMap F j j' r f hs ht ≫ _ = _
   rw [← Category.assoc, quotientPresheafMap, coequalizer.π_desc]
   rfl

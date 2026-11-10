@@ -62,15 +62,15 @@ public theorem isBaseChange_of_graded
   apply DirectSum.linearMap_ext
   intro d
   ext a
-  show f ((DirectSum.decomposeAlgEquiv 𝒜).symm (DirectSum.of _ d a)) =
+  change f ((DirectSum.decomposeAlgEquiv 𝒜).symm (DirectSum.of _ d a)) =
     (DirectSum.decomposeAlgEquiv ℬ).symm (DirectSum.lmap ε (DirectSum.of _ d a))
   rw [DirectSum.lmap_of]
-  show f ((DirectSum.decomposeAlgEquiv 𝒜).symm (DirectSum.of _ d a)) =
+  change f ((DirectSum.decomposeAlgEquiv 𝒜).symm (DirectSum.of _ d a)) =
     (DirectSum.decomposeAlgEquiv ℬ).symm
       (DirectSum.of (fun i => ↥(ℬ i)) d ⟨(ε d a).1, (ε d a).2⟩)
   rw [DirectSum.decomposeAlgEquiv_symm_apply, DirectSum.decompose_symm_of,
     DirectSum.decomposeAlgEquiv_symm_apply]
-  show f a.1 = (DirectSum.decompose ℬ).symm
+  change f a.1 = (DirectSum.decompose ℬ).symm
     (DirectSum.of (fun i => ↥(ℬ i)) d ⟨(ε d a).1, (ε d a).2⟩)
   rw [DirectSum.decompose_symm_of ℬ]
   exact (hε d a).symm
@@ -131,13 +131,12 @@ public theorem homPiece_isBaseChange
   let inc := (X.grading d).subtype.baseChange (↑Y.base)
   have hmem (t : TensorProduct (↑X.base) (↑Y.base) (X.grading d)) :
       e (inc t) ∈ Y.grading d := by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | add a b ha hb =>
         rw [map_add, map_add]
         exact (Y.grading d).add_mem ha hb
     | tmul a x =>
-        show e (a ⊗ₜ[↑X.base] (x : X.carrier)) ∈ Y.grading d
+        change e (a ⊗ₜ[↑X.base] (x : X.carrier)) ∈ Y.grading d
         rw [morphismPushoutEquiv_tmul]
         exact (Y.grading d).smul_mem a (g.map_mem d x.1 x.2)
   let e' : TensorProduct (↑X.base) (↑Y.base) (X.grading d) →ₗ[↑Y.base]
@@ -147,7 +146,7 @@ public theorem homPiece_isBaseChange
     map_smul' := by
       intro a x
       apply Subtype.ext
-      show e (inc (a • x)) = a • e (inc x)
+      change e (inc (a • x)) = a • e (inc x)
       exact (congrArg e (inc.map_smul a x)).trans (e.toLinearMap.map_smul a (inc x)) }
   let pr : X.carrier →ₗ[↑X.base] X.grading d :=
     (DFinsupp.lapply d).comp (DirectSum.decomposeAlgEquiv X.grading).toLinearMap
@@ -166,9 +165,9 @@ public theorem homPiece_isBaseChange
   apply IsBaseChange.of_equiv (LinearEquiv.ofBijective e' hbij)
   intro x
   apply Subtype.ext
-  show e (inc (1 ⊗ₜ[↑X.base] x)) = g.map x.1
+  change e (inc (1 ⊗ₜ[↑X.base] x)) = g.map x.1
   rw [LinearMap.baseChange_tmul]
-  show e (1 ⊗ₜ[↑X.base] (x : X.carrier)) = _
+  change e (1 ⊗ₜ[↑X.base] (x : X.carrier)) = _
   rw [morphismPushoutEquiv_tmul]
   simp
 

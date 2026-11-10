@@ -136,7 +136,8 @@ def refineSystemHom (M : DifferentialGradedModule.{u, m, m} A) :
           (sectionRestrictAdd_comp M (τ.app U') (F'.op.map a) x))
     exact DFunLike.congr_fun key w
 
-omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The refinement maps commute with the maps of pullback section systems induced by a morphism
 `f : M ⟶ N`. -/
 theorem refineSystemHom_naturality {M N : DifferentialGradedModule.{u, m, m} A} (f : M ⟶ N) :
@@ -144,7 +145,7 @@ theorem refineSystemHom_naturality {M N : DifferentialGradedModule.{u, m, m} A} 
       pullbackSystemMap φ' f ≫ refineSystemHom φ φ' τ hτ N := by
   refine SectionSystem.hom_ext fun U' => ?_
   refine DifferentialGraded.Bimodule.tensorObj_hom_ext' _ _ _ _ fun x y => ?_
-  show (pullbackSectionsMap φ f U').toFun ((refineSections φ φ' τ hτ M U').toFun
+  change (pullbackSectionsMap φ f U').toFun ((refineSections φ φ' τ hτ M U').toFun
       (pullbackPure φ' M U' x y)) =
     (refineSections φ φ' τ hτ N U').toFun ((pullbackSectionsMap φ' f U').toFun
       (pullbackPure φ' M U' x y))
@@ -164,7 +165,8 @@ def refineCounit :
     (pullbackFunctor φ' : DifferentialGradedModule.{u, m, m} A ⥤ _) ⟶ pullbackFunctor φ :=
   Functor.whiskerRight (refineSystemNatTrans φ φ' τ hτ) (SectionSystem.realizeFunctor A')
 
-omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- Over `U'` the refinement homomorphism is the refinement map, after the identification of the
 sections of the realizations. -/
 theorem sectionMap_refineCounit (M : DifferentialGradedModule.{u, m, m} A) (U' : C'ᵒᵖ) :
@@ -270,7 +272,8 @@ def refineHomotopy : pullbackHomotopyFunctor φ' ⟶ pullbackHomotopyFunctor φ 
         rw [← Functor.map_comp, ← Functor.map_comp]
         exact congrArg (HomotopyCategory.quotient A').map ((refineCounit φ φ' τ hτ).naturality f) }
 
-omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- At the image of a module `M`, the refinement homomorphism on homotopy categories is the image
 of the refinement homomorphism `g'^*M ⟶ g^*M`. -/
 theorem refineHomotopy_app (M : DifferentialGradedModule.{u, m, m} A) :
@@ -291,6 +294,7 @@ def refineDerived : chaoticDerivedPullback φ' ⟶ chaoticDerivedPullback φ :=
     (quasiIsomorphisms.{u, m, m} A)
     (Functor.whiskerRight (refineHomotopy φ φ' τ hτ) (toDerivedCategory.{u, m, m} A'))
 
+omit [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The transformation `Lg'^* ⟶ Lg^*` is compatible with the counits of the derived pullbacks
 and the refinement homomorphism on homotopy categories. -/
 theorem refineDerived_app (X : HomotopyCategory.{u, m, m} A) :
@@ -300,6 +304,7 @@ theorem refineDerived_app (X : HomotopyCategory.{u, m, m} A) :
         (toDerivedCategory.{u, m, m} A').map ((refineHomotopy φ φ' τ hτ).app X) :=
   Functor.leftDerivedNatTrans_app _ _ _ _ _ _ X
 
+omit [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The transformation `Lg'^* ⟶ Lg^*` is invertible on `QC(A, d)`.** -/
 theorem isIso_refineDerived_app (K : derivedCategory.{u, m, m} A) (hK : Chaotic.QC A K) :
     IsIso ((refineDerived φ φ' τ hτ).app K) := by

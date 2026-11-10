@@ -48,7 +48,7 @@ theorem ι_whiskerLeft_termwiseTensorSingleIso_inv (p : ℤ)
     have := HomologicalComplex.congr_hom ((tensorSingleIso N).hom_inv_id_app K) p
     rw [HomologicalComplex.comp_f, HomologicalComplex.id_f, tensorSingleIso_hom_f] at this
     exact this
-  show HomologicalComplex.ιTensorObj K L p 0 p h ≫ (K ◁ g).f p ≫ _ = _
+  change HomologicalComplex.ιTensorObj K L p 0 p h ≫ (K ◁ g).f p ≫ _ = _
   rw [reassoc_of% h1, h2]
   exact Category.comp_id _
 
@@ -58,7 +58,7 @@ theorem ι_whiskerLeft_single_eq_zero (p q n : ℤ) (hq : q ≠ 0)
     HomologicalComplex.ιMapBifunctor K L (curriedTensor (ModuleCat.{u} S)) (ComplexShape.up ℤ)
         p q n h ≫ (K ◁ g).f n = 0 := by
   have h1 := HomologicalComplex.Monoidal.ι_whiskerLeft K g p q n h
-  show HomologicalComplex.ιTensorObj K L p q n h ≫ (K ◁ g).f n = 0
+  change HomologicalComplex.ιTensorObj K L p q n h ≫ (K ◁ g).f n = 0
   rw [h1]
   have hz : IsZero (((CochainComplex.singleFunctor (ModuleCat.{u} S) 0).obj N).X q) :=
     HomologicalComplex.isZero_single_obj_X (ComplexShape.up ℤ) 0 N q hq
@@ -195,7 +195,7 @@ theorem ι_modelMapE (M : CochainComplex (ModuleCat.{u} A) ℤ) (p : ℤ)
     (((baseChangeFunctor R₀ B₀).mapHomologicalComplex (ComplexShape.up ℤ)).map ε ≫
         (HomologicalComplex.singleMapHomologicalComplex (baseChangeFunctor R₀ B₀)
           (ComplexShape.up ℤ) 0).hom.app (ModuleCat.of R₀ R')) p h
-  show HomologicalComplex.ιMapBifunctor
+  change HomologicalComplex.ιMapBifunctor
       (((baseChangeFunctor A B₀).mapHomologicalComplex (ComplexShape.up ℤ)).obj M)
       (((baseChangeFunctor R₀ B₀).mapHomologicalComplex (ComplexShape.up ℤ)).obj F)
       (curriedTensor (ModuleCat.{u} B₀)) (ComplexShape.up ℤ) p 0 p h ≫
@@ -224,7 +224,7 @@ theorem ι_baseModelComparison (X : CochainComplex (ModuleCat.{u} R) ℤ) (p : �
           (ModuleCat.restrictScalars (algebraMap R₀ R'))).hom.app (X.X p) := by
   have h1 := ι_whiskerLeft_termwiseTensorSingleIso_inv (ModuleCat.of R₀ R')
     (((baseChangeFunctor R R₀).mapHomologicalComplex (ComplexShape.up ℤ)).obj X) F ε p h
-  show (HomologicalComplex.ιMapBifunctor
+  change (HomologicalComplex.ιMapBifunctor
       (((baseChangeFunctor R R₀).mapHomologicalComplex (ComplexShape.up ℤ)).obj X) F
       (curriedTensor (ModuleCat.{u} R₀)) (ComplexShape.up ℤ) p 0 p h ≫
       ((((baseChangeFunctor R R₀).mapHomologicalComplex (ComplexShape.up ℤ)).obj X ◁ ε).f p ≫
@@ -281,7 +281,7 @@ theorem ι_modelMapE_eq_zero (M : CochainComplex (ModuleCat.{u} A) ℤ) (p q n :
       (NatIso.mapHomologicalComplex (Functor.isoWhiskerRight (baseChangeIsoExtendScalars A A')
         (ModuleCat.restrictScalars (modelRingMap R A R' A' R₀))) (ComplexShape.up ℤ)).hom.app
           M).f n) := rfl
-  show HomologicalComplex.ιMapBifunctor
+  change HomologicalComplex.ιMapBifunctor
       (((baseChangeFunctor A B₀).mapHomologicalComplex (ComplexShape.up ℤ)).obj M)
       (((baseChangeFunctor R₀ B₀).mapHomologicalComplex (ComplexShape.up ℤ)).obj F)
       (curriedTensor (ModuleCat.{u} B₀)) (ComplexShape.up ℤ) p q n h ≫ _ = _
@@ -334,14 +334,14 @@ theorem baseSideMap_tmul (X : ModuleCat.{u} A) (s : R₀)
       ((s • augmentation F ε w) ⊗ₜ[R, algebraMap R R'] y :
         (ModuleCat.extendScalars (algebraMap R R')).obj
           ((ModuleCat.restrictScalars (algebraMap R A)).obj X)) := by
-    show (TensorProduct.congr (algebraRestrictLinearEquiv R R')
+    change (TensorProduct.congr (algebraRestrictLinearEquiv R R')
       (LinearEquiv.refl R ((ModuleCat.restrictScalars (algebraMap R A)).obj X)))
         (baseTensorLinearEquiv (R := R) (R₀ := R₀) (R' := R')
           ((ModuleCat.restrictScalars (algebraMap R A)).obj X)
           ((s ⊗ₜ[R] y) ⊗ₜ[R₀] augmentation F ε w)) = _
     rw [baseTensorLinearEquiv_tmul, TensorProduct.congr_tmul]
     rfl
-  show ((restrictScalarsSquareHom R A R' A' R₀).app
+  change ((restrictScalarsSquareHom R A R' A' R₀).app
       ((ModuleCat.extendScalars (algebraMap A A')).obj X)).hom
         (((squareTermComparison R A R' A').app X).hom
           (((baseTensorIso ≪≫ Functor.isoWhiskerRight (baseChangeIsoExtendScalars R R')
@@ -371,16 +371,7 @@ theorem tensorBaseChange_hom_ext' {X : ModuleCat.{u} A} {W : ModuleCat.{u} R₀}
       φ.hom (((a ⊗ₜ[R] r) ⊗ₜ[A] x) ⊗ₜ[B₀] ((c ⊗ₜ[R] s) ⊗ₜ[R₀] w)) =
         ψ.hom (((a ⊗ₜ[R] r) ⊗ₜ[A] x) ⊗ₜ[B₀] ((c ⊗ₜ[R] s) ⊗ₜ[R₀] w))) : φ = ψ := by
   refine tensorBaseChange_hom_ext fun a r x b w => ?_
-  induction b using TensorProduct.induction_on with
-  | zero =>
-    have e : (((a ⊗ₜ[R] r) ⊗ₜ[A] x) ⊗ₜ[B₀] ((0 : B₀) ⊗ₜ[R₀] w) :
-        (ModuleCat.restrictScalars (algebraMap R₀ B₀)).obj
-          ((baseChangeFunctor A B₀).obj X ⊗ (baseChangeFunctor R₀ B₀).obj W)) = 0 :=
-      (congrArg (fun t : (baseChangeFunctor R₀ B₀).obj W => ((a ⊗ₜ[R] r) ⊗ₜ[A] x) ⊗ₜ[B₀] t)
-        (TensorProduct.zero_tmul B₀ w)).trans
-        (TensorProduct.tmul_zero _ _)
-    rw [e]
-    exact (map_zero φ.hom).trans (map_zero ψ.hom).symm
+  induction b using TensorProduct.inductionOn with
   | add b₁ b₂ h₁ h₂ =>
     have e : (((a ⊗ₜ[R] r) ⊗ₜ[A] x) ⊗ₜ[B₀] ((b₁ + b₂) ⊗ₜ[R₀] w) :
         (ModuleCat.restrictScalars (algebraMap R₀ B₀)).obj
@@ -420,11 +411,11 @@ theorem modelMapE_restrict_summand (M : CochainComplex (ModuleCat.{u} A) ℤ) (p
         (restrictScalarsSquareHom R A R' A' R₀).app
           ((ModuleCat.extendScalars (algebraMap A A')).obj (M.X p)) := by
   refine tensorBaseChange_hom_ext' fun a r x c₁ c₂ w => ?_
-  show (TensorProduct.congr (algebraRestrictLinearEquiv A A') (LinearEquiv.refl A (M.X p)))
+  change (TensorProduct.congr (algebraRestrictLinearEquiv A A') (LinearEquiv.refl A (M.X p)))
       (modelTermAdd (R := R) (A := A) (R' := R') (A' := A') (R₀ := R₀) (M.X p)
         (((a ⊗ₜ[R] r) ⊗ₜ[A] x) ⊗ₜ[B₀] ((c₁ ⊗ₜ[R] c₂) ⊗ₜ[R₀] augmentation F ε w))) = _
   rw [modelTermAdd_tmul, TensorProduct.congr_tmul]
-  show _ = (baseSideMap (R := R) (A := A) (R' := R') (A' := A') (R₀ := R₀) F ε (M.X p)).hom
+  change _ = (baseSideMap (R := R) (A := A) (R' := R') (A' := A') (R₀ := R₀) F ε (M.X p)).hom
       (baseChangeSwap (R := R) (A := A) (R₀ := R₀)
         ((ModuleCat.restrictScalars (algebraMap R A)).obj (M.X p))
         ((c₁ ⊗ₜ[R] c₂) • ((a ⊗ₜ[R] r) ⊗ₜ[A] x)) ⊗ₜ[R₀] w)
@@ -435,7 +426,7 @@ theorem modelMapE_restrict_summand (M : CochainComplex (ModuleCat.{u} A) ℤ) (p
   refine Eq.trans ?_ (baseSideMap_tmul (R := R) (A := A) (R' := R') (A' := A') (R₀ := R₀) F ε
     (M.X p) (c₂ * r) _ w).symm
   rw [modelUnitAddHom_tmul, modelRingMap_tmul, modelRingMap_tmul]
-  show ((algebraMap A A' c₁ * algebraMap R' A' (algebraMap R₀ R' c₂) *
+  change ((algebraMap A A' c₁ * algebraMap R' A' (algebraMap R₀ R' c₂) *
       algebraMap R' A' (augmentation F ε w) *
         (algebraMap A A' a * algebraMap R' A' (algebraMap R₀ R' r))) ⊗ₜ[A, algebraMap A A'] x :
       (ModuleCat.extendScalars (algebraMap A A')).obj (M.X p)) =
@@ -473,7 +464,7 @@ theorem modelMapE_restrict (M : CochainComplex (ModuleCat.{u} A) ℤ) :
         (R₀ := R₀) F ε M)).f n)
     (ι_modelRestrictIso_inv (R := R) (A := A) (R₀ := R₀) F M p q n hpq)
   refine (Category.assoc _ _ _).symm.trans (hL.trans ?_)
-  show (modelBifunctorIso (M.X p) (F.X q)).inv ≫
+  change (modelBifunctorIso (M.X p) (F.X q)).inv ≫
     (ModuleCat.restrictScalars (algebraMap R₀ B₀)).map
       (HomologicalComplex.ιMapBifunctor M F modelBifunctor (ComplexShape.up ℤ) p q n hpq ≫
         (modelMapE (R := R) (A := A) (R' := R') (A' := A') (R₀ := R₀) F ε M).f n) = _

@@ -10,8 +10,8 @@ public import Mathlib.CategoryTheory.Adjunction.Unique
 public import Mathlib.CategoryTheory.Functor.ReflectsIso.Balanced
 public import Mathlib.CategoryTheory.Monad.Adjunction
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
-public import Mathlib.Data.Int.Star
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
+public import Mathlib.Algebra.Order.Star.Int
 import StacksCore.Tactic.StacksAttribute
 
 /-!
@@ -519,7 +519,7 @@ theorem comparison_naturality (bc : BaseChangeData.{w} O) {U V : Cᵒᵖ} (a : V
     {K K' : DMod.{w} O} (g : K ⟶ K') :
     (bc.baseChange a).map ((RGamma.{w} O V).map g) ≫ comparison.{w} bc a K' =
       comparison.{w} bc a K ≫ (RGamma.{w} O U).map g := by
-  show (bc.baseChange a).map ((RGamma.{w} O V).map g) ≫
+  change (bc.baseChange a).map ((RGamma.{w} O V).map g) ≫
         ((bc.baseChangeAdj a).homEquiv _ _).symm ((restrictionNatTrans.{w} O a).app K') =
       ((bc.baseChangeAdj a).homEquiv _ _).symm ((restrictionNatTrans.{w} O a).app K) ≫
         (RGamma.{w} O U).map g

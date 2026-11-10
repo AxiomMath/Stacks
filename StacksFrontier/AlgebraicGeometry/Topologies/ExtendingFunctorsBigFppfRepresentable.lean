@@ -241,7 +241,7 @@ lemma range_le_sectionEqualizerYoneda {X Y W : C} {snd : X ⟶ W} (q : W ⟶ Y)
     {a b : P.obj (op Y)} (h : RepresentsEqualizer P snd (P.map q.op a) (P.map q.op b)) :
     Subfunctor.range (yoneda.map (snd ≫ q)) ≤ sectionEqualizerYoneda P a b := by
   rintro Z _ ⟨ψ, rfl⟩
-  show P.map (ψ ≫ snd ≫ q).op a = P.map (ψ ≫ snd ≫ q).op b
+  change P.map (ψ ≫ snd ≫ q).op a = P.map (ψ ≫ snd ≫ q).op b
   rw [← Category.assoc, op_comp, Functor.map_comp_apply, Functor.map_comp_apply]
   exact (h.2 _ _).2 ⟨ψ, rfl⟩
 
@@ -266,7 +266,7 @@ lemma isPullback_sectionEqualizerYoneda {X Y W : C} {snd : X ⟶ W} (q : W ⟶ Y
     rw [hx', op_comp, Functor.map_comp_apply, Functor.map_comp_apply] at hmem
     obtain ⟨ψ, hψ⟩ := (h.2 _ x₃).1 hmem
     refine ⟨ψ, Subtype.ext ?_, hψ⟩
-    show ψ ≫ snd ≫ q = x₂.1
+    change ψ ≫ snd ≫ q = x₂.1
     rw [hx', ← hψ, Category.assoc]
 
 /-- **A representing pullback of the equalizer subfunctor along the identity represents the
@@ -282,7 +282,7 @@ lemma representsEqualizer_of_isPullback {X Y : C} {snd : X ⟶ Y} {a b : P.obj (
   · let s : yoneda.obj Z ⟶ (sectionEqualizerYoneda P a b).toFunctor :=
       (sectionEqualizerYoneda P a b).lift (yoneda.map φ) (by
         rintro W _ ⟨g, rfl⟩
-        show P.map (g ≫ φ).op a = P.map (g ≫ φ).op b
+        change P.map (g ≫ φ).op a = P.map (g ≫ φ).op b
         exact map_comp_op_eq_of_map_eq _ hφ)
     refine ⟨yoneda.preimage (h.lift s (yoneda.map φ)
       (by rw [Category.comp_id]; exact Subfunctor.lift_ι _ _)), yoneda.map_injective ?_⟩
@@ -383,7 +383,7 @@ theorem limitPreserving_uliftYoneda_of_locallyOfFinitePresentation (X : BigFppfO
   intro Z Z' g
   ext ⟨φ⟩
   apply ULift.ext
-  show hK.preimage ((bigFppfOverToOver B hS).map g.unop ≫ φ) = g.unop ≫ hK.preimage φ
+  change hK.preimage ((bigFppfOverToOver B hS).map g.unop ≫ φ) = g.unop ≫ hK.preimage φ
   apply hK.map_injective
   rw [hK.map_preimage, Functor.map_comp, hK.map_preimage]
 
@@ -560,7 +560,7 @@ theorem representsEqualizer_of_locallyNoetherian
   let c : uliftYoneda.{max w (u + 1)}.obj (ι.obj X) ⟶ E.toFunctor :=
     E.lift (uliftYoneda.map (ι.map snd)) (by
       rintro Z _ ⟨⟨ψ⟩, rfl⟩
-      show F'.map (ψ ≫ ι.map snd).op a = F'.map (ψ ≫ ι.map snd).op b
+      change F'.map (ψ ≫ ι.map snd).op a = F'.map (ψ ≫ ι.map snd).op b
       exact map_comp_op_eq_of_map_eq _ hab)
   have hc : c ≫ E.ι = uliftYoneda.map (ι.map snd) := E.lift_ι _ _
   have hcN : IsIso (Functor.whiskerLeft ι.op c) := by
@@ -580,12 +580,12 @@ theorem representsEqualizer_of_locallyNoetherian
       have hφ' : ((LocallyNoetherianOver.toBigFppfOver B S hS).op ⋙ F').map
           (hι.preimage φ).op a = ((LocallyNoetherianOver.toBigFppfOver B S hS).op ⋙ F').map
           (hι.preimage φ).op b := by
-        show F'.map (ι.map (hι.preimage φ)).op a = F'.map (ι.map (hι.preimage φ)).op b
+        change F'.map (ι.map (hι.preimage φ)).op a = F'.map (ι.map (hι.preimage φ)).op b
         rw [hι.map_preimage]
         exact hφ
       obtain ⟨ψ, hψ⟩ := (h.2 Z.unop (hι.preimage φ)).1 hφ'
       refine ⟨ULift.up (ι.map ψ), Subtype.ext (congrArg ULift.up ?_)⟩
-      show ι.map ψ ≫ ι.map snd = φ
+      change ι.map ψ ≫ ι.map snd = φ
       rw [← Functor.map_comp, hψ, hι.map_preimage]
   have hEs : IsCoveringSheafOnSubcategory.{max w (u + 1), u, u} .zariski
       (IsContainedOver B (S := S)) ((toBigFppfOver B hS).op ⋙ E.toFunctor) :=
@@ -684,7 +684,7 @@ theorem exists_representsEqualizer_of_isAffineOverAffineOpen_of_affineLfp
             exact congrArg (ci.inv ≫ ·) (c.w f).symm } }
   have hKc : IsLimit ((bigFppfOverToOver B hS).mapCone c') :=
     IsLimit.ofIsoLimit hc (Cone.ext ci (fun l => by
-      show c.π.app l = ci.hom ≫ (bigFppfOverToOver B hS).map (c'.π.app l)
+      change c.π.app l = ci.hom ≫ (bigFppfOverToOver B hS).map (c'.π.app l)
       exact (by rw [hK.map_preimage]; exact (Iso.hom_inv_id_assoc ci (c.π.app l)).symm :
         c.π.app l = ci.hom ≫ (bigFppfOverToOver B hS).map
           (hK.preimage (Y := D'.obj l) (ci.inv ≫ c.π.app l)))))
@@ -768,7 +768,7 @@ theorem exists_isAffineOverAffineOpen_bigFppfOver_cover (Z : BigFppfOver B S hS)
     exact ⟨⟨V, hV⟩, ⟨⟨z, hzV⟩, rfl⟩⟩
   refine ⟨ι, fun i => (toBigFppfOver B hS).obj (Yc i), fun i => (toBigFppfOver B hS).map (fc i),
     fun i => i.2, fun i => ?_, hsurj, fun {G} hG x y hxy => ?_⟩
-  · show IsOpenImmersion i.1.ι
+  · change IsOpenImmersion i.1.ι
     infer_instance
   · have hcov : Presieve.ofArrows (fun i => (Yc i).obj)
         (fun i => (IsContainedOver B (S := S)).ι.map (fc i)) ∈
@@ -813,7 +813,7 @@ theorem isSheaf_sectionEqualizerYoneda_of_affineLfp {T : BigFppfOver B S hS}
     ((isSheaf_iff_isSheaf_of_type J _).1 (J.yoneda.obj T).property)]
   intro U s hs
   obtain ⟨ι, W, j, haff, -, -, hsep⟩ := exists_isAffineOverAffineOpen_bigFppfOver_cover B hS U.unop
-  show F'.map s.op a = F'.map s.op b
+  change F'.map s.op a = F'.map s.op b
   refine hsep hFs _ _ fun i => ?_
   rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp]
   obtain ⟨X, snd, hrep, -⟩ := exists_representsEqualizer_of_isAffineOverAffineOpen_of_affineLfp B
@@ -822,7 +822,7 @@ theorem isSheaf_sectionEqualizerYoneda_of_affineLfp {T : BigFppfOver B S hS}
   refine J.superset_covering ?_ (J.pullback_stable (j i) hs)
   intro Z g hg
   have hg' : F'.map ((g ≫ j i) ≫ s).op a = F'.map ((g ≫ j i) ≫ s).op b := hg
-  show F'.map (g ≫ 𝟙 _).op (F'.map (j i ≫ s).op a) =
+  change F'.map (g ≫ 𝟙 _).op (F'.map (j i ≫ s).op a) =
     F'.map (g ≫ 𝟙 _).op (F'.map (j i ≫ s).op b)
   rw [Category.comp_id, ← Functor.map_comp_apply, ← Functor.map_comp_apply,
     ← op_comp, ← Category.assoc]

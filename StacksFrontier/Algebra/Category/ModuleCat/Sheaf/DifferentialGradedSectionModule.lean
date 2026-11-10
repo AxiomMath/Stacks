@@ -217,7 +217,7 @@ theorem sectionD_sectionD (x : M.totalSections U) : M.sectionD U (M.sectionD U x
       have h : (M.complex.d n (n + 1) ≫ M.complex.d (n + 1) (n + 1 + 1)) = 0 :=
         M.complex.d_comp_d _ _ _
       have h₂ : M.sectionDApp U (n + 1) (M.sectionDApp U n y) = 0 := by
-        show (M.complex.d (n + 1) (n + 1 + 1)).val.app U
+        change (M.complex.d (n + 1) (n + 1 + 1)).val.app U
           ((M.complex.d n (n + 1)).val.app U y) = 0
         rw [← comp_val_app_apply, h, zero_val_app_apply]
       rw [h₂, map_zero]
@@ -330,7 +330,7 @@ theorem sectionMapAdd_sectionD (f : M ⟶ N) (U : Cᵒᵖ) (x : M.totalSections 
   | of n p =>
       simp only [sectionD_of, sectionMapAdd_of]
       refine congrArg (DirectSum.of (N.sectionsPiece U) (n + 1)) ?_
-      show (f.toHomologicalComplex.f (n + 1)).val.app U
+      change (f.toHomologicalComplex.f (n + 1)).val.app U
           ((M.complex.d n (n + 1)).val.app U p) =
         (N.complex.d n (n + 1)).val.app U ((f.toHomologicalComplex.f n).val.app U p)
       rw [← comp_val_app_apply, ← comp_val_app_apply,

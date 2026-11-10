@@ -157,7 +157,7 @@ theorem isLocalization_away_envelopeAlgebraMapHom (r : B) [IsLocalization.Away r
   obtain ⟨e, he⟩ := exists_envelope_tensor_equiv_of_flat D D' hf hJJ
   let e' : (D.object ⊗[B] B') ≃ₐ[D.object] D'.object :=
     AlgEquiv.ofRingEquiv (f := e) (fun x => by
-      show e (x ⊗ₜ[B] 1) = _
+      change e (x ⊗ₜ[B] 1) = _
       rw [he, map_one, mul_one]
       rfl)
   exact IsLocalization.isLocalization_of_algEquiv (Submonoid.powers (algebraMap B D.object r)) e'

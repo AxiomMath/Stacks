@@ -100,7 +100,8 @@ bijection of [Stacks, Tag 08DI] at the identity, in the spelling
 `AlgebraicGeometry.RingedSite.derivedCurryHomEquiv`. This is `rfl`, and naming it is what lets
 the ringed-space and the ringed-site spellings of the evaluation morphism be exchanged without
 asking the elaborator to unify two applications of that bijection; see the implementation notes
-of `StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/SliceDerivedSheafHomTranspose.lean`. -/
+of `StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/SliceDerivedSheafHomTranspose.lean`.
+-/
 theorem derivedSheafHomCounit_eq_derivedCurryHomEquiv_id
     (K M : DerivedCategory (StructureSheafModules Rc)) :
     derivedSheafHomCounit Rc K M =

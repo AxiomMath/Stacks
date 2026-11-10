@@ -89,7 +89,7 @@ lemma pointUnit_bijective (X : Scheme.{u}) :
   let d := (baseChangePointsIsoGlobalUnits X).app (Opposite.op T)
   have he (f : T ⟶ Scheme.asOver (multiplicativeGroupBaseChange X) X) :
       multiplicativeGroupPointUnit (e f) = d.hom f := by
-    show multiplicativeGroupPointUnit (e f) =
+    change multiplicativeGroupPointUnit (e f) =
       (baseChangePointsIsoGlobalUnits X).hom.app (Opposite.op T) f
     rw [baseChangePointsIsoGlobalUnits_hom_app]
     congr 1
@@ -135,10 +135,10 @@ lemma pointUnit_mul {X : Over (Spec (.of (ULift.{u} ℤ)))}
     exact congrArg Over.Hom.left (CartesianMonoidalCategory.lift_snd f g)
   apply Units.ext
   rw [Units.val_mul]
-  show specPullback fgl (LaurentPolynomial.T 1) =
+  change specPullback fgl (LaurentPolynomial.T 1) =
     specPullback fl (LaurentPolynomial.T 1) * specPullback gl (LaurentPolynomial.T 1)
   rw [hmul, specPullback_specMap, ← hf, ← hg, specPullback_specMap, specPullback_specMap]
-  show specPullback h ((Bialgebra.comulAlgHom (ULift.{u} ℤ) L) (LaurentPolynomial.T 1)) =
+  change specPullback h ((Bialgebra.comulAlgHom (ULift.{u} ℤ) L) (LaurentPolynomial.T 1)) =
     specPullback h (Algebra.TensorProduct.includeLeftRingHom (LaurentPolynomial.T 1)) *
       specPullback h (Algebra.TensorProduct.includeRight (LaurentPolynomial.T 1))
   rw [← map_mul]
@@ -197,7 +197,7 @@ private lemma generalLinearPointsIso_entry (n : ℕ)
     (f : X.unop ⟶ Over.mk (generalLinearStructureMorphism n)) (i j : Fin n) :
     ((generalLinearPointsIso n).hom.app X f).val i j =
       (Scheme.Γ.map f.left.op).hom (generalLinearCoordinateSection n i j) := by
-  show (localizedPolynomialHomEquiv n _ (schemeHomRingHomEquiv n f.left)).val i j = _
+  change (localizedPolynomialHomEquiv n _ (schemeHomRingHomEquiv n f.left)).val i j = _
   rw [schemeHomRingHomEquiv_eq_specPullback]
   simp only [localizedPolynomialHomEquiv, generalLinearOfLocalizedPolynomialHom]
   rfl
@@ -232,7 +232,7 @@ private lemma determinantOverIntegers_pointUnit (n : ℕ)
   have hnat : α.app X f = f ≫ α.app (Opposite.op G) (𝟙 G) :=
     (congrArg (fun k : X.unop ⟶ G => α.app X k) (Category.comp_id f)).symm.trans
       (yonedaGrp_naturality α f (𝟙 G))
-  show multiplicativeGroupPointUnit
+  change multiplicativeGroupPointUnit
     ((f ≫ (determinantGroupSchemeMorphismOverULiftIntegers n).hom.hom).left) = _
   rw [hpre, ← hnat]
   exact hom_app_inv_app_apply multiplicativeGroupPointsIso X
@@ -331,7 +331,7 @@ private lemma integralPoint_ext {X : Scheme.{0}} (f g : X ⟶ multiplicativeGrou
     (AddMonoidAlgebra.mapRingEquiv ℤ (ULift.ringEquiv : ULift.{0} ℤ ≃+* ℤ)).toCommRingCatIso
   let k : multiplicativeGroup ⟶ multiplicativeGroupULift.{0} := Spec.map e.hom
   have : IsIso k := by
-    show IsIso (Scheme.Spec.map e.hom.op)
+    change IsIso (Scheme.Spec.map e.hom.op)
     infer_instance
   apply (cancel_mono k).mp
   apply (pointUnit_bijective X).injective
@@ -363,7 +363,7 @@ private lemma baseChangeDeterminant_val (n : ℕ) (S : Scheme.{u}) :
     rw [baseChangeGroupPointsIso_hom_app]
     simp only [Over.id_left, Category.id_comp]
     rfl
-  show Matrix.det _ = _
+  change Matrix.det _ = _
   rw [hm]
   exact (φ.map_det (Matrix.mvPolynomialX (Fin n) (Fin n) (ULift.{u} ℤ))).symm
 
@@ -394,7 +394,7 @@ theorem determinantGroupSchemeMorphism_baseChange (n : ℕ) (S : Scheme.{0}) :
         ((baseChangeGroupPointsIso n S).hom.app
           (Opposite.op (generalLinearBaseChange n S)) (𝟙 _)) :=
     determinantMorphism_pointUnit n S
-  show d ≫ pullback.fst (multiplicativeGroupULift ↘ Spec (.of (ULift.{0} ℤ)))
+  change d ≫ pullback.fst (multiplicativeGroupULift ↘ Spec (.of (ULift.{0} ℤ)))
         (specULiftZIsTerminal.from S) ≫
       Spec.map (CommRingCat.ofHom
         (AddMonoidAlgebra.mapRingHom ℤ

@@ -197,7 +197,7 @@ theorem pointsMap_openRestrictionNeighborhood_toSpace {X : (BigFppfOver B S hS)á
     pointsMap B S hS _ (openRestrictionNeighborhood B S hS X hX x E W hW).toSpace y =
       pointsMap B S hS _ E.toSpace
         (pointsMap B S hS _ (yoneda.map (openRestrictionMap B S hS X hX x E W)) y) := by
-  show pointsMap B S hS _
+  change pointsMap B S hS _
     (yoneda.map (openRestrictionMap B S hS X hX x E W) â‰« E.toSpace) y = _
   rw [pointsMap_comp]
   rfl

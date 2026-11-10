@@ -92,7 +92,7 @@ theorem algebraMap_baseSections_surjective :
 theorem sourceToBase_eq :
     T.situation.sourceToBase =
       Spec.map (CommRingCat.ofHom ((Ideal.Quotient.mk T.J).comp (algebraMap T.A T.P))) := by
-  show (Spec.map (CommRingCat.ofHom T.residueToCoordinateRing) ≫
+  change (Spec.map (CommRingCat.ofHom T.residueToCoordinateRing) ≫
       (specClosedFiberIso (DividedPowerRing.of T.A T.baseIdeal T.baseDividedPowers)).inv) ≫
     closedFiberι _ = _
   rw [Category.assoc, specClosedFiberIso_inv_closedFiberι]
@@ -110,12 +110,12 @@ theorem presentationRingHom_algebraMap (a : (T.affineSit.A : Type)) :
     T.presentationRingHom (algebraMap (T.affineSit.A : Type) T.P a) =
       algebraMap (T.affineSit.A : Type) T.affineSit.C a := by
   rw [GlobalCrystallineSituation.affineSituation_algebraMap]
-  show _ = (T.situation.sourceToBase).appTop.hom a
+  change _ = (T.situation.sourceToBase).appTop.hom a
   rw [sourceToBase_eq]
   have h := RingHom.congr_fun (congrArg (fun φ ↦ CommRingCat.Hom.hom φ)
     (Scheme.ΓSpecIso_naturality
       (CommRingCat.ofHom ((Ideal.Quotient.mk T.J).comp (algebraMap T.A T.P))))) a
-  simp only [CommRingCat.hom_comp, RingHom.comp_apply, CommRingCat.hom_ofHom] at h
+  simp only [CommRingCat.hom_comp, CommRingCat.hom_ofHom] at h
   exact (Scheme.ΓSpecIso (CommRingCat.of T.C)).commRingCatIsoToRingEquiv.symm_apply_eq.mpr h.symm
 
 /-- `P = 𝐙_p[x_1, …, x_r]` is an algebra over the base ring `Γ(Spec 𝐙_p, 𝒪)` of the situation
@@ -156,7 +156,7 @@ theorem presentation_surjective : Function.Surjective T.presentation := by
 /-- **The kernel of the presentation is `J = pP`.** -/
 theorem presentationKernel_eq : presentationKernel T.affineSit T.presentation = T.J := by
   ext x
-  show T.presentation x = 0 ↔ x ∈ T.J
+  change T.presentation x = 0 ↔ x ∈ T.J
   rw [presentation_apply, ← Ideal.Quotient.eq_zero_iff_mem]
   exact map_eq_zero_iff (Scheme.ΓSpecIso (CommRingCat.of T.C)).inv.hom
     (Scheme.ΓSpecIso (CommRingCat.of T.C)).commRingCatIsoToRingEquiv.symm.injective
@@ -171,7 +171,7 @@ the base ring of the situation. -/
 theorem J_eq_map_ideal : T.J = T.affineSit.A.ideal.map (algebraMap (T.affineSit.A : Type) T.P) := by
   rw [affineSit_ideal, Ideal.map_map]
   refine congrArg (fun g : T.A →+* T.P ↦ T.baseIdeal.map g) (RingHom.ext fun a ↦ ?_)
-  show algebraMap T.A T.P a =
+  change algebraMap T.A T.P a =
     algebraMap T.A T.P (T.baseSectionsEquiv (T.baseSectionsEquiv.symm a))
   rw [RingEquiv.apply_symm_apply]
 

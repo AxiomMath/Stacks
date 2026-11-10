@@ -258,7 +258,7 @@ theorem coneMap_compat_univ (s : Cone (schemeDiagramUniv F)) (T T' : Finset F) (
         (Scheme.ΓSpecIso (CommRingCat.of (stageUniv F T'))).inv ≫ (coneLegUniv F s T').appTop := by
     rw [← Category.assoc, Scheme.ΓSpecIso_inv_naturality, Category.assoc,
       ← Scheme.Hom.comp_appTop, coneLeg_w_univ F s h]
-  show ((Scheme.ΓSpecIso (CommRingCat.of (stageUniv F T'))).inv ≫ (coneLegUniv F s T').appTop).hom
+  change ((Scheme.ΓSpecIso (CommRingCat.of (stageUniv F T'))).inv ≫ (coneLegUniv F s T').appTop).hom
         ((stageEquivUniv F T').symm ⟨x, hx'⟩)
       = ((Scheme.ΓSpecIso (CommRingCat.of (stageUniv F T))).inv ≫ (coneLegUniv F s T).appTop).hom
         ((stageEquivUniv F T).symm ⟨x, hx⟩)

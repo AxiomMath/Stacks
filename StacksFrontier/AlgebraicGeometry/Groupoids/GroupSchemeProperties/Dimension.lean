@@ -65,7 +65,7 @@ theorem exists_groupoidScheme_arrows_iso (k : Type u) [Field k] (G : Scheme.{u})
   let A : Over Y.left := G.asOver S
   let B : Over Y.left := 𝟙_ (Over Y.left)
   have : LocallyOfFiniteType A.hom := by
-    show LocallyOfFiniteType (G ↘ Spec (.of k))
+    change LocallyOfFiniteType (G ↘ Spec (.of k))
     infer_instance
   let _ : ModObj A B := ModObj.trivialAction A B
   have h : LocallyOfFiniteType (Limits.pullback.snd A.hom B.hom) := inferInstance

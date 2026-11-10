@@ -121,8 +121,9 @@ def restrictionNatTrans {V W : C} (f : W ⟶ V) : directImage R V ⟶ directImag
   app F := restriction R F f
   naturality _ _ φ := (restriction_naturality R φ f).symm
 
-omit [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
-  [J.HasSheafCompose (forget AddCommGrpCat.{u})] in
+omit [∀ V : C, HasWeakSheafify (J.over V) AddCommGrpCat.{u}]
+  [∀ V : C, (J.over V).WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify J AddCommGrpCat.{u}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [J.HasSheafCompose (forget AddCommGrpCat.{u})] in
 /-- The component of `restrictionNatTrans R f` at a sheaf of modules `F` is
 `restriction R F f`. -/
 @[simp]
@@ -218,8 +219,9 @@ theorem ofTwoArrows_prodSquare_mem (hcov : Sieve.ofTwoArrows sq.f₂₄ sq.f₃�
 
 /-! ### Short exactness at an injective -/
 
-omit [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
-  [J.HasSheafCompose (forget AddCommGrpCat.{u})] in
+omit [∀ V : C, HasWeakSheafify (J.over V) AddCommGrpCat.{u}]
+  [∀ V : C, (J.over V).WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify J AddCommGrpCat.{u}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [J.HasSheafCompose (forget AddCommGrpCat.{u})] in
 /-- The sections of a transition map, with the morphism of products spelled `prod.map`. -/
 theorem restriction_val_app (F : SheafOfModules.{u} R) {V V' : C} (f : V' ⟶ V) (W : C)
     (x : ToType (((directImage R V).obj F).val.obj (op W))) :
@@ -256,6 +258,8 @@ end Biprod
 
 variable [HasWeakSheafify J (Type u)]
 
+omit [∀ V : C, HasWeakSheafify (J.over V) AddCommGrpCat.{u}]
+  [∀ V : C, (J.over V).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 variable {sq} in
 /-- **The Mayer–Vietoris complex of the functors `j_{V,*} j_V^{-1}` is short exact at an injective
 sheaf of modules**, for a pullback square whose two arrows into `X₄` are monomorphisms covering
@@ -319,7 +323,9 @@ section Terminal
 
 variable {T : C} (hT : IsTerminal T)
 
-omit [J.HasSheafCompose (forget AddCommGrpCat.{u})] [HasWeakSheafify J (Type u)] in
+omit [∀ V : C, HasWeakSheafify (J.over V) AddCommGrpCat.{u}]
+  [∀ V : C, (J.over V).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{u})] [HasWeakSheafify J (Type u)] in
 include hT in
 /-- At a terminal object the augmentation `F ⟶ j_{T,*} j_T^{-1} F` is an isomorphism: over `Y` it
 is `F` applied to the second projection `T ⨯ Y ⟶ Y`, which is an isomorphism. -/
@@ -404,8 +410,10 @@ def mayerVietorisAppIso (hiq : mayerVietorisι R sq π ≫ mayerVietorisπ R sq 
         (Functor.whiskerRight (restrictionNatTrans R sq.f₁₂) π)
         (-Functor.whiskerRight (restrictionNatTrans R sq.f₁₃) π) F)).symm)
 
-omit [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
-  [J.HasSheafCompose (forget AddCommGrpCat.{u})] [HasWeakSheafify J (Type u)] [π.Additive] in
+omit [∀ V : C, HasWeakSheafify (J.over V) AddCommGrpCat.{u}]
+  [∀ V : C, (J.over V).WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify J AddCommGrpCat.{u}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [J.HasSheafCompose (forget AddCommGrpCat.{u})]
+  [HasWeakSheafify J (Type u)] [π.Additive] in
 /-- The composite of the two maps `mayerVietorisι` and `mayerVietorisπ` of the Mayer–Vietoris
 sequence of functors is zero. -/
 theorem mayerVietorisι_comp_mayerVietorisπ :
@@ -415,9 +423,11 @@ theorem mayerVietorisι_comp_mayerVietorisπ :
   refine congrArg (fun α ↦ Functor.whiskerRight α π) (NatTrans.ext (funext fun F ↦ ?_))
   simp only [NatTrans.comp_app, restrictionNatTrans_app, ← restriction_comp, sq.fac]
 
-variable [HasWeakSheafify J (Type u)] [HasInjectiveResolutions (SheafOfModules.{u} R)]
+variable [HasInjectiveResolutions (SheafOfModules.{u} R)]
   [∀ V : C, (directImage R V).PreservesInjectiveObjects]
 
+omit [∀ V : C, HasWeakSheafify (J.over V) AddCommGrpCat.{u}]
+  [∀ V : C, (J.over V).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 variable {sq} in
 /-- **The weak Serre transfer through the Mayer–Vietoris sequence.**  For a pullback square
 whose two arrows into `X₄` are monomorphisms covering `X₄`, an additive functor `π` out of the

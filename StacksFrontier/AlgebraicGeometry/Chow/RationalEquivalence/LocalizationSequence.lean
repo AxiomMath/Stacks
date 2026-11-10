@@ -187,7 +187,7 @@ theorem exists_rationallyEquivalent_properPushforward_of_cycleGroupRestrict
   obtain ⟨γ, hγ⟩ := (cycleGroupRestrict_eq_zero_iff C sX sY (V.ι ≫ sX) i hi V.ι rfl
     hcomplement k (α - β - ε)).mp hzeroOpen
   refine ⟨γ, ?_⟩
-  show α - (β + properPushforward C sY sX i hi k γ) ∈ rationalEquivalences C sX k
+  change α - (β + properPushforward C sY sX i hi k γ) ∈ rationalEquivalences C sX k
   rwa [show α - (β + properPushforward C sY sX i hi k γ) = ε by rw [hγ]; abel]
 
 /-! ### The localization sequence of Chow groups -/
@@ -221,7 +221,7 @@ theorem exact_chowPushforward_chowGroupOpensRestrict (C : ChowSituation.{u})
     rw [chowGroupOpensRestrictOfIsOpenImmersion_mk] at hzero
     have h : RationallyEquivalent C (V.ι ≫ sX) k (cycleGroupOpensRestrict C sX V k c)
         (cycleGroupOpensRestrict C sX V k 0) := by
-      show cycleGroupOpensRestrict C sX V k c - cycleGroupOpensRestrict C sX V k 0 ∈
+      change cycleGroupOpensRestrict C sX V k c - cycleGroupOpensRestrict C sX V k 0 ∈
         rationalEquivalences C (V.ι ≫ sX) k
       rw [map_zero, sub_zero]
       exact (QuotientAddGroup.eq_zero_iff _).mp hzero

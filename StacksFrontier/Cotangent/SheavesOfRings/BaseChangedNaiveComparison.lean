@@ -90,14 +90,14 @@ theorem isIso_homologyMap_zero_of_epi (φ : K ⟶ L) [Epi (φ.f (-1))] [IsIso (�
     (hK : IsZero (K.X 1)) :
     IsIso (HomologicalComplex.homologyMap φ 0) := by
   have h₁ : Epi ((HomologicalComplex.shortComplexFunctor 𝒜 (ComplexShape.up ℤ) 0).map φ).τ₁ := by
-    show Epi (φ.f ((ComplexShape.up ℤ).prev 0))
+    change Epi (φ.f ((ComplexShape.up ℤ).prev 0))
     rw [show (ComplexShape.up ℤ).prev 0 = -1 by simp]
     infer_instance
   have h₂ : IsIso ((HomologicalComplex.shortComplexFunctor 𝒜 (ComplexShape.up ℤ) 0).map φ).τ₂ := by
-    show IsIso (φ.f 0)
+    change IsIso (φ.f 0)
     infer_instance
   have h₃ : Mono ((HomologicalComplex.shortComplexFunctor 𝒜 (ComplexShape.up ℤ) 0).map φ).τ₃ := by
-    show Mono (φ.f ((ComplexShape.up ℤ).next 0))
+    change Mono (φ.f ((ComplexShape.up ℤ).next 0))
     rw [show (ComplexShape.up ℤ).next 0 = 1 by simp]
     exact hK.mono _
   exact ShortComplex.isIso_homologyMap_of_epi_of_isIso_of_mono' _ h₁ h₂ h₃
@@ -195,7 +195,7 @@ theorem extendedNaiveComparison_d :
     (((towerExtendScalars.{u, v, w} J h).mapHomologicalComplex (ComplexShape.up ℤ)).obj
         (cotangentComplex.{u, v, w} J g)).d (-2) (-1) ≫
       (extendedNaiveComparison.{u, v, w} J g h).f (-1) = 0 := by
-  show (towerExtendScalars.{u, v, w} J h).map _ ≫ (towerExtendScalars.{u, v, w} J h).map _ = 0
+  change (towerExtendScalars.{u, v, w} J h).map _ ≫ (towerExtendScalars.{u, v, w} J h).map _ = 0
   rw [← Functor.map_comp, canonicalNaiveComparison_d, Functor.map_zero]
 
 /-- The base-changed comparison is, in degree `-1`, a cokernel of the incoming differential:

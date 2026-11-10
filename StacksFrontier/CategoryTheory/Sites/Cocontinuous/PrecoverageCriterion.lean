@@ -86,7 +86,7 @@ public theorem functorPullback_eq_functorPullback_overEquiv (u : C ⥤ Over X₀
     R.functorPullback u =
       (Sieve.overEquiv (u.obj T) R).functorPullback (u ⋙ Over.forget X₀) := by
   ext T' k
-  show R (u.map k) ↔ Sieve.overEquiv (u.obj T) R ((u.map k).left)
+  change R (u.map k) ↔ Sieve.overEquiv (u.obj T) R ((u.map k).left)
   rw [← Sieve.overEquiv_symm_iff, OrderIso.symm_apply_apply]
 
 /-- A functor into a slice category is cocontinuous for the localized topology on the slice as

@@ -114,7 +114,7 @@ lemma support_subset_range_of_annihilated
     have hbasic (f : Γ(X, U)) :
         p' ∈ PrimeSpectrum.basicOpen f ↔ x ∈ X.basicOpen f := by
       rw [← Uaff.2.fromSpec_preimage_basicOpen]
-      show Uaff.2.fromSpec p' ∈ X.basicOpen f ↔ x ∈ X.basicOpen f
+      change Uaff.2.fromSpec p' ∈ X.basicOpen f ↔ x ∈ X.basicOpen f
       rw [hpoint]
     have hxZero : x ∈ X.zeroLocus (U := U) (i.ker.ideal Uaff) := by
       apply (Scheme.mem_zeroLocus_iff X (i.ker.ideal Uaff : Set Γ(X, U)) x).2
@@ -229,7 +229,7 @@ private theorem finiteType_of_iso {C : Type u} [Category.{u} C]
     have : IsIso (e.hom.over (σ.X i)) := by
       dsimp [SheafOfModules.Hom.over]
       infer_instance
-    show ((σ.generators i).ofEpi (e.hom.over (σ.X i))).IsFiniteType
+    change ((σ.generators i).ofEpi (e.hom.over (σ.X i))).IsFiniteType
     infer_instance
   exact SheafOfModules.IsFiniteType.mk.{u, u, u} ⟨τ, hτ⟩
 
@@ -249,7 +249,7 @@ private theorem supp_restrict {X Y : Scheme.{u}} (f : X ⟶ Y)
     SheafOfModules.supp (M.restrict f) = f ⁻¹' SheafOfModules.supp M := by
   ext x
   let e := ((Scheme.Modules.restrictStalkNatIso f x).app M).addCommGroupIsoToAddEquiv
-  show (∃ a, a ≠ (0 : ↑((M.restrict f).presheaf.stalk x))) ↔
+  change (∃ a, a ≠ (0 : ↑((M.restrict f).presheaf.stalk x))) ↔
     ∃ b, b ≠ (0 : ↑(M.presheaf.stalk (f x)))
   exact (exists_congr fun a => (map_ne_zero_iff e e.injective).symm).trans
     (e.surjective.exists (p := (· ≠ 0))).symm
@@ -311,7 +311,7 @@ theorem bottom_toSubmodule {X : Scheme.{u}} (F : X.Modules) :
     apply le_antisymm
     · apply SheafOfModules.Submodule.le_iff.mpr
       intro V
-      show ∀ x, x ∈ N.toSubmodule.obj V →
+      change ∀ x, x ∈ N.toSubmodule.obj V →
         x ∈ (⊥ : F.Submodule).toSubmodule.obj V
       intro x hx
       have hx' : x ∈ (⊥ : F.val.Submodule).obj V := by
@@ -326,7 +326,7 @@ theorem bottom_toSubmodule {X : Scheme.{u}} (F : X.Modules) :
 
 theorem top_toSubmodule {X : Scheme.{u}} (M : X.Modules) :
     (⊤ : M.Submodule).toSubmodule = (⊤ : M.val.Submodule) := by
-  show sInf ((fun N : M.Submodule => N.toSubmodule) '' (∅ : Set M.Submodule)) = _
+  change sInf ((fun N : M.Submodule => N.toSubmodule) '' (∅ : Set M.Submodule)) = _
   rw [Set.image_empty, sInf_empty]
 
 theorem idealPowerMultiple_antitone {X : Scheme.{u}}
@@ -385,7 +385,7 @@ theorem isZero_submodule_of_eq_bot {X : Scheme.{u}} {M : X.Modules}
   subst N
   refine isZero_of_forall_section_eq_zero _ fun U s => ?_
   apply Subtype.ext
-  show s.val = 0
+  change s.val = 0
   have hEq := congrArg (fun P : M.val.Submodule => P.obj U) (bottom_toSubmodule M)
   have hs : s.val ∈ (⊥ : M.val.Submodule).obj U := hEq ▸ s.property
   exact hs
@@ -442,14 +442,15 @@ private noncomputable def coproductIsoHeadTail {C : Type*} [Category.{v} C]
     coprod.desc (Sigma.ι F 0) (Sigma.desc fun n => Sigma.ι F (n + 1)), ?_, ?_⟩
   · apply Sigma.hom_ext
     rintro (_ | n)
-    · simp only [Sigma.ι_desc_assoc, coprod.inl_desc, Category.comp_id]
-    · simp only [Sigma.ι_desc_assoc, Category.assoc, coprod.inr_desc, Sigma.ι_desc,
+    · simp only [Sigma.ι_comp_desc_assoc, coprod.inl_desc, Category.comp_id]
+    · simp only [Sigma.ι_comp_desc_assoc, Category.assoc, coprod.inr_desc, Sigma.ι_comp_desc,
         Category.comp_id]
   · apply coprod.hom_ext
-    · simp only [coprod.inl_desc_assoc, Sigma.ι_desc, Category.comp_id]
+    · simp only [coprod.inl_desc_assoc, Sigma.ι_comp_desc, Category.comp_id]
     · apply Sigma.hom_ext
       intro n
-      simp only [coprod.inr_desc_assoc, Sigma.ι_desc_assoc, Sigma.ι_desc, Category.comp_id]
+      simp only [coprod.inr_desc_assoc, Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc,
+        Category.comp_id]
 
 private theorem coherent_finiteCoproduct {X : Scheme.{u}}
     {J : Type*} [Finite J] (F : J → X.Modules)
@@ -589,7 +590,7 @@ private lemma idealPowerMultiple_isZero_restrict {X Y : Scheme.{u}}
       (idealPowerMultiple I n M).toSheafOfModules f) := by
   refine isZero_of_forall_section_eq_zero _ fun V s => ?_
   apply Subtype.ext
-  show s.val = 0
+  change s.val = 0
   exact idealPowerMultiple_section_eq_zero I n M f.opensRange
     (idealPower_sections_eq_bot_of_restrict f I n M h) (f ''ᵁ V.unop)
     (f.image_le_opensRange _) s.val s.property
@@ -652,13 +653,13 @@ private lemma fullSubcategory_hasCoproduct {C : Type*} [Category.{v} C]
     (fun s => ObjectProperty.homMk (Limits.Sigma.desc (fun j => (s.inj j).hom))) ?_ ?_⟩⟩
   · intro s j
     apply ObjectProperty.hom_ext
-    exact Limits.Sigma.ι_desc _ _
+    exact Limits.Sigma.ι_comp_desc _ _
   · intro s m hm
     apply ObjectProperty.hom_ext
     apply Limits.Sigma.hom_ext
     intro j
     exact (congrArg (fun f => f.hom) (hm j)).trans
-      (Limits.Sigma.ι_desc (fun j => (s.inj j).hom) j).symm
+      (Limits.Sigma.ι_comp_desc (fun j => (s.inj j).hom) j).symm
 
 end
 

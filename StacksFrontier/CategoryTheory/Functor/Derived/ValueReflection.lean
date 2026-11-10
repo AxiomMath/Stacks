@@ -65,7 +65,8 @@ This file settles what that costs.
   Tag 05S9 at an object is the system read on the larger indices, so a conservative functor
   preserving zero morphisms which kills the one-step transition morphisms of an `ℕ`-indexed
   system no transition morphism of which vanishes makes `R(F ⋙ U)` everywhere defined and `RF`
-  defined nowhere. `StacksFrontier/CategoryTheory/Functor/Derived/ValueReflectionCounterexample.lean`
+  defined nowhere.
+  `StacksFrontier/CategoryTheory/Functor/Derived/ValueReflectionCounterexample.lean`
   exhibits such a `U`, so the hypotheses are known to be consistent: conservativity, zero objects
   and split idempotents in the source do not reflect right derivability.
 

@@ -1,8 +1,7 @@
 module
 
 public import StacksFrontier.Homology.DerivedIndexing.Composite
-public import
-  StacksFrontier.Topology.Sheaves.Cohomology.HigherDirectImage.SingleRightDerivedUnitFunctorNaturality
+public import StacksFrontier.Topology.Sheaves.Cohomology.HigherDirectImage.SingleRightDerivedUnitFunctorNaturality
 
 /-!
 # The canonical map `(Pℱ)[0] ⟶ RP(ℱ[0])` is functorial in `P`

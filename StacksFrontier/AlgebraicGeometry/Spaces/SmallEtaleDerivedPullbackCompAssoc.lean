@@ -60,12 +60,15 @@ variable {W X Y Z : AlgebraicSpaces B S hS}
 topoi: the compositor of Stacks 03D6 followed by the 2-isomorphism of Stacks 03G8 between the
 composite of the morphisms of ringed topoi and the morphism of ringed topoi of `f ≫ g`. -/
 abbrev smallEtaleModulePullbackCompIso (f : X ⟶ Y) (g : Y ⟶ Z) :
-    Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules (X := smallEtaleRingedTopos B S hS Y)
+    Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules
+        (X := smallEtaleRingedTopos B S hS Y)
         (Y := smallEtaleRingedTopos B S hS Z) (smallEtaleRingedToposHom B S hS g).toModulesHom ⋙
-        Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules (X := smallEtaleRingedTopos B S hS X)
+        Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules
+        (X := smallEtaleRingedTopos B S hS X)
         (Y := smallEtaleRingedTopos B S hS Y) (smallEtaleRingedToposHom B S hS f).toModulesHom ≅
-      Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules (X := smallEtaleRingedTopos B S hS X)
-        (Y := smallEtaleRingedTopos B S hS Z) (smallEtaleRingedToposHom B S hS (f ≫ g)).toModulesHom :=
+      Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules
+        (X := smallEtaleRingedTopos B S hS X) (Y := smallEtaleRingedTopos B S hS Z)
+        (smallEtaleRingedToposHom B S hS (f ≫ g)).toModulesHom :=
   (RingedToposHom.pullbackModulesCompIso (smallEtaleRingedToposHom B S hS f)
       (smallEtaleRingedToposHom B S hS g)).symm ≪≫ pullbackModulesCompTransport B S hS f g
 
@@ -82,13 +85,15 @@ theorem smallEtaleModulePullbackCompIso_eq_leftAdjointCompIso (f : X ⟶ Y) (g :
 
 /-- **The cocycle identity for the composition law of pullbacks of modules.** -/
 theorem smallEtaleModulePullbackCompIso_assoc (a : W ⟶ X) (b : X ⟶ Y) (c : Y ⟶ Z) :
-    Functor.isoWhiskerLeft (Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules (X := smallEtaleRingedTopos B S hS Y)
+    Functor.isoWhiskerLeft (Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules
+        (X := smallEtaleRingedTopos B S hS Y)
         (Y := smallEtaleRingedTopos B S hS Z) (smallEtaleRingedToposHom B S hS c).toModulesHom)
           (smallEtaleModulePullbackCompIso B S hS a b) ≪≫
         smallEtaleModulePullbackCompIso B S hS (a ≫ b) c =
       (Functor.associator _ _ _).symm ≪≫
         Functor.isoWhiskerRight (smallEtaleModulePullbackCompIso B S hS b c)
-          (Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules (X := smallEtaleRingedTopos B S hS W)
+          (Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules
+        (X := smallEtaleRingedTopos B S hS W)
         (Y := smallEtaleRingedTopos B S hS X) (smallEtaleRingedToposHom B S hS a).toModulesHom) ≪≫
         smallEtaleModulePullbackCompIso B S hS a (b ≫ c) := by
   simp only [smallEtaleModulePullbackCompIso_eq_leftAdjointCompIso]
@@ -111,8 +116,8 @@ theorem smallEtaleUnderivedPullbackCompIso_eq (f : X ⟶ Y) (g : Y ⟶ Z) :
     smallEtaleUnderivedPullbackCompIso B S hS f g =
       Functor.mapHomotopyCategoryCompIso (smallEtaleModulePullbackCompIso B S hS f g)
         (ComplexShape.up ℤ) := by
-  haveI := RingedToposHom.pullbackModules_additive (smallEtaleRingedToposHomComp B S hS f g)
-  haveI := RingedToposHom.pullbackModules_additive (smallEtaleRingedToposHom B S hS (f ≫ g))
+  have := RingedToposHom.pullbackModules_additive (smallEtaleRingedToposHomComp B S hS f g)
+  have := RingedToposHom.pullbackModules_additive (smallEtaleRingedToposHom B S hS (f ≫ g))
   exact Stacks.Homology.mapHomotopyCategoryCompIso_trans_mapHomotopyCategoryIso _ _ _
 
 /-- **The cocycle identity for degreewise pullback** along three composable morphisms of

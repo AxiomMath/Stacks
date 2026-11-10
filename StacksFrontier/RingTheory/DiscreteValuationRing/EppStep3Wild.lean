@@ -257,7 +257,7 @@ theorem exists_algebra_isFractionRing_adjoin
         ch.toRingHom).toAlgebra
   let _ := alg
   refine ⟨alg, IsFractionRing.of_ringEquiv_ringEquiv ch f.toRingEquiv fun _ => rfl, fun x => ?_⟩
-  show f (algebraMap _ _ (ch (algebraMap A _ x))) = _
+  change f (algebraMap _ _ (ch (algebraMap A _ x))) = _
   rw [hch,
     ← IsScalarTower.algebraMap_apply (AdicCompletion (IsLocalRing.maximalIdeal A) A)
       (Stacks.KummerExtension.A1 (AdicCompletionFractionField A)
@@ -512,7 +512,7 @@ theorem exists_finite_extension_nonempty_tensorProduct_algEquiv_of_conditionB
           rw [← IsScalarTower.algebraMap_apply A K (Stacks.KummerExtension.K1 K π (p ^ n)),
             IsScalarTower.algebraMap_apply A (Stacks.KummerExtension.A1 K π (p ^ n))
               (Stacks.KummerExtension.K1 K π (p ^ n)), hlift]
-          show algebraMap _ M (algebraMap
+          change algebraMap _ M (algebraMap
             (AdicCompletion (maximalIdeal (Stacks.KummerExtension.A1 K π (p ^ n)))
               (Stacks.KummerExtension.A1 K π (p ^ n)))
             (IntermediateField.adjoin (AdicCompletionFractionField A) {ρ})
@@ -529,7 +529,7 @@ theorem exists_finite_extension_nonempty_tensorProduct_algEquiv_of_conditionB
               (A := IntermediateField.adjoin (AdicCompletionFractionField A) {ρ})
               (B := L)).toRingHom
           commutes' := fun y => by
-            show ψ (1 ⊗ₜ algebraMap K L y) = algebraMap K M y
+            change ψ (1 ⊗ₜ algebraMap K L y) = algebraMap K M y
             have h1 : (1 : IntermediateField.adjoin (AdicCompletionFractionField A) {ρ})
                   ⊗ₜ[Stacks.KummerExtension.K1 K π (p ^ n)] (algebraMap K L y)
                 = (algebraMap (Stacks.KummerExtension.K1 K π (p ^ n))
@@ -603,8 +603,7 @@ theorem exists_finite_extension_nonempty_tensorProduct_algEquiv_of_conditionB
       have hmem : ∀ m : M, m ∈ Θ.range := by
         intro m
         obtain ⟨t, rfl⟩ := ψ.surjective m
-        induction t using TensorProduct.induction_on with
-        | zero => simp
+        induction t using TensorProduct.inductionOn with
         | tmul z y =>
           have hmul : ψ (z ⊗ₜ y) = (z : M) * j y := by
             rw [show z ⊗ₜ[Stacks.KummerExtension.K1 K π (p ^ n)] y
@@ -617,7 +616,8 @@ theorem exists_finite_extension_nonempty_tensorProduct_algEquiv_of_conditionB
           rw [hmul]
           exact mul_mem (hFmem z) ⟨1 ⊗ₜ y, by
             simp [hΘdef, Algebra.TensorProduct.lift_tmul]⟩
-        | add x y hx hy => rw [show ψ (x + y) = ψ x + ψ y from map_add ψ.toRingEquiv x y]; exact add_mem hx hy
+        | add x y hx hy =>
+          rw [show ψ (x + y) = ψ x + ψ y from map_add ψ.toRingEquiv x y]; exact add_mem hx hy
       have hsurj : Function.Surjective Θ := by
         intro m
         obtain ⟨x, hx⟩ := hmem m

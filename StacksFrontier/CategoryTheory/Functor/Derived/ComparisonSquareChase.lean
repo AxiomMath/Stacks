@@ -5,8 +5,8 @@ public import Mathlib.Algebra.Homology.HomotopyCategory
 /-!
 # Plumbing for a chase of comparison squares
 
-`StacksFrontier/AlgebraicGeometry/AffinePullbackComparisonComp.lean` performs the chase that compares
-the composite of two base change squares with the square of the composite, on variables
+`StacksFrontier/AlgebraicGeometry/AffinePullbackComparisonComp.lean` performs the chase that
+compares the composite of two base change squares with the square of the composite, on variables
 (`StacksDraft.ComparisonSquare.comp_app`).  This file collects the remaining purely formal steps
 that the *derived* instance of that chase needs, again on variables: five rearrangements of
 composites in an arbitrary category, and the identification of the comparison isomorphism of

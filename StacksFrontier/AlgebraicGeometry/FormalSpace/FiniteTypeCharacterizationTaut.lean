@@ -74,7 +74,7 @@ theorem formalSpectrumMap_finiteType_tfae_deriving_taut {A C : Type u} [CommRing
         RingHom.IsTaut g.toRingHom ∧
           TopologicalRing.IsTopologicallyOfFiniteType g.toRingHom] := by
   have h0ANU :=
-    TopologicalRing.finiteType_tfae g.toRingHom g.continuous hA hC hAcount hCcount
+    TopologicalRing.finiteType_tfae g.toRingHom hA hC hAcount
   tfae_have 1 → 2 := fun h ↦ hqc _ hsrc htgt h
   tfae_have 2 → 3 := fun h ↦
     have htaut : RingHom.IsTaut g.toRingHom :=

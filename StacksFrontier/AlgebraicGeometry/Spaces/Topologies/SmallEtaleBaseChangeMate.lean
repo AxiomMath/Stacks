@@ -295,12 +295,12 @@ theorem mateEquiv_spacesEtaleBaseChangeSquare (sq : IsPullback i f' f g)
     (fun W => comp_comp_eq_comp_comp_of_eq_id
       (spacesEtaleBaseChangeSquare_hom_app_map B S hS i f' f g sq hg W)
       ((Over.map i).map_id _) rfl ((Over.pullback f).map_id _) rfl)
-  refine TwoSquare.ext _ _ fun V => ?_
+  refine NatTrans.ext (funext fun V => ?_)
   have hV := eq_of_comp_comp_eq_comp_comp ((Over.pullback f').map_id _) rfl
     ((Over.pullback i).map_id _) rfl (key V)
   have hbig := congrArg
     (fun t : TwoSquare (Over.pullback g) (Over.pullback f) (Over.pullback f') (Over.pullback i) =>
-      t.natTrans.app ((SpacesEtale.inclusion B S hS Y).obj V))
+      t.app ((SpacesEtale.inclusion B S hS Y).obj V))
     (mateEquiv_beckChevalleyIso i f' f g sq)
   exact (ObjectProperty.fullyFaithfulι (IsEtaleOver B S hS X')).map_injective
     (hV.trans (hbig.trans (spacesBaseChangeCompSquare_app_map B S hS i f' f g sq.w V).symm))

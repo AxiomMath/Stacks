@@ -9,8 +9,8 @@ import StacksFrontier.CategoryTheory.Adjunction.CounitHomExt
 # The pushed-forward base change maps for monoidal functors
 
 The constructions of `StacksFrontier/CategoryTheory/Adjunction/PushedForwardBaseChange.lean` and
-`StacksFrontier/CategoryTheory/Adjunction/PushedForwardTwistedBaseChange.lean` take bifunctors on the
-four corners of a square with comparisons along the four functors. Here the bifunctors are
+`StacksFrontier/CategoryTheory/Adjunction/PushedForwardTwistedBaseChange.lean` take bifunctors on
+the four corners of a square with comparisons along the four functors. Here the bifunctors are
 tensor products, read through the swapped bifunctors `(N, P) ↦ T(P, N)` for bifunctors `T`
 identified with `curriedTensor`, and the comparisons are the tensorators of monoidal functors,
 `Functor.Monoidal.swapTensorIso`. Then the compatibility of the comparisons around the square

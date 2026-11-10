@@ -70,7 +70,7 @@ private theorem isOpen_affine_cm_locus
         (Localization.AtPrime (q.asIdeal.map (Ideal.Quotient.mk
           ((q.asIdeal.under R).map (algebraMap R T)))))} := by
     ext q
-    show Scheme.Hom.IsCohenMacaulayAt f hf q ↔ _
+    change Scheme.Hom.IsCohenMacaulayAt f hf q ↔ _
     simp only [Scheme.Hom.IsCohenMacaulayAt]
     exact ⟨fun ⟨_, hcm⟩ => (affineFiberPoint_cm_iff_ring_locus hf q).mp
         ((affineFiber_cm_iff hf q).mp hcm),
@@ -104,7 +104,7 @@ private theorem isOpen_affine_scheme_cm_locus {X S : Scheme.{u}} (f : X ⟶ S)
       LocallyOfFinitePresentation.SpecMap_iff _ |>.mpr (by
         rw [halg]
         exact f.finitePresentation_appTop)
-    show IsOpen {q : PrimeSpectrum Γ(X, ⊤) |
+    change IsOpen {q : PrimeSpectrum Γ(X, ⊤) |
       Scheme.Hom.IsCohenMacaulayAt
         (Spec.map (CommRingCat.ofHom (algebraMap Γ(S, ⊤) Γ(X, ⊤)))) hf' q}
     exact isOpen_affine_cm_locus (R := Γ(S, ⊤)) (T := Γ(X, ⊤)) hf'

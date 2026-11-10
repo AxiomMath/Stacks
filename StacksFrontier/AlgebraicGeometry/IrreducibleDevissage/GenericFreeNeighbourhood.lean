@@ -292,7 +292,7 @@ def freeCoproductIsoAux (r : ℕ)
           (ULift.up k)) ≫
         Sigma.desc (f := fun _ : ULift.{u} (Fin r) => SheafOfModules.unit R)
           (fun k => Sigma.ι (fun _ : Fin r => SheafOfModules.unit R) k.down) = _
-    rw [Sigma.ι_desc_assoc, Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc]
     exact (Category.comp_id _).symm
   inv_hom_id := by
     change Sigma.desc (f := fun _ : ULift.{u} (Fin r) => SheafOfModules.unit R)
@@ -300,7 +300,7 @@ def freeCoproductIsoAux (r : ℕ)
         (Sigma.desc fun k => Sigma.ι (fun _ : ULift.{u} (Fin r) => SheafOfModules.unit R)
           (ULift.up k)) = _
     refine Sigma.hom_ext _ _ fun j => ?_
-    rw [Sigma.ι_desc_assoc, Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc]
     exact (Category.comp_id _).symm
 
 /-- The abstract form of `freeCoproductIso_hom_ι`: the `j`-th inclusion into the coproduct
@@ -309,7 +309,7 @@ lemma freeCoproductIsoAux_hom_ι (r : ℕ)
     [HasCoproduct (fun _ : Fin r => SheafOfModules.unit R)] (j : Fin r) :
     Sigma.ι (fun _ : Fin r => SheafOfModules.unit R) j ≫ (freeCoproductIsoAux R r).hom =
       SheafOfModules.ιFree (ULift.up j) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 end Coproduct
 

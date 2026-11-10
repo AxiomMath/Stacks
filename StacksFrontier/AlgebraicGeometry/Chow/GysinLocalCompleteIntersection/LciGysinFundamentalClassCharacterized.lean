@@ -7,8 +7,8 @@ public import StacksFrontier.AlgebraicGeometry.Chow.GysinLocalCompleteIntersecti
 # Stacks 0FF7 on a fundamental class, for any class characterized by the rule of Stacks 0B78
 
 The statements of
-`StacksFrontier.AlgebraicGeometry.Chow.GysinLocalCompleteIntersection.LciGysinFundamentalClass`, made
-for an arbitrary bivariant class `cg ∈ A^{-d}(P ⟶ Y)` with
+`StacksFrontier.AlgebraicGeometry.Chow.GysinLocalCompleteIntersection.LciGysinFundamentalClass`,
+made for an arbitrary bivariant class `cg ∈ A^{-d}(P ⟶ Y)` with
 `Stacks.Chow.IsBivariantFlatPullback cg` in place of the class
 `Stacks.Chow.flatPullbackBivariantClass` built from Stacks 02RG and 0B71. Only the cap operation of
 the flat-pullback class enters the proofs, so the inputs of that construction are not needed: the

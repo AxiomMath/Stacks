@@ -113,7 +113,7 @@ theorem powPowIso_hom_app_toFun (n : ℕ) (z : grading L (n * d)) (s : powSectio
   have hz : (Stacks.ExternalGrading.summandEquiv (powSections L) (n * d)).symm z
       ≫ powCongr L (Nat.mul_comm n d) = s :=
     comp_powCongr_eq_of_of_eq L (Nat.mul_comm n d) (by rw [of_piece, ← hs])
-  show (Stacks.GradedSections.powPowIso L d n).hom.app ⊤ (veroneseToFun L d n z) = _
+  change (Stacks.GradedSections.powPowIso L d n).hom.app ⊤ (veroneseToFun L d n z) = _
   rw [veroneseToFun_apply, hz, Stacks.GradedSections.ofPowPow_def,
     ← Stacks.SectionProduct.globalSection_comp, Category.assoc, Iso.inv_hom_id,
     Category.comp_id]

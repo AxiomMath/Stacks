@@ -287,7 +287,7 @@ theorem exists_affineOpen_isWeaklyRegular_generators_of_isRegular_fibre [IsClose
         rw [← CommRingCat.comp_apply, presheaf_map_homOfLE_comp]
       simpa only [hres] using hwr₂
   · -- a section of the defining ideal is invertible at `x`
-    obtain ⟨t, htI, htq⟩ := SetLike.not_le_iff_exists.mp hIq
+    obtain ⟨t, htI, htq⟩ := IsConcreteLE.not_le_iff_exists.mp hIq
     refine ⟨Y.basicOpen t, hU.basicOpen t, hmem t htq, 1, fun _ => 1, fun V' hV' => ?_, ?_⟩
     · rw [definingIdealOfHom_obj_eq_top_of_mem_ker j t htI hV',
         generatedIdealOn_one_obj_eq_top hV']

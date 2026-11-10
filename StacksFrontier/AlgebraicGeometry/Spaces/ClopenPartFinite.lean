@@ -141,6 +141,7 @@ attribute [local instance] pointTopology
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site exceeds the default budget
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 private instance (priority := high) hasPullbacks_presheaf_clopenPartFinite :
@@ -154,6 +155,7 @@ private instance (priority := high) hasPullback_presheaf_clopenPartFinite
 /-! ### The relation of a chart as a closed subscheme of the relation of the base -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site, used throughout the proof
 /-- **The relation of a chart of a separated morphism is a closed subscheme of the relation of
 the base.** Let `f : X ⟶ h_{Y₀}` be a separated morphism of presheaves on the big fppf site of
 `S` and let `φ : h_T ⟶ X` be any morphism from a representable presheaf, with `τ : T ⟶ Y₀` the
@@ -438,8 +440,9 @@ of the site by
 is locally of finite type over `P` because its inclusion is étale, so the composite is locally
 of finite type over `Zu`.
 
-It is the clause that `StacksFrontier/AlgebraicGeometry/Spaces/EtaleClopenPartUniversallyClosed.lean`
-leaves open, where it appears weakened to universal closedness. -/
+It is the clause that
+`StacksFrontier/AlgebraicGeometry/Spaces/EtaleClopenPartUniversallyClosed.lean` leaves open,
+where it appears weakened to universal closedness. -/
 theorem isFinite_ι_openSubspaceOfPoints_range_comp_of_isFinite
     [HasSheafify (BigFppfOver.topology B S hS) (Type u)]
     {P : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hP : IsAlgebraicSpace B S hS P)

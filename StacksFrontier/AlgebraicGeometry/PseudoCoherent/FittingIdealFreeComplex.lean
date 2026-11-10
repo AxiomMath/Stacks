@@ -232,7 +232,7 @@ complex vanishes. -/
 private theorem elementaryComplex_d_eq_zero (R : Type*) [CommRing R] {i t : ℤ} (ht : t ≠ i - 1)
     (x : Fin (elemRank i t)) (y : Fin (elemRank i (t + 1))) :
     (elementaryComplex R i).d t x y = 0 := by
-  simp only [elementaryComplex, if_neg ht]
+  simp only [elementaryComplex, ite_eq_right ht]
   rfl
 
 end FreeComplex
@@ -335,7 +335,7 @@ vanishes. -/
 theorem trivialComplex_d_eq_zero (i p : ℤ) (m : ℕ) (hp : p ≠ i)
     (x : Fin ((trivialComplex R i m).rank (p + 1))) (y : Fin ((trivialComplex R i m).rank p)) :
     (trivialComplex R i m).d p x y = 0 := by
-  simp only [trivialComplex, if_neg hp]
+  simp only [trivialComplex, ite_eq_right hp]
   rfl
 
 /-- Under the degree flip the elementary identity complex of `FreeComplex.elementaryComplex` in
@@ -346,8 +346,8 @@ private theorem elemRank_neg_eq_trivialRank (i j : ℤ) :
     FreeComplex.elemRank (-i) (-j) = trivialRank i 1 j := by
   simp only [FreeComplex.elemRank, trivialRank]
   by_cases h : j = i ∨ j = i + 1
-  · rw [if_pos (by omega), if_pos h]
-  · rw [if_neg (by omega), if_neg h]
+  · rw [ite_eq_left (by omega), ite_eq_left h]
+  · rw [ite_eq_right (by omega), ite_eq_right h]
 
 /-- The entries of the differential of the trivial two-term complex are those of the elementary
 identity complex it corresponds to under the degree flip. -/
@@ -364,7 +364,7 @@ private theorem trivialComplex_d_apply_eq (i p : ℤ)
     have hr0 : (trivialComplex R p 1).rank p = 1 := trivialRank_self p 1
     have hx : (x : ℕ) = 0 := by have := x.isLt; omega
     have hy : (y : ℕ) = 0 := by have := y.isLt; omega
-    rw [trivialComplex_d_self_apply, if_pos (hx.trans hy.symm)]
+    rw [trivialComplex_d_self_apply, ite_eq_left (hx.trans hy.symm)]
     exact (FreeComplex.elementaryComplex_d_eq_one R
       (show (-(p + 1) : ℤ) = -p - 1 from by ring) _ _).symm
   · rw [trivialComplex_d_eq_zero i p 1 hp]
@@ -530,26 +530,27 @@ theorem exists_freeData_fittingIdeal_eq_of_isUnit (C : FreeData R)
     rw [directSum_rank, FreeComplex.toFreeData_rank, hrank, trivialComplex_rank]
     by_cases h1 : j = i
     · subst h1
-      rw [if_pos rfl, trivialRank_self, toFreeComplex_n, neg_neg]
+      rw [ite_eq_left rfl, trivialRank_self, toFreeComplex_n, neg_neg]
       omega
     · by_cases h2 : j = i + 1
       · subst h2
-        rw [if_neg (by omega : ¬(-(i + 1) : ℤ) = -i), if_pos (by omega), trivialRank_succ, hn2]
+        rw [ite_eq_right (by omega : ¬(-(i + 1) : ℤ) = -i), ite_eq_left (by omega),
+          trivialRank_succ, hn2]
         omega
-      · rw [if_neg (by omega : ¬(-j : ℤ) = -i), if_neg (by omega : ¬(-j : ℤ) = -i - 1),
+      · rw [ite_eq_right (by omega : ¬(-j : ℤ) = -i), ite_eq_right (by omega : ¬(-j : ℤ) = -i - 1),
           trivialRank_eq_zero 1 h1 h2, toFreeComplex_n, neg_neg, add_zero]
   refine ⟨D.toFreeData C.top hvan, ?_, D.toFreeData_d_mul_d C.top hvan, ?_, ?_⟩
   · intro j
     rw [FreeComplex.toFreeData_rank, hrank]
     by_cases h1 : j = i
     · subst h1
-      rw [if_pos rfl, if_pos rfl, hn0]
+      rw [ite_eq_left rfl, ite_eq_left rfl, hn0]
     · by_cases h2 : j = i + 1
       · subst h2
-        rw [if_neg (by omega : ¬(-(i + 1) : ℤ) = -i), if_pos (by omega), if_neg h1, if_pos rfl,
-          hn2]
-      · rw [if_neg (by omega : ¬(-j : ℤ) = -i), if_neg (by omega : ¬(-j : ℤ) = -i - 1),
-          if_neg h1, if_neg h2, toFreeComplex_n, neg_neg]
+        rw [ite_eq_right (by omega : ¬(-(i + 1) : ℤ) = -i), ite_eq_left (by omega), ite_eq_right h1,
+          ite_eq_left rfl, hn2]
+      · rw [ite_eq_right (by omega : ¬(-j : ℤ) = -i), ite_eq_right (by omega : ¬(-j : ℤ) = -i - 1),
+          ite_eq_right h1, ite_eq_right h2, toFreeComplex_n, neg_neg]
   · -- the ranks and the bound of `C' ⊕ T` are those of `C`, and so are its ideals of minors
     have htop' : ((D.toFreeData C.top hvan).directSum (trivialComplex R i 1)).top = C.top := by
       rw [directSum_top, FreeComplex.toFreeData_top, trivialComplex_top]

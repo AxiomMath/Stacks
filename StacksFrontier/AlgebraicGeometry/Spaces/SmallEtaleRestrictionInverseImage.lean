@@ -127,7 +127,7 @@ noncomputable def beckChevalleyIso (sq : IsPullback i f' f g) [HasPullbacksAlong
     intro W W' a
     ext
     apply pullback.hom_ext <;>
-      simp [beckChevalleyObjIso, pullback.lift_fst, pullback.lift_snd, pullback.lift_snd_assoc])
+      simp [beckChevalleyObjIso])
 
 end CategoryTheory.Over
 

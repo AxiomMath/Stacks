@@ -75,7 +75,7 @@ theorem Hom.mapArrows_inverseArrow {C : Type u} [Category.{v} C]
     simpa only [F.evaluation_obj, b, Equiv.apply_symm_apply] using
       (F.evaluation_map_arrow T b).symm
   rw [hb]
-  show F.mapArrows.app T (G.evaluationArrowEquiv T _ _ (Groupoid.inv b)).val = _
+  change F.mapArrows.app T (G.evaluationArrowEquiv T _ _ (Groupoid.inv b)).val = _
   rw [← F.evaluation_map_arrow]
   simp only [Groupoid.inv_eq_inv, Functor.map_inv, F.evaluation_obj]
 

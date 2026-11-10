@@ -183,7 +183,7 @@ lemma reindexModuleStalkAddIso_hom_germ (M : SheafOfModules.{w} (commRingSheafTo
         (moduleStalkGerm Ψ' (reindexCommRingSheaf e O J') ((reindexModuleFunctor e O J').obj M)
           U ξ t) =
       moduleStalkGerm Ψ O M (e.functor.obj U) (θ.hom.app U ξ) t := by
-  show (Point.presheafFiberIsoOfEquivalence e Ψ' Ψ θ M.val.presheaf).hom.hom
+  change (Point.presheafFiberIsoOfEquivalence e Ψ' Ψ θ M.val.presheaf).hom.hom
       (Ψ'.toPresheafFiber U ξ (e.functor.op ⋙ M.val.presheaf) t) =
     Ψ.toPresheafFiber (e.functor.obj U) (θ.hom.app U ξ) M.val.presheaf t
   exact ConcreteCategory.congr_hom
@@ -443,7 +443,7 @@ theorem yonedaEquiv_relocalizeChart {F : (BigFppfOver B W hW)ᵒᵖ ⥤ Type u�
     yonedaEquiv (relocalizeChart B W T hW hT h a) =
       OverShriek.relocalizeMk h F (W := op ((Over.map h).obj U)) U.hom (yonedaEquiv a) rfl := by
   apply Subtype.ext
-  show (⟨𝟙 U.left ≫ U.hom,
+  change (⟨𝟙 U.left ≫ U.hom,
     a.app _ (Over.homMk (𝟙 U.left) rfl : Over.mk (𝟙 U.left ≫ U.hom) ⟶ U)⟩ :
       Σ ψ : ((Over.map h).obj U).left ⟶ B.obj hW, F.obj (op (Over.mk ψ))) = ⟨U.hom, yonedaEquiv a⟩
   rw [← map_yonedaEquiv]
@@ -681,7 +681,7 @@ theorem smallerBase_chartDiagram_comm {U : SmallEtale B W hW Z₁.1} {V : SmallE
     ((smallerBaseSmallEtaleEquivalenceOfIso B h ε₁).functor.obj U).1.hom ≫ g.hom =
       yoneda.map ((Over.map h).map g') ≫
         ((smallerBaseSmallEtaleEquivalenceOfIso B h ε₂).functor.obj V).1.hom := by
-  show (relocalizeChart B W T hW hT h U.obj.hom ≫ ε₁.hom) ≫ g.hom =
+  change (relocalizeChart B W T hW hT h U.obj.hom ≫ ε₁.hom) ≫ g.hom =
     yoneda.map ((Over.map h).map g') ≫ (relocalizeChart B W T hW hT h V.obj.hom ≫ ε₂.hom)
   rw [Category.assoc, hfg, ← Category.assoc, relocalizeChart_comp, hcomm,
     ← relocalizeChart_naturality, Category.assoc]
@@ -717,11 +717,11 @@ theorem stalkStructureMap_smallerBase :
       ((smallerBaseFiberIso h ε₂ (smallerBasePointChartIsoMap h ε₁ ε₂ hfg ι)).hom.app V.chart
         ⟨V.point, V.point_comp⟩)
       (smallerBaseFiberIso_hom_app_val_comp h ε₁ ε₂ hfg ι _ _ g' hpoint) s
-    show _ = pointStalkRingEquiv B W hW Z₁ x' (φ.hom
+    change _ = pointStalkRingEquiv B W hW Z₁ x' (φ.hom
       ((pointStalkRingEquiv B W hW Z₂ (geometricPointMap f.hom x')).symm
         (etaleLocalRingGerm B W hW Z₂.1 (geometricPointMap f.hom x') (op V) s)))
     rw [hY, hφ]
-    show _ = pointStalkRingEquiv B W hW Z₁ x' ((smallerBaseStalkRingIso h ε₁ ι).inv
+    change _ = pointStalkRingEquiv B W hW Z₁ x' ((smallerBaseStalkRingIso h ε₁ ι).inv
       (stalkStructureMap B T hT g x ((smallerBaseStalkRingIso h ε₂
         (smallerBasePointChartIsoMap h ε₁ ε₂ hfg ι)).hom
           ((etaleSitePoint B W hW Z₂.1 (geometricPointMap f.hom x') Z₂.2).toPresheafFiber V.chart

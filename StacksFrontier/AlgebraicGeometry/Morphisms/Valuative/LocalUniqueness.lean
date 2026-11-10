@@ -53,14 +53,14 @@ private lemma exists_away_eq_of_localization_eq
     exact hd1 b hb hbp
   refine ⟨a, ha, RingHom.ext fun b ↦ ?_⟩
   have hgen : b ∈ Algebra.adjoin R (S : Set B) := by rw [hS]; trivial
-  show algebraMap A (Localization.Away a) (φ b) =
+  change algebraMap A (Localization.Away a) (φ b) =
     algebraMap A (Localization.Away a) (ψ b)
   refine Algebra.adjoin_induction (R := R) (s := (S : Set B))
     (p := fun b _ ↦ algebraMap A (Localization.Away a) (φ b) =
       algebraMap A (Localization.Away a) (ψ b)) (fun b hbS ↦ ?_) (fun r ↦ by simp)
     (fun x y _ _ hx hy ↦ by simp [hx, hy]) (fun x y _ _ hx hy ↦ by simp [hx, hy]) hgen
   have hmul : a * φ b = a * ψ b := by
-    show (∏ b ∈ S, d b) * φ b = (∏ b ∈ S, d b) * ψ b
+    change (∏ b ∈ S, d b) * φ b = (∏ b ∈ S, d b) * ψ b
     rw [← Finset.mul_prod_erase S d hbS]
     linear_combination (∏ c ∈ S.erase b, d c) * hd2 b hbS
   exact (IsLocalization.eq_iff_exists (M := Submonoid.powers a)
@@ -126,7 +126,7 @@ private lemma exists_open_eq_of_stalkMap_eq_of_affine
     apply (Scheme.mem_basicOpen_top X a x).2
     apply (LocallyRingedSpace.notMem_prime_iff_unit_in_stalk
       X.toLocallyRingedSpace a x).mp
-    show a ∉ (Spec.map (X.presheaf.germ ⊤ x (by simp))
+    change a ∉ (Spec.map (X.presheaf.germ ⊤ x (by simp))
       (IsLocalRing.closedPoint _)).asIdeal
     simpa [p, q, htopX, IsAffineOpen.primeIdealOf,
       IsAffineOpen.primeIdealOf_eq_map_closedPoint] using ha
@@ -141,7 +141,7 @@ private lemma exists_open_eq_of_stalkMap_eq_of_affine
   have hρ : e'.comp ρ = algebraMap A (Localization.Away a) := RingHom.ext e.symm.commutes
   have hFG : ∀ k : X ⟶ Y, e'.comp (k.appLE ⊤ V (by simp)).hom =
       (algebraMap A (Localization.Away a)).comp k.appTop.hom := fun k ↦ by
-    show e'.comp (ρ.comp k.appTop.hom) = _
+    change e'.comp (ρ.comp k.appTop.hom) = _
     rw [← RingHom.comp_assoc, hρ]
   have hfgLE : f.appLE ⊤ V (by simp) = g.appLE ⊤ V (by simp) := by
     ext b
@@ -188,7 +188,7 @@ theorem exists_open_eq_of_stalkMap_eq
   · obtain ⟨_, ⟨Us : S.Opens, hUs, rfl⟩, hsUs, _⟩ :=
       S.isBasis_affineOpens.exists_subset_of_mem_open (Set.mem_univ s) isOpen_univ
     have hysUs : y ∈ pY ⁻¹ᵁ Us := by
-      show pY y ∈ Us
+      change pY y ∈ Us
       rwa [hys]
     obtain ⟨_, ⟨Uy : Y.Opens, hUy, rfl⟩, hyUy, hUyS⟩ :=
       Y.isBasis_affineOpens.exists_subset_of_mem_open hysUs (pY ⁻¹ᵁ Us).2

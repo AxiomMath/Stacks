@@ -71,7 +71,7 @@ theorem subsingleton_tensor_h1Cotangent_of_subsingleton_ker_baseChange {R A T : 
     exact congrArg Subtype.val (Subsingleton.elim (⟨z, hz⟩ : LinearMap.ker _) 0)
   have hι : Function.Injective (LinearMap.baseChange T (Algebra.Extension.h1Cotangentι
       (P := (Algebra.Generators.self R A).toExtension))) := by
-    simpa [LinearMap.baseChange_eq_ltensor] using
+    simpa [LinearMap.baseChange_eq_lTensor] using
       Module.Flat.lTensor_preserves_injective_linearMap (M := T)
         (Algebra.Extension.h1Cotangentι (P := (Algebra.Generators.self R A).toExtension))
         Algebra.Extension.h1Cotangentι_injective

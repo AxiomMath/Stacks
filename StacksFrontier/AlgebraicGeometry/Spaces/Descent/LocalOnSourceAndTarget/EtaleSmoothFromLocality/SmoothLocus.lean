@@ -37,7 +37,7 @@ theorem coordinateShear_isOver
     (i j : n) (hij : i ≠ j) (d : ℕ) :
     (affineSpaceCoordinateShearIso (S := Y) i j hij d).hom.IsOver S := by
   constructor
-  show affineSpaceCoordinateShear i j hij d ≫
+  change affineSpaceCoordinateShear i j hij d ≫
     ((AffineSpace n Y ↘ Y) ≫ Y ↘ S) = (AffineSpace n Y ↘ Y) ≫ Y ↘ S
   rw [← Category.assoc]
   simp only [affineSpaceCoordinateShear, AffineSpace.homOfVector_over]
@@ -49,7 +49,7 @@ theorem subPow_isOver
     {Y S : Scheme.{u}} [Y.Over S] {n : Type u} (p : ℕ) :
     (affineSpaceSubPow (S := Y) (n := n) p).IsOver S := by
   constructor
-  show affineSpaceSubPow p ≫
+  change affineSpaceSubPow p ≫
     ((AffineSpace n Y ↘ Y) ≫ Y ↘ S) = (AffineSpace n Y ↘ Y) ≫ Y ↘ S
   rw [← Category.assoc]
   simp only [affineSpaceSubPow, AffineSpace.homOfVector_over]
@@ -61,7 +61,7 @@ theorem reindex_isOver
     {Y S : Scheme.{u}} [Y.Over S] {n m : Type u} (i : m → n) :
     (AffineSpace.reindex i Y).IsOver S := by
   constructor
-  show AffineSpace.reindex i Y ≫
+  change AffineSpace.reindex i Y ≫
     ((AffineSpace m Y ↘ Y) ≫ Y ↘ S) = (AffineSpace n Y ↘ Y) ≫ Y ↘ S
   rw [← Category.assoc, AffineSpace.reindex_over]
 
@@ -88,7 +88,7 @@ private theorem preimage_preimage_eq_of_comm {A B : Scheme.{u}} (e : A ⟶ B) (�
     (hU : ∀ z : A, ψ.base (e.base z) ∈ U ↔ e.base z ∈ U) :
     φ ⁻¹ᵁ (e ⁻¹ᵁ U) = e ⁻¹ᵁ U := by
   ext z
-  show e.base (φ.base z) ∈ U ↔ e.base z ∈ U
+  change e.base (φ.base z) ∈ U ↔ e.base z ∈ U
   rw [show e.base (φ.base z) = ψ.base (e.base z) from congrArg (fun k => k.base z) hcomm]
   exact hU z
 
@@ -136,7 +136,7 @@ private lemma largestOpen_invariant_under_iso
     (hcomm : eX.hom ≫ f = f ≫ eY.hom) :
     eX.hom ⁻¹ᵁ relativeLargestOpen B S hS P f = relativeLargestOpen B S hS P f := by
   ext x
-  show eX.hom.base x ∈ relativeLargestOpen B S hS P f ↔
+  change eX.hom.base x ∈ relativeLargestOpen B S hS P f ↔
     x ∈ relativeLargestOpen B S hS P f
   have : Etale eX.hom := inferInstance
   have : Etale eY.hom := inferInstance
@@ -325,7 +325,7 @@ private lemma affineSpace_largestOpen_saturated
   have hn : Nonempty (affineSpace_fiber_largestOpen
       (n := ULift.{u} (Fin d)) B S hS P f x) := by
     refine ⟨z', ?_⟩
-    show (AffineSpace.map _ (X.fromSpecResidueField x)) z' ∈
+    change (AffineSpace.map _ (X.fromSpecResidueField x)) z' ∈
       relativeLargestOpen B S hS P (AffineSpace.map _ f)
     rwa [hz']
   have ht := affineSpace_fiber_largestOpen_eq_top B S hS P f x d hd hn
@@ -360,7 +360,7 @@ private lemma mem_largestOpen_of_affineSpace
     apply top_unique
     intro w _
     rw [AffineSpace.map_comp, ← preimage_relativeLargestOpen_etale B S hS P]
-    show (AffineSpace.map n U.ι) w ∈ W
+    change (AffineSpace.map n U.ι) w ∈ W
     have hw : q ((AffineSpace.map n U.ι) w) ∈ U := by
       rw [show q ((AffineSpace.map n U.ι) w) = U.ι ((AffineSpace n U.toScheme ↘ U.toScheme) w)
         from affineSpace_over_map_apply U.ι w]
@@ -413,7 +413,7 @@ private lemma mem_largestOpen_of_affineSpace_any
   have he : (AffineSpace (ULift.{u} (Fin (d + 2))) X ↘ X) w =
       (AffineSpace (ULift.{u} (Fin d)) X ↘ X) z := by
     rw [← AffineSpace.reindex_over i X]
-    show (AffineSpace (ULift.{u} (Fin d)) X ↘ X) (qX w) = _
+    change (AffineSpace (ULift.{u} (Fin d)) X ↘ X) (qX w) = _
     rw [hw]
   rwa [he] at hm
 
@@ -484,7 +484,7 @@ private lemma exists_etale_affineSpace_isOver_of_smoothAt
     rw [Category.assoc, AffineSpace.map_over, ← Category.assoc, hπover]
     exact Scheme.Hom.resLE_comp_ι g hUV
   have : π'.IsOver S := ⟨by
-    show π' ≫ ((AffineSpace n Y ↘ Y) ≫ Y ↘ S) = U.ι ≫ Y' ↘ S
+    change π' ≫ ((AffineSpace n Y ↘ Y) ≫ Y ↘ S) = U.ι ≫ Y' ↘ S
     rw [← Category.assoc, hπ', Category.assoc, comp_over]⟩
   exact ⟨d, U, hzU, π', inferInstance, hπ', inferInstance⟩
 

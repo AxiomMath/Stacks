@@ -88,7 +88,7 @@ theorem formallySmoothNAdic_localRingHom_of_isLocalization {R : Type u} {R' : Ty
   refine IsLocalization.ringHom_ext (S := Localization.AtPrime (q.comap (algebraMap R' S)))
     (q.comap (algebraMap R S)).primeCompl (RingHom.ext fun r => ?_)
   simp only [RingHom.coe_comp, Function.comp_apply, RingEquiv.toRingHom_eq_coe,
-    RingHom.coe_coe, AlgEquiv.coe_ringEquiv, e.symm.commutes r, RingEquiv.coe_refl, id_eq]
+    RingHom.coe_coe, AlgEquiv.coe_toRingEquiv, e.symm.commutes r, RingEquiv.coe_refl, id_eq]
   rw [IsScalarTower.algebraMap_apply R R' (Localization.AtPrime (q.comap (algebraMap R' S))),
     Localization.localRingHom_to_map, Localization.localRingHom_to_map,
     ← IsScalarTower.algebraMap_apply R R' S]

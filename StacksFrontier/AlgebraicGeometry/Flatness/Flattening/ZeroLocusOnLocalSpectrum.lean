@@ -116,7 +116,7 @@ theorem sInf_eq_bot_of_iUnion_zeroLocus_eq_compl_genericPoint
       PrimeSpectrum.zeroLocus (I : Set A) := by
     intro p hp
     obtain ⟨J, hJt, hpJ⟩ := Set.mem_iUnion₂.mp (ht hp)
-    show I ≤ p.asIdeal
+    change I ≤ p.asIdeal
     refine le_trans ?_ hpJ
     intro y hy
     rw [show I = J.1 * (t.erase J).prod (fun K ↦ K.1) by
@@ -179,7 +179,7 @@ theorem closedPoints_compl_zeroLocus_subset_zeroLocus
   have : IsDomain B := inferInstance
   let K : Ideal B := J.map (Ideal.Quotient.mk p)
   have hKneBot : K ≠ ⊥ := by
-    obtain ⟨a, haJ, haP⟩ := SetLike.not_le_iff_exists.mp hJnot
+    obtain ⟨a, haJ, haP⟩ := IsConcreteLE.not_le_iff_exists.mp hJnot
     intro hK
     have hmk : Ideal.Quotient.mk p a ∈ K := Ideal.mem_map_of_mem _ haJ
     rw [hK, Ideal.mem_bot] at hmk

@@ -155,7 +155,7 @@ noncomputable def rightAdjointBaseChange :
 
 /-- The mate of the base change map is an isomorphism as soon as the base change map is. -/
 theorem isIso_rightAdjointBaseChange [IsIso D.baseChange] : IsIso D.rightAdjointBaseChange := by
-  show IsIso (conjugateEquiv (D.adjG'.comp D.adjF') (D.adjF.comp D.adjG) D.baseChange)
+  change IsIso (conjugateEquiv (D.adjG'.comp D.adjF') (D.adjF.comp D.adjG) D.baseChange)
   infer_instance
 
 /-- The base change map `L(g')^* ∘ a ⟶ a' ∘ Lg^*` between twisted inverse

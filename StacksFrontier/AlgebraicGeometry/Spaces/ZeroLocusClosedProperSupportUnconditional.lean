@@ -119,7 +119,7 @@ theorem isFinitePresentation_ι_of_fg_definingIdealAt (X : AlgebraicSpaces B S h
       (isAffineOpen_top _).image_of_isOpenImmersion _⟩ :
         ((BigFppfOver.toScheme B S hS).obj (atlasObj B S hS X)).affineOpens) = A := by
     refine Subtype.ext ?_
-    show (BigFppfOver.toScheme B S hS).map r ''ᵁ ⊤ = A.1
+    change (BigFppfOver.toScheme B S hS).map r ''ᵁ ⊤ = A.1
     rw [Scheme.Hom.image_top_eq_opensRange]
     exact TopologicalSpace.Opens.ext (by rwa [Scheme.Hom.coe_opensRange])
   subst hA
@@ -210,7 +210,7 @@ theorem AffineAdjointData.isZeroAt_sourceSituation_iff (A : AffineAdjointData.{u
     (P.functor ((A.targetSituation G hG u).baseChangeProjection T)).map_comp u e.hom
   have hc' := (congrArg (P.functor ((A.targetSituation G hG u).baseChangeProjection T)).map
     hu.symm).trans hc
-  show (P.functor ((A.targetSituation G hG u).baseChangeProjection T)).map
+  change (P.functor ((A.targetSituation G hG u).baseChangeProjection T)).map
       ((modulePullbackAdjunction B S hS A.i).homEquiv A.F A.H A.v) = 0 ↔
     (P.functor ((A.targetSituation G hG u).baseChangeProjection T)).map u = 0
   rw [hc']

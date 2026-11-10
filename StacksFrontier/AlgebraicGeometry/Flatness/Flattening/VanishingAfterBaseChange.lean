@@ -60,7 +60,7 @@ theorem exists_ideal_rTensor_eq_zero_iff_map_eq_bot
   let := φ.toAlgebra
   have hφ : algebraMap A B = φ := rfl
   rw [Ideal.map_eq_bot_iff_le_ker, Ideal.span_le, Set.range_subset_iff]
-  show f.rTensor B = 0 ↔ ∀ p : M × N, φ ((s (f p.1)) p.2) = 0
+  change f.rTensor B = 0 ↔ ∀ p : M × N, φ ((s (f p.1)) p.2) = 0
   constructor
   · intro hf p
     have ht : (s (f p.1)) ⊗ₜ[A] (1 : B) = 0 := by

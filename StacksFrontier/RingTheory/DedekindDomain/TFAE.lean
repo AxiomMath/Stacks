@@ -64,7 +64,7 @@ theorem exists_map_prod_eq_map {p : Ideal R} [p.IsPrime] {f : Multiset (Ideal R)
     rw [← Ideal.mapHom_apply, map_multiset_prod, ← Ideal.one_eq_top]
     refine Multiset.prod_eq_one fun J hJ => ?_
     obtain ⟨Q, hQ, rfl⟩ := Multiset.mem_map.mp hJ
-    obtain ⟨q, hqQ, hqp⟩ := SetLike.not_le_iff_exists.mp (Multiset.mem_filter.mp hQ).2
+    obtain ⟨q, hqQ, hqp⟩ := IsConcreteLE.not_le_iff_exists.mp (Multiset.mem_filter.mp hQ).2
     exact (Ideal.one_eq_top (R := S)).symm ▸ Ideal.eq_top_of_isUnit_mem _
       (Ideal.mem_map_of_mem _ hqQ) (IsLocalization.map_units S (⟨q, hqp⟩ : p.primeCompl))
   -- At least one member of `f` lies in `p`, and at most one since `x ∉ p ^ 2`.
@@ -88,7 +88,7 @@ theorem exists_map_prod_eq_map {p : Ideal R} [p.IsPrime] {f : Multiset (Ideal R)
 private theorem isUnit_spanSingleton_of_ne_zero {K : Type*} [Field K] [Algebra R K]
     [IsFractionRing R K] {y : K} (hy : y ≠ 0) : IsUnit (spanSingleton R⁰ y) :=
   .of_mul_eq_one (spanSingleton R⁰ y⁻¹) <| by
-    rw [spanSingleton_mul_spanSingleton, mul_inv_cancel₀ hy, spanSingleton_one]
+    rw [← map_mul, mul_inv_cancel₀ hy, map_one]
 
 variable (H : HasUniquePrimeIdealFactorization R)
 include H
@@ -108,7 +108,8 @@ theorem exists_mul_eq_span_singleton {p : Ideal R} [hp : p.IsPrime] (hp0 : p ≠
       ⟨by simpa using ⟨hp, hp0⟩, by simp⟩ ⟨by simp [hp, hp0],
         by rw [Multiset.insert_eq_cons, Multiset.prod_cons, Multiset.prod_singleton, ← sq, h]⟩
     simpa using congrArg Multiset.card h1
-  obtain ⟨x, hxp, hx2⟩ := SetLike.exists_of_lt (lt_of_le_of_ne (Ideal.pow_le_self two_ne_zero) hsq)
+  obtain ⟨x, hxp, hx2⟩ :=
+    IsConcreteLE.exists_of_lt (lt_of_le_of_ne (Ideal.pow_le_self two_ne_zero) hsq)
   have hx0 : x ≠ 0 := by rintro rfl; exact hx2 (zero_mem _)
   -- For `y ∈ p`, the ideal `(x, y ^ 2)` is prime after localizing, so `y ∈ x S`.
   have key : p ≤ ((Ideal.span {x}).map (algebraMap R S)).comap (algebraMap R S) := by

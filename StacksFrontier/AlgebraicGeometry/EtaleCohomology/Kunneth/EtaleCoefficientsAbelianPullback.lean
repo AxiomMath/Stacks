@@ -49,7 +49,7 @@ All in the namespace `Stacks.EtaleCohomology.EtaleCoefficients`.
 
 The inverse image `pullback` of `D(-_étale, Λ)` is built on the standard model of the derived
 category (`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/
-StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/AdjunctionForRingedTopoi.lean:394`); that fixes the model in the derived section.
+AdjunctionForRingedTopoi.lean:394`); that fixes the model in the derived section.
 -/
 
 @[expose] public noncomputable section

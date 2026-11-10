@@ -172,7 +172,7 @@ theorem mapsNonZeroDivisors_of_flatAtAssociatedPrimes
     (h : FlatAtAssociatedPrimes A B) : MapsNonZeroDivisors A B := by
   intro y hy
   rcases Submonoid.mem_map.mp hy with ⟨f, hf, rfl⟩
-  show algebraMap A B f ∈ nonZeroDivisors B
+  change algebraMap A B f ∈ nonZeroDivisors B
   by_contra hnot
   have hbad : ¬ ∀ b : B, algebraMap A B f * b = 0 → b = 0 := by
     simpa only [mem_nonZeroDivisors_iff_left] using hnot

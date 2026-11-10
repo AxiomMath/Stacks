@@ -328,7 +328,7 @@ theorem spfPresheaf_pushforward_hom_ext (hA : IsPreAdmissible A) (hB : IsPreAdmi
       (op ((Opens.map b).obj (spfBasicOpen A a)))).α :=
     isPseudoDiscrete_pseudoDiscrete (spfComponentOn B J) _ (hb a)
   refine spfPresheafOn_spfBasicOpen_hom_ext A ⟨hA.choose, hA.choose_spec⟩ a fun t => ?_
-  show ((spfProjectionOn B J).app (op ((Opens.map b).obj (spfBasicOpen A a)))).1
+  change ((spfProjectionOn B J).app (op ((Opens.map b).obj (spfBasicOpen A a)))).1
       ((c.app (op (spfBasicOpen A a))).1 _)
     = ((spfProjectionOn B J).app (op ((Opens.map b).obj (spfBasicOpen A a)))).1
       ((c'.app (op (spfBasicOpen A a))).1 _)

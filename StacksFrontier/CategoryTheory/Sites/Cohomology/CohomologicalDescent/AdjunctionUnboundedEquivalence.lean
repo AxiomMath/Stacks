@@ -200,7 +200,9 @@ theorem isIso_counit_app_of_derivedCategoryB_of_iso_adjunctionUnboundedEquivalen
       ((DerivedCategory.TStructure.t.truncGEπ (-(n : ℤ))).app K))
 
 include hA hEquiv in
-omit [F.Additive] [PreservesFiniteLimits F] [PreservesFiniteColimits F] [L.CommShift ℤ]
+omit [HasSheafify J AddCommGrpCat] [J.WEqualsLocallyBijective AddCommGrpCat]
+  [HasSheafify J' AddCommGrpCat] [J'.WEqualsLocallyBijective AddCommGrpCat]
+  [F.Additive] [PreservesFiniteLimits F] [PreservesFiniteColimits F] [L.CommShift ℤ]
   [L.IsTriangulated] [EnoughInjectives (SheafOfModules.{w} O)]
   [EnoughInjectives (SheafOfModules.{w} O')] [A.IsWeakSerreClass] [A'.IsWeakSerreClass] in
 /-- **`F` reflects isomorphisms between objects of `𝒜'`**, because it induces an equivalence
@@ -334,7 +336,6 @@ variable [PreservesFiniteLimits f.pullbackTopos] [PreservesFiniteColimits f.pull
   [(pullbackOnHomotopy f).HasLeftDerivedFunctor
     (HomotopyCategory.quasiIso (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
       (ComplexShape.up ℤ))]
-  (hmos : f.u.IsMorphismOfSites Y.J X.J)
 
 /-! ### Derived pullback is degreewise pullback, naturally -/
 
@@ -368,7 +369,7 @@ variable (B : Set X.C)
         IsZero (Stacks.Cohomology.moduleCohomology (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)
           (𝒰.X i) p F))
 
-include hmos hA basisCover vanishing basisCover' vanishing' in
+include hA basisCover vanishing basisCover' vanishing' in
 /-- `Rf_*` carries `D_𝒜(𝒪)` into `D_{𝒜'}(𝒪')`. This is Tag 0D6U, part (a), with `N = 0`: the
 higher direct images of an object of `𝒜` lie in `𝒜'` because its pushforward is bounded below
 with cohomology in `𝒜'`, and they vanish above degree `0` because that pushforward lives in

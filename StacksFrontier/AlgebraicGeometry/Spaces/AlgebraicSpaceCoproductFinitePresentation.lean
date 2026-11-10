@@ -192,11 +192,13 @@ theorem isEmpty_points_pullback_of_preimage_range_eq_empty
 
 /-! ### Quasi-compactness of a morphism out of a coproduct -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of fppf sheaves of sets times out at the default
 /-- Pullbacks of fppf sheaves of sets, found once: instance search for them times out inside the
 proof below. -/
 instance (priority := high) hasPullbacks_sheaf_AlgebraicSpaceCoproductFinitePresentation :
     HasPullbacks (Sheaf (BigFppfOver.topology B S hS) (Type u)) := by
-  set_option synthInstance.maxHeartbeats 400000 in infer_instance
+  infer_instance
 
 /-- The pullback of two morphisms of fppf sheaves of sets, given directly so that instance search
 does not time out looking for it. -/

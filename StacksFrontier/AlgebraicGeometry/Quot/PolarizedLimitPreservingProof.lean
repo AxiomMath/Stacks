@@ -22,7 +22,8 @@ canonical comparison `colim 𝒫olarized_{Tᵢ} ⥤ 𝒫olarized_T` is an equiva
 ## Implementation notes
 
 `CategoryTheory.Functor.IsEquivalence` is faithfulness, fullness and essential surjectivity, and
-each of the three is reduced by `StacksFrontier/AlgebraicGeometry/Stacks/LimitPreservingStageDescent`
+each of the three is reduced by
+`StacksFrontier/AlgebraicGeometry/Stacks/LimitPreservingStageDescent`
 to a colimit-free descent condition at a stage of the system:
 `AlgebraicGeometry.descentObj_polarizedSliceProjection`,
 `AlgebraicGeometry.descentHom_polarizedSliceProjection` and

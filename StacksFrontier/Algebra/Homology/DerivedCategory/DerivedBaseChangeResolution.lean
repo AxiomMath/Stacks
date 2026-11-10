@@ -99,7 +99,7 @@ theorem isIso_Q_map_comp_of_isIso_derivedBaseChange (α : F ⋙ G ⟶ G' ⋙ F')
     exact IsIso.of_isIso_comp_right _ (RF'.map (G'.mapDerivedCategoryFactorsh.inv.app K₀))
   have hq : IsIso (DerivedCategory.Qh.map qb) := by
     rw [DerivedCategory.isIso_Qh_map_iff, HomotopyCategory.quotient_map_mem_quasiIso_iff]
-    show QuasiIso q
+    change QuasiIso q
     infer_instance
   have hB : IsIso ((DerivedCategory.Qh.map (H.app K₀) ≫
       DerivedCategory.Qh.map ((F'.mapHomotopyCategory (ComplexShape.up ℤ)).map qb)) ≫
@@ -182,7 +182,7 @@ theorem isIso_Q_map_natTrans_comp_of_forget
     exact (σ'.hom.naturality (L.obj.d a b)).symm
   · ext n
     have h₃ := σ'.hom.naturality (i.hom.f n)
-    show (αa.app (UX.obj (I.obj.X n)) ≫
+    change (αa.app (UX.obj (I.obj.X n)) ≫
         F'a.map (τ'.hom.app (I.obj.X n) ≫ UX'.map (i.hom.f n))) ≫ σ'.hom.app (L.obj.X n) =
       (Ga.map (σ.hom.app (I.obj.X n)) ≫ τ.hom.app (Fm.obj (I.obj.X n))) ≫
         UY'.map (αm.app (I.obj.X n) ≫ F'm.map (i.hom.f n))

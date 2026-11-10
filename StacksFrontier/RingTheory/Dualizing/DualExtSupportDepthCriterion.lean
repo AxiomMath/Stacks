@@ -244,13 +244,13 @@ private lemma dimensionFunction_eq_quotientDimension
     (IsLocalRing.maximalIdeal.isMaximal A).isPrime⟩
   let q : PrimeSpectrum A := ⟨p, inferInstance⟩
   have hqm : q ≤ m := by
-    show p ≤ IsLocalRing.maximalIdeal A
+    change p ≤ IsLocalRing.maximalIdeal A
     exact IsLocalRing.le_maximalIdeal_of_isPrime p
   have hspec : q ⤳ m := (PrimeSpectrum.le_iff_specializes q m).mp hqm
   have hdiff := TopologicalSpace.DimensionFunction.sub_eq_of_specializes δ δ' hspec
   have hmmax : IsMax m := by
     intro r hmr
-    show r.asIdeal ≤ IsLocalRing.maximalIdeal A
+    change r.asIdeal ≤ IsLocalRing.maximalIdeal A
     exact IsLocalRing.le_maximalIdeal_of_isPrime r.asIdeal
   have hδ'm : δ' m = 0 := by
     rw [hδ' m, deltaDim, dimQuotient, Order.coheight_eq_zero.mpr hmmax]
@@ -301,7 +301,8 @@ private theorem isNormalizedDualizingComplex_localized_shift
 `ModuleCat.localizedModuleFunctor` spelling. Localizing a normalized dualizing complex over a
 Noetherian local ring at a prime `𝔭` and shifting by `-dim(A / 𝔭)` gives a normalized dualizing
 complex over `A_𝔭`. -/
-alias isNormalizedDualizingComplex_localizedModule_shift := isNormalizedDualizingComplex_localized_shift
+alias isNormalizedDualizingComplex_localizedModule_shift :=
+  isNormalizedDualizingComplex_localized_shift
 
 /-! ### Arithmetic and vanishing lemmas -/
 
@@ -368,7 +369,7 @@ private lemma ext_shift_nontrivial_iff
       Nontrivial (DerivedCategory.Ext X (K⟦-(e : ℤ)⟧) ((e : ℤ) + j)) := by
   let s := (CategoryTheory.shiftFunctorAdd'
     (DerivedCategory (ModuleCat.{max v u} R)) (-(e : ℤ)) ((e : ℤ) + j) j (by omega)).symm.app K
-  show Nontrivial (X ⟶ K⟦j⟧) ↔
+  change Nontrivial (X ⟶ K⟦j⟧) ↔
     Nontrivial (X ⟶ (K⟦-(e : ℤ)⟧)⟦(e : ℤ) + j⟧)
   exact (CategoryTheory.Iso.homCongr (Iso.refl X) s).nontrivial_congr.symm
 
@@ -442,7 +443,7 @@ theorem mem_support_pi_moduleExtInto_iff_depth_add_ringKrullDim_le
   have hsupport : p ∈ Module.support A (∀ j : Fin (i + 1), E j) ↔
       ∃ j : Fin (i + 1), Nontrivial (DerivedCategory.Ext Xloc Kloc (-(j : ℤ))) := by
     rw [Module.mem_support_iff]
-    show Nontrivial (LocalizedModule T (∀ j : Fin (i + 1), E j)) ↔ _
+    change Nontrivial (LocalizedModule T (∀ j : Fin (i + 1), E j)) ↔ _
     rw [(localizedPiEquiv T E).toEquiv.nontrivial_congr.trans
       (nontrivial_pi_iff_exists (M := fun j => LocalizedModule T (E j)))]
     simp only [E, hloc]

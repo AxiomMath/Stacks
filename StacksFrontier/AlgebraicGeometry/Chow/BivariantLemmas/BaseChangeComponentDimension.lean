@@ -91,7 +91,7 @@ private theorem mem_genericPoints_fiber_of_mem_genericPoints_pullback
   have hrflat : Flat r := by
     have : Flat (Spec.map (f.residueFieldMap x)) :=
       Flat.SpecMap_iff.mpr (RingHom.Flat.of_isField (Field.toIsField _) _)
-    show Flat (pullback.fst (B.g.fiberToSpecResidueField (f x))
+    change Flat (pullback.fst (B.g.fiberToSpecResidueField (f x))
       (Spec.map (f.residueFieldMap x)))
     infer_instance
   let xFiber : p.fiber x := p.asFiber x'
@@ -112,7 +112,7 @@ private theorem mem_genericPoints_fiber_of_mem_genericPoints_pullback
           (B.base.S.fromSpecResidueField (f x)) q (Spec.map (f.residueFieldMap x)) f
           pullback.condition (by simp) :=
       fiberSquare.isoPullback_hom_fst
-    show (fiberSquare.isoPullback.hom ≫ r) ≫
+    change (fiberSquare.isoPullback.hom ≫ r) ≫
         pullback.fst B.g (B.base.S.fromSpecResidueField (f x)) =
       pullback.fst p (X.fromSpecResidueField x) ≫ q
     rw [hmap, pullback.map, pullback.lift_fst]

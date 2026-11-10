@@ -81,7 +81,7 @@ theorem pullback_map_homEquiv_symm_eq_zero_iff {X Z Y : Scheme.{u}} (p : Z ⟶ X
   let v : SheafOfModules.unit Z.ringCatSheaf ⟶
       (Scheme.Modules.pushforward h).obj (SheafOfModules.unit Y.ringCatSheaf) :=
     SheafOfModules.unitToPushforwardObjUnit h.toRingCatSheafHom
-  show (Scheme.Modules.pullback h).map t = 0 ↔
+  change (Scheme.Modules.pullback h).map t = 0 ↔
     G ≫ (Scheme.Modules.pushforward p).map v ≫
       (Scheme.Modules.pushforwardComp h p).hom.app (SheafOfModules.unit Y.ringCatSheaf) = 0
   have hu : IsIso u :=

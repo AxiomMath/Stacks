@@ -192,6 +192,10 @@ theorem derivedSectionTensor_comp_derivedDualContraction
   rw [derivedSectionTensor_eq, h]
   simp only [Category.assoc]
 
+omit [∀ V : Opens X, HasSheafify ((Opens.grothendieckTopology X).over V) AddCommGrpCat.{u}]
+  [∀ V : Opens X, ((Opens.grothendieckTopology X).over V).WEqualsLocallyBijective
+    AddCommGrpCat.{u}]
+  [∀ V : Opens X, HasWeakSheafify ((Opens.grothendieckTopology X).over V) AddCommGrpCat.{u}] in
 /-- **The identification of Stacks 08I1 on a class, from two equations about canonical
 morphisms.** Write `Φ = derivedTensorDualToSheafHom Rc E K` for the canonical map of
 Stacks 08I1 and `app = derivedSheafHomCounit Rc E K` for the application morphism
@@ -251,6 +255,10 @@ theorem derivedStructureSheafGlobalSectionsEquiv_derivedDualContraction
   rw [homologyMap_derivedModuleGlobalSections_symm, AddEquiv.apply_symm_apply]
   exact derivedSectionTensor_comp_derivedDualContraction Rc K E hE ξ η
 
+omit [∀ V : Opens X, HasSheafify ((Opens.grothendieckTopology X).over V) AddCommGrpCat.{u}]
+  [∀ V : Opens X, ((Opens.grothendieckTopology X).over V).WEqualsLocallyBijective
+    AddCommGrpCat.{u}]
+  [∀ V : Opens X, HasWeakSheafify ((Opens.grothendieckTopology X).over V) AddCommGrpCat.{u}] in
 /-- **The identification of Stacks 08I1 on a class, from the first equation.** If the canonical
 map of Stacks 08I1 followed by the application morphism of Stacks 08J8 is the contraction
 against `ε`, then the identification `H⁰(X, K ⊗^L E^∨) ⟶ Hom_{D(O_X)}(E, K)` sends the class of

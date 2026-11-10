@@ -117,19 +117,35 @@ add_to_sga "4 IV 2.6" "partial"
   CategoryTheory.Projective.projective_iff_preservesEpimorphisms_coyoneda_obj
 add_to_sga "4 IV 2.6" "partial" CategoryTheory.isProjective
 add_to_sga "4 IV 2.7.2" ProfiniteAddGrp
-add_to_sga "4 IV 2.7.2" "partial"
-  ProfiniteAddGrp.instAddGroupCarrierToTopTotallyDisconnectedSpacePtProfiniteLimitConeCompForget₂ContinuousAddMonoidHomToProfiniteContinuousMap
-add_to_sga "4 IV 2.7.2" "compactness of lim G_i"
-  ProfiniteAddGrp.instCompactSpaceSubtypeForallCarrierToTopTotallyDisconnectedSpaceToProfiniteObjMemAddSubgroupLimitConePtAux
-add_to_sga "4 IV 2.7.2" "partial"
-  ProfiniteAddGrp.instIsTopologicalAddGroupCarrierToTopTotallyDisconnectedSpacePtProfiniteLimitConeCompForget₂ContinuousAddMonoidHomToProfiniteContinuousMap
+run_cmd Lean.Elab.Command.elabCommand <| ← `(add_to_sga "4 IV 2.7.2" "partial"
+  $(Lean.mkIdent <| .str `ProfiniteAddGrp <|
+    "instAddGroupCarrierToTopTotallyDisconnectedSpacePtProfinite" ++
+    "LimitConeCompForget₂ContinuousAddMonoidHomToProfinite" ++
+    "ContinuousMap"))
+run_cmd Lean.Elab.Command.elabCommand <| ← `(add_to_sga "4 IV 2.7.2" "compactness of lim G_i"
+  $(Lean.mkIdent <| .str `ProfiniteAddGrp <|
+    "instCompactSpaceSubtypeForallCarrierToTopTotallyDisconnected" ++
+    "SpaceToProfiniteObjMemAddSubgroupLimitConePtAux"))
+run_cmd Lean.Elab.Command.elabCommand <| ← `(add_to_sga "4 IV 2.7.2" "partial"
+  $(Lean.mkIdent <| .str `ProfiniteAddGrp <|
+    "instIsTopologicalAddGroupCarrierToTopTotallyDisconnected" ++
+    "SpacePtProfiniteLimitConeCompForget₂ContinuousAddMonoidHomTo" ++
+    "ProfiniteContinuousMap"))
 add_to_sga "4 IV 2.7.2" "special case" ProfiniteGrp.ProfiniteCompletion.completion
-add_to_sga "4 IV 2.7.2" "compactness of lim G_i"
-  ProfiniteGrp.instCompactSpaceSubtypeForallCarrierToTopTotallyDisconnectedSpaceToProfiniteObjMemSubgroupLimitConePtAux
-add_to_sga "4 IV 2.7.2" "partial"
-  ProfiniteGrp.instGroupCarrierToTopTotallyDisconnectedSpacePtProfiniteLimitConeCompForget₂ContinuousMonoidHomToProfiniteContinuousMap
-add_to_sga "4 IV 2.7.2" "partial"
-  ProfiniteGrp.instIsTopologicalGroupCarrierToTopTotallyDisconnectedSpacePtProfiniteLimitConeCompForget₂ContinuousMonoidHomToProfiniteContinuousMap
+run_cmd Lean.Elab.Command.elabCommand <| ← `(add_to_sga "4 IV 2.7.2" "compactness of lim G_i"
+  $(Lean.mkIdent <| .str `ProfiniteGrp <|
+    "instCompactSpaceSubtypeForallCarrierToTopTotallyDisconnected" ++
+    "SpaceToProfiniteObjMemSubgroupLimitConePtAux"))
+run_cmd Lean.Elab.Command.elabCommand <| ← `(add_to_sga "4 IV 2.7.2" "partial"
+  $(Lean.mkIdent <| .str `ProfiniteGrp <|
+    "instGroupCarrierToTopTotallyDisconnectedSpacePtProfinite" ++
+    "LimitConeCompForget₂ContinuousMonoidHomToProfiniteContinuous" ++
+    "Map"))
+run_cmd Lean.Elab.Command.elabCommand <| ← `(add_to_sga "4 IV 2.7.2" "partial"
+  $(Lean.mkIdent <| .str `ProfiniteGrp <|
+    "instIsTopologicalGroupCarrierToTopTotallyDisconnectedSpacePt" ++
+    "ProfiniteLimitConeCompForget₂ContinuousMonoidHomToProfinite" ++
+    "ContinuousMap"))
 add_to_sga "4 IV 2.7.2" "more general" ProfiniteGrp.limit
 add_to_sga "4 IV 2.7.2" "more general" continuousSMul_iff_stabilizer_isOpen
 add_to_sga "4 IV 2.7.2" "partial" stabilizer_isOpen
@@ -236,8 +252,9 @@ add_to_sga "4 IV 4.6.1" "partial" Action.instIsEquivalenceFunctorSingleObjFuncto
 add_to_sga "4 IV 4.6.1" "partial" Action.instIsEquivalenceFunctorSingleObjInverse
 add_to_sga "4 IV 4.6.1" "partial"
   CategoryTheory.Presheaf.instIsLeftKanExtensionOppositeObjFunctorTypeYonedaYonedaMap
+open CategoryTheory.Presheaf in
 add_to_sga "4 IV 4.6.1" "partial"
-  CategoryTheory.Presheaf.instUniqueHomLeftExtensionOppositeOpObjFunctorTypeUliftYonedaMkUliftYonedaMap
+  instUniqueHomLeftExtensionOppositeOpObjFunctorTypeUliftYonedaMkUliftYonedaMap
 add_to_sga "4 IV 4.6.1" "partial"
   CategoryTheory.Presheaf.instUniqueHomLeftExtensionOppositeOpObjFunctorTypeYonedaMkYonedaMap
 add_to_sga "4 IV 4.6.1" "more general" CategoryTheory.Presheaf.isExtensionAlongULiftYoneda
@@ -367,8 +384,9 @@ add_to_sga "4 IV 6.7" "partial" CategoryTheory.GrothendieckTopology.Point.Hom.pr
 add_to_sga "4 IV 6.7" "partial" CategoryTheory.GrothendieckTopology.Point.Hom.presheafFiber_comp
 add_to_sga "4 IV 6.7" "partial" CategoryTheory.GrothendieckTopology.Point.Hom.presheafFiber_id
 add_to_sga "4 IV 6.7" "partial" CategoryTheory.GrothendieckTopology.Point.sheafFiber
+open CategoryTheory.GrothendieckTopology in
 add_to_sga "4 IV 6.7.3" "special case"
-  CategoryTheory.GrothendieckTopology.instHasEnoughPointsOverOverOfWEqualsLocallyBijectiveFunOfHasSheafifyType
+  instHasEnoughPointsOverOverOfWEqualsLocallyBijectiveFunOfHasSheafifyType
 add_to_sga "4 IV 6.7.3" "special case"
   CategoryTheory.ObjectProperty.IsConservativeFamilyOfPoints.over
 add_to_sga "4 IV 6.7.4" "special case"
@@ -459,8 +477,9 @@ add_to_sga "4 IV 8.5.5" "special case"
 add_to_sga "4 IV 8.5.5" "special case" AlgebraicGeometry.UniversallyOpen.instIsZariskiLocalAtTarget
 add_to_sga "4 IV 8.5.5" "Target"
   AlgebraicGeometry.instDescendsAlongSchemeEtaleMinMorphismPropertySurjectiveFlatQuasiCompact
+open AlgebraicGeometry in
 add_to_sga "4 IV 8.5.5" "Target"
-  AlgebraicGeometry.instDescendsAlongSchemeLocallyOfFiniteTypeMinMorphismPropertySurjectiveFlatQuasiCompact
+  instDescendsAlongSchemeLocallyOfFiniteTypeMinMorphismPropertySurjectiveFlatQuasiCompact
 add_to_sga "4 IV 8.5.5" "Target"
   AlgebraicGeometry.instDescendsAlongSchemeSmoothMinMorphismPropertySurjectiveFlatQuasiCompact
 add_to_sga "4 IV 8.5.5" "special case"

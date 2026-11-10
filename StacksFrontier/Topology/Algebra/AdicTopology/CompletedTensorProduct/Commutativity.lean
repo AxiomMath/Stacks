@@ -81,12 +81,12 @@ public theorem continuous_tensorProduct_comm
   let := tensorProductTopology (R := R) (M := M) (N := N)
   let := tensorProductTopology (R := R) (M := N) (N := M)
   apply continuous_of_continuousAt_zero (TensorProduct.comm R M N).toLinearMap
-  show Filter.Tendsto (TensorProduct.comm R M N).toLinearMap (nhds 0) (nhds 0)
+  change Filter.Tendsto (TensorProduct.comm R M N).toLinearMap (nhds 0) (nhds 0)
   refine ((hasBasis_tensorProductTopology (R := R) (M := M) (N := N)).tendsto_iff
     (hasBasis_tensorProductTopology (R := R) (M := N) (N := M))).mpr ?_
   intro i _
   refine ⟨(i.2, i.1), trivial, fun x hx ↦ ?_⟩
-  show (TensorProduct.comm R M N) x ∈ tensorProductSubmodule i.1.1 i.2.1
+  change (TensorProduct.comm R M N) x ∈ tensorProductSubmodule i.1.1 i.2.1
   rw [← tensorProductSubmodule_map_comm i.2.1 i.1.1]
   exact Submodule.mem_map_of_mem (show x ∈ tensorProductSubmodule i.2.1 i.1.1 from hx)
 

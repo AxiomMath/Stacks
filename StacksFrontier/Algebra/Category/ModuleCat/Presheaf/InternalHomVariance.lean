@@ -200,7 +200,7 @@ private theorem preadditiveYonedaObj_restrictScalars_preservesLimitsOfShape
   let L := ModuleCat.uliftFunctor.{max w v, v} R
   let : PreservesLimitsOfSize.{w, w}
       ((T ⋙ L) ⋙ forget (ModuleCat.{max w v} R)) := by
-    show PreservesLimitsOfSize.{w, w}
+    change PreservesLimitsOfSize.{w, w}
       (yoneda.obj X ⋙ CategoryTheory.uliftFunctor.{max w v})
     infer_instance
   let : PreservesLimitsOfSize.{w, w} (T ⋙ L) :=
@@ -365,7 +365,7 @@ lemma pairing_smul_left (f : A ⟶ internalHom O B G) (U : C)
     pairing O f U (r • a) b = r • pairing O f U a b := by
   unfold pairing
   rw [map_smul]
-  show (((Oforget O).map (𝟙 U).op).hom r) • pairing O f U a b = _
+  change (((Oforget O).map (𝟙 U).op).hom r) • pairing O f U a b = _
   simp [pairing]
 
 /-- The pairing is natural: restricting both arguments along `g` restricts the value. The two
@@ -377,7 +377,7 @@ lemma pairing_naturality (f : A ⟶ internalHom O B G) {U V : C}
     pairing O f V (A.map g.op a) (B.map g.op b) = G.map g.op (pairing O f U a b) := by
   unfold pairing
   rw [_root_.PresheafOfModules.naturality_apply]
-  show ((f.app (op U) a).app (op (Over.mk (𝟙 V ≫ g)))) (B.map g.op b) = _
+  change ((f.app (op U) a).app (op (Over.mk (𝟙 V ≫ g)))) (B.map g.op b) = _
   exact _root_.PresheafOfModules.naturality_apply (f.app (op U) a)
     (Over.homMk g (by simp) : Over.mk (𝟙 V ≫ g) ⟶ Over.mk (𝟙 U)).op b
 
@@ -455,14 +455,14 @@ lemma transposeHom_involutive (f : A ⟶ internalHom O B G) :
   apply ModuleCat.hom_ext; apply LinearMap.ext; intro a
   apply _root_.PresheafOfModules.hom_ext; intro V
   apply ModuleCat.hom_ext; apply LinearMap.ext; intro b
-  show pairing O f V.unop.left (A.map V.unop.hom.op a)
+  change pairing O f V.unop.left (A.map V.unop.hom.op a)
     (B.map (𝟙 V.unop.left).op b) = (f.app U a).app V b
   unfold pairing
   rw [_root_.PresheafOfModules.naturality_apply]
-  show (f.app U a).app (op (Over.mk (𝟙 V.unop.left ≫ V.unop.hom)))
+  change (f.app U a).app (op (Over.mk (𝟙 V.unop.left ≫ V.unop.hom)))
     (B.map (𝟙 V.unop.left).op b) = _
   have hi : B.map (𝟙 V.unop.left).op b = b := by
-    show B.presheaf.map (𝟙 (op V.unop.left)) b = b
+    change B.presheaf.map (𝟙 (op V.unop.left)) b = b
     rw [B.presheaf.map_id]
     rfl
   rw [hi]
@@ -511,7 +511,7 @@ theorem internalHom_postcomp_smul
       smulHom O F H U r (a ≫ (restrFun O U).map f) := by
   apply _root_.PresheafOfModules.hom_ext; intro X
   apply ModuleCat.hom_ext; apply LinearMap.ext; intro x
-  show (((restrFun O U).map f).app X).hom
+  change (((restrFun O U).map f).app X).hom
       (fRestr O U r X • a.app X x) =
     fRestr O U r X • (((restrFun O U).map f).app X).hom (a.app X x)
   exact map_smul _ _ _

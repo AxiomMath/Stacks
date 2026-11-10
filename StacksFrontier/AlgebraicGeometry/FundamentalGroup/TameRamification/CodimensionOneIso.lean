@@ -91,7 +91,7 @@ theorem isTamelyRamifiedInCodimensionOne_of_isPullback
   have hYX : IsPullback gY (f'' ≫ j'') (S.f ≫ S.U.ι) S.g := hY.paste_vert hU
   refine IsTamelyRamifiedInCodimensionOne.of_iso hU.flip.isoPullback.symm hYX.isoPullback.symm
     (IsPullback.isoPullback_inv_fst _) ?_ (h0EYD S h)
-  show hYX.isoPullback.inv ≫ f'' = S.pulledBackCover ≫ hU.flip.isoPullback.inv
+  change hYX.isoPullback.inv ≫ f'' = S.pulledBackCover ≫ hU.flip.isoPullback.inv
   rw [← cancel_mono hU.flip.isoPullback.hom, Category.assoc, Category.assoc, Iso.inv_hom_id,
     Category.comp_id]
   apply Limits.pullback.hom_ext

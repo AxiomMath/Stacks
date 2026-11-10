@@ -69,7 +69,7 @@ variable {C₁ C₂ C₃ C₁' C₂' C₃' : Type*} [Category* C₁] [Category* 
 /-- The mate of the square given by the inverse of `κ` is `σ` when `κ.inv` is the inverse mate
 of `σ`. -/
 private theorem mateEquiv_mk_inv_eq (ag : Lg ⊣ Rg) (af : Lf ⊣ Rf) (κ : Lg ⋙ Φ₁ ≅ Φ₂ ⋙ Lf)
-    (σ : Rg ⋙ Φ₂ ≅ Φ₁ ⋙ Rf) (h : κ.inv = ((mateEquiv ag af).symm σ.hom).natTrans) :
+    (σ : Rg ⋙ Φ₂ ≅ Φ₁ ⋙ Rf) (h : κ.inv = (mateEquiv ag af).symm σ.hom) :
     mateEquiv ag af (TwoSquare.mk _ _ _ _ κ.inv) = σ.hom := by
   rw [h]; exact Equiv.apply_symm_apply _ _
 
@@ -87,9 +87,9 @@ theorem isCompSquareCoherent_of_mates (ag : Lg ⊣ Rg) (ag' : Lg' ⊣ Rg') (agg 
     (hd' : conjugateEquiv (af'.comp af) aff c'.inv = d'.hom)
     (σg : Rg ⋙ Φ₂ ≅ Φ₁ ⋙ Rf) (σg' : Rg' ⋙ Φ₃ ≅ Φ₂ ⋙ Rf') (σgg : Rgg ⋙ Φ₃ ≅ Φ₁ ⋙ Rff)
     (κg : Lg ⋙ Φ₁ ≅ Φ₂ ⋙ Lf) (κg' : Lg' ⋙ Φ₂ ≅ Φ₃ ⋙ Lf') (κgg : Lgg ⋙ Φ₁ ≅ Φ₃ ⋙ Lff)
-    (hκg : κg.inv = ((mateEquiv ag af).symm σg.hom).natTrans)
-    (hκg' : κg'.inv = ((mateEquiv ag' af').symm σg'.hom).natTrans)
-    (hκgg : κgg.inv = ((mateEquiv agg aff).symm σgg.hom).natTrans)
+    (hκg : κg.inv = (mateEquiv ag af).symm σg.hom)
+    (hκg' : κg'.inv = (mateEquiv ag' af').symm σg'.hom)
+    (hκgg : κgg.inv = (mateEquiv agg aff).symm σgg.hom)
     (hσ : IsCompSquareCoherent d d' σg' σg σgg) :
     IsCompSquareCoherent c c' κg κg' κgg := by
   have key : ((TwoSquare.mk _ _ _ _ κg'.inv ≫ᵥ TwoSquare.mk _ _ _ _ κg.inv).whiskerRight
@@ -101,8 +101,8 @@ theorem isCompSquareCoherent_of_mates (ag : Lg ⊣ Rg) (ag' : Lg' ⊣ Rg') (agg 
       mateEquiv_mk_inv_eq ag af κg σg hκg, mateEquiv_mk_inv_eq ag' af' κg' σg' hκg',
       mateEquiv_mk_inv_eq agg aff κgg σgg hκgg]
     ext N
-    simp only [TwoSquare.whiskerBottom, TwoSquare.whiskerTop, TwoSquare.hComp, TwoSquare.mk,
-      TwoSquare.natTrans, NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app,
+    simp only [TwoSquare.whiskerBottom, TwoSquare.whiskerTop, TwoSquare.hComp,
+      NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app,
       Functor.associator_hom_app, Functor.associator_inv_app, Category.id_comp,
       Functor.comp_obj, Category.assoc]
     exact hσ N
@@ -111,7 +111,7 @@ theorem isCompSquareCoherent_of_mates (ag : Lg ⊣ Rg) (ag' : Lg' ⊣ Rg') (agg 
   simp only [TwoSquare.whiskerRight, TwoSquare.whiskerLeft,
     TwoSquare.vComp, NatTrans.comp_app, Functor.whiskerLeft_app,
     Functor.whiskerRight_app, Functor.associator_hom_app, Functor.associator_inv_app,
-    Category.id_comp, Category.comp_id, TwoSquare.mk, TwoSquare.natTrans] at k
+    Category.id_comp, Category.comp_id, TwoSquare.mk] at k
   have e : (κg.app (Lg'.obj M) ≪≫ Lf.mapIso (κg'.app M) ≪≫ c'.app (Φ₃.obj M)).symm =
       (Φ₁.mapIso (c.app M) ≪≫ κgg.app M).symm := by
     ext
@@ -452,7 +452,7 @@ theorem relocalizeBaseChangeNatIso_comp (V : SmallEtale B W hW Z₃.1) :
   have e₆ : ((smallBaseChangeChartCompIso B W hW f f' hf hf' hf'').hom.app V).hom.left ≫
       hf.snd ((smallBaseChange B W hW f' hf').obj V).1.hom ≫ hf'.snd V.1.hom = hf''.snd V.1.hom :=
     toOver_map_chartBaseChangeCompComparison_comp_snd B W hW f f' hf hf' hf'' V
-  show ((smallerBaseSmallEtaleEquivalenceOfIso B h ε₁).functor.map
+  change ((smallerBaseSmallEtaleEquivalenceOfIso B h ε₁).functor.map
         ((smallBaseChangeChartCompIso B W hW f f' hf hf' hf'').hom.app V)).hom.left ≫
       ((relocalizeBaseChangeNatIso B h ε₁ ε₂ hfg hf hg).hom.app
         ((smallBaseChange B W hW f' hf').obj V)).hom.left ≫

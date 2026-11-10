@@ -177,7 +177,7 @@ public theorem exists_idealPowerQuotientIsoOfIso {M N : Y.Modules}
     Stacks.Algebraization.completionFunctor_obj Y J N' n
   have hfinal := completionProjection_comp_eqToHom J N' n h2
   refine ⟨eqToIso h1 ≪≫ a ≪≫ eqToIso h2, ?_⟩
-  show cokernel.π ((Stacks.Algebraization.idealPowerMultiple J (n + 1) M).ι) ≫
+  change cokernel.π ((Stacks.Algebraization.idealPowerMultiple J (n + 1) M).ι) ≫
     eqToHom h1 ≫ a.hom ≫ eqToHom h2 = _
   refine (Category.assoc _ _ _).symm.trans ?_
   refine (Category.assoc _ _ _).symm.trans ?_
@@ -259,9 +259,9 @@ public theorem stableKernelImageLimitπ_eventually_isIso (α : F ⟶ G) (n : ℕ
   refine ⟨c, fun m hm => ?_⟩
   have : IsIso (limit.π (stableKernelImageQuotientDiagram I α n) (op m)) :=
     (h.precomp (homOfLE hm).op).isIso_π_of_isLimit (limit.isLimit _)
-  show IsIso ((limit.π (stableKernelImageCompletionDiagram I α) (op m)).app (op n))
+  change IsIso ((limit.π (stableKernelImageCompletionDiagram I α) (op m)).app (op n))
   rw [← limitObjIsoLimitCompEvaluation_hom_π]
-  show IsIso ((stableKernelImageLimitSystem_objIso I α n).hom ≫
+  change IsIso ((stableKernelImageLimitSystem_objIso I α n).hom ≫
     limit.π (stableKernelImageQuotientDiagram I α n) (op m))
   infer_instance
 
@@ -311,7 +311,7 @@ public theorem stableKernelImageLimit_isCoherentAdicSystem (α : F ⟶ G) :
     have hb := (stableKernelImageCompletion I α m).property.cokernel_π_comp_quotientIso n
     refine ⟨a ≪≫ b ≪≫ e₀.symm, ?_⟩
     have hn := stableKernelImageLimitπ_naturality I α n (n + 1) m (Nat.le_succ n)
-    show cokernel.π _ ≫ a.hom ≫ b.hom ≫ e₀.inv = _
+    change cokernel.π _ ≫ a.hom ≫ b.hom ≫ e₀.inv = _
     refine (Category.assoc _ _ _).symm.trans ?_
     refine (congrArg (fun z => z ≫ b.hom ≫ e₀.inv) ha).trans ?_
     refine (Category.assoc _ _ _).trans ?_
@@ -356,7 +356,7 @@ public theorem exists_stableKernelImageLift (α : F ⟶ G) {H : CoherentAdicSyst
   let a := kernel.lift (α.hom.app (op l)) (β.hom.app (op l)) hz ≫
     factorThruImage (kernel.ι (α.hom.app (op l)) ≫ F.obj.map (homOfLE h).op)
   have ha : a ≫ stableKernelImageIncl I α m = t ≫ β.hom.app (op m) := by
-    show (_ ≫ factorThruImage _) ≫ image.ι _ = _
+    change (_ ≫ factorThruImage _) ≫ image.ι _ = _
     rw [Category.assoc, image.fac, ← Category.assoc, kernel.lift_ι]
     exact (β.hom.naturality (homOfLE h).op).symm
   let sq : CommSq a t (stableKernelImageIncl I α m) (β.hom.app (op m)) := ⟨ha⟩
@@ -412,7 +412,7 @@ public theorem stableKernelImageCompletionToLevel_fac (α : F ⟶ G) (n m : ℕ)
       stableKernelImageIncl I α m ≫ F.obj.map (homOfLE h).op := by
   have hπ := completionProjection_comp_eqToHom I (coherentStableKernelImage I α m) n
     (stableKernelImageCompletion_obj I α m n)
-  show Stacks.Algebraization.completionProjection X I (coherentStableKernelImage I α m) n ≫
+  change Stacks.Algebraization.completionProjection X I (coherentStableKernelImage I α m) n ≫
     eqToHom (stableKernelImageCompletion_obj I α m n) ≫
       stableKernelImageQuotientToLevel I α n m h = _
   refine (Category.assoc _ _ _).symm.trans ?_
@@ -526,7 +526,7 @@ stable kernel images, which `α` annihilates. -/
 public theorem stableKernelImageLimitIncl_comp (α : F ⟶ G) :
     stableKernelImageLimitIncl I α ≫ α.hom = 0 := by
   refine NatTrans.ext (funext fun n => ?_)
-  show (stableKernelImageLimitπ I α n.unop n.unop ≫
+  change (stableKernelImageLimitπ I α n.unop n.unop ≫
     (eqToHom _ ≫ stableKernelImageQuotientToLevel I α n.unop n.unop le_rfl)) ≫
       α.hom.app n = 0
   rw [Category.assoc, Category.assoc, stableKernelImageQuotientToLevel_comp_alpha,
@@ -553,7 +553,7 @@ public theorem stableKernelImageLimitIncl_hom_ext (α : F ⟶ G) (H : CoherentAd
     exact congrArg (fun f => f.app (op l)) h
   have hw := stableKernelImageLimitπ_comp_project I α l m.unop l hm
   have hnπ := stableKernelImageLimitπ_naturality I α n.unop l m.unop hn
-  show H.obj.map (homOfLE hn).op ≫ (a.app n ≫ stableKernelImageLimitπ I α n.unop m.unop) =
+  change H.obj.map (homOfLE hn).op ≫ (a.app n ≫ stableKernelImageLimitπ I α n.unop m.unop) =
     H.obj.map (homOfLE hn).op ≫ (b.app n ≫ stableKernelImageLimitπ I α n.unop m.unop)
   simp only [reassoc_of% a.naturality (homOfLE hn).op,
     reassoc_of% b.naturality (homOfLE hn).op, hnπ]
@@ -606,7 +606,7 @@ public theorem stableKernelImageQuotientLift_naturality (α : F ⟶ G) {H : Cohe
   have hepi : Epi (H.obj.map (homOfLE hk).op) := H.property.epi_map hk
   refine (cancel_epi (H.obj.map (homOfLE hk).op)).mp ?_
   rw [← Category.assoc, ← H.obj.map_comp]
-  show H.obj.map (homOfLE (h.trans hk)).op ≫ _ = _
+  change H.obj.map (homOfLE (h.trans hk)).op ≫ _ = _
   rw [stableKernelImageQuotientLift_fac I α β hβ n m _ (h.trans hk) hm,
     reassoc_of% stableKernelImageQuotientLift_fac I α β hβ k m _ hk hm]
   exact congrArg (fun z => H.obj.map (homOfLE hm).op ≫ stableKernelImageLift I α β hβ m ≫ z)
@@ -668,7 +668,7 @@ public theorem stableKernelImageLiftCone_lift_fac (α : F ⟶ G) {H : CoherentAd
     limit.lift _ (stableKernelImageLiftCone I α β hβ) ≫ stableKernelImageLimitIncl I α =
       β.hom := by
   refine NatTrans.ext (funext fun n => ?_)
-  show (limit.lift _ (stableKernelImageLiftCone I α β hβ)).app n ≫
+  change (limit.lift _ (stableKernelImageLiftCone I α β hβ)).app n ≫
     (stableKernelImageLimitπ I α n.unop n.unop ≫
       stableKernelImageCompletionToLevel I α n.unop n.unop le_rfl) = _
   have hl := congrArg (fun f => f.app n)
@@ -768,7 +768,7 @@ public theorem kernelImageQuotients_eventuallyConstant (α : F ⟶ G) (n : ℕ) 
     (Category.assoc _ _ _).symm.trans
       ((congrArg (fun z => z ≫ stableKernelImageCompletionToLevel I α n m hnm)
         p.inv_hom_id).trans (Category.id_comp _))
-  show cokernel.π ((Stacks.Algebraization.idealPowerMultiple I (n + 1)
+  change cokernel.π ((Stacks.Algebraization.idealPowerMultiple I (n + 1)
     (stableKernelImage I α m)).ι) ≫ (q.inv ≫ p.inv) ≫
       (stableKernelImageLimitπ I α n n ≫
         stableKernelImageCompletionToLevel I α n n le_rfl) = _
@@ -889,7 +889,7 @@ public theorem exists_stableKernelImageCompletionRestrictSystemIso {Y Z : Scheme
   refine ⟨s, a.symm ≪≫ b, hs, fun n => ?_⟩
   have hi : a.hom.app (op n) ≫ a.inv.app (op n) = 𝟙 _ :=
     congrArg (fun g => g.app (op n)) a.hom_inv_id
-  show (Scheme.Modules.restrictFunctor r).map
+  change (Scheme.Modules.restrictFunctor r).map
       (stableKernelImageCompletionProjection J α n m) ≫
     (a.inv.app (op n) ≫ b.hom.app (op n)) = _
   refine (congrArg (fun z => z ≫ a.inv.app (op n) ≫ b.hom.app (op n)) (ha n).symm).trans ?_
@@ -959,7 +959,7 @@ public theorem exists_stableKernelImageCompletionDiagramRestrictIso {Y Z : Schem
       (stableKernelImageCompletionProjection J α n.unop m.unop)) := hpe.preserves _
   refine (cancel_epi ((Scheme.Modules.restrictFunctor r).map
     (stableKernelImageCompletionProjection J α n.unop m.unop))).mp ?_
-  show (Scheme.Modules.restrictFunctor r).map
+  change (Scheme.Modules.restrictFunctor r).map
       (stableKernelImageCompletionProjection J α n.unop m.unop) ≫
       ((Scheme.Modules.restrictFunctor r).map
         ((stableKernelImageCompletion_project J α k.unop m.unop h).hom.app (op n.unop)) ≫
@@ -1066,7 +1066,7 @@ public theorem coherentAdicKernel_restrict {Y : Scheme.{u}} [IsNoetherian Y] (f 
       (homOfLE (le_refl n.unop)).op) hs).trans ?_
     refine ((Scheme.Modules.restrictFunctor f).map_comp _ _).symm.trans ?_
     exact congrArg (Scheme.Modules.restrictFunctor f).map hinclmap
-  show a.hom.app n ≫ (stableKernelImageLimitπ (I.comap f) ((restrictFunctor I f).map α)
+  change a.hom.app n ≫ (stableKernelImageLimitπ (I.comap f) ((restrictFunctor I f).map α)
       n.unop n.unop ≫ stableKernelImageCompletionToLevel (I.comap f)
         ((restrictFunctor I f).map α) n.unop n.unop le_rfl) =
     (Scheme.Modules.restrictFunctor f).map (stableKernelImageLimitπ I α n.unop n.unop ≫

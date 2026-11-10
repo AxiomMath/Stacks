@@ -149,7 +149,7 @@ public theorem exists_invertible_isZero_cohomologyOverField_one_and_zero_lt_finr
   · -- `dim_k H⁰(X, M) > 0`, since the `max 1 d₀`-th power of `s` is a nonzero global section.
     have hsne : (Stacks.SheafOfModules.Invertible.sectionPow' L s (max 1 d₀)).eval (op ⊤) ≠ 0 := by
       refine eval_top_ne_zero_of_mem_nonvanishingLocus (X := X) M _ (x := x₀) ?_
-      show x₀ ∈ Stacks.SheafOfModules.nonvanishingOpen (X := X.toRingedSpace)
+      change x₀ ∈ Stacks.SheafOfModules.nonvanishingOpen (X := X.toRingedSpace)
         (Stacks.SheafOfModules.Invertible.tensorPowerModule' L ((n * max 1 d₀ : ℕ) : ℤ))
         (Stacks.SheafOfModules.Invertible.sectionPow' L s (max 1 d₀))
       rw [Stacks.SheafOfModules.Invertible.nonvanishingOpen_sectionPow'

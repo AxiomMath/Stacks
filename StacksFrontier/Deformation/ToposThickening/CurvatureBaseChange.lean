@@ -167,7 +167,7 @@ private lemma kernelComplexBaseChangeMap_f_zero
       squareZeroKernelBaseChangeMap fR hfR fS hfS a b hcomm ≫
         (singleObjXSelf (ComplexShape.up ℤ) 0 (squareZeroKernelModule.{u, u} fS hfS)).inv := by
   rw [kernelComplexBaseChangeMap]
-  show _ ≫ (_ ≫ _ : (mapCochainComplex b).obj (kernelComplex fR hfR) ⟶ _).f 0 = _
+  change _ ≫ (_ ≫ _ : (mapCochainComplex b).obj (kernelComplex fR hfR) ⟶ _).f 0 = _
   rw [HomologicalComplex.comp_f, singleMapHomologicalComplex_hom_app_self]
   rw [show ((CochainComplex.singleFunctor (ModuleCat.{u} S) 0).map
       (squareZeroKernelBaseChangeMap fR hfR fS hfS a b hcomm)).f 0 =
@@ -266,7 +266,7 @@ lemma kernelTensorBaseChangeMap_one_tmul
     (extendScalarsTmul b (1 : S) i)
   rw [ModuleCat.comp_apply, ModuleCat.comp_apply,
     extendScalars_map_extendScalarsTmul] at hk
-  show HomologicalComplex.ιTensorObj ((mapCochainComplex b).obj P) (kernelComplex fS hfS)
+  change HomologicalComplex.ιTensorObj ((mapCochainComplex b).obj P) (kernelComplex fS hfS)
       m 0 m (by simp)
       (extendScalarsTmul b (1 : S) p ⊗ₜ[S]
         (kernelComplexBaseChangeMap fR hfR fS hfS a b hcomm).f 0
@@ -319,9 +319,7 @@ private lemma kernelEmbedding_baseChange
       ((kernelTensorBaseChangeMap fR hfR fS hfS a b hcomm P).f m
         (extendScalarsTmul b (1 : S) z)) =
       ((1 : S') ⊗ₜ[R'] c.kernelEmbedding m z :
-        (L.baseChange hfR hfS a b hcomm).X m)) ?_ ?_ ?_ z
-  · rw [extendScalarsTmul_zero, map_zero, map_zero, map_zero, TensorProduct.tmul_zero]
-    rfl
+        (L.baseChange hfR hfS a b hcomm).X m)) ?_ ?_ z
   · intro z w hz hw
     rw [extendScalarsTmul_add, map_add, map_add, hz, hw, map_add, TensorProduct.tmul_add]
     rfl

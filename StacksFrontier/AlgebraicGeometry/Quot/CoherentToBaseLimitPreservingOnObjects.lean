@@ -115,7 +115,7 @@ theorem isLimitPreservingOnObjects_coherentToBaseCFG (D : CoherentSituation B S 
       isIso_fibre := inferInstance }
   have hδ : p.IsHomLift (incl.map (c.π.app j.left)) (δ : A₀ ⟶ xi) := by
     refine IsHomLift.of_fac' p _ _ hA₀ rfl ?_
-    show (cT.π.app j).left = eqToHom hA₀ ≫ incl.map (c.π.app j.left) ≫ 𝟙 _
+    change (cT.π.app j).left = eqToHom hA₀ ≫ incl.map (c.π.app j.left) ≫ 𝟙 _
     rw [Category.comp_id]
     rfl
   have hcart : ∀ {R T : BigFppfOver B S hS} (f : R ⟶ T) {a b : CoherentObject D} (φ : a ⟶ b),
@@ -130,10 +130,10 @@ theorem isLimitPreservingOnObjects_coherentToBaseCFG (D : CoherentSituation B S 
   have hsq : (coherentToBaseFunctor D.categoryData).map (δ : A₀ ⟶ xi) ≫ γ' =
       (coherentToBaseFunctor D.categoryData).map (𝟙 A₀) ≫ γ := by
     refine ULift.ext (CostructuredArrow.hom_ext _ _ ?_)
-    show (cT.π.app j ≫ γ'.down).left =
+    change (cT.π.app j ≫ γ'.down).left =
       ((Equiv.cast (D.categoryData.hom_type A₀ A₀) (𝟙 A₀)).base ≫ γ₀).left
     rw [D.categoryData.identity A₀]
-    show (eqToHom hA₀ ≫ incl.map (c.π.app j.left)) ≫ incl.map (E.map j.hom) =
+    change (eqToHom hA₀ ≫ incl.map (c.π.app j.left)) ≫ incl.map (E.map j.hom) =
       (𝟙 A₀.T ≫ γ₀).left
     rw [Category.id_comp, hγl, Category.assoc, ← Functor.map_comp, Cone.w]
   exact ⟨j.left, j.hom, ⟨xi, rfl⟩, x, δ, 𝟙 A₀, γ', hcart _ _ hδ, IsHomLift.id hA₀,

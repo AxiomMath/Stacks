@@ -84,7 +84,7 @@ theorem C1573.eq_comp_sectionOver {T : Scheme.{u}} (x : T ⟶ blowUp K) (y : T �
   have := isIso_blowUpToBase_restrict D K hK
   have hr : Set.range x.base ⊆ Set.range (blowUpToBase K ⁻¹ᵁ D).ι.base :=
     range_subset_range_ι_of_forall_mem _ x fun t => by
-      show (x ≫ blowUpToBase K).base t ∈ D
+      change (x ≫ blowUpToBase K).base t ∈ D
       rw [hxy]
       exact (y.base t).2
   set x' := IsOpenImmersion.lift (blowUpToBase K ⁻¹ᵁ D).ι x hr
@@ -100,9 +100,9 @@ theorem C1573.mem_exceptionalComplement_iff {P : Scheme.{u}} (g : P ⟶ Z)
     (q : Stacks.StrictTransform.baseChange g (blowUpToBase K)) :
     q ∈ Stacks.StrictTransform.exceptionalComplement g (blowUpToBase K) (exceptionalIdeal K) ↔
       g.base ((pullback.fst g (blowUpToBase K)).base q) ∈ D := by
-  show (pullback.snd g (blowUpToBase K)).base q ∉ (K.comap (blowUpToBase K)).support ↔ _
+  change (pullback.snd g (blowUpToBase K)).base q ∉ (K.comap (blowUpToBase K)).support ↔ _
   rw [Scheme.IdealSheafData.support_comap]
-  show (blowUpToBase K).base ((pullback.snd g (blowUpToBase K)).base q) ∉ K.supportSet ↔ _
+  change (blowUpToBase K).base ((pullback.snd g (blowUpToBase K)).base q) ∉ K.supportSet ↔ _
   rw [hK, Set.notMem_compl_iff, ← Scheme.Hom.comp_apply, ← pullback.condition,
     Scheme.Hom.comp_apply]
   rfl

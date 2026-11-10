@@ -66,10 +66,10 @@ public def sigmaFamilyHomEquiv (adj : ∀ i, L i ⊣ R i) (X : C) (Y : D) :
     ((adj i).homEquiv X Y).symm (g ≫ Pi.π (fun j => (R j).obj Y) i)
   left_inv f := by
     refine Sigma.hom_ext _ _ fun i => ?_
-    rw [Sigma.ι_desc, Pi.lift_comp_π, Equiv.symm_apply_apply]
+    rw [Sigma.ι_comp_desc, Pi.lift_comp_π, Equiv.symm_apply_apply]
   right_inv g := by
     refine Pi.hom_ext _ _ fun i => ?_
-    rw [Pi.lift_comp_π, Sigma.ι_desc, Equiv.apply_symm_apply]
+    rw [Pi.lift_comp_π, Sigma.ι_comp_desc, Equiv.apply_symm_apply]
 
 variable (adj : ∀ i, L i ⊣ R i)
 
@@ -80,8 +80,8 @@ public theorem sigmaFamilyHomEquiv_naturality_left_symm {X' X : C} {Y : D} (f : 
     (sigmaFamilyHomEquiv L R adj X' Y).symm (f ≫ g) =
       (Limits.Sigma.map fun i => (L i).map f) ≫ (sigmaFamilyHomEquiv L R adj X Y).symm g := by
   refine Sigma.hom_ext _ _ fun i => ?_
-  rw [sigmaFamilyHomEquiv_symm_apply, Sigma.ι_desc, Category.assoc, Sigma.ι_map_assoc,
-    sigmaFamilyHomEquiv_symm_apply, Sigma.ι_desc]
+  rw [sigmaFamilyHomEquiv_symm_apply, Sigma.ι_comp_desc, Category.assoc, Sigma.ι_map_assoc,
+    sigmaFamilyHomEquiv_symm_apply, Sigma.ι_comp_desc]
   exact (adj i).homEquiv_naturality_left_symm _ _
 
 /-- The transposition is natural in the target: it intertwines postcomposition with

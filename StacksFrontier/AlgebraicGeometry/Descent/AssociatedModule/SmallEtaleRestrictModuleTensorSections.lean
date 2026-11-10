@@ -93,7 +93,8 @@ theorem pullbackTensorIsoTransport_hom_val_app
         (((pullbackTensorIso f).hom.app (M, N)).val.app U ((α.inv.app _).val.app U z)) :=
   rfl
 
-omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{w'} RingCat.{w'})]
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{w'} RingCat.{w'})]
   [Y.J.HasSheafCompose (forget RingCat.{w'})] [Y.J.HasSheafCompose (forget AddCommGrpCat.{w'})]
   [HasWeakSheafify Y.J AddCommGrpCat.{w'}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w'}]
   [X.J.HasSheafCompose (forget RingCat.{w})] [X.J.HasSheafCompose (forget AddCommGrpCat.{w})] in
@@ -114,7 +115,8 @@ theorem sheafTensor_uncurry_map_val_app_unit_tmul_forget₂
         (f₁.val.app U x ⊗ₜ[(X.O.obj ⋙ forget₂ CommRingCat RingCat).obj U] f₂.val.app U y) :=
   Tensor.sheafTensor_uncurry_map_val_app_unit_tmul X.O f₁ f₂ U x y
 
-omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{w'} RingCat.{w'})]
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{w'} RingCat.{w'})]
   [Y.J.HasSheafCompose (forget RingCat.{w'})] [Y.J.HasSheafCompose (forget AddCommGrpCat.{w'})]
   [HasWeakSheafify Y.J AddCommGrpCat.{w'}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w'}]
   [X.J.HasSheafCompose (forget RingCat.{w})] [X.J.HasSheafCompose (forget AddCommGrpCat.{w})] in
@@ -141,7 +143,8 @@ theorem sheafTensor_obj_map_val_app_unit_tmul_forget₂
   rw [e]
   exact sheafTensor_uncurry_map_val_app_unit_tmul_forget₂ (𝟙 A) g U x y
 
-omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{w'} RingCat.{w'})]
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{w'} RingCat.{w'})]
   [Y.J.HasSheafCompose (forget RingCat.{w'})] [Y.J.HasSheafCompose (forget AddCommGrpCat.{w'})]
   [HasWeakSheafify Y.J AddCommGrpCat.{w'}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w'}]
   [X.J.HasSheafCompose (forget RingCat.{w})] [X.J.HasSheafCompose (forget AddCommGrpCat.{w})] in
@@ -234,6 +237,8 @@ theorem HomGeneral.alpha_hom_app_val_app_unit
   rw [← hη F V x]
   exact congrArg (fun k => k.val.app (f.u.op.obj V) (η F V x)) (α.inv_hom_id_app F)
 
+omit [X.J.HasSheafCompose (forget CommRingCat.{w})]
+  [Y.J.HasSheafCompose (forget CommRingCat.{w})] in
 include hη in
 /-- **Stacks 03EL read through an identification of the pullback carries a pure tensor to a pure
 tensor**: if `α : f^* ≅ L` and `η` is a family of units for `L` carried by `α⁻¹` to the unit of
@@ -310,7 +315,8 @@ def HomGeneral.tensorCounitComposite
         (adj.counit.app N) ≫
       ((Tensor.sheafTensor (toRingedTopos X).O).map (adj.counit.app M)).app N)
 
-omit hη in
+omit [X.J.HasSheafCompose (forget CommRingCat.{w})] [Y.J.HasSheafCompose (forget CommRingCat.{w})]
+  hη in
 /-- **The lax comparison of a presentation of `f_*` on a pure tensor.** Let `adj : L ⊣ P` present
 `f^* ⊣ f_*`, with `P` the direct image along the functor of sites `u` of `f` and `α : f^* ≅ L`
 carrying the unit of `adj` to the unit of `f^* ⊣ f_*`. For `𝒪_X`-modules `𝓜`, `𝓝` the composite
@@ -346,7 +352,7 @@ theorem HomGeneral.tensorCounitComposite_val_app_unit_tmul
         (PresheafOfModules.tensorObj (O := (toRingedTopos X).O.obj) M.val N.val))
         (f.u.op.obj V)
         (x ⊗ₜ[((toRingedTopos X).O.obj ⋙ forget₂ CommRingCat RingCat).obj (f.u.op.obj V)] y) := by
-  show (((Tensor.sheafTensor (toRingedTopos X).O).map (adj.counit.app M)).app N).val.app
+  change (((Tensor.sheafTensor (toRingedTopos X).O).map (adj.counit.app M)).app N).val.app
       (f.u.op.obj V)
       ((((Tensor.sheafTensor (toRingedTopos X).O).obj
           (L.obj ((_root_.SheafOfModules.pushforward.{w} φ).obj M))).map
@@ -373,6 +379,8 @@ theorem HomGeneral.tensorCounitComposite_val_app_unit_tmul
     (congrArg (fun k => k.val.app V x) (adj.right_triangle_components M))
     (congrArg (fun k => k.val.app V y) (adj.right_triangle_components N))
 
+omit [X.J.HasSheafCompose (forget CommRingCat.{w})] [Y.J.HasSheafCompose (forget CommRingCat.{w})]
+  [HasWeakSheafify Y.J AddCommGrpCat.{w}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- **Any presentation of `f^* ⊣ f_*` with the direct image of the functor of sites satisfies the
 unit hypothesis**: if `adj : L ⊣ f_*` and `α` is the identification of the pullback of the
 morphism of ringed topoi with `L` by uniqueness of left adjoints, then `α⁻¹` carries the unit of
@@ -405,6 +413,8 @@ theorem HomGeneral.pullbackModulesToposIsoGeneral_trans_leftAdjointUniq_inv_app_
     ?_
   exact f.pullbackModulesToposIsoGeneral_inv_app_val_app_unit F V x
 
+omit [X.J.HasSheafCompose (forget CommRingCat.{w})]
+  [Y.J.HasSheafCompose (forget CommRingCat.{w})] in
 /-- `AlgebraicGeometry.RingedSite.HomGeneral.tensorCounitComposite_val_app_unit_tmul` for a
 presentation `adj₂ : L ⊣ P` of `f^* ⊣ f_*` whose unit agrees on sections with that of a
 presentation `adj₁ : L ⊣ f_*` by the direct image of the functor of sites, the identification of
@@ -531,7 +541,7 @@ theorem restrictModuleTensorIso_inv_val_app_unit_tmul
   rw [restrictModuleTensorIso_inv_eq]
   have hK := pullbackTensorIsoTransport_hom_val_app_unit_tmul B S hS
     ((restrictModule B S hS).obj M) ((restrictModule B S hS).obj N) V x y
-  show ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u}
+  change ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u}
       (smallEtaleRingedSite B S hS).toRingedTopos.O).map
         ((associatedModuleAdjunction B S hS).counit.app M)).app N)).val.app
           ((toZariskiRingedSiteHom B S hS).u.op.obj V)

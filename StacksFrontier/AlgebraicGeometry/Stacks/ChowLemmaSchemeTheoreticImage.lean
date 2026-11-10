@@ -64,7 +64,7 @@ theorem isClosedImmersion_of_isImmersion_of_universallyClosed
     hf.property g fst snd hpb
   have h2 : _root_.AlgebraicGeometry.UniversallyClosed ((BigFppfOver.toScheme B S hS).map snd) :=
     huc'.property g fst snd hpb
-  show _root_.AlgebraicGeometry.IsClosedImmersion ((BigFppfOver.toScheme B S hS).map snd)
+  change _root_.AlgebraicGeometry.IsClosedImmersion ((BigFppfOver.toScheme B S hS).map snd)
   exact _root_.AlgebraicGeometry.IsClosedImmersion.of_isPreimmersion _ (by
     simpa only [Set.image_univ] using
       ((BigFppfOver.toScheme B S hS).map snd).isClosedMap _ isClosed_univ)

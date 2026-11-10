@@ -108,7 +108,8 @@ change-of-rings adjunction of [Stacks, Tag 03CU], in three steps.
    `isLocallySurjective_changeOfRingsComparison` only its surjectivity — which avoids having to
    compare a morphism of presheaves of `AddCommGrpCat` with one of presheaves of `CommRingCat`.
    Going instead through `CategoryTheory.Sheaf.sheafifyCocone` and `isColimitSheafifyCocone`,
-   as this note once advised, reproves a weaker statement; `StacksFrontier/CategoryTheory/Sites/ColimitSheafifyComparison.lean`
+   as this note once advised, reproves a weaker statement;
+   `StacksFrontier/CategoryTheory/Sites/ColimitSheafifyComparison.lean`
    says in its own notes that it deliberately avoids that cocone.
 3. *Transport to the sheaf level.*  For a sheaf of `R'`-modules `Z`, precomposition with
    `extendScalarsComparison` is, under the sheaf-level change-of-rings adjunction and then the
@@ -312,8 +313,7 @@ public theorem tensorSectionsIso_hom_tmul (φ : R ⟶ R') (B : Under R) (U : C�
 private theorem tensorProduct_apply_eq_of_tmul {S M N P : Type*} [CommSemiring S]
     [AddCommMonoid M] [AddCommMonoid N] [AddCommMonoid P] [Module S M] [Module S N]
     (F G : M ⊗[S] N →+ P) (h : ∀ a b, F (a ⊗ₜ b) = G (a ⊗ₜ b)) (x : M ⊗[S] N) : F x = G x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction x using TensorProduct.inductionOn with
   | add u v hu hv => simp only [map_add, hu, hv]
   | tmul a b => exact h a b
 
@@ -454,12 +454,7 @@ public theorem changeOfRingsComparison_app (φ : R ⟶ R') (B : Under R) (U : C�
     DFunLike.congr_fun (congrArg CommRingCat.Hom.hom (NatTrans.congr_app
       (Sheaf.ι_colimitToColimitObj J (span B.hom φ) WalkingSpan.right) U)) y
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero =>
-    refine (map_zero (ModuleCat.Hom.hom ((changeOfRingsComparison φ B).app U))).trans ?_
-    exact ((congrArg (CommRingCat.Hom.hom
-      ((Sheaf.colimitToColimitObj J (span B.hom φ)).app U))
-      (map_zero (CommRingCat.Hom.hom (tensorSectionsIso φ B U).hom))).trans (map_zero _)).symm
+  induction x using TensorProduct.inductionOn with
   | add u v hu hv =>
     refine (map_add (ModuleCat.Hom.hom ((changeOfRingsComparison φ B).app U)) u v).trans ?_
     refine (congrArg (fun z => z + ((changeOfRingsComparison φ B).app U).hom v) hu).trans
@@ -560,7 +555,7 @@ public theorem isIso_extendScalarsComparison (φ : R ⟶ R') (B : Under R) :
     rw [Equiv.apply_symm_apply, Adjunction.homEquiv_naturality_right,
       homEquiv_extendScalarsComparison]
     refine _root_.SheafOfModules.hom_ext ?_
-    show (pushoutInlModuleMap φ B).val ≫ (restrictScalars φ.hom).map y.val =
+    change (pushoutInlModuleMap φ B).val ≫ (restrictScalars φ.hom).map y.val =
       ((changeOfRingsAdjunction φ.hom).homEquiv (underlyingModule B).val Z.val)
         (changeOfRingsComparison φ B ≫ y.val)
     exact (congrArg (fun z => z ≫ (restrictScalars φ.hom).map y.val)

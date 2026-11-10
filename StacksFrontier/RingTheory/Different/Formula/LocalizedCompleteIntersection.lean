@@ -102,7 +102,7 @@ theorem isLocalization_away_localizedQuotient :
       (algebraMap (MvPolynomial (Fin n) A)
         (MvPolynomial (Fin n) A ⧸ Ideal.span (Set.range f)) h)
       (localizedQuotient A n h f) := by
-  show IsLocalization (Submonoid.powers _) _
+  change IsLocalization (Submonoid.powers _) _
   rw [← Submonoid.map_powers, ← Algebra.algebraMapSubmonoid]
   infer_instance
 

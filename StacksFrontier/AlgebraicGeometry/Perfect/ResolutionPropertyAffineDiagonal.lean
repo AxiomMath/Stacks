@@ -85,7 +85,8 @@ Affineness of the morphism in
 `isAffineHom_diagonal_of_isAffineHom_of_isNoetherian_of_hasResolutionProperty` is load-bearing and
 not merely convenient: dropping it would make every scheme admitting a morphism to a Noetherian
 scheme with the resolution property have affine diagonal, hence be quasi-separated, which the
-doubled spectrum of `StacksFrontier/Examples/QuasiCoherentPushforward/NotQuasiSeparated.lean` is not.
+doubled spectrum of `StacksFrontier/Examples/QuasiCoherentPushforward/NotQuasiSeparated.lean` is
+not.
 
 ## References
 
@@ -126,10 +127,10 @@ private theorem isQuasicoherent_cycles {X : Scheme.{u}}
   let : (K.X i).IsQuasicoherent := hK i
   let : (K.X (i + 1)).IsQuasicoherent := hK (i + 1)
   let : (K.sc i).X₂.IsQuasicoherent := by
-    show (K.X i).IsQuasicoherent
+    change (K.X i).IsQuasicoherent
     infer_instance
   let : (K.sc i).X₃.IsQuasicoherent := by
-    show (K.X ((ComplexShape.up ℤ).next i)).IsQuasicoherent
+    change (K.X ((ComplexShape.up ℤ).next i)).IsQuasicoherent
     rw [CochainComplex.next]
     exact hK (i + 1)
   exact (SheafOfModules.isQuasicoherent X.ringCatSheaf).prop_of_iso
@@ -204,7 +205,7 @@ private theorem eq_zero_of_comp_finiteLocallyFree_eq_zero (X : Scheme.{u})
   obtain ⟨E, hE, p, hp⟩ :=
     HasResolutionProperty.exists_finiteLocallyFree_quotient (G.obj : X.Modules)
   let : Epi p := hp
-  show G.obj.arrow ≫ q = G.obj.arrow ≫ 0
+  change G.obj.arrow ≫ q = G.obj.arrow ≫ 0
   apply (cancel_epi p).mp
   simpa only [Category.assoc, comp_zero] using h E hE (p ≫ G.obj.arrow)
 
@@ -262,7 +263,7 @@ private theorem projective_of_isFiniteLocallyFree_of_isAffine {R : CommRingCat.{
   let : Module.Projective R (moduleSpecΓFunctor.obj E.obj) :=
     (finite_and_projective_moduleSpecΓ_of_isFiniteLocallyFree E.obj hE).2
   have : Projective (e.inverse.obj E) := by
-    show Projective (moduleSpecΓFunctor.obj E.obj)
+    change Projective (moduleSpecΓFunctor.obj E.obj)
     infer_instance
   exact Projective.of_iso (e.counitIso.app E) (e.functor.projective_obj (e.inverse.obj E))
 

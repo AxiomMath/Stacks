@@ -51,11 +51,11 @@ theorem support_zeroScheme_degreeSection_one
   rw [SetLike.mem_coe, Scheme.IdealSheafData.mem_support_iff_of_mem (U := U) hxf,
     zeroScheme_degreeSection_one_ideal_basicOpen 𝒮 hgen f.2 a, Scheme.zeroLocus_span,
     Scheme.zeroLocus_singleton]
-  show x ∉ (AlgebraicGeometry.Proj 𝒮).basicOpen
+  change x ∉ (AlgebraicGeometry.Proj 𝒮).basicOpen
       ((AlgebraicGeometry.Proj.awayToSection 𝒮 (f : S)).hom
         (HomogeneousLocalization.Away.mk 𝒮 f.2 1 (a : S) _)) ↔ _
   rw [Stacks.ProjChartBasicOpen.basicOpen_awayToSection_mk 𝒮 f.2 Nat.one_pos 1 (a : S)
-    (by simpa using a.2)]
+    (by simp)]
   simp [hxf]
 
 end AlgebraicGeometry.ProjectiveSpectrum.Proj

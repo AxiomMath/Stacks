@@ -210,8 +210,7 @@ private noncomputable def tensorProduct_semilinearEquiv
   let t₀ := TensorProduct.congr eLs f
   have key : ∀ (r : T) (z : TensorProduct R T M), t₀ (r • z) = eT r • t₀ z := by
     intro r z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [smul_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' => simp only [smul_add, map_add, hz, hz']
     | tmul a m =>
         simp only [TensorProduct.smul_tmul', t₀]
@@ -421,7 +420,7 @@ private theorem depth_eq_of_ringModuleSemilinearEquiv
     Module.depth R I M = Module.depth R I N := Module.depth_eq_depth_of_linearEquiv I f'
     _ = Module.depth S J N := by
       rw [Module.depth_eq_depth_map_algebraMap e.surjective I N]
-      show Module.depth S (I.map e.toRingHom) N = Module.depth S J N
+      change Module.depth S (I.map e.toRingHom) N = Module.depth S J N
       rw [hI]
 
 /-- Localizing at a prime of `S⁻¹A` and localizing at its contraction give modules of the same
@@ -635,7 +634,7 @@ public theorem completedLocalDepth_localization
       exact congrArg (Ideal.map (algebraMap R₁ C₁))
         (IsLocalRing.map_ringEquiv_maximalIdeal eR).symm
     have hpm : p₁ = p₀.map eC.toRingHom := by
-      show p₁ = (p₁.comap eC.toRingHom).map eC.toRingHom
+      change p₁ = (p₁.comap eC.toRingHom).map eC.toRingHom
       exact (Ideal.map_comap_of_surjective eC.toRingHom eC.surjective p₁).symm
     have hp₀not : ¬ J₀ ≤ p₀ := by
       intro hp₀

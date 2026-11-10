@@ -108,7 +108,7 @@ theorem isIso_truncGE_map_Q_cotangentComplexToNaive (A : Type u) [CommRing A]
   intro i hi
   refine (NatIso.isIso_map_iff (DerivedCategory.homologyFunctorFactors (ModuleCat.{u} B) i) _).2
     ?_
-  show IsIso (HomologicalComplex.homologyMap (cotangentComplexToNaive.{u, u} A B) i)
+  change IsIso (HomologicalComplex.homologyMap (cotangentComplexToNaive.{u, u} A B) i)
   by_cases h : i = -1 ∨ i = 0
   · exact isIso_homologyMap_cotangentComplexToNaive A B i h
   have hsrc : IsZero ((CommAlgCat.cotangentComplex.{u, u} A B).homology i) :=

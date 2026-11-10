@@ -110,7 +110,7 @@ theorem eq_top_of_forall_mem_nonvanishingLocus (hdim : ringKrullDim A = 2) {X : 
   have hsupp : ∀ x : X, x ∈ (E.supportSet)ᶜ ↔ x ∈ X.toRingedSpace.basicOpen b := by
     intro x
     rw [← nonvanishingLocus_canonicalSections E]
-    show x ∈ Stacks.SheafOfModules.nonvanishingLocus (X := X.toRingedSpace) (invertibleSheaf E)
+    change x ∈ Stacks.SheafOfModules.nonvanishingLocus (X := X.toRingedSpace) (invertibleSheaf E)
       (Stacks.SheafOfModules.sectionsOfTop (X := X.toRingedSpace) _ (canonicalSection E)) ↔ _
     rw [← hb, Stacks.SheafOfModules.mem_nonvanishingLocus_sectionsOfTop_smul]
     exact ⟨fun h => h.1, fun h => ⟨h, ht x⟩⟩
@@ -118,7 +118,7 @@ theorem eq_top_of_forall_mem_nonvanishingLocus (hdim : ringKrullDim A = 2) {X : 
   set a : A := (Scheme.ΓSpecIso (.of A)).hom a' with ha
   have hmem : ∀ x : X, x ∈ X.toRingedSpace.basicOpen b ↔ a ∉ (f x).asIdeal := by
     intro x
-    show x ∈ X.basicOpen b ↔ _
+    change x ∈ X.basicOpen b ↔ _
     rw [← ha', ← Scheme.preimage_basicOpen_top]
     exact (congrArg (fun U : (Spec (.of A)).Opens => f x ∈ U) (basicOpen_eq_of_affine' a')).to_iff
   have hunit : a ∉ IsLocalRing.maximalIdeal A := by

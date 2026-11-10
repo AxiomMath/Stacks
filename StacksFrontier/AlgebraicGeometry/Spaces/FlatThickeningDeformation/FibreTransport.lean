@@ -63,6 +63,7 @@ section RingTransport
 variable {X X₀ W : AlgebraicSpaces B S hS} (ρ : X ≅ X₀) (g : X₀ ⟶ W)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for this `PreservesFiniteProducts` instance is heavy
 /-- Restriction of sheaves of sets along `ρ` preserves finite products; found directly, as
 instance search times out on it under Lean v4.35.0. -/
 local instance (priority := high) preservesFiniteProducts_smallEtalePostcomp_FibreTransport

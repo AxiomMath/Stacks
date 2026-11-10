@@ -111,7 +111,7 @@ theorem exists_notMem_forall_smul_mem_span_of_fittingIdeal_not_le
     have hfac : (∏ j', (t j' : R)) = (∏ j' ∈ Finset.univ.erase j, (t j' : R)) * (t j : R) := by
       rw [mul_comm]
       exact (Finset.mul_prod_erase Finset.univ (fun j' => (t j' : R)) (Finset.mem_univ j)).symm
-    show (∏ j', (t j' : R)) • z j ∈ Submodule.span R (Set.range a)
+    change (∏ j', (t j' : R)) • z j ∈ Submodule.span R (Set.range a)
     rw [hfac, mul_smul]
     exact Submodule.smul_mem _ _ (ht j)
   exact hsub (hz.ge Submodule.mem_top)

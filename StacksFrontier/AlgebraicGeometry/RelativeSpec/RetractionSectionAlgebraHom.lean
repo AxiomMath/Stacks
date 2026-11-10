@@ -45,7 +45,7 @@ namespace Stacks.RelativeSpec
 presheaves of rings.** -/
 theorem AlgebraSheaf.hom_comp_right_hom {S : Scheme.{u}} {A B : AlgebraSheaf S} (f : A ⟶ B) :
     A.hom.hom ≫ f.right.hom = B.hom.hom := by
-  show (A.hom ≫ f.right).hom = B.hom.hom
+  change (A.hom ≫ f.right).hom = B.hom.hom
   exact congrArg (fun t => t.hom) f.w
 
 /-- On the underlying presheaves of rings, the `right` component of a composite of morphisms of

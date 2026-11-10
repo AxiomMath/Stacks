@@ -164,97 +164,69 @@ theorem mk_eq_one_of_sub_one_mem {I : Ideal (R6 K)} {a : R6 K} (h : a - 1 ∈ I)
 theorem ker_mapN : RingHom.ker (mapN K) = idealN K := by
   refine ker_aeval_eq K _ _ ?_ ![X 3, X 4, X 5] ?_
   · refine Ideal.span_le.mpr ?_
-    simp [Set.insert_subset_iff, mapN]
+    simp [Set.insert_subset_iff]
   · intro i
     fin_cases i <;> simp only [Fin.isValue, Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk,
         Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val, map_zero, map_one, aeval_X] <;>
       first
-        | (rw [aeval_X]; rfl)
         | exact (mk_eq_zero_of_mem K (Ideal.subset_span (by simp))).symm
-        | exact mk_eq_zero_of_mem K (Ideal.subset_span (by simp))
-        | exact Ideal.subset_span (by simp)
         | exact mk_eq_one_of_sub_one_mem K (Ideal.subset_span (by simp))
-        | exact (mk_eq_one_of_sub_one_mem K (Ideal.subset_span (by simp))).symm
 
 /-- The kernel of `mapW` is `W`. -/
 theorem ker_mapW : RingHom.ker (mapW K) = idealW K := by
   refine ker_aeval_eq K _ _ ?_ ![X 1, X 2, X 3, X 4, X 5] ?_
   · refine Ideal.span_le.mpr ?_
-    simp [mapW]
+    simp
   · intro i
     fin_cases i <;> simp only [Fin.isValue, Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk,
-        Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val, map_zero, aeval_X] <;>
-      first
-        | (rw [aeval_X]; rfl)
-        | exact (mk_eq_zero_of_mem K (Ideal.subset_span (by simp))).symm
-        | exact mk_eq_zero_of_mem K (Ideal.subset_span (by simp))
-        | exact Ideal.subset_span (by simp)
-        | exact mk_eq_one_of_sub_one_mem K (Ideal.subset_span (by simp))
-        | exact (mk_eq_one_of_sub_one_mem K (Ideal.subset_span (by simp))).symm
+        Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val, map_zero, aeval_X]
+    first
+      | exact (mk_eq_zero_of_mem K (Ideal.subset_span (by simp))).symm
 
 /-- The kernel of `mapV` is `V`. -/
 theorem ker_mapV : RingHom.ker (mapV K) = idealV K := by
   refine ker_aeval_eq K _ _ ?_ ![X 1, X 3, X 4, X 5] ?_
   · refine Ideal.span_le.mpr ?_
-    simp [Set.insert_subset_iff, mapV]
+    simp [Set.insert_subset_iff]
   · intro i
     fin_cases i <;> simp only [Fin.isValue, Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk,
         Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val, map_zero, map_one, aeval_X] <;>
       first
-        | (rw [aeval_X]; rfl)
         | exact (mk_eq_zero_of_mem K (Ideal.subset_span (by simp))).symm
-        | exact mk_eq_zero_of_mem K (Ideal.subset_span (by simp))
-        | exact Ideal.subset_span (by simp)
         | exact mk_eq_one_of_sub_one_mem K (Ideal.subset_span (by simp))
-        | exact (mk_eq_one_of_sub_one_mem K (Ideal.subset_span (by simp))).symm
 
 /-- The kernel of `mapC` is `C`. -/
 theorem ker_mapC : RingHom.ker (mapC K) = idealC K := by
   refine ker_aeval_eq K _ _ ?_ ![X 1, X 2, X 4, X 5] ?_
   · refine Ideal.span_le.mpr ?_
-    simp [Set.insert_subset_iff, mapC]
+    simp [Set.insert_subset_iff]
   · intro i
     fin_cases i <;> simp only [Fin.isValue, Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk,
         Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val, map_zero, aeval_X] <;>
       first
-        | (rw [aeval_X]; rfl)
         | exact (mk_eq_zero_of_mem K (Ideal.subset_span (by simp))).symm
-        | exact mk_eq_zero_of_mem K (Ideal.subset_span (by simp))
-        | exact Ideal.subset_span (by simp)
-        | exact mk_eq_one_of_sub_one_mem K (Ideal.subset_span (by simp))
-        | exact (mk_eq_one_of_sub_one_mem K (Ideal.subset_span (by simp))).symm
 
 /-- The kernel of `mapP` is `P`. -/
 theorem ker_mapP : RingHom.ker (mapP K) = idealP K := by
   refine ker_aeval_eq K _ _ ?_ ![X 1, X 2, X 5] ?_
   · refine Ideal.span_le.mpr ?_
-    simp [Set.insert_subset_iff, mapP]
+    simp [Set.insert_subset_iff]
   · intro i
     fin_cases i <;> simp only [Fin.isValue, Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk,
         Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val, map_zero, aeval_X] <;>
       first
-        | (rw [aeval_X]; rfl)
         | exact (mk_eq_zero_of_mem K (Ideal.subset_span (by simp))).symm
-        | exact mk_eq_zero_of_mem K (Ideal.subset_span (by simp))
-        | exact Ideal.subset_span (by simp)
-        | exact mk_eq_one_of_sub_one_mem K (Ideal.subset_span (by simp))
-        | exact (mk_eq_one_of_sub_one_mem K (Ideal.subset_span (by simp))).symm
 
 /-- The kernel of `mapQ0` is `Q₀`. -/
 theorem ker_mapQ0 : RingHom.ker (mapQ0 K) = idealQ0 K := by
   refine ker_aeval_eq K _ _ ?_ ![X 0, X 1, X 2, X 5] ?_
   · refine Ideal.span_le.mpr ?_
-    simp [Set.insert_subset_iff, mapQ0]
+    simp [Set.insert_subset_iff]
   · intro i
     fin_cases i <;> simp only [Fin.isValue, Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk,
         Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val, map_zero, aeval_X] <;>
       first
-        | (rw [aeval_X]; rfl)
         | exact (mk_eq_zero_of_mem K (Ideal.subset_span (by simp))).symm
-        | exact mk_eq_zero_of_mem K (Ideal.subset_span (by simp))
-        | exact Ideal.subset_span (by simp)
-        | exact mk_eq_one_of_sub_one_mem K (Ideal.subset_span (by simp))
-        | exact (mk_eq_one_of_sub_one_mem K (Ideal.subset_span (by simp))).symm
 
 /-- The kernel of `mapM` is `𝔪₁`. -/
 theorem ker_mapM : RingHom.ker (mapM K) = idealM K := by
@@ -263,9 +235,9 @@ theorem ker_mapM : RingHom.ker (mapM K) = idealM K := by
     rintro _ ⟨i, rfl⟩
     simp [mapM]
   · refine MvPolynomial.ringHom_ext (fun a => ?_) (fun i => ?_)
-    · simp [mapM, Ideal.Quotient.mk_algebraMap]
+    · simp [mapM]
       rfl
-    · show algebraMap K (R6 K ⧸ idealM K) (mapM K (X i)) = _
+    · change algebraMap K (R6 K ⧸ idealM K) (mapM K (X i)) = _
       rw [show mapM K (X i) = 0 by simp [mapM], map_zero]
       exact (mk_eq_zero_of_mem K (Ideal.subset_span (Set.mem_range_self i))).symm
 
@@ -301,7 +273,7 @@ theorem idealC_le_idealP : idealC K ≤ idealP K :=
   Ideal.span_mono (by simp [Set.insert_subset_iff])
 /-- `Q₀ ≤ P`. -/
 theorem idealQ0_le_idealP : idealQ0 K ≤ idealP K :=
-  Ideal.span_mono (by simp [Set.insert_subset_iff])
+  Ideal.span_mono (by simp)
 /-- `P ≤ 𝔪₁`. -/
 theorem idealP_le_idealM : idealP K ≤ idealM K := by
   refine Ideal.span_le.mpr ?_
@@ -420,7 +392,7 @@ theorem le_extM_or_le_extN (Q : Ideal (RingB K)) [Q.IsPrime] :
     exact (Ideal.IsPrime.ne_top (inferInstance : Q.IsPrime))
       (Ideal.eq_top_of_isUnit_mem Q ha (IsLocalization.map_units (RingB K) ⟨a, hS⟩))
   have hmap : Q = q.map (algebraMap (R6 K) (RingB K)) :=
-    (IsLocalization.map_comap (submonoidS K) (RingB K) Q).symm
+    (IsLocalization.map_under (submonoidS K) (RingB K) Q).symm
   rcases Ideal.subset_union.mp hsub with h | h
   · exact Or.inl (hmap ▸ Ideal.map_mono h)
   · exact Or.inr (hmap ▸ Ideal.map_mono h)
@@ -544,10 +516,10 @@ theorem exists_mem_submonoidS_mapN_eq (q : MvPolynomial (Fin 3) K) (hq : q ≠ 0
   let s₀ : R6 K := aeval ![X 3, X 4, X 5] q
   have hs₀ : mapN K s₀ = q := mapN_aeval K q
   refine ⟨s₀ + (X 2 - 1) * C (mapM K s₀ - 1), ⟨?_, ?_⟩, ?_⟩
-  · show _ ∉ idealM K
+  · change _ ∉ idealM K
     rw [mem_idealM_iff]
     simp [mapM]
-  · show _ ∉ idealN K
+  · change _ ∉ idealN K
     rw [mem_idealN_iff, map_add, hs₀]
     simpa [mapN] using hq
   · rw [map_add, hs₀]
@@ -562,7 +534,7 @@ theorem resN_surjective : Function.Surjective (resN K) := by
   have hr₀ : mapN K r₀ = p := mapN_aeval K p
   refine ⟨IsLocalization.mk' (RingB K) r₀ ⟨s, hs⟩, ?_⟩
   rw [resN, IsLocalization.lift_mk'_spec]
-  show algebraMap _ _ (mapN K r₀) = algebraMap _ _ (mapN K s) * _
+  change algebraMap _ _ (mapN K r₀) = algebraMap _ _ (mapN K s) * _
   rw [hr₀, hsq]
   rw [mul_div_cancel₀ _ (IsFractionRing.to_map_ne_zero_of_mem_nonZeroDivisors hq)]
 

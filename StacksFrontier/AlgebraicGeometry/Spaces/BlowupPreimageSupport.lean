@@ -74,11 +74,11 @@ theorem subspacePointSet_subset_union_image_of_preimage_eq
       (sumClosedSubspacesList X' (fun _ : Unit => preimageClosedSubspace b Z) Z'
         (List.replicate d ())).1 := by
     rw [← hWpre]
-    show x' ∈ subspacePointSet B S hS X'.1 (W.1.preimage b.hom)
+    change x' ∈ subspacePointSet B S hS X'.1 (W.1.preimage b.hom)
     rw [subspacePointSet_preimage, Set.mem_preimage, hbx']
     exact hxW
   have hx'E : x' ∉ subspacePointSet B S hS X'.1 (preimageClosedSubspace b Z).1 := by
-    show x' ∉ subspacePointSet B S hS X'.1 (Z.1.preimage b.hom)
+    change x' ∉ subspacePointSet B S hS X'.1 (Z.1.preimage b.hom)
     rw [subspacePointSet_preimage, Set.mem_preimage, hbx']
     exact hxZ
   by_cases hx'Z' : x' ∈ subspacePointSet B S hS X'.1 Z'.1

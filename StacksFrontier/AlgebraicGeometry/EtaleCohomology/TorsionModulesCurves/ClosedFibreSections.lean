@@ -125,7 +125,7 @@ section Constructible
 
 variable (B : BigEtaleSite.{u}) (𝔛 : B.Scheme) (k : Type u) [Field k] [IsAlgClosed k]
   (T : Set 𝔛.obj) (e : ∀ z : T, 𝔛.obj.residueField z.1 ≅ CommRingCat.of k)
-  (Λ : Type r) [CommRing Λ] [IsNoetherianRing Λ]
+  (Λ : Type r) [CommRing Λ]
   (ℱ : Sheaf 𝔛.obj.smallEtaleTopology (ModuleCat.{max (u + 1) r} Λ))
 
 /-- **The sections over one component of `Z` of the inverse image of a constructible sheaf are a
@@ -237,7 +237,6 @@ theorem finite_moduleEtaleCohomology_zero_pointsDirectImage
     moduleEtaleCohomology_isIntegralHom_iso.{u, r} Λ (pointsSchemeHom k T e) 0 A
   exact Module.Finite.equiv hcollapse.toLinearEquiv
 
-omit [IsNoetherianRing Λ] in
 include hT hcl in
 /-- **The positive-degree étale cohomology of a direct image from the closed fibre vanishes.**
 `Z` is finite over the algebraically closed field `k`, so the cohomology on `X` of a direct

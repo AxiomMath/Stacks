@@ -171,7 +171,7 @@ theorem smul_eq_zero_of_smul_map_eq_zero {A : Type*} [Semiring A] {C D : Type*} 
     (S : D ⥤ C) [R.Linear A] [S.Linear A] [S.Additive] (Φ : R ⋙ S ≅ 𝟭 C) {E F : C}
     (α : E ⟶ F) (a : A) (h : a • R.map α = 0) : a • α = 0 := by
   have hRS : a • (R ⋙ S).map α = 0 := by
-    show a • S.map (R.map α) = 0
+    change a • S.map (R.map α) = 0
     rw [← S.map_smul, h, S.map_zero]
   have hnat : (R ⋙ S).map α ≫ Φ.hom.app F = Φ.hom.app E ≫ α := Φ.hom.naturality α
   have h0 : Φ.hom.app E ≫ (a • α) = Φ.hom.app E ≫ 0 := by

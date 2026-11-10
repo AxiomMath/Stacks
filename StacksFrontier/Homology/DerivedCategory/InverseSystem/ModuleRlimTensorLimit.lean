@@ -149,7 +149,7 @@ public theorem complexDerivedDiagram_inverts (R : ℕᵒᵖ ⥤ RingCat.{u}) :
   have : QuasiIso f := hf
   have (n : ℕᵒᵖ) : IsIso ((complexDerivedDiagram R).map f |>.app n) := by
     have := ModuleRightDerivedLimit.restrictScalars_preservesHomology.{v} (limit.π R n).hom
-    show IsIso (DerivedCategory.Q.map
+    change IsIso (DerivedCategory.Q.map
       (((ModuleCat.restrictScalars.{v} (limit.π R n).hom).mapHomologicalComplex _).map
         (((PresheafOfModules.evaluation R n).mapHomologicalComplex _).map f)))
     infer_instance
@@ -216,7 +216,7 @@ public theorem isDerivedLimit_map_of_iso
       p n - p (n + 1) ≫ U.map (F.map (homOfLE (Nat.le_succ n)).op) := by
     dsimp only [p]
     rw [← U.map_comp, Pi.lift_comp_π, U.map_sub, U.map_comp]
-  show U.map _ ≫ (p n ≫ e.hom.app ⟨n⟩) = _
+  change U.map _ ≫ (p n ≫ e.hom.app ⟨n⟩) = _
   rw [← Category.assoc, hd, Preadditive.sub_comp, Category.assoc]
   have hn := e.hom.naturality (homOfLE (Nat.le_succ n)).op
   dsimp only [Functor.comp_map] at hn
@@ -803,7 +803,7 @@ public theorem totalTensorEvaluation_naturality (A : Type u) [CommRing A]
   let e (j : ℕᵒᵖ) := (HomologicalComplex.eval (ModuleCat.{u} A) (ComplexShape.up ℤ) k).mapIso
     (S.totalTensorEvaluationIso M N j.unop)
   apply (cancel_epi (e n).inv).mp
-  show (e n).inv ≫ (((complexEvaluationDiagram A).obj X).map f |>.f k) ≫ (e m).hom =
+  change (e n).inv ≫ (((complexEvaluationDiagram A).obj X).map f |>.f k) ≫ (e m).hom =
     (e n).inv ≫ (e n).hom ≫ _
   rw [Iso.inv_hom_id_assoc]
   apply HomologicalComplex.mapBifunctor.hom_ext (K₁ := DM.obj n) (K₂ := DN.obj n)

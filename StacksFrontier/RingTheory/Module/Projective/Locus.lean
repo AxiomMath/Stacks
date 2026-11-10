@@ -124,14 +124,14 @@ private theorem exact_baseChange_mkQ_range (A : Type*) [CommRing A] [Algebra R A
     (φ : P₁ →ₗ[R] P₂) :
     Function.Exact (LinearMap.baseChange A φ)
       (LinearMap.baseChange A (Submodule.mkQ (LinearMap.range φ))) := by
-  simpa only [LinearMap.baseChange_eq_ltensor] using
+  simpa only [LinearMap.baseChange_eq_lTensor] using
     lTensor_exact A (LinearMap.exact_map_mkQ_range φ) (Submodule.mkQ_surjective _)
 
 /-- Base change of the quotient map `P₂ → P₂ ⧸ range φ` is surjective. -/
 private theorem surjective_baseChange_mkQ_range (A : Type*) [CommRing A] [Algebra R A]
     (φ : P₁ →ₗ[R] P₂) :
     Function.Surjective (LinearMap.baseChange A (Submodule.mkQ (LinearMap.range φ))) := by
-  rw [LinearMap.baseChange_eq_ltensor]
+  rw [LinearMap.baseChange_eq_lTensor]
   exact LinearMap.lTensor_surjective A (Submodule.mkQ_surjective _)
 
 /-- `A ⊗ φ` is surjective iff `A ⊗ (P₂ ⧸ range φ)` is a subsingleton (right-exactness of `⊗`). -/
@@ -193,8 +193,7 @@ theorem transfer_baseChange_injective {R : Type u} [CommRing R] {P₁ : Type v} 
     TensorProduct.congr e.toLinearEquiv (LinearEquiv.refl R P₂) with hE₂
   have hcomm : ∀ x, (LinearMap.baseChange κ₂ φ) (E₁ x) = E₂ ((LinearMap.baseChange κ₁ φ) x) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul c p =>
         simp only [hE₁, hE₂, TensorProduct.congr_tmul, AlgEquiv.toLinearEquiv_apply,
           LinearEquiv.refl_apply, LinearMap.baseChange_tmul]
@@ -218,7 +217,7 @@ theorem local_baseChange_injective {A : Type u} [CommRing A] (S : Type u) [CommR
     Function.Injective (LinearMap.baseChange S ψ) := by
   have : Module.Free S (S ⊗[A] Q₂) := Module.free_of_flat_of_isLocalRing
   obtain ⟨l', hl'⟩ := (IsLocalRing.split_injective_iff_lTensor_residueField_injective
-    (LinearMap.baseChange S ψ)).mpr (by rwa [← LinearMap.baseChange_eq_ltensor])
+    (LinearMap.baseChange S ψ)).mpr (by rwa [← LinearMap.baseChange_eq_lTensor])
   exact Function.LeftInverse.injective (g := l') (LinearMap.congr_fun hl')
 
 /-- Auxiliary: base-change cancellation. If `T` is an algebra over `B` over `R`,
@@ -357,9 +356,9 @@ theorem injective_localizedMap_of_subset (φ : P₁ →ₗ[R] P₂) [Module.Fini
     rw [IsLocalizedModule.map_comp]
     ext m
     rfl
-  rw [hmapeq, ← LinearMap.baseChange_eq_ltensor]
+  rw [hmapeq, ← LinearMap.baseChange_eq_lTensor]
   -- Reduce to `S ⊗_A (A ⊗_R φ)` (since `F = A ⊗_R φ`).
-  show Function.Injective (LinearMap.baseChange S (LinearMap.baseChange A φ))
+  change Function.Injective (LinearMap.baseChange S (LinearMap.baseChange A φ))
   -- Now prove the residue-field fibre is injective.
   have hRAS : IsScalarTower R A S := IsScalarTower.of_algebraMap_eq (fun x => by rfl)
   have hRSres : IsScalarTower R S (IsLocalRing.ResidueField S) :=
@@ -418,8 +417,7 @@ theorem surjective_localizedMap_of_subset (φ : P₁ →ₗ[R] P₂) [Module.Fin
   rw [localizedMap, surjective_baseChange_iff_subsingleton _ φ]
   rw [subsingleton_iff_forall_eq 0]
   intro y
-  induction y using TensorProduct.induction_on with
-  | zero => rfl
+  induction y using TensorProduct.inductionOn with
   | tmul a c =>
       have hc : (f ^ n) • c = 0 := Module.mem_annihilator.mp hn c
       have hzero : (f ^ n : R) • (a ⊗ₜ[R] c :
@@ -490,12 +488,12 @@ noncomputable def coker_tensor_equiv {A : Type u} [CommRing A] (S : Type u) [Com
   have hexT : Function.Exact (LinearMap.lTensor S ψ) (LinearMap.lTensor S π) :=
     lTensor_exact S hex hπ
   have hπT : Function.Surjective (LinearMap.baseChange S π) := by
-    rw [LinearMap.baseChange_eq_ltensor]; exact LinearMap.lTensor_surjective S hπ
+    rw [LinearMap.baseChange_eq_lTensor]; exact LinearMap.lTensor_surjective S hπ
   have hker : LinearMap.range (LinearMap.baseChange S ψ)
       = LinearMap.ker (LinearMap.baseChange S π) := by
     ext x
-    rw [LinearMap.mem_range, LinearMap.mem_ker, LinearMap.baseChange_eq_ltensor,
-      LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.mem_range, LinearMap.mem_ker, LinearMap.baseChange_eq_lTensor,
+      LinearMap.baseChange_eq_lTensor]
     have := hexT x
     rw [Set.mem_range] at this
     exact this.symm
@@ -533,7 +531,7 @@ theorem coker_proj_local_full {R₀ : Type u} [CommRing R₀] {P₁' : Type v} {
     reduce_baseChange_injective φ A (IsLocalRing.ResidueField S) hbcκ
   have hfib : Function.Injective (LinearMap.lTensor (IsLocalRing.ResidueField S)
       (LinearMap.baseChange S (LinearMap.baseChange A φ))) := by
-    rw [← LinearMap.baseChange_eq_ltensor]
+    rw [← LinearMap.baseChange_eq_lTensor]
     exact reduce_baseChange_injective (LinearMap.baseChange A φ) S
       (IsLocalRing.ResidueField S) step1
   have hproj : Module.Projective S
@@ -738,7 +736,7 @@ theorem finiteProjective_ker_localized (φ : P₁ →ₗ[R] P₂) [Module.Finite
   set b : (A ⊗[R] (LinearMap.ker φ)) →ₗ[A] (A ⊗[R] P₁) :=
     LinearMap.baseChange A (LinearMap.ker φ).subtype with hbdef
   have hbinj : Function.Injective b := by
-    rw [hbdef, LinearMap.baseChange_eq_ltensor]
+    rw [hbdef, LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap (LinearMap.ker φ).subtype
       (Submodule.injective_subtype _)
   have hrange : LinearMap.range b = LinearMap.ker ψ := by

@@ -304,7 +304,7 @@ private theorem fiberMapOfCompl_isIso {B S : Scheme.{u}} (g : B ⟶ S) (s : S)
       refine ⟨zV, ?_⟩
       apply (g.fiberHomeo s).injective
       apply Subtype.ext
-      show g.fiberι s ((fiberMapOfSourceHom V.ι g s).base zV) = g.fiberι s z
+      change g.fiberι s ((fiberMapOfSourceHom V.ι g s).base zV) = g.fiberι s z
       have hmap := congrArg (fun k : _ ⟶ B => k.base zV)
         (fiberMapOfSourceHom_fiberι V.ι g s)
       calc
@@ -372,7 +372,7 @@ private lemma finiteLocallyFreeOfRank_fiber_of_compl
   let e : (V.ι ≫ g).fiber s ≅ g.fiber s := asIso (fiberMapOfSourceHom V.ι g s)
   have he : e.hom ≫ g.fiberToSpecResidueField s =
       (V.ι ≫ g).fiberToSpecResidueField s := by
-    show fiberMapOfSourceHom V.ι g s ≫ g.fiberToSpecResidueField s =
+    change fiberMapOfSourceHom V.ι g s ≫ g.fiberToSpecResidueField s =
       (V.ι ≫ g).fiberToSpecResidueField s
     dsimp [fiberMapOfSourceHom, Scheme.Hom.fiber,
       Scheme.Hom.fiberToSpecResidueField]
@@ -406,7 +406,7 @@ private lemma finiteLocallyFreeOfRank_residueFiber_of_open_restriction
   have he' : e'.hom ≫ pullback.fst (S.fromSpecResidueField s) f =
       pullback.fst (g ≫ U.ι) f := by
     rw [pullback.congrHom_hom]
-    show (pullback.lift
+    change (pullback.lift
       (pullback.fst (g ≫ U.ι) f ≫ 𝟙 _)
       (pullback.snd (g ≫ U.ι) f ≫ 𝟙 _) _) ≫
         pullback.fst (S.fromSpecResidueField s) f = _
@@ -622,7 +622,7 @@ private lemma exists_etale_finite_rank_part
   have : IsClosedImmersion V.ι := isClosedImmersion_ι_of_isCompl hc
   refine ⟨O, O.ι ≫ U.toBase, ⟨U.point, ht⟩, inferInstance, ?_,
     B, p, b ≫ pullback.fst f U.toBase, sq, A, i, inferInstance, inferInstance, ?_⟩
-  · show U.toBase U.point = s
+  · change U.toBase U.point = s
     exact U.map_point
   · exact rank_of_pullback_square sqV n (rank_pullback_snd_ι_of_restrict _ O n hr)
 
@@ -884,7 +884,7 @@ private lemma prop_overPullback_left_iff (P : MorphismProperty Scheme.{u}) [P.Re
   let e : pullback (𝟙 S) g ≅ T := asIso (pullback.snd (𝟙 S) g)
   have hcomm : ((Over.pullback g).map
       (Over.homMk f : Over.mk f ⟶ Over.mk (𝟙 S))).left ≫ e.hom = pullback.snd f g := by
-    show pullback.lift (pullback.fst f g ≫ f) (pullback.snd f g) _ ≫
+    change pullback.lift (pullback.fst f g ≫ f) (pullback.snd f g) _ ≫
       pullback.snd (𝟙 S) g = pullback.snd f g
     exact pullback.lift_snd _ _ _
   exact (P.arrow_mk_iso_iff (Arrow.isoMk (Iso.refl (pullback f g)) e hcomm.symm)).trans
@@ -921,18 +921,18 @@ private lemma exists_isFiniteLocallyFree_later_stage
   let f₀ : X₀ ⟶ Y₀ := (Over.pullback a).map φ
   have : QuasiCompact X₀.hom := by change QuasiCompact (pullback.snd f a); infer_instance
   have : QuasiSeparated X₀.hom := by
-    show QuasiSeparated (pullback.snd f a)
+    change QuasiSeparated (pullback.snd f a)
     exact prop_pullback_snd @QuasiSeparated f a inferInstance
   have : QuasiCompact Y₀.hom := by change QuasiCompact (pullback.snd (𝟙 S) a); infer_instance
   have : QuasiSeparated Y₀.hom := by
-    show QuasiSeparated (pullback.snd (𝟙 S) a)
+    change QuasiSeparated (pullback.snd (𝟙 S) a)
     exact prop_pullback_snd @QuasiSeparated (𝟙 S) a inferInstance
   let := QuasiCompact.compactSpace_of_compactSpace X₀.hom
   let := quasiSeparatedSpace_of_quasiSeparated X₀.hom
   let := QuasiCompact.compactSpace_of_compactSpace Y₀.hom
   let := quasiSeparatedSpace_of_quasiSeparated Y₀.hom
   have : LocallyOfFinitePresentation φ.left := by
-    show LocallyOfFinitePresentation f
+    change LocallyOfFinitePresentation f
     infer_instance
   have : LocallyOfFinitePresentation f₀.left :=
     MorphismProperty.overPullbackMap a φ inferInstance
@@ -1162,7 +1162,7 @@ private lemma exists_immersion_range_eq_sdiff {S : Scheme.{u}} (C D : Set S) (hC
   let A : K.subscheme.Opens := K.subschemeι ⁻¹ᵁ (⟨Dᶜ, hD.isOpen_compl⟩ : S.Opens)
   refine ⟨A, A.ι ≫ K.subschemeι, inferInstance, ?_⟩
   simp only [Scheme.Hom.comp_base, TopCat.coe_comp, Set.range_comp, Scheme.Opens.range_ι]
-  show K.subschemeι.base '' (K.subschemeι.base ⁻¹' Dᶜ) = C \ D
+  change K.subschemeι.base '' (K.subschemeι.base ⁻¹' Dᶜ) = C \ D
   rw [Set.image_preimage_eq_inter_range, Scheme.IdealSheafData.range_subschemeι]
   simp [K, Set.sdiff_eq, Set.inter_comm]
 

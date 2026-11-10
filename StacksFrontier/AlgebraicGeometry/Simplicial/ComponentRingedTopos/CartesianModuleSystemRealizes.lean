@@ -12,7 +12,8 @@ hypercovering this fails at the degeneracies, which are diagonals; the source's 
 0DLA applies 0D9T there without checking it. This file states 0D9T without that hypothesis, as the
 proposition `CategoryTheory.SimplicialSiteSituation.CartesianModuleSystemRealizes` (piece P-core
 of the 0DLA programme, see
-`StacksFrontier/AlgebraicGeometry/Quot/ComplexesStackCechDescentInterface.lean`), and checks that with
+`StacksFrontier/AlgebraicGeometry/Quot/ComplexesStackCechDescentInterface.lean`), and checks that
+with
 the hypothesis added back it is the base's statement.
 
 It is a separate module because the statement does not elaborate under the imports of the

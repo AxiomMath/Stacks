@@ -116,7 +116,7 @@ public theorem sigmaSpec_comp_specMap_piDesc {A : CommRingCat.{u}} {ι : Type u}
     sigmaSpec A' ≫ Spec.map (piDesc A' g) = Sigma.desc g := by
   apply Sigma.hom_ext
   intro i
-  rw [← Category.assoc, ι_sigmaSpec, Sigma.ι_desc, ← Spec.map_comp, piDesc_comp_eval,
+  rw [← Category.assoc, ι_sigmaSpec, Sigma.ι_comp_desc, ← Spec.map_comp, piDesc_comp_eval,
     Spec.map_preimage]
 
 /-- **The ring map to the product algebra of a finite standard affine `τ`-covering is faithfully

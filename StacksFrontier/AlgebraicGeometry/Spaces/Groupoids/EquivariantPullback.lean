@@ -80,7 +80,7 @@ theorem action_comp_asSpaceHom (G : GroupAlgebraicSpace 𝒞 S hS B hB) {X Y : O
     action (hB := hB) G X hX AX ≫ asSpaceHom hX hY f =
       actionMap (hB := hB) G hX hY f ≫ action (hB := hB) G Y hY AY := by
   refine ObjectProperty.hom_ext _ ?_
-  show (ModObj.smul (M := G.obj.X) (X := X)).left ≫ f.left =
+  change (ModObj.smul (M := G.obj.X) (X := X)).left ≫ f.left =
     (lift (fst G.obj.X X) (snd G.obj.X X ≫ f)).left ≫
       (ModObj.smul (M := G.obj.X) (X := Y)).left
   exact congrArg Over.Hom.left hf.smul_hom
@@ -92,7 +92,7 @@ theorem projection_comp_asSpaceHom (G : GroupAlgebraicSpace 𝒞 S hS B hB) {X Y
     projection (hB := hB) G X hX ≫ asSpaceHom hX hY f =
       actionMap (hB := hB) G hX hY f ≫ projection (hB := hB) G Y hY := by
   refine ObjectProperty.hom_ext _ ?_
-  show (snd G.obj.X X).left ≫ f.left =
+  change (snd G.obj.X X).left ≫ f.left =
     (lift (fst G.obj.X X) (snd G.obj.X X ≫ f)).left ≫ (snd G.obj.X Y).left
   exact congrArg Over.Hom.left
     (lift_snd (fst G.obj.X X) (snd G.obj.X X ≫ f)).symm

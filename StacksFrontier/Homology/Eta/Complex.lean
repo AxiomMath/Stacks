@@ -150,7 +150,7 @@ lemma fpowMap_mem_fetaTerm_iff
     simpa only [fpowMap_apply, fLoc_zpow_smul, fLoc_toLoc] using hn.symm
   · rintro ⟨n, hn⟩
     refine ⟨mem_fpowSub.mpr ⟨m, rfl⟩, mem_fpowSub.mpr ⟨n, ?_⟩⟩
-    show fpowMap f N (i + 1) n = fLoc f d (fpowMap f M i m)
+    change fpowMap f N (i + 1) n = fLoc f d (fpowMap f M i m)
     simp only [fpowMap_apply, fLoc_zpow_smul, fLoc_toLoc, hn]
     rw [← fUnit_zpow_one_smul_toLoc, fUnit_zpow_smul_smul]
 
@@ -191,7 +191,7 @@ lemma graphToEta_injective
   apply Subtype.ext
   apply Prod.ext hm
   apply hN
-  show f • x.1.2 = f • y.1.2
+  change f • x.1.2 = f • y.1.2
   have hx : d x.1.1 = f • x.1.2 := sub_eq_zero.mp x.2
   have hy : d y.1.1 = f • y.1.2 := sub_eq_zero.mp y.2
   rw [← hx, ← hy, hm]
@@ -386,7 +386,7 @@ theorem etaMap_id (f : A) (C : Complex A) :
   ext x
   change term f C i at x
   apply Subtype.ext
-  show EtaPow.fLoc f (LinearMap.id : (C.X i) →ₗ[A] (C.X i)) (x : term f C i) = x
+  change EtaPow.fLoc f (LinearMap.id : (C.X i) →ₗ[A] (C.X i)) (x : term f C i) = x
   simpa only [HomologicalComplex.id_f, ModuleCat.hom_id] using
     localizedMap_id_apply f (x : EtaPow.Loc f (C.X i))
 
@@ -399,7 +399,7 @@ theorem etaMap_comp (f : A) {C D E : Complex A} (g : C ⟶ D) (k : D ⟶ E) :
   ext x
   change term f C i at x
   apply Subtype.ext
-  show EtaPow.fLoc f ((g ≫ k).f i).hom (x : term f C i) =
+  change EtaPow.fLoc f ((g ≫ k).f i).hom (x : term f C i) =
     EtaPow.fLoc f (k.f i).hom (EtaPow.fLoc f (g.f i).hom x)
   rw [localizedMap_comp_apply]
   rfl
@@ -498,7 +498,7 @@ theorem etaHomotopy_mem (f : A) {C D : Complex A} {g k : C ⟶ D}
       EtaPow.fpowSub f (D.X (j + 1)) (j + 1) :=
     powerSubmodule_step f (j + 1)
       (localizedMap_mem_power f _ _ x.2.2)
-  show EtaPow.fLoc f (D.d j (j + 1)).hom
+  change EtaPow.fLoc f (D.d j (j + 1)).hom
     (EtaPow.fLoc f (h.hom (j + 1) j).hom x) ∈
       EtaPow.fpowSub f (D.X (j + 1)) (j + 1)
   convert (Submodule.sub_mem _ (Submodule.sub_mem _ (hmem g) hd) (hmem k)) using 1
@@ -551,13 +551,13 @@ theorem etaHomotopyLinear_comm (f : A) {C D : Complex A} {g k : C ⟶ D}
   apply LinearMap.ext
   intro x
   change term f C (j + 1) at x
-  show etaMapLinear f g (j + 1) x =
+  change etaMapLinear f g (j + 1) x =
     etaHomotopyLinear f h (j + 1 + 1) (j + 1)
         (etaDifferential f C (j + 1) x) +
       etaDifferential f D j (etaHomotopyLinear f h (j + 1) j x) +
       etaMapLinear f k (j + 1) x
   apply Subtype.ext
-  show ((etaMapLinear f g (j + 1) x : term f D (j + 1)) :
+  change ((etaMapLinear f g (j + 1) x : term f D (j + 1)) :
       EtaPow.Loc f (D.X (j + 1))) =
     (etaHomotopyLinear f h (j + 1 + 1) (j + 1)
           (etaDifferential f C (j + 1) x) : term f D (j + 1)) +

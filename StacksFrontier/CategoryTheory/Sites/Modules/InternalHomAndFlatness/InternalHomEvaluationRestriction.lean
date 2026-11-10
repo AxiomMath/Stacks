@@ -73,8 +73,6 @@ universe u
 section EvaluationRestriction
 
 variable (X : RingedSite.{u, u, u}) (U : X.C)
-  [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
-  [(X.J.over U).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [HasWeakSheafify X.J AddCommGrpCat.{u}]
   [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
   [HasWeakSheafify (X.J.over U) AddCommGrpCat.{u}]
@@ -111,7 +109,7 @@ theorem tensorRestrictionComparison_internalHomEvaluation
     ((sheafTensor (X.O.over U)).flip.obj (F.over U)).map
           ((internalHomRestrictionNatIso X U F).hom.app A) ≫
         internalHomEvaluation (X.O.over U) (F.over U) (A.over U) =
-      (tensorRestrictionComparison X U F).natTrans.app
+      (tensorRestrictionComparison X U F).app
           ((internalHomSecondFunctor X.J X.O F).obj A) ≫
         (_root_.SheafOfModules.overFunctor (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).map
           (internalHomEvaluation X.O F A) :=
@@ -131,7 +129,7 @@ theorem tensorEvaluation_internalHomRestrictionNatIso
     (A : _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
     tensorEvaluation (X.O.over U) (F.over U) (A.over U)
         ((internalHomRestrictionNatIso X U F).hom.app A) =
-      (tensorRestrictionComparison X U F).natTrans.app
+      (tensorRestrictionComparison X U F).app
           ((internalHomSecondFunctor X.J X.O F).obj A) ≫
         (_root_.SheafOfModules.overFunctor (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).map
           (internalHomEvaluation X.O F A) :=

@@ -109,7 +109,7 @@ prescribed element `h k`. -/
 theorem coordinateHom_mk_X (k : Fin n) :
     coordinateHom g ψ h hrel (Ideal.Quotient.mk (Ideal.span (Set.range g)) (MvPolynomial.X k))
       = h k := by
-  show MvPolynomial.eval₂Hom ψ h (MvPolynomial.X k) = h k
+  change MvPolynomial.eval₂Hom ψ h (MvPolynomial.X k) = h k
   simp
 
 /-- The homomorphism out of a presentation restricts along the structure homomorphism to the
@@ -117,7 +117,7 @@ given homomorphism. -/
 theorem coordinateHom_comp_presentationStructureHom :
     (coordinateHom g ψ h hrel).comp (presentationStructureHom g) = ψ := by
   ext a
-  show MvPolynomial.eval₂Hom ψ h (MvPolynomial.C a) = ψ a
+  change MvPolynomial.eval₂Hom ψ h (MvPolynomial.C a) = ψ a
   simp
 
 end Presentation
@@ -160,7 +160,7 @@ theorem isPushout_presentationAlgebra_baseChange
       = (Ideal.quotientMap (Ideal.span (Set.range fun k => MvPolynomial.map φ (g k)))
           (MvPolynomial.map φ) hbc).comp (presentationStructureHom g) := by
     refine RingHom.ext fun a => ?_
-    show Ideal.Quotient.mk _ (MvPolynomial.C (φ a))
+    change Ideal.Quotient.mk _ (MvPolynomial.C (φ a))
       = Ideal.quotientMap _ (MvPolynomial.map φ) hbc (Ideal.Quotient.mk _ (MvPolynomial.C a))
     rw [hbcmk, MvPolynomial.map_C]
   have hC : ∀ s : PushoutCocone (CommRingCat.ofHom φ)
@@ -180,14 +180,14 @@ theorem isPushout_presentationAlgebra_baseChange
             : MvPolynomial (Fin m) A →+* s.pt).comp (MvPolynomial.map φ)
         = s.inr.hom.comp (Ideal.Quotient.mk (Ideal.span (Set.range g))) := by
       refine MvPolynomial.ringHom_ext (fun a => ?_) (fun k => ?_)
-      · show MvPolynomial.eval₂ s.inl.hom _ (MvPolynomial.map φ (MvPolynomial.C a)) = _
+      · change MvPolynomial.eval₂ s.inl.hom _ (MvPolynomial.map φ (MvPolynomial.C a)) = _
         rw [MvPolynomial.map_C, MvPolynomial.eval₂_C]
         exact hC s a
-      · show MvPolynomial.eval₂ s.inl.hom _ (MvPolynomial.map φ (MvPolynomial.X k)) = _
+      · change MvPolynomial.eval₂ s.inl.hom _ (MvPolynomial.map φ (MvPolynomial.X k)) = _
         rw [MvPolynomial.map_X, MvPolynomial.eval₂_X]
         rfl
     refine (RingHom.congr_fun hcomp (g l)).trans ?_
-    show s.inr.hom (Ideal.Quotient.mk (Ideal.span (Set.range g)) (g l)) = 0
+    change s.inr.hom (Ideal.Quotient.mk (Ideal.span (Set.range g)) (g l)) = 0
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr
       (Ideal.subset_span (Set.mem_range_self (f := g) l)), map_zero]
   refine IsPushout.of_isColimit (PushoutCocone.IsColimit.mk (CommRingCat.hom_ext hsqr)
@@ -199,14 +199,14 @@ theorem isPushout_presentationAlgebra_baseChange
       (fun k => MvPolynomial.map φ (g k)) s.inl.hom _ (hrel s))
   · refine CommRingCat.hom_ext (Ideal.Quotient.ringHom_ext
       (MvPolynomial.ringHom_ext (fun a => ?_) (fun k => ?_)))
-    · show coordinateHom (fun k => MvPolynomial.map φ (g k)) s.inl.hom _ (hrel s)
+    · change coordinateHom (fun k => MvPolynomial.map φ (g k)) s.inl.hom _ (hrel s)
         (Ideal.quotientMap _ (MvPolynomial.map φ) hbc
           (Ideal.Quotient.mk (Ideal.span (Set.range g)) (MvPolynomial.C a))) = _
       rw [hbcmk, MvPolynomial.map_C]
       refine (RingHom.congr_fun (coordinateHom_comp_presentationStructureHom
         (fun k => MvPolynomial.map φ (g k)) s.inl.hom _ (hrel s)) (φ a)).trans ?_
       exact hC s a
-    · show coordinateHom (fun k => MvPolynomial.map φ (g k)) s.inl.hom _ (hrel s)
+    · change coordinateHom (fun k => MvPolynomial.map φ (g k)) s.inl.hom _ (hrel s)
         (Ideal.quotientMap _ (MvPolynomial.map φ) hbc
           (Ideal.Quotient.mk (Ideal.span (Set.range g)) (MvPolynomial.X k))) = _
       rw [hbcmk, MvPolynomial.map_X]

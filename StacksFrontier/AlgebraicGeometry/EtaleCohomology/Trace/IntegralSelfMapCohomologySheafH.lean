@@ -327,7 +327,7 @@ theorem integralDirectImageCohomologyIso_hom_restrictScalarsInt {A B : Scheme.{u
           (etaleModuleDerivedGlobalSectionsCompIso.{u, 0} ℤ g).inv.app
             ((DerivedCategory.Plus.singleFunctor _ 0).obj
               ((etaleModuleRestrictScalars (Int.castRingHom Λ) A).obj H))) := by
-    show (DerivedCategory.Plus.homologyFunctor _ i).map
+    change (DerivedCategory.Plus.homologyFunctor _ i).map
         ((ModuleCat.restrictScalars.{u + 1} (Int.castRingHom Λ)).mapDerivedCategoryPlus.map
           ((etaleModuleDerivedGlobalSections.{u, 0} Λ B).map
               ((Stacks.DerivedFunctor.exactSingleFunctorRightDerivedPlusIso
@@ -344,7 +344,7 @@ variable (Y : Scheme.{u})
 /-- The map `ℤ ⟶ ℤ`, `n ↦ n • 1`, between the lifted rings is the identity. -/
 theorem uliftIntToULiftHom_int : uliftIntToULiftHom ℤ = 𝟙 (AddCommGrpCat.of (ULift.{u + 1} ℤ)) := by
   ext n
-  show (n.down • (1 : ULift.{u + 1} ℤ)) = n
+  change (n.down • (1 : ULift.{u + 1} ℤ)) = n
   ext
   simp
 
@@ -416,7 +416,7 @@ theorem etaleModuleCohomologyAddEquivSheafH_integralSelfMapCohomologyEndo {Λ : 
       extForgetSheafH ℤ Y M i (E.hom.hom (R.hom.hom y)) :=
     fun y => extConstantIntAddEquivSheafH_eq_extForgetSheafH Y M i _
   have hEE : E.inv.hom (E.hom.hom (R.hom.hom x)) = R.hom.hom x := by
-    show (E.hom ≫ E.inv).hom _ = _
+    change (E.hom ≫ E.inv).hom _ = _
     rw [Iso.hom_inv_id]
     rfl
   have key := extForgetSheafH_integralSelfMapCohomologyEndo ℤ φ M α' i (E.hom.hom (R.hom.hom x))

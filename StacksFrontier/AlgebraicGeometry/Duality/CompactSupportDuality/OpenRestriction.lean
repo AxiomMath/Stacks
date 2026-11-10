@@ -379,7 +379,7 @@ theorem dualizingComplexRestrictIso_inv_comp :
         (compactificationOpenRestrictIso p c V).hom.app
           (standardRelativeDualizingComplex c.toBase) =
       (standardUpperShriekDualizingComplexIso (V.ι ≫ p) (compactificationOpen p c V)).hom := by
-  show (((standardUpperShriekDualizingComplexIso (V.ι ≫ p) (compactificationOpen p c V)).hom ≫
+  change (((standardUpperShriekDualizingComplexIso (V.ι ≫ p) (compactificationOpen p c V)).hom ≫
       ((compactificationOpenRestrictIso p c V).app
         (standardRelativeDualizingComplex c.toBase)).inv) ≫
       (Scheme.Modules.restrictFunctor V.ι).mapDerivedCategory.map
@@ -509,7 +509,7 @@ theorem openDualityLinearEquiv_restrict_chase {𝒰 𝒱 : Type*} [Category 𝒰
     (η' : X₄ ⟶ W') (dcomp : X₁ ⟶ X₄) (hD : dcomp = dσ ≫ dRf ≫ dε)
     (h₁ : Θ₁ ≫ G.map df = dRf ≫ Θ₀) (h₂ : Θ₀ ≫ G.map η ≫ eω = dε ≫ η') :
     (s ≫ dσ ≫ Θ₁ ≫ G.map sh.hom) ≫ G.map ((sh.inv ≫ df) ≫ η) ≫ eω = (s ≫ dcomp) ≫ η' := by
-  simp only [Functor.map_comp, Category.assoc, Iso.map_hom_inv_id_assoc, hD]
+  simp only [Functor.map_comp, Category.assoc, Iso.hom_inv_id_map_assoc, hD]
   rw [reassoc_of% h₁, h₂]
 
 /-- **The identification `H^i(U, K) = Hom((D_U K)[-i], ω_X^•|_U)` of [Stacks, Tag 0G5A] is
@@ -552,7 +552,7 @@ theorem openDualityLinearEquiv_restrict (K : BoundedCoherentDerived U) (i : ℤ)
       Stacks.SheafOfModules.derivedUnitRestrictHom V ≫
         (Scheme.Modules.restrictFunctor V.ι).mapDerivedCategory.map a ≫
         (restrictShiftIso p V K i).hom.hom := by
-    show cohomologyUnitHomLinearEquiv (V.ι ≫ p) ((restrictBoundedCoherentLift V.ι).obj K) i
+    change cohomologyUnitHomLinearEquiv (V.ι ≫ p) ((restrictBoundedCoherentLift V.ι).obj K) i
       (cohomologyRestrict p V K i x) = _
     simp only [cohomologyRestrict, LinearMap.comp_apply, LinearEquiv.coe_coe,
       LinearEquiv.apply_symm_apply]

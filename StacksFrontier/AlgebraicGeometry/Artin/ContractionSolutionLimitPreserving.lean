@@ -86,7 +86,7 @@ theorem Scheme.isCompact_of_preimage_eq_preimage {P V U : Scheme.{u}} (q : P ⟶
     · intro hk
       obtain ⟨w, hw, rfl⟩ : k ∈ q.base '' (W : Set P) := hWim ▸ Set.mem_univ k
       refine ⟨W.ι.base ⟨w, hw⟩, ⟨⟨w, hw⟩, ?_, rfl⟩, rfl⟩
-      show p.base w ∈ O
+      change p.base w ∈ O
       rwa [← Set.mem_preimage, ← h]
     · rintro ⟨_, ⟨w, hw, rfl⟩, rfl⟩
       change p.base (W.ι.base w) ∈ O at hw
@@ -207,7 +207,7 @@ theorem limitPreserving_openSubspaceOfPoints [IsLocallyNoetherian S]
     obtain ⟨j, f, hf⟩ := exists_map_mem_openSubspaceOfPoints_of_isLimit B S hS hX hft hT hc hD i y
       (by rw [hy]; exact s.2)
     refine ⟨j, ⟨X.map (D.map f).op y, hf⟩, Subtype.ext ?_⟩
-    show X.map (c.π.app j).op (X.map (D.map f).op y) = s.1
+    change X.map (c.π.app j).op (X.map (D.map f).op y) = s.1
     rw [← Functor.map_comp_apply, ← op_comp, c.w f, hy]
   · intro i x y hxy
     obtain ⟨j, f, hf⟩ := eventually_eq_of_isColimit_mapCocone X D c hXc i x.1 y.1

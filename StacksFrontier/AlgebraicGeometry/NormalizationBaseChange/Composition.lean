@@ -199,7 +199,7 @@ theorem isBirational_baseChangeMap (hV : IsPullback a b (ν ≫ q) j)
   have hiso : IsIso (baseChangeMap hV hW ∣_ (c ⁻¹ᵁ U)) :=
     isIso_baseChangeMap_morphismRestrict hV hW U
   refine isBirational_of_dense_isIso_morphismRestrict _ (c ⁻¹ᵁ U) (hU.preimage hc) ?_
-  show Dense ((baseChangeMap hV hW ⁻¹ᵁ (c ⁻¹ᵁ U) : V.Opens) : Set V)
+  change Dense ((baseChangeMap hV hW ⁻¹ᵁ (c ⁻¹ᵁ U) : V.Opens) : Set V)
   rw [baseChangeMap_preimage_preimage]
   exact hpre.preimage ha
 

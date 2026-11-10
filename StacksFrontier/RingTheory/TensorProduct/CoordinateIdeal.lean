@@ -84,8 +84,7 @@ theorem injective_map_of_injective {K K' : Type*} [CommRing K] [Algebra k K] [Co
     Function.Injective (Algebra.TensorProduct.map (AlgHom.id k C) φ) := by
   convert Module.Flat.lTensor_preserves_injective_linearMap (M := C) φ.toLinearMap hφ using 1
   ext x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul c a => rfl
   | add s t hs ht => simp only [map_add, hs, ht]
 
@@ -183,9 +182,9 @@ theorem not_isNilpotent_map_residueField_of_not_mem {k C A P : Type u} [Field k]
   let f₂ : p.ResidueField →ₐ[k] Q.ResidueField :=
     { Ideal.ResidueField.map p Q i₂ hQp with
       commutes' := fun r ↦ by
-        show Ideal.ResidueField.map p Q i₂ hQp (algebraMap k p.ResidueField r) = _
+        change Ideal.ResidueField.map p Q i₂ hQp (algebraMap k p.ResidueField r) = _
         rw [IsScalarTower.algebraMap_apply k A p.ResidueField, Ideal.ResidueField.map_algebraMap]
-        show algebraMap P Q.ResidueField (i₂ (algebraMap k A r)) =
+        change algebraMap P Q.ResidueField (i₂ (algebraMap k A r)) =
           algebraMap P Q.ResidueField (i₁ (algebraMap k C r))
         rw [hw] }
   let ψ := Algebra.TensorProduct.lift f₁ f₂ fun _ _ ↦ Commute.all _ _
@@ -193,11 +192,10 @@ theorem not_isNilpotent_map_residueField_of_not_mem {k C A P : Type u} [Field k]
       ψ (Algebra.TensorProduct.map (AlgHom.id k C)
         (IsScalarTower.toAlgHom k A p.ResidueField) x) = algebraMap P Q.ResidueField (e x) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul c a =>
       rw [Algebra.TensorProduct.map_tmul, Algebra.TensorProduct.lift_tmul, he, map_mul]
-      show algebraMap P Q.ResidueField (i₁ c) *
+      change algebraMap P Q.ResidueField (i₁ c) *
           Ideal.ResidueField.map p Q i₂ hQp (algebraMap A p.ResidueField a) = _
       rw [Ideal.ResidueField.map_algebraMap]
     | add x y hx hy => simp only [map_add, hx, hy]

@@ -335,7 +335,7 @@ theorem toNat_residueTrdeg_le_of_relativeDimension {X Y : Scheme.{u}} (f : X ⟶
     [LocallyOfFiniteType f] (r : ℕ) (hf : AlgebraicGeometry.RelativeDimension f r) (x : X) :
     Cardinal.toNat (residueTrdeg f x) ≤ r := by
   have hq : LocallyOfFiniteType (f.fiberToSpecResidueField (f.base x)) := by
-    show LocallyOfFiniteType (pullback.snd f (Y.fromSpecResidueField (f.base x)))
+    change LocallyOfFiniteType (pullback.snd f (Y.fromSpecResidueField (f.base x)))
     infer_instance
   have hfibre := hf (f.base x) ⟨f.asFiber x⟩
   have hAt := @topologicalKrullDimAt_eq_of_equidimensional _ _ (f.fiber (f.base x))
@@ -826,7 +826,7 @@ theorem properPushforward_principalDivisorCycle_integralComponentAt_apply_eq_zer
     rw [← hz, properPushforward_apply_image_of_isClosedImmersion, principalDivisorCycle_apply]
     have hzgen : ((integralComponentAt W.2.1.genericPoint).subschemeι ≫ f).base z =
         genericPoint Y := by
-      show f.base ((integralComponentAt W.2.1.genericPoint).subschemeι.base z) = _
+      change f.base ((integralComponentAt W.2.1.genericPoint).subschemeι.base z) = _
       rwa [hz]
     by_cases hzc : coheight z = 1
     · exact ord_dominantFunctionFieldMap_eq_zero_of_map_eq_genericPoint _ hzc hzgen hg

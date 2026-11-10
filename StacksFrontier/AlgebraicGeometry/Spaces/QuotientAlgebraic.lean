@@ -204,7 +204,7 @@ type is itself locally of finite type. -/
 theorem locallyOfFiniteType_isEtaleEquivalenceRelation {R U : Over S} (j : PreRelation R U)
     [IsEtaleEquivalenceRelation j] : LocallyOfFiniteType j.left := by
   have : LocallyOfFiniteType (j.left ≫ (prod.fst (X := U) (Y := U)).left) := by
-    show LocallyOfFiniteType (PreRelation.target j).left
+    change LocallyOfFiniteType (PreRelation.target j).left
     infer_instance
   exact locallyOfFiniteType_of_comp j.left (prod.fst (X := U) (Y := U)).left
 
@@ -235,7 +235,7 @@ theorem isSeparated_target_of_isAffine {R U : Over S} (j : PreRelation R U)
     AlgebraicGeometry.IsSeparated j.target.left := by
   have := isSeparated_isEtaleEquivalenceRelation j
   have := isSeparated_prod_fst_left U
-  show AlgebraicGeometry.IsSeparated (j.left ≫ (prod.fst (X := U) (Y := U)).left)
+  change AlgebraicGeometry.IsSeparated (j.left ≫ (prod.fst (X := U) (Y := U)).left)
   infer_instance
 
 /-- The source map of an étale equivalence relation on an affine `S`-scheme is separated. -/
@@ -244,7 +244,7 @@ theorem isSeparated_source_of_isAffine {R U : Over S} (j : PreRelation R U)
     AlgebraicGeometry.IsSeparated j.source.left := by
   have := isSeparated_isEtaleEquivalenceRelation j
   have := isSeparated_prod_snd_left U
-  show AlgebraicGeometry.IsSeparated (j.left ≫ (prod.snd (X := U) (Y := U)).left)
+  change AlgebraicGeometry.IsSeparated (j.left ≫ (prod.snd (X := U) (Y := U)).left)
   infer_instance
 
 /-! ### The quotient presheaf of a pre-equivalence relation
@@ -476,7 +476,7 @@ theorem relSieve_mem_of_quotientChart_app_eq (J : GrothendieckTopology C)
       (toQuotientPresheaf F j).app (op W) (F.map g ≫ F.map y) := by
     rw [hnat, hnat]
     exact hg
-  show j.Rel (F.map (g ≫ x)) (F.map (g ≫ y))
+  change j.Rel (F.map (g ≫ x)) (F.map (g ≫ y))
   rw [F.map_comp, F.map_comp]
   exact (toQuotientPresheaf_app_eq_iff_rel F j hj _ _).mp key
 

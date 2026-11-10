@@ -147,7 +147,7 @@ theorem map_apply_eq_sum {k : ℕ} (f : ModuleCat.of Λ (Fin k → Λ) ⟶ unitM
 
 /-- For an ideal `N` of `Λ`, the submodule `N • ⊤` of `Λ` is `N`. -/
 theorem smul_top_unitModule (N : Ideal Λ) : (N • ⊤ : Submodule Λ (unitModule Λ)) = N := by
-  show N • (⊤ : Ideal Λ) = N
+  change N • (⊤ : Ideal Λ) = N
   rw [smul_eq_mul, Ideal.mul_top]
 
 /-- **The kernel of `G(Λ) → G(Λ/N)` is `N·G(Λ)`**, for a finitely generated ideal `N`. -/
@@ -226,7 +226,7 @@ theorem flat_obj_unitModule [IsNoetherianRing Λ] : Module.Flat Λ (G.obj (unitM
       map_apply_eq_sum]
     refine Finset.sum_congr rfl fun j _ => ?_
     congr 1
-    show ((linearCombinationOfSpanEq w hw (Pi.single j 1) : Kf) : Fin l → Λ) i = w j i
+    change ((linearCombinationOfSpanEq w hw (Pi.single j 1) : Kf) : Fin l → Λ) i = w j i
     rw [subtype_linearCombinationOfSpanEq_apply, Finset.sum_apply,
       Finset.sum_eq_single j (fun b _ hb => by simp [hb]) (by simp)]
     simp

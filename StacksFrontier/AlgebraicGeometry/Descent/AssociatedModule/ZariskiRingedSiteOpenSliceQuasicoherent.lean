@@ -31,8 +31,8 @@ the open immersion `V.ι : V ⟶ X`.  Quasi-coherence of a restriction along an 
 Mathlib's `AlgebraicGeometry.Scheme.Modules.isQuasicoherent_restrictFunctor`, and quasi-coherent
 modules are closed under isomorphism; so no quasi-coherence is reproved here, and in particular
 no second encoding of the slice identification is introduced — the equivalence used is Mathlib's,
-as in
-`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/ZariskiRingedSiteOpenSliceTransport.lean`.
+as in the module
+`StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.ZariskiRingedSiteOpenSliceTransport`.
 
 Passing from modules to the derived category is
 `CategoryTheory.Functor.mapDerivedCategoryCompHomologyFunctorIso`: an exact additive functor

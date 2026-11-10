@@ -42,7 +42,7 @@ variable {X : Type*} [TopologicalSpace X]
 /-- A specialization `a ⤳ b` gives an inclusion of closures `{b}‾ ⊆ {a}‾`. -/
 private theorem closureSingleton_le_of_specializes {a b : X} (h : a ⤳ b) :
     IrreducibleCloseds.closureSingleton b ≤ IrreducibleCloseds.closureSingleton a := by
-  show closure ({b} : Set X) ⊆ closure {a}
+  change closure ({b} : Set X) ⊆ closure {a}
   exact closure_minimal (Set.singleton_subset_iff.mpr (specializes_iff_mem_closure.mp h))
     isClosed_closure
 
@@ -140,7 +140,7 @@ public theorem distanceFunction_le_two_of_zigzag (Y : Scheme.{u}) [IsNoetherian 
         · exact le_rfl
         · exact hyw
       V_zero_subset := by
-        show closure ({z} : Set Y) ⊆ (Z : Set Y)
+        change closure ({z} : Set Y) ⊆ (Z : Set Y)
         exact closure_minimal (Set.singleton_subset_iff.mpr hz) Z.isClosed
       W_last_eq_closure := rfl }
   have hc0 : s.upCodimension 0 ≤ 1 :=
@@ -148,18 +148,18 @@ public theorem distanceFunction_le_two_of_zigzag (Y : Scheme.{u}) [IsNoetherian 
   have hc1 : s.upCodimension 1 ≤ 1 :=
     ENat.toNat_le_of_le_natCast (topCodim_closureSingleton_le_one_of_forall hcovwv)
   have hc2 : s.upCodimension 2 = 0 := by
-    show (IrreducibleClosedsCodim.topCodim cy cy).toNat = 0
+    change (IrreducibleClosedsCodim.topCodim cy cy).toNat = 0
     simp [topCodim_self_eq_zero]
   have hb1 : 2 ≤ s.downCodimension 1 := by
     have h := two_le_topCodim_closureSingleton_of_specializes hwc hcy hwc' hcy'
-    show 2 ≤ (IrreducibleClosedsCodim.topCodim cy cw).toNat
+    change 2 ≤ (IrreducibleClosedsCodim.topCodim cy cw).toNat
     simpa using ENat.toNat_le_toNat h (topCodim_ne_top Y cy cw)
   have hweight : s.weight ≤ 2 := by
-    show 2 + (Finset.univ : Finset (Fin 3)).sup (fun i =>
+    change 2 + (Finset.univ : Finset (Fin 3)).sup (fun i =>
         (∑ j : Fin 3, if i.val ≤ j.val then s.upCodimension j else 0) -
         (∑ j : Fin 2, if i.val ≤ j.val then s.downCodimension j else 0)) ≤ 2
     have hb0 : s.downCodimension 0 = 0 := by
-      show (IrreducibleClosedsCodim.topCodim cv cv).toNat = 0
+      change (IrreducibleClosedsCodim.topCodim cv cv).toNat = 0
       simp [topCodim_self_eq_zero]
     refine (Nat.add_le_add_left (Finset.sup_le (a := 0) fun i _ => ?_) 2).trans_eq rfl
     fin_cases i <;>

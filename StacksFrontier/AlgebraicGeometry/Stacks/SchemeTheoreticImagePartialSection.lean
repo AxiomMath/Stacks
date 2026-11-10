@@ -396,7 +396,7 @@ theorem isEquivalence_fst_of_isSchemeTheoreticImage_partialSection
     have hma : A.map m = α := by
       rw [Functor.map_comp, Functor.map_comp]
       change A.map θ.inv ≫ (A.map θ.hom ≫ α ≫ A.map θ'.inv) ≫ A.map θ'.hom = α
-      simp only [Category.assoc, Iso.map_inv_hom_id_assoc]
+      simp only [Category.assoc, Iso.inv_hom_id_map_assoc]
       refine (Category.assoc _ _ _).trans ?_
       exact (congrArg (α ≫ ·) (A.mapIso θ').inv_hom_id).trans (Category.comp_id α)
     exact ⟨⟨m.hbase, m.a, ObjectProperty.homMk m.b, m.ha,

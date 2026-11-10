@@ -56,7 +56,7 @@ private theorem determinantAutomorphism_refl
     simpa using congrArg (fun g => g.hom) hcat
   have heq : F.mapLinearEquiv f = LinearEquiv.refl _ _ :=
     LinearEquiv.ext fun x ↦ congrArg (fun g : _ →ₗ[IsLocalRing.ResidueField R] _ => g x) hlin
-  show LinearEquiv.det (F.mapLinearEquiv f) = 1
+  change LinearEquiv.det (F.mapLinearEquiv f) = 1
   rw [heq]
   simp
 

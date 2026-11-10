@@ -111,10 +111,10 @@ private theorem exists_isFilteredResolution
   refine ⟨fun n => Iof (C n), uof (C 0), fun n => cokernelπ (uof (C n)) ≫ uof (C (n + 1)), ?_⟩
   refine ⟨fun n => hfin (C n) (hCfin n), ?_, ?_,
     fun p => mono_gradedPiece_map (uof (C 0)) p, ?_, ?_⟩
-  · show (uof (C 0)).hom ≫ (cokernelπ (uof (C 0))).hom ≫ (uof (C 1)).hom = 0
+  · change (uof (C 0)).hom ≫ (cokernelπ (uof (C 0))).hom ≫ (uof (C 1)).hom = 0
     rw [← Category.assoc, hom_comp_cokernelπ_hom, zero_comp]
   · intro n
-    show ((cokernelπ (uof (C n))).hom ≫ (uof (C (n + 1))).hom) ≫
+    change ((cokernelπ (uof (C n))).hom ≫ (uof (C (n + 1))).hom) ≫
       ((cokernelπ (uof (C (n + 1)))).hom ≫ (uof (C (n + 1 + 1))).hom) = 0
     rw [Category.assoc, ← Category.assoc (uof (C (n + 1))).hom, hom_comp_cokernelπ_hom, zero_comp,
       comp_zero]

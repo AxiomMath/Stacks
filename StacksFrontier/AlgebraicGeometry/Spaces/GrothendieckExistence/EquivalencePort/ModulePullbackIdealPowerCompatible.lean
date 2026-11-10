@@ -229,11 +229,7 @@ theorem C1573.modulePullback_idealPowerMultiple_ι_comp_eq_zero_iff
         obtain ⟨t, rfl⟩ :=
           (bijective_modulePullbackChartBaseChange_of_isQuasicoherentOnSite B S hS f
             M hM d hT hQ).2 s
-        induction t using TensorProduct.induction_on with
-        | zero =>
-          exact (congrArg (fun w : ((modulePullback B S hS f).obj M).val.obj (op T) =>
-            φ.val.app (op T) (g r • w)) (map_zero _)).trans
-            ((congrArg (φ.val.app (op T)) (smul_zero (g r))).trans (map_zero _))
+        induction t using TensorProduct.inductionOn with
         | tmul a₀ m =>
           let a : chartRing B S hS X.1 X.2 T := a₀
           have e : ∀ z : ((modulePullback B S hS f).obj M).val.obj (op T),
@@ -305,7 +301,7 @@ theorem C1573.isCoherentAdicSystem_modulePullback_of_representable
     modulePullback_idealPowerMultiple_ι_comp_eq_zero_iff B S hS f hf J hJc n _
       (hE.1 k).toIsQuasicoherentOnSite φ
   refine ⟨fun n => isCoherent_modulePullback B S hS f _ (hE.1 n), fun n => ?_, fun n => ?_⟩
-  · show idealPowerMultiple B S hS X.1 X.2 (inverseImageIdeal B S hS f hf J) (n + 1)
+  · change idealPowerMultiple B S hS X.1 X.2 (inverseImageIdeal B S hS f hf J) (n + 1)
       ((modulePullback B S hS f).obj (E.obj (op n))) = ⊥
     refine (submodule_ι_eq_zero_iff B S hS X.1 X.2 _).mp ?_
     have hp := (submodule_ι_eq_zero_iff B S hS Y.1 Y.2 _).mpr (hE.2.1 n)
@@ -316,7 +312,7 @@ theorem C1573.isCoherentAdicSystem_modulePullback_of_representable
       (inverseImageIdeal B S hS f hf J) (n + 1) (E.obj (op (n + 1))) (hw (n + 1) (n + 1))
     obtain ⟨ei, hei⟩ := hE.2.2 n
     refine ⟨q.symm ≪≫ (modulePullback B S hS f).mapIso ei, ?_⟩
-    show cokernel.π _ ≫ (q.inv ≫ (modulePullback B S hS f).map ei.hom) = _
+    change cokernel.π _ ≫ (q.inv ≫ (modulePullback B S hS f).map ei.hom) = _
     refine Eq.trans (congrArg (fun τ => τ ≫ (q.inv ≫ (modulePullback B S hS f).map ei.hom))
       hq.symm) ?_
     refine (Category.assoc _ q.hom _).trans ?_

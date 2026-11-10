@@ -196,7 +196,7 @@ private theorem isCoveringOver_representableBy_comparison (J : Pretopology C)
       _ = U.ι ≫ hFull.homEquiv isoV.hom := by
             rw [representableByIso_hom_homEquiv repV hFull]
       _ = FU'.map isoV.hom.op (U.ι ≫ hFull.homEquiv (𝟙 P)) := hNatural.symm
-  show IsCoveringOver J comparison
+  change IsCoveringOver J comparison
   refine IsCoveringOver.of_isIso_comp J isoV.hom ?_
   rw [← hComparison]
   exact hChosenCover.comp_isIso J isoU.hom
@@ -263,7 +263,7 @@ private theorem isCoveringOver_intervalEndpointMap_matching (J : Pretopology C)
     · simp only [Iso.trans_hom, Category.assoc, pullbackSymmetry_hom_comp_snd]
       rw [hIsoTop, hMsnd]
       simpa [comparison] using hCompareTop
-  show IsCoveringOver J mLift
+  change IsCoveringOver J mLift
   rw [← hFactor]
   exact hComparisonCover.comp_isIso J isoUnionPullback.hom
 
@@ -293,7 +293,8 @@ theorem exists_homotopy_after_hypercovering_refinement_max (J : Pretopology C)
   let h : K'.copower (Δ[1] : SSet.{max v w}) ⟶ L :=
     { app := fun m ↦ Sigma.desc (fun x ↦ hData.app m x)
       naturality m m' φ := Sigma.hom_ext _ _ fun x ↦ by
-        simp only [Functor.copower_map, Sigma.ι_comp_map'_assoc, Sigma.ι_desc, Sigma.ι_desc_assoc]
+        simp only [Functor.copower_map, Sigma.ι_comp_map'_assoc, Sigma.ι_comp_desc,
+          Sigma.ι_comp_desc_assoc]
         exact hData.naturality φ x }
   have hqe : q ≫ e = c ≫ f :=
     NatTrans.ext <| funext fun d ↦ (Limits.pullback.condition (f := f.app d) (g := e.app d)).symm
@@ -311,7 +312,7 @@ theorem exists_homotopy_after_hypercovering_refinement_max (J : Pretopology C)
       Sigma.ι (fun _ : (Δ[1] : SSet.{max v w}).obj m ↦ K'.obj m)
         (SSet.stdSimplex.const 1 i m) ≫ h.app m = (c ≫ g).app m := by
     dsimp only [h]
-    rw [Sigma.ι_desc, heval, ← hp m, ← hg]
+    rw [Sigma.ι_comp_desc, heval, ← hp m, ← hg]
     simpa using congrArg (fun z ↦ (z ≫ p).app m) hqe
   exact ⟨h, key 0 prod.fst a (prod.lift_fst _ _) (intervalEndpointMap X L H hH).2.1,
     key 1 prod.snd b (prod.lift_snd _ _) (intervalEndpointMap X L H hH).2.2⟩
@@ -336,7 +337,7 @@ theorem exists_homotopy_after_hypercovering_refinement_universe (J : Pretopology
         intro m m' f
         apply Sigma.hom_ext
         intro x
-        simp only [Functor.copower_map, Sigma.ι_comp_map'_assoc, Sigma.ι_desc]
+        simp only [Functor.copower_map, Sigma.ι_comp_map'_assoc, Sigma.ι_comp_desc]
         calc
           K'.map f ≫
               Sigma.ι (fun _ : (SSet.stdSimplex.{max v w}.obj ⦋1⦌).obj m' ↦ K'.obj m')
@@ -357,7 +358,7 @@ theorem exists_homotopy_after_hypercovering_refinement_universe (J : Pretopology
                   (intervalUniverseLift.{z, max v w} y) ≫ hMax.app m)) ≫ L.map f := by
             simp }
   refine ⟨K', c, hK', h, ?_, ?_⟩ <;> intro m <;> dsimp only [h] <;>
-    rw [Sigma.ι_desc, intervalUniverseLift_const]
+    rw [Sigma.ι_comp_desc, intervalUniverseLift_const]
   exacts [hHomotopy.1 m, hHomotopy.2 m]
 
 /-- **Stacks Project, Tag 01GS.** Two morphisms between hypercoverings become simplicially

@@ -53,7 +53,7 @@ public theorem cofactorSum_eq_zero {R : Type u} [CommRing R] {c : ℕ}
   let d : Fin (c + 1) → R := Fin.cases 0 f
   have hcol : (fun i => ∑ j, d j * B i j) = B.col 0 := by
     funext i
-    show (∑ j, d j * B i j) = B i 0
+    change (∑ j, d j * B i j) = B i 0
     calc
       (∑ j, d j * B i j) = ∑ j, f j * v i j := by
         simp [d, B, Fin.sum_univ_succ]
@@ -64,7 +64,7 @@ public theorem cofactorSum_eq_zero {R : Type u} [CommRing R] {c : ℕ}
     by_cases hj : j = 0
     · subst j
       rw [Matrix.updateCol_self]
-      show (∑ k, d k * B i k) = B i 0
+      change (∑ k, d k * B i k) = B i 0
       simpa using congrFun hcol i
     · rw [Matrix.updateCol_apply]
       simp [hj]

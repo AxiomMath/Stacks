@@ -65,7 +65,8 @@ class being the K-flat complexes with flat terms of Stacks 06YS.
 
 **`Lπ_!`.** The functor `Lπ_!` on abelian sheaves is the canonical unbounded left derived
 functor of `π_!`, whose existence is Stacks 07AC for the projection of a fibred category, proved
-in `StacksFrontier/CategoryTheory/Sites/Cohomology/FibredCategory/ProjectionLowerShriekAcyclic.lean` through `simplicialSituation`. The structure sheaf of the
+in `StacksFrontier/CategoryTheory/Sites/Cohomology/FibredCategory/ProjectionLowerShriekAcyclic.lean`
+through `simplicialSituation`. The structure sheaf of the
 ringed site required by `simplicialSituation` plays no role in lower shriek on abelian sheaves;
 `auxRingedSite` supplies the terminal sheaf of rings there and is only used to discharge the
 existence of the derived functor.

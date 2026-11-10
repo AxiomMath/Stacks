@@ -38,8 +38,7 @@ namespace AlgebraicGeometry
 
 variable (X : Scheme.{u}) (sbar : GeometricPoint X)
 
-attribute [local instance]
-  instAlgebraCarrierResidueFieldCoeContinuousMapCarrierCarrierCommRingCatSpecOfResidueFieldHomTopCatBaseHomDefault
+attribute [local instance] GeometricPoint.residueFieldAlgebra
 
 private theorem finiteEtaleNormalization_isSeparable
     [IsIntegral X] [IsNormal X]
@@ -80,7 +79,7 @@ private theorem finiteEtaleFiber_factors_through_mono
   let : IsFinite W.hom := W.prop.1
   let : Etale W.hom := W.prop.2
   let : Mono i.left := himono
-  have hi : i.left ≫ Y.hom = W.hom := by simpa using i.w
+  have hi : i.left ≫ Y.hom = W.hom := by simp
   have hp : q ≫ W.hom =
       Spec.map (CommRingCat.ofHom
         (algebraMap (X.residueField (sbar.hom default)) sbar.residueField)) ≫
@@ -124,7 +123,7 @@ private theorem finiteEtale_exists_equivariant_fiber
     FintypeCat.{u} ⋙ FintypeCat.incl
   let e := ((U.mapIso i).symm ≪≫ α.app Y).toEquiv
   refine ⟨Y, e, fun σ a => ?_⟩
-  show (α.hom.app Y) (i.inv.hom.hom ((A.obj.ρ σ).asHom.hom a)) =
+  change (α.hom.app Y) (i.inv.hom.hom ((A.obj.ρ σ).asHom.hom a)) =
     (σ.asIso.app Y).hom ((α.hom.app Y) (i.inv.hom.hom a))
   rw [← hα]
   congr 1
@@ -149,7 +148,7 @@ private theorem exists_embedding_action
             intro a
             apply AlgHom.ext
             intro x
-            show (h 1) (a x) = a x
+            change (h 1) (a x) = a x
             simp
           map_mul' := by
             intro σ τ
@@ -158,7 +157,7 @@ private theorem exists_embedding_action
             intro a
             apply AlgHom.ext
             intro x
-            show (h (σ * τ)) (a x) = (h σ) ((h τ) (a x))
+            change (h (σ * τ)) (a x) = (h σ) ((h τ) (a x))
             rw [map_mul]
             rfl } }
   have hc : A.IsContinuous := by
@@ -169,7 +168,7 @@ private theorem exists_embedding_action
     let : FiniteDimensional K E := Module.Finite.equiv a.equivFieldRange.toLinearEquiv
     have heq : (MulAction.stabilizer G a : Set G) = h ⁻¹' E.fixingSubgroup := by
       ext σ
-      show (h σ).toAlgHom.comp a = a ↔ h σ ∈ E.fixingSubgroup
+      change (h σ).toAlgHom.comp a = a ↔ h σ ∈ E.fixingSubgroup
       rw [IntermediateField.mem_fixingSubgroup_iff]
       constructor
       · intro he x hx
@@ -243,7 +242,7 @@ public theorem finiteEtaleNormalization_of_le_maximalEtaleExtension
   let Ω := sbar.residueField
   let M := maximalEtaleExtension X sbar
   let : IsAlgClosure K Ω := hs
-  let : Normal K M := normal_maximalEtaleExtension X sbar hs hgeneric
+  let : Normal K M := normal_maximalEtaleExtension X sbar hs
   let : Algebra.IsSeparable K M := maximalEtaleExtension_isSeparable X sbar hgeneric
   let : IsGalois K M := {}
   let iso := fundamentalGroupIsoGalMaximalEtaleExtension X sbar hs hgeneric
@@ -296,7 +295,7 @@ public theorem isQuotientMap_absoluteGaloisToFundamentalGroup
     (hs : GeometricPoint.IsAlgebraic sbar)
     (hgeneric : sbar.hom default = genericPoint X) :
     letI : Normal (X.residueField (sbar.hom default)) (maximalEtaleExtension X sbar) :=
-      normal_maximalEtaleExtension X sbar hs hgeneric
+      normal_maximalEtaleExtension X sbar hs
     (∀ L : IntermediateField (X.residueField (sbar.hom default)) sbar.residueField,
         FiniteDimensional (X.residueField (sbar.hom default)) L →
           L ≤ maximalEtaleExtension X sbar → FiniteEtaleNormalization X sbar L) ∧
@@ -313,9 +312,9 @@ public theorem isQuotientMap_absoluteGaloisToFundamentalGroup
           e (absoluteGaloisToFundamentalGroup X sbar σ) =
             AlgEquiv.restrictNormalHom (maximalEtaleExtension X sbar) σ := by
   let : Normal (X.residueField (sbar.hom default)) (maximalEtaleExtension X sbar) :=
-    normal_maximalEtaleExtension X sbar hs hgeneric
-  refine ⟨fun L hfin hL => ?_, fun N hN => le_maximalEtaleExtension X sbar hs hgeneric N hN,
-    normal_maximalEtaleExtension X sbar hs hgeneric,
+    normal_maximalEtaleExtension X sbar hs
+  refine ⟨fun L hfin hL => ?_, fun N hN => le_maximalEtaleExtension X sbar hs N hN,
+    normal_maximalEtaleExtension X sbar hs,
     maximalEtaleExtension_isSeparable X sbar hgeneric,
     fundamentalGroupIsoGalMaximalEtaleExtension X sbar hs hgeneric,
     fundamentalGroupIsoGalMaximalEtaleExtension_apply X sbar hs hgeneric⟩
@@ -375,7 +374,7 @@ public theorem mem_fixingSubgroup_of_galoisToFundamentalGroup_eq_one
       ((algebraicClosureGeometricPoint (X.residueField (genericPoint X)) Ω).map
         (X.fromSpecResidueField (genericPoint X))) Y :=
     ⟨Spec.map (CommRingCat.ofHom eEΩ) ≫ f.toNormalization, by
-      show (Spec.map (CommRingCat.ofHom eEΩ) ≫ f.toNormalization) ≫
+      change (Spec.map (CommRingCat.ofHom eEΩ) ≫ f.toNormalization) ≫
         f.fromNormalization = _
       rw [Category.assoc, f.toNormalization_fromNormalization, hf, ← Spec.map_comp_assoc,
         heEΩ]

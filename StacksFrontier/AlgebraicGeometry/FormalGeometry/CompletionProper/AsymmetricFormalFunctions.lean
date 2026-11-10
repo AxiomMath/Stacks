@@ -176,7 +176,7 @@ public theorem hasProperSupport_internalHomCoherent {X S : Scheme.{u}} (f : X �
   refine ⟨⟨_root_.SheafOfModules.supp (internalHomCoherent X F G).obj,
     _root_.SheafOfModules.isClosed_supp (internalHomCoherent X F G).obj⟩, rfl, ?_⟩
   refine isProperOver_of_le f ?_ hZproper
-  show _root_.SheafOfModules.supp (internalHomCoherent X F G).obj ≤ (Z : Set X)
+  change _root_.SheafOfModules.supp (internalHomCoherent X F G).obj ≤ (Z : Set X)
   rw [hZ]
   exact supp_internalHomCoherent_subset F G
 

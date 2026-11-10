@@ -139,14 +139,14 @@ back along the base-change projection and then taken to its germ at `x̄`.
 It is the colimit cocone of `(𝒪_X)_x̄`, whiskered along base change of neighborhoods and
 precomposed with the structure map, so its naturality needs no separate argument. -/
 public def etaleLocalRingCocone :
-    Cocone ((CategoryOfElements.π
+    Cocone ((Functor.Elements.π
       (geometricPointFiber B Y.obj Y.property (x.map (B.inclusion.map a)))).op ⋙
         (SmallEtale.structureSheaf B Y.obj Y.property).obj) where
   pt := etaleLocalRing B X.obj X.property x
-  ι := Functor.whiskerLeft (CategoryOfElements.π
+  ι := Functor.whiskerLeft (Functor.Elements.π
       (geometricPointFiber B Y.obj Y.property (x.map (B.inclusion.map a)))).op
       (structureSharpRing B a) ≫
-    ((colimit.cocone ((CategoryOfElements.π
+    ((colimit.cocone ((Functor.Elements.π
         (geometricPointFiber B X.obj X.property x)).op ⋙
       (SmallEtale.structureSheaf B X.obj X.property).obj)).whisker
       (baseChangeEtaleNeighborhood B a x).op).ι
@@ -169,11 +169,11 @@ public def etaleLocalRingMap :
 projection and takes its germ at the base-changed neighborhood. -/
 public theorem etaleLocalRingMap_ι
     (V : (geometricPointFiber B Y.obj Y.property (x.map (B.inclusion.map a))).Elementsᵒᵖ) :
-    colimit.ι ((CategoryOfElements.π
+    colimit.ι ((Functor.Elements.π
         (geometricPointFiber B Y.obj Y.property (x.map (B.inclusion.map a)))).op ⋙
       (SmallEtale.structureSheaf B Y.obj Y.property).obj) V ≫ etaleLocalRingMap B a x =
       (structureSharpRing B a).app (op (unop V).1) ≫
-        colimit.ι ((CategoryOfElements.π (geometricPointFiber B X.obj X.property x)).op ⋙
+        colimit.ι ((Functor.Elements.π (geometricPointFiber B X.obj X.property x)).op ⋙
           (SmallEtale.structureSheaf B X.obj X.property).obj)
           (op ((baseChangeEtaleNeighborhood B a x).obj (unop V))) :=
   colimit.ι_desc (etaleLocalRingCocone B a x) V

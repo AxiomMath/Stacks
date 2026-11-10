@@ -116,7 +116,7 @@ private theorem exactColimitsOnSmallFilteredShape (A : GradedAlgebra.{t, a} R)
       Functor.PreservesMonomorphisms.of_iso
         (preservesColimitNatIso (J := S) (C := GM) (D := D) E).symm
     let : Mono (((colim (J := S) (C := GM)).map α).app n) := by
-      show Mono ((colim (J := S) (C := GM) ⋙ E).map α)
+      change Mono ((colim (J := S) (C := GM) ⋙ E).map α)
       let : Mono α := hα
       infer_instance
     apply (cancel_mono (((colim (J := S) (C := GM)).map α).app n)).1

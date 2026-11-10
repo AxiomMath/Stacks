@@ -228,7 +228,7 @@ theorem iSup_chartWeight_eq_twistWeightSpan (d : ℤ) :
   have hidx : ((prodXIndexEquiv s).symm ⟨e.1, e.2.2⟩ :
       exponentMonoid (↑(chartExponent s).support : Set (Fin (n + 1)))) =
       ⟨Finsupp.equivFunOnFinite.symm e.1, hmem⟩ := Subtype.ext rfl
-  show twistWeightMonomial R s d e ∈ Stacks.PartialLaurent.weight R (chartExponent s)
+  change twistWeightMonomial R s d e ∈ Stacks.PartialLaurent.weight R (chartExponent s)
     (chartRing R s)
     ((⟨Finsupp.equivFunOnFinite.symm e.1, hmem⟩ :
       exponentMonoid (↑(chartExponent s).support : Set (Fin (n + 1)))) : Fin (n + 1) →₀ ℤ)

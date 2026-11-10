@@ -162,7 +162,7 @@ theorem isProper_of_denseTestExistence_of_schemeCover
   let ι : Zobj ⟶ X' := Over.homMk (⟨g.imageι⟩ : Zobj.left ⟶ X'.left) rfl
   let ψ' : W ⟶ Zobj := Over.homMk (⟨g.toImage⟩ : W.left ⟶ Zobj.left) (by
     apply B.inclusion.map_injective
-    show g.toImage ≫ g.imageι ≫ B.inclusion.map X'.hom = B.inclusion.map W.hom
+    change g.toImage ≫ g.imageι ≫ B.inclusion.map X'.hom = B.inclusion.map W.hom
     rw [← Category.assoc, Scheme.Hom.toImage_imageι]
     have h1 := congrArg B.inclusion.map (Over.w ψ₀)
     rwa [B.inclusion.map_comp] at h1)

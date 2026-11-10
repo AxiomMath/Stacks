@@ -244,6 +244,7 @@ theorem overTerminalRingHom_eq_globalSectionToEnd_awayFamily (U : X.C)
 variable (I : SheafOfModules.Submodule (SheafOfModules.unit
     ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))))
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The completion of a complex which restricts to a Čech complex is derived complete at every
 section of `ℐ` over an object carrying a finite generating family.** Let `a : K ⟶ 𝒪` satisfy the
 condition of [Stacks, Tag 099E] for `ℐ`, let `U` be an object on which finitely many global
@@ -293,13 +294,14 @@ theorem isDerivedCompleteAtSection_completionFunctorOfComplex
           (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U).mapDerivedCategory.obj E))
     (globalSectionOfSection X U y) (idealOfGlobalSections (X.over U) g) hmem
     (isDerivedComplete_completionFunctor (X.over U) g _)
-  show IsDerivedCompleteAt _ (overTerminalRingHom X U y)
+  change IsDerivedCompleteAt _ (overTerminalRingHom X U y)
   rw [overTerminalRingHom_eq_globalSectionToEnd_awayFamily X U y]
   exact (isDerivedCompleteAt_iff_of_iso hiso _).2 hcomp
 
 variable [∀ V : X.C, HasWeakSheafify (X.J.over V) CommRingCat.{u}]
 
-omit [∀ V : X.C, HasWeakSheafify (X.J.over V) CommRingCat.{u}] in
+omit [HasWeakSheafify X.J CommRingCat.{u}]
+  [∀ V : X.C, HasWeakSheafify (X.J.over V) CommRingCat.{u}] in
 /-- **Clause 1 of [Stacks, Tag 099F] for a finite-type sheaf of ideals**: if `a : K ⟶ 𝒪`
 satisfies the condition of [Stacks, Tag 099E] for a sheaf of ideals `ℐ` of finite type, then
 `R𝑆heafHom_𝒪(K, E)` is derived complete along `ℐ` for every `E`.
@@ -361,7 +363,8 @@ def structureSheafComplexOverIso :
         (ComplexShape.up ℤ) (0 : ℤ)).app
       (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
 
-omit [HasSheafify X.J AddCommGrpCat.{u}] [HasSheafify (X.over U).J AddCommGrpCat.{u}] in
+omit [HasWeakSheafify X.J CommRingCat.{u}] [HasSheafify X.J AddCommGrpCat.{u}]
+  [HasWeakSheafify (X.over U).J CommRingCat.{u}] [HasSheafify (X.over U).J AddCommGrpCat.{u}] in
 /-- `AlgebraicGeometry.RingedSite.restrictStructureSheafMap` is the degreewise restriction of
 `a` followed by that identification. -/
 theorem restrictStructureSheafMap_eq
@@ -376,6 +379,7 @@ theorem restrictStructureSheafMap_eq
 variable (I : SheafOfModules.Submodule (SheafOfModules.unit
     ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))))
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The restriction of `a : K ⟶ 𝒪` to a slice is the Čech augmentation there, up to
 isomorphism.** If `a` satisfies the condition of [Stacks, Tag 099E] for `ℐ` and the finitely
 many global sections `g_1, …, g_s` of `𝒪_U` generate `ℐ|_U`, then the image of `a` in `D(𝒪_U)`
@@ -440,6 +444,7 @@ theorem exists_eq_Q_map_cechAugmentation
           (congrArg (fun m => (restrictionComparison X U K).hom ≫ m)
             (Category.assoc _ _ _))).trans (Category.assoc _ _ _).symm)⟩
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The map which the restricted `a` induces on derived internal Hom is the one the Čech
 augmentation of the slice induces, up to isomorphism.** This is
 `exists_eq_Q_map_cechAugmentation` read through the contravariant argument of the derived
@@ -582,7 +587,8 @@ theorem completionUnit_app_eq (U : X.C) [HasWeakSheafify (X.over U).J CommRingCa
           (DerivedCategory.Q.map (cechAugmentation (X.over U) g)).op).app M) :=
   rfl
 
-omit [∀ V : X.C, HasWeakSheafify (X.J.over V) CommRingCat.{u}]
+omit [HasWeakSheafify X.J CommRingCat.{u}]
+  [∀ V : X.C, HasWeakSheafify (X.J.over V) CommRingCat.{u}]
   [∀ V : X.C, HasSheafify (X.J.over V) AddCommGrpCat.{u}]
   [∀ V : X.C, (X.J.over V).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The restriction of the completion map of `a` to a slice is the map the Čech augmentation of
@@ -667,7 +673,8 @@ private theorem isIso_of_forall_generators (X : RingedSite.{u, u, u})
   obtain ⟨n, s, hs⟩ := hgen i
   exact h (V i) _ (overIdeal_eq_idealOfGlobalSections_of_generates X (V i) I s hs).symm
 
-omit [∀ V : X.C, HasWeakSheafify (X.J.over V) CommRingCat.{u}] in
+omit [HasWeakSheafify X.J CommRingCat.{u}]
+  [∀ V : X.C, HasWeakSheafify (X.J.over V) CommRingCat.{u}] in
 /-- **Clause 2 of [Stacks, Tag 099F] for a finite-type sheaf of ideals**: if `a : K ⟶ 𝒪`
 satisfies the condition of [Stacks, Tag 099E] for `ℐ` of finite type, the completion map
 `E ⟶ R𝑆heafHom_𝒪(K, E)` is invertible on every `E` derived complete along `ℐ`.
@@ -703,7 +710,8 @@ theorem isIso_completionUnitOfComplex_app_of_isDerivedComplete
       (IsIso.comp_isIso' (IsIso.comp_isIso' (Iso.isIso_hom p)
         (IsIso.comp_isIso' hcech (Iso.isIso_hom q))) (Iso.isIso_hom β)))
 
-omit [∀ V : X.C, HasWeakSheafify (X.J.over V) CommRingCat.{u}] in
+omit [HasWeakSheafify X.J CommRingCat.{u}]
+  [∀ V : X.C, HasWeakSheafify (X.J.over V) CommRingCat.{u}] in
 /-- **Clause 3 of [Stacks, Tag 099F] for a finite-type sheaf of ideals**: the completion functor
 of `K` carries its own completion map to an isomorphism. This is the hypothesis `hΦη` of
 `Stacks.Algebraization.isRightAdjoint_ι_of_completionFunctor`, the one the two-object
@@ -754,7 +762,8 @@ theorem isIso_completionFunctorOfComplex_map_completionUnitOfComplex_app
         ((completionUnitOfComplex X a).app E))).trans (Category.assoc _ _ _)))
     (IsIso.comp_isIso' (Iso.isIso_hom _) (IsIso.comp_isIso' hmid (Iso.isIso_inv _)))
 
-omit [∀ V : X.C, HasWeakSheafify (X.J.over V) CommRingCat.{u}] in
+omit [HasWeakSheafify X.J CommRingCat.{u}]
+  [∀ V : X.C, HasWeakSheafify (X.J.over V) CommRingCat.{u}] in
 /-- **[Stacks, Tag 099F] for a finite-type sheaf of ideals, from the map `K ⟶ 𝒪` of
 [Stacks, Tag 099E].** If `a : K ⟶ 𝒪` has the property that tag asserts — on every object `U`
 carrying finitely many sections generating `ℐ|_U` its restriction is the extended alternating
@@ -783,7 +792,8 @@ theorem isRightAdjoint_ι_isDerivedComplete_of_isGlobalExtendedCech
     (fun Z hZ => isIso_completionUnitOfComplex_app_of_isDerivedComplete X I ha hI Z hZ)
     (fun E => isIso_completionFunctorOfComplex_map_completionUnitOfComplex_app X I ha hI E)
 
-omit [∀ V : X.C, HasWeakSheafify (X.J.over V) CommRingCat.{u}] in
+omit [HasWeakSheafify X.J CommRingCat.{u}]
+  [∀ V : X.C, HasWeakSheafify (X.J.over V) CommRingCat.{u}] in
 /-- **[Stacks, Tag 099F] at the tag's own hypothesis, from [Stacks, Tag 099E].** The same
 statement with Mathlib's categorical finite-type condition, which is the tag's, in place of the
 sectionwise one; the two are compared by
@@ -798,7 +808,8 @@ theorem isRightAdjoint_ι_isDerivedComplete_of_exists_isGlobalExtendedCech
     (Stacks.SheafOfModules.presheaf_isFiniteType_of_isFiniteType I.toSheafOfModules
       inferInstance)
 
-omit [∀ V : X.C, HasWeakSheafify (X.J.over V) CommRingCat.{u}] in
+omit [HasWeakSheafify X.J CommRingCat.{u}]
+  [∀ V : X.C, HasWeakSheafify (X.J.over V) CommRingCat.{u}] in
 /-- **The reduction recovers [Stacks, Tag 099B]**, and so is not vacuous: fed the witness which
 `AlgebraicGeometry.RingedSite.exists_isGlobalExtendedCech_idealOfGlobalSections` of
 `GlobalExtendedCech.lean` supplies for an ideal sheaf generated by finitely many global
@@ -826,17 +837,12 @@ attribute [local instance] isMulCommutative_over overCatCenterLinear
   overFunctor_preservesFiniteLimits overFunctor_preservesFiniteColimits
   hasProductsOfShape_nat_derivedCategory_over
 
-variable (X : RingedSite.{u, u, u}) [HasWeakSheafify X.J CommRingCat.{u}]
-  [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
-  (I : SheafOfModules.Submodule (SheafOfModules.unit
-      ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))))
-  (E : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))
-
-omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **A nilpotent section of `𝒪` over `U` satisfies the Milnor condition on every object**: if
 `f` is nilpotent then multiplication by it is a nilpotent endomorphism of the restriction of any
 `E` to the slice at `U`, so `T(E|_U, f) = 0`. -/
-theorem isDerivedCompleteAtSection_of_isNilpotent (U : X.C)
+theorem isDerivedCompleteAtSection_of_isNilpotent (X : RingedSite.{u, u, u})
+    (E : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))
+    (U : X.C)
     {f : ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj.obj (op U)} (hf : IsNilpotent f) :
     IsDerivedCompleteAtSection X E U f := by
   obtain ⟨n, hn⟩ := Stacks.SheafOfModules.isNilpotent_terminalSectionToEnd
@@ -844,13 +850,15 @@ theorem isDerivedCompleteAtSection_of_isNilpotent (U : X.C)
   refine isDerivedCompleteAt_of_isNilpotent ⟨n, ?_⟩
   rw [smul_pow, one_pow, overTerminalRingHom_apply, hn, zero_smul]
 
-omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **Every object of `D(𝒪)` is derived complete along a sheaf of ideals whose local sections
 become nilpotent on a covering.** The Milnor condition at a section is local on the site, by the
 sheaf condition of [Stacks, Tag 0998]
 (`AlgebraicGeometry.RingedSite.IsDerivedCompleteAtSection.of_sieve`), and it holds at a
 nilpotent section by `isDerivedCompleteAtSection_of_isNilpotent`. -/
-theorem isDerivedComplete_of_isNilpotent_of_sieve
+theorem isDerivedComplete_of_isNilpotent_of_sieve (X : RingedSite.{u, u, u})
+    (I : SheafOfModules.Submodule (SheafOfModules.unit
+      ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))))
+    (E : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))
     (hI : ∀ (U : X.C) (f : ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj.obj (op U)),
       f ∈ I.toSubmodule.obj (op U) →
       ∃ S : Sieve U, S ∈ X.J U ∧ ∀ {V : X.C} (b : V ⟶ U), S.arrows b →
@@ -860,6 +868,11 @@ theorem isDerivedComplete_of_isNilpotent_of_sieve
     let ⟨S, hS, hnil⟩ := hI U f hf
     IsDerivedCompleteAtSection.of_sieve X E f S hS fun b hb =>
       isDerivedCompleteAtSection_of_isNilpotent X E _ (hnil b hb)
+
+variable (X : RingedSite.{u, u, u}) [HasWeakSheafify X.J CommRingCat.{u}]
+  [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  (I : SheafOfModules.Submodule (SheafOfModules.unit
+      ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))))
 
 omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The conclusion of [Stacks, Tag 099F] for a sheaf of ideals of finite type whose local

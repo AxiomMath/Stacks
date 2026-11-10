@@ -680,7 +680,7 @@ theorem quotientStackToQuotientSheaf_comp_toBase :
         (associatedMap C S hS (quotientSheafToBaseSpace G hflat hlfp hopen).hom).1.hom =
       quotientStackToBase G := by
   refine (quotientStackHomEquivInvariant G Y).injective (Subtype.ext ?_)
-  show restrictedMorphism G _ = restrictedMorphism G _
+  change restrictedMorphism G _ = restrictedMorphism G _
   rw [restrictedMorphism_comp_associatedMap, restrictedMorphism_quotientStackToQuotientSheaf,
     restrictedMorphism_quotientStackToBase]
   exact ObjectProperty.hom_ext _
@@ -696,7 +696,7 @@ theorem quotientStackToQuotientSheaf_unique
     f = quotientStackToQuotientSheaf G hflat hlfp hopen := by
   refine (quotientStackHomEquivInvariant G (quotientSheafSpace G hflat hlfp hopen)).injective
     (Subtype.ext ?_)
-  show restrictedMorphism G f = restrictedMorphism G _
+  change restrictedMorphism G f = restrictedMorphism G _
   rw [restrictedMorphism_quotientStackToQuotientSheaf]
   refine ObjectProperty.hom_ext _ ?_
   have h := congrArg

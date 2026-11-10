@@ -56,7 +56,7 @@ omit [HasExt.{v} C] [HasInjectiveResolutions C] [EnoughInjectives C] [Φ.LaxMono
 /-- The unit read off the corepresentation `adjCorepresentation` is the unit of the adjunction. -/
 lemma compUnit_adjCorepresentation :
     compUnit Ψ (𝟙_ C) (Φ.obj (𝟙_ C)) (adjCorepresentation Φ Ψ adj) = adj.unit.app (𝟙_ C) := by
-  show adj.homEquiv _ _ (𝟙 _) = _
+  change adj.homEquiv _ _ (𝟙 _) = _
   simp [Adjunction.homEquiv_unit]
 
 variable (G : C ⥤ Ab.{v}) [G.Additive] [PreservesFiniteLimits G]

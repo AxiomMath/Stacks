@@ -5,10 +5,10 @@ public import Mathlib.Algebra.Homology.HomologicalComplex
 public import Mathlib.Algebra.Lie.OfAssociative
 public import Mathlib.Algebra.Module.LocalizedModule.IsLocalization
 public import Mathlib.Algebra.Order.Ring.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
-public import Mathlib.Data.Int.Star
-public import Mathlib.Data.Int.SuccPred
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
+public import Mathlib.Order.SuccPred.Int
 public import Mathlib.RingTheory.Localization.Away.Basic
 public import StacksFrontier.RingTheory.Cech.Substrate
 import StacksCore.Tactic.EgaSgaAttribute
@@ -508,7 +508,7 @@ theorem mlocREquiv_cechι (S T : Finset (Fin r)) (h : S ⊆ T) (x : Cech.cechMod
     simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, LocalizedModule.mkLinearMap_apply]
     rw [show Cech.cechι f R h (LocalizedModule.mk a 1) = LocalizedModule.mk a 1 from
       Cech.cechι_mk f R h a]
-    show mlocREquiv f T (LocalizedModule.mk a 1)
+    change mlocREquiv f T (LocalizedModule.mk a 1)
       = ιRing f S T h (mlocREquiv f S (LocalizedModule.mk a 1))
     simp only [mlocREquiv_mk_one, ιRing_algebraMap]
   exact LinearMap.congr_fun key x

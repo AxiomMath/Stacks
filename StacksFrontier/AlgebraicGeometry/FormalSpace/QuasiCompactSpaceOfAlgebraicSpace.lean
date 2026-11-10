@@ -187,7 +187,7 @@ theorem isQuasiCompactSpace_of_isQuasiCompactSpace_of_iso
   let h : yoneda.obj T₀ ⋙ uliftFunctor.{u + 1} ⟶ P ⋙ uliftFunctor.{u + 1} :=
     ε.inv ≫ s.hom ≫ c.hom ≫ e.hom
   have hh : Function.Surjective (Space.pointsMapULift.{u + 1} B S hS _ h) := by
-    show Function.Surjective
+    change Function.Surjective
       (Space.pointsMapULift.{u + 1} B S hS _ (ε.inv ≫ s.hom ≫ c.hom ≫ e.hom))
     rw [Space.pointsMapULift_comp, Space.pointsMapULift_comp, Space.pointsMapULift_comp]
     exact (((Space.surjective_pointsMapULift_of_isIso B S hS e.hom).comp

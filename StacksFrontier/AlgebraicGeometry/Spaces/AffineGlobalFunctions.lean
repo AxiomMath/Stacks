@@ -82,7 +82,7 @@ theorem globalFunctionsChartRestriction_yonedaGlobalFunctions (T : BigFppfOver B
     (s : Γ((BigFppfOver.toScheme B S hS).obj T, ⊤)) :
     globalFunctionsChartRestriction B S hS ⟨yoneda.obj T, isAlgebraicSpace_yoneda B S hS T⟩
         (yonedaEtaleChart B S hS T) (yonedaGlobalFunctions B S hS T s) = s := by
-  show (Scheme.Γ.map (op ((BigFppfOver.toScheme B S hS).map
+  change (Scheme.Γ.map (op ((BigFppfOver.toScheme B S hS).map
     (yoneda.preimage (𝟙 (yoneda.obj T)))))).hom s = s
   have h : yoneda.preimage (𝟙 (yoneda.obj T)) = 𝟙 T := by
     apply yoneda.map_injective
@@ -98,7 +98,7 @@ theorem bijective_globalFunctionsChartRestriction_yonedaEtaleChart (T : BigFppfO
   refine ⟨injective_globalFunctionsChartRestriction_of_isSurjective B S hS _ _ fun x => ⟨x, ?_⟩,
     fun s => ⟨yonedaGlobalFunctions B S hS T s,
       globalFunctionsChartRestriction_yonedaGlobalFunctions B S hS T s⟩⟩
-  show pointsMap B S hS (yoneda.obj T) (𝟙 (yoneda.obj T)) x = x
+  change pointsMap B S hS (yoneda.obj T) (𝟙 (yoneda.obj T)) x = x
   rw [pointsMap_id, id_eq]
 
 /-- The ring of global functions of `yoneda.obj T` is isomorphic, by restriction to the identity

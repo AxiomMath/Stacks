@@ -195,21 +195,21 @@ theorem main_theorem_00s3 (A B : TwoComplex R)
   -- Ψ ∘ Φ and Φ ∘ Ψ are the shears by X and Y.
   have hUeq : Ψ ∘ₗ Φ = (shearEquiv X : (A.A1 × B.A0) →ₗ[R] (A.A1 × B.A0)) := by
     refine LinearMap.ext fun p => Prod.ext ?_ ?_
-    · show (Ψ (Φ p)).fst = p.fst + X p.snd
+    · change (Ψ (Φ p)).fst = p.fst + X p.snd
       rw [Φapp, Ψapp]
       simp only [hX, LinearMap.sub_apply, LinearMap.comp_apply, map_add, map_sub, map_neg]
       rw [eA1]; abel
-    · show (Ψ (Φ p)).snd = p.snd
+    · change (Ψ (Φ p)).snd = p.snd
       rw [Φapp, Ψapp]
       simp only [map_add, map_sub, map_neg]
       rw [cφ, eB0]; abel
   have hVeq : Φ ∘ₗ Ψ = (shearEquiv Y : (B.A1 × A.A0) →ₗ[R] (B.A1 × A.A0)) := by
     refine LinearMap.ext fun p => Prod.ext ?_ ?_
-    · show (Φ (Ψ p)).fst = p.fst + Y p.snd
+    · change (Φ (Ψ p)).fst = p.fst + Y p.snd
       rw [Ψapp, Φapp]
       simp only [hY, LinearMap.sub_apply, LinearMap.comp_apply, map_add]
       rw [eB1]; abel
-    · show (Φ (Ψ p)).snd = p.snd
+    · change (Φ (Ψ p)).snd = p.snd
       rw [Ψapp, Φapp]
       simp only [map_add]
       rw [cψ, eA0]; abel

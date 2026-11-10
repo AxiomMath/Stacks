@@ -35,6 +35,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits in presheaves on the big fppf site
 /-- Products of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discrete_presheaf_IsBirational
@@ -161,7 +162,7 @@ private theorem chartFactorStalkIso_coherent_local
       (schematicRepresentative B S hS hF hdense hfinite x hx))
     hfac hpoint hpC hpD
   have : IsIso (chartFactorStalkMap B S hS hF hdense hfinite hx c) := by
-    show IsIso ((chartFactorStalkIso B S hS hF hdense hfinite hx c).inv)
+    change IsIso ((chartFactorStalkIso B S hS hF hdense hfinite hx c).inv)
     infer_instance
   have hcompare :
       chartFactorStalkMap B S hS hF hdense hfinite hx d ≫
@@ -170,7 +171,7 @@ private theorem chartFactorStalkIso_coherent_local
           hpoint.symm) ≫
         γ.stalkMap (schemePoint B S hS c.U c.point) =
       chartFactorStalkMap B S hS hF hdense hfinite hx c := by
-    show (eqToHom (congrArg
+    change (eqToHom (congrArg
         (fun z => (T.obj (schematicScheme B S hS hF)).presheaf.stalk z) hpD.symm) ≫
         φd.stalkMap (schemePoint B S hS d.U d.point)) ≫
         eqToHom (congrArg
@@ -180,7 +181,7 @@ private theorem chartFactorStalkIso_coherent_local
         (fun z => (T.obj (schematicScheme B S hS hF)).presheaf.stalk z) hpC.symm) ≫
         φc.stalkMap (schemePoint B S hS c.U c.point)
     exact hstalk
-  show (chartFactorStalkMap B S hS hF hdense hfinite hx d ≫
+  change (chartFactorStalkMap B S hS hF hdense hfinite hx d ≫
       eqToHom (congrArg
         (fun z => ((BigFppfOver.toScheme B S hS).obj d.U).presheaf.stalk z)
         hpoint.symm) ≫

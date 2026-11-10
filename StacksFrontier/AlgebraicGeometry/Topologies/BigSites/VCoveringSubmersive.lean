@@ -166,7 +166,7 @@ private theorem vCovering_quotientMap {T : Scheme.{u}} {I : Type v} [Small.{u} I
     Sigma.desc (f := 𝒰.X) fun j ↦ φ.h₀ j ≫ Sigma.ι fam.X (φ.s₀ j)
   have hfactor : Sigma.desc 𝒰.f = h ≫ qU := Sigma.hom_ext _ _ fun j ↦ by
     calc
-      Sigma.ι 𝒰.X j ≫ Sigma.desc 𝒰.f = 𝒰.f j := Sigma.ι_desc _ _
+      Sigma.ι 𝒰.X j ≫ Sigma.desc 𝒰.f = 𝒰.f j := Sigma.ι_comp_desc _ _
       _ = φ.h₀ j ≫ fam.f (φ.s₀ j) := (φ.w₀ j).symm
       _ = Sigma.ι 𝒰.X j ≫ h ≫ qU := by
         simp [h, qU, Category.assoc]
@@ -180,7 +180,7 @@ private theorem vCovering_quotientMap {T : Scheme.{u}} {I : Type v} [Small.{u} I
     apply Sigma.hom_ext
     intro i
     dsimp only [a, qU]
-    rw [← Category.assoc, Sigma.ι_desc, ← Category.assoc, Sigma.ι_desc]
+    rw [← Category.assoc, Sigma.ι_comp_desc, ← Category.assoc, Sigma.ι_comp_desc]
     simpa [fam, PreZeroHypercover.pullback₂] using
       (pullback.condition (f := f i) (g := U.1.ι))
   exact isQuotientMap_of_comp_eq (pullback.lift a qU hcomm) _ qU (pullback.lift_snd _ _ _) hqU

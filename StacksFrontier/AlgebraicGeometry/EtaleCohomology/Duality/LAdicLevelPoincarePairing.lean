@@ -412,7 +412,7 @@ theorem LAdicSheaf.exists_levelPairing [IsAlgClosed kbar] (d : ℕ)
             ((2 * d - i : ℕ) : ℤ)).hom y) =
         t n (constantExtRestriction (ZMod (ℓ ^ (n + 1))) πb (2 * d)
           (Stacks.ExtCup.cup.{u + 1, _, _} (μY n) (φ n x) (φ' n y) hji)) := by
-      show t n (Stacks.ExtCup.cup.{u + 1, _, _} (μY n) (φ n _) (φ' n _) hji) = _
+      change t n (Stacks.ExtCup.cup.{u + 1, _, _} (μY n) (φ n _) (φ' n _) hji) = _
       rw [← key]
       exact congrArg₂ (fun a b => t n (Stacks.ExtCup.cup.{u + 1, _, _} (μY n) a b hji))
         (hΦ n x) (hΦ' n y)

@@ -153,6 +153,7 @@ private theorem ext_tensor_hom_ext (X Y : ModuleCat.{max uR uA v} R)
       (liftRingHom.{uR, uA, v} f)).homEquiv _ _).injective
     (ModuleCat.MonoidalCategory.tensor_ext (fun x y => h x y))
 
+set_option linter.checkUnivs false in
 /-- Congruence for a pure tensor over `A` in both factors. -/
 private theorem tmulA_congr (M N : ModuleCat.{max uR uA v} A)
     {u u' : M} {w w' : N} (hu : u = u') (hw : w = w') :

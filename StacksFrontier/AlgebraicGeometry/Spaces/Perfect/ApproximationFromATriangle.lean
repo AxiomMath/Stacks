@@ -273,7 +273,7 @@ theorem exists_isPerfect_approximation_of_distinguished
       comm₃ := by simp }
   have hid (j : ℤ) : IsIso ((DerivedCategory.homologyFunctor
       (Modules.{u, u} B S hS F hF) j).map ψ.hom₁) := by
-    show IsIso ((DerivedCategory.homologyFunctor (Modules.{u, u} B S hS F hF) j).map
+    change IsIso ((DerivedCategory.homologyFunctor (Modules.{u, u} B S hS F hF) j).map
       (𝟙 Tri.obj₁))
     rw [CategoryTheory.Functor.map_id]
     infer_instance

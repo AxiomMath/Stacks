@@ -79,7 +79,7 @@ public theorem etaleAt_of_isFlatAt_of_gUnramifiedAt {X S : Scheme.{u}} {f : X �
   have : q.LiesOver p := ⟨hcomap.symm⟩
   let : Algebra (Localization.AtPrime p) (Localization.AtPrime q) :=
     Localization.AtPrime.algebraOfLiesOver p q
-  have : Localization.AtPrime.IsLiesOverAlgebra p q := inferInstance
+  have : IsScalarTower A (Localization.AtPrime p) (Localization.AtPrime q) := inferInstance
   have hlocalFlat : (Localization.localRingHom p q (f.appLE V U hUV).hom hcomap.symm).Flat :=
     (RingHom.Flat.respectsIso.arrow_mk_iso_iff
       (IsAffineOpen.arrowStalkMapIso f V hV U hU hUV hxU)).mp hflat

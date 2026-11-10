@@ -146,11 +146,11 @@ theorem base_mem_of_isPushout_affineModel [IsClosedImmersion i] {W : Opens P} {U
     (isQuotientMap_sum_of_isPushout _ _ hiU' (isPushout_base_of_isPushout HQ)).surjective q
   rcases s with x | y
   · subst hs
-    show g.base ((Scheme.forgetToLocallyRingedSpace.map (affineModelInl _ _)).base x) ∈ W
+    change g.base ((Scheme.forgetToLocallyRingedSpace.map (affineModelInl _ _)).base x) ∈ W
     rw [hgapp x]
     exact hUW.le (show ((Scheme.forgetToLocallyRingedSpace.map U.ι).base x) ∈ U from x.2)
   · subst hs
-    show g.base ((Scheme.forgetToLocallyRingedSpace.map (affineModelInr _ _)).base y) ∈ W
+    change g.base ((Scheme.forgetToLocallyRingedSpace.map (affineModelInr _ _)).base y) ∈ W
     rw [hgbpp y]
     exact hVW.le (show ((Scheme.forgetToLocallyRingedSpace.map V.ι).base y) ∈ V from y.2)
 

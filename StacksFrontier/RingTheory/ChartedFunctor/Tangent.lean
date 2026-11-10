@@ -196,7 +196,7 @@ lemma isSqZeroExt_sqZeroFst : IsSqZeroExt (sqZeroFst P J) := by
   refine Submodule.mul_induction_on hz (fun x hx y hy => ?_) (fun _ _ h h' => Ideal.add_mem _ h h')
   have hx' : x.fst = 0 := hx
   have hy' : y.fst = 0 := hy
-  show x * y = 0
+  change x * y = 0
   ext
   · simp [hx']
   · simp [hx', hy']
@@ -269,7 +269,7 @@ lemma add_eq (w w' : Tan F P J x)
   have h : ∃ ξ, fibreProdFibMap F (π₁ := sqZeroFst P J) (π₂ := sqZeroFst P J) x ξ = (w, w') :=
     ⟨ξ, hξ⟩
   have hc : h.choose = ξ := hinj (h.choose_spec.trans hξ.symm)
-  show Tan.add w w' = _
+  change Tan.add w w' = _
   simp only [Tan.add, dite_eq_left h]
   exact Subtype.ext (congrArg (fun ζ : Fib (F := F) (fibreProd.base (sqZeroFst P J)
     (sqZeroFst P J)) x => F.map (sqZeroAdd P J) ζ.1) hc)
@@ -383,9 +383,9 @@ lemma chartVec_add (w w' : Tan F P J x) :
     ⟨c.α.app (fibreProd (sqZeroFst P J) (sqZeroFst P J)) σ, by rw [c.map_α, hσb, h]⟩
   have hξ : fibreProdFibMap F x ξ = (w, w') := by
     refine Prod.ext (Subtype.ext ?_) (Subtype.ext ?_)
-    · show F.map _ (c.α.app (fibreProd (sqZeroFst P J) (sqZeroFst P J)) σ) = w.1
+    · change F.map _ (c.α.app (fibreProd (sqZeroFst P J) (sqZeroFst P J)) σ) = w.1
       rw [c.map_α, fibreProd.lift_fst, c.α_chartLift]
-    · show F.map _ (c.α.app (fibreProd (sqZeroFst P J) (sqZeroFst P J)) σ) = w'.1
+    · change F.map _ (c.α.app (fibreProd (sqZeroFst P J) (sqZeroFst P J)) σ) = w'.1
       rw [c.map_α, fibreProd.lift_snd, c.α_chartLift]
   have e : c.chartLift (isSqZeroExt_sqZeroFst P J) h (w + w') = σ ≫ (sqZeroAdd P J).hom := by
     refine c.chartLift_eq _ h _ _ ?_ ?_
@@ -570,7 +570,7 @@ lemma mapCotangent_smul (a : P.obj ⧸ J) (m : J.Cotangent) :
         J.mapCotangent J' (BoundedAlg.toAlgHom f) hJ m := by
   obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective a
   obtain ⟨j, rfl⟩ := J.toCotangent_surjective m
-  show J.mapCotangent J' (BoundedAlg.toAlgHom f) hJ (a • J.toCotangent j) =
+  change J.mapCotangent J' (BoundedAlg.toAlgHom f) hJ (a • J.toCotangent j) =
     BoundedAlg.toAlgHom f a • J.mapCotangent J' (BoundedAlg.toAlgHom f) hJ (J.toCotangent j)
   rw [← map_smul, Ideal.mapCotangent_toCotangent, Ideal.mapCotangent_toCotangent, ← map_smul]
   congr 1
@@ -624,15 +624,15 @@ lemma sqZeroSmul_sqZeroMap (a : P.obj ⧸ J) :
     sqZeroSmul P J a ≫ sqZeroMap f hJ =
       sqZeroMap f hJ ≫ sqZeroSmul P' J' (Ideal.quotientMapₐ J' (BoundedAlg.toAlgHom f) hJ a) := by
   refine BoundedAlg.hom_ext <| AlgHom.ext fun t => ?_
-  show (BoundedAlg.toAlgHom (sqZeroMap f hJ)) (TrivSqZeroExt.map (a • LinearMap.id) t) =
+  change (BoundedAlg.toAlgHom (sqZeroMap f hJ)) (TrivSqZeroExt.map (a • LinearMap.id) t) =
     TrivSqZeroExt.map (_ • LinearMap.id) ((BoundedAlg.toAlgHom (sqZeroMap f hJ)) t)
   ext
   · rw [TrivSqZeroExt.fst_map]
-    show Ideal.quotientMapₐ J' (BoundedAlg.toAlgHom f) hJ (TrivSqZeroExt.map _ t).fst = _
+    change Ideal.quotientMapₐ J' (BoundedAlg.toAlgHom f) hJ (TrivSqZeroExt.map _ t).fst = _
     rw [TrivSqZeroExt.fst_map]
     rfl
   · rw [TrivSqZeroExt.snd_map]
-    show J.mapCotangent J' (BoundedAlg.toAlgHom f) hJ (TrivSqZeroExt.map _ t).snd = _
+    change J.mapCotangent J' (BoundedAlg.toAlgHom f) hJ (TrivSqZeroExt.map _ t).snd = _
     rw [TrivSqZeroExt.snd_map]
     exact mapCotangent_smul f hJ a t.snd
 
@@ -683,7 +683,7 @@ lemma Tan.map_val (w : Tan F P J x) : (Tan.map f hJ hx w).1 = F.map (sqZeroMap f
 /-- The map of tangents carries zero to zero. -/
 lemma Tan.map_zero : Tan.map f hJ hx (0 : Tan F P J x) = 0 := by
   apply Subtype.ext
-  show F.map (sqZeroMap f hJ) (F.map (sqZeroInl P J) x) = F.map (sqZeroInl P' J') x'
+  change F.map (sqZeroMap f hJ) (F.map (sqZeroInl P J) x) = F.map (sqZeroInl P' J') x'
   rw [← Functor.map_comp_apply, sqZeroInl_sqZeroMap, Functor.map_comp_apply, hx]
 
 /-- The map of tangents is semilinear over the map of quotients. -/
@@ -691,7 +691,7 @@ lemma Tan.map_smul (a : P.obj ⧸ J) (w : Tan F P J x) :
     Tan.map f hJ hx (a • w) =
       Ideal.quotientMapₐ J' (BoundedAlg.toAlgHom f) hJ a • Tan.map f hJ hx w := by
   apply Subtype.ext
-  show F.map (sqZeroMap f hJ) (F.map (sqZeroSmul P J a) w.1) =
+  change F.map (sqZeroMap f hJ) (F.map (sqZeroSmul P J a) w.1) =
     F.map (sqZeroSmul P' J' _) (F.map (sqZeroMap f hJ) w.1)
   rw [← Functor.map_comp_apply, sqZeroSmul_sqZeroMap, Functor.map_comp_apply]
 
@@ -708,16 +708,16 @@ lemma Tan.map_add (c : EtaleChart F) {ρ₀ : c.C ⟶ (quot P J).obj}
   let ξ' : Fib (F := F) (fibreProd.base (sqZeroFst P' J') (sqZeroFst P' J')) x' :=
     ⟨F.map (sqZeroPairMap f hJ) ξ₀.1, by
       rw [← Functor.map_comp_apply]
-      show F.map (sqZeroPairMap f hJ ≫ fibreProd.fst _ _ ≫ sqZeroFst P' J') ξ₀.1 = x'
+      change F.map (sqZeroPairMap f hJ ≫ fibreProd.fst _ _ ≫ sqZeroFst P' J') ξ₀.1 = x'
       rw [← Category.assoc, sqZeroPairMap_fst, Category.assoc, sqZeroMap_fst,
         ← Category.assoc, Functor.map_comp_apply, ξ₀.2, hx]⟩
   have hξ' : fibreProdFibMap F x' ξ' = (Tan.map f hJ hx w, Tan.map f hJ hx w') := by
     refine Prod.ext (Subtype.ext ?_) (Subtype.ext ?_)
-    · show F.map (fibreProd.fst _ _) (F.map (sqZeroPairMap f hJ) ξ₀.1) =
+    · change F.map (fibreProd.fst _ _) (F.map (sqZeroPairMap f hJ) ξ₀.1) =
         F.map (sqZeroMap f hJ) w.1
       rw [← Functor.map_comp_apply, sqZeroPairMap_fst, Functor.map_comp_apply]
       exact congrArg (fun p => F.map (sqZeroMap f hJ) p.1.1) hξ₀
-    · show F.map (fibreProd.snd _ _) (F.map (sqZeroPairMap f hJ) ξ₀.1) =
+    · change F.map (fibreProd.snd _ _) (F.map (sqZeroPairMap f hJ) ξ₀.1) =
         F.map (sqZeroMap f hJ) w'.1
       rw [← Functor.map_comp_apply, sqZeroPairMap_snd, Functor.map_comp_apply]
       exact congrArg (fun p => F.map (sqZeroMap f hJ) p.2.1) hξ₀
@@ -725,7 +725,7 @@ lemma Tan.map_add (c : EtaleChart F) {ρ₀ : c.C ⟶ (quot P J).obj}
   rw [Tan.add_eq w w' ξ₀ hξ₀ (Tan.injective_fibreProdFibMap c h),
     Tan.add_eq _ _ ξ' hξ' (Tan.injective_fibreProdFibMap c hx')]
   apply Subtype.ext
-  show F.map (sqZeroMap f hJ) (F.map (sqZeroAdd P J) ξ₀.1) =
+  change F.map (sqZeroMap f hJ) (F.map (sqZeroAdd P J) ξ₀.1) =
     F.map (sqZeroAdd P' J') (F.map (sqZeroPairMap f hJ) ξ₀.1)
   rw [← Functor.map_comp_apply, sqZeroAdd_sqZeroMap, Functor.map_comp_apply]
 
@@ -760,7 +760,7 @@ lemma sqZeroMap_comp {P'' : BoundedAlg R κ} {J'' : Ideal P''.obj} (f' : P' ⟶ 
   ext
   · exact congrArg (fun g => BoundedAlg.toAlgHom g t.fst) (quotMap_comp f hJ f' hJ')
   · obtain ⟨j, hj⟩ := J.toCotangent_surjective t.snd
-    show J'.mapCotangent J'' _ hJ' (J.mapCotangent J' _ hJ t.snd) = J.mapCotangent J'' _ _ t.snd
+    change J'.mapCotangent J'' _ hJ' (J.mapCotangent J' _ hJ t.snd) = J.mapCotangent J'' _ _ t.snd
     rw [← hj, Ideal.mapCotangent_toCotangent, Ideal.mapCotangent_toCotangent]
     exact (Ideal.mapCotangent_toCotangent _ _ _ _ _).symm
 
@@ -772,7 +772,7 @@ lemma Tan.map_map {P'' : BoundedAlg R κ} {J'' : Ideal P''.obj} (f' : P' ⟶ P''
       Tan.map (f ≫ f') (fun j hj => hJ' (hJ hj))
         (by rw [← hx', ← hx, ← Functor.map_comp_apply, quotMap_comp]) w := by
   apply Subtype.ext
-  show F.map (sqZeroMap f' hJ') (F.map (sqZeroMap f hJ) w.1) = F.map (sqZeroMap (f ≫ f') _) w.1
+  change F.map (sqZeroMap f' hJ') (F.map (sqZeroMap f hJ) w.1) = F.map (sqZeroMap (f ≫ f') _) w.1
   rw [← Functor.map_comp_apply, sqZeroMap_comp]
 
 omit [Fact (ℵ₀ < κ)] in
@@ -784,11 +784,11 @@ lemma sqZeroMap_id : sqZeroMap (𝟙 P) (le_comap_id J) = 𝟙 (sqZero P J) := b
   refine BoundedAlg.hom_ext <| AlgHom.ext fun t => ?_
   ext
   · obtain ⟨a, ha⟩ := Ideal.Quotient.mk_surjective t.fst
-    show Ideal.quotientMapₐ J _ _ t.fst = t.fst
+    change Ideal.quotientMapₐ J _ _ t.fst = t.fst
     rw [← ha]
     rfl
   · obtain ⟨j, hj⟩ := J.toCotangent_surjective t.snd
-    show J.mapCotangent J _ _ t.snd = t.snd
+    change J.mapCotangent J _ _ t.snd = t.snd
     rw [← hj]
     exact Ideal.mapCotangent_toCotangent J J _ (le_comap_id J) j
 
@@ -796,7 +796,7 @@ lemma sqZeroMap_id : sqZeroMap (𝟙 P) (le_comap_id J) = 𝟙 (sqZero P J) := b
 lemma Tan.map_id {x : F.obj (quot P J)} (hx : F.map (quotMap (𝟙 P) (le_comap_id J)) x = x)
     (w : Tan F P J x) : Tan.map (𝟙 P) (le_comap_id J) hx w = w := by
   apply Subtype.ext
-  show F.map (sqZeroMap (𝟙 P) _) w.1 = w.1
+  change F.map (sqZeroMap (𝟙 P) _) w.1 = w.1
   rw [sqZeroMap_id, Functor.map_id_apply]
 
 end Functoriality

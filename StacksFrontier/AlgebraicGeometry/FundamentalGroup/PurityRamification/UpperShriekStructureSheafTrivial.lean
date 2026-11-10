@@ -119,7 +119,7 @@ theorem residueTrdeg_eq_zero_of_etaleAt {X Y : Scheme.{u}} (f : X ⟶ Y) [Locall
   obtain ⟨-, hfin, -⟩ := ((unramifiedAt_tfae f x).out 1 7).mp hu
   let : Algebra (Y.residueField (f x)) (X.residueField x) := (f.residueFieldMap x).hom.toAlgebra
   have : Module.Finite (Y.residueField (f x)) (X.residueField x) := hfin
-  show Algebra.trdeg (Y.residueField (f x)) (X.residueField x) = 0
+  change Algebra.trdeg (Y.residueField (f x)) (X.residueField x) = 0
   exact trdeg_eq_zero_iff.mpr (Algebra.IsAlgebraic.of_finite _ _)
 
 /-! ### An immersion into a smooth proper scheme -/
@@ -205,7 +205,7 @@ theorem nonempty_upperShriek_derivedStructureSheaf_iso {A : Type u} [CommRing A]
       have hφz : IsIso ((Stacks.ConormalSequenceRight.stalkAb Z z).map φ) :=
         (ClosedOpenProperFactorization.isIso_stalkMap_iff_isIso_stalkAb (Z := Z) z φ).mp h1
       have h2 : IsIso ((Stacks.ConormalSequenceRight.stalkAb Z z).map ψ) := by
-        show IsIso ((Stacks.ConormalSequenceRight.stalkAb Z z).map
+        change IsIso ((Stacks.ConormalSequenceRight.stalkAb Z z).map
           ((VectorBundleKZero.exteriorPowerZeroIsoUnit Z _).inv ≫ φ))
         have h3 : IsIso ((Stacks.ConormalSequenceRight.stalkAb Z z).map
             (VectorBundleKZero.exteriorPowerZeroIsoUnit Z _).inv ≫

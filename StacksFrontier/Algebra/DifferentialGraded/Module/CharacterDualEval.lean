@@ -143,7 +143,7 @@ theorem dualPieceRestrict_surjective (M : DifferentialGradedModule A) (n : ℤ) 
   refine ⟨⟨extendChar M n μ, extendChar_mem M n μ⟩, ?_⟩
   ext x
   rw [dualPieceRestrict_apply]
-  show extendChar M n μ (x : M.M) = μ x
+  change extendChar M n μ (x : M.M) = μ x
   rw [extendChar_apply,
     show ((DirectSum.decompose M.grading (x : M.M)) (-n)) = x from
       Subtype.ext (DirectSum.decompose_of_mem_same M.grading x.2)]

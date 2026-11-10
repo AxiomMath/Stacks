@@ -261,7 +261,7 @@ theorem exists_isolating_open (V : Y.Opens) [DiscreteTopology (Vᶜ : Set Y)] {t
   obtain ⟨O, hO, hOeq⟩ :=
     isOpen_induced_iff.mp (isOpen_discrete ({(⟨t, hmem⟩ : (Vᶜ : Set Y))} : Set _))
   refine ⟨⟨O, hO⟩, ?_, ?_⟩
-  · show (⟨t, hmem⟩ : (Vᶜ : Set Y)).1 ∈ O
+  · change (⟨t, hmem⟩ : (Vᶜ : Set Y)).1 ∈ O
     have : (⟨t, hmem⟩ : (Vᶜ : Set Y)) ∈ Subtype.val ⁻¹' O := by rw [hOeq]; rfl
     exact this
   · intro z hz hzt
@@ -894,7 +894,7 @@ theorem pushforwardComparison_chartSection (i : Y) :
         Y.presheaf.map (homOfLE (le_inf le_rfl (le_refl (D.chart i)))).op
           ((D.cocycle.chartSection i).val i) from rfl, h1, map_one]
   refine (D.comparisonFun_of_le i (D.chart i) le_rfl (D.cocycle.chartSection i)).trans ?_
-  show pull f (D.chart i) (D.cocycle.chartLinearEquiv i le_rfl
+  change pull f (D.chart i) (D.cocycle.chartLinearEquiv i le_rfl
     (D.cocycle.chartSection i)) • (D.chartGen i le_rfl).val = _
   rw [h2, map_one, one_smul]
 

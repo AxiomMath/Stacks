@@ -41,7 +41,8 @@ is a three-factor composite of two instances of
 What is left is formal, and it is done by `Stacks.CounitGysinEdge.paste`, which is stated at a
 variable category and
 applied with `exact` for the reason recorded in the implementation notes of
-`StacksFrontier.Topology.Sheaves.Cohomology.ModulePushforwardComparison.DerivedCategory`: the objects
+`StacksFrontier.Topology.Sheaves.Cohomology.ModulePushforwardComparison.DerivedCategory`: the
+objects
 along the composites are definitionally equal in the two spellings "push forward then forget" and
 "forget then push forward", which `rw` and `simp` refuse to identify.
 

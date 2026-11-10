@@ -143,7 +143,7 @@ theorem ker_sectionHom_quotMkKernel (U : S.Opens) :
       RingHom.ker (ψ.sectionHom U).toRingHom := by
   ext w
   rw [RingHom.mem_ker, RingHom.mem_ker]
-  show (quotMkKernel ψ).sectionHom U w = 0 ↔ ψ.sectionHom U w = 0
+  change (quotMkKernel ψ).sectionHom U w = 0 ↔ ψ.sectionHom U w = 0
   rw [sectionHom_eq_zero_iff, sectionHom_eq_zero_iff]
   exact forall_congr' fun n => quotMkKernel_app_eq_zero_iff ψ n U (w n)
 
@@ -196,7 +196,7 @@ theorem ker_relativeMapHom_eq_ker_projQuotientHom [QuasiCompact (relativeProj A)
     intro U
     ext w
     rw [RingHom.mem_ker, RingHom.mem_ker]
-    show (quotHom A ℐ).sectionHom U w = 0 ↔ ψ.sectionHom U w = 0
+    change (quotHom A ℐ).sectionHom U w = 0 ↔ ψ.sectionHom U w = 0
     rw [sectionHom_eq_zero_iff, sectionHom_eq_zero_iff]
     exact forall_congr' fun n => (quotProj_app_eq_zero_iff A ℐ n U (w n)).trans (hℐ n U (w n))
   refine ker_eq_ker_projQuotientHom_of_ker_chart A (Tag07ZGMorphism.relativeMapHom ψ) ℐ

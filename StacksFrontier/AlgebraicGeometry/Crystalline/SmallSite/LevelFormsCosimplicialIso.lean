@@ -116,6 +116,89 @@ variable (F : SheafOfModules.{u} (structureSheaf S)) (i e : ℕ) {n m : SimplexC
 
 /-! ### The cosimplicial naturality of the three comparisons -/
 
+/-- The statement of `levelFormsCrossingSquareAux`: the type of
+`Crystalline.tensorFormsLevelComposite_naturality_of_levels` at the arguments listed there.  It
+is a declaration of its own so that the application is elaborated once for the statement and
+once for the proof, each within its own heartbeat budget. -/
+abbrev levelFormsCrossingSquareAuxStatement : Prop :=
+  type_of% (@_root_.Crystalline.tensorFormsLevelComposite_naturality_of_levels
+        (Γ(S.S.scheme, ⊤) : Type u) _
+        (wholeSpaceLevelEnvelope hp n.len)
+        (Γ((wholeSpaceLevelObj hp e n).obj.thickening.target.scheme, ⊤) : Type u)
+        (wholeSpaceLevelEnvelope hp m.len)
+        (Γ((wholeSpaceLevelObj hp e m).obj.thickening.target.scheme, ⊤) : Type u)
+        _ _ _ _
+        (wholeSpaceLevelEnvelopeAlgebra hp n.len)
+        (affineBaseAppLE S (wholeSpaceLevelObj hp e n).obj (V := ⊤) le_rfl).hom.toAlgebra
+        (wholeSpaceLevelEnvelopeAlgebra hp m.len)
+        (affineBaseAppLE S (wholeSpaceLevelObj hp e m).obj (V := ⊤) le_rfl).hom.toAlgebra
+        (wholeSpaceLevelEnvelope hp n.len).ideal
+        (wholeSpaceLevelEnvelope hp n.len).dividedPowers
+        (wholeSpaceLevelEnvelope hp m.len).ideal
+        (wholeSpaceLevelEnvelope hp m.len).dividedPowers
+        (affineSituation S hp).p
+        (wholeSpaceLevelEnvelope_prime_nilpotent hp n.len)
+        (wholeSpaceLevelEnvelope_prime_nilpotent hp m.len)
+        (wholeSpaceLevelComparison hp n.len) (wholeSpaceLevelComparison hp m.len)
+        (_root_.Crystalline.uniformLevel (affineSituation S hp) + e)
+        (isPAdicLevel_wholeSpaceEnvelopeDPRing hp n.len e).1
+        (isPAdicLevel_wholeSpaceEnvelopeDPRing hp n.len e).2
+        (isPAdicLevel_wholeSpaceEnvelopeDPRing hp m.len e).1
+        (isPAdicLevel_wholeSpaceEnvelopeDPRing hp m.len e).2
+        _ (crysDividedPowers S (wholeSpaceLevelObj hp e n).obj)
+        _ (crysDividedPowers S (wholeSpaceLevelObj hp e m).obj)
+        (wholeSpaceEnvelopeRingLevelAlgEquiv hp n.len e)
+        (isDPMorphism_wholeSpaceEnvelopeRingLevelEquiv hp n.len e)
+        (ideal_map_of_isDPMorphism_symm
+          (B := (Γ((wholeSpaceLevelObj hp e n).obj.thickening.target.scheme, ⊤) : Type u))
+          _ _ (wholeSpaceEnvelopeRingLevelEquiv hp n.len e)
+          (isDPMorphism_wholeSpaceEnvelopeRingLevelEquiv hp n.len e)
+          (isDPMorphism_wholeSpaceEnvelopeRingLevelEquiv_symm hp n.len e))
+        (wholeSpaceEnvelopeRingLevelAlgEquiv hp m.len e)
+        (isDPMorphism_wholeSpaceEnvelopeRingLevelEquiv hp m.len e)
+        (ideal_map_of_isDPMorphism_symm
+          (B := (Γ((wholeSpaceLevelObj hp e m).obj.thickening.target.scheme, ⊤) : Type u))
+          _ _ (wholeSpaceEnvelopeRingLevelEquiv hp m.len e)
+          (isDPMorphism_wholeSpaceEnvelopeRingLevelEquiv hp m.len e)
+          (isDPMorphism_wholeSpaceEnvelopeRingLevelEquiv_symm hp m.len e))
+        (_root_.Crystalline.uniformLevel (affineSituation S hp) + e) _
+        (_root_.Crystalline.uniformLevel (affineSituation S hp) + e) _
+        ((wholeSpaceLevelComparison hp m.len).quotientSystem.cutoff +
+          (_root_.Crystalline.uniformLevel (affineSituation S hp) + e))
+        ((wholeSpaceLevelComparison hp n.len).quotientSystem.cutoff +
+          (_root_.Crystalline.uniformLevel (affineSituation S hp) + e))
+        ((wholeSpaceLevelComparison hp n.len).quotientSystem.cutoff +
+          ((wholeSpaceLevelComparison hp m.len).quotientSystem.cutoff +
+            (_root_.Crystalline.uniformLevel (affineSituation S hp) + e)))
+        rfl rfl rfl (Nat.add_left_comm _ _ _)
+        (levelSectionsModuleTop hp F e n : Type u) _ _
+        (levelSectionsModule hp F n e) (levelSectionsModuleAtLevel hp F n e)
+        (levelSectionsIsScalarTowerAtLevel hp F n e)
+        (levelSectionsModuleAtAdd hp F n e
+          (wholeSpaceLevelComparison hp n.len).quotientSystem.cutoff)
+        (levelSectionsIsScalarTowerAtAdd hp F n e
+          (wholeSpaceLevelComparison hp n.len).quotientSystem.cutoff)
+        (levelSectionsModuleAt hp F n e _ ((Nat.le_add_left _ _).trans (Nat.le_add_left _ _)))
+        (levelSectionsIsScalarTowerAt hp F n e _
+          ((Nat.le_add_left _ _).trans (Nat.le_add_left _ _)))
+        (levelSections_smul_eq hp F n e)
+        (levelSectionsModuleTop hp F e m : Type u) _ _
+        (levelSectionsModule hp F m e) (levelSectionsModuleAtLevel hp F m e)
+        (levelSectionsIsScalarTowerAtLevel hp F m e)
+        (levelSectionsModuleAtAdd hp F m e
+          (wholeSpaceLevelComparison hp m.len).quotientSystem.cutoff)
+        (levelSectionsIsScalarTowerAtAdd hp F m e
+          (wholeSpaceLevelComparison hp m.len).quotientSystem.cutoff)
+        (levelSectionsModuleAt hp F m e _ ((Nat.le_add_left _ _).trans (Nat.le_add_left _ _)))
+        (levelSectionsIsScalarTowerAt hp F m e _
+          ((Nat.le_add_left _ _).trans (Nat.le_add_left _ _)))
+        (levelSections_smul_eq hp F m e)
+        (levelEnvelopeReindex hp φ) (levelEnvelopeReindex_isDPMorphism hp φ)
+        (crysSectionsRestrictionAlgHom S (levelTransition hp e φ).hom)
+        ((levelTransition hp e φ).hom.targetHom.compatible ⊤)
+        (wholeSpaceEnvelopeRingLevelAlgEquiv_naturality hp e φ)
+        i (levelSectionsRestriction hp F e φ) (levelFormsDPVertical hp F i e φ))
+
 /-- **The abstract square at the level objects, with the right vertical not yet supplied.**
 
 `Crystalline.tensorFormsLevelComposite_naturality_of_levels` applied to everything that does not
@@ -134,7 +217,7 @@ differentials is `AdicCompletion (p) Ω_{E(n)}` rather than `Ω_{D(*)}(op (op n)
 exterior power inside a tensor product — is by itself most of a heartbeat budget, and the
 application above is the rest of one.  **No heartbeat limit is raised**; the two halves are two
 declarations.  **No tag attribute is placed.** -/
-def levelFormsCrossingSquareAux :=
+theorem levelFormsCrossingSquareAux : levelFormsCrossingSquareAuxStatement hp F i e φ :=
   @_root_.Crystalline.tensorFormsLevelComposite_naturality_of_levels
       (Γ(S.S.scheme, ⊤) : Type u) _
       (wholeSpaceLevelEnvelope hp n.len)
@@ -213,6 +296,19 @@ def levelFormsCrossingSquareAux :=
       (wholeSpaceEnvelopeRingLevelAlgEquiv_naturality hp e φ)
       i (levelSectionsRestriction hp F e φ) (levelFormsDPVertical hp F i e φ)
 
+/-- The statement of `levelFormsCrossingSquare`: the type of `levelFormsCrossingSquareAux` at the
+arguments listed there.  It is a declaration of its own for the same reason as
+`levelFormsCrossingSquareAuxStatement`. -/
+abbrev levelFormsCrossingSquareStatement : Prop :=
+  type_of% (levelFormsCrossingSquareAux hp F i e φ
+        (levelFormsPsi hp F i e φ) (levelFormsDPVertical_tmul hp F i e φ)
+        fun x w ↦ (levelFormsPsi_tmul_ιMulti hp F i e φ x w).trans
+          (congrArg
+            (fun y : Fin i → ((wholeSpaceEnvelopeDifferentials hp).obj (op (op m)) : Type u) ↦
+              levelSectionsRestriction hp F e φ x ⊗ₜ
+                exteriorPower.ιMulti ((wholeSpaceEnvelopeRing hp).obj m : Type u) i y)
+            (funext fun j ↦ levelEnvelopeDifferentialsMap_eq hp φ (w j))))
+
 /-- **The abstract square at the level objects, with every argument supplied.**
 
 ```
@@ -233,7 +329,7 @@ tensor is `...SmallSite.levelFormsDPVertical_tmul`.
 The two sides are read at the levels `c(n) + (N + e)` and `c(m) + (N + e)` of their own
 comparisons of [Stacks, Tag 07KK], and the common level of the square is
 `c(n) + (c(m) + (N + e))`.  **No tag attribute is placed.** -/
-def levelFormsCrossingSquare :=
+theorem levelFormsCrossingSquare : levelFormsCrossingSquareStatement hp F i e φ :=
   levelFormsCrossingSquareAux hp F i e φ
       (levelFormsPsi hp F i e φ) (levelFormsDPVertical_tmul hp F i e φ)
       fun x w ↦ (levelFormsPsi_tmul_ιMulti hp F i e φ x w).trans

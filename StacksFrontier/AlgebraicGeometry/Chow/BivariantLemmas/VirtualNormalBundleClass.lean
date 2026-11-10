@@ -536,7 +536,7 @@ def virtualNormalGysinClass (_P : VirtualNormalBundleProjection i q r)
   cap g _ k := virtualNormalGysinCap C G sZ sX sN i hi q hq r e E π hπ g k
   cap_properPushforward := by
     intro T T' g _ h _ h' sq hfst k α
-    haveI : IsProper h' := MorphismProperty.of_isPullback sq (P := @IsProper) inferInstance
+    have : IsProper h' := MorphismProperty.of_isPullback sq (P := @IsProper) inferInstance
     refine (hπ g k).1 ?_
     rw [hproper g h h' sq hfst k (hpp _ _ _ _ _) (hpp _ _ _ _ _)]
     simp only [pi_virtualNormalGysinCap]

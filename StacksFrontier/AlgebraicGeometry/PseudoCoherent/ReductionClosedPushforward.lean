@@ -187,10 +187,10 @@ public theorem Scheme.Hom.IsClosedImmersionOnReductions.exists_isNilpotent_sub_a
   have hker : b - (i.app U.1).hom a ∈
       X.nilradical.ideal ⟨i ⁻¹ᵁ U.1, U.2.preimage i⟩ := by
     rw [← X.nilradical.ker_subschemeι_app ⟨i ⁻¹ᵁ U.1, U.2.preimage i⟩]
-    show X.nilradical.subschemeι.app (i ⁻¹ᵁ U.1) (b - (i.app U.1).hom a) = 0
+    change X.nilradical.subschemeι.app (i ⁻¹ᵁ U.1) (b - (i.app U.1).hom a) = 0
     rw [map_sub, hb, sub_self]
   rw [← mem_nilradical]
-  show b - (i.app U.1).hom a ∈ (⊥ : Ideal Γ(X, i ⁻¹ᵁ U.1)).radical
+  change b - (i.app U.1).hom a ∈ (⊥ : Ideal Γ(X, i ⁻¹ᵁ U.1)).radical
   simpa [Scheme.nilradical] using hker
 
 /-! ### Being a closed immersion on reductions is strictly stronger -/
@@ -591,7 +591,7 @@ public theorem exists_isClosedImmersion_affineSpace_of_surjective_iterated (S : 
   have he : Spec.map (CommRingCat.ofHom p.toRingHom) ≫ eS.hom =
       Spec.map (CommRingCat.ofHom ((p.restrictScalars Γ(S, ⊤)).comp e.toAlgHom).toRingHom) := by
     rw [heS]
-    show Spec.map (CommRingCat.ofHom p.toRingHom) ≫
+    change Spec.map (CommRingCat.ofHom p.toRingHom) ≫
       Spec.map (CommRingCat.ofHom e.toRingEquiv.toRingHom) = _
     rw [← Spec.map_comp]
     rfl
@@ -705,10 +705,10 @@ public theorem exists_isClosedImmersion_affineSpace_comparison {X Y S : Scheme.{
   have : IsScalarTower P.Ring Γ(Y, ⊤) Γ(X, ⊤) := IsScalarTower.of_algebraMap_eq' rfl
   have : IsScalarTower Γ(S, ⊤) P.Ring Γ(X, ⊤) :=
     IsScalarTower.of_algebraMap_eq fun x => by
-      show i.appTop.hom (g.appTop.hom x) =
+      change i.appTop.hom (g.appTop.hom x) =
         i.appTop.hom (algebraMap P.Ring Γ(Y, ⊤) (MvPolynomial.C x))
       refine congrArg i.appTop.hom ?_
-      show algebraMap Γ(S, ⊤) Γ(Y, ⊤) x =
+      change algebraMap Γ(S, ⊤) Γ(Y, ⊤) x =
         algebraMap P.Ring Γ(Y, ⊤) (algebraMap Γ(S, ⊤) P.Ring x)
       exact IsScalarTower.algebraMap_apply Γ(S, ⊤) P.Ring Γ(Y, ⊤) x
   obtain ⟨r, p, hp, hpc⟩ :=
@@ -735,11 +735,11 @@ public theorem exists_isClosedImmersion_affineSpace_comparison {X Y S : Scheme.{
   refine ⟨n, r + n, X.isoSpec.hom ≫ a, Y.isoSpec.hom ≫ b, inferInstance, inferInstance, ?_, ?_,
     fun E m => ?_⟩
   · rw [Category.assoc, hac]
-    show X.isoSpec.hom ≫ Spec.map (g.appTop ≫ i.appTop) ≫ S.isoSpec.inv = _
+    change X.isoSpec.hom ≫ Spec.map (g.appTop ≫ i.appTop) ≫ S.isoSpec.inv = _
     rw [← Scheme.Hom.comp_appTop, Scheme.isoSpec_hom_naturality_assoc, Iso.hom_inv_id,
       Category.comp_id]
   · rw [Category.assoc, hbc]
-    show Y.isoSpec.hom ≫ Spec.map g.appTop ≫ S.isoSpec.inv = g
+    change Y.isoSpec.hom ≫ Spec.map g.appTop ≫ S.isoSpec.inv = g
     rw [Scheme.isoSpec_hom_naturality_assoc, Iso.hom_inv_id, Category.comp_id]
   · have hx := Scheme.Modules.isPseudoCoherentFromAfterPushforward_precomp_iff_of_isClosedEmbedding
       X.isoSpec.hom a X.isoSpec.hom.isClosedEmbedding ha.isClosedEmbedding E m
@@ -838,10 +838,10 @@ public theorem exists_isClosedImmersion_affineSpace_comparison_on_affineOpens {X
     have htop : (i ∣_ U.1).appTop =
         U.1.topIso.hom ≫ i.app U.1 ≫ (i ⁻¹ᵁ U.1).topIso.inv := by
       rw [← Scheme.Hom.resLE_eq_morphismRestrict]
-      show (i.resLE U.1 (i ⁻¹ᵁ U.1) le_rfl).app ⊤ = _
+      change (i.resLE U.1 (i ⁻¹ᵁ U.1) le_rfl).app ⊤ = _
       rw [Scheme.Hom.resLE_app_top, Scheme.Hom.appLE_eq_app]
     rw [htop]
-    show IsNilpotent (b - (i ⁻¹ᵁ U.1).topIso.inv
+    change IsNilpotent (b - (i ⁻¹ᵁ U.1).topIso.inv
       ((i.app U.1) (U.1.topIso.hom (U.1.topIso.inv a))))
     change IsNilpotent ((i ⁻¹ᵁ U.1).topIso.inv
       ((i ⁻¹ᵁ U.1).topIso.hom b - (i.app U.1) a)) at hh
@@ -922,7 +922,7 @@ public theorem Scheme.Hom.isPseudoCoherentFrom_iff_derivedPushforward_of_chartCo
     refine ⟨S.affineOpens, id, iSup_affineOpens_eq_top S, fun V => ?_⟩
     refine ⟨{U : Y.affineOpens // U.1 ≤ g ⁻¹ᵁ V.1},
       fun U => ⟨i ⁻¹ᵁ U.val.1, U.val.2.preimage i⟩, ?_, fun U => ?_⟩
-    · show (⨆ U : {U : Y.affineOpens // U.1 ≤ g ⁻¹ᵁ V.1}, i ⁻¹ᵁ U.val.1) = f ⁻¹ᵁ V.1
+    · change (⨆ U : {U : Y.affineOpens // U.1 ≤ g ⁻¹ᵁ V.1}, i ⁻¹ᵁ U.val.1) = f ⁻¹ᵁ V.1
       rw [← Scheme.Hom.preimage_iSup, iSup_affineOpens_le_eq, ← Scheme.Hom.comp_preimage, hi]
     · obtain ⟨n, k, a, b, ha, hb, hac, hbc, hpc⟩ := hcomp U.val V U.property
       have hUX : i ⁻¹ᵁ U.val.1 ≤ f ⁻¹ᵁ V.1 := by

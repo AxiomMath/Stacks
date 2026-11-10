@@ -92,7 +92,7 @@ theorem transferChartMap_naturality {U₁ U₂ : SmallEtale B S hS X₀.1} (k : 
   let L₂ : hrep₂.pullback U₁.1.hom ⟶ hrep₂.pullback U₂.1.hom :=
     hrep₂.lift (hrep₂.fst U₁.1.hom) (hrep₂.snd U₁.1.hom ≫ k.hom.left)
       (representablePullback_lift_cond B S hS r₂ hrep₂ k)
-  show (L₂ ≫ transferChartMap B S hS r₁ hrep₁ r₂ hrep₂ h hr U₂ :
+  change (L₂ ≫ transferChartMap B S hS r₁ hrep₁ r₂ hrep₂ h hr U₂ :
       hrep₂.pullback U₁.1.hom ⟶ hrep₁.pullback U₂.1.hom) =
     transferChartMap B S hS r₁ hrep₁ r₂ hrep₂ h hr U₁ ≫ L₁
   apply hrep₁.hom_ext
@@ -157,7 +157,7 @@ theorem transferUnit_app (F₁ : Modules.{u, u} B S hS X₁.1 X₁.2) (U : Small
     (transferUnit B S hS r₁ hrep₁ r₂ hrep₂ h hr F₁).val.app (op U) s =
       modulePullbackChartSection B S hS h F₁
         (transferChartDiagram B S hS r₁ hrep₁ r₂ hrep₂ h hr U) s := by
-  show (modulePullbackChartFMap B S hS h F₁).app
+  change (modulePullbackChartFMap B S hS h F₁).app
     (transferChartDiagram B S hS r₁ hrep₁ r₂ hrep₂ h hr U) s = _
   exact modulePullbackChartFMap_app B S hS h F₁
     (transferChartDiagram B S hS r₁ hrep₁ r₂ hrep₂ h hr U) s

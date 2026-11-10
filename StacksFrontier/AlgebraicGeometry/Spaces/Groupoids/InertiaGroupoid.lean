@@ -74,6 +74,7 @@ variable {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
   {B : AlgebraicSpaces C S hS}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance synthesis for these presheaf-category limit instances exceeds the default budget
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this). -/
 local instance hasPullbacks_presheaf_inertiaGroupoid :
     HasPullbacks ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) := inferInstance
@@ -148,21 +149,21 @@ lemma inertiaInverseArrow_app
     (inertiaInverseArrow G).app T q =
       Deformation.inverseArrow G.toGroupoidInFunctors T
         ((inertiaOriginalArrow G).app T q) := by
-  show (groupoidInverse G).app T ((inertiaOriginalArrow G).app T q) = _
+  change (groupoidInverse G).app T ((inertiaOriginalArrow G).app T q) = _
   rw [groupoidInverse_app]
 
 /-- The source of `i(r)` is the target of `r`. -/
 lemma inertiaInverseArrow_source
     (G : GroupoidInAlgebraicSpaces C S hS B) :
     inertiaInverseArrow G ≫ G.source.hom = inertiaOriginalArrow G ≫ G.target.hom := by
-  show (inertiaOriginalArrow G ≫ groupoidInverse G) ≫ G.source.hom = _
+  change (inertiaOriginalArrow G ≫ groupoidInverse G) ≫ G.source.hom = _
   rw [Category.assoc, groupoidInverse_source]
 
 /-- The target of `i(r)` is the source of `r`. -/
 lemma inertiaInverseArrow_target
     (G : GroupoidInAlgebraicSpaces C S hS B) :
     inertiaInverseArrow G ≫ G.target.hom = inertiaOriginalArrow G ≫ G.source.hom := by
-  show (inertiaOriginalArrow G ≫ groupoidInverse G) ≫ G.target.hom = _
+  change (inertiaOriginalArrow G ≫ groupoidInverse G) ≫ G.target.hom = _
   rw [Category.assoc, groupoidInverse_target]
 
 /-- For `(r, g)` in `R'`, the loop `g` and the arrow `i(r)` are composable. -/
@@ -224,7 +225,7 @@ lemma inertiaTargetStabilizer_arrow
     (inertiaTargetStabilizer G).left ≫ stabilizerArrow G =
       inertiaConjugateArrow G := by
   simp only [inertiaTargetStabilizer, stabilizerFromLoop, Over.homMk_left]
-  show pullback.lift (inertiaConjugateArrow G)
+  change pullback.lift (inertiaConjugateArrow G)
       (inertiaOriginalArrow G ≫ G.target.hom) _ ≫
       pullback.fst (sourceTarget G).hom (diagonal G).hom = _
   exact pullback.lift_fst _ _ _
@@ -315,7 +316,7 @@ lemma inertiaTargetMap_toObjects
     (G : GroupoidInAlgebraicSpaces C S hS B) :
     (inertiaTargetMap G).hom ≫ (stabilizerToObjects G).hom =
       inertiaOriginalArrow G ≫ G.target.hom := by
-  show (inertiaTargetStabilizer G).left ≫ (stabilizer G).hom =
+  change (inertiaTargetStabilizer G).left ≫ (stabilizer G).hom =
     inertiaOriginalArrow G ≫ G.target.hom
   simpa only [inertiaTargetLoopOver, Over.mk_hom] using
     (inertiaTargetStabilizer G).w
@@ -382,7 +383,7 @@ lemma inertiaCompLeftComposable
       _ = q ≫ (inertiaOriginalArrow G ≫ G.target.hom) :=
         congrArg (fun k => q ≫ k) htarget
       _ = g ≫ G.target.hom := by simp [g, Category.assoc]
-  show (pullback.fst (inertiaSourceMap G).hom (inertiaTargetMap G).hom ≫
+  change (pullback.fst (inertiaSourceMap G).hom (inertiaTargetMap G).hom ≫
       inertiaOriginalArrow G) ≫ G.source.hom =
     (pullback.snd (inertiaSourceMap G).hom (inertiaTargetMap G).hom ≫
       inertiaOriginalArrow G) ≫ G.target.hom
@@ -401,7 +402,7 @@ lemma inertiaCompResult_source
     inertiaCompResult G ≫ G.source.hom =
       inertiaCompSource G ≫ (stabilizerToObjects G).hom := by
   rw [inertiaCompResult, groupoidCompose_source]
-  show (pullback.snd (inertiaSourceMap G).hom (inertiaTargetMap G).hom ≫
+  change (pullback.snd (inertiaSourceMap G).hom (inertiaTargetMap G).hom ≫
       inertiaOriginalArrow G) ≫ G.source.hom =
     (pullback.snd (inertiaSourceMap G).hom (inertiaTargetMap G).hom ≫
       (inertiaSourceMap G).hom) ≫ (stabilizerToObjects G).hom
@@ -420,7 +421,7 @@ noncomputable def inertiaCompositionMap
 lemma inertiaCompositionMap_originalArrow
     (G : GroupoidInAlgebraicSpaces C S hS B) :
     (inertiaCompositionMap G).hom ≫ inertiaOriginalArrow G = inertiaCompResult G := by
-  show pullback.lift (inertiaCompResult G) (inertiaCompSource G)
+  change pullback.lift (inertiaCompResult G) (inertiaCompSource G)
       (inertiaCompResult_source G) ≫
       pullback.fst G.source.hom (stabilizerToObjects G).hom = inertiaCompResult G
   exact pullback.lift_fst _ _ _
@@ -430,7 +431,7 @@ lemma inertiaCompositionMap_sourceStabilizer
     (G : GroupoidInAlgebraicSpaces C S hS B) :
     (inertiaCompositionMap G).hom ≫
         pullback.snd G.source.hom (stabilizerToObjects G).hom = inertiaCompSource G := by
-  show pullback.lift (inertiaCompResult G) (inertiaCompSource G)
+  change pullback.lift (inertiaCompResult G) (inertiaCompSource G)
       (inertiaCompResult_source G) ≫
       pullback.snd G.source.hom (stabilizerToObjects G).hom = inertiaCompSource G
   exact pullback.lift_snd _ _ _
@@ -455,7 +456,7 @@ lemma inertiaArrowObjIso_hom_snd
     (q : (inertiaArrows G).obj.obj T) :
     ((inertiaArrowObjIso G T).hom q).1.2 =
       (pullback.snd G.source.hom (stabilizerToObjects G).hom).app T q := by
-  show ((pullbackObjIso G.source.hom (stabilizerToObjects G).hom T).hom ≫
+  change ((pullbackObjIso G.source.hom (stabilizerToObjects G).hom T).hom ≫
       pullback.snd (G.source.hom.app T) ((stabilizerToObjects G).hom.app T)) q =
         (pullback.snd G.source.hom (stabilizerToObjects G).hom).app T q
   rw [CategoryTheory.Limits.pullbackObjIso_hom_comp_snd]
@@ -467,7 +468,7 @@ lemma inertiaArrowObjIso_hom_fst
     (q : (inertiaArrows G).obj.obj T) :
     ((inertiaArrowObjIso G T).hom q).1.1 =
       (pullback.fst G.source.hom (stabilizerToObjects G).hom).app T q := by
-  show ((pullbackObjIso G.source.hom (stabilizerToObjects G).hom T).hom ≫
+  change ((pullbackObjIso G.source.hom (stabilizerToObjects G).hom T).hom ≫
       pullback.fst (G.source.hom.app T) ((stabilizerToObjects G).hom.app T)) q =
         (pullback.fst G.source.hom (stabilizerToObjects G).hom).app T q
   rw [CategoryTheory.Limits.pullbackObjIso_hom_comp_fst]
@@ -488,7 +489,7 @@ lemma inertiaArrowObjIso_snd
   have h₂ := congrArg (fun f => f q)
     (CategoryTheory.Limits.Types.pullbackIsoPullback_inv_snd
       (G.source.hom.app T) ((stabilizerToObjects G).hom.app T))
-  show (pullback.snd G.source.hom (stabilizerToObjects G).hom).app T
+  change (pullback.snd G.source.hom (stabilizerToObjects G).hom).app T
       ((inertiaArrowObjIso G T).inv q) = q.1.2
   exact h₁.trans h₂
 
@@ -507,7 +508,7 @@ lemma inertiaArrowObjIso_fst
   have h₂ := congrArg (fun f => f q)
     (CategoryTheory.Limits.Types.pullbackIsoPullback_inv_fst
       (G.source.hom.app T) ((stabilizerToObjects G).hom.app T))
-  show (pullback.fst G.source.hom (stabilizerToObjects G).hom).app T
+  change (pullback.fst G.source.hom (stabilizerToObjects G).hom).app T
       ((inertiaArrowObjIso G T).inv q) = q.1.1
   exact h₁.trans h₂
 
@@ -620,19 +621,19 @@ lemma inertiaConjugationMap_at
   have hsrc := inertiaOriginalArrow_source_at G T q
   have htgt := inertiaOriginalArrow_target_at G T q
   have hα : (K.evaluationArrowEquiv T x₀ x₀ α).1 = g := by
-    show (K.evaluationArrowEquiv T x₀ x₀
+    change (K.evaluationArrowEquiv T x₀ x₀
       ((K.evaluationArrowEquiv T x₀ x₀).symm a)).1 = g
     calc
       _ = a.1 := congrArg Subtype.val
         (Equiv.apply_symm_apply (K.evaluationArrowEquiv T x₀ x₀) a)
       _ = g := by
-        show (stabilizerArrow G).app T x =
+        change (stabilizerArrow G).app T x =
           (stabilizerArrow G).app T x
         rfl
   have hi : (K.evaluationArrowEquiv T y₀ x₀ (Groupoid.inv f)).1 = i := by
     simpa [i, f, x₀, y₀] using inverseArrow_transport K T r hsrc htgt
   have hr : (K.evaluationArrowEquiv T x₀ y₀ f).1 = r := by
-    show (K.evaluationArrowEquiv T x₀ y₀
+    change (K.evaluationArrowEquiv T x₀ y₀
       ((K.evaluationArrowEquiv T x₀ y₀).symm
         ⟨r, hsrc, htgt⟩)).1 = r
     exact congrArg Subtype.val
@@ -657,7 +658,7 @@ lemma inertiaConjugationMap_at
       exact Prod.ext hr hinner
     simpa only [Category.assoc] using hc.trans hcomp
   apply Subtype.ext
-  show (K.evaluationArrowEquiv T y₀ y₀
+  change (K.evaluationArrowEquiv T y₀ y₀
       (Groupoid.inv f ≫ α ≫ f)).1 = h
   rw [houter]
   have htarget := inertiaTargetLoopArrow_at G T q
@@ -705,7 +706,7 @@ lemma inertiaTarget_eq_of_hom
     rw [← inertiaOriginalArrow_target_at, hr]
     exact (K.evaluationArrowEquiv T _ _ f.hom.hom).2.2
   apply (stabilizerElementsEquiv G T).injective
-  show stabilizerToElements G T z = stabilizerToElements G T y
+  change stabilizerToElements G T z = stabilizerToElements G T y
   calc
     _ = (K.loopConjugationFunctor T).elementsMk (stabilizerToElements G T z).1
         (K.conjugateLoopMap T f₀ a) :=
@@ -843,13 +844,13 @@ lemma inertiaCompose_original
     (inertiaCompResult G).app T p at h
   rw [h, inertiaCompResult, groupoidCompose_eval]
   have hfst : (inertiaCompLeft G).app T p = (inertiaOriginalArrow G).app T a := by
-    show ((composableToPullback (inertiaSourceMap G).hom
+    change ((composableToPullback (inertiaSourceMap G).hom
       (inertiaTargetMap G).hom ≫ inertiaCompLeft G).app T ⟨(a, b), w⟩) = _
     simp only [inertiaCompLeft, ← Category.assoc, composableToPullback,
       pullback.lift_fst, NatTrans.comp_app, CategoryTheory.comp_apply]
     rfl
   have hsnd : (inertiaCompRight G).app T p = (inertiaOriginalArrow G).app T b := by
-    show ((composableToPullback (inertiaSourceMap G).hom
+    change ((composableToPullback (inertiaSourceMap G).hom
       (inertiaTargetMap G).hom ≫ inertiaCompRight G).app T ⟨(a, b), w⟩) = _
     simp only [inertiaCompRight, ← Category.assoc, composableToPullback,
       pullback.lift_snd, NatTrans.comp_app, CategoryTheory.comp_apply]

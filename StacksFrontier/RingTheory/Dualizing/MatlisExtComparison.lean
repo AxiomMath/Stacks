@@ -62,7 +62,7 @@ private lemma extPrecomp_apply_comp {A : Type u} [CommRing A]
         (ModuleCat.of A N')) ω i) :
     extPrecomp f ω i x =
       (DerivedCategory.singleFunctor (ModuleCat.{max v u} A) 0).map (ModuleCat.ofHom f) ≫ x := by
-  show (ShiftedHom.mk₀ 0 rfl _).comp x (add_zero i) = _
+  change (ShiftedHom.mk₀ 0 rfl _).comp x (add_zero i) = _
   exact ShiftedHom.mk₀_comp _ _ _ _
 
 /-- The degree-zero comparison induced by a derived-Hom Matlis isomorphism. -/
@@ -123,7 +123,7 @@ public lemma exists_naturalMatlisExtComparison
       let s0 := DerivedCategory.singleFunctor (ModuleCat.{max v u} A) 0
       let a := (DerivedCategory.singleFunctorCompHomologyFunctorIso
         (ModuleCat.{max v u} A) 0).hom
-      show ModuleCat.homLinearEquiv (S := A)
+      change ModuleCat.homLinearEquiv (S := A)
           (a.app H (h0.map (e.hom.app (.op Ncat))
             (extIntoOmegaAtLinearEquiv A ω 0 (ModuleCat.of A N)
               (extPrecomp f ω 0 x)))) =

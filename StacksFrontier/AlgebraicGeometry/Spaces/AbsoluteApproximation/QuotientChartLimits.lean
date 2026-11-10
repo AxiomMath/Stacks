@@ -160,13 +160,13 @@ theorem isLimit_of_isLimit_of_isPullback {K : Type*} [Category* K] [IsCofiltered
         apply pullback.hom_ext
         · simp only [Functor.comp_map, Over.forget_map, Over.pullback_map_left, Category.assoc,
             pullback.lift_fst]
-          show G'.map f ≫ (hαβ k).isoPullback.hom ≫ pullback.fst (π.app k) g =
+          change G'.map f ≫ (hαβ k).isoPullback.hom ≫ pullback.fst (π.app k) g =
             (hαβ j).isoPullback.hom ≫ pullback.fst (π.app j) g ≫ G.map f
           rw [IsPullback.isoPullback_hom_fst, IsPullback.isoPullback_hom_fst_assoc]
           exact α.naturality f
         · simp only [Functor.comp_map, Over.forget_map, Over.pullback_map_left, Category.assoc,
             pullback.lift_snd]
-          show G'.map f ≫ (hαβ k).isoPullback.hom ≫ pullback.snd (π.app k) g =
+          change G'.map f ≫ (hαβ k).isoPullback.hom ≫ pullback.snd (π.app k) g =
             (hαβ j).isoPullback.hom ≫ pullback.snd (π.app j) g
           rw [IsPullback.isoPullback_hom_snd, IsPullback.isoPullback_hom_snd]
           simp)

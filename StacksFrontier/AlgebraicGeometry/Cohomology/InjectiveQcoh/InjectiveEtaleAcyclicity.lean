@@ -61,7 +61,7 @@ theorem isZero_etaleRestrictionCohomology_of_retract_colimit
     IsZero ((etaleRestrictionCohomology B S hS g hg p).obj J) := by
   have : IsGrothendieckAbelian.{u} (Modules.{u, u} B S hS X.1 X.2) := by
     have : EssentiallySmall.{u} (smallEtaleRingedSite B S hS X.1 X.2).C := by
-      show EssentiallySmall.{u} (SmallEtale B S hS X.1)
+      change EssentiallySmall.{u} (SmallEtale B S hS X.1)
       infer_instance
     exact SheafOfModules.isGrothendieckAbelian_of_essentiallySmall _
   have := isClosedUnderColimitsOfShape_quasicoherentSheaves_of_essentiallySmall B S hS X.1 X.2 I

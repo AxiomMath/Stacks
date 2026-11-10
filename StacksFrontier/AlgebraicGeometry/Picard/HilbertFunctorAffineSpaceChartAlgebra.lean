@@ -173,7 +173,7 @@ def lift {B : Type*} [CommRing B] [Algebra R B] (v : (n →₀ ℕ) → Fin d �
 @[simp]
 theorem lift_univVec {B : Type*} [CommRing B] [Algebra R B] (v : (n →₀ ℕ) → Fin d → B)
     (hv : IsDatum W v) (m : n →₀ ℕ) (l : Fin d) : lift W v hv (univVec W m l) = v m l := by
-  show aeval (fun i ↦ v i.1 i.2) (X (m, l)) = _
+  change aeval (fun i ↦ v i.1 i.2) (X (m, l)) = _
   exact aeval_X _ _
 
 /-- Algebra maps out of `Univ W` are determined by their values on the universal datum. -/
@@ -222,7 +222,7 @@ theorem coordMap'_mul (hv : IsDatum W v) (q p : MvPolynomial n B) :
     | add q q' hq hq' =>
       simp only [add_mul, map_add, hq, hq', smul_add, Finset.sum_add_distrib]
     | monomial m a =>
-      rw [monomial_mul, coordMap'_monomial, coordMap'_monomial, hv.2 m m']
+      rw [monomial_mul_monomial, coordMap'_monomial, coordMap'_monomial, hv.2 m m']
       have hW (l : Fin d) : monomial m a * Wbar W B l =
           a • MvPolynomial.map (algebraMap R B) (monomial m 1 * W l) := by
         rw [map_mul, map_monomial, map_one, smul_eq_C_mul, ← mul_assoc,
@@ -259,7 +259,7 @@ theorem mk_eq_sum (hv : IsDatum W v) (p : MvPolynomial n B) :
     Ideal.Quotient.mk (kerIdeal hv) p =
       ∑ l, coordMap' v p l • Ideal.Quotient.mk (kerIdeal hv) (Wbar W B l) := by
   have : p - ∑ l, coordMap' v p l • Wbar W B l ∈ kerIdeal hv := by
-    show coordMap' v _ = 0
+    change coordMap' v _ = 0
     rw [map_sub, map_sum]
     simp only [map_smul, coordMap'_Wbar hv]
     rw [sub_eq_zero]

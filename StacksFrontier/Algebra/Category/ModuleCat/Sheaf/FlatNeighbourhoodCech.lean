@@ -238,7 +238,7 @@ theorem prod_smul_eq_zero_of_exists_sections {O : Sheaf J CommRingCat.{w}}
   let : CommRing ((Stacks.SheafOfModules.Tensor.ringSheaf O).obj.obj Y) :=
     inferInstanceAs (CommRing (O.obj.obj Y))
   choose c hc using hb
-  show ((Finset.univ.prod (fun j ↦ (i.val.app Y) (b j)) :
+  change ((Finset.univ.prod (fun j ↦ (i.val.app Y) (b j)) :
     (Stacks.SheafOfModules.Tensor.ringSheaf O).obj.obj Y)) • x = 0
   have hkey : ∀ σ : Fin (r * N + 1) → Fin r,
       (∏ j, (c j (σ j) *
@@ -390,13 +390,14 @@ theorem koszulFunctor_powFamily_eq (n : ℕ) :
     KoszulGlobalSections.koszulFunctor X.O (powFamily X f n) = koszulPowerFunctor X f n := by
   refine CategoryTheory.Functor.ext (fun S ↦ rfl) fun S T g ↦ ?_
   simp only
-  show (KoszulGlobalSections.smulEnd X.O
+  change (KoszulGlobalSections.smulEnd X.O
       (KoszulGlobalSections.prodSection X.O (powFamily X f n) (T \ S))).asHom.app _ =
     koszulScalar X f (koszulExp n S T)
-  refine congrArg (fun a ↦ (KoszulGlobalSections.smulEnd X.O a).asHom.app _) (Subtype.ext (funext ?_))
+  refine congrArg (fun a ↦ (KoszulGlobalSections.smulEnd X.O a).asHom.app _)
+    (Subtype.ext (funext ?_))
   intro U
   have hexp : ∀ i : Fin r, koszulExp n S T i = if i ∈ T \ S then n + 1 else 0 := fun _ ↦ rfl
-  show ∏ i ∈ T \ S, globalSectionVal (f i) U ^ (n + 1) =
+  change ∏ i ∈ T \ S, globalSectionVal (f i) U ^ (n + 1) =
     ∏ i, globalSectionVal (f i) U ^ (koszulExp n S T i)
   rw [← Finset.prod_subset (Finset.subset_univ (T \ S))
     (fun i _ hi ↦ by rw [hexp i, ite_eq_right hi, pow_zero])]
@@ -521,7 +522,8 @@ abbrev baseChangeFamily (k : Fin r) :
   baseChangeGlobalSection (ringedSite O) O' φ (f k)
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
-  [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify J AddCommGrpCat.{u}] in
+  [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify J AddCommGrpCat.{u}]
+  [HasWeakSheafify J CommRingCat.{u}] in
 /-- `φ` carries the monomial `∏ᵢ fᵢ^{eᵢ}` to the monomial with the same exponents in the
 images of the `f_i`. -/
 theorem koszulValue_baseChangeFamily (e : Fin r → ℕ) (U : Cᵒᵖ) :
@@ -531,7 +533,8 @@ theorem koszulValue_baseChangeFamily (e : Fin r → ℕ) (U : Cᵒᵖ) :
   exact Finset.prod_congr rfl fun k _ => by
     rw [map_pow, globalSectionVal_baseChangeGlobalSection]
 
-omit [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify J AddCommGrpCat.{u}] in
+omit [J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify J AddCommGrpCat.{u}]
+  [HasWeakSheafify J CommRingCat.{u}] in
 /-- **Multiplication by a monomial in the images of the `f_i`, read over `O`, is multiplication
 by the monomial in the `f_i` itself.** -/
 theorem restrictScalars_map_koszulScalar (e : Fin r → ℕ) :
@@ -541,7 +544,7 @@ theorem restrictScalars_map_koszulScalar (e : Fin r → ℕ) :
         (koszulFamily (ringedSite O) f e)).asHom.app (RestrictedRingModule φ) := by
   refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun U => ?_)
   refine ModuleCat.hom_ext (LinearMap.ext fun t => ?_)
-  show koszulRingValue (ringedSite O') (baseChangeFamily O f φ) e U •
+  change koszulRingValue (ringedSite O') (baseChangeFamily O f φ) e U •
         (show (SheafOfModules.unit
           (Stacks.SheafOfModules.Tensor.ringSheaf (ringedSite O').O)).val.obj U from t) =
       koszulRingValue (ringedSite O) f e U • t
@@ -550,6 +553,7 @@ theorem restrictScalars_map_koszulScalar (e : Fin r → ℕ) :
     koszulValue_baseChangeFamily O f φ e U]
   rfl
 
+omit [HasWeakSheafify J CommRingCat.{u}] in
 /-- **The square that makes the base change of the Koszul systems natural.**  The tensor
 endofunctor carries multiplication by the monomial `∏ᵢ fᵢ^{eᵢ}` to multiplication by it
 (`AlgebraicGeometry.SheafOfModules.sheafTensorRight_map_globalSectionToEnd`), multiplication by a
@@ -590,6 +594,7 @@ def koszulPowerFunctorBaseChangeIso (n : ℕ) :
   NatIso.ofComponents (fun _ => sheafTensorRightUnitIso O (RestrictedRingModule φ))
     fun _ => sheafTensorRightUnitIso_koszulScalar_naturality O f φ _
 
+omit [HasWeakSheafify J CommRingCat.{u}] in
 /-- The comparison is compatible with the maps between successive Koszul powers, which at the
 subset `S` are again multiplications by a monomial. -/
 theorem whiskerRight_koszulPowerTrans_comp_koszulPowerFunctorBaseChangeIso (n : ℕ) :
@@ -624,6 +629,7 @@ def koszulPowerFunctorSystemBaseChangeMap :
       koszulPowerFunctorSystem_map_succ]
     exact whiskerRight_koszulPowerTrans_comp_koszulPowerFunctorBaseChangeIso O f φ n
 
+omit [HasWeakSheafify J CommRingCat.{u}] in
 /-- The component at `n` of `koszulPowerFunctorSystemBaseChangeMap` is the comparison
 `koszulPowerFunctorBaseChangeIso` at `n`. -/
 @[simp]
@@ -791,7 +797,7 @@ theorem quasiIso_extendedAlternatingCechBaseChangeMap
         (RestrictedRingModule φ))) :=
     Stacks.SheafOfModules.FlatSheafification.sheafTensorRight_preservesFiniteColimits J O
       (RestrictedRingModule φ)
-  show QuasiIso (tensorUnitComplexMap φ (extendedAlternatingCech (ringedSite O) f) ≫
+  change QuasiIso (tensorUnitComplexMap φ (extendedAlternatingCech (ringedSite O) f) ≫
     (extendedAlternatingCechBaseChangeIso O f φ).hom)
   have : QuasiIso (tensorUnitComplexMap φ (extendedAlternatingCech (ringedSite O) f)) := by
     have : PreservesColimitsOfSize.{u, u}

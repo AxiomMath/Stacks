@@ -86,11 +86,11 @@ theorem isCurve_smooth_isProper_pullback_snd_and_isUnit (hℓp : ℓ ≠ p) :
     IsCurve kbar (pullback.snd (Over.mk f).hom (specAlgebraMap k kbar)) ∧
       Smooth (pullback.snd (Over.mk f).hom (specAlgebraMap k kbar)) ∧
       IsProper (pullback.snd (Over.mk f).hom (specAlgebraMap k kbar)) ∧ IsUnit (ℓ : kbar) := by
-  haveI : CharP kbar p := charP_of_injective_algebraMap (algebraMap k kbar).injective p
-  haveI : IsCurve k (Over.mk f).hom := ‹IsCurve k f›
-  haveI : Smooth (Over.mk f).hom := ‹Smooth f›
-  haveI : IsProper (Over.mk f).hom := ‹IsProper f›
-  haveI : GeometricallyIrreducible (Over.mk f).hom := ‹GeometricallyIrreducible f›
+  have : CharP kbar p := charP_of_injective_algebraMap (algebraMap k kbar).injective p
+  have : IsCurve k (Over.mk f).hom := ‹IsCurve k f›
+  have : Smooth (Over.mk f).hom := ‹Smooth f›
+  have : IsProper (Over.mk f).hom := ‹IsProper f›
+  have : GeometricallyIrreducible (Over.mk f).hom := ‹GeometricallyIrreducible f›
   refine ⟨Stacks.Picard.isCurve_baseChange_of_geometricallyIrreducible (Over.mk f) kbar,
     inferInstance, inferInstance, Ne.isUnit fun h => hℓp ?_⟩
   exact ((Nat.prime_dvd_prime_iff_eq (Fact.out : p.Prime) (Fact.out : ℓ.Prime)).1
@@ -120,6 +120,7 @@ local instance : QuasiSeparatedSpace X.obj :=
   @AlgebraicGeometry.IsLocallyNoetherian.quasiSeparatedSpace X.1
     (inferInstance : AlgebraicGeometry.IsNoetherian X.1).toIsLocallyNoetherian
 
+omit [Algebra.IsAlgebraic k kbar] in
 include hcard in
 /-- **`dim H¹(X_k̄, ℚ_ℓ) = 2g`**, `g` the genus of `X`. -/
 theorem LAdicSheaf.finrank_rationalCohomology_one_of_smoothProjectiveCurve (hℓp : ℓ ≠ p) :
@@ -131,6 +132,7 @@ theorem LAdicSheaf.finrank_rationalCohomology_one_of_smoothProjectiveCurve (hℓ
   exact LAdicSheaf.finrank_rationalGeometricCompactlySupportedCohomology_constant_one B X ℓ f kbar
     p r hcard hℓ
 
+omit [Algebra.IsAlgebraic k kbar] in
 include hcard in
 /-- `H¹(X_k̄, ℚ_ℓ)` is finite dimensional. -/
 theorem LAdicSheaf.finite_rationalCohomology_one_of_smoothProjectiveCurve (hℓp : ℓ ≠ p) :
@@ -152,10 +154,10 @@ theorem LAdicSheaf.natCast_natCard_fieldValuedPoints_eq_one_sub_trace_add (hℓp
               ((1 : ℕ) : ℤ)).hom ^ m) +
         (Fintype.card k : ℚ_[ℓ]) ^ m := by
   obtain ⟨h1, h2, h3, hℓ⟩ := isCurve_smooth_isProper_pullback_snd_and_isUnit f kbar ℓ p hℓp
-  haveI : NeZero m := ⟨hm⟩
+  have : NeZero m := ⟨hm⟩
   obtain ⟨K', hK'fin, hK'⟩ := exists_intermediateField_finrank_eq k kbar p m
-  haveI : Finite K' := Module.finite_of_finite k
-  letI : Fintype K' := Fintype.ofFinite K'
+  have : Finite K' := Module.finite_of_finite k
+  let : Fintype K' := Fintype.ofFinite K'
   have hcardK' : Fintype.card K' = p ^ (r * m) := by
     rw [Module.card_eq_pow_finrank (K := k), hK', hcard, ← pow_mul]
   have hKK' : Nat.card (fieldValuedPoints f K) = Nat.card (fieldValuedPoints f K') := by
@@ -185,15 +187,16 @@ theorem LAdicSheaf.hpoint_of_smoothProjectiveCurve (hℓp : ℓ ≠ p) {g : ℕ}
           (LAdicSheaf.rationalGeometricCompactlySupportedFrobenius B X ℓ f
             (CompactificationOf.ofProper f) kbar p r hcard (LAdicSheaf.constantSystem B X ℓ)
               ((1 : ℕ) : ℤ)).hom) a) ^ n).trace := by
-  haveI : NeZero n := ⟨hn⟩
+  have : NeZero n := ⟨hn⟩
   obtain ⟨K', hK'fin, hK'⟩ := exists_intermediateField_finrank_eq k kbar p n
-  haveI : Finite K' := Module.finite_of_finite k
+  have : Finite K' := Module.finite_of_finite k
   rw [alternatingTrace_curveFrobenius, LinearMap.toMatrix_pow, ← LinearMap.trace_eq_matrix_trace,
     ← LAdicSheaf.natCast_natCard_fieldValuedPoints_eq_one_sub_trace_add B X ℓ f kbar p r hcard hℓp
       hn K' hK', natCard_fieldValuedPoints, hK']
 
 /-! ### The four parts of Tag 03V8 -/
 
+omit [Fintype k] in
 /-- **Tag 03V8, part (1).** The L-function `L(X, ℚ_ℓ) = ∏_{x ∈ |X|} (1 - T^{deg x})⁻¹` of a smooth,
 projective, geometrically irreducible curve over a finite field is a rational function: its
 product with a polynomial whose value at `0` is nonzero is a polynomial. (The polynomials are
@@ -201,11 +204,13 @@ product with a polynomial whose value at `0` is nonzero is a polynomial. (The po
 @[stacks 03V8 "part (1): L(X, Q_ell) is a rational function, for X a smooth projective \
 geometrically irreducible curve over a finite field and ell a prime different from the \
 characteristic; its product with (1 - T)(1 - qT) is det(1 - pi_X^* T | H^1(X_kbar, Q_ell))"]
-theorem LAdicSheaf.isRational_constantLFunction_of_smoothProjectiveCurve (hℓp : ℓ ≠ p) :
+theorem LAdicSheaf.isRational_constantLFunction_of_smoothProjectiveCurve [Finite k]
+    (hℓp : ℓ ≠ p) :
     ∃ P Q : Polynomial ℚ_[ℓ], Q.eval 0 ≠ 0 ∧
       constantLFunction f ℚ_[ℓ] * (Q : PowerSeries ℚ_[ℓ]) = (P : PowerSeries ℚ_[ℓ]) := by
+  let : Fintype k := Fintype.ofFinite k
   obtain ⟨r, -, hcard⟩ := FiniteField.card k p
-  haveI := LAdicSheaf.finite_rationalCohomology_one_of_smoothProjectiveCurve B X ℓ f
+  have := LAdicSheaf.finite_rationalCohomology_one_of_smoothProjectiveCurve B X ℓ f
     (AlgebraicClosure k) p r hcard hℓp
   let bV := Module.finBasisOfFinrankEq ℚ_[ℓ] _
     (LAdicSheaf.finrank_rationalCohomology_one_of_smoothProjectiveCurve B X ℓ f (AlgebraicClosure k)
@@ -234,7 +239,7 @@ theorem LAdicSheaf.exists_integral_curveNumerator_of_smoothProjectiveCurve (hℓ
             (CompactificationOf.ofProper f) kbar p r hcard (LAdicSheaf.constantSystem B X ℓ)
               ((1 : ℕ) : ℤ)).hom) 1 :=
   ⟨LAdicSheaf.finrank_rationalCohomology_one_of_smoothProjectiveCurve B X ℓ f kbar p r hcard hℓp,
-    fun bV => exists_integral_curveNumerator (Fintype.card k) _ _ (fun n hn => rfl)
+    fun bV => exists_integral_curveNumerator (Fintype.card k) _ _ (by intros; rfl)
       (LAdicSheaf.hpoint_of_smoothProjectiveCurve B X ℓ f kbar p r hcard hℓp bV)⟩
 
 /-- **Tag 03V8, part (2), integrality.** The eigenvalues `α_1, …, α_{2g}` of `π_X^*` on
@@ -253,7 +258,7 @@ theorem LAdicSheaf.isIntegral_curveEigenvalue_of_smoothProjectiveCurve (hℓp : 
             ((1 : ℕ) : ℤ)).hom) 1).map φ =
       ∏ i, (1 - Polynomial.C (α i) * Polynomial.X))
     (i : Fin (2 * genus f)) : IsIntegral ℤ (α i) :=
-  isIntegral_curveEigenvalue (Fintype.card k) _ _ (fun n hn => rfl)
+  isIntegral_curveEigenvalue (Fintype.card k) _ _ (by intros; rfl)
     (LAdicSheaf.hpoint_of_smoothProjectiveCurve B X ℓ f kbar p r hcard hℓp bV) φ α hα i
 
 /-- **Tag 03V8, part (3).** The number of points of `X` with values in an extension `k_n` of `k` of
@@ -293,8 +298,8 @@ theorem LAdicSheaf.norm_curveEigenvalue_eq_sqrt_of_smoothProjectiveCurve (hℓp 
       ∏ i, (1 - Polynomial.C (α i) * Polynomial.X))
     (i : Fin (2 * genus f)) : ‖α i‖ = Real.sqrt (Fintype.card k) := by
   obtain ⟨h1, h2, h3, hℓ⟩ := isCurve_smooth_isProper_pullback_snd_and_isUnit f kbar ℓ p hℓp
-  haveI : GeometricallyReduced f := geometricallyReduced_of_smooth f
-  haveI : GeometricallyIntegral f :=
+  have : GeometricallyReduced f := geometricallyReduced_of_smooth f
+  have : GeometricallyIntegral f :=
     GeometricallyIntegral.of_geometricallyReduced_of_geometricallyIrreducible f
   obtain ⟨J, hJ, hAJ⟩ := LAdicSheaf.exists_isUnit_det_transpose_mul_mul_eq_card_smul B X ℓ f kbar p
     r hcard hℓ bV
@@ -313,9 +318,9 @@ theorem LAdicSheaf.norm_curveEigenvalue_eq_sqrt_of_smoothProjectiveCurve (hℓp 
 
 /-- **Tag 03V8, part (4).** Every eigenvalue `α_i` of `π_X^*` on `H¹(X_k̄, ℚ_ℓ)`, read in `ℂ` along
 a ring map `ℚ_ℓ → ℂ`, has `|α_i| < q`. -/
-@[stacks 03V8 "part (4): |alpha_i| < q for every eigenvalue alpha_i of pi_X^* on H^1(X_kbar, Q_ell) \
-read in C; it follows from the Riemann hypothesis |alpha_i| = sqrt q, which the source states \
-right after the lemma"]
+@[stacks 03V8 "part (4): |alpha_i| < q for every eigenvalue alpha_i of pi_X^* on H^1(X_kbar, \
+Q_ell) read in C; it follows from the Riemann hypothesis |alpha_i| = sqrt q, which the source \
+states right after the lemma"]
 theorem LAdicSheaf.norm_curveEigenvalue_lt_of_smoothProjectiveCurve (hℓp : ℓ ≠ p)
     (bV : Module.Basis (Fin (2 * genus f)) ℚ_[ℓ]
       (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B X ℓ f

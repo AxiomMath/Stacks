@@ -110,6 +110,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 /-! ### The inverse image of abelian sheaves -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasWeakSheafify` and `HasLeftKanExtension` on the small étale site is deep
 /-- Pushforward of abelian sheaves along base change of étale scheme charts is a right adjoint.
 Supplied explicitly because instance search no longer finds it. -/
 theorem isRightAdjoint_smallBaseChange_addCommGrp (i : Z ⟶ X)

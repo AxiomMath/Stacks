@@ -11,7 +11,8 @@ For a thickening `G ⊂ X` of algebraic spaces over a scheme `S`, Equation
 
 `X_{spaces, étale} = X'_{spaces, étale}`
 
-of the two spaces-étale sites.  `StacksFrontier/AlgebraicGeometry/Spaces/Thickenings/EtaleTopos.lean`
+of the two spaces-étale sites.
+`StacksFrontier/AlgebraicGeometry/Spaces/Thickenings/EtaleTopos.lean`
 proves it for sheaves of **sets**, as
 `AlgebraicGeometry.Space.smallEtaleSheafEquiv_of_isThickening` and
 `AlgebraicGeometry.Space.spacesEtaleSheafEquiv_of_isThickening`.  This file reads the same

@@ -65,10 +65,10 @@ theorem rel_iff_of_chart {X : SmallAlg (ringOf B S hS T') B.cutoff}
     {w : P.obj →ₐ[ringOf B S hS T'] X.obj} {v : Q.obj →ₐ[ringOf B S hS T'] X.obj}
     (hv : b.app X v = Arr.idt w) (M : SiteModule X.obj B)
     {ℓ₁ ℓ₂ : P.obj →ₐ[ringOf B S hS T'] (sqzAlgOf X M).obj}
-    (h₁ : (sqzEOf X M).q.hom.hom.comp ℓ₁ = w) (h₂ : (sqzEOf X M).q.hom.hom.comp ℓ₂ = w) :
+    (h₁ : (sqzEOf X M).q.hom.hom.comp ℓ₁ = w) :
     Rel (stackGroupoid a ι) (sqzEOf X M) w ℓ₁ ℓ₂ ↔ ℓ₂.toLinearMap - ℓ₁.toLinearMap ∈
       AlgebraicGeometry.Stack.GroupoidLift.S (stackGroupoid a ι) (sqzEOf X M) w :=
-  rel_iff_mem_S (G := stackGroupoid a ι) b hb sV tV hsV htV hv h₁ h₂
+  rel_iff_mem_S (G := stackGroupoid a ι) b hb sV tV hsV htV hv h₁
 
 end Rel
 
@@ -87,19 +87,17 @@ theorem bijective_liftBaseChange_of_span {R X Y F T T' : Type*} [CommRing R] [Co
     AddMonoidHom.mk' (fun f ↦ (TensorProduct.mk X Y T (j f)).toAddMonoidHom)
       (fun f f' ↦ by rw [_root_.map_add, _root_.map_add]; rfl)
   let π : F ⊗[R] T →+ Y ⊗[X] T := TensorProduct.liftAddHom π₀ fun r f t ↦ by
-    show j (r • f) ⊗ₜ[X] t = j f ⊗ₜ[X] (r • t)
+    change j (r • f) ⊗ₜ[X] t = j f ⊗ₜ[X] (r • t)
     rw [_root_.map_smul, ← algebraMap_smul X r t, ← TensorProduct.smul_tmul, algebraMap_smul]
   have hπt : ∀ f t, π (f ⊗ₜ t) = j f ⊗ₜ t := fun _ _ ↦ rfl
   have hcomp : ∀ s, μ.liftBaseChange Y (π s) = β s := by
     intro s
-    induction s using TensorProduct.induction_on with
-    | zero => rw [_root_.map_zero, _root_.map_zero, _root_.map_zero]
+    induction s using TensorProduct.inductionOn with
     | tmul f t => rw [hπt, LinearMap.liftBaseChange_tmul, hβt]
     | add s₁ s₂ h₁ h₂ => rw [_root_.map_add, _root_.map_add, h₁, h₂, _root_.map_add]
   have hπs : Function.Surjective π := by
     intro u
-    induction u using TensorProduct.induction_on with
-    | zero => exact ⟨0, _root_.map_zero _⟩
+    induction u using TensorProduct.inductionOn with
     | tmul y t =>
       induction hj y using Submodule.span_induction with
       | mem y hy =>
@@ -114,8 +112,7 @@ theorem bijective_liftBaseChange_of_span {R X Y F T T' : Type*} [CommRing R] [Co
         obtain ⟨s, hs⟩ := h
         have hgen : ∀ s : F ⊗[R] T, ∃ s', π s' = c • π s := by
           intro s
-          induction s using TensorProduct.induction_on with
-          | zero => exact ⟨0, by rw [_root_.map_zero, smul_zero]⟩
+          induction s using TensorProduct.inductionOn with
           | tmul f t' =>
             refine ⟨f ⊗ₜ (c • t'), ?_⟩
             rw [hπt, hπt, TensorProduct.smul_tmul', TensorProduct.smul_tmul]
@@ -191,8 +188,11 @@ theorem isTangentBaseChangeIso_chart_of_algebraMap (g : X ⟶ Y) [Algebra X.obj 
     (Gy : TangentFunctorData Y.obj B S hS (toSOf Y) (contains_spec Y) 𝒳.val.p
       (ξ a ι (g.hom.hom.comp w)) (ξ_obj a ι (g.hom.hom.comp w))) :
     IsTangentBaseChangeIso 𝒳.property hf (trans a ι g w) hφ Fx Gy ψa := by
-  have hrel := rel_iff_of_chart hb hsV htV hv
-  have hrel' := rel_iff_of_chart hb hsV htV (chart_app_comp g hv)
+  have hrel := fun M {ℓ₁ ℓ₂} h₁ ↦ Function.const ((sqzEOf X M).q.hom.hom.comp ℓ₂ = w)
+    (rel_iff_of_chart hb hsV htV hv M (ℓ₁ := ℓ₁) (ℓ₂ := ℓ₂) h₁)
+  have hrel' := fun N {ℓ₁ ℓ₂} h₁ ↦
+    Function.const ((sqzEOf Y N).q.hom.hom.comp ℓ₂ = g.hom.hom.comp w)
+      (rel_iff_of_chart hb hsV htV (chart_app_comp g hv) N (ℓ₁ := ℓ₁) (ℓ₂ := ℓ₂) h₁)
   obtain ⟨β, hβ, hβf⟩ := exists_bijective_modBaseChange (G := stackGroupoid a ι) g ψ
     (card_sqz_lt M) (card_sqz_lt N) j hL hb hsV htV hv
   let : Module X.obj ↥(Gy.functor.obj N) := Module.compHom _ (algebraMap X.obj Y.obj)
@@ -213,7 +213,7 @@ theorem isTangentBaseChangeIso_chart_of_algebraMap (g : X ⟶ Y) [Algebra X.obj 
     { Φx with
       map_add' := tangentToMod_add M hrel ha hι Fx
       map_smul' := fun r z ↦ by
-        show Φx (algebraMap (ringOf B S hS T') X.obj r • z) = r • Φx z
+        change Φx (algebraMap (ringOf B S hS T') X.obj r • z) = r • Φx z
         rw [tangentToMod_smul]
         rfl }
   let ΦyA : ↥(Gy.functor.obj N) ≃+ Mod (stackGroupoid a ι) (sqzEOf Y N) (g.hom.hom.comp w) :=
@@ -227,8 +227,7 @@ theorem isTangentBaseChangeIso_chart_of_algebraMap (g : X ⟶ Y) [Algebra X.obj 
         (sqzTensorLift g ψ (card_sqz_lt M) (card_sqz_lt N) j s) ∈
           Submodule.span X.obj (Set.range j) := by
       intro s
-      induction s using TensorProduct.induction_on with
-      | zero => rw [_root_.map_zero]; exact Submodule.zero_mem _
+      induction s using TensorProduct.inductionOn with
       | tmul z f =>
         rw [fst_sqzTensorLift_tmul]
         have hs : g.hom.hom (TrivSqZeroExt.fst (R := X.obj) (M := M.obj) z) * j f =
@@ -254,7 +253,7 @@ theorem isTangentBaseChangeIso_chart_of_algebraMap (g : X ⟶ Y) [Algebra X.obj 
   have hβt : ∀ f t, β' (f ⊗ₜ t) = j f • μ t := by
     intro f t
     refine ΦyA.symm_apply_eq.mpr ?_
-    show β (f ⊗ₜ Φx t) = Φy (j f • tangentPullbackFun (algebraMap X.obj Y.obj) hf
+    change β (f ⊗ₜ Φx t) = Φy (j f • tangentPullbackFun (algebraMap X.obj Y.obj) hf
       𝒳.property (trans a ι g w) hφ Fx Gy ψa t)
     have hc := tangentPullbackFun_congr 𝒳.property Fx Gy hg hf (toSOf_comp g) rfl hφ
       (trans_isHomLift a ι g w) ψa ψ hψa t
@@ -381,19 +380,14 @@ theorem bijective_sqzTensorLift
     · obtain ⟨s, hs⟩ := hX.2 (TrivSqZeroExt.fst (R := Y.obj) (M := N) z)
       obtain ⟨t, ht⟩ := hβ.2 (TrivSqZeroExt.snd (R := Y.obj) (M := N) z)
       refine ⟨(s, t), ?_⟩
-      show (TrivSqZeroExt.inl (lamX s) + TrivSqZeroExt.inr (β t) : TrivSqZeroExt Y.obj N) = z
+      change (TrivSqZeroExt.inl (lamX s) + TrivSqZeroExt.inr (β t) : TrivSqZeroExt Y.obj N) = z
       rw [hs, ht]
       exact TrivSqZeroExt.inl_fst_add_inr_snd_eq z
   have key : ∀ w, sqzTensorLift g ψ hM hN j w = τ (σ w) := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero =>
-      rw [_root_.map_zero, _root_.map_zero]
-      show (0 : TrivSqZeroExt Y.obj N) = TrivSqZeroExt.inl (lamX 0) + TrivSqZeroExt.inr (β 0)
-      rw [_root_.map_zero, _root_.map_zero, TrivSqZeroExt.inl_zero, TrivSqZeroExt.inr_zero,
-        add_zero]
+    induction w using TensorProduct.inductionOn with
     | tmul z f =>
-      show sqzTensorLift g ψ hM hN j (z ⊗ₜ f) = (TrivSqZeroExt.inl
+      change sqzTensorLift g ψ hM hN j (z ⊗ₜ f) = (TrivSqZeroExt.inl
         (lamX (TrivSqZeroExt.fst (R := X.obj) (M := M) z ⊗ₜ f)) +
           TrivSqZeroExt.inr (β (TrivSqZeroExt.snd (R := X.obj) (M := M) z ⊗ₜ f)) :
             TrivSqZeroExt Y.obj N)
@@ -403,19 +397,19 @@ theorem bijective_sqzTensorLift
         Algebra.TensorProduct.lift_tmul]
       refine TrivSqZeroExt.ext ?_ ?_
       · refine (fst_sqz_mul _ _).trans ?_
-        show _ = g.hom.hom (TrivSqZeroExt.fst z) * j f + 0
+        change _ = g.hom.hom (TrivSqZeroExt.fst z) * j f + 0
         rw [add_zero]
         rfl
       · refine (snd_sqz_mul _ _).trans ?_
-        show _ • (0 : N) + _ = 0 + j f • (show N from ψ.hom (TrivSqZeroExt.snd z))
+        change _ • (0 : N) + _ = 0 + j f • (show N from ψ.hom (TrivSqZeroExt.snd z))
         rw [smul_zero, zero_add, zero_add]
         rfl
     | add w₁ w₂ h₁ h₂ =>
       rw [_root_.map_add, h₁, h₂, _root_.map_add]
-      show _ = (TrivSqZeroExt.inl (lamX ((σ w₁).1 + (σ w₂).1)) +
+      change _ = (TrivSqZeroExt.inl (lamX ((σ w₁).1 + (σ w₂).1)) +
         TrivSqZeroExt.inr (β ((σ w₁).2 + (σ w₂).2)) : TrivSqZeroExt Y.obj N)
       rw [_root_.map_add, _root_.map_add, TrivSqZeroExt.inl_add, TrivSqZeroExt.inr_add]
-      show (TrivSqZeroExt.inl (lamX (σ w₁).1) + TrivSqZeroExt.inr (β (σ w₁).2) +
+      change (TrivSqZeroExt.inl (lamX (σ w₁).1) + TrivSqZeroExt.inr (β (σ w₁).2) +
         (TrivSqZeroExt.inl (lamX (σ w₂).1) + TrivSqZeroExt.inr (β (σ w₂).2)) :
           TrivSqZeroExt Y.obj N) = _
       abel

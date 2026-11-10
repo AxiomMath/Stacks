@@ -292,7 +292,7 @@ theorem isClosedSubspace_fullSubcategoryBaseChangeSubfunctor_chartLocus
     · rintro ⟨m⟩
       have hml : m.left ≫ i.left = T.hom := Over.w m
       refine ⟨Over.homMk m.left ?_, ?_⟩
-      · show m.left ≫ C.hom = T.hom ≫ V.hom
+      · change m.left ≫ C.hom = T.hom ≫ V.hom
         rw [← hiw, ← Category.assoc, hml]
         simp [V₁, T₀]
       · apply Over.OverMorphism.ext
@@ -300,7 +300,7 @@ theorem isClosedSubspace_fullSubcategoryBaseChangeSubfunctor_chartLocus
   have hF : fullSubcategoryBaseChangeSubfunctor 𝒳 (fun g => chartLocus_of_hom f Z g) z =
       Subfunctor.range (yoneda.map j) := by
     ext T e
-    show chartLocus f Z (z.obj T.unop) ↔ e ∈ Set.range ((yoneda.map j).app T)
+    change chartLocus f Z (z.obj T.unop) ↔ e ∈ Set.range ((yoneda.map j).app T)
     rw [key]
     exact ⟨fun ⟨m⟩ => ⟨m, Over.mkIdTerminal.hom_ext _ _⟩, fun ⟨m, _⟩ => ⟨m⟩⟩
   rw [hF]

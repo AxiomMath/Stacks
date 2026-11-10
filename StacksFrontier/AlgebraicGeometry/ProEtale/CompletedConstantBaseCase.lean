@@ -93,8 +93,7 @@ theorem Module.Flat.quotient_of_lTensor_injective
   let e₂ := TensorProduct.equivOfCompatibleSMul R (R ⧸ I) R M (R ⧸ I)
   have hcomm : ∀ x, e₂ (J.subtype.lTensor M x) =
       (J.subtype.restrictScalars R).lTensor M (e₁ x) := fun x => by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul m j => rfl
     | add x y hx hy => simp only [map_add, hx, hy]
   intro x y hxy
@@ -256,7 +255,7 @@ theorem isIso_reductionMap_of_smul_id_eq_zero
     have : Epi (ModuleCat.ofHom g') := ConcreteCategory.epi_of_surjective _ hg'
     exact (c ⋙ tensorRight H).map_epi (ModuleCat.ofHom g')
   have hzero : (S.map Φ).f = 0 := by
-    show c.map S.f ▷ H = 0
+    change c.map S.f ▷ H = 0
     rw [← cancel_epi (c.map (ModuleCat.ofHom g') ▷ H), ← comp_whiskerRight, ← Functor.map_comp,
       hfac, hzero', comp_zero]
   have : Mono (S.map Φ).g := hSΦ.mono_g hzero
@@ -287,7 +286,7 @@ theorem isQuotientBy_reductionMap
   have := isIso_reductionMap_of_smul_id_eq_zero I
     ((Stacks.ModuleSheaf.isAnnihilatedBy_iff_smul_id _ _).1 hH)
   refine ⟨quotientConstantSheaf X Λ I ◁ f ≫ inv (reductionMap I H), ?_, fun g hg => ?_⟩
-  · show reductionMap I G ≫ _ ≫ _ = f
+  · change reductionMap I G ≫ _ ≫ _ = f
     rw [reductionMap_naturality_assoc, IsIso.hom_inv_id, Category.comp_id]
   · rw [← cancel_epi (reductionMap I G), hg, reductionMap_naturality_assoc, IsIso.hom_inv_id,
       Category.comp_id]
@@ -498,7 +497,7 @@ theorem completedConstantSheafUnit_naturality {M N : ModuleCat.{max (u + 1) w} �
       completedConstantSheafUnit X I M ≫ (completedConstantSheafFunctor X I).map f := by
   refine limit.hom_ext fun n => ?_
   rw [Category.assoc, completedConstantSheafUnit_π, Category.assoc]
-  show _ = _ ≫ limMap _ ≫ _
+  change _ = _ ≫ limMap _ ≫ _
   rw [limMap_π, ← Category.assoc, completedConstantSheafUnit_π]
   exact ((constantSheaf (Scheme.ProEt.topology X) (ModuleCat.{max (u + 1) w} Λ)).map_comp _
     _).symm.trans
@@ -812,7 +811,7 @@ theorem adicCompletionUnitHom_comp_evalOneSMulHom (m : Mbar) :
     adicCompletionUnitHom I ≫ evalOneSMulHom Λ I Mbar m =
       ModuleCat.ofHom (LinearMap.toSpanSingleton Λ Mbar m) := by
   refine ModuleCat.hom_ext (LinearMap.ext fun l => ?_)
-  show AdicCompletion.evalOneₐ I (algebraMap Λ (AdicCompletion I Λ) l) • m = l • m
+  change AdicCompletion.evalOneₐ I (algebraMap Λ (AdicCompletion I Λ) l) • m = l • m
   rw [AlgHom.commutes, algebraMap_smul]
 
 /-- `Λ → Λ^∧` is surjective modulo `I`. -/
@@ -826,7 +825,7 @@ theorem range_adicCompletionUnitHom_sup_smul_top [IsNoetherianRing Λ] :
   have hmem : (show AdicCompletion I Λ from a) - algebraMap Λ (AdicCompletion I Λ) l ∈
       I.map (algebraMap Λ (AdicCompletion I Λ)) := by
     rw [← AdicCompletion.ker_evalOneₐ_eq_map I (IsNoetherian.noetherian I), RingHom.mem_ker]
-    show AdicCompletion.evalOneₐ I _ = 0
+    change AdicCompletion.evalOneₐ I _ = 0
     rw [map_sub, AlgHom.commutes, Ideal.Quotient.algebraMap_eq, hl, sub_self]
   rw [show a = (adicCompletionUnitHom I).hom l + (a - (adicCompletionUnitHom I).hom l) by abel]
   refine Submodule.add_mem_sup ⟨l, rfl⟩ ?_
@@ -884,7 +883,7 @@ theorem exists_completedConstantSheafUnit_comp_eq {U : Scheme.{u}}
           (op (Scheme.ProEt.mk (𝟙 U)))).map χ =
         ModuleCat.ofHom (LinearMap.toSpanSingleton Λ Mbar (m j)) ≫ adj.unit.app Mbar := by
       refine ModuleCat.hom_ext (LinearMap.ext fun l => ?_)
-      show (χ.hom.app (op (Scheme.ProEt.mk (𝟙 U)))).hom (l • s j) =
+      change (χ.hom.app (op (Scheme.ProEt.mk (𝟙 U)))).hom (l • s j) =
         (adj.unit.app Mbar).hom (l • m j)
       rw [map_smul, map_smul, hs j]
     rw [← Category.assoc, h₁, Category.assoc, IsIso.hom_inv_id_assoc,
@@ -1057,7 +1056,7 @@ theorem exists_iso_completedConstantSheaf_of_reduction_iso {U : Scheme.{u}}
   have hs : ∀ j, ∃ s, (χ.hom.app (op T)).hom s = (adj.unit.app Mbar).hom (m j) := fun j => by
     obtain ⟨s, hs⟩ := hsurj ((e.inv.hom.app (op T)).hom ((adj.unit.app Mbar).hom (m j)))
     refine ⟨s, ?_⟩
-    show (e.hom.hom.app (op T)).hom
+    change (e.hom.hom.app (op T)).hom
       ((((ρ_ F).inv ≫ F ◁ constantQuotientMap I).hom.app (op T)).hom s) = _
     rw [show (((ρ_ F).inv ≫ F ◁ constantQuotientMap I).hom.app (op T)).hom s = _ from hs]
     exact congrArg (fun φ => (φ.hom.app (op T)).hom ((adj.unit.app Mbar).hom (m j))) e.inv_hom_id
@@ -1077,7 +1076,7 @@ theorem exists_iso_completedConstantSheaf_of_reduction_iso {U : Scheme.{u}}
       refine Finset.sum_congr rfl fun j _ => ?_
       rw [map_smul]
       rfl
-    show (∑ j, (ρ.map (ModuleCat.ofHom (LinearMap.proj j ∘ₗ β)) ≫
+    change (∑ j, (ρ.map (ModuleCat.ofHom (LinearMap.proj j ∘ₗ β)) ≫
       evalOneSMulHom Λ I Mbar (m j))).hom y = _
     rw [ModuleCat.hom_sum]
     refine (LinearMap.sum_apply _ _ _).trans ?_

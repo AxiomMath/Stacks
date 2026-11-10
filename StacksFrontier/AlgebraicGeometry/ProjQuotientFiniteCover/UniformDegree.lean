@@ -133,13 +133,14 @@ exponents of `AlgebraicGeometry.ProjectiveSpectrum.Proj`
 `.exists_pow_mul_chartFraction_mem_ker_uniform` works on all charts at once, and padding a chart
 function by a further power of `f` keeps it in the kernel because the kernel is an ideal. -/
 theorem exists_pow_mul_mem_idealOfClosedSubscheme_of_cover_uniform (hd : 0 < d)
-    {ι : Type*} [Fintype ι] (g : ι → S) (hg : ∀ j, g j ∈ 𝒮 d)
+    {ι : Type*} [Finite ι] (g : ι → S) (hg : ∀ j, g j ∈ 𝒮 d)
     (hcov : ⨆ j, AlgebraicGeometry.Proj.basicOpen 𝒮 (g j) = ⊤)
     {f : S} (hf : f ∈ 𝒮 d) {Z : Scheme.{u}} (i : Z ⟶ AlgebraicGeometry.Proj 𝒮)
     [IsClosedImmersion i] (n : ℕ) (b : 𝒮 (n • d))
     (hb : chartFraction 𝒮 hf n b ∈ RingHom.ker (i.app (AlgebraicGeometry.Proj.basicOpen 𝒮 f)).hom) :
     ∃ N : ℕ, f ^ N * (b : S) ∈ idealOfClosedSubscheme 𝒮 i := by
   classical
+  have := Fintype.ofFinite ι
   choose NN hNN using fun j : ι =>
     exists_pow_mul_chartFraction_mem_ker_uniform 𝒮 hd hf (hg j) i n b hb
   refine ⟨Finset.univ.sup NN,
@@ -163,7 +164,7 @@ a degree-zero fraction `a / f ^ n` with `a` homogeneous of degree `n · d` is ca
 This is `Stacks.ProjQuotientFiniteCover.app_awayMk_eq_zero_iff_of_cover` with generation in
 degree one and the degree-one cover replaced by a cover in one positive degree `d`. -/
 theorem app_awayMk_eq_zero_iff_of_cover_uniform (hd : 0 < d)
-    {ι : Type*} [Fintype ι] (g : ι → S) (hg : ∀ j, g j ∈ 𝒮 d)
+    {ι : Type*} [Finite ι] (g : ι → S) (hg : ∀ j, g j ∈ 𝒮 d)
     (hcov : ⨆ j, AlgebraicGeometry.Proj.basicOpen 𝒮 (g j) = ⊤)
     {f : S} (hf : f ∈ 𝒮 d) {Z : Scheme.{u}} (i : Z ⟶ AlgebraicGeometry.Proj 𝒮)
     [IsClosedImmersion i] (n : ℕ) (a : S) (ha : a ∈ 𝒮 (n • d)) :

@@ -161,7 +161,7 @@ private theorem rInd (A : Type u) [Ring A] (X : ModuleCat.{max u v} A) :
     naturality := by
       intro i j f
       ext Z g
-      show P.ι.map (g ≫ D.map f) ≫ p.ι.app j = P.ι.map g ≫ p.ι.app i
+      change P.ι.map (g ≫ D.map f) ≫ p.ι.app j = P.ι.map g ≫ p.ι.app i
       rw [Functor.map_comp, ObjectProperty.ι_obj_lift_map, Category.assoc, p.w f] }
   let hc : IsColimit (Cocone.mk _ hι) := by
     apply evaluationJointlyReflectsColimits
@@ -185,7 +185,7 @@ private theorem rInd (A : Type u) [Ring A] (X : ModuleCat.{max u v} A) :
       (by
         intro i j f
         ext g
-        show P.ι.map (g ≫ D.map f) = P.ι.map g ≫ p.diag.map f
+        change P.ι.map (g ≫ D.map f) = P.ι.map g ≫ p.diag.map f
         rw [Functor.map_comp, ObjectProperty.ι_obj_lift_map])
     exact ((IsColimit.precomposeHomEquiv e
       ((coyoneda.obj (Opposite.op (P.ι.obj Z.unop))).mapCocone p.cocone)).2 hcol).ofIsoColimit
@@ -294,7 +294,7 @@ private lemma moduleStageMapCommutes (A : Type u) [Ring A]
   have hL : yonedaEquiv (P.ι₁.app i ≫ (fpYoneda.{u, v} A).map f₀) =
       homOfRestrictedYoneda A (P.ι₁.app i) ≫ f₀ := by
     rw [yonedaEquiv_comp]
-    show ((fpYoneda.{u, v} A).map f₀).app (Opposite.op (P.F₁.obj i))
+    change ((fpYoneda.{u, v} A).map f₀).app (Opposite.op (P.F₁.obj i))
       (homOfRestrictedYoneda A (P.ι₁.app i)) = _
     simp [fpYoneda, homOfRestrictedYoneda]
     rfl
@@ -470,9 +470,9 @@ public lemma filteredColimitExtension_preservesFiniteColimits
       have hG : PreservesColimit G F := by infer_instance
       have hGE : PreservesColimit G (ι ⋙ E.functor) :=
         preservesColimit_of_natIso G E.iso.symm
-      show IsIso (colimit.post (K.obj i) E.functor)
+      change IsIso (colimit.post (K.obj i) E.functor)
       have hK : PreservesColimit (K.obj i) E.functor := by
-        show PreservesColimit (G ⋙ ι) E.functor
+        change PreservesColimit (G ⋙ ι) E.functor
         let φ := G.map WalkingParallelPairHom.left
         let ψ := G.map WalkingParallelPairHom.right
         let φM := ι.map φ
@@ -481,7 +481,7 @@ public lemma filteredColimitExtension_preservesFiniteColimits
         let q := (G.obj WalkingParallelPair.one).obj ⧸ LinearMap.range δM.hom
         let Q : FPCat.{u, v} A :=
           ⟨ModuleCat.of A q, by
-            show Module.FinitePresentation A q
+            change Module.FinitePresentation A q
             let : Module.FinitePresentation A
                 (ι.obj (G.obj WalkingParallelPair.zero)) :=
               (G.obj WalkingParallelPair.zero).property
@@ -497,7 +497,7 @@ public lemma filteredColimitExtension_preservesFiniteColimits
         let cG : Cocone G := Preadditive.coforkOfCokernelCofork
           (CokernelCofork.ofπ π (by
           apply ObjectProperty.hom_ext
-          show δM ≫ cokerCocone.π = 0
+          change δM ≫ cokerCocone.π = 0
           exact cokerCocone.condition))
         let cPair : Cocone (parallelPair φM ψM) :=
           Preadditive.coforkOfCokernelCofork cokerCocone
@@ -514,17 +514,17 @@ public lemma filteredColimitExtension_preservesFiniteColimits
           intro j
           cases j with
           | zero =>
-              show ι.map (φ ≫ π) = φM ≫ cokerCocone.π
+              change ι.map (φ ≫ π) = φM ≫ cokerCocone.π
               rw [Functor.map_comp]
               rfl
           | one =>
-              show ι.map π = cokerCocone.π
+              change ι.map π = cokerCocone.π
               rfl)
         have hcG : IsColimit cG :=
           isColimitOfReflects ι (IsColimit.ofIsoColimit hcM he.symm)
         let : PreservesColimit G (ι ⋙ E.functor) := hGE
         have hcE : IsColimit (E.functor.mapCocone (ι.mapCocone cG)) := by
-          show IsColimit ((ι ⋙ E.functor).mapCocone cG)
+          change IsColimit ((ι ⋙ E.functor).mapCocone cG)
           exact isColimitOfPreserves (ι ⋙ E.functor) hcG
         have hcE' : IsColimit (E.functor.mapCocone cM) := by
           let heE := (Cocone.functoriality (G ⋙ ι) E.functor).mapIso he
@@ -538,7 +538,7 @@ public lemma filteredColimitExtension_preservesFiniteColimits
     have hW : PreservesColimitsOfShape P.I W := by
       apply preservesColimitsOfShape_of_evaluation W P.I
       intro j
-      show PreservesColimitsOfShape P.I
+      change PreservesColimitsOfShape P.I
         ((evaluation WalkingParallelPair (ModuleCat.{max u v} A)).obj j ⋙ E.functor)
       infer_instance
     let : PreservesColimitsOfShape P.I W := hW
@@ -557,7 +557,7 @@ public lemma filteredColimitExtension_preservesFiniteColimits
     let ι := finitelyPresentedModule.{u, max u v} A |>.ι
     let Z : FinitelyPresentedModuleCat.{u, max u v} A :=
       ⟨ModuleCat.of A PUnit, by
-        show Module.FinitePresentation A PUnit
+        change Module.FinitePresentation A PUnit
         infer_instance⟩
     have hZ : IsInitial Z := IsInitial.ofUniqueHom
       (fun Y => ObjectProperty.homMk (0 : Z.obj ⟶ Y.obj))

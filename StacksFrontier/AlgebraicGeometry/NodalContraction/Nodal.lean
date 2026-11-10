@@ -74,7 +74,7 @@ public theorem isAtWorstNodalOfRelativeDimensionOne_of_isContractionOfExceptiona
   obtain ⟨V, hzV, hV⟩ := exists_smoothOfRelativeDimension_nbhd_centre D b hb f' hflat hF z hz
     hreg hdim hDz hs x hx
   exact isAtWorstNodalOfRelativeDimensionOne_of_compl_and_nbhd f' z hz
-    (nodal_on_compl_centre D b z hz ε hε f' hF) V hzV hV
+    (nodal_on_compl_centre b z hz ε hε f' hF) V hzV hV
 
 end AlgebraicGeometry
 

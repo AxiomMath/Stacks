@@ -93,7 +93,7 @@ theorem evenDeRham_mul_of_eq_zero (a : evenDeRhamRing B D) (c : evenDeRhamCohomo
   refine Finset.sum_eq_zero fun n _ => ?_
   rw [DirectSum.of_mul_of]
   refine (congrArg (DirectSum.of (evenDeRhamCohomology B D) (n + 1)) ?_).trans (map_zero _)
-  show reindexDeRhamCohomology B D (two_mul_add_cast n 1)
+  change reindexDeRhamCohomology B D (two_mul_add_cast n 1)
     (deRhamCohomologyCup B D _ _ (a n) c) = 0
   rw [deRhamCohomologyCup_comm, h n]
   simp only [reindexDeRhamCohomology_zero, smul_zero]

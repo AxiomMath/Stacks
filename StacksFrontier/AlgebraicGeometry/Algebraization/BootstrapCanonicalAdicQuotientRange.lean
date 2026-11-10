@@ -200,7 +200,7 @@ public theorem exists_range_le_range_localCohomology_adicQuotient [IsLocalRing S
   have h1 : H.map (F.map (homOfLE hnk).op) = ((F ⋙ H).map σ ≫ s ≫ limit.lift (F ⋙ H) c ≫
       inv (H.map f ≫ limit.post F H)) ≫
         H.map (Dualizing.adicQuotientProjection S.A S.I (ModuleCat.of S.A S.M) n) := by
-    show (F ⋙ H).map (homOfLE hnk).op = _
+    change (F ⋙ H).map (homOfLE hnk).op = _
     rw [← hτ', hτ]
     simp only [Category.assoc]
     rw [hlim, limit.lift_π]

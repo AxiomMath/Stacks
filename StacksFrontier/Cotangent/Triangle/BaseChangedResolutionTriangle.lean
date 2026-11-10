@@ -126,7 +126,8 @@ injective, let `P_• → B` be the standard resolution of `B` over `A`, `Q_• 
    fundamental triangle `L_{B/A} ⊗^𝐋_B C → L_{C/A} → L_{C/B} → (L_{B/A} ⊗^𝐋_B C)[1]` with its
    canonical first two morphisms, which is therefore distinguished in `D(C)`. -/
 @[stacks 08SD "the first paragraph of the remark, for `A → B → C` with `B → C` injective: `Q_n` \
-  is polynomial over `P_n`; `Q̄_• = Q_• ⊗_{P_•} B` is a resolution of `C` over `B`; the sequence of \
+  is polynomial over `P_n`; `Q̄_• = Q_• ⊗_{P_•} B` is a resolution of `C` over `B`; \
+  the sequence of \
   differentials is short exact; and its triangle is the fundamental triangle, with the canonical \
   first two morphisms, on the vertices `L_{B/A} ⊗^𝐋_B C`, `L_{C/A}`, `L_{C/B}`"]
 theorem fundamentalTriangle_of_injective (hf : Function.Injective (algebraMap B C)) :

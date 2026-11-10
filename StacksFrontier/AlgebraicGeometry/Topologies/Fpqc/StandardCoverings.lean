@@ -125,7 +125,7 @@ public theorem presieve₀_mem_fpqcPrecoverage (h : IsStandardFpqcCovering U f) 
   have hqcmap (i : h.cover.I₀) : AlgebraicGeometry.QuasiCompact (h.cover.f i) :=
     inferInstanceAs (AlgebraicGeometry.QuasiCompact (f i))
   have hqc : QuasiCompactCover h.cover.toPreZeroHypercover := QuasiCompactCover.of_finite
-  show Presieve.ofArrows U f ∈ Scheme.qcPrecoverage T ∧
+  change Presieve.ofArrows U f ∈ Scheme.qcPrecoverage T ∧
     Presieve.ofArrows U f ∈ Scheme.precoverage (@Flat.{u}) T
   exact ⟨Scheme.presieve₀_mem_qcPrecoverage_iff.mpr hqc, h.cover_mem₀⟩
 

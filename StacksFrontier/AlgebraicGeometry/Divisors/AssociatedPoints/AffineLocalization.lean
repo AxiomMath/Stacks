@@ -97,7 +97,7 @@ lemma affineGerm_map_units {X : Scheme.{u}} (F : X.Modules) (U : X.Opens) (hU : 
     hU.isLocalization_stalk ⟨x, hx⟩
   intro s
   rw [Module.End.isUnit_iff]
-  show Function.Bijective
+  change Function.Bijective
     (fun a : F.presheaf.stalk x => (X.presheaf.germ U x hx).hom s.1 • a)
   exact ((IsLocalization.AtPrime.isUnit_to_map_iff
     (X.presheaf.stalk x) (hU.primeIdealOf ⟨x, hx⟩).asIdeal s.1).mpr s.2).smul_bijective
@@ -132,7 +132,7 @@ lemma germ_eq_zero_iff_exists_smul_eq_zero {R : CommRingCat.{u}} (F : (Spec R).M
     have hz : φ r s = 0 :=
       (IsLocalizedModule.eq_zero_iff (.powers r) (φ r)).mpr ⟨⟨r, Submonoid.mem_powers r⟩, hrs⟩
     rw [← F.presheaf.germ_res (PrimeSpectrum.basicOpen r).leTop x hrx]
-    show F.presheaf.germ (PrimeSpectrum.basicOpen r) x hrx (φ r s) = 0
+    change F.presheaf.germ (PrimeSpectrum.basicOpen r) x hrx (φ r s) = 0
     rw [hz]
     exact map_zero _
 
@@ -164,7 +164,7 @@ lemma fromSpecSectionsIso_smul {X : Scheme.{u}} (F : X.Modules) {U : X.Opens}
       X.presheaf.map (eqToHom he).op := by
     rw [← fromSpec_appLE_top hU]
     exact f.appLE_appIso_inv _
-  show F.presheaf.map (eqToHom he.symm).op ((F.restrictAppIso f ⊤).hom (r • t)) = _
+  change F.presheaf.map (eqToHom he.symm).op ((F.restrictAppIso f ⊤).hom (r • t)) = _
   rw [Scheme.Modules.smul_Spec_def]
   simp only [Opens.leTop, homOfLE_refl, op_id]
   rw [(Spec Γ(X, U)).presheaf.map_id]
@@ -189,7 +189,7 @@ lemma fromSpecSectionsIso_germ {X : Scheme.{u}} (F : X.Modules) {U : X.Opens}
   let f := hU.fromSpec
   have he : f ''ᵁ ⊤ = U := by
     rw [Scheme.Hom.image_top_eq_opensRange, hU.opensRange_fromSpec]
-  show _ = F.presheaf.germ U (f y) _ (F.presheaf.map (eqToHom he.symm).op t)
+  change _ = F.presheaf.germ U (f y) _ (F.presheaf.map (eqToHom he.symm).op t)
   exact (ConcreteCategory.congr_hom
       (Scheme.Modules.germ_restrictStalkNatIso_hom_app f y F (U := ⊤) trivial) t).trans
     (F.presheaf.germ_res_apply (eqToHom he.symm) (f y) (hU.isoSpec.inv y).2 t).symm
@@ -282,7 +282,7 @@ lemma spec_exists_global_multiple {R : CommRingCat.{u}} (G : (Spec R).Modules)
       y hyr ((Scheme.ΓSpecIso R).inv s.1), ← G.presheaf.germ_res_apply (homOfLE hrV) y hyr t,
       ← G.presheaf.germ_res_apply
         (homOfLE (show PrimeSpectrum.basicOpen r ≤ (⊤ : (Spec R).Opens) from le_top)) y hyr m]
-    show (Spec R).presheaf.germ (PrimeSpectrum.basicOpen r) y hyr
+    change (Spec R).presheaf.germ (PrimeSpectrum.basicOpen r) y hyr
         ((Spec R).presheaf.map (PrimeSpectrum.basicOpen r).leTop.op
           ((Scheme.ΓSpecIso R).inv s.1)) •
         TopCat.Presheaf.germ G.val.presheaf (PrimeSpectrum.basicOpen r) y hyr b =
@@ -356,7 +356,7 @@ lemma fromSpec_stalk_smul_global {X : Scheme.{u}} (F : X.Modules) {U : X.Opens}
       (Scheme.Modules.germ_restrictStalkNatIso_hom_app f y F hyV) w
   rw [← (Spec Γ(X, U)).presheaf.germ_res_apply V.leTop y hyV
     ((Scheme.ΓSpecIso Γ(X, U)).inv r)]
-  show ((Scheme.Modules.restrictStalkNatIso f y).hom.app F).hom
+  change ((Scheme.Modules.restrictStalkNatIso f y).hom.app F).hom
       ((Spec Γ(X, U)).presheaf.germ V y hyV rv • G.presheaf.germ V y hyV t) = _
   have hsmul := (G.val.germ_smul y V hyV rv t).symm
   have hsmulq := congrArg (fun w : G.presheaf.stalk y =>
@@ -391,7 +391,7 @@ lemma affine_exists_global_multiple {X : Scheme.{u}} (F : X.Modules) [F.IsQuasic
   obtain ⟨r, hr, m, hm⟩ := spec_exists_global_multiple G y z'
   refine ⟨r, hr, (fromSpecSectionsIso F hU).hom m, ?_⟩
   have hq : q.hom z' = z := by
-    show (ConcreteCategory.hom ((Scheme.Modules.restrictStalkNatIso f y).inv.app F ≫
+    change (ConcreteCategory.hom ((Scheme.Modules.restrictStalkNatIso f y).inv.app F ≫
       (Scheme.Modules.restrictStalkNatIso f y).hom.app F)) z = z
     rw [(Scheme.Modules.restrictStalkNatIso f y).inv_hom_id_app]
     rfl
@@ -432,7 +432,7 @@ lemma affineGerm_isLocalized {X : Scheme.{u}} (F : X.Modules) [F.IsQuasicoherent
   have hy : hU.fromSpec y = x := hU.fromSpec_primeIdealOf ⟨x, hx⟩
   obtain ⟨r, hr, m, hm⟩ := affine_exists_global_multiple F U hU y (hy ▸ z)
   refine ⟨⟨m, ⟨r, by simpa [y] using hr⟩⟩, ?_⟩
-  show (X.presheaf.germ U x hx).hom r • z = F.presheaf.germ U x hx m
+  change (X.presheaf.germ U x hx).hom r • z = F.presheaf.germ U x hx m
   exact germ_multiple_transport F U hy (hU.isoSpec.inv y).2 hx r m z hm
 
 /-- The global sections of the restriction of `F` along `IsAffineOpen.fromSpec`, as a

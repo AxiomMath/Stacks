@@ -44,6 +44,7 @@ def unitBaseChangeToUnit :
       Scheme.Etale.mk (𝟙 (pullback φ π)) :=
   MorphismProperty.Over.homMk (pullback.snd _ (pullback.snd φ π)) (Category.comp_id _) trivial
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] [OrderBot I] in
 /-- **The base change map intertwines the two colimit descriptions of global sections.** -/
 theorem smallEtaleSetBaseChange_limitSections (F : Sheaf A.smallEtaleTopology (Type (u + 1)))
     (i : Iᵒᵖ) (x : F.obj.obj (op ((smallEtaleBaseChange φ).obj (W.obj i)))) :
@@ -71,7 +72,7 @@ theorem smallEtaleSetBaseChange_limitSections (F : Sheaf A.smallEtaleTopology (T
     let b := (baseChangeSquareMap e h φ π pullback.condition (W.obj i)).left
     let t := (unitBaseChangeToUnit W c (π := π) φ).left
     let d := σ'.left
-    show (a ≫ b) ≫ pullback.fst (pullback.snd (W.obj i).hom φ) e =
+    change (a ≫ b) ≫ pullback.fst (pullback.snd (W.obj i).hom φ) e =
       (t ≫ d) ≫ pullback.fst (pullback.snd (W.obj i).hom φ) e
     have hb : b ≫ pullback.fst (pullback.snd (W.obj i).hom φ) e = pullback.lift
         (pullback.fst _ h ≫ pullback.fst (W.obj i).hom π) (pullback.snd _ h ≫ e) _ :=
@@ -122,7 +123,7 @@ theorem bijective_unitBaseChangeToUnit_map (F : Sheaf A.smallEtaleTopology (Type
       ((Category.comp_id _).trans (Category.id_comp _).symm)) (pullback.lift_snd _ _ _) trivial
   have h1 : unitBaseChangeToUnit W c (π := π) φ ≫ inv = 𝟙 _ := by
     apply MorphismProperty.Over.Hom.ext
-    show pullback.snd _ (pullback.snd φ π) ≫ pullback.lift (pullback.snd φ π) (𝟙 _) _ = 𝟙 _
+    change pullback.snd _ (pullback.snd φ π) ≫ pullback.lift (pullback.snd φ π) (𝟙 _) _ = 𝟙 _
     apply pullback.hom_ext
     · refine (Category.assoc _ _ _).trans ((congrArg (_ ≫ ·) (pullback.lift_fst _ _ _)).trans ?_)
       have hc : pullback.fst (Scheme.Etale.mk (𝟙 c.pt)).hom (pullback.snd φ π) ≫ 𝟙 c.pt =
@@ -158,11 +159,11 @@ theorem bijective_smallEtaleSetBaseChange_app_unit [∀ i, IsAffine (W.obj i).le
   have hcpt : CompactSpace (W.obj (op ⊥)).left := inferInstance
   have hqs : QuasiSeparatedSpace (W.obj (op ⊥)).left := inferInstance
   have : CompactSpace ((baseChangeSystem W φ).obj (op ⊥)).left := by
-    show CompactSpace ↥(Limits.pullback (W.obj (op ⊥)).hom φ)
+    change CompactSpace ↥(Limits.pullback (W.obj (op ⊥)).hom φ)
     exact @AlgebraicGeometry.instCompactSpaceCarrierCarrierCommRingCatPullbackSchemeOfQuasiCompact_1
       _ _ _ (W.obj (op ⊥)).hom φ _ hcpt
   have : QuasiSeparatedSpace ((baseChangeSystem W φ).obj (op ⊥)).left := by
-    show QuasiSeparatedSpace ↥(Limits.pullback (W.obj (op ⊥)).hom φ)
+    change QuasiSeparatedSpace ↥(Limits.pullback (W.obj (op ⊥)).hom φ)
     exact @quasiSeparatedSpace_of_quasiSeparated _ _ (pullback.fst (W.obj (op ⊥)).hom φ) hqs _
   let G := ((smallEtaleBaseChange φ).sheafPushforwardContinuous (Type (u + 1))
     S.smallEtaleTopology A.smallEtaleTopology).obj F

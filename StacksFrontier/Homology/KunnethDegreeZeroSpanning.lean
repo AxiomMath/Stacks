@@ -214,7 +214,7 @@ theorem homologyFromUnitLinearEquiv_comp {X Y : DObj k}
     homologyFromUnitLinearEquiv Y (f ≫ g) =
       ((DerivedCategory.homologyFunctor (ModuleCat.{u} k) 0).map g).hom
         (homologyFromUnitLinearEquiv X f) := by
-  show ((DerivedCategory.homologyFromSingleLinearEquiv (ModuleCat.of k k) Y 0 k)
+  change ((DerivedCategory.homologyFromSingleLinearEquiv (ModuleCat.of k k) Y 0 k)
       (f ≫ g)).hom (1 : k) = _
   rw [DerivedCategory.homologyFromSingleLinearEquiv_comp]
   rfl
@@ -238,7 +238,7 @@ theorem homologyFromUnitLinearEquiv_apply_eq {X : DObj k}
 theorem unitClass_eq (k : Type u) [Field k] :
     ((DerivedCategory.singleFunctorCompHomologyFunctorIso
       (ModuleCat.{u} k) 0).inv.app (ModuleCat.of k k)).hom (1 : k) = unitClass k := by
-  show _ = ((DerivedCategory.homologyFromSingleLinearEquiv (ModuleCat.of k k)
+  change _ = ((DerivedCategory.homologyFromSingleLinearEquiv (ModuleCat.of k k)
     ((DerivedCategory.singleFunctor (ModuleCat.{u} k) 0).obj (ModuleCat.of k k)) 0 k)
       (𝟙 _)).hom (1 : k)
   rw [DerivedCategory.homologyFromSingleLinearEquiv_apply, CategoryTheory.Functor.map_id]
@@ -355,7 +355,7 @@ theorem span_unitorInv_eq_top :
       (derivedTensorProductRightUnitorIso
         ((DerivedCategory.singleFunctor (ModuleCat.{u} k) 0).obj (ModuleCat.of k k))).inv)
     (fun f => ⟨f ≫ (derivedTensorProductRightUnitorIso _).hom, by
-      show (f ≫ (derivedTensorProductRightUnitorIso _).hom) ≫
+      change (f ≫ (derivedTensorProductRightUnitorIso _).hom) ≫
         (derivedTensorProductRightUnitorIso _).inv = f
       rw [Category.assoc, Iso.hom_inv_id, Category.comp_id]⟩)
     hone
@@ -498,7 +498,7 @@ theorem unitBox_smul_left {K L : DObj k} (a : k)
   refine (homologyFromUnitLinearEquiv
     (((canonicalDerivedTensorProductFunctor k).obj K).obj L)).injective ?_
   refine smul_right_injective _ hcne ?_
-  show c • homologyFromUnitLinearEquiv _ (unitBox (a • u) v) =
+  change c • homologyFromUnitLinearEquiv _ (unitBox (a • u) v) =
     c • homologyFromUnitLinearEquiv _ (a • unitBox u v)
   rw [← hc (a • u) v, LinearEquiv.map_smul, ← TensorProduct.smul_tmul', map_smul, hc u v,
     LinearEquiv.map_smul, smul_comm]

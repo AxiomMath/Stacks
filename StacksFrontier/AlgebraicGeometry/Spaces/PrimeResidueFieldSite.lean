@@ -50,7 +50,7 @@ theorem mk_lt_cutoff_of_contains_spec (B : BigFppfSite.{u}) {A : Type u} [CommRi
 /-- A ring whose cardinality is below the cutoff has its spectrum in the site. -/
 theorem contains_spec_of_mk_lt_cutoff (B : BigFppfSite.{u}) {A : Type u} [CommRing A]
     (hA : Cardinal.mk A < B.cutoff) : B.Contains (Spec (.of A)) := by
-  show (Spec (.of A)).size < B.cutoff
+  change (Spec (.of A)).size < B.cutoff
   rw [Scheme.size_Spec]
   exact max_lt B.aleph0_lt_cutoff hA
 

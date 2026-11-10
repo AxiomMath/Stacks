@@ -169,11 +169,11 @@ theorem mono_sigmaDesc_fromSpecResidueField (X : Scheme.{u}) (E : Set X) :
   let e := sigmaMk (fun y : E ↦ Spec (.of (X.residueField y.1)) : E → Scheme)
   have hcomponent (y : E) :
       Sigma.ι (fun y : E ↦ Spec (.of (X.residueField y.1))) y ≫ i =
-        X.fromSpecResidueField y.1 := Sigma.ι_desc _ _
+        X.fromSpecResidueField y.1 := Sigma.ι_comp_desc _ _
   have hbase (p : Σ y : E, Spec (.of (X.residueField y.1))) : i (e p) = p.1.1 := by
     obtain ⟨y, a⟩ := p
     rw [sigmaMk_mk]
-    show (Sigma.ι (fun y : E ↦ Spec (.of (X.residueField y.1))) y ≫ i) a = y.1
+    change (Sigma.ι (fun y : E ↦ Spec (.of (X.residueField y.1))) y ≫ i) a = y.1
     rw [hcomponent]
     exact Scheme.fromSpecResidueField_apply _ _
   have hfib : ∀ p q : Σ y : E, Spec (.of (X.residueField y.1)),
@@ -193,7 +193,7 @@ theorem mono_sigmaDesc_fromSpecResidueField (X : Scheme.{u}) (E : Set X) :
     rw [IsZariskiLocalAtSource.iff_of_openCover (P := @SurjectiveOnStalks)
       (sigmaOpenCover (fun y : E ↦ Spec (.of (X.residueField y.1))))]
     intro y
-    show SurjectiveOnStalks
+    change SurjectiveOnStalks
       (Sigma.ι (fun y : E ↦ Spec (.of (X.residueField y.1))) y ≫ i)
     rw [hcomponent y]
     infer_instance
@@ -814,7 +814,7 @@ theorem mono_quotientSheafMap_of_isPullback {R U R' U' : Over T}
   have hmap : Stacks.Groupoids.quotientSheafMap J F j' j r g hs ht =
       (presheafToSheaf J (Type u)).map (quotientPresheafMapOfIso F e he) ≫
         Stacks.Groupoids.restrictQuotientSheafMap J F j g := by
-    show (presheafToSheaf J (Type u)).map
+    change (presheafToSheaf J (Type u)).map
       (Stacks.Groupoids.quotientPresheafMap F j' j r g hs ht) = _
     rw [hfac, Functor.map_comp]
     rfl
@@ -946,11 +946,11 @@ theorem exists_quotientSheaf_iso (a : yoneda.obj U ⟶ X) (s t : R ⟶ U)
       (Cofork.IsColimit.π_desc' hc (⟨q⟩ : UF ⟶ _) _)
   have hcd : c ≫ d = 𝟙 XF := by
     refine Cofork.IsColimit.hom_ext hc (Sheaf.hom_ext ?_)
-    show a ≫ c.hom ≫ d.hom = a ≫ 𝟙 X
+    change a ≫ c.hom ≫ d.hom = a ≫ 𝟙 X
     rw [← Category.assoc, hac, hqd, Category.comp_id]
   have hdc : d ≫ c = 𝟙 (Stacks.Groupoids.quotientSheaf J H j) := by
     refine quotientSheaf_hom_ext B S hS j ?_
-    show p ≫ d.hom ≫ c.hom =
+    change p ≫ d.hom ≫ c.hom =
       p ≫ (𝟙 (Stacks.Groupoids.quotientSheaf J H j) :
         Stacks.Groupoids.quotientSheaf J H j ⟶
           Stacks.Groupoids.quotientSheaf J H j).hom
@@ -973,8 +973,8 @@ theorem residueCoproductHom_mem_atlasFibre (P : Presentation B S hS X hX)
   obtain ⟨⟨i, w⟩, rfl⟩ := (sigmaMk fun y : atlasFibre B S hS P x =>
     Spec (.of ↥(((BigFppfOver.toScheme B S hS).obj P.U).residueField y.1))).surjective z
   rw [sigmaMk_mk]
-  show (Sigma.ι _ i ≫ residueCoproductHom B S hS P x) w ∈ atlasFibre B S hS P x
-  rw [residueCoproductHom, Sigma.ι_desc]
+  change (Sigma.ι _ i ≫ residueCoproductHom B S hS P x) w ∈ atlasFibre B S hS P x
+  rw [residueCoproductHom, Sigma.ι_comp_desc]
   rw [Scheme.fromSpecResidueField_apply]
   exact i.2
 
@@ -1006,7 +1006,7 @@ theorem nonempty_atlasFibre (P : Presentation B S hS X hX) (x : points B S hS X)
     Nonempty (atlasFibre B S hS P x) := by
   obtain ⟨w, hw⟩ := P.pointsMap_surjective x
   refine ⟨⟨pointsToScheme B S hS P.U w, ?_⟩⟩
-  show pointsMap B S hS (yoneda.obj P.U) P.toSpace
+  change pointsMap B S hS (yoneda.obj P.U) P.toSpace
     ((pointsEquivScheme B S hS P.U).symm (pointsToScheme B S hS P.U w)) = x
   rw [show (pointsEquivScheme B S hS P.U).symm (pointsToScheme B S hS P.U w) = w from
     (pointsEquivScheme B S hS P.U).symm_apply_apply w]
@@ -1023,22 +1023,22 @@ theorem nonempty_residueSite (P : Presentation B S hS X hX) (x : points B S hS X
 /-- The residue-field cover is reduced, being a disjoint union of spectra of fields. -/
 theorem isReduced_residueSite (P : Presentation B S hS X hX) (x : points B S hS X) :
     IsReduced ((BigFppfOver.toScheme B S hS).obj (residueSite B S hS P x)) := by
-  show IsReduced (∐ fun y : atlasFibre B S hS P x =>
+  change IsReduced (∐ fun y : atlasFibre B S hS P x =>
     Spec (.of ↥(((BigFppfOver.toScheme B S hS).obj P.U).residueField y.1)))
   rw [IsReduced.iff_of_openCover _ (sigmaOpenCover _)]
   intro y
-  show IsReduced (Spec (.of ↥(((BigFppfOver.toScheme B S hS).obj P.U).residueField y.1)))
+  change IsReduced (Spec (.of ↥(((BigFppfOver.toScheme B S hS).obj P.U).residueField y.1)))
   infer_instance
 
 /-- The residue-field cover is locally Noetherian, being a disjoint union of spectra of fields. -/
 theorem isLocallyNoetherian_residueSite (P : Presentation B S hS X hX)
     (x : points B S hS X) :
     IsLocallyNoetherian ((BigFppfOver.toScheme B S hS).obj (residueSite B S hS P x)) := by
-  show IsLocallyNoetherian (∐ fun y : atlasFibre B S hS P x =>
+  change IsLocallyNoetherian (∐ fun y : atlasFibre B S hS P x =>
     Spec (.of ↥(((BigFppfOver.toScheme B S hS).obj P.U).residueField y.1)))
   rw [isLocallyNoetherian_iff_openCover (sigmaOpenCover _)]
   intro y
-  show IsLocallyNoetherian
+  change IsLocallyNoetherian
     (Spec (.of ↥(((BigFppfOver.toScheme B S hS).obj P.U).residueField y.1)))
   infer_instance
 

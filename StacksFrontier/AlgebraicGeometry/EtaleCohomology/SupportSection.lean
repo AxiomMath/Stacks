@@ -110,10 +110,10 @@ private theorem restrict_eq_zero_of_range_subset_isZeroOpen
   let q : V ⟶ V₀ := ⟨qOver⟩
   have hq : q ≫ f₀ = k := by
     apply (SmallEtale.toScheme B S hS).map_injective
-    show B.inclusion.map (qbase ≫ f₀base) = B.inclusion.map kbase
+    change B.inclusion.map (qbase ≫ f₀base) = B.inclusion.map kbase
     rw [hqbase]
   rw [← hq, op_comp, F.obj.map_comp]
-  show (F.obj.map q.op) ((F.obj.map f₀.op) s) = 0
+  change (F.obj.map q.op) ((F.obj.map f₀.op) s) = 0
   rw [hzero]
   simp
 
@@ -202,18 +202,18 @@ public theorem zero_restrict_iff_image_le_zeroOpen (B : BigEtaleSite.{u})
     let Rsmall : PreZeroHypercover.{u + 1} V := {
       I₀ := Rfam.I₀
       X i := ⟨Over.mk (Rfam.f i ≫ V.obj.hom), by
-        show Etale (B.inclusion.map (Rfam.f i) ≫ B.inclusion.map V.obj.hom)
+        change Etale (B.inclusion.map (Rfam.f i) ≫ B.inclusion.map V.obj.hom)
         have : Etale (B.inclusion.map (Rfam.f i)) := hRprops.2 i
         exact Etale.etale_comp _ _⟩
       f i := ⟨Over.homMk (Rfam.f i) rfl⟩
     }
     have hRsmall : SmallEtale.IsCovering B S hS ⟨V, Rsmall⟩ := by
-      show B.IsCovering ⟨V.obj.left, Rsmall.map G⟩
+      change B.IsCovering ⟨V.obj.left, Rsmall.map G⟩
       rwa [show Rsmall.map G = Rfam by ext <;> rfl]
     refine eq_zero_of_restrict_eq_zero_of_isCovering B S hS F V Rsmall hRsmall _ fun i => ?_
     have hg : (SmallEtale.toScheme B S hS).map (Rsmall.f i) =
         B.inclusion.map (eqToHom (hX i)) ≫ (SmallEtale.toScheme B S hS).map (E.f (α i)) := by
-      show B.inclusion.map (Rfam.f i) = _
+      change B.inclusion.map (Rfam.f i) = _
       rw [hf i, Functor.map_comp]
       rfl
     simpa only [op_comp, F.obj.map_comp, ConcreteCategory.comp_apply] using

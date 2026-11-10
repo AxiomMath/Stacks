@@ -155,7 +155,7 @@ def fibreIdealLift :
 /-- The map of base ideals `fibreIdealLift ρ g` is an isomorphism. -/
 theorem isIso_fibreIdealLift : IsIso (fibreIdealLift hZ ρ g) :=
   SheafOfModules.isIso_idealLift _ _ _ _ fun U =>
-    ⟨(isIdealLift_fibreIdealApp hZ ρ g).injective (injective_fibreIdealInclusion hZ g)
+    ⟨(isIdealLift_fibreIdealApp hZ ρ g).injective
         (injective_fibreIdealInclusion hZ (ρ.hom ≫ g)) U,
       (isIdealLift_fibreIdealApp hZ ρ g).surjective (fibreReducedMap hZ ρ g)
         (injective_fibreIdealInclusion hZ g) (fibreMaps_comm hZ ρ g) (problem g hZ).idealZero

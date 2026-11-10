@@ -37,7 +37,7 @@ theorem pushforward_map_scalarEndo {Y Z : Scheme.{u}} (π : Y ⟶ Z) (M : Y.Modu
   let := globalSectionsLinear Y
   let := globalSectionsLinear Z
   ext V x
-  show (scalarEndo M (π.appTop r)).app (π ⁻¹ᵁ V) x = (scalarEndo _ r).app V x
+  change (scalarEndo M (π.appTop r)).app (π ⁻¹ᵁ V) x = (scalarEndo _ r).app V x
   have hL := Stacks.SheafOfModules.smul_val_app Y.ringCatSheaf _ ⊤ isTerminalTop (RingHom.id _)
     (π.appTop r) (𝟙 (show SheafOfModules.{u} Y.ringCatSheaf from M)) (op (π ⁻¹ᵁ V)) x
   have hR := Stacks.SheafOfModules.smul_val_app Z.ringCatSheaf _ ⊤ isTerminalTop (RingHom.id _)
@@ -57,7 +57,7 @@ variable (k : Type u) [Field k]
 global section of `Z` given by `a` along `g`. -/
 theorem fieldScalar_comp {Y Z : Scheme.{u}} (π : Y ⟶ Z) (g : Z ⟶ Spec (.of k)) (a : k) :
     fieldScalar k (π ≫ g) a = π.appTop (fieldScalar k g a) := by
-  show ((Scheme.ΓSpecIso (.of k)).inv ≫ (π ≫ g).appLE ⊤ ⊤ _).hom a =
+  change ((Scheme.ΓSpecIso (.of k)).inv ≫ (π ≫ g).appLE ⊤ ⊤ _).hom a =
     (((Scheme.ΓSpecIso (.of k)).inv ≫ g.appLE ⊤ ⊤ _) ≫ π.appTop).hom a
   have e1 : ∀ {A B : Scheme.{u}} (t : A ⟶ B) (e : (⊤ : A.Opens) ≤ t ⁻¹ᵁ ⊤),
       t.appLE ⊤ ⊤ e = t.appTop := fun {A B} t e => by
@@ -99,7 +99,7 @@ theorem finiteDimensional_pushforward_of_isZero_rightDerived {Y Z : Scheme.{u}} 
     ((Scheme.Modules.pushforward π).map gY)) x
   have h2 := ConcreteCategory.congr_hom (τ.naturality gY) (eZ.hom.app _ x)
   have h3 := ConcreteCategory.congr_hom (eY.inv.naturality gY) (τ.app M (eZ.hom.app _ x))
-  show eY.inv.app M (τ.app M (eZ.hom.app _
+  change eY.inv.app M (τ.app M (eZ.hom.app _
       (((secF Z.ringCatSheaf ⊤).rightDerived n).map ((Scheme.Modules.pushforward π).map gY) x))) =
     ((secF Y.ringCatSheaf ⊤).rightDerived n).map gY (eY.inv.app M (τ.app M (eZ.hom.app _ x)))
   refine (congrArg (fun t => eY.inv.app M (τ.app M t)) h1).trans ?_

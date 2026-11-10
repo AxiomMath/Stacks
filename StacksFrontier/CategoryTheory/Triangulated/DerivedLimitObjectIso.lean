@@ -23,7 +23,8 @@ construction has to be carried to the object another construction names.
 
 ## Implementation notes
 
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/DerivedCompletionRinged/AdicQuotientKoszulLimit.lean`
+The module
+`StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.AdicQuotientKoszulLimit`
 carries a `private` copy of this statement, written before it was available anywhere; this is
 the public form, and new consumers should use it.
 

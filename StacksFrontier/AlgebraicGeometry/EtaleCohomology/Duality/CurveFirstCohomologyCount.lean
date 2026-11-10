@@ -40,7 +40,7 @@ theorem natCard_ext_one_constantModuleSheaf_of_smoothProperCurve :
           X.smallEtaleTopology)) = n ^ (2 * genus f) := by
   have hn0 : n ≠ 0 := by rintro rfl; simp at hn
   have : NeZero (n : k) := ⟨hn.ne_zero⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot k n
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot k n
   have : IsProjectiveVariety k f := (isProjectiveVariety_iff_isProjectiveMorphism k f).2
     (isProjectiveMorphism_of_isProper_of_isCurve k f)
   rw [Nat.card_congr (extConstantAddEquivSheafHRootsOfUnity f hζ hn0 1).toEquiv,

@@ -64,7 +64,7 @@ theorem isPushout_red :
   · ext c
     exact congrArg (Ideal.Quotient.mk _) (one_smul A' c)
   · ext a
-    show Ideal.Quotient.mk _ (a • (1 : C')) = Ideal.Quotient.mk _ (algebraMap A' C' a)
+    change Ideal.Quotient.mk _ (a • (1 : C')) = Ideal.Quotient.mk _ (algebraMap A' C' a)
     rw [Algebra.smul_def, mul_one]
 
 /-- The two inclusions `C' → C' ⊗[A'] C'` form the pushout of `A' → C'` along itself. -/
@@ -233,9 +233,9 @@ theorem specOverMap_sectionsMap {V₁ V₂ : BigFppfOver B S hS}
 theorem isIso_specOverToBase_baseAlg (hA : Cardinal.mk (ringOf B S hS T') < B.cutoff) :
     IsIso (specOverToBase (T' := T') (baseAlg hA)) := by
   have : IsIso ((BigFppfOver.toScheme B S hS).map (specOverToBase (T' := T') (baseAlg hA))) := by
-    show IsIso (Spec.map (CommRingCat.ofHom (algebraMap (ringOf B S hS T') _)) ≫ _)
+    change IsIso (Spec.map (CommRingCat.ofHom (algebraMap (ringOf B S hS T') _)) ≫ _)
     rw [Algebra.algebraMap_self]
-    show IsIso (Spec.map (𝟙 _) ≫ _)
+    change IsIso (Spec.map (𝟙 _) ≫ _)
     rw [Spec.map_id, Category.id_comp]
     infer_instance
   exact isIso_of_reflects_iso _ (BigFppfOver.toScheme B S hS)

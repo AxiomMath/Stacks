@@ -191,19 +191,17 @@ theorem isPullback_toScheme_pullback_map {S' : Scheme.{u}} {hS' : B.Contains S'}
 
 /-! ### Affine space and base change -/
 
-/-- **Affine space commutes with base change of the site.** For an affine object `T` over `S`
-and a morphism `g : S' ⟶ S` of the site along which `T` stays affine, the base change of
+/-- **Affine space commutes with base change of the site.** For an object `T` over `S` and
+a morphism `g : S' ⟶ S` of the site, the base change of
 `A^n_T` along `g` is `A^n` over the base change of `T`, compatibly with the two projections. -/
 theorem exists_affineSpacePullbackIso (n : ℕ) {S' : Scheme.{u}} {hS' : B.Contains S'}
-    (g : B.obj hS' ⟶ B.obj hS) (T : BigFppfOver B S hS)
-    (hT : IsAffine ((BigFppfOver.toScheme B S hS).obj T))
-    (hT' : IsAffine ((BigFppfOver.toScheme B S' hS').obj ((Over.pullback g).obj T))) :
-    ∃ e : (Over.pullback g).obj (BigFppfOver.affineSpace B S hS n T hT) ≅
-        BigFppfOver.affineSpace B S' hS' n ((Over.pullback g).obj T) hT',
-      e.hom ≫ BigFppfOver.affineSpaceProj B S' hS' n _ hT' =
-        (Over.pullback g).map (BigFppfOver.affineSpaceProj B S hS n T hT) := by
+    (g : B.obj hS' ⟶ B.obj hS) (T : BigFppfOver B S hS) :
+    ∃ e : (Over.pullback g).obj (BigFppfOver.affineSpace B S hS n T) ≅
+        BigFppfOver.affineSpace B S' hS' n ((Over.pullback g).obj T),
+      e.hom ≫ BigFppfOver.affineSpaceProj B S' hS' n _ =
+        (Over.pullback g).map (BigFppfOver.affineSpaceProj B S hS n T) := by
   let Ts := BigFppfOver.toScheme B S' hS'
-  let A := BigFppfOver.affineSpace B S hS n T hT
+  let A := BigFppfOver.affineSpace B S hS n T
   have hT0 := isPullback_toScheme_pullback B S hS g T
   have hA := isPullback_affineSpace_paste (n := ULift.{u} (Fin n)) _ _ _ _ hT0
   have hB := isPullback_toScheme_pullback B S hS g A
@@ -217,7 +215,7 @@ theorem exists_affineSpacePullbackIso (n : ℕ) {S' : Scheme.{u}} {hS' : B.Conta
       B.inclusion.map (pullback.snd T.hom g)) = B.inclusion.map (pullback.snd A.hom g) :=
     hB.isoIsPullback_hom_snd _ _ hA
   have hgoal : e₀.hom ≫ (𝔸(ULift.{u} (Fin n); P) ↘ P) =
-      Ts.map ((Over.pullback g).map (BigFppfOver.affineSpaceProj B S hS n T hT)) := by
+      Ts.map ((Over.pullback g).map (BigFppfOver.affineSpaceProj B S hS n T)) := by
     apply hT0.hom_ext
     · calc (e₀.hom ≫ (𝔸(ULift.{u} (Fin n); P) ↘ P)) ≫ B.inclusion.map (pullback.fst T.hom g)
           = e₀.hom ≫ ((𝔸(ULift.{u} (Fin n); P) ↘ P) ≫
@@ -231,10 +229,10 @@ theorem exists_affineSpacePullbackIso (n : ℕ) {S' : Scheme.{u}} {hS' : B.Conta
               (𝔸(ULift.{u} (Fin n); B.inclusion.obj T.left) ↘ B.inclusion.obj T.left) :=
             (Category.assoc _ _ _).symm.trans (congrArg (· ≫ _) hfst)
         _ = _ := ((isPullback_toScheme_pullback_map B S hS g
-            (BigFppfOver.affineSpaceProj B S hS n T hT)).w).symm
+            (BigFppfOver.affineSpaceProj B S hS n T)).w).symm
     · rw [Category.assoc, hsnd]
       exact (BigFppfOver.toScheme_map_comp_hom
-        ((Over.pullback g).map (BigFppfOver.affineSpaceProj B S hS n T hT))).symm
+        ((Over.pullback g).map (BigFppfOver.affineSpaceProj B S hS n T))).symm
   refine ⟨isoOfToScheme B S' hS' e₀ hsnd, ?_⟩
   apply BigFppfOver.map_toScheme_injective B S' hS'
   dsimp only
@@ -251,16 +249,16 @@ theorem exists_isPullback_affineSpace_of_isAffineSpaceBundle (n : ℕ)
     {L R Q : BigFppfOver B S hS} (l : L ⟶ Q) (r : R ⟶ Q)
     (hL : IsAffine ((BigFppfOver.toScheme B S hS).obj L))
     (hr : IsAffineSpaceBundle n ((BigFppfOver.toScheme B S hS).map r)) :
-    ∃ β : BigFppfOver.affineSpace B S hS n L hL ⟶ R,
-      IsPullback (BigFppfOver.affineSpaceProj B S hS n L hL) β l r := by
+    ∃ β : BigFppfOver.affineSpace B S hS n L ⟶ R,
+      IsPullback (BigFppfOver.affineSpaceProj B S hS n L) β l r := by
   let Ts := BigFppfOver.toScheme B S hS
   obtain ⟨e⟩ := hr (Ts.obj L) hL (Ts.map l)
   have hw : e.inv.left ≫ pullback.fst (Ts.map l) (Ts.map r) =
       𝔸(ULift.{u} (Fin n); Ts.obj L) ↘ Ts.obj L := Over.w e.inv
-  let v : Ts.obj (BigFppfOver.affineSpace B S hS n L hL) ⟶ Ts.obj R :=
+  let v : Ts.obj (BigFppfOver.affineSpace B S hS n L) ⟶ Ts.obj R :=
     e.inv.left ≫ pullback.snd (Ts.map l) (Ts.map r)
   have hβ : v ≫ B.inclusion.map R.hom =
-      B.inclusion.map (BigFppfOver.affineSpace B S hS n L hL).hom := by
+      B.inclusion.map (BigFppfOver.affineSpace B S hS n L).hom := by
     change (e.inv.left ≫ pullback.snd (Ts.map l) (Ts.map r)) ≫ B.inclusion.map R.hom = _
     rw [← BigFppfOver.toScheme_map_comp_hom r, Category.assoc, ← Category.assoc
       (pullback.snd _ _), ← pullback.condition, Category.assoc, ← Category.assoc, hw,
@@ -283,8 +281,8 @@ theorem exists_isPullback_affineSpace_of_isAffineSpaceBundle (n : ℕ)
 
 /-- **Stacks 0F9U, step 2: the chain.** Let `g : U' ⟶ U` and `g' : U' ⟶ X'` be morphisms of the
 site, `A` over `U` and `A'` over `X'` objects with an identification `c` of their base changes to
-`U'`, and `p : T₁ ⟶ A`, `q : T' ⟶ A'` affine-space bundles of ranks `n₁` and `n'` with affine
-sources whose base changes to `U'` stay affine. Then the base changes to `U'` of `A^{n'}_{T₁}`
+`U'`, and `p : T₁ ⟶ A`, `q : T' ⟶ A'` affine-space bundles of ranks `n₁` and `n'` whose
+sources have affine base changes to `U'`. Then the base changes to `U'` of `A^{n'}_{T₁}`
 and of `A^{n₁}_{T'}` are identified, compatibly with the two maps down to the base change of
 `A'`. -/
 theorem exists_affineSpace_chain {U' U X' : Scheme.{u}} {hU' : B.Contains U'}
@@ -292,17 +290,15 @@ theorem exists_affineSpace_chain {U' U X' : Scheme.{u}} {hU' : B.Contains U'}
     (g' : B.obj hU' ⟶ B.obj hX') {A : BigFppfOver B U hU} {A' : BigFppfOver B X' hX'}
     (c : (Over.pullback g).obj A ≅ (Over.pullback g').obj A') {n₁ n' : ℕ}
     {T₁ : BigFppfOver B U hU} {T' : BigFppfOver B X' hX'} (p : T₁ ⟶ A) (q : T' ⟶ A')
-    (hT₁ : IsAffine ((BigFppfOver.toScheme B U hU).obj T₁))
-    (hT' : IsAffine ((BigFppfOver.toScheme B X' hX').obj T'))
     (hL : IsAffine ((BigFppfOver.toScheme B U' hU').obj ((Over.pullback g).obj T₁)))
     (hR : IsAffine ((BigFppfOver.toScheme B U' hU').obj ((Over.pullback g').obj T')))
     (hp : IsAffineSpaceBundle n₁ ((BigFppfOver.toScheme B U hU).map p))
     (hq : IsAffineSpaceBundle n' ((BigFppfOver.toScheme B X' hX').map q)) :
-    ∃ chain : (Over.pullback g).obj (BigFppfOver.affineSpace B U hU n' T₁ hT₁) ≅
-        (Over.pullback g').obj (BigFppfOver.affineSpace B X' hX' n₁ T' hT'),
+    ∃ chain : (Over.pullback g).obj (BigFppfOver.affineSpace B U hU n' T₁) ≅
+        (Over.pullback g').obj (BigFppfOver.affineSpace B X' hX' n₁ T'),
       chain.hom ≫ (Over.pullback g').map
-          (BigFppfOver.affineSpaceProj B X' hX' n₁ T' hT' ≫ q) =
-        (Over.pullback g).map (BigFppfOver.affineSpaceProj B U hU n' T₁ hT₁ ≫ p) ≫ c.hom := by
+          (BigFppfOver.affineSpaceProj B X' hX' n₁ T' ≫ q) =
+        (Over.pullback g).map (BigFppfOver.affineSpaceProj B U hU n' T₁ ≫ p) ≫ c.hom := by
   let L := (Over.pullback g).obj T₁
   let R := (Over.pullback g').obj T'
   let l : L ⟶ (Over.pullback g').obj A' := (Over.pullback g).map p ≫ c.hom
@@ -314,18 +310,18 @@ theorem exists_affineSpace_chain {U' U X' : Scheme.{u}} {hU' : B.Contains U'}
   obtain ⟨β₂, h₂⟩ := exists_isPullback_affineSpace_of_isAffineSpaceBundle B U' hU' n₁
     (r ≫ c.inv) ((Over.pullback g).map p) hR
     (hp.of_isPullback (isPullback_toScheme_pullback_map B U hU g p).flip)
-  have h₂' : IsPullback β₂ (BigFppfOver.affineSpaceProj B U' hU' n₁ R hR) l r := by
+  have h₂' : IsPullback β₂ (BigFppfOver.affineSpaceProj B U' hU' n₁ R) l r := by
     refine IsPullback.of_iso h₂.flip (Iso.refl _) (Iso.refl _) (Iso.refl _) c ?_ ?_ ?_ ?_ <;>
       simp [l]
   let χ := h₁.isoIsPullback _ _ h₂'
-  obtain ⟨e₁, he₁⟩ := exists_affineSpacePullbackIso B U hU n' g T₁ hT₁ hL
-  obtain ⟨e₂, he₂⟩ := exists_affineSpacePullbackIso B X' hX' n₁ g' T' hT' hR
+  obtain ⟨e₁, he₁⟩ := exists_affineSpacePullbackIso B U hU n' g T₁
+  obtain ⟨e₂, he₂⟩ := exists_affineSpacePullbackIso B X' hX' n₁ g' T'
   refine ⟨e₁ ≪≫ χ ≪≫ e₂.symm, ?_⟩
-  have hχ : χ.hom ≫ BigFppfOver.affineSpaceProj B U' hU' n₁ R hR = β₁ :=
+  have hχ : χ.hom ≫ BigFppfOver.affineSpaceProj B U' hU' n₁ R = β₁ :=
     h₁.isoIsPullback_hom_snd _ _ h₂'
   have he₂' : e₂.inv ≫ (Over.pullback g').map
-      (BigFppfOver.affineSpaceProj B X' hX' n₁ T' hT') =
-      BigFppfOver.affineSpaceProj B U' hU' n₁ R hR := by
+      (BigFppfOver.affineSpaceProj B X' hX' n₁ T') =
+      BigFppfOver.affineSpaceProj B U' hU' n₁ R := by
     rw [← he₂, Iso.inv_hom_id_assoc]
   simp only [Iso.trans_hom, Iso.symm_hom, Category.assoc, Functor.map_comp]
   rw [reassoc_of% he₂', reassoc_of% hχ, ← h₁.w, ← reassoc_of% he₁]

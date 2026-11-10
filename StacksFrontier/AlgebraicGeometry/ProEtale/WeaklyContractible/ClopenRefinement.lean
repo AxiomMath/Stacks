@@ -141,7 +141,7 @@ theorem surjective_sections_of_clopenRefinements (J : GrothendieckTopology C)
   have hrestr (i : Fin n) : G.obj.map (f i).op (φ.hom.app (op U) tU) =
       G.obj.map (f i).op s := by
     rw [← NatTrans.naturality_apply φ.hom (f i).op tU, htU i, ht i]
-  show φ.hom.app (op U) tU = s
+  change φ.hom.app (op U) tU = s
   rw [huniq _ hrestr, huniq _ fun _ ↦ rfl]
 
 /-- **The clopen-refinement criterion on the slice site.** Under the hypotheses of
@@ -244,7 +244,7 @@ theorem isWContractible_of_isWeaklyContractible (T : Scheme.{u}) [IsAffine T]
         = G.obj.map e.hom.op (φ.hom.app (op T) t) := by simp
     _ = s := by
         rw [ht']
-        show (G.obj.map e.inv.op ≫ G.obj.map e.hom.op) s = s
+        change (G.obj.map e.inv.op ≫ G.obj.map e.hom.op) s = s
         rw [← Functor.map_comp]
         simp
 
@@ -321,7 +321,7 @@ theorem BigProetaleSite.bot_mem_topology_of_isEmpty (B : BigProetaleSite.{u}) (Z
   let _ : IsEmpty (B.inclusion.obj Z).carrier := hZ
   rw [← Sieve.generate_bot]
   refine Precoverage.generate_mem_toGrothendieck ?_
-  show (⊥ : Presieve Z) ∈ B.precoverage.coverings Z
+  change (⊥ : Presieve Z) ∈ B.precoverage.coverings Z
   rw [B.precoverage_eq_comap, Precoverage.mem_comap_iff, Presieve.map_bot]
   exact Scheme.bot_mem_propQCPrecoverage (P := @WeaklyEtale) (B.inclusion.obj Z)
 
@@ -351,7 +351,7 @@ theorem BigProetaleSite.sieve_ofArrows_mem_topology_of_isClopenDecompositionCove
   have heq : E.presieve₀ = Presieve.ofArrows U f := by
     funext Y g
     exact propext ⟨fun ⟨i⟩ ↦ ⟨i.down⟩, fun ⟨i⟩ ↦ ⟨ULift.up i⟩⟩
-  show Sieve.generate (Presieve.ofArrows U f) ∈ B.topology T
+  change Sieve.generate (Presieve.ofArrows U f) ∈ B.topology T
   rw [← heq]
   exact generate_presieve₀_mem_topology B E (hle T.obj hZ)
 
@@ -388,11 +388,11 @@ theorem BigProetaleSite.isWContractible_of_isWeaklyContractible (B : BigProetale
   let A := Γ(T.obj, ⊤)
   let κ := T.obj.size
   have hκ : Cardinal.aleph0 ≤ κ := by
-    show Cardinal.aleph0 ≤ T.obj.size
+    change Cardinal.aleph0 ≤ T.obj.size
     rw [Scheme.size_of_isAffine T.obj]
     exact le_max_left _ _
   have hA : Cardinal.mk A ≤ κ := by
-    show Cardinal.mk Γ(T.obj, ⊤) ≤ T.obj.size
+    change Cardinal.mk Γ(T.obj, ⊤) ≤ T.obj.size
     rw [Scheme.size_of_isAffine T.obj]
     exact le_max_right _ _
   obtain ⟨D, hD, f₀, hff, hind, hwd, hDmk⟩ :=
@@ -423,7 +423,7 @@ theorem BigProetaleSite.isWContractible_of_isWeaklyContractible (B : BigProetale
   have hflat : Flat (Spec.map r) := ((flat_and_surjective_SpecMap_iff r).mpr hffr).1
   have hsurjr : Surjective (Spec.map r) := ((flat_and_surjective_SpecMap_iff r).mpr hffr).2
   have hdiag : Flat (pullback.diagonal (Spec.map r)) := by
-    show Flat (pullback.diagonal (Spec.map (CommRingCat.ofHom (algebraMap A D))))
+    change Flat (pullback.diagonal (Spec.map (CommRingCat.ofHom (algebraMap A D))))
     rw [diagonal_SpecMap A D]
     have hm : Flat (Spec.map (CommRingCat.ofHom
         (Algebra.TensorProduct.lmul' A (S := D)).toRingHom)) := by
@@ -432,9 +432,9 @@ theorem BigProetaleSite.isWContractible_of_isWeaklyContractible (B : BigProetale
     exact MorphismProperty.comp_mem _ _ _ hm inferInstance
   have hwer : WeaklyEtale (Spec.map r) := ⟨hflat, hdiag⟩
   have hweg : WeaklyEtale g₀ := by
-    show WeaklyEtale (Spec.map r ≫ e.hom); infer_instance
+    change WeaklyEtale (Spec.map r ≫ e.hom); infer_instance
   have hsurjg : Surjective g₀ := by
-    show Surjective (Spec.map r ≫ e.hom); infer_instance
+    change Surjective (Spec.map r ≫ e.hom); infer_instance
   have hqcg : QuasiCompact g₀ := quasiCompact_of_compactSpace _
   have hsing : Presieve.singleton g₀ ∈ Scheme.proetalePrecoverage.coverings T.obj :=
     Scheme.Hom.singleton_mem_propQCPrecoverage hweg
@@ -445,7 +445,7 @@ theorem BigProetaleSite.isWContractible_of_isWeaklyContractible (B : BigProetale
       f _ := g }
   have hcover : Sieve.ofArrows (fun _ : I ↦ V) (fun _ ↦ g) ∈ B.topology T := by
     refine generate_presieve₀_mem_topology B E ?_
-    show Presieve.ofArrows (fun _ : I ↦ B.inclusion.obj V) (fun _ ↦ B.inclusion.map g) ∈
+    change Presieve.ofArrows (fun _ : I ↦ B.inclusion.obj V) (fun _ ↦ B.inclusion.map g) ∈
       Scheme.proetalePrecoverage.coverings (B.inclusion.obj T)
     rw [hg, Presieve.ofArrows_of_unique]
     exact hsing

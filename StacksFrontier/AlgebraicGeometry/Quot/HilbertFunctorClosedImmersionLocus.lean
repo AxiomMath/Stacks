@@ -152,7 +152,7 @@ theorem preimageSubspace_rangeClosedSubspace {T T' : SchemesOverPresheaf B S hS 
         (rangeClosedSubspace hπ hclosed T) =
       rangeClosedSubspace hπ hclosed T' := by
   refine Subtype.ext ?_
-  show (Subfunctor.range (schemeBaseChangeOfMap hπ T)).preimage
+  change (Subfunctor.range (schemeBaseChangeOfMap hπ T)).preimage
       (baseChangeMap bY (structureSheafTestSchemeMap g)).hom =
     Subfunctor.range (schemeBaseChangeOfMap hπ T')
   rw [relativeMap_structureSheafTestSchemeMap bY g]
@@ -227,7 +227,7 @@ theorem isClosedImmersion_hilbertModelMapOfClosed (hfp : IsFinitePresentation B 
     ext U g
     have hqg : q.app U g = MY.presheaf.map (Quiver.Hom.op g) (yonedaEquiv q) := by
       simpa [yonedaEquiv_apply] using NatTrans.naturality_apply q (Quiver.Hom.op g) (𝟙 T)
-    show q.app U g ∈ Set.range ((hilbertModelMapOfClosed hπ hclosed MX MY).app U) ↔
+    change q.app U g ∈ Set.range ((hilbertModelMapOfClosed hπ hclosed MX MY).app U) ↔
       g ∈ W.obj U
     rw [hqg, mem_range_hilbertModelMapOfClosed_iff, HilbertPresheafModel.familyEquiv_map,
       Subfunctor.mem_yoneda_iff]

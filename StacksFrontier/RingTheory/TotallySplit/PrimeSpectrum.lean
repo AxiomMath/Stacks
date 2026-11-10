@@ -62,7 +62,7 @@ public theorem natCard_algHom_eq_finrank {K : Type u} {A : Type v} [Field K]
     [CommRing A] [Algebra K A] [Algebra.IsFiniteSplit K A] :
     Nat.card (A →ₐ[K] K) = Module.finrank K A := by
   rw [Nat.card_congr (Algebra.IsFiniteSplit.algHomEquivPrimeSpectrum K A)]
-  show Cardinal.toNat (Cardinal.mk (PrimeSpectrum A)) = _
+  change Cardinal.toNat (Cardinal.mk (PrimeSpectrum A)) = _
   rw [cardinalMk_primeSpectrum_eq_finrank (K := K), Cardinal.toNat_natCast]
 
 end Algebra.IsFiniteSplit

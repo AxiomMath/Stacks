@@ -79,7 +79,7 @@ of that element under `Stacks.AffineBaseChange.toOpenₗ`: the comparison image 
 theorem homogeneousSection_eval_top {k : ℤ} (b : ↥(𝒢 k)) :
     (homogeneousSection 𝒢 b).eval (op (⊤ : (Spec R).Opens)) =
       Stacks.AffineBaseChange.toOpenₗ (pieceModule 𝒢 k) ⊤ b := by
-  show Stacks.AffineBaseChange.toTildeₗ (pieceModule 𝒢 k) ⊤
+  change Stacks.AffineBaseChange.toTildeₗ (pieceModule 𝒢 k) ⊤
       ((1 : Γ(Spec R, ⊤)) ⊗ₜ[R] b) = _
   refine Eq.trans (Stacks.AffineBaseChange.toTildeₗ_tmul (pieceModule 𝒢 k) ⊤ 1 b) ?_
   exact one_smul _ _
@@ -110,7 +110,7 @@ theorem smul_one_eq_ΓSpecIso_inv (R : CommRingCat.{u}) (a : ↥R) :
   have h1 : a • (1 : Γ(Spec R, ⊤)) = algebraMap ↥R Γ(Spec R, ⊤) a := by
     rw [Algebra.smul_def, mul_one]
   refine h1.trans ?_
-  show ((Spec R).presheaf.map (homOfLE (le_top : (⊤ : (Spec R).Opens) ≤ ⊤)).op).hom
+  change ((Spec R).presheaf.map (homOfLE (le_top : (⊤ : (Spec R).Opens) ≤ ⊤)).op).hom
       ((Scheme.ΓSpecIso R).inv.hom a) = _
   exact congrArg (fun φ : Γ(Spec R, ⊤) ⟶ Γ(Spec R, ⊤) =>
     φ.hom ((Scheme.ΓSpecIso R).inv.hom a)) (presheaf_map_leTop_top R)
@@ -132,7 +132,7 @@ theorem homogeneousSection_smul_gOne (a : ↥R) :
           (Scheme.ΓSpecIso R).inv.hom a • (1 : Γ(Spec R, ⊤)) from
         ((smul_eq_mul _ (1 : Γ(Spec R, ⊤))).trans (mul_one _)).symm)) ?_
     exact TensorProduct.smul_tmul' ((Scheme.ΓSpecIso R).inv.hom a) (1 : Γ(Spec R, ⊤)) (gOne 𝒢)
-  show PresheafOfModules.Hom.app (pieceCmp 𝒢 0) (op (⊤ : (Spec R).Opens))
+  change PresheafOfModules.Hom.app (pieceCmp 𝒢 0) (op (⊤ : (Spec R).Opens))
       ((1 : Γ(Spec R, ⊤)) ⊗ₜ[R] (a • gOne 𝒢)) = _
   refine Eq.trans (congrArg
     (fun z : (piecePresheaf 𝒢 0).obj (op (⊤ : (Spec R).Opens)) =>
@@ -182,7 +182,7 @@ def degZero (a : A) : ↥(𝒜 0) :=
 
 /-- The element `degZero 𝒜 a`, viewed in `B`, is `algebraMap A B a`. -/
 theorem degZero_coe (a : A) : ((degZero 𝒜 a : ↥(𝒜 0)) : B) = algebraMap A B a := by
-  show a • ((GradedMonoid.GOne.one (A := fun n : ℕ => ↥(𝒜 n)) : ↥(𝒜 0)) : B) = _
+  change a • ((GradedMonoid.GOne.one (A := fun n : ℕ => ↥(𝒜 n)) : ↥(𝒜 0)) : B) = _
   rw [show ((GradedMonoid.GOne.one (A := fun n : ℕ => ↥(𝒜 n)) : ↥(𝒜 0)) : B) = 1 from rfl,
     Algebra.algebraMap_eq_smul_one]
 
@@ -221,14 +221,14 @@ theorem isStructureCompatible_pullbackGradedQcoh :
         congrArg (algebraSpecToBase A B).appTop.hom hra.symm)) ?_
     refine Eq.trans (congrArg (Scheme.ΓSpecIso (.of B)).hom.hom hnat.symm) ?_
     exact Iso.inv_hom_id_apply (Scheme.ΓSpecIso (.of B)) _
-  show HomogeneousSections.secRingHom (pullbackGradedQcoh 𝒜 f)
+  change HomogeneousSections.secRingHom (pullbackGradedQcoh 𝒜 f)
       (pullbackHomogeneousSections 𝒜 f) (op (f ⁻¹ᵁ (⊤ : (Spec (.of A)).Opens)))
       ((Scheme.ΓSpecIso (.of B)).hom.hom
         ((pushforwardAlgebra (algebraSpecToBase A B)).unitTop.hom r)) = _
   rw [hB, ← degZero_coe 𝒜 a,
     HomogeneousSections.secRingHom_coe (pullbackGradedQcoh 𝒜 f)
       (pullbackHomogeneousSections 𝒜 f) (degZero 𝒜 a) _]
-  show (pullbackGradedAlg 𝒜 f).ungradedIncl 0
+  change (pullbackGradedAlg 𝒜 f).ungradedIncl 0
       (((pullbackHomogeneousSections 𝒜 f).sec (degZero 𝒜 a)).eval
         (op (f ⁻¹ᵁ (⊤ : (Spec (.of A)).Opens)))) = _
   have hsec : ((pullbackHomogeneousSections 𝒜 f).sec (degZero 𝒜 a)).eval
@@ -249,7 +249,7 @@ theorem isStructureCompatible_pullbackGradedQcoh :
         (f.app ⊤).hom ((Scheme.ΓSpecIso (.of A)).inv.hom a)) • z)
       (Stacks.Conormal.gradedPullback_one_eval f (specGradedAlg 𝒜) ⊤).symm
   rw [hsec, (pullbackGradedAlg 𝒜 f).ungradedIncl_smul_one]
-  show (((pullbackGradedAlg 𝒜 f).ungradedStructureMap.hom.app
+  change (((pullbackGradedAlg 𝒜 f).ungradedStructureMap.hom.app
       (op (f ⁻¹ᵁ (⊤ : (Spec (.of A)).Opens))))).hom ((f.app ⊤).hom
         ((Scheme.ΓSpecIso (.of A)).inv.hom a)) = _
   rw [hra]

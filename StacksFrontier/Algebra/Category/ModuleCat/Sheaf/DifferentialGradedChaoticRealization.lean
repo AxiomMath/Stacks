@@ -50,7 +50,7 @@ sheaf of rings. -/
 theorem toRingCat_constCommRingSheaf (Λ : Type u) [CommRing Λ] :
     Stacks.SheafOfModules.Tensor.ringSheaf (constCommRingSheaf (C := C) Λ)
       = constRingSheaf (C := C) Λ := by
-  show (⟨(Functor.const Cᵒᵖ).obj (CommRingCat.of Λ) ⋙ forget₂ CommRingCat.{u} RingCat.{u},
+  change (⟨(Functor.const Cᵒᵖ).obj (CommRingCat.of Λ) ⋙ forget₂ CommRingCat.{u} RingCat.{u},
       _⟩ : Sheaf (⊥ : GrothendieckTopology C) RingCat.{u}) = ⟨constRing (C := C) Λ, _⟩
   congr 1
 
@@ -96,11 +96,11 @@ def systemMul (p q : ℤ) :
     SheafOfModules.BilinearMap ((systemComplex A).X p) ((systemComplex A).X q)
       ((systemComplex A).X (p + q)) where
   app U := gradedMul (A.obj U) p q
-  map_smul_left U r x y :=
+  map_smul_left _ r x y :=
     Subtype.ext (smul_mul_assoc (show Λ from r) (Subtype.val x) (Subtype.val y))
-  map_smul_right U r x y :=
+  map_smul_right _ r x y :=
     Subtype.ext (mul_smul_comm (show Λ from r) (Subtype.val x) (Subtype.val y))
-  naturality {U V} f x y := Subtype.ext (map_mul (A.map f).toAlgebraHom _ _)
+  naturality f x y := Subtype.ext (map_mul (A.map f).toAlgebraHom (Subtype.val x) (Subtype.val y))
 
 /-- The component of `systemMul A p q` at `U` is `gradedMul (A.obj U) p q`. -/
 @[simp]
@@ -109,8 +109,8 @@ theorem systemMul_app (p q : ℤ) (U : Cᵒᵖ) :
 
 /-- The unit of the sheaf of differential graded algebras attached to an inverse system. -/
 def systemOne : ((systemComplex A).X 0).sections :=
-  _root_.PresheafOfModules.sectionsMk (fun U => ⟨1, SetLike.one_mem_graded _⟩)
-    (fun U V f => Subtype.ext (map_one (A.map f).toAlgebraHom))
+  _root_.PresheafOfModules.sectionsMk (fun _ => ⟨1, SetLike.one_mem_graded _⟩)
+    (fun _ _ f => Subtype.ext (map_one (A.map f).toAlgebraHom))
 
 /-- Transport along an equality of degrees does not change the underlying value. -/
 theorem gradedCast_val {d₁ d₂ : ℤ} (h : d₁ = d₂) (U : Cᵒᵖ)

@@ -120,7 +120,7 @@ theorem mulRight_identity_point {S : Scheme.{u}} (G : Over S) [GrpObj G]
     (point : 𝟙_ (Over S) ⟶ G) (s : S) :
     (GrpObj.mulRight point).hom.left ((η[G]).left s) = point.left s := by
   have h : η[G] ≫ (GrpObj.mulRight point).hom = point := by
-    show η[G] ≫ ((𝟙 G : G ⟶ G) * (toUnit G ≫ point)) = point
+    change η[G] ≫ ((𝟙 G : G ⟶ G) * (toUnit G ≫ point)) = point
     rw [MonObj.comp_mul, Category.comp_id, ← Category.assoc, comp_toUnit, MonObj.one_eq_one]
     have hunit : toUnit (𝟙_ (Over S)) = 𝟙 _ := toUnit_unique _ _
     rw [hunit, Category.id_comp, one_mul]
@@ -197,7 +197,7 @@ theorem etale_zpow_id_of_isUnit (k : Type u) [Field k] (A : Over (Spec (.of k)))
   have hcommBase : shifted ≫ A'.hom = A'.hom := ((𝟙 A' : A' ⟶ A') ^ d).w
   have hpull : IsPullback shifted projection projection original := by
     apply IsPullback.of_right (t := hbase)
-    · show IsPullback (shifted ≫ A'.hom) projection base (original ≫ A.hom)
+    · change IsPullback (shifted ≫ A'.hom) projection base (original ≫ A.hom)
       rw [hcommBase, show original ≫ A.hom = A.hom from ((𝟙 A : A ⟶ A) ^ d).w]
       exact hbase
     · exact hcomm

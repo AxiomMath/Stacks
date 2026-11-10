@@ -145,7 +145,7 @@ private lemma germPullback_eval_comap {Y Z Z' : TopCat.{u}}
   have hpq : q = p.trans (hc z.1).symm := Subsingleton.elim _ _
   unfold germPullback_eval
   simp only [GermPullback.comap_val]
-  show (q ▸ v.2) = cast (congrArg F.stalk (hc z.1).symm) (p ▸ v.2)
+  change (q ▸ v.2) = cast (congrArg F.stalk (hc z.1).symm) (p ▸ v.2)
   rw [hpq]
   exact subst_trans_cast p (hc z.1).symm v.2
 
@@ -402,11 +402,11 @@ private theorem exists_stage_fin_compact_opens_of_homeomorph
   obtain ⟨k, V, hV, hpre⟩ := exists_stage_fin_compact_opens D n U' hU'
   refine ⟨k, V, hV, fun a => ?_⟩
   ext x
-  show D.projFun k (q x) ∈ V a ↔ x ∈ U a
+  change D.projFun k (q x) ∈ V a ↔ x ∈ U a
   have hx : D.projFun k (q x) ∈ V a ↔ q x ∈ U' a :=
     Set.ext_iff.mp (hpre a) (q x)
   rw [hx]
-  show q x ∈ q '' (U a : Set X) ↔ x ∈ U a
+  change q x ∈ q '' (U a : Set X) ↔ x ∈ U a
   exact q.injective.mem_set_image
 
 /-- Pullback carries a coequalizer presentation to the corresponding coequalizer. -/
@@ -684,7 +684,7 @@ private lemma pullback_extendedConstant_coproduct_iso_ι
       Sigma.ι (fun b => F.obj (K b)) a :=
     (isColimitOfHasCoproductOfPreservesColimit F K).comp_coconePointUniqueUpToIso_hom
       (colimit.isColimit _) ⟨a⟩
-  show F.map (Sigma.ι K a) ≫ (PreservesCoproduct.iso F K).hom ≫
+  change F.map (Sigma.ι K a) ≫ (PreservesCoproduct.iso F K).hom ≫
     (Sigma.mapIso (fun b => pullback_extendedConstant_iso f (U b) (S b))).hom = _
   rw [← Category.assoc, hι, Sigma.ι_mapIso_hom]
 
@@ -742,7 +742,7 @@ private lemma extendedConstantHomSections_naturality
       m.hom.app (op U) ((extendedConstantHomSections A U S H) α s) := by
   let adj := extendedConstantAdj A U
   have htop := isOpenMap_functor_top U
-  show (cast (congrArg (fun W : Opens A => S → K.presheaf.obj (op W)) htop)
+  change (cast (congrArg (fun W : Opens A => S → K.presheaf.obj (op W)) htop)
       (TypeCat.homEquiv ((adj.homEquiv S K) (α ≫ m)))) s =
     m.hom.app (op U)
       ((cast (congrArg (fun W : Opens A => S → H.presheaf.obj (op W)) htop)
@@ -775,7 +775,7 @@ private lemma leftAdjointUniq_homEquiv_inv_comp
     (a : L ⊣ R) (b : L' ⊣ R) (X : C) (Y : D) (m : L.obj X ⟶ Y) :
     (b.homEquiv X Y) (((a.leftAdjointUniq b).inv.app X) ≫ m) =
       (a.homEquiv X Y) m := by
-  show b.unit.app X ≫ R.map ((a.leftAdjointUniq b).inv.app X ≫ m) =
+  change b.unit.app X ≫ R.map ((a.leftAdjointUniq b).inv.app X ≫ m) =
     a.unit.app X ≫ R.map m
   rw [← a.unit_leftAdjointUniq_hom_app b X, Functor.map_comp]
   calc
@@ -820,7 +820,7 @@ private lemma extendedConstantHomSections_pullback
     ((TopCat.Sheaf.pullback (Type u) f).obj H)
     ((TopCat.Sheaf.pullback (Type u) f).map α)
   have htop := isOpenMap_functor_top U
-  show (cast (congrArg (fun W : Opens A => S →
+  change (cast (congrArg (fun W : Opens A => S →
       ((TopCat.Sheaf.pullback (Type u) f).obj H).presheaf.obj (op W)) htop)
       (TypeCat.homEquiv ((adjA.homEquiv S
         ((TopCat.Sheaf.pullback (Type u) f).obj H))
@@ -890,7 +890,7 @@ private lemma extendedConstantHomSections_pullback
         ((TopCat.Sheaf.pullback (Type u) f).obj H) ξ =
       cast (congrArg (fun W : Opens A =>
         ((TopCat.Sheaf.pullback (Type u) f).obj H).presheaf.obj (op W)) hW) ξ := by
-    show (eqToHom (congrArg (fun W : Opens A =>
+    change (eqToHom (congrArg (fun W : Opens A =>
       ((TopCat.Sheaf.pullback (Type u) f).obj H).presheaf.obj (op W)) hW)) ξ = _
     exact eqToHom_type_apply_cast (fun W : Opens A =>
       ((TopCat.Sheaf.pullback (Type u) f).obj H).presheaf.obj (op W)) hW ξ
@@ -902,7 +902,7 @@ private lemma extendedConstantHomSections_pullback
       ((TopCat.Sheaf.pullbackPushforwardAdjunction (Type u) f).unit.app H)
   have hs₀ : (extendedConstantHomSections B V S H) α s =
       cast (congrArg (fun W : Opens B => H.presheaf.obj (op W)) vtop) s₀ := by
-    show (cast (congrArg (fun W : Opens B => S → H.presheaf.obj (op W)) vtop)
+    change (cast (congrArg (fun W : Opens B => S → H.presheaf.obj (op W)) vtop)
       (TypeCat.homEquiv ((adjB.homEquiv S H) α))) s = _
     exact castSectionFunction_apply B S H vtop
       (TypeCat.homEquiv ((adjB.homEquiv S H) α)) s
@@ -1212,7 +1212,7 @@ theorem exists_pullback_from_finite_sober_of_hasFiniteBasisCoequalizerPresentati
     cases which <;>
     · simp only [Bool.false_eq_true, ↓reduceIte, βK, γK, βj, γj]
       rw [← Category.assoc, hιAj b]
-      simp only [Category.assoc, ← Functor.map_comp_assoc, Sigma.ι_desc]
+      simp only [Category.assoc, ← Functor.map_comp_assoc, Sigma.ι_comp_desc]
   have hsection (b : Fin m) (t : T b) (which : Bool) :
       cast (congrArg (fun W : Opens X =>
         (GermPullback.sheaf (Y := D.F.obj i) (Z := TopCat.of X)
@@ -1330,7 +1330,7 @@ theorem exists_pullback_from_finite_sober_of_hasFiniteBasisCoequalizerPresentati
           ((TopCat.Sheaf.pullback (Type u) g).obj B₀)).hom.app
             (op (Vj b))) sG)
     have hxW : x.1 ∈ W := by
-      show x.1 ∈ (Opens.map fK).obj (Vj b)
+      change x.1 ∈ (Opens.map fK).obj (Vj b)
       rw [hVj b]
       exact x.2
     rw [stalkPullbackSheafIso_eq_germ hfg B₀ W x.1 hxW τ]
@@ -1376,7 +1376,7 @@ theorem exists_pullback_from_finite_sober_of_hasFiniteBasisCoequalizerPresentati
       ⟨(fun a : X => q a) ⁻¹' (D.limPre (Vi' b) : Set D.invLimit),
         (D.limPre (Vi' b)).isOpen.preimage q.continuous⟩
     have hxW' : x.1 ∈ W' := by
-      show x.1 ∈ (⟨(fun a : X => q a) ⁻¹' (D.limPre (Vi' b) : Set D.invLimit),
+      change x.1 ∈ (⟨(fun a : X => q a) ⁻¹' (D.limPre (Vi' b) : Set D.invLimit),
         (D.limPre (Vi' b)).isOpen.preimage q.continuous⟩ : Opens X)
       rw [hWb b]
       exact x.2

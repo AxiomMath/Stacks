@@ -144,7 +144,7 @@ def idealMultiples : (∐ fun _ : ↥I => F) ⟶ F := Sigma.desc fun a => a.1 �
 /-- The `a`-th component of `idealMultiples` is multiplication by `a`. -/
 theorem ι_idealMultiples (a : ↥I) :
     Sigma.ι (fun _ : ↥I => F) a ≫ idealMultiples X I F = a.1 • 𝟙 F :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The kernel inclusion and an epimorphism form a short exact sequence. -/
 private theorem shortExact_kernel_ι {C : Type*} [Category C] [Abelian C] {A B : C} (g : A ⟶ B)
@@ -207,7 +207,7 @@ theorem eq_zero_of_forall_smul_eq_zero (p : ℕ)
     refine hcolim.hom_ext fun j => ?_
     obtain ⟨a⟩ := j
     rw [comp_zero]
-    show ((moduleGlobalSections X).rightDerived p).map (Sigma.ι (fun _ : ↥I => F) a) ≫
+    change ((moduleGlobalSections X).rightDerived p).map (Sigma.ι (fun _ : ↥I => F) a) ≫
       ((moduleGlobalSections X).rightDerived p).map (idealMultiples X I F) ≫ q = 0
     rw [← Category.assoc, ← CategoryTheory.Functor.map_comp, ι_idealMultiples X I F a,
       Functor.map_smul, CategoryTheory.Functor.map_id, Linear.smul_comp, Category.id_comp]

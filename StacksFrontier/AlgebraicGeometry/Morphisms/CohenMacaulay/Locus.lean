@@ -67,7 +67,7 @@ private theorem cohenMacaulayAt_of_fiberPoint {X S : Scheme.{u}} (f : X ⟶ S)
   cases hxy
   have hza : z = f.asFiber x :=
     (f.fiberι (f x)).isEmbedding.injective (by rwa [f.fiberι_asFiber])
-  show IsFlatAt f.toLRSHom.toShHom x ∧
+  change IsFlatAt f.toLRSHom.toShHom x ∧
     IsCohenMacaulayLocalRing ((f.fiber (f x)).presheaf.stalk (f.asFiber x))
   exact ⟨Flat.stalkMap f x, by rw [← hza]; exact hCM⟩
 

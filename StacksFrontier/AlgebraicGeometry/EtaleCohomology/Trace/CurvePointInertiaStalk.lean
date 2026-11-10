@@ -52,10 +52,10 @@ private theorem comp_apply_eq_of_specMap_comp_eq.{v} {R S S' T : CommRingCat.{v}
 representation `ρ₀` is the module of inertia invariants, in the sense of
 `Stacks.EtaleCohomology.CurvePointInertiaStalkInput`. -/
 theorem curvePointInertiaStalkInput : CurvePointInertiaStalkInput.{u} := by
-  intro B V ℓ i1 i2 i3 i4 i5 i6 i7 i8 k i9 i10 f i11 i12 i13 i14 j kbar i15 i16 i17 i18 p n i19
-    i20 hcard hℓp W fW i21 i22 i23 i24 eW i25 heW jW i26 hjW y hyc hyV hy L Ω i27 i28 i29 i30 i31
-    i32 i33 i34 i35 A i36 i37 i38 i39 i40 i41 i42 i43 eA hA P i44 Fr hFrD hFr r ρ₀ hρ₀ i45
-  intro x ℱ stalk D
+  intro B V ℓ i1 i2 i3 i4 i5 i6 i7 i8 k i9 i10 f i11 i12 i13 i14 kbar i15 i16 i17 i18 p i19
+    i20 hℓp W fW i21 i22 i23 i24 eW i25 heW jW i26 hjW y hyc hyV hy L Ω i27 i28 i29 i30 i31
+    i32 i33 i34 i35 A i36 i37 i38 i39 i40 i41 i42 i43 eA hA P i44 Fr hFr r ρ₀ hρ₀ i45
+    x ℱ stalk D
   let s : GeometricPoint W.1 := Stacks.Frobenius.geometricPointAt W.1 y
   have hcy : s.hom (closedPoint s.residueField) = y :=
     (congrArg (fun z => s.hom z) (Subsingleton.elim (closedPoint s.residueField) _)).trans
@@ -189,7 +189,7 @@ theorem curvePointInertiaStalkInput : CurvePointInertiaStalkInput.{u} := by
     obtain ⟨a, rfl⟩ := eAc.surjective r
     have h1 := congrArg (fun φ => φ.hom (eA a)) hcomp
     simp only [CommRingCat.hom_comp, RingHom.comp_apply] at h1
-    show ι' (algebraMap (etaleLocalRing B W.1 W.2 s) (Localization.Away ϖ)
+    change ι' (algebraMap (etaleLocalRing B W.1 W.2 s) (Localization.Away ϖ)
       (algebraMap A (etaleLocalRing B W.1 W.2 s) a)) = _
     rw [hι'A, hA a]
     exact congrArg _ h1.symm
@@ -221,7 +221,7 @@ theorem curvePointInertiaStalkInput : CurvePointInertiaStalkInput.{u} := by
       rw [map_nsmul, map_zero]
       funext i
       simp)
-    show ε n (c • w) = PadicInt.toZModPow (n + 1) c • ε n w
+    change ε n (c • w) = PadicInt.toZModPow (n + 1) c • ε n w
     rw [smul_eq_toZModPow_val_nsmul n w htors, map_nsmul,
       ← Nat.cast_smul_eq_nsmul (ZMod (ℓ ^ (n + 1))), ZMod.natCast_zmod_val]
   · intro n w
@@ -235,7 +235,7 @@ theorem curvePointInertiaStalkInput : CurvePointInertiaStalkInput.{u} := by
     funext i
     have hi := congrFun h i
     rw [levelReduction_apply] at hi
-    show (ConcreteCategory.hom (padicLevelDirectImageStalkHom B W.1 W.2 s B V x jW
+    change (ConcreteCategory.hom (padicLevelDirectImageStalkHom B W.1 W.2 s B V x jW
       (Localization.Away ϖ) e hKc g hg t ρ₀ hρ₀ pth n) _).down i =
       (levelRingHom (n + 1)) ((ConcreteCategory.hom (padicLevelDirectImageStalkHom B W.1 W.2 s B V x
         jW (Localization.Away ϖ) e hKc g hg t ρ₀ hρ₀ pth (n + 1)) w).down i)
@@ -288,7 +288,7 @@ theorem curvePointInertiaStalkInput : CurvePointInertiaStalkInput.{u} := by
     let θA : etaleLocalRing B W.1 W.2 s →ₐ[A] etaleLocalRing B W.1 W.2 s :=
       { (etaleLocalRingEndomorphism B W.1 W.2 a).hom with
         commutes' := fun z => by
-          show (etaleLocalRingEndomorphism B W.1 W.2 a).hom
+          change (etaleLocalRingEndomorphism B W.1 W.2 a).hom
             (structureSheafStalkFromLocalRing B W.1 W.2 s (eAc z)) =
             structureSheafStalkFromLocalRing B W.1 W.2 s (eAc z)
           exact RingHom.congr_fun
@@ -306,7 +306,16 @@ theorem curvePointInertiaStalkInput : CurvePointInertiaStalkInput.{u} := by
         (frobeniusPointHom_preimage_pow W.1 y) h
     let := IsIntegralClosure.MulSemiringAction A (V.1.residueField (genericPoint V.1)) L
       (integralClosure A L)
-    have hFrq : Fr • P = P := MulAction.mem_stabilizer_iff.mp hFrD
+    have hFrq : Fr • P = P := by
+      have hle : Fr • P ≤ P := by
+        rw [Ideal.pointwise_smul_def, Ideal.map_le_iff_le_comap]
+        intro b hb
+        have h := P.add_mem (hFr b) (P.pow_mem_of_mem hb _ (Nat.card_pos (α := ResidueField A)))
+        rwa [sub_add_cancel] at h
+      have : (Fr • P).IsMaximal := by
+        rw [Ideal.pointwise_smul_eq_comap]
+        exact Ideal.comap_isMaximal_of_surjective _ (RingEquiv.surjective _)
+      exact this.eq_of_le Ideal.IsPrime.ne_top' hle
     have hFrΦ := IsIntegralClosure.galAction_algEquiv_comp_eq_of_residue_pow A
       (V.1.residueField (genericPoint V.1)) L P (etaleLocalRing B W.1 W.2 s) hInd Φ θA Fr hFrq _
       hFr hθres
@@ -320,9 +329,9 @@ theorem curvePointInertiaStalkInput : CurvePointInertiaStalkInput.{u} := by
       have hext : (β.toRingHom).comp ι' = ι' := by
         refine IsLocalization.ringHom_ext (nonZeroDivisors (etaleLocalRing B W.1 W.2 s))
           (RingHom.ext fun h => ?_)
-        show G.symm (τ (ι' (algebraMap _ _ h))) = ι' (algebraMap _ _ h)
+        change G.symm (τ (ι' (algebraMap _ _ h))) = ι' (algebraMap _ _ h)
         rw [hτc, hc2]
-        show G.symm (algebraMap L Ω (ι (algebraMap _ _ (θA h)))) =
+        change G.symm (algebraMap L Ω (ι (algebraMap _ _ (θA h)))) =
           algebraMap L Ω (ι (algebraMap _ _ h))
         rw [hιH, hιH]
         have h1 : ((Φ (θA h) : IsIntegralClosure.localizedSubring P) : L) =
@@ -335,23 +344,23 @@ theorem curvePointInertiaStalkInput : CurvePointInertiaStalkInput.{u} := by
     let αβ : t.source ≅ t.source := Scheme.Spec.mapIso (RingEquiv.toCommRingCatIso β).op
     have hdec : ã.hom = (αG ≪≫ αβ).hom := by
       rw [← hτ]
-      show Spec.map (CommRingCat.ofHom τ) =
+      change Spec.map (CommRingCat.ofHom τ) =
         Spec.map (CommRingCat.ofHom (G.toRingEquiv : Ω →+* Ω)) ≫
           Spec.map (CommRingCat.ofHom (β : Ω →+* Ω))
       rw [← Spec.map_comp]
       congr 1
       ext z
-      show τ z = G (G.symm (τ z))
+      change τ z = G (G.symm (τ z))
       rw [AlgEquiv.apply_symm_apply]
     have hβt : αβ.hom ≫ t.hom = t.hom := by
-      show Spec.map (CommRingCat.ofHom (β : Ω →+* Ω)) ≫ Spec.map (CommRingCat.ofHom ι') =
+      change Spec.map (CommRingCat.ofHom (β : Ω →+* Ω)) ≫ Spec.map (CommRingCat.ofHom ι') =
         Spec.map (CommRingCat.ofHom ι')
       rw [← Spec.map_comp]
       congr 1
       ext k
       exact hβι k
     have hGx : αG.hom ≫ x.hom = x.hom := by
-      show Spec.map (CommRingCat.ofHom (G.toRingEquiv : Ω →+* Ω)) ≫
+      change Spec.map (CommRingCat.ofHom (G.toRingEquiv : Ω →+* Ω)) ≫
         Spec.map (CommRingCat.ofHom (algebraMap (V.1.residueField (genericPoint V.1)) Ω)) ≫
           V.1.fromSpecResidueField (genericPoint V.1) = _
       rw [← Category.assoc, ← Spec.map_comp]
@@ -359,11 +368,11 @@ theorem curvePointInertiaStalkInput : CurvePointInertiaStalkInput.{u} := by
       ext z
       exact G.commutes z
     have hGt : αG.hom ≫ (t.map (B.inclusion.map g)).hom = (t.map (B.inclusion.map g)).hom := by
-      show αG.hom ≫ t.hom ≫ B.inclusion.map g = t.hom ≫ B.inclusion.map g
+      change αG.hom ≫ t.hom ≫ B.inclusion.map g = t.hom ≫ B.inclusion.map g
       rw [hxg]
       exact hGx
     have hβtg : αβ.hom ≫ (t.map (B.inclusion.map g)).hom = (t.map (B.inclusion.map g)).hom := by
-      show αβ.hom ≫ t.hom ≫ B.inclusion.map g = t.hom ≫ B.inclusion.map g
+      change αβ.hom ≫ t.hom ≫ B.inclusion.map g = t.hom ≫ B.inclusion.map g
       rw [← Category.assoc, hβt]
     have hσdec : GeometricPoint.sourceAutElement (S := V.1) (t.map (B.inclusion.map g)) ã hãg =
         GeometricPoint.sourceAutElement (S := V.1) (t.map (B.inclusion.map g)) αG hGt *
@@ -390,7 +399,7 @@ theorem curvePointInertiaStalkInput : CurvePointInertiaStalkInput.{u} := by
         (Localization.Away ϖ) e hKc g hg t ρ₀ hρ₀ pth ht n
         (ULift.up (ConcreteCategory.hom (H' n) w).down)).mp ⟨w, rfl⟩
       have hαβ : αβ.hom = Spec.map (CommRingCat.ofHom τ0.toRingHom) := by
-        show Spec.map (CommRingCat.ofHom (β : Ω →+* Ω)) = _
+        change Spec.map (CommRingCat.ofHom (β : Ω →+* Ω)) = _
         rw [← hτ0]
         rfl
       exact hmem (τ0.restrictNormal _) τ0
@@ -416,7 +425,7 @@ theorem curvePointInertiaStalkInput : CurvePointInertiaStalkInput.{u} := by
         let τK : Ω ≃ₐ[V.1.residueField (genericPoint V.1)] Ω :=
           { τ0.toRingEquiv with
             commutes' := fun c => by
-              show τ0 (algebraMap _ Ω c) = algebraMap _ Ω c
+              change τ0 (algebraMap _ Ω c) = algebraMap _ Ω c
               rw [← RingHom.congr_fun hγ c, RingHom.comp_apply, hτι] }
         have hspec : (Scheme.Spec.mapIso (RingEquiv.toCommRingCatIso τK.toRingEquiv).op).hom =
             α.hom := by rw [hα]; rfl
@@ -425,7 +434,7 @@ theorem curvePointInertiaStalkInput : CurvePointInertiaStalkInput.{u} := by
           rw [hspec, ← hxg, ← Category.assoc, hαt]
         have hσ : etaleFundamentalGroupMulEquiv pth
             (GeometricPoint.sourceAutElement (S := V.1) (t.map (B.inclusion.map g)) α (by
-              show α.hom ≫ t.hom ≫ _ = t.hom ≫ _
+              change α.hom ≫ t.hom ≫ _ = t.hom ≫ _
               rw [← Category.assoc, hαt])) =
             galoisToFundamentalGroup V.1 L Ω (τK.restrictNormal L) := by
           rw [galoisToFundamentalGroup_restrictNormal_eq_sourceAutElement V.1 L Ω τK hαx]
@@ -439,15 +448,15 @@ theorem curvePointInertiaStalkInput : CurvePointInertiaStalkInput.{u} := by
           rw [← IsIntegralClosure.fixingSubgroup_inertiaFixedField A
             (V.1.residueField (genericPoint V.1)) L P]
           intro ⟨z, hz⟩
-          show (τK.restrictNormal L) z = z
+          change (τK.restrictNormal L) z = z
           rw [← hιrange] at hz
           obtain ⟨k, rfl⟩ := hz
           exact (algebraMap L Ω).injective ((τK.restrictNormal_commutes L _).trans (hτι k))
         have hvσ := hv _ (Subgroup.mem_map_of_mem _ hI)
         rw [hσ]
-        show levelRepresentation ρ₀ (n + 1) _ (fun i => PadicInt.toZModPow (n + 1) (v i)) = _
+        change levelRepresentation ρ₀ (n + 1) _ (fun i => PadicInt.toZModPow (n + 1) (v i)) = _
         rw [levelRepresentation_map_toZModPow]
-        show (fun i => PadicInt.toZModPow (n + 1) (((ρ₀
+        change (fun i => PadicInt.toZModPow (n + 1) (((ρ₀
           ((galoisToFundamentalGroup V.1 L Ω).toMonoidHom (τK.restrictNormal L))).val *ᵥ v) i)) = _
         rw [hvσ])
     exact ⟨z, (hε n z).trans (congrArg ULift.down hz)⟩

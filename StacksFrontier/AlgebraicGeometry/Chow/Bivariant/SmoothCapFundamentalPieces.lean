@@ -154,7 +154,7 @@ theorem exists_chowCohomologyComponent_restriction_eq
     (opens_le_preimage_id U) hU).symm fun i ↦
       (pieceIdentityCongr C (gysinSystemOfInvertible C) sX U (opens_le_preimage_id U) p i
         _).symm (e i), fun i ↦ ?_⟩
-  show chowCohomologyRestriction C (gysinSystemOfInvertible C) sX (U i).ι p
+  change chowCohomologyRestriction C (gysinSystemOfInvertible C) sX (U i).ι p
     (gysinSystemOfInvertible_isNaturalUnderBaseChangeIso C) _ = _
   rw [chowCohomologyRestriction_eq_pieceIdentityCongr,
     ← bivariantPieceEquivOfInvertible_apply C sX sX (𝟙 X) (Category.id_comp sX) p U U id

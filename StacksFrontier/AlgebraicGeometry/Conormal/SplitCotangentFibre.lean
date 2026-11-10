@@ -127,7 +127,7 @@ theorem coborderStalkEquiv_mem_ker (c : X.presheaf.stalk (f.base z))
 /-- The lift of `z` to the coborder lies over every open neighbourhood of `f z`. -/
 theorem mem_coborder_preimage (A : X.Opens) (hA : f.base z ∈ A) :
     f.liftCoborder.base z ∈ f.coborderRange.ι ⁻¹ᵁ A := by
-  show f.coborderRange.ι.base (f.liftCoborder.base z) ∈ A
+  change f.coborderRange.ι.base (f.liftCoborder.base z) ∈ A
   rw [coborderBase]
   exact hA
 
@@ -408,7 +408,7 @@ theorem exists_residueHom :
 theorem cotangentStalk_smul_eq (c : X.presheaf.stalk (f.base z))
     (w : (RingHom.ker (f.liftCoborder.stalkMap z).hom).Cotangent) :
     ((f.stalkMap z).hom c) • w = ((coborderStalkEquiv f z).hom.hom c) • w := by
-  show (RingHom.quotientKerEquivOfSurjective
+  change (RingHom.quotientKerEquivOfSurjective
       (f.liftCoborder.stalkMap_surjective z)).symm ((f.stalkMap z).hom c) • w = _
   rw [← stalkMap_coborderStalkEquiv f z, RingHom.quotientKerEquivOfSurjective_symm_apply,
     ← Ideal.Quotient.algebraMap_eq, algebraMap_smul]
@@ -451,7 +451,7 @@ theorem exists_tensorLift {R P Q Ns T : Type u} [CommRing R] [CommRing P] [CommR
       fun q n => rfl⟩
     intro q q'
     refine AddMonoidHom.ext fun n => ?_
-    show ρ (q + q') • Θ n = ρ q • Θ n + ρ q' • Θ n
+    change ρ (q + q') • Θ n = ρ q • Θ n + ρ q' • Θ n
     rw [map_add, add_smul]
   have hbal : ∀ (d : P) (q : Q) (n : Ns), F (d • q) n = F q (d • n) := by
     intro d q n
@@ -461,8 +461,7 @@ theorem exists_tensorLift {R P Q Ns T : Type u} [CommRing R] [CommRing P] [CommR
   refine ⟨TensorProduct.liftAddHom F hbal,
     fun q n => (TensorProduct.liftAddHom_tmul F hbal q n).trans (hF q n), ?_⟩
   intro c t
-  induction t using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul q n =>
     rw [TensorProduct.smul_tmul', TensorProduct.liftAddHom_tmul, TensorProduct.liftAddHom_tmul,
       hF, hF, smul_eq_mul, map_mul ρ, hρ, mul_smul, hcompat]

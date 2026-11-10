@@ -13,8 +13,8 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.SmallEtaleCohomology
 # The choices (1)–(3) of Stacks 072C over an arbitrary base scheme
 
 `AlgebraicGeometry.Space.exists_affine_etale_surjective_cover_hasUniversallyBoundedFibers` of
-`StacksFrontier.AlgebraicGeometry.Spaces.CohomologicalDimension` makes the first three choices of the
-proof of [Stacks, Tag 072C] — an affine scheme `U`, a surjective étale morphism `U ⟶ X` and an
+`StacksFrontier.AlgebraicGeometry.Spaces.CohomologicalDimension` makes the first three choices of
+the proof of [Stacks, Tag 072C] — an affine scheme `U`, a surjective étale morphism `U ⟶ X` and an
 integer bounding the degrees of its fibres — for a quasi-compact and quasi-separated algebraic
 space over an affine base `Spec A`. This file makes them over an arbitrary base scheme `S`, as in
 the source.

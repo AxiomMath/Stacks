@@ -184,12 +184,11 @@ private theorem tensorGaloisCoordinates_aut
     (i : Module.Free.ChooseBasisIndex k A) :
     tensorGaloisCoordinates k K A (tensorGaloisAut k K A σ x) i =
       σ (tensorGaloisCoordinates k K A x i) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp [tensorGaloisCoordinates]
+  induction x using TensorProduct.inductionOn with
   | tmul a b =>
     simp only [tensorGaloisAut_apply, Algebra.TensorProduct.map_tmul,
       tensorGaloisCoordinates, TensorProduct.equivFinsuppOfBasisLeft_apply_tmul_apply]
-    show (tensorGaloisBasis k K A).repr a i • σ b =
+    change (tensorGaloisBasis k K A).repr a i • σ b =
       σ ((tensorGaloisBasis k K A).repr a i • b)
     simp only [Algebra.smul_def, map_mul, σ.commutes]
   | add x y hx hy =>
@@ -279,7 +278,7 @@ private theorem tensorGaloisContinuousSMul
   rw [MulAction.mem_stabilizer_iff]
   apply (tensorGaloisCoordinates k K A).injective
   ext i
-  show tensorGaloisCoordinates k K A
+  change tensorGaloisCoordinates k K A
       (tensorGaloisAut k K A σ x) i = tensorGaloisCoordinates k K A x i
   rw [tensorGaloisCoordinates_aut]
   by_cases hi : i ∈ c.support
@@ -313,7 +312,7 @@ private theorem includeLeft_comp_tensorGaloisAut
         (Algebra.TensorProduct.includeLeftRingHom (R := k) (A := A) (B := K)) := by
   apply CommRingCat.hom_ext
   ext x
-  show tensorGaloisAut k K A σ (x ⊗ₜ[k] (1 : K)) = x ⊗ₜ[k] (1 : K)
+  change tensorGaloisAut k K A σ (x ⊗ₜ[k] (1 : K)) = x ⊗ₜ[k] (1 : K)
   rw [tensorGaloisAut_apply]
   simp [Algebra.TensorProduct.map_tmul]
 
@@ -330,7 +329,7 @@ private theorem includeRight_comp_tensorGaloisAut
           (Algebra.TensorProduct.includeRight (R := k) (A := A) (B := K))) := by
   apply CommRingCat.hom_ext
   ext x
-  show tensorGaloisAut k K A σ ((1 : A) ⊗ₜ[k] x) =
+  change tensorGaloisAut k K A σ ((1 : A) ⊗ₜ[k] x) =
     (1 : A) ⊗ₜ[k] σ x
   rw [tensorGaloisAut_apply]
   simp [Algebra.TensorProduct.map_tmul]
@@ -404,11 +403,11 @@ private theorem galoisBaseChangeMap_Spec_fiber_orbit
       (R := k) (A := R) (B := K)) (e.hom.base w) =
       pullback.fst (Spec.map (CommRingCat.ofHom (algebraMap k R)))
         (Spec.map (CommRingCat.ofHom (algebraMap k K))) w := by
-    show ((e.hom ≫ Spec.map (CommRingCat.ofHom
+    change ((e.hom ≫ Spec.map (CommRingCat.ofHom
       (Algebra.TensorProduct.includeLeftRingHom (R := k) (A := R) (B := K)))).base w) = _
     rw [pullbackSpecIso_hom_fst k R K]
   have hpq : p.asIdeal.under R = p'.asIdeal.under R := by
-    show (PrimeSpectrum.comap (Algebra.TensorProduct.includeLeftRingHom (R := k)
+    change (PrimeSpectrum.comap (Algebra.TensorProduct.includeLeftRingHom (R := k)
       (A := R) (B := K)) p).asIdeal =
       (PrimeSpectrum.comap (Algebra.TensorProduct.includeLeftRingHom (R := k)
         (A := R) (B := K)) p').asIdeal
@@ -417,7 +416,7 @@ private theorem galoisBaseChangeMap_Spec_fiber_orbit
   have hpSpec : PrimeSpectrum.comap
       (tensorGaloisAut k K R σ.symm).toRingEquiv.toRingHom p = p' := by
     apply PrimeSpectrum.ext
-    show Ideal.comap (tensorGaloisAut k K R σ.symm).toRingEquiv.toRingHom p.asIdeal =
+    change Ideal.comap (tensorGaloisAut k K R σ.symm).toRingEquiv.toRingHom p.asIdeal =
       p'.asIdeal
     rw [hp, Ideal.pointwise_smul_eq_comap]
     rfl
@@ -475,7 +474,7 @@ private theorem galoisBaseChangeMap_fiber_orbit
     pullback.map (Spec.map (CommRingCat.ofHom (algebraMap k R))) g f g i (𝟙 _) (𝟙 _)
       (by rw [Category.comp_id, hbase]) (by simp)
   have hmap : Set.range m.base = q ⁻¹' Set.range i := by
-    show Set.range (pullback.map (Spec.map (CommRingCat.ofHom (algebraMap k R))) g f g
+    change Set.range (pullback.map (Spec.map (CommRingCat.ofHom (algebraMap k R))) g f g
       i (𝟙 _) (𝟙 _) _ _) = _
     rw [Scheme.Pullback.range_map]
     simp [q, g]

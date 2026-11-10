@@ -121,7 +121,7 @@ theorem squareZeroTestMap_comp_squareZeroTestSchemeMap {M N : Deformation.Artin.
     D.squareZeroTestMap hY toS hk x₀ hx N ≫ D.squareZeroTestSchemeMap hY toS g =
       D.squareZeroTestMap hY toS hk x₀ hx M := by
   apply CostructuredArrow.hom_ext
-  show (eqToHom hx ≫ Deformation.Artin.squareZeroArrow k B S hS toS hk N) ≫
+  change (eqToHom hx ≫ Deformation.Artin.squareZeroArrow k B S hS toS hk N) ≫
       Deformation.Artin.squareZeroOverMap k B S hS toS g =
     eqToHom hx ≫ Deformation.Artin.squareZeroArrow k B S hS toS hk M
   rw [Category.assoc, Deformation.Artin.squareZeroArrow_naturality]
@@ -138,7 +138,7 @@ theorem squareZeroTestMap_comp_squareZeroTestRetraction (M : Deformation.Artin.S
     D.squareZeroTestMap hY toS hk x₀ hx M ≫ D.squareZeroTestRetraction hY toS hk x₀ hx M =
       𝟙 x₀.T := by
   apply CostructuredArrow.hom_ext
-  show (eqToHom hx ≫ Deformation.Artin.squareZeroArrow k B S hS toS hk M) ≫
+  change (eqToHom hx ≫ Deformation.Artin.squareZeroArrow k B S hS toS hk M) ≫
       Deformation.Artin.squareZeroRetraction k B S hS toS hk M ≫ eqToHom hx.symm = 𝟙 _
   rw [Category.assoc, ← Category.assoc (Deformation.Artin.squareZeroArrow k B S hS toS hk M),
     Deformation.Artin.squareZeroArrow_comp_squareZeroRetraction, Category.id_comp,
@@ -151,7 +151,7 @@ theorem squareZeroTestSchemeMap_comp_squareZeroTestRetraction
     D.squareZeroTestSchemeMap hY toS g ≫ D.squareZeroTestRetraction hY toS hk x₀ hx M =
       D.squareZeroTestRetraction hY toS hk x₀ hx N := by
   apply CostructuredArrow.hom_ext
-  show Deformation.Artin.squareZeroOverMap k B S hS toS g ≫
+  change Deformation.Artin.squareZeroOverMap k B S hS toS g ≫
       Deformation.Artin.squareZeroRetraction k B S hS toS hk M ≫ eqToHom hx.symm =
     Deformation.Artin.squareZeroRetraction k B S hS toS hk N ≫ eqToHom hx.symm
   rw [← Category.assoc, Deformation.Artin.squareZeroOverMap_comp_squareZeroRetraction]
@@ -168,7 +168,7 @@ projection `k[M] ⟶ k` is surjective with square-zero kernel `M`. -/
 theorem isFirstOrderThickening_squareZeroTestMap (M : Deformation.Artin.SiteModule k B) :
     Stacks.Thickenings.IsFirstOrderThickening
       ((BigFppfOver.toScheme B S hS).map (D.squareZeroTestMap hY toS hk x₀ hx M).left) := by
-  show Stacks.Thickenings.IsFirstOrderThickening ((BigFppfOver.toScheme B S hS).map
+  change Stacks.Thickenings.IsFirstOrderThickening ((BigFppfOver.toScheme B S hS).map
     (eqToHom hx ≫ Deformation.Artin.squareZeroArrow k B S hS toS hk M))
   rw [Functor.map_comp, eqToHom_map]
   refine Stacks.Thickenings.IsFirstOrderThickening.eqToHom_comp _ ?_

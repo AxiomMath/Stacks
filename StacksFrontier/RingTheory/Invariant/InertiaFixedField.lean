@@ -105,6 +105,7 @@ theorem fixingSubgroup_inertiaFixedField (q : Ideal (integralClosure A L)) :
     (inertiaFixedField A K L q).fixingSubgroup = q.inertia Gal(L/K) :=
   InfiniteGalois.fixingSubgroup_fixedField ⟨q.inertia Gal(L/K), isClosed_inertia A K L q⟩
 
+omit [IsDomain A] [IsIntegrallyClosed A] in
 /-- An element of `(B_q)^I`, read inside `L`, is fixed by the inertia group. -/
 theorem coe_mem_inertiaFixedField (q : Ideal (integralClosure A L)) [q.IsPrime]
     (x : inertiaInvariants A K L q) :
@@ -122,12 +123,14 @@ def toInertiaFixedField (q : Ideal (integralClosure A L)) [q.IsPrime] :
   map_zero' := rfl
   map_add' _ _ := rfl
 
+omit [IsDomain A] [IsIntegrallyClosed A] in
 /-- The inclusion `(B_q)^I → L^I` is the inclusion, read inside `L`. -/
 theorem coe_toInertiaFixedField (q : Ideal (integralClosure A L)) [q.IsPrime]
     (x : inertiaInvariants A K L q) :
     ((toInertiaFixedField A K L q x : inertiaFixedField A K L q) : L)
       = ((x : localizedSubring q) : L) := rfl
 
+omit [IsDomain A] [IsIntegrallyClosed A] in
 /-- The inclusion `(B_q)^I → L^I` is injective, both rings sitting inside `L`. -/
 theorem toInertiaFixedField_injective (q : Ideal (integralClosure A L)) [q.IsPrime] :
     Function.Injective (toInertiaFixedField A K L q) := fun _ _ h =>
@@ -140,6 +143,7 @@ instance algebraInertiaInvariantsFixedField (q : Ideal (integralClosure A L)) [q
     Algebra (inertiaInvariants A K L q) (inertiaFixedField A K L q) :=
   (toInertiaFixedField A K L q).toAlgebra
 
+omit [IsDomain A] [IsIntegrallyClosed A] in
 /-- The structure map `(B_q)^I → L^I` is the inclusion, read inside `L`. -/
 theorem coe_algebraMap_inertiaFixedField (q : Ideal (integralClosure A L)) [q.IsPrime]
     (x : inertiaInvariants A K L q) :
@@ -176,6 +180,7 @@ instance isScalarTower_inertiaInvariants_inertiaFixedField
 
 /-! ### `L^I` is a fraction field of `(B_q)^I` -/
 
+omit [IsIntegrallyClosed A] in
 include K in
 /-- An `I`-invariant element of `L` has an `I`-invariant numerator and a denominator in `A`: a
 nonzero `A`-multiple of it lies in `B`, and that multiple is again `I`-invariant. -/
@@ -204,6 +209,7 @@ theorem exists_mem_inertiaInvariants_smul_eq (q : Ideal (integralClosure A L)) [
     (mem_inertiaInvariants_iff A K L q _).mpr hfix⟩, hr, ?_⟩
   simpa [coe_algebraMap_localizedSubring] using hs'
 
+omit [IsIntegrallyClosed A] in
 include K in
 /-- **`L^I` is a fraction field of `(B_q)^I`.** Every `I`-invariant element of `L` is a ratio of
 two elements of `(B_q)^I` by
@@ -228,7 +234,7 @@ theorem isFractionRing_inertiaFixedField (q : Ideal (integralClosure A L)) [q.Is
         ((algebraMap K L).injective (h1.trans (map_zero (algebraMap K L)).symm)))
     refine ⟨(b, ⟨algebraMap A (inertiaInvariants A K L q) r,
       mem_nonZeroDivisors_of_ne_zero hrne⟩), Subtype.ext ?_⟩
-    show (z : L) * ((algebraMap (inertiaInvariants A K L q) (inertiaFixedField A K L q)
+    change (z : L) * ((algebraMap (inertiaInvariants A K L q) (inertiaFixedField A K L q)
         (algebraMap A (inertiaInvariants A K L q) r) : inertiaFixedField A K L q) : L)
       = ((algebraMap (inertiaInvariants A K L q) (inertiaFixedField A K L q) b :
         inertiaFixedField A K L q) : L)

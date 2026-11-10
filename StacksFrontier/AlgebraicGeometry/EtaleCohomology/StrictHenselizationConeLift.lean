@@ -55,7 +55,7 @@ theorem geometricPointToStrictHenselization_comp_strictHenselizationCone_π_app
   ext b
   let π := (strictHenselizationCone B S hS s).π.app
     ((etaleNeighborhoodAffineInclusion B S hS s).obj a)
-  show (Scheme.ΓSpecIso (CommRingCat.of s.residueField)).hom.hom
+  change (Scheme.ΓSpecIso (CommRingCat.of s.residueField)).hom.hom
       ((geometricPointToStrictHenselization B S hS s).appTop.hom (π.appTop.hom b)) = _
   have hn := congrArg (fun φ => CommRingCat.Hom.hom φ (π.appTop.hom b))
     (Scheme.ΓSpecIso_naturality (CommRingCat.ofHom (structureSheafStalkToGeometricField B S hS s)))

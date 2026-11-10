@@ -427,7 +427,7 @@ private theorem exists_projective_quotient_lift {S : Type w} [CommRing S] (I : I
       intro z
       obtain ⟨x, hx⟩ := (I • (⊤ : Submodule S (M : Type w))).mkQ_surjective (qM z)
       refine ⟨x, qM.injective ?_⟩
-      show qM ((1 : S ⧸ I) ⊗ₜ[S] x) = qM z
+      change qM ((1 : S ⧸ I) ⊗ₜ[S] x) = qM z
       simpa [qM] using hx
     intro y
     obtain ⟨z, hz⟩ := hg (q.symm y)
@@ -613,17 +613,17 @@ public theorem exists_boundedAbove_projective_lift_representing_of_surjective
   have hsquare : f'.comp eA.symm.toRingHom = eB.symm.toRingHom.comp f := by
     ext x
     apply eB.injective
-    show g (eA.symm x) = eB (eB.symm (f x))
+    change g (eA.symm x) = eB (eB.symm (f x))
     simp [g]
   have hInil : IsNilpotent I := by
     obtain ⟨n, hn⟩ := hI
     refine ⟨n, le_antisymm ?_ bot_le⟩
-    show (RingHom.ker f).comap eA.toRingHom ^ n ≤ ⊥
+    change (RingHom.ker f).comap eA.toRingHom ^ n ≤ ⊥
     apply (Ideal.le_comap_pow eA.toRingHom n).trans
     rw [hn]
-    show RingHom.ker eA.toRingHom ≤ ⊥
+    change RingHom.ker eA.toRingHom ≤ ⊥
     intro x hx
-    show x = 0
+    change x = 0
     change eA x = 0 at hx
     exact eA.injective (hx.trans (map_zero eA).symm)
   let G := ModuleCat.restrictScalarsEquivalenceOfRingEquiv.{max u v w} eA
@@ -641,7 +641,7 @@ public theorem exists_boundedAbove_projective_lift_representing_of_surjective
   let K' := G.functor.mapDerivedCategory.obj K
   have hb' : ∃ b : ℤ, E'.IsStrictlyLE b := hEbdd.imp fun b hb => by
     have := hb
-    show CochainComplex.IsStrictlyLE
+    change CochainComplex.IsStrictlyLE
       ((H.functor.mapHomologicalComplex (ComplexShape.up ℤ)).obj E) b
     infer_instance
   have hp' (i : ℤ) : Module.Projective (S ⧸ I) (E'.X i) := by
@@ -649,7 +649,7 @@ public theorem exists_boundedAbove_projective_lift_representing_of_surjective
     have : Projective (E.X i) := inferInstance
     have : Projective (H.functor.obj (E.X i)) :=
       (H.map_projective_iff (E.X i)).2 inferInstance
-    show Module.Projective (S ⧸ I) (H.functor.obj (E.X i))
+    change Module.Projective (S ⧸ I) (H.functor.obj (E.X i))
     infer_instance
   have he' : Nonempty (DerivedCategory.Q.obj E' ≅
       (totalDerivedExtensionScalars.{max u v w, max u v w, max u v w} f').functor.obj K') :=
@@ -663,7 +663,7 @@ public theorem exists_boundedAbove_projective_lift_representing_of_surjective
   refine ⟨P, ?_, ?_, ?_, ?_⟩
   · refine hbP'.imp fun b hb => ?_
     have := hb
-    show CochainComplex.IsStrictlyLE
+    change CochainComplex.IsStrictlyLE
       ((G.inverse.mapHomologicalComplex (ComplexShape.up ℤ)).obj P') b
     infer_instance
   · intro i
@@ -671,7 +671,7 @@ public theorem exists_boundedAbove_projective_lift_representing_of_surjective
     have : Projective (P'.X i) := inferInstance
     have : Projective (G.inverse.obj (P'.X i)) :=
       (G.symm.map_projective_iff (P'.X i)).2 inferInstance
-    show Module.Projective R' (G.inverse.obj (P'.X i))
+    change Module.Projective R' (G.inverse.obj (P'.X i))
     infer_instance
   · exact ⟨G.functor.mapDerivedCategory.preimageIso
       (G.functor.mapDerivedCategoryFactors.app P ≪≫
@@ -767,7 +767,7 @@ private theorem finite_of_finite_extendScalars_of_surjective_of_nilpotent
   let eLin : (R' ⧸ RingHom.ker f) ≃ₗ[R'] R :=
     eRing.toAddEquiv.toLinearEquiv fun r x => by
       obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective x
-      show f (r * x) = f r * f x
+      change f (r * x) = f r * f x
       exact map_mul f r x
   let : Module R' ((ModuleCat.extendScalars f).obj (ModuleCat.of R' M) : Type _) :=
     Module.compHom _ f
@@ -791,7 +791,7 @@ private theorem finite_of_finite_extendScalars_of_surjective_of_nilpotent
   have hTfin : T.Finite := hSfin.image _
   have hNfg : N.FG := Submodule.fg_span hTfin
   have hmap : N.map (RingHom.ker f • (⊤ : Submodule R' M)).mkQ = ⊤ := by
-    show (Submodule.span R' T).map (RingHom.ker f • (⊤ : Submodule R' M)).mkQ = ⊤
+    change (Submodule.span R' T).map (RingHom.ker f • (⊤ : Submodule R' M)).mkQ = ⊤
     rw [Submodule.map_span, Set.image_image]
     simpa [T] using hSspan
   have hsup : (⊤ : Submodule R' M) = N ⊔ RingHom.ker f • ⊤ := by
@@ -869,7 +869,7 @@ private lemma finite_of_finite_quotient_of_isNilpotent
       ((I • (⊤ : Submodule R M)).mkQ ∘ lift) '' (s : Set _) = (s : Set _) := by
     ext x
     simp [lift]
-  show Submodule.span R (((I • (⊤ : Submodule R M)).mkQ ∘ lift) '' (s : Set _)) = ⊤
+  change Submodule.span R (((I • (⊤ : Submodule R M)).mkQ ∘ lift) '' (s : Set _)) = ⊤
   rw [himage, hs]
 
 /-- **Stacks 07LU.** An object of `D(R)` whose derived reduction modulo a nilpotent ideal `I` is

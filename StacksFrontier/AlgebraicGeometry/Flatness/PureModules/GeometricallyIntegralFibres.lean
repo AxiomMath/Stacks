@@ -79,7 +79,7 @@ theorem universallyPure_of_flat_geometricallyIntegral {X S : Scheme.{u}} (f : X 
       isFiniteType := structureSheaf_isFiniteType X
       isQuasicoherent := Stacks.AlgebraicGeometry.AffineQcohPushforward.isQuasicoherent_unit X
       s := s }
-  show ∀ D : ImpurityDiagram P, ¬ IsImpurity P D
+  change ∀ D : ImpurityDiagram P, ¬ IsImpurity P D
   rintro D ⟨hAss, hDisjoint⟩
   obtain ⟨s', x', hx', hxi⟩ :=
     (Stacks.Divisors.mem_relativeAssassin D.toT (D.pulledBack P) D.xi).mp hAss

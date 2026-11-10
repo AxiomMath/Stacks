@@ -227,7 +227,7 @@ theorem hasSmallNoetherianApproximation_of_isElementaryDistinguishedSquare
       incl := incl
       etale := fun j => hws _
       isOpenImmersion := fun j => by
-        show AlgebraicGeometry.IsOpenImmersion (T.map (inclApp j))
+        change AlgebraicGeometry.IsOpenImmersion (T.map (inclApp j))
         have h₁ : AlgebraicGeometry.IsOpenImmersion (Q.comparison.inv.app (dJ.obj j)) :=
           AlgebraicGeometry.IsOpenImmersion.of_isIso _
         have h₂ := Q.inclusion_isOpenImmersion (dJ.obj j)
@@ -235,10 +235,10 @@ theorem hasSmallNoetherianApproximation_of_isElementaryDistinguishedSquare
         exact @AlgebraicGeometry.IsOpenImmersion.comp _ _ _ _ _ h₁ h₂
       isPullback_base := fun g => hwscart (e'.map g)
       isPullback_ambient := fun {a b} g => by
-        show IsPullback (T.map ((e' ⋙ Ws).map g)) (T.map (inclApp a)) (T.map (inclApp b))
+        change IsPullback (T.map ((e' ⋙ Ws).map g)) (T.map (inclApp a)) (T.map (inclApp b))
           (Q.ambient.map (dJ.map g))
         rw [hT_incl, hT_incl]
-        show IsPullback (D'.map (Q.index.monotone.dual.functor.map (dJ.map g)))
+        change IsPullback (D'.map (Q.index.monotone.dual.functor.map (dJ.map g)))
           (Q.comparison.inv.app (dJ.obj a) ≫ Q.inclusion.app (dJ.obj a))
           (Q.comparison.inv.app (dJ.obj b) ≫ Q.inclusion.app (dJ.obj b))
           (Q.ambient.map (dJ.map g))
@@ -285,7 +285,7 @@ theorem hasSmallNoetherianApproximation_of_isElementaryDistinguishedSquare
             (Category.assoc _ _ _))).trans (isoUo.hom_inv_id_assoc _)
   have hιV (j : Jᵒᵖ) : ιinf ≫ πV.app j = πW'.app j ≫ incl.app j := T.map_injective (by
     rw [CategoryTheory.Functor.map_comp, CategoryTheory.Functor.map_comp]
-    show T.map ιinf ≫ T.map (πVApp j) = T.map (πW.app (e'.obj j)) ≫ T.map (inclApp j)
+    change T.map ιinf ≫ T.map (πVApp j) = T.map (πW.app (e'.obj j)) ≫ T.map (inclApp j)
     rw [hπV, hT_incl]
     exact hιV' j)
   have hWV (j : Jᵒᵖ) : IsPullback (T.map (πW'.app j)) (T.map ιinf) (T.map (incl.app j))
@@ -293,7 +293,7 @@ theorem hasSmallNoetherianApproximation_of_isElementaryDistinguishedSquare
     have hsq := isPullback_of_isLimit_of_cartesian Q.inclusion
       (fun g => Q.transition_isPullback g) Q.openCone_isLimit Q.ambientCone_isLimit Uo.ι
       (fun x => (Q.inclusion_compatibility x).symm) (dJ.obj j)
-    show IsPullback (T.map (πW.app (e'.obj j))) (T.map ιinf) (T.map (inclApp j))
+    change IsPullback (T.map (πW.app (e'.obj j))) (T.map ιinf) (T.map (inclApp j))
       (T.map (πVApp j))
     rw [hT_incl, hπV]
     have c1 : Q.openCone.app (dJ.obj j) ≫ Q.comparison.hom.app (dJ.obj j) =
@@ -327,7 +327,7 @@ theorem hasSmallNoetherianApproximation_of_isElementaryDistinguishedSquare
         (specULiftZIsTerminal.{u}.uniqueUpToIso terminalIsTerminal).inv
     have _ : IsLocallyNoetherian (Q.ambient.obj (dJ.obj j)) :=
       LocallyOfFiniteType.isLocallyNoetherian (terminal.from _)
-    show QuasiSeparatedSpace (Q.ambient.obj (dJ.obj j))
+    change QuasiSeparatedSpace (Q.ambient.obj (dJ.obj j))
     infer_instance
 
 end AlgebraicGeometry.Space.GluedEtaleQuotient

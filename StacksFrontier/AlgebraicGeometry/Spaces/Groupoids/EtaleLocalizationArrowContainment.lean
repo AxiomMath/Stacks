@@ -99,8 +99,10 @@ and the four lemmas about subfunctors, open immersions and the site preceding it
 hypothesis beyond the fields of `AlgebraicGeometry.Space.FinitePartUniversalOpen`; of those it
 uses `universalOpen`, `universalOpen_base`, `universalOpen_spec` and `objectsEquiv` through
 `objectsInclusion_spec`, and the composition, unit and inverse of the finite part through the
-twist lemmas of `StacksFrontier/AlgebraicGeometry/Spaces/Groupoids/More/FinitePart/GroupoidAssembly.lean`.  `objectProjection_etale`,
-`universalOpen_containsUnit` and `universalOpen_closed` are not used there.
+twist lemmas of
+`StacksFrontier/AlgebraicGeometry/Spaces/Groupoids/More/FinitePart/GroupoidAssembly.lean`.
+`objectProjection_etale`, `universalOpen_containsUnit` and `universalOpen_closed` are not
+used there.
 
 The fibre half carries exactly the hypotheses of the `Fibre` section of
 `StacksFrontier/AlgebraicGeometry/Spaces/Groupoids/EtaleLocalizationSplittingExistence.lean`: a

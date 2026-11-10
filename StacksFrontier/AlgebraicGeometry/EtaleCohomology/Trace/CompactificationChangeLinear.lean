@@ -84,6 +84,7 @@ public def LAdicSheaf.CoefficientSheaf.rationalCompactificationHomLinearEquiv
 
 variable (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- The `E`-linear isomorphism along a morphism of compactifications intertwines the Frobenius. -/
 public theorem LAdicSheaf.CoefficientSheaf.rationalCompactificationHomLinearEquiv_frobenius
     {j l : CompactificationOf (Over.mk f)} (g : j ⟶ l)
@@ -122,7 +123,7 @@ public theorem LAdicSheaf.CoefficientSheaf.rationalCompactificationLinearEquiv_f
   have h1 := F.rationalCompactificationHomLinearEquiv_frobenius B ℓ f kbar i E p q hcard
     (IsCofiltered.minToLeft j₁ j₂) (a.symm v)
   rw [LinearEquiv.apply_symm_apply] at h1
-  show c (a.symm _) = _
+  change c (a.symm _) = _
   rw [a.symm_apply_eq.2 h1.symm]
   exact F.rationalCompactificationHomLinearEquiv_frobenius B ℓ f kbar i E p q hcard
     (IsCofiltered.minToRight j₁ j₂) (a.symm v)

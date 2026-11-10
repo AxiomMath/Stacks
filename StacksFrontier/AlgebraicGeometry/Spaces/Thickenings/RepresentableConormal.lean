@@ -201,7 +201,7 @@ theorem isFiniteLocallyFreeOnSite_conormalSheaf_of_scheme {V₀ U₀ : BigFppfOv
   have ha : a.hom ≫ i = j₀ := by
     apply yoneda.map_injective
     rw [yoneda.map_comp, haY, yoneda_map_representedClosedHom]
-    show eI.hom ≫ s₁.sourceIso.inv ≫ yoneda.map i = eI.hom ≫ Zc.1.ι
+    change eI.hom ≫ s₁.sourceIso.inv ≫ yoneda.map i = eI.hom ≫ Zc.1.ι
     congr 1
     refine (Iso.inv_comp_eq _).2 ?_
     exact (Subfunctor.toRange_ι (yoneda.map i)).symm

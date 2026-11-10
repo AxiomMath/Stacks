@@ -41,8 +41,8 @@ restrictions and not on those restrictions as derived objects.
 
 `Stacks.DerivedQCoh.OpenLift.isDQCoh_of_isPerfect` is this statement for `X = Spec A` at
 `CategoryTheory.HasDerivedCategory.standard`. It is not restated as a corollary of this one:
-`StacksFrontier/AlgebraicGeometry/DerivedQCoh/OpenLift/ShiftedSummandLift.lean` seats that model as a
-file-local instance at priority 10000, so a model argument there would be shadowed rather than
+`StacksFrontier/AlgebraicGeometry/DerivedQCoh/OpenLift/ShiftedSummandLift.lean` seats that model as
+a file-local instance at priority 10000, so a model argument there would be shadowed rather than
 read, and its own docstring records that the conclusion is reached from `(Spec A).Modules` and not
 from the `OXMod` spelling for budget reasons.
 

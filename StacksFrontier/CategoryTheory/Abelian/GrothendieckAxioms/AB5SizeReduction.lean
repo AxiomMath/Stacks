@@ -192,7 +192,7 @@ private theorem filteredImagePair_exists_coeq {S : Type s'} [Category.{s, s'} S]
   obtain ⟨g', hg⟩ := g.2
   obtain ⟨c, k, hk⟩ := IsFilteredOrEmpty.cocone_maps f' g'
   refine ⟨c, k, Subtype.ext ?_⟩
-  show (f.1.1 ≫ F.map k, f.1.2 ≫ G.map k) = (g.1.1 ≫ F.map k, g.1.2 ≫ G.map k)
+  change (f.1.1 ≫ F.map k, f.1.2 ≫ G.map k) = (g.1.1 ≫ F.map k, g.1.2 ≫ G.map k)
   rw [hf, hg]
   simpa only [Functor.map_comp] using congrArg (fun q => (F.map q, G.map q)) hk
 

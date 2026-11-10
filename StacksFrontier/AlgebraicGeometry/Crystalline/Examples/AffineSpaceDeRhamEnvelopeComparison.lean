@@ -83,7 +83,7 @@ theorem completedFormsEquiv_differential (i : ℕ) (x : T.completedForms i) :
       (T.completedDifferential i).toAddMonoidHom)
     (g := (completedDividedPowerDeRham T.p T.A T.completedDividedPowers i).comp
       (T.completedFormsEquiv i).toAddMonoidHom) fun ω ↦ by
-      show T.completedFormsEquiv (i + 1) (T.completedDifferential i (T.ofForms i ω)) =
+      change T.completedFormsEquiv (i + 1) (T.completedDifferential i (T.ofForms i ω)) =
         completedDividedPowerDeRham T.p T.A T.completedDividedPowers i
           (T.completedFormsEquiv i (T.ofForms i ω))
       rw [completedDifferential_ofForms, completedFormsEquiv_ofForms, completedFormsEquiv_ofForms]

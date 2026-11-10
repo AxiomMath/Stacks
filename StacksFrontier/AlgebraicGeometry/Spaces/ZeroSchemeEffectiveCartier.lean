@@ -237,7 +237,7 @@ theorem isRegularSection_of_isEffectiveCartierDivisor_zeroScheme
       iso_of_one_coproduct ((Stacks.SheafOfModules.Tensor.ringSheaf E.O).over (V i))
         (Jd.toSheafOfModules.over (V i)) (htriv i).choose
         (Classical.choice (htriv i).choose_spec)
-  show Mono (L.unitHomEquiv.symm s)
+  change Mono (L.unitHomEquiv.symm s)
   apply (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf E.O)).mono_of_mono_map
   apply PresheafOfModules.mono_of_injective
   intro U
@@ -287,14 +287,14 @@ theorem exists_affine_chart_unitIso_of_isFiniteLocallyFreeOfRank_one
   have hw₀' : (T.map ι.hom.left) w₀ = z' := hw₀
   have hz : (T.map (ι.hom.left ≫ (k i).hom.left)) w₀ = schemePoint B S hS U₀ p := by
     rw [Functor.map_comp]
-    show (T.map (k i).hom.left) ((T.map ι.hom.left) w₀) = _
+    change (T.map (k i).hom.left) ((T.map ι.hom.left) w₀) = _
     rw [hw₀']
     exact hz'
   have hqm : pointsMap B S hS _ (yoneda.map (ι.hom.left ≫ (k i).hom.left))
       (q.class B S hS _) = p.class B S hS _ := by
     apply injective_pointsToScheme B S hS U₀
     rw [pointsToScheme_pointsMap]
-    show (T.map (ι.hom.left ≫ (k i).hom.left)) (schemePoint B S hS V'.1.left q) = _
+    change (T.map (ι.hom.left ≫ (k i).hom.left)) (schemePoint B S hS V'.1.left q) = _
     rw [hqd]
     exact (congrArg (fun w => (T.map (ι.hom.left ≫ (k i).hom.left)) w)
       (schemePointRepresentative_point B S hS V'.1.left w₀)).trans hz

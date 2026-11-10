@@ -77,7 +77,8 @@ affine schemes: with `𝓕` an arbitrary abelian sheaf on the big étale site of
 false, the degree-zero comparison being `colim_V 𝓕(g_V⁻¹U) ⟶ 𝓕(g⁻¹U)` and a product of copies of
 the structure sheaf refuting it. Tag 03Q6 takes the inverse images of a single sheaf on `X`, which
 is a condition the site of all schemes cannot express. The implementation notes of
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/QcqsReduction.lean` give the counterexample
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/QcqsReduction.lean` give the
+counterexample
 and say what Tag 03Q6 at its own hypotheses needs instead.
 
 ## References

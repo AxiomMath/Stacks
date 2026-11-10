@@ -299,14 +299,14 @@ theorem t_dvd_of_evalZero {a : Ring.{u} 0} (ha : evalZero a = 0) : t ∣ a := by
   obtain ⟨q, hq⟩ := h
   refine ⟨ofPoly q, ?_⟩
   apply polyEquiv.{u}.injective
-  show toPoly a = toPoly (t * ofPoly q)
+  change toPoly a = toPoly (t * ofPoly q)
   rw [map_mul, toPoly_t, toPoly_ofPoly, hq]
 
 /-- An element of `R₀` divisible by every power of `t` is zero. -/
 theorem eq_zero_of_forall_t_pow_dvd {a : Ring.{u} 0} (ha : ∀ k : ℕ, t ^ k ∣ a) : a = 0 := by
   apply polyEquiv.{u}.injective
   rw [map_zero]
-  show toPoly a = 0
+  change toPoly a = 0
   by_contra hne
   set d := (toPoly a).natDegree with hd
   obtain ⟨q, hq⟩ := ha (d + 1)
@@ -413,14 +413,14 @@ def ofLaurent (i : Fin 2) : (Ring.{u} 0)[T;T⁻¹] →+* Ring.{u} 1 :=
 theorem ofLaurent_C (i : Fin 2) (a : Ring.{u} 0) :
     ofLaurent i (LaurentPolynomial.C a) = face i a := by
   let := (face.{u} i).toAlgebra
-  show (AddMonoidAlgebra.lift (Ring.{u} 0) (Ring.{u} 1) ℤ _) (algebraMap _ _ a) = _
+  change (AddMonoidAlgebra.lift (Ring.{u} 0) (Ring.{u} 1) ℤ _) (algebraMap _ _ a) = _
   rw [AlgHom.commutes]; rfl
 
 /-- `ofLaurent` sends `T^x` to `w₀₁^x`. -/
 theorem ofLaurent_T (i : Fin 2) (x : ℤ) :
     ofLaurent.{u} i (T x) = ((w₀₁.{u} ^ x : (Ring.{u} 1)ˣ) : Ring.{u} 1) := by
   let := (face.{u} i).toAlgebra
-  show (AddMonoidAlgebra.lift (Ring.{u} 0) (Ring.{u} 1) ℤ _) (AddMonoidAlgebra.single x 1) = _
+  change (AddMonoidAlgebra.lift (Ring.{u} 0) (Ring.{u} 1) ℤ _) (AddMonoidAlgebra.single x 1) = _
   rw [AddMonoidAlgebra.lift_single, one_smul]
   rfl
 
@@ -434,32 +434,32 @@ theorem ofLaurent_toLaurent (i : Fin 2) (a : Ring.{u} 1) : ofLaurent i (toLauren
     · simp only [RingHom.comp_apply, RingHom.id_apply, toLaurent_gx, map_mul, ofLaurent_C,
         ofLaurent_T, face, t, ringMap_mk, genMap_gx]
       fin_cases i <;> fin_cases j
-      · show ((w₀₁ ^ (1 : ℤ) : (Ring.{u} 1)ˣ) : Ring.{u} 1) * mk (gx 1) = mk (gx 0)
+      · change ((w₀₁ ^ (1 : ℤ) : (Ring.{u} 1)ˣ) : Ring.{u} 1) * mk (gx 1) = mk (gx 0)
         rw [zpow_one]; exact hx.symm
-      · show ((w₀₁ ^ (0 : ℤ) : (Ring.{u} 1)ˣ) : Ring.{u} 1) * mk (gx 1) = mk (gx 1)
+      · change ((w₀₁ ^ (0 : ℤ) : (Ring.{u} 1)ˣ) : Ring.{u} 1) * mk (gx 1) = mk (gx 1)
         rw [zpow_zero, Units.val_one, one_mul]
-      · show ((w₀₁ ^ (0 : ℤ) : (Ring.{u} 1)ˣ) : Ring.{u} 1) * mk (gx 0) = mk (gx 0)
+      · change ((w₀₁ ^ (0 : ℤ) : (Ring.{u} 1)ˣ) : Ring.{u} 1) * mk (gx 0) = mk (gx 0)
         rw [zpow_zero, Units.val_one, one_mul]
-      · show ((w₀₁ ^ (-1 : ℤ) : (Ring.{u} 1)ˣ) : Ring.{u} 1) * mk (gx 0) = mk (gx 1)
+      · change ((w₀₁ ^ (-1 : ℤ) : (Ring.{u} 1)ˣ) : Ring.{u} 1) * mk (gx 0) = mk (gx 1)
         rw [zpow_neg_one, hx]
         exact Units.inv_mul_cancel_left w₀₁ _
     · simp only [RingHom.comp_apply, RingHom.id_apply, toLaurent_gw, ofLaurent_T]
       fin_cases j <;> fin_cases k
-      · show ((w₀₁ ^ (0 : ℤ) : (Ring.{u} 1)ˣ) : Ring.{u} 1) = mk (gw 0 0 h)
+      · change ((w₀₁ ^ (0 : ℤ) : (Ring.{u} 1)ˣ) : Ring.{u} 1) = mk (gw 0 0 h)
         rw [zpow_zero, Units.val_one]; exact (mk_w_eq_one h rfl).symm
-      · show ((w₀₁ ^ (1 : ℤ) : (Ring.{u} 1)ˣ) : Ring.{u} 1) = mk (gw 0 1 h)
+      · change ((w₀₁ ^ (1 : ℤ) : (Ring.{u} 1)ˣ) : Ring.{u} 1) = mk (gw 0 1 h)
         rw [zpow_one]; rfl
       · exact absurd h (by decide)
-      · show ((w₀₁ ^ (0 : ℤ) : (Ring.{u} 1)ˣ) : Ring.{u} 1) = mk (gw 1 1 h)
+      · change ((w₀₁ ^ (0 : ℤ) : (Ring.{u} 1)ˣ) : Ring.{u} 1) = mk (gw 1 1 h)
         rw [zpow_zero, Units.val_one]; exact (mk_w_eq_one h rfl).symm
     · simp only [RingHom.comp_apply, RingHom.id_apply, toLaurent_gv, ofLaurent_T]
       fin_cases j <;> fin_cases k
-      · show ((w₀₁ ^ (0 : ℤ) : (Ring.{u} 1)ˣ) : Ring.{u} 1) = mk (gv 0 0 h)
+      · change ((w₀₁ ^ (0 : ℤ) : (Ring.{u} 1)ˣ) : Ring.{u} 1) = mk (gv 0 0 h)
         rw [zpow_zero, Units.val_one]; exact (mk_v_eq_one h rfl).symm
-      · show ((w₀₁ ^ (-1 : ℤ) : (Ring.{u} 1)ˣ) : Ring.{u} 1) = mk (gv 0 1 h)
+      · change ((w₀₁ ^ (-1 : ℤ) : (Ring.{u} 1)ˣ) : Ring.{u} 1) = mk (gv 0 1 h)
         rw [zpow_neg_one]; rfl
       · exact absurd h (by decide)
-      · show ((w₀₁ ^ (0 : ℤ) : (Ring.{u} 1)ˣ) : Ring.{u} 1) = mk (gv 1 1 h)
+      · change ((w₀₁ ^ (0 : ℤ) : (Ring.{u} 1)ˣ) : Ring.{u} 1) = mk (gv 1 1 h)
         rw [zpow_zero, Units.val_one]; exact (mk_v_eq_one h rfl).symm
   exact RingHom.congr_fun this a
 
@@ -469,16 +469,16 @@ theorem toLaurent_ofLaurent (i : Fin 2) (p : (Ring.{u} 0)[T;T⁻¹]) :
   have : (toLaurent.{u} i).comp (ofLaurent i) = RingHom.id _ := by
     apply AddMonoidAlgebra.ringHom_ext
     · intro b
-      show toLaurent i (ofLaurent i (LaurentPolynomial.C b)) = LaurentPolynomial.C b
+      change toLaurent i (ofLaurent i (LaurentPolynomial.C b)) = LaurentPolynomial.C b
       rw [ofLaurent_C, ← RingHom.comp_apply, toLaurent_comp_face]
     · intro x
-      show toLaurent i (ofLaurent i (T x)) = T x
+      change toLaurent i (ofLaurent i (T x)) = T x
       rw [ofLaurent_T]
       rw [show toLaurent i ((w₀₁ ^ x : (Ring.{u} 1)ˣ) : Ring.{u} 1) =
           ((Units.map (toLaurent.{u} i : Ring.{u} 1 →* (Ring.{u} 0)[T;T⁻¹]) (w₀₁ ^ x) :
             ((Ring.{u} 0)[T;T⁻¹])ˣ) : (Ring.{u} 0)[T;T⁻¹]) from rfl, map_zpow]
       apply units_coe_zpow_eq_T
-      show toLaurent i (mk (gw 0 1 _)) = T 1
+      change toLaurent i (mk (gw 0 1 _)) = T 1
       rw [toLaurent_gw]; rfl
   exact RingHom.congr_fun this p
 
@@ -529,7 +529,7 @@ def evalUnits : Ring.{u} 2 →+* ℤ[T;T⁻¹] :=
       · rw [mul_one])
     (fun i => by
       simp only [gw, Sum.elim_inr, Sum.elim_inl]
-      rw [if_neg]
+      rw [ite_eq_right]
       rintro h
       simp only [Prod.mk.injEq] at h
       obtain ⟨h1, h2⟩ := h
@@ -557,12 +557,12 @@ theorem evalUnits_comp_ringMap (f : Fin 1 →o Fin 3) :
     obtain rfl : k = 0 := Subsingleton.elim _ _
     rw [RingHom.comp_apply, RingHom.comp_apply, ringMap_mk, genMap_gw, mk_w_eq_one h rfl,
       map_one, map_one]
-    simp only [evalUnits, lift_mk, gw, Sum.elim_inr, Sum.elim_inl, if_neg hne]
+    simp only [evalUnits, lift_mk, gw, Sum.elim_inr, Sum.elim_inl, ite_eq_right hne]
   · obtain rfl : j = 0 := Subsingleton.elim _ _
     obtain rfl : k = 0 := Subsingleton.elim _ _
     rw [RingHom.comp_apply, RingHom.comp_apply, ringMap_mk, genMap_gv, mk_v_eq_one h rfl,
       map_one, map_one]
-    simp only [evalUnits, lift_mk, gv, Sum.elim_inr, if_neg hne]
+    simp only [evalUnits, lift_mk, gv, Sum.elim_inr, ite_eq_right hne]
 
 /-- `evalUnits` sends `w₀₂` to `T`. -/
 theorem evalUnits_w₀₂ : evalUnits.{u} (mk (gw 0 2 (by decide))) = T 1 := by

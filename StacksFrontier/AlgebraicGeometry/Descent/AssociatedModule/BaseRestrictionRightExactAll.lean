@@ -13,8 +13,8 @@ public import StacksFrontier.AlgebraicGeometry.Topologies.BigSites.OverTopologyI
 
 `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/BaseExtensionClosure.lean` reduces clause
 (4) of Descent, Lemma 0GNC at an arbitrary `τ` to two hypotheses, and
-`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/BaseRestrictionRightExact.lean` discharges
-both at `τ = fppf`.  **This file discharges them at every
+`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/BaseRestrictionRightExact.lean`
+discharges both at `τ = fppf`.  **This file discharges them at every
 `τ ∈ {Zariski, étale, smooth, syntomic, fppf}`**, and with that clause (4) holds at all five
 topologies.
 
@@ -316,7 +316,8 @@ public theorem surjective_val_app_of_shortExact_affine_all (τ : SiteKind)
     (isZero_sheafCohomology_isQuasicoherentOnSite_affine_all B S hS τ C.X₁ h₁ W hW 1 Nat.one_pos)
 
 /-- **The hypothesis `hepi` of
-`StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.BaseExtensionClosure`, discharged at every
+`StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.BaseExtensionClosure`, discharged at
+every
 `τ`.**  For a short exact sequence `C` of `𝒪`-modules on `(Sch/S)_τ` with `C.X₁` quasi-coherent,
 the restriction of `C.g` along the inclusion of the small Zariski site of `S` is an epimorphism.
 

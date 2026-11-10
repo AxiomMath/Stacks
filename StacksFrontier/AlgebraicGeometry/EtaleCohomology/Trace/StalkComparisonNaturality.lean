@@ -182,7 +182,7 @@ theorem sheafEquivCompSheafFiberIso_inv_naturality {s t : GeometricPoint X.obj}
     ((Category.assoc _ _ _).trans (congrArg (_ ≫ ·) h2)))
   have hr := (Category.assoc _ _ _).symm.trans
     ((congrArg (· ≫ (sheafEquivCompSheafFiberIso B X Λ s).inv.app F)
-      (colimit.ι_pre ((CategoryOfElements.π (geometricPointFiber B X.obj X.property s)).op ⋙
+      (colimit.ι_pre ((Functor.Elements.π (geometricPointFiber B X.obj X.property s)).op ⋙
         F.obj) (neighborhoodFunctor B X.obj X.property a).op (op (Functor.elementsMk _ U x)))).trans
     (toPresheafFiber_sheafEquivCompSheafFiberIso_inv B X Λ s F U _))
   refine hl.trans (Eq.trans ?_ hr.symm)

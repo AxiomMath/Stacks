@@ -73,7 +73,7 @@ theorem tendsto_resultant_add_C_pow (F S : ℚ_[ℓ][X]) (m n : ℕ) :
 
 /-- For `T ≠ 0`, `Res(T, S + c) = 0` for only finitely many `c`: an irreducible factor of `T`
 divides `S + c` for at most one `c`. -/
-theorem finite_setOf_resultant_add_C_eq_zero {K : Type*} [Field K] [DecidableEq K] (T S : K[X])
+theorem finite_setOf_resultant_add_C_eq_zero {K : Type*} [Field K] (T S : K[X])
     (hT : T ≠ 0) : {c : K | T.resultant (S + C c) = 0}.Finite := by
   classical
   have key : ∀ c : {c : K | T.resultant (S + C c) = 0},
@@ -245,7 +245,7 @@ theorem exists_intPoly_map_toZModPow_eq (p : ℕ) (hp : p.Prime) (hpℓ : p ≠ 
   have hb0 : ¬ (p : ℤ) ∣ b 0 := by
     by_cases h : (p : ℤ) ∣ a 0
     · intro h'
-      simp only [b, e, if_true, if_pos h, mul_one] at h'
+      simp only [b, e, ite_true, ite_eq_left h, mul_one] at h'
       exact hℓN ((Int.dvd_add_right h).1 h')
     · simp [b, e, h]
   have hbd : b d ≠ 0 := by
@@ -255,18 +255,18 @@ theorem exists_intPoly_map_toZModPow_eq (p : ℕ) (hp : p.Prime) (hpℓ : p ≠ 
       rw [← hd, h0]
       exact dvd_zero _
     · by_cases h : a d = 0
-      · simp only [b, e, if_neg hd, h, and_self, if_true, mul_one, zero_add]
+      · simp only [b, e, ite_eq_right hd, h, and_self, ite_true, mul_one, zero_add]
         exact pow_ne_zero _ (by exact_mod_cast hℓ.out.ne_zero)
       · simp [b, e, hd, h]
   let R : ℤ[X] := ∑ k ∈ Finset.range (d + 1), monomial k (b k)
   have hRc : ∀ j, R.coeff j = if j ≤ d then b j else 0 := fun j => by
-    simp only [R, finset_sum_coeff, coeff_monomial, Finset.sum_ite_eq', Finset.mem_range,
+    simp only [R, finsetSum_coeff, coeff_monomial, Finset.sum_ite_eq', Finset.mem_range,
       Nat.lt_succ_iff]
   have hRdeg : R.natDegree = d := by
     refine le_antisymm (natDegree_le_iff_coeff_eq_zero.2 fun j hj => ?_) ?_
-    · rw [hRc, if_neg (not_le.2 hj)]
-    · exact le_natDegree_of_ne_zero (by rwa [hRc, if_pos le_rfl])
-  refine ⟨R, hRdeg, by rwa [hRc, if_pos (Nat.zero_le _)], ?_⟩
+    · rw [hRc, ite_eq_right (not_le.2 hj)]
+    · exact le_natDegree_of_ne_zero (by rwa [hRc, ite_eq_left le_rfl])
+  refine ⟨R, hRdeg, by rwa [hRc, ite_eq_left (Nat.zero_le _)], ?_⟩
   ext j
   rw [coeff_map, coeff_map, coeff_map, hRc]
   split_ifs with hj
@@ -331,7 +331,7 @@ theorem norm_resultant_eq_of_intPoly (p : ℕ) (hp : p.Prime) (hpℓ : p ≠ ℓ
       exact this
     rw [this, norm_mul]
     refine mul_le_of_le_one_right (norm_nonneg _) ?_
-    exact (PadicInt.padic_norm_e_of_padicInt y).trans_le (PadicInt.norm_le_one y)
+    exact (PadicInt.norm_coe y).trans_le (PadicInt.norm_le_one y)
   have hlim : ∀ F : ℚ_[ℓ][X], Tendsto (fun N => F.resultant (R' N)) atTop
       (𝓝 (F.resultant S')) := fun F => by
     have := ((continuous_resultant_sum_C_mul_X_pow F F.natDegree n).tendsto _).comp hconv

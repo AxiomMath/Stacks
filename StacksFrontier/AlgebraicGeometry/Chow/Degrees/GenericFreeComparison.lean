@@ -178,7 +178,7 @@ theorem exists_isIso_restrict_desc {J : Type u} (F : J → X.Modules) (Zc : J �
       IsIso ((Scheme.Modules.restrictFunctor W'.ι).map (Sigma.desc g)) := by
   obtain ⟨V, hxV, hι⟩ := exists_isIso_restrict_sigmaι F Zc hsupp hclosed hLF x j₀ hx
   refine ⟨V ⊓ W, ⟨hxV, hxW⟩, ?_⟩
-  refine isIso_map_of_comp _ (Sigma.ι F j₀) (Sigma.desc g) (g j₀) (Sigma.ι_desc _ _) ?_ ?_
+  refine isIso_map_of_comp _ (Sigma.ι F j₀) (Sigma.desc g) (g j₀) (Sigma.ι_comp_desc _ _) ?_ ?_
   · exact isIso_restrictFunctor_map_of_le _ inf_le_left hι
   · exact isIso_restrictFunctor_map_of_le _ inf_le_right hW
 

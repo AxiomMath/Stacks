@@ -85,10 +85,10 @@ theorem squareZeroDerivationMapAndAction_baseMap_natural
   intro a
   have hW := dW.baseMap_apply (f.hom.hom.compDer D) a
   have hV := dV.baseMap_apply D a
-  show (dW.baseMap (f.hom.hom.compDer D)).hom (i₀.symm a) =
+  change (dW.baseMap (f.hom.hom.compDer D)).hom (i₀.symm a) =
     (dV.baseMap D ≫ (squareZeroExtensionArtinian.{u, w, w} Λ k).map f).hom (i₀.symm a)
   rw [hW, ArtinianLocalAlgCat.comp_hom, AlgHom.comp_apply, hV]
-  show TrivSqZeroExt.inl a + TrivSqZeroExt.inr (f.hom.hom (D a)) =
+  change TrivSqZeroExt.inl a + TrivSqZeroExt.inr (f.hom.hom (D a)) =
     TrivSqZeroExt.map f.hom.hom (TrivSqZeroExt.inl a + TrivSqZeroExt.inr (D a))
   rw [map_add, TrivSqZeroExt.map_inl, TrivSqZeroExt.map_inr]
 
@@ -156,7 +156,7 @@ linear for the canonical vector-space structure on the associated functor. -/
 @[stacks 06SU "gamma_linear"]
 theorem derivationMap_linear
     (hS2 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))
     (V : FGModuleCat.{w} k)
     (hiV : ∀ a : (squareZeroExtensionArtinian.{u, w, w} Λ k).obj V,
       ((squareZeroExtensionArtinian.{u, w, w} Λ k).obj V).residueEquiv
@@ -206,7 +206,7 @@ theorem derivationMap_linear
     let Dpair : Derivation Λ k (P.obj.carrier) :=
       { toLinearMap := LinearMap.prod D.toLinearMap E.toLinearMap
         map_one_eq_zero' := by
-          show (D 1, E 1) = (0, 0)
+          change (D 1, E 1) = (0, 0)
           simp
         leibniz' a b := Prod.ext (D.leibniz a b) (E.leibniz a b) }
     have hn₁ := hnat f₁ Dpair D (Derivation.ext fun _ => rfl)
@@ -227,7 +227,7 @@ theorem derivationMap_linear
         rw [Functor.map_smul]
         simp
   · intro D
-    show γfun V D = _
+    change γfun V D = _
     dsimp only [γfun]
     rw [derivationClassMap_eq_gamma 𝓕 h𝓕 A₀ i₀ hi₀ x₀ hx₀ hiV d D]
 

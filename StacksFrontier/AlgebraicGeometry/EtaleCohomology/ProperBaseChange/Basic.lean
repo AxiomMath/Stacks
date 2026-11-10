@@ -117,7 +117,7 @@ lemma map_bijective_iff_of_natIso {C : Type*} [Category C] {D : Type*} [Category
       Function.Bijective (G.map : (X ⟶ Y) → _) := by
   have h : G.map = (Iso.homCongr (e.app X) (e.app Y)) ∘ (F.map : (X ⟶ Y) → _) := by
     funext f
-    show G.map f = (e.app X).inv ≫ F.map f ≫ (e.app Y).hom
+    change G.map f = (e.app X).inv ≫ F.map f ≫ (e.app Y).hom
     simpa only [Iso.app_hom, Iso.app_inv, Iso.inv_hom_id_app_assoc] using
       congrArg ((e.inv.app X) ≫ ·) (e.hom.naturality f).symm
   rw [h]
@@ -165,7 +165,7 @@ lemma mapExt_bijective_iff_mapDerivedCategory (F : C ⥤ D) [F.Additive]
         Abelian.Ext.homEquiv := by
     funext x
     apply Abelian.Ext.homEquiv.injective
-    show (x.mapExactFunctor F).hom = Abelian.Ext.homEquiv (Abelian.Ext.homEquiv.symm _)
+    change (x.mapExactFunctor F).hom = Abelian.Ext.homEquiv (Abelian.Ext.homEquiv.symm _)
     rw [Equiv.apply_symm_apply, Abelian.Ext.mapExactFunctor_hom]
     simp [Function.comp_def, Iso.homCongr, ShiftedHom.map, a, b, Category.assoc,
       mapDerivedCategoryShiftSingleIso]
@@ -234,7 +234,7 @@ lemma isBijectiveOnExt_comp_iff (F : C ⥤ D) (G : D ⥤ E)
   have h := (map_bijective_iff_of_objIso G.mapDerivedCategory
     ((F.mapDerivedCategorySingleFunctor 0).app X)
     (mapDerivedCategoryShiftSingleIso F Y n)).mpr hG
-  show Function.Bijective _ ↔ _
+  change Function.Bijective _ ↔ _
   rw [← map_bijective_iff_of_natIso (mapDerivedCategoryCompIso F G)]
   exact Function.Bijective.of_comp_iff' h _
 

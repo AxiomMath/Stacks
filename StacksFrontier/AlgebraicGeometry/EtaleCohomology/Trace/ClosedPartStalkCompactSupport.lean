@@ -303,7 +303,7 @@ def closedPartStalkEmbedding :
     etaleModuleInverseImage.{u, 0} Λ iZ ⋙ rationalPointStalkFunctor.{u, 0} Λ kbar xZ ⟶
       etaleModuleClosedPart Λ iZ ⋙ compactSupportSheafCohomology Λ f j kbar 0)
 
-omit [LocallyOfFiniteType f] [IsSeparated f] [Fintype k'] in
+omit [Fintype k] [LocallyOfFiniteType f] [IsSeparated f] [Fintype k'] in
 /-- **The embedding is injective**: it is a composite of isomorphisms and of the inclusion of a
 block, which is split by the restriction to the block. -/
 theorem mono_closedPartStalkEmbedding_app (G : EtaleModules.{u, 0} Λ X) :
@@ -416,7 +416,7 @@ theorem closedPartStalkCompactSupportInput : ClosedPartStalkCompactSupportInput.
   let : Fintype k' := Fintype.ofFinite _
   let : Algebra k k' := (Spec.preimage (X.fromSpecResidueField (iZ.base z) ≫ f)).hom.toAlgebra
   have hspec : specAlgebraMap k k' = X.fromSpecResidueField (iZ.base z) ≫ f := by
-    show Spec.map (CommRingCat.ofHom
+    change Spec.map (CommRingCat.ofHom
       (Spec.preimage (X.fromSpecResidueField (iZ.base z) ≫ f)).hom) = _
     rw [CommRingCat.ofHom_hom, Spec.map_preimage]
   have : CharP k' p := charP_of_injective_algebraMap (algebraMap k k').injective p
@@ -443,7 +443,7 @@ theorem closedPartStalkCompactSupportInput : ClosedPartStalkCompactSupportInput.
   let θ : GeometricPoint.Hom (geometricPointAt X (iZ.base z))
       (rationalGeometricPoint kbar (xZ ≫ iZ)) :=
     ⟨Spec.map (CommRingCat.ofHom ψ.toRingHom), by
-      show Spec.map (CommRingCat.ofHom ψ.toRingHom) ≫
+      change Spec.map (CommRingCat.ofHom ψ.toRingHom) ≫
           (Spec.map (CommRingCat.ofHom (algebraMap k' kbar)) ≫ xZ ≫ iZ) =
         Spec.map (CommRingCat.ofHom (algebraMap k' (AlgebraicClosure k'))) ≫
           X.fromSpecResidueField (iZ.base z)

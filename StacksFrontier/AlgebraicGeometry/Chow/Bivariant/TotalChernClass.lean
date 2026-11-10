@@ -54,11 +54,11 @@ def totalChern : TotalChowClass C sY := fun j ↦
 /-- The degree-`j` component of `c(ℰ)` is `c_j(ℰ)` for `j ≤ r`. -/
 theorem totalChern_apply (j : Fin (r + 1)) :
     totalChern C sY F r j = GenuineChern.chernClass C sY F r j :=
-  dif_pos j.isLt
+  dite_eq_left j.isLt
 
 /-- The degree-`j` component of `c(ℰ)` vanishes for `j > r`. -/
 theorem totalChern_apply_of_lt {j : ℕ} (hj : r < j) : totalChern C sY F r j = 0 :=
-  dif_neg (by omega)
+  dite_eq_right (by omega)
 
 /-- **The operation of the total Chern class.** On a test scheme `g : T ⟶ Y`, the index-`j`
 component of the operation of `c(ℰ)` is `c_j(g^*ℰ) ∩ -`, for `j ≤ r`. -/

@@ -191,7 +191,7 @@ public lemma restrictPushTransition_unit (T U : Opens X) (hTU : T ≤ U) :
     (jStarAdjunction U O).unit ≫ restrictPushTransition O T U hTU =
   (jStarAdjunction T O).unit := by
   ext M W x
-  show (((jStarAdjunction U O).unit.app M).val.app W ≫
+  change (((jStarAdjunction U O).unit.app M).val.app W ≫
       ((restrictPushTransition O T U hTU).app M).val.app W) x =
     (((jStarAdjunction T O).unit.app M).val.app W) x
   rw [ModuleCat.comp_apply, restrictPushTransition_app_val_app]
@@ -260,7 +260,7 @@ public lemma restrictionCoverFirst_comp_second (U V : Opens X) :
     restrictionCoverFirst O U V ≫ restrictionCoverSecond O U V = 0 := by
   apply NatTrans.ext
   funext M
-  show biprod.lift ((jStarAdjunction U O).unit.app M)
+  change biprod.lift ((jStarAdjunction U O).unit.app M)
       ((jStarAdjunction V O).unit.app M) ≫
       biprod.desc ((restrictPushTransition O (U ⊓ V) U inf_le_left).app M)
         (-((restrictPushTransition O (U ⊓ V) V inf_le_right).app M)) = 0
@@ -481,7 +481,7 @@ public lemma restrictionCoverDegreeShortExact (U V : Opens X)
       have hunitV : (((jStarAdjunction V O).unit.app M).val.app (Opposite.op W)) sW = xV :=
         (jStarAdjunction_unit_app_val_app_eq O V M W _ sW).trans hresV
       refine ⟨sW, ?_⟩
-      show ((SheafOfModules.evaluation O (Opposite.op W)).map
+      change ((SheafOfModules.evaluation O (Opposite.op W)).map
         ((restrictionCoverFirst O U V).app M)).hom sW = x
       let E := SheafOfModules.evaluation O (Opposite.op W)
       change ↑(E.obj M) at sW
@@ -489,12 +489,12 @@ public lemma restrictionCoverDegreeShortExact (U V : Opens X)
       change ↑(E.obj B) at xV
       have hfst : (E.map (biprod.fst : A ⊞ B ⟶ A)).hom
           ((E.map ((restrictionCoverFirst O U V).app M)).hom sW) = xU := by
-        show (E.map ((restrictionCoverFirst O U V).app M ≫ biprod.fst)).hom sW = xU
+        change (E.map ((restrictionCoverFirst O U V).app M ≫ biprod.fst)).hom sW = xU
         rw [restrictionCoverFirst_app_comp_fst]
         exact hunitU
       have hsnd : (E.map (biprod.snd : A ⊞ B ⟶ B)).hom
           ((E.map ((restrictionCoverFirst O U V).app M)).hom sW) = xV := by
-        show (E.map ((restrictionCoverFirst O U V).app M ≫ biprod.snd)).hom sW = xV
+        change (E.map ((restrictionCoverFirst O U V).app M ≫ biprod.snd)).hom sW = xV
         rw [restrictionCoverFirst_app_comp_snd]
         exact hunitV
       have hyrep : (E.map ((restrictionCoverFirst O U V).app M)).hom sW =
@@ -573,11 +573,11 @@ public lemma restrictionCoverDegreeShortExact (U V : Opens X)
     change ↑(A.val.obj (Opposite.op W)) at y
     let τU := (restrictPushTransition O T U inf_le_left).app M
     have htrans : (τU.val.app (Opposite.op W)) y = z := by
-      show ((((restrictPushTransition O T U inf_le_left).app M).val.app
+      change ((((restrictPushTransition O T U inf_le_left).app M).val.app
         (Opposite.op W))) y = z
       rwa [restrictPushTransition_app_val_app]
     refine ⟨(E.map (biprod.inl : A ⟶ A ⊞ B)).hom y, ?_⟩
-    show (E.map (biprod.inl ≫ biprod.desc τU
+    change (E.map (biprod.inl ≫ biprod.desc τU
       (-((restrictPushTransition O T V inf_le_right).app M)))).hom y = z
     rwa [biprod.inl_desc]
 

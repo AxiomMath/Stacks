@@ -149,7 +149,7 @@ private theorem eventually_eq_of_chartSystem' {i₀ : I} {U₀ : BigAffineFppf B
   have key' : schemeSpaceMap (C.siteDiagram.map e) ≫ cmBase =
       chartStageMap B S hS D hD U₀ f₀ C k ≫ stageTransition B S hS D hD k.hom := by
     apply ObjectProperty.hom_ext
-    show yoneda.map (C.siteDiagram.map e) ≫ C.stageMap base = C.stageMap k ≫ D.map k.hom
+    change yoneda.map (C.siteDiagram.map e) ≫ C.stageMap base = C.stageMap k ≫ D.map k.hom
     rw [← C.stageMap_comp_map e, (Category.comp_id e.left).symm.trans (Over.w e)]
   have hstage : (modulePullback B S hS (chartStageMap B S hS D hD U₀ f₀ C k)).map
         ((modulePullback B S hS (stageTransition B S hS D hD k.hom)).map φ) =

@@ -197,16 +197,16 @@ theorem hypotheses_godementRowAugmentation (a : ℤ) [F.IsStrictlyGE a] :
     Hypotheses F (godementDoubleComplex X F).flip (godementRowAugmentation X F) := by
   refine ⟨?_, ?_, ?_, ?_⟩
   · intro n
-    show {p : ℤ | ¬ IsZero (((godementDoubleComplex X F).X (n - p)).X p)}.Finite
+    change {p : ℤ | ¬ IsZero (((godementDoubleComplex X F).X (n - p)).X p)}.Finite
     refine ((HomologicalComplex.diagonalFinite_liftFunctorToComplexExtend (godementComplex X)
       (fun _ => inferInstance) F a n).image
         (fun p : ℤ => n - p)).subset ?_
     intro p hp
     refine ⟨n - p, ?_, ?_⟩
-    · show ¬ IsZero (((godementDoubleComplex X F).X (n - p)).X (n - (n - p)))
+    · change ¬ IsZero (((godementDoubleComplex X F).X (n - p)).X (n - (n - p)))
       rw [show n - (n - p) = p by omega]
       exact hp
-    · show n - (n - p) = p
+    · change n - (n - p) = p
       omega
   · intro p q hq
     exact HomologicalComplex.isZero_liftFunctorToComplexExtend_X_X_of_neg
@@ -281,7 +281,7 @@ private lemma finite_diagonal_of_vanishing (Q : ℤ × ℤ → Prop) (a n : ℤ)
     by_contra hneg
     exact hq p q (by omega) hQ
   refine ⟨p, ⟨hp0, by omega⟩, ?_⟩
-  show (p, n - p) = (p, q)
+  change (p, n - p) = (p, q)
   exact Prod.ext rfl (by omega)
 
 /-- **Every term of the total complex of the Godement double complex is flasque.** -/
@@ -389,7 +389,7 @@ lemma godementComparisonMap_f (a : ℤ) [F.IsStrictlyGE a]
     (godementComparisonMap X F a).f n =
       (godementRowAugmentation X F).f n ≫
         (godementDoubleComplex X F).ιTotal (ComplexShape.up ℤ) 0 n n (by simp) := by
-  show (comparisonMapP F (godementDoubleComplex X F).flip
+  change (comparisonMapP F (godementDoubleComplex X F).flip
         (godementRowAugmentation X F) (hypotheses_godementRowAugmentation X F a)).f n ≫
       ((godementDoubleComplex X F).totalFlipIso (ComplexShape.up ℤ)).hom.f n = _
   rw [comparisonMapP_f, Category.assoc,
@@ -593,7 +593,7 @@ theorem bigHtpy'_hom_f_zero_f (q : ℤ) :
   have hb0 : ((bigHtpy' X F x).hom.f 0).f q =
       ((leftComparisonIso X F x).inv.f 0).f q ≫
         (((bigHtpy X F x).hom.f 0).f q ≫ ((rightComparisonIso X F x).hom.f 0).f q) := by
-    show (((leftComparisonIso X F x).inv ≫ (bigHtpy X F x).hom ≫
+    change (((leftComparisonIso X F x).inv ≫ (bigHtpy X F x).hom ≫
         (rightComparisonIso X F x).hom).f 0).f q = _
     simp only [HomologicalComplex.comp_f]
   have hcancel : ((leftComparisonIso X F x).inv.f 0).f q ≫

@@ -368,7 +368,7 @@ of that section. -/
 private theorem projection_comp_baseChangeMap :
     r'.projection ≫ b.hom = baseChangeMap hZ hX r r' ≫ r.projection := by
   ext I v
-  show b.hom.app I (r'.projection.app I v) =
+  change b.hom.app I (r'.projection.app I v) =
     r.projection.app I ((baseChangeMap hZ hX r r').app I v)
   rw [projection_app_apply r' I v,
     projection_app_apply r I ((baseChangeMap hZ hX r r').app I v),

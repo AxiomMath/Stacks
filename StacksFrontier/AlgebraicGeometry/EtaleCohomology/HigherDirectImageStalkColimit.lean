@@ -105,7 +105,7 @@ public def higherDirectImageStalkCohomologyPresheafIso
     etaleStalk B Y.obj Y.property s (((pushforward.{u, w} B f).rightDerived p).obj F).obj ≅
       etaleStalk B Y.obj Y.property s (preimageCohomologyPresheaf.{u, w} B f F p) :=
   HasColimit.isoOfNatIso (Functor.isoWhiskerLeft
-    (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+    (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
     ((sheafToPresheaf (JY B (Y := Y)) AddCommGrpCat.{w}).mapIso
       (higherDirectImageSheafificationIso B f F p))) ≪≫
     etaleStalkSheafificationIso B Y.obj Y.property s (preimageCohomologyPresheaf.{u, w} B f F p)
@@ -117,7 +117,7 @@ cohomology group `H^p_ét(X ×_Y V, F)`. Together with
 public def cohomologyPresheafStalkDiagramObjIso
     (F : Sheaf (JX B (X := X)) AddCommGrpCat.{w}) (p : ℕ)
     (V : (geometricPointFiber B Y.obj Y.property s).Elementsᵒᵖ) :
-    ((CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op ⋙
+    ((Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op ⋙
         preimageCohomologyPresheaf.{u, w} B f F p).obj V ≅
       ((sectionsOnPreimage.{u, w} B f V.unop.1).rightDerived p).obj F :=
   preimageCohomologyPresheafEvaluationIso B f F V.unop.1 p

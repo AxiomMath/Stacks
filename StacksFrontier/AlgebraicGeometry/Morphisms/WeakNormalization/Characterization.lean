@@ -101,7 +101,7 @@ theorem isSeminormal_iff_isIso_seminormalizationHom (X : Scheme.{u}) :
     IsSeminormal X ↔ IsIso X.seminormalizationHom := by
   let obj : SeminormalizationCategory X :=
     ⟨Over.mk (𝟙 X), Stacks.Thickenings.universalHomeomorphism_id X, fun x ↦ by
-      show IsIso (Scheme.Hom.residueFieldMap (𝟙 X) x); infer_instance⟩
+      change IsIso (Scheme.Hom.residueFieldMap (𝟙 X) x); infer_instance⟩
   have heq : (initial.to obj).hom.left = X.seminormalizationHom := by
     simpa [obj] using (initial.to obj).hom.w
   rw [← heq]
@@ -126,7 +126,7 @@ theorem isSeminormal_iff_isIso_of_universalHomeomorphism (X : Scheme.{u}) :
     have hsn : IsSeminormal X.seminormalization := by
       refine (isIso_initialTo_iff_isSeminormal X sn).mp ?_
       rw [show initial.to sn = 𝟙 sn from Subsingleton.elim _ _]
-      show IsIso (𝟙 sn.obj.left)
+      change IsIso (𝟙 sn.obj.left)
       infer_instance
     exact (isSeminormal_iff_isIso_seminormalizationHom X).mpr
       (hπ X.seminormalization X.seminormalizationHom sn.property.1 sn.property.2
@@ -175,7 +175,7 @@ theorem isAbsolutelyWeaklyNormal_iff_isIso_of_universalHomeomorphism (X : Scheme
     have hawn : IsAbsolutelyWeaklyNormal X.absoluteWeakNormalization := by
       refine (isIso_initialTo_iff_isAbsolutelyWeaklyNormal X awn).mp ?_
       rw [show initial.to awn = 𝟙 awn from Subsingleton.elim _ _]
-      show IsIso (𝟙 awn.obj.left)
+      change IsIso (𝟙 awn.obj.left)
       infer_instance
     exact (isAbsolutelyWeaklyNormal_iff_isIso_absoluteWeakNormalizationHom X).mpr
       (hπ X.absoluteWeakNormalization X.absoluteWeakNormalizationHom awn.property

@@ -53,6 +53,7 @@ attribute [local instance] Space.pointTopology
 variable {B : BigFppfSite.{u}} {hZ : B.Contains integerBase}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is deep
 /-- Limits of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance (priority := high) hasLimits_presheaf_CurvesOpenSubstackRelative
@@ -106,7 +107,7 @@ theorem IsOpenCurvesLocus.and_of_baseLocus {P Q : ObjectProperty (CurveFamily B 
     simp only [eqToHom_refl, Category.comp_id] at h
     exact h
   have hfactor : (schemeSpaceMap φ.baseMap).hom = (yoneda.map i.hom ≫ e.hom) ≫ W.ι := by
-    show yoneda.map φ.baseMap = _
+    change yoneda.map φ.baseMap = _
     rw [hfac, Functor.map_comp, Category.assoc, he]
     rfl
   have hPV : P GV := (hchar GV φ).mpr ⟨yoneda.map i.hom ≫ e.hom, hfactor.symm⟩

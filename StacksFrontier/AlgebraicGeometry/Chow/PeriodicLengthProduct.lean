@@ -88,13 +88,13 @@ theorem periodicLength_prodMap
   have hmono : Mono S.f := by
     rw [HomologicalComplex.mono_iff_degreewise_mono]
     intro i
-    show Mono (ModuleCat.ofHom (LinearMap.inl R M₁ M₂))
+    change Mono (ModuleCat.ofHom (LinearMap.inl R M₁ M₂))
     exact ConcreteCategory.mono_of_injective (ModuleCat.ofHom (LinearMap.inl R M₁ M₂))
       (LinearMap.inl_injective (R := R) (M := M₁) (M₂ := M₂))
   have hepi : Epi S.g := by
     rw [HomologicalComplex.epi_iff_degreewise_epi]
     intro i
-    show Epi (ModuleCat.ofHom (LinearMap.snd R M₁ M₂))
+    change Epi (ModuleCat.ofHom (LinearMap.snd R M₁ M₂))
     exact ConcreteCategory.epi_of_surjective (ModuleCat.ofHom (LinearMap.snd R M₁ M₂))
       (LinearMap.snd_surjective (R := R) (M := M₁) (M₂ := M₂))
   have hexact : S.Exact := by
@@ -102,7 +102,7 @@ theorem periodicLength_prodMap
     intro i
     refine (ShortComplex.ShortExact.moduleCat_exact_iff_function_exact
       (S.map (HomologicalComplex.eval (ModuleCat.{v} R) (ComplexShape.up (ZMod 2)) i))).mpr ?_
-    show Function.Exact (LinearMap.inl R M₁ M₂) (LinearMap.snd R M₁ M₂)
+    change Function.Exact (LinearMap.inl R M₁ M₂) (LinearMap.snd R M₁ M₂)
     exact Function.Exact.inl_snd
   exact periodicLength_additive_of_shortExact S
     (ShortComplex.ShortExact.mk' hexact hmono hepi) (Or.inr (Or.inl ⟨hfin₁, hfin₂⟩))

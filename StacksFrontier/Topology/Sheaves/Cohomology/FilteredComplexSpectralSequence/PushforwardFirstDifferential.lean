@@ -75,7 +75,7 @@ def grShortComplexMap {M N : Filtered A} (φ : M ⟶ N) (p : ℤ) :
   τ₃ := cokernel.map (M.succStep p) (N.succStep p) (φ.natTrans.app _)
     (φ.natTrans.app _) (FilteredObject.step_natTrans_app φ _)
   comm₁₂ := coequalizer.hom_ext (by
-    simp only [cokernel.π_desc_assoc, cokernel.π_desc, Category.assoc, Category.id_comp]
+    simp only [cokernel.π_desc_assoc, cokernel.π_desc, Category.assoc]
     rw [← Category.assoc, ← Category.assoc, ← FilteredObject.step_natTrans_app φ])
   comm₂₃ := coequalizer.hom_ext (by
     simp only [cokernel.π_desc_assoc, cokernel.π_desc, Category.assoc, Category.id_comp])
@@ -224,7 +224,7 @@ theorem mapOfMono_firstPage_d (p q n n' : ℤ) (hn : n = p + q) (hn' : n' = n + 
     (HomologicalComplex.HomologySequence.δ_naturality (grShortComplexMapOfMonoIso T M hM h p).hom
       (grShortComplex_shortExact _ p) (shortExact_map_grShortComplex T M hM h p) n n'
       (by simp [hn'])).symm
-  show _ = (((mapComplexOfMono T M h).firstPageIso p q n hn).hom ≫
+  change _ = (((mapComplexOfMono T M h).firstPageIso p q n hn).hom ≫
       HomologicalComplex.homologyMap (grMapOfMonoIso T M hM h p).hom n) ≫
     (shortExact_map_grShortComplex T M hM h p).δ n n' (by simp [hn']) ≫
       HomologicalComplex.homologyMap (grMapOfMonoIso T M hM h (p + 1)).inv n' ≫

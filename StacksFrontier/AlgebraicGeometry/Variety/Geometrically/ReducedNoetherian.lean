@@ -88,14 +88,14 @@ public theorem exists_open_geometricallyReduced_of_isGeometricallyReducedAt
   let : Algebra (↑A) (↑B) := X.presheaf.algebra_section_stalk ⟨x, hxU⟩
   have : IsScalarTower k (↑A) (↑B) := IsScalarTower.of_algebraMap_eq' (by
     ext c
-    show (f.stalkMap x).hom
+    change (f.stalkMap x).hom
         (algebraMap k ((Spec (.of k)).presheaf.stalk (f.base x)) c) =
       X.presheaf.germ U x hxU (halg c)
     calc
       _ = X.presheaf.germ (f ⁻¹ᵁ (⊤ : (Spec (.of k)).Opens)) x (by simp)
           ((f.app ⊤) ((Scheme.ΓSpecIso (.of k)).inv.hom c)) := by
         rw [hbase]
-        show (f.stalkMap x).hom (baseGerm.hom c) = _
+        change (f.stalkMap x).hom (baseGerm.hom c) = _
         dsimp [baseGerm]
         exact Scheme.Hom.germ_stalkMap_apply f ⊤ x (by simp)
           ((Scheme.ΓSpecIso (.of k)).inv.hom c)

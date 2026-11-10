@@ -155,7 +155,7 @@ private theorem exists_chartHom_left_eq (hG : IsThickening B S hS X G)
     (by rw [Category.comp_id, ← (BigFppfOver.toScheme B S hS).map_comp, hW.lift_snd])
   have hQ : (BigFppfOver.toScheme B S hS).map (hW.snd V.1.hom) ≫
       B.inclusion.map (V.1.left).hom = B.inclusion.map (hW.pullback V.1.hom).hom := by
-    show B.inclusion.map (hW.snd V.1.hom).left ≫ B.inclusion.map (V.1.left).hom = _
+    change B.inclusion.map (hW.snd V.1.hom).left ≫ B.inclusion.map (V.1.left).hom = _
     rw [← B.inclusion.map_comp, Over.w]
   have hcomp : f ≫ B.inclusion.map (hW.pullback V.1.hom).hom =
       B.inclusion.map (V.1.left).hom := by
@@ -177,7 +177,7 @@ private theorem exists_chartHom_left_eq (hG : IsThickening B S hS X G)
       ← yoneda.map_comp, hfbsnd, yoneda.map_id, Category.id_comp]
   refine ⟨ObjectProperty.homMk (CostructuredArrow.homMk _ hchart), ?_⟩
   refine yoneda.map_injective ?_
-  show yoneda.map (hι.snd V.1.hom ≫ BigFppfOver.homOfCompEq B S hS f hcomp ≫
+  change yoneda.map (hι.snd V.1.hom ≫ BigFppfOver.homOfCompEq B S hS f hcomp ≫
       yoneda.preimage (hW.fst V.1.hom)) = yoneda.map (cl ≫ hι.snd W.1.hom)
   rw [← Category.assoc, hfbj, yoneda.map_comp, yoneda.map_preimage, hW.lift_fst]
 

@@ -157,7 +157,7 @@ theorem deltaDimension_closureImage_of_properCycleDegree_ne_zero (sX : X ⟶ D.s
         (D.isDecentSpace_of_isGood sY hY) f Z) = deltaDimension D sX Z := by
   by_contra hne
   refine hZ ?_
-  show (if deltaDimension D sY (IntegralClosedSubspace.closureImage D.site D.base D.base_mem
+  change (if deltaDimension D sY (IntegralClosedSubspace.closureImage D.site D.base D.base_mem
       hY.1 (D.isDecentSpace_of_isGood sY hY) f Z) = deltaDimension D sX Z then
     ((functionFieldDegree D sX hX sY hY f Z : ℤ)) else 0) = 0
   split_ifs
@@ -271,7 +271,7 @@ theorem finite_properCycleFibre (sX : X ⟶ D.space) (hX : D.IsGood sX) (sY : Y 
   refine hVfin.subset ?_
   rintro Z ⟨hZne, hZim⟩
   refine ⟨Z'.ambientGenericPoint D.site D.base D.base_mem, ?_, mem_of_mem_nhds hV⟩
-  show Z'.ambientGenericPoint D.site D.base D.base_mem ∈
+  change Z'.ambientGenericPoint D.site D.base D.base_mem ∈
     closure (pointsMap D.site D.base D.base_mem X f '' cycleSupportFamily D α Z)
   rw [closure_image_cycleSupportFamily D sY hY f α hZne, hZim,
     ← Z'.isGenericPoint_ambientGenericPoint D.site D.base D.base_mem hY.1]
@@ -363,7 +363,7 @@ theorem properCyclePushforwardCoeff_mem_cyclesOfDimension (sX : X ⟶ D.space) (
     obtain ⟨Z, hZne, hZim, -⟩ :=
       exists_of_properPushforwardCoeff_ne_zero D sX hX sY hY f α.1 hcoeff
     refine ⟨Z, ⟨p, ?_, hpV⟩, hZim⟩
-    show p ∈ closure (pointsMap D.site D.base D.base_mem X f '' cycleSupportFamily D α.1 Z)
+    change p ∈ closure (pointsMap D.site D.base D.base_mem X f '' cycleSupportFamily D α.1 Z)
     rw [closure_image_cycleSupportFamily D sY hY f α.1 hZne, hZim]
     exact hp'
   · obtain ⟨Z, hZne, hZim, hdeg⟩ :=

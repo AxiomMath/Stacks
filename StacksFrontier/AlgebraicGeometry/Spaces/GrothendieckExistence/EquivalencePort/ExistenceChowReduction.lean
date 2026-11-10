@@ -78,7 +78,7 @@ theorem C1573.exists_yoneda_iso_opens_of_isImmersion_projectiveSpace [IsNoetheri
     Over.mk (⟨j.opensRange.ι ≫ p⟩ : B.obj hV ⟶ B.obj hA)
   let eB : Q.left ≅ U'.left := ObjectProperty.isoMk _ j.isoOpensRange
   let eQ : Q ≅ U' := Over.isoMk eB (B.inclusion.map_injective (by
-    show j.isoOpensRange.hom ≫ j.opensRange.ι ≫ p = B.inclusion.map Q.hom
+    change j.isoOpensRange.hom ≫ j.opensRange.ι ≫ p = B.inclusion.map Q.hom
     rw [Scheme.Hom.isoOpensRange_hom_ι_assoc]
     exact hjp))
   exact ⟨Y', p, j.opensRange, hV, (isProjectiveMorphism_iff_isHQuasiProjective_and_isProper.1 hp).2,

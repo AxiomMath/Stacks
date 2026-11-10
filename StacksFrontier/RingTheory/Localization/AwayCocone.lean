@@ -181,7 +181,7 @@ theorem awayCoconeStr_eq {s : Cocone (awayDiagram M)} (a : AwayIndex M) (r : R) 
     exact congrArg CommRingCat.Hom.hom h
   have hr := RingHom.congr_fun hnat
     (algebraMap R (Localization.Away ((⟨1⟩ : AwayIndex M).elem : R)) r)
-  show (s.ι.app a).hom (algebraMap R (Localization.Away (a.elem : R)) r) =
+  change (s.ι.app a).hom (algebraMap R (Localization.Away (a.elem : R)) r) =
     (s.ι.app ⟨1⟩).hom (algebraMap R (Localization.Away ((⟨1⟩ : AwayIndex M).elem : R)) r)
   rw [← awayTransition_algebraMap hoa r]
   exact hr

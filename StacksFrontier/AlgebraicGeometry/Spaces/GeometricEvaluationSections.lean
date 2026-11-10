@@ -162,7 +162,7 @@ theorem geometricEval_chartLocalRingToEtaleLocalRing_germ
     (chartOpenNeighborhood B S hS V W hw)
     (show (structurePresheaf B S hS X).obj
       (op (chartOpenNeighborhood B S hS V W hw).chart) from W.topIso.inv a)).trans ?_
-  show (Scheme.ΓSpecIso (CommRingCat.of x.val.carrier)).hom.hom
+  change (Scheme.ΓSpecIso (CommRingCat.of x.val.carrier)).hom.hom
       ((Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
         (chartOpenNeighborhood B S hS V W hw).point).op).hom (W.topIso.inv a)) = _
   refine congrArg (Scheme.ΓSpecIso (CommRingCat.of x.val.carrier)).hom.hom ?_

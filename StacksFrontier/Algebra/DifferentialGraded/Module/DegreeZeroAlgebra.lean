@@ -250,7 +250,7 @@ attribute [local instance] complexModuleR
 theorem complexModuleR_isScalarTower (K : CochainComplex (ModuleCat.{u} A) ℤ) (n : ℤ) :
     IsScalarTower R A (K.X n) where
   smul_assoc r a x := by
-    show (r • a) • x = algebraMap R A r • (a • x)
+    change (r • a) • x = algebraMap R A r • (a • x)
     rw [Algebra.smul_def, mul_smul]
 
 attribute [local instance] complexModuleR_isScalarTower
@@ -328,7 +328,7 @@ theorem complexDifferential_smul (K : CochainComplex (ModuleCat.{u} A) ℤ) (a :
   | of n x =>
     rw [← DirectSum.lof_eq_of A, ← map_smul]
     simp only [DirectSum.lof_eq_of, complexDifferential_of]
-    show DirectSum.lof A ℤ (fun n => K.X n) (n + 1)
+    change DirectSum.lof A ℤ (fun n => K.X n) (n + 1)
       (K.d n (n + 1) (a • x)) = a • DirectSum.lof A ℤ (fun n => K.X n) (n + 1)
         (K.d n (n + 1) x)
     simp only [map_smul]
@@ -565,7 +565,7 @@ attribute [local instance] degreeZeroLeftModule
 theorem degreeZeroLeftModule_isScalarTower (M : DifferentialGradedModule (degreeZero R S)) :
     IsScalarTower R A M.M where
   smul_assoc r a x := by
-    show oppositeEquiv R S A (r • a) • x = r • (oppositeEquiv R S A a • x)
+    change oppositeEquiv R S A (r • a) • x = r • (oppositeEquiv R S A a • x)
     rw [oppositeEquiv_smul]
     exact smul_assoc r (oppositeEquiv R S A a) x
 
@@ -575,7 +575,7 @@ attribute [local instance] degreeZeroLeftModule_isScalarTower
 left action of the element of `A` it corresponds to. -/
 theorem oppositeEquiv_symm_smul_eq (M : DifferentialGradedModule (degreeZero R S)) (s : Sᵐᵒᵖ)
     (x : M.M) : ((oppositeEquiv R S A).symm s : A) • x = s • x := by
-  show oppositeEquiv R S A ((oppositeEquiv R S A).symm s) • x = s • x
+  change oppositeEquiv R S A ((oppositeEquiv R S A).symm s) • x = s • x
   rw [RingEquiv.apply_symm_apply]
 
 /-- The inclusion of a homogeneous component of a differential graded module over `S` in degree
@@ -599,7 +599,7 @@ theorem degreeZeroTotalLinear_of (M : DifferentialGradedModule (degreeZero R S))
     degreeZeroTotalLinear (A := A) M
         (DirectSum.of (fun n => (degreeZeroComplex (A := A) M).X n) n x) =
       (x : (M.grading n : Submodule R M.M)).val := by
-  show DirectSum.toModule A ℤ M.M (degreeZeroInclusion (A := A) M)
+  change DirectSum.toModule A ℤ M.M (degreeZeroInclusion (A := A) M)
       (DirectSum.lof A ℤ (fun n => (degreeZeroComplex (A := A) M).X n) n x) = _
   rw [DirectSum.toModule_lof]
   rfl
@@ -650,7 +650,7 @@ theorem degreeZeroTotalHom_bijective (M : DifferentialGradedModule (degreeZero R
       refine (map_add (degreeZeroTotalLinear (A := A) M) x y).trans
         ((congrArg₂ (· + ·) hx hy).trans ?_)
       exact (map_add (DirectSum.coeAddMonoidHom M.grading) x y).symm
-  show Function.Bijective fun x : complexTotal (degreeZeroComplex (A := A) M) =>
+  change Function.Bijective fun x : complexTotal (degreeZeroComplex (A := A) M) =>
     (degreeZeroTotalHom (A := A) M).toFun x
   rw [show (fun x : complexTotal (degreeZeroComplex (A := A) M) =>
       (degreeZeroTotalHom (A := A) M).toFun x) =
@@ -879,7 +879,7 @@ theorem degreeZeroComponentFunctor_comp_Q_isLocalization :
     (HomologicalComplex.quasiIso (ModuleCat.{u} A) (.up ℤ)) _ _ degreeZeroEquivalence.symm
   · intro X Y f hf
     apply MorphismProperty.le_isoClosure
-    show HomologicalComplex.quasiIso (ModuleCat.{u} A) (.up ℤ)
+    change HomologicalComplex.quasiIso (ModuleCat.{u} A) (.up ℤ)
       ((degreeZeroComponentFunctor R A).map (degreeZeroEquivalence.inverse.map f))
     exact ((HomologicalComplex.quasiIso (ModuleCat.{u} A) (.up ℤ)).arrow_mk_iso_iff
       (Arrow.isoMk (degreeZeroEquivalence.counitIso.app X)

@@ -145,12 +145,13 @@ def etalePointUnitSectionsOne : etalePointUnitSections.{u, r} Λ k :=
   (1 : (Stacks.SheafOfModules.Tensor.ringSheaf
     (etaleRingedSite.{u, r} Λ (Spec (.of k))).O).obj.obj (op (etalePointFinal.{u, r} k)))
 
+omit [IsSepClosed k] in
 /-- For `a : Λ`, the section `a • 1` of `Λ̲` over the final object is the image of `a` under the
 sheafification map `Λ ⟶ Λ̲(Spec k)`. -/
 theorem smul_etalePointUnitSectionsOne (a : Λ) :
     (a • etalePointUnitSectionsOne.{u, r} Λ k : etalePointUnitSections.{u, r} Λ k) =
       (etalePointRingMap.{u, r} Λ k).app (op (etalePointFinal.{u, r} k)) (ULift.up a) := by
-  show (etalePointRingMap.{u, r} Λ k).app (op (etalePointFinal.{u, r} k)) (ULift.up a) * 1 = _
+  change (etalePointRingMap.{u, r} Λ k).app (op (etalePointFinal.{u, r} k)) (ULift.up a) * 1 = _
   rw [mul_one]
 
 /-- **`Λ̲(Spec k) = Λ`**, as `Λ`-modules: `a ↦ a • 1`. -/

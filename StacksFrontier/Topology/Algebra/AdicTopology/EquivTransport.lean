@@ -170,7 +170,7 @@ public theorem uniformContinuous_of_continuous_ringEquiv (e : A ≃+* C) (he : C
   refine Filter.mem_comap.mpr ⟨(e : A → C) ⁻¹' U,
     he.continuousAt.preimage_mem_nhds (by simpa using hU), fun p hp ↦ ?_⟩
   refine hUV ?_
-  show e p.2 + -e p.1 ∈ U
+  change e p.2 + -e p.1 ∈ U
   rw [← map_neg, ← map_add]
   exact hp
 

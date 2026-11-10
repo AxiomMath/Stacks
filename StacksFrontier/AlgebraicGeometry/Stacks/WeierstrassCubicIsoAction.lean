@@ -124,7 +124,7 @@ theorem preimage_basicOpenOf_two :
   have h1 := congrArg (F p ∈ ·) (range_zeroOf W)
   have h2 := congrArg (p ∈ ·) (range_zeroOf W')
   simp only [eq_iff_iff, Set.mem_compl_iff, SetLike.mem_coe] at h1 h2
-  show F p ∈ basicOpenOf W (coordOf W 2) ↔ p ∈ basicOpenOf W' (coordOf W' 2)
+  change F p ∈ basicOpenOf W (coordOf W 2) ↔ p ∈ basicOpenOf W' (coordOf W' 2)
   rw [← not_iff_not, ← h1, ← h2]
   exact mem_range_zeroOf_iff F hz p
 
@@ -190,9 +190,9 @@ not contain `formalZ W`. -/
 theorem arc_mem_basicOpenOf_two_iff (W : WeierstrassCurve R)
     (m : Spec (CommRingCat.of (PowerSeries R))) :
     arc W m ∈ basicOpenOf W (coordOf W 2) ↔ formalZ W ∉ m.asIdeal := by
-  show Spec.map (CommRingCat.ofHom (arcHom W)) m ∈ chartY W ⁻¹ᵁ basicOpenOf W (coordOf W 2) ↔ _
+  change Spec.map (CommRingCat.ofHom (arcHom W)) m ∈ chartY W ⁻¹ᵁ basicOpenOf W (coordOf W 2) ↔ _
   rw [chartY, specPoint_preimage_basicOpenOf W _ _ one_pos (coordOf_mem W 2), chartYHom_coordOf_two]
-  show chartYZ W ∉ Ideal.comap (arcHom W) m.asIdeal ↔ _
+  change chartYZ W ∉ Ideal.comap (arcHom W) m.asIdeal ↔ _
   rw [Ideal.mem_comap, arcHom_chartYZ]
 
 section Iso

@@ -52,7 +52,7 @@ theorem chartMatrix_apply_self {k n : ℕ} (ι : Fin (n - k) ↪ Fin n) {R : Typ
     (v : ChartIndex.{u} ι → R) (i i' : Fin (n - k)) :
     chartMatrix ι v i (ι i') = if i = i' then 1 else 0 := by
   classical
-  simp only [chartMatrix, Matrix.of_apply, Set.mem_range_self, dif_pos]
+  simp only [chartMatrix, Matrix.of_apply, Set.mem_range_self, dite_eq_left]
   exact if_congr ⟨fun h => ι.injective h, fun h => h ▸ rfl⟩ rfl rfl
 
 /-- For `j` outside the range of `ι`, the `(i, j)` entry of `chartMatrix ι v` is the coordinate
@@ -61,7 +61,7 @@ theorem chartMatrix_apply_of_notMem {k n : ℕ} (ι : Fin (n - k) ↪ Fin n) {R 
     (v : ChartIndex.{u} ι → R) (i : Fin (n - k)) {j : Fin n} (hj : j ∉ Set.range ι) :
     chartMatrix ι v i j = v (ULift.up (⟨j, hj⟩, i)) := by
   classical
-  simp only [chartMatrix, Matrix.of_apply, dif_neg hj]
+  simp only [chartMatrix, Matrix.of_apply, dite_eq_right hj]
 
 /-- The matrix of a ring homomorphism applied to coordinates is the image of the matrix. -/
 theorem chartMatrix_map {k n : ℕ} (ι : Fin (n - k) ↪ Fin n) {R S : Type*} [CommRing R]
@@ -125,7 +125,7 @@ theorem exists_comp_chart_eq_of_isUnit_det {T : Scheme.{u}} {k n : ℕ}
   funext i j
   rw [Matrix.mul_apply, Matrix.submatrix_apply]
   simp only [Matrix.of_apply, id, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq,
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
 
 end AlgebraicGeometry.Grassmannian
 

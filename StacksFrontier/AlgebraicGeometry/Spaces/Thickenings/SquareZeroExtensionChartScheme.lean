@@ -232,12 +232,12 @@ stalk at `x` of the reduction. -/
 theorem chartZariskiInclusion_stalkMap (V : SmallEtale B S hS X.1) (x : chartScheme V) :
     (chartZariskiInclusion B S hS E V).hom.stalkMap x =
       (TopCat.Presheaf.stalkFunctor CommRingCat x).map (chartZariskiπ B S hS E V).hom := by
-  show (TopCat.Presheaf.stalkFunctor CommRingCat x).map (chartZariskiπ B S hS E V).hom ≫
+  change (TopCat.Presheaf.stalkFunctor CommRingCat x).map (chartZariskiπ B S hS E V).hom ≫
       TopCat.Presheaf.stalkPushforward CommRingCat (𝟙 (chartScheme V : TopCat))
         (chartScheme V).presheaf x =
     (TopCat.Presheaf.stalkFunctor CommRingCat x).map (chartZariskiπ B S hS E V).hom
   rw [TopCat.Presheaf.stalkPushforward.id]
-  show (TopCat.Presheaf.stalkFunctor CommRingCat x).map (chartZariskiπ B S hS E V).hom ≫
+  change (TopCat.Presheaf.stalkFunctor CommRingCat x).map (chartZariskiπ B S hS E V).hom ≫
       (TopCat.Presheaf.stalkFunctor CommRingCat x).map
       (TopCat.Presheaf.Pushforward.id (chartScheme V).presheaf).hom =
     (TopCat.Presheaf.stalkFunctor CommRingCat x).map (chartZariskiπ B S hS E V).hom

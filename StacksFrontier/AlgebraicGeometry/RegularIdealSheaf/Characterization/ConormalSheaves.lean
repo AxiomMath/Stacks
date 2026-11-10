@@ -70,7 +70,7 @@ abbrev GradedPiece (n : ℕ) := ↥(I ^ n) ⧸ (Submodule.comap (I ^ n).subtype 
 lemma gradedPiece_torsion (n : ℕ) : Module.IsTorsionBySet R (GradedPiece I n) (I : Set R) := by
   rw [Module.isTorsionBySet_quotient_iff]
   intro x r hr
-  show r * (x : R) ∈ I ^ (n + 1)
+  change r * (x : R) ∈ I ^ (n + 1)
   rw [pow_succ']
   exact Ideal.mul_mem_mul hr x.property
 
@@ -156,7 +156,7 @@ noncomputable def productMap (n : ℕ) : Words I n →ₗ[R] GradedPiece I n :=
 lemma relations_le_ker_productMap (n : ℕ) : relations I n ≤ (productMap I n).ker := by
   rw [relations, Submodule.span_le]
   intro z hz
-  show productMap I n z = 0
+  change productMap I n z = 0
   cases hz with
   | add a i x y => simp [MultilinearMap.map_update_add]
   | smul a i r x => simp [MultilinearMap.map_update_smul]
@@ -171,7 +171,7 @@ lemma relations_le_ker_productMap (n : ℕ) : relations I n ≤ (productMap I n)
   | square a i hi =>
     simp only [productMap_word]
     apply (Submodule.Quotient.mk_eq_zero _).2
-    show (∏ j, (a j : R)) ∈ I ^ (n + 1)
+    change (∏ j, (a j : R)) ∈ I ^ (n + 1)
     rw [← Finset.mul_prod_erase _ _ (Finset.mem_univ i)]
     have hrest : (∏ j ∈ Finset.univ.erase i, (a j : R)) ∈
         I ^ (Finset.univ.erase i).card := by
@@ -241,7 +241,7 @@ lemma relations_map (n : ℕ) :
     relations I n ≤ (relations K n).comap (wordsMap I K φ h n) := by
   rw [relations, Submodule.span_le]
   intro z hz
-  show wordsMap I K φ h n z ∈ relations K n
+  change wordsMap I K φ h n z ∈ relations K n
   cases hz with
   | add a i x y =>
     simp only [map_sub, wordsMap_word, map_update, map_add]
@@ -296,7 +296,7 @@ lemma canonicalMap_naturality (n : ℕ) (z : SymmetricPower I n) :
   | smul_word r a =>
     simp only [map_smulₛₗ]
     congr 1
-    show productMap K n (wordsMap I K φ h n (word I a)) =
+    change productMap K n (wordsMap I K φ h n (word I a)) =
       gradedMap I K φ h n (productMap I n (word I a))
     simp only [wordsMap_word, productMap_word]
     apply congrArg (Submodule.Quotient.mk)
@@ -511,7 +511,7 @@ private lemma canonicalMap_bijective_of_inverse (n : ℕ)
   | smul_word r a =>
     rw [map_smul, map_smul]
     congr 1
-    show g (productMap I n (word I a)) = _
+    change g (productMap I n (word I a)) = _
     rw [productMap_word]
     exact hg a
 
@@ -544,7 +544,7 @@ private noncomputable def degreeOneInverse : GradedPiece I 1 →ₗ[R] Symmetric
 
 private lemma degreeOneInverse_productClass (a : Fin 1 → I) :
     degreeOneInverse I (productClass I 1 a) = Submodule.Quotient.mk (word I a) := by
-  show Submodule.Quotient.mk (word I (fun _ => _)) = _
+  change Submodule.Quotient.mk (word I (fun _ => _)) = _
   congr 2
   funext i
   apply Subtype.ext
@@ -555,7 +555,7 @@ private lemma degreeOneInverse_productClass (a : Fin 1 → I) :
 private lemma canonicalMap_degreeOneInverse (x : GradedPiece I 1) :
     canonicalMap I 1 (degreeOneInverse I x) = x := by
   induction x using Submodule.Quotient.induction_on with | _ x =>
-  show productMap I 1 (word I (fun _ => _)) = Submodule.Quotient.mk x
+  change productMap I 1 (word I (fun _ => _)) = Submodule.Quotient.mk x
   rw [productMap_word]
   apply congrArg Submodule.Quotient.mk
   apply Subtype.ext
@@ -584,7 +584,7 @@ lemma canonicalMap_surjective (n : ℕ) : Function.Surjective (canonicalMap I n)
   induction x using Submodule.Quotient.induction_on with | _ x =>
   obtain ⟨w, hw⟩ := hr x.property
   refine ⟨Submodule.Quotient.mk w, ?_⟩
-  show productMap I n w = Submodule.Quotient.mk x
+  change productMap I n w = Submodule.Quotient.mk x
   rw [productMap_eq]
   apply congrArg Submodule.Quotient.mk
   exact Subtype.ext hw
@@ -606,18 +606,18 @@ private lemma degreeZeroInverse_productClass (a : Fin 0 → I) :
     degreeZeroInverse I (productClass I 0 a) = Submodule.Quotient.mk (word I a) := by
   have ha : a = Fin.elim0 := funext (fun i => i.elim0)
   subst a
-  show (∏ i : Fin 0, (Fin.elim0 i : I).val) •
+  change (∏ i : Fin 0, (Fin.elim0 i : I).val) •
     (Submodule.Quotient.mk (word I Fin.elim0) : SymmetricPower I 0) = _
   simp
 
 private lemma canonicalMap_degreeZeroInverse (x : GradedPiece I 0) :
     canonicalMap I 0 (degreeZeroInverse I x) = x := by
   induction x using Submodule.Quotient.induction_on with | _ x =>
-  show canonicalMap I 0 ((x : R) • Submodule.Quotient.mk (word I Fin.elim0)) = _
+  change canonicalMap I 0 ((x : R) • Submodule.Quotient.mk (word I Fin.elim0)) = _
   rw [map_smul]
-  show (x : R) • productMap I 0 (word I Fin.elim0) = _
+  change (x : R) • productMap I 0 (word I Fin.elim0) = _
   rw [productMap_word]
-  show (x : R) • Submodule.Quotient.mk (product I 0 Fin.elim0) = _
+  change (x : R) • Submodule.Quotient.mk (product I 0 Fin.elim0) = _
   rw [← Submodule.Quotient.mk_smul]
   apply congrArg Submodule.Quotient.mk
   apply Subtype.ext
@@ -677,7 +677,7 @@ private lemma conormalSymmetricToGradedMap_epi (X : RingedSpace.{u})
   have hB : Epi ((PresheafOfModules.toPresheaf (quotientPresheaf X J)).map
     (canonicalPresheafMap X J n)) := inferInstance
   apply (SheafOfModules.toSheaf _).epi_of_epi_map
-  show Epi ((presheafToSheaf (Opens.grothendieckTopology X) AddCommGrpCat.{u}).map
+  change Epi ((presheafToSheaf (Opens.grothendieckTopology X) AddCommGrpCat.{u}).map
     ((PresheafOfModules.toPresheaf _).map (canonicalPresheafMap X J n)))
   infer_instance
 
@@ -788,7 +788,7 @@ lemma hom_eq_zero_of_generators (X : RingedSpace.{u})
     apply generatedIdealOn_le
     intro i
     refine ⟨⟨f i, mem_of_isGeneratedByOn X J U f hgen i⟩, ?_, rfl⟩
-    show τ.val.app (op U) _ = 0
+    change τ.val.app (op U) _ = 0
     exact hf i (op ((Over.star U).obj U))
   have hτ : τ.over U = 0 := by
     ext V s

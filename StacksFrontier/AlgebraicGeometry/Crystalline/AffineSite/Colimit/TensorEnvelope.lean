@@ -89,7 +89,7 @@ lemma baseImageKerStable
   let φ : S.A →+* X.ring × Y.ring :=
     X.fromBase.toRingHom.prod Y.fromBase.toRingHom
   let ψ : S.A →+* φ.range := φ.rangeRestrict
-  show S.A.dividedPowers.IsSubDPIdeal (RingHom.ker ψ ⊓ S.A.ideal)
+  change S.A.dividedPowers.IsSubDPIdeal (RingHom.ker ψ ⊓ S.A.ideal)
   refine ⟨inf_le_right, ?_⟩
   intro n hn a ha
   have hφ : φ a = 0 := Subtype.ext_iff.mp (RingHom.mem_ker.mp ha.1)
@@ -239,7 +239,7 @@ lemma baseImage_quotient_balanced
   apply Ideal.Quotient.ringHom_ext
   ext x
   obtain ⟨a, rfl⟩ := φ.rangeRestrict_surjective x
-  show (Ideal.Quotient.mk X.ring.ideal (X.fromBase a)) ⊗ₜ[S.C]
+  change (Ideal.Quotient.mk X.ring.ideal (X.fromBase a)) ⊗ₜ[S.C]
       (1 : Y.ring ⧸ Y.ring.ideal) =
     (1 : X.ring ⧸ X.ring.ideal) ⊗ₜ[S.C]
       (Ideal.Quotient.mk Y.ring.ideal (Y.fromBase a))
@@ -327,8 +327,7 @@ lemma imagePushoutToTensor_surjective
   let _ : Algebra S.C (X.ring ⧸ X.ring.ideal) := X.toQuotient.toAlgebra
   let _ : Algebra S.C (Y.ring ⧸ Y.ring.ideal) := Y.toQuotient.toAlgebra
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, (imagePushoutToTensor X Y).toRingHom.map_zero⟩
+  induction z using TensorProduct.inductionOn with
   | tmul x y =>
     obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x
     obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective y
@@ -343,7 +342,7 @@ lemma imagePushoutToTensor_surjective
     have hr : (imagePushoutToTensor X Y).toRingHom b' =
         (1 : X.ring ⧸ X.ring.ideal) ⊗ₜ[S.C]
           (Ideal.Quotient.mk Y.ring.ideal b) := imagePushoutToTensor_right X Y b
-    show (imagePushoutToTensor X Y).toRingHom (a' * b') = _
+    change (imagePushoutToTensor X Y).toRingHom (a' * b') = _
     rw [map_mul, hl, hr]
     simp
   | add a b ha hb =>
@@ -415,7 +414,7 @@ lemma envelopeStructureQuotient_surjective
   let e := (envelopeQuotientEquiv (A := A) (RingHom.id A) J hJ E).1
   obtain ⟨a, ha⟩ := Ideal.Quotient.mk_surjective (e z)
   refine ⟨a, e.injective ?_⟩
-  show e (Ideal.Quotient.mk E.object.ideal (E.structureMap a)) = e z
+  change e (Ideal.Quotient.mk E.object.ideal (E.structureMap a)) = e z
   rw [envelopeQuotientEquiv_apply_structureMap, ha]
 
 lemma tensorEnvelopeQuotientEquiv_apply_structureMap
@@ -445,7 +444,7 @@ lemma imagePushoutToTensor_base
         (Y.ring ⧸ Y.ring.ideal)) (algebraMap S.A S.C a) := by
   let _ : Algebra S.C (X.ring ⧸ X.ring.ideal) := X.toQuotient.toAlgebra
   let _ : Algebra S.C (Y.ring ⧸ Y.ring.ideal) := Y.toQuotient.toAlgebra
-  show (imagePushoutToTensor X Y)
+  change (imagePushoutToTensor X Y)
     ((pushout.inl (baseImageToLeft X Y) (baseImageToRight X Y))
       ((baseImageToLeft X Y) ((baseToImage X Y) a))) = _
   have hbase := congrArg

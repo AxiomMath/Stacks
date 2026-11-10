@@ -103,7 +103,7 @@ theorem continuous_of_continuous_component (F : C ⥤ Type w) (G : D ⥤ Type w)
   let _tG (W : D) : TopologicalSpace (G.obj W) := ⊥
   let _dG (W : D) : DiscreteTopology (G.obj W) := ⟨rfl⟩
   let _tP (W : D) : TopologicalSpace (Equiv.Perm (G.obj W)) := autTopology
-  show @Continuous (Aut F) (Aut G) _
+  change @Continuous (Aut F) (Aut G) _
     (TopologicalSpace.induced (componentEmbedding G) inferInstance) φ
   refine continuous_induced_rng.mpr (continuous_pi fun Z ↦ ?_)
   exact continuous_induced_rng.mpr (continuous_pi fun b ↦ h Z b)

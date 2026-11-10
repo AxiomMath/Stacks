@@ -441,7 +441,7 @@ theorem constToRoots_isLocallySurjective :
   obtain ⟨ζ, hζ⟩ : ∃ ζ : k, IsPrimitiveRoot ζ n := by
     have : NeZero n := ⟨Nat.ne_of_gt hn⟩
     have : NeZero (n : k) := ⟨hnk.ne_zero⟩
-    exact HasEnoughRootsOfUnity.exists_primitiveRoot k n
+    exact HasEnoughRootsOfUnity.exists_isPrimitiveRoot k n
   refine ⟨fun {T} s => ?_⟩
   let r := rootsOfUnitySection.{u, v} X n (op T) s
   have hwn : ((r.1 : (Γ(T.left, ⊤))ˣ) : Γ(T.left, ⊤)) ^ n = 1 := by

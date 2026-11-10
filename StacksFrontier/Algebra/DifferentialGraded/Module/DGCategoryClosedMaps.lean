@@ -93,7 +93,7 @@ theorem homogeneousMapDifferential_eq_zero_iff_exists_hom_shift
       map_d := ?_
     }, rfl⟩
     ext x
-    show f.1 (L.d x) = (shift M n).d (f.1 x)
+    change f.1 (L.d x) = (shift M n).d (f.1 x)
     have hpoint := LinearMap.congr_fun hmap x
     simp only [LinearMap.comp_apply, LinearMap.smul_apply] at hpoint
     rw [shift_d_apply, hpoint, smul_smul, gradedSign_mul_self, one_smul]
@@ -102,7 +102,7 @@ theorem homogeneousMapDifferential_eq_zero_iff_exists_hom_shift
     ext x
     have hpoint : f.1 (L.d x) = gradedSign R n • M.d (f.1 x) := by
       simpa only [hg, LinearMap.comp_apply, shift_d_apply] using LinearMap.congr_fun g.map_d x
-    show M.d (f.1 x) - gradedSign R n • f.1 (L.d x) = 0
+    change M.d (f.1 x) - gradedSign R n • f.1 (L.d x) = 0
     rw [hpoint, smul_smul, gradedSign_mul_self, one_smul, sub_self]
 
 /-- A closed homogeneous map is a boundary exactly when the corresponding homomorphism into the
@@ -122,7 +122,7 @@ theorem homotopic_zero_iff_exists_homogeneousMapDifferential
         · intro i x hx
           rw [LinearMap.smul_apply]
           apply (M.grading (i + (n - 1))).smul_mem _
-          show h.toLinearMap x ∈ M.grading (i + (n - 1))
+          change h.toLinearMap x ∈ M.grading (i + (n - 1))
           simpa only [shift_grading, show (i - 1) + n = i + (n - 1) by omega] using
             h.map_grading i x hx
         · intro a x
@@ -135,7 +135,7 @@ theorem homotopic_zero_iff_exists_homogeneousMapDifferential
     change F.toFun x - (0 : (shift M n).M) =
       (shift M n).d (h.toLinearMap x) + h.toLinearMap (L.d x) at heq
     rw [homogeneousMapDifferential_val]
-    show M.d ((gradedSign R n • hR) x) -
+    change M.d ((gradedSign R n • hR) x) -
         gradedSign R (n - 1) • ((gradedSign R n • hR) (L.d x)) = f.1 x
     simp only [LinearMap.smul_apply]
     rw [M.d.map_smul, smul_smul]
@@ -149,14 +149,14 @@ theorem homotopic_zero_iff_exists_homogeneousMapDifferential
       { toFun := fun x => gradedSign R n • g.1 x
         map_add' x y := by simp [smul_add]
         map_smul' a x := by
-          show gradedSign R n • g.1 (a • x) = a • (gradedSign R n • g.1 x)
+          change gradedSign R n • g.1 (a • x) = a • (gradedSign R n • g.1 x)
           have hA : g.1 (a • x) = a • g.1 x := by
             simpa only [MulOpposite.op_unop] using g.2.2 (MulOpposite.unop a) x
           rw [hA, smul_comm] }
     refine ⟨{
       toLinearMap := hmap
       map_grading i x hx := by
-        show gradedSign R n • g.1 x ∈ (shift M n).grading (i - 1)
+        change gradedSign R n • g.1 x ∈ (shift M n).grading (i - 1)
         apply (M.grading ((i - 1) + n)).smul_mem _
         rw [show (i - 1) + n = i + (n - 1) by omega]
         exact g.2.1 i x hx
@@ -164,11 +164,11 @@ theorem homotopic_zero_iff_exists_homogeneousMapDifferential
         have hval := congrArg (fun q : L.M →ₗ[R] M.M => q x) hg
         simp only [homogeneousMapDifferential_val, LinearMap.sub_apply, LinearMap.comp_apply,
           LinearMap.smul_apply] at hval
-        show F.toFun x - (0 : (shift M n).M) =
+        change F.toFun x - (0 : (shift M n).M) =
           (shift M n).d (hmap x) + hmap (L.d x)
         rw [hF]
         rw [shift_d_apply]
-        show f.1 x - (0 : M.M) =
+        change f.1 x - (0 : M.M) =
           gradedSign R n • M.d (gradedSign R n • g.1 x) + gradedSign R n • g.1 (L.d x)
         rw [M.d.map_smul, smul_smul, gradedSign_mul_self, one_smul, sub_zero]
         rw [sub_eq_add_neg, ← neg_smul, neg_gradedSign_sub_one] at hval

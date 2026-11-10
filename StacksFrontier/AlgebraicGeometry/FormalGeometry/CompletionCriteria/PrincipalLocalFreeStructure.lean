@@ -415,7 +415,7 @@ theorem localizedModuleStalkEquiv_naturality {M N : ModuleCat.{u} (CommRingCat.o
     have h3 := IsLocalizedModule.map_apply (underlyingPrime S y).asIdeal.primeCompl
       (M.localizedModuleMkLinearMap (underlyingPrime S y).asIdeal.primeCompl)
       (N.localizedModuleMkLinearMap (underlyingPrime S y).asIdeal.primeCompl) φ.hom m
-    show localizedModuleStalkEquiv S y N
+    change localizedModuleStalkEquiv S y N
         (((modulesStalkFunctor S.U.toScheme y).map ((restrictedTildeFunctor S).map φ))
           (tildeRestrictStalkMap S y M m))
       = (ModuleCat.localizedModuleMap.{u}

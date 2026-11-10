@@ -248,7 +248,7 @@ theorem exists_specializes_isRelativeWeaklyAssociatedPoint_fibre_schemeBase
         (restrictToChart B S hS X.2 F (etaleChartOfIsEtale B S hS a ha)) :=
     (hbridge u').1 ((isRelativeWeaklyAssociatedPoint_modulePullback_iff B S hS
         (ObjectProperty.homMk a : schemeSpace U ⟶ X) ha f F u').2 (by
-      show IsRelativeWeaklyAssociatedPoint B S hS f F (pointsMap B S hS (yoneda.obj U) a u')
+      change IsRelativeWeaklyAssociatedPoint B S hS f F (pointsMap B S hS (yoneda.obj U) a u')
       rw [hu'x]
       exact hx'))
   -- A point of `U` over the point of `V` underlying `s` cuts out a point of `|X|` over `s`.

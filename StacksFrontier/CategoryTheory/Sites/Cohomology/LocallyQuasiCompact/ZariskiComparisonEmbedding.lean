@@ -118,7 +118,7 @@ open-embedding precoverage of `TopCat`. -/
 theorem zariskiPrecoverage_isStableUnderComposition
     (S : LocallyQuasiCompactZariskiSituation.{u, w} S₀ Bound) :
     S.zariskiPrecoverage.IsStableUnderComposition := by
-  show (TopCat.precoverage.comap
+  change (TopCat.precoverage.comap
     (S.qcSite.inclusion ⋙ locallyQuasiCompactHausdorffToTop)).IsStableUnderComposition
   infer_instance
 
@@ -127,7 +127,7 @@ precoverage of `TopCat`. -/
 theorem zariskiPrecoverage_hasIsos
     (S : LocallyQuasiCompactZariskiSituation.{u, w} S₀ Bound) :
     S.zariskiPrecoverage.HasIsos := by
-  show (TopCat.precoverage.comap
+  change (TopCat.precoverage.comap
     (S.qcSite.inclusion ⋙ locallyQuasiCompactHausdorffToTop)).HasIsos
   infer_instance
 
@@ -138,7 +138,7 @@ theorem zariskiPrecoverage_isStableUnderBaseChange
     (S : LocallyQuasiCompactZariskiSituation.{u, w} S₀ Bound) :
     S.zariskiPrecoverage.IsStableUnderBaseChange := by
   let _ := preservesLimitsOfShape_walkingCospan_inclusionToTop S
-  show (TopCat.precoverage.comap
+  change (TopCat.precoverage.comap
     (S.qcSite.inclusion ⋙ locallyQuasiCompactHausdorffToTop)).IsStableUnderBaseChange
   infer_instance
 
@@ -192,7 +192,7 @@ theorem exists_comp_eq_opensToSlice_map_left
     ConcreteCategory.mono_of_injective _ (((S.opensToSlice X).2 U).1).injective
   refine ⟨E.preimage e,
     E.map_injective ((cancel_mono p).1 (ConcreteCategory.hom_ext _ _ fun z => ?_))⟩
-  show (E.map (E.preimage e) ≫ E.map f ≫ p) z = (E.map (G.map (homOfLE hVU)).left ≫ p) z
+  change (E.map (E.preimage e) ≫ E.map f ≫ p) z = (E.map (G.map (homOfLE hVU)).left ≫ p) z
   rw [Functor.map_preimage E e]
   exact (hφ z).trans (ConcreteCategory.congr_hom hVOverE.symm z)
 
@@ -260,12 +260,12 @@ theorem opensToSlice_isCocontinuous
     let α : Over.mk (f ≫ (G.obj U).hom) ⟶ G.obj U := Over.homMk f
     have hα : R α := (Sieve.overEquiv_iff R f).mp (hTR Z₀ f hf)
     let k : G.obj V ⟶ Over.mk (f ≫ (G.obj U).hom) := Over.homMk g' (by
-      show g' ≫ f ≫ (G.obj U).hom = (G.obj V).hom
+      change g' ≫ f ≫ (G.obj U).hom = (G.obj V).hom
       rw [← Category.assoc, hmap]
       exact Over.w (G.map (homOfLE hVU)))
     have hk : k ≫ α = G.map (homOfLE hVU) := Over.OverMorphism.ext hmap
     refine ⟨V, homOfLE hVU, ?_, hxV⟩
-    show R (G.map (homOfLE hVU))
+    change R (G.map (homOfLE hVU))
     simpa only [hk] using R.downward_closed hα k
 
 /-- The left adjoint of the comparison direct image is full and faithful, given the right Kan

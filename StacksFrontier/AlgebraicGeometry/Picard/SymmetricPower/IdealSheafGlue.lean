@@ -157,7 +157,7 @@ include hcompat in
 theorem glueIdeal_eq (i : ι) (U : Y.affineOpens) (hi : (U : Y.Opens) ≤ (g i).opensRange) :
     glueIdeal g I U = localIdeal (g i) (I i) U hi := by
   have h : GlueSupport g U := ⟨i, hi⟩
-  rw [glueIdeal, dif_pos h]
+  rw [glueIdeal, dite_eq_left h]
   exact hcompat _ _ _ _ _
 
 /-- **The glued ideal sheaf.** -/

@@ -65,7 +65,7 @@ theorem extendScalars_map_smul {M N : ModuleCat.{u} S} (s : S) (f : M ⟶ N) :
     fun t x => (TensorProduct.smul_tmul s t x).symm
   apply ModuleCat.ExtendScalars.hom_ext
   intro m
-  show ((1 : T) ⊗ₜ[S, φ] (s • f m) : (ModuleCat.extendScalars.{u, u, u} φ).obj N) =
+  change ((1 : T) ⊗ₜ[S, φ] (s • f m) : (ModuleCat.extendScalars.{u, u, u} φ).obj N) =
     (φ s * (1 : T)) ⊗ₜ[S, φ] f m
   exact key (1 : T) (f m)
 
@@ -103,7 +103,7 @@ theorem homComplexBaseChange_ofHom {P F : CochainComplex (ModuleCat.{u} S) ℤ}
   intro x
   refine (he 0 p p hpq a 1 (Cochain.ofHom g) x).trans ?_
   rw [Cochain.ofHom_v, Cochain.smul_v, Cochain.ofHom_v]
-  show _ = a • ((((StacksDraft.HomologyBaseChange.extendComplex φ).map g).f p).hom
+  change _ = a • ((((StacksDraft.HomologyBaseChange.extendComplex φ).map g).f p).hom
     ((1 : T) ⊗ₜ[S, φ] x))
   exact (ModuleCat.ExtendScalars.smul_tmul φ a 1 ((g.f p).hom x)).symm
 
@@ -115,7 +115,7 @@ theorem extendComplex_map_sub {P F : CochainComplex (ModuleCat.{u} S) ℤ} (k k'
   ext i : 1
   apply ModuleCat.ExtendScalars.hom_ext
   intro m
-  show ((1 : T) ⊗ₜ[S, φ] ((k.f i - k'.f i) m) : (ModuleCat.extendScalars.{u, u, u} φ).obj
+  change ((1 : T) ⊗ₜ[S, φ] ((k.f i - k'.f i) m) : (ModuleCat.extendScalars.{u, u, u} φ).obj
       (F.X i)) = (1 : T) ⊗ₜ[S, φ] (k.f i m) - (1 : T) ⊗ₜ[S, φ] (k'.f i m)
   exact TensorProduct.tmul_sub _ _ _
 
@@ -204,7 +204,7 @@ theorem isPostcompGenerator_Q_map_extend
           Cochain.ofHom k → χ w = k := by
     intro w k hk
     ext i : 1
-    show (((CochainComplex.HomComplexR T ((StacksDraft.HomologyBaseChange.extendComplex φ).obj P)
+    change (((CochainComplex.HomComplexR T ((StacksDraft.HomologyBaseChange.extendComplex φ).obj P)
       ((StacksDraft.HomologyBaseChange.extendComplex φ).obj F)).iCycles 0).hom w).v i i
         (add_zero i) = k.f i
     rw [hk, Cochain.ofHom_v]
@@ -238,7 +238,7 @@ theorem isPostcompGenerator_Q_map_extend
       exact h
     have hL : L (t ⊗ₜ[S, φ] z) =
         t • DerivedCategory.Q.map ((StacksDraft.HomologyBaseChange.extendComplex φ).map g) := by
-      show DerivedCategory.Q.map (χ (Θ.hom (t ⊗ₜ[S, φ] z))) = _
+      change DerivedCategory.Q.map (χ (Θ.hom (t ⊗ₜ[S, φ] z))) = _
       rw [hχ _ (t • (StacksDraft.HomologyBaseChange.extendComplex φ).map g) (by
         rw [hi, hg, homComplexBaseChange_ofHom he t g]
         refine Cochain.ext _ _ (fun p q hpq => ?_)
@@ -260,8 +260,7 @@ theorem isPostcompGenerator_Q_map_extend
   -- hence everywhere, `1 ⊗ z` spanning the base change
   have hall : ∀ y, L y ∈ N := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => convert N.zero_mem; exact L.map_zero
+    induction y using TensorProduct.inductionOn with
     | add y₁ y₂ h₁ h₂ => convert N.add_mem h₁ h₂ using 1; exact L.map_add _ _
     | tmul b z => exact hone b z
   intro g
@@ -282,7 +281,7 @@ theorem isPostcompGenerator_Q_map_extend
     simpa [w, HomologicalComplex.cyclesMk, ConcreteCategory.forget₂_comp_apply] using hwi
   have hy := hall ((inv Θ).hom w)
   have hLw : L ((inv Θ).hom w) = DerivedCategory.Q.map h := by
-    show DerivedCategory.Q.map (χ (Θ.hom ((inv Θ).hom w))) = _
+    change DerivedCategory.Q.map (χ (Θ.hom ((inv Θ).hom w))) = _
     rw [← ModuleCat.comp_apply, IsIso.inv_hom_id, ModuleCat.id_apply, hw]
   rw [hLw] at hy
   obtain ⟨t, ht⟩ := Submodule.mem_span_singleton.1 hy

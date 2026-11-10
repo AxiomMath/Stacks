@@ -152,7 +152,7 @@ theorem overPullbackOverMapPullbackIso_inv_comp {V W Z : C} (g : W ⟶ V) (h : V
     simp only [Iso.app_inv, GrothendieckTopology.overMapPullbackComp_inv_app_hom_app]
     exact F.obj.map_id _
   rw [iso_inv_app_id]
-  show _ = ((((overPullbackOverMapPullbackIso J g (A := A)).app F).inv).hom.app x) ≫
+  change _ = ((((overPullbackOverMapPullbackIso J g (A := A)).app F).inv).hom.app x) ≫
     (((J.overMapPullback A g).map
         ((overPullbackOverMapPullbackIso J h (A := A)).app F).inv).hom.app x) ≫
     ((((GrothendieckTopology.overMapPullbackComp J A g h).app
@@ -184,7 +184,7 @@ theorem overPullbackOverMapPullbackIso_comp_hom {V W Z : C} (g : W ⟶ V) (h : V
     simp only [Iso.app_hom, GrothendieckTopology.overMapPullbackComp_hom_app_hom_app]
     exact F.obj.map_id _
   rw [iso_hom_app_id]
-  show _ = (((GrothendieckTopology.overMapPullbackComp J A g h).app
+  change _ = (((GrothendieckTopology.overMapPullbackComp J A g h).app
         ((J.overPullback A Z).obj F)).hom).hom.app x ≫
     (((J.overMapPullback A g).map
         ((overPullbackOverMapPullbackIso J h (A := A)).app F).hom).hom.app x) ≫
@@ -255,7 +255,7 @@ theorem glued_uniqueness
     (by rw [Sieve.generate_sieve]; exact J.pullback_stable a.unop.hom hcov)).isSeparatedFor
   apply hsep.ext
   intro Y g hg
-  show ψ₁.hom.app a ≫ G.obj.map g.op = ψ₂.hom.app a ≫ G.obj.map g.op
+  change ψ₁.hom.app a ≫ G.obj.map g.op = ψ₂.hom.app a ≫ G.obj.map g.op
   -- Naturality of `ψₖ.hom` along the slice morphism `g` reduces both sides to the
   -- component over `Over.mk (g ≫ a.unop.hom)`.
   rw [app_comp_map_eq J ψ₁ a g, app_comp_map_eq J ψ₂ a g]
@@ -462,7 +462,7 @@ theorem psi_restrict (hcov : Sieve.generate (Presieve.ofArrows Ui f) ∈ J U)
   ext b
   rw [restrictHomAlong_app']
   set c : (Over U)ᵒᵖ := Opposite.op ((Over.map (f i)).obj b.unop) with hc
-  show psiapp J F G U Ui f hcov φ hφ c = (φ i).hom.app b
+  change psiapp J F G U Ui f hcov φ hφ c = (φ i).hom.app b
   have hchom : c.unop.hom = b.unop.hom ≫ f i := rfl
   refine hom_ext_of_pullback_snd J G U Ui f hcov c (fun j => ?_)
   rw [psiapp_spec J F G U Ui f hcov φ hφ c j, xfam]

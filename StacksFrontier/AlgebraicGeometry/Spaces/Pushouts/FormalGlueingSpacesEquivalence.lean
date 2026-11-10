@@ -147,6 +147,7 @@ namespace AlgebraicGeometry.Space.FormalGlueingSituation
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_formalGlueingSpacesEquivalence
@@ -296,7 +297,7 @@ theorem isAffineHom_of_isClosedImmersion {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ T
     (MorphismProperty.relative_monotone (F := yoneda)
       (fun _ _ p hp ↦ by
         change AlgebraicGeometry.IsClosedImmersion ((BigFppfOver.toScheme B S hS).map p) at hp
-        show AlgebraicGeometry.IsAffineHom ((BigFppfOver.toScheme B S hS).map p)
+        change AlgebraicGeometry.IsAffineHom ((BigFppfOver.toScheme B S hS).map p)
         have := hp
         exact inferInstance) f hf)
 

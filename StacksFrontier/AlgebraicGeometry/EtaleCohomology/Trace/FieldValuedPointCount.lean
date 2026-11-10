@@ -120,7 +120,7 @@ public theorem natCard_residueEmbeddings (x : X) :
       if residueDegree f x ∣ Module.finrank k K then residueDegree f x else 0 := by
   let : Algebra k (X.residueField x) := (fieldToResidue f x).hom.toAlgebra
   rw [Nat.card_congr (residueEmbeddingsEquivAlgHom f K x)]
-  show _ = if Module.finrank k (X.residueField x) ∣ Module.finrank k K then
+  change _ = if Module.finrank k (X.residueField x) ∣ Module.finrank k K then
     Module.finrank k (X.residueField x) else 0
   split_ifs with h
   · exact FiniteField.natCard_algHom_of_finrank_dvd h
@@ -172,7 +172,7 @@ public theorem natCard_fieldValuedPoints :
     intro x σ
     obtain ⟨hc, hd⟩ := isClosed_and_dvd_of_residueEmbeddings f K x σ
     refine ⟨hc, Finset.mem_filter.2 ⟨?_, hd⟩⟩
-    simp only [closedPointsDegreeLE, Set.Finite.mem_toFinset, Set.mem_setOf_eq]
+    simp only [closedPointsDegreeLE, Set.Finite.mem_toFinset, Set.mem_ofPred_eq]
     exact Nat.le_of_dvd hpos hd
   let e : (Σ x : X, residueEmbeddings f K x) ≃ Σ y : S, residueEmbeddings f K y.1.1 :=
     { toFun := fun c => ⟨⟨⟨c.1, (hmem c.1 c.2).1⟩, (hmem c.1 c.2).2⟩, c.2⟩
@@ -183,12 +183,12 @@ public theorem natCard_fieldValuedPoints :
     intro y
     refine Nat.finite_of_card_ne_zero ?_
     have hd := (Finset.mem_filter.1 y.2).2
-    rw [natCard_residueEmbeddings, if_pos hd]
+    rw [natCard_residueEmbeddings, ite_eq_left hd]
     exact residueDegree_ne_zero_of_dvd_finrank f K hd
   rw [Nat.card_congr ((fieldValuedPointsEquiv f K).trans e), Nat.card_sigma,
     ← Finset.sum_coe_sort S]
   refine Finset.sum_congr rfl fun y _ => ?_
-  rw [natCard_residueEmbeddings, if_pos (Finset.mem_filter.1 y.2).2]
+  rw [natCard_residueEmbeddings, ite_eq_left (Finset.mem_filter.1 y.2).2]
 
 end Count
 

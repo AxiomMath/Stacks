@@ -352,7 +352,7 @@ private theorem isLocalizedModule_specializationLevelMap
   let := stalkModule (G.obj.obj (op k)) y'
   let : Module (X.presheaf.stalk y') ((G.obj.obj (op k)).presheaf.stalk y) :=
     stalkSpecializesModule (G.obj.obj (op k)) h
-  show IsLocalizedModule qq.asIdeal.primeCompl
+  change IsLocalizedModule qq.asIdeal.primeCompl
     (((formalStalkQuotientEquivStalk G y k).restrictScalars
         (X.presheaf.stalk y')).symm.toLinearMap ∘ₗ
       (stalkSpecializesₗ (G.obj.obj (op k)) h) ∘ₗ

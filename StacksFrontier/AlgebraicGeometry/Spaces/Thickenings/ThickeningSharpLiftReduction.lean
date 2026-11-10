@@ -156,7 +156,7 @@ theorem derivationActionHom_comp_eq {Aa : Sheaf J RingCat.{u}} (ρ : E.ambient �
     (hρ : ∀ (V : Ccᵒᵖ) (m : M.val.obj V), ρ.hom.app V (E.ι m) = 0) :
     derivationActionHom E f D hmul hmap ι_smul ≫ ρ = f ≫ ρ :=
   Sheaf.hom_ext (NatTrans.ext (funext fun V ↦ RingCat.hom_ext (RingHom.ext fun x ↦ by
-    show ρ.hom.app V (f.hom.app V x - E.ι (D V (q.hom.app V x))) = ρ.hom.app V (f.hom.app V x)
+    change ρ.hom.app V (f.hom.app V x - E.ι (D V (q.hom.app V x))) = ρ.hom.app V (f.hom.app V x)
     rw [map_sub, hρ V _, sub_zero])))
 
 end Stacks.Sites

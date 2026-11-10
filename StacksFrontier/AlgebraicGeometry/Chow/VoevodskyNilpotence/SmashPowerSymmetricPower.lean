@@ -119,7 +119,7 @@ include f in
 /-- A smooth proper geometrically irreducible scheme over a field is integral. -/
 theorem isIntegral_of_smooth_of_geometricallyIrreducible : IsIntegral X := by
   have : Subsingleton (Spec (.of k)) := by
-    show Subsingleton (PrimeSpectrum k)
+    change Subsingleton (PrimeSpectrum k)
     exact PrimeSpectrum.subsingleton_iff_isField_of_isReduced.mpr (Field.toIsField k)
   have : IrreducibleSpace X := GeometricallyIrreducible.irreducibleSpace_of_subsingleton f
   have : Smooth f := SmoothOfRelativeDimension.smooth 1 f

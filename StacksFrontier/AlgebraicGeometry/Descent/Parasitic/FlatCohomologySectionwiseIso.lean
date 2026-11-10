@@ -157,7 +157,7 @@ private theorem flat_lfp_of_comp
       LocallyOfFinitePresentation ((Over.post B.inclusion).obj Y).hom := by
   have hcomp : (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map f ≫
       ((Over.post B.inclusion).obj X).hom = ((Over.post B.inclusion).obj Y).hom := by
-    show B.inclusion.map f.left ≫ B.inclusion.map X.hom = B.inclusion.map Y.hom
+    change B.inclusion.map f.left ≫ B.inclusion.map X.hom = B.inclusion.map Y.hom
     rw [← Functor.map_comp, Over.w f]
   rw [← hcomp]
   exact ⟨MorphismProperty.comp_mem (@Flat.{u} : MorphismProperty Scheme.{u}) _ _ hf.1 hX.1,

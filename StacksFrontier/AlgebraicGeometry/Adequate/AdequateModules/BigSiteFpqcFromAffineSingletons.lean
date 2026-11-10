@@ -198,15 +198,15 @@ private theorem fpqcFromAffSing_mem_of_factors {C : Type u} [Category.{v} C]
     (h : ∀ j, ∃ i, ∃ a : T.X j ⟶ E.X i, T.f j ≫ f = a ≫ E.f i) : E.sieve₀ ∈ J X := by
   apply fpqcFromAffSing_mem_of_covering_pullbacks J (PreZeroHypercover.singleton.{0} f)
     (by
-      show Sieve.generate (Presieve.ofArrows _ _) ∈ _
+      change Sieve.generate (Presieve.ofArrows _ _) ∈ _
       rwa [Presieve.ofArrows_of_unique]) E.sieve₀
   intro _
-  show E.sieve₀.pullback f ∈ J Y
+  change E.sieve₀.pullback f ∈ J Y
   apply J.superset_covering _ hT
   rw [Sieve.generate_le_iff, Presieve.ofArrows_le_iff]
   intro j
   obtain ⟨i, a, hw⟩ := h j
-  show E.sieve₀ (T.f j ≫ f)
+  change E.sieve₀ (T.f j ≫ f)
   rw [hw]
   exact E.sieve₀.downward_closed (Sieve.ofArrows_mk _ _ _) a
 
@@ -217,7 +217,7 @@ private theorem fpqcFromAffSing_surjective_sigmaDesc {ι : Type u} {X : Scheme.{
     Surjective (Sigma.desc d) := by
   refine ⟨fun x => ?_⟩
   obtain ⟨i, z, hz⟩ := h x
-  exact ⟨Sigma.ι D i z, by rwa [← Scheme.Hom.comp_apply, Sigma.ι_desc]⟩
+  exact ⟨Sigma.ι D i z, by rwa [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]⟩
 
 /-- A quasi-compact cover of a scheme is refined by finitely many affine opens of its members
 whose induced morphism out of their coproduct is surjective. -/
@@ -281,13 +281,13 @@ private theorem fpqcFromAffSing_affine_cover_mem (B : BigSite τ S)
     T' (hz _ hT') fun j =>
     ⟨s j.down.down, Over.homMk (ObjectProperty.homMk (V j.down.down).ι) ?_, ?_⟩
   · apply ObjectProperty.hom_ext
-    exact ((Sigma.ι_desc_assoc d j.down X.hom.hom).trans
+    exact ((Sigma.ι_comp_desc_assoc d j.down X.hom.hom).trans
       ((Category.assoc (V j.down.down).ι (E.f (s j.down.down)).left.hom X.hom.hom).trans
         (congrArg ((V j.down.down).ι ≫ ·)
           (congrArg (fun g => g.hom) (E.f (s j.down.down)).w)))).symm
   · apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    exact Sigma.ι_desc d j.down
+    exact Sigma.ι_comp_desc d j.down
 
 /-- **Every fpqc covering family of the site generates a covering sieve of the finest topology.**
 The affine cover of the target reduces the statement to an affine target, which is
@@ -308,11 +308,11 @@ private theorem fpqcFromAffSing_cover_mem (B : BigSite τ S)
   rw [← Sieve.pullbackArrows_comm, ← PreZeroHypercover.presieve₀_pullback₁]
   apply fpqcFromAffSing_affine_cover_mem B J hz ha (inferInstanceAs (IsAffine (Spec _)))
   rw [PreZeroHypercover.presieve₀_map]
-  show (E.pullback₂ ((fpqcFromAffSingAffineCover B X).f i)).presieve₀ ∈
+  change (E.pullback₂ ((fpqcFromAffSingAffineCover B X).f i)).presieve₀ ∈
     Scheme.fpqcPrecoverage.comap G _
   rw [PreZeroHypercover.presieve₀_pullback₁]
   apply Precoverage.pullbackArrows_mem
-  show E.presieve₀.map G ∈ Scheme.fpqcPrecoverage (G.obj X)
+  change E.presieve₀.map G ∈ Scheme.fpqcPrecoverage (G.obj X)
   rwa [← PreZeroHypercover.presieve₀_map]
 
 /-! ### The criterion -/

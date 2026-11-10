@@ -101,7 +101,7 @@ private lemma mem_ideal_of_nilpotent_sub_algebraMap_mem
 lemma preservesColimitsOfShape_forget₂_commAlgCat
     (R : Type u) [CommRing R] (J : Type v) [Category J] [IsConnected J] :
     PreservesColimitsOfShape J (forget₂ (CommAlgCat.{u} R) CommRingCat.{u}) := by
-  show PreservesColimitsOfShape J
+  change PreservesColimitsOfShape J
     ((commAlgCatEquivUnder (CommRingCat.of R)).functor ⋙ Under.forget (CommRingCat.of R))
   infer_instance
 
@@ -177,7 +177,7 @@ private lemma isReduced_of_filtered_colimit_of_free_factorizations
   let I : Ideal R := Ideal.span {t ^ n}
   have hzw' : z - algebraMap R (F.obj i) a ∈ I.map (algebraMap R (F.obj i)) := by
     rw [hzw, add_sub_cancel_left]
-    show _ ∈ (Ideal.span {t ^ n}).map (algebraMap R (F.obj i))
+    change _ ∈ (Ideal.span {t ^ n}).map (algebraMap R (F.obj i))
     rw [Ideal.map_span, Set.image_singleton, map_pow]
     exact Ideal.mem_span_singleton.mpr ⟨w, rfl⟩
   have ha : a ∈ I := mem_ideal_of_nilpotent_sub_algebraMap_mem g.hom hrank I hz hzw'
@@ -276,7 +276,7 @@ lemma faithfullyFlat_of_algHom_to_faithfullyFlat
   have hcomp : f.toRingHom.comp (algebraMap R S) = algebraMap R T := by
     ext r
     exact f.commutes r
-  show PrimeSpectrum.comap (f.toRingHom.comp (algebraMap R S)) Q = P
+  change PrimeSpectrum.comap (f.toRingHom.comp (algebraMap R S)) Q = P
   rw [hcomp]
   exact hQ
 
@@ -325,7 +325,7 @@ lemma exists_finite_free_factor_of_faithfullyFlat_finitePresentation
     have hqProdOver : qProd.asIdeal.LiesOver (IsLocalRing.maximalIdeal R) := by
       have hqSover : qS.asIdeal.LiesOver (IsLocalRing.maximalIdeal R) := by
         constructor
-        show IsLocalRing.maximalIdeal R = qS.asIdeal.comap (algebraMap R S')
+        change IsLocalRing.maximalIdeal R = qS.asIdeal.comap (algebraMap R S')
         exact (congrArg PrimeSpectrum.asIdeal hqS).symm
       constructor
       have h := hqSover.over
@@ -391,7 +391,7 @@ lemma exists_stage_hom_of_finitePresentation {A : Type u} [CommRing A]
           (inferInstance : Algebra.FinitePresentation A S))
     (G.map g) (fun i => by
       ext r
-      show g.hom (algebraMap A S r) = (c.ι.app i).hom (algebraMap A (F.obj i) r)
+      change g.hom (algebraMap A S r) = (c.ι.app i).hom (algebraMap A (F.obj i) r)
       rw [g.hom.commutes, (c.ι.app i).hom.commutes]
       rfl)
   have h (r : A) : g'.hom (algebraMap A S r) = algebraMap A (F.obj i) r := by

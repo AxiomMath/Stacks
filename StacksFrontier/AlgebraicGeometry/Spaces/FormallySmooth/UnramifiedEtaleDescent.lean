@@ -113,9 +113,9 @@ public theorem mem_etaleTopology_over_of_etale_of_jointlySurjective
   let E : PreZeroHypercover.{u + 1} T'.left :=
     { I₀ := ι, X := fun k ↦ (U k).left, f := fun k ↦ (j k).left }
   have hEt : IsEtaleCovering (⟨T'.left, E⟩ : Covering B.Schemes) := by
-    show (E.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage _
+    change (E.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage _
     rw [PreZeroHypercover.presieve₀_map, Presieve.map_ofArrows]
-    show Presieve.ofArrows _ _ ∈ Scheme.precoverage @Etale _
+    change Presieve.ofArrows _ _ ∈ Scheme.precoverage @Etale _
     rw [Scheme.ofArrows_mem_precoverage_iff @Etale]
     exact ⟨hjsurj, hjet⟩
   rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]

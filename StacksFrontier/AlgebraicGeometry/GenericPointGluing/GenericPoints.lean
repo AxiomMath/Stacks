@@ -63,7 +63,7 @@ variable {Y : Type*} [TopologicalSpace Y]
 /-- A generic point of `Y` lying in an open set is a generic point of that open set. -/
 theorem mem_genericPoints_subtype (U : Opens Y) (y : U) (hy : (y : Y) ∈ genericPoints Y) :
     y ∈ genericPoints U := by
-  show closure {y} ∈ irreducibleComponents U
+  change closure {y} ∈ irreducibleComponents U
   rw [U.isOpen.isOpenEmbedding_subtypeVal.isEmbedding.isInducing.closure_eq_preimage_closure_image,
     Set.image_singleton]
   exact preimage_mem_irreducibleComponents hy U.isOpen.isOpenEmbedding_subtypeVal
@@ -88,7 +88,7 @@ theorem exists_open_generic_specializes (hfinite : (irreducibleComponents Y).Fin
   let V : Opens Y := ⟨(⋃ Z ∈ B, Z)ᶜ, (hB.isClosed_biUnion fun Z hZ ↦
     isClosed_of_mem_irreducibleComponents Z hZ.1).isOpen_compl⟩
   refine ⟨V, ?_, ?_⟩
-  · show x ∉ ⋃ Z ∈ B, Z
+  · change x ∉ ⋃ Z ∈ B, Z
     simpa only [Set.mem_iUnion, not_exists] using fun Z hZ ↦ hZ.2
   · intro y hy hyg
     by_contra h
@@ -125,7 +125,7 @@ private theorem base_fromSpecStalk_genericPoint {η : X} (hη : η ∈ genericPo
 theorem fromSpecStalk_preimage_eq_top {η : X} (hη : η ∈ genericPoints X) {U : X.Opens}
     (hU : η ∈ U) : (X.fromSpecStalk η) ⁻¹ᵁ U = ⊤ := by
   refine Opens.ext (Set.eq_univ_iff_forall.2 fun z ↦ ?_)
-  show (X.fromSpecStalk η).base z ∈ U
+  change (X.fromSpecStalk η).base z ∈ U
   rwa [base_fromSpecStalk_genericPoint hη z]
 
 /-- An open set missing a generic point pulls back to nothing along `Spec 𝒪_{X, η} ⟶ X`. -/

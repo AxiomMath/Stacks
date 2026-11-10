@@ -64,7 +64,7 @@ it is the half that carries the mathematics: it is the descent of finite local f
 `τ`-covering of `S` that trivializes `𝓕^a`.  It **is** proved, at every `τ`, in a downstream
 module: `AlgebraicGeometry.BigFppfOver.isFiniteLocallyFreeOnSite_baseAssociatedModule_iff`
 (`StacksFrontier/AlgebraicGeometry/Descent/QuasiCoherentTopologiesTwo/`
-`StacksFrontier/AlgebraicGeometry/Descent/QuasiCoherentTopologiesTwo/BigSiteFiniteLocallyFreeAgreement.lean`) is the clause as an equivalence, and it is that module
+`BigSiteFiniteLocallyFreeAgreement.lean`) is the clause as an equivalence, and it is that module
 rather than this one that carries the 05VG attribute for 03DL (2); the parenthetical of
 Descent, Lemma 0GNE (3) is proved there too, as
 `…isFiniteLocallyFreeOnSite_restrictTopology_iff`.  What follows explains why the converse is
@@ -154,7 +154,7 @@ The same applies to Descent, Lemma 0GNE (3), whose parenthetical is the three-wa
 across the Zariski, étale and fppf topologies: this implication is a step towards it and not a
 clause of it.  Both equivalences are proved in
 `StacksFrontier/AlgebraicGeometry/Descent/QuasiCoherentTopologiesTwo/`
-`StacksFrontier/AlgebraicGeometry/Descent/QuasiCoherentTopologiesTwo/BigSiteFiniteLocallyFreeAgreement.lean`, which consumes this declaration as their `only if`
+`BigSiteFiniteLocallyFreeAgreement.lean`, which consumes this declaration as their `only if`
 half and carries the two attributes. -/
 public theorem isFiniteLocallyFreeOnSite_baseAssociatedModule_of_isFiniteLocallyFreeOnSite
     (τ : SiteKind) (𝓕 : S.Modules)

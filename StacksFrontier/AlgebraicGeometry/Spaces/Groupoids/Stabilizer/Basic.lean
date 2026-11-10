@@ -119,28 +119,28 @@ noncomputable def objectPairsTarget (G : GroupoidInAlgebraicSpaces C S hS B) :
 /-- The source component of `(t, s)` is the source. -/
 theorem sourceTarget_source_projection (G : GroupoidInAlgebraicSpaces C S hS B) :
     (sourceTarget G).hom ≫ (objectPairsSource G).hom = G.source.hom := by
-  show pullback.lift G.target.hom G.source.hom _ ≫
+  change pullback.lift G.target.hom G.source.hom _ ≫
     pullback.snd G.objectsToBase.hom G.objectsToBase.hom = G.source.hom
   exact pullback.lift_snd G.target.hom G.source.hom _
 
 /-- The target component of `(t, s)` is the target. -/
 theorem sourceTarget_target_projection (G : GroupoidInAlgebraicSpaces C S hS B) :
     (sourceTarget G).hom ≫ (objectPairsTarget G).hom = G.target.hom := by
-  show pullback.lift G.target.hom G.source.hom _ ≫
+  change pullback.lift G.target.hom G.source.hom _ ≫
     pullback.fst G.objectsToBase.hom G.objectsToBase.hom = G.target.hom
   exact pullback.lift_fst G.target.hom G.source.hom _
 
 /-- Both components of the diagonal are the identity. -/
 theorem diagonal_source_projection (G : GroupoidInAlgebraicSpaces C S hS B) :
     (diagonal G).hom ≫ (objectPairsSource G).hom = 𝟙 G.objects.obj := by
-  show pullback.lift (𝟙 G.objects.obj) (𝟙 G.objects.obj) _ ≫
+  change pullback.lift (𝟙 G.objects.obj) (𝟙 G.objects.obj) _ ≫
     pullback.snd G.objectsToBase.hom G.objectsToBase.hom = 𝟙 G.objects.obj
   exact pullback.lift_snd (𝟙 G.objects.obj) (𝟙 G.objects.obj) _
 
 /-- Both components of the diagonal are the identity. -/
 theorem diagonal_target_projection (G : GroupoidInAlgebraicSpaces C S hS B) :
     (diagonal G).hom ≫ (objectPairsTarget G).hom = 𝟙 G.objects.obj := by
-  show pullback.lift (𝟙 G.objects.obj) (𝟙 G.objects.obj) _ ≫
+  change pullback.lift (𝟙 G.objects.obj) (𝟙 G.objects.obj) _ ≫
     pullback.fst G.objectsToBase.hom G.objectsToBase.hom = 𝟙 G.objects.obj
   exact pullback.lift_fst (𝟙 G.objects.obj) (𝟙 G.objects.obj) _
 
@@ -198,11 +198,11 @@ theorem stabilizerArrow_condition (G : GroupoidInAlgebraicSpaces C S hS B)
     (v : T ⟶ G.objects.obj) (hs : a ≫ G.source.hom = v) (ht : a ≫ G.target.hom = v) :
     a ≫ (sourceTarget G).hom = v ≫ (diagonal G).hom := by
   apply pullback.hom_ext
-  · show (a ≫ (sourceTarget G).hom) ≫ (objectPairsTarget G).hom =
+  · change (a ≫ (sourceTarget G).hom) ≫ (objectPairsTarget G).hom =
       (v ≫ (diagonal G).hom) ≫ (objectPairsTarget G).hom
     simpa only [Category.assoc, sourceTarget_target_projection,
       diagonal_target_projection, Category.comp_id] using ht
-  · show (a ≫ (sourceTarget G).hom) ≫ (objectPairsSource G).hom =
+  · change (a ≫ (sourceTarget G).hom) ≫ (objectPairsSource G).hom =
       (v ≫ (diagonal G).hom) ≫ (objectPairsSource G).hom
     simpa only [Category.assoc, sourceTarget_source_projection,
       diagonal_source_projection, Category.comp_id] using hs

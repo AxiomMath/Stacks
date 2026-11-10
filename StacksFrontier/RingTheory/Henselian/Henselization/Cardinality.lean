@@ -67,6 +67,7 @@ private theorem exists_presents [IsHenselization R L Rh] (r : Rh) : ∃ c, Prese
       rw [haeval, AlgHom.comp_apply, show π g = 0 from hgk, map_zero]
     · rwa [haeval, AlgHom.comp_apply, hQ]
 
+omit [IsLocalRing R] in
 /-- A code presents at most one element of a henselization. -/
 private theorem eq_of_presents {r r' : Rh} {c : Code R (ResidueField Rh)}
     (h : Presents R Rh r c) (h' : Presents R Rh r' c) : r = r' := by
@@ -80,7 +81,7 @@ private theorem eq_of_presents {r r' : Rh} {c : Code R (ResidueField Rh)}
   have hres : (Ideal.Quotient.mkₐ R (maximalIdeal Rh)).comp (Φ v hvG) =
       (Ideal.Quotient.mkₐ R (maximalIdeal Rh)).comp (Φ v' hv'G) := by
     refine Ideal.Quotient.algHom_ext R (MvPolynomial.algHom_ext fun i => ?_)
-    show residue Rh (MvPolynomial.aeval v (MvPolynomial.X i)) =
+    change residue Rh (MvPolynomial.aeval v (MvPolynomial.X i)) =
       residue Rh (MvPolynomial.aeval v' (MvPolynomial.X i))
     rw [MvPolynomial.aeval_X, MvPolynomial.aeval_X]
     exact (hv i).trans (hv' i).symm
@@ -91,6 +92,7 @@ private theorem eq_of_presents {r r' : Rh} {c : Code R (ResidueField Rh)}
   rw [← hvQ, ← hv'Q]
   exact AlgHom.congr_fun hΦ (Ideal.Quotient.mk I c.2.2.2)
 
+omit [IsLocalRing R] in
 /-- The number of codes is at most `max (max #R #K) ℵ₀`. -/
 private theorem cardinalMk_code_le (K : Type u) :
     #(Code R K) ≤ max (max #R #K) ℵ₀ := by

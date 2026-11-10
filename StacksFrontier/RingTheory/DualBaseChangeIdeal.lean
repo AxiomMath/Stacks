@@ -75,8 +75,7 @@ theorem liftBaseChange_mem_ideal_map_span_dual (m₀ : M)
       rid ((hbc.equiv σ) (1 ⊗ₜ[A] m₀)) ∈
         Ideal.map (algebraMap A T) (dualValueIdeal (A := A) m₀) := by
     intro σ
-    induction σ using TensorProduct.induction_on with
-    | zero => simp
+    induction σ using TensorProduct.inductionOn with
     | tmul t l =>
         have hev : hbc.equiv (t ⊗ₜ[A] l) = t • LinearMap.baseChangeHom A T M A l :=
           hbc.equiv_tmul t l
@@ -119,7 +118,7 @@ theorem ideal_map_dualValueIdeal_eq_span_singleton {N : Type*} [AddCommGroup N] 
       simp [Ψ]
     have hmul : (Ψ ∘ₗ β.symm.toLinearMap) (ψ a) = a * (Ψ ∘ₗ β.symm.toLinearMap) (ψ 1) := by
       rw [← smul_eq_mul, ← LinearMap.map_smul, ← LinearEquiv.map_smul, smul_eq_mul, mul_one]
-    show _ ∈ Ideal.span _
+    change _ ∈ Ideal.span _
     rw [hval, hmul]
     exact Ideal.mul_mem_right _ _ (Ideal.mem_span_singleton_self _)
   · rw [Ideal.span_le, Set.singleton_subset_iff]

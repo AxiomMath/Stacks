@@ -171,7 +171,7 @@ lemma homologyπ_eq_zero_iff (c : (HomComplexR R K L).cycles 0) :
     have hz : c = ((HomComplexR R K L).toCycles (-1) 0).hom w :=
       injective_cyclesCochain R K L (hw.symm.trans (hd w).symm)
     rw [hz]
-    show _ ∈ LinearMap.ker _
+    change _ ∈ LinearMap.ker _
     rw [← h]
     exact ⟨w, rfl⟩
 

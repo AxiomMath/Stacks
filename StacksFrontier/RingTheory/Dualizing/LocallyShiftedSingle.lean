@@ -421,7 +421,7 @@ private theorem exists_homology_map_bijective_on_multiples
     map_add' := by intro x y; rfl
     map_smul' := by
       intro a x
-      show (algebraMap A B a) • x.down = a • x.down
+      change (algebraMap A B a) • x.down = a • x.down
       rw [smul_eq_mul, Algebra.smul_def]
   }
   let gA : A →ₗ[A] ↑N' :=

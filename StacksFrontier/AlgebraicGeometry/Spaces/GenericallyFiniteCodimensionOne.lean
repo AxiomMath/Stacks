@@ -156,7 +156,7 @@ private lemma pointsMap_schemePointRepresentative_class_eq {F : (BigFppfOver B S
   have hclass : p.class B S hS (yoneda.obj U) =
       (schemePointRepresentative B S hS U u).class B S hS (yoneda.obj U) := by
     refine (pointsEquivScheme B S hS U).injective ?_
-    show schemePoint B S hS U p = schemePoint B S hS U (schemePointRepresentative B S hS U u)
+    change schemePoint B S hS U p = schemePoint B S hS U (schemePointRepresentative B S hS U u)
     rw [hp, schemePointRepresentative_point]
   rwa [← hclass]
 

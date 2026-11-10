@@ -197,7 +197,7 @@ theorem mem_etaleOverTopology_of_family
         (fun i => (Over.homMk (e i) : Over.mk (e i ≫ U.hom) ⟶ U))
       ∈ BigFppfOver.baseOverTopology B S hS .etale U := by
   rw [BigFppfOver.baseOverTopology, GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
-  show Sieve.generate (Presieve.ofArrows W e) ∈ B.etaleTopology U.left
+  change Sieve.generate (Presieve.ofArrows W e) ∈ B.etaleTopology U.left
   refine Precoverage.generate_mem_toGrothendieck ?_
   rw [BigFppfSite.etalePrecoverage_eq_comap B, Precoverage.mem_comap_iff,
     Presieve.map_ofArrows]

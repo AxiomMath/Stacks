@@ -230,7 +230,8 @@ private noncomputable def pushforwardStalk_isTerminal_complement {Z X : Scheme.{
         (Scheme.smallEtaleTopology X) (Scheme.smallEtaleTopology Z)).obj G)) := by
   let N : X.Etale := MorphismProperty.Over.mk ⊤ (openComplement i).ι inferInstance
   apply isTerminal_presheafFiber_of_neighborhood _ _
-    (Functor.elementsMk _ N (CategoryTheory.Over.homMk s rfl) : (Scheme.pointSmallEtale _).fiber.Elements)
+    (Functor.elementsMk _ N (CategoryTheory.Over.homMk s rfl) :
+      (Scheme.pointSmallEtale _).fiber.Elements)
   intro V g
   have hdis : Disjoint (Set.range (V.hom : V.left ⟶ X).base) (Set.range i.base) := by
     rw [Set.disjoint_left]

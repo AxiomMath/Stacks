@@ -42,7 +42,7 @@ theorem tateLineCoordinates_one (c : L ≃ₗ[F] F) (t : tateLine F L 1) :
       c (PiTensorProduct.subsingletonEquiv (R := F) (s := fun _ : Fin 1 => L) 0 t) := by
   induction t using PiTensorProduct.induction_on with
   | smul_tprod a f =>
-    show tensorPowerCoordinates c 1 _ = _
+    change tensorPowerCoordinates c 1 _ = _
     simp [tensorPowerCoordinates, PiTensorProduct.constantBaseRingEquiv_tprod,
       PiTensorProduct.subsingletonEquiv_apply_tprod]
   | add x y hx hy => simp only [map_add, hx, hy]
@@ -80,8 +80,7 @@ theorem iso_one_tmul_smul (X : (SmoothProjectiveScheme k).FullSubcategory) (c : 
 theorem κ_twistOne (X : (SmoothProjectiveScheme k).FullSubcategory)
     (x : tateTwist F 𝔇.tate (𝔇.H X) 1) :
     𝔇'.κ _ 1 (Φ.twistOne X x) = Φ.tateUnit • Φ.iso X (1 ⊗ₜ 𝔇.κ X 1 x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp [twistOne]
+  induction x using TensorProduct.inductionOn with
   | tmul v t =>
     simp only [twistOne]
     rw [twistOneBaseChange_tmul]

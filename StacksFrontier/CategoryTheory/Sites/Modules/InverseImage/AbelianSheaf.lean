@@ -190,7 +190,7 @@ private lemma map_pullCommGrp_mul (X : C) [GrpObj (F.obj X)]
     MonObj.mul (X := (F.mapCommGrp.obj (pullCommGrp hF X)).X) =
       MonObj.mul (X := F.obj X) := by
   let : GrpObj X := hF.grpObj X
-  show Functor.LaxMonoidal.μ F X X ≫ F.map
+  change Functor.LaxMonoidal.μ F X X ≫ F.map
       (hF.preimage (Functor.OplaxMonoidal.δ F X X ≫ MonObj.mul (X := F.obj X))) =
     MonObj.mul (X := F.obj X)
   rw [hF.map_preimage]
@@ -400,7 +400,7 @@ private theorem preservesFiniteLimits_sheafCompose_forget {C : Type u} [Category
     PreservesFiniteLimits (sheafCompose J (forget AddCommGrpCat.{w})) := by
   have : PreservesFiniteLimits
       ((sheafCompose J (forget AddCommGrpCat.{w})) ⋙ sheafToPresheaf J (Type w)) := by
-    show PreservesFiniteLimits
+    change PreservesFiniteLimits
       (sheafToPresheaf J AddCommGrpCat.{w} ⋙
         (Functor.whiskeringRight _ _ _).obj (forget AddCommGrpCat.{w}))
     infer_instance

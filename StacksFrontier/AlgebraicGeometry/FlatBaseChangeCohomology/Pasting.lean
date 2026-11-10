@@ -77,7 +77,7 @@ noncomputable def baseChangeSquare (w : g' ≫ f = f' ≫ g) :
 `AffinePushforward.baseChangeNatTrans w`. -/
 @[simp]
 theorem natTrans_baseChangeSquare (w : g' ≫ f = f' ≫ g) :
-    (baseChangeSquare w).natTrans = AffinePushforward.baseChangeNatTrans w :=
+    baseChangeSquare w = AffinePushforward.baseChangeNatTrans w :=
   rfl
 
 /-- The identification `g'_* ∘ f_* ≅ f'_* ∘ g_*` of the two composite direct images around a

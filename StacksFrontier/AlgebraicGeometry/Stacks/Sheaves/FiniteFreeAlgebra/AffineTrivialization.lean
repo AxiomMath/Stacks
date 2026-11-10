@@ -94,7 +94,7 @@ theorem exists_iso_cover_of_algEquiv {W Y : Scheme.{u}} [IsAffine W] [IsAffine Y
         show (α : R →+* ↑Γ(W, ⊤)) (α.symm x) = x from α.apply_symm_apply x] at h
       exact h.symm
     rw [RingHom.comp_apply, hx, hφdef]
-    show β (e.symm ((Carrier.mapRingEquiv α m).symm
+    change β (e.symm ((Carrier.mapRingEquiv α m).symm
       (Carrier.mapRingEquiv α m (algebraMap R (Carrier m) (α.symm x))))) = _
     rw [RingEquiv.symm_apply_apply, AlgEquiv.commutes, hαβ, α.apply_symm_apply]
   have hiso : IsIso (ofHom (φ : Carrier (m.map (α : R →+* ↑Γ(W, ⊤))) →+* ↑Γ(Y, ⊤))) :=
@@ -132,7 +132,7 @@ theorem surjective_of_isFiniteLocallyFreeOfRank {X Z : Scheme.{u}} (π : Z ⟶ X
   refine π.one_le_finrank_iff_surjective.mp fun y => ?_
   have hfr : Scheme.Hom.finrank π y = d :=
     (Stacks.Morphisms.isFiniteLocallyFreeOfRank_iff_forall_finrank_eq π d).mp inferInstance y
-  show 1 ≤ Scheme.Hom.finrank π y
+  change 1 ≤ Scheme.Hom.finrank π y
   rw [hfr]
   exact Nat.pos_of_ne_zero (NeZero.ne d)
 
@@ -148,7 +148,7 @@ theorem topIso_inv_app_eq {X Z : Scheme.{u}} (π : Z ⟶ X) (V : X.Opens) (r : �
   have hr : V.topIso.hom.hom (V.topIso.inv.hom r) = r :=
     congrArg (fun h : Γ(X, V) ⟶ Γ(X, V) => h.hom r) V.topIso.inv_hom_id
   rw [hres]
-  show (π ⁻¹ᵁ V).topIso.inv.hom ((π.app V).hom r) =
+  change (π ⁻¹ᵁ V).topIso.inv.hom ((π.app V).hom r) =
     (π ⁻¹ᵁ V).topIso.inv.hom ((π.app V).hom (V.topIso.hom.hom (V.topIso.inv.hom r)))
   rw [hr]
 

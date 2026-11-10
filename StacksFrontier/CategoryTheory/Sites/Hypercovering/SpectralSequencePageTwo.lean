@@ -66,8 +66,8 @@ see the implementation notes.
 ## Implementation notes
 
 Exactness is proved factor by factor, as in
-`StacksFrontier/CategoryTheory/Sites/CechComplexExactness.lean`: evaluation at a formal coproduct is a
-product of evaluations, so it is exact as soon as `w`-indexed products are, which is
+`StacksFrontier/CategoryTheory/Sites/CechComplexExactness.lean`: evaluation at a formal coproduct is
+a product of evaluations, so it is exact as soon as `w`-indexed products are, which is
 `AB4StarOfSize` and holds for abelian groups in any universe containing `w`; precomposition with a
 functor and the alternating coface complex are computed termwise, so they are exact
 unconditionally. Nothing in the proof uses the shape of the Čech nerve, which is why the statement

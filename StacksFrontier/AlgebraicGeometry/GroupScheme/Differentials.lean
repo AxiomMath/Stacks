@@ -96,9 +96,9 @@ itself.** -/
 @[sga "3 VIA 0.1" "partial"]
 lemma isPullback_mul : IsPullback (mul f) (pullback.snd f f) f f := by
   refine IsPullback.of_iso_pullback ⟨mul_comp f⟩ ((Over.forget S).mapIso (shearIso f)) ?_ ?_
-  · show ((shearIso f).hom ≫ fst (Over.mk f) (Over.mk f)).left = _
+  · change ((shearIso f).hom ≫ fst (Over.mk f) (Over.mk f)).left = _
     simp [shearIso, mul]
-  · show ((shearIso f).hom ≫ snd (Over.mk f) (Over.mk f)).left = _
+  · change ((shearIso f).hom ≫ snd (Over.mk f) (Over.mk f)).left = _
     simp [shearIso]
 
 /-- The morphism `(e ∘ f, 1) : G ⟶ G ×_S G`. -/
@@ -108,20 +108,20 @@ noncomputable def unitSection : G ⟶ pullback f f :=
 /-- The composite of `(e ∘ f, 1)` with multiplication is the identity. -/
 @[simp]
 lemma unitSection_mul : unitSection f ≫ mul f = 𝟙 G := by
-  show (lift (toUnit (Over.mk f) ≫ η[Over.mk f]) (𝟙 (Over.mk f)) ≫ μ[Over.mk f]).left = _
+  change (lift (toUnit (Over.mk f) ≫ η[Over.mk f]) (𝟙 (Over.mk f)) ≫ μ[Over.mk f]).left = _
   rw [MonObj.lift_comp_one_left]
   rfl
 
 /-- The first component of `(e ∘ f, 1)` is `e ∘ f`. -/
 @[simp]
 lemma unitSection_fst : unitSection f ≫ pullback.fst f f = f ≫ identity f := by
-  show (lift (toUnit (Over.mk f) ≫ η[Over.mk f]) (𝟙 (Over.mk f)) ≫ fst _ _).left = _
+  change (lift (toUnit (Over.mk f) ≫ η[Over.mk f]) (𝟙 (Over.mk f)) ≫ fst _ _).left = _
   simp [identity]
 
 /-- The second component of `(e ∘ f, 1)` is the identity. -/
 @[simp]
 lemma unitSection_snd : unitSection f ≫ pullback.snd f f = 𝟙 G := by
-  show (lift (toUnit (Over.mk f) ≫ η[Over.mk f]) (𝟙 (Over.mk f)) ≫ snd _ _).left = _
+  change (lift (toUnit (Over.mk f) ≫ η[Over.mk f]) (𝟙 (Over.mk f)) ≫ snd _ _).left = _
   simp
 
 /-- **The shearing comparison on relative differentials**, `m^*Ω_{G/S} ≅ pr₀^*Ω_{G/S}`.  Both

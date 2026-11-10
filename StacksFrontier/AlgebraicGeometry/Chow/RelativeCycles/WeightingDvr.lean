@@ -119,7 +119,7 @@ private theorem relativeCycleWeightDvr_eq_zero_of_notMem_range {X S Z : Scheme.{
     rintro ⟨ξ, hξ, -⟩
     refine hx ⟨pullback.fst i (f.fiberι (f x)) ξ.1, ?_⟩
     rw [relativeCycleWeightDvr_apply_fst_eq_apply_snd]
-    show f.fiberι (f x) (fiberClosedImmersion f i (f x) ξ.1) = x
+    change f.fiberι (f x) (fiberClosedImmersion f i (f x) ξ.1) = x
     rw [hξ, Scheme.Hom.fiberι_asFiber]
   rw [hcoeff, zero_mul]
 
@@ -164,7 +164,7 @@ private theorem relativeCycleWeightDvr_apply_of_mem_range {X S Z : Scheme.{u}} (
     relativeCycleWeight f (familyAssociatedToClosedSubscheme f i 0) (i z) =
       flatQuasiFiniteWeight (i ≫ f) z := by
   have hmem : f.asFiber (i z) ∈ Set.range (fiberClosedImmersion f i (f (i z))) := by
-    show f.asFiber (i z) ∈ Set.range (pullback.snd i (f.fiberι (f (i z))))
+    change f.asFiber (i z) ∈ Set.range (pullback.snd i (f.fiberι (f (i z))))
     rw [Scheme.Pullback.range_snd i (f.fiberι (f (i z)))]
     exact ⟨z, (Scheme.Hom.fiberι_asFiber f (i z)).symm⟩
   obtain ⟨η, hη, hcoeff⟩ :=

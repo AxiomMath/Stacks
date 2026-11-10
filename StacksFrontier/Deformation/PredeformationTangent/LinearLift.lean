@@ -233,7 +233,7 @@ theorem rankOneTensorComparisonInv_comp (V : FGModuleCat.{z} K) :
   dsimp [rankOneTensorComparisonInv]
   rw [map_sum]
   simp only [rankOneTensorComparison_tmul]
-  show (∑ i, (L.map (rankOneSpan K eE V (b i))).hom
+  change (∑ i, (L.map (rankOneSpan K eE V (b i))).hom
     (e.symm (e ((L.map (FGModuleCat.ofHom
       (eE.symm.symm.toLinearMap.comp (b.coord i)))).hom y)))) = y
   simp only [e.symm_apply_apply]
@@ -263,7 +263,7 @@ theorem rankOneTensorComparisonInv_comp (V : FGModuleCat.{z} K) :
           have hterm : ((FGModuleCat.ofHom
               (eE.symm.symm.toLinearMap.comp (b.coord i)) : V ⟶ E) ≫
               rankOneSpan K eE V (b i)).hom v = b.repr v i • b i := by
-            show eE.symm (eE (b.coord i v)) • b i = b.repr v i • b i
+            change eE.symm (eE (b.coord i v)) • b i = b.repr v i • b i
             rw [eE.symm_apply_apply]
             rfl
           rw [hterm]
@@ -283,17 +283,16 @@ theorem rankOneTensorComparison_comp (V : FGModuleCat.{z} K) :
       LinearMap.id := by
   let b := Module.finBasis K V
   refine LinearMap.ext fun z ↦ ?_
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x v =>
-      show (∑ i, e ((L.map (FGModuleCat.ofHom
+      change (∑ i, e ((L.map (FGModuleCat.ofHom
         (eE.symm.symm.toLinearMap.comp (b.coord i)))).hom
           ((L.map (rankOneSpan K eE V v)).hom (e.symm x))) ⊗ₜ[K] b i) = x ⊗ₜ[K] v
       have h (i) : rankOneSpan K eE V v ≫ FGModuleCat.ofHom
           (eE.symm.symm.toLinearMap.comp (b.coord i)) =
           (b.repr v i) • 𝟙 E := by
         refine FGModuleCat.hom_ext (LinearMap.ext fun r ↦ ?_)
-        show eE (b.coord i (eE.symm r • v)) = b.repr v i • r
+        change eE (b.coord i (eE.symm r • v)) = b.repr v i • r
         rw [Module.Basis.coord_apply, b.repr.map_smul, Finsupp.smul_apply,
           smul_eq_mul, mul_comm, ← smul_eq_mul, eE.map_smul, eE.apply_symm_apply]
       have heq (i) : e ((L.map (FGModuleCat.ofHom
@@ -337,8 +336,7 @@ theorem rankOneTensorEquiv_naturality (V W : FGModuleCat.{z} K) (f : V ⟶ W)
     (L.map f).hom (rankOneTensorEquiv K eE L T e V z) =
       rankOneTensorEquiv K eE L T e W
         (TensorProduct.map (LinearMap.id : T →ₗ[K] T) f.hom.hom z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul t v =>
       rw [TensorProduct.map_tmul, LinearMap.id_apply, rankOneTensorEquiv_tmul,
         rankOneTensorEquiv_tmul]

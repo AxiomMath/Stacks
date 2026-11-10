@@ -162,7 +162,7 @@ transposes supplied as a parameter. -/
 theorem dualD_eq (n j j' : ℤ) (h : n + j' = 0) (h' : n + 1 + j = 0) :
     dualD K D q j j' = signedTransposeIn K D q n j j' h h' := by
   obtain rfl : n = -j' := by omega
-  exact dif_pos (show j + 1 = j' by omega)
+  exact dite_eq_left (show j + 1 = j' by omega)
 
 /-- Two consecutive differentials of the dual complex compose to zero. -/
 theorem dualD_comp_dualD (n i j k : ℤ) (hi : n + 1 + 1 + i = 0) (hj : n + 1 + j = 0)
@@ -182,7 +182,7 @@ is the signed transpose of the differential of `K`: the `(-1)^n`-multiple of the
 noncomputable def dualComplex : CochainComplex C ℤ where
   X := D
   d := dualD K D q
-  shape _ _ hij := dif_neg hij
+  shape _ _ hij := dite_eq_right hij
   d_comp_d' i j k hij hjk := by
     have h1 : i + 1 = j := hij
     have h2 : j + 1 = k := hjk

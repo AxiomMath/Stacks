@@ -135,8 +135,7 @@ theorem isPushout_of_isPushout_reduction {A A₀ B B₀ C C₀ : Type u} [CommRi
     congrArg (fun g => g.hom x) (hC.inr_desc (CommRingCat.ofHom e₀) (CommRingCat.ofHom e₁) _)
   have hχμ : ∀ t, χ.hom (μ t) = Ideal.Quotient.mk IT t := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul b b' =>
         rw [hμt, map_mul, hχ₀, hχ₁, he₀, he₁, ← map_mul, Algebra.TensorProduct.tmul_mul_tmul,
           mul_one, one_mul]

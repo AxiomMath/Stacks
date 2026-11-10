@@ -235,11 +235,11 @@ theorem LAdicSheaf.higherDirectImageTopGysinInput_of_gysinMorphismInput
     intro x hx
     have hxw := (mem_geometricLiftPoints_iff (iB ≫ g') w.1 x).1 hx
     refine (hZs _).mem_toFinset.mpr ⟨?_, ?_⟩
-    · show (B.inclusion.map jU).base (i'.base x) ∈ S
+    · change (B.inclusion.map jU).base (i'.base x) ∈ S
       have : i'.base x ∈ Set.range i'.base := ⟨x, rfl⟩
       rw [hZS] at this
       exact this
-    · show (B.inclusion.map g).base ((B.inclusion.map jU).base (i'.base x)) = _
+    · change (B.inclusion.map g).base ((B.inclusion.map jU).base (i'.base x)) = _
       rw [← Scheme.Hom.comp_apply, hpb.w, Scheme.Hom.comp_apply]
       congr 1
   · -- injectivity
@@ -264,9 +264,9 @@ theorem LAdicSheaf.higherDirectImageTopGysinInput_of_gysinMorphismInput
     rw [← hZS] at hyS
     obtain ⟨x, hxy⟩ := hyS
     refine ⟨x, (mem_geometricLiftPoints_iff (iB ≫ g') w.1 x).2 ?_, Subtype.ext ?_⟩
-    · show (B.inclusion.map g').base (i'.base x) = w.1
+    · change (B.inclusion.map g').base (i'.base x) = w.1
       rw [hxy]; exact hy2
-    · show (B.inclusion.map jU).base (i'.base x) = z.1
+    · change (B.inclusion.map jU).base (i'.base x) = z.1
       rw [hxy]; exact hy1
   · -- the summands agree
     intro x hx
@@ -324,7 +324,7 @@ theorem LAdicSheaf.higherDirectImageTopGysinInput_of_gysinMorphismInput
         zero_add, one_mul]
       exact LAdicSheaf.trace_rationalStalkFrobenius_inverseImage_pow U ℓ jU G (i'.base x) hyfin
         hzfin 0 (by rw [zero_add, pow_one]; exact hc2) hN |>.trans (by rw [zero_add, one_mul])
-    show (if liftResidueDegree (B.inclusion.map (iB ≫ g')) x ∣ e + 1 then _ else _) =
+    change (if liftResidueDegree (B.inclusion.map (iB ≫ g')) x ∣ e + 1 then _ else _) =
       if liftResidueDegree (B.inclusion.map g) ((B.inclusion.map jU).base (i'.base x)) ∣ e + 1
       then _ else _
     rw [hd]

@@ -204,14 +204,14 @@ theorem isChartLift_of_formallySmoothEtaleLocally (i : T ⟶ T')
       (liftingProblemRestriction B S hS hF i hi x).hom
       (liftingProblemChart B S hS j hj) (yonedaEquiv.symm z) := by
   refine ⟨?_, fun W k t hkt => ?_⟩
-  · show yonedaEquiv.symm z ≫ f = yoneda.map j ≫ yonedaEquiv.symm y
+  · change yonedaEquiv.symm z ≫ f = yoneda.map j ≫ yonedaEquiv.symm y
     rw [yonedaEquiv_symm_naturality_right, yonedaEquiv_symm_naturality_left, hz]
   · obtain ⟨p, hp, hpx⟩ := exists_comp_eq_thickening_ι (F := F) B S hS i hi t
     have hkj : k ≫ j = p ≫ i := by
       refine (yoneda : BigFppfOver B S hS ⥤ _).map_injective ?_
       rw [Functor.map_comp]
       exact hkt.trans hp
-    show yoneda.map k ≫ yonedaEquiv.symm z =
+    change yoneda.map k ≫ yonedaEquiv.symm z =
       t ≫ (squareZeroRangeIso B S hS i hi).inv ≫ yonedaEquiv.symm x
     rw [hpx, yonedaEquiv_symm_naturality_left, hzx W p k hkj.symm]
 
@@ -235,25 +235,25 @@ theorem mem_liftingProblemLifts_topChart_iff (i : T ⟶ T')
   · intro h
     refine ⟨yonedaEquiv.symm.injective ?_, yonedaEquiv.symm.injective ?_⟩
     · have hkey := h.2 T i (squareZeroRangeIso B S hS i hi).hom (by
-        show yoneda.map i ≫ 𝟙 (yoneda.obj T') =
+        change yoneda.map i ≫ 𝟙 (yoneda.obj T') =
           (squareZeroRangeIso B S hS i hi).hom ≫ (liftingProblemThickening B S hS i hi).1.ι
         rw [Category.comp_id, squareZeroRangeIso_hom_ι B S hS i hi])
       rw [← yonedaEquiv_symm_naturality_left]
       refine hkey.trans ?_
-      show (squareZeroRangeIso B S hS i hi).hom ≫
+      change (squareZeroRangeIso B S hS i hi).hom ≫
         (squareZeroRangeIso B S hS i hi).inv ≫ yonedaEquiv.symm x = _
       rw [Iso.hom_inv_id_assoc]
     · have h1 : yonedaEquiv.symm z ≫ f = 𝟙 (yoneda.obj T') ≫ yonedaEquiv.symm y := h.1
       rw [← yonedaEquiv_symm_naturality_right, h1, Category.id_comp]
   · intro h
     refine ⟨?_, fun W k t hkt => ?_⟩
-    · show yonedaEquiv.symm z ≫ f = 𝟙 (yoneda.obj T') ≫ yonedaEquiv.symm y
+    · change yonedaEquiv.symm z ≫ f = 𝟙 (yoneda.obj T') ≫ yonedaEquiv.symm y
       rw [Category.id_comp, yonedaEquiv_symm_naturality_right, h.2]
     · obtain ⟨p, hp, hpx⟩ := exists_comp_eq_thickening_ι (F := F) B S hS i hi t
       have hk : k = p ≫ i := by
         refine (yoneda : BigFppfOver B S hS ⥤ _).map_injective ?_
         exact (Category.comp_id _).symm.trans (hkt.trans hp)
-      show yoneda.map k ≫ yonedaEquiv.symm z =
+      change yoneda.map k ≫ yonedaEquiv.symm z =
         t ≫ (squareZeroRangeIso B S hS i hi).inv ≫ yonedaEquiv.symm x
       rw [hpx, yonedaEquiv_symm_naturality_left, ← h.1, hk, op_comp,
         Functor.map_comp_apply]

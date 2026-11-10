@@ -2,8 +2,7 @@ module
 
 public import
   StacksFrontier.CategoryTheory.Sites.Cohomology.ChaoticSite.DerivedColimitByPointResolutionAbelian
-public import
-  StacksFrontier.CategoryTheory.Sites.Cohomology.ChaoticSite.DerivedColimitOfComplexesByPointResolution
+public import StacksFrontier.CategoryTheory.Sites.Cohomology.ChaoticSite.DerivedColimitOfComplexesByPointResolution
 public import StacksFrontier.Homology.DerivedIndexing.Extend
 public import StacksFrontier.RingTheory.Dualizing.DerivedHomBaseChange.Conservative
 

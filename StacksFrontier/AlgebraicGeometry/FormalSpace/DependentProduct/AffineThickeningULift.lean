@@ -65,7 +65,7 @@ theorem exists_iso_uliftYoneda_of_isPullback_isThickening {Q Q₀ : FppfSheaf B 
     refine h1.of_iso (Iso.refl _) eG.symm (Iso.refl _) (Iso.refl _) ?_ ?_ ?_ ?_
     · simp
     · simp
-    · show π.hom ≫ 𝟙 _ = eG.inv ≫ eG.hom ≫ π.hom
+    · change π.hom ≫ 𝟙 _ = eG.inv ≫ eG.hom ≫ π.hom
       rw [Iso.inv_hom_id_assoc, Category.comp_id]
     · rfl
   have : PreservesLimitsOfShape WalkingCospan H := inferInstance

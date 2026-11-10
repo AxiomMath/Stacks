@@ -190,7 +190,7 @@ private theorem kernelDeterminantEquiv_naturality_of_equiv
         ProjectiveDeterminant.module (R := R) (M := M)) : ExteriorAlgebra R M) := by
     rw [determinantMap_val, kernelDeterminantEquiv_val,
       kernelDeterminantEquiv_val]
-    show ExteriorAlgebra.map k
+    change ExteriorAlgebra.map k
         (γg (eg x ⊗ₜ[R] en y) : ExteriorAlgebra R M) =
       (γf (ef (ProjectiveDeterminant.mapEquiv e x) ⊗ₜ[R] en y) :
         ExteriorAlgebra R M)
@@ -205,7 +205,7 @@ private theorem kernelDeterminantEquiv_naturality_of_equiv
         rw [← AlgHom.comp_apply, ExteriorAlgebra.map_comp_map, hfg, hz])
     rw [hγg, hγf, map_mul]
     congr 1
-    show ExteriorAlgebra.map k
+    change ExteriorAlgebra.map k
       (ExteriorAlgebra.map (LinearMap.ker g).subtype x.1) =
       ExteriorAlgebra.map (LinearMap.ker f).subtype
         (ExteriorAlgebra.map e x.1)
@@ -230,7 +230,7 @@ private theorem kernel_equiv_of_source_bijective
     ((k.domRestrict (LinearMap.ker g)).codRestrict (LinearMap.ker f))
       (fun x => by
         rw [LinearMap.mem_ker]
-        show f (k x.1) = 0
+        change f (k x.1) = 0
         rw [← LinearMap.comp_apply, hfg]
         exact x.2)
   have he : Function.Bijective eMap := by
@@ -241,7 +241,7 @@ private theorem kernel_equiv_of_source_bijective
       obtain ⟨y, hy⟩ := hk.2 x.1
       have hyg : y ∈ LinearMap.ker g := by
         rw [LinearMap.mem_ker, ← hfg]
-        show f (k y) = 0
+        change f (k y) = 0
         rw [hy]
         exact x.2
       exact ⟨⟨y, hyg⟩, Subtype.ext hy⟩
@@ -261,7 +261,7 @@ private theorem delta_naturality
     ProjectiveDeterminant.mapEquiv eN (TwoTermComplex.delta g hg x) =
       TwoTermComplex.delta f hf (ProjectiveDeterminant.mapEquiv eM x) := by
   apply Subtype.ext
-  show ExteriorAlgebra.map eN.toLinearMap (ExteriorAlgebra.map g x.1) =
+  change ExteriorAlgebra.map eN.toLinearMap (ExteriorAlgebra.map g x.1) =
     ExteriorAlgebra.map f (ExteriorAlgebra.map eM.toLinearMap x.1)
   rw [← AlgHom.comp_apply, ExteriorAlgebra.map_comp_map,
     ← AlgHom.comp_apply, ExteriorAlgebra.map_comp_map, hcomm]
@@ -332,10 +332,10 @@ private theorem homotopic_isQuasiIso
     simp [b, addHomotopy, TwoTermComplex.Hom.hMinus]
   have hzero : b.hZero = a.hZero := by
     ext x
-    show Submodule.Quotient.mk (b.zero x) = Submodule.Quotient.mk (a.zero x)
+    change Submodule.Quotient.mk (b.zero x) = Submodule.Quotient.mk (a.zero x)
     rw [Submodule.Quotient.eq]
     refine ⟨h x, by simp [b, addHomotopy]⟩
-  show b.IsQuasiIso
+  change b.IsQuasiIso
   rw [TwoTermComplex.Hom.IsQuasiIso, hminus, hzero]
   exact hqa
 
@@ -396,9 +396,9 @@ private theorem determinantEquiv_eq_of_source_bijective
   have hcomm : a.kernelDifferential.comp en.toLinearMap =
       ez.toLinearMap.comp b.kernelDifferential := by
     ext x
-    show K (en x).1 = (ez (b.kernelDifferential x)).1
+    change K (en x).1 = (ez (b.kernelDifferential x)).1
     rw [hen x, hez (b.kernelDifferential x)]
-    show K (kn x.1) = kz (K x.1)
+    change K (kn x.1) = kz (K x.1)
     exact (LinearMap.congr_fun hK x.1).symm
   have hscalar (φ : TwoTermComplex.determinantLine K)
       (x : ProjectiveDeterminant.module (R := R) (M := K₁)) :
@@ -464,7 +464,7 @@ private theorem homotopy_lift_surjective_of_common_section
       rw [show a.neg (s y) = y from
         congrArg (fun f : L₁ →ₗ[R] L₁ => f y) hs]
     simp only [map_add, hsy]
-    show z + s (h (K z)) + s (((a.neg + h.comp K).comp s) y) = x
+    change z + s (h (K z)) + s (((a.neg + h.comp K).comp s) y) = x
     rw [hy, add_assoc, ← map_add]
     dsimp [z]
     abel_nf
@@ -621,7 +621,7 @@ private theorem isQuasiIso_fst_prod_id
     { neg := LinearMap.fst R K₁ T
       zero := LinearMap.fst R K₀ T
       comm := by ext x <;> rfl }
-  show p.IsQuasiIso
+  change p.IsQuasiIso
   constructor
   · constructor
     · intro x y hxy
@@ -629,7 +629,7 @@ private theorem isQuasiIso_fst_prod_id
         ((congrArg Prod.snd x.property).trans (congrArg Prod.snd y.property).symm))
     · intro x
       refine ⟨⟨(x.val, 0), ?_⟩, ?_⟩
-      · show (K x.val, (0 : T)) = 0
+      · change (K x.val, (0 : T)) = 0
         simp
       · rfl
   · constructor

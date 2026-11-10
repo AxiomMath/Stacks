@@ -118,7 +118,6 @@ theorem exists_awayMap_add_awayMap_eq_of_le
   rw [Localization.mk_eq_mk_iff, Localization.r_iff_exists]
   exact ⟨1, by simp only [OneMemClass.coe_one, one_mul]; ring⟩
 
-include hf hg in
 /-- **The two charts `D₊(f)`, `D₊(g)` cover `Proj 𝒜`** when `𝒜_{m+1} ⊆ f 𝒜_m + g 𝒜_m` for
 `m ≥ 1`: every homogeneous element of positive degree has its square in `(f, g)`, so a relevant
 homogeneous prime cannot contain both `f` and `g`. -/
@@ -135,7 +134,7 @@ theorem basicOpen_sup_basicOpen_eq_top_of_le
     exact add_mem (Ideal.mul_mem_right _ _ hfx) (Ideal.mul_mem_right _ _ hgx)
   refine x.not_irrelevant_le ((HomogeneousIdeal.irrelevant_le 𝒜).mpr fun i hi s hs => ?_)
   change s ∈ 𝒜 i at hs
-  show s ∈ x.asHomogeneousIdeal.toIdeal
+  change s ∈ x.asHomogeneousIdeal.toIdeal
   rcases Nat.lt_or_ge i 2 with h | h
   · obtain rfl : i = 1 := by omega
     have hs2 : s * s ∈ 𝒜 (1 + 1) := SetLike.mul_mem_graded hs hs
@@ -163,7 +162,7 @@ theorem isZero_Hgroup_one_proj_of_le
   have hfg : f * g ∈ 𝒜 2 := mul_mem_two 𝒜 hf hg
   let U₀ : (AlgebraicGeometry.Proj 𝒜).Opens := Proj.basicOpen 𝒜 f
   let U₁ : (AlgebraicGeometry.Proj 𝒜).Opens := Proj.basicOpen 𝒜 g
-  have htop : U₀ ⊔ U₁ = ⊤ := basicOpen_sup_basicOpen_eq_top_of_le 𝒜 hf hg hred
+  have htop : U₀ ⊔ U₁ = ⊤ := basicOpen_sup_basicOpen_eq_top_of_le 𝒜 hred
   have h₀ : IsAffineOpen U₀ := Proj.isAffineOpen_basicOpen 𝒜 f hf one_pos
   have h₁ : IsAffineOpen U₁ := Proj.isAffineOpen_basicOpen 𝒜 g hg one_pos
   have hint : U₀ ⊓ U₁ = Proj.basicOpen 𝒜 (f * g) := (Proj.basicOpen_mul 𝒜 f g).symm
@@ -193,7 +192,7 @@ theorem isZero_Hgroup_one_proj_of_le
   change Proj.awayToSection 𝒜 (f * g) (awayMap 𝒜 hf (mul_comm f g) z₁) = _ at e1
   rw [e0, e1] at hd
   have hc : secToΓ c = (AlgebraicGeometry.Proj 𝒜).presheaf.map (homOfLE hint.le).op d := by
-    show secToΓ c = ((AlgebraicGeometry.Proj 𝒜).presheaf.map (homOfLE hint.ge).op ≫
+    change secToΓ c = ((AlgebraicGeometry.Proj 𝒜).presheaf.map (homOfLE hint.ge).op ≫
       (AlgebraicGeometry.Proj 𝒜).presheaf.map (homOfLE hint.le).op) (secToΓ c)
     rw [← Functor.map_comp]
     exact (ConcreteCategory.congr_hom ((AlgebraicGeometry.Proj 𝒜).presheaf.map_id _)
@@ -212,7 +211,7 @@ theorem isZero_Hgroup_proj_of_le_of_two_le
   refine Stacks.Cohomology.AmbientMayerVietoris.isZero_hgroup_of_two_affine_cover_of_two_le _
     (Proj.basicOpen 𝒜 f) (Proj.basicOpen 𝒜 g) (Proj.isAffineOpen_basicOpen 𝒜 f hf one_pos)
     (Proj.isAffineOpen_basicOpen 𝒜 g hg one_pos) ?_
-    (basicOpen_sup_basicOpen_eq_top_of_le 𝒜 hf hg hred) F p hp
+    (basicOpen_sup_basicOpen_eq_top_of_le 𝒜 hred) F p hp
   rw [← Proj.basicOpen_mul 𝒜 f g]
   exact Proj.isAffineOpen_basicOpen 𝒜 (f * g) (mul_mem_two 𝒜 hf hg) two_pos
 

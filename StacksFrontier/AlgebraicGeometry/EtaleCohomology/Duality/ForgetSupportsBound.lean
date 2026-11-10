@@ -146,7 +146,7 @@ theorem extMap_comp_extClass (G : D) {O : C} (b : O ⟶ (rightPresentation (R :=
     Ext.mapExactFunctor_extClass, Ext.comp_assoc_of_third_deg_zero]
   have hn := ((rightPresentation_shortExact (R := R) G).map_of_exact L).extClass_naturality
     (presentation_shortExact G) (presentationCounit adj G)
-  show _ = (Ext.mk₀ (L.map b ≫ (presentationCounit adj G).τ₃)).comp _ _
+  change _ = (Ext.mk₀ (L.map b ≫ (presentationCounit adj G).τ₃)).comp _ _
   rw [← Ext.mk₀_comp_mk₀, Ext.comp_assoc_of_second_deg_zero]
   exact congrArg (fun z => (Ext.mk₀ (L.map b)).comp z (zero_add 1)) hn
 
@@ -177,7 +177,7 @@ theorem injective_extMap_one (O : C) (G : D) : Function.Injective (extMap adj O 
   have he := (Ext.mk₀_bijective _ _).1 hx₂
   have hd : d = adj.homEquiv _ _ e ≫ (rightPresentation (R := R) G).g := by
     rw [← cancel_mono (kernel.ι (deltaOne R hS)), Category.assoc]
-    show d ≫ kernel.ι _ = adj.homEquiv _ _ e ≫ (kernel.lift _ _ _ ≫ kernel.ι _)
+    change d ≫ kernel.ι _ = adj.homEquiv _ _ e ≫ (kernel.lift _ _ _ ≫ kernel.ι _)
     rw [kernel.lift_ι, ← adj.homEquiv_naturality_right, he]
     simp [Adjunction.homEquiv_unit]
   rw [← hd₀, hd, ← Ext.mk₀_comp_mk₀, Ext.comp_assoc_of_second_deg_zero, hSY.comp_extClass,

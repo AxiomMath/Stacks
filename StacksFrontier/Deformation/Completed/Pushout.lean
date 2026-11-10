@@ -878,8 +878,7 @@ private noncomputable def pushoutCoconeIsColimit :
     have hFG : F.comp (tensorToCompleted f g) = G.comp (tensorToCompleted f g) := by
       apply AlgHom.ext
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul a b =>
         have hla : F (tensorToCompleted f g
             (Algebra.TensorProduct.includeLeft (R := R) (S := R) (A := A) (B := B) a)) =

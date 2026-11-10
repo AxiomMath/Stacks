@@ -99,7 +99,7 @@ private lemma finite_fiber_over_residue_field_of_finite_points
     JacobsonSpace.discreteTopology (Set.toFinite (closedPoints (f.fiber y)))
   let g := f.fiberToSpecResidueField y
   have : LocallyOfFiniteType g := by
-    show LocallyOfFiniteType (Limits.pullback.snd f (Y.fromSpecResidueField y))
+    change LocallyOfFiniteType (Limits.pullback.snd f (Y.fromSpecResidueField y))
     infer_instance
   have : LocallyQuasiFinite g := by
     rw [locallyQuasiFinite_iff_isDiscrete_preimage_singleton]
@@ -198,12 +198,12 @@ lemma exists_open_neighborhood_preimage_le_of_isFinite
   let B : Set Y := f '' (Uᶜ : Set X)
   have hB : IsClosed B := f.isClosedMap _ U.2.isClosed_compl
   refine ⟨⟨Bᶜ, hB.isOpen_compl⟩, ?_, ?_⟩
-  · show y ∉ B
+  · change y ∉ B
     rintro ⟨x, hx, hxy⟩
     exact hx (hfiber x hxy)
   · intro x hx
     change f x ∉ B at hx
-    show x ∈ U
+    change x ∈ U
     by_contra hxU
     exact hx ⟨x, hxU, rfl⟩
 
@@ -224,10 +224,10 @@ lemma shrinkEtaleNeighborhood_elementary
     (shrinkEtaleNeighborhood N V hp).IsElementary := by
   let c : V.toScheme := ⟨N.point, hp⟩
   let : IsIso N.residueFieldMap := hN
-  show IsIso ((S.residueFieldCongr (shrinkEtaleNeighborhood N V hp).map_point).inv ≫
+  change IsIso ((S.residueFieldCongr (shrinkEtaleNeighborhood N V hp).map_point).inv ≫
     (V.ι ≫ N.toBase).residueFieldMap c)
   rw [Scheme.residueFieldMap_comp]
-  show IsIso (N.residueFieldMap ≫ V.ι.residueFieldMap c)
+  change IsIso (N.residueFieldMap ≫ V.ι.residueFieldMap c)
   have hopen : IsIso (V.ι.residueFieldMap c) := by
     infer_instance
   exact IsIso.comp_isIso' hN hopen
@@ -282,7 +282,7 @@ private lemma exists_elementary_shrink_for_finite_family
   choose V hp hpre using hchoose
   let W : N.scheme.Opens := ⨅ i, V i
   have hpoint : N.point ∈ W := by
-    show N.point ∈ (((⨅ i, V i) : TopologicalSpace.Opens N.scheme) : Set N.scheme)
+    change N.point ∈ (((⨅ i, V i) : TopologicalSpace.Opens N.scheme) : Set N.scheme)
     rw [TopologicalSpace.Opens.coe_iInf]
     exact Set.mem_iInter.mpr hp
   refine ⟨W, hpoint, ?_, shrinkEtaleNeighborhood_elementary N hN W hpoint⟩
@@ -301,7 +301,7 @@ lemma pullback_fst_residueFieldMap_isIso_of_elementary
   have : IsIso (U.toBase.residueFieldMap U.point) := U.isElementary_iff.mp hU
   let z := (pullbackSymmetry f U.toBase).hom y
   have hz : pullback.fst U.toBase f z = U.point := by
-    show pullback.fst U.toBase f ((pullbackSymmetry f U.toBase).hom y) = U.point
+    change pullback.fst U.toBase f ((pullbackSymmetry f U.toBase).hom y) = U.point
     rw [← Scheme.Hom.comp_apply, CategoryTheory.Limits.pullbackSymmetry_hom_comp_fst]
     exact hy
   have hfx : IsIso (U.toBase.residueFieldMap (pullback.fst U.toBase f z)) := by
@@ -452,7 +452,7 @@ private lemma finite_residue_fiber_over_target_of_arrow
   let qV := Spec.map (CommRingCat.ofHom
     (algebraMap (G.objects.left.residueField b) K))
   have hua : IsFinite (G.source.left.fiberToSpecResidueField a) := by
-    show IsFinite (G.source.left.fiberToSpecResidueField (G.source.left r))
+    change IsFinite (G.source.left.fiberToSpecResidueField (G.source.left r))
     rw [hrs]
     exact hu
   have hUext : IsFinite (pullback.snd
@@ -473,7 +473,7 @@ private lemma finite_residue_fiber_over_target_of_arrow
   have : QuasiCompact qV := inferInstance
   have hb : IsFinite (G.source.left.fiberToSpecResidueField b) :=
     isFinite_of_fpqc_base_change (G.source.left.fiberToSpecResidueField b) qV hVext
-  show IsFinite (G.source.left.fiberToSpecResidueField v)
+  change IsFinite (G.source.left.fiberToSpecResidueField v)
   rw [← hsid]
   exact hb
 
@@ -576,7 +576,7 @@ private lemma arrow_quasiFiniteAt_of_source_and_object
     AlgebraicGeometry.quasiFiniteAt G.arrows.hom r := by
   have := locallyOfFiniteType_arrows_hom G
   have hqf : G.arrows.hom.QuasiFiniteAt r := by
-    show (G.arrows.hom.stalkMap r).hom.QuasiFinite
+    change (G.arrows.hom.stalkMap r).hom.QuasiFinite
     rw [← G.source.w, Scheme.Hom.stalkMap_comp]
     exact RingHom.QuasiFinite.comp hs.2 ht.2
   exact card_quasiFiniteAt_of_quasiFiniteAt G.arrows.hom r hqf
@@ -611,7 +611,7 @@ private lemma quasiFiniteAt_target_of_quasiFiniteAt_source
       (g.fiberι (f x))) := by
     infer_instance
   have : UniversallyOpen m := by
-    show UniversallyOpen (e.inv ≫
+    change UniversallyOpen (e.inv ≫
       pullback.snd h (g.fiberι (f x)))
     infer_instance
   have himage : IsOpen (m '' ({f.asFiber x} : Set (f.fiber (f x)))) :=
@@ -767,16 +767,16 @@ lemma isIso_coprod_desc_sigma_option {ι : Type*} [Small.{u} ι] [Small.{u} (Opt
     apply coprod.hom_ext
     · apply Sigma.hom_ext
       intro i
-      simp only [a, b, coprod.desc_comp, coprod.inl_desc, Sigma.ι_desc,
-        Sigma.ι_desc_assoc, Category.comp_id]
-    · simp only [a, b, coprod.desc_comp, coprod.inr_desc, Sigma.ι_desc, Category.comp_id]
+      simp only [a, b, coprod.desc_comp, coprod.inl_desc, Sigma.ι_comp_desc,
+        Sigma.ι_comp_desc_assoc, Category.comp_id]
+    · simp only [a, b, coprod.desc_comp, coprod.inr_desc, Sigma.ι_comp_desc, Category.comp_id]
   have hba : b ≫ a = 𝟙 _ := by
     apply Sigma.hom_ext
     intro i
     cases i with
-    | none => simp only [a, b, Sigma.ι_desc_assoc, Category.comp_id, coprod.inr_desc]
-    | some j => simp only [a, b, Sigma.ι_desc_assoc, Category.assoc, coprod.inl_desc,
-        Sigma.ι_desc, Category.comp_id]
+    | none => simp only [a, b, Sigma.ι_comp_desc_assoc, Category.comp_id, coprod.inr_desc]
+    | some j => simp only [a, b, Sigma.ι_comp_desc_assoc, Category.assoc, coprod.inl_desc,
+        Sigma.ι_comp_desc, Category.comp_id]
   have : IsIso a := ⟨⟨b, hab, hba⟩⟩
   have he : coprod.desc (Sigma.desc fun i => f (some i)) (f none) =
       a ≫ Sigma.desc f := by
@@ -784,9 +784,9 @@ lemma isIso_coprod_desc_sigma_option {ι : Type*} [Small.{u} ι] [Small.{u} (Opt
     · apply Sigma.hom_ext
       intro i
       simp only [a, coprod.inl_desc,
-        coprod.inl_desc_assoc, Sigma.ι_desc, Sigma.ι_desc_assoc]
+        coprod.inl_desc_assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc_assoc]
     · simp only [a, coprod.inr_desc,
-        coprod.inr_desc_assoc, Sigma.ι_desc]
+        coprod.inr_desc_assoc, Sigma.ι_comp_desc]
   rw [he]
   infer_instance
 

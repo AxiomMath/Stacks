@@ -61,7 +61,7 @@ theorem tensorδ_whiskerLeft_rightUnitor {C : Type*} [Category C] [MonoidalCateg
   rw [h₁, id_tensorHom_id, id_tensorHom, ← whiskerLeft_comp_assoc, Category.assoc, h₂,
     whiskerLeft_comp_assoc, h₃, id_tensorHom]
 
-variable {𝒜 : Type u₁} [Category.{v₁} 𝒜] [MonoidalCategory 𝒜] [BraidedCategory 𝒜] {L : 𝒜}
+variable {𝒜 : Type u₁} [Category.{v₁} 𝒜] [MonoidalCategory 𝒜] {L : 𝒜}
   {𝒟 : Type u₂} [Category.{v₂} 𝒟] [MonoidalCategory 𝒟] [BraidedCategory 𝒟]
   {Ψ : 𝒜 ⥤ 𝒟} [Ψ.Monoidal] {𝕋 : 𝒟} {ω : Ψ.obj L ⊗ 𝕋 ≅ 𝟙_ 𝒟}
 
@@ -70,7 +70,7 @@ theorem Expr.coh_μ (A B : 𝒜) :
     Coh L Ψ 𝕋 ω (e := atom A ⊗ atom B) (e' := atom (A ⊗ B)) (μ Ψ A B) (λ_ (𝟙_ 𝒜)) (𝟙 _) := by
   unfold Coh
   rw [presIso_tensor_hom]
-  show (μ Ψ A B ⊗ₘ Ψ.map (λ_ (𝟙_ 𝒜)).hom) ≫ (μ Ψ (A ⊗ B) (𝟙_ 𝒜) ≫ Ψ.map (ρ_ (A ⊗ B)).hom) =
+  change (μ Ψ A B ⊗ₘ Ψ.map (λ_ (𝟙_ 𝒜)).hom) ≫ (μ Ψ (A ⊗ B) (𝟙_ 𝒜) ≫ Ψ.map (ρ_ (A ⊗ B)).hom) =
     ((𝟙 _ ⊗ₘ (Ψ.map (𝟙 _) ≫ δ Ψ (𝟙_ 𝒜) (𝟙_ 𝒜))) ≫ tensorδ _ _ _ _ ≫
       ((μ Ψ A (𝟙_ 𝒜) ≫ Ψ.map (ρ_ A).hom) ⊗ₘ (μ Ψ B (𝟙_ 𝒜) ≫ Ψ.map (ρ_ B).hom)) ≫
         μ Ψ A B ≫ Ψ.map (𝟙 _)) ≫ Ψ.map (𝟙 _)
@@ -87,19 +87,18 @@ theorem Expr.coh_μ (A B : 𝒜) :
   congr 1
   exact tensorδ_whiskerLeft_rightUnitor_assoc _ _ _ _ _
 
-omit [BraidedCategory 𝒜] in
 /-- The unit of `Ψ` coheres. -/
 theorem Expr.coh_ε :
     Coh L Ψ 𝕋 ω (e := 𝟙_ (Expr 𝒜)) (e' := atom (𝟙_ 𝒜)) (ε Ψ) (Iso.refl _) (𝟙 _) := by
   unfold Coh presIso pres
   rw [FreeMonoidalCategory.liftNatIso_app, FreeMonoidalCategory.liftNatIso_app,
     FreeMonoidalCategory.liftNatIsoApp_unit]
-  show (ε Ψ ⊗ₘ Ψ.map (𝟙 _)) ≫ (μ Ψ (𝟙_ 𝒜) (𝟙_ 𝒜) ≫ Ψ.map (ρ_ (𝟙_ 𝒜)).hom) = _
+  change (ε Ψ ⊗ₘ Ψ.map (𝟙 _)) ≫ (μ Ψ (𝟙_ 𝒜) (𝟙_ 𝒜) ≫ Ψ.map (ρ_ (𝟙_ 𝒜)).hom) = _
   simp only [Iso.trans_hom, Iso.symm_hom, εIso_inv, εIso_hom, Functor.OplaxMonoidal.comp_η,
     Functor.LaxMonoidal.comp_ε, tensor_η, tensor_map, Functor.prod'_η_fst, Functor.prod'_η_snd,
     FreeMonoidalCategory.project_η, FreeMonoidalCategory.project_ε, Functor.map_id,
     tensorHom_id, map_rightUnitor, μ_δ_assoc]
-  show _ = (((𝟙 _ ⊗ₘ Ψ.map (𝟙 (𝟙_ 𝒜)) ≫ η Ψ) ≫ (λ_ (𝟙_ 𝒟)).hom) ≫ ε Ψ ≫ Ψ.map (𝟙 (𝟙_ 𝒜))) ≫
+  change _ = (((𝟙 _ ⊗ₘ Ψ.map (𝟙 (𝟙_ 𝒜)) ≫ η Ψ) ≫ (λ_ (𝟙_ 𝒟)).hom) ≫ ε Ψ ≫ Ψ.map (𝟙 (𝟙_ 𝒜))) ≫
     Ψ.map (𝟙 (𝟙_ 𝒜))
   simp only [Functor.map_id, Category.id_comp, Category.comp_id, id_tensorHom, unitors_equal]
   rw [← whisker_exchange_assoc, rightUnitor_naturality, Category.assoc]

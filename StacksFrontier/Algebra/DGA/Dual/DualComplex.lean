@@ -496,10 +496,10 @@ noncomputable def dDual (n : ℤ) : M.dualSpace n →ₗ[R] M.dualSpace (n + 1) 
     (show M.carrier (-(n + 1)) →+ QZ from M.dDual n f) x
       = ((-1 : ℤ) ^ (n + 1).natAbs) •
           (show M.carrier (-n) →+ QZ from f) (M.dDownshift n x) := by
-  show (show M.carrier (-(n + 1)) →+ QZ from
+  change (show M.carrier (-(n + 1)) →+ QZ from
       (((-1 : ℤ) ^ (n + 1).natAbs) • (RDual.precompₗ (M.dDownshift n))) f) x = _
   rw [LinearMap.smul_apply]
-  show (show M.carrier (-(n + 1)) →+ QZ from
+  change (show M.carrier (-(n + 1)) →+ QZ from
       ((-1 : ℤ) ^ (n + 1).natAbs) • (RDual.precompₗ (M.dDownshift n) f)) x = _
   rw [AddMonoidHom.zsmul_apply, RDual.precompₗ_apply]
 
@@ -533,7 +533,7 @@ theorem coboundariesₛ_le_cocyclesₛ (k : ℤ) : M.coboundariesₛ k ≤ M.coc
   rw [cocyclesₛ, LinearMap.mem_ker]
   subst hz
   subst hw
-  show M.dDual k (degCastLin R (show k - 1 + 1 = k by ring) (M.dDual (k - 1) w)) = 0
+  change M.dDual k (degCastLin R (show k - 1 + 1 = k by ring) (M.dDual (k - 1) w)) = 0
   rw [family_degCastLin R (fun n => M.dDual n) (show k - 1 + 1 = k by ring)]
   rw [M.dDual_comp_dDual (k - 1), degCastLin_zero]
 

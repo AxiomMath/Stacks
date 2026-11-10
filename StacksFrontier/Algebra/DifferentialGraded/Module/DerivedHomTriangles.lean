@@ -177,7 +177,7 @@ theorem homShift_comp_map_homOfDegreewiseSplit_toFun
         (mapGradedSplitOfDegreewiseSplit B K S σ)).1 z := by
   classical
   rw [connectingHom_map_gradedSplitOfDegreewiseSplit]
-  show (homShiftIso K 1 S.X₁).hom.toFun
+  change (homShiftIso K 1 S.X₁).hom.toFun
       (DGCategory.repPostcomp (dgCategory B) K
         (Cochain.ofHom (homOfDegreewiseSplit S σ)) z) =
     DGCategory.repPostcomp (dgCategory B) K ((cocycleOfDegreewiseSplit S σ).1) z
@@ -195,7 +195,7 @@ theorem homShift_comp_map_homOfDegreewiseSplit_toFun
       homShiftIso_hom_toFun_of' K 1 S.X₁ (0 + k) (1 + k) (by omega),
       DGCategory.repPostcomp_of]
     congr 1
-    show Cochain.rightUnshift
+    change Cochain.rightUnshift
         (Cochain.comp g (Cochain.ofHom (homOfDegreewiseSplit S σ))
           (show k + 0 = 0 + k by omega)) (1 + k) (by omega) =
       Cochain.comp g ((cocycleOfDegreewiseSplit S σ).1) (show k + 1 = 1 + k by omega)

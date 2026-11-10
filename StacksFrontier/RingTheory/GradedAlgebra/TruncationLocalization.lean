@@ -238,7 +238,7 @@ theorem awayElt_eq_zero (hf : f ∈ 𝒜 d) (k : ℕ) (a : A) (ha : a ∈ trunca
   rw [awayElt, HomogeneousLocalization.val_mk, HomogeneousLocalization.val_zero,
     Localization.mk_eq_mk'_apply, IsLocalization.mk'_eq_zero_iff]
   refine ⟨⟨psi 𝒜 f ^ n, n, rfl⟩, ?_⟩
-  show psi 𝒜 f ^ n * degElt 𝒜 (k * d) a ha = 0
+  change psi 𝒜 f ^ n * degElt 𝒜 (k * d) a ha = 0
   rw [psi_pow_eq_degElt 𝒜 d hf n, degElt_mul, degElt_congr 𝒜 rfl hn _ (zero_mem _),
     degElt_zero]
 

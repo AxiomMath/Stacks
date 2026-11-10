@@ -205,7 +205,8 @@ On every affine étale chart `Spec(A) ⟶ Y` the corresponding locus is open
 (`AlgebraicGeometry.Space.exists_isNegativeExtLocus_of_dualExists_of_quasiCompact` for the base
 change of `f` to `Spec(A)`, read through
 `AlgebraicGeometry.Space.hasNoNegativeExtAt_overInclusion_iff` of
-`StacksFrontier/AlgebraicGeometry/Quot/NegativeExtLocusHomFibres.lean`), the condition does not change
+`StacksFrontier/AlgebraicGeometry/Quot/NegativeExtLocusHomFibres.lean`),
+the condition does not change
 under field extensions (`AlgebraicGeometry.Space.hasNoNegativeExtAt_iff_of_hom_of_dualExists`),
 and the locus descends to `Y`
 (`AlgebraicGeometry.Space.exists_openSubspace_forall_isFieldObject_iff`). -/

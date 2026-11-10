@@ -82,7 +82,7 @@ private theorem idealSheafData_mul_le_left {X : Scheme.{u}} (D C : X.IdealSheafD
     D * C ≤ D := by
   rw [Scheme.IdealSheafData.le_def]
   intro U
-  show D.ideal U * C.ideal U ≤ D.ideal U
+  change D.ideal U * C.ideal U ≤ D.ideal U
   exact Ideal.mul_le_left
 
 /-- **The Euler characteristic of a sum of effective Cartier divisors.** On a scheme proper over
@@ -99,8 +99,7 @@ are hypotheses of the conditional form of Tag 08AA in the library and neither is
 This is **not** [Stacks, Tag 0CA2]; see the module docstring for the three reasons. -/
 theorem eulerCharacteristic_sub_eq_of_eq_mul (k : Type u) [Field k] {X : Scheme.{u}}
     (f : X ⟶ Spec (.of k)) [IsProper f] (D D' C : X.IdealSheafData)
-    (hD : IsEffectiveCartierDivisor D) (hD' : IsEffectiveCartierDivisor D')
-    (hC : IsEffectiveCartierDivisor C) (hsum : D' = D * C)
+    (hD : IsEffectiveCartierDivisor D) (hsum : D' = D * C)
     [((Scheme.Modules.pushforward C.subschemeι).obj
       ((Scheme.Modules.pullback C.subschemeι).obj (negativeTwist D))).IsCoherent]
     [D'.closedSubschemeStructureSheaf.IsCoherent]
@@ -119,7 +118,7 @@ theorem eulerCharacteristic_sub_eq_of_eq_mul (k : Type u) [Field k] {X : Scheme.
         eulerCharacteristic k f D.closedSubschemeStructureSheaf =
       eulerCharacteristic k f ((Scheme.Modules.pushforward C.subschemeι).obj
         ((Scheme.Modules.pullback C.subschemeι).obj (negativeTwist D))) := by
-  obtain ⟨g, hz, hex⟩ := addEffectiveCartierDivisor_shortExact D D' C hD hD' hC
+  obtain ⟨g, hz, hex⟩ := addEffectiveCartierDivisor_shortExact D D' C hD
     (hsum ▸ idealSheafData_mul_le_left D C) hsum
   have hadd := eulerCharacteristic_add_of_shortExact_of_outer k f hex N hfinC hfinD hvanC hvanD
   linarith [hadd]

@@ -548,6 +548,7 @@ def transitionLegIso {β α : E} (hβα : W β ≤ W α) (h : β ≤ α) :
       DerivedCategory.Q.obj (I β) :=
   glueingComplexTransitionIso W F I hsupp hqi hβα h
 
+omit [Nonempty E] in
 /-- The inverse of `transitionLegIso` is the class of the transpose, along extension by zero,
 of the transition map `F.map h.hom` of the system. -/
 theorem transitionLegIso_inv {β α : E} (hβα : W β ≤ W α) (h : β ≤ α) :
@@ -1038,7 +1039,7 @@ theorem isCompatiblePair_extendIso {a α : E} (ha : a ≤ α) (h₂ : W α ≤ W
     (σa : (S.restriction (W a) ⊤ le_top).obj G ≅ K a) (hlt : a < α) :
     IsCompatiblePair S W hmono K rho G hlt σa (extendIso S W hmono K rho G ha h₂ σa) := by
   unfold IsCompatiblePair
-  rw [extendIso, dif_neg hlt.ne, restriction_map_isoOfRestrictionObjIso_hom]
+  rw [extendIso, dite_eq_right hlt.ne, restriction_map_isoOfRestrictionObjIso_hom]
   simp
 
 omit [WellFoundedLT E] in
@@ -1050,7 +1051,7 @@ theorem isCompatiblePair_extendIso_right_iff {x a α : E} (ha : a ≤ α) (h₂ 
     IsCompatiblePair S W hmono K rho G (heq ▸ hx) sx (extendIso S W hmono K rho G ha h₂ σa) ↔
       IsCompatiblePair S W hmono K rho G hx sx σa := by
   subst heq
-  rw [extendIso, dif_pos rfl]
+  rw [extendIso, dite_eq_left rfl]
 
 omit [WellFoundedLT E] in
 /-- When `a = β`, `extendIso` of `σa` is compatible with an identification at `z` if and only if
@@ -1061,7 +1062,7 @@ theorem isCompatiblePair_extendIso_left_iff {a β z : E} (ha : a ≤ β) (h₂ :
     IsCompatiblePair S W hmono K rho G (heq ▸ hz) (extendIso S W hmono K rho G ha h₂ σa) sz ↔
       IsCompatiblePair S W hmono K rho G hz σa sz := by
   subst heq
-  rw [extendIso, dif_pos rfl]
+  rw [extendIso, dite_eq_left rfl]
 
 end IndexUniverse
 

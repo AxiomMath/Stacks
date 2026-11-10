@@ -119,8 +119,7 @@ theorem tmul_ext {R N M P : Type*} [CommSemiring R] [AddCommMonoid N] [AddCommMo
     [AddCommMonoid P] [Module R N] [Module R M] (F G : TensorProduct R N M →+ P)
     (h : ∀ (n : N) (m : M), F (n ⊗ₜ[R] m) = G (n ⊗ₜ[R] m)) (x : TensorProduct R N M) :
     F x = G x := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul n m => exact h n m
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 

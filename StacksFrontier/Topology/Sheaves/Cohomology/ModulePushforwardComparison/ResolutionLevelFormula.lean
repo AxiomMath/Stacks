@@ -128,7 +128,7 @@ theorem mapHomotopyCategorySingleFunctor_hom_app (M : C₁) :
   simp only [Iso.trans_hom, NatTrans.comp_app, Functor.isoWhiskerRight_hom,
     Functor.whiskerRight_app, Functor.associator_hom_app, Functor.isoWhiskerLeft_hom,
     Functor.whiskerLeft_app, Functor.associator_inv_app, Iso.symm_hom, h1, h2, h3]
-  show (T.mapHomotopyCategory (ComplexShape.up ℤ)).map (𝟙 _) ≫ 𝟙 _ ≫ 𝟙 _ ≫ 𝟙 _ ≫
+  change (T.mapHomotopyCategory (ComplexShape.up ℤ)).map (𝟙 _) ≫ 𝟙 _ ≫ 𝟙 _ ≫ 𝟙 _ ≫
       (HomotopyCategory.quotient C₂ (ComplexShape.up ℤ)).map
         ((singleMapHomologicalComplex T (ComplexShape.up ℤ) 0).hom.app M) ≫ 𝟙 _ ≫ 𝟙 _ = _
   refine Eq.trans (congrArg (fun g ↦ g ≫ 𝟙 _ ≫ 𝟙 _ ≫ 𝟙 _ ≫
@@ -183,7 +183,7 @@ theorem singleMapPlusHom_comp_resolutionSingleQhHom {M : C₁} (I : InjectiveRes
         (T.mapHomotopyCategoryPlus.map (resolutionSingleQhHom I)) =
       (HomotopyCategory.quotient C₂ (ComplexShape.up ℤ)).map
         ((T.mapHomologicalComplex (ComplexShape.up ℤ)).map (resolutionSingleHom I)) := by
-    show (T.mapHomotopyCategory (ComplexShape.up ℤ)).map
+    change (T.mapHomotopyCategory (ComplexShape.up ℤ)).map
         ((HomotopyCategory.Plus.ι C₁).map (resolutionSingleQhHom I)) = _
     rw [ι_map_resolutionSingleQhHom]
     exact congrArg ((T.mapHomotopyCategory (ComplexShape.up ℤ)).map) (Category.id_comp _)
@@ -554,7 +554,7 @@ theorem derivedPlusToStandard_trans_hom_app_eq [IsIso T.rightDerivedFunctorPlusU
               DerivedCategory.Plus.homologyFunctor C₃ (n : ℤ)).map
               ((singleFunctorPlusRightDerivedIso T).hom.app M) ≫
             (derivedPlusToStandardObjOfResolution A J n).hom := by
-    show (derivedPlusToStandard (T ⋙ A) n).inv.app M ≫
+    change (derivedPlusToStandard (T ⋙ A) n).inv.app M ≫
         (DerivedCategory.Plus.homologyFunctor C₃ (n : ℤ)).map
             (dc.app ((DerivedCategory.Plus.singleFunctor C₁ 0).obj M)) ≫
           (A.rightDerivedFunctorPlus ⋙

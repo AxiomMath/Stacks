@@ -188,7 +188,7 @@ theorem transport_app_map_apply {A₀ A₁ A₂ Zc : Type*} {_ : Category A₀} 
       P₀.map e₀.op = ι₂.hom.app (op (Φ₁.obj W)) ≫ φ.app (op (b₂.obj (Φ₁.obj W))) ≫
         P₁.map e₁.op ≫ P₁.map f.op ≫ ψ.app (op X₀) := by
     rw [NatTrans.comp_app, ι₂.hom.naturality_assoc]
-    show ι₂.hom.app (op (Φ₁.obj W)) ≫ P₂.map (b₂.map ε).op ≫ φ.app _ ≫ ψ.app _ ≫
+    change ι₂.hom.app (op (Φ₁.obj W)) ≫ P₂.map (b₂.map ε).op ≫ φ.app _ ≫ ψ.app _ ≫
       P₀.map e₀.op = _
     rw [φ.naturality_assoc, ψ.naturality_assoc, key, ψ.naturality, ψ.naturality_assoc]
     rfl
@@ -348,7 +348,7 @@ theorem comp_eq_of_thickeningChartSiteHom_of_precomp (g : T₁ ⟶ T₂)
         yoneda.map ((SmallEtale.toOver B S hS T₂.1).map
           (thickeningChartPrecompHom B S hS hi₀ hi₁ hi₂ htc ht W)) :=
     (yoneda.map_comp _ _).symm.trans ((congrArg yoneda.map key).trans (yoneda.map_comp _ _))
-  show htc.rep.fst W.1.hom ≫ t.hom ≫ g.hom = htc.rep.fst W.1.hom ≫ g₀.hom
+  change htc.rep.fst W.1.hom ≫ t.hom ≫ g.hom = htc.rep.fst W.1.hom ≫ g₀.hom
   refine ((Category.assoc _ _ _).symm.trans ((congrArg (· ≫ g.hom) (htc.rep.w W.1.hom)).trans
     (Category.assoc _ _ _))).trans ?_
   refine (congrArg (yoneda.map (htc.rep.snd W.1.hom) ≫ ·) (hg W)).trans ?_

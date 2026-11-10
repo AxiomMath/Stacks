@@ -144,7 +144,8 @@ an instance too. -/
 instance isClosedUnderCokernels_quasicoherentSheaves_algebraicSpace
     (Z : AlgebraicSpaces B S hS) :
     (SheafOfModules.isQuasicoherentOnSite.{u + 1, u, u, u}
-      ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS Z.1 Z.2).O))).IsClosedUnderCokernels :=
+      ((Stacks.SheafOfModules.Tensor.ringSheaf
+        (smallEtaleRingedSite B S hS Z.1 Z.2).O))).IsClosedUnderCokernels :=
   isClosedUnderCokernels_quasicoherentSheaves B S hS Z.1 Z.2
 
 /-- **Stacks 077V, part (1), abelian structure, unconditionally on an algebraic space.**  The

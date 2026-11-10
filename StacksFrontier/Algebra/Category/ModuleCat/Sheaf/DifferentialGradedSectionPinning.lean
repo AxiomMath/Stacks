@@ -89,7 +89,7 @@ theorem sectionDegree_d (n : ℤ) (x : (A.sectionAlgebra U).grading n) :
         (A.sectionAlgebra U).d_mem n (x : (A.sectionAlgebra U).A) x.2⟩ =
       (A.complex.d n (n + 1)).val.app U (A.sectionDegree U n x) := by
   refine A.sectionDegree_eq_of_coe_eq U (n + 1) _ _ ?_
-  show (A.sectionAlgebra U).d (x : (A.sectionAlgebra U).A) = _
+  change (A.sectionAlgebra U).d (x : (A.sectionAlgebra U).A) = _
   rw [A.coe_eq_of_sectionDegree U n x, A.sectionAlgebra_d_of U n]
 
 /-- **The identification carries the multiplication of `A(U)` to the multiplication of `A`.** -/
@@ -120,7 +120,7 @@ theorem sectionRestriction_degree {V : Cᵒᵖ} (a : V ⟶ U) (n : ℤ)
         (A.sectionRestriction a).map_grading n (x : (A.sectionAlgebra V).A) x.2⟩ =
       (A.complex.X n).val.map a (A.sectionDegree V n x) := by
   refine A.sectionDegree_eq_of_coe_eq U n _ _ ?_
-  show (A.sectionRestriction a).toAlgebraHom (x : (A.sectionAlgebra V).A) = _
+  change (A.sectionRestriction a).toAlgebraHom (x : (A.sectionAlgebra V).A) = _
   rw [A.coe_eq_of_sectionDegree V n x, A.sectionRestriction_of a n]
   rfl
 
@@ -156,7 +156,7 @@ theorem sectionModuleDegree_d (n : ℤ) (x : (M.sectionModule U).grading n) :
         (M.sectionModule U).d_mem n (x : (M.sectionModule U).M) x.2⟩ =
       (M.complex.d n (n + 1)).val.app U (M.sectionModuleDegree U n x) := by
   refine M.sectionModuleDegree_eq_of_coe_eq U (n + 1) _ _ ?_
-  show (M.sectionModule U).d (x : (M.sectionModule U).M) = _
+  change (M.sectionModule U).d (x : (M.sectionModule U).M) = _
   rw [M.coe_eq_of_sectionModuleDegree U n x, M.sectionModule_d_of U n]
   rfl
 
@@ -170,7 +170,7 @@ theorem sectionModuleDegree_mul (n i : ℤ) (x : (M.sectionModule U).grading n)
       (M.mul n i).app U (M.sectionModuleDegree U n x) (A.sectionDegree U i y) := by
   refine M.sectionModuleDegree_eq_of_coe_eq U (n + i) z _ ?_
   rw [hz, M.coe_eq_of_sectionModuleDegree U n x, A.coe_eq_of_sectionDegree U i y]
-  show M.act U (DirectSum.of (M.sectionsPiece U) n (M.sectionModuleDegree U n x))
+  change M.act U (DirectSum.of (M.sectionsPiece U) n (M.sectionModuleDegree U n x))
       (DirectSum.of (A.toGradedAlgebra.sectionsPiece U) i (A.sectionDegree U i y)) = _
   rw [act_of, actOn_of]
 
@@ -181,7 +181,7 @@ theorem sectionModuleDegree_naturality {N : DifferentialGradedModule.{t, a, a} A
         (sectionMap f U).map_grading n (x : (M.sectionModule U).M) x.2⟩ =
       (f.toHomologicalComplex.f n).val.app U (M.sectionModuleDegree U n x) := by
   refine N.sectionModuleDegree_eq_of_coe_eq U n _ _ ?_
-  show sectionMapAdd f U (x : (M.sectionModule U).M) = _
+  change sectionMapAdd f U (x : (M.sectionModule U).M) = _
   rw [M.coe_eq_of_sectionModuleDegree U n x, sectionMapAdd_of]
   rfl
 
@@ -195,7 +195,7 @@ theorem sectionModuleRestriction_degree {V : Cᵒᵖ} (a : V ⟶ U) (n : ℤ)
         (M.sectionModuleRestriction a).map_grading n (x : (M.sectionModule V).M) x.2⟩ =
       (M.complex.X n).val.map a (M.sectionModuleDegree V n x) := by
   refine M.sectionModuleDegree_eq_of_coe_eq U n _ _ ?_
-  show M.sectionRestrictAdd a (x : (M.sectionModule V).M) = _
+  change M.sectionRestrictAdd a (x : (M.sectionModule V).M) = _
   rw [M.coe_eq_of_sectionModuleDegree V n x, sectionRestrictAdd_of]
   rfl
 

@@ -66,14 +66,14 @@ theorem projection_isomIsSheaf {U : C} (x y : Torsors.{t} 𝒢)
   have hΦ : ∀ i, Hom.base (φ i ≫ (yr i).hom) =
       Hom.base (xr i).hom ≫ (eqToHom hxb ≫ eqToHom hyb.symm) := by
     intro i
-    show Hom.base (φ i) ≫ Hom.base (yr i).hom = _
+    change Hom.base (φ i) ≫ Hom.base (yr i).hom = _
     rw [hbi, hay, hax]
     simp
   have hSiff : ∀ {W : C} (a : W ⟶ x.base),
       ((Sieve.ofArrows V f).pullback (eqToHom hxb)).arrows a ↔
         ∃ (i : I) (c : W ⟶ V i), a = c ≫ f i ≫ eqToHom hxb.symm := by
     intro W a
-    show (Sieve.ofArrows V f).arrows (a ≫ eqToHom hxb) ↔ _
+    change (Sieve.ofArrows V f).arrows (a ≫ eqToHom hxb) ↔ _
     rw [Sieve.mem_ofArrows_iff]
     constructor
     · rintro ⟨i, c, hc⟩
@@ -127,7 +127,7 @@ theorem projection_isomIsSheaf {U : C} (x y : Torsors.{t} 𝒢)
       refine (hlift k p _ hzp).unique ⟨?_, ?_⟩ ⟨hpk, hpk'⟩
       · rw [Hom.fst_map, hr₁, base_compTo _ _ _ _ _ (hxp k) hRp]
         simp
-      · show Hom.map (Functor.Restriction.compTo projection g (f k) hg
+      · change Hom.map (Functor.Restriction.compTo projection g (f k) hg
           (xr k) (xrij i j) ≫ (xr k).hom) W r = p
         rw [Functor.Restriction.compTo_hom]
         exact hr₂
@@ -233,7 +233,7 @@ theorem projection_isomIsSheaf {U : C} (x y : Torsors.{t} 𝒢)
   refine ⟨g, ⟨isHomLift_of_base g hg.1, isIso_of_base_eq g hg.1, ?_⟩, ?_⟩
   · intro i
     refine Hom.ext ?_ (funext fun W => funext fun p' => ?_)
-    · show Hom.base (xr i).hom ≫ Hom.base g = Hom.base (φ i ≫ (yr i).hom)
+    · change Hom.base (xr i).hom ≫ Hom.base g = Hom.base (φ i ≫ (yr i).hom)
       rw [hg.1, hΦ i]
     · have hc : ((xr i).hom.map W p').1 =
           (p'.1 ≫ eqToHom (hxp i)) ≫ f i ≫ eqToHom hxb.symm := by
@@ -242,7 +242,7 @@ theorem projection_isomIsSheaf {U : C} (x y : Torsors.{t} 𝒢)
       have hp1 : p'.1 = (p'.1 ≫ eqToHom (hxp i)) ≫ eqToHom (hxp i).symm := by simp
       have hSp : ((Sieve.ofArrows V f).pullback (eqToHom hxb)).arrows
           ((xr i).hom.map W p').1 := (hSiff _).2 ⟨i, _, hc⟩
-      show g.map W ((xr i).hom.map W p') = (φ i ≫ (yr i).hom).map W p'
+      change g.map W ((xr i).hom.map W p') = (φ i ≫ (yr i).hom).map W p'
       rw [hg.2 ((xr i).hom.map W p') hSp]
       exact (hΘ W ((xr i).hom.map W p') hSp i _ hc p' hp1 rfl).symm
   · intro g' hg'
@@ -367,12 +367,12 @@ theorem isEffective_of_glueing {U : C} {I : Type s} (V : I → C) (f : ∀ i, V 
   obtain ⟨ψjr, hjrb, hjrfac⟩ := hjrex
   refine ⟨R, ψir, ψjr, isHomLift_of_base ψir hirb, isHomLift_of_base ψjr hjrb,
     isIso_of_base_eq ψir hirb, isIso_of_base_eq ψjr hjrb, ?_, ?_, ?_⟩
-  · show ψir ≫ Functor.Restriction.compTo projection (pr₁ i j) (𝟙 (V i)) (by simp)
+  · change ψir ≫ Functor.Restriction.compTo projection (pr₁ i j) (𝟙 (V i)) (by simp)
         (Functor.Restriction.id projection (D.x i) (D.hx i)) (D.xrij i j) =
       Functor.Restriction.compTo projection (pr₁ i j) (f i) rfl (xr i) R ≫ ψ i
     rw [compTo_restrictionId]
     exact hirfac
-  · show ψjr ≫ Functor.Restriction.compTo projection (pr₂ i j) (𝟙 (V j)) (by simp)
+  · change ψjr ≫ Functor.Restriction.compTo projection (pr₂ i j) (𝟙 (V j)) (by simp)
         (Functor.Restriction.id projection (D.x j) (D.hx j)) (D.xrji i j) =
       Functor.Restriction.compTo projection (pr₂ i j) (f j) (hVij i j).w (xr j) R ≫ ψ j
     rw [compTo_restrictionId]

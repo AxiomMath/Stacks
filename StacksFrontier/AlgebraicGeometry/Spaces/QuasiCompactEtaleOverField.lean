@@ -65,7 +65,7 @@ private theorem presheaf_etale_of_isIso {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Ty
       (@AlgebraicGeometry.Etale.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme B S hS)).ContainsIdentities :=
     ⟨fun T ↦ by
-      show AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map (𝟙 T))
+      change AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map (𝟙 T))
       rw [CategoryTheory.Functor.map_id]
       infer_instance⟩
   exact MorphismProperty.presheaf_of_isIso _ f

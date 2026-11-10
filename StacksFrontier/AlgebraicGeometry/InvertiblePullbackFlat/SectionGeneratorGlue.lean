@@ -286,7 +286,7 @@ theorem exists_tensorPairing_eq_one_of_forall_germ_notMem_maximalIdeal_smul_top
       (inf_le_left (a := W i) (b := W j)) hle (b i) (hres i inf_le_left) (hb i)
     have h2 := tensorPairing_res_eq_unitSection_of_map_eq ψ
       (inf_le_right (a := W i) (b := W j)) hle (b j) (hres j inf_le_right) (hb j)
-    show N.val.map (Opens.infLELeft (W i) (W j)).op (b i)
+    change N.val.map (Opens.infLELeft (W i) (W j)).op (b i)
       = N.val.map (Opens.infLERight (W i) (W j)).op (b j)
     refine tensorPairing_left_injective_of_forall_germ_notMem_maximalIdeal_smul_top ψ
       (W i ⊓ W j) (L.val.restrictₛₗ (homOfLE hle).op t) hgerm ?_

@@ -73,7 +73,7 @@ public theorem isIntegralHom_sigmaDesc_of_finite' {I : Type u} [Finite I]
     have he : (Sigma.reindex e V).hom ≫ Sigma.desc q =
         Sigma.desc (fun i ↦ q (e i)) := by
       ext i
-      rw [← Category.assoc, Sigma.ι_reindex_hom, Sigma.ι_desc, Sigma.ι_desc]
+      rw [← Category.assoc, Sigma.ι_reindex_hom, Sigma.ι_comp_desc, Sigma.ι_comp_desc]
     rw [he]
     exact ih (V := V ∘ e) (fun i ↦ q (e i))
   | h_empty =>
@@ -89,9 +89,9 @@ public theorem isIntegralHom_sigmaDesc_of_finite' {I : Type u} [Finite I]
     have hinl : coprod.inl ≫ fwd = Sigma.ι V none := coprod.inl_desc _ _
     have hinr : coprod.inr ≫ fwd = Sigma.desc fun i ↦ Sigma.ι V (some i) :=
       coprod.inr_desc _ _
-    have hnone : Sigma.ι V none ≫ bwd = coprod.inl := Sigma.ι_desc _ _
+    have hnone : Sigma.ι V none ≫ bwd = coprod.inl := Sigma.ι_comp_desc _ _
     have hsome (i : I) : Sigma.ι V (some i) ≫ bwd =
-        Sigma.ι (fun i ↦ V (some i)) i ≫ coprod.inr := Sigma.ι_desc _ _
+        Sigma.ι (fun i ↦ V (some i)) i ≫ coprod.inr := Sigma.ι_comp_desc _ _
     have hdescbwd : (Sigma.desc fun i ↦ Sigma.ι V (some i)) ≫ bwd = coprod.inr := by
       ext i
       simp [hsome]
@@ -108,14 +108,14 @@ public theorem isIntegralHom_sigmaDesc_of_finite' {I : Type u} [Finite I]
           cases i with
           | none => rw [← Category.assoc, hnone, hinl, Category.comp_id]
           | some i =>
-            rw [← Category.assoc, hsome, Category.assoc, hinr, Sigma.ι_desc,
+            rw [← Category.assoc, hsome, Category.assoc, hinr, Sigma.ι_comp_desc,
               Category.comp_id] }
     refine isIntegralHom_of_isIntegralHom_iso_comp e _ ?_
     have he : e.hom ≫ Sigma.desc q =
         coprod.desc (q none) (Sigma.desc fun i ↦ q (some i)) := by
       apply coprod.hom_ext
       · rw [← Category.assoc, show coprod.inl ≫ e.hom = Sigma.ι V none from hinl,
-          Sigma.ι_desc, coprod.inl_desc]
+          Sigma.ι_comp_desc, coprod.inl_desc]
       · rw [← Category.assoc,
           show coprod.inr ≫ e.hom = Sigma.desc (fun i ↦ Sigma.ι V (some i)) from hinr,
           coprod.inr_desc]

@@ -165,18 +165,18 @@ private theorem map_milnor_triangle
   have projectionSquare : mappedTriangle.mor₁ ≫ productIso.hom = targetTriangle.mor₁ := by
     apply Pi.hom_ext
     intro index
-    show (functor.map (Pi.lift projection) ≫ piComparison functor objects) ≫ _ = _
+    change (functor.map (Pi.lift projection) ≫ piComparison functor objects) ≫ _ = _
     rw [Category.assoc, piComparison_comp_π, ← functor.map_comp, Pi.lift_comp_π]
     exact (Pi.lift_comp_π (fun index => functor.map (projection index)) index).symm
   have transitionSquare : mappedTriangle.mor₂ ≫ productIso.hom =
       productIso.hom ≫ targetTriangle.mor₂ := by
     apply Pi.hom_ext
     intro index
-    show (functor.map (Pi.lift fun index => Pi.π objects index -
+    change (functor.map (Pi.lift fun index => Pi.π objects index -
       Pi.π objects (index + 1) ≫ transition index) ≫ piComparison functor objects) ≫ _ = _
     rw [Category.assoc, piComparison_comp_π, ← functor.map_comp, Pi.lift_comp_π,
       functor.map_sub, functor.map_comp]
-    show _ = (piComparison functor objects ≫ (Pi.lift fun index =>
+    change _ = (piComparison functor objects ≫ (Pi.lift fun index =>
       Pi.π (fun index => functor.obj (objects index)) index -
         Pi.π (fun index => functor.obj (objects index)) (index + 1) ≫
           functor.map (transition index))) ≫ _
@@ -184,13 +184,13 @@ private theorem map_milnor_triangle
       ← Category.assoc, piComparison_comp_π]
   have boundarySquare : mappedTriangle.mor₃ ≫
       (Iso.refl mappedTriangle.obj₁).hom⟦(1 : ℤ)⟧' = productIso.hom ≫ targetTriangle.mor₃ := by
-    show mappedTriangle.mor₃ ≫ (shiftFunctor targetCategory (1 : ℤ)).map
+    change mappedTriangle.mor₃ ≫ (shiftFunctor targetCategory (1 : ℤ)).map
       (𝟙 mappedTriangle.obj₁) = productIso.hom ≫ (productIso.inv ≫ mappedTriangle.mor₃)
     rw [(shiftFunctor targetCategory (1 : ℤ)).map_id, Category.comp_id]
     exact (Iso.hom_inv_id_assoc _ _).symm
   let triangleIso := Triangle.isoMk mappedTriangle targetTriangle (Iso.refl _) productIso productIso
     (by
-      show mappedTriangle.mor₁ ≫ productIso.hom =
+      change mappedTriangle.mor₁ ≫ productIso.hom =
         𝟙 (functor.obj limitObject) ≫ (Pi.lift fun index => functor.map (projection index))
       rw [Category.id_comp]
       exact projectionSquare)

@@ -377,11 +377,11 @@ theorem one_apply_zero :
     (1 : TotalChowClass C sY) 0 =
       bivariantClassDegreeCongr C _ sY sY (𝟙 Y) (Category.id_comp sY) (by simp)
         (bivariantIdentityClassOfInvertible C sY) :=
-  dif_pos rfl
+  dite_eq_left rfl
 
 /-- The components of `1` in positive degrees vanish. -/
 theorem one_apply_of_ne {p : ℕ} (hp : p ≠ 0) : (1 : TotalChowClass C sY) p = 0 :=
-  dif_neg hp
+  dite_eq_right hp
 
 /-- **The operation of `1` is the identity.** -/
 theorem op_one {T : Scheme.{u}} (g : T ⟶ Y) [LocallyOfFiniteType g] :
@@ -438,7 +438,7 @@ theorem op_mul (c d : TotalChowClass C sY) {T : Scheme.{u}} (g : T ⟶ Y)
   rw [op_apply, mul_apply, BivariantClass.idRule_sum, gradedCap_mul_apply]
   refine Finset.sum_congr rfl fun j hj ↦ ?_
   have hjm : j ≤ m := Nat.lt_succ_iff.mp (mem_range.mp hj)
-  rw [convolveTerm_of_le _ _ _ hjm, capTo_def, mulTerm, dif_pos hjm]
+  rw [convolveTerm_of_le _ _ _ hjm, capTo_def, mulTerm, dite_eq_left hjm]
   exact eq_of_heq ((idRule_degreeCongr_mulId _ _ _ g k α).trans
     (gradedDegreeCast_heq _ _).symm)
 

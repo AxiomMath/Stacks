@@ -239,10 +239,10 @@ public theorem opensBelowHypercover_mem_precoverage {U : S.Opens} (R : Sieve U)
   refine ⟨fun x => ?_, fun i => ?_⟩
   · obtain ⟨V, g, hg, hV⟩ := hR x.1 x.2
     refine ⟨⟨⟨V, g, hg⟩⟩, ⟨⟨x.1, hV⟩, ?_⟩⟩
-    show (schemeBelowInclusion (cutoff τ B)).map
+    change (schemeBelowInclusion (cutoff τ B)).map
       (((opensBelowToOver (κ := cutoff τ B) hS).map g).left) _ = x
     rw [ObjectProperty.ι_map]
-    show S.homOfLE (leOfHom g) _ = x
+    change S.homOfLE (leOfHom g) _ = x
     exact (Scheme.homOfLE_apply' (leOfHom g) x.1 hV).trans (Subtype.ext rfl)
   · exact isOpenImmersion_le_coveringMorphismProperty τ _
       (inferInstanceAs (IsOpenImmersion (S.homOfLE (leOfHom i.down.2.1))))

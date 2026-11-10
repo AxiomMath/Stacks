@@ -123,6 +123,7 @@ theorem bijective_app_pullback_lift {C : Type*} [Category* C] {P H K Y : Cᵒᵖ
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site exceeds the default budget
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_AffineOpenRepresentability :
@@ -169,13 +170,13 @@ theorem isRepresentable_of_isAffineOpen_represented (H : (BigFppfOver B S hS)ᵒ
   have hcov : (⨆ V, Subfunctor.range (c V)).sheafify (BigFppfOver.topology B S hS) = ⊤ := by
     rw [eq_top_iff]
     rintro ⟨T⟩ t -
-    show (⨆ V, Subfunctor.range (c V)).sieveOfSection t ∈ BigFppfOver.topology B S hS T
+    change (⨆ V, Subfunctor.range (c V)).sieveOfSection t ∈ BigFppfOver.topology B S hS T
     refine BigFppfOver.mem_topology_of_opensRestrictHom B S hS
       (fun V : S.affineOpens => T.hom.hom ⁻¹ᵁ V.1) (fun x => ?_) (fun V => ?_)
     · obtain ⟨W, hW, hxW, -⟩ :=
         exists_isAffineOpen_mem_and_subset (U := ⊤) (x := T.hom.hom x) (by trivial)
       exact ⟨⟨W, hW⟩, hxW⟩
-    · show K.map _ t ∈ (⨆ V, Subfunctor.range (c V)).obj _
+    · change K.map _ t ∈ (⨆ V, Subfunctor.range (c V)).obj _
       rw [Subfunctor.iSup_obj]
       refine Set.mem_iUnion.2 ⟨V, BigFppfOver.homOfRangeLe B S hS V.1 ?_, hterm.hom_ext _ _⟩
       rintro _ ⟨y, rfl⟩

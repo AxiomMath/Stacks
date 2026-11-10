@@ -103,8 +103,7 @@ theorem exists_surjective_algHom_reduction_tensor
   refine ⟨f, ?_, hfmk⟩
   intro z
   obtain ⟨t, rfl⟩ := Ideal.Quotient.mk_surjective z
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction t using TensorProduct.inductionOn with
   | tmul c s => exact ⟨Ideal.Quotient.mk _ c ⊗ₜ[R] s, hfmk c s⟩
   | add x y hx hy =>
     obtain ⟨a, ha⟩ := hx

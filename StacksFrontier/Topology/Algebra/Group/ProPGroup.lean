@@ -190,7 +190,7 @@ theorem exists_sylow_eq_map (hH : IsMaximalProPSubgroup p H) (N : OpenNormalSubg
     (s M).1.toSubgroup.comap (QuotientGroup.mk' M.toSubgroup)
   have hHT : ∀ M, H ≤ T M := fun M x hx ↦ (s M).2 ⟨x, hx, rfl⟩
   have hNT : ∀ M : OpenNormalSubgroup G, M.toSubgroup ≤ T M := fun M x hx ↦ by
-    show ((x : G ⧸ M.toSubgroup)) ∈ (s M).1.toSubgroup
+    change ((x : G ⧸ M.toSubgroup)) ∈ (s M).1.toSubgroup
     rw [(QuotientGroup.eq_one_iff x).mpr hx]
     exact one_mem _
   have hTclosed : ∀ M, IsClosed (T M : Set G) := fun M ↦
@@ -202,7 +202,7 @@ theorem exists_sylow_eq_map (hH : IsMaximalProPSubgroup p H) (N : OpenNormalSubg
     exact (sylowMap_coe h (s _)).symm
   have hTmono : ∀ {M M' : OpenNormalSubgroup G}, M ≤ M' → T M ≤ T M' := by
     intro M M' h x hx
-    show ((x : G ⧸ M'.toSubgroup)) ∈ (s M').1.toSubgroup
+    change ((x : G ⧸ M'.toSubgroup)) ∈ (s M').1.toSubgroup
     rw [← hmap h]
     exact ⟨_, hx, rfl⟩
   -- the intersection is a closed pro-`p` subgroup containing `H`, hence equal to `H`
@@ -247,7 +247,7 @@ theorem exists_sylow_eq_map (hH : IsMaximalProPSubgroup p H) (N : OpenNormalSubg
     hCne (fun M ↦ (hCclosed M).isCompact) hCclosed
   have hx' := Set.mem_iInter.mp hx
   refine ⟨x, hQH ▸ Subgroup.mem_iInf.mpr fun M ↦ (hx' M).1, ?_⟩
-  show (x : G ⧸ N.toSubgroup) = g
+  change (x : G ⧸ N.toSubgroup) = g
   exact (QuotientGroup.eq.mpr (by simpa using (hx' N).2)).symm
 
 /-- **An open subgroup containing a maximal pro-`p` subgroup of a profinite group has index prime

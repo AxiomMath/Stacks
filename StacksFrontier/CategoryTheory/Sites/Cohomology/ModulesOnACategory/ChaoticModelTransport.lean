@@ -152,7 +152,7 @@ sheaves of modules to quasi-isomorphisms of complexes of presheaves of modules. 
 lemma quasiIso_chaoticComplexEquivalence_functor_map
     {G H : CochainComplex (SheafOfModules.{m} R) ℤ} (f : H ⟶ G) [QuasiIso f] :
     QuasiIso ((chaoticComplexEquivalence R).functor.map f) := by
-  show QuasiIso (((chaoticSheafPresheafEquivalence R).functor.mapHomologicalComplex
+  change QuasiIso (((chaoticSheafPresheafEquivalence R).functor.mapHomologicalComplex
     (ComplexShape.up ℤ)).map f)
   infer_instance
 
@@ -173,7 +173,7 @@ lemma complexSectionSize_eq_presheaf
     complexSectionSize G =
       QuasiCoherentEquivalence.complexSectionSize.{w} R.obj
         ((chaoticComplexEquivalence R).functor.obj G) := by
-  show Cardinal.lift.{max v r} (Cardinal.mk (Σ i : ℤ, Σ U : C, (G.X i).val.obj (op U))) =
+  change Cardinal.lift.{max v r} (Cardinal.mk (Σ i : ℤ, Σ U : C, (G.X i).val.obj (op U))) =
     Cardinal.mk (Σ i : ℤ, Σ U : C, (G.X i).val.obj (op U))
   exact Cardinal.lift_id'.{max v r, max u w} _
 

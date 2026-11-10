@@ -177,11 +177,11 @@ theorem isIso_Qh_map_comp_rightDerivedFunctorPlusUnit_app (I : CochainComplex.Pl
     (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (G' ⋙ F'))).inv.app K ≫
       F'.mapHomotopyCategoryPlus.map φ
   have hψq : HomotopyCategory.Plus.quasiIso _ ψ := by
-    show HomotopyCategory.quasiIso _ _ ψ.hom
+    change HomotopyCategory.quasiIso _ _ ψ.hom
     have e : ψ.hom = (HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
         ((NatTrans.mapHomologicalComplex α (ComplexShape.up ℤ)).app I.obj ≫
           (F'.mapHomologicalComplex (ComplexShape.up ℤ)).map i.hom) := by
-      show (HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
+      change (HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
           ((NatTrans.mapHomologicalComplex α (ComplexShape.up ℤ)).app I.obj) ≫
         (HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
           ((Functor.mapHomologicalComplexCompIso (Iso.refl (G' ⋙ F'))
@@ -248,7 +248,7 @@ theorem mapHomotopyCategoryCompIso_refl_hom_app_quotient_obj {A B B' : Type*} [C
     (F : A ⥤ B) (G : B ⥤ B') [F.Additive] [G.Additive] (K : CochainComplex A ℤ) :
     (Functor.mapHomotopyCategoryCompIso (Iso.refl (F ⋙ G)) (ComplexShape.up ℤ)).hom.app
       ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).obj K) = 𝟙 _ := by
-  show (HomotopyCategory.quotient B' (ComplexShape.up ℤ)).map
+  change (HomotopyCategory.quotient B' (ComplexShape.up ℤ)).map
     ((Functor.mapHomologicalComplexCompIso (Iso.refl (F ⋙ G)) (ComplexShape.up ℤ)).hom.app K) = _
   rw [mapHomologicalComplexCompIso_refl_hom_app_eq_id, CategoryTheory.Functor.map_id]
   rfl
@@ -260,7 +260,7 @@ theorem mapHomotopyCategoryCompIso_refl_inv_app_quotient_obj {A B B' : Type*} [C
     (F : A ⥤ B) (G : B ⥤ B') [F.Additive] [G.Additive] (K : CochainComplex A ℤ) :
     (Functor.mapHomotopyCategoryCompIso (Iso.refl (F ⋙ G)) (ComplexShape.up ℤ)).inv.app
       ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).obj K) = 𝟙 _ := by
-  show (HomotopyCategory.quotient B' (ComplexShape.up ℤ)).map
+  change (HomotopyCategory.quotient B' (ComplexShape.up ℤ)).map
     ((Functor.mapHomologicalComplexCompIso (Iso.refl (F ⋙ G)) (ComplexShape.up ℤ)).inv.app K) = _
   rw [mapHomologicalComplexCompIso_refl_inv_app_eq_id, CategoryTheory.Functor.map_id]
   rfl
@@ -298,7 +298,7 @@ theorem quotient_map_natTrans_comp_eq {A A' B B' : Type*} {_ : Category A} {_ : 
       (HomotopyCategory.quotient B' (ComplexShape.up ℤ)).map
         ((NatTrans.mapHomologicalComplex α (ComplexShape.up ℤ)).app K ≫
           (F'.mapHomologicalComplex (ComplexShape.up ℤ)).map q) := by
-  show ((HomotopyCategory.quotient B' (ComplexShape.up ℤ)).map
+  change ((HomotopyCategory.quotient B' (ComplexShape.up ℤ)).map
         ((Functor.mapHomologicalComplexCompIso (Iso.refl (F ⋙ G))
           (ComplexShape.up ℤ)).hom.app K) ≫
       (HomotopyCategory.quotient B' (ComplexShape.up ℤ)).map
@@ -329,7 +329,7 @@ theorem mapHomotopyCategoryCompIso_hom_comp_comp_inv_app_quotient_obj {A A' B B'
           ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).obj K) =
       (HomotopyCategory.quotient B' (ComplexShape.up ℤ)).map
         ((NatTrans.mapHomologicalComplex α (ComplexShape.up ℤ)).app K) := by
-  show (HomotopyCategory.quotient B' (ComplexShape.up ℤ)).map
+  change (HomotopyCategory.quotient B' (ComplexShape.up ℤ)).map
         ((Functor.mapHomologicalComplexCompIso (Iso.refl (F ⋙ G))
           (ComplexShape.up ℤ)).hom.app K) ≫
       (HomotopyCategory.quotient B' (ComplexShape.up ℤ)).map

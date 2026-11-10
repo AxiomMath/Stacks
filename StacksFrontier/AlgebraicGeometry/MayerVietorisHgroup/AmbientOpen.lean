@@ -300,7 +300,7 @@ public theorem exact_ambientShortComplex_app :
   obtain ⟨s, hsU, hsV⟩ := sheafSections_glue_cover (sectionsPresheaf O M)
     (sectionsPresheaf_isSheaf O M) U V W hUV a b hcompat
   refine ⟨s, ?_⟩
-  show (ambientToCover O W U V hU hV).app M s = x
+  change (ambientToCover O W U V hU hV).app M s = x
   have hfst : (biprod.fst : secF O U ⊞ secF O V ⟶ secF O U).app M
       ((ambientToCover O W U V hU hV).app M s) = a := by
     rw [← AddCommGrpCat.comp_apply, ambientToCover_comp_fst]
@@ -325,7 +325,7 @@ public theorem epi_ambientToIntersection_app (hM : Injective M) :
   obtain ⟨y, hy⟩ := Stacks.Cohomology.InjectiveRestriction.injective_restriction_surjective
     O M (inf_le_left : U ⊓ V ≤ U) z
   refine ⟨(biprod.inl : secF O U ⟶ secF O U ⊞ secF O V).app M y, ?_⟩
-  show ((biprod.inl : secF O U ⟶ secF O U ⊞ secF O V).app M ≫
+  change ((biprod.inl : secF O U ⟶ secF O U ⊞ secF O V).app M ≫
     (ambientToIntersection O U V).app M) y = z
   rw [inl_comp_ambientToIntersection O U V M]
   exact hy
@@ -476,7 +476,7 @@ public theorem mono_ambientFirst_zero (F : SheafOfModules.{u} O) :
   have h₂ : IsIso ((Functor.rightDerivedBiprodIso (secF O U) (secF O V) 0).hom.app F) :=
     inferInstanceAs
       (IsIso ((Functor.rightDerivedBiprodIso (secF O U) (secF O V) 0).app F).hom)
-  show Mono ((NatTrans.rightDerived (ambientToCover O W U V hU hV) 0).app F ≫
+  change Mono ((NatTrans.rightDerived (ambientToCover O W U V hU hV) 0).app F ≫
     (Functor.rightDerivedBiprodIso (secF O U) (secF O V) 0).hom.app F)
   infer_instance
 

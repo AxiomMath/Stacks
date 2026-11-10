@@ -158,7 +158,7 @@ theorem basePsi_comp_unit {P₁ : Scheme.{u}} (p₁ : P₁ ⟶ S') (f₁ : P₁ 
     unfold pullbackSection
     rw [show (homOfLE (le_refl (f₁ ⁻¹ᵁ (p' ⁻¹ᵁ (g ⁻¹ᵁ U))))).op = 𝟙 _ from Subsingleton.elim _ _]
     exact (PresheafOfModules.map_id_apply _ _ _).symm
-  show ((Scheme.Modules.pullbackComp f₁ f).inv.app O).val.app (op (p₁ ⁻¹ᵁ (g ⁻¹ᵁ U)))
+  change ((Scheme.Modules.pullbackComp f₁ f).inv.app O).val.app (op (p₁ ⁻¹ᵁ (g ⁻¹ᵁ U)))
       ((basePsi p p₁ g (f₁ ≫ f) h₁₂ ψ₀).val.app (op (g ⁻¹ᵁ U))
         (pullbackSection g M U (g ⁻¹ᵁ U) le_rfl a)) =
     ((Scheme.Modules.pullback f₁).obj ((Scheme.Modules.pullback f).obj O)).val.map
@@ -200,7 +200,7 @@ theorem basePsi_comp {S₁ S₂ P₁ P₂ : Scheme.{u}} (p₂ : P₂ ⟶ S₂) (
       basePsi_pullbackSection_preimage p p₂ g₂ f₂ h₂ ψ₀ U a]
     exact pullbackSection_pullbackSection_shrink f₁ f₂ O (p ⁻¹ᵁ U) _ _
       (preimage_le_of_comm p p₂ g₂ f₂ h₂ U) _ hV _
-  show ((Scheme.Modules.pullbackComp f₁ f₂).inv.app O).val.app
+  change ((Scheme.Modules.pullbackComp f₁ f₂).inv.app O).val.app
       (op (p₁ ⁻¹ᵁ ((g₁ ≫ g₂) ⁻¹ᵁ U)))
       ((basePsi p p₁ (g₁ ≫ g₂) (f₁ ≫ f₂) h₁₂ ψ₀).val.app (op ((g₁ ≫ g₂) ⁻¹ᵁ U))
         (((Scheme.Modules.pullbackComp g₁ g₂).hom.app M).val.app

@@ -24,8 +24,8 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.IntegralModificationExtens
 # Additions to `SpecialFibreDimension`
 
 Declarations this development adds alongside
-`StacksFrontier.AlgebraicGeometry.Spaces.SpecialFibreDimension`, kept in their own module so that the
-base file is unchanged: 5 declaration(s) that the base file does not have, with the section
+`StacksFrontier.AlgebraicGeometry.Spaces.SpecialFibreDimension`, kept in their own module so that
+the base file is unchanged: 5 declaration(s) that the base file does not have, with the section
 variables, namespaces and options they are stated in.
 -/
 
@@ -163,7 +163,7 @@ theorem dimension_fieldFibre_add_one_le_ringKrullDim_of_isAlteration
     pointsMap_eq_of_isGenericPoint B (Spec (.of A)) hA hTalg hTint.isDecentSpace f hdom hξ hη
   refine dimension_fieldFibre_add_one_le_ringKrullDim_of_isIntegralSpace' A B hA hdim hXalg f
     hlft hXint ⟨ξ, ?_, fun x hx ↦ ?_⟩
-  · show pointsToScheme B (Spec (.of A)) hA (baseTerminal B (Spec (.of A)) hA)
+  · change pointsToScheme B (Spec (.of A)) hA (baseTerminal B (Spec (.of A)) hA)
         (pointsMap B (Spec (.of A)) hA X f ξ) = genericPoint (Spec (.of A))
     rw [hξmap]
     exact hηmap

@@ -308,7 +308,7 @@ theorem exists_bivariantCapBaseFundamentalClass_add_mk_eq (hS : IsDedekindChowBa
     rcases i with ⟨_ | _⟩
     · refine (chowGroupRestrict_bivariantCapBaseFundamentalClass_eq_zero _ sX p hS d₁).trans
         (hres0 (UX ⟨false⟩) _ fun z ↦ ?_).symm
-      show a.1 _ - a₀.1 _ = 0
+      change a.1 _ - a₀.1 _ = 0
       rw [ha₀0 ((UX ⟨false⟩).ι.base z) z.2, sub_self]
     · refine h₁.trans ?_
       rw [map_sub, map_sub, hres0 (UX ⟨true⟩) a₀ fun z ↦ ha₀1 _ z.2, sub_zero]

@@ -181,7 +181,7 @@ private theorem quotientMap_app_eq
   let J := BigFppfOver.topology B S hS
   let F : BigFppfOver B S hS ⥤ Over S := Over.post (X := B.obj hS) B.inclusion
   let j := relation B S hS s t
-  show (quotientSheaf J F j).obj.map f.op
+  change (quotientSheaf J F j).obj.map f.op
       ((toQuotientSheaf J F j).app (op U) (𝟙 (F.obj U))) =
     (toQuotientSheaf J F j).app (op T) (F.map f)
   exact (NatTrans.naturality_apply (toQuotientSheaf J F j) (op f) (𝟙 (F.obj U))).symm
@@ -202,10 +202,10 @@ private theorem quotient_relation_lift
   let F : BigFppfOver B S hS ⥤ Over S := Over.post (X := B.obj hS) B.inclusion
   let j := relation B S hS s t
   let : F.Full := by
-    show (Over.post (X := B.obj hS) B.inclusion).Full
+    change (Over.post (X := B.obj hS) B.inclusion).Full
     infer_instance
   let : F.Faithful := by
-    show (Over.post (X := B.obj hS) B.inclusion).Faithful
+    change (Over.post (X := B.obj hS) B.inclusion).Faithful
     infer_instance
   have hsource : j.source = F.map s := relation_source B S hS s t
   have htarget : j.target = F.map t := relation_target B S hS s t
@@ -239,7 +239,7 @@ private theorem yoneda_map_comp_quotientMap_eq
   let F : BigFppfOver B S hS ⥤ Over S := Over.post (X := B.obj hS) B.inclusion
   let j := relation B S hS s t
   ext X f
-  show (quotientMap B S hS s t).app X (f ≫ t) = (quotientMap B S hS s t).app X (f ≫ s)
+  change (quotientMap B S hS s t).app X (f ≫ t) = (quotientMap B S hS s t).app X (f ≫ s)
   rw [quotientMap_app_eq B S hS s t (f ≫ t), quotientMap_app_eq B S hS s t (f ≫ s)]
   have h := congrArg (fun g => g (F.map f))
     (NatTrans.congr_app (sourceMap_toQuotientSheaf J F j) X)
@@ -307,10 +307,10 @@ private theorem quotientMap_property
   let c := quotientMap B S hS s t
   let Q := (quotientSheaf J F j).obj
   let : F.Full := by
-    show (Over.post (X := B.obj hS) B.inclusion).Full
+    change (Over.post (X := B.obj hS) B.inclusion).Full
     infer_instance
   let : F.Faithful := by
-    show (Over.post (X := B.obj hS) B.inclusion).Faithful
+    change (Over.post (X := B.obj hS) B.inclusion).Faithful
     infer_instance
   have hlocalQ : Presheaf.IsLocallySurjective J (toQuotientSheaf J F j) :=
     quotientPoint_locally_surjective J F j
@@ -389,7 +389,7 @@ private theorem quotientMap_property
         eScheme (Iso.refl _) heScheme)).1 hP₁
   have hdesc := MorphismProperty.IsLocalAtTarget.iff_of_forall_pullbackSnd
     (P := P) hEfp (f := Tsite.map (hrep.snd g))
-  show P (Tsite.map (hrep.snd g))
+  change P (Tsite.map (hrep.snd g))
   apply hdesc.mpr
   intro W e hp he
   rcases he with ⟨i₀⟩
@@ -405,10 +405,10 @@ private theorem relation_source_surjective
   let j := relation B S hS s t
   let Tsite := BigFppfOver.toScheme B S hS
   let : F.Full := by
-    show (Over.post (X := B.obj hS) B.inclusion).Full
+    change (Over.post (X := B.obj hS) B.inclusion).Full
     infer_instance
   let : F.Faithful := by
-    show (Over.post (X := B.obj hS) B.inclusion).Faithful
+    change (Over.post (X := B.obj hS) B.inclusion).Faithful
     infer_instance
   have hEquiv : IsEquivalenceRelation j.target j.source := inferInstance
   obtain ⟨er⟩ := hEquiv.nonempty_equivalenceRelation

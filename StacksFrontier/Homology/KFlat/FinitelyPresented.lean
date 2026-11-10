@@ -133,7 +133,7 @@ private lemma preservesColimit_totalFunctor_eval
     obtain ⟨⟨pq, hpq⟩⟩ := j
     have hBmap : (B.map f).app ⟨⟨pq, hpq⟩⟩ = (f.f pq.1).f pq.2 := rfl
     simp only [Functor.comp_map, Iso.trans_hom, colim_map,
-      Category.assoc, ι_colimMap_assoc, HasColimit.isoOfNatIso_ι_hom_assoc,
+      Category.assoc, ι_colimMap_assoc, HasColimit.ι_isoOfNatIso_hom_assoc,
       colimit.isoColimitCocone_ι_hom, colimit.isoColimitCocone_ι_hom_assoc,
       Discrete.natIso_hom_app, Iso.refl_hom, Category.id_comp, hBmap]
     change (f.f pq.1).f pq.2 ≫ L.toGradedObject.ιMapObj π pq n hpq
@@ -179,8 +179,7 @@ private lemma tensorComplexLeftFunctor_eq_TleftCochain {R : Type u} [CommRing R]
     (K : CochainComplex (ModuleCat.{u} R) ℤ) :
     tensorComplexLeftFunctor K = TleftCochain K := by
   apply CategoryTheory.Functor.ext
-  · intro L
-    intro M f
+  · intro L M f
     let B := (curriedTensor (ModuleCat.{u} R)).mapBifunctorHomologicalComplex
       (ComplexShape.up ℤ) (ComplexShape.up ℤ)
     change (HomologicalComplex₂.totalFunctor (ModuleCat.{u} R) (ComplexShape.up ℤ)

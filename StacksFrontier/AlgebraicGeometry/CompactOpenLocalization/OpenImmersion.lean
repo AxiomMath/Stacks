@@ -99,7 +99,7 @@ theorem exists_stage_isOpenImmersion_iSup_basicOpen {X : Scheme.{u}} {A W : X.Op
   have hcomp : ((RingEquiv.ofBijective e.hom he : c.pt →+* Γ(X, W)).comp s.hom) =
       (X.presheaf.map (homOfLE hWA).op).hom := by
     ext a
-    show e (s a) = _
+    change e (s a) = _
     rw [← CommRingCat.comp_apply, hse]
   have hloc : ∀ l, Function.Bijective (Localization.awayMap s.hom (g l)) := fun l =>
     (Localization.bijective_awayMap_comp_ringEquiv s.hom

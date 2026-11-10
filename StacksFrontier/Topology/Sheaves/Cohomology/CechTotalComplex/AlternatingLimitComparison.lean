@@ -296,7 +296,7 @@ private lemma isIso_of_eventually_isIso_homologyLimit
     refine isIso_of_eventually_isIso_comp_cone _ hcone.some
       (φ ≫ (ShortComplex.homologyFunctor Ab.{u}).map (limitShortComplexIso D b c d).hom)
       N fun n hn ↦ ?_
-    show IsIso ((φ ≫ (ShortComplex.homologyFunctor Ab.{u}).map
+    change IsIso ((φ ≫ (ShortComplex.homologyFunctor Ab.{u}).map
         (limitShortComplexIso D b c d).hom) ≫
       (ShortComplex.homologyFunctor Ab.{u}).map
         (limitShortComplexπ (towerDifferential D b c) (towerDifferential D c d)
@@ -415,7 +415,7 @@ private lemma isZero_alternatingCechComplexFunctorInt_X {I : Type u} [Finite I]
     (U : I → Opens X) (P : (Opens X)ᵒᵖ ⥤ AddCommGrpCat.{u}) (p : ℤ)
     (hp : p < 0 ∨ (Nat.card I : ℤ) ≤ p) :
     IsZero (((alternatingCechComplexFunctorInt.{u, u, u} U).obj P).X p) := by
-  show IsZero (((alternatingCechComplex U P).extend embeddingUpNat).X p)
+  change IsZero (((alternatingCechComplex U P).extend embeddingUpNat).X p)
   by_cases hp0 : p < 0
   · refine HomologicalComplex.isZero_extend_X _ _ _ fun i hi ↦ ?_
     change (i : ℤ) = p at hi
@@ -432,7 +432,7 @@ private lemma isIso_alternatingCechTotal_map_f {I : Type u} [Finite I] (U : I �
     IsIso (((alternatingCechTotalComplexFunctor U).map f).f n) := by
   refine isIso_total_map_f_of_summands _ _ fun p q hpq ↦ ?_
   change p + q = n at hpq
-  show IsIso ((HomologicalComplex.extendMap
+  change IsIso ((HomologicalComplex.extendMap
     ((alternatingCechComplexFunctor U).map (f.f q)) embeddingUpNat).f p)
   by_cases hp : p < 0 ∨ (Nat.card I : ℤ) ≤ p
   · exact (isZero_alternatingCechComplexFunctorInt_X X U (K.X q) p hp).isIso
@@ -448,10 +448,10 @@ private lemma isIso_πTruncGE_f_of_lt {A : Type*} [Category A] [Abelian A]
     (K : CochainComplex A ℤ) (a q : ℤ) (haq : a < q) :
     IsIso ((K.πTruncGE a).f q) := by
   have he : (embeddingUpIntGE a).f (q - a).natAbs = q := by
-    show a + ((q - a).natAbs : ℤ) = q
+    change a + ((q - a).natAbs : ℤ) = q
     rw [Int.natAbs_of_nonneg (by omega)]
     omega
-  show IsIso (((embeddingUpIntGE a).liftExtend (K.restrictionToTruncGE' (embeddingUpIntGE a))
+  change IsIso (((embeddingUpIntGE a).liftExtend (K.restrictionToTruncGE' (embeddingUpIntGE a))
     (K.restrictionToTruncGE'_hasLift (embeddingUpIntGE a))).f q)
   rw [(embeddingUpIntGE a).isIso_liftExtend_f_iff _ _ he]
   refine K.isIso_restrictionToTruncGE' _ _ fun h ↦ ?_
@@ -466,7 +466,7 @@ private lemma isIso_alternatingCechTotal_πTruncGE_f {I : Type u} [Finite I] (U 
       ((underlyingPresheafComplexFunctor X R).map (F.πTruncGE a))).f n) := by
   refine isIso_alternatingCechTotal_map_f X U _ a n han fun q hq ↦ ?_
   have := isIso_πTruncGE_f_of_lt F a q hq
-  show IsIso ((SheafOfModules.forget R ⋙ PresheafOfModules.toPresheaf R.obj).map
+  change IsIso ((SheafOfModules.forget R ⋙ PresheafOfModules.toPresheaf R.obj).map
     ((F.πTruncGE a).f q))
   infer_instance
 
@@ -481,14 +481,14 @@ private lemma quasiIsoAt_alternatingCechTotal_πTruncGE {I : Type u} [Finite I] 
   have h₃ : IsIso (f.f (n + 1)) :=
     isIso_alternatingCechTotal_πTruncGE_f X R U F a (n + 1) (by omega)
   rw [quasiIsoAt_iff_isIso_homologyMap]
-  show IsIso (ShortComplex.homologyMap
+  change IsIso (ShortComplex.homologyMap
     ((HomologicalComplex.shortComplexFunctor _ (up ℤ) n).map f))
   apply ShortComplex.isIso_homologyMap_of_epi_of_isIso_of_mono'
-  · show Epi (f.f ((up ℤ).prev n))
+  · change Epi (f.f ((up ℤ).prev n))
     rw [CochainComplex.prev]
     exact IsIso.epi_of_iso _
   · exact isIso_alternatingCechTotal_πTruncGE_f X R U F a n (by omega)
-  · show Mono (f.f ((up ℤ).next n))
+  · change Mono (f.f ((up ℤ).next n))
     rw [CochainComplex.next]
     exact IsIso.mono_of_iso _
 
@@ -643,7 +643,7 @@ private lemma isSplitEpi_sectionsComplex_map_g
     IsSplitEpi (((underlyingPresheafComplexFunctor X R ⋙
       globalSectionsUliftComplexFunctor.{u, u, u} X).map (C.g n)).f q) := by
   have h := C.splitEpi_g n q
-  show IsSplitEpi ((((evaluation (Opens X)ᵒᵖ AddCommGrpCat.{u}).obj (op ⊤)) ⋙
+  change IsSplitEpi ((((evaluation (Opens X)ᵒᵖ AddCommGrpCat.{u}).obj (op ⊤)) ⋙
     AddCommGrpCat.uliftFunctor.{u, u}).map
       ((SheafOfModules.forget R ⋙ PresheafOfModules.toPresheaf R.obj).map ((C.g n).f q)))
   infer_instance
@@ -661,7 +661,7 @@ private lemma isMittagLeffler_candidateTower
     HomologicalComplex.eval AddCommGrpCat.{u} (up ℤ) q) fun n ↦ ?_
   have hmap : (Functor.ofOpSequence C.g).map (homOfLE (Nat.le_succ n)).op = C.g n :=
     Functor.ofOpSequence_map_homOfLE_succ C.g n
-  show IsSplitEpi (((underlyingPresheafComplexFunctor X R ⋙
+  change IsSplitEpi (((underlyingPresheafComplexFunctor X R ⋙
     globalSectionsUliftComplexFunctor.{u, u, u} X).map
       ((Functor.ofOpSequence C.g).map (homOfLE (Nat.le_succ n)).op)).f q)
   rw [hmap]
@@ -747,7 +747,7 @@ private lemma eventually_isIso_homology_candidateStage
     isIso_alternatingCechDerived_map_of_quasiIso X R U _ (hstage n)
   have hπ : IsIso ((DerivedCategory.homologyFunctor AddCommGrpCat.{u} q).map
       ((alternatingCechDerivedFunctor X R U).map (F.πTruncGE (-(n : ℤ))))) := by
-    show IsIso ((DerivedCategory.Q ⋙
+    change IsIso ((DerivedCategory.Q ⋙
         DerivedCategory.homologyFunctor AddCommGrpCat.{u} q).map
       ((alternatingCechTotalComplexFunctor U).map
         ((underlyingPresheafComplexFunctor X R).map (F.πTruncGE (-(n : ℤ))))))

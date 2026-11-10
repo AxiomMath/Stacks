@@ -110,7 +110,7 @@ theorem overMapUnitIso_hom_app
         ((SheafOfModules.overMapUnitIso (R := R) g).hom.val.app (Opposite.op W))
         (1 : (R.over V).obj.obj (Opposite.op W)) =
         (1 : (R.over V).obj.obj (Opposite.op W)) := by
-  show (1 : (R.over V).obj.obj (Opposite.op W)) = _
+  change (1 : (R.over V).obj.obj (Opposite.op W)) = _
   rfl
 
 /-- A functor into sheaves of modules preserves finite limits if, after each evaluation functor
@@ -412,7 +412,7 @@ theorem exists_local_lift
       (SheafOfModules.free (R := R.over U) K).val).map c.op (xG i)
   let M' := T.obj (SheafOfModules.free (R := R.over U) K)
   let hx (i : I) : ToType (M'.val.obj (Opposite.op (Over.mk (𝟙 V)))) := by
-    show ToType (((PresheafOfModules.toPresheaf (R.over U).obj).obj
+    change ToType (((PresheafOfModules.toPresheaf (R.over U).obj).obj
       (SheafOfModules.free (R := R.over U) K).val).obj
         (Opposite.op ((Over.map g).obj (Over.mk (𝟙 V)))))
     exact x i
@@ -436,7 +436,7 @@ theorem exists_local_lift
     have hh : eK.inv.val.app (Opposite.op (Over.mk (𝟙 V))) ≫
         eK.hom.val.app (Opposite.op (Over.mk (𝟙 V))) = 𝟙 _ :=
       congrArg (fun f => f.val.app (Opposite.op (Over.mk (𝟙 V)))) eK.inv_hom_id
-    show ((eK.inv.val.app (Opposite.op (Over.mk (𝟙 V))) ≫
+    change ((eK.inv.val.app (Opposite.op (Over.mk (𝟙 V))) ≫
       eK.hom.val.app (Opposite.op (Over.mk (𝟙 V)))) y) = y
     rw [hh]
     rfl
@@ -458,7 +458,7 @@ theorem exists_local_lift
           (1 : (R.over V).obj.obj (Opposite.op (Over.mk (𝟙 V))))) := by
     exact hat (hℓ i) (1 : (R.over V).obj.obj (Opposite.op (Over.mk (𝟙 V))))
   have hsecVal (i : I) : (xsec i).val (Opposite.op (Over.mk (𝟙 V))) = hx i := by
-    show ((PresheafOfModules.toPresheaf (R.over V).obj).obj M'.val).map
+    change ((PresheafOfModules.toPresheaf (R.over V).obj).obj M'.val).map
       (Over.mkIdTerminal.from (Over.mk (𝟙 V))).op (hx i) = hx i
     have hid : Over.mkIdTerminal.from (Over.mk (𝟙 V)) = 𝟙 _ :=
       Over.mkIdTerminal.hom_ext _ _
@@ -488,7 +488,7 @@ theorem exists_local_lift
         (ℓ ≫ eK.hom ≫ T.map e) i).val (Opposite.op (Over.mk (𝟙 V))) =
       ((T.obj N).freeHomEquiv
         (eI.hom ≫ T.map h) i).val (Opposite.op (Over.mk (𝟙 V))) := by
-    show ((T.obj N).unitHomEquiv
+    change ((T.obj N).unitHomEquiv
         (SheafOfModules.ιFree i ≫ ℓ ≫ eK.hom ≫ T.map e)).val
         (Opposite.op (Over.mk (𝟙 V))) =
       ((T.obj N).unitHomEquiv
@@ -496,7 +496,7 @@ theorem exists_local_lift
         (Opposite.op (Over.mk (𝟙 V)))
     rw [SheafOfModules.unitHomEquiv_apply_coe,
       SheafOfModules.unitHomEquiv_apply_coe]
-    show (T.map e).val.app (Opposite.op (Over.mk (𝟙 V)))
+    change (T.map e).val.app (Opposite.op (Over.mk (𝟙 V)))
         (eK.hom.val.app (Opposite.op (Over.mk (𝟙 V)))
           (ℓ.val.app (Opposite.op (Over.mk (𝟙 V)))
             ((SheafOfModules.ιFree i).val.app (Opposite.op (Over.mk (𝟙 V)))
@@ -506,7 +506,7 @@ theorem exists_local_lift
           ((SheafOfModules.ιFree i).val.app (Opposite.op (Over.mk (𝟙 V)))
             (1 : (R.over V).obj.obj (Opposite.op (Over.mk (𝟙 V))))))
     rw [hℓ_eval, hunit, hIbase]
-    show (ConcreteCategory.hom (((SheafOfModules.overMap R g).map e).val.app
+    change (ConcreteCategory.hom (((SheafOfModules.overMap R g).map e).val.app
         (Opposite.op (Over.mk (𝟙 V)))))
         ((ConcreteCategory.hom (eK.hom.val.app (Opposite.op (Over.mk (𝟙 V)))))
           ((ConcreteCategory.hom (eK.inv.val.app (Opposite.op (Over.mk (𝟙 V))))) (hx i))) =
@@ -531,10 +531,10 @@ theorem exists_local_lift
           (Opposite.op W) =
         (h.val.app (Opposite.op W))
           ((SheafOfModules.ιFree i).val.app (Opposite.op W) oneUnit) := by
-      show (N.unitHomEquiv (SheafOfModules.ιFree i ≫ h)).val
+      change (N.unitHomEquiv (SheafOfModules.ιFree i ≫ h)).val
         (Opposite.op W) = _
       rw [SheafOfModules.unitHomEquiv_apply_coe]
-      show (ConcreteCategory.hom
+      change (ConcreteCategory.hom
         ((SheafOfModules.ιFree i).val.app (Opposite.op W) ≫
           h.val.app (Opposite.op W)))
         oneUnit = _
@@ -598,7 +598,7 @@ theorem finitePresentation_cokernel_of_presentation_of_lift
   have hlift' : lift ≫ g = 0 := by simp [g, reassoc_of% hlift]
   have hdesc : coprod.desc rel lift ≫ g = 0 := by
     rw [coprod.desc_comp, hrel, hlift']
-    apply coprod.hom_ext <;> simp [coprod.inl_desc, coprod.inr_desc]
+    apply coprod.hom_ext <;> simp
   have hf : f ≫ g = 0 := by
     apply (cancel_epi e.hom).1
     simpa [f, Category.assoc] using hdesc

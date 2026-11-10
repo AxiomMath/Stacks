@@ -63,7 +63,7 @@ theorem nonempty_constantSheaf_zmodQuotient_iso {T : C} (hT : IsTerminal T)
     apply (sheafToPresheaf K _).map_injective
     rw [Functor.map_nsmul, CategoryTheory.Functor.map_id, Functor.map_zero]
     ext U x
-    show m • (show L.obj.obj U from x) = 0
+    change m • (show L.obj.obj U from x) = 0
     exact ZModModule.char_nsmul_eq_zero m _
   have hA : c.map (m • 𝟙 A) = 0 := by
     rw [Functor.map_nsmul, CategoryTheory.Functor.map_id, ← cancel_mono e.hom, ← cancel_epi e.inv]

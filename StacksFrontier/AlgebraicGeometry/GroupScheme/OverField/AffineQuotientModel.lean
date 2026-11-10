@@ -65,7 +65,7 @@ theorem exists_affineQuotientModel {k : Type u} [Field k] (G : Over (Spec (.of k
     ((genericPoint_spec G.left).mem_open_set_iff W.isOpen).mpr (by simpa using hW)
   -- every rational function is regular on an open containing the generic point
   choose W hηW a ha using fun x : G.left.functionField ↦
-    TopCat.Presheaf.germ_exist G.left.presheaf (x := η) x
+    TopCat.Presheaf.exists_germ_eq G.left.presheaf (x := η) x
   have hηU₀ : η ∈ U₀ := hη U₀ ⟨_, (Nonempty.some ‹Nonempty U₀›).2⟩
   let O : G.left.Opens := ⟨(U₀ : Set G.left) ∩ ⋂ x ∈ t, (W x : Set G.left),
     U₀.isOpen.inter (isOpen_biInter_finset fun x _ ↦ (W x).isOpen)⟩
@@ -104,13 +104,13 @@ theorem exists_affineQuotientModel {k : Type u} [Field k] (G : Over (Spec (.of k
   have hgerm_alg : ∀ r : k, G.left.presheaf.germ V η hηg (algebraMap k Γ(G.left, V) r) =
       algebraMap k G.left.functionField r := by
     intro r
-    show G.left.presheaf.germ V η hηg (G.hom.appLE ⊤ V hle _) = _
+    change G.left.presheaf.germ V η hηg (G.hom.appLE ⊤ V hle _) = _
     rw [show G.hom.appLE ⊤ V hle = G.hom.app ⊤ ≫ G.left.presheaf.map (homOfLE hle).op from rfl,
       CommRingCat.comp_apply, TopCat.Presheaf.germ_res_apply]
     rfl
   refine ⟨X, V, hVU₀, hV, hηg, π, ?_, inferInstanceAs (IsAffine (Spec _)), ?_, ?_, ?_, ?_, ?_, ?_⟩
   · -- `π` lies over `k`
-    show V.toSpecΓ ≫ Spec.map ι ≫ Spec.map (CommRingCat.ofHom (algebraMap k A)) = V.ι ≫ G.hom
+    change V.toSpecΓ ≫ Spec.map ι ≫ Spec.map (CommRingCat.ofHom (algebraMap k A)) = V.ι ≫ G.hom
     have hc : CommRingCat.ofHom (algebraMap k A) ≫ ι = c := by
       ext r
       rfl
@@ -122,7 +122,7 @@ theorem exists_affineQuotientModel {k : Type u} [Field k] (G : Over (Spec (.of k
   · -- finite type
     have hfg : A.FG := Subalgebra.fg_adjoin_finset S
     have : Algebra.FiniteType k A := (Subalgebra.fg_iff_finiteType A).mp hfg
-    show LocallyOfFiniteType (Spec.map (CommRingCat.ofHom (algebraMap k A)))
+    change LocallyOfFiniteType (Spec.map (CommRingCat.ofHom (algebraMap k A)))
     rw [HasRingHomProperty.Spec_iff (P := @LocallyOfFiniteType)]
     exact RingHom.finiteType_algebraMap.mpr inferInstance
   · -- dominant
@@ -138,7 +138,7 @@ theorem exists_affineQuotientModel {k : Type u} [Field k] (G : Over (Spec (.of k
     rw [hπapp]
     generalize (Scheme.ΓSpecIso (.of A)).hom φ = z
     obtain ⟨y, hmem⟩ := z
-    show G.left.presheaf.germ V η hηg y ∈ _
+    change G.left.presheaf.germ V η hηg y ∈ _
     induction hmem using Algebra.adjoin_induction with
     | mem y hy =>
       rcases Finset.mem_union.mp hy with hy | hy
@@ -147,7 +147,7 @@ theorem exists_affineQuotientModel {k : Type u} [Field k] (G : Over (Spec (.of k
         exact (TopCat.Presheaf.germ_res_apply _ _ _ _ _).symm
       · obtain ⟨x, -, rfl⟩ := Finset.mem_image.mp hy
         refine IntermediateField.subset_adjoin _ _ (Or.inl ?_)
-        show G.left.presheaf.germ V η hηg
+        change G.left.presheaf.germ V η hηg
           (G.left.presheaf.map (homOfLE (hVW x.1 x.2)).op (a x.1)) ∈ (t : Set _)
         rw [TopCat.Presheaf.germ_res_apply, ha]
         exact x.2
@@ -163,7 +163,7 @@ theorem exists_affineQuotientModel {k : Type u} [Field k] (G : Over (Spec (.of k
   · intro x hx
     refine ⟨(Scheme.ΓSpecIso (.of A)).inv ⟨rt ⟨x, hx⟩, htA ⟨x, hx⟩⟩, ?_⟩
     rw [hπapp, Iso.inv_hom_id_apply]
-    show G.left.presheaf.germ V η hηg
+    change G.left.presheaf.germ V η hηg
       (G.left.presheaf.map (homOfLE (hVW x hx)).op (a x)) = x
     rw [TopCat.Presheaf.germ_res_apply, ha]
 

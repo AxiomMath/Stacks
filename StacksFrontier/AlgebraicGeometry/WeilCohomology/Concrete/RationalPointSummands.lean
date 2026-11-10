@@ -90,8 +90,7 @@ theorem correspondenceCongr_self {X Y : Scheme.{u}} (sX : X ⟶ (fieldChowSituat
     {e r : ℤ} (h : r = r)
     (c : Correspondence (fieldChowSituation k) sX sY e r) :
     correspondenceCongr k sX sY h c = c := by
-  induction c using TensorProduct.induction_on with
-  | zero => simp
+  induction c using TensorProduct.inductionOn with
   | tmul q y => rfl
   | add a b ha hb => rw [map_add, ha, hb]
 
@@ -200,7 +199,7 @@ private theorem comp_self_of_homOf_comp_eq_id {X Y : (SmoothProjectiveScheme k).
     (hfg : f ≫ g = 𝟙 _) (hgf : g ≫ f = homOf 0 c) :
     (canonicalCorrespondenceCompositionData k).comp c c = c := by
   apply homOf_injective 0
-  show homOf (0 + 0) _ = _
+  change homOf (0 + 0) _ = _
   rw [← homOf_comp_homOf, ← hgf, Category.assoc, ← Category.assoc f, hfg, Category.id_comp]
 
 /-- `c₂ ∘ c₂ = c₂`: the class of the fibre over a rational point is idempotent. -/

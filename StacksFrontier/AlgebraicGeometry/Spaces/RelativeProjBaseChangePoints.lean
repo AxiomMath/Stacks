@@ -135,6 +135,7 @@ namespace AlgebraicGeometry.Space
 universe u
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullbacks` for presheaves on the big fppf site is found only by a deep instance search
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_RelativeProjBaseChangePoints
@@ -450,7 +451,7 @@ theorem comap_pointEquivOver (T : BigFppfOver B S hS) (f : yoneda.obj T ⟶ X')
         rw [Category.assoc, ← pullback.condition, ← Category.assoc, u.2, Category.assoc]⟩).1 := by
   refine congrArg Subtype.val ((Equiv.symm_apply_eq (d.pointEquivOver T (f ≫ g) r)).1 ?_)
   apply Subtype.ext
-  show yoneda.map ((d.comap g).pointEquivOver T f r u).1 ≫ d.fibreToSpace T (f ≫ g) =
+  change yoneda.map ((d.comap g).pointEquivOver T f r u).1 ≫ d.fibreToSpace T (f ≫ g) =
     u.1 ≫ pullback.snd g π
   rw [← (d.comap g).map_pointEquivOver T f r u, Category.assoc]
   exact congrArg (yoneda.map ((d.comap g).pointEquivOver T f r u).1 ≫ ·)
@@ -472,7 +473,7 @@ theorem comap_baseChangePointEquiv (T : BigFppfOver B S hS) (f : yoneda.obj T �
     rw [pointEquivProjOver_apply, pointEquivProjOver_apply]
     exact congrArg (fun s => (BigFppfOver.toScheme B S hS).map s ≫ (d.fibreIso T (f ≫ g)).hom)
       (comap_pointEquivOver d g T f r u)
-  show ((d.pointEquivProjOver T (f ≫ g) r).symm
+  change ((d.pointEquivProjOver T (f ≫ g) r).symm
     (projOverCongr rfl _ ((d.comap g).pointEquivProjOver T f r u))).1 = _
   rw [key]
   exact congrArg Subtype.val ((d.pointEquivProjOver T (f ≫ g) r).symm_apply_apply _)
@@ -524,7 +525,7 @@ theorem toScheme_map_pointEquivOver_baseChangePointEquiv (T : BigFppfOver B S hS
       ⟨d'.fibreToSpace T f, (d'.isPullback T f).w⟩ = ⟨𝟙 _, Category.id_comp _⟩ :=
     ((d'.pointEquivOver T f (d'.fibreHom T f)).eq_symm_apply).1
       (Subtype.ext (by
-        show d'.fibreToSpace T f = yoneda.map (𝟙 (d'.fibre T f)) ≫ d'.fibreToSpace T f
+        change d'.fibreToSpace T f = yoneda.map (𝟙 (d'.fibre T f)) ≫ d'.fibreToSpace T f
         rw [CategoryTheory.Functor.map_id, Category.id_comp]))
   have key := congrArg Subtype.val (pointEquivProjOver_baseChangePointEquiv d d' g halg
     T f (d'.fibreHom T f) ⟨d'.fibreToSpace T f, (d'.isPullback T f).w⟩)
@@ -701,7 +702,7 @@ theorem comp_baseChangeIso_hom (T : BigFppfOver B S hS) (u : yoneda.obj T ⟶ P'
     u ≫ h.baseChangeIso.hom = basePointEquivPullback d d' g h.algebra_eq T u := by
   apply yonedaEquiv.injective
   rw [yonedaEquiv_comp]
-  show yonedaEquiv (basePointEquivPullback d d' g h.algebra_eq T
+  change yonedaEquiv (basePointEquivPullback d d' g h.algebra_eq T
     (yonedaEquiv.symm (yonedaEquiv u))) = _
   rw [Equiv.symm_apply_apply]
 

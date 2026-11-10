@@ -24,8 +24,7 @@ public import StacksFrontier.AlgebraicGeometry.LocalCohomology.CoherentPushforwa
 public import
   StacksFrontier.AlgebraicGeometry.LocalCohomology.ImprovingCoherentModules.ExistenceDepthOutside
 public import StacksFrontier.AlgebraicGeometry.LocalCohomology.ImprovingCoherentModules.KernelCokernel
-public import
-  StacksFrontier.AlgebraicGeometry.LocalCohomology.PushforwardCoherence.DepthDimensionCriterionGlobal
+public import StacksFrontier.AlgebraicGeometry.LocalCohomology.PushforwardCoherence.DepthDimensionCriterionGlobal
 public import StacksFrontier.AlgebraicGeometry.Morphisms.FiniteType.UniversallyCatenaryExamples
 public import StacksFrontier.AlgebraicGeometry.ReflexiveExtend.Basic
 public import StacksFrontier.AlgebraicGeometry.ReflexiveOpenEquivalence.RestrictStalk
@@ -185,7 +184,7 @@ public theorem topCodim_le_one_of_forall_not_lt {p q : PrimeSpectrum A}
   let Y := s ⟨1, by omega⟩
   let r : PrimeSpectrum A := e.symm (OrderDual.toDual Y)
   have hr : IrreducibleCloseds.closureSingleton r = Y := by
-    show OrderDual.ofDual (e (e.symm (OrderDual.toDual Y))) = Y
+    change OrderDual.ofDual (e (e.symm (OrderDual.toDual Y))) = Y
     rw [e.apply_symm_apply]
     rfl
   have hqY : IrreducibleCloseds.closureSingleton q < Y := by
@@ -325,7 +324,7 @@ public theorem notMem_associatedPoints_cokernel_smulPowHom_of_two_le_depth
   have hone : (1 : ℕ∞) ≤ Module.depth (X.presheaf.stalk x)
       (IsLocalRing.maximalIdeal (X.presheaf.stalk x)) (QuotSMulTop g (M.presheaf.stalk x)) := by
     by_contra hlt
-    have h0 := ENat.lt_one_iff_eq_zero.mp (not_le.mp hlt)
+    have h0 := Order.lt_one_iff.mp (not_le.mp hlt)
     rw [h0, zero_add] at h090R
     exact absurd (h090R ▸ hdepth) (by norm_num)
   have hnot := maximalIdeal_not_isAssociatedPrimeStacks_of_one_le_depth hone
@@ -539,7 +538,7 @@ theorem exists_shortExact_isCoherent_pushforward_of_associatedPoints_eq_singleto
         (complementZeroLocus A a : Scheme).ringCatSheaf ⊤ isTerminalTop (complementTopScalars a
         f))) G 1
     have heq := idealSheafNearVanishing_span_singleton_eq_scalarIdealData A a f
-    show ((Scheme.Modules.pushforward (complementZeroLocus A a).ι).obj
+    change ((Scheme.Modules.pushforward (complementZeroLocus A a).ι).obj
       (cokernel (idealPowerMultiple (idealSheafNearVanishing A (Ideal.span {f}) a) 1
           G).ι)).IsCoherent
     rw [heq]
@@ -594,7 +593,7 @@ theorem exists_shortExact_isCoherent_pushforward_of_associatedPoints_eq_singleto
         M).IsCoherent := by
       refine isCoherent_pushforward_spec_of_two_le_topCodim A hcat hfib _ M fun x hx z hxz hz => ?_
       have hx' : (V.ι ≫ (complementZeroLocus A a).ι).base x = x₀.1 := by
-        show (complementZeroLocus A a).ι.base (V.ι.base x) = x₀.1
+        change (complementZeroLocus A a).ι.base (V.ι.base x) = x₀.1
         rw [hAssM x hx]
         rfl
       rw [hx'] at hxz ⊢

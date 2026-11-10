@@ -221,7 +221,6 @@ theorem isKProjective_restrict_of_projective (K : CochainComplex (Cᵒᵖ ⥤ D)
 omit [HasCoproducts D] [EnoughProjectives D] [EnoughProjectives (Cᵒᵖ ⥤ D)]
   [HasColimitsOfShape ℕ D] [HasExactColimitsOfShape ℕ D]
   [HasColimitsOfShape Cᵒᵖ D] [HasColimitsOfShape SimplexCategoryᵒᵖ D] in
-include hU in
 /-- **A diagram whose restriction along a point resolution is projective has a K-projective
 restriction in degree zero.** The restriction of `Z[0]` is `(U.op ⋙ Z)[0]` by
 `HomologicalComplex.singleMapHomologicalComplex`, which is K-projective by
@@ -314,7 +313,7 @@ theorem isIso_totalDerivedColimitCounit_single_of_projective_restrict
       (ProjectiveResolution.of Z).π') :=
     quasiIso_colimMap_of_isKProjective_restrict D hU _
       (isKProjective_restrict_of_projective D hU (ProjectiveResolution.of Z).cochainComplex 0)
-      (isKProjective_restrict_single_of_projective D hU Z hZ)
+      (isKProjective_restrict_single_of_projective D Z hZ)
   refine Stacks.Homology.isIso_leftDerivedCounit_app_of_isIso_map
     (P := (ProjectiveResolution.of Z).cochainComplex)
     (Stacks.CategoryHomology.totalDerivedColimit C D)

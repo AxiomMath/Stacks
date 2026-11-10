@@ -80,6 +80,7 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   (ρ : IdealRestriction (ψ ≫ φ) G)
   (hρ : ∀ (U : Cᵒᵖ) (k : kernelIdeal (ψ ≫ φ).hom U), ψ.hom.app U k = 0 → ρ.app U k = 0)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- A restriction datum that vanishes descends to the vanishing restriction datum. -/
 theorem descend_app_eq_zero (h0 : ∀ (U : Cᵒᵖ) (k : kernelIdeal (ψ ≫ φ).hom U), ρ.app U k = 0)
     {U : Cᵒᵖ} (p : kernelIdeal φ.hom U) : (descend ρ hρ).app U p = 0 :=
@@ -202,6 +203,7 @@ theorem thetaDerivation_add {U : X.Cᵒᵖ}
   rw [thetaDerivation, Stacks.Sites.Conormal.tensorDifferential_add, map_add]
   rfl
 
+omit [HasDerivedCategory (Sheaf.targetModules X.J X.O)] in
 /-- The derivation of `θ` vanishes at `0`. -/
 theorem thetaDerivation_map_zero {U : X.Cᵒᵖ} :
     thetaDerivation d θ (0 : (freeAlgebraSheaf X.J
@@ -346,6 +348,7 @@ noncomputable def thetaLift :
         rw [map_sub, sheafHom_naturality_apply X.J d.lift₂, sheafHom_naturality_apply X.J,
           thetaDerivation_map, Q₂.incl_naturality] }
 
+omit [HasDerivedCategory (Sheaf.targetModules X.J X.O)] in
 variable (d θ) in
 /-- The homomorphism `x ↦ φ₂(x) − D(x)` lies over the presentation. -/
 theorem thetaLift_comp_reduction : thetaLift d θ ≫ Q₂.reduction = d.restrictedPresentation := by
@@ -366,6 +369,7 @@ theorem mem_kernelIdeal_of_reduction_lift₁ {U : X.Cᵒᵖ}
   (congrArg (fun t : freeAlgebraSheaf X.J _ d.E ⟶ X.O ↦ t.hom.app U x)
     (desc_comp_reduction Q₁ d.generatorsMap d.β₁ d.β₁_comp_reduction)).symm.trans hx
 
+omit [HasDerivedCategory (Sheaf.targetModules X.J X.O)] in
 include hθ in
 /-- **On `ℐ'` the homomorphism `x ↦ φ₂(x) − D(x)` is the first lift, read in `G`**: if `φ₁(p)` is
 the inclusion of `g₁`, then `p` goes to the inclusion of `g₁` in `𝒪'₂`. -/
@@ -381,6 +385,7 @@ theorem thetaLift_app_eq_incl {U : X.Cᵒᵖ} (p : kernelIdeal d.restrictedPrese
   rw [h]
   abel
 
+omit [HasDerivedCategory (Sheaf.targetModules X.J X.O)] in
 include hθ in
 /-- The homomorphism `x ↦ φ₂(x) − D(x)` kills the kernel of the first lift. -/
 theorem thetaLift_app_eq_zero (U : X.Cᵒᵖ)

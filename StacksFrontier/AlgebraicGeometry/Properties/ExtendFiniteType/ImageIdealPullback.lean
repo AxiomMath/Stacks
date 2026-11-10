@@ -120,7 +120,7 @@ theorem structureAppₗ_pullbackSectionHom {X Y : Scheme.{u}} (f : X ⟶ Y) (A :
   have hnat : ((Scheme.Modules.pullback f).map φ).app V (pullbackSectionHom f A U V h a)
       = pullbackSectionHom f (Scheme.unitModule Y) U V h (structureAppₗ φ U a) :=
     Scheme.Modules.pullbackSection_naturality f φ U V h a
-  show (Scheme.Modules.pullbackUnitIso f).hom.app V
+  change (Scheme.Modules.pullbackUnitIso f).hom.app V
       (((Scheme.Modules.pullback f).map φ).app V (pullbackSectionHom f A U V h a)) = _
   rw [hnat]
   exact Scheme.Modules.pullbackUnitIso_hom_app_pullbackSectionHom f U V h (structureAppₗ φ U a)

@@ -162,7 +162,7 @@ theorem projectionFormulaMap_app_toTensorSheafSection (U : Opens S.carrier)
     fun m n => Stacks.SheafOfModules.TensorStalkRingedSpace.tensorSheafMap_app_toTensorSheafSection
       _ _ _ _ _ _ _ _ m n
   rw [key]
-  show (((Functor.uncurry.obj
+  change (((Functor.uncurry.obj
             (Stacks.SheafOfModules.Tensor.sheafTensor
               ⟨T.toRingedSpace.presheaf, T.toRingedSpace.IsSheaf⟩)).map
             (((modulePullbackPushforwardAdjunction h.toLRSHom.toShHom).counit.app G,

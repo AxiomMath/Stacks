@@ -279,7 +279,7 @@ theorem residueKerRank_eq_one (A : ArtinianLocalAlgCat.{u, u, u} Λ k)
     (ker_residueMap_pow_two A hsq)
     (quotientEquivDualNumberKernel (Deformation.Artin.residueMap A) coordinate.toRingEquiv
       (residueMap_surjective A) (residueMap_eq_zero_iff_coordinate A coordinate)).val
-  show Module.finrank k (RingHom.ker (Deformation.Artin.residueMap A)) = 1
+  change Module.finrank k (RingHom.ker (Deformation.Artin.residueMap A)) = 1
   rw [← E.finrank_eq, Module.finrank_self]
 
 /-! ### The conormal sheaf of the closed point, and of the special fibre -/

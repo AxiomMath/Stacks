@@ -361,7 +361,7 @@ lemma range_tripleMap_ι (i j k : C.J) :
     (Scheme.Opens.range_ι _).le ⟨x, rfl⟩
   refine ⟨?_, (Scheme.Opens.range_ι _).le
     ⟨C.tripleMap i j k x, (Scheme.Hom.comp_apply _ _ _).symm⟩⟩
-  show C.proj j ((C.tripleMap i j k ≫ (C.overlap j i).ι) x) ∈ C.base k
+  change C.proj j ((C.tripleMap i j k ≫ (C.overlap j i).ι) x) ∈ C.base k
   rw [← Scheme.Hom.comp_apply, Category.assoc, C.tripleMap_ι_proj i j k, Scheme.Hom.comp_apply]
   exact hx.2
 

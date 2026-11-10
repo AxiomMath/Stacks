@@ -164,12 +164,12 @@ theorem fixed_geometricComponent_iff_exists_geometricallyIrreducible_component
       ext x
       have hx := congrArg (fun q : _ ⟶ X => q.base x) hcommute
       change (TopCat.Hom.hom p.base) ((TopCat.Hom.hom a.base) x) = p x at hx
-      show (TopCat.Hom.hom p.base) ((TopCat.Hom.hom a.base) x) ∈ (T : Set X) ↔
+      change (TopCat.Hom.hom p.base) ((TopCat.Hom.hom a.base) x) ∈ (T : Set X) ↔
         p x ∈ (T : Set X)
       rw [hx]
     apply Subtype.ext
     rw [galoisActionOnGeometricIrreducibleComponents_ρ_apply_coe]
-    show e '' Tbar.1 = Tbar.1
+    change e '' Tbar.1 = Tbar.1
     exact ((Set.preimage_eq_iff_eq_image e.bijective).mp hbar).symm
 
 end AlgebraicGeometry

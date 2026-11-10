@@ -23,7 +23,8 @@ containment of **kernels**
   ⊆ ker(H^{s+1}_{𝔮A_𝔮}((IᵏM)_𝔮) ⟶ H^{s+1}_{𝔮A_𝔮}((IᵐM)_𝔮))`
 
 (that the transition image inject into the zeroth term is this containment, the zeroth term of the
-ideal-power tower being `M` itself). Neither of the two available local-duality transports speaks of a
+ideal-power tower being `M` itself). Neither of the two available local-duality transports speaks of
+a
 kernel: both carry the vanishing of a map on local cohomology to and from the vanishing of a map of
 Ext modules. The containment above is nevertheless **reformulated as one vanishing**, and that is
 the content of `Dualizing.LocalDuality.ker_le_ker_localCohomologyModuleFunctor_iff_range_le_range`:

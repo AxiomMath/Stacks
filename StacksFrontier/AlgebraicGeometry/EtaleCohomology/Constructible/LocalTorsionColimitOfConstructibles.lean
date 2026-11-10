@@ -72,9 +72,9 @@ Every input above is a theorem of the library.
 ## Implementation notes
 
 The coefficient universe is `AddCommGrpCat.{u + 1}`, as for the abelian sheaves of
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.ColimitOfConstructibles`. Division by
-`n` is `moduloFunctor`, the cokernel of multiplication by `n`, with `moduloCoconeIsColimit` for the
-statement that it leaves a colimit already annihilated by `n` alone; both are stated for an
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.ColimitOfConstructibles`. Division
+by `n` is `moduloFunctor`, the cokernel of multiplication by `n`, with `moduloCoconeIsColimit` for
+the statement that it leaves a colimit already annihilated by `n` alone; both are stated for an
 arbitrary preadditive category with cokernels.
 
 ## References

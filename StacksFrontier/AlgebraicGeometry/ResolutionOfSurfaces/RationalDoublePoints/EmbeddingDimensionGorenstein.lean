@@ -374,7 +374,7 @@ public theorem finrank_cohomologyOverField_zero_pullback_le_one
   refine ⟨c, Eq.trans ?_ (Eq.trans hgoal.symm ht)⟩
   let vE : (moduleGlobalSections (exceptionalCurve S.A)).obj
       ((Scheme.Modules.pullback (exceptionalImmersion S.A)).obj ωX) := v₀
-  show ((Scheme.ΓSpecIso (.of (ResidueField S.A))).inv ≫
+  change ((Scheme.ΓSpecIso (.of (ResidueField S.A))).inv ≫
         (exceptionalDivisorToCentre (Stacks.Blowup.residuePoint S.A)).appLE ⊤ ⊤
           (by simp)).hom c • vE =
       ((exceptionalImmersion S.A).appTop).hom

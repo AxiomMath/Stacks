@@ -426,7 +426,7 @@ private theorem exists_isStageLift (hf : ∀ p : P, f p ∈ Dᵢ 0)
       intro m x hx
       obtain ⟨p, hp⟩ := hsurj x.1 x.2
       have hxp : x = coeffEquiv p := Subtype.ext hp.symm
-      show f (coeffEquiv.symm x) ∈ Dᵢ m
+      change f (coeffEquiv.symm x) ∈ Dᵢ m
       rw [hxp, coeffEquiv.symm_apply_apply]
       by_cases hm : m = 0
       · subst m
@@ -514,7 +514,7 @@ private theorem exists_isStageLift (hf : ∀ p : P, f p ∈ Dᵢ 0)
         have h1 : (⟨(b : A), hb⟩ :
             finiteVariableStage γ ι hpoly.generator (insert j S₀)) =
             e (EvenVariableAlgebra.coeffEmbedding b) := Subtype.ext (he1 b).symm
-        show k (e.symm ⟨(b : A), hb⟩) = g b
+        change k (e.symm ⟨(b : A), hb⟩) = g b
         rw [h1, e.symm_apply_apply, hk.1]
       have hdpowgen : ∀ n : ℕ, γ.dpow n (hpoly.generator j) =
           ((e (EvenVariableAlgebra.monomial n
@@ -537,7 +537,7 @@ private theorem exists_isStageLift (hf : ∀ p : P, f p ∈ Dᵢ 0)
               mem_finiteVariableStage_generator γ ι hpoly.generator hj'⟩ :
               finiteVariableStage γ ι hpoly.generator (insert j' S₀)) =
               e (EvenVariableAlgebra.monomial 1 1) from Subtype.ext he2.symm]
-          show k (e.symm (e (EvenVariableAlgebra.monomial 1 1))) = t j'
+          change k (e.symm (e (EvenVariableAlgebra.monomial 1 1))) = t j'
           rw [e.symm_apply_apply, hk.2.1 1, δ.dpow_one htpos]
         · exact (hextg ⟨hpoly.generator j',
             mem_finiteVariableStage_generator γ ι hpoly.generator hj'S⟩ _).trans
@@ -548,13 +548,13 @@ private theorem exists_isStageLift (hf : ∀ p : P, f p ∈ Dᵢ 0)
               mem_finiteVariableStage_dpow_generator γ ι hpoly.generator hj' n⟩ :
               finiteVariableStage γ ι hpoly.generator (insert j' S₀)) =
               e (EvenVariableAlgebra.monomial n 1) from Subtype.ext (hdpowgen n)]
-          show k (e.symm (e (EvenVariableAlgebra.monomial n 1))) = δ.dpow n (t j')
+          change k (e.symm (e (EvenVariableAlgebra.monomial n 1))) = δ.dpow n (t j')
           rw [e.symm_apply_apply, hk.2.1 n]
         · exact (hextg ⟨γ.dpow n (hpoly.generator j'),
             mem_finiteVariableStage_dpow_generator γ ι hpoly.generator hj'S n⟩ _).trans
             (hg.2.2.1 j' hj'S n heven')
       · intro m x hx
-        show k (e.symm x) ∈ Dᵢ m
+        change k (e.symm x) ∈ Dᵢ m
         refine hk.2.2 m (e.symm x) ?_
         rw [he3 m (e.symm x), e.apply_symm_apply]
         exact hx
@@ -568,7 +568,7 @@ private theorem exists_isStageLift (hf : ∀ p : P, f p ∈ Dᵢ 0)
             finiteVariableStage γ ι hpoly.generator (insert j S₀)) =
             e ((evenVariableDividedPowerStructure (j.1 + 1) hd δS).dpow n (e.symm x))
             from Subtype.ext hform]
-        show k (e.symm (e ((evenVariableDividedPowerStructure (j.1 + 1) hd δS).dpow n
+        change k (e.symm (e ((evenVariableDividedPowerStructure (j.1 + 1) hd δS).dpow n
           (e.symm x)))) = δ.dpow n (k (e.symm x))
         rw [e.symm_apply_apply]
         exact (hkdpow n (e.symm x) hy).symm
@@ -587,7 +587,7 @@ private theorem exists_isStageLift (hf : ∀ p : P, f p ∈ Dᵢ 0)
         have h1 : (⟨(b : A), hb⟩ :
             finiteVariableStage γ ι hpoly.generator (insert j S₀)) =
             e (OddVariableExtension.inclusion Sᵢ (j.1 + 1) b) := Subtype.ext (he1 b).symm
-        show k (e.symm ⟨(b : A), hb⟩) = g b
+        change k (e.symm ⟨(b : A), hb⟩) = g b
         rw [h1, e.symm_apply_apply, hk.1]
       refine ⟨k.comp e.symm.toRingHom, ?_, ?_, ?_, ?_, ?_⟩
       · intro p
@@ -600,7 +600,7 @@ private theorem exists_isStageLift (hf : ∀ p : P, f p ∈ Dᵢ 0)
               mem_finiteVariableStage_generator γ ι hpoly.generator hj'⟩ :
               finiteVariableStage γ ι hpoly.generator (insert j' S₀)) =
               e (OddVariableExtension.generator Sᵢ (j'.1 + 1)) from Subtype.ext he2.symm]
-          show k (e.symm (e (OddVariableExtension.generator Sᵢ (j'.1 + 1)))) = t j'
+          change k (e.symm (e (OddVariableExtension.generator Sᵢ (j'.1 + 1)))) = t j'
           rw [e.symm_apply_apply, hk.2.1]
         · exact (hextg ⟨hpoly.generator j',
             mem_finiteVariableStage_generator γ ι hpoly.generator hj'S⟩ _).trans
@@ -612,7 +612,7 @@ private theorem exists_isStageLift (hf : ∀ p : P, f p ∈ Dᵢ 0)
             mem_finiteVariableStage_dpow_generator γ ι hpoly.generator hj'S n⟩ _).trans
             (hg.2.2.1 j' hj'S n heven')
       · intro m x hx
-        show k (e.symm x) ∈ Dᵢ m
+        change k (e.symm x) ∈ Dᵢ m
         refine hk.2.2 m (e.symm x) ?_
         rw [he3 m (e.symm x), e.apply_symm_apply]
         exact hx
@@ -627,7 +627,7 @@ private theorem exists_isStageLift (hf : ∀ p : P, f p ∈ Dᵢ 0)
             finiteVariableStage γ ι hpoly.generator (insert j S₀)) =
             e ((oddVariableDividedPowerStructure Sᵢ δS (j.1 + 1) hd hodd).dpow n (e.symm x))
             from Subtype.ext hform]
-        show k (e.symm (e ((oddVariableDividedPowerStructure Sᵢ δS (j.1 + 1) hd hodd).dpow n
+        change k (e.symm (e ((oddVariableDividedPowerStructure Sᵢ δS (j.1 + 1) hd hodd).dpow n
           (e.symm x)))) = δ.dpow n (k (e.symm x))
         rw [e.symm_apply_apply]
         exact (hkdpow n (e.symm x) hy).symm
@@ -714,9 +714,9 @@ public theorem existsUnique_gradedDividedPowerPolynomial_map
           refine mem_positiveEvenPart_of_mem_grade Aᵢ (d := c) (by omega) ?_
           rw [← hc]
           exact h.generator_mem j
-        show g' (γ.dpow n (h.generator j)) = δ.dpow n (t j)
+        change g' (γ.dpow n (h.generator j)) = δ.dpow n (t j)
         rw [hg'.2.2.2 n (h.generator j) hgenpos, hg'.2.1 j]
-      · show g' (γ.dpow n (y : A)) = δ.dpow n (g' (y : A))
+      · change g' (γ.dpow n (y : A)) = δ.dpow n (g' (y : A))
         exact hg'.2.2.2 n (y : A) hy
     exact DFunLike.congr_fun (isStageLift_unique h δ f t hstage (hgS S)) x
   have heq : g'.toRingHom = G := hGuniq g'.toRingHom hkey

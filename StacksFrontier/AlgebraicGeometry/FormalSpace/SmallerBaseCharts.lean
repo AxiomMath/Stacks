@@ -217,7 +217,8 @@ theorem relative_smallerBaseChart_of_relative (Q : MorphismProperty Scheme.{u})
     exact ha.1.isPullback e₀
   set ι := relocalizeBaseHom B V S hV hS g hψ
   refine ⟨(Over.map g).obj T₀, uliftYoneda.{u + 1}.map ((Over.map g).map p₀),
-    (Over.map g).map r₀ ≫ inv ι, (isPullback_smallerBaseChart B V S hV hS g hpullW).of_iso (Iso.refl _) (Iso.refl _)
+    (Over.map g).map r₀ ≫ inv ι,
+    (isPullback_smallerBaseChart B V S hV hS g hpullW).of_iso (Iso.refl _) (Iso.refl _)
       (uliftYoneda.{u + 1}.mapIso (asIso ι)).symm (Iso.refl _) (by simp) (by simp) (by simp)
       (by simp [he]), ?_⟩
   exact MorphismProperty.RespectsIso.postcomp Q

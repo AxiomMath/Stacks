@@ -79,15 +79,15 @@ theorem exists_smooth_nilLift {R : Type u} [CommRing R] {R₀ : Type u} [CommRin
   let ψ : A →ₐ[R] X :=
     { toRingHom := e'.symm.toRingHom.comp (Ideal.Quotient.mk _)
       commutes' := fun r ↦ by
-        show e'.symm (Ideal.Quotient.mk _ (algebraMap R A r)) = algebraMap R X r
+        change e'.symm (Ideal.Quotient.mk _ (algebraMap R A r)) = algebraMap R X r
         rw [← he', RingEquiv.symm_apply_apply, ← IsScalarTower.algebraMap_apply] }
   refine ⟨⟨A, ψ, fun x ↦ ?_, ?_⟩, hA⟩
   · obtain ⟨a, ha⟩ := Ideal.Quotient.mk_surjective (e' x)
     refine ⟨a, ?_⟩
-    show e'.symm (Ideal.Quotient.mk _ a) = x
+    change e'.symm (Ideal.Quotient.mk _ a) = x
     rw [ha, RingEquiv.symm_apply_apply]
   · ext a
-    show e'.symm (Ideal.Quotient.mk _ a) = 0 ↔ _
+    change e'.symm (Ideal.Quotient.mk _ a) = 0 ↔ _
     rw [map_eq_zero_iff _ e'.symm.injective, Ideal.Quotient.eq_zero_iff_mem]
 
 /-- If `S` is smooth over `R₀` away from `V(f)`, then its localizations at the `f i` are smooth
@@ -102,7 +102,7 @@ private theorem smooth_sl_of_smoothAwayFrom {R : Type u} [CommRing R] {R₀ : Ty
   have hfi : algebraMap R S (f i) ∉ p.asIdeal := by
     intro hmem
     apply hp
-    show algebraMap R S (∏ j ∈ ({i} : Finset (Fin k)), f j) ∈ p.asIdeal
+    change algebraMap R S (∏ j ∈ ({i} : Finset (Fin k)), f j) ∈ p.asIdeal
     rwa [Finset.prod_singleton]
   have hsmp := hS p.asIdeal p.isPrime (by
     intro hle

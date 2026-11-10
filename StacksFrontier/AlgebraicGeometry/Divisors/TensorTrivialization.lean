@@ -452,7 +452,7 @@ theorem exists_linearEquiv_pullbackSection_of_iso {X' : Scheme.{u}} (g : X' ⟶ 
     (LinearMap.toSpanSingleton Γ(X', U') Γ((Scheme.Modules.pullback g).obj M, U') m₀)
       hbij).symm, fun b => ?_⟩
   refine (LinearEquiv.symm_apply_eq _).mpr ?_
-  show Scheme.Modules.pullbackSection g M U U' hU' b = g.appLE U U' hU' (e b) • m₀
+  change Scheme.Modules.pullbackSection g M U U' hU' b = g.appLE U U' hU' (e b) • m₀
   exact ((hΦ' b).symm.trans (congrArg Φ.toLinearEquiv
       (@tmul_one_eq_tmul_symm_one Γ(X, U) Γ(X', U') Γ(M, U) _ _
         (Module.compHom _ (g.appLE U U' hU').hom) _ _ (g.appLE U U' hU').hom (fun _ _ => rfl)

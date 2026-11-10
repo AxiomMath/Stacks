@@ -61,7 +61,7 @@ private theorem smoothAt_comp {R S T : Type*} [CommRing R] [CommRing S] [CommRin
   have hST₁ : Algebra.Smooth S T₁ := Algebra.Smooth.localization_away (algebraMap T T₀ gT)
   let P := Localization.Away g
   have hunit : IsUnit (algebraMap S T₁ g) := by
-    show IsUnit (algebraMap T T₁ gT)
+    change IsUnit (algebraMap T T₁ gT)
     exact IsLocalization.Away.algebraMap_isUnit (algebraMap T T₀ gT)
   let fLift : P →ₐ[S] T₁ :=
     IsLocalization.Away.liftAlgHom (x := g) (f := Algebra.ofId S T₁) hunit
@@ -86,7 +86,7 @@ private theorem smoothAt_comp {R S T : Type*} [CommRing R] [CommRing S] [CommRin
   let e : W ≃ₐ[T] T₁ := IsLocalization.algEquiv (Submonoid.powers (h * gT)) W T₁
   let eR : W ≃ₐ[R] T₁ := AlgEquiv.ofRingEquiv (f := e.toRingEquiv) (by
     intro r
-    show e (algebraMap T W (algebraMap R T r)) = algebraMap T T₁ (algebraMap R T r)
+    change e (algebraMap T W (algebraMap R T r)) = algebraMap T T₁ (algebraMap R T r)
     exact e.commutes (algebraMap R T r))
   have hRW : Algebra.Smooth R W := Algebra.Smooth.of_equiv eR.symm
   have hgq : gT ∉ q := by
@@ -109,7 +109,7 @@ private theorem annihilatorDefect_not_le_of_smoothAt {R D : Type*} [CommRing R] 
   obtain ⟨g, hg, hgsmooth⟩ := (Algebra.smoothAt_iff R D p).mp hp
   let S := Localization.Away g
   let : IsScalarTower R D S := IsScalarTower.of_algebraMap_smul fun r s => by
-    show (algebraMap R D r) • s = r • s
+    change (algebraMap R D r) • s = r • s
     simp [Algebra.smul_def]
     rfl
   let : Algebra.Smooth R S := hgsmooth
@@ -178,7 +178,7 @@ private theorem annihilatorDefect_not_le_of_smoothAt {R D : Type*} [CommRing R] 
     · intro z₁ z₂ _ _ hz₁ hz₂
       simpa [mul_add] using I₁.add_mem hz₁ hz₂
     · intro b z _ hz
-      show g ^ N * (b * (z : D)) ∈ I₁
+      change g ^ N * (b * (z : D)) ∈ I₁
       have hmem := I₁.mul_mem_left b hz
       convert hmem using 1
       ring
@@ -223,15 +223,14 @@ theorem exists_finitePresentation_factorization_singularIdeal_le
   let C := D ⊗[R] A
   let : Algebra D C := Algebra.TensorProduct.leftAlgebra
   let : IsScalarTower R D C := IsScalarTower.of_algebraMap_smul fun r c => by
-    induction c using TensorProduct.induction_on with
-    | zero => simp
+    induction c using TensorProduct.inductionOn with
     | add u y hu hy => simp [hu, hy]
     | tmul d a => simp [Algebra.algebraMap_eq_smul_one]
   let : Algebra.FinitePresentation D C := Algebra.FinitePresentation.baseChange D
   let : IsNoetherianRing D := Algebra.FiniteType.isNoetherianRing R D
   let : Algebra D Λ := fD.toAlgebra
   let : IsScalarTower R D Λ := IsScalarTower.of_algebraMap_smul fun r z => by
-    show (algebraMap D Λ (algebraMap R D r)) • z = _
+    change (algebraMap D Λ (algebraMap R D r)) • z = _
     rw [IsScalarTower.algebraMap_smul]
     simp
   let fC : C →ₐ[D] Λ :=
@@ -247,24 +246,24 @@ theorem exists_finitePresentation_factorization_singularIdeal_le
   let liftC : C →ₐ[D] D ⧸ ID :=
     Algebra.TensorProduct.lift (Algebra.ofId D (D ⧸ ID)) qA (fun d a => Commute.all _ _)
   have hIC : IC ≤ RingHom.ker liftC.toRingHom := by
-    show Ideal.span {(algebraMap D C (algebraMap R D π)) ^ 4} ≤ RingHom.ker liftC.toRingHom
+    change Ideal.span {(algebraMap D C (algebraMap R D π)) ^ 4} ≤ RingHom.ker liftC.toRingHom
     rw [Ideal.span_le]
     rintro _ ⟨z, rfl⟩
     apply RingHom.mem_ker.mpr
     rw [map_pow]
-    show (liftC (algebraMap D C (algebraMap R D π))) ^ 4 = 0
+    change (liftC (algebraMap D C (algebraMap R D π))) ^ 4 = 0
     rw [liftC.commutes, ← map_pow, Ideal.Quotient.algebraMap_eq, Ideal.Quotient.eq_zero_iff_mem]
     exact Ideal.subset_span (by simp)
   let qΛ : Λ →ₐ[R] Λ ⧸ IL := Ideal.Quotient.mkₐ R IL
   let qDB : D →ₐ[R] Λ ⧸ IL := qΛ.comp fD
   let qFA : A →ₐ[R] Λ ⧸ IL := qΛ.comp fA
   have hID' : ID ≤ IL.comap fD.toRingHom := by
-    show Ideal.span {(algebraMap R D π) ^ 4} ≤ IL.comap fD.toRingHom
+    change Ideal.span {(algebraMap R D π) ^ 4} ≤ IL.comap fD.toRingHom
     rw [Ideal.span_le]
     rintro _ ⟨z, rfl⟩
-    show fD.toRingHom ((algebraMap R D π) ^ 4) ∈ IL
+    change fD.toRingHom ((algebraMap R D π) ^ 4) ∈ IL
     rw [map_pow]
-    show (fD (algebraMap R D π)) ^ 4 ∈ IL
+    change (fD (algebraMap R D π)) ^ 4 ∈ IL
     rw [fD.commutes π]
     exact Ideal.subset_span (by simp)
   let qMap : (D ⧸ ID) →ₐ[R] (Λ ⧸ IL) := Ideal.quotientMapₐ IL fD hID'
@@ -279,7 +278,7 @@ theorem exists_finitePresentation_factorization_singularIdeal_le
     refine AlgHom.ext fun a => ?_
     obtain ⟨y, hy⟩ := Ideal.Quotient.mk_surjective (bar (Ideal.Quotient.mk IA a))
     have h := hbar a y hy.symm
-    show qMap (bar (Ideal.Quotient.mk IA a)) = qΛ (fA a)
+    change qMap (bar (Ideal.Quotient.mk IA a)) = qΛ (fA a)
     rw [← hy, show qMap (Ideal.Quotient.mk ID y) = qDB y from DFunLike.congr_fun hqMap y]
     exact h.symm
   have hfLeft : fC.comp Algebra.TensorProduct.includeLeft = Algebra.ofId D Λ := by
@@ -303,23 +302,23 @@ theorem exists_finitePresentation_factorization_singularIdeal_le
   have hρLeftPoint (d : D) :
       ρ (Ideal.Quotient.mk IC (d ⊗ₜ[R] (1 : A))) = Ideal.Quotient.mk ID d := by
     rw [hρAt]
-    show (liftC.comp Algebra.TensorProduct.includeLeft) d = _
+    change (liftC.comp Algebra.TensorProduct.includeLeft) d = _
     rw [hLiftLeft]
     rfl
   have hρRightPoint (a : A) : ρ (Ideal.Quotient.mk IC ((1 : D) ⊗ₜ[R] a)) = qA a := by
     rw [hρAt]
-    show ((AlgHom.restrictScalars R liftC).comp Algebra.TensorProduct.includeRight) a = _
+    change ((AlgHom.restrictScalars R liftC).comp Algebra.TensorProduct.includeRight) a = _
     rw [hLiftRight]
   have hbridge : left = right := by
-    apply AlgHom.coe_ringHom_injective
+    apply AlgHom.toRingHom_injective
     apply Algebra.TensorProduct.ringHom_ext
     · ext d
-      show qΛ ((fC.comp Algebra.TensorProduct.includeLeft) d) =
+      change qΛ ((fC.comp Algebra.TensorProduct.includeLeft) d) =
         qMap (ρ (Ideal.Quotient.mk IC (d ⊗ₜ[R] (1 : A))))
       rw [hfLeft, hρLeftPoint]
       exact (DFunLike.congr_fun hqMap d).symm
     · ext a
-      show qΛ (((AlgHom.restrictScalars R fC).comp Algebra.TensorProduct.includeRight) a) =
+      change qΛ (((AlgHom.restrictScalars R fC).comp Algebra.TensorProduct.includeRight) a) =
         qMap (ρ (Ideal.Quotient.mk IC ((1 : D) ⊗ₜ[R] a)))
       rw [hfRight, hρRightPoint]
       exact (DFunLike.congr_fun hbar' a).symm
@@ -340,7 +339,7 @@ theorem exists_finitePresentation_factorization_singularIdeal_le
       _ = qDB z := DFunLike.congr_fun hqMap z
       _ = qΛ (algebraMap D Λ z) := rfl
     rw [← hIL]
-    show Ideal.Quotient.mk IL (fC y) = Ideal.Quotient.mk IL (algebraMap D Λ z)
+    change Ideal.Quotient.mk IL (fC y) = Ideal.Quotient.mk IL (algebraMap D Λ z)
     simpa [qΛ] using hq
   have hAnnΛ : (Submodule.span Λ {algebraMap D Λ (algebraMap R D π)}).annihilator =
       (Submodule.span Λ {(algebraMap D Λ (algebraMap R D π)) ^ 2}).annihilator := by

@@ -122,7 +122,7 @@ theorem exists_coveringSieve_approximation_of_derived (V : X.C)
       (Stacks.SheafOfModules.Tensor.ringSheaf X.O) g).app K
   have hcmpIso : ∀ j : ℤ, IsIso (HomologicalComplex.homologyMap hcmp.hom j) := fun j => by
     have : IsIso hcmp.hom := hcmp.isIso_hom
-    show IsIso ((HomologicalComplex.homologyFunctor _ (ComplexShape.up ℤ) j).map hcmp.hom)
+    change IsIso ((HomologicalComplex.homologyFunctor _ (ComplexShape.up ℤ) j).map hcmp.hom)
     infer_instance
   have hsg : ∀ j : ℤ,
       IsIso (HomologicalComplex.homologyMap ((restrictCochainAlong X g).map s) j) := fun j =>

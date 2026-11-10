@@ -174,12 +174,12 @@ theorem nonvanishingLocus_divisorTwistMap (D : X.IdealSheafData)
         Stacks.Ample.nonvanishingLocus A t ∩ (D.support : Set X)ᶜ
   | 0, h => by omega
   | 1, _ => by
-    show Stacks.Ample.nonvanishingLocus _
+    change Stacks.Ample.nonvanishingLocus _
       ((mulCanonicalSection D A).app ⊤ ((𝟙 A : A ⟶ A).app ⊤ t)) = _
     rw [Scheme.Modules.Hom.id_app]
     exact nonvanishingLocus_mulCanonicalSection D A t
   | m + 2, _ => by
-    show Stacks.Ample.nonvanishingLocus _
+    change Stacks.Ample.nonvanishingLocus _
       ((mulCanonicalSection D (divisorTwist D A (m + 1))).app ⊤
         ((divisorTwistMap D A (m + 1)).app ⊤ t)) = _
     exact (nonvanishingLocus_mulCanonicalSection D _ _).trans
@@ -254,7 +254,7 @@ theorem exists_section_forall_mem_nonvanishingLocus_divisorTwist (D : X.IdealShe
   have hgz : ∀ z : D.subscheme, z ∈ Stacks.Ample.nonvanishingLocus N g := fun z => by
     obtain ⟨p, rfl⟩ : ∃ p, e.hom.base p = z :=
       ⟨e.inv.base z, by
-        show (e.inv ≫ e.hom).base z = z
+        change (e.inv ≫ e.hom).base z = z
         rw [e.inv_hom_id]
         rfl⟩
     refine (Stacks.NonvanishingPullback.mem_nonvanishingLocus_pullback_iff e.hom N g p).mp ?_

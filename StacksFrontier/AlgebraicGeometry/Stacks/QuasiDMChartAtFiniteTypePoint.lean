@@ -112,10 +112,10 @@ theorem exists_flat_isLocallyOfFinitePresentation_isLocallyQuasiFinite_chart_at_
   set jsite : Tsite ⟶ R := Over.homMk (ObjectProperty.homMk jj) rfl with hjsite
   have hwk : (ObjectProperty.homMk kk : B.obj hTc ⟶ B.obj hZc) ≫ Zsite.hom = Tsite.hom := by
     refine ObjectProperty.hom_ext _ ?_
-    show kk ≫ ιZ ≫ B.inclusion.map U.hom = jj ≫ B.inclusion.map R.hom
+    change kk ≫ ιZ ≫ B.inclusion.map U.hom = jj ≫ B.inclusion.map R.hom
     rw [← Category.assoc, hcomm, Category.assoc]
     refine congrArg (fun m => jj ≫ m) ?_
-    show B.inclusion.map (chartLeg B S hS U p
+    change B.inclusion.map (chartLeg B S hS U p
         (twoFibreProductSquareAlgebraicStacks B S hS p p) F eF R cR
         (twoFibreProductSquareAlgebraicStacks B S hS p p).fst).left ≫
       B.inclusion.map U.hom = B.inclusion.map R.hom
@@ -128,7 +128,7 @@ theorem exists_flat_isLocallyOfFinitePresentation_isLocallyQuasiFinite_chart_at_
   set jWsite : Wsite ⟶ R := Over.homMk (ObjectProperty.homMk jWs) rfl with hjWsite
   have hwT : (ObjectProperty.homMk jTs : B.obj hTc ⟶ B.obj hWc) ≫ Wsite.hom = Tsite.hom := by
     refine ObjectProperty.hom_ext _ ?_
-    show jTs ≫ jWs ≫ B.inclusion.map R.hom = jj ≫ B.inclusion.map R.hom
+    change jTs ≫ jWs ≫ B.inclusion.map R.hom = jj ≫ B.inclusion.map R.hom
     rw [← Category.assoc, hjfac]
   set jTsite : Tsite ⟶ Wsite := Over.homMk (ObjectProperty.homMk jTs) hwT with hjTsite
   have hjsitefac : jTsite ≫ jWsite = jsite :=
@@ -141,12 +141,12 @@ theorem exists_flat_isLocallyOfFinitePresentation_isLocallyQuasiFinite_chart_at_
     B S hS U p (twoFibreProductSquareAlgebraicStacks B S hS p p) F eF R cR hpsmooth
     Zsite Tsite ιsite jsite ksite hcommsite hkflat hklfp (fun ζ => hksurj ζ)
     (by
-      show Flat (jj ≫ (BigFppfOver.toScheme B S hS).map (chartLeg B S hS U p
+      change Flat (jj ≫ (BigFppfOver.toScheme B S hS).map (chartLeg B S hS U p
         (twoFibreProductSquareAlgebraicStacks B S hS p p) F eF R cR
         (twoFibreProductSquareAlgebraicStacks B S hS p p).snd))
       exact hbflat)
     (by
-      show LocallyOfFinitePresentation
+      change LocallyOfFinitePresentation
         (jj ≫ (BigFppfOver.toScheme B S hS).map (chartLeg B S hS U p
           (twoFibreProductSquareAlgebraicStacks B S hS p p) F eF R cR
           (twoFibreProductSquareAlgebraicStacks B S hS p p).snd))
@@ -170,10 +170,10 @@ theorem exists_flat_isLocallyOfFinitePresentation_isLocallyQuasiFinite_chart_at_
     have hc : ιZ (kk t₀) = (BigFppfOver.toScheme B S hS).map (chartLeg B S hS U p
         (twoFibreProductSquareAlgebraicStacks B S hS p p) F eF R cR
         (twoFibreProductSquareAlgebraicStacks B S hS p p).fst) (jj t₀) := by
-      show (kk ≫ ιZ) t₀ = _
+      change (kk ≫ ιZ) t₀ = _
       rw [hcomm]
       rfl
-    show ιZ (kk t₀) = _
+    change ιZ (kk t₀) = _
     rw [hc, hjt, har]
   have hy : AlgebraicStacks.pointsMap B S hS (schemeStackMap.{u, w} B S hS ιsite ≫ p)
       ((pointsHomeomorphScheme B S hS Zsite).symm (kk t₀)) = x := by

@@ -9,8 +9,8 @@ public import StacksFrontier.CategoryTheory.EqToHomAbsorption
 
 The reduction of part (2) of [Stacks Project, Tag 04G2] to the closed case stacks four squares
 and reads one outer rectangle two ways; the module documentation of
-`StacksFrontier/AlgebraicGeometry/Spaces/ConormalModuleImmersionNaturalityAssembly.lean` sets out the
-layout.  Writing `L`, `L'` for the coborder lifts of the two immersions `j`, `j'`, `C`, `C'` for
+`StacksFrontier/AlgebraicGeometry/Spaces/ConormalModuleImmersionNaturalityAssembly.lean` sets out
+the layout.  Writing `L`, `L'` for the coborder lifts of the two immersions `j`, `j'`, `C`, `C'` for
 their ambients, `J` for `AlgebraicGeometry.Space.coborderSquareLift`, `W` for its ambient,
 `w = AlgebraicGeometry.Space.coborderSquareHom` and
 `A = AlgebraicGeometry.Space.coborderSquareMap`, the four squares are

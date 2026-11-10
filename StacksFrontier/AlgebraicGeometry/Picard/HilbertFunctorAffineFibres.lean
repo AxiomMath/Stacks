@@ -221,7 +221,7 @@ theorem isClosed_range_of_affineFibres_succ (X : Over S) (d : ℕ)
   have hB : IsClosed (q '' {z | π (c z) ∉ W}) := by
     refine q.isClosedMap _ ?_
     have : IsOpen {z | π (c z) ∈ W} := W.2.preimage (c ≫ π).continuous
-    simpa [Set.compl_setOf] using this.isClosed_compl
+    simpa [Set.compl_ofPred] using this.isClosed_compl
   let T₀ : T.left.Opens := ⟨_, hB.isOpen_compl⟩
   let N : ((Over.pullback T.hom).obj X).left.Opens := π ⁻¹ᵁ W ⊓ p ⁻¹ᵁ T₀
   have hZN : q ⁻¹ᵁ T₀ ≤ c ⁻¹ᵁ N := fun z hz =>

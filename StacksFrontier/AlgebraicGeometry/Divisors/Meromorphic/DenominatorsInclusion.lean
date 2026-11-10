@@ -237,7 +237,7 @@ theorem mono_unit_of_isLocallyInjective (L : SheafOfModules.{u} (commRingSheaf J
           ((PresheafOfModules.sheafificationAdjunction (R := commRingSheaf J A₂ h₂)
             (𝟙 _)).unit.app ((Stacks.PresheafOfModules.ChangeOfRings.changeOfRings θ).obj L.val))))
               := by
-    show Presheaf.IsLocallyInjective J
+    change Presheaf.IsLocallyInjective J
       (CategoryTheory.toSheafify J ((Stacks.PresheafOfModules.ChangeOfRings.changeOfRings θ).obj
         L.val).presheaf)
     infer_instance
@@ -315,7 +315,7 @@ theorem isLocallyInjective_of_mono_sheafify
       ((PresheafOfModules.toPresheaf (Stacks.SheafOfModules.TensorSheafification.structureSheaf A₁
         h₁).obj).map
         ((Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction A₁ h₁).unit.app M)) := by
-    show Presheaf.IsLocallyInjective J (CategoryTheory.toSheafify J M.presheaf)
+    change Presheaf.IsLocallyInjective J (CategoryTheory.toSheafify J M.presheaf)
     infer_instance
   have hB : Presheaf.IsLocallyInjective J
       ((PresheafOfModules.toPresheaf (Stacks.SheafOfModules.TensorSheafification.structureSheaf A₁

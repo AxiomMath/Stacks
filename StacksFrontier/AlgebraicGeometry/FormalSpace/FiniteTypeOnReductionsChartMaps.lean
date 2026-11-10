@@ -188,7 +188,7 @@ theorem isLocallyOfFiniteTypeOnReductions_formalSpectrumMap_iff
   have htred' : tred = inv σ ≫ (Sheaf.sheafifiedYoneda (BigFppfOver.topology B S hS)).map
       ((BigAffineFppf.inclusion B S hS).map (g.stageMap _ _ hle)) ≫ τ := by
     refine (huniq tred htred).trans (huniq _ ?_).symm
-    show (inv σ ≫ _ ≫ τ) ≫ iV = iU ≫ formalSpectrumMap hA g
+    change (inv σ ≫ _ ≫ τ) ≫ iV = iU ≫ formalSpectrumMap hA g
     exact ((Category.assoc _ _ _).trans (congrArg (fun x ↦ inv σ ≫ x)
       ((Category.assoc _ _ _).trans (congrArg (fun x ↦ _ ≫ x) hτ)))).trans
       ((congrArg (fun x ↦ inv σ ≫ x) hspec.symm).trans ((Category.assoc _ _ _).symm.trans
@@ -262,9 +262,9 @@ theorem IsLocallyOfFiniteTypeOnReductions.of_etaleSquare {X Y U V : FppfSheaf B 
   obtain ⟨_, _, huniq⟩ := hYr.universal Ured hU.algebraic hU.reduced (iU ≫ a ≫ f)
   have hcomm : tred ≫ bR = aR ≫ fred := by
     refine (huniq _ ?_).trans (huniq _ ?_).symm
-    · show (tred ≫ bR) ≫ iY = iU ≫ a ≫ f
+    · change (tred ≫ bR) ≫ iY = iU ≫ a ≫ f
       rw [Category.assoc, hbR, reassoc_of% htred, hsq]
-    · show (aR ≫ fred) ≫ iY = iU ≫ a ≫ f
+    · change (aR ≫ fred) ≫ iY = iU ≫ a ≫ f
       rw [Category.assoc, hfred, reassoc_of% haR]
   have haE := IsReduction.isEtaleULift_map B S hS hU hXr ha.1 ha.2 haR
   have hbE := IsReduction.isEtaleULift_map B S hS hV hYr hb.1 hb.2 hbR

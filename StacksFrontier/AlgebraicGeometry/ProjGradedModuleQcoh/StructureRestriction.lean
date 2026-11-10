@@ -48,7 +48,7 @@ public lemma val_mapId {P Q : Submonoid S} (h : P ≤ Q)
         (RingHom.id S) (by intro w hw; simpa using h hw)
         (HomogeneousLocalization.val z) := by
   obtain ⟨c, rfl⟩ := HomogeneousLocalization.mk_surjective z
-  show HomogeneousLocalization.val
+  change HomogeneousLocalization.val
       (HomogeneousLocalization.map (.id 𝒜) (by intro w hw; simpa using h hw)
         (HomogeneousLocalization.mk c)) = _
   simp only [HomogeneousLocalization.map_mk, HomogeneousLocalization.val_mk,
@@ -91,7 +91,7 @@ public theorem awayToSection_degreeZeroRingMap (f g : S)
   apply Subtype.ext
   funext p
   simp only [CommRingCat.hom_comp, RingHom.coe_comp, Function.comp_apply, CommRingCat.hom_ofHom]
-  show HomogeneousLocalization.mapId 𝒜 (Submonoid.powers_le.mpr p.2)
+  change HomogeneousLocalization.mapId 𝒜 (Submonoid.powers_le.mpr p.2)
       (degreeZeroRingMap 𝒜 f g hf hg hfg z) =
     HomogeneousLocalization.mapId 𝒜 (Submonoid.powers_le.mpr (hfg p.2)) z
   apply HomogeneousLocalization.val_injective

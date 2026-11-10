@@ -95,7 +95,7 @@ theorem support_eq_preimage_support_of_isThickening :
   · intro y hy
     rw [← Y'.range_subschemeι] at hy
     obtain ⟨z, rfl⟩ := hy
-    show i.base (Y'.subschemeι.base z) ∈ (Y.support : Set X)
+    change i.base (Y'.subschemeι.base z) ∈ (Y.support : Set X)
     rw [hz, ← Y.range_subschemeι]
     exact ⟨jY z, rfl⟩
   · intro y hy
@@ -173,6 +173,7 @@ theorem Neighborhood.image_le_image {V' W' : Neighborhood X' Y'} (h : V' ≤ W')
 
 /-! ### The restrictions of the thickening to the neighbourhoods -/
 
+omit hi hjY hjYt in
 /-- **The restriction of a thickening to an open commutes with shrinking the open.** -/
 theorem morphismRestrict_comp_homOfLE {W W₂ : X.Opens} (h : W₂ ≤ W) :
     (i ∣_ W₂) ≫ X.homOfLE h =

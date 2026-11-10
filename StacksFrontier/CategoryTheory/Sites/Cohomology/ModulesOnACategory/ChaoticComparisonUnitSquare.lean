@@ -280,7 +280,7 @@ theorem derivedUnitSquare (M : DMod.{w} R.obj) :
     refine Localization.natTrans_ext DerivedCategory.Qh
       (HomotopyCategory.quasiIso (PresheafOfModules.{max u v r w} R.obj)
           (ComplexShape.up ℤ)) fun X => ?_
-    show (derivedRestriction.{w} R.obj U).map
+    change (derivedRestriction.{w} R.obj U).map
           ((derivedEpsilonAdjunction.{w} R).unit.app (DerivedCategory.Qh.obj X)) ≫
         (derivedRestrictionPushforwardIso.{w} R U).hom.app
           ((epsilonPullback.{w} R).mapDerivedCategory.obj (DerivedCategory.Qh.obj X)) =

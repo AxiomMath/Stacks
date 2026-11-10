@@ -218,7 +218,7 @@ theorem exists_immersion_affineSpace
   have hpreW (j : J) : i0 ⁻¹ᵁ W j = X.basicOpen (c j).basic := by
     rw [hW_eq, Scheme.Hom.preimage_inf, hpreCoord]
     exact inf_eq_right.mpr (by
-      show X.basicOpen (c j).basic ≤ i0 ⁻¹ᵁ (π ⁻¹ᵁ (c j).base)
+      change X.basicOpen (c j).basic ≤ i0 ⁻¹ᵁ (π ⁻¹ᵁ (c j).base)
       rw [← Scheme.Hom.comp_preimage, hproj]
       exact (c j).mapsTo)
   have hUW (j : J) : X.basicOpen (c j).basic ≤ i0 ⁻¹ᵁ W j :=
@@ -228,7 +228,7 @@ theorem exists_immersion_affineSpace
   have hcoordTop (j : J) (z : α) :
       (i0.appLE ⊤ (X.basicOpen (c j).basic) (by simp)).hom (q z) =
         algebraMap A (B j) (coord z) := by
-    show (X.presheaf.map (homOfLE (X.basicOpen_le (c j).basic)).op).hom
+    change (X.presheaf.map (homOfLE (X.basicOpen_le (c j).basic)).op).hom
         ((i0.appTop).hom (q z)) =
       (X.presheaf.map (homOfLE (X.basicOpen_le (c j).basic)).op).hom (coord z)
     simp [i0, q]
@@ -256,7 +256,7 @@ theorem exists_immersion_affineSpace
     intro x
     obtain ⟨j, hxj⟩ := hcover x
     refine ⟨W j, ?_, ?_⟩
-    · show x ∈ i0 ⁻¹ᵁ W j; rw [hpreW j]; exact hxj
+    · change x ∈ i0 ⁻¹ᵁ W j; rw [hpreW j]; exact hxj
     · rw [hpreW j]
       let g := i0.resLE (W j) (X.basicOpen (c j).basic) (hUW j)
       let φ := (i0.appLE (W j) (X.basicOpen (c j).basic) (hUW j)).hom
@@ -286,7 +286,7 @@ theorem exists_immersion_affineSpace
                 algebraMap A (B j) (c j).basic := by
               have hrestrict : algebraMap (Γ(Y, O j)) (Γ(Y, W j)) (qO j) =
                   coordW j (k j) := by
-                show (Y.presheaf.map (homOfLE (hbaseW j)).op).hom
+                change (Y.presheaf.map (homOfLE (hbaseW j)).op).hom
                     ((Y.presheaf.map (homOfLE (le_top : O j ≤ ⊤)).op).hom (qj j)) =
                   (Y.presheaf.map (homOfLE (le_top : W j ≤ ⊤)).op).hom (qj j)
                 rw [← CommRingCat.comp_apply, ← Functor.map_comp]
@@ -315,7 +315,7 @@ theorem exists_immersion_affineSpace
   refine ⟨count, i0 ≫ e.hom, ?_, ?_⟩
   · let _ : IsImmersion i0 := hImm0
     infer_instance
-  · show i0 ≫ AffineSpace.reindex (ek.toIso.hom) S ≫
+  · change i0 ≫ AffineSpace.reindex (ek.toIso.hom) S ≫
       (AffineSpace.over (ULift.{u, 0} (Fin count)) S).hom = f
     have hp : AffineSpace.reindex (ek.toIso.hom) S ≫
         (AffineSpace.over (ULift.{u, 0} (Fin count)) S).hom =

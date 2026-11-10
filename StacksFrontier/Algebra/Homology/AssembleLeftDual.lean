@@ -99,7 +99,7 @@ theorem ιTensorObj_d_koszul (K L : CochainComplex C ℤ) (a b j a' b' j' : ℤ)
       b (j + 1) (by change a + 1 + b = j + 1; omega),
     mapBifunctor.d₂_eq _ _ _ _ a (show (ComplexShape.up ℤ).Rel b (b + 1) from rfl)
       (j + 1) (by change a + (b + 1) = j + 1; omega)]
-  show (1 : ℤˣ) • _ + a.negOnePow • _ = _
+  change (1 : ℤˣ) • _ + a.negOnePow • _ = _
   rw [one_smul]
   rfl
 
@@ -270,7 +270,7 @@ omit [∀ (X₁ X₂ X₃ X₄ : GradedObject ℤ C), GradedObject.HasTensor₄O
 /-- On the summand `L^{-m} ⊗ K^m` the summed evaluation is the degreewise evaluation `εₘ`. -/
 theorem ι_evalZero (m : ℤ) :
     ιTensorObj L K (-m) m 0 (by omega) ≫ evalZero K L p = (p m).evaluation' := by
-  show GradedObject.Monoidal.ιTensorObj L.X K.X (-m) m 0 (by omega) ≫ totalEval K.X L.X p = _
+  change GradedObject.Monoidal.ιTensorObj L.X K.X (-m) m 0 (by omega) ≫ totalEval K.X L.X p = _
   rw [totalEval, ι_tensorObjDesc]
   simp
 
@@ -330,7 +330,7 @@ evaluation `εₘ`. -/
 theorem ι_evaluationHom_f_zero (hε : IsEvaluationCocycle K L p) (m : ℤ) :
     ιTensorObj L K (-m) m 0 (by omega) ≫ (evaluationHom K L p hε).f 0 =
       (p m).evaluation' ≫ tensorUnit₀.inv ≫ (tensorUnitIso C (ComplexShape.up ℤ)).hom 0 := by
-  show ιTensorObj L K (-m) m 0 (by omega) ≫ evalF K L p 0 = _
+  change ιTensorObj L K (-m) m 0 (by omega) ≫ evalF K L p 0 = _
   rw [evalF_zero, ← Category.assoc, ι_evalZero]
 
 end
@@ -447,7 +447,7 @@ theorem comp_d_eq_zero_of_isAssembledCoev (coev : 𝟙_ C ⟶ tensorObj K.X L.X 
   · exact (congrArg (fun x => coev ≫ x) ((K ⊗ L).shape 0 j hj)).trans comp_zero
   have hj' : (0 : ℤ) + 1 = j := hj
   obtain rfl : j = 1 := by omega
-  show coev ≫ dZeroOne K L = 0
+  change coev ≫ dZeroOne K L = 0
   refine hsep _ _ (fun u v h => ?_)
   obtain ⟨n, rfl⟩ : ∃ n, v = -n := ⟨-v, (neg_neg v).symm⟩
   obtain rfl : u = n + 1 := by omega

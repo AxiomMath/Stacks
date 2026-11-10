@@ -161,7 +161,7 @@ theorem restrictionSource_isFiniteLocallyFree [IsOpenImmersion g.left]
     IsFiniteLocallyFree (restrictionSource G g).left := by
   have _ := isIso_restrictionArrows_snd G g hinv
   have _ := isIso_left_of_isIso (pullback.snd (pullback.snd g G.target) (pullback.fst G.source g))
-  show IsFiniteLocallyFree (pullback.snd (pullback.snd g G.target)
+  change IsFiniteLocallyFree (pullback.snd (pullback.snd g G.target)
     (pullback.fst G.source g) ≫ pullback.snd G.source g).left
   rw [Over.comp_left, MorphismProperty.cancel_left_of_respectsIso
     (P := @IsFiniteLocallyFree) _ _]
@@ -191,7 +191,7 @@ theorem restriction_target_isFiniteLocallyFree (R : GroupoidScheme.Restriction G
     IsFiniteLocallyFree R.groupoid.target.left := by
   have _ : IsIso R.groupoid.inverse.left := groupoidInverse_left_isIso R.groupoid
   rw [← R.groupoid.source_inverse]
-  show IsFiniteLocallyFree (R.groupoid.inverse.left ≫ R.groupoid.source.left)
+  change IsFiniteLocallyFree (R.groupoid.inverse.left ≫ R.groupoid.source.left)
   rw [MorphismProperty.cancel_left_of_respectsIso (P := @IsFiniteLocallyFree) _ _]
   exact restriction_source_isFiniteLocallyFree G g R hinv
 

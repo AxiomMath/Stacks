@@ -197,7 +197,7 @@ private theorem exists_factor_over_closedImmersion_of_injective
   have hl : l ≫ c.left = a.left := by
     apply B.inclusion.map_injective
     rw [Functor.map_comp]
-    show B.inclusion.map l ≫ T.map c = T.map a
+    change B.inclusion.map l ≫ T.map c = T.map a
     rw [show B.inclusion.map l = g from B.inclusion.map_preimage g]
     exact hg
   exact ⟨Over.homMk l (by rw [← Over.w c, ← Category.assoc, hl]; exact Over.w a),
@@ -220,7 +220,7 @@ private theorem relative_etale_of_isIso
   have h1 : IsIso ((uliftYoneda.{u + 1}).map snd) := hpb.isIso_snd_of_isIso
   have h2 : IsIso snd :=
     Functor.FullyFaithful.isIso_of_isIso_map (ULiftYoneda.fullyFaithful _) snd
-  show AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map snd)
+  change AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map snd)
   infer_instance
 
 /-- **A represented base change of a surjective flat morphism of fppf sheaves is faithfully
@@ -447,7 +447,7 @@ theorem isCountablyIndexed_target_of_surjective_flat
     have hb : H.map p ≫ ξ = H.map b ≫ colimit.ι G j ≫ eY.inv := by
       rw [show H.map b = fiberMap i ≫ targetMap n from FF.map_preimage _]
       rw [Category.assoc, htargetMap]
-      show H.map p ≫ ξ =
+      change H.map p ≫ ξ =
         fiberMap i ≫ colimit.ι Flift (fiberSourceIndex i) ≫ eXlift.inv ≫ f
       rw [← Category.assoc _ _ f, ← Category.assoc _ _ f, hfiberMap]
       exact (hRep.isPullback ξ).w.symm
@@ -455,7 +455,7 @@ theorem isCountablyIndexed_target_of_surjective_flat
       apply FF.map_injective
       let := hιmono k₀
       apply (cancel_mono (colimit.ι G k₀ ≫ eY.inv)).1
-      show H.map (p ≫ a) ≫ (colimit.ι G k₀ ≫ eY.inv) =
+      change H.map (p ≫ a) ≫ (colimit.ι G k₀ ≫ eY.inv) =
         H.map (b ≫ c) ≫ (colimit.ι G k₀ ≫ eY.inv)
       simp only [Functor.map_comp, Category.assoc]
       rw [ha, hc]
@@ -465,7 +465,7 @@ theorem isCountablyIndexed_target_of_surjective_flat
     obtain ⟨q, hq⟩ := exists_factor_over_closedImmersion_of_injective
       B S hS p a b c hclosed (hfiberInjective i) hcomm
     refine ⟨n, H.map q, ?_⟩
-    show H.map q ≫ colimit.ι G j ≫ eY.inv = ξ
+    change H.map q ≫ colimit.ι G j ≫ eY.inv = ξ
     rw [← hc, ← Category.assoc, ← H.map_comp, hq, ha]
   -- step 4: replace the chosen stages by a monotone sequence and reindex the colimit
   obtain ⟨seq, hseq, hle⟩ := exists_monotone_ge targetIndex
@@ -475,7 +475,7 @@ theorem isCountablyIndexed_target_of_surjective_flat
     obtain ⟨n, k, hk⟩ := hfactor i
     refine ⟨n, k ≫ G.map (homOfLE (hle n)), ?_⟩
     apply (cancel_mono eY.inv).1
-    show (k ≫ G.map (homOfLE (hle n))) ≫ colimit.ι G (seq n) ≫ eY.inv =
+    change (k ≫ G.map (homOfLE (hle n))) ≫ colimit.ι G (seq n) ≫ eY.inv =
       colimit.ι G i ≫ eY.inv
     simpa only [Category.assoc, colimit.w_assoc] using hk
   let hcolim := isColimit_of_sequence_factors G (colimit.cocone G) (colimit.isColimit G) s

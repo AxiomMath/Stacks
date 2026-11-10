@@ -142,7 +142,7 @@ lemma exists_projectiveCover_of_finite
   let k := IsLocalRing.ResidueField R
   let Q := M' ⧸ (I • (⊤ : Submodule R M'))
   let _ : Module k Q := by
-    show Module (R ⧸ I) Q
+    change Module (R ⧸ I) Q
     exact Module.instQuotientIdealSubmoduleHSMulTop M' I
   have : IsScalarTower R k Q := inferInstanceAs (IsScalarTower R (R ⧸ I) Q)
   let σ : R →+* k := IsLocalRing.residue R

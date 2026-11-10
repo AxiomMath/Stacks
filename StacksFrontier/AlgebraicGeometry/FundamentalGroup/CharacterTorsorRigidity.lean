@@ -167,12 +167,12 @@ theorem map_τX_basePoint {Z : Scheme.{u}} (g : Z ⟶ Y.left) (hg : finiteEtale 
       (finiteEtaleFiberFunctor x).map (D.τX g hg b)
         (D.basePoint g hg (D.fiberPoint a) e ((D.fiberPoint_q _).trans he.symm)) := by
   refine Subtype.ext (pullback.hom_ext ?_ ?_)
-  · show pullback.lift _ _ _ ≫ pullback.fst _ _ =
+  · change pullback.lift _ _ _ ≫ pullback.fst _ _ =
       (pullback.lift _ _ _ ≫ D.τZ g b) ≫ pullback.fst _ _
     rw [Category.assoc, baseChangeTranslation_fst, pullback.lift_fst, pullback.lift_fst_assoc,
       ← D.map_τ_fiberPoint a b]
     rfl
-  · show pullback.lift _ _ _ ≫ pullback.snd _ _ =
+  · change pullback.lift _ _ _ ≫ pullback.snd _ _ =
       (pullback.lift _ _ _ ≫ D.τZ g b) ≫ pullback.snd _ _
     rw [Category.assoc, baseChangeTranslation_snd, pullback.lift_snd, pullback.lift_snd]
 
@@ -240,7 +240,7 @@ theorem CharacterTorsorData.eq_of_hom_baseChange (D₁ : CharacterTorsorData x �
     χ₁ v = χ₂ v := by
   let Ψ : D₁.baseChangeX g hg ⟶ D₂.baseChangeX g hg :=
     MorphismProperty.Over.homMk ψ (by
-      show ψ ≫ pullback.snd D₂.q.left g ≫ g ≫ Y.hom = pullback.snd D₁.q.left g ≫ g ≫ Y.hom
+      change ψ ≫ pullback.snd D₂.q.left g ≫ g ≫ Y.hom = pullback.snd D₁.q.left g ≫ g ≫ Y.hom
       rw [reassoc_of% hΨsnd])
   have hΨτ : ∀ a, D₁.τX g hg a ≫ Ψ = Ψ ≫ D₂.τX g hg a := fun a => by
     apply MorphismProperty.Over.Hom.ext
@@ -254,21 +254,21 @@ theorem CharacterTorsorData.eq_of_hom_baseChange (D₁ : CharacterTorsorData x �
   · have hmor : D₁.τX g hg b ≫ Ψ ≫ D₂.baseChangeFst g hg =
         (Ψ ≫ D₂.baseChangeFst g hg) ≫ D₂.τ b := by
       rw [← Category.assoc, hΨτ, Category.assoc, D₂.τX_comp_baseChangeFst, Category.assoc]
-    show D₂.eT _ = _
+    change D₂.eT _ = _
     rw [D₁.map_τX_basePoint g hg e he a b, ← Functor.map_comp_apply, hmor,
       Functor.map_comp_apply, D₂.τ_apply]
-  · show InducedTorsor.proj (D₂.eT _) = _
+  · change InducedTorsor.proj (D₂.eT _) = _
     rw [← D₂.q_apply]
     have : (finiteEtaleFiberFunctor x).map D₂.q ((finiteEtaleFiberFunctor x).map
         (Ψ ≫ D₂.baseChangeFst g hg)
           (D₁.basePoint g hg (D₁.fiberPoint 0) e ((D₁.fiberPoint_q _).trans he.symm))) =
         eY.symm (QuotientGroup.mk 1) := by
       refine Subtype.ext ?_
-      show ((pullback.lift _ _ _ ≫ ψ) ≫ pullback.fst _ _) ≫ D₂.q.left = _
+      change ((pullback.lift _ _ _ ≫ ψ) ≫ pullback.fst _ _) ≫ D₂.q.left = _
       rw [Category.assoc, Category.assoc, pullback.condition, reassoc_of% hΨsnd,
         pullback.lift_snd_assoc, he]
     rw [this, Equiv.apply_symm_apply]
-  · show D₂.eT _ = _
+  · change D₂.eT _ = _
     rw [D₁.basePoint_fiberPoint_smul g hg e he v hv, finiteEtaleFiberFunctor_map_smul,
       D₂.eT_smul]
 

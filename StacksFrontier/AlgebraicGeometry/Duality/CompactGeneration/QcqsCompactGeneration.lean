@@ -110,7 +110,7 @@ theorem isIso_of_isIso_restrictFunctor {X : Scheme.{u}} {M N : X.Modules} (φ : 
     (h : ∀ i, IsIso ((Scheme.Modules.restrictFunctor (j i)).map φ)) : IsIso φ := by
   refine Stacks.AlgebraicGeometry.AffineBaseChange.isIso_of_isIso_stalk φ fun x => ?_
   obtain ⟨i, y, rfl⟩ := hcov x
-  show IsIso ((Scheme.Modules.toPresheaf X ⋙ TopCat.Presheaf.stalkFunctor Ab.{u} ((j i) y)).map φ)
+  change IsIso ((Scheme.Modules.toPresheaf X ⋙ TopCat.Presheaf.stalkFunctor Ab.{u} ((j i) y)).map φ)
   have : IsIso ((Scheme.Modules.restrictFunctor (j i)).map φ) := h i
   have h3 : IsIso ((Scheme.Modules.restrictFunctor (j i) ⋙ Scheme.Modules.toPresheaf _ ⋙
       TopCat.Presheaf.stalkFunctor Ab.{u} y).map φ) :=
@@ -386,7 +386,7 @@ theorem exists_isCompactObject_restrict_iso_biprod_shift {r : ℕ} (f : Fin r �
     fun _ => G
   have hG₀ : ∀ i, IsCompactObject.{u} (G₀ i) := fun _ => hG
   have hgen' : (ofObj G₀).IsWeakTriangulatedGenerator := by
-    show (ofObj fun _ : PUnit.{u + 1} => G).IsWeakTriangulatedGenerator
+    change (ofObj fun _ : PUnit.{u + 1} => G).IsWeakTriangulatedGenerator
     rw [Stacks.Duality.AffineGeneration.ofObj_const_eq_singleton]
     exact hgen
   exact exists_isCompactObject_iso_biprod_shift

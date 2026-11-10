@@ -45,7 +45,8 @@ The chart is an affine open `W` of the base around the image of the point, and a
 of the source inside the prescribed neighbourhood and over `W`;  `A = Γ(S, W)`, `B = Γ(X, U)`,
 the prime `q` of `B` is the one of the point, and the ideal is `T.ideal ⟨U, hU⟩` — working with
 the ideal of the ideal sheaf data rather than with the kernel of a section map saves the whole
-comparison that `StacksFrontier/AlgebraicGeometry/MoreMorphisms/RelativeRegularImmersion/Gluing.lean`
+comparison that
+`StacksFrontier/AlgebraicGeometry/MoreMorphisms/RelativeRegularImmersion/Gluing.lean`
 has to make.
 
 Three dictionary entries connect the local ring `𝒪_{X, x}` to the ring `B`:  it is an abstract

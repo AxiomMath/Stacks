@@ -440,7 +440,7 @@ theorem isIso_vertHom (T : BigFppfOver C S hS) {a b : G.objects.obj.obj (op T)}
     (evaluationGroupoidFunctor G.toGroupoidInFunctors)).isStronglyCartesian (vertHom G T r hs ht)
   have : IsIso ((presheafOfGroupoids (evaluationGroupoidFunctor G.toGroupoidInFunctors)).p.map
       (vertHom G T r hs ht)) := by
-    show IsIso (𝟙 T)
+    change IsIso (𝟙 T)
     infer_instance
   exact Functor.IsStronglyCartesian.isIso_of_base_isIso
     (presheafOfGroupoids (evaluationGroupoidFunctor G.toGroupoidInFunctors)).p

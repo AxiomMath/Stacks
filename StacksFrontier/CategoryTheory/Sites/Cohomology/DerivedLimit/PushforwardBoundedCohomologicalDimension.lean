@@ -218,7 +218,7 @@ theorem truncGETower_presentation
         (DerivedCategory.TStructure.t.truncGEπ (-(n : ℤ))).app K) ∧ IsIso c := by
   let tower := Stacks.DerivedLimit.truncGETower (SheafOfModules.{wModule} S.O) K
   have hGE (n : ℕ) : (tower.obj ⟨n⟩).IsGE (-(n : ℤ)) := by
-    show ((DerivedCategory.TStructure.t.truncGE (-(n : ℤ))).obj K).IsGE _
+    change ((DerivedCategory.TStructure.t.truncGE (-(n : ℤ))).obj K).IsGE _
     infer_instance
   let _ : HasLimitsOfShape (Discrete ℕ) (SheafOfModules.{wModule} S.O) :=
     SheafOfModules.hasLimitsOfShape.{wModule} (R := S.O) (Discrete ℕ)
@@ -241,7 +241,7 @@ theorem truncGETower_presentation
       (DerivedCategory.TStructure.t.truncGEπ (-(n : ℤ))).app K :=
     Pi.lift_comp_π _ n
   have hzero : q ≫ T.mor₂ = 0 := by
-    show q ≫ diff = 0
+    change q ≫ diff = 0
     apply Pi.hom_ext
     intro n
     rw [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, hq n,
@@ -355,7 +355,7 @@ theorem exists_presented_derivedLimit_map
     apply Pi.hom_ext
     intro n
     rw [Category.assoc, eπ n, ← Functor.map_comp]
-    show R.map (Pi.lift (fun n : ℕ =>
+    change R.map (Pi.lift (fun n : ℕ =>
       Pi.π (fun n : ℕ => tower.obj ⟨n⟩) n -
         Pi.π (fun n : ℕ => tower.obj ⟨n⟩) (n + 1) ≫
           tower.map (homOfLE (Nat.le_succ n)).op) ≫
@@ -492,7 +492,7 @@ private theorem homologyMap_truncLTι_isIso
   have hmono : Mono ((DerivedCategory.homologyFunctor C i).map T.mor₁) :=
     (DerivedCategory.HomologySequence.mono_homologyMap_mor₁_iff T hT (i - 1) i (by omega)).2
       (hzeroPrev.eq_of_src _ _)
-  show IsIso ((DerivedCategory.homologyFunctor C i).map T.mor₁)
+  change IsIso ((DerivedCategory.homologyFunctor C i).map T.mor₁)
   exact isIso_of_mono_of_epi _
 
 /-- An exact functor of derived categories that carries an object placed in degree zero into
@@ -552,10 +552,10 @@ theorem isLE_map_obj_of_bounded
         have hT : T ∈ distTriang (DerivedCategory C) :=
           DerivedCategory.TStructure.t.triangleLTGE_distinguished b E
         have hleftGE : T.obj₁.IsGE a := by
-          show ((DerivedCategory.TStructure.t.truncLT b).obj E).IsGE a
+          change ((DerivedCategory.TStructure.t.truncLT b).obj E).IsGE a
           infer_instance
         have hleftLE : T.obj₁.IsLE (b - 1) := by
-          show ((DerivedCategory.TStructure.t.truncLT b).obj E).IsLE (b - 1)
+          change ((DerivedCategory.TStructure.t.truncLT b).obj E).IsLE (b - 1)
           infer_instance
         have hleftE : ∀ i : ℤ, P ((DerivedCategory.homologyFunctor C i).obj T.obj₁) := by
           intro i
@@ -569,10 +569,10 @@ theorem isLE_map_obj_of_bounded
             exact P.prop_of_isZero (DerivedCategory.isZero_of_isLE _ (b - 1) i (by omega))
         have hleft := ih (m - 1) (by omega) T.obj₁ hleftE a (b - 1) hleftGE hleftLE (by omega)
         have hrightGE : T.obj₃.IsGE b := by
-          show ((DerivedCategory.TStructure.t.truncGE b).obj E).IsGE b
+          change ((DerivedCategory.TStructure.t.truncGE b).obj E).IsGE b
           infer_instance
         have hrightLE : T.obj₃.IsLE b := by
-          show ((DerivedCategory.TStructure.t.truncGE b).obj E).IsLE b
+          change ((DerivedCategory.TStructure.t.truncGE b).obj E).IsLE b
           infer_instance
         let : T.obj₃.IsGE b := hrightGE
         let : T.obj₃.IsLE b := hrightLE
@@ -593,7 +593,7 @@ theorem isLE_map_obj_of_bounded
         let RT := R.mapTriangle.obj T
         have hRT : RT ∈ distTriang (DerivedCategory D) := R.map_distinguished T hT
         have hleftRT : RT.obj₁.IsLE (b - 1 + N) := by
-          show (R.obj T.obj₁).IsLE (b - 1 + N)
+          change (R.obj T.obj₁).IsLE (b - 1 + N)
           exact hleft
         let : RT.obj₁.IsLE (b - 1 + N) := hleftRT
         have hleft' : RT.obj₁.IsLE (b + N) :=
@@ -625,11 +625,11 @@ theorem isIso_homologyMap_map_truncGETower_succ
   have hT : T ∈ distTriang (DerivedCategory C) :=
     DerivedCategory.TStructure.t.triangleLTGE_distinguished b E
   have hleftGE : T.obj₁.IsGE a := by
-    show ((DerivedCategory.TStructure.t.truncLT b).obj E).IsGE a
+    change ((DerivedCategory.TStructure.t.truncLT b).obj E).IsGE a
     let : E.IsGE a := inferInstance
     infer_instance
   have hleftLE : T.obj₁.IsLE a := by
-    show ((DerivedCategory.TStructure.t.truncLT b).obj E).IsLE a
+    change ((DerivedCategory.TStructure.t.truncLT b).obj E).IsLE a
     rw [← hab]
     infer_instance
   have hleftP : ∀ i : ℤ, P ((DerivedCategory.homologyFunctor C i).obj T.obj₁) := by
@@ -670,7 +670,7 @@ theorem isIso_homologyMap_map_truncGETower_succ
     isIso_of_mono_of_epi _
   have hπ : IsIso ((DerivedCategory.homologyFunctor D j).map
       (R.map ((DerivedCategory.TStructure.t.truncGEπ b).app E))) := by
-    show IsIso ((DerivedCategory.homologyFunctor D j).map RT.mor₂)
+    change IsIso ((DerivedCategory.homologyFunctor D j).map RT.mor₂)
     exact hπ'
   let τ := (DerivedCategory.TStructure.t.natTransTruncGEOfLE a b (by omega)).app K
   let γ := (DerivedCategory.TStructure.t.truncGE b).map
@@ -1020,7 +1020,7 @@ theorem isIso_homology_derivedPushforward_truncGEπ
   have hcompatIdx := hcompat (idx j)
   have hidxComp : H.map (Rf.map c) ≫ d =
       H.map (Rf.map (κ (idx j))) ≫ (heventual j).iso.hom := by
-    show H.map (Rf.map c) ≫
+    change H.map (Rf.map c) ≫
       (H.map (p' ≫ Pi.π (fun k : ℕ ↦ Rf.obj (tower.obj ⟨k⟩)) (idx j)) ≫
         (heventual j).iso.hom) = _
     rw [← CategoryTheory.Functor.map_comp_assoc]
@@ -1038,7 +1038,7 @@ theorem isIso_homology_derivedPushforward_truncGEπ
   have hπfactor : κ n ≫ tower.map (homOfLE hidxle).op = κ (idx j) := by
     let π : (Functor.const ℕᵒᵖ).obj K ⟶ tower := NatTrans.ofOpSequence κ (by
       intro k
-      show 𝟙 K ≫ κ k = κ (k + 1) ≫ tower.map (homOfLE (Nat.le_succ k)).op
+      change 𝟙 K ≫ κ k = κ (k + 1) ≫ tower.map (homOfLE (Nat.le_succ k)).op
       rw [Category.id_comp]
       dsimp only [κ, tower]
       rw [Stacks.DerivedLimit.truncGETower_map_homOfLE_succ]

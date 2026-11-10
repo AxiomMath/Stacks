@@ -251,7 +251,7 @@ private theorem isoPair_isRelativeIso (g : Over U) {W : BigFppfOver B integerBas
       κ y₁ g e ≫ (unshrink₂ y₁ y₂ m).totalMap.hom ≫ inv (κ₂ y₁ y₂ g e) := by
     rw [← reassoc_of% (isoPair_baseChangeMap_comp_κ₂ y₁ y₂ g e m), IsIso.hom_inv_id,
       Category.comp_id]
-  show IsIso (isoPair y₁ y₂ g e m).baseChangeMap
+  change IsIso (isoPair y₁ y₂ g e m).baseChangeMap
   rw [h]
   infer_instance
 
@@ -275,10 +275,10 @@ private theorem isoPair_morRestrict {g₁ g₂ : Over U} (H : g₁ ⟶ g₂)
     isoPair y₁ y₂ g₁ e₁ (Functor.morRestrict _ y₁ y₂ H m) =
       Space.RelativeMorphism.restrict (yoneda.map f) (isoPair y₁ y₂ g₂ e₂ m) := by
   have hb : pairBase y₁ g₁ e₁ = yoneda.map f ≫ pairBase y₁ g₂ e₂ := by
-    show yoneda.map (e₁.hom ≫ (pbMap y₁ g₁).baseMap) =
+    change yoneda.map (e₁.hom ≫ (pbMap y₁ g₁).baseMap) =
       yoneda.map f ≫ yoneda.map (e₂.hom ≫ (pbMap y₁ g₂).baseMap)
     rw [← pbRestrict_comp_pbMap y₁ H]
-    show yoneda.map (e₁.hom ≫ (pbRestrict y₁ H).baseMap ≫ (pbMap y₁ g₂).baseMap) =
+    change yoneda.map (e₁.hom ≫ (pbRestrict y₁ H).baseMap ≫ (pbMap y₁ g₂).baseMap) =
       yoneda.map f ≫ yoneda.map (e₂.hom ≫ (pbMap y₁ g₂).baseMap)
     rw [← Functor.map_comp, reassoc_of% hcomp]
   refine Space.RelativeMorphism.ext_of_base_eq hb ?_
@@ -295,7 +295,7 @@ private theorem isoPair_morRestrict {g₁ g₂ : Over U} (H : g₁ ⟶ g₂)
     · simp only [Category.assoc, κ_snd]
       rw [← comp_totalMap_hom, pbRestrict_comp_pbMap, κ_snd]
       simp
-  show κ y₁ g₁ e₁ ≫ (unshrink₂ y₁ y₂ (Functor.morRestrict _ y₁ y₂ H m)).totalMap.hom ≫
+  change κ y₁ g₁ e₁ ≫ (unshrink₂ y₁ y₂ (Functor.morRestrict _ y₁ y₂ H m)).totalMap.hom ≫
       (pbMap y₂ g₁).totalMap.hom = _ ≫ _ ≫ κ y₁ g₂ e₂ ≫ (unshrink₂ y₁ y₂ m).totalMap.hom ≫
       (pbMap y₂ g₂).totalMap.hom
   have h : (unshrink₂ y₁ y₂ (Functor.morRestrict _ y₁ y₂ H m)).totalMap.hom ≫
@@ -340,7 +340,7 @@ private theorem exists_isoPair_eq (g : Over U) {W : BigFppfOver B integerBase hZ
   have hc'_snd : c' ≫ pullback.snd _ _ = pullback.snd _ _ := by simp [c']
   have hc'_fst : c' ≫ pullback.fst _ _ = pullback.fst _ _ := by simp [c']
   have hσ' : σ ≫ tgt y₁ y₂ = (pb y₁ g).toBase.hom ≫ yoneda.map (pbMap y₁ g).baseMap := by
-    show inv (κ y₁ g e) ≫ c ≫ r.morphism ≫ tgt y₁ y₂ = _
+    change inv (κ y₁ g e) ≫ c ≫ r.morphism ≫ tgt y₁ y₂ = _
     rw [r.commutes, reassoc_of% hc_snd, reassoc_of% hκsnd]
     exact totalMap_comp_toBase (pbMap y₁ g)
   have hσ : σ ≫ (fam y₂).toBase.hom =
@@ -386,13 +386,13 @@ private theorem exists_isoPair_eq (g : Over U) {W : BigFppfOver B integerBase hZ
     refine IsHomLift.of_fac' _ (𝟙 g.left) m₀
       (Functor.pullbackFiber (curvesSmall B hZ).val.p y₁ g.hom).2
       (Functor.pullbackFiber (curvesSmall B hZ).val.p y₂ g.hom).2 ?_
-    show (uns m₀).baseMap = _
+    change (uns m₀).baseMap = _
     rw [hm₀, Category.id_comp, eqToHom_trans]
     rfl
   refine ⟨⟨m₀, hlift⟩, Space.RelativeMorphism.ext_of_base_eq hb ?_⟩
-  show κ y₁ g e ≫ (uns m₀).totalMap.hom ≫ (pbMap y₂ g).totalMap.hom = c ≫ r.morphism
+  change κ y₁ g e ≫ (uns m₀).totalMap.hom ≫ (pbMap y₂ g).totalMap.hom = c ≫ r.morphism
   rw [hm₀]
-  show κ y₁ g e ≫ t ≫ (pbMap y₂ g).totalMap.hom = c ≫ r.morphism
+  change κ y₁ g e ≫ t ≫ (pbMap y₂ g).totalMap.hom = c ≫ r.morphism
   rw [ht₁, IsIso.hom_inv_id_assoc]
 
 /-- The presheaf `Isom_𝒳(y₁, y₂)` on the site of `U`, viewed on the site of `Spec(ℤ)` over `U`
@@ -430,7 +430,7 @@ private theorem toIsomApp_naturality {W W' : BigFppfOver B integerBase hZ} (f : 
       (CurveFamily.isomFunctor (fam y₁) (fam y₂) (tgt y₁ y₂)).toFunctor.map f.op
         (toIsomApp y₁ y₂ W x) := by
   apply Subtype.ext
-  show equivShrink _ (isoPair y₁ y₂ _ (secIso₂ y₁ y₂ ((isomRel₂ y₁ y₂).map f.op x)) _) =
+  change equivShrink _ (isoPair y₁ y₂ _ (secIso₂ y₁ y₂ ((isomRel₂ y₁ y₂).map f.op x)) _) =
     equivShrink _ (Space.RelativeMorphism.restrict (yoneda.map f)
       ((equivShrink _).symm (equivShrink _
         (isoPair y₁ y₂ (secObj₂ y₁ y₂ x) (secIso₂ y₁ y₂ x) x.1.2.1))))
@@ -468,7 +468,7 @@ private theorem toIsomApp_surjective (W : BigFppfOver B integerBase hZ) :
     ((Over.iteratedSliceBackward U).obj (Over.mk k.left)).left
   refine ⟨OverShriek.relocalizeMk U.hom _ k.left ⟨m, (inferInstance : IsIso m)⟩ (Over.w k), ?_⟩
   apply Subtype.ext
-  show equivShrink _ (isoPair y₁ y₂ _ (secIso' y₁ k.left (Over.w k)) m) = s
+  change equivShrink _ (isoPair y₁ y₂ _ (secIso' y₁ k.left (Over.w k)) m) = s
   rw [hm]
   exact (equivShrink _).apply_symm_apply s
 
@@ -491,11 +491,11 @@ private theorem isomRelIsoIsomFunctor_hom_comp_projection :
           (Stack.isomSpace B integerBase hZ (curvesSmall B hZ) U y₁ y₂) ≫
         yoneda.map (eqToHom y₁.2.symm) := by
   ext W x
-  show yonedaEquiv (Space.RelativeMorphism.base ((equivShrink _).symm
+  change yonedaEquiv (Space.RelativeMorphism.base ((equivShrink _).symm
       (equivShrink _ (isoPair y₁ y₂ _ (secIso₂ y₁ y₂ x) x.1.2.1)))) =
     (Over.homMk x.1.1 (OverShriek.relocalizeFactors U.hom _ x) : W.unop ⟶ U) ≫ eqToHom y₁.2.symm
   rw [Equiv.symm_apply_apply]
-  show yonedaEquiv (pairBase y₁ _ (secIso' y₁ x.1.1 _)) = _
+  change yonedaEquiv (pairBase y₁ _ (secIso' y₁ x.1.1 _)) = _
   rw [pairBase_secIso']
   exact yonedaEquiv_yoneda_map _
 

@@ -141,7 +141,7 @@ theorem kerGeneratedBy_specMap_toZMod
   refine ⟨⟨⊤, isAffineOpen_top _⟩, trivial, 1, fun _ => e.inv.hom ((p : ℕ) : ℤ_[p]), ?_,
     hSeq e.inv.hom (RingHom.Flat.of_bijective
       (ConcreteCategory.bijective_of_isIso e.inv)) _ hp⟩
-  show RingHom.ker (Spec.map _).appTop.hom = _
+  change RingHom.ker (Spec.map _).appTop.hom = _
   rw [ker_appTop_Spec_map, CommRingCat.hom_ofHom, PadicInt.ker_toZMod,
     PadicInt.maximalIdeal_eq_span_p, Ideal.map_span, Set.image_singleton, Set.range_const]
 

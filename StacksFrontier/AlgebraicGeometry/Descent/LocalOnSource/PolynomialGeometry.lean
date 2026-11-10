@@ -201,7 +201,7 @@ lemma eq_empty_of_finite_preimage_eq
   obtain ⟨y, hne, heq⟩ := hfiber x
   have hy : y ∈ s := by
     rw [← hstable]
-    show F y ∈ s
+    change F y ∈ s
     rw [heq]
     exact hm hx
   exact hne (hinj hy hx heq)
@@ -328,7 +328,7 @@ lemma eq_univ_of_finite_compl_sub_pow_invariant
       (MvPolynomial.pointToPoint (k := k) ⁻¹' Wᶜ) =
       MvPolynomial.pointToPoint (k := k) ⁻¹' Wᶜ := by
     ext v
-    show MvPolynomial.pointToPoint (fun i => v i - v i ^ p) ∉ W ↔
+    change MvPolynomial.pointToPoint (fun i => v i - v i ^ p) ∉ W ↔
       MvPolynomial.pointToPoint v ∉ W
     rw [pointToPoint_sub_pow]
     exact not_congr (Set.ext_iff.mp hstable (MvPolynomial.pointToPoint v))
@@ -340,7 +340,7 @@ lemma eq_univ_of_finite_compl_sub_pow_invariant
   have hpoint : MvPolynomial.pointToPoint (k := k) v = q :=
     PrimeSpectrum.ext hv.symm
   have hmem : v ∈ MvPolynomial.pointToPoint (k := k) ⁻¹' Wᶜ := by
-    show MvPolynomial.pointToPoint v ∉ W
+    change MvPolynomial.pointToPoint v ∉ W
     rwa [hpoint]
   rw [hempty] at hmem
   exact hmem
@@ -427,7 +427,7 @@ lemma subPowGraphRingEquiv_algebraMap
             (subPowGraphSituation R n p x hp).equationIdeal)) =
       (MvPolynomial.aeval (R := R) (fun i : Fin n =>
         MvPolynomial.X i - MvPolynomial.X i ^ p)).toRingHom := by
-  show (subPowGraphRingEquiv R n p x hp).toRingHom.comp
+  change (subPowGraphRingEquiv R n p x hp).toRingHom.comp
       ((Ideal.Quotient.mk _).comp MvPolynomial.C) = _
   apply MvPolynomial.ringHom_ext
   · intro r
@@ -447,7 +447,7 @@ lemma subPowGraphRingEquiv_point
   apply PrimeSpectrum.ext
   apply Ideal.comap_injective_of_surjective (Ideal.Quotient.mk S.equationIdeal)
     Ideal.Quotient.mk_surjective
-  show Ideal.comap (Ideal.Quotient.mk S.equationIdeal)
+  change Ideal.comap (Ideal.Quotient.mk S.equationIdeal)
       (x.asIdeal.comap (subPowGraphRingEquiv R n p x hp).toRingHom) =
     Ideal.comap (Ideal.Quotient.mk S.equationIdeal)
       (S.prime.map (Ideal.Quotient.mk S.equationIdeal))
@@ -481,7 +481,7 @@ lemma spec_sub_pow_etaleAt
     Spec.map (CommRingCat.ofHom (MvPolynomial.aeval (R := R)
       (fun i : Fin n => MvPolynomial.X i - MvPolynomial.X i ^ p)).toRingHom)
   have he : e.hom ≫ S.over = t := by
-    show Spec.map (CommRingCat.ofHom (subPowGraphRingEquiv R n p x hp).toRingHom) ≫
+    change Spec.map (CommRingCat.ofHom (subPowGraphRingEquiv R n p x hp).toRingHom) ≫
       Spec.map (CommRingCat.ofHom (algebraMap (MvPolynomial (Fin n) R) _)) = _
     rw [← Spec.map_comp]
     exact congrArg (fun φ => Spec.map (CommRingCat.ofHom φ))
@@ -536,7 +536,7 @@ lemma spec_sub_pow_etaleAt_ulift
     · intro r; simp [e]
     · intro i; simp [e, MvPolynomial.renameEquiv_apply]
   have h₀ := spec_sub_pow_etaleAt R n p (E.hom x) (by
-    show e (p : MvPolynomial (Fin n) R) ∈ x.asIdeal
+    change e (p : MvPolynomial (Fin n) R) ∈ x.asIdeal
     simpa using hp)
   have h := etaleAt_of_open_precomp E.inv t (E.hom x) (by
     rw [hc]; exact etaleAt_postcomp E.inv _ h₀)
@@ -603,13 +603,13 @@ lemma affineSpace_map_comm_coordinateShear
   · intro l
     by_cases hl : l = i
     · subst l
-      show (AffineSpace.map n f).appTop
+      change (AffineSpace.map n f).appTop
           ((affineSpaceCoordinateShear i j hij d).appTop (AffineSpace.coord T i)) =
         (affineSpaceCoordinateShear i j hij d).appTop
           ((AffineSpace.map n f).appTop (AffineSpace.coord T i))
       simp [affineSpaceCoordinateShear, AffineSpace.homOfVector_appTop_coord,
         AffineSpace.map_appTop_coord]
-    · show (AffineSpace.map n f).appTop
+    · change (AffineSpace.map n f).appTop
           ((affineSpaceCoordinateShear i j hij d).appTop (AffineSpace.coord T l)) =
         (affineSpaceCoordinateShear i j hij d).appTop
           ((AffineSpace.map n f).appTop (AffineSpace.coord T l))
@@ -633,7 +633,7 @@ lemma affineSpace_map_comm_subPow
   apply AffineSpace.hom_ext
   · simp [affineSpaceSubPow, AffineSpace.map_over, Category.assoc]
   · intro i
-    show (AffineSpace.map n f).appTop
+    change (AffineSpace.map n f).appTop
         ((affineSpaceSubPow p).appTop (AffineSpace.coord T i)) =
       (affineSpaceSubPow p).appTop
         ((AffineSpace.map n f).appTop (AffineSpace.coord T i))
@@ -698,7 +698,7 @@ private lemma preimage_comap_invariant_of_comp_eq
     (h : PrimeSpectrum.comap ψ ⁻¹' W = W) :
     PrimeSpectrum.comap φ ⁻¹' (PrimeSpectrum.comap ρ ⁻¹' W) = PrimeSpectrum.comap ρ ⁻¹' W := by
   ext q
-  show PrimeSpectrum.comap ρ (PrimeSpectrum.comap φ q) ∈ W ↔ PrimeSpectrum.comap ρ q ∈ W
+  change PrimeSpectrum.comap ρ (PrimeSpectrum.comap φ q) ∈ W ↔ PrimeSpectrum.comap ρ q ∈ W
   have hp : PrimeSpectrum.comap ρ (PrimeSpectrum.comap φ q) =
       PrimeSpectrum.comap ψ (PrimeSpectrum.comap ρ q) := by
     rw [← PrimeSpectrum.comap_comp_apply, ← PrimeSpectrum.comap_comp_apply, hconj]
@@ -781,7 +781,7 @@ lemma affineSpace_subPow_toSpecMvPoly
           (fun i : n => MvPolynomial.X i - MvPolynomial.X i ^ p)).toRingHom) := by
   apply (AffineSpace.toSpecMvPolyIntEquiv n).injective
   funext i
-  show (affineSpaceSubPow p).appTop (AffineSpace.coord S i) =
+  change (affineSpaceSubPow p).appTop (AffineSpace.coord S i) =
     (AffineSpace.toSpecMvPoly n S).appTop
       ((Spec.map (CommRingCat.ofHom (MvPolynomial.aeval (R := ULift.{u} ℤ)
         (fun i : n => MvPolynomial.X i - MvPolynomial.X i ^ p)).toRingHom)).appTop
@@ -844,7 +844,7 @@ lemma affineSpace_fiberSpecIso_inv_shear
         AffineSpace (ULift.{u} (Fin d)) (Spec k) :=
       affineSpaceCoordinateShear (ULift.up i) (ULift.up j)
         (by intro h; exact hij (congrArg ULift.down h)) r
-    show Spec.map (CommRingCat.ofHom α) ≫ e.inv ≫ q = e.inv ≫ s ≫ q
+    change Spec.map (CommRingCat.ofHom α) ≫ e.inv ≫ q = e.inv ≫ s ≫ q
     calc
       Spec.map (CommRingCat.ofHom α) ≫ e.inv ≫ q =
           Spec.map (CommRingCat.ofHom α) ≫ Spec.map (CommRingCat.ofHom MvPolynomial.C) := by
@@ -873,12 +873,12 @@ lemma affineSpace_fiberSpecIso_inv_shear
         AffineSpace (ULift.{u} (Fin d)) (Spec k) :=
       affineSpaceCoordinateShear (ULift.up i) (ULift.up j)
         (by intro h; exact hij (congrArg ULift.down h)) r
-    show (Spec.map (CommRingCat.ofHom α)).appTop (e.inv.appTop (AffineSpace.coord (Spec k) l)) =
+    change (Spec.map (CommRingCat.ofHom α)).appTop (e.inv.appTop (AffineSpace.coord (Spec k) l)) =
       e.inv.appTop (s.appTop (AffineSpace.coord (Spec k) l))
     rw [AffineSpace.SpecIso_inv_appTop_coord, specMap_appTop_ΓSpecIso_inv_apply]
     by_cases hl : l = ULift.up i
     · subst l
-      show (Scheme.ΓSpecIso (CommRingCat.of
+      change (Scheme.ΓSpecIso (CommRingCat.of
         (MvPolynomial (ULift.{u} (Fin d)) k))).inv
           ((coordinateShearULift (R := k) (d := d)
             i j hij r) (MvPolynomial.X (ULift.up i))) = _
@@ -894,7 +894,7 @@ lemma affineSpace_fiberSpecIso_inv_shear
         intro h
         exact hl (ULift.ext (x := l) (y := ULift.up i) h)
       have hα : α (MvPolynomial.X l) = MvPolynomial.X l := by
-        show ((MvPolynomial.renameEquiv _
+        change ((MvPolynomial.renameEquiv _
           (Equiv.ulift : ULift.{u} (Fin d) ≃ Fin d)).trans
           ((MvPolynomial.coordinateShear i j hij r).trans
             (MvPolynomial.renameEquiv _
@@ -919,7 +919,7 @@ lemma affineSpace_specIso_inv_sub_pow
   let φ : MvPolynomial n R →ₐ[R] MvPolynomial n R := MvPolynomial.aeval
     (fun i : n => MvPolynomial.X i - MvPolynomial.X i ^ p)
   apply AffineSpace.hom_ext
-  · show Spec.map (CommRingCat.ofHom φ.toRingHom) ≫ (AffineSpace.SpecIso n R).inv ≫
+  · change Spec.map (CommRingCat.ofHom φ.toRingHom) ≫ (AffineSpace.SpecIso n R).inv ≫
         (AffineSpace n (Spec R) ↘ Spec R) =
       (AffineSpace.SpecIso n R).inv ≫ affineSpaceSubPow p ≫
         (AffineSpace n (Spec R) ↘ Spec R)
@@ -929,7 +929,7 @@ lemma affineSpace_specIso_inv_sub_pow
     congr 2
     exact RingHom.ext fun r => φ.commutes r
   · intro i
-    show (Spec.map (CommRingCat.ofHom φ.toRingHom)).appTop
+    change (Spec.map (CommRingCat.ofHom φ.toRingHom)).appTop
         ((AffineSpace.SpecIso n R).inv.appTop (AffineSpace.coord (Spec R) i)) =
       (AffineSpace.SpecIso n R).inv.appTop
         ((affineSpaceSubPow p).appTop (AffineSpace.coord (Spec R) i))
@@ -956,7 +956,7 @@ lemma affineSpace_exists_fiber_point
   let q := ((AffineSpace n X ↘ X).fiberHomeo x).symm ⟨z, rfl⟩
   refine ⟨(affineSpace_fiberIso x n).inv q, ?_⟩
   rw [← affineSpace_fiberIso_hom_fiberι]
-  show (AffineSpace n X ↘ X).fiberι x
+  change (AffineSpace n X ↘ X).fiberι x
     ((affineSpace_fiberIso x n).hom ((affineSpace_fiberIso x n).inv q)) = z
   have he : (affineSpace_fiberIso x n).hom ((affineSpace_fiberIso x n).inv q) = q :=
     congrArg (fun f => f q) (affineSpace_fiberIso x n).inv_hom_id

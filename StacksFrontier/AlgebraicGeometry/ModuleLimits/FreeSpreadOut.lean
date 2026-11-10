@@ -143,7 +143,7 @@ theorem exists_mem_pullback_iso_free_of_fromSpecStalk {X Y : Scheme.{u}} (f : X 
   refine ⟨W, j.left.obj.2, ⟨?_⟩⟩
   -- `X ×_Y W` maps to the stage `j` over `X`
   have hjW : D.map j.hom ≫ ιW = W.ι := by
-    show (affineOpenNhdsDiagram Y s).map j.hom ≫ Scheme.Opens.ι (X := Y) W₀.obj.1 = W.ι
+    change (affineOpenNhdsDiagram Y s).map j.hom ≫ Scheme.Opens.ι (X := Y) W₀.obj.1 = W.ι
     rw [affineOpenNhdsDiagram_map]
     exact Scheme.homOfLE_ι _ _
   let σ₀ : pullback f W.ι ⟶ X₀.left :=

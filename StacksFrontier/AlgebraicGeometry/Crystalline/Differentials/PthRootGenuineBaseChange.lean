@@ -53,8 +53,7 @@ namespace CompletedLevels
 private theorem nsmul_tensor_eq_zero_of_tmul {R : Type*} [CommRing R] {X Y : Type*}
     [AddCommGroup X] [Module R X] [AddCommGroup Y] [Module R Y] (k : ℕ)
     (h : ∀ (x : X) (y : Y), k • (x ⊗ₜ[R] y) = 0) (t : X ⊗[R] Y) : k • t = 0 := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [smul_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul x y => exact h x y
   | add a b ha hb => rw [smul_add, ha, hb, add_zero]
 

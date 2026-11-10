@@ -421,7 +421,7 @@ theorem isClosedImmersion_pointOfClosedPoint {T : Scheme.{u}} (g : T ⟶ Spec (.
     IsClosedImmersion (pointOfClosedPoint (K := k) g x hx) := by
   have : IsClosedImmersion (T.fromSpecResidueField x) :=
     isClosed_singleton_iff_isClosedImmersion.mp hx
-  show IsClosedImmersion
+  change IsClosedImmersion
     (Spec.map (residueFieldIsoBase (K := k) g x hx).hom ≫ T.fromSpecResidueField x)
   infer_instance
 

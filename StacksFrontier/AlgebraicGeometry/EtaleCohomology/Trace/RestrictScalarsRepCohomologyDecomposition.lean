@@ -83,6 +83,8 @@ variable {r₁ r₂ r₃ : ℕ} {ρ₁ : EtaleFundamentalGroup X.1 x →* GL (Fi
   (hρ₂ : Continuous ρ₂) {ρ₃ : EtaleFundamentalGroup X.1 x →* GL (Fin r₃) ℚ_[ℓ]}
   (hρ₃ : Continuous ρ₃)
 
+omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
+
 /-- The maps of the rational intertwiners `A` and `A'` compose to that of `C` when `A' * A = C`. -/
 theorem rationalIntertwinerCohomologyMap_apply_apply (A : Matrix (Fin r₂) (Fin r₁) ℚ_[ℓ])
     (hA : ∀ g, A * (ρ₁ g).val = (ρ₂ g).val * A) (A' : Matrix (Fin r₃) (Fin r₂) ℚ_[ℓ])
@@ -249,6 +251,7 @@ theorem continuous_restrictScalarsRep_of_blockConj (t : Fin r) :
 
 variable (hσs : ∀ t, Continuous (restrictScalarsRep b (σs t)))
 
+omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 include hM in
 /-- **The blocks of a representation with finite-dimensional cohomology have finite-dimensional
 cohomology.** -/
@@ -271,6 +274,7 @@ theorem finiteDimensional_of_blockConj
           rw [← restrictScalarsMatrix_mul, blockConjRow_mul_blockConjCol_self,
             restrictScalarsMatrix_one]) w⟩
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 include hM in
 /-- **The Frobenius characteristic polynomial of a block sum is the product of those of the
 blocks.** -/
@@ -458,7 +462,7 @@ omit [∀ (n : ℕ) (S T : B.Scheme) (f : T ⟶ S),
   [AlgebraicGeometry.IsNoetherian X.1] in
 /-- The `t`-th coordinate matrix of `E'` over `E` intertwines `Res_{b'} (σ ⊗ E')` with
 `Res_b σ`. -/
-theorem restrictScalarsCoordMatrix_mul_rep {s : Type*} [Fintype s] (c : Module.Basis s E E') (t : s)
+theorem restrictScalarsCoordMatrix_mul_rep {s : Type*} (c : Module.Basis s E E') (t : s)
     (g : EtaleFundamentalGroup X.1 x) :
     restrictScalarsCoordMatrix b b' c m t *
         (restrictScalarsRep b' ((Matrix.GeneralLinearGroup.map (algebraMap E E')).comp σ) g).val =
@@ -486,6 +490,7 @@ theorem scalar_mul_inclusionMatrix_mul_rep (e : E') (g : EtaleFundamentalGroup X
   rw [Matrix.mul_assoc, restrictScalarsInclusionMatrix_mul_rep B X x, ← Matrix.mul_assoc,
     restrictScalarsScalarAlgHom_commute, Matrix.mul_assoc]
 
+omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 include hσ' in
 /-- **`Hⁱ_c` of `ℱ_{Res_{b'} (σ ⊗ E')}` is finite-dimensional when that of `ℱ_{Res_b σ}` is.** -/
 theorem finiteDimensional_map
@@ -525,7 +530,7 @@ theorem finiteDimensional_map
           restrictScalarsCoordMatrix b b' c m t) := fun t g => by
     rw [Matrix.mul_assoc, restrictScalarsCoordMatrix_mul_rep B X x, ← Matrix.mul_assoc,
       scalar_mul_inclusionMatrix_mul_rep B X x, Matrix.mul_assoc]
-  show ∑ t, rationalIntertwinerCohomologyMap B X x f j kbar i hσ hσ' _
+  change ∑ t, rationalIntertwinerCohomologyMap B X x f j kbar i hσ hσ' _
     (scalar_mul_inclusionMatrix_mul_rep B X x b b' (c t)) (rationalIntertwinerCohomologyMap B X x f
       j kbar i hσ' hσ _ (restrictScalarsCoordMatrix_mul_rep B X x b b' c t) w) = w
   refine (Finset.sum_congr rfl fun t _ => rationalIntertwinerCohomologyMap_apply_apply B X x f j
@@ -534,6 +539,7 @@ theorem finiteDimensional_map
   exact sum_rationalIntertwinerCohomologyMap_apply B X x f j kbar i hσ' _ hA
     (sum_scalar_mul_inclusionMatrix_mul_coordMatrix b b' c m) w
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The Frobenius characteristic polynomial after extending the coefficients from `E` to `E'`
 is the image of that over `E`.** -/
 theorem restrictScalarsRepFrobeniusCharpoly_map

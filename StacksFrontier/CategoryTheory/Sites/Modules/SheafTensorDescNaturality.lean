@@ -148,7 +148,7 @@ theorem denseExtensionBilinear_eq
     ext U : 2
     exact ModuleCat.hom_ext (TensorProduct.ext' fun a b => (h U a b).symm)
   have h₃ : denseExtensionTensorHom G β hβ = presheafTensorDesc β' hβ' := by
-    show Functor.IsCoverDense.sheafHom (G := G) (K := K) (ℱ := F₁ ⊗ F₂) (ℱ' := H) _ = _
+    change Functor.IsCoverDense.sheafHom (G := G) (K := K) (ℱ := F₁ ⊗ F₂) (ℱ' := H) _ = _
     rw [h₂]
     exact Functor.IsCoverDense.sheafHom_eq _ _
   ext a b

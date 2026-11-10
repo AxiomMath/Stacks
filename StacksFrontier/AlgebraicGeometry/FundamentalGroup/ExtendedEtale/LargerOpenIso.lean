@@ -88,7 +88,7 @@ public theorem existsUnique_restrictionIso {U U' X V V' : Scheme.{u}} [IsLocally
   let P : Over U' := (Over.pullback k).obj (Over.mk Y.toBase)
   let fP : P.left ⟶ U' := P.hom
   have : IsFinite fP := by
-    show IsFinite (pullback.snd Y.toBase k)
+    change IsFinite (pullback.snd Y.toBase k)
     exact MorphismProperty.IsStableUnderBaseChange.of_isPullback
       (IsPullback.of_hasPullback Y.toBase k) inferInstance
   -- the canonical extension of the cover across the complement of `U` in `U'`
@@ -118,7 +118,7 @@ public theorem existsUnique_restrictionIso {U U' X V V' : Scheme.{u}} [IsLocally
   let bOver : Over.mk π' ≅ Over.mk R.toBase := Over.isoMk b hb.1
   let e := aOver ≪≫ bOver.symm
   have hcan : c ≫ e.hom.left = cV := by
-    show c ≫ a.hom ≫ b.inv = cV
+    change c ≫ a.hom ≫ b.inv = cV
     rw [← Category.assoc, Iso.comp_inv_eq, ha.2, hb.2]
   have hrest := pullback_map_comp_eq_of_coverMap_comp i P π (Over.mk π') eRest eV e hcan
   have hcompRest : (Over.pullbackComp i k).hom.app (Over.mk Y.toBase) ≫ eRest.hom = eY.hom := by

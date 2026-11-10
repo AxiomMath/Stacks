@@ -358,7 +358,7 @@ lemma exists_cover_homologyMap_eq_zero
   -- `evalU W` preserves finite limits (it is `sheafToPresheaf ⋙ evaluation`).
   have evalU_pfl : ∀ W : Opens X, Limits.PreservesFiniteLimits (evalU W) := by
     intro W
-    show Limits.PreservesFiniteLimits
+    change Limits.PreservesFiniteLimits
       ((sheafSections (Opens.grothendieckTopology X) AddCommGrpCat).obj (op W))
     have h : (sheafSections (Opens.grothendieckTopology X) AddCommGrpCat).obj (op W)
         = sheafToPresheaf (Opens.grothendieckTopology X) AddCommGrpCat

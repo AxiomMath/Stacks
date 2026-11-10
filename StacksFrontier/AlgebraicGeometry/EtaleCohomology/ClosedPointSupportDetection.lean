@@ -146,6 +146,7 @@ attribute [local instance] SmallEtale.isGrothendieckAbelian_sheaf_succ
 variable (B : BigEtaleSite.{u}) (X : Scheme.{u}) (hX : B.Contains X)
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search on the category of sheaves on the small étale site needs the larger budget
 /-- Global sections of abelian sheaves on the small étale site form an additive functor: it is a
 right adjoint, so it preserves binary products. -/
 local instance additive_Γ_smallEtaleSite

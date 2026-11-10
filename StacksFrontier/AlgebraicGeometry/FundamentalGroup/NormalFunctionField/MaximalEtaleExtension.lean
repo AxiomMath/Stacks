@@ -103,12 +103,12 @@ private theorem genericFieldExtensionHom_isDominant
     (E : IntermediateField ((X.residueField (genericPoint X))) Ω) :
     IsDominant (genericFieldExtensionHom X E) := by
   constructor
-  show Dense (Set.range (genericFieldExtensionHom X E))
+  change Dense (Set.range (genericFieldExtensionHom X E))
   rw [dense_iff_closure_eq]
   apply Set.eq_univ_of_univ_subset
   have hη : genericPoint X ∈ Set.range (genericFieldExtensionHom X E) := by
     refine ⟨default, ?_⟩
-    show X.fromSpecResidueField (genericPoint X)
+    change X.fromSpecResidueField (genericPoint X)
       ((Spec.map (CommRingCat.ofHom
         (algebraMap ((X.residueField (genericPoint X))) E))) default) = genericPoint X
     exact Scheme.fromSpecResidueField_apply _ _
@@ -200,10 +200,10 @@ private theorem genericFieldExtensionHom_toNormalization_mono
   have hpre : f ⁻¹ᵁ U = ⊤ := by
     ext z
     refine ⟨fun _ => trivial, fun _ => ?_⟩
-    show f z ∈ U
+    change f z ∈ U
     obtain rfl : z = genericPoint (Spec (.of E)) := Subsingleton.elim _ _
     dsimp [f, genericFieldExtensionHom]
-    show X.fromSpecResidueField (genericPoint X)
+    change X.fromSpecResidueField (genericPoint X)
       ((Spec.map (CommRingCat.ofHom (algebraMap (X.residueField (genericPoint X)) E)))
         (genericPoint (Spec (.of E)))) ∈ U
     have h : (Spec.map (CommRingCat.ofHom (algebraMap (X.residueField (genericPoint X)) E)))
@@ -229,12 +229,12 @@ private theorem genericFieldExtensionHom_toNormalization_mono
   let : IsScalarTower A (X.residueField (genericPoint X)) B := by
     apply IsScalarTower.of_algebraMap_eq'
     ext a
-    show (f.app U).hom a =
+    change (f.app U).hom a =
       e.symm (algebraMap (X.residueField (genericPoint X)) E
         ((X.evaluation U _ hηU).hom a))
     apply e.injective
     rw [e.apply_symm_apply]
-    show (f.app U ≫ er.hom) a =
+    change (f.app U ≫ er.hom) a =
       (X.evaluation U _ hηU ≫ CommRingCat.ofHom (algebraMap (X.residueField (genericPoint X)) E)) a
     have heq : f.app U ≫ er.hom =
         X.evaluation U _ hηU ≫
@@ -277,7 +277,7 @@ private theorem genericFieldExtensionHom_toNormalization_mono
     exact @IsPreimmersion.comp _ _ _ _ _ h1 (@IsPreimmersion.comp _ _ _ _ _ h2 h3)
   have : IsIso (f ⁻¹ᵁ U).ι := by
     rw [hpre]
-    show IsIso (Spec (.of E)).topIso.hom
+    change IsIso (Spec (.of E)).topIso.hom
     infer_instance
   have : Mono ((f ⁻¹ᵁ U).ι ≫ f.toNormalization) := inferInstance
   have : Mono (inv (f ⁻¹ᵁ U).ι ≫ ((f ⁻¹ᵁ U).ι ≫ f.toNormalization)) := inferInstance
@@ -309,7 +309,7 @@ private theorem isUnramifiedIn_iff_finite_etale_normalization
   let : QuasiCompact f := quasiCompact_genericFieldExtensionHom X E
   let : QuasiSeparated f := quasiSeparated_genericFieldExtensionHom X E
   let : IsDominant f := genericFieldExtensionHom_isDominant X E
-  show (∃ _ : QuasiCompact f, ∃ _ : QuasiSeparated f,
+  change (∃ _ : QuasiCompact f, ∃ _ : QuasiSeparated f,
     Unramified f.fromNormalization) ↔ _
   constructor
   · rintro ⟨_, _, h⟩
@@ -560,9 +560,9 @@ private theorem exists_unramified_intermediate_factor
   let j : Spec (.of E) ⟶ Y := i.hom ≫ Y.fromSpecResidueField y
   have hj : j ≫ g = genericFieldExtensionHom X E := by
     rw [show j ≫ g = i.hom ≫ (Y.fromSpecResidueField y ≫ g) by simp [j], ← ha]
-    show Spec.map (CommRingCat.ofHom e.toRingHom) ≫ Spec.map a ≫ η = _
+    change Spec.map (CommRingCat.ofHom e.toRingHom) ≫ Spec.map a ≫ η = _
     rw [← Spec.map_comp_assoc]
-    show Spec.map _ ≫ η = Spec.map _ ≫ η
+    change Spec.map _ ≫ η = Spec.map _ ≫ η
     have hea : a ≫ CommRingCat.ofHom e.toRingHom =
         CommRingCat.ofHom (algebraMap F E) :=
       CommRingCat.hom_ext (RingHom.ext e.commutes)
@@ -582,12 +582,12 @@ private theorem exists_unramified_intermediate_factor
   refine ⟨E, inferInstance, ⟨inferInstance, inferInstance, ?_⟩, j, inferInstance, ?_⟩
   · have : IsDominant f := genericFieldExtensionHom_isDominant X E
     exact (AlgebraicGeometry.unramified_normalization_iff_etale f).mpr inferInstance
-  · show Spec.map (CommRingCat.ofHom (algebraMap E L)) ≫
+  · change Spec.map (CommRingCat.ofHom (algebraMap E L)) ≫
       Spec.map (CommRingCat.ofHom e.toRingHom) ≫ Y.fromSpecResidueField y = p
     rw [← Spec.map_comp_assoc]
     have hei : CommRingCat.ofHom e.toRingHom ≫
         CommRingCat.ofHom (algebraMap E L) = r :=
-      CommRingCat.hom_ext (RingHom.ext (AlgHom.equivFieldRange_apply α))
+      CommRingCat.hom_ext (RingHom.ext (AlgHom.equivFieldRange_apply_coe α))
     rw [hei]
     exact hr
 
@@ -640,7 +640,7 @@ public theorem geometricPoint_factorization :
     exact congrArg sbar.hom (Subsingleton.elim _ _)
   have hfac : Spec.map a.2 ≫ X.fromSpecResidueField a.1 = sbar.hom :=
     e.symm_apply_apply sbar.hom
-  show Spec.map ((X.residueFieldCongr hpa).hom ≫ a.2) ≫
+  change Spec.map ((X.residueFieldCongr hpa).hom ≫ a.2) ≫
     X.fromSpecResidueField (sbar.hom default) = sbar.hom
   rw [Spec.map_comp, Category.assoc, Scheme.residueFieldCongr_fromSpecResidueField hpa]
   exact hfac
@@ -695,11 +695,11 @@ public theorem galoisToFundamentalGroup_restrict_apply
   have hproj := etaleFundamentalGroupMap_finiteEtaleFiberProjection j t Y
     (AlgebraicGeometry.galoisEquivEtaleFundamentalGroup K L Ω (AlgEquiv.restrictNormalHom L σ)) q
   rw [hq] at hproj
-  show (((etaleFundamentalGroupMap j t
+  change (((etaleFundamentalGroupMap j t
       (AlgebraicGeometry.galoisEquivEtaleFundamentalGroup K L Ω
         (AlgEquiv.restrictNormalHom L σ))).asIso.app Y).hom p).1 = _
   rw [← hproj]
-  show (((AlgebraicGeometry.galoisEquivEtaleFundamentalGroup K L Ω
+  change (((AlgebraicGeometry.galoisEquivEtaleFundamentalGroup K L Ω
     (AlgEquiv.restrictNormalHom L σ)).asIso.app Z).hom q).1 ≫
       Limits.pullback.fst Y.hom j = _
   exact (congrArg (fun f : t.source ⟶ Z.left => f ≫ Limits.pullback.fst Y.hom j) hact').trans
@@ -711,14 +711,13 @@ public theorem galoisToFundamentalGroup_restrict_apply
 @[stacks 03VG "Galois extension"]
 public theorem normal_maximalEtaleExtension
     [IsIntegral X] [IsNormal X]
-    (hs : GeometricPoint.IsAlgebraic sbar)
-    (hgeneric : sbar.hom default = genericPoint X) :
+    (hs : GeometricPoint.IsAlgebraic sbar) :
     Normal (X.residueField (sbar.hom default)) (maximalEtaleExtension X sbar) := by
   let K := X.residueField (sbar.hom default)
   let Ω := sbar.residueField
   let S : Set (IntermediateField K Ω) :=
     {E | FiniteEtaleNormalization X sbar E}
-  show Normal K (@sSup (IntermediateField K Ω) inferInstance S)
+  change Normal K (@sSup (IntermediateField K Ω) inferInstance S)
   apply (IntermediateField.normal_iff_forall_map_le).2
   intro σ
   apply (IntermediateField.map_le_iff_le_comap).2
@@ -735,7 +734,6 @@ subextensions. -/
 public theorem le_maximalEtaleExtension
     [IsIntegral X] [IsNormal X]
     (hs : GeometricPoint.IsAlgebraic sbar)
-    (hgeneric : sbar.hom default = genericPoint X)
     (M : IntermediateField (X.residueField (sbar.hom default)) sbar.residueField)
     (hM : ∀ L : IntermediateField (X.residueField (sbar.hom default)) sbar.residueField,
       L ≤ M → FiniteDimensional (X.residueField (sbar.hom default)) L →

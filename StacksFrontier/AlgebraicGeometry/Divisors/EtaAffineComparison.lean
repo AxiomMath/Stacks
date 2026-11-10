@@ -184,7 +184,7 @@ private lemma local_sections_bijective_of_stalk_bijective
   have hcompat : TopCat.Presheaf.IsCompatible A.obj W s := by
     intro x y
     apply hi (W x ⊓ W y) (inf_le_left.trans (hWV x))
-    show φ (W x ⊓ W y) _ (A.obj.map (homOfLE inf_le_left).op (s x)) =
+    change φ (W x ⊓ W y) _ (A.obj.map (homOfLE inf_le_left).op (s x)) =
       φ (W x ⊓ W y) _ (A.obj.map (homOfLE inf_le_right).op (s y))
     rw [hn (W x) (hWV x) _ inf_le_left, hn (W y) (hWV y) _ inf_le_right, hs, hs]
     simp only [← ConcreteCategory.comp_apply, ← Functor.map_comp]
@@ -214,19 +214,18 @@ private lemma tensor_mk_bijective_of_cyclic
   let b : I →ₗ[R] M →ₗ[R] M :=
     (a.ker.liftQ (LinearMap.lsmul R M) hk).comp e.symm.toLinearMap
   have hb (r : R) (m : M) : b (r • g) m = r • m := by
-    show (a.ker.liftQ (LinearMap.lsmul R M) hk) (e.symm (a r)) m = _
+    change (a.ker.liftQ (LinearMap.lsmul R M) hk) (e.symm (a r)) m = _
     rw [LinearMap.quotKerEquivOfSurjective_symm_apply]
     rfl
   let q := TensorProduct.lift b
   have hq (m : M) : q (TensorProduct.tmul R g m) = m := by
-    show b g m = m
+    change b g m = m
     simpa only [one_smul] using hb 1 m
   refine ⟨fun m n hmn => (hq m).symm.trans ((congrArg q hmn).trans (hq n)), fun z => ⟨q z, ?_⟩⟩
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul i m =>
     obtain ⟨r, rfl⟩ := hg i
-    show TensorProduct.tmul R g (b (r • g) m) = _
+    change TensorProduct.tmul R g (b (r • g) m) = _
     rw [hb, TensorProduct.smul_tmul, TensorProduct.tmul_smul]
   | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
 
@@ -240,8 +239,7 @@ private lemma tensor_mk_bijective_tensor_of_cyclic
     Function.Bijective (TensorProduct.mk R I (TensorProduct R I M) g) := by
   apply tensor_mk_bijective_of_cyclic g hg
   intro r hr m
-  induction m using TensorProduct.induction_on with
-  | zero => exact smul_zero r
+  induction m using TensorProduct.inductionOn with
   | tmul i m =>
     obtain ⟨s, rfl⟩ := hg i
     rw [TensorProduct.smul_tmul', smul_comm r s g, hr, smul_zero, TensorProduct.zero_tmul]
@@ -260,7 +258,7 @@ private lemma tensor_mk_bijective_of_tensor_equiv
   apply e.injective
   rw [map_smul, map_zero]
   apply (tensor_mk_bijective_tensor_of_cyclic (M := P) g hg).injective
-  show TensorProduct.tmul R g (r • e m) = TensorProduct.tmul R g 0
+  change TensorProduct.tmul R g (r • e m) = TensorProduct.tmul R g 0
   rw [← TensorProduct.smul_tmul, hr, TensorProduct.zero_tmul, TensorProduct.tmul_zero]
 
 open TensorProduct in
@@ -348,7 +346,7 @@ private lemma bijective_tensorGen (I M P : SheafOfModules.{u} Oₓ)
         grpGerm X ((((Stacks.SheafOfModules.Tensor.sheafTensor
             ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (M)).obj (I))).val x W hx (φ W hWV m) := by
     apply (tensorStalkIso X x M I).injective
-    show (tensorStalkIso X x M I) ((tensorStalkIso X x M I).symm _) = _
+    change (tensorStalkIso X x M I) ((tensorStalkIso X x M I).symm _) = _
     rw [LinearEquiv.apply_symm_apply]
     -- The germ identities are composed as terms: `tensorStalkIso_germ` carries the module
     -- sheaves as explicit arguments typed over the other spelling of the ring sheaf.
@@ -358,7 +356,7 @@ private lemma bijective_tensorGen (I M P : SheafOfModules.{u} Oₓ)
         (grpGerm_res I V W hWV x hx g))).symm
   have h := local_sections_bijective_of_stalk_bijective A B V φ ψ hψ hφ
   have hres : (I.val.map (homOfLE (le_refl V)).op).hom g = g := by
-    show (I.val.presheaf.map (𝟙 (op V))).hom g = g
+    change (I.val.presheaf.map (𝟙 (op V))).hom g = g
     exact congrArg (fun k => AddCommGrpCat.Hom.hom k g) (I.val.presheaf.map_id (op V))
   have hfun (m : (sectionsFunctor X V).obj M) :
       tensorGen X I M V g m = φ V (le_refl V) m :=
@@ -411,7 +409,7 @@ private lemma idealPowerIncl_eq_comp (I : SheafOfModules.{u} Oₓ) (ι : I ⟶ �
       (CategoryTheory.ObjectProperty.FullSubcategory.mk X.presheaf X.IsSheaf)))).map
       (X := (Q, I)) (Y := (Q, 𝒪)) (𝟙 Q, ι)
   let r := (tensorProductRightUnitor X.sheaf.obj (Oₓ).property Q).hom
-  show (powSuccIso T.asEquivalence n M).inv ≫ c ≫ r =
+  change (powSuccIso T.asEquivalence n M).inv ≫ c ≫ r =
     (powSuccIso T.asEquivalence n M).inv ≫ (𝟙 _ ≫ c ≫ r)
   rw [Category.id_comp]
 
@@ -496,7 +494,7 @@ private lemma generator_isSMulRegular (I : SheafOfModules.{u} Oₓ) (ι : I ⟶ 
   let e := idealPowerStepEquiv X I M V g hg n
   refine e.symm.injective (injective_sectionsFunctor_map X (idealPowerIncl X I ι n M) V ?_)
   rw [idealPowerStepEquiv_smul X I ι M V g hg, idealPowerStepEquiv_smul X I ι M V g hg]
-  show generatorSection X ι V g • e (e.symm a) = generatorSection X ι V g • e (e.symm b)
+  change generatorSection X ι V g • e (e.symm a) = generatorSection X ι V g • e (e.symm b)
   rwa [e.apply_symm_apply, e.apply_symm_apply]
 
 /-! ### The comparison of the ideal powers with the powers of the generator -/
@@ -636,7 +634,7 @@ public theorem idealPowerSectionsMap_natural (I : SheafOfModules.{u} Oₓ) (ι :
       ← map_smul (idealPowerSectionsMap X I ι M V g hg (k - 1)),
       ← map_smul (idealPowerSectionsMap X I ι N V g hg (k - 1)),
       ← map_smul ((sectionsFunctor X V).map (idealPowerMap X I (k - 1) a)).hom]
-    show EtaPow.fLoc (generatorSection X ι V g) ((sectionsFunctor X V).map a).hom
+    change EtaPow.fLoc (generatorSection X ι V g) ((sectionsFunctor X V).map a).hom
         (idealPowerSectionsMap X I ι M V g hg (k - 1)
           (generatorSection X ι V g • idealPowerStepEquiv X I M V g hg (k - 1) w)) = _
     rw [← idealPowerStepEquiv_smul X I ι M V g hg (k - 1),
@@ -783,7 +781,7 @@ private lemma etaTermSectionsIso_comm (I : SheafOfModules.{u} Oₓ) (ι : I ⟶ 
     ModuleCat.hom_ext (idealPowerSectionsMap_comp_succ X I ι (F.X (n + 1)) V g hg n)
   have hEd : (sectionsComplex X (etaObj X I ι F hF) V).d n (n + 1) ≫ E.map (p (n + 1)) =
       E.map (q n) := by
-    show E.map ((etaObj X I ι F hF).d n (n + 1)) ≫ E.map (p (n + 1)) = E.map (q n)
+    change E.map ((etaObj X I ι F hF).d n (n + 1)) ≫ E.map (p (n + 1)) = E.map (q n)
     exact (E.map_comp ((etaObj X I ι F hF).d n (n + 1)) (p (n + 1))).symm.trans
       (congrArg (fun k => E.map k) (etaObj_d_fst X I ι F hF n))
   have hmono : Mono (v (n + 1)) := (ModuleCat.mono_iff_injective _).mpr Subtype.val_injective

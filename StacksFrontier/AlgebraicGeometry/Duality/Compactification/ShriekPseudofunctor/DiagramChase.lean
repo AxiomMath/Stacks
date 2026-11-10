@@ -57,8 +57,9 @@ Every identity between the derived functors is proved with the categories and fu
 variables and then instantiated, and every instantiation is an identity of natural
 transformations or of isomorphisms, never of components: a comparison of two spellings of the
 same scheme morphism inside `.app` makes the kernel unfold the derived functors (see the module
-documentation of `StacksFrontier/AlgebraicGeometry/Duality/Compactification/ShriekComposition.lean`).
-For the same reason several open-immersion instances are passed explicitly, with the spelling of
+documentation of
+`StacksFrontier/AlgebraicGeometry/Duality/Compactification/ShriekComposition.lean`). For the same
+reason several open-immersion instances are passed explicitly, with the spelling of
 the objects they are needed at.
 
 ## References
@@ -329,7 +330,7 @@ theorem rowChaseGen {Ee : 𝒜 ⥤ ℬ} {C₁ L₁ : ℬ ⥤ 𝒞} {C₂ L₂ : 
     (βA : Ee' ⋙ V₁ ⟶ V₂ ⋙ IX)
     (hE : βE = Functor.whiskerLeft Ee τ₁.hom ≫ βrow ≫ Functor.whiskerRight τ₂.inv IX)
     (hrow : βrow = (((TwoSquare.mk _ _ _ _ βF ≫ᵥ TwoSquare.mk _ _ _ _ βA).whiskerLeft
-      ω₂.hom).whiskerRight ω₁.inv).natTrans) (M : 𝒜) :
+      ω₂.hom).whiskerRight ω₁.inv)) (M : 𝒜) :
     βE.app M = pc₁.hom.app (Ee.obj M) ≫ V₁.map (βF.app M) ≫ βA.app (F₂.obj M) ≫
       IX.map (pc₂.inv.app M) := by
   subst hpc₁ hpc₂ hE hrow
@@ -403,7 +404,7 @@ theorem rowNat {a : 𝒴b ⥤ 𝒳b} {iX : 𝒳b ⥤ 𝒳} {iY L₂ : 𝒴b ⥤ 
     (βA : r ⋙ u' ⟶ iW ⋙ qU) (βB : a ⋙ v1 ⟶ w1 ⋙ r)
     (hE : β1 = whiskerLeft a τ₁.hom ≫ βrow ≫ whiskerRight τ₂.inv qU)
     (hrow : βrow = (((TwoSquare.mk _ _ _ _ βB ≫ᵥ TwoSquare.mk _ _ _ _ βA).whiskerLeft
-      ω₂.hom).whiskerRight ω₁.inv).natTrans)
+      ω₂.hom).whiskerRight ω₁.inv))
     (hcoc : R1.hom ≫ whiskerRight ω₁.inv iU = R2.hom ≫ whiskerLeft v1 R3.hom) :
     whiskerLeft a R1.hom ≫ whiskerRight β1 iU ≫
         whiskerRight (whiskerRight (τ₂ ≪≫ ω₂.symm).hom qU) iU =
@@ -455,7 +456,7 @@ theorem compositionChaseNat
     (βFB : EP ⋙ F₁ ⟶ I₂ ⋙ EQ) (βCD : PD ⋙ F₁ ⟶ I₂ ⋙ QI)
     (hE : βE = Functor.whiskerLeft Ee τ₁.hom ≫ βrow ≫ Functor.whiskerRight τ₂.inv IX)
     (hrow : βrow = (((TwoSquare.mk _ _ _ _ βF ≫ᵥ TwoSquare.mk _ _ _ _ βA).whiskerLeft
-      ω₂.hom).whiskerRight ω₁.inv).natTrans)
+      ω₂.hom).whiskerRight ω₁.inv))
     (h₂ : βFB = ((TwoSquare.mk _ _ _ _ βB₂ ≫ₕ TwoSquare.mk _ _ _ _ βF).whiskerTop
       cEP.hom).whiskerBottom cEQ.inv)
     (h₃ : βCD = ((TwoSquare.mk _ _ _ _ βD ≫ₕ TwoSquare.mk _ _ _ _ βB₁).whiskerTop
@@ -525,7 +526,7 @@ theorem assembleIso {𝒯 𝒳b 𝒴b 𝒵b 𝒵 𝒲 𝒱 𝒴 𝒰' 𝒰 𝒳 
     ext T
     have := NatTrans.congr_app hαD T
     simp only [Functor.whiskerLeft_app, NatTrans.id_app] at this
-    show (qU ⋙ iU).map (αD.app (PT.ι.obj T)) = 𝟙 _
+    change (qU ⋙ iU).map (αD.app (PT.ι.obj T)) = 𝟙 _
     rw [this]
     exact (qU ⋙ iU).map_id _
   rw [hD', Category.comp_id] at hΨ'
@@ -693,7 +694,7 @@ theorem catAssoc (P : ObjectProperty 𝒳) {Gh : 𝒯 ⥤ 𝒵} {Gg : 𝒵 ⥤ �
   have h := cocycle_iso_app Ggh H K
   simp only [Cat.Hom₂.comp_app, Cat.whiskerRight_app, Cat.whiskerLeft_app, Cat.Hom.isoMk_hom,
     Cat.Hom.isoMk_inv, NatTrans.toCatHom₂_toNatTrans, Cat.Hom₂.id_app]
-  show γ1.hom.app K ≫ Ff.map (γgh.hom.app K) ≫ 𝟙 _ ≫ γ3.inv.app (Gh.obj K) ≫
+  change γ1.hom.app K ≫ Ff.map (γgh.hom.app K) ≫ 𝟙 _ ≫ γ3.inv.app (Gh.obj K) ≫
     γ2.inv.app K = 𝟙 _
   rw [Category.id_comp, reassoc_of% h]
   simp
@@ -710,7 +711,7 @@ theorem catLeft (P : ObjectProperty 𝒳) {F : 𝒴 ⥤ 𝒴} {Φ₀ : 𝒴 ⥤ 
   have h := cocycle_iso_app _ H
   simp only [Cat.Hom₂.comp_app, Cat.whiskerRight_app, Cat.Hom.isoMk_hom,
     NatTrans.toCatHom₂_toNatTrans, Cat.Hom₂.id_app]
-  show l₀.hom.app K ≫ Φ₀.map ((unitOf μ eU).hom.app K) ≫ 𝟙 _ = 𝟙 _
+  change l₀.hom.app K ≫ Φ₀.map ((unitOf μ eU).hom.app K) ≫ 𝟙 _ = 𝟙 _
   rw [Category.comp_id]
   exact unitOf_left μ eU l₀ h K
 
@@ -740,7 +741,7 @@ theorem catRight (P : ObjectProperty 𝒳) {Ψ₀ : 𝒴 ⥤ 𝒳} {G₀ : P.Ful
     liftIsoOf_hom_app_hom] at hr'
   simp only [Cat.Hom₂.comp_app, Cat.whiskerLeft_app, Cat.Hom.isoMk_hom,
     NatTrans.toCatHom₂_toNatTrans, Cat.Hom₂.id_app]
-  show r₀.hom.app K ≫ ((unitOf (liftIsoOf P hG (F₂ := P.lift G₀ hG ⋙ G₀)
+  change r₀.hom.app K ≫ ((unitOf (liftIsoOf P hG (F₂ := P.lift G₀ hG ⋙ G₀)
     (fun K => hG _) μ₀) eU).hom.app
     ((P.lift Ψ₀ hΨ).obj K)).hom ≫ 𝟙 _ = 𝟙 _
   rw [Category.comp_id]

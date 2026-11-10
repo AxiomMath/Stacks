@@ -119,7 +119,7 @@ public theorem sum_pow_mul_extendCoeff (I : Ideal A) (d n : ℕ) (f : Fin r → 
   have hmem : Polynomial.monomial n g ∈ reesAlgebra ((I : Ideal A) ^ d) :=
     reesAlgebra.monomial_mem.mpr hg
   have hext : extendLinearMaps ((I : Ideal A) ^ d) ψ ⟨Polynomial.monomial n g, hmem⟩ = P := by
-    show reesLinearMap ((I : Ideal A) ^ d) ψ ⟨Polynomial.monomial n g, hmem⟩ = P
+    change reesLinearMap ((I : Ideal A) ^ d) ψ ⟨Polynomial.monomial n g, hmem⟩ = P
     exact reesLinearMap_monomial ((I : Ideal A) ^ d) ψ n g hg
   have hpol := aeval_extendLinearMaps_eq I d f hf ψ hψ ⟨Polynomial.monomial n g, hmem⟩
   rw [hext] at hpol

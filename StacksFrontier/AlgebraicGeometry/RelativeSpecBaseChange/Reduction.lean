@@ -126,7 +126,7 @@ projection followed by `u` is the induced morphism followed by the projection. -
 public theorem baseChangeProjection_comp {X Y : Over S} (u : X ⟶ Y) :
     baseChangeProjection g X ≫ u = baseChangeOverMap g u ≫ baseChangeProjection g Y := by
   ext
-  show pullback.fst X.hom g ≫ u.left =
+  change pullback.fst X.hom g ≫ u.left =
     pullback.lift (pullback.fst X.hom g ≫ u.left) (pullback.snd X.hom g) _ ≫
       pullback.fst Y.hom g
   rw [pullback.lift_fst]

@@ -148,7 +148,7 @@ theorem Space.isLocallySurjective_of_presheafSurjective_etale
     singleton_mem_bigFppf_topology B q.left (hs.property_snd ξ)
       (he.property ξ (hs.rep.fst ξ) q (hs.rep.isPullback ξ))
   have hcover : Sieve.generate (Presieve.singleton q) ∈ BigFppfOver.topology B S hS T := by
-    show Sieve.generate (Presieve.singleton q) ∈ B.topology.over (B.obj hS) T
+    change Sieve.generate (Presieve.singleton q) ∈ B.topology.over (B.obj hS) T
     rw [B.topology.mem_over_iff, Sieve.overEquiv_generate,
       ← Sieve.arrows_generate_map_eq_functorPushforward, Sieve.generate_sieve,
       Presieve.map_singleton]
@@ -195,11 +195,11 @@ theorem exists_mem_range_snd_of_openCover (hG : IsColimit (Cofan.mk G ι))
     have hb' : G.obj.map b.op z ∈ (⨆ i, Subfunctor.range (ι i).hom).obj (op W) := hb
     rw [Subfunctor.iSup_obj, Set.mem_iUnion] at hb'
     obtain ⟨i, w, hw⟩ := hb'
-    show F.map (b ≫ a).op (yonedaEquiv t) ∈
+    change F.map (b ≫ a).op (yonedaEquiv t) ∈
       (⨆ i, Subfunctor.range ((ι i).hom ≫ g)).obj (op W)
     rw [Subfunctor.iSup_obj, Set.mem_iUnion]
     refine ⟨i, w, ?_⟩
-    show g.app _ ((ι i).hom.app _ w) = _
+    change g.app _ ((ι i).hom.app _ w) = _
     rw [hw, NatTrans.naturality_apply, hz, ← Functor.map_comp_apply, ← op_comp]
   obtain ⟨V, a, ha, z, hz⟩ := BigFppfOver.exists_mem_arrows_mem_range B S hS hA x
   have ha' : F.map a.op (yonedaEquiv t) ∈
@@ -361,7 +361,7 @@ theorem isAlgebraicSpace_of_open_cover
     have _ : (MorphismProperty.inverseImage
         (@Etale.{u} : MorphismProperty Scheme.{u}) Tfun).IsStableUnderComposition := by
       refine ⟨fun {_ _ _} a b ha hb => ?_⟩
-      show Etale (Tfun.map (a ≫ b))
+      change Etale (Tfun.map (a ≫ b))
       rw [Functor.map_comp]
       have _ : Etale (Tfun.map a) := ha
       have _ : Etale (Tfun.map b) := hb
@@ -459,8 +459,8 @@ theorem isAlgebraicSpace_of_open_cover
       refine ⟨(Sigma.ι (fun y => yoneda.obj (Wc y)) x).app (op V')
         (yoneda.preimage ((hw x).lift (yoneda.map b)
           (yoneda.map β ≫ yonedaEquiv.symm ζ) hc)), ?_⟩
-      show ((Sigma.ι (fun y => yoneda.obj (Wc y)) x ≫ Sigma.desc w).app (op V')) _ = _
-      rw [Sigma.ι_desc]
+      change ((Sigma.ι (fun y => yoneda.obj (Wc y)) x ≫ Sigma.desc w).app (op V')) _ = _
+      rw [Sigma.ι_comp_desc]
       have hzz : yoneda.map (yoneda.preimage ((hw x).lift (yoneda.map b)
           (yoneda.map β ≫ yonedaEquiv.symm ζ) hc)) ≫ w x =
           yoneda.map β ≫ yonedaEquiv.symm ζ := by

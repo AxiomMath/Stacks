@@ -129,7 +129,7 @@ theorem globalFunctionsMap_val_chart {U V : AlgebraicSpaces B S hS} (f : V ⟶ U
           ((SmallEtale.inclusion B S hS V.obj).obj WV))) :=
     ((globalFunctionsChartEquiv B S hS U).val s).property h.op
   rw [← key V WV, globalFunctionsMap_chart]
-  show ((globalFunctionsChartEquiv B S hS U).val s).val
+  change ((globalFunctionsChartEquiv B S hS U).val s).val
     (op ((CostructuredArrow.map f.hom).obj
       ((SmallEtale.inclusion B S hS V.obj).obj WV))) = _
   rw [← hcompat, key U WU s]

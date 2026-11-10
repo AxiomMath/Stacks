@@ -65,9 +65,9 @@ theorem exists_basis_of_isBaseChange_of_isBaseChange {A A' B M N₁ N₂ : Type*
     b₂.map ((AlgebraTensorModule.cancelBaseChange A A' B B M).trans h₂.equiv)
   refine ⟨b₃, fun i => ?_⟩
   have h1 : b₁ i = 1 ⊗ₜ m i := by
-    show h₁.equiv.symm (b i) = _
+    change h₁.equiv.symm (b i) = _
     rw [hm, LinearEquiv.symm_apply_eq, IsBaseChange.equiv_tmul, one_smul]
-  show h₂.equiv (AlgebraTensorModule.cancelBaseChange A A' B B M (b₂ i)) = _
+  change h₂.equiv (AlgebraTensorModule.cancelBaseChange A A' B B M (b₂ i)) = _
   rw [Algebra.TensorProduct.basis_apply, h1, AlgebraTensorModule.cancelBaseChange_tmul,
     IsBaseChange.equiv_tmul, one_smul, one_smul]
 
@@ -87,14 +87,14 @@ theorem exists_basis_eq_of_isBaseChange_away {A A' M N : Type*} {_ : CommRing A}
   let u : ι → A'ˣ := fun i => (IsLocalization.map_units A' (s i)).unit
   refine ⟨b.unitsSMul u, m, fun i => ?_⟩
   rw [Module.Basis.unitsSMul_apply, ← hms i]
-  show (algebraMap A A' (s i : A)) • b i = (s i : A) • b i
+  change (algebraMap A A' (s i : A)) • b i = (s i : A) • b i
   rw [algebraMap_smul]
 
 /-- The structural ring map of `p' ≫ T'.isoSpec.hom` is `p'.appTop`. -/
 theorem globalRingHom_comp_isoSpec_hom {Y' T' : Scheme.{u}} [IsAffine T'] (p' : Y' ⟶ T') :
     Stacks.Cech.globalRingHom (A := Γ(T', ⊤)) (p' ≫ T'.isoSpec.hom) = p'.appTop := by
   ext x
-  show p'.appTop (T'.toSpecΓ.appTop ((Scheme.ΓSpecIso Γ(T', ⊤)).inv x)) = p'.appTop x
+  change p'.appTop (T'.toSpecΓ.appTop ((Scheme.ΓSpecIso Γ(T', ⊤)).inv x)) = p'.appTop x
   have h : T'.toSpecΓ.appTop ((Scheme.ΓSpecIso Γ(T', ⊤)).inv x) = x :=
     (congr($(Scheme.toSpecΓ_appTop T') ((Scheme.ΓSpecIso Γ(T', ⊤)).inv x))).trans
       (Iso.inv_hom_id_apply (Scheme.ΓSpecIso Γ(T', ⊤)) x)
@@ -205,13 +205,13 @@ theorem exists_basicOpen_bijective_sum_pullbackGlobalSections [IsLocallyNoetheri
     rw [Module.Basis.equivFun_symm_apply]
     refine Finset.sum_congr rfl fun i _ => ?_
     rw [hb₂ i, pullbackSectionsBaseₗ_top_apply]
-    show _ = (Stacks.Cech.baseRingHom (p' ≫ T'.isoSpec.hom) (g' ⁻¹ᵁ ⊤)).hom (c i) •
+    change _ = (Stacks.Cech.baseRingHom (p' ≫ T'.isoSpec.hom) (g' ⁻¹ᵁ ⊤)).hom (c i) •
       (pullbackSectionHom g' F ⊤ (g' ⁻¹ᵁ ⊤) le_rfl (m i) :
         Γ((Scheme.Modules.pullback g').obj F, g' ⁻¹ᵁ ⊤))
     have hb : Stacks.Cech.baseRingHom (p' ≫ T'.isoSpec.hom) (g' ⁻¹ᵁ ⊤) = p'.appTop := by
       rw [Stacks.Cech.baseRingHom, globalRingHom_comp_isoSpec_hom]
       ext x
-      show (Y'.presheaf.map (𝟙 (op ⊤))) (p'.appTop x) = _
+      change (Y'.presheaf.map (𝟙 (op ⊤))) (p'.appTop x) = _
       rw [Y'.presheaf.map_id]
       rfl
     rw [hb]

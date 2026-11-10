@@ -92,7 +92,7 @@ theorem isAdicMorphism_continuousHomEquiv_comp {Z : Set (Space.points B S hS (yo
     FormalSpace.hasLargeSite_of_mk_lt_cutoff _
       (FormalSpace.mk_lt_cutoff_of_quotientSystem_of_isAdic (B := B) (S := S) (hS := hS) hAadic
         (FormalDictionary.completionQuotientSystem V I))
-  have htaut : RingHom.IsTaut φ.toRingHom := RingHom.isTaut_of_isAdic φ.toRingHom φ.continuous hφ
+  have htaut : RingHom.IsTaut φ.toRingHom := RingHom.isTaut_of_isAdic φ.toRingHom hφ
   have hSpf : FormalSpace.IsAdicMorphism B S hS (FormalSpace.formalSpectrumMap hB φ) :=
     FormalSpace.isRepresentableByAlgebraicSpacesULift_formalSpectrumMap_of_isTaut B S hS hB hAw
       DB _ hE φ htaut

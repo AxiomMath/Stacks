@@ -56,7 +56,7 @@ theorem nonempty_iso_yoneda_of_relocalize {V : Over X}
       naturality W W' k := by
         ext s
         refine Over.OverMorphism.ext ?_
-        show (β.app W' (F.map k s)).left = k.unop.left ≫ (β.app W s).left
+        change (β.app W' (F.map k s)).left = k.unop.left ≫ (β.app W s).left
         exact congrArg CommaMorphism.left (ConcreteCategory.congr_hom (β.naturality k) s) }
   have hbij : ∀ W, Function.Bijective (α.app W) := by
     intro W

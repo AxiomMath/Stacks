@@ -84,8 +84,8 @@ rational equivalences unless the rule really is the first Chern class.
 The declarations below quantify over the `chern` parameter of Stacks 02T8, so they are statements
 about an arbitrary rule on integral components rather than about `L` and `s`. The tag is carried
 two steps further on, in
-`StacksFrontier.AlgebraicGeometry.Chow.GysinRationalEquivalenceReduction`: there `chern` is the first
-Chern class component rule of `L`, the vanishing is *derived* rather than assumed, and what is
+`StacksFrontier.AlgebraicGeometry.Chow.GysinRationalEquivalenceReduction`: there `chern` is the
+first Chern class component rule of `L`, the vanishing is *derived* rather than assumed, and what is
 granted in its place is the single-component statement the source's proof reduces to.
 
 ## References

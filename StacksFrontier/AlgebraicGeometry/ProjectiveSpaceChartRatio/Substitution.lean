@@ -113,7 +113,7 @@ theorem span_range_resOfLE_chartRatio {i : Fin (n + 1)} {W : X.Opens} (hW : W �
     Ideal.span (Set.range fun m => resOfLE hW (chartRatio s i m)) = ⊤ := by
   rw [Ideal.eq_top_iff_one]
   refine Ideal.subset_span ⟨i, ?_⟩
-  show resOfLE hW (chartRatio s i i) = 1
+  change resOfLE hW (chartRatio s i i) = 1
   rw [chartRatio_self]
   exact map_one _
 
@@ -226,7 +226,7 @@ theorem toPolynomialModel_comp_map (φ : polyGrading k n →+*ᵍ polyGrading k 
       (fun l => resOfLE (inf_le_left : nvCover s i ⊓ nvCover s' j ≤ nvCover s i)
         (chartRatio s i l)) (φ (MvPolynomial.X m))) = ⊤ :=
     Ideal.eq_top_of_isUnit_mem _ (Ideal.subset_span ⟨j, rfl⟩) hunit
-  show (nvCover s i ⊓ nvCover s' j : X.Opens).ι ≫ toPolynomialModel s' hs' f =
+  change (nvCover s i ⊓ nvCover s' j : X.Opens).ι ≫ toPolynomialModel s' hs' f =
     (nvCover s i ⊓ nvCover s' j : X.Opens).ι ≫
       toPolynomialModel s hs f ≫ AlgebraicGeometry.Proj.map φ hφ
   rw [homOfLE_ι_toPolynomialModel s' hs' f (inf_le_right : _ ≤ nvCover s' j), ← Category.assoc,

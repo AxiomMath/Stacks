@@ -203,7 +203,7 @@ theorem rightDerivedPlusδ_resolution (n : ℕ) :
   rw [resolutionTriangleδ] at h
   rw [← h] at hα
   rw [derivedPlusToStandardObjOfResolution_eq_trans, derivedPlusToStandardObjOfResolution_eq_trans]
-  show (((I₃.isoRightDerivedObj F n).hom ≫ (extendedHomologyIso F I₃.cocomplex n).inv) ≫
+  change (((I₃.isoRightDerivedObj F n).hom ≫ (extendedHomologyIso F I₃.cocomplex n).inv) ≫
       (derivedPlusResolutionHomologyIso F I₃ n).inv) ≫ CechDelta.rightDerivedPlusδ F hS n ≫
       (derivedPlusResolutionHomologyIso F I₁ (n + 1)).hom ≫
         ((extendedHomologyIso F I₁.cocomplex (n + 1)).hom ≫

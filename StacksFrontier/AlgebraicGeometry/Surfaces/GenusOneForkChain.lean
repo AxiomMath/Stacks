@@ -271,23 +271,23 @@ public lemma affine_system_solved_B {t : ℕ} (ht : 2 ≤ t) (m : Fin t → ℤ)
     refine DynkinShape.B.row_chain ht ht (fun _ _ => Iff.rfl) m r 2 2 (fun s hs => ?_)
       (fun s hs => ?_)
     · have := r.isLt
-      rw [show DynkinShape.B.weightFactor s = 2 by rw [hwf, if_neg (by omega)]]
+      rw [show DynkinShape.B.weightFactor s = 2 by rw [hwf, ite_eq_right (by omega)]]
       exact max_eq_right (hwfle r)
     · have := s.isLt
-      rw [show DynkinShape.B.weightFactor r = 2 by rw [hwf, if_neg (by omega)]]
+      rw [show DynkinShape.B.weightFactor r = 2 by rw [hwf, ite_eq_right (by omega)]]
       exact max_eq_left (hwfle s)
   have hrec : ∀ j, j + 1 < t → j ≠ r₀.val →
       2 * shiftExtend m (j + 1) = shiftExtend m j + shiftExtend m (j + 2) := by
     intro j hj hne
     obtain ⟨r, hrv⟩ : ∃ r : Fin t, r.val = j := ⟨⟨j, by omega⟩, rfl⟩
     have h := (hrow r).symm.trans (hrest r (fun hc => hne (by rw [← hrv, hc])))
-    rw [hrv, show DynkinShape.B.weightFactor r = 2 by rw [hwf, if_neg (by omega)]] at h
+    rw [hrv, show DynkinShape.B.weightFactor r = 2 by rw [hwf, ite_eq_right (by omega)]] at h
     rw [shiftExtend_of_val_succ_eq m (r := r) (n := j + 1) (by omega)]
     linarith
   have hlast : shiftExtend m t = shiftExtend m (t - 1) := by
     obtain ⟨r, hrv⟩ : ∃ r : Fin t, r.val = t - 1 := ⟨⟨t - 1, by omega⟩, rfl⟩
     have h := (hrow r).symm.trans (hrest r (fun hc => by rw [hc] at hrv; omega))
-    rw [hrv, show DynkinShape.B.weightFactor r = 1 by rw [hwf, if_pos (by omega)],
+    rw [hrv, show DynkinShape.B.weightFactor r = 1 by rw [hwf, ite_eq_left (by omega)],
       show shiftExtend m (t - 1 + 2) = 0 from shiftExtend_of_le m (by omega)] at h
     rw [shiftExtend_of_val_succ_eq m (r := r) (n := t) (by omega)]
     linarith
@@ -303,7 +303,7 @@ public lemma affine_system_solved_B {t : ℕ} (ht : 2 ≤ t) (m : Fin t → ℤ)
   have hprev : shiftExtend m r₀.val = (r₀.val : ℤ) * shiftExtend m 1 := hleft r₀.val (by omega)
   have hnext : shiftExtend m (r₀.val + 2) = shiftExtend m (r₀.val + 1) :=
     hconst (r₀.val + 2) (by omega) (by omega)
-  rw [hrow r₀, show DynkinShape.B.weightFactor r₀ = 2 by rw [hwf, if_neg (by omega)]] at hmain
+  rw [hrow r₀, show DynkinShape.B.weightFactor r₀ = 2 by rw [hwf, ite_eq_right (by omega)]] at hmain
   have e1 : (4 : ℤ) * shiftExtend m 1
       = (2 * k * ((r₀.val : ℤ) + 1)) * shiftExtend m 1 := by
     linear_combination hmain + (2 * k - 8) * hmr + 4 * hnext + 4 * hprev + (2 * k - 4) * hS
@@ -349,29 +349,29 @@ public lemma affine_system_solved_C {t : ℕ} (ht : 4 ≤ t) (m : Fin t → ℤ)
     refine DynkinShape.C.row_chain (show (2 : ℕ) ≤ t by omega) (by omega)
       (fun _ _ => Iff.rfl) m r _ _ (fun s hs => ?_) (fun s hs => ?_)
     · have := r.isLt
-      rw [show DynkinShape.C.weightFactor s = 1 by rw [hwf, if_neg (by omega)]]
+      rw [show DynkinShape.C.weightFactor s = 1 by rw [hwf, ite_eq_right (by omega)]]
       exact max_eq_left (hwfge r)
     · have := s.isLt
-      rw [show DynkinShape.C.weightFactor r = 1 by rw [hwf, if_neg (by omega)], hwf s]
+      rw [show DynkinShape.C.weightFactor r = 1 by rw [hwf, ite_eq_right (by omega)], hwf s]
       by_cases hc : r.val + 2 = t
-      · rw [if_pos (show s.val + 1 = t by omega), if_pos hc]
+      · rw [ite_eq_left (show s.val + 1 = t by omega), ite_eq_left hc]
         norm_num
-      · rw [if_neg (show ¬ (s.val + 1 = t) by omega), if_neg hc]
+      · rw [ite_eq_right (show ¬ (s.val + 1 = t) by omega), ite_eq_right hc]
         norm_num
   have hrec : ∀ j, j + 2 < t → j ≠ r₀.val →
       2 * shiftExtend m (j + 1) = shiftExtend m j + shiftExtend m (j + 2) := by
     intro j hj hne
     obtain ⟨r, hrv⟩ : ∃ r : Fin t, r.val = j := ⟨⟨j, by omega⟩, rfl⟩
     have h := (hrow r).symm.trans (hrest r (fun hc => hne (by rw [← hrv, hc])))
-    rw [hrv, show DynkinShape.C.weightFactor r = 1 by rw [hwf, if_neg (by omega)],
-      if_neg (show ¬ (j + 2 = t) by omega)] at h
+    rw [hrv, show DynkinShape.C.weightFactor r = 1 by rw [hwf, ite_eq_right (by omega)],
+      ite_eq_right (show ¬ (j + 2 = t) by omega)] at h
     rw [shiftExtend_of_val_succ_eq m (r := r) (n := j + 1) (by omega)]
     linarith
   have hend1 : 2 * shiftExtend m t = shiftExtend m (t - 1) := by
     obtain ⟨r, hrv⟩ : ∃ r : Fin t, r.val = t - 1 := ⟨⟨t - 1, by omega⟩, rfl⟩
     have h := (hrow r).symm.trans (hrest r (fun hc => by rw [hc] at hrv; omega))
-    rw [hrv, show DynkinShape.C.weightFactor r = 2 by rw [hwf, if_pos (by omega)],
-      if_neg (show ¬ (t - 1 + 2 = t) by omega),
+    rw [hrv, show DynkinShape.C.weightFactor r = 2 by rw [hwf, ite_eq_left (by omega)],
+      ite_eq_right (show ¬ (t - 1 + 2 = t) by omega),
       show shiftExtend m (t - 1 + 2) = 0 from shiftExtend_of_le m (by omega)] at h
     rw [shiftExtend_of_val_succ_eq m (r := r) (n := t) (by omega)]
     linarith
@@ -383,11 +383,11 @@ public lemma affine_system_solved_C {t : ℕ} (ht : 4 ≤ t) (m : Fin t → ℤ)
     push_cast
     ring
   have hprev : shiftExtend m r₀.val = (r₀.val : ℤ) * shiftExtend m 1 := hleft r₀.val (by omega)
-  rw [hrow r₀, show DynkinShape.C.weightFactor r₀ = 1 by rw [hwf, if_neg (by omega)]] at hmain
+  rw [hrow r₀, show DynkinShape.C.weightFactor r₀ = 1 by rw [hwf, ite_eq_right (by omega)]] at hmain
   by_cases hcase : r₀.val + 2 = t
   · -- the attachment vertex is the penultimate one: no solution
     exfalso
-    rw [if_pos hcase] at hmain
+    rw [ite_eq_left hcase] at hmain
     have hM2 : shiftExtend m r₀.val = ((t : ℤ) - 2) * shiftExtend m 1 := by
       rw [hprev]
       congr 1
@@ -403,13 +403,13 @@ public lemma affine_system_solved_C {t : ℕ} (ht : 4 ≤ t) (m : Fin t → ℤ)
     have hle := le_two_of_two_eq_mul (mul_right_cancel₀ ha1.ne' hkey)
     omega
   · -- the attachment vertex is further in: the far side is constant
-    rw [if_neg hcase] at hmain
+    rw [ite_eq_right hcase] at hmain
     have hend2 : shiftExtend m (t - 1) = shiftExtend m (t - 2) := by
       obtain ⟨r, hrv⟩ : ∃ r : Fin t, r.val = t - 2 := ⟨⟨t - 2, by omega⟩, rfl⟩
       have h := (hrow r).symm.trans (hrest r (fun hc => by rw [hc] at hrv; omega))
       have hmr2 : m r = shiftExtend m (t - 1) := (shiftExtend_of_val_succ_eq m (by omega)).symm
-      rw [hrv, show DynkinShape.C.weightFactor r = 1 by rw [hwf, if_neg (by omega)],
-        if_pos (show t - 2 + 2 = t by omega), show t - 2 + 2 = t by omega,
+      rw [hrv, show DynkinShape.C.weightFactor r = 1 by rw [hwf, ite_eq_right (by omega)],
+        ite_eq_left (show t - 2 + 2 = t by omega), show t - 2 + 2 = t by omega,
         hmr2] at h
       linarith [hend1]
     have hconst := shiftExtend_const_of_rec m r₀.val (t - 1) (by omega)
@@ -512,7 +512,7 @@ public lemma not_affine_system_F4 (m : Fin 4 → ℤ) (hpos : ∀ r, 0 < m r) (r
     have q3 : 4 * m v3 - 2 * m v2 = 0 :=
       row3.symm.trans (hrest v3 (fun h => by rw [h, hc] at hv3; omega))
     have hmn : 2 * (2 * m v1 - m v0 - 2 * m v2) = k * m v1 := by
-      rw [hc, row1, hwf, hv1, if_pos (show (1 : ℕ) < 2 by omega)] at hmain
+      rw [hc, row1, hwf, hv1, ite_eq_left (show (1 : ℕ) < 2 by omega)] at hmain
       linear_combination hmain
     have hm2 : m v2 = 2 * m v3 := by linarith
     have hm1 : m v1 = 3 * m v3 := by linarith
@@ -530,7 +530,7 @@ public lemma not_affine_system_F4 (m : Fin 4 → ℤ) (hpos : ∀ r, 0 < m r) (r
     have q3 : 4 * m v3 - 2 * m v2 = 0 :=
       row3.symm.trans (hrest v3 (fun h => by rw [h, hc] at hv3; omega))
     have hmn : 2 * (4 * m v2 - 2 * m v1 - 2 * m v3) = k * 2 * m v2 := by
-      rw [hc, row2, hwf, hv2, if_neg (show ¬ ((2 : ℕ) < 2) by omega)] at hmain
+      rw [hc, row2, hwf, hv2, ite_eq_right (show ¬ ((2 : ℕ) < 2) by omega)] at hmain
       linear_combination hmain
     have hm1 : m v1 = 2 * m v0 := by linarith
     have h2m2 : 2 * m v2 = 3 * m v0 := by linarith

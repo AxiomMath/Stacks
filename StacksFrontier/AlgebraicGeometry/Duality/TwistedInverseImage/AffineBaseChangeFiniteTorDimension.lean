@@ -80,7 +80,7 @@ theorem qcGE_tensor_of_hasTorAmplitude (J : quasiCoherentDerivedCategory X) (a b
     (Stacks.Cohomology.TorAmplitude.derTensorSite X.toRingedSpace) J.obj E.obj a m
     (Stacks.Cohomology.TorAmplitude.hasTorAmplitudeGE_of_hasTorAmplitude X.toRingedSpace J.obj a b
       hJ) hE
-  show (((@curriedTensor (DerivedCategory X.Modules) _
+  change (((@curriedTensor (DerivedCategory X.Modules) _
     (Scheme.Modules.canonicalDerivedMonoidal X)).obj J.obj).obj E.obj).IsGE (m + a)
   rw [curriedTensor_canonicalDerivedMonoidal_eq, add_comm]
   exact h

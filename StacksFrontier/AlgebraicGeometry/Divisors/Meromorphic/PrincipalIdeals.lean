@@ -46,7 +46,7 @@ private theorem associatedPrime_map_quotient {R : Type*} [CommRing R] {I p : Ide
   have hp_eq : p = cR.radical := by simpa [cR, Submodule.colon] using hx
   have hc : Ideal.comap f cQ = cR := by
     ext r
-    show f r ∈ (⊥ : Submodule (R ⧸ I) (R ⧸ I)).colon {x} ↔
+    change f r ∈ (⊥ : Submodule (R ⧸ I) (R ⧸ I)).colon {x} ↔
       r ∈ (⊥ : Submodule R (R ⧸ I)).colon {x}
     simp only [Submodule.mem_colon_singleton]
     rfl

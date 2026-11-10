@@ -246,7 +246,7 @@ public lemma idealPowerMultiple_isQuasicoherent {X : Scheme.{u}}
     rw [idealPowerMultiple_obj_affine]
     ext x
     exact (ker_subschemeι_app_iff Iₙ V x).symm
-  show ((idealPowerMultiple I n (unitModule X)).toSheafOfModules).IsQuasicoherent
+  change ((idealPowerMultiple I n (unitModule X)).toSheafOfModules).IsQuasicoherent
   rwa [hEq]
 
 /-- A morphism of quasi-coherent modules on an affine scheme which vanishes on global sections
@@ -261,7 +261,7 @@ public lemma hom_eq_zero_of_app_top {R : CommRingCat.{u}}
   let qf : qM ⟶ qN := ⟨f⟩
   have hqf : E.inverse.map qf = 0 := by
     ext x
-    show (f.val.app (op ⊤)).hom x = 0
+    change (f.val.app (op ⊤)).hom x = 0
     exact congrArg (fun q => q.hom x) h
   have hqf0 : qf = 0 := E.inverse.map_injective (by simpa using hqf)
   exact congrArg (fun z : qM ⟶ qN => z.hom) hqf0
@@ -294,7 +294,7 @@ public lemma restrict_map_eq_zero_fromSpec {X : Scheme.{u}}
   have hImage := eq_fromSpec_image_top hU
   have htop : ((Scheme.Modules.restrictFunctor hU.fromSpec).map g).val.app (op ⊤) = 0 := by
     ext x
-    show (g.val.app (op (hU.fromSpec ''ᵁ ⊤))).hom x = 0
+    change (g.val.app (op (hU.fromSpec ''ᵁ ⊤))).hom x = 0
     exact congrArg (fun q => q.hom x) (app_eq_zero_of_opens_eq g hImage h)
   exact hom_eq_zero_of_app_top ((Scheme.Modules.restrictFunctor hU.fromSpec).map g) htop
 
@@ -364,12 +364,12 @@ public lemma exists_pow_smul_eq_zero_of_canonicalMapToSections_zero {X : Scheme.
   have hxV : xV = c • u := Subtype.ext (mul_one c).symm
   have hphiV : (φ.app V) xV = 0 := by
     rw [hxV, Scheme.Modules.Hom.app_smul]
-    show c • (φ.app V) (complementUnitLift I n V hV) = 0
+    change c • (φ.app V) (complementUnitLift I n V hV) = 0
     rw [heval' V hV, smul_zero]
   let _ := moduleOfLE F hVU
   let ρ := restrictₗ F hVU
   have hρ : ρ ((φ.app (U : X.Opens)) x) = 0 := by
-    show (F.presheaf.map g) ((φ.app (U : X.Opens)) x) = 0
+    change (F.presheaf.map g) ((φ.app (U : X.Opens)) x) = 0
     rwa [← QcohLimits.app_naturality φ hVU x]
   have : IsLocalizedModule.Away a ρ := isLocalizedModule_restrictₗ F U.2 a rfl hVU
   exact exists_pow_smul_eq_zero_of_localized_zero a ρ ((φ.app (U : X.Opens)) x) hρ
@@ -383,17 +383,17 @@ public lemma presheaf_map_appIso_inv_ΓSpecIso_inv {X : Scheme.{u}} {U : X.Opens
   let f := hU.fromSpec
   let A := Γ(X, U)
   let eRing : Γ(X, f ''ᵁ ⊤) ≅ A := X.presheaf.mapIso (eqToIso hImage).op
-  show eRing.hom ((f.appIso ⊤).inv ((Scheme.ΓSpecIso A).inv b)) = b
+  change eRing.hom ((f.appIso ⊤).inv ((Scheme.ΓSpecIso A).inv b)) = b
   have hAEq : eRing.hom ≫ (Scheme.ΓSpecIso A).inv = (f.appIso ⊤).hom := by
     simp only [eRing, Functor.mapIso_hom, Iso.op_hom, Scheme.Hom.appIso_hom']
     have hpreU : (⊤ : (Spec A).Opens) ≤ f ⁻¹ᵁ U := by rw [hU.fromSpec_preimage_self]
     have hAppLE : f.appLE U ⊤ hpreU = (Scheme.ΓSpecIso A).inv := by
-      show f.app U ≫ (Spec A).presheaf.map (homOfLE hpreU).op = _
+      change f.app U ≫ (Spec A).presheaf.map (homOfLE hpreU).op = _
       rw [hU.fromSpec_app_self, Category.assoc, ← Functor.map_comp]
       have hmaps : (eqToHom hU.fromSpec_preimage_self).op ≫ (homOfLE hpreU).op = 𝟙 _ :=
         Subsingleton.elim _ _
       rw [hmaps]
-      show (Scheme.ΓSpecIso Γ(X, U)).inv = (Scheme.ΓSpecIso A).inv
+      change (Scheme.ΓSpecIso Γ(X, U)).inv = (Scheme.ΓSpecIso A).inv
       rfl
     rw [← hAppLE]
     have hpre : (⊤ : (Spec A).Opens) ≤ f ⁻¹ᵁ (f ''ᵁ ⊤) := fun y hy => ⟨y, Opens.mem_top y, rfl⟩
@@ -402,7 +402,7 @@ public lemma presheaf_map_appIso_inv_ΓSpecIso_inv {X : Scheme.{u}} {U : X.Opens
   have hAEq' : eRing.hom = (f.appIso ⊤).hom ≫ (Scheme.ΓSpecIso A).hom := by
     rw [← hAEq, Category.assoc, Iso.inv_hom_id, Category.comp_id]
   rw [hAEq']
-  show (Scheme.ΓSpecIso A).hom
+  change (Scheme.ΓSpecIso A).hom
     ((f.appIso ⊤).hom ((f.appIso ⊤).inv ((Scheme.ΓSpecIso A).inv b))) = b
   rw [(f.appIso ⊤).inv_hom_id_apply]
   exact (Scheme.ΓSpecIso A).inv_hom_id_apply b
@@ -457,7 +457,7 @@ public lemma affineIdeal_fg {X : Scheme.{u}} (I : X.IdealSheafData) (U : X.affin
   have hR (b : A) : eRing.hom ((f.appIso ⊤).inv ((Scheme.ΓSpecIso A).inv b)) = b :=
     presheaf_map_appIso_inv_ΓSpecIso_inv hU hImage b
   have htop (b : A) (m' : Γ(M.restrict f, ⊤)) : eTop0 (b • m') = b • eTop0 m' := by
-    show eTopAb.hom (b • m') = b • eTopAb.hom m'
+    change eTopAb.hom (b • m') = b • eTopAb.hom m'
     rw [Scheme.Modules.smul_Spec_def]
     have hres : (Spec A).presheaf.map (⊤ : (Spec A).Opens).leTop.op = 𝟙 _ := rfl
     rw [hres]
@@ -522,7 +522,7 @@ public lemma canonicalMapToSections_sub_eval {X : Scheme.{u}}
     (complementUnitLift_spec I q V hV)
   have hres := congrArg ((F.presheaf.map (homOfLE hV).op).hom) hsec
   rw [hφ, hψ] at hres
-  show ((φ.val.app (op V)).hom - (ψ.val.app (op V)).hom) s = 0
+  change ((φ.val.app (op V)).hom - (ψ.val.app (op V)).hom) s = 0
   exact sub_eq_zero.mpr hres
 
 /-- A representative evaluating to zero on the unit lift over every open away from the support
@@ -592,9 +592,9 @@ public lemma exists_eventual_eq_of_canonicalMapToSections_eq {X : Scheme.{u}}
   have hγ := idealPowerHom_map_apply I (unitModule X) F (Nat.le_add_right q K)
   refine ⟨q + K, α ≫ homOfLE (Nat.le_add_right q K), β ≫ homOfLE (Nat.le_add_right q K), ?_⟩
   rw [Functor.map_comp, Functor.map_comp]
-  show D.map _ φq = D.map _ ψq
+  change D.map _ φq = D.map _ ψq
   rw [hγ, hγ]
-  show _ ≫ φq = _ ≫ ψq
+  change _ ≫ φq = _ ≫ ψq
   rw [← sub_eq_zero, ← Preadditive.comp_sub]
   exact hτ
 

@@ -114,7 +114,7 @@ public lemma δ_last_comp_subinterval_zero {m a : ℕ} (hm : 0 + (a + 1) ≤ m) 
   refine Fin.val_injective ?_
   have hx : (x : ℕ) ≤ a := x.is_le
   rw [subinterval_apply_val, δ_apply_val, subinterval_apply_val,
-    if_pos (show (x : ℕ) < (j : ℕ) by omega)]
+    ite_eq_left (show (x : ℕ) < (j : ℕ) by omega)]
 
 /-- The zeroth coface map of `⦋b + 1⦌` shortens a back face by one vertex, moving its starting
 vertex forward by one. -/
@@ -125,7 +125,7 @@ public lemma δ_zero_comp_subinterval {m a b : ℕ} (hm : a + (b + 1) ≤ m) (hm
   simp only [comp_toOrderHom, OrderHom.comp_coe, Function.comp_apply]
   refine Fin.val_injective ?_
   rw [subinterval_apply_val, δ_apply_val, subinterval_apply_val,
-    if_neg (show ¬ (x : ℕ) < (k : ℕ) by omega)]
+    ite_eq_right (show ¬ (x : ℕ) < (k : ℕ) by omega)]
   omega
 
 end SimplexCategory

@@ -119,10 +119,7 @@ theorem MonoidExtensionByNat.diagonalTensorCentralizerTrace_eq
       Representation.tprodAlgebra ρ σ γ z =
         (diagonalTensorEndomorphism ρH σH u v).1 z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero =>
-        exact (map_zero (Representation.tprodAlgebra ρ σ γ)).trans
-          (map_zero (diagonalTensorEndomorphism ρH σH u v).1).symm
+    induction z using TensorProduct.inductionOn with
     | tmul p m =>
         rw [(diagonalTensorEndomorphism ρH σH u v).2 p m,
           Representation.tprodAlgebra_apply_tmul, hu, hv]

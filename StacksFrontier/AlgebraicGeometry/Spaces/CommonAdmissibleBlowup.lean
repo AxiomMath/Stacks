@@ -204,7 +204,7 @@ theorem exists_isAdmissibleBlowup_isPullback_of_isOpenImmersion
       hKb.comp_iso φ⟩
     have heq : U.1.preimage V.1.ι = (U.1.preimage st.hom).preimage φ.inv.hom := by
       rw [← Subfunctor.preimage_comp, hφ]
-    show Disjoint (subspacePointSet B S hS _ (U.1.preimage V.1.ι))
+    change Disjoint (subspacePointSet B S hS _ (U.1.preimage V.1.ι))
       (subspacePointSet B S hS _ (K.1.preimage φ.inv.hom))
     rw [heq]
     exact disjoint_subspacePointSet_preimage φ.inv.hom hKdisj
@@ -351,7 +351,7 @@ theorem exists_isAdmissibleBlowup_isOpenImmersion_of_isOpenImmersion
     (hYqc : IsQuasiCompactSpace B S hS Y.1) (hYqs : IsAbsolutelyQuasiSeparated B S hS hZ Y.1)
     (hj₁ : IsOpenImmersion B S hS j₁.hom) (hj₂ : IsOpenImmersion B S hS j₂.hom)
     (hj : j₁ ≫ f₁ = j₂ ≫ f₂)
-    (hUft : IsFiniteType B S hS (j₁ ≫ f₁).hom) (hUsep : IsSeparated B S hS (j₁ ≫ f₁).hom)
+    (hUft : IsFiniteType B S hS (j₁ ≫ f₁).hom)
     (hX₁ft : IsFiniteType B S hS f₁.hom) (hX₁sep : IsSeparated B S hS f₁.hom)
     (hX₂ft : IsFiniteType B S hS f₂.hom) (hX₂sep : IsSeparated B S hS f₂.hom)
     (h07VR : ∀ {X' Y' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (g : X' ⟶ Y'),
@@ -419,17 +419,17 @@ theorem exists_isAdmissibleBlowup_isOpenImmersion_of_isOpenImmersion
   let p₁ : X₁₂ ⟶ X₁ := ObjectProperty.homMk (Zs.ι ≫ pullback.fst f₁.hom f₂.hom)
   let p₂ : X₁₂ ⟶ X₂ := ObjectProperty.homMk (Zs.ι ≫ pullback.snd f₁.hom f₂.hom)
   have hpw : p₁ ≫ f₁ = p₂ ≫ f₂ := ObjectProperty.hom_ext _ (by
-    show (Zs.ι ≫ pullback.fst f₁.hom f₂.hom) ≫ f₁.hom =
+    change (Zs.ι ≫ pullback.fst f₁.hom f₂.hom) ≫ f₁.hom =
       (Zs.ι ≫ pullback.snd f₁.hom f₂.hom) ≫ f₂.hom
     rw [Category.assoc, Category.assoc, pullback.condition])
   let sU : U ⟶ X₁₂ :=
     ObjectProperty.homMk (Subfunctor.lift s (range_le_schemeTheoreticImageSubfunctor B S hS s))
   have hsU₁ : sU ≫ p₁ = j₁ := ObjectProperty.hom_ext _ (by
-    show Subfunctor.lift s (range_le_schemeTheoreticImageSubfunctor B S hS s) ≫ Zs.ι ≫
+    change Subfunctor.lift s (range_le_schemeTheoreticImageSubfunctor B S hS s) ≫ Zs.ι ≫
       pullback.fst f₁.hom f₂.hom = j₁.hom
     rw [Subfunctor.lift_ι_assoc, hsdef, pullback.lift_fst])
   have hsU₂ : sU ≫ p₂ = j₂ := ObjectProperty.hom_ext _ (by
-    show Subfunctor.lift s (range_le_schemeTheoreticImageSubfunctor B S hS s) ≫ Zs.ι ≫
+    change Subfunctor.lift s (range_le_schemeTheoreticImageSubfunctor B S hS s) ≫ Zs.ι ≫
       pullback.snd f₁.hom f₂.hom = j₂.hom
     rw [Subfunctor.lift_ι_assoc, hsdef, pullback.lift_snd])
   -- The projections are separated and of finite type, and isomorphisms over `U` (Stacks 0CP3).
@@ -587,7 +587,7 @@ theorem exists_isAdmissibleBlowup_isOpenImmersion_of_isOpenImmersion
   have hUlift : IsPullbackDefined B S hS sU (sumClosedSubspaces B S hS X₁₂ K₁ K₂) := by
     refine isEffectiveCartierDivisor_of_isEmpty_points B S hS U _
       (isEmpty_points_preimage_of_disjoint_range B S hS sU.hom _ ?_)
-    show Disjoint _ (subspacePointSet B S hS X₁₂.1 (sumClosedSubspaces B S hS X₁₂ K₁ K₂).1)
+    change Disjoint _ (subspacePointSet B S hS X₁₂.1 (sumClosedSubspaces B S hS X₁₂ K₁ K₂).1)
     rw [subspacePointSet_sumClosedSubspaces]
     have hsub : Set.range (pointsMap B S hS U.1 sU.hom) ⊆
         subspacePointSet B S hS X₁₂.1 (Subfunctor.range sU.hom) := by
@@ -704,7 +704,7 @@ theorem exists_isAdmissibleBlowup_isOpenImmersion_of_isOpenImmersion
     refine isFiniteType_of_isElementaryDistinguishedSquare hZ hsqW g hYqc hYqs ?_ ?_
     · have heq : Uw.ι ≫ g.hom = ε.inv ≫ q₂.hom := by
         rw [← h₂]
-        show Uw.ι ≫ g.hom = ε.inv ≫ i₂.hom ≫ g.hom
+        change Uw.ι ≫ g.hom = ε.inv ≫ i₂.hom ≫ g.hom
         rw [hi₂ε, Category.assoc, Iso.inv_hom_id_assoc]
       rw [heq]
       exact isFiniteType_comp' B S hS _ _ X₂'.2 Y.2

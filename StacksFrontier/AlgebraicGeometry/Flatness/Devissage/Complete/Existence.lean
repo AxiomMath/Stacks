@@ -435,7 +435,7 @@ private theorem glue_of_transportedDevissage
   let stage : DevissageStage f F (f x) := DevissageStage.ofOneStepDevissageAt D r α hα
   let α'' := baseChangedAlpha stage D''.toOneStepDevissage hz hG
   have hβpt : (W.toBase ≫ V₀.toBase) (b A.point) = f x := by
-    show V₀.toBase (W.toBase (b A.point)) = f x
+    change V₀.toBase (W.toBase (b A.point)) = f x
     rw [hbpt, W.map_point, V₀.map_point]
   have hcomm' : (j ≫ pullback.fst h₁ W.toBase ≫ U₁.toBase) ≫ D.toOneStepDevissage.g =
       D''.toOneStepDevissage.g ≫ W.toBase ≫ V₀.toBase := by

@@ -45,6 +45,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {X Y : AlgebraicSpaces B S hS} (p : Y ⟶ X)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` for `HasPullbacks` of presheaves on the big fppf site times out at the default
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_properKernelPairCechDescent :
@@ -98,7 +99,7 @@ theorem cech_hom_ext {Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {n : ℕ}
   have h0 := congrArg (· ≫ p.hom) (h 0)
   have e := hom_cechProj_comp p (n := op ⦋n⦌) 0
   simp only [Category.assoc] at h0
-  show f ≫ (cechBase p (op ⦋n⦌)).hom = g ≫ (cechBase p (op ⦋n⦌)).hom
+  change f ≫ (cechBase p (op ⦋n⦌)).hom = g ≫ (cechBase p (op ⦋n⦌)).hom
   rwa [← e]
 
 /-- The transition of the Čech nerve along `θ` reindexes the components of a point by `θ`. -/
@@ -189,7 +190,7 @@ abbrev tr {n m : ℕ} (θ : ⦋m⦌ ⟶ ⦋n⦌) : E.term n ⟶ E.term m := (E.U
 /-- The transitions of `E` compose. -/
 theorem tr_comp {n m k : ℕ} (θ : ⦋m⦌ ⟶ ⦋n⦌) (θ' : ⦋k⦌ ⟶ ⦋m⦌) :
     E.tr θ ≫ E.tr θ' = E.tr (θ' ≫ θ) := by
-  show (E.U.map θ.op ≫ E.U.map θ'.op).hom = _
+  change (E.U.map θ.op ≫ E.U.map θ'.op).hom = _
   rw [← Functor.map_comp]
   rfl
 
@@ -309,7 +310,7 @@ theorem cechMove_left {Z : Over X.obj} (v : Z ⟶ (Over.map p.hom).obj E.obj₀)
 
 /-- The transition of `E` along an identity is the identity. -/
 theorem tr_id (n : ℕ) : E.tr (𝟙 ⦋n⦌) = 𝟙 _ := by
-  show (E.U.map (𝟙 (op ⦋n⦌))).hom = _
+  change (E.U.map (𝟙 (op ⦋n⦌))).hom = _
   rw [CategoryTheory.Functor.map_id]
   rfl
 
@@ -425,7 +426,7 @@ theorem cechDescentData_transport_move {Z : Over X.obj}
     (v : Z ⟶ (Over.map p.hom).obj E.obj₀) (y : Z ⟶ Over.mk p.hom) :
     E.cechDescentData.transport.move (i := PUnit.unit) (j := PUnit.unit) v y =
       E.cechMove v y := by
-  show prod.lift v y ≫ (E.cechTransport.gluing PUnit.unit PUnit.unit).hom.left ≫ prod.snd = _
+  change prod.lift v y ≫ (E.cechTransport.gluing PUnit.unit PUnit.unit).hom.left ≫ prod.snd = _
   rw [FamilyTransport.gluing_hom, prod.lift_snd, E.cechTransport.comp_move, prod.lift_fst,
     prod.lift_snd]
   rfl
@@ -513,7 +514,7 @@ theorem isPullback_bc_toY : IsPullback (bc r 0) E.toY r.toX.hom p.hom :=
     (Iso.refl _) (cechZeroIso p) (Iso.refl _) (by simp)
     (by simp only [Iso.refl_hom, Category.id_comp]; rfl) (by simp)
     (by
-      show (cechBase p (op ⦋0⦌)).hom ≫ 𝟙 _ = (cechProj p (n := op ⦋0⦌) 0).hom ≫ p.hom
+      change (cechBase p (op ⦋0⦌)).hom ≫ 𝟙 _ = (cechProj p (n := op ⦋0⦌) 0).hom ≫ p.hom
       rw [Category.comp_id]
       exact (hom_cechProj_comp p (n := op ⦋0⦌) 0).symm)
 
@@ -626,11 +627,11 @@ theorem tr_one_bc₀ :
   let Z : Over X.obj := Over.mk (E.proj 1 ≫ (cechBase p (op ⦋1⦌)).hom)
   let v : Z ⟶ (Over.map p.hom).obj E.obj₀ :=
     Over.homMk (E.tr (SimplexCategory.const ⦋0⦌ ⦋1⦌ 0)) (by
-      show E.tr _ ≫ E.toY ≫ p.hom = E.proj 1 ≫ _
+      change E.tr _ ≫ E.toY ≫ p.hom = E.proj 1 ≫ _
       rw [← Category.assoc, E.tr_toY, Category.assoc, hom_cechProj_comp])
   let y : Z ⟶ Over.mk p.hom :=
     Over.homMk (E.proj 1 ≫ (cechProj p (n := op ⦋1⦌) 1).hom) (by
-      show (E.proj 1 ≫ _) ≫ p.hom = E.proj 1 ≫ _
+      change (E.proj 1 ≫ _) ≫ p.hom = E.proj 1 ≫ _
       rw [Category.assoc, hom_cechProj_comp])
   have hlift : E.moveLift v y = 𝟙 _ :=
     (E.moveLift_eq_of_move v y (𝟙 _) (Category.id_comp _)
@@ -642,7 +643,7 @@ theorem tr_one_bc₀ :
   have hL : E.tr (SimplexCategory.const ⦋0⦌ ⦋1⦌ 1) ≫ E.bc₀ ψ =
       ((E.cechMove v y) ≫ (Over.map p.hom).map (ψ.inv.hom PUnit.unit)).left ≫
         pullback.fst V.obj.hom p.hom := by
-    show E.tr _ ≫ (E.ec ψ).inv ≫ _ =
+    change E.tr _ ≫ (E.ec ψ).inv ≫ _ =
       ((E.moveLift v y ≫ E.tr _) ≫ (ψ.inv.hom PUnit.unit).left) ≫ _
     rw [hlift, Category.id_comp]
     exact (Category.assoc _ _ _).symm
@@ -671,13 +672,13 @@ theorem isPullback_bc₀ :
     IsPullback (E.bc₀ ψ) (E.proj 0) V.obj.hom (cechBase p (op ⦋0⦌)).hom := by
   refine (IsPullback.of_hasPullback V.obj.hom p.hom).of_iso (E.ec ψ) (Iso.refl _)
     (cechZeroIso p).symm (Iso.refl _) ?_ ?_ (by simp) ?_
-  · show _ ≫ 𝟙 _ = (E.ec ψ).hom ≫ (E.ec ψ).inv ≫ _
+  · change _ ≫ 𝟙 _ = (E.ec ψ).hom ≫ (E.ec ψ).inv ≫ _
     rw [Category.comp_id, Iso.hom_inv_id_assoc]
-  · show pullback.snd _ _ ≫ (cechZeroSection p).hom = (E.ec ψ).hom ≫ E.proj 0
+  · change pullback.snd _ _ ≫ (cechZeroSection p).hom = (E.ec ψ).hom ≫ E.proj 0
     rw [← E.ec_hom_toY ψ, Category.assoc, Category.assoc]
     refine congrArg ((E.ec ψ).hom ≫ ·) ?_
     exact (congrArg (E.proj 0 ≫ ·) (cechZeroIso p).hom_inv_id).trans (Category.comp_id _)
-  · show p.hom ≫ 𝟙 _ = (cechZeroSection p).hom ≫ (cechBase p (op ⦋0⦌)).hom
+  · change p.hom ≫ 𝟙 _ = (cechZeroSection p).hom ≫ (cechBase p (op ⦋0⦌)).hom
     rw [Category.comp_id]
     exact (congrArg (fun k => k.hom) (cechZeroSection_cechBase p)).symm
 
@@ -777,7 +778,7 @@ theorem bc_comp_eq {f : r.U ⟶ s.U}
     (h₀ : bc r 0 ≫ f.hom = (α.app (op ⦋0⦌)).hom ≫ bc s 0) (n : SimplexCategoryᵒᵖ) :
     r.baseChange.app n ≫ f = α.app n ≫ s.baseChange.app n := by
   refine ObjectProperty.hom_ext _ ?_
-  show bc r n.unop.len ≫ f.hom = (α.app (op ⦋n.unop.len⦌)).hom ≫ bc s n.unop.len
+  change bc r n.unop.len ≫ f.hom = (α.app (op ⦋n.unop.len⦌)).hom ≫ bc s n.unop.len
   rw [← tr_bc r (SimplexCategory.const ⦋0⦌ ⦋n.unop.len⦌ 0),
     ← tr_bc s (SimplexCategory.const ⦋0⦌ ⦋n.unop.len⦌ 0), Category.assoc, h₀,
     ← Category.assoc, ← Category.assoc, app_tr]

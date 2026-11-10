@@ -322,12 +322,12 @@ theorem homEquiv_homRestrictComponent_of_counit_values (φ : A →+* B)
     ∀ (c₁ : Esc.functor.obj (Esc.inverse.obj (V.obj (HB.obj
             (Opposite.op (S.functor.obj (E.functor.obj N)), S.functor.obj W)))) ⟶
           V.obj (HB.obj (Opposite.op (S.functor.obj (E.functor.obj N)), S.functor.obj W)))
-    (c₂ : Esc.inverse.obj (Esc.functor.obj (U.obj W)) ⟶ U.obj W)
-    (hc₁ : (derivedScalarEquivalence.{u, max u v,
+    (c₂ : Esc.inverse.obj (Esc.functor.obj (U.obj W)) ⟶ U.obj W),
+    (derivedScalarEquivalence.{u, max u v,
           max u v + 1} A).symm.toAdjunction.counit.app
-        (V.obj (HB.obj (Opposite.op (S.functor.obj (E.functor.obj N)), S.functor.obj W))) = c₁)
-    (hc₂ : (derivedScalarEquivalence.{u, max u v, max u v + 1} A).toAdjunction.counit.app
-        (U.obj W) = c₂),
+        (V.obj (HB.obj (Opposite.op (S.functor.obj (E.functor.obj N)), S.functor.obj W))) = c₁ →
+    (derivedScalarEquivalence.{u, max u v, max u v + 1} A).toAdjunction.counit.app
+        (U.obj W) = c₂ →
     (derivedHomAdjunctionOverRing.{u, max u v, max u v + 1} A).homEquiv
         (U.obj ((derivedHomAdjunctionOverRing.{u, max u v, max u v + 1} B).hom.obj
           (Opposite.op (E.functor.obj N), W)))

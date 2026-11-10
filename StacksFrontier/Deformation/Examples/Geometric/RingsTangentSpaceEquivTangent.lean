@@ -97,7 +97,7 @@ section Criterion
 variable (𝓕 : BasedCategory.{v₁, u₁} (ArtinianLocalAlgCat.{u, w, w} Λ k))
   (h𝓕 : IsPredeformationCategory 𝓕.p)
   (hS2 : SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))
+    (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))
   (G : FGModuleCat.{w} k ⥤ ModuleCat.{u₂} k) [G.Additive] [G.Linear k]
 
 /-- The carrier of the value of the linear lift of Stacks 06IA is the value of the set-valued
@@ -176,12 +176,12 @@ public def tangentSpaceLinearEquivOfNaturalBijection
     (hbij : Function.Bijective (t (FGModuleCat.of k k))) :
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2⟩
     artinianTangentSpace Λ k (isomorphismClasses 𝓕 h𝓕.cofibered) ≃ₗ[k]
       G.obj (FGModuleCat.of k k) :=
   letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕⟩
   letI : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2⟩
+    (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2⟩
   (associatedTangentSpaceLiftEquiv 𝓕 h𝓕 hS2).symm.trans
     (LinearEquiv.ofBijective (IsLinearMap.mk' _ (isLinearMap_liftedFamily 𝓕 h𝓕 hS2 G t ht))
       (bijective_liftedFamily 𝓕 h𝓕 hS2 G t hbij))
@@ -197,12 +197,12 @@ public theorem tangentSpaceLinearEquivOfNaturalBijection_apply
     (y : (associatedTangentSpaceSetFunctor 𝓕 h𝓕.cofibered).obj (FGModuleCat.of k k)) :
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2⟩
     tangentSpaceLinearEquivOfNaturalBijection 𝓕 h𝓕 hS2 G t ht hbij y
       = t (FGModuleCat.of k k) y := by
   let : Fact (IsPredeformationCategory 𝓕.p) := ⟨h𝓕⟩
   let : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2⟩
+    (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2⟩
   have hsymm : (associatedTangentSpaceLiftEquiv 𝓕 h𝓕 hS2).symm y
       = cast (liftCarrierEq 𝓕 h𝓕 hS2 (FGModuleCat.of k k)).symm y :=
     (associatedTangentSpaceLiftEquiv 𝓕 h𝓕 hS2).symm_apply_eq.2
@@ -210,7 +210,7 @@ public theorem tangentSpaceLinearEquivOfNaturalBijection_apply
           (associatedTangentSpaceModuleStructure_carrierUnlifted 𝓕 h𝓕 hS2)
           (cast (liftCarrierEq 𝓕 h𝓕 hS2 (FGModuleCat.of k k)).symm y)).trans
         (cast_symm_cancel (liftCarrierEq 𝓕 h𝓕 hS2 (FGModuleCat.of k k)) y)).symm
-  show liftedFamily 𝓕 h𝓕 hS2 G t (FGModuleCat.of k k)
+  change liftedFamily 𝓕 h𝓕 hS2 G t (FGModuleCat.of k k)
     ((associatedTangentSpaceLiftEquiv 𝓕 h𝓕 hS2).symm y) = _
   rw [hsymm, liftedFamily, cast_symm_cancel]
 
@@ -240,7 +240,7 @@ variable (Λ : Type u) (k P : Type w) [CommRing Λ] [Field k] [Algebra Λ k] [Co
 space is exposed by. It comes from the deformation category being one of Stacks 0DY2, hence
 satisfying (RS). -/
 public theorem schlessingerConditionS2_ringDeformation :
-    SchlessingerConditionS2 (CategoryOfElements.π
+    SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (ringDeformationBasedCategory Λ k P)
         isCofiberedInGroupoids_ringDeformationProjection)) :=
   schlessingerConditionS2_of_isIsomorphismClasses (ringDeformationBasedCategory Λ k P)
@@ -285,7 +285,7 @@ declarations together cover the tag. -/
 public def ringDeformationTangentSpaceLinearEquivExtOne :
     letI : Fact (IsPredeformationCategory (ringDeformationBasedCategory Λ k P).p) :=
       ⟨(ringDeformationCategory_isDeformationCategory P).predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (ringDeformationBasedCategory Λ k P)
         isCofiberedInGroupoids_ringDeformationProjection))) :=
       ⟨schlessingerConditionS2_ringDeformation Λ k P⟩
@@ -295,7 +295,7 @@ public def ringDeformationTangentSpaceLinearEquivExtOne :
       ≃ₗ[k] naiveCotangentExtOne k P P :=
   letI : Fact (IsPredeformationCategory (ringDeformationBasedCategory Λ k P).p) :=
     ⟨(ringDeformationCategory_isDeformationCategory P).predeformation⟩
-  letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+  letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
     (isomorphismClasses (ringDeformationBasedCategory Λ k P)
       isCofiberedInGroupoids_ringDeformationProjection))) :=
     ⟨schlessingerConditionS2_ringDeformation Λ k P⟩
@@ -321,7 +321,7 @@ public theorem ringDeformationTangentSpaceLinearEquivExtOne_apply
       isCofiberedInGroupoids_ringDeformationProjection).obj (FGModuleCat.of k k)) :
     letI : Fact (IsPredeformationCategory (ringDeformationBasedCategory Λ k P).p) :=
       ⟨(ringDeformationCategory_isDeformationCategory P).predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses (ringDeformationBasedCategory Λ k P)
         isCofiberedInGroupoids_ringDeformationProjection))) :=
       ⟨schlessingerConditionS2_ringDeformation Λ k P⟩
@@ -330,7 +330,7 @@ public theorem ringDeformationTangentSpaceLinearEquivExtOne_apply
         (tangentExtClass (FGModuleCat.of k k) z) := by
   let : Fact (IsPredeformationCategory (ringDeformationBasedCategory Λ k P).p) :=
     ⟨(ringDeformationCategory_isDeformationCategory P).predeformation⟩
-  let : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+  let : Fact (SchlessingerConditionS2 (Functor.Elements.π
     (isomorphismClasses (ringDeformationBasedCategory Λ k P)
       isCofiberedInGroupoids_ringDeformationProjection))) :=
     ⟨schlessingerConditionS2_ringDeformation Λ k P⟩

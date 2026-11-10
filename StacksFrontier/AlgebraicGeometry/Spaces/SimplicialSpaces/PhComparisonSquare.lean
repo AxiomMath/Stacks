@@ -123,7 +123,7 @@ theorem phComparisonFunctor_map_ι_fiber_left (b : SimplexCategoryᵒᵖ)
       ((Pseudofunctor.CoGrothendieck.ι _ b).map k))).left = k.hom.hom.left := by
   refine (phComparisonFunctor_map_fiber_left
     ((Pseudofunctor.CoGrothendieck.ι (etaleSimplicialSite A).totalPseudofunctor b).map k)).trans ?_
-  show (k ≫ ((etaleSimplicialSite A).totalPseudofunctor.mapId ⟨op b⟩).inv.toNatTrans.app
+  change (k ≫ ((etaleSimplicialSite A).totalPseudofunctor.mapId ⟨op b⟩).inv.toNatTrans.app
     y).hom.hom.left ≫ comparison (𝟙 b.unop) y = _
   rw [totalPseudofunctor_mapId_inv_app]
   refine (congrArg₂ (fun s t => s ≫ t) (congrArg (fun t => k.hom.hom.left ≫ t)
@@ -136,7 +136,7 @@ theorem phComparisonFunctor_map_ι_fiber_left (b : SimplexCategoryᵒᵖ)
 theorem augmentationFunctor_map_left {x y : SpacesTotal A} (f : x ⟶ y) :
     ((SimplicialOver.augmentationFunctor A.left A.hom).map f).left =
       (Grothendieck.Hom.fiber f).left := by
-  show _ ≫ (Grothendieck.Hom.fiber f).left = _
+  change _ ≫ (Grothendieck.Hom.fiber f).left = _
   refine (congrArg (· ≫ (Grothendieck.Hom.fiber f).left) ?_).trans (Category.id_comp _)
   rw [eqToHom_app]
   exact (Over.eqToHom_left _).trans (eqToHom_refl _ _)
@@ -215,7 +215,7 @@ theorem phBase_hom_ext {n : SimplexCategory} {W : SpacesEtale B S hS A.right} {t
     (((spacesBaseChange B S hS (A.hom.app (op n))).isPullback W).hom_ext hl ?_)
   refine (Over.w (Grothendieck.Hom.fiber g)).trans (Eq.trans ?_
     (Over.w (Grothendieck.Hom.fiber g')).symm)
-  show (SpacesTotal.over t).hom ≫ A.left.map (Grothendieck.Hom.base g) =
+  change (SpacesTotal.over t).hom ≫ A.left.map (Grothendieck.Hom.base g) =
     (SpacesTotal.over t).hom ≫ A.left.map (Grothendieck.Hom.base g')
   rw [hb]
 
@@ -359,7 +359,7 @@ theorem phSections_existsUnique (G : (SpacesTotal A)ᵒᵖ ⥤ Type (u + 1))
     have key := phBaseLift_naturality φ.right.unop W f₁.hom.unop
     rw [show (SimplicialOver.augmentationFunctor A.left A.hom).map φ.right.unop ≫ f₁.hom.unop =
       f₂.hom.unop from congrArg Quiver.Hom.unop (StructuredArrow.w φ)] at key
-    show G.map φ.right (G.map (phBaseLift W f₁.hom.unop).op (x _)) =
+    change G.map φ.right (G.map (phBaseLift W f₁.hom.unop).op (x _)) =
       G.map (phBaseLift W f₂.hom.unop).op (x _)
     rw [← Functor.map_comp_apply, ← hx (Grothendieck.Hom.base φ.right.unop).unop,
       ← Functor.map_comp_apply]
@@ -414,7 +414,7 @@ theorem phSectionLeg_naturality (n : SimplexCategory) {G G' : (SpacesTotal A)ᵒ
     phSectionLeg A n G ≫ Functor.whiskerLeft (phBaseFunctor A n).op α := by
   let L := (SimplicialOver.augmentationFunctor A.left A.hom).op
   ext W s
-  show ((L.ranCounit.app G').app (op (phBaseObj A n W.unop)))
+  change ((L.ranCounit.app G').app (op (phBaseObj A n W.unop)))
       ((L.ran.obj G').map (phBaseProjection A n W.unop).op ((L.ran.map α).app _ s)) =
     α.app _ (((L.ranCounit.app G).app (op (phBaseObj A n W.unop)))
       ((L.ran.obj G).map (phBaseProjection A n W.unop).op s))

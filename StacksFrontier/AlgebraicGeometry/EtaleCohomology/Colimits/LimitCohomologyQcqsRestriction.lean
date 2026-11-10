@@ -30,7 +30,7 @@ attribute [local instance] isGrothendieckAbelian_sheaf_smallEtale_objectUniverse
 
 section Bot
 
-variable {J : Type u} [Preorder J] [OrderBot J] [IsDirected J (· ≤ ·)]
+variable {J : Type u} [Preorder J] [OrderBot J]
   {E : Jᵒᵖ ⥤ Scheme.{u}} {c : Cone E}
 
 /-- For morphisms `a : Y ⟶ X`, `b : Z ⟶ Y` and `ba = b ≫ a`, a class `ξ ∈ H^q(X, G)` restricts

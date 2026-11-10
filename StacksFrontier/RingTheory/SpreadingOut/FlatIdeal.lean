@@ -104,12 +104,12 @@ public theorem exists_ge_flat_of_isColimit_of_rTensor_subtype_injective
   have hsmulA : ∀ ⦃k l : Λ⦄ (h : k ⟶ l) (x : ↑(A.obj k)) (m : ↑(N.obj k)),
       N.map h (x • m) = A.map h x • N.map h m := by
     intro k l h x m
-    show N.map h ((φ.app k x) • m) = (φ.app l (A.map h x)) • N.map h m
+    change N.map h ((φ.app k x) • m) = (φ.app l (A.map h x)) • N.map h m
     rw [hsmul h ((φ.app k) x) m, hnat h x]
   have hνA : ∀ (k : Λ) (x : ↑(A.obj k)) (m : ↑(N.obj k)),
       (ν.app k (x • m) : M) = HSMul.hSMul (α := R) (β := M) (ρ.app k x) (ν.app k m) := by
     intro k x m
-    show (ν.app k ((φ.app k x) • m) : M) = _
+    change (ν.app k ((φ.app k x) • m) : M) = _
     rw [hν k ((φ.app k) x) m]
     have h2 : (σ.app k (φ.app k x) : S) = algebraMap R S (ρ.app k x) := by
       simpa using ConcreteCategory.congr_hom (hφ k) x

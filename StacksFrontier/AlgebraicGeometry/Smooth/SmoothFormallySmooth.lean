@@ -186,9 +186,9 @@ theorem exists_lift_of_isOpenCover {X S T T' : Scheme.{u}} (f : X ⟶ S) (i : T 
   refine ⟨(T'.openCoverOfIsOpenCover U hU).glueMorphisms b hcompat,
     Scheme.Cover.hom_ext (T'.openCoverOfIsOpenCover U hU) _ _ fun j => ?_, Scheme.Cover.hom_ext
       (T.openCoverOfIsOpenCover (fun j => i ⁻¹ᵁ U j) (i.iSup_preimage_eq_top hU)) _ _ fun j => ?_⟩
-  · show (U j).ι ≫ _ ≫ f = (U j).ι ≫ h
+  · change (U j).ι ≫ _ ≫ f = (U j).ι ≫ h
     rw [← Category.assoc, hι j, hbf j]
-  · show (i ⁻¹ᵁ U j).ι ≫ i ≫ _ = (i ⁻¹ᵁ U j).ι ≫ a
+  · change (i ⁻¹ᵁ U j).ι ≫ i ≫ _ = (i ⁻¹ᵁ U j).ι ≫ a
     rw [← Category.assoc, ← morphismRestrict_ι, Category.assoc, hι j, hba j]
 
 /-- **Lifts along a thickening exist when the lifting problem fits in a single pair of charts.**

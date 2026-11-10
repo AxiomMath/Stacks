@@ -122,7 +122,7 @@ theorem isCoordinateExpansion_ofLevels :
     simp only [w, tensorLevelProj, map_sub, map_sum, LinearMap.lTensor_tmul, hθ]
   have he := eval_eq_of_completedLevelProj_eq M₀ lev N r hsurj hker n hlev
   rw [AdicCompletion.eval_apply, AdicCompletion.eval_apply] at he
-  show AdicCompletion.eval _ _ n
+  change AdicCompletion.eval _ _ n
       (AdicCompletion.map _ (firstOrderDifferentialComm D Omega M₀) _) =
     AdicCompletion.eval _ _ n (AdicCompletion.map _ (firstOrderDifferentialComm D Omega M₀)
       (completedLevelComparisonFun M₀ lev trans N r hsurj hker hcomp

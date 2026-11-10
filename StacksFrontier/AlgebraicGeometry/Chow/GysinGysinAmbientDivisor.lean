@@ -83,7 +83,7 @@ theorem isRationallyEquivalentToZeroWithin_sub (C : ChowSituation.{u}) {X : Sche
   have hsum := isRationallyEquivalentToZeroWithin_add C p k hα hneg
   refine isRationallyEquivalentToZeroWithin_zsmul C p k hsum 1 fun x ↦ ?_
   rw [hγ x, one_mul]
-  show _ = α.1 x + -β.1 x
+  change _ = α.1 x + -β.1 x
   ring
 
 /-! ### A generator prescribed by the zero scheme -/
@@ -542,7 +542,7 @@ theorem isRationallyEquivalentToZeroWithin_properPushforward_chernCycleOfRestric
         ((integralComponentAt (j.base a)).support : Set X) := hpush
     refine (isRationallyEquivalentToZeroWithin_of_eq_neg C p k hpush2 fun x ↦ ?_).mono
       (Set.subset_inter subset_rfl hsubT)
-    show (_ : ℤ) - _ = -(_ - _)
+    change (_ : ℤ) - _ = -(_ - _)
     ring
   · obtain rfl := hmt h
     have hzA : Stacks.Divisors.zeroScheme A ((Scheme.Modules.pullback j).obj N)

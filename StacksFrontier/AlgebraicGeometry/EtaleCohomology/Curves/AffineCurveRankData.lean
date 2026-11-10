@@ -108,7 +108,7 @@ theorem picardEquivClass_divisorSchemePicardClass (D : X.IdealSheafData)
         (Stacks.Divisors.divisorSheaf D) (stacksIsInvertible_divisorSheaf D) :=
     (AddEquiv.symm_apply_eq _).2
       (Stacks.GluePicard.picardModelEquiv_classOf X.toRingedSpace _ _).symm
-  show picardToWeilDivisorClassGroup X
+  change picardToWeilDivisorClassGroup X
     ((Stacks.GluePicard.picardModelAddEquiv X.toRingedSpace).symm
       (divisorSchemePicardClass D)) = _
   rw [h1]
@@ -162,7 +162,7 @@ theorem picardEquivClass_pointClass {x : X} (hx : IsClosed ({x} : Set X))
         (Scheme.IdealSheafData.vanishingIdeal
           (TopologicalSpace.Closeds.closure ({x} : Set X))).support := by
       rw [← SetLike.mem_coe, Scheme.IdealSheafData.coe_support_vanishingIdeal]
-      show Z.genericPoint ∉ closure ({x} : Set X)
+      change Z.genericPoint ∉ closure ({x} : Set X)
       rwa [hx.closure_eq]
     have hst := IdealSheafData.stalk_eq_top_of_notMem_support _ hns
     have := ord_algebraMap_eq_of_span_eq_maximalIdeal_pow _
@@ -456,7 +456,8 @@ theorem wsum_apply_Zp (d : Fin (r' + 1) → ℤ) (i₀ : Fin (r' + 1)) :
   rw [wsum, sum_primeWeil_apply, Finset.sum_eq_single i₀]
   · simp [primeWeil_apply]
   · intro i _ hi
-    rw [primeWeil_apply, if_neg (fun e => hi (Zp_injective k fbar x hxinj h e).symm), mul_zero]
+    rw [primeWeil_apply, ite_eq_right (fun e => hi (Zp_injective k fbar x hxinj h e).symm),
+      mul_zero]
   · simp
 
 include hxS in
@@ -466,7 +467,7 @@ theorem wsum_apply_primeDivisorMap (d : Fin (r' + 1) → ℤ) (W : PrimeDivisor 
     (wsum k fbar x h d).1 (primeDivisorMap j W) = 0 := by
   rw [wsum, sum_primeWeil_apply]
   refine Finset.sum_eq_zero fun i _ => ?_
-  rw [primeWeil_apply, if_neg fun e => (notMem_range_primeDivisorMap_iff k fbar j x hxS h _).2
+  rw [primeWeil_apply, ite_eq_right fun e => (notMem_range_primeDivisorMap_iff k fbar j x hxS h _).2
     ⟨i, e.symm⟩ ⟨W, rfl⟩, mul_zero]
 
 /-- The isomorphism `Pic = Cl` sends `∑ dᵢ cᵢ` to the class of the divisor `∑ dᵢ [xᵢ]`. -/
@@ -482,7 +483,7 @@ omit [IsAlgClosed k] [Smooth fbar] [IsNoetherian Xbar] in
 theorem genericPoint_Zp (i : Fin (r' + 1)) : (Zp k fbar x h i).genericPoint = x i :=
   PrimeDivisor.genericPoint_ofCoheightOne _ _
 
-include hxinj hxS in
+include hxS in
 omit [IsAlgClosed k] [Smooth fbar] [IsNoetherian X] [IsNoetherian Xbar] [IsDominant j] in
 /-- Every prime divisor of `X̄` is a puncture or meets `X`. -/
 theorem primeDivisor_cases (Z : PrimeDivisor Xbar) :
@@ -499,7 +500,7 @@ theorem principalDivisor_unitFn (u : Additive Γ(X, ⊤)ˣ) :
       wsum k fbar x h (ordHom j x u) := by
   refine Subtype.ext (funext fun Z => ?_)
   rw [principalDivisor_toRat_apply]
-  rcases primeDivisor_cases k fbar j x hxinj hxS h Z with ⟨W, rfl⟩ | ⟨i, rfl⟩
+  rcases primeDivisor_cases k fbar j x hxS h Z with ⟨W, rfl⟩ | ⟨i, rfl⟩
   · rw [ord_unitFn_primeDivisorMap, wsum_apply_primeDivisorMap k fbar j x hxS h]
   · rw [wsum_apply_Zp k fbar x hxinj h, ordHom_apply, genericPoint_Zp]
 

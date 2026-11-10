@@ -30,8 +30,8 @@ Write `𝔪 = (x₁, …, x_r)` for a Koszul-regular generating family, which a 
   soon as `Γ(V, J) ⊗_A Kos(x)` is acyclic
   (`Stacks.DerivedTensor.isZero_derivedTensor_of_acyclic_tensor_kFlat_of_iso`);
 * `Γ(V, J) ⊗_A Kos(x)` is the image under global sections of `J ⊗_A Kos(x)`, the complex of
-  sheaves of modules built in `StacksFrontier/Algebra/Homology/KoszulConeTensor.lean`, whose terms are
-  again injective and which is bounded below;
+  sheaves of modules built in `StacksFrontier/Algebra/Homology/KoszulConeTensor.lean`, whose terms
+  are again injective and which is bounded below;
 * `J ⊗_A Kos(x)` is acyclic, because the standard opens of the `x_i` cover `V` — that is the
   emptiness of the closed fibre, in the form
   `Stacks.PuncturedSpectrum.iSup_basicOpen_baseHom_eq_top_puncturedSpectrum` — and on each of them
@@ -114,7 +114,7 @@ theorem sectionsOnOpen_map_smul_id (f : V ⟶ Spec (CommRingCat.of A)) (W : V.Op
   have hhom : (isTerminalTop.from (op W).unop).op = (homOfLE (le_top : W ≤ ⊤)).op :=
     congrArg Quiver.Hom.op (isTerminalTop.hom_ext _ _)
   ext y
-  show (a • 𝟙 M).val.app (op W) y = baseHomLE f W a • y
+  change (a • 𝟙 M).val.app (op W) y = baseHomLE f W a • y
   rw [Stacks.SheafOfModules.smul_val_app V.ringCatSheaf A ⊤ isTerminalTop
     (baseScalars A f) a (𝟙 M) (op W) y, hhom, baseScalars_eq_baseHom]
   rfl

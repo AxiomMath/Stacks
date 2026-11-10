@@ -138,7 +138,7 @@ theorem mem_overlap_iff (i j : I) (x : (piece G' Q hQ i).objects.left) :
   rintro hx ⟨y, hy, hyx⟩
   obtain ⟨r, hrt, hrs⟩ := (base_objectsToInvariantSpectrum_eq_iff (piece G' Q hQ i) y x).1 hyx
   apply hy
-  show (pieceIncl G' Q hQ i) y ∈ Q j
+  change (pieceIncl G' Q hQ i) y ∈ Q j
   rw [← hrt, ← piece_target_apply]
   apply hQ j
   rwa [piece_source_apply, hrs]
@@ -299,7 +299,7 @@ theorem range_transition_subset (i j : I) :
   obtain ⟨p, rfl⟩ := quotientRestrict_surjective (piece G' Q hQ i) (overlap G' Q hQ hQa i j) v
   rw [← Scheme.Hom.comp_apply, quotientRestrict_transition, Scheme.Hom.comp_apply]
   refine (mem_overlap_iff G' Q hQ hQa j i _).2 ?_
-  show (pieceIncl G' Q hQ j) (overlapIncl G' Q hQ hQa i j p) ∈ Q i
+  change (pieceIncl G' Q hQ j) (overlapIncl G' Q hQ hQa i j p) ∈ Q i
   rw [← Scheme.Hom.comp_apply, overlapIncl_ι, Scheme.Hom.comp_apply]
   exact (Scheme.Opens.range_ι (Q i)).le ⟨(overlapPreimage G' Q hQ hQa i j).ι p, rfl⟩
 
@@ -602,9 +602,9 @@ theorem range_pullbackFst_subset (i j : I) :
     Set.range (pullback.fst (pieceIncl G' Q hQ i) (pieceIncl G' Q hQ j)) ⊆
       (overlapPreimage G' Q hQ hQa i j : Set _) := by
   rintro _ ⟨z, rfl⟩
-  show _ ∈ quotientPreimage (piece G' Q hQ i) (overlap G' Q hQ hQa i j)
+  change _ ∈ quotientPreimage (piece G' Q hQ i) (overlap G' Q hQ hQa i j)
   rw [quotientPreimage_overlap G' Q hQ hQa i j]
-  show (pieceIncl G' Q hQ i) (pullback.fst (pieceIncl G' Q hQ i) (pieceIncl G' Q hQ j) z) ∈ Q j
+  change (pieceIncl G' Q hQ i) (pullback.fst (pieceIncl G' Q hQ i) (pieceIncl G' Q hQ j) z) ∈ Q j
   rw [← Scheme.Hom.comp_apply, pullback.condition, Scheme.Hom.comp_apply]
   exact (Scheme.Opens.range_ι (Q j)).le ⟨_, rfl⟩
 
@@ -661,7 +661,7 @@ theorem preimage_opensRange_gluedι (i : I) :
   have hmem : pieceQuot G' Q hQ j ⟨w, hj⟩ ∈
       (gluedι G' Q hQ hQa F hsource htarget hsrc j) ⁻¹ᵁ
         (gluedι G' Q hQ hQa F hsource htarget hsrc i).opensRange := by
-    show _ ∈ (gluedι G' Q hQ hQa F hsource htarget hsrc i).opensRange
+    change _ ∈ (gluedι G' Q hQ hQa F hsource htarget hsrc i).opensRange
     rwa [← gluedQuot_pieceIncl_apply G' Q hQ hQa F hsource htarget hsrc hcov j ⟨w, hj⟩]
   rw [preimage_opensRange_gluedι_gluedι] at hmem
   exact (mem_overlap_iff G' Q hQ hQa j i _).1 hmem
@@ -683,7 +683,7 @@ theorem isPullback_pieceIncl_gluedQuot (i : I) :
   rw [e]
   exact IsPullback.of_iso h (Iso.refl _) (Iso.refl _) ι.isoOpensRange.symm (Iso.refl _)
     (by simp) (by
-      show (g ≫ ι.isoOpensRange.hom) ≫ ι.isoOpensRange.inv = 𝟙 _ ≫ g
+      change (g ≫ ι.isoOpensRange.hom) ≫ ι.isoOpensRange.inv = 𝟙 _ ≫ g
       simp) (by simp) (by simp)
 
 /-- The chart `N_i ⟶ Y` followed by the structure morphism `Y ⟶ M` is `N_i ⟶ M`. -/
@@ -714,7 +714,7 @@ theorem source_comp_gluedQuot :
   obtain ⟨_, _, _, _⟩ := piece_instances G' Q hQ hQa i
   have hP := isPullback_restrictInvariantOpenHom_source G' (Q i) (hQ i)
   have hT := isPullback_restrictInvariantOpenHom_target G' (Q i) (hQ i)
-  show pullback.fst G'.source.left (pieceIncl G' Q hQ i) ≫ _ =
+  change pullback.fst G'.source.left (pieceIncl G' Q hQ i) ≫ _ =
     pullback.fst G'.source.left (pieceIncl G' Q hQ i) ≫ _
   rw [← hP.isoPullback_inv_fst, Category.assoc, Category.assoc]
   congr 1
@@ -733,7 +733,7 @@ theorem isPullback_gluedQuot :
     (glueData G' Q hQ hQa F hsource htarget hsrc).toGlueData.openCover fun (i : I) => ?_
   have hp := isPullback_pieceIncl_gluedQuot G' Q hQ hQa F hsource htarget hsrc hcov i
   have hpiece := (isPullback_piece G' Q hQ hQa F hsource htarget hsrc i).flip
-  show IsPullback
+  change IsPullback
     (pullback.snd (gluedQuot G' Q hQ hQa F hsource htarget hsrc hcov)
       (gluedι G' Q hQ hQa F hsource htarget hsrc i))
     (pullback.fst (gluedQuot G' Q hQ hQa F hsource htarget hsrc hcov)
@@ -754,7 +754,7 @@ include hQa in
 theorem etale_toBase : Etale (glueData G' Q hQ hQa F hsource htarget hsrc).toBase := by
   refine IsZariskiLocalAtSource.of_openCover
     (glueData G' Q hQ hQa F hsource htarget hsrc).toGlueData.openCover fun (i : I) => ?_
-  show Etale (gluedι G' Q hQ hQa F hsource htarget hsrc i ≫
+  change Etale (gluedι G' Q hQ hQa F hsource htarget hsrc i ≫
     (glueData G' Q hQ hQa F hsource htarget hsrc).toBase)
   rw [gluedι_toBase]
   exact etale_pieceProj G' Q hQ hQa F hsource htarget hsrc i

@@ -209,7 +209,7 @@ theorem chowGroupRestrict_eq_chowPushforwardOfIso :
   refine AddMonoidHom.ext fun α ↦ ?_
   induction α using QuotientAddGroup.induction_on with
   | H c =>
-    show chowGroupRestrict C sX sU j hj k (QuotientAddGroup.mk' _ c) = _
+    change chowGroupRestrict C sX sU j hj k (QuotientAddGroup.mk' _ c) = _
     rw [chowGroupRestrict_mk, cycleGroupRestrict_eq_properPushforward]
     rfl
 
@@ -342,7 +342,7 @@ theorem chowGroupClopenRestrictEquiv_apply (α : chowGroup C sX k) (i : I) :
       chowGroupRestrict C sX (s i) (m i) (hm i) k α := by
   induction α using QuotientAddGroup.induction_on with
   | H c =>
-    show chowPushforwardOfIso C ((m i).opensRange.ι ≫ sX) (s i) (m i).isoOpensRange.inv
+    change chowPushforwardOfIso C ((m i).opensRange.ι ≫ sX) (s i) (m i).isoOpensRange.inv
         (isoOpensRange_inv_comp_base C sX (s i) (m i) (hm i)) k
         (chowGroupClopenEquiv C sX h k
           (rationalEquivalenceDecomposes_of_isClopenDecomposition C sX h k)

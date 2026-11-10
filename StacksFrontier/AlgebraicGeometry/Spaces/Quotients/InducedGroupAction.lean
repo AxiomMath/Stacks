@@ -103,7 +103,7 @@ theorem exists_inducedAction_of_baseChangedPreRelation
     exact hφ
   have htoOriginal : toOriginal.left ≫ (snd G U).left =
       (snd G U').left ≫ q.left := by
-    show (lift (fst G U') (snd G U' ≫ q)).left ≫ (snd G U).left = _
+    change (lift (fst G U') (snd G U' ≫ q)).left ≫ (snd G U).left = _
     exact congrArg Over.Hom.left (lift_snd (fst G U') (snd G U' ≫ q))
   have htoOriginal' : toOriginal.left ≫ (snd G U).left =
       (snd G U').left ≫ pullback.snd f φ := by
@@ -134,9 +134,9 @@ theorem exists_inducedAction_of_baseChangedPreRelation
   let inducedSmul : G ⊗ U' ⟶ U' := Over.homMk
     (pullback.lift ((snd G U').left ≫ pullback.fst f φ)
       (toOriginal.left ≫ (γ[G, U]).left) hcompat) (by
-        show (pullback.lift _ _ _ ≫ pullback.snd f φ) ≫ U.hom = (G ⊗ U').hom
+        change (pullback.lift _ _ _ ≫ pullback.snd f φ) ≫ U.hom = (G ⊗ U').hom
         rw [pullback.lift_snd, Category.assoc, (γ[G, U]).w]
-        show toOriginal.left ≫ (G ⊗ U).hom = (G ⊗ U').hom
+        change toOriginal.left ≫ (G ⊗ U).hom = (G ⊗ U').hom
         exact toOriginal.w)
   have hinducedSmulLeft : inducedSmul.left =
       pullback.lift ((snd G U').left ≫ pullback.fst f φ)
@@ -152,20 +152,20 @@ theorem exists_inducedAction_of_baseChangedPreRelation
     exact pullback.lift_snd _ _ _
   have htoOriginalAction : toOriginal = G ◁ q := by
     apply CartesianMonoidalCategory.hom_ext
-    · show lift (fst G U') (snd G U' ≫ q) ≫ fst G U = (G ◁ q) ≫ fst G U
+    · change lift (fst G U') (snd G U' ≫ q) ≫ fst G U = (G ◁ q) ≫ fst G U
       rw [lift_fst, whiskerLeft_fst]
-    · show lift (fst G U') (snd G U' ≫ q) ≫ snd G U = (G ◁ q) ≫ snd G U
+    · change lift (fst G U') (snd G U' ≫ q) ≫ snd G U = (G ◁ q) ≫ snd G U
       rw [lift_snd, whiskerLeft_snd]
   have hInducedQ : inducedSmul ≫ q = G ◁ q ≫ γ[G,U] := by
     apply Over.OverMorphism.ext
-    show inducedSmul.left ≫ q.left = (G ◁ q).left ≫ (γ[G,U]).left
+    change inducedSmul.left ≫ q.left = (G ◁ q).left ≫ (γ[G,U]).left
     rw [hsmulSnd, htoOriginalAction]
   let action : ModObj G U' := {
     smul := inducedSmul
     one_smul := by
       apply Over.OverMorphism.ext
       apply pullback.hom_ext
-      · show ((η ▷ U').left ≫ inducedSmul.left) ≫ pullback.fst f φ =
+      · change ((η ▷ U').left ≫ inducedSmul.left) ≫ pullback.fst f φ =
           (λ_ U').hom.left ≫ pullback.fst f φ
         have hEtaSnd : (η ▷ U').left ≫ (snd G U').left =
             (snd (𝟙_ (Over Z)) U').left :=
@@ -181,7 +181,7 @@ theorem exists_inducedAction_of_baseChangedPreRelation
             congrArg (fun k => k ≫ pullback.fst f φ) hEtaSnd
           _ = (λ_ U').hom.left ≫ pullback.fst f φ :=
             congrArg (fun k => k ≫ pullback.fst f φ) hUnitSnd.symm
-      · show ((η ▷ U').left ≫ inducedSmul.left) ≫ pullback.snd f φ =
+      · change ((η ▷ U').left ≫ inducedSmul.left) ≫ pullback.snd f φ =
           (λ_ U').hom.left ≫ pullback.snd f φ
         rw [← hqLeft]
         have htoOriginalAction' : toOriginal.left = (G ◁ q).left :=
@@ -254,7 +254,7 @@ theorem exists_inducedAction_of_baseChangedPreRelation
                 hInducedQ.symm
       apply Over.OverMorphism.ext
       apply pullback.hom_ext
-      · show (μ ▷ U').left ≫ inducedSmul.left ≫ pullback.fst f φ =
+      · change (μ ▷ U').left ≫ inducedSmul.left ≫ pullback.fst f φ =
           ((α_ G G U').hom.left ≫ (G ◁ inducedSmul).left ≫ inducedSmul.left) ≫
             pullback.fst f φ
         have hm : (μ ▷ U').left ≫ (snd G U').left =
@@ -300,7 +300,7 @@ theorem exists_inducedAction_of_baseChangedPreRelation
                   hsmulFst.symm
           _ = _ := by cat_disch
       · rw [← hqLeft]
-        show ((μ[G] ▷ U') ≫ inducedSmul ≫ q).left =
+        change ((μ[G] ▷ U') ≫ inducedSmul ≫ q).left =
           ((α_ G G U').hom ≫ G ◁ inducedSmul ≫ inducedSmul ≫ q).left
         exact congrArg Over.Hom.left hMulQ
   }
@@ -326,7 +326,7 @@ theorem exists_inducedAction_of_baseChangedPreRelation
       toOriginal.left := pullback.lift_snd _ _ _
   let eHom : G ⊗ U' ⟶ R' := Over.homMk eMap (by
     dsimp only [R', baseChangedArrows]
-    show eMap ≫ (pullback.snd f (j.target.left ≫ φ) ≫ (G ⊗ U).hom) =
+    change eMap ≫ (pullback.snd f (j.target.left ≫ φ) ≫ (G ⊗ U).hom) =
       (G ⊗ U').hom
     calc
       _ = (eMap ≫ pullback.snd f (j.target.left ≫ φ)) ≫ (G ⊗ U).hom :=
@@ -348,7 +348,7 @@ theorem exists_inducedAction_of_baseChangedPreRelation
   have hInvObjFst : eInvObjMap ≫ pullback.fst f φ =
       pullback.fst f (j.target.left ≫ φ) := pullback.lift_fst _ _ _
   let eInvObj : R' ⟶ U' := Over.homMk eInvObjMap (by
-    show eInvObjMap ≫ (pullback.snd f φ ≫ U.hom) =
+    change eInvObjMap ≫ (pullback.snd f φ ≫ U.hom) =
       pullback.snd f (j.target.left ≫ φ) ≫ (G ⊗ U).hom
     calc
       eInvObjMap ≫ (pullback.snd f φ ≫ U.hom) =
@@ -364,7 +364,7 @@ theorem exists_inducedAction_of_baseChangedPreRelation
   let eInvGroupMap : R'.left ⟶ G.left :=
     pullback.snd f (j.target.left ≫ φ) ≫ (fst G U).left
   let eInvGroup : R' ⟶ G := Over.homMk eInvGroupMap (by
-    show pullback.snd f (j.target.left ≫ φ) ≫ (fst G U).left ≫ G.hom =
+    change pullback.snd f (j.target.left ≫ φ) ≫ (fst G U).left ≫ G.hom =
       pullback.snd f (j.target.left ≫ φ) ≫ (G ⊗ U).hom
     exact congrArg (fun k => pullback.snd f (j.target.left ≫ φ) ≫ k)
       (Over.w (fst G U)))
@@ -375,13 +375,13 @@ theorem exists_inducedAction_of_baseChangedPreRelation
         congrArg (fun k => k.left ≫ (fst G U).left) htoOriginalAction
       _ = (fst G U').left := congrArg Over.Hom.left (whiskerLeft_fst G q)
   have hEInvFst : eInv ≫ fst G U' = eInvGroup := by
-    show lift eInvGroup eInvObj ≫ fst G U' = eInvGroup
+    change lift eInvGroup eInvObj ≫ fst G U' = eInvGroup
     exact CartesianMonoidalCategory.lift_fst eInvGroup eInvObj
   have hEInvSnd : eInv ≫ snd G U' = eInvObj := by
-    show lift eInvGroup eInvObj ≫ snd G U' = eInvObj
+    change lift eInvGroup eInvObj ≫ snd G U' = eInvObj
     exact CartesianMonoidalCategory.lift_snd eInvGroup eInvObj
   have hEInvObjLeft : eInvObj.left = eInvObjMap := by
-    show (Over.homMk (X := Z) (U := R') (V := U') eInvObjMap _).left = eInvObjMap
+    change (Over.homMk (X := Z) (U := R') (V := U') eInvObjMap _).left = eInvObjMap
     exact Over.homMk_left _ _
   have hEInvSndLeft : eInv.left ≫ (snd G U').left = eInvObjMap := by
     have hh := congrArg Over.Hom.left hEInvSnd
@@ -390,8 +390,8 @@ theorem exists_inducedAction_of_baseChangedPreRelation
     exact hh'.trans hEInvObjLeft
   have hEHomInvGroup : eHom ≫ eInvGroup = fst G U' := by
     apply Over.OverMorphism.ext
-    show eMap ≫ eInvGroupMap = (fst G U').left
-    show eMap ≫ (pullback.snd f (j.target.left ≫ φ) ≫ (fst G U).left) =
+    change eMap ≫ eInvGroupMap = (fst G U').left
+    change eMap ≫ (pullback.snd f (j.target.left ≫ φ) ≫ (fst G U).left) =
       (fst G U').left
     calc
       _ = (eMap ≫ pullback.snd f (j.target.left ≫ φ)) ≫ (fst G U).left :=
@@ -405,14 +405,14 @@ theorem exists_inducedAction_of_baseChangedPreRelation
   have hEHomInvObj : eHom ≫ eInvObj = snd G U' := by
     apply Over.OverMorphism.ext
     apply pullback.hom_ext
-    · show eMap ≫ eInvObjMap ≫ pullback.fst f φ =
+    · change eMap ≫ eInvObjMap ≫ pullback.fst f φ =
         (snd G U').left ≫ pullback.fst f φ
       calc
         eMap ≫ (eInvObjMap ≫ pullback.fst f φ) =
             eMap ≫ pullback.fst f (j.target.left ≫ φ) :=
           congrArg (fun k => eMap ≫ k) hInvObjFst
         _ = (snd G U').left ≫ pullback.fst f φ := eMapFst
-    · show eMap ≫ eInvObjMap ≫ pullback.snd f φ =
+    · change eMap ≫ eInvObjMap ≫ pullback.snd f φ =
         (snd G U').left ≫ pullback.snd f φ
       rw [hInvObjSnd]
       exact hEMapSrc
@@ -429,7 +429,7 @@ theorem exists_inducedAction_of_baseChangedPreRelation
     rfl
   have hInvObjToArrow : eInvObj ≫ q = toArrow ≫ snd G U := by
     apply Over.OverMorphism.ext
-    show eInvObjMap ≫ q.left =
+    change eInvObjMap ≫ q.left =
       pullback.snd f (j.target.left ≫ φ) ≫ (snd G U).left
     calc
       _ = eInvObjMap ≫ pullback.snd f φ :=
@@ -455,7 +455,7 @@ theorem exists_inducedAction_of_baseChangedPreRelation
     have hh' : eInv.left ≫ toOriginal.left = toArrow.left := by
       simpa only [Over.comp_left] using hh
     have hToArrowLeft : toArrow.left = pullback.snd f (j.target.left ≫ φ) := by
-      show (Over.homMk (X := Z) (U := R') (V := G ⊗ U)
+      change (Over.homMk (X := Z) (U := R') (V := G ⊗ U)
         (pullback.snd f (j.target.left ≫ φ)) _).left = _
       exact Over.homMk_left _ _
     exact hh'.trans hToArrowLeft
@@ -469,7 +469,7 @@ theorem exists_inducedAction_of_baseChangedPreRelation
     inv_hom_id := by
       apply Over.OverMorphism.ext
       apply pullback.hom_ext
-      · show eInv.left ≫ eMap ≫ pullback.fst f (j.target.left ≫ φ) =
+      · change eInv.left ≫ eMap ≫ pullback.fst f (j.target.left ≫ φ) =
         pullback.fst f (j.target.left ≫ φ)
         rw [eMapFst]
         have hAssoc : eInv.left ≫ ((snd G U').left ≫ pullback.fst f φ) =
@@ -477,7 +477,7 @@ theorem exists_inducedAction_of_baseChangedPreRelation
           (Category.assoc _ _ _).symm
         rw [hAssoc, hEInvSndLeft]
         exact hInvObjFst
-      · show eInv.left ≫ eMap ≫ pullback.snd f (j.target.left ≫ φ) =
+      · change eInv.left ≫ eMap ≫ pullback.snd f (j.target.left ≫ φ) =
         pullback.snd f (j.target.left ≫ φ)
         rw [eMapSnd]
         exact hInvToOriginalLeft
@@ -486,17 +486,17 @@ theorem exists_inducedAction_of_baseChangedPreRelation
   refine ⟨?_, ?_⟩
   · exact hsmulFst
   · refine ⟨?_, ?_⟩
-    · show γ[G, U'] ≫ q = toOriginal ≫ γ[G, U]
+    · change γ[G, U'] ≫ q = toOriginal ≫ γ[G, U]
       rw [htoOriginalAction]
       exact hInducedQ
     · refine ⟨e, ?_, ?_⟩
-      · show eMap ≫ pullback.snd f (j.target.left ≫ φ) = toOriginal.left
+      · change eMap ≫ pullback.snd f (j.target.left ≫ φ) = toOriginal.left
         exact eMapSnd
       · refine ⟨?_, ?_⟩
-        · show eHom ≫ j'.source = snd G U'
+        · change eHom ≫ j'.source = snd G U'
           apply Over.OverMorphism.ext
           apply pullback.hom_ext
-          · show eMap ≫ j'.source.left ≫ pullback.fst f φ =
+          · change eMap ≫ j'.source.left ≫ pullback.fst f φ =
               (snd G U').left ≫ pullback.fst f φ
             calc
               (eMap ≫ j'.source.left) ≫ pullback.fst f φ =
@@ -507,14 +507,14 @@ theorem exists_inducedAction_of_baseChangedPreRelation
                   (baseChangedPreRelation
                     j φ f hφ).property.2.1
               _ = (snd G U').left ≫ pullback.fst f φ := eMapFst
-          · show eMap ≫ j'.source.left ≫ pullback.snd f φ =
+          · change eMap ≫ j'.source.left ≫ pullback.snd f φ =
               (snd G U').left ≫ pullback.snd f φ
             rw [(baseChangedPreRelation j φ f hφ).property.2.2]
             exact hEMapSrc
-        · show eHom ≫ j'.target = γ[G, U']
+        · change eHom ≫ j'.target = γ[G, U']
           apply Over.OverMorphism.ext
           apply pullback.hom_ext
-          · show eMap ≫ j'.target.left ≫ pullback.fst f φ =
+          · change eMap ≫ j'.target.left ≫ pullback.fst f φ =
               inducedSmul.left ≫ pullback.fst f φ
             calc
               (eMap ≫ j'.target.left) ≫ pullback.fst f φ =
@@ -526,7 +526,7 @@ theorem exists_inducedAction_of_baseChangedPreRelation
                     j φ f hφ).property.1.1
               _ = (snd G U').left ≫ pullback.fst f φ := eMapFst
               _ = inducedSmul.left ≫ pullback.fst f φ := hsmulFst.symm
-          · show eMap ≫ j'.target.left ≫ pullback.snd f φ =
+          · change eMap ≫ j'.target.left ≫ pullback.snd f φ =
               inducedSmul.left ≫ q.left
             calc
               (eMap ≫ j'.target.left) ≫ pullback.snd f φ =

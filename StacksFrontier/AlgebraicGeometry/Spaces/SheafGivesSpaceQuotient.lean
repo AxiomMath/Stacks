@@ -133,7 +133,7 @@ theorem isSheaf_agreeSubfunctor :
   have heq : G.obj.map (toPair V U ≫ pullback.fst _ _).op s =
       G.obj.map (toPair V U ≫ pullback.snd _ _).op s := by
     refine (hsh T hT).isSeparatedFor.ext (fun W g hg => ?_)
-    show G.obj.map ((pairPostcomp V).map g).op _ = G.obj.map ((pairPostcomp V).map g).op _
+    change G.obj.map ((pairPostcomp V).map g).op _ = G.obj.map ((pairPostcomp V).map g).op _
     rw [map_toPair_comp, map_toPair_comp]
     exact (x g hg).property
   exact ⟨⟨PUnit.unit, heq⟩, fun _ _ _ => Subtype.ext rfl, fun _ _ => Subtype.ext rfl⟩
@@ -174,7 +174,7 @@ noncomputable def liftIso {T : SpacesEtale B S hS Y} (z : T ⟶ pairObj V) :
 theorem liftIso_hom_toPair {T : SpacesEtale B S hS Y} (z : T ⟶ pairObj V) :
     (liftIso z).hom ≫ toPair V (liftObj z) = z :=
   ObjectProperty.hom_ext _ (Over.OverMorphism.ext (by
-    show 𝟙 _ ≫ z.hom.left = z.hom.left
+    change 𝟙 _ ≫ z.hom.left = z.hom.left
     exact Category.id_comp _))
 
 /-- The two pullbacks of `s` agree along `z : T ⟶ V ×_Y V` exactly when the underlying morphism
@@ -186,7 +186,7 @@ theorem map_eq_iff_factors {T : SpacesEtale B S hS Y} (z : T ⟶ pairObj V) :
       PUnit.unit ∈ (openSubspaceSheaf B S hS _ (agreeOpen s)).obj (op (liftObj z)) := by
     rw [agreeSubfunctor_eq]
   refine Iff.trans ?_ hmem
-  show _ ↔ G.obj.map (toPair V (liftObj z) ≫ pullback.fst _ _).op s =
+  change _ ↔ G.obj.map (toPair V (liftObj z) ≫ pullback.fst _ _).op s =
     G.obj.map (toPair V (liftObj z) ≫ pullback.snd _ _).op s
   have hz : ∀ c : pairObj V ⟶ V, G.obj.map (z ≫ c).op s =
       G.obj.map (liftIso z).hom.op (G.obj.map (toPair V (liftObj z) ≫ c).op s) := fun c => by
@@ -214,7 +214,7 @@ theorem map_eq_iff_exists_lift {T : SpacesEtale B S hS Y} (z : T ⟶ pairObj V) 
     have hw : (ObjectProperty.homMk g : T.1.left ⟶ (relObj s).1.left) ≫ (relObj s).1.hom =
         T.1.hom := by
       refine ObjectProperty.hom_ext _ ?_
-      show g ≫ (agreeOpen s).1.ι ≫ (pairObj V).1.hom.hom = T.1.hom.hom
+      change g ≫ (agreeOpen s).1.ι ≫ (pairObj V).1.hom.hom = T.1.hom.hom
       rw [← Category.assoc, hg]
       exact congrArg (fun k => k.hom) (Over.w z.hom)
     refine ⟨ObjectProperty.homMk (Over.homMk (ObjectProperty.homMk g) hw), ?_⟩
@@ -258,9 +258,9 @@ theorem isPullback_relObj :
       obtain ⟨r, hr⟩ := (map_eq_iff_exists_lift s z).1 (by
         simpa only [z, pullback.lift_fst, pullback.lift_snd] using hxy)
       refine ⟨r, ?_, ?_⟩
-      · show r ≫ relι s ≫ pullback.fst _ _ = x
+      · change r ≫ relι s ≫ pullback.fst _ _ = x
         rw [← Category.assoc, hr, pullback.lift_fst]
-      · show r ≫ relι s ≫ pullback.snd _ _ = y
+      · change r ≫ relι s ≫ pullback.snd _ _ = y
         rw [← Category.assoc, hr, pullback.lift_snd]
   exact IsPullback.of_map (sheafToPresheaf _ _) (Sheaf.hom_ext hpre.w) hpre
 

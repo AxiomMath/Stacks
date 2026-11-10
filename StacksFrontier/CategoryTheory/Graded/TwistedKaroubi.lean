@@ -230,7 +230,7 @@ def ofObj (X : C) : TwistedKaroubi R C where
 degree zero. -/
 theorem mem_homSubmodule_ofObj {X Y : C} {a : X ⟶ Y} :
     a ∈ homSubmodule (ofObj (R := R) X) (ofObj (R := R) Y) ↔ a ∈ grade (R := R) X Y 0 := by
-  show a ∈ grade (R := R) X Y (0 - 0) ∧ 𝟙 X ≫ a = a ∧ a ≫ 𝟙 Y = a ↔ _
+  change a ∈ grade (R := R) X Y (0 - 0) ∧ 𝟙 X ≫ a = a ∧ a ≫ 𝟙 Y = a ↔ _
   rw [sub_self, Category.id_comp, Category.comp_id]
   exact ⟨fun h => h.1, fun h => ⟨h, rfl, rfl⟩⟩
 

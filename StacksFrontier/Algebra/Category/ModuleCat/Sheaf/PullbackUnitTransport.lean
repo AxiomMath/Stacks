@@ -73,7 +73,7 @@ theorem transportSection_eq_pullbackUnit (M : SheafOfModules.{u} (structureRingS
       = pullbackUnit f M U (t.val U) := by
   have hφ : (M.unitHomEquiv.symm t).val.app U (1 : (structureSheafRing Y).obj.obj U) = t.val U :=
     congrArg (fun s : M.sections ↦ s.val U) (M.unitHomEquiv.apply_symm_apply t)
-  show ((pullbackFunctor f).map (M.unitHomEquiv.symm t)).val.app ((opensMap f).op.obj U)
+  change ((pullbackFunctor f).map (M.unitHomEquiv.symm t)).val.app ((opensMap f).op.obj U)
       ((pullbackUnitIso f).inv.val.app ((opensMap f).op.obj U)
         (1 : (structureSheafRing X).obj.obj ((opensMap f).op.obj U)))
     = pullbackUnit f M U (t.val U)

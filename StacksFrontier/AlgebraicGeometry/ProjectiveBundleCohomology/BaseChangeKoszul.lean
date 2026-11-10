@@ -199,7 +199,7 @@ public theorem koszulShiftIso_baseChange {p : ℕ} (hp : p + 1 ≤ n) (q : ℕ) 
     exact key ((Scheme.Modules.pullback (bundleBaseChange g E hqc E' hqc' hE)).mapIso
       (koszulTwistIso E hqc D p)) (koszulTwistIso E' hqc' D' p) _ _
       (koszulTwistIso_baseChange g E hqc E' hqc' hE D D' p)
-  show (Scheme.Modules.pullback g).map
+  change (Scheme.Modules.pullback g).map
       (((bundlePushforward E hqc).rightDerived q).map (koszulTwistIso E hqc D p).inv ≫
         (pushDelta _).δ (shortExact_koszulTwistSequence E hqc D p) q) ≫ _ =
     _ ≫ _ ≫ ((bundlePushforward E' hqc').rightDerived q).map (koszulTwistIso E' hqc' D' p).inv ≫
@@ -238,7 +238,7 @@ public theorem koszulChainIso_baseChange : ∀ (p : ℕ) (hp : p ≤ n),
   | p + 1, hp => by
     have ih := koszulChainIso_baseChange p (by omega)
     have hs := koszulShiftIso_baseChange g E hqc E' hqc' hE D D' hn hfree hfree' hp p
-    show (Scheme.Modules.pullback g).map ((koszulChainIso E hqc D hn hfree p (by omega)).hom ≫
+    change (Scheme.Modules.pullback g).map ((koszulChainIso E hqc D hn hfree p (by omega)).hom ≫
         (koszulShiftIso E hqc D hn hfree hp p).hom) ≫ _ =
       _ ≫ _ ≫ (koszulChainIso E' hqc' D' hn hfree' p (by omega)).hom ≫
         (koszulShiftIso E' hqc' D' hn hfree' hp p).hom

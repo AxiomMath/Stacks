@@ -429,9 +429,9 @@ private lemma branch_etale (k : Type*) [Field k] (d : Bool → ℕ)
     apply P.hom_ext
     change φ (ψ P.X) = P.X
     simp only [ψ, StandardEtalePair.lift_X]
-    rw [hφ, hg, if_pos rfl]
+    rw [hφ, hg, ite_eq_left rfl]
   have hψφ : ψ.comp φ = AlgHom.id A T := by
-    apply AlgHom.coe_ringHom_injective
+    apply AlgHom.toRingHom_injective
     apply IsLocalization.ringHom_ext (Submonoid.powers (branchCoord k i))
     apply Ideal.Quotient.ringHom_ext
     apply MvPolynomial.ringHom_ext
@@ -451,7 +451,7 @@ private lemma branch_etale (k : Type*) [Field k] (d : Bool → ℕ)
       · subst j
         simp [ψ]
       · have hj : j = !i := by cases j <;> cases i <;> simp_all
-        rw [if_neg hji, map_zero, hj]
+        rw [ite_eq_right hji, map_zero, hj]
         apply ((IsLocalization.Away.algebraMap_isUnit (branchCoord k i)).mul_left_cancel)
         rw [mul_zero, ← map_mul, branchCoord_mul_not]
         simp

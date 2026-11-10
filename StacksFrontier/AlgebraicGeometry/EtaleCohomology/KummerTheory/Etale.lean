@@ -181,7 +181,7 @@ private lemma kummerRootCoordinate_val_pow {T : Scheme.{u}}
     (kummerRootCoordinate (T := T) n hn : kummerRootAlgebra T n) ^ n =
       algebraMap (kummerLaurentRing T) (kummerRootAlgebra T n)
         (LaurentPolynomial.T 1) := by
-  show (((kummerPolynomial_root_isUnit (LaurentPolynomial.T 1) n hn
+  change (((kummerPolynomial_root_isUnit (LaurentPolynomial.T 1) n hn
       (LaurentPolynomial.isUnit_T 1)).unit : (kummerRootAlgebra T n)ˣ) :
         kummerRootAlgebra T n) ^ n = _
   rw [IsUnit.unit_spec, kummerPolynomial_root_pow]
@@ -191,7 +191,7 @@ private lemma kummerRootCoverMap_coordinate_pow {T : Scheme.{u}}
     Units.map (kummerRootCoverMap T n).appTop.hom.toMonoidHom
         (kummerLaurentCoordinate T) = kummerRootOnSpec (T := T) n hn ^ n := by
   apply Units.ext
-  show (kummerRootCoverMap T n).appTop.hom
+  change (kummerRootCoverMap T n).appTop.hom
       ((Scheme.ΓSpecIso (CommRingCat.of (kummerLaurentRing T))).inv
         (LaurentPolynomial.T 1)) =
     ((Scheme.ΓSpecIso (CommRingCat.of (kummerRootAlgebra T n))).inv.hom
@@ -206,7 +206,7 @@ private lemma kummerRootTargetMap_coordinate {T : Scheme.{u}}
     Units.map (kummerRootTargetMap f).appTop.hom.toMonoidHom
         (kummerLaurentCoordinate T) = f := by
   apply Units.ext
-  show (kummerRootTargetMap f).appTop.hom
+  change (kummerRootTargetMap f).appTop.hom
       ((Scheme.ΓSpecIso (CommRingCat.of (kummerLaurentRing T))).inv
         (LaurentPolynomial.T 1)) = (f : Γ(T, ⊤))
   have h := ΓSpec_adjunction_homEquiv_eq (kummerUnitMap T f)
@@ -236,7 +236,7 @@ private lemma kummerRootCoverMap_etale {T : Scheme.{u}}
     (n : ℕ) (hn : 0 < n) (hnunit : IsUnit (n : ↑(Scheme.Γ.obj (Opposite.op T)))) :
     Etale (kummerRootCoverMap T n) := by
   apply (HasRingHomProperty.Spec_iff (P := @Etale)).2
-  show (algebraMap (kummerLaurentRing T) (kummerRootAlgebra T n)).Etale
+  change (algebraMap (kummerLaurentRing T) (kummerRootAlgebra T n)).Etale
   exact RingHom.etale_algebraMap.mpr <|
     kummerPolynomial_algebra_etale (LaurentPolynomial.T 1 : kummerLaurentRing T)
       n hn (LaurentPolynomial.isUnit_T 1)
@@ -277,7 +277,7 @@ private lemma kummerRootPullbackUnit_pow {T : Scheme.{u}}
         (kummerRootTargetMap f)).appTop.hom.toMonoidHom
         (kummerRootOnSpec (T := T) n hn ^ n) := by
     apply Units.ext
-    show (Limits.pullback.fst (kummerRootCoverMap T n)
+    change (Limits.pullback.fst (kummerRootCoverMap T n)
         (kummerRootTargetMap f)).appTop.hom
         (Units.val (kummerRootOnSpec (T := T) n hn)) ^ n =
       (Limits.pullback.fst (kummerRootCoverMap T n)
@@ -303,7 +303,7 @@ private lemma kummerRootPullbackUnit_pow {T : Scheme.{u}}
         (Units.map (kummerRootTargetMap f).appTop.hom.toMonoidHom
           (kummerLaurentCoordinate T)) := by
     apply Units.ext
-    show (Limits.pullback.fst (kummerRootCoverMap T n)
+    change (Limits.pullback.fst (kummerRootCoverMap T n)
         (kummerRootTargetMap f)).appTop.hom
         ((kummerRootCoverMap T n).appTop.hom
           (Units.val (kummerLaurentCoordinate T))) =
@@ -336,7 +336,7 @@ private lemma kummerRootWitness_pow {T V : Scheme.{u}}
       Units.map q.appTop.hom.toMonoidHom
         (Units.map (kummerRootProjection f n).appTop.hom.toMonoidHom f) := by
     apply Units.ext
-    show (q ≫ kummerRootProjection f n).appTop.hom (f : Γ(T, ⊤)) =
+    change (q ≫ kummerRootProjection f n).appTop.hom (f : Γ(T, ⊤)) =
       q.appTop.hom ((kummerRootProjection f n).appTop.hom (f : Γ(T, ⊤)))
     rw [Scheme.Hom.comp_appTop]
     rfl
@@ -376,7 +376,7 @@ private lemma kummerRootProjection_etale {T : Scheme.{u}}
     (hnunit : IsUnit (n : ↑(Scheme.Γ.obj (Opposite.op T)))) :
     Etale (kummerRootProjection f n) := by
   have : Etale (kummerRootCoverMap T n) := kummerRootCoverMap_etale n hn hnunit
-  show Etale (Limits.pullback.snd (kummerRootCoverMap T n)
+  change Etale (Limits.pullback.snd (kummerRootCoverMap T n)
     (kummerRootTargetMap f))
   infer_instance
 
@@ -385,7 +385,7 @@ private lemma kummerRootProjection_surjective {T : Scheme.{u}}
     (f : (Scheme.Γ.obj (Opposite.op T))ˣ) (n : ℕ) (hn : 0 < n) :
     Surjective (kummerRootProjection f n) := by
   have : Surjective (kummerRootCoverMap T n) := kummerRootCoverMap_surjective n hn
-  show Surjective (Limits.pullback.snd (kummerRootCoverMap T n)
+  change Surjective (Limits.pullback.snd (kummerRootCoverMap T n)
     (kummerRootTargetMap f))
   infer_instance
 
@@ -424,7 +424,7 @@ private lemma imageSieve_powerPresheaf_mem_of_subsingleton {C : Type*} [Category
   intro V g _
   refine ⟨Additive.ofMul (1 : Γ(F.obj V, ⊤)ˣ), ?_⟩
   rw [hs]
-  show n • (Additive.ofMul (1 : Γ(F.obj V, ⊤)ˣ) : Additive (Γ(F.obj V, ⊤)ˣ)) =
+  change n • (Additive.ofMul (1 : Γ(F.obj V, ⊤)ˣ) : Additive (Γ(F.obj V, ⊤)ˣ)) =
     (unitsPresheaf F).map g.op (Additive.ofMul (1 : Γ(F.obj U, ⊤)ˣ))
   rw [← ofMul_pow, unitsPresheaf_map_additive]
   simp
@@ -477,7 +477,7 @@ private lemma bigEtale_power_isLocallySurjective
     f i := Over.homMk (𝒱.f i)
   }
   have hW : BigEtaleOver.IsCovering B S hS ⟨U, W⟩ := by
-    show B.IsCovering ⟨U.left, W.map (Over.forget (B.obj S hS))⟩
+    change B.IsCovering ⟨U.left, W.map (Over.forget (B.obj S hS))⟩
     simpa [W, PreZeroHypercover.map] using h𝒱
   exact ⟨W, Precoverage.generate_mem_toGrothendieck ⟨W, rfl, hW⟩, fun i => φ.h₀ i,
     fun i => φ.w₀ i⟩
@@ -495,7 +495,7 @@ private lemma smallEtale_power_isLocallySurjective
   let W : PreZeroHypercover U := {
     I₀ := 𝒱.I₀
     X i := ⟨Over.mk (𝒱.f i ≫ U.obj.hom), by
-      show Etale (B.inclusion.map (𝒱.f i ≫ U.obj.hom))
+      change Etale (B.inclusion.map (𝒱.f i ≫ U.obj.hom))
       rw [Functor.map_comp]
       have hcoverEtale :=
         (Scheme.presieve₀_mem_precoverage_iff (𝒱.map B.inclusion)).mp
@@ -506,7 +506,7 @@ private lemma smallEtale_power_isLocallySurjective
     f i := ObjectProperty.homMk (Over.homMk (𝒱.f i) rfl)
   }
   have hW : SmallEtale.IsCovering B S hS ⟨U, W⟩ := by
-    show B.IsCovering ⟨U.obj.left,
+    change B.IsCovering ⟨U.obj.left,
       (W.map (SmallEtale.inclusion B S hS)).map (BigEtaleOver.forget B S hS)⟩
     have hmap : (W.map (SmallEtale.inclusion B S hS)).map (BigEtaleOver.forget B S hS) = 𝒱 := by
       ext <;> rfl

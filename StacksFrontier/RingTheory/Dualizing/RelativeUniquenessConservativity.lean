@@ -170,10 +170,10 @@ lemma bijective_smul (J : Ideal B) (t : B) {W : DerivedCategory (ModuleCat.{u} B
   have hcok : ∀ j ∈ J ⊔ Ideal.span {t}, ∀ n : S₂.X₃, j • n = 0 := by
     refine kill _ (fun j hj n => ?_) (fun n => ?_)
     · obtain ⟨m, rfl⟩ := Submodule.mkQ_surjective _ n
-      show j • Submodule.Quotient.mk m = 0
+      change j • Submodule.Quotient.mk m = 0
       rw [← Submodule.Quotient.mk_smul, hM j hj m, Submodule.Quotient.mk_zero]
     · obtain ⟨m, rfl⟩ := Submodule.mkQ_surjective _ n
-      show t • Submodule.Quotient.mk m = 0
+      change t • Submodule.Quotient.mk m = 0
       rw [← Submodule.Quotient.mk_smul, Submodule.Quotient.mk_eq_zero]
       exact ⟨m, by simp [f]⟩
   let a := (F.map S₁.g)⟦q⟧'
@@ -214,13 +214,13 @@ lemma eq_zero_of_triangle_smul {W Z' S : DerivedCategory (ModuleCat.{u} B)} (c :
     rw [Functor.map_smul, CategoryTheory.Functor.map_id]
   have h3 : φ ≫ f₃ = 0 := by
     apply hb₁.1
-    show c • (φ ≫ f₃) = c • 0
+    change c • (φ ≫ f₃) = c • 0
     rw [smul_zero, ← Category.comp_id (φ ≫ f₃), ← Linear.comp_smul, ← hs, Category.assoc,
       h31, comp_zero]
   obtain ⟨g, rfl⟩ := Triangle.coyoneda_exact₃ _ hT φ h3
   obtain ⟨g', hg'⟩ := hb₀.2 g
   change c • g' = g at hg'
-  show g ≫ f₂ = 0
+  change g ≫ f₂ = 0
   rw [← hg', ← Category.comp_id g', ← Linear.comp_smul, Category.assoc, h12, comp_zero]
 
 /-- **The torsion step.** If `Q(X)` receives no maps from shifted modules killed by `J + (t)`,
@@ -354,7 +354,7 @@ lemma acyclic_of_acyclic_coneSeq (p : A →+* B) (Δ : B →+* A) (hΔ : Δ.comp
   have hY : ∀ t ∈ ts, t • 𝟙 Y = 0 := by
     intro t ht
     ext n x
-    show t • x = 0
+    change t • x = 0
     rw [ModuleCat.restrictScalars.smul_def, hts t ht, zero_smul]
     rfl
   obtain ⟨ι, ρ, hιρ⟩ := exists_coneSeq_retraction ts X Y hY r

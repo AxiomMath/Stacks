@@ -122,6 +122,7 @@ local instance (priority := high) hasPullback_presheaf_ProperClosedSubset
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is deep (see the docstring)
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_ProperClosedSubset :

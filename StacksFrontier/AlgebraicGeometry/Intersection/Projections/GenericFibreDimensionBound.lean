@@ -106,7 +106,7 @@ private lemma topologicalKrullDim_le_of_forall_irreducibleComponents_inter
   have hm : Topology.IsInducing
       (fun w : ↥W => (⟨((w : ↥F) : X), hWC ⟨(w : ↥F), w.2, rfl⟩, (w : ↥F).2⟩ : ↥(C ∩ F))) := by
     refine Topology.IsInducing.subtypeVal.of_comp_iff.mp ?_
-    show Topology.IsInducing ((Subtype.val : ↥F → X) ∘ (Subtype.val : ↥W → ↥F))
+    change Topology.IsInducing ((Subtype.val : ↥F → X) ∘ (Subtype.val : ↥W → ↥F))
     exact Topology.IsInducing.subtypeVal.comp Topology.IsInducing.subtypeVal
   exact hm.topologicalKrullDim_le
 
@@ -118,7 +118,7 @@ private lemma topologicalKrullDim_preimage_eq_range_inter {W X : Type*} [Topolog
   have hm : Topology.IsEmbedding
       (fun w : ↥(g ⁻¹' A) => (⟨g w, ⟨w, rfl⟩, w.2⟩ : ↥(Set.range g ∩ A))) := by
     refine Topology.IsEmbedding.subtypeVal.of_comp_iff.mp ?_
-    show Topology.IsEmbedding (g ∘ (Subtype.val : ↥(g ⁻¹' A) → W))
+    change Topology.IsEmbedding (g ∘ (Subtype.val : ↥(g ⁻¹' A) → W))
     exact hg.comp Topology.IsEmbedding.subtypeVal
   have hsurj : Function.Surjective
       (fun w : ↥(g ⁻¹' A) => (⟨g w, ⟨w, rfl⟩, w.2⟩ : ↥(Set.range g ∩ A))) := by

@@ -73,8 +73,8 @@ Everything is in the namespace `Crystalline.GlobalCrystallineSituation.SmallSite
 
 **[Stacks, Tag 07JG] as a whole is not proved here**: the functor of the tag, which carries
 `@[stacks 07JG]`, is `...SmallSite.crystalPairFunctor` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/CrystalPairFunctor07JG.lean`.  What is proved
-here is its **item (07JB) for the source category the tag itself goes out of**: the
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/CrystalPairFunctor07JG.lean`.  What is
+proved here is its **item (07JB) for the source category the tag itself goes out of**: the
 crystals in quasi-coherent `𝒪_{X/S}`-modules on `Cris(X/S)`.
 `isPAdicallyComplete_wholeSpaceLevelScalars_sections` quantifies over
 `...SmallSite.QuasiCoherentCrystal` and over nothing else — no reduction datum, no index type, no
@@ -89,8 +89,8 @@ datum of its own, so that a statement quantifying over one could be vacuous.  Th
 to statements that do quantify over such a bundle — and this one does not.  Item (07JB) is also
 registered, in its purely algebraic form about `Crystalline.invLimit`, by
 `Crystalline.isPAdicallyComplete_invLimit_of_shift` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/LevelLimitPAdicComplete.lean`; what this module adds to
-the covering set is the same item with a crystal, and not a module, for its subject.
+`StacksFrontier/AlgebraicGeometry/Crystalline/LevelLimitPAdicComplete.lean`; what this module adds
+to the covering set is the same item with a crystal, and not a module, for its subject.
 
 The other clauses of the tag are untouched: see the module documentation of
 `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/WholeSpaceLevelScalars.lean`.  In particular
@@ -305,7 +305,7 @@ theorem levelRingHom_pow_wholeSpaceLevelScalars_eq_zero (n e : ℕ) :
           (affineSituation S hp).p ^
         (_root_.Crystalline.uniformLevel (affineSituation S hp) + e) :=
     Ideal.pow_mem_pow (Ideal.mem_span_singleton_self _) _
-  show (envelopeLevelRingLimitEquiv hp n
+  change (envelopeLevelRingLimitEquiv hp n
     (((affineSituation S hp).p : ((wholeSpaceSystemEnvelope hp n).ring : Type u)) ^
       (_root_.Crystalline.uniformLevel (affineSituation S hp) + e))).val e = 0
   rw [envelopeLevelRingLimitEquiv_apply_coe, Ideal.Quotient.eq_zero_iff_mem.2 hmem, map_zero]

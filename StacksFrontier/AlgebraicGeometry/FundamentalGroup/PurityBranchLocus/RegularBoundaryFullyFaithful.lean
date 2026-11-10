@@ -124,7 +124,7 @@ theorem isConnectedPuncturedStrictHenselization_of_isRegularLocalRing (R : Type 
         (residue Rsh (algebraMap R Rsh x))
         = algebraMap Rsh (maximalIdeal Rsh).ResidueField (algebraMap R Rsh x) :=
       algebraMap_residueField_residue Rsh (algebraMap R Rsh x)
-    show (residueFieldEquivMaximalIdealResidueField Rsh).symm
+    change (residueFieldEquivMaximalIdealResidueField Rsh).symm
       (h.residueFieldEquiv (algebraMap (ResidueField R) κsep (residue R x)))
         = residue Rsh (algebraMap R Rsh x)
     rw [hbase, hcomp, Ideal.ResidueField.map_algebraMap, ← hlast,
@@ -134,7 +134,7 @@ theorem isConnectedPuncturedStrictHenselization_of_isRegularLocalRing (R : Type 
   have : IsLocalRing.IsHenselization R (ResidueField R) Rh :=
     IsLocalRing.IsHenselization.of_ind_etale hHen hInd
       ⟨RingEquiv.ofBijective (ResidueField.map (algebraMap R Rh)) hResBij, fun a ↦ by
-        show ResidueField.map (algebraMap R Rh) (residue R a) = _
+        change ResidueField.map (algebraMap R Rh) (residue R a) = _
         rw [ResidueField.map_residue]⟩
   have : IsRegularLocalRing Rsh :=
     (isRegularLocalRing_iff_henselizations R Rh Rsh κsep).2.1 inferInstance

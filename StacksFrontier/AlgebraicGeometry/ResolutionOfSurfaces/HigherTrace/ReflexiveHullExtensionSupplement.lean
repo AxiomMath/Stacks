@@ -191,7 +191,7 @@ theorem stalkSpecializesₗ_comp_formsStalkEquivₗ_symm (q : X ⟶ S) (n : ℕ)
   have := isScalarTower_stalkSpecializes_stalk (Scheme.Modules.exteriorPower
     (Scheme.Hom.relativeDifferentials q) (n : ℤ)) h
   refine exteriorPower.linearMap_ext (AlternatingMap.ext fun v ↦ ?_)
-  show stalkSpecializesₗ (Scheme.Modules.exteriorPower
+  change stalkSpecializesₗ (Scheme.Modules.exteriorPower
       (Scheme.Hom.relativeDifferentials q) (n : ℤ)) h
         ((formsStalkEquivₗ q n x).symm (exteriorPower.ιMulti _ n v)) =
     (formsStalkEquivₗ q n y).symm
@@ -210,7 +210,7 @@ theorem stalkSpecializesₗ_comp_formsStalkEquivₗ_symm (q : X ⟶ S) (n : ℕ)
       (Scheme.Modules.exteriorPowerStalkEquivₗ (Scheme.Hom.relativeDifferentials q) n x).symm
         (exteriorPower.ιMulti _ n fun i ↦
           (relativeDifferentialsStalkKaehlerEquivₗ q x).symm (v i)) := by
-    show (Scheme.Modules.exteriorPowerStalkEquivₗ (Scheme.Hom.relativeDifferentials q) n x).symm
+    change (Scheme.Modules.exteriorPowerStalkEquivₗ (Scheme.Hom.relativeDifferentials q) n x).symm
         ((extCongr n (relativeDifferentialsStalkKaehlerEquivₗ q x)).symm
           (exteriorPower.ιMulti _ n v)) = _
     rw [extCongr_symm_ιMulti]
@@ -252,7 +252,6 @@ identification of `AlgebraicGeometry.formsStalkEquivₗ`.**  For `y ⤳ x` the i
 carries the image of `(Ω^n_{X/S})_x` onto the image of `exteriorPower.mapTower n` of
 `KaehlerDifferential.map` of the square of local rings. -/
 theorem formsStalkEquivₗ_image_range_stalkSpecializes (q : X ⟶ S) (n : ℕ) {x y : X} (h : y ⤳ x)
-    [DecidableEq (OrderDual (TopologicalSpace.OpenNhds x))]
     [DecidableEq (OrderDual (TopologicalSpace.OpenNhds y))] :
     letI := stalkMapAlgebra q x
     letI := stalkMapAlgebra q y
@@ -271,6 +270,7 @@ theorem formsStalkEquivₗ_image_range_stalkSpecializes (q : X ⟶ S) (n : ℕ) 
         (KaehlerDifferential.map (ToType (S.presheaf.stalk (q.base x)))
           (ToType (S.presheaf.stalk (q.base y))) (ToType (X.presheaf.stalk x))
           (ToType (X.presheaf.stalk y)))) := by
+  classical
   let := stalkMapAlgebra q x
   let := stalkMapAlgebra q y
   let := baseStalkSpecializesBaseAlgebra q h
@@ -483,7 +483,7 @@ theorem genericPushforwardStalkEquiv_image_range_stalkSpecializes {X Y : Scheme.
       Stacks.Chow.stalkPushforwardComparison f G (genericPoint Y)
         (((Scheme.Modules.pushforward f).obj G).presheaf.stalkSpecializes
           (f.base.hom.map_specializes (genericPoint_specializes y)) s) := by
-    show Stacks.Chow.stalkPushforwardComparison f G (genericPoint Y)
+    change Stacks.Chow.stalkPushforwardComparison f G (genericPoint Y)
         (((Scheme.Modules.pushforward f).obj G).presheaf.stalkSpecializes
           (specializes_genericPoint_map f)
             (((Scheme.Modules.pushforward f).obj G).presheaf.stalkSpecializes h s)) = _
@@ -795,7 +795,7 @@ theorem higherTrace_mapsTo_range_stalkSpecializes {S X Y : Scheme.{u}} (q : X �
   have : IsScalarTower (ToType (S.presheaf.stalk (q.base (f.base y))))
       (ToType (X.presheaf.stalk (f.base y))) ↑Y.functionField :=
     IsScalarTower.of_algebraMap_eq fun w => by
-    show (Y.presheaf.stalkSpecializes hy).hom (((f ≫ q).stalkMap y).hom w) =
+    change (Y.presheaf.stalkSpecializes hy).hom (((f ≫ q).stalkMap y).hom w) =
       (Y.presheaf.stalkSpecializes hy).hom
         ((f.stalkMap y).hom ((q.stalkMap (f.base y)).hom w))
     exact congrArg (fun z => (Y.presheaf.stalkSpecializes hy).hom z)

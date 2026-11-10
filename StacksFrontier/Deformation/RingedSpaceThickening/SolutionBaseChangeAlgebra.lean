@@ -141,14 +141,14 @@ variable (V : (Opens S₁.carrier)ᵒᵖ)
 
 /-- The difference `s - h'^♯ a` is additive in the section `(a, s)`. -/
 theorem diff_add : diff V (z + w) = diff V z + diff V w := by
-  show (snd V z + snd V w) - hmap V (fst V z + fst V w) =
+  change (snd V z + snd V w) - hmap V (fst V z + fst V w) =
     (snd V z - hmap V (fst V z)) + (snd V w - hmap V (fst V w))
   rw [hmap, map_add]
   exact (sub_add_sub_comm _ _ _ _).symm
 
 /-- The difference of a product: `s s' - h'^♯(a a') = s (s' - h'^♯ a') + h'^♯ a' (s - h'^♯ a)`. -/
 theorem diff_mul : diff V (z * w) = snd V z * diff V w + hmap V (fst V w) * diff V z := by
-  show (snd V z * snd V w) - hmap V (fst V z * fst V w) =
+  change (snd V z * snd V w) - hmap V (fst V z * fst V w) =
     snd V z * (snd V w - hmap V (fst V w)) + hmap V (fst V w) * (snd V z - hmap V (fst V z))
   rw [hmap, hmap, hmap, map_mul]
   ring
@@ -156,13 +156,13 @@ theorem diff_mul : diff V (z * w) = snd V z * diff V w + hmap V (fst V w) * diff
 /-- The difference `s - h'^♯ a` vanishes at the unit section. -/
 theorem diff_one :
     diff V (1 : ↥((fibrePresheaf (sharp₁ t₂ h') (sharp₂ t₂ h')).obj V)) = 0 := by
-  show (1 : ↥(S₂.presheaf.obj (op ((Opens.map h'.hom.base).obj V.unop)))) - hmap V 1 = 0
+  change (1 : ↥(S₂.presheaf.obj (op ((Opens.map h'.hom.base).obj V.unop)))) - hmap V 1 = 0
   rw [hmap, map_one, sub_self]
 
 /-- The difference `s - h'^♯ a` vanishes at the zero section. -/
 theorem diff_zero :
     diff V (0 : ↥((fibrePresheaf (sharp₁ t₂ h') (sharp₂ t₂ h')).obj V)) = 0 := by
-  show (0 : ↥(S₂.presheaf.obj (op ((Opens.map h'.hom.base).obj V.unop)))) - hmap V 0 = 0
+  change (0 : ↥(S₂.presheaf.obj (op ((Opens.map h'.hom.base).obj V.unop)))) - hmap V 0 = 0
   rw [hmap, map_zero, sub_self]
 
 /-- The value `c₂(s - h'^♯ a)` is additive in the section `(a, s)`. -/
@@ -190,7 +190,7 @@ one. -/
 theorem comorphism_snd :
     ((f ≫ t₂).hom.c.app (op ((Opens.map h'.hom.base).obj V.unop))).hom (snd V z) =
       ((f ≫ (t₂ ≫ h')).hom.c.app V).hom (fst V z) := by
-  show (f.hom.c.app _).hom ((t₂.hom.c.app _).hom (snd V z)) =
+  change (f.hom.c.app _).hom ((t₂.hom.c.app _).hom (snd V z)) =
     (f.hom.c.app _).hom ((t₂.hom.c.app _).hom ((h'.hom.c.app V).hom (fst V z)))
   rw [fst_snd V z]
   rfl
@@ -239,7 +239,7 @@ theorem adj_mul (a b : ↥(S₁.presheaf.obj V)) : adj P V (a * b) = adj P V a *
 
 /-- The value `β(a) + c₂(s - h'^♯ a)` is additive in the section `(a, s)`. -/
 theorem value_add : value c₂ P hP V (z + w) = value c₂ P hP V z + value c₂ P hP V w := by
-  show adj P V (fst V z + fst V w) + P.idealIncl hP _ (diffValue c₂ V (z + w)) =
+  change adj P V (fst V z + fst V w) + P.idealIncl hP _ (diffValue c₂ V (z + w)) =
     (adj P V (fst V z) + P.idealIncl hP _ (diffValue c₂ V z)) +
       (adj P V (fst V w) + P.idealIncl hP _ (diffValue c₂ V w))
   rw [adj_add, diffValue_add, P.idealIncl_add hP]
@@ -265,7 +265,7 @@ theorem value_one :
 
 /-- The value `β(a) + c₂(s - h'^♯ a)` is multiplicative in the section `(a, s)`. -/
 theorem value_mul : value c₂ P hP V (z * w) = value c₂ P hP V z * value c₂ P hP V w := by
-  show adj P V (fst V z * fst V w) + P.idealIncl hP _ (diffValue c₂ V (z * w)) =
+  change adj P V (fst V z * fst V w) + P.idealIncl hP _ (diffValue c₂ V (z * w)) =
     (adj P V (fst V z) + P.idealIncl hP _ (diffValue c₂ V z)) *
       (adj P V (fst V w) + P.idealIncl hP _ (diffValue c₂ V w))
   rw [adj_mul, diffValue_mul, P.idealIncl_add hP, add_mul, mul_add, mul_add,
@@ -302,7 +302,7 @@ theorem hmap_map (a : ↥(S₁.presheaf.obj V)) :
 /-- The difference `s - h'^♯ a` commutes with restriction. -/
 theorem diff_map : diff W (((fibrePresheaf (sharp₁ t₂ h') (sharp₂ t₂ h')).map i).hom z) =
     (S₂.presheaf.map ((Opens.map h'.hom.base).op.map i)).hom (diff V z) := by
-  show snd W _ - hmap W (fst W _) = _
+  change snd W _ - hmap W (fst W _) = _
   rw [snd_map, fst_map, hmap_map, diff, map_sub]
 
 /-- The value `c₂(s - h'^♯ a)` commutes with restriction. -/
@@ -324,7 +324,7 @@ theorem value_map :
     value c₂ P hP W (((fibrePresheaf (sharp₁ t₂ h') (sharp₂ t₂ h')).map i).hom z) =
       (P.sheaf.obj.map ((Opens.map (f ≫ (t₂ ≫ h')).hom.base).op.map i)).hom
         (value c₂ P hP V z) := by
-  show adj P W (fst W _) + P.idealIncl hP _ (diffValue c₂ W _) = _
+  change adj P W (fst W _) + P.idealIncl hP _ (diffValue c₂ W _) = _
   rw [fst_map, adj_map, diffValue_map, P.idealIncl_map hP, value, map_add]
   rfl
 
@@ -388,7 +388,7 @@ theorem value_eq_zero (V : (Opens S₁.carrier)ᵒᵖ)
     have h := P.idealIncl_ideal hP _ ⟨adj P V (fst V z), P.adjointBase_mem_kernelIdeal V _ ha⟩
     rw [hcomp V (fst V z) ha] at h
     exact h.symm
-  show adj P V (fst V z) + P.idealIncl hP _ (diffValue c₂ V z) = 0
+  change adj P V (fst V z) + P.idealIncl hP _ (diffValue c₂ V z) = 0
   rw [hb, hv, ← P.idealIncl_add hP, add_sub_cancel, P.idealIncl_zero hP]
 
 end Kernel
@@ -540,7 +540,7 @@ theorem base₂_comp_reduction :
   refine (congrArg (· ≫ _) (fibreSnd_comp_descHom c₂ P hP hcomp ht₁)).trans ?_
   refine Sheaf.hom_ext (NatTrans.ext (funext fun V =>
     CommRingCat.hom_ext (RingHom.ext fun z => ?_)))
-  show (P.reduction.hom.app _).hom (adj P V (fst V z) + P.idealIncl hP _ (diffValue c₂ V z)) =
+  change (P.reduction.hom.app _).hom (adj P V (fst V z) + P.idealIncl hP _ (diffValue c₂ V z)) =
     ((f ≫ t₂).hom.c.app (op ((Opens.map h'.hom.base).obj V.unop))).hom (snd V z)
   rw [map_add, P.reduction_idealIncl hP, add_zero]
   exact (presentationScalar_adj P V (fst V z)).trans (comorphism_snd V z).symm
@@ -570,7 +570,7 @@ theorem opens_map_inv (ht₂ : IsThickening t₂) (ht₁ : IsThickening (t₂ �
     (op ((Opens.map h'.hom.base).obj ((Opens.map (inv h'.hom.base)).obj W.unop)) :
       (Opens S₂.carrier)ᵒᵖ) = W := by
   have := isIso_base ht₂ ht₁
-  show op ((Opens.map (h'.hom.base ≫ inv h'.hom.base)).obj W.unop) = W
+  change op ((Opens.map (h'.hom.base ≫ inv h'.hom.base)).obj W.unop) = W
   rw [IsIso.hom_inv_id]
   rfl
 
@@ -599,9 +599,9 @@ theorem extension_ideal_adjointBase (W : (Opens S₂.carrier)ᵒᵖ) (s : S₂.p
       (pushforward_map_adjointBase₂ c₂ P hP hcomp ht₂ ht₁)
     have k2 := congrArg (fun k => (k.hom.app V).hom z) (fibreSnd_comp_descHom c₂ P hP hcomp ht₁)
     refine k1.trans (k2.trans ?_)
-    show adj P V 0 + P.idealIncl hP _ (diffValue c₂ V z) = _
+    change adj P V 0 + P.idealIncl hP _ (diffValue c₂ V z) = _
     have hd : diff V z = s' := by
-      show s' - hmap V 0 = s'
+      change s' - hmap V 0 = s'
       rw [hmap, map_zero, sub_zero]
     rw [show adj P V 0 = 0 from map_zero _, zero_add]
     exact congrArg (P.idealIncl hP _) (prescribedIdealSection_congr c₂ _ hd _ _)
@@ -629,7 +629,7 @@ theorem extension_ideal_adjointBase (W : (Opens S₂.carrier)ᵒᵖ) (s : S₂.p
   have hmap2 := prescribedIdealSection_map c₂ e s hs hs'
   have hinj := (map_eqToHom_bijective G (congrArg (fun U : (Opens S₂.carrier)ᵒᵖ =>
     op ((Opens.map (f ≫ t₂).hom.base).obj U.unop)) eW.symm)).1
-  show P.ideal.app _ ⟨((extension c₂ P hP hcomp ht₂ ht₁).adjointBase.hom.app W).hom s, _⟩ = _
+  change P.ideal.app _ ⟨((extension c₂ P hP hcomp ht₂ ht₁).adjointBase.hom.app W).hom s, _⟩ = _
   rw [show (⟨((extension c₂ P hP hcomp ht₂ ht₁).adjointBase.hom.app W).hom s,
       (extension c₂ P hP hcomp ht₂ ht₁).adjointBase_mem_kernelIdeal W s hs⟩ :
         ↥(kernelIdeal P.reduction.hom (op ((Opens.map (f ≫ t₂).hom.base).obj W.unop)))) =

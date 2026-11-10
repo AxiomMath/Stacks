@@ -408,10 +408,10 @@ theorem isFiltered_index (hH : IsColimit cH) (hfp : IsCompactDiagram I G) :
       ⟨IsFiltered.coeqHom (IndexHom.φ p) (IndexHom.φ q) ≫ φ,
         IsFiltered.coeqHom (IndexHom.ψ p) (IndexHom.ψ q), h⟩, ?_⟩
     ext
-    · show IndexHom.φ p ≫ IsFiltered.coeqHom (IndexHom.φ p) (IndexHom.φ q) ≫ φ =
+    · change IndexHom.φ p ≫ IsFiltered.coeqHom (IndexHom.φ p) (IndexHom.φ q) ≫ φ =
         IndexHom.φ q ≫ IsFiltered.coeqHom (IndexHom.φ p) (IndexHom.φ q) ≫ φ
       rw [← Category.assoc, ← Category.assoc, IsFiltered.coeq_condition]
-    · show IndexHom.ψ p ≫ IsFiltered.coeqHom (IndexHom.ψ p) (IndexHom.ψ q) =
+    · change IndexHom.ψ p ≫ IsFiltered.coeqHom (IndexHom.ψ p) (IndexHom.ψ q) =
         IndexHom.ψ q ≫ IsFiltered.coeqHom (IndexHom.ψ p) (IndexHom.ψ q)
       rw [IsFiltered.coeq_condition]
 
@@ -428,7 +428,7 @@ theorem final_toTarget (hH : IsColimit cH) (hfp : IsCompactDiagram I G) :
   · obtain ⟨c, φ, α, hα, h, -⟩ := exists_representative hH hfp x x
       (IsFiltered.coeqHom s s') (IsFiltered.coeqHom s s') (𝟙 x.j) (𝟙 x.j)
     refine ⟨⟨c, _, α, hα⟩, ⟨IsFiltered.coeqHom s s' ≫ φ, 𝟙 x.j, h⟩, ?_⟩
-    show s ≫ IsFiltered.coeqHom s s' ≫ φ = s' ≫ IsFiltered.coeqHom s s' ≫ φ
+    change s ≫ IsFiltered.coeqHom s s' ≫ φ = s' ≫ IsFiltered.coeqHom s s' ≫ φ
     rw [← Category.assoc, ← Category.assoc, IsFiltered.coeq_condition]
 
 omit [HasZeroMorphisms E] [HasCokernels E] in
@@ -442,7 +442,7 @@ theorem final_toSource (hH : IsColimit cH) (hfp : IsCompactDiagram I G) :
   · obtain ⟨c, φ, α, hα, h, -⟩ := exists_representative hH hfp x x (𝟙 x.i) (𝟙 x.i)
       (IsFiltered.coeqHom s s') (IsFiltered.coeqHom s s')
     refine ⟨⟨c, _, α, hα⟩, ⟨𝟙 x.i ≫ φ, IsFiltered.coeqHom s s', h⟩, ?_⟩
-    show s ≫ IsFiltered.coeqHom s s' = s' ≫ IsFiltered.coeqHom s s'
+    change s ≫ IsFiltered.coeqHom s s' = s' ≫ IsFiltered.coeqHom s s'
     rw [IsFiltered.coeq_condition]
 
 omit [HasZeroMorphisms E] [HasCokernels E] [IsFiltered I] [IsFiltered J] in

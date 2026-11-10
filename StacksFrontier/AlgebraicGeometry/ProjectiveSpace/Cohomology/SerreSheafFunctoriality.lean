@@ -259,7 +259,7 @@ theorem coe_twistChartEmptyLinearEquiv_single {i : ℕ}
           MvPolynomial.homogeneousSubmodule (Fin (n + 1)) R (i : ℤ).toNat) :
             MvPolynomial (Fin (n + 1)) R) =
       MvPolynomial.monomial (laurentToNatExp (a : Fin (n + 1) → ℤ)) c := by
-  show ((AddMonoidAlgebra.supportedEquivFinsupp (R := R) (S := R)
+  change ((AddMonoidAlgebra.supportedEquivFinsupp (R := R) (S := R)
       {m : Fin (n + 1) →₀ ℕ | m.degree = (i : ℤ).toNat}).symm
         (Finsupp.domLCongr (laurentMonomialsEmptyEquiv n (Int.natCast_nonneg i))
           (Finsupp.supportedEquivFinsupp (R := R) (M := R)
@@ -267,7 +267,7 @@ theorem coe_twistChartEmptyLinearEquiv_single {i : ℕ}
             ((Finsupp.supportedEquivFinsupp (R := R) _).symm (Finsupp.single a c)))) :
         AddMonoidAlgebra R (Fin (n + 1) →₀ ℕ)) = _
   rw [LinearEquiv.apply_symm_apply, Finsupp.domLCongr_single]
-  show AddMonoidAlgebra.ofCoeff (((Finsupp.supportedEquivFinsupp (R := R) (M := R)
+  change AddMonoidAlgebra.ofCoeff (((Finsupp.supportedEquivFinsupp (R := R) (M := R)
       {m : Fin (n + 1) →₀ ℕ | m.degree = (i : ℤ).toNat}).symm
         (Finsupp.single (laurentMonomialsEmptyEquiv n (Int.natCast_nonneg i) a) c) :
           (Fin (n + 1) →₀ ℕ) →₀ R)) = _
@@ -288,7 +288,7 @@ theorem coe_twistChartEmptyLinearEquiv {i : ℕ}
         (Finsupp.supportedEquivFinsupp (R := R) _).symm.toLinearMap) := by
     refine Finsupp.lhom_ext fun a c => ?_
     refine (coe_twistChartEmptyLinearEquiv_single R n a c).trans ?_
-    show _ = polyOfLaurentLinear R n
+    change _ = polyOfLaurentLinear R n
       ((Finsupp.supportedEquivFinsupp (R := R) _).symm (Finsupp.single a c) :
         (Fin (n + 1) → ℤ) →₀ R)
     rw [Finsupp.supportedEquivFinsupp_symm_single, polyOfLaurentLinear_apply, polyOfLaurent,
@@ -357,7 +357,8 @@ theorem serreTwistCohomology_degreeZero_mul (N : ℕ) {m : ℕ} {d e : ℤ}
 contragredient of multiplication by `f`
 `(R[T₀, …, Tₙ])_{-n-1-(d+m)} ⟶ (R[T₀, …, Tₙ])_{-n-1-d}`. Here `n = N + 1` and `d` is any
 integer. -/
-@[stacks 01XV "multiplication by a homogeneous f on H^n is the contragredient, through Equation 01XU"]
+@[stacks 01XV "multiplication by a homogeneous f on H^n is the contragredient, \
+  through Equation 01XU"]
 theorem serreTwistCohomology_degreeTop_mul (N : ℕ) {m : ℕ} {d e : ℤ}
     (f : MvPolynomial (Fin (N + 1 + 1)) R) (hf : f.IsHomogeneous m) (hde : d + m = e) :
     (ModuleCat.restrictScalars.{u} (coeffScalar R (N + 1))).map

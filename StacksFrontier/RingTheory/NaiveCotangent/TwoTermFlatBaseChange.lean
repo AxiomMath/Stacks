@@ -42,7 +42,7 @@ bridge between the two is crossed once and for all in `NaiveCotangent.exact_base
 The compatibility squares are stated on elements rather than as identities of composites: the
 middle term of a composite through `NaiveCotangent.H₁` is the coercion of a submodule which is
 only definitionally the kernel of the differential, so `LinearMap.coe_comp` does not fire on it
-and a proof by `TensorProduct.induction_on` does not reduce the right-hand side.
+and a proof by `TensorProduct.inductionOn` does not reduce the right-hand side.
 
 ## References
 
@@ -131,8 +131,7 @@ noncomputable def ChainMap.baseChange (f : ChainMap A B) :
       = LinearMap.baseChange T f.f₀ ∘ₗ LinearMap.baseChange T A.d
     refine LinearMap.ext fun z => ?_
     simp only [LinearMap.coe_comp, Function.comp_apply]
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul t x =>
       simp only [LinearMap.baseChange_tmul]
       exact congrArg (fun y => t ⊗ₜ[S] y) (chainMap_comm_apply f x)
@@ -178,8 +177,7 @@ of a chain map with the base change of the map it induces on `H₁ = ker d`. -/
 theorem baseChange_f₁_baseChange_subtype (f : ChainMap A B) (w : T ⊗[S] (H₁ A)) :
     LinearMap.baseChange T f.f₁ (LinearMap.baseChange T (H₁ A).subtype w) =
       LinearMap.baseChange T (H₁ B).subtype (LinearMap.baseChange T f.onH₁ w) := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction w using TensorProduct.inductionOn with
   | tmul t x => simp only [LinearMap.baseChange_tmul]; rfl
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -189,10 +187,9 @@ theorem baseChange_mkQ_comp_baseChange_f₀ (f : ChainMap A B) :
     LinearMap.baseChange T (LinearMap.range B.d).mkQ ∘ₗ (f.baseChange T).f₀ =
       LinearMap.baseChange T f.onH₀ ∘ₗ LinearMap.baseChange T (LinearMap.range A.d).mkQ := by
   refine LinearMap.ext fun z => ?_
-  show LinearMap.baseChange T (LinearMap.range B.d).mkQ (LinearMap.baseChange T f.f₀ z) =
+  change LinearMap.baseChange T (LinearMap.range B.d).mkQ (LinearMap.baseChange T f.f₀ z) =
     LinearMap.baseChange T f.onH₀ (LinearMap.baseChange T (LinearMap.range A.d).mkQ z)
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul t x =>
     simp only [LinearMap.baseChange_tmul, Submodule.mkQ_apply]
     exact congrArg (fun y => t ⊗ₜ[S] y) (onH₀_mk f x).symm
@@ -233,7 +230,7 @@ theorem IsQuasiIso.baseChange [Module.Flat S T] {f : ChainMap A B} (hf : IsQuasi
       exact ⟨LinearMap.baseChange T (H₁ A).subtype w,
         SetLike.mem_coe.mpr (LinearMap.mem_range.mpr ⟨w, rfl⟩), hsq w⟩
   refine ⟨bijective_onH₁_of_bijOn _ ?_, ?_⟩
-  · show Set.BijOn (LinearMap.baseChange T f.f₁)
+  · change Set.BijOn (LinearMap.baseChange T f.f₁)
       (LinearMap.ker (LinearMap.baseChange T A.d) : Set (T ⊗[S] A.X₁))
       (LinearMap.ker (LinearMap.baseChange T B.d) : Set (T ⊗[S] B.X₁))
     rw [hkerA, hkerB]

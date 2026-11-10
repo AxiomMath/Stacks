@@ -120,7 +120,7 @@ theorem injectivityFunctor_isSheaf_fpqc (D : ModuleMapBaseChangeSituation.{u}) :
       p₂ p₁ (fun i ↦ (IsPullback.of_hasPullback (F.map (g i)) (F.map f)).flip)⟩
   let W (i : ι) : FlatOver D.S := ⟨Over.mk (p₂ i ≫ Y.obj.hom)⟩
   let a (i : ι) : W i ⟶ Y := ⟨Over.homMk (p₂ i), by
-    show Flat (p₂ i)
+    change Flat (p₂ i)
     dsimp [p₂]
     have hg : Flat (F.map (g i)) := (g i).property
     infer_instance⟩
@@ -130,7 +130,7 @@ theorem injectivityFunctor_isSheaf_fpqc (D : ModuleMapBaseChangeSituation.{u}) :
     have hf : F.map f ≫ X.obj.hom = Y.obj.hom := CostructuredArrow.w f.hom
     rw [← hg, ← hf]
     exact pullback.condition_assoc X.obj.hom), by
-    show Flat (p₁ i)
+    change Flat (p₁ i)
     dsimp [p₁]
     have hf : Flat (F.map f) := f.property
     infer_instance⟩

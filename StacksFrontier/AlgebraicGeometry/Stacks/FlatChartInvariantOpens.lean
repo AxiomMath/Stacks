@@ -65,7 +65,7 @@ theorem preimage_subspaceOfOpens_le {V W : BigFppfOver B S hS} (s t : V ⟶ W)
       (Space.subspaceOfOpens B S hS W Q).preimage (yoneda.map t) := by
   intro T r hr
   change r ≫ s ∈ (Space.subspaceOfOpens B S hS W Q).obj T at hr
-  show r ≫ t ∈ (Space.subspaceOfOpens B S hS W Q).obj T
+  change r ≫ t ∈ (Space.subspaceOfOpens B S hS W Q).obj T
   rw [comp_mem_subspaceOfOpens_iff] at hr ⊢
   exact fun y => hQ ▸ hr y
 
@@ -91,7 +91,7 @@ theorem exists_covering_subspaceOfOpens {W : BigFppfOver B S hS} {I : Type*}
       exact hi
   · rintro V k ⟨_, g, _, ⟨i⟩, rfl⟩
     refine ⟨i, ?_⟩
-    show (g ≫ BigFppfOver.openSubHom B S hS T (O i)) ≫ u ∈
+    change (g ≫ BigFppfOver.openSubHom B S hS T (O i)) ≫ u ∈
       (Space.subspaceOfOpens B S hS W (Q i)).obj (op V)
     rw [comp_mem_subspaceOfOpens_iff]
     intro y

@@ -70,7 +70,8 @@ module unitsContinuousGModule; the second is H^q(Gal(K^sep/K), M) = 0 for every 
 Galois module M and every q ≥ 2. Both are values of the derived-functor groups
 continuousGroupCohomology of Stacks 04JR. This is an assembly of the two theorems of this chapter
 that each prove one part in full: isZero_continuousGroupCohomology_units_of_forall_brauer, in
-StacksFrontier.AlgebraicGeometry.EtaleCohomology.GaloisCohomology.MultiplicativeGroupVanishingAllDegrees,
+StacksFrontier.AlgebraicGeometry.EtaleCohomology.GaloisCohomology.\
+MultiplicativeGroupVanishingAllDegrees,
 which takes the same Brauer hypothesis verbatim and gives every degree q ≥ 1; and
 isZero_continuousGroupCohomology_of_isAddTorsion, in
 StacksFrontier.AlgebraicGeometry.EtaleCohomology.GaloisCohomology.TorsionGaloisVanishing, which

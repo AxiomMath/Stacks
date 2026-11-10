@@ -30,8 +30,9 @@ followed by the second. Since both are transformations out of `RΓ(f⁻¹V, -)`,
 determined by their composites with the derived-functor units; those are the two degreewise
 routes, which `preimageSectionsOpenSubschemeIso_eq` identifies.
 
-`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/LerayRestrictSections.lean` is the template, one for one: a `…HomotopyIso` splitting the
-composite off the homotopy category, a `…Unit`, the `rightDerivedDesc`, and a `…_fac_app` with
+`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/LerayRestrictSections.lean` is the
+template, one for one: a `…HomotopyIso` splitting the composite off the homotopy category, a
+`…Unit`, the `rightDerivedDesc`, and a `…_fac_app` with
 its `…_fac_app_comp` form.
 
 ## Main definitions

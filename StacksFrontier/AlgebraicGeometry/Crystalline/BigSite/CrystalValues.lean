@@ -86,8 +86,7 @@ factor of the tensor product. -/
 theorem extensionSectionsMapAlong_smul (t : ringAlong g)
     (z : ringAlong g ⊗[crysSheafRing S A] M.val.obj (op A)) :
     extensionSectionsMapAlong M g (t • z) = t • extensionSectionsMapAlong M g z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul t' s =>
       rw [TensorProduct.smul_tmul', extensionSectionsMapAlong_tmul,
         extensionSectionsMapAlong_tmul, ringAlong_smul_sections, smul_smul]

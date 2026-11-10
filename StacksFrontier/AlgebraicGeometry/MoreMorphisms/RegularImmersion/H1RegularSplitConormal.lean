@@ -82,7 +82,7 @@ private theorem exists_comp_natIso_retraction {C D E : Type*} [Category C] [Cate
     (r : F.obj B ⟶ F.obj A) (hr : F.map f ≫ r = 𝟙 _) :
     ∃ r' : G.obj B ⟶ G.obj A, G.map f ≫ r' = 𝟙 _ := by
   refine ⟨α.inv.app B ≫ K.map r ≫ α.hom.app A, natIso_retraction α f (K.map r) ?_⟩
-  show K.map (F.map f) ≫ K.map r = 𝟙 _
+  change K.map (F.map f) ≫ K.map r = 𝟙 _
   rw [← K.map_comp, hr, K.map_id]
 
 /-- **A retraction of the slice restriction of a map gives one of its open-subscheme

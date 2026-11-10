@@ -172,7 +172,7 @@ private theorem torsionSheaf_forget_hom_ext
   intro V g hg
   obtain ⟨n, hn, hnx⟩ := hr V g hg
   obtain ⟨y, hy⟩ := exists_kernel_section_lift (n • 𝟙 F) (op V) (F.obj.map g.op x)
-    (by show n • F.obj.map g.op x = 0; exact hnx)
+    (by change n • F.obj.map g.op x = 0; exact hnx)
   have he := sheaf_hom_app_apply_congr (h n hn) (op V) y
   change a.hom.app (op V) ((kernel.ι (n • 𝟙 F)).hom.app (op V) y) =
     b.hom.app (op V) ((kernel.ι (n • 𝟙 F)).hom.app (op V) y) at he
@@ -210,7 +210,7 @@ theorem torsionSheafProperty_abelianInverseImage
         l ≫ j ≫ e.hom = f.inverseImage.map (V.map (kernel.ι (n • 𝟙 F))) := by
     let k := L.map (kernel.ι (n • 𝟙 F))
     have hk : k ≫ (n • 𝟙 M) = 0 := by
-      show L.map (kernel.ι (n • 𝟙 F)) ≫ (n • 𝟙 (L.obj F)) = 0
+      change L.map (kernel.ι (n • 𝟙 F)) ≫ (n • 𝟙 (L.obj F)) = 0
       rw [← L.map_id, ← L.map_nsmul, ← L.map_comp, kernel.condition, L.map_zero]
     have hk' (X : Cᵒᵖ) (x : (L.obj (kernel (n • 𝟙 F))).obj.obj X) :
         n • k.hom.app X x = 0 :=

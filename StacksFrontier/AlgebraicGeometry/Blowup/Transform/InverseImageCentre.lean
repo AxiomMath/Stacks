@@ -128,7 +128,7 @@ theorem isEffectiveCartierDivisor_comap_imageι_comp {Z T S : Scheme.{u}} (j : Z
       Stacks.Divisors.ideal_eq_quotient_of_chart D U hU (Ideal.span {t}) e he,
       Ideal.map_span, Set.image_singleton]
   have hpre : j.toImage ⁻¹ᵁ W.1 = j ⁻¹ᵁ V := by
-    show j.toImage ⁻¹ᵁ (j.imageι ⁻¹ᵁ V) = _
+    change j.toImage ⁻¹ᵁ (j.imageι ⁻¹ᵁ V) = _
     rw [← Scheme.Hom.comp_preimage, Scheme.Hom.toImage_imageι]
   let VZ : Z.affineOpens := ⟨j.toImage ⁻¹ᵁ W.1, by rw [hpre]; exact hV.preimage j⟩
   have hunit : IsUnit ((j.toImage.app W).hom a) := by
@@ -172,7 +172,7 @@ theorem isCartierOver_strictTransform :
     (Stacks.StrictTransform.exceptionalComplement f (blowUpToBase ℐ) (exceptionalIdeal ℐ)).ι
     (pullback.snd f (blowUpToBase ℐ)) (exceptionalIdeal ℐ)
     (Stacks.Blowup.isEffectiveCartierDivisor_exceptionalIdeal ℐ) (fun z ↦ z.property)
-  show Stacks.Divisors.IsEffectiveCartierDivisor
+  change Stacks.Divisors.IsEffectiveCartierDivisor
     ((ℐ.comap f).comap ((Stacks.StrictTransform.ideal f (blowUpToBase ℐ)
       (exceptionalIdeal ℐ)).subschemeι ≫ pullback.fst f (blowUpToBase ℐ)))
   rw [Stacks.StrictTransform.ideal_eq_ker_ι]
@@ -222,7 +222,7 @@ theorem ideal_strictTransform_le_ker_blowUpComapToBaseChange :
       (Stacks.Divisors.isSchemeTheoreticallyDense_compl_of_isEffectiveCartierDivisor _ hD)
   have hGsnd : G ≫ pullback.snd f (blowUpToBase ℐ) =
       blowUpLift ℐ (blowUpToBase (ℐ.comap f) ≫ f) (by
-        show Stacks.Divisors.IsEffectiveCartierDivisor
+        change Stacks.Divisors.IsEffectiveCartierDivisor
           (ℐ.comap (blowUpToBase (ℐ.comap f) ≫ f))
         rw [Scheme.IdealSheafData.comap_comp]
         exact Stacks.Blowup.isEffectiveCartierDivisor_exceptionalIdeal (ℐ.comap f)) :=
@@ -362,12 +362,12 @@ lemma exceptionalPreimage_eq_preimage_support_comap :
   have hPull : ((ℐ.comap f).support : Set X) = f.base ⁻¹' (ℐ.support : Set S) := by
     rw [Scheme.IdealSheafData.support_comap]; rfl
   ext y
-  show (pullback.snd f (blowUpToBase ℐ)) y ∈ ((exceptionalIdeal ℐ).support : Set (blowUp ℐ)) ↔
+  change (pullback.snd f (blowUpToBase ℐ)) y ∈ ((exceptionalIdeal ℐ).support : Set (blowUp ℐ)) ↔
     (pullback.fst f (blowUpToBase ℐ)) y ∈ ((ℐ.comap f).support : Set X)
   rw [hExc, hPull]
   have hy := congrArg (fun k : baseChange f (blowUpToBase ℐ) ⟶ S => k y)
     (pullback.condition (f := f) (g := blowUpToBase ℐ))
-  show (pullback.snd f (blowUpToBase ℐ) ≫ blowUpToBase ℐ) y ∈ (ℐ.support : Set S) ↔
+  change (pullback.snd f (blowUpToBase ℐ) ≫ blowUpToBase ℐ) y ∈ (ℐ.support : Set S) ↔
     (pullback.fst f (blowUpToBase ℐ) ≫ f) y ∈ (ℐ.support : Set S)
   exact ⟨fun h => hy.symm ▸ h, fun h => hy ▸ h⟩
 
@@ -383,7 +383,7 @@ lemma preimage_exceptionalPreimage_strictTransformBlowUpι :
   ext z
   have hz := congrArg (fun k : baseChange (𝟙 X) (blowUpToBase (ℐ.comap f)) ⟶ X => k z)
     (strictTransformBlowUpι_fst f ℐ)
-  show (strictTransformBlowUpι f ℐ ≫ pullback.fst f (blowUpToBase ℐ)) z ∈
+  change (strictTransformBlowUpι f ℐ ≫ pullback.fst f (blowUpToBase ℐ)) z ∈
       ((ℐ.comap f).support : Set X) ↔
     (pullback.fst (𝟙 X) (blowUpToBase (ℐ.comap f))) z ∈ ((ℐ.comap f).support : Set X)
   exact Iff.of_eq (congrArg (fun x => x ∈ ((ℐ.comap f).support : Set X)) hz)
@@ -394,7 +394,7 @@ lemma preimage_exceptionalComplement_strictTransformBlowUpι :
         exceptionalComplement f (blowUpToBase ℐ) (exceptionalIdeal ℐ) =
       exceptionalComplement (𝟙 X) (blowUpToBase (ℐ.comap f)) (exceptionalIdeal (ℐ.comap f)) := by
   apply TopologicalSpace.Opens.ext
-  show (strictTransformBlowUpι f ℐ).base ⁻¹'
+  change (strictTransformBlowUpι f ℐ).base ⁻¹'
       (exceptionalComplement f (blowUpToBase ℐ) (exceptionalIdeal ℐ) :
         Set (baseChange f (blowUpToBase ℐ))) = _
   rw [← compl_compl (exceptionalComplement f (blowUpToBase ℐ) (exceptionalIdeal ℐ) :

@@ -179,7 +179,7 @@ private theorem isOpenImmersion_ι_comp_finiteOpenAmbientMap
       (p.subspace.ι ≫ finiteOpenAmbientMap B S hS p.toBase j f' f hj) := by
   let Q := MorphismProperty.inverseImage (@AlgebraicGeometry.IsOpenImmersion.{u} :
     MorphismProperty Scheme.{u}) (AlgebraicGeometry.BigFppfOver.toScheme B S hS)
-  show Q.presheaf _
+  change Q.presheaf _
   exact MorphismProperty.comp_mem Q.presheaf _ _ p.isOpen.2
     (finiteOpenAmbientMap_isOpenImmersion B S hS p.toBase j f' f hj hjOpen)
 

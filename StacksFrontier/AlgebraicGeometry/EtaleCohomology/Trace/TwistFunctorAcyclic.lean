@@ -166,10 +166,12 @@ def twistFunctorCoinductionIso (X : Scheme.{u}) :
       (groupRingCoinduction.{u + 1} k₀ G ⋙ twistFunctor k₀ G Λ E ρ)) ≪≫
     sheafComposeIsoOfIso (sourceHomCoinductionIso k₀ G Λ (TwistDual k₀ G Λ E ρ))
 
+omit [Fintype G] in
 /-- **A sheaf coinduced from a flat sheaf of `k₀`-modules is acyclic for the twist functor.** -/
-theorem rightAcyclic_twistFunctor_coinduction {X : Scheme.{u}}
+theorem rightAcyclic_twistFunctor_coinduction [Finite G] {X : Scheme.{u}}
     (J : EtaleModules.{u, 0} k₀ X) (hJ : PowExact ℓ M J) :
     (Ψ X).rightAcyclic ((etaleModuleCoinduction k₀ G X).obj J) := by
+  have := Fintype.ofFinite G
   have hFG : ∀ I : EtaleModules.{u, 0} k₀ X, Injective I →
       (Ψ X).rightAcyclic ((etaleModuleCoinduction k₀ G X).obj I) := fun I hI =>
     have := (etaleModuleCoinduction k₀ G X).injective_obj_of_injective hI
@@ -183,10 +185,13 @@ theorem rightAcyclic_twistFunctor_coinduction {X : Scheme.{u}}
   exact fun n hn => (hcomp n hn).of_iso
     (Stacks.Cohomology.AffineComparison.rightDerivedCollapseIso _ _ hFG J hS n).symm
 
+omit [Fintype G] in
 /-- Restriction of scalars along `k₀ → k₀[G]` preserves injective sheaves, being right adjoint to
 the exact functor coinduction. -/
-instance etaleModuleRestrictScalars_groupRingScalars_preservesInjectiveObjects (X : Scheme.{u}) :
+instance etaleModuleRestrictScalars_groupRingScalars_preservesInjectiveObjects [Finite G]
+    (X : Scheme.{u}) :
     (etaleModuleRestrictScalars (groupRingScalars k₀ G) X).PreservesInjectiveObjects :=
+  letI := Fintype.ofFinite G
   Functor.preservesInjectiveObjects_of_adjunction_of_preservesMonomorphisms
     (etaleModuleCoinductionAdj k₀ G X)
 
@@ -207,12 +212,14 @@ private theorem rightAcyclic_map_of_coextend_unit {R H : Type} [CommRing R] [Gro
     ((etaleModuleCoextendScalarsAdj (groupRingScalars R H) X).unit.app I)) (P.map r)
     (by rw [← Functor.map_comp, hr, CategoryTheory.Functor.map_id]) h
 
+omit [Fintype G] in
 /-- **The twist functor carries injective sheaves to sheaves acyclic everywhere**: an injective
 sheaf is a retract of the coinduction of its underlying injective sheaf of `k₀`-modules, on which
 `Ψ` is `Hom_{k₀}(E^∨, -)`. -/
-theorem isAcyclicEverywhere_twistFunctor_obj {X : Scheme.{u}}
+theorem isAcyclicEverywhere_twistFunctor_obj [Finite G] {X : Scheme.{u}}
     (I : EtaleModules.{u, 0} (MonoidAlgebra k₀ G) X) [Injective I] :
     IsAcyclicEverywhere ((Ψ X).obj I) := by
+  have := Fintype.ofFinite G
   have : Injective ((etaleModuleRestrictScalars (groupRingScalars k₀ G) X).obj I) :=
     (etaleModuleRestrictScalars (groupRingScalars k₀ G) X).injective_obj_of_injective inferInstance
   have h := isAcyclicEverywhere_sourceHomFunctor_obj ℓ M Λ (TwistDual k₀ G Λ E ρ)
@@ -222,15 +229,17 @@ theorem isAcyclicEverywhere_twistFunctor_obj {X : Scheme.{u}}
     (Stacks.RightAcyclicProduct.rightAcyclic_of_iso _
       ((twistFunctorCoinductionIso ℓ M G Λ E ρ X).app _).symm (h U))
 
+omit [Fintype G] in
 /-- An exact functor commuting with coinduction and preserving flatness carries injective sheaves
 to sheaves acyclic for the twist functor. -/
-theorem rightAcyclic_twistFunctor_map_injective {X Y : Scheme.{u}}
+theorem rightAcyclic_twistFunctor_map_injective [Finite G] {X Y : Scheme.{u}}
     (P : EtaleModules.{u, 0} (MonoidAlgebra k₀ G) Y ⥤ EtaleModules.{u, 0} (MonoidAlgebra k₀ G) X)
     (P₀ : EtaleModules.{u, 0} k₀ Y ⥤ EtaleModules.{u, 0} k₀ X) [P₀.Additive]
     [PreservesFiniteLimits P₀] [PreservesFiniteColimits P₀]
     (eCo : etaleModuleCoinduction k₀ G Y ⋙ P ≅ P₀ ⋙ etaleModuleCoinduction k₀ G X)
     (I : EtaleModules.{u, 0} (MonoidAlgebra k₀ G) Y) (hI : Injective I) :
     (Ψ X).rightAcyclic (P.obj I) := by
+  have := Fintype.ofFinite G
   have : Injective ((etaleModuleRestrictScalars (groupRingScalars k₀ G) Y).obj I) :=
     (etaleModuleRestrictScalars (groupRingScalars k₀ G) Y).injective_obj_of_injective hI
   exact rightAcyclic_map_of_coextend_unit _ P I
@@ -246,7 +255,7 @@ def twistFunctorInverseImageIso {X Y : Scheme.{u}} (g : X ⟶ Y) :
   asIso (sheafComposeCoefficientMate (smallEtaleBaseChange g) Y.smallEtaleTopology
     X.smallEtaleTopology
     (etaleModuleInverseImageAdj.{u, 0} (MonoidAlgebra k₀ G) g)
-    (etaleModuleInverseImageAdj.{u, 0} Λ g) (twistFunctor k₀ G Λ E ρ)).natTrans
+    (etaleModuleInverseImageAdj.{u, 0} Λ g) (twistFunctor k₀ G Λ E ρ))
 
 /-- The comparison `j_!(Ψ 𝒩) ≅ Ψ(j_! 𝒩)`. -/
 def twistFunctorExtensionByZeroIso {U X : Scheme.{u}} (j : U ⟶ X) [Etale j] :
@@ -255,12 +264,14 @@ def twistFunctorExtensionByZeroIso {U X : Scheme.{u}} (j : U ⟶ X) [Etale j] :
   haveI := isIso_extensionByZeroMate_twistFunctor k₀ G Λ E ρ j
   asIso (sheafComposeCoefficientMate (Scheme.Etale.smallEtaleCompose j) U.smallEtaleTopology
     X.smallEtaleTopology (etaleModuleExtensionByZeroAdj.{u, 0} (MonoidAlgebra k₀ G) j)
-    (etaleModuleExtensionByZeroAdj.{u, 0} Λ j) (twistFunctor k₀ G Λ E ρ)).natTrans
+    (etaleModuleExtensionByZeroAdj.{u, 0} Λ j) (twistFunctor k₀ G Λ E ρ))
 
+omit [Fintype G] in
 /-- **Inverse image preserves acyclicity for the twist functor** (Tag 015M). -/
-theorem rightAcyclic_twistFunctor_inverseImage {X Y : Scheme.{u}} (g : X ⟶ Y)
+theorem rightAcyclic_twistFunctor_inverseImage [Finite G] {X Y : Scheme.{u}} (g : X ⟶ Y)
     (N : EtaleModules.{u, 0} (MonoidAlgebra k₀ G) Y) (hN : (Ψ Y).rightAcyclic N) :
     (Ψ X).rightAcyclic ((etaleModuleInverseImage.{u, 0} (MonoidAlgebra k₀ G) g).obj N) :=
+  have := Fintype.ofFinite G
   have := etaleModuleInverseImage_preservesFiniteLimits.{u, 0} k₀ g
   have := etaleModuleInverseImage_preservesFiniteColimits.{u, 0} k₀ g
   have := etaleModuleInverseImage_preservesFiniteLimits.{u, 0} Λ g
@@ -271,19 +282,23 @@ theorem rightAcyclic_twistFunctor_inverseImage {X Y : Scheme.{u}} (g : X ⟶ Y)
     (rightAcyclic_twistFunctor_map_injective ℓ M G Λ E ρ _ _
       (etaleModuleInverseImageCoinductionIso k₀ G g)) N hN
 
+omit [Fintype G] in
 /-- **Extension by zero preserves acyclicity for the twist functor** (Tag 015M). -/
-theorem rightAcyclic_twistFunctor_extensionByZero {U X : Scheme.{u}} (j : U ⟶ X) [Etale j]
-    (N : EtaleModules.{u, 0} (MonoidAlgebra k₀ G) U) (hN : (Ψ U).rightAcyclic N) :
+theorem rightAcyclic_twistFunctor_extensionByZero [Finite G] {U X : Scheme.{u}} (j : U ⟶ X)
+    [Etale j] (N : EtaleModules.{u, 0} (MonoidAlgebra k₀ G) U) (hN : (Ψ U).rightAcyclic N) :
     (Ψ X).rightAcyclic ((etaleModuleExtensionByZero.{u, 0} (MonoidAlgebra k₀ G) j).obj N) :=
+  have := Fintype.ofFinite G
   Functor.rightAcyclic_obj_of_rightAcyclic _ _ _ _ (twistFunctorExtensionByZeroIso ℓ M G Λ E ρ j)
     (rightAcyclic_twistFunctor_map_injective ℓ M G Λ E ρ _ _
       (etaleModuleExtensionByZeroCoinductionIso k₀ G j)) N hN
 
+omit [Fintype G] in
 /-- **Acyclicity for the twist functor descends along a surjective étale morphism.** -/
-theorem rightAcyclic_twistFunctor_of_inverseImage {V Y : Scheme.{u}} (π : Y ⟶ V) [Etale π]
-    [Surjective π] (N : EtaleModules.{u, 0} (MonoidAlgebra k₀ G) V)
+theorem rightAcyclic_twistFunctor_of_inverseImage [Finite G] {V Y : Scheme.{u}} (π : Y ⟶ V)
+    [Etale π] [Surjective π] (N : EtaleModules.{u, 0} (MonoidAlgebra k₀ G) V)
     (hN : (Ψ Y).rightAcyclic ((etaleModuleInverseImage.{u, 0} (MonoidAlgebra k₀ G) π).obj N)) :
     (Ψ V).rightAcyclic N :=
+  have := Fintype.ofFinite G
   have := etaleModuleInverseImage_preservesFiniteLimits.{u, 0} k₀ π
   have := etaleModuleInverseImage_preservesFiniteColimits.{u, 0} k₀ π
   have := etaleModuleInverseImage_preservesFiniteLimits.{u, 0} Λ π

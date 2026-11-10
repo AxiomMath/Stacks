@@ -270,7 +270,8 @@ theorem isZero_homology_stalk_pullbackModules_of_cartesian {X' Y' : AlgebraicSpa
     (isGE_Q_obj_iff_isZero_homology _ a).1 hGE i hi
   have hC : IsZero (C.homology i) := by
     have h' : IsZero (ρ.obj (C.homology i)) := hρ.of_iso ((C.sc i).mapHomologyIso ρ).symm
-    rwa [ModuleCat.isZero_iff_subsingleton] at h' ⊢
+    rw [ModuleCat.isZero_iff_subsingleton] at h' ⊢
+    assumption
   exact hC.of_iso (HomologicalComplex.homologyMapIso
     (pullbackModulesStalkComplexIso B S hS g' x' K) i)
 

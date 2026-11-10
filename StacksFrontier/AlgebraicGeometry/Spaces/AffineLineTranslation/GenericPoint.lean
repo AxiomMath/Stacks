@@ -115,7 +115,7 @@ theorem genericPointTranslationIso_left (n : ℤ) :
     (genericPointTranslationIso k n).hom.left =
       Spec.map (CommRingCat.ofHom (RatFunc.laurent (n : k)).toRingHom) := by
   simp only [genericPointTranslationIso, Over.isoMk_hom_left, Functor.mapIso_hom]
-  show Spec.map (CommRingCat.ofHom
+  change Spec.map (CommRingCat.ofHom
       (ratFuncTranslationEquiv k (n : k)).toRingEquiv.toRingHom) = _
   apply congrArg Spec.map
   apply CommRingCat.hom_ext
@@ -155,7 +155,7 @@ theorem genericPointMap_translation (n : ℤ) :
     rw [Scheme.Hom.comp_appTop, Scheme.Hom.comp_appTop, CommRingCat.comp_apply,
       CommRingCat.comp_apply, genericPointTranslationIso_left]
     simp only [genericPointMap, Over.homMk_left, AffineSpace.homOfVector_appTop_coord]
-    show (Spec.map (CommRingCat.ofHom (RatFunc.laurent (n : k)).toRingHom)).appTop
+    change (Spec.map (CommRingCat.ofHom (RatFunc.laurent (n : k)).toRingHom)).appTop
         ((Scheme.ΓSpecIso (.of (RatFunc k))).inv RatFunc.X) =
       (AffineSpace.homOfVector (genericPointOver k).hom
         (fun _ : PUnit.{u + 1} => (Scheme.ΓSpecIso (.of (RatFunc k))).inv RatFunc.X)).appTop
@@ -180,16 +180,16 @@ theorem genericPointMap_mono : Mono (genericPointMap k).left := by
         CommRingCat.ofHom α.toRingEquiv.toRingHom ≫ φ := by
     apply CommRingCat.hom_ext
     ext c
-    show algebraMap k (RatFunc k) c =
+    change algebraMap k (RatFunc k) c =
       (algebraMap (Polynomial k) (RatFunc k)) (α (MvPolynomial.C c))
     rw [show MvPolynomial.C c = algebraMap k (MvPolynomial PUnit.{u + 1} k) c from rfl,
       α.commutes]
     rfl
   have hq : (genericPointMap k).left = q := by
     apply AffineSpace.hom_ext
-    · show (genericPointMap k).left ≫ (affineLine k).hom = q ≫ (affineLine k).hom
+    · change (genericPointMap k).left ≫ (affineLine k).hom = q ≫ (affineLine k).hom
       simp only [q, e, Iso.trans_inv, Iso.symm_inv, Scheme.Spec.mapIso_hom]
-      show (genericPointMap k).left ≫ (affineLine k).hom =
+      change (genericPointMap k).left ≫ (affineLine k).hom =
         Spec.map φ ≫ Spec.map (CommRingCat.ofHom α.toRingEquiv.toRingHom) ≫
           (AffineSpace.SpecIso PUnit.{u + 1} (.of k)).inv ≫ (affineLine k).hom
       calc
@@ -202,7 +202,7 @@ theorem genericPointMap_mono : Mono (genericPointMap k).left := by
               rw [← Spec.map_comp, ← Spec.map_comp, Category.assoc]
         _ = q ≫ (affineLine k).hom := by
               have hline := AffineSpace.SpecIso_inv_over (n := PUnit.{u + 1}) (.of k)
-              show Spec.map φ ≫ Spec.map (CommRingCat.ofHom α.toRingEquiv.toRingHom) ≫
+              change Spec.map φ ≫ Spec.map (CommRingCat.ofHom α.toRingEquiv.toRingHom) ≫
                   Spec.map (CommRingCat.ofHom MvPolynomial.C) =
                 Spec.map φ ≫ (Spec.map (CommRingCat.ofHom α.toRingEquiv.toRingHom) ≫
                   ((AffineSpace.SpecIso PUnit.{u + 1} (.of k)).inv ≫ (affineLine k).hom))
@@ -211,23 +211,23 @@ theorem genericPointMap_mono : Mono (genericPointMap k).left := by
     · intro i
       obtain rfl : i = PUnit.unit := Subsingleton.elim _ _
       simp only [genericPointMap, Over.homMk_left, AffineSpace.homOfVector_appTop_coord]
-      show (Scheme.ΓSpecIso (.of (RatFunc k))).inv RatFunc.X =
+      change (Scheme.ΓSpecIso (.of (RatFunc k))).inv RatFunc.X =
         (Spec.map φ ≫ Spec.map (CommRingCat.ofHom α.toRingEquiv.toRingHom) ≫
           (AffineSpace.SpecIso PUnit.{u + 1} (.of k)).inv).appTop
           (AffineSpace.coord (Spec (.of k)) PUnit.unit)
       have hecoord : (e.inv).appTop (AffineSpace.coord (Spec (.of k)) PUnit.unit) =
           (Scheme.ΓSpecIso (.of (Polynomial k))).inv Polynomial.X := by
-        show ((Scheme.Spec.mapIso α.toRingEquiv.toCommRingCatIso.op).hom ≫
+        change ((Scheme.Spec.mapIso α.toRingEquiv.toCommRingCatIso.op).hom ≫
           (AffineSpace.SpecIso PUnit.{u + 1} (.of k)).inv).appTop
           (AffineSpace.coord (Spec (.of k)) PUnit.unit) = _
         rw [Scheme.Hom.comp_appTop, CommRingCat.comp_apply, AffineSpace.SpecIso_inv_appTop_coord]
-        show (Spec.map (CommRingCat.ofHom α.toRingEquiv.toRingHom)).appTop
+        change (Spec.map (CommRingCat.ofHom α.toRingEquiv.toRingHom)).appTop
             ((Scheme.ΓSpecIso (.of (MvPolynomial PUnit.{u + 1} k))).inv
               (MvPolynomial.X PUnit.unit)) = _
         rw [Scheme.specMap_appTop_ΓSpecIso_inv]
         congr 1
         simp [α]
-      show (Scheme.ΓSpecIso (.of (RatFunc k))).inv RatFunc.X =
+      change (Scheme.ΓSpecIso (.of (RatFunc k))).inv RatFunc.X =
         (Spec.map φ).appTop ((e.inv).appTop (AffineSpace.coord (Spec (.of k)) PUnit.unit))
       rw [hecoord, Scheme.specMap_appTop_ΓSpecIso_inv]
       congr 1
@@ -265,7 +265,7 @@ def genericPointSourceFiberIso :
   have huι (n : Multiplicative ℤ) :
       c.inj n ≫ Space.actionRelationSource (affineLine k) (Multiplicative ℤ) = f n := by
     change Sigma.ι X n ≫ Space.actionRelationSource (affineLine k) (Multiplicative ℤ) = 𝟙 _
-    rw [Space.actionRelationSource, Sigma.ι_desc]
+    rw [Space.actionRelationSource, Sigma.ι_comp_desc]
   exact Sigma.mapIso (fun _ : Multiplicative ℤ => pullbackRightIdIso (genericPointMap k)) ≪≫
     coproductPullbackIso X f c (isUniversalColimit_sigmaCofanOver X)
       (Space.actionRelationSource (affineLine k) (Multiplicative ℤ)) huι (genericPointMap k) ≪≫

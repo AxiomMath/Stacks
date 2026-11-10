@@ -75,6 +75,7 @@ namespace AlgebraicGeometry.Space
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on `BigFppfOver B S hS` is deep
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_FlatteningMorphismByBlowup :
@@ -321,7 +322,7 @@ theorem exists_isBlowupAlong_isFlat_isFinitePresentation_strictTransformSpaceToB
       ((presheafSurjective_iff_isSurjective_yoneda B S hS X.1 X.2 V₀ a).1 has)
   have hcomm : u ≫ f = subspaceInclusion B S hS Y W ≫ g := by
     refine ObjectProperty.hom_ext _ ?_
-    show (e.inv ≫ a) ≫ f.hom = W.1.ι ≫ g₀
+    change (e.inv ≫ a) ≫ f.hom = W.1.ι ≫ g₀
     rw [Category.assoc, ← hig, ← Category.assoc, he]
   -- `W_U ⟶ U` is flat and locally of finite presentation: it is étale over `X_U ⟶ U`
   have hWU := (preimageClosedSubspace (restrictOverι g U) W).2.1

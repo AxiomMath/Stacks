@@ -96,7 +96,7 @@ radical of `A`, so a nonempty closed subset of `Spec A` meets `V(I)`, whence a c
 the *proper* `Y'` whose support meets the closed fibre inside `Y` has its whole support inside
 `Y`. That step needs the proper ambient `Y'`, i.e. a compactification, so the attribution in the
 module docstring of
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/GrothendieckExistenceSeparated.lean`
+`StacksFrontier.AlgebraicGeometry.FormalGeometry.CompletionProper.GrothendieckExistenceSeparated`
 stands: `hSupp` is not reachable from support and annihilator bookkeeping alone. What this file
 contributes is that the whole of it is one properness statement about one canonical ideal sheaf.
 

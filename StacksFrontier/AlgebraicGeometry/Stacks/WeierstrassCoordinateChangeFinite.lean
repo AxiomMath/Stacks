@@ -55,7 +55,7 @@ theorem CommRingCat.eq_top_of_isPushout {R B C P : CommRingCat.{u}} {f : R ⟶ B
   let jr : C ⟶ CommRingCat.of J := CommRingCat.ofHom (inr.hom.codRestrict J hr)
   have w : f ≫ jl = g ≫ jr := by
     ext x
-    show inl (f x) = inr (g x)
+    change inl (f x) = inr (g x)
     exact congrArg (fun φ : R ⟶ P ↦ φ x) h.w
   let d := h.desc jl jr w
   have hd : d ≫ CommRingCat.ofHom J.subtype = 𝟙 P := by
@@ -189,7 +189,7 @@ private theorem coordinateChangeRing_map_mem {A : Type u} [CommRing A]
       algebraMap _ _ p * (↑universalChange.{u}.u⁻¹) ^ n := by
     rw [IsLocalization.mk'_eq_iff_eq_mul, ← hn, map_pow, mul_assoc, ← mul_pow,
       mul_comm _ (algebraMap _ _ (MvPolynomial.X 0)), hu, one_pow, mul_one]
-  show ψ (IsLocalization.mk' coordinateChangeRing.{u} p d) ∈ J
+  change ψ (IsLocalization.mk' coordinateChangeRing.{u} p d) ∈ J
   rw [key, map_mul, map_pow]
   exact J.mul_mem (hpoly p) (J.pow_mem hinv n)
 
@@ -204,7 +204,7 @@ private theorem isIntegralHom_prodLift_actionMap_productToBase_comp :
   have hpb : productToBase.{u} = g ≫ (e.inv ≫ prod.snd) := by simp [g]
   rw [@HasAffineProperty.iff_of_isAffine _ _ IsIntegralHom.hasAffineProperty]
   refine ⟨inferInstance, ?_⟩
-  show RingHom.IsIntegral g.appTop.hom
+  change RingHom.IsIntegral g.appTop.hom
   let := g.appTop.hom.toAlgebra
   set J := integralClosure Γ(pullback (terminal.from base.{u}) (terminal.from base.{u}), ⊤)
     Γ(coordinateChangeProduct.{u}, ⊤)

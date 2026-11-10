@@ -164,7 +164,7 @@ theorem exists_elementaryEtaleChart_of_mem_fibre (X : CurveFamily B hZ) (s : (�
         B.contains_terminal X₁ habs)
   let r := residueFieldIntegerMap X s
   have hrange : Set.range ((𝒯).map r) ⊆ Set.range S₁.ι := by
-    show Set.range (((𝒯).obj X.base).fromSpecResidueField s) ⊆ _
+    change Set.range (((𝒯).obj X.base).fromSpecResidueField s) ⊆ _
     rwa [Scheme.range_fromSpecResidueField, Scheme.Opens.range_ι, Set.singleton_subset_iff]
   let l : (𝒯).obj (integerSiteObject B hZ (B.residueField_spec_contains X.base.left.property s)) ⟶
       (S₁ : Scheme.{u}) := IsOpenImmersion.lift S₁.ι ((𝒯).map r) hrange

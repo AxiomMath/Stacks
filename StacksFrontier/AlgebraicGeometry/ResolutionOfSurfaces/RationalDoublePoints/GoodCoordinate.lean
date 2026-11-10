@@ -116,7 +116,7 @@ public theorem sum_sum_eq_zero_of_alternating {R : Type*} [AddCommGroup R] {ι :
   refine Finset.sum_ninvolution (fun z : ι × ι => (z.2, z.1)) (fun z => hswap z.1 z.2)
     (fun z hz hcon => hz ?_) (fun _ => Finset.mem_univ _) (fun _ => rfl)
   have h1 : z.2 = z.1 := congrArg Prod.fst hcon
-  show f z.1 z.2 = 0
+  change f z.1 z.2 = 0
   rw [h1]
   exact hdiag z.1
 
@@ -215,9 +215,9 @@ public theorem IsScalarSqLinear.smul {a : Fin n → Fin n → k} (d : k)
     (h : IsScalarSqLinear a) : IsScalarSqLinear fun p q => d * a p q := by
   obtain ⟨c, l, hdiag, hoff⟩ := h
   refine ⟨d * c, l, fun p => ?_, fun p q hpq => ?_⟩
-  · show d * a p p = d * c * l p * l p
+  · change d * a p p = d * c * l p * l p
     rw [hdiag p]; ring
-  show d * a p q + d * a q p = 2 * (d * c * l p * l q)
+  change d * a p q + d * a q p = 2 * (d * c * l p * l q)
   rw [← mul_add, hoff p q hpq]
   ring
 
@@ -322,7 +322,7 @@ public theorem isScalarSqLinear_transportForm_matrix_iff {K : Type*} [Field K]
     IsScalarSqLinear (transportForm a fun i p => N i p) ↔ IsScalarSqLinear a :=
   isScalarSqLinear_transportForm_iff a (fun i p => N i p) (fun p r => N⁻¹ p r) (by
     funext i r
-    show ∑ p, N i p * N⁻¹ p r = if i = r then 1 else 0
+    change ∑ p, N i p * N⁻¹ p r = if i = r then 1 else 0
     rw [show ∑ p, N i p * N⁻¹ p r = (N * N⁻¹) i r from Matrix.mul_apply.symm,
       Matrix.mul_nonsing_inv N hN, Matrix.one_apply])
 

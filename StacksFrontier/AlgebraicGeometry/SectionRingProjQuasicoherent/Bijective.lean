@@ -128,7 +128,7 @@ theorem exists_twistMul_powSec_eq_zero_of_cover [F.IsQuasicoherent] {N : ℕ}
     refine (PresheafOfModules.naturality_apply
       ((Stacks.SectionProduct.forgetFun X).map (powMul L F (c i) q)) (homOfLE (hBc i)).op
       ((divEquiv L F (c i) le_rfl q).symm (unitSec w (nvOpen L (c i))))).trans ?_
-    show (twistPow F L (N * q)).presheaf.map (homOfLE (hBc i)).op
+    change (twistPow F L (N * q)).presheaf.map (homOfLE (hBc i)).op
       ((powMul L F (c i) q).app (nvOpen L (c i))
         ((divEquiv L F (c i) le_rfl q).symm (unitSec w (nvOpen L (c i))))) = 0
     rw [← divEquiv_apply L F (c i) le_rfl q, LinearEquiv.apply_symm_apply,
@@ -149,7 +149,7 @@ theorem exists_twistMul_powSec_eq_zero_of_cover [F.IsQuasicoherent] {N : ℕ}
   rw [twistMul_app_eq_smul L F _ _ (f i ^ K) hpow,
     ← LinearEquiv.apply_symm_apply (divEquiv L F (c i) le_rfl q)
       (unitSec w (nvOpen L (c i))), divEquiv_apply]
-  show f i ^ K • (powMul L F (c i) q ≫ twistMul (powSec L (c i) K) (N * q)).app _ _ = 0
+  change f i ^ K • (powMul L F (c i) q ≫ twistMul (powSec L (c i) K) (N * q)).app _ _ = 0
   rw [← Scheme.Modules.Hom.app_smul,
     show f i ^ K = f i ^ (K - e i) * f i ^ e i by rw [← pow_add, Nat.sub_add_cancel (hK i)],
     mul_smul, he i, smul_zero, map_zero]
@@ -205,7 +205,7 @@ theorem localDivision_injective (hL : Stacks.Ample.IsAmple X L) [F.IsQuasicohere
       eqToHom (congrArg (twistPow F L) hdeg) with hw1def
   have hw1 : unitSec w1 (nvOpen L (powSec L a r)) = 0 := by
     rw [Stacks.SectionRingProjOverlap.nvOpen_powSec_of_one_le L a r hr]
-    show (eqToHom (congrArg (twistPow F L) hdeg)).app (nvOpen L a)
+    change (eqToHom (congrArg (twistPow F L) hdeg)).app (nvOpen L a)
       ((twistMul (powSec L a s) (d * n)).app (nvOpen L a)
         (unitSec (Stacks.TwistedSections.twistCongr (Nat.mul_comm n d) t) (nvOpen L a))) = 0
     rw [h0, map_zero, map_zero]
@@ -235,7 +235,7 @@ theorem of_sectionPow_eq_pow {n : ℕ} (u : powSections L n) :
       (Stacks.TensorPowerTrivialize.sectionPow L u k) = DirectSum.of (powSections L) n u ^ (k + 1)
   | 0 => (pow_one _).symm
   | k + 1 => by
-      show DirectSum.of (powSections L) (Stacks.TensorPowerTrivialize.powDeg n k + n)
+      change DirectSum.of (powSections L) (Stacks.TensorPowerTrivialize.powDeg n k + n)
         (mul (Stacks.TensorPowerTrivialize.sectionPow L u k) u) = _
       rw [Stacks.SectionRingChartMap.of_mul_eq, of_sectionPow_eq_pow u k, ← pow_succ]
 

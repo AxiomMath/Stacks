@@ -141,7 +141,7 @@ theorem exists_pointsMap_target_eq {A : AlgebraicSpaces B S hS}
   let e' : H.objects.obj ⟶ H.arrows.obj := e
   have het : e' ≫ H.target.hom = 𝟙 _ := by
     ext T x
-    show H.target.hom.app T (e.app T x) = x
+    change H.target.hom.app T (e.app T x) = x
     let x' : H.toGroupoidInFunctors.Evaluation T := x
     exact (congrArg (fun a => H.target.hom.app T a) (he T x')).trans
       (H.toGroupoidInFunctors.evaluationArrowEquiv T x' x' (𝟙 x')).property.2

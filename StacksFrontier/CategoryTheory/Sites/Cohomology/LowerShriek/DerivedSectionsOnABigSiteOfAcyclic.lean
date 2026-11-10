@@ -26,7 +26,8 @@ is the same input from which `Lg_!^{Ab}` itself is built.
 The counit input is
 `Stacks.Cohomology.DerivedLowerShriek.isIso_derivedAbelianLowerShriekComparison_app_of_acyclic`
 of `StacksFrontier.CategoryTheory.Sites.Cohomology.LowerShriek.AbelianAcyclicityFromContinuity`; it
-is kept out of `StacksFrontier.CategoryTheory.Sites.Cohomology.LowerShriek.DerivedSectionsOnABigSite`
+is kept out of
+`StacksFrontier.CategoryTheory.Sites.Cohomology.LowerShriek.DerivedSectionsOnABigSite`
 so that file keeps its own import closure.
 
 ## References

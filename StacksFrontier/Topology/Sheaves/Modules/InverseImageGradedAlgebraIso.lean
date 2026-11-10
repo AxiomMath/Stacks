@@ -91,7 +91,7 @@ theorem homEquiv_symm_map_mul
       (θ n).val.app ((opensMap f).op.obj U) (pullbackUnit f (A.piece n) U z) =
         (h n).val.app U z := by
     refine (homEquiv_val_app f (A.piece n) (B.piece n) (θ n) U z).symm.trans ?_
-    show (((pullbackAdjunction f).homEquiv _ _)
+    change (((pullbackAdjunction f).homEquiv _ _)
       (((pullbackAdjunction f).homEquiv _ _).symm (h n))).val.app U z = _
     rw [Equiv.apply_symm_apply]
   have key : (pullbackFunctor f).map (mulHom A i j) ≫ θ (i + j) =
@@ -107,10 +107,10 @@ theorem homEquiv_symm_map_mul
       (inv c ≫ (pullbackFunctor f).map (mulHom A i j)).val.app V t := by
     rw [← mulSheaf_pullbackGradedAlgebra_eq_comparison f A hY i j]
     exact (mulHom_tmul _ i j V x y).symm
-  show (θ (i + j)).val.app V _ = (B.mul i j).app V ((θ i).val.app V x) ((θ j).val.app V y)
+  change (θ (i + j)).val.app V _ = (B.mul i j).app V ((θ i).val.app V x) ((θ j).val.app V y)
   rw [h1]
   refine (congrArg (fun φ => φ.val.app V ((inv c).val.app V t)) key).trans ?_
-  show (mulHom B i j).val.app V ((θ i ⊗ₘ θ j).val.app V (c.val.app V ((inv c).val.app V t))) = _
+  change (mulHom B i j).val.app V ((θ i ⊗ₘ θ j).val.app V (c.val.app V ((inv c).val.app V t))) = _
   rw [val_app_inv_val_app]
   exact (congrArg ((mulHom B i j).val.app V)
     (tensorHom_tmul (θ i) (θ j) V x y)).trans (mulHom_tmul B i j V _ _)

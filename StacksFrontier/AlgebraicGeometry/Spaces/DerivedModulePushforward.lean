@@ -123,7 +123,7 @@ theorem isGrothendieckAbelian_modules (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u
     (hF : IsAlgebraicSpace B S hS F) :
     IsGrothendieckAbelian.{u} (Modules.{u, u} B S hS F hF) := by
   have hes : EssentiallySmall.{u} (smallEtaleRingedSite B S hS F hF).C := by
-    show EssentiallySmall.{u} (SmallEtale B S hS F)
+    change EssentiallySmall.{u} (SmallEtale B S hS F)
     infer_instance
   exact SheafOfModules.isGrothendieckAbelian_of_essentiallySmall _
 

@@ -20,9 +20,9 @@ this file; all three cases are already proved, and what is added is their combin
 hypothesis that a resolution argument uses.
 
 Together with the dimension-shifting isomorphism of
-`StacksFrontier/AlgebraicGeometry/HigherDirectImage/DimensionShifting.lean` this gives: a short exact
-sequence whose middle term is a twist in that band carries the degree-`q` higher direct image of
-its right-hand term isomorphically onto the degree-`(q+1)` higher direct image of its left-hand
+`StacksFrontier/AlgebraicGeometry/HigherDirectImage/DimensionShifting.lean` this gives: a short
+exact sequence whose middle term is a twist in that band carries the degree-`q` higher direct image
+of its right-hand term isomorphically onto the degree-`(q+1)` higher direct image of its left-hand
 term. The Koszul resolution
 
 `0 ⟶ 𝒪(-n-1) ⟶ 𝒪(-n)^{⊕ binom(n+1,n)} ⟶ ⋯ ⟶ 𝒪(-1)^{⊕ (n+1)} ⟶ 𝒪 ⟶ 0`

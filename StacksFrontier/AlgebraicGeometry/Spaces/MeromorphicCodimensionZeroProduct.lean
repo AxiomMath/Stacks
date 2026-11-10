@@ -110,7 +110,7 @@ theorem bijective_val_app_of_bijective_pi.{m, r, v', u'}
   have hcomp : (fun s => q (E.map f s)) =
       fun s : A.val.obj U => fun i => (Pi.π M i).val.app U (f.val.app U s) := by
     funext s i
-    show (Types.productIso fun i => E.obj (M i)).hom (piComparison E M (E.map f s)) i = _
+    change (Types.productIso fun i => E.obj (M i)).hom (piComparison E M (E.map f s)) i = _
     rw [Types.productIso_hom_comp_eval_apply]
     exact ConcreteCategory.congr_hom (piComparison_comp_π E M i) (E.map f s)
   rw [← hcomp] at h

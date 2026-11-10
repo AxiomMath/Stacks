@@ -206,7 +206,7 @@ theorem etaleNeighborhoodBoundedIndex_weaklyInitial (s₀ : s.source ⟶ Spec R)
   have hp : p ≫ f = s.hom := U.2.2
   -- an affine open of the neighbourhood through which the point factors, inside `f⁻¹(Spec R)`
   have hmem : p (default : s.source) ∈ f ⁻¹ᵁ ι₀.opensRange := by
-    show f (p default) ∈ Set.range ι₀
+    change f (p default) ∈ Set.range ι₀
     refine ⟨s₀ default, ?_⟩
     rw [← Scheme.Hom.comp_apply, hs₀, ← hp, Scheme.Hom.comp_apply]
   obtain ⟨R', j, hj, hjmem, hjsub⟩ := Scheme.exists_affine_mem_range_and_range_subset hmem
@@ -238,7 +238,7 @@ theorem etaleNeighborhoodBoundedIndex_weaklyInitial (s₀ : s.source ⟶ Spec R)
   have hring : φ ≫ CommRingCat.ofHom e.symm.toRingHom =
       CommRingCat.ofHom (algebraMap (R : Type u) (T.eval.obj : Type u)) := by
     ext z
-    show e.symm (φ.hom z) = _
+    change e.symm (φ.hom z) = _
     rw [hcompat]
     exact e.symm_apply_apply _
   have hαg : α ≫ g = Spec.map (CommRingCat.ofHom (algebraMap (R : Type u)
@@ -280,7 +280,8 @@ that is by a ring homomorphism `A' ⟶ A`. -/
 theorem mk_hom_etaleNeighborhoodBounded_le (d d' : EtaleNeighborhoodBounded E hS s ι₀) :
     #(d ⟶ d') ≤ max ℵ₀ #R ^ max ℵ₀ #R := by
   have hinj : Function.Injective (fun f : d ⟶ d' =>
-      (SmallEtale.toScheme E S hS).map ((etaleNeighborhoodBoundedFunctor E hS s ι₀).map f).hom) := by
+      (SmallEtale.toScheme E S hS).map
+        ((etaleNeighborhoodBoundedFunctor E hS s ι₀).map f).hom) := by
     intro f g h
     apply InducedCategory.hom_ext
     apply Functor.Elements.hom_ext

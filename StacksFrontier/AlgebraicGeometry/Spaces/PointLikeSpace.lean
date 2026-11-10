@@ -353,7 +353,7 @@ private theorem isIso_quotientSheafDesc (B : BigFppfSite.{u}) (S : Scheme.{u})
       ≫ qp = (⟨yoneda.map t⟩ :
         (⟨yoneda.obj R, hRsh⟩ : Sheaf J (Type u)) ⟶ ⟨yoneda.obj U, hUsh⟩) ≫ qp := by
     apply Sheaf.hom_ext
-    show yoneda.map s ≫ eU.hom ≫ toQuotientSheaf J P j
+    change yoneda.map s ≫ eU.hom ≫ toQuotientSheaf J P j
       = yoneda.map t ≫ eU.hom ≫ toQuotientSheaf J P j
     exact yoneda_map_comp_toQuotientSheaf B S hS s t
   set e' := Cofork.IsColimit.desc hco qp hqpc
@@ -362,7 +362,7 @@ private theorem isIso_quotientSheafDesc (B : BigFppfSite.{u}) (S : Scheme.{u})
   have hfe'' : f ≫ e'.hom = eU.hom ≫ toQuotientSheaf J P j := Sheaf.hom_ext_iff.mp hfe'
   refine ⟨e', ?_, ?_⟩
   · have h1 : toQuotientSheaf J P j ≫ (d ≫ e').hom = toQuotientSheaf J P j := by
-      show toQuotientSheaf J P j ≫ d.hom ≫ e'.hom = toQuotientSheaf J P j
+      change toQuotientSheaf J P j ≫ d.hom ≫ e'.hom = toQuotientSheaf J P j
       rw [← Category.assoc, hdfac, hkk, Category.assoc, hfe'', Iso.inv_hom_id_assoc]
     rw [quotientSheafDesc_unique J P j _ (toQuotientSheaf J P j)
         (sourceMap_toQuotientSheaf J P j) (d ≫ e') h1,
@@ -371,7 +371,7 @@ private theorem isIso_quotientSheafDesc (B : BigFppfSite.{u}) (S : Scheme.{u})
   · refine Cofork.IsColimit.hom_ext hco ?_
     rw [Cofork.π_ofπ, ← Category.assoc, hfe']
     apply Sheaf.hom_ext
-    show (eU.hom ≫ toQuotientSheaf J P j) ≫ d.hom = f ≫ 𝟙 F
+    change (eU.hom ≫ toQuotientSheaf J P j) ≫ d.hom = f ≫ 𝟙 F
     rw [Category.assoc, hdfac, hkk, Iso.hom_inv_id_assoc, Category.comp_id]
 
 /-! ### The core statement, for an atlas with one point -/

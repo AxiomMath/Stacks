@@ -76,7 +76,7 @@ private lemma specMap_algebraMap_sections_eq {k : Type u} [Field k] {X : Scheme.
     letI := sectionsAlgebra f U
     Spec.map (ofHom (algebraMap k Γ(X, U))) = hU.fromSpec ≫ f := by
   let := sectionsAlgebra f U
-  show Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appLE ⊤ U (by simp)) = hU.fromSpec ≫ f
+  change Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appLE ⊤ U (by simp)) = hU.fromSpec ≫ f
   rw [← IsAffineOpen.SpecMap_appLE_fromSpec f (isAffineOpen_top _) hU (by simp),
     Spec.map_comp, IsAffineOpen.fromSpec_top]
   congr 1
@@ -107,7 +107,7 @@ private noncomputable def affineBaseChangeIso (k : Type u) [Field k] {X : Scheme
     let n := pullback.map hU.fromSpec (pullback.fst f g) U.ι (pullback.fst f g)
       hU.isoSpec.inv (𝟙 _) (𝟙 _) hU.isoSpec_inv_ι.symm (by simp)
     refine ⟨m, n, ?_, ?_⟩ <;> refine pullback.hom_ext ?_ ?_ <;> dsimp [m, n, pullback.map] <;>
-      simp [pullback.lift_fst_assoc, pullback.lift_fst, pullback.lift_snd, Category.assoc]
+      simp [Category.assoc]
   exact eU.trans <| (pullbackRightPullbackFstIso f g hU.fromSpec).trans <|
     (pullback.congrHom (specMap_algebraMap_sections_eq f hU).symm rfl).trans
       (pullbackSpecIso k Γ(X, U) K)

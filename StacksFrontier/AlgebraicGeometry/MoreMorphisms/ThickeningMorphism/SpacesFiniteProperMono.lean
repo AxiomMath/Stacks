@@ -26,8 +26,8 @@ be a morphism of thickenings of algebraic spaces over a scheme `S` which identif
 `AlgebraicGeometry.Space.CartesianLocallyFiniteTypeMorphismOfThickenings`. This file proves
 parts (2), (6) and (8) of Stacks 0BPJ: `f` is finite, a monomorphism, respectively proper exactly
 when `f'` is; parts (3) and (7), closed immersions and immersions, are the base's declarations in
-`StacksFrontier/AlgebraicGeometry/MoreMorphisms/ThickeningMorphism/SpacesImmersions.lean`, registered
-here. Parts (1), (4) and (5)
+`StacksFrontier/AlgebraicGeometry/MoreMorphisms/ThickeningMorphism/SpacesImmersions.lean`,
+registered here. Parts (1), (4) and (5)
 are in `StacksFrontier/AlgebraicGeometry/MoreMorphisms/ThickeningMorphism/EtaleLocalProperties.lean`
 and `StacksFrontier/AlgebraicGeometry/MoreMorphisms/ThickeningMorphism/Unramified.lean`.
 
@@ -193,7 +193,7 @@ theorem mono_pullback_fst_of_mono (T : CartesianLocallyFiniteTypeMorphismOfThick
       rw [Category.assoc, Subfunctor.fromPreimage_ι, ← Category.assoc, hδ]
       simp
   have hsmall : IsClosedImmersion B S hS N.f := by
-    show IsClosedImmersion B S hS (T.X.fromPreimage (pullback.fst T.f' T.f'))
+    change IsClosedImmersion B S hS (T.X.fromPreimage (pullback.fst T.f' T.f'))
     exact isClosedImmersion_of_isIso B S hS _
   exact mono_of_isClosedImmersion B S hS _
     ((isClosedImmersion_iff_of_cartesianMorphismOfThickenings _ _ _ N).mp hsmall)

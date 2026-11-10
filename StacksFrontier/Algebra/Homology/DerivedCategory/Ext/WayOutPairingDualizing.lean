@@ -61,7 +61,7 @@ theorem isDualityPerfect_pullbackTrace_iff (F : C)
       dualityPairing O D' N (pullbackTrace t φ) F h := by
     funext x
     ext y
-    show t (x.comp (y.comp (mk₀ φ) (add_zero j)) h) = t ((x.comp y h).comp (mk₀ φ) (add_zero N))
+    change t (x.comp (y.comp (mk₀ φ) (add_zero j)) h) = t ((x.comp y h).comp (mk₀ φ) (add_zero N))
     rw [comp_assoc_of_third_deg_zero]
   rw [← key]
   exact Function.Bijective.of_comp_iff' pre.bijective _

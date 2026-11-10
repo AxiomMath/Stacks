@@ -99,14 +99,14 @@ theorem module_finite_sections_of_restrict (M : Modules.{u, u} B S hS V'.1 V'.2)
   have hcube := isMilnorCube_chart i f g hi hf d hU hV
   have hbij := bijective_squareUnit_app_of_isMilnorCube (commonToTarget i f g)
     (targetRestriction i f g) (commonToAmbient i f g) (ambientRestriction i f g)
-    (commonToAmbient_comp_eq i f g) (rep_commonToTarget i f g hi hf)
-    (rep_targetRestriction i f g hi hf) (rep_commonToAmbient i f g hi hf)
+    (commonToAmbient_comp_eq i f g) (rep_commonToTarget i f g hf)
+    (rep_targetRestriction i f g hi hf) (rep_commonToAmbient i f g hi)
     (rep_ambientRestriction i f g hi hf) (rep_commonTargetComp i f g hi hf)
     (rep_commonAmbientComp i f g hi hf) d.U hWV hWU' hWU M hM.1 hU hcube hflat
   have hfin := finite_glue_of_isMilnorCube (commonToTarget i f g) (targetRestriction i f g)
     (commonToAmbient i f g) (ambientRestriction i f g) (commonToAmbient_comp_eq i f g)
-    (rep_commonToTarget i f g hi hf) (rep_targetRestriction i f g hi hf)
-    (rep_commonToAmbient i f g hi hf) (rep_ambientRestriction i f g hi hf)
+    (rep_commonToTarget i f g hf) (rep_targetRestriction i f g hi hf)
+    (rep_commonToAmbient i f g hi) (rep_ambientRestriction i f g hi hf)
     (rep_commonTargetComp i f g hi hf) (rep_commonAmbientComp i f g hi hf) d.U
     ((TripleGluing.restrictFunctor (squareOverlap (commonToTarget i f g)
       (targetRestriction i f g) (commonToAmbient i f g) (ambientRestriction i f g)
@@ -234,20 +234,20 @@ theorem module_finitePresentation_sections_of_restrict
       ((SmallEtale.toOver B S hS V'.1).obj d.U)) := hU
     have _ : IsAffine ((BigFppfOver.toScheme B S hS).obj
       ((SmallEtale.toOver B S hS (pushout i f).1).obj d.V)) := hV
-    show ((BigFppfOver.toScheme B S hS).map d.g).appTop.hom.FinitePresentation
+    change ((BigFppfOver.toScheme B S hS).map d.g).appTop.hom.FinitePresentation
     exact HasRingHomProperty.appTop (P := @LocallyOfFinitePresentation) _
       (locallyOfFinitePresentation_chartDiagram B S hS hg d)
   have hcube := isMilnorCube_chart i f g hi hf d hU hV
   have hbij := bijective_squareUnit_app_of_isMilnorCube (commonToTarget i f g)
     (targetRestriction i f g) (commonToAmbient i f g) (ambientRestriction i f g)
-    (commonToAmbient_comp_eq i f g) (rep_commonToTarget i f g hi hf)
-    (rep_targetRestriction i f g hi hf) (rep_commonToAmbient i f g hi hf)
+    (commonToAmbient_comp_eq i f g) (rep_commonToTarget i f g hf)
+    (rep_targetRestriction i f g hi hf) (rep_commonToAmbient i f g hi)
     (rep_ambientRestriction i f g hi hf) (rep_commonTargetComp i f g hi hf)
     (rep_commonAmbientComp i f g hi hf) d.U hWV hWU' hWU M hM.1 hU hcube hflat
   have hfp := finitePresentation_glue_of_isMilnorCube (commonToTarget i f g)
     (targetRestriction i f g) (commonToAmbient i f g) (ambientRestriction i f g)
-    (commonToAmbient_comp_eq i f g) (rep_commonToTarget i f g hi hf)
-    (rep_targetRestriction i f g hi hf) (rep_commonToAmbient i f g hi hf)
+    (commonToAmbient_comp_eq i f g) (rep_commonToTarget i f g hf)
+    (rep_targetRestriction i f g hi hf) (rep_commonToAmbient i f g hi)
     (rep_ambientRestriction i f g hi hf) (rep_commonTargetComp i f g hi hf)
     (rep_commonAmbientComp i f g hi hf) d.U
     ((TripleGluing.restrictFunctor (squareOverlap (commonToTarget i f g)

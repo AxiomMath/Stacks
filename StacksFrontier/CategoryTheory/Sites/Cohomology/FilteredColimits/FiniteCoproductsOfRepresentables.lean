@@ -208,7 +208,8 @@ private lemma coproduct_mem_finiteCoproductSheafifiedYoneda {B : Set C} {γ : Ty
 is again a finite coproduct of such, the index type being the sigma type of the two layers.
 
 This is the general-site form of a private lemma of
-`StacksFrontier.CategoryTheory.Sites.Cohomology.FilteredColimits.FiniteCoproductsOfRepresentables`. -/
+`StacksFrontier.CategoryTheory.Sites.Cohomology.FilteredColimits.FiniteCoproductsOfRepresentables`.
+-/
 lemma nestedFiniteCoproduct_mem (B : Set C) {α : Type max u v} [Finite α]
     (β : α → Type max u v) [∀ a, Finite (β a)] (X : ∀ a, β a → C)
     (hX : ∀ a b, X a b ∈ B) :
@@ -226,7 +227,7 @@ lemma sectionEquiv_presheafToSheaf_map {X : C}
     {P : Cᵒᵖ ⥤ Type max u v} (f : uliftYoneda.{u}.obj X ⟶ P) :
     Sheaf.sectionEquiv J ((presheafToSheaf J (Type max u v)).map f) =
       (toSheafify J P).app (op X) (f.app (op X) (ULift.up (𝟙 X))) := by
-  show uliftYonedaEquiv.{u}
+  change uliftYonedaEquiv.{u}
     ((sheafificationAdjunction J (Type max u v)).homEquiv
       (uliftYoneda.{u}.obj X) ((presheafToSheaf J (Type max u v)).obj P)
       ((presheafToSheaf J (Type max u v)).map f)) = _
@@ -242,7 +243,7 @@ lemma mem_imageSieve_sectionEquiv_iff {F G : Sheaf J (Type max u v)}
     Presheaf.imageSieve f.hom (Sheaf.sectionEquiv J x) p ↔
       ∃ y : (Sheaf.sheafifiedYoneda J).obj V ⟶ F,
         y ≫ f = (Sheaf.sheafifiedYoneda J).map p ≫ x := by
-  show (∃ t, f.hom.app (op V) t = G.obj.map p.op (Sheaf.sectionEquiv J x)) ↔ _
+  change (∃ t, f.hom.app (op V) t = G.obj.map p.op (Sheaf.sectionEquiv J x)) ↔ _
   constructor
   · rintro ⟨t, ht⟩
     refine ⟨(Sheaf.sectionEquiv J).symm t, (Sheaf.sectionEquiv J).injective ?_⟩
@@ -631,7 +632,7 @@ theorem isIso_colimit_post_rightDerived_globalSections_of_finite_covers
         _ = q₀ ⟨i, j⟩ := hfac₀ ⟨i, j⟩
         _ = Sigma.ι (fun j : β i => X ⟨i, j⟩) j ≫
             Sigma.ι (fun k : O => ∐ fun j : β k => X ⟨k, j⟩) i ≫
-              q := by simp only [q, q₀, hᵢ, ← Category.assoc, Sigma.ι_desc]
+              q := by simp only [q, q₀, hᵢ, ← Category.assoc, Sigma.ι_comp_desc]
     have hmem : K' ∈ S := by
       let : Fintype O := inferInstance
       let : ∀ i : O, Fintype (β i) := fun _ => inferInstance
@@ -805,7 +806,7 @@ theorem isIso_colimit_post_rightDerived_globalSections_of_finite_covers
       (Sheaf.sheafifiedYoneda J).map (pK t) ≫ Sigma.ι A t.1.1.1 ≫ e.inv
     have hvEq (t : Tidx) : vK t ≫ a = vK t ≫ b := by
       apply (cancel_mono e'.hom).1
-      show (Sheaf.sheafifiedYoneda J).map (pK t) ≫ Sigma.ι A t.1.1.1 ≫ a' =
+      change (Sheaf.sheafifiedYoneda J).map (pK t) ≫ Sigma.ι A t.1.1.1 ≫ a' =
         (Sheaf.sheafifiedYoneda J).map (pK t) ≫ Sigma.ι A t.1.1.1 ≫ b'
       rcases t with ⟨z, l⟩
       dsimp only [pK]
@@ -832,7 +833,7 @@ theorem isIso_colimit_post_rightDerived_globalSections_of_finite_covers
       coproduct_mem_finiteCoproductSheafifiedYoneda (J := J) (B := B) (γ := Tidx) X
         fun t => hW t.1 t.2
     refine ⟨L, hLmem, f, ?_⟩
-    show Presheaf.IsLocallySurjective J f.hom
+    change Presheaf.IsLocallySurjective J f.hom
     constructor
     intro Z y
     let x : (Sheaf.sheafifiedYoneda J).obj Z ⟶ equalizer a b := (Sheaf.sectionEquiv J).symm y
@@ -852,7 +853,7 @@ theorem isIso_colimit_post_rightDerived_globalSections_of_finite_covers
     rw [pullback_imageSieve_sectionEquiv]
     let x₂ : (Sheaf.sheafifiedYoneda J).obj Z₂ ⟶ equalizer a b :=
       (Sheaf.sheafifiedYoneda J).map t₂ ≫ x₁
-    show Presheaf.imageSieve f.hom (Sheaf.sectionEquiv J x₂) ∈ J Z₂
+    change Presheaf.imageSieve f.hom (Sheaf.sectionEquiv J x₂) ∈ J Z₂
     obtain ⟨k, c, hc⟩ := (Sieve.mem_ofArrows_iff (V i) (p i) (t₂ ≫ d)).1 ht₂
     have hx₂ : x₂ ≫ equalizer.ι a b ≫ e.hom =
         (Sheaf.sheafifiedYoneda J).map c ≫
@@ -885,7 +886,7 @@ theorem isIso_colimit_post_rightDerived_globalSections_of_finite_covers
     rw [pullback_imageSieve_sectionEquiv]
     let x₃ : (Sheaf.sheafifiedYoneda J).obj Z₃ ⟶ equalizer a b :=
       (Sheaf.sheafifiedYoneda J).map t₃ ≫ x₂
-    show Presheaf.imageSieve f.hom (Sheaf.sectionEquiv J x₃) ∈ J Z₃
+    change Presheaf.imageSieve f.hom (Sheaf.sectionEquiv J x₃) ∈ J Z₃
     obtain ⟨hij, hab⟩ := hequal t₃ ht₃
     let z : δ := ⟨⟨i, k⟩, hij⟩
     have hdEq : (t₃ ≫ c) ≫ ca i k = (t₃ ≫ c) ≫ cb' z := by
@@ -910,7 +911,7 @@ theorem isIso_colimit_post_rightDerived_globalSections_of_finite_covers
       apply Sigma.hom_ext
       intro l
       dsimp only [jL, f, qE]
-      simp only [Sigma.ι_desc_assoc, v, equalizer.lift_ι_assoc]
+      simp only [Sigma.ι_comp_desc_assoc, v, equalizer.lift_ι_assoc]
       simp only [vK, pK, z, Functor.map_comp, Category.assoc, Iso.inv_hom_id,
         Category.comp_id]
     have hx₃ : x₃ ≫ equalizer.ι a b ≫ e.hom =

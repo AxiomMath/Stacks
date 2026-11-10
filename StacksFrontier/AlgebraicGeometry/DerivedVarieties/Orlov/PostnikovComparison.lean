@@ -232,7 +232,7 @@ theorem origTransformIso_naturality {i j : ℕ} (a : R.left i ⟶ R.left j)
   have hj := isIso_boxTransformMap_single A R 𝓕 h𝓕 j
     (imageOfRight A A R (𝟭 _) R.isPerfect_single_right j)
     (R.isPerfect_single_right j)
-  show _ ≫ inv (boxTransformMap A.hom A.hom _ _
+  change _ ≫ inv (boxTransformMap A.hom A.hom _ _
       (imageOfRight A A R (𝟭 _) R.isPerfect_single_right j)) =
     inv (boxTransformMap A.hom A.hom _ _ (imageOfRight A A R (𝟭 _) R.isPerfect_single_right i)) ≫ _
   refine (IsIso.comp_inv_eq _).2 (((IsIso.eq_inv_comp _).2 ?_).trans (Category.assoc _ _ _).symm)
@@ -373,16 +373,7 @@ theorem imgComparison_kappa (n : ℕ)
         ((DerivedCategory.singleFunctor A.left.Modules 0).obj 𝓕)).map
         ((transformedBoxPairing A B R F R.isPerfect_single_right hF).κ (n + 1) n t) := by
   let := modulesLinear k A
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    have h₀ : (ObjectProperty.homMk ((kernelIntegralTransform A.hom A.hom
-        ((DerivedCategory.singleFunctor A.left.Modules 0).obj 𝓕)).map 0) :
-        R.origTransformPerfect 𝓕 h𝓕 (n + 1) ⟶ R.origTransformPerfect 𝓕 h𝓕 n) = 0 := by
-      ext
-      exact (kernelIntegralTransform A.hom A.hom
-        ((DerivedCategory.singleFunctor A.left.Modules 0).obj 𝓕)).map_zero _ _
-    rw [map_zero, map_zero, h₀, Functor.map_zero, Functor.map_zero, comp_zero]
-    exact zero_comp
+  induction t using TensorProduct.inductionOn with
   | tmul a b =>
     have e₁ := by
       let : Linear k (pullback A.hom A.hom).Modules := modulesLinear k (overPullback k A A)
@@ -403,7 +394,7 @@ theorem imgComparison_kappa (n : ℕ)
           R.origTransformPerfect 𝓕 h𝓕 (n + 1) ⟶ R.origTransformPerfect 𝓕 h𝓕 n) =
         ObjectProperty.homMk x + ObjectProperty.homMk y := fun x y => by ext; rfl
     rw [map_add, map_add, Functor.map_add, hadd, Functor.map_add, Functor.map_add]
-    show ((F.map _).hom + (F.map _).hom) ≫ _ = _
+    change ((F.map _).hom + (F.map _).hom) ≫ _ = _
     rw [Preadditive.add_comp, Preadditive.comp_add, ht, ht']
 
 include h𝓕 in

@@ -42,6 +42,8 @@ variable {C D : Type u} [Category.{u} C] [Category.{u} D]
     SheafOfModules.{u} (Tensor.ringSheaf O)) (e : P ≅ R)
   (H F G : SheafOfModules.{u} (Tensor.ringSheaf O'))
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [K.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- A tensor-compatible comparison with a functor commuting with internal Hom is invertible. -/
 theorem isIso_internalHomComparison_of_iso
     (r : R.obj H ≅
@@ -137,12 +139,9 @@ theorem isIso_modulesPullbackInternalHomMap_of_comparison
 section Localization
 
 variable (X : RingedSite.{u, u, u}) (U : X.C)
-  [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [(X.J.over U).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [X.J.HasSheafCompose (forget RingCat.{u})]
   [(X.J.over U).HasSheafCompose (forget RingCat.{u})]
-  [X.J.HasSheafCompose (forget CommRingCat.{u})]
-  [(X.J.over U).HasSheafCompose (forget CommRingCat.{u})]
   [X.J.HasSheafCompose (forget AddCommGrpCat.{u})]
   [(X.J.over U).HasSheafCompose (forget AddCommGrpCat.{u})]
   [HasWeakSheafify X.J AddCommGrpCat.{u}]
@@ -151,6 +150,13 @@ variable (X : RingedSite.{u, u, u}) (U : X.C)
   [(X.J.over U).WEqualsLocallyBijective AddCommGrpCat.{u}]
   (F G : SheafOfModules.{u} (Tensor.ringSheaf X.O))
 
+omit [(X.J.over U).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [X.J.HasSheafCompose (forget RingCat.{u})]
+  [(X.J.over U).HasSheafCompose (forget RingCat.{u})]
+  [X.J.HasSheafCompose (forget AddCommGrpCat.{u})]
+  [(X.J.over U).HasSheafCompose (forget AddCommGrpCat.{u})]
+  [HasWeakSheafify X.J AddCommGrpCat.{u}]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The named two-factor tensor transport cancels an inverse in its second variable. -/
 theorem tensorTransport_cancel_inverse
     (A : SheafOfModules.{u} (Tensor.ringSheaf X.O))
@@ -177,12 +183,12 @@ theorem isIso_localization_internalHomComparison
       (pullbackTensorIso (X.localizationMorphism U)).inv.app (H, F) ≫
         (modulesPullback (X.localizationMorphism U)).map t)
     (hr : tensorEvaluation (X.O.over U) (F.over U) (G.over U) r.hom =
-      (ExtensionByZero.tensorRestrictionComparison X U F).natTrans.app H ≫
+      (ExtensionByZero.tensorRestrictionComparison X U F).app H ≫
         (_root_.SheafOfModules.overFunctor (Tensor.ringSheaf X.O) U).map t) : IsIso α :=
   isIso_modulesPullbackInternalHomMap_of_comparison (X.localizationMorphism U)
     (_root_.SheafOfModules.overFunctor (Tensor.ringSheaf X.O) U)
     (X.localizationPullbackIsoRestriction U) H F G r t
-    ((ExtensionByZero.tensorRestrictionComparison X U F).natTrans.app H)
+    ((ExtensionByZero.tensorRestrictionComparison X U F).app H)
     (tensorTransportFirst X U H
         ((X.localizationPullbackIsoRestriction U).hom.app H)
         ((X.localizationMorphism U).pullbackModules.obj F) ≫
@@ -194,11 +200,16 @@ theorem isIso_localization_internalHomComparison
       ((X.localizationPullbackIsoRestriction U).hom.app H)
       ((X.localizationPullbackIsoRestriction U).app F)) hr
 
+omit [(X.J.over U).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [X.J.HasSheafCompose (forget RingCat.{u})]
+  [(X.J.over U).HasSheafCompose (forget RingCat.{u})]
+  [X.J.HasSheafCompose (forget AddCommGrpCat.{u})]
+  [(X.J.over U).HasSheafCompose (forget AddCommGrpCat.{u})] in
 /-- Read restriction evaluation at the component isomorphism without unfolding that iso. -/
 theorem tensorEvaluation_internalHomRestrictionNatIso_app :
     tensorEvaluation (X.O.over U) (F.over U) (G.over U)
         (((ExtensionByZero.internalHomRestrictionNatIso X U F).app G).hom) =
-      (ExtensionByZero.tensorRestrictionComparison X U F).natTrans.app
+      (ExtensionByZero.tensorRestrictionComparison X U F).app
           ((internalHomSecondFunctor X.J X.O F).obj G) ≫
         (_root_.SheafOfModules.overFunctor (Tensor.ringSheaf X.O) U).map
           (internalHomEvaluation X.O F G) := by

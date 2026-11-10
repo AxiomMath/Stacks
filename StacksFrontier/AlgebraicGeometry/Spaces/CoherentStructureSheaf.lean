@@ -180,7 +180,7 @@ theorem exists_generators_relations_unit (X : RingedSite.{u, v, w}) (Good : X.C 
   let A' : Over U := Over.mk (m ≫ W.hom)
   let mA : A' ⟶ W := Over.homMk m
   let lA : Z ⟶ A' := Over.homMk l (by
-    show l ≫ m ≫ W.hom = Z.hom
+    change l ≫ m ≫ W.hom = Z.hom
     rw [← Category.assoc, ← hleft]
     exact Over.w q)
   have hA' : Good A'.left := hA

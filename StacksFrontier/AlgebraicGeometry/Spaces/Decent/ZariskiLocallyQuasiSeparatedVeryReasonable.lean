@@ -264,7 +264,7 @@ theorem isVeryReasonableSpace_of_isAbsolutelyZariskiLocallyQuasiSeparated
       isLocallySurjective_of_surjective_etale B S hS fa hfaSurj hfaEt
     have h4 : (Sigma.desc fun y ↦ yoneda.map (openIncl B S hS Ua (O y))) ≫ fa =
         Sigma.desc fun y ↦ yoneda.map (openIncl B S hS Ua (O y)) ≫ fa :=
-      Sigma.hom_ext _ _ fun y ↦ by rw [← Category.assoc, Sigma.ι_desc, Sigma.ι_desc]
+      Sigma.hom_ext _ _ fun y ↦ by rw [← Category.assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc]
     rw [← h4]
     infer_instance
   · intro y

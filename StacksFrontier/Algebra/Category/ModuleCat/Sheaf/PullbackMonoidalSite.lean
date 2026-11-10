@@ -164,7 +164,7 @@ lemma pullbackTensorIso_hom_pullbackAdjUnit_tmul
           pullbackAdjUnit (toRingCatPullback α) N U y :
         (tensorObj ((PresheafOfModules.pullback.{w} (toRingCatPullback α)).obj M)
           ((PresheafOfModules.pullback.{w} (toRingCatPullback α)).obj N)).obj (F.op.obj U)) := by
-  show Hom.app
+  change Hom.app
     ((Functor.uncurry.obj (_root_.PresheafOfModules.tensorBifunctor.{u, u, w, w, w} R)).map
       (X := ((colimitPullback F R).obj ((extendScalars α).obj M),
         (colimitPullback F R).obj ((extendScalars α).obj N)))
@@ -188,7 +188,7 @@ lemma pullbackTensorIso_hom_pullbackAdjUnit_tmul
   rw [colimitPullback_map_germ_one F R (extendScalarsTensorObjIso α M N).hom (unitArrow U)
       (tmul (α.app U).hom 1 (x ⊗ₜ y) :
         ((extendScalars α).obj (PresheafOfModules.tensorObj M N)).obj U)]
-  show Hom.app (tensorHom ((Stacks.PullbackColimit.pullbackIso α).inv.app M)
+  change Hom.app (tensorHom ((Stacks.PullbackColimit.pullbackIso α).inv.app M)
         ((Stacks.PullbackColimit.pullbackIso α).inv.app N)) (F.op.obj U)
       (Hom.app (objTensorIso F R ((extendScalars α).obj M)
           ((extendScalars α).obj N)).hom (F.op.obj U)
@@ -196,7 +196,7 @@ lemma pullbackTensorIso_hom_pullbackAdjUnit_tmul
           (unitArrow U) 1 (tmul (α.app U).hom 1 x) (tmul (α.app U).hom 1 y))) = _
   rw [objTensorIso_hom_germTmul F R ((extendScalars α).obj M) ((extendScalars α).obj N)
       (F.op.obj U) (unitArrow U) 1 (tmul (α.app U).hom 1 x) (tmul (α.app U).hom 1 y)]
-  show Hom.app (tensorHom ((Stacks.PullbackColimit.pullbackIso α).inv.app M)
+  change Hom.app (tensorHom ((Stacks.PullbackColimit.pullbackIso α).inv.app M)
         ((Stacks.PullbackColimit.pullbackIso α).inv.app N)) (F.op.obj U)
       (germ F R ((extendScalars α).obj M) (unitArrow U) 1 (tmul (α.app U).hom 1 x) ⊗ₜ
         germ F R ((extendScalars α).obj N) (unitArrow U) 1 (tmul (α.app U).hom 1 y)) = _

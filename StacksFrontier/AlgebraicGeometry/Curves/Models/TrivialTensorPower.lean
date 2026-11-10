@@ -69,8 +69,8 @@ special fibre, in
   four parts of that tag are proved in
   `StacksFrontier/AlgebraicGeometry/Curves/Models/SpecialFiberIntersectionForm.lean`, resting on the
   symmetry of the intersection product [Stacks, Tag 0C64] in
-  `StacksFrontier/AlgebraicGeometry/Curves/Models/DegreePairingSymmetry.lean` and on the connectedness
-  of the special fibre [Stacks, Tag 0C62] in
+  `StacksFrontier/AlgebraicGeometry/Curves/Models/DegreePairingSymmetry.lean` and on the
+  connectedness of the special fibre [Stacks, Tag 0C62] in
   `StacksFrontier/AlgebraicGeometry/Curves/Models/SpecialFiberConnected.lean`. The step itself is
   `Stacks.Models.exists_eq_mul_specialFiberMultiplicity_of_componentDegree_eq_zero`, whose
   bilinear expansion `deg(𝒪_X(Σ bᵢCᵢ)|_{Cⱼ}) = Σᵢ bᵢ(Cⱼ · Cᵢ)` is

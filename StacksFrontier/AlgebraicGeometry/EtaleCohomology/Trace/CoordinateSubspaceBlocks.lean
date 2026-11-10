@@ -83,7 +83,7 @@ public theorem toMatrix_restrict_coordSubspace {M : Matrix ι ι K}
   rw [LinearMap.toMatrix_apply]
   simp only [coordSubspaceBasis, Module.Basis.map_apply, Module.Basis.map_repr,
     LinearEquiv.trans_apply, LinearEquiv.symm_symm, Pi.basisFun_repr, Pi.basisFun_apply]
-  show ((Matrix.toLin' M) _) i = _
+  change ((Matrix.toLin' M) _) i = _
   rw [Matrix.toLin'_apply, Matrix.toSquareBlockProp_def, Matrix.of_apply]
   simp only [coordSubspaceEquiv, LinearEquiv.coe_symm_mk', Matrix.mulVec, dotProduct,
     Submodule.subtype_apply]

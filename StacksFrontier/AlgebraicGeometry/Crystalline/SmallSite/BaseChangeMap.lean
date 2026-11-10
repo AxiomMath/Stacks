@@ -310,7 +310,7 @@ theorem baseRingHom_baseChangeRingHom_val (a : Γ(S'.S.scheme, ⊤))
     (baseRingHom S (baseChangeRingHom f a)).val A =
       (baseRingHom S' a).val (op ((smallChangeBase S S' f g h).obj A.unop)) := by
   rw [baseRingHom_apply_val, baseRingHom_apply_val, baseChangeRingHom_apply]
-  show (Scheme.Γ.map A.unop.obj.toBase.hom.op).hom ((Scheme.Γ.map f.hom.op).hom a) =
+  change (Scheme.Γ.map A.unop.obj.toBase.hom.op).hom ((Scheme.Γ.map f.hom.op).hom a) =
     (Scheme.Γ.map (A.unop.obj.toBase ≫ f).hom.op).hom a
   rw [DividedPowerScheme.Hom.comp_hom, op_comp, Functor.map_comp]
   rfl

@@ -212,7 +212,7 @@ theorem exists_hom_Q_map_eq (F E : CochainComplex A ℤ) (m : ℤ)
     (DerivedCategory.homologyFunctorFactors A m).hom.app E), ?_⟩
   refine (DerivedCategory.bijective_homologyFunctor_map_of_isLE_of_isGE
     (DerivedCategory.Q.obj F) (DerivedCategory.Q.obj E) m).1 ?_
-  show (DerivedCategory.homologyFunctor A m).map (DerivedCategory.Q.map
+  change (DerivedCategory.homologyFunctor A m).map (DerivedCategory.Q.map
       (homOfHomologyMap _)) = (DerivedCategory.homologyFunctor A m).map γ
   apply (cancel_mono ((DerivedCategory.homologyFunctorFactors A m).hom.app E)).mp
   rw [DerivedCategory.homologyFunctorFactors_hom_naturality,

@@ -55,7 +55,7 @@ theorem canonical_comm {R R' : Type u} [CommRing R] [CommRing R'] (g : R →+* R
     (hX' : B.Contains (Spec (.of R'))) (hX : B.Contains (Spec (.of R))) :
     canGU g f B hU' hU ≫ canJU f B hU hX = canGX' g f B hU' hX' ≫ canJX' g B hX' hX := by
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom (Localization.awayMap g f)) ≫
+  change Spec.map (CommRingCat.ofHom (Localization.awayMap g f)) ≫
       Spec.map (CommRingCat.ofHom (algebraMap R (Localization.Away f))) =
     Spec.map (CommRingCat.ofHom (algebraMap R' (Localization.Away (g f)))) ≫
       Spec.map (CommRingCat.ofHom g)
@@ -385,7 +385,7 @@ theorem relation_isEquivalenceRelation (hglue : _root_.BeauvilleLaszlo.IsGlueing
   let p₁C : W₀ ⟶ T₀ := ObjectProperty.homMk p₁
   have h : ∀ (p : W ⟶ T) (c), G.functor.map p = eW.hom ≫ c →
       eW.symm.hom ≫ F.map (ObjectProperty.homMk p : W₀ ⟶ T₀) = c := fun p c hp => by
-    show eW.inv ≫ G.functor.map p = _
+    change eW.inv ≫ G.functor.map p = _
     rw [hp, Iso.inv_hom_id_assoc]
   have e' : EquivalenceRelation (eW.symm.hom ≫ F.map p₀C) (eW.symm.hom ≫ F.map p₁C) := by
     rw [h p₀ _ hp₀, h p₁ _ hp₁]

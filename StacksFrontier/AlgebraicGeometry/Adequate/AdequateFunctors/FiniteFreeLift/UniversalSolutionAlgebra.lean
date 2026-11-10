@@ -80,19 +80,18 @@ lemma laurentTensorCoefficientsLarge_weightedConstant {A : Type u} {B : Type v}
       ((LaurentPolynomial.T k : LaurentPolynomial B) •
         (TensorProduct.map (constantLaurentMapLarge A B).toLinearMap LinearMap.id) y) =
       Finsupp.single k y := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul b m =>
       apply Finsupp.ext
       intro j
-      show laurentTensorCoefficientsLarge A B M
+      change laurentTensorCoefficientsLarge A B M
         ((LaurentPolynomial.T k * LaurentPolynomial.C b) ⊗ₜ[A] m) j = _
       rw [laurentTensorCoefficientsLarge_tmul]
       rw [mul_comm (LaurentPolynomial.T k) (LaurentPolynomial.C b)]
       have hc : (LaurentPolynomial.C b * LaurentPolynomial.T k).coeff j =
           if k = j then b else 0 := by
         rw [← LaurentPolynomial.single_eq_C_mul_T]
-        show (Finsupp.single k b) j = _
+        change (Finsupp.single k b) j = _
         simp only [Finsupp.single_apply]
       rw [hc]
       by_cases hkj : k = j <;> simp [hkj]
@@ -198,7 +197,7 @@ public lemma gradedLaurentMapLarge_mem (A : Type u) (B : Type v)
     (hx : x ∈ 𝒜 d) :
     gradedLaurentMapLarge A B 𝒜 x =
       LaurentPolynomial.C x * LaurentPolynomial.T (d : ℤ) := by
-  show (DirectSum.liftRingHom _) (DirectSum.decompose 𝒜 x) = _
+  change (DirectSum.liftRingHom _) (DirectSum.decompose 𝒜 x) = _
   rw [DirectSum.decompose_of_mem 𝒜 hx]
   simp [DirectSum.liftRingHom_apply]
 
@@ -224,7 +223,7 @@ lemma gradedLaurentMap_symmetricAlgebra_generator (A V : Type u) [CommRing A]
     Laurent.gradedLaurentMap A (SymmetricAlgebra A V) (symmetricPower A V)
       (SymmetricAlgebra.ι A V v) =
         LaurentPolynomial.C (SymmetricAlgebra.ι A V v) * LaurentPolynomial.T 1 := by
-  show (DirectSum.liftRingHom _) (DirectSum.decompose (symmetricPower A V)
+  change (DirectSum.liftRingHom _) (DirectSum.decompose (symmetricPower A V)
     (SymmetricAlgebra.ι A V v)) = _
   rw [DirectSum.decompose_of_mem (symmetricPower A V)
     (symmetricAlgebra_generator_mem_degree_one A V v)]

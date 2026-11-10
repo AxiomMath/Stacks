@@ -112,7 +112,7 @@ lemma incl_isContinuous (J : GrothendieckTopology C) (K : FormalCoproduct.{w} C)
   have hc : CoverPreserving (J.over (K.obj i)) (componentwiseTopology J K) I := by
     constructor
     intro X S hS
-    show (S.functorPushforward I).functorPullback I ∈ J.over (K.obj i) X
+    change (S.functorPushforward I).functorPullback I ∈ J.over (K.obj i) X
     rwa [Sieve.functorPullback_functorPushforward_eq]
   exact Functor.isContinuous_of_coverPreserving
     (compatiblePreservingOfDownwardsClosed (componentwiseTopology J K) I hd) hc
@@ -243,7 +243,7 @@ private lemma componentOverHom_incl_factor_isIso {K : FormalCoproduct.{w} C}
     | mk j Y =>
       cases f with
       | mk f =>
-        show IsIso ((CategoryTheory.Sigma.incl
+        change IsIso ((CategoryTheory.Sigma.incl
           (C := fun i : K.I => Over (K.obj i)) i).map (𝟙 X))
         exact Functor.map_isIso _ _
 
@@ -349,7 +349,7 @@ lemma localizationFunctor_hasCoverPullbacks (S : LocalizationSites.{w} C J)
   refine ⟨P, p₁, p₂, ?_, ?_⟩
   · intro i
     constructor
-    · show pullback.snd (𝒱.2.f i) g ≫ g =
+    · change pullback.snd (𝒱.2.f i) g ≫ g =
         pullback.fst (𝒱.2.f i) g ≫ 𝒱.2.f i
       exact pullback.condition.symm
     · intro T a b hab
@@ -360,7 +360,7 @@ lemma localizationFunctor_hasCoverPullbacks (S : LocalizationSites.{w} C J)
       let l₀ : T.left ⟶ pullback (𝒱.2.f i) g :=
         pullback.lift b a.left hab.symm
       let l : ⟨k, T⟩ ⟶ P i := ι.map (Over.homMk l₀ (by
-        show l₀ ≫ (pullback.snd (𝒱.2.f i) g ≫ U.hom) = T.hom
+        change l₀ ≫ (pullback.snd (𝒱.2.f i) g ≫ U.hom) = T.hom
         calc
           l₀ ≫ (pullback.snd (𝒱.2.f i) g ≫ U.hom) =
               (l₀ ≫ pullback.snd (𝒱.2.f i) g) ≫ U.hom := by rw [Category.assoc]
@@ -368,12 +368,12 @@ lemma localizationFunctor_hasCoverPullbacks (S : LocalizationSites.{w} C J)
           _ = T.hom := Over.w a))
       refine ⟨l, ?_, ?_⟩
       · constructor
-        · show ι.map _ = ι.map _
+        · change ι.map _ = ι.map _
           apply congrArg ι.map
           apply Over.OverMorphism.ext
-          show l₀ ≫ pullback.snd (𝒱.2.f i) g = a.left
+          change l₀ ≫ pullback.snd (𝒱.2.f i) g = a.left
           exact pullback.lift_snd b a.left hab.symm
-        · show l₀ ≫ pullback.fst (𝒱.2.f i) g = b
+        · change l₀ ≫ pullback.fst (𝒱.2.f i) g = b
           exact pullback.lift_fst b a.left hab.symm
       · intro m hm
         rcases hm with ⟨hm₁raw, hm₂raw⟩; rcases m with ⟨m⟩
@@ -509,12 +509,12 @@ lemma relocalizationFunctor_hasCoverPullbacks (S : LocalizationSites.{w} C J)
     obtain ⟨b, hb⟩ := exists_incl_map_eq (K := S.L) j (h ≫ inv (eX a))
     exact ⟨b, hb, comp_eq_comp_of_inv h (eX a) _ _ _ hb (hfac a)⟩
   have hFamArrow (a : E.I₀) : Rcomp (famArrow a) := by
-    show (Sieve.generate E.presieve₀) (targetIncl.map (famArrow a))
+    change (Sieve.generate E.presieve₀) (targetIncl.map (famArrow a))
     rw [hfac]
     exact (Sieve.generate E.presieve₀).downward_closed
       (Sieve.le_generate E.presieve₀ (E.X a) (E.f a) (E.presieve₀_f a)) _
   have hFamArrowBase (a : E.I₀) : Rbase (famArrow a).left := by
-    show Rcomp.functorPushforward (Over.forget (S.L.obj j)) (famArrow a).left
+    change Rcomp.functorPushforward (Over.forget (S.L.obj j)) (famArrow a).left
     exact ⟨famObj a, famArrow a, 𝟙 _, hFamArrow a, by simp⟩
   have hRbaseCov : Rbase.arrows ∈ J.toCoverage Y.left := by
     rw [GrothendieckTopology.mem_toCoverage_iff, Sieve.generate_sieve]
@@ -658,10 +658,10 @@ lemma relocalizationFunctor_hasCoverPullbacks (S : LocalizationSites.{w} C J)
     have hcomp : Sieve.functorPullback srcIncl
         (Sieve.generate (Presieve.ofArrows P p₁)) ∈ J.over (S.K.obj i) X :=
       (J.over (S.K.obj i)).superset_covering hcomp_le hcomponent
-    show (Presieve.ofArrows P p₁) ∈
+    change (Presieve.ofArrows P p₁) ∈
       S.sourceTopology.toCoverage ⟨i, X⟩
     rw [GrothendieckTopology.mem_toCoverage_iff]
-    show Sieve.generate (Presieve.ofArrows P p₁) ∈
+    change Sieve.generate (Presieve.ofArrows P p₁) ∈
       componentwiseTopology J S.K ⟨i, X⟩
     rw [mem_componentwiseTopology_iff]
     exact hcomp

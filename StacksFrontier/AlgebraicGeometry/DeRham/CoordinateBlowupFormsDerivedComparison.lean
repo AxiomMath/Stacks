@@ -80,7 +80,8 @@ attribute [local instance] Stacks.MoreMorphisms.coordinateEmbedding_isClosedImme
 (`Stacks.DeRham.blowupFormsDerivedComparison` of the coordinate closed immersion
 `i : Z = 𝐀^m_S ⟶ X`): for `n ≥ 1`, every `a ≥ 0` and every `q ≥ 1` it is an isomorphism on
 `H^q`. -/
-@[stacks 0FUR "clause (3), for the comparison map Rb_*Ω^a ⟶ i_*Rp_*Ω^a, in the setting of Section 0FUB, \
+@[stacks 0FUR "clause (3), for the comparison map Rb_*Ω^a ⟶ i_*Rp_*Ω^a, \
+in the setting of Section 0FUB, \
 which fixes a ring R and sets S = Spec(R), Z = A^m_S ⊂ X = A^{m+n}_S with n ≥ 1"]
 theorem isIso_homology_coordinateBlowupFormsDerivedComparison (hn : 1 ≤ n) (a : ℕ) (q : ℤ)
     (hq : 1 ≤ q) :

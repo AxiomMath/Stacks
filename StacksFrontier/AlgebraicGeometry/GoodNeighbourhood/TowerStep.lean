@@ -52,7 +52,7 @@ theorem exists_isIntegral_opens_of_isNormal (Y : Scheme.{u}) [IsNormal Y] [IsLoc
   refine ⟨g.opensRange, ⟨z, ?_⟩, IsIntegral.of_isIso
     (IsOpenImmersion.isoOfRangeEq g g.opensRange.ι (by simp)).hom⟩
   have h : (Limits.Sigma.ι W i) z = e.hom y := by simpa only [sigmaMk_mk] using hz
-  show e.inv ((Limits.Sigma.ι W i) z) = y
+  change e.inv ((Limits.Sigma.ι W i) z) = y
   rw [h]
   exact congrArg (fun k : Y ⟶ Y => k y) e.hom_inv_id
 

@@ -125,7 +125,7 @@ theorem tilde_hom_ext {R : CommRingCat.{u}} {M : ModuleCat.{u} R} {N : (Spec R).
 theorem tilde_map_smul_id (R : CommRingCat.{u}) (M : ModuleCat.{u} R) (r : R) :
     (tilde.functor R).map (r • 𝟙 M) =
       (globalSmulCenter (Spec R) ((Scheme.ΓSpecIso R).inv r)).app (tilde M) := by
-  show (tilde.functor R).map (r • 𝟙 M) =
+  change (tilde.functor R).map (r • 𝟙 M) =
     (globalSmulCenter (Spec R) ((Scheme.ΓSpecIso R).inv r)).app ((tilde.functor R).obj M)
   refine tilde_hom_ext _ _ ?_
   refine (cancel_epi (tilde.toOpen M ⊤)).mp ?_
@@ -134,7 +134,7 @@ theorem tilde_map_smul_id (R : CommRingCat.{u}) (M : ModuleCat.{u} R) (r : R) :
       (r • 𝟙 M) ≫ tilde.toOpen M ⊤ := tilde.toOpen_map_app (r • 𝟙 M) ⊤
   refine hL.trans ?_
   ext m
-  show tilde.toOpen M ⊤ (r • m) =
+  change tilde.toOpen M ⊤ (r • m) =
     ((globalSmulCenter (Spec R) ((Scheme.ΓSpecIso R).inv r)).app
       ((tilde.functor R).obj M)).app ⊤ (tilde.toOpen M ⊤ m)
   rw [map_smul]
@@ -222,7 +222,7 @@ theorem globalSmulCenter_restrict {X Y : Scheme.{u}} (f : X ⟶ Y) [IsOpenImmers
   intro U
   ext m
   change Γ(M, f ''ᵁ U) at m
-  show Y.presheaf.map (f ''ᵁ U).leTop.op r • m =
+  change Y.presheaf.map (f ''ᵁ U).leTop.op r • m =
     (f.appIso U).inv (X.presheaf.map U.leTop.op (f.appTop r)) • m
   have h : Y.presheaf.map (f ''ᵁ U).leTop.op ≫ (f.appIso U).hom =
       f.appTop ≫ X.presheaf.map U.leTop.op := by

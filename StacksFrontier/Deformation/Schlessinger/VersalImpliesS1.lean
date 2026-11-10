@@ -52,7 +52,7 @@ lemma cofibered_factor
     (s : p.obj y ⟶ p.obj x) (ha : p.map i ≫ s = p.map a) :
     ∃ b : y ⟶ x, p.map b = s ∧ i ≫ b = a := by
   have hcomm : s.op ≫ p.op.map i.op = p.op.map a.op := by
-    show (p.map i ≫ s).op = (p.map a).op
+    change (p.map i ≫ s).op = (p.map a).op
     exact congrArg Quiver.Hom.op ha
   obtain ⟨b, ⟨hb, hfac⟩, _⟩ := hp.unique_lift i.op a.op s.op hcomm
   exact ⟨b.unop, congrArg Quiver.Hom.unop hb, congrArg Quiver.Hom.unop hfac⟩

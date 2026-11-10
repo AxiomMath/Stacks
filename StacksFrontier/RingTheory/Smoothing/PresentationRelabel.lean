@@ -132,7 +132,7 @@ theorem lift_relabelVars (P : Presentation R A) (e : Fin P.n ≃ Fin P.n)
         (Ideal.Quotient.mkₐ R (Ideal.span (Set.range P.f)) p) :=
     (Ideal.quotientEquivAlg_mk _ _ _ _).symm
   refine (AlgEquiv.symm_apply_eq _).2 ?_
-  show Ideal.Quotient.mkₐ R
+  change Ideal.Quotient.mkₐ R
       (Ideal.span (Set.range fun j ↦ MvPolynomial.rename e (P.f j)))
       (MvPolynomial.renameEquiv R e p) = _
   rw [hmk]
@@ -274,7 +274,7 @@ theorem exists_equiv_orderIsoOfFin_eq_castLE {n : ℕ} (c : ℕ) (hcn : c ≤ n)
     simp [esplit, finSumFinEquiv_apply_left, hleft]
   have hr : (esplit.symm.trans epart) (Fin.castLE hcn i) =
       (U.orderIsoOfFin hU i : Fin n) := by
-    show epart (esplit.symm (Fin.castLE hcn i)) = (U.orderIsoOfFin hU i : Fin n)
+    change epart (esplit.symm (Fin.castLE hcn i)) = (U.orderIsoOfFin hU i : Fin n)
     rw [hpre]
     simp [epart]
   simpa using hr.symm

@@ -200,7 +200,7 @@ theorem isLocallyBoundedFiniteLocallyFree_single (M : X.Modules)
     (HomologicalComplex.isZero_single_obj_X _ _ _ _ (by omega))⟩⟩
   by_cases hn : n = 0
   · subst hn
-    show AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u}
+    change AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u}
       (((HomologicalComplex.single X.Modules (ComplexShape.up ℤ) 0).obj M).X 0)
     rw [HomologicalComplex.single_obj_X_self]
     exact hM

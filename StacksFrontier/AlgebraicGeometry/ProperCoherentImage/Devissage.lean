@@ -131,7 +131,7 @@ theorem isCoherent_higherDirectImage_terminal {X S : Scheme.{u}} (f : X ⟶ S) (
     (((Scheme.Modules.pushforward f).rightDerivedPlus (p : ℤ)).obj (⊤_ X.Modules)).IsCoherent := by
   refine ObjectProperty.prop_of_isZero
     (P := fun M : SheafOfModules.{u} S.ringCatSheaf => M.IsCoherent) ?_
-  show IsZero (((higherDirectImageDeltaFunctor f).functor p).obj (⊤_ X.Modules))
+  change IsZero (((higherDirectImageDeltaFunctor f).functor p).obj (⊤_ X.Modules))
   exact Functor.map_isZero _ ((isZero_zero X.Modules).of_iso
     (HasZeroObject.zeroIsoTerminal (C := X.Modules)).symm)
 

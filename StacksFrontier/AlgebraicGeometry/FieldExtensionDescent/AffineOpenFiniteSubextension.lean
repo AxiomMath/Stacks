@@ -67,12 +67,12 @@ theorem exists_isAffineOpen_preimage_eq_finiteSubextension [Algebra.IsAlgebraic 
   have : ∀ {j j' : Over i} (g : j ⟶ j'), IsAffineHom (D'.map g) := by
     intro j j' g
     refine MorphismProperty.overPullbackMap (P := @IsAffineHom) f ((Over.post D).map g) ?_
-    show IsAffineHom (Spec.map _)
+    change IsAffineHom (Spec.map _)
     infer_instance
   have : ∀ j : Over i, QuasiSeparatedSpace (D'.obj j) := by
     intro j
     have : QuasiSeparated (D.map j.hom) := by
-      show QuasiSeparated (Spec.map _)
+      change QuasiSeparated (Spec.map _)
       infer_instance
     have : QuasiSeparated (pullback.snd (D.map j.hom) f) :=
       quasiSeparated_isStableUnderBaseChange.of_isPullback

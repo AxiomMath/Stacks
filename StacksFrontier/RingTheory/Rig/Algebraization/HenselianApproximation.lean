@@ -91,7 +91,7 @@ theorem exists_ringHom_henselization_approx {A₀ : Type u} [CommRing A₀]
       (I.map (algebraMap A₀ (AdicCompletion (I.map (algebraMap A₀ D)) D))) ^ n :=
     { toRingHom := (Ideal.Quotient.mk _).comp μ
       commutes' := fun x ↦ by
-        show Ideal.Quotient.mk _ (μ (algebraMap A₀ W x)) =
+        change Ideal.Quotient.mk _ (μ (algebraMap A₀ W x)) =
           Ideal.Quotient.mk _ (algebraMap A₀ (AdicCompletion (I.map (algebraMap A₀ D)) D) x)
         rw [Ideal.Quotient.eq,
           IsScalarTower.algebraMap_apply A₀ D (AdicCompletion (I.map (algebraMap A₀ D)) D) x]
@@ -129,7 +129,7 @@ theorem exists_ringHom_henselization_approx {A₀ : Type u} [CommRing A₀]
   refine ⟨ψ.toRingHom, fun x ↦ ψ.commutes x, fun w ↦ ?_⟩
   have h3 : ψn (algebraMap W (AdicCompletion (I.map (algebraMap A₀ W)) W) w) =
       Ideal.Quotient.mk _ (μ w) := by
-    show Ideal.Quotient.liftₐ _ μn hker (AdicCompletion.evalₐ _ n
+    change Ideal.Quotient.liftₐ _ μn hker (AdicCompletion.evalₐ _ n
       (AdicCompletion.of _ _ w)) = _
     rw [AdicCompletion.evalₐ_of]
     rfl
@@ -140,7 +140,7 @@ theorem exists_ringHom_henselization_approx {A₀ : Type u} [CommRing A₀]
   rw [h3, Ideal.Quotient.factor_mk, Ideal.Quotient.eq] at h2'
   have h4 : (henselizationToAdicCompletion D (I.map (algebraMap A₀ D))).1 (ψ w) =
       φ (algebraMap W (AdicCompletion (I.map (algebraMap A₀ W)) W) w) := AlgHom.congr_fun hψ w
-  show (henselizationToAdicCompletion D (I.map (algebraMap A₀ D))).1 (ψ w) - μ w ∈ _
+  change (henselizationToAdicCompletion D (I.map (algebraMap A₀ D))).1 (ψ w) - μ w ∈ _
   rw [h4, ← neg_sub, neg_mem_iff]
   convert h2' using 2
   exact hIC.symm

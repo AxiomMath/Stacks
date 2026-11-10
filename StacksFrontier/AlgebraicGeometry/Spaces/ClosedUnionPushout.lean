@@ -203,7 +203,7 @@ theorem existsUnique_desc_of_eq_schemeTheoreticUnion (V : BigFppfOver B S hS)
       (ObjectProperty.homMk (Subfunctor.toRange (yoneda.map j₂) ≫ g) :
         yonedaSpace B S hS R₂ ⟶ (⟨G, hG⟩ : AlgebraicSpaces B S hS)) := by
     apply ObjectProperty.hom_ext
-    show yoneda.map a₁ ≫ Subfunctor.toRange (yoneda.map j₁) ≫ f =
+    change yoneda.map a₁ ≫ Subfunctor.toRange (yoneda.map j₁) ≫ f =
       yoneda.map a₂ ≫ Subfunctor.toRange (yoneda.map j₂) ≫ g
     rw [← Category.assoc, ha₁e, ← Category.assoc, ha₂e, Category.assoc, Category.assoc, hfg]
   refine ⟨inv (Subfunctor.lift (yoneda.map j₄) hunion.ge) ≫ (hpush.desc _ _ hcond).hom,
@@ -221,12 +221,12 @@ theorem existsUnique_desc_of_eq_schemeTheoreticUnion (V : BigFppfOver B S hS)
       refine hpush.hom_ext ?_ ?_
       · apply ObjectProperty.hom_ext
         refine Eq.trans ?_ (congrArg (fun m => m.hom) (hpush.inl_desc _ _ hcond)).symm
-        show yoneda.map b₁ ≫ Subfunctor.lift (yoneda.map j₄) hunion.ge ≫ h =
+        change yoneda.map b₁ ≫ Subfunctor.lift (yoneda.map j₄) hunion.ge ≫ h =
           Subfunctor.toRange (yoneda.map j₁) ≫ f
         rw [← Category.assoc, hb₁e, Category.assoc, h₁]
       · apply ObjectProperty.hom_ext
         refine Eq.trans ?_ (congrArg (fun m => m.hom) (hpush.inr_desc _ _ hcond)).symm
-        show yoneda.map b₂ ≫ Subfunctor.lift (yoneda.map j₄) hunion.ge ≫ h =
+        change yoneda.map b₂ ≫ Subfunctor.lift (yoneda.map j₄) hunion.ge ≫ h =
           Subfunctor.toRange (yoneda.map j₂) ≫ g
         rw [← Category.assoc, hb₂e, Category.assoc, h₂]
     rw [show (hpush.desc _ _ hcond).hom = Subfunctor.lift (yoneda.map j₄) hunion.ge ≫ h from
@@ -627,7 +627,7 @@ theorem isPushout_schemeTheoreticUnion (X : AlgebraicSpaces B S hS)
   classical
   refine IsPushout.of_isColimit' ⟨?_⟩ (PushoutCocone.isColimitAux' _ fun t => ?_)
   · apply ObjectProperty.hom_ext
-    show Subfunctor.homOfLe (inf_le_left : Y.1 ⊓ Z.1 ≤ Y.1) ≫
+    change Subfunctor.homOfLe (inf_le_left : Y.1 ⊓ Z.1 ≤ Y.1) ≫
         Subfunctor.homOfLe (le_schemeTheoreticUnion_left B S hS X.2 Y Z) =
       Subfunctor.homOfLe (inf_le_right : Y.1 ⊓ Z.1 ≤ Z.1) ≫
         Subfunctor.homOfLe (le_schemeTheoreticUnion_right B S hS X.2 Y Z)

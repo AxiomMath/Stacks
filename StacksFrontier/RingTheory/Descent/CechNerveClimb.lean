@@ -138,8 +138,7 @@ theorem injective_tensorOfSurjective (hρ : Function.Surjective (algebraMap A A�
       ((Algebra.TensorProduct.includeRight : M₁ →ₐ[A₁] B₁ ⊗[A₁] M₁).restrictScalars A)
       (fun _ _ => Commute.all _ _) x) = x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul b m => simp [inv, g]
     | add x y hx hy => rw [map_add, map_add, hx, hy]
   exact Function.LeftInverse.injective hinv
@@ -168,8 +167,7 @@ theorem bijective_algebraMap_tensor_of_reduction (hρ : Function.Surjective (alg
   have hθ : ∀ s m, θ (s ⊗ₜ m) = ψ s ⊗ₜ πM m := fun s m => by simp [θ, θ₀, can]
   have hθsurj : Function.Surjective θ := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => exact ⟨0, map_zero _⟩
+    induction y using TensorProduct.inductionOn with
     | tmul b m =>
       obtain ⟨s, rfl⟩ := hψ b
       obtain ⟨m', rfl⟩ := hπM m
@@ -191,15 +189,14 @@ theorem bijective_algebraMap_tensor_of_reduction (hρ : Function.Surjective (alg
         (Algebra.TensorProduct.includeRight : M →ₐ[A] S ⊗[A] M).toRingHom hπMn)
   refine bijective_algebraMap_of_comp_eq θ hθsurj hkerθn πN ?_ ?_
   · refine RingHom.ext fun x => ?_
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul s m => rw [RingHom.comp_apply, hcomm, hθ]
     | add x y hx hy => rw [map_add, map_add, hx, hy]
   · refine hker.trans (Ideal.map_mono ?_)
     rw [Ideal.map_le_iff_le_comap]
     intro m hm
     rw [Ideal.mem_comap, RingHom.mem_ker]
-    show θ (1 ⊗ₜ m) = 0
+    change θ (1 ⊗ₜ m) = 0
     rw [hθ, RingHom.mem_ker.1 hm, TensorProduct.tmul_zero]
 
 /-- The base change `S ⊗[A] M` of an étale `A`-algebra `S`, as an algebra over the right
@@ -334,29 +331,29 @@ theorem isNerveReduction_bot_of_bijective {A : Type u} [CommRing A] [Algebra A B
   · rw [Ideal.map_bot]
     exact (RingHom.injective_iff_ker_eq_bot _).1 eD.symm.injective
   · refine RingHom.ext fun b => ?_
-    show eC.symm (p₁ b) = b ⊗ₜ 1
+    change eC.symm (p₁ b) = b ⊗ₜ 1
     rw [AlgEquiv.symm_apply_eq, heC, map_one, mul_one, hp₁]
   · refine RingHom.ext fun b => ?_
-    show eC.symm (p₂ b) = 1 ⊗ₜ b
+    change eC.symm (p₂ b) = 1 ⊗ₜ b
     rw [AlgEquiv.symm_apply_eq, heC, map_one, one_mul, hp₂]
   · refine RingHom.ext fun c => ?_
-    show eD.symm (e₁₂ c) = Algebra.TensorProduct.map (AlgHom.id A B)
+    change eD.symm (e₁₂ c) = Algebra.TensorProduct.map (AlgHom.id A B)
       Algebra.TensorProduct.includeLeft (eC.symm c)
     rw [AlgEquiv.symm_apply_eq]
-    show e₁₂ c = ΦD _
+    change e₁₂ c = ΦD _
     rw [← AlgHom.comp_apply, hΦ₁₂]
     simp [he₁₂]
   · refine RingHom.ext fun c => ?_
-    show eD.symm (e₁₃ c) = Algebra.TensorProduct.map (AlgHom.id A B)
+    change eD.symm (e₁₃ c) = Algebra.TensorProduct.map (AlgHom.id A B)
       Algebra.TensorProduct.includeRight (eC.symm c)
     rw [AlgEquiv.symm_apply_eq]
-    show e₁₃ c = ΦD _
+    change e₁₃ c = ΦD _
     rw [← AlgHom.comp_apply, hΦ₁₃]
     simp [he₁₃]
   · refine RingHom.ext fun c => ?_
-    show eD.symm (e₂₃ c) = Algebra.TensorProduct.includeRight (eC.symm c)
+    change eD.symm (e₂₃ c) = Algebra.TensorProduct.includeRight (eC.symm c)
     rw [AlgEquiv.symm_apply_eq]
-    show e₂₃ c = ΦD (Algebra.TensorProduct.includeRight (eC.symm c))
+    change e₂₃ c = ΦD (Algebra.TensorProduct.includeRight (eC.symm c))
     rw [hΦ₂₃, AlgEquiv.apply_symm_apply, he₂₃]
 
 /-- **A Čech nerve modulo a square-zero element of the base is a Čech nerve.** Let
@@ -429,11 +426,11 @@ theorem isNerveReduction_bot_of_span_singleton (p₁ p₂ : B →ₐ[R] C) (δ :
     commutes' := fun a => (AlgHom.congr_fun h₁₂₁₃ a).symm }
   let e₂₃' : C →ₐ[A] D := { (e₂₃ : C →+* D) with
     commutes' := fun a => by
-      show e₂₃ (p₁ a) = e₁₂ (p₁ a)
+      change e₂₃ (p₁ a) = e₁₂ (p₁ a)
       rw [← AlgHom.comp_apply, ← h₁₂₂₃, AlgHom.comp_apply, hAeq] }
   let δ' : C →ₐ[A] B := { (δ : C →+* B) with
     commutes' := fun a => by
-      show δ (p₁ a) = a
+      change δ (p₁ a) = a
       rw [← AlgHom.comp_apply, hδ₁, AlgHom.id_apply] }
   let πBA : B →ₐ[A] B₁ := { πB with commutes' := fun a => (hρ a).symm }
   -- the étale lift of `B₁` and the lift of its reduction
@@ -453,7 +450,7 @@ theorem isNerveReduction_bot_of_span_singleton (p₁ p₂ : B →ₐ[R] C) (δ :
       (fun b => ?_) πC (fun s b => ?_) ?_
     · rw [chartMap_tmul, map_one, map_one, one_mul]
       rfl
-    · show πC (p₁ (β s) * p₂ b) = _
+    · change πC (p₁ (β s) * p₂ b) = _
       rw [map_mul, hC₁', hC₂', hβψ, Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
       rfl
     · rw [hkC', Ideal.span_le]
@@ -464,12 +461,12 @@ theorem isNerveReduction_bot_of_span_singleton (p₁ p₂ : B →ₐ[R] C) (δ :
       rw [SetLike.mem_coe, this]
       exact Ideal.mem_map_of_mem _ (Ideal.mem_map_of_mem _ hμB)
   have hπCA : ∀ a : A, πC (algebraMap A C a) = algebraMap A (B₁ ⊗[A₁] B₁) a := fun a => by
-    show πC (p₁ a) = _
+    change πC (p₁ a) = _
     rw [hC₁', Algebra.TensorProduct.algebraMap_apply, ← hρ]
     rfl
   let πCA : C →ₐ[A] B₁ ⊗[A₁] B₁ := { πC with commutes' := hπCA }
   have hnilC : RingHom.ker πCA ≤ nilradical C := by
-    show RingHom.ker πC ≤ _
+    change RingHom.ker πC ≤ _
     rw [hkC']
     exact Ideal.span_singleton_le_nilradical_of_mul_self_eq_zero (by rw [← map_mul, hμ, map_zero])
   have hhν : Function.Bijective (tripleMap p₁' e₁₂' e₂₃' β) := by
@@ -477,7 +474,7 @@ theorem isNerveReduction_bot_of_span_singleton (p₁ p₂ : B →ₐ[R] C) (δ :
       (fun c => ?_) πD (fun s c => ?_) ?_
     · rw [tripleMap_tmul, map_one, map_one, map_one, one_mul]
       rfl
-    · show πD (e₁₂ (p₁ (β s)) * e₂₃ c) = _
+    · change πD (e₁₂ (p₁ (β s)) * e₂₃ c) = _
       have e2 := RingHom.congr_fun hD₁₂ (p₁ (β s))
       have e3 := RingHom.congr_fun hD₂₃ c
       simp only [RingHom.comp_apply, AlgHom.toRingHom_eq_coe, RingHom.coe_coe,
@@ -492,7 +489,7 @@ theorem isNerveReduction_bot_of_span_singleton (p₁ p₂ : B →ₐ[R] C) (δ :
           tripleMap p₁' e₁₂' e₂₃' β (Algebra.TensorProduct.includeRight (p₁ μ)) := by
         rw [Algebra.TensorProduct.includeRight_apply, tripleMap_tmul, map_one, map_one, map_one,
           one_mul]
-        show e₁₂ (p₁ μ) = e₂₃ (p₁ μ)
+        change e₁₂ (p₁ μ) = e₂₃ (p₁ μ)
         rw [← AlgHom.comp_apply e₂₃ p₁, ← h₁₂₂₃, AlgHom.comp_apply, hμp]
       rw [SetLike.mem_coe, this]
       exact Ideal.mem_map_of_mem _ (Ideal.mem_map_of_mem _ hμC)

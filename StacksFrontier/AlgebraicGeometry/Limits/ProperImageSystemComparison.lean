@@ -150,7 +150,7 @@ theorem eventually_isProper_morphismAt_of_isProper_model [FinallySmall.{u} I]
     ⟨⟨Φ'.maps.app j', (hΦ₀ _).1, (hΦ₀ _).2⟩⟩
   have hΘiso : IsIso (Θ.maps.app j') :=
     ⟨⟨Θ'.maps.app j', (hΘ₀ _).1, (hΘ₀ _).2⟩⟩
-  show IsProper (Fc.maps.app j')
+  change IsProper (Fc.maps.app j')
   refine (MorphismProperty.cancel_right_of_respectsIso (P := @IsProper) _
     (Θ.maps.app j')).mp ?_
   rw [hnat j' hj]

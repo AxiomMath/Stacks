@@ -1,7 +1,7 @@
 module
 
 public import
-  StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.ProjectionFormulaOpenImmersionBaseChange
+StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.ProjectionFormulaOpenImmersionBaseChange
 public import StacksFrontier.Topology.Sheaves.Cohomology.DerivedPullback.OpenCoverInvertibility
 public import StacksFrontier.Topology.Sheaves.Cohomology.DerivedPullback.UnitComparison
 import StacksCore.Tactic.StacksAttribute

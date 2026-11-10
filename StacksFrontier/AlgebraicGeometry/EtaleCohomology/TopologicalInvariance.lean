@@ -186,15 +186,15 @@ theorem surjective_baseChange_hom_of_universalHomeomorphism
   set ψ : Y ⟶ X := Over.homMk (σ ≫ pullback.fst X.hom Y.hom) hψ
   have hψleft : ψ.left = σ ≫ pullback.fst X.hom Y.hom := rfl
   refine ⟨ψ, ?_⟩
-  show (Over.pullback g).map ψ = φ
+  change (Over.pullback g).map ψ = φ
   have hmapfst : ((Over.pullback g).map ψ).left ≫ pullback.fst X.hom g =
       pullback.fst Y.hom g ≫ ψ.left := by
-    show (pullback.lift (pullback.fst Y.hom g ≫ ψ.left) (pullback.snd Y.hom g) _) ≫
+    change (pullback.lift (pullback.fst Y.hom g ≫ ψ.left) (pullback.snd Y.hom g) _) ≫
       pullback.fst X.hom g = _
     exact pullback.lift_fst _ _ _
   have hmapsnd : ((Over.pullback g).map ψ).left ≫ pullback.snd X.hom g =
       pullback.snd Y.hom g := by
-    show (pullback.lift (pullback.fst Y.hom g ≫ ψ.left) (pullback.snd Y.hom g) _) ≫
+    change (pullback.lift (pullback.fst Y.hom g ≫ ψ.left) (pullback.snd Y.hom g) _) ≫
       pullback.snd X.hom g = _
     exact pullback.lift_snd _ _ _
   apply Over.OverMorphism.ext
@@ -231,7 +231,7 @@ theorem etalePullback_faithful_of_universalHomeomorphism
     ⟨fun pb hg ↦ MorphismProperty.IsStableUnderBaseChange.of_isPullback pb hg⟩
   let F : Y.Etale ⥤ X.Etale :=
     MorphismProperty.Over.pullback (@Etale : MorphismProperty Scheme.{u}) ⊤ f
-  show F.Faithful
+  change F.Faithful
   have key : ∀ {A B : Y.Etale} (c : A ⟶ B), (Scheme.Etale.forget X).map (F.map c) =
       (Over.pullback f).map ((Scheme.Etale.forget Y).map c) := fun _ => rfl
   refine ⟨fun {A B} a b hab => ?_⟩
@@ -239,7 +239,7 @@ theorem etalePullback_faithful_of_universalHomeomorphism
   apply (Scheme.Etale.forgetFullyFaithful Y).map_injective
   refine injective_baseChange_hom_of_universalHomeomorphism f
     ((Scheme.Etale.forget Y).obj B) ((Scheme.Etale.forget Y).obj A) ?_
-  show (Over.pullback f).map ((Scheme.Etale.forget Y).map a) =
+  change (Over.pullback f).map ((Scheme.Etale.forget Y).map a) =
     (Over.pullback f).map ((Scheme.Etale.forget Y).map b)
   rw [← key a, ← key b, hab]
 
@@ -262,7 +262,7 @@ theorem etalePullback_full_of_universalHomeomorphism
     ⟨fun pb hg ↦ MorphismProperty.IsStableUnderBaseChange.of_isPullback pb hg⟩
   let F : Y.Etale ⥤ X.Etale :=
     MorphismProperty.Over.pullback (@Etale : MorphismProperty Scheme.{u}) ⊤ f
-  show F.Full
+  change F.Full
   have key : ∀ {A B : Y.Etale} (c : A ⟶ B), (Scheme.Etale.forget X).map (F.map c) =
       (Over.pullback f).map ((Scheme.Etale.forget Y).map c) := fun _ => rfl
   refine ⟨fun {A B} c => ?_⟩

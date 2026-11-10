@@ -164,7 +164,7 @@ theorem totalSectionsOfExterior_ι {A : GradedAlgebra.{t, a} R} {ι : M ⟶ A.pi
     (hι : SquareZero ι) (U : Cᵒᵖ) (x : M.val.obj U) :
     totalSectionsOfExterior hι U (ExteriorAlgebra.ι ℤ x) =
       DirectSum.of (A.sectionsPiece U) 1 (ι.val.app U x) := by
-  show (ExteriorAlgebra.lift ℤ _) (ExteriorAlgebra.ι ℤ x) = _
+  change (ExteriorAlgebra.lift ℤ _) (ExteriorAlgebra.ι ℤ x) = _
   rw [ExteriorAlgebra.lift_ι_apply]
   rfl
 

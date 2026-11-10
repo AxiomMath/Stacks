@@ -177,7 +177,7 @@ private theorem exists_generatingSections_of_span_sections
   have : Epi ((AlgebraicGeometry.tilde.functor R).map qhom) :=
     Functor.map_epi _ qhom
   have : Epi ψ := by
-    show Epi (e₁.inv ≫ (AlgebraicGeometry.tilde.functor R).map qhom ≫ e₂.hom)
+    change Epi (e₁.inv ≫ (AlgebraicGeometry.tilde.functor R).map qhom ≫ e₂.hom)
     exact epi_comp'
       (show Epi e₁.inv from inferInstance)
       (epi_comp' (show Epi ((AlgebraicGeometry.tilde.functor R).map qhom) from inferInstance)

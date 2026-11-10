@@ -75,18 +75,18 @@ theorem isGlueableFor_iff_beauvilleLaszloModuleSequence_shortExact
   have hmono : Mono (beauvilleLaszloModuleSequence (S := S) M f).f ↔
       Function.Injective (toTensorBaseChanges (S := S) M f) := by
     rw [AddCommGrpCat.mono_iff_injective]
-    show Function.Injective (ULift.map (toTensorBaseChanges (S := S) M f)) ↔ _
+    change Function.Injective (ULift.map (toTensorBaseChanges (S := S) M f)) ↔ _
     rw [ULift.map_injective]
   have hepi : Epi (beauvilleLaszloModuleSequence (S := S) M f).g ↔
       Function.Surjective (tensorAwayDifference (S := S) M f) := by
     rw [AddCommGrpCat.epi_iff_surjective]
-    show Function.Surjective (ULift.map (tensorAwayDifference (S := S) M f)) ↔ _
+    change Function.Surjective (ULift.map (tensorAwayDifference (S := S) M f)) ↔ _
     rw [ULift.map_surjective]
   have hexact : (beauvilleLaszloModuleSequence (S := S) M f).Exact ↔
       Function.Exact (toTensorBaseChanges (S := S) M f)
         (tensorAwayDifference (S := S) M f) := by
     rw [ShortComplex.ab_exact_iff_function_exact]
-    show Function.Exact (ULift.map (toTensorBaseChanges (S := S) M f))
+    change Function.Exact (ULift.map (toTensorBaseChanges (S := S) M f))
       (ULift.map (tensorAwayDifference (S := S) M f)) ↔ _
     simp only [Function.Exact, ULift.forall, ULift.map, ULift.ext_iff,
       Set.mem_range, ULift.exists]
@@ -247,7 +247,7 @@ theorem isPushout_glueSubalgebra_generic
   refine ⟨IsBaseChange.of_equiv
     (LinearEquiv.ofBijective (extendScalarsMap (S := R') (gluedToGeneric θ)) hbij) ?_⟩
   intro x
-  show (1 : R') • gluedToGeneric θ x = _
+  change (1 : R') • gluedToGeneric θ x = _
   rw [one_smul]
   exact (hcompat x).symm
 

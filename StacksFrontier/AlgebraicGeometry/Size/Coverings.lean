@@ -262,7 +262,7 @@ private lemma exists_affineOpens_mk_sections_le_prod {X Y : Scheme} (f : X ⟶ Y
     simp only [CommRingCat.comp_apply]
     rw [TopCat.Presheaf.germ_res_apply, Scheme.Hom.germ_stalkMap_apply]
   apply hf_stalk_inj
-  show (ConcreteCategory.hom (f.stalkMap x))
+  change (ConcreteCategory.hom (f.stalkMap x))
       ((ConcreteCategory.hom (Y.presheaf.germ U.1 (f.base x) hy)) s) =
     (ConcreteCategory.hom (f.stalkMap x))
       ((ConcreteCategory.hom (Y.presheaf.germ U.1 (f.base x) hy)) t)

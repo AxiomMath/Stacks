@@ -87,12 +87,7 @@ noncomputable def extendScalarsAlgebraMapObjIso
         change ∀ (s : S) (z : (ModuleCat.extendScalars (algebraMap R S)).obj M),
           e' (s • z) = s • e' z
         intro s z
-        induction z using TensorProduct.induction_on with
-        | zero =>
-            calc
-              e' (s • 0) = e' 0 := congrArg e' (smul_zero s)
-              _ = 0 := e'.map_zero
-              _ = s • e' 0 := by rw [e'.map_zero, smul_zero]
+        induction z using TensorProduct.inductionOn with
         | tmul t m =>
             change e' ((s • t) ⊗ₜ[R] m) = _
             simp [e', e, TensorProduct.smul_tmul']
@@ -109,8 +104,7 @@ private noncomputable def mvPolynomialTensorProductLinearEquiv
   exact { e.toAddEquiv with
     map_smul' := by
       intro p z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul q a =>
         change e ((p * q) ⊗ₜ[P] a) = _
         have hp : algebraMap (MvPolynomial σ P) (MvPolynomial σ A) p =
@@ -147,7 +141,7 @@ private lemma isRelativelyPseudoCoherentFrom_iff_polynomialPresentation
         (((ModuleCat.restrictScalars f.toRingHom).mapHomologicalComplex
           (ComplexShape.up ℤ)).obj K)) m := by
   let F := ModuleCat.restrictScalars.{u} f.toRingHom
-  show (∀ (n : ℕ) (f : MvPolynomial (Fin n) P →ₐ[P] T), Function.Surjective f →
+  change (∀ (n : ℕ) (f : MvPolynomial (Fin n) P →ₐ[P] T), Function.Surjective f →
     IsPseudoCoherentFrom
     ((ModuleCat.restrictScalars f.toRingHom).mapDerivedCategory.obj
       (DerivedCategory.Q.obj K)) m) ↔ _

@@ -198,7 +198,7 @@ theorem exists_extensionLevel_isLeast_and_mem_Ico
       obtain ⟨q, hq⟩ := hy
       refine ⟨q.map ULift.ringEquiv.toRingHom, ?_⟩
       change Polynomial.eval₂ (algebraMap K' L') z q = ULift.up y at hq
-      show Polynomial.eval₂ (algebraMap K L) z.down
+      change Polynomial.eval₂ (algebraMap K L) z.down
         (q.map ULift.ringEquiv.toRingHom) = y
       have hd := congrArg eL.toRingHom hq
       rw [Polynomial.hom_eval₂] at hd

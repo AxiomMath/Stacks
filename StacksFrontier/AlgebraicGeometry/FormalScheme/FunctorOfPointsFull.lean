@@ -314,7 +314,7 @@ theorem exists_chartPointRestrict_base_eq (hVU : V ≤ U) (I : IdealsOfDefinitio
     ∃ y, (chartPointRestrict U A e V I).toHom.base y = x := by
   obtain ⟨y, hy⟩ := exists_formalChartPointOn_base_eq U A e I (hVU x.2)
   have hyQ : y ∈ chartPointPreimage U A e V I := by
-    show (formalChartPointOn U A e I).toHom.base y ∈ V
+    change (formalChartPointOn U A e I).toHom.base y ∈ V
     rw [hy]; exact x.2
   refine ⟨⟨y, hyQ⟩, Subtype.ext ?_⟩
   have hbase := congrArg (fun m : (schemeToLTRSObj (Spec (spfQuotientOn A I))).restrict
@@ -381,7 +381,7 @@ theorem restrict_hom_ext_of_chart (hA : IsPreAdmissible A) (hVU : V ≤ U) {Y : 
     intro z
     rw [Category.assoc _ m3 mm,
       Category.assoc _ ((formalChartPointOn U A e I).toHom.c.app (op WX)) (m3 ≫ mm), hptc]
-    show (z ≫ (m1 ≫ inv ((X.ofRestrict V).toHom.c.app (op WX))))
+    change (z ≫ (m1 ≫ inv ((X.ofRestrict V).toHom.c.app (op WX))))
           ≫ ((X.ofRestrict V).toHom.c.app (op WX)
             ≫ (chartPointRestrict U A e V I).toHom.c.app
                 (op ((Opens.map (X.ofRestrict V).toHom.base).obj WX)))
@@ -455,7 +455,7 @@ theorem spfQuotientTransition_comp_spfTransValue
       = (spfTransValue A hA hsize φ J).hom := by
   have key : schemeToFormalScheme.map (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor h)))
         ≫ spfTransValue A hA hsize φ I = spfTransValue A hA hsize φ J := by
-    show schemeToFormalScheme.map (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor h)))
+    change schemeToFormalScheme.map (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor h)))
         ≫ φ.app (op (spfCutoffQuotient A hsize I)) (spfFormalSchemePoint A hA I)
       = φ.app (op (spfCutoffQuotient A hsize J)) (spfFormalSchemePoint A hA J)
     rw [← schemeToFormalScheme_map_comp_spfFormalSchemePoint A hA h]
@@ -484,7 +484,7 @@ theorem exists_formalSchemeFunctorOfPoints_map_eq_spf
   refine ⟨f, ?_⟩
   ext S s
   obtain ⟨S⟩ := S
-  show s ≫ f = φ.app (op S) s
+  change s ≫ f = φ.app (op S) s
   set V : S.obj.affineCover.I₀ → S.obj.Opens := fun i => (S.obj.affineCover.f i).opensRange
   have hV : iSup V = ⊤ := S.obj.affineCover.iSup_opensRange
   have hVaff : ∀ i, IsAffine (V i).toScheme := fun i =>
@@ -493,7 +493,7 @@ theorem exists_formalSchemeFunctorOfPoints_map_eq_spf
     Scheme.size_lt_of_isOpenImmersion (V i).ι S.property
   refine (isSheafFor_opensCover_formalSchemePoints Y V hV).isSeparatedFor.ext ?_
   rintro Z t ⟨i⟩
-  show schemeToFormalScheme.map (V i).ι ≫ (s ≫ f)
+  change schemeToFormalScheme.map (V i).ι ≫ (s ≫ f)
     = schemeToFormalScheme.map (V i).ι ≫ φ.app (op S) s
   have := hVaff i
   obtain ⟨I, a, ha⟩ := exists_factor_spfQuotientPointOn A (preAdmissibleSpfIndex A hA.1)
@@ -543,7 +543,7 @@ theorem exists_hom_restrict_of_chart {κ : Cardinal.{u}} {X Y : FormalScheme.{u}
   have hwι : w ≫ ι = (ObjectProperty.homMk (t ≫ X.obj.ofRestrict U) :
       schemeToFormalScheme.obj S.obj ⟶ X) := by
     refine InducedCategory.hom_ext ?_
-    show (t ≫ χ.hom) ≫ (χ.inv ≫ X.obj.ofRestrict U) = t ≫ X.obj.ofRestrict U
+    change (t ≫ χ.hom) ≫ (χ.inv ≫ X.obj.ofRestrict U) = t ≫ X.obj.ofRestrict U
     rw [Category.assoc, Iso.hom_inv_id_assoc]
   have key := congrFun (congrArg (fun η => (ConcreteCategory.hom (η.app (op S)) : _ → _)) hf') w
   have h2 : (φ.app (op S) (w ≫ ι)).hom
@@ -609,7 +609,7 @@ theorem exists_formalSchemeFunctorOfPoints_map_eq {κ : Cardinal.{u}} {X Y : For
   refine ⟨fglue, ?_⟩
   ext S s
   obtain ⟨S⟩ := S
-  show s ≫ fglue = φ.app (op S) s
+  change s ≫ fglue = φ.app (op S) s
   set O : ↥X.obj → S.obj.Opens := fun x => (Opens.map s.hom.toHom.base).obj (U x) with hOdef
   have hOcover : iSup O = ⊤ :=
     Opens.ext (Set.eq_univ_iff_forall.2 fun z =>
@@ -618,7 +618,7 @@ theorem exists_formalSchemeFunctorOfPoints_map_eq {κ : Cardinal.{u}} {X Y : For
     Scheme.size_lt_of_isOpenImmersion (O x).ι S.property
   refine (isSheafFor_opensCover_formalSchemePoints Y O hOcover).isSeparatedFor.ext ?_
   rintro Z τ ⟨x⟩
-  show schemeToFormalScheme.map (O x).ι ≫ (s ≫ fglue)
+  change schemeToFormalScheme.map (O x).ι ≫ (s ≫ fglue)
     = schemeToFormalScheme.map (O x).ι ≫ φ.app (op S) s
   set g : schemeToLTRSObj (O x).toScheme ⟶ X.obj :=
     (schemeToFormalScheme.map (O x).ι ≫ s).hom with hg
@@ -634,7 +634,7 @@ theorem exists_formalSchemeFunctorOfPoints_map_eq {κ : Cardinal.{u}} {X Y : For
       (φ.app (op ⟨(O x).toScheme, hOsize x⟩) w).hom) hgmk)).trans (congrArg InducedCategory.Hom.hom
     (app_comp_of_natTrans φ (S := ⟨(O x).toScheme, hOsize x⟩) (T := S) (O x).ι s))
   refine InducedCategory.hom_ext (Eq.trans ?_ hchar3)
-  show (schemeToFormalScheme.map (O x).ι).hom ≫ (s.hom ≫ f₀)
+  change (schemeToFormalScheme.map (O x).ι).hom ≫ (s.hom ≫ f₀)
     = liftToRestrict (U x) g hrange ≫ fU x
   conv_rhs => rw [← hf₀ x]
   exact (Category.assoc _ _ _).symm.trans

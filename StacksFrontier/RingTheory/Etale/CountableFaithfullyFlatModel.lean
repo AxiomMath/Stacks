@@ -243,14 +243,14 @@ theorem exists_countable_etale_faithfullyFlat_model
     e₀.symm.toRingHom.comp (Algebra.TensorProduct.map ι₀ (AlgHom.id C₀ B₀)).toRingHom
   have hcomm : (algebraMap C B').comp (finsetStageVal C₀ ∅) = θ.comp (algebraMap G₀ C₁) := by
     ext x
-    show algebraMap C B' (finsetStageVal C₀ ∅ x) =
+    change algebraMap C B' (finsetStageVal C₀ ∅ x) =
       e₀.symm ((Algebra.TensorProduct.map ι₀ (AlgHom.id C₀ B₀)) (x ⊗ₜ (1 : B₀)))
     rw [Algebra.TensorProduct.map_tmul, AlgHom.id_apply]
     exact (e₀.symm.commutes _).symm
   let toB : B' →+* B := e.toRingHom.comp Algebra.TensorProduct.includeRight.toRingHom
   have htoB : toB.comp (algebraMap C B') = (algebraMap A B).comp (algebraMap C A) := by
     ext c
-    show e (1 ⊗ₜ algebraMap C B' c) = algebraMap A B (algebraMap C A c)
+    change e (1 ⊗ₜ algebraMap C B' c) = algebraMap A B (algebraMap C A c)
     rw [← Algebra.TensorProduct.tmul_one_eq_one_tmul]
     exact e.commutes (algebraMap C A c)
   have hD : Function.Surjective (PrimeSpectrum.comap (algebraMap C B')) := by

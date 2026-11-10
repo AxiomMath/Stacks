@@ -78,7 +78,7 @@ theorem qcohDerived_single (S : Scheme.{u})
     (F : SheafOfModules.{u} (structureSheafRing S.toRingedSpace)) (hF : F.IsQuasicoherent) :
     qcohDerived S ((DerivedCategory.singleFunctor _ 0).obj F) := by
   intro i
-  show ((DerivedCategory.homologyFunctor _ i).obj
+  change ((DerivedCategory.homologyFunctor _ i).obj
     ((DerivedCategory.singleFunctor _ 0).obj F)).IsQuasicoherent
   rcases lt_trichotomy i 0 with hi | rfl | hi
   · exact (SheafOfModules.isQuasicoherent S.ringCatSheaf).prop_of_isZero

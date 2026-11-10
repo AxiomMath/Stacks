@@ -61,16 +61,16 @@ theorem ker_localRingHom_le_annihilator_localizedModule_ulift {P A : Type u} [Co
       (Ideal.map_primeCompl_comap_of_surjective φ hφ q)
   rw [hIMap, Ideal.map_le_iff_le_comap]
   intro x hx
-  show algebraMap P (Localization.AtPrime (q.comap φ)) x ∈ Module.annihilator _ _
+  change algebraMap P (Localization.AtPrime (q.comap φ)) x ∈ Module.annihilator _ _
   rw [Module.mem_annihilator]
   intro y
-  show algebraMap P (Localization.AtPrime (q.comap φ)) x • y = 0
+  change algebraMap P (Localization.AtPrime (q.comap φ)) x • y = 0
   rw [algebraMap_smul]
   induction y using LocalizedModule.induction_on with
   | h a t =>
     rw [LocalizedModule.smul'_mk]
     have hxa : x • a = 0 := by
-      show ULift.up (φ x * a.down) = ULift.up 0
+      change ULift.up (φ x * a.down) = ULift.up 0
       rw [RingHom.mem_ker.mp hx, zero_mul]
     rw [hxa, LocalizedModule.zero_mk]
 
@@ -88,7 +88,7 @@ theorem min_two_ringKrullDim_le_moduleDepth_ext_of_surjective {S T : Type u} [Co
       moduleDepth S (Abelian.Ext N (ModuleCat.of S S) j) := by
   have hCM : Module.IsCohenMacaulayAtMaximalIdeal S (ModuleCat.of S S) := by
     unfold Module.IsCohenMacaulayAtMaximalIdeal
-    show (Module.depth S (IsLocalRing.maximalIdeal S) S : WithBot ℕ∞) = Module.supportDim S S
+    change (Module.depth S (IsLocalRing.maximalIdeal S) S : WithBot ℕ∞) = Module.supportDim S S
     rw [Module.supportDim_self_eq_ringKrullDim]
     exact hS
   have h0BUX := supportDim_quotient_add_depth_eq_supportDim (RingHom.ker f) (RingHom.ker_ne_top f)
@@ -97,7 +97,7 @@ theorem min_two_ringKrullDim_le_moduleDepth_ext_of_surjective {S T : Type u} [Co
     (by simp)), Module.supportDim_quotient_eq_ringKrullDim,
     ringKrullDim_eq_of_ringEquiv (RingHom.quotientKerEquivOfSurjective hf)] at h0BUX
   have hdim : Module.supportDim S N + j ≤ Module.supportDim S (ModuleCat.of S S) := by
-    show _ ≤ Module.supportDim S S
+    change _ ≤ Module.supportDim S S
     rw [hdimN, ← h0BUX]
     gcongr
     exact_mod_cast hj
@@ -157,7 +157,7 @@ theorem min_two_ringKrullDim_le_moduleDepth_localizedModule_homology_upperShriek
       (H (-(r : ℤ)))).toEquiv.nontrivial_congr.mpr hnt
   obtain ⟨hd, -⟩ := moduleDepth_and_moduleSupportDim_localizedModule_restrictScalars
     p.toRingHom p.surjective q rP rfl (H (-(r : ℤ)))
-  show min (2 : ℕ∞) ((ringKrullDim T₀).unbotD 0) ≤
+  change min (2 : ℕ∞) ((ringKrullDim T₀).unbotD 0) ≤
     moduleDepth T₀ (LocalizedModule.AtPrime q (H (-(r : ℤ))))
   rw [hd]
   have h0 : ¬ (-(r : ℤ) + p.variableCount < 0) := by

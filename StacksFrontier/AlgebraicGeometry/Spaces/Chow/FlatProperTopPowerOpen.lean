@@ -89,7 +89,7 @@ theorem exists_closureImage_eq_top_of_isOpenImmersion
         IntegralClosedSubspace.top D.site D.base D.base_mem hX.1 hint := by
   set T := IntegralClosedSubspace.top D.site D.base D.base_mem hX.1 hint
   have hmem : u₀ ∈ T.preimagePointSet D.site D.base D.base_mem j := by
-    show pointsMap D.site D.base D.base_mem U j u₀ ∈
+    change pointsMap D.site D.base D.base_mem U j u₀ ∈
       subspacePointSet D.site D.base D.base_mem X T.subspace
     rw [subspacePointSet, IntegralClosedSubspace.range_pointsMap_top]
     exact Set.mem_univ _

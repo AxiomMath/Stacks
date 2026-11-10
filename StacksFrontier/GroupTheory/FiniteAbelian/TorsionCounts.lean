@@ -70,7 +70,7 @@ private lemma nat_card_torsionBy_prime_pow_zmod (p k : ℕ) (hp : Nat.Prime p)
       exact horder.symm.dvd.trans ((addOrderOf_dvd_iff_nsmul_eq_zero.mpr
         (congrArg Subtype.val (addOrderOf_nsmul_eq_zero yT))).trans
         (AddMonoid.addOrder_dvd_exponent yT))
-  show Nat.card T = p
+  change Nat.card T = p
   rw [← IsAddCyclic.exponent_eq_card, he]
 
 /-- An additive isomorphism restricts to an isomorphism of `a`-torsion subgroups. -/

@@ -101,10 +101,10 @@ public theorem fiber_isGroupoid
     simpa using IsHomLift.inv p (𝟙 A) f.1
   refine ⟨⟨⟨@CategoryTheory.inv _ _ _ _ f.1 hiso, hinv⟩, ?_, ?_⟩⟩
   · apply Functor.Fiber.hom_ext
-    show f.1 ≫ @CategoryTheory.inv _ _ _ _ f.1 hiso = 𝟙 x.1
+    change f.1 ≫ @CategoryTheory.inv _ _ _ _ f.1 hiso = 𝟙 x.1
     simp
   · apply Functor.Fiber.hom_ext
-    show @CategoryTheory.inv _ _ _ _ f.1 hiso ≫ f.1 = 𝟙 y.1
+    change @CategoryTheory.inv _ _ _ _ f.1 hiso ≫ f.1 = 𝟙 y.1
     simp
 
 /-- A morphism over an identity in a category cofibered in groupoids is an isomorphism of
@@ -126,7 +126,7 @@ private theorem automorphismsLiftAlong_iso
     rw [hfac]
     infer_instance
   let : IsIso (p.op.map g.op) := by
-    show IsIso ((p.map g).op)
+    change IsIso ((p.map g).op)
     exact isIso_op (p.map g)
   let : p.op.IsStronglyCartesian (p.op.map g.op) g.op := hp.isStronglyCartesian g.op
   have hgiso : IsIso g := by
@@ -178,13 +178,13 @@ private theorem automorphismsLiftAlong_composable
       have htail : ∀ (i : ℕ) (hi : i < n),
           AutomorphismsLiftAlong p (E.map' i (i + 1)) := by
         intro i hi
-        show AutomorphismsLiftAlong p (D.map' (i + 1) (i + 2))
+        change AutomorphismsLiftAlong p (D.map' (i + 1) (i + 2))
         exact hstep (i + 1) (by omega)
       have hE := ih E htail
       have hf := hstep 0 (by omega)
       have hcomp := automorphismsLiftAlong_comp p hp f E.hom hf hE
       have hD : D.hom = f ≫ E.hom := by
-        show D.map' 0 (n + 1) = D.map' 0 1 ≫ D.map' 1 (n + 1)
+        change D.map' 0 (n + 1) = D.map' 0 1 ≫ D.map' 1 (n + 1)
         exact ComposableArrows.map'_comp D 0 1 (n + 1)
       exact hD.symm ▸ hcomp
 
@@ -223,7 +223,7 @@ private theorem associatedFiberIsoOfValueEq
   let y' := (fiberFunctor d.projection A).obj y
   have hxy : Nonempty (x' ≅ y') :=
     elementsFiberIsoOfValueEq G A x' y' (by simpa [G, x', y'] using h)
-  let hsk : Skeletal (Functor.Fiber (CategoryOfElements.π G) A) := d.quotient.fiber_skeletal A
+  let hsk : Skeletal (Functor.Fiber (Functor.Elements.π G) A) := d.quotient.fiber_skeletal A
   have heq : x' = y' := hsk ⟨Classical.choice hxy⟩
   exact (d.quotient.obj_eq_iff_isomorphic A x y).1 (by simpa [x', y'] using heq)
 
@@ -244,7 +244,7 @@ private theorem associatedFiberValue_map
   let φ := d.projection
   let G := d.classes
   let := hm
-  have hm' : (CategoryOfElements.π G).IsHomLift f (φ.toFunctor.map m) := by
+  have hm' : (Functor.Elements.π G).IsHomLift f (φ.toFunctor.map m) := by
     change (BasedCategory.ofFunctor p).p.IsHomLift f m at hm
     exact BasedFunctor.preserves_isHomLift φ f m
   exact elementsFiberValue_map G f
@@ -452,12 +452,12 @@ private theorem associatedFiberValue_surjective
   intro a
   let d := isomorphismClassesData (BasedCategory.ofFunctor p) hp
   let T := fiberFunctor d.projection A
-  let z : Functor.Fiber (CategoryOfElements.π d.classes) A := ⟨d.classes.elementsMk A a, rfl⟩
+  let z : Functor.Fiber (Functor.Elements.π d.classes) A := ⟨d.classes.elementsMk A a, rfl⟩
   let : T.EssSurj := d.quotient.fiber_essSurj A
   have he : T.obj (T.objPreimage z) = z :=
     d.quotient.fiber_skeletal A ⟨T.objObjPreimageIso z⟩
   refine ⟨T.objPreimage z, ?_⟩
-  show elementsFiberValue d.classes A (T.obj (T.objPreimage z)) = a
+  change elementsFiberValue d.classes A (T.obj (T.objPreimage z)) = a
   rw [he]
   have hid : ∀ {B : ArtinianLocalAlgCat.{u, v, w} Λ k} (h : B = B) (y : d.classes.obj B),
       d.classes.map (eqToHom h) y = y := fun _ _ => by simp
@@ -491,7 +491,7 @@ private theorem elements_pullback_isLimit {𝒞 : Type u} [Category.{v} 𝒞] (G
   let q₂ : ez ⟶ e₂ := Functor.Elements.homMk (x := ez) (y := e₂) c.snd hz₂
   let ce : PullbackCone a₁ a₂ := PullbackCone.mk (f := a₁) (g := a₂) q₁ q₂ (by
     apply Functor.Elements.hom_ext
-    show c.fst ≫ f₁ = c.snd ≫ f₂
+    change c.fst ≫ f₁ = c.snd ≫ f₂
     exact c.condition)
   let sC (s : PullbackCone a₁ a₂) : PullbackCone f₁ f₂ :=
     PullbackCone.mk s.fst.hom s.snd.hom (by
@@ -526,7 +526,7 @@ private theorem elements_pullback_isLimit {𝒞 : Type u} [Category.{v} 𝒞] (G
 
 private theorem elements_pullback_value_unique_of_rs
     (G : ArtinianLocalAlgCat.{u, v, w} Λ k ⥤ Type u₁)
-    (hRS : SatisfiesRS (CategoryOfElements.π G))
+    (hRS : SatisfiesRS (Functor.Elements.π G))
     {X₁ X₂ X : ArtinianLocalAlgCat.{u, v, w} Λ k} {f₁ : X₁ ⟶ X} {f₂ : X₂ ⟶ X}
     (hf₂ : Function.Surjective f₂.hom)
     (c : PullbackCone f₁ f₂) (hc : IsLimit c)
@@ -543,16 +543,16 @@ private theorem elements_pullback_value_unique_of_rs
   let a₂ : e₂ ⟶ e := Functor.Elements.homMk (x := e₂) (y := e) f₂ hx₂
   obtain ⟨d, ⟨hd⟩, ⟨hdBase⟩⟩ := hRS.2 a₁ a₂ hf₂
   let u := PullbackCone.IsLimit.lift hdBase c.fst c.snd c.condition
-  let v := PullbackCone.IsLimit.lift hc (d.map (CategoryOfElements.π G)).fst
-    (d.map (CategoryOfElements.π G)).snd (d.map (CategoryOfElements.π G)).condition
-  have hu₁ : u ≫ (d.map (CategoryOfElements.π G)).fst = c.fst :=
+  let v := PullbackCone.IsLimit.lift hc (d.map (Functor.Elements.π G)).fst
+    (d.map (Functor.Elements.π G)).snd (d.map (Functor.Elements.π G)).condition
+  have hu₁ : u ≫ (d.map (Functor.Elements.π G)).fst = c.fst :=
     PullbackCone.IsLimit.lift_fst hdBase c.fst c.snd c.condition
-  have hu₂ : u ≫ (d.map (CategoryOfElements.π G)).snd = c.snd :=
+  have hu₂ : u ≫ (d.map (Functor.Elements.π G)).snd = c.snd :=
     PullbackCone.IsLimit.lift_snd hdBase c.fst c.snd c.condition
-  have hv₁ : v ≫ c.fst = (d.map (CategoryOfElements.π G)).fst :=
-    PullbackCone.IsLimit.lift_fst hc _ _ (d.map (CategoryOfElements.π G)).condition
-  have hv₂ : v ≫ c.snd = (d.map (CategoryOfElements.π G)).snd :=
-    PullbackCone.IsLimit.lift_snd hc _ _ (d.map (CategoryOfElements.π G)).condition
+  have hv₁ : v ≫ c.fst = (d.map (Functor.Elements.π G)).fst :=
+    PullbackCone.IsLimit.lift_fst hc _ _ (d.map (Functor.Elements.π G)).condition
+  have hv₂ : v ≫ c.snd = (d.map (Functor.Elements.π G)).snd :=
+    PullbackCone.IsLimit.lift_snd hc _ _ (d.map (Functor.Elements.π G)).condition
   have huv : u ≫ v = 𝟙 c.pt := by
     apply PullbackCone.IsLimit.hom_ext hc
     · rw [Category.assoc, hv₁]
@@ -568,18 +568,18 @@ private theorem elements_pullback_value_unique_of_rs
     let s : PullbackCone a₁ a₂ := PullbackCone.mk q₁ q₂ (by
       apply Functor.Elements.hom_ext
       exact c.condition)
-    have hm₁ : (hd.lift s).hom ≫ (d.map (CategoryOfElements.π G)).fst = c.fst := by
+    have hm₁ : (hd.lift s).hom ≫ (d.map (Functor.Elements.π G)).fst = c.fst := by
       have h := hd.fac s WalkingCospan.left
       change hd.lift s ≫ d.fst = q₁ at h
       have hv := congrArg (fun q => q.hom) h
       change (hd.lift s).hom ≫ d.fst.hom = c.fst at hv
-      simpa [CategoryOfElements.π] using hv
-    have hm₂ : (hd.lift s).hom ≫ (d.map (CategoryOfElements.π G)).snd = c.snd := by
+      simpa [Functor.Elements.π] using hv
+    have hm₂ : (hd.lift s).hom ≫ (d.map (Functor.Elements.π G)).snd = c.snd := by
       have h := hd.fac s WalkingCospan.right
       change hd.lift s ≫ d.snd = q₂ at h
       have hv := congrArg (fun q => q.hom) h
       change (hd.lift s).hom ≫ d.snd.hom = c.snd at hv
-      simpa [CategoryOfElements.π] using hv
+      simpa [Functor.Elements.π] using hv
     have hm : (hd.lift s).hom = u := PullbackCone.IsLimit.hom_ext hdBase
       (hm₁.trans hu₁.symm) (hm₂.trans hu₂.symm)
     have hpp := (hd.lift s).map_val
@@ -602,7 +602,7 @@ private theorem associated_pullback_injective
   let d := isomorphismClassesData (BasedCategory.ofFunctor p) hp.1
   let G := d.classes
   let V (A) (x : p.Fiber A) := elementsFiberValue G A ((fiberFunctor d.projection A).obj x)
-  show Function.Injective (fun z : G.obj P => (G.map p₁ z, G.map p₂ z))
+  change Function.Injective (fun z : G.obj P => (G.map p₁ z, G.map p₂ z))
   intro a a' ha
   obtain ⟨z, rfl⟩ := associatedFiberValue_surjective p hp.1 P a
   obtain ⟨z', rfl⟩ := associatedFiberValue_surjective p hp.1 P a'
@@ -627,7 +627,7 @@ private theorem associated_pullback_injective
 
 private theorem gluingClassesInjective_of_associatedSatisfiesRS
     (p : F ⥤ ArtinianLocalAlgCat.{u, v, w} Λ k) (hp : SatisfiesRS p)
-    (hRS : SatisfiesRS (CategoryOfElements.π
+    (hRS : SatisfiesRS (Functor.Elements.π
       (isomorphismClassesData (BasedCategory.ofFunctor p) hp.1).classes)) :
     IsInjectiveOnGluingClasses p := by
   intro A₁ A₂ A f₁ f₂ hf x₁ y₁ x₂ y₂ x y g₁ g₂ h₁ h₂ hg₁ hg₂ hh₁ hh₂ he₁ he₂
@@ -663,11 +663,11 @@ private theorem gluingClassesInjective_of_associatedSatisfiesRS
 private theorem associatedSatisfiesRS_of_gluingClassesInjective
     (p : F ⥤ ArtinianLocalAlgCat.{u, v, w} Λ k) (hp : SatisfiesRS p)
     (hinj : IsInjectiveOnGluingClasses p) :
-    SatisfiesRS (CategoryOfElements.π
+    SatisfiesRS (Functor.Elements.π
       (isomorphismClassesData (BasedCategory.ofFunctor p) hp.1).classes) := by
   let d := isomorphismClassesData (BasedCategory.ofFunctor p) hp.1
   let G := d.classes
-  let π := CategoryOfElements.π G
+  let π := Functor.Elements.π G
   have hS : SchlessingerConditionS1 π :=
     schlessingerConditionS1_of_isIsomorphismClasses d.projection d.quotient
       (schlessingerConditionS1_of_satisfiesRS hp)
@@ -701,7 +701,7 @@ injective. -/
 @[stacks 06J8 "conditions (1) and (2)", sga "7 VI 2.7" "(i) <=> injectivity"]
 theorem associatedSatisfiesRS_iff_gluingClassesInjective
     (p : F ⥤ ArtinianLocalAlgCat.{u, v, w} Λ k) (hp : SatisfiesRS p) :
-    SatisfiesRS (CategoryOfElements.π
+    SatisfiesRS (Functor.Elements.π
         (isomorphismClassesData (BasedCategory.ofFunctor p) hp.1).classes) ↔
       IsInjectiveOnGluingClasses p :=
   ⟨gluingClassesInjective_of_associatedSatisfiesRS p hp,

@@ -349,7 +349,7 @@ theorem modelIso_inv_comp_kInjectiveIso_hom
           (Stacks.SheafOfModules.ringedSite S.Z.sheaf)).hom.app
           (DerivedCategory.Q.obj ((S.sheafHomExactSupport.mapHomologicalComplex
             (ComplexShape.up ℤ)).obj F)) := by
-  simp only [derivedSheafHomExactSupportModelIso, Iso.trans_inv, Iso.symm_inv, Iso.app_hom,
+  simp only [derivedSheafHomExactSupportModelIso, Iso.trans_inv,
     Category.assoc, Iso.inv_hom_id, Category.comp_id]
   rfl
 

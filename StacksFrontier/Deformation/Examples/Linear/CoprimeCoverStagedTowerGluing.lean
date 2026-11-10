@@ -6,7 +6,8 @@ public import StacksFrontier.Deformation.Examples.Linear.FlatAlgebraLiftCoprimeC
 /-!
 # Stacks 0DZ7 at a principal multiplicative set, from the staged lifting data of the cover
 
-`StacksFrontier/Deformation/Examples/Linear/FlatAlgebraLiftCoprimeCover.lean` proves that the converse
+`StacksFrontier/Deformation/Examples/Linear/FlatAlgebraLiftCoprimeCover.lean` proves that the
+converse
 of Stacks 0DZ7 at a principal multiplicative set is *equivalent* to an auxiliary-free gluing
 principle about a comaximal pair `f, g` in a finite type flat `A`-algebra `B` with `A → B_h`
 syntomic for every `h ∈ (f)`.

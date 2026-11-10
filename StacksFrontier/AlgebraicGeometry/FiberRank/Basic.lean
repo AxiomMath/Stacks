@@ -229,7 +229,7 @@ public theorem fiberRank_eq_zero_of_subsingleton_stalk {X : Scheme.{u}} (F : X.M
       (R := X.presheaf) F.val x
   let : Algebra A (X.residueField x) := (X.residue x).hom.toAlgebra
   let : Subsingleton M := h
-  show Module.finrank (X.residueField x) (X.residueField x ⊗[A] M) = 0
+  change Module.finrank (X.residueField x) (X.residueField x ⊗[A] M) = 0
   exact Module.finrank_zero_of_subsingleton
 
 end FiberRank
@@ -259,7 +259,7 @@ theorem isFlat_of_isLocallyFree {X : Scheme.{u}} (F : X.Modules)
       (R := X.presheaf) F.val x
   let : Module.Free A M :=
     Stacks.FiniteLocallyFree.ModuleTFAE.finiteLocallyFreeData_stalkFree F q hq x
-  show Module.Flat A M
+  change Module.Flat A M
   exact Module.Flat.of_free
 
 /-- A finite locally free sheaf of modules on a scheme is flat. Together with
@@ -440,7 +440,7 @@ theorem span_germs_of_local_generators {X : Scheme.{u}} (F : X.Modules)
     PresheafOfModules.instModuleCarrierStalkCommRingCatCarrierAbPresheafOpensCarrier
       (R := X.presheaf) F.val y
   -- the statement's `letI` must be zeta-reduced away before `intro` can reach the `≤`
-  show ⊤ ≤ Submodule.span (X.presheaf.stalk y)
+  change ⊤ ≤ Submodule.span (X.presheaf.stalk y)
     (Set.range fun j => TopCat.Presheaf.germ F.val.presheaf V y hy (t j))
   intro m _
   obtain ⟨U, hUV, hyU, s, hs⟩ := TopCat.Presheaf.exists_le_germ_eq F.val.presheaf m hy
@@ -502,7 +502,7 @@ theorem span_germs_near {X : Scheme.{u}} (F : X.Modules) [F.IsFiniteType]
       (TopCat.Presheaf.stalk (C := Ab.{u}) F.val.presheaf y) :=
     PresheafOfModules.instModuleCarrierStalkCommRingCatCarrierAbPresheafOpensCarrier
       (R := X.presheaf) F.val y
-  show ⊤ ≤ Submodule.span (X.presheaf.stalk y)
+  change ⊤ ≤ Submodule.span (X.presheaf.stalk y)
     (Set.range fun i => TopCat.Presheaf.germ F.val.presheaf U y (hZU hy) (s i))
   intro m hm
   refine Submodule.span_le.mpr ?_
@@ -521,7 +521,7 @@ theorem span_germs_near {X : Scheme.{u}} (F : X.Modules) [F.IsFiniteType]
     (ConcreteCategory.hom (TopCat.Presheaf.germ F.val.presheaf (W j) y (hZW j hy)))
     (fun i => c j i • (F.val.presheaf.map (homOfLE (hWU j)).op (s i) :
       F.val.obj (op (W j)))) Finset.univ
-  show TopCat.Presheaf.germ F.val.presheaf V y (hZV hy) (t j) ∈ _
+  change TopCat.Presheaf.germ F.val.presheaf V y (hZV hy) (t j) ∈ _
   rw [hgerm, hc j, hsum]
   refine Submodule.sum_mem _ fun i _ => ?_
   exact Eq.mpr (congrArg (· ∈ _)

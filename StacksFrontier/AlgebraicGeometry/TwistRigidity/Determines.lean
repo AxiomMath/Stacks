@@ -141,7 +141,7 @@ public theorem determinesChartIso (A : SheafGradedAlgebra S) : DeterminesChartIs
   have hstep : (D.chartData.chartIso U hU n).hom ≫ chartEndo D E e U hU n =
       (Scheme.Modules.restrictFunctor ((relativeProj A).chart U hU)).map (e.hom.app n) ≫
         (E.chartData.chartIso U hU n).hom := by
-    show (D.chartData.chartIso U hU n).hom ≫ (D.chartData.chartIso U hU n).inv ≫
+    change (D.chartData.chartIso U hU n).hom ≫ (D.chartData.chartIso U hU n).inv ≫
       ((Scheme.Modules.restrictFunctor ((relativeProj A).chart U hU)).map (e.hom.app n) ≫
         (E.chartData.chartIso U hU n).hom) = _
     exact (D.chartData.chartIso U hU n).hom_inv_id_assoc _

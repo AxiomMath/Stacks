@@ -90,7 +90,7 @@ def affineYChart (S : Scheme.{u}) : affineLineOver S ⟶ relativeProjectiveLine 
 @[simp]
 theorem affineYChart_comp (S : Scheme.{u}) :
     affineYChart S ≫ (relativeProjectiveLine S ↘ S) = pullback.fst _ _ := by
-  show affineYChart S ≫ pullback.fst _ _ = _
+  change affineYChart S ≫ pullback.fst _ _ = _
   exact pullback.lift_fst _ _ _
 
 /-- The second affine chart is the base change of the chart `𝔸¹_ℤ ⟶ ℙ¹_ℤ` with coordinate `y`

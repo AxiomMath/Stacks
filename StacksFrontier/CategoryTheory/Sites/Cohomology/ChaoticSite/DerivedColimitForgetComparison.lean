@@ -170,9 +170,9 @@ def derivedColimitForgetComparison :
         totalDerivedColimit C AddCommGrpCat.{u} ⟶
       totalDerivedColimit C (ModuleCat.{u} B) ⋙
         (forget₂ (ModuleCat.{u} B) AddCommGrpCat.{u}).mapDerivedCategory :=
-  ((mateEquiv (totalDerivedColimitAdjunction C (ModuleCat.{u} B))
+  (mateEquiv (totalDerivedColimitAdjunction C (ModuleCat.{u} B))
       (totalDerivedColimitAdjunction C AddCommGrpCat.{u})).symm
-    (TwoSquare.mk _ _ _ _ (derivedConstForgetIso C B).hom)).natTrans
+    (TwoSquare.mk _ _ _ _ (derivedConstForgetIso C B).hom)
 
 /-- **The comparison is compatible with the shift.** Both derived adjunctions are, being
 adjunctions whose right adjoint commutes with the shift, and the identification of the derived

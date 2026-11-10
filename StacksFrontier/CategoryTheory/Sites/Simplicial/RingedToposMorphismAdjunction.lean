@@ -25,7 +25,7 @@ The first four names are in the namespace `AlgebraicGeometry.RingedToposHom`.
 * `pullbackModules_essImage_iff_ringedToposMorphismAdjunction`: the essential image of `f^*`.
 * The transpose of a morphism `G ⟶ f_*F` of modules, on underlying sheaves, is the transpose of
   the underlying morphism of sheaves of sets:
-`moduleSheafFunctor_map_pullbackAdjPushforwardModules_homEquiv_symm_ringedToposMorphismAdjunction`.
+`moduleSheafFunctor_map_pullbackAdjPushforward_homEquiv_symm_ringedToposMorphismAdjunction`.
 * `CategoryTheory.Adjunction.isIso_counit_app_ofNatIsoRight_iff_ringedToposMorphismAdjunction`
   and `CategoryTheory.Adjunction.isIso_unit_ofNatIsoRight_iff_ringedToposMorphismAdjunction`:
   transporting a right adjoint does not change which components of the unit and counit are
@@ -255,7 +255,7 @@ theorem pullbackModules_essImage_iff_ringedToposMorphismAdjunction [IsIso f.toTo
 sheaves of modules, the underlying morphism of its transpose `f^*G ⟶ F`, precomposed with the
 identification of the underlying sheaf of `f⁻¹G` with that of `f^*G`, is the transpose of the
 underlying morphism of `β` along `f⁻¹ ⊣ f_*`. -/
-theorem moduleSheafFunctor_map_pullbackAdjPushforwardModules_homEquiv_symm_ringedToposMorphismAdjunction
+theorem moduleSheafFunctor_map_pullbackAdjPushforward_homEquiv_symm_ringedToposMorphismAdjunction
     (G : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J) Y.O)))
     (F : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := X.J) X.O)))
     (β : G ⟶ (pushforwardModules f).obj F) :

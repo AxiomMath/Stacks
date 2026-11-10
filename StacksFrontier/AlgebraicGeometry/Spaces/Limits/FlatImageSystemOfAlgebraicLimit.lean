@@ -64,6 +64,7 @@ namespace AlgebraicGeometry.Space
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site needs a deep search
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_FlatImageSystemOfAlgebraicLimit :
@@ -338,7 +339,7 @@ lemma range_q_le_of_algebraicLimit (algY : IsAlgebraicSpace B S hS Y) (l : Over 
     have hy : (M.q l c).app U ((M.d l).app U y) =
         (stageMap GX ((Over.map (homOfLE leX).op).obj l.left)).app U y := by
       simpa using congrArg (fun g => g.app U y) (M.d_q l c)
-    show (M.q l c).app U ((M.d l).app U y) ∈ (stageImage GX _).obj U
+    change (M.q l c).app U ((M.d l).app U y) ∈ (stageImage GX _).obj U
     rw [hy]
     exact range_le_schemeTheoreticImageSubfunctor B S hS _ U ⟨_, rfl⟩
   have htop := schemeTheoreticImageSubfunctor_le B S hS (M.d l) hZc hle
@@ -549,7 +550,7 @@ theorem exists_isFlat_isPullback_of_algebraicLimit (algX : IsAlgebraicSpace B S 
       (Iso.refl _) ?_ ((Category.comp_id _).trans (Category.id_comp _).symm) ?_
       ((Category.comp_id _).trans (Category.id_comp _).symm)
     · rw [Iso.refl_hom, Category.id_comp, ← M.π_T lk (ak ≫ b), Category.assoc]
-      show _ ≫ (Φ lk ak).inv ≫ (Φ lk ak).hom = _
+      change _ ≫ (Φ lk ak).inv ≫ (Φ lk ak).hom = _
       rw [Iso.inv_hom_id, Category.comp_id]
       rfl
     · rw [Iso.refl_hom, Category.comp_id]

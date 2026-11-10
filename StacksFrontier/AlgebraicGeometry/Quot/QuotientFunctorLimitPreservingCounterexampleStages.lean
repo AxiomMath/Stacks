@@ -259,9 +259,9 @@ theorem pushoutLift_rel (g : ℚ[X]) {Z : CommRingCat.{u}} (a : uR.{u} (FibreRin
       b (ULift.up (stageMap (one_dvd g) (algebraMap ℚ[X] (StageRing 1) (X - C c)))) :=
     ConcreteCategory.congr_hom h _
   rw [RingHom.comp_apply, ← stageMap_algebraMap (one_dvd g)]
-  show b (ULift.up _) * _ = _
+  change b (ULift.up _) * _ = _
   rw [← e2, ← map_mul]
-  show a (ULift.up (algebraMap (StageRing 1) (FibreRing 1) _ * y 1 c)) = 0
+  change a (ULift.up (algebraMap (StageRing 1) (FibreRing 1) _ * y 1 c)) = 0
   rw [algebraMap_mul_y]
   exact map_zero a.hom
 
@@ -313,11 +313,11 @@ theorem isPushout_fibreRing (g : ℚ[X]) :
     (fun s => pushoutLift g s.inl s.inr s.condition) ?_ ?_ ?_)
   · intro s
     refine uR_fibreRing_hom_ext (fun c => ?_) (fun c => ?_)
-    · show pushoutLift g s.inl s.inr s.condition
+    · change pushoutLift g s.inl s.inr s.condition
         (ULift.up (fibreMap g (algebraMap (StageRing 1) (FibreRing 1) c))) = _
       rw [fibreMap_algebraMap, pushoutLift_apply_algebraMap]
       exact (ConcreteCategory.congr_hom s.condition _).symm
-    · show pushoutLift g s.inl s.inr s.condition (ULift.up (fibreMap g (y 1 c))) = _
+    · change pushoutLift g s.inl s.inr s.condition (ULift.up (fibreMap g (y 1 c))) = _
       rw [fibreMap_y, pushoutLift_apply_y]
   · intro s
     ext x

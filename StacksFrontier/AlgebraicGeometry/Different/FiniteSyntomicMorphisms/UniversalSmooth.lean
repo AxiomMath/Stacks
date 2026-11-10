@@ -113,13 +113,13 @@ private theorem Algebra.exists_basis_quotient_smul_top_of_ringEquiv
         obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective c
         obtain ⟨a, rfl⟩ := Submodule.mkQ_surjective _ x
         rw [Submodule.mkQ_apply, Module.Quotient.mk_smul_mk]
-        show e.symm (Ideal.Quotient.mk _ (r • a)) =
+        change e.symm (Ideal.Quotient.mk _ (r • a)) =
           eR (Ideal.Quotient.mk _ r) • e.symm (Ideal.Quotient.mk _ a)
         rw [RingHom.quotientKerEquivOfSurjective_apply_mk, Algebra.smul_def r a, map_mul,
           map_mul, ← he r, e.symm_apply_apply, Algebra.smul_def] }
   let b₀ : Module.Basis ι (R' ⧸ RingHom.ker (algebraMap R' R)) A₀ :=
     b.mapCoeffs eR.symm fun c x => by
-      show eR (eR.symm c) • x = c • x
+      change eR (eR.symm c) • x = c • x
       rw [eR.apply_symm_apply]
   refine ⟨b₀.map ψ.symm, fun i a => ?_⟩
   rw [Module.Basis.map_apply, LinearEquiv.eq_symm_apply, Module.Basis.mapCoeffs_apply]
@@ -207,7 +207,7 @@ theorem scheme_locallyOfFinitePresentation (d : ℕ) [NeZero d] :
   let : Algebra (ULift.{u} ℤ) (ULift.{u} (universalRing d)) :=
     Algebra.compHom _ ULift.ringEquiv.toRingHom
   have hfp : (algebraMap (ULift.{u} ℤ) (ULift.{u} (universalRing d))).FinitePresentation := by
-    show ((algebraMap ℤ (ULift.{u} (universalRing d))).comp
+    change ((algebraMap ℤ (ULift.{u} (universalRing d))).comp
       ULift.ringEquiv.toRingHom).FinitePresentation
     exact (RingHom.finitePresentation_algebraMap.mpr inferInstance).comp
       (RingHom.FinitePresentation.of_bijective ULift.ringEquiv.bijective)
@@ -241,16 +241,16 @@ public instance universalSyntomicOpen_smooth_uLift (d : ℕ) [NeZero d] :
   intro T T' hT hT' i hi g h hgf
   classical
   let s := universalAlgebraStructure d
-  letI := s.ring
+  let := s.ring
   let F := universalFamily.{u} d s
   let fT : T ⟶ scheme.{u} d := g ≫ (universalSyntomicOpen.{u} d).ι
-  haveI : IsAffine (universalTotalScheme.{u} d s) := by
+  have : IsAffine (universalTotalScheme.{u} d s) := by
     dsimp [universalTotalScheme]
     infer_instance
-  haveI : IsClosedImmersion i := hi.1
-  letI : Algebra Γ(scheme.{u} d, ⊤) Γ(universalTotalScheme.{u} d s, ⊤) := F.appTop.hom.toAlgebra
-  letI : Algebra Γ(T, ⊤) Γ(pullback F fT, ⊤) := (pullback.snd F fT).appTop.hom.toAlgebra
-  letI : Algebra Γ(T', ⊤) Γ(T, ⊤) := i.appTop.hom.toAlgebra
+  have : IsClosedImmersion i := hi.1
+  let : Algebra Γ(scheme.{u} d, ⊤) Γ(universalTotalScheme.{u} d s, ⊤) := F.appTop.hom.toAlgebra
+  let : Algebra Γ(T, ⊤) Γ(pullback F fT, ⊤) := (pullback.snd F fT).appTop.hom.toAlgebra
+  let : Algebra Γ(T', ⊤) Γ(T, ⊤) := i.appTop.hom.toAlgebra
   have hsurj : Function.Surjective (algebraMap Γ(T', ⊤) Γ(T, ⊤)) :=
     Scheme.Hom.app_surjective i ⊤ (isAffineOpen_top T')
   obtain ⟨A, _, _, hSyn, e, he⟩ := Stacks.Smoothing.exists_syntomic_lift_of_surjective _ _ _ hsurj
@@ -262,7 +262,7 @@ public instance universalSyntomicOpen_smooth_uLift (d : ℕ) [NeZero d] :
       J.ideal ⟨⊤, isAffineOpen_top T'⟩) hi.2
     rw [Scheme.IdealSheafData.ideal_pow] at hh
     simpa [Scheme.Hom.ker_apply, Scheme.Hom.appTop] using hh
-  haveI : Module.Flat Γ(T', ⊤) A := hSyn.flat
+  have : Module.Flat Γ(T', ⊤) A := hSyn.flat
   obtain ⟨b, hb₀, hb⟩ := Algebra.exists_basis_lift_of_ringEquiv_quotient hsurj hI e he
     (affinePullbackGammaBasis F fT (Fin d) (universalTotalGammaBasis.{u} d))
     (affinePullbackGammaBasis_zero F fT d _ (universalTotalGammaBasis_zero.{u} d))
@@ -290,9 +290,9 @@ integers themselves. -/
 public instance universalSyntomicOpen_smooth (d : ℕ) [NeZero d] :
     Smooth (specZIsTerminal.from (universalSyntomicOpen d).toScheme) := by
   let e : Spec (.of (ULift.{0} ℤ)) ⟶ Spec (.of ℤ) := specZIsTerminal.from _
-  haveI : IsIso e := isIso_of_isTerminal specULiftZIsTerminal specZIsTerminal e
-  haveI : Smooth e := inferInstance
-  haveI : Smooth (specULiftZIsTerminal.from
+  have : IsIso e := isIso_of_isTerminal specULiftZIsTerminal specZIsTerminal e
+  have : Smooth e := inferInstance
+  have : Smooth (specULiftZIsTerminal.from
       (universalSyntomicOpen d).toScheme) :=
     universalSyntomicOpen_smooth_uLift.{0} d
   rw [show specZIsTerminal.from (universalSyntomicOpen d).toScheme =

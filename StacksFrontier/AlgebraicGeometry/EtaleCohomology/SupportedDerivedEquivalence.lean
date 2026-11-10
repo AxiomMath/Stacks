@@ -115,7 +115,7 @@ public lemma quasiIso_mapHomologicalComplex_of_homology {F G : A ⥤ C} [F.Addit
   rw [quasiIso_iff]
   intro n
   rw [quasiIsoAt_iff_isIso_homologyMap]
-  show IsIso (ShortComplex.homologyMap ((K.sc n).mapNatTrans τ))
+  change IsIso (ShortComplex.homologyMap ((K.sc n).mapNatTrans τ))
   rw [ShortComplex.homologyMap_mapNatTrans]
   have : IsIso (τ.app (K.sc n).homology) := h n
   infer_instance
@@ -159,28 +159,28 @@ geometric point is, after reindexing along base change, the diagram computing th
 sheaf itself. -/
 public def stalkPushforwardDiagramIsoAb (s : GeometricPoint Z.1)
     (F : SmallEtaleAbelianSheaf B Z) :
-    ((CategoryOfElements.π (geometricPointFiber B X.1 X.property
+    ((Functor.Elements.π (geometricPointFiber B X.1 X.property
       (s.map (B.inclusion.map i)))).op ⋙
       (sheafToPresheaf (SmallEtale.topology B X.1 X.property) AddCommGrpCat.{u + 1}).obj
         (((smallEtaleBaseChange B i).sheafPushforwardContinuous
           AddCommGrpCat.{u + 1} (SmallEtale.topology B X.1 X.property)
           (SmallEtale.topology B Z.1 Z.property)).obj F)) ≅
     (pullbackNeighborhoodFunctor B i s).op ⋙
-      (CategoryOfElements.π (geometricPointFiber B Z.1 Z.property s)).op ⋙ F.obj := by
+      (Functor.Elements.π (geometricPointFiber B Z.1 Z.property s)).op ⋙ F.obj := by
   classical
   let P := smallEtaleBaseChange B i
   let H := pullbackNeighborhoodFunctor B i s
   let JX := geometricPointFiber B X.1 X.property (s.map (B.inclusion.map i))
   let JZ := geometricPointFiber B Z.1 Z.property s
-  let D := (CategoryOfElements.π JX).op ⋙
+  let D := (Functor.Elements.π JX).op ⋙
     (sheafToPresheaf (SmallEtale.topology B X.1 X.property) AddCommGrpCat.{u + 1}).obj
       ((P.sheafPushforwardContinuous AddCommGrpCat.{u + 1}
         (SmallEtale.topology B X.1 X.property)
         (SmallEtale.topology B Z.1 Z.property)).obj F)
-  let E := H.op ⋙ (CategoryOfElements.π JZ).op ⋙ F.obj
+  let E := H.op ⋙ (Functor.Elements.π JZ).op ⋙ F.obj
   have hDE : ∀ U, D.obj U = E.obj U := fun U => by
     simp [D, E, P, H, JX, JZ, pullbackNeighborhoodFunctor,
-      CategoryOfElements.π, geometricPointFiber,
+      Functor.Elements.π, geometricPointFiber,
       Functor.sheafPushforwardContinuous_obj_obj_obj]
   refine NatIso.ofComponents (fun U => eqToIso (hDE U)) ?_
   intro U V f
@@ -215,8 +215,8 @@ public def smallEtalePushforwardStalkIsoAb (s : GeometricPoint Z.1) :
   let P := smallEtaleBaseChange B i
   let JX := geometricPointFiber B X.1 X.property (s.map (B.inclusion.map i))
   let JZ := geometricPointFiber B Z.1 Z.property s
-  let πX := (CategoryOfElements.π JX).op
-  let πZ := (CategoryOfElements.π JZ).op
+  let πX := (Functor.Elements.π JX).op
+  let πZ := (Functor.Elements.π JZ).op
   let ShX := sheafToPresheaf (SmallEtale.topology B X.1 X.property) AddCommGrpCat.{u + 1}
   let ShZ := sheafToPresheaf (SmallEtale.topology B Z.1 Z.property) AddCommGrpCat.{u + 1}
   refine NatIso.ofComponents (fun F =>
@@ -234,7 +234,7 @@ public def smallEtalePushforwardStalkIsoAb (s : GeometricPoint Z.1) :
     ext U
     simp [H, P, JX, JZ, πX, πZ, ShX, ShZ, αX, αZ, sourceMap, targetMap,
       stalkPushforwardDiagramIsoAb, pullbackNeighborhoodFunctor,
-      geometricPointFiber, CategoryOfElements.π]
+      geometricPointFiber, Functor.Elements.π]
     rfl
   let EF := πZ ⋙ ShZ.obj F
   let EG := πZ ⋙ ShZ.obj G

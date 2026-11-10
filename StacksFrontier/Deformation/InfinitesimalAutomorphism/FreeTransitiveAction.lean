@@ -84,7 +84,7 @@ public theorem pushforwardAutomorphism_mem_relativeInfinitesimalAutomorphisms
   have := isStronglyCocartesian_of_isCofiberedInGroupoids hp π₂ c₂ hc₂
   have := pushforwardEndomorphism_isHomLift hp π₂ c₂ hc₂ a.1
   rw [mem_relativeInfinitesimalAutomorphisms_iff]
-  show pushforwardEndomorphism hp π₂ c₂ hc₂ a.1 ≫ f₂ = f₂
+  change pushforwardEndomorphism hp π₂ c₂ hc₂ a.1 ≫ f₂ = f₂
   have : p.IsHomLift g₂ (pushforwardEndomorphism hp π₂ c₂ hc₂ a.1 ≫ f₂) := inferInstance
   refine Functor.IsStronglyCocartesian.ext p π₂ c₂ g₂ ?_
   rw [← Category.assoc, ← hom_comp_eq_comp_pushforwardEndomorphism hp π₂ c₂ hc₂ a.1,
@@ -121,7 +121,7 @@ public theorem relativeInfinitesimalAutomorphismsFibreSquareHom_injective :
     rw [← relativeInfinitesimalAutomorphismsFibreSquareHom_coe hp hc₁ hc₂ hf₂ hsq a, hcl]
     simp
   have hval : pushforwardEndomorphism hp π₂ c₂ hc₂ a.1 = 𝟙 x₂.1 := by
-    show (pushforwardAutomorphism hp π₂ c₂ hc₂ a.1).asIso.hom.val = 𝟙 x₂.1
+    change (pushforwardAutomorphism hp π₂ c₂ hc₂ a.1).asIso.hom.val = 𝟙 x₂.1
     rw [h1]
     rfl
   have hsnd : (a.1 : Aut z).asIso.hom.val ≫ c₂ = 𝟙 z.1 ≫ c₂ := by
@@ -223,7 +223,7 @@ public theorem relativeInfinitesimalAutomorphismsFibreSquareHom_surjective :
   apply Aut.ext
   apply Iso.ext
   apply Functor.Fiber.hom_ext
-  show pushforwardEndomorphism hp π₂ c₂ hc₂ b = (ψ.1 : Aut x₂).asIso.hom.val
+  change pushforwardEndomorphism hp π₂ c₂ hc₂ b = (ψ.1 : Aut x₂).asIso.hom.val
   have := pushforwardEndomorphism_isHomLift hp π₂ c₂ hc₂ b
   have := (ψ.1 : Aut x₂).asIso.hom.2
   refine Functor.IsStronglyCocartesian.ext p π₂ c₂ (𝟙 A₂) ?_

@@ -77,7 +77,7 @@ public theorem preimage_basicOpen_morphismOfGeneratingSections (v : V) :
         _root_.AlgebraicGeometry.Proj.basicOpen (symmetricGrading k V) (SymmetricAlgebra.ι k V v) =
       nonvanishingOpen X L (ψ v) := by
   refine ((classifies_classifyingPair k V L ψ hψ).1 (degreeOneElement k V v)).trans ?_
-  show nonvanishingOpen X (natTensorPow L 1)
+  change nonvanishingOpen X (natTensorPow L 1)
       ((veroneseOfLinearMap k V L ψ).pow (degreeOneElement k V v).2 1) = _
   rw [pow_degreeOneElement, nonvanishingOpen_twistOneSection]
 

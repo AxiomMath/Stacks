@@ -60,7 +60,7 @@ theorem adicCompletionEquivTowerLimitOfEventualRange_congr_apply {A : Type*} [Co
     (hm : x.val n = Submodule.Quotient.mk m) :
     (adicCompletionEquivTowerLimitOfEventualRange P T π I c hπ hker hker' hrange
       (AdicCompletion.congr I e x)).1 n = π n (e m) := by
-  show quotKerEmbed P π n (Submodule.factor (hker n) ((AdicCompletion.congr I e x).val n)) = _
+  change quotKerEmbed P π n (Submodule.factor (hker n) ((AdicCompletion.congr I e x).val n)) = _
   rw [AdicCompletion.congr_apply, AdicCompletion.map_val_apply, hm]
   rfl
 
@@ -121,14 +121,14 @@ theorem adicQuotientSubspace_le {m n : ℕ} (h : m ≤ n) :
       exact Ideal.pow_le_pow_right h)
   rintro T y ⟨x, rfl⟩
   refine ⟨x ≫ t, ?_⟩
-  show (x ≫ t) ≫ adicCompletionQuotientObjHom B S hS V I n =
+  change (x ≫ t) ≫ adicCompletionQuotientObjHom B S hS V I n =
     x ≫ adicCompletionQuotientObjHom B S hS V I m
   rw [Category.assoc, ht]
 
 /-- For `m ≤ n`, the fibre `X ×_V Spec (A / Iᵐ)` is contained in `X ×_V Spec (A / Iⁿ)`. -/
 theorem fibreThickening_le {m n : ℕ} (h : m ≤ n) :
     (fibreThickening V I f m).1 ≤ (fibreThickening V I f n).1 :=
-  fun T x hx => adicQuotientSubspace_le V I h _ hx
+  fun T => Set.preimage_mono (adicQuotientSubspace_le V I h T)
 
 /-- **The fibre `X ×_V Spec (A / Iⁿ)`**, as an algebraic space. -/
 abbrev fibreSpace (n : ℕ) : AlgebraicSpaces B S hS :=
@@ -364,7 +364,7 @@ theorem fibreSectionsOfCohomologyZero_proj (n : ℕ) (m : globalFunctionsOver V 
     rw [sectionsOfCohomologyZero_naturality, globalFunctionsEquivCohomologyZero_apply]
     exact congrArg (SheafOfModules.sectionsMap _)
       (sectionsOfCohomologyZero_cohomologyZeroOfSections _ _ _)
-  show (pushforwardSectionsTopos (fibreInclusion V I f n)
+  change (pushforwardSectionsTopos (fibreInclusion V I f n)
       (idealQuotientIsoPushforwardFibreThickening V I f n) (sectionsOfCohomologyZero
         (pullbackRingHom B V f)
         (idealQuotient (pullbackRingHom B V f) (structureSheafModule B S hS X) (I ^ n))
@@ -479,7 +479,7 @@ term of `fibreFunctionsTowerOf x` is the restriction of `m` to the fibre `X ×_V
 theorem fibreFunctionsTowerOf_apply (x : AdicCompletion I (globalFunctionsOver V f)) (n : ℕ)
     (m : globalFunctionsOver V f) (hm : x.val n = Submodule.Quotient.mk m) :
     (fibreFunctionsTowerOf V I f hf x).1 n = fibreRestriction V I f n m := by
-  show fibreSectionsOfCohomologyZero V I f n ((formalSectionsTowerOf V I f hf x).1 n) = _
+  change fibreSectionsOfCohomologyZero V I f n ((formalSectionsTowerOf V I f hf x).1 n) = _
   rw [formalSectionsTowerOf_apply V I f hf x n m hm, fibreSectionsOfCohomologyZero_proj]
 
 /-- **The comparison map of the theorem on formal functions on the fibres**, as a map of
@@ -536,7 +536,7 @@ theorem fibreFunctionsTowerMap_surjective :
       exact Stacks.IntertwinedFiltration.towerLimit_compat w m n h)
   obtain ⟨x, hx⟩ := formalSectionsTowerOf_surjective V I f hf ⟨z, hzc⟩
   refine ⟨x, Stacks.IntertwinedFiltration.towerLimit_ext fun n => ?_⟩
-  show fibreSectionsOfCohomologyZero V I f n ((formalSectionsTowerOf V I f hf x).1 n) = _
+  change fibreSectionsOfCohomologyZero V I f n ((formalSectionsTowerOf V I f hf x).1 n) = _
   rw [hx]
   exact hz n
 

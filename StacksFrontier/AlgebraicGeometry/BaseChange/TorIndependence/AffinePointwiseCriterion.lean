@@ -71,7 +71,7 @@ theorem eq_extendScalars_comp_tau0C (M : CochainComplex (ModuleCat.{u} A) ℤ)
   apply ModuleCat.ExtendScalars.hom_ext
   intro x
   refine (hκ n x).trans ?_
-  show _ = (ψ₀.f n).hom (((squareTermComparison R A R' A').app (M.X n)).hom
+  change _ = (ψ₀.f n).hom (((squareTermComparison R A R' A').app (M.X n)).hom
     ((1 : R') ⊗ₜ[R, algebraMap R R'] (π.f n).hom x))
   rw [squareTermComparison_tmul, map_one]
 
@@ -273,7 +273,7 @@ theorem bijective_cohomologyComparisonMap_of_localizations
             (DerivedCategory.Q.obj (modelComplex A F N)))) := by
         refine subsingleton_localizedModule_of_equiv _
           (modelHomologyLinearEquiv (R := R) (A := A) (R' := R') ε hF n N) k hkP fun y => ?_
-        show (modelBaseRingMap R A R' R₀ k) • (show baseChangeCohomologyCat (R := R) (R' := R')
+        change (modelBaseRingMap R A R' R₀ k) • (show baseChangeCohomologyCat (R := R) (R' := R')
           (DerivedCategory.Q.obj N) n from y) = 0
         rw [hk0', zero_smul]
       have htgt : Subsingleton (LocalizedModule P.primeCompl
@@ -284,7 +284,7 @@ theorem bijective_cohomologyComparisonMap_of_localizations
         refine subsingleton_localizedModule_of_equiv _
           (modelTargetIso (R := R) (A := A) (R' := R') (A' := A') (R₀ := R₀) n Z).toLinearEquiv
           k hkP fun y => ?_
-        show (modelRingMap R A R' A' R₀ k) • (show (DerivedCategory.homologyFunctor
+        change (modelRingMap R A R' A' R₀ k) • (show (DerivedCategory.homologyFunctor
           (ModuleCat.{u} A') n).obj (DerivedCategory.Q.obj Z) from y) = 0
         rw [hk0, zero_smul]
       exact ⟨fun _ _ _ => Subsingleton.elim _ _, fun y => ⟨0, Subsingleton.elim _ _⟩⟩
@@ -312,8 +312,7 @@ theorem baseChangeTensorRingMap_comp_algebraMap :
     baseChangeTensorRingMap (R := R) (A := A) (R' := R') (A' := B) =
       (algebraMap A' B).comp (baseChangeTensorRingMap (R := R) (A := A) (R' := R') (A' := A')) := by
   refine RingHom.ext fun t => ?_
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | add s t hs ht => rw [map_add, map_add, hs, ht]
   | tmul a r =>
     rw [baseChangeTensorRingMap_tmul, RingHom.comp_apply, baseChangeTensorRingMap_tmul, map_mul,
@@ -324,7 +323,7 @@ omit [Module.Flat R R₀] in
 image of `b` in `A'`. -/
 theorem modelRingMap_apply_of_algebra (b : B₀) :
     modelRingMap R A R' B R₀ b = algebraMap A' B (modelRingMap R A R' A' R₀ b) := by
-  show baseChangeTensorRingMap (R := R) (A := A) (R' := R') (A' := B) _ = _
+  change baseChangeTensorRingMap (R := R) (A := A) (R' := R') (A' := B) _ = _
   rw [baseChangeTensorRingMap_comp_algebraMap (R := R) (A := A) (R' := R') (A' := A') B]
   rfl
 
@@ -350,6 +349,7 @@ def modelTargetMap (Z : CochainComplex (ModuleCat.{u} A') ℤ)
   comm' i j _ := ModuleCat.hom_ext (LinearMap.ext fun x =>
     congrArg (fun φ => φ.hom x) (ζ.comm i j))
 
+omit [Module.Flat R R₀] [QuasiIso ε] in
 /-- The model map of the square through `B` is the model map of the square through `A'`
 followed by `modelTargetMap ζ`, when `α₁` and `α` followed by `ζ` agree on the elements `1 ⊗ m`. -/
 theorem modelKappa_algebra_eq (N : CochainComplex (ModuleCat.{u} A) ℤ)
@@ -380,7 +380,7 @@ theorem modelKappa_algebra_eq (N : CochainComplex (ModuleCat.{u} A) ℤ)
     intro i
     apply ModuleCat.ExtendScalars.hom_ext
     intro m
-    show (α₁.f i).hom (((squareTermComparison R A R' B).app (N.X i)).hom
+    change (α₁.f i).hom (((squareTermComparison R A R' B).app (N.X i)).hom
       ((1 : R') ⊗ₜ[R, algebraMap R R'] m)) = (ζ.f i).hom ((α.f i).hom
         (((squareTermComparison R A R' A').app (N.X i)).hom ((1 : R') ⊗ₜ[R, algebraMap R R'] m)))
     rw [squareTermComparison_tmul, squareTermComparison_tmul, map_one, map_one]
@@ -405,7 +405,7 @@ theorem modelKappa_algebra_eq (N : CochainComplex (ModuleCat.{u} A) ℤ)
   ext i x
   exact congrArg (fun φ => φ.hom x) (key i)
 
-include hF in
+omit [Module.Flat R R₀] [QuasiIso ε] in
 /-- If the model map of the square with `A'` replaced by its localization `B` at `q` is a
 localization at the elements becoming units in `B`, the model map of the square localizes to a
 bijection at the preimage of `q`. -/
@@ -437,7 +437,7 @@ theorem bijective_localizedModule_map_of_isLocalizedModule
   have hU : IsLocalizedModule.unitsComap (modelRingMap R A R' B R₀) =
       (q.comap (modelRingMap R A R' A' R₀)).primeCompl := by
     ext x
-    show IsUnit (modelRingMap R A R' B R₀ x) ↔ _
+    change IsUnit (modelRingMap R A R' B R₀ x) ↔ _
     rw [modelRingMap_apply_of_algebra (R := R) (A := A) (R' := R') (A' := A') (R₀ := R₀) B x,
       IsLocalization.AtPrime.isUnit_to_map_iff B q]
     rfl

@@ -193,7 +193,6 @@ namespace Stacks.EtaleCohomology
 section LegLe
 
 variable {T S : Scheme.{u}} (k : T ⟶ S)
-  [HasSheafify S.smallEtaleTopology AddCommGrpCat.{u + 1}]
   [HasSheafify T.smallEtaleTopology AddCommGrpCat.{u + 1}]
   {G : Sheaf S.smallEtaleTopology AddCommGrpCat.{u + 1}}
   {𝒢 : Sheaf T.smallEtaleTopology AddCommGrpCat.{u + 1}}
@@ -273,8 +272,7 @@ public theorem exists_isCompact_le_map_preimage (hc : IsLimit c) (i : Iᵒᵖ)
 
 section Main
 
-variable [∀ i : Iᵒᵖ, HasSheafify (D.obj i).smallEtaleTopology AddCommGrpCat.{max u v + 1}]
-  [HasSheafify (c.pt).smallEtaleTopology AddCommGrpCat.{max u v + 1}]
+variable [HasSheafify (c.pt).smallEtaleTopology AddCommGrpCat.{max u v + 1}]
 
 /-- **The surjectivity hypothesis `hsurj` of
 `Stacks.EtaleCohomology.OpensAcyclicity.sectionsDifference_of_surjective_opensLeg`, from the

@@ -86,12 +86,12 @@ theorem Hom.cokernelπ_cokernelGradedSection (f : Hom K L) (hf : IsAdmissibleMon
     f.cokernelπ.toFun ((f.cokernelGradedSection hf).toFun x) = x := by
   classical
   obtain ⟨y, rfl⟩ := Submodule.Quotient.mk_surjective ((f.range).restrictScalars R) x
-  show Submodule.Quotient.mk (p := f.range)
+  change Submodule.Quotient.mk (p := f.range)
       (((f.range).restrictScalars R).liftQ _ _
         (Submodule.Quotient.mk (p := (f.range).restrictScalars R) y)) =
     Submodule.Quotient.mk (p := (f.range).restrictScalars R) y
   rw [Submodule.liftQ_apply]
-  show Submodule.Quotient.mk (p := f.range) (y - f.toFun (hf.choose.toFun y)) =
+  change Submodule.Quotient.mk (p := f.range) (y - f.toFun (hf.choose.toFun y)) =
     Submodule.Quotient.mk (p := f.range) y
   rw [Submodule.Quotient.eq]
   refine ⟨-(hf.choose.toFun y), ?_⟩
@@ -108,7 +108,7 @@ theorem Hom.isAdmissibleShortExact_cokernelπ (f : Hom K L) (hf : IsAdmissibleMo
     obtain ⟨y, rfl⟩ := Submodule.Quotient.mk_surjective ((f.range).restrictScalars R) x
     exact ⟨y, rfl⟩
   exact := by
-    show LinearMap.range f.toFun = LinearMap.ker (((f.range).restrictScalars R).mkQ)
+    change LinearMap.range f.toFun = LinearMap.ker (((f.range).restrictScalars R).mkQ)
     rw [Submodule.ker_mkQ, Hom.range_restrictScalars]
   admissibleMono := hf
   admissibleEpi := ⟨f.cokernelGradedSection hf, f.cokernelπ_cokernelGradedSection hf⟩

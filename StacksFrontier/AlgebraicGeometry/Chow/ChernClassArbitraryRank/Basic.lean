@@ -290,14 +290,18 @@ theorem rankLocusChernFamily_of_lt (n r : ℕ) (h : r < n) :
 /-- **Stacks 0ESW.** The `n`-th Chern class `c_n(E) ∈ A^n(X)` of a finite locally free module of
 not necessarily constant rank: the class which preserves the product decomposition of Chow
 cohomology along the rank loci and whose component on `X_r` is `c_n(E|_{X_r})`. -/
-@[stacks 0ESW "chern_classes_arbitrary_rank; the constant-rank Chern classes the remark cites enter as a quantified family; the classes of Tag 0B7H themselves are Stacks.Chow.GenuineChern.chernClassBivariantClass"]
+@[stacks 0ESW "chern_classes_arbitrary_rank; the constant-rank Chern classes the remark cites \
+enter as a quantified family; the classes of Tag 0B7H themselves are \
+Stacks.Chow.GenuineChern.chernClassBivariantClass"]
 def chernClassArbitraryRank (n : ℕ) : chowCohomologyComponent C G sX (n : ℤ) :=
   rankLocusAssembly C G sX E hgysO hgysR hgysC (n : ℤ)
     (rankLocusChernFamily C G sX E cc n)
 
 /-- **Stacks 0ESW.** The component of `c_n(E)` on the rank-`r` locus is `c_n(E|_{X_r})`, and is
 zero when `r < n`. -/
-@[stacks 0ESW "chern_classes_arbitrary_rank; the constant-rank Chern classes the remark cites enter as a quantified family; the classes of Tag 0B7H themselves are Stacks.Chow.GenuineChern.chernClassBivariantClass"]
+@[stacks 0ESW "chern_classes_arbitrary_rank; the constant-rank Chern classes the remark cites \
+enter as a quantified family; the classes of Tag 0B7H themselves are \
+Stacks.Chow.GenuineChern.chernClassBivariantClass"]
 theorem rankLocusRestriction_chernClassArbitraryRank (n r : ℕ) :
     rankLocusRestriction C G sX E hgysO (n : ℤ)
         (chernClassArbitraryRank C G sX E hgysO hgysR hgysC cc n) r =
@@ -307,7 +311,9 @@ theorem rankLocusRestriction_chernClassArbitraryRank (n r : ℕ) :
 /-- **Stacks 0ESW.** On the rank-`r` locus, `c_n(E)` acts by the already defined operation
 `c_n(E|_{X_r}) ∩ -`: its component there satisfies the characterization of Stacks 0B7H for the
 restricted module. -/
-@[stacks 0ESW "chern_classes_arbitrary_rank; the constant-rank Chern classes the remark cites enter as a quantified family; the classes of Tag 0B7H themselves are Stacks.Chow.GenuineChern.chernClassBivariantClass"]
+@[stacks 0ESW "chern_classes_arbitrary_rank; the constant-rank Chern classes the remark cites \
+enter as a quantified family; the classes of Tag 0B7H themselves are \
+Stacks.Chow.GenuineChern.chernClassBivariantClass"]
 theorem isChernClassBivariant_rankLocusRestriction_chernClassArbitraryRank
     (hcc : ∀ (r : ℕ) (j : Fin (r + 1)),
       IsChernClassBivariant C ((rankLocus E r).ι ≫ sX)
@@ -325,7 +331,9 @@ theorem isChernClassBivariant_rankLocusRestriction_chernClassArbitraryRank
 include hgysR hgysC in
 /-- **Stacks 0ESW.** `c_n(E)` is the only class with these components, so the definition does
 not depend on the way the family is assembled. -/
-@[stacks 0ESW "chern_classes_arbitrary_rank; the constant-rank Chern classes the remark cites enter as a quantified family; the classes of Tag 0B7H themselves are Stacks.Chow.GenuineChern.chernClassBivariantClass"]
+@[stacks 0ESW "chern_classes_arbitrary_rank; the constant-rank Chern classes the remark cites \
+enter as a quantified family; the classes of Tag 0B7H themselves are \
+Stacks.Chow.GenuineChern.chernClassBivariantClass"]
 theorem eq_chernClassArbitraryRank_of_rankLocusRestriction_eq (n : ℕ)
     {c : chowCohomologyComponent C G sX (n : ℤ)}
     (h : ∀ r : ℕ, rankLocusRestriction C G sX E hgysO (n : ℤ) c r =

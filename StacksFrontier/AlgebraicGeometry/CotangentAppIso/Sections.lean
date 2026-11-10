@@ -25,8 +25,9 @@ which locality comparison is fed in.
 
 * `Stacks.Conormal.CotangentAppIso.restrictAffineModelIso`: **the sheaf-level engine.** For a
   morphism `j : A ⟶ B`, a module `M` on `A`, an affine open `V` of `B` with the
-  presentation data of the tag `I, e, he`, and a locality comparison identifying `M ∣_ (j ⁻¹ᵁ V)` with the
-  inverse image along `j ∣_ V` of the ideal sheaf of `j ∣_ V`, the restriction of `j _* M` to `V`
+  presentation data of the tag `I, e, he`, and a locality comparison identifying `M ∣_ (j ⁻¹ᵁ V)`
+  with the inverse image along `j ∣_ V` of the ideal sheaf of `j ∣_ V`, the restriction of
+  `j _* M` to `V`
   is the pushforward along `hV.isoSpec.inv` of the affine model's sheaf
   `k _* k ^* I(k)`, where `k = Spec.map (Ideal.Quotient.mk I)`.
 * `Stacks.Conormal.CotangentAppIso.affineSectionsIsoCotangent`: **the engine's conclusion.** With
@@ -86,7 +87,8 @@ is only partly discharged. The same holds for `pushforwardConormalSectionsIsoCot
 the statement's `pushforwardConormalIsoCotangent`, whose companion label
 `pushforwardConormalIsoCotangent_apply` is the generator formula for it.
 
-The missing declaration is an elementwise formula for `Stacks.Conormal.AffineShape.conormalSheafRestrictIsoAffineModel` — the
+The missing declaration is an elementwise formula for
+`Stacks.Conormal.AffineShape.conormalSheafRestrictIsoAffineModel` — the
 only factor of the chain above that is not the identity on sections or a restriction map — saying
 where the adjunction unit of the ideal sheaf goes. Everything else in this file is identity on
 sections (`pushforwardComp`, the `restrictScalars` comparisons, `pushforward_sections_eq`) or a

@@ -166,7 +166,7 @@ algebraic space `V` over `X` with `f`, mapped to `V`. -/
 def overPullbackProjection (f : Y ⟶ X) :
     Over.pullback f ⋙ Over.forget Y ⟶ Over.forget X where
   app V := pullback.fst V.hom f
-  naturality _ _ _ := by simpa using pullback.lift_fst _ _ _
+  naturality _ _ _ := by simp
 
 /-- **Stacks 0DF9, item (3).** The structure map of the comparison morphism `π_X`: the sections
 of the direct image of the big étale structure sheaf over an algebraic space étale over `X` are
@@ -241,7 +241,7 @@ theorem sharpCommSq (f : Y ⟶ X) :
         RingCat.{u + 1} (Space.SpacesEtale.topology T.fppfSite S T.fppf_mem X)
         (Space.SpacesEtale.topology T.fppfSite S T.fppf_mem Y)).map (restrictSharp T Y) := by
   refine Sheaf.hom_ext (NatTrans.ext (funext fun U ↦ ?_))
-  show (globalRingPresheaf T).map ((pullback.fst U.unop.obj.hom f).op) ≫
+  change (globalRingPresheaf T).map ((pullback.fst U.unop.obj.hom f).op) ≫
       (globalRingPresheaf T).map
         (((smallBaseChange_comp_inclusionIso T f).hom.app U.unop).left.op) =
     (globalRingPresheaf T).map

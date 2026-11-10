@@ -119,7 +119,7 @@ theorem nonempty_fst_fiber_hom_of_full_fiber
       (Functor.Fiber.fiberInclusion_homMk p𝒴 (p𝒟.obj xQ) (isoP.inv ≫ isoQ.hom))
   refine ⟨⟨{ hbase := 𝟙 (p𝒟.obj xQ), a := 𝟙 xQ, b := b, ha := IsHomLift.id rfl,
               hb := hblift, w := ?_ }, ?_⟩⟩
-  · show G.map (𝟙 xQ) ≫ isoQ.hom = isoP.hom ≫ F.map b
+  · change G.map (𝟙 xQ) ≫ isoQ.hom = isoP.hom ≫ F.map b
     rw [hFb]
     simp
   · exact IsHomLift.of_fac' _ (𝟙 xQ) _ rfl rfl (by

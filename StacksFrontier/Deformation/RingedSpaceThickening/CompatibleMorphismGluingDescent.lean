@@ -753,11 +753,11 @@ theorem pairValue_eq {z z' : (FX P).obj.obj (op U)} {w w' : (Fβ g Q).obj.obj (o
     (hl : (P.lift.hom.app (op U)).hom z = (P.lift.hom.app (op U)).hom z') :
     pairValue g P Q U i θ z w h = pairValue g P Q U i θ z' w' h' := by
   have hmX : z - z' ∈ kernelIdeal P.presentation.hom (op U) := by
-    show (P.presentation.hom.app (op U)).hom _ = 0
+    change (P.presentation.hom.app (op U)).hom _ = 0
     rw [presX_eq, map_sub, hl, sub_self, map_zero]
   have hd := match_sub g P Q U i h h'
   have hmβ : w - w' ∈ kernelIdeal Q.presentation.hom (op W) := by
-    show (Q.presentation.hom.app (op W)).hom _ = 0
+    change (Q.presentation.hom.app (op W)).hom _ = 0
     rw [presβ_of_match g P Q U i hd,
       show (P.presentation.hom.app (op U)).hom (z - z') = 0 from hmX]
     exact (congrArg _ (map_zero _)).trans (map_zero _)
@@ -884,7 +884,6 @@ theorem npair_map {e : Q.sheaf.obj.obj (op W)} (he : IsLift g P Q s i e) {W' : O
     exact (((modulePullback g).obj (bX P)).val.map_comp_apply i.op j.op _).symm
   · rw [← diffβ_map, map_varβ]
 
-include hθ in
 /-- **The local values restrict.** -/
 theorem map_value {e : Q.sheaf.obj.obj (op W)} (he : IsLift g P Q s i e) {W' : Opens Y.carrier}
     (j : W' ⟶ W) : (Q.sheaf.obj.map j.op).hom (value g P Q θ s i he) =
@@ -947,9 +946,9 @@ include hθ in
 theorem valueFamily_compatible {U : Opens X.carrier} (s : P.sheaf.obj.obj (op U)) :
     (valueFamily g P Q θ s).Compatible := by
   intro W₁ W₂ W' j₁ j₂ i₁ i₂ h₁ h₂ _
-  show (Q.sheaf.obj.map j₁.op).hom (value g P Q θ s i₁ h₁.choose_spec) =
+  change (Q.sheaf.obj.map j₁.op).hom (value g P Q θ s i₁ h₁.choose_spec) =
     (Q.sheaf.obj.map j₂.op).hom (value g P Q θ s i₂ h₂.choose_spec)
-  rw [map_value g P Q c θ hθ, map_value g P Q c θ hθ]
+  rw [map_value g P Q θ, map_value g P Q θ]
   exact value_eq' g P Q c θ hθ s _ _
 
 /-- **The glued value** of a section `s` of `𝒪_{X'}` over `U`, a section of `𝒪_{Y'}` over
@@ -1052,10 +1051,10 @@ theorem glued_incl (U : Opens X.carrier) (y : F.val.obj (op U)) :
   rw [(map_id_apply' Q.sheaf _ _).symm.trans (map_glued g P Q c θ hθ _ (𝟙 _) he)]
   unfold value npair
   have hz : varX P U (P.incl (op U) y) ∈ kernelIdeal P.presentation.hom (op U) := by
-    show (P.presentation.hom.app (op U)).hom _ = 0
+    change (P.presentation.hom.app (op U)).hom _ = 0
     rw [pres_varX, P.reduction_incl]
   have hw : varβ g Q _ 0 ∈ kernelIdeal Q.presentation.hom (op ((Opens.map g.hom.base).obj U)) := by
-    show (Q.presentation.hom.app _).hom _ = 0
+    change (Q.presentation.hom.app _).hom _ = 0
     rw [pres_varβ, map_zero]
   rw [θ_dpair g P Q c U (𝟙 _) θ hθ ⟨_, hz⟩ ⟨_, hw⟩]
   unfold cValue

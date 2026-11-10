@@ -453,7 +453,7 @@ lemma extendRestrictScalarsAdj_unit_comp_baseChangePresheaf_map {U V : Cᵒᵖ} 
             ((ModuleCat.extendScalars.{r, r, max u v r w} (rho O hX U)).obj M) =
       (ModuleCat.extendRestrictScalarsAdj.{max u v r w, r, r} (rho O hX U)).unit.app M := by
   refine ModuleCat.hom_ext (LinearMap.ext fun m => ?_)
-  show ((O.map a).hom (1 : O.obj V)) ⊗ₜ[O.obj (Opposite.op X), rho O hX U] m
+  change ((O.map a).hom (1 : O.obj V)) ⊗ₜ[O.obj (Opposite.op X), rho O hX U] m
       = (1 : O.obj U) ⊗ₜ[O.obj (Opposite.op X), rho O hX U] m
   rw [map_one]
 

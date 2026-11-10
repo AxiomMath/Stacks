@@ -233,7 +233,7 @@ AlgebraicGeometry.Space.RelativeProjSituation.tag0D2Z"]
 public theorem morphism_comp_toBase : L.morphism hgen rep ≫ π = L.locus.ι ≫ f := by
   ext U a
   obtain ⟨ρ, hρ⟩ := a
-  show π.app U (yonedaEquiv (d.pointOfPair TA i hgen rep X f ρ (L.pair hρ))) = f.app U ρ
+  change π.app U (yonedaEquiv (d.pointOfPair TA i hgen rep X f ρ (L.pair hρ))) = f.app U ρ
   rw [← yonedaEquiv_comp, d.pointOfPair_comp_toBase TA i hgen rep X f ρ (L.pair hρ),
     yonedaEquiv_comp, yonedaEquiv_yoneda_map]
 

@@ -5,7 +5,8 @@ public import StacksFrontier.AlgebraicGeometry.Crystalline.LevelFaithfulSurjecti
 /-!
 # `hdet` reduced to the levels: a crystal morphism is determined by its restrictions
 
-`StacksFrontier/AlgebraicGeometry/Crystalline/LevelFaithfulSurjectivity.lean` leaves the faithfulness
+`StacksFrontier/AlgebraicGeometry/Crystalline/LevelFaithfulSurjectivity.lean` leaves the
+faithfulness
 half of [Stacks, Proposition 60.17.4, Tag 07JH] standing on one hypothesis, `hdet`: that a
 morphism of crystals in quasi-coherent `𝒪_{X/S}`-modules is determined by its restrictions to the
 levels.  As stated there, `hdet` quantifies over **every object of `Cris(X/S)`** — it is the

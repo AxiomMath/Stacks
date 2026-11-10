@@ -249,7 +249,7 @@ instance epi_fromStdCover (M : PresheafOfModules.{u} R) : Epi M.fromStdCover := 
       (ModuleCat.freeMk (ULift.up (𝟙 X.unop)))
   · have h := ConcreteCategory.congr_hom
       ((evaluation R X ⋙ forget _).congr_map
-        (Sigma.ι_desc (fun m : M.Elements => freeUliftYonedaEquiv.symm m.2)
+        (Sigma.ι_comp_desc (fun m : M.Elements => freeUliftYonedaEquiv.symm m.2)
           (M.elementsMk X x))) (ModuleCat.freeMk (ULift.up (𝟙 X.unop)))
     exact h.trans (freeUliftYonedaEquiv_symm_app M X.unop x)
 
@@ -544,7 +544,7 @@ lemma freeUnit_app_single (X : Cᵒᵖ) (s : F.obj X) (r : O₁.obj X) :
       ((θ.app X).hom r) ⊗ₜ[O₁.obj X] (freeGenerator (R := ringPresheaf O₁) F X s) := by
     rw [TensorProduct.tmul_smul, TensorProduct.smul_tmul']
     congr 1
-    show r • (1 : O₂.obj X) = (θ.app X).hom r
+    change r • (1 : O₂.obj X) = (θ.app X).hom r
     rw [Algebra.smul_def, mul_one]
     rfl
   refine Eq.trans (freeUnit_app_apply θ F X (Finsupp.single s r)) (Eq.trans ?_ h1)
@@ -997,7 +997,7 @@ instance epi_fromStdCover' (M : PresheafOfModules.{max u₀ u} R) : Epi M.fromSt
       (ModuleCat.freeMk (ULift.up (𝟙 X.unop)))
   · have h := ConcreteCategory.congr_hom
       ((evaluation R X ⋙ forget _).congr_map
-        (Sigma.ι_desc (fun m : M.Elements => freeUliftYonedaEquiv'.symm m.2)
+        (Sigma.ι_comp_desc (fun m : M.Elements => freeUliftYonedaEquiv'.symm m.2)
           (M.elementsMk X x))) (ModuleCat.freeMk (ULift.up (𝟙 X.unop)))
     exact h.trans (freeUliftYonedaEquiv_symm_app' M X.unop x)
 
@@ -1240,7 +1240,7 @@ lemma freeUnit_app_single' (X : Cᵒᵖ) (s : F.obj X) (r : O₁.obj X) :
       ((θ.app X).hom r) ⊗ₜ[O₁.obj X] (freeGenerator' (R := ringPresheaf O₁) F X s) := by
     rw [TensorProduct.tmul_smul, TensorProduct.smul_tmul']
     congr 1
-    show r • (1 : O₂.obj X) = (θ.app X).hom r
+    change r • (1 : O₂.obj X) = (θ.app X).hom r
     rw [Algebra.smul_def, mul_one]
     rfl
   refine Eq.trans (freeUnit_app_apply' θ F X (Finsupp.single s r)) (Eq.trans ?_ h1)

@@ -103,8 +103,6 @@ def sheafHomComplexSmallRestrictIso
 
 variable [HasSheafify X.J AddCommGrpCat.{u}]
   [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
-  [∀ U : X.C, HasWeakSheafify (X.J.over U) AddCommGrpCat.{u}]
-  [∀ U : X.C, (X.J.over U).WEqualsLocallyBijective AddCommGrpCat.{u}]
   [HasSheafify X.J AddCommGrpCat.{max c u}]
   [X.J.WEqualsLocallyBijective AddCommGrpCat.{max c u}]
   [X.J.HasSheafCompose (forget₂ RingCat.{u} AddCommGrpCat.{u})]
@@ -122,8 +120,6 @@ theorem homMapSmall_quasiIso_of_isStrictlyPerfect
       (fun i => General.IsDirectSummandOfFiniteFree.isFiniteFreeSummand X
         (hP.termDirectSummand i)))
 
-omit [∀ U : X.C, HasWeakSheafify (X.J.over U) AddCommGrpCat.{u}]
-  [∀ U : X.C, (X.J.over U).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The terms of the internal Hom complex at the module universe out of a strictly perfect
 complex.**  For a property `Pr` of `O`-modules closed under isomorphisms, finite coproducts and
 retracts, the degree-`n` term of `SheafHom^•(P, N)` has property `Pr` as soon as the terms

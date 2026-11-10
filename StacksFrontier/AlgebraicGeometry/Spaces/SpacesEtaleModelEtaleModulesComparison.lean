@@ -362,7 +362,7 @@ theorem globalFunctionsYonedaEquiv_globalFunctionsMap_comparisonFunctor_map
     (idChart B S hS ((SmallEtale.toOver B S hS Y.1).obj W))
     (idChart B S hS ((SmallEtale.toOver B S hS Y.1).obj V))
     ((SmallEtale.toOver B S hS Y.1).map g) (by
-      show yoneda.map ((SmallEtale.toOver B S hS Y.1).map g) ≫ 𝟙 _ =
+      change yoneda.map ((SmallEtale.toOver B S hS Y.1).map g) ≫ 𝟙 _ =
         𝟙 _ ≫ yoneda.map ((SmallEtale.toOver B S hS Y.1).map g)
       rw [Category.comp_id, Category.id_comp])
 
@@ -429,7 +429,7 @@ theorem spacesEtaleModelRestrictedPostcompSharp_comp_ringRestrictionIso :
       ((SpacesEtale.toSpaces B S hS Y).map_comp f₁ f₂)).trans
       (globalFunctionsMap_comp B S hS ((SpacesEtale.toSpaces B S hS Y).map f₁)
         ((SpacesEtale.toSpaces B S hS Y).map f₂))) σ
-  show globalFunctionsYonedaEquiv B S hS ((SmallEtale.toOver B S hS Y.1).obj
+  change globalFunctionsYonedaEquiv B S hS ((SmallEtale.toOver B S hS Y.1).obj
       ((smallEtaleModelEquiv B S hS Y).inverse.obj
           ((smallEtaleModelPostcomp B S hS j hj).obj W.unop)))
       (Shrink.ringEquiv ((SpacesEtale.structurePresheaf B S hS Y).obj (op

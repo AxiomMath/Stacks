@@ -141,7 +141,7 @@ public theorem finite_rightAdjoint_obj_of_finite_components
   have liftI (t : A') (ht : t ∈ I) :
       ∃ d : s.fibreProduct, toB d = 0 ∧ toA' d = t := by
     refine ⟨⟨(0, t), ?_⟩, rfl, rfl⟩
-    show toBase 0 = surjection t
+    change toBase 0 = surjection t
     rw [map_zero]
     exact RingHom.mem_ker.mp (s.ker_surjection.symm ▸ ht) |>.symm
   have lift_fst (n : X.fst) : ∃ p ∈ P, (e X p).1.1 = n := by
@@ -153,7 +153,7 @@ public theorem finite_rightAdjoint_obj_of_finite_components
         P.smul_mem (d ⟨i, j⟩) (Submodule.subset_span
           ⟨(⟨i, j⟩ : Σ i, Fin (kr i)), rfl⟩)
     · rw [he_fst]
-      show cB ((1 : B) ⊗ₜ[s.fibreProduct] (∑ i, ∑ j, d ⟨i, j⟩ • pr i j)) = n
+      change cB ((1 : B) ⊗ₜ[s.fibreProduct] (∑ i, ∑ j, d ⟨i, j⟩ • pr i j)) = n
       rw [← cB.apply_symm_apply n, ← ha]
       apply congrArg cB
       simp_rw [TensorProduct.tmul_sum, TensorProduct.tmul_smul, hpr, Finset.smul_sum]
@@ -162,7 +162,7 @@ public theorem finite_rightAdjoint_obj_of_finite_components
       apply Finset.sum_congr rfl
       intro j _
       rw [← IsScalarTower.algebraMap_smul B]
-      show toB (d ⟨i, j⟩) • ((1 : B) ⊗ₜ[s.fibreProduct] pr i j) = _
+      change toB (d ⟨i, j⟩) • ((1 : B) ⊗ₜ[s.fibreProduct] pr i j) = _
       rw [hd, mul_smul]
       simp [TensorProduct.smul_tmul']
   have lift_smul_snd (t : A') (ht : t ∈ I) (m : X.snd) :
@@ -177,7 +177,7 @@ public theorem finite_rightAdjoint_obj_of_finite_components
         Q.smul_mem (d ⟨i, j⟩) (Submodule.subset_span
           ⟨(⟨i, j⟩ : Σ i, Fin (kq i)), rfl⟩)
     · rw [he_fst]
-      show cB ((1 : B) ⊗ₜ[s.fibreProduct] (∑ i, ∑ j, d ⟨i, j⟩ • pq i j)) = 0
+      change cB ((1 : B) ⊗ₜ[s.fibreProduct] (∑ i, ∑ j, d ⟨i, j⟩ • pq i j)) = 0
       rw [cB.map_eq_zero_iff]
       simp_rw [TensorProduct.tmul_sum, TensorProduct.tmul_smul]
       apply Finset.sum_eq_zero
@@ -185,10 +185,10 @@ public theorem finite_rightAdjoint_obj_of_finite_components
       apply Finset.sum_eq_zero
       intro j _
       rw [← IsScalarTower.algebraMap_smul B]
-      show toB (d ⟨i, j⟩) • ((1 : B) ⊗ₜ[s.fibreProduct] pq i j) = 0
+      change toB (d ⟨i, j⟩) • ((1 : B) ⊗ₜ[s.fibreProduct] pq i j) = 0
       rw [(hd ⟨i, j⟩).1, zero_smul]
     · rw [he_snd]
-      show cA' ((1 : A') ⊗ₜ[s.fibreProduct] (∑ i, ∑ j, d ⟨i, j⟩ • pq i j)) = t • m
+      change cA' ((1 : A') ⊗ₜ[s.fibreProduct] (∑ i, ∑ j, d ⟨i, j⟩ • pq i j)) = t • m
       rw [← cA'.apply_symm_apply m, ← cA'.map_smul, ← ha]
       apply congrArg cA'
       simp_rw [TensorProduct.tmul_sum, TensorProduct.tmul_smul, hpq, Finset.smul_sum]
@@ -197,7 +197,7 @@ public theorem finite_rightAdjoint_obj_of_finite_components
       apply Finset.sum_congr rfl
       intro j _
       rw [← IsScalarTower.algebraMap_smul A']
-      show toA' (d ⟨i, j⟩) • ((1 : A') ⊗ₜ[s.fibreProduct] pq i j) = _
+      change toA' (d ⟨i, j⟩) • ((1 : A') ⊗ₜ[s.fibreProduct] pq i j) = _
       rw [(hd ⟨i, j⟩).2, mul_smul, mul_smul]
       simp [TensorProduct.smul_tmul']
   have hPQ : P ⊔ Q = ⊤ := by
@@ -207,7 +207,7 @@ public theorem finite_rightAdjoint_obj_of_finite_components
     let d := z - p
     have hd_fst : (e X d).1.1 = 0 := by
       rw [he_fst]
-      show cB ((1 : B) ⊗ₜ[s.fibreProduct] (z - p)) = 0
+      change cB ((1 : B) ⊗ₜ[s.fibreProduct] (z - p)) = 0
       rw [TensorProduct.tmul_sub, map_sub]
       have hp' : cB ((1 : B) ⊗ₜ[s.fibreProduct] p) =
           cB ((1 : B) ⊗ₜ[s.fibreProduct] z) := by
@@ -222,7 +222,7 @@ public theorem finite_rightAdjoint_obj_of_finite_components
         s.surjective_surjection, LinearMap.mem_ker]
       have hc := (e X d).2
       rw [hd_fst] at hc
-      show (1 : A) ⊗ₜ[A'] θ = 0
+      change (1 : A) ⊗ₜ[A'] θ = 0
       have hz : (1 : A) ⊗ₜ[B,toBase] (0 : X.fst) = 0 := TensorProduct.tmul_zero _ _
       exact hc.symm.trans ((congrArg (ConcreteCategory.hom X.iso.hom) hz).trans
         (map_zero (ConcreteCategory.hom X.iso.hom)))
@@ -235,7 +235,7 @@ public theorem finite_rightAdjoint_obj_of_finite_components
     have hvSumQ : vSum ∈ Q := Submodule.sum_mem _ fun m _ ↦ hvQ m
     have hvSum_fst : (e X vSum).1.1 = 0 := by
       rw [he_fst]
-      show cB ((1 : B) ⊗ₜ[s.fibreProduct] (∑ m ∈ a.support, v m)) = 0
+      change cB ((1 : B) ⊗ₜ[s.fibreProduct] (∑ m ∈ a.support, v m)) = 0
       rw [cB.map_eq_zero_iff]
       simp_rw [TensorProduct.tmul_sum]
       apply Finset.sum_eq_zero
@@ -244,7 +244,7 @@ public theorem finite_rightAdjoint_obj_of_finite_components
       exact hvfst m
     have hvSum_snd : (e X vSum).1.2 = θ := by
       rw [he_snd]
-      show cA' ((1 : A') ⊗ₜ[s.fibreProduct] (∑ m ∈ a.support, v m)) = θ
+      change cA' ((1 : A') ⊗ₜ[s.fibreProduct] (∑ m ∈ a.support, v m)) = θ
       simp_rw [TensorProduct.tmul_sum, map_sum, coord_snd, hvsnd]
       simpa [Finsupp.sum, id_eq] using ha
     have hd_eq : d = vSum := by
@@ -253,7 +253,7 @@ public theorem finite_rightAdjoint_obj_of_finite_components
       apply Prod.ext
       · rw [hd_fst, hvSum_fst]
       · rw [hvSum_snd]
-    show z ∈ P ⊔ Q
+    change z ∈ P ⊔ Q
     dsimp [d] at hd_eq
     rw [eq_add_of_sub_eq' hd_eq]
     exact (P ⊔ Q).add_mem (Submodule.mem_sup_left hpP) (Submodule.mem_sup_right hvSumQ)
@@ -304,14 +304,14 @@ public theorem restrictedEquivalence
     NatIso.ofComponents (fun X => P.isoMk (asIso (adj.unit.app X.obj))) (by
       intro X Y f
       apply P.hom_ext
-      show f.hom ≫ adj.unit.app Y.obj =
+      change f.hom ≫ adj.unit.app Y.obj =
         adj.unit.app X.obj ≫ R.map (L.map f.hom)
       exact adj.unit.naturality f.hom)
   let counitIso : R' ⋙ L' ≅ 𝟭 Q.FullSubcategory :=
     NatIso.ofComponents (fun X => Q.isoMk (asIso (adj.counit.app X.obj))) (by
       intro X Y f
       apply Q.hom_ext
-      show L.map (R.map f.hom) ≫ adj.counit.app Y.obj =
+      change L.map (R.map f.hom) ≫ adj.counit.app Y.obj =
         adj.counit.app X.obj ≫ f.hom
       exact adj.counit.naturality f.hom)
   let q : P.FullSubcategory ≌ Q.FullSubcategory :=
@@ -322,7 +322,7 @@ public theorem restrictedEquivalence
       functor_unitIso_comp := by
         intro X
         apply Q.hom_ext
-        show L.map (adj.unit.app X.obj) ≫ adj.counit.app (L.obj X.obj) = 𝟙 _
+        change L.map (adj.unit.app X.obj) ≫ adj.counit.app (L.obj X.obj) = 𝟙 _
         exact adj.left_triangle_components X.obj }
   exact ⟨q, ⟨Iso.refl _⟩, ⟨Iso.refl _⟩⟩
 
@@ -342,11 +342,11 @@ private theorem extensionOfScalarsToPullback_flat
   intro L hL
   constructor
   · let : Algebra s.fibreProduct B := (s.pullbackCone.fst.hom).toAlgebra
-    show Module.Flat B (B ⊗[s.fibreProduct] L)
+    change Module.Flat B (B ⊗[s.fibreProduct] L)
     let : Module.Flat s.fibreProduct L := hL
     infer_instance
   · let : Algebra s.fibreProduct A' := (s.pullbackCone.snd.hom).toAlgebra
-    show Module.Flat A' (A' ⊗[s.fibreProduct] L)
+    change Module.Flat A' (A' ⊗[s.fibreProduct] L)
     let : Module.Flat s.fibreProduct L := hL
     infer_instance
 
@@ -411,7 +411,7 @@ private theorem pullbackDifference_surjective
   intro a
   obtain ⟨a', ha'⟩ := s.surjective_surjection (-a)
   refine ⟨(0, a'), ?_⟩
-  show f 0 - g a' = a
+  change f 0 - g a' = a
   rw [map_zero, ha']
   abel
 
@@ -425,7 +425,7 @@ private theorem pullbackInclusion_difference_exact
   · intro hp
     exact ⟨⟨p, sub_eq_zero.mp hp⟩, rfl⟩
   · rintro ⟨r, rfl⟩
-    show f r.1.1 - g r.1.2 = 0
+    change f r.1.1 - g r.1.2 = 0
     exact sub_eq_zero.mpr r.2
 
 private theorem flat_pullback_tensor_exact
@@ -473,16 +473,16 @@ private theorem prodLeft_rTensor_pullbackInclusion
   induction t with
   | tmul r l =>
       dsimp [pullbackInclusion]
-      show (toB r ⊗ₜ[R] l, toA' r ⊗ₜ[R] l) =
+      change (toB r ⊗ₜ[R] l, toA' r ⊗ₜ[R] l) =
         ((1 : B) ⊗ₜ[R] (r • l), (1 : A') ⊗ₜ[R] (r • l))
       apply Prod.ext
-      · show toB r ⊗ₜ[R] l = (1 : B) ⊗ₜ[R] (r • l)
+      · change toB r ⊗ₜ[R] l = (1 : B) ⊗ₜ[R] (r • l)
         rw [← TensorProduct.smul_tmul]
-        show toB r ⊗ₜ[R] l = (toB r * 1) ⊗ₜ[R] l
+        change toB r ⊗ₜ[R] l = (toB r * 1) ⊗ₜ[R] l
         simp
-      · show toA' r ⊗ₜ[R] l = (1 : A') ⊗ₜ[R] (r • l)
+      · change toA' r ⊗ₜ[R] l = (1 : A') ⊗ₜ[R] (r • l)
         rw [← TensorProduct.smul_tmul]
-        show toA' r ⊗ₜ[R] l = (toA' r * 1) ⊗ₜ[R] l
+        change toA' r ⊗ₜ[R] l = (toA' r * 1) ⊗ₜ[R] l
         simp
   | add x y hx hy => simp only [map_add, TensorProduct.tmul_add, hx, hy]; rfl
 
@@ -515,7 +515,7 @@ private theorem pullback_tensor_pair_surjective
       pr ((LinearMap.rTensor L j) t) =
         ((1 : B) ⊗ₜ[R] lid t, (1 : A') ⊗ₜ[R] lid t) :=
     prodLeft_rTensor_pullbackInclusion f g I s L
-  show ∀ p : B ⊗[R] L × A' ⊗[R] L,
+  change ∀ p : B ⊗[R] L × A' ⊗[R] L,
     d.rTensor L (pr.symm p) = 0 →
       ∃ l : L, ((1 : B) ⊗ₜ[R] l, (1 : A') ⊗ₜ[R] l) = p
   intro p hp
@@ -564,7 +564,7 @@ private theorem flat_pullback_tensor_pair
     apply lid.symm.injective
     apply h.1
     apply pr.injective
-    show pr ((LinearMap.rTensor L j) (lid.symm x)) =
+    change pr ((LinearMap.rTensor L j) (lid.symm x)) =
       pr ((LinearMap.rTensor L j) (lid.symm y))
     rw [hj, hj, lid.apply_symm_apply, lid.apply_symm_apply]
     exact hxy
@@ -616,15 +616,15 @@ private theorem comp_inv_tmul
   apply (ModuleCat.mono_iff_injective
     ((ModuleCat.extendScalarsComp f g).hom.app L)).mp inferInstance
   rw [← ModuleCat.comp_apply, Iso.inv_hom_id_app]
-  show a ⊗ₜ[S,g] (b ⊗ₜ[R,f] l) =
+  change a ⊗ₜ[S,g] (b ⊗ₜ[R,f] l) =
     (ModuleCat.extendScalarsComp f g).hom.app L ((a * g b) ⊗ₜ[R,g.comp f] l)
   rw [show (a * g b) ⊗ₜ[R,g.comp f] l =
     (a * g b) • ((1 : T) ⊗ₜ[R,g.comp f] l) by
       rw [TensorProduct.smul_tmul']; simp]
   rw [map_smul, h, TensorProduct.smul_tmul']
-  show a ⊗ₜ[S,g] (b ⊗ₜ[R,f] l) = (a * g b * 1) ⊗ₜ[S,g] ((1 : S) ⊗ₜ[R,f] l)
+  change a ⊗ₜ[S,g] (b ⊗ₜ[R,f] l) = (a * g b * 1) ⊗ₜ[S,g] ((1 : S) ⊗ₜ[R,f] l)
   rw [mul_one, mul_comm a (g b)]
-  show a ⊗ₜ[S,g] (b ⊗ₜ[R,f] l) = (b • a) ⊗ₜ[S,g] ((1 : S) ⊗ₜ[R,f] l)
+  change a ⊗ₜ[S,g] (b ⊗ₜ[R,f] l) = (b • a) ⊗ₜ[S,g] ((1 : S) ⊗ₜ[R,f] l)
   rw [TensorProduct.smul_tmul, TensorProduct.smul_tmul']
   simp
 
@@ -682,7 +682,7 @@ private theorem compatiblePairs_tensor_difference_eq_zero
       simp only [map_add, Prod.fst_add, Prod.snd_add, TensorProduct.tmul_add, hx, hy]
       abel
     | tmul p l =>
-      show (f p.1 - g p.2) ⊗ₜ[R] l =
+      change (f p.1 - g p.2) ⊗ₜ[R] l =
         cB.inv ((1 : A) ⊗ₜ[B,f] (p.1 ⊗ₜ[R,toB] l)) -
           c.inv (cA'.inv ((1 : A) ⊗ₜ[A',g] (p.2 ⊗ₜ[R,toA'] l)))
       rw [show cB.inv ((1 : A) ⊗ₜ[B,f] (p.1 ⊗ₜ[R,toB] l)) =
@@ -691,7 +691,7 @@ private theorem compatiblePairs_tensor_difference_eq_zero
         (1 * g p.2) ⊗ₜ[R,g.comp toA'] l from comp_inv_tmul toA' g L 1 p.2 l]
       rw [hc]
       simp [TensorProduct.sub_tmul]
-  show ∀ p : CompatiblePairs f g (E.obj L),
+  change ∀ p : CompatiblePairs f g (E.obj L),
     (LinearMap.rTensor L (pullbackDifference f g I s)) (pr.symm p.1) = 0
   intro p
   have hp := p.property
@@ -832,7 +832,7 @@ private theorem rTensor_submodule_conductor_injective
     intro a ha q _
     induction q using Submodule.Quotient.induction_on with
     | _ q =>
-      show Submodule.Quotient.mk ((a : R) • q) = (0 : Q ⧸ LinearMap.range j)
+      change Submodule.Quotient.mk ((a : R) • q) = (0 : Q ⧸ LinearMap.range j)
       apply (Submodule.Quotient.mk_eq_zero _).mpr
       refine ⟨⟨a • q.1, hmem q.1 q.property ⟨a, ha⟩⟩, ?_⟩
       rfl
@@ -902,7 +902,7 @@ private theorem flat_of_rTensor_submodules_ideal_injective
   have hbt : b.rTensor M t = 0 := by
     apply hQi
     rw [map_zero, ← LinearMap.comp_apply, ← LinearMap.rTensor_comp]
-    show (J.mkQ.comp K.subtype).rTensor M t = 0
+    change (J.mkQ.comp K.subtype).rTensor M t = 0
     rw [LinearMap.rTensor_comp, LinearMap.comp_apply, ht, map_zero]
   obtain ⟨u, hu⟩ := (rTensor_exact M (LinearMap.exact_subtype_ker_map b) hb t).mp hbt
   have hu0 : u = 0 := by
@@ -981,10 +981,10 @@ private theorem pullback_flat_of_baseChange
   let J : Ideal R := RingHom.ker toB
   let k : J ≃+ RingHom.ker g :=
     { toFun := fun j => ⟨j.1.1.2, by
-        show g j.1.1.2 = 0
+        change g j.1.1.2 = 0
         have hp : f j.1.1.1 = g j.1.1.2 := j.1.property
         rw [← hp]
-        show f (toB j.1) = 0
+        change f (toB j.1) = 0
         rw [j.property, map_zero]⟩
       invFun := fun a => ⟨⟨(0, a), by simpa using a.property.symm⟩, rfl⟩
       left_inv := fun j => Subtype.ext (Subtype.ext (Prod.ext j.property.symm rfl))
@@ -1002,7 +1002,7 @@ private theorem pullback_flat_of_baseChange
     intro r a j
     apply hi
     rw [i.map_smul, hiR, i.map_smul]
-    show (toA' r * a) * i j = toA' r * (a * i j)
+    change (toA' r * a) * i j = toA' r * (a * i j)
     exact mul_assoc _ _ _⟩
   have hsurj : Function.Surjective (algebraMap R B) := by
     intro b
@@ -1066,11 +1066,11 @@ public theorem flatModulesEquivalenceOverFibreProduct
     have : Module.Flat B X.fst := hX.1
     have : Module.Flat A' X.snd := hX.2
     apply pullback_flat_of_baseChange toBase surjection I s (F.obj X)
-    · show Module.Flat B (E.obj (F.obj X)).fst
+    · change Module.Flat B (E.obj (F.obj X)).fst
       let eb : (E.obj (F.obj X)).fst ≃ₗ[B] X.fst :=
         ((CategoricalPullback.π₁ _ _).mapIso (asIso (adj.counit.app X))).toLinearEquiv
       exact Module.Flat.of_linearEquiv eb
-    · show Module.Flat A' (E.obj (F.obj X)).snd
+    · change Module.Flat A' (E.obj (F.obj X)).snd
       let ea : (E.obj (F.obj X)).snd ≃ₗ[A'] X.snd :=
         ((CategoricalPullback.π₂ _ _).mapIso (asIso (adj.counit.app X))).toLinearEquiv
       exact Module.Flat.of_linearEquiv ea

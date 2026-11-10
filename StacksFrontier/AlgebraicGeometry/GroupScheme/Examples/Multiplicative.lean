@@ -240,7 +240,7 @@ private theorem multiplicativeGroupComul_eq_multiplicationRingHom :
   intro p
   let f := (Bialgebra.comulAlgHom ℤ (LaurentPolynomial ℤ)).toRingHom
   let g := multiplicativeGroupMultiplicationRingHom
-  show f p = g p
+  change f p = g p
   have hT1 : f (LaurentPolynomial.T 1) = g (LaurentPolynomial.T 1) := by
     simp [f, g, multiplicativeGroupMultiplicationRingHom,
       Algebra.TensorProduct.tmul_mul_tmul]
@@ -338,12 +338,12 @@ private theorem canonicalRepresentation_homEquiv_eq_coordinate {T : Scheme.{u}}
           (CommRingCat.of (AddMonoidAlgebra (ULift.{u} ℤ) ℤ))).inv := by
       apply Quiver.Hom.op_inj
       apply e.injective
-      show e (e.symm iso.hom) = _
+      change e (e.symm iso.hom) = _
       calc
         e (e.symm iso.hom) = iso.hom := e.apply_symm_apply _
         _ = e ((E.toCommRingCatIso.hom ≫ (Scheme.ΓSpecIso
             (CommRingCat.of (AddMonoidAlgebra (ULift.{u} ℤ) ℤ))).inv).op) := by
-          show Spec.map E.toCommRingCatIso.hom =
+          change Spec.map E.toCommRingCatIso.hom =
             (Spec (CommRingCat.of (AddMonoidAlgebra (ULift.{u} ℤ) ℤ))).toSpecΓ ≫
               Spec.map (E.toCommRingCatIso.hom ≫
               (Scheme.ΓSpecIso (CommRingCat.of (AddMonoidAlgebra (ULift.{u} ℤ) ℤ))).inv)
@@ -355,11 +355,11 @@ private theorem canonicalRepresentation_homEquiv_eq_coordinate {T : Scheme.{u}}
     have hgen (φ : B ⟶ S) :
         ((A.homEquiv G S φ).hom gen).val =
           (CommRingCat.Hom.hom φ) (MonoidAlgebra.single gen 1) := by
-      show ((CommGrpCat.Hom.hom
+      change ((CommGrpCat.Hom.hom
           (A.unit.app G ≫ CommMonCat.units.map ((forget₂ CommRingCat CommMonCat).map φ)))
           gen).val = (CommRingCat.Hom.hom φ) (MonoidAlgebra.single gen 1)
       rw [Adjunction.comp_unit_app]
-      show (CommRingCat.Hom.hom φ)
+      change (CommRingCat.Hom.hom φ)
         (MonoidAlgebra.of (ULift.{u} ℤ) (Multiplicative (ULift.{u} ℤ)) gen) = _
       rfl
     have hunit (f : G ⟶ CommMonCat.units.obj
@@ -368,23 +368,23 @@ private theorem canonicalRepresentation_homEquiv_eq_coordinate {T : Scheme.{u}}
       simp [unitsHomEquiv, gen]
       rfl
     have hE : E (MonoidAlgebra.single gen (1 : ULift.{u} ℤ)) = LaurentPolynomial.T 1 := by
-      show AddMonoidAlgebra.domCongr (ULift.{u} ℤ) (ULift.{u} ℤ) d
+      change AddMonoidAlgebra.domCongr (ULift.{u} ℤ) (ULift.{u} ℤ) d
         (MonoidAlgebra.toAdditiveAlgEquiv (ULift.{u} ℤ) (ULift.{u} ℤ)
           (Multiplicative (ULift.{u} ℤ)) (MonoidAlgebra.single gen 1)) = _
       rw [MonoidAlgebra.toAdditiveAlgEquiv_single, AddMonoidAlgebra.domCongr_single]
       rfl
     apply Units.ext
-    show (unitsHomEquiv H (eA φ).hom).val =
+    change (unitsHomEquiv H (eA φ).hom).val =
       (Scheme.ΓSpecIso
         (CommRingCat.of (AddMonoidAlgebra (ULift.{u} ℤ) ℤ))).inv.hom
           (AddMonoidAlgebra.single (1 : ℤ) (1 : ULift.{u} ℤ))
     rw [hunit]
-    show ((CommGrpCat.Hom.hom ((A.homEquiv G S) ((e.symm iso.hom).unop))) gen).val = _
+    change ((CommGrpCat.Hom.hom ((A.homEquiv G S) ((e.symm iso.hom).unop))) gen).val = _
     rw [hgen ((e.symm iso.hom).unop)]
-    show (CommRingCat.Hom.hom ((e.symm iso.hom).unop))
+    change (CommRingCat.Hom.hom ((e.symm iso.hom).unop))
       (MonoidAlgebra.single gen (1 : ULift.{u} ℤ)) = _
     rw [hphi]
-    show (Scheme.ΓSpecIso
+    change (Scheme.ΓSpecIso
       (CommRingCat.of (AddMonoidAlgebra (ULift.{u} ℤ) ℤ))).inv.hom
         (E (MonoidAlgebra.single gen (1 : ULift.{u} ℤ))) =
       (Scheme.ΓSpecIso
@@ -517,7 +517,7 @@ theorem baseChangePointsIsoGlobalUnits_hom_app
         (f.left ≫ pullback.fst
           (multiplicativeGroupULift ↘ Spec (.of (ULift.{u} ℤ)))
           (specULiftZIsTerminal.from S)) := by
-  show (multiplicativeGroupBaseChangeRepresentsGlobalUnits S).homEquiv f = _
+  change (multiplicativeGroupBaseChangeRepresentsGlobalUnits S).homEquiv f = _
   dsimp [multiplicativeGroupBaseChangeRepresentsGlobalUnits]
   exact canonicalRepresentation_homEquiv_eq_coordinate _
 

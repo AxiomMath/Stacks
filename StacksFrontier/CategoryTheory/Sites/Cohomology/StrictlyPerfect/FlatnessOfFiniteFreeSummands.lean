@@ -110,7 +110,7 @@ many of them are nonzero, so the complex is bounded above; Stacks 06YQ concludes
 
 This is the statement on the slice `C/V`; the one on the site itself is
 `AlgebraicGeometry.RingedSite.kFlat_of_isStrictlyPerfect`, which is phrased with the
-predicate `Stacks.SheafOfModules.IsKFlat` rather than `Stacks.SheafOfModules.KFlat.KFlat`. -/
+predicate `Stacks.SheafOfModules.IsKFlat` rather than `Stacks.SheafOfModules.KFlat`. -/
 theorem kFlat_over_of_isStrictlyPerfect (X : RingedSite.{u, v, max u v})
     [∀ U : X.C, HasSheafify (X.J.over U) AddCommGrpCat.{max u v}]
     [∀ U : X.C, (X.J.over U).WEqualsLocallyBijective AddCommGrpCat.{max u v}]
@@ -118,7 +118,7 @@ theorem kFlat_over_of_isStrictlyPerfect (X : RingedSite.{u, v, max u v})
     (P : CochainComplex
       (_root_.SheafOfModules.{max u v} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over V)) ℤ)
     (hP : IsStrictlyPerfect ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over V) P) :
-    KFlat.KFlat (X.O.over V) P := by
+    KFlat (X.O.over V) P := by
   obtain ⟨r, hr⟩ := hP.bounded.bddAbove
   have hLE : P.IsStrictlyLE r := by
     refine (CochainComplex.isStrictlyLE_iff P r).2 fun i hi => ?_

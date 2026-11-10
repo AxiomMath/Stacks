@@ -201,8 +201,8 @@ theorem isAdicOnEveryAffineEtaleDiagram_iff_isTautAdicStar {X Y : FppfSheaf B S 
   constructor <;>
     intro h U V a b t hU hV ha hb hsq A R _ _ _ _ _ _ _ _ hCA hCR hA D E eU eV g hg <;>
     have hg' := h U V a b t hU hV ha hb hsq A R hCA hCR hA D E eU eV g hg
-  · exact RingHom.isTaut_of_isAdic g.toRingHom g.continuous hg'
-  · exact (@RingHom.isAdic_iff_isTaut A R _ _ _ _ _ _ _ _ g.toRingHom g.continuous hCA.2
+  · exact RingHom.isTaut_of_isAdic g.toRingHom hg'
+  · exact (@RingHom.isAdic_iff_isTaut A R _ _ _ _ _ _ _ _ g.toRingHom hCA.2
       hCR.1.1.2.1 hCR.1.1.2.2).mpr hg'
 
 /-- **Section 0AQ2, condition (1) implies condition (2).** A morphism of locally countably

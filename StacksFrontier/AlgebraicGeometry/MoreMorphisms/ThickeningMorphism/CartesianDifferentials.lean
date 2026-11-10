@@ -90,8 +90,8 @@ private theorem formallyUnramified_of_firstOrder
   have hsq : i ≫ f' = f ≫ j := hcart.toCommSq.w
   have hVU : V ≤ f ⁻¹ᵁ U := by
     intro x hx
-    show f x ∈ j ⁻¹ᵁ U'
-    show j (f x) ∈ U'
+    change f x ∈ j ⁻¹ᵁ U'
+    change j (f x) ∈ U'
     have hx' : f' (i x) = j (f x) := by
       simpa using congrArg (fun g : X ⟶ S' => g x) hsq
     rw [← hx']
@@ -142,7 +142,7 @@ private theorem formallyUnramified_of_firstOrder
       Algebra (Γ(S', U') ⧸ C.baseIdeal) (Γ(X', V') ⧸ C.sourceIdeal)) := by
     apply Algebra.algebra_ext
     intro a
-    show C.quotientRingMap a =
+    change C.quotientRingMap a =
       (Ideal.quotientMap C.sourceIdeal
         (algebraMap (Γ(S', U')) (Γ(X', V'))) Ideal.le_comap_map) a
     simp [FirstOrderThickeningChart.quotientRingMap, RingHom.algebraMap_toAlgebra]

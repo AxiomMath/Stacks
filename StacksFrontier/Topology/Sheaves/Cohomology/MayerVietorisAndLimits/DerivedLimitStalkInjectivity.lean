@@ -164,7 +164,7 @@ public theorem mono_stalkFunctor_map_of_nhds_basis {X : TopCat.{u}} (x : X)
       (isColimitOfPreserves (forget AddCommGrpCat.{u}) (colimit.isColimit D)) a b
   have hmap : colimit.ι D j ≫ (TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map f =
       f.app (Opposite.op j.unop.1) ≫ colimit.ι E j := by
-    show colimit.ι D j ≫ colim.map (restrict.map f) =
+    change colimit.ι D j ≫ colim.map (restrict.map f) =
       (restrict.map f).app j ≫ colimit.ι E j
     exact colimit.ι_map (restrict.map f) j
   have hG : (colimit.ι E j) ((f.app (Opposite.op j.unop.1)) s) =
@@ -188,7 +188,7 @@ public theorem mono_stalkFunctor_map_of_nhds_basis {X : TopCat.{u}} (x : X)
   let gV : j ⟶ jV := g ≫ g'.op
   have heqV : D.map gV s = D.map gV t := by
     have heqV' : E.map gV (α.app j s) = E.map gV (α.app j t) := by
-      show (E.map (g ≫ g'.op)) (α.app j s) = (E.map (g ≫ g'.op)) (α.app j t)
+      change (E.map (g ≫ g'.op)) (α.app j s) = (E.map (g ≫ g'.op)) (α.app j t)
       rw [E.map_comp g g'.op]
       convert congrArg (fun z ↦ E.map g'.op z) heq using 1 <;> rfl
     exact (AddCommGrpCat.mono_iff_injective _).1 (hmono V hV𝔘) (by
@@ -301,7 +301,7 @@ public theorem cohomology_derivedLimit_projection_mono_on_stalk {X : TopCat.{u}}
         (DerivedCategory.homologyFunctor P m ⋙ E) n₀ (hinj U hU)
     have hπ : T'.mor₁ ≫ Pi.π (fun n : ℕ ↦ (K ⋙ R).obj (⟨n⟩ : ℕᵒᵖ)) n₀ =
         R.map (p ≫ Pi.π (fun n : ℕ ↦ K.obj (⟨n⟩ : ℕᵒᵖ)) n₀) := by
-      show (R.map p ≫ piComparison R (fun n : ℕ ↦ K.obj (⟨n⟩ : ℕᵒᵖ))) ≫
+      change (R.map p ≫ piComparison R (fun n : ℕ ↦ K.obj (⟨n⟩ : ℕᵒᵖ))) ≫
         Pi.π (fun n : ℕ ↦ R.obj (K.obj (⟨n⟩ : ℕᵒᵖ))) n₀ = _
       rw [Category.assoc, piComparison_comp_π, ← R.map_comp]
     rwa [hπ] at hproj
@@ -315,7 +315,7 @@ public theorem cohomology_derivedLimit_projection_mono_on_stalk {X : TopCat.{u}}
     SheafOfModules.forget O ⋙ PresheafOfModules.toPresheaf O.obj ⋙
       TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x
   have hsheafify : Mono (((H ⋙ PresheafOfModules.sheafification (𝟙 O.obj)) ⋙ T).map φ) := by
-    show Mono ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
+    change Mono ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
       (CategoryTheory.sheafifyMap (Opens.grothendieckTopology X)
         ((PresheafOfModules.toPresheaf O.obj).map (H.map φ))))
     exact mono_stalkFunctor_map_sheafifyMap x _ hstalk
@@ -612,7 +612,7 @@ theorem exists_presented_derivedLimit_truncGETower {X : TopCat.{u}}
   let tower := Stacks.DerivedLimit.truncGETower (SheafOfModules.{u} O) E
   obtain ⟨hprod, L, pr, δ, hT⟩ := DerivedCategory.exists_isDerivedLimit_of_forall_isGE tower
     (fun n ↦ ⟨-(n : ℤ), by
-      show ((DerivedCategory.TStructure.t.truncGE (-(n : ℤ))).obj E).IsGE _
+      change ((DerivedCategory.TStructure.t.truncGE (-(n : ℤ))).obj E).IsGE _
       infer_instance⟩)
   let _ := hprod
   let q : E ⟶ ∏ᶜ fun n : ℕ ↦ tower.obj ⟨n⟩ :=
@@ -624,7 +624,7 @@ theorem exists_presented_derivedLimit_truncGETower {X : TopCat.{u}}
   have hq (n : ℕ) : q ≫ Pi.π (fun n : ℕ ↦ tower.obj ⟨n⟩) n =
       (DerivedCategory.TStructure.t.truncGEπ (-(n : ℤ))).app E := Pi.lift_comp_π _ n
   have hzero : q ≫ T.mor₂ = 0 := by
-    show q ≫ diff = 0
+    change q ≫ diff = 0
     refine Pi.hom_ext _ _ fun n ↦ ?_
     rw [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, hq n, ← Category.assoc, hq (n + 1),
       Stacks.DerivedLimit.truncGETower_map_homOfLE_succ, zero_comp]

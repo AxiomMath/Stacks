@@ -170,7 +170,7 @@ theorem augmentedCotangentSquareMap_f_mk (n : ℕ) (p : (P.obj (op ⦋n⦌) : Ty
   have hn : (ComplexShape.embeddingUpIntLE (0 : ℤ)).f n = -(n : ℤ) := by simp
   rw [augmentedCotangentSquareMap,
     HomologicalComplex.extendMap_mapHomologicalComplexExtendIso_f _ _ _ _ hn]
-  show (((alternatingFaceMapComplex (ModuleCat.{u} (D' : Type u))).obj
+  change (((alternatingFaceMapComplex (ModuleCat.{u} (D' : Type u))).obj
       (resolutionOver ε' ⋙ overDifferentialsFunctor)).extendXIso
         (ComplexShape.embeddingUpIntLE 0) hn).inv
       (augmentedCotangentSquareTermMap sq ε ε' φ hφR hφD (op ⦋n⦌)

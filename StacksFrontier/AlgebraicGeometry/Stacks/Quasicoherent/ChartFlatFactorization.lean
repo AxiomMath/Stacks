@@ -196,7 +196,7 @@ theorem exists_flat_factorization (y : 𝒳.val.val.obj)
   let κ := kappaIso B S hS c.toStack γQ
   refine ⟨objOf B S hS c.toStack γQ, haff i, ?_, κ.inv ≫ g i ≫ πz, κ.inv ≫ g i ≫ πz',
     a' ≫ κ.hom, ?_, ?_, ?_, ?_⟩
-  · show Flat ((BigFppfOver.toScheme B S hS).map (𝒳.val.val.p.map γQ ≫ eqToHom _))
+  · change Flat ((BigFppfOver.toScheme B S hS).map (𝒳.val.val.p.map γQ ≫ eqToHom _))
     rw [Functor.map_comp, eqToHom_map]
     infer_instance
   · rw [Category.assoc, κ.hom_inv_id_assoc, reassoc_of% hab, hmz, Category.assoc]

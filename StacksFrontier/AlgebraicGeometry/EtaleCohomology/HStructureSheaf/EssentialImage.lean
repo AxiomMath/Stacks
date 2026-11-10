@@ -62,7 +62,7 @@ attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesAbelian
 
 -- `AlgebraicGeometry.EssImageIffAffineAlmostBlowUpFamilyBigH`
 -- (`StacksFrontier/AlgebraicGeometry/EtaleCohomology/AlmostBlowUp/
--- StacksFrontier/AlgebraicGeometry/EtaleCohomology/AlmostBlowUp/AlmostBlowUpFamilyCriterion.lean:102`),
+-- AlmostBlowUpFamilyCriterion.lean:102`),
 -- the form of Stacks 0EWR, is stated over the standard model of the derived category, through
 -- `Stacks.MayerVietoris.CanonicalMapOfComplexes.derivedCSquareData`.
 attribute [local instance] HasDerivedCategory.standard

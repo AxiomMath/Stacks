@@ -44,8 +44,7 @@ noncomputable def polynomialRight :
       · simp)
     (by
       refine Polynomial.algHom_ext' (AlgHom.ext fun z ↦ ?_) ?_
-      · induction z using TensorProduct.induction_on with
-        | zero => simp
+      · induction z using TensorProduct.inductionOn with
         | add x y hx hy => simp only [map_add]; rw [hx, hy]
         | tmul a s => simp [← Polynomial.C_mul, tmul_mul_tmul]
       · simp [← Algebra.TensorProduct.one_def])
@@ -80,8 +79,7 @@ theorem map_id_mapAlgHom_comp_map_id_CAlgHom {E : Type u} [CommRing E] [Algebra 
     (φ : S →ₐ[R] E) (g : A ⊗[R] S) :
     map (AlgHom.id R A) (Polynomial.mapAlgHom φ) (map (AlgHom.id R A) Polynomial.CAlgHom g) =
       map (AlgHom.id R A) Polynomial.CAlgHom (map (AlgHom.id R A) φ g) := by
-  induction g using TensorProduct.induction_on with
-  | zero => simp
+  induction g using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, map_add, hx, hy, ← map_add]
   | tmul a s => simp
 

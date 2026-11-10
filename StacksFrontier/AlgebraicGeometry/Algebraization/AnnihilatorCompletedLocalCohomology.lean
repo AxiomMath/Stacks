@@ -270,12 +270,12 @@ private theorem enatToEInt_add_krullDimToEInt_natCast (dep : ℕ∞) (e : ℕ) :
       | (k : ℕ) => (((k + e : ℕ) : ℤ) : EInt) := by
   cases dep with
   | top =>
-    show ((⊤ : WithTop ℤ) : WithBot (WithTop ℤ)) +
+    change ((⊤ : WithTop ℤ) : WithBot (WithTop ℤ)) +
       (((e : ℤ) : WithTop ℤ) : WithBot (WithTop ℤ)) = (⊤ : EInt)
     rw [← WithBot.coe_add, WithTop.top_add]
     rfl
   | coe k =>
-    show (((k : ℤ) : WithTop ℤ) : WithBot (WithTop ℤ)) +
+    change (((k : ℤ) : WithTop ℤ) : WithBot (WithTop ℤ)) +
       (((e : ℤ) : WithTop ℤ) : WithBot (WithTop ℤ)) = _
     rw [← WithBot.coe_add, ← WithTop.coe_add]
     norm_cast

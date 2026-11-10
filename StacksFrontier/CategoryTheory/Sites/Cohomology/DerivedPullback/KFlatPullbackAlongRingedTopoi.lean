@@ -302,7 +302,7 @@ def CyclesIsFlat (O : AlgebraicGeometry.RingedTopos.{v₁, u₁, w₁})
         (Stacks.SheafOfModules.Tensor.sheafTensor.{u₁, v₁, w₁, w₁, w₁} O.O)
         (ComplexShape.up ℤ)] : Prop :=
   ∀ M : CochainComplex (SheafOfModules.{w₁} (Stacks.SheafOfModules.Tensor.ringSheaf O.O)) ℤ,
-    M.Acyclic → Stacks.SheafOfModules.KFlat.KFlat O.O M →
+    M.Acyclic → Stacks.SheafOfModules.KFlat O.O M →
       (∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{v₁, u₁, w₁, w₁} (O := O.O) (M.X i)) →
       ∀ n : ℤ,
         AlgebraicGeometry.SheafOfModules.IsFlat.{v₁, u₁, w₁, w₁} (O := O.O) (M.cycles n)
@@ -380,7 +380,7 @@ theorem kFlat_pullbackComplex_of_isStrictlyLE (f : AlgebraicGeometry.RingedTopos
     [L.IsStrictlyLE b]
     (hflat : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O)
       (L.X i)) :
-    Stacks.SheafOfModules.KFlat.KFlat X.O ((pullbackComplex f).obj L) := by
+    Stacks.SheafOfModules.KFlat X.O ((pullbackComplex f).obj L) := by
   have : ((pullbackComplex f).obj L).IsStrictlyLE b := isStrictlyLE_pullbackComplex f L b
   have := hasTotal_sheafOfModules (X := X)
   refine CochainComplex.KFlatBifunctor.kFlat_of_isStrictlyLE _ _ b
@@ -400,7 +400,7 @@ theorem kFlat_pullbackComplex_of_isColimit (f : AlgebraicGeometry.RingedToposSit
     (hLE : ∀ n : ℕ, ∃ b : ℤ, (D.obj n).IsStrictlyLE b)
     (hflat : ∀ (n : ℕ) (i : ℤ), AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u}
       (O := Y.O) ((D.obj n).X i)) :
-    Stacks.SheafOfModules.KFlat.KFlat X.O ((pullbackComplex f).obj c.pt) := by
+    Stacks.SheafOfModules.KFlat X.O ((pullbackComplex f).obj c.pt) := by
   have hp : PreservesColimit D (pullbackComplex f) :=
     @CochainComplex.KFlat.preservesColimit_mapHomologicalComplex
       (SheafOfModules.{u, u, u, u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
@@ -428,7 +428,7 @@ theorem kFlat_pullbackComplex_colimit (f : AlgebraicGeometry.RingedToposSiteHom 
     (hLE : ∀ n : ℕ, ∃ b : ℤ, (D.obj n).IsStrictlyLE b)
     (hflat : ∀ (n : ℕ) (i : ℤ), AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u}
       (O := Y.O) ((D.obj n).X i)) :
-    Stacks.SheafOfModules.KFlat.KFlat X.O ((pullbackComplex f).obj (colimit D)) :=
+    Stacks.SheafOfModules.KFlat X.O ((pullbackComplex f).obj (colimit D)) :=
   kFlat_pullbackComplex_of_isColimit f hmos hpf D (colimit.cocone D) (colimit.isColimit D)
     hLE hflat
 
@@ -471,7 +471,7 @@ theorem kFlat_pullbackComplex_of_isFlat_cycles (f : AlgebraicGeometry.RingedTopo
       (M.X i))
     (hcyc : ∀ n : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O)
       (M.cycles n)) :
-    Stacks.SheafOfModules.KFlat.KFlat X.O ((pullbackComplex f).obj M) :=
+    Stacks.SheafOfModules.KFlat X.O ((pullbackComplex f).obj M) :=
   kFlat_pullbackComplex_of_isColimit f hmos hpf
     (Stacks.SheafOfModules.truncLESequence M) (Stacks.SheafOfModules.truncLECocone M)
     (Stacks.SheafOfModules.truncLECocone_isColimit M)
@@ -490,10 +490,10 @@ theorem kFlat_pullbackComplex_of_acyclic_of_cyclesIsFlat
     (hpf : PullbackPreservesIsFlat f)
     (hcyc : CyclesIsFlat Y)
     (M : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hacyc : M.Acyclic) (hM : Stacks.SheafOfModules.KFlat.KFlat Y.O M)
+    (hacyc : M.Acyclic) (hM : Stacks.SheafOfModules.KFlat Y.O M)
     (hflat : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O)
       (M.X i)) :
-    Stacks.SheafOfModules.KFlat.KFlat X.O ((pullbackComplex f).obj M) :=
+    Stacks.SheafOfModules.KFlat X.O ((pullbackComplex f).obj M) :=
   kFlat_pullbackComplex_of_isFlat_cycles f hmos hpf M hflat (hcyc M hacyc hM hflat)
 
 omit [HasSheafify X.J AddCommGrpCat.{u}] [HasSheafify Y.J AddCommGrpCat.{u}]
@@ -538,15 +538,15 @@ theorem kernelSequence_resolution_facts :
     letI : Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u}) :=
       Stacks.hasSheafCompose_forget₂_commRingCat.{u, u, u} Y.J
     ∀ {K L : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ}
-    (_hK : Stacks.SheafOfModules.KFlat.KFlat Y.O K)
+    (_hK : Stacks.SheafOfModules.KFlat Y.O K)
     (_hflatK : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (K.X i))
     (_hΛflat : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O) (L.X i))
-    (_hΛkflat : Stacks.SheafOfModules.KFlat.KFlat Y.O L)
+    (_hΛkflat : Stacks.SheafOfModules.KFlat Y.O L)
     (α : L ⟶ K) (_hqis : QuasiIso α) (_hαepi : Epi α),
     (ShortComplex.kernelSequence α).ShortExact ∧
       (∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O)
         ((ShortComplex.kernelSequence α).X₁.X i)) ∧
-      Stacks.SheafOfModules.KFlat.KFlat Y.O (ShortComplex.kernelSequence α).X₁ ∧
+      Stacks.SheafOfModules.KFlat Y.O (ShortComplex.kernelSequence α).X₁ ∧
       (ShortComplex.kernelSequence α).X₁.Acyclic := by
   let : Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u}) :=
     Stacks.hasSheafCompose_forget₂_commRingCat.{u, u, u} Y.J
@@ -582,7 +582,7 @@ theorem kFlat_pullbackComplex_kernelSequence_X₂
       (O := Y.O) ((D.obj n).X i))
     {K : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ}
     (α : c.pt ⟶ K) :
-    Stacks.SheafOfModules.KFlat.KFlat X.O
+    Stacks.SheafOfModules.KFlat X.O
       ((pullbackComplex f).obj (ShortComplex.kernelSequence α).X₂) :=
   kFlat_pullbackComplex_of_isColimit f hmos hpf D c hc hLE hflat
 
@@ -606,9 +606,9 @@ theorem kFlat_pullbackComplex_of_shortExact (f : AlgebraicGeometry.RingedToposSi
     (hS : S.ShortExact)
     (hflat₃ : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O)
       (S.X₃.X i))
-    (h₁ : Stacks.SheafOfModules.KFlat.KFlat X.O ((pullbackComplex f).obj S.X₁))
-    (h₂ : Stacks.SheafOfModules.KFlat.KFlat X.O ((pullbackComplex f).obj S.X₂)) :
-    Stacks.SheafOfModules.KFlat.KFlat X.O ((pullbackComplex f).obj S.X₃) :=
+    (h₁ : Stacks.SheafOfModules.KFlat X.O ((pullbackComplex f).obj S.X₁))
+    (h₂ : Stacks.SheafOfModules.KFlat X.O ((pullbackComplex f).obj S.X₂)) :
+    Stacks.SheafOfModules.KFlat X.O ((pullbackComplex f).obj S.X₃) :=
   Stacks.SheafOfModules.KFlatTwoOutOfThree.kFlat_right_of_shortExact X.O
     (S.map (pullbackComplex f))
     (shortExact_map_pullbackComplex f hmos hex S hS hflat₃)
@@ -624,10 +624,10 @@ theorem kFlat_pullbackComplex (f : AlgebraicGeometry.RingedToposSiteHom X Y)
     (hex : PullbackPreservesShortExact f)
     (hcyc : CyclesIsFlat Y)
     (K : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat Y.O K)
+    (hK : Stacks.SheafOfModules.KFlat Y.O K)
     (hflatK : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.O)
       (K.X i)) :
-    Stacks.SheafOfModules.KFlat.KFlat X.O ((pullbackComplex f).obj K) := by
+    Stacks.SheafOfModules.KFlat X.O ((pullbackComplex f).obj K) := by
   obtain ⟨D, α, hLE, hDflat, hqis, hepi⟩ :=
     Stacks.SheafOfModules.KFlatResolution.exists_resolution_colimit Y.O K
   obtain ⟨hS, hMflat, hMkflat, hMacyc⟩ :=

@@ -90,7 +90,7 @@ theorem fibreToF_comp {Z Z' W : BigFppfOver B S hS} (g : yoneda.obj Z ⟶ X) (h 
     have hc := ρ.restrict_comp h τ g (yoneda.map h ≫ g) f rfl hf' hf
     refine Eq.trans ?_ ((F.algebraTransportEquiv (ρ.restrict (τ ≫ h) g f hf)
       (ρ.isIso_restrict_app _ g f hf) _).apply_symm_apply x)
-    show F.algebraTransport _ _ v = F.algebraTransport _ _ v
+    change F.algebraTransport _ _ v = F.algebraTransport _ _ v
     congr 1
     exact hc.symm
   have hR : ρ.fibreToF (yoneda.map h ≫ g) τ f hf' q =
@@ -189,7 +189,7 @@ theorem toScheme_map_projComparison {Z Z' : BigFppfOver B S hS} (g : yoneda.obj 
   set p' := ρ.projPoint (yoneda.map h ≫ g) (hc Z' _) (𝟙 _)
   have hcomm : ι ≫ ρ.projComparison hc g h ≫ projHom Â g (hc Z g) =
       (ι ≫ projHom Â (yoneda.map h ≫ g) (hc Z' _)) ≫ h := by rw [hpH]; rfl
-  show ((relativeProjRepresentableByFunctorUnconditional (Â Z g)).homEquiv
+  change ((relativeProjRepresentableByFunctorUnconditional (Â Z g)).homEquiv
       ((BigFppfOver.toScheme B S hS).map (ρ.projComparison hc g h))).val _ hO
       ((BigFppfOver.toScheme B S hS).map ι) =
     ((relativeProjRepresentableByFunctorUnconditional (Â Z g)).homEquiv

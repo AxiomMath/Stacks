@@ -173,7 +173,7 @@ theorem exists_nodalQuadraticRelation_adicCompletion_of_algEquiv_quotient
     have hq : hPB (nodalBinaryQuadratic a b c) = 0 := by
       have : (Ideal.Quotient.mk I) (nodalBinaryQuadratic a b c) = 0 :=
         Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.subset_span rfl)
-      show f.symm.toRingEquiv ((Ideal.Quotient.mk I) (nodalBinaryQuadratic a b c)) = 0
+      change f.symm.toRingEquiv ((Ideal.Quotient.mk I) (nodalBinaryQuadratic a b c)) = 0
       rw [this, map_zero]
     have heq : α * x ^ 2 + β * x * y + γ * y ^ 2 = hPB (nodalBinaryQuadratic a b c) := by
       simp only [nodalBinaryQuadratic, map_add, map_mul, map_pow, α, β, γ, x, y]

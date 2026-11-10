@@ -50,11 +50,12 @@ universe u
 namespace CategoryTheory.Limits
 
 variable {C D : Type*} [Category C] [Category D] [Preadditive C] [Preadditive D]
-  (Φ : C ⥤ D) [Φ.Additive] {J : Type} [Fintype J] {A : J → C} [HasBiproduct A]
+  (Φ : C ⥤ D) [Φ.Additive] {J : Type} [Finite J] {A : J → C} [HasBiproduct A]
 
 /-- An additive functor which kills every summand of a finite biproduct kills the biproduct. -/
 theorem isZero_obj_biproduct_of_isZero (h : ∀ j, IsZero (Φ.obj (A j))) :
     IsZero (Φ.obj (⨁ A)) := by
+  have := Fintype.ofFinite J
   rw [IsZero.iff_id_eq_zero, ← Φ.map_id, ← biproduct.total, Φ.map_sum]
   refine Finset.sum_eq_zero fun j _ => ?_
   rw [Φ.map_comp, (h j).eq_zero_of_tgt (Φ.map (biproduct.π A j)), zero_comp]
@@ -65,6 +66,7 @@ isomorphism: `Φ` sends the inclusion of the `i`-th summand to an isomorphism. -
 theorem isIso_map_biproduct_desc_of_isZero {B : C} (f : ∀ j, A j ⟶ B) (i : J)
     (h : ∀ j, j ≠ i → IsZero (Φ.obj (A j))) [IsIso (Φ.map (f i))] :
     IsIso (Φ.map (biproduct.desc f)) := by
+  have := Fintype.ofFinite J
   have hpi : Φ.map (biproduct.π A i) ≫ Φ.map (biproduct.ι A i) = 𝟙 _ := by
     rw [← Φ.map_comp, ← Φ.map_id, ← biproduct.total, Φ.map_sum,
       Finset.sum_eq_single i (fun j _ hj => by
@@ -158,7 +160,7 @@ private theorem exists_isAffineOpen_inter_eq_singleton [NoetherianSpace X] {S : 
   have hV : ∀ i, IsOpen (⋂ j ∈ (Finset.univ.erase i), ({x j}ᶜ : Set X)) := fun i =>
     isOpen_biInter_finset fun j _ => (hcl _ (hxS j)).isOpen_compl
   have hxV : ∀ i, x i ∈ (⟨_, hV i⟩ : X.Opens) := fun i => by
-    show x i ∈ ⋂ j ∈ (Finset.univ.erase i), ({x j}ᶜ : Set X)
+    change x i ∈ ⋂ j ∈ (Finset.univ.erase i), ({x j}ᶜ : Set X)
     simp only [Set.mem_iInter, Finset.mem_erase, Set.mem_compl_iff, Set.mem_singleton_iff]
     exact fun j ⟨hji, _⟩ h => hji (hxinj h).symm
   choose W hWaff hxW hWV using fun i => exists_isAffineOpen_mem_and_subset (hxV i)
@@ -246,7 +248,7 @@ theorem exists_iso_biproduct_of_topologicalKrullDim_supp_le_zero [NoetherianSpac
       (show ι.FullyFaithful from { preimage := fun f => f }).isIso_of_isIso_map _
     rw [_root_.AlgebraicGeometry.SheafOfModules.isIso_iff_forall_isIso_stalkFunctor_map]
     intro y
-    show IsIso ((Φ y).map (biproduct.desc ε))
+    change IsIso ((Φ y).map (biproduct.desc ε))
     by_cases hyS : y ∈ SheafOfModules.supp 𝓕
     · obtain ⟨i, rfl⟩ : y ∈ Set.range x := hrange ▸ hyS
       have : IsIso ((Φ (x i)).map (ε i)) :=

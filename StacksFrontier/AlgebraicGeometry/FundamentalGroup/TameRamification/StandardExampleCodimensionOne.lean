@@ -341,7 +341,7 @@ private theorem standardTamelyRamifiedCover_isTamelyRamifiedAt
         (Localization.Away (algebraMap A (standardTamelyRamifiedAlgebra A f e) f))))
       (Algebra.adjoin K ({t} : Set L)) ?_ (fun a => ?_) c
     · exact Algebra.subset_adjoin hts
-    · show psi ((algebraMap (standardTamelyRamifiedAlgebra A f e)
+    · change psi ((algebraMap (standardTamelyRamifiedAlgebra A f e)
           (Localization.Away (algebraMap A (standardTamelyRamifiedAlgebra A f e) f)))
           (algebraMap A (standardTamelyRamifiedAlgebra A f e) a))
           ∈ Algebra.adjoin K ({t} : Set L)

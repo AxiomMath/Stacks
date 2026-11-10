@@ -161,7 +161,7 @@ theorem subschemeι_app_eq_zero_of_complementaryCurveι_app_eq_zero
   obtain ⟨p, hp, hjc⟩ := hc.2
   -- the preimage of `U` in the tail is the preimage of `p ⁻¹ᵁ U` under the canonical map
   have hjV : C.subschemeι ⁻¹ᵁ (c ⁻¹ᵁ U) = canonicalMapToAttachingPoint hC ⁻¹ᵁ (p ⁻¹ᵁ U) := by
-    show (C.subschemeι ≫ c) ⁻¹ᵁ U = (canonicalMapToAttachingPoint hC ≫ p) ⁻¹ᵁ U
+    change (C.subschemeι ≫ c) ⁻¹ᵁ U = (canonicalMapToAttachingPoint hC ≫ p) ⁻¹ᵁ U
     rw [hjc]
   rcases eq_top_or_eq_bot_of_subsingleton (p ⁻¹ᵁ U) with hpU | hpU
   · -- the preimage contains the whole tail
@@ -174,7 +174,7 @@ theorem subschemeι_app_eq_zero_of_complementaryCurveι_app_eq_zero
         (fun f : Spec (C.subscheme.residueField hC.attachingPoint) ⟶ X => f.base z) hp
       simpa [Scheme.fromSpecResidueField_apply] using h1
     have hpzV : p z ∈ complementaryCurveι C ⁻¹ᵁ (c ⁻¹ᵁ U) := by
-      show complementaryCurveι C (p z) ∈ c ⁻¹ᵁ U
+      change complementaryCurveι C (p z) ∈ c ⁻¹ᵁ U
       rw [hiy]; exact hxtV
     -- the value of `t` at the attaching point, computed on the closure of the complement
     have hval : (X.evaluation (c ⁻¹ᵁ U) (complementaryCurveι C (p z)) hpzV).hom t = 0 := by
@@ -201,7 +201,7 @@ theorem isIso_app_of_isContractionOfRationalTail [IsReduced X] (hC : IsRationalT
     (U : (complementaryCurve C).Opens) : IsIso (Scheme.Hom.app c U) := by
   -- the contraction restricts to the identity, so the preimage of `U` pulls back to `U`
   have hiV : complementaryCurveι C ⁻¹ᵁ (c ⁻¹ᵁ U) = U := by
-    show (complementaryCurveι C ≫ c) ⁻¹ᵁ U = U
+    change (complementaryCurveι C ≫ c) ⁻¹ᵁ U = U
     rw [hc.1]; simp
   -- restriction along the closed immersion is a retraction of `c.app U`
   have hsplit : Scheme.Hom.app c U ≫
@@ -244,7 +244,7 @@ theorem isIso_structureSheaf_to_pushforward_of_isContraction [IsReduced X]
     intro U x hx
     exact ⟨U, Set.mem_univ _, hx, le_rfl⟩
   · intro U
-    show IsIso ((forget₂ CommRingCat RingCat).map (Scheme.Hom.app c U))
+    change IsIso ((forget₂ CommRingCat RingCat).map (Scheme.Hom.app c U))
     have := isIso_app_of_isContractionOfRationalTail hC hc U
     infer_instance
 

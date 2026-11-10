@@ -455,7 +455,7 @@ private theorem isLocallySurjective_sigmaDesc_range_relocalizeRestrict (B : BigF
   let Ui : I → ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := fun i => G ⋙ (U i).toFunctor
   let Wi : I → Subfunctor (R.obj F) := fun i => Subfunctor.range (R.map (U i).ι)
   let e : R.obj (∐ fun i => (U i).toFunctor) ≅ ∐ Ui := by
-    show G ⋙ colimit (Discrete.functor fun i => (U i).toFunctor) ≅
+    change G ⋙ colimit (Discrete.functor fun i => (U i).toFunctor) ≅
       colimit (Discrete.functor Ui)
     exact (colimitCompWhiskeringLeftIsoCompColimit
         (Discrete.functor fun i => (U i).toFunctor) G).symm ≪≫
@@ -476,7 +476,7 @@ private theorem isLocallySurjective_sigmaDesc_range_relocalizeRestrict (B : BigF
       _ = R.map (U i).ι := by simp [Wi]
       _ = Sigma.ι Ui i ≫ e.inv ≫ R.map (Sigma.desc fun i => (U i).ι) := by
         rw [← Category.assoc, hι]
-        show Functor.whiskerLeft G (U i).ι =
+        change Functor.whiskerLeft G (U i).ι =
           Functor.whiskerLeft G (Sigma.ι (fun i => (U i).toFunctor) i) ≫
             Functor.whiskerLeft G (Sigma.desc fun i => (U i).ι)
         rw [← Functor.whiskerLeft_comp]

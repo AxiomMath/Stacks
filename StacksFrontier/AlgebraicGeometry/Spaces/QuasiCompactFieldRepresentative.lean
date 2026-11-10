@@ -71,10 +71,10 @@ theorem isQuasiCompact_fieldMorphism_of_isFinite_pullback
   let ιi : ∀ j, Vi j ⟶ V := fun j ↦ Stacks.SeparationLocal.openObjHom B S hS V (𝒰.f j)
   let ψi : ∀ j, yoneda.obj (Vi j) ⟶ F := fun j ↦ yoneda.map (ιi j) ≫ φ
   have hViaff (j : 𝒰.I₀) : IsAffine (Q.obj (Vi j)) := by
-    show IsAffine (𝒰.X j)
+    change IsAffine (𝒰.X j)
     infer_instance
   have hιi (j : 𝒰.I₀) : Etale (Q.map (ιi j)) := by
-    show Etale (𝒰.f j)
+    change Etale (𝒰.f j)
     infer_instance
   have hψi (j : 𝒰.I₀) : (MorphismProperty.inverseImage
       (@Etale.{u} : MorphismProperty Scheme.{u}) Q).presheaf (ψi j) := by

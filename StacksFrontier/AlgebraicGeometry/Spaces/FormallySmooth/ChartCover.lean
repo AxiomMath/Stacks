@@ -68,7 +68,7 @@ private theorem etale_of_coproduct_desc {σ : Type u} {T' : σ → BigFppfOver B
       e.inv ≫ Sigma.desc fun a => (BigFppfOver.toScheme B S hS).map (κ a) := by
     rw [Iso.eq_inv_comp]
     refine Sigma.hom_ext _ _ fun a => ?_
-    rw [← Category.assoc, hce a, ← Functor.map_comp, hd a, Sigma.ι_desc]
+    rw [← Category.assoc, hce a, ← Functor.map_comp, hd a, Sigma.ι_comp_desc]
   rw [hmap]
   exact MorphismProperty.comp_mem (@AlgebraicGeometry.Etale) _ _
     (inferInstance : AlgebraicGeometry.Etale _) (IsZariskiLocalAtSource.sigmaDesc hκ)
@@ -147,7 +147,7 @@ theorem exists_affine_chart_cover {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     intro x
     refine BigFppfOver.exists_hom_of_comp_eq B S hS (X := V x) (Y := Y x)
       (α.resLE (A x) (C x) (hCle x)) ?_
-    show α.resLE (A x) (C x) (hCle x) ≫ (A x).ι ≫ B.inclusion.map U.hom =
+    change α.resLE (A x) (C x) (hCle x) ≫ (A x).ι ≫ B.inclusion.map U.hom =
       (C x).ι ≫ B.inclusion.map P.hom
     rw [← Category.assoc, Scheme.Hom.resLE_comp_ι, Category.assoc, hPover]
   choose μ hμmap using hm

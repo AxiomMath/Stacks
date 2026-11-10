@@ -57,7 +57,7 @@ theorem modulePullback_map_globalSmul_of_chartDiagramPullback {X Y : AlgebraicSp
   refine ((modulePullbackAdjunction B S hS h).homEquiv _ _).injective ?_
   refine (modulePushforwardHomEquiv B S hS h _ _).injective ?_
   refine ModuleFMap.ext B S hS (funext fun d => funext fun s => ?_)
-  show (modulePullbackHomFMap B S hS h M _ ((modulePullback B S hS h).map (globalSmul _ a M))).app
+  change (modulePullbackHomFMap B S hS h M _ ((modulePullback B S hS h).map (globalSmul _ a M))).app
       d s = (modulePullbackHomFMap B S hS h M _ (globalSmul _ b _)).app d s
   refine (modulePullbackHomFMap_app B S hS h M _ _ d s).trans
     (Eq.trans ?_ (modulePullbackHomFMap_app B S hS h M _ _ d s).symm)
@@ -79,9 +79,9 @@ theorem chartDiagramPullback_pullbackToGlobalFunctions {X Y : AlgebraicSpaces B 
       yoneda.preimage (d.U.1.hom ≫ (h ≫ f).hom) := by
     apply yoneda.map_injective
     rw [Functor.map_comp, Functor.map_preimage, Functor.map_preimage]
-    show yoneda.map d.g ≫ d.V.1.hom ≫ f.hom = d.U.1.hom ≫ h.hom ≫ f.hom
+    change yoneda.map d.g ≫ d.V.1.hom ≫ f.hom = d.U.1.hom ≫ h.hom ≫ f.hom
     rw [← Category.assoc, ← d.comm, Category.assoc]
-  show (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map d.g).op).hom
+  change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map d.g).op).hom
       ((Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
         (yoneda.preimage (d.V.1.hom ≫ f.hom))).op).hom r) =
     (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map

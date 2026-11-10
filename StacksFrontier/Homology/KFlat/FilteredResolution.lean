@@ -145,13 +145,13 @@ private noncomputable def weightedFreeComplex (R : Type u) [Ring R] {B : ℤ →
 private theorem weightedFreeComplex_free (R : Type u) [Ring R] {B : ℤ → Type u}
     (w : ∀ n, B n → Option ℤ) (n : ℤ) :
     Module.Free R ((weightedFreeComplex R w).X.X n) := by
-  show Module.Free R (B n →₀ R)
+  change Module.Free R (B n →₀ R)
   infer_instance
 
 private theorem weightedFreeComplex_filtration_free (R : Type u) [Ring R]
     {B : ℤ → Type u} (w : ∀ n, B n → Option ℤ) (i n : ℤ) :
     Module.Free R (((weightedFreeComplex R w).filtration.obj (op i)).X n) := by
-  show Module.Free R (stepSet (w n) i →₀ R)
+  change Module.Free R (stepSet (w n) i →₀ R)
   infer_instance
 
 /-- The inclusion of filtration steps `i + 1 → i`, whose cokernel is the `i`-th graded piece. -/
@@ -186,7 +186,7 @@ private theorem freeZeroComplexDesc_epi_homologyMap {R : Type u} [Ring R]
       ModuleCat.ofHom (Finsupp.linearCombination R (v n)) := by
     rw [← cancel_mono (K.iCycles n), Category.assoc,
       HomologicalComplex.cyclesMap_i]
-    show e.inv ≫ e.hom ≫ _ = _
+    change e.inv ≫ e.hom ≫ _ = _
     simp [e, freeZeroComplexDesc]
   have hc : Epi (ModuleCat.ofHom (Finsupp.linearCombination R (v n))) := by
     rw [ModuleCat.epi_iff_surjective]
@@ -232,7 +232,7 @@ private theorem filteredCycleValue_naturality {R : Type u} [Ring R]
   rcases b with x | ⟨j, x⟩
   · rcases hb with ⟨j, hj, _⟩
     cases hj
-  · show (HomologicalComplex.cyclesMap (K.filtration.diagram.map _) n ≫
+  · change (HomologicalComplex.cyclesMap (K.filtration.diagram.map _) n ≫
       HomologicalComplex.cyclesMap (K.filtration.ι.app (op i)) n) x = _
     rw [← HomologicalComplex.cyclesMap_comp]
     have hnat := K.filtration.ι.naturality
@@ -249,7 +249,7 @@ private theorem filteredCycleValue_surjective {R : Type u} [Ring R]
     Function.Surjective (filteredCycleValue K i n) := by
   intro x
   refine ⟨⟨Sum.inr ⟨i, x⟩, ⟨i, rfl, le_rfl⟩⟩, ?_⟩
-  show HomologicalComplex.cyclesMap (K.filtration.diagram.map (𝟙 (op i))) n x = x
+  change HomologicalComplex.cyclesMap (K.filtration.diagram.map (𝟙 (op i))) n x = x
   simp
 
 private noncomputable def weightedFreeDesc {R : Type u} [Ring R]
@@ -490,7 +490,7 @@ private theorem filteredBoundaryValue_naturality {R : Type u} [Ring R]
         K.filtration.ι.app (op j) := (K.filtration.ι.naturality a).trans (Category.comp_id _)
     apply Subtype.ext
     apply Prod.ext
-    · show (HomologicalComplex.cyclesMap (P.filtration.diagram.map a) n ≫
+    · change (HomologicalComplex.cyclesMap (P.filtration.diagram.map a) n ≫
         HomologicalComplex.cyclesMap (P.filtration.ι.app (op i)) n) z.val.1 = _
       rw [← HomologicalComplex.cyclesMap_comp, hP]
       rfl
@@ -582,7 +582,7 @@ private theorem boundaryAugmentationHomotopy_naturality {R : Type u} [Ring R]
     apply Finsupp.lhom_ext'
     intro b
     apply LinearMap.ext_ring
-    show Finsupp.linearCombination R (fun b => (boundaryValue f n b).val.2)
+    change Finsupp.linearCombination R (fun b => (boundaryValue f n b).val.2)
         (Finsupp.mapDomain Subtype.val (Finsupp.single b 1)) =
       (K.filtration.ι.app (op i)).f (n - 1)
         (Finsupp.linearCombination R (fun b => (filteredBoundaryValue f i n b).val.2)
@@ -679,7 +679,7 @@ private theorem cellExtension_kills_boundaryCycle {R : Type u} [Ring R]
       (filteredMappingCone (boundaryAugmentation f)).X.d (n - 1) n w =
         (filteredMappingConeInr (boundaryAugmentation f)).hom.f n (P.X.iCycles n z.val.1) := by
   refine mappingCone_boundary_of_freeZero (boundaryAugmentation f).hom n (Sum.inl z) _ ?_
-  show P.X.iCycles n (Finsupp.linearCombination R
+  change P.X.iCycles n (Finsupp.linearCombination R
     (fun b => (boundaryValue f n b).val.1) (Finsupp.single (Sum.inl z) 1)) = _
   simp [boundaryValue]
 
@@ -692,10 +692,10 @@ private theorem cellExtension_filtration_kills_boundaryCycle {R : Type u} [Ring 
           ((P.filtration.obj (op i)).iCycles n z.val.1) := by
   let b : stepSet (boundaryWeight f n) i := ⟨Sum.inr ⟨i, z⟩, ⟨i, rfl, le_rfl⟩⟩
   have hz : (filteredBoundaryValue f i n b).val.1 = z.val.1 := by
-    show HomologicalComplex.cyclesMap (P.filtration.diagram.map (𝟙 (op i))) n z.val.1 = z.val.1
+    change HomologicalComplex.cyclesMap (P.filtration.diagram.map (𝟙 (op i))) n z.val.1 = z.val.1
     simp
   refine mappingCone_boundary_of_freeZero ((boundaryAugmentation f).natTrans.app (op i)) n b _ ?_
-  show (P.filtration.obj (op i)).iCycles n (Finsupp.linearCombination R
+  change (P.filtration.obj (op i)).iCycles n (Finsupp.linearCombination R
     (fun b => (filteredBoundaryValue f i n b).val.1) (Finsupp.single b 1)) = _
   simp only [Finsupp.linearCombination_single, one_smul, hz]
 
@@ -888,14 +888,14 @@ private theorem quasiIso_of_colimit_kills_kernels {R : Type u} [Ring R]
     have hy' : H.map (Limits.colimit.ι D m) y = x := hy
     have hz : H.map (c.ι.app m) y = 0 := by
       rw [← hfac]
-      show H.map (Limits.colimit.desc D c) (H.map (Limits.colimit.ι D m) y) = 0
+      change H.map (Limits.colimit.desc D c) (H.map (Limits.colimit.ι D m) y) = 0
       rwa [hy']
     have hk := hkill m n y hz
     change H.map (D.map (homOfLE (Nat.le_succ m))) y = 0 at hk
     have hw := congrArg H.map (Limits.colimit.w D (homOfLE (Nat.le_succ m)))
     rw [H.map_comp] at hw
     rw [← hy', ← hw]
-    show H.map (Limits.colimit.ι D (m + 1))
+    change H.map (Limits.colimit.ι D (m + 1))
       (H.map (D.map (homOfLE (Nat.le_succ m))) y) = 0
     rw [hk, map_zero]
   · intro x
@@ -930,12 +930,12 @@ private theorem free_colimit_of_split_extensions
       intro m
       apply ModuleCat.free_hom_ext
       intro x
-      show (b (m + 1)).repr.symm
+      change (b (m + 1)).repr.symm
         ((ModuleCat.free R).map (E.map (homOfLE (Nat.le_succ m))) (ModuleCat.freeMk x)) =
         D.map (homOfLE (Nat.le_succ m)) ((b m).repr.symm (ModuleCat.freeMk x))
       simp only [E, Functor.ofSequence_map_homOfLE_succ, ModuleCat.free_map_apply]
       simp only [ModuleCat.freeMk, Module.Basis.repr_symm_single, one_smul]
-      show (sequenceBasis D Q e (m + 1)).2 (Sum.inr x) = _
+      change (sequenceBasis D Q e (m + 1)).2 (Sum.inr x) = _
       simpa only [sequenceBasis, Module.Basis.map_apply, Module.Basis.prod_apply,
         Sum.elim_inr, Function.comp_apply, LinearMap.inr_apply] using he m (b m x))
   have (m : ℕ) : IsIso (φ.app m) := inferInstanceAs (IsIso (b m).repr.symm.toModuleIso.hom)
@@ -1030,12 +1030,12 @@ private theorem filteredMappingConeGradedIso_inr {C : Type*} [Category C] [Abeli
     Limits.cokernel.π_desc _ _ _
   have hp := congrArg E.map hp₀
   simp only [Functor.map_comp] at hp
-  show E.map (Limits.cokernel.π (B.filtration.diagram.map a)) ≫
+  change E.map (Limits.cokernel.π (B.filtration.diagram.map a)) ≫
     E.map ((FilteredObject.gr i).map (filteredMappingConeInr g)) ≫ _ = _
   rw [← Category.assoc, hp, Category.assoc]
   dsimp only [filteredMappingConeGradedIso, Iso.trans_hom]
   rw [Limits.PreservesCokernel.π_iso_hom_assoc]
-  show (CochainComplex.mappingCone.inr (g.natTrans.app (op i))).f n ≫
+  change (CochainComplex.mappingCone.inr (g.natTrans.app (op i))).f n ≫
     Limits.cokernel.π ((CochainComplex.mappingCone.map
       (g.natTrans.app (op (i + 1))) (g.natTrans.app (op i))
       (A.filtration.diagram.map a) (B.filtration.diagram.map a)
@@ -1061,13 +1061,13 @@ private theorem filteredMappingConeGradedIso_inr {C : Type*} [Category C] [Abeli
         (Limits.PreservesCokernel.iso E (B.filtration.diagram.map a)).symm).hom) hh
   simp only [Category.assoc] at hh'
   refine hh'.trans ?_
-  show (CochainComplex.mappingCone.inr (g.natTrans.app (op i))).f n ≫
+  change (CochainComplex.mappingCone.inr (g.natTrans.app (op i))).f n ≫
       (HomologicalComplex.homotopyCofiber.XIsoBiprod _ n (n + 1) rfl).hom ≫ _ = _
-  show HomologicalComplex.homotopyCofiber.inrX (g.natTrans.app (op i)) n ≫ _ ≫ _ = _
+  change HomologicalComplex.homotopyCofiber.inrX (g.natTrans.app (op i)) n ≫ _ ≫ _ = _
   rw [HomologicalComplex.homotopyCofiber.inrX_XIsoBiprod_hom_assoc]
   simp only [Limits.biprod.mapIso_hom, Iso.symm_hom, Limits.biprod.inr_map_assoc]
   simp only [Limits.PreservesCokernel.iso_inv, Limits.biprod.inr_map]
-  show Limits.cokernel.π (E.map (B.filtration.diagram.map a)) ≫
+  change Limits.cokernel.π (E.map (B.filtration.diagram.map a)) ≫
     Limits.cokernelComparison (B.filtration.diagram.map a) E ≫ Limits.biprod.inr = _
   rw [Limits.π_comp_cokernelComparison_assoc]
 
@@ -1123,7 +1123,7 @@ private theorem resolutionMap_quasiIso {R : Type u} [Ring R]
   refine quasiIso_of_colimit_kills_kernels (underlyingDiagram (resolutionDiagram K))
     ((FilteredObject.forget).mapCocone (resolutionCocone K))
     (cycleAugmentation_epi_homologyMap K) fun m n x hx => ?_
-  show HomologicalComplex.homologyMap
+  change HomologicalComplex.homologyMap
     ((resolutionDiagram K).map (homOfLE (Nat.le_succ m))).hom n x = 0
   rw [resolutionDiagram_map_succ]
   exact cellExtension_kills_homologyKernel (resolutionStage K m).hom n x hx
@@ -1135,7 +1135,7 @@ private theorem resolutionMap_filtration_quasiIso {R : Type u} [Ring R]
     (((filtrationFunctor : _ ⥤ (ℤᵒᵖ ⥤ _)) ⋙
       (evaluation ℤᵒᵖ _).obj (op i)).mapCocone (resolutionCocone K))
     (cycleAugmentation_filtration_epi_homologyMap K i) fun m n x hx => ?_
-  show HomologicalComplex.homologyMap
+  change HomologicalComplex.homologyMap
     (((resolutionDiagram K).map (homOfLE (Nat.le_succ m))).natTrans.app (op i)) n x = 0
   rw [resolutionDiagram_map_succ]
   exact cellExtension_filtration_kills_homologyKernel (resolutionStage K m).hom i n x hx
@@ -1170,10 +1170,10 @@ private theorem mappingConeProductEquiv_inr {R : Type u} [Ring R]
     mappingConeProductEquiv g n (0, x) = (CochainComplex.mappingCone.inr g).f n x := by
   apply (mappingConeProductEquiv g n).symm.injective
   rw [LinearEquiv.symm_apply_apply]
-  show (0, x) = ((CochainComplex.mappingCone.inr g).f n ≫
+  change (0, x) = ((CochainComplex.mappingCone.inr g).f n ≫
     (HomologicalComplex.homotopyCofiber.XIsoBiprod g n (n + 1) rfl).hom ≫
       (ModuleCat.biprodIsoProd _ _).hom) x
-  show ((0 : A.X (n + 1)), x) = (HomologicalComplex.homotopyCofiber.inrX g n ≫
+  change ((0 : A.X (n + 1)), x) = (HomologicalComplex.homotopyCofiber.inrX g n ≫
     (HomologicalComplex.homotopyCofiber.XIsoBiprod g n (n + 1) rfl).hom ≫
       (ModuleCat.biprodIsoProd _ _).hom) x
   rw [HomologicalComplex.homotopyCofiber.inrX_XIsoBiprod_hom_assoc, biprod_inr_isoProd]
@@ -1205,7 +1205,7 @@ private theorem resolution_free {R : Type u} [Ring R]
     (fun m => mappingConeProductEquiv (boundaryAugmentation (resolutionStage K m).hom).hom n)
     (by
       intro m x
-      show _ = (((resolutionDiagram K).map (homOfLE (Nat.le_succ m))).hom.f n) x
+      change _ = (((resolutionDiagram K).map (homOfLE (Nat.le_succ m))).hom.f n) x
       rw [resolutionDiagram_map_succ]
       exact mappingConeProductEquiv_inr _ n x)
 
@@ -1225,7 +1225,7 @@ private theorem resolution_filtration_free {R : Type u} [Ring R]
       ((boundaryAugmentation (resolutionStage K m).hom).natTrans.app (op i)) n)
     (by
       intro m x
-      show _ = ((((resolutionDiagram K).map (homOfLE (Nat.le_succ m))).natTrans.app (op i)).f n) x
+      change _ = ((((resolutionDiagram K).map (homOfLE (Nat.le_succ m))).natTrans.app (op i)).f n) x
       rw [resolutionDiagram_map_succ]
       exact mappingConeProductEquiv_inr _ n x)
 
@@ -1244,7 +1244,7 @@ private theorem filteredMappingConeGradedProductEquiv_inr {R : Type u} [Ring R]
       ((FilteredObject.gr i).map (filteredMappingConeInr g)).f n x := by
   apply (filteredMappingConeGradedProductEquiv g i n).symm.injective
   rw [LinearEquiv.symm_apply_apply]
-  show ((0 : ((FilteredObject.gr i).obj A).X (n + 1)), x) =
+  change ((0 : ((FilteredObject.gr i).obj A).X (n + 1)), x) =
     (((FilteredObject.gr i).map (filteredMappingConeInr g)).f n ≫
       (filteredMappingConeGradedIso g i n).hom ≫ (ModuleCat.biprodIsoProd _ _).hom) x
   rw [← Category.assoc, filteredMappingConeGradedIso_inr, biprod_inr_isoProd]
@@ -1267,7 +1267,7 @@ private theorem resolution_gradedPiece_free {R : Type u} [Ring R]
       (boundaryAugmentation (resolutionStage K m).hom) i n)
     (by
       intro m x
-      show _ = ((FilteredObject.gr i).map
+      change _ = ((FilteredObject.gr i).map
         ((resolutionDiagram K).map (homOfLE (Nat.le_succ m)))).f n x
       rw [resolutionDiagram_map_succ]
       exact filteredMappingConeGradedProductEquiv_inr _ i n x)

@@ -98,6 +98,7 @@ local instance (priority := high) hasPullback_presheaf_IsFibreSectionsSeparated
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` for `HasPullbacks` of presheaves on the big fppf site over `S`
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_IsFibreSectionsSeparated :

@@ -13,7 +13,8 @@ proves the conclusion of Tag 01YH from
 and `htop`, and, in the namespace `Stacks.AlgebraicGeometry`,
 `Tag01YEStalkBridge.hasKilledIdealGenericIsoSubIn_of_hasGenericStalkIdealCoproductSub`
 derives the first of those from
-`Stacks.AlgebraicGeometry.Tag01YEStalkBridge.HasGenericStalkIdealCoproductSub`, which is the conclusion of Tag
+`Stacks.AlgebraicGeometry.Tag01YEStalkBridge.HasGenericStalkIdealCoproductSub`, which is the
+conclusion of Tag
 01YE restated over library names. As the implementation notes of
 `StacksFrontier/AlgebraicGeometry/StalkBridge/Basic.lean` explain, the composite reduces Tag 01YH to
 Tag 01YE plus `htop`. This file states the composite, so that what remains of Tag 01YH is a single
@@ -27,7 +28,8 @@ theorem with two hypotheses.
 
 ## Implementation notes
 
-`hexact`, `hproper` and the module `G` are copied verbatim from the statement of Tag 01YH; `G` is all
+`hexact`, `hproper` and the module `G` are copied verbatim from the statement of Tag 01YH; `G` is
+all
 that is used of its hypothesis (3), because the length-one and annihilation conditions are what a
 proof of `htop` would consume. Neither `IsClosed Z₀` nor `IsIrreducible Z₀` nor the tag's
 generic point `ξ` appears, for the reason given with

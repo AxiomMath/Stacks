@@ -111,8 +111,8 @@ variable {C : Type*} [Category.{v} C] (P : ObjectProperty C)
 `Hom` functors. -/
 def ιOpCompCoyonedaIso :
     P.ι.op ⋙ coyoneda ⋙ (Functor.whiskeringLeft _ _ _).obj P.ι ≅ coyoneda :=
-  NatIso.ofComponents (fun A => NatIso.ofComponents
-    (fun B => P.fullyFaithfulι.homEquiv.symm.toIso) (fun _ => rfl)) (fun _ => rfl)
+  NatIso.ofComponents (fun _ => NatIso.ofComponents
+    (fun _ => P.fullyFaithfulι.homEquiv.symm.toIso) (fun _ => rfl)) (fun _ => rfl)
 
 end CategoryTheory.ObjectProperty
 

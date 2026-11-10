@@ -95,8 +95,8 @@ isomorphism. This is what makes `CategoryTheory.ProSeq.mapOfIso` directly applic
 
 **Which derived category.** The scheme-level part installs `HasDerivedCategory.standard` as a
 local instance at priority 10000, as
-`StacksFrontier.AlgebraicGeometry.Duality.ExtensionZeroCoherent.DeligneSystemTriangleExtension` does,
-so that `D^b_{Coh}` here is the category in which [Stacks, Tag 0G4M] is stated.
+`StacksFrontier.AlgebraicGeometry.Duality.ExtensionZeroCoherent.DeligneSystemTriangleExtension`
+does, so that `D^b_{Coh}` here is the category in which [Stacks, Tag 0G4M] is stated.
 
 ## References
 

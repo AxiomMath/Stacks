@@ -81,7 +81,7 @@ private theorem baseExtension_map_moduleMapFromScalar_eq_zero
         (ModuleCat.ofHom (0 : ULift.{max u w} R →ₗ[R] ULift.{max u w} Q)) := by
   apply DescentData.Hom.ext
   apply ModuleCat.hom_ext
-  show LinearMap.baseChange A (moduleMapFromScalarLift (R := R) q) =
+  change LinearMap.baseChange A (moduleMapFromScalarLift (R := R) q) =
     LinearMap.baseChange A (0 : ULift.{max u w} R →ₗ[R] ULift.{max u w} Q)
   have hqLift : TensorProduct.map LinearMap.id
       (ULift.moduleEquiv.{u, u, max u w} (R := R) (M := Q)).symm.toLinearMap
@@ -156,7 +156,7 @@ private theorem ringMapUniversallyInjective_reflects_surjections
   have hcomp : LinearMap.lTensor A p ∘ₗ LinearMap.lTensor A f = 0 := by
     rw [← LinearMap.lTensor_comp]
     ext a m
-    show a ⊗ₜ[R] p (f m) = 0
+    change a ⊗ₜ[R] p (f m) = 0
     rw [show p (f m) = 0 from (Submodule.Quotient.mk_eq_zero q).mpr ⟨m, rfl⟩, tmul_zero]
   have hkill : ∀ x : TensorProduct R A N, LinearMap.lTensor A p x = 0 := by
     intro x
@@ -256,7 +256,7 @@ private theorem extensionComparison_inv_tmul
     (M : ModuleCat.{max u w} R) (a : A) (m : M) :
     (extensionComparison R A M).inv
         (a ⊗ₜ[R, algebraMap R A] m) = a ⊗ₜ[R] m := by
-  show (TensorProduct.congr (algebraRestrictionEquiv R A)
+  change (TensorProduct.congr (algebraRestrictionEquiv R A)
     (LinearEquiv.refl R M)).symm (a ⊗ₜ[R] m) = a ⊗ₜ[R] m
   rfl
 
@@ -317,7 +317,7 @@ private theorem baseExtensionUnitMap_lTensor_bijective
         (a ⊗ₜ[R] baseExtensionUnitMap R A M m) =
         a ⊗ₜ[R] (show restrictModule R A D.module from
           (show D.module from (1 : A) ⊗ₜ[R] m)) := by
-      show a ⊗ₜ[R] (show restrictModule R A D.module from
+      change a ⊗ₜ[R] (show restrictModule R A D.module from
           (baseExtensionUnitMap R A M m).1) =
         a ⊗ₜ[R] (show restrictModule R A D.module from
           (show D.module from (1 : A) ⊗ₜ[R] m))
@@ -331,7 +331,7 @@ private theorem baseExtensionUnitMap_lTensor_bijective
         DescentData.transitionRestrictScalars] using ht
     exact hspec.trans hleft |>.trans hright.symm
   have hlift (a : A) (m : M) : lift (a ⊗ₜ[R] m) = ULift.up (n a m) := by
-    show (ULift.moduleEquiv.{u, max u w, u} (R := A) (M := D.module)).symm
+    change (ULift.moduleEquiv.{u, max u w, u} (R := A) (M := D.module)).symm
       (a ⊗ₜ[R] m) = ULift.up (n a m)
     apply (ULift.moduleEquiv.{u, max u w, u} (R := A) (M := D.module)).injective
     rfl
@@ -395,9 +395,9 @@ private theorem baseExtensionMapPreimage_map
   let eN := baseExtensionUnitEquiv R A h N
   let f : M →ₗ[R] N := eN.symm.toLinearMap.comp
     ((pushforwardMap R A g).comp eM.toLinearMap)
-  show LinearMap.baseChange A f = g.hom.hom
+  change LinearMap.baseChange A f = g.hom.hom
   let gA : A ⊗[R] M →ₗ[A] A ⊗[R] N := g.hom.hom
-  show LinearMap.baseChange A f = gA
+  change LinearMap.baseChange A f = gA
   have hunit (m : M) : eN (f m) = pushforwardMap R A g (eM m) := by
     simp [f]
   have hunitVal (m : M) : (1 : A) ⊗ₜ[R] f m =
@@ -468,7 +468,7 @@ public theorem descentCounitLinearEquiv_tmul
   have hcmp₂ : DescentData.descentComparisonHom R A D (ULift.up n) =
       a ⊗ₜ[R] (m.1 : restrictModule R A D.module) := by
     rw [DescentData.descentComparisonHom_apply R A D n]
-    show D.transitionRestrictScalars R A
+    change D.transitionRestrictScalars R A
       (((a • (m.1 : D.module) : D.module) : restrictModule R A D.module)
         ⊗ₜ[R] (1 : A)) = _
     exact hmul
@@ -492,24 +492,19 @@ private theorem descentCounitDataHom_comm
   let g : restrictModule R A C.module →ₗ[R]
       restrictModule R A D.module :=
     restrictHom R A (ModuleCat.ofHom e.toLinearMap)
-  show (D.transition.toLinearMap.restrictScalars R).comp (g.rTensor A) =
+  change (D.transition.toLinearMap.restrictScalars R).comp (g.rTensor A) =
     (g.lTensor A).comp (C.transition.toLinearMap.restrictScalars R)
   apply LinearMap.ext
   intro x
-  show D.transitionRestrictScalars R A ((g.rTensor A) x) =
+  change D.transitionRestrictScalars R A ((g.rTensor A) x) =
     (g.lTensor A) (C.transitionRestrictScalars R A x)
-  induction x using TensorProduct.induction_on with
-  | zero => simp [g, restrictHom]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy =>
     simp only [map_add, hx, hy]
   | tmul n b =>
-    show D.transitionRestrictScalars R A ((g n) ⊗ₜ[R] b) =
+    change D.transitionRestrictScalars R A ((g n) ⊗ₜ[R] b) =
       (g.lTensor A) (C.transitionRestrictScalars R A (n ⊗ₜ[R] b))
-    induction n using TensorProduct.induction_on with
-    | zero =>
-      calc
-        D.transitionRestrictScalars R A (g 0 ⊗ₜ[R] b) = 0 := by simp
-        _ = (g.lTensor A) (C.transitionRestrictScalars R A (0 ⊗ₜ[R] b)) := by simp
+    induction n using TensorProduct.inductionOn with
     | add n₁ n₂ h₁ h₂ =>
       let n₁' : restrictModule R A C.module := n₁
       let n₂' : restrictModule R A C.module := n₂
@@ -522,13 +517,13 @@ private theorem descentCounitDataHom_comm
               (g.lTensor A) (C.transitionRestrictScalars R A (n₂ ⊗ₜ[R] b)) := by
           rw [h₁, h₂]
         _ = (g.lTensor A) (C.transitionRestrictScalars R A ((n₁ + n₂) ⊗ₜ[R] b)) := by
-          show _ = (g.lTensor A)
+          change _ = (g.lTensor A)
             (C.transitionRestrictScalars R A ((n₁' + n₂') ⊗ₜ[R] b))
           have ht : (n₁' + n₂') ⊗ₜ[R] b =
               (n₁' ⊗ₜ[R] b) + (n₂' ⊗ₜ[R] b) := add_tmul n₁' n₂' b
           rw [ht, map_add, map_add]
     | tmul a m =>
-      show D.transitionRestrictScalars R A
+      change D.transitionRestrictScalars R A
           (e (a ⊗ₜ[R] m) ⊗ₜ[R] b) =
         (g.lTensor A)
           (C.transitionRestrictScalars R A ((a ⊗ₜ[R] m) ⊗ₜ[R] b))
@@ -538,7 +533,7 @@ private theorem descentCounitDataHom_comm
         a ⊗ₜ[R] (show restrictModule R A C.module from
           (b ⊗ₜ[R] m : C.module)) from
           baseExtension_transition_tmul_tmul R A ((pushforward R A).obj D) a b m]
-      show D.transitionRestrictScalars R A
+      change D.transitionRestrictScalars R A
           ((restrictedScalarAction R A D.module a
             (m.1 : restrictModule R A D.module)) ⊗ₜ[R] b) =
         a ⊗ₜ[R] (show restrictModule R A D.module from e (b ⊗ₜ[R] m))
@@ -549,7 +544,7 @@ private theorem descentCounitDataHom_comm
             (m.1 : restrictModule R A D.module) :=
         (restrictedScalarAction_apply R A D.module b (m.1 : restrictModule R A D.module)).symm
       rw [hb]
-      show D.transitionRestrictScalars R A
+      change D.transitionRestrictScalars R A
           ((restrictedScalarAction R A D.module a
             (m.1 : restrictModule R A D.module)) ⊗ₜ[R] b) =
         a ⊗ₜ[R] (restrictedScalarAction R A D.module b
@@ -634,12 +629,12 @@ private theorem descentCounitDataHomInverse_comm
         D.transition.toLinearMap.restrictScalars R (g.rTensor A (gi.rTensor A x)) :=
       (LinearMap.congr_fun hforward (gi.rTensor A x)).symm
     _ = D.transition.toLinearMap.restrictScalars R x := by
-      show D.transition.toLinearMap.restrictScalars R
+      change D.transition.toLinearMap.restrictScalars R
         ((g.rTensor A ∘ₗ gi.rTensor A) x) = _
       rw [hcompR, LinearMap.id_apply]
     _ = (g.lTensor A) (gi.lTensor A
           (D.transition.toLinearMap.restrictScalars R x)) := by
-      show _ = (g.lTensor A ∘ₗ gi.lTensor A)
+      change _ = (g.lTensor A ∘ₗ gi.lTensor A)
         (D.transition.toLinearMap.restrictScalars R x)
       rw [hcompL, LinearMap.id_apply]
 

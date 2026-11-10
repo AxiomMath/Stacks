@@ -351,7 +351,7 @@ lemma quasiIso_internalHomComplexPostcomp
     ((internalHomComplexForgetIso R V W').trans
       (Stacks.HomComplex.opModuleHomComplexForgetIso ρ (underlyingAb ℤ W')).symm) ?_)).2 hq'
   ext n z
-  show (toCochain (R := R) (V := V) (W := W) z).comp (Cochain.ofHom e.hom) (add_zero n) =
+  change (toCochain (R := R) (V := V) (W := W) z).comp (Cochain.ofHom e.hom) (add_zero n) =
     (toCochain (R := R) (V := V) (W := W) z).comp
       (Cochain.ofHom (((forgetAb ℤ Q).mapHomologicalComplex _).map g)) (add_zero n)
   rw [he]
@@ -395,7 +395,7 @@ lemma internalHomComplexPrecomp_postcomp
       internalHomComplexPostcomp R V h ≫ internalHomComplexPrecomp R V W' g := by
   refine HomologicalComplex.hom_ext _ _ fun n => ModuleCat.hom_ext <| LinearMap.ext fun z => ?_
   apply InternalHomCochain.ext
-  show ((Cochain.ofHom _).comp (toCochain (R := R) (V := V) (W := W) z) (zero_add n)).comp
+  change ((Cochain.ofHom _).comp (toCochain (R := R) (V := V) (W := W) z) (zero_add n)).comp
       (Cochain.ofHom _) (add_zero n) =
     (Cochain.ofHom _).comp ((toCochain (R := R) (V := V) (W := W) z).comp (Cochain.ofHom _)
       (add_zero n)) (zero_add n)

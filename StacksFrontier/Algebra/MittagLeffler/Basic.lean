@@ -4,7 +4,7 @@ public import Mathlib.Algebra.Lie.OfAssociative
 public import Mathlib.Algebra.Module.FinitePresentation
 public import Mathlib.Algebra.Order.Ring.Star
 public import Mathlib.Analysis.Normed.Field.Lemmas
-public import Mathlib.Data.Rat.Star
+public import Mathlib.Algebra.Order.Star.Rat
 import Mathlib.LinearAlgebra.FreeProduct.Basic
 public import Mathlib.LinearAlgebra.TensorProduct.Pi
 public import Mathlib.RingTheory.Flat.TorsionFree
@@ -476,8 +476,7 @@ theorem rat_tmul_zmod_subsingleton (k : ℕ) :
     Subsingleton (ℚ ⊗[ℤ] ZMod (k + 1)) := by
   rw [subsingleton_iff_forall_eq 0]
   intro y
-  induction y using TensorProduct.induction_on with
-  | zero => rfl
+  induction y using TensorProduct.inductionOn with
   | tmul q z => exact rat_tmul_zmod_zero k q z
   | add a b ha hb => rw [ha, hb, add_zero]
 
@@ -541,8 +540,7 @@ theorem one_div_tmul_eq_one_div_mul_tmul_smul {m₁ m₂ : ℤ} (hm₂ : m₂ �
 `m ≠ 0`. -/
 theorem exists_common_denom (t : ℚ ⊗[ℤ] (∀ _ : ℕ, ℤ)) :
     ∃ (m : ℤ) (b : ∀ _ : ℕ, ℤ), m ≠ 0 ∧ t = (1 / (m : ℚ)) ⊗ₜ[ℤ] b := by
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨1, 0, one_ne_zero, by simp⟩
+  induction t using TensorProduct.inductionOn with
   | tmul x b =>
     refine ⟨x.den, x.num • b, by exact_mod_cast x.den_nz, ?_⟩
     -- x = num / den, so x ⊗ b = (num/den) ⊗ b = (1/den) ⊗ (num • b)

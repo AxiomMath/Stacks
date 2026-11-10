@@ -194,7 +194,7 @@ theorem degreeZeroComponent_connectingHom
   change ↥(M.grading n) at x
   apply Subtype.ext
   simp only [CochainComplex.homOfDegreewiseSplit_f, CochainComplex.cocycleOfDegreewiseSplit]
-  show (connectingHom f g hfg c.s c.π c.hs c.hπ c.hker).val.toFun x.val =
+  change (connectingHom f g hfg c.s c.π c.hs c.hπ c.hker).val.toFun x.val =
     (((degreeZeroSplitting (A := A) f g hfg c n).s ≫
       (degreeZeroShortComplex (A := A) f g hfg).X₂.d n (n + 1) ≫
       (degreeZeroSplitting (A := A) f g hfg c (n + 1)).r).hom x).val
@@ -227,14 +227,14 @@ theorem degreeZeroHomotopyFunctor_isTriangulated :
     Pretriangulated.Triangle.mk f g
       (connectingHom f g hfg c.s c.π c.hs c.hπ c.hker).val
   have hQ : associatedTriangleOfSplittings (degreeZero R S) f g hfg c = Q.mapTriangle.obj Td := by
-    show Pretriangulated.Triangle.mk _ _ _ = Pretriangulated.Triangle.mk _ _ _
+    change Pretriangulated.Triangle.mk _ _ _ = Pretriangulated.Triangle.mk _ _ _
     congr 1
     exact congrArg
       (fun q => Q.map (connectingHom f g hfg c.s c.π c.hs c.hπ c.hker).val ≫ q)
       (toHomotopyCategory_commShiftIso_hom_app_eq_eqToHom (degreeZero R S) K 1).symm
   have hG : G.mapTriangle.obj Td = CochainComplex.triangleOfDegreewiseSplit
       (degreeZeroShortComplex (A := A) f g hfg) (degreeZeroSplitting (A := A) f g hfg c) := by
-    show Pretriangulated.Triangle.mk _ _ _ = Pretriangulated.Triangle.mk _ _ _
+    change Pretriangulated.Triangle.mk _ _ _ = Pretriangulated.Triangle.mk _ _ _
     exact congrArg (fun δ => Pretriangulated.Triangle.mk (G.map f) (G.map g) δ)
       (degreeZeroComponent_connectingHom (A := A) f g hfg c)
   rw [hQ]

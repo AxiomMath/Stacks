@@ -118,7 +118,7 @@ theorem preimage_eq_zeroLocusPoints :
         (specStructure V) I := by
   rw [← FormalSpace.supportedPoints_zeroLocus]
   ext x
-  show Space.pointsMap B S hS _ (yoneda.map (affineModelHom V)) x ∈ Z ↔
+  change Space.pointsMap B S hS _ (yoneda.map (affineModelHom V)) x ∈ Z ↔
     Space.pointsToScheme B S hS (affineModel V) x ∈ PrimeSpectrum.zeroLocus _
   rw [hZI, Space.pointsToScheme_pointsMap_yoneda, toScheme_map_affineModelHom,
     ← Scheme.isoSpec_inv_preimage_zeroLocus]
@@ -365,7 +365,7 @@ theorem exists_adicCompletionPowStageIdeal_le
       (AdicCompletion I Γ((BigFppfOver.toScheme B S hS).obj V, ⊤)))).toAddGroupFilterBasis
         |>.nhds_zero_hasBasis).mem_iff.mp (J.2.1.mem_nhds J.1.zero_mem)
   refine ⟨n, fun x hx => hn ?_⟩
-  show x ∈ (I ^ n • ⊤ : Submodule Γ((BigFppfOver.toScheme B S hS).obj V, ⊤)
+  change x ∈ (I ^ n • ⊤ : Submodule Γ((BigFppfOver.toScheme B S hS).obj V, ⊤)
     (AdicCompletion I Γ((BigFppfOver.toScheme B S hS).obj V, ⊤)))
   rw [Ideal.smul_top_eq_map]
   exact Ideal.map_mono (Ideal.pow_le_pow_right (Nat.le_succ n)) hx
@@ -437,7 +437,7 @@ theorem map_adicCompletionPowStageIdeal_le (n : ℕ) :
     (FormalSpace.adicCompletionPowStageIdeal I' I'.fg_of_isNoetherianRing n).1.map
         (completionRingHom ((BigFppfOver.toScheme B S hS).map f).appTop.hom hII) ≤
       (FormalSpace.adicCompletionPowStageIdeal I I.fg_of_isNoetherianRing n).1 := by
-  show ((I' ^ (n + 1)).map (algebraMap _ _)).map _ ≤ (I ^ (n + 1)).map (algebraMap _ _)
+  change ((I' ^ (n + 1)).map (algebraMap _ _)).map _ ≤ (I ^ (n + 1)).map (algebraMap _ _)
   rw [Ideal.map_map]
   have h : (completionRingHom ((BigFppfOver.toScheme B S hS).map f).appTop.hom hII).comp
       (algebraMap Γ((BigFppfOver.toScheme B S hS).obj V', ⊤)
@@ -579,7 +579,7 @@ theorem completionSheafRestrict_comp_continuousHomEquiv
     FormalSpace.formalSpectrumMap_spec hB φ J K hJ
   have hst : powStageMap f hII n ≫ a' = a :=
     BigFppfOver.map_toScheme_injective B S hS (by
-      show Spec.map (CommRingCat.ofHom (powStageRingHom f hII n)) ≫
+      change Spec.map (CommRingCat.ofHom (powStageRingHom f hII n)) ≫
           Spec.map (CommRingCat.ofHom (Ideal.quotientMap K'.1 φ'.toRingHom hJ')) =
         Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1 φ.toRingHom hJ))
       rw [← Spec.map_comp, ← CommRingCat.ofHom_comp]

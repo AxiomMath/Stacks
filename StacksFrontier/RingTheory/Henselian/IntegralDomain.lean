@@ -175,7 +175,7 @@ private lemma isLocalRing_of_isIntegral_of_isDomain
   have hb : b ∈ S := Algebra.subset_adjoin (by simp)
   exact (IsLocalRing.isUnit_or_isUnit_one_sub_self (⟨b, hb⟩ : S)).imp
     (fun h ↦ h.map S.val) (fun h ↦ by
-      show IsUnit (S.val (1 - (⟨b, hb⟩ : S)))
+      change IsUnit (S.val (1 - (⟨b, hb⟩ : S)))
       exact h.map S.val)
 
 /-- A simple-root problem descends to a finite subalgebra, together with the inverse derivative. -/
@@ -194,7 +194,7 @@ private lemma henselianLocalRing_of_isIntegral_of_isDomain
   have hcoeff (n : ℕ) : g.coeff n ∈ S := by
     by_cases hn : n ∈ g.support
     · have hmem : g.coeff n ∈ s := by
-        show g.coeff n ∈ g.support.image g.coeff ∪ {a₀, (↑(d⁻¹) : B)}
+        change g.coeff n ∈ g.support.image g.coeff ∪ {a₀, (↑(d⁻¹) : B)}
         apply Finset.mem_union_left
         show g.coeff n ∈ g.support.image g.coeff
         exact Finset.mem_image.mpr ⟨n, hn, rfl⟩
@@ -234,16 +234,16 @@ private lemma henselianLocalRing_of_isIntegral_of_isDomain
   have hdunit : IsUnit (p.derivative.eval aS) := by
     refine ⟨⟨dS, diS, ?_, ?_⟩, ?_⟩
     · ext
-      show (d : B) * ↑(d⁻¹) = 1
+      change (d : B) * ↑(d⁻¹) = 1
       exact d.val_inv
     · ext
-      show (↑(d⁻¹) : B) * d = 1
+      change (↑(d⁻¹) : B) * d = 1
       exact d.inv_val
     · ext
       exact (hderiv.trans hdval.symm).symm
   obtain ⟨z, hz, hza⟩ := HenselianLocalRing.is_henselian p hpmonic aS heval_mem hdunit
   refine ⟨z, ?_, ?_⟩
-  · show g.eval (z : B) = 0
+  · change g.eval (z : B) = 0
     calc
       g.eval (z : B) = S.val (p.eval z) := by
         rw [← hpmap, Polynomial.eval_map]
@@ -285,5 +285,5 @@ theorem RingHom.exists_henselianLocalRing_of_isIntegral_of_isDomain
   have halgebraic : Algebra.IsAlgebraic (ResidueField A) (ResidueField B) := inferInstance
   let : Algebra.IsAlgebraic (ResidueField A) (ResidueField B) := halgebraic
   refine ⟨Algebra.IsAlgebraic.isSepClosed (F := ResidueField A), ?_⟩
-  show (algebraMap (ResidueField A) (ResidueField B)).IsPurelyInseparable
+  change (algebraMap (ResidueField A) (ResidueField B)).IsPurelyInseparable
   exact RingHom.isPurelyInseparable_algebraMap_iff.mpr inferInstance

@@ -79,10 +79,10 @@ theorem isIso_structureSheafHom_pullback_snd_of_isIso_appTop {S X T : Scheme.{u}
   let ψ : T.sheaf ⟶ (TopCat.Sheaf.pushforward CommRingCat p.base).obj (pullback f g).sheaf :=
     ⟨p.c⟩
   have hψ : IsIso ψ := TopCat.Sheaf.isIso_iff_isIso_basis hB (fun i => by
-    show IsIso (p.app i.1)
+    change IsIso (p.app i.1)
     exact isIso_app_pullback_snd_of_isIso_appTop f g i.1 i.2.isCompact i.2.isQuasiSeparated)
   rw [← isIso_iff_of_reflects_iso _ (sheafToPresheaf _ _)]
-  show IsIso (Functor.whiskerRight p.toLRSHom.toHom.c (forget₂ CommRingCat RingCat))
+  change IsIso (Functor.whiskerRight p.toLRSHom.toHom.c (forget₂ CommRingCat RingCat))
   have : IsIso p.toLRSHom.toHom.c := inferInstanceAs (IsIso ((TopCat.Sheaf.forget _ _).map ψ))
   infer_instance
 
@@ -98,7 +98,7 @@ theorem isIso_appTop_tensorObj_hom [AlgebraicGeometry.IsAbelianVariety k A] :
     exact IsIso.of_isIso_comp_left (Scheme.ΓSpecIso (.of k)).inv A.hom.appTop
   have : CompactSpace A.left := QuasiCompact.compactSpace_of_compactSpace A.hom
   have : QuasiSeparatedSpace A.left := quasiSeparatedSpace_of_quasiSeparated A.hom
-  show IsIso (pullback.fst A.hom A.hom ≫ A.hom).appTop
+  change IsIso (pullback.fst A.hom A.hom ≫ A.hom).appTop
   rw [pullback.condition, Scheme.Hom.comp_appTop]
   have : IsIso (pullback.snd A.hom A.hom).appTop :=
     isIso_app_pullback_snd_of_isIso_appTop A.hom A.hom ⊤

@@ -113,7 +113,7 @@ private theorem exists_smooth_factorization_of_ind {R₀ Λ₀ : Type u} [CommRi
       (fun _ hB ↦ RingHom.Smooth.finitePresentation hB)).1 h
       (Under.mk (CommRingCat.ofHom (algebraMap R₀ A₀)))
       (by
-        show (algebraMap R₀ A₀).FinitePresentation
+        change (algebraMap R₀ A₀).FinitePresentation
         exact RingHom.finitePresentation_algebraMap.mpr ‹Algebra.FinitePresentation R₀ A₀›)
       (Under.homMk (CommRingCat.ofHom f.toRingHom) (by ext x; exact f.commutes x))
   let : Algebra R₀ B.right := B.hom.hom.toAlgebra
@@ -222,7 +222,7 @@ private theorem exists_quotientEquiv_mvPolynomial
     refine RingHom.mem_ker.mp (Ideal.map_le_iff_le_comap.mpr ?_ hq)
     intro a ha
     refine Ideal.mem_comap.mpr (RingHom.mem_ker.mpr ?_)
-    show Φ₀ (MvPolynomial.C a) = 0
+    change Φ₀ (MvPolynomial.C a) = 0
     rw [hΦ₀C, Ideal.Quotient.eq_zero_iff_mem.mpr ha, map_zero, MvPolynomial.C_0]
   have hKCmem : ∀ a ∈ K,
       Ideal.Quotient.mk (K.map (algebraMap A (MvPolynomial (Fin n ⊕ Δ) A ⧸ N)))
@@ -321,7 +321,7 @@ private theorem exists_quotientEquiv_mvPolynomial
     obtain ⟨p, rfl⟩ := Ideal.Quotient.mk_surjective c
     exact RingHom.congr_fun h p
   refine ⟨{ Φ with invFun := Ψ, left_inv := hleft, right_inv := hright }, fun a => ?_⟩
-  show Φ _ = _
+  change Φ _ = _
   rw [halg a, hΦ, hΦ₀C]
 
 /-- **Adjoining enough variables to make the relations hold.** Let `K ⊂ A` be an ideal and `Λ` an
@@ -447,7 +447,7 @@ theorem exists_smooth_quotient_factorization
       { Ideal.quotientMap (I.map (algebraMap R Λ)) (algebraMap A Λ)
           (Ideal.map_le_iff_le_comap.mp hKΛ.le) with
         commutes' := fun r => ?_ }, fun a => rfl⟩
-    show Ideal.Quotient.mk _ (algebraMap A Λ (algebraMap R A r)) = _
+    change Ideal.Quotient.mk _ (algebraMap A Λ (algebraMap R A r)) = _
     rw [← IsScalarTower.algebraMap_apply]
     rfl
   -- Step 1: factor `A/IA → Λ/IΛ` through a smooth `R/I`-algebra
@@ -465,7 +465,7 @@ theorem exists_smooth_quotient_factorization
   obtain ⟨Δ, hΔfin, Cc, hCcring, hCcalg, hCcfp, θ, e, he⟩ :=
     exists_finitePresentation_quotientEquiv (I.map (algebraMap R A)) (Λ := Λ) (Bb := Bb)
       ((Ideal.quotEquivOfEq hKΛ.symm).toRingHom.comp v.toRingHom) (fun a => by
-        show Ideal.quotEquivOfEq hKΛ.symm (v (u (Ideal.Quotient.mk _ a))) = _
+        change Ideal.quotEquivOfEq hKΛ.symm (v (u (Ideal.Quotient.mk _ a))) = _
         rw [show v (u (Ideal.Quotient.mk (I.map (algebraMap R A)) a)) =
           f (Ideal.Quotient.mk _ a) from AlgHom.congr_fun huv _, hf a,
           Ideal.quotEquivOfEq_mk])
@@ -489,7 +489,7 @@ theorem exists_smooth_quotient_factorization
     refine Algebra.Smooth.of_equiv (A := MvPolynomial Δ Bb)
       (AlgEquiv.symm { (Ideal.quotEquivOfEq hICc).trans e with commutes' := fun x => ?_ })
     obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective x
-    show (Ideal.quotEquivOfEq hICc).trans e
+    change (Ideal.quotEquivOfEq hICc).trans e
       (Ideal.Quotient.mk _ (algebraMap A Cc (algebraMap R A r))) = _
     rw [RingEquiv.trans_apply, Ideal.quotEquivOfEq_mk, he,
       IsScalarTower.algebraMap_apply (R ⧸ I) Bb (MvPolynomial Δ Bb),
@@ -516,7 +516,7 @@ theorem exists_smooth_quotient_factorization
       ∀ b : B, w b = eB'.symm (Ideal.Quotient.mk _ b) := by
     refine ⟨{ eB'.symm.toRingHom.comp (Ideal.Quotient.mk (I.map (algebraMap R B))) with
       commutes' := fun r => ?_ }, fun b => rfl⟩
-    show eB'.symm (Ideal.Quotient.mk _ (algebraMap R B r)) = _
+    change eB'.symm (Ideal.Quotient.mk _ (algebraMap R B r)) = _
     rw [← heB' r, RingEquiv.symm_apply_apply]
     rfl
   obtain ⟨ψ', hψ'⟩ := Algebra.FormallySmooth.exists_lift (R := R) (A := B)
@@ -562,7 +562,7 @@ theorem exists_smooth_quotient_factorization
       (IsScalarTower.toAlgHom R A Cc),
       (θ.restrictScalars R).comp (Ideal.quotientKerAlgEquivOfSurjective hsurj).toAlgHom,
       AlgHom.ext fun a => ?_⟩
-    show θ ((Ideal.quotientKerAlgEquivOfSurjective hsurj)
+    change θ ((Ideal.quotientKerAlgEquivOfSurjective hsurj)
       ((Ideal.quotientKerAlgEquivOfSurjective hsurj).symm (algebraMap A Cc a))) = φ a
     rw [AlgEquiv.apply_symm_apply, θ.commutes]
     rfl
@@ -624,7 +624,7 @@ private theorem exists_smooth_factorization_of_mem_map
   have hkill : ∀ p ∈ N, MvPolynomial.aevalTower φ y p = 0 := by
     have hrelzero : ∀ i, MvPolynomial.aevalTower φ y (rel i) = 0 := by
       intro i
-      show MvPolynomial.aevalTower φ y
+      change MvPolynomial.aevalTower φ y
         (MvPolynomial.C (c i) - ∑ j, MvPolynomial.C (algebraMap R B (a i j)) * X j) = 0
       rw [map_sub, map_sum, MvPolynomial.aevalTower_C,
         show ∑ j, MvPolynomial.aevalTower φ y (MvPolynomial.C (algebraMap R B (a i j)) * X j) =
@@ -674,7 +674,7 @@ private theorem exists_smooth_factorization_of_mem_map
         refine Finset.sum_congr rfl fun j _ => ?_
         rw [map_mul, map_mul, hξ j]
         congr 1
-        show α₀ (algebraMap R (MvPolynomial (Fin k) B ⧸ N) (a i j)) = _
+        change α₀ (algebraMap R (MvPolynomial (Fin k) B ⧸ N) (a i j)) = _
         rw [α₀.commutes]
       rw [← Ideal.Quotient.eq_zero_iff_mem, map_sub, map_sum, h1,
         show ∑ j, Ideal.Quotient.mk J' (algebraMap R B' (a i j) * ξ j) =
@@ -704,12 +704,12 @@ private theorem exists_smooth_factorization_of_mem_map
     rw [← Finset.sum_mul, ← map_sum, hεa j, map_zero, zero_mul]
   · -- Step 8: `β ∘ α = φ`.
     refine AlgHom.ext fun b => ?_
-    show β₀ (Ideal.Quotient.mk J' (α b)) = φ b
+    change β₀ (Ideal.Quotient.mk J' (α b)) = φ b
     rw [hqα b, hι,
       show β₀ (α₀ (Ideal.Quotient.mk N (MvPolynomial.C b))) =
         Ideal.Quotient.liftₐ N (MvPolynomial.aevalTower φ y) hkill
           (Ideal.Quotient.mk N (MvPolynomial.C b)) from AlgHom.congr_fun hαβ _]
-    show MvPolynomial.aevalTower φ y (MvPolynomial.C b) = φ b
+    change MvPolynomial.aevalTower φ y (MvPolynomial.C b) = φ b
     rw [MvPolynomial.aevalTower_C]
 
 /-- Tag `07CL` for a finite family of elements of `IB`, by induction on its length. -/
@@ -747,7 +747,7 @@ private theorem exists_smooth_factorization_of_forall_mem_map
             AlgHom.congr_fun hβ₁ (s i.castSucc)]
           exact hsφ i.castSucc)
     have hlast : (α₂.comp α₁) (s (Fin.last n)) = 0 := by
-      show α₂ (α₁ (s (Fin.last n))) = 0
+      change α₂ (α₁ (s (Fin.last n))) = 0
       rw [hα₁, map_zero]
     have hcast : ∀ j : Fin n, (α₂.comp α₁) (s j.castSucc) = 0 := fun j => hα₂ j
     have hcomp : β₂.comp (α₂.comp α₁) = φ := by rw [← AlgHom.comp_assoc, hβ₂, hβ₁]
@@ -824,7 +824,7 @@ private theorem ind_smooth_of_ringEquiv {R₁ R₂ Λ₁ Λ₂ : Type u} [CommRi
       fun j ↦ RingHom.Smooth.comp (RingHom.Smooth.of_bijective e.symm.bijective) (hp j)⟩
   refine (ObjectProperty.ind.{u} _).prop_of_iso (Under.isoMk g.toCommRingCatIso ?_) ht
   ext r
-  show g (algebraMap R₁ Λ₁ (e.symm r)) = algebraMap R₂ Λ₂ r
+  change g (algebraMap R₁ Λ₁ (e.symm r)) = algebraMap R₂ Λ₂ r
   rw [hg, e.apply_symm_apply]
 
 variable {R Λ : Type u} [CommRing R] [CommRing Λ] [Algebra R Λ]
@@ -856,7 +856,7 @@ private theorem ind_smooth_of_sq_eq_bot (I : Ideal R) (hI : I ^ 2 = ⊥)
   obtain ⟨B', hB'r, hB'a, hB', α', β', hα'J, hβ'⟩ :=
     exists_smooth_factorization_of_fg_le_map I hI hΛ (β.comp (Ideal.Quotient.mkₐ R J)) J hJI hJfg
       fun x hx ↦ by
-        show β (Ideal.Quotient.mk J x) = 0
+        change β (Ideal.Quotient.mk J x) = 0
         rw [Ideal.Quotient.eq_zero_iff_mem.mpr hx, map_zero]
   let := hB'r
   let := hB'a
@@ -865,7 +865,7 @@ private theorem ind_smooth_of_sq_eq_bot (I : Ideal R) (hI : I ^ 2 = ⊥)
   have hcomp : β'.comp (ᾱ.comp α) = φ := by
     refine AlgHom.ext fun a ↦ ?_
     obtain ⟨b, hb⟩ := Ideal.Quotient.mk_surjective (α a)
-    show β' (ᾱ (α a)) = φ a
+    change β' (ᾱ (α a)) = φ a
     rw [← hb, show ᾱ (Ideal.Quotient.mk J b) = α' b from rfl,
       show β' (α' b) = β (Ideal.Quotient.mk J b) from AlgHom.congr_fun hβ' b, hb]
     exact AlgHom.congr_fun hαβ a
@@ -875,7 +875,7 @@ private theorem ind_smooth_of_sq_eq_bot (I : Ideal R) (hI : I ^ 2 = ⊥)
     Under.homMk (CommRingCat.ofHom β'.toRingHom) (by ext r; exact β'.commutes r), ?_, ?_⟩
   · ext x
     exact congrArg (fun q : A.right →ₐ[R] Λ ↦ q x) hcomp
-  · show (algebraMap R B').Smooth
+  · change (algebraMap R B').Smooth
     exact RingHom.smooth_algebraMap.mpr hB'
 
 /-- Tag `07CM` for an ideal with `I ^ (n + 1) = 0`, by induction on `n`. -/
@@ -918,10 +918,10 @@ private theorem ind_smooth_of_pow_succ_eq_bot (n : ℕ) :
       ((DoubleQuot.quotQuotEquivQuotOfLE hJ₁le).symm.trans (Ideal.quotEquivOfEq hA.symm))
       (fun r ↦ ?_) hΛ
     obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective r
-    show (Ideal.quotEquivOfEq hA.symm) ((DoubleQuot.quotQuotEquivQuotOfLE hJ₁le).symm
+    change (Ideal.quotEquivOfEq hA.symm) ((DoubleQuot.quotQuotEquivQuotOfLE hJ₁le).symm
       (Ideal.Quotient.mk (I.map (algebraMap R Λ)) (algebraMap R Λ x))) = _
     rw [DoubleQuot.quotQuotEquivQuotOfLE_symm_mk]
-    show _ = algebraMap _ _ ((DoubleQuot.quotQuotEquivQuotOfLE hI₁le).symm
+    change _ = algebraMap _ _ ((DoubleQuot.quotQuotEquivQuotOfLE hI₁le).symm
       (Ideal.Quotient.mk I x))
     rw [DoubleQuot.quotQuotEquivQuotOfLE_symm_mk]
     rfl

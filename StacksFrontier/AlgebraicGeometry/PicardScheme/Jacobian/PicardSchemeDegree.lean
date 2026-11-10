@@ -151,7 +151,7 @@ omit [Flat f] [LocallyOfFinitePresentation f] [IsProper f] [LocallyOfFiniteType 
 /-- The element classified by the morphism `eltHom y` is `y`. -/
 theorem hom_app_inv_app {T : Over S} (y : (functor f σ hσ ⋙ forget GrpCat).obj (op T)) :
     (e.hom.app (op T)).hom (eltHom f σ hσ P e y) = y := by
-  show ((e.inv ≫ e.hom).app (op T)).hom y = y
+  change ((e.inv ≫ e.hom).app (op T)).hom y = y
   rw [e.inv_hom_id]
   rfl
 
@@ -159,7 +159,7 @@ omit [Flat f] [LocallyOfFinitePresentation f] [IsProper f] [LocallyOfFiniteType 
 /-- The morphism classifying the element given by `a : T ⟶ P` is `a`. -/
 theorem inv_app_hom_app {T : Over S} (a : T ⟶ P.X) :
     eltHom f σ hσ P e ((e.hom.app (op T)).hom a) = a := by
-  show ((e.hom ≫ e.inv).app (op T)).hom a = a
+  change ((e.hom ≫ e.inv).app (op T)).hom a = a
   rw [e.hom_inv_id]
   rfl
 
@@ -208,7 +208,7 @@ private theorem exists_lift_opens {T : Over S} (U : P.X.left.Opens) (b : T ⟶ P
     (hb : Set.range b.left ⊆ Set.range U.ι.base) :
     ∃ a : T ⟶ Over.mk (U.ι ≫ P.X.hom), a ≫ Over.homMk U.ι rfl = b :=
   ⟨Over.homMk (IsOpenImmersion.lift U.ι b.left hb) (by
-      show IsOpenImmersion.lift _ _ _ ≫ U.ι ≫ P.X.hom = T.hom
+      change IsOpenImmersion.lift _ _ _ ≫ U.ι ≫ P.X.hom = T.hom
       rw [IsOpenImmersion.lift_fac_assoc, Over.w b]),
     Over.OverMorphism.ext (IsOpenImmersion.lift_fac _ _ _)⟩
 
@@ -241,7 +241,7 @@ theorem toZero_bijective {T : Over S} : Function.Bijective (toZero f hdim σ hσ
       range_inv_app_subset f hdim σ hσ P e x
     obtain ⟨a, ha⟩ := exists_lift_opens P _ b hb
     refine ⟨a, ?_⟩
-    show Multiplicative.ofAdd ⟨Multiplicative.toAdd (homElt f σ hσ P e
+    change Multiplicative.ofAdd ⟨Multiplicative.toAdd (homElt f σ hσ P e
       (a ≫ degreeLocusι f hdim σ hσ P e 0)), _⟩ = x
     simp only [ha, b, homElt_eltHom]
     rfl
@@ -320,7 +320,7 @@ theorem exists_openSubgroupScheme_degreeLocus_zero :
     fun a t => (mem_groupZero_iff f hdim σ hσ _ _).1 (homElt_degreeLocusι_mem f hdim σ hσ P e a) t
   refine ⟨?_, ?_, ?_⟩
   · refine exists_lift_degreeLocus f hdim σ hσ P e _ 0 fun t => ?_
-    show relativeInvertibleDegreeHomAt _ _ t (classOfElt f σ hσ (homElt f σ hσ P e η[P.X])) = 0
+    change relativeInvertibleDegreeHomAt _ _ t (classOfElt f σ hσ (homElt f σ hσ P e η[P.X])) = 0
     rw [show (η[P.X] : 𝟙_ (Over S) ⟶ P.X) = 1 by rw [Hom.one_def, toUnit_unique (toUnit _) (𝟙 _),
       Category.id_comp], homElt_one, classOfElt_one, map_zero]
   · refine exists_lift_degreeLocus f hdim σ hσ P e _ 0 fun t => ?_
@@ -328,13 +328,13 @@ theorem exists_openSubgroupScheme_degreeLocus_zero :
         (fst _ _ ≫ degreeLocusι f hdim σ hσ P e 0) *
           (snd _ _ ≫ degreeLocusι f hdim σ hσ P e 0) := by
       simp [Hom.mul_def]
-    show relativeInvertibleDegreeHomAt _ _ t (classOfElt f σ hσ (homElt f σ hσ P e
+    change relativeInvertibleDegreeHomAt _ _ t (classOfElt f σ hσ (homElt f σ hσ P e
       ((degreeLocusι f hdim σ hσ P e 0 ⊗ₘ degreeLocusι f hdim σ hσ P e 0) ≫ μ[P.X]))) = 0
     rw [hmul, homElt_mul, classOfElt_mul, map_add, hdeg0, hdeg0, add_zero]
   · refine exists_lift_degreeLocus f hdim σ hσ P e _ 0 fun t => ?_
     have hinv : degreeLocusι f hdim σ hσ P e 0 ≫ ι[P.X] = (degreeLocusι f hdim σ hσ P e 0)⁻¹ :=
       (Hom.inv_def _).symm
-    show relativeInvertibleDegreeHomAt _ _ t (classOfElt f σ hσ (homElt f σ hσ P e
+    change relativeInvertibleDegreeHomAt _ _ t (classOfElt f σ hσ (homElt f σ hσ P e
       (degreeLocusι f hdim σ hσ P e 0 ≫ ι[P.X]))) = 0
     rw [hinv, homElt_inv, classOfElt_inv, map_neg]
     have := hdeg0 (𝟙 _) t

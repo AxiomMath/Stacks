@@ -175,8 +175,7 @@ noncomputable def pushoutBaseChange (hp : IsPushoutSquare f g h i comm) :
     (by
       intro M N φ
       ext x
-      induction x using TensorProduct.induction_on with
-      | zero => simp only [map_zero]
+      induction x using TensorProduct.inductionOn with
       | add x y hx hy => simp only [map_add, hx, hy]
       | tmul t m =>
         change (pushoutBaseChangeIso f g h i comm hp N).inv (t ⊗ₜ[R,g] φ m) =
@@ -476,8 +475,7 @@ public theorem toRelativePullback_surjective : Function.Surjective s.toRelativeP
               exact map_mul _ _ _ }))
         ((TensorProduct.comm base.fibreProduct D' B) x) =
       (TensorProduct.comm base.fibreProduct D' A) (s.DtoC x) := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul d b => simp [DtoC]
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
   have hA (x : s.C') :
@@ -490,8 +488,7 @@ public theorem toRelativePullback_surjective : Function.Surjective s.toRelativeP
               exact congrArg (· * surjection a) r.property.symm }))
         ((TensorProduct.comm base.fibreProduct D' A') x) =
       (TensorProduct.comm base.fibreProduct D' A) (s.C'toC x) := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul d a => simp [C'toC]
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
   obtain ⟨d, hd, ha⟩ := compatibleTensorPairs_surjective (L := D')
@@ -661,8 +658,9 @@ public noncomputable def extensionRestrictionSndIso :
     (T := A')
 
 section
-set_option maxHeartbeats 1000000
 
+set_option maxHeartbeats 1000000 in
+-- was section-wide; the statement elaborates tensor base change over `base.fibreProduct`
 /-- The first component of inverse base change sends `b ⊗ l` to `(1 ⊗ b) ⊗ l`. -/
 public theorem extensionRestrictionFstIso_inv_tmul
     (L : ModuleCat.{max v uA uA' uB uD'} D') (b : B) (l : L) :
@@ -673,6 +671,8 @@ public theorem extensionRestrictionFstIso_inv_tmul
   exact tensorBaseChange_inv_tmul.{_, _, _, max v uA uA' uB uD'}
     (R := base.fibreProduct) (S := D') (T := B) L b l
 
+set_option maxHeartbeats 1000000 in
+-- was section-wide; the statement elaborates tensor base change over `base.fibreProduct`
 /-- The second component of inverse base change sends `a' ⊗ l` to `(1 ⊗ a') ⊗ l`. -/
 public theorem extensionRestrictionSndIso_inv_tmul
     (L : ModuleCat.{max v uA uA' uB uD'} D') (a : A') (l : L) :
@@ -710,6 +710,8 @@ public theorem extensionOfScalarsToTensorProductPullback_iso_one_tmul
           A)).obj L).iso
       rfl
 
+set_option maxHeartbeats 1000000 in
+-- was section-wide; the statement elaborates tensor base change over `base.fibreProduct`
 /-- The component base-change maps respect the gluing isomorphisms. -/
 public theorem restrictionSquare_coherence
     (L : ModuleCat.{max v uA uA' uB uD'} D') :
@@ -734,10 +736,6 @@ public theorem restrictionSquare_coherence
         ((ModuleCat.restrictScalars s.toD').obj L)).iso.hom ≫
       (ModuleCat.extendScalars surjection).map
         (s.extensionRestrictionSndIso.{uA, uA', uB, uD', v}.inv.app L) := by
-  letI : Algebra base.fibreProduct D' := s.toD'.toAlgebra
-  letI : Algebra base.fibreProduct B := (toB (base := base)).toAlgebra
-  letI : Algebra base.fibreProduct A' := (toA' (base := base)).toAlgebra
-  letI : Algebra base.fibreProduct A := (toA (base := base)).toAlgebra
   apply extendScalars_twice_hom_ext.{_, _, _, max v uD'}
     (toB (base := base)) toBase
     ((ModuleCat.restrictScalars s.toD').obj L)
@@ -748,7 +746,12 @@ public theorem restrictionSquare_coherence
   let g := s.extensionRestrictionSndIso.{uA, uA', uB, uD', v}.inv.app L
   let a := s.restrictionFstIso.{uA, uA', uB, uD', v}.inv.app LB
   let b := s.restrictionSndIso.{uA, uA', uB, uD', v}.hom.app LA
-  let i := ((extensionOfScalarsToTensorProductPullback.{_, _, _, _, _, v} (D' := D')
+  let i :=
+    letI : Algebra base.fibreProduct D' := s.toD'.toAlgebra
+    letI : Algebra base.fibreProduct B := (toB (base := base)).toAlgebra
+    letI : Algebra base.fibreProduct A' := (toA' (base := base)).toAlgebra
+    letI : Algebra base.fibreProduct A := (toA (base := base)).toAlgebra
+    ((extensionOfScalarsToTensorProductPullback.{_, _, _, _, _, v} (D' := D')
       ({ toBase with commutes' := fun _ => rfl } : B →ₐ[base.fibreProduct] A)
       ({ surjection with commutes' := fun r => r.property.symm } : A' →ₐ[base.fibreProduct] A)).obj
         L).iso.hom
@@ -775,6 +778,8 @@ public theorem restrictionSquare_coherence
   rw [hf, ha, hi, hj, ModuleCat.ExtendScalars.map_tmul, hg]
   exact hb
 
+set_option maxHeartbeats 1000000 in
+-- was section-wide; the statement elaborates tensor base change over `base.fibreProduct`
 /-- The canonical natural isomorphism expressing commutativity of the functor square
 in Tag 08KK. -/
 public noncomputable def restrictionSquareIso :
@@ -800,6 +805,8 @@ public noncomputable def restrictionSquareIso :
     · exact s.extensionRestrictionFstIso.{uA, uA', uB, uD', v}.inv.naturality f
     · exact s.extensionRestrictionSndIso.{uA, uA', uB, uD', v}.inv.naturality f
 
+set_option maxHeartbeats 1000000 in
+-- was section-wide; the statement elaborates tensor base change over `base.fibreProduct`
 /-- Pure-tensor law for the first inverse component of the displayed functor square. -/
 public theorem restrictionSquareIso_inv_fst_tmul
     (L : ModuleCat.{max v uA uA' uB uD'} D') (b : B) (l : L) :
@@ -807,6 +814,8 @@ public theorem restrictionSquareIso_inv_fst_tmul
       s.BtoD b ⊗ₜ[D',s.toD] l :=
   s.extensionRestrictionFstIso_inv_tmul.{uA, uA', uB, uD', v} L b l
 
+set_option maxHeartbeats 1000000 in
+-- was section-wide; the statement elaborates tensor base change over `base.fibreProduct`
 /-- Pure-tensor law for the second inverse component of the displayed functor square. -/
 public theorem restrictionSquareIso_inv_snd_tmul
     (L : ModuleCat.{max v uA uA' uB uD'} D') (a : A') (l : L) :
@@ -966,8 +975,7 @@ public theorem image_extendedKernel_eq_extendedIdeal
         exact ⟨r * x', L.mul_mem_left r hx', by simp [ex, mul_left_comm]⟩
   have mul_closed (c : s.C') (d : D') (hd : d ∈ L) :
       ∃ e ∈ L, s.toC' e = c * s.toC' d := by
-    induction c using TensorProduct.induction_on with
-    | zero => exact ⟨0, L.zero_mem, by simp⟩
+    induction c using TensorProduct.inductionOn with
     | tmul x a =>
         obtain ⟨e, he, ee⟩ := mul_right a d hd
         exact ⟨x * e, L.mul_mem_left x he, by

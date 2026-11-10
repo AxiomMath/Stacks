@@ -136,7 +136,7 @@ attribute [local instance_reducible] ProjectiveSpectrum.top
 public theorem mkOne_mul_mkOne (P : Submonoid R) (a b : R) :
     LocalizedModule.mk a (1 : P) * LocalizedModule.mk b (1 : P)
       = LocalizedModule.mk (a * b) (1 : P) := by
-  show Localization.mk a (1 : P) * Localization.mk b (1 : P) = Localization.mk (a * b) (1 : P)
+  change Localization.mk a (1 : P) * Localization.mk b (1 : P) = Localization.mk (a * b) (1 : P)
   rw [Localization.mk_mul]
   exact Localization.mk_eq_mk_iff.mpr (Localization.r_of_eq (by simp))
 

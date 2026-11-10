@@ -1034,7 +1034,7 @@ private lemma lift_comp_power_map_π (V : CosimplicialObject C) (K : SSet.{w})
     (α : K.obj (op m)) :
     Pi.lift g ≫ (V.power K).map f ≫ Pi.π (fun _ : K.obj (op m) => V.obj m) α
       = g (K.map f.op α) ≫ V.map f :=
-  (whisker_eq _ (power_map_π V K f α)).trans (Pi.lift_π_assoc ..)
+  (whisker_eq _ (power_map_π V K f α)).trans (Pi.lift_comp_π_assoc ..)
 
 end
 

@@ -119,8 +119,8 @@ variable {C₅ : Type u₅} {C₆ : Type u₆} [Category.{v₅} C₅] [Category.
   [Rf'.Additive] [PreservesFiniteLimits Rf'] [PreservesFiniteColimits Rf']
   [Rp'.Additive] [PreservesFiniteLimits Rp'] [PreservesFiniteColimits Rp']
   [HasExt.{w₅} C₆] [EnoughInjectives C₄] [EnoughInjectives C₆]
-  [IsIso (Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg ef).natTrans]
-  [IsIso (Stacks.CategoryTheory.BaseChange.twoSquare adjp adjp' eg' ef').natTrans]
+  [IsIso (Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg ef)]
+  [IsIso (Stacks.CategoryTheory.BaseChange.twoSquare adjp adjp' eg' ef')]
 
 include adjp' eg' ef'
 
@@ -142,10 +142,10 @@ theorem comp_map_unit_eq_zero_of_mapExactFunctor_eq_zero (a : C₃) (N : C₂) (
   rw [h, Ext.zero_comp] at key
   have hBp : IsIso (Stacks.CategoryTheory.BaseChange.map adjp adjp' eg' ef' (Lp.obj N)) :=
     inferInstanceAs (IsIso ((Stacks.CategoryTheory.BaseChange.twoSquare adjp adjp' eg'
-      ef').natTrans.app _))
+      ef').app _))
   have hBf : IsIso (Stacks.CategoryTheory.BaseChange.map adjf adjf' eg ef (Rp.obj (Lp.obj N))) :=
     inferInstanceAs (IsIso ((Stacks.CategoryTheory.BaseChange.twoSquare adjf adjf' eg
-      ef).natTrans.app _))
+      ef).app _))
   have h0 := (extMap_bijective adjp' (Lf'.obj a) (Lg''.obj (Lp.obj N)) n).1
     (key.trans (map_zero _).symm)
   have hunit := (postcomp_mk₀_bijective_of_isIso
@@ -213,14 +213,14 @@ theorem comp_directImage_unit_eq_zero_of_restriction_eq_zero
       (etaleAbelianInverseImageDirectImageAdj.{u, 0} fZ)
       (etaleAbelianInverseImageCompIso.{u, 0} fZ i).symm
       ((etaleAbelianInverseImageCompIso.{u, 0} g f).symm ≪≫
-        eqToIso (congrArg (fun k : YZ ⟶ X ↦ etaleAbelianInverseImage.{u, 0} k) sq.w))).natTrans :=
+        eqToIso (congrArg (fun k : YZ ⟶ X ↦ etaleAbelianInverseImage.{u, 0} k) sq.w))) :=
     isIso_etaleAbelianBaseChange_of_isPullback_of_isFinite f i g fZ sq
   have : IsIso (Stacks.CategoryTheory.BaseChange.twoSquare
       (etaleAbelianInverseImageDirectImageAdj.{u, 0} π)
       (etaleAbelianInverseImageDirectImageAdj.{u, 0} πZ)
       (etaleAbelianInverseImageCompIso.{u, 0} πZ g).symm
       ((etaleAbelianInverseImageCompIso.{u, 0} g' π).symm ≪≫
-        eqToIso (congrArg (fun k : Y'Z ⟶ Y ↦ etaleAbelianInverseImage.{u, 0} k) sq'.w))).natTrans :=
+        eqToIso (congrArg (fun k : Y'Z ⟶ Y ↦ etaleAbelianInverseImage.{u, 0} k) sq'.w))) :=
     isIso_etaleAbelianBaseChange_of_isPullback_of_isFinite π g g' πZ sq'
   have h1 := (etaleCohomologyRestrictionMap_apply.{u, 0, u + 1} πZ _ q _).symm.trans h
   exact Stacks.ExtAdjunction.comp_map_unit_eq_zero_of_mapExactFunctor_eq_zero

@@ -109,7 +109,7 @@ private theorem size_lt_cutoff_of_isLimit_underlyingDiagram {K : Type u} [Catego
     ((ciSup_le' fun U => ?_).trans_lt hb)
   let O := AlgebraicGeometry.opensDiagram E j U.1
   let oC := AlgebraicGeometry.opensCone E c j U.1
-  show oC.pt.size ≤ _
+  change oC.pt.size ≤ _
   exact Scheme.size_le_of_isLimit_of_isAffine O (fun k => U.2.preimage (E.map k.hom))
     (fun k => (Scheme.size_coe_opens_le _ _).trans (hμle k.left))
     (AlgebraicGeometry.isLimitOpensCone E c hc j U.1)

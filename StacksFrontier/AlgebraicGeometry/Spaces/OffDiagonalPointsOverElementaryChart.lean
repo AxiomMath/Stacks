@@ -73,7 +73,7 @@ theorem exists_comp_residueFieldMap_eq {Q W : BigFppfOver B S hS} (q : Q.left.1)
   obtain ⟨α, hα⟩ := BigFppfOver.exists_hom_of_comp_eq B S hS (X :=
       residueFieldObject B S hS Q q (B.residueField_spec_contains Q.left.property q))
     (Y := residueFieldObject B S hS W w hw) α₀ (by
-      show α₀ ≫ (W.left.1.fromSpecResidueField w ≫ W.hom.1) =
+      change α₀ ≫ (W.left.1.fromSpecResidueField w ≫ W.hom.1) =
         B.inclusion.map (residueFieldObject B S hS Q q _).hom
       rw [← Category.assoc, hα₀]
       exact congrArg (fun k => k.1) (Over.w g))

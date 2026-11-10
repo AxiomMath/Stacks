@@ -131,7 +131,7 @@ private lemma flat_of_ringEquiv
   let : Algebra R S := e.toRingHom.toAlgebra
   let : Algebra S R := e.symm.toRingHom.toAlgebra
   have : IsScalarTower R S M := IsScalarTower.of_algebraMap_smul fun r m => by
-    show e r • m = r • m
+    change e r • m = r • m
     simpa using hsmul (e r) m
   have : IsScalarTower S R M :=
     IsScalarTower.of_algebraMap_smul fun s m => (hsmul s m).symm
@@ -142,10 +142,10 @@ private lemma flat_of_ringEquiv
   have : IsScalarTower R S N := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   have : IsScalarTower R S P := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   have : IsScalarTower S R N := IsScalarTower.of_algebraMap_smul fun s n => by
-    show e (e.symm s) • n = s • n
+    change e (e.symm s) • n = s • n
     simp
   have : IsScalarTower S R P := IsScalarTower.of_algebraMap_smul fun s p => by
-    show e (e.symm s) • p = s • p
+    change e (e.symm s) • p = s • p
     simp
   let fR : N →ₗ[R] P := f.restrictScalars R
   have hflat := Module.Flat.rTensor_preserves_injective_linearMap (M := M) fR hf
@@ -154,8 +154,7 @@ private lemma flat_of_ringEquiv
   let dP : (P ⊗[S] M) ≃ₗ[S] (P ⊗[R] M) :=
     TensorProduct.equivOfCompatibleSMul R S S P M
   have hcomm (z : N ⊗[S] M) : dP ((f.rTensor M) z) = (fR.rTensor M) (dN z) := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp [hx, hy]
     | tmul n m => rfl
   intro x y hxy
@@ -183,7 +182,7 @@ private lemma isUnit_algebraMap_end_of_isUnit_algebraMap
   }
   have heq : algebraMap R (Module.End R M) r = μ (algebraMap R S r) := by
     ext m
-    show r • m = algebraMap R S r • m
+    change r • m = algebraMap R S r • m
     exact (IsScalarTower.algebraMap_smul (R := R) (A := S) r m).symm
   rw [heq]
   exact hr.map μ
@@ -233,14 +232,14 @@ private lemma localized_submodule_of_spanning
           obtain ⟨u, n, hn⟩ := hz
           refine ⟨u * t, ⟨(u : R) • m + (t : R) • n, ?_⟩, ?_⟩
           · exact add_mem (M₀.smul_mem _ m.2) (M₀.smul_mem _ n.2)
-          · show ((u : R) * (t : R)) • (y + z) = _
+          · change ((u : R) * (t : R)) • (y + z) = _
             rw [mul_smul, smul_add, smul_add, hm]
             rw [smul_comm (u : R) (t : R) z, hn]
       | smul a y _ hy =>
           obtain ⟨⟨b, t⟩, hbt⟩ := IsLocalization.surj T a
           obtain ⟨u, m, hm⟩ := hy
           refine ⟨t * u, ⟨(b : R) • m, M₀.smul_mem _ m.2⟩, ?_⟩
-          show ((t * u : T) : R) • (a • y) = _
+          change ((t * u : T) : R) • (a • y) = _
           calc
             ((t * u : T) : R) • (a • y) =
                 algebraMap R S ((t : R) * (u : R)) • (a • y) := by
@@ -320,12 +319,12 @@ private lemma maximalIdeal_smul_top_restrictScalars_of_surjective
       exact hs
     · exact fun x y hx hy => Submodule.add_mem _ hx hy
   · intro hm
-    show m ∈ maximalIdeal S • (⊤ : Submodule S M)
+    change m ∈ maximalIdeal S • (⊤ : Submodule S M)
     refine Submodule.smul_induction_on hm ?_ ?_
     · intro r hr n hn
       rw [← IsScalarTower.algebraMap_smul S r n]
       apply Submodule.smul_mem_smul _ (Submodule.mem_top)
-      show r ∈ (maximalIdeal S).comap (algebraMap R S)
+      change r ∈ (maximalIdeal S).comap (algebraMap R S)
       rw [IsLocalRing.maximalIdeal_comap]
       exact hr
     · exact fun x y hx hy => Submodule.add_mem _ hx hy
@@ -347,7 +346,7 @@ private lemma injective_mapQ_restrictScalars_of_surjective
   have heq := maximalIdeal_smul_top_restrictScalars_of_surjective (M := M) hsurj
   rw [← heq] at hm ⊢
   change f m ∈ maximalIdeal S • (⊤ : Submodule S M) at hm
-  show m ∈ maximalIdeal S • (⊤ : Submodule S M)
+  change m ∈ maximalIdeal S • (⊤ : Submodule S M)
   apply (Submodule.Quotient.mk_eq_zero _).mp
   apply hf
   simpa using (Submodule.Quotient.mk_eq_zero
@@ -372,7 +371,7 @@ private lemma exists_open_mem_avoiding_finite_specializations {X : Type*}
     let V : TopologicalSpace.Opens X := ⟨{z | z ∉ closure ({a} : Set X)},
       isOpen_compl_iff.mpr isClosed_closure⟩
     have hxV : x ∈ V := by
-      show x ∉ closure ({a} : Set X)
+      change x ∉ closure ({a} : Set X)
       intro hxcl
       apply hbad a (by simp)
       exact (specializes_iff_mem_closure).mpr hxcl
@@ -494,7 +493,7 @@ private lemma germ_injective_of_associatedPoints_specialize
     convert heq using 1 <;> congr 2
   exact AlgebraicGeometry.restriction_injective_of_associatedPoints_subset X F W hass heq'
 
-private lemma fiber_sections_smul_injective
+lemma fiber_sections_smul_injective
     {X S : Scheme.{u}} (f : X ⟶ S) (s : S)
     [IsLocallyNoetherian (f.fiber s)] (G : (f.fiber s).Modules) [G.IsQuasicoherent]
     (x : X) (hx : f x = s)

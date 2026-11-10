@@ -72,7 +72,7 @@ theorem spec_field_evaluation_surjective {k : Type u} [Field k]
   have hU : U = ⊤ := top_unique fun z _ => by simpa [Subsingleton.elim z y] using hyU
   subst hU
   refine ⟨(Scheme.ΓSpecIso (.of k)).hom s, ?_⟩
-  show (Spec (.of k)).Γevaluation y
+  change (Spec (.of k)).Γevaluation y
     ((Scheme.ΓSpecIso (.of k)).inv ((Scheme.ΓSpecIso (.of k)).hom s)) = _
   simp only [Iso.hom_inv_id_apply]
   rfl
@@ -134,7 +134,7 @@ theorem fieldRange_residueFieldMap_relativeFrobenius
       ← Spec.map_comp]
     congr 2
     ext a
-    show (F.residueFieldMap x) (pX.residueFieldMap x a) =
+    change (F.residueFieldMap x) (pX.residueFieldMap x a) =
       pX.residueFieldMap x ((absoluteFrobenius S p hS).residueFieldMap (pX x) a)
     rw [absoluteFrobenius_residueFieldMap_apply, absoluteFrobenius_residueFieldMap_apply,
       map_pow]

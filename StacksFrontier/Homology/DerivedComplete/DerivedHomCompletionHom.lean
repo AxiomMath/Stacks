@@ -60,7 +60,7 @@ private lemma isIso_unit_app
   have h' : g ≫ η.app E = 𝟙 (F.obj E) := by
     apply (hη E (F.obj E) (hF E)).1
     dsimp only at hg
-    show η.app E ≫ (g ≫ η.app E) = η.app E ≫ 𝟙 (F.obj E)
+    change η.app E ≫ (g ≫ η.app E) = η.app E ≫ 𝟙 (F.obj E)
     rw [← Category.assoc, hg]
     simp
   exact ⟨⟨g, hg, h'⟩⟩
@@ -161,7 +161,7 @@ private lemma isIso_hom_map_unit
       d.hom.obj (Opposite.op X, E) :=
     he X E ≪≫ d.hom.mapIso ((Iso.refl (Opposite.op X)).prod (asIso (η.app E)).symm)
   apply (Equiv.comp_bijective _ (homTransposeEquiv d X K E)).mp
-  show Function.Bijective (fun a ↦
+  change Function.Bijective (fun a ↦
     homTransposeEquiv d X K E (a ≫ d.hom.map (Prod.mkHom (η.app K).op (𝟙 E))))
   simp only [homTransposeEquiv_naturality]
   exact (precomp_bijective_of_iso (η.app K) e (hη K _ (hF _))).comp

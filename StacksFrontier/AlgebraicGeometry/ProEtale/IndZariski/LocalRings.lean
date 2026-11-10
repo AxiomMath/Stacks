@@ -69,7 +69,7 @@ private theorem stage_localRingHom_bijective
     simp [qU, Ideal.mem_comap]
   have hpu : p = qU.comap (algebraMap A U) := by
     ext x
-    show algebraMap A S x ∈ q ↔ algebraMap A U x ∈ qU
+    change algebraMap A S x ∈ q ↔ algebraMap A U x ∈ qU
     rw [← hqTbase]
     simp [qU, IsScalarTower.algebraMap_apply A S T]
   have : qU.IsPrime := Ideal.comap_isPrime e.symm.toRingHom qT
@@ -95,11 +95,11 @@ private theorem stage_localRingHom_bijective
     apply Localization.localRingHom_unique p q (algebraMap A S) rfl
     intro x
     simp only [AlgEquiv.symm_toRingEquiv, RingEquiv.symm_mk, AlgEquiv.toEquiv_eq_coe,
-      AlgEquiv.symm_toEquiv_eq_symm, RingEquiv.toRingHom_eq_coe, RingEquiv.coe_ringHom_trans,
+      AlgEquiv.symm_toEquiv_eq_symm, RingEquiv.toRingHom_eq_coe, RingEquiv.toRingHom_trans,
       AlgEquiv.toRingEquiv_toRingHom, RingHom.coe_comp, RingHom.coe_coe, RingEquiv.coe_mk,
       EquivLike.coe_coe, Function.comp_apply, Localization.localRingEquiv_apply,
-      RingEquiv.coe_ringHom_refl, RingHom.toMonoidHom_eq_coe, OneHom.toFun_eq_coe,
-      MonoidHom.toOneHom_coe, MonoidHom.coe_coe, Localization.localRingHom_to_map,
+      RingEquiv.toRingHom_refl, RingHom.toMonoidHom_eq_coe, OneHom.toFun_eq_coe,
+      MonoidHom.toOneHom_coe, MonoidHom.coe_ofClass, Localization.localRingHom_to_map,
       RingHom.id_apply, AlgEquiv.commutes, Localization.localRingEquiv_symm_apply,
       RingEquiv.symm_refl, ee, c₂, e₂', e₁, c₃]
     rw [IsScalarTower.algebraMap_apply A S (Localization.AtPrime qT) x, e₃'.symm.commutes,
@@ -134,7 +134,7 @@ private theorem rep_alg_colimit {A : Type u} {B : Type v} [CommRing A] [CommRing
       exact ⟨k, a * b, map_mul _ _ _⟩
     algebraMap_mem' := by
       intro a
-      show ∃ i : J, ∃ x : pres.diag.obj i, φ i x = algebraMap A B a
+      change ∃ i : J, ∃ x : pres.diag.obj i, φ i x = algebraMap A B a
       exact ⟨Classical.choice IsFiltered.nonempty, algebraMap A _ a, (φ _).commutes a⟩ }
   let coc : CategoryTheory.Limits.Cocone pres.diag := {
     pt := CommAlgCat.of A D
@@ -155,7 +155,7 @@ private theorem rep_alg_colimit {A : Type u} {B : Type v} [CommRing A] [CommRing
     intro i
     apply CommAlgCat.hom_ext
     ext x
-    show D.val (desc.hom (φ i x)) = φ i x
+    change D.val (desc.hom (φ i x)) = φ i x
     have hfac' : desc.hom (φ i x) = (φ i).codRestrict D (fun x => ⟨i, x, rfl⟩) x := by
       simpa [desc, coc] using congrArg (fun h => h x) (pres.isColimit.fac coc i)
     rw [hfac']
@@ -187,7 +187,7 @@ private theorem identifiesLocalRings_of_ind_localIso
   have hqi (i : J) : (qi i).IsPrime := Ideal.comap_isPrime (φ i).toRingHom q
   have hpi (i : J) : p = (qi i).comap (algebraMap A (pres.diag.obj i)) := by
     ext a
-    show algebraMap A B a ∈ q ↔ φ i (algebraMap A (pres.diag.obj i) a) ∈ q
+    change algebraMap A B a ∈ q ↔ φ i (algebraMap A (pres.diag.obj i) a) ∈ q
     simp [φ]
   let fA (i : J) : A →ₐ[A] pres.diag.obj i := Algebra.ofId A (pres.diag.obj i)
   let ei (i : J) : Localization.AtPrime p →ₐ[A] Localization.AtPrime (qi i) :=
@@ -229,7 +229,7 @@ private theorem identifiesLocalRings_of_ind_localIso
     let u : pres.diag.obj i →ₐ[A] pres.diag.obj j := (pres.diag.map f).hom
     have hqij : qi i = (qi j).comap u := by
       ext y
-      show φ i y ∈ q ↔ φ j (u y) ∈ q
+      change φ i y ∈ q ↔ φ j (u y) ∈ q
       simp [u, φ]
     let vij : Localization.AtPrime (qi i) →ₐ[A] Localization.AtPrime (qi j) :=
       Localization.localAlgHom (qi i) (qi j) u hqij
@@ -237,7 +237,7 @@ private theorem identifiesLocalRings_of_ind_localIso
       ext
     have hinc : vij (inc i x) = inc j (u x) := by
       simp [vij, inc, Localization.localAlgHom]
-    show (Ei j).symm ((inc j) (u x)) = (Ei i).symm ((inc i) x)
+    change (Ei j).symm ((inc j) (u x)) = (Ei i).symm ((inc i) x)
     rw [← hinc]
     have hx := congrArg (fun g : Localization.AtPrime p →ₐ[A] Localization.AtPrime (qi j) =>
       (Ei j).symm (g ((Ei i).symm (inc i x)))) hcomp
@@ -273,7 +273,7 @@ private theorem identifiesLocalRings_of_ind_localIso
       exact s.property
     have hx : x ∉ qi i := by simpa [qi] using hxs
     rw [← hxrep, hdescFac]
-    show IsUnit ((Ei i₀) ((Ei i).symm (inc i x)))
+    change IsUnit ((Ei i₀) ((Ei i).symm (inc i x)))
     exact IsUnit.map (Ei i₀).toRingHom <|
       IsUnit.map (Ei i).symm.toRingHom
         (IsLocalization.map_units _ (⟨x, hx⟩ : (qi i).primeCompl))
@@ -283,7 +283,7 @@ private theorem identifiesLocalRings_of_ind_localIso
     toRingHom := gRing₀
     commutes' := by
       intro a
-      show IsLocalization.lift hunit
+      change IsLocalization.lift hunit
         (algebraMap B (Localization.AtPrime q) (algebraMap A B a)) = _
       rw [IsLocalization.lift_eq]
       exact descB.commutes a
@@ -297,7 +297,7 @@ private theorem identifiesLocalRings_of_ind_localIso
   have hright : f.comp gAlg = AlgHom.id A (Localization.AtPrime q) := by
     ext b
     obtain ⟨i, x, hxrep⟩ := rep_alg_colimit pres b
-    show f ((Ei i₀).symm (gAlg₀ (algebraMap B (Localization.AtPrime q) b))) =
+    change f ((Ei i₀).symm (gAlg₀ (algebraMap B (Localization.AtPrime q) b))) =
       algebraMap B (Localization.AtPrime q) b
     calc
       f ((Ei i₀).symm (gAlg₀ (algebraMap B (Localization.AtPrime q) b))) =
@@ -305,7 +305,7 @@ private theorem identifiesLocalRings_of_ind_localIso
         congr 2
         calc
           gAlg₀ (algebraMap B (Localization.AtPrime q) b) = descB b := by
-            show IsLocalization.lift hunit
+            change IsLocalization.lift hunit
               (algebraMap B (Localization.AtPrime q) b) = descB b
             exact IsLocalization.lift_eq hunit b
           _ = descB (φ i x) := by rw [hxrep]
@@ -317,7 +317,7 @@ private theorem identifiesLocalRings_of_ind_localIso
           Localization.AtPrime q => g ((Ei i).symm (inc i x))) (hvi i)
         simpa using h.symm
       _ = algebraMap B (Localization.AtPrime q) (φ i x) := by
-        show Localization.localRingHom (qi i) q (φ i).toRingHom rfl
+        change Localization.localRingHom (qi i) q (φ i).toRingHom rfl
           (algebraMap (pres.diag.obj i) (Localization.AtPrime (qi i)) x) = _
         exact Localization.localRingHom_to_map (I := qi i) (J := q)
           (f := (φ i).toRingHom) (hIJ := rfl) x
@@ -345,7 +345,7 @@ theorem identifiesLocalRings_of_isIndZariski
       (algebraMap A B) rfl = (E.toAlgHom.comp f).toRingHom := by
     apply Localization.localRingHom_unique
     intro a
-    show E (f (algebraMap A _ a)) = _
+    change E (f (algebraMap A _ a)) = _
     rw [f.commutes, E.commutes]
     rfl
   rw [hf]

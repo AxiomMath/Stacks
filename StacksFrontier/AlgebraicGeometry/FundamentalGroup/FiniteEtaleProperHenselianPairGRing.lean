@@ -115,7 +115,7 @@ theorem adicCompletionQuotientEquiv_symm_comp_mk :
     (adicCompletionQuotientEquiv A I).symm.toRingHom.comp (Ideal.Quotient.mk I) =
       (Ideal.Quotient.mk _).comp (algebraMap A (AdicCompletion I A)) := by
   ext a
-  show (adicCompletionQuotientEquiv A I).symm (Ideal.Quotient.mk I a) = _
+  change (adicCompletionQuotientEquiv A I).symm (Ideal.Quotient.mk I a) = _
   rw [RingEquiv.symm_apply_eq]
   rfl
 
@@ -161,7 +161,7 @@ theorem exists_algHom_mk_comp_eq_of_isGRing_of_henselianPair {A : Type u} [CommR
   have key : (Ideal.Quotient.mkₐ A J).comp ((Algebra.ofId A Â).comp σ) =
       (Ideal.Quotient.mkₐ A J).comp φ := by
     refine (AlgHom.cancel_right hπ).mp (MvPolynomial.algHom_ext fun l => ?_)
-    show Ideal.Quotient.mk J (algebraMap A Â (σ (π (MvPolynomial.X l)))) =
+    change Ideal.Quotient.mk J (algebraMap A Â (σ (π (MvPolynomial.X l)))) =
       Ideal.Quotient.mk J (φ (π (MvPolynomial.X l)))
     rw [AlgHom.liftOfSurjective_apply, MvPolynomial.aeval_X, Ideal.Quotient.eq, ← neg_mem_iff,
       neg_sub]

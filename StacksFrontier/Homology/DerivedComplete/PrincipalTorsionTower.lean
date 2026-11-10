@@ -171,7 +171,7 @@ private lemma isMittagLeffler_iff_of_constant_kernel
     exact sub_eq_zero.mpr hz.symm
   obtain ⟨m, hm⟩ := hker j _ hz'
   refine ⟨t + a.app k m, ?_⟩
-  show F.map (g ≫ f) (t + a.app k m) = F.map f x
+  change F.map (g ≫ f) (t + a.app k m) = F.map f x
   have ha : F.map (g ≫ f) (a.app k m) = a.app j m :=
     (congrArg (fun e : M ⟶ F.obj j ↦ e m) (a.naturality (g ≫ f))).symm
   rw [map_add, ha, hm]
@@ -199,10 +199,10 @@ private lemma homologyFunctor_map_Q_smul_id
   let i : (homologyFunctor (ModuleCat.{v} R) p).obj (Q.obj C) ≅ C.homology p :=
     (homologyFunctorFactors (ModuleCat.{v} R) p).app C
   apply (cancel_mono i.hom).1
-  show (homologyFunctor (ModuleCat.{v} R) p).map (Q.map (r • 𝟙 C)) ≫
+  change (homologyFunctor (ModuleCat.{v} R) p).map (Q.map (r • 𝟙 C)) ≫
     (homologyFunctorFactors (ModuleCat.{v} R) p).hom.app C = _
   rw [homologyFunctorFactors_hom_naturality, homologyMap_smul_id]
-  show i.hom ≫ (r • 𝟙 (C.homology p)) = (r • 𝟙 _) ≫ i.hom
+  change i.hom ≫ (r • 𝟙 (C.homology p)) = (r • 𝟙 _) ≫ i.hom
   simp only [comp_smul, smul_comp, Category.comp_id, Category.id_comp]
 
 set_option backward.isDefEq.respectTransparency false in
@@ -235,7 +235,7 @@ theorem isMittagLeffler_principalDerivedTensor_iff_powerTorsion
       powerMultiplication A ((H (p + 1)).obj (Q.obj C)) r ≫
         (H (p + 1)).map e.hom := by
     ext x
-    show r • ((H (p + 1)).map e.hom) x = ((H (p + 1)).map e.hom) (r • x)
+    change r • ((H (p + 1)).map e.hom) x = ((H (p + 1)).map e.hom) (r • x)
     exact (map_smul _ _ _).symm
   let d (n : ℕ) : F.obj ⟨n⟩ ⟶ (H (p + 1)).obj K :=
     δ n ≫ (H (p + 1)).map e.hom
@@ -243,7 +243,7 @@ theorem isMittagLeffler_principalDerivedTensor_iff_powerTorsion
       powerMultiplication A ((H (p + 1)).obj K) (f ^ (n + 1)) = 0 := by
     dsimp only [d]
     rw [Category.assoc, hcomm, ← hm, ← Category.assoc]
-    show (δ n ≫ (H (p + 1)).map (T n).mor₁) ≫ (H (p + 1)).map e.hom = 0
+    change (δ n ≫ (H (p + 1)).map (T n).mor₁) ≫ (H (p + 1)).map e.hom = 0
     have hzero : δ n ≫ (H (p + 1)).map (T n).mor₁ = 0 :=
       (H 0).homologySequenceδ_comp (T n) (hT n) p (p + 1) rfl
     rw [hzero, zero_comp]
@@ -278,7 +278,7 @@ theorem isMittagLeffler_principalDerivedTensor_iff_powerTorsion
   let a : (Functor.const ℕᵒᵖ).obj ((H p).obj (Q.obj C)) ⟶ F :=
     NatTrans.ofOpSequence (fun n ↦ (H p).map (T n).mor₂) (by
       intro n
-      show 𝟙 _ ≫ _ = _
+      change 𝟙 _ ≫ _ = _
       rw [Category.id_comp, hF, ← Functor.map_comp]
       have h := (φ n).comm₂
       rw [show (φ n).hom₂ = 𝟙 _ from Q.map_id C, Category.id_comp] at h
@@ -288,14 +288,14 @@ theorem isMittagLeffler_principalDerivedTensor_iff_powerTorsion
     let z := (H (p + 1)).map e.inv
       (kernel.ι (powerMultiplication A ((H (p + 1)).obj K) (f ^ (n + 1))) y)
     have hz : (H (p + 1)).map (T n).mor₁ z = 0 := by
-      show (H (p + 1)).map (Q.map (f ^ (n + 1) • 𝟙 C)) z = 0
+      change (H (p + 1)).map (Q.map (f ^ (n + 1) • 𝟙 C)) z = 0
       rw [hm]
       have hy := congrArg (fun g ↦ g y) (kernel.condition
         (powerMultiplication A ((H (p + 1)).obj K) (f ^ (n + 1))))
-      show f ^ (n + 1) • z = 0
+      change f ^ (n + 1) • z = 0
       dsimp only [z]
       rw [← map_smul]
-      show (H (p + 1)).map e.inv
+      change (H (p + 1)).map e.inv
         ((powerMultiplication A ((H (p + 1)).obj K) (f ^ (n + 1)))
           ((kernel.ι (powerMultiplication A ((H (p + 1)).obj K)
             (f ^ (n + 1)))) y)) = 0
@@ -309,22 +309,22 @@ theorem isMittagLeffler_principalDerivedTensor_iff_powerTorsion
     apply (ModuleCat.mono_iff_injective (kernel.ι
       (powerMultiplication A ((H (p + 1)).obj K) (f ^ (n + 1))))).1
         inferInstance
-    show (q.app ⟨n⟩ ≫ kernel.ι _) x = _
+    change (q.app ⟨n⟩ ≫ kernel.ι _) x = _
     rw [hqι]
-    show (H (p + 1)).map e.hom (δ n x) = _
+    change (H (p + 1)).map e.hom (δ n x) = _
     rw [hx]
-    show ((H (p + 1)).map e.inv ≫ (H (p + 1)).map e.hom) _ = _
+    change ((H (p + 1)).map e.inv ≫ (H (p + 1)).map e.hom) _ = _
     rw [← Functor.map_comp, e.inv_hom_id, CategoryTheory.Functor.map_id]
     rfl
   · rintro ⟨n⟩ x hx
     have hd_zero : d n x = 0 := by
       rw [← hqι]
-      show (kernel.ι (powerMultiplication A ((H (p + 1)).obj K)
+      change (kernel.ι (powerMultiplication A ((H (p + 1)).obj K)
         (f ^ (n + 1)))) (q.app ⟨n⟩ x) = 0
       rw [hx, map_zero]
     have hδ_zero : δ n x = 0 := by
       apply (ModuleCat.mono_iff_injective ((H (p + 1)).map e.hom)).1 inferInstance
-      show ((H (p + 1)).map e.hom) (δ n x) = ((H (p + 1)).map e.hom) 0
+      change ((H (p + 1)).map e.hom) (δ n x) = ((H (p + 1)).map e.hom) 0
       rwa [map_zero]
     exact (ShortComplex.moduleCat_exact_iff _).1
       ((H 0).homologySequence_exact₃ (T n) (hT n) p (p + 1) rfl) x hδ_zero

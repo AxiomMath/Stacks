@@ -158,7 +158,6 @@ theorem isZero_obj_of_mono_of_comp_eq_zero {Z X Y : 𝒜} (j : Z ⟶ X) [Mono j]
   rw [← cancel_mono (Q.map k), ← Q.map_comp, h, Q.map_zero, zero_comp]
 
 omit [i.Full] [i.Faithful] [L.IsWeakSerreClass] in
-include adj in
 /-- Dually, if `k ≫ p = 0` with `p` an epimorphism between objects of `L` and `Q k` an
 epimorphism, then `Q` kills the target of `p`. -/
 theorem isZero_obj_of_epi_of_comp_eq_zero {X Y Z : 𝒜} (k : X ⟶ Y) (p : Y ⟶ Z) [Epi p]
@@ -229,7 +228,7 @@ theorem isIso_map_map_f_of_isZero {S : ShortComplex 𝒜} (hS : S.ShortExact) (h
   exact isIso_of_mono_of_epi _
 
 omit [i.Full] [i.Faithful] in
-include adj hi adj' hi' hD hDQ in
+include adj adj' hi' hD hDQ in
 /-- **`Q' ∘ Dⁿ` inverts every morphism of `L` which `Q` inverts.**  The kernel and the cokernel
 of such a morphism lie in `L` and are killed by `Q`, so the two halves of its image
 factorisation are inverted by `Q' ∘ Dⁿ`, by the long exact sequences of `D`. -/
@@ -243,7 +242,7 @@ theorem isIso_map_map_of_isIso_map {X Y : 𝒜} (k : X ⟶ Y) (hX : L X) (hY : L
         ((kernel.ι _ ≫= Abelian.image.fac k).symm.trans
           (by rw [kernel.condition_assoc, zero_comp]))
   have z2 : IsZero (Q.obj (cokernel (Abelian.image.ι k))) :=
-    isZero_obj_of_epi_of_comp_eq_zero adj L k (cokernel.π (Abelian.image.ι k)) hY hC
+    isZero_obj_of_epi_of_comp_eq_zero L k (cokernel.π (Abelian.image.ι k)) hY hC
         ((Abelian.image.fac k =≫ cokernel.π (Abelian.image.ι k)).symm.trans
           (by rw [Category.assoc, cokernel.condition, comp_zero]))
   have h₁ : IsIso (Q'.map ((D.functor n).map (Abelian.factorThruImage k))) :=
@@ -358,7 +357,7 @@ include adj hi adj' hi' hD hDQ in
 theorem isIso_map_map_coreflectionComparison {S : ShortComplex 𝒞} (hS : S.ShortExact) (n : ℕ) :
     IsIso (Q'.map ((D.functor n).map (coreflectionComparison (i := i) S))) :=
   have := isIso_map_coreflectionComparison adj L hi hS
-  isIso_map_map_of_isIso_map adj L hi adj' L' hi' D hD hDQ _ (hi _)
+  isIso_map_map_of_isIso_map adj L adj' L' hi' D hD hDQ _ (hi _)
     (L.prop_kernel _ (hi _) (hi _)) n
 
 include adj hi adj' hi' hD hDQ in

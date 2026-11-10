@@ -237,7 +237,7 @@ theorem eq_zero_of_forall_exists_subsingleton_geometricModuleStalk
           (chartSpace B S hS X V).1 (chartSpace B S hS X V).2).O).obj.obj
             (op (idEtaleChart B S hS ((SmallEtale.toOver B S hS X.1).obj V))))) ht
     refine Eq.trans ?_ (h1.trans (by rfl))
-    show (ConcreteCategory.hom (ι.val.app (op V))) a =
+    change (ConcreteCategory.hom (ι.val.app (op V))) a =
       (ConcreteCategory.hom (((etaleModulePullback.{u, u} B S hS (chartToSpace B S hS X V)
           (isEtale_chartToSpace B S hS X V)).map ι).val.app
         (op (idEtaleChart B S hS ((SmallEtale.toOver B S hS X.1).obj V)))))

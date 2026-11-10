@@ -117,7 +117,7 @@ theorem comparisonComp_natTrans_whiskerRight {F G : C ⥤ D} [F.IsContinuous J K
         (Functor.sheafPushforwardContinuousNatTrans (Functor.whiskerRight α H)
           RingCat.{u} J L).app T =
       _root_.SheafOfModules.comparisonComp ψ θ := by
-  show φ ≫ (G.sheafPushforwardContinuous RingCat.{u} J K).map θ ≫
+  change φ ≫ (G.sheafPushforwardContinuous RingCat.{u} J K).map θ ≫
       (Functor.sheafPushforwardContinuousNatTrans α RingCat.{u} J K).app
         ((H.sheafPushforwardContinuous RingCat.{u} K L).obj T) =
     ψ ≫ (F.sheafPushforwardContinuous RingCat.{u} J K).map θ
@@ -139,7 +139,7 @@ theorem comparisonComp_natTrans_whiskerLeft {H : C ⥤ D} [H.IsContinuous J K]
         (Functor.sheafPushforwardContinuousNatTrans (Functor.whiskerLeft H α)
           RingCat.{u} J L).app T =
       _root_.SheafOfModules.comparisonComp θ ψ := by
-  show θ ≫ (H.sheafPushforwardContinuous RingCat.{u} J K).map φ ≫
+  change θ ≫ (H.sheafPushforwardContinuous RingCat.{u} J K).map φ ≫
       (H.sheafPushforwardContinuous RingCat.{u} J K).map
         ((Functor.sheafPushforwardContinuousNatTrans α RingCat.{u} K L).app T) =
     θ ≫ (H.sheafPushforwardContinuous RingCat.{u} J K).map ψ

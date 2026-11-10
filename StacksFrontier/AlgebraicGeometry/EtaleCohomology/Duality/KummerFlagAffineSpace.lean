@@ -97,7 +97,7 @@ theorem exists_kummerFlagClass_ofFunction_eq [NeZero N]
     intro m
     rw [pow_one]
     ext
-    show (gV m).appTop ((X.basicOpen (f m)).ι.appTop (f m)) =
+    change (gV m).appTop ((X.basicOpen (f m)).ι.appTop (f m)) =
       (X'.basicOpen (f' m)).ι.appTop (f' m)
     have h := congrArg (fun φ => φ.appTop (f m)) (hV m)
     simp only [Scheme.Hom.comp_appTop, CommRingCat.comp_apply, hf m] at h
@@ -174,7 +174,7 @@ theorem range_basicOpen_ι_eq_compl_of_isPullback {X W : Scheme.{u}}
   rw [Stacks.Cohomology.ClosedImmersionBaseChange.range_eq_preimage_range_of_isPullback h,
     Purity.range_origin, Set.preimage_compl,
     compl_compl, ← Scheme.preimage_basicOpen_top]
-  show Set.range (φ ⁻¹ᵁ (Purity.punctured K)).ι = _
+  change Set.range (φ ⁻¹ᵁ (Purity.punctured K)).ι = _
   rw [Scheme.Opens.range_ι]
   rfl
 
@@ -256,7 +256,7 @@ private theorem mapExactFunctor_inverseImage_ne_zero_of_comp {Y W X : Scheme.{u}
   rw [← Stacks.ExtFunctorial.mapExactFunctor_comp_functor, hy, Ext.mapExactFunctor_zero,
     Ext.zero_comp] at key
   apply (Stacks.ExtAdjunction.precomp_mk₀_bijective_of_isIso (e.inv.app F) q).1
-  show (Ext.mk₀ (e.inv.app F)).comp _ (zero_add _) = (Ext.mk₀ (e.inv.app F)).comp 0 (zero_add _)
+  change (Ext.mk₀ (e.inv.app F)).comp _ (zero_add _) = (Ext.mk₀ (e.inv.app F)).comp 0 (zero_add _)
   rw [key, Ext.comp_zero]
 
 private theorem mk₀_directImage_map_inv_comp_hom_comp {X W : Scheme.{u}} (i : W ⟶ X)
@@ -284,7 +284,7 @@ private theorem comp_ne_zero_of_isPurityClassFun {X W : Scheme.{u}} (i : W ⟶ X
   rw [← Stacks.ExtFunctorial.mapExactFunctor_comp_functor _ _ _ _ x] at h0
   apply hx
   apply (Stacks.ExtAdjunction.postcomp_mk₀_bijective_of_isIso e.inv q).1
-  show (x.mapExactFunctor _).comp (Ext.mk₀ e.inv) (add_zero _) =
+  change (x.mapExactFunctor _).comp (Ext.mk₀ e.inv) (add_zero _) =
     (0 : Ext _ _ q).comp (Ext.mk₀ e.inv) (add_zero _)
   rw [Ext.zero_comp]
   apply (hδ.1 _ q q' h).1
@@ -346,7 +346,7 @@ private theorem mapExactFunctor_coordinateSubspaceEmbedding_ne_zero (n : ℕ)
     (fun m => stdRange K (n + 1) m.succ)
     (fun m : Fin n => stdFun K n m) (fun m => stdι K n m) (fun m => stdRange K n m)
     (fun m => by
-      show h0.appTop ((coordProj K ⟨m.succ.rev⟩).appTop (Purity.coordinate K)) =
+      change h0.appTop ((coordProj K ⟨m.succ.rev⟩).appTop (Purity.coordinate K)) =
         (coordProj K ⟨m.rev⟩).appTop (Purity.coordinate K)
       rw [← hcomp m, Scheme.Hom.comp_appTop, CommRingCat.comp_apply])
     (fun m => pullback.lift (pullback.fst _ _ ≫ h0) (pullback.snd _ _)
@@ -406,7 +406,7 @@ theorem kummerFlagClass_stdDatum_ne_zero : ∀ d : ℕ,
         (stdDatum K (n + 1) 0).i).map c.hom)).comp δ0 (zero_add 2) ≠ 0 := by
       intro h
       apply kummerDivisorClass_stdDatum_zero_ne_zero hζ hℓ n
-      show δ0 = 0
+      change δ0 = 0
       rw [← mk₀_directImage_map_inv_comp_hom_comp (stdDatum K (n + 1) 0).i c δ0, h, Ext.comp_zero]
     exact comp_ne_zero_of_isPurityClassFun (stdDatum K (n + 1) 0).i x c δ0
       (isPurityClassFun_of_ne_zero hγ hδ0)

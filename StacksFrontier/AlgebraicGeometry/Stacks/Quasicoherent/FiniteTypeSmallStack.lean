@@ -221,7 +221,7 @@ private theorem exists_isoOverBase (T : AlgebraicGeometry.BigFppfOver B S hS)
     simp [m, homEquivPullbackHom, Equiv.sigmaCongrRight_symm]
   have hpmap : p.map m =
       eqToHom (d.projection_obj A) ≫ (𝟙 T) ≫ eqToHom (d.projection_obj C).symm := by
-    show d.projection.map m = _
+    change d.projection.map m = _
     rw [d.projection_map, hraw]
   have hmIso : IsIso m := by
     have hsc := (isStronglyCartesian_iff m).2

@@ -176,7 +176,7 @@ theorem mem_span_of_algebraMap_mul_mem_span (J A : Ideal P) (s a : P)
   refine Ideal.mem_span_singleton'.2
     ⟨⟨Localization.mk j (⟨a ^ (k + m + n + 1), k + m + n + 1, rfl⟩ : Submonoid.powers a),
     mk_mem_affineBlowup_of_mem_pow (A ⊔ Ideal.span {s}) a hj⟩, Subtype.ext ?_⟩
-  show Localization.mk j (⟨a ^ (k + m + n + 1), k + m + n + 1, rfl⟩ : Submonoid.powers a) *
+  change Localization.mk j (⟨a ^ (k + m + n + 1), k + m + n + 1, rfl⟩ : Submonoid.powers a) *
     (t : Localization.Away a) = y
   rw [ht', hyx, Localization.mk_mul, Localization.mk_eq_mk_iff, Localization.r_iff_exists]
   refine ⟨1, ?_⟩
@@ -276,7 +276,7 @@ theorem exists_affineOpen_comap_subschemeι_of_chart {Y : Scheme.{u}} (E D : Y.I
       x ∈ K.ideal V ↔ ρ x ∈ (K.comap c).ideal ⟨⊤, isAffineOpen_top _⟩ := by
     intro K x
     rw [Scheme.IdealSheafData.ideal_comap_of_isOpenImmersion, Ideal.mem_comap]
-    show _ ↔ ((c.appIso ⊤).hom ≫ (c.appIso ⊤).inv) x ∈ _
+    change _ ↔ ((c.appIso ⊤).hom ≫ (c.appIso ⊤).inv) x ∈ _
     rw [Iso.hom_inv_id]
     rfl
   have hEV : E.ideal V = Ideal.span {ρ.symm e} := by
@@ -290,7 +290,7 @@ theorem exists_affineOpen_comap_subschemeι_of_chart {Y : Scheme.{u}} (E D : Y.I
   obtain ⟨f, hf, hfE⟩ := exists_isRegular_comap_subschemeι E D V _ hEV hDV
   refine ⟨_, V.2.preimage D.subschemeι, ?_, f, hf, hfE⟩
   obtain ⟨y, hy⟩ := hq
-  show D.subschemeι q ∈ c ''ᵁ ⊤
+  change D.subschemeι q ∈ c ''ᵁ ⊤
   rw [← hy]
   exact ⟨y, trivial, rfl⟩
 
@@ -335,7 +335,7 @@ theorem isEffectiveCartierDivisor_comap_exceptionalIdeal_subschemeι (hJ : 𝒥 
     rfl
   have hw : (AlgebraicGeometry.blowUpIso 𝒥).hom (D.subschemeι q) ∈
       Stacks.Blowup.blowUpToBase 𝒥 ⁻¹ᵁ U₀ := by
-    show Stacks.Blowup.blowUpToBase 𝒥 ((AlgebraicGeometry.blowUpIso 𝒥).hom _) ∈ U₀
+    change Stacks.Blowup.blowUpToBase 𝒥 ((AlgebraicGeometry.blowUpIso 𝒥).hom _) ∈ U₀
     rw [← Scheme.Hom.comp_apply, AlgebraicGeometry.blowUpIso_hom_blowUpToBase]
     exact hpU
   rw [← Stacks.Blowup.iSup_opensRange_blowUpAffineChart 𝒥 U] at hw
@@ -344,7 +344,7 @@ theorem isEffectiveCartierDivisor_comap_exceptionalIdeal_subschemeι (hJ : 𝒥 
   let c : Spec T ⟶ blowUp 𝒥 :=
     Stacks.Blowup.blowUpAffineChart 𝒥 U ha ≫ (AlgebraicGeometry.blowUpIso 𝒥).inv
   have hcy : c y = D.subschemeι q := by
-    show (AlgebraicGeometry.blowUpIso 𝒥).inv (Stacks.Blowup.blowUpAffineChart 𝒥 U ha y) = _
+    change (AlgebraicGeometry.blowUpIso 𝒥).inv (Stacks.Blowup.blowUpAffineChart 𝒥 U ha y) = _
     rw [hy, ← Scheme.Hom.comp_apply, Iso.hom_inv_id]
     rfl
   have hcb : c ≫ blowUpToBase 𝒥 = Spec.map (CommRingCat.ofHom (algebraMap Γ(P, U.1) T)) ≫
@@ -361,7 +361,7 @@ theorem isEffectiveCartierDivisor_comap_exceptionalIdeal_subschemeι (hJ : 𝒥 
   have hS : (𝒮.comap (c ≫ blowUpToBase 𝒥)).ideal ⟨⊤, isAffineOpen_top _⟩ =
       Ideal.span {φ (algebraMap _ T s)} := by
     rw [hcb, ideal_comap_SpecMap_fromSpec_top, CommRingCat.hom_ofHom]
-    show ((𝒮.ideal U).map _).map _ = _
+    change ((𝒮.ideal U).map _).map _ = _
     rw [hsU, Ideal.map_span, Set.image_singleton, Ideal.map_span, Set.image_singleton]
     rfl
   let t : T := ⟨Localization.mk s ⟨a, Submonoid.mem_powers a⟩,
@@ -482,7 +482,7 @@ theorem ker_blowUpToBlowupAtInfinity_le (D : (blowupAtInfinity ℐ).IdealSheafDa
     exact Submodule.mul_le.2 fun a _ b hb => Ideal.mul_mem_left _ a hb
   have hle : (lineInfinitySection X).ker ≤ (ιD ≫ b₀).ker := by
     rw [AlgebraicGeometry.le_ker_iff_comap_eq_bot, Scheme.IdealSheafData.comap_comp]
-    show (fibreIdealAtInfinity ℐ).comap ιD = ⊥
+    change (fibreIdealAtInfinity ℐ).comap ιD = ⊥
     rw [← AlgebraicGeometry.le_ker_iff_comap_eq_bot, Scheme.IdealSheafData.ker_subschemeι]
     exact hfib
   let q := IsClosedImmersion.lift (lineInfinitySection X) (ιD ≫ b₀) hle
@@ -492,16 +492,16 @@ theorem ker_blowUpToBlowupAtInfinity_le (D : (blowupAtInfinity ℐ).IdealSheafDa
       Category.comp_id]
   have hcart := isEffectiveCartierDivisor_comap_exceptionalIdealAtInfinity_subschemeι ℐ D hD
   have hg : Stacks.Blowup.IsCartierOver (infinityCentreIdeal ℐ) (Over.mk (ιD ≫ b₀)) := by
-    show Stacks.Divisors.IsEffectiveCartierDivisor ((infinityCentreIdeal ℐ).comap (ιD ≫ b₀))
+    change Stacks.Divisors.IsEffectiveCartierDivisor ((infinityCentreIdeal ℐ).comap (ιD ≫ b₀))
     rwa [Scheme.IdealSheafData.comap_comp]
   have hp : Stacks.Blowup.IsCartierOver ℐ (Over.mk q) := by
-    show Stacks.Divisors.IsEffectiveCartierDivisor (ℐ.comap q)
+    change Stacks.Divisors.IsEffectiveCartierDivisor (ℐ.comap q)
     have e1 : ℐ.comap q = (infinityCentreIdeal ℐ).comap (ιD ≫ b₀) := by
       rw [← hq, Scheme.IdealSheafData.comap_comp, comap_infinityCentreIdeal_lineInfinitySection]
     rwa [e1]
   let l := blowUpLift ℐ q hp
   have hl : l ≫ blowUpToBlowupAtInfinity ℐ ≫ b₀ = ιD ≫ b₀ := by
-    show l ≫ blowUpToBlowupAtInfinity ℐ ≫ blowupAtInfinityToLine ℐ = _
+    change l ≫ blowUpToBlowupAtInfinity ℐ ≫ blowupAtInfinityToLine ℐ = _
     rw [blowUpToBlowupAtInfinity_comp, ← Category.assoc, blowUpLift_comp, hq]
   have h1 := blowUpLift_unique (infinityCentreIdeal ℐ) (ιD ≫ b₀) hg
     (l ≫ blowUpToBlowupAtInfinity ℐ) ((Category.assoc _ _ _).trans hl)

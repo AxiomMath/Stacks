@@ -52,7 +52,8 @@ binder rather than a K-flatness hypothesis, as in
 any hypothesis on `K`.
 
 Every step is a forward `Eq.trans`/`congrArg` chain with its first argument known, for the reason
-recorded in `StacksFrontier.RingTheory.Dualizing.BaseChangeComparison.SquareCounitConjugate`: the two
+recorded in `StacksFrontier.RingTheory.Dualizing.BaseChangeComparison.SquareCounitConjugate`: the
+two
 spellings of the target of the composite comparison are definitionally but not syntactically
 equal, so keyed matching does not cross them and `rfl` across them diverges.
 

@@ -64,8 +64,7 @@ variable {F : Type*} [Field F] {A : Type*} [Ring A] [Algebra F A]
 /-- Contraction against `c • L` is `c` times contraction against `L`. -/
 theorem contractRight_smul (c : F) (L : A →ₗ[F] F) (t : A ⊗[F] A) :
     contractRight (c • L) t = c • contractRight L t := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul a b => simp [smul_smul]
   | add x y hx hy => rw [map_add, map_add, hx, hy, smul_add]
 
@@ -100,8 +99,7 @@ theorem pull_kunnethMap_tensorIso (X Y : (SmoothProjectiveScheme k).FullSubcateg
         (𝔇'.kunnethMap ((baseChange k k').obj X) ((baseChange k k').obj Y)
           (Φ.tensorIso X Y (1 ⊗ₜ t))) =
       Φ.ρ (prod X Y) (𝔇.kunnethMap X Y t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul a b => rw [tensorIso_tmul, Φ.iso_kunnethMap]
   | add x y hx hy =>
     rw [TensorProduct.tmul_add, map_add, map_add, map_add, hx, hy, map_add, map_add]
@@ -118,7 +116,7 @@ theorem kunnethEquiv_symm_eq (hA5 : 𝔇.KunnethAxiom) (hA5' : 𝔇'.KunnethAxio
   rw [LinearEquiv.symm_apply_eq]
   apply (𝔇'.bijective_pull_of_iso (baseChangeProdIso X Y)).injective
   rw [h, map_smul]
-  show c • Φ.ρ _ η = 𝔇'.pull _ (c • 𝔇'.kunnethMap _ _ _)
+  change c • Φ.ρ _ η = 𝔇'.pull _ (c • 𝔇'.kunnethMap _ _ _)
   rw [map_smul, pull_kunnethMap_tensorIso]
   congr 2
   exact ((𝔇.kunnethEquiv hA5 X Y).apply_symm_apply η).symm
@@ -154,8 +152,7 @@ theorem iso_contractAux (X : (SmoothProjectiveScheme k).FullSubcategory)
     (L' : 𝔇'.H ((baseChange k k').obj X) →ₗ[F'] F') (t : 𝔇.H X ⊗[F] 𝔇.H X) :
     Φ.iso X (Φ.contractAux X L' t) =
       DiagonalExpansion.contractRight L' (Φ.tensorIso X X (1 ⊗ₜ t)) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul a b =>
     rw [contractAux_tmul, tensorIso_tmul, DiagonalExpansion.contractRight_tmul, iso_tmul]
     rfl
@@ -168,8 +165,7 @@ theorem lid_rTensor_contractAux (X : (SmoothProjectiveScheme k).FullSubcategory)
     (t : 𝔇.H X ⊗[F] 𝔇.H X) :
     TensorProduct.lid F (𝔇.H X) (LinearMap.rTensor (𝔇.H X) π (Φ.contractAux X L' t)) =
       DiagonalExpansion.contractRight (π ∘ₗ Φ.restrictTrace X L') t := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul a b => simp [restrictTrace_apply]
   | add x y hx hy => rw [map_add, map_add, map_add, hx, hy, map_add]
 
@@ -179,8 +175,7 @@ theorem contractAux_of_eq (X : (SmoothProjectiveScheme k).FullSubcategory)
     (L' : 𝔇'.H ((baseChange k k').obj X) →ₗ[F'] F') (L : 𝔇.H X →ₗ[F] F) (c : F')
     (hL : ∀ b, L' (Φ.ρ X b) = c * algebraMap F F' (L b)) (t : 𝔇.H X ⊗[F] 𝔇.H X) :
     Φ.contractAux X L' t = c • (1 ⊗ₜ DiagonalExpansion.contractRight L t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul a b =>
     rw [contractAux_tmul, hL, DiagonalExpansion.contractRight_tmul, TensorProduct.tmul_smul,
       TensorProduct.smul_tmul', TensorProduct.smul_tmul', smul_eq_mul, Algebra.smul_def, mul_one]
@@ -202,7 +197,7 @@ theorem ρGrade_eq_gradeEquiv (X : (SmoothProjectiveScheme k).FullSubcategory) (
 theorem projGrade_ρ (X : (SmoothProjectiveScheme k).FullSubcategory) (n : ℤ) (b : 𝔇.H X) :
     𝔇'.projGrade _ n (Φ.ρ X b) = Φ.ρGrade X n (𝔇.projGrade X n b) :=
   Subtype.ext (by
-    show (𝔇'.projGrade _ n (Φ.ρ X b) : 𝔇'.H _) = Φ.iso X (1 ⊗ₜ (𝔇.projGrade X n b : 𝔇.H X))
+    change (𝔇'.projGrade _ n (Φ.ρ X b) : 𝔇'.H _) = Φ.iso X (1 ⊗ₜ (𝔇.projGrade X n b : 𝔇.H X))
     rw [FirstChernClassData.coe_projGrade, FirstChernClassData.coe_projGrade, Φ.iso_decompose]
     rfl)
 

@@ -113,11 +113,12 @@ sectionwise symmetric power `U ↦ Symⁿ_{𝒪(U)}(ℰ(U))` is bijective on the
 chart.** On the slice over the chart the sectionwise symmetric power is already a sheaf, the
 free module on the degree-`n` monomials, and sheafification commutes with restriction to the
 slice. -/
-theorem bijective_sheafifyUnit_symPowInt_app {ι : Type u} [DecidableEq ι] [Finite ι] (n : ℕ)
+theorem bijective_sheafifyUnit_symPowInt_app {ι : Type u} [Finite ι] (n : ℕ)
     (e : F.over V ≅ SheafOfModules.free (R := (structureRingSheaf B S hS W).over V) ι) :
     Function.Bijective (PresheafOfModules.Hom.app
       (PresheafOfModules.sheafifyUnit (𝟙 (structureRingSheaf B S hS W).obj)
         (PresheafOfModules.symPowInt.{u, u + 1, u, u} (n : ℤ) F.val)) (op V)) := by
+  classical
   let R := structureRingSheaf B S hS W
   let P := PresheafOfModules.symPowInt.{u, u + 1, u, u} (n : ℤ) F.val
   let e' := symPowOverFreeIso B S hS W F V n e
@@ -306,7 +307,7 @@ theorem symSectionsRingHom_of_mem (n : ℕ)
     ((congrArg (ofSymPowers B S hS W F V) (decompose_coe B S hS W F V n x)).trans
       (ofSymPowers_of B S hS W F V n x))
 
-variable {ι : Type u} [DecidableEq ι] [Finite ι]
+variable {ι : Type u} [Finite ι]
   (e : F.over V ≅ SheafOfModules.free (R := (structureRingSheaf B S hS W).over V) ι)
 
 /-- `Symⁿ` of the sections of `ℰ` over a trivializing chart is the sections of `Symⁿ(ℰ)` there:
@@ -439,7 +440,7 @@ def symSectionsRingEquiv :
           (SmallEtale.topology B S hS W.1) (op V))
         (bijective_totalUnit_of_isAffine B S hS W (symmetricAlgebra B S hS W F) V hV)))
 
-omit [DecidableEq ι] [Finite ι] in
+omit [Finite ι] in
 /-- The image of `r` in the degree-zero symmetric power of the sections of `ℰ`. -/
 def symOne (r : vectorBundleChartRing B S hS W V) :
     SymPow.symmetricPower 0 (vectorBundleChartRing B S hS W V) (F.val.obj (op V)) :=
@@ -448,7 +449,7 @@ def symOne (r : vectorBundleChartRing B S hS W V) :
     rw [Algebra.algebraMap_eq_smul_one]
     exact Submodule.smul_mem _ r SetLike.GradedOne.one_mem⟩
 
-omit [DecidableEq ι] [Finite ι] in
+omit [Finite ι] in
 private theorem decompose_algebraMap (r : vectorBundleChartRing B S hS W V) :
     DirectSum.decompose
         (fun n : ℕ => SymPow.symmetricPower n (vectorBundleChartRing B S hS W V) (F.val.obj (op V)))
@@ -509,6 +510,8 @@ theorem symSectionsRingEquiv_algebraMap (r : vectorBundleChartRing B S hS W V) :
         (SymmetricAlgebra (vectorBundleChartRing B S hS W V) (F.val.obj (op V))) r) =
       (symmetricAlgebraSheaf B S hS W F).algebraMap (op V) r :=
   symSectionsRingHom_algebraMap B S hS W F V r
+
+variable [DecidableEq ι]
 
 /-- The coordinates of a section of `ℰ` over a chart on which `ℰ` is free on `ι`. -/
 def sectionsEquivFun :

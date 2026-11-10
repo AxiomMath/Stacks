@@ -2,7 +2,7 @@ module
 
 public import Mathlib.Algebra.MvPolynomial.Basic
 public import Mathlib.Data.Finsupp.Lex
-public import Mathlib.Data.Nat.SuccPred
+public import Mathlib.Order.SuccPred.Nat
 public import Mathlib.RingTheory.MvPolynomial.MonomialOrder
 public import Mathlib.Tactic.Ring
 
@@ -82,7 +82,7 @@ the lex-leading coefficient of `g`. -/
 theorem mul_leadingCoeff_eq_zero (a : Fin n → R) (g : MvPolynomial (Fin n) R)
     (hfg : linearForm a * g = 0) (k : Fin n) (hsmall : ∀ i, i < k → C (a i) * g = 0) :
     a k * MonomialOrder.lex.leadingCoeff g = 0 := by
-  show a k * g.coeff (MonomialOrder.lex.degree g) = 0
+  change a k * g.coeff (MonomialOrder.lex.degree g) = 0
   have hzero : (linearForm a * g).coeff (MonomialOrder.lex.degree g + Finsupp.single k 1) = 0 := by
     simp [hfg]
   rw [coeff_linearForm_mul, Finset.sum_eq_single k] at hzero

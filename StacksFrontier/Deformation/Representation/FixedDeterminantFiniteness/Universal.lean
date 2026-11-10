@@ -97,7 +97,7 @@ private theorem map_map_of_forall_eq {A B C : Type*} [CommRing A] [CommRing B] [
 variable (h : IsUniversalFixedDeterminantDeformation ℓ n π ρ₀ δ R reduce ρuniv)
   (I : Ideal R) [IsLocalRing (R ⧸ I)] [Algebra (ZMod ℓ) (R ⧸ I)]
 
-include h in
+omit [TopologicalSpace R] in
 /-- A local quotient of a universal deformation ring lies under the maximal ideal. -/
 theorem le_maximalIdeal_of_isLocalRing_quotient : I ≤ maximalIdeal R :=
   IsLocalRing.le_maximalIdeal fun hI =>
@@ -107,8 +107,9 @@ theorem le_maximalIdeal_of_isLocalRing_quotient : I ≤ maximalIdeal R :=
 def quotientReduce : R ⧸ I →+* ZMod ℓ :=
   Ideal.Quotient.lift I reduce fun a ha => by
     rw [← RingHom.mem_ker, h.ker_reduce]
-    exact h.le_maximalIdeal_of_isLocalRing_quotient I ha
+    exact le_maximalIdeal_of_isLocalRing_quotient I ha
 
+omit [Algebra (ZMod ℓ) (R ⧸ I)] in
 /-- The reduction map of `R ⧸ I` sends the class of `x` to the reduction of `x`. -/
 theorem quotientReduce_mk (x : R) : h.quotientReduce I (Ideal.Quotient.mk I x) = reduce x :=
   Ideal.Quotient.lift_mk _ _ _
@@ -120,6 +121,7 @@ theorem quotientReduce_algebraMap (c : ZMod ℓ) :
     Subsingleton.elim _ _
   exact RingHom.congr_fun this c
 
+omit [Algebra (ZMod ℓ) (R ⧸ I)] in
 /-- An element of `R ⧸ I` lies in the maximal ideal if and only if its reduction vanishes. -/
 theorem mem_maximalIdeal_quotient_iff (x : R ⧸ I) :
     x ∈ maximalIdeal (R ⧸ I) ↔ h.quotientReduce I x = 0 := by
@@ -128,6 +130,7 @@ theorem mem_maximalIdeal_quotient_iff (x : R ⧸ I) :
   rw [← IsLocalRing.eq_maximalIdeal this, RingHom.mem_ker]
 
 include h in
+omit [Algebra (ZMod ℓ) (R ⧸ I)] in
 /-- The class of `a` lies in the maximal ideal of `R ⧸ I` if and only if `a` lies in the maximal
 ideal of `R`. -/
 theorem mk_mem_maximalIdeal_quotient_iff (a : R) :
@@ -206,7 +209,7 @@ theorem det_normalizedPushforward (g : π) :
   have h2 := congrArg Units.val (h.det_rep g)
   have h3 := congrArg Units.val (h.delta_reduce g)
   simp only [Matrix.GeneralLinearGroup.val_det_apply, Units.coe_map,
-    RingHom.toMonoidHom_eq_coe, MonoidHom.coe_coe] at h2 h3
+    RingHom.toMonoidHom_eq_coe, MonoidHom.coe_ofClass] at h2 h3
   rw [show ((Matrix.GeneralLinearGroup.map (Ideal.Quotient.mk I) (ρuniv g) :
       Matrix.GeneralLinearGroup (Fin n) (R ⧸ I)) : Matrix (Fin n) (Fin n) (R ⧸ I)) =
       (Ideal.Quotient.mk I).mapMatrix (ρuniv g : Matrix (Fin n) (Fin n) R) from rfl,
@@ -272,13 +275,13 @@ theorem maximalIdeal_le_of_conj_eq (hcomp : IsAdicComplete (maximalIdeal (R ⧸ 
         have := congrArg (fun f : ℤ_[ℓ] →+* A => f a) (mk_comp_algebraMap (ℓ := ℓ) I)
         simp only [RingHom.comp_apply] at this
         simp only [RingHom.toMonoidHom_eq_coe, RingHom.coe_comp, Function.comp_apply,
-          h.reduce_algebraMap, OneHom.toFun_eq_coe, MonoidHom.toOneHom_coe, MonoidHom.coe_coe]
+          h.reduce_algebraMap, OneHom.toFun_eq_coe, MonoidHom.toOneHom_coe, MonoidHom.coe_ofClass]
         rw [← this]
         rfl }
   have hψ₂ : ∀ x, ψ₂ x = alg (reduce x) := fun _ => rfl
   have hψ₂cont : Continuous ψ₂ := by
     have : Continuous reduce := h.reduce_continuous
-    show Continuous fun x => alg (reduce x)
+    change Continuous fun x => alg (reduce x)
     exact (continuous_of_discreteTopology (f := alg)).comp this
   have hψ₂conj : IsConjugate
       (fun g => Matrix.GeneralLinearGroup.map ψ₂.toRingHom (ρuniv g)) (fun g => ρA g) := by
@@ -296,9 +299,9 @@ theorem maximalIdeal_le_of_conj_eq (hcomp : IsAdicComplete (maximalIdeal (R ⧸ 
       by rw [← e1]; group
     have e4 : ρA g = Qa⁻¹ * h.normalizedPushforward I g * Qa := by
       rw [normalizedPushforward_apply]
-      show ρA g = Qa⁻¹ * (Qa * ρA g * Qa⁻¹) * Qa
+      change ρA g = Qa⁻¹ * (Qa * ρA g * Qa⁻¹) * Qa
       group
-    show ρA g = (Qa⁻¹ * P * Qa) * Matrix.GeneralLinearGroup.map ψ₂.toRingHom (ρuniv g) *
+    change ρA g = (Qa⁻¹ * P * Qa) * Matrix.GeneralLinearGroup.map ψ₂.toRingHom (ρuniv g) *
       (Qa⁻¹ * P * Qa)⁻¹
     rw [e2, e4, hs, e3]
     group
@@ -312,7 +315,7 @@ theorem maximalIdeal_le_of_conj_eq (hcomp : IsAdicComplete (maximalIdeal (R ⧸ 
     ρA (by
       obtain ⟨Q', hQ'⟩ := h.reduce_rep
       exact ⟨Q', fun g => by
-        show ρ₀ g = Q' * Matrix.GeneralLinearGroup.map redA (ρA g) * Q'⁻¹
+        change ρ₀ g = Q' * Matrix.GeneralLinearGroup.map redA (ρA g) * Q'⁻¹
         rw [hmapcomp]; exact hQ' g⟩)
     hdetA
   have e1 := huniq (Ideal.Quotient.mkₐ ℤ_[ℓ] I) ⟨hmk_cont, hψ₁conj⟩
@@ -366,7 +369,7 @@ theorem eq_maximalIdeal_of_finite_image
   obtain ⟨P, -, hP⟩ := Matrix.GeneralLinearGroup.exists_conj_eq_map_of_finite_image (S := A) N
     ρ₀.toMonoidHom hirr (h.residue_comp_algebraMap_surjective 𝔮) hnA σ
     (h.normalizedPushforward_sub_mem 𝔮) (h.det_normalizedPushforward 𝔮) hσfin
-  exact le_antisymm (h.le_maximalIdeal_of_isLocalRing_quotient 𝔮)
+  exact le_antisymm (le_maximalIdeal_of_isLocalRing_quotient 𝔮)
     (h.maximalIdeal_le_of_conj_eq 𝔮 hcompA P hP)
 
 end Deformation.IsUniversalFixedDeterminantDeformation

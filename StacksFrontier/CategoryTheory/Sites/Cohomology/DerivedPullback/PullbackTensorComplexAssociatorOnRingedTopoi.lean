@@ -372,7 +372,7 @@ theorem delta_pullbackModules
     (F G : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) :
     δ f.pullbackModules F G =
       Stacks.SheafOfModules.RingedToposPullback.pullbackTensorComparison f F G := by
-  show (f.pullbackModules ⋙ 𝟭 _).map (𝟙 _) ≫
+  change (f.pullbackModules ⋙ 𝟭 _).map (𝟙 _) ≫
       (Stacks.SheafOfModules.RingedToposPullback.pullbackTensorComparison f F G ≫ 𝟙 _) = _
   rw [CategoryTheory.Functor.map_id, Category.id_comp, Category.comp_id]
 

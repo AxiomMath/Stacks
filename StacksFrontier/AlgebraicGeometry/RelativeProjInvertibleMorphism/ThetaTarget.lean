@@ -227,7 +227,7 @@ theorem mem_targetOpen (V : S.Opens) (hV : IsAffineOpen V)
     (hy : (P.pieceLeg V hV).base y ∈ W₁) :
     P.coveringOpen.ι.base ((P.toBase ⁻¹ᵁ V).ι.base y) ∈ P.targetOpen V hV W₁ := by
   refine ⟨(P.toBase ⁻¹ᵁ V).ι.base y, ?_, rfl⟩
-  show (P.globalMorphism (relativeProj A)).base ((P.toBase ⁻¹ᵁ V).ι.base y) ∈
+  change (P.globalMorphism (relativeProj A)).base ((P.toBase ⁻¹ᵁ V).ι.base y) ∈
     ((relativeProj A).chart V hV ''ᵁ W₁)
   rw [← P.chart_pieceLeg_base_eq V hV y]
   exact ⟨_, hy, rfl⟩
@@ -245,10 +245,10 @@ theorem sourceOpen_le (V : S.Opens) (hV : IsAffineOpen V)
       (P.pieceIso_comp_ι V hV)
     simp only [Scheme.Hom.comp_apply, hz'] at key
     exact key
-  show (f ⁻¹ᵁ V).ι.base (((P.affineDatum V).coveringOpen).ι.base z) ∈ P.targetOpen V hV W₁
+  change (f ⁻¹ᵁ V).ι.base (((P.affineDatum V).coveringOpen).ι.base z) ∈ P.targetOpen V hV W₁
   rw [h]
   refine P.mem_targetOpen V hV W₁ _ ?_
-  show (P.affineDatum V).glued.base ((P.pieceIso V hV).hom.base _) ∈ W₁
+  change (P.affineDatum V).glued.base ((P.pieceIso V hV).hom.base _) ∈ W₁
   rw [hz']
   exact hz
 
@@ -376,7 +376,7 @@ theorem targetOpen_le (V : S.Opens) (hV : IsAffineOpen V)
   obtain ⟨p, rfl⟩ := P.exists_piece_of_mem V hV y (by
     obtain ⟨w, -, hw⟩ := hy
     exact ⟨w, hw⟩)
-  show (P.coveringOpen.ι ≫ f).base ((P.toBase ⁻¹ᵁ V).ι.base p) ∈ V
+  change (P.coveringOpen.ι ≫ f).base ((P.toBase ⁻¹ᵁ V).ι.base p) ∈ V
   exact p.2
 
 /-- The preimage of the target open in `f^{-1}(V)` lies in the source open. -/

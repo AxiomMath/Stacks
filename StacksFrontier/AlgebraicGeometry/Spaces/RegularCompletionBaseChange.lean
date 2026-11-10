@@ -58,7 +58,7 @@ private theorem hasEtaleLocalProperty_isLocallyNoetherian_base :
       (fun T : Scheme.{u} ↦ IsLocallyNoetherian T) := by
   refine hasEtaleLocalProperty_of_representable B (Spec (.of A)) hA _ _
     (Over.mk (𝟙 (B.obj hA))) (Iso.refl _) ?_
-  show IsLocallyNoetherian (Spec (CommRingCat.of A))
+  change IsLocallyNoetherian (Spec (CommRingCat.of A))
   infer_instance
 
 omit [IsLocalRing A] hAc in

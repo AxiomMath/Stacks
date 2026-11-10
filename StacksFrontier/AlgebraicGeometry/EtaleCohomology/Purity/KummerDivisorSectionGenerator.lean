@@ -43,9 +43,7 @@ open Stacks.Kummer
 
 section Torsion
 
-variable {U₀ U : Scheme.{u}} (j : U₀ ⟶ U)
-  [HasDerivedCategory.{w} (Sheaf (smallEtaleTopology U₀) Ab.{u + 1})]
-  [HasDerivedCategory.{w} (Sheaf (smallEtaleTopology U) Ab.{u + 1})] {N : ℕ}
+variable {U₀ U : Scheme.{u}} (j : U₀ ⟶ U) {N : ℕ}
 
 /-- `N` kills the sections of `R¹ j_* μ_N`. -/
 theorem nsmul_kummerTarget_section {T : U.Etale}
@@ -59,6 +57,9 @@ theorem nsmul_kummerTarget_section {T : U.Etale}
   have h1 : N • 𝟙 (kummerTarget j N) = 0 := hm.symm
   rw [h1] at h
   exact h.symm.trans rfl
+
+variable [HasDerivedCategory.{w} (Sheaf (smallEtaleTopology U₀) Ab.{u + 1})]
+  [HasDerivedCategory.{w} (Sheaf (smallEtaleTopology U) Ab.{u + 1})]
 
 /-- `N` kills the fundamental class. -/
 theorem nsmul_kummerDivisorSection (hN0 : N ≠ 0) (hN : IsUnit ((N : ℕ) : Γ(U₀, ⊤)))

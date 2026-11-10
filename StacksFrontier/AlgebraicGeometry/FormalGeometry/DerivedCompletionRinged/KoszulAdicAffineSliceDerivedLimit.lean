@@ -73,6 +73,7 @@ section AffineSlice
 variable (Y : Scheme.{u}) [IsLocallyNoetherian Y] {r : ℕ}
   (ℱ : Y.Modules) [ℱ.IsCoherent] (U : Y.affineOpens) (g : Fin r → Γ(Y, U.1))
 
+omit [IsLocallyNoetherian Y] in
 /-- The value over a basic open of the slice-global section attached to a section over the
 affine open is the restriction of that section. -/
 theorem basicOpenRestrict_eq_globalSectionVal_globalSectionOfSection

@@ -3,8 +3,7 @@ module
 public import StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.FunctorialityAuxiliaryPoints
 public import StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.FunctorialityQuotientStackComparison
 public import StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.Quotient.PresentationFullyFaithful
-public import
- StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.QuotientStackSquares.FunctorialityComparisonFullness
+public import StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.QuotientStackSquares.FunctorialityComparisonFullness
 public import StacksFrontier.CategoryTheory.Sites.Stack.FullyFaithfulOfLocalEssImage
 
 /-!

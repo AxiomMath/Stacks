@@ -134,8 +134,7 @@ private def sectionsLiftCanonical (M : ModuleCat.{max u v w} R)
   generic := sectionsLiftGeneric S M X.generic ((sectionsGenericProj S f X).comp g)
   localPiece i := sectionsLiftAway f M i (X.localPiece i) ((sectionsLocalProj S f X i).comp g)
   alpha_compatibility i m := by
-    induction m using TensorProduct.induction_on with
-    | zero => simp only [ModuleCat.Hom.hom, map_zero]
+    induction m using TensorProduct.inductionOn with
     | tmul s m =>
       change X.alpha i (LocalizedModule.mkLinearMap _ _
           (s • (sectionsGenericProj S f X (g m)))) =
@@ -459,7 +458,7 @@ private def scalarExtension : ModuleCat.{w} R ⥤ ModuleCat.{max v w} S where
 private theorem scalarExtension_additive : (scalarExtension.{u, v, w} (R := R) S).Additive where
   map_add {X Y} a b := by
     apply ModuleCat.hom_ext
-    show AlgebraTensorModule.lTensor S S (a.hom + b.hom) =
+    change AlgebraTensorModule.lTensor S S (a.hom + b.hom) =
       AlgebraTensorModule.lTensor S S a.hom + AlgebraTensorModule.lTensor S S b.hom
     apply AlgebraTensorModule.ext
     intro s x
@@ -503,15 +502,15 @@ private theorem isUnit_of_localizedEquiv (T : Submonoid R)
   · intro x y hxy
     apply e.symm.injective
     apply h.1
-    show (s : R) • e.symm x = (s : R) • e.symm y
+    change (s : R) • e.symm x = (s : R) • e.symm y
     change (s : R) • x = (s : R) • y at hxy
     rw [← e.symm.map_smul, ← e.symm.map_smul, hxy]
   · intro y
     obtain ⟨x, hx⟩ := h.2 (e.symm y)
     refine ⟨e x, ?_⟩
-    show (s : R) • e x = y
+    change (s : R) • e x = y
     rw [← e.map_smul]
-    show e ((algebraMap R (Module.End R (LocalizedModule T M)) s) x) = y
+    change e ((algebraMap R (Module.End R (LocalizedModule T M)) s) x) = y
     rw [hx, e.apply_symm_apply]
 
 private abbrev restrictedLocalEvaluation (c : LocalizationComparisons.{u, max u v w} f)
@@ -704,7 +703,7 @@ private theorem localizedMap_commute
     (h : q.comp a = b.comp p) (t : Finset (Fin r)) (x : cechMod f M t) :
     localizedMap f t q (localizedMap f t a x) =
       localizedMap f t b (localizedMap f t p x) := by
-  show ((localizedMap f t q).comp (localizedMap f t a)) x =
+  change ((localizedMap f t q).comp (localizedMap f t a)) x =
     ((localizedMap f t b).comp (localizedMap f t p)) x
   rw [← localizedMap_comp, ← localizedMap_comp, h]
 

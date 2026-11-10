@@ -199,7 +199,7 @@ theorem exists_fieldValuedPoint_rep_pullback_of_isSurjective (X : AlgebraicSpace
   refine ⟨{ carrier := r.carrier, contained := r.contained, toBase := r.toBase, value := q },
     FieldValuedPoint.class_eq_class_of_hasCommonExtension B S hS _
       ⟨r, ⟨𝟙 r.siteObject, ?_⟩, ⟨b, hb⟩⟩⟩
-  show X.1.map (𝟙 r.siteObject).op (g.app _ (q ≫ D.2.2.rep.snd g)) = r.value
+  change X.1.map (𝟙 r.siteObject).op (g.app _ (q ≫ D.2.2.rep.snd g)) = r.value
   simpa [hq] using hag
 
 /-- **A covering sieve of the small étale site is jointly surjective on scheme points.** Every
@@ -372,7 +372,7 @@ theorem exists_affine_chart_definingIdealAt_eq_top (X : AlgebraicSpaces B S hS)
         p.class B S hS _ :=
       pointsMap_class_schemePointRepresentative B S hS j p z hz
     have hmem : g.app _ (r.value ≫ j) ∈ D.1.obj (Opposite.op r.siteObject) := by
-      show (r.value ≫ j) ∈ (D.1.preimage g).obj _
+      change (r.value ≫ j) ∈ (D.1.preimage g).obj _
       rw [hrange]
       exact ⟨r.value, rfl⟩
     refine hx ⟨({ carrier := r.carrier
@@ -380,7 +380,7 @@ theorem exists_affine_chart_definingIdealAt_eq_top (X : AlgebraicSpaces B S hS)
                   toBase := r.toBase
                   value := ⟨g.app _ (r.value ≫ j), hmem⟩ } :
         FieldValuedPoint B S hS D.1.toFunctor).class B S hS _, ?_⟩
-    show pointsMap B S hS _ g ((FieldValuedPoint.map B S hS _ (yoneda.map j) r).class
+    change pointsMap B S hS _ g ((FieldValuedPoint.map B S hS _ (yoneda.map j) r).class
       B S hS _) = _
     rw [pointsMap_class, ← pointsMap_class, hq]
     exact hp
@@ -405,7 +405,7 @@ theorem exists_affine_chart_definingIdealAt_eq_top (X : AlgebraicSpaces B S hS)
     pointsMap_class_schemePointRepresentative B S hS k p ⟨y, hyA⟩ rfl
   have haffU' : IsAffine (T.obj U') := hA
   refine ⟨V, p'.class B S hS _, hA, ?_, ?_⟩
-  · show pointsMap B S hS _ g (pointsMap B S hS _ (yoneda.map k) (p'.class B S hS _)) = _
+  · change pointsMap B S hS _ g (pointsMap B S hS _ (yoneda.map k) (p'.class B S hS _)) = _
     rw [hp'']
     exact hp
   · have hpb := T.map_isPullback (IsPullback.of_hasPullback k j)
@@ -416,7 +416,7 @@ theorem exists_affine_chart_definingIdealAt_eq_top (X : AlgebraicSpaces B S hS)
       exact ⟨T.map (pullback.snd k j) z, (congrArg (fun φ => φ z) hpb.w).symm⟩⟩
     have hrange' : D.1.preimage V.1.hom =
         Subfunctor.range (yoneda.map (pullback.fst k j)) := by
-      show (D.1.preimage g).preimage (yoneda.map k) = _
+      change (D.1.preimage g).preimage (yoneda.map k) = _
       rw [hrange]
       exact (Subfunctor.range_snd_eq_preimage_range_of_isPullback
         (yoneda.map_isPullback (IsPullback.of_hasPullback k j).flip)).symm
@@ -552,7 +552,7 @@ theorem exists_affine_chart_isRegular_span_of_isFiniteLocallyFree (X : Algebraic
   have hw₀' : (T.map ι.hom.left) w₀ = z' := hw₀
   have hz : (T.map (ι.hom.left ≫ (k i).hom.left)) w₀ = schemePoint B S hS U₀ p := by
     rw [Functor.map_comp]
-    show (T.map (k i).hom.left) ((T.map ι.hom.left) w₀) = _
+    change (T.map (k i).hom.left) ((T.map ι.hom.left) w₀) = _
     rw [hw₀']
     exact hz'
   have hqm : pointsMap B S hS _ (yoneda.map (ι.hom.left ≫ (k i).hom.left))

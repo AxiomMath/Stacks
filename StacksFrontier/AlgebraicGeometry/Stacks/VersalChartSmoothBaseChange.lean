@@ -115,7 +115,7 @@ theorem locallyOfFiniteType_of_isSmooth_schemeStack (𝒳 : AlgebraicStacks.{u, 
     (structureMorphism B S hS (schemeStack.{u, w} B S hS U)) hchain
   have hgU : g.left = U.hom := by simpa using Over.w g
   have : (BigFppfOver.toScheme B S hS).map g = B.inclusion.map U.hom := by
-    show B.inclusion.map g.left = _
+    change B.inclusion.map g.left = _
     rw [hgU]
   rw [this] at hg
   exact hg
@@ -205,7 +205,7 @@ theorem dominates_liftFieldValuedPoint {p q : Space.FieldValuedPoint B P.left.1 
   refine ⟨Over.homMk f.left
     (ObjectProperty.hom_ext _ (congrArg (fun k => k.hom ≫ P.hom.hom) hw)), ?_⟩
   apply Subtype.ext
-  show (⟨f.left ≫ ⟨q.toBase⟩, G.map (Over.homMk f.left rfl :
+  change (⟨f.left ≫ ⟨q.toBase⟩, G.map (Over.homMk f.left rfl :
       Over.mk (f.left ≫ (⟨q.toBase⟩ : B.obj q.contained ⟶ P.left)) ⟶ Over.mk ⟨q.toBase⟩).op
         q.value⟩ : Σ χ : B.obj p.contained ⟶ P.left, G.obj (Opposite.op (Over.mk χ))) =
     ⟨⟨p.toBase⟩, p.value⟩
@@ -256,7 +256,7 @@ theorem liftPoints_descend
   refine ⟨Over.homMk (𝟙 _)
     (ObjectProperty.hom_ext _ ((Category.id_comp _).trans (congrArg (fun k => k.hom) hq))), ?_⟩
   apply Subtype.ext
-  show (⟨𝟙 _ ≫ (⟨q.value.1.1.hom⟩ : B.obj q.contained ⟶ P.left),
+  change (⟨𝟙 _ ≫ (⟨q.value.1.1.hom⟩ : B.obj q.contained ⟶ P.left),
       G.map (Over.homMk (𝟙 _) rfl : Over.mk (𝟙 _ ≫ (⟨q.value.1.1.hom⟩ : B.obj q.contained ⟶ P.left))
         ⟶ Over.mk (⟨q.value.1.1.hom⟩ : B.obj q.contained ⟶ P.left)).op q.value.1.2⟩ :
       Σ χ : B.obj q.contained ⟶ P.left, G.obj (Opposite.op (Over.mk χ))) = q.value.1
@@ -765,7 +765,7 @@ theorem exists_isRelativelySmooth_restrict_of_openSubstackOfPoints
     refine hasRelativeProperty_schemeFibredCategoryMap.{u, u} B S hS _ g ?_
     refine (Space.holdsOnEveryEtaleChart_yoneda_map_iff B S hS
       Smooth.isEtaleLocalOnSourceAndTarget g).2 ?_
-    show Smooth V.ι
+    change Smooth V.ι
     infer_instance
   have hfac : ∀ o, (openSubstackOfPoints (schemeStack.{u, w} B S hS (𝒳.val.val.p.obj x)) Ω
       hΩ).property (gs.hom.hom.toFunctor.obj o) := by
@@ -779,7 +779,7 @@ theorem exists_isRelativelySmooth_restrict_of_openSubstackOfPoints
           (schemeFibredCategory B S hS _).property (schemeFibredCategoryMap B S hS g).hom
           (pointClass B S hS _ (schemeFibredCategory B S hS _).property r)) ∈ V := by
       rw [hnat]
-      show V.ι _ ∈ V
+      change V.ι _ ∈ V
       exact (V.ι_apply _).symm ▸ Subtype.property _
     have h2 := Homeomorph.symm_apply_apply (pointsHomeomorphScheme B S hS (𝒳.val.val.p.obj x))
       (pointsMap B S hS _ (schemeFibredCategory B S hS _).property

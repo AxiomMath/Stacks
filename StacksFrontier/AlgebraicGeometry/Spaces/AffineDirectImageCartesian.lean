@@ -103,7 +103,7 @@ theorem Algebra.IsPushout.bijective_liftBaseChange_of_addEquiv
   have : IsScalarTower Sr Bb N' := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   let : Module R N' := Module.compHom N' (algebraMap R Bb)
   have : IsScalarTower R Sr N' := IsScalarTower.of_algebraMap_smul fun r x => by
-    show algebraMap Sr Bb (algebraMap R Sr r) • x = algebraMap R Bb r • x
+    change algebraMap Sr Bb (algebraMap R Sr r) • x = algebraMap R Bb r • x
     rw [IsScalarTower.algebraMap_apply R Sr Bb r]
   have : IsScalarTower R A N' := IsScalarTower.of_algebraMap_smul fun r x => by
     rw [← algebraMap_smul Bb (algebraMap R A r) x, ← IsScalarTower.algebraMap_apply]

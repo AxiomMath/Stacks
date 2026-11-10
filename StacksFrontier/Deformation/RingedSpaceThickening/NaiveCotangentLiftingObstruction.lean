@@ -172,7 +172,7 @@ theorem obstruction_eq_zero_iff [single.Full] (ξ : P.obj ⟶ (single.obj G)⟦(
     rw [hg, hf]
     rfl
   · rintro ⟨f, rfl⟩
-    show P.incl ≫ P.proj ≫ _ = 0
+    change P.incl ≫ P.proj ≫ _ = 0
     rw [← Category.assoc, P.incl_comp_proj, Limits.zero_comp]
 
 end NaiveCotangentTwoTerm
@@ -209,7 +209,7 @@ theorem conormalExtClass_eq_zero_iff (P : NaiveCotangentTwoTerm single) (G : M)
     rw [hg']
     simp only [Functor.map_comp, Functor.map_neg, Preadditive.comp_neg, Preadditive.neg_comp]
   · rintro ⟨θ, rfl⟩
-    show P.proj ≫ (single.map (P.d ≫ θ))⟦(1 : ℤ)⟧' = 0
+    change P.proj ≫ (single.map (P.d ≫ θ))⟦(1 : ℤ)⟧' = 0
     rw [single.map_comp, Functor.map_comp, ← Category.assoc, P.proj_comp_shift_d,
       Limits.zero_comp]
 

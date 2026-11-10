@@ -122,7 +122,7 @@ omit [IsIntegral X] [IsLocallyNoetherian X] [IsNormal X] in
 is multiplication by `s`, so it kills the unit section. -/
 theorem sectionPowStalk_one_eq_zero (F : X.Modules) (s : F.sections) (x : X)
     (hs : s.eval (op (⊤ : X.Opens)) = 0) : sectionPowStalk X F s x 1 = 0 := by
-  show reflexivePowerStalkMap F s x 0 (reflexivePowerUnit F x) = 0
+  change reflexivePowerStalkMap F s x 0 (reflexivePowerUnit F x) = 0
   refine (Stacks.ModuleSkyscraper.stalkMapLinear_germ
     (reflexivePowerTransition F s 0).val x ⊤ trivial (1 : Γ(X, (⊤ : X.Opens)))).trans ?_
   rw [reflexivePowerTransition_zero]

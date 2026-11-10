@@ -88,8 +88,7 @@ private lemma baseChangePresentation_surjective
     [Algebra S R] [Algebra S A] :
     Function.Surjective (baseChangePresentation S R A) := by
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy =>
       obtain ⟨p, rfl⟩ := hx
       obtain ⟨q, rfl⟩ := hy
@@ -222,8 +221,7 @@ private lemma baseChangePresentation_tensorMap
     [Algebra S R] [Algebra S A] (z : MvPolynomial A S ⊗[S] R) :
     baseChangePresentation S R A (polyBaseChangeEquiv S R A z) =
       Algebra.TensorProduct.map (presentation S A) (AlgHom.id S R) z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simp [hx, hy]
   | tmul p r =>
       rw [polyBaseChangeEquiv_tmul, MvPolynomial.smul_eq_C_mul, map_mul,
@@ -259,7 +257,7 @@ private lemma baseChangePresentation_ker
           MvPolynomial A S →ₐ[S] MvPolynomial A S ⊗[S] R)
           (RingHom.ker f)) := by rw [ht]
     _ = Ideal.map (MvPolynomial.map (algebraMap S R)) (RingHom.ker f) := by
-      show Ideal.map e.toRingHom
+      change Ideal.map e.toRingHom
         (Ideal.map ((Algebra.TensorProduct.includeLeft :
           MvPolynomial A S →ₐ[S] MvPolynomial A S ⊗[S] R).toRingHom)
           (RingHom.ker f)) =
@@ -269,12 +267,12 @@ private lemma baseChangePresentation_ker
         Ideal.map h (RingHom.ker f))
       apply MvPolynomial.ringHom_ext
       · intro s
-        show e (MvPolynomial.C s ⊗ₜ[S] (1 : R)) =
+        change e (MvPolynomial.C s ⊗ₜ[S] (1 : R)) =
           MvPolynomial.map (algebraMap S R) (MvPolynomial.C s)
         rw [show e = polyBaseChangeEquiv S R A from rfl, polyBaseChangeEquiv_tmul]
         simp
       · intro a
-        show e (MvPolynomial.X a ⊗ₜ[S] (1 : R)) =
+        change e (MvPolynomial.X a ⊗ₜ[S] (1 : R)) =
           MvPolynomial.map (algebraMap S R) (MvPolynomial.X a)
         rw [show e = polyBaseChangeEquiv S R A from rfl, polyBaseChangeEquiv_tmul]
         simp
@@ -318,7 +316,7 @@ private lemma baseChangePresentation_ker_eq_JRideal
       Stacks.Invariant.QuotientComparison.JRideal (RingHom.ker (fixedPolynomialEval R G A)) := by
   rw [baseChangePresentation_ker, fixedPolynomialEval_ker]
   unfold Stacks.Invariant.QuotientComparison.JRideal
-  show Ideal.map (MvPolynomial.map (algebraMap (FixedPoints.subring R G) R))
+  change Ideal.map (MvPolynomial.map (algebraMap (FixedPoints.subring R G) R))
       (RingHom.ker (presentation (FixedPoints.subring R G) A)) =
     Ideal.map (FixedPoints.subring (MvPolynomial A R) G).subtype
       (Ideal.map (fixedPolynomialEquiv R G A).toRingHom
@@ -566,10 +564,10 @@ theorem canonicalMap_to_invariants_bijective_of_flat_and_isIntegral_isHomeomorph
       map_add' := fun x y => by ext g; simp
       map_smul' := fun s r => by
         ext g
-        show g • ((s : R) * r) = (s : R) * (g • r)
-        show (MulSemiringAction.toRingHom G R g) ((s : R) * r) = _
+        change g • ((s : R) * r) = (s : R) * (g • r)
+        change (MulSemiringAction.toRingHom G R g) ((s : R) * r) = _
         rw [map_mul]
-        show (g • (s : R)) * (g • r) = _
+        change (g • (s : R)) * (g • r) = _
         rw [s.property g] }
   let d : R →ₗ[FixedPoints.subring R G] G → R :=
     { toFun := fun r _ => r
@@ -606,15 +604,13 @@ theorem canonicalMap_to_invariants_bijective_of_flat_and_isIntegral_isHomeomorph
       have hf : (TensorProduct.piRight (R := FixedPoints.subring R G) (S := A) A
           (fun _ : G => R)) ((TensorProduct.AlgebraTensorModule.lTensor A A f) b.1) g =
           g • b.1 := by
-        induction b.1 using TensorProduct.induction_on with
-        | zero => simp
+        induction b.1 using TensorProduct.inductionOn with
         | tmul a r => simpa [f] using (smul_tmul g a r).symm
         | add x y hx hy => simpa [smul_add] using congrArg₂ (fun x y => x + y) hx hy
       have hd : (TensorProduct.piRight (R := FixedPoints.subring R G) (S := A) A
           (fun _ : G => R)) ((TensorProduct.AlgebraTensorModule.lTensor A A d) b.1) g =
           b.1 := by
-        induction b.1 using TensorProduct.induction_on with
-        | zero => simp
+        induction b.1 using TensorProduct.inductionOn with
         | tmul a r => simp [d]
         | add x y hx hy => simpa using congrArg₂ (fun x y => x + y) hx hy
       rw [hf, hd]
@@ -624,7 +620,7 @@ theorem canonicalMap_to_invariants_bijective_of_flat_and_isIntegral_isHomeomorph
     let a : A := TensorProduct.rid (FixedPoints.subring R G) A
       ((e.symm.lTensor A) z)
     refine ⟨a, Subtype.ext ?_⟩
-    show Algebra.TensorProduct.includeLeftRingHom a =
+    change Algebra.TensorProduct.includeLeftRingHom a =
       (b : A ⊗[FixedPoints.subring R G] R)
     have hz : (LinearMap.eqLocus f d).subtype.lTensor A z =
         (b : A ⊗[FixedPoints.subring R G] R) := by
@@ -634,8 +630,7 @@ theorem canonicalMap_to_invariants_bijective_of_flat_and_isIntegral_isHomeomorph
         Algebra.TensorProduct.includeLeftRingHom
             (TensorProduct.rid (FixedPoints.subring R G) A t) =
           (Algebra.linearMap (FixedPoints.subring R G) R).lTensor A t := by
-      induction t using TensorProduct.induction_on with
-      | zero => simp
+      induction t using TensorProduct.inductionOn with
       | tmul x r =>
           simp only [TensorProduct.rid_tmul, Algebra.TensorProduct.includeLeftRingHom_apply,
             LinearMap.lTensor_tmul, Algebra.linearMap_apply]
@@ -647,10 +642,9 @@ theorem canonicalMap_to_invariants_bijective_of_flat_and_isIntegral_isHomeomorph
             congrArg₂ (fun x y => x + y) hx hy
     rw [show a = TensorProduct.rid (FixedPoints.subring R G) A ((e.symm.lTensor A) z) from rfl,
       ht]
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul x r =>
-        show x ⊗ₜ[FixedPoints.subring R G] ((e.symm r : FixedPoints.subring R G) : R) =
+        change x ⊗ₜ[FixedPoints.subring R G] ((e.symm r : FixedPoints.subring R G) : R) =
           x ⊗ₜ[FixedPoints.subring R G] (r : R)
         congr 1
         exact congrArg Subtype.val (e.apply_symm_apply r)

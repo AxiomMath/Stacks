@@ -91,7 +91,7 @@ noncomputable def copowerCoeff {V W : FGModuleCat.{v} k} (f : V ⟶ W)
 theorem copowerCoeff_id (V : FGModuleCat.{v} k) (i j : Fin (Module.finrank k V)) :
     copowerCoeff (𝟙 V) i j = if i = j then 1 else 0 := by
   rw [copowerCoeff]
-  show (stdBasis V).repr (stdBasis V i) j = _
+  change (stdBasis V).repr (stdBasis V i) j = _
   rw [Module.Basis.repr_self, Finsupp.single_apply]
 
 /-- The matrix of a composite is the product of the matrices. -/
@@ -99,7 +99,7 @@ theorem copowerCoeff_comp {U V W : FGModuleCat.{v} k} (f : U ⟶ V) (g : V ⟶ W
     (i : Fin (Module.finrank k U)) (l : Fin (Module.finrank k W)) :
     copowerCoeff (f ≫ g) i l = ∑ j, copowerCoeff f i j * copowerCoeff g j l := by
   simp only [copowerCoeff]
-  show (stdBasis W).repr (g.hom.hom (f.hom.hom (stdBasis U i))) l = _
+  change (stdBasis W).repr (g.hom.hom (f.hom.hom (stdBasis U i))) l = _
   conv_lhs => rw [← (stdBasis V).sum_repr (f.hom.hom (stdBasis U i))]
   rw [map_sum]
   simp only [map_smul, map_sum, Finsupp.coe_finsetSum, Finsupp.coe_smul, Finset.sum_apply,
@@ -109,14 +109,14 @@ theorem copowerCoeff_comp {U V W : FGModuleCat.{v} k} (f : U ⟶ V) (g : V ⟶ W
 theorem copowerCoeff_add {V W : FGModuleCat.{v} k} (f g : V ⟶ W) (i j) :
     copowerCoeff (f + g) i j = copowerCoeff f i j + copowerCoeff g i j := by
   simp only [copowerCoeff]
-  show (stdBasis W).repr (f.hom.hom (stdBasis V i) + g.hom.hom (stdBasis V i)) j = _
+  change (stdBasis W).repr (f.hom.hom (stdBasis V i) + g.hom.hom (stdBasis V i)) j = _
   rw [map_add, Finsupp.add_apply]
 
 /-- The matrix of a scalar multiple of a linear map is the scalar multiple of its matrix. -/
 theorem copowerCoeff_smul {V W : FGModuleCat.{v} k} (c : k) (f : V ⟶ W) (i j) :
     copowerCoeff (c • f) i j = c * copowerCoeff f i j := by
   simp only [copowerCoeff]
-  show (stdBasis W).repr (c • f.hom.hom (stdBasis V i)) j = _
+  change (stdBasis W).repr (c • f.hom.hom (stdBasis V i)) j = _
   rw [map_smul, Finsupp.smul_apply, smul_eq_mul]
 
 /-- The map of copowers attached to a linear map: its matrix acting by scalars. -/
@@ -286,7 +286,7 @@ theorem extPostcomp_apply (X : 𝒜) {Y Y' : 𝒜} (g : Y ⟶ Y') (n : ℕ) (e :
 theorem extPostcomp_add (X : 𝒜) {Y Y' : 𝒜} (g g' : Y ⟶ Y') (n : ℕ) :
     extPostcomp (k := k) X (g + g') n = extPostcomp X g n + extPostcomp X g' n := by
   ext e
-  show e.comp (Ext.mk₀ (g + g')) (add_zero n) =
+  change e.comp (Ext.mk₀ (g + g')) (add_zero n) =
     e.comp (Ext.mk₀ g) (add_zero n) + e.comp (Ext.mk₀ g') (add_zero n)
   rw [Ext.mk₀_add, Ext.comp_add]
 
@@ -295,7 +295,7 @@ postcomposition. -/
 theorem extPostcomp_smul (X : 𝒜) {Y Y' : 𝒜} (c : k) (g : Y ⟶ Y') (n : ℕ) :
     extPostcomp (k := k) X (c • g) n = c • extPostcomp X g n := by
   ext e
-  show e.comp (Ext.mk₀ (c • g)) (add_zero n) = c • e.comp (Ext.mk₀ g) (add_zero n)
+  change e.comp (Ext.mk₀ (c • g)) (add_zero n) = c • e.comp (Ext.mk₀ g) (add_zero n)
   rw [Ext.mk₀_smul, Ext.comp_smul]
 
 /-- **The functor `V ↦ Ext^n(X, C V)`** for an additive `k`-linear functor `C`, acting by
@@ -391,7 +391,7 @@ theorem extensionClass_comp_mk₀_map {V W : FGModuleCat.{v} k} (A : CopowerExte
       τ₃ := 𝟙 G
       comm₁₂ := (copowerDesc_comp G A.μ A'.μ f φ hμ).symm
       comm₂₃ := by simpa using hp }
-  show A.shortExact.extClass.comp (Ext.mk₀ m.τ₁) (add_zero 1) = _
+  change A.shortExact.extClass.comp (Ext.mk₀ m.τ₁) (add_zero 1) = _
   rw [ShortComplex.ShortExact.extClass_naturality A.shortExact A'.shortExact m]
   exact Ext.mk₀_id_comp _
 

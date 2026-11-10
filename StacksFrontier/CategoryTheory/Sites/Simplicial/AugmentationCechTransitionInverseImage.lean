@@ -127,7 +127,7 @@ theorem pushPullTransition_componentAugmentation {m n : SimplexCategory} (φ : m
           (transitionPushforwardIso S D K a φ).hom := by
   refine NatTrans.ext (funext fun G => ?_)
   rw [MorphismOfTopoi.pushPullTransition_app]
-  show _ = (componentAugmentation S D K a m).pushforward.map
+  change _ = (componentAugmentation S D K a m).pushforward.map
       ((transitionDirectInverseImageTrans S D K a φ).app G) ≫
     (transitionPushforwardIso S D K a φ).hom.app
       ((componentAugmentation S D K a n).inverseImage.obj G)

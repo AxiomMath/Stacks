@@ -271,7 +271,7 @@ theorem isIso_derivedSectionsOverOpen_map_comparisonQ_of_isIso_app
       intro n
       have e : d'.f n = (modulePullback h).map (d.f n) ≫
           (modulePullbackPushforwardAdjunction h).counit.app (N.X n) := by
-        show (((adj.homEquiv _ _).symm d).f n) = _
+        change (((adj.homEquiv _ _).symm d).f n) = _
         rw [Adjunction.homEquiv_counit]
         rfl
       rw [e]

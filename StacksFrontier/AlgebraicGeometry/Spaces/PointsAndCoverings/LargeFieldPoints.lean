@@ -248,7 +248,7 @@ theorem canonicalSiteFieldPoint_point (U : BigFppfOver B S hS)
   have h : (schemeFieldPoint B S hS (canonicalSiteFieldPoint B S hS U x)).map =
       ((BigFppfOver.toScheme B S hS).obj U).fromSpecResidueField x :=
     map_siteFieldPointOfSchemeMap_value_left B S hS U _ _
-  show (schemeFieldPoint B S hS (canonicalSiteFieldPoint B S hS U x)).map _ = x
+  change (schemeFieldPoint B S hS (canonicalSiteFieldPoint B S hS U x)).map _ = x
   rw [h]
   exact Scheme.fromSpecResidueField_apply x _
 
@@ -282,10 +282,10 @@ theorem dominates_of_scheme_map (U : BigFppfOver B S hS)
       _ = p.toBase := hp
   refine ⟨Over.homMk (B.inclusion.preimage (X := B.obj p.contained)
     (Y := B.obj q.contained) c) hbase, ?_⟩
-  show Over.homMk (B.inclusion.preimage (X := B.obj p.contained)
+  change Over.homMk (B.inclusion.preimage (X := B.obj p.contained)
     (Y := B.obj q.contained) c) hbase ≫ q.value = p.value
   ext
-  show B.inclusion.map (B.inclusion.preimage (X := B.obj p.contained)
+  change B.inclusion.map (B.inclusion.preimage (X := B.obj p.contained)
     (Y := B.obj q.contained) c ≫ q.value.left) = B.inclusion.map p.value.left
   rw [B.inclusion.map_comp, B.inclusion.map_preimage]
   exact hc

@@ -162,7 +162,7 @@ theorem conjHom_eq_of_map_eq {C D₁ D₂ : Type*} [Category* C] [Category* D₁
     {P₁ : C ⥤ D₁} {P₂ : C ⥤ D₂} {L : D₁ ⥤ D₂} (e : P₂ ≅ P₁ ⋙ L) {M N : C}
     (φ : P₁.obj M ⟶ P₁.obj N) (r : P₂.obj M ⟶ P₂.obj N)
     (h : L.map φ = e.inv.app M ≫ r ≫ e.hom.app N) : Functor.conjHom e φ = r := by
-  show e.hom.app M ≫ L.map φ ≫ e.inv.app N = r
+  change e.hom.app M ≫ L.map φ ≫ e.inv.app N = r
   rw [h]
   simp
 
@@ -415,7 +415,7 @@ def isLimitVertexFanAugmentedBaseChange (n : ℕ) :
       ((Category.assoc _ _ _).trans ((congrArg (ℓ s ≫ ·) (hinc (Opposite.op ⦋n⦌))).trans
         ((Category.assoc _ _ _).symm.trans
           ((congrArg (· ≫ C.hom.app (Opposite.op ⦋n⦌)) (hℓi s)).trans (hℓCb s)))))
-  refine mkFanLimit _ (fun s => Over.homMk (ℓ s) (hℓb s)) (fun s i => ?_) (fun s m hm => ?_)
+  refine Fan.IsLimit.mk _ (fun s => Over.homMk (ℓ s) (hℓb s)) (fun s i => ?_) (fun s m hm => ?_)
   · refine Over.OverMorphism.ext ?_
     exact overBaseChange_hom_ext f (T := (augmentedOver C t).obj (Opposite.op ⦋0⦌))
       ((Category.assoc _ _ _).trans ((congrArg (ℓ s ≫ ·) (hvp i)).trans ((hℓp s).trans
@@ -664,7 +664,7 @@ theorem cechZeroIso_hom_comp_augmentedOverHom {T V : SchemesOver Y} (q : V ⟶ T
         (Arrow.mk ((schemeSpaceFunctor B S hS).map q.left)).augmentedCechNerve T.hom
         (Opposite.op ⦋0⦌) = (schemesOverToOver Y).map q := by
   refine Over.OverMorphism.ext ?_
-  show inv (WidePullback.π (fun _ : Fin 1 => (schemeSpaceFunctor B S hS).map q.left) 0) ≫
+  change inv (WidePullback.π (fun _ : Fin 1 => (schemeSpaceFunctor B S hS).map q.left) 0) ≫
     WidePullback.base (fun _ : Fin 1 => (schemeSpaceFunctor B S hS).map q.left) =
       (schemeSpaceFunctor B S hS).map q.left
   rw [← WidePullback.π_arrow (fun _ : Fin 1 => (schemeSpaceFunctor B S hS).map q.left) 0,
@@ -679,7 +679,7 @@ theorem cechOneIso_hom_comp_δ {T V O : SchemesOver Y} (q : V ⟶ T) (p₁ p₂ 
           T.hom).map (SimplexCategory.δ k).op ≫ (testSchemeCechZeroIso q).inv =
       (schemesOverToOver Y).map (![p₂, p₁] k) := by
   refine Over.OverMorphism.ext ?_
-  show WidePullback.lift _ _ _ ≫ (Arrow.mk ((schemeSpaceFunctor B S hS).map q.left)).cechNerve.map
+  change WidePullback.lift _ _ _ ≫ (Arrow.mk ((schemeSpaceFunctor B S hS).map q.left)).cechNerve.map
     (SimplexCategory.δ k).op ≫
       WidePullback.π (fun _ : Fin 1 => (schemeSpaceFunctor B S hS).map q.left) 0 =
       (schemeSpaceFunctor B S hS).map (![p₂, p₁] k).left
@@ -991,14 +991,14 @@ theorem isFppfSheafOver_of_amalgamation
       R.map (restrictTestMap T m e).op (r h hh) = r h' hh' := by
     intro Z Z' h h' hh hh' m e
     subst e
-    show R.map _ (R.map _ _) = R.map _ _
+    change R.map _ (R.map _ _) = R.map _ _
     rw [← Functor.map_comp_apply, ← op_comp]
     have hμ : ∀ (μ : restrictTest T (m ≫ h) ⟶ pointTestScheme Z' (Y.1.map m.op (xf h hh).1)),
         μ.left = 𝟙 Z' → R.map (restrictTestMap T m rfl ≫ ε h hh).op (xf h hh).2 =
           R.map μ.op (R.map (pointTestHom m rfl).op (xf h hh).2) := fun μ hμ => by
       have e : restrictTestMap T m rfl ≫ ε h hh = μ ≫ pointTestHom m rfl :=
         CostructuredArrow.hom_ext _ _ (by
-          show m ≫ 𝟙 Z = μ.left ≫ m
+          change m ≫ 𝟙 Z = μ.left ≫ m
           rw [hμ]
           exact (Category.comp_id m).trans (Category.id_comp m).symm)
       rw [e, op_comp, Functor.map_comp_apply]
@@ -1015,7 +1015,7 @@ theorem isFppfSheafOver_of_amalgamation
     refine (totalPresheaf_map_apply R h.op ⟨y, g⟩).trans
       (totalPresheaf_mk_eq_of_map R (hy' h hh) _ _ (ν h ≫ ε h hh) (Category.id_comp _) ?_)
     rw [op_comp, Functor.map_comp_apply]
-    show R.map (ν h).op (r h hh) = _
+    change R.map (ν h).op (r h hh) = _
     rw [← hg h hh, ← Functor.map_comp_apply, ← op_comp]
     have e : ν h ≫ restrictTestHom T h = pointTestHom h rfl :=
       CostructuredArrow.hom_ext _ _ (Category.id_comp h)
@@ -1035,7 +1035,7 @@ theorem isFppfSheafOver_of_amalgamation
         map_id_comp_pointTestScheme_hom h y' rfl
       have h₃ := map_eq_map_of_heq R (Sigma.mk.inj_iff.1 hz').1 h₂
         (CostructuredArrow.homMk (𝟙 Z) hν') (ε h hh) rfl
-      show _ = R.map (ε h hh).op (xf h hh).2
+      change _ = R.map (ε h hh).op (xf h hh).2
       have e : restrictTestHom T h = CostructuredArrow.homMk (𝟙 Z) hν' ≫ pointTestHom h rfl :=
         CostructuredArrow.hom_ext _ _ (Category.id_comp h).symm
       rw [← h₃, e]
@@ -1275,12 +1275,12 @@ theorem relativeDerivedHomIsSheafOfDescent_of_disjointUnion
       (fun k => restrictTest T (pullback.fst c (j k) ≫ h))
       (fun k => restrictTestMap T (pullback.fst c (j k)) rfl) (fun k => pullback.snd c (j k))
       (fun k => by
-        show IsPullback (pullback.fst c (j k)) _ _ _
+        change IsPullback (pullback.fst c (j k)) _ _ _
         exact IsPullback.of_hasPullback c (j k))).1
   · exact (relativeDerivedHom_pieces_bijective f hD K E Xk V j hV (𝟙 V)
       (fun k => restrictTest T (g k)) (fun k => restrictTestMap T (j k) (hjq k))
       (fun k => 𝟙 _) (fun k => by
-        show IsPullback (j k) (𝟙 _) (𝟙 V) (j k)
+        change IsPullback (j k) (𝟙 _) (𝟙 V) (j k)
         exact IsPullback.id_vert (j k))).2
   · exact relativeDerivedHom_single_descent f h0DL9 K E (restrictTestMap T q e)
       (hfppf q hs hf hp) _ _ (IsPullback.of_hasPullback q q) (hKE _) ψ

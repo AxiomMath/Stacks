@@ -129,7 +129,7 @@ theorem isZero_moduleCohomology_of_isZero_rightDerived_sections
   have h₃ : IsZero (Fg.obj ((E.rightDerived p).obj N)) :=
     (hN.of_iso ((ModuleSheafCohomology.sectionsComparisonIso K R X p).app N)).of_iso
       ((Functor.rightDerivedCompIso E Fg p).app N).symm
-  show IsZero ((E.rightDerived p).obj N)
+  change IsZero ((E.rightDerived p).obj N)
   rw [IsZero.iff_id_eq_zero]
   exact Fg.zero_of_map_zero _ ((Fg.map_id _).trans (h₃.eq_of_src _ _))
 

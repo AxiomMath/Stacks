@@ -206,7 +206,7 @@ theorem homothetyModel_precomp {P I : CochainComplex (ModuleCat.{w} R) ℤ} (f :
   -- Name both sides as composites of cochains before touching their components: the carrier of
   -- `(HomComplexR R P I).X 0` is only definitionally `Cochain P I 0`, and the component lemmas
   -- below do not match through that.
-  show (CochainComplex.HomComplex.Cochain.ofHom f).comp
+  change (CochainComplex.HomComplex.Cochain.ofHom f).comp
       (((singleObjXSelf (ComplexShape.up ℤ) 0 (ModuleCat.of R R)).hom.hom a) •
         CochainComplex.HomComplex.Cochain.ofHom (𝟙 I)) (zero_add 0) =
     (Stacks.HomComplex.TensorHomMap.Phiv R (𝟙_ (CochainComplex (ModuleCat.{w} R) ℤ)) P 0 a).comp

@@ -107,7 +107,7 @@ theorem symm (h : CongruentModPow I f f' n) : CongruentModPow I f' f n := by
 /-- Congruence modulo a power of `I` is transitive. -/
 theorem trans {f'' : L →ₗ[A] M} (h : CongruentModPow I f f' n)
     (h' : CongruentModPow I f' f'' n) : CongruentModPow I f f'' n := by
-  show LinearMap.range (f - f'') ≤ (I ^ n) • (⊤ : Submodule A M)
+  change LinearMap.range (f - f'') ≤ (I ^ n) • (⊤ : Submodule A M)
   rw [← sub_add_sub_cancel f f' f'']
   rintro _ ⟨x, rfl⟩
   rw [LinearMap.add_apply]

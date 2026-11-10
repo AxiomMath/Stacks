@@ -39,8 +39,8 @@ hypotheses, in this order:
   `G : CategoryTheory.Grp (Over (Spec k))` — this is representability of the Picard functor,
   [Stacks, Tag 0B9Z], together with the fact that the Picard functor is group-valued;
 * the degree-zero component as an open subgroup scheme of it, carried as `H` — Tag 0BA0,
-  clause (3), in the shape `StacksFrontier/AlgebraicGeometry/GroupScheme/Subgroups/Clopen.lean` already
-  uses;
+  clause (3), in the shape `StacksFrontier/AlgebraicGeometry/GroupScheme/Subgroups/Clopen.lean`
+  already uses;
 * properness, smoothness and connectedness of `Pic⁰`, carried as `hproper`, `hsmooth` and
   `hconn` — the unproved half of Tag 0BA0, clause (1).  Connectedness, not just the dimension
   count, is what Remark 0H2U needs, and the dimension `g` itself is not needed at all.  These
@@ -110,8 +110,8 @@ it verbatim — `Stacks.Cohomology.CoefficientLift.sheafHUliftAddEquiv` is the s
 ## Main results
 
 * `AlgebraicGeometry.OpenSubgroupScheme.isAbelianVariety_carrier` (in
-  `StacksFrontier.AlgebraicGeometry.Picard.Jacobian.AbelianVariety.AbelMapCriterion`, used here): the
-  degree-zero component of the Picard scheme is an abelian variety.
+  `StacksFrontier.AlgebraicGeometry.Picard.Jacobian.AbelianVariety.AbelMapCriterion`, used here):
+  the degree-zero component of the Picard scheme is an abelian variety.
 * `AlgebraicGeometry.OpenSubgroupScheme.smooth_carrier_of_smooth_surjective`,
   `AlgebraicGeometry.OpenSubgroupScheme.isProper_carrier_of_isProper_surjective` and
   `AlgebraicGeometry.OpenSubgroupScheme.connectedSpace_carrier_of_connectedSpace_surjective`:
@@ -470,6 +470,7 @@ theorem exists_nsmul_eq_schemePicard_of_jacobian
 variable [HasExt.{t} (Sheaf (SmallEtale.topology B X hX) AddCommGrpCat.{u})]
 
 include f in
+omit [Smooth f] in
 /-- **Clauses (2) and (3) of [Stacks, Tag 03RR] with the divisibility of `Pic(X)` discharged.**
 This is `AlgebraicGeometry.etaleCohomology_rootsOfUnity_affineSmoothCurve` with its `hdvd`
 replaced by the geometric input it stands for: an abelian variety — the degree-zero Picard scheme
@@ -489,8 +490,8 @@ statement is
 `AlgebraicGeometry.etaleCohomology_rootsOfUnity_affineSmoothCurve_of_compactification`. -/
 theorem etaleCohomology_rootsOfUnity_affineSmoothCurve_of_jacobian (hn : IsUnit (n : k))
     {Xbar : Scheme.{u}} (fbar : Xbar ⟶ Spec (.of k)) [IsCurve k fbar] [Smooth fbar]
-    [IsProjectiveVariety k fbar] (j : X ⟶ Xbar) [IsOpenImmersion j] (hj : j ≫ fbar = f)
-    (r : ℕ) (hr : Nat.card ↥(Set.range j.base)ᶜ = r) {a b : ℕ}
+    [IsProjectiveVariety k fbar] (j : X ⟶ Xbar) [IsOpenImmersion j]
+    (r : ℕ) {a b : ℕ}
     (hunits : Nonempty (↥(etaleH1RootsOfUnityToPicard X B hX n).ker ≃+ (Fin a → ZMod n)))
     (htors : Nonempty (↥(picardNTorsion X n) ≃+ (Fin b → ZMod n)))
     (hrank : a + b = 2 * genus fbar + r - 1)
@@ -504,8 +505,7 @@ theorem etaleCohomology_rootsOfUnity_affineSmoothCurve_of_jacobian (hn : IsUnit 
       Nonempty (Sheaf.H (kummerSmallEtale B X hX n).X₁ 1 ≃+
         (Fin (2 * genus fbar + r - 1) → ZMod n)) ∧
       ∀ q, 2 ≤ q → Subsingleton (Sheaf.H (kummerSmallEtale B X hX n).X₁ q) :=
-  etaleCohomology_rootsOfUnity_affineSmoothCurve k X f B hX n hn fbar j hj r hr hunits htors
-    hrank hGm
+  etaleCohomology_rootsOfUnity_affineSmoothCurve k X f B hX n hn fbar j r hunits htors hrank hGm
     (exists_nsmul_eq_schemePicard_of_jacobian k X n H hproper hsmooth hconn
       (H.flat_zpow_carrier_of_isUnit hproper hsmooth hconn n hn) φ hmul hsurj)
 

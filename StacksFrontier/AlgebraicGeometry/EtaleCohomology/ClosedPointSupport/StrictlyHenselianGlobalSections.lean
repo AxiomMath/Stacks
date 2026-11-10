@@ -81,11 +81,11 @@ holds for a presheaf with values in any category having the colimit in question.
 public def etaleStalkIsoFinalSections [StrictlyHenselianLocalRing R]
     (hs : s.LiesOver (IsLocalRing.closedPoint R)) {A : Type v} [Category.{w} A]
     (P : (SmallEtale B (Spec (.of R)) hS)ᵒᵖ ⥤ A)
-    [HasColimit ((CategoryOfElements.π (geometricPointFiber B (Spec (.of R)) hS s)).op ⋙ P)] :
+    [HasColimit ((Functor.Elements.π (geometricPointFiber B (Spec (.of R)) hS s)).op ⋙ P)] :
     etaleStalk B (Spec (.of R)) hS s P ≅
       P.obj (op (SmallEtale.final B (Spec (.of R)) hS)) :=
   have hι : IsIso (colimit.ι
-      ((CategoryOfElements.π (geometricPointFiber B (Spec (.of R)) hS s)).op ⋙ P)
+      ((Functor.Elements.π (geometricPointFiber B (Spec (.of R)) hS s)).op ⋙ P)
       (op (finalNeighborhood B R hS s))) :=
     (colimit.isColimit _).isIso_ι_app_of_isTerminal _
       (IsInitial.op _ (nonempty_isInitial_finalNeighborhood B R hS s hs).some)

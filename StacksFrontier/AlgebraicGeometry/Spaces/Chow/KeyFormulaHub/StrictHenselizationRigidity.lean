@@ -64,7 +64,7 @@ theorem bijective_of_indEtale_of_bijective_residueField_map {A : Type u} {R₁ :
   have hφ : (e.symm : ResidueField R₂ →+* ResidueField R₁).comp
       ((residue R₂).comp (algebraMap A R₂)) = (residue R₁).comp (algebraMap A R₁) := by
     refine RingHom.ext fun a ↦ ?_
-    show e.symm (residue R₂ (algebraMap A R₂ a)) = residue R₁ (algebraMap A R₁ a)
+    change e.symm (residue R₂ (algebraMap A R₂ a)) = residue R₁ (algebraMap A R₁ a)
     rw [← f.commutes a, hcomm, RingEquiv.symm_apply_apply]
   set g := HenselianLocalRing.indEtaleAlgHomOfResidue h₂
     (e.symm : ResidueField R₂ →+* ResidueField R₁) hφ with hgdef
@@ -120,7 +120,7 @@ theorem isSeparable_residueField_of_isHenselization {A : Type u} [CommRing A] [I
     { e.symm.toRingHom with
       commutes' := fun c ↦ by
         obtain ⟨a, rfl⟩ := residue_surjective c
-        show e.symm (ResidueField.map (algebraMap A Rh) (residue A a)) = _
+        change e.symm (ResidueField.map (algebraMap A Rh) (residue A a)) = _
         rw [ResidueField.map_residue, ← he a, RingEquiv.symm_apply_apply] }
   exact Algebra.IsSeparable.of_algHom (ResidueField A) L φ
 

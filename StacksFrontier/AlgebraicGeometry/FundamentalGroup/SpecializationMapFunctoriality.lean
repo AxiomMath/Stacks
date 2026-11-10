@@ -94,6 +94,7 @@ private theorem algebraMap_residue_algebraMap_eq_map {R T : Type u} [CommRing R]
     (algebraMap R T) (IsLocalRing.maximalIdeal_comap (algebraMap R T)).symm r).symm
 
 set_option maxHeartbeats 400000 in
+-- the proof builds several local `Algebra` instances on residue fields and separable closures
 /-- **Functoriality of the strict henselization** (Stacks 04GU), between strict henselizations
 taken with respect to the chosen separable closures of the two residue fields: a local
 homomorphism `R → S` of local rings induces a local `R`-algebra map `Rsh → Ssh`. The residue
@@ -307,9 +308,9 @@ strictly henselian local ring `C` over `S` through whose closed point `s` factor
 Stacks 0A48 with 0A49 and 0BTW; \
 `StacksFrontier.AlgebraicGeometry.FundamentalGroup.ClosedGeometricFibre` reduces it to the \
 essential-surjectivity half of Stacks 0GS2, left open by \
-`StacksFrontier.AlgebraicGeometry.FundamentalGroup.FiniteEtaleProperEquivalence`. It is an input to \
-the construction of a specialization map (Stacks 0BUP) — the same datum for the upper row is \
-part of `AlgebraicGeometry.IsSpecializationMap` — and it restricts nothing about `a`, `b`, the \
+`StacksFrontier.AlgebraicGeometry.FundamentalGroup.FiniteEtaleProperEquivalence`. It is an \
+input to the construction of a specialization map (Stacks 0BUP) — the same datum for the upper row \
+is part of `AlgebraicGeometry.IsSpecializationMap` — and it restricts nothing about `a`, `b`, the \
 specialization `t' ⤳ t` or the schemes. Everything else is proved here: the strict \
 henselization `A` of the stalk at the image of `t`, the ring map `A → B` of Stacks 04GU, the \
 factorizations of the two geometric points of `S` through `Spec A`, connectedness of `X_A`, and \

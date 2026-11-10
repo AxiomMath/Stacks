@@ -102,7 +102,7 @@ theorem exists_isMaximal_ringEquiv_stalk_of_chart {C : CommRingCat.{u}}
   intro r hr
   have hr' : r ∈ (closedPoint A).asIdeal := hr
   rw [← hcomap] at hr'
-  show E (algebraMap A _ r) ∈ z.asIdeal
+  change E (algebraMap A _ r) ∈ z.asIdeal
   rw [hE r]
   exact hr'
 

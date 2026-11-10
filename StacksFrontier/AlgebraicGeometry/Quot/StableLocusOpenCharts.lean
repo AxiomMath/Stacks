@@ -180,11 +180,11 @@ theorem exists_mem_forall_isStableCurveFamily_of_isPullback
   let m : pF.siteObject ⟶ F.base := pF.value
   let c : pG.siteObject ⟶ U := m ≫ b
   have hc : c ≫ φ = pG.value := by
-    show (m ≫ b) ≫ φ = m ≫ a.baseMap
+    change (m ≫ b) ≫ φ = m ≫ a.baseMap
     rw [Category.assoc, hb]
   have hcW : Set.range ((𝒯).map c) ⊆ W := by
     rintro _ ⟨y, rfl⟩
-    show ((𝒯).map (m ≫ b)).base y ∈ W
+    change ((𝒯).map (m ≫ b)).base y ∈ W
     rw [Functor.map_comp]
     exact hbW ⟨((𝒯).map m).base y, rfl⟩
   have hsqG := isPullback_presentation_of_factors sq pG c hc

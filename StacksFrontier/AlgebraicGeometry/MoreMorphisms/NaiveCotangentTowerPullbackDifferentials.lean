@@ -192,6 +192,7 @@ def pullbackIsoComp : modulePullback (ringedSpaceHom i) ≅ twoStepFunctor i :=
   Adjunction.leftAdjointUniq (modulePullbackPushforwardAdjunction (ringedSpaceHom i))
     (twoStepAdjunction i)
 
+omit [SurjectiveOnStalks i] in
 /-- **The last factor on local sections.**  The comparison of `i^*` with the two-step model
 carries the two-step unit of a local section of `Ω_{P/Y}` back to its image under the unit of
 the pullback/pushforward adjunction of `i`. -/
@@ -264,6 +265,7 @@ def crossingStepTwo :=
 def crossingStepThree :=
   ((pullbackIsoComp i).app (AlgebraicGeometry.Scheme.Hom.relativeDifferentials g)).symm
 
+omit [SurjectiveOnStalks i] in
 /-- **The second factor on local sections.**  The inverse-image comparison of differentials,
 extended to `𝒪_X`, carries `1 ⊗ d(i⁻¹t)` to the two-step unit image of `d_{P/Y} t`. -/
 theorem crossingStepTwo_hom_apply (U : P.Opens)

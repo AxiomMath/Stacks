@@ -70,7 +70,7 @@ theorem finite_primesOver_and_separableClosure_of_specMap {R A : CommRingCat.{u}
   · refine (hfin.image fun x : Spec A => x.asIdeal).subset ?_
     rintro q ⟨hq, hqover⟩
     refine ⟨⟨q, hq⟩, ?_, rfl⟩
-    show PrimeSpectrum.comap φ.hom ⟨q, hq⟩ = 𝔭
+    change PrimeSpectrum.comap φ.hom ⟨q, hq⟩ = 𝔭
     exact PrimeSpectrum.ext hqover.over.symm
   · intro q hq hqover
     let := hq
@@ -86,7 +86,7 @@ theorem finite_primesOver_and_separableClosure_of_specMap {R A : CommRingCat.{u}
     have hM : M = e₂.hom.hom.comp ((e₁.hom ≫ CommRingCat.ofHom M ≫ e₂.inv).hom.comp
         e₁.inv.hom) := by
       refine RingHom.ext fun x => ?_
-      show M x = e₂.hom (e₂.inv (M (e₁.hom (e₁.inv x))))
+      change M x = e₂.hom (e₂.inv (M (e₁.hom (e₁.inv x))))
       rw [Iso.inv_hom_id_apply]
       exact congrArg M (Iso.inv_hom_id_apply e₁ x).symm
     have hfinmap : M.Finite := by
@@ -247,10 +247,10 @@ theorem exists_etale_clopen_splitting_of_isIntegralHom {U T W : Scheme.{u}} (g :
   · exact fun x => PrimeSpectrum.exists_mem_basicOpen_of_completeOrthogonalIdempotents he (ε.hom x)
   · intro i
     refine ⟨ε.inv (j i ⟨r i, inferInstance⟩), ?_, ?_⟩
-    · show ε.hom (ε.inv _) ∈ (PrimeSpectrum.basicOpen (e i) : Set (PrimeSpectrum B))
+    · change ε.hom (ε.inv _) ∈ (PrimeSpectrum.basicOpen (e i) : Set (PrimeSpectrum B))
       rw [← Scheme.Hom.comp_apply, ε.inv_hom_id, ← hrange]
       exact ⟨_, rfl⟩
-    · show (j i ≫ ε.inv ≫ snd) ⟨r i, inferInstance⟩ = w₂
+    · change (j i ≫ ε.inv ≫ snd) ⟨r i, inferInstance⟩ = w₂
       rw [hj]
       exact PrimeSpectrum.ext (Ideal.over_def (r i) p').symm
   · intro Ω _ ω hω V a b hV i v v' hv hv'

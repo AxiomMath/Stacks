@@ -44,6 +44,7 @@ variable [IsNormal X] [IsLocallyNoetherian X]
 
 /-! ### The second commuting square -/
 
+omit [IsAlgClosed k'] in
 /-- **The second square on sections, pointwise**: over an étale `X`-scheme `U` with Noetherian
 space, the divisor of an invertible function on the generic fibre of `U`, carried to `X'`, is the
 divisor of its restriction to the generic fibre of `U ×_X X'`. -/
@@ -92,6 +93,7 @@ theorem closedPointDivisorDirectImageMap_divisorSequenceSecondMap_apply (U : X.E
     closedPointDivisorSheafSection_apply U' _
   rw [h1, h2, h3, h4, h5, h6, h7]
 
+omit [IsAlgClosed k'] in
 /-- **The second commuting square at an affine étale `X`-scheme.** -/
 theorem divisorSequenceSecondMap_comp_closedPointDivisorDirectImageMap_app (W : X.AffineEtale) :
     (divisorSequenceSecondMap.{u, v} X ≫ closedPointDivisorDirectImageMap.{u, v}
@@ -112,6 +114,7 @@ theorem divisorSequenceSecondMap_comp_closedPointDivisorDirectImageMap_app (W : 
   obtain ⟨x, rfl⟩ := Stacks.Kummer.ofUnit_surjective.{u, v} z
   exact closedPointDivisorDirectImageMap_divisorSequenceSecondMap_apply g k' _ x
 
+omit [IsAlgClosed k'] in
 /-- **The second commuting square of the divisor-sequence comparison**: the divisor map of `X`
 followed by the third component equals the second component followed by the direct image of the
 divisor map of `X_{k'}`. -/
@@ -158,6 +161,7 @@ def divisorSequenceInverseImageHom :
   inverseImageShortComplexHom.{u, u + 1} (scalarExtensionFst k k' g)
     (divisorSequenceScalarExtensionHom g k')
 
+omit [IsAlgClosed k'] in
 /-- The first component of `divisorSequenceInverseImageHom` is the comparison
 `p⁻¹ 𝐆_{m,X} ⟶ 𝐆_{m,X'}`. -/
 theorem divisorSequenceInverseImageHom_τ₁ :
@@ -185,6 +189,7 @@ def closedPointDivisorScalarExtensionTop :
           (Scheme.Etale.mk (𝟙 (scalarExtension k k' g)))).op).hom.comp
     ((divisorSequenceScalarExtensionHom g k').τ₃.hom.app (op (Scheme.Etale.mk (𝟙 X)))).hom
 
+omit [IsAlgClosed k'] in
 /-- **Restriction in degree zero along the third component**: the restriction of the class of a
 global divisor of `X`, moved along `p⁻¹(⨁ i_{x,*} 𝐙) ⟶ ⨁ i_{x',*} 𝐙`, is the class of the
 carried global divisor. -/
@@ -227,6 +232,7 @@ theorem sheafH_map_etaleCohomologyRestrictionMap_closedPointDivisorSheaf
     (ConcreteCategory.congr_hom (NatTrans.congr_app (congrArg (fun f => f.hom) hψ)
       (op (Scheme.Etale.mk (𝟙 X)))) s)).symm
 
+omit [IsAlgClosed k'] in
 /-- **The connecting map of the divisor sequence commutes with scalar extension**: restricting
 the class in `H¹(X, 𝐆_m)` of a global divisor of `X` to `X'` (and moving it along
 `p⁻¹ 𝐆_{m,X} ⟶ 𝐆_{m,X'}`) gives the class of the carried global divisor of `X'`. -/
@@ -266,7 +272,7 @@ theorem integerSkyscraperSectionsIsoLocallyConstantMaps_map_of_eq_const {Y : Sch
     (Spec (Y.residueField y)) (ULift.{max (u + 1) v} ℤ)).hom.naturality
       ((smallEtaleBaseChange (Y.fromSpecResidueField y)).map f).op) w
   refine hnat.trans ?_
-  show LocallyConstant.comap _
+  change LocallyConstant.comap _
     ((integerSkyscraperSectionsIsoLocallyConstantMaps.{u, v} Y y W).hom w) = _
   rw [hw]
   rfl
@@ -315,7 +321,7 @@ theorem integerSkyscraperTopAddEquiv_of_eq_const (Y : Scheme.{u}) (y : Y)
     (hw : (integerSkyscraperSectionsIsoLocallyConstantMaps.{u, v} Y y
       (Scheme.Etale.mk (𝟙 Y))).hom w = LocallyConstant.const _ c) :
     integerSkyscraperTopAddEquiv.{u, v} Y y w = c.down := by
-  show ((integerSkyscraperSectionsIsoLocallyConstantMaps.{u, v} Y y
+  change ((integerSkyscraperSectionsIsoLocallyConstantMaps.{u, v} Y y
     (Scheme.Etale.mk (𝟙 Y))).hom w (residueFibreEtaleMkIdPoint Y y)).down = _
   rw [hw]
   rfl
@@ -357,6 +363,7 @@ theorem closedPointDivisorSheafTopAddEquiv_ι (Y : Scheme.{u})
     refine (map_zero (integerSkyscraperTopAddEquiv.{u, u + 1} Y z.1)).trans ?_
     exact (Finsupp.single_eq_of_ne (by exact fun h => hz (by exact h))).symm
 
+omit [IsAlgClosed k'] in
 /-- **The carried global divisor of a single section of the summand at `x`** is the restriction
 of its image in the summand at the closed point over `x`. -/
 theorem closedPointDivisorScalarExtensionTop_ι (x : closedPoints X)
@@ -456,7 +463,7 @@ theorem curveClassGroupScalarExtensionMap_single (x : closedPoints X) :
   have he := sheafHOneMultiplicativeAddEquivClosedPointClassGroup_divisorBoundary g sx
   rw [hsx] at he
   rw [← he]
-  show sheafHOneMultiplicativeAddEquivClosedPointClassGroup (scalarExtensionSnd k k' g)
+  change sheafHOneMultiplicativeAddEquivClosedPointClassGroup (scalarExtensionSnd k k' g)
     (Sheaf.H.map (Stacks.Kummer.multiplicativeInverseImageComparison.{u, u + 1}
       (scalarExtensionFst k k' g)) 1
       (etaleCohomologyRestrictionMap.{u, u + 1, u + 1} (scalarExtensionFst k k' g)

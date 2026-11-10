@@ -121,7 +121,7 @@ theorem bijective_globalFunctionsOfMap_id :
     Function.Bijective (globalFunctionsOfMap (𝟙 (schemeSpace T))) := by
   refine Function.bijective_iff_has_inverse.2
     ⟨fun s => s.1 (op (selfChart B S hS T)), fun r => ?_, fun s => ?_⟩
-  · show (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
+  · change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
       (chartToBaseOfMap (𝟙 (schemeSpace T)) (selfChart B S hS T))).op).hom r = r
     rw [chartToBase_id_selfChart]
     have h : Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (𝟙 T)).op = 𝟙 _ := by
@@ -238,7 +238,7 @@ theorem bijective_app_of_bijective_baseRingGlobalSectionsModule_map {X : Algebra
       (Stacks.SheafOfModules.FiniteTypeKernel.sectionsEquivOfTerminal F hU))
   have he : ∀ x, e F₂ ((baseRingGlobalSectionsModule B S hS X φ).map c x) =
       c.val.app (op U) (e F₁ x) := fun x => by
-    show (modelSectionsHomEquiv B S hS X φ F₂
+    change (modelSectionsHomEquiv B S hS X φ F₂
         ((baseRingGlobalSectionsModule B S hS X φ).map c x)).val.app (op U)
           (1 : chartRing B S hS X.1 X.2 U) = _
     rw [modelSectionsHomEquiv_naturality]

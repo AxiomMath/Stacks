@@ -281,8 +281,7 @@ public theorem isFiniteTypeOnAffine_freeGradedModuleOn [P.IsCommutative] (F : X.
   refine top_unique ?_
   rintro y -
   obtain ⟨t, rfl⟩ := surjective_freeGradedMk F d (d + m) (hP (d + m + -d)) U.2 y
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero]; exact AddSubgroup.zero_mem _
+  induction t using TensorProduct.inductionOn with
   | tmul g a =>
     obtain ⟨c, hc⟩ := hspan g
     refine map_tmul_mem_of_sum_smul X.presheaf (isSheaf_structureRingPresheaf X) F

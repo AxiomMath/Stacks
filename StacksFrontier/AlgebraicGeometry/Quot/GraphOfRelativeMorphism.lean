@@ -187,9 +187,9 @@ theorem graphMap_isClosedImmersion {T : BigFppfOver B S hS}
   let α : pullback p.base z ⟶ pullback p.morphism (𝟙 X) :=
     pullback.lift (𝟙 _) p.morphism (by simp)
   let eSource : pullback p.base z ≅ pullback p.morphism (𝟙 X) :=
-    Iso.mk α (pullback.fst p.morphism (𝟙 X)) (by simp [α, pullback.lift_fst]) (by
+    Iso.mk α (pullback.fst p.morphism (𝟙 X)) (by simp [α]) (by
       apply pullback.hom_ext
-      · simp [α, pullback.lift_fst]
+      · simp [α]
       · rw [Category.assoc, pullback.lift_snd, Category.id_comp]
         exact pullback.condition)
   let eTarget : pullback (p.morphism ≫ x) (𝟙 X ≫ x) ≅ pullback (pullback.fst z x ≫ z) p.base :=
@@ -200,11 +200,11 @@ theorem graphMap_isClosedImmersion {T : BigFppfOver B S hS}
     apply pullback.hom_ext
     · apply pullback.hom_ext
       · conv_rhs => rw [Category.assoc, graphMap_fst_fst p]
-        simp [α, d, eTarget, pullbackAssoc_hom_snd_fst, pullback.lift_fst_assoc]
+        simp [α, d, eTarget, pullbackAssoc_hom_snd_fst]
       · conv_rhs => rw [Category.assoc, graphMap_fst_snd p]
-        simp [α, d, eTarget, pullbackAssoc_hom_snd_snd, pullback.lift_snd]
+        simp [α, d, eTarget, pullbackAssoc_hom_snd_snd]
     · rw [graphMap_snd p]
-      simp [α, d, eTarget, pullback.lift_fst_assoc]
+      simp [α, d, eTarget]
   have hd : IsClosedImmersion B S hS d := isClosedImmersion_mapDesc B S hS p.morphism (𝟙 X) x hsep
   have hde : IsClosedImmersion B S hS (d ≫ eTarget.hom) :=
     MorphismProperty.RespectsIso.postcomp _ eTarget.hom d hd
@@ -265,7 +265,7 @@ theorem property_range_graphMap_comp_snd {T : BigFppfOver B S hS}
     ((Subfunctor.range (graphMap p)).ι ≫ pullback.snd (pullback.fst z x ≫ z) p.base)
   have hcomp : eSp.hom ≫ rToT = (ObjectProperty.homMk (pullback.fst p.base z) : Psp ⟶ Tsp) := by
     apply ObjectProperty.hom_ext
-    show Subfunctor.toRange (graphMap p) ≫ (Subfunctor.range (graphMap p)).ι ≫
+    change Subfunctor.toRange (graphMap p) ≫ (Subfunctor.range (graphMap p)).ι ≫
       pullback.snd (pullback.fst z x ≫ z) p.base = pullback.fst p.base z
     rw [← Category.assoc, Subfunctor.toRange_ι, graphMap_snd]
   have sq : IsPullback (ObjectProperty.homMk (pullback.snd p.base z) :

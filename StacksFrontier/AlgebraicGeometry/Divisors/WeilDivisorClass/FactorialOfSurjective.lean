@@ -62,6 +62,7 @@ def primeWeilDivisor (Z : PrimeDivisor X) : WeilDivisor X :=
     have hne' : W ≠ Z := by simpa using hne
     simp [hne'] at hW⟩
 
+omit [IsIntegral X] [IsLocallyNoetherian X] in
 open scoped Classical in
 /-- The coefficient of `primeWeilDivisor Z` at `W` is `1` if `W = Z` and `0` otherwise. -/
 @[simp]

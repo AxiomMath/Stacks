@@ -342,6 +342,7 @@ theorem isFiniteTypeOnSite_of_reindex (M : SheafOfModules.{w} R)
       Sieve.ofArrows_inverse_mem e.symm g hcov,
       fun i => hasFiniteGlobalGenerators_over_of_reindex e R M (W i) (hgen i)⟩
 
+omit [e.inverse.IsContinuous J J'] in
 /-- **Finite type on a site is invariant under an equivalence of ringed sites**, clause (5) of
 Stacks 03DL in Stacks 03DM.  This is the finite-type companion of
 `Stacks.SheafOfModules.isQuasicoherentOnSite_reindex_iff` and

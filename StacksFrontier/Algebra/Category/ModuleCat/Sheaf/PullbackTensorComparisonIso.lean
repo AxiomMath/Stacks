@@ -424,8 +424,7 @@ lemma linearMap_ext_of_baseChange_generators {R S M N P : Type u} [CommRing R] [
     (h : ∀ m : M, l (e.symm ((1 : S) ⊗ₜ[R] m)) = r (e.symm ((1 : S) ⊗ₜ[R] m))) : l = r := by
   refine LinearMap.ext fun z ↦ ?_
   obtain ⟨t, rfl⟩ : ∃ t, e.symm t = z := ⟨e z, e.symm_apply_apply z⟩
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add a b ha hb => simpa only [map_add] using congrArg₂ (· + ·) ha hb
   | tmul a m =>
       have ht : (a ⊗ₜ[R] m : S ⊗[R] M) = a • ((1 : S) ⊗ₜ[R] m) := by
@@ -450,15 +449,7 @@ lemma addHom_ext_of_tensor_germ {Z : RingedSpace.{u, u}}
   refine AddMonoidHom.ext fun t ↦ ?_
   obtain ⟨w, rfl⟩ : ∃ w, (tensorStalkIso Z z A B).symm w = t :=
     ⟨tensorStalkIso Z z A B t, (tensorStalkIso Z z A B).symm_apply_apply t⟩
-  induction w using TensorProduct.induction_on with
-  | zero =>
-      calc
-        l ((tensorStalkIso Z z A B).symm 0) = l 0 :=
-          congrArg l (map_zero (tensorStalkIso Z z A B).symm)
-        _ = 0 := l.map_zero
-        _ = r 0 := r.map_zero.symm
-        _ = r ((tensorStalkIso Z z A B).symm 0) :=
-          (congrArg r (map_zero (tensorStalkIso Z z A B).symm)).symm
+  induction w using TensorProduct.inductionOn with
   | add a b ha hb => simpa only [map_add] using congrArg₂ (· + ·) ha hb
   | tmul p q =>
       obtain ⟨Up, hUp, sp, hsp⟩ := Stacks.SheafOfModules.exists_grpGerm_eq Z A.val z p
@@ -546,7 +537,7 @@ theorem comparison_isIso : IsIso (comparison f A B) := by
   rw [ConcreteCategory.isIso_iff_bijective]
   let := stalkModule X ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
     ⟨X.presheaf, X.IsSheaf⟩).obj ((pullbackSheaf f A))).obj ((pullbackSheaf f B)))).val x
-  show Function.Bijective (comparisonStalkMap f A B x)
+  change Function.Bijective (comparisonStalkMap f A B x)
   rw [comparisonStalkMap_eq]
   exact (stalkComparisonEquiv f A B x).bijective
 

@@ -129,7 +129,7 @@ theorem isIso_homology_comparison_of_triangle
         have hnat : T.mor₃ ≫ α.app (T.obj₁⟦(1 : ℤ)⟧) = α.app T.obj₃ ≫ F.map T.mor₃ :=
           α.naturality T.mor₃
         have hcs := NatTrans.shift_app_comm α (1 : ℤ) T.obj₁
-        show T.mor₃ ≫ (α.app T.obj₁)⟦(1 : ℤ)⟧' =
+        change T.mor₃ ≫ (α.app T.obj₁)⟦(1 : ℤ)⟧' =
           α.app T.obj₃ ≫ F.map T.mor₃ ≫ (F.commShiftIso (1 : ℤ)).hom.app T.obj₁
         rw [← Category.assoc, ← hnat, Category.assoc, ← hcs]
         simp }

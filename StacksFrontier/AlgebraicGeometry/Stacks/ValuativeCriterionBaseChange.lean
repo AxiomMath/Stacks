@@ -115,8 +115,7 @@ theorem pastedGamma
         (kk ◁ ((α_ jq yy gg).inv ≫ (γq ▷ gg) ≫ (α_ xx pp gg).hom ≫ (xx ◁ ψ) ≫
           (α_ xx ss ff).inv)) ≫ (α_ kk (xx ≫ ss) ff).inv := by
   repeat first
-    | rw [assocInv_comp] | rw [assocHom_comp] | rw [comp_assocInv] | rw [comp_assocHom]
-    | rw [assocInv_comp'] | rw [assocHom_comp'] | rw [comp_assocInv'] | rw [comp_assocHom']
+    | rw [assocInv_comp] | rw [assocHom_comp] | rw [comp_assocInv]
   refine hom₂_ext_app fun A => ?_
   exact (congrArg
       (fun t => t ≫ ψ.hom.toNatTrans.app (xx.hom.toFunctor.obj (kk.hom.toFunctor.obj A)))
@@ -226,10 +225,10 @@ theorem valuativeCriterionUniqueness_baseChange
   -- the goal names the dotted-arrow category through `D.γ` and the equivalence through
   -- `(asIso D.γ).hom`; the two are the same category
   refine ⟨?_, ?_⟩
-  · show IsSetoidCategory
+  · change IsSetoidCategory
       (CategoryTheory.DottedArrow D.x D.j P.fst.hom D.y (asIso D.γ).hom)
     exact IsSetoidCategory.of_faithful E.functor hE.faithful inferInstance hSetoid
-  · show ∀ a b : CategoryTheory.DottedArrow D.x D.j P.fst.hom D.y (asIso D.γ).hom,
+  · change ∀ a b : CategoryTheory.DottedArrow D.x D.j P.fst.hom D.y (asIso D.γ).hom,
       Nonempty (a ≅ b)
     exact nonempty_iso_of_isEquivalence E.functor hE hIso
 

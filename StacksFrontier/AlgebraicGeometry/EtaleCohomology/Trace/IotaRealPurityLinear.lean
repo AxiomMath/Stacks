@@ -122,7 +122,7 @@ public theorem exists_norm_eq_pow_of_isRoot_toSquareBlock_linear (ι : K →+* �
   have hσbd : ∀ g i j, d i ≠ d j → (σ' g : Matrix (Fin r) (Fin r) K) i j = 0 := by
     intro g i j h
     rw [hσ' g]
-    exact if_neg h
+    exact ite_eq_right h
   have hstab : ∀ (Q : ℤ → Prop) [DecidablePred Q] (g : Γ), (σ' g : Matrix (Fin r) (Fin r) K) ∈
       stabilizerSubalgebra (coordSubspace (K := K) fun i => Q (d i)) := fun Q _ g =>
     mem_stabilizerSubalgebra_coordSubspace_of_blockDiag (hσbd g) Q
@@ -181,7 +181,7 @@ public theorem exists_norm_eq_pow_of_isRoot_toSquareBlock_linear (ι : K →+* �
   set Zq := (exp B).toSquareBlockProp fun i => ¬ p i with hZq_def
   have hzc : (exp B).charpoly = Zp.charpoly * Zq.charpoly :=
     charpoly_eq_mul_toSquareBlockProp _ p fun i hi j hj =>
-      hzbd i j fun e => hi (by show β < rr (d i); rw [e]; exact hj)
+      hzbd i j fun e => hi (by change β < rr (d i); rw [e]; exact hj)
   have hroots : (exp B).charpoly.roots = Zp.charpoly.roots + Zq.charpoly.roots := by
     rw [hzc, Polynomial.roots_mul]
     exact ((Matrix.charpoly_monic _).mul (Matrix.charpoly_monic _)).ne_zero
@@ -404,7 +404,7 @@ public theorem exists_norm_eq_pow_of_isGradedUpper_linear (ι : K →+* ℂ) (H 
   have hσv : ∀ g, (σ' g : Matrix (Fin r) (Fin r) K) = gradedDiag d (T g) := fun g => rfl
   have hgd : Continuous (gradedDiag d : Matrix (Fin r) (Fin r) K → Matrix (Fin r) (Fin r) K) := by
     refine continuous_pi fun i => continuous_pi fun j => ?_
-    show Continuous fun T : Matrix (Fin r) (Fin r) K => if d i = d j then T i j else 0
+    change Continuous fun T : Matrix (Fin r) (Fin r) K => if d i = d j then T i j else 0
     split_ifs
     · exact (continuous_apply j).comp (continuous_apply i)
     · exact continuous_const
@@ -416,7 +416,7 @@ public theorem exists_norm_eq_pow_of_isGradedUpper_linear (ι : K →+* ℂ) (H 
       stabilizerSubalgebra (coordSubspace (K := K) fun i => Q (d i)) := fun Q _ g =>
     mem_stabilizerSubalgebra_coordSubspace_of_blockDiag (fun i j h => by
       rw [hσv]
-      exact if_neg h) Q
+      exact ite_eq_right h) Q
   set S : Set (Module.End K (Fin r → K)) :=
     Set.range fun g => Matrix.toLin' (σ' g : Matrix (Fin r) (Fin r) K) with hS_def
   have hSiff : ∀ X : Submodule K (Fin r → K), IsStableUnder S X ↔

@@ -248,7 +248,7 @@ lemma moduleValueMap_comp
     (f : B →ₐ[A] C) (g : C →ₐ[A] D) (x : moduleValue A F B) :
     moduleValueMap A F (g.comp f) x =
       moduleValueMap A F g (moduleValueMap A F f x) := by
-  show F.map (CommAlgCat.ofHom (g.comp f)).op.op x =
+  change F.map (CommAlgCat.ofHom (g.comp f)).op.op x =
     F.map (CommAlgCat.ofHom g).op.op (F.map (CommAlgCat.ofHom f).op.op x)
   rw [show (CommAlgCat.ofHom (g.comp f)).op.op =
       (CommAlgCat.ofHom f).op.op ≫ (CommAlgCat.ofHom g).op.op by rfl]
@@ -504,7 +504,7 @@ lemma tangentDecomposition_naturality {X Y : AlgebraModulePair.{v} A} (f : X ⟶
   · exact hfst
   · apply Subtype.ext
     rw [(tangentFunctor A F).map_coe]
-    show moduleValueMap A F (squareZeroMap A f) x -
+    change moduleValueMap A F (squareZeroMap A f) x -
         moduleValueMap A F (squareZeroSection A Y)
           (moduleValueMap A F (squareZeroAugmentation A Y)
             (moduleValueMap A F (squareZeroMap A f) x)) =
@@ -522,21 +522,18 @@ lemma tangentMultiplication_naturality {X Y : AlgebraModulePair.{v} A} (f : X �
     (tangentFunctor A F).map f (tangentMultiplication A F X t) =
       tangentMultiplication A F Y
         (TensorProduct.map f.linear (moduleValueMap A F f.base) t) := by
-  induction t using TensorProduct.induction_on with
-  | zero =>
-      rw [map_zero, map_zero]
-      exact (tangentMultiplication A F Y).map_zero
+  induction t using TensorProduct.inductionOn with
   | tmul n y =>
       apply Subtype.ext
       rw [(tangentFunctor A F).map_coe]
-      show moduleValueMap A F (squareZeroMap A f)
+      change moduleValueMap A F (squareZeroMap A f)
           (squareZeroInr A X n • moduleValueMap A F (squareZeroSection A X) y) =
         squareZeroInr A Y (f.linear n) •
           moduleValueMap A F (squareZeroSection A Y) (moduleValueMap A F f.base y)
       rw [(moduleValueMap A F (squareZeroMap A f)).map_smulₛₗ]
       congr 1
       · apply TrivSqZeroExt.ext
-        · show f.base 0 = 0
+        · change f.base 0 = 0
           exact map_zero f.base
         · rfl
       · exact moduleValueMap_comp_congr A F (squareZeroMap_comp_section A f) y
@@ -565,7 +562,7 @@ lemma tangentModule_subsingleton (X : AlgebraModulePair.{v} A) [Subsingleton X.m
     rw [hAlg] at h
     have hid : moduleValueMap A F (AlgHom.id A (squareZeroAlgebra A X))
         (z : extensionValue A F X) = (z : extensionValue A F X) := by
-      show F.map (CommAlgCat.ofHom (AlgHom.id A (squareZeroAlgebra A X))).op.op
+      change F.map (CommAlgCat.ofHom (AlgHom.id A (squareZeroAlgebra A X))).op.op
         (z : extensionValue A F X) = (z : extensionValue A F X)
       have hId : CommAlgCat.ofHom (AlgHom.id A (squareZeroAlgebra A X)) = 𝟙 _ := by rfl
       have hCat := congrArg (fun q => q.op.op) hId
@@ -587,7 +584,7 @@ lemma tangentFunctor_map_eq_zero {X Y : AlgebraModulePair.{v} A} (f : X ⟶ Y)
   intro x
   apply Subtype.ext
   rw [(tangentFunctor A F).map_coe]
-  show moduleValueMap A F (squareZeroMap A f)
+  change moduleValueMap A F (squareZeroMap A f)
     (x : extensionValue A F X) = 0
   have hAlg : squareZeroMap A f =
       (squareZeroSection A Y).comp (f.base.comp (squareZeroAugmentation A X)) := by
@@ -595,7 +592,7 @@ lemma tangentFunctor_map_eq_zero {X Y : AlgebraModulePair.{v} A} (f : X ⟶ Y)
     intro z
     apply TrivSqZeroExt.ext
     · rfl
-    · show f.linear z.snd = 0
+    · change f.linear z.snd = 0
       rw [hf]
       rfl
   rw [hAlg, moduleValueMap_comp, moduleValueMap_comp,

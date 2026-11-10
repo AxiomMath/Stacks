@@ -63,7 +63,7 @@ theorem EqualizerTensorExact.of_smul_maximalIdeal_eq_bot {M : Type*} [AddCommGro
       rw [Algebra.smul_def, IsScalarTower.algebraMap_apply A A' (ResidueField A'),
         IsLocalRing.ResidueField.algebraMap_eq, ← map_mul]
     rw [e]
-    show (algebraMap A A' a * y) • m = a • (y • m)
+    change (algebraMap A A' a * y) • m = a • (y • m)
     rw [← smul_eq_mul, smul_assoc, algebraMap_smul]
   have : Module.Free (ResidueField A') M := Module.Free.of_divisionRing _ _
   exact h.of_flat
@@ -136,8 +136,7 @@ theorem mem_map_pow_of_rTensor_eq_zero (n : ℕ) {y : A' ⊗[A] C}
   obtain ⟨z, rfl⟩ := (hex y).mp hy
   clear hy
   rw [← Ideal.map_pow]
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z w hz hw => rw [map_add]; exact Ideal.add_mem _ hz hw
   | tmul i c =>
     have : ((I.restrictScalars A).subtype.rTensor C) (i ⊗ₜ c) =

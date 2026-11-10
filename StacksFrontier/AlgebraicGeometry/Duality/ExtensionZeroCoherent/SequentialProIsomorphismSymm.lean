@@ -169,7 +169,7 @@ public lemma seqHomColimMapOfProIso_comp_symm {F G : ℕᵒᵖ ⥤ 𝒟} (e : In
   obtain ⟨⟨n⟩⟩ := n
   rw [← Category.assoc, ι_seqHomColimMapOfProIso, Category.assoc, ι_seqHomColimMapOfProIso,
     ← Category.assoc, ← coyoneda.map_comp, ← op_comp, Category.comp_id]
-  show coyoneda.map (e.ψ (e.α n) ≫ e.φ n).op ≫ _ = _
+  change coyoneda.map (e.ψ (e.α n) ≫ e.φ n).op ≫ _ = _
   rw [e.φψ n]
   exact coyoneda_map_tr_comp_ι G _
 

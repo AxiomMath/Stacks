@@ -139,7 +139,7 @@ theorem isPullback_inf {C : Type u} [Category.{v} C] {F : C ⥤ Type w} (G G' : 
     refine ⟨(s.snd.app A y).property, ?_⟩
     have hv : (s.fst.app A y).val = (s.snd.app A y).val := by
       simpa using congrArg (fun g ↦ g y) (congr_app s.condition A)
-    show (s.snd.app A y).val ∈ G'.obj A
+    change (s.snd.app A y).val ∈ G'.obj A
     rw [← hv]
     exact (s.fst.app A y).property
   · intro s

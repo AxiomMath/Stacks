@@ -83,7 +83,7 @@ public theorem exists_ne_zero_inverse_mem_jacobson_of_tensorProduct_surjective
       (fun b => j.2.valuation_le_one (algebraMap (B j.1) (C j.1) b)) (h_surj j.1)
     obtain ⟨z, hz⟩ := j.2.valuation_surjective K (WithZero.exp (1 : ℤ))
     refine ⟨z, ?_⟩
-    show 1 < j.2.valuation K z
+    change 1 < j.2.valuation K z
     rw [hz]
     exact WithZero.exp_lt_exp.mpr (by decide : (0 : ℤ) < 1)
   let _ := Fintype.ofFinite J
@@ -103,7 +103,7 @@ public theorem exists_ne_zero_inverse_mem_jacobson_of_tensorProduct_surjective
     obtain ⟨n, hn, y, hy, hyj⟩ :=
       exists_pos_pow_mem_jacobson (R := B i) (K := K) (z i) (hz0 i) (hzj i)
     refine ⟨n, hn, y, ?_, hyj⟩
-    show algebraMap (B i) K y = _
+    change algebraMap (B i) K y = _
     rw [IsScalarTower.algebraMap_apply (B i) (C i) K, hy, map_pow, hz i]
   choose n hn y hy hyj using hpow
   let _ := Fintype.ofFinite ι

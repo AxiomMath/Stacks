@@ -81,7 +81,7 @@ private theorem exists_isPullback_of_kernel_pairs {C : Type*} [Category.{u} C]
     apply prod.hom_ext <;> simp [hrs, hrt]
   refine ⟨r, ⟨⟨hw⟩, ⟨PullbackCone.isLimitAux' _ ?_⟩⟩⟩
   intro c
-  show {l : c.pt ⟶ R' // l ≫ prod.lift s' t' = c.fst ∧ l ≫ r = c.snd ∧
+  change {l : c.pt ⟶ R' // l ≫ prod.lift s' t' = c.fst ∧ l ≫ r = c.snd ∧
     ∀ {m' : c.pt ⟶ R'}, m' ≫ prod.lift s' t' = c.fst → m' ≫ r = c.snd → m' = l}
   have hcs : c.fst ≫ prod.fst ≫ m = c.snd ≫ s := by
     simpa using congrArg (· ≫ prod.fst) c.condition
@@ -235,11 +235,11 @@ private theorem exists_quotientSheafIso_of_atlas
   have hcd : c ≫ d = 𝟙 FF := by
     apply Cofork.IsColimit.hom_ext hc
     apply Sheaf.hom_ext
-    show a ≫ c.hom ≫ d.hom = a ≫ 𝟙 F
+    change a ≫ c.hom ≫ d.hom = a ≫ 𝟙 F
     rw [← Category.assoc, hac, hqd, Category.comp_id]
   have hdc : d ≫ c = 𝟙 Q := by
     apply quotientSheaf_hom_ext J G j Q
-    show p ≫ d.hom ≫ c.hom = p ≫ 𝟙 Q.obj
+    change p ≫ d.hom ≫ c.hom = p ≫ 𝟙 Q.obj
     rw [← Category.assoc, hd, Category.assoc, hac]
     simp only [q, Iso.hom_inv_id_assoc]
     exact (Category.comp_id p).symm
@@ -357,7 +357,7 @@ theorem isRepresentable_of_etale_over_field
       MorphismProperty.IsStableUnderComposition.inverseImage _
     have _ : P.IsStableUnderBaseChange := ⟨by
       intro X₁ X₂ X₃ X₄ f₁ g₁ f₂ g₂ hpb hg
-      show Etale (T.map g₂)
+      change Etale (T.map g₂)
       exact MorphismProperty.IsStableUnderBaseChange.of_isPullback
         (P := @Etale) (hpb.map T) hg⟩
     have _ : P.presheaf.IsStableUnderComposition :=
@@ -492,11 +492,11 @@ theorem isRepresentable_of_etale_over_field
         (G.map (mi i))).left := IsAffine.of_isIso eR.inv.left
     have _ : Stacks.Morphisms.IsFiniteLocallyFree (restrictedRel i).source.left :=
       hfree (tchart i) (hChartFree i _ (hChartTargetEtale i)) _ (by
-        show eR.hom ≫ pullback.fst _ _ ≫ prod.snd = _
+        change eR.hom ≫ pullback.fst _ _ ≫ prod.snd = _
         rw [← Category.assoc, heR, prod.lift_snd])
     have _ : Stacks.Morphisms.IsFiniteLocallyFree (restrictedRel i).target.left :=
       hfree (schart i) (hChartFree i _ (hChartSourceEtale i)) _ (by
-        show eR.hom ≫ pullback.fst _ _ ≫ prod.fst = _
+        change eR.hom ≫ pullback.fst _ _ ≫ prod.fst = _
         rw [← Category.assoc, heR, prod.lift_fst])
     exact isRepresentable_quotientSheaf_of_isFiniteLocallyFree B S hS (restrictedRel i)
       (hYiSize i)
@@ -534,7 +534,7 @@ theorem isRepresentable_of_etale_over_field
       toQuotientSheaf J G (restrictedRel i) ≫ (Q i).obj.reprW.inv, ?_⟩
     dsimp only [b]
     simp only [Category.assoc, Iso.inv_hom_id_assoc]
-    show (pointsYonedaIso G (Ui i)).inv ≫
+    change (pointsYonedaIso G (Ui i)).inv ≫
       (toQuotientSheaf J G (restrictedRel i) ≫
         (restrictQuotientSheafMap J G globalRel (G.map (mi i))).hom) ≫ eGlobal.hom = atlasI i
     rw [restrictQuotientSheafMap, toQuotientSheaf_comp_quotientSheafMap,
@@ -552,7 +552,7 @@ theorem isRepresentable_of_etale_over_field
     · exact hmiOpen i
     · obtain ⟨⟨i, y⟩, hy⟩ := (sigmaMk Y).surjective (e.inv x)
       refine ⟨i, y, ?_⟩
-      show T.map (mi i) y = x
+      change T.map (mi i) y = x
       rw [hmi]
       rw [sigmaMk_mk] at hy
       rw [Scheme.Hom.comp_apply, hy]
@@ -565,7 +565,7 @@ theorem isRepresentable_of_etale_over_field
     have hcomp : Sigma.desc (fun i => yoneda.map (mi i)) ≫ atlas =
         Sigma.desc (fun i => atlasI i) := by
       refine Sigma.hom_ext _ _ fun i => ?_
-      simp only [Sigma.ι_desc_assoc, Sigma.ι_desc, atlasI]
+      simp only [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc, atlasI]
     rw [← hcomp]
     infer_instance
   choose z hz using hfactor
@@ -574,7 +574,7 @@ theorem isRepresentable_of_etale_over_field
       Sigma.ι (fun i => (images i).toFunctor) i))
     (f₃ := Sigma.desc (fun i => atlasI i)) ?_
   refine Sigma.hom_ext _ _ fun i => ?_
-  simp only [Sigma.ι_desc_assoc, Category.assoc, Sigma.ι_desc, images,
+  simp only [Sigma.ι_comp_desc_assoc, Category.assoc, Sigma.ι_comp_desc, images,
     Subfunctor.toRange_ι, hz]
 
 end AlgebraicGeometry.Space

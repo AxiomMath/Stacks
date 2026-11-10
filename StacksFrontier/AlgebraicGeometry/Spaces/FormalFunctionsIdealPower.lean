@@ -130,7 +130,7 @@ theorem globalSmul_factors_idealPowerSubmoduleι (n : ℕ) {a : S.ring} (ha : a 
         S.coefficients :=
   ⟨Sigma.ι (fun _ : ↥(S.ideal ^ n) => S.coefficients) ⟨a, ha⟩ ≫
       factorThruImage (idealPowerSmulHom S n), by
-    rw [Category.assoc, image.fac, Sigma.ι_desc]⟩
+    rw [Category.assoc, image.fac, Sigma.ι_comp_desc]⟩
 
 /-- **`Iⁿℱ` is quasi-coherent** (Section 08AU): it is the image of a morphism from a direct sum
 of copies of the coherent, hence quasi-coherent, module `ℱ` to `ℱ`; a direct sum of

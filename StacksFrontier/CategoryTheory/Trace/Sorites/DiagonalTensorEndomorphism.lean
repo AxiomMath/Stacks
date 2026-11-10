@@ -106,8 +106,7 @@ def diagonalTensorEndomorphism
     eNC.symm.toLinearMap.comp (f0.comp eNC.toLinearMap)
   have hf0 : ∀ g z, f0 (τ g z) = τ g (f0 z) := by
     intro g z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul m p =>
         change f0 ((σ g m) ⊗ₜ[A] (ρ g p)) =
           (σ g (v m)) ⊗ₜ[A] (ρ g (u p))

@@ -183,7 +183,7 @@ every degree `> n`, since it is an isomorphism in the three relevant degrees. -/
 public theorem isIso_homologyMap_stupidTruncGEIncl {C : Type u₁} [Category.{v₁} C] [Abelian C]
     (K : CochainComplex C ℤ) (n i : ℤ) (hi : n < i) :
     IsIso (HomologicalComplex.homologyMap (stupidTruncGEIncl K n) i) := by
-  show IsIso (ShortComplex.homologyMap
+  change IsIso (ShortComplex.homologyMap
     ((HomologicalComplex.shortComplexFunctor C (ComplexShape.up ℤ) i).map
       (stupidTruncGEIncl K n)))
   apply ShortComplex.isIso_homologyMap_of_epi_of_isIso_of_mono'
@@ -198,7 +198,7 @@ degree `n`: it is an isomorphism in degree `n` and a monomorphism in degree `n +
 public theorem epi_homologyMap_stupidTruncGEIncl {C : Type u₁} [Category.{v₁} C] [Abelian C]
     (K : CochainComplex C ℤ) (n : ℤ) :
     Epi (HomologicalComplex.homologyMap (stupidTruncGEIncl K n) n) := by
-  show Epi (ShortComplex.homologyMap
+  change Epi (ShortComplex.homologyMap
     ((HomologicalComplex.shortComplexFunctor C (ComplexShape.up ℤ) n).map
       (stupidTruncGEIncl K n)))
   have : IsIso ((HomologicalComplex.shortComplexFunctor C (ComplexShape.up ℤ) n).map
@@ -223,7 +223,7 @@ reindexes the terms by a translation. -/
 public theorem isStrictlyPerfect_shift {P : CochainComplex (OXMod.{u, u} Y) ℤ}
     (hP : IsStrictlyPerfect P) (n : ℤ) : IsStrictlyPerfect (P⟦n⟧) where
   bounded := by
-    show {i : ℤ | ¬ IsZero (P.X (i + n))}.Finite
+    change {i : ℤ | ¬ IsZero (P.X (i + n))}.Finite
     exact hP.bounded.preimage (add_left_injective n).injOn
   directSummand i := hP.directSummand (i + n)
 

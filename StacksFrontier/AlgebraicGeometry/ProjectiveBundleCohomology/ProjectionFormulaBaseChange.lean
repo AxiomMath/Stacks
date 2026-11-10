@@ -171,7 +171,7 @@ public theorem δ_comp_pairBaseChangeNat {T : ShortComplex X.Modules} (hT : T.Sh
     (pushDelta f).δ hT q ≫ pairBaseChangeNat f g f' g' w μ.τ₁ (q + 1) =
       pairBaseChangeNat f g f' g' w μ.τ₃ q ≫
         (Scheme.Modules.pushforward g).map ((pushDelta f').δ hT' q) := by
-  show ((Stacks.DerivedIndexing.rightDerivedIso _ q).hom.app T.X₃ ≫
+  change ((Stacks.DerivedIndexing.rightDerivedIso _ q).hom.app T.X₃ ≫
         Stacks.DerivedIndexing.canonicalδ (Scheme.Modules.pushforward f) hT q ≫
         (Stacks.DerivedIndexing.rightDerivedIso _ (q + 1)).inv.app T.X₁) ≫ _ =
     _ ≫ (Scheme.Modules.pushforward g).map ((Stacks.DerivedIndexing.rightDerivedIso _ q).hom.app _ ≫
@@ -369,7 +369,7 @@ private theorem squarePullbackIso_hom_comp :
     (squarePullbackIso f g f' g' w G).hom ≫ (Scheme.Modules.pullbackComp f' g).hom.app G ≫
         (Scheme.Modules.pullbackCongr w.symm).hom.app G =
       (Scheme.Modules.pullbackComp g' f).hom.app G := by
-  show ((Scheme.Modules.pullbackComp g' f).hom.app G ≫
+  change ((Scheme.Modules.pullbackComp g' f).hom.app G ≫
       (Scheme.Modules.pullbackCongr w).hom.app G ≫ (Scheme.Modules.pullbackComp f' g).inv.app G) ≫
     (Scheme.Modules.pullbackComp f' g).hom.app G ≫
       (Scheme.Modules.pullbackCongr w.symm).hom.app G = _
@@ -506,7 +506,7 @@ public theorem projectionFormulaMap_square (M : X'.Modules) :
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
           (S.toRingedSpace).sheaf).flip.obj G).map
         ((Scheme.Modules.pushforwardComp g' f).inv.app M) = 𝟙 _ :=
-    ((Scheme.Modules.pushforwardComp g' f).app M).map_hom_inv_id _
+    ((Scheme.Modules.pushforwardComp g' f).app M).hom_inv_id_map _
   have hc' : (Scheme.Modules.pushforward f).map ((Scheme.Modules.pushforward g').map
         (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
             (X'.toRingedSpace).sheaf).obj M).map
@@ -825,7 +825,7 @@ private theorem pushforwardTensorRightFiniteLocallyFreeNatIso_naturality_right
     (Stacks.ProjectionFormula.pushforwardTensorRightFiniteLocallyFreeNatIso f G'),
     Category.assoc, Category.assoc, Iso.hom_inv_id_app]
   refine Eq.trans ?_ (Category.comp_id _).symm
-  show _ ≫ (tensorRightInvertibleNatTrans S γ).app _ ≫
+  change _ ≫ (tensorRightInvertibleNatTrans S γ).app _ ≫
     (Stacks.ProjectionFormula.pushforwardTensorRightNatTrans f G').app A = _
   rw [hpm, ← Category.assoc,
     show (Stacks.ProjectionFormula.pushforwardTensorRightFiniteLocallyFreeNatIso f G).hom.app A ≫
@@ -850,7 +850,7 @@ public theorem projectionFormulaDeltaApp_naturality_right (F : X.Modules) (q : �
         (projectionFormulaDelta f G').hom := by
     refine DeltaFunctor.IsUniversal.hom_ext_zero (F := projectionSourceDelta f G) ?_
     refine NatTrans.ext (funext fun A => ?_)
-    show (projectionFormulaDeltaApp f G A 0).hom ≫ (tensorRightInvertibleNatTrans S γ).app _ =
+    change (projectionFormulaDeltaApp f G A 0).hom ≫ (tensorRightInvertibleNatTrans S γ).app _ =
       ((Scheme.Modules.pushforward f).rightDerived 0).map
           ((tensorRightInvertibleNatTrans X ((Scheme.Modules.pullback f).map γ)).app A) ≫
         (projectionFormulaDeltaApp f G' A 0).hom

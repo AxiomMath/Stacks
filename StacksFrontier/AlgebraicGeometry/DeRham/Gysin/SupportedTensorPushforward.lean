@@ -97,7 +97,9 @@ counit and a braiding — are dropped, and a braiding on `X` is put in their pla
 
 ## Implementation notes
 
-**Placement.** `StacksFrontier/Topology/Sheaves/Cohomology/SupportedComplexes/SupportedSectionsDerivedTensor.lean` is where `supportedTensorMap` and its mate
+**Placement.**
+`StacksFrontier/Topology/Sheaves/Cohomology/SupportedComplexes/SupportedSectionsDerivedTensor.lean`
+is where `supportedTensorMap` and its mate
 equation live, and where these declarations naturally belong; they are stated in this separate
 file instead.
 

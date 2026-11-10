@@ -114,7 +114,7 @@ public theorem isOneGeneratorAlmostBlowUpModel_of_restrict_isIso {X X' : Scheme.
   refine ⟨Γ(X, ⊤), inferInstance, t, RingHom.ker (b.appTop).hom,
     fg_ker_appTop_of_finitePresentation b hfp,
     exists_pow_mul_eq_zero_of_restrict_isIso I b hfp hiso t ht, ?_⟩
-  show IsModelPairOverBase b I.subschemeι
+  change IsModelPairOverBase b I.subschemeι
     (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (RingHom.ker (b.appTop).hom))))
     (Scheme.IdealSheafData.ofIdealTop
       (Ideal.map (Scheme.ΓSpecIso Γ(X, ⊤)).inv.hom (Ideal.span {t}))).subschemeι

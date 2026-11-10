@@ -113,7 +113,7 @@ theorem exists_subschemeIso_of_image_eq
     rw [Scheme.IdealSheafData.map_vanishingIdeal]
     congr 1
     refine Closeds.ext ?_
-    show closure (f.base '' (Z : Set A)) = (W : Set Y)
+    change closure (f.base '' (Z : Set A)) = (W : Set Y)
     rw [hW, W.isClosed.closure_eq]
   have hker : i.ker = j.ker := by
     simpa [i, j, Scheme.IdealSheafData.map] using himage
@@ -165,13 +165,13 @@ private abbrev baseChangeInclusion {C X S T : Scheme.{u}}
 private theorem baseChangeInclusion_fst {C X S T : Scheme.{u}}
     (i : C ⟶ X) (g : X ⟶ S) (s : T ⟶ S) :
     baseChangeInclusion i g s ≫ pullback.fst g s = pullback.fst (i ≫ g) s ≫ i := by
-  simp [baseChangeInclusion, pullback.map, pullback.lift_fst]
+  simp [baseChangeInclusion, pullback.map]
 
 /-- The base change of a closed subscheme is compatible with the second projections. -/
 private theorem baseChangeInclusion_snd {C X S T : Scheme.{u}}
     (i : C ⟶ X) (g : X ⟶ S) (s : T ⟶ S) :
     baseChangeInclusion i g s ≫ pullback.snd g s = pullback.snd (i ≫ g) s := by
-  simp [baseChangeInclusion, pullback.map, pullback.lift_snd]
+  simp [baseChangeInclusion, pullback.map]
 
 /-- The base change of a closed immersion is a closed immersion. -/
 private theorem isClosedImmersion_baseChangeInclusion {C X S T : Scheme.{u}}
@@ -181,7 +181,7 @@ private theorem isClosedImmersion_baseChangeInclusion {C X S T : Scheme.{u}}
       (pullback.fst g s) i :=
     .of_right (t := .flip <| .of_hasPullback ..)
       (by simpa [baseChangeInclusion_snd] using (IsPullback.of_hasPullback (i ≫ g) s).flip)
-      (by simp [baseChangeInclusion_fst])
+      (by simp)
   exact (IsClosedImmersion.isStableUnderBaseChange).of_isPullback h.flip inferInstance
 
 /-- The base change of a closed subscheme has for underlying set the preimage of that
@@ -318,7 +318,7 @@ private theorem sum_componentContribution_baseChange (k K : Type u) [Field k] [F
           (j C).isClosedEmbedding.isEmbedding E.2 hr⟩
       exact ⟨⟨C, D⟩, Subtype.ext (Set.image_preimage_eq_of_subset hr)⟩
   let e := Equiv.ofBijective f hf
-  show ∑ E, componentContribution K (pullback.snd g s) E = ∑ C, ∑ D,
+  change ∑ E, componentContribution K (pullback.snd g s) E = ∑ C, ∑ D,
     componentContribution K
       (pullback.snd ((irreducibleComponentIdeal C).subschemeι ≫ g) s) D
   rw [← Fintype.sum_sigma (f := fun CD :

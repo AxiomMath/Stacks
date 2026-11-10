@@ -53,7 +53,7 @@ theorem descendHom_comp (hπτ : ∀ n, π (n + 1) ≫ τ n = π n) (n k : ℕ) 
   induction k with
   | zero => exact Category.comp_id _
   | succ k ih =>
-    show π (n + k + 1) ≫ τ (n + k) ≫ descendHom Kt τ n k = π n
+    change π (n + k + 1) ≫ τ (n + k) ≫ descendHom Kt τ n k = π n
     rw [← Category.assoc, hπτ, ih]
 
 /-- Descending a cohomology class of `Kt (n + k)` along the maps induced by the transition maps
@@ -64,14 +64,14 @@ theorem descend_homologyMap (p n k : ℕ) (y : (Kt (n + k)).homology p) :
       HomologicalComplex.homologyMap (descendHom Kt τ n k) p y := by
   induction k with
   | zero =>
-    show y = (HomologicalComplex.homologyMap (𝟙 (Kt (n + 0))) p) y
+    change y = (HomologicalComplex.homologyMap (𝟙 (Kt (n + 0))) p) y
     rw [HomologicalComplex.homologyMap_id]
     rfl
   | succ k ih =>
-    show descend (G := fun n => ((Kt n).homology p : Type v)) _ n k
+    change descend (G := fun n => ((Kt n).homology p : Type v)) _ n k
       (HomologicalComplex.homologyMap (τ (n + k)) p y) = _
     rw [ih]
-    show _ = HomologicalComplex.homologyMap (τ (n + k) ≫ descendHom Kt τ n k) p y
+    change _ = HomologicalComplex.homologyMap (τ (n + k) ≫ descendHom Kt τ n k) p y
     rw [HomologicalComplex.homologyMap_comp]
     rfl
 
@@ -132,7 +132,7 @@ theorem homology_tower_bijective (hπτ : ∀ n, π (n + 1) ≫ τ n = π n)
       obtain ⟨y, rfl⟩ := hπsurj n q y'
       have hker : (π n).f (q + 1) (z - K.d q (q + 1) y) = 0 := by
         rw [map_sub, ← hy']
-        show ((π n).f q ≫ (Kt n).d q (q + 1)) y - (K.d q (q + 1) ≫ (π n).f (q + 1)) y = 0
+        change ((π n).f q ≫ (Kt n).d q (q + 1)) y - (K.d q (q + 1) ≫ (π n).f (q + 1)) y = 0
         rw [HomologicalComplex.Hom.comm, sub_self]
       obtain ⟨w, hw, hzw⟩ := (hπker n (q + 1) _).1 hker
       have hmem : ψ (q + 1) z - f ^ (c * n) • w ∈ bd d D (q + 1) 0 := by
@@ -151,7 +151,7 @@ theorem homology_tower_bijective (hπτ : ∀ n, π (n + 1) ≫ τ n = π n)
     obtain ⟨y'', hy'', rfl⟩ := exists_eq_cls (Kt (n + e)) p y
     obtain ⟨y₁, rfl⟩ := hπsurj (n + e) p y''
     have hd1 : (π (n + e)).f (p + 1) (K.d p (p + 1) y₁) = 0 := by
-      show (K.d p (p + 1) ≫ (π (n + e)).f (p + 1)) y₁ = 0
+      change (K.d p (p + 1) ≫ (π (n + e)).f (p + 1)) y₁ = 0
       rwa [← HomologicalComplex.Hom.comm]
     obtain ⟨u, hu, hdu⟩ := (hπker (n + e) (p + 1) _).1 hd1
     rw [hψd] at hdu
@@ -168,10 +168,10 @@ theorem homology_tower_bijective (hπτ : ∀ n, π (n + 1) ≫ τ n = π n)
       rw [hdu, smul_smul, ← pow_add, ← hexp])
     obtain ⟨x₀, rfl⟩ := (hψrange p x).1 hx
     have hx₀ : IsCocycle K x₀ := hψinj (p + 1) (by
-      show ψ (p + 1) (K.d p (p + 1) x₀) = ψ (p + 1) 0
+      change ψ (p + 1) (K.d p (p + 1) x₀) = ψ (p + 1) 0
       rw [hψd, hdx, map_zero])
     refine ⟨cls K x₀ hx₀, ?_⟩
-    show HomologicalComplex.homologyMap (π n) p (cls K x₀ hx₀) =
+    change HomologicalComplex.homologyMap (π n) p (cls K x₀ hx₀) =
       HomologicalComplex.homologyMap (descendHom Kt τ n e) p (cls _ _ hy'')
     rw [homologyMap_cls (π n) p x₀ hx₀ (isCocycle_map (π n) hx₀),
       homologyMap_cls _ p _ hy'' (isCocycle_map _ hy'')]

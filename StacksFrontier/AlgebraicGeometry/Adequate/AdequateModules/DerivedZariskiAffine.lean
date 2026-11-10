@@ -163,7 +163,7 @@ theorem BigSite.isIso_derivedZariskiAdjunction_unit_app_of_affine
       (Stacks.Cohomology.DerivedPushforward.derivedPushforward f).map (d.comparison.app M)) := by
     rw [hfac]
     exact @IsIso.comp_isIso _ _ _ _ _ _ _ h₂ h₃
-  show IsIso ((Stacks.Cohomology.DerivedPushforward.derivedPullbackPushforwardAdjunction
+  change IsIso ((Stacks.Cohomology.DerivedPushforward.derivedPullbackPushforwardAdjunction
     f d).unit.app (DerivedCategory.Qh.obj M))
   exact IsIso.of_isIso_comp_right _
     ((Stacks.Cohomology.DerivedPushforward.derivedPushforward f).map (d.comparison.app M))

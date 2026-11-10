@@ -67,7 +67,7 @@ theorem exists_baseChange_eq_of_openCover {T : Over S} {ι : Type*} {U : ι → 
     Over.mk (pullback.fst (π i).left (π j).left ≫ (U i).hom)
   let a : ∀ i j, P i j ⟶ U i := fun i j ↦ Over.homMk (pullback.fst (π i).left (π j).left) rfl
   let b : ∀ i j, P i j ⟶ U j := fun i j ↦ Over.homMk (pullback.snd (π i).left (π j).left) (by
-    show pullback.snd (π i).left (π j).left ≫ (U j).hom =
+    change pullback.snd (π i).left (π j).left ≫ (U j).hom =
       pullback.fst (π i).left (π j).left ≫ (U i).hom
     rw [← Over.w (π i), ← Over.w (π j), ← Category.assoc, ← Category.assoc, pullback.condition])
   have hab : ∀ i j, a i j ≫ π i = b i j ≫ π j := fun i j ↦ by
@@ -97,7 +97,7 @@ theorem exists_baseChange_eq_of_openCover {T : Over S} {ι : Type*} {U : ι → 
       obtain ⟨z, hz, -⟩ := Scheme.Pullback.exists_preimage_pullback _ _ e
       obtain ⟨q, hq⟩ := exists_preimage_of_isPullback
         (isPullback_familyBaseChangeMap X (a i k ≫ π i)) (g i v) z (by
-          show pr (g i v) = (pullback.fst (π i).left (π k).left ≫ (π i).left) z
+          change pr (g i v) = (pullback.fst (π i).left (π k).left ≫ (π i).left) z
           rw [Scheme.Hom.comp_apply, hz, ← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply,
             (isPullback_familyBaseChangeMap X (π i)).w])
       refine ⟨q, ?_⟩
@@ -163,12 +163,12 @@ theorem isSheafFor_hilbPresheaf {T : Scheme.{u}} {ι : Type*} {Y : ι → Scheme
     obtain ⟨e, h⟩ := (sigma_eq_iff X d _ _).mp h
     refine HilbertFamily.ext ?_
     rw [baseChange_ideal, baseChange_ideal]
-    show ((x i).2.ideal.comap _).comap _ = ((x j).2.ideal.comap _).comap _
+    change ((x i).2.ideal.comap _).comap _ = ((x j).2.ideal.comap _).comap _
     rw [comap_comap_familyBaseChangeMap, comap_comap_familyBaseChangeMap]
     rw [familyPullback_ideal, familyPullback_ideal, comap_comap_familyBaseChangeMap] at h
     have h' := congrArg (Scheme.IdealSheafData.comap · (familyBaseChangeMap X
       (Over.homMk (𝟙 P.left) (by
-        show 𝟙 P.left ≫ b.left ≫ (x j).1 = P.hom
+        change 𝟙 P.left ≫ b.left ≫ (x j).1 = P.hom
         rw [Category.id_comp, ← hs j]
         exact Over.w b) : P ⟶ Over.mk (b.left ≫ (x j).1)))) h
     simp only [comap_comap_familyBaseChangeMap] at h'
@@ -176,16 +176,16 @@ theorem isSheafFor_hilbPresheaf {T : Scheme.{u}} {ι : Type*} {Y : ι → Scheme
   obtain ⟨W, hW⟩ := exists_baseChange_eq_of_openCover X π hcov Z hZ
   have hamalg : ∀ i, (hilbPresheaf X d).map (f i).op ⟨s, W⟩ = x i := by
     intro i
-    show (⟨f i ≫ s, baseChange X (π i) W⟩ : HilbSections X d (Y i)) = ⟨(x i).1, (x i).2⟩
+    change (⟨f i ≫ s, baseChange X (π i) W⟩ : HilbSections X d (Y i)) = ⟨(x i).1, (x i).2⟩
     rw [hW i, sigma_eq_iff]
     refine ⟨hs i, ?_⟩
-    show _ = ((x i).2.ideal.comap _).comap _
+    change _ = ((x i).2.ideal.comap _).comap _
     rw [comap_comap_familyBaseChangeMap, familyBaseChangeMap_congr X _ (𝟙 _) (by simp),
       familyBaseChangeMap_id, Scheme.IdealSheafData.comap_id]
   refine ⟨⟨s, W⟩, hamalg, ?_⟩
   rintro ⟨s', W'⟩ ht
   have hs' : s' = s := 𝒰.hom_ext _ _ fun i ↦ by
-    show f i ≫ s' = f i ≫ s
+    change f i ≫ s' = f i ≫ s
     rw [hs i]
     exact congrArg Sigma.fst (ht i)
   subst hs'

@@ -442,7 +442,7 @@ theorem composeHom_composeHom_inverse {F : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u
     (h₁ : composeHom β (α ≫ (inverseHom G).hom) h₀ ≫ G.source.hom = α ≫ G.target.hom) :
     composeHom (composeHom β (α ≫ (inverseHom G).hom) h₀) α h₁ = β := by
   ext V x
-  show G.toGroupoidInFunctors.compose V
+  change G.toGroupoidInFunctors.compose V
       (G.toGroupoidInFunctors.compose V (β.app V x)
         ((G.toGroupoidInFunctors.pointwiseData V).inverseArrow (α.app V x)) _)
       (α.app V x) _ = β.app V x
@@ -455,7 +455,7 @@ theorem composeHom_composeHom_inverse' {F : (BigFppfOver C S hS)ᵒᵖ ⥤ Type 
     (h₁ : composeHom β α h ≫ G.source.hom = (α ≫ (inverseHom G).hom) ≫ G.target.hom) :
     composeHom (composeHom β α h) (α ≫ (inverseHom G).hom) h₁ = β := by
   ext V x
-  show G.toGroupoidInFunctors.compose V
+  change G.toGroupoidInFunctors.compose V
       (G.toGroupoidInFunctors.compose V (β.app V x) (α.app V x) _)
       ((G.toGroupoidInFunctors.pointwiseData V).inverseArrow (α.app V x)) _ = β.app V x
   exact (G.toGroupoidInFunctors.pointwiseData V).comp_comp_inverseArrow'
@@ -698,7 +698,7 @@ theorem translatePair_containsUnit (p : Space.FiniteOpenSubspace C S hS G.source
   obtain ⟨l, hl⟩ := hmem
   refine ⟨l ≫ (Space.subfunctorIsoPreimage
     (translateAmbientIso (b := z ≫ G.target) z hz rfl) p.subspace).hom, ?_⟩
-  show (l ≫ _) ≫
+  change (l ≫ _) ≫
     (p.subspace.preimage (translateAmbientIso (b := z ≫ G.target) z hz rfl).inv).ι = _
   rw [Category.assoc, Space.subfunctorIsoPreimage_hom_ι, ← Category.assoc, hl,
     translateAmbientIso_hom, translateFwd_arrowSection p z hz]

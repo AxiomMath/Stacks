@@ -212,7 +212,7 @@ theorem nonempty_linearEquiv_of_apply_eq {U Y₁ Y₂ : X.ProEt} (f₁ : Y₁ �
   let V : X.ProEt := Scheme.ProEt.mk (pullback.fst f₁.left f₂.left ≫ Y₁.hom)
   let a : V ⟶ Y₁ := MorphismProperty.Over.homMk (pullback.fst f₁.left f₂.left) rfl trivial
   let b : V ⟶ Y₂ := MorphismProperty.Over.homMk (pullback.snd f₁.left f₂.left) (by
-    show pullback.snd f₁.left f₂.left ≫ Y₂.hom = pullback.fst f₁.left f₂.left ≫ Y₁.hom
+    change pullback.snd f₁.left f₂.left ≫ Y₂.hom = pullback.fst f₁.left f₂.left ≫ Y₁.hom
     rw [← MorphismProperty.Over.w f₁, ← MorphismProperty.Over.w f₂, pullback.condition_assoc])
     trivial
   have hV : (⊥ : Sieve V) ∉ Scheme.ProEt.topology X V :=
@@ -371,7 +371,7 @@ theorem exists_covering_iso_constantSheaf_of_isAffine
     obtain ⟨Y, h, hh, y, rfl⟩ := Scheme.ProEt.exists_mem_range_of_mem_topology hE x
     obtain ⟨_, a, _, ⟨k⟩, rfl⟩ := hh
     refine Set.mem_iUnion.2 ⟨k, ?_⟩
-    show _ ∈ Set.range (O k).ι
+    change _ ∈ Set.range (O k).ι
     rw [Scheme.Opens.range_ι]
     have hmem : (a.left y) ∈ (E.f k).left ⁻¹ᵁ O k := by
       rw [hO₁ k k ⟨LinearEquiv.refl Λ _⟩]; trivial
@@ -407,7 +407,7 @@ theorem exists_covering_iso_constantSheaf_of_isAffine
           exact ((Scheme.Hom.comp_apply _ _ v).symm.trans this).trans (Scheme.Hom.comp_apply _ _ v)
         have h₃ : (O k₀).ι (g'.left v) ∈ (O k₀ : Set U.left) := by
           rw [← Scheme.Opens.range_ι]; exact ⟨_, rfl⟩
-        show (E.f l).left (a.left v) ∈ O k₀
+        change (E.f l).left (a.left v) ∈ O k₀
         rw [h₂]
         exact h₃
       rw [hO₂ k₀ l hl] at h₁

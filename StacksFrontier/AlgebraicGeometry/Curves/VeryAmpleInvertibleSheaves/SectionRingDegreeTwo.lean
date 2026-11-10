@@ -107,15 +107,15 @@ variable [IsInvertibleModule X L]
 instance isEquivalence_twistFunctor : ∀ m : ℕ, (twistFunctor L m).IsEquivalence
   | 0 => inferInstanceAs (𝟭 X.Modules).IsEquivalence
   | m + 1 => by
-      haveI := isEquivalence_twistFunctor m
-      haveI := Stacks.AmpleEventualGeneration.isEquivalence_tensorRight L
+      have := isEquivalence_twistFunctor m
+      have := Stacks.AmpleEventualGeneration.isEquivalence_tensorRight L
       exact inferInstanceAs (twistFunctor L m ⋙ tensorRight L).IsEquivalence
 
 /-- Twisting `m` times is an additive functor. -/
 instance additive_twistFunctor : ∀ m : ℕ, (twistFunctor L m).Additive
   | 0 => inferInstanceAs (𝟭 X.Modules).Additive
   | m + 1 => by
-      haveI := additive_twistFunctor m
+      have := additive_twistFunctor m
       exact inferInstanceAs (twistFunctor L m ⋙ tensorRight L).Additive
 
 /-- Twisting once more commutes with twisting `m` times. -/
@@ -141,10 +141,10 @@ omit [IsInvertibleModule X L] in
 theorem twistFunctor_map_comp_twistPowIso {n : ℕ} (t : powSections L n) : ∀ m : ℕ,
     (twistFunctor L m).map t ≫ (twistPowIso L n m).hom = (twistUnitIso L m).hom ≫ mulMap t m
   | 0 => by
-      show t ≫ 𝟙 _ = 𝟙 _ ≫ t
+      change t ≫ 𝟙 _ = 𝟙 _ ≫ t
       rw [Category.comp_id, Category.id_comp]
   | m + 1 => by
-      show ((twistFunctor L m).map t ▷ L) ≫ ((twistPowIso L n m).hom ▷ L) =
+      change ((twistFunctor L m).map t ▷ L) ≫ ((twistPowIso L n m).hom ▷ L) =
         ((twistUnitIso L m).hom ▷ L) ≫ (mulMap t m ▷ L)
       rw [← comp_whiskerRight, ← comp_whiskerRight, twistFunctor_map_comp_twistPowIso t m]
 
@@ -288,10 +288,10 @@ theorem epi_koszulLift [Epi (evalMap L s)] : Epi (koszulLift L s) := by
     have hsum : ∑ j, (K ◁ biproduct.π (fun _ : I => 𝟙_ X.Modules) j) ≫
         (K ◁ (s j ≫ (λ_ L).hom)) = K ◁ (evalMap L s ≫ (λ_ L).hom) := by
       rw [evalMap, biproduct.desc_eq, Preadditive.sum_comp]
-      show _ = (tensorLeft K).map _
+      change _ = (tensorLeft K).map _
       rw [Functor.map_sum]
       refine Finset.sum_congr rfl fun j _ => ?_
-      show _ = K ◁ _
+      change _ = K ◁ _
       simp only [MonoidalCategory.whiskerLeft_comp, Category.assoc]
     rw [← hsum, Preadditive.sum_comp]
     simp only [Category.assoc]
@@ -317,7 +317,7 @@ variable (k : Type u) [Field k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k))
 local instance additive_cohomologyOverFieldFunctorSRD (n : ℕ) :
     (cohomologyOverFieldFunctor k f n).Additive where
   map_add {M N a b} := by
-    haveI := AlgebraicGeometry.evaluationAdditive X
+    have := AlgebraicGeometry.evaluationAdditive X
     exact (congrArg (ModuleCat.restrictScalars
         ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appLE ⊤ ⊤ (by simp)).hom).map
       (Functor.map_add ((_root_.SheafOfModules.evaluation X.ringCatSheaf
@@ -401,10 +401,10 @@ theorem exists_sum_mul_eq (m : ℕ) (hm : 2 ≤ m) (t : powSections L (1 + m)) :
     S.X₂).symm (cohomologyOverFieldZeroEquivSections k f S.X₂ b)
   have hg : g ≫ S.g = tt := by
     apply (Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv X S.X₃).injective
-    show Stacks.SectionProduct.globalSection X _ (g ≫ S.g) =
+    change Stacks.SectionProduct.globalSection X _ (g ≫ S.g) =
       Stacks.SectionProduct.globalSection X _ tt
     rw [Stacks.SectionProduct.globalSection_comp]
-    show S.g.app ⊤ ((Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv X S.X₂)
+    change S.g.app ⊤ ((Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv X S.X₂)
       ((Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv X S.X₂).symm _)) = _
     rw [AddEquiv.apply_symm_apply, ← cohomologyOverFieldZeroEquivSections_cohomologyOverFieldMap,
       hb, Equiv.apply_symm_apply]
@@ -423,7 +423,7 @@ theorem exists_sum_mul_eq (m : ℕ) (hm : 2 ≤ m) (t : powSections L (1 + m)) :
       (twistPowIso L 1 (p + 1)).hom) = g ≫ (twistFunctor L (p + 1)).map
         (∑ x, biproduct.π (fun _ : I => 𝟙_ X.Modules) x ≫ s x) ≫ (twistPowIso L 1 (p + 1)).hom by
     rw [Functor.map_sum, Preadditive.sum_comp, Preadditive.comp_sum], ← biproduct.desc_eq]
-  show t = (g ≫ S.g) ≫ (twistPowIso L 1 (p + 1)).hom
+  change t = (g ≫ S.g) ≫ (twistPowIso L 1 (p + 1)).hom
   rw [hg, Category.assoc, Iso.inv_hom_id, Category.comp_id]
 
 end Cohomology
@@ -455,7 +455,7 @@ theorem exists_epi_evalMap [CompactSpace X]
     Sigma.desc fun i => u.hom ≫ biproduct.ι (fun _ : Fin r => 𝟙_ X.Modules) (e i)
   have hΦ : Φ ≫ evalMap L sec = π ≫ (λ_ L).inv := by
     refine Sigma.hom_ext _ _ fun i => ?_
-    rw [Sigma.ι_desc_assoc, Category.assoc, evalMap, biproduct.ι_desc]
+    rw [Sigma.ι_comp_desc_assoc, Category.assoc, evalMap, biproduct.ι_desc]
     simp only [sec, Iso.hom_inv_id_assoc, Equiv.symm_apply_apply]
   have : Epi (Φ ≫ evalMap L sec) := by
     rw [hΦ]

@@ -131,7 +131,7 @@ theorem postcomp_mk₀_g_comp_postcomp_extClass (hS : S.ShortExact) (U : Opens X
     AddCommGrpCat.ofHom ((Ext.mk₀ S.g).postcomp (freeOfOpen U) (add_zero n₀)) ≫
         AddCommGrpCat.ofHom (hS.extClass.postcomp (freeOfOpen U) h) = 0 := by
   ext x
-  show (Ext.comp x (Ext.mk₀ S.g) (add_zero n₀)).comp hS.extClass h = 0
+  change (Ext.comp x (Ext.mk₀ S.g) (add_zero n₀)).comp hS.extClass h = 0
   rw [Ext.comp_assoc_of_second_deg_zero, hS.comp_extClass, Ext.comp_zero]
 
 /-- The connecting map followed by the sheaf map `S.f` is zero. -/
@@ -140,7 +140,7 @@ theorem postcomp_extClass_comp_postcomp_mk₀_f (hS : S.ShortExact) (U : Opens X
     AddCommGrpCat.ofHom (hS.extClass.postcomp (freeOfOpen U) h) ≫
         AddCommGrpCat.ofHom ((Ext.mk₀ S.f).postcomp (freeOfOpen U) (add_zero n₁)) = 0 := by
   ext x
-  show (Ext.comp x hS.extClass h).comp (Ext.mk₀ S.f) (add_zero n₁) = 0
+  change (Ext.comp x hS.extClass h).comp (Ext.mk₀ S.f) (add_zero n₁) = 0
   rw [Ext.comp_assoc_of_third_deg_zero, hS.extClass_comp, Ext.comp_zero]
 
 /-! ### The three three-term exact pieces -/

@@ -27,12 +27,14 @@ attribute [local instance] pointTopology
 attribute [local instance] CategoryTheory.MorphismProperty.relative_isStableUnderBaseChange
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_EtaleChartsAndAtlases :
     HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is deep
 /-- Small products of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasProducts_presheaf_EtaleChartsAndAtlases :
@@ -278,9 +280,9 @@ lemma finite_selfPullback_fiber_of_isFinite_restrict
     by change k (pullback.snd k k x) ∈ V; rwa [hx']⟩
   refine ⟨⟨x, hxO⟩, ?_, rfl⟩
   apply Subtype.ext
-  show ((b ≫ (k ∣_ V)) ≫ V.ι) ⟨x, hxO⟩ = η
+  change ((b ≫ (k ∣_ V)) ≫ V.ι) ⟨x, hxO⟩ = η
   rw [Category.assoc, morphismRestrict_ι, ← Category.assoc]
-  show (((pullback.snd k k).resLE A O _ ≫ A.ι) ≫ k) ⟨x, hxO⟩ = η
+  change (((pullback.snd k k).resLE A O _ ≫ A.ι) ≫ k) ⟨x, hxO⟩ = η
   rw [Scheme.Hom.resLE_comp_ι]
   exact hx'
 

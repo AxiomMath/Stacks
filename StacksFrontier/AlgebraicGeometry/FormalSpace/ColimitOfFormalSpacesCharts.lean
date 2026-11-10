@@ -523,7 +523,7 @@ private theorem exists_chartSystem_of_stageAtlas
         (liftAlongBase B S hS (colimit.ι E i₀) (p m))).obj i₀) k))
       (h := Sigma.desc p) ?_
     refine Sigma.hom_ext _ _ (fun k ↦ ?_)
-    rw [← Category.assoc, Sigma.ι_desc, Category.assoc, Sigma.ι_desc, Sigma.ι_desc]
+    rw [← Category.assoc, Sigma.ι_comp_desc, Category.assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc]
     exact hε k
   exact ⟨fun k ↦ Limits.baseChangeDiagram (colimit.cocone E)
       (liftAlongBase B S hS (colimit.ι E i₀) (p k)),

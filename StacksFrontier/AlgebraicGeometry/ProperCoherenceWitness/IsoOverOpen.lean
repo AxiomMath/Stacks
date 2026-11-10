@@ -65,7 +65,7 @@ theorem exists_preimage_le (π : Y ⟶ Z) (U : Z.Opens) [IsIso (π ∣_ U)] {y :
     rw [← image_morphismRestrict_preimage π U ((π ∣_ U) ''ᵁ ((π ⁻¹ᵁ U).ι ⁻¹ᵁ W)),
       Scheme.Hom.preimage_image_eq]
   refine ⟨U.ι ''ᵁ ((π ∣_ U) ''ᵁ ((π ⁻¹ᵁ U).ι ⁻¹ᵁ W)), ?_, ?_⟩
-  · show y ∈ π ⁻¹ᵁ (U.ι ''ᵁ ((π ∣_ U) ''ᵁ ((π ⁻¹ᵁ U).ι ⁻¹ᵁ W)))
+  · change y ∈ π ⁻¹ᵁ (U.ι ''ᵁ ((π ∣_ U) ''ᵁ ((π ⁻¹ᵁ U).ι ⁻¹ᵁ W)))
     rw [key]
     exact (Scheme.Opens.mem_ι_image_iff (x := (⟨y, hy⟩ : π ⁻¹ᵁ U))).mpr hyW
   · rw [key]

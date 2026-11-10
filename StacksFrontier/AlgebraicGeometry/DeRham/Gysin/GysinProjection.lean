@@ -99,7 +99,7 @@ second one fail. They read "this library does not have"; that was true when they
   `hpf` of the projection-formula map of [Stacks, Tag 0B53] — that is [Stacks, Tag 0B55] — as a
   hypothesis. That hypothesis *is* dischargeable: it is
   `isIso_projectionFormulaMap_closedSubsetInclusion_of_isClosed`, of
-  `StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/ProjectionFormulaClosedEmbeddingUnconditional.lean` in
+  `ProjectionFormulaClosedEmbeddingUnconditional.lean` in
   `StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/`, which concludes
   `IsIso (projectionFormulaMap (closedSubsetInclusion X Z) E K)` for arbitrary
   `E` and `K`, read at `E := (derivedSupportedSectionsOnClosed X Z hZ).obj M`. What remains

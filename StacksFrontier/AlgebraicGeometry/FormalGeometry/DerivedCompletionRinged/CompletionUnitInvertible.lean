@@ -6,8 +6,7 @@ public import
   StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.GeneratedIdealSheaf
 public import
   StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.SliceRestrictionDescent
-public import
-  StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.VanishingCriterionCoextension
+public import StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.VanishingCriterionCoextension
 
 /-!
 # The completion map is invertible on a derived-complete complex

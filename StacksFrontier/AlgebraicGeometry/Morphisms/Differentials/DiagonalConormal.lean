@@ -409,7 +409,7 @@ theorem diagonal_preimage_snd_preimage (U : X.Opens) :
 /-- The preimage of `Stacks.Diagonal.prodOpen f U` under the diagonal is `U`. -/
 theorem diagonal_preimage_prodOpen (U : X.Opens) :
     pullback.diagonal f ⁻¹ᵁ prodOpen f U = U := by
-  show (pullback.diagonal f ⁻¹ᵁ (pullback.fst f f ⁻¹ᵁ U)) ⊓
+  change (pullback.diagonal f ⁻¹ᵁ (pullback.fst f f ⁻¹ᵁ U)) ⊓
     (pullback.diagonal f ⁻¹ᵁ (pullback.snd f f ⁻¹ᵁ U)) = U
   rw [diagonal_preimage_fst_preimage, diagonal_preimage_snd_preimage, inf_idem]
 

@@ -35,7 +35,8 @@ Nothing here is specific to Tag 0G0E: the statement holds for an arbitrary kerne
 
 *Two spellings of finite local freeness.*  The hypothesis is stated at
 `AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree`, which is the spelling [Stacks, Tag 0FZ0]
-produces and the one the statements of `StacksFrontier/AlgebraicGeometry/Duality/IdentityFourierMukaiKernel.lean` are written with, while
+produces and the one the statements of
+`StacksFrontier/AlgebraicGeometry/Duality/IdentityFourierMukaiKernel.lean` are written with, while
 `AlgebraicGeometry.isPerfect_singleFunctor_of_isFiniteLocallyFree` wants
 `Stacks.FiniteLocallyFree.IsFiniteLocallyFree`.  The two are equivalent by
 `Stacks.FiniteLocallyFree.isFiniteLocallyFree_iff_algebraicGeometry`, and that is the only place

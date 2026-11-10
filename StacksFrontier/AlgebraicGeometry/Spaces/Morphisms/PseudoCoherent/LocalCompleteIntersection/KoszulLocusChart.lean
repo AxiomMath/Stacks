@@ -220,7 +220,7 @@ theorem hasRepresentativeWithProperty_ofSchemeHom_iff (P : MorphismProperty Sche
               mem_source := hxU
               hom := U.ι ≫ g
               map_point := rfl }, mk_eq_mk_iff.mpr ⟨U, hxU, le_rfl, le_top, ?_⟩, hPU⟩
-    show X.homOfLE (le_refl U) ≫ U.ι ≫ g = X.homOfLE (le_top (a := U)) ≫ X.topIso.hom ≫ g
+    change X.homOfLE (le_refl U) ≫ U.ι ≫ g = X.homOfLE (le_top (a := U)) ≫ X.topIso.hom ≫ g
     rw [htop U, show X.homOfLE (le_refl U) = 𝟙 _ by simp, Category.id_comp]
 
 end MorphismOfGerms

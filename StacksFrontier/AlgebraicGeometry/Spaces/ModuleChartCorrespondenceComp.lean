@@ -903,7 +903,7 @@ theorem ModulePushforwardPresentation.objIso_naturality {f : X ⟶ Y}
       (ModulePushforwardPresentation.objIso B S hS hP hQ F').hom)).app d s =
       a.val.app (op d.U) ((hP.counit F).app d s) := by
     rw [hQ.homEquiv_apply]
-    show (hQ.counit F').app d
+    change (hQ.counit F').app d
       (((hQ.homEquiv F' (P.obj F')).symm (hP.counit F')).val.app (op d.V)
         ((P.map a).val.app (op d.V) s)) = _
     rw [ModulePushforwardPresentation.homEquiv_symm_apply B S hS hQ F' (P.obj F')
@@ -913,7 +913,7 @@ theorem ModulePushforwardPresentation.objIso_naturality {f : X ⟶ Y}
       ((ModulePushforwardPresentation.objIso B S hS hP hQ F).hom ≫ Q.map a)).app d s =
       a.val.app (op d.U) ((hP.counit F).app d s) := by
     rw [hQ.homEquiv_apply]
-    show (hQ.counit F').app d ((Q.map a).val.app (op d.V)
+    change (hQ.counit F').app d ((Q.map a).val.app (op d.V)
       (((hQ.homEquiv F (P.obj F)).symm (hP.counit F)).val.app (op d.V) s)) = _
     rw [hQ.naturality a d]
     exact congrArg (fun z ↦ a.val.app (op d.U) z)

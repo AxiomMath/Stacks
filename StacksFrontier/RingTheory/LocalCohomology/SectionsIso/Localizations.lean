@@ -73,7 +73,7 @@ abbrev cechBasicOpen (t : Finset (Fin r)) : Opens (PrimeSpectrum.Top R) :=
 contains a product over a finite set precisely when it contains one of the factors. -/
 theorem mem_cechBasicOpen_iff (t : Finset (Fin r)) (p : PrimeSpectrum R) :
     p ∈ cechBasicOpen f t ↔ ∀ i ∈ t, p ∈ basicOpen (f i) := by
-  show (∏ i ∈ t, f i) ∉ p.asIdeal ↔ _
+  change (∏ i ∈ t, f i) ∉ p.asIdeal ↔ _
   simp only [PrimeSpectrum.mem_basicOpen, Ideal.IsPrime.prod_mem_iff, not_exists, not_and]
 
 /-- The open attached to a singleton is the standard open of the corresponding element. -/

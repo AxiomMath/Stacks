@@ -186,17 +186,17 @@ variable {C₁ C₂ C₃ C₄ C₇ C₈ : Type*} [Category* C₁] [Category* C�
 implicit functor arguments are not determined by matching. -/
 public lemma ts_vComp_app {L' : C₃ ⥤ C₇} {R'' : C₄ ⥤ C₈} {B'' : C₇ ⥤ C₈}
     (w : TwoSquare T L R Bo) (w' : TwoSquare Bo L' R'' B'') (c : C₁) :
-    (w ≫ᵥ w').natTrans.app c = R''.map (w.natTrans.app c) ≫ w'.natTrans.app (L.obj c) := by
+    (w ≫ᵥ w').app c = R''.map (w.app c) ≫ w'.app (L.obj c) := by
   simp [TwoSquare.vComp]
 
 /-- The component of a 2-square whiskered on the left. -/
 public lemma ts_whiskerLeft_app {L' : C₁ ⥤ C₃} (w : TwoSquare T L R Bo) (α : L ⟶ L') (c : C₁) :
-    (w.whiskerLeft α).natTrans.app c = w.natTrans.app c ≫ Bo.map (α.app c) := rfl
+    (w.whiskerLeft α).app c = w.app c ≫ Bo.map (α.app c) := rfl
 
 /-- The component of a 2-square whiskered on the right. -/
 public lemma ts_whiskerRight_app {R' : C₂ ⥤ C₄} (w : TwoSquare T L R' Bo) (α : R ⟶ R')
     (c : C₁) :
-    (w.whiskerRight α).natTrans.app c = α.app (T.obj c) ≫ w.natTrans.app c := rfl
+    (w.whiskerRight α).app c = α.app (T.obj c) ≫ w.app c := rfl
 
 end TwoSquares
 
@@ -402,7 +402,7 @@ public def boundedBaseChangeMate :
 two comparisons of base change along the diagonal with the composite of the base changes. -/
 public theorem unboundedBaseChangeMate_app_hom_app
     (F : Sheaf (Scheme.smallEtaleTopology X'.obj) A) (U : Y.obj.Etale) :
-    ((unboundedBaseChangeMate B A f g g' f' P hP₁ hP₂).natTrans.app F).hom.app (op U) =
+    ((unboundedBaseChangeMate B A f g g' f' P hP₁ hP₂).app F).hom.app (op U) =
       F.obj.map
         ((Stacks.EtaleCohomology.smallEtaleBaseChangeComp' (B.inclusion.map f')
               (B.inclusion.map g) (B.inclusion.map P)
@@ -410,7 +410,7 @@ public theorem unboundedBaseChangeMate_app_hom_app
           (Stacks.EtaleCohomology.smallEtaleBaseChangeComp' (B.inclusion.map g')
             (B.inclusion.map f) (B.inclusion.map P)
             (congrArg B.inclusion.map hP₁.symm)).symm.inv.app U).op := by
-  have h1 : (unboundedBaseChangeMate B A f g g' f' P hP₁ hP₂).natTrans.app F =
+  have h1 : (unboundedBaseChangeMate B A f g g' f' P hP₁ hP₂).app F =
       (unboundedPushforwardCompIso B A g' f P hP₁).hom.app F ≫
         (unboundedPushforwardCompIso B A f' g P hP₂).inv.app F := rfl
   rw [h1, sheafHom_comp_app, comp'_hom_app_hom_app, comp'_inv_app_hom_app]
@@ -420,11 +420,11 @@ public theorem unboundedBaseChangeMate_app_hom_app
 comparisons of base change along the diagonal with the composite of the base changes. -/
 public theorem boundedBaseChangeMate_app_hom_app
     (N : Sheaf (topology B X'.obj X'.property) A) (U : SmallEtale B Y.obj Y.property) :
-    ((boundedBaseChangeMate B A f g g' f' P hP₁ hP₂).natTrans.app N).hom.app (op U) =
+    ((boundedBaseChangeMate B A f g g' f' P hP₁ hP₂).app N).hom.app (op U) =
       N.obj.map
         ((smallEtaleBaseChange_factoredCompIso B X' Y' Y f' g P hP₂).hom.app U ≫
           (smallEtaleBaseChange_factoredCompIso B X' X Y g' f P hP₁).inv.app U).op := by
-  have h1 : (boundedBaseChangeMate B A f g g' f' P hP₁ hP₂).natTrans.app N =
+  have h1 : (boundedBaseChangeMate B A f g g' f' P hP₁ hP₂).app N =
       (boundedPushforwardCompIso B A g' f P hP₁).hom.app N ≫
         (boundedPushforwardCompIso B A f' g P hP₂).inv.app N := rfl
   rw [h1, sheafHom_comp_app, comp'_hom_app_hom_app, comp'_inv_app_hom_app]
@@ -469,7 +469,7 @@ public theorem baseChangeMate_cube_eq :
         (toEtaleSitePushforwardBaseChangeIso B f' A).inv =
       unboundedBaseChangeMate B A f g g' f' P hP₁ hP₂ ≫ᵥ
         mateEquiv adjUg adjBg (restrictionPullbackBaseChange B A g adjUg adjBg) := by
-  refine TwoSquare.ext _ _ fun F => ?_
+  refine NatTrans.ext (funext fun F => ?_)
   rw [ts_whiskerLeft_app, ts_whiskerRight_app, ts_vComp_app, ts_vComp_app,
     mateEquiv_restrictionPullbackBaseChange, mateEquiv_restrictionPullbackBaseChange]
   refine Sheaf.hom_ext (NatTrans.ext (funext fun UU => ?_))
@@ -546,13 +546,13 @@ public theorem isIso_mateEquiv_symm_unboundedBaseChangeMate_of_isIso (h : g' ≫
     (adjUg : LUg ⊣ unboundedPushforward B (Type (u + 1)) g)
     (adjUg' : LUg' ⊣ unboundedPushforward B (Type (u + 1)) g') :
     IsIso ((mateEquiv adjUg' adjUg).symm
-      (unboundedBaseChangeMate B (Type (u + 1)) f g g' f' P hP₁ hP₂)).natTrans := by
+      (unboundedBaseChangeMate B (Type (u + 1)) f g g' f' P hP₁ hP₂)) := by
   have hEq : ((toEtaleSite B Y'.obj Y'.property).sheafPushforwardContinuous (Type (u + 1))
       (topology B Y'.obj Y'.property) Y'.obj.smallEtaleTopology).IsEquivalence :=
     (sheafEquiv B Y'.obj Y'.property (Type (u + 1))).isEquivalence_inverse
   have hb : IsIso ((mateEquiv (B.smallPullbackAdjunction g' (Type (u + 1)))
         (B.smallPullbackAdjunction g (Type (u + 1)))).symm
-      (boundedBaseChangeMate B (Type (u + 1)) f g g' f' P hP₁ hP₂)).natTrans := by
+      (boundedBaseChangeMate B (Type (u + 1)) f g g' f' P hP₁ hP₂)) := by
     have hiso : IsIso (smallEtaleBaseChangeNatTrans B g' f' f g h) :=
       NatIso.isIso_of_isIso_app _
     rw [← smallEtaleBaseChangeMate_eq_boundedBaseChangeMate B f g g' f' h P hP₁ hP₂]
@@ -585,7 +585,7 @@ public theorem isIso_mateEquiv_symm_unboundedBaseChangeMate
     (adjUg : LUg ⊣ unboundedPushforward B (Type (u + 1)) g)
     (adjUg' : LUg' ⊣ unboundedPushforward B (Type (u + 1)) g') :
     IsIso ((mateEquiv adjUg' adjUg).symm
-      (unboundedBaseChangeMate B (Type (u + 1)) f g g' f' P hP₁ hP₂)).natTrans :=
+      (unboundedBaseChangeMate B (Type (u + 1)) f g g' f' P hP₁ hP₂)) :=
   isIso_mateEquiv_symm_unboundedBaseChangeMate_of_isIso B f g g' f' h
     (fun F => isIso_smallEtaleBaseChangeNatTrans B g' f' f g sq h F) P hP₁ hP₂ adjUg adjUg'
 

@@ -85,7 +85,7 @@ theorem restrictSheaf_map_relocalizationForgetPushforwardIso_hom (X : Sheaf J (T
   rw [relocalizationForgetPushforwardIso_eq]
   apply Sheaf.hom_ext
   refine NatTrans.ext (funext fun Z => ?_)
-  show X.obj.map
+  change X.obj.map
       ((eqToIso (componentOverMap_comp_componentOverForget f)).inv.app
         ((CategoryTheory.Sigma.incl (C := fun j : M.I => Over (M.obj j)) i).obj Z.unop)).op =
     X.obj.map ((Iso.refl (Over.map (f.φ i) ⋙ Over.forget (N.obj (f.f i)))).inv.app Z.unop).op
@@ -108,7 +108,7 @@ theorem restrictSheaf_map_relocalizationForgetPushforwardIso_inv (X : Sheaf J (T
   rw [relocalizationForgetPushforwardIso_eq]
   apply Sheaf.hom_ext
   refine NatTrans.ext (funext fun Z => ?_)
-  show X.obj.map
+  change X.obj.map
       ((eqToIso (componentOverMap_comp_componentOverForget f)).hom.app
         ((CategoryTheory.Sigma.incl (C := fun j : M.I => Over (M.obj j)) i).obj Z.unop)).op =
     X.obj.map ((Iso.refl (Over.map (f.φ i) ⋙ Over.forget (N.obj (f.f i)))).hom.app Z.unop).op

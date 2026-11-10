@@ -69,7 +69,7 @@ theorem IsNilpotentPoint.pullback {T T' : BigFppfOver B (Spec (.of (MvPolynomial
     (φ : T' ⟶ T) {f : functions B hS T} (hf : IsNilpotentPoint B hS T f) :
     IsNilpotentPoint B hS T' (pullbackFunction B hS φ f) := by
   refine ⟨?_, hf.2.of_hom B hS φ⟩
-  show (B.inclusion.obj T'.left).basicOpen ((B.inclusion.map φ.left).app ⊤ f) = ⊥
+  change (B.inclusion.obj T'.left).basicOpen ((B.inclusion.map φ.left).app ⊤ f) = ⊥
   rw [← Scheme.preimage_basicOpen, hf.1]
   rfl
 
@@ -77,7 +77,7 @@ theorem IsNilpotentPoint.pullback {T T' : BigFppfOver B (Spec (.of (MvPolynomial
 theorem pullbackFunction_comp {T T' T'' : BigFppfOver B (Spec (.of (MvPolynomial (Fin 2) k))) hS}
     (φ : T'' ⟶ T') (ψ : T' ⟶ T) (f : functions B hS T) :
     pullbackFunction B hS (φ ≫ ψ) f = pullbackFunction B hS φ (pullbackFunction B hS ψ f) := by
-  show (B.inclusion.map (φ.left ≫ ψ.left)).appTop f =
+  change (B.inclusion.map (φ.left ≫ ψ.left)).appTop f =
     (B.inclusion.map φ.left).appTop ((B.inclusion.map ψ.left).appTop f)
   rw [CategoryTheory.Functor.map_comp, Scheme.Hom.comp_appTop]
   rfl

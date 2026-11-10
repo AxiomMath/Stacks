@@ -84,6 +84,7 @@ def unitHomDualityEquiv (ωA : ModuleCat.{u} A) [(dualizingComplex Y.hom ωA).ob
     ((ObjectProperty.fullyFaithfulι _).homEquiv.symm.trans
       (dualityHomEquiv Y.hom (singleQuasiCoherent (Stacks.Ample.unitModule Y.left) (-2)) _))
 
+omit [IsLocalRing A] [IsNormalDomain A] in
 /-- An explicit formula for `unitHomDualityEquiv` as the composite of its three bijections. -/
 theorem unitHomDualityEquiv_apply (ωA : ModuleCat.{u} A) [(dualizingComplex Y.hom ωA).obj.IsGE (-2)]
     (g : Stacks.Ample.unitModule Y.left ⟶
@@ -108,6 +109,7 @@ theorem homologyFromSingle_single_map_comp {C : Type*} [Category C] [Abelian C]
   congr 1
   exact ((singleFunctorCompHomologyFunctorIso C q).inv.naturality u).symm
 
+omit [IsLocalRing A] [IsNormalDomain A] in
 /-- **Linearity of the duality bijection.** Precomposing with multiplication by `b ∈ A` on `𝒪_X`
 multiplies the corresponding map `RΓ(X, 𝒪_X[2]) ⟶ ω_A[2]` by `b`. -/
 theorem unitHomDualityEquiv_smul (ωA : ModuleCat.{u} A) [(dualizingComplex Y.hom ωA).obj.IsGE (-2)]
@@ -123,7 +125,7 @@ theorem unitHomDualityEquiv_smul (ωA : ModuleCat.{u} A) [(dualizingComplex Y.ho
   have h1 : φ.symm ((b • 𝟙 (Stacks.Ample.unitModule Y.left)) ≫ g) =
       (singleFunctor Y.left.Modules (-2)).map (b • 𝟙 (Stacks.Ample.unitModule Y.left)) ≫ h := by
     rw [Equiv.symm_apply_eq]
-    show _ = homologyFromSingle _ _ (-2) _
+    change _ = homologyFromSingle _ _ (-2) _
     rw [homologyFromSingle_single_map_comp, hh]
     exact congrArg _ (φ.apply_symm_apply g).symm
   rw [unitHomDualityEquiv_apply, unitHomDualityEquiv_apply, h1, ← hh]
@@ -136,7 +138,7 @@ theorem unitHomDualityEquiv_smul (ωA : ModuleCat.{u} A) [(dualizingComplex Y.ho
       ((singleFunctor Y.left.Modules (-2)).map (b • 𝟙 (Stacks.Ample.unitModule Y.left)))
         h)).trans ?_
   rw [dualityHomEquiv_comp]
-  show (derivedGlobalSectionsOver Y.hom).map
+  change (derivedGlobalSectionsOver Y.hom).map
     ((singleFunctor Y.left.Modules (-2)).map (b • 𝟙 (Stacks.Ample.unitModule Y.left))) ≫ _ = _
   rw [Functor.map_smul, CategoryTheory.Functor.map_id,
     derivedGlobalSectionsOver_map_smul_id_of_hasDerivedCategory]
@@ -170,6 +172,7 @@ theorem hom_derivedSectionsUnitShift_free (hdim : ringKrullDim A = 2) (hY : IsMo
     simpa only [Category.assoc, e.inv_hom_id, Category.comp_id, zero_smul] using
       congrArg (· ≫ e.hom) ((unitHomDualityEquiv Y ωA).injective h0)
 
+omit [IsLocalRing A] [IsNoetherianRing A] [IsNormalDomain A] in
 /-- A finite module all of whose elements are killed by elements outside a prime `p` is killed
 by a single element outside `p`. -/
 theorem exists_notMem_forall_smul_eq_zero {M : Type*} [AddCommGroup M] [Module A M]
@@ -195,6 +198,8 @@ def homologyDerivedSectionsUnitShiftIso (i j : ℤ) (h : -(-2) + i = j) :
   (homologyFunctor _ i).mapIso (derivedSectionsSingleIso Y.hom _ (-2)) ≪≫
     ((homologyFunctor _ 0).shiftIso (-(-2)) i j h).app _
 
+omit [IsLocalRing A] [IsNoetherianRing A] [IsNormalDomain A] [IsProper Y.hom] [CompactSpace Y.left]
+  [QuasiSeparatedSpace Y.left] in
 /-- `RΓ(X, 𝒪_X[2])` lies in degrees `≥ -2`. -/
 theorem isGE_derivedSectionsUnitShift : (derivedSectionsUnitShift Y).IsGE (-2) := by
   rw [DerivedCategory.isGE_iff]
@@ -202,6 +207,7 @@ theorem isGE_derivedSectionsUnitShift : (derivedSectionsUnitShift Y).IsGE (-2) :
   exact (DerivedCategory.isZero_of_isGE _ 0 (-(-2) + i) (by omega)).of_iso
     (homologyDerivedSectionsUnitShiftIso Y i _ rfl)
 
+omit [IsProper Y.hom] [CompactSpace Y.left] [QuasiSeparatedSpace Y.left] in
 /-- For a modification of a normal local domain of dimension `2`, `RΓ(X, 𝒪_X[2])` lies in degrees
 `≤ -1`. -/
 theorem isLE_derivedSectionsUnitShift (hdim : ringKrullDim A = 2) [IsNormal Y.left]
@@ -315,7 +321,7 @@ theorem isZero_structureSheafH1_and_nonempty_iso (A : Type u) [CommRing A] [IsLo
   have hdimX : topologicalKrullDim X = 2 := by
     have : IsLocallyNoetherian (Spec (.of A)) := isLocallyNoetherian_Spec.mpr inferInstance
     rw [IsBirational.topologicalKrullDim_eq_of_isClosedMap hf.1.isBirational f.isClosedMap]
-    show topologicalKrullDim (PrimeSpectrum A) = 2
+    change topologicalKrullDim (PrimeSpectrum A) = 2
     rw [PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim, hdim]
   have hidx : (-(ENat.toNat ((topologicalKrullDim X).getD 0) : ℤ)) = -2 := by
     rw [hdimX]

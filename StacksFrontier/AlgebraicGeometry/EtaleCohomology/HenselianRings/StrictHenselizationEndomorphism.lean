@@ -61,11 +61,11 @@ def etaleLocalRingEndomorphism : etaleLocalRing B S hS s ⟶ etaleLocalRing B S 
 
 /-- `θ_a` on germs: the germ at `(V, v̄)` goes to the germ at `(V, v̄ ∘ a)`. -/
 theorem etaleLocalRingEndomorphism_ι (U : (geometricPointFiber B S hS s).Elementsᵒᵖ) :
-    colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+    colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
         (SmallEtale.structureSheaf B S hS).obj) U ≫ etaleLocalRingEndomorphism B S hS a =
-      colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+      colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
         (SmallEtale.structureSheaf B S hS).obj) ((neighborhoodFunctor B S hS a).op.obj U) :=
-  colimit.ι_pre ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+  colimit.ι_pre ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
     (SmallEtale.structureSheaf B S hS).obj) (neighborhoodFunctor B S hS a).op U
 
 /-- **Evaluating `θ_a(f)` at the geometric point is `a` applied to the evaluation of `f`.** -/
@@ -90,7 +90,7 @@ theorem structureSheafStalkToGeometricField_comp_etaleLocalRingEndomorphism :
       (Scheme.ΓSpecIso (.of s.residueField)).hom ≫ Spec.preimage a.hom := by
     conv_lhs => rw [← Spec.map_preimage a.hom]
     exact Scheme.ΓSpecIso_naturality _
-  show (((a.hom ≫ U.unop.2.1).appTop ≫ (Scheme.ΓSpecIso (.of s.residueField)).hom).hom f) = _
+  change (((a.hom ≫ U.unop.2.1).appTop ≫ (Scheme.ΓSpecIso (.of s.residueField)).hom).hom f) = _
   rw [Scheme.Hom.comp_appTop, Category.assoc, key]
   rfl
 
@@ -129,16 +129,16 @@ theorem etaleLocalRingEndomorphism_comp_structureSheafStalkFromLocalRing :
   have hfy : f y ∈ V := hy.symm ▸ hV
   have htop : (⊤ : ((SmallEtale.toScheme B S hS).obj Z.1).Opens) ≤ f ⁻¹ᵁ V := by
     intro w _
-    show (Scheme.Opens.ι (X := S) V).base w ∈ V
+    change (Scheme.Opens.ι (X := S) V).base w ∈ V
     exact (w : V).2
   let c : Γ((SmallEtale.toScheme B S hS).obj Z.1, ⊤) :=
     ((SmallEtale.toScheme B S hS).obj Z.1).presheaf.map (homOfLE htop).op (f.app V b)
   have hc : structureSheafStalkFromLocalRing B S hS s
       (S.presheaf.germ V (s.hom (closedPoint s.residueField)) hV b) =
-      (colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+      (colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
         (SmallEtale.structureSheaf B S hS).obj) (op Z)).hom c := by
     refine structureSheafStalkFromLocalRing_germ B S hS s (op Z) _ c ?_
-    show (f.stalkMap y).hom (hy.symm ▸ S.presheaf.germ V _ hV b) = _
+    change (f.stalkMap y).hom (hy.symm ▸ S.presheaf.germ V _ hV b) = _
     rw [show (hy.symm ▸ S.presheaf.germ V (s.hom (closedPoint s.residueField)) hV b :
         S.presheaf.stalk (f y)) = S.presheaf.germ V (f y) hfy b from
       germ_eqRec_eq V hy.symm hfy b, Scheme.Hom.germ_stalkMap_apply]
@@ -147,13 +147,13 @@ theorem etaleLocalRingEndomorphism_comp_structureSheafStalkFromLocalRing :
   let φ : (neighborhoodFunctor B S hS a).obj Z ⟶ Z :=
     Functor.Elements.homMk (𝟙 Z.1) (by
       refine Subtype.ext ?_
-      show 𝟙 _ ≫ (a.hom ≫ Z.2.1) ≫ 𝟙 _ = Z.2.1
+      change 𝟙 _ ≫ (a.hom ≫ Z.2.1) ≫ 𝟙 _ = Z.2.1
       rw [Category.id_comp, Category.comp_id]
       exact zariskiNeighborhood_point_eq B S hS a _ rfl ⟨V, hV⟩)
   rw [RingHom.comp_apply, hc]
   have h1 := congrArg (fun g => g.hom c) (etaleLocalRingEndomorphism_ι B S hS a (op Z))
   have h2 := congrArg (fun g => g.hom c)
-    (colimit.w ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+    (colimit.w ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
       (SmallEtale.structureSheaf B S hS).obj) φ.op)
   simp only [RingCat.hom_comp] at h1 h2
   refine h1.trans (Eq.trans ?_ h2)

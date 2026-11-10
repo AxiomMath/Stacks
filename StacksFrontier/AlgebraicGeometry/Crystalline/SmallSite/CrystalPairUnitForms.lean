@@ -46,7 +46,7 @@ theorem crystalPairFormsConnection_unit_pairUnitEquiv (r : pairRing hp) :
         (pairUnitOne hp ⊗ₜ (wholeSpaceDPAlgebra hp).differential S.p 0
           (show (wholeSpaceDPAlgebra hp).completedRing S.p 0 from r)) := by
   rw [crystalPairFormsConnection_eq, pairConnection_unit_pairUnitEquiv]
-  show AdicCompletion.map _ _ (AdicCompletion.of _ _ _) = _
+  change AdicCompletion.map _ _ (AdicCompletion.of _ _ _) = _
   rw [AdicCompletion.map_of, LinearMap.lTensor_tmul]
   exact congrArg (fun ω ↦ AdicCompletion.of _ _ (pairUnitOne hp ⊗ₜ ω))
     (crystalPairFormsEquiv_pairDerivation hp r)

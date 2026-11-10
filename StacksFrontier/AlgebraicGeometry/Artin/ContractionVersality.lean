@@ -56,7 +56,7 @@ theorem range_pointsMap_yoneda_map_of_subsingleton {T V : BigFppfOver B S hS}
           ((BigFppfOver.toScheme B S hS).map φ (pointsEquivScheme B S hS T w')) := by
     apply (pointsEquivScheme B S hS V).injective
     rw [Equiv.apply_symm_apply]
-    show pointsToScheme B S hS V _ = _
+    change pointsToScheme B S hS V _ = _
     rw [pointsToScheme_pointsMap_yoneda]
     rfl
   ext w
@@ -110,7 +110,7 @@ theorem wSection_mapTriple_eq {T V : BigFppfOver B S hS} (φ : T ⟶ V) (t : Tri
     wSection c (mapTriple c φ t) h =
       t.xhat.hom.app (op T) (FormalSpace.presheafSection B S hS (T := t.Z) φ hφ) := by
   have hleft : (yoneda.map φ).app (op T) (𝟙 T) = φ := by simp
-  show t.xhat.hom.app (op T)
+  change t.xhat.hom.app (op T)
       ((Space.completionSheafRestrict B S hS (yoneda.map φ) (mapTriple c φ t).Z t.Z
         (mapTriple_Z_eq_preimage c φ t).subset).hom.app (op T)
           (FormalSpace.completionIdSection B S hS T (mapTriple c φ t).Z h)) = _
@@ -126,7 +126,7 @@ theorem uPoint_mapTriple_eq {T V : BigFppfOver B S hS} (φ : T ⟶ V) (t : Tripl
     (hφ : φ ∈ (Space.openSubspaceOfPoints B S hS (yoneda.obj V) t.Zᶜ).obj (op T))
     (h : (mapTriple c φ t).Z = ∅) :
     (mapTriple c φ t).uPoint h = t.u.app (op T) ⟨φ, hφ⟩ := by
-  show t.u.app (op T) ((Space.openSubspaceOfPointsRestrict B S hS (yoneda.map φ) _ t.Zᶜ
+  change t.u.app (op T) ((Space.openSubspaceOfPointsRestrict B S hS (yoneda.map φ) _ t.Zᶜ
       (fun _ hz => hz)).app (op T) ⟨𝟙 T, _⟩) = _
   congr 1
 
@@ -262,7 +262,8 @@ theorem isVersalAt_iff_isVersalAtCompletion (x : (contractionFunctor c).Elements
       hlift A A' f hf _ _ hy hz i.unop.hom.unop.hom hi _ hφ ha' _ hw'
     have hZ' := (mapTriple_Z_eq_univ_iff c φ' ξ).2 hφ'
     have hb : mapTriple c φ' ξ = z.unop.val :=
-      Triple.eq_of_Z_eq_univ c _ _ hZ' hzZ (by rw [wSection_mapTriple_eq c φ' ξ hφ' hZ']; exact hval)
+      Triple.eq_of_Z_eq_univ c _ _ hZ' hzZ
+        (by rw [wSection_mapTriple_eq c φ' ξ hφ' hZ']; exact hval)
     refine ⟨Quiver.Hom.op ⟨(ObjectProperty.homMk φ' : z.unop.obj.unop ⟶ x.unop.obj.unop).op, hb⟩,
       ?_⟩
     apply Quiver.Hom.unop_inj

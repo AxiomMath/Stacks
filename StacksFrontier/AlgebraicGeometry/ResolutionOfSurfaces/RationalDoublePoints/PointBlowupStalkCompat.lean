@@ -121,14 +121,14 @@ theorem isIso_residueFieldMap_and_map_maximalIdeal_of_compat {Z Y : Scheme.{u}} 
     obtain ⟨c, rfl⟩ := residue_surjective t
     obtain ⟨b, hb⟩ := hres (residue C (α c))
     refine ⟨residue _ (f b), ?_⟩
-    show ResidueField.map σ (residue _ (f b)) = _
+    change ResidueField.map σ (residue _ (f b)) = _
     rw [ResidueField.map_residue, ← sub_eq_zero, ← map_sub, residue_eq_zero_iff]
     have h1 : α (σ (f b) - c) ∈ maximalIdeal C := by
       rwa [map_sub, hc, RingEquiv.symm_apply_apply, ← residue_eq_zero_iff, map_sub, sub_eq_zero]
     exact fun hu => h1 (hu.map (α : _ →+* C))
   · have hm : maximalIdeal (Y.presheaf.stalk (π q)) = (maximalIdeal A).map (f : A →+* _) :=
       (map_ringEquiv_maximalIdeal f).symm
-    show Ideal.map σ (maximalIdeal (Y.presheaf.stalk (π q))) = Ideal.span {σ (f a)}
+    change Ideal.map σ (maximalIdeal (Y.presheaf.stalk (π q))) = Ideal.span {σ (f a)}
     have hinj : Function.Injective (Ideal.map (α : Z.presheaf.stalk q →+* C)) :=
       Function.LeftInverse.injective (g := Ideal.comap (α : Z.presheaf.stalk q →+* C))
         fun _ => Ideal.comap_map_of_bijective _ α.bijective

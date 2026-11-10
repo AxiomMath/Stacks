@@ -437,7 +437,7 @@ theorem isCompatibleWithIdeal_iff_idealObstruction_eq_zero
   constructor
   · intro hc
     refine funext fun U => funext fun a => ?_
-    show S.idealObstruction Q U a = (0 : S.G.val.obj U)
+    change S.idealObstruction Q U a = (0 : S.G.val.obj U)
     refine S.kincl_injective Q U ?_
     rw [S.kincl_idealObstruction Q U a, S.kincl_zero, S.idealDifference_eq, hc U a, sub_self]
   · intro hz U a
@@ -518,7 +518,13 @@ extension induces `c` exactly when its obstruction vanishes is
 `isCompatibleWithIdeal_iff_idealObstruction_eq_zero`, and the obstruction descends to `Ext¹`
 through `idealObstruction_of_iso`. The hypotheses are exactly those of `classesEquivExt`; see the
 implementation notes of this file. -/
-@[stacks 0GQ9 "the canonical bijection between the isomorphism classes of solutions of the problem of 08UF and the fibre over 0 of `compatibilityObstruction` on Ext¹ of a FIXED presentation. Carried: ONLY the five inputs of Tag 0GQ5 at the trivial-ideal problem. The cutting-out condition is PROVED, not assumed: the obstruction is the sectionwise difference between the map a square-zero extension of f⁻¹O_B'-algebras induces on f⁻¹J and the prescribed c, read in G, and it is shown to depend only on the Ext class. It is NOT the source's comparison map, whose target Ext¹(Lf^*NL_{O_B/O_B'}, G) needs the derived pullback Lf^*, absent from the library"]
+@[stacks 0GQ9 "the canonical bijection between the isomorphism classes of solutions of the problem \
+of 08UF and the fibre over 0 of `compatibilityObstruction` on Ext¹ of a FIXED presentation. \
+Carried: ONLY the five inputs of Tag 0GQ5 at the trivial-ideal problem. The cutting-out condition \
+is PROVED, not assumed: the obstruction is the sectionwise difference between the map a \
+square-zero extension of f⁻¹O_B'-algebras induces on f⁻¹J and the prescribed c, read in G, and it \
+is shown to depend only on the Ext class. It is NOT the source's comparison map, whose target \
+Ext¹(Lf^*NL_{O_B/O_B'}, G) needs the derived pullback Lf^*, absent from the library"]
 def classesEquivFibre
     (P : NaiveCotangentTwoTerm single)
     (xi : S.squareZeroProblem.CompatibleFirstOrderThickening →

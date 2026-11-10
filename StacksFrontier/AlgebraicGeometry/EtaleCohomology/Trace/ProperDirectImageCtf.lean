@@ -138,7 +138,7 @@ private theorem nsmul_card_id_etaleModuleBalancedTensorTotal (Λ : Type) [Ring �
   have := Fintype.ofFinite Λ
   have hC0 : ∀ p, Nat.card Λ • 𝟙 (C.X p) = 0 := fun p => by
     ext U x
-    show Nat.card Λ • x = 0
+    change Nat.card Λ • x = 0
     rw [← Nat.cast_smul_eq_nsmul Λ, Nat.card_eq_fintype_card, Nat.cast_card_eq_zero, zero_smul]
   ext k : 1
   refine HomologicalComplex.mapBifunctor.hom_ext (fun q p h => ?_)

@@ -134,6 +134,7 @@ private noncomputable def tensorSwapIso {R : Sheaf J CommRingCat.{w}}
     (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)).mapIso
       (β_ F.val G.val)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The symmetry of the tensor product of sheaves of modules is natural. -/
 private lemma tensorSwap_naturality {R : Sheaf J CommRingCat.{w}}
     {F F' G G' : _root_.SheafOfModules.{w}
@@ -159,6 +160,7 @@ private lemma tensorSwap_naturality {R : Sheaf J CommRingCat.{w}}
   rw [← Functor.map_comp, ← Functor.map_comp]
   exact congrArg sh.map (braiding_naturality f.val g.val)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 private lemma tensorMap_epi (ring : Sheaf J CommRingCat.{w})
     {left leftTarget right rightTarget : _root_.SheafOfModules.{w}
         (Stacks.SheafOfModules.Tensor.ringSheaf ring)}
@@ -292,6 +294,7 @@ private noncomputable def tensorOverGeneratingSections (O : Sheaf J CommRingCat.
   _root_.SheafOfModules.GeneratingSections.equivOfIso (tensorOverIso O U F G)
     (tensorGeneratingSections (R := O.over U) (F.over U) (G.over U) s t)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 private lemma tensorOverGeneratingSections_index (O : Sheaf J CommRingCat.{w}) (U : C)
     (F G : _root_.SheafOfModules.{w}
       (Stacks.SheafOfModules.Tensor.ringSheaf O))

@@ -63,6 +63,7 @@ attribute [local instance] pointTopology
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this). -/
 local instance hasPullbacks_presheaf_EtaleOverClosureOfMonoLocus :
     HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
@@ -104,6 +105,7 @@ private theorem isFlat_and_isLocallyOfFinitePresentation_comp
     isLocallyOfFinitePresentation_comp B S hS hF hG hH _ _ hf.2 hg.2⟩
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance searches over presheaves on the big fppf site in this proof exceed the default
 /-- **A flat separated morphism locally of finite presentation which is a monomorphism over a
 quasi-compact immersion is étale over the closure of its image.** Let `F : E ⟶ Y` be flat,
 separated and locally of finite presentation and let `h : W ⟶ Y` be a quasi-compact immersion

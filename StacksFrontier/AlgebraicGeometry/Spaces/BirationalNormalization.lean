@@ -217,7 +217,7 @@ private theorem exists_refine_genericChart_compatible
   let p := FieldValuedPoint.map B S hS _ (c.immersion ≫ f) c.point
   have heq : (FieldValuedPoint.map B S hS _ d.immersion d.point).class B S hS G =
       p.class B S hS G := by
-    show pointsMap B S hS _ d.immersion (d.point.class B S hS (yoneda.obj d.U)) =
+    change pointsMap B S hS _ d.immersion (d.point.class B S hS (yoneda.obj d.U)) =
       pointsMap B S hS _ (c.immersion ≫ f) (c.point.class B S hS (yoneda.obj c.U))
     rw [pointsMap_comp_apply, c.mapsTo, d.mapsTo, hfx]
   obtain ⟨s, hs⟩ := exists_lift_fieldPoint_of_isOpenImmersion B S hS d.immersion d.isOpen
@@ -252,7 +252,7 @@ private theorem exists_refine_genericChart_compatible
     ⟨W, yoneda.map a ≫ c.immersion, hc', cp, by
       rw [pointsMap_comp_apply, hca, c.mapsTo]⟩
   refine ⟨c', a, b, rfl, ?_, ?_, ?_⟩
-  · show (yoneda.map a ≫ c.immersion) ≫ f = yoneda.map b ≫ d.immersion
+  · change (yoneda.map a ≫ c.immersion) ≫ f = yoneda.map b ≫ d.immersion
     rw [Category.assoc, hb, hpb.w]
   · exact (schemePoint_map_yoneda B S hS a cp).symm.trans
       (schemePoint_eq_of_class_eq B S hS _ _ _ hca)
@@ -422,9 +422,9 @@ theorem isIso_genericLocalRingMap_lift_normalization (hX : IsAlgebraicSpace B S 
     rw [ha, Category.assoc, hnX₁, ← Category.assoc, ← Functor.map_comp]
   have hnXp : T.map nX (schemePoint B S hS cNX.U cNX.point) =
       schemePoint B S hS cX.U cX.point := by
-    show T.map (a ≫ nX₁) _ = _
+    change T.map (a ≫ nX₁) _ = _
     rw [Functor.map_comp]
-    show T.map nX₁ (T.map a _) = _
+    change T.map nX₁ (T.map a _) = _
     rw [hap, hnX₁p]
   have hsq : nX ≫ gf = k ≫ nY := by
     have : Mono cY.immersion := mono_of_presheaf_isOpenImmersion cY.isOpen

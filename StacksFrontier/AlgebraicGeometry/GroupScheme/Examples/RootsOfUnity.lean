@@ -404,7 +404,7 @@ private theorem rootsEquiv_specMap_mul (n : ℕ) (hn : 0 < n) :
         (Spec.map (CommRingCat.ofHom (rootsOfUnityMultiplicationRingHom n))) := by
   apply Subtype.ext
   apply Units.ext
-  show (rootsEquiv n hn (Spec (rootsTensorProductCat n))
+  change (rootsEquiv n hn (Spec (rootsTensorProductCat n))
       (Spec.map (rootsTensorIncludeLeft n))).1.1 *
     (rootsEquiv n hn (Spec (rootsTensorProductCat n))
       (Spec.map (rootsTensorIncludeRight n))).1.1 =
@@ -436,7 +436,7 @@ private theorem rootsSectionsMap_injective (n : ℕ) {X Y : Scheme.{u}} (f : X �
     have hcomp : Scheme.Γ.map f.hom.op ≫ Scheme.Γ.map f.symm.hom.op = 𝟙 _ := by
       rw [← Functor.map_comp]
       simp
-    show (Scheme.Γ.map f.hom.op ≫ Scheme.Γ.map f.symm.hom.op).hom
+    change (Scheme.Γ.map f.hom.op ≫ Scheme.Γ.map f.symm.hom.op).hom
       (x : Scheme.Γ.obj (Opposite.op Y)) = x
     exact congrArg (fun g : CommRingCat.Hom _ _ =>
       g.hom (x : Scheme.Γ.obj (Opposite.op Y))) hcomp
@@ -492,11 +492,11 @@ theorem rootsOfUnityGrpObj_mul (n : ℕ) (hn : 0 < n) :
     Over.homMk (rootsOfUnityMultiplication n) (specULiftZIsTerminal.hom_ext _ _)
   have hmul : μ[G] = rhs := by
     apply α.homEquiv'.injective
-    show α.homEquiv' (α.homEquiv'.symm
+    change α.homEquiv' (α.homEquiv'.symm
       (α.homEquiv' (CartesianMonoidalCategory.fst G G) *
         α.homEquiv' (CartesianMonoidalCategory.snd G G))) = α.homEquiv' rhs
     simp only [Equiv.apply_symm_apply]
-    show rootsEquiv n hn (G ⊗ G).left (CartesianMonoidalCategory.fst G G).left *
+    change rootsEquiv n hn (G ⊗ G).left (CartesianMonoidalCategory.fst G G).left *
       rootsEquiv n hn (G ⊗ G).left (CartesianMonoidalCategory.snd G G).left =
       rootsEquiv n hn (G ⊗ G).left rhs.left
     let B := TensorProduct (ULift.{u} ℤ) (rootsOfUnityCoordinateRing.{u} n)
@@ -524,7 +524,7 @@ theorem rootsOfUnityGrpObj_mul (n : ℕ) (hn : 0 < n) :
             (rootsOfUnitySections n).map e.symm.hom.op b := by
       apply Subtype.ext
       apply Units.ext
-      show (Scheme.Γ.map e.symm.hom.op).hom
+      change (Scheme.Γ.map e.symm.hom.op).hom
           ((a.1 : Scheme.Γ.obj (Opposite.op P)) * (b.1 : Scheme.Γ.obj (Opposite.op P))) =
         (Scheme.Γ.map e.symm.hom.op).hom (a.1 : Scheme.Γ.obj (Opposite.op P)) *
           (Scheme.Γ.map e.symm.hom.op).hom (b.1 : Scheme.Γ.obj (Opposite.op P))
@@ -534,12 +534,12 @@ theorem rootsOfUnityGrpObj_mul (n : ℕ) (hn : 0 < n) :
     have hsndi : e.symm.hom ≫ pullback.snd _ _ = Spec.map iR := by
       rw [← hsnd, Iso.symm_hom, Iso.inv_hom_id_assoc]
     have hr : e.symm.hom ≫ (e.hom ≫ Spec.map m) = Spec.map m := e.inv_hom_id_assoc _
-    show rootsEquiv n hn P (pullback.fst _ _) * rootsEquiv n hn P (pullback.snd _ _) =
+    change rootsEquiv n hn P (pullback.fst _ _) * rootsEquiv n hn P (pullback.snd _ _) =
       rootsEquiv n hn P (e.hom ≫ Spec.map m)
     apply rootsSectionsMap_injective n e.symm
     apply (hmapmul _ _).trans
     rw [← rootsEquiv_comp, ← rootsEquiv_comp, ← rootsEquiv_comp, hfsti, hsndi, hr]
-    show rootsEquiv n hn (Spec (CommRingCat.of B)) (Spec.map iL) *
+    change rootsEquiv n hn (Spec (CommRingCat.of B)) (Spec.map iL) *
       rootsEquiv n hn (Spec (CommRingCat.of B)) (Spec.map iR) =
         rootsEquiv n hn (Spec (CommRingCat.of B)) (Spec.map m)
     exact rootsEquiv_specMap_mul n hn
@@ -602,7 +602,7 @@ private theorem ringHomOfRoot_unique (n : ℕ) {A : Type u} [CommRing A]
   apply Polynomial.ringHom_ext'
   · apply RingHom.ext
     rintro ⟨z⟩
-    show f (Ideal.Quotient.mk _ (Polynomial.C (z : ULift.{u} ℤ))) =
+    change f (Ideal.Quotient.mk _ (Polynomial.C (z : ULift.{u} ℤ))) =
       g (Ideal.Quotient.mk _ (Polynomial.C (z : ULift.{u} ℤ)))
     simp only [map_intCast]
   · exact h
@@ -630,7 +630,7 @@ private theorem coordinate_represents (n : ℕ) (hn : 0 < n) :
     refine ⟨f, ?_⟩
     apply Subtype.ext
     apply Units.ext
-    show f.appTop ((Scheme.ΓSpecIso
+    change f.appTop ((Scheme.ΓSpecIso
       (.of (rootsOfUnityCoordinateRing.{u} n))).inv
       (Ideal.Quotient.mk _ Polynomial.X)) = x.1.val
     have hφ := ΓSpecIso_inv_ΓSpec_adjunction_homEquiv (X := T)
@@ -663,7 +663,7 @@ theorem rootsOfUnitySectionsOver_representableBy_rootsOfUnityBaseChange
       (rootsOfUnitySections n).map (f.left ≫ π).op (rootsOfUnityUniversalRoot n hn) := by
     let F := rootsOfUnitySections.{u} n
     let q : (Scheme.asOver P S).left ⟶ R := π
-    show F.map f.left.op (F.map q.op (rootsOfUnityUniversalRoot n hn)) =
+    change F.map f.left.op (F.map q.op (rootsOfUnityUniversalRoot n hn)) =
       F.map (f.left ≫ q).op (rootsOfUnityUniversalRoot n hn)
     exact congrArg (fun h => h (rootsOfUnityUniversalRoot n hn))
       (F.map_comp q.op f.left.op).symm
@@ -682,10 +682,10 @@ theorem rootsOfUnitySectionsOver_representableBy_rootsOfUnityBaseChange
       (specULiftZIsTerminal.hom_ext (m ≫ (R ↘ Z)) (T.hom ≫ b))
     let f : T ⟶ Scheme.asOver P S := Over.homMk l (Limits.pullback.lift_snd _ _ _)
     refine ⟨f, ?_⟩
-    show (((Over.forget S).op ⋙ rootsOfUnitySections n).map
+    change (((Over.forget S).op ⋙ rootsOfUnitySections n).map
       f.op (rootsOfUnityBaseChangeUniversalRoot n hn S)) = x
     rw [hmap]
-    show (rootsOfUnitySections n).map (l ≫ π).op (rootsOfUnityUniversalRoot n hn) = x
+    change (rootsOfUnitySections n).map (l ≫ π).op (rootsOfUnityUniversalRoot n hn) = x
     rwa [show l ≫ π = m from Limits.pullback.lift_fst _ _ _]
 
 end AlgebraicGeometry

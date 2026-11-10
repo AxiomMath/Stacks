@@ -171,7 +171,7 @@ lemma affineSpaceIsoOfBaseIso_trans_affinePlaneIso_hom_over {Y : Scheme.{t}}
     (affineSpaceIsoOfBaseIso PUnit.{t + 1} e ≪≫ affinePlaneIso S).hom ≫
         (𝔸(AffinePlaneIndex.{t}; S) ↘ S) =
       (𝔸(PUnit.{t + 1}; Y) ↘ Y) ≫ e.hom ≫ (𝔸(PUnit.{t + 1}; S) ↘ S) := by
-  show (AffineSpace.map PUnit.{t + 1} e.hom ≫ planeHom S) ≫ _ = _
+  change (AffineSpace.map PUnit.{t + 1} e.hom ≫ planeHom S) ≫ _ = _
   rw [Category.assoc, planeHom_over, ← Category.assoc, AffineSpace.map_over, Category.assoc]
 
 end AffineSpace

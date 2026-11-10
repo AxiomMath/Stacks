@@ -176,7 +176,7 @@ theorem curryHomEquiv_formsWedgeComplexHom (a b : ℤ) :
 
 /-- For `f` smooth, `Ω^p_{X/S}` placed in degree zero is K-flat: it is a flat module. -/
 theorem kFlat_single_relativeDifferentialForms [Smooth f] (p : ℕ) :
-    Stacks.SheafOfModules.KFlat.KFlat X.sheaf
+    Stacks.SheafOfModules.KFlat X.sheaf
       (sgl 𝒳 (relativeDifferentialForms f (p : ℤ))) :=
   Stacks.SheafOfModules.KFlatResolution.kFlat_single_of_isFlat X.sheaf _
     (AlgebraicGeometry.ProperSmoothDeRham.isFlat_relativeDifferentialForms f p) 0

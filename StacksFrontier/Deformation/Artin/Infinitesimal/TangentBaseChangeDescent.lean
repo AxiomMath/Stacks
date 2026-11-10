@@ -65,8 +65,7 @@ private theorem linearMap_ext_of_one_tmul {A A' P N' : Type*} [CommRing A] [Comm
     [Algebra A A'] [AddCommGroup P] [Module A P] [AddCommGroup N'] [Module A' N']
     (f g : A' ⊗[A] P →ₗ[A'] N') (h : ∀ p, f (1 ⊗ₜ p) = g (1 ⊗ₜ p)) : f = g :=
   LinearMap.ext fun z => by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul r p =>
       rw [show r ⊗ₜ[A] p = r • (1 ⊗ₜ[A] p) by rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one],
         map_smul, map_smul, h]
@@ -437,10 +436,10 @@ public theorem exists_linearEquiv_of_equalizer_of_isPushout [Module.Flat A C]
   have : IsScalarTower C C₁ U₁ := .of_algebraMap_smul fun _ _ => rfl
   have : IsScalarTower A₁ C₁ U₁ := .of_algebraMap_smul fun _ _ => rfl
   have : IsScalarTower A A₁ U₁ := .of_algebraMap_smul fun r t => by
-    show algebraMap A₁ C₁ (algebraMap A A₁ r) • t = algebraMap A C₁ r • t
+    change algebraMap A₁ C₁ (algebraMap A A₁ r) • t = algebraMap A C₁ r • t
     rw [← IsScalarTower.algebraMap_apply]
   have : IsScalarTower A C U₁ := .of_algebraMap_smul fun r t => by
-    show algebraMap C C₁ (algebraMap A C r) • t = algebraMap A C₁ r • t
+    change algebraMap C C₁ (algebraMap A C r) • t = algebraMap A C₁ r • t
     rw [← IsScalarTower.algebraMap_apply]
   let : Module C U₂ := .compHom U₂ (algebraMap C C₂)
   let : Module A₂ U₂ := .compHom U₂ (algebraMap A₂ C₂)
@@ -448,10 +447,10 @@ public theorem exists_linearEquiv_of_equalizer_of_isPushout [Module.Flat A C]
   have : IsScalarTower C C₂ U₂ := .of_algebraMap_smul fun _ _ => rfl
   have : IsScalarTower A₂ C₂ U₂ := .of_algebraMap_smul fun _ _ => rfl
   have : IsScalarTower A A₂ U₂ := .of_algebraMap_smul fun r t => by
-    show algebraMap A₂ C₂ (algebraMap A A₂ r) • t = algebraMap A C₂ r • t
+    change algebraMap A₂ C₂ (algebraMap A A₂ r) • t = algebraMap A C₂ r • t
     rw [← IsScalarTower.algebraMap_apply]
   have : IsScalarTower A C U₂ := .of_algebraMap_smul fun r t => by
-    show algebraMap C C₂ (algebraMap A C r) • t = algebraMap A C₂ r • t
+    change algebraMap C C₂ (algebraMap A C r) • t = algebraMap A C₂ r • t
     rw [← IsScalarTower.algebraMap_apply]
   obtain ⟨e₁, he₁⟩ := h₁
   obtain ⟨e₂, he₂⟩ := h₂
@@ -585,7 +584,7 @@ public theorem liftClassOfOneMorphism_liftClassPullback {M : SiteModule A B}
             (tangentPullbackBase_square f hf ψ) φ hφ (hy := hy) u).1)
           (underFiber_right_obj p hx _ u) ρ hρ'
       exact @Functor.IsFiberedInGroupoids.isStronglyCartesian_homLift _ _ _ _ q hq _ _ _ _ _ _ h₁
-    · show Φ.map _ ≫ Φ.map ρ = Φ.map φ ≫ Φ.map u.1.hom
+    · change Φ.map _ ≫ Φ.map ρ = Φ.map φ ≫ Φ.map u.1.hom
       rw [← Φ.map_comp, ← Φ.map_comp, hw]
 
 variable {F : TangentFunctorData A B S hS toS hA p x hx}
@@ -802,7 +801,7 @@ public theorem surjective_liftClassOfOneMorphism_of_isFormallySmoothOnObjects
       (Functor.IsPreFibered.pullbackMap.IsCartesian x'.2 i).toIsHomLift
   let l := underFiberObjMk 𝒳.val.p hx i ℓ hℓ
   refine ⟨Quotient.mk _ l, ?_⟩
-  show Quotient.mk _ ((squareZeroLiftPost A B S hS toS hA 𝒳.val.p 𝒴.val.p Φ
+  change Quotient.mk _ ((squareZeroLiftPost A B S hS toS hA 𝒳.val.p 𝒴.val.p Φ
     (CatFiberedInGroupoids.homFunctor_comp_p P) x hx M).obj l) = Quotient.mk _ t
   exact underFiberClass_eq_of_cartesian 𝒴.val.p (𝟙 _) (𝟙 (Φ.obj x)) (u₁ := t) (u₂ := t) rfl
     (Functor.Fiber.fiberInclusion.map γ'.hom) (𝟙 t.1.right)

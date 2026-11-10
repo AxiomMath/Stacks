@@ -131,7 +131,7 @@ theorem injective_quotUp (hf : IsSMulRegular (M : Type v) f) (n : ℕ) :
   obtain ⟨y, rfl⟩ := quotMk_surjective f M n z
   obtain ⟨w, hw⟩ := (quotMk_eq_zero_iff f M (x := f • y)).1 hz
   refine (quotMk_eq_zero_iff f M).2 ⟨w, hf ?_⟩
-  show f • (f ^ n • w) = f • y
+  change f • (f ^ n • w) = f • y
   rwa [smul_smul, ← pow_succ']
 
 /-- The sequence `M / fⁿ M ⟶ M / fⁿ⁺¹ M ⟶ M / f M`, given by multiplication by `f` and the
@@ -146,7 +146,7 @@ theorem exact_quotUp_quotLe (n : ℕ) :
     exact ⟨quotMk f M n z, by rw [← hz, pow_one]; rfl⟩
   · rintro ⟨z, rfl⟩
     obtain ⟨y, rfl⟩ := quotMk_surjective f M n z
-    show quotMk f M 1 (f • y) = 0
+    change quotMk f M 1 (f • y) = 0
     exact (quotMk_eq_zero_iff f M).2 ⟨y, by rw [pow_one]⟩
 
 /-- The projection `M / fⁿ M ⟶ M / fⁿ M` is the identity. -/

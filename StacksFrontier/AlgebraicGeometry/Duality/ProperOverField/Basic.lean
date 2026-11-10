@@ -66,8 +66,7 @@ theorem isTildeModelOn_derivedStructureSheaf :
 
 section Charts
 
-variable {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) [IsProper f] [IsLocallyNoetherian X]
-  [CompactSpace X] [QuasiSeparatedSpace X]
+variable {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) [IsProper f]
 
 /-- The affine chart condition on `ω_X^•` ([Stacks, Tag 0BV2] for `a(𝒪_{Spec k})`): over every
 affine `U ⊆ X` and for every polynomial presentation of `Γ(Spec k, ⊤) → Γ(X, U)`, `ω_X^•|_U` is the
@@ -98,10 +97,7 @@ theorem hasCharts : HasCharts f := by
     (hd₂ := HasDerivedCategory.standard (ModuleCat.{u} Γ(X, U)))
     (tilde.functor Γ(X, U) ⋙ Scheme.Modules.restrictFunctor hU.isoSpec.hom) _ _ e
 
-variable {f}
-
-/-- A compact locally Noetherian scheme is Noetherian. -/
-private instance isNoetherian_of_compactSpace : AlgebraicGeometry.IsNoetherian X := ⟨⟩
+variable {f} [IsLocallyNoetherian X]
 
 /-- `ω_X^•` is a dualizing complex, given its chart description. -/
 theorem isDualizingComplex_of_charts (hchart : HasCharts f) :
@@ -120,6 +116,13 @@ theorem associatedShiftFunction_eq_zero_of_charts (hchart : HasCharts f) (x : X)
   associatedShiftFunction_eq_zero_of_hasTopCharts f
     (Dualizing.isNormalizedDualizingComplex_single_self_of_isField isField_globalSections)
     hchart x hx
+
+section CompactSpace
+
+variable [CompactSpace X]
+
+/-- A compact locally Noetherian scheme is Noetherian. -/
+private instance isNoetherian_of_compactSpace : AlgebraicGeometry.IsNoetherian X := ⟨⟩
 
 /-- The four conclusions of [Stacks, Tag 0AWN] for `ω_X^•`, given its chart description:
 cohomology in degrees `-dim X, …, 0` only, supports of dimension at most `-i`, and the first
@@ -172,6 +175,8 @@ theorem exists_nontrivial_iff_depth_le_of_charts (hchart : HasCharts f) {x : X}
   exists_nontrivial_iff_depth_le_of_hasTopCharts f
     (Dualizing.isNormalizedDualizingComplex_single_self_of_isField isField_globalSections)
     hchart hx i
+
+end CompactSpace
 
 end Charts
 

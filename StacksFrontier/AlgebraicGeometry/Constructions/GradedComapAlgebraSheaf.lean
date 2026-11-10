@@ -36,11 +36,12 @@ structure map, and the reduction of local surjectivity to the single statement t
 Exactly this chain existed, for the Rees algebra `⨁ₙ Kⁿ` of a quasi-coherent sheaf of ideals `K`
 on `Y` and the Rees algebra of its inverse image, in
 `StacksFrontier/AlgebraicGeometry/FormalFunctions/ReesComapAlgebraSheaf.lean` and
-`StacksFrontier/AlgebraicGeometry/FormalFunctions/ReesComapLocallySurjective.lean`. Nothing in the assembly uses the Rees algebra: the ideal
-sheaf enters only in the degreewise comparison `Stacks.Blowup.reesPieceComap` of
-[Stacks, Tag 01OG], which is the `φ` above, and in the last step of local surjectivity, which is
-a statement about ambient sections of the pieces. Those two remain there; everything between
-them is here, and the Rees declarations are now instantiations of the ones below.
+`StacksFrontier/AlgebraicGeometry/FormalFunctions/ReesComapLocallySurjective.lean`. Nothing in the
+assembly uses the Rees algebra: the ideal sheaf enters only in the degreewise comparison
+`Stacks.Blowup.reesPieceComap` of [Stacks, Tag 01OG], which is the `φ` above, and in the last
+step of local surjectivity, which is a statement about ambient sections of the pieces. Those two
+remain there; everything between them is here, and the Rees declarations are now instantiations
+of the ones below.
 
 ## Main definitions
 

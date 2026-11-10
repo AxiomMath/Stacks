@@ -62,7 +62,7 @@ public theorem app_sum_eq_of_graphCover
   let g i := graph (W i) ≫ R.map (e i).hom
   let t i := G.map (g i).op s
   let x i := H.map (e i).inv.op (η (W i) (t i))
-  show θ.app (Opposite.op Q) (∑ i, x i) = s
+  change θ.app (Opposite.op Q) (∑ i, x i) = s
   rw [map_sum]
   apply hG (R.obj Q) _ hcov
   intro T f hf

@@ -59,7 +59,7 @@ theorem bijective_lift_of_bijective_of_linearEquiv (p : A →ₗ[Λ] L →ₗ[Λ
     refine ⟨fun f₁ f₂ h => LinearMap.ext fun x => ?_, fun c => ⟨c • lL.toLinearMap, ?_⟩⟩
     · rw [hx x, map_smul, map_smul]
       exact congrArg (lL x • ·) h
-    · show c * lL (lL.symm 1) = c
+    · change c * lL (lL.symm 1) = c
       rw [LinearEquiv.apply_symm_apply, mul_one]
   have heq : TensorProduct.lift p = (ev ∘ₗ p) ∘ₗ (TensorProduct.rid Λ A).toLinearMap ∘ₗ
       TensorProduct.map LinearMap.id lL.toLinearMap := by

@@ -66,8 +66,6 @@ namespace Deformation
 universe u v w x y
 
 attribute [local implicit_reducible] CategoryTheory.BasedCategory.ofFunctor
-set_option linter.deprecated false in
-attribute [local implicit_reducible] CategoryTheory.CategoryOfElements.π
 attribute [local implicit_reducible] CategoryTheory.Functor.Fiber
 attribute [local implicit_reducible] squareZeroExtensionArtinian
 
@@ -80,8 +78,8 @@ private theorem satisfiesRS_of_equiv
     (e : ∀ A, F.obj A ≃ G.obj A)
     (he : ∀ {A B} (f : A ⟶ B) (a : F.obj A),
       e B (F.map f a) = G.map f (e A a))
-    (hG : SatisfiesRS (CategoryOfElements.π G)) :
-    SatisfiesRS (CategoryOfElements.π F) := by
+    (hG : SatisfiesRS (Functor.Elements.π G)) :
+    SatisfiesRS (Functor.Elements.π F) := by
   refine ⟨categoryOfElements_projection_isCofibered _, ?_⟩
   intro x₁ x₂ x f₁ f₂ hf₂
   let toG (z : F.Elements) : G.Elements := G.elementsMk z.1 (e z.1 z.2)
@@ -92,8 +90,8 @@ private theorem satisfiesRS_of_equiv
         _ = e w.1 w.2 := by rw [m.map_val])
   let f₁G := mapG f₁
   let f₂G := mapG f₂
-  have hf₂G : Function.Surjective ((CategoryOfElements.π G).map f₂G).hom := by
-    simpa [f₂G, mapG, toG, CategoryOfElements.π] using hf₂
+  have hf₂G : Function.Surjective ((Functor.Elements.π G).map f₂G).hom := by
+    simpa [f₂G, mapG, toG, Functor.Elements.π] using hf₂
   obtain ⟨cG, ⟨hcG⟩, ⟨hcpG⟩⟩ := hG.2 f₁G f₂G hf₂G
   let y : F.Elements := F.elementsMk cG.pt.1 ((e cG.pt.1).symm cG.pt.2)
   have hy (z : F.Elements) (m : cG.pt ⟶ toG z) : F.map m.hom y.2 = z.2 := by
@@ -141,11 +139,11 @@ private theorem satisfiesRS_of_equiv
     refine PullbackCone.IsLimit.mk (eq := c.condition) (lift := lift) ?_ ?_ ?_
     · intro s
       apply Functor.Elements.hom_ext
-      show (lift s).hom ≫ cG.fst.hom = s.fst.hom
+      change (lift s).hom ≫ cG.fst.hom = s.fst.hom
       exact baseLift_fst s
     · intro s
       apply Functor.Elements.hom_ext
-      show (lift s).hom ≫ cG.snd.hom = s.snd.hom
+      change (lift s).hom ≫ cG.snd.hom = s.snd.hom
       exact baseLift_snd s
     · intro s m hm₁ hm₂
       apply Functor.Elements.hom_ext
@@ -162,7 +160,7 @@ private theorem satisfiesRS_of_equiv
           _ = (lift s).hom ≫ cG.snd.hom := (baseLift_snd s).symm
   refine ⟨c, ⟨hc⟩, ?_⟩
   refine ⟨?_⟩
-  have hcone : c.map (CategoryOfElements.π F) ≅ cG.map (CategoryOfElements.π G) := by
+  have hcone : c.map (Functor.Elements.π F) ≅ cG.map (Functor.Elements.π G) := by
     refine PullbackCone.ext (Iso.refl _) ?_ ?_ <;> rfl
   exact IsLimit.ofIsoLimit hcpG hcone.symm
 
@@ -171,21 +169,21 @@ private theorem satisfiesRS_of_equiv
 /-- A morphism of elements lifts its underlying morphism of the base. -/
 private theorem isHomLift_homMk {C : Type u} [Category.{v} C] (F : C ⥤ Type x)
     {X Y : F.Elements} (f : X.1 ⟶ Y.1) (h : F.map f X.2 = Y.2) :
-    (CategoryOfElements.π F).IsHomLift f (Functor.Elements.homMk (x := X) (y := Y) f h) :=
-  IsHomLift.of_fac _ _ _ rfl rfl (by simp [CategoryOfElements.π])
+    (Functor.Elements.π F).IsHomLift f (Functor.Elements.homMk (x := X) (y := Y) f h) :=
+  IsHomLift.of_fac _ _ _ rfl rfl (by simp [Functor.Elements.π])
 
 /-- A morphism of elements lifting `f` has underlying morphism `f`. -/
 private theorem val_eq_of_isHomLift {C : Type u} [Category.{v} C] (F : C ⥤ Type x)
-    {X Y : F.Elements} (f : X.1 ⟶ Y.1) (g : X ⟶ Y) (h : (CategoryOfElements.π F).IsHomLift f g) :
+    {X Y : F.Elements} (f : X.1 ⟶ Y.1) (g : X ⟶ Y) (h : (Functor.Elements.π F).IsHomLift f g) :
     g.hom = f := by
-  simpa only [CategoryOfElements.π, Functor.Elements.π_map, eqToHom_refl, Category.id_comp,
+  simpa only [Functor.Elements.π, Functor.Elements.π_map, eqToHom_refl, Category.id_comp,
     Category.comp_id] using
-    IsHomLift.fac' (CategoryOfElements.π F) f g
+    IsHomLift.fac' (Functor.Elements.π F) f g
 
 /-- The fibrewise isomorphism class of an element of `F.obj A`. -/
 private def elementClass {C : Type u} [Category.{v} C] (F : C ⥤ Type x)
     (A : C) (a : F.obj A) :
-    (isomorphismClasses (BasedCategory.ofFunctor (CategoryOfElements.π F))
+    (isomorphismClasses (BasedCategory.ofFunctor (Functor.Elements.π F))
       (categoryOfElements_projection_isCofibered F)).obj A :=
   classOf _ _ ⟨F.elementsMk A a, rfl⟩
 
@@ -197,19 +195,19 @@ private theorem elementClass_bijective {C : Type u} [Category.{v} C]
   · intro a b h
     have hq := congrArg
       (cast (isomorphismClasses_obj
-        (BasedCategory.ofFunctor (CategoryOfElements.π F))
+        (BasedCategory.ofFunctor (Functor.Elements.π F))
         (categoryOfElements_projection_isCofibered F) A)) h
     dsimp only [elementClass] at hq
     rw [classOf_eq, classOf_eq] at hq
-    let xa : (CategoryOfElements.π F).Fiber A := ⟨F.elementsMk A a, rfl⟩
-    let xb : (CategoryOfElements.π F).Fiber A := ⟨F.elementsMk A b, rfl⟩
+    let xa : (Functor.Elements.π F).Fiber A := ⟨F.elementsMk A a, rfl⟩
+    let xb : (Functor.Elements.π F).Fiber A := ⟨F.elementsMk A b, rfl⟩
     obtain ⟨i⟩ : Nonempty (xa ≅ xb) := Quotient.exact hq
     have hbase := val_eq_of_isHomLift F (𝟙 A) i.hom.1 i.hom.2
     have hval : F.map i.hom.1.hom a = b := i.hom.1.map_val
     rwa [hbase, F.map_id] at hval
   · intro z
     obtain ⟨⟨@⟨B, a⟩, hB⟩, hz⟩ := classOf_surjective
-      (BasedCategory.ofFunctor (CategoryOfElements.π F))
+      (BasedCategory.ofFunctor (Functor.Elements.π F))
       (categoryOfElements_projection_isCofibered F) A z
     change B = A at hB
     subst A
@@ -220,7 +218,7 @@ of elements. -/
 private def elementClassEquiv {C : Type u} [Category.{v} C]
     (F : C ⥤ Type x) (A : C) :
     F.obj A ≃
-      (isomorphismClasses (BasedCategory.ofFunctor (CategoryOfElements.π F))
+      (isomorphismClasses (BasedCategory.ofFunctor (Functor.Elements.π F))
         (categoryOfElements_projection_isCofibered F)).obj A :=
   Equiv.ofBijective (elementClass F A) (elementClass_bijective F A)
 
@@ -228,14 +226,14 @@ private def elementClassEquiv {C : Type u} [Category.{v} C]
 private theorem elementClass_natural {C : Type u} [Category.{v} C]
     (F : C ⥤ Type x) {A B : C} (f : A ⟶ B) (a : F.obj A) :
     elementClass F B (F.map f a) =
-      (isomorphismClasses (BasedCategory.ofFunctor (CategoryOfElements.π F))
+      (isomorphismClasses (BasedCategory.ofFunctor (Functor.Elements.π F))
         (categoryOfElements_projection_isCofibered F)).map f
         (elementClass F A a) := by
   let g := Functor.Elements.homMk (x := F.elementsMk A a)
     (y := F.elementsMk B (F.map f a)) f rfl
-  let : (BasedCategory.ofFunctor (CategoryOfElements.π F)).p.IsHomLift f g :=
+  let : (BasedCategory.ofFunctor (Functor.Elements.π F)).p.IsHomLift f g :=
     isHomLift_homMk F (X := F.elementsMk A a) (Y := F.elementsMk B (F.map f a)) f rfl
-  exact (map_classOf (BasedCategory.ofFunctor (CategoryOfElements.π F))
+  exact (map_classOf (BasedCategory.ofFunctor (Functor.Elements.π F))
     (categoryOfElements_projection_isCofibered F) f ⟨F.elementsMk A a, rfl⟩
     ⟨F.elementsMk B (F.map f a), rfl⟩ g).symm
 
@@ -342,21 +340,21 @@ private theorem finiteDimensional_tangentSpace_of_equiv
     {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
     [Module.Finite Λ k]
     (F : ArtinianLocalAlgCat.{u, max v w, w} Λ k ⥤ Type x)
-    (hp : IsPredeformationCategory (CategoryOfElements.π F))
-    (hS2 : SchlessingerConditionS2 (CategoryOfElements.π
-      (isomorphismClasses (BasedCategory.ofFunctor (CategoryOfElements.π F))
+    (hp : IsPredeformationCategory (Functor.Elements.π F))
+    (hS2 : SchlessingerConditionS2 (Functor.Elements.π
+      (isomorphismClasses (BasedCategory.ofFunctor (Functor.Elements.π F))
         hp.cofibered)))
     (R : CompleteLocalAlgCat.{u, max v w, w} Λ k)
     (e : ∀ A, F.obj A ≃ (restrictedCoyoneda R).obj A)
     (he : ∀ {A B} (f : A ⟶ B) (a : F.obj A),
       e B (F.map f a) = (restrictedCoyoneda R).map f (e A a)) :
-    let 𝓕 := BasedCategory.ofFunctor (CategoryOfElements.π F)
+    let 𝓕 := BasedCategory.ofFunctor (Functor.Elements.π F)
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨hp⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
       (isomorphismClasses 𝓕 hp.cofibered))) := ⟨hS2⟩
     FiniteDimensional k (tangentSpaceArtinian Λ k
       (isomorphismClasses 𝓕 hp.cofibered)) := by
-  let 𝓕 := BasedCategory.ofFunctor (CategoryOfElements.π F)
+  let 𝓕 := BasedCategory.ofFunctor (Functor.Elements.π F)
   let L := associatedTangentSpaceModuleStructure 𝓕 hp hS2
   let : L.functor.Additive := L.additive
   let : L.functor.Linear k := L.linear
@@ -369,7 +367,7 @@ private theorem finiteDimensional_tangentSpace_of_equiv
   have hη {V W : FGModuleCat.{max v w} k} (f : V ⟶ W) (a : L.functor.obj V) :
       η W ((L.functor.map f).hom a) =
         (restrictedCoyoneda R).map (S.map f) (η V a) := by
-    show e _ ((elementClassEquiv F _).symm (cast (c W) ((L.functor.map f).hom a))) = _
+    change e _ ((elementClassEquiv F _).symm (cast (c W) ((L.functor.map f).hom a))) = _
     have hc := cast_map L.forget_comp f a
     change cast (c W) ((L.functor.map f).hom a) =
       (isomorphismClasses 𝓕 hp.cofibered).map (S.map f) (cast (c V) a) at hc
@@ -436,17 +434,18 @@ induces on the dual numbers. -/
 private theorem derivationToTangentSpace_injective_of_equiv
     {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
     (F : ArtinianLocalAlgCat.{u, max v w, w} Λ k ⥤ Type x)
-    (hp : IsPredeformationCategory (CategoryOfElements.π F))
+    (hp : IsPredeformationCategory (Functor.Elements.π F))
     (R : CompleteLocalAlgCat.{u, max v w, w} Λ k)
     (e : ∀ A, F.obj A ≃ (restrictedCoyoneda R).obj A)
     (he : ∀ {A B} (f : A ⟶ B) (a : F.obj A),
       e B (F.map f a) = (restrictedCoyoneda R).map f (e A a)) :
-    Function.Injective (derivationToTangentSpace (CategoryOfElements.π F) hp) := by
+    Function.Injective (derivationToTangentSpace (Functor.Elements.π F) hp) := by
   let := ((isPredeformationCategory_iff F).mp hp).some
   let a : F.obj (residueFieldObject.{u, v, w} Λ k) := default
   intro D E h
   have happly (δ : Derivation Λ k k) := derivationToTangentSpace_apply _ hp δ
-    ⟨F.elementsMk _ a, rfl⟩ (dualNumbersDerivationHom δ) (dualNumbersDerivationHom_isDerivationMorphism δ)
+    ⟨F.elementsMk _ a, rfl⟩ (dualNumbersDerivationHom δ)
+    (dualNumbersDerivationHom_isDerivationMorphism δ)
   rw [happly D, happly E] at h
   change (isomorphismClasses _ _).map (dualNumbersDerivationHom D)
       (elementClass F _ a) =
@@ -511,7 +510,7 @@ private theorem derivationAction_eq_map
   let : (BasedCategory.ofFunctor p).p.IsHomLift
       ((derivationAction p hp).twistMap D) f :=
     IsHomLift.of_fac _ _ _ a.2 b.2 (by
-      show _ = eqToHom a.2.symm ≫ p.map f ≫ eqToHom b.2
+      change _ = eqToHom a.2.symm ≫ p.map f ≫ eqToHom b.2
       rw [hf]
       simp)
   have h := map_classOf (BasedCategory.ofFunctor p) hp.cofibered
@@ -524,15 +523,15 @@ derivation. -/
 private theorem derivationAction_free
     {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
     (F : ArtinianLocalAlgCat.{u, max v w, w} Λ k ⥤ Type x)
-    (hp : IsPredeformationCategory (CategoryOfElements.π F))
-    (hS2 : SchlessingerConditionS2 (CategoryOfElements.π
-      (isomorphismClasses (BasedCategory.ofFunctor (CategoryOfElements.π F))
+    (hp : IsPredeformationCategory (Functor.Elements.π F))
+    (hS2 : SchlessingerConditionS2 (Functor.Elements.π
+      (isomorphismClasses (BasedCategory.ofFunctor (Functor.Elements.π F))
         hp.cofibered)))
-    (hinj : Function.Injective (derivationToTangentSpace (CategoryOfElements.π F) hp))
-    (D : Derivation Λ k k) (y : predeformationTangentSpace (CategoryOfElements.π F) hp)
-    (hfix : (derivationAction (CategoryOfElements.π F) hp).action (D, y) = y) :
+    (hinj : Function.Injective (derivationToTangentSpace (Functor.Elements.π F) hp))
+    (D : Derivation Λ k k) (y : predeformationTangentSpace (Functor.Elements.π F) hp)
+    (hfix : (derivationAction (Functor.Elements.π F) hp).action (D, y) = y) :
     D = 0 := by
-  let p := CategoryOfElements.π F
+  let p := Functor.Elements.π F
   let 𝓕 := BasedCategory.ofFunctor p
   let H := isomorphismClasses 𝓕 hp.cofibered
   let L := associatedTangentSpaceModuleStructure 𝓕 hp hS2
@@ -559,10 +558,10 @@ private theorem derivationAction_free
     apply AlgHom.ext
     intro a
     apply TrivSqZeroExt.ext
-    · show (TrivSqZeroExt.map p₁.hom.hom _).fst = a.fst
+    · change (TrivSqZeroExt.map p₁.hom.hom _).fst = a.fst
       rw [TrivSqZeroExt.fst_map]
       rfl
-    · show (TrivSqZeroExt.map p₁.hom.hom _).snd = a.snd
+    · change (TrivSqZeroExt.map p₁.hom.hom _).snd = a.snd
       rw [TrivSqZeroExt.snd_map]
       rfl
   have hsecond (δ : Derivation Λ k k) : derivationGraphMorphism δ ≫ S.map p₂ =
@@ -571,10 +570,10 @@ private theorem derivationAction_free
     apply AlgHom.ext
     intro a
     apply TrivSqZeroExt.ext
-    · show (TrivSqZeroExt.map p₂.hom.hom _).fst = a.fst
+    · change (TrivSqZeroExt.map p₂.hom.hom _).fst = a.fst
       rw [TrivSqZeroExt.fst_map]
       rfl
-    · show (TrivSqZeroExt.map p₂.hom.hom _).snd = ULift.up (δ a.fst)
+    · change (TrivSqZeroExt.map p₂.hom.hom _).snd = ULift.up (δ a.fst)
       rw [TrivSqZeroExt.snd_map]
       rfl
   have hsum (δ : Derivation Λ k k) : derivationGraphMorphism δ ≫ S.map (p₁ + p₂) =
@@ -589,9 +588,9 @@ private theorem derivationAction_free
     rw [h]
     apply TrivSqZeroExt.ext
     · rfl
-    · show (TrivSqZeroExt.map (p₁ + p₂).hom.hom _).snd = _
+    · change (TrivSqZeroExt.map (p₁ + p₂).hom.hom _).snd = _
       rw [TrivSqZeroExt.snd_map]
-      show a.snd + ULift.up (δ a.fst) = 0 + ULift.up (a.snd.down + δ a.fst)
+      change a.snd + ULift.up (δ a.fst) = 0 + ULift.up (a.snd.down + δ a.fst)
       rw [zero_add]
       rfl
   have h₁ : (L.functor.map p₁).hom (z D) = (L.functor.map p₁).hom (z 0) := by
@@ -822,7 +821,7 @@ private theorem elementsPrecompEssSurj {C : Type u} {D : Type w}
     let B := U.objPreimage a.1
     let e := U.objObjPreimageIso a.1
     refine ⟨(U ⋙ F).elementsMk B (F.map e.inv a.2), ⟨Functor.Elements.isoMk e ?_⟩⟩
-    show F.map e.hom (F.map e.inv a.2) = a.2
+    change F.map e.hom (F.map e.inv a.2) = a.2
     rw [← Functor.map_comp_apply, e.inv_hom_id, F.map_id]
     rfl
 
@@ -838,8 +837,8 @@ private theorem satisfiesRS_precomp
     (hU : ∀ {A B : ArtinianLocalAlgCat.{u, v, y} Λ k'} (f : A ⟶ B), Function.Surjective f.hom →
       Function.Surjective (U.map f).hom)
     (F : ArtinianLocalAlgCat.{u, v, w} Λ k ⥤ Type x)
-    (hF : SatisfiesRS (CategoryOfElements.π F)) :
-    SatisfiesRS (CategoryOfElements.π (U ⋙ F)) := by
+    (hF : SatisfiesRS (Functor.Elements.π F)) :
+    SatisfiesRS (Functor.Elements.π (U ⋙ F)) := by
   refine ⟨categoryOfElements_projection_isCofibered _, ?_⟩
   intro a b c f g hg
   let E := Functor.Elements.precomp U F
@@ -850,8 +849,8 @@ private theorem satisfiesRS_precomp
     diagramIsoCospan (cospan f g ⋙ E)
   let : HasLimit (cospan f g ⋙ E) := hasLimit_of_iso e.symm
   let : HasLimit (cospan f g) := Adjunction.hasLimit_of_comp_equivalence _ E
-  let q := CategoryOfElements.π F
-  let p := CategoryOfElements.π (U ⋙ F)
+  let q := Functor.Elements.π F
+  let p := Functor.Elements.π (U ⋙ F)
   let : PreservesLimit (cospan (E.map f) (E.map g)) q :=
     preservesLimit_of_preserves_limit_cone hs
       ((s.isLimitMapConeEquiv q).symm hsp)
@@ -867,24 +866,24 @@ private theorem satisfiesRS_precomp
 categories of elements. -/
 private def basedMapOnElements {C : Type u} [Category.{v} C]
     {F : C ⥤ Type x} {G : C ⥤ Type y}
-    (φ : BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π F))
-      (BasedCategory.ofFunctor (CategoryOfElements.π G)))
+    (φ : BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π F))
+      (BasedCategory.ofFunctor (Functor.Elements.π G)))
     (A : C) (a : F.obj A) : G.obj A :=
   G.map (eqToHom (φ.w_obj (F.elementsMk A a))) (φ.obj (F.elementsMk A a)).2
 
 /-- The map on values underlying a based functor is natural. -/
 private theorem basedMapOnElements_natural {C : Type u} [Category.{v} C]
     {F : C ⥤ Type x} {G : C ⥤ Type y}
-    (φ : BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π F))
-      (BasedCategory.ofFunctor (CategoryOfElements.π G)))
+    (φ : BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π F))
+      (BasedCategory.ofFunctor (Functor.Elements.π G)))
     {A B : C} (f : A ⟶ B) (a : F.obj A) :
     basedMapOnElements φ B (F.map f a) = G.map f (basedMapOnElements φ A a) := by
   let g := Functor.Elements.homMk (x := F.elementsMk A a)
     (y := F.elementsMk B (F.map f a)) f rfl
-  let : (BasedCategory.ofFunctor (CategoryOfElements.π F)).p.IsHomLift f g :=
+  let : (BasedCategory.ofFunctor (Functor.Elements.π F)).p.IsHomLift f g :=
     isHomLift_homMk F (X := F.elementsMk A a) (Y := F.elementsMk B (F.map f a)) f rfl
   let := φ.preserves_isHomLift f g
-  have hh := IsHomLift.fac' (BasedCategory.ofFunctor (CategoryOfElements.π G)).p f (φ.map g)
+  have hh := IsHomLift.fac' (BasedCategory.ofFunctor (Functor.Elements.π G)).p f (φ.map g)
   have hv := (φ.map g).map_val
   dsimp only [basedMapOnElements]
   rw [← hv, ← Functor.map_comp_apply]
@@ -898,8 +897,8 @@ private theorem basedMapOnElements_natural {C : Type u} [Category.{v} C]
 /-- The class of an object of the fibre of a category of elements is the class of the
 corresponding element of the functor. -/
 private theorem classOf_eq_elementClass {C : Type u} [Category.{v} C]
-    (F : C ⥤ Type x) {A : C} (a : (CategoryOfElements.π F).Fiber A) :
-    classOf (BasedCategory.ofFunctor (CategoryOfElements.π F))
+    (F : C ⥤ Type x) {A : C} (a : (Functor.Elements.π F).Fiber A) :
+    classOf (BasedCategory.ofFunctor (Functor.Elements.π F))
         (categoryOfElements_projection_isCofibered F) a =
       elementClass F A (F.map (eqToHom a.2) a.1.2) := by
   rcases a with ⟨@⟨B, a⟩, h⟩
@@ -911,8 +910,8 @@ private theorem classOf_eq_elementClass {C : Type u} [Category.{v} C]
 /-- A based functor acts on fibrewise classes through its map on values. -/
 private theorem basedMapOnElements_class {C : Type u} [Category.{v} C]
     {F : C ⥤ Type x} {G : C ⥤ Type y}
-    (φ : BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π F))
-      (BasedCategory.ofFunctor (CategoryOfElements.π G)))
+    (φ : BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π F))
+      (BasedCategory.ofFunctor (Functor.Elements.π G)))
     (A : C) (a : F.obj A) :
     mapIsomorphismClasses
       (categoryOfElements_projection_isCofibered F)
@@ -927,8 +926,8 @@ private theorem basedMapOnElements_lifts
     {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
     {F : ArtinianLocalAlgCat.{u, v, w} Λ k ⥤ Type x}
     {G : ArtinianLocalAlgCat.{u, v, w} Λ k ⥤ Type y}
-    (φ : BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π F))
-      (BasedCategory.ofFunctor (CategoryOfElements.π G)))
+    (φ : BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π F))
+      (BasedCategory.ofFunctor (Functor.Elements.π G)))
     (hφ : IsSmooth φ)
     {B A : ArtinianLocalAlgCat.{u, v, w} Λ k}
     (f : B ⟶ A) (hf : Function.Surjective f.hom)
@@ -940,27 +939,27 @@ private theorem basedMapOnElements_lifts
   let g : y ⟶ φ.obj x :=
     ⟨f ≫ eqToHom (φ.w_obj x).symm, by
       rw [Functor.map_comp_apply, ← hab]
-      show G.map (eqToHom (φ.w_obj x).symm)
+      change G.map (eqToHom (φ.w_obj x).symm)
         (G.map (eqToHom (φ.w_obj x)) (φ.obj x).2) = _
       rw [← Functor.map_comp_apply]
       simp⟩
-  have hg : (CategoryOfElements.π G).IsHomLift f g := by
+  have hg : (Functor.Elements.π G).IsHomLift f g := by
     apply IsHomLift.of_fac _ _ _ rfl (φ.w_obj x)
-    show f = (f ≫ eqToHom (φ.w_obj x).symm) ≫ eqToHom (φ.w_obj x)
+    change f = (f ≫ eqToHom (φ.w_obj x).symm) ≫ eqToHom (φ.w_obj x)
     simp
   obtain ⟨@⟨B', c⟩, h, i, hh, hi, _⟩ := hφ f hf y x g hg
   have hB : B' = B := by
-    let : (CategoryOfElements.π F).IsHomLift f h := hh
-    exact IsHomLift.domain_eq (CategoryOfElements.π F) f h
+    let : (Functor.Elements.π F).IsHomLift f h := hh
+    exact IsHomLift.domain_eq (Functor.Elements.π F) f h
   subst B'
   have hhval : h.hom = f := by
     exact val_eq_of_isHomLift F f h (by exact hh)
   refine ⟨c, ?_, ?_⟩
   · simpa only [hhval] using h.map_val
   · have hival : i.hom = eqToHom (φ.w_obj (F.elementsMk B c)) := by
-      let : (CategoryOfElements.π G).IsHomLift (𝟙 B) i := hi
-      have hi' := IsHomLift.fac' (CategoryOfElements.π G) (𝟙 B) i
-      simpa only [CategoryOfElements.π, Functor.Elements.π_map, eqToHom_refl, Category.id_comp,
+      let : (Functor.Elements.π G).IsHomLift (𝟙 B) i := hi
+      have hi' := IsHomLift.fac' (Functor.Elements.π G) (𝟙 B) i
+      simpa only [Functor.Elements.π, Functor.Elements.π_map, eqToHom_refl, Category.id_comp,
         Category.comp_id] using hi'
     exact (congrArg (fun f ↦ G.map f (φ.obj (F.elementsMk B c)).2) hival).symm.trans i.map_val
 
@@ -976,31 +975,30 @@ private theorem isSmooth_of_lifts
         ∃ c : F.obj B, F.map f c = a ∧ α.app B c = b) :
     IsSmooth (elementsBasedFunctor α) := by
   dsimp [IsSmooth, elementsBasedFunctor]
-  intro B A f hf
-  intro y x g hg
+  intro B A f hf y x g hg
   rcases y with @⟨B', b⟩
   rcases x with @⟨A', a⟩
   let := hg
   have hdom : B' = B := by
-    simpa [BasedCategory.ofFunctor, CategoryOfElements.π] using
+    simpa [BasedCategory.ofFunctor, Functor.Elements.π] using
       IsHomLift.domain_eq
         (p := (BasedCategory.ofFunctor (Functor.Elements.π G)).p) f g
   have hcod : A' = A := by
-    simpa [BasedCategory.ofFunctor, CategoryOfElements.π, CategoryOfElements.map] using
+    simpa [BasedCategory.ofFunctor, Functor.Elements.π, NatTrans.mapElements] using
       IsHomLift.codomain_eq
         (p := (BasedCategory.ofFunctor (Functor.Elements.π G)).p) f g
   cases hdom.symm
   cases hcod.symm
   have hval : g.hom = f := val_eq_of_isHomLift G f g (by exact hg)
   obtain ⟨c, hc, hαc⟩ := h f hf a b (by
-    simpa [hval, CategoryOfElements.map] using g.map_val.symm)
+    simpa [hval, NatTrans.mapElements] using g.map_val.symm)
   refine ⟨F.elementsMk B c, ⟨f, hc⟩, ⟨𝟙 B, ?_⟩, ?_, ?_, ?_⟩
-  · simpa [CategoryOfElements.map, Functor.map_id_apply] using hαc
+  · simpa [NatTrans.mapElements, Functor.map_id_apply] using hαc
   · exact isHomLift_homMk F (X := F.elementsMk B c) (Y := F.elementsMk A a) f hc
   · exact isHomLift_homMk G (X := G.elementsMk B (α.app B c)) (Y := G.elementsMk B b) (𝟙 B)
       (by simpa [Functor.map_id_apply] using hαc)
   · apply Functor.Elements.hom_ext
-    show f = (𝟙 B) ≫ g.hom
+    change f = (𝟙 B) ≫ g.hom
     simp [hval]
 
 /-- A natural family of maps bijective at one object is bijective at every isomorphic
@@ -1013,7 +1011,7 @@ private theorem natural_bijective_of_iso
     Function.Bijective (α A) := by
   have he : α A = (G.mapIso e).toEquiv.symm ∘ α B ∘ (F.mapIso e).toEquiv := by
     funext a
-    show α A a = G.map e.inv (α B (F.map e.hom a))
+    change α A a = G.map e.inv (α B (F.map e.hom a))
     rw [hα, ← Functor.map_comp_apply, e.hom_inv_id, G.map_id]
     rfl
   rw [he]
@@ -1087,13 +1085,13 @@ private theorem isDeformationFunctor_lifted
     (ULift.algEquiv (R := Λ) (A := k) : ULift.{v} k ≃ₐ[Λ] k)
   let : U.IsEquivalence := Functor.IsEquivalence.mk
   let J := G ⋙ uliftFunctor.{y, x}
-  have hJ : SatisfiesRS (CategoryOfElements.π J) :=
+  have hJ : SatisfiesRS (Functor.Elements.π J) :=
     satisfiesRS_of_equiv (fun _ ↦ Equiv.ulift) (fun _ _ ↦ rfl) hG.2
   refine ⟨?_, satisfiesRS_precomp U (fun _ hf ↦ hf) J hJ⟩
   let := hG.1.some
   let e := (G.mapIso (liftedResidueFieldIso.{u, v, w} (Λ := Λ) (k := k))).toEquiv
   refine ⟨?_⟩
-  show Unique (ULift.{y} (G.obj (U.obj
+  change Unique (ULift.{y} (G.obj (U.obj
     (residueFieldObject.{u, max v w, max v w} Λ (ULift.{v} k)))))
   exact (Equiv.ulift.{y, x}.trans e).unique
 
@@ -1110,14 +1108,14 @@ public theorem isProrepresentableULift_iff_isDeformationFunctor
     (F : ArtinianLocalAlgCat.{u, max v w, w} Λ k ⥤ Type x) :
     IsProrepresentableULift F ↔
       ∃ hF : IsDeformationFunctor F,
-        let p := CategoryOfElements.π F
+        let p := Functor.Elements.π F
         let 𝓕 := BasedCategory.ofFunctor p
         let hD := (isDeformationCategory_iff F).2 hF
         let hS2 := Artin.schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory
           𝓕 hD
         letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
         letI : Fact (SchlessingerConditionS2
-          (CategoryOfElements.π
+          (Functor.Elements.π
             (isomorphismClasses 𝓕 hD.predeformation.cofibered))) := ⟨hS2⟩
         let T := tangentSpaceArtinian Λ k
           (isomorphismClasses 𝓕 hD.predeformation.cofibered)
@@ -1146,10 +1144,10 @@ public theorem isProrepresentableULift_iff_isDeformationFunctor
         ((isDeformationCategory_iff F).2 hF).predeformation
         R E hE
   · rintro ⟨hF, hfinite, hinj⟩
-    let 𝓕 := BasedCategory.ofFunctor (CategoryOfElements.π F)
+    let 𝓕 := BasedCategory.ofFunctor (Functor.Elements.π F)
     have hD := (isDeformationCategory_iff F).2 hF
     let : Fact (IsPredeformationCategory.{u, v, w} 𝓕.p) := ⟨hD.predeformation⟩
-    let : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    let : Fact (SchlessingerConditionS2 (Functor.Elements.π
         (isomorphismClasses 𝓕 hD.predeformation.cofibered))) :=
       ⟨Artin.schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory 𝓕 hD⟩
     let : FiniteDimensional k (tangentSpaceArtinian.{u, w, v} Λ k
@@ -1158,12 +1156,12 @@ public theorem isProrepresentableULift_iff_isDeformationFunctor
       exists_minimalVersal_hasBijectiveDifferentialOnDerivationOrbits Λ k
         𝓕 hD.predeformation (schlessingerConditionS1_of_satisfiesRS hF.2)
         (schlessingerConditionS2_of_satisfiesRS hF.2) inferInstance
-    let P := chosenPushforwardsOfCofibered (CategoryOfElements.π F) hD.predeformation.cofibered
+    let P := chosenPushforwardsOfCofibered (Functor.Elements.π F) hD.predeformation.cofibered
     have hsmooth := hξ.1 P
     have hfree := derivationAction_free F hD.predeformation
       (Artin.schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory 𝓕 hD) hinj
     have hbij := associatedMap_bijective_of_derivationAction_free
-      (CategoryOfElements.π F) hD.predeformation ξ horbits hfree P
+      (Functor.Elements.π F) hD.predeformation ξ horbits hfree P
     let φ := (associatedMorphism hD.predeformation.cofibered ξ P).toBasedFunctor
     have hpoint : Function.Bijective (basedMapOnElements φ (artinianDualNumbers Λ k)) := by
       have hcomp : (fun a ↦ mapIsomorphismClasses
@@ -1219,14 +1217,14 @@ public theorem isProrepresentable_iff_isDeformationFunctor
     (F : ArtinianLocalAlgCat.{u, max v w, w} Λ k ⥤ Type (max v w)) :
     IsProrepresentable F ↔
       ∃ hF : IsDeformationFunctor F,
-        let p := CategoryOfElements.π F
+        let p := Functor.Elements.π F
         let 𝓕 := BasedCategory.ofFunctor p
         let hD := (isDeformationCategory_iff F).2 hF
         let hS2 := Artin.schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory
           𝓕 hD
         letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
         letI : Fact (SchlessingerConditionS2
-          (CategoryOfElements.π
+          (Functor.Elements.π
             (isomorphismClasses 𝓕 hD.predeformation.cofibered))) := ⟨hS2⟩
         let T := tangentSpaceArtinian Λ k
           (isomorphismClasses 𝓕 hD.predeformation.cofibered)

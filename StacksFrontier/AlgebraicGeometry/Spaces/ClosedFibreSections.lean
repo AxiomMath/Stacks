@@ -61,6 +61,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   (f : X ⟶ representedAlgebraicSpace B S hS T) (p : yoneda.obj U ⟶ X.1) (q : U ⟶ P)
   (hsq : IsPullback p (yoneda.map q) f.hom (yoneda.map ι))
 
+omit [IsAffine ((BigFppfOver.toScheme B S hS).obj T)] in
 include hsq in
 /-- If `Γ(X, ℱ) ⟶ Γ(X, ℱ/Iℱ)` is surjective, `I` being the fibre ideal, so is the inverse image of
 global sections `Γ(X, ℱ) ⟶ Γ(h_U, p^*ℱ)`. -/

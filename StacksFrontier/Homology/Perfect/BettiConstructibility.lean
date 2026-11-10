@@ -54,7 +54,7 @@ theorem finrank_homology_add_finrank_X₃ {k : Type u} [Field k]
       Module.finrank k (S.X₂ ⧸ LinearMap.range S.f.hom) +
         Module.finrank k (S.X₃ ⧸ LinearMap.range S.g.hom) := by
   rw [S.moduleCatHomologyIso.toLinearEquiv.finrank_eq]
-  show Module.finrank k (LinearMap.ker S.g.hom ⧸ LinearMap.range S.moduleCatToCycles) + _ = _
+  change Module.finrank k (LinearMap.ker S.g.hom ⧸ LinearMap.range S.moduleCatToCycles) + _ = _
   have h1 := Submodule.finrank_quotient_add_finrank (LinearMap.range S.moduleCatToCycles)
   have h2 := LinearMap.finrank_range_add_finrank_ker S.moduleCatToCycles
   have h2' := LinearMap.finrank_range_add_finrank_ker S.f.hom
@@ -80,7 +80,7 @@ theorem setOf_finrank_tensor_le_eq (C : Type v) [AddCommGroup C] [Module R C] [M
         (q.asIdeal.ResidueField ⊗[R] C) ≤ a} =
       (PrimeSpectrum.zeroLocus (fittingIdeal (R := R) (M := C) (a : ℤ) : Set R))ᶜ := by
   ext q
-  simp only [Set.mem_setOf_eq, Set.mem_compl_iff, PrimeSpectrum.mem_zeroLocus,
+  simp only [Set.mem_ofPred_eq, Set.mem_compl_iff, PrimeSpectrum.mem_zeroLocus,
     SetLike.coe_subset_coe]
   exact (fittingIdeal_local_generation_tfae (R := R) (M := C) a q.asIdeal).out 2 1
 
@@ -107,7 +107,7 @@ theorem isConstructible_setOf_finrank_tensor_eq (C : Type v) [AddCommGroup C] [M
   · simpa only [Nat.le_zero] using hle 0
   · convert (hle (a + 1)).sdiff (hle a) using 1
     ext q
-    simp only [Set.mem_setOf_eq, Set.mem_diff]
+    simp only [Set.mem_ofPred_eq, Set.mem_sdiff]
     omega
 
 /-- The cokernel of the base change of `d : M ⟶ N` to a residue field is the base change of the
@@ -127,14 +127,12 @@ theorem finrank_quotient_range_extendScalars_map (q : PrimeSpectrum R) {M N : Mo
   have hcomm : ∀ x, eN (((ModuleCat.extendScalars.{u, u, u} (algebraMap R κ)).map d).hom x) =
       g (eM x) := by
     intro x
-    refine TensorProduct.induction_on
+    refine TensorProduct.inductionOn
       (motive := fun x ↦ eN (((ModuleCat.extendScalars.{u, u, u} (algebraMap R κ)).map d).hom x) =
-        g (eM x)) x ?_ (fun a m ↦ rfl) fun x y hx hy ↦ ?_
-    · exact (congrArg eN (map_zero _)).trans ((map_zero eN).trans
-        ((map_zero g).symm.trans (congrArg g (map_zero eM).symm)))
-    · exact (congrArg eN (map_add _ x y)).trans ((map_add eN _ _).trans
-        ((congrArg₂ (· + ·) hx hy).trans ((map_add g _ _).symm.trans
-          (congrArg g (map_add eM x y).symm))))
+        g (eM x)) x (fun a m ↦ rfl) fun x y hx hy ↦ ?_
+    exact (congrArg eN (map_add _ x y)).trans ((map_add eN _ _).trans
+      ((congrArg₂ (· + ·) hx hy).trans ((map_add g _ _).symm.trans
+        (congrArg g (map_add eM x y).symm))))
   have hrange : (LinearMap.range ((ModuleCat.extendScalars.{u, u, u}
       (algebraMap R κ)).map d).hom).map eN.toLinearMap = LinearMap.range g := by
     ext y

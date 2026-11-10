@@ -143,7 +143,7 @@ theorem isOpen_setOf_exists_model (s : σ) :
   · have : IsOpenImmersion T.hom := inferInstanceAs (IsOpenImmersion U.ι)
     exact T.hom.isOpenEmbedding.isOpenMap _ V.isOpen
   · obtain ⟨p, hp⟩ : Y.hom y ∈ Set.range T.hom := by
-      show Y.hom y ∈ Set.range U.ι
+      change Y.hom y ∈ Set.range U.ι
       rw [Scheme.Opens.range_ι]
       exact hxU
     obtain ⟨k, e, rfl⟩ := hsurj p

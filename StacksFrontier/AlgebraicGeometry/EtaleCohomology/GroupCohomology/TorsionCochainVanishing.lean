@@ -38,7 +38,6 @@ namespace Stacks.GroupCohomology
 section Torsion
 
 variable {G : Type u} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G]
-  [TotallyDisconnectedSpace G]
 
 /-- For every prime `p` there is an open normal subgroup of index prime to `p` such that the
 degree-two cochain statement with values in `ℤ/p` with the trivial action holds over each of its
@@ -73,10 +72,10 @@ theorem vanishesTwo_of_finite (hbase : HasPrimeBase G) :
           { carrier := {a : A | p • a = 0}
             zero_mem' := by simp
             add_mem' := fun {a b} ha hb ↦ by
-              simp only [Set.mem_setOf_eq, smul_add] at *
+              simp only [Set.mem_ofPred_eq, smul_add] at *
               rw [ha, hb, add_zero]
             neg_mem' := fun {a} ha ↦ by
-              simp only [Set.mem_setOf_eq, smul_neg] at *
+              simp only [Set.mem_ofPred_eq, smul_neg] at *
               rw [ha, neg_zero] } with hNdef
         have hNmem : ∀ a : A, a ∈ N ↔ p • a = 0 := fun a ↦ Iff.rfl
         have hNstable : ∀ (g : G), ∀ a ∈ N, g • a ∈ N := fun g a ha ↦

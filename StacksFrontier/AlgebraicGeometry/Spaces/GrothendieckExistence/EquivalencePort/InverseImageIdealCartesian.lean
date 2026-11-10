@@ -62,15 +62,15 @@ theorem C1573.isSpannedAt_pullbackIdealSubsheaf
   obtain ⟨g, hg⟩ := hfg Q hQ
   refine ⟨hT₁, (chartSectionsRestrict B S hS Y v ∘ chartIdealPullbackHom B S hS f hf Q) '' g,
     (g.finite_toSet.image _), ?_, fun {T₂} h hT₂ => ?_⟩
-  · show chartSectionsIdeal B S hS Y (pullbackIdealSubsheaf B S hS f hf I) T₁ = _
+  · change chartSectionsIdeal B S hS Y (pullbackIdealSubsheaf B S hS f hf I) T₁ = _
     rw [pullbackIdealSubsheaf_obj_of_isAffine B S hS f hf I hI Q hQ T₁ v hT₁, ← hg,
       Ideal.map_span, Ideal.map_span, Set.image_image]
     rfl
-  · show chartSectionsIdeal B S hS Y (pullbackIdealSubsheaf B S hS f hf I) T₂ = _
+  · change chartSectionsIdeal B S hS Y (pullbackIdealSubsheaf B S hS f hf I) T₂ = _
     rw [pullbackIdealSubsheaf_obj_of_isAffine B S hS f hf I hI Q hQ T₂ (h ≫ v) hT₂, ← hg,
       Ideal.map_span, Ideal.map_span, Set.image_image, Set.image_image]
     refine congrArg (Submodule.span _) (Set.image_congr fun a _ => ?_)
-    show ((smallEtaleRingSheaf B S hS Y.1 Y.2).obj.map (h ≫ v).op).hom _ =
+    change ((smallEtaleRingSheaf B S hS Y.1 Y.2).obj.map (h ≫ v).op).hom _ =
       ((smallEtaleRingSheaf B S hS Y.1 Y.2).obj.map h.op).hom
         (((smallEtaleRingSheaf B S hS Y.1 Y.2).obj.map v.op).hom _)
     rw [op_comp, Functor.map_comp]

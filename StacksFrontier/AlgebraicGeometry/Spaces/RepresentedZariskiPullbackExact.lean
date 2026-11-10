@@ -136,7 +136,7 @@ def representedZariskiSectionsComparisonRepresentedZariskiPullbackExact
   naturality _ _ _ := rfl
 
 /-- The direct image along `ε` followed by sections over an open preserves finite products. -/
-instance preservesFiniteProducts_representedZariski_pushforward_comp_sections_representedZariskiPullbackExact
+instance preservesFiniteProducts_representedZariski_pushforward_comp_sections_pullbackExact
     (W : (representedSchemeRepresentedZariskiRingedToposHom B S hS U).Opens) :
     PreservesFiniteProducts
       ((representedZariskiRingedToposHomRepresentedZariskiRingedToposHom

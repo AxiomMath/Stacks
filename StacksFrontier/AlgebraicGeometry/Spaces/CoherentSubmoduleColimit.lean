@@ -69,6 +69,7 @@ noncomputable def coherentSubobjectCocone (F : Modules.{u, u} B S hS X hX) :
       naturality := fun {_ _} f => Subobject.underlying_arrow f.hom }
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for image subobjects in the category of modules on the space is deep
 /-- On a locally Noetherian algebraic space, the image in a quasi-coherent module `F` of a
 morphism from a coherent module is a coherent submodule of `F`. -/
 theorem isCoherent_imageSubobject
@@ -108,12 +109,12 @@ theorem isFiltered_coherentSubobject
     let I : Subobject F := imageSubobject f
     have hAle : A.1 ≤ I := by
       apply Subobject.le_of_comm (biprod.inl ≫ factorThruImageSubobject f)
-      show (biprod.inl ≫ factorThruImageSubobject f) ≫ I.arrow = A.1.arrow
+      change (biprod.inl ≫ factorThruImageSubobject f) ≫ I.arrow = A.1.arrow
       rw [Category.assoc, imageSubobject_arrow_comp]
       simp [f]
     have hDle : D.1 ≤ I := by
       apply Subobject.le_of_comm (biprod.inr ≫ factorThruImageSubobject f)
-      show (biprod.inr ≫ factorThruImageSubobject f) ≫ I.arrow = D.1.arrow
+      change (biprod.inr ≫ factorThruImageSubobject f) ≫ I.arrow = D.1.arrow
       rw [Category.assoc, imageSubobject_arrow_comp]
       simp [f]
     exact ⟨⟨I, isCoherent_imageSubobject B S hS X hX f hsum ‹_›⟩, P.homMk (homOfLE hAle),
@@ -136,7 +137,7 @@ theorem nonempty_isColimit_coherentSubobjectCocone
     Nonempty (IsColimit (coherentSubobjectCocone B S hS X hX F)) := by
   classical
   have hes : EssentiallySmall.{u} (smallEtaleRingedSite B S hS X hX).C := by
-    show EssentiallySmall.{u} (SmallEtale B S hS X)
+    change EssentiallySmall.{u} (SmallEtale B S hS X)
     infer_instance
   have hgr : IsGrothendieckAbelian.{u} (Modules.{u, u} B S hS X hX) :=
     SheafOfModules.isGrothendieckAbelian_of_essentiallySmall _

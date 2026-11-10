@@ -73,7 +73,7 @@ private theorem det_jacobianMatrix_submatrix (P : Presentation R A) (c : ℕ)
     P.iso.symm.toRingHom.comp (Ideal.Quotient.mkₐ R (Ideal.span (Set.range P.f))).toRingHom
   let N : Matrix (Fin c) (Fin c) (MvPolynomial (Fin P.n) R) :=
     fun j i => pderiv ((s.orderIsoOfFin hs i).1) (P.f (Fin.castLE hcm j))
-  show Matrix.det (Matrix.transpose (N.map g)) = g (Matrix.det N)
+  change Matrix.det (Matrix.transpose (N.map g)) = g (Matrix.det N)
   rw [Matrix.det_transpose]
   exact (RingHom.map_det g N).symm
 

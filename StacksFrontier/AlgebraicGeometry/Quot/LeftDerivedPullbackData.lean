@@ -140,10 +140,10 @@ the comparison for `𝟙 a` followed by the image of the underived unit law. -/
 theorem leftDerived_idIso_hom_app (a : A) (X : H a) :
     ((leftDerived Q W P L c).idIso a).hom.app ((Q a).obj X) =
       (c (𝟙 a)).app X ≫ (Q a).map ((P.idIso a).hom.app X) := by
-  show (asIso (derivedIdLift Q W P L c a)).inv.app ((Q a).obj X) = _
+  change (asIso (derivedIdLift Q W P L c a)).inv.app ((Q a).obj X) = _
   rw [← cancel_epi ((asIso (derivedIdLift Q W P L c a)).hom.app ((Q a).obj X)),
     Iso.hom_inv_id_app]
-  show 𝟙 _ = (derivedIdLift Q W P L c a).app ((Q a).obj X) ≫ _
+  change 𝟙 _ = (derivedIdLift Q W P L c a).app ((Q a).obj X) ≫ _
   rw [reassoc_of% (derivedIdLift_fac Q W P L c a X), ← (Q a).map_comp, Iso.inv_hom_id_app]
   exact ((Q a).map_id X).symm
 
@@ -182,7 +182,7 @@ theorem leftDerived_isCoherent (hP : P.IsCoherent) : (leftDerived Q W P L c).IsC
         ((leftDerived Q W P L c).idIso a).hom.app ((L g).obj ((Q b).obj X)) ≫ (c g).app X :=
       ((leftDerived Q W P L c).idIso a).hom.naturality ((c g).app X)
     have h₃ := leftDerived_idIso_hom_app Q W P L c a ((P.pull g).obj X)
-    show ((leftDerived Q W P L c).triangle hk).inv.app ((Q b).obj X) ≫ (c g).app X =
+    change ((leftDerived Q W P L c).triangle hk).inv.app ((Q b).obj X) ≫ (c g).app X =
       (((leftDerived Q W P L c).idIso a).hom.app ((L g).obj ((Q b).obj X)) ≫ 𝟙 _) ≫ (c g).app X
     rw [Category.comp_id, ← h₂, h₃, h₁, triangle_inv_app_of_id hP g hk]
   triangle_comp {a b d e} f g p k q r hk hq hr hkr := by
@@ -394,11 +394,11 @@ theorem toHomotopy_isCoherent (hP : P'.IsCoherent) : (toHomotopy P').IsCoherent 
     rw [← Iso.inv_eq_inv]
     refine NatTrans.ext (funext fun X => ?_)
     obtain ⟨K⟩ := X
-    show ((toHomotopy P').triangle hk).inv.app ((HomotopyCategory.quotient (M b) _).obj K) =
+    change ((toHomotopy P').triangle hk).inv.app ((HomotopyCategory.quotient (M b) _).obj K) =
       ((toHomotopy P').idIso a).hom.app (((toHomotopy P').pull g).obj
         ((HomotopyCategory.quotient (M b) _).obj K)) ≫ 𝟙 _
     rw [Category.comp_id, toHomotopy_triangle_inv_app]
-    show _ = ((toHomotopy P').idIso a).hom.app ((HomotopyCategory.quotient (M a) _).obj
+    change _ = ((toHomotopy P').idIso a).hom.app ((HomotopyCategory.quotient (M a) _).obj
       (((P'.pull g).mapHomologicalComplex _).obj K))
     rw [toHomotopy_idIso_hom_app]
     congr 1

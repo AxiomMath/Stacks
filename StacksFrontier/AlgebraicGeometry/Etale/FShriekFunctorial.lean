@@ -272,7 +272,7 @@ private lemma supportSection_map_mono
     unfold SmallEtale.zeroOpen
     apply sSup_le
     rintro W ⟨T, g, hgOpen, hW, hzero⟩
-    show (W : Set ((SmallEtale.toScheme B S hS).obj U)) ⊆
+    change (W : Set ((SmallEtale.toScheme B S hS).obj U)) ⊆
       (SmallEtale.zeroOpen B S hS G U (φ.hom.app (op U) s) : Set _)
     rw [hW]
     let : IsOpenImmersion ((SmallEtale.toScheme B S hS).map g) := hgOpen
@@ -287,7 +287,7 @@ private lemma supportSection_map_mono
   intro z hz
   change z ∉ (SmallEtale.zeroOpen B S hS G U
     (φ.hom.app (op U) s) : Set _ ) at hz
-  show z ∉ (SmallEtale.zeroOpen B S hS F U s : Set _)
+  change z ∉ (SmallEtale.zeroOpen B S hS F U s : Set _)
   intro hf
   exact hz (hzero hf)
 
@@ -531,7 +531,7 @@ public theorem map_postcomposeCounit_eq_of_unit_eq
   have hunitComp := Adjunction.unit_leftAdjointUniq_hom_app adjRestrict adjJ H
   have hηordinary (s : H.obj.obj (op W)) :
       (adjRestrict.unit.app H).hom.app (op W) s = H.obj.map (adjSite.counit.app W).op s := by
-    show ((Adjunction.whiskerLeft AddCommGrpCat adjSite.op).unit.app H.obj).app
+    change ((Adjunction.whiskerLeft AddCommGrpCat adjSite.op).unit.app H.obj).app
         (op W) s = H.obj.map (adjSite.counit.app W).op s
     rfl
   refine (hηordinary t).symm.trans (Eq.trans ?_ (hηordinary t'))
@@ -581,7 +581,7 @@ public theorem openInclusionShriekMap_unit_naturality
           ((openInclusionShriekMap B j f F).val.hom.app V x))) := by
   classical
   let : LocallyOfFiniteType (B.inclusion.map (j ≫ f)) := by
-    show LocallyOfFiniteType (B.inclusion.map j ≫ B.inclusion.map f)
+    change LocallyOfFiniteType (B.inclusion.map j ≫ B.inclusion.map f)
     infer_instance
   intro pull η W QH x
   let PF := (SmallEtale.fShriekSubsheaf B (j ≫ f) (pull.obj F)).val
@@ -598,7 +598,7 @@ public theorem openInclusionShriekMap_unit_naturality
   let tL := QH.arrow.hom.app V (aH.val.hom.app V xH)
   let tR := QH.arrow.hom.app V ((fShriekMap B f F H φ).val.hom.app V (aF.val.hom.app V x))
   have hR : tR = φ.hom.app (op W) tF := fShriekMap_val_app B f F H φ V (aF.val.hom.app V x)
-  show (((smallEtaleBaseChange B j).sheafAdjunctionContinuous AddCommGrpCat.{v}
+  change (((smallEtaleBaseChange B j).sheafAdjunctionContinuous AddCommGrpCat.{v}
         (SmallEtale.topology B X.obj X.property)
         (SmallEtale.topology B X'.obj X'.property)).unit.app H).hom.app (op W) tL =
       (((smallEtaleBaseChange B j).sheafAdjunctionContinuous AddCommGrpCat.{v}
@@ -622,7 +622,8 @@ public theorem openInclusionShriekMap_unit_naturality
         (pull.map φ).hom.app
           (op ((smallEtaleBaseChange B j).obj ((smallEtaleBaseChange B f).obj V.unop)))
           ((pull.obj F).obj.map (e.hom.app V.unop).op (PF.arrow.hom.app V x)) := by
-    convert hnatVal.symm using 1 <;> rfl
+    convert hnatVal.symm using 1
+    rfl
   have hηhom := congrArg (fun k => k.hom) (adj.unit.naturality φ)
   have hηapp := by
     simpa only [ObjectProperty.FullSubcategory.comp_hom, NatTrans.comp_app] using
@@ -664,7 +665,7 @@ public theorem openInclusionShriekMap_naturality
         (fShriekMap B f F H φ).val := by
   classical
   let : LocallyOfFiniteType (B.inclusion.map (j ≫ f)) := by
-    show LocallyOfFiniteType (B.inclusion.map j ≫ B.inclusion.map f)
+    change LocallyOfFiniteType (B.inclusion.map j ≫ B.inclusion.map f)
     infer_instance
   dsimp only
   let pull := (smallEtaleBaseChange B j).sheafPullback AddCommGrpCat.{v}

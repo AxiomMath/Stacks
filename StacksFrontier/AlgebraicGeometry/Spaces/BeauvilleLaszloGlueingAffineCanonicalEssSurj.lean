@@ -231,7 +231,7 @@ private theorem relocalizeRestrict_iter_eq (B : BigFppfSite.{u})
     (hbase : a₁ ≫ b₁ = a₂ ≫ b₂) (F : (BigFppfOver B T hT)ᵒᵖ ⥤ Type u) :
     (OverShriek.relocalizeRestrict a₁).obj ((OverShriek.relocalizeRestrict b₁).obj F) =
       (OverShriek.relocalizeRestrict a₂).obj ((OverShriek.relocalizeRestrict b₂).obj F) := by
-  show (Over.map a₁ ⋙ Over.map b₁).op ⋙ F = (Over.map a₂ ⋙ Over.map b₂).op ⋙ F
+  change (Over.map a₁ ⋙ Over.map b₁).op ⋙ F = (Over.map a₂ ⋙ Over.map b₂).op ⋙ F
   rw [← Over.mapComp_eq, ← Over.mapComp_eq, hbase]
 
 /-- The effect on a section of the cast identifying two iterated restrictions along morphisms
@@ -314,7 +314,7 @@ private theorem exists_isPushout_section_of_iso (B : BigFppfSite.{u})
     exact Iso.ext (yoneda.map_preimage _)
   have hK : relocalizeRestrictSpecOverIso B hX hA hX₂ hA₂ φ ρ φ₂ ψ hpo = K := by
     apply Iso.ext
-    show ((OverShriek.restrictYonedaIso
+    change ((OverShriek.restrictYonedaIso
         (ObjectProperty.homMk (Spec.map ρ) : B.obj hX₂ ⟶ B.obj hX)
         (specOver B hX hA φ)).symm ≪≫
       yoneda.mapIso (pullbackSpecOverIso B hX hA hX₂ hA₂ φ ρ φ₂ ψ hpo)).hom = K.hom
@@ -507,7 +507,7 @@ private theorem square_of_section_left (B : BigFppfSite.{u})
   refine (Iso.inv_eq_inv
     ((OverShriek.relocalizeRestrict a₁).mapIso I₁ ≪≫ I₃)
     (c ≪≫ ((OverShriek.relocalizeRestrict a₂).mapIso I₂ ≪≫ I₄))).mp ?_
-  show I₃.inv ≫ (OverShriek.relocalizeRestrict a₁).map I₁.inv =
+  change I₃.inv ≫ (OverShriek.relocalizeRestrict a₁).map I₁.inv =
     (I₄.inv ≫ (OverShriek.relocalizeRestrict a₂).map I₂.inv) ≫ c.inv
   exact yoneda_hom_ext _ _ hsec
 
@@ -793,7 +793,7 @@ public theorem canonicalAffineGlueableRestriction_essSurj {R R' : Type u} [CommR
     CommRingCat.isPushout_iff_isPushout.mp P₄.flip
   have hsub : Algebra.algebraMapSubmonoid ↥A' (Submonoid.powers (g f)) =
       Submonoid.powers (algebraMap R ↥A' f) := by
-    show (Submonoid.powers (g f)).map (algebraMap R' ↥A') = _
+    change (Submonoid.powers (g f)).map (algebraMap R' ↥A') = _
     rw [Submonoid.map_powers]
     exact congrArg Submonoid.powers (IsScalarTower.algebraMap_apply R R' ↥A' f).symm
   have : IsLocalization.Away (algebraMap R ↥A' f) ↥A'' := by
@@ -803,7 +803,7 @@ public theorem canonicalAffineGlueableRestriction_essSurj {R R' : Type u} [CommR
     rwa [hsub] at h
   have hsub' : Algebra.algebraMapSubmonoid R' (Submonoid.powers f) =
       Submonoid.powers (g f) := by
-    show (Submonoid.powers f).map (algebraMap R R') = _
+    change (Submonoid.powers f).map (algebraMap R R') = _
     rw [Submonoid.map_powers]
     rfl
   have : Algebra.IsPushout R (Localization.Away f) R' (Localization.Away (g f)) := by

@@ -255,7 +255,7 @@ theorem incidenceFromGoodSections (k : Type u) [Field k] [IsAlgClosed k] :
     have hx'V : x' ∉ (V : Set X) := by
       have h := ((hrange (ι x')).1 (by rw [hx']; exact ⟨z, rfl⟩)).2
       rwa [hιfst] at h
-    show EtaleAt (i ≫ I.subschemeι ≫ pr₂) z
+    change EtaleAt (i ≫ I.subschemeι ≫ pr₂) z
     rw [← Category.assoc]
     by_cases hxw' : x' ∈ ((zeroScheme X L w₀).support : Set X)
     · obtain ⟨hxW', hsm0⟩ := h4 x' hx'C hxw'
@@ -293,7 +293,7 @@ theorem incidenceFromGoodSections (k : Type u) [Field k] [IsAlgClosed k] :
           exact hqV ⟨hqW, hc⟩
         · rintro ⟨⟨hq, hqs⟩, hqW⟩
           exact ⟨⟨hq, fun hV => hV.2 hqs⟩, hqW⟩
-      · show pr₁ (I.subschemeι (i z)) ∈ W
+      · change pr₁ (I.subschemeι (i z)) ∈ W
         rw [← hx', hιfst]
         exact hxW'
     · have hx'W : x' ∉ (W : Set X) := fun h => hx'V ⟨h, hxw'⟩
@@ -306,7 +306,7 @@ theorem incidenceFromGoodSections (k : Type u) [Field k] [IsAlgClosed k] :
       have hYsupp : ∀ q, q ∈ (I₀.support : Set _) ↔ pr₁ q ∉ (W : Set X) := by
         intro q
         rw [Scheme.IdealSheafData.support_comap]
-        show pr₁ q ∈ (Yv.support : Set X) ↔ _
+        change pr₁ q ∈ (Yv.support : Set X) ↔ _
         rw [Scheme.IdealSheafData.coe_support_vanishingIdeal]
         rfl
       have h₀ : ∃ (Q : Scheme.{u}) (o : Q ⟶ I₀.subscheme), IsOpenImmersion o ∧
@@ -340,7 +340,7 @@ theorem incidenceFromGoodSections (k : Type u) [Field k] [IsAlgClosed k] :
           exact ⟨⟨fun hW' => hqV ⟨hW', hqN⟩, hq⟩, hqN⟩
         · rintro ⟨⟨hqW, hq⟩, hqN⟩
           exact ⟨⟨hq, fun hV => hqW hV.1⟩, hqN⟩
-      · show pr₁ (I.subschemeι (i z)) ∈ N
+      · change pr₁ (I.subschemeι (i z)) ∈ N
         rw [← hx', hιfst]
         exact hxw'
   obtain ⟨e₁, he₁C, he₁w⟩ := h5
@@ -348,7 +348,7 @@ theorem incidenceFromGoodSections (k : Type u) [Field k] [IsAlgClosed k] :
     obtain ⟨z, hz⟩ := (hrange (ι e₁)).2 ⟨(hCι e₁).2 he₁C, by
       rw [hιfst]; exact fun h => h.2 he₁w⟩
     refine ⟨z, ?_⟩
-    show pr₂ ((i ≫ I.subschemeι) z) = s
+    change pr₂ ((i ≫ I.subschemeι) z) = s
     rw [hz]
     exact hιs e₁
   have : CompactSpace X := QuasiCompact.compactSpace_of_compactSpace p
@@ -385,7 +385,7 @@ theorem incidenceFromGoodSections (k : Type u) [Field k] [IsAlgClosed k] :
   let σ' : T ⟶ I.subscheme :=
     IsClosedImmersion.lift I.subschemeι σ (by rw [I.ker_subschemeι]; exact hσker)
   have hσ' : σ' ≫ π = 𝟙 T := by
-    show σ' ≫ I.subschemeι ≫ pr₂ = 𝟙 T
+    change σ' ≫ I.subschemeι ≫ pr₂ = 𝟙 T
     rw [← Category.assoc, IsClosedImmersion.lift_fac, hσ₂]
   have hjx : π (j ⟨x, hxV⟩) = s := by
     obtain ⟨y, hy⟩ : ι x ∈ Set.range I.subschemeι.base := by
@@ -393,7 +393,7 @@ theorem incidenceFromGoodSections (k : Type u) [Field k] [IsAlgClosed k] :
       exact (hCι x).2 hxC
     have hyj : y ∉ (Set.range j.base)ᶜ := by
       rw [Set.mem_compl_iff, not_not, hjr]
-      show pr₁ (I.subschemeι y) ∈ V
+      change pr₁ (I.subschemeι y) ∈ V
       rw [hy, hιfst]
       exact hxV
     obtain ⟨u, hu⟩ := not_not.mp hyj
@@ -404,7 +404,7 @@ theorem incidenceFromGoodSections (k : Type u) [Field k] [IsAlgClosed k] :
       rw [← h, hu, hy, hιfst]
       rfl
     rw [← hux]
-    show pr₂ (I.subschemeι (j u)) = s
+    change pr₂ (I.subschemeι (j u)) = s
     rw [hu, hy]
     exact hιs x
   have hjτ : j ≫ π ≫ τ = V.ι ≫ p := by
@@ -430,7 +430,7 @@ theorem incidenceFromGoodSections (k : Type u) [Field k] [IsAlgClosed k] :
     exact (e₀ u).2.1
   · have hv : (⟨x, hxV⟩ : V.toScheme) ∈ Set.range e₀.base := by
       rw [hrange']
-      show π (j ⟨x, hxV⟩) ∈ (S₀ : Set T)
+      change π (j ⟨x, hxV⟩) ∈ (S₀ : Set T)
       rw [hjx]
       exact hsS₀
     obtain ⟨u₀, hu₀⟩ := hv

@@ -156,7 +156,7 @@ lemma X_sub_C_ne_zero [Nontrivial B] (i : σ) :
   intro h
   have h3 : (Finsupp.single i 1 : σ →₀ ℕ) ≠ 0 := by simp [Finsupp.single_eq_zero]
   have h1 : (X i - C (g i) : MvPolynomial σ B).coeff (Finsupp.single i 1) = 1 := by
-    rw [coeff_sub, coeff_X_same, coeff_C, if_neg (fun hh => h3 hh.symm), sub_zero]
+    rw [coeff_sub, coeff_X_same, coeff_C, ite_eq_right (fun hh => h3 hh.symm), sub_zero]
   rw [h, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply] at h1
   exact zero_ne_one h1
 

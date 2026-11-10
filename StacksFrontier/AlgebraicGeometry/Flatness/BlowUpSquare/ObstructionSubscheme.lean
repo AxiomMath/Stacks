@@ -93,7 +93,7 @@ theorem map_obstructionIdeal_restrict (C : AffineChart S)
         (quotientSpanMap φ C.f : _ →+*
           Γ(S.X, (C.restrict V hle).U) ⧸ Ideal.span {(C.restrict V hle).f}) := by
     refine Ideal.Quotient.ringHom_ext (RingHom.ext fun a => ?_)
-    show (S.D.subscheme.presheaf.map (homOfLE (S.D.subschemeι.preimage_mono hle)).op).hom
+    change (S.D.subscheme.presheaf.map (homOfLE (S.D.subschemeι.preimage_mono hle)).op).hom
         (C.divisorQuotEquiv.symm (Ideal.Quotient.mk _ a)) =
       (C.restrict V hle).divisorQuotEquiv.symm (Ideal.Quotient.mk _ (φ a))
     rw [divisorQuotEquiv_symm_mk C a, divisorQuotEquiv_symm_mk (C.restrict V hle) (φ a)]
@@ -104,7 +104,7 @@ theorem map_obstructionIdeal_restrict (C : AffineChart S)
     map_etaDirectSumIdeal_eq_baseChange (B := Γ(S.X, V)) C.complex C.f C.regular hI i
   have hJ : etaTotalDirectSumIdeal (C.restrict V hle).complex (C.restrict V hle).f =
       (etaTotalDirectSumIdeal C.complex C.f).map (quotientSpanMap φ C.f) := by
-    show etaTotalDirectSumIdeal (C.complex.baseChange φ) (φ C.f) = _
+    change etaTotalDirectSumIdeal (C.complex.baseChange φ) (φ C.f) = _
     rw [etaTotalDirectSumIdeal, etaTotalDirectSumIdeal, Ideal.map_iSup]
     exact iSup_congr fun i => (key i).symm
   rw [obstructionIdeal, obstructionIdeal, Ideal.map_map, hJ]
@@ -149,10 +149,10 @@ theorem obstructionIdeal_heq_of_U_eq (C C' : AffineChart S)
   have hsq : (C'.divisorQuotEquiv.symm.toRingHom).comp (quotSpanUnitMulEquiv f v : _ →+* _) =
       C.divisorQuotEquiv.symm.toRingHom := by
     refine Ideal.Quotient.ringHom_ext (RingHom.ext fun a => ?_)
-    show C'.divisorQuotEquiv.symm (Ideal.Quotient.mk _ a) =
+    change C'.divisorQuotEquiv.symm (Ideal.Quotient.mk _ a) =
       C.divisorQuotEquiv.symm (Ideal.Quotient.mk _ a)
     rw [divisorQuotEquiv_symm_mk, divisorQuotEquiv_symm_mk]
-  show (etaTotalDirectSumIdeal M f).map C.divisorQuotEquiv.symm.toRingHom =
+  change (etaTotalDirectSumIdeal M f).map C.divisorQuotEquiv.symm.toRingHom =
     (etaTotalDirectSumIdeal M' ((v : Γ(S.X, U)) * f)).map C'.divisorQuotEquiv.symm.toRingHom
   rw [etaTotalDirectSumIdeal_unit_mul M' hf hI' v, Ideal.map_map, hsq, hJ]
 

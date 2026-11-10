@@ -321,7 +321,7 @@ theorem length_quotient_sub_length_quotient_eq_ordR
       simp only [LinearMap.coe_comp, Function.comp_apply, LinearMap.coe_restrictScalars,
         LinearEquiv.coe_coe, mulLinearEquiv_apply, f, Algebra.linearMap_apply]
       exact hij m
-    show (i.range.map f).map ((mulLinearEquiv g).toLinearMap.restrictScalars R) = j.range.map f
+    change (i.range.map f).map ((mulLinearEquiv g).toLinearMap.restrictScalars R) = j.range.map f
     rw [← Submodule.map_comp, ← LinearMap.range_comp, he, LinearMap.range_comp]
   have h := length_quotient_mul_sub_length_quotient_eq_ordR hdim g A I hA hI hIA
     (hgI.symm ▸ hJA)

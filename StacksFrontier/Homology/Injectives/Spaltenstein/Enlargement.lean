@@ -227,7 +227,7 @@ private noncomputable def injQuotientProjection : injComplexFunctor C ⟶ injQuo
 
 private lemma injComplexUnit_quotient_zero (M : CochainComplex C ℤ) :
     (injComplexUnit C).app M ≫ (injQuotientProjection C).app M = 0 := by
-  show (injComplexUnit C).app M ≫ cokernel.π ((injComplexUnit C).app M) = 0
+  change (injComplexUnit C).app M ≫ cokernel.π ((injComplexUnit C).app M) = 0
   exact cokernel.condition _
 
 omit [IsGrothendieckAbelian.{w} C] in
@@ -318,7 +318,7 @@ private lemma injMappingCoconeSndShift {K L : CochainComplex C ℤ} (φ : K ⟶ 
         (-1) n (n - 1) (by omega)).hom ≫
         (CochainComplex.mappingCone.snd φ).v (n - 1) (n - 1) (by omega) := by
   dsimp [CochainComplex.mappingCocone.snd]
-  show ((CochainComplex.mappingCone.snd φ).leftShift (-1) (-1) (by omega)).v
+  change ((CochainComplex.mappingCone.snd φ).leftShift (-1) (-1) (by omega)).v
     n (n - 1) (by omega) = _
   rw [(CochainComplex.mappingCone.snd φ).leftShift_v
       (-1) (-1) (by omega) n (n - 1) (by omega) (n - 1) (by omega)]
@@ -329,7 +329,7 @@ private lemma injResolutionInclusion_fst (M : CochainComplex C ℤ) (n : ℤ) :
     (injResolutionInclusion C M).f n ≫
         (CochainComplex.mappingCocone.fst ((injQuotientProjection C).app M)).f n =
       ((injComplexUnit C).app M).f n := by
-  show (CochainComplex.mappingCocone.lift
+  change (CochainComplex.mappingCocone.lift
       ((injQuotientProjection C).app M) ((injComplexUnit C).app M) 0 _).f n ≫
       (CochainComplex.mappingCocone.fst ((injQuotientProjection C).app M)).f n =
     ((injComplexUnit C).app M).f n
@@ -339,7 +339,7 @@ private lemma injResolutionInclusion_snd (M : CochainComplex C ℤ) (n : ℤ) :
     (injResolutionInclusion C M).f n ≫
         (CochainComplex.mappingCocone.snd ((injQuotientProjection C).app M)).v
           n (n - 1) (by omega) = 0 := by
-  show (CochainComplex.mappingCocone.lift
+  change (CochainComplex.mappingCocone.lift
       ((injQuotientProjection C).app M) ((injComplexUnit C).app M) 0 _).f n ≫
       (CochainComplex.mappingCocone.snd ((injQuotientProjection C).app M)).v
         n (n - 1) (by omega) = 0
@@ -466,7 +466,7 @@ private lemma injective_injComplex_X (M : CochainComplex C ℤ) (n : ℤ) :
     Stacks.Injectives.FunctorialEmbedding.injective_embedding_obj C _
   have : Injective ((Stacks.Injectives.FunctorialEmbedding.embedding C).obj (M.X (n + 1))) :=
     Stacks.Injectives.FunctorialEmbedding.injective_embedding_obj C _
-  show Injective ((Stacks.Injectives.FunctorialEmbedding.embedding C).obj (M.X n) ⊞
+  change Injective ((Stacks.Injectives.FunctorialEmbedding.embedding C).obj (M.X n) ⊞
     (Stacks.Injectives.FunctorialEmbedding.embedding C).obj (M.X (n + 1)))
   infer_instance
 
@@ -536,7 +536,7 @@ private lemma shortExact_injComplex :
   exact
     { mono_f := inferInstance
       epi_g := by
-        show Epi (cokernel.π ((injComplexUnit C).app M))
+        change Epi (cokernel.π ((injComplexUnit C).app M))
         infer_instance
       exact := ShortComplex.exact_cokernel _ }
 

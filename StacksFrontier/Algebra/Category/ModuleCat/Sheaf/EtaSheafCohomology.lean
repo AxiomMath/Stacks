@@ -194,7 +194,7 @@ private lemma idealMultiplication_natural {I : SheafOfModules.{u} Oₓ} (ι : I 
   -- presheaf of modules, and these are the same object spelled differently.
   apply (((PresheafOfModules.sheafificationAdjunction.{u} (R := Oₓ) (𝟙 (Oₓ).obj))).homEquiv
     (M.val ⊗ I.val : PresheafOfModules.{u} (Oₓ).obj) N).injective
-  show ((PresheafOfModules.sheafificationAdjunction.{u} (R := Oₓ) (𝟙 (Oₓ).obj)).unit.app)
+  change ((PresheafOfModules.sheafificationAdjunction.{u} (R := Oₓ) (𝟙 (Oₓ).obj)).unit.app)
         (M.val ⊗ I.val : PresheafOfModules.{u} (Oₓ).obj) ≫
       ((((PresheafOfModules.sheafification.{u} (R := Oₓ) (𝟙 (Oₓ).obj))).map (f.val ▷ I.val)).val ≫
         (idealMultiplication X ι N).val) =
@@ -227,7 +227,7 @@ private lemma idealMultiplication_comp_zero_iff {I : SheafOfModules.{u} Oₓ} (�
   have he : idealMultiplication X ι M ≫ f = (adj.homEquiv _ _).symm raw :=
     (adj.homEquiv_naturality_right_symm (M.val ◁ ι.val ≫ (ρ_ M.val).hom) f).symm
   have hz : (adj.homEquiv (M.val ⊗ I.val) N).symm 0 = 0 := by
-    show S.map (0 : (M.val ⊗ I.val) ⟶ N.val) ≫ adj.counit.app N = 0
+    change S.map (0 : (M.val ⊗ I.val) ⟶ N.val) ≫ adj.counit.app N = 0
     exact (congrArg (fun k => k ≫ adj.counit.app N)
       (Functor.map_zero S (M.val ⊗ I.val) N.val)).trans zero_comp
   have key : idealMultiplication X ι M ≫ f = 0 ↔ raw = 0 := by
@@ -245,12 +245,12 @@ private lemma idealMultiplication_comp_zero_iff {I : SheafOfModules.{u} Oₓ} (�
   · apply PresheafOfModules.hom_ext
     intro U
     apply ModuleCat.hom_ext
-    show ((raw.app U).hom :
+    change ((raw.app U).hom :
       (M.val.obj U ⊗[(Oₓ).obj.obj U] I.val.obj U) →ₗ[(Oₓ).obj.obj U] N.val.obj U) = 0
     refine TensorProduct.ext' (R := (Oₓ).obj.obj U)
       (σ₁₂ := RingHom.id ((Oₓ).obj.obj U)) ?_
     intro s a
-    show (f.val.app U).hom
+    change (f.val.app U).hom
       ((M.val.obj U).isModule.toSMul.smul (idealSection X ι U a) s) = 0
     exact ((f.val.app U).hom.map_smulₛₗ (idealSection X ι U a) s).trans (h U a s)
 
@@ -280,6 +280,7 @@ private noncomputable def tensorDoubleComparison {I : SheafOfModules.{u} Oₓ}
 attribute [local implicit_reducible] tensorDoubleComparison idealMultiplication
 
 set_option maxHeartbeats 1000000 in
+-- the `rfl` steps and ground equations unfold sheafification of the presheaf tensor product
 /-- The comparison of a twofold tensor product, followed by multiplying the outer factor into
 the sheafified twofold tensor product, is the sheafification of the presheaf multiplication. -/
 private lemma tensorDoubleComparison_multiplication {I : SheafOfModules.{u} Oₓ} (ι : I ⟶ 𝒪)
@@ -335,7 +336,7 @@ private lemma tensorDoubleComparison_map_multiplication {I : SheafOfModules.{u} 
   let S := (PresheafOfModules.sheafification.{u} (R := Oₓ) (𝟙 (Oₓ).obj))
   let η := ((PresheafOfModules.sheafificationAdjunction.{u} (R := Oₓ) (𝟙 (Oₓ).obj)).unit.app)
     (M.val ⊗ I.val : PresheafOfModules.{u} (Oₓ).obj)
-  show S.map (η ▷ I.val) ≫ S.map ((idealMultiplication X ι M).val ▷ I.val) = _
+  change S.map (η ▷ I.val) ≫ S.map ((idealMultiplication X ι M).val ▷ I.val) = _
   -- As above, `η ▷ I.val` is type-correct only at `default` transparency.
   exact (S.map_comp (η ▷ I.val) ((idealMultiplication X ι M).val ▷ I.val)).symm.trans
     (congrArg S.map
@@ -444,7 +445,7 @@ private lemma idealMultiplication_power_zero_iff {I : SheafOfModules.{u} Oₓ} (
     exact powSuccIso_natural
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u}
         X.sheaf).flip.obj I).asEquivalence k f
-  show P n ↔ P 0
+  change P n ↔ P 0
   induction n using Int.induction_on with
   | zero => rfl
   | succ k ih => exact (step k).trans ih
@@ -470,7 +471,7 @@ private lemma smul_eq_zero_of_locally {I : SheafOfModules.{u} Oₓ} (ι : I ⟶ 
       (Presheaf.isSheaf_comp_of_isSheaf _ _ _ M.isSheaf)
   refine (hM S hS).isSeparatedFor.ext ?_
   intro W h hh
-  show (M.val.map h.op).hom ((M.val.obj U).isModule.toSMul.smul
+  change (M.val.map h.op).hom ((M.val.obj U).isModule.toSMul.smul
     (idealSection X ι U a) t) = (M.val.map h.op).hom 0
   have ha : idealSection X ι (op W) ((I.val.map h.op).hom a) =
       ((Oₓ).obj.map h.op).hom (idealSection X ι U a) :=
@@ -571,7 +572,7 @@ private lemma annihilator_eq {I : SheafOfModules.{u} Oₓ} (ι : I ⟶ 𝒪)
   · apply @le_sSup _ lattice.toCompleteSemilatticeSup
     intro U s hs V hVU a
     have h := ((mem_annihilatedSubsheaf X ι M).mp hs) (op V) (homOfLE hVU).op (a 0)
-    show (M.val.obj (op V)).isModule.toSMul.smul
+    change (M.val.obj (op V)).isModule.toSMul.smul
       (∏ index : Fin 1, idealSection X ι (op V) (a index))
         ((M.val.map (homOfLE hVU).op).hom s) = 0
     exact (congrArg (fun coefficient => (M.val.obj (op V)).isModule.toSMul.smul

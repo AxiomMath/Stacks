@@ -269,13 +269,13 @@ theorem isMonoidal_of_readsAsPrecomposition_id {G : C ⥤ C} [G.IsContinuous J J
       (fun U => congrArg₂ (· ⊗ₘ ·) (hα X U) (hα Y U)) fun U => hα _ U
   have : NatTrans.IsMonoidal (Functor.whiskerRight α (sheafToPresheaf J A)) := by
     constructor
-    · show (ε (sheafToPresheaf J A) ≫ (sheafToPresheaf J A).map (𝟙 _)) ≫
+    · change (ε (sheafToPresheaf J A) ≫ (sheafToPresheaf J A).map (𝟙 _)) ≫
           (sheafToPresheaf J A).map (α.app _) =
         ε (sheafToPresheaf J A) ≫ (sheafToPresheaf J A).map (ε (G.sheafPushforwardContinuous A J J))
       rw [CategoryTheory.Functor.map_id, Category.comp_id]
       exact hu.trans h.ε_eq.symm
     · intro X Y
-      show (μ (sheafToPresheaf J A) X Y ≫ (sheafToPresheaf J A).map (𝟙 _)) ≫
+      change (μ (sheafToPresheaf J A) X Y ≫ (sheafToPresheaf J A).map (𝟙 _)) ≫
           (sheafToPresheaf J A).map (α.app (X ⊗ Y)) =
         ((sheafToPresheaf J A).map (α.app X) ⊗ₘ (sheafToPresheaf J A).map (α.app Y)) ≫
           μ (sheafToPresheaf J A) _ _ ≫
@@ -327,11 +327,11 @@ theorem isMonoidal_of_readsAsPrecomposition_comp {G₁ : C ⥤ D} {G₂ : D ⥤ 
       (fun U => congrArg₂ (· ⊗ₘ ·) (hα X U) (hα Y U)) fun U => hα _ U
   have : NatTrans.IsMonoidal (Functor.whiskerRight α (sheafToPresheaf J A)) := by
     constructor
-    · show (ε ι ≫ ι.map (ε P₁ ≫ P₁.map (ε P₂))) ≫ ι.map (α.app _) =
+    · change (ε ι ≫ ι.map (ε P₁ ≫ P₁.map (ε P₂))) ≫ ι.map (α.app _) =
         ε ι ≫ ι.map (ε (G₃.sheafPushforwardContinuous A J L))
       exact (congrArg (· ≫ _) hεc).trans (hu.trans h₃.ε_eq.symm)
     · intro X Y
-      show (μ ι (P₁.obj (P₂.obj X)) (P₁.obj (P₂.obj Y)) ≫
+      change (μ ι (P₁.obj (P₂.obj X)) (P₁.obj (P₂.obj Y)) ≫
           ι.map (μ P₁ (P₂.obj X) (P₂.obj Y) ≫ P₁.map (μ P₂ X Y))) ≫ ι.map (α.app (X ⊗ Y)) =
         (ι.map (α.app X) ⊗ₘ ι.map (α.app Y)) ≫ μ ι _ _ ≫
           ι.map (μ (G₃.sheafPushforwardContinuous A J L) X Y)

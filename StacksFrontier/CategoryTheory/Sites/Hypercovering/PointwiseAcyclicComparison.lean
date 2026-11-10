@@ -131,7 +131,7 @@ lemma quasiIso_mapHomologicalComplex_of_rightAcyclic_resolution (G : A ⥤ B) [G
   have h4 : IsIso ((DerivedCategory.Plus.Qh ⋙
       (G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerived
         DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A)).map a) := by
-    show IsIso (((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerived
+    change IsIso (((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerived
       DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A)).map
         (DerivedCategory.Plus.Qh.map a))
     infer_instance
@@ -353,7 +353,7 @@ lemma isIso_hypercoverRightDerivedUnit_app_single
   set Ic := ((InjectiveObject.ι _).mapCochainComplexPlus.obj L).obj with hIc
   have hIcGE : Ic.IsStrictlyGE 0 := by
     rw [hIc]
-    show CochainComplex.IsStrictlyGE
+    change CochainComplex.IsStrictlyGE
       (((InjectiveObject.ι _).mapHomologicalComplex (up ℤ)).obj L.obj) 0
     have : L.obj.IsStrictlyGE 0 := hL
     infer_instance
@@ -372,18 +372,18 @@ lemma isIso_hypercoverRightDerivedUnit_app_single
   have h3 : IsIso (DerivedCategory.Plus.Qh.map a) :=
     isIso_plusQh_map_homMk_quotient_map i.hom _ _
   have h4 : IsIso ((DerivedCategory.Plus.Qh ⋙ hypercoverRightDerived J U K).map a) := by
-    show IsIso ((hypercoverRightDerived J U K).map (DerivedCategory.Plus.Qh.map a))
+    change IsIso ((hypercoverRightDerived J U K).map (DerivedCategory.Plus.Qh.map a))
     infer_instance
   have hmem : HomotopyCategory.Plus.quasiIso AddCommGrpCat.{max u v w}
       ((hypercoverTotalPlusFunctor J U K).map a) := by
     rw [HomotopyCategory.Plus.quasiIso_iff]
-    show HomotopyCategory.quasiIso _ _
+    change HomotopyCategory.quasiIso _ _
       ((HomotopyCategory.quotient AddCommGrpCat.{max u v w} (up ℤ)).map
         ((hypercoverTotalCochainFunctor J U K).map i.hom))
     rw [HomotopyCategory.quotient_map_mem_quasiIso_iff]
     exact htot
   have h5 : IsIso ((hypercoverTotalDerivedFunctor J U K).map a) := by
-    show IsIso (DerivedCategory.Plus.Qh.map ((hypercoverTotalPlusFunctor J U K).map a))
+    change IsIso (DerivedCategory.Plus.Qh.map ((hypercoverTotalPlusFunctor J U K).map a))
     exact Localization.inverts DerivedCategory.Plus.Qh _ _ hmem
   have hcomp : IsIso ((hypercoverRightDerivedUnit J U K).app
       ((HomotopyCategory.Plus.singleFunctor

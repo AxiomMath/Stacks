@@ -166,7 +166,8 @@ open CategoryTheory.GradedCategory SmoothProjectiveScheme
 /- The monoidal structure of `M_k` is used here through the generic instances
 `CategoryTheory.GradedCategory.TwistedKaroubi.monoidalCategory` and `braidedCategory` and through
 `MonoidalCategory.toMonoidalCategoryStruct`, as in the generic results of
-`StacksFrontier.CategoryTheory.Graded.TwistedKaroubiMonObj` that are specialised below. The instances
+`StacksFrontier.CategoryTheory.Graded.TwistedKaroubiMonObj` that are specialised below. The
+instances
 `ChowMotiveCat.monoidalCategory` (equal to the generic one by definition) and the direct
 `TwistedKaroubi.monoidalCategoryStruct` are set aside in this section: comparing morphisms built
 over the two instance paths makes `isDefEq` unfold correspondences down to cycles on fibre

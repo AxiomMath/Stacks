@@ -52,6 +52,7 @@ local instance instIsContinuousSmallEtalePostcompRestrictedFirstOrderExtensionSe
   smallEtalePostcomp_isContinuous B S hS _ _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits of presheaves on the small étale site is deep
 /-- Discrete limits of presheaves of sets on the small étale site (instance search times out
 without this shortcut). -/
 local instance (priority := high)
@@ -61,6 +62,7 @@ local instance (priority := high)
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits of presheaves on the small étale site is deep
 /-- Discrete limits indexed by `Type` of presheaves of sets on the small étale site (instance
 search times out without this shortcut). -/
 local instance (priority := high)

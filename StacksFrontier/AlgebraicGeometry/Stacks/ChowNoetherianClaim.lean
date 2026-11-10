@@ -187,7 +187,7 @@ theorem isGerbeOver_fst_schemeTheoreticImage
   have := hΓVff.1
   have := hΓVff.2
   have hφ : (CatFiberedInGroupoids.homFunctor φ.hom).IsEquivalence := by
-    show (ObjectProperty.lift _ ΓV.hom.hom.toFunctor hmem).IsEquivalence
+    change (ObjectProperty.lift _ ΓV.hom.hom.toFunctor hmem).IsEquivalence
     have : (ObjectProperty.lift _ ΓV.hom.hom.toFunctor hmem).EssSurj := ⟨fun c => by
       obtain ⟨W, ⟨e⟩⟩ := hQle _ c.property
       exact ⟨W, ⟨(ObjectProperty.fullyFaithfulι _).preimageIso e⟩⟩⟩

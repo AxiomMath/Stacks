@@ -357,7 +357,7 @@ theorem presheaf_pullback_snd_of_isPullback_of_invariant
       (sieve_generate_pullback_fst_mem hqs hqe s)
     rintro Z k₀ ⟨Z', u, bb', hbb, hfac⟩
     cases hbb
-    show (pullback f h).map k₀.op x = (pullback f h).map k₀.op y
+    change (pullback f h).map k₀.op x = (pullback f h).map k₀.op y
     rw [← hfac, op_comp, Functor.map_comp_apply, Functor.map_comp_apply, h1]
   -- local surjectivity
   have hlsur : Presheaf.IsLocallySurjective (BigFppfOver.topology B S hS) l := by

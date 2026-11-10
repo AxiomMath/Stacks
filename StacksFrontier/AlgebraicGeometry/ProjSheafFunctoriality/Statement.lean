@@ -70,6 +70,7 @@ variable {S M : Type u} {σ : Type w} {τ : Type t}
   [SetLike τ M] [AddSubgroupClass τ M] (𝒨 : ℤ → τ) [Decomposition 𝒨]
   [SetLike.GradedSMul 𝒮 𝒨]
 
+omit [AddCommGroup M] [AddSubgroupClass τ M] in
 /-- A degree-zero element of `M` is homogeneous of degree `0 • d`, which is the degree in which
 the standard-open fraction with denominator `f ^ 0` has its numerator. -/
 theorem mem_zero_nsmul (𝒨 : ℤ → τ) (d : ℕ) (m : 𝒨 0) :

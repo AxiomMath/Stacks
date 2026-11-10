@@ -143,7 +143,7 @@ lemma extensionMapFamily_compatible (σ : F₁ ⟶ F₂) {X : Over S}
     (hV' : IsAffineOverAffineOpen V') (f : V ⟶ X) (k : V' ⟶ V) :
     (affineExtension P F₂).map k.op (extensionMapFamily σ t V hV f)
       = extensionMapFamily σ t V' hV' (k ≫ f) := by
-  show (affineExtension P F₂).map k.op
+  change (affineExtension P F₂).map k.op
       ((affineExtensionMap σ).app (op V) (extensionπ P F₁ hV f t))
     = (affineExtensionMap σ).app (op V') (extensionπ P F₁ hV' (k ≫ f) t)
   rw [← extensionπ_map P F₁ hV hV' k f t]

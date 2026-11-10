@@ -171,7 +171,7 @@ theorem exists_normalizationUniformizer (hA : maximalIdeal A ≠ ⊥)
     (fun m' ↦ if (m' : MaximalSpectrum ↥(integralClosure A F)) = m then a else 1)
   refine ⟨t, ?_, fun m' hm' ↦ ?_⟩
   · have htm := ht m (Finset.mem_univ m)
-    simp only [if_true] at htm
+    simp only [ite_true] at htm
     have hmax : IsLocalRing.maximalIdeal R = Ideal.span {ϖ} :=
       (IsDiscreteValuationRing.irreducible_iff_uniformizer ϖ).mp hϖ
     have hmem : algebraMap _ R (t - a) ∈ (IsLocalRing.maximalIdeal R) ^ 2 := by
@@ -199,7 +199,7 @@ theorem exists_normalizationUniformizer (hA : maximalIdeal A ≠ ⊥)
       exact (mem_maximalIdeal _).mp h3 hsu
     rwa [hteq, irreducible_mul_isUnit hunit]
   · have htm := ht m' (Finset.mem_univ m')
-    simp only [if_neg hm', pow_one] at htm
+    simp only [ite_eq_right hm', pow_one] at htm
     intro hmem
     have h1 : (1 : ↥(integralClosure A F)) ∈ m'.asIdeal := by
       have := Ideal.sub_mem _ hmem htm

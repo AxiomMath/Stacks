@@ -156,7 +156,7 @@ theorem toRightDerivedZero_comp_rightDerivedSectionsToSheafIso :
   have := toSheaf_preservesFiniteColimits J R
   have : PreservesFiniteLimits ((sheafSections J AddCommGrpCat.{v}).obj (op U)) :=
     preservesFiniteLimits_of_natIso (sheafSectionsNatIsoEvaluation J AddCommGrpCat.{v}).symm
-  show _ ≫ (DeltaAcyclicCollapse.collapseDeltaIso _ _ _).hom.app 0 = _
+  change _ ≫ (DeltaAcyclicCollapse.collapseDeltaIso _ _ _).hom.app 0 = _
   rw [DeltaAcyclicCollapse.collapseDeltaIso_hom_app_zero]
   simp [DeltaAcyclicCollapse.collapseZeroIso]
 

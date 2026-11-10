@@ -404,10 +404,7 @@ theorem boxHom_boxSectionOfTensor
             ⟨D.1.restrict c.fromSpecLeft.opensRange, hD c.fromSpecLeft.opensRange⟩).1
           (c.rightDiffOpEquiv hr G.module G'.module l
             ⟨E.1.restrict c.fromSpecRight.opensRange, hE c.fromSpecRight.opensRange⟩).1 z) := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      simp only [map_zero, c.boxSectionOfTensor_zero]
-      exact map_zero _
+  induction z using TensorProduct.inductionOn with
   | tmul ms mt => exact c.boxHom_boxSectionOfTensor_tmul hl hr D E k l hD hE ms mt
   | add z₁ z₂ ih₁ ih₂ =>
       simp only [map_add, c.boxSectionOfTensor_add]

@@ -82,7 +82,7 @@ theorem exists_chartPoint_cover (h𝒳 : IsAlgebraicStack.{u, w} B S hS 𝒳.val
     simpa [Psm, spaceProperty] using Space.isSmooth_isStableUnderBaseChange B S hS
   let _ : (spaceProperty B S hS Psm).IsLocalAtTarget
       (Space.Topology.fppf.precoverage.{u, u + 1} B S hS) := by
-    show (Space.smoothMorphismProperty B S hS).IsLocalAtTarget
+    change (Space.smoothMorphismProperty B S hS).IsLocalAtTarget
       (Space.Topology.fppf.precoverage.{u, u + 1} B S hS)
     exact Space.smooth_isLocalAtTarget_fppf B S hS
   have ha : HasPropertyOnSomeSmoothDiagram B S hS Psm a :=
@@ -156,7 +156,7 @@ theorem exists_chartPoint_cover (h𝒳 : IsAlgebraicStack.{u, w} B S hS 𝒳.val
   let ν := specOverMap f₁ ≫ sectionsHom c' (r ≫ g) ≫ r
   have hν : specOverMap (SmallAlg.homMk u) ≫ ι = ν ≫ m ≫ s := by
     have e1 : SmallAlg.homMk u = sectionsMap m'' hm''s ≫ f₁ := rfl
-    show specOverMap (SmallAlg.homMk u) ≫ sectionsHom W'' (s'' ≫ pullback.snd _ _) ≫ s'' ≫
+    change specOverMap (SmallAlg.homMk u) ≫ sectionsHom W'' (s'' ≫ pullback.snd _ _) ≫ s'' ≫
       pullback.fst _ _ ≫ s = (specOverMap f₁ ≫ sectionsHom c' (r ≫ g) ≫ r) ≫ m ≫ s
     rw [e1, specOverMap_comp]
     simp only [Category.assoc]
@@ -228,13 +228,11 @@ def tensorRingChangeEquiv : M ⊗[R'] N ≃+ M ⊗[R] N where
   toFun := tensorRingChange e hM hN
   invFun := tensorRingChangeInv e he hM hN
   left_inv t := by
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul m n => rfl
     | add t t' h h' => rw [map_add, map_add, h, h']
   right_inv t := by
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul m n => rfl
     | add t t' h h' => rw [map_add, map_add, h, h']
   map_add' := map_add _
@@ -300,8 +298,7 @@ theorem rightComm_tmul_eq_smul {X : Type u} [CommRing X] [Algebra A X] {C : Type
     TensorProduct.rightComm A X M C (t ⊗ₜ[A] c) = ((1 : X) ⊗ₜ[A] c : X ⊗[A] C) •
       TensorProduct.map (Algebra.TensorProduct.includeLeft : X →ₐ[A] X ⊗[A] C).toLinearMap
         LinearMap.id t := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [TensorProduct.zero_tmul, map_zero, map_zero, smul_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul x m =>
     rw [TensorProduct.rightComm_tmul, TensorProduct.map_tmul, TensorProduct.smul_tmul', smul_eq_mul,
       AlgHom.toLinearMap_apply, Algebra.TensorProduct.includeLeft_apply,
@@ -324,6 +321,7 @@ noncomputable def tensorRight {X : SmallAlg (ringOf B S hS T') B.cutoff} [Algebr
         Algebra.algebraMap_eq_smul_one (A := X.obj) (e r)]
       exact (TensorProduct.smul_tmul _ _ _).symm }
 
+omit [IsAffine ((BigFppfOver.toScheme B S hS).obj T')] in
 include he in
 /-- **`X[X ⊗_A M] ⊗_{Γ(T')} C ≅ (X ⊗_A C)[(X ⊗_A C) ⊗_A M]`**, the hypothesis of
 `isTangentBaseChangeIso_chart_of_algebraMap` for the base change by a tensor product. -/
@@ -351,11 +349,10 @@ theorem bijective_sqzTensorLift_tensor {X : SmallAlg (ringOf B S hS T') B.cutoff
           X.obj ⊗[ringOf B S hS T'] C →ₐ[ringOf B S hS T'] (tensorAlg X C h).obj) =
         ⇑(tensorRingChangeEquiv e he hMX hNC) := by
       funext t
-      induction t using TensorProduct.induction_on with
-      | zero => rw [map_zero, map_zero]
+      induction t using TensorProduct.inductionOn with
       | tmul x c =>
         rw [Algebra.TensorProduct.lift_tmul, tensorRingChangeEquiv_tmul]
-        show (x ⊗ₜ[A] (1 : C)) * ((1 : X.obj) ⊗ₜ[A] c) = x ⊗ₜ[A] c
+        change (x ⊗ₜ[A] (1 : C)) * ((1 : X.obj) ⊗ₜ[A] c) = x ⊗ₜ[A] c
         rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
       | add t t' h₁ h₂ => rw [map_add, map_add, h₁, h₂]
     rw [heq]

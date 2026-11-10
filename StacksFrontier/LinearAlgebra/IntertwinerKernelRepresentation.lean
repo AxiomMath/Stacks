@@ -49,7 +49,7 @@ theorem exists_mul_eq_one_and_mul_eq_of_mul_self_eq {a : ℕ} (E : Matrix (Fin a
   let b := Module.finBasis K W
   have hfix : ∀ v : W, e v = v := by
     rintro ⟨v, u, rfl⟩
-    show Matrix.toLin' E (Matrix.toLin' E u) = Matrix.toLin' E u
+    change Matrix.toLin' E (Matrix.toLin' E u) = Matrix.toLin' E u
     rw [← LinearMap.comp_apply, ← Matrix.toLin'_mul, hE]
   refine ⟨Module.finrank K W, LinearMap.toMatrix' (W.subtype ∘ₗ b.equivFun.symm.toLinearMap),
     LinearMap.toMatrix' (b.equivFun.toLinearMap ∘ₗ e.rangeRestrict), ?_, ?_⟩

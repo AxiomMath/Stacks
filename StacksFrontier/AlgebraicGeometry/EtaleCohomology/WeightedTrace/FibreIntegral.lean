@@ -270,7 +270,7 @@ public theorem isFinite_levelOpens_comp {π : U ⟶ V} [LocallyOfFiniteType π]
     obtain ⟨z, hz⟩ := hsupp _ (hy2 ▸ hn)
     have hzT : z ∈ Set.range (i ⁻¹ᵁ levelOpens hs n : Z.Opens).ι.base := by
       rw [Scheme.Opens.range_ι]
-      show i.base z ∈ (levelOpens hs n : Set U)
+      change i.base z ∈ (levelOpens hs n : Set U)
       rw [hz]
       exact hy2
     obtain ⟨z', hz'⟩ := hzT
@@ -364,10 +364,10 @@ public theorem exists_isOpen_fibreIntegral_eq_finsetSum {h : U ⟶ X} {π : U �
     obtain ⟨z, hzv, hz⟩ := mem_image_fibre_of_ne_zero i hsupp hπx hsx
     refine hv ⟨z, ?_, hzv⟩
     have htz : t z = n := by
-      show s (i.base z) = n
+      change s (i.base z) = n
       rw [hz]
       exact hxn
-    show t z ∉ S
+    change t z ∉ S
     rw [htz]
     exact fun hmem => hnS (hSfin.mem_toFinset.2 hmem)
 
@@ -463,7 +463,7 @@ public theorem fibreIntegral_eq_separableDegreeWeightedFiberSum {h : U ⟶ X} {�
       ((fun x => s x * w (h x)) ∘ ⇑(D none).ι) v = 0 := by
     rw [← finsum_mem_separableDegreeWeightedFiberTerm π (D none) (fun x => s x * w (h x)) v]
     refine finsum_mem_of_eqOn_zero fun x hx => ?_
-    show separableDegreeWeightedFiberTerm π (fun x => s x * w (h x)) v x = 0
+    change separableDegreeWeightedFiberTerm π (fun x => s x * w (h x)) v x = 0
     by_cases hπx : π.base x = v
     · have hsx : s x = 0 := by
         by_contra hsx0

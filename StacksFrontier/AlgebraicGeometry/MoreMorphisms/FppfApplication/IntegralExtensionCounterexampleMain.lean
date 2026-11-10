@@ -14,8 +14,8 @@ there is a scheme `S`, an open `U` of `S` which is *not* retrocompact, and a sur
 morphism over `U`, which is the base change along `U ↪ S` of no surjective integral morphism over
 `S`.
 
-The witness is built in
-`StacksFrontier/AlgebraicGeometry/MoreMorphisms/FppfApplication/IntegralExtensionCounterexample.lean`
+The witness is built in the module
+`StacksFrontier.AlgebraicGeometry.MoreMorphisms.FppfApplication.IntegralExtensionCounterexample`
 and its two companion modules: on `S = Spec (∏ (n : ℕ), ℤ)` and
 `U = D(2, 2, …) ∪ ⋃ n, D(eₙ)`, it is the relative spectrum of the square-zero extension of
 `𝒪_U` by the invertible ideal sheaf that is `𝒪` on `D(2, 2, …)` and `2 ^ n • ℤ` on `D(eₙ)`. That

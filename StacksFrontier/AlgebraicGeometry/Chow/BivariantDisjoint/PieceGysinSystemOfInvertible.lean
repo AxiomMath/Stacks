@@ -275,7 +275,7 @@ theorem heq_gysinHomomorphismOnChowOfInvertible (e : L ≅ N)
   have hchern : firstChernComponentClass C p k L = firstChernComponentClass C p k N :=
     firstChernComponentClass_congr C p k L N e
   refine heq_quotientLift C p k hZ _ _ ?_ h₁ h₂
-  show HEq (gysinHomomorphism C p k L s (firstChernComponentClass C p k L))
+  change HEq (gysinHomomorphism C p k L s (firstChernComponentClass C p k L))
     (gysinHomomorphism C p k N t (firstChernComponentClass C p k N))
   rw [hchern]
   exact heq_gysinHomomorphism C p k L N s t (firstChernComponentClass C p k N) hZ

@@ -225,6 +225,7 @@ theorem sliceTot_projHom (n : ℤ) (x : TotX U (f ≫ g).sectionsDeRhamComplex n
   rw [projAt_eq_relSections]
   exact relSections_restrict f g i.1.2 _ _
 
+omit [IsAffine Y] [IsAffine S] [Smooth f] [Fintype ι] [DecidableEq ι] in
 /-- The canonical map of de Rham complexes, read in the elementwise total complexes. -/
 theorem cechNatIso_hom_cech_relPushforwardInt (n : ℤ)
     (x : TotX U (f ≫ g).sectionsDeRhamComplex n) :
@@ -262,6 +263,7 @@ theorem totMap_pushSectionsIso_relPushforwardInt (n : ℤ)
   exact congrArg (((sliceToNat f).f i.1.2).app (op (inter (coverObject U hU) t))).hom
     (sliceTot_projHom f g U hU haff n x i t).symm
 
+omit [IsAffine Y] [IsAffine S] [Smooth f] [Fintype ι] [DecidableEq ι] in
 /-- The comparison `ecl`, applied to the image of a cochain under the canonical map of de Rham
 complexes and read in the elementwise total complexes, is the image of the cochain read on the
 slice under the canonical map of de Rham complexes and the identification of the sections. -/

@@ -405,8 +405,7 @@ private theorem eq_id_of_comp_algebraMap_eq
   refine RingHom.ext fun x => ?_
   refine UniformSpace.Completion.induction_on x (isClosed_eq hψ continuous_id) ?_
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp [UniformSpace.Completion.coe_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul a b =>
     have e1 : ψ (algebraMap A₁ (TopologicalRing.CompletedTensorProduct
         (R := A₀) (M := A₁) (N := A)) a) =
@@ -618,13 +617,11 @@ private theorem continuous_tensorProduct_lift {R : Type u} [CommRing R]
   clear hz
   rw [map_add]
   apply K.add_mem
-  · induction x using TensorProduct.induction_on with
-    | zero => simp
+  · induction x using TensorProduct.inductionOn with
     | tmul a b =>
       simpa [l, Algebra.TensorProduct.lift_tmul, mul_comm] using K.mul_mem_left (g b) a.2
     | add x y hx hy => simpa only [map_add] using K.add_mem hx hy
-  · induction y using TensorProduct.induction_on with
-    | zero => simp
+  · induction y using TensorProduct.inductionOn with
     | tmul a b =>
       simpa [l, Algebra.TensorProduct.lift_tmul] using K.mul_mem_left (f a) b.2
     | add x y hx hy => simpa only [map_add] using K.add_mem hx hy

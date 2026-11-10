@@ -100,7 +100,7 @@ private lemma formallySmooth_of_formallySmoothNAdic_of_essFiniteType
   obtain ⟨g, hg, hgk⟩ :=
     h B' (RingHom.ker φ.toRingHom) hsq (algebraMap k B') ψ
       (by
-        show (e.symm.toRingHom.comp a.toRingHom).comp (algebraMap k A) =
+        change (e.symm.toRingHom.comp a.toRingHom).comp (algebraMap k A) =
           (Ideal.Quotient.mk _).comp (algebraMap k B')
         rw [RingHom.comp_assoc,
           show a.toRingHom.comp (algebraMap k A) = algebraMap k B from RingHom.ext a.commutes,
@@ -111,12 +111,12 @@ private lemma formallySmooth_of_formallySmoothNAdic_of_essFiniteType
           (RingHom.quotientKerEquivOfSurjective_symm_comp hφ))
       ⟨n + 1, by omega, by
         intro z hz
-        show e.symm (a z) = 0
+        change e.symm (a z) = 0
         rw [show a z = 0 from hker (Ideal.pow_le_pow_right n.le_succ hz), map_zero]⟩
   refine ⟨⟨g, RingHom.congr_fun hgk⟩, ?_⟩
   ext z
   apply e.symm.injective
-  show e.symm (φ (g z)) = e.symm (a z)
+  change e.symm (φ (g z)) = e.symm (a z)
   exact (RingHom.congr_fun (RingHom.quotientKerEquivOfSurjective_symm_comp hφ) (g z)).trans
     (RingHom.congr_fun hg z)
 

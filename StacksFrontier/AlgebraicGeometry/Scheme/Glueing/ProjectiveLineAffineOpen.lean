@@ -153,7 +153,7 @@ theorem comap_laurentOne_of_comp_eq (f : Polynomial k →+* LaurentPolynomial k)
     (hf : (laurentEvalOne k).comp f = Polynomial.evalRingHom 1) :
     (PrimeSpectrum.comap f (laurentOne k)).asIdeal =
       Ideal.span {(Polynomial.X - 1 : Polynomial k)} := by
-  show Ideal.comap f (Ideal.comap (laurentEvalOne k) (⊥ : Ideal k)) = _
+  change Ideal.comap f (Ideal.comap (laurentEvalOne k) (⊥ : Ideal k)) = _
   rw [Ideal.comap_comap, hf, ← RingHom.ker_eq_comap_bot, Polynomial.ker_evalRingHom]
   simp
 
@@ -259,7 +259,7 @@ theorem awayEquivOfSubst_comp {k : Type u} [CommRing k] (p q : Polynomial k)
     (hfg : (IsLocalization.Away.lift q hg).comp f = algebraMap (Polynomial k) A)
     (hgf : (IsLocalization.Away.lift p hf).comp g = algebraMap (Polynomial k) B) :
     (awayEquivOfSubst p q A B hf hg hfg hgf : A →+* B).comp (algebraMap (Polynomial k) A) = f := by
-  simp only [awayEquivOfSubst, RingEquiv.coe_ringHom_ofRingHom]
+  simp only [awayEquivOfSubst, RingEquiv.toRingHom_ofRingHom]
   exact IsLocalization.Away.lift_comp (x := p) hf
 
 /-- A ring map that becomes the localization map after an isomorphism of the target has the same
@@ -684,7 +684,7 @@ theorem mem_range_projectiveLineSOverlapPiece (p : Spec (.of (Polynomial k))) :
           ((projectiveLineSOverlapInclusion k).base c)).asIdeal =
           Ideal.comap (affineLineSOnXChart k)
             ((projectiveLineSOverlapInclusion k).base c).asIdeal := rfl
-      show (Polynomial.X : Polynomial k) ∉ _
+      change (Polynomial.X : Polynomial k) ∉ _
       rw [show ((projectiveLineSOverlapPiece k).base c) =
         (projectiveLineSXPiece k).base ((projectiveLineSOverlapInclusion k).base c) from rfl,
         hid, Ideal.mem_comap, affineLineSOnXChart_X]
@@ -1029,7 +1029,7 @@ theorem projectiveLineSOverlapYInclusion_comp_projectiveLineSChartMap :
         (affineLineAwayOneAwayX k)).comp
           (algebraMap (Polynomial k) (affineLineAwayOne k)))) := by
     rw [projectiveLineSOverlapInclusion, ← Spec.map_comp, ← CommRingCat.ofHom_comp]
-  show projectiveLineSOverlapYInclusion k ≫ Spec.map (CommRingCat.ofHom
+  change projectiveLineSOverlapYInclusion k ≫ Spec.map (CommRingCat.ofHom
       (algebraMap (Polynomial k) (affineLineAwayOne k))) ≫ projectiveLineYChart k =
     projectiveLineSOverlapInclusion k ≫ Spec.map (CommRingCat.ofHom
       (algebraMap (Polynomial k) (affineLineAwayOne k))) ≫ projectiveLineXChart k
@@ -1381,7 +1381,7 @@ theorem isAffineOpen_projectiveLineSChart :
 @[stacks 01JE "projective_line_affine_open_through_zero_and_infinity"]
 theorem projectiveLineZero_mem_opensRange_projectiveLineSChart :
     projectiveLineZero k ∈ (projectiveLineSChart k).opensRange := by
-  show projectiveLineZero k ∈ Set.range (projectiveLineSChart k).base
+  change projectiveLineZero k ∈ Set.range (projectiveLineSChart k).base
   rw [range_projectiveLineSChart]
   simp only [Set.mem_compl_iff, Set.mem_singleton_iff]
   intro h
@@ -1392,7 +1392,7 @@ theorem projectiveLineZero_mem_opensRange_projectiveLineSChart :
 @[stacks 01JE "projective_line_affine_open_through_zero_and_infinity"]
 theorem projectiveLineInfinity_mem_opensRange_projectiveLineSChart :
     projectiveLineInfinity k ∈ (projectiveLineSChart k).opensRange := by
-  show projectiveLineInfinity k ∈ Set.range (projectiveLineSChart k).base
+  change projectiveLineInfinity k ∈ Set.range (projectiveLineSChart k).base
   rw [range_projectiveLineSChart]
   simp only [Set.mem_compl_iff, Set.mem_singleton_iff]
   intro h

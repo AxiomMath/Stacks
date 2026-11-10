@@ -66,14 +66,14 @@ private def restrT : (Fin n → R) →ₗ[R] ({i : Fin n // i ∉ Set.range T} �
 
 private lemma inclT_apply_of_notMem (y : {i : Fin n // i ∉ Set.range T} → R) {i : Fin n}
     (h : i ∉ Set.range T) : inclT T y i = y ⟨i, h⟩ := by
-  show (dite _ _ _ : (_ → R) →ₗ[R] R) y = _
+  change (dite _ _ _ : (_ → R) →ₗ[R] R) y = _
   split
   · exact absurd ‹_› h
   · rfl
 
 private lemma inclT_apply_of_mem (y : {i : Fin n // i ∉ Set.range T} → R) {i : Fin n}
     (h : i ∈ Set.range T) : inclT T y i = 0 := by
-  show (dite _ _ _ : (_ → R) →ₗ[R] R) y = _
+  change (dite _ _ _ : (_ → R) →ₗ[R] R) y = _
   split
   · rfl
   · exact absurd h ‹_›
@@ -137,7 +137,7 @@ public theorem nonempty_linearEquiv_localizedQuotient_of_jacobianMinor
     intro x
     have h1 : pr x = d (Gu (adj (coord x))) := rfl
     rw [h1, hcoordGu, hadjdef]
-    show M.mulVec (M.adjugate.mulVec (coord x)) = _
+    change M.mulVec (M.adjugate.mulVec (coord x)) = _
     rw [Matrix.mulVec_mulVec, Matrix.mul_adjugate, Matrix.smul_mulVec, Matrix.one_mulVec]
   have hgen : ∀ j : Fin m, pr (d (u j)) = M.det • d (u j) := by
     intro j
@@ -146,7 +146,7 @@ public theorem nonempty_linearEquiv_localizedQuotient_of_jacobianMinor
     have hadjc : adj (coord (d (u j))) = M.det • (Pi.single j (1 : R)) := by
       rw [hco, hadjdef]
       funext k
-      show M.adjugate.mulVec (fun i ↦ M i j) k = _
+      change M.adjugate.mulVec (fun i ↦ M i j) k = _
       have he : M.adjugate.mulVec (fun i ↦ M i j) k = (M.adjugate * M) k j := by
         rw [Matrix.mulVec_apply_eq_sum, Matrix.mul_apply]
       rw [he, Matrix.adjugate_mul]
@@ -307,7 +307,7 @@ private lemma jacobianChart_smul_mem_span
   obtain ⟨z, rfl⟩ := Algebra.Extension.Cotangent.mk_surjective (P := P.extension) x
   let b' : P.extension.Ring := b
   have hzker : b' * z.val ∈ P.extension.ker := by
-    show algebraMap P.extension.Ring B.carrier (b' * z.val) = 0
+    change algebraMap P.extension.Ring B.carrier (b' * z.val) = 0
     rw [map_mul, z.property, mul_zero]
   have hzP : z.val ∈ P.ker := hkerEq.symm ▸ z.property
   obtain ⟨y, hy, w, hw, hsum⟩ := Submodule.mem_sup.mp (hrelations z.val hzP)
@@ -331,7 +331,7 @@ private lemma jacobianChart_smul_mem_span
       P.toAlgHom b • Algebra.Extension.Cotangent.mk (P := P.extension) z := by
     calc
       _ = b' • Algebra.Extension.Cotangent.mk (P := P.extension) z := by
-        show Algebra.Extension.Cotangent.mk (P := P.extension) (b' • z) = _
+        change Algebra.Extension.Cotangent.mk (P := P.extension) (b' • z) = _
         exact map_smul (Algebra.Extension.Cotangent.mk (P := P.extension)) b' z
       _ = _ := by
         rw [extension_cotangent_ring_smul_eq_algebraMap]
@@ -577,7 +577,7 @@ public lemma differential_square
           (completedNaiveCotangentComplex B P).cochainComplex.X 0)
         ∘ₗ (completedNaiveCotangentComplex B P).differential := by
   ext x
-  show ((completedNaiveCotangentComplex B P).cochainComplex.d (-1) 0).hom
+  change ((completedNaiveCotangentComplex B P).cochainComplex.d (-1) 0).hom
       ((completedNaiveCotangentComplex B P).degreeNegOneIso.inv (ULift.up x))
     = (completedNaiveCotangentComplex B P).degreeZeroIso.inv
       (ULift.up ((completedNaiveCotangentComplex B P).differential x))
@@ -638,7 +638,7 @@ public lemma finite_extension_cotangent
     Module.Finite B.carrier P.extension.Cotangent := by
   have : IsNoetherianRing P.completedPolynomialRing := AdicCompletion.isNoetherianRing _
   have : IsNoetherianRing P.extension.Ring := by
-    show IsNoetherianRing P.completedPolynomialRing
+    change IsNoetherianRing P.completedPolynomialRing
     infer_instance
   exact Algebra.Extension.Cotangent.finite (Ideal.fg_of_isNoetherianRing _)
 

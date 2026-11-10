@@ -212,7 +212,7 @@ theorem extSq_kummerDivisorClass {k : Type u} [Field k] {U V W : Scheme.{u}}
     ι.inv ≫ jw ≫ RV.map ι'.hom
   have h₁ : ι.hom ≫ w' = jw ≫ RV.map ι'.hom := ι.hom_inv_id_assoc _
   have h₂ : ι.inv ≫ jw = w' ≫ RV.map ι'.inv := by
-    show ι.inv ≫ jw = (ι.inv ≫ jw ≫ RV.map ι'.hom) ≫ RV.map ι'.inv
+    change ι.inv ≫ jw = (ι.inv ≫ jw ≫ RV.map ι'.hom) ≫ RV.map ι'.inv
     rw [Category.assoc, Category.assoc, ← CategoryTheory.Functor.map_comp, ι'.hom_inv_id,
       CategoryTheory.Functor.map_id, Category.comp_id]
   have hK : ExtSq RV jw jw
@@ -259,7 +259,7 @@ theorem flagUnit_comp_flagSheafReduction {U : Scheme.{u}} : ∀ {d : ℕ}
       w ≫ (etaleModuleRestrictScalars (ZMod.castHom h (ZMod N')) U).map
         (KummerFlag.flagUnit (N := N') D)
   | 0, _, w => by
-    show 𝟙 _ ≫ w = w ≫ (etaleModuleRestrictScalars (ZMod.castHom h (ZMod N')) U).map (𝟙 _)
+    change 𝟙 _ ≫ w = w ≫ (etaleModuleRestrictScalars (ZMod.castHom h (ZMod N')) U).map (𝟙 _)
     rw [CategoryTheory.Functor.map_id, Category.id_comp, Category.comp_id]
   | d + 1, D, w => by
     have ih := flagUnit_comp_flagSheafReduction (fun m => D m.succ) w
@@ -302,7 +302,7 @@ theorem extSq_kummerFlagClass {k : Type u} [Field k] {U : Scheme.{u}} (fU : U �
         (flagSheafReduction (Dvd.intro_left e he) D w) w
         (KummerFlag.kummerFlagClass hζ hN fU D) (KummerFlag.kummerFlagClass hζ' hN' fU D)
   | 0, _, _, w => by
-    show ExtSq _ w w (Ext.mk₀ (𝟙 _)) (Ext.mk₀ (𝟙 _))
+    change ExtSq _ w w (Ext.mk₀ (𝟙 _)) (Ext.mk₀ (𝟙 _))
     exact ExtSq.mk₀ (by rw [CategoryTheory.Functor.map_id, Category.id_comp, Category.comp_id])
   | d + 1, D, _, w => by
     have : ∀ m : Fin d, PreconnectedSpace (D m.succ).V := fun m => inferInstance

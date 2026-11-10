@@ -77,7 +77,7 @@ theorem exists_firstCohomology_equiv_quotient
       refine ⟨z, (ConcreteCategory.bijective_of_isIso (u.app S.X₃)).1 ?_⟩
       rw [← hnat z, hy]
     · rintro ⟨z, rfl⟩
-      show δ'.hom ((u.app S.X₃).hom (((Scheme.sectionsFunctor Y).map S.g).hom z)) = 0
+      change δ'.hom ((u.app S.X₃).hom (((Scheme.sectionsFunctor Y).map S.g).hom z)) = 0
       rw [← hnat z, ← LinearMap.mem_ker, ← e1]
       exact LinearMap.mem_range_self _ _
   exact ⟨(Submodule.quotEquivOfEq _ _ hker.symm).trans
@@ -137,7 +137,7 @@ theorem exists_injective_firstCohomology_pushforward (G : SheafOfModules.{u} Y'.
   have hcomp : ∀ i : (Scheme.sectionsFunctor Y).obj (P.obj I),
       mΓ (((Scheme.sectionsFunctor Y).map (cokernel.π (P.map ι))).hom i) =
         ((Scheme.sectionsFunctor Y').map πQ).hom i := fun i => by
-    show ((Scheme.sectionsFunctor Y).map (cokernel.π (P.map ι)) ≫
+    change ((Scheme.sectionsFunctor Y).map (cokernel.π (P.map ι)) ≫
       (Scheme.sectionsFunctor Y).map m).hom i = _
     rw [← Functor.map_comp, cokernel.π_desc]
     rfl

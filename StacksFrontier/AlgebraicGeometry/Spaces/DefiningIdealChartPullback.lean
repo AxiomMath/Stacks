@@ -174,7 +174,7 @@ theorem app_eq_zero_iff_chartSectionsRingHom_mem_definingIdealAt
     (ConcreteCategory.bijective_of_isIso V.topIso.hom).1
       (htop.trans (Iso.inv_hom_id_apply V.topIso s).symm)
   rw [definingIdealAt_eq_ker]
-  show _ ↔ ((BigFppfOver.toScheme B S hS).map
+  change _ ↔ ((BigFppfOver.toScheme B S hS).map
     (Z.2.2.rep.snd (openChartOfComparison B S hS X A V).1.hom)).appTop
       (chartSectionsRingHom B S hS X A V s) = 0
   rw [hs]
@@ -280,7 +280,7 @@ theorem bijective_chartPushDefiningIdealFactor_val_app (V : ((chartScheme A).Ope
     replace hy := (app_eq_zero_iff_chartSectionsRingHom_mem_definingIdealAt B S hS X A Z V
       y.1).1 hy
     refine ⟨⟨_, hy⟩, Subtype.ext ?_⟩
-    show (chartPushDefiningIdealι B S hS X A Z).val.app (op V) ⟨_, hy⟩ = y.1
+    change (chartPushDefiningIdealι B S hS X A Z).val.app (op V) ⟨_, hy⟩ = y.1
     exact (chartPushDefiningIdealι_val_app B S hS X A Z V ⟨_, hy⟩).trans
       (openChartTopRingHom_chartSectionsRingHom B S hS X A V y.1)
 

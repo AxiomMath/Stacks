@@ -144,7 +144,8 @@ injection from a finite type splits accordingly.
 
 The namespace `Stacks.EtaleCohomology.GradedWitness` builds the filtered perfect complex used for
 the non-vacuity statement: the skyscraper filtered modules of
-`StacksCore.CategoryTheory.Filtration.Single`, their iterated binary biproduct, which is free of rank
+`StacksCore.CategoryTheory.Filtration.Single`, their iterated binary biproduct, which is free of
+rank
 `n` with graded pieces free of rank one at the filtration indices `1, …, n` and zero elsewhere,
 and that object placed in cochain degree zero. With `n = q + 1 = #P¹(F_q)` and constant
 coefficients `K = Λ`, the graded pieces are the stalks `K_x̄` at the `q + 1` rational points of

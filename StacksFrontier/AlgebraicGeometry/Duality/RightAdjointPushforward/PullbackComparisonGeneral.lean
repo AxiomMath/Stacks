@@ -69,9 +69,9 @@ Everything the source cites in this proof, and nothing else.
   source's family is the single perfect generator of [Stacks, Tag 09IS]. The declaration that
   supplies it is `Stacks.Duality.isIso_compareWithPullbackTensor_of_isPerfect` of
   `StacksFrontier/AlgebraicGeometry/Duality/RightAdjointPushforward/PullbackComparisonPerfect.lean`,
-  which is not imported by this file. Note that `hgen` is a hypothesis about finitely many — in the source, one —
-  objects and the conclusion is about all of them; the dévissage is what bridges them, and without
-  it `hgen` gives nothing for a general `K`.
+  which is not imported by this file. Note that `hgen` is a hypothesis about finitely many — in the
+  source, one — objects and the conclusion is about all of them; the dévissage is what bridges
+  them, and without it `hgen` gives nothing for a general `K`.
 * **Compact generation of `D_QCoh(𝒪_Y)` by a single perfect object, [Stacks, Tag 09IS].** It is
   the family `E` together with `hEc`, its compactness, and `hE`, its generation. This repository
   proves the affine, algebraic counterpart of 09IS in
@@ -307,7 +307,7 @@ theorem isIso_compareWithPullback_of_isIso_generators {ι : Type u}
       (derivedStructureSheaf Y) E hEc hE hgen K
   have h₂ : IsIso (ρ.hom.app K) := NatIso.isIso_app_of_isIso ρ.hom K
   have h₃ : IsIso (a.map (ρ.hom.app K)) := a.map_isIso _
-  show IsIso (compareWithPullbackTensor f hpush α adj K (derivedStructureSheaf Y) ≫
+  change IsIso (compareWithPullbackTensor f hpush α adj K (derivedStructureSheaf Y) ≫
     a.map (ρ.hom.app K))
   infer_instance
 

@@ -374,9 +374,9 @@ generated in degree one, which is
 
 The unconditional statement is
 `Stacks.Curves.VeryAmpleSixthPower.isRelativelyVeryAmple_tensorPowModule_six_of_regularSection`
-(`StacksFrontier/AlgebraicGeometry/Curves/VeryAmpleSixthPowerCriterion.lean`), which carries the tag:
-`hcoh` holds outright (`sectionRingGeneratedInDegreesLeThree` there), and the use of `hbridge` is
-replaced by `Stacks.VeroneseVeryAmple.isRelativelyVeryAmple_tensorPowModule_of_generators`, its
+(`StacksFrontier/AlgebraicGeometry/Curves/VeryAmpleSixthPowerCriterion.lean`), which carries the
+tag: `hcoh` holds outright (`sectionRingGeneratedInDegreesLeThree` there), and the use of `hbridge`
+is replaced by `Stacks.VeroneseVeryAmple.isRelativelyVeryAmple_tensorPowModule_of_generators`, its
 instance for a proper `X` with finitely generated section ring. -/
 theorem isRelativelyVeryAmple_tensorPowModule_six (k : Type u) [Field k]
     (hcoh : SectionRingGeneratedInDegreesLeThree k) (hbridge : VeroneseVeryAmpleBridge k)

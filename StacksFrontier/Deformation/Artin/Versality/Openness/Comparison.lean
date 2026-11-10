@@ -302,7 +302,7 @@ private lemma isSmooth_explicitMap_of_natIso (α : F ≅ G)
     (Ψ := explicitMapBased iΛ q x₀ hx₀ qY G hG) ν (fun a => ?_) hcomp
   have hb : (ν.hom.app a).ringHom = 𝟙 a.algebra := by
     simp [ν, ε, Rb, verticalDeformationMorphism_of_isHomLift]
-  show (explicitProjection iΛ qY (G.obj x₀) hG₀).IsHomLift (𝟙 a.algebra) (ν.hom.app a)
+  change (explicitProjection iΛ qY (G.obj x₀) hG₀).IsHomLift (𝟙 a.algebra) (ν.hom.app a)
   rw [← hb]
   exact IsHomLift.map _ (ν.hom.app a)
 

@@ -97,7 +97,7 @@ theorem isZero_cechCohomology_succ_of_isCartesian
         (op (∏ᶜ (fun a ↦ Over.mk (P.family.f (i a)))).left)) := by
     intro n i
     have hY := Stacks.FlatObjectsSubsite.isFlatOver_of_isLimit_fan (ringFunctor T U) hT₀
-      (fun h hg ↦ flat_ringFunctor_of_isPullback P.W P.isAffine_W P.eW h hg) (n + 1)
+      (fun h hg ↦ flat_ringFunctor_of_isPullback P.W P.eW h hg) (n + 1)
       (fun a ↦ Over.mk (P.family.f (i a)))
       (fun a ↦ Stacks.FlatObjectsSubsite.isFlatOver_of_flat _
         (P.flat_ringFunctor_map_family_f (i a)) (Stacks.FlatObjectsSubsite.isFlatOver_self _ _))

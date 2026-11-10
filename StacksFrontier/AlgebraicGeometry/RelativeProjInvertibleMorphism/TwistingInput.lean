@@ -71,7 +71,7 @@ theorem adjComponent_app (n : ℕ) (V : S.Opens) (a : Γ(A.piece (n : ℤ), V)) 
   have h1 := homEquiv_val_app (ringedSpaceHom f) _ _ (degreeComponent ψ n) (op V) a
   have h2 := pullbackUnit_naturality (ringedSpaceHom f) (pieceCast (A := A) (n : ℤ)) (op V) a
   rw [adjComponent, h1]
-  show (powCompare L n).inv.app (f ⁻¹ᵁ V) (PresheafOfModules.Hom.app (ψ.app (n : ℤ)).val _
+  change (powCompare L n).inv.app (f ⁻¹ᵁ V) (PresheafOfModules.Hom.app (ψ.app (n : ℤ)).val _
       (PresheafOfModules.Hom.app
         ((pullbackFunctor (ringedSpaceHom f)).map (pieceCast (A := A) (n : ℤ))).val _
         (pullbackUnit (ringedSpaceHom f) ((situationAlgebra A).piece (n : ℤ)) (op V) a))) = _

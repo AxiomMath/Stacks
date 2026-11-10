@@ -151,7 +151,7 @@ def conjSquare {T : C₁ ⥤ C₂} {L : C₁ ⥤ C₃} {R : C₂ ⥤ C₄} {B : 
       (e₂.inverse ⋙ R ⋙ e₄.functor) (e₃.inverse ⋙ B ⋙ e₄.functor) :=
   Functor.whiskerLeft e₁.inverse (Functor.whiskerRight
     (Functor.whiskerLeft T (Functor.whiskerRight e₂.unitIso.inv R ≫ (Functor.leftUnitor R).hom) ≫
-      θ.natTrans ≫
+      θ ≫
       Functor.whiskerLeft L ((Functor.leftUnitor B).inv ≫ Functor.whiskerRight e₃.unitIso.hom B))
     e₄.functor)
 
@@ -179,8 +179,8 @@ def conjSquareIso {T : C₁ ⥤ C₂} {L : C₁ ⥤ C₃} {R : C₂ ⥤ C₄} {B
       (e₁.inverse ⋙ L ⋙ e₃.functor) ⋙ (e₃.inverse ⋙ B ⋙ e₄.functor) :=
   haveI : ∀ N, IsIso ((conjSquare e₁ e₂ e₃ e₄ θ.hom).app N) := fun N ↦
     isIso_conjSquare_app _ _ _ _ _ N
-  haveI : IsIso (conjSquare e₁ e₂ e₃ e₄ θ.hom).natTrans := NatIso.isIso_of_isIso_app _
-  asIso (conjSquare e₁ e₂ e₃ e₄ θ.hom).natTrans
+  haveI : IsIso (conjSquare e₁ e₂ e₃ e₄ θ.hom) := NatIso.isIso_of_isIso_app _
+  asIso (conjSquare e₁ e₂ e₃ e₄ θ.hom)
 
 /-- The forward map of `conjSquareIso e₁ e₂ e₃ e₄ θ` is `conjSquare e₁ e₂ e₃ e₄ θ.hom`. -/
 @[simp]
@@ -414,9 +414,9 @@ theorem map_glueingMap_comp_mate {_ : Preadditive 𝒟} [HasBinaryBiproducts �
       (mateEquiv adjF' adjF'W θf').app K' ≫ biprod.inr ≫
         glueingMap adjFW adjIW (glueingConjugateIso adjFW adjIW adjJW adjF'W σW) (Φ₁.obj M)
           (Φ₂.obj K') (θf.app M ≫ Φ₀.map α ≫ θi.inv.app K')) :=
-  map_glueingMap_comp_baseChange adjF adjI _ adjFW adjIW _ (mateEquiv adjJ adjJW θj).natTrans
-    (mateEquiv adjF' adjF'W θf').natTrans (mateEquiv adjF adjFW θf).natTrans
-    (mateEquiv adjI adjIW θi.hom).natTrans θf.natTrans θi.symm
+  map_glueingMap_comp_baseChange adjF adjI _ adjFW adjIW _ (mateEquiv adjJ adjJW θj)
+    (mateEquiv adjF' adjF'W θf') (mateEquiv adjF adjFW θf)
+    (mateEquiv adjI adjIW θi.hom) θf θi.symm
     (fun M ↦ unit_mateEquiv adjF adjFW θf M) (fun K ↦ unit_mateEquiv adjI adjIW θi.hom K)
     (mate_cube adjJ adjF' adjF adjI adjJW adjF'W adjFW adjIW σ σW θj θf θf' θi.hom h) M K' α
 
@@ -669,7 +669,7 @@ theorem isIso_map_homEquiv_symm_of_restrict [Preadditive 𝒟] [Preadditive 𝒲
         ?_ ?_ ?_).symm
     · exact (Category.id_comp _).symm
     · exact hφ
-    · show (Φ.map v ≫ (Φ.commShiftIso (1 : ℤ)).hom.app M') ≫
+    · change (Φ.map v ≫ (Φ.commShiftIso (1 : ℤ)).hom.app M') ≫
           (shiftFunctor 𝒲 (1 : ℤ)).map (𝟙 (Φ.obj M')) =
             e₃ ≫ inv e₃ ≫ Φ.map v ≫ (Φ.commShiftIso (1 : ℤ)).hom.app M'
       simp

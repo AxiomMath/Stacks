@@ -77,7 +77,8 @@ definition: it attaches a name to the thickening *constructed* in Stacks 0606, t
 a universal first order thickening of a formally unramified morphism.  Stacks 0606 is proved in
 `StacksFrontier/AlgebraicGeometry/Spaces/Thickenings/UniversalExistence.lean`, as
 `AlgebraicGeometry.Space.nonempty_universalFirstOrderThickening`, and its conclusion is
-`Nonempty` of the structure below, so nothing is extracted from it here.  What is formalized below is
+`Nonempty` of the structure below, so nothing is extracted from it here.  What is formalized below
+is
 therefore the *datum* the source names: a bundle of the
 ambient algebraic space `Z'`, its structure morphism `p : Z' ⟶ X`, the closed subspace of `Z'`,
 the universal property of Stacks 0602 for it, and the identification of `Z` with that subspace

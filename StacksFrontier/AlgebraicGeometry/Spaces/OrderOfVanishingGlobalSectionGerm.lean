@@ -28,10 +28,8 @@ that image, and `AlgebraicGeometry.Space.ord_stalkToHenselianLocalRing` moves it
 with the maximal ideal extended, so it leaves the length of the quotient by a principal ideal
 unchanged.
 
-Cofilteredness of the elementary étale neighbourhoods of `ξ`, Stacks 0BGV, is the hypothesis
-`hCofiltered`; it is what makes `𝒪^h_{X, ξ}` a henselization of `𝒪_{U, u}`.  Unlike Stacks 0ENM
-no integrality, Noetherianness or codimension hypothesis on `U` is needed, because both sides are
-lengths over `𝒪^h_{X, ξ}` and `𝒪_{U, u}` directly.
+Unlike Stacks 0ENM no integrality, Noetherianness or codimension hypothesis on `U` is needed,
+because both sides are lengths over `𝒪^h_{X, ξ}` and `𝒪_{U, u}` directly.
 
 ## References
 
@@ -58,11 +56,8 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     [∀ W : PrimeDivisor B S hS X, Ring.KrullDimLE 1 ↥(W.genericHenselianLocalRing B S hS hX hdec)]
     (Z : PrimeDivisor B S hS X)
     [IsLocalRing ↥(Z.genericHenselianLocalRing B S hS hX hdec)]
-    (hCofiltered :
-      IsCofiltered (ElementaryEtaleNeighborhood B S hS X hX (Z.genericPoint B S hS X)))
     (U : ElementaryEtaleNeighborhood B S hS X hX (Z.genericPoint B S hS X))
 
-include hCofiltered in
 /-- If the ratio `s / s_ξ` of a meromorphic section of
 `ℒ` at the generic point of a prime divisor `Z` is the image of the germ at the marked point of
 an elementary étale neighbourhood `U` of a regular function `r` on `U`, then `ord_{Z,ℒ}(s)` is
@@ -90,7 +85,7 @@ theorem orderOfVanishingSection_eq_ord_of_eq_stalkToHenselianLocalRing
       Z.ord B S hS hX hdec _ hunit from
     PrimeDivisor.ord_congr B S hS hX hdec Z _ hunit hr,
     Z.ord_algebraMap B S hS hX hdec _ hnzd,
-    ord_stalkToHenselianLocalRing B S hS hX hdec Z hCofiltered U r]
+    ord_stalkToHenselianLocalRing B S hS hX hdec Z U r]
 
 end AlgebraicGeometry.Space
 

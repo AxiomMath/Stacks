@@ -136,7 +136,7 @@ theorem appSheafAdjunction_unit_app_hom_app (G : Sheaf (AppSmallProetale.induced
     sheafificationAdjunction_unit_app, Functor.whiskeringLeft_obj_map, Functor.comp_map,
     ObjectProperty.ι_map, ObjectProperty.FullSubcategory.id_hom, Functor.whiskerLeft_id',
     Category.comp_id, NatTrans.comp_app, Functor.op_obj, Adjunction.whiskerLeft_unit_app_app,
-    Adjunction.op_unit_app, NatTrans.op_app, Functor.id_obj, Functor.whiskerLeft_app]
+    Adjunction.op_unit_app, Functor.id_obj, Functor.whiskerLeft_app]
   exact Category.comp_id _
 
 end Adjunction
@@ -211,7 +211,7 @@ theorem isIso_proetaleUnit_app_of_isIso_appSheafAdjunction_unit
     Adjunction.comp_unit_app, Functor.map_comp, Category.assoc, Equivalence.toAdjunction_unit]
     at hE
   have hd : IsIso (E.map (eX.inverse.map (adjA.unit.app (eX.functor.obj F)))) := by
-    show IsIso (((sheafSections (AppSmallProetale.inducedTopology X) A).obj (op U)).map
+    change IsIso (((sheafSections (AppSmallProetale.inducedTopology X) A).obj (op U)).map
       (eX.functor.map (eX.inverse.map (adjA.unit.app (eX.functor.obj F)))))
     rw [Equivalence.fun_inv_map, Functor.map_comp, Functor.map_comp]
     have : IsIso (((sheafSections (AppSmallProetale.inducedTopology X) A).obj (op U)).map
@@ -486,7 +486,7 @@ theorem isIso_toSheafify_app_appProetaleBaseChange_top
       P.map (uf.map (tm m)).op (G.obj.map (adj.counit.app top).op y) =
         G.obj.map (adj.counit.app (piece m)).op (G.obj.map (tm m).op y) := by
     have hnat := adj.counit.naturality (tm m)
-    show (G.obj.map (adj.counit.app top).op ≫ G.obj.map (vf.map (uf.map (tm m))).op) y =
+    change (G.obj.map (adj.counit.app top).op ≫ G.obj.map (vf.map (uf.map (tm m))).op) y =
       (G.obj.map (tm m).op ≫ G.obj.map (adj.counit.app (piece m)).op) y
     rw [← G.obj.map_comp, ← G.obj.map_comp, ← op_comp, ← op_comp]
     exact congrArg (fun q ↦ G.obj.map q.op y) hnat

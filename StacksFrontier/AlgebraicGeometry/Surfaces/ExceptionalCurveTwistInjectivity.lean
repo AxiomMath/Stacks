@@ -311,7 +311,8 @@ vanishing. -/
 private theorem isZero_restrictScalars {R S : Type u} [Ring R] [Ring S] (φ : R →+* S)
     {N : ModuleCat.{u} S} (h : IsZero N) :
     IsZero ((ModuleCat.restrictScalars φ).obj N) := by
-  rwa [ModuleCat.isZero_iff_subsingleton] at h ⊢
+  rw [ModuleCat.isZero_iff_subsingleton] at h ⊢
+  exact h
 
 /-- **The global sections of `𝓜 ⊗ i_*𝒪_E` vanish when `𝓜` pulls back to a negative twist on the
 projective line.** The module is `i_*(i^*𝓜)` by the projection formula, its sections are the
@@ -330,7 +331,7 @@ theorem isZero_sections_tensorPushforwardUnit (E : X.IdealSheafData) (k : Type u
         ((modulePushforward E.subschemeι.toLRSHom.toShHom).obj
           (𝟙_ (_root_.SheafOfModules.{u}
             ((Stacks.SheafOfModules.Tensor.ringSheaf (E.subscheme).sheaf))))))) := by
-  show IsZero ((moduleGlobalSections X).obj
+  change IsZero ((moduleGlobalSections X).obj
     (MonoidalCategory.tensorObj (C := _root_.SheafOfModules.{u}
       (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)) M
       ((modulePushforward E.subschemeι.toLRSHom.toShHom).obj

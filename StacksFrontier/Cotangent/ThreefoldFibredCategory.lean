@@ -425,8 +425,7 @@ def liftObj : e.pullbackObj ⟶ c.tower.obj where
         (CommAlgCat.Hom.hom c.tower.obj.right.hom) (c.desc z) =
           e.pullbackAugmentation z := by
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul p q =>
           rw [c.desc_tmul, map_mul, e.pullbackAugmentation_tmul,
             towerRightAugmentation_hom_apply c.hom.hom q]
@@ -512,8 +511,7 @@ theorem lift_uniq (χ : e.pullbackTower ⟶ c.tower) (hleft : χ.hom.left = c.ma
         (CommAlgCat.Hom.hom χ.hom.right.left) z =
           (CommAlgCat.Hom.hom (c.lift).hom.right.left) z := by
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero => exact (map_zero _).trans (map_zero _).symm
+      induction z using TensorProduct.inductionOn with
       | tmul p q =>
           have hsplit : p ⊗ₜ[↑(towerLeftAlgebra e.tower.obj)] q =
               (p ⊗ₜ[↑(towerLeftAlgebra e.tower.obj)]

@@ -125,7 +125,7 @@ theorem bijOn_irreducibleComponents_normalization
     (bijOn_closure_singleton_genericPoints (X.normalizationScheme hX))
     (((bijOn_closure_singleton_genericPoints X).comp
       (X.bijOn_genericPoints_normalization hX)).congr fun z _ ↦ ?_)
-  show closure {(X.normalization hX).base z} =
+  change closure {(X.normalization hX).base z} =
     closure ((X.normalization hX).base '' closure {z})
   rw [closure_image_closure (X.normalization hX).continuous, Set.image_singleton]
 

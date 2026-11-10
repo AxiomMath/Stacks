@@ -79,7 +79,7 @@ private lemma mem_range_overPullback_map {B : Scheme.{u}} (X Y : Over B) (f : X 
           _ = pullback.snd f.left q ≫ pullback.fst Y.hom g := rfl
       · rw [Category.assoc, overPullback_map_left_snd, hφsnd]
     refine ⟨φ.base z, ?_⟩
-    show (φ ≫ ((Over.pullback g).map f).left).base z = y
+    change (φ ≫ ((Over.pullback g).map f).left).base z = y
     rw [hmap]
     exact hz₂
 
@@ -176,7 +176,7 @@ theorem exists_surjective_baseChange_of_surjective_limitBaseChange
           (Scheme.Hom.comp_apply _ _ _).symm
         _ = (pullback.fst Y₀.hom (S.map j.hom)).base y := by rw [pullbackSymmetry_hom_comp_snd]
     have hpair : Nonempty ((F k).obj j) := by
-      show Nonempty (pullback (C := Scheme) (pullback.snd (S.map j.hom) Y₀.hom) (t k))
+      change Nonempty (pullback (C := Scheme) (pullback.snd (S.map j.hom) Y₀.hom) (t k))
       obtain ⟨p, -, -⟩ := Scheme.Pullback.exists_preimage_pullback zG w (hzG.trans hw.symm)
       exact ⟨p⟩
     exact ⟨k, hpair⟩
@@ -212,7 +212,7 @@ theorem exists_surjective_baseChange_of_surjective_limitBaseChange
     have : MorphismProperty.IsStableUnderBaseChangeAlong (@IsAffineHom) (t k₀) :=
       ⟨fun pb hf => isAffineHom_isStableUnderBaseChange.of_isPullback pb hf⟩
     have h₀ : IsAffineHom (((Over.post S).map a).left) := by
-      show IsAffineHom (S.map a.left)
+      change IsAffineHom (S.map a.left)
       infer_instance
     have h₁ : IsAffineHom ((Over.pullback Y₀.hom).map ((Over.post S).map a)).left :=
       MorphismProperty.overPullbackMap (P := @IsAffineHom) Y₀.hom _ h₀
@@ -226,7 +226,7 @@ theorem exists_surjective_baseChange_of_surjective_limitBaseChange
       ⟨fun pb hf => isAffineHom_isStableUnderBaseChange.of_isPullback pb hf⟩
     have : CompactSpace (T k₀) := hT k₀
     have : IsAffineHom ((Over.post S).obj j).hom := by
-      show IsAffineHom (S.map j.hom)
+      change IsAffineHom (S.map j.hom)
       infer_instance
     have : IsAffineHom (G.obj j).hom := by
       dsimp [G]
@@ -254,7 +254,7 @@ theorem exists_surjective_baseChange_of_surjective_limitBaseChange
     let pLim := (pullback.fst cOver.pt.hom Y₀.hom).base zG
     let y₀ := cG.pt.hom.base zG
     have hlim : (c.π.app i₀).base pLim = Y₀.hom.base y₀ := by
-      show cOver.pt.hom ((pullback.fst cOver.pt.hom Y₀.hom).base zG) =
+      change cOver.pt.hom ((pullback.fst cOver.pt.hom Y₀.hom).base zG) =
         Y₀.hom ((pullback.snd cOver.pt.hom Y₀.hom).base zG)
       have h := congrArg (fun q => q zG)
         (pullback.condition : pullback.fst cOver.pt.hom Y₀.hom ≫ cOver.pt.hom =

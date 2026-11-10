@@ -63,7 +63,7 @@ lemma snd_residueFieldMap_isIso_of_fst {X Y S : Scheme.{u}}
   have : IsIso (f.residueFieldMap T.x) := hfx
   have : IsIso ((S.residueFieldCongr T.hx).inv ≫ f.residueFieldMap T.x) := by infer_instance
   have : IsIso T.tensorInr := by
-    show IsIso (pushout.inr
+    change IsIso (pushout.inr
       ((S.residueFieldCongr T.hx).inv ≫ f.residueFieldMap T.x)
       ((S.residueFieldCongr T.hy).inv ≫ g.residueFieldMap T.y))
     apply CategoryTheory.Limits.pushout_inr_iso_of_left_iso
@@ -81,7 +81,7 @@ lemma snd_residueFieldMap_isIso_of_fst {X Y S : Scheme.{u}}
   have hcomp : IsIso ((pullback.snd f g).residueFieldMap (q p) ≫ q.residueFieldMap p) := by
     rw [← Scheme.residueFieldMap_comp, Scheme.Hom.residueFieldMap_congr T.specTensorTo_snd p,
       Scheme.residueFieldMap_comp]
-    show IsIso ((Y.residueFieldCongr hptComp).hom ≫
+    change IsIso ((Y.residueFieldCongr hptComp).hom ≫
       (Y.fromSpecResidueField T.y).residueFieldMap ((Spec.map T.tensorInr) p) ≫
       (Spec.map T.tensorInr).residueFieldMap p)
     exact IsIso.comp_isIso' (Y.residueFieldCongr hptComp).isIso_hom
@@ -421,7 +421,7 @@ lemma tangentMap_fst_liftTangentPair {X Y S : Scheme.{u}}
   calc
     _ = (Spec.map (CommRingCat.ofHom α) ≫
           Spec.map (CommRingCat.ofHom (dualNumberCongr e).toRingHom)) ≫ v.val := by
-            simp [liftTangentPair, firstFactorArrow, α, pullback.lift_fst]
+            simp [liftTangentPair, firstFactorArrow, α]
     _ = v.val := by rw [hMap, Category.id_comp]
 
 /-- The tangent map of the second projection sends `liftTangentPair f g z v w` to `w`. -/
@@ -445,7 +445,7 @@ lemma tangentMap_snd_liftTangentPair {X Y S : Scheme.{u}}
   calc
     _ = (Spec.map (CommRingCat.ofHom α) ≫
           Spec.map (CommRingCat.ofHom (dualNumberCongr e).toRingHom)) ≫ w.val := by
-            simp [liftTangentPair, secondFactorArrow, α, pullback.lift_snd]
+            simp [liftTangentPair, secondFactorArrow, α]
     _ = w.val := by rw [hMap, Category.id_comp]
 
 /-- The transport of the zero tangent arrow on the second factor is the constant arrow at the

@@ -280,7 +280,7 @@ private theorem eq_id_of_isPullback_of_comp_eq (D : NormalizationData B S hS F)
     (D.map_mem_genericPoints_of_isPullback hF R hR hfull g hg f hfe π ψ hpb)
   have hdψ : yoneda.map d ≫ ψ = ψ := by
     refine (hliftu _ ?_).trans (hliftu ψ hcomm).symm
-    show (yoneda.map d ≫ ψ) ≫ D.hom = yoneda.map π ≫ f ≫ R.ι
+    change (yoneda.map d ≫ ψ) ≫ D.hom = yoneda.map π ≫ f ≫ R.ι
     rw [Category.assoc, hcomm, ← Category.assoc, ← Functor.map_comp, hd]
   refine Yoneda.fullyFaithful.map_injective (C := BigFppfOver B S hS) (hpb.hom_ext ?_ ?_)
   · rw [hdψ, CategoryTheory.Functor.map_id, Category.id_comp]

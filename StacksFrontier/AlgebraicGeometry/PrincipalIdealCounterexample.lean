@@ -76,7 +76,7 @@ variable (A : Type u) [CommRing A]
 lemma liftedIdeal_span_singleton (r : A) :
     liftedIdeal.{u, v} A (Ideal.span {r}) =
       Ideal.span {(ULift.up r : ULift.{v} A)} := by
-  show (Ideal.span {r}).comap (ULift.ringEquiv : ULift.{v} A ≃+* A) = _
+  change (Ideal.span {r}).comap (ULift.ringEquiv : ULift.{v} A ≃+* A) = _
   rw [← Ideal.map_symm (ULift.ringEquiv : ULift.{v} A ≃+* A), Ideal.map_span,
     Set.image_singleton]
   congr 1
@@ -87,7 +87,7 @@ lemma complementVanishing_span_singleton (r : A) :
     complementVanishing (ULift.{v} A) (liftedIdeal.{u, v} A (Ideal.span {r})) =
       PrimeSpectrum.basicOpen (ULift.up r : ULift.{v} A) := by
   ext p
-  show ¬ ((liftedIdeal.{u, v} A (Ideal.span {r}) : Ideal (ULift.{v} A)) ≤ p.1) ↔
+  change ¬ ((liftedIdeal.{u, v} A (Ideal.span {r}) : Ideal (ULift.{v} A)) ≤ p.1) ↔
     (ULift.up r : ULift.{v} A) ∉ p.1
   rw [liftedIdeal_span_singleton, Ideal.span_le, Set.singleton_subset_iff, SetLike.mem_coe]
 
@@ -218,7 +218,7 @@ lemma x_mem_principalIdeal : x k ∈ principalIdeal k :=
 /-- The defining relations of the counterexample ring: `xⁿ⁺¹ zₙ₊₁ = 0`. -/
 lemma relation_at_index (n : ℕ) : x k ^ (n + 1) * z k n = 0 := by
   apply Ideal.Quotient.eq_zero_iff_mem.mpr
-  show _ ∈ relationIdeal k
+  change _ ∈ relationIdeal k
   rw [relationIdeal]
   exact Ideal.subset_span ⟨n, rfl⟩
 
@@ -240,7 +240,7 @@ private lemma obstruction_ne_zero (q : ℕ) : z k q * x k ^ q * y k ≠ 0 := by
     rw [relationIdeal]
     apply Ideal.span_le.mpr
     rintro p ⟨n, rfl⟩
-    show ev _ = 0
+    change ev _ = 0
     by_cases hn : n = q
     · subst n
       simp [ev, vars, ht]
@@ -327,7 +327,7 @@ theorem fractionSection_not_mem_range :
           (⟨x k ^ n, Ideal.pow_mem_pow hx n⟩ :
             ↥(principalIdeal k ^ n : Ideal (counterexampleRing k))) := by
     apply Subtype.ext
-    show x k ^ ((m + n) + 1) * z k (m + n) = (z k (m + n) * x k ^ (m + 1)) * x k ^ n
+    change x k ^ ((m + n) + 1) * z k (m + n) = (z k (m + n) * x k ^ (m + 1)) * x k ^ n
     rw [hpow, pow_add]
     ring
   have hzero :

@@ -358,7 +358,7 @@ theorem exists_stage_closedImmersion_surjective (hc : IsLimit c) (J : I)
   let PJ : Over (D.obj J) := Over.mk (pullback.fst νJ.left wJ.left ≫ YJ.hom)
   let pa : PJ ⟶ YJ := Over.homMk (pullback.fst νJ.left wJ.left) rfl
   let pb : PJ ⟶ WJ := Over.homMk (pullback.snd νJ.left wJ.left) (by
-    show pullback.snd _ _ ≫ WJ.hom = pullback.fst _ _ ≫ YJ.hom
+    change pullback.snd _ _ ≫ WJ.hom = pullback.fst _ _ ≫ YJ.hom
     rw [← Over.w wJ, ← Over.w νJ, pullback.condition_assoc])
   have hsq : IsPullback pa.left pb.left νJ.left wJ.left := IsPullback.of_hasPullback _ _
   have hpafp : FinitePresentation pa.left :=

@@ -73,9 +73,9 @@ theorem exists_denseOpen_hasChowBlowupDiagram (hTop : B.Contains (⊤_ Scheme.{u
   exists_denseOpen_hasChowBlowupDiagram_of_forall B S hS hTop hX hY f hsep hft hYnoeth
     fun U hU n i hUqc hi hiY =>
       hasChowBlowupDiagram_of_commonAdmissibleBlowup B S hS hTop
-        (fun f₁ f₂ j₁ j₂ hYqc hYqs hj₁ hj₂ hj hUft hUsep hX₁ft hX₁sep hX₂ft hX₂sep =>
+        (fun f₁ f₂ j₁ j₂ hYqc hYqs hj₁ hj₂ hj hUft _ hX₁ft hX₁sep hX₂ft hX₂sep =>
           exists_isAdmissibleBlowup_isOpenImmersion_of_isOpenImmersion_unconditional f₁ f₂ j₁ j₂
-            hYqc hYqs hj₁ hj₂ hj hUft hUsep hX₁ft hX₁sep hX₂ft hX₂sep)
+            hYqc hYqs hj₁ hj₂ hj hUft hX₁ft hX₁sep hX₂ft hX₂sep)
         hX hY f U hU hUqc hYnoeth.1 hYnoeth.2.1 n i hi hiY hft hsep
 
 end AlgebraicGeometry.Space

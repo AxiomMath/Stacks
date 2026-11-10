@@ -55,7 +55,8 @@ and the three universes of sections stay independent.
 
 **Every bookkeeping step is a declaration of its own, with both of its sides written out**, for the
 reason recorded in the implementation notes of
-`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PullbackTensorMateMonoidal`: the heartbeat budget is
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PullbackTensorMateMonoidal`: the heartbeat budget
+is
 per declaration, and a composite of two of these steps assembled inside one proof exhausts it at
 `whnf` even though each step costs a fraction of a second on its own. The two transpositions are
 written through the *unit* form of the hom-set bijection
@@ -75,7 +76,8 @@ Where the two must meet, the meeting is arranged through the *iterated geometric
 `φ_* ⋙ ψ_*`, whose head is different and against which the unifier therefore unfolds; that is why
 `Stacks.SheafOfModules.id_eq_moduleSheafFunctor_map_pushforwardModulesCompAppIso_hom` is stated
 with the identity on the left and at that spelling, and why
-`Stacks.SheafOfModules.comp_eq_of_id_eq` takes it in that orientation. The same unfolding issue rules out
+`Stacks.SheafOfModules.comp_eq_of_id_eq` takes it in that orientation. The same unfolding issue
+rules out
 coercing a bilinear pairing with values in `ψ_*(φ_*N)` into the subtype of pairings with values in
 `(ψ ∘ φ)_*N`, which is why the coherence is transposed with the comparison of direct images already
 composed in rather than cancelled first.
@@ -227,7 +229,7 @@ lemma pullbackTensorStep5_symm_step6_symm (k : pullbackTensorTarget f F G ⟶ N)
   have h6 : (pullbackTensorStep6 f F G N).symm k =
       (pullbackTensorStep6 f F G (pullbackTensorTarget f F G)).symm
         (𝟙 (pullbackTensorTarget f F G)) ≫ k := by
-    show _ ≫ k = (_ ≫ 𝟙 _) ≫ k
+    change _ ≫ k = (_ ≫ 𝟙 _) ≫ k
     exact congrArg (fun m ↦ m ≫ k) (Category.comp_id _).symm
   rw [h6]
   exact (extendRestrictScalarsAdjunction X.J (fSharpCommRing f)
@@ -939,7 +941,8 @@ with the comparison of **Tag 03EL** for `ψ ∘ φ`, for `ψ` and for `φ`:
 `c⁻¹ ≫ cmp_(ψ∘φ) = φ^*(cmp_ψ) ≫ cmp_φ ≫ (c⁻¹ ⊗ c⁻¹)`.
 
 This is `Stacks.SheafOfModules.PullbackTensorTransitionCoherence` at the one transition that
-`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PullbackTensorToposTransition` records as the single
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PullbackTensorToposTransition` records as the
+single
 input still owed, and no invertibility or cartesianness is assumed: the statement holds for an
 arbitrary sheaf of rings on each of the three sites, at three independent universes of sections. -/
 theorem pullbackTensorTransitionCoherence_pullbackModulesCompAdjIso_inv :

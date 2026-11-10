@@ -75,7 +75,7 @@ theorem sumRoot_pow_card :
 /-- `T₁ + T₂` is a root of the Artin–Schreier polynomial of `g₁ + g₂`. -/
 theorem eval₂_sumRoot :
     (poly k (g₁ + g₂)).eval₂ (algebraMap A (TensorRing k g₁ g₂)) (sumRoot k g₁ g₂) = 0 := by
-  show Polynomial.eval₂ _ _ ((Polynomial.X ^ Fintype.card k -
+  change Polynomial.eval₂ _ _ ((Polynomial.X ^ Fintype.card k -
     (Polynomial.X + Polynomial.C (g₁ + g₂)) : Polynomial A)) = 0
   rw [Polynomial.eval₂_sub, Polynomial.eval₂_X_pow, Polynomial.eval₂_add,
     Polynomial.eval₂_X, Polynomial.eval₂_C, sumRoot_pow_card, sub_self]
@@ -299,7 +299,7 @@ theorem toAdd_character_add (x : GeometricPoint (Spec (.of A)))
   refine (torsorCover k A (g₁ + g₂)).character_eq_of_smul x p₁₂ σ
     ((finiteEtaleFiberFunctor x).map (fiberProductCoverSum k g₁ g₂) q) (a := a + b) ?_
   refine (n (fiberProductCoverSum k g₁ g₂)).trans ?_
-  show (finiteEtaleFiberFunctor x).map (fiberProductCoverSum k g₁ g₂) (σ • q) =
+  change (finiteEtaleFiberFunctor x).map (fiberProductCoverSum k g₁ g₂) (σ • q) =
     (finiteEtaleFiberFunctor x).map (coverTranslate k A (g₁ + g₂) (a + b))
       ((finiteEtaleFiberFunctor x).map (fiberProductCoverSum k g₁ g₂) q)
   apply fiber_ext
@@ -307,7 +307,7 @@ theorem toAdd_character_add (x : GeometricPoint (Spec (.of A)))
   refine AdjoinRoot.ringHom_ext ?_ ?_
   · ext c
     exact fiberRingHom_algebraMap _ _ c
-  · show fiberRoot _ = fiberRoot _
+  · change fiberRoot _ = fiberRoot _
     rw [fiberRoot_map_coverTranslate, fiberRoot_map_fiberProductCoverSum,
       fiberRoot_map_fiberProductCoverSum, ← n₁, ← n₂, ha, hb, fiberRoot_map_coverTranslate,
       fiberRoot_map_coverTranslate, hq₁, hq₂,

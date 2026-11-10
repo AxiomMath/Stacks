@@ -11,7 +11,7 @@ public import StacksFrontier.AlgebraicGeometry.CoherentTFAE.Basic
 # `π^* π_* 𝒦(m) ⟶ 𝒦(m)` is surjective for `K ∈ Quot^P(T)`
 
 Let `K ∈ Quot^P(T)` with quotient `𝒬 = 𝒪^{⊕ r}/K` on `π : ℙⁿ_T ⟶ T`, and let
-`m = AlgebraicGeometry.ProjectiveQuot.regularityIndex n r hr P`. The inverse image of `K ⊆ 𝒪^{⊕ r}`
+`m = AlgebraicGeometry.ProjectiveQuot.regularityIndex n r P`. The inverse image of `K ⊆ 𝒪^{⊕ r}`
 along every base change `ℙⁿ_{T'} ⟶ ℙⁿ_T` stays a monomorphism, `𝒬` being flat over `T`
 (`AlgebraicGeometry.ProjectiveQuot.mono_pullback_map_arrow_of_mem_families`). Then:
 
@@ -159,10 +159,10 @@ theorem twistShortComplex_map_pushforward_exact :
 /-- The map `π_*𝒦(d) ⟶ π_*𝒪^{⊕ r}(d)` is a monomorphism. -/
 instance : Mono ((twistShortComplex d K).map
     (Scheme.Modules.pushforward (projectiveSpaceOver n T ↘ T))).f := by
-  letI : PreservesLimitsOfSize.{0, 0}
+  let : PreservesLimitsOfSize.{0, 0}
       (Scheme.Modules.pushforward (projectiveSpaceOver n T ↘ T)) :=
     (Scheme.Modules.pullbackPushforwardAdjunction _).rightAdjoint_preservesLimits
-  haveI := mono_twistMap d K.arrow
+  have := mono_twistMap d K.arrow
   exact inferInstanceAs (Mono ((Scheme.Modules.pushforward (projectiveSpaceOver n T ↘ T)).map
     (twistMap d K.arrow)))
 
@@ -170,73 +170,73 @@ end Twist
 
 section Presentation
 
-variable (hr : 1 ≤ r) {P : Polynomial ℚ}
-  (hp : quotRank.{u} n r hr P ≤ freeRank.{u} n r (regularityIndex.{u} n r hr P))
+variable {P : Polynomial ℚ}
+  (hp : quotRank.{u} n r P ≤ freeRank.{u} n r (regularityIndex.{u} n r P))
 
 /-- The map of the Grassmannian presentation of `K`. -/
 theorem grassmannianPresentation_map {T : Scheme.{u}} {K : Subobject (freeModule n r T)}
     (hK : K ∈ hilbertFamilies n r P T) :
-    (grassmannianPresentation hr hp hK).map =
+    (grassmannianPresentation hp hK).map =
       (pushforwardTwistFreeModuleIso (n := n) (r := r) T
-          (regularityIndex.{u} n r hr P)).symm.hom ≫
+          (regularityIndex.{u} n r P)).symm.hom ≫
         (Scheme.Modules.pushforward (projectiveSpaceOver n T ↘ T)).map
-          (twistMap (regularityIndex.{u} n r hr P : ℤ) (quotientπ K)) :=
+          (twistMap (regularityIndex.{u} n r P : ℤ) (quotientπ K)) :=
   rfl
 
 /-- **`ker(q) ≅ π_*𝒦(m)`** for the Grassmannian presentation
 `q : 𝒪_T^{⊕ N} ≅ π_*𝒪^{⊕ r}(m) ⟶ π_*𝒬(m)` of `K ∈ Quot^P(T)`: both are kernels of `π_*(q(m))`. -/
 def kernelGrassmannianPresentationIso {T : Scheme.{u}} {K : Subobject (freeModule n r T)}
     (hK : K ∈ hilbertFamilies n r P T) :
-    kernel (grassmannianPresentation hr hp hK).map ≅
+    kernel (grassmannianPresentation hp hK).map ≅
       (Scheme.Modules.pushforward (projectiveSpaceOver n T ↘ T)).obj
-        (twist (regularityIndex.{u} n r hr P : ℤ) (K : (projectiveSpaceOver n T).Modules)) :=
+        (twist (regularityIndex.{u} n r P : ℤ) (K : (projectiveSpaceOver n T).Modules)) :=
   isoOfIsKernelComp (pushforwardTwistFreeModuleIso (n := n) (r := r) T
-      (regularityIndex.{u} n r hr P)).symm (grassmannianPresentation_map hr hp hK)
-    (twistShortComplex_map_pushforward_exact (regularityIndex.{u} n r hr P : ℤ) K).fIsKernel
-    (wk := kernel.condition _) (kernelIsKernel (grassmannianPresentation hr hp hK).map)
+      (regularityIndex.{u} n r P)).symm (grassmannianPresentation_map hp hK)
+    (twistShortComplex_map_pushforward_exact (regularityIndex.{u} n r P : ℤ) K).fIsKernel
+    (wk := kernel.condition _) (kernelIsKernel (grassmannianPresentation hp hK).map)
 
 /-- The isomorphism `ker(q) ≅ π_*𝒦(m)` followed by `π_*𝒦(m) ⟶ π_*𝒪^{⊕ r}(m)` is the inclusion
 `ker(q) ⟶ 𝒪_T^{⊕ N}` followed by `𝒪_T^{⊕ N} ≅ π_*𝒪^{⊕ r}(m)`. -/
 theorem kernelGrassmannianPresentationIso_hom_comp {T : Scheme.{u}}
     {K : Subobject (freeModule n r T)} (hK : K ∈ hilbertFamilies n r P T) :
-    (kernelGrassmannianPresentationIso hr hp hK).hom ≫
+    (kernelGrassmannianPresentationIso hp hK).hom ≫
         (Scheme.Modules.pushforward (projectiveSpaceOver n T ↘ T)).map
-          (twistMap (regularityIndex.{u} n r hr P : ℤ) K.arrow) =
-      kernel.ι (grassmannianPresentation hr hp hK).map ≫
-        (pushforwardTwistFreeModuleIso (n := n) (r := r) T (regularityIndex.{u} n r hr P)).inv :=
+          (twistMap (regularityIndex.{u} n r P : ℤ) K.arrow) =
+      kernel.ι (grassmannianPresentation hp hK).map ≫
+        (pushforwardTwistFreeModuleIso (n := n) (r := r) T (regularityIndex.{u} n r P)).inv :=
   isoOfIsKernelComp_hom_comp (pushforwardTwistFreeModuleIso (n := n) (r := r) T
-      (regularityIndex.{u} n r hr P)).symm (grassmannianPresentation_map hr hp hK)
-    (twistShortComplex_map_pushforward_exact (regularityIndex.{u} n r hr P : ℤ) K).fIsKernel
-    (wk := kernel.condition _) (kernelIsKernel (grassmannianPresentation hr hp hK).map)
+      (regularityIndex.{u} n r P)).symm (grassmannianPresentation_map hp hK)
+    (twistShortComplex_map_pushforward_exact (regularityIndex.{u} n r P : ℤ) K).fIsKernel
+    (wk := kernel.condition _) (kernelIsKernel (grassmannianPresentation hp hK).map)
 
 /-- The adjoint `π^* ker(q) ⟶ 𝒦(m)` of `ker(q) ≅ π_*𝒦(m)`. -/
 def presentationKernelCounit {T : Scheme.{u}} {K : Subobject (freeModule n r T)}
     (hK : K ∈ hilbertFamilies n r P T) :
     (Scheme.Modules.pullback (projectiveSpaceOver n T ↘ T)).obj
-        (kernel (grassmannianPresentation hr hp hK).map) ⟶
-      twist (regularityIndex.{u} n r hr P : ℤ) (K : (projectiveSpaceOver n T).Modules) :=
+        (kernel (grassmannianPresentation hp hK).map) ⟶
+      twist (regularityIndex.{u} n r P : ℤ) (K : (projectiveSpaceOver n T).Modules) :=
   ((Scheme.Modules.pullbackPushforwardAdjunction (projectiveSpaceOver n T ↘ T)).homEquiv _ _).symm
-    (kernelGrassmannianPresentationIso hr hp hK).hom
+    (kernelGrassmannianPresentationIso hp hK).hom
 
 /-- **`u_m` factors through `𝒦(m)`**: `u_m = (π^* ker(q) ⟶ 𝒦(m)) ≫ (𝒦(m) ⟶ 𝒪^{⊕ r}(m))`. -/
 theorem presentationKernelCounit_comp_twistMap {T : Scheme.{u}}
     {K : Subobject (freeModule n r T)} (hK : K ∈ hilbertFamilies n r P T) :
-    presentationKernelCounit hr hp hK ≫ twistMap (regularityIndex.{u} n r hr P : ℤ) K.arrow =
-      presentationTwistMap (regularityIndex.{u} n r hr P) (grassmannianPresentation hr hp hK) :=
+    presentationKernelCounit hp hK ≫ twistMap (regularityIndex.{u} n r P : ℤ) K.arrow =
+      presentationTwistMap (regularityIndex.{u} n r P) (grassmannianPresentation hp hK) :=
   ((Scheme.Modules.pullbackPushforwardAdjunction
       (projectiveSpaceOver n T ↘ T)).homEquiv_naturality_right_symm _ _).symm.trans
     (congrArg ((Scheme.Modules.pullbackPushforwardAdjunction
       (projectiveSpaceOver n T ↘ T)).homEquiv _ _).symm
-      (kernelGrassmannianPresentationIso_hom_comp hr hp hK))
+      (kernelGrassmannianPresentationIso_hom_comp hp hK))
 
 /-- `π^* ker(q) ⟶ 𝒦(m)` is `π^*` of the isomorphism `ker(q) ≅ π_*𝒦(m)` followed by the counit. -/
 theorem presentationKernelCounit_eq {T : Scheme.{u}}
     {K : Subobject (freeModule n r T)} (hK : K ∈ hilbertFamilies n r P T) :
-    presentationKernelCounit hr hp hK =
+    presentationKernelCounit hp hK =
       (Scheme.Modules.pullback (projectiveSpaceOver n T ↘ T)).map
-          (kernelGrassmannianPresentationIso hr hp hK).hom ≫
+          (kernelGrassmannianPresentationIso hp hK).hom ≫
         (Scheme.Modules.pullbackPushforwardAdjunction (projectiveSpaceOver n T ↘ T)).counit.app
-          (twist (regularityIndex.{u} n r hr P : ℤ) (K : (projectiveSpaceOver n T).Modules)) :=
+          (twist (regularityIndex.{u} n r P : ℤ) (K : (projectiveSpaceOver n T).Modules)) :=
   Adjunction.homEquiv_counit _ _ _ _
 
 /-- `π^* ker(q) ⟶ 𝒦(m)` is an epimorphism once the counit `π^*π_*𝒦(m) ⟶ 𝒦(m)` is. -/
@@ -244,12 +244,12 @@ theorem epi_presentationKernelCounit_of_epi {T : Scheme.{u}}
     {K : Subobject (freeModule n r T)} (hK : K ∈ hilbertFamilies n r P T)
     (h : Epi ((Scheme.Modules.pullbackPushforwardAdjunction
         (projectiveSpaceOver n T ↘ T)).counit.app
-      (twist (regularityIndex.{u} n r hr P : ℤ) (K : (projectiveSpaceOver n T).Modules)))) :
-    Epi (presentationKernelCounit hr hp hK) := by
+      (twist (regularityIndex.{u} n r P : ℤ) (K : (projectiveSpaceOver n T).Modules)))) :
+    Epi (presentationKernelCounit hp hK) := by
   rw [presentationKernelCounit_eq]
   exact @epi_comp _ _ _ _ _ _ (@IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_hom
     ((Scheme.Modules.pullback (projectiveSpaceOver n T ↘ T)).mapIso
-      (kernelGrassmannianPresentationIso hr hp hK)))) _ h
+      (kernelGrassmannianPresentationIso hp hK)))) _ h
 
 end Presentation
 
@@ -273,7 +273,7 @@ theorem mono_pullback_map_twistMap_arrow {T' T : Scheme.{u}} (g : T' ⟶ T) (d :
   exact @mono_comp _ _ _ _ _ _ (@IsIso.mono_of_iso _ _ _ _ _
     (Iso.isIso_inv (twistPullbackIso g d (K : (projectiveSpaceOver n T).Modules)))) _ h₁
 
-variable (hr : 1 ≤ r) {P : Polynomial ℚ}
+variable {P : Polynomial ℚ}
 
 /-- **The base change of `π_*𝒦(m)` to a point `t` is onto `π_{t*}(𝒦_t(m))`**: a diagram chase in
 the base change of `0 ⟶ π_*𝒦(m) ⟶ π_*𝒪^{⊕ r}(m) ⟶ π_*𝒬(m) ⟶ 0` (the right map is onto), where
@@ -284,14 +284,14 @@ theorem epi_baseChangeNatTrans_twist_subobject
     (t : T) :
     Epi ((baseChangeNatTrans
       (isPullback_projectiveSpaceOverMap n (T.fromSpecResidueField t)).w).app
-        (twist (regularityIndex.{u} n r hr P : ℤ) (K : (projectiveSpaceOver n T).Modules))) := by
+        (twist (regularityIndex.{u} n r P : ℤ) (K : (projectiveSpaceOver n T).Modules))) := by
   have hsq := isPullback_projectiveSpaceOverMap n (T.fromSpecResidueField t)
   let β := baseChangeNatTrans hsq.w
-  let S := twistShortComplex (regularityIndex.{u} n r hr P : ℤ) K
+  let S := twistShortComplex (regularityIndex.{u} n r P : ℤ) K
   have h₁ : ((S.map (Scheme.Modules.pushforward (projectiveSpaceOver n T ↘ T))).map
       (Scheme.Modules.pullback (T.fromSpecResidueField t))).Exact :=
     (twistShortComplex_map_pushforward_exact _ K).map_of_epi_of_preservesCokernel _
-      (epi_pushforward_twistMap_quotientπ hr hK) inferInstance
+      (epi_pushforward_twistMap_quotientπ hK) inferInstance
   have hS₂ : (S.map (Scheme.Modules.pullback
       (projectiveSpaceOverMap n (T.fromSpecResidueField t)))).Exact :=
     (twistShortComplex_exact _ K).map_of_epi_of_preservesCokernel _ inferInstance inferInstance
@@ -320,8 +320,8 @@ theorem epi_baseChangeNatTrans_twist_subobject
       comm₁₂ := (β.naturality S.f).symm
       comm₂₃ := (β.naturality S.g).symm }
   have : IsIso φ.τ₂ := isIso_baseChangeNatTrans_twist_freeModule n r (T.fromSpecResidueField t)
-    (regularityIndex.{u} n r hr P)
-  have : IsIso φ.τ₃ := isIso_baseChangeNatTrans_twist_quotient hr hK _ _ _ hsq
+    (regularityIndex.{u} n r P)
+  have : IsIso φ.τ₃ := isIso_baseChangeNatTrans_twist_quotient hK _ _ _ hsq
   exact epi_τ₁_of_exact φ h₁ h₂
 
 /-- **`𝒦(d)` is of finite type** for `K ∈ Quot(T)`: it is the kernel of the surjection
@@ -348,12 +348,12 @@ theorem epi_counit_app_pullback_fibreMap_twist_subobject
     Epi ((Scheme.Modules.pullbackPushforwardAdjunction
       (projectiveSpaceOver n (Spec (T.residueField t)) ↘ Spec (T.residueField t))).counit.app
         ((Scheme.Modules.pullback (fibreMap n t)).obj
-          (twist (regularityIndex.{u} n r hr P : ℤ) (K : (projectiveSpaceOver n T).Modules)))) := by
+          (twist (regularityIndex.{u} n r P : ℤ) (K : (projectiveSpaceOver n T).Modules)))) := by
   obtain ⟨hcoh, hval⟩ := hK.2 t
   let q : freeModules (T.residueField t) n r ⟶ fibre t (quotient K) :=
     baseChangeQuotientMap (T.fromSpecResidueField t) K
   have : Epi q := inferInstanceAs (Epi (baseChangeQuotientMap (T.fromSpecResidueField t) K))
-  obtain ⟨-, -, -, -, hgen⟩ := regularityIndex_spec n r hr P (T.residueField t)
+  obtain ⟨-, -, -, -, hgen⟩ := regularityIndex_spec n r P (T.residueField t)
     (fibre t (quotient K)) q hval
   have hS := (baseShortComplex_exact K).map_of_epi_of_preservesCokernel
     (Scheme.Modules.pullback (fibreMap n t)) (inferInstanceAs (Epi (cokernel.π K.arrow)))
@@ -365,11 +365,11 @@ theorem epi_counit_app_pullback_fibreMap_twist_subobject
     isoOfIsKernelComp (freeModulePullbackIso n r (T.fromSpecResidueField t)).symm
       (f := q) (g := (Scheme.Modules.pullback (fibreMap n t)).map (quotientπ K)) rfl
       hS.fIsKernel (wk := kernel.condition q) (kernelIsKernel q)
-  let e : projectiveTwist n (kernel q) (regularityIndex.{u} n r hr P) ≅
+  let e : projectiveTwist n (kernel q) (regularityIndex.{u} n r P) ≅
       (Scheme.Modules.pullback (fibreMap n t)).obj
-        (twist (regularityIndex.{u} n r hr P : ℤ) (K : (projectiveSpaceOver n T).Modules)) :=
-    (twistFunctor n (Spec (T.residueField t)) (regularityIndex.{u} n r hr P : ℤ)).mapIso eK ≪≫
-      twistPullbackIso (T.fromSpecResidueField t) (regularityIndex.{u} n r hr P : ℤ)
+        (twist (regularityIndex.{u} n r P : ℤ) (K : (projectiveSpaceOver n T).Modules)) :=
+    (twistFunctor n (Spec (T.residueField t)) (regularityIndex.{u} n r P : ℤ)).mapIso eK ≪≫
+      twistPullbackIso (T.fromSpecResidueField t) (regularityIndex.{u} n r P : ℤ)
         (K : (projectiveSpaceOver n T).Modules)
   let σ := hgen.some
   have := σ.epi
@@ -379,7 +379,7 @@ theorem epi_counit_app_pullback_fibreMap_twist_subobject
     ⟨_, ⟨Scheme.Modules.pullbackPushforwardAdjunction f'⟩⟩
   let eF := SheafOfModules.pullbackObjFreeIso f'.toRingCatSheafHom σ.I
   exact @epi_counit_app_of_epi _ _ _ _ _ _ (Scheme.Modules.pullbackPushforwardAdjunction f') _ _
-    (eF.hom ≫ (projectiveTwist n (kernel q) (regularityIndex.{u} n r hr P)).freeHomEquiv.symm σ.s ≫
+    (eF.hom ≫ (projectiveTwist n (kernel q) (regularityIndex.{u} n r P)).freeHomEquiv.symm σ.s ≫
       e.hom)
     (@epi_comp _ _ _ _ _ _ (@IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_hom eF)) _
       (@epi_comp _ _ _ _ _ _ σ.epi _ (@IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_hom e))))
@@ -390,7 +390,7 @@ finite type, so Nakayama's lemma applies. -/
 theorem epi_counit_app_twist_subobject
     {T : Scheme.{u}} {K : Subobject (freeModule n r T)} (hK : K ∈ hilbertFamilies n r P T) :
     Epi ((Scheme.Modules.pullbackPushforwardAdjunction (projectiveSpaceOver n T ↘ T)).counit.app
-      (twist (regularityIndex.{u} n r hr P : ℤ) (K : (projectiveSpaceOver n T).Modules))) := by
+      (twist (regularityIndex.{u} n r P : ℤ) (K : (projectiveSpaceOver n T).Modules))) := by
   refine epi_of_forall_epi_pullback_fibre (projectiveSpaceOver n T ↘ T) _
     (isFiniteType_twist_subobject hK.1 _)
     (fun t => projectiveSpaceOver n (Spec (T.residueField t))) (fun t => fibreMap n t)
@@ -398,13 +398,13 @@ theorem epi_counit_app_twist_subobject
     (fun t => isPullback_projectiveSpaceOverMap n (T.fromSpecResidueField t)) fun t => ?_
   have hsq := isPullback_projectiveSpaceOverMap n (T.fromSpecResidueField t)
   have key := Stacks.Modules.pullback_map_baseChangeNatTrans_app_comp_counit hsq.w
-    (twist (regularityIndex.{u} n r hr P : ℤ) (K : (projectiveSpaceOver n T).Modules))
-  have := epi_baseChangeNatTrans_twist_subobject hr hK t
+    (twist (regularityIndex.{u} n r P : ℤ) (K : (projectiveSpaceOver n T).Modules))
+  have := epi_baseChangeNatTrans_twist_subobject hK t
   have h₂ := @epi_comp _ _ _ _ _ _ (Functor.map_epi (Scheme.Modules.pullback
       (projectiveSpaceOver n (Spec (T.residueField t)) ↘ Spec (T.residueField t)))
       ((baseChangeNatTrans hsq.w).app
-        (twist (regularityIndex.{u} n r hr P : ℤ) (K : (projectiveSpaceOver n T).Modules)))) _
-    (epi_counit_app_pullback_fibreMap_twist_subobject hr hK t)
+        (twist (regularityIndex.{u} n r P : ℤ) (K : (projectiveSpaceOver n T).Modules)))) _
+    (epi_counit_app_pullback_fibreMap_twist_subobject hK t)
   exact @epi_of_epi_fac _ _ _ _ _ _ _ _ h₂ key.symm
 
 end Fibre

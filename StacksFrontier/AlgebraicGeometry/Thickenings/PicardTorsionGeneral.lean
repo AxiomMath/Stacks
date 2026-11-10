@@ -50,7 +50,8 @@ with the Picard group being natural in the scheme.
 
 **[Stacks, Tag 0C6S] is false as originally printed, and `Stacks.Thickenings.GlobalUnitsPowerLift`
 is the correction: it is proved here to be exactly equivalent to the tag's conclusion, and a
-thickening violating it is exhibited in `StacksFrontier/Examples/Scheme/TwistedDoubledLineUnits.lean`.
+thickening violating it is exhibited in
+`StacksFrontier/Examples/Scheme/TwistedDoubledLineUnits.lean`.
 The tag is registered on the corrected statement, which assumes the
 condition.**  The original statement asserts the bijection with
 no hypothesis beyond invertibility of `n`,
@@ -153,7 +154,7 @@ private theorem bijOn_zsmulTorsion_conjugate (f : A → B) (g : A' → B') (eA :
   refine ⟨?_, ?_, ?_⟩
   · intro x hx
     obtain ⟨x, rfl⟩ := eA.surjective x
-    show n • g (eA x) = 0
+    change n • g (eA x) = 0
     rw [h, heB]
     exact hf.1 ((heA x).mp hx)
   · intro x hx y hy hxy
@@ -268,7 +269,7 @@ private theorem surjective_unitsMap_of_nil_ker (f : R →+* S) (hf : Function.Su
   obtain ⟨x, hx⟩ := hf u.val
   obtain ⟨y, hy⟩ := hf u.inv
   have hnil : IsNilpotent (x * y - 1) := hker _ (by
-    show f (x * y - 1) = 0
+    change f (x * y - 1) = 0
     simp [hx, hy])
   have hxunit : IsUnit x := isUnit_of_mul_isUnit_left (by
     simpa using hnil.isUnit_add_one : IsUnit (x * y))
@@ -315,7 +316,7 @@ private theorem bijective_nsmul_unitsMap_ker (f : R →+* S) (hf : Function.Surj
   · intro y
     obtain ⟨x, hx⟩ := hpow.2 (e.symm y)
     refine ⟨e x, ?_⟩
-    show n • e x = y
+    change n • e x = y
     rw [← he, hx, e.apply_symm_apply]
 
 /-- Multiplication by an integer invertible in the target is bijective on the kernel of the map
@@ -438,7 +439,7 @@ theorem unitsKernelShortComplex_shortExact (i : X ⟶ X') (hi : IsThickening i) 
   let S := ShortComplex.mk (kernel.ι g) g (kernel.condition g)
   have hmono : Mono S.f := inferInstanceAs (Mono (kernel.ι g))
   have hepi : Epi S.g := unitsRestrictionSheafHom_epi_of_isThickening i hi
-  show S.ShortExact
+  change S.ShortExact
   exact { exact := S.exact_of_f_is_kernel (kernelIsKernel _) }
 
 end Sheaves
@@ -614,7 +615,7 @@ theorem saturated_range_unitsKernelBoundary (i : X ⟶ X') (hi : IsThickening i)
     (cohomology_exact_quotient (unitsKernelShortComplex_shortExact i hi) 0 _).mpr ⟨w, rfl⟩
   have hiso := isIso_zsmul_kernel_unitsRestrictionSheafHom i hi n hn
   refine ⟨z, ((bijective_zsmul_cohomology_of_isIso _ n 1 hiso).1 ?_).symm⟩
-  show n • a = n • unitsKernelBoundary i hi z
+  change n • a = n • unitsKernelBoundary i hi z
   rw [← hy, hzw, map_add, hw, add_zero, map_zsmul]
 
 /-- Conversely, saturation of the image of `H⁰(X, 𝒪_X^*)` in `H¹(X', 𝒦)` forces

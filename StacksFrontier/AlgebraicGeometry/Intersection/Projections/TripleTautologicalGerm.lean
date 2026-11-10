@@ -51,8 +51,8 @@ rather than as named lemmas. No public form of either exists, but
 `degreeZeroRingToGlobalSections_eq_toSpecZero` (`:179`) -- so naming them here would add a second
 declaration of each. They cannot be reused instead, being private, and that file's whole private
 germ layer duplicates the public `TautologicalSectionLinear`: importing it here makes the public
-`degreeSection_add` shadow the private one and breaks its proofs. That file carries complete Tag 0B1T
-proofs, and its private layer is left as it is.
+`degreeSection_add` shadow the private one and breaks its proofs. That file carries complete Tag
+0B1T proofs, and its private layer is left as it is.
 
 ## References
 
@@ -140,7 +140,7 @@ symmetric algebra**: the function `r / 1` of
 structure morphism. -/
 public theorem scalarGlobalFunction_eq_scalarTop (r : k) :
     scalarGlobalFunction k M r = scalarTop k (projectiveSpaceOfModuleToSpec k M) r := by
-  show degreeZeroRingToGlobalSections (symmetricGrading k M) (scalarUnit k M r) = _
+  change degreeZeroRingToGlobalSections (symmetricGrading k M) (scalarUnit k M r) = _
   have hval : ∀ (z : symmetricGrading k M 0)
       (x : ProjectiveSpectrum.top (symmetricGrading k M)),
       HomogeneousLocalization.val
@@ -152,7 +152,7 @@ public theorem scalarGlobalFunction_eq_scalarTop (r : k) :
     rw [← Proj.stalkIso'_germ (symmetricGrading k M) ⊤ x trivial
         (degreeZeroRingToGlobalSections (symmetricGrading k M) z),
       degreeZeroRingToGlobalSections_stalk]
-    show Localization.mk z.1 (1 : x.asHomogeneousIdeal.toIdeal.primeCompl) = _
+    change Localization.mk z.1 (1 : x.asHomogeneousIdeal.toIdeal.primeCompl) = _
     exact Localization.mk_algebraMap (A := SymmetricAlgebra k M) z.1
   have htoSpec : ∀ z : symmetricGrading k M 0,
       degreeZeroRingToGlobalSections (symmetricGrading k M) z =
@@ -178,7 +178,7 @@ public theorem scalarGlobalFunction_eq_scalarTop (r : k) :
   have hs : scalarUnit k M r = algebraMap k (symmetricGrading k M 0) r := by
     refine Subtype.ext ?_
     rw [SetLike.GradeZero.coe_algebraMap]
-    show r • (1 : SymmetricAlgebra k M) = algebraMap k (SymmetricAlgebra k M) r
+    change r • (1 : SymmetricAlgebra k M) = algebraMap k (SymmetricAlgebra k M) r
     rw [Algebra.smul_def, mul_one]
   rw [hs]
   exact hval.symm

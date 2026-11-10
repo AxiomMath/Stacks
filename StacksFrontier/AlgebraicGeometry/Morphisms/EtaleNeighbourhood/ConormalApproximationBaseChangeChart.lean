@@ -92,7 +92,10 @@ variable {T Y W : Scheme.{u}} (p : Y ⟶ T) (t : T) (b : W ⟶ T)
   (hr : r ≫ b = T.fromSpecResidueField t)
   (hfst : j ≫ pullback.fst p b = p.fiberι t)
   (hsnd : j ≫ pullback.snd p b = p.fiberToSpecResidueField t ≫ r)
-  {T₀ : T.Opens} {W₀ : W.Opens} {U : Y.Opens}
+
+section Chart
+
+variable {T₀ : T.Opens} {W₀ : W.Opens} {U : Y.Opens}
   (hT₀ : IsAffineOpen T₀) (hW₀ : IsAffineOpen W₀) (hU : IsAffineOpen U)
   (hW₀T : W₀ ≤ b ⁻¹ᵁ T₀) (hUT : U ≤ p ⁻¹ᵁ T₀)
   (hrW : (⊤ : (Spec (CommRingCat.of (T.residueField t))).Opens) ≤ r ⁻¹ᵁ W₀)
@@ -105,7 +108,7 @@ theorem preimage_eq_of_fibreImmersion :
     j ⁻¹ᵁ V.1 = j ⁻¹ᵁ V.1 ⊓ p.fiberToSpecResidueField t ⁻¹ᵁ ⊤ := by
   simp
 
-include hr hfst hsnd hT₀ hW₀ hU hW₀T hUT hrW hV in
+include hr hfst hsnd hW₀ hrW hV in
 /-- **The sections of the chart of the base change and of the corresponding chart of the fibre
 form a pushout square of rings.** This is
 `AlgebraicGeometry.isPushout_appLE_of_isPullback_inter` for the cartesian square
@@ -127,7 +130,7 @@ theorem isPushout_chart_of_fibreImmersion :
     (isAffineOpen_top (Spec (CommRingCat.of (T.residueField t))))
     (chart_le_preimage_right hV) hrW hpre le_rfl (by simp)
 
-include hr hfst hsnd hT₀ hW₀ hU hW₀T hUT hrW hV in
+include hr hfst hsnd hW₀ hrW hV in
 /-- **The fibre is cut out in the chart of the base change by the ideal of the chosen point.** The
 kernel ideal of `j` on the chart `V` is the ideal that the kernel of `Γ(W, W₀) → κ(t)` generates
 there. For `W = Spec(𝒪^∧_{S,s})` and `r` the closed point this is the statement that `Y_t` is cut
@@ -138,7 +141,7 @@ theorem chartIdeal_eq_of_fibreImmersion
     Stacks.Conormal.chartIdeal j V =
       (RingHom.ker (r.appLE W₀ ⊤ hrW).hom).map
         ((pullback.snd p b).appLE W₀ V.1 (chart_le_preimage_right hV)).hom := by
-  have hpo := isPushout_chart_of_fibreImmersion p t b r j hr hfst hsnd hT₀ hW₀ hU hW₀T hUT hrW V hV
+  have hpo := isPushout_chart_of_fibreImmersion p t b r j hr hfst hsnd hW₀ hrW V hV
   have hk := Stacks.Flatness.ker_inl_of_isPushout hpo hsurj
   rw [Stacks.Conormal.chartIdeal, Scheme.Hom.app_eq_appLE]
   exact hk
@@ -174,7 +177,7 @@ theorem map_chartIdeal_sectionsTensorEquiv (I : Ideal D)
   have halg : (algebraMap D (TensorProduct C D B) : D →+* TensorProduct C D B) =
       Algebra.TensorProduct.includeLeftRingHom :=
     RingHom.ext fun d => by simp [Algebra.TensorProduct.algebraMap_apply]
-  rw [chartIdeal_eq_of_fibreImmersion p t b r j hr hfst hsnd hT₀ hW₀ hU hW₀T hUT hrW V hV hsurj,
+  rw [chartIdeal_eq_of_fibreImmersion p t b r j hr hfst hsnd hW₀ hrW V hV hsurj,
     Ideal.map_map, hleg, ← Ideal.map_map, hI, halg]
 
 include hr hfst hsnd hT₀ hW₀ hU hW₀T hUT hrW hV eC hD hB in
@@ -280,6 +283,8 @@ theorem toSourceHom_chartQuotientPresentationOfPullbackChart_X {n m : ℕ}
     ← hleg, RingEquiv.symm_apply_apply]
 
 end Presentation
+
+end Chart
 
 section Restriction
 
@@ -406,9 +411,7 @@ theorem chartIdeal_eq_of_fibreImmersion_fromSpecStalk
     (hfst : j ≫ pullback.fst p (Spec.map σ ≫ T.fromSpecStalk t) = p.fiberι t)
     (hsnd : j ≫ pullback.snd p (Spec.map σ ≫ T.fromSpecStalk t) =
       p.fiberToSpecResidueField t ≫ r)
-    {T₀ : T.Opens} {W₀ : (Spec A).Opens} {U : Y.Opens}
-    (hT₀ : IsAffineOpen T₀) (hW₀ : IsAffineOpen W₀) (hU : IsAffineOpen U)
-    (hW₀T : W₀ ≤ (Spec.map σ ≫ T.fromSpecStalk t) ⁻¹ᵁ T₀) (hUT : U ≤ p ⁻¹ᵁ T₀)
+    {W₀ : (Spec A).Opens} {U : Y.Opens} (hW₀ : IsAffineOpen W₀)
     (hrW : (⊤ : (Spec (CommRingCat.of (T.residueField t))).Opens) ≤ r ⁻¹ᵁ W₀)
     (V : (pullback p (Spec.map σ ≫ T.fromSpecStalk t)).affineOpens)
     (hV : V.1 = pullback.fst p (Spec.map σ ≫ T.fromSpecStalk t) ⁻¹ᵁ U ⊓
@@ -417,7 +420,7 @@ theorem chartIdeal_eq_of_fibreImmersion_fromSpecStalk
       (RingHom.ker (r.appLE W₀ ⊤ hrW).hom).map
         ((pullback.snd p (Spec.map σ ≫ T.fromSpecStalk t)).appLE W₀ V.1
           (chart_le_preimage_right hV)).hom :=
-  chartIdeal_eq_of_fibreImmersion p t _ r j hr hfst hsnd hT₀ hW₀ hU hW₀T hUT hrW V hV
+  chartIdeal_eq_of_fibreImmersion p t _ r j hr hfst hsnd hW₀ hrW V hV
     (surjective_appLE_of_comp_eq_fromSpecResidueField t σ r hr W₀ hrW)
 
 end Stacks.ConormalApproximation

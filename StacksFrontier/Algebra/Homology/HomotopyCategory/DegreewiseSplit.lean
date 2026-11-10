@@ -16,7 +16,7 @@ public import Mathlib.CategoryTheory.Monoidal.Mon
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Altitude
@@ -533,7 +533,7 @@ private lemma exists_composableArrows_of_hom_left {n : ℕ} :
       exists_factorization_isDegreewiseSplitMono_homotopyEquivalences (u ≫ F.map' 0 1)
     obtain ⟨G', φ', α, hα, hαφ, hsplit, hequiv, hstable⟩ := ih F.δ₀ L' π hπ
     have w : (G'.precomp (α' ≫ α)).map' 0 1 ≫ ComposableArrows.app' φ' 0 = u ≫ F.map' 0 1 := by
-      show (α' ≫ α) ≫ ComposableArrows.app' φ' 0 = u ≫ F.map' 0 1
+      change (α' ≫ α) ≫ ComposableArrows.app' φ' 0 = u ≫ F.map' 0 1
       rw [Category.assoc, hαφ]
       exact hα'π
     refine ⟨G'.precomp (α' ≫ α), ComposableArrows.homMkSucc u φ' w, 𝟙 K,
@@ -701,10 +701,10 @@ private lemma isIso_trianglehHom_hom₃ : IsIso (trianglehHom S σ).hom₃ :=
     (HomotopyCategory.mappingCone_triangleh_distinguished S.f)
     (trianglehOfDegreewiseSplit_distinguished S σ)
     (by
-      show IsIso (𝟙 ((HomotopyCategory.quotient 𝒜 (ComplexShape.up ℤ)).obj S.X₁))
+      change IsIso (𝟙 ((HomotopyCategory.quotient 𝒜 (ComplexShape.up ℤ)).obj S.X₁))
       infer_instance)
     (by
-      show IsIso (𝟙 ((HomotopyCategory.quotient 𝒜 (ComplexShape.up ℤ)).obj S.X₂))
+      change IsIso (𝟙 ((HomotopyCategory.quotient 𝒜 (ComplexShape.up ℤ)).obj S.X₂))
       infer_instance)
 
 /-- The cone triangle of the first morphism of a termwise split short exact sequence of cochain

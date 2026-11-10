@@ -128,6 +128,7 @@ variable (B : BigEtaleSite.{u}) (ℓ : ℕ) [Fact ℓ.Prime]
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
   (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The Frobenius characteristic polynomial on `Hⁱ_c(X_k̄, F ⊗ ℚ_ℓ)` is the one on the rational
 limit of the tower of levels.** -/
 theorem LAdicSheaf.charpoly_rationalGeometricCompactlySupportedFrobenius_eq_rationalLimMap
@@ -150,6 +151,7 @@ theorem LAdicSheaf.charpoly_rationalGeometricCompactlySupportedFrobenius_eq_rati
 functor applied to the towers. -/
 alias whiskerLeft_comp_isoWhiskerRight_hom_of_tower := whiskerLeft_comp_isoWhiskerRight_hom
 
+omit [LocallyOfFiniteType f] [IsSeparated f] in
 /-- **Excision for the Frobenius characteristic roots of `Hⁱ_c(X_k̄, F ⊗ ℚ_ℓ)`.**  For an open
 immersion `j_U : U ⟶ X` with complementary closed immersion `i : Z ⟶ X`, compactified by the
 compactifications induced by `j`, and ℓ-adic sheaves `F_U` on `U`, `F_Z` on `Z` whose towers of
@@ -276,6 +278,7 @@ theorem LAdicSheaf.isRoot_charpoly_rationalGeometricCompactlySupportedFrobenius_
     | exact ((compactSupportSheafFrobenius ℤ_[ℓ] f j kbar p q hcard i).naturality
         ((etaleModuleInverseImageAdj.{u, 0} ℤ_[ℓ] iZ').unit.app (T.obj n))).symm
 
+omit [LocallyOfFiniteType f] [IsSeparated f] in
 /-- **Purity of weight `w` passes through excision**: if the Frobenius on `Hⁱ_c(U_k̄, F_U ⊗ ℚ_ℓ)`
 and on `Hⁱ_c(Z_k̄, F_Z ⊗ ℚ_ℓ)` is pure of weight `w`, so is the one on `Hⁱ_c(X_k̄, F ⊗ ℚ_ℓ)`. -/
 theorem LAdicSheaf.isCharpolyPureOfWeight_rationalGeometricCompactlySupportedFrobenius_of_openClosed

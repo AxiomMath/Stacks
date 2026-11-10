@@ -110,13 +110,13 @@ private lemma stalk_map_eq_zero_of_app_eq_zero {X : Scheme.{u}} {M N : X.Modules
       (P.map (homOfLE (inf_le_left : V ⊓ U ≤ V)).op aV) = a := by
     rwa [TopCat.Presheaf.germ_res_apply]
   rw [← haW]
-  show ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
+  change ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
     ((PresheafOfModules.toPresheaf X.ringCatSheaf.obj).map f.val)) _ = 0
   rw [TopCat.Presheaf.stalkFunctor_map_germ_apply (V ⊓ U) x hxW
     ((PresheafOfModules.toPresheaf X.ringCatSheaf.obj).map f.val)]
   have hzero : (((PresheafOfModules.toPresheaf X.ringCatSheaf.obj).map f.val).app
       (op (V ⊓ U))) ((P.map (homOfLE (inf_le_left : V ⊓ U ≤ V)).op) aV) = 0 := by
-    show (ConcreteCategory.hom (f.val.app (op (V ⊓ U))))
+    change (ConcreteCategory.hom (f.val.app (op (V ⊓ U))))
       ((P.map (homOfLE (inf_le_left : V ⊓ U ≤ V)).op) aV) = 0
     rw [hf (V ⊓ U) inf_le_right]
     rfl

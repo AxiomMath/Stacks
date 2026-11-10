@@ -248,7 +248,7 @@ public lemma ideal_smul_top_unit (U : X.Opens) (J : Ideal Γ(X, U)) :
         Γ(show X.Modules from SheafOfModules.unit X.ringCatSheaf, U)) =
       (show Submodule Γ(X, U)
         Γ(show X.Modules from SheafOfModules.unit X.ringCatSheaf, U) from J) := by
-  show J • (⊤ : Ideal Γ(X, U)) = J
+  change J • (⊤ : Ideal Γ(X, U)) = J
   simp
 
 /-- The sections of `I ^ n • 𝒪_X` over an affine open `U` are the `n`-th power `I(U) ^ n` of the

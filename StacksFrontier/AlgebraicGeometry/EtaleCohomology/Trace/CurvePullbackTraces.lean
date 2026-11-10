@@ -70,6 +70,7 @@ private theorem isUnit_natCast_pow_of_ne_zero {k : Type*} [Field k] {ℓ : ℕ} 
     (hℓ : (ℓ : k) ≠ 0) : IsUnit ((ℓ ^ m : ℕ) : k) := by
   rw [Nat.cast_pow]; exact (isUnit_iff_ne_zero.mpr hℓ).pow m
 
+omit [Smooth g] [IsProper g] in
 include g in
 /-- **A finite free model of `H⁰(C, μ_{ℓ^m})`** on which the trace of `φ^*` is `1`, for every
 nonconstant endomorphism `φ` of `C` over `k`. -/
@@ -122,11 +123,11 @@ theorem exists_curveModel_one (hℓ : (ℓ : k) ≠ 0) :
   let f' := (LinearEquiv.ofEq _ _ hsub).toAddEquiv.trans f
   refine ⟨r, e1.trans f', fun φ w hnc => ?_⟩
   rw [modelTrace_eq_of_addEquiv (ℓ ^ m) (e1.trans f') e1]
-  show LinearMap.trace _ _ _ = picardTorsionTrace C (Stacks.Picard.schemePullbackClassHom φ) ℓ m
+  change LinearMap.trace _ _ _ = picardTorsionTrace C (Stacks.Picard.schemePullbackClassHom φ) ℓ m
   rw [picardTorsionTrace]
   congr 1
   ext t
-  show ((e1 (rootsOfUnityPullbackMap.{u, u + 1, u + 1} φ (ℓ ^ m) 1 (e1.symm t)) :
+  change ((e1 (rootsOfUnityPullbackMap.{u, u + 1, u + 1} φ (ℓ ^ m) 1 (e1.symm t)) :
       Stacks.Picard.ofScheme C)) = ((Stacks.Picard.torsionByRestrict (A := Stacks.Picard.ofScheme C)
         (Stacks.Picard.schemePullbackClassHom φ) ((ℓ : ℤ) ^ m) t) : Stacks.Picard.ofScheme C)
   rw [he1 φ, AddEquiv.apply_symm_apply]

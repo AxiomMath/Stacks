@@ -255,9 +255,9 @@ theorem exactUnit_isIso {A B : Type*} [Category* A] [Category* B]
     Localization.inverts DerivedCategory.Qh (HomotopyCategory.quasiIso A (.up ℤ)) _ hφ
   have : IsIso ((DerivedCategory.Plus.ι).map
       ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).map φ)) := by
-    show IsIso (DerivedCategory.Qh.map ((F.mapHomotopyCategory (.up ℤ)).map φ.hom))
+    change IsIso (DerivedCategory.Qh.map ((F.mapHomotopyCategory (.up ℤ)).map φ.hom))
     exact (NatIso.isIso_map_iff F.mapDerivedCategoryFactorsh φ.hom).mp (by
-      show IsIso (F.mapDerivedCategory.map (DerivedCategory.Qh.map φ.hom))
+      change IsIso (F.mapDerivedCategory.map (DerivedCategory.Qh.map φ.hom))
       infer_instance)
   exact isIso_of_reflects_iso _ DerivedCategory.Plus.ι
 

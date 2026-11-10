@@ -443,7 +443,7 @@ theorem underComparisonPlus_final_nonempty (X : HomotopyCategory.Plus A)
   -- The bounded-below object `Yp ∈ K⁺(A)` from the truncation.
   set Yp : HomotopyCategory.Plus A :=
     ⟨(HomotopyCategory.quotient A (ComplexShape.up ℤ)).obj (CochainComplex.truncGE Y.as n₀), by
-      show (CochainComplex.plus A).strictMap
+      change (CochainComplex.plus A).strictMap
         (HomotopyCategory.quotient A (ComplexShape.up ℤ)) _
       rw [ObjectProperty.strictMap_iff]
       exact ⟨CochainComplex.truncGE Y.as n₀, ⟨n₀, inferInstance⟩, rfl⟩⟩ with hYp_def
@@ -452,21 +452,21 @@ theorem underComparisonPlus_final_nonempty (X : HomotopyCategory.Plus A)
     (HomotopyCategory.quotient A (ComplexShape.up ℤ)).map (CochainComplex.πTruncGE Y.as n₀)
     with hg_def
   have hgqis : qisBig A g := by
-    show HomotopyCategory.quasiIso A (ComplexShape.up ℤ) g
+    change HomotopyCategory.quasiIso A (ComplexShape.up ℤ) g
     rw [hg_def, HomotopyCategory.quotient_map_mem_quasiIso_iff,
       HomologicalComplex.mem_quasiIso_iff, CochainComplex.quasiIso_πTruncGE_iff]
     exact hYGE
   -- The comma object `c` in the image, and the morphism `d ⟶ underCmp.obj c`.
   refine ⟨⟨StructuredArrow.mk (Y := Yp) (ObjectProperty.homMk (s ≫ g)), ?_⟩, ⟨?_⟩⟩
   · -- membership of `s'` in `(qisBig A).inverseImage (Plus.ι A)`
-    show qisBig A ((HomotopyCategory.Plus.ι A).map (ObjectProperty.homMk (s ≫ g)))
+    change qisBig A ((HomotopyCategory.Plus.ι A).map (ObjectProperty.homMk (s ≫ g)))
     have hmap : (HomotopyCategory.Plus.ι A).map (ObjectProperty.homMk (s ≫ g) : X ⟶ Yp) = s ≫ g :=
       rfl
     rw [hmap]
     exact MorphismProperty.comp_mem _ _ _ hs hgqis
   · -- the morphism `d ⟶ underCmp.obj c`
     refine ObjectProperty.homMk (StructuredArrow.homMk (f := d.1) g ?_)
-    show s ≫ g = (HomotopyCategory.Plus.ι A).map (ObjectProperty.homMk (s ≫ g) : X ⟶ Yp)
+    change s ≫ g = (HomotopyCategory.Plus.ι A).map (ObjectProperty.homMk (s ≫ g) : X ⟶ Yp)
     rfl
 
 /-- **Coinitiality, nonemptiness half (L/−), dual.**  Every object `d` of
@@ -490,7 +490,7 @@ theorem overComparisonMinus_initial_nonempty (X : KMinus A)
   -- The bounded-above object `Yp ∈ K⁻(A)` from the truncation.
   set Yp : KMinus A :=
     ⟨(HomotopyCategory.quotient A (ComplexShape.up ℤ)).obj (CochainComplex.truncLE Y.as n₀), by
-      show (cochainMinus A).strictMap
+      change (cochainMinus A).strictMap
         (HomotopyCategory.quotient A (ComplexShape.up ℤ)) _
       rw [ObjectProperty.strictMap_iff]
       exact ⟨CochainComplex.truncLE Y.as n₀, ⟨n₀, inferInstance⟩, rfl⟩⟩ with hYp_def
@@ -499,21 +499,21 @@ theorem overComparisonMinus_initial_nonempty (X : KMinus A)
     (HomotopyCategory.quotient A (ComplexShape.up ℤ)).map (CochainComplex.ιTruncLE Y.as n₀)
     with hg_def
   have hgqis : qisBig A g := by
-    show HomotopyCategory.quasiIso A (ComplexShape.up ℤ) g
+    change HomotopyCategory.quasiIso A (ComplexShape.up ℤ) g
     rw [hg_def, HomotopyCategory.quotient_map_mem_quasiIso_iff,
       HomologicalComplex.mem_quasiIso_iff, CochainComplex.quasiIso_ιTruncLE_iff]
     exact hYLE
   -- The comma object `c` in the image, and the morphism `overCmp.obj c ⟶ d`.
   refine ⟨⟨CostructuredArrow.mk (Y := Yp) (ObjectProperty.homMk (g ≫ s) : Yp ⟶ X), ?_⟩, ⟨?_⟩⟩
   · -- membership of `s'` in `(qisBig A).inverseImage (KMinus.ι A)`
-    show qisBig A ((KMinus.ι A).map (ObjectProperty.homMk (g ≫ s) : Yp ⟶ X))
+    change qisBig A ((KMinus.ι A).map (ObjectProperty.homMk (g ≫ s) : Yp ⟶ X))
     have hmap : (KMinus.ι A).map (ObjectProperty.homMk (g ≫ s) : Yp ⟶ X) = g ≫ s :=
       rfl
     rw [hmap]
     exact MorphismProperty.comp_mem _ _ _ hgqis hs
   · -- the morphism `overCmp.obj c ⟶ d`
     refine ObjectProperty.homMk (CostructuredArrow.homMk (f' := d.1) g ?_)
-    show g ≫ s = (KMinus.ι A).map (ObjectProperty.homMk (g ≫ s) : Yp ⟶ X)
+    change g ≫ s = (KMinus.ι A).map (ObjectProperty.homMk (g ≫ s) : Yp ⟶ X)
     rfl
 
 /-! ### The comparison on the index categories of Tag 05S9

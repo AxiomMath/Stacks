@@ -30,7 +30,7 @@ For a closed `T` that colimit is not needed: the complement `V` of `T` is itself
 and is the smallest one, so the single pushforward `j_{V,*}(F'|_V)` is the extension.  Three of
 the four clauses of `AlgebraicGeometry.IsStabilizedOpenExtension` are then formal, and are
 discharged in
-`StacksFrontier.AlgebraicGeometry.LocalCohomology.ImprovingCoherentModules.ClosedStabilizedExtension`;
+the sibling module `ClosedStabilizedExtension` (of this directory);
 what remains is coherence of that one pushforward, which this module proves and uses to remove
 the hypothesis `hext` of the existence half of [Stacks, Tag 0EI3] for a closed subset.
 
@@ -100,7 +100,7 @@ The depth bound the globalized criterion asks of the depth-one quotient `F'` is 
 points of `V`, where `F'` is not `F` but is isomorphic to it on stalks.  Two file-private
 lemmas, reached by `import all`, move the bound across that isomorphism:
 `AlgebraicGeometry.isIso_stalkMap_of_isIso_stalkFunctor` of
-`StacksFrontier.AlgebraicGeometry.LocalCohomology.ImprovingCoherentModules.DepthTwoExtensionExistence`
+the sibling module `DepthTwoExtensionExistence`
 reads the stalk isomorphism supplied by `AlgebraicGeometry.depthOneQuotient_spec` over the local
 ring, and `AlgebraicGeometry.depth_stalk_eq_of_isIso_stalkMap` of
 `StacksFrontier.AlgebraicGeometry.LocalCohomology.ImprovingCoherentModules.NestedImprovement` then

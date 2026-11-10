@@ -134,7 +134,7 @@ theorem exists_hom_isIso_pullback_snd_model (X : Scheme.{u}) [IsLocallyNoetheria
     refine (isIso_overPullback_map_homMk_iff _ X₀).mpr
       ((isIso_pullback_snd_snd_iff_of_comp_eq Z.hom hτ).mpr ?_)
     have hw : e.hom.left ≫ ((Over.pullback (c.π.app j)).obj Z).hom = g := Over.w e.hom
-    show IsIso (pullback.snd ((Over.pullback (c.π.app j)).obj Z).hom _)
+    change IsIso (pullback.snd ((Over.pullback (c.π.app j)).obj Z).hom _)
     have : IsIso e.hom.left := inferInstanceAs (IsIso ((Over.forget _).mapIso e).hom)
     refine (isIso_pullback_snd_comp_left_iff e.hom.left _ _).mp ?_
     refine (isIso_pullback_snd_left_congr hw _).mpr ?_

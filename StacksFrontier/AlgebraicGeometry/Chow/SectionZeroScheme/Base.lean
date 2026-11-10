@@ -91,7 +91,7 @@ theorem mem_nonZeroDivisors_of_isRegular_singleton {R : Type*} [CommRing R] {a :
     (h : RingTheory.Sequence.IsRegular R [a]) : a ∈ nonZeroDivisors R := by
   have ha := ((RingTheory.Sequence.isRegular_cons_iff R a []).mp h).1
   refine mem_nonZeroDivisors_iff_right.mpr fun x hx => ha ?_
-  show a • x = a • 0
+  change a • x = a • 0
   rw [smul_eq_mul, smul_eq_mul, mul_comm, hx, mul_zero]
 
 /-- **`c₁(ℒ) ∩ [X]_n = [Z(s)]_{n - 1}`** for a module `ℒ` of rank one and a section `s` such that

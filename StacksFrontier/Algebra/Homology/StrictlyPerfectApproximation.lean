@@ -159,10 +159,10 @@ theorem exists_section_of_surjective_sections {M E : OXMod.{u, u} X} (g : M ⟶ 
     (SheafOfModules.unitHomEquiv M).symm (e k)
   let t : finiteFree X n ⟶ M := biproduct.desc u
   have key : t ≫ g = ρ.r := by
-    show biproduct.desc u ≫ g = ρ.r
+    change biproduct.desc u ≫ g = ρ.r
     refine biproduct.hom_ext' _ _ fun k => ?_
     rw [biproduct.ι_desc_assoc]
-    show (SheafOfModules.unitHomEquiv M).symm (e k) ≫ g = _
+    change (SheafOfModules.unitHomEquiv M).symm (e k) ≫ g = _
     rw [SheafOfModules.unitHomEquiv_symm_comp, he k, Equiv.symm_apply_apply]
     rfl
   exact ⟨ρ.i ≫ t, by rw [Category.assoc, key, ρ.retract]⟩

@@ -222,15 +222,15 @@ public theorem stalkExact_of_sectionExact
     have hn' : (S.g.app W) sW = P₃.map iWV.op (S.g.app V s) := by
       simpa only [sW, ConcreteCategory.comp_apply,
         Scheme.Modules.mapPresheaf_app] using hn
-    show (S.g.app W) sW = 0
+    change (S.g.app W) sW = 0
     rw [hn']
     exact hs0W
   obtain ⟨tW, htW⟩ := Set.mem_range.mp ((hFunc sW).mp hsW)
   let tW' : ↑(P₁.obj (op W)) := by
-    show ↑((K.X ((ComplexShape.up ℕ).prev n)).presheaf.obj (op W))
+    change ↑((K.X ((ComplexShape.up ℕ).prev n)).presheaf.obj (op W))
     exact tW
   refine ⟨P₁.germ W x hxW tW', ?_⟩
-  show ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
+  change ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
       S.f.mapPresheaf) (P₁.germ W x hxW tW') = z
   have htW'' : (S.f.app W) tW' = sW := htW
   have hgerm := TopCat.Presheaf.stalkFunctor_map_germ_apply
@@ -278,7 +278,7 @@ public theorem acyclic_on_equationsComplement
     (e.app S.X₁) (e.app S.X₂) (e.app S.X₃)
     (by simpa [F₁, F₂, Q, Scheme.Modules.toPresheaf_map] using (e.hom.naturality S.f).symm)
     (by simpa [F₁, F₂, Q, Scheme.Modules.toPresheaf_map] using (e.hom.naturality S.g).symm)
-  show (S.map F₁).Exact
+  change (S.map F₁).Exact
   exact (ShortComplex.exact_iff_of_iso eS).2 hOrig
 
 end AlgebraicGeometry.ExtendedAlternatingCech

@@ -192,7 +192,7 @@ theorem existsUnique_units_smul_eq_of_isRegularMeromorphicSection
         ((Stacks.SheafOfModules.Tensor.ringSheaf (meromorphicRingedSite B S hS X hX).O).obj))) =
         0 := by
       refine Subtype.ext (funext fun W => hx W.unop ?_)
-      show (1 : (Stacks.SheafOfModules.Tensor.ringSheaf
+      change (1 : (Stacks.SheafOfModules.Tensor.ringSheaf
           (meromorphicRingedSite B S hS X hX).O).obj.obj W) • x.eval W =
         (0 : (Stacks.SheafOfModules.Tensor.ringSheaf
           (meromorphicRingedSite B S hS X hX).O).obj.obj W) • x.eval W

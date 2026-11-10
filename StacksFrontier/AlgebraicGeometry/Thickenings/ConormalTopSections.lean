@@ -60,7 +60,8 @@ obstruction that
 to state its identifications as linear equivalences.
 
 **The two steps, and why the second needs a descent.** Over the *ambient* scheme the computation
-is two isomorphisms of the library: `Stacks.Thickenings.firstOrderConormalIso` says `ℐ ≅ i_*𝒞_{X/X'}` —
+is two isomorphisms of the library: `Stacks.Thickenings.firstOrderConormalIso` says
+`ℐ ≅ i_*𝒞_{X/X'}` —
 the unit of `i^* ⊣ i_*` at the defining ideal sheaf, invertible because `ℐ² = 0` — and
 `Stacks.Conormal.idealSheafSectionsIso` says the sections of `ℐ` over any open are the kernel of
 the map on functions there.  Between them sits

@@ -248,14 +248,14 @@ theorem exteriorProductDedekindCoeff_locallyFiniteSupport (α : CycleGroup C f n
         refine ⟨hvN', fun hzero ↦ hvsupp ?_⟩
         unfold exteriorProductDedekindTerm
         split_ifs with hdom
-        · show α.1 p.1 * β.1 p.2 * _ = 0
+        · change α.1 p.1 * β.1 p.2 * _ = 0
           rw [hzero, mul_zero]
         · rfl)
       z
   refine ⟨N ∩ M, Filter.inter_mem hN hM, hMfin.subset ?_⟩
   rintro w ⟨⟨hwN, hwM⟩, hwsupp⟩
   refine ⟨hwM, ?_⟩
-  show ∃ p ∈ s, exteriorProductDedekindTerm C f g n m α β w p ≠ 0
+  change ∃ p ∈ s, exteriorProductDedekindTerm C f g n m α β w p ≠ 0
   by_contra hforall
   push Not at hforall
   exact hwsupp (finsum_eq_zero_of_forall_eq_zero fun p ↦
@@ -290,7 +290,7 @@ private theorem exteriorProductDedekindTerm_add_right (α : CycleGroup C f n)
   classical
   unfold exteriorProductDedekindTerm
   split_ifs with h
-  · show α.1 p.1 * (β.1 p.2 + γ.1 p.2) * _ = _
+  · change α.1 p.1 * (β.1 p.2 + γ.1 p.2) * _ = _
     ring
   · rw [add_zero]
 
@@ -303,7 +303,7 @@ private theorem exteriorProductDedekindTerm_add_left (α α' : CycleGroup C f n)
   classical
   unfold exteriorProductDedekindTerm
   split_ifs with h
-  · show (α.1 p.1 + α'.1 p.1) * β.1 p.2 * _ = _
+  · change (α.1 p.1 + α'.1 p.1) * β.1 p.2 * _ = _
     ring
   · rw [add_zero]
 

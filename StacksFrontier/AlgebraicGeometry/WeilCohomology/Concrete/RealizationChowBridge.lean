@@ -97,7 +97,7 @@ theorem chowGroupToCodimension_properChowPushforward
       (properChowPushforward_dimPart_restrict M.obj.hom N.obj.hom hM f.hom.left (Over.w f.hom) _
         x).symm)
   · rw [chowGroupToCodimension_apply_of_ne _ _ _ _ _ (by omega)]
-    simp only [equidimensionalPushforward, AddMonoidHom.pi_apply, dif_neg he,
+    simp only [equidimensionalPushforward, AddMonoidHom.pi_apply, dite_eq_right he,
       AddMonoidHom.zero_apply]
 
 /-- For `X` of constant dimension `d`, the Chow groups of a part `X_e` with `e ≠ d` are trivial. -/

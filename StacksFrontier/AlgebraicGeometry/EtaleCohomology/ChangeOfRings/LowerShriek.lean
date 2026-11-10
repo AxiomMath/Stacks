@@ -157,7 +157,7 @@ theorem quasiIso_directImage_map_of_isKInjective {X Y : Scheme.{u}} (f : X ⟶ Y
     (Functor.isMorphismOfSites_id _) (etaleRingedSiteHom.{u, r} Λ₁ f).isMorphismOfSites _ hI _ hJ
     ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map (b.hom ≫ a))
     ((HomotopyCategory.quotient_map_mem_quasiIso_iff _).2 (by
-      show QuasiIso (b.hom ≫ a); infer_instance))
+      change QuasiIso (b.hom ≫ a); infer_instance))
   replace hs : HomotopyCategory.quasiIso _ (ComplexShape.up ℤ)
       ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
         ((Functor.mapHomologicalComplex

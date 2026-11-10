@@ -170,7 +170,7 @@ private theorem awnAffineDiagramMap_coequifibered (X : Scheme.{u}) :
     congrArg (fun f : N →+* N' => f n) he'
   let : IsLocalization.Away (algebraMap A N (r : A)) (B ⊗[A] N) := by
     infer_instance
-  show IsLocalization.Away (algebraMap A N (r : A)) N'
+  change IsLocalization.Away (algebraMap A N (r : A)) N'
   exact IsLocalization.isLocalization_of_algEquiv _ eAlg
 
 private noncomputable def awnRelativeGluingData (X : Scheme.{u}) :=
@@ -184,7 +184,7 @@ private theorem awnRelativeGluingData_local_universalHomeomorphism
     (X : Scheme.{u}) (U : X.AffineZariskiSite) :
     UniversalHomeomorphism ((awnRelativeGluingData X).natTrans.app U) := by
   constructor
-  show (topologically @IsHomeomorph).universally
+  change (topologically @IsHomeomorph).universally
     (Scheme.Spec.map (CommRingCat.ofHom
       (algebraMap Γ(X, U.1) (AbsoluteWeakNormalization Γ(X, U.1)))).op ≫ U.2.isoSpec.inv)
   rw [MorphismProperty.cancel_right_of_respectsIso
@@ -237,7 +237,7 @@ private theorem awnCandidateMapToAWN_comp (A B : Type u) [CommRing A] [CommRing 
       algebraMap A (AbsoluteWeakNormalization A) := by
   let f := (absoluteWeakNormalizationCategoryObject_isTerminal A).from
     (⟨CommAlgCat.of A B, hB⟩ : AbsoluteWeakNormalizationCategory A)
-  show (f.hom.hom.toRingHom).comp (algebraMap A B) =
+  change (f.hom.hom.toRingHom).comp (algebraMap A B) =
     algebraMap A (AbsoluteWeakNormalization A)
   ext a
   exact f.hom.hom.commutes a
@@ -308,7 +308,7 @@ private theorem awnLocalTarget_candidate {X Y : Scheme.{u}} (f : Y ⟶ X)
     dsimp [Scheme.Opens.toSpecΓ]
     infer_instance
   constructor
-  show (topologically @IsHomeomorph).universally
+  change (topologically @IsHomeomorph).universally
     (Scheme.Spec.map (CommRingCat.ofHom (algebraMap _ _)).op)
   rw [hφ, hφ', hspecEq]
   exact (MorphismProperty.cancel_left_of_respectsIso
@@ -350,7 +350,7 @@ private theorem awnLocalMap_snd {X Y : Scheme.{u}} (f : Y ⟶ X)
   have hB := awnLocalTarget_candidate f hf U φ hφ rfl
   let ψ := awnCandidateMapToAWN A B hB
   have hspec := spec_map_pullback_snd_appTop f U
-  show Scheme.Spec.map (CommRingCat.ofHom ψ).op ≫ Z.isoSpec.inv ≫
+  change Scheme.Spec.map (CommRingCat.ofHom ψ).op ≫ Z.isoSpec.inv ≫
       (pullback.snd f U.1.ι) =
     Scheme.Spec.map (CommRingCat.ofHom (algebraMap A (AbsoluteWeakNormalization A))).op ≫
       U.2.isoSpec.inv
@@ -416,7 +416,7 @@ private theorem awnLocalMap_unique {X Y : Scheme.{u}} (f : Y ⟶ X)
         (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom :=
       congrArg CommRingCat.Hom.hom hcancel
     rw [hnat]
-    show θ.hom.hom.comp
+    change θ.hom.hom.comp
       ((Scheme.Spec.map (CommRingCat.ofHom (algebraMap A N)).op).appTop.hom.comp
         (U.2.isoSpec.inv.appTop.hom.comp U.1.topIso.inv.hom)) = _
     rw [hcancelRing]
@@ -439,10 +439,10 @@ private theorem awnLocalMap_unique {X Y : Scheme.{u}} (f : Y ⟶ X)
           congrArg CommRingCat.Hom.hom (Scheme.ΓSpecIso (CommRingCat.of A)).inv_hom_id
         rw [RingHom.comp_assoc, hIso, RingHom.comp_id]
   have hψ : ψ.comp φ = algebraMap A N := by
-    show θ.hom.hom.comp (g.appTop.hom.comp
+    change θ.hom.hom.comp (g.appTop.hom.comp
       ((pullback.snd f U.1.ι).appTop.hom.comp U.1.topIso.inv.hom)) = _
     exact hcomp.trans (hnatRing.trans hGammaSpec_map)
-  show g = Scheme.Spec.map
+  change g = Scheme.Spec.map
     (CommRingCat.ofHom (awnCandidateMapToAWN A B hB)).op ≫ Z.isoSpec.inv
   apply (cancel_mono Z.isoSpec.hom).mp
   calc
@@ -470,10 +470,10 @@ private theorem awnLocalLift_naturality {X Y : Scheme.{u}} (f : Y ⟶ X)
   let 𝒰 := Scheme.AffineZariskiSite.directedCover X
   let e : U.1.toScheme ⟶ V.1.toScheme := 𝒰.trans i
   have hNat : d.functor.map i ≫ d.natTrans.app V = d.natTrans.app U ≫ e := by
-    show d.functor.map i ≫ d.natTrans.app V = d.natTrans.app U ≫ 𝒰.functorOfLocallyDirected.map i
+    change d.functor.map i ≫ d.natTrans.app V = d.natTrans.app U ≫ 𝒰.functorOfLocallyDirected.map i
     exact d.natTrans.naturality i
   have hcover : e ≫ V.1.ι = U.1.ι := by
-    show 𝒰.trans i ≫ 𝒰.f V = 𝒰.f U
+    change 𝒰.trans i ≫ 𝒰.f V = 𝒰.f U
     exact 𝒰.trans_map i
   have hPB : pullback.fst f V.1.ι ≫ f = pullback.snd f V.1.ι ≫ V.1.ι :=
     pullback.condition
@@ -523,10 +523,10 @@ private theorem awnSchemeMap_over {X Y : Scheme.{u}} (f : Y ⟶ X)
     awnSchemeMap f hf ≫ f = (awnRelativeGluingData X).toBase := by
   let d := awnRelativeGluingData X
   refine colimit.hom_ext fun U => ?_
-  show (colimit.ι d.functor U ≫ colimit.desc d.functor (awnSchemeCocone f hf)) ≫ f =
+  change (colimit.ι d.functor U ≫ colimit.desc d.functor (awnSchemeCocone f hf)) ≫ f =
       colimit.ι d.functor U ≫ d.toBase
   rw [colimit.ι_desc, d.ι_toBase]
-  show awnLocalLift f hf U ≫ f = d.natTrans.app U ≫ U.1.ι
+  change awnLocalLift f hf U ≫ f = d.natTrans.app U ≫ U.1.ι
   rw [awnLocalLift, Category.assoc, pullback.condition, ← Category.assoc, awnLocalMap_snd]
   rfl
 
@@ -549,7 +549,7 @@ private theorem awnSchemeMap_unique {X Y : Scheme.{u}} (f : Y ⟶ X)
       rw [awnLocalMap_unique f hf U gU (pullback.lift_snd _ _ _)]
       rfl
     _ = colimit.ι d.functor U ≫ awnSchemeMap f hf := by
-      show awnLocalLift f hf U =
+      change awnLocalLift f hf U =
         colimit.ι d.functor U ≫ colimit.desc d.functor (awnSchemeCocone f hf)
       rw [colimit.ι_desc]
       rfl
@@ -588,7 +588,7 @@ private theorem awnSchemeOver_isAbsolutelyWeaklyNormal (X : Scheme.{u}) :
   let N := AbsoluteWeakNormalization A
   let : CommRing N := absoluteWeakNormalization_commRing A
   let : IsAffine (d.functor.obj i) := by
-    show IsAffine (Spec (.of N))
+    change IsAffine (Spec (.of N))
     infer_instance
   let V : d.glued.Opens := (d.cover.f i).opensRange
   have hRange : Set.range (d.cover.f i) = Set.range V.ι := by
@@ -600,10 +600,10 @@ private theorem awnSchemeOver_isAbsolutelyWeaklyNormal (X : Scheme.{u}) :
   let : IsAffine V.toScheme := IsAffine.of_isIso e.inv
   have hAffineV : IsAffineOpen V := IsAffine.of_isIso e.inv
   have hxV : x ∈ V := by
-    show ∃ z, d.cover.f i z = x
+    change ∃ z, d.cover.f i z = x
     exact ⟨y, by simpa [i] using hy⟩
   refine ⟨⟨V, hAffineV⟩, hxV, ?_⟩
-  · show IsAbsolutelyWeaklyNormalRing Γ(d.glued, V)
+  · change IsAbsolutelyWeaklyNormalRing Γ(d.glued, V)
     have himg : e.hom ''ᵁ (⊤ : (d.functor.obj i).Opens) = (⊤ : V.toScheme.Opens) := by
       rw [Scheme.Hom.image_top_eq_opensRange, Scheme.Hom.opensRange_of_isIso]
     let eΓ : Γ(V.toScheme, ⊤) ≃+* N :=
@@ -678,7 +678,7 @@ private theorem awnAlgebraMap_isIso_of_awns {A B : Type u} [CommRing A] [CommRin
     ext
   let : IsIso qA := (ObjectProperty.ι _).map_isIso (t.from CA)
   let : IsIso qB := (ObjectProperty.ι _).map_isIso (t.from CB)
-  show IsIso fAB'
+  change IsIso fAB'
   rw [(IsIso.eq_comp_inv qB).mpr hcomp']
   infer_instance
 

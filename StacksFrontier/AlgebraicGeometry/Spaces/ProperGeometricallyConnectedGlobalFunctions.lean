@@ -148,7 +148,7 @@ theorem globalFunctionsToChart_algebraMap {T : BigFppfOver B (Spec (.of A)) hA}
     globalFunctionsToChart B (Spec (.of A)) hA ⟨X, hX⟩ p
         (algebraMap A (globalFunctions B (Spec (.of A)) hA X) a) =
       ((Scheme.ΓSpecIso (.of A)).inv ≫ (B.inclusion.map T.hom).appTop).hom a := by
-  show ((globalFunctionsChartEquiv B (Spec (.of A)) hA ⟨X, hX⟩).val _).val _ = _
+  change ((globalFunctionsChartEquiv B (Spec (.of A)) hA ⟨X, hX⟩).val _).val _ = _
   rw [globalFunctionsChartEquiv_algebraMap B A hA ⟨X, hX⟩]
   rfl
 
@@ -314,7 +314,7 @@ theorem globalFunctionsToChart_globalFunctionsChangeOfBase {T : BigFppfOver B S 
     apply chartFunctionsToSmall_injective B S hS _ hXS
     rw [(globalFunctionsChartEquiv B S hS ⟨_, hXS⟩).property]
     rfl
-  show ((globalFunctionsChartEquiv B S hS ⟨_, hXS⟩).val _).val _ = _
+  change ((globalFunctionsChartEquiv B S hS ⟨_, hXS⟩).val _).val _ = _
   rw [h]
   rfl
 
@@ -361,7 +361,7 @@ theorem restrictYonedaEquiv_restrictYonedaIso {S S' : Scheme.{u}} {hS : B.Contai
   apply yonedaEquiv.injective
   simp only [OverShriek.restrictYonedaEquiv, Equiv.trans_apply, Equiv.apply_symm_apply,
     yonedaEquiv_comp, yonedaEquiv_yoneda_map]
-  show c.app _ ((OverShriek.restrictYonedaIso g W).hom.app _ (𝟙 _)) = c.app _ _
+  change c.app _ ((OverShriek.restrictYonedaIso g W).hom.app _ (𝟙 _)) = c.app _ _
   congr 1
 
 include hX in

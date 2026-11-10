@@ -30,10 +30,6 @@ open CategoryTheory CategoryTheory.Limits CategoryTheory.Sheaf Deformation
 
 attribute [local instance] MorphismOfTopoi.preservesFiniteLimits
 
--- Lean v4.35.0: `HasLimitsOfShape (Discrete J) (Cᵒᵖ ⥤ Type u)` (for `⊤_ Sheaf J (Type u)`)
--- exceeds the default typeclass budget.
-set_option synthInstance.maxHeartbeats 400000
-
 universe u
 
 namespace Deformation.AlgebraExtension
@@ -44,6 +40,9 @@ variable {C : Type*} [Category C] {J : GrothendieckTopology C}
   {A O : Sheaf J CommRingCat.{u}} {a : A ⟶ O}
   {M : SheafOfModules.{u} ((sheafCompose J (forget₂ CommRingCat.{u} RingCat.{u})).obj O)}
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- Lean v4.35.0: `HasLimitsOfShape (Discrete J) (Cᵒᵖ ⥤ Type u)` (for `⊤_ Sheaf J (Type u)`)
+-- exceeds the default typeclass budget.
 /-- **Global sections of the kernel are determined by their inclusions at `1`**, sectionwise. -/
 theorem hom_ext_of_incl (P : AlgebraExtension a M)
     {w w' : SheafOfModules.unit ((sheafCompose J (forget₂ CommRingCat.{u} RingCat.{u})).obj O) ⟶ M}
@@ -55,9 +54,15 @@ theorem hom_ext_of_incl (P : AlgebraExtension a M)
     w = w' :=
   hom_ext_ringOneHom (hom_ext_sections fun U p => P.incl_injective (h U p))
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- Lean v4.35.0: `HasLimitsOfShape (Discrete J) (Cᵒᵖ ⥤ Type u)` (for `⊤_ Sheaf J (Type u)`)
+-- exceeds the default typeclass budget.
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [J.HasSheafCompose (forget RingCat.{u})] [J.HasSheafCompose (forget AddCommGrpCat.{u})] in
 /-- A global section of the underlying sheaf of sets of a sheaf of commutative rings, followed by
 a homomorphism `g`, on a section: `g` applied to the value. -/
-theorem sectionsFunctor_map_comp_sheafCompose_forget_map [J.HasSheafCompose (forget CommRingCat.{u})]
+theorem sectionsFunctor_map_comp_sheafCompose_forget_map
+    [J.HasSheafCompose (forget CommRingCat.{u})]
     {R R' : Sheaf J CommRingCat.{u}} (g : R ⟶ R')
     (σ : ⊤_ Sheaf J (Type u) ⟶ (sheafCompose J (forget CommRingCat.{u})).obj R) (U : Cᵒᵖ)
     (p : (sectionsFunctor J U).obj (⊤_ Sheaf J (Type u))) :
@@ -65,6 +70,10 @@ theorem sectionsFunctor_map_comp_sheafCompose_forget_map [J.HasSheafCompose (for
       g.hom.app U ((sectionsFunctor J U).map σ p) :=
   rfl
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- Lean v4.35.0: `HasLimitsOfShape (Discrete J) (Cᵒᵖ ⥤ Type u)` (for `⊤_ Sheaf J (Type u)`)
+-- exceeds the default typeclass budget.
+omit [J.HasSheafCompose (forget RingCat.{u})] [J.HasSheafCompose (forget AddCommGrpCat.{u})] in
 /-- The induced map of ideals on a section included as the value of a global section of the
 middle term: if `P.incl m` is the value at `p` of a global section `z` of the underlying sheaf of
 sets of the middle term of `P`, and `z` followed by `h` is `z'`, then the image of `m` under the
@@ -92,6 +101,7 @@ open Deformation.Artin
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits on the small étale site times out at the default budget
 /-- Discrete limits of presheaves of sets on the small étale site (instance search times out
 without this shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discrete_ProperFlatDeformationMapGlobalSection
@@ -100,9 +110,11 @@ local instance (priority := high) hasLimitsOfShape_discrete_ProperFlatDeformatio
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits on the small étale site times out at the default budget
 /-- The terminal sheaf of sets on the small étale site (instance search times out without this
 shortcut). -/
-local instance (priority := high) hasLimitsOfShape_pEmpty_topos_ProperFlatDeformationMapGlobalSection
+local instance (priority := high)
+    hasLimitsOfShape_pEmpty_topos_ProperFlatDeformationMapGlobalSection
     (Z : AlgebraicSpaces B S hS) :
     HasLimitsOfShape (Discrete PEmpty.{1}) (smallEtaleRingedTopos B S hS Z).Topos :=
   haveI : HasLimitsOfShape (Discrete PEmpty.{1})
@@ -112,6 +124,7 @@ local instance (priority := high) hasLimitsOfShape_pEmpty_topos_ProperFlatDeform
     (sheafToPresheaf (SmallEtale.topology B S hS Z.1) (Type u))
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits on the small étale site times out at the default budget
 /-- Discrete limits of presheaves of sets on the small étale site (instance search times out
 without this shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discreteF_ProperFlatDeformationMapGlobalSection
@@ -120,6 +133,7 @@ local instance (priority := high) hasLimitsOfShape_discreteF_ProperFlatDeformati
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits on the small étale site times out at the default budget
 /-- Discrete limits indexed by `Type` of presheaves of sets on the small étale site (instance
 search times out without this shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discrete₀_ProperFlatDeformationMapGlobalSection
@@ -128,6 +142,7 @@ local instance (priority := high) hasLimitsOfShape_discrete₀_ProperFlatDeforma
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits on the small étale site times out at the default budget
 /-- Discrete limits of sheaves of sets on the small étale site (instance search times out
 without this shortcut). -/
 local instance (priority := high) hasDiscreteLimits_topos_ProperFlatDeformationMapGlobalSection
@@ -341,7 +356,8 @@ identifications of the bases with `Spec A` and `Spec A'`. -/
 theorem toScheme_map_map_arrow_comp_deformationSpecIso_hom :
     (BigFppfOver.toScheme B S hS).map ((cartesianProperFlatProjection B S hS).map φ.arrow) ≫
         (deformationSpecIso B S hS x).hom =
-      (deformationSpecIso B S hS x').hom ≫ Spec.map (CommRingCat.ofHom φ.ringHom.hom.toRingHom) := by
+      (deformationSpecIso B S hS x').hom ≫
+        Spec.map (CommRingCat.ofHom φ.ringHom.hom.toRingHom) := by
   have key : (cartesianProperFlatProjection B S hS ⋙ Over.post B.inclusion).map φ.arrow ≫
       eqToHom x.base = eqToHom x'.base ≫
         Over.homMk (V := Over.mk (Spec.map (CommRingCat.ofHom (algebraMap Λ x.algebra)) ≫ iΛ))
@@ -371,7 +387,8 @@ theorem Γ_map_map_arrow_deformationAlgebraEquiv (a : x.algebra) :
       Scheme.Γ.map (deformationSpecIso B S hS x).hom.op ≫
         Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
           ((cartesianProperFlatProjection B S hS).map φ.arrow)).op =
-      CommRingCat.ofHom φ.ringHom.hom.toRingHom ≫ (Scheme.ΓSpecIso (CommRingCat.of x'.algebra)).inv ≫
+      CommRingCat.ofHom φ.ringHom.hom.toRingHom ≫
+        (Scheme.ΓSpecIso (CommRingCat.of x'.algebra)).inv ≫
         Scheme.Γ.map (deformationSpecIso B S hS x').hom.op := by
     have h1 : Scheme.Γ.map (deformationSpecIso B S hS x).hom.op ≫
         Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
@@ -381,7 +398,8 @@ theorem Γ_map_map_arrow_deformationAlgebraEquiv (a : x.algebra) :
       (Scheme.Γ.map_comp (deformationSpecIso B S hS x).hom.op ((BigFppfOver.toScheme B S hS).map
           ((cartesianProperFlatProjection B S hS).map φ.arrow)).op).symm.trans
         ((congrArg (fun m : (BigFppfOver.toScheme B S hS).obj
-            ((cartesianProperFlatProjection B S hS).obj x'.point) ⟶ Spec (CommRingCat.of x.algebra) =>
+            ((cartesianProperFlatProjection B S hS).obj x'.point) ⟶
+              Spec (CommRingCat.of x.algebra) =>
             Scheme.Γ.map m.op)
           (toScheme_map_map_arrow_comp_deformationSpecIso_hom B S hS φ)).trans
         (Scheme.Γ.map_comp (Spec.map (CommRingCat.ofHom φ.ringHom.hom.toRingHom)).op
@@ -434,7 +452,8 @@ function `v` of the base (`AlgebraicGeometry.Space.deformationFunctionSection`).
 theorem deformationTangentExtension_incl_baseRingTensorSection
     (v : (forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj V)
     (W : (SmallEtale B S hS y₀.obj.obj.left.1)ᵒᵖ)
-    (p : (sectionsFunctor _ W).obj (⊤_ Sheaf (SmallEtale.topology B S hS y₀.obj.obj.left.1) (Type u))) :
+    (p : (sectionsFunctor _ W).obj
+      (⊤_ Sheaf (SmallEtale.topology B S hS y₀.obj.obj.left.1) (Type u))) :
     (deformationTangentExtension B S hS V x hx).incl
         ((baseRingTensorSection B S hS y₀.obj.obj.left (baseFieldHom B S hS (hy₀ := hy₀))
           ((forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).obj V) v).val.app W
@@ -557,7 +576,8 @@ theorem deformationTangentKernelMap_eq (f : V ⟶ V')
   refine baseRingTensorModule_hom_ext B S hS y₀.obj.obj.left (baseFieldHom B S hS (hy₀ := hy₀))
     fun v => ?_
   refine Eq.trans ?_ (baseRingTensorSection_map B S hS y₀.obj.obj.left
-    (baseFieldHom B S hS (hy₀ := hy₀)) ((forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).map f) v).symm
+    (baseFieldHom B S hS (hy₀ := hy₀)) ((forget₂ (FGModuleCat.{u} k) (ModuleCat.{u} k)).map f)
+    v).symm
   refine Deformation.AlgebraExtension.hom_ext_of_incl
     (J := SmallEtale.topology B S hS y₀.obj.obj.left.1)
     (deformationTangentExtension B S hS V' x' hx') fun W p => ?_

@@ -166,7 +166,7 @@ theorem levelGroupAction_comp_baseChangeFunctor (g : S' ⟶ S)
     (a : Aut (freeModule N.left (ULift.{u} (Fin r)))) (𝓐 : WithLevel p f hcard X S r i) :
     (baseChangeFunctor g).obj ((levelGroupAction a).obj 𝓐) =
       (levelGroupAction a).obj ((baseChangeFunctor g).obj 𝓐) := by
-  show (⟨𝓐.shtuka.baseChange g, (a • 𝓐.level).baseChange g⟩ : WithLevel p f hcard X S' r i) =
+  change (⟨𝓐.shtuka.baseChange g, (a • 𝓐.level).baseChange g⟩ : WithLevel p f hcard X S' r i) =
     ⟨𝓐.shtuka.baseChange g, a • 𝓐.level.baseChange g⟩
   rw [LevelStructure.baseChange_smul]
 

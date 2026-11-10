@@ -85,10 +85,10 @@ theorem comparisonFunctor_map_surjective (S : ChangeOfFieldsSituation.{u, v, w})
   apply Subtype.ext
   apply Prod.ext
   · rw [F.map_fst]
-    show f.hom ((F.pullbackEquiv B₁ z).val.1) = b₂
+    change f.hom ((F.pullbackEquiv B₁ z).val.1) = b₂
     simpa [z] using hb₁
   · rw [F.map_snd]
-    show ((F.pullbackEquiv B₁) z).val.2 = c
+    change ((F.pullbackEquiv B₁) z).val.2 = c
     simp [z]
 
 private structure ComparisonFunctorPullbackData
@@ -337,10 +337,10 @@ public theorem isSmooth_changeOfFields
   intro B A f hf y x g hg
   let : (changeOfFieldsProjection S 𝓖.p).IsHomLift f g := hg
   have hB : y.snd = B := by
-    show (changeOfFieldsProjection S 𝓖.p).obj y = B
+    change (changeOfFieldsProjection S 𝓖.p).obj y = B
     exact IsHomLift.domain_eq (changeOfFieldsProjection S 𝓖.p) f g
   have hA : x.snd = A := by
-    show (changeOfFieldsProjection S 𝓖.p).obj
+    change (changeOfFieldsProjection S 𝓖.p).obj
       ((changeOfFieldsBasedFunctor S φ).obj x) = A
     exact IsHomLift.codomain_eq (changeOfFieldsProjection S 𝓖.p) f g
   subst B
@@ -354,7 +354,7 @@ public theorem isSmooth_changeOfFields
     have hf' : f = (changeOfFieldsProjection S 𝓖.p).map g := by
       let : (changeOfFieldsProjection S 𝓖.p).IsHomLift f g := hg
       exact IsHomLift.eq_of_isHomLift (changeOfFieldsProjection S 𝓖.p) f g
-    show (changeOfFieldsProjection S 𝓖.p).map g = f
+    change (changeOfFieldsProjection S 𝓖.p).map g = f
     exact hf'.symm
   let z : CategoricalPullback 𝓖.p (comparisonFunctor S).functor :=
     (changeOfFieldsBasedFunctor S φ).toFunctor.obj x
@@ -374,14 +374,14 @@ public theorem isSmooth_changeOfFields
     intro b
     obtain ⟨a, ha⟩ := hMf ((z.iso.hom).hom b)
     refine ⟨(y.iso.inv).hom a, ?_⟩
-    show (z.iso.inv).hom (((comparisonFunctor S).functor.map f).hom
+    change (z.iso.inv).hom (((comparisonFunctor S).functor.map f).hom
       ((y.iso.hom).hom ((y.iso.inv).hom a))) = b
     have hy : (y.iso.hom).hom ((y.iso.inv).hom a) = a := by
-      show (y.iso.inv ≫ y.iso.hom).hom a = a
+      change (y.iso.inv ≫ y.iso.hom).hom a = a
       rw [y.iso.inv_hom_id]
       rfl
     rw [hy, ha]
-    show (z.iso.hom ≫ z.iso.inv).hom b = b
+    change (z.iso.hom ≫ z.iso.inv).hom b = b
     rw [z.iso.hom_inv_id]
     rfl
   let : 𝓖.p.IsHomLift (𝓖.p.map g.fst) g.fst := inferInstance
@@ -416,13 +416,13 @@ public theorem isSmooth_changeOfFields
   let xNewCP : CategoricalPullback 𝓕.p (comparisonFunctor S).functor :=
     ⟨x', yCP.snd, (eqToIso hxdom) ≪≫ yCP.iso⟩
   let xNew : (BasedCategory.ofFunctor (changeOfFieldsProjection S 𝓕.p)).obj := by
-    show CategoricalPullback 𝓕.p (comparisonFunctor S).functor
+    change CategoricalPullback 𝓕.p (comparisonFunctor S).functor
     exact xNewCP
   have hxNewIso : xNew.iso.hom = eqToHom hxdom ≫ y.iso.hom := by
-    show (eqToIso hxdom ≪≫ y.iso).hom = _
+    change (eqToIso hxdom ≪≫ y.iso).hom = _
     simp
   have hxNewCPIso : xNewCP.iso.hom = eqToHom hxdom ≫ yCP.iso.hom := by
-    show (eqToIso hxdom ≪≫ yCP.iso).hom = _
+    change (eqToIso hxdom ≪≫ yCP.iso).hom = _
     simp
   let hNew : xNew ⟶ x := by
     refine ⟨h, f, ?_⟩
@@ -458,7 +458,7 @@ public theorem isSmooth_changeOfFields
     simp
   let aNew : (changeOfFieldsBasedFunctor S φ).obj xNew ⟶ y := by
     refine ⟨a, 𝟙 yCP.snd, ?_⟩
-    show 𝓖.p.map a ≫ yCP.iso.hom =
+    change 𝓖.p.map a ≫ yCP.iso.hom =
       ((CategoricalPullback.map 𝓕.p (comparisonFunctor S).functor
         φ.toFunctor (𝟭 _) (𝟭 _) 𝓖.p (comparisonFunctor S).functor
         (Iso.refl _) (eqToIso φ.w.symm)).obj xNewCP).iso.hom ≫
@@ -479,9 +479,9 @@ public theorem isSmooth_changeOfFields
   · exact IsHomLift.map (changeOfFieldsProjection S 𝓕.p) hNew
   · exact IsHomLift.map (changeOfFieldsProjection S 𝓖.p) aNew
   · apply CategoricalPullback.hom_ext
-    · show φ.map h = a ≫ g.fst
+    · change φ.map h = a ≫ g.fst
       exact hcomm
-    · show f = g.snd
+    · change f = g.snd
       change g.snd = f at hgsnd
       exact hgsnd.symm
 

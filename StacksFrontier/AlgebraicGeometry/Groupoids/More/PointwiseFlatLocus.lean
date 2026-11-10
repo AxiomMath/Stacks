@@ -141,7 +141,7 @@ private lemma proj_comp_inc : proj.comp inc = RingHom.id baseRing := by
 
 private lemma generic_source_ideal :
     (sourcePoint genericExtension.{u}).asIdeal = (⊥ : Ideal baseRing.{u}) := by
-  show Ideal.comap (proj.comp inc) (⊥ : Ideal baseRing.{u}) = ⊥
+  change Ideal.comap (proj.comp inc) (⊥ : Ideal baseRing.{u}) = ⊥
   rw [proj_comp_inc]
   rfl
 
@@ -156,7 +156,7 @@ private lemma flatAt_specMap_iff (q : PrimeSpectrum (extensionRing.{u})) :
   have hcomp : e₂.inv.hom.comp (g.hom.comp e₁.hom.hom) = ((Spec.map.{u} f).stalkMap q).hom := by
     convert CommRingCat.hom_ext_iff.mp (Scheme.localRingHom_comp_stalkIso f q) using 1
     rfl
-  show ((Spec.map.{u} f).stalkMap q).hom.Flat ↔ (localAt.{u} q).Flat
+  change ((Spec.map.{u} f).stalkMap q).hom.Flat ↔ (localAt.{u} q).Flat
   rw [← hcomp]
   have hcancel₂ :
       (e₂.inv.hom.comp (g.hom.comp e₁.hom.hom)).Flat ↔
@@ -168,7 +168,7 @@ private lemma flatAt_specMap_iff (q : PrimeSpectrum (extensionRing.{u})) :
 private lemma flatAt_generic :
     IsFlatAt (Spec.map.{u} (CommRingCat.ofHom inc.{u})).toLRSHom.toShHom
       genericExtension.{u} := by
-  show ((Spec.map.{u} (CommRingCat.ofHom inc.{u})).stalkMap genericExtension.{u}).hom.Flat
+  change ((Spec.map.{u} (CommRingCat.ofHom inc.{u})).stalkMap genericExtension.{u}).hom.Flat
   let q := (Spec.map.{u} (CommRingCat.ofHom inc.{u})) genericExtension.{u}
   let _ : q.asIdeal.IsPrime := q.2
   let e₁ := Spec.stalkIso (CommRingCat.of baseRing.{u}) q
@@ -178,7 +178,7 @@ private lemma flatAt_generic :
     Localization.localRingEquiv _ _ (RingEquiv.refl baseRing.{u}) (by rw [hp]; rfl)
   have : IsFractionRing (baseRing.{u})
       (Localization.AtPrime (⊥ : Ideal baseRing.{u})) := by
-    show IsLocalization (nonZeroDivisors (baseRing.{u}))
+    change IsLocalization (nonZeroDivisors (baseRing.{u}))
       (Localization.AtPrime (⊥ : Ideal baseRing.{u}))
     rw [← Ideal.primeCompl_bot]
     infer_instance
@@ -221,7 +221,7 @@ private lemma eps_ne_zero (p : Nat.Primes) : eps.{u} p ≠ 0 := by
 private lemma inc_mul_eps (p : Nat.Primes) :
     inc.{u} (ULift.up (p.1 : ℤ)) * eps.{u} p = 0 := by
   apply ULift.ext
-  show TrivSqZeroExt.inl (p.1 : ℤ) *
+  change TrivSqZeroExt.inl (p.1 : ℤ) *
     TrivSqZeroExt.inr (DirectSum.of (fun q : Nat.Primes => ZMod q.1) p 1) = 0
   rw [TrivSqZeroExt.inl_mul_inr]
   apply congrArg TrivSqZeroExt.inr
@@ -279,13 +279,13 @@ private lemma not_flatAt_badPoint (p : Nat.Primes) :
   let z : T := algebraMap extensionRing.{u} T (eps.{u} p)
   have hmap : localAt.{u} (badPoint.{u} p) (algebraMap baseRing.{u} A r) =
       algebraMap extensionRing.{u} T (inc.{u} r) := by
-    show Localization.localRingHom (sourcePoint.{u} (badPoint.{u} p)).asIdeal
+    change Localization.localRingHom (sourcePoint.{u} (badPoint.{u} p)).asIdeal
       (badPoint.{u} p).asIdeal inc.{u} rfl (algebraMap baseRing.{u} A r) = _
     exact Localization.localRingHom_to_map _ _ inc.{u} rfl r
   have hkill : (algebraMap baseRing.{u} A r) • z = 0 := by
-    show localAt.{u} (badPoint.{u} p) (algebraMap baseRing.{u} A r) * z = 0
+    change localAt.{u} (badPoint.{u} p) (algebraMap baseRing.{u} A r) * z = 0
     rw [hmap, ← map_mul]
-    show algebraMap extensionRing.{u} T
+    change algebraMap extensionRing.{u} T
       (inc.{u} (ULift.up (p.1 : ℤ)) * eps.{u} p) = 0
     rw [inc_mul_eps]
     simp
@@ -309,7 +309,7 @@ private lemma exists_badPoint_in_open
       apply TrivSqZeroExt.ext <;> simp [hfst]
     have hsq : s * s = 0 := by
       apply ULift.ext
-      show s.down * s.down = 0
+      change s.down * s.down = 0
       rw [hsdown]
       simp
     apply hsnot
@@ -367,7 +367,7 @@ public theorem exists_flat_locus_not_open :
       have hx : (x.1 : X) ∈ (⊥ : X.Opens) := x.2
       simp at hx
     exact ⟨hbot, fun V hV => (flat_open_eq_bot V hV).le⟩
-  · show (∅ : Set X) ⊂ {x : X | IsFlatAt f.toLRSHom.toShHom x}
+  · change (∅ : Set X) ⊂ {x : X | IsFlatAt f.toLRSHom.toShHom x}
     exact Set.Nonempty.empty_ssubset ⟨genericExtension.{u}, flatAt_generic⟩
 
 end

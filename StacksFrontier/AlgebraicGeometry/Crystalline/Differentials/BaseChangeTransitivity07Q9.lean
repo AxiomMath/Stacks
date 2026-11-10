@@ -90,10 +90,9 @@ private theorem comparisonValues_comp_eq_self07Q9 (p : ℕ) {R S : Type u} [Comm
   refine adicCompletionMapₛₗ_comp_eq_self (TensorProduct.map mu (psi i))
     (TensorProduct.map mu' (psi' i)) (map_pAdicIdeal_le p σ) (map_pAdicIdeal_le p σ')
     (fun y ↦ ?_) x
-  induction y using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction y using TensorProduct.inductionOn with
   | tmul m ω =>
-    show mu' (mu m) ⊗ₜ[R] psi' i (psi i ω) = m ⊗ₜ[R] ω
+    change mu' (mu m) ⊗ₜ[R] psi' i (psi i ω) = m ⊗ₜ[R] ω
     rw [h₁, h₃]
   | add a b ha hb => simp only [map_add, ha, hb]
 
@@ -158,10 +157,9 @@ theorem comparisonValues_comp07Q9 (D'' : Type u) [CommRing D''] (σ₂ : D' →+
   refine (adicCompletionMapₛₗ_comp_apply (TensorProduct.map mu (psi i))
     (TensorProduct.map mu₂ (psi₂ i)) (TensorProduct.map mu₃ (psi₃ i)) (map_pAdicIdeal_le p σ)
     (map_pAdicIdeal_le p σ₂) (map_pAdicIdeal_le p σ₃) (fun y ↦ ?_) x).symm
-  induction y using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction y using TensorProduct.inductionOn with
   | tmul m ω =>
-    show mu₃ m ⊗ₜ[D''] psi₃ i ω = mu₂ (mu m) ⊗ₜ[D''] psi₂ i (psi i ω)
+    change mu₃ m ⊗ₜ[D''] psi₃ i ω = mu₂ (mu m) ⊗ₜ[D''] psi₂ i (psi i ω)
     rw [hmu, hpsi]
   | add a b ha hb => simp only [map_add, ha, hb]
 
@@ -257,8 +255,7 @@ def linearizeTensor07Q9 : D' ⊗[D] M →ₛₗ[τ] N where
   toFun := linearizeTensorAdd07Q9 τ hρ mu
   map_add' := map_add _
   map_smul' c x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [smul_zero, map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul b m =>
       rw [TensorProduct.smul_tmul', linearizeTensorAdd07Q9_tmul, linearizeTensorAdd07Q9_tmul,
         smul_eq_mul, map_mul, mul_smul]
@@ -282,7 +279,7 @@ def linearize07Q9 : CompletedConnection.baseChangeCarrier p D D' M →ₛₗ[τ]
 theorem linearize07Q9_of (t : D' ⊗[D] M) :
     linearize07Q9 p τ hρ mu (AdicCompletion.of (pAdicIdeal (A := D') p) (D' ⊗[D] M) t) =
       linearizeTensor07Q9 τ hρ mu t := by
-  show (AdicCompletion.ofLinearEquiv (pAdicIdeal (A := D'') p) N).symm
+  change (AdicCompletion.ofLinearEquiv (pAdicIdeal (A := D'') p) N).symm
       (adicCompletionMapₛₗ (linearizeTensor07Q9 τ hρ mu) (map_pAdicIdeal_le p τ)
         (AdicCompletion.of (pAdicIdeal (A := D') p) (D' ⊗[D] M) t)) = _
   rw [adicCompletionMapₛₗ_of, AdicCompletion.ofLinearEquiv_symm_of]
@@ -305,10 +302,10 @@ theorem eq_linearize07Q9 (g : CompletedConnection.baseChangeCarrier p D D' M →
     e.toLinearMap.toAddMonoidHom.comp (g - (linearize07Q9 p τ hρ mu).toAddMonoidHom)
   have hG : G x = 0 := by
     refine eq_zero_of_baseChangeInclusion p τ G (fun c y ↦ ?_) (fun m ↦ ?_) x
-    · show e (g (c • y) - linearize07Q9 p τ hρ mu (c • y)) =
+    · change e (g (c • y) - linearize07Q9 p τ hρ mu (c • y)) =
         τ c • e (g y - linearize07Q9 p τ hρ mu y)
       rw [hg, map_smulₛₗ, ← smul_sub, map_smul]
-    · show e (g _ - linearize07Q9 p τ hρ mu _) = 0
+    · change e (g _ - linearize07Q9 p τ hρ mu _) = 0
       rw [h0, linearize07Q9_baseChangeInclusion, sub_self, map_zero]
   exact sub_eq_zero.mp (e.injective (hG.trans (map_zero e).symm))
 
@@ -377,8 +374,7 @@ theorem linearize07Q9_horizontal (x : CompletedConnection.baseChangeCarrier p D 
       (fun x y ↦ by rw [CompletedConnection.map_add, map_add])
   have hFG : F = G := by
     refine adicCompletion_addMonoidHom_ext_of_of p (fun t ↦ ?_)
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction t using TensorProduct.inductionOn with
     | add a b ha hb => rw [map_add, map_add, map_add, ha, hb]
     | tmul b m =>
       have hc := comparisonValues_comp07Q9 p D D' (algebraMap D D') M
@@ -386,7 +382,7 @@ theorem linearize07Q9_horizontal (x : CompletedConnection.baseChangeCarrier p D 
         (CompletedConnection.baseChangeInclusion p D D' M) Om Om' psi D'' τ ρ N
         (linearize07Q9 p τ hρ mu) mu Om'' psi'' psiρ
         (fun m ↦ (linearize07Q9_baseChangeInclusion p τ hρ mu m).symm) hpsiρ 1 (nabla m)
-      show nablaN (linearize07Q9 p τ hρ mu _) = comparisonValues p D' D'' τ _ N _ Om' Om'' psi''
+      change nablaN (linearize07Q9 p τ hρ mu _) = comparisonValues p D' D'' τ _ N _ Om' Om'' psi''
         1 (CompletedConnection.baseChange p D D' M (Om 1) (Om' 1) d' (psi 1) nabla hd'add
           hd'leib hpsi1 _)
       rw [linearize07Q9_of, linearizeTensor07Q9_tmul, nablaN.leibniz, hmu,
@@ -593,11 +589,11 @@ theorem transitivityMap07Q9_towerInclusion (x : CompletedConnection.baseChangeCa
     ((transitivityMap07Q9 p D D₁ D₂ M).toAddMonoidHom.comp
       (towerInclusion07Q9 p D D₁ D₂ M).toAddMonoidHom)
     (fun c y ↦ by
-      show transitivityMap07Q9 p D D₁ D₂ M (towerInclusion07Q9 p D D₁ D₂ M (c • y)) =
+      change transitivityMap07Q9 p D D₁ D₂ M (towerInclusion07Q9 p D D₁ D₂ M (c • y)) =
         algebraMap D₁ D₂ c • transitivityMap07Q9 p D D₁ D₂ M (towerInclusion07Q9 p D D₁ D₂ M y)
       rw [(towerInclusion07Q9 p D D₁ D₂ M).map_smulₛₗ, map_smul])
     (fun m ↦ by
-      show transitivityMap07Q9 p D D₁ D₂ M (towerInclusion07Q9 p D D₁ D₂ M _) = _
+      change transitivityMap07Q9 p D D₁ D₂ M (towerInclusion07Q9 p D D₁ D₂ M _) = _
       rw [towerInclusion07Q9, linearize07Q9_baseChangeInclusion,
         transitivityMap07Q9_baseChangeInclusion]) x
   have h2 := eq_linearize07Q9 p (algebraMap D₁ D₂) (IsScalarTower.algebraMap_apply D D₁ D₂)
@@ -615,11 +611,11 @@ theorem transitivityInverse07Q9_transitivityMap07Q9
     ((transitivityInverse07Q9 p D D₁ D₂ M).toAddMonoidHom.comp
       (transitivityMap07Q9 p D D₁ D₂ M).toAddMonoidHom)
     (fun c y ↦ by
-      show transitivityInverse07Q9 p D D₁ D₂ M (transitivityMap07Q9 p D D₁ D₂ M (c • y)) =
+      change transitivityInverse07Q9 p D D₁ D₂ M (transitivityMap07Q9 p D D₁ D₂ M (c • y)) =
         c • transitivityInverse07Q9 p D D₁ D₂ M (transitivityMap07Q9 p D D₁ D₂ M y)
       rw [map_smul, map_smul])
     (fun m ↦ by
-      show transitivityInverse07Q9 p D D₁ D₂ M (transitivityMap07Q9 p D D₁ D₂ M _) = _
+      change transitivityInverse07Q9 p D D₁ D₂ M (transitivityMap07Q9 p D D₁ D₂ M _) = _
       rw [transitivityMap07Q9_baseChangeInclusion, transitivityInclusion07Q9_apply,
         transitivityInverse07Q9, linearize07Q9_baseChangeInclusion, towerInclusion07Q9,
         linearize07Q9_baseChangeInclusion]) x
@@ -633,11 +629,11 @@ theorem transitivityMap07Q9_transitivityInverse07Q9
     ((transitivityMap07Q9 p D D₁ D₂ M).toAddMonoidHom.comp
       (transitivityInverse07Q9 p D D₁ D₂ M).toAddMonoidHom)
     (fun c y ↦ by
-      show transitivityMap07Q9 p D D₁ D₂ M (transitivityInverse07Q9 p D D₁ D₂ M (c • y)) =
+      change transitivityMap07Q9 p D D₁ D₂ M (transitivityInverse07Q9 p D D₁ D₂ M (c • y)) =
         c • transitivityMap07Q9 p D D₁ D₂ M (transitivityInverse07Q9 p D D₁ D₂ M y)
       rw [map_smul, map_smul])
     (fun y ↦ by
-      show transitivityMap07Q9 p D D₁ D₂ M (transitivityInverse07Q9 p D D₁ D₂ M _) = _
+      change transitivityMap07Q9 p D D₁ D₂ M (transitivityInverse07Q9 p D D₁ D₂ M _) = _
       rw [transitivityInverse07Q9, linearize07Q9_baseChangeInclusion,
         transitivityMap07Q9_towerInclusion]) x
 
@@ -647,7 +643,7 @@ def transitivityEquiv07Q9 :
     CompletedConnection.baseChangeCarrier p D D₂ M ≃ₗ[D₂]
       CompletedConnection.baseChangeCarrier p D₁ D₂
         (CompletedConnection.baseChangeCarrier p D D₁ M) :=
-  LinearEquiv.ofLinear (transitivityMap07Q9 p D D₁ D₂ M) (transitivityInverse07Q9 p D D₁ D₂ M)
+  LinearEquiv.ofLinearMap (transitivityMap07Q9 p D D₁ D₂ M) (transitivityInverse07Q9 p D D₁ D₂ M)
     (LinearMap.ext (transitivityMap07Q9_transitivityInverse07Q9 p D D₁ D₂ M))
     (LinearMap.ext (transitivityInverse07Q9_transitivityMap07Q9 p D D₁ D₂ M))
 
@@ -970,14 +966,14 @@ theorem baseChangeCarrierMap07Q9_symm_apply (x : CompletedConnection.baseChangeC
         (algebraMap_symm07Q9 e e' he)
         muInv).toAddMonoidHom.comp (baseChangeCarrierMap07Q9 p e e' he mu).toAddMonoidHom)
     (fun c y ↦ by
-      show baseChangeCarrierMap07Q9 p e.symm e'.symm (algebraMap_symm07Q9 e e' he) muInv
+      change baseChangeCarrierMap07Q9 p e.symm e'.symm (algebraMap_symm07Q9 e e' he) muInv
           (baseChangeCarrierMap07Q9 p e e' he mu (c • y)) =
         c • baseChangeCarrierMap07Q9 p e.symm e'.symm (algebraMap_symm07Q9 e e' he) muInv
           (baseChangeCarrierMap07Q9 p e e' he mu y)
       rw [map_smulₛₗ, map_smulₛₗ]
       simp)
     (fun m ↦ by
-      show baseChangeCarrierMap07Q9 p e.symm e'.symm (algebraMap_symm07Q9 e e' he) muInv
+      change baseChangeCarrierMap07Q9 p e.symm e'.symm (algebraMap_symm07Q9 e e' he) muInv
         (baseChangeCarrierMap07Q9 p e e' he mu _) = _
       rw [baseChangeCarrierMap07Q9_baseChangeInclusion,
         baseChangeCarrierMap07Q9_baseChangeInclusion, hmu₁]) x

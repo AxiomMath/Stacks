@@ -109,7 +109,7 @@ private theorem enat_eq_of_add_eq {X : ℕ∞} {a b : ℕ} (h : X + a = ((a + b 
   induction X using ENat.recTopCoe with
   | top =>
     rw [top_add] at h
-    exact absurd h.symm (ENat.coe_ne_top _)
+    exact absurd h.symm (ENat.natCast_ne_top _)
   | coe x =>
     norm_cast at h ⊢
     omega
@@ -197,7 +197,7 @@ private theorem le_of_length_quotient_le {I I' : Ideal R} (h : I ≤ I')
   intro x hx
   have hmem : (Submodule.Quotient.mk x : R ⧸ I) ∈ LinearMap.ker g := by
     rw [LinearMap.mem_ker]
-    show (Submodule.Quotient.mk x : R ⧸ I') = 0
+    change (Submodule.Quotient.mk x : R ⧸ I') = 0
     rw [Submodule.Quotient.mk_eq_zero]
     exact hx
   have h0 : (⟨_, hmem⟩ : LinearMap.ker g) = 0 := Subsingleton.elim _ _

@@ -68,7 +68,7 @@ right unitor: the zeroth-power comparison of `Stacks.GradedSections.natPowerSyst
 identity. -/
 theorem natPowerSystem_mulIso_zero_hom (L : C) (p : ℕ) :
     ((natPowerSystem L).mulIso p 0).hom = (ρ_ (natTensorPow L p)).hom := by
-  show (natTensorPow L p ◁ 𝟙 (𝟙_ C)) ≫ (ρ_ (natTensorPow L p)).hom = _
+  change (natTensorPow L p ◁ 𝟙 (𝟙_ C)) ≫ (ρ_ (natTensorPow L p)).hom = _
   rw [MonoidalCategory.whiskerLeft_id, Category.id_comp]
 
 /-- The multiplication isomorphism of the iterated tensor powers at a successor second exponent
@@ -78,7 +78,7 @@ theorem natPowerSystem_mulIso_succ_hom (L : C) (p q : ℕ) :
     ((natPowerSystem L).mulIso p (q + 1)).hom
       = (α_ (natTensorPow L p) (natTensorPow L q) L).inv ≫
           (((natPowerSystem L).mulIso p q).hom ▷ L) := by
-  show (natTensorPow L p ◁ 𝟙 (natTensorPow L q ⊗ L)) ≫
+  change (natTensorPow L p ◁ 𝟙 (natTensorPow L q ⊗ L)) ≫
       (α_ (natTensorPow L p) (natTensorPow L q) L).inv ≫
       (((natPowerSystem L).mulIso p q).hom ▷ L) ≫
         𝟙 ((natPowerSystem L).obj (p + q) ⊗ L) = _

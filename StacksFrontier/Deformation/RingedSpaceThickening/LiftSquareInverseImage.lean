@@ -245,7 +245,7 @@ theorem isLocallySurjective_inverseImage_map
   show ((ringPullback p).map φ).hom.app _
       (PF.obj.map (homOfLE inf_le_right).op (ringUnit p F V' a)) = _
   rw [sheafHom_naturality_apply, ringUnit_naturality]
-  show PG.obj.map _ (ringUnit p G V' (φ.hom.app (op V') a)) = _
+  change PG.obj.map _ (ringUnit p G V' (φ.hom.app (op V') a)) = _
   rw [ha]
   exact (restrict_eq_restrict_ringUnit p G hV'V e inf_le_left inf_le_right).symm
 
@@ -290,13 +290,13 @@ theorem mul_eq_zero_of_inverseImage {G : Sheaf (Opens.grothendieckTopology X) Co
       rw [pow_two]
       refine Ideal.mul_mem_mul ?_ ?_
       · rw [RingHom.mem_ker, ← sheaf_map_map F hV₁V inf_le_left]
-        show φ.hom.app _ _ = 0
+        change φ.hom.app _ _ = 0
         rw [sheafHom_naturality_apply, h₁, map_zero]
       · rw [RingHom.mem_ker,
           show (homOfLE hV₁₂V : V₁ ⊓ V₂ ⟶ V) =
             homOfLE (inf_le_right.trans hV₂V) from Subsingleton.elim _ _,
           ← sheaf_map_map F hV₂V inf_le_right]
-        show φ.hom.app _ _ = 0
+        change φ.hom.app _ _ = 0
         rw [sheafHom_naturality_apply, h₂, map_zero]
     rwa [hφ, Ideal.mem_bot] at hmem
   refine ⟨W ⊓ (Opens.map p).obj (V₁ ⊓ V₂), ⟨hyW, hV₁, hV₂⟩, inf_le_left.trans hWU, ?_⟩
@@ -406,7 +406,7 @@ theorem inverseImageKernelInclusion_moduleUnit (V : Opens X) (m : L.G.val.obj (o
       (f := SheafOfModules.pullbackObjUnitToUnit (inverseImageRingHom p L.O'))).symm.trans
       (SheafOfModules.pullbackPushforwardAdjunction_homEquiv_pullbackObjUnitToUnit _)
   have h3 := congrArg (fun k => k.val.app (op V) (L.incl m)) h3'
-  show (SheafOfModules.pullbackObjUnitToUnit (inverseImageRingHom p L.O')).val.app _
+  change (SheafOfModules.pullbackObjUnitToUnit (inverseImageRingHom p L.O')).val.app _
       (((SheafOfModules.pullback (inverseImageRingHom p L.O')).map L.kernelInclusion).val.app _
         (e.inv.val.app _ (moduleUnit p L.O L.G V m))) = _
   rw [h1]
@@ -494,7 +494,7 @@ theorem inverseImage_exists_incl {U : Opens Y} (a : ((ringPullback p).obj L.O').
   refine ⟨W ⊓ (Opens.map p).obj V', ⟨hyW, hV'⟩, inf_le_left.trans hWU,
     (inverseImageModule p L.O L.G).val.map (homOfLE inf_le_right).op (moduleUnit p L.O L.G V' μ),
     ?_⟩
-  show (inverseImageKernelInclusion p L).val.app _ _ = ((ringPullback p).obj L.O').obj.map _ a
+  change (inverseImageKernelInclusion p L).val.app _ _ = ((ringPullback p).obj L.O').obj.map _ a
   rw [inverseImageKernelInclusion_naturality, inverseImageKernelInclusion_moduleUnit, hμ]
   exact (restrict_eq_restrict_ringUnit p L.O' hV'V e inf_le_left inf_le_right).symm
 

@@ -168,7 +168,7 @@ public theorem bijective_pullbackGlobalSections_ι_of_bijective_restrict (F : X.
   have heq : (fun t => pullbackGlobalSections W.ι F t) =
       (pullbackSectionsOn W.ι F hWW) ∘ (F.presheaf.map (homOfLE (le_top : W ≤ ⊤)).op) :=
     funext hfac
-  show Function.Bijective (fun t => pullbackGlobalSections W.ι F t)
+  change Function.Bijective (fun t => pullbackGlobalSections W.ι F t)
   rw [heq]
   exact hb.comp hres
 

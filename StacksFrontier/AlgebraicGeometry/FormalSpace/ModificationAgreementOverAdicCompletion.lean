@@ -106,7 +106,7 @@ theorem inter_preimage_nonempty_of_isProper_adicCompletionObj
     have := AdicCompletion.isAdicComplete_self I (Ideal.fg_of_isNoetherianRing I)
     exact Ideal.map_le_iff_le_comap.mp ((IsAdicComplete.le_jacobson_bot _).trans
       (sInf_le ⟨bot_le, (PrimeSpectrum.isClosed_singleton_iff_isMaximal M).mp hMcl⟩))
-  show pointsMap B S hS X' f (pointsMap B S hS _ (pullback.snd _ f) c) ∈ T
+  change pointsMap B S hS X' f (pointsMap B S hS _ (pullback.snd _ f) c) ∈ T
   rw [← Function.comp_apply (f := pointsMap B S hS X' f), ← pointsMap_comp,
     ← pullback.condition, pointsMap_comp, Function.comp_apply, hTI,
     pointsToScheme_pointsMap_yoneda, hcM]
@@ -144,7 +144,7 @@ theorem completion_comp_pullback_fst_eq_snd_of_adicCompletionObj
   ext Zo s
   obtain ⟨Zo⟩ := Zo
   obtain ⟨⟨y⟩, hy⟩ := s
-  show ULift.up (h.app (op Zo)
+  change ULift.up (h.app (op Zo)
       ((pullback.fst (yoneda.map (adicCompletionObjHom B S hS V I)) f).app (op Zo) y)) =
     ULift.up (w'.app (op Zo)
       ((pullback.snd (yoneda.map (adicCompletionObjHom B S hS V I)) f).app (op Zo) y))

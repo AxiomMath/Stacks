@@ -114,11 +114,11 @@ theorem isHomLift_fiberSliceValueHom {U : BigFppfOver B S hS}
   have hA : ((Over.iteratedSliceBackward U).obj (Over.mk (𝟙 U.left))).hom =
       eqToHom (Functor.overMap_obj_mkId U) := by
     refine Over.OverMorphism.ext ?_
-    show 𝟙 U.left = _
+    change 𝟙 U.left = _
     simp
   refine CategoryTheory.IsHomLift.of_fac' _ (𝟙 U) (fiberSliceValueHom x)
     (Functor.overMap_obj_mkId U) x.2 ?_
-  show ((Over.iteratedSliceBackward U).obj (Over.mk (𝟙 U.left))).hom ≫ eqToHom x.2.symm =
+  change ((Over.iteratedSliceBackward U).obj (Over.mk (𝟙 U.left))).hom ≫ eqToHom x.2.symm =
     eqToHom (Functor.overMap_obj_mkId U) ≫ 𝟙 U ≫ eqToHom x.2.symm
   rw [Category.id_comp]
   exact congrArg (fun k => k ≫ eqToHom x.2.symm) hA

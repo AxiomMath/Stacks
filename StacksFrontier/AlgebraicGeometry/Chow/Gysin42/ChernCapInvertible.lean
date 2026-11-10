@@ -164,7 +164,7 @@ theorem support_zsmul_cycle_subset (R : IntegralComponentRule C p q g m)
   refine Set.Subset.trans ?_ (R.support_subset W hW hDim)
   intro y hy
   have hy' : (n • R.cycle W hW hDim).1 y ≠ 0 := hy
-  show (R.cycle W hW hDim).1 y ≠ 0
+  change (R.cycle W hW hDim).1 y ≠ 0
   intro h
   exact hy' (by simp [h])
 

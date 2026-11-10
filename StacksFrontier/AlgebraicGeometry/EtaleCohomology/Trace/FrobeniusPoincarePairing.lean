@@ -185,7 +185,7 @@ public theorem isRoot_div_charpoly_of_isPerfPair [FiniteDimensional K V] [Finite
     ext i j
     simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.mul_apply, Matrix.scalar_apply,
       Matrix.diagonal_apply, smul_eq_mul, mul_ite, mul_zero, Finset.sum_ite_eq',
-      Finset.mem_univ, if_true]
+      Finset.mem_univ, ite_true]
     split_ifs with h
     · subst h; field_simp
     · ring

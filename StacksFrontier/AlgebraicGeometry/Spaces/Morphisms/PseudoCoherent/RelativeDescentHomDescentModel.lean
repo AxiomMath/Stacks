@@ -182,7 +182,7 @@ theorem representedSpaceMap_W_map_q {j k : D.LaterIndex} (h : j.1 ≤ k.1) :
     representedSpaceMap B S hS (R.W.map (homOfLE (show j ≤ k from h)).op) ≫
         representedSpaceMap B S hS (R.q j) = representedSpaceMap B S hS (R.q k) :=
   ObjectProperty.hom_ext _ (by
-    show yoneda.map _ ≫ yoneda.map _ = yoneda.map _
+    change yoneda.map _ ≫ yoneda.map _ = yoneda.map _
     rw [← Functor.map_comp, R.map_q])
 
 /-- The represented leg `W → Wⱼ` of the cone followed by `Wⱼ → Z'` is `W → Z'`. -/
@@ -190,7 +190,7 @@ theorem representedSpaceMap_π_q (j : D.LaterIndex) :
     representedSpaceMap B S hS (R.c.π.app (op j)) ≫ representedSpaceMap B S hS (R.q j) =
       representedSpaceMap B S hS R.qc :=
   ObjectProperty.hom_ext _ (by
-    show yoneda.map _ ≫ yoneda.map _ = yoneda.map _
+    change yoneda.map _ ≫ yoneda.map _ = yoneda.map _
     rw [← Functor.map_comp, R.π_q])
 
 variable (K L : D.InitialDerived)

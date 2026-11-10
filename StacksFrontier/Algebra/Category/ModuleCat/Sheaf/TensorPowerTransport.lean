@@ -252,7 +252,7 @@ theorem powerTransport_naturality (hunit : Picard.UnitIso O₁ hO₁ O₂ hO₂ 
         (powerTransport O₁ hO₁ O₂ hO₂ F hunit hten L k).hom ≫
           (powerMapOf O₂ hO₂ (F.mapIso e) k).hom
   | 0 => by
-      show F.map (𝟙 (SheafOfModules.unit (structureSheaf O₁ hO₁))) ≫ hunit.hom =
+      change F.map (𝟙 (SheafOfModules.unit (structureSheaf O₁ hO₁))) ≫ hunit.hom =
         hunit.hom ≫ 𝟙 (SheafOfModules.unit (structureSheaf O₂ hO₂))
       rw [F.map_id, Category.id_comp, Category.comp_id]
   | k + 1 => by

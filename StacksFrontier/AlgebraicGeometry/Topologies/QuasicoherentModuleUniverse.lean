@@ -257,7 +257,7 @@ theorem isQuasicoherentOnSite_of_locally_over {C : Type u} [Category.{v} C]
   obtain ⟨j, c, hc⟩ := hl'
   rw [Sieve.pullback_apply, Sieve.mem_ofArrows_iff]
   refine ⟨⟨i, j⟩, c, ?_⟩
-  show l ≫ b ≫ g i = c ≫ k i j ≫ g i
+  change l ≫ b ≫ g i = c ≫ k i j ≫ g i
   rw [← Category.assoc, hc, Category.assoc]
 
 end Stacks.SheafOfModules

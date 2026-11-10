@@ -36,12 +36,12 @@ space, where the Zariski restriction along the identity chart is quasi-coherent 
   is the shape in which Stacks 0CTU consumes a strict henselization.
 * `AlgebraicGeometry.isWeaklyAssociatedPoint_of_isWeaklyAssociatedPrime_strictHenselization`:
   the descent clause of Stacks 0CTU over a chosen henselization tower.
-* `AlgebraicGeometry.Space.isWeaklyAssociatedPoint_restrictToChart_of_isWeaklyAssociatedPrime_of_isQuasicoherent`
+* `Space.isWeaklyAssociatedPoint_restrictToChart_of_isWeaklyAssociatedPrime_of_isQuasicoherent`
   and `AlgebraicGeometry.Space.isWeaklyAssociatedPoint_restrictToChart_iff_of_isQuasicoherent`:
   **Stacks 0CTW, (1) ⟺ (3)** with the finite-generation hypothesis of
   `AlgebraicGeometry.Space.isWeaklyAssociatedPoint_restrictToChart_iff` replaced by
   quasi-coherence of the Zariski chart restriction.
-* `AlgebraicGeometry.Space.isWeaklyAssociatedPoint_restrictToChart_iff_isWeaklyAssociatedPoint_of_isQuasicoherent`:
+* `Space.isWeaklyAssociatedPoint_restrictToChart_iff_isWeaklyAssociatedPoint_of_isQuasicoherent`:
   the same trade in **Stacks 0CTW, (1) ⟺ (2) at a point of a chart scheme**.
 * `AlgebraicGeometry.Space.isWeaklyAssociatedPoint_restrictToChart_idEtaleChart_iff`:
   **Stacks 0CTW on a represented algebraic space, with no hypothesis beyond quasi-coherence of
@@ -262,8 +262,8 @@ theorem isWeaklyAssociatedPoint_restrictToChart_of_isWeaklyAssociatedPrime_of_is
     induction z using TensorProduct.inductionOn with
     | tmul b m =>
         rw [TensorProduct.smul_tmul']
-        show φ ((a * b) ⊗ₜ m) = e a • φ (b ⊗ₜ m)
-        show (e (a * b)) ⊗ₜ m = e a • ((e b) ⊗ₜ m)
+        change φ ((a * b) ⊗ₜ m) = e a • φ (b ⊗ₜ m)
+        change (e (a * b)) ⊗ₜ m = e a • ((e b) ⊗ₜ m)
         rw [map_mul, TensorProduct.smul_tmul', smul_eq_mul]
     | add z z' hz hz' => simp only [smul_add, map_add, hz, hz']
   have h4 := Stacks.WeaklyAssociatedPrimes.isWeaklyAssociatedPrime_comap_of_ringEquiv e

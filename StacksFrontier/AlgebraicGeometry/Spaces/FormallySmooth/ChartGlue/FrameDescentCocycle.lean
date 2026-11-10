@@ -55,11 +55,11 @@ def F₃Action : B ⊗[A] (B ⊗[A] B) →ₐ[A] Module.End A (F₃ (A' := A') R
 instance F₃Module : Module (B ⊗[A] (B ⊗[A] B)) (F₃ (A' := A') R (A := A) (B := B)) :=
   Module.compHom _ (F₃Action (A' := A') R (A := A) (B := B)).toRingHom
 
+omit [Algebra A' A] [Algebra A' B] [IsScalarTower A' A B] [IsScalarTower A' R B] in
 /-- `(x ⊗ c) • (b ⊗ e) = (x * b) ⊗ (c • e)` in the triple pullback. -/
 lemma F₃_smul_tmul (x : B) (c : B ⊗[A] B) (b : B) (e : E₂ (A' := A') R A B) :
     (x ⊗ₜ[A] c) • (b ⊗ₜ[A] e : F₃ (A' := A') R (A := A) (B := B)) = (x * b) ⊗ₜ[A] (c • e) := by
-  induction c using TensorProduct.induction_on with
-  | zero => simp [TensorProduct.tmul_zero]
+  induction c using TensorProduct.inductionOn with
   | add c c' hc hc' => rw [tmul_add, add_smul, hc, hc', add_smul, tmul_add]
   | tmul y z => rfl
 
@@ -82,15 +82,15 @@ abbrev e₁₃ₐ : B ⊗[A] B →ₐ[A'] B ⊗[A] (B ⊗[A] B) :=
 
 /-- `e₁₂ ∘ q₂ = e₂₃ ∘ q₁` as maps `B → B ⊗ (B ⊗ B)`: both send `b` to `1 ⊗ (b ⊗ 1)`. -/
 lemma e₁₂_q₂ : (e₁₂ₐ (A' := A') A B).comp (q₂ A B) = (e₂₃ₐ A B).comp (q₁ A B) := by
-  ext b; simp [Algebra.TensorProduct.one_def]
+  ext b; simp
 
 /-- `e₂₃ ∘ q₂ = e₁₃ ∘ q₂` as maps `B → B ⊗ (B ⊗ B)`: both send `b` to `1 ⊗ (1 ⊗ b)`. -/
 lemma e₂₃_q₂ : (e₂₃ₐ (A' := A') A B).comp (q₂ A B) = (e₁₃ₐ A B).comp (q₂ A B) := by
-  ext b; simp [Algebra.TensorProduct.one_def]
+  ext b; simp
 
 /-- `e₁₂ ∘ q₁ = e₁₃ ∘ q₁` as maps `B → B ⊗ (B ⊗ B)`: both send `b` to `b ⊗ (1 ⊗ 1)`. -/
 lemma e₁₂_q₁ : (e₁₂ₐ (A' := A') A B).comp (q₁ A B) = (e₁₃ₐ A B).comp (q₁ A B) := by
-  ext b; simp [Algebra.TensorProduct.one_def]
+  ext b; simp
 
 variable (hC₂ : P (CommAlgCat.of A' (B ⊗[A] B)))
   (hpt : Φ.pt (C₂ A B hC₂) (w₁ R A B hC₂) = Φ.pt (C₂ A B hC₂) (w₂ R A B hC₂))
@@ -116,12 +116,10 @@ def Lσ : E₂ (A' := A') R A B →ₛₗ[((e₁₂ₐ (A' := A') A B : B ⊗[A]
     (transition R Φ hC₂ hpt hE₁ hE₂))
   map_add' := map_add _
   map_smul' c x := by
-    induction c using TensorProduct.induction_on with
-    | zero => simp
+    induction c using TensorProduct.inductionOn with
     | add c c' hc hc' => rw [add_smul, map_add, hc, hc', map_add, add_smul]
     | tmul x' y' =>
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | add x y hx hy => rw [smul_add, map_add, hx, hy, map_add, smul_add]
       | tmul b m =>
         rw [targetTensor_smul_tmul, LinearMap.lTensor_tmul, LinearMap.lTensor_tmul,
@@ -133,7 +131,7 @@ def Lσ : E₂ (A' := A') R A B →ₛₗ[((e₁₂ₐ (A' := A') A B : B ⊗[A]
 lemma Lσ_tmul (b : B) (m : restrictModule A B (frameModuleCat (A' := A') R B)) :
     Lσ R Φ hC₂ hpt hE₁ hE₂ (b ⊗ₜ[A] m) =
       b ⊗ₜ[A] σ R Φ hC₂ hpt hE₂ (fromRM R A m) := by
-  show b ⊗ₜ[A] transition R Φ hC₂ hpt hE₁ hE₂ (m ⊗ₜ[A] (1 : B)) = _
+  change b ⊗ₜ[A] transition R Φ hC₂ hpt hE₁ hE₂ (m ⊗ₜ[A] (1 : B)) = _
   exact congrArg (b ⊗ₜ[A] ·) (transition_ι₁ R Φ hC₂ hpt hE₁ hE₂ (fromRM R A m))
 
 /-- `x ↦ 1 ⊗ x : B ⊗ M → B ⊗ (B ⊗ M)`, semilinear along `e₂₃`. -/
@@ -142,8 +140,7 @@ def Lι : E₂ (A' := A') R A B →ₛₗ[((e₂₃ₐ (A' := A') A B : B ⊗[A]
   toFun := TensorProduct.mk A B (E₂ (A' := A') R A B) 1
   map_add' := map_add _
   map_smul' c x := by
-    induction c using TensorProduct.induction_on with
-    | zero => simp
+    induction c using TensorProduct.inductionOn with
     | add c c' hc hc' => rw [add_smul, map_add, hc, hc', map_add, add_smul]
     | tmul x' y' =>
       change (1 : B) ⊗ₜ[A] ((x' ⊗ₜ[A] y') • x) = ((1 : B) ⊗ₜ[A] (x' ⊗ₜ[A] y')) • ((1 : B) ⊗ₜ[A] x)
@@ -156,12 +153,10 @@ def Lμ : E₂ (A' := A') R A B →ₛₗ[((e₁₃ₐ (A' := A') A B : B ⊗[A]
     (restrictModule A B (frameModuleCat (A' := A') R B)) 1)
   map_add' := map_add _
   map_smul' c x := by
-    induction c using TensorProduct.induction_on with
-    | zero => simp
+    induction c using TensorProduct.inductionOn with
     | add c c' hc hc' => rw [add_smul, map_add, hc, hc', map_add, add_smul]
     | tmul x' y' =>
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | add x y hx hy => rw [smul_add, map_add, hx, hy, map_add, smul_add]
       | tmul b m =>
         rw [targetTensor_smul_tmul, LinearMap.lTensor_tmul, LinearMap.lTensor_tmul]
@@ -193,7 +188,7 @@ lemma coassoc_derivation (r : R) :
           (Lι (A' := A') R (A := A) (B := B))) fun r ↦ ?_,
         Φ.derPt_map (C := C₂ A B hC₂) (hN := hE₂), Φ.derPt_transportFun,
         ← Φ.derPt_map (C := C₂ A B hC₂) (hN := hE₂)]
-      show Lσ R Φ hC₂ hpt hE₁ hE₂ ((1 : B) ⊗ₜ[A] toRM R A (frameDiff (A' := A') R B r)) =
+      change Lσ R Φ hC₂ hpt hE₁ hE₂ ((1 : B) ⊗ₜ[A] toRM R A (frameDiff (A' := A') R B r)) =
         (1 : B) ⊗ₜ[A] ψ₂₁ R Φ hC₂ hpt hE₂ r
       rw [Lσ_tmul]
       exact congrArg ((1 : B) ⊗ₜ[A] ·) (σ_frameDiff R Φ hC₂ hpt hE₂ r)

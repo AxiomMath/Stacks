@@ -162,10 +162,10 @@ theorem rigFlat_completedTensorProduct_of_naive
       TopologicalRing.CompletionOver.isTopologicallyNilpotent_of_mem_isIdealOfDefinition hI₀def hx⟩
   have hRed := Rig.isFiniteTypeOnReductions_of_isTaut_of_isTopologicallyOfFiniteType
     (algebraMap R₀ R₁) hc₁ hBW
-    (RingHom.isTaut_of_isAdic (algebraMap R₀ R₁) hc₁ hP.1) hP.2.1
+    (RingHom.isTaut_of_isAdic (algebraMap R₀ R₁) hP.1) hP.2.1
   let hTnoeth : IsNoetherianRing
       (TopologicalRing.CompletedTensorProduct (R := R₀) (M := R₁) (N := R₂)) :=
-    TopologicalRing.completedTensorProduct_isNoetherianRing hc₁ hc₂ h₁.1 h₂.1
+    TopologicalRing.completedTensorProduct_isNoetherianRing h₁.1 h₂.1
       ⟨TopologicalRing.topologicalNilradical_le_comap _ hc₁, hRed⟩
   have hnaive₀ := hnaive h₀ h₁ h₂ hc₁ hc₂ hP hQ
   refine ⟨hTadic, hTnoeth, hnaive₀.1, hnaive₀.2.1, ?_⟩

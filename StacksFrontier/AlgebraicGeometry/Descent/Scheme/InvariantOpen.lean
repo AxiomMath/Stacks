@@ -598,7 +598,7 @@ lemma isInvariantOpens_opensRange [∀ i, IsOpenImmersion (φ.hom i).left] :
   rw [isInvariantOpens_iff_gluing]
   intro i j
   apply TopologicalSpace.Opens.ext
-  show ⇑(D.gluing i j).hom.left.left ⁻¹'
+  change ⇑(D.gluing i j).hom.left.left ⁻¹'
       (⇑(prod.snd : Over.mk (f i) ⨯ (Over.map (f j)).obj (D.obj j) ⟶ _).left ⁻¹'
         Set.range ⇑(φ.hom j).left) =
     ⇑(prod.fst : (Over.map (f i)).obj (D.obj i) ⨯ Over.mk (f j) ⟶ _).left ⁻¹'

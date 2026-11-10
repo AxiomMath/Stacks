@@ -75,7 +75,8 @@ types in `StacksFrontier/AlgebraicGeometry/Descent/Scheme/FamilyCoproduct.lean`,
 needed here are finite and the Mathlib statement is public.
 
 The cartesian square is stated for an arbitrary morphism of schemes. The file
-`StacksFrontier/AlgebraicGeometry/FundamentalGroup/EtaleFundamental/GaloisCategoryAxioms.lean` contains a `private` copy of it specialised to a
+`StacksFrontier/AlgebraicGeometry/FundamentalGroup/EtaleFundamental/GaloisCategoryAxioms.lean`
+contains a `private` copy of it specialised to a
 geometric point (`baseChange_left_isPullback`); the general statement is what the coproduct
 argument needs, since it is applied to the inclusions of a disjoint union.
 

@@ -79,7 +79,7 @@ private theorem isSeparated_of_isOpenImmersion
     (hG : IsAlgebraicSpace B S hS G) {j : F ⟶ G} (hj : IsOpenImmersion B S hS j) :
     IsSeparated B S hS j := by
   refine (isSeparated_iff_presheaf B S hS j hF hG hj.1).2 ⟨hj.1, fun T V g fst snd hs => ?_⟩
-  show _root_.AlgebraicGeometry.IsSeparated ((BigFppfOver.toScheme B S hS).map snd)
+  change _root_.AlgebraicGeometry.IsSeparated ((BigFppfOver.toScheme B S hS).map snd)
   have : _root_.AlgebraicGeometry.IsOpenImmersion ((BigFppfOver.toScheme B S hS).map snd) :=
     hj.2 g fst snd hs
   infer_instance
@@ -94,7 +94,7 @@ private theorem finiteOpenSubspaceMap_comp_baseMap {X' X Y : AlgebraicSpaces B S
       (finiteOpenSubspacePresheaf B S hS f').baseMap := by
   ext T x
   apply yonedaEquiv.symm.injective
-  show yonedaEquiv.symm ((finiteOpenSubspacePresheaf B S hS f).baseMap.app T
+  change yonedaEquiv.symm ((finiteOpenSubspacePresheaf B S hS f).baseMap.app T
       ((finiteOpenSubspaceMap B S hS j f' f hjf hj).1.app T x)) =
     yonedaEquiv.symm ((finiteOpenSubspacePresheaf B S hS f').baseMap.app T x)
   rw [(finiteOpenSubspacePresheaf B S hS f).baseMap_spec T.unop,

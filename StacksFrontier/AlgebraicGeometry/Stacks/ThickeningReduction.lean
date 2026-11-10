@@ -259,7 +259,7 @@ theorem isReducedStack_of_isEquivalence_stackMorphism {𝒴 𝒵 : AlgebraicStac
     IsReducedStack B S hS 𝒵 := by
   obtain ⟨U, a, hasurj, hasmooth, hU⟩ := h𝒴
   refine ⟨U, a ≫ e, ?_, isSmooth_comp_of_isEquivalence a e he hasmooth, hU⟩
-  show Function.Surjective (AlgebraicStacks.pointsMap B S hS (a ≫ e))
+  change Function.Surjective (AlgebraicStacks.pointsMap B S hS (a ≫ e))
   rw [AlgebraicStacks.pointsMap_comp]
   exact hesurj.comp hasurj
 

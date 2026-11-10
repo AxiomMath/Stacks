@@ -158,14 +158,14 @@ theorem exists_cycleFamilySum_subset_of_isRationallyEquivalentToZeroCanonical_cl
       (cycleGroupClosedPushforward_integralClosedSubspacePushforward D sX hX Y hY k (W n) (hm n)
         (c n) _ (hcc n))
     rw [← finsum_congr hterm]
-    show cycleClosedPushforward D hX.1 hY.1 (D.isDecentSpace_of_isGood sX hX) hY.2
+    change cycleClosedPushforward D hX.1 hY.1 (D.isDecentSpace_of_isGood sX hX) hY.2
         (cycleFamilySum D (Y.ι ≫ sX) hYgood W hWfin k c).1 T = _
     by_cases hT : ∃ T0, IntegralClosedSubspace.pushforward D.site D.base D.base_mem hX.1 hY.1
         (D.isDecentSpace_of_isGood sX hX) hY.2 T0 = T
     · obtain ⟨T0, rfl⟩ := hT
       rw [cycleClosedPushforward_apply_pushforward, cycleFamilySum_apply]
       refine finsum_congr fun n => ?_
-      show _ = cycleClosedPushforward D hX.1 hY.1 _ hY.2 _ _
+      change _ = cycleClosedPushforward D hX.1 hY.1 _ hY.2 _ _
       rw [cycleClosedPushforward_apply_pushforward]
     · have hne := fun γ => cycleClosedPushforward_apply_of_forall_ne D hX.1 hY.1 _ hY.2 γ T
         fun T0 hT0 => hT ⟨T0, hT0⟩

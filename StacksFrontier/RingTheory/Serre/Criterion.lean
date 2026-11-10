@@ -153,7 +153,7 @@ private lemma surjective_algebraMap_of_isIntegrallyClosed {S : Type u} [CommRing
   obtain ⟨b, hb⟩ := IsIntegrallyClosed.isIntegral_iff.1 hint
   have hab : x * b = a := hinjK (by rw [map_mul, hb, hk])
   refine ⟨b, hxreg ?_⟩
-  show x • algebraMap S S' b = x • y
+  change x • algebraMap S S' b = x • y
   rw [Algebra.smul_def, Algebra.smul_def, ← map_mul, hab, ha]
 
 /-- A Noetherian local integrally closed domain of dimension at least `2` has depth at least

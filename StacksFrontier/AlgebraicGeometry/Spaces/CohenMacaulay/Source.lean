@@ -311,7 +311,7 @@ private theorem isLocalHom_of_strictHenselization_germs {Z W : Scheme.{u}} [IsAf
     apply IsLocalization.ringHom_ext
       ((isAffineOpen_top W).primeIdealOf ⟨q z, trivial⟩).asIdeal.primeCompl
     ext a
-    show eZ.symm (φ (eW (algebraMap _ T.strictHenselization
+    change eZ.symm (φ (eW (algebraMap _ T.strictHenselization
       (W.presheaf.germ ⊤ (q z) trivial a)))) = _
     rw [hc, RingEquiv.symm_apply_apply]
     exact congrArg (algebraMap _ N.strictHenselization)
@@ -323,7 +323,7 @@ private theorem isLocalHom_of_strictHenselization_germs {Z W : Scheme.{u}} [IsAf
   have h3 : IsLocalHom (ψ.comp eW.symm.toRingHom) := RingHom.isLocalHom_comp _ _
   have hfac : φ = eZ.toRingHom.comp (ψ.comp eW.symm.toRingHom) := by
     ext a
-    show φ a = eZ (eZ.symm (φ (eW (eW.symm a))))
+    change φ a = eZ (eZ.symm (φ (eW (eW.symm a))))
     rw [RingEquiv.apply_symm_apply, RingEquiv.apply_symm_apply]
   rw [hfac]
   exact RingHom.isLocalHom_comp _ _

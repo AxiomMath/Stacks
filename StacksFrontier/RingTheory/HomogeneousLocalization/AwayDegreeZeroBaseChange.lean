@@ -84,7 +84,7 @@ theorem zpow_smul_mem_gradedPiece {f : S} (hf : f ∈ 𝒜 1) (k e : ℤ)
   have hmem : f ^ a • x ∈ 𝒨 (e + k + (b + n : ℕ) • ((1 : ℕ) : ℤ)) := by
     have h := SetLike.GradedSMul.smul_mem (A := 𝒜) (B := 𝒨) (SetLike.pow_mem_graded a hf) hx
     convert h using 2
-    show e + k + (b + n : ℕ) • ((1 : ℕ) : ℤ) = ((a • 1 : ℕ) : ℤ) + (e + n • ((1 : ℕ) : ℤ))
+    change e + k + (b + n : ℕ) • ((1 : ℕ) : ℤ) = ((a • 1 : ℕ) : ℤ) + (e + n • ((1 : ℕ) : ℤ))
     simp only [nsmul_eq_mul, Nat.cast_one, mul_one, Nat.cast_add, smul_eq_mul]
     omega
   convert mk_mem_gradedPiece 𝒜 𝒨 hf hmem using 2
@@ -111,7 +111,7 @@ theorem exists_sum_zpow_eq {f : S} (hf : f ∈ 𝒜 1) (z : Localization.Away f)
   refine Finset.sum_congr rfl fun d _ => ?_
   have h0 : 0 ≤ ((d : ℤ) - k) + k := by omega
   dsimp only
-  rw [dif_pos h0, HomogeneousLocalization.Away.val_mk]
+  rw [dite_eq_left h0, HomogeneousLocalization.Away.val_mk]
   have hd : (((d : ℤ) - k) + k).toNat = d := by omega
   rw [coe_awayUnit_zpow_eq_mk f (k := (d : ℤ) - k) (a := d) (b := k) (by ring),
     Localization.mk_mul, Localization.mk_eq_mk_iff, Localization.r_iff_exists]
@@ -165,8 +165,7 @@ theorem isBaseChange_degreeZero (hf : f ∈ 𝒜 1) :
       rfl
   have hθ : Function.Surjective θ := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => exact ⟨0, map_zero _⟩
+    induction t using TensorProduct.inductionOn with
     | add t₁ t₂ h₁ h₂ =>
       obtain ⟨g₁, rfl⟩ := h₁
       obtain ⟨g₂, rfl⟩ := h₂
@@ -200,7 +199,7 @@ theorem isBaseChange_degreeZero (hf : f ∈ 𝒜 1) :
     have hcomp := congrArg (fun ζ : DirectSum ℤ fun e => ↥(gradedPiece 𝒜 𝒨 f e) =>
       ((ζ n : LocalizedModule.Away (R := S) f M))) hξ0
     simp only [ξ, DirectSum.zero_apply, ZeroMemClass.coe_zero] at hcomp
-    rw [DFinsupp.finset_sum_apply, AddSubgroup.val_finset_sum] at hcomp
+    rw [DFinsupp.finsetSum_apply, AddSubgroup.val_finsetSum] at hcomp
     by_cases hn : n ∈ g.support
     · rw [Finset.sum_eq_single_of_mem n hn (fun m _ hmn => by
         rw [DirectSum.of_eq_of_ne m n _ (Ne.symm hmn)]; rfl)] at hcomp
@@ -223,7 +222,7 @@ theorem isBaseChange_degreeZero (hf : f ∈ 𝒜 1) :
     refine Finset.sum_congr rfl fun e _ => ?_
     simp only [Φ, Finsupp.liftAddHom_apply_single, AddMonoidHom.coe_mk, ZeroHom.coe_mk,
       DirectSum.coeAddMonoidHom_of]
-    show b e • b (-e) • _ = _
+    change b e • b (-e) • _ = _
     exact hbb e (-e) _ (add_neg_cancel e)
   have hΛ : Function.Bijective Λ := by
     refine ⟨?_, ?_⟩

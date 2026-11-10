@@ -355,7 +355,7 @@ public theorem killsRelationsHom_sections_of_basicOpen_charts (A : Type u) [Comm
     (fun q => baseSectionHom A fX (X.basicOpen q.1.2))
     (fun q => (G.presheaf.map (homOfLE q.2).op).hom) ?_ ?_ fun q => hkill q.1.1 q.1.2
   · intro q c x
-    show G.presheaf.map (homOfLE q.2).op (baseSectionHom A fX V c • x) = _
+    change G.presheaf.map (homOfLE q.2).op (baseSectionHom A fX V c • x) = _
     rw [G.map_smul (homOfLE q.2), baseSectionHom_map]
   · intro s hs
     refine TopCat.Sheaf.eq_of_locally_eq_of_isSheafPresheaf G.isSheaf

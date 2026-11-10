@@ -113,14 +113,14 @@ theorem comp_globalSmul (a : GlobalSectionRing O) {M N : SheafOfModules.{w} O} (
 /-- Multiplication by `1` is the identity. -/
 theorem globalSmul_one (M : SheafOfModules.{w} O) : globalSmul O 1 M = 𝟙 M := by
   ext X x
-  show (1 : O.obj.obj X) • x = x
+  change (1 : O.obj.obj X) • x = x
   simp
 
 /-- Multiplication by `a * b` is multiplication by `a` followed by multiplication by `b`. -/
 theorem globalSmul_mul (a b : GlobalSectionRing O) (M : SheafOfModules.{w} O) :
     globalSmul O (a * b) M = globalSmul O a M ≫ globalSmul O b M := by
   ext X x
-  show (a.1 X * b.1 X) • x = b.1 X • a.1 X • x
+  change (a.1 X * b.1 X) • x = b.1 X • a.1 X • x
   rw [← mul_smul]
   exact congrArg (fun c => c • x) (mul_comm (a.1 X) (b.1 X))
 
@@ -128,7 +128,7 @@ theorem globalSmul_mul (a b : GlobalSectionRing O) (M : SheafOfModules.{w} O) :
 theorem globalSmul_add (a b : GlobalSectionRing O) (M : SheafOfModules.{w} O) :
     globalSmul O (a + b) M = globalSmul O a M + globalSmul O b M := by
   ext X x
-  show (a.1 X + b.1 X) • x = _
+  change (a.1 X + b.1 X) • x = _
   rw [add_smul]
   rfl
 
@@ -136,7 +136,7 @@ theorem globalSmul_add (a b : GlobalSectionRing O) (M : SheafOfModules.{w} O) :
 theorem globalSmul_zero (M : SheafOfModules.{w} O) :
     globalSmul O (0 : GlobalSectionRing O) M = 0 := by
   ext X x
-  show (0 : O.obj.obj X) • x = _
+  change (0 : O.obj.obj X) • x = _
   rw [zero_smul]
   rfl
 
@@ -215,7 +215,7 @@ def idealSmulHom : (∐ fun _ : ULift.{max v w} ↥I => F) ⟶ F :=
 theorem ι_idealSmulHom (a : ↥I) :
     Sigma.ι (fun _ : ULift.{max v w} ↥I => F) (ULift.up a) ≫ idealSmulHom O I F =
       globalSmul O a.1 F :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The subsheaf `I F` of `F`: the image of multiplication by the elements of `I`. -/
 def idealSmul : SheafOfModules.{max u v r w} O := image (idealSmulHom O I F)
@@ -237,7 +237,7 @@ def idealSmulFactor {a : ↥(GlobalSectionRing O)} (ha : a ∈ I) : F ⟶ idealS
 @[reassoc]
 theorem idealSmulFactor_comp_ι {a : ↥(GlobalSectionRing O)} (ha : a ∈ I) :
     idealSmulFactor O I F ha ≫ idealSmulι O I F = globalSmul O a F := by
-  show (Sigma.ι (fun _ : ULift.{max v w} ↥I => F) (ULift.up ⟨a, ha⟩) ≫
+  change (Sigma.ι (fun _ : ULift.{max v w} ↥I => F) (ULift.up ⟨a, ha⟩) ≫
       factorThruImage (idealSmulHom O I F)) ≫ image.ι (idealSmulHom O I F) = globalSmul O a F
   rw [Category.assoc, image.fac]
   exact ι_idealSmulHom O I F ⟨a, ha⟩
@@ -273,7 +273,7 @@ def idealSmulLift {X : SheafOfModules.{max u v r w} O} (g : X ⟶ F)
 theorem idealSmulLift_comp_ι {X : SheafOfModules.{max u v r w} O} (g : X ⟶ F)
     (hg : g ≫ cokernel.π (idealSmulHom O I F) = 0) :
     idealSmulLift O I F g hg ≫ idealSmulι O I F = g := by
-  show (kernel.lift (cokernel.π (idealSmulHom O I F)) g hg ≫
+  change (kernel.lift (cokernel.π (idealSmulHom O I F)) g hg ≫
     (Abelian.imageIsoImage (idealSmulHom O I F)).hom) ≫ image.ι (idealSmulHom O I F) = g
   rw [Category.assoc, Abelian.imageIsoImage_hom_comp_image_ι, kernel.lift_ι]
 

@@ -250,7 +250,7 @@ theorem vect_pullback_frobeniusPow_map_eq_zero
   let _ : Algebra A A := (MilnorPatching.OneGeneratorFrobenius.frobeniusPow A p hp N).toAlgebra
   have hker : ∀ x ∈ J ⊓ Ideal.span {f}, (algebraMap A A) x = 0 := by
     intro x hx
-    show MilnorPatching.OneGeneratorFrobenius.frobeniusPow A p hp N x = 0
+    change MilnorPatching.OneGeneratorFrobenius.frobeniusPow A p hp N x = 0
     rw [MilnorPatching.OneGeneratorFrobenius.frobeniusPow_apply]
     exact MilnorPatching.OneGeneratorFrobenius.pow_eq_zero_of_mem_inf_of_le hann hN hx
   have key : LinearMap.baseChange A ψ.hom.hom = 0 :=

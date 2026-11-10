@@ -62,14 +62,14 @@ theorem inf_le_of_preimage_le (P : AlgebraicSpaces B S hS) (T C : ClosedSubspace
   have hGC : (C.1.preimage φ).image φ ≤ C.1 := (Subfunctor.image_le_iff _ _ _).2 le_rfl
   refine le_trans ?_ (Subfunctor.sheafify_le _ _ hGC hPsh hCsh)
   rintro Z x ⟨hxT, hxΩ⟩
-  show ((C.1.preimage φ).image φ).sieveOfSection x ∈ BigFppfOver.topology B S hS Z.unop
+  change ((C.1.preimage φ).image φ).sieveOfSection x ∈ BigFppfOver.topology B S hS Z.unop
   refine (BigFppfOver.topology B S hS).superset_covering ?_
     (Presheaf.imageSieve_mem (BigFppfOver.topology B S hS) (Subfunctor.lift φ hφΩ)
       (⟨x, hxΩ⟩ : Ω.toFunctor.obj Z))
   rintro Z' f ⟨y, hy⟩
   have hφy : φ.app _ y = P.1.map f.op x := congrArg Subtype.val hy
   refine ⟨y, h _ ?_, hφy⟩
-  show φ.app _ y ∈ T.1.obj _
+  change φ.app _ y ∈ T.1.obj _
   rw [hφy]
   exact T.1.map f.op hxT
 
@@ -86,7 +86,7 @@ theorem isFinite_isEtale_pullback_fst_of_inf_le {X : (BigFppfOver B S hS)ᵒᵖ 
   have hrange : Subfunctor.range (pullback.snd U.ι (T.ι ≫ q) ≫ T.ι) ≤ C := by
     rintro Z _ ⟨w, rfl⟩
     refine h Z ⟨((pullback.snd U.ι (T.ι ≫ q)).app Z w).2, ?_⟩
-    show (pullback.snd U.ι (T.ι ≫ q) ≫ T.ι ≫ q).app Z w ∈ U.obj Z
+    change (pullback.snd U.ι (T.ι ≫ q) ≫ T.ι ≫ q).app Z w ∈ U.obj Z
     rw [← pullback.condition]
     exact ((pullback.fst U.ι (T.ι ≫ q)).app Z w).2
   let s : pullback U.ι (T.ι ≫ q) ⟶ C.toFunctor :=
@@ -160,7 +160,7 @@ theorem exists_chart_over_openSubspace {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type 
     infer_instance
   have hφΩ : Subfunctor.range φ ≤ U.preimage q := by
     rintro Z _ ⟨x, rfl⟩
-    show (φ ≫ q).app Z x ∈ U.obj Z
+    change (φ ≫ q).app Z x ∈ U.obj Z
     rw [hsq.w]
     exact ((u₀.app Z) ((yoneda.map π).app Z x)).2
   have hΩ : IsOpenSubspace B S hS (U.preimage q) :=

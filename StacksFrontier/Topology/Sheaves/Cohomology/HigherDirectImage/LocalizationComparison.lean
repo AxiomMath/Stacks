@@ -238,10 +238,10 @@ theorem restrictedMorphism_comp_openSubspaceInclusion :
     openSubspaceInclusion X (preimageOpen f V) ≫ f =
       restrictedMorphism f V ≫ openSubspaceInclusion Y V := by
   apply InducedCategory.hom_ext
-  show (openSubspaceInclusion X (preimageOpen f V)).hom ≫ f.hom =
+  change (openSubspaceInclusion X (preimageOpen f V)).hom ≫ f.hom =
     (restrictedMorphism f V).hom ≫ (openSubspaceInclusion Y V).hom
   refine PresheafedSpace.hext _ _ rfl (heq_of_eq (NatTrans.ext (funext fun W₀ => ?_)))
-  show f.hom.c.app W₀ ≫ X.presheaf.map
+  change f.hom.c.app W₀ ≫ X.presheaf.map
         ((preimageOpen f V).isOpenEmbedding.isOpenMap.adjunction.counit.app
           ((Opens.map f.hom.base).obj W₀.unop)).op =
       Y.presheaf.map (V.isOpenEmbedding.isOpenMap.adjunction.counit.app W₀.unop).op ≫
@@ -350,7 +350,7 @@ theorem structureSheafHom_restrictedMorphism_compatible :
       (X.presheaf.map_comp _ _).symm.trans (X.presheaf.map_id _)
     rw [restrictedMorphismSheafHom_app, Category.assoc, h2]
     exact Category.comp_id _
-  show ((forget₂ CommRingCat.{u} RingCat.{u}).map ((restrictedMorphismSheafHom f V).app W) ≫
+  change ((forget₂ CommRingCat.{u} RingCat.{u}).map ((restrictedMorphismSheafHom f V).app W) ≫
         𝟙 _) ≫
       (forget₂ CommRingCat.{u} RingCat.{u}).map
         (X.presheaf.map ((restrictOpensIso f V).hom.app W.unop).op) =

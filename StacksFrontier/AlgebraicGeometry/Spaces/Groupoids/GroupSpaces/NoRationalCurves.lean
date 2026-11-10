@@ -204,7 +204,7 @@ theorem projectiveLine_mem_site :
   let S := Spec (CommRingCat.of k)
   let P := projectiveSpaceOverRing 1 (CommRingCat.of k)
   let : _root_.AlgebraicGeometry.IsProper (P ↘ S) := inferInstance
-  show P.size < B.cutoff
+  change P.size < B.cutoff
   exact Scheme.size_lt_of_locallyOfFiniteType_of_quasiCompact (P ↘ S) hk
 
 /-- The projective line over `k`, as an object of the big fppf site over `Spec k`. -/
@@ -303,7 +303,7 @@ private theorem isProper_site_power [HasFiniteProducts (BigFppfOver B S hS)]
       IsTerminal.ofUniqueHom (fun _ => Pi.lift fun i => Fin.elim0 i)
         (fun _ _ => Pi.hom_ext _ _ fun i => Fin.elim0 i)
     apply isProper_site_of_iso B S hS (ht.uniqueUpToIso Over.mkIdTerminal)
-    show _root_.AlgebraicGeometry.IsProper (B.inclusion.map (𝟙 (B.obj hS)))
+    change _root_.AlgebraicGeometry.IsProper (B.inclusion.map (𝟙 (B.obj hS)))
     rw [CategoryTheory.Functor.map_id]; infer_instance
   | succ n ih =>
     exact isProper_site_of_iso B S hS (piFinSuccIso X n)
@@ -412,17 +412,18 @@ private noncomputable def pairCoordinates
     ((base_isTerminal k B hk).hom_ext _ _)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the products `Pi.lift`/`Pi.π` of presheaves on the big fppf site
 /-- The coordinates of `AlgebraicGeometry.Space.pairCoordinates` are the prescribed ones. -/
 private theorem pairCoordinates_proj
     (a b : projectiveLineOverBase k B hk ⟶ projectiveLineOverBase k B hk) (j : Fin 2) :
     pairCoordinates k B hk a b ≫ projectiveLinePowerCoordinate k B hk 2 j =
       if j = 0 then a else b := by
   fin_cases j <;> apply Over.OverMorphism.ext <;> apply Pi.hom_ext <;> intro i
-  · show (Pi.lift _ ≫ Pi.lift (fun _ : Fin 1 => Pi.π _ 0)) ≫ Pi.π _ i = _
+  · change (Pi.lift _ ≫ Pi.lift (fun _ : Fin 1 => Pi.π _ 0)) ≫ Pi.π _ i = _
     fin_cases i
     simp [Category.assoc]
     rfl
-  · show (Pi.lift _ ≫ Pi.lift (fun _ : Fin 1 => Pi.π _ 1)) ≫ Pi.π _ i = _
+  · change (Pi.lift _ ≫ Pi.lift (fun _ : Fin 1 => Pi.π _ 1)) ≫ Pi.π _ i = _
     fin_cases i
     simp [Category.assoc]
     rfl
@@ -584,7 +585,7 @@ private theorem isFinite_of_finite_fibres (α : Type v) [Small.{u} α] [Finite �
           {x : points B (Spec (CommRingCat.of k)) hk (projectiveLinePower k B hk α) |
             pointsMap B (Spec (CommRingCat.of k)) hk (projectiveLinePower k B hk α) w x = y} := by
       ext x
-      simp only [Set.mem_setOf_eq, Set.mem_preimage,
+      simp only [Set.mem_ofPred_eq, Set.mem_preimage,
         pointsMap_comp B (Spec (CommRingCat.of k)) hk _ e.inv w, Function.comp_apply]
     rw [hset]
     exact (hfib y).preimage hinj.injOn
@@ -597,6 +598,7 @@ end FiniteFibres
 /-! ### No complete rational curves -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for products and pullbacks of presheaves on the big fppf site
 /-- Let `k` be a field and `G` a separated group algebraic space locally of finite type over
 `k`. Every morphism from the projective line over `k` to `G` over `Spec k` is constant: it
 factors through a section of the structure morphism of `G`.
@@ -697,7 +699,7 @@ theorem morphism_projectiveLine_eq_constant
           Pi.π (fun _ : I => projectiveLineFunctor k B hk) ⟨j, hj⟩) =
         (projectiveLinePowerCoordinate k B hk 2 j).left := by
       apply Pi.hom_ext; intro i
-      show (Pi.map' (fun i : I => (i : Fin 2))
+      change (Pi.map' (fun i : I => (i : Fin 2))
           (fun _ => 𝟙 (projectiveLineFunctor k B hk)) ≫
         Pi.lift (fun _ : Fin 1 =>
           Pi.π (fun _ : I => projectiveLineFunctor k B hk) ⟨j, hj⟩)) ≫
@@ -753,7 +755,7 @@ theorem morphism_projectiveLine_eq_constant
     simp only [Category.assoc]
   have hmq : m ≫ q = d ≫ q := by
     apply Over.OverMorphism.ext
-    show m.left ≫ q.left = d.left ≫ q.left
+    change m.left ≫ q.left = d.left ≫ q.left
     exact (key m.left).trans
       ((congrArg (fun z => (z ≫ g) ≫ Zsub.ι) hπ).trans (key d.left).symm)
   have hfeq : f = t ≫ s ≫ f := by

@@ -211,7 +211,7 @@ theorem stalkPushforwardModuleMap_naturality {M N : SheafOfModules.{u} (structur
           (f.val.app (op ((opensMap i).obj U)) t) :=
     TopCat.Presheaf.stalkFunctor_map_germ_apply ((opensMap i).obj U) z hU
       ((PresheafOfModules.toPresheaf (structureSheafRing Z).obj).map f.val) t
-  show (stalkPushforwardModuleMap i z N).hom
+  change (stalkPushforwardModuleMap i z N).hom
       ((AlgebraicGeometry.SheafOfModules.stalkMap (structureSheafRing X) (i.hom.base z)
         ((modulePushforward i).map f)).hom
           ((TopCat.Presheaf.germ (C := AddCommGrpCat.{u}) (X := X.carrier)

@@ -68,7 +68,7 @@ theorem isPullbackSection_globalSectionsRingHom (f : X ⟶ schemeSpace V)
     rw [Functor.map_comp]
     simp only [chartToScheme, Functor.FullyFaithful.map_preimage]
     exact (chartDiagramOfIndex B S hS f W j).comm.symm
-  show (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
+  change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
       (chartToScheme B S hS X.1 f.hom j.right.unop)).op).hom a =
     (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (chartBaseChangeMap B S hS f W j)).op).hom
       ((Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map

@@ -12,7 +12,8 @@ public import StacksFrontier.CategoryTheory.Sites.AbelianSheafificationExistence
 /-!
 # The sectionwise tensor product of a differential graded module with a complex
 
-Part of `StacksFrontier.CategoryTheory.Sites.Modules.TensorWithComplex` (see there for the overview).
+Part of `StacksFrontier.CategoryTheory.Sites.Modules.TensorWithComplex` (see there for the
+overview).
 This file sets up the ambient categories of `O`-modules, the base ring and its `ScalarSections`
 datum, the differential graded category `CompDG` and the endomorphism algebra `Rep`, the
 structures `BalancedDegreeMap` and `TensorWithComplexData`, and builds, degree by degree and on
@@ -63,6 +64,7 @@ attribute [local implicit_reducible] ModuleCat.restrictScalars ModuleCat.Restric
 /-- The category of `O`-modules whose sections lie in the universe `t`. -/
 public abbrev ModO := SheafOfModules.{t} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
 
+set_option linter.checkUnivs false in
 /-- The ambient category of `O`-modules in which tensor products are formed. Its section
 universe contains the site, the structure ring, the sections of `K`, and an independent size
 parameter `s` for the carriers of the differential graded modules. The universes `t` and `s`
@@ -415,8 +417,7 @@ private lemma unbalancedTensorDegree_induction {S : Type*} [Ring S]
   | zero => exact zero
   | add z z' hz hz' => exact add z z' hz hz'
   | of pq z =>
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero]; exact zero
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' => rw [map_add]; exact add _ _ hz hz'
     | tmul y x => exact pure pq.1.1 pq.1.2 pq.2 x y
 

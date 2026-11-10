@@ -56,8 +56,8 @@ which
 derives from condition (5) for any representative of `y`, and condition (5) for the
 quasi-compact monomorphic representative `q` that decency of `Y` supplies follows from a
 finite `F` in two steps: Lemma 0AC8 (`AlgebraicGeometry.Space.homeomorphSetFibre`) identifies
-`|X_q|` with `F`, making it finite, and the already proved "condition (4) implies condition (5) for a
-decent morphism" then makes it discrete.
+`|X_q|` with `F`, making it finite, and the already proved "condition (4) implies condition (5) for
+a decent morphism" then makes it discrete.
 
 That last step is where decency of the *source* enters, and it enters through Stacks 03KF.
 `AlgebraicGeometry.Space.discreteTopology_points_fieldFibre_of_finite_of_isDecent` asks for

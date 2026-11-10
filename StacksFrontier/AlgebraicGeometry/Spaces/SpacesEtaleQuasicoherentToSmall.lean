@@ -143,6 +143,7 @@ def abelianToSmallToSheafIso (M : SheafOfModules.{u + 1} (spacesEtaleRing B S hS
       (M.over Q)).symm
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for sheaves of modules on the slice and small spaces-étale sites is heavy
 /-- **The coefficients carried to the spaces-étale site of `Q` are again the underlying abelian
 sheaf of a quasi-coherent module**, which is the form the alternating Čech recursion of
 [Stacks, Tag 0728] consumes. -/

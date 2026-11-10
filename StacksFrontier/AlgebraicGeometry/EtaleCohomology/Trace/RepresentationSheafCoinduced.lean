@@ -183,7 +183,7 @@ theorem isIso_representationSheafCoindComparison_app [IsFinite φ.hom] [Etale φ
   let res := finiteTypeContinuousModuleRes Λ (etaleFundamentalGroupMap φ.hom v)
   let ev := finiteTypeContinuousModuleCoindEval Λ H (etaleFundamentalGroupMap φ.hom v) hφ M
   suffices hgi : IsIso g by
-    show IsIso c
+    change IsIso c
     rw [← hc]
     infer_instance
   refine isIso_of_yoneda_map_bijective g fun Q ↦ ?_

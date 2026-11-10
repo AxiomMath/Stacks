@@ -102,7 +102,7 @@ theorem pow_mul_aeval_inv_mem_adjoin {s : F} (hs : s ≠ 0) {m : ℕ} {p : k[X]}
   rw [reflect_reflect, invOf_eq_inv] at h
   rw [Algebra.adjoin_singleton_eq_range_aeval]
   refine ⟨reflect m p, ?_⟩
-  show aeval s (reflect m p) = s ^ m * aeval s⁻¹ p
+  change aeval s (reflect m p) = s ^ m * aeval s⁻¹ p
   rw [aeval_def, aeval_def, ← h, mul_comm]
 
 /-- **Global sections of a degree-zero bundle on `𝐏¹`.** Let `s ∈ F` be transcendental over `k`
@@ -146,7 +146,7 @@ theorem card_le_finrank_of_coordLattice_inf_le {s : F} (hs : Transcendental k s)
   have hGH : G * H = 1 := Basis.toMatrix_mul_toMatrix_flip b c
   have hTT : TM * TM₂ = (X ^ (2 * m) : k[X]) • (1 : Matrix ι ι k[X]) := by
     apply Matrix.map_injective hφ
-    show (TM * TM₂).map φ = ((X ^ (2 * m) : k[X]) • (1 : Matrix ι ι k[X])).map φ
+    change (TM * TM₂).map φ = ((X ^ (2 * m) : k[X]) • (1 : Matrix ι ι k[X])).map φ
     rw [Matrix.map_mul, hTmap, hT₂map, Matrix.smul_mul, Matrix.mul_smul, hGH, smul_smul,
       ← pow_add]
     ext i j
@@ -188,7 +188,7 @@ theorem card_le_finrank_of_coordLattice_inf_le {s : F} (hs : Transcendental k s)
       (LinearMap.pi fun i ↦ (LinearMap.mulLeft k (s ^ m)) ∘ₗ φ.toLinearMap ∘ₗ LinearMap.proj i)
   have hΨ₀ : ∀ v, b.equivFun (Ψ₀ v) = fun i ↦ s ^ m * φ (v i) := by
     intro v
-    show b.equivFun (b.equivFun.symm _) = _
+    change b.equivFun (b.equivFun.symm _) = _
     rw [LinearEquiv.apply_symm_apply]
     rfl
   have hΨinj : Function.Injective Ψ₀ := by
@@ -207,9 +207,9 @@ theorem card_le_finrank_of_coordLattice_inf_le {s : F} (hs : Transcendental k s)
     · have hzv : ∀ i, φ (v i) = (u ^ m • (G *ᵥ fun j ↦ φ (z j))) i := by
         intro i
         rw [← hz]
-        show φ ((TM *ᵥ z) i) = _
+        change φ ((TM *ᵥ z) i) = _
         rw [← AlgHom.coe_toRingHom, RingHom.map_mulVec, AlgHom.coe_toRingHom]
-        show (TM.map φ *ᵥ fun j ↦ φ (z j)) i = _
+        change (TM.map φ *ᵥ fun j ↦ φ (z j)) i = _
         rw [hTmap, Matrix.smul_mulVec]
       have hb' : b.equivFun (Ψ₀ v) = G *ᵥ fun j ↦ φ (z j) := by
         rw [hΨ₀]

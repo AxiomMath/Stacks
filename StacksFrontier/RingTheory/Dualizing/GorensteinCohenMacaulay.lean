@@ -47,7 +47,7 @@ Cohen--Macaulay as a module over itself is depth equal to Krull dimension. -/
 private theorem isCohenMacaulayLocalRing_iff_propForm (A : Type*) [CommRing A]
     [IsNoetherianRing A] [IsLocalRing A] :
     IsCohenMacaulayLocalRing A ↔ IsCohenMacaulayLocalRingPropForm A := by
-  show (Module.depthSup A (IsLocalRing.maximalIdeal A) A : WithBot ℕ∞) =
+  change (Module.depthSup A (IsLocalRing.maximalIdeal A) A : WithBot ℕ∞) =
       Module.supportDim A A ↔
     (localRingDepth A : WithBot ℕ∞) = ringKrullDim A
   rw [← Module.supportDim_self_eq_ringKrullDim, ← localRingDepth_eq_depthSup]

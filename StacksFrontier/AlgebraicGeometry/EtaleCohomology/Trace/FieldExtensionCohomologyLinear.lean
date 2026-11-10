@@ -107,7 +107,8 @@ public def LAdicSheaf.CoefficientSheaf.rationalLinearEquivOfCommute
     left_inv := c.left_inv
     right_inv := c.right_inv }
 
-omit [Algebra ℚ_[ℓ] E] in
+omit [Algebra ℚ_[ℓ] E] [Fintype k] [Fintype k'] [LocallyOfFiniteType f] [QuasiCompact f]
+  [IsSeparated f] [LocallyOfFiniteType f'] [QuasiCompact f'] [IsSeparated f'] in
 /-- The `E`-linear isomorphism `rationalLinearEquivOfCommute c hc` acts as `c`. -/
 @[simp]
 public theorem LAdicSheaf.CoefficientSheaf.rationalLinearEquivOfCommute_apply
@@ -153,6 +154,7 @@ private theorem iso_inv_conj_apply {R : Type*} [Ring R] {M N : ModuleCat.{u + 1}
     e.inv.hom (b w) = a (e.inv.hom w) :=
   (congrArg e.inv.hom (iso_conj_apply e a b h w)).symm.trans (Iso.hom_inv_id_apply e _)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] [Fintype k'] in
 /-- The rational field extension isomorphism commutes with the actions of `O`. -/
 public theorem
     LAdicSheaf.CoefficientSheaf.rationalFieldExtensionCohomologyIso_inv_rationalIntegralRingHom
@@ -193,7 +195,7 @@ public def LAdicSheaf.CoefficientSheaf.rationalFieldExtensionCohomologyLinearEqu
     (LAdicSheaf.CoefficientSheaf.rationalFieldExtensionCohomologyIso_inv_rationalIntegralRingHom
       B X ℓ f j k' kbar F i)
 
-omit [Algebra ℚ_[ℓ] E] in
+omit [Algebra ℚ_[ℓ] E] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The `E`-linear field extension isomorphism carries the Frobenius of `X'` over `k'` to
 `(π_X^*) ^ (m + 1)`**, `#k' = q ^ (m + 1)`. -/
 public theorem LAdicSheaf.CoefficientSheaf.rationalFieldExtensionCohomologyLinearEquiv_frobenius
@@ -245,7 +247,7 @@ public theorem LAdicSheaf.CoefficientSheaf.rationalFieldExtensionCohomologyLinea
     intro w
     rw [hpow]
     exact LinearMap.congr_fun hp w
-  show R.inv.hom (πX'.hom v) = _
+  change R.inv.hom (πX'.hom v) = _
   exact (iso_inv_conj_apply R _ _ h v).trans ((hP _).trans (hπ _).symm)
 
 end FieldExtension

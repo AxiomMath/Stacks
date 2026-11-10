@@ -176,7 +176,8 @@ needs no hypothesis.  What the hypotheses buy is existence.
 
 This is not a proof of Stacks 04I6: `α` and `hcomm` are hypotheses here.  For an affine `Y` and
 locally ringed `(g, g^♯)` both are constructed, at the affine charts, in
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/RecoveringMorphisms/AffineExistence.lean`, which is
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/RecoveringMorphisms/AffineExistence.lean`, which
+is
 where the tag is proved. -/
 theorem existsUnique_schemeHom_twoIso_of_representableComparison
     (α : RepresentableComparison B g f)

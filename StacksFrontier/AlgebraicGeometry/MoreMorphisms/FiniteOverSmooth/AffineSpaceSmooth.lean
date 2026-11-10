@@ -51,7 +51,7 @@ theorem smoothOfRelativeDimension_specMap_C (A : Type u) [CommRing A] (n : ℕ) 
       (Spec.map (CommRingCat.ofHom (MvPolynomial.C (σ := Fin n) (R := A)))) := by
   rw [HasRingHomProperty.Spec_iff (P := @SmoothOfRelativeDimension n)]
   refine RingHom.locally_of RingHom.isStandardSmoothOfRelativeDimension_respectsIso _ ?_
-  show (algebraMap A (MvPolynomial (Fin n) A)).IsStandardSmoothOfRelativeDimension n
+  change (algebraMap A (MvPolynomial (Fin n) A)).IsStandardSmoothOfRelativeDimension n
   rw [RingHom.isStandardSmoothOfRelativeDimension_algebraMap]
   infer_instance
 

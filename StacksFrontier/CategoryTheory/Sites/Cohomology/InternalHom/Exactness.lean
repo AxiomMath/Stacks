@@ -71,7 +71,7 @@ theorem exists_kInjective_degreewiseSplit_presentation
     Arrow.isoMk (asIso (DerivedCategory.Q.map ((kInjectiveAugmentation X).app A)))
       (asIso (DerivedCategory.Q.map ((kInjectiveAugmentation X).app B))) (by
         symm
-        show DerivedCategory.Q.map f ≫
+        change DerivedCategory.Q.map f ≫
             DerivedCategory.Q.map ((kInjectiveAugmentation X).app B) =
           DerivedCategory.Q.map ((kInjectiveAugmentation X).app A) ≫ DerivedCategory.Q.map g
         rw [← Functor.map_comp, ← Functor.map_comp]

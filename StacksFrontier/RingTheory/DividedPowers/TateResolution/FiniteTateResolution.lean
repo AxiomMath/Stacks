@@ -15,8 +15,8 @@ Tate resolution. Its tower adjoins, in degree `n + 1`, one variable for **every*
 This file assembles the last sentence of Tag 09PN — *if `R` is Noetherian and `R → S` is of finite
 type, then `A` can be taken to have only finitely many generators in each degree* — out of the
 degreewise finite tower of
-`StacksFrontier/RingTheory/DividedPowers/TateResolution/FiniteTateTower.lean`. The construction is the
-same as for the existence half and the four conditions are checked in the same way; the two
+`StacksFrontier/RingTheory/DividedPowers/TateResolution/FiniteTateTower.lean`. The construction is
+the same as for the existence half and the four conditions are checked in the same way; the two
 differences are that the base is `R[x₁, …, x_k]` with a **finite** generating family of `ker φ` as
 the family of degree-zero cycles to be killed, and that exactness in each degree comes from
 `DividedPowers.TateResolution.exists_finiteTateColimitDifferential_boundary_of_cycle`, which needs

@@ -67,8 +67,7 @@ variable {ℓ : ℕ} [Fact ℓ.Prime] {B : BigEtaleSite.{u}} {X : B.Scheme}
     (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
   [IsNoetherian X.1]
   {O : Type} [CommRing O] [Algebra ℤ_[ℓ] O] (F : LAdicSheaf.CoefficientSheaf B X ℓ O)
-  {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
-  [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
+  {k : Type u} [Field k] (f : X.1 ⟶ Spec (.of k))
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar] (i : ℤ)
   (E : Type) [Field E] [Algebra ℚ_[ℓ] E] [Algebra O E]
   [IsLocalization (Submonoid.powers (ℓ : O)) E]
@@ -130,7 +129,7 @@ theorem curveLinearCoinvariantsInput : CurveLinearCoinvariantsInput.{u} := by
       (A o).map (PadicInt.Coe.ringHom (p := ℓ)) =
         α (o : E) * ((exists_conj_integral τ hσ).choose).val := fun o => by
     have h : (PadicInt.Coe.ringHom (p := ℓ)).mapMatrix (A o) = _ := mapMatrix_conjIntegralLift P α o
-    show P.val * (PadicInt.Coe.ringHom (p := ℓ)).mapMatrix (A o) = α (o : E) * P.val
+    change P.val * (PadicInt.Coe.ringHom (p := ℓ)).mapMatrix (A o) = α (o : E) * P.val
     rw [h, ← Matrix.mul_assoc, ← Matrix.mul_assoc, ← Units.val_mul, mul_inv_cancel, Units.val_one,
       Matrix.one_mul]
   obtain ⟨e, he, hen⟩ := LAdicSheaf.exists_linearEquiv_coinvariants_of_levels_natural B U ℓ f j kbar

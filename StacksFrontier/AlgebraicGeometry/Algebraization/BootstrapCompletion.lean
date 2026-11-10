@@ -116,7 +116,7 @@ private theorem adicCompletionMap_bijective_of_flat
         (AdicCompletion.evalₐ (I.map (algebraMap R S)) n).toRingHom)
       (fun {m n} hmn => by
         refine RingHom.ext fun x => (e m).injective ?_
-        show e m (Ideal.Quotient.factorPow I hmn
+        change e m (Ideal.Quotient.factorPow I hmn
             ((e n).symm (AdicCompletion.evalₐ (I.map (algebraMap R S)) n x))) =
           e m ((e m).symm (AdicCompletion.evalₐ (I.map (algebraMap R S)) m x))
         rw [← he, RingEquiv.apply_symm_apply, RingEquiv.apply_symm_apply]
@@ -131,7 +131,7 @@ private theorem adicCompletionMap_bijective_of_flat
       (I.map (algebraMap R S)) le_rfl) = RingHom.id _ := by
     refine RingHom.ext fun x => AdicCompletion.ext_evalₐ fun n => ?_
     simp only [RingHom.comp_apply, AdicCompletion.evalₐ_liftRingHom, inv, RingHom.id_apply]
-    show (e n).symm
+    change (e n).symm
       (AdicCompletion.evalₐ (I.map (algebraMap R S)) n
         (adicCompletionMap (algebraMap R S) I (I.map (algebraMap R S)) le_rfl x)) = _
     rw [hlevel, RingEquiv.symm_apply_apply]
@@ -140,7 +140,7 @@ private theorem adicCompletionMap_bijective_of_flat
     refine RingHom.ext fun x => AdicCompletion.ext_evalₐ fun n => ?_
     simp only [RingHom.comp_apply, RingHom.id_apply]
     rw [hlevel, AdicCompletion.evalₐ_liftRingHom]
-    show e n ((e n).symm (AdicCompletion.evalₐ (I.map (algebraMap R S)) n x)) = _
+    change e n ((e n).symm (AdicCompletion.evalₐ (I.map (algebraMap R S)) n x)) = _
     rw [RingEquiv.apply_symm_apply]
   exact Function.bijective_iff_has_inverse.mpr
     ⟨inv, DFunLike.congr_fun hleft, DFunLike.congr_fun hright⟩
@@ -182,8 +182,7 @@ private noncomputable def tensorProductSemilinearEquiv
   map_smul' b x := by
     change (TensorProduct.congr e.toLinearEquiv (LinearEquiv.refl A M)) (b • x) =
       e b • (TensorProduct.congr e.toLinearEquiv (LinearEquiv.refl A M)) x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul c m => simp [TensorProduct.smul_tmul']
     | add x y hx hy => simpa only [smul_add, map_add] using congrArg₂ (· + ·) hx hy
 
@@ -198,7 +197,7 @@ private theorem primeCompl_map_comap_equiv {R S : Type*} [CommRing R] [CommRing 
     exact hy
   · intro hx
     refine ⟨e.symm x, ?_, e.apply_symm_apply x⟩
-    show e (e.symm x) ∉ p
+    change e (e.symm x) ∉ p
     rwa [e.apply_symm_apply]
 
 /-- Two base changes of one module along isomorphic algebras have equal depth after localizing
@@ -273,7 +272,7 @@ private theorem primesAbove_eq_singleton_of_ringEquiv
     have hmem : r.map e.toRingHom ∈
         {r : Ideal S | r.IsPrime ∧ p ≤ r ∧ I.map e.toRingHom ≤ r} := by
       refine ⟨?_, ?_, Ideal.map_mono hI⟩
-      · show (r.map e).IsPrime
+      · change (r.map e).IsPrime
         rw [← Ideal.comap_symm e]
         exact hr.comap _
       · simpa only [hmapcomap] using Ideal.map_mono (f := e.toRingHom) hp
@@ -308,7 +307,7 @@ private theorem isBaseChange_adicCompletion {A : Type u} [CommRing A] [IsNoether
       (AdicCompletion.ofTensorProductEquivOfFiniteNoetherian I M₀)
       (by
         intro x
-        show (AdicCompletion.ofTensorProduct I M₀) (1 ⊗ₜ[A] x) = _
+        change (AdicCompletion.ofTensorProduct I M₀) (1 ⊗ₜ[A] x) = _
         rw [AdicCompletion.ofTensorProduct_tmul, one_smul])
   exact (IsBaseChange.iff_of_equiv_comm eM (AdicCompletion.congr I eM)
     (LinearMap.ext fun x => (AdicCompletion.map_of I eM.toLinearMap x).symm)).mp hsmall
@@ -411,7 +410,7 @@ public theorem completedLocalDepth_adicCompletion (S : BootstrapSituation.{u, v,
       e₀ (Ideal.Quotient.mk S.I a) = Ideal.Quotient.mk I' (algebraMap S.A A' a) := by
     apply e₀.symm.injective
     rw [RingEquiv.symm_apply_apply]
-    show Ideal.Quotient.mk S.I a = AdicCompletion.evalOneₐ S.I (algebraMap S.A A' a)
+    change Ideal.Quotient.mk S.I a = AdicCompletion.evalOneₐ S.I (algebraMap S.A A' a)
     exact (DFunLike.congr_fun (AdicCompletion.evalOneₐ_comp_algebraMap_eq_mk
       (I := S.I)) a).symm
   have hqbar₀ : qbar₀.comap (Ideal.Quotient.mk S.I) = q₀.asIdeal := by
@@ -420,18 +419,18 @@ public theorem completedLocalDepth_adicCompletion (S : BootstrapSituation.{u, v,
     intro x hx
     change Ideal.Quotient.mk S.I x = 0 at hx
     rw [Ideal.Quotient.eq_zero_iff_mem] at hx
-    exact (SetLike.le_def.mp hI₀) hx
+    exact (IsConcreteLE.le_iff.mp hI₀) hx
   have hqbar₁ : qbar₁.comap (Ideal.Quotient.mk I') = q.asIdeal := by
     rw [Ideal.comap_map_of_surjective _ Ideal.Quotient.mk_surjective]
     apply sup_eq_left.mpr
     intro x hx
     change Ideal.Quotient.mk I' x = 0 at hx
     rw [Ideal.Quotient.eq_zero_iff_mem] at hx
-    exact (SetLike.le_def.mp hI₁) hx
+    exact (IsConcreteLE.le_iff.mp hI₁) hx
   have hqbar : qbar₁.comap e₀.toRingHom = qbar₀ := by
     ext x
     obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x
-    show e₀ (Ideal.Quotient.mk S.I a) ∈ qbar₁ ↔ Ideal.Quotient.mk S.I a ∈ qbar₀
+    change e₀ (Ideal.Quotient.mk S.I a) ∈ qbar₁ ↔ Ideal.Quotient.mk S.I a ∈ qbar₀
     rw [he₀]
     have hleft : Ideal.Quotient.mk I' (algebraMap S.A A' a) ∈ qbar₁ ↔
         algebraMap S.A A' a ∈ q.asIdeal := by
@@ -453,7 +452,7 @@ public theorem completedLocalDepth_adicCompletion (S : BootstrapSituation.{u, v,
   have hsub : Submonoid.map e₀ qbar₀.primeCompl = qbar₁.primeCompl := by
     have hcompl : qbar₀.primeCompl = (qbar₁.comap e₀.toRingHom).primeCompl := by
       ext x
-      show x ∉ qbar₀ ↔ x ∉ qbar₁.comap e₀.toRingHom
+      change x ∉ qbar₀ ↔ x ∉ qbar₁.comap e₀.toRingHom
       rw [hqbar]
     rw [hcompl]
     exact primeCompl_map_comap_equiv e₀ qbar₁
@@ -465,7 +464,7 @@ public theorem completedLocalDepth_adicCompletion (S : BootstrapSituation.{u, v,
       (algebraMap A' R₁).comp (algebraMap S.A A') := by
     apply RingHom.ext
     intro a
-    show Localization.localRingHom q₀.asIdeal q.asIdeal
+    change Localization.localRingHom q₀.asIdeal q.asIdeal
         (algebraMap S.A A') Ideal.LiesOver.over (algebraMap S.A R₀ a) = _
     rw [Localization.localRingHom_to_map]
     rfl
@@ -479,11 +478,11 @@ public theorem completedLocalDepth_adicCompletion (S : BootstrapSituation.{u, v,
       apply RingHom.ext
       intro x
       obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x
-      show (Ideal.quotientMap I₁ (algebraMap R₀ R₁) hle)
+      change (Ideal.quotientMap I₁ (algebraMap R₀ R₁) hle)
           (algebraMap (S.A ⧸ S.I) (R₀ ⧸ I₀) (Ideal.Quotient.mk S.I a)) =
         eLoc (algebraMap (S.A ⧸ S.I) (R₀ ⧸ I₀) (Ideal.Quotient.mk S.I a))
       rw [eLoc.commutes]
-      show Ideal.Quotient.mk I₁ (algebraMap R₀ R₁ (algebraMap S.A R₀ a)) =
+      change Ideal.Quotient.mk I₁ (algebraMap R₀ R₁ (algebraMap S.A R₀ a)) =
         algebraMap (A' ⧸ I') (R₁ ⧸ I₁) (e₀ (Ideal.Quotient.mk S.I a))
       rw [he₀]
       exact congrArg (Ideal.Quotient.mk I₁) (DFunLike.congr_fun hmaps a)
@@ -508,14 +507,14 @@ public theorem completedLocalDepth_adicCompletion (S : BootstrapSituation.{u, v,
     { __ := eC
       commutes' := by
         intro a
-        show fc (algebraMap S.A C₀ a) = algebraMap S.A C₁ a
+        change fc (algebraMap S.A C₀ a) = algebraMap S.A C₁ a
         have h := DFunLike.congr_fun hfccomp (algebraMap S.A R₀ a)
         simpa only [RingHom.comp_apply, ← IsScalarTower.algebraMap_apply S.A R₀ C₀,
           ← IsScalarTower.algebraMap_apply S.A R₀ R₁,
           ← IsScalarTower.algebraMap_apply S.A R₁ C₁] using h }
   have hmapI : (I₀.map (algebraMap R₀ C₀)).map eC.toRingHom = I₁.map (algebraMap R₁ C₁) := by
     rw [Ideal.map_map]
-    show I₀.map (fc.comp (algebraMap R₀ C₀)) = _
+    change I₀.map (fc.comp (algebraMap R₀ C₀)) = _
     rw [hfccomp, ← Ideal.map_map, hIeq]
   have hImax : I₀ ≤ maximalIdeal R₀ := by
     rw [← IsLocalization.AtPrime.map_eq_maximalIdeal q₀.asIdeal R₀]
@@ -525,7 +524,7 @@ public theorem completedLocalDepth_adicCompletion (S : BootstrapSituation.{u, v,
   have hmapm : ((maximalIdeal R₀).map (algebraMap R₀ C₀)).map eC.toRingHom =
       (maximalIdeal R₁).map (algebraMap R₁ C₁) := by
     rw [Ideal.map_map]
-    show (maximalIdeal R₀).map (fc.comp (algebraMap R₀ C₀)) = _
+    change (maximalIdeal R₀).map (fc.comp (algebraMap R₀ C₀)) = _
     rw [hfccomp, ← Ideal.map_map, hmax]
   have : IsScalarTower S.A C₀ (AdicCompletion I₀ M₀) :=
     IsScalarTower.to₁₃₄ S.A R₀ C₀ (AdicCompletion I₀ M₀)

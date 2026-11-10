@@ -162,7 +162,7 @@ lemma smallPolynomialAugmentationIdealPowIncl_comp_gradedπ (n : ℕ) :
     smallPolynomialAugmentationIdealPowIncl A B κ n ≫
       smallPolynomialAugmentationGradedπ A B κ n = 0 := by
   refine NatTrans.ext (funext fun X => ModuleCat.hom_ext (LinearMap.ext fun x => ?_))
-  show Submodule.Quotient.mk (Submodule.inclusion
+  change Submodule.Quotient.mk (Submodule.inclusion
     (smallPolynomialAugmentationIdealPowSubmodule_antitone A B κ (Nat.le_succ n) X) x) = 0
   rw [Submodule.Quotient.mk_eq_zero]
   exact x.2
@@ -190,7 +190,7 @@ theorem shortExact_smallPolynomialAugmentationGradedShortComplex_map_evaluation 
       (surjective_smallPolynomialAugmentationGradedπ A B κ n X)
     exact := by
       rw [ShortComplex.moduleCat_exact_iff_range_eq_ker]
-      show LinearMap.range ((smallPolynomialAugmentationIdealPowIncl A B κ n).app X).hom =
+      change LinearMap.range ((smallPolynomialAugmentationIdealPowIncl A B κ n).app X).hom =
         LinearMap.ker ((smallPolynomialAugmentationGradedπ A B κ n).app X).hom
       rw [ker_smallPolynomialAugmentationGradedπ A B κ n X]
       exact Submodule.range_inclusion _ _ hle }

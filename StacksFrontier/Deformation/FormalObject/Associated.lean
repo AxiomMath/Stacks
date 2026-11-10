@@ -114,7 +114,7 @@ public structure AssociatedMorphism
   /-- The underlying morphism of categories over `𝒞_Λ`. -/
   toBasedFunctor :
     BasedFunctor
-      (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda ξ.base)))
+      (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda ξ.base)))
       (BasedCategory.ofFunctor p)
   /-- The least nilpotence exponent of the target maximal ideal, minus one. -/
   level : (α : (restrictedCoyoneda ξ.base).Elements) → ℕ
@@ -156,7 +156,7 @@ private lemma exists_factor {R : CompleteLocalAlgCat.{u, v, w} Λ k}
   let : IsLocalRing (R ⧸ AdicTruncation.ideal R n) :=
     inferInstanceAs (IsLocalRing (AdicTruncation.obj R n))
   have hker : AdicTruncation.ideal R n ≤ RingHom.ker α.hom.toRingHom := by
-    show AdicTruncation.ideal R n ≤
+    change AdicTruncation.ideal R n ≤
       (⊥ : Ideal (artinianToComplete.obj A)).comap α.hom.toRingHom
     rw [← Ideal.map_le_iff_le_comap, Ideal.map_pow]
     exact (Ideal.pow_right_mono (map_maximalIdeal_le α.hom.toRingHom) _).trans_eq hn
@@ -169,7 +169,7 @@ private lemma exists_factor {R : CompleteLocalAlgCat.{u, v, w} Λ k}
   refine ⟨{ hom := f, isLocal := hf, residue_comm := ?_ }, ?_⟩
   · intro x
     obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective x
-    show A.residueEquiv (residue A (α.hom r)) =
+    change A.residueEquiv (residue A (α.hom r)) =
       AdicTruncation.residueEquiv R n (residue _ (Ideal.Quotient.mk _ r))
     rw [AdicTruncation.residueEquiv_residue_mk]
     exact α.residue_comm r
@@ -244,7 +244,7 @@ public lemma point_lift (ξ : FormalObject p)
   obtain ⟨t, ht, htl⟩ := transitionTo_lift ξ h
   refine ⟨t ≫ a, ?_, IsHomLift.comp p _ _ _ _⟩
   refine AlgHom.ext fun r => ?_
-  show a.hom (t.hom (Ideal.Quotient.mk _ r)) = α.2.hom r
+  change a.hom (t.hom (Ideal.Quotient.mk _ r)) = α.2.hom r
   exact (congrArg a.hom (DFunLike.congr_fun ht r)).trans (DFunLike.congr_fun ha r)
 
 private lemma point_base_comp {R : CompleteLocalAlgCat.{u, v, w} Λ k}
@@ -255,7 +255,7 @@ private lemma point_base_comp {R : CompleteLocalAlgCat.{u, v, w} Λ k}
     a ≫ g.hom = b := by
   apply ArtinianLocalAlgCat.hom_ext; apply AlgHom.ext; intro x
   obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective x
-  show g.hom.hom (a.hom (Ideal.Quotient.mk _ r)) = b.hom (Ideal.Quotient.mk _ r)
+  change g.hom.hom (a.hom (Ideal.Quotient.mk _ r)) = b.hom (Ideal.Quotient.mk _ r)
   have hg := congrArg (fun f : (restrictedCoyoneda R).obj β.1 ↦ f.hom r) g.map_val
   change g.hom.hom (α.2.hom r) = β.2.hom r at hg
   exact (congrArg g.hom.hom (DFunLike.congr_fun ha r)).trans
@@ -339,7 +339,7 @@ private lemma exists_associatedMorphism
       ← Category.assoc, htriangle g m hα hβ, Category.assoc, htriangle h m hβ hγ]
   let H : (restrictedCoyoneda ξ.base).Elements ⥤ F :=
     { obj := O, map := φ, map_id := hid, map_comp := hcomp }
-  have hH : H ⋙ p = CategoryOfElements.π (restrictedCoyoneda ξ.base) := by
+  have hH : H ⋙ p = Functor.Elements.π (restrictedCoyoneda ξ.base) := by
     refine CategoryTheory.Functor.ext hO ?_
     intro α β g; have := hφ g; exact IsHomLift.fac' p g.hom (φ g)
   exact ⟨{ toBasedFunctor := { toFunctor := H, w := hH }, level := l,

@@ -45,7 +45,7 @@ lemma continuous_adic_of_forall_isLocallyConstant {X S : Type*} [TopologicalSpac
   intro x₀
   rw [ContinuousAt, (I.hasBasis_nhds_adic (f x₀)).tendsto_right_iff]
   intro k _
-  filter_upwards [(hf k).isOpen_fiber _ |>.mem_nhds (Set.mem_setOf_eq ▸ rfl :
+  filter_upwards [(hf k).isOpen_fiber _ |>.mem_nhds (Set.mem_ofPred_eq ▸ rfl :
     x₀ ∈ (fun x => Ideal.Quotient.mk (I ^ k) (f x)) ⁻¹' {Ideal.Quotient.mk (I ^ k) (f x₀)})]
     with x hx
   simp only [Ideal.Quotient.eq] at hx
@@ -312,7 +312,6 @@ def liftDefect (ρt : π → Matrix.GeneralLinearGroup (Fin n) P) (g h : π) :
   ((ρt g * ρt h * (ρt (g * h))⁻¹ : Matrix.GeneralLinearGroup (Fin n) P) :
     Matrix (Fin n) (Fin n) P) - 1
 
-include hF in
 omit [IsTopologicalGroup π] [IsLocalRing R] [IsLocalRing P] [IsNoetherianRing P]
     [IsAdicComplete (maximalIdeal P) P] in
 /-- If `ρ̃` lifts `ρuniv` along `F`, every entry of `liftDefect ρ̃ g h` lies in `ker F`. -/
@@ -324,7 +323,7 @@ lemma liftDefect_mem {ρt : π → Matrix.GeneralLinearGroup (Fin n) P}
   have := congrArg (fun A : Matrix.GeneralLinearGroup (Fin n) R =>
     (A : Matrix (Fin n) (Fin n) R) i j) e
   rw [RingHom.mem_ker, liftDefect, Matrix.sub_apply, map_sub]
-  show ((Matrix.GeneralLinearGroup.map F (ρt g * ρt h * (ρt (g * h))⁻¹) :
+  change ((Matrix.GeneralLinearGroup.map F (ρt g * ρt h * (ρt (g * h))⁻¹) :
     Matrix.GeneralLinearGroup (Fin n) R) : Matrix (Fin n) (Fin n) R) i j -
       F ((1 : Matrix _ _ P) i j) = 0
   rw [this]
@@ -399,7 +398,7 @@ lemma trace_liftDefect (a : Fin r → ZMod ℓ) (g h' : π) :
   have hres := ker_reduce_comp h F hF
   have hJm := ker_le_maximalIdeal h F hF
   have hD : ∀ i j, liftDefect ρt g h' i j ∈ Ideal.span (Set.range f) := fun i j =>
-    hf ▸ liftDefect_mem F hF hρtF g h' i j
+    hf ▸ liftDefect_mem F hρtF g h' i j
   have hdet1 : (1 + liftDefect ρt g h').det = 1 := by
     rw [liftDefect, add_sub_cancel, ← Matrix.GeneralLinearGroup.val_det_apply, map_mul, map_mul,
       map_inv, hρtdet, hρtdet, hρtdet, ← map_mul, ← map_mul, ← map_inv, ← map_mul, map_mul δ,
@@ -469,7 +468,7 @@ lemma isCocycle₂_obstruction (a : Fin r → ZMod ℓ) :
   have hJm : Ideal.span (Set.range f) ≤ maximalIdeal P := hf ▸ ker_le_maximalIdeal h F hF
   set φ := IsLocalRing.coeffFunctional (reduce.comp F) f a
   have hD : ∀ g h' i j, liftDefect ρt g h' i j ∈ Ideal.span (Set.range f) := fun g h' i j =>
-    hf ▸ liftDefect_mem F hF hρtF g h' i j
+    hf ▸ liftDefect_mem F hρtF g h' i j
   intro g h₁ k
   apply AdZero.ext
   simp only [obstruction, AdZero.val_add, AdZero.val_mk, AdZero.val_smul_group]
@@ -544,8 +543,8 @@ lemma isLocallyConstant_obstruction (a : Fin r → ZMod ℓ) (htr : ∀ g h,
     rw [← Ideal.Quotient.eq]
     simp only [liftDefect, Matrix.sub_apply, map_sub]
     exact congrArg (· - _) hentry
-  have hJ1 := liftDefect_mem F hF hρtF p.1 p.2 i j
-  have hJ2 := liftDefect_mem F hF hρtF p'.1 p'.2 i j
+  have hJ1 := liftDefect_mem F hρtF p.1 p.2 i j
+  have hJ2 := liftDefect_mem F hρtF p'.1 p'.2 i j
   have hmJ := hJQ _ (Ideal.sub_mem _ hJ1 hJ2) hQ
   rw [← hf] at hJ1 hJ2 hmJ
   have h0 := IsLocalRing.coeffFunctional_eq_zero_of_mem (reduce.comp F) hres f hmin a hmJ
@@ -554,7 +553,7 @@ lemma isLocallyConstant_obstruction (a : Fin r → ZMod ℓ) (htr : ∀ g h,
   rw [hsplit, IsLocalRing.coeffFunctional_add (reduce.comp F) hres f hmin hJ2
     (Ideal.sub_mem _ hJ1 hJ2), h0, add_zero]
 
-omit [IsTopologicalGroup π] [IsLocalRing R] [TopologicalSpace R] [Algebra ℤ_[ℓ] R]
+omit [IsTopologicalGroup π] [IsLocalRing R] [TopologicalSpace R] [IsLocalRing P] [Algebra ℤ_[ℓ] R]
     [IsNoetherianRing P] [IsAdicComplete (maximalIdeal P) P] [Algebra ℤ_[ℓ] P] in
 /-- **Linearity of the obstruction in `a`.** -/
 lemma sum_smul_obstruction (a : Fin r → ZMod ℓ) (htr : ∀ b : Fin r → ZMod ℓ, ∀ g h,
@@ -592,7 +591,7 @@ private lemma isLocallyConstant_map_mk_sup_pow (I Q₀ : Ideal P) (k₀ : ℕ)
   simp only [Prod.mk.injEq] at hgg'
   obtain ⟨e1, e2⟩ := hgg'
   refine Units.ext (Matrix.ext fun i j => ?_)
-  show Ideal.Quotient.mk _ ((ρt g : Matrix (Fin n) (Fin n) P) i j) =
+  change Ideal.Quotient.mk _ ((ρt g : Matrix (Fin n) (Fin n) P) i j) =
     Ideal.Quotient.mk _ ((ρt g' : Matrix (Fin n) (Fin n) P) i j)
   rw [Ideal.Quotient.eq]
   set y := (ρt g : Matrix (Fin n) (Fin n) P) i j - (ρt g' : Matrix (Fin n) (Fin n) P) i j
@@ -749,7 +748,7 @@ theorem eq_zero_of_obstruction_eq_dOne
   have hres_ρt : ∀ g, (ρt g : Matrix (Fin n) (Fin n) P).map res = ρ₀ g :=
     map_res_lift hred F ρt hρtF
   have hD : ∀ g h' i j, liftDefect ρt g h' i j ∈ J := fun g h' i j =>
-    hJF ▸ liftDefect_mem F hF hρtF g h' i j
+    hJF ▸ liftDefect_mem F hρtF g h' i j
   have hprod : ∀ g h', (ρt g : Matrix (Fin n) (Fin n) P).map mkS *
       (ρt h' : Matrix (Fin n) (Fin n) P).map mkS =
       (1 + E (obstruction (ρ₀ := ρ₀) F f ρt a
@@ -761,7 +760,7 @@ theorem eq_zero_of_obstruction_eq_dOne
       rw [liftDefect, add_sub_cancel, ← Units.val_mul, ← Units.val_mul, inv_mul_cancel_right]
     have e2 := congrArg mkS.mapMatrix e1
     simp only [map_mul, map_add, map_one] at e2
-    show mkS.mapMatrix _ * mkS.mapMatrix _ = _
+    change mkS.mapMatrix _ * mkS.mapMatrix _ = _
     have e3 : mkS.mapMatrix (liftDefect ρt g h') =
         E ((liftDefect ρt g h').map (IsLocalRing.coeffFunctional res f a)) := hEJ _ (hD g h')
     rw [e2, e3]
@@ -780,7 +779,7 @@ theorem eq_zero_of_obstruction_eq_dOne
     intro g h'
     refine Units.ext ?_
     simp only [ρfun, Units.val_mul]
-    show (1 - E (x (g * h')).val) * (ρt (g * h') : Matrix (Fin n) (Fin n) P).map mkS =
+    change (1 - E (x (g * h')).val) * (ρt (g * h') : Matrix (Fin n) (Fin n) P).map mkS =
       (1 - E (x g).val) * (ρt g : Matrix (Fin n) (Fin n) P).map mkS *
         ((1 - E (x h').val) * (ρt h' : Matrix (Fin n) (Fin n) P).map mkS)
     have hW : (ρ₀ g : Matrix (Fin n) (Fin n) (ZMod ℓ)) * (x h').val *
@@ -852,7 +851,7 @@ theorem eq_zero_of_obstruction_eq_dOne
   have hredS_cont : Continuous redS :=
     RingHom.continuous_adic_of_pow_le_ker (maximalIdeal S) redS 1 (by rw [pow_one, hkerS])
   have hredS_alg : ∀ c, redS (algebraMap ℤ_[ℓ] S c) = PadicInt.toZMod c := fun c => by
-    show redS (mkS (algebraMap ℤ_[ℓ] P c)) = _
+    change redS (mkS (algebraMap ℤ_[ℓ] P c)) = _
     rw [hredS_mk]
     simp only [res, RingHom.comp_apply, hFalg, h.reduce_algebraMap]
   have hres_e : res e = 0 := by
@@ -865,7 +864,7 @@ theorem eq_zero_of_obstruction_eq_dOne
     intro g
     refine Units.ext ?_
     rw [hρ'apply]
-    show redS.mapMatrix ((1 - E (x g).val) * (ρt g : Matrix (Fin n) (Fin n) P).map mkS) = _
+    change redS.mapMatrix ((1 - E (x g).val) * (ρt g : Matrix (Fin n) (Fin n) P).map mkS) = _
     rw [map_mul, map_sub, map_one, hmapE redS (by rw [hredS_mk, hres_e]), sub_zero, one_mul]
     rw [← hres_ρt g]
     ext i j
@@ -875,7 +874,7 @@ theorem eq_zero_of_obstruction_eq_dOne
     intro g
     refine Units.ext ?_
     rw [hρ'apply, Matrix.GeneralLinearGroup.val_det_apply]
-    show ((1 - E (x g).val) * (ρt g : Matrix (Fin n) (Fin n) P).map mkS).det = _
+    change ((1 - E (x g).val) * (ρt g : Matrix (Fin n) (Fin n) P).map mkS).det = _
     rw [Matrix.det_mul, sub_eq_add_neg, ← hE_neg, hdetE _ (by rw [Matrix.trace_neg,
       AdZero.trace_val, neg_zero]), one_mul, show (ρt g : Matrix (Fin n) (Fin n) P).map mkS =
       mkS.mapMatrix (ρt g) from rfl, ← RingHom.map_det]
@@ -885,19 +884,19 @@ theorem eq_zero_of_obstruction_eq_dOne
     rfl
   obtain ⟨ψ, hψc, hψconj⟩ := h.exists_of_small S rfl hcS redS hredS_surj hredS_cont hredS_alg ρ'
     ⟨1, fun g => by
-      show ρ₀ g = 1 * Matrix.GeneralLinearGroup.map redS (ρ' g) * 1⁻¹
+      change ρ₀ g = 1 * Matrix.GeneralLinearGroup.map redS (ρ' g) * 1⁻¹
       rw [one_mul, inv_one, mul_one, hρ'red]⟩ hdet'
   set pr : S →+* R := Ideal.Quotient.lift I F hIJ
   have hpr_mk : ∀ y, pr (mkS y) = F y := fun y => Ideal.Quotient.lift_mk _ _ _
   have hprC : ∀ c, pr (algebraMap ℤ_[ℓ] S c) = algebraMap ℤ_[ℓ] R c := fun c => by
-    show pr (mkS (algebraMap ℤ_[ℓ] P c)) = _
+    change pr (mkS (algebraMap ℤ_[ℓ] P c)) = _
     rw [hpr_mk, hFalg]
   let prA : S →ₐ[ℤ_[ℓ]] R := { pr with commutes' := hprC }
   have hprρ' : ∀ g, Matrix.GeneralLinearGroup.map pr (ρ' g) = ρuniv g := by
     intro g
     refine Units.ext ?_
     rw [hρ'apply]
-    show pr.mapMatrix ((1 - E (x g).val) * (ρt g : Matrix (Fin n) (Fin n) P).map mkS) = _
+    change pr.mapMatrix ((1 - E (x g).val) * (ρt g : Matrix (Fin n) (Fin n) P).map mkS) = _
     rw [map_mul, map_sub, map_one]
     have hE0 : pr.mapMatrix (E (x g).val) = 0 := by
       ext i j
@@ -926,7 +925,7 @@ theorem eq_zero_of_obstruction_eq_dOne
       have e : Matrix.GeneralLinearGroup.map pr (Matrix.GeneralLinearGroup.map ψ.toRingHom
           (ρuniv g)) = Matrix.GeneralLinearGroup.map (prA.comp ψ).toRingHom (ρuniv g) := by
         ext; rfl
-      show ρuniv g = Matrix.GeneralLinearGroup.map pr Pm *
+      change ρuniv g = Matrix.GeneralLinearGroup.map pr Pm *
         Matrix.GeneralLinearGroup.map (prA.comp ψ).toRingHom (ρuniv g) *
         (Matrix.GeneralLinearGroup.map pr Pm)⁻¹
       calc ρuniv g = Matrix.GeneralLinearGroup.map pr (ρ' g) := (hprρ' g).symm
@@ -955,7 +954,7 @@ theorem eq_zero_of_obstruction_eq_dOne
             simp only [χ, RingHom.comp_apply, AlgHom.toRingHom_eq_coe, RingHom.coe_coe,
               AlgHom.commutes, hredS_alg]⟩
         have hkχ := IsLocalRing.eq_maximalIdeal (RingHom.ker_isMaximal_of_surjective χ hχ)
-        show F y ∈ RingHom.ker χ
+        change F y ∈ RingHom.ker χ
         rw [hkχ, ← map_maximalIdeal_of_surjective F hF]
         exact Ideal.mem_map_of_mem F hy
       have h2 : ψ (F y) ∈ (maximalIdeal P).map mkS := by
@@ -965,7 +964,7 @@ theorem eq_zero_of_obstruction_eq_dOne
         Ideal.Quotient.mk_surjective).mp h2
       exact ⟨z, hz, hzeq.symm⟩)
     (by
-      show ψ (F (algebraMap ℤ_[ℓ] P ℓ)) = mkS (algebraMap ℤ_[ℓ] P ℓ)
+      change ψ (F (algebraMap ℤ_[ℓ] P ℓ)) = mkS (algebraMap ℤ_[ℓ] P ℓ)
       rw [hFalg, AlgHom.commutes]
       rfl)
   have := (hsec heF).2

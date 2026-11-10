@@ -68,7 +68,8 @@ tilde--global-sections adjunction, whose `homEquiv` evaluates by `rfl`.
 
 open CategoryTheory MonoidalCategory AlgebraicGeometry Opposite TopologicalSpace
 
-open Stacks.SheafOfModules.TensorStalkRingedSpace (O sheafifyFunctor sheafifyUnit toTensorSheafSection tensorSheafMap_app_toTensorSheafSection)
+open Stacks.SheafOfModules.TensorStalkRingedSpace (O sheafifyFunctor sheafifyUnit
+  toTensorSheafSection tensorSheafMap_app_toTensorSheafSection)
 open Stacks.SheafOfModules.TensorSheafification (sheafify toSheafify)
 open Stacks.SheafOfModules.OnSpace (tensorObjTmul unitSection tensorHom_tmul
   sheaf_comp_app_apply tensor_hom_ext)
@@ -128,7 +129,8 @@ theorem tensorSheafComparison_inv_app_tmul (X : Scheme.{u}) (F G : X.Modules)
     (U : (Opens X.carrier)ᵒᵖ) (a : F.val.obj U) (b : G.val.obj U) :
     ((tensorSheafComparison X F G).inv.val.app U).hom
         (((toSheafify X.presheaf X.ringCatSheaf.2
-          ((PresheafOfModules.tensorObj (O := X.presheaf) (F.val) (G.val)))).app U).hom (a ⊗ₜ[X.presheaf.obj U] b)) =
+          ((PresheafOfModules.tensorObj (O := X.presheaf) (F.val) (G.val)))).app U).hom
+            (a ⊗ₜ[X.presheaf.obj U] b)) =
       toTensorSheafSection X.toRingedSpace F G U (a ⊗ₜ[X.presheaf.obj U] b) := by
   rw [← tensorSheafComparison_hom_app_tmul, iso_inv_hom_app]
 
@@ -139,7 +141,8 @@ theorem tensorSheafificationIso_hom_app_tmul (X : Scheme.{u}) {F F' G G' : X.Mod
     (a : F.val.obj U) (b : G.val.obj U) :
     ((tensorSheafificationIso X e e').hom.val.app U).hom
         (((toSheafify X.presheaf X.ringCatSheaf.2
-          ((PresheafOfModules.tensorObj (O := X.presheaf) (F.val) (G.val)))).app U).hom (a ⊗ₜ[X.presheaf.obj U] b)) =
+          ((PresheafOfModules.tensorObj (O := X.presheaf) (F.val) (G.val)))).app U).hom
+            (a ⊗ₜ[X.presheaf.obj U] b)) =
       ((toSheafify X.presheaf X.ringCatSheaf.2
           ((PresheafOfModules.tensorObj (O := X.presheaf) (F'.val) (G'.val)))).app U).hom
         ((e.hom.val.app U).hom a ⊗ₜ[X.presheaf.obj U] (e'.hom.val.app U).hom b) :=
@@ -154,7 +157,9 @@ theorem tensorSheafificationIso_hom_app_tmul (X : Scheme.{u}) {F F' G G' : X.Mod
 Both are determined by their values on local pure tensors, where both act factorwise. -/
 theorem tensorSheafIso_hom (X : Scheme.{u}) {F F' G G' : X.Modules} (e : F ≅ F')
     (e' : G ≅ G') :
-    (tensorSheafIso X e e').hom = ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨(X.toRingedSpace).presheaf, (X.toRingedSpace).IsSheaf⟩)).map ((e.hom, e'.hom) : (_, _) ⟶ (_, _))) := by
+    (tensorSheafIso X e e').hom = ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
+      ⟨(X.toRingedSpace).presheaf, (X.toRingedSpace).IsSheaf⟩)).map
+        ((e.hom, e'.hom) : (_, _) ⟶ (_, _))) := by
   refine tensor_hom_ext X.toRingedSpace fun U a b => ?_
   rw [tensorSheafIso, Iso.trans_hom, Iso.trans_hom, Iso.symm_hom,
     sheaf_comp_app_apply, sheaf_comp_app_apply, tensorSheafComparison_hom_app_tmul,
@@ -166,7 +171,8 @@ theorem tensorSheafIso_hom (X : Scheme.{u}) {F F' G G' : X.Modules} (e : F ≅ F
 morphism `tensorSheafMap`. -/
 theorem tensorHom_eq_tensorSheafMap (Y : RingedSpace.{u, u})
     {A A' B B' : SheafOfModules.{u} (structureSheafRing Y)} (f : A ⟶ A') (g : B ⟶ B') :
-    (f ⊗ₘ g) = ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor ⟨(Y).presheaf, (Y).IsSheaf⟩)).map ((f, g) : (_, _) ⟶ (_, _))) :=
+    (f ⊗ₘ g) = ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
+      ⟨(Y).presheaf, (Y).IsSheaf⟩)).map ((f, g) : (_, _) ⟶ (_, _))) :=
   tensor_hom_ext Y fun U a b =>
     (tensorHom_tmul Y f g U a b).trans
       (tensorSheafMap_app_toTensorSheafSection Y A B A' B' f g U.unop a b).symm
@@ -193,7 +199,10 @@ theorem mulSectionHom_tensorSheafIso (X : Scheme.{u})
     (tensorSheafIso_hom X (Iso.refl F) e).trans
       ((tensorHom_eq_tensorSheafMap X.toRingedSpace (𝟙 F) e.hom).symm.trans
         (MonoidalCategory.id_tensorHom F e.hom))
-  (congrArg (fun φ : (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(X.toRingedSpace).presheaf, (X.toRingedSpace).IsSheaf⟩).obj (F)).obj (G)) ⟶ (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(X.toRingedSpace).presheaf, (X.toRingedSpace).IsSheaf⟩).obj (F)).obj (H)) =>
+  (congrArg (fun φ : (((Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨(X.toRingedSpace).presheaf, (X.toRingedSpace).IsSheaf⟩).obj (F)).obj (G)) ⟶
+        (((Stacks.SheafOfModules.Tensor.sheafTensor
+          ⟨(X.toRingedSpace).presheaf, (X.toRingedSpace).IsSheaf⟩).obj (F)).obj (H)) =>
       mulSectionHom X.toRingedSpace σ ≫ φ) hkey).trans
     (mulSectionHom_whiskerLeft X.toRingedSpace σ e.hom)
 

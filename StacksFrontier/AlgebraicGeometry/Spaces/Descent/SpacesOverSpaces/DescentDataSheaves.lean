@@ -56,7 +56,7 @@ space exactly when the descent datum is effective are not in this file; they are
 `AlgebraicGeometry.Space.Descent.fibreDescentFunctorEquivalence`, in
 `StacksFrontier/AlgebraicGeometry/Spaces/Descent/SpacesOverSpaces/DescentDataQuotient.lean`, and
 `AlgebraicGeometry.Space.Descent.isAlgebraicSpace_iff_isEffective_fibreDescentData`, in
-`StacksFrontier/AlgebraicGeometry/Spaces/Descent/SpacesOverSpaces/DescentDataSheavesEquivalence.lean`.
+`DescentDataSheavesEquivalence.lean`, in the same directory.
 The fppf covering hypothesis is what the equivalence needs, through full faithfulness; the
 other direction turns out to need only that the target and the members of the family are
 algebraic spaces, and the sheaf condition on `F` is used by neither.
@@ -288,7 +288,8 @@ algebraic spaces to descent data relative to the family. -/
 whose fibre products with the family are algebraic spaces, to descent data. The cocycle \
 condition is proved, not assumed. This declaration is that functor ALONE -- it asserts \
 neither the equivalence nor part (2). Both are proved of this same functor elsewhere, in \
-StacksFrontier/AlgebraicGeometry/Spaces/Descent/SpacesOverSpaces/DescentDataSheavesEquivalence.lean \
+StacksFrontier/AlgebraicGeometry/Spaces/Descent/SpacesOverSpaces/\
+DescentDataSheavesEquivalence.lean \
 and DescentDataQuotient.lean: \
 full faithfulness is fibreDescentFunctorFullyFaithful, essential surjectivity -- the \
 left-to-right coequalizer direction, realized by the quotient sheaf descentQuotient -- is the \

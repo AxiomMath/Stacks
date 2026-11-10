@@ -142,8 +142,9 @@ lemma groupActionEtaleModuleRestrictScalarsIso_hom_app_smul (W : X.Etaleᵒᵖ) 
     (x : (groupActionEtaleModule N₀ act).obj.obj W) :
     (groupActionEtaleModuleRestrictScalarsIso N₀ act).hom.hom.app W
         (MonoidAlgebra.single g (1 : A) • x) =
-      (act g).asHom.hom.app W ((groupActionEtaleModuleRestrictScalarsIso N₀ act).hom.hom.app W x) := by
-  show (groupActionSectionsRep N₀ act W).asAlgebraHom (MonoidAlgebra.single g 1)
+      (act g).asHom.hom.app W
+        ((groupActionEtaleModuleRestrictScalarsIso N₀ act).hom.hom.app W x) := by
+  change (groupActionSectionsRep N₀ act W).asAlgebraHom (MonoidAlgebra.single g 1)
     ((groupActionSectionsRep N₀ act W).asModuleEquiv x) = _
   rw [Representation.asAlgebraHom_single_one]
   rfl

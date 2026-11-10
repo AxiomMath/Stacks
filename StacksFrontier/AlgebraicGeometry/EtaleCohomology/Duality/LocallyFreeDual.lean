@@ -122,7 +122,7 @@ theorem germ_unit (Φ : Y.smallEtaleTopology.Point.{u + 1}) {U : Y.Etale} (x : �
         (Functor.OplaxMonoidal.η L).hom.app (op U)) ≫
         Φ.toPresheafFiber U x (𝟙_ (EtaleModules.{u, 0} Λ Y)).obj := by
     rw [hε, Φ.toPresheafFiber_ε U x]
-    show Φ.toPresheafFiber U x _ ≫ Φ.presheafFiber.map (toSheafify Y.smallEtaleTopology _) ≫
+    change Φ.toPresheafFiber U x _ ≫ Φ.presheafFiber.map (toSheafify Y.smallEtaleTopology _) ≫
       Φ.presheafFiber.map (Functor.OplaxMonoidal.η L).hom = _
     rw [← Φ.presheafFiber.map_comp, Φ.toPresheafFiber_naturality, Category.assoc]
     rfl
@@ -186,7 +186,7 @@ theorem etaleModuleDualPairing_dualSectionOfConst (N : EtaleModules.{u, 0} Λ Y)
   have hk := ConcreteCategory.congr_hom
     (Stacks.ConstantSheaf.toSheafify_overPullbackConstantSheafIso Y.smallEtaleTopology A V
       (𝟙_ A)) (ULift.up (l m))
-  show ((unitOverComparison V).hom.app (op (Over.mk (𝟙 V)))).hom
+  change ((unitOverComparison V).hom.app (op (Over.mk (𝟙 V)))).hom
       ((((constantSheaf K A).map
         (ModuleCat.ofHom (ULift.moduleEquiv.symm.toLinearMap ∘ₗ l))).hom.app
           (op (Over.mk (𝟙 V)))).hom
@@ -211,7 +211,7 @@ theorem surjective_fiberPairing_etaleModuleDualEvaluation (N : EtaleModules.{u, 
     (dualSectionOfConst N e (ψ ∘ₗ (germ Φ y N ∘ₗ constSection e))), ?_⟩
   refine LinearMap.ext fun g => ?_
   obtain ⟨m, rfl⟩ := exists_germ_constSection_eq e Φ y g
-  show fiberPairing (etaleModuleDualEvaluation N) Φ (germ Φ y (etaleModuleDual N) _)
+  change fiberPairing (etaleModuleDualEvaluation N) Φ (germ Φ y (etaleModuleDual N) _)
     (germ Φ y N (constSection e m)) = _
   rw [fiberPairing_etaleModuleDualEvaluation_germ, etaleModuleDualPairing_dualSectionOfConst,
     germ_unit, unitEquiv_ε]
@@ -257,7 +257,7 @@ theorem etaleModuleDual_map_eq_zero (N : EtaleModules.{u, 0} Λ Y) {V : Y.Etale}
   apply Sheaf.hom_ext
   refine NatTrans.ext (funext fun T => ModuleCat.hom_ext (LinearMap.ext fun c => ?_))
   obtain ⟨⟨T, _, g⟩⟩ := T
-  show (φ.hom.app (op (Over.mk (g ≫ k)))).hom c = 0
+  change (φ.hom.app (op (Over.mk (g ≫ k)))).hom c = 0
   refine (eq_of_germ_eq (isConservativeFamilyOfPoints_residueGeometricPoints.{u, 0} Y)
     (H := 𝟙_ (EtaleModules.{u, 0} Λ Y)) fun Ψ z => ?_).trans rfl
   let I := 𝟙_ (EtaleModules.{u, 0} Λ Y)

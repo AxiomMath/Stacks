@@ -162,7 +162,7 @@ private theorem exists_mem_range_chartKι :
     (⟨⊥, Ideal.isPrime_bot⟩ : Spec (.of K)) (by
       rw [← Scheme.Hom.comp_apply, chartι_comp_X_to_R]
       refine PrimeSpectrum.ext ?_
-      show Ideal.comap (awayBase 0) ⊥ = Ideal.comap (algebraMap R K) ⊥
+      change Ideal.comap (awayBase 0) ⊥ = Ideal.comap (algebraMap R K) ⊥
       rw [← RingHom.ker_eq_comap_bot, ← RingHom.ker_eq_comap_bot,
         (RingHom.injective_iff_ker_eq_bot _).mp (IsFractionRing.injective R K),
         (RingHom.injective_iff_ker_eq_bot _).mp]
@@ -171,7 +171,7 @@ private theorem exists_mem_range_chartKι :
       exact injective_algebraMap_chartRing 0 ((chartEquiv 0).injective hab))
   refine ⟨z, fun c => ?_⟩
   rw [IsOpenImmersion.range_pullbackFst]
-  show genericFibreToX z ∈ Set.range (chartι c)
+  change genericFibreToX z ∈ Set.range (chartι c)
   rw [hz]
   exact chartι_chartZeroPt_mem c
 

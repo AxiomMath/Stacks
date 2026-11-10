@@ -169,7 +169,7 @@ theorem restrictedMorphism_comp_associatedMap (G : GroupoidInAlgebraicSpaces C S
         (restrictedMorphism G (BasedFunctor.comp f (associatedMap C S hS h.hom).1.hom)).hom).1.hom =
       (associatedMap C S hS ((restrictedMorphism G f).hom ≫ h.hom)).1.hom := by
     rw [← restrictedMorphism_spec]
-    show BasedFunctor.comp (BasedFunctor.comp (quotientStackProjection G) f)
+    change BasedFunctor.comp (BasedFunctor.comp (quotientStackProjection G) f)
       (associatedMap C S hS h.hom).1.hom = _
     rw [restrictedMorphism_spec, associatedMap_comp]
     rfl
@@ -194,7 +194,7 @@ theorem isInvariant_iff_isInvariant_groupoidPreRelation
     {W : AlgebraicSpaces C S hS} (ψ : G.objects ⟶ W) :
     Space.IsInvariant j ψ ↔ Space.IsInvariant (Space.groupoidPreRelation G) ψ.hom := by
   rw [isInvariant_iff]
-  show (Space.PreRelation.target j).left ≫ ψ = (Space.PreRelation.source j).left ≫ ψ ↔ _
+  change (Space.PreRelation.target j).left ≫ ψ = (Space.PreRelation.source j).left ≫ ψ ↔ _
   rw [hjt, hjs]
 
 /-- A 1-morphism out of a quotient stack is determined by its restriction along the

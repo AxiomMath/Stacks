@@ -66,7 +66,7 @@ lemma pullbackSndPullbackIso_hom_fst {W X Y Z : Scheme.{u}} (f : X ⟶ Z) (g : Y
     (h : W ⟶ Z) (hh : g' ≫ g = h) :
     (pullbackSndPullbackIso f g g' h hh).hom ≫ pullback.fst f h =
       pullback.fst (pullback.snd f g) g' ≫ pullback.fst f g := by
-  simp [pullbackSndPullbackIso, pullback.map, pullback.lift_fst]
+  simp [pullbackSndPullbackIso, pullback.map]
 
 /-- The comparison isomorphism of `AlgebraicGeometry.pullbackSndPullbackIso` read through the
 second projections. -/
@@ -75,7 +75,7 @@ lemma pullbackSndPullbackIso_hom_snd {W X Y Z : Scheme.{u}} (f : X ⟶ Z) (g : Y
     (h : W ⟶ Z) (hh : g' ≫ g = h) :
     (pullbackSndPullbackIso f g g' h hh).hom ≫ pullback.snd f h =
       pullback.snd (pullback.snd f g) g' := by
-  simp [pullbackSndPullbackIso, pullback.map, pullback.lift_snd]
+  simp [pullbackSndPullbackIso, pullback.map]
 
 /-- The inverse of the comparison isomorphism of `AlgebraicGeometry.pullbackSndPullbackIso` read
 through the first projections. -/

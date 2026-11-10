@@ -247,7 +247,7 @@ private lemma mapHom_bijective_of_powerTorsion
       infer_instance
     have hright : IsIso (hlocD.hom.app (ιA.obj (LA.obj L)) ≫
         ιB.map (LB.map (D.functor.map c))) := by
-      show IsIso (hlocD.hom.app ((LA ⋙ ιA).obj L) ≫
+      change IsIso (hlocD.hom.app ((LA ⋙ ιA).obj L) ≫
         ιB.map (LB.map (D.functor.map c)))
       rw [← hn]
       exact hleft
@@ -297,7 +297,7 @@ private lemma restrictScalars_ringEquiv_powerTorsion
   obtain ⟨n, hn, hkill⟩ := hM m
   refine ⟨n, hn, ?_⟩
   intro s hs
-  show e s • m = 0
+  change e s • m = 0
   apply hkill
   rw [← Ideal.map_pow] at hs
   obtain ⟨r, hr, hrs⟩ :=
@@ -375,7 +375,7 @@ private lemma mapHom_bijective_of_powerTorsion_leftDerived
   have hpost := bijective_comp_right_of_isIso (X := D.functor.obj T) (eModel.hom.app L)
   have hpre := bijective_comp_left_of_isIso (Z := F.obj L) (eModel.hom.app T)
   apply (Function.Bijective.of_comp_iff' hpre _).mp
-  show Function.Bijective (fun g : T ⟶ L => eModel.hom.app T ≫ F.map g)
+  change Function.Bijective (fun g : T ⟶ L => eModel.hom.app T ≫ F.map g)
   convert hpost.comp hD using 1
   funext g
   exact (eModel.hom.naturality g).symm
@@ -470,7 +470,7 @@ theorem isIso_derivedHomBaseChangeMate_of_powerTorsion
   have hFirst : IsIso ((Stacks.DerivedHom.ScalarTransportedInternalHom.hom.{uR,max uR uA uM} A).map
       (show (Opposite.op K, L) ⟶
         (Opposite.op K, U.obj (F.obj L)) from (𝟙 _, a.unit.app L))) := by
-    show IsIso (E.inverse.map (d.hom.map
+    change IsIso (E.inverse.map (d.hom.map
       ((Functor.prod E.functor.op E.functor).map
         (show (Opposite.op K, L) ⟶
           (Opposite.op K, U.obj (F.obj L)) from (𝟙 _, a.unit.app L)))))
@@ -481,13 +481,13 @@ theorem isIso_derivedHomBaseChangeMate_of_powerTorsion
           (Opposite.op (E.functor.obj K), E.functor.obj (U.obj (F.obj L))) from
           (𝟙 _, E.functor.map (a.unit.app L))) := by
       apply Prod.ext
-      · show (E.functor.map (𝟙 K)).op = 𝟙 (Opposite.op (E.functor.obj K))
+      · change (E.functor.map (𝟙 K)).op = 𝟙 (Opposite.op (E.functor.obj K))
         rw [E.functor.map_id]
         rfl
       · rfl
     rw [hprod]
     infer_instance
-  show IsIso ((Stacks.DerivedHom.ScalarTransportedInternalHom.hom.{uR,max uR uA uM} A).map
+  change IsIso ((Stacks.DerivedHom.ScalarTransportedInternalHom.hom.{uR,max uR uA uM} A).map
     (show (Opposite.op K, L) ⟶
       (Opposite.op K, U.obj (F.obj L)) from (𝟙 _, a.unit.app L)) ≫
     (Stacks.DerivedHom.BaseChange.derivedHomRestrictScalarsNatIso.{uR,uA,uM}

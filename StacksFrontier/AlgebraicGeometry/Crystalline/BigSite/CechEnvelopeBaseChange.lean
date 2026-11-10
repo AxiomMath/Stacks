@@ -175,7 +175,7 @@ theorem reducedTensorDesc_comp_left (hI : I'.map (algebraMap A' A) ≤ I)
     (hxy : x.comp (quotientMapLeft I') = y.comp (quotientMapRight hI)) :
     (reducedTensorDesc hI x y hxy).comp (reducedTensorLeft hI) = x := by
   ext b
-  show y (Ideal.Quotient.mk I 1) * x (Ideal.Quotient.mk _ b) = _
+  change y (Ideal.Quotient.mk I 1) * x (Ideal.Quotient.mk _ b) = _
   rw [map_one, map_one, one_mul]
   rfl
 
@@ -185,7 +185,7 @@ theorem reducedTensorDesc_comp_right (hI : I'.map (algebraMap A' A) ≤ I)
     (hxy : x.comp (quotientMapLeft I') = y.comp (quotientMapRight hI)) :
     (reducedTensorDesc hI x y hxy).comp reducedTensorRight = y := by
   ext a
-  show y (Ideal.Quotient.mk I a) * x (Ideal.Quotient.mk _ 1) = _
+  change y (Ideal.Quotient.mk I a) * x (Ideal.Quotient.mk _ 1) = _
   rw [map_one, map_one, mul_one]
   rfl
 
@@ -214,7 +214,7 @@ theorem isPushout_reducedTensor (hI : I'.map (algebraMap A' A) ≤ I) :
       CommRingCat.ofHom (quotientMapRight hI) ≫
         CommRingCat.ofHom (reducedTensorRight (A' := A') (B' := B') (I := I)) := by
     ext a
-    show reducedTensorLeft hI (Ideal.Quotient.mk _ (algebraMap A' B' a)) =
+    change reducedTensorLeft hI (Ideal.Quotient.mk _ (algebraMap A' B' a)) =
       reducedTensorRight (Ideal.Quotient.mk _ (algebraMap A' A a))
     rw [reducedTensorLeft_mk, reducedTensorRight_mk]
     exact congrArg (Ideal.Quotient.mk _) (RingHom.congr_fun
@@ -315,7 +315,7 @@ theorem map_ideal_le :
   rw [Ideal.map_le_iff_le_comap]
   intro a ha
   rw [Ideal.mem_comap, ← ker_closedFiberSectionsMap, RingHom.mem_ker]
-  show closedFiberSectionsMap S (baseSectionsRingHom f a) = 0
+  change closedFiberSectionsMap S (baseSectionsRingHom f a) = 0
   have ha' : closedFiberSectionsMap S' a = 0 := by
     rw [← RingHom.mem_ker, ker_closedFiberSectionsMap]
     exact ha
@@ -349,7 +349,6 @@ theorem isPushout_sections [IsAffine U'] :
 variable {U'} [IsAffine U'] (L' : SmoothLift S' U'.ι)
 
 omit [IsAffine U'] in
-include hpb in
 /-- The algebraic pushout `(A ⊗_{A'} B') / I`, read on the span `Γ(U') ← Γ(S'₀) → Γ(S₀)`. -/
 theorem isPushout_reducedTensor_sections :
     letI := baseSectionsAlgebra f
@@ -365,23 +364,23 @@ theorem isPushout_reducedTensor_sections :
     L'.equiv.symm.toCommRingCatIso (closedFiberSectionsEquiv S).symm.toCommRingCatIso
     (Iso.refl _) ?_ ?_ ?_ ?_
   · ext a
-    show L'.equiv.symm (Ideal.Quotient.mk _ (algebraMap _ _ a)) =
+    change L'.equiv.symm (Ideal.Quotient.mk _ (algebraMap _ _ a)) =
       (U'.ι ≫ S'.toClosedFiber).appTop.hom ((closedFiberSectionsEquiv S').symm
         (Ideal.Quotient.mk _ a))
     rw [closedFiberSectionsEquiv_symm_mk S', RingEquiv.symm_apply_eq]
     exact (L'.equiv_sourceToBase a).symm
   · ext a
-    show (closedFiberSectionsEquiv S).symm (Ideal.Quotient.mk _ (baseSectionsRingHom f a)) =
+    change (closedFiberSectionsEquiv S).symm (Ideal.Quotient.mk _ (baseSectionsRingHom f a)) =
       (DividedPowerScheme.closedFiberMap f).appTop.hom ((closedFiberSectionsEquiv S').symm
         (Ideal.Quotient.mk _ a))
     rw [closedFiberSectionsEquiv_symm_mk S', closedFiberMap_appTop_closedFiberSectionsMap,
       RingEquiv.symm_apply_eq, closedFiberSectionsEquiv_apply]
   · ext x
-    show _ = reducedTensorLeft (map_ideal_le f) (L'.equiv (L'.equiv.symm x))
+    change _ = reducedTensorLeft (map_ideal_le f) (L'.equiv (L'.equiv.symm x))
     rw [RingEquiv.apply_symm_apply]
     rfl
   · ext x
-    show _ = reducedTensorRight ((closedFiberSectionsEquiv S)
+    change _ = reducedTensorRight ((closedFiberSectionsEquiv S)
       ((closedFiberSectionsEquiv S).symm x))
     rw [RingEquiv.apply_symm_apply]
     rfl
@@ -393,7 +392,7 @@ def baseChangeSectionsIso :
     Γ((g ⁻¹ᵁ U').toScheme, ⊤) ≅
       CommRingCat.of (reducedTensor (A' := ↥(baseSectionsRing S')) (B' := L'.ring)
         (baseSectionsRing S).ideal) :=
-  (isPushout_sections hpb U').isoIsPushout _ _ (isPushout_reducedTensor_sections hpb L')
+  (isPushout_sections hpb U').isoIsPushout _ _ (isPushout_reducedTensor_sections L')
 
 include hpb in
 /-- `baseChangeSectionsIso` is compatible with the maps from `A`: the image of `a ∈ A` in
@@ -407,9 +406,9 @@ theorem baseChangeSectionsIso_sourceToBase (a : baseSectionsRing S) :
   let := baseSectionsAlgebra f
   have h := congrArg (fun k => k.hom (closedFiberSectionsMap S a))
     (IsPushout.inr_isoIsPushout_hom _ _ (isPushout_sections hpb U')
-      (isPushout_reducedTensor_sections hpb L'))
+      (isPushout_reducedTensor_sections L'))
   refine h.trans ?_
-  show reducedTensorRight (closedFiberSectionsEquiv S (closedFiberSectionsMap S a)) = _
+  change reducedTensorRight (closedFiberSectionsEquiv S (closedFiberSectionsMap S a)) = _
   rw [closedFiberSectionsEquiv_apply]
   rfl
 

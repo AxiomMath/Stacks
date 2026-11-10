@@ -96,7 +96,7 @@ def Object.coverToBase (P : Object B S hS 𝒳 𝒴 F d) : P.coverOver ⟶ P.bas
 the cover. -/
 theorem Object.overMap_coverOver (P : Object B S hS 𝒳 𝒴 F d) :
     (Over.map P.U.hom).obj P.coverOver = P.Z := by
-  show Over.mk (P.q.left ≫ P.U.hom) = Over.mk P.Z.hom
+  change Over.mk (P.q.left ≫ P.U.hom) = Over.mk P.Z.hom
   congr 1
   exact P.q.w
 

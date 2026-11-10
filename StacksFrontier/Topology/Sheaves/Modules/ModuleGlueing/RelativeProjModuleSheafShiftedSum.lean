@@ -130,7 +130,7 @@ public theorem pullback_map_ι_shiftedSumSheafMap (n : ℤ) :
   have h := ι_comp_sigmaComparison (Scheme.Modules.pullback (relativeProjToBase s))
     (fun k : ℤ => ℳ.piece k) n
   change _ ≫ (PreservesCoproduct.iso _ _).inv = _ at h
-  erw [shiftedSumSheafMap, ← h, Category.assoc, Iso.inv_hom_id_assoc, Sigma.ι_desc]
+  erw [shiftedSumSheafMap, ← h, Category.assoc, Iso.inv_hom_id_assoc, Sigma.ι_comp_desc]
 
 /-- **The canonical map `π^*ℳ ⟶ ⨁_{n ∈ ℤ} (ℳ(n))~` is the only morphism with these components.** -/
 public theorem shiftedSumSheafMap_ext

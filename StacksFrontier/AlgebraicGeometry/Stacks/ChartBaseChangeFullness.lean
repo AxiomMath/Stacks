@@ -6,8 +6,8 @@ public import StacksFrontier.AlgebraicGeometry.Stacks.WellNighAffineChart
 /-!
 # Full faithfulness of `h` on the chart (proof of Stacks 0DUQ)
 
-In the setting of `StacksFrontier.AlgebraicGeometry.Stacks.ChartBaseChangeCartesian`, let `V` and `V'`
-represent the self-intersections `R = U ×_𝒳 U` and `R' = W ×_{𝒳'} W` of the charts, with the
+In the setting of `StacksFrontier.AlgebraicGeometry.Stacks.ChartBaseChangeCartesian`, let `V` and
+`V'` represent the self-intersections `R = U ×_𝒳 U` and `R' = W ×_{𝒳'} W` of the charts, with the
 source square `R' = R ×_{s, U} W` cartesian, and suppose `W = M' ×_M U`. Then two points `w₁, w₂`
 of `W` over `T` with one image in `M'` have the property that every vertical morphism
 `h(x' w₁) ⟶ h(x' w₂)` is the image of a vertical morphism `x' w₁ ⟶ x' w₂`.

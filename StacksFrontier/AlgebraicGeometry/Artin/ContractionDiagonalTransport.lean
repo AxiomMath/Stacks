@@ -155,7 +155,7 @@ theorem preimage_ZOverV_of_eq
           d.toOverVTerminal) y := by
     rw [← Function.comp_apply (f := Space.pointsMap _ _ _ _ (baseVIso V).inv),
       ← Space.pointsMap_comp, ht, Category.assoc, Iso.hom_inv_id, Category.comp_id]
-  show Space.pointsSmallerBaseInverseHomeomorph B V.left.obj S V.left.property hS V.hom
+  change Space.pointsSmallerBaseInverseHomeomorph B V.left.obj S V.left.property hS V.hom
     overVTerminal (Space.pointsMap B V.left.obj V.left.property _ (baseVIso V).inv
       (Space.pointsMap B V.left.obj V.left.property _ t y)) ∈ d.Z ↔ _
   rw [key, Space.pointsSmallerBaseInverseHomeomorph_naturality]
@@ -201,7 +201,7 @@ theorem isClosedImmersion_openPartToOffCenter_left (hp : Space.IsProper B S hS d
   have := Space.isClosedImmersion_respectsIso B S hS
   have hsq := FormalSpace.isPullback_ι_openSubspaceOfPoints_compl B S hS d.toBase d.Z
     d.openPartRestrict (Space.openSubspaceOfPointsRestrict_comp_ι B S hS _ _ _ _)
-  show Space.IsClosedImmersion B S hS d.openPartRestrict
+  change Space.IsClosedImmersion B S hS d.openPartRestrict
   rw [← hsq.isoPullback_hom_snd]
   exact (MorphismProperty.cancel_left_of_respectsIso (@Space.IsClosedImmersion B S hS) _ _).2
     (d.isClosedImmersion_pullbackSnd_offCenter hp)
@@ -212,7 +212,7 @@ theorem subset_preimage_ZOverV_compl :
         overVTerminal ⁻¹' d.Zᶜ ⊆
       Space.pointsMap B V.left.obj V.left.property _ (baseVIso V).hom ⁻¹' d.ZOverVᶜ := by
   intro y hy
-  show Space.pointsSmallerBaseInverseHomeomorph B V.left.obj S V.left.property hS V.hom
+  change Space.pointsSmallerBaseInverseHomeomorph B V.left.obj S V.left.property hS V.hom
     overVTerminal (Space.pointsMap B V.left.obj V.left.property _ (baseVIso V).inv
       (Space.pointsMap B V.left.obj V.left.property _ (baseVIso V).hom y)) ∉ d.Z
   rw [← Function.comp_apply (f := Space.pointsMap _ _ _ _ (baseVIso V).inv),
@@ -236,7 +236,7 @@ theorem isClosedImmersion_offCenterComparison :
         overVTerminal ⁻¹' d.Zᶜ =
       (Space.pointsMap B V.left.obj V.left.property _ (baseVIso V).hom ⁻¹' d.ZOverV)ᶜ := by
     ext y
-    show Space.pointsSmallerBaseInverseHomeomorph B V.left.obj S V.left.property hS V.hom
+    change Space.pointsSmallerBaseInverseHomeomorph B V.left.obj S V.left.property hS V.hom
       overVTerminal y ∉ d.Z ↔ Space.pointsSmallerBaseInverseHomeomorph B V.left.obj S
         V.left.property hS V.hom overVTerminal (Space.pointsMap B V.left.obj V.left.property _
           (baseVIso V).inv (Space.pointsMap B V.left.obj V.left.property _ (baseVIso V).hom y))
@@ -350,7 +350,7 @@ theorem subset_preimage_ZOverV :
     Space.smallerBaseInverseSet B V.left.obj S V.left.property hS V.hom overVTerminal d.Z ⊆
       Space.pointsMap B V.left.obj V.left.property _ (baseVIso V).hom ⁻¹' d.ZOverV := by
   intro y hy
-  show Space.pointsSmallerBaseInverseHomeomorph B V.left.obj S V.left.property hS V.hom
+  change Space.pointsSmallerBaseInverseHomeomorph B V.left.obj S V.left.property hS V.hom
     overVTerminal (Space.pointsMap B V.left.obj V.left.property _ (baseVIso V).inv
       (Space.pointsMap B V.left.obj V.left.property _ (baseVIso V).hom y)) ∈ d.Z
   rw [← Function.comp_apply (f := Space.pointsMap _ _ _ _ (baseVIso V).inv),

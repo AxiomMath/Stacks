@@ -125,7 +125,7 @@ theorem finite_standard_refinement
     X i := B.inclusion.obj (E.X i)
     f i := B.inclusion.map (E.f i)
     mem₀ := by
-      show (E.map B.inclusion).presieve₀ ∈ Scheme.proetalePrecoverage T'
+      change (E.map B.inclusion).presieve₀ ∈ Scheme.proetalePrecoverage T'
       exact hE }
   obtain ⟨V, q, hfin, hopen⟩ := finite_affine_refinement_proetaleCover U
   let : Scheme.JointlySurjective (Scheme.precoverage @WeaklyEtale) := by
@@ -148,11 +148,11 @@ theorem finite_standard_refinement
           (E.X (q.s₀ i)).property⟩ : B.Scheme) ⟶
         B.inclusion.obj T from V.f i) }
   have hQ : B.IsProetaleCovering ⟨T, Q⟩ := by
-    show (Q.map B.inclusion).presieve₀ ∈ Scheme.proetalePrecoverage (B.inclusion.obj T)
+    change (Q.map B.inclusion).presieve₀ ∈ Scheme.proetalePrecoverage (B.inclusion.obj T)
     rw [show Q.map B.inclusion = V.cover.toPreZeroHypercover from
       map_inclusion_mk_preimage B _ _]
-    show V.cover.presieve₀ ∈ Scheme.propQCPrecoverage @WeaklyEtale (B.inclusion.obj T)
-    show V.cover.presieve₀ ∈
+    change V.cover.presieve₀ ∈ Scheme.propQCPrecoverage @WeaklyEtale (B.inclusion.obj T)
+    change V.cover.presieve₀ ∈
       ((Scheme.qcPrecoverage ⊓ Scheme.precoverage @WeaklyEtale) (B.inclusion.obj T))
     refine ⟨?_, V.cover.mem₀⟩
     let : Finite V.cover.I₀ := by simpa [Scheme.AffineCover.cover] using hfin
@@ -167,7 +167,7 @@ theorem finite_standard_refinement
   cases htarget
   have hcomb' : PreZeroHypercover.CombinatoriallyEquivalent Q Rfam := hcomb.2
   have hFpro : B.IsProetaleCovering ⟨T, Q.shrink⟩ := by
-    show (Q.shrink.map B.inclusion).presieve₀ ∈
+    change (Q.shrink.map B.inclusion).presieve₀ ∈
       Scheme.proetalePrecoverage (B.inclusion.obj T)
     rw [PreZeroHypercover.presieve₀_map, PreZeroHypercover.presieve₀_shrink,
       ← PreZeroHypercover.presieve₀_map]
@@ -180,15 +180,15 @@ theorem finite_standard_refinement
     have hi : i = Q.toShrink.s₀ k := Subtype.ext hk.symm
     subst i
     constructor
-    · show IsAffine (B.inclusion.obj (Q.X k))
-      show IsAffine (Spec (V.X k))
+    · change IsAffine (B.inclusion.obj (Q.X k))
+      change IsAffine (Spec (V.X k))
       exact isAffine_Spec (V.X k)
     let g := B.inclusion.preimage (show
       B.inclusion.obj (Q.X k) ⟶ B.inclusion.obj (E.X (q.s₀ k)) from q.h₀ k)
     have htri : g ≫ E.f (q.s₀ k) = Q.f k := by
       apply B.inclusion.map_injective
       dsimp [g]
-      show B.inclusion.map (g ≫ E.f (q.s₀ k)) =
+      change B.inclusion.map (g ≫ E.f (q.s₀ k)) =
         B.inclusion.map (B.inclusion.preimage (show
           B.inclusion.obj (Q.X k) ⟶ B.inclusion.obj T from V.f k))
       rw [Functor.map_comp, Functor.map_preimage, Functor.map_preimage]
@@ -257,7 +257,7 @@ private theorem finite_affine_pullback_refinement
         exact congrArg (fun t => F.f i ≫ t) a.w)
   have hl : l ≫ E.f j = G.map (F'.f i) ≫ a := by
     apply Over.OverMorphism.ext
-    show (g ≫ π₁ j) ≫ (E.f j).left = F.f i ≫ a.left
+    change (g ≫ π₁ j) ≫ (E.f j).left = F.f i ≫ a.left
     calc
       (g ≫ π₁ j) ≫ (E.f j).left = g ≫ π₁ j ≫ (E.f j).left := Category.assoc _ _ _
       _ = g ≫ (π₂ j ≫ a.left) := by rw [hpbw]
@@ -284,19 +284,19 @@ private theorem affine_inclusion_isCocontinuous
     f i := Over.homMk (E.f i) (by rfl)
   }
   have hEover : BigProetaleOver.IsCovering B S hS ⟨(G.obj X), Eover⟩ := by
-    show B.covering ⟨(G.obj X).left, _⟩
+    change B.covering ⟨(G.obj X).left, _⟩
     simpa [Eover, PreZeroHypercover.map, BigProetaleOver.forget] using hE
   obtain ⟨F, hF, hrefine⟩ :=
     finite_affine_pullback_refinement B S hS X (𝟙 _) Eover hEover
   have hJ : Sieve.generate F.presieve₀ ∈ J X := by
-    show Sieve.generate F.presieve₀ ∈
+    change Sieve.generate F.presieve₀ ∈
       (BigAffineProetale.precoverage B S hS).toGrothendieck X
     exact Precoverage.generate_mem_toGrothendieck ⟨F, rfl, hF⟩
   apply J.superset_covering ?_ hJ
   rw [Sieve.generate_le_iff]
   intro Y f hf
   obtain ⟨i⟩ := hf
-  show R (G.map (F.f i))
+  change R (G.map (F.f i))
   have hi := hrefine i
   rw [Sieve.generate_apply] at hi
   rcases hi with ⟨Z, l, t, ht, hl⟩
@@ -350,7 +350,7 @@ private theorem affine_inclusion_isCoverDense
     rw [hmap]
     exact U.mem₀
   have hgen : Sieve.generate E.presieve₀ ∈ B.topology X.left := by
-    show Sieve.generate E.presieve₀ ∈ B.precoverage.toGrothendieck X.left
+    change Sieve.generate E.presieve₀ ∈ B.precoverage.toGrothendieck X.left
     exact Precoverage.generate_mem_toGrothendieck hpre
   have hle : Sieve.generate E.presieve₀ ≤
       Sieve.overEquiv X (Sieve.coverByImage G X) := by
@@ -362,9 +362,9 @@ private theorem affine_inclusion_isCoverDense
     let Ai : BigAffineProetale B S hS :=
       ⟨Over.mk (vi ≫ X.hom), by
         dsimp [Ti, E]
-        show IsAffine (B.inclusion.obj (⟨U.X i,
+        change IsAffine (B.inclusion.obj (⟨U.X i,
           Scheme.size_lt_of_isOpenImmersion (U.f i) X.left.property⟩ : B.Scheme))
-        show IsAffine (Spec (A.X i.down))
+        change IsAffine (Spec (A.X i.down))
         exact isAffine_Spec _⟩
     let ai : G.obj Ai ⟶ X := Over.homMk
       (X := (⟨S, hS⟩ : B.Scheme)) (U := G.obj Ai) (V := X) (f := vi) (by rfl)
@@ -407,21 +407,21 @@ private theorem affine_inclusion_isDenseSubsite
     have hBaseGen : Sieve.generate
         ((E.map G).map (BigProetaleOver.forget B S hS)).presieve₀ ∈
         B.topology (G.obj X).left := by
-      show _ ∈ B.precoverage.toGrothendieck _
+      change _ ∈ B.precoverage.toGrothendieck _
       exact Precoverage.generate_mem_toGrothendieck hBase
-    show Sieve.generate (E.map G).presieve₀ ∈ K (G.obj X)
-    show Sieve.generate (E.map G).presieve₀ ∈
+    change Sieve.generate (E.map G).presieve₀ ∈ K (G.obj X)
+    change Sieve.generate (E.map G).presieve₀ ∈
       (B.topology.over (⟨S, hS⟩ : B.Scheme)) (G.obj X)
     rw [CategoryTheory.GrothendieckTopology.mem_over_iff]
     simpa [Sieve.overEquiv_ofArrows, PreZeroHypercover.presieve₀_map] using hBaseGen
   have hle : J ≤ G.restrictedTopology K := by
-    show P.toGrothendieck ≤ ((K.toPrecoverage).comap G).toGrothendieck
+    change P.toGrothendieck ≤ ((K.toPrecoverage).comap G).toGrothendieck
     exact Precoverage.toGrothendieck_monotone hPmap
   have hge : G.restrictedTopology K ≤ J := by
     intro X R hR
     rw [Functor.mem_restrictedTopology_iff] at hR
     simpa only [Sieve.functorPullback_functorPushforward_eq] using G.cover_lift J K hR
-  show G.IsDenseSubsite J K
+  change G.IsDenseSubsite J K
   rw [le_antisymm hle hge]
   infer_instance
 
@@ -436,7 +436,7 @@ theorem inclusion_isSpecialCocontinuous
       (BigAffineProetale.topology B S hS)
       (BigProetaleOver.topology B S hS)
       (BigAffineProetale.inclusion B S hS) := by
-  show (BigAffineProetale.inclusion B S hS).IsCocontinuous
+  change (BigAffineProetale.inclusion B S hS).IsCocontinuous
       (BigAffineProetale.topology B S hS)
       (BigProetaleOver.topology B S hS) ∧
     (BigAffineProetale.inclusion B S hS).IsDenseSubsite

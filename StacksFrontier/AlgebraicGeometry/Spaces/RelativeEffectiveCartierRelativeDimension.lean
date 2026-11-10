@@ -131,7 +131,7 @@ theorem exists_chart_isRelativeEffectiveCartierDivisor {X Y : AlgebraicSpaces B 
       (isEtale_of_presheaf_etale B S hS c.a_etale)
   have : Mono j := by
     have : Mono (T.map j) := by
-      show Mono ((BigFppfOver.toScheme B S hS).map j)
+      change Mono ((BigFppfOver.toScheme B S hS).map j)
       rw [hmap]
       infer_instance
     exact T.mono_of_mono_map inferInstance
@@ -143,7 +143,7 @@ theorem exists_chart_isRelativeEffectiveCartierDivisor {X Y : AlgebraicSpaces B 
     rw [Functor.map_comp, Category.assoc, c.comm, ← Category.assoc, hcart.w, Category.assoc]
   have : LocallyOfFiniteType (T.map c.h) := hft c.U c.V c.a c.b c.h c.a_etale c.b_etale c.comm
   have hfac : T.map (j ≫ c.h) = e.hom ≫ (I.subschemeι ≫ T.map c.h) := by
-    show (BigFppfOver.toScheme B S hS).map (j ≫ c.h) = _
+    change (BigFppfOver.toScheme B S hS).map (j ≫ c.h) = _
     rw [Functor.map_comp, hmap, Category.assoc]
   have hflat : Flat (T.map (j ≫ c.h)) :=
     hE.2 R c.V a c.b (j ≫ c.h) (presheaf_etale_of_isEtale B S hS ha) c.b_etale hcomm

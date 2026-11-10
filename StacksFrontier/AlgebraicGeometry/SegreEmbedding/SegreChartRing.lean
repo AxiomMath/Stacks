@@ -162,7 +162,7 @@ public theorem segreDehom_apply (a : segre R X Y) :
 @[simp] public theorem segreDehom_genSub :
     segreDehom R X Y i j (genSub R X Y (i, j)) = 1 := by
   rw [segreDehom_apply]
-  show dehomAmbient R X Y i j (gen R X Y (i, j)) = 1
+  change dehomAmbient R X Y i j (gen R X Y (i, j)) = 1
   rw [gen_eq, map_mul, dehomAmbient_X_inl_self, dehomAmbient_X_inr_self, one_mul]
 
 /-- The dehomogenisation of the generator `x_i y_j` is a unit. -/
@@ -227,7 +227,7 @@ public theorem shiftHom_of_mem_grading {n : ℕ} (a : segre R X Y) (ha : a ∈ g
     eval₂_mul_pow_weight_of_isWeightedHomogeneous _ _ _ (weightLeft X Y) hp.1,
     eval₂_mul_pow_weight_of_isWeightedHomogeneous _ _ _ (weightRight X Y) hp.2,
     MvPolynomial.eval₂_eta]
-  show _ = (a : MvPolynomial (X ⊕ Y) R) * (gen R X Y (i, j)) ^ n
+  change _ = (a : MvPolynomial (X ⊕ Y) R) * (gen R X Y (i, j)) ^ n
   rw [gen_eq, mul_pow]
   ring
 
@@ -430,14 +430,14 @@ public theorem coe_algebraMap_segre (r : R) :
 public theorem segreDehom_genSub_inl (k : {k : X // k ≠ i}) :
     segreDehom R X Y i j (genSub R X Y (k.1, j)) = MvPolynomial.X (Sum.inl k) := by
   rw [segreDehom_apply]
-  show dehomAmbient R X Y i j (gen R X Y (k.1, j)) = _
+  change dehomAmbient R X Y i j (gen R X Y (k.1, j)) = _
   rw [gen_eq, map_mul, dehomAmbient_X_inl_of_ne R X Y i j k.2, dehomAmbient_X_inr_self, mul_one]
 
 /-- Dehomogenisation at `(i, j)` sends the generator `x_i y_l` to the chart variable `l`. -/
 public theorem segreDehom_genSub_inr (l : {l : Y // l ≠ j}) :
     segreDehom R X Y i j (genSub R X Y (i, l.1)) = MvPolynomial.X (Sum.inr l) := by
   rw [segreDehom_apply]
-  show dehomAmbient R X Y i j (gen R X Y (i, l.1)) = _
+  change dehomAmbient R X Y i j (gen R X Y (i, l.1)) = _
   rw [gen_eq, map_mul, dehomAmbient_X_inl_self, dehomAmbient_X_inr_of_ne R X Y i j l.2, one_mul]
 
 /-- The lift of `segreDehom` to the localization sends `a / (x_i y_j) ^ n` to the

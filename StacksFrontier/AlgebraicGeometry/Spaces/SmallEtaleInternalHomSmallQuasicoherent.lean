@@ -88,8 +88,8 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (hF : IsAlgebraicSpace B S hS F)
 
-/-- **Clause (6) of Stacks 03M1 at the module universe of the schemes.**  For quasi-coherent
-`𝒪_F`-modules `M`, `N` with sections in `u` and `M` of finite presentation, the internal Hom
+/-- **Clause (6) of Stacks 03M1 at the module universe of the schemes.**  For `𝒪_F`-modules
+`M`, `N` with sections in `u`, `M` of finite presentation and `N` quasi-coherent, the internal Hom
 `AlgebraicGeometry.Space.smallEtaleInternalHomSmall` — the same internal Hom, with its sections
 in `u` rather than in `u + 1` — is quasi-coherent.
 
@@ -102,8 +102,7 @@ under isomorphism and is reflected by the universe lift of the sections, so no h
 added and none is lost. -/
 @[sga "3 III 0.6" "more general"]
 theorem isQuasicoherentOnSite_smallEtaleInternalHomSmall (M N : Modules.{u, u} B S hS F hF)
-    (hM : M.IsQuasicoherentOnSite) (hN : N.IsQuasicoherentOnSite)
-    (hMfp : M.IsFinitePresentationOnSite) :
+    (hN : N.IsQuasicoherentOnSite) (hMfp : M.IsFinitePresentationOnSite) :
     (smallEtaleInternalHomSmall B S hS F hF M N).IsQuasicoherentOnSite := by
   let hP := _root_.SheafOfModules.isQuasicoherentOnSite.{u + 1, u, u, u + 1}
     (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O)
@@ -114,7 +113,7 @@ theorem isQuasicoherentOnSite_smallEtaleInternalHomSmall (M N : Modules.{u, u} B
       ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O))
       (smallEtaleInternalHomSmall B S hS F hF M N))
     (hP.prop_of_iso (smallEtaleInternalHomSmallIso B S hS F hF M N).symm
-      (isQuasicoherentOnSite_smallEtaleInternalHom B S hS F hF M N hM hN hMfp))
+      (isQuasicoherentOnSite_smallEtaleInternalHom B S hS F hF M N hN hMfp))
 
 end AlgebraicGeometry.Space
 

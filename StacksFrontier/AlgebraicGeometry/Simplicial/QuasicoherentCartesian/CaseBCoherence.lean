@@ -37,7 +37,7 @@ theorem sliceDirectTransition_app_over (F : SheafOfModules.{u} ((situation C).to
       (Stacks.SheafOfModules.inverseImage.{u} (((situation C).componentTopology n).over Q)
         ((situation C).componentTopology n) (Over.forget Q) (ringSheafB C P n)).map
           (directTransitionB C P φ F) ≫
-        (sliceSquare C P φ b).natTrans.app
+        (sliceSquare C P φ b).app
           (((situation C).componentModuleRestriction (totalRing C P) m).obj F) := by
   refine SheafOfModules.hom_ext ?_
   refine (PresheafOfModules.toPresheaf _).map_injective ?_
@@ -66,7 +66,7 @@ theorem sliceDirectTransition_app_over (F : SheafOfModules.{u} ((situation C).to
 /-- The adjunct of the right-hand side of `sliceTransitionModules_app_over`. -/
 theorem homEquiv_beckChevalleyB_comp (F : SheafOfModules.{u} ((situation C).totalRingSheaf P)) :
     (slicePullbackAdj C P φ b).homEquiv _ _
-        ((beckChevalleyB C P φ b).natTrans.app
+        ((beckChevalleyB C P φ b).app
             (((situation C).componentModuleRestriction (totalRing C P) n).obj F) ≫
           (Stacks.SheafOfModules.inverseImage.{u} (((situation C).componentTopology m).over W)
             ((situation C).componentTopology m) (Over.forget W) (ringSheafB C P m)).map
@@ -86,7 +86,7 @@ theorem homEquiv_beckChevalleyB_comp (F : SheafOfModules.{u} ((situation C).tota
       ((transitionModulePullbackAdjunctionB C P φ).homEquiv_unit _ _ _)
   refine (congrArg (· ≫ _) hu.symm).trans ?_
   refine (Category.assoc _ _ _).trans ?_
-  refine (congrArg (_ ≫ ·) ((sliceSquare C P φ b).natTrans.naturality
+  refine (congrArg (_ ≫ ·) ((sliceSquare C P φ b).naturality
     (transitionB C P φ F)).symm).trans ?_
   refine (Category.assoc _ _ _).symm.trans ?_
   refine (congrArg (· ≫ _) (Functor.map_comp _ _ _).symm).trans ?_
@@ -99,7 +99,7 @@ transition, read through the Beck–Chevalley comparison.** -/
 theorem sliceTransitionModules_app_over (F : SheafOfModules.{u} ((situation C).totalRingSheaf P)) :
     (sliceTransitionModules C P φ b).app
         (F.over ((CategoryTheory.SimplicialSiteSituation.componentFunctor (situation C) n).obj Q)) =
-      (beckChevalleyB C P φ b).natTrans.app
+      (beckChevalleyB C P φ b).app
           (((situation C).componentModuleRestriction (totalRing C P) n).obj F) ≫
         (Stacks.SheafOfModules.inverseImage.{u} (((situation C).componentTopology m).over W)
           ((situation C).componentTopology m) (Over.forget W) (ringSheafB C P m)).map

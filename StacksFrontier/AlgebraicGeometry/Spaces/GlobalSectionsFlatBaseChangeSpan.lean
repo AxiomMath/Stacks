@@ -253,7 +253,7 @@ theorem mem_span_range_pullbackSection (hg : IsFlat B S hS g.hom)
     (fun b ν => b ⊗ₜ[RingCat.sectionsSubring
         (ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O).obj,
           globalSectionsRingHomSite B S hS g] ν)
-    (fun p h0 h1 h2 z => TensorProduct.induction_on z h0 h1 h2)
+    (fun p h0 h1 h2 z => TensorProduct.inductionOn z h1 h2)
     (globalSectionsPullbackBaseChange B S hS g
       ((modulePushforward B S hS f).obj F)).hom.toAddMonoidHom
     ((globalSectionsFunctor.{u + 1, u, u, u}
@@ -335,7 +335,7 @@ theorem mem_span_baseScalars_range_pullbackSection (hg : IsFlat B S hS g.hom)
     (fun b ν => b ⊗ₜ[RingCat.sectionsSubring
         (ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O).obj,
           globalSectionsRingHomSite B S hS g] ν)
-    (fun p h0 h1 h2 z => TensorProduct.induction_on z h0 h1 h2)
+    (fun p h0 h1 h2 z => TensorProduct.inductionOn z h1 h2)
     (globalSectionsPullbackBaseChange B S hS g
       ((modulePushforward B S hS f).obj F)).hom.toAddMonoidHom
     ((globalSectionsFunctor.{u + 1, u, u, u}

@@ -53,10 +53,10 @@ the objects `(Ff X)|_R` restricted from `D(A)`.
 **What cannot be done.** The obligation is *not* reducible to its value at the regular module in
 degree zero, although both of its sides are components of natural isomorphisms of two exact
 direct-sum-preserving functors of `X` and `R[0]` is a compact generator of `D(R)`.  The dévissage
-of `StacksFrontier/Homology/Devissage/CompactGeneratedNatTrans.lean` propagates *invertibility* of one
-morphism of functors along the cell presentation of [stacks 09SN], and
-`StacksFrontier/Homology/Devissage/CompactGeneratedNatTransEquality.lean` records why its analogue for
-an *equality* of two morphisms of functors does not exist: the agreement locus of two such
+of `StacksFrontier/Homology/Devissage/CompactGeneratedNatTrans.lean` propagates *invertibility* of
+one morphism of functors along the cell presentation of [stacks 09SN], and
+`StacksFrontier/Homology/Devissage/CompactGeneratedNatTransEquality.lean` records why its analogue
+for an *equality* of two morphisms of functors does not exist: the agreement locus of two such
 morphisms is closed under isomorphisms, shifts and direct sums, but not under extension in a
 distinguished triangle, since every sandwich through the two connecting morphisms satisfies the
 whole of what agreement at the other two vertices imposes.  That both sides here are invertible
@@ -103,8 +103,8 @@ bifunctor of [stacks 0A63], which is what the naturality hypothesis of the abstr
 checked against.
 
 The four `IsLeftDerivedFunctor` arguments are instance binders, as in
-`StacksFrontier.RingTheory.Dualizing.BaseChangeComparison.ExtensionSquareMateUnitSquare`, so that the
-comparison of [stacks 0661] built here agrees on the nose with the one
+`StacksFrontier.RingTheory.Dualizing.BaseChangeComparison.ExtensionSquareMateUnitSquare`, so that
+the comparison of [stacks 0661] built here agrees on the nose with the one
 `Dualizing.derivedBaseChangeSquareIso_mate_eq'` is stated for; `Dualizing.algebraActionLeft` and
 `Dualizing.algebraActionRight` take the two over `R` and over `A` explicitly, and the section
 instances are passed to them.

@@ -8,8 +8,8 @@ public import StacksFrontier.AlgebraicGeometry.GenericPointProduct.Decomposition
 
 The displayed formula of the source gives the sheaf of meromorphic functions both as a direct sum
 and as a product over the generic points of the irreducible components. The product half is
-in the library; this file supplies the direct-sum half, which the source's own proof obtains from it by
-the single observation that *"a locally finite direct sum of sheaves of modules is equal to the
+in the library; this file supplies the direct-sum half, which the source's own proof obtains from it
+by the single observation that *"a locally finite direct sum of sheaves of modules is equal to the
 product"*.
 
 ## Main results
@@ -26,17 +26,20 @@ All three are in the namespace `Stacks.AlgebraicGeometry.GenericPointCoproduct`.
 
 ## Implementation notes
 
-Neither hypothesis of the tagged statements is used for the coproduct-to-product comparison itself: reducedness, and
+Neither hypothesis of the tagged statements is used for the coproduct-to-product comparison itself:
+reducedness, and
 the absence of embedded points, enter only through the product decomposition they already
 support. The comparison needs just the local finiteness of the irreducible components, which on a
 locally Noetherian scheme is automatic.
 
-The two examples at the end of this file restate the two tagged results with every auxiliary constant of
+The two examples at the end of this file restate the two tagged results with every auxiliary
+constant of
 the statements replaced by its own defining expression, in the binder order of the statements.
 The embedded-point predicate is inlined down to `Stacks.Divisors.IsAssociatedPoint`, which is
 the associated-point predicate of the statement of Tag 02OJ, with the same module structure on
 the stalk; the
-statement supplies that structure by a `letI` because, as `StacksFrontier/AlgebraicGeometry/Divisors/AssociatedPoints.lean`
+statement supplies that structure by a `letI` because, as
+`StacksFrontier/AlgebraicGeometry/Divisors/AssociatedPoints.lean`
 records, typeclass resolution does not find it for an `X.Modules` without the restatement
 `AlgebraicGeometry.Scheme.Modules.moduleStalk`.
 
@@ -170,7 +173,8 @@ example (X : Scheme.{u}) [IsLocallyNoetherian X]
           (SheafOfModules.unit (Spec (X.presheaf.stalk η.1)).ringCatSheaf)) :=
   meromorphicFunctions_iso_coproduct_of_noEmbeddedPoints X hX
 
-/-- The absence-of-embedded-points hypothesis of the statement, inlined, is the library's predicate. -/
+/-- The absence-of-embedded-points hypothesis of the statement, inlined, is the library's
+predicate. -/
 example (X : Scheme.{u}) :
     (∀ x : X, ¬ (Stacks.Divisors.IsAssociatedPoint
         (SheafOfModules.unit X.ringCatSheaf) x ∧

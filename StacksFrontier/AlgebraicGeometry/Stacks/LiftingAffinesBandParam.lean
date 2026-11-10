@@ -102,7 +102,7 @@ theorem bandParam_bandSmul
   have h := bandFrame_bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ U U (𝟙 U) ζ r a
   simp only [op_id, CategoryTheory.Functor.map_id] at h
   rw [bandParam_apply, bandParam_apply]
-  show paramOf hι₁ (Functor.bandFrame θ U ζ (bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ U r a)) = _
+  change paramOf hι₁ (Functor.bandFrame θ U ζ (bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ U r a)) = _
   rw [show Functor.bandFrame θ U ζ (bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ U r a) =
       frameSmul hι₁ ζ r (Functor.bandFrame θ U ζ a) from h, paramOf_frameSmul]
   rfl

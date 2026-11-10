@@ -67,7 +67,7 @@ lemma inverseImageStructureMap_unit {X Y : LocallyRingedSpace.{u}}
     _ = adj.homEquiv X.𝒪 Y.𝒪 (inverseImageStructureMap p) :=
       (adj.homEquiv_unit X.𝒪 Y.𝒪 (inverseImageStructureMap p)).symm
     _ = asSheafHom p := by
-      show adj.homEquiv X.𝒪 Y.𝒪
+      change adj.homEquiv X.𝒪 Y.𝒪
         ((adj.homEquiv X.𝒪 Y.𝒪).symm (⟨p.c⟩ : X.𝒪 ⟶
           (TopCat.Sheaf.pushforward CommRingCat p.base).obj Y.𝒪)) = ⟨p.c⟩
       exact Equiv.apply_symm_apply _ _
@@ -226,7 +226,7 @@ private lemma structureMap_stalk_isIso
       ((TopCat.Sheaf.forget CommRingCat Y.toTopCat).mapIso
         (asIso (inverseImageStructureMap p)))
   have hcomp : compIso.hom = p.stalkMap y := by
-    show (pullbackStalkComparison p y).inv ≫
+    change (pullbackStalkComparison p y).inv ≫
       (TopCat.Presheaf.stalkFunctor CommRingCat y).map
         ((TopCat.Sheaf.forget CommRingCat Y.toTopCat).map
           (asIso (inverseImageStructureMap p)).hom) = p.stalkMap y
@@ -279,7 +279,7 @@ theorem bijective_forgetToTop_morphism_over
       (cancel_epi (inverseImageStructureMap p)).1 hsheaf
     apply Subtype.ext
     apply LocallyRingedSpace.Hom.ext'
-    show (⟨fbase, fc⟩ : Z.toPresheafedSpace ⟶ Y.toPresheafedSpace) =
+    change (⟨fbase, fc⟩ : Z.toPresheafedSpace ⟶ Y.toPresheafedSpace) =
       (⟨fbase, gc⟩ : Z.toPresheafedSpace ⟶ Y.toPresheafedSpace)
     apply PresheafedSpace.ext
       (α := (⟨fbase, fc⟩ : Z.toPresheafedSpace ⟶ Y.toPresheafedSpace))
@@ -318,26 +318,26 @@ theorem bijective_forgetToTop_morphism_over
               X.𝒪 ((TopCat.Sheaf.pushforward CommRingCat g.1).obj Z.𝒪) a := by
             simp [c, e]
           _ = b := by simp [a]
-      show (PresheafedSpace.comp F p.toHom).c ≫ _ = q.c
+      change (PresheafedSpace.comp F p.toHom).c ≫ _ = q.c
       rw [PresheafedSpace.comp_c]
       have hsheaf' : p.c ≫
           (TopCat.Presheaf.pushforward CommRingCat p.base).map F.c = b.hom :=
         congrArg InducedCategory.Hom.hom hsheaf
-      show (p.c ≫
+      change (p.c ≫
         (TopCat.Presheaf.pushforward CommRingCat p.base).map F.c) ≫ _ = q.c
       rw [hsheaf']
       have hcast : Functor.whiskerRight (eqToHom hmap.symm) Z.presheaf ≫
           Functor.whiskerRight (eqToHom hmap) Z.presheaf = 𝟙 _ := by
         rw [← Functor.whiskerRight_comp]
         simp
-      show q.c ≫ Functor.whiskerRight (eqToHom hmap.symm) Z.presheaf ≫
+      change q.c ≫ Functor.whiskerRight (eqToHom hmap.symm) Z.presheaf ≫
         Functor.whiskerRight (eqToHom hmap) Z.presheaf = q.c
       rw [hcast]
       exact Category.comp_id q.c
     let f : Z ⟶ Y :=
       LocallyRingedSpace.Hom.mk { base := g.1, c := c.hom } (by
         intro x
-        show IsLocalHom (F.stalkMap x).hom
+        change IsLocalHom (F.stalkMap x).hom
         have hc : IsLocalHom ((F ≫ p.toHom).stalkMap x).hom := by
           rw [PresheafedSpace.stalkMap.congr_hom (F ≫ p.toHom) q.toHom hcomp x]
           infer_instance

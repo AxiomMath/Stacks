@@ -161,7 +161,7 @@ theorem twistedModuleUliftFunctor_obj {d : ℕ} (L : Fin d → Modules.{u, u} B 
     (n : Fin d → ℤ) (M : Modules.{u, u} B S hS F hF) :
     (twistedModuleUliftFunctor.{u, w} B S hS F hF L n).obj M =
       twistedModuleUlift.{u, w} B S hS F hF M L n := by
-  show SheafOfModules.uliftForPresentation _ = SheafOfModules.uliftForPresentation _
+  change SheafOfModules.uliftForPresentation _ = SheafOfModules.uliftForPresentation _
   rw [twistedModuleFunctor_obj]
 
 /-- **Twisting by invertible modules followed by the universe lift is exact.** -/

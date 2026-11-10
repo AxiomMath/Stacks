@@ -77,7 +77,7 @@ theorem tensorPowerRingHom_C (n : ℕ) (b : s.A) :
 
 variable (hr : g₂.toRingHom.comp r = σ.target.comp g.toRingHom)
 
-include hrC hr in
+include hr in
 /-- **The tensor power of `r` commutes with the two tensor power presentations.** -/
 theorem tensorPowerRingHom_comp_presentation (n : ℕ) :
     (tensorPowerPresentation t g₂ n).toRingHom.comp (tensorPowerRingHom σ r n) =
@@ -95,7 +95,6 @@ theorem tensorPowerRingHom_comp_presentation (n : ℕ) :
     rw [← AlgHom.comp_apply, tensorPowerPresentation_comp_coprojection]
     simpa [tensorPowerPresentation] using RingHom.congr_fun hr (MvPolynomial.X i)
 
-include hrC in
 /-- **The tensor power of `r` commutes with the reindexings of the variables.** -/
 theorem tensorPowerRingHom_rename {n m : SimplexCategory} (φ : n ⟶ m)
     (q : MvPolynomial (Fin (n.len + 1) × ι) s.A) :
@@ -125,22 +124,22 @@ def tensorPowerEnvelopeMapOver (n : ℕ) :
       (polynomialDividedPowerEnvelope t (tensorPowerPresentation t g₂ n)).object.dividedPowers :=
   (polynomialEnvelopeMapOver σ (tensorPowerPresentation s g n) (tensorPowerPresentation t g₂ n)
     (tensorPowerRingHom σ r n) (tensorPowerRingHom_C σ r n)
-    (tensorPowerRingHom_comp_presentation σ g g₂ r hrC hr n)).1
+    (tensorPowerRingHom_comp_presentation σ g g₂ r hr n)).1
 
 /-- The induced morphism of envelopes is over the morphism of the bases. -/
 theorem tensorPowerEnvelopeMapOver_structureMap (n : ℕ) :
-    (tensorPowerEnvelopeMapOver σ g g₂ r hrC hr n).comp
+    (tensorPowerEnvelopeMapOver σ g g₂ r hr n).comp
         (polynomialDividedPowerEnvelope s (tensorPowerPresentation s g n)).structureMap =
       (polynomialDividedPowerEnvelope t (tensorPowerPresentation t g₂ n)).structureMap.comp
         σ.base :=
   (polynomialEnvelopeMapOver σ (tensorPowerPresentation s g n) (tensorPowerPresentation t g₂ n)
     (tensorPowerRingHom σ r n) (tensorPowerRingHom_C σ r n)
-    (tensorPowerRingHom_comp_presentation σ g g₂ r hrC hr n)).2
+    (tensorPowerRingHom_comp_presentation σ g g₂ r hr n)).2
 
 /-- **The induced morphism of envelopes extends the tensor power of `r`.** -/
 theorem tensorPowerEnvelopeMapOver_polynomial (n : ℕ)
     (q : MvPolynomial (Fin (n + 1) × ι) s.A) :
-    tensorPowerEnvelopeMapOver σ g g₂ r hrC hr n
+    tensorPowerEnvelopeMapOver σ g g₂ r hr n
         ((polynomialDividedPowerEnvelope s
           (tensorPowerPresentation s g n)).algebraMap.toRingHom q) =
       (polynomialDividedPowerEnvelope t (tensorPowerPresentation t g₂ n)).algebraMap.toRingHom
@@ -150,8 +149,8 @@ theorem tensorPowerEnvelopeMapOver_polynomial (n : ℕ)
 /-- **The induced morphisms of envelopes commute with the reindexings of the variables**, which
 are the structure maps of the cosimplicial ring `D(•)` before completion. -/
 theorem tensorPowerEnvelopeMapOver_comp_envelopeReindex {n m : SimplexCategory} (φ : n ⟶ m) :
-    (tensorPowerEnvelopeMapOver σ g g₂ r hrC hr m.len).comp (envelopeReindex s g φ).1 =
-      (envelopeReindex t g₂ φ).1.comp (tensorPowerEnvelopeMapOver σ g g₂ r hrC hr n.len) := by
+    (tensorPowerEnvelopeMapOver σ g g₂ r hr m.len).comp (envelopeReindex s g φ).1 =
+      (envelopeReindex t g₂ φ).1.comp (tensorPowerEnvelopeMapOver σ g g₂ r hr n.len) := by
   refine envelopeHom_ext (polynomialDividedPowerEnvelope s (tensorPowerPresentation s g n.len))
     (polynomialDividedPowerEnvelope t (tensorPowerPresentation t g₂ m.len)).object _ _ ?_ ?_
   · apply DividedPowers.DPMorphism.ext
@@ -161,30 +160,30 @@ theorem tensorPowerEnvelopeMapOver_comp_envelopeReindex {n m : SimplexCategory} 
     have h₁ : (envelopeReindex s g φ).1 ((Es n.len).structureMap a) =
         (Es m.len).structureMap a :=
       DFunLike.congr_fun (envelopeReindex s g φ).2 a
-    have h₂ : tensorPowerEnvelopeMapOver σ g g₂ r hrC hr m.len ((Es m.len).structureMap a) =
+    have h₂ : tensorPowerEnvelopeMapOver σ g g₂ r hr m.len ((Es m.len).structureMap a) =
         (Et m.len).structureMap (σ.base a) :=
-      DFunLike.congr_fun (tensorPowerEnvelopeMapOver_structureMap σ g g₂ r hrC hr m.len) a
-    have h₃ : tensorPowerEnvelopeMapOver σ g g₂ r hrC hr n.len ((Es n.len).structureMap a) =
+      DFunLike.congr_fun (tensorPowerEnvelopeMapOver_structureMap σ g g₂ r hr m.len) a
+    have h₃ : tensorPowerEnvelopeMapOver σ g g₂ r hr n.len ((Es n.len).structureMap a) =
         (Et n.len).structureMap (σ.base a) :=
-      DFunLike.congr_fun (tensorPowerEnvelopeMapOver_structureMap σ g g₂ r hrC hr n.len) a
+      DFunLike.congr_fun (tensorPowerEnvelopeMapOver_structureMap σ g g₂ r hr n.len) a
     have h₄ : (envelopeReindex t g₂ φ).1 ((Et n.len).structureMap (σ.base a)) =
         (Et m.len).structureMap (σ.base a) :=
       DFunLike.congr_fun (envelopeReindex t g₂ φ).2 (σ.base a)
-    change tensorPowerEnvelopeMapOver σ g g₂ r hrC hr m.len
+    change tensorPowerEnvelopeMapOver σ g g₂ r hr m.len
         ((envelopeReindex s g φ).1 ((Es n.len).structureMap a)) =
       (envelopeReindex t g₂ φ).1
-        (tensorPowerEnvelopeMapOver σ g g₂ r hrC hr n.len ((Es n.len).structureMap a))
+        (tensorPowerEnvelopeMapOver σ g g₂ r hr n.len ((Es n.len).structureMap a))
     rw [h₁, h₂, h₃, h₄]
   · refine RingHom.ext fun q ↦ ?_
-    change tensorPowerEnvelopeMapOver σ g g₂ r hrC hr m.len ((envelopeReindex s g φ).1
+    change tensorPowerEnvelopeMapOver σ g g₂ r hr m.len ((envelopeReindex s g φ).1
         ((polynomialDividedPowerEnvelope s
           (tensorPowerPresentation s g n.len)).algebraMap.toRingHom q)) =
-      (envelopeReindex t g₂ φ).1 (tensorPowerEnvelopeMapOver σ g g₂ r hrC hr n.len
+      (envelopeReindex t g₂ φ).1 (tensorPowerEnvelopeMapOver σ g g₂ r hr n.len
         ((polynomialDividedPowerEnvelope s
           (tensorPowerPresentation s g n.len)).algebraMap.toRingHom q))
     rw [envelopeReindex_polynomial, tensorPowerEnvelopeMapOver_polynomial,
       tensorPowerEnvelopeMapOver_polynomial, envelopeReindex_polynomial,
-      tensorPowerRingHom_rename σ r hrC]
+      tensorPowerRingHom_rename σ r]
 
 end Crystalline
 

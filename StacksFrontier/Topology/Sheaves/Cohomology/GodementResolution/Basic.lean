@@ -162,7 +162,7 @@ lemma isIso_stalkMap_of_c_eq_unit_comp
     (y : Y) (hq : IsIso ((TopCat.Presheaf.stalkFunctor CommRingCat.{u} y).map q)) :
     IsIso (α.stalkMap y) := by
   have hpb : IsIso (TopCat.Presheaf.stalkPullbackHom CommRingCat.{u} α.base Z.presheaf y) := by
-    show IsIso (TopCat.Presheaf.stalkPullbackIso CommRingCat.{u} α.base Z.presheaf y).hom
+    change IsIso (TopCat.Presheaf.stalkPullbackIso CommRingCat.{u} α.base Z.presheaf y).hom
     infer_instance
   have he : α.stalkMap y =
       TopCat.Presheaf.stalkPullbackHom CommRingCat.{u} α.base Z.presheaf y ≫
@@ -285,7 +285,7 @@ theorem isFlasque_iterate_modulePullbackPushforward
   have hdisc : TopCat.Sheaf.IsFlasque ((SheafOfModules.toSheaf Odisc).obj
       ((RingedSpaceModuleAdjunction.modulePullback f).obj M)) :=
     flasque_of_discrete_sheaf _
-  show TopCat.Sheaf.IsFlasque
+  change TopCat.Sheaf.IsFlasque
     ((TopCat.Sheaf.pushforward AddCommGrpCat f.hom.base).obj
       ((SheafOfModules.toSheaf Odisc).obj ((RingedSpaceModuleAdjunction.modulePullback f).obj M)))
   exact TopCat.Sheaf.IsFlasque.pushforward_isFlasque _ f.hom.base
@@ -298,7 +298,7 @@ lemma unop_iterate {D : Type v} [Category.{w, v} D]
   induction n with
   | zero => rfl
   | succ n ih =>
-      show (F.iterate n).unop ⋙ F.unop = F.unop.iterate n ⋙ F.unop
+      change (F.iterate n).unop ⋙ F.unop = F.unop.iterate n ⋙ F.unop
       rw [ih]
 
 /-- The standard resolution of a comonad, read off from [Stacks, Tag 0G5N]: for a comonad
@@ -340,7 +340,7 @@ lemma resolutionAugmentationCondition {C : Type v} [Category.{w, v} C]
       ((AlgebraicTopology.alternatingCofaceMapComplex (C ⥤ C)).obj Q.right).d 0 1 = 0 := by
   rw [show ((AlgebraicTopology.alternatingCofaceMapComplex (C ⥤ C)).obj Q.right).d 0 1 =
       AlgebraicTopology.AlternatingCofaceMapComplex.objD Q.right 0 by
-    show (CochainComplex.of _ _
+    change (CochainComplex.of _ _
       (AlgebraicTopology.AlternatingCofaceMapComplex.d_squared Q.right)).d 0 (0 + 1) = _
     exact CochainComplex.of_d (fun n : ℕ ↦ Q.right.obj (.mk n))
       (AlgebraicTopology.AlternatingCofaceMapComplex.objD Q.right) 0]
@@ -454,7 +454,7 @@ theorem godementCosimplicial_left :
       𝟭 (SheafOfModules.{u} (structureSheafRing X)) := by
   dsimp [godementCosimplicial, dualAugmented]
   rw [godementSimplicial_right]
-  show Functor.unop (𝟭 (SheafOfModules.{u}
+  change Functor.unop (𝟭 (SheafOfModules.{u}
     (structureSheafRing X))ᵒᵖ) = _
   rfl
 

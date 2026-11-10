@@ -10,7 +10,8 @@ public import StacksFrontier.AlgebraicGeometry.ProjNoetherian.Basic
 
 Let `k` be a field, `Y = ℙ³_k`, and let `C = {xy = z², w = 0}` and `D = {xy = w², z = 0}` be the
 two conics of Hironaka's example, which meet in the two points `P = [1 : 0 : 0 : 0]` and
-`Q = [0 : 1 : 0 : 0]` (see `StacksFrontier/AlgebraicGeometry/Examples/HironakaConicIdealSheaf.lean`).
+`Q = [0 : 1 : 0 : 0]` (see
+`StacksFrontier/AlgebraicGeometry/Examples/HironakaConicIdealSheaf.lean`).
 This file builds the threefold `V` of [Stacks, Tag 08J1] and its morphism `f : V ⟶ Y`:
 
 * over `Y - {Q}`, blow up `C` and then the strict transform of `D`

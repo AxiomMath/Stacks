@@ -159,7 +159,7 @@ theorem exists_directed_colimit_of_compatible_legs {A : Type u} [CommRing A] [Is
       obtain ⟨j, hij, hj⟩ := hinj i.down _ h0
       refine ⟨⟨j⟩, homOfLE hij, ?_⟩
       apply ULift.ext
-      show ρ i.down j hij y₁.down = ρ i.down j hij y₂.down
+      change ρ i.down j hij y₁.down = ρ i.down j hij y₂.down
       rwa [← sub_eq_zero, ← map_sub]
 
 /-- A module over a local ring `A` is free if it is projective over a ring `B` isomorphic to `A`,
@@ -188,7 +188,7 @@ theorem fromSpecResidueField_closedPoint_appTop_surjective (A : Type u) [CommRin
   have hiso : IsIso (S.fromSpecStalk (closedPoint A)) := by
     rw [← Spec_stalkClosedPointIso]
     infer_instance
-  show Function.Surjective (Spec.map (S.residue (closedPoint A)) ≫
+  change Function.Surjective (Spec.map (S.residue (closedPoint A)) ≫
     S.fromSpecStalk (closedPoint A)).appTop.hom
   rw [Scheme.Hom.comp_appTop, CommRingCat.hom_comp, RingHom.coe_comp]
   have : IsIso (S.fromSpecStalk (closedPoint A)).appTop :=
@@ -358,20 +358,20 @@ theorem exists_colimit_free_of_flat_localizedModule {A : Type u} [CommRing A]
     { toFun := F.presheaf.map (homOfLE (hle U V h)).op
       map_add' := map_add _
       map_smul' := fun a s => by
-        show F.presheaf.map (homOfLE (hle U V h)).op (ψU (O U) a • s) =
+        change F.presheaf.map (homOfLE (hle U V h)).op (ψU (O U) a • s) =
           ψU (O V) a • F.presheaf.map (homOfLE (hle U V h)).op s
         rw [← hψres (O U) (O V) (hle U V h) a]
         exact F.val.map_smul (homOfLE (hle U V h)).op (ψU (O U) a) s }
   have hid : ∀ U (y : Γ(F, O U)), ρ U U le_rfl y = y := by
     intro U y
-    show F.presheaf.map (homOfLE (hle U U le_rfl)).op y = y
+    change F.presheaf.map (homOfLE (hle U U le_rfl)).op y = y
     rw [show (homOfLE (hle U U le_rfl)).op = 𝟙 _ from Subsingleton.elim _ _,
       CategoryTheory.Functor.map_id]
     rfl
   have hcomp : ∀ U V W (hUV : U ≤ V) (hVW : V ≤ W) (y : Γ(F, O U)),
       ρ V W hVW (ρ U V hUV y) = ρ U W (hUV.trans hVW) y := by
     intro U V W hUV hVW y
-    show F.presheaf.map (homOfLE (hle V W hVW)).op
+    change F.presheaf.map (homOfLE (hle V W hVW)).op
         (F.presheaf.map (homOfLE (hle U V hUV)).op y) =
       F.presheaf.map (homOfLE (hle U W (hUV.trans hVW))).op y
     rw [← ConcreteCategory.comp_apply, ← CategoryTheory.Functor.map_comp]
@@ -392,7 +392,7 @@ theorem exists_colimit_free_of_flat_localizedModule {A : Type u} [CommRing A]
     { toFun := fun t => eN (es (F.presheaf.germ (O U) x U.2.2.1 t))
       map_add' := fun t t' => by simp only [map_add]
       map_smul' := fun a t => by
-        show eN (es (F.presheaf.germ (O U) x U.2.2.1 (ψU (O U) a • t))) =
+        change eN (es (F.presheaf.germ (O U) x U.2.2.1 (ψU (O U) a • t))) =
           a • eN (es (F.presheaf.germ (O U) x U.2.2.1 t))
         let : Module RR Γ(F, O U) := open Scheme.Modules in
           instModuleCarrierCarrierObjOppositeOpensCarrierCarrierCommRingCatSpecAbPresheafOp
@@ -404,7 +404,7 @@ theorem exists_colimit_free_of_flat_localizedModule {A : Type u} [CommRing A]
         rw [k1, k2, map_smul, hAR, map_smul] }
   have hψ : ∀ U V (h : U ≤ V) (y : Γ(F, O U)), ψ V (ρ U V h y) = ψ U y := by
     intro U V h y
-    show eN (es (F.presheaf.germ (O V) x V.2.2.1
+    change eN (es (F.presheaf.germ (O V) x V.2.2.1
       (F.presheaf.map (homOfLE (hle U V h)).op y))) = eN (es (F.presheaf.germ (O U) x U.2.2.1 y))
     rw [TopCat.Presheaf.germ_res_apply]
   have hlsurj : ∀ n : N, ∃ U y, ψ U y = n := by
@@ -412,7 +412,7 @@ theorem exists_colimit_free_of_flat_localizedModule {A : Type u} [CommRing A]
     obtain ⟨V, hxV, t, ht⟩ := TopCat.Presheaf.exists_germ_eq F.presheaf (es.symm (eN.symm n))
     obtain ⟨U, hUV, hPU⟩ := hcof V hxV
     refine ⟨⟨OrderDual.toDual U, hPU⟩, F.presheaf.map (homOfLE hUV).op t, ?_⟩
-    show eN (es (F.presheaf.germ U x hPU.2.1 (F.presheaf.map (homOfLE hUV).op t))) = n
+    change eN (es (F.presheaf.germ U x hPU.2.1 (F.presheaf.map (homOfLE hUV).op t))) = n
     rw [TopCat.Presheaf.germ_res_apply, ht, LinearEquiv.apply_symm_apply,
       LinearEquiv.apply_symm_apply]
   have hinj : ∀ U (y : Γ(F, O U)), ψ U y = 0 → ∃ V, ∃ h : U ≤ V, ρ U V h y = 0 := by
@@ -423,7 +423,7 @@ theorem exists_colimit_free_of_flat_localizedModule {A : Type u} [CommRing A]
     obtain ⟨W, hxW, iU, iV, hW⟩ := TopCat.Presheaf.germ_eq F.presheaf x U.2.2.1 U.2.2.1 y 0 h0
     obtain ⟨V, hVW, hPV⟩ := hcof W hxW
     refine ⟨⟨OrderDual.toDual V, hPV⟩, (hVW.trans (leOfHom iU) : V ≤ O U), ?_⟩
-    show F.presheaf.map (homOfLE (hVW.trans (leOfHom iU))).op y = 0
+    change F.presheaf.map (homOfLE (hVW.trans (leOfHom iU))).op y = 0
     rw [show (homOfLE (hVW.trans (leOfHom iU))).op = iU.op ≫ (homOfLE hVW).op from
       Subsingleton.elim _ _, CategoryTheory.Functor.map_comp, ConcreteCategory.comp_apply, hW,
       map_zero, map_zero]

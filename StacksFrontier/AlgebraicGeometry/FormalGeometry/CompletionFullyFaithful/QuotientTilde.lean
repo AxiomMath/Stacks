@@ -266,7 +266,7 @@ public theorem exists_specUnitQuotient_iso :
       (specUnitQuotientSectionsIso A I n).hom_inv_id, Category.comp_id]
   refine ⟨(asIso (specUnitQuotientCounit A I n)).symm ≪≫
     (tilde.functor (CommRingCat.of A)).mapIso (specUnitQuotientSectionsIso A I n).symm, ?_⟩
-  show specUnitQuotientπ A I n ≫ (inv (specUnitQuotientCounit A I n) ≫
+  change specUnitQuotientπ A I n ≫ (inv (specUnitQuotientCounit A I n) ≫
       (tilde.functor (CommRingCat.of A)).map (specUnitQuotientSectionsIso A I n).inv) = _
   have hπinv : specUnitQuotientπ A I n ≫ inv (specUnitQuotientCounit A I n) =
       (tilde.functor (CommRingCat.of A)).map (specUnitQuotientSections A I n) :=

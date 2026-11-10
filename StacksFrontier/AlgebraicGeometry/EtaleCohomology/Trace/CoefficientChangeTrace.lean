@@ -139,6 +139,8 @@ variable {k : Type u} [Field k] [Fintype k] (Y : Over (Spec (.of k)))
   [CharP k p] (hcard : Fintype.card k = p ^ q)
 
 omit [Finite R] [Gf.Additive] [PreservesFilteredColimitsOfSize.{u + 1, u + 1} Gf]
+  [∀ X : Scheme.{u}, X.smallEtaleTopology.PreservesSheafification Gf]
+  [∀ (X Y : Scheme.{u}) (g : X ⟶ Y), Gf.PreservesLeftKanExtensions (smallEtaleBaseChange g).op]
   [IsSepClosed kbar] in
 /-- On global sections over `k̄` of the direct image to `Spec k̄`, the change of coefficients `Gf`
 twisted by `θ` commutes with the Frobenius twist of a map `f : A ⟶ πb_* B`. -/
@@ -193,7 +195,7 @@ theorem globalSections_coefficient_frobeniusTwist_comm (θ : Gf ⟶ Gf)
     refine (Category.assoc _ _ _).symm.trans (congrArg (· ≫ θk.app (F₁R.obj B)) ?_)
     rw [← hθ]
     exact (G'.map_comp (F₁R.map f) (θR.hom.app B)).symm
-  show F₂S.map (F₁S.map (G.map f ≫ (etaleModuleDirectImage.{u, 0} S πb).map (θ'.app B)) ≫
+  change F₂S.map (F₁S.map (G.map f ≫ (etaleModuleDirectImage.{u, 0} S πb).map (θ'.app B)) ≫
       θS.hom.app (G.obj B)) ≫ γ.hom.app (F₁R.obj B) =
     γ.hom.app (F₁R.obj A) ≫ θ.app (F₂R.obj (F₁R.obj A)) ≫ Gf.map (F₂R.map m)
   rw [key]
@@ -311,7 +313,7 @@ theorem perfectDerivedTrace_derivedTwistEndo_coefficient
       (frobeniusBaseChangeTwist.{u, 0} S Y kbar p q hcard) (ComplexShape.up ℤ)).app LS.obj)
   let TS := G.mapCochainComplexPlus.obj T
   let c : KS ≅ G.mapCochainComplexPlus.obj K := ObjectProperty.isoMk _
-    ((NatIso.mapHomologicalComplex (asIso (inverseImageCoefficientTwoSquare Gf π).natTrans)
+    ((NatIso.mapHomologicalComplex (asIso (inverseImageCoefficientTwoSquare Gf π))
       (ComplexShape.up ℤ)).app L.obj)
   let ψS : KS ⟶ TS := c.hom ≫ G.mapCochainComplexPlus.map ψ
   let gS : TS ⟶ (etaleModuleDirectImage.{u, 0} S πb).mapCochainComplexPlus.obj TS :=
@@ -325,7 +327,7 @@ theorem perfectDerivedTrace_derivedTwistEndo_coefficient
     AlgebraicGeometry.Scheme.quasiIso_sheafCompose_map_of_injective_stalks Gf ψ.hom (min a b) hL
       (fun x n => have := hinj n; moduleInjective_residueEtalePoint_sheafFiber _ x)
   have : QuasiIso ψS.hom := by
-    show QuasiIso (c.hom.hom ≫ (G.mapCochainComplexPlus.map ψ).hom)
+    change QuasiIso (c.hom.hom ≫ (G.mapCochainComplexPlus.map ψ).hom)
     have : IsIso c.hom.hom := inferInstanceAs (IsIso ((ObjectProperty.ι _).map c.hom))
     infer_instance
   have hcτ : τS ≫ (etaleModuleDirectImage.{u, 0} S πb).mapCochainComplexPlus.map c.hom =
@@ -336,7 +338,7 @@ theorem perfectDerivedTrace_derivedTwistEndo_coefficient
   have : ∀ n, Injective
       (((etaleModuleDirectImage.{u, 0} R πb).mapCochainComplexPlus.obj T).obj.X n) := fun n => by
     have := hinj n
-    show Injective ((etaleModuleDirectImage.{u, 0} R πb).obj (T.obj.X n))
+    change Injective ((etaleModuleDirectImage.{u, 0} R πb).obj (T.obj.X n))
     infer_instance
   have := CochainComplex.isKInjective_of_injective
     ((etaleModuleDirectImage.{u, 0} R πb).mapCochainComplexPlus.obj T).obj b'
@@ -358,7 +360,7 @@ theorem perfectDerivedTrace_derivedTwistEndo_coefficient
     have e2 : (ψS ≫ gS).hom = c.hom.hom ≫ (G.mapHomologicalComplex _).map (ψ ≫ g).hom := by
       simp only [ψS, gS, ObjectProperty.FullSubcategory.comp_hom, Functor.map_comp]
       rfl
-    show DerivedCategory.Q.map
+    change DerivedCategory.Q.map
         (τS ≫ (etaleModuleDirectImage.{u, 0} S πb).mapCochainComplexPlus.map ψS).hom =
       DerivedCategory.Q.map (ψS ≫ gS).hom
     rw [e1, e2]
@@ -376,7 +378,7 @@ theorem perfectDerivedTrace_derivedTwistEndo_coefficient
     have h₁ := inverseImageCoefficientApp_naturality Gf π θ (L.obj.X n)
     have h₂ := (sheafCompose_map (fieldBaseChange Y kbar).smallEtaleTopology θ).naturality
       (ψ.hom.f n)
-    show (etaleModuleInverseImage.{u, 0} S π).map
+    change (etaleModuleInverseImage.{u, 0} S π).map
         ((sheafCompose_map Y.left.smallEtaleTopology θ).app (L.obj.X n)) ≫
         inverseImageCoefficientApp Gf π (L.obj.X n) ≫ G.map (ψ.hom.f n) =
       (inverseImageCoefficientApp Gf π (L.obj.X n) ≫ G.map (ψ.hom.f n)) ≫

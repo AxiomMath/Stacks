@@ -170,7 +170,7 @@ theorem secOf_pullSection (n : ℕ) (x : Γ(natTensorPow L n, ⊤)) :
           (pullbackNatTensorPowIso j L n).inv := by
   refine (Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv Y'
     (natTensorPow ((Scheme.Modules.pullback j).obj L) n)).symm_apply_eq.mpr ?_
-  show pullSection j L n x = globalSection Y' _ _
+  change pullSection j L n x = globalSection Y' _ _
   rw [← Category.assoc, Stacks.SectionProduct.globalSection_comp _ _ (unitPullback j ≫
       (Scheme.Modules.pullback j).map (secOf L x)) (pullbackNatTensorPowIso j L n).inv,
     ← pullbackSectionHom_globalSection j (natTensorPow L n) (secOf L x), globalSection_secOf]
@@ -269,7 +269,7 @@ theorem mulMap_comp_pullbackNatTensorPowIso_inv
   | 0 => mulMap_comp_pullbackNatTensorPowIso_inv_zero j L s
   | m + 1 => by
       have ih := mulMap_comp_pullbackNatTensorPowIso_inv δ hδ hsucc s m
-      show _ ≫ (pullbackNatTensorPowIso j L (n + m + 1)).inv = _
+      change _ ≫ (pullbackNatTensorPowIso j L (n + m + 1)).inv = _
       rw [mulMap_succ, mulMap_succ, hsucc (n + m), hsucc m, ← Category.assoc,
         hδ (mulMap (secOf L s) m), Category.assoc, ← MonoidalCategory.comp_whiskerRight,
         ih, MonoidalCategory.comp_whiskerRight, Category.assoc]

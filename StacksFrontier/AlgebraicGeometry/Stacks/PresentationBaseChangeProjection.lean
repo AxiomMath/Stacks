@@ -450,7 +450,8 @@ arrows the map carrying `(u₁, x₁, ψ₁), (u₂, x₂, ψ₂), φ` to `(u₁
 identity clause is not a hypothesis of
 `AlgebraicGeometry.GroupoidInAlgebraicSpaces.Hom.mk'`, and the two clauses over the base are free,
 the base being final. -/
-@[stacks 04Y6 "assertion (3): the morphism of groupoids pr : (U', R', s', t', c') ⟶ (U, R, s, t, c)"]
+@[stacks 04Y6 "assertion (3): the morphism of groupoids \
+pr : (U', R', s', t', c') ⟶ (U, R, s, t, c)"]
 noncomputable def pr : GroupoidInAlgebraicSpaces.Hom
     (baseChangedPresentation P g h𝒳 h𝒳' eU' eR').groupoid P.groupoid :=
   GroupoidInAlgebraicSpaces.Hom.mk' (prObjects P g eU') (prArrows P g eR')

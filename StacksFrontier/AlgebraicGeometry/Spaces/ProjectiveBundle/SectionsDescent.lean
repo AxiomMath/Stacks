@@ -69,7 +69,7 @@ theorem comp_homOfPoints (T : BigFppfOver B S hS) (g : yoneda.obj T ⟶ F) :
     g ≫ homOfPoints k hk = k T g := by
   apply yonedaEquiv.injective
   rw [yonedaEquiv_comp]
-  show yonedaEquiv (k T (yonedaEquiv.symm (yonedaEquiv g))) = _
+  change yonedaEquiv (k T (yonedaEquiv.symm (yonedaEquiv g))) = _
   rw [Equiv.symm_apply_apply]
 
 end HomOfPoints
@@ -209,7 +209,7 @@ theorem sectionOfClass_comp (c : InvertibleQuotientClass X E) :
     sectionOfClass X E π e he c ≫ π = 𝟙 X := by
   ext1
   refine hom_ext_yoneda fun T g => ?_
-  show g ≫ (sectionOfClass X E π e he c).hom ≫ π.hom = g ≫ 𝟙 X.1
+  change g ≫ (sectionOfClass X E π e he c).hom ≫ π.hom = g ≫ 𝟙 X.1
   rw [← Category.assoc, comp_sectionOfClass_hom X E π e he c T g, pointOfClass_comp,
     Category.comp_id]
 
@@ -234,7 +234,7 @@ theorem isCompatible_chartClassOfSection (σ : X ⟶ P) (hσ : σ ≫ π = 𝟙 
       ⟨yoneda.map f.hom.left ≫ U.obj.hom ≫ σ.hom, by
         simpa only [Category.assoc, hσ', Category.comp_id] using CostructuredArrow.w f.hom⟩ :=
     Subtype.ext (by
-      show V.obj.hom ≫ σ.hom = yoneda.map f.hom.left ≫ U.obj.hom ≫ σ.hom
+      change V.obj.hom ≫ σ.hom = yoneda.map f.hom.left ≫ U.obj.hom ≫ σ.hom
       rw [← Category.assoc, CostructuredArrow.w f.hom])
   have hiso : (chartModuleRestrictionTransitions B S hS X E f).symm =
       eqToIso (congrArg (fun k => (modulePullback B S hS (pointHom k)).obj E)
@@ -310,7 +310,7 @@ theorem sectionsEquivOfPointsEquiv_eq_iff (σ : { σ : X ⟶ P // σ ≫ π = �
     refine Subtype.ext ?_
     ext1
     refine hom_ext_yoneda fun T g => ?_
-    show g ≫ σ.1.hom = g ≫ (sectionOfClass X E π e he c).hom
+    change g ≫ σ.1.hom = g ≫ (sectionOfClass X E π e he c).hom
     rw [comp_sectionOfClass_hom]
     exact (pointsEquiv_eq_pointRestrictClass_iff X E π e c T g _).1 (h T g)
 

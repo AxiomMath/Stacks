@@ -95,7 +95,7 @@ theorem surjective_smul_germ_of_surjective_smul {X : Scheme.{u}} (L : X.Modules)
   obtain ⟨c, hc⟩ := h V hVW g
   replace hc : c • L.presheaf.map (homOfLE hVW).op e = g := hc
   refine ⟨X.presheaf.germ V y hyV c, ?_⟩
-  show X.presheaf.germ V y hyV c • L.presheaf.germ W y hy e = m
+  change X.presheaf.germ V y hyV c • L.presheaf.germ W y hy e = m
   rw [← L.presheaf.germ_res_apply (homOfLE hVW) y hyV e, ← Scheme.Modules.germ_smul L hyV, hc, hg]
 
 /-- **A generator of a free rank one stalk is a basis.** If some element of the stalk is a stalk

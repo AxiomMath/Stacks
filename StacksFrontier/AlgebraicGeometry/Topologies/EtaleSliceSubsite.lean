@@ -22,7 +22,7 @@ topology of `C_{x, ét}` flatly cofinal for its underlying scheme functor
 
 * `Stacks.EtaleSlice.IsEtaleCofinal`: étale cofinality of a topology.
 * `Stacks.EtaleSlice.etaleOver`: the objects of `C/x` lying over an étale morphism.
-* `Stacks.EtaleSlice.EtaleSlice`: the full subcategory `C_{x, ét}` of `C/x` on those objects.
+* `Stacks.EtaleSlice`: the full subcategory `C_{x, ét}` of `C/x` on those objects.
 * `Stacks.EtaleSlice.topology`: the topology `C_{x, ét}` inherits from `C/x`.
 * `Stacks.EtaleSlice.toScheme`: the functor `C_{x, ét} ⥤ Sch`.
 * `Stacks.EtaleSlice.terminal`: the terminal object `id_x` of `C_{x, ét}`.
@@ -102,7 +102,7 @@ abbrev etaleMap (L : C ⥤ Scheme.{u}) (x : C) : MorphismProperty (Over x) :=
 
 /-- **The small étale site of `x` inside the slice `C/x`**: the full subcategory of `C/x` on the
 objects lying over an étale morphism of schemes. -/
-abbrev EtaleSlice (L : C ⥤ Scheme.{u}) (x : C) := (etaleOver L x).FullSubcategory
+abbrev _root_.Stacks.EtaleSlice (L : C ⥤ Scheme.{u}) (x : C) := (etaleOver L x).FullSubcategory
 
 /-- The underlying scheme of an object of the small étale site of `x`. -/
 abbrev toScheme (L : C ⥤ Scheme.{u}) (x : C) : EtaleSlice L x ⥤ Scheme.{u} :=
@@ -116,7 +116,7 @@ theorem etaleOver_of_etaleMap ⦃V W : Over x⦄ (f : V ⟶ W) (hf : etaleMap L 
     (hW : etaleOver L x W) : etaleOver L x V := by
   have : Etale (L.map f.left) := hf
   have : Etale (L.map W.hom) := hW
-  show Etale (L.map V.hom)
+  change Etale (L.map V.hom)
   rw [← Over.w f, L.map_comp]
   infer_instance
 
@@ -229,7 +229,7 @@ theorem ofArrows_mem_topology {U : EtaleSlice L x} {I : Type*} (V : I → EtaleS
     (hf : Sieve.ofArrows (fun i => (V i).obj) (fun i => (etaleOver L x).ι.map (f i)) ∈
       (J.over x) U.obj) :
     Sieve.ofArrows V f ∈ topology L J x U := by
-  show Sieve.ofArrows V f ∈ (etaleOver L x).ι.inheritedTopology (J.over x) U
+  change Sieve.ofArrows V f ∈ (etaleOver L x).ι.inheritedTopology (J.over x) U
   rw [← ObjectProperty.subcategoryCoverage_toGrothendieck etaleOver_of_etaleMap
     (isRefinableBy_over x hJ)]
   refine Coverage.Saturate.of U _ ⟨fun _ g ⟨i⟩ => etaleMap_ι_map (f i), ?_⟩
@@ -267,7 +267,7 @@ theorem isFlatCofinal [HasPullbacks C] [PreservesLimitsOfShape WalkingCospan L] 
       (Sieve.overEquiv_iff _ _).1 (hES _ (Sieve.le_generate _ _ _ ⟨i⟩))
     have : g i = ObjectProperty.homMk (X := V i) b' ≫ a' :=
       (etaleOver L x).ι.map_injective (by rwa [Functor.map_comp])
-    show S.arrows (g i)
+    change S.arrows (g i)
     rw [this]
     exact S.downward_closed ha' _
 

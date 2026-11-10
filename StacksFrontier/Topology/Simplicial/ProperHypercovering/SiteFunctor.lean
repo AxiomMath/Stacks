@@ -81,7 +81,7 @@ theorem opensToSlice_hom_ext {Z : S.category} {f g : Z ⟶ ((S.opensToSlice Y).1
 theorem mem_of_factors {Z : S.category} (f : Z ⟶ ((S.opensToSlice Y).1.obj V).left)
     (z : Z.obj) : (f ≫ ((S.opensToSlice Y).1.obj V).hom) z ∈ V := by
   have h := ((S.opensToSlice Y).2 V).2
-  show _ ∈ V.1
+  change _ ∈ V.1
   rw [← h]
   exact ⟨f z, rfl⟩
 
@@ -402,10 +402,10 @@ theorem siteFunctor_coverPreserving :
     rw [he]
     infer_instance
   have hT : T ∈ S.zariskiPrecoverage B := by
-    show T ∈ (TopCat.precoverage.comap (toTop S)) B
+    change T ∈ (TopCat.precoverage.comap (toTop S)) B
     rw [Precoverage.mem_comap_iff]
     simp only [T, Presieve.map_ofArrows]
-    show _ ∧ _
+    change _ ∧ _
     constructor
     · rw [Presieve.ofArrows_mem_comap_jointlySurjectivePrecoverage_iff]
       intro y
@@ -430,7 +430,7 @@ theorem siteFunctor_coverPreserving :
           ((S.opensToSlice (U.obj i.1.1.degree)).2 i.1.1.toOpens).1
       rw [← siteFunctorMapLeft_comp S U i.1.2] at hinto
       exact Topology.IsOpenEmbedding.of_comp _ hwhole hinto
-  show verticalSieve _ ∈ (S.qcSite.grothendieckTopology.over X)
+  change verticalSieve _ ∈ (S.qcSite.grothendieckTopology.over X)
     ((siteFunctor.{x} S U a).obj P).left
   rw [GrothendieckTopology.mem_over_iff]
   apply S.zariskiTopology_le_qc
@@ -449,7 +449,7 @@ theorem siteFunctor_coverPreserving :
   let g' : Over.mk (siteFunctorMapLeft S U f ≫ ((siteFunctor.{x} S U a).obj P).left.hom) ⟶
       ((siteFunctor.{x} S U a).obj Q).left :=
     Over.homMk (𝟙 _) (by
-      show 𝟙 _ ≫ (simplicialOpenSlice S U Q).hom ≫ a.app P.degree =
+      change 𝟙 _ ≫ (simplicialOpenSlice S U Q).hom ≫ a.app P.degree =
         siteFunctorMapLeft S U f ≫ (simplicialOpenSlice S U P).hom ≫ a.app P.degree
       rw [siteFunctorMapLeft_comp_assoc, hbase, CategoryTheory.Functor.map_id,
         Category.id_comp, Category.id_comp])
@@ -458,7 +458,7 @@ theorem siteFunctor_coverPreserving :
   let k : verticalObject ((siteFunctor.{x} S U a).obj P) gP ⟶ (siteFunctor.{x} S U a).obj Q :=
     qcTotalHomMk g' (𝟙 _) (by
       rw [structureMap_verticalObject]
-      show 𝟙 _ ≫ structureMap (siteFunctorObj.{x} S U a Q) =
+      change 𝟙 _ ≫ structureMap (siteFunctorObj.{x} S U a Q) =
         siteFunctorMapLeft S U f ≫ structureMap (siteFunctorObj.{x} S U a P) ≫ U.map (𝟙 _)
       rw [structureMap_siteFunctorObj, structureMap_siteFunctorObj,
         CategoryTheory.Functor.map_id, Category.comp_id, Category.id_comp,
@@ -467,7 +467,7 @@ theorem siteFunctor_coverPreserving :
   apply Comma.hom_ext
   · apply Over.OverMorphism.ext
     exact (Category.id_comp _).symm
-  · show 𝟙 _ = 𝟙 _ ≫ f.base
+  · change 𝟙 _ = 𝟙 _ ≫ f.base
     rw [hbase, Category.id_comp]
 
 /-- The functor `U_Zar → (LC_qc/U)_total`, `V ↦ V/U_n`, is continuous. -/

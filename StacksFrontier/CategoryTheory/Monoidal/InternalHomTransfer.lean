@@ -231,10 +231,10 @@ theorem exists_iso_and_isIso_iff_of_iso (T : C ⥤ C ⥤ C) {L L' M M' H H' : C}
   obtain ⟨h1, h2⟩ := exists_iso_and_isIso_iff_of_equivalence T T (Equivalence.refl)
     (fun A B => Iso.refl _)
     (fun f B => by
-      show (T.map f).app B ≫ 𝟙 _ = 𝟙 _ ≫ (T.map f).app B
+      change (T.map f).app B ≫ 𝟙 _ = 𝟙 _ ≫ (T.map f).app B
       simp) e he e'' he''
   refine ⟨h1, h2.trans ?_⟩
-  show IsIso ((T.obj H').map a.hom ≫ e' ≫ b.inv) ↔ IsIso e'
+  change IsIso ((T.obj H').map a.hom ≫ e' ≫ b.inv) ↔ IsIso e'
   rw [isIso_comp_left_iff, isIso_comp_right_iff]
 
 end CategoryTheory.InternalHomTransfer

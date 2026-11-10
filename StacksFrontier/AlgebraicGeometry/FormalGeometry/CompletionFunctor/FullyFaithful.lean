@@ -18,7 +18,8 @@ is fully faithful.
 The source deduces this from two inputs. The first is Stacks 0882: for coherent `G`, `F` with
 `H = SheafHom(G, F)` the inverse limit `lim_n H⁰(X, H / 𝓘ⁿ H)` is the morphism group
 `Mor_{Coh(X, 𝓘)}(G^∧, F^∧)`; its ingredients are already available in
-`StacksFrontier.AlgebraicGeometry.FormalGeometry.CompletionFunctor.InternalHomCompletion`. The second
+`StacksFrontier.AlgebraicGeometry.FormalGeometry.CompletionFunctor.InternalHomCompletion`. The
+second
 is the theorem on formal functions over a complete base, Stacks 087U, in degree zero:
 `H⁰(X, H) = lim_n H⁰(X, H / 𝓘ⁿ H)`. It enters the results below as the named hypothesis `hFF`;
 it is discharged, and the tag 0883 registered, in

@@ -625,7 +625,7 @@ theorem IsUniversalFirstOrderThickening.of_surjectiveEtale
     have hkey : (Limits.Sigma.ι Yfam ⟨i, hi⟩ ≫ eA.inv) ≫
         eA.hom ≫ d ≫ (BigFppfOver.toScheme B S hS).map jW =
         i.1.ι ≫ (BigFppfOver.toScheme B S hS).map jW := by
-      rw [Category.assoc, Iso.inv_hom_id_assoc, ← Category.assoc, Limits.Sigma.ι_desc]
+      rw [Category.assoc, Iso.inv_hom_id_assoc, ← Category.assoc, Limits.Sigma.ι_comp_desc]
     have hcc := congrArg (fun f : Yfam ⟨i, hi⟩ ⟶ _ => f.base z) hkey
     simpa using hcc.trans hz
   -- the étale extension of `Au ⟶ U₀` across the thickening, by Stacks 039R

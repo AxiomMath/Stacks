@@ -180,7 +180,7 @@ theorem descentComponent_cocycle (_hpb : IsPullback (Hom.base σ₁) (Hom.base �
   obtain ⟨ω, a, hω, ha⟩ := exists_hom_base_eq η (pullback.fst (Hom.base σ₂) (Hom.base σ₁))
   have hh : (eqToHom hω ≫ pullback.snd (Hom.base σ₂) (Hom.base σ₁)) ≫ Hom.base σ₁ =
       Hom.base (a ≫ σ₂) := by
-    show _ = Hom.base a ≫ Hom.base σ₂
+    change _ = Hom.base a ≫ Hom.base σ₂
     rw [ha, Category.assoc, Category.assoc, pullback.condition]
   let b : ω ⟶ η := fillIn σ₁ (a ≫ σ₂) _ hh
   have hab : a ≫ σ₂ = b ≫ σ₁ := (fillIn_comp σ₁ (a ≫ σ₂) _ hh).symm
@@ -188,7 +188,7 @@ theorem descentComponent_cocycle (_hpb : IsPullback (Hom.base σ₁) (Hom.base �
     refine (IsPullback.of_hasPullback (Hom.base σ₂) (Hom.base σ₁)).of_iso (eqToIso hω.symm)
       (Iso.refl _) (Iso.refl _) (Iso.refl _) ?_ ?_ (by simp) (by simp)
     · simp [ha]
-    · show _ = _ ≫ (eqToHom hω ≫ pullback.snd _ _)
+    · change _ = _ ≫ (eqToHom hω ≫ pullback.snd _ _)
       simp
   obtain ⟨c, hc₁, hc₂⟩ := htrans ω a b hbase hab
   have hamb := (AlgebraicSpaces.isPullback_hom B S hS
@@ -340,7 +340,7 @@ theorem exists_descent_single (hrep : ξ.base.obj.left.obj.IsRepresentable)
       γ := fun _ => inv ψ
       coherence := fun _ => hcoh }
   refine ⟨⟨G.glue, rfl⟩, G.glueHom PUnit.unit, ?_, ?_⟩
-  · show (proj : EtaleSmoothLift B S hS ι hι W x hx ⥤ _).IsHomLift
+  · change (proj : EtaleSmoothLift B S hS ι hι W x hx ⥤ _).IsHomLift
       ((proj : EtaleSmoothLift B S hS ι hι W x hx ⥤ _).map (G.glueHom PUnit.unit))
       (G.glueHom PUnit.unit)
     infer_instance

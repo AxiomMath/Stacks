@@ -143,7 +143,7 @@ theorem surjective_unit_app_top_zeroScheme [IsIntegral X]
   refine ⟨(cohomologyOverFieldZeroLinearIso k f L).hom x, ?_⟩
   have key := cohomologyOverFieldZeroLinearIso_cohomologyOverFieldMap k f g x
   refine key.symm.trans ?_
-  show eQ.hom _ = q
+  change eQ.hom _ = q
   rw [hx]
   exact eQ.inv_hom_id_apply q
 
@@ -184,7 +184,7 @@ theorem exists_sup_nvOpen_eq_top [IsProper f] [IsIntegral X]
   obtain ⟨t, ht⟩ := surjective_unit_app_top_zeroScheme f hH1 L sL hsL q₀
   refine ⟨t, ?_⟩
   have hpull : pullbackGlobalSections i L t = q₀ := by
-    show ((Scheme.Modules.pullback i).obj L).presheaf.map
+    change ((Scheme.Modules.pullback i).obj L).presheaf.map
       (eqToHom (show i ⁻¹ᵁ (⊤ : X.Opens) = ⊤ from rfl)).op
       (Scheme.Modules.Hom.app ((Scheme.Modules.pullbackPushforwardAdjunction i).unit.app L) ⊤
         t) = q₀
@@ -204,7 +204,7 @@ theorem exists_sup_nvOpen_eq_top [IsProper f] [IsIntegral X]
         (SheafOfModules.unit D.ringCatSheaf)).symm one₀).eval (op ⊤) = (1 : Γ(D, ⊤)) :=
       (Stacks.NonvanishingSpelling.sectionsEquiv D
         (SheafOfModules.unit D.ringCatSheaf)).apply_symm_apply one₀
-    show ((D.basicOpen _ : D.Opens) : Set D) = Set.univ
+    change ((D.basicOpen _ : D.Opens) : Set D) = Set.univ
     rw [h1, Scheme.basicOpen_one]
     rfl
   have hD : Set.range i ⊆ Stacks.Ample.nonvanishingLocus L t := by

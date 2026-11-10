@@ -560,7 +560,7 @@ theorem isKInjective_bigEtaleModuleInverseImage
   have hs : EssentiallySmall.{u} (bigEtaleOverRingedTopos B Y).C :=
     essentiallySmall_overBase (τ := .etale) B Y.obj Y.property
   have hs' : EssentiallySmall.{u} (Over (Over.mk g : (bigEtaleOverRingedTopos B Y).C)) := by
-    show EssentiallySmall.{u} (CostructuredArrow (𝟭 _) _)
+    change EssentiallySmall.{u} (CostructuredArrow (𝟭 _) _)
     infer_instance
   exact Stacks.Cohomology.Localization.isKInjective_restriction_overMap_of_essentiallySmall
     B.topology g (bigEtaleOverRingedTopos B Y).J

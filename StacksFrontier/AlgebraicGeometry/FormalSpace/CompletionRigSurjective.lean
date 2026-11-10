@@ -140,7 +140,7 @@ ring by `AlgebraicGeometry.FormalSpace.mk_lt_cutoff_of_quotientSystem`. -/
 theorem contains_spec_of_quotientSystem {A : Type u} [CommRing A] [TopologicalSpace A]
     [IsTopologicalRing A] {I : Ideal A} (h : IsAdic I) (hc : IsAdicComplete I A)
     (D : QuotientSystem B S hS A) : B.Contains (Spec (.of A)) := by
-  show (Spec (.of A)).size < B.cutoff
+  change (Spec (.of A)).size < B.cutoff
   rw [Scheme.size_Spec]
   exact max_lt B.aleph0_lt_cutoff (mk_lt_cutoff_of_quotientSystem h hc D)
 
@@ -215,7 +215,7 @@ theorem overS_closedPoint_eq (D : QuotientSystem B S hS R)
       = (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor h)) ≫ D.overS J)
           (IsLocalRing.closedPoint (R ⧸ M.1)) := by rw [D.compatible J M h]
     _ = (D.overS J) (IsLocalRing.closedPoint (R ⧸ J.1)) := by
-        show (D.overS J) (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor h))
+        change (D.overS J) (Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor h))
           (IsLocalRing.closedPoint (R ⧸ M.1))) = _
         rw [hpt]
 

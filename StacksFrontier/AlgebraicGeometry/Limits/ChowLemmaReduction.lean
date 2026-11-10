@@ -89,7 +89,7 @@ structure morphisms of the base-changed objects unfolded to projections. -/
 theorem pullback_map_left_comp_snd {C : Type u} [Category.{v} C] {T T' : C} (g : T' ⟶ T)
     [HasPullbacksAlong g] {X Y : Over T} (f : X ⟶ Y) :
     ((Over.pullback g).map f).left ≫ pullback.snd Y.hom g = pullback.snd X.hom g := by
-  simpa using Over.w ((Over.pullback g).map f)
+  simp
 
 end CategoryTheory.Over
 

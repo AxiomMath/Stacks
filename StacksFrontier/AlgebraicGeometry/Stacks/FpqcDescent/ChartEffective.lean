@@ -138,9 +138,9 @@ theorem exists_smooth_surjective_isEffective_pullback
   obtain ⟨pr, hpr⟩ : ∃ pr : Q ⟶ W₀', F.map pr = k := by
     refine ⟨Over.homMk (ObjectProperty.homMk k) ?_, rfl⟩
     apply ObjectProperty.hom_ext
-    show k ≫ B.inclusion.map (i' ≫ Y.hom) = B.inclusion.map Q.hom
+    change k ≫ B.inclusion.map (i' ≫ Y.hom) = B.inclusion.map Q.hom
     rw [Functor.map_comp, hi', ← Category.assoc, ← hpb.w, Category.assoc]
-    show B.inclusion.map π.left ≫ B.inclusion.map g'.left ≫ B.inclusion.map Y.hom =
+    change B.inclusion.map π.left ≫ B.inclusion.map g'.left ≫ B.inclusion.map Y.hom =
       B.inclusion.map Q.hom
     rw [← B.inclusion.map_comp, ← B.inclusion.map_comp, Over.w g', Over.w π]
   have hprw : pr ≫ w₀' = π ≫ g' :=

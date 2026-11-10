@@ -51,8 +51,9 @@ theorem modelComp_extendScalarsComp_eq (f : R →+* A) (g : A →+* B) :
       ModuleCat.extendScalarsComp f g := by
   refine Iso.ext (NatTrans.ext (funext fun M => ?_))
   refine ModuleCat.ExtendScalars.hom_ext fun m => ?_
-  refine (StacksDraft.DerivedExtensionScalarsModelComp.extendScalarsComp_hom_app_one_tmul.{u, u, u, u}
-    f g M m).trans ?_
+  refine
+    (StacksDraft.DerivedExtensionScalarsModelComp.extendScalarsComp_hom_app_one_tmul.{u, u, u, u}
+      f g M m).trans ?_
   exact (ModuleCat.extendScalarsComp_hom_app_one_tmul f g M m).symm
 
 /-- The composition isomorphism `D_f ⋙ D_g ≅ D_{g ∘ f}` along the defining equation is
@@ -64,7 +65,7 @@ theorem totalDerivedExtensionScalarsCompOfEq_rfl (f : R →+* A) (g : A →+* B)
   let Tg := CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u} g
   let Tc := CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u}
     (g.comp f)
-  haveI := Tc.isLeftDerived
+  have := Tc.isLeftDerived
   refine Iso.ext (Functor.leftDerived_ext Tc.functor Tc.comparison
     (HomologicalComplex.quasiIso (ModuleCat.{u} R) (ComplexShape.up ℤ)) _ _ _ ?_)
   ext P
@@ -76,8 +77,7 @@ theorem totalDerivedExtensionScalarsCompOfEq_rfl (f : R →+* A) (g : A →+* B)
     ← CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalarsComp_comparison]
   simp only [StacksDraft.DerivedExtensionScalarsModelComp.compComparisonOfEq,
     StacksDraft.DerivedExtensionScalarsModelComp.compComparison, eqToHom_refl,
-    Category.comp_id, NatTrans.comp_app, Functor.whiskerRight_app, Functor.whiskerLeft_app,
-    Category.assoc]
+    Category.comp_id, NatTrans.comp_app, Functor.whiskerRight_app]
   refine congrArg (fun t => Tg.functor.map (Tf.comparison.app P) ≫
     Tg.comparison.app _ ≫ t) ?_
   simp only [StacksDraft.DerivedExtensionScalarsModelComp.extensionOfScalarsComplexCompIso,
@@ -179,8 +179,8 @@ theorem compOfEq_trans_symm_hom_app (x : X →+* Y) (y : Y →+* Z) (x' : X →+
       (totalDerivedExtensionScalarsCompOfEq x' y' p hp').inv.app N =
       (dcomp x y).hom.app N ≫ dtr (hp.trans hp'.symm) N ≫ (dcomp x' y').inv.app N := by
   subst hp
-  simp only [totalDerivedExtensionScalarsCompOfEq_hom_app, totalDerivedExtensionScalarsCompOfEq_inv_app,
-    eqToHom_refl, Category.comp_id, Category.id_comp]
+  simp only [totalDerivedExtensionScalarsCompOfEq_hom_app,
+    totalDerivedExtensionScalarsCompOfEq_inv_app, eqToHom_refl, Category.comp_id]
 
 /-- **A step changing the first two maps of a triple composite.** -/
 theorem leftStep (x : X →+* Y) (y : Y →+* Z) (x' : X →+* Y') (y' : Y' →+* Z) (z : Z →+* W)
@@ -257,7 +257,7 @@ theorem compOfEq_cube (f : R →+* A) (g : R →+* R') (h : A →+* A') (i : R' 
     compOfEq_trans_symm_hom_app r f₁ f a pf hpf hpf' N,
     compOfEq_trans_symm_hom_app a h₁ h s ph hph hph' ((dext f).obj N)]
   let NF := (dext s).map ((dcomp f h).hom.app N) ≫ (dcomp (h.comp f) s).hom.app N
-  haveI : IsIso NF := by dsimp only [NF]; infer_instance
+  have : IsIso NF := by dsimp only [NF]; infer_instance
   refine (cancel_mono NF).1 ?_
   -- both sides, followed by `NF`, are the normal form at `(r, g₁, i₁)` followed by a transport
   have hL := leftStep g i f h s (hg₀.trans hf₀.symm) N
@@ -322,7 +322,8 @@ theorem homology_restrictSquareDerivedIso (f : R →+* A) (g : R →+* R') (h : 
       HR.map (ρ.hom.app (DerivedCategory.Q.obj L)) ≫ ιg.app (ri.mapDerivedCategory.obj
           (DerivedCategory.Q.obj L)) ≫ rg.map (ιi.app (DerivedCategory.Q.obj L)) =
         ιf.app (rh.mapDerivedCategory.obj (DerivedCategory.Q.obj L)) ≫
-          rf.map (ιh.app (DerivedCategory.Q.obj L)) ≫ τ.app (HA'.obj (DerivedCategory.Q.obj L)) := by
+          rf.map (ιh.app (DerivedCategory.Q.obj L)) ≫
+            τ.app (HA'.obj (DerivedCategory.Q.obj L)) := by
     intro L
     let ff := rf.mapDerivedCategoryFactors
     let fg := rg.mapDerivedCategoryFactors
@@ -370,10 +371,12 @@ theorem homology_restrictSquareDerivedIso (f : R →+* A) (g : R →+* R') (h : 
         hR.hom.app ((rf.mapHomologicalComplex c).obj Lh) ≫
           HcR.map ((NatTrans.mapHomologicalComplex τ c).app L) :=
       hR.hom.naturality ((NatTrans.mapHomologicalComplex τ c).app L)
-    have k1 := Stacks.ModulesOnACategory.TopCohomology.mapHomologicalComplexHomologyIso_hom_app_mapNatTrans
-      (rh ⋙ rf) ri rg τ c n L
-    have k2 := Stacks.ModulesOnACategory.TopCohomology.mapHomologicalComplexHomologyIso_hom_app_mapNatTrans
-      (rh ⋙ rf) rh rf (𝟙 _) c n L
+    have k1 :=
+      Stacks.ModulesOnACategory.TopCohomology.mapHomologicalComplexHomologyIso_hom_app_mapNatTrans
+        (rh ⋙ rf) ri rg τ c n L
+    have k2 :=
+      Stacks.ModulesOnACategory.TopCohomology.mapHomologicalComplexHomologyIso_hom_app_mapNatTrans
+        (rh ⋙ rf) rh rf (𝟙 _) c n L
     rw [NatTrans.mapHomologicalComplex_id, NatTrans.id_app, CategoryTheory.Functor.map_id,
       Category.id_comp, NatTrans.id_app] at k2
     replace k2 := k2.trans (Category.comp_id _)
@@ -480,9 +483,9 @@ theorem unit_comp_baseChangeMap (f : R →+* A) (g : R →+* R') (h : A →+* A'
   let Tg := CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u} g
   let Th := CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u} h
   rw [← ringHomSquareComparison_app_eq_map f g h i c h₁ h₂ K]
-  haveI : (ModuleCat.extendScalars.{u, u, u} g).IsLeftAdjoint :=
+  have : (ModuleCat.extendScalars.{u, u, u} g).IsLeftAdjoint :=
     (ModuleCat.extendRestrictScalarsAdj.{u} g).isLeftAdjoint
-  haveI : (ModuleCat.extendScalars.{u, u, u} h).IsLeftAdjoint :=
+  have : (ModuleCat.extendScalars.{u, u, u} h).IsLeftAdjoint :=
     (ModuleCat.extendRestrictScalarsAdj.{u} h).isLeftAdjoint
   let cg : DerivedCategory.Q ⋙ Tg.functor ⟶
       (ModuleCat.extendScalars.{u, u, u} g).mapHomologicalComplex
@@ -490,9 +493,9 @@ theorem unit_comp_baseChangeMap (f : R →+* A) (g : R →+* R') (h : A →+* A'
   let ch : DerivedCategory.Q ⋙ Th.functor ⟶
       (ModuleCat.extendScalars.{u, u, u} h).mapHomologicalComplex
         (ComplexShape.up ℤ) ⋙ DerivedCategory.Q := Th.comparison
-  haveI : Tg.functor.IsLeftDerivedFunctor cg
+  have : Tg.functor.IsLeftDerivedFunctor cg
       (HomologicalComplex.quasiIso (ModuleCat.{u} R) (ComplexShape.up ℤ)) := Tg.isLeftDerived
-  haveI : Th.functor.IsLeftDerivedFunctor ch
+  have : Th.functor.IsLeftDerivedFunctor ch
       (HomologicalComplex.quasiIso (ModuleCat.{u} A) (ComplexShape.up ℤ)) := Th.isLeftDerived
   exact unit_comp_derivedBaseChangeComparison.{u, u, u, u, u} f g h i (h₁.trans h₂.symm)
     Tg.functor Th.functor cg ch K
@@ -530,7 +533,8 @@ morphism `K|_R ⊗ᴸ_R R' ⟶ ((K ⊗ᴸ_A A₁)|_{R₁} ⊗ᴸ_{R₁} R₁')|_
 along `R → R'` of the restriction of the unit `K ⟶ (K ⊗ᴸ_A A₁)|_A`, followed by the comparison
 of Stacks 065Z for the square `R → R₁`, `R → R'`, `R₁ → R₁'`, `R' → R₁'`. -/
 def secondSquareDerivedMap (K : DerivedCategory (ModuleCat.{u} A)) :
-    (dext (algebraMap R R')).obj ((ModuleCat.restrictScalars (algebraMap R A)).mapDerivedCategory.obj K) ⟶
+    (dext (algebraMap R R')).obj
+        ((ModuleCat.restrictScalars (algebraMap R A)).mapDerivedCategory.obj K) ⟶
       (ModuleCat.restrictScalars (algebraMap R' R₁')).mapDerivedCategory.obj
         ((dext (algebraMap R₁ R₁')).obj
           ((ModuleCat.restrictScalars (algebraMap R₁ A₁)).mapDerivedCategory.obj
@@ -640,7 +644,8 @@ theorem secondSquareDerivedMap_comp (K : DerivedCategory (ModuleCat.{u} A)) :
     (IsScalarTower.algebraMap_eq R₁ R₁' A₁').symm
   let ef := totalDerivedExtensionScalarsCompOfEq f₁ h₁ c₁
     (IsScalarTower.algebraMap_eq R₁ A₁ A₁').symm
-  let βf := totalDerivedExtensionScalarsCompOfEq r f₁ pf (IsScalarTower.algebraMap_eq R R₁ A₁).symm ≪≫
+  let βf := totalDerivedExtensionScalarsCompOfEq r f₁ pf
+      (IsScalarTower.algebraMap_eq R R₁ A₁).symm ≪≫
     (totalDerivedExtensionScalarsCompOfEq f a pf (IsScalarTower.algebraMap_eq R A A₁).symm).symm
   let βf' := totalDerivedExtensionScalarsCompOfEq b i₁ pi
       (IsScalarTower.algebraMap_eq R' R₁' A₁').symm ≪≫
@@ -660,9 +665,9 @@ theorem secondSquareDerivedMap_comp (K : DerivedCategory (ModuleCat.{u} A)) :
     (adj i₁) eg ef (dext r) (dext a) (dext b) (dext s) βf βf' βg βg' hhex K
   -- the two transport units are base change maps
   let tU := leftSquareMap (R := R) (A := A) (R₁ := R₁) (A₁ := A₁) K
-  have htU : Stacks.CategoryTheory.BaseChange.transportUnit (adj f) (adj f₁) (dext r) (dext a) βf K =
-      tU := by
-    simp only [tU, leftSquareMap, Stacks.CategoryTheory.BaseChange.map_eq,
+  have htU : Stacks.CategoryTheory.BaseChange.transportUnit (adj f) (adj f₁) (dext r) (dext a)
+      βf K = tU := by
+    simp only [tU, Stacks.CategoryTheory.BaseChange.map_eq,
       Stacks.CategoryTheory.BaseChange.transportUnit, βf, Iso.trans_hom, Iso.symm_hom,
       NatTrans.comp_app, Category.assoc]
     rfl
@@ -736,7 +741,8 @@ omit [Algebra R A'] [Algebra R₁ A₁'] [IsScalarTower R A A'] [IsScalarTower R
   [Algebra A' A₁'] [Algebra A₁ A₁'] [Algebra R₁' A₁'] [Algebra A A'] [Algebra R' A'] in
 /-- `secondSquareDerivedMap` is natural in `K`. -/
 theorem secondSquareDerivedMap_naturality {K L : DerivedCategory (ModuleCat.{u} A)} (u : K ⟶ L) :
-    (dext (algebraMap R R')).map ((ModuleCat.restrictScalars (algebraMap R A)).mapDerivedCategory.map u) ≫
+    (dext (algebraMap R R')).map
+          ((ModuleCat.restrictScalars (algebraMap R A)).mapDerivedCategory.map u) ≫
         secondSquareDerivedMap (R := R) (R' := R') (R₁ := R₁) (A₁ := A₁) (R₁' := R₁') L =
       secondSquareDerivedMap (R := R) (R' := R') (R₁ := R₁) (A₁ := A₁) (R₁' := R₁') K ≫
         (ModuleCat.restrictScalars (algebraMap R' R₁')).mapDerivedCategory.map
@@ -752,8 +758,10 @@ theorem secondSquareDerivedMap_naturality {K L : DerivedCategory (ModuleCat.{u} 
     (algebraMap A A₁) (algebraMap R₁ A₁) squareRA₁
   let τ := squareDerivedComparison (R := R) (A := R₁) (R' := R') (A' := R₁')
   have h1 : u ≫ η.app L = η.app K ≫ Ra.map ((dext (algebraMap A A₁)).map u) := η.naturality u
-  have h2 : Rf.map (Ra.map ((dext (algebraMap A A₁)).map u)) ≫ ρ.hom.app ((dext (algebraMap A A₁)).obj L) =
-      ρ.hom.app ((dext (algebraMap A A₁)).obj K) ≫ Rr.map (Rf₁.map ((dext (algebraMap A A₁)).map u)) :=
+  have h2 : Rf.map (Ra.map ((dext (algebraMap A A₁)).map u)) ≫
+        ρ.hom.app ((dext (algebraMap A A₁)).obj L) =
+      ρ.hom.app ((dext (algebraMap A A₁)).obj K) ≫
+        Rr.map (Rf₁.map ((dext (algebraMap A A₁)).map u)) :=
     ρ.hom.naturality ((dext (algebraMap A A₁)).map u)
   have h3 : (dext (algebraMap R R')).map (Rr.map (Rf₁.map ((dext (algebraMap A A₁)).map u))) ≫
       τ.app (Rf₁.obj ((dext (algebraMap A A₁)).obj L)) =
@@ -787,13 +795,15 @@ theorem secondSquareHomologyMap_action (K : DerivedCategory (ModuleCat.{u} A)) (
         (baseChangeCohomologyAction (R := R) (R' := R') K n a m) =
       baseChangeCohomologyAction (R := R₁) (R' := R₁') ((dext (algebraMap A A₁)).obj K) n
         (algebraMap A A₁ a)
-        ((secondSquareHomologyMap (R := R) (R' := R') (R₁ := R₁) (A₁ := A₁) (R₁' := R₁') K n).hom m) := by
+        ((secondSquareHomologyMap (R := R) (R' := R') (R₁ := R₁) (A₁ := A₁) (R₁' := R₁') K n).hom
+          m) := by
   let HR' := DerivedCategory.homologyFunctor (ModuleCat.{u} R') n
   let HR₁' := DerivedCategory.homologyFunctor (ModuleCat.{u} R₁') n
   let rb := ModuleCat.restrictScalars.{u} (algebraMap R' R₁')
   let ιb := (rb.mapDerivedCategoryHomologyIso n).hom
-  let Z := (dext (algebraMap R₁ R₁')).map ((ModuleCat.restrictScalars (algebraMap R₁ A₁)).mapDerivedCategory.map
-    ((dext (algebraMap A A₁)).map (a • 𝟙 K)))
+  let Z := (dext (algebraMap R₁ R₁')).map
+    ((ModuleCat.restrictScalars (algebraMap R₁ A₁)).mapDerivedCategory.map
+      ((dext (algebraMap A A₁)).map (a • 𝟙 K)))
   have hnat := secondSquareDerivedMap_naturality (R := R) (R' := R') (R₁ := R₁) (A₁ := A₁)
     (R₁' := R₁') (a • 𝟙 K)
   have hι := ιb.naturality Z

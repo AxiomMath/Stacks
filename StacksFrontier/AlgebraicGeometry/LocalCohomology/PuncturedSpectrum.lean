@@ -130,7 +130,7 @@ This is the sketch of [Stacks, Tag 0AWC] observing that `X'` has only the two po
 theorem basicOpen_eq_singleton_bot {f : A} (hf : f ∈ IsLocalRing.maximalIdeal A) (hf0 : f ≠ 0) :
     (PrimeSpectrum.basicOpen f).1 = {(⊥ : PrimeSpectrum A)} := by
   refine Set.ext fun x => ?_
-  show f ∉ x.asIdeal ↔ x = ⊥
+  change f ∉ x.asIdeal ↔ x = ⊥
   refine ⟨fun hx => ?_, fun hx => ?_⟩
   · exact (IsLocalRing.Ring.KrullDimLE.eq_bot_or_eq_top x).resolve_right fun h => hx (h ▸ hf)
   · exact hx ▸ notMem_bot_asIdeal hf0
@@ -141,7 +141,7 @@ theorem puncturedSpectrumOpens_eq_basicOpen {f : A} (hf : f ∈ IsLocalRing.maxi
     (hf0 : f ≠ 0) :
     puncturedSpectrumOpens A = PrimeSpectrum.basicOpen f := by
   refine TopologicalSpace.Opens.ext (Set.ext fun x => ?_)
-  show x ≠ IsLocalRing.closedPoint A ↔ f ∉ x.asIdeal
+  change x ≠ IsLocalRing.closedPoint A ↔ f ∉ x.asIdeal
   refine ⟨fun hx => ?_, fun hx h => hx (h ▸ hf)⟩
   rcases IsLocalRing.Ring.KrullDimLE.eq_bot_or_eq_top x with h | h
   · exact h ▸ notMem_bot_asIdeal hf0
@@ -201,7 +201,7 @@ theorem preimage_puncturedSpectrum {R S : CommRingCat.{u}} [IsLocalRing R] [IsLo
     Spec.map φ ⁻¹ᵁ puncturedSpectrum R = puncturedSpectrum S := by
   have : IsLocalHom φ.hom := IsLocalHom.of_surjective φ.hom hφ
   refine TopologicalSpace.Opens.ext (Set.ext fun x => ?_)
-  show PrimeSpectrum.comap φ.hom x ≠ IsLocalRing.closedPoint (ToType R) ↔
+  change PrimeSpectrum.comap φ.hom x ≠ IsLocalRing.closedPoint (ToType R) ↔
     x ≠ IsLocalRing.closedPoint (ToType S)
   rw [not_iff_not]
   refine ⟨fun h => PrimeSpectrum.comap_injective_of_surjective _ hφ ?_,

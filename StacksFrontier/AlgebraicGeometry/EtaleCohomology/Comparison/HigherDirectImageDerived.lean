@@ -89,7 +89,7 @@ private lemma postcompHomotopyIso_refl_hom_app
     NatTrans.comp_app, Functor.isoWhiskerLeft_hom, Functor.isoWhiskerRight_hom,
     Functor.whiskerLeft_app, Functor.whiskerRight_app, Functor.associator_hom_app,
     Functor.associator_inv_app]
-  show _ ≫ _ ≫ _ ≫ DerivedCategory.Qh.map
+  change _ ≫ _ ≫ _ ≫ DerivedCategory.Qh.map
       ((HomotopyCategory.quotient _ _).map (𝟙 _)) = _
   simp only [CategoryTheory.Functor.map_id]
   exact (Category.id_comp _).trans
@@ -155,7 +155,7 @@ private lemma evaluatedDerivedSectionsUnit_naturality
   simp only [Iso.app_inv, Functor.whiskerLeft_app, Functor.whiskerRight_app] at he'
   simp only [evaluatedDerivedSectionsUnit, NatTrans.comp_app, Functor.whiskerLeft_app,
     Functor.whiskerRight_app, Functor.associator_hom_app, Category.comp_id]
-  show (eT.inv.app K ≫ T.mapDerivedCategory.map (β.app K)) ≫
+  change (eT.inv.app K ≫ T.mapDerivedCategory.map (β.app K)) ≫
       (mapDerivedNatTrans τ).app
         ((DerivedCategory.Qh ⋙ derivedPreimageSectionsPresheaf B f).obj K) =
     DerivedCategory.Qh.map (((sectionsRestriction B f g).mapHomotopyCategory (.up ℤ)).app K) ≫

@@ -174,6 +174,7 @@ attribute [local instance] Stacks.SheafOfModules.DerivedTensorProduct.sliceDeriv
   Stacks.SheafOfModules.DerivedTensorProduct.sliceHasMapBifunctor
   AlgebraicGeometry.RingedSite.sliceHasDerivedCategory
 
+omit [IsNoetherianRing Λ] in
 open Stacks.SheafOfModules.DerivedTensorProduct in
 /-- **Tag 03TT, the direction (2) ⟹ (1) for the Tor-dimension condition.** An object of
 `D(X_étale, Λ)` represented by a bounded complex of constructible flat sheaves of `Λ`-modules,

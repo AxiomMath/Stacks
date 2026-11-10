@@ -2,7 +2,7 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.Simplicial.ComponentRingedTopos.ModuleTransitionTensor
 public import
-    StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.PullbackToposLeftUnitorUnconditional
+ StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.PullbackToposLeftUnitorUnconditional
 
 /-! # The unitor half of the compatibility of Stacks 09WF with Stacks 03EL
 

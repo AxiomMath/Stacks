@@ -123,7 +123,7 @@ private lemma isIso_mapDerivedNatTrans_iff {F G : A ⥤ B} [F.Additive] [G.Addit
     ((DerivedCategory.homologyFunctorFactors A n).app (DerivedCategory.Q.objPreimage K))
   dsimp only [Functor.comp_obj] at hn
   rw [hn]
-  show IsIso (ShortComplex.homologyMap
+  change IsIso (ShortComplex.homologyMap
     (((DerivedCategory.Q.objPreimage K).sc n).mapNatTrans α)) ↔ _
   rw [ShortComplex.homologyMap_mapNatTrans]
   simp only [isIso_comp_left_iff, isIso_comp_right_iff]

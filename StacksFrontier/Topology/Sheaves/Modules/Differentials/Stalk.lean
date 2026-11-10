@@ -635,7 +635,7 @@ theorem presheafModuleStalkLinearMapCommRing_germ {X : TopCat.{u}}
     presheafModuleStalkLinearMapCommRing M N f x
         (TopCat.Presheaf.germ (C := AddCommGrpCat.{u}) M.presheaf U x hx m) =
       TopCat.Presheaf.germ (C := AddCommGrpCat.{u}) N.presheaf U x hx ((f.app (op U)).hom m) := by
-  show (TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
+  change (TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
     ((PresheafOfModules.toPresheaf (R ⋙ forget₂ CommRingCat RingCat)).map f)
       (TopCat.Presheaf.germ (C := AddCommGrpCat.{u}) M.presheaf U x hx m) = _
   exact TopCat.Presheaf.stalkFunctor_map_germ_apply' U x hx

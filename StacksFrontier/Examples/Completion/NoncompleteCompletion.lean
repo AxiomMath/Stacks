@@ -76,7 +76,7 @@ private theorem witnessSeries_coeff_diag (T : CountableVarLocalization) {j : ℕ
     MvPowerSeries.coeff (Finsupp.single j j) (witnessSeries T) = 1 := by
   classical
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hj.ne'
-  show (if ∃ m : ℕ, Finsupp.single (n + 1) (n + 1) =
+  change (if ∃ m : ℕ, Finsupp.single (n + 1) (n + 1) =
     Finsupp.single (m + 1) (m + 1) then (1 : T.k) else 0) = 1
   exact ite_eq_left_of_eq_true _ _ (eq_true ⟨n, rfl⟩)
 
@@ -84,7 +84,7 @@ private theorem n_map_completion_eq_span (T : CountableVarLocalization) :
     T.n.map (AdicCompletion.of T.n T.A) =
       Ideal.span (Set.range (fun i : ℕ => AdicCompletion.of T.n T.A
         (algebraMap T.P T.A (MvPolynomial.X i))) : Set T.S) := by
-  show Ideal.map (algebraMap T.A T.S)
+  change Ideal.map (algebraMap T.A T.S)
       (Ideal.map (algebraMap T.P T.A) (Ideal.span (Set.range MvPolynomial.X))) = _
   rw [Ideal.map_map (algebraMap T.P T.A) (algebraMap T.A T.S), Ideal.map_span,
     ← Set.range_comp' ((algebraMap T.A T.S).comp (algebraMap T.P T.A)) MvPolynomial.X]
@@ -97,7 +97,7 @@ theorem maximalIdeal_ne_map (T : CountableVarLocalization) :
   obtain ⟨s, hs⟩ :=
     T.existsUnique_series_of_degreewise_finite (witnessSeries T) (witnessSeries_finite T)
   have hs_mem : s ∈ T.m' := by
-    show T.constantTerm.val s = 0
+    change T.constantTerm.val s = 0
     rw [T.constantTerm_eq_coeff_zero, hs.1]
     exact witnessSeries_coeff_zero T
   intro heq
@@ -151,9 +151,9 @@ theorem completion_not_adically_complete (T : CountableVarLocalization) :
     ext x
     rw [← T.maximalIdeal_eq_ker_constantTerm, ← evalₐ_one_ker_eq_maximalIdeal T,
       RingHom.mem_ker]
-    show AdicCompletion.evalₐ T.n 1 x = 0 ↔ _
+    change AdicCompletion.evalₐ T.n 1 x = 0 ↔ _
     rw [← eval_one_eq_zero_iff_evalₐ_one_eq_zero T x]
-    show AdicCompletion.eval T.n T.A 1 x = 0 ↔
+    change AdicCompletion.eval T.n T.A 1 x = 0 ↔
       x ∈ (T.n.map (algebraMap T.A T.S)).restrictScalars T.A
     rw [← Ideal.smul_top_eq_map]
     simp only [pow_one] at hpow

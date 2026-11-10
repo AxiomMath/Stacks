@@ -67,15 +67,14 @@ theorem quasiIso_deRhamComplexMap_of_isPushout [Algebra ℚ A'] (hpush : IsPusho
   let π' : R' →ₐ[A'] R₀ :=
     { (c' ≫ γ).hom with
       commutes' := fun x => by
-        show (a' ≫ c' ≫ γ) x = (a ≫ c ≫ γ) x
+        change (a' ≫ c' ≫ γ) x = (a ≫ c ≫ γ) x
         rw [← Category.assoc, ← hpush.w, Category.assoc] }
   let e : R ⊗[A'] R' ≃ₐ[R] B := Algebra.IsPushout.equiv A' R R' B
   have he : ∀ r r', e (r ⊗ₜ r') = c r * c' r' := fun r r' => by
     rw [Algebra.IsPushout.equiv_tmul]
     rfl
   have hγe : ∀ t, γ (e t) = GradedDeRham.graphMult π π' t := fun t => by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul r r' =>
       rw [he, map_mul, GradedDeRham.graphMult_tmul]
       rfl

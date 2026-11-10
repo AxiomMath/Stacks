@@ -191,8 +191,7 @@ instance leftFactoring.instIsStableUnderRetracts :
 instance leftFactoring.instIsStableUnderShift [A.IsStableUnderShift ℤ]
     [D.IsStableUnderShift ℤ] : (A.leftFactoring D).IsStableUnderShift ℤ where
   isStableUnderShiftBy n := ⟨by
-    intro Y hY
-    intro X hX f
+    intro Y hY X hX f
     obtain ⟨g, hg⟩ := (shiftFunctor C n).map_surjective
       ((shiftFunctorCompIsoId C (-n) n (neg_add_cancel n)).hom.app X ≫ f)
     obtain ⟨Z, a, b, hZ, hab⟩ := hY (A.le_shift (-n) _ hX) g

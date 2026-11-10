@@ -145,13 +145,13 @@ theorem iSup_subobjectMk_eq_top (P : I → M.Submodule)
       Subobject.ofMkLE _ S (le_iSup (fun i => Subobject.mk (inclusion (P i))) i)
     have hinj : inj ≫ q = inclusion (P i) := Subobject.ofMkLE_arrow _
     refine ⟨V, hVU, ⟨inj.app V ⟨_, hi⟩, ?_⟩, hxV⟩
-    show ((inj ≫ q).app V) ⟨_, hi⟩ = M.presheaf.map (homOfLE hVU).op t
+    change ((inj ≫ q).app V) ⟨_, hi⟩ = M.presheaf.map (homOfLE hVU).op t
     rw [hinj]
     rfl
   have hq : Epi q := by
     refine ⟨fun {Z} g h hgh => ?_⟩
     have hmap : qSheaf ≫ T.map g = qSheaf ≫ T.map h := by
-      show T.map q ≫ T.map g = T.map q ≫ T.map h
+      change T.map q ≫ T.map g = T.map q ≫ T.map h
       exact (T.map_comp q g).symm.trans ((congrArg T.map hgh).trans (T.map_comp q h))
     exact T.map_injective ((cancel_epi qSheaf).1 hmap)
   have : IsIso q := isIso_of_mono_of_epi q
@@ -225,10 +225,10 @@ theorem exists_local_lift_of_isColimit {Φ : I ⥤ T.Modules} {c : Cocone Φ} (h
   have ht' : (colimit.ι Φ i).app W t =
       (colimit Φ).presheaf.map (homOfLE hWV).op (e.inv.app V s) := ht
   rw [← hfac]
-  show e.hom.app W ((colimit.ι Φ i).app W t) = _
+  change e.hom.app W ((colimit.ι Φ i).app W t) = _
   rw [ht']
   refine (PresheafOfModules.naturality_apply e.hom.val (homOfLE hWV).op _).trans ?_
-  show c.pt.presheaf.map (homOfLE hWV).op ((e.inv ≫ e.hom).app V s) = _
+  change c.pt.presheaf.map (homOfLE hWV).op ((e.inv ≫ e.hom).app V s) = _
   rw [Iso.inv_hom_id]
   rfl
 
@@ -387,7 +387,7 @@ theorem exists_isFiniteType_le_of_le_ofHom_pullback [CompactSpace T] [CompactSpa
     have key : ((Scheme.Modules.pullback q).map (inclusion i.1) ≫
         (Scheme.Modules.pullback q).map (inclusion K)).app W t' =
         ((Scheme.Modules.pullback q).obj F).presheaf.map (homOfLE (hWV₀.trans hV₀U)).op s.1 := by
-      show ((Scheme.Modules.pullback q).map (inclusion K)).app W
+      change ((Scheme.Modules.pullback q).map (inclusion K)).app W
         (((Scheme.Modules.pullback q).map (inclusion i.1)).app W t') = _
       rw [ht'']
       refine (PresheafOfModules.naturality_apply
@@ -395,7 +395,7 @@ theorem exists_isFiniteType_le_of_le_ofHom_pullback [CompactSpace T] [CompactSpa
       change ((Scheme.Modules.pullback q).obj F).presheaf.map (homOfLE hWV₀).op
         (((Scheme.Modules.pullback q).map (inclusion K)).app V₀ t) = _
       rw [ht]
-      show _ = (((Scheme.Modules.pullback q).obj F).presheaf.map
+      change _ = (((Scheme.Modules.pullback q).obj F).presheaf.map
         ((homOfLE hV₀U).op ≫ (homOfLE hWV₀).op)) s.1
       rw [Functor.map_comp]
       rfl

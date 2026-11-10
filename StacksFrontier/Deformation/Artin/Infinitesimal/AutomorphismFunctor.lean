@@ -310,7 +310,7 @@ public theorem isoFiberRestrictMap_w {W : C} (i : V ⟶ W) (k : U ⟶ W) (h : f 
       (c.objCompIso f i s.obj.left).inv ≫ c.homMap (f ≫ i) m.hom.left ≫
         (c.objCompIso f i t.obj.left).hom := by
     rw [c.objCompIso_hom_naturality f i m.hom.left, Iso.inv_hom_id_assoc]
-  show c.homMap f (c.homMap i m.hom.left) ≫
+  change c.homMap f (c.homMap i m.hom.left) ≫
       (isoFiberRestrict p c f x i (f ≫ i) rfl t).obj.hom =
     (isoFiberRestrict p c f x i (f ≫ i) rfl s).obj.hom
   rw [hfe]
@@ -354,7 +354,7 @@ public theorem underRestrictArrow_isHomLift {W : C} (i : V ⟶ W) (k : U ⟶ W) 
   apply IsHomLift.of_fac' _ _ _ (isoFiberToUnderObj p c f x _).2
     (isoFiberToUnderObj p c k x t).2
   apply Under.UnderMorphism.ext
-  show p.map (c.map i t.obj.left) = _
+  change p.map (c.map i t.obj.left) = _
   simp only [Under.comp_right, Under.eqToHom_right, underBaseMap, Under.homMk_right]
   exact IsHomLift.fac' p i (c.map i t.obj.left)
 
@@ -437,7 +437,7 @@ public theorem isoFiberRestrictMap_bijective {W Z : C} (g : U ⟶ W) (i : V ⟶ 
       rw [c.objCompIso_hom_naturality f i m, hu2]
       simp
     refine ⟨ObjectProperty.homMk (CostructuredArrow.homMk m ?_), ?_⟩
-    · show c.homMap (f ≫ i) m ≫ t.obj.hom = t.obj.hom
+    · change c.homMap (f ≫ i) m ≫ t.obj.hom = t.obj.hom
       rw [hmk, Category.id_comp]
     · refine Prod.ext ?_ ?_ <;> apply ObjectProperty.hom_ext <;> apply CostructuredArrow.hom_ext
       exacts [hmi, hmj]
@@ -515,7 +515,7 @@ public theorem squareZeroArrow_comp_squareZeroRetraction (M : SiteModule A B) :
       𝟙 (algebraOver A B S hS toS hA) := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom (TrivSqZeroExt.fstHom A A M.obj).toRingHom) ≫
+  change Spec.map (CommRingCat.ofHom (TrivSqZeroExt.fstHom A A M.obj).toRingHom) ≫
     Spec.map (CommRingCat.ofHom (TrivSqZeroExt.inlHom A M.obj)) = 𝟙 _
   rw [← Spec.map_comp]
   have h : CommRingCat.ofHom (TrivSqZeroExt.inlHom A M.obj) ≫
@@ -532,7 +532,7 @@ public theorem squareZeroOverMap_comp_squareZeroRetraction {M N : SiteModule A B
       squareZeroRetraction A B S hS toS hA N := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom (TrivSqZeroExt.map f.hom.hom).toRingHom) ≫
+  change Spec.map (CommRingCat.ofHom (TrivSqZeroExt.map f.hom.hom).toRingHom) ≫
     Spec.map (CommRingCat.ofHom (TrivSqZeroExt.inlHom A M.obj)) =
       Spec.map (CommRingCat.ofHom (TrivSqZeroExt.inlHom A N.obj))
   rw [← Spec.map_comp]
@@ -540,7 +540,7 @@ public theorem squareZeroOverMap_comp_squareZeroRetraction {M N : SiteModule A B
   apply CommRingCat.hom_ext
   ext a
   · simp
-  · show (TrivSqZeroExt.map f.hom.hom (TrivSqZeroExt.inl a)).snd =
+  · change (TrivSqZeroExt.map f.hom.hom (TrivSqZeroExt.inl a)).snd =
       (TrivSqZeroExt.inl a).snd
     rw [TrivSqZeroExt.map_inl]
 

@@ -91,7 +91,7 @@ theorem etaleModulePullbackFactorIso_eq_etaleModulePullbackComp (f : X ⟶ Y) (g
         (etaleModulePullback.{u, u} B S hS f hf) = 𝟙 _ := by
     rw [← Functor.whiskerRight_comp, Iso.inv_hom_id, Functor.whiskerRight_id']
   apply Iso.ext
-  show (Functor.isoWhiskerRight (modulePullbackIsoEtaleModulePullback B S hS g hg).symm
+  change (Functor.isoWhiskerRight (modulePullbackIsoEtaleModulePullback B S hS g hg).symm
           (etaleModulePullback.{u, u} B S hS f hf) ≪≫
         Functor.isoWhiskerLeft (modulePullback B S hS g)
           (modulePullbackIsoEtaleModulePullback B S hS f hf).symm ≪≫

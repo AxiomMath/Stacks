@@ -114,7 +114,7 @@ theorem exists_epi_from_sum_extensionByZero
     have hh := congrArg (fun k => Sigma.ι
       (fun i : ι => (SheafOfModules.pullback.{u} (F := Over.forget (U i))
         (𝟙 (R.over (U i)))).obj (SheafOfModules.unit (R.over (U i)))) ⟨V, x⟩ ≫ k) h
-    simp only [← Category.assoc, Sigma.ι_desc] at hh
+    simp only [← Category.assoc, Sigma.ι_comp_desc] at hh
     have he := congrArg
       (Stacks.Sites.ExtensionByZero.extensionByZeroUnitHomEquiv X.J R V N) hh
     rwa [Stacks.Sites.ExtensionByZero.extensionByZeroUnitHomEquiv_naturality,
@@ -178,7 +178,7 @@ private lemma quasiIso_of_isColimit_of_quasiIso_truncLE_succ
   have heq : H.map α = (hHc.coconePointUniqueUpToIso hv).hom := hHc.hom_ext fun n => by
     rw [IsColimit.comp_coconePointUniqueUpToIso_hom]
     exact (H.map_comp _ _).symm
-  show IsIso (H.map α)
+  change IsIso (H.map α)
   rw [heq]
   infer_instance
 
@@ -399,7 +399,7 @@ theorem exists_resolutionByDirectSumsExtensionsByZero
     rw [Functor.ofSequence_map_homOfLE_succ]
     obtain ⟨C, -, e, he⟩ := hsplit (n + 1) i
     refine IsSplitMono.mk' ⟨e.hom ≫ biprod.fst, ?_⟩
-    show (g (n + 1)).f i ≫ e.hom ≫ biprod.fst = 𝟙 ((Q (n + 1)).X i)
+    change (g (n + 1)).f i ≫ e.hom ≫ biprod.fst = 𝟙 ((Q (n + 1)).X i)
     rw [← Category.assoc, he]
     simp
   · intro n i

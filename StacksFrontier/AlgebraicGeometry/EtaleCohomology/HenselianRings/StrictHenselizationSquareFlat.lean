@@ -68,9 +68,9 @@ theorem flat_etaleLocalRingHom [Flat f] : (etaleLocalRingHom B hX hS f x).Flat :
   let : Algebra RX C := Algebra.TensorProduct.rightAlgebra
   let : Algebra C AX := ψ.toRingHom.toAlgebra
   have : IsScalarTower RX C AX := IsScalarTower.of_algebraMap_eq fun r => by
-    show ιX r = ψ ((1 : AS) ⊗ₜ[RS] r)
+    change ιX r = ψ ((1 : AS) ⊗ₜ[RS] r)
     refine Eq.trans ?_ (Algebra.TensorProduct.lift_tmul φAlg ιXAlg _ (1 : AS) r).symm
-    show ιX r = φ 1 * ιX r
+    change ιX r = φ 1 * ιX r
     exact (by rw [map_one, one_mul])
   -- `C` and `AX` are ind-étale over `RX`
   have hC : StacksDraft.IndEtale RX C := by
@@ -87,11 +87,11 @@ theorem flat_etaleLocalRingHom [Flat f] : (etaleLocalRingHom B hX hS f x).Flat :
   have h₂ : (algebraMap C AX).Flat := RingHom.flat_algebraMap_iff.mpr hψ
   have hcomp : (algebraMap C AX).comp (algebraMap AS C) = φ := by
     ext a
-    show ψ (a ⊗ₜ[RS] (1 : RX)) = φ a
+    change ψ (a ⊗ₜ[RS] (1 : RX)) = φ a
     refine (Algebra.TensorProduct.lift_tmul φAlg ιXAlg _ a (1 : RX)).trans ?_
-    show φ a * ιX 1 = φ a
+    change φ a * ιX 1 = φ a
     exact (by rw [map_one, mul_one])
-  show φ.Flat
+  change φ.Flat
   rw [← hcomp]
   exact h₁.comp h₂
 

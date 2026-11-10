@@ -60,7 +60,6 @@ local instance (y : AlgebraicGeometry.Proj 𝒮) : y.asHomogeneousIdeal.toIdeal.
 /-- The standard open `D₊(x)` of `Proj 𝒮`, as an open of the scheme. -/
 abbrev U₀ : (AlgebraicGeometry.Proj 𝒮).Opens := AlgebraicGeometry.Proj.basicOpen 𝒮 x
 
-include hx in
 /-- The image in `Proj 𝒮` of an open of `D₊(x)` is contained in `D₊(x)`. -/
 theorem image_le (W : (U₀ (x := x) 𝒮).toScheme.Opens) :
     ((U₀ (x := x) 𝒮).ι ''ᵁ W : (AlgebraicGeometry.Proj 𝒮).Opens) ≤
@@ -79,7 +78,7 @@ abbrev jO : SheafOfModules.{u} (AlgebraicGeometry.Proj 𝒮).ringCatSheaf :=
 /-- Restriction of a section of `𝒪(k)` over `V` to `V ∩ D₊(x)`, divided by `x ^ k`. -/
 def toLocAddHom (k : ℤ) (V : (AlgebraicGeometry.Proj 𝒮).Opens) :
     (tw 𝒮 k).val.obj (op V) →+ (jO (x := x) 𝒮).val.obj (op V) where
-  toFun s := ((trivializingEquiv 𝒮 hx k (image_le 𝒮 hx ((U₀ (x := x) 𝒮).ι ⁻¹ᵁ V))).symm
+  toFun s := ((trivializingEquiv 𝒮 hx k (image_le 𝒮 ((U₀ (x := x) 𝒮).ι ⁻¹ᵁ V))).symm
     ((tw 𝒮 k).val.map (homOfLE ((U₀ (x := x) 𝒮).ι.image_preimage_le V)).op s) :
       (ProjectiveSpectrum.Proj.structureSheaf 𝒮).obj.obj
         (op ((U₀ (x := x) 𝒮).ι ''ᵁ ((U₀ (x := x) 𝒮).ι ⁻¹ᵁ V))))
@@ -95,13 +94,13 @@ def toLoc (k : ℤ) : tw 𝒮 k ⟶ jO (x := x) 𝒮 where
         ext s
         apply Subtype.ext
         funext y
-        refine eq_of_val_mul_eq 𝒮 k (image_le 𝒮 hx ((U₀ (x := x) 𝒮).ι ⁻¹ᵁ V'.unop)) y ?_
+        refine eq_of_val_mul_eq 𝒮 k (image_le 𝒮 ((U₀ (x := x) 𝒮).ι ⁻¹ᵁ V'.unop)) y ?_
         have h1 := val_trivializingEquiv_symm_mul 𝒮 hx k
-          (image_le 𝒮 hx ((U₀ (x := x) 𝒮).ι ⁻¹ᵁ V'.unop))
+          (image_le 𝒮 ((U₀ (x := x) 𝒮).ι ⁻¹ᵁ V'.unop))
           ((tw 𝒮 k).val.map (homOfLE ((U₀ (x := x) 𝒮).ι.image_preimage_le V'.unop)).op
             ((tw 𝒮 k).val.presheaf.map i s)) y
         have h2 := val_trivializingEquiv_symm_mul 𝒮 hx k
-          (image_le 𝒮 hx ((U₀ (x := x) 𝒮).ι ⁻¹ᵁ V.unop))
+          (image_le 𝒮 ((U₀ (x := x) 𝒮).ι ⁻¹ᵁ V.unop))
           ((tw 𝒮 k).val.map (homOfLE ((U₀ (x := x) 𝒮).ι.image_preimage_le V.unop)).op s)
           ⟨y.1, (U₀ (x := x) 𝒮).ι.image_mono
             ((Opens.map (U₀ (x := x) 𝒮).ι.base).map i.unop).le y.2⟩
@@ -109,7 +108,7 @@ def toLoc (k : ℤ) : tw 𝒮 k ⟶ jO (x := x) 𝒮 where
     (fun V r s => by
       change (trivializingEquiv 𝒮 hx k _).symm ((tw 𝒮 k).val.map _ (r • s)) = _
       rw [PresheafOfModules.map_smul]
-      exact ((trivializingEquiv 𝒮 hx k (image_le 𝒮 hx ((U₀ (x := x) 𝒮).ι ⁻¹ᵁ V.unop))).symm.map_smul
+      exact ((trivializingEquiv 𝒮 hx k (image_le 𝒮 ((U₀ (x := x) 𝒮).ι ⁻¹ᵁ V.unop))).symm.map_smul
         _ _).trans rfl)
 
 /-- On sections over `V`, `toLoc` is `toLocAddHom`. -/
@@ -125,7 +124,7 @@ theorem val_toLoc_mul (k : ℤ) (V : (AlgebraicGeometry.Proj 𝒮).Opens)
     HomogeneousLocalization.val (((toLoc 𝒮 hx k).val.app (op V) s :
         (ProjectiveSpectrum.Proj.structureSheaf 𝒮).obj.obj
           (op ((U₀ (x := x) 𝒮).ι ''ᵁ ((U₀ (x := x) 𝒮).ι ⁻¹ᵁ V)))).1 y) *
-      trivializingFun 𝒮 k (image_le 𝒮 hx ((U₀ (x := x) 𝒮).ι ⁻¹ᵁ V)) y =
+      trivializingFun 𝒮 k (image_le 𝒮 ((U₀ (x := x) 𝒮).ι ⁻¹ᵁ V)) y =
       s.1 ⟨y.1, (U₀ (x := x) 𝒮).ι.image_preimage_le V y.2⟩ :=
   val_trivializingEquiv_symm_mul 𝒮 hx k _ _ y
 
@@ -137,9 +136,9 @@ theorem localizedModule_map_mulLeft (P : Submonoid S) (a : S) (z : Localization 
   induction z using Localization.induction_on with
   | H p =>
     obtain ⟨m, t⟩ := p
-    show LocalizedModule.map P (LinearMap.mulLeft S a) (LocalizedModule.mk m t) = _
+    change LocalizedModule.map P (LinearMap.mulLeft S a) (LocalizedModule.mk m t) = _
     rw [LocalizedModule.map_mk]
-    show Localization.mk (a * m) t = _
+    change Localization.mk (a * m) t = _
     rw [Localization.mk_mul, one_mul]
 
 /-- The trivializing function of degree `k + 1` is `x` times that of degree `k`. -/
@@ -152,7 +151,7 @@ theorem trivializingFun_succ (k : ℕ) {W : Opens (ProjectiveSpectrum.top 𝒮)}
   · rw [show ((k : ℤ) + 1).toNat = k + 1 by omega, show (k : ℤ).toNat = k by omega, pow_succ,
       mul_comm]
   · apply Subtype.ext
-    simp [show (-((k : ℤ) + 1)).toNat = 0 by omega, show (-(k : ℤ)).toNat = 0 by omega,
+    simp [show (-(k : ℤ)).toNat = 0 by omega,
       show (-1 + -(k : ℤ)).toNat = 0 by omega]
 
 /-- Multiplication by `x`, `𝒪(k) ⟶ 𝒪(k + 1)`, in the degree spelling of `tw`. -/
@@ -167,13 +166,13 @@ theorem mulX_toLoc (k : ℕ) : mulX 𝒮 hx k ≫ toLoc 𝒮 hx ((k : ℤ) + 1) 
   ext s
   apply Subtype.ext
   funext y
-  refine eq_of_val_mul_eq 𝒮 ((k : ℤ) + 1) (image_le 𝒮 hx ((U₀ (x := x) 𝒮).ι ⁻¹ᵁ V.unop)) y ?_
+  refine eq_of_val_mul_eq 𝒮 ((k : ℤ) + 1) (image_le 𝒮 ((U₀ (x := x) 𝒮).ι ⁻¹ᵁ V.unop)) y ?_
   have hL := val_toLoc_mul 𝒮 hx ((k : ℤ) + 1) V.unop ((mulX 𝒮 hx k).val.app V s) y
   have hR := val_toLoc_mul 𝒮 hx k V.unop s y
   refine hL.trans ?_
-  show LocalizedModule.map _ (LinearMap.mulLeft S x) (s.1 _) = _
+  change LocalizedModule.map _ (LinearMap.mulLeft S x) (s.1 _) = _
   rw [← hR, localizedModule_map_mulLeft, trivializingFun_succ 𝒮 k
-    (image_le 𝒮 hx ((U₀ (x := x) 𝒮).ι ⁻¹ᵁ V.unop)) y]
+    (image_le 𝒮 ((U₀ (x := x) 𝒮).ι ⁻¹ᵁ V.unop)) y]
   ring
 
 /-! ### Small standard opens -/
@@ -226,17 +225,18 @@ theorem preimage_basicOpen_eq (h : S) :
       AlgebraicGeometry.Proj.basicOpen 𝒮 (h * x) := by
   rw [Scheme.Hom.image_preimage_eq_opensRange_inf, Scheme.Opens.opensRange_ι]
   ext y
-  simp only [AlgebraicGeometry.Proj.basicOpen, Opens.mem_inf, ProjectiveSpectrum.mem_basicOpen]
+  simp only [AlgebraicGeometry.Proj.basicOpen]
   rw [ProjectiveSpectrum.basicOpen_mul, inf_comm]
   rfl
 
+omit [GradedRing 𝒮] in
 /-- An element of degree `N (e + 1)` of `𝒮` has degree `N e` in the grading of the twist by
 `N`. -/
 theorem mem_twistGrading_of_mem {N e : ℕ} {a : S} (ha : a ∈ 𝒮 (N • (e + 1))) :
     a ∈ twistGrading 𝒮 ((N : ℤ) * ((1 : ℕ) : ℤ)) (N • (e : ℤ)) := by
   rw [twistGrading_apply]
   have : N • (e : ℤ) + (N : ℤ) * ((1 : ℕ) : ℤ) = ((N • (e + 1) : ℕ) : ℤ) := by
-    simp [nsmul_eq_mul]; ring
+    simp; ring
   rw [this]
   exact mem_integerGrading_natCast 𝒮 ha
 
@@ -260,7 +260,7 @@ theorem exists_toLoc_eq {h : S} {e : ℕ} (hh : h ∈ 𝒮 e) (he : 0 < e)
     (ProjectiveSpectrum.Proj.degreeZeroFraction 𝒮 _ hh N a (mem_twistGrading_of_mem 𝒮 ha)), ?_⟩
   apply Subtype.ext
   funext y
-  refine eq_of_val_mul_eq 𝒮 N (image_le 𝒮 hx _) y ?_
+  refine eq_of_val_mul_eq 𝒮 N (image_le 𝒮 _) y ?_
   refine (val_toLoc_mul 𝒮 hx N _ _ y).trans ?_
   have hy : y.1 ∈ AlgebraicGeometry.Proj.basicOpen 𝒮 (h * x) := by
     rw [← preimage_basicOpen_eq 𝒮 h]; exact y.2
@@ -273,12 +273,12 @@ theorem exists_toLoc_eq {h : S} {e : ℕ} (hh : h ∈ 𝒮 e) (he : 0 < e)
     (HomogeneousLocalization.Away.mk 𝒮 hhx N a ha) ⟨y.1, hy⟩
   rw [HomogeneousLocalization.Away.val_mk, Localization.mk_eq_mk', IsLocalization.map_mk',
     ← Localization.mk_eq_mk'] at hval
-  refine Eq.trans ?_ (congrArg (fun z => z * trivializingFun 𝒮 (N : ℤ) (image_le 𝒮 hx _) y)
+  refine Eq.trans ?_ (congrArg (fun z => z * trivializingFun 𝒮 (N : ℤ) (image_le 𝒮 _) y)
     hval.symm)
-  show Localization.mk a _ = _ * Localization.mk _ _
+  change Localization.mk a _ = _ * Localization.mk _ _
   rw [Localization.mk_mul, Localization.mk_eq_mk_iff, Localization.r_iff_exists]
   refine ⟨1, ?_⟩
-  simp only [Submonoid.coe_mul, RingHom.id_apply, one_mul,
+  simp only [Submonoid.coe_mul, RingHom.id_apply,
     show (-(N : ℤ)).toNat = 0 by omega, show (N : ℤ).toNat = N by omega, pow_zero, mul_one]
   ring
 
@@ -309,7 +309,7 @@ theorem exists_pow_eq_zero_of_toLoc_eq_zero (k : ℕ) {h : S} {e : ℕ} (hh : h 
     have h2 := ProjectiveSpectrum.Proj.degreeZeroToSection_fraction 𝒮 _ hh M b hb
       ⟨z.1, (ProjectiveSpectrum.basicOpen_mul_le_left 𝒮 h x) z.2⟩
     refine h2.symm.trans (h1.symm.trans ?_)
-    show HomogeneousLocalization.val 0 * _ = 0
+    change HomogeneousLocalization.val 0 * _ = 0
     rw [HomogeneousLocalization.val_zero, zero_mul]
   -- the fraction `b x ^ M / (h x) ^ M` is zero in the localization at `h x`
   have hb' : b * x ^ M ∈ twistGrading 𝒮 ((k : ℤ) * ((1 : ℕ) : ℤ)) (M • ((e + 1 : ℕ) : ℤ)) := by
@@ -383,7 +383,7 @@ theorem seq_map_apply (n : ℕ) : ∀ (N : ℕ) (V : (AlgebraicGeometry.Proj �
   | 0, V, s, z => by
     rw [show (seq 𝒮 hx).map (homOfLE (Nat.le_add_right n 0)) = 𝟙 _ from (seq 𝒮 hx).map_id n,
       pow_zero]
-    show s.1 z = _
+    change s.1 z = _
     induction s.1 z using LocalizedModule.induction_on with
     | h m t => rw [LocalizedModule.map_mk, LinearMap.mulLeft_apply, one_mul]
   | N + 1, V, s, z => by
@@ -392,7 +392,7 @@ theorem seq_map_apply (n : ℕ) : ∀ (N : ℕ) (V : (AlgebraicGeometry.Proj �
     have h1 : (seq 𝒮 hx).map (homOfLE (Nat.le_add_right (n + N) 1)) = mulX 𝒮 hx (n + N : ℕ) :=
       Functor.ofSequence_map_homOfLE_succ _ _
     rw [hc, CategoryTheory.Functor.map_comp, h1]
-    show LocalizedModule.map _ (LinearMap.mulLeft S x)
+    change LocalizedModule.map _ (LinearMap.mulLeft S x)
       ((((seq 𝒮 hx).map (homOfLE (Nat.le_add_right n N))).val.app (op V) s).1 z) = _
     rw [seq_map_apply n N V s z]
     induction s.1 z using LocalizedModule.induction_on with

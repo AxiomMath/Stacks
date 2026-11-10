@@ -95,7 +95,7 @@ private theorem natCard_torsionBy_le_pow_finrank_of_injOn (ℓ : ℕ) [Fact ℓ.
   rw [← natCard_torsionBy_eq_pow]
   refine Nat.card_le_card_of_injective
     (fun x => (⟨f x, ?_⟩ : AddSubgroup.torsionBy B (ℓ : ℤ))) fun x y hxy => ?_
-  · show (ℓ : ℤ) • f x = 0
+  · change (ℓ : ℤ) • f x = 0
     rw [← map_zsmul]
     exact (congrArg f x.2).trans (map_zero f)
   · exact Subtype.ext (hf x.2 y.2 (congrArg Subtype.val hxy))
@@ -126,7 +126,7 @@ private theorem finite_torsionBy_of_moduleFinite (H : Type*) [AddCommGroup H] [M
     ((AddGroup.fg_iff_addSubgroup_fg P).2 (by simpa [P] using Submodule.fg_toAddSubgroup hS))
   exact Module.finite_of_fg_torsion P fun x =>
     ⟨⟨n, mem_nonZeroDivisors_iff_ne_zero.mpr hn⟩, Subtype.ext (by
-      show n • (x : H) = 0
+      change n • (x : H) = 0
       exact x.2)⟩
 
 end TorsionCount
@@ -143,7 +143,7 @@ theorem isField_stalk_specialFiberComponentGenericPoint_of_isReduced [IsReduced 
     IsField (S.specialFiber.presheaf.stalk (S.specialFiberComponentGenericPoint Z)) := by
   set ξ := S.specialFiberComponentGenericPoint Z
   have hclosure : closure ({ξ} : Set S.specialFiber) = Z.1 := by
-    show closure {(S.specialFiberComponentι Z) (genericPoint _)} = _
+    change closure {(S.specialFiberComponentι Z) (genericPoint _)} = _
     rw [← Set.image_singleton,
       (S.specialFiberComponentι Z).isClosedEmbedding.closure_image_eq, genericPoint_closure,
       Set.image_univ, range_specialFiberComponentι]

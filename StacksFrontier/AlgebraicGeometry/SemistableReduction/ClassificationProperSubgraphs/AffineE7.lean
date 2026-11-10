@@ -62,7 +62,7 @@ public lemma not_exists_branched_chain_of_eight_minus_two_indices
   let c : Fin 8 → ℤ := ![1, 2, 3, 4, 3, 2, 1, 2]
   have hquad : ∑ r, ∑ s, c r * T.intersection (i r) (i s) * c s =
       2 * T.intersection (i 0) (i 6) := by
-    show ∑ r, ∑ s, (![1, 2, 3, 4, 3, 2, 1, 2] : Fin 8 → ℤ) r * T.intersection (i r) (i s) *
+    change ∑ r, ∑ s, (![1, 2, 3, 4, 3, 2, 1, 2] : Fin 8 → ℤ) r * T.intersection (i r) (i s) *
       (![1, 2, 3, 4, 3, 2, 1, 2] : Fin 8 → ℤ) s = 2 * T.intersection (i 0) (i 6)
     have hn : 7 < T.componentCount := by omega
     have key (v : Fin 7 → Fin 8) (hv : Function.Injective v)

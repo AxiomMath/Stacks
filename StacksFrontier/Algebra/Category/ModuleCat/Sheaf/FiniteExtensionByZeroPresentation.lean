@@ -207,7 +207,7 @@ theorem exists_hypercover_subordinate (S : QuasiCompactObjectsSituation C)
   intro Y₀ g hg
   refine S.topology.superset_covering ?_ (h𝒱mem Y₀)
   rintro Z₀ h₀ ⟨Z₁, a, b₀, ⟨c⟩, rfl⟩
-  show (sieveRefinementHypercover 𝒱 T).sieve₀ ((a ≫ (𝒱 Y₀).f c) ≫ g)
+  change (sieveRefinementHypercover 𝒱 T).sieve₀ ((a ≫ (𝒱 Y₀).f c) ≫ g)
   rw [Category.assoc]
   exact (sieveRefinementHypercover 𝒱 T).sieve₀.downward_closed
     ((sieveRefinementHypercover 𝒱 T).sieve₀_f ⟨⟨Y₀, g, hg⟩, c⟩) a
@@ -355,8 +355,8 @@ theorem epi_sigmaDesc_sigmaIota {n : ℕ} (W : Fin n → C) (ι : Fin n → Type
     extensionByZeroUnitMap.{u₁, v₁, w, t} R (g k c))).1 (Sigma.hom_ext _ _ fun c => ?_)
   have h := Sigma.ι (fun x : Σ k, ι k ↦
     extensionByZeroUnit.{u₁, v₁, w, t} R (Z x.1 x.2)) (⟨k, c⟩ : Σ k, ι k) ≫= hh
-  rw [Sigma.ι_desc_assoc, Sigma.ι_desc_assoc, Category.assoc, Category.assoc] at h
-  simp only [Sigma.ι_desc_assoc]
+  rw [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc_assoc, Category.assoc, Category.assoc] at h
+  simp only [Sigma.ι_comp_desc_assoc]
   exact h
 
 /-- The objects indexing the relations of the presentation that the proof of Stacks 093E
@@ -389,7 +389,7 @@ lemma ι_inl_comp_relationsMap {n m n' : ℕ} (U : Fin n → C) (V : Fin m → C
       ∐ fun i ↦ extensionByZeroUnit.{u₁, v₁, w, t} R (U i)) (x : Σ k, ι k) :
     Sigma.ι (fun sx ↦ extensionByZeroUnit.{u₁, v₁, w, t} R (relationObjects ι Z V sx))
         (Sum.inl x) ≫ relationsMap S R U V ι Z b d = d x.1 x.2 :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- On the summand indexed by `Sum.inr j`, `relationsMap` restricts to the composite of the
 coprojection at `j` with `b`. -/
@@ -403,7 +403,7 @@ lemma ι_inr_comp_relationsMap {n m n' : ℕ} (U : Fin n → C) (V : Fin m → C
     Sigma.ι (fun sx ↦ extensionByZeroUnit.{u₁, v₁, w, t} R (relationObjects ι Z V sx))
         (Sum.inr j) ≫ relationsMap S R U V ι Z b d =
       Sigma.ι (fun j' ↦ extensionByZeroUnit.{u₁, v₁, w, t} R (V j')) j ≫ b :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- **The assembly step of Stacks 093E.** If every generator `j_{W_k!} O_{W_k}` of the source of
 `ψ` is, after restriction along a finite family `{Z_{k,c} → W_k}` whose extensions by zero map
@@ -433,23 +433,23 @@ noncomputable def cokernelIsoOfLifts {n m n' : ℕ} (U : Fin n → C) (V : Fin m
     (Sigma.desc fun x : Σ k, ι k ↦ Sigma.ι (fun sx ↦
       extensionByZeroUnit.{u₁, v₁, w, t} R (relationObjects ι Z V sx)) (Sum.inl x)) ?_ ?_ ?_
   · refine Sigma.hom_ext _ _ fun j => ?_
-    exact (Sigma.ι_desc_assoc _ j (relationsMap S R U V ι Z b d)).trans
+    exact (Sigma.ι_comp_desc_assoc _ j (relationsMap S R U V ι Z b d)).trans
       (ι_inr_comp_relationsMap S R U V ι Z b d j)
   · refine Sigma.hom_ext _ _ fun sx => ?_
     cases sx with
     | inl x =>
-      refine (Sigma.ι_desc_assoc _ (Sum.inl x) ψ).trans ((Category.assoc _ _ _).trans ?_)
+      refine (Sigma.ι_comp_desc_assoc _ (Sum.inl x) ψ).trans ((Category.assoc _ _ _).trans ?_)
       exact (hd x.1 x.2).symm.trans
         (ι_inl_comp_relationsMap_assoc S R U V ι Z b d x (cokernel.π b)).symm
     | inr j =>
-      refine (Sigma.ι_desc_assoc _ (Sum.inr j) ψ).trans (zero_comp.trans ?_)
+      refine (Sigma.ι_comp_desc_assoc _ (Sum.inr j) ψ).trans (zero_comp.trans ?_)
       refine ((ι_inr_comp_relationsMap_assoc S R U V ι Z b d j (cokernel.π b)).trans
         ((Category.assoc _ _ _).trans ?_)).symm
       rw [cokernel.condition]
       exact comp_zero
   · refine Sigma.hom_ext _ _ fun x => ?_
-    refine ((Sigma.ι_desc_assoc _ x (relationsMap S R U V ι Z b d ≫ cokernel.π b)).trans
-      ?_).trans (Eq.symm ((Sigma.ι_desc_assoc _ x ψ).trans (Category.assoc _ _ _)))
+    refine ((Sigma.ι_comp_desc_assoc _ x (relationsMap S R U V ι Z b d ≫ cokernel.π b)).trans
+      ?_).trans (Eq.symm ((Sigma.ι_comp_desc_assoc _ x ψ).trans (Category.assoc _ _ _)))
     exact (ι_inl_comp_relationsMap_assoc S R U V ι Z b d x (cokernel.π b)).trans (hd x.1 x.2)
 
 /-- **Stacks Project, Tag 093E.** On a site with a distinguished collection of objects which

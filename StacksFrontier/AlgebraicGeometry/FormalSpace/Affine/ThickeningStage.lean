@@ -68,7 +68,8 @@ because it is what consumers of the tag use on its own.
 
 The monomorphism helpers now come from the site module
 `StacksFrontier.CategoryTheory.Sites.QuasiCompact.ObjectsAndColimits`; the other helpers here still
-duplicate private ones in `Diagonal`; `compact_map_factors_through_filtered_colimit` is not yet in the library.
+duplicate private ones in `Diagonal`; `compact_map_factors_through_filtered_colimit` is not yet in
+the library.
 
 Subcanonicity of the topology is *not* reproved: `AlgebraicGeometry.bigFppfOver_subcanonical`
 is available and is used directly.
@@ -215,12 +216,12 @@ public theorem affine_pullback_thickening
   let : PreservesLimitsOfShape WalkingCospan q := inferInstance
   have htrans : ∀ k l (f : k ⟶ l), Mono (K.map f) := by
     intro k l f
-    show Mono (F.map ((BigAffineFppf.inclusion B S hS).map (D.map f)))
+    change Mono (F.map ((BigAffineFppf.inclusion B S hS).map (D.map f)))
     have : q.Faithful := inferInstance
     have hm : Mono (q.map ((BigAffineFppf.inclusion B S hS).map (D.map f))) := by
       have hclosed : IsClosedImmersion
           (q.map ((BigAffineFppf.inclusion B S hS).map (D.map f))) := by
-        show IsClosedImmersion ((BigAffineFppf.toScheme B S hS).map (D.map f))
+        change IsClosedImmersion ((BigAffineFppf.toScheme B S hS).map (D.map f))
         exact (hD f).1
       let : IsClosedImmersion
           (q.map ((BigAffineFppf.inclusion B S hS).map (D.map f))) := hclosed
@@ -254,14 +255,14 @@ public theorem affine_pullback_thickening
       _ = g₀ ≫ e.hom := by
         simpa only [Category.assoc] using congrArg (fun t => t ≫ e.hom) hgk
       _ = g := by
-        show (g ≫ e.inv) ≫ e.hom = g
+        change (g ≫ e.inv) ≫ e.hom = g
         rw [Category.assoc, e.inv_hom_id, Category.comp_id]
   let p₁ := pullback.fst α g'
   let p₂ := pullback.snd α g'
   have hpbC : IsPullback p₁ p₂ α g' := IsPullback.of_hasPullback α g'
   have hpbScheme : IsPullback (q.map p₁) (q.map p₂) (q.map α) (q.map g') := hpbC.map q
   have hα : Stacks.Thickenings.IsThickening (q.map α) := by
-    show Stacks.Thickenings.IsThickening
+    change Stacks.Thickenings.IsThickening
       ((BigAffineFppf.toScheme B S hS).map (D.map (homOfLE hij)))
     exact hD (homOfLE hij)
   have hp₂ : Stacks.Thickenings.IsThickening (q.map p₂) :=
@@ -287,7 +288,7 @@ public theorem affine_pullback_thickening
       (F.obj ((BigAffineFppf.inclusion B S hS).obj (D.obj i))) (F.obj U) hpb
   have hArrow : Arrow.mk (q.map p₂) ≅ Arrow.mk (q.map snd) :=
     Arrow.isoMk (q.mapIso eC) (Iso.refl _) (by
-      show q.map eC.hom ≫ q.map snd = q.map p₂
+      change q.map eC.hom ≫ q.map snd = q.map p₂
       rw [← q.map_comp, heC])
   exact (MorphismProperty.arrow_mk_iso_iff
     (@Stacks.Thickenings.IsThickening : MorphismProperty Scheme.{u}) hArrow).mp hp₂
@@ -340,7 +341,7 @@ theorem isThickening_colimitι (i : I) :
   intro U g
   obtain ⟨V, s, fst, hpbGlobal⟩ := hrel g
   have hs : P s := by
-    show Stacks.Thickenings.IsThickening (q.map s)
+    change Stacks.Thickenings.IsThickening (q.map s)
     let A := (q.obj U).affineCover
     have hlocal (a : A.I₀) :
         Stacks.Thickenings.IsThickening (pullback.snd (q.map s) (A.f a)) := by
@@ -352,7 +353,7 @@ theorem isThickening_colimitι (i : I) :
       let aW : W ⟶ U := Over.homMk u₀ rfl
       let gW := F.map aW ≫ g
       let : IsAffine (q.obj W) := by
-        show IsAffine (A.X a)
+        change IsAffine (A.X a)
         infer_instance
       let q₁ := pullback.fst s aW
       let q₂ := pullback.snd s aW
@@ -364,7 +365,7 @@ theorem isThickening_colimitι (i : I) :
         (F.map q₁ ≫ fst) q₂ hpbW
       have hQscheme : IsPullback (q.map q₁) (q.map q₂) (q.map s) (q.map aW) := hQ.map q
       have hqaw : q.map aW = A.f a := by
-        show B.inclusion.map u₀ = A.f a
+        change B.inclusion.map u₀ = A.f a
         exact B.inclusion.map_preimage _
       have hcanon : IsPullback (pullback.fst (q.map s) (A.f a))
           (pullback.snd (q.map s) (A.f a)) (q.map s) (A.f a) :=

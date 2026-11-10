@@ -791,7 +791,7 @@ theorem invertsQuasiIso_coconeComplexFunctor :
   have hs : QuasiIso (mappingCoconeMap S sq e.hom) := by
     rw [mappingCoconeMap_eq_shift_coneMap]
     exact (CochainComplex.quasiIso_shift_iff _ _).2 hquasi
-  show IsIso (DerivedCategory.Q.map (mappingCoconeMap S sq e.hom))
+  change IsIso (DerivedCategory.Q.map (mappingCoconeMap S sq e.hom))
   exact (DerivedCategory.isIso_Q_map_iff_quasiIso _ _).2 hs
 
 section Construction

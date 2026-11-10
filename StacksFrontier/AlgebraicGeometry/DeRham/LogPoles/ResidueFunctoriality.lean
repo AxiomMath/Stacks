@@ -156,7 +156,7 @@ theorem deRhamShiftTowerMap_comp :
   | succ q =>
       ext ω
       obtain ⟨ω, rfl⟩ : ∃ y : ⋀[B]^q (Ω[B⁄A]), y = ω := ⟨ω, rfl⟩
-      show (deRhamShiftTowerF A C D (q + 1)).hom ((deRhamShiftTowerF A B C (q + 1)).hom ω) =
+      change (deRhamShiftTowerF A C D (q + 1)).hom ((deRhamShiftTowerF A B C (q + 1)).hom ω) =
         (deRhamShiftTowerF A B D (q + 1)).hom ω
       exact mapExteriorPower_mapExteriorPower A B C D q ω
 
@@ -261,7 +261,7 @@ theorem logComplexTowerMap_comp_logResidue (hs : s = algebraMap R R' t)
       obtain ⟨z, rfl⟩ : ∃ y : (⋀[R]^(q + 1) (Ω[R⁄A]) × ⋀[R]^q (Ω[R⁄A])) ⧸
           Submodule.restrictScalars A (logRel A t q), y = z := ⟨z, rfl⟩
       obtain ⟨x, rfl⟩ := Submodule.Quotient.mk_surjective _ z
-      show (logResidueF hs' hsplit' (q + 1)).hom
+      change (logResidueF hs' hsplit' (q + 1)).hom
             ((logFormsTowerMap hs ht hs' (q + 1)).hom
               (Submodule.Quotient.mk (p := Submodule.restrictScalars A (logRel A t q)) x)) =
           (deRhamShiftTowerF A (R ⧸ Ideal.span {t}) (R' ⧸ Ideal.span {s}) (q + 1)).hom

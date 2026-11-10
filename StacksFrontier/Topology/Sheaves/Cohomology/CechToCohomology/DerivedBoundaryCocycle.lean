@@ -127,7 +127,7 @@ theorem isoRightDerivedObj_δ_toRightDerivedZero :
     exact this
   have hx₂ : x₂ ≫ Γ.map (g.f 0) = x₃ := by
     have := congrArg Γ.map (I₃.ι.f 0 ≫= σ₀.s_g)
-    simp only [Functor.map_comp, Functor.map_id, Category.comp_id, Category.assoc] at this
+    simp only [Functor.map_comp, Category.comp_id] at this
     exact this
   have hx₁ : x₁ ≫ Γ.map (f.f 1) = x₂ ≫ Γ.map (I₂.cocomplex.d 0 1) := by
     have hid : σ₁.r ≫ f.f 1 = 𝟙 _ - g.f 1 ≫ σ₁.s := eq_sub_of_add_eq σ₁.id
@@ -138,7 +138,7 @@ theorem isoRightDerivedObj_δ_toRightDerivedZero :
       rw [hid, Preadditive.comp_sub, Preadditive.comp_sub, Preadditive.comp_sub,
         Category.comp_id, reassoc_of% hgd, zero_comp, sub_zero]
     have := congrArg Γ.map key
-    simp only [Functor.map_comp, Category.assoc] at this
+    simp only [Functor.map_comp] at this
     exact this
   have hδ := hFR.δ_eq 0 1 rfl x₃ hx₃ x₂ hx₂ x₁ hx₁ 2 (by simp)
   set R' := (ShortComplex.mk f g zero).map
@@ -147,7 +147,7 @@ theorem isoRightDerivedObj_δ_toRightDerivedZero :
     have := hFR.mono_f
     rw [← cancel_mono (R'.f.f 2), Category.assoc, ← R'.f.comm]
     refine ((reassoc_of% hx₁) (R'.X₂.d 1 2)).trans ?_
-    show x₂ ≫ R'.X₂.d 0 1 ≫ R'.X₂.d 1 2 = _
+    change x₂ ≫ R'.X₂.d 0 1 ≫ R'.X₂.d 1 2 = _
     rw [HomologicalComplex.d_comp_d, Limits.comp_zero, Limits.zero_comp]
   have hkey : Γ.toRightDerivedZero.app S.X₃ ≫ (I₃.isoRightDerivedObj Γ 0).hom ≫
       hFR.δ 0 1 rfl = R'.X₁.liftCycles x₁ 2 (by simp) hx₁d ≫
@@ -170,10 +170,10 @@ theorem isoRightDerivedObj_δ_toRightDerivedZero :
     have h2 : (g.f 0).hom.app _ ((I₂.ι.f 0).hom.app _ (e i)) = CechCochains.restr _ le_top
         ((I₃.ι.f 0).hom.app (op ⊤) t) := by
       refine (app_apply_congr comm_g _ (e i)).trans ?_
-      show (I₃.ι.f 0).hom.app _ (S.g.hom.app _ (e i)) = _
+      change (I₃.ι.f 0).hom.app _ (S.g.hom.app _ (e i)) = _
       rw [he i]
       exact (CechOne.restr_app (I₃.ι.f 0).hom le_top t).symm
-    show (g.f 0).hom.app _ (xs i - (I₂.ι.f 0).hom.app _ (e i)) = 0
+    change (g.f 0).hom.app _ (xs i - (I₂.ι.f 0).hom.app _ (e i)) = 0
     rw [map_sub, h1, h2, sub_self]
   have hfb' : push Ui (f.f 0).hom 0 b' = y := by
     funext i
@@ -193,11 +193,11 @@ theorem isoRightDerivedObj_δ_toRightDerivedZero :
       have := congrFun (push_cechD Ui (f.f 0).hom 0 (-b')) i
       rw [push_apply] at this
       rw [this, map_neg, hfb']
-      show CechCochains.cechD Ui _ 0 (-(xs - push Ui (I₂.ι.f 0).hom 0 e)) i = _
+      change CechCochains.cechD Ui _ 0 (-(xs - push Ui (I₂.ι.f 0).hom 0 e)) i = _
       rw [neg_sub, map_sub, hxs, sub_zero]
     rw [e1]
     refine (congrFun (push_cechD Ui (I₂.ι.f 0).hom 0 e) i).symm.trans ?_
-    show (I₂.ι.f 0).hom.app _ (CechCochains.cechD Ui _ 0 e i) = _
+    change (I₂.ι.f 0).hom.app _ (CechCochains.cechD Ui _ 0 e i) = _
     rw [← hω i]
     exact (app_apply_congr comm_f _ (ω.val i)).symm
   let cyc := R'.X₁.liftCycles x₁ 2 (by simp) hx₁d t
@@ -223,7 +223,7 @@ theorem isoRightDerivedObj_δ_toRightDerivedZero :
     refine (e1.symm.trans ?_).trans e3.symm
     show CechCochains.restr _ _ ((f.f 1).hom.app (op ⊤) (x₁ t)) = _
     rw [hx₁t, e2, hy]
-    show _ = (I₂.cocomplex.d 0 1).hom.app _ (xs i - (I₂.ι.f 0).hom.app _ (e i))
+    change _ = (I₂.cocomplex.d 0 1).hom.app _ (xs i - (I₂.ι.f 0).hom.app _ (e i))
     rw [map_sub, e4, sub_zero]
   let r : CechOneResolutionRepresentative X ⊤ Ui hUi S.X₁ I₁ ω :=
     { b := -b'

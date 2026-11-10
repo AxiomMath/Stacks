@@ -69,13 +69,13 @@ theorem toQuotientSheaf_swap_eq (T : BigFppfOver B (Spec (.of S.k)) hS)
   have hr : Set.range a.left ⊆ Set.range (puncturedCoordinateAxes S).ι := by
     rw [Scheme.Opens.range_ι]
     rintro _ ⟨x, rfl⟩
-    show x ∈ a.left ⁻¹ᵁ puncturedCoordinateAxes S
+    change x ∈ a.left ⁻¹ᵁ puncturedCoordinateAxes S
     rw [hp]
     trivial
   let l := IsOpenImmersion.lift (puncturedCoordinateAxes S).ι a.left hr
   have hl : l ≫ (puncturedCoordinateAxes S).ι = a.left := IsOpenImmersion.lift_fac _ _ _
   let r : F.obj T ⟶ relationOver S := Over.homMk (l ≫ coprod.inr) (by
-    show (l ≫ coprod.inr) ≫ relationLeft S ≫ baseMap S = (F.obj T).hom
+    change (l ≫ coprod.inr) ≫ relationLeft S ≫ baseMap S = (F.obj T).hom
     rw [Category.assoc, ← Category.assoc coprod.inr, inr_relationLeft, ← Category.assoc, hl]
     exact Over.w a)
   have h := congrArg (fun e => e.app (Opposite.op T) r)
@@ -89,13 +89,13 @@ theorem toQuotientSheaf_swap_eq (T : BigFppfOver B (Spec (.of S.k)) hS)
     rw [relationPreRelation_source]
     refine Over.OverMorphism.ext ?_
     rw [Over.comp_left, relationRightOver_left, ha']
-    show (l ≫ coprod.inr) ≫ relationRight S = _
+    change (l ≫ coprod.inr) ≫ relationRight S = _
     rw [Category.assoc, inr_relationRight, ← Category.assoc, hl]
   have ht : r ≫ (relationPreRelation S).target = a := by
     rw [relationPreRelation_target]
     refine Over.OverMorphism.ext ?_
     rw [Over.comp_left, relationLeftOver_left]
-    show (l ≫ coprod.inr) ≫ relationLeft S = _
+    change (l ≫ coprod.inr) ≫ relationLeft S = _
     rw [Category.assoc, inr_relationLeft, hl]
   rwa [hs, ht] at h
 
@@ -157,10 +157,10 @@ private theorem toQuotientSheaf_eq_axesPoint_of_isUnit (T : BigFppfOver B (Spec 
         (mul_zero _) = a ≫ swapOver S := by
       refine axes_hom_ext S ?_ ?_
       · rw [comp_appTop_section, axesPoint_xSection]
-        show _ = a.left.appTop ((coordinateSwap S).appTop (xSection S))
+        change _ = a.left.appTop ((coordinateSwap S).appTop (xSection S))
         rw [coordinateSwap_appTop_xSection, hx0, zero_add]
       · rw [comp_appTop_section, axesPoint_ySection]
-        show _ = a.left.appTop ((coordinateSwap S).appTop (ySection S))
+        change _ = a.left.appTop ((coordinateSwap S).appTop (ySection S))
         rw [coordinateSwap_appTop_ySection, hx0]
     rw [hsw, Over.comp_left]
     rfl
@@ -208,9 +208,9 @@ theorem toQuotientSheaf_eq_axesPoint_sum (T : BigFppfOver B (Spec (.of S.k)) hS)
         (F.map g ≫ d).left.appTop t = U.ι.appTop (d.left.appTop t) := by
       rw [comp_appTop_section]
       rfl
-    show Q.obj.map g.op (q.app (Opposite.op T) a) = Q.obj.map g.op (q.app (Opposite.op T) p)
+    change Q.obj.map g.op (q.app (Opposite.op T) a) = Q.obj.map g.op (q.app (Opposite.op T) p)
     rw [← NatTrans.naturality_apply, ← NatTrans.naturality_apply]
-    show q.app (Opposite.op _) (F.map g ≫ a) = q.app (Opposite.op _) (F.map g ≫ p)
+    change q.app (Opposite.op _) (F.map g ≫ a) = q.app (Opposite.op _) (F.map g ≫ p)
     rw [show F.map g ≫ p = axesPoint S ((F.map g ≫ a).left.appTop (xSection S) +
         (F.map g ≫ a).left.appTop (ySection S)) 0 (mul_zero _) from
       axes_hom_ext S
@@ -295,7 +295,7 @@ private theorem isIso_pullback_snd_of_isLocallySurjective {C : Type*} [Category 
     obtain ⟨b', hb⟩ := hl.2
     change q.app (Opposite.op W) a' = X.obj.map l.op ((pullback.fst f g).hom.app T a) at ha
     change q.app (Opposite.op W) b' = X.obj.map l.op ((pullback.fst f g).hom.app T b) at hb
-    show X.obj.map l.op ((pullback.fst f g).hom.app T a) =
+    change X.obj.map l.op ((pullback.fst f g).hom.app T a) =
       X.obj.map l.op ((pullback.fst f g).hom.app T b)
     rw [← ha, ← hb]
     apply hrel (Opposite.op W) a' b' (V.obj.map l.op ((pullback.snd f g).hom.app T a))
@@ -317,7 +317,9 @@ private theorem isIso_pullback_snd_of_isLocallySurjective {C : Type*} [Category 
     exact ⟨b, hb₂⟩
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasLimit (cospan _ _)` and `IsIso` of sheaves on the big fppf site
 set_option maxHeartbeats 1000000 in
+-- elaborating the pullbacks of sheaves on the big fppf site times out at the default limit
 /-- **Stacks 0ENU.** The morphism `X ⟶ 𝔸¹_k` descended from `(x, y) ↦ x + y` is an isomorphism
 over `𝔸¹_k ∖ {0}`: its base change along the inclusion of the punctured affine line is an
 isomorphism. No hypothesis on the field is needed. -/
@@ -335,7 +337,7 @@ theorem isIso_sumMap_pullback_puncturedAffineLine :
   let g : V ⟶ A := ⟨F.op.whiskerLeft (yoneda.map (puncturedAffineLineInclusion S.k))⟩
   let q := quotientMap S B hS
   have hsq : Presheaf.IsLocallySurjective J (q ≫ f.hom) := by
-    show Presheaf.IsLocallySurjective J (quotientMap S B hS ≫ sumMap S B hS)
+    change Presheaf.IsLocallySurjective J (quotientMap S B hS ≫ sumMap S B hS)
     rw [quotientMap_comp_sumMap]
     exact Presheaf.isLocallySurjective_of_surjective _ _ fun T t =>
       ⟨_, axesPoint_coord_zero_comp_coordinateSumMap S t⟩
@@ -351,7 +353,7 @@ theorem isIso_sumMap_pullback_puncturedAffineLine :
   have he : (PreservesPullback.iso (sheafToPresheaf J (Type u)) f g).inv ≫
       (sheafToPresheaf J (Type u)).map (pullback.snd f g) = pullback.snd f.hom g.hom :=
     PreservesPullback.iso_inv_snd _ _ _
-  show IsIso (pullback.snd f.hom g.hom)
+  change IsIso (pullback.snd f.hom g.hom)
   rw [← he]
   infer_instance
 

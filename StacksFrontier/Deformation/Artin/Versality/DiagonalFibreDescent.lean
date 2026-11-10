@@ -200,7 +200,7 @@ theorem hasThickeningDescent_diagonalFibre
   let q : R →ₐ[Λ] R₀ :=
     { (VV.map i).appTop.hom with
       commutes' := fun l => by
-        show (VV.map i).appTop.hom (τ.appTop.hom l) = (VV.map i ≫ τ).appTop.hom l
+        change (VV.map i).appTop.hom (τ.appTop.hom l) = (VV.map i ≫ τ).appTop.hom l
         rw [Scheme.Hom.comp_appTop]
         rfl }
   have hqsurj : Function.Surjective q :=
@@ -238,7 +238,7 @@ theorem hasThickeningDescent_diagonalFibre
     Over.homMk (ObjectProperty.homMk
       (Spec.map (CommRingCat.ofHom (Subalgebra.inclusion h).toRingHom))) (by
         apply ObjectProperty.hom_ext
-        show Spec.map _ ≫ Spec.map _ ≫ toV = Spec.map _ ≫ toV
+        change Spec.map _ ≫ Spec.map _ ≫ toV = Spec.map _ ≫ toV
         rw [← Category.assoc, ← Spec.map_comp]
         rfl)
   let D : Jᵒᵖ ⥤ AlgebraicGeometry.BigFppfOver B V.left.1 V.left.2 :=
@@ -247,13 +247,13 @@ theorem hasThickeningDescent_diagonalFibre
       map_id := fun A => by
         apply Over.OverMorphism.ext
         apply ObjectProperty.hom_ext
-        show Spec.map _ = 𝟙 _
+        change Spec.map _ = 𝟙 _
         rw [show CommRingCat.ofHom (Subalgebra.inclusion (le_refl A.unop.1)).toRingHom =
           𝟙 _ from rfl, Spec.map_id]
       map_comp := fun h h' => by
         apply Over.OverMorphism.ext
         apply ObjectProperty.hom_ext
-        show Spec.map _ = Spec.map _ ≫ Spec.map _
+        change Spec.map _ = Spec.map _ ≫ Spec.map _
         rw [← Spec.map_comp]
         rfl }
   have hRc : B.Contains (Spec R) :=
@@ -267,13 +267,13 @@ theorem hasThickeningDescent_diagonalFibre
         { app := fun A => Over.homMk (ObjectProperty.homMk
             (Spec.map (CommRingCat.ofHom A.unop.1.val.toRingHom))) (by
               apply ObjectProperty.hom_ext
-              show Spec.map _ ≫ Spec.map _ ≫ toV = Spec.map _ ≫ toV
+              change Spec.map _ ≫ Spec.map _ ≫ toV = Spec.map _ ≫ toV
               rw [← Category.assoc, ← Spec.map_comp]
               rfl)
           naturality := fun A A' h => by
             apply Over.OverMorphism.ext
             apply ObjectProperty.hom_ext
-            show 𝟙 _ ≫ Spec.map _ = Spec.map _ ≫ Spec.map _
+            change 𝟙 _ ≫ Spec.map _ = Spec.map _ ≫ Spec.map _
             rw [Category.id_comp, ← Spec.map_comp]
             rfl } }
   have hc : IsLimit (VV.mapCone c) := by
@@ -290,7 +290,7 @@ theorem hasThickeningDescent_diagonalFibre
         { app := fun A => ObjectProperty.homMk ((Over.map V.hom).map (c.π.app A))
           naturality := fun A A' h => by
             apply ObjectProperty.hom_ext
-            show 𝟙 _ ≫ (Over.map V.hom).map (c.π.app A') =
+            change 𝟙 _ ≫ (Over.map V.hom).map (c.π.app A') =
               (Over.map V.hom).map (c.π.app A) ≫ (Over.map V.hom).map (D.map h)
             rw [Category.id_comp, ← Functor.map_comp, c.w h] } }
   have hc' : IsLimit ((BigAffineFppf.toScheme B S hS).mapCone c') := hc
@@ -307,7 +307,7 @@ theorem hasThickeningDescent_diagonalFibre
     exact hTT₁)
   let isoT' : T ⟶ T₁ := Over.homMk (ObjectProperty.homMk (VV.obj T).isoSpec.hom) (by
     apply ObjectProperty.hom_ext
-    show (VV.obj T).isoSpec.hom ≫ Spec.map τ.appTop ≫ toV = fT
+    change (VV.obj T).isoSpec.hom ≫ Spec.map τ.appTop ≫ toV = fT
     rw [← hTT₁, Iso.hom_inv_id_assoc])
   have hiso : isoT' ≫ isoT = 𝟙 T := by
     apply Over.OverMorphism.ext
@@ -326,7 +326,7 @@ theorem hasThickeningDescent_diagonalFibre
   have : Algebra.FiniteType Λ k.unop.1 := (Subalgebra.fg_iff_finiteType k.unop.1).mp k.unop.2.1
   refine ⟨ξ', e, ?_, ?_, ?_⟩
   · exact (inferInstance : IsAffine (Spec (CommRingCat.of k.unop.1)))
-  · show LocallyOfFiniteType (Spec.map (CommRingCat.ofHom (algebraMap Λ k.unop.1)) ≫ toV)
+  · change LocallyOfFiniteType (Spec.map (CommRingCat.ofHom (algebraMap Λ k.unop.1)) ≫ toV)
     have : LocallyOfFiniteType (Spec.map (CommRingCat.ofHom (algebraMap Λ k.unop.1))) :=
       HasRingHomProperty.Spec_iff.mpr (RingHom.finiteType_algebraMap.mpr inferInstance)
     have : LocallyOfFiniteType toV := by
@@ -344,7 +344,7 @@ theorem hasThickeningDescent_diagonalFibre
         Spec.map (CommRingCat.ofHom k.unop.1.val.toRingHom ≫ (VV.map i).appTop) := by
       rw [Spec.map_comp]
       exact (Scheme.isoSpec_hom_naturality_assoc (VV.map i) _).symm
-    show Stacks.Thickenings.IsFirstOrderThickening (VV.map i ≫ VV.map e.a)
+    change Stacks.Thickenings.IsFirstOrderThickening (VV.map i ≫ VV.map e.a)
     rw [hea]
     have h := isFirstOrderThickening_iso_comp (VV.obj U).isoSpec.hom _
       (Stacks.Smooth.isFirstOrderThickening_specMap

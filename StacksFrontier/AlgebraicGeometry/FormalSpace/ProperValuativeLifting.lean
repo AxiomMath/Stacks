@@ -114,6 +114,7 @@ universe u
 namespace AlgebraicGeometry
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasProducts` of presheaves on the big fppf site times out by default
 /-- Products of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasProducts_presheaf_ProperValuativeLifting {B : BigFppfSite.{u}}
@@ -121,6 +122,7 @@ local instance hasProducts_presheaf_ProperValuativeLifting {B : BigFppfSite.{u}}
     HasProducts.{0} ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site times out by default
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_ProperValuativeLifting {B : BigFppfSite.{u}}
@@ -270,7 +272,7 @@ theorem exists_essFiniteType_fieldValuedPoint
   let q : FieldValuedPoint B S hS F := ⟨Vsch.residueField v, hL, aL, t.app (op l) j⟩
   refine ⟨q, ?_⟩
   have hval : π.app (op (q.siteObject B S hS F)) q.value = j ≫ bV := by
-    show (t ≫ π).app (op l) j = _
+    change (t ≫ π).app (op l) j = _
     rw [← hb]
     rfl
   rw [hval]
@@ -342,7 +344,7 @@ private theorem exists_isExtension_lift_of_lift_adicCompletion
   have hcomp : cToA ≫ aToR = specSiteObjectMap (algebraMap R C) hR hCsite a := by
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    show Spec.map (CommRingCat.ofHom (algebraMap A C)) ≫
+    change Spec.map (CommRingCat.ofHom (algebraMap A C)) ≫
         Spec.map (CommRingCat.ofHom (algebraMap R A)) =
       Spec.map (CommRingCat.ofHom (algebraMap R C))
     rw [← Spec.map_comp, ← CommRingCat.ofHom_comp]
@@ -350,7 +352,7 @@ private theorem exists_isExtension_lift_of_lift_adicCompletion
     inferInstance, inferInstance, inferInstance, rfl, inferInstance, hCsite,
     yoneda.map cToA ≫ z, ?_⟩
   rw [Category.assoc, hz]
-  show yoneda.map cToA ≫ yoneda.map aToR ≫ yonedaEquiv.symm s = _
+  change yoneda.map cToA ≫ yoneda.map aToR ≫ yonedaEquiv.symm s = _
   rw [← Category.assoc, ← Functor.map_comp, hcomp]
 
 /-- The fibre-product step of the proof of Stacks 0AQW. If `U' ⟶ U` is surjective and `f` is
@@ -455,7 +457,7 @@ private theorem exists_isExtension_lift_of_isProper_of_essFiniteType
       γ ≫ specSiteObjectMap (algebraMap R A) hR hAsite a := by
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    show 𝟙 _ ≫ Spec.map (CommRingCat.ofHom (algebraMap R L)) =
+    change 𝟙 _ ≫ Spec.map (CommRingCat.ofHom (algebraMap R L)) =
       Spec.map (CommRingCat.ofHom (algebraMap A L)) ≫
         Spec.map (CommRingCat.ofHom (algebraMap R A))
     rw [Category.id_comp, ← Spec.map_comp, ← CommRingCat.ofHom_comp, ← hRL]
@@ -544,7 +546,7 @@ theorem exists_isExtension_lift_of_isProper_of_isSurjective
       specSiteObjectMap (algebraMap R L) hR l.contained a := by
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    show 𝟙 _ ≫ (B.inclusion.map lK.left ≫ Spec.map (CommRingCat.ofHom (algebraMap R K))) =
+    change 𝟙 _ ≫ (B.inclusion.map lK.left ≫ Spec.map (CommRingCat.ofHom (algebraMap R K))) =
       Spec.map (CommRingCat.ofHom (algebraMap R L))
     rw [show algebraMap R L = φ.comp (algebraMap R K) from rfl, CommRingCat.ofHom_comp,
       Spec.map_comp, Category.id_comp, hφ]
@@ -579,7 +581,7 @@ theorem completionSheafInclusion_eq_comp {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Typ
   apply ObjectProperty.hom_ext
   apply (BigFppfOver.topology B S hS).sheafify_hom_ext _ _
     (Space.sheafifiedULift B S hS X).property
-  show (BigFppfOver.topology B S hS).toSheafify _ ≫
+  change (BigFppfOver.topology B S hS).toSheafify _ ≫
       (BigFppfOver.topology B S hS).sheafifyMap (Space.completionSubfunctor B S hS X T).ι =
     (BigFppfOver.topology B S hS).toSheafify _ ≫
       (Space.completionSheafToAmbient B S hS X _ T ≫
@@ -627,7 +629,7 @@ theorem formalSpectrumMap_comp_formalSpectrumToSpec {R C : Type u} [CommRing R]
         Space.specSiteObjectMap e.toRingHom hRS hCS q := by
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    show Spec.map (CommRingCat.ofHom (Ideal.quotientMap K'.1 e.toRingHom hJ)) ≫
+    change Spec.map (CommRingCat.ofHom (Ideal.quotientMap K'.1 e.toRingHom hJ)) ≫
         Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk J.1)) =
       Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk K'.1)) ≫
         Spec.map (CommRingCat.ofHom e.toRingHom)
@@ -820,7 +822,7 @@ theorem isRigSurjective_completionSheafMap {X' X : (BigFppfOver B S hS)ᵒᵖ �
       overS := fun J K h => by
         rw [← hq J, ← Category.assoc, ← Spec.map_comp, ← CommRingCat.ofHom_comp,
           Ideal.quotientMap_comp_mk]
-        show _ = Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk K.1)) ≫ qC
+        change _ = Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk K.1)) ≫ qC
         rw [CommRingCat.ofHom_comp, Spec.map_comp, Category.assoc] }
   -- the lift, through the cartesian completion square of Stacks 0APV
   let yC : (upliftedSheaf X' hX').obj.obj

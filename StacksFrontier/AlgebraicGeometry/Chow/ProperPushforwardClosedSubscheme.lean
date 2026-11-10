@@ -106,7 +106,7 @@ theorem componentMultiplicity_eq_length_stalk {X Z : Scheme.{u}} (i : Z ⟶ X)
       ((Module.length (Z.presheaf.stalk ξ.1) (Z.presheaf.stalk ξ.1)).toNat : ℤ) := by
   let _ : Module (X.presheaf.stalk (i ξ.1)) (Z.presheaf.stalk ξ.1) :=
     Module.compHom (Z.presheaf.stalk ξ.1) (i.stalkMap ξ.1).hom
-  show ((Module.length (X.presheaf.stalk (i ξ.1)) (Z.presheaf.stalk ξ.1)).toNat : ℤ) = _
+  change ((Module.length (X.presheaf.stalk (i ξ.1)) (Z.presheaf.stalk ξ.1)).toNat : ℤ) = _
   rw [length_restrictScalars_eq_of_surjective (X.presheaf.stalk (i ξ.1))
     (Z.presheaf.stalk ξ.1) (i.stalkMap ξ.1).hom
     (SurjectiveOnStalks.stalkMap_surjective i ξ.1) (Z.presheaf.stalk ξ.1)]
@@ -144,7 +144,7 @@ theorem residueDegree_eq_one_of_isClosedImmersion_comp {X Y Z : Scheme.{u}} (i :
     [IsClosedImmersion i] (f : X ⟶ Y) [IsClosedImmersion (i ≫ f)] (z : Z) :
     f.residueDegree (i.base z) = 1 := by
   let _ := (f.residueFieldMap (i.base z)).hom.toAlgebra
-  show Module.finrank (Y.residueField (f.base (i.base z))) (X.residueField (i.base z)) = 1
+  change Module.finrank (Y.residueField (f.base (i.base z))) (X.residueField (i.base z)) = 1
   exact Module.finrank_of_bijective_algebraMap
     (bijective_residueFieldMap_of_isClosedImmersion_comp i f z)
 
@@ -209,7 +209,7 @@ theorem properPushforward_cycleAssociatedToClosedSubscheme_of_isClosedImmersion_
       · rintro (hxy : f.base x = y)
         have heq : (i ≫ f).base η.1 = (i ≫ f).base ξ.1 := by
           rw [hbase η.1, hηx, hxy, ← hξy]
-        show x = i.base ξ.1
+        change x = i.base ξ.1
         rw [← hηx, (i ≫ f).isClosedEmbedding.injective heq]
       · rintro (rfl : x = i.base ξ.1)
         exact hξy

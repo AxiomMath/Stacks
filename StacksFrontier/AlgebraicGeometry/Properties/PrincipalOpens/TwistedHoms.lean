@@ -260,7 +260,7 @@ theorem exists_forall_moduleMulOver_app_eq_zero [CompactSpace X] {n : ℕ} (s : 
           ((sectionPow' L s (σ.sup ee)).eval (op W))
         = (sectionPow' L s (σ.sup ee)).eval (op (W ⊓ V i.1)) :=
       PresheafOfModules.sections_property (sectionPow' L s (σ.sup ee)) (homOfLE h2).op
-    show (((Stacks.SheafOfModules.Tensor.sheafTensor
+    change (((Stacks.SheafOfModules.Tensor.sheafTensor
       ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).obj
         (toRingedSpaceSheaf G)).obj Lpow[n * σ.sup ee]).val.map (homOfLE h2).op
       (moduleMulOver L (toRingedSpaceSheaf G) (n * σ.sup ee) W (α.app W x)

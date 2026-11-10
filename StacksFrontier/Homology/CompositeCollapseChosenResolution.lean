@@ -85,7 +85,7 @@ theorem objIso_inv_eq (J : InjectiveResolution (G.obj A))
     (mapOfAcyclic G I hA) φ
     (by rw [mapOfAcyclic_ι_f_zero]; exact hφ.trans (Category.id_comp _).symm) T n
   rw [CategoryTheory.Functor.map_id, Category.id_comp] at h
-  show ((mapOfAcyclic G I hA).isoRightDerivedObj T n).hom ≫
+  change ((mapOfAcyclic G I hA).isoRightDerivedObj T n).hom ≫
     (I.isoRightDerivedObj (G ⋙ T) n).inv = _
   rw [h]
   exact Category.assoc _ _ _

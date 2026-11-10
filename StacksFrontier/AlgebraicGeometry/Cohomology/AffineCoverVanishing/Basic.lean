@@ -88,7 +88,7 @@ theorem isZero_hgroup_bot (F : X.Modules) [F.IsQuasicoherent] (n : ℕ) :
       ((structureSheafRing X.toLocallyRingedSpace.toRingedSpace).obj.obj (op (⊥ : X.Opens))))
       AddCommGrpCat
     have _ : PreservesFiniteLimits S := by
-      show PreservesFiniteLimits (E ⋙ G)
+      change PreservesFiniteLimits (E ⋙ G)
       infer_instance
     have hterm : IsTerminal
         (((SheafOfModules.toSheaf X.ringCatSheaf).obj F).obj.obj (op (⊥ : X.Opens))) :=
@@ -96,7 +96,7 @@ theorem isZero_hgroup_bot (F : X.Modules) [F.IsQuasicoherent] (n : ℕ) :
     have hsec : IsZero (S.obj F) :=
       (isZero_zero AddCommGrpCat).of_iso
         ((isZero_zero AddCommGrpCat).isoIsTerminal hterm).symm
-    show IsZero ((S.rightDerived 0).obj F)
+    change IsZero ((S.rightDerived 0).obj F)
     exact hsec.of_iso (S.rightDerivedZeroIsoSelf.app F)
   | succ k =>
     exact Stacks.Cohomology.Cech.isZero_hgroup_of_isAffineOpen X F ⊥ (isAffineOpen_bot X) (k + 1)

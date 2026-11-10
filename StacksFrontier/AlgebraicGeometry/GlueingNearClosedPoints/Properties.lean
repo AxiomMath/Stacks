@@ -99,7 +99,7 @@ private lemma prop_pullback_obj_overMap_iff {S T : Scheme.{u}} (U' : S.Opens)
       P ((Over.pullback l).obj X).hom := by
   subst hg
   refine P.arrow_mk_iso_iff (Arrow.isoMk (pullbackCompMonoIso X.hom U'.ι l) (Iso.refl T) ?_)
-  show (pullbackCompMonoIso X.hom U'.ι l).hom ≫ pullback.snd X.hom l =
+  change (pullbackCompMonoIso X.hom U'.ι l).hom ≫ pullback.snd X.hom l =
     pullback.snd (X.hom ≫ U'.ι) (l ≫ U'.ι) ≫ 𝟙 T
   rw [pullbackCompMonoIso_hom_snd, Category.comp_id]
 

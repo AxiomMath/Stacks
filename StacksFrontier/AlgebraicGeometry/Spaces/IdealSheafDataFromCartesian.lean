@@ -181,7 +181,7 @@ theorem exists_openChartHom_resLE {A A' : SmallEtale B S hS F} (m : A' ⟶ A)
   have hw : yoneda.map ((SmallEtale.toOver B S hS F).map m) ≫ A.1.hom = A'.1.hom :=
     CostructuredArrow.w m.1
   refine ⟨ObjectProperty.homMk (CostructuredArrow.homMk n ?_), hn⟩
-  show yoneda.map n ≫ yoneda.map (openSubHom _ V) ≫ A.1.hom =
+  change yoneda.map n ≫ yoneda.map (openSubHom _ V) ≫ A.1.hom =
     yoneda.map (openSubHom _ W) ≫ A'.1.hom
   rw [← Category.assoc, ← yoneda.map_comp, hcomm, yoneda.map_comp, Category.assoc, hw]
 
@@ -224,12 +224,9 @@ theorem chartIdeal_map_of_surjective_sectionsBaseChange
   · obtain ⟨z, hz⟩ := hm ⟨y, hy⟩
     rw [show y = (sectionsBaseChange N.toSheafOfModules m z).1 by rw [hz]]
     clear hz
-    induction z using TensorProduct.induction_on with
-    | zero =>
-        rw [map_zero]
-        exact Ideal.zero_mem _
+    induction z using TensorProduct.inductionOn with
     | tmul b x =>
-        show b * chartRestrict (hF := X.2) m x.1 ∈ _
+        change b * chartRestrict (hF := X.2) m x.1 ∈ _
         exact Ideal.mul_mem_left _ _ (Ideal.mem_map_of_mem _ x.2)
     | add a b ha hb =>
         rw [map_add]

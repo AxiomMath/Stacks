@@ -63,8 +63,9 @@ formula for a morphism out of the pullback. **That was wrong and is withdrawn.**
 formula over an arbitrary open is `Stacks.AlgebraicGeometry.ProjTwistCompare.val_app`
 (`StacksFrontier/AlgebraicGeometry/ProjTwistCompare/SectionValue.lean:189`), derived from the
 standard-open square proved below without unwinding the gluing and without computing a stalk
-map; the base map it rests on is `.mapHom_base_asHomogeneousIdeal` (`StacksFrontier/AlgebraicGeometry/ProjTwistCompare/BaseMap.lean:164`), which
-is Mathlib's `ProjectiveSpectrum.comapFun` without that file's hypothesis on the irrelevant
+map; the base map it rests on is `.mapHom_base_asHomogeneousIdeal`
+(`StacksFrontier/AlgebraicGeometry/ProjTwistCompare/BaseMap.lean:164`), which is Mathlib's
+`ProjectiveSpectrum.comapFun` without that file's hypothesis on the irrelevant
 ideals. So `θ` is assembly — the presheaf-of-modules morphism, its naturality, and two
 adjunction steps — and what remains genuinely absent is Tag 01CD, which blocks the
 multiplication clauses rather than `θ`.

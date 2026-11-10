@@ -145,7 +145,7 @@ public theorem map_exact_of_surjective {R M N : Type w} {Q : Type t}
   have h := AdicCompletion.map_exact hf hq (LinearMap.ker g).mkQ_surjective (I := K)
   intro x
   rw [← he, ← AdicCompletion.map_comp, LinearMap.comp_apply]
-  show AdicCompletion.congr K (g.quotKerEquivOfSurjective hg)
+  change AdicCompletion.congr K (g.quotKerEquivOfSurjective hg)
     (AdicCompletion.map K (LinearMap.ker g).mkQ x) = 0 ↔ _
   rw [map_eq_zero_iff _ (AdicCompletion.congr K (g.quotKerEquivOfSurjective hg)).injective]
   exact h x
@@ -176,16 +176,15 @@ public theorem range_map_subtype_eq_map_ideal {R : Type*} [CommRing R] [IsNoethe
     obtain ⟨z, rfl⟩ := hx'
     have hmem (z : AdicCompletion K R ⊗[R] J) :
         AdicCompletion.ofTensorProduct K R (t z) ∈ J.map (algebraMap R (AdicCompletion K R)) := by
-      induction z using TensorProduct.induction_on with
-      | zero => exact zero_mem _
+      induction z using TensorProduct.inductionOn with
       | add z z' hz hz' => rw [map_add, map_add]; exact add_mem hz hz'
       | tmul s j =>
-        show AdicCompletion.ofTensorProduct K R (s ⊗ₜ[R] (j : R)) ∈ _
+        change AdicCompletion.ofTensorProduct K R (s ⊗ₜ[R] (j : R)) ∈ _
         rw [AdicCompletion.ofTensorProduct_tmul]
         have h_of : AdicCompletion.of K R (j : R) = algebraMap R (AdicCompletion K R) (j : R) := by
           simp [AdicCompletion.algebraMap_apply]
         rw [h_of]
-        show s * algebraMap R (AdicCompletion K R) (j : R) ∈ _
+        change s * algebraMap R (AdicCompletion K R) (j : R) ∈ _
         exact Ideal.mul_mem_left _ s (Ideal.mem_map_of_mem _ j.property)
     rw [congrFun (congrArg DFunLike.coe hnat) z]
     exact hmem z
@@ -222,7 +221,7 @@ public theorem adicCompletionIdealEquiv_tmul {R : Type*} [CommRing R] [IsNoether
     (K J : Ideal R) (s : AdicCompletion K R) (j : J) :
     (adicCompletionIdealEquiv K J (s ⊗ₜ j)).val =
       s * algebraMap R (AdicCompletion K R) j.val := by
-  show AdicCompletion.map K J.subtype (AdicCompletion.ofTensorProduct K J (s ⊗ₜ j)) = _
+  change AdicCompletion.map K J.subtype (AdicCompletion.ofTensorProduct K J (s ⊗ₜ j)) = _
   rw [AdicCompletion.ofTensorProduct_tmul, map_smul, AdicCompletion.map_of]
   rfl
 
@@ -290,7 +289,7 @@ public theorem completedPresentationMap_algebraMap (α : MvPolynomial (Fin n) A 
     completedPresentationMap I α
         (algebraMap (MvPolynomial (Fin n) A) (adicCompletionMvPolynomial I n) f) =
       algebraMap B (adicCompletionAlgebra I (B := B)) (α f) := by
-  show completionMap (polynomialAdicIdeal I n) (I.map (algebraMap A B)) α.toRingHom
+  change completionMap (polynomialAdicIdeal I n) (I.map (algebraMap A B)) α.toRingHom
       (le_of_eq (map_polynomialAdicIdeal I α)) (AdicCompletion.of _ _ f) =
     AdicCompletion.of _ _ (α f)
   exact completionMap_of _ _ _ _ f
@@ -327,7 +326,7 @@ private theorem completedPresentationMap_eq_map (α : MvPolynomial (Fin n) A →
       (completedPresentationMap I α x) =
       Ideal.Quotient.mk (I.map (algebraMap A B) ^ k) (α p) := by
     rw [completedPresentationMap_apply, completionMap_eval]
-    show Ideal.quotientMap (I.map (algebraMap A B) ^ k) α.toRingHom
+    change Ideal.quotientMap (I.map (algebraMap A B) ^ k) α.toRingHom
       (idealMapPow_le (polynomialAdicIdeal I n) (I.map (algebraMap A B)) α.toRingHom
         (le_of_eq (map_polynomialAdicIdeal I α)) k)
       (AdicCompletion.evalₐ (polynomialAdicIdeal I n) k x) = _
@@ -342,7 +341,7 @@ private theorem completedPresentationMap_eq_map (α : MvPolynomial (Fin n) A →
     refine evalₐ_eq_mk_of_val_eq _ k _ _ ?_
     rw [adicCompletionRestrictScalarsEquiv_val, AdicCompletion.map_val_apply, ← hp]
     simp only [LinearMap.reduceModIdeal_apply]
-    show _ = quotientSmulTopEquiv (polynomialAdicIdeal I n) B (I.map (algebraMap A B)) hKL k
+    change _ = quotientSmulTopEquiv (polynomialAdicIdeal I n) B (I.map (algebraMap A B)) hKL k
       (Submodule.Quotient.mk (algebraMap (MvPolynomial (Fin n) A) B p))
     rw [halg p]
     rfl
@@ -387,7 +386,7 @@ private theorem surjective_and_ker_completedPresentationMap
     · rw [← hRange] at hx
       obtain ⟨y, rfl⟩ := hx
       rw [RingHom.mem_ker]
-      show completedPresentationMap I α _ = 0
+      change completedPresentationMap I α _ = 0
       rw [hψ, AdicCompletion.map_comp_apply, hfg.linearMap_comp_eq_zero,
         AdicCompletion.map_zero, LinearMap.zero_apply, map_zero]
 
@@ -530,7 +529,7 @@ public theorem differential_conormalComparison (x : G.toExtension.Cotangent) :
   rw [show presentationDifferential G (Algebra.Extension.Cotangent.mk g) i =
       algebraMap G.Ring B (MvPolynomial.pderiv i g.val) from
     presentationDifferential_mk G g i]
-  show (presentationCompletion I G).toAlgHom ((completedComplex I G).partialDeriv i
+  change (presentationCompletion I G).toAlgHom ((completedComplex I G).partialDeriv i
     (algebraMap G.Ring (adicCompletionMvPolynomial I n) g.val)) = _
   rw [show (completedComplex I G).partialDeriv i
         (algebraMap G.Ring (adicCompletionMvPolynomial I n) g.val) =
@@ -608,7 +607,7 @@ public theorem bijective_completionComparison_f₁ :
     have hval : ((eJ ((1 : adicCompletionMvPolynomial I n) ⊗ₜ[G.Ring] j) :
           adicCompletionMvPolynomial I n)) =
         algebraMap G.Ring (adicCompletionMvPolynomial I n) j.val := by
-      show (adicCompletionIdealEquiv (polynomialAdicIdeal I n) G.ker
+      change (adicCompletionIdealEquiv (polynomialAdicIdeal I n) G.ker
         ((1 : adicCompletionMvPolynomial I n) ⊗ₜ[G.Ring] j)).val = _
       rw [adicCompletionIdealEquiv_tmul, one_mul]
     have hj : eJ ((1 : adicCompletionMvPolynomial I n) ⊗ₜ[G.Ring] j) =
@@ -618,8 +617,7 @@ public theorem bijective_completionComparison_f₁ :
     rfl
   have hcomp : F ∘ₗ w.toLinearMap = w'.toLinearMap := by
     refine LinearMap.ext fun x => ?_
-    induction x using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul s j => exact key s j
     | add x y hx hy => rw [map_add, map_add, hx, hy]
   have hf : F = (w.symm.trans w').toLinearMap :=

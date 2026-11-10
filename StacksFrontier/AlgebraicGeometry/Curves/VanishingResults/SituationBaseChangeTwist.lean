@@ -54,7 +54,8 @@ inverse image of `ω_X` with the dualizing sheaf of the base change ([Stacks, Ta
   the module documentation of `DualizingTwistGenerationGeneralField.lean` for the full chain and
   for the hypotheses of [Stacks, Tag 0AA8], which this situation does meet.
 
-**Descent of global generation.** Concluding global generation of `ω_X ⊗ ℒ` on `X` from the same statement on `X_{k̄}` needs
+**Descent of global generation.** Concluding global generation of `ω_X ⊗ ℒ` on `X` from the same
+statement on `X_{k̄}` needs
 `Γ(X, ℱ) ⊗_k k̄ = Γ(X_{k̄}, ℱ_{k̄})` together with descent of surjectivity along the faithfully
 flat `X_{k̄} ⟶ X`. Both are available for
 `AlgebraicGeometry.SheafOfModules.GeneratingSections`: [Stacks, Tag 0B57] is proved for

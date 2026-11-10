@@ -188,7 +188,7 @@ theorem isSheafFor_op_comp_yoneda_of_localLifts (hG : Presieve.IsSheaf K G)
   · refine NatTrans.ext (funext fun T => ?_)
     ext a
     refine (hG _ (hsurj T.unop a)).isSeparatedFor.ext fun T' t ht => ?_
-    show G.map t.op (τ'.app T a) = G.map t.op (glue T.unop a)
+    change G.map t.op (τ'.app T a) = G.map t.op (glue T.unop a)
     obtain ⟨Z, g, hg, b, hb⟩ := id ht
     rw [hglue a hg b hb, ← NatTrans.naturality_apply]
     dsimp only [Functor.op_obj, Opposite.unop_op]

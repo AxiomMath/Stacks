@@ -289,6 +289,7 @@ local instance (priority := high) hasPullback_presheaf_QcqsCriterion
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site times out at the default
 /-- Limits of `u`-small diagrams of presheaves on the big fppf site (instance search times out
 without this shortcut). -/
 private instance (priority := high) hasLimitsOfShape_presheaf (I : Type u) [Category.{u} I] :

@@ -95,7 +95,7 @@ namespace AlgebraicGeometry.Space
 
 /-- A subfunctor of the source of a morphism which is injective in every degree is recovered
 from its image. -/
-private theorem preimage_image_of_injective {C : Type w} [Category.{v} C]
+theorem preimage_image_of_injective {C : Type w} [Category.{v} C]
     {F F' : Cᵒᵖ ⥤ Type u} (p : F ⟶ F') (hp : ∀ i, Function.Injective (p.app i))
     (G : Subfunctor F) :
     (G.image p).preimage p = G := by
@@ -112,7 +112,7 @@ quasi-compact quasi-separated algebraic space, none of which is a scheme, is not
 
 The infimum is the inverse limit of the chain, so Stacks 07SR — carried here as `h07SR` — would
 make one member of the chain a scheme. -/
-private theorem not_isRepresentable_sInf_of_isChain (hT : B.Contains (⊤_ Scheme.{u}))
+theorem not_isRepresentable_sInf_of_isChain (hT : B.Contains (⊤_ Scheme.{u}))
     {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (hqc : IsQuasiCompactSpace B S hS X)
     (hqs : IsAbsolutelyQuasiSeparated B S hS hT X)

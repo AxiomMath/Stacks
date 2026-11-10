@@ -93,8 +93,6 @@ Stacks 08GP reduces the lemma to the affine case together with the Mayer–Vieto
 latter is `hasCountableCohomology_of_edsSectionsTriangle`. -/
 theorem hasCountableCohomology_of_qcqs_etale
     (hZ : B.Contains (⊤_ Scheme.{u})) (X : AlgebraicSpaces B S hS)
-    (hXqc : IsQuasiCompactSpace B S hS X.obj)
-    (hXqs : IsAbsolutelyQuasiSeparated B S hS hZ X.obj)
     (RΓ : (Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) → (Y ⟶ X.obj) →
       DerivedCategory AddCommGrpCat.{u})
     (haff : ∀ V : SpacesEtale B S hS X, IsAffineSpace B S hS V.obj.left.obj →
@@ -115,7 +113,7 @@ theorem hasCountableCohomology_of_qcqs_etale
     ∀ Y : SpacesEtale B S hS X, IsQuasiCompactSpace B S hS Y.obj.left.obj →
       IsAbsolutelyQuasiSeparated B S hS hZ Y.obj.left.obj →
       HasCountableCohomology (RΓ Y.obj.left.obj Y.obj.hom.hom) := by
-  refine qcqs_induction_on B S hS hZ X hXqc hXqs
+  refine qcqs_induction_on B S hS hZ X
     (fun Y g => HasCountableCohomology (RΓ Y g)) haff ?_
   intro W V U f hcomm hsq _ _ _ _ hU hV hP
   obtain ⟨fU, fV, gU, gV, δ, hT⟩ := hMV W V U f hcomm hsq
@@ -159,8 +157,6 @@ and inside the reduction of `Ext` to cohomology, and both of those are the hypot
 `hExt`. The binder is therefore written `_hE`. -/
 @[stacks 0CRU "the sets Ext^i(E|_U, K|_U)"]
 theorem countable_ext_of_qcqs_etale (hZ : B.Contains (⊤_ Scheme.{u}))
-    (hXqc : IsQuasiCompactSpace B S hS X.obj)
-    (hXqs : IsAbsolutelyQuasiSeparated B S hS hZ X.obj)
     (K : QuasicoherentDerivedCategory.{u, u} B S hS X.obj X.property)
     (E : DerivedCategory (Modules.{u, u} B S hS X.obj X.property))
     (_hE : RingedSite.IsPerfect (smallEtaleRingedSite B S hS X.obj X.property) E)
@@ -195,7 +191,7 @@ theorem countable_ext_of_qcqs_etale (hZ : B.Contains (⊤_ Scheme.{u}))
       ((etaleModulePullback.{u, u} B S hS (Y := X) ⟨U.obj.hom.hom⟩ hU).mapDerivedCategory.obj E)
       ((etaleModulePullback.{u, u} B S hS (Y := X) ⟨U.obj.hom.hom⟩ hU).mapDerivedCategory.obj K.obj)
       i) := by
-  have hcount := hasCountableCohomology_of_qcqs_etale hZ X hXqc hXqs RΓ haff hMV U hUqc hUqs i
+  have hcount := hasCountableCohomology_of_qcqs_etale hZ X RΓ haff hMV U hUqc hUqs i
   obtain ⟨e⟩ := hExt U hU i
   have := hcount
   exact e.injective.countable

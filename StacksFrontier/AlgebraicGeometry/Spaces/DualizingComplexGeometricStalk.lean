@@ -241,7 +241,7 @@ theorem isLocalization_stalk_toScheme {Z : Scheme.{u}} {W : Z.Opens} (hW : IsAff
   let e := (W.stalkIso z).symm.commRingCatIsoToRingEquiv
   refine IsLocalization.isLocalization_of_algEquiv (hW.primeIdealOf z).asIdeal.primeCompl
     { e with commutes' := fun a => ?_ }
-  show (W.stalkIso z).inv.hom (Z.presheaf.germ W z.1 z.2 a) =
+  change (W.stalkIso z).inv.hom (Z.presheaf.germ W z.1 z.2 a) =
     ((W : Scheme.{u}).presheaf.germ ⊤ z trivial).hom (W.topIso.inv.hom a)
   rw [← Scheme.Opens.germ_stalkIso_inv W ⊤ z trivial]
   refine congrArg (W.stalkIso z).inv.hom ?_
@@ -334,7 +334,7 @@ theorem isNormalizedDualizingComplex_extendScalars_geometricStalkRing (V : BigFp
     ext a
     apply (pointStalkRingEquiv B S hS Xp p).injective
     rw [hγ a]
-    show _ = (pointStalkRingEquiv B S hS Xp p) ((pointStalkRingEquiv B S hS Xp p).symm _)
+    change _ = (pointStalkRingEquiv B S hS Xp p) ((pointStalkRingEquiv B S hS Xp p).symm _)
     rw [RingEquiv.apply_symm_apply]
     rfl
   let : PreservesFiniteLimits (ModuleCat.extendScalars.{u, u, u} (algebraMap A R)) :=
@@ -618,14 +618,14 @@ theorem exists_geometricPoint_isNormalizedDualizingComplex
       AlgebraicSpaces B S hS) ⟶ X := ObjectProperty.homMk (yoneda.map q ≫ φ)
   refine ⟨geometricPointMap f.hom p, ?_, ?_⟩
   · rw [geometricPointMap_image, hp]
-    show pointsMap B S hS (yoneda.obj W') (yoneda.map q ≫ φ) _ = _
+    change pointsMap B S hS (yoneda.obj W') (yoneda.map q ≫ φ) _ = _
     rw [pointsMap_comp]
     refine congrArg (pointsMap B S hS (yoneda.obj U) φ) ?_
     apply (pointsEquivScheme B S hS U).injective
     rw [Equiv.apply_symm_apply]
-    show pointsToScheme B S hS U (pointsMap B S hS _ (yoneda.map q) _) = y
+    change pointsToScheme B S hS U (pointsMap B S hS _ (yoneda.map q) _) = y
     rw [pointsToScheme_pointsMap_yoneda]
-    show (BigFppfOver.toScheme B S hS).map q
+    change (BigFppfOver.toScheme B S hS).map q
       ((pointsEquivScheme B S hS W') ((pointsEquivScheme B S hS W').symm y')) = y
     rw [Equiv.apply_symm_apply]
     rfl
@@ -653,7 +653,7 @@ theorem exists_geometricPoint_isNormalizedDualizingComplex
     Γ((BigFppfOver.toScheme B S hS).obj U, W) hW.isoSpec p
   let N := selfNeighborhood B S hS W' p
   have hz : chartPoint B S hS (yoneda.obj W') N = y' := by
-    show pointsToScheme B S hS W' p.image = y'
+    change pointsToScheme B S hS W' p.image = y'
     rw [hp]
     exact (pointsEquivScheme B S hS W').apply_symm_apply y'
   let α : Γ((BigFppfOver.toScheme B S hS).obj U, W) →+*

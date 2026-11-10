@@ -62,7 +62,7 @@ omit [IsAlgClosed k] in
 theorem pointConst_mul (y₁ y₂ : power (curveOver B hX hk f) 0 ⟶ (jacobianGrp B hX hk f σ hσ).X) :
     pointConst B hX hk f σ hσ (y₁ * y₂) =
       pointConst B hX hk f σ hσ y₁ + pointConst B hX hk f σ hσ y₂ := by
-  show Additive.ofMul (snd _ _ ≫ (y₁ * y₂)) = _
+  change Additive.ofMul (snd _ _ ≫ (y₁ * y₂)) = _
   rw [MonObj.comp_mul]
   rfl
 
@@ -232,7 +232,7 @@ theorem fixedPointIntersection_eq_of_translates (hdim : topologicalKrullDim X �
   obtain ⟨hpt, hQ⟩ := polarization_of_translates B hX hk f σ hσ _ S hS hT
   have hdimJ := abelianVarietyDimension_jacobian B hX hk f σ hσ
   refine fixedPointIntersection_eq_of_points B hX hk f σ hσ φ w hdim (by omega) hpt ?_ ℓ hℓ
-  show curveDeg (curveOver B hX hk f) (topologicalKrullDim_curveOver B hX hk f)
+  change curveDeg (curveOver B hX hk f) (topologicalKrullDim_curveOver B hX hk f)
     (ajQ B hX hk f σ hσ L hL) = _
   rw [hQ, hdimJ]
   exact (curveDeg_zsmul (curveOver B hX hk f) (topologicalKrullDim_curveOver B hX hk f) _

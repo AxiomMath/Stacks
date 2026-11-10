@@ -134,9 +134,9 @@ theorem properChowPushforward_chowGroupRestrict_add (C : ChowSituation.{u})
   have h₂₁ := chowGroupRestrict_properChowPushforward_of_disjoint C sZ s₂ s₁ m₂ hm₂ m₁ hm₁
     hdisj.symm
   rintro ⟨_ | _⟩
-  · show chowGroupRestrict C sZ s₂ m₂ hm₂ k _ = 0
+  · change chowGroupRestrict C sZ s₂ m₂ hm₂ k _ = 0
     simp [chowGroupRestrict_properChowPushforward_self, h₁₂]
-  · show chowGroupRestrict C sZ s₁ m₁ hm₁ k _ = 0
+  · change chowGroupRestrict C sZ s₁ m₁ hm₁ k _ = 0
     simp [chowGroupRestrict_properChowPushforward_self, h₂₁]
 
 end Stacks.Chow
@@ -321,11 +321,11 @@ theorem exists_clopen_split {X : (SmoothProjectiveScheme k).FullSubcategory} [No
   have : IsOpenImmersion ι₂.hom.left := inferInstanceAs (IsOpenImmersion U₂.ι)
   have hcover : ∀ x, x ∈ Set.range ι₁.hom.left ∨ x ∈ Set.range ι₂.hom.left := by
     intro x
-    show x ∈ Set.range U₁.ι ∨ x ∈ Set.range U₂.ι
+    change x ∈ Set.range U₁.ι ∨ x ∈ Set.range U₂.ι
     rw [Scheme.Opens.range_ι, Scheme.Opens.range_ι]
     exact em (x ∈ s)
   have hdisj : Disjoint (Set.range ι₁.hom.left) (Set.range ι₂.hom.left) := by
-    show Disjoint (Set.range U₁.ι) (Set.range U₂.ι)
+    change Disjoint (Set.range U₁.ι) (Set.range U₂.ι)
     rw [Scheme.Opens.range_ι, Scheme.Opens.range_ι]
     exact disjoint_compl_right
   refine ⟨_, _, ι₁, ι₂, SmoothProjectiveScheme.isClosedImmersion_ι hU₁,

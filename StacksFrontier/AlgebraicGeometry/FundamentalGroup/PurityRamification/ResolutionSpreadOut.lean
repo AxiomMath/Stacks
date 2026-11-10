@@ -42,7 +42,7 @@ theorem exists_isPullback_specStalk_of_finitePresentation (X : Scheme.{u}) (x : 
   refine ⟨i, Xi.left, Xi.hom, e.hom.left ≫ pullback.fst _ _, hfp, ?_⟩
   refine IsPullback.of_iso (IsPullback.of_hasPullback Xi.hom ((specStalkCone X x).π.app i))
     ((Over.forget _).mapIso e).symm (Iso.refl _) (Iso.refl _) (Iso.refl _) ?_ ?_ ?_ ?_
-  · show _ = e.inv.left ≫ e.hom.left ≫ _
+  · change _ = e.inv.left ≫ e.hom.left ≫ _
     rw [← Category.assoc, ← Over.comp_left, e.inv_hom_id]
     exact (Category.id_comp _).symm
   · exact (Category.comp_id _).trans (Over.w e.inv).symm

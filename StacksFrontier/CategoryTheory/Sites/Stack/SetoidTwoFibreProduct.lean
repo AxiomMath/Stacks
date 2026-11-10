@@ -117,7 +117,8 @@ groupoids: the construction of Stacks 0040 does not leave the 2-category of stac
 "Stack in groupoids" is spelled out as its two conditions, being a stack over `(𝒞, J)` and being
 fibred in groupoids, because the library's `CategoryTheory.Functor.IsStackInGroupoids` is a second,
 unrelated rendering of the notion (see the implementation notes of
-`StacksFrontier.CategoryTheory.Sites.Stack.Setoid`). The first condition is Stacks 026G and the second
+`StacksFrontier.CategoryTheory.Sites.Stack.Setoid`).
+The first condition is Stacks 026G and the second
 is Stacks 0041; the hypotheses on `F` and `G` are only that they are strictly over `𝒞`, since a
 functor over `𝒞` into a category fibred in groupoids automatically preserves strongly cartesian
 morphisms. -/

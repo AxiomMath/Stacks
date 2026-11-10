@@ -74,7 +74,7 @@ private theorem module_finite_projective [Module.Finite R M] [Module.Projective 
     obtain ⟨s, hs⟩ := exists_finset_rankLocus_cover (R := R) (M := M)
     have : ∀ n : s, Module.Finite R (component (R := R) (M := M) n.1) :=
       fun n => (component_finite_projective n.1).1
-    show Module.Finite R (↥(submodule (R := R) (M := M)))
+    change Module.Finite R (↥(submodule (R := R) (M := M)))
     rw [submodule_eq_iSup_finset_cover hs]
     infer_instance
   have hprojective : Module.Projective R (module (R := R) (M := M)) := by
@@ -90,7 +90,7 @@ private theorem module_finite_projective [Module.Finite R M] [Module.Projective 
           (component (R := R) (M := M))).symm
     have : ∀ n : ℕ, Module.Projective R (component (R := R) (M := M) n) :=
       fun n => (component_finite_projective n).2
-    show Module.Projective R (↥(submodule (R := R) (M := M)))
+    change Module.Projective R (↥(submodule (R := R) (M := M)))
     rw [← hrange]
     exact Module.Projective.of_equiv' (LinearEquiv.ofInjective F hF)
   exact ⟨hfinite, hprojective⟩
@@ -121,8 +121,7 @@ private theorem tensorProduct_span_one_tmul {R A M : Type*} [CommRing R] [CommRi
   suffices ∀ y : A ⊗[R] M,
       y ∈ Submodule.span A (Set.range (TensorProduct.mk R A M 1)) from this x
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => exact Submodule.zero_mem _
+  induction x using TensorProduct.inductionOn with
   | tmul a m =>
       have h : (1 : A) ⊗ₜ[R] m ∈
           Submodule.span A (Set.range (TensorProduct.mk R A M 1)) :=
@@ -226,7 +225,7 @@ private theorem exteriorPower_rankAtStalk {R M : Type*} [CommRing R]
   let : Module.Free A Q := Module.free_of_flat_of_isLocalRing
   have : Module.Finite A Q := inferInstance
   have : Nontrivial A := inferInstance
-  show Module.finrank A (LocalizedModule S W) =
+  change Module.finrank A (LocalizedModule S W) =
     (Module.finrank A Q).choose n
   rw [e'.finrank_eq, exteriorPower.finrank_eq]
 
@@ -260,7 +259,7 @@ private theorem idempotent_localization_eq_one_of_not_mem {R : Type*} [CommRing 
       IsLocalization.map_units (M := p.asIdeal.primeCompl) _
         ⟨e, Ideal.mem_primeCompl_iff.mpr hp⟩
     have ha : IsIdempotentElem ((algebraMap R (Localization.AtPrime p.asIdeal)) e) := by
-      show _ * _ = _
+      change _ * _ = _
       rw [← map_mul, he]
     exact (IsIdempotentElem.iff_eq_one_of_isUnit hu).mp ha
 
@@ -304,7 +303,7 @@ private theorem rankAtStalk_range_smul_id_of_not_mem {R N : Type*} [CommRing R]
     rw [localizedModule_map_comp q i]
     have hfi : i.comp q = f := rfl
     rw [hfi]
-    show LocalizedModule.map S (e • LinearMap.id) = _
+    change LocalizedModule.map S (e • LinearMap.id) = _
     rw [localizedModule_map_smul_id S e, idempotent_localization_eq_one_of_not_mem e he p hp]
     simp
   have hs : Function.Surjective iq := fun x => ⟨qi x, LinearMap.congr_fun hcomp x⟩
@@ -327,14 +326,14 @@ private theorem rankAtStalk_range_smul_id_of_mem {R N : Type*} [CommRing R]
   have hfix : f.comp i = i := by
     ext x
     rcases x.2 with ⟨y, hy⟩
-    show e • x.1 = x.1
+    change e • x.1 = x.1
     rw [← hy]
-    show e • (e • y) = e • y
+    change e • (e • y) = e • y
     rw [← mul_smul, he]
   have hcomp : (LocalizedModule.map S f).comp iq = iq := by
     rw [localizedModule_map_comp i f, hfix]
   have hz : LocalizedModule.map S f = 0 := by
-    show LocalizedModule.map S (e • LinearMap.id) = 0
+    change LocalizedModule.map S (e • LinearMap.id) = 0
     rw [localizedModule_map_smul_id S e, idempotent_localization_eq_zero_of_mem e he p hp]
     simp
   have hzero (x : LocalizedModule S P) : iq x = 0 := by
@@ -346,7 +345,7 @@ private theorem rankAtStalk_range_smul_id_of_mem {R N : Type*} [CommRing R]
     intro x y
     apply hi
     rw [hzero x, hzero y]
-  show Module.finrank A (LocalizedModule S P) = 0
+  change Module.finrank A (LocalizedModule S P) = 0
   exact Module.finrank_zero_of_subsingleton
 
 /-- A determinant rank component is the range of its idempotent on the

@@ -72,7 +72,7 @@ private theorem exists_differentialBasis_mvPolynomial
   let s : KaehlerDifferential B P →ₗ[P] KaehlerDifferential R P :=
     bP.constr P fun i ↦ KaehlerDifferential.D R P (MvPolynomial.X i)
   have hs : g ∘ₗ s = LinearMap.id := bP.ext fun i ↦ by
-    show g (s (bP i)) = bP i
+    change g (s (bP i)) = bP i
     dsimp [s]
     rw [bP.constr_basis, KaehlerDifferential.map_D R B P P,
       KaehlerDifferential.mvPolynomialBasis_apply]
@@ -137,7 +137,7 @@ theorem formallySmooth_and_exists_differentialBasis_parameterChartAlgebra
   have hφ : φ ∘ₗ φ = LinearMap.id := by
     apply LinearMap.ext_on_range v.span_eq
     intro k
-    show φ (φ (v k)) = v k
+    change φ (φ (v k)) = v k
     match k with
     | Sum.inl (Sum.inl i) =>
         rw [hφinl i, map_add, map_neg, map_smul, hφinl i, hφinrc i]
@@ -167,14 +167,14 @@ theorem formallySmooth_and_exists_differentialBasis_parameterChartAlgebra
   have hrelvec (i : Fin c) : f (relClass i) = v' (Sum.inl (Sum.inl i)) := by
     rw [show f (relClass i) = (1 : Q) ⊗ₜ[P] KaehlerDifferential.D R P (rel i) from
       Algebra.Extension.cotangentComplex_mk E ⟨rel i, hrelmem i⟩]
-    show (1 : Q) ⊗ₜ[P] KaehlerDifferential.D R P (rel i) = φ (v (Sum.inl (Sum.inl i)))
+    change (1 : Q) ⊗ₜ[P] KaehlerDifferential.D R P (rel i) = φ (v (Sum.inl (Sum.inl i)))
     simp only [φ, Module.Basis.constr_basis]
     rw [show KaehlerDifferential.D R P (rel i) =
         algebraMap R P π • KaehlerDifferential.D R P (MvPolynomial.X i) -
           KaehlerDifferential.D R P (MvPolynomial.C (g i)) from by
       have hπ : MvPolynomial.C (algebraMap R B π) = algebraMap R P π :=
         IsScalarTower.algebraMap_apply R B P π
-      show KaehlerDifferential.D R P
+      change KaehlerDifferential.D R P
         (MvPolynomial.C (algebraMap R B π) * MvPolynomial.X i - MvPolynomial.C (g i)) = _
       rw [map_sub, (KaehlerDifferential.D R P).leibniz, hπ, Derivation.map_algebraMap]
       simp]
@@ -196,7 +196,7 @@ theorem formallySmooth_and_exists_differentialBasis_parameterChartAlgebra
   have hs : s ∘ₗ f = LinearMap.id := by
     apply LinearMap.ext_on_range hspan
     intro i
-    show s (f (relClass i)) = relClass i
+    change s (f (relClass i)) = relClass i
     rw [hrelvec]
     simp [s, Module.Basis.constr_basis]
   have hformal (hP : Algebra.FormallySmooth R P) : Algebra.FormallySmooth R Q := by
@@ -300,11 +300,11 @@ theorem exists_differentialBasis_parameterChartAlgebra_localization
   let e := KaehlerDifferential.tensorKaehlerEquivOfFormallyEtale R Q D
   refine ⟨(bQ.baseChange D).map e, fun i ↦ ?_, fun j ↦ ?_⟩
   · rw [Module.Basis.map_apply, Module.Basis.baseChange_apply, hbQ₁]
-    show e (1 ⊗ₜ[Q] KaehlerDifferential.D R Q (Ideal.Quotient.mk _ (MvPolynomial.X i))) = _
+    change e (1 ⊗ₜ[Q] KaehlerDifferential.D R Q (Ideal.Quotient.mk _ (MvPolynomial.X i))) = _
     simp [e, KaehlerDifferential.tensorKaehlerEquivOfFormallyEtale_apply,
       KaehlerDifferential.mapBaseChange_tmul, KaehlerDifferential.map_D, Q]
   · rw [Module.Basis.map_apply, Module.Basis.baseChange_apply, hbQ₂]
-    show KaehlerDifferential.mapBaseChange R Q D
+    change KaehlerDifferential.mapBaseChange R Q D
       (1 ⊗ₜ[Q] KaehlerDifferential.mapBaseChange R B Q (1 ⊗ₜ[B] b (Sum.inr j))) = _
     simp only [KaehlerDifferential.mapBaseChange_tmul, one_smul]
     rw [← KaehlerDifferential.map_comp_map R B Q D]
@@ -323,7 +323,7 @@ theorem mapBaseChange_D_parameterChartAlgebra_localization (i : Fin c) :
       algebraMap R (parameterChartAlgebra B (algebraMap R B π) c g) π *
         Ideal.Quotient.mk _ (MvPolynomial.X i) := by
     refine (sub_eq_zero.mp ?_).symm
-    show Ideal.Quotient.mk
+    change Ideal.Quotient.mk
       (Ideal.span (Set.range fun j : Fin c ↦
         MvPolynomial.C (algebraMap R B π) * MvPolynomial.X j - MvPolynomial.C (g j)))
       (MvPolynomial.C (algebraMap R B π) * MvPolynomial.X i - MvPolynomial.C (g i)) = 0

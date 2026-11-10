@@ -231,7 +231,7 @@ theorem nonempty_quadraticAlgebra_algEquiv_prod_of_map_maximalIdeal_eq_of_ringHo
         (AdjoinRoot.of (C (residue A a) * X ^ 2 + C (residue A b) * X + C (residue A c))) =
       ResidueField.map (algebraMap A B) := by
     refine RingHom.ext fun z => ?_
-    show ψ (eA.symm (AdjoinRoot.of _ z)) = _
+    change ψ (eA.symm (AdjoinRoot.of _ z)) = _
     rw [show AdjoinRoot.of
           (C (residue A a) * X ^ 2 + C (residue A b) * X + C (residue A c)) z =
         algebraMap (ResidueField A) (AdjoinRoot

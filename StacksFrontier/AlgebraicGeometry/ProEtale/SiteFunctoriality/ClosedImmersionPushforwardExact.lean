@@ -87,18 +87,18 @@ private theorem exists_ideal_isCompact_compl_zeroLocus_of_isClosedImmersion
   have hrq : Set.range (p ≫ W.isoSpec.hom).base =
       (PrimeSpectrum.zeroLocus (I : Set ↥Γ(W, ⊤)) : Set ↥(Spec Γ(W, ⊤))) := by
     rw [hfac, Scheme.Hom.comp_base]
-    show Set.range ((Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I))).base ∘
+    change Set.range ((Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I))).base ∘
       eP.hom.base) = _
     rw [Set.range_comp, Set.range_eq_univ.mpr (by
       have _ : IsIso eP.hom.base := Scheme.forgetToTop.map_isIso eP.hom
       exact ((TopCat.isIso_iff_isHomeomorph _).mp inferInstance).surjective),
       Set.image_univ]
-    show Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk I)) = _
+    change Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk I)) = _
     rw [_root_.range_comap_of_surjective _ _ Ideal.Quotient.mk_surjective]
     simp [Ideal.mk_ker]
   have himage : Set.range (p ≫ W.isoSpec.hom).base = eW '' Set.range p.base := by
     rw [Scheme.Hom.comp_base]
-    show Set.range (eW ∘ p.base) = _
+    change Set.range (eW ∘ p.base) = _
     rw [Set.range_comp]
   have h : IsCompact (eW '' ((Set.range p.base)ᶜ)) := hc.image eW.continuous
   rwa [Homeomorph.image_compl, ← himage, hrq] at h
@@ -131,7 +131,7 @@ theorem SmallProetale.isWContractibleObject_baseChange_of_isRetrocompact
   have haffP : IsAffine (B.inclusion.obj (pullback U.obj.hom i)) :=
     isAffine_of_isAffineHom (B.inclusion.map (pullback.fst U.obj.hom i))
   refine ⟨haffP, ?_⟩
-  show IsWContractible.{u, u} Γ(B.inclusion.obj (pullback U.obj.hom i), ⊤)
+  change IsWContractible.{u, u} Γ(B.inclusion.obj (pullback U.obj.hom i), ⊤)
   set W : Scheme.{u} := B.inclusion.obj U.obj.left
   set P : Scheme.{u} := B.inclusion.obj (pullback U.obj.hom i)
   set p : P ⟶ W := B.inclusion.map (pullback.fst U.obj.hom i) with hp

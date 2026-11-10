@@ -167,7 +167,7 @@ theorem properPushforwardChowCohomology_modificationPowerSum
       (perfectPowerSum C (modificationProjection f b ≫ f) hQ p) =
       perfectPowerSum C f (hQ.derivedPullback _) p :=
     res_perfectPowerSum_derivedPullback C _ hQ _ hs _ p
-  show _ = perfectPowerSum C f (hQ.derivedPullback _) p p
+  change _ = perfectPowerSum C f (hQ.derivedPullback _) p p
   rw [← hres, TotalChowClass.res_apply_eq_bivariantClassCongrBase]
   exact properPushforwardChowCohomology_localizedModificationClass (gysinAtInfinityData C f b hA)
     z t hT (vanishesOver_perfectPowerSumClass_of_isZero C (modificationProjection f b ≫ f)

@@ -92,7 +92,7 @@ theorem i_comp_solutionSheafedIso :
   apply SheafedSpace.ext _ _ Q.baseIso.hom_inv_id
   refine NatTrans.ext (funext fun U => ?_)
   rw [NatTrans.comp_app]
-  show (𝟙 _ ≫ Q.i.hom.c.app _) ≫ X.left.presheaf.map _ = Q.thickenedReduction.app U
+  change (𝟙 _ ≫ Q.i.hom.c.app _) ≫ X.left.presheaf.map _ = Q.thickenedReduction.app U
   rw [Category.id_comp, Q.thickenedReduction_eq_comp U]
   congr 2
   exact opens_op_hom_ext _ _
@@ -137,7 +137,7 @@ theorem solutionKernelInclusion_naturality {U V : (Opens X.left.carrier)ᵒᵖ} 
     (x : (SchemeDeformationCategory.pulledIdeal A X).val.obj U) :
     solutionKernelInclusion Q V ((SchemeDeformationCategory.pulledIdeal A X).val.map g x) =
       (solutionSheaf Q).presheaf.map g (solutionKernelInclusion Q U x) := by
-  show Q.incl _ = (Q.X'.presheaf.map ((Opens.map Q.baseIso.inv).op.map g)).hom (Q.incl _)
+  change Q.incl _ = (Q.X'.presheaf.map ((Opens.map Q.baseIso.inv).op.map g)).hom (Q.incl _)
   rw [← DeformationSolution.incl_naturality]
   exact congrArg Q.incl (pulledIdeal_map_map _ _ _ _ x)
 
@@ -145,9 +145,9 @@ theorem solutionKernelInclusion_naturality {U V : (Opens X.left.carrier)ᵒᵖ} 
 theorem solutionKernelInclusion_mem_kernel (U : (Opens X.left.carrier)ᵒᵖ)
     (x : (SchemeDeformationCategory.pulledIdeal A X).val.obj U) :
     (solutionReduction Q).hom.app U (solutionKernelInclusion Q U x) = 0 := by
-  show (Q.thickenedReduction.app U).hom (Q.incl _) = 0
+  change (Q.thickenedReduction.app U).hom (Q.incl _) = 0
   rw [Q.thickenedReduction_app]
-  show (X.left.presheaf.map (Q.roundTripHom U)).hom (Q.reduction (Q.incl _)) = 0
+  change (X.left.presheaf.map (Q.roundTripHom U)).hom (Q.reduction (Q.incl _)) = 0
   rw [Q.reduction_incl]
   exact map_zero _
 
@@ -216,10 +216,10 @@ theorem solutionKernelInclusion_smul (U : (Opens X.left.carrier)ᵒᵖ)
   have hc : X.left.ringCatSheaf.obj.map (ascendHom Q U)
       ((solutionReduction Q).hom.app U a) =
       Q.i.hom.c.app ((Opens.map Q.baseIso.inv).op.obj U) a := by
-    show (X.left.presheaf.map (ascendHom Q U)).hom ((Q.thickenedReduction.app U).hom a) = _
+    change (X.left.presheaf.map (ascendHom Q U)).hom ((Q.thickenedReduction.app U).hom a) = _
     exact (congrArg _ (Q.thickenedReduction_app U a)).trans
       (presheaf_map_map_eq_self_of_opens _ _ _ _)
-  show Q.incl _ = (show Q.X'.presheaf.obj ((Opens.map Q.baseIso.inv).op.obj U) from a) *
+  change Q.incl _ = (show Q.X'.presheaf.obj ((Opens.map Q.baseIso.inv).op.obj U) from a) *
     Q.incl _
   refine Eq.trans (congrArg Q.incl ?_) (Q.mul_incl _ _).symm
   exact ((SchemeDeformationCategory.pulledIdeal A X).val.map_smul (ascendHom Q U)
@@ -358,7 +358,7 @@ theorem exists_isomorphic_fiberSolution :
       specialMap := R.immersion, specialCartesian := hpb }
   refine ⟨⟨P, rfl⟩, isomorphic_of_comm e.hom th₀ ?_⟩
   refine bh₀.trans ?_
-  show R.toBase.toLRSHom.toShHom = (R.toBase ≫ eqToHom rfl).toLRSHom.toShHom
+  change R.toBase.toLRSHom.toShHom = (R.toBase ≫ eqToHom rfl).toLRSHom.toShHom
   rw [eqToHom_refl, Category.comp_id]
 
 /-- **The isomorphism classes of the fibre of the deformation category of `X` over `A` are the

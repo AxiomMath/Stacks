@@ -295,6 +295,7 @@ theorem chowGroupRestrict_topChernCap_piece (hreg : IsRegularImmersion i') (r e 
     chowGroupRestrict_topChernCap, chowGroupRestrict_fundamentalChowClass C _ _ _ _ _
       (schemeDeltaDimension_le_sub_of_isRegularImmersion C sZ' (g ≫ sX) i' hi' hreg r n hY)]
 
+omit [LocallyOfFiniteType sX] in
 /-- If the excess normal sheaf `ℰ` has rank `s` on the piece `Z'_a` and `e ≠ s`, the restriction
 of `c_top(ℰ) ∩ [Z']_{n - r}` in degree `e` to `Z'_a` vanishes. -/
 theorem chowGroupRestrict_topChernCap_piece_of_ne (r e s : ℕ)

@@ -314,7 +314,7 @@ module. -/
 theorem kZeroEquivKPrime0_mk (R : Type u) [CommRing R] [IsNoetherianRing R]
     (M : FGModuleCat.{u} R) :
     kZeroEquivKPrime0 R (KZero.mk _ M) = (finModuleOfFG M).cls := by
-  show kZeroToKPrime0 R (KZero.mk _ M) = _
+  change kZeroToKPrime0 R (KZero.mk _ M) = _
   rw [kZeroToKPrime0, KZero.lift_mk]
 
 /-! ### The comparison for `Spec R` -/
@@ -352,10 +352,10 @@ theorem affineCoherentKZeroEquiv_mk (R : Type u) [CommRing R] [IsNoetherianRing 
   let cM : AffineCoherentQuasicoherentModules R := ⟨qM, hFM⟩
   obtain ⟨hFiso⟩ := hF
   have hD : E₂.functor.obj F ≅ E₃.functor.obj N := by
-    show cF ≅ cM
+    change cF ≅ cM
     exact ObjectProperty.isoMk _ (ObjectProperty.isoMk _ hFiso)
   have hP : (coherentModulesEquivFGModuleCat R).functor.obj F ≅ N := by
-    show E₃.inverse.obj (E₂.functor.obj F) ≅ N
+    change E₃.inverse.obj (E₂.functor.obj F) ≅ N
     exact E₃.inverse.mapIso hD ≪≫ (E₃.unitIso.app N).symm
   rw [affineCoherentKZeroEquiv, AddEquiv.trans_apply, kZeroEquivOfEquivalence_mk,
     kZeroEquivKPrime0_mk]

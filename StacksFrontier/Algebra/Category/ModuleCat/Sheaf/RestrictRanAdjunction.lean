@@ -335,13 +335,13 @@ unit up to the two identities that `CategoryTheory.Adjunction.restrictFullyFaith
 theorem sheafAdjunction_unit_app_val (B : _root_.SheafOfModules.{v} OY) :
     ((sheafAdjunction.{v} w JX JY OY).unit.app B).val =
       (adjunction.{v} w OY.obj).unit.app B.val := by
-  show (_root_.SheafOfModules.forget.{v} OY).map
+  change (_root_.SheafOfModules.forget.{v} OY).map
     ((sheafAdjunction.{v} w JX JY OY).unit.app B) = _
   exact Eq.trans (Adjunction.map_restrictFullyFaithful_unit_app (adjunction.{v} w OY.obj)
     (_root_.SheafOfModules.fullyFaithfulForget.{v} OY)
     (_root_.SheafOfModules.fullyFaithfulForget.{v} (ringSheaf w JX JY OY)) _ _ B)
     (by
-      show (adjunction.{v} w OY.obj).unit.app B.val ≫
+      change (adjunction.{v} w OY.obj).unit.app B.val ≫
           (ranPushforward.{v} w (unitRingHom w (T := OY.obj))).map
             (𝟙 ((PresheafOfModules.pushforward₀.{v} w OY.obj).obj B.val)) ≫
           𝟙 ((ranPushforward.{v} w (unitRingHom w (T := OY.obj))).obj

@@ -152,7 +152,7 @@ theorem mapHomologicalComplexHomologyIso_natIso {P R : C ⥤ D} [P.Additive]
   let := preservesFiniteLimits_of_natIso ρ
   let := preservesFiniteColimits_of_natIso ρ
   let S := (HomologicalComplex.shortComplexFunctor C c i).obj K
-  show ShortComplex.homologyMap (S.mapNatTrans ρ.hom) ≫ (S.mapHomologyIso R).hom =
+  change ShortComplex.homologyMap (S.mapNatTrans ρ.hom) ≫ (S.mapHomologyIso R).hom =
     (S.mapHomologyIso P).hom ≫ ρ.hom.app S.homology
   rw [ShortComplex.homologyMap_mapNatTrans]
   simp
@@ -205,7 +205,7 @@ section Degree
 attribute [local instance] preservesFiniteLimits_modulePullback_of_isOpenImmersion
 
 variable {X : Scheme.{u}} (W : X.Opens) {m : ℕ} (e : Fin m → Γ(X, ⊤)) (F : X.Modules)
-  [F.IsQuasicoherent] {T : Set X} (hT : IsClosed T) (hTe : equationsClosedSet e ⊆ T)
+  {T : Set X} (hT : IsClosed T) (hTe : equationsClosedSet e ⊆ T)
   (hT' : IsClosed (restrictClosedSubset W T))
   (hTe' : equationsClosedSet (fun j => W.ι.appTop (e j)) ⊆ restrictClosedSubset W T)
 

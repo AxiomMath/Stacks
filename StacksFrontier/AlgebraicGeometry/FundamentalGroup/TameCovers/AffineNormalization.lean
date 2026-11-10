@@ -68,9 +68,9 @@ theorem isIso_normalizationDesc_specMap {A C B : CommRingCat.{u}} (ψ : A ⟶ C)
     simp only [hn, Scheme.Hom.toNormalization_normalizationDesc]
   have hχle : (Spec.map χ).appLE ⊤ (p ⁻¹ᵁ U.1) (by simp) =
       (Scheme.ΓSpecIso C).hom ≫ χ ≫ (Scheme.ΓSpecIso B).inv := by
-    show (Spec.map χ).appLE ⊤ ((Spec.map χ) ⁻¹ᵁ ⊤) le_rfl = _
+    change (Spec.map χ).appLE ⊤ ((Spec.map χ) ⁻¹ᵁ ⊤) le_rfl = _
     rw [Scheme.Hom.appLE_eq_app]
-    show (Spec.map χ).appTop = _
+    change (Spec.map χ).appTop = _
     rw [Scheme.ΓSpecIso_inv_naturality, Iso.hom_inv_id_assoc]
   have hρ : ∀ c, ((ρ c : integralClosure Γ(Spec A, U.1) Γ(Spec B, p ⁻¹ᵁ U.1)) :
       Γ(Spec B, p ⁻¹ᵁ U.1)) = (Scheme.ΓSpecIso B).inv (χ ((Scheme.ΓSpecIso C).hom c)) := by
@@ -94,7 +94,7 @@ theorem isIso_normalizationDesc_specMap {A C B : CommRingCat.{u}} (ψ : A ⟶ C)
         (congrArg CommRingCat.Hom.hom (Scheme.ΓSpecIso_naturality (ψ ≫ χ))).symm _ z.2
     obtain ⟨c, hc⟩ := hcl _ hint
     refine ⟨(Scheme.ΓSpecIso C).inv c, Subtype.ext ?_⟩
-    show ((ρ _ : integralClosure Γ(Spec A, U.1) Γ(Spec B, p ⁻¹ᵁ U.1)) :
+    change ((ρ _ : integralClosure Γ(Spec A, U.1) Γ(Spec B, p ⁻¹ᵁ U.1)) :
       Γ(Spec B, p ⁻¹ᵁ U.1)) = z
     rw [hρ, Iso.inv_hom_id_apply, hc]
     exact (Scheme.ΓSpecIso B).hom_inv_id_apply _

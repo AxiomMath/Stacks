@@ -304,7 +304,7 @@ private lemma prop_stupidTruncLE_X {A : Type*} [Category* A] [Abelian A] (P : Ob
     P ((K.stupidTrunc (ComplexShape.embeddingUpIntLE a)).X i) := by
   by_cases hi : i ≤ a
   · have heq : (ComplexShape.embeddingUpIntLE a).f (a - i).toNat = i := by
-      show a - ((a - i).toNat : ℤ) = i
+      change a - ((a - i).toNat : ℤ) = i
       omega
     exact P.prop_of_iso (K.stupidTruncXIso (ComplexShape.embeddingUpIntLE a) heq).symm (hK i)
   · exact P.prop_of_isZero (K.isZero_stupidTrunc_X (ComplexShape.embeddingUpIntLE a) i
@@ -354,21 +354,21 @@ private lemma isIso_homologyMap_map_ιStupidTrunc {A B : Type*} [Category* A] [A
         (K.ιStupidTrunc (ComplexShape.embeddingUpIntGE a))) q) := by
   let g := (F.mapHomologicalComplex (ComplexShape.up ℤ)).map
     (K.ιStupidTrunc (ComplexShape.embeddingUpIntGE a))
-  show IsIso (ShortComplex.homologyMap
+  change IsIso (ShortComplex.homologyMap
     ((HomologicalComplex.shortComplexFunctor B (ComplexShape.up ℤ) q).map g))
   apply ShortComplex.isIso_homologyMap_of_epi_of_isIso_of_mono'
-  · show Epi (g.f ((ComplexShape.up ℤ).prev q))
+  · change Epi (g.f ((ComplexShape.up ℤ).prev q))
     have : IsIso (g.f ((ComplexShape.up ℤ).prev q)) := by
       rw [CochainComplex.prev]
       dsimp only [g, Functor.mapHomologicalComplex_map_f]
       have := isIso_ιStupidTrunc_f K a (q - 1) (by omega)
       infer_instance
     exact IsIso.epi_of_iso _
-  · show IsIso (g.f q)
+  · change IsIso (g.f q)
     dsimp only [g, Functor.mapHomologicalComplex_map_f]
     have := isIso_ιStupidTrunc_f K a q (by omega)
     infer_instance
-  · show Mono (g.f ((ComplexShape.up ℤ).next q))
+  · change Mono (g.f ((ComplexShape.up ℤ).next q))
     have : IsIso (g.f ((ComplexShape.up ℤ).next q)) := by
       rw [CochainComplex.next]
       dsimp only [g, Functor.mapHomologicalComplex_map_f]
@@ -491,7 +491,7 @@ private theorem isIso_homologyFunctor_map_derivedPushforwardUnit_app {X Y : Sche
         ((HomotopyCategory.quotient
           (SheafOfModules.{u} (structureSheafRing X.toRingedSpace))
             (ComplexShape.up ℤ)).map ι))) := by
-    show IsIso ((DerivedCategory.homologyFunctor
+    change IsIso ((DerivedCategory.homologyFunctor
       (SheafOfModules.{u} (structureSheafRing Y.toRingedSpace)) q).map
       (DerivedCategory.Qh.map
         (((modulePushforward f.toLRSHom.toShHom).mapHomotopyCategory (ComplexShape.up ℤ)).map

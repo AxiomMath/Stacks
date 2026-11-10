@@ -687,7 +687,7 @@ private theorem isPullback_stalk_iff_isLocalHom (f : RingedToposHom X Y)
       have hfst : ∀ a : A,
           ((ConcreteCategory.hom j.hom a : Types.PullbackObj r b) : B × C).1 = t a := by
         intro a
-        show ((Types.pullbackIsoPullback r b).hom (h.isoPullback.hom a) : B × C).1 = t a
+        change ((Types.pullbackIsoPullback r b).hom (h.isoPullback.hom a) : B × C).1 = t a
         have key : pullback.fst r b ((Types.pullbackIsoPullback r b).inv
             ((Types.pullbackIsoPullback r b).hom (h.isoPullback.hom a)))
             = ((Types.pullbackIsoPullback r b).hom (h.isoPullback.hom a) : B × C).1 := by
@@ -699,7 +699,7 @@ private theorem isPullback_stalk_iff_isLocalHom (f : RingedToposHom X Y)
       have hsnd : ∀ a : A,
           ((ConcreteCategory.hom j.hom a : Types.PullbackObj r b) : B × C).2 = l a := by
         intro a
-        show ((Types.pullbackIsoPullback r b).hom (h.isoPullback.hom a) : B × C).2 = l a
+        change ((Types.pullbackIsoPullback r b).hom (h.isoPullback.hom a) : B × C).2 = l a
         have key : pullback.snd r b ((Types.pullbackIsoPullback r b).inv
             ((Types.pullbackIsoPullback r b).hom (h.isoPullback.hom a)))
             = ((Types.pullbackIsoPullback r b).hom (h.isoPullback.hom a) : B × C).2 := by
@@ -730,7 +730,7 @@ private theorem isPullback_stalk_iff_isLocalHom (f : RingedToposHom X Y)
         exact comm a
       have hihom : ∀ a : A, i.hom a = (Types.pullbackIsoPullback r b).inv (cmp a) := by
         intro a
-        show (Types.pullbackIsoPullback r b).inv (ConcreteCategory.hom e.toIso.hom a) = _
+        change (Types.pullbackIsoPullback r b).inv (ConcreteCategory.hom e.toIso.hom a) = _
         rw [Equiv.toIso_hom_hom_apply, Equiv.ofBijective_apply]
       refine IsPullback.of_iso_pullback hw i ?_ ?_
       · apply ConcreteCategory.hom_ext
@@ -772,11 +772,11 @@ private theorem isPullback_stalk_iff_isLocalHom (f : RingedToposHom X Y)
       funext a'
       simp only [Function.comp_apply]
       apply Subtype.ext
-      show (t' a', l' a') = (eB (t (eA.symm a')), eC (l (eA.symm a')))
+      change (t' a', l' a') = (eB (t (eA.symm a')), eC (l (eA.symm a')))
       apply Prod.ext
-      · show t' a' = eB (t (eA.symm a'))
+      · change t' a' = eB (t (eA.symm a'))
         rw [← htop, eA.apply_symm_apply]
-      · show l' a' = eC (l (eA.symm a'))
+      · change l' a' = eC (l (eA.symm a'))
         rw [← hleft, eA.apply_symm_apply]
     rw [key]
     exact efib.bijective.comp (hbij.comp eA.symm.bijective)
@@ -815,7 +815,7 @@ private theorem isPullback_stalk_iff_isLocalHom (f : RingedToposHom X Y)
     have hQ : (q.stalkUnitsIso.app Y.O).hom
         = p.stalk.map (f.finvUnitsIso.app Y.O).hom ≫
             (p.stalkUnitsIso.app (f.finvRing.obj Y.O)).hom := by
-      show ((compositePoint f p).stalkUnitsIso.app Y.O).hom = _
+      change ((compositePoint f p).stalkUnitsIso.app Y.O).hom = _
       simp [compositePoint]
     have hM : (q.stalkUnitsIso.app Y.O).hom ≫
           (p.stalkRing ⋙ unitsToType).map f.fSharp
@@ -835,7 +835,7 @@ private theorem isPullback_stalk_iff_isLocalHom (f : RingedToposHom X Y)
     have hQ : (q.stalkRing_compat.app Y.O).hom
         = (p.stalkRing_compat.app (f.finvRing.obj Y.O)).hom ≫
             p.stalk.map (f.finvRing_compat.app Y.O).hom := by
-      show ((compositePoint f p).stalkRing_compat.app Y.O).hom = _
+      change ((compositePoint f p).stalkRing_compat.app Y.O).hom = _
       simp [compositePoint]
     have hcancel : p.stalk.map (f.finvRing_compat.app Y.O).hom ≫
           p.stalk.map (f.finvRing_compat.symm.app Y.O).hom = 𝟙 _ := by
@@ -853,7 +853,7 @@ private theorem isPullback_stalk_iff_isLocalHom (f : RingedToposHom X Y)
         (f.finvRing.obj Y.O) ⟶ (X.OsetFunctor ⋙ p.stalk).obj X.O =>
       ConcreteCategory.hom φ ((q.stalkRing_compat.app Y.O).inv x)) hM
     simp only [types_comp_apply] at key
-    show ConcreteCategory.hom ((p.stalkRing ⋙ forget CommRingCat.{u}).map f.fSharp)
+    change ConcreteCategory.hom ((p.stalkRing ⋙ forget CommRingCat.{u}).map f.fSharp)
           ((q.stalkRing_compat.app Y.O).inv x)
         = (p.stalkRing_compat.app X.O).inv (ConcreteCategory.hom (p.stalk.map f.fSharpSet) x)
     apply (ConcreteCategory.bijective_of_isIso (p.stalkRing_compat.app X.O).hom).injective

@@ -75,7 +75,7 @@ theorem baseInverseImageRingMap_comp_comp (f : X ⟶ S) (t₂ : S ⟶ S₂) (h' 
   have e2 := adjointBaseHom_baseInverseImageRingMap_comp h' (f ≫ t₂) (inverseImageBaseRing f)
     (baseInverseImageRingMap f t₂)
   refine (key (t₂ ≫ h')).trans (Eq.trans ?_ e2.symm)
-  show _ = thickeningSharp h' ≫ (TopCat.Sheaf.pushforward CommRingCat.{u} h'.hom.base).map
+  change _ = thickeningSharp h' ≫ (TopCat.Sheaf.pushforward CommRingCat.{u} h'.hom.base).map
     (adjointBaseHom f (inverseImageBaseRing f) (t := t₂) (baseInverseImageRingMap f t₂))
   rw [key t₂]
   refine Eq.trans ?_ (congrArg (thickeningSharp h' ≫ ·) ((TopCat.Sheaf.pushforward CommRingCat.{u}

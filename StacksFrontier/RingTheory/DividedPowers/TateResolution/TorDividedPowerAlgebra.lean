@@ -925,7 +925,7 @@ public theorem directSumDividedPowerStructure_dpow (n : ℕ) (x : B)
     rangeLofGradedAlgebra e mulD oneD hcyc hmulD h1 h1D he
   let : IsStrictlyGradedComm fun i => LinearMap.range (DirectSum.lof R ℕ M i) :=
     rangeLofIsStrictlyGradedComm e mulD oneD hcyc hmulD h1 h1D he
-  show (if directSumClass e (⟨x, hd⟩ : cycles dB) ∈
+  change (if directSumClass e (⟨x, hd⟩ : cycles dB) ∈
       (positiveEvenPart fun i => LinearMap.range (DirectSum.lof R ℕ M i))
     then dpowD n (directSumClass e (⟨x, hd⟩ : cycles dB)) else 0) = _
   rw [ite_eq_left (directSumClass_mem_iSup_positiveEven e he hd hx), hdpowD n x hx hd]

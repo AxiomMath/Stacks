@@ -301,7 +301,7 @@ theorem isPullback_relativeProjMap :
   rw [Types.isPullback_iff]
   refine ⟨?_, ?_, ?_⟩
   · ext x
-    show yonedaEquiv (ρ₁.relativeProjFunctorEquiv hc T.unop
+    change yonedaEquiv (ρ₁.relativeProjFunctorEquiv hc T.unop
       ((e₁.relativeProjMap hc hc').app T x)).point = g.app T (yonedaEquiv
         (ρ₁'.relativeProjFunctorEquiv hc' T.unop x).point)
     rw [relativeProjFunctorEquiv_relativeProjMap, limPointMap_point, yonedaEquiv_comp]
@@ -318,7 +318,7 @@ theorem isPullback_relativeProjMap :
     refine ⟨(ρ₁'.relativeProjFunctorEquiv hc' T.unop).symm ξ, ?_, ?_⟩
     · apply (ρ₁.relativeProjFunctorEquiv hc T.unop).injective
       rw [relativeProjFunctorEquiv_relativeProjMap, Equiv.apply_symm_apply, hξ']
-    · show yonedaEquiv (ρ₁'.relativeProjFunctorEquiv hc' T.unop
+    · change yonedaEquiv (ρ₁'.relativeProjFunctorEquiv hc' T.unop
         ((ρ₁'.relativeProjFunctorEquiv hc' T.unop).symm ξ)).point = x
       rw [Equiv.apply_symm_apply, hξ, Equiv.apply_symm_apply]
 

@@ -64,7 +64,7 @@ def globalSectionsEquiv : Γ(affineLine k, ⊤) ≃+* MvPolynomial (ULift.{u} (F
 variable. -/
 theorem globalSectionsEquiv_coordinate :
     globalSectionsEquiv k (coordinate k) = MvPolynomial.X ⟨0⟩ := by
-  show (Scheme.ΓSpecIso _).hom ((AffineSpace.SpecIso (ULift.{u} (Fin 1)) (.of k)).inv.appTop
+  change (Scheme.ΓSpecIso _).hom ((AffineSpace.SpecIso (ULift.{u} (Fin 1)) (.of k)).inv.appTop
     (AffineSpace.coord _ ⟨0⟩)) = _
   rw [AffineSpace.SpecIso_inv_appTop_coord, ← CommRingCat.comp_apply, Iso.inv_hom_id,
     CommRingCat.id_apply]
@@ -76,7 +76,7 @@ instance isDomain_globalSections : IsDomain Γ(affineLine k, ⊤) :=
 /-- The coordinate `t` is a prime element of `k[t] = Γ(𝐀¹_k, 𝒪)`. -/
 theorem prime_coordinate : Prime (coordinate k) := by
   rw [← MulEquiv.prime_iff (globalSectionsEquiv k).toMulEquiv]
-  show Prime (globalSectionsEquiv k (coordinate k))
+  change Prime (globalSectionsEquiv k (coordinate k))
   rw [globalSectionsEquiv_coordinate]
   exact MvPolynomial.X_prime
 
@@ -95,7 +95,7 @@ theorem exists_pow_eq_units_globalSections [IsAlgClosed k] {n : ℕ} (hn : 0 < n
       (MvPolynomial.C : k →+* MvPolynomial _ k).toMonoidHom)
   refine ⟨b, Units.ext ?_⟩
   apply (globalSectionsEquiv k).injective
-  show globalSectionsEquiv k ((globalSectionsEquiv k).symm (MvPolynomial.C d) ^ n) =
+  change globalSectionsEquiv k ((globalSectionsEquiv k).symm (MvPolynomial.C d) ^ n) =
     globalSectionsEquiv k a
   rw [map_pow, RingEquiv.apply_symm_apply, ← map_pow, hd]
   exact hc.2.symm
@@ -178,7 +178,7 @@ theorem natCard_eq_of_surjective_of_ker_eq_range {A B : Type*} [AddCommGroup A] 
       exact ⟨E y, (hE y).symm⟩
     · rintro ⟨w, rfl⟩
       refine ⟨pw (E.symm w), ⟨E.symm w, rfl⟩, ?_⟩
-      show E (pw (E.symm w)) = n • w
+      change E (pw (E.symm w)) = n • w
       rw [hE, AddEquiv.apply_symm_apply]
   let e : B ≃+ Additive Sˣ ⧸ (nsmulAddMonoidHom n : Additive Sˣ →+ Additive Sˣ).range :=
     ((QuotientAddGroup.quotientKerEquivOfSurjective δ hδ).symm.trans

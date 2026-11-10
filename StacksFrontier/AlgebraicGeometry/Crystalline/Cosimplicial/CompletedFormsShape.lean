@@ -188,7 +188,7 @@ public theorem surjective_algebraMap_adicCompletion_quotient (hI : I.FG) (k : �
   obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective z
   obtain ⟨r, hr⟩ := Submodule.Quotient.mk_surjective _ (AdicCompletion.eval I R k x)
   refine ⟨r, ?_⟩
-  show Ideal.Quotient.mk _ (AdicCompletion.of I R r) = Ideal.Quotient.mk _ x
+  change Ideal.Quotient.mk _ (AdicCompletion.of I R r) = Ideal.Quotient.mk _ x
   refine (Ideal.Quotient.mk_eq_mk_iff_sub_mem _ _).2 ?_
   have hker : AdicCompletion.of I R r - x ∈ (AdicCompletion.eval I R k).ker := by
     simp only [LinearMap.mem_ker, map_sub, AdicCompletion.eval_of, ← hr, Submodule.mkQ_apply,
@@ -222,7 +222,7 @@ public theorem exteriorPowerCongr_apply_ιMulti {M M' : Type*} [AddCommGroup M] 
     [AddCommGroup M'] [Module R M'] (n : ℕ) (e : M ≃ₗ[R] M') (w : Fin n → M) :
     exteriorPowerCongr n e (exteriorPower.ιMulti R n w) =
       exteriorPower.ιMulti R n fun j => e (w j) := by
-  show exteriorPower.map n (e : M →ₗ[R] M') _ = _
+  change exteriorPower.map n (e : M →ₗ[R] M') _ = _
   rw [exteriorPower.map_apply_ιMulti]
   rfl
 
@@ -238,7 +238,7 @@ public theorem exteriorPowerQuotSmulTopEquiv_mk_ιMulti (i : ℕ) (v : Fin i →
       (1 : R ⧸ K) ⊗ₜ[R] exteriorPower.ιMulti R i v := by
     rw [LinearEquiv.symm_apply_eq, IsBaseChange.equiv_tmul, one_smul]
     rfl
-  show (isBaseChange_exteriorPowerMapOfBaseChange _ (isBaseChange_mkQ_smulTop K N) i).equiv
+  change (isBaseChange_exteriorPowerMapOfBaseChange _ (isBaseChange_mkQ_smulTop K N) i).equiv
       (((isBaseChange_mkQ_smulTop K ↥(⋀[R]^i N)).equiv).symm _) = _
   rw [h1, IsBaseChange.equiv_tmul, one_smul, exteriorPowerMapOfBaseChange_ιMulti]
   rfl
@@ -273,7 +273,7 @@ class of `x`. -/
 public theorem adicQuotLevelEquiv_mk_of (hI : I.FG) (k : ℕ) (x : N) :
     adicQuotLevelEquiv hI k (Submodule.Quotient.mk (AdicCompletion.of I N x)) =
       Submodule.Quotient.mk x := by
-  show AdicCompletion.quotPowSMulTopEquiv hI N k
+  change AdicCompletion.quotPowSMulTopEquiv hI N k
       ((quotSmulTopPowRestrictEquiv (S := AdicCompletion I R) (M := AdicCompletion I N) I k).symm
         (Submodule.Quotient.mk (AdicCompletion.of I N x))) = _
   rw [quotSmulTopPowRestrictEquiv_symm_mk, AdicCompletion.quotPowSMulTopEquiv_mk,

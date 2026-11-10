@@ -88,7 +88,7 @@ variable [∀ V : PrimeDivisor B S hS X,
 zero, which is not a unit of `Q(𝒪^h_{X, ξ})`, so the construction falls back on `1`. -/
 theorem PrimeDivisor.canonicalLocalRatio_zero :
     W.canonicalLocalRatio B S hS hX hdec L hL hInt hN 0 = 1 := by
-  refine dif_neg fun h => zero_ne_one (α := W.genericTotalFractionRing B S hS hX hdec) ?_
+  refine dite_eq_right fun h => zero_ne_one (α := W.genericTotalFractionRing B S hS hX hdec) ?_
   rw [W.canonicalGenericRatio_zero B S hS hX hdec L hL hInt hN] at h
   exact isUnit_zero_iff.mp h
 

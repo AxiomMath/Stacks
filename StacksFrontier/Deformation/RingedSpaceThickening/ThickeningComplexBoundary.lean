@@ -94,7 +94,8 @@ is not derived here: `hrestrict`, which says that the canonical map of Tag 08L4 
 structure half of Tag 08LC, which
 `StacksFrontier.Deformation.RingedSpaceThickening.ExtensionFunctoriality` explicitly does not
 supply: the library does not identify the underlying spaces of `X`, `X'₂` and `X'₃`, and no
-result of the library computes the canonical map of an extension read across a morphism of thickenings.
+result of the library computes the canonical map of an extension read across a morphism of
+thickenings.
 Everything else the remark asserts — both compatibility squares, the pushout description of
 `ℱ'₁`, the construction of the presentation of the obstruction and the identity of classes — is
 proved.

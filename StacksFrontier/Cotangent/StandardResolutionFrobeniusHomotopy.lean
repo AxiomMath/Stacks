@@ -211,7 +211,7 @@ private theorem polynomial_map_X_of_eq (A : Type u) [CommRing A]
       ((CommAlgCat.algEquivOfIso (eqToIso hP)).symm (MvPolynomial.X r)) =
       (CommAlgCat.algEquivOfIso (eqToIso hQ)).symm (MvPolynomial.X (f r)) := by
   subst P Q
-  show MvPolynomial.rename f.hom (MvPolynomial.X r) = MvPolynomial.X (f r)
+  change MvPolynomial.rename f.hom (MvPolynomial.X r) = MvPolynomial.X (f r)
   exact MvPolynomial.rename_X _ _
 
 /-- Every face other than the zeroth takes variables to variables:
@@ -301,14 +301,14 @@ private theorem standardResolution_edge_filler (A : Type u) [CommRing A]
   refine ⟨(standardResolution A B).left.σ (0 : Fin 1) x₁ +
     standardResolutionX A B 0 (x₀ - x₁) -
     standardResolutionX A B 0 0, ?_, ?_⟩
-  · show (P.δ (0 : Fin 2)).hom (_ + _ - _) = x₀
+  · change (P.δ (0 : Fin 2)).hom (_ + _ - _) = x₀
     rw [map_sub, map_add, standardResolution_δ_zero_X, standardResolution_δ_zero_X]
     have hs := congrArg (fun f : P.obj (op ⦋0⦌) ⟶ P.obj (op ⦋0⦌) => f.hom x₁)
       (P.δ_comp_σ_self (i := (0 : Fin 1)))
     change P.δ 0 (P.σ 0 x₁) = x₁ at hs
     rw [hs]
     abel
-  · show (P.δ (1 : Fin 2)).hom (_ + _ - _) = x₁
+  · change (P.δ (1 : Fin 2)).hom (_ + _ - _) = x₁
     rw [map_sub, map_add, standardResolution_δ_one_X, standardResolution_δ_one_X,
       map_sub, hx, sub_self, map_zero]
     have hs := congrArg (fun f : P.obj (op ⦋0⦌) ⟶ P.obj (op ⦋0⦌) => f.hom x₁)
@@ -327,11 +327,11 @@ private theorem standardResolution_cycle_filler (A : Type u) [CommRing A]
       ∀ i : Fin (n + 2), (standardResolution A B).left.δ i.succ r = 0 := by
   refine ⟨standardResolutionX A B (n + 1) q -
     standardResolutionX A B (n + 1) 0, ?_, ?_⟩
-  · show ((standardResolution A B).left.δ (0 : Fin (n + 3))).hom
+  · change ((standardResolution A B).left.δ (0 : Fin (n + 3))).hom
       (_ - _) = q
     rw [map_sub, standardResolution_δ_zero_X, standardResolution_δ_zero_X, sub_zero]
   · intro i
-    show ((standardResolution A B).left.δ i.succ).hom (_ - _) = 0
+    change ((standardResolution A B).left.δ i.succ).hom (_ - _) = 0
     rw [map_sub, standardResolution_δ_succ_X, standardResolution_δ_succ_X, hq i,
       map_zero, sub_self]
 
@@ -356,7 +356,7 @@ private theorem exists_horn_filler_commRing (P : SimplicialObject CommRingCat.{v
   have hf : ∀ k, Function.Surjective (f.app k).hom := by
     intro k y
     refine ⟨0, ?_⟩
-    show (PUnit.unit : PUnit) = _
+    change (PUnit.unit : PUnit) = _
     exact Subsingleton.elim _ _
   have hfib : HomotopicalAlgebra.Fibration (Functor.whiskerRight f (forget AddGrpCat)) :=
     SimplicialObject.fibration_whiskerRight_forget_of_surjective f hf
@@ -366,17 +366,17 @@ private theorem exists_horn_filler_commRing (P : SimplicialObject CommRingCat.{v
     intro j k _ _ hjk
     apply (SimplicialObject.yonedaEquivObj Z n).injective
     simp only [← SimplicialObject.δ_yonedaEquivObj, Equiv.apply_symm_apply]
-    show (P.δ (k.pred (Fin.ne_zero_of_lt hjk))).hom (x j) =
+    change (P.δ (k.pred (Fin.ne_zero_of_lt hjk))).hom (x j) =
       (P.δ (j.castPred (Fin.ne_last_of_lt hjk))).hom (x k)
     exact hx j k hjk
   obtain ⟨g, hg, _⟩ := hc.exists_lift (Functor.whiskerRight f (forget AddGrpCat))
     ((SimplicialObject.yonedaEquivObj Y (n + 2)).symm 0) (by
       intro j hj
       ext k y
-      show (PUnit.unit : PUnit) = _
+      change (PUnit.unit : PUnit) = _
       exact Subsingleton.elim _ _)
   refine ⟨SimplicialObject.yonedaEquivObj Z (n + 2) g, fun i => ?_⟩
-  show (Z.δ i.succ).hom (SimplicialObject.yonedaEquivObj Z (n + 2) g) = _
+  change (Z.δ i.succ).hom (SimplicialObject.yonedaEquivObj Z (n + 2) g) = _
   rw [SimplicialObject.δ_yonedaEquivObj, hg i.succ (Fin.succ_ne_zero i),
     Equiv.apply_symm_apply]
 
@@ -395,7 +395,7 @@ private theorem standardResolution_boundary_filler (A : Type u) [CommRing A]
   obtain ⟨y, hy⟩ := exists_horn_filler_commRing P n x hx
   have hq : ∀ i : Fin (n + 2), P.δ i (x 0 - P.δ 0 y) = 0 := by
     intro i
-    show (P.δ i).hom (_ - _) = 0
+    change (P.δ i).hom (_ - _) = 0
     rw [map_sub]
     have hi := hx 0 i.succ (Fin.succ_pos i)
     simp only [Fin.pred_succ, Fin.castPred_zero] at hi
@@ -411,11 +411,11 @@ private theorem standardResolution_boundary_filler (A : Type u) [CommRing A]
   refine ⟨y + q, fun i => ?_⟩
   cases i using Fin.cases with
   | zero =>
-      show (P.δ 0).hom (_ + _) = _
+      change (P.δ 0).hom (_ + _) = _
       rw [map_add, hq₀]
       abel
   | succ i =>
-      show (P.δ i.succ).hom (_ + _) = _
+      change (P.δ i.succ).hom (_ + _) = _
       rw [map_add, hy i, hqδ i, add_zero]
 
 /-- The index set of the polynomial presentation of `P_n`: the `n`-fold iterate of `C ↦ A[C]`
@@ -468,7 +468,7 @@ private theorem resolutionVariable_degeneracy (A : Type u) [CommRing A]
   obtain ⟨y, hy⟩ := polynomial_degeneracy_mem_range_X A B n i x
   refine ⟨y, ?_⟩
   rw [standardResolution_degeneracy]
-  show ((CommAlgCat.algEquivOfIso
+  change ((CommAlgCat.algEquivOfIso
       (eqToIso (standardResolution_obj A B (n + 1)))).symm)
       (((Godement.degeneracy (polynomialComonad A).δ n i).app B).hom
         ((resolutionPolynomialEquiv A B n) (resolutionVariable A B n x))) = _
@@ -689,12 +689,12 @@ private theorem ringHom_ext_of_polynomialEquiv {R S T : Type*} [CommRing R]
   have he : f.comp e.symm.toRingEquiv.toRingHom =
       g.comp e.symm.toRingEquiv.toRingHom := by
     refine MvPolynomial.ringHom_ext (fun a => ?_) hV
-    show f (e.symm (MvPolynomial.C a)) = g (e.symm (MvPolynomial.C a))
+    change f (e.symm (MvPolynomial.C a)) = g (e.symm (MvPolynomial.C a))
     rw [show e.symm (MvPolynomial.C a) = algebraMap R S a from e.symm.commutes a]
     exact hR a
   ext x
   simpa only [RingHom.comp_apply, RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom,
-    AlgEquiv.coe_ringEquiv, AlgEquiv.symm_apply_apply] using
+    AlgEquiv.coe_toRingEquiv, AlgEquiv.symm_apply_apply] using
     RingHom.congr_fun he (e x)
 
 /-- The faces of an `(n + 2)`-simplex, pushed through a map defined on a subcomplex which contains
@@ -751,7 +751,7 @@ private theorem PolynomialHomotopyStage.augmentation_apply
   have ht : (resolutionCylinder A B).map f x.1 =
       ((standardResolution.{u, max u v} A B).left.map f x.1.1,
         SimplexCategory.const ⦋0⦌ ⦋1⦌ (x.1.2.toOrderHom 0)) := by
-    show (_, (SimplexCategory.const ⦋0⦌ n.unop 0) ≫ x.1.2) = (_, _)
+    change (_, (SimplexCategory.const ⦋0⦌ n.unop 0) ≫ x.1.2) = (_, _)
     exact congrArg (fun t =>
       ((standardResolution.{u, max u v} A B).left.map f x.1.1, t))
       (SimplexCategory.const_comp ⦋0⦌ x.1.2 0)
@@ -851,7 +851,7 @@ private theorem PolynomialHomotopyStage.ringMaps_agree_on_filtration
         (P.map f.op).hom.toRingHom.comp (h.ringMap m hm s) := by
       apply ringHom_ext_of_polynomialEquiv (resolutionPolynomialEquiv A B m)
       · intro a
-        show F (f ≫ s) ((P.map f.op).hom (algebraMap A _ a)) =
+        change F (f ≫ s) ((P.map f.op).hom (algebraMap A _ a)) =
           (P.map f.op).hom (h.ringMap m hm s (algebraMap A _ a))
         rw [(P.map f.op).hom.commutes, hR, h.ringMap_base, (P.map f.op).hom.commutes]
       · intro v
@@ -864,7 +864,7 @@ private theorem PolynomialHomotopyStage.ringMaps_agree_on_filtration
         change (resolutionCylinder A B).map f.op z ∈
           (resolutionCylinderFiltration A B d).obj _ at hzmem
         rw [hz] at hzmem
-        show F (f ≫ s) (P.map f.op (resolutionVariable A B m v)) =
+        change F (f ≫ s) (P.map f.op (resolutionVariable A B m v)) =
           P.map f.op (h.ringMap m hm s (resolutionVariable A B m v))
         rw [hw, hX _ _ hzmem, ← h.ringMap_apply]
         have hn := (h.naturality_apply p f.op z (cylinder_low_mem A B d m hm z)).symm
@@ -909,12 +909,12 @@ private theorem PolynomialHomotopyStage.exists_degree_ringMaps_succ
     (MvPolynomial.eval₂Hom ((algebraMap A _).comp (frobeniusHom hp hA)) (a t)).comp
       (resolutionPolynomialEquiv A B (n + 1)).toRingEquiv.toRingHom
   have hFX (t) (v) : F t (resolutionVariable A B (n + 1) v) = a t v := by
-    show MvPolynomial.eval₂Hom _ _ ((resolutionPolynomialEquiv A B (n + 1))
+    change MvPolynomial.eval₂Hom _ _ ((resolutionPolynomialEquiv A B (n + 1))
       ((resolutionPolynomialEquiv A B (n + 1)).symm (MvPolynomial.X v))) = _
     rw [AlgEquiv.apply_symm_apply]
     exact MvPolynomial.eval₂Hom_X' _ _ _
   have hFR t a : F t (algebraMap A _ a) = algebraMap A _ (frobeniusHom hp hA a) := by
-    show MvPolynomial.eval₂Hom _ _
+    change MvPolynomial.eval₂Hom _ _
       ((resolutionPolynomialEquiv A B (n + 1)) (algebraMap A _ a)) = _
     rw [AlgEquiv.commutes]
     exact MvPolynomial.eval₂Hom_C _ _ _
@@ -927,11 +927,11 @@ private theorem PolynomialHomotopyStage.exists_degree_ringMaps_succ
           (P.δ i).hom.toRingHom := by
       apply ringHom_ext_of_polynomialEquiv (resolutionPolynomialEquiv A B (n + 1))
       · intro b
-        show (P.δ i).hom (F t (algebraMap A _ b)) =
+        change (P.δ i).hom (F t (algebraMap A _ b)) =
           h.ringMap n _ _ ((P.δ i).hom (algebraMap A _ b))
         rw [hFR, (P.δ i).hom.commutes, (P.δ i).hom.commutes, h.ringMap_base]
       · intro v
-        show P.δ i (F t (resolutionVariable A B (n + 1) v)) = _
+        change P.δ i (F t (resolutionVariable A B (n + 1) v)) = _
         rw [hFX]
         exact ((ha t v).2 i).trans
           (h.ringMap_apply n (Nat.lt_succ_self n) (SimplexCategory.δ i ≫ t)
@@ -991,7 +991,7 @@ private theorem exists_skeleton_extension (X Y : SSet.{v}) (U : X.Subcomplex) (d
       simp [k, c]
     have hv : SSet.yonedaEquiv (c.ιSigmaStdSimplex ≫ b U.ι d) = ⟨x, hx⟩ := by
       apply Subtype.ext
-      show ((b U.ι d).app _ (c.ιSigmaStdSimplex.app _
+      change ((b U.ι d).app _ (c.ιSigmaStdSimplex.app _
         (SSet.stdSimplex.objEquiv.symm (𝟙 ⦋d⦌)))).val = x
       exact (c.b_app_ι_app_objEquiv_symm_val (𝟙 ⦋d⦌)).trans (by simp [c])
     simpa only [SSet.yonedaEquiv_comp, hv, Equiv.apply_symm_apply] using
@@ -1216,7 +1216,7 @@ theorem toMk₁_zero_eq_const (n : ℕ) :
     SimplexCategory.toMk₁ (0 : Fin (n + 2)) = SimplexCategory.const ⦋n⦌ ⦋1⦌ 1 := by
   ext j
   apply congrArg Fin.val
-  show (if j.castSucc < 0 then (0 : Fin 2) else 1) = 1
+  change (if j.castSucc < 0 then (0 : Fin 2) else 1) = 1
   simp
 
 /-- The simplex of the interval attached to the last index is constant at `0`. -/
@@ -1224,7 +1224,7 @@ theorem toMk₁_last_eq_const (n : ℕ) :
     SimplexCategory.toMk₁ (Fin.last (n + 1)) = SimplexCategory.const ⦋n⦌ ⦋1⦌ 0 := by
   ext j
   apply congrArg Fin.val
-  show (if j.castSucc < Fin.last (n + 1) then (0 : Fin 2) else 1) = 0
+  change (if j.castSucc < Fin.last (n + 1) then (0 : Fin 2) else 1) = 0
   simp
 
 /-- **Stacks Project, Tag 0G5Y.** Let `A → B` be a ring map with `p = 0` in `A` for a prime `p`,
@@ -1245,7 +1245,7 @@ public theorem nonempty_homotopy_frobeniusEndo_squareEndo (hp : p.Prime) (A : Ty
   · intro n
     apply CommRingCat.hom_ext
     ext x
-    show comparisonRingMap p hp A B hA n (SimplexCategory.toMk₁ 0) x = _
+    change comparisonRingMap p hp A B hA n (SimplexCategory.toMk₁ 0) x = _
     rw [toMk₁_zero_eq_const]
     refine (comparisonRingMap_const p hp A B hA n 1 x).trans ?_
     simp only [endpointEndo]
@@ -1253,7 +1253,7 @@ public theorem nonempty_homotopy_frobeniusEndo_squareEndo (hp : p.Prime) (A : Ty
   · intro n
     apply CommRingCat.hom_ext
     ext x
-    show comparisonRingMap p hp A B hA n (SimplexCategory.toMk₁ (Fin.last (n + 1))) x = _
+    change comparisonRingMap p hp A B hA n (SimplexCategory.toMk₁ (Fin.last (n + 1))) x = _
     rw [toMk₁_last_eq_const]
     refine (comparisonRingMap_const p hp A B hA n 0 x).trans ?_
     simp only [endpointEndo]

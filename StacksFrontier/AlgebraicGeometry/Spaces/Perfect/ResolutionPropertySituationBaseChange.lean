@@ -71,7 +71,7 @@ theorem preimage_range_pointsMap_of_isPullback' {P X Y Z : AlgebraicSpaces B S h
     exact ⟨w, hw⟩
   · rintro ⟨w, rfl⟩
     refine ⟨pointsMap B S hS P.1 a.hom w, ?_⟩
-    show (pointsMap B S hS X.1 f.hom ∘ pointsMap B S hS P.1 a.hom) w =
+    change (pointsMap B S hS X.1 f.hom ∘ pointsMap B S hS P.1 a.hom) w =
       (pointsMap B S hS Y.1 g.hom ∘ pointsMap B S hS P.1 b.hom) w
     rw [← pointsMap_comp, ← pointsMap_comp, ← ObjectProperty.FullSubcategory.comp_hom,
       ← ObjectProperty.FullSubcategory.comp_hom, sq.w]
@@ -119,7 +119,7 @@ theorem exists_baseChange {X X' : AlgebraicSpaces B S hS}
     refine IsPullback.of_bot ?_ hj'q.symm sqYh.flip
     have h2 : sit.j ≫ sit.π = sit.φ := sit.comp_eq
     rw [hj'π]
-    show IsPullback (yoneda.map r) p (sit.j ≫ sit.π) q.hom
+    change IsPullback (yoneda.map r) p (sit.j ≫ sit.π) q.hom
     rw [h2]
     exact sqV.flip
   let I' := pullbackIdealImage B S hS q' sit.I
@@ -379,7 +379,7 @@ theorem nonempty_arrowIso_quotientDirectImageMap_baseChange {X' : AlgebraicSpace
     Arrow.isoMk (P.mapIso (Arrow.leftFunc.mapIso β)) (P.mapIso (Arrow.rightFunc.mapIso β)) (by
       have h := Arrow.w β.hom
       simp only [Arrow.mk_hom] at h
-      show P.map β.hom.left ≫ P.map (cokernel.π (idealIncl hZ sit')) =
+      change P.map β.hom.left ≫ P.map (cokernel.π (idealIncl hZ sit')) =
         P.map ((modulePullback B S hS q').map (cokernel.π (idealIncl hZ sit))) ≫ P.map β.hom.right
       rw [← P.map_comp, ← P.map_comp, h])
   exact ⟨γ ≪≫ δ⟩
@@ -422,7 +422,7 @@ theorem exists_baseChange_arrowIso {X' : AlgebraicSpaces B S hS} (q : X' ⟶ X)
     Arrow.isoMk (modulePullbackUnitIso B S hS q')
       (cokernelPullbackIdealImageIso B S hS q' sit.I).symm (by
         have h := cokernel_π_cokernelPullbackIdealImageIso_hom B S hS q' sit.I
-        show (modulePullbackUnitIso B S hS q').hom ≫
+        change (modulePullbackUnitIso B S hS q').hom ≫
             cokernel.π (pullbackIdealImage B S hS q' sit.I).ι =
           (modulePullback B S hS q').map (cokernel.π (idealIncl hZ sit)) ≫
             (cokernelPullbackIdealImageIso B S hS q' sit.I).inv

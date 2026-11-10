@@ -89,6 +89,7 @@ instance pointFunctor_isFibered (C : Type u) [Category.{v} C] :
   exact ⟨a, 𝟙 a, Functor.IsStronglyCartesian.of_isIso
     (p := Functor.star C) (f := 𝟙 _) (φ := 𝟙 a)⟩
 
+set_option linter.checkUnivs false in
 /-- A category with its chaotic topology and a ring on the point. -/
 @[stacks 08PF "ringed_point"]
 structure RingedPointSituation where
@@ -144,12 +145,12 @@ theorem topology_eq_trivial :
     s.fibredSituation.topology = GrothendieckTopology.trivial s.C := by
   rw [GrothendieckTopology.trivial_eq_bot]
   apply le_antisymm
-  · show (s.fibredSituation.p.inheritedTopology s.fibredSituation.base.J) ≤
+  · change (s.fibredSituation.p.inheritedTopology s.fibredSituation.base.J) ≤
       (⊥ : GrothendieckTopology s.fibredSituation.C)
     rw [Functor.inheritedTopology_eq]
     apply (Precoverage.toGrothendieck_le_iff_le_toPrecoverage).2
     intro X R hR
-    show Sieve.generate R ∈ (⊥ : GrothendieckTopology s.fibredSituation.C) X
+    change Sieve.generate R ∈ (⊥ : GrothendieckTopology s.fibredSituation.C) X
     rw [GrothendieckTopology.bot_covering]
     let p := s.fibredSituation.p
     have hbase : Sieve.generate (R.map p) = ⊤ :=
@@ -162,7 +163,7 @@ theorem topology_eq_trivial :
     obtain ⟨Z, hZY, g, hg, hmap⟩ := (Presieve.map_iff (F := p) (R := R)).1 hgBase
     let _ : p.IsStronglyCartesian (p.map g) g := hR.1 g hg
     have : IsIso (p.map g) := by
-      show IsIso (𝟙 _)
+      change IsIso (𝟙 _)
       infer_instance
     have : IsIso g := Functor.IsStronglyCartesian.isIso_of_base_isIso p (p.map g) g
     exact Sieve.generate_of_contains_isSplitEpi (R := R) g hg

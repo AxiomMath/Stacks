@@ -78,10 +78,11 @@ theorem isUnit_algebraMap_end_of_mem_primeCompl {P : Type u} [CommRing P] (q : I
 theorem Submodule.isLocalizedModule_subtype_span_of_span_eq_top {P : Type u} [CommRing P]
     (q : Ideal P) [q.IsPrime] (B : Type v) [CommRing B] [Algebra P B]
     [IsLocalization.AtPrime B q] {N : Type w} [AddCommGroup N] [Module B N] [Module P N]
-    [IsScalarTower P B N] {ι : Type*} [Fintype ι] (v : ι → N)
+    [IsScalarTower P B N] {ι : Type*} [Finite ι] (v : ι → N)
     (hv : Submodule.span B (Set.range v) = ⊤) :
     IsLocalizedModule q.primeCompl (Submodule.span P (Set.range v)).subtype := by
   classical
+  have := Fintype.ofFinite ι
   refine ⟨fun s ↦ isUnit_algebraMap_end_of_mem_primeCompl q B s, fun y ↦ ?_,
     fun {x y} h ↦ ⟨1, by rw [Subtype.ext h]⟩⟩
   have hy : y ∈ Submodule.span B (Set.range v) := hv ▸ Submodule.mem_top
@@ -91,7 +92,7 @@ theorem Submodule.isLocalizedModule_subtype_span_of_span_eq_top {P : Type u} [Co
   choose p hp using fun i : ι ↦ hb i
   refine ⟨⟨⟨∑ i, p i • v i, Submodule.sum_mem _ fun i _ ↦
     Submodule.smul_mem _ _ (Submodule.subset_span ⟨i, rfl⟩)⟩, b⟩, ?_⟩
-  show (b : P) • y = ∑ i, p i • v i
+  change (b : P) • y = ∑ i, p i • v i
   rw [← hc, Finset.smul_sum]
   refine Finset.sum_congr rfl fun i _ ↦ ?_
   rw [← IsScalarTower.algebraMap_smul B (b : P) (c i • v i), smul_smul,

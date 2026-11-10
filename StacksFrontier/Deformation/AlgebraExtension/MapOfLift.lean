@@ -89,7 +89,6 @@ section OfLift
 
 variable (P : AlgebraExtension a M) {R : Sheaf J CommRingCat.{u}} (ℓ : R ⟶ P.extension)
   (base : A ⟶ R) (hbase : base ≫ ℓ = P.algebraMap)
-  [hℓ : Presheaf.IsLocallySurjective J (ℓ ≫ P.reduction).hom]
 
 /-- A local relation of the presentation `R ⟶ 𝒪` is carried by `ℓ` into the square-zero ideal. -/
 theorem lift_mem_kernelIdeal (U : Cᵒᵖ) (g : kernelIdeal (ℓ ≫ P.reduction).hom U) :
@@ -105,6 +104,8 @@ noncomputable def liftKernel (U : Cᵒᵖ) (g : kernelIdeal (ℓ ≫ P.reduction
 theorem incl_liftKernel (U : Cᵒᵖ) (g : kernelIdeal (ℓ ≫ P.reduction).hom U) :
     P.incl (P.liftKernel ℓ U g) = ℓ.hom.app U (g : R.obj.obj U) :=
   P.incl_kernelPreimage _
+
+variable [hℓ : Presheaf.IsLocallySurjective J (ℓ ≫ P.reduction).hom]
 
 include hbase in
 /-- **The pushout data of a presentation of `P`**: `R ⟶ 𝒪` with the restriction `ℓ|_ℐ`. -/
@@ -200,7 +201,7 @@ theorem lift_mapAlongOfLift_hom {Q : AlgebraExtension a N} (φ : M ⟶ N)
   have := P.isIso_ofLiftComparison ℓ base hbase
   have hc : (P.ofLift ℓ base hbase).lift ≫ (P.ofLiftComparison ℓ base hbase).hom = ℓ :=
     (P.ofLift ℓ base hbase).lift_desc (𝟙 M) ℓ rfl hbase _
-  show ℓ ≫ inv (P.ofLiftComparison ℓ base hbase).hom ≫
+  change ℓ ≫ inv (P.ofLiftComparison ℓ base hbase).hom ≫
     ((P.ofLift ℓ base hbase).desc φ q hq hqb hψ).hom = q
   refine (congrArg (· ≫ inv (P.ofLiftComparison ℓ base hbase).hom ≫
     ((P.ofLift ℓ base hbase).desc φ q hq hqb hψ).hom) hc.symm).trans ?_

@@ -69,7 +69,7 @@ private theorem fieldPatternIndex_locallyClosed
   constructor
   · intro a ha
     have haf : f a ≠ 0 := (Finset.mem_filter.mp ha).2
-    show f a ∉ (⊥ : Ideal K)
+    change f a ∉ (⊥ : Ideal K)
     rw [Ideal.mem_bot]
     exact haf
   · intro a ha
@@ -80,7 +80,7 @@ private theorem fieldPatternIndex_locallyClosed
     have haf : f a = 0 := by
       by_contra hne
       exact han (Finset.mem_filter.mpr ⟨hae, hne⟩)
-    show f a ∈ (⊥ : Ideal K)
+    change f a ∈ (⊥ : Ideal K)
     rw [Ideal.mem_bot]
     exact haf
 
@@ -101,7 +101,7 @@ private theorem fieldPatternLocalizationMap_units
   have hne : f t.1 ≠ 0 := by
     intro hz
     apply hnot
-    show f t.1 ∈ (⊥ : Ideal K)
+    change f t.1 ∈ (⊥ : Ideal K)
     rw [Ideal.mem_bot]
     exact hz
   exact isUnit_iff_ne_zero.mpr hne
@@ -207,7 +207,7 @@ private theorem fieldPatternStageMap_transition
           (stratumOpenElement i₁.val) := by
     intro q hq
     rw [hi]
-    show q ∈ locallyClosedPoints
+    change q ∈ locallyClosedPoints
       (stratumIdeal E₁ (restrictStratum E₁ E₂ hE i₂))
       (stratumOpenElement (restrictStratum E₁ E₂ hE i₂).val)
     exact locallyClosedPoints_restrictStratum E₁ E₂ hE i₂ q hq
@@ -316,7 +316,7 @@ private theorem fieldPatternLift_of
     (E : Finset A) (x : stratificationRing E) :
     fieldPatternLift f (stratificationColimitMap E x) =
       fieldPatternStageMap f E x := by
-  show Ring.DirectLimit.lift
+  change Ring.DirectLimit.lift
       (fun E : Finset A => stratificationRing E)
       (fun E₁ E₂ h => stratificationRingMap E₁ E₂ h) K
       (fieldPatternStageMap f)
@@ -382,7 +382,7 @@ private theorem fieldPatternLift_mul_eq_one_of_ne_zero
   have hxmap : fieldPatternLift f (stratificationColimitMap E xE) =
       fieldPatternStageMap f E xE := fieldPatternLift_of f E xE
   refine ⟨y, ?_⟩
-  show fieldPatternLift f
+  change fieldPatternLift f
       (stratificationColimitMap E xE *
         stratificationColimitMap E' yE) = 1
   rw [map_mul, fieldPatternLift_of f E xE,
@@ -394,7 +394,7 @@ private theorem fieldPatternLift_mul_eq_one_of_ne_zero
     fieldPatternStageMap f E xE * (f (s : A) * (f a)⁻¹) =
         (fieldPatternStageMap f E xE * f (s : A)) * (f a)⁻¹ := by ring
     _ = f a * (f a)⁻¹ := by
-      show (fieldPatternLocalizationMap f E
+      change (fieldPatternLocalizationMap f E
         (xE (fieldPatternIndex f E)) * f (s : A)) * (f a)⁻¹ = _
       rw [hmulStage]
     _ = 1 := mul_inv_cancel₀ hfa
@@ -415,7 +415,7 @@ private theorem fieldPatternLift_ker_isMaximal
       exact hxnot (RingHom.mem_ker.mpr hz)
     obtain ⟨y, hy⟩ := fieldPatternLift_mul_eq_one_of_ne_zero f x hx
     have hker : x * y - 1 ∈ RingHom.ker (fieldPatternLift f) := by
-      show fieldPatternLift f (x * y - 1) = 0
+      change fieldPatternLift f (x * y - 1) = 0
       rw [map_sub, hy, map_one, sub_self]
     have hmul : x * y ∈ J := J.mul_mem_right y hxJ
     have hker' : x * y - 1 ∈ J := hkerJ hker
@@ -496,7 +496,7 @@ private theorem stratumIdempotent_quotient_eq_pattern
       q ∈ stratumClopen f E k ↔ qA ∈
         locallyClosedPoints (stratumIdeal E k)
           (stratumOpenElement k.val) := by
-    show q ∈ closedPointsClopenLift (stratumClosedPointsClopen f E k) ↔ _
+    change q ∈ closedPointsClopenLift (stratumClosedPointsClopen f E k) ↔ _
     rw [mem_closedPointsClopenLift_iff]
     constructor
     · rintro ⟨c, hqc, hc⟩
@@ -551,7 +551,7 @@ private theorem stratumIdempotent_quotient_eq_pattern
       exact hnotclopen ((hbasic j).mp hnot)
     have hz : ρ (stratumIdempotent f E j) = 0 :=
       (Ideal.algebraMap_residueField_eq_zero).2 hmem
-    show ρ (stratumIdempotent f E j) = if j = i₀ then 1 else 0
+    change ρ (stratumIdempotent f E j) = if j = i₀ then 1 else 0
     rw [hz]
     simp [hj]
 
@@ -670,14 +670,14 @@ theorem existsUnique_wLocal_lift
       intro E
       apply RingHom.ext
       intro x
-      show ρ (stratificationColimitLift f (stratificationColimitMap E x)) =
+      change ρ (stratificationColimitLift f (stratificationColimitMap E x)) =
         fieldPatternLift fK (stratificationColimitMap E x)
       rw [stratificationColimitLift_of, fieldPatternLift_of]
       exact congrArg (fun θ => θ x) (hstage E)
     have hker : RingHom.ker (ρ.comp u) =
         (PrimeSpectrum.comap u q).asIdeal := by
       ext x
-      show ρ (u x) = 0 ↔ u x ∈ q.asIdeal
+      change ρ (u x) = 0 ↔ u x ∈ q.asIdeal
       exact Ideal.algebraMap_residueField_eq_zero
     have hmax : (PrimeSpectrum.comap u q).asIdeal.IsMaximal := by
       rw [← hker, hρu]
@@ -737,20 +737,20 @@ theorem existsUnique_wLocal_lift
             (PrimeSpectrum.comap u q) := by
           apply PrimeSpectrum.ext
           ext a
-          show (g.comp (stratificationColimitAlgebraMap (A := A))) a ∈ q.asIdeal ↔
+          change (g.comp (stratificationColimitAlgebraMap (A := A))) a ∈ q.asIdeal ↔
             (u.comp (stratificationColimitAlgebraMap (A := A))) a ∈ q.asIdeal
           rw [DFunLike.congr_fun hbaseg a, DFunLike.congr_fun hucomp a]
         have hpoint := closedPrime_eq_of_same_contraction
           (PrimeSpectrum.comap g q) (PrimeSpectrum.comap u q)
           (mem_closedPoints_iff.mp hqg) (mem_closedPoints_iff.mp hqu) hcontract
         have heval : u (stratificationColimitMap E z) = e := by
-          show stratificationColimitLift f (stratificationColimitMap E z) = e
+          change stratificationColimitLift f (stratificationColimitMap E z) = e
           rw [stratificationColimitLift_of]
           exact stratificationStageMap_single_one f E i
-        show g (stratificationColimitMap E z) ∈ q.asIdeal ↔
+        change g (stratificationColimitMap E z) ∈ q.asIdeal ↔
           e ∈ q.asIdeal
         rw [← heval]
-        show stratificationColimitMap E z ∈
+        change stratificationColimitMap E z ∈
             (PrimeSpectrum.comap g q).asIdeal ↔
           stratificationColimitMap E z ∈
             (PrimeSpectrum.comap u q).asIdeal
@@ -770,7 +770,7 @@ theorem existsUnique_wLocal_lift
     have hφstage := stratificationStageMap_eq_of_idempotents f E φ hφbase hid
     apply RingHom.ext
     intro x
-    show φ x = u (stratificationColimitMap E x)
+    change φ x = u (stratificationColimitMap E x)
     rw [hφstage, stratificationColimitLift_of]
   exact hgu
 

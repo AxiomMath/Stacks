@@ -169,9 +169,9 @@ attribute [local instance] Stacks.AssociatedSheaf.pointMemDecidable
 
 /-- **The global functions of the coefficient point of `A` are `A`**, as an equality of rings. -/
 theorem baseRing_coefficientPoint (A : CommRingCat.{u}) : baseRing (coefficientPoint A) = A := by
-  show (skyscraperPresheaf (X := TopCat.of PUnit.{u + 1}) PUnit.unit A).obj (op ⊤) = A
+  change (skyscraperPresheaf (X := TopCat.of PUnit.{u + 1}) PUnit.unit A).obj (op ⊤) = A
   rw [skyscraperPresheaf_obj]
-  exact if_pos trivial
+  exact ite_eq_left trivial
 
 end CoefficientPoint
 

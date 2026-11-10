@@ -107,7 +107,7 @@ private theorem pointsMap_toSpaces_inv {A C : SpacesEtale B S hS X} (f : A ⟶ C
         𝟙 ((toSpaces B S hS X).obj C) := by
       rw [← Functor.map_comp]
       simp
-    simpa using congrArg (fun k ↦ k.hom) hcat
+    simp
   have hcomp := congrFun (pointsMap_comp B S hS ((toSpaces B S hS X).obj C).1
     ((toSpaces B S hS X).map (inv f)).hom ((toSpaces B S hS X).map f).hom) x
   simpa only [hmaps, pointsMap_id, id_eq, Function.comp_apply] using hcomp.symm
@@ -155,7 +155,7 @@ theorem isSite : IsSite (IsCovering B S hS X) := by
     obtain ⟨j, z, hz⟩ := hF i (pointsMap B S hS ((toSpaces B S hS X).obj (E.2.X i)).1
       ((toSpaces B S hS X).map (inv e)).hom y)
     refine ⟨⟨i, j⟩, z, ?_⟩
-    show pointsMap B S hS ((toSpaces B S hS X).obj ((F i).2.X j)).1
+    change pointsMap B S hS ((toSpaces B S hS X).obj ((F i).2.X j)).1
       ((toSpaces B S hS X).map (((F i).2.f j ≫ e) ≫ E.2.f i)).hom z = x
     calc
       _ = pointsMap B S hS ((toSpaces B S hS X).obj (E.2.X i)).1
@@ -196,12 +196,12 @@ theorem isSite : IsSite (IsCovering B S hS X) := by
       have hp₂ : IsEtale B S hS (p₂ i).hom :=
         isEtale_of_isPullback B S hS (p₁ i) (p₂ i) (α i) β (hpb i) hα
       have hv : IsEtale B S hS vOver.hom.hom := V.property
-      show IsEtale B S hS (p₂ i ≫ vOver.hom).hom
+      change IsEtale B S hS (p₂ i ≫ vOver.hom).hom
       exact isEtale_comp B S hS hp₂ hv
     let P : E.2.I₀ → SpacesEtale B S hS X := fun i ↦ ⟨zOver i, hp i⟩
     let r₁ (i : E.2.I₀) : zOver i ⟶ (inclusion B S hS X).obj (E.2.X i) :=
       Over.homMk (p₁ i) (by
-        show p₁ i ≫ ((inclusion B S hS X).obj (E.2.X i)).hom = p₂ i ≫ vOver.hom
+        change p₁ i ≫ ((inclusion B S hS X).obj (E.2.X i)).hom = p₂ i ≫ vOver.hom
         rw [← hfg (E.2.f i), ← Category.assoc, (hpb i).w, Category.assoc, hfg g])
     let r₂ (i : E.2.I₀) : zOver i ⟶ vOver := Over.homMk (p₂ i) rfl
     let π₁ (i : E.2.I₀) : P i ⟶ E.2.X i := ObjectProperty.homMk (r₁ i)

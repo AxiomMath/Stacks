@@ -96,7 +96,7 @@ theorem extensionByZeroUnitHomEquiv_naturality {F G : SheafOfModules.{w} R}
     extensionByZeroUnitHomEquiv J R U G (f ≫ g) =
       ((SheafOfModules.evaluation R (op U)).map g)
         (extensionByZeroUnitHomEquiv J R U F f) := by
-  show ((G.over U).unitHomEquiv
+  change ((G.over U).unitHomEquiv
       ((SheafOfModules.pullbackPushforwardAdjunction.{w} (F := Over.forget U)
         (𝟙 (R.over U) : (R.over U) ⟶ (R.over U))).homEquiv
           (SheafOfModules.unit (R.over U)) G (f ≫ g))).val (op (Over.mk (𝟙 U))) =

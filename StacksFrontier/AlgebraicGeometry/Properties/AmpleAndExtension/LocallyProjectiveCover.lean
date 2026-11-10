@@ -138,7 +138,7 @@ private lemma projective_localizedModule_of_projective_sections {X : Scheme.{u}}
   let : Module (Localization.Away f) P := Module.compHom P (algebraMap _ B)
   let : IsScalarTower R (Localization.Away f) P :=
     IsScalarTower.of_algebraMap_smul fun r m => by
-      show e (algebraMap R (Localization.Away f) r) • m = algebraMap R B r • m
+      change e (algebraMap R (Localization.Away f) r) • m = algebraMap R B r • m
       rw [e.commutes r]
   let : Module R N := inferInstance
   let q : N →ₗ[R] P := Scheme.Modules.restrictionLinearMap M

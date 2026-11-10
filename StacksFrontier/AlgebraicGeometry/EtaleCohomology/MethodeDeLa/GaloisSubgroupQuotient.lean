@@ -213,7 +213,7 @@ theorem natCard_galoisSubgroupQuotient_fiber (x : GeometricPoint X) :
     (Nat.card_congr (Equiv.ofBijective _ (evaluation_aut_bijective_of_isGalois Φ A a₀))).symm
   have hfree : ∀ (p : P) (a : Φ.obj A), p • a = a → p = 1 := fun p a hp ↦
     Subtype.ext <| evaluation_aut_injective_of_isConnected Φ A a <| by
-      show Φ.map (p : Aut A).asIso.hom a = Φ.map (𝟙 A) a
+      change Φ.map (p : Aut A).asIso.hom a = Φ.map (𝟙 A) a
       rwa [Φ.map_id]
   have hcount := natCard_eq_natCard_orbitRel_mul_of_free hfree
   rw [hAut, ← P.card_mul_index, mul_comm (Nat.card P)] at hcount
@@ -285,7 +285,7 @@ theorem exists_mem_agreeLocus_galoisSubgroupQuotientπ {W : Scheme.{u}} (a b : W
       rw [Category.assoc, ← hab']; rfl⟩ : finiteEtaleFiber x' A)
   have hπ : F.map (galoisSubgroupQuotientπ A P) ea = F.map (galoisSubgroupQuotientπ A P) eb := by
     apply Subtype.ext
-    show ((W.algClosedPoint w).hom ≫ a) ≫ (galoisSubgroupQuotientπ A P).left =
+    change ((W.algClosedPoint w).hom ≫ a) ≫ (galoisSubgroupQuotientπ A P).left =
       ((W.algClosedPoint w).hom ≫ b) ≫ (galoisSubgroupQuotientπ A P).left
     rw [Category.assoc, Category.assoc, hab]
   obtain ⟨p, hp⟩ := exists_smul_eq_of_map_galoisSubgroupQuotientπ_eq A P x' hπ
@@ -296,7 +296,7 @@ theorem exists_mem_agreeLocus_galoisSubgroupQuotientπ {W : Scheme.{u}} (a b : W
   have hw : (a ≫ (p : Aut A).asIso.hom.left) ≫ (galoisSubgroupQuotientπ A P).left =
       b ≫ (galoisSubgroupQuotientπ A P).left := by
     rw [Category.assoc]
-    show a ≫ ((p : Aut A).asIso.hom ≫ galoisSubgroupQuotientπ A P).left = _
+    change a ≫ ((p : Aut A).asIso.hom ≫ galoisSubgroupQuotientπ A P).left = _
     rw [hom_comp_galoisSubgroupQuotientπ]
     exact hab
   refine ⟨p, hw, ?_⟩

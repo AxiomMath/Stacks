@@ -165,7 +165,7 @@ theorem liftAdd_dPres (n : ℤ) (U : Cᵒᵖ) (ζ : freeSections D.toGradedAlgeb
     exact (map_zero (homSections (M.complex.d n (n + 1)) U)).symm
   | of p x =>
     obtain ⟨j, s, hs⟩ := p
-    show liftAdd D.toGradedAlgebra S (GradedModule.ofDifferentialGraded M) g (n + 1) U
+    change liftAdd D.toGradedAlgebra S (GradedModule.ofDifferentialGraded M) g (n + 1) U
         (dPres S D n U (freeOf D.toGradedAlgebra S n U j s hs x)) = _
     rw [dPres_freeOf, AddMonoidHom.map_zsmul, liftAdd_freeOf, liftAdd_freeOf,
       Cofree.smul_castHom_right, Cofree.castHom_castHom,
@@ -185,7 +185,7 @@ theorem liftVal_comp_d (n : ℤ) :
       freeD S D n ≫
         liftVal D.toGradedAlgebra S (GradedModule.ofDifferentialGraded M) g (n + 1) := by
   refine freePiece_hom_ext D.toGradedAlgebra S fun U ζ => ?_
-  show (M.complex.d n (n + 1)).val.app U
+  change (M.complex.d n (n + 1)).val.app U
       ((liftVal D.toGradedAlgebra S (GradedModule.ofDifferentialGraded M) g n).val.app U
         ((freeUnit D.toGradedAlgebra S n).app U ζ)) =
     (liftVal D.toGradedAlgebra S (GradedModule.ofDifferentialGraded M) g (n + 1)).val.app U

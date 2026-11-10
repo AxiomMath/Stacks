@@ -339,7 +339,7 @@ theorem exists_deformationObjectOfCompEqCompMap_eq
     rw [← ab]
     simp
   obtain ⟨α, hα, hγ⟩ := hfull arr γ
-    (key.trans (by simp [γ, overMkHomMk_left, Over.eqToHom_left]; try rfl))
+    (key.trans (by simp [γ, overMkHomMk_left, Over.eqToHom_left]))
   refine ⟨⟨A, x, α, hxT, by rw [hγ]; simp [γ, overMkHomMk_left, Over.eqToHom_left]⟩, ?_⟩
   subst hα
   rfl
@@ -349,9 +349,7 @@ include hfull hobj in
 `Φ ⋙ q_Y = q_X ⋙ Over.map g'`, lifting arrows compatibly with given arrows of schemes over `S`
 and objects compatibly with given factorizations through `g'`. Then `𝓕_{X, k, x₀}` over `S` at
 `iS` is unobstructed if and only if `𝓕_{Y, k, Φ(x₀)}` over `S'` at `iS ≫ g'` is. -/
-theorem isSmooth_baseProjection_iff_of_comp_eq_comp_map [Φ.Faithful]
-    (hcof : letI := (predeformationCategory iS qX x₀ hx₀).category
-      IsCofiberedInGroupoids (predeformationCategory iS qX x₀ hx₀).projection) :
+theorem isSmooth_baseProjection_iff_of_comp_eq_comp_map [Φ.Faithful] :
     letI := (predeformationCategory iS qX x₀ hx₀).category
     letI := (predeformationCategory (iS ≫ g') qY (Φ.obj x₀) hy₀).category
     IsSmooth (baseProjection (predeformationCategory iS qX x₀ hx₀).projection) ↔
@@ -369,7 +367,7 @@ theorem isSmooth_baseProjection_iff_of_comp_eq_comp_map [Φ.Faithful]
   constructor
   · intro h
     rw [← hcomp] at h
-    exact isSmooth_of_essSurj_comp hcof Ψ _ h
+    exact isSmooth_of_essSurj_comp Ψ _ h
   · intro h
     rw [← hcomp]
     refine isSmooth_comp _ _ (isSmooth_of_full_of_exists_vertical Ψ fun y => ?_) h
@@ -557,7 +555,7 @@ theorem liftsCompEqCompMap_algebraicStackBaseChangeProjection :
     have hwa := Over.w ξa.x.hom
     have hwb := Over.w ξb.x.hom
     rw [← hwa, ← hwb]
-    show γ.left ≫ (_ ≫ B.inclusion.map g) = _ ≫ B.inclusion.map g
+    change γ.left ≫ (_ ≫ B.inclusion.map g) = _ ≫ B.inclusion.map g
     exact (Category.assoc _ _ _).symm.trans (congrArg (· ≫ B.inclusion.map g) (Over.w γ)))
   have hw : aL ≫ ξb.x.hom = ξa.x.hom :=
     Over.OverMorphism.ext (B.inclusion.map_injective (Over.w γ))
@@ -603,13 +601,6 @@ theorem isSmooth_baseProjection_algebraicStackBaseChange_iff {Λ k : Type u} [Co
     (algebraicStackBaseChangeLift B S S' hS hS' g 𝒳 x₀ φ₀) hx₀' hx₀
     (liftsCompEqCompMap_algebraicStackBaseChangeProjection B S S' hS hS' g 𝒳)
     (exists_algebraicStackBaseChangeProjection_obj_eq B S S' hS hS' g 𝒳)
-    (by
-      let := (predeformationCategory iS
-        ((algebraicStackBaseChange B S S' hS hS' g 𝒳).val.val.p ⋙ Over.post B.inclusion)
-        (algebraicStackBaseChangeLift B S S' hS hS' g 𝒳 x₀ φ₀) hx₀').category
-      exact (predeformationCategory_isPredeformationCategory B hS iS _
-        (algebraicStackBaseChangeLift B S S' hS hS' g 𝒳 x₀ φ₀) hx₀'
-        (algebraicStackBaseChange B S S' hS hS' g 𝒳).val.2).cofibered)
 
 end AlgebraicGeometry.Stack
 

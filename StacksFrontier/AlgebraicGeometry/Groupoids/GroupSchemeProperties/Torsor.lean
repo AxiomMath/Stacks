@@ -164,7 +164,7 @@ theorem isSiteTorsor_of_isTorsorFor (S : Scheme.{u}) (P : MorphismProperty Schem
   let R₀ : Sieve U₀ := Sieve.ofArrows Ti fun i => Over.homMk (f i) (Category.comp_id (f i))
   have hR₀ : R₀ ∈ ((Scheme.precoverage P).toGrothendieck.over S) U₀ := by
     rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
-    show Sieve.generate (Presieve.ofArrows T f) ∈ (Scheme.precoverage P).toGrothendieck S
+    change Sieve.generate (Presieve.ofArrows T f) ∈ (Scheme.precoverage P).toGrothendieck S
     exact Precoverage.generate_mem_toGrothendieck hcover
   have hFt : F.IsTorsor := by
     intro U
@@ -257,14 +257,14 @@ theorem syntomic_id (X : Scheme.{u}) : Syntomic (𝟙 X) := by
   refine ⟨U', hxU, U', hUU, ?_⟩
   let e := Scheme.Hom.appLE (𝟙 X) U' U' hUU
   have hId : e = 𝟙 Γ(X, U') := by
-    show Scheme.Hom.app (𝟙 X) U' ≫ X.presheaf.map (homOfLE hUU).op = _
+    change Scheme.Hom.app (𝟙 X) U' ≫ X.presheaf.map (homOfLE hUU).op = _
     rw [Scheme.Hom.id_app]
-    show 𝟙 Γ(X, U') ≫ X.presheaf.map (𝟙 U').op = _
+    change 𝟙 Γ(X, U') ≫ X.presheaf.map (𝟙 U').op = _
     rw [Category.id_comp]
     exact X.presheaf.map_id _
   let _ : Algebra Γ(X, U') Γ(X, U') := e.hom.toAlgebra
   have hsmooth : Algebra.Smooth Γ(X, U') Γ(X, U') := by
-    show e.hom.Smooth
+    change e.hom.Smooth
     rw [hId]
     exact RingHom.Smooth.id _
   exact Algebra.Smooth.syntomic _ _

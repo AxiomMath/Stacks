@@ -71,7 +71,7 @@ private theorem surjective_of_surjective_comp_of_ker_le_smul
   obtain ⟨y, hy⟩ := hp (d x)
   have hxy : x - p y ∈ I • (⊤ : Submodule R X) := by
     apply hk
-    show d (x - p y) = 0
+    change d (x - p y) = 0
     rw [map_sub, ← hy, LinearMap.comp_apply, sub_self]
   rw [show x = p y + (x - p y) by abel]
   exact Submodule.add_mem _ (Submodule.mem_sup_left ⟨y, rfl⟩)
@@ -156,14 +156,14 @@ private theorem exists_finiteProjective_lift {R : Type u} [CommRing R] (I : Idea
   let : Algebra A' R := τ.toRingHom.toAlgebra
   let : IsScalarTower A' R (R ⧸ I) := ⟨fun a r x => by
     induction x using Submodule.Quotient.induction_on
-    show Ideal.Quotient.mk I ((τ a * r) * _) = Ideal.Quotient.mk I (τ a * (r * _))
+    change Ideal.Quotient.mk I ((τ a * r) * _) = Ideal.Quotient.mk I (τ a * (r * _))
     rw [mul_assoc]⟩
   let : Algebra (R ⧸ I) (A' ⧸ J) := qe.toRingHom.toAlgebra
   let qlin : (R ⧸ I) ≃ₗ[A'] (A' ⧸ J) :=
     { qe with
       map_smul' := fun a x => by
         induction x using Submodule.Quotient.induction_on
-        show qe (Ideal.Quotient.mk I (τ a * _)) = Ideal.Quotient.mk J (a * _)
+        change qe (Ideal.Quotient.mk I (τ a * _)) = Ideal.Quotient.mk J (a * _)
         simp only [map_mul]
         rw [show Ideal.Quotient.mk I (τ a) = σ a from DFunLike.congr_fun hτ a,
           show qe (σ a) = Ideal.Quotient.mk J a from qe.apply_symm_apply _]
@@ -179,14 +179,14 @@ private theorem exists_finiteProjective_lift {R : Type u} [CommRing R] (I : Idea
       (A' ⧸ J) ⊗[A'] P' :=
     { TensorProduct.congr qlin (LinearEquiv.refl A' P') with
       map_smul' := fun c x => by
-        show (TensorProduct.congr qlin (LinearEquiv.refl A' P')) (c • x) =
+        change (TensorProduct.congr qlin (LinearEquiv.refl A' P')) (c • x) =
           qe c • (TensorProduct.congr qlin (LinearEquiv.refl A' P')) x
         induction x with
         | add x y hx hy => rw [smul_add, map_add, hx, hy, map_add, smul_add]
         | tmul x y =>
             rw [TensorProduct.smul_tmul', TensorProduct.congr_tmul,
               TensorProduct.congr_tmul, TensorProduct.smul_tmul']
-            show qe (c * x) ⊗ₜ[A'] y = (qe c * qe x) ⊗ₜ[A'] y
+            change qe (c * x) ⊗ₜ[A'] y = (qe c * qe x) ⊗ₜ[A'] y
             rw [map_mul] }
   exact ⟨red.trans (cancel.trans (changeRing.trans e.symm))⟩
 
@@ -243,23 +243,23 @@ private theorem isBaseChange_of_retract
   intro T _ _ _ _ a
   refine ⟨(hg.lift (a.comp p)).comp i', ?_, ?_⟩
   · ext x
-    show hg.lift (a.comp p) (i' (f x)) = a x
+    change hg.lift (a.comp p) (i' (f x)) = a x
     rw [show i' (f x) = g (i x) from LinearMap.congr_fun hi x,
       IsBaseChange.lift_eq]
-    show a (p (i x)) = a x
+    change a (p (i x)) = a x
     rw [show p (i x) = x from LinearMap.congr_fun hp x]
   · intro b hb
     have hb' : b.comp p' = hg.lift (a.comp p) := by
       apply hg.algHom_ext
       intro x
-      show b (p' (g x)) = hg.lift (a.comp p) (g x)
+      change b (p' (g x)) = hg.lift (a.comp p) (g x)
       rw [← show f (p x) = p' (g x) from LinearMap.congr_fun hf x,
         IsBaseChange.lift_eq]
       exact LinearMap.congr_fun hb (p x)
     ext x
-    show b x = hg.lift (a.comp p) (i' x)
+    change b x = hg.lift (a.comp p) (i' x)
     rw [← hb']
-    show b x = b (p' (i' x))
+    change b x = b (p' (i' x))
     rw [show p' (i' x) = x from LinearMap.congr_fun hp' x]
 
 private theorem quotient_equiv_of_isBaseChange
@@ -307,10 +307,10 @@ private theorem projective_quotient_of_isBaseChange
       map_smul' := by
         intro r x
         obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective (I := RingHom.ker (algebraMap R S)) r
-        show e ((Ideal.Quotient.mk (RingHom.ker (algebraMap R S))) a • x) =
+        change e ((Ideal.Quotient.mk (RingHom.ker (algebraMap R S))) a • x) =
           er ((Ideal.Quotient.mk (RingHom.ker (algebraMap R S))) a) • e x
         rw [RingHom.quotientKerEquivOfSurjective_apply_mk]
-        show e ((algebraMap R (R ⧸ RingHom.ker (algebraMap R S))) a • x) = _
+        change e ((algebraMap R (R ⧸ RingHom.ker (algebraMap R S))) a • x) = _
         rw [IsScalarTower.algebraMap_smul, e.map_smul, IsScalarTower.algebraMap_smul] }
   exact Module.Projective.of_equiv e'.symm
 
@@ -340,7 +340,7 @@ private theorem exists_compatible_splitting
   · ext x
     exact e.apply_symm_apply x
   · ext x
-    show g (j (e.symm x)) = i₀ (d x)
+    change g (j (e.symm x)) = i₀ (d x)
     rw [show g (j (e.symm x)) = i₀ (d (e.symm x)) from
       LinearMap.congr_fun hj (e.symm x)]
     congr 1
@@ -433,7 +433,7 @@ private theorem sections_of_succ {F : ℕᵒᵖ ⥤ Type u}
       have hh : (homOfLE (Nat.le.step h)).op =
           (homOfLE (Nat.le_succ m)).op ≫ (homOfLE h).op := Subsingleton.elim _ _
       rw [hh, F.map_comp]
-      show F.map (homOfLE h).op (F.map (homOfLE (Nat.le_succ m)).op (x (m + 1))) = x n
+      change F.map (homOfLE h).op (F.map (homOfLE (Nat.le_succ m)).op (x (m + 1))) = x n
       rw [hx, ih]
   exact fun j k f => hle k.unop j.unop (leOfHom f.unop)
 
@@ -474,7 +474,7 @@ private theorem exists_limit_splitting
       apply sections_of_succ (F := M ⋙ forget (ModuleCat c.pt))
         (fun n => pₙ n (fun j => c.π.app (.op n) (x j)))
       intro n
-      show M.map (homOfLE (Nat.le_succ n)).op
+      change M.map (homOfLE (Nat.le_succ n)).op
         (pₙ (n + 1) (fun j => c.π.app (.op (n + 1)) (x j))) = _
       rw [hp]
       congr 1
@@ -489,7 +489,7 @@ private theorem exists_limit_splitting
       apply sections_of_succ (F := A ⋙ forget CommRingCat)
         (fun n => iₙ n (limit.π M (.op n) x) j)
       intro n
-      show A.map (homOfLE (Nat.le_succ n)).op
+      change A.map (homOfLE (Nat.le_succ n)).op
         (iₙ (n + 1) (limit.π M (.op (n + 1)) x) j) = _
       rw [hi, limit.w_apply]⟩
   have hinf : ∀ n x j, c.π.app (.op n) (ifn x j) =
@@ -513,7 +513,7 @@ private theorem exists_limit_splitting
         let : Algebra c.pt (A.obj (.op n)) := (c.π.app (.op n)).hom.toAlgebra
         have := hscalar n
         simp only [map_smul, hpf, Pi.smul_apply]
-        show pₙ n (fun j => (c.π.app (.op n)).hom (a * x j)) =
+        change pₙ n (fun j => (c.π.app (.op n)).hom (a * x j)) =
           a • pₙ n (fun j => c.π.app (.op n) (x j))
         simp only [map_mul]
         rw [← IsScalarTower.algebraMap_smul (A.obj (.op n)) a]
@@ -542,7 +542,7 @@ private theorem exists_limit_splitting
   ext x
   apply extM
   intro n
-  show limit.π M (.op n) (pf (ifn x)) = limit.π M (.op n) x
+  change limit.π M (.op n) (pf (ifn x)) = limit.π M (.op n) x
   simp only [hpf, hinf]
   exact LinearMap.congr_fun (hsplit n) _
 

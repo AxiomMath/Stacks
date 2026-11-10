@@ -35,8 +35,8 @@ subfunctor so obtained is the reduced closed subspace.
 
 Reducedness of a scheme is used here as an *étale-local property* in the sense of Stacks 03E6,
 and that notion is only applicable to reducedness once reducedness is known to be local for
-the étale precoverage. That instance is proved here, from two inputs in the library: a scheme smooth —
-in particular étale — over a reduced scheme is reduced, which is Stacks 033B through
+the étale precoverage. That instance is proved here, from two inputs in the library: a scheme smooth
+— in particular étale — over a reduced scheme is reduced, which is Stacks 033B through
 `AlgebraicGeometry.isReduced_of_smooth_of_isAffine`, and reducedness descends along a flat
 surjection, which is Stacks 06QM through
 `AlgebraicGeometry.isReduced_of_flat_of_surjective`.
@@ -140,7 +140,8 @@ pullback cover of a cover of the target is already an open cover of the source, 
 of the projection is stability under base change.
 
 The point topology is `AlgebraicGeometry.Space.pointTopology`, installed as a local
-instance in this file as in `StacksFrontier/AlgebraicGeometry/Spaces/OpenSubspaceCorrespondence.lean`.
+instance in this file as in
+`StacksFrontier/AlgebraicGeometry/Spaces/OpenSubspaceCorrespondence.lean`.
 No `Classical.choose` of an existence statement about subspaces occurs; the only choice made is
 of a chart, from the atlas clause of the algebraic-space hypothesis, and
 `AlgebraicGeometry.Space.eq_reducedClosedSubspaceOfChart` shows the result does not depend on
@@ -265,7 +266,7 @@ theorem comap_vanishingIdeal_of_etale {X Y : Scheme.{u}} (f : X ⟶ Y) [Etale f]
     (isReduced_subscheme_comap _ f (isReduced_subscheme_vanishingIdeal C))
     (isReduced_subscheme_vanishingIdeal D) (Closeds.ext ?_)
   rw [support_comap]
-  show f.base ⁻¹' ((vanishingIdeal C).support : Set Y) = _
+  change f.base ⁻¹' ((vanishingIdeal C).support : Set Y) = _
   rw [coe_support_vanishingIdeal, coe_support_vanishingIdeal, hD]
 
 /-- Two pullbacks of a reduced closed subscheme, viewed as subobjects of the two sources,
@@ -347,7 +348,7 @@ theorem pointsEquivScheme_symm_map {V : BigFppfOver B S hS} (h : V ⟶ U)
       pointsMap B S hS (yoneda.obj V) (yoneda.map h)
         ((pointsEquivScheme B S hS V).symm x) :=
   (pointsEquivScheme B S hS U).symm_apply_eq.2 <| by
-    show _ = pointsToScheme B S hS U (pointsMap B S hS (yoneda.obj V) (yoneda.map h)
+    change _ = pointsToScheme B S hS U (pointsMap B S hS (yoneda.obj V) (yoneda.map h)
       ((pointsEquivScheme B S hS V).symm x))
     rw [pointsToScheme_pointsMap_yoneda, pointsToScheme_pointsEquivScheme_symm]
 
@@ -419,7 +420,7 @@ theorem isClosedImmersion_arrow_atlasReducedSubscheme (φ : yoneda.obj U ⟶ X)
     (T : Set (points B S hS X)) (hT : IsClosed T) :
     _root_.AlgebraicGeometry.IsClosedImmersion
       (atlasReducedSubscheme B S hS φ T hT).arrow := by
-  show _root_.AlgebraicGeometry.IsClosedImmersion
+  change _root_.AlgebraicGeometry.IsClosedImmersion
     (Subobject.mk (atlasVanishingIdeal B S hS φ T hT).subschemeι).arrow
   rw [← Subobject.underlyingIso_hom_comp_eq_mk
     (atlasVanishingIdeal B S hS φ T hT).subschemeι]
@@ -457,7 +458,7 @@ theorem isInvariantSubscheme_atlasReducedSubscheme (T : Set (points B S hS X))
         ((BigFppfOver.toScheme B S hS).map (atlasRelationSource B S hS hs))).support := by
     refine Closeds.ext ?_
     rw [Scheme.IdealSheafData.support_comap, Scheme.IdealSheafData.support_comap]
-    show ((BigFppfOver.toScheme B S hS).map (atlasRelationTarget B S hS hs)).base ⁻¹'
+    change ((BigFppfOver.toScheme B S hS).map (atlasRelationTarget B S hS hs)).base ⁻¹'
         ((atlasVanishingIdeal B S hS φ T hT).support : Set _) =
       ((BigFppfOver.toScheme B S hS).map (atlasRelationSource B S hS hs)).base ⁻¹'
         ((atlasVanishingIdeal B S hS φ T hT).support : Set _)
@@ -609,7 +610,7 @@ theorem range_pointsMap_ι_reducedClosedSubspaceOfChart (T : Set (points B S hS 
     rw [pointsMap_comp]
     exact ((isSurjective_of_presheafSurjective B S hS k hks).range_comp _).symm
   rw [hcomp, hw, pointsMap_comp, Set.range_comp, range_pointsMap_yoneda_map, hi]
-  show pointsMap B S hS (yoneda.obj U) φ ''
+  change pointsMap B S hS (yoneda.obj U) φ ''
     ((pointsEquivScheme B S hS U).symm '' atlasPointSet B S hS φ T) = T
   rw [show atlasPointSet B S hS φ T =
       (pointsEquivScheme B S hS U).symm ⁻¹' (pointsMap B S hS (yoneda.obj U) φ ⁻¹' T) from rfl,

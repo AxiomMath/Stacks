@@ -77,7 +77,7 @@ theorem isPerfect_restrictScalars_ringEquiv
   · intro i
     have : Module.Projective R (P.X i) := hp i
     have : Projective (F.obj (P.X i)) := inferInstance
-    show Module.Projective S (F.obj (P.X i))
+    change Module.Projective S (F.obj (P.X i))
     exact ModuleCat.projective_of_module_projective _
 
 /-- Countable products are exact in the category of `R`-modules in a universe above that of `R`.

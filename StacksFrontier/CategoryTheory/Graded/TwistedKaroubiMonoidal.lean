@@ -262,14 +262,14 @@ theorem comm_associator (M N P : TwistedKaroubi R C) :
 /-- The left unit constraint of `C` intertwines the idempotents of `𝟙 ⊗ M` and `M`. -/
 theorem comm_leftUnitor (M : TwistedKaroubi R C) :
     (tensorObjCore tensorUnitCore M).p ≫ (λ_ M.X).hom = (λ_ M.X).hom ≫ M.p := by
-  show (𝟙 (𝟙_ C) ⊗ₘ M.p) ≫ (λ_ M.X).hom = (λ_ M.X).hom ≫ M.p
+  change (𝟙 (𝟙_ C) ⊗ₘ M.p) ≫ (λ_ M.X).hom = (λ_ M.X).hom ≫ M.p
   rw [id_tensorHom]
   exact leftUnitor_naturality M.p
 
 /-- The right unit constraint of `C` intertwines the idempotents of `M ⊗ 𝟙` and `M`. -/
 theorem comm_rightUnitor (M : TwistedKaroubi R C) :
     (tensorObjCore M tensorUnitCore).p ≫ (ρ_ M.X).hom = (ρ_ M.X).hom ≫ M.p := by
-  show (M.p ⊗ₘ 𝟙 (𝟙_ C)) ≫ (ρ_ M.X).hom = (ρ_ M.X).hom ≫ M.p
+  change (M.p ⊗ₘ 𝟙 (𝟙_ C)) ≫ (ρ_ M.X).hom = (ρ_ M.X).hom ≫ M.p
   rw [tensorHom_id]
   exact rightUnitor_naturality M.p
 

@@ -152,7 +152,7 @@ theorem nonempty_restrictScalars_directImage_iso_derivedLowerShriek {X Y U : Sch
         φ.hom)) hφQ)
   have : IsIso (DerivedCategory.Plus.Q.map φ') := by
     have : IsIso (DerivedCategory.Plus.ι.map (DerivedCategory.Plus.Q.map φ')) := by
-      show IsIso (DerivedCategory.Q.map ((CochainComplex.Plus.ι _).map φ'))
+      change IsIso (DerivedCategory.Q.map ((CochainComplex.Plus.ι _).map φ'))
       exact (DerivedCategory.isIso_Q_map_iff_quasiIso _ _).2 ‹QuasiIso φ'.hom›
     exact isIso_of_reflects_iso _ DerivedCategory.Plus.ι
   let ι := DerivedCategory.Plus.ι (C := EtaleModules.{u, 0} R Y)

@@ -379,7 +379,7 @@ lemma toPresheafFiber_comp_rationalPointSectionsStalkIso_inv (L : EtaleModules.{
     ((pointSmallEtaleComapFiberIso (fieldBaseChangeProj Y kbar)
       (rationalPointBaseChangeLift Y kbar x hx)).hom.app W
       ((pointSmallEtaleFiberIsoOfEq (rationalPointBaseChangeLift_fst Y kbar x hx)).inv.app W w))
-  show (Scheme.pointSmallEtale (specAlgebraMap k kbar ≫ x)).toPresheafFiber W w L.obj ≫
+  change (Scheme.pointSmallEtale (specAlgebraMap k kbar ≫ x)).toPresheafFiber W w L.obj ≫
       ((Point.presheafFiberIsoOfFiberIso _ _
         (pointSmallEtaleFiberIsoOfEq (rationalPointBaseChangeLift_fst Y kbar x hx))).inv.app L.obj ≫
       (etaleModuleStalkPullbackIso Λ (fieldBaseChangeProj Y kbar)
@@ -535,7 +535,7 @@ lemma geometricFrobeniusStalkFunctor_comp_rationalPointSectionsStalkIso_inv
       (geometricFrobeniusStalkFunctor (ModuleCat.{max (u + 1) r} Λ) kbar p q hcard x).app L =
         (Scheme.pointSmallEtale (specAlgebraMap k kbar ≫ x)).toPresheafFiber W
           (frobeniusTranslatedLift Y kbar x p q hcard W w) L.obj := by
-    show _ ≫ Point.presheafFiberDesc (A := ModuleCat.{max (u + 1) r} Λ) _ _ _ = _
+    change _ ≫ Point.presheafFiberDesc (A := ModuleCat.{max (u + 1) r} Λ) _ _ _ = _
     exact Point.toPresheafFiber_presheafFiberDesc _ _ _ _ _
   have hτ := τ.naturality (rationalPointRestrictionHom Y kbar x hx W w).op
   have hη := η.naturality ((γ.inv.app W).op)

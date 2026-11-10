@@ -99,8 +99,7 @@ theorem cancelBaseChange_comp_lTensor_baseChange {M N : Type u} [AddCommGroup M]
       (f.baseChange A).restrictScalars B ∘ₗ
         (TensorProduct.AlgebraTensorModule.cancelBaseChange R B B A M).toLinearMap := by
   refine TensorProduct.ext' fun a x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul b m => simp
   | add x y hx hy => simp only [TensorProduct.tmul_add, map_add] at hx hy ⊢; rw [hx, hy]
 
@@ -112,8 +111,10 @@ def tensorBaseChangeRestrictScalarsLinearEquiv (M : ModuleCat.{u} R) :
       (ModuleCat.of R A ⊗ M : ModuleCat.{u} R) where
   toFun := fun x => TensorProduct.AlgebraTensorModule.cancelBaseChange R B B A M x
   invFun := fun y => (TensorProduct.AlgebraTensorModule.cancelBaseChange R B B A M).symm y
-  left_inv := fun x => (TensorProduct.AlgebraTensorModule.cancelBaseChange R B B A M).symm_apply_apply x
-  right_inv := fun y => (TensorProduct.AlgebraTensorModule.cancelBaseChange R B B A M).apply_symm_apply y
+  left_inv := fun x =>
+    (TensorProduct.AlgebraTensorModule.cancelBaseChange R B B A M).symm_apply_apply x
+  right_inv := fun y =>
+    (TensorProduct.AlgebraTensorModule.cancelBaseChange R B B A M).apply_symm_apply y
   map_add' := fun x y => map_add _ x y
   map_smul' := fun r x =>
     ((TensorProduct.AlgebraTensorModule.cancelBaseChange R B B A M).map_smul

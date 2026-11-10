@@ -57,7 +57,7 @@ theorem sectionTransition_of (k : ℕ) (z : Γ(A.piece (k : ℤ), ⊤)) :
       DirectSum.of (A'.sectionPieces ⊤) k ((A'.piece (k : ℤ)).presheaf.map
         (homOfLE (top_le_preimage_top g)).op
         ((ψ.app (k : ℤ)).app (g ⁻¹ᵁ ⊤) (unitApp g (A.piece (k : ℤ)) ⊤ z))) := by
-  show ψ.sectionHom ⊤ (Stacks.AlgebraicGeometry.RelativeProjBaseChangeTwist.sectionBaseChange A
+  change ψ.sectionHom ⊤ (Stacks.AlgebraicGeometry.RelativeProjBaseChangeTwist.sectionBaseChange A
     g (topSite S) (topSite S') (top_le_preimage_top g) (DirectSum.of _ k z)) = _
   refine (congrArg (ψ.sectionHom ⊤)
     (Stacks.AlgebraicGeometry.RelativeProjBaseChangeTwist.sectionBaseChange_of A g (topSite S)
@@ -205,7 +205,7 @@ theorem sectionTransition_levelHom_globalSectionsHom (n : ℕ) (b : (T.tow d₀ 
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add]
   | of k y =>
     let b : (T.tow d₀ hd₀).limGrading k := ⟨_, (T.tow d₀ hd₀).lof_mem_limGrading y⟩
-    show sectionTransition (T.levelHom d₀ hd₀ n)
+    change sectionTransition (T.levelHom d₀ hd₀ n)
       (globalSectionsHom (T.tow d₀ hd₀).limGrading (b : (T.tow d₀ hd₀).Lim)) =
         T.levelProj d₀ hd₀ n (b : (T.tow d₀ hd₀).Lim)
     refine (congrArg (sectionTransition (T.levelHom d₀ hd₀ n))
@@ -257,7 +257,7 @@ theorem sectionMap_comp_sectionTransition (n : ℕ) :
       sectionTransition (T.levelHom d₀ hd₀ n) := by
   refine GradedRingHom.ext fun x => ?_
   obtain ⟨b, rfl⟩ := (bijective_globalSectionsHom (T.tow d₀ hd₀).limGrading).2 x
-  show T.sectionMap d₀ hd₀ n (sectionTransition (T.levelHom d₀ hd₀ (n + 1))
+  change T.sectionMap d₀ hd₀ n (sectionTransition (T.levelHom d₀ hd₀ (n + 1))
     (globalSectionsHom (T.tow d₀ hd₀).limGrading b)) = _
   rw [sectionTransition_levelHom_globalSectionsHom, sectionTransition_levelHom_globalSectionsHom,
     sectionMap_levelProj]
@@ -338,8 +338,7 @@ theorem levelHom_compat (n : ℕ) :
       (T.alg d₀ hd₀ n).sectionRing ⊤) m)
     (fun m b => (T.levelProj d₀ hd₀ (n + 1) (b : (T.tow d₀ hd₀).Lim) :
       (T.alg d₀ hd₀ (n + 1)).sectionRing ⊤) m)
-    (fun m _ φ φ' h => hom_ext_pullback_piece (T.tow d₀ hd₀).limGrading (T.levelMap n)
-      (T.alg d₀ hd₀ n) (T.levelProj d₀ hd₀ n) (T.levelProj_algebraMap d₀ hd₀ n) m φ φ' h)
+    (fun m _ φ φ' h => hom_ext_pullback_piece (T.tow d₀ hd₀).limGrading (T.levelMap n) m φ φ' h)
     (fun m b => specGradedHom_app_unitApp (T.tow d₀ hd₀).limGrading (T.levelMap n)
       (T.alg d₀ hd₀ n) (T.levelProj d₀ hd₀ n) (T.levelProj_algebraMap d₀ hd₀ n) m b)
     (fun m b => specGradedHom_app_unitApp (T.tow d₀ hd₀).limGrading (T.levelMap (n + 1))
@@ -359,8 +358,7 @@ theorem levelBase_hom_ext (n m : ℕ) {F : (Spec (T.R.obj (op n))).Modules}
     (h : ∀ b : Γ((T.limitAlgebra d₀ hd₀).piece (m : ℤ), ⊤),
       φ.app (T.levelBase n ⁻¹ᵁ ⊤) (unitApp (T.levelBase n) _ ⊤ b) =
         φ'.app (T.levelBase n ⁻¹ᵁ ⊤) (unitApp (T.levelBase n) _ ⊤ b)) : φ = φ' :=
-  hom_ext_pullback_piece (T.tow d₀ hd₀).limGrading (T.levelMap n) (T.alg d₀ hd₀ n)
-    (T.levelProj d₀ hd₀ n) (T.levelProj_algebraMap d₀ hd₀ n) m φ φ' fun _ => h _
+  hom_ext_pullback_piece (T.tow d₀ hd₀).limGrading (T.levelMap n) m φ φ' fun _ => h _
 
 /-- **The comparisons of Serre twists along the `c'_n` are compatible with the transitions**: the
 comparison along `c'_n` is the one along `c'_{n + 1}`, pulled back along the transition, followed

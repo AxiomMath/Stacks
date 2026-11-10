@@ -135,7 +135,9 @@ noncomputable def freeTensorIso (R : Sheaf J CommRingCat.{w}) (I K : Type w) :
 noncomputable def tensorPresentation
     {F G : SheafOfModules.{w} (Stacks.SheafOfModules.TensorSheafification.structureSheaf 𝒪 h𝒪)}
     (P : F.Presentation) (Q : G.Presentation) :
-    ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ (𝒪) (forget₂ CommRingCat RingCat) (h𝒪)⟩).obj (F)).obj (G))).Presentation := by
+    ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} ⟨𝒪,
+        Presheaf.isSheaf_of_isSheaf_comp _ (𝒪) (forget₂ CommRingCat RingCat) (h𝒪)⟩).obj (F)).obj
+        (G))).Presentation := by
   let f₂ : SheafOfModules.free P.relations.I ⟶ SheafOfModules.free P.generators.I :=
     P.relations.π ≫ kernel.ι _
   let f₁ : SheafOfModules.free P.generators.I ⟶ F := P.generators.π
@@ -265,7 +267,8 @@ noncomputable def tensorSheafRestrictionValIso (X : AlgebraicGeometry.RingedSpac
               (𝟙 ((Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)).obj)).obj
           ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyFunctor X).obj
             ((PresheafOfModules.tensorObj (O := (X).presheaf) (F.val) (G.val))))) ≅
-      (((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj (G))).over U).val :=
+      (((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj
+          (G))).over U).val :=
   PresheafOfModules.isoMk (fun _ => Iso.refl _)
 
 /-- The comparison morphism from the presheaf tensor product formed on `U` to the restriction to
@@ -281,7 +284,8 @@ noncomputable def tensorRestrictionPresheafHom
     (F G : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)))
     (U : Opens X.carrier) :
     (PresheafOfModules.tensorObj (O := (X.sheaf.over U).obj) ((F.over U).val) ((G.over U).val)) ⟶
-      (((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj (G))).over U).val :=
+      (((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj
+          (G))).over U).val :=
   (tensorPresheafRestrictionIso X F G U).hom ≫
     (presheafModuleRestriction X U).map
       (Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X
@@ -295,10 +299,14 @@ noncomputable def tensorRestrictionMap
     (X : AlgebraicGeometry.RingedSpace.{u, u})
     (F G : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)))
     (U : Opens X.carrier) :
-    (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(X.sheaf.over U).obj, Presheaf.isSheaf_of_isSheaf_comp _ ((X.sheaf.over U).obj) (forget₂ CommRingCat RingCat) (((Presheaf.isSheaf_iff_isSheaf_comp
+    (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(X.sheaf.over U).obj,
+        Presheaf.isSheaf_of_isSheaf_comp _ ((X.sheaf.over U).obj) (forget₂ CommRingCat RingCat)
+        (((Presheaf.isSheaf_iff_isSheaf_comp
           ((Opens.grothendieckTopology X.carrier).over U) (X.sheaf.over U).obj
-          (forget₂ CommRingCat RingCat)).mp (X.sheaf.over U).property))⟩).obj ((F.over U))).obj ((G.over U))) ⟶
-      ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj (G))).over U :=
+          (forget₂ CommRingCat RingCat)).mp (X.sheaf.over U).property))⟩).obj
+            ((F.over U))).obj ((G.over U))) ⟶
+      ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj
+          (G))).over U :=
   ((Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction (X.sheaf.over U).obj
     ((Presheaf.isSheaf_iff_isSheaf_comp
       ((Opens.grothendieckTopology X.carrier).over U) (X.sheaf.over U).obj
@@ -315,7 +323,8 @@ theorem toSheafify_tensorRestrictionMap
         ((Presheaf.isSheaf_iff_isSheaf_comp
           ((Opens.grothendieckTopology X.carrier).over U) (X.sheaf.over U).obj
           (forget₂ CommRingCat RingCat)).mp (X.sheaf.over U).property)
-        ((PresheafOfModules.tensorObj (O := (X.sheaf.over U).obj) ((F.over U).val) ((G.over U).val))) ≫
+        ((PresheafOfModules.tensorObj (O := (X.sheaf.over U).obj) ((F.over U).val)
+            ((G.over U).val))) ≫
       (SheafOfModules.forget (Stacks.SheafOfModules.TensorSheafification.structureSheaf
           (X.sheaf.over U).obj
           ((Presheaf.isSheaf_iff_isSheaf_comp
@@ -333,7 +342,8 @@ theorem toSheafify_tensorRestrictionMap
     (forget₂ CommRingCat RingCat)).mp (X.sheaf.over U).property
   let P : PresheafOfModules (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf O) :=
     (PresheafOfModules.tensorObj (O := O) ((F.over U).val) ((G.over U).val))
-  let M := ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj (G))).over U
+  let M := ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj
+      (F)).obj (G))).over U
   let adj := Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction O hO
   let γ : P ⟶ M.val := tensorRestrictionPresheafHom X F G U
   let e : (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).obj P ⟶ M :=
@@ -362,7 +372,8 @@ instance isIso_tensorRestrictionMap
     (forget₂ CommRingCat RingCat)).mp (X.sheaf.over U).property
   let P : PresheafOfModules (Stacks.SheafOfModules.TensorSheafification.structureRingPresheaf O) :=
     (PresheafOfModules.tensorObj (O := O) ((F.over U).val) ((G.over U).val))
-  let M := ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj (G))).over U
+  let M := ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj
+      (F)).obj (G))).over U
   let mid := (presheafModuleRestriction X U).map
     (Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X
       ((PresheafOfModules.tensorObj (O := (X).presheaf) (F.val) (G.val))))
@@ -496,7 +507,8 @@ instance isIso_tensorRestrictionMap
     apply (JU.W_sheafToPresheaf_map_iff_isIso _).1
     exact heW
   exact (isIso_iff_of_reflects_iso e
-    (SheafOfModules.toSheaf.{u} (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO))).mp
+    (SheafOfModules.toSheaf.{u}
+        (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO))).mp
       heSheafIso
 
 /-- The restriction to an open `U` of the tensor product of two sheaves of modules is the tensor
@@ -505,10 +517,14 @@ noncomputable def tensorRestrictionIso
     (X : AlgebraicGeometry.RingedSpace.{u, u})
     (F G : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)))
     (U : Opens X.carrier) :
-    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj (G))).over U ≅
-      (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(X.sheaf.over U).obj, Presheaf.isSheaf_of_isSheaf_comp _ ((X.sheaf.over U).obj) (forget₂ CommRingCat RingCat) (((Presheaf.isSheaf_iff_isSheaf_comp
+    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj
+        (G))).over U ≅
+      (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(X.sheaf.over U).obj,
+          Presheaf.isSheaf_of_isSheaf_comp _ ((X.sheaf.over U).obj) (forget₂ CommRingCat RingCat)
+          (((Presheaf.isSheaf_iff_isSheaf_comp
           ((Opens.grothendieckTopology X.carrier).over U) (X.sheaf.over U).obj
-          (forget₂ CommRingCat RingCat)).mp (X.sheaf.over U).property))⟩).obj ((F.over U))).obj ((G.over U))) :=
+          (forget₂ CommRingCat RingCat)).mp (X.sheaf.over U).property))⟩).obj
+            ((F.over U))).obj ((G.over U))) :=
   (asIso (tensorRestrictionMap X F G U)).symm
 
 /-- The inverse of `tensorRestrictionIso` is `tensorRestrictionMap`. -/
@@ -524,13 +540,15 @@ theorem tensorRestrictionIso_inv_val_app_toSheafify
     (X : AlgebraicGeometry.RingedSpace.{u, u})
     (F G : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)))
     (U : Opens X.carrier) (W : (CategoryTheory.Over U)ᵒᵖ)
-    (t : ((PresheafOfModules.tensorObj (O := (X.sheaf.over U).obj) ((F.over U).val) ((G.over U).val))).obj W) :
+    (t : ((PresheafOfModules.tensorObj (O := (X.sheaf.over U).obj) ((F.over U).val)
+        ((G.over U).val))).obj W) :
     ((tensorRestrictionIso X F G U).inv.val.app W).hom
         (((Stacks.SheafOfModules.TensorSheafification.toSheafify (X.sheaf.over U).obj
             ((Presheaf.isSheaf_iff_isSheaf_comp
               ((Opens.grothendieckTopology X.carrier).over U) (X.sheaf.over U).obj
               (forget₂ CommRingCat RingCat)).mp (X.sheaf.over U).property)
-            ((PresheafOfModules.tensorObj (O := (X.sheaf.over U).obj) ((F.over U).val) ((G.over U).val)))).app W).hom t) =
+            ((PresheafOfModules.tensorObj (O := (X.sheaf.over U).obj) ((F.over U).val)
+                ((G.over U).val)))).app W).hom t) =
       ((tensorRestrictionPresheafHom X F G U).app W).hom t := by
   have h := congrArg (fun φ => (φ.app W).hom t) (toSheafify_tensorRestrictionMap X F G U)
   exact h
@@ -538,7 +556,8 @@ theorem tensorRestrictionIso_inv_val_app_toSheafify
 theorem tensor_isQC (X : AlgebraicGeometry.RingedSpace.{u, u})
     (F G : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)))
     [F.IsQuasicoherent] [G.IsQuasicoherent] :
-    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj (G))).IsQuasicoherent := by
+    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj
+        (G))).IsQuasicoherent := by
   let qF : SheafOfModules.QuasicoherentData.{u, u, u, u} F :=
     (SheafOfModules.IsQuasicoherent.nonempty_quasicoherentData (M := F)).some
   let qG : SheafOfModules.QuasicoherentData.{u, u, u, u} G :=
@@ -557,7 +576,8 @@ theorem tensor_isQC (X : AlgebraicGeometry.RingedSpace.{u, u})
     obtain ⟨i, hi⟩ := Set.mem_iUnion.mp hxF
     obtain ⟨j, hj⟩ := Set.mem_iUnion.mp hxG
     exact (Opens.mem_iSup).2 ⟨(i, j), ⟨hi, hj⟩⟩
-  let qT : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj (G))).QuasicoherentData := {
+  let qT : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj
+      (F)).obj (G))).QuasicoherentData := {
     I := qF.I × qG.I
     X ij := qF.X ij.1 ⊓ qG.X ij.2
     coversTop := hPair
@@ -605,7 +625,8 @@ instance tensorSheaf_isQuasicoherent
     (X : AlgebraicGeometry.RingedSpace.{u, u})
     (F G : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)))
     [F.IsQuasicoherent] [G.IsQuasicoherent] :
-    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj (G))).IsQuasicoherent := tensor_isQC
+    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X)).presheaf, ((X)).IsSheaf⟩).obj (F)).obj
+        (G))).IsQuasicoherent := tensor_isQC
       X F G
 
 end AlgebraicGeometry

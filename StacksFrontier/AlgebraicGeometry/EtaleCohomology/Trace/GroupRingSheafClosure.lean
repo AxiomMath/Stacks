@@ -184,7 +184,7 @@ theorem groupRingIsContinuous_quotient (hM : GroupRingIsContinuous G M) :
   | H y =>
     refine Subgroup.isOpen_mono (H₁ := groupRingStabilizer y) (H₂ := groupRingStabilizer
       (Submodule.Quotient.mk y : M ⧸ U)) (fun g hg => ?_) (hM y)
-    show of ℤ G g • (Submodule.Quotient.mk y : M ⧸ U) = Submodule.Quotient.mk y
+    change of ℤ G g • (Submodule.Quotient.mk y : M ⧸ U) = Submodule.Quotient.mk y
     rw [← Submodule.Quotient.mk_smul]
     change of ℤ G g • y = y at hg
     rw [hg]
@@ -402,7 +402,7 @@ theorem isExtensionSummandClosure_groupRingSheaf {ι : Type*} (𝓜 : ι → Typ
     have hYc : GroupRingIsContinuous (EtaleFundamentalGroup X.1 x) Y := fun m => by
       have : {g : EtaleFundamentalGroup X.1 x | of ℤ _ g • m = m} =
           {g | of ℤ _ g • e m = e m} := Set.ext fun g => by
-        simp only [Set.mem_setOf_eq, ← map_smul, e.injective.eq_iff]
+        simp only [Set.mem_ofPred_eq, ← map_smul, e.injective.eq_iff]
       rw [this]; exact hZ (e m)
     exact .of_iso ⟨groupRingSheafMap B X x n hYc hZ e.toLinearMap,
       groupRingSheafMap B X x n hZ hYc e.symm.toLinearMap,

@@ -201,7 +201,7 @@ theorem setOf_simpleRoot_infinite (K : Type*) [Field K] [IsAlgClosed K] :
     · exact ⟨N + 1, by omega, h⟩
   have hnpos : 0 < n := by omega
   have : NeZero (n : K) := ⟨hn0⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot K n
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot K n
   have hsub : Polynomial.nthRootsFinset n (1 : K) ⊆ hfin.toFinset := by
     intro x hx
     rw [Polynomial.mem_nthRootsFinset hnpos] at hx
@@ -272,7 +272,7 @@ theorem exists_isUnit_aeval_eq_mul {K O : Type*} [Field K] [CommRing O] [IsLocal
           Polynomial.aeval (residue O z) H :=
         (Polynomial.aeval_algHom_apply (IsScalarTower.toAlgHom K O (ResidueField O)) z H).symm
       rw [e1, h2]
-      show Polynomial.aeval (algebraMap O (ResidueField O) (algebraMap K O b)) H = _
+      change Polynomial.aeval (algebraMap O (ResidueField O) (algebraMap K O b)) H = _
       rw [← IsScalarTower.algebraMap_apply, Polynomial.aeval_algebraMap_apply,
         Polynomial.coe_aeval_eq_eval]
     rw [h3] at h1
@@ -322,7 +322,7 @@ theorem mem_asIdeal_toSpecΓ_comp_iff {V : Scheme.{u}} {R : CommRingCat.{u}} (θ
       V.presheaf.germ ⊤ v trivial (θ r) ∈ maximalIdeal (V.presheaf.stalk v) := by
   have h1 : v ∈ V.basicOpen (θ r) ↔ (V.toSpecΓ ≫ Spec.map θ) v ∈ PrimeSpectrum.basicOpen r := by
     rw [← appTop_toSpecΓ_comp_inv_apply θ r, ← basicOpen_eq_of_affine]
-    show _ ↔ v ∈ (V.toSpecΓ ≫ Spec.map θ) ⁻¹ᵁ (Spec R).basicOpen ((Scheme.ΓSpecIso R).inv r)
+    change _ ↔ v ∈ (V.toSpecΓ ≫ Spec.map θ) ⁻¹ᵁ (Spec R).basicOpen ((Scheme.ΓSpecIso R).inv r)
     rw [Scheme.preimage_basicOpen]
     rfl
   rw [← not_iff_not, mem_maximalIdeal, mem_nonunits_iff, not_not, ← Scheme.mem_basicOpen_top, h1]
@@ -469,7 +469,7 @@ theorem exists_etaleAt_toSpecΓ_mvPolynomial
     rw [hmP, Ideal.map_span, ← hofList, Ideal.ofList]
     congr 1
     ext y
-    simp only [Set.mem_image, hG, Set.mem_range, exists_exists_eq_and, Set.mem_setOf_eq]
+    simp only [Set.mem_image, hG, Set.mem_range, exists_exists_eq_and, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨i, rfl⟩
       rw [stalkMap_toSpecΓ_comp_germ, hgermX]
@@ -670,7 +670,7 @@ theorem exists_point_map_maximalIdeal_eq_of_isAlgClosed
       have h1 : (z i - algebraMap K _ (b i)) =
           (φ.stalkMap v).hom (U.presheaf.germ ⊤ (φ v) trivial (f i)) * ↑(hw i).unit⁻¹ := by
         rw [himf, hzw, mul_assoc, IsUnit.mul_val_inv, mul_one]
-      show (z i - algebraMap K _ (b i)) ∈ _
+      change (z i - algebraMap K _ (b i)) ∈ _
       rw [h1]
       exact Ideal.mul_mem_right _ _ (Ideal.mem_map_of_mem _ (hfm i))
   -- the residue field at `v` is `K`
@@ -695,7 +695,7 @@ theorem exists_point_map_maximalIdeal_eq_of_isAlgClosed
     set c := MvPolynomial.eval b r with hc
     have hdiff : r - MvPolynomial.C c ∈ (ψ v).asIdeal := by
       rw [hψv]
-      show MvPolynomial.eval b (r - MvPolynomial.C c) = 0
+      change MvPolynomial.eval b (r - MvPolynomial.C c) = 0
       simp [hc]
     have hgm : (Spec (.of (MvPolynomial (Fin d) K))).presheaf.germ ⊤ (ψ v) trivial
         ((Scheme.ΓSpecIso (.of (MvPolynomial (Fin d) K))).inv (r - MvPolynomial.C c)) ∈
@@ -707,7 +707,7 @@ theorem exists_point_map_maximalIdeal_eq_of_isAlgClosed
       (congrArg (fun k => k.hom c) (Scheme.ΓSpecIso_inv_naturality
         (CommRingCat.ofHom (algebraMap K (MvPolynomial (Fin d) K))))).symm
     refine ⟨c, ?_⟩
-    show (Spec (.of (MvPolynomial (Fin d) K))).residue (ψ v)
+    change (Spec (.of (MvPolynomial (Fin d) K))).residue (ψ v)
         ((Spec (.of (MvPolynomial (Fin d) K))).presheaf.germ ⊤ (ψ v) trivial
           (q.appTop ((Scheme.ΓSpecIso (.of K)).inv c))) = y
     rw [hq', hy]
@@ -767,14 +767,14 @@ theorem maximalIdeal_le_span_closure_of_unramifiedAt_pullback
           have := congrArg (fun m => m.appTop.hom a) (pullback.lift_fst φ gV hc)
           rwa [Scheme.Hom.comp_appTop] at this
         refine Subring.subset_closure (Or.inl ⟨a, ?_⟩)
-        show V.presheaf.germ ⊤ v trivial (φ.appTop a) =
+        change V.presheaf.germ ⊤ v trivial (φ.appTop a) =
           V.presheaf.germ ⊤ v trivial (f.appTop ((pullback.fst aU k).appTop a))
         rw [e1]
       · have e2 : f.appTop ((pullback.snd aU k).appTop c) = gV.appTop c := by
           have := congrArg (fun m => m.appTop.hom c) (pullback.lift_snd φ gV hc)
           rwa [Scheme.Hom.comp_appTop] at this
         refine Subring.subset_closure (Or.inr ⟨(Scheme.ΓSpecIso (.of K)).hom c, ?_⟩)
-        show V.presheaf.germ ⊤ v trivial
+        change V.presheaf.germ ⊤ v trivial
             (gV.appTop ((Scheme.ΓSpecIso (.of K)).inv ((Scheme.ΓSpecIso (.of K)).hom c))) =
           V.presheaf.germ ⊤ v trivial (f.appTop ((pullback.snd aU k).appTop c))
         rw [Iso.hom_inv_id_apply, e2]

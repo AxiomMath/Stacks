@@ -109,7 +109,7 @@ theorem isAmple_of_isThickening_of_descentSituation
   let c := imageSubschemeCone d.system d.limitCone i
   have hacl : ∀ j : Jᵒᵖ, IsClosedImmersion (a.app j) := by
     intro j
-    show IsClosedImmersion (i.ker.map (d.limitCone.π.app j)).subschemeι
+    change IsClosedImmersion (i.ker.map (d.limitCone.π.app j)).subschemeι
     infer_instance
   have : ∀ {j k : Jᵒᵖ} (g : j ⟶ k), IsAffineHom (E.map g) := by
     intro j k g
@@ -174,7 +174,7 @@ theorem isAmple_of_isThickening_of_descentSituation
     rw [surjective_iff]
     intro x
     have hx' : g' x ∈ Set.range (a.app (op j₁)).base := by
-      show g' x ∈ Set.range (i.ker.map (d.limitCone.π.app (op j₁))).subschemeι.base
+      change g' x ∈ Set.range (i.ker.map (d.limitCone.π.app (op j₁))).subschemeι.base
       rw [Scheme.IdealSheafData.range_subschemeι]
       exact hlS ⟨x, rfl⟩
     have hmem : x ∈ Set.range (pullback.fst g' (a.app (op j₁))).base := by

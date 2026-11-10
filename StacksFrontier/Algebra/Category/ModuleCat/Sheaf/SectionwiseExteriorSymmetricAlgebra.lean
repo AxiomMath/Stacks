@@ -113,7 +113,7 @@ theorem mul_mem_intPiece (i j : ℤ) {x y : ExteriorAlgebra R M} (hx : x ∈ int
             LinearMap.range (ExteriorAlgebra.ι R : M →ₗ[R] ExteriorAlgebra R M) ^ p := hx
           replace hy : y ∈
             LinearMap.range (ExteriorAlgebra.ι R : M →ₗ[R] ExteriorAlgebra R M) ^ q := hy
-          show x * y ∈
+          change x * y ∈
             LinearMap.range (ExteriorAlgebra.ι R : M →ₗ[R] ExteriorAlgebra R M) ^ (p + q)
           rw [pow_add]
           exact Submodule.mul_mem_mul hx hy

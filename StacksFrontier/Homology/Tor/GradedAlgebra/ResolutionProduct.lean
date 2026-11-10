@@ -32,7 +32,7 @@ private theorem homotopy_of_comp_π_eq
     (h : f.f 0 ≫ P.π.f 0 = g.f 0 ≫ P.π.f 0) : Nonempty (Homotopy f g) := by
   let e := f - g
   have he : e.f 0 ≫ P.π.f 0 = 0 := by
-    show (f.f 0 - g.f 0) ≫ P.π.f 0 = 0
+    change (f.f 0 - g.f 0) ≫ P.π.f 0 = 0
     rw [Preadditive.sub_comp, h, sub_self]
   let s₀ := P.exact₀.liftFromProjective (e.f 0) he
   have hs₀ : s₀ ≫ P.complex.d 1 0 = e.f 0 :=
@@ -58,7 +58,7 @@ private theorem projective_tensor (M N : ModuleCat.{max u v} R)
     [Projective M] [Projective N] : Projective (M ⊗ N) := by
   have := ModuleCat.projective_of_module_projective M
   have := ModuleCat.projective_of_module_projective N
-  show Projective (ModuleCat.of R (TensorProduct R M N))
+  change Projective (ModuleCat.of R (TensorProduct R M N))
   exact ModuleCat.projective_of_categoryTheory_projective _
 private theorem projective_tensor_complex_X
     (K L : ChainComplex (ModuleCat.{max u v} R) ℕ)
@@ -183,12 +183,12 @@ theorem resolution_mul_assoc
   apply ModuleCat.hom_ext
   apply TensorProduct.ext_threefold
   intro x y z
-  show P.π.f 0 (μ.f 0 ((μ ⊗ₘ 𝟙 P.complex).f 0
+  change P.π.f 0 (μ.f 0 ((μ ⊗ₘ 𝟙 P.complex).f 0
     (HomologicalComplex.ιTensorObj (P.complex ⊗ P.complex) P.complex 0 0 0 rfl
       (TensorProduct.tmul R (HomologicalComplex.ιTensorObj P.complex P.complex 0 0 0 rfl
         (TensorProduct.tmul R x y)) z)))) = _
   rw [tensorHom_ι_apply μ (𝟙 P.complex) 0 0 0 rfl _ _, hμ, hμ]
-  show @HMul.hMul B B B inferInstance
+  change @HMul.hMul B B B inferInstance
     (@HMul.hMul B B B inferInstance (P.π.f 0 x) (P.π.f 0 y)) (P.π.f 0 z) =
     P.π.f 0 (μ.f 0 ((𝟙 P.complex ⊗ₘ μ).f 0
       ((α_ P.complex P.complex P.complex).hom.f 0
@@ -215,7 +215,7 @@ theorem resolution_one_mul
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro x
-  show P.π.f 0 (μ.f 0 ((η ⊗ₘ 𝟙 P.complex).f 0 ((λ_ P.complex).inv.f 0 x))) = P.π.f 0 x
+  change P.π.f 0 (μ.f 0 ((η ⊗ₘ 𝟙 P.complex).f 0 ((λ_ P.complex).inv.f 0 x))) = P.π.f 0 x
   erw [leftUnitor_inv_f_apply, tensorHom_ι_apply η (𝟙 P.complex) 0 0 0 rfl _ _, hμ, hη]
   exact one_mul (M := B) (P.π.f 0 x)
 
@@ -228,7 +228,7 @@ theorem resolution_unit_exists
   let η₀ : ModuleCat.of R (ULift.{v} R) ⟶ P.complex.X 0 :=
     ModuleCat.ofHom ((LinearMap.toSpanSingleton R _ e).comp ULift.moduleEquiv.toLinearMap)
   refine ⟨(P.complex.fromSingle₀Equiv _).symm η₀, ?_⟩
-  show P.π.f 0 ((1 : R) • e) = (1 : B)
+  change P.π.f 0 ((1 : R) • e) = (1 : B)
   simpa only [one_smul] using he
 
 set_option maxHeartbeats 2000000 in
@@ -247,7 +247,7 @@ theorem resolution_mul_one
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro x
-  show P.π.f 0 (μ.f 0 ((𝟙 P.complex ⊗ₘ η).f 0 ((ρ_ P.complex).inv.f 0 x))) = P.π.f 0 x
+  change P.π.f 0 (μ.f 0 ((𝟙 P.complex ⊗ₘ η).f 0 ((ρ_ P.complex).inv.f 0 x))) = P.π.f 0 x
   erw [rightUnitor_inv_f_apply, tensorHom_ι_apply (𝟙 P.complex) η 0 0 0 rfl _ _, hμ, hη]
   exact mul_one (M := B) (P.π.f 0 x)
 
@@ -347,7 +347,7 @@ private lemma tensor_cycles_d
       rw [HomologicalComplex.mapBifunctor.d₁_eq' _ _ _ _
         (show (ComplexShape.down ℕ).Rel (p+1) p from rfl),
         Linear.comp_units_smul, ← Category.assoc]
-      show _ • (((K.iCycles (p+1) ⊗ₘ L.iCycles q) ≫ (K.d (p+1) p ▷ L.X q)) ≫ _) = 0
+      change _ • (((K.iCycles (p+1) ⊗ₘ L.iCycles q) ≫ (K.d (p+1) p ▷ L.X q)) ≫ _) = 0
       rw [← tensorHom_id, tensorHom_comp_tensorHom, K.iCycles_d, MonoidalPreadditive.zero_tensor,
         zero_comp, smul_zero]
   have h₂ : (K.iCycles p ⊗ₘ L.iCycles q) ≫
@@ -359,7 +359,7 @@ private lemma tensor_cycles_d
       rw [HomologicalComplex.mapBifunctor.d₂_eq' _ _ _ _ p
         (show (ComplexShape.down ℕ).Rel (q+1) q from rfl),
         Linear.comp_units_smul, ← Category.assoc]
-      show _ • (((K.iCycles p ⊗ₘ L.iCycles (q+1)) ≫ (K.X p ◁ L.d (q+1) q)) ≫ _) = 0
+      change _ • (((K.iCycles p ⊗ₘ L.iCycles (q+1)) ≫ (K.X p ◁ L.d (q+1) q)) ≫ _) = 0
       rw [← id_tensorHom, tensorHom_comp_tensorHom, L.iCycles_d, MonoidalPreadditive.tensor_zero,
         zero_comp, smul_zero]
   rw [h₁, h₂, add_zero]
@@ -403,7 +403,7 @@ private theorem homologyProduct_naturality
     HomologicalComplex.ιTensorObj K' L' n m (n + m) rfl at hz'
   change (K.homologyπ n ⊗ₘ L.homologyπ m) ≫ cm = z ≫ (K ⊗ L).homologyπ (n + m) at hc
   change (K'.homologyπ n ⊗ₘ L'.homologyπ m) ≫ dm = z' ≫ (K' ⊗ L').homologyπ (n + m) at hd
-  show cm ≫ _ = _ ≫ dm
+  change cm ≫ _ = _ ≫ dm
   have hi : z ≫ HomologicalComplex.cyclesMap (f ⊗ₘ g) (n + m) =
       (HomologicalComplex.cyclesMap f n ⊗ₘ HomologicalComplex.cyclesMap g m) ≫ z' := by
     rw [← cancel_mono ((K' ⊗ L').iCycles (n + m))]
@@ -454,7 +454,7 @@ private theorem product_comp_map_resolution
             (ComplexShape.down ℕ)).map (c.μ ≫ ProjectiveResolution.lift q T U)) (n + m) := by
   rw [ProjectiveResolution.isoLeftDerivedObj_hom_naturality q T U
     (ProjectiveResolution.lift q T U) (ProjectiveResolution.lift_commutes_zero q T U)]
-  show (RingTheory.TorProducts.torProduct R A n m).app (M, N) ≫
+  change (RingTheory.TorProducts.torProduct R A n m).app (M, N) ≫
     (T.isoLeftDerivedObj _ (n + m)).hom ≫
       HomologicalComplex.homologyMap
         (((extensionScalars (algebraMap R A)).mapHomologicalComplex
@@ -497,7 +497,7 @@ theorem product_comp_map_resolution_of_normalized
   obtain ⟨h⟩ := homotopy_of_comp_π_eq U
     (c.μ ≫ ProjectiveResolution.lift q T U) ν (by
       apply tensor_zero_hom_ext.{uR, max uA v}
-      show HomologicalComplex.ιMapBifunctor P.complex Q.complex
+      change HomologicalComplex.ιMapBifunctor P.complex Q.complex
         (ModuleCat.moduleTensorLarge.{uR, max uA v} R) (ComplexShape.down ℕ) 0 0 0 rfl ≫
         (c.μ.f 0 ≫ (ProjectiveResolution.lift q T U).f 0) ≫ U.π.f 0 =
         HomologicalComplex.ιMapBifunctor P.complex Q.complex

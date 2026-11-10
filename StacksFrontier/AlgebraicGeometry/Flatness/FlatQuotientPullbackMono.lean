@@ -89,12 +89,10 @@ theorem LinearMap.injective_baseChange_tensorProduct_of_injective_lTensor (g : M
       (TensorProduct.comm R N B).toAddEquiv
   have hcomm : ∀ z, eN (g.baseChange (A ⊗[R] B) z) = (g.restrictScalars R).lTensor B (eM z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp only [map_add, hz, hw]
     | tmul t m =>
-      induction t using TensorProduct.induction_on with
-      | zero => simp
+      induction t using TensorProduct.inductionOn with
       | add t s ht hs => simp only [TensorProduct.add_tmul, map_add, ht, hs]
       | tmul a b =>
         simp [eM, eN, AlgebraTensorModule.cancelBaseChange_tmul]
@@ -115,7 +113,7 @@ theorem LinearMap.injective_baseChange_of_flat_cokernel [Module.Flat (A ⊗[R] B
       (LinearMap.lTensor_injective_of_exact_of_flat (f.restrictScalars R) hf
         (g.restrictScalars R) hg hgf B)
   have h2 : Function.Injective ((g.baseChange (A ⊗[R] B)).baseChange C) := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap _ h1
   let cM := AlgebraTensorModule.cancelBaseChange A (A ⊗[R] B) C C M
   let cN := AlgebraTensorModule.cancelBaseChange A (A ⊗[R] B) C C N
@@ -183,7 +181,7 @@ theorem injective_stalkMapLinear_modulePullback_of_injective_baseChange
       rw [← hs]
       exact stalkMapLinear_germ (R := Y.presheaf) (M := G.val) (N := H.val) φ.val
         (f.hom.base x) V hxV s
-    show E' (b (E.symm (1 ⊗ₜ[R] m))) = qS (1 ⊗ₜ[R] m)
+    change E' (b (E.symm (1 ⊗ₜ[R] m))) = qS (1 ⊗ₜ[R] m)
     rw [E.symm_apply_eq.2 hunitG.symm, stalkMapLinear_germ (R := X.presheaf)
       (M := ((modulePullback f).obj G).val) (N := ((modulePullback f).obj H).val)
       ((modulePullback f).map φ).val x ((opensMap f).obj V) hxV uG, hsec,
@@ -191,8 +189,7 @@ theorem injective_stalkMapLinear_modulePullback_of_injective_baseChange
     rfl
   have hmaps : ∀ z : TensorProduct R S M, lhs z = qS z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp [hz, hw]
     | tmul s m => rw [TensorProduct.tmul_eq_smul_one_tmul, map_smul, map_smul, hgen]
   have hcomm : ∀ n : N, E' (b n) = qS (E n) := fun n ↦

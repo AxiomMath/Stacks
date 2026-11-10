@@ -126,7 +126,7 @@ theorem hasEffectiveThickeningTowers_of_isEffectiveOnSquareZeroTowers
   let g : ∀ n, x ⟶ Xs.obj n := fun n => fromX (n + 1)
   have hfromX : ∀ {i j : ℕ} (f : i ⟶ j), g i ≫ Xs.map f = g j := fun f =>
     comp_map_of_succ Xs g (fun n => by
-      show fromX (n + 1 + 1) = fromX (n + 1) ≫ Xs.map (homOfLE (Nat.le_succ n))
+      change fromX (n + 1 + 1) = fromX (n + 1) ≫ Xs.map (homOfLE (Nat.le_succ n))
       rw [hXs]
       exact hfromS (n + 1)) f
   have hclosed : ∀ {i j : ℕ} (f : i ⟶ j), IsClosedImmersion (VV.map (Tn.map f)) := fun f =>
@@ -146,7 +146,7 @@ theorem hasEffectiveThickeningTowers_of_isEffectiveOnSquareZeroTowers
     have e : (B.inclusion.map (Tn.obj n).hom).base ((VV.map (p.map (g n))).base u) =
         (B.inclusion.map (p.obj x).hom).base u :=
       congrArg (fun φ => φ.base u) (hover (p.map (g n)))
-    show (B.inclusion.map (Tn.obj n).hom).base ((VV.map (p.map (g n))).base u) ∈ W
+    change (B.inclusion.map (Tn.obj n).hom).base ((VV.map (p.map (g n))).base u) ∈ W
     rw [e]
     exact hxW ⟨u, rfl⟩
   let τ : ∀ n, VV.obj (Tn.obj n) ⟶ W := fun n =>
@@ -166,7 +166,7 @@ theorem hasEffectiveThickeningTowers_of_isEffectiveOnSquareZeroTowers
     have : IsAffine (VV.obj (Tn.obj n.unop)) := hTaff n.unop
     have h : Scheme.size (VV.obj (Tn.obj n.unop)) < B.cutoff := (Tn.obj n.unop).left.2
     rw [Scheme.size_of_isAffine] at h
-    show Scheme.size (Spec (F.obj n)) < B.cutoff
+    change Scheme.size (Spec (F.obj n)) < B.cutoff
     rw [Scheme.size_Spec]
     exact h
   have hRc : B.Contains (Spec R) := contains_spec_limit B F hFc
@@ -174,7 +174,7 @@ theorem hasEffectiveThickeningTowers_of_isEffectiveOnSquareZeroTowers
     { pt := Γ(W, ⊤)
       π := { app := fun n => (τ n.unop).appTop
              naturality := fun a b f => by
-               show 𝟙 _ ≫ (τ b.unop).appTop =
+               change 𝟙 _ ≫ (τ b.unop).appTop =
                  (τ a.unop).appTop ≫ (VV.map (Tn.map f.unop)).appTop
                rw [Category.id_comp, ← Scheme.Hom.comp_appTop, hτmap] } }
   let toS : Spec R ⟶ S := Spec.map lam ≫ (W : Scheme.{u}).isoSpec.inv ≫ W.ι
@@ -204,7 +204,7 @@ theorem hasEffectiveThickeningTowers_of_isEffectiveOnSquareZeroTowers
     apply ObjectProperty.hom_ext
     have := hTaff i
     have := hTaff j
-    show VV.map (Tn.map f) ≫ (VV.obj (Tn.obj j)).isoSpec.hom ≫ Spec.map (πn j) =
+    change VV.map (Tn.map f) ≫ (VV.obj (Tn.obj j)).isoSpec.hom ≫ Spec.map (πn j) =
       (VV.obj (Tn.obj i)).isoSpec.hom ≫ Spec.map (πn i)
     rw [← Scheme.isoSpec_hom_naturality_assoc, ← Spec.map_comp, hπw]
   let c : Cocone Tn :=
@@ -234,11 +234,11 @@ theorem hasEffectiveThickeningTowers_of_isEffectiveOnSquareZeroTowers
     refine le_bot_iff.mp ((Ideal.pow_right_mono ?_ 2).trans (hkerg j).le)
     intro z hz
     have hz' : (VV.map (Tn.map f)).appTop.hom z = 0 := hz
-    show (VV.map (p.map (g j))).appTop.hom z = 0
+    change (VV.map (p.map (g j))).appTop.hom z = 0
     rw [hpfac f, CommRingCat.comp_apply, hz', map_zero]
   have hrange : Set.range (B.inclusion.map c.pt.hom).base ⊆ (W : Set S) := by
     rintro _ ⟨t, rfl⟩
-    show toS.base t ∈ W
+    change toS.base t ∈ W
     have e : toS = (Spec.map lam ≫ (W : Scheme.{u}).isoSpec.inv) ≫ W.ι := by
       simp only [toS, Category.assoc]
     rw [e, Scheme.Hom.comp_apply]

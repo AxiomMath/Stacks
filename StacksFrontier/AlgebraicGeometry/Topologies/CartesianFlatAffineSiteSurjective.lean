@@ -6,7 +6,8 @@ public import StacksFrontier.AlgebraicGeometry.Topologies.CartesianFlatAffineSit
 # Epimorphisms with cartesian kernel are surjective on the sections over an affine object
 
 Let `C` be a site of affine schemes with fibre products along its coverings, as in
-`StacksFrontier.AlgebraicGeometry.Topologies.CartesianFlatAffineSite`, and let `φ : E ⟶ G` be a map of
+`StacksFrontier.AlgebraicGeometry.Topologies.CartesianFlatAffineSite`, and let `φ : E ⟶ G` be a map
+of
 sheaves of modules which is locally surjective and whose kernel `F ⟶ E` is cartesian. This file
 proves that `φ` is surjective on the sections over every object.
 
@@ -68,12 +69,11 @@ theorem surjective_of_faithfullyFlat_family
       TensorProduct.rid A (R.obj (op (W i)))
     have hsq : ∀ z, ρ (πX.lTensor (R.obj (op (W i))) z) = π (op (W i)) (θ z) := by
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero => simp only [map_zero]
+      induction z using TensorProduct.inductionOn with
       | add z z' hz hz' => simp only [map_add, hz, hz']
       | tmul b p =>
         rw [LinearMap.lTensor_tmul]
-        show ρ (b ⊗ₜ πX p) = π (op (W i)) (restrictionBaseChange P (q i).op
+        change ρ (b ⊗ₜ πX p) = π (op (W i)) (restrictionBaseChange P (q i).op
           (b ⊗ₜ[R.obj (op X), (R.map (q i).op).hom] p))
         rw [restrictionBaseChange_tmul]
         refine Eq.trans ?_ ((π (op (W i))).map_smul b ((P.map (q i).op) p)).symm
@@ -93,8 +93,7 @@ theorem surjective_of_faithfullyFlat_family
     have hsq : ∀ (x : (∀ i, R.obj (op (W i))) ⊗[A] P.obj (op X)) (i : I),
         e₂ (πX.lTensor (∀ i, R.obj (op (W i))) x) i = πX.lTensor (R.obj (op (W i))) (e₁ x i) := by
       intro x
-      induction x using TensorProduct.induction_on with
-      | zero => intro i; simp
+      induction x using TensorProduct.inductionOn with
       | add x y hx hy =>
         intro i
         simp only [map_add, Pi.add_apply, hx i, hy i]
@@ -158,9 +157,9 @@ theorem isSheaf_liftPresheaf {J : GrothendieckTopology D} (hE : Presheaf.IsSheaf
     exists_amalgamation_of_proj (isSheaf_forget_of_isSheaf hR)
     (fun _ t => (liftElem g σ hσ t).1.2) (fun _ _ _ _ => rfl) hS hx
   have hmem : (e, a) ∈ liftSubmodule g σ (op X) := by
-    show g.app (op X) e = a • σ (op X)
+    change g.app (op X) e = a • σ (op X)
     refine (hG' S hS).isSeparatedFor.ext fun Y f hf => ?_
-    show G.map f.op (g.app (op X) e) = G.map f.op (a • σ (op X))
+    change G.map f.op (g.app (op X) e) = G.map f.op (a • σ (op X))
     have h1 : g.app (op Y) (E.map f.op e) = (liftElem g σ hσ (x f hf)).1.2 • σ (op Y) :=
       he f hf ▸ (liftElem g σ hσ (x f hf)).2
     rw [← PresheafOfModules.naturality_apply, h1, PresheafOfModules.map_smul, hσ, ← ha f hf]
@@ -216,7 +215,7 @@ theorem surjective_app_of_isLocallySurjective [∀ X, IsAffine (L.obj X)] [Q.Has
   let σ : ∀ Z : (Over X)ᵒᵖ, Gx.obj Z := fun Z => G.val.map Z.unop.hom.op s
   have hσ : ∀ ⦃Z Z' : (Over X)ᵒᵖ⦄ (f : Z ⟶ Z'), Gx.map f (σ Z) = σ Z' := by
     intro Z Z' f
-    show G.val.map f.unop.left.op (G.val.map Z.unop.hom.op s) = G.val.map Z'.unop.hom.op s
+    change G.val.map f.unop.left.op (G.val.map Z.unop.hom.op s) = G.val.map Z'.unop.hom.op s
     rw [← PresheafOfModules.map_comp_apply, ← op_comp, Over.w]
   let P := liftPresheaf (R := rings (Over.forget X ⋙ L)) φx σ hσ
   have hk : ∀ Z x, φx.app Z (ιx.app Z x) = 0 := fun Z x =>
@@ -236,12 +235,12 @@ theorem surjective_app_of_isLocallySurjective [∀ X, IsAffine (L.obj X)] [Q.Has
     let p' : liftSubmodule (R := rings (Over.forget X ⋙ L)) φx σ Z := p
     have hp' : φ.val.app (op Z.unop.left) p'.1.1 = 0 := by
       rw [show φ.val.app (op Z.unop.left) p'.1.1 = p'.1.2 • σ Z from p'.2]
-      show p'.1.2 • σ Z = 0
+      change p'.1.2 • σ Z = 0
       rw [show p'.1.2 = 0 from hp, zero_smul]
     obtain ⟨k, hk⟩ := ((hex (op Z.unop.left)) _).mp hp'
     exact ⟨k, Subtype.ext (Prod.ext hk hp.symm)⟩
   let ε : ∀ i, P.obj (op (W' i)) := fun i => (⟨(e i, 1), by
-    show φ.val.app (op (W i)) (e i) = (1 : (rings L).obj (op (W i))) • σ (op (W' i))
+    change φ.val.app (op (W i)) (e i) = (1 : (rings L).obj (op (W i))) • σ (op (W' i))
     rw [one_smul, he i]
     rfl⟩ : liftSubmodule (R := rings (Over.forget X ⋙ L)) φx σ (op (W' i)))
   have hε : ∀ i, π _ (ε i) = 1 := fun _ => rfl
@@ -269,7 +268,7 @@ theorem surjective_app_of_isLocallySurjective [∀ X, IsAffine (L.obj X)] [Q.Has
   have h := p'.2
   change φ.val.app (op X) _ = p'.1.2 • σ (op X₀) at h
   rw [h, show p'.1.2 = 1 from hp, one_smul]
-  show G.val.map (𝟙 X).op s = s
+  change G.val.map (𝟙 X).op s = s
   rw [op_id, PresheafOfModules.map_id]
   rfl
 

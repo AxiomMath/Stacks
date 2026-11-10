@@ -126,7 +126,7 @@ theorem exists_smul_eq_of_algHom (φ φ' : S →ₐ[R] Ω) [Finite (S ⧸ RingHo
   set ψ : S →+* Ω := (φ' : S →+* Ω).comp (MulSemiringAction.toRingHom G S g) with hψ
   have hkerψ : ∀ s, ψ s = 0 ↔ s ∈ Q := by
     intro s
-    show φ' (g • s) = 0 ↔ s ∈ Q
+    change φ' (g • s) = 0 ↔ s ∈ Q
     rw [← RingHom.mem_ker, ← hQ', hg, Ideal.smul_mem_pointwise_smul_iff]
   have : IsDomain (S ⧸ Q) := Ideal.Quotient.isDomain Q
   have : Q.IsMaximal := Ideal.Quotient.maximal_of_isField Q (Finite.isField_of_domain (S ⧸ Q))
@@ -140,7 +140,7 @@ theorem exists_smul_eq_of_algHom (φ φ' : S →ₐ[R] Ω) [Finite (S ⧸ RingHo
         obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective r
         refine f.injective ?_
         rw [hσ]
-        show ψ (algebraMap R S r) = φ (algebraMap R S r)
+        change ψ (algebraMap R S r) = φ (algebraMap R S r)
         rw [hψ, RingHom.comp_apply, MulSemiringAction.toRingHom_apply, smul_algebraMap]
         simp)
   obtain ⟨τ, hτ⟩ := Ideal.Quotient.stabilizerHom_surjective G P Q eR

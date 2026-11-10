@@ -254,7 +254,7 @@ lemma glueVal_transfer {W W' : BigFppfOver B S hS} (g : W ⟶ V) (hg : R g) (k :
     (show p.1 = _ ≫ c.base by rw [hp, hcb]; simp)
   refine (glueVal_eq h x f hf (k ≫ g) _ _ _ p' hp'₁ ?_).trans ?_
   · rw [← hcf]
-    show (f g hg).map (op W') (c.map (op W') p') = _
+    change (f g hg).map (op W') (c.map (op W') p') = _
     rw [hp'₂]
   · rw [← c.totalToTarget_comp, hp'₂]
 
@@ -270,7 +270,7 @@ lemma glueVal_restrict {W W' : BigFppfOver B S hS} (g : W ⟶ V) (hg : R g) (k :
   have hpq := glueVal_eq h x f hf g hg q hq p hp₁ hp₂
   rw [hpq, ← totalToTarget_naturality]
   rw [← glueVal_transfer h x f hf hc g hg k ((x g hg).totalMap k.op p) (by
-    show k ≫ p.1 = _
+    change k ≫ p.1 = _
     rw [hp₁])]
   refine glueVal_congr h x f hf rfl _ _ ?_ _ _
   rw [← hp₂]
@@ -378,7 +378,7 @@ lemma exists_glueHom {W : BigFppfOver B S hS} (g : W ⟶ V) (hg : R g) :
     (SheafOfGroups.Torsors.projection_isFiberedInGroupoids
       (𝒢 := bigConstantGroupSheaf B S hS G)).unique_lift
       (y.pullbackHom h) (f g hg) (eqToHom (glue_base h x f hf g hg) ≫ g) (by
-        show (eqToHom (glue_base h x f hf g hg) ≫ g) ≫ h =
+        change (eqToHom (glue_base h x f hf g hg) ≫ g) ≫ h =
           SheafOfGroups.Torsors.Hom.base (f g hg)
         rw [glue_fbase h x f hf]
         simp)
@@ -398,7 +398,7 @@ lemma exists_glueHom {W : BigFppfOver B S hS} (g : W ⟶ V) (hg : R g) :
     have hfq : (⟨b ≫ h, s⟩ : y.Total Wo) = (f g hg).map Wo p := by
       have e := congrFun (congrFun (congrArg SheafOfGroups.Torsors.Hom.map hc₀c) Wo) p
       refine Eq.trans ?_ e
-      show _ = (y.pullbackHom h).map Wo (c₀.map Wo p)
+      change _ = (y.pullbackHom h).map Wo (c₀.map Wo p)
       rw [← hq]
       rfl
     refine (glueMap_eq h x f hf hc hX hR b hbR s).trans ?_

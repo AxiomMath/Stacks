@@ -84,7 +84,7 @@ theorem finiteDimensional_tangentSpace :
     letI : Fact (IsPredeformationCategory
         (BasedCategory.ofFunctor (predeformation x₀ hx₀).projection).p) :=
       ⟨(isDeformationCategory_predeformation x₀ hx₀).predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
         (isomorphismClasses (BasedCategory.ofFunctor (predeformation x₀ hx₀).projection)
           (isDeformationCategory_predeformation x₀ hx₀).predeformation.cofibered))) :=
       ⟨tangentConditionS2.{u, u, u} (isDeformationCategory_predeformation x₀ hx₀)⟩
@@ -148,9 +148,9 @@ theorem projection_obj_eq_of_eq_algebraOver :
     letI : Algebra (ULift.{u} ℤ) k := ULift.algebra' ℤ k
     (projection B hZ).obj x =
       Over.mk (Spec.map (CommRingCat.ofHom (algebraMap (ULift.{u} ℤ) k)) ≫ 𝟙 integerBase) := by
-  show (Over.post B.inclusion).obj ((cartesianProperFlatProjection B integerBase hZ).obj x) = _
+  change (Over.post B.inclusion).obj ((cartesianProperFlatProjection B integerBase hZ).obj x) = _
   rw [hx]
-  show Over.mk (B.inclusion.map (ObjectProperty.homMk toS : B.obj hk ⟶ B.obj hZ)) = _
+  change Over.mk (B.inclusion.map (ObjectProperty.homMk toS : B.obj hk ⟶ B.obj hZ)) = _
   congr 1
   exact specULiftZIsTerminal.hom_ext _ _
 

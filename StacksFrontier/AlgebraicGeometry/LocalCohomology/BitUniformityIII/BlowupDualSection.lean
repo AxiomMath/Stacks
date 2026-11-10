@@ -203,10 +203,10 @@ theorem finSingleHom_comp_eq_sum {r r' : ℕ} (j : Fin r)
   obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective x
   have h1 := hom_single_mk I g j b
   funext k
-  show g.hom (Pi.single j _) k = (∑ i, a i • finSingleHom I r' i).hom _ k
+  change g.hom (Pi.single j _) k = (∑ i, a i • finSingleHom I r' i).hom _ k
   rw [h1, ModuleCat.hom_sum, LinearMap.sum_apply, Finset.sum_apply,
     Finset.sum_eq_single k (fun i _ hik => by
-      simp [finSingleHom, Pi.single_apply, Ne.symm hik]) (by simp)]
+      simp [finSingleHom, Ne.symm hik]) (by simp)]
   simp [finSingleHom, Algebra.smul_def, ← ha k, mul_comm]
 
 omit [IsNoetherianRing A] in
@@ -218,7 +218,7 @@ theorem finSingleHom_comp_eq_smul {r : ℕ} (j : Fin r)
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
   obtain ⟨b', rfl⟩ := Ideal.Quotient.mk_surjective x
   have h1 := hom_single_mk I g j b'
-  show g.hom (Pi.single j _) = _
+  change g.hom (Pi.single j _) = _
   rw [h1, ← hb]
   simp [Algebra.smul_def, mul_comm]
 
@@ -287,6 +287,7 @@ theorem blowupHmodMap_presSection {N : ModuleCat.{u} A} (g : P.presL.resShortCom
   exact congrArg (fun ψ => blowupHmodMap I 0 ψ (coordSection I q₀ h P φ j))
     ((twistedPullbackFunctor I (n : ℤ)).map_comp _ _).symm
 
+omit [IsNoetherianRing A] in
 /-- `Hⁱ(X, 𝒪_X(q) ⊗ p^*(-))` of a linear combination of maps, on an element. -/
 theorem blowupHmodMap_sum_smul_apply (q : ℤ) {N N' : ModuleCat.{u} A} {ι : Type*} (s : Finset ι)
     (a : ι → A) (f : ι → (N ⟶ N')) (x : blowupHmodTwistedPullback I N 0 q) :
@@ -351,7 +352,7 @@ def evalVec (r : ℕ) (w : Fin r → A ⧸ I ^ n) :
 theorem resEvalHom_eq_comp (w : Fin P.r₀ → A ⧸ I ^ n) :
     resEvalHom I n M.1 (P.π w) = P.presL.resShortComplex.f ≫ evalVec I P.r₀ w := by
   refine ModuleCat.hom_ext (LinearMap.ext fun lam => ?_)
-  show asDual I n lam (P.π w) = ∑ j, P.dualIncl lam j * w j
+  change asDual I n lam (P.π w) = ∑ j, P.dualIncl lam j * w j
   conv_lhs => rw [pi_eq_sum_smul_single I w, map_sum, map_sum]
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [map_smul, map_smul, smul_eq_mul, mul_comm]
@@ -376,7 +377,7 @@ theorem blowupHmodMap_evalVec_presSection (w : Fin P.r₀ → A ⧸ I ^ n) :
       ∑ k ∈ ({()} : Finset Unit), b j • 𝟙 (ModuleCat.of A (A ⧸ I ^ n)) := by
     rw [Finset.sum_singleton]
     exact finSingleHom_comp_eq_smul I j _ (b j) (by
-      show _ = ∑ i, (Pi.single j (1 : A ⧸ I ^ n) : Fin P.r₀ → A ⧸ I ^ n) i * _
+      change _ = ∑ i, (Pi.single j (1 : A ⧸ I ^ n) : Fin P.r₀ → A ⧸ I ^ n) i * _
       simp [Pi.single_apply, hb])
   refine (congrArg (fun ψ => blowupHmodMap I 0 ((twistedPullbackFunctor I (n : ℤ)).map ψ)
     (coordSection I q₀ h P φ j)) hc).trans ?_
@@ -405,7 +406,7 @@ theorem exists_blowupEv_eq (hcn : c ≤ n) {e : ℕ} (hen : e + 2 * c = n) (hq :
   have hb : ∀ j, Ideal.Quotient.mk (I ^ n) (b j) = w j := fun j =>
     (Ideal.Quotient.mk_surjective (w j)).choose_spec
   refine (blowupEv_apply I q₀ h n c hcn M e hq σ' (P.π w)).trans ?_
-  show _ = powQuotLe I (Nat.le.intro hen) (φ (P.π w))
+  change _ = powQuotLe I (Nat.le.intro hen) (φ (P.π w))
   -- the evaluation factors through the coordinates
   have h1 : blowupHmodMap I 0 ((twistedPullbackFunctor I (e : ℤ)).map
         (resEvalHom I n M.1 (P.π w))) σ' =

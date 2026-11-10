@@ -75,7 +75,7 @@ theorem module_finite_sections {V : X.Opens} (hV : IsAffineOpen V) (hwV : w ∈ 
       add_mem' := fun {a b} ha hb => (X.basicOpen_add_le a b).trans (sup_le ha hb)
       zero_mem' := by simp
       smul_mem' := fun c a ha => by
-        simp only [Set.mem_setOf_eq, smul_eq_mul, Scheme.basicOpen_mul]
+        simp only [Set.mem_ofPred_eq, smul_eq_mul, Scheme.basicOpen_mul]
         exact inf_le_right.trans ha }
   obtain ⟨t, ht⟩ := (IsNoetherian.noetherian J : J.FG)
   have htJ : ∀ r ∈ t, X.basicOpen r ≤ U := fun r hr => (ht ▸ Ideal.subset_span hr : r ∈ J)

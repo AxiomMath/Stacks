@@ -338,7 +338,7 @@ private theorem eventually_eq_of_chartSystem
   have key' : schemeSpaceMap (C.siteDiagram.map e) ≫ cmBase =
       chartStageMap B S hS D hD U₀ f₀ C k ≫ stageTransition B S hS D hD k.hom := by
     apply ObjectProperty.hom_ext
-    show yoneda.map (C.siteDiagram.map e) ≫ C.stageMap base = C.stageMap k ≫ D.map k.hom
+    change yoneda.map (C.siteDiagram.map e) ≫ C.stageMap base = C.stageMap k ≫ D.map k.hom
     rw [stageMap_naturality B S hS D U₀ f₀ C e, hleft]
   have hstage : (modulePullback B S hS (chartStageMap B S hS D hD U₀ f₀ C k)).map
         ((modulePullback B S hS (stageTransition B S hS D hD k.hom)).map φ) =

@@ -51,9 +51,7 @@ variable {C : Type*} [Category C] [HasPullbacks C]
     ((Over.pullbackComp f g).hom.app U).left ≫
         pullback.fst (pullback.snd U.hom g) f ≫ pullback.fst U.hom g =
       pullback.fst U.hom (f ≫ g) := by
-  simpa [Over.pullbackComp] using congrArg (fun q => q.left)
-    (conjugateEquiv_counit (Over.mapPullbackAdj (f ≫ g))
-      ((Over.mapPullbackAdj f).comp (Over.mapPullbackAdj g)) (Over.mapComp f g).inv U)
+  simp [Over.pullbackComp]
 
 private lemma pullback_eqToHom_fst {X Y : C} {f g : X ⟶ Y} (e : f = g) (U : Over Y) :
     ((eqToHom (congrArg (fun k : X ⟶ Y => Over.pullback k) e)).app U).left ≫ pullback.fst U.hom g =

@@ -75,8 +75,7 @@ theorem exists_one_tmul_eq (z : letI := q.toAlgebra; T ⊗[S] N) :
     letI := q.toAlgebra
     ∃ y : N, (1 : T) ⊗ₜ[S] y = z := by
   let := q.toAlgebra
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, tmul_zero _ _⟩
+  induction z using TensorProduct.inductionOn with
   | tmul t y =>
     obtain ⟨s, rfl⟩ := hq t
     refine ⟨s • y, ?_⟩
@@ -105,7 +104,7 @@ theorem one_tmul_eq_zero_iff (y : N) :
     have h1 : e.symm (1 : T) = Ideal.Quotient.mk (RingHom.ker q) 1 := by
       rw [LinearEquiv.symm_apply_eq]
       exact (map_one (Ideal.quotientKerAlgEquivOfSurjective hf)).symm
-    show TensorProduct.quotTensorEquivQuotSMul N (RingHom.ker q)
+    change TensorProduct.quotTensorEquivQuotSMul N (RingHom.ker q)
       (e.symm (1 : T) ⊗ₜ[S] y) = _
     rw [h1, TensorProduct.quotTensorEquivQuotSMul_mk_tmul, one_smul]
   rw [← Φ.map_eq_zero_iff, hΦ, Submodule.Quotient.mk_eq_zero]
@@ -201,13 +200,12 @@ theorem bijective_tensor_of_stage {A T U M P Q : Type*} [CommRing A] [CommRing T
   let e₃ : U ⊗[T] (T ⊗[A] M) ≃ₗ[U] U ⊗[A] M :=
     TensorProduct.AlgebraTensorModule.cancelBaseChange A T U U M
   have key (z) : Λ z = Γ (e₂ (e₃.symm z)) := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul u m =>
       rw [hΛ, TensorProduct.AlgebraTensorModule.cancelBaseChange_symm_tmul,
         LinearEquiv.baseChange_tmul, hΓ]
       congr 2
-      show p m = (p'.liftBaseChange T) ((1 : T) ⊗ₜ[A] m)
+      change p m = (p'.liftBaseChange T) ((1 : T) ⊗ₜ[A] m)
       rw [LinearMap.liftBaseChange_tmul, one_smul]
       rfl
     | add z z' hz hz' => rw [map_add, hz, hz', map_add, map_add, map_add]
@@ -536,7 +534,7 @@ theorem towerBaseChangeLimitIso_limitProj (S : AdicTower.{u, u} A I) (n : ℕ)
       = (Submodule.Quotient.mk m :
           S.limitSubmodule ⧸ (I ^ n • (⊤ : Submodule A S.limitSubmodule))) :=
     (LinearEquiv.symm_apply_eq _).2 rfl
-  show D.quotientEquivTower S.limitModule n ((S.toInverseSystem.quotientEquiv hI n).symm
+  change D.quotientEquivTower S.limitModule n ((S.toInverseSystem.quotientEquiv hI n).symm
     (S.limitProj n m)) = _
   rw [hsymm]
   rfl
@@ -713,8 +711,7 @@ theorem comparison_naturality {G : (cartesianModules.{u₁, v₁, u, u} O).FullS
   refine ObjectProperty.hom_ext _ (PresheafOfModules.hom_ext fun X =>
     ModuleCat.hom_ext (LinearMap.ext fun z => ?_))
   let := (D.lam X.unop).toAlgebra
-  induction z using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => exact (map_add _ _ _).trans ((congrArg₂ (· + ·) hz hz').trans
       (map_add _ _ _).symm)
   | tmul a m =>

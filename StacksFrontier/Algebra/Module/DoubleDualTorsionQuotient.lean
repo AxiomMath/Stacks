@@ -102,7 +102,7 @@ public theorem bijective_dualMap_of_surjective_of_ker_le_torsion {u : M →ₗ[R
       = (Submodule.Quotient.mk m : M ⧸ LinearMap.ker u) :=
     (LinearEquiv.symm_apply_eq _).mpr
       (LinearMap.quotKerEquivOfSurjective_apply_mk (f := u) hu m).symm
-  show (Submodule.liftQ _ phi hkphi)
+  change (Submodule.liftQ _ phi hkphi)
     ((LinearMap.quotKerEquivOfSurjective u hu).symm (u m)) = phi m
   rw [hmk, Submodule.liftQ_apply]
 

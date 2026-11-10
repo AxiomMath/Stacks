@@ -89,7 +89,7 @@ private theorem mapPredeformationCategory_comp_obj_data
   let mFG := mapPredeformationCategory iΛ qX qZ (F ⋙ G) hFG x₀ hx₀
   let d₁ := Cfg.objects (mFG.toFunctor.obj a)
   let d₂ := Cz.objects ((mF.toFunctor ⋙ mG.toFunctor).obj a)
-  show d₁ = d₂
+  change d₁ = d₂
   have hp : d₁.point = d₂.point := by
     calc
       d₁.point = (F ⋙ G).obj (Cx.objects a).point := mFG.object_point a
@@ -103,20 +103,20 @@ private theorem mapPredeformationCategory_comp_obj_data
         (Cfg.object_projection _).symm
       _ = Cx.projection.obj a := by
         have h := congrArg (fun P => P.obj a) mFG.projection_comm
-        show (mFG.toFunctor ⋙ Cfg.projection).obj a = Cx.projection.obj a
+        change (mFG.toFunctor ⋙ Cfg.projection).obj a = Cx.projection.obj a
         exact h
       _ = Cy.projection.obj (mF.toFunctor.obj a) := by
         have h := congrArg (fun P => P.obj a) mF.projection_comm
-        show Cx.projection.obj a = (mF.toFunctor ⋙ Cy.projection).obj a
+        change Cx.projection.obj a = (mF.toFunctor ⋙ Cy.projection).obj a
         exact h.symm
       _ = Cfg.projection.obj ((mF.toFunctor ⋙ mG.toFunctor).obj a) := by
         have h := congrArg (fun P => P.obj (mF.toFunctor.obj a)) mG.projection_comm
-        show Cy.projection.obj (mF.toFunctor.obj a) =
+        change Cy.projection.obj (mF.toFunctor.obj a) =
           (mG.toFunctor ⋙ Cfg.projection).obj (mF.toFunctor.obj a)
         exact h.symm
       _ = d₂.algebra := Cfg.object_projection _
   · rw [mFG.object_arrow]
-    show ((F ⋙ G).map (Cx.objects a).arrow ≫
+    change ((F ⋙ G).map (Cx.objects a).arrow ≫
       eqToHom (mFG.object_point a).symm) ≫ eqToHom hp =
       (Cz.objects (mG.toFunctor.obj (mF.toFunctor.obj a))).arrow
     rw [mG.object_arrow, mF.object_arrow]
@@ -194,7 +194,7 @@ private theorem mapPredeformationCategory_comp
     exact mapPredeformationCategory_comp_obj iΛ qX qY qZ F G hF hG x₀ hx₀ a
   refine CategoryTheory.Functor.ext (h_obj := hobj) (h_map := ?_)
   intro a b f
-  show mFG.toFunctor.map f =
+  change mFG.toFunctor.map f =
     eqToHom _ ≫ (mF.toFunctor ⋙ mG.toFunctor).map f ≫ eqToHom _
   let a' : Cx.carrier := a
   let b' : Cx.carrier := b
@@ -224,9 +224,9 @@ private theorem mapPredeformationCategory_comp
   let d₂ := Cfg.morphisms (mFG.toFunctor.obj a') (mFG.toFunctor.obj b')
     (eqToHom (hobj a') ≫ (mF.toFunctor ⋙ mG.toFunctor).map f ≫
       eqToHom (hobj b').symm)
-  show d₁ = d₂
+  change d₁ = d₂
   have hRing : d₁.ringHom = d₂.ringHom := by
-    show (Cfg.morphisms (mFG.toFunctor.obj a') (mFG.toFunctor.obj b')
+    change (Cfg.morphisms (mFG.toFunctor.obj a') (mFG.toFunctor.obj b')
         (mFG.toFunctor.map f')).ringHom =
       (Cfg.morphisms (mFG.toFunctor.obj a') (mFG.toFunctor.obj b')
         (eqToHom (hobj a') ≫ (mF.toFunctor ⋙ mG.toFunctor).map f' ≫
@@ -238,7 +238,7 @@ private theorem mapPredeformationCategory_comp
     simp only [Category.assoc, CategoryTheory.eqToHom_trans]
     congr 1
   have hArrow : d₁.arrow = d₂.arrow := by
-    show (Cfg.morphisms (mFG.toFunctor.obj a') (mFG.toFunctor.obj b')
+    change (Cfg.morphisms (mFG.toFunctor.obj a') (mFG.toFunctor.obj b')
         (mFG.toFunctor.map f')).arrow =
       (Cfg.morphisms (mFG.toFunctor.obj a') (mFG.toFunctor.obj b')
         (eqToHom (hobj a') ≫ (mF.toFunctor ⋙ mG.toFunctor).map f' ≫

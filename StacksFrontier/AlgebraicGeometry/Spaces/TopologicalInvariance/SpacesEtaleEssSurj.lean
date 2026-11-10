@@ -327,7 +327,7 @@ theorem exists_liftedEtalePresentation_charts_of_isIntegralHom (f : X ⟶ Y)
     refine (presheafSurjective_iff_isSurjective_yoneda B S hS C.1.left.1 C.1.left.2 U _).2 ?_
     have h₁ := isSurjective_of_presheafSurjective B S hS _ hmS
     have h₂ := isSurjective_of_presheafSurjective B S hS _ hc'S
-    show Function.Surjective (pointsMap B S hS (yoneda.obj U) (yoneda.map m ≫ c'))
+    change Function.Surjective (pointsMap B S hS (yoneda.obj U) (yoneda.map m ≫ c'))
     rw [pointsMap_comp]
     exact h₂.comp h₁
   have hcw : yoneda.map k ≫ η = (yoneda.map m ≫ c') ≫ C.1.hom.hom := by

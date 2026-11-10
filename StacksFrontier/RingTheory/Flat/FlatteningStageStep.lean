@@ -135,7 +135,7 @@ theorem mem_smul_top_of_flat_quotient_cokernel {A : Type u} [CommRing A] {J I : 
     LinearMap.mem_ker.mpr ((hexq _).mpr ⟨_, rfl⟩)
   have hIbar : ((⟨αq (Submodule.Quotient.mk x), hker⟩ : LinearMap.ker πT) :
       M ⧸ (J • ⊤ : Submodule A M)) ∈ Ibar • (⊤ : Submodule (A ⧸ J) _) := by
-    show Submodule.Quotient.mk (α x) ∈ _
+    change Submodule.Quotient.mk (α x) ∈ _
     refine Submodule.smul_induction_on hx ?_ ?_
     · intro a ha m _
       rw [Submodule.Quotient.mk_smul, ← algebraMap_smul (A ⧸ J) a]
@@ -231,10 +231,10 @@ noncomputable def _root_.LinearMap.quotRangeBaseChangeEquiv {A : Type u} [CommRi
     ((A' ⊗[A] N) ⧸ LinearMap.range (α.baseChange A')) ≃ₗ[A']
       A' ⊗[A] (N ⧸ LinearMap.range α) := by
   have hsurj : Function.Surjective ((LinearMap.range α).mkQ.baseChange A') := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact LinearMap.lTensor_surjective A' (Submodule.mkQ_surjective _)
   have hex : Function.Exact (α.baseChange A') ((LinearMap.range α).mkQ.baseChange A') := by
-    rw [LinearMap.baseChange_eq_ltensor, LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor, LinearMap.baseChange_eq_lTensor]
     exact _root_.lTensor_exact A' α.exact_map_mkQ_range (Submodule.mkQ_surjective _)
   exact (Submodule.quotEquivOfEq _ _ hex.linearMap_ker_eq.symm).trans
     (((LinearMap.range α).mkQ.baseChange A').quotKerEquivOfSurjective hsurj)
@@ -248,8 +248,7 @@ noncomputable def tensorCommRight (A : Type u) (B : Type v) (R : Type y) [CommRi
     (B ⊗[A] R) ≃ₗ[R] R ⊗[A] B :=
   letI : Algebra R (B ⊗[A] R) := Algebra.TensorProduct.rightAlgebra
   AddEquiv.toLinearEquiv (TensorProduct.comm A B R).toAddEquiv fun r x ↦ by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul b s =>
         change (TensorProduct.comm A B R) ((1 ⊗ₜ[A] r) * (b ⊗ₜ[A] s)) =
           r • (TensorProduct.comm A B R) (b ⊗ₜ[A] s)
@@ -289,7 +288,7 @@ theorem exists_smul_mem_of_mk_mem_ideal_smul_top {A : Type u} {B : Type v} [Comm
   obtain ⟨u, hu⟩ := LocalizedModule.mk_eq.mp heq
   refine ⟨u * t₀, ?_⟩
   rw [Submonoid.coe_mul, ← smul_smul]
-  show u • t₀ • m ∈ _
+  change u • t₀ • m ∈ _
   rw [hu]
   exact smul_mem_ideal_smul_top J _ (smul_mem_ideal_smul_top J _ hm₀)
 

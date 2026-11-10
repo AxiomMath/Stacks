@@ -139,7 +139,7 @@ theorem homDegreeProj_compositionMap (p q r : ℤ) (U : X.C)
         ((homDegreeProj X K L q r (-(r - q)) (by omega)).val.app (op U) γ) := by
   rw [compositionMap_tensorTotalSection, internalHomComposeSection_eq, homDegreeProj_val_app,
     homDegreeProj_val_app, homDegreeProj_val_app, compositionSection_cochain]
-  show (((compositionCochain X U p q (p + q) rfl β γ).v (-r) (p + q - r) (by omega)).val) = _
+  change (((compositionCochain X U p q (p + q) rfl β γ).v (-r) (p + q - r) (by omega)).val) = _
   rw [compositionCochain,
     Cochain.comp_v _ _ (show q + p = p + q from by omega) (-r) (-(r - q)) (p + q - r)
       (by omega) (by omega)]

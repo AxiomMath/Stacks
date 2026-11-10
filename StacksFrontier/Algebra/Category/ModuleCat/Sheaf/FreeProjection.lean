@@ -59,21 +59,21 @@ noncomputable def freeProjection {I : Type u} (i : I) : free (R := R) I ⟶ unit
 the classical `if`. -/
 private theorem ιFree_comp_freeProjection_classical {I : Type u} (i j : I) :
     ιFree (R := R) j ≫ freeProjection i = if j = i then 𝟙 (unit R) else 0 :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The `i`-th coordinate projection of a free sheaf of modules is the identity on the `i`-th
 summand. -/
 @[reassoc (attr := simp)]
 lemma ιFree_comp_freeProjection_self {I : Type u} (i : I) :
     ιFree (R := R) i ≫ freeProjection i = 𝟙 (unit R) :=
-  (ιFree_comp_freeProjection_classical i i).trans (if_pos rfl)
+  (ιFree_comp_freeProjection_classical i i).trans (ite_eq_left rfl)
 
 /-- The `i`-th coordinate projection of a free sheaf of modules is zero on the `j`-th summand
 for `j ≠ i`. -/
 @[reassoc (attr := simp)]
 lemma ιFree_comp_freeProjection_of_ne {I : Type u} {i j : I} (hij : j ≠ i) :
     ιFree (R := R) j ≫ freeProjection i = 0 :=
-  (ιFree_comp_freeProjection_classical i j).trans (if_neg hij)
+  (ιFree_comp_freeProjection_classical i j).trans (ite_eq_right hij)
 
 end Projection
 
@@ -83,8 +83,8 @@ identity if `j = i` and zero otherwise. -/
 lemma ιFree_comp_freeProjection {I : Type u} [DecidableEq I] (i j : I) :
     ιFree (R := R) j ≫ freeProjection i = if j = i then 𝟙 (unit R) else 0 := by
   by_cases hij : j = i
-  · rw [if_pos hij, hij, ιFree_comp_freeProjection_self]
-  · rw [if_neg hij, ιFree_comp_freeProjection_of_ne hij]
+  · rw [ite_eq_left hij, hij, ιFree_comp_freeProjection_self]
+  · rw [ite_eq_right hij, ιFree_comp_freeProjection_of_ne hij]
 
 /-- Over a finite index type the coordinate projections of a free sheaf of modules, followed by
 the coordinate inclusions, sum to the identity. -/
@@ -100,7 +100,7 @@ lemma sum_freeProjection_comp_ιFree {I : Type u} [Fintype I] :
     · intro hj
       exact absurd (Finset.mem_univ j) hj
   refine Sigma.hom_ext _ _ fun j ↦ ?_
-  show ιFree (R := R) j ≫ (∑ i, freeProjection (R := R) i ≫ ιFree i) =
+  change ιFree (R := R) j ≫ (∑ i, freeProjection (R := R) i ≫ ιFree i) =
     ιFree (R := R) j ≫ 𝟙 (free (R := R) I)
   rw [Category.comp_id]
   exact key j

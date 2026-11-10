@@ -123,7 +123,7 @@ public theorem reesChartGradedHom_inv_apply (U : X.AffineZariskiSite)
   have h := GradedRingHom.congr_fun (reesChartHom_comp_inv I U)
     ((reesSituationModel I).sectionGradedHomInv (siteAffineOpen U) y)
   rw [GradedRingHom.comp_apply, GradedRingHom.id_apply] at h
-  show (reesSituationModel I).sectionGradedHom (siteAffineOpen U)
+  change (reesSituationModel I).sectionGradedHom (siteAffineOpen U)
     (reesChartHom I U (reesChartInv I U
       ((reesSituationModel I).sectionGradedHomInv (siteAffineOpen U) y))) = y
   rw [h]
@@ -176,7 +176,7 @@ public theorem strZero_comp_reesChartGradedHom (U : X.AffineZariskiSite) :
     ((reesSituationModel I).sectionRingZeroMap_comp_sectionGradedHom (siteAffineOpen U)) r
   simp only [CommRingCat.hom_comp, RingHom.coe_comp, Function.comp_apply,
     CommRingCat.hom_ofHom] at e1 e2 ⊢
-  show ((reesSituationModel I).sectionGradedHom (siteAffineOpen U)).gradedZeroRingHom
+  change ((reesSituationModel I).sectionGradedHom (siteAffineOpen U)).gradedZeroRingHom
     ((reesChartHom I U).gradedZeroRingHom
       ((((reesSheafGradedAlgebra I).toGradedAlgebra).strZero U).hom r)) = _
   rw [e1]

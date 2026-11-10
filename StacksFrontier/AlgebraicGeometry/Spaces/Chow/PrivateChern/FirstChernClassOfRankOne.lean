@@ -94,7 +94,7 @@ theorem chernCap_one_eq_firstChernCapChow (L : Modules.{u, u} D.site D.base D.ba
   have e1 : P.twistCap = firstChernCapChow.{u, u + 1} D P.toBase P.isGood
       (pullbackLine D P.toBase P.isGood sX hX P.proj L) hπL :=
     firstChernCapChow_congr_iso D P.toBase P.isGood _ _ _ hπL e
-  show P.segreCap 1 = _
+  change P.segreCap 1 = _
   refine AddMonoidHom.ext fun α => ?_
   calc P.pushforwardChow ((P.twistCap ^ (0 + 1)) (P.pullbackChow α))
       = P.pushforwardChow (P.twistCap (P.pullbackChow α)) := by rw [zero_add, pow_one]

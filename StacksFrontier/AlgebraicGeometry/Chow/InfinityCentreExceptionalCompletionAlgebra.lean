@@ -56,10 +56,10 @@ variable {A : Type*} [CommRing A] (I : Ideal A)
 /-- The class in degree `n` of an element of `Iⁿ⁺¹` vanishes. -/
 theorem classOfPow_eq_zero {n : ℕ} {a : A} (ha : a ∈ I ^ n) (ha' : a ∈ I ^ (n + 1)) :
     classOfPow I n ⟨a, ha⟩ = 0 := by
-  show DFinsupp.single n _ = 0
+  change DFinsupp.single n _ = 0
   rw [DFinsupp.single_eq_zero]
   refine (Submodule.Quotient.mk_eq_zero _).2 ?_
-  show a ∈ power (M := A) I (n + 1)
+  change a ∈ power (M := A) I (n + 1)
   rw [ring_power_eq]
   exact ha'
 
@@ -76,7 +76,7 @@ theorem gradedRingMapOfRingHom_classOfPow {B : Type*} [CommRing B] (f : A →+* 
     gradedRingMapOfRingHom f hI (classOfPow I n a) =
       classOfPow I' n ⟨f a, (Ideal.map_le_iff_le_comap.1 (Ideal.map_pow f I n ▸
         Ideal.pow_right_mono hI n)) a.2⟩ := by
-  show gradedRingMapOfRingHom f hI (DirectSum.of _ n _) = DirectSum.of _ n _
+  change gradedRingMapOfRingHom f hI (DirectSum.of _ n _) = DirectSum.of _ n _
   rw [gradedRingMapOfRingHom_of, pieceMapOfRingHom_mk]
 
 /-- The associated graded ring is spanned additively by the classes of elements of the powers. -/
@@ -223,7 +223,7 @@ def infinityChartGradedInv : gradedRing (infinityChartIdeal I) →+ (gradedRing 
 theorem infinityChartGradedInv_classOfPow (n : ℕ) (f : ↥(infinityChartIdeal I ^ n)) :
     infinityChartGradedInv I (classOfPow (infinityChartIdeal I) n f) =
       infinityChartGradedInvRep I n f := by
-  show DirectSum.toAddMonoid _ (DirectSum.of _ n _) = _
+  change DirectSum.toAddMonoid _ (DirectSum.of _ n _) = _
   rw [DirectSum.toAddMonoid_of]
   rfl
 
@@ -297,7 +297,7 @@ theorem infinityChartGradedInv_comp_map (p : (gradedRing I)[X]) :
       rw [infinityChartGradedInvRep_apply, Finset.sum_eq_single j]
       · congr 1
         refine classOfPow_congr _ (by omega) ?_
-        show (C (a : A) * Polynomial.X ^ j).coeff j = (a : A)
+        change (C (a : A) * Polynomial.X ^ j).coeff j = (a : A)
         rw [coeff_C_mul_X_pow, ite_eq_left rfl]
       · intro l _ hl
         rw [classOfPow_eq_zero I _ (by
@@ -384,7 +384,7 @@ theorem LineSplitting.ofPolynomial_toPolynomial (x : SymmetricAlgebra R N) :
     S.ofPolynomial (S.toPolynomial x) = x := by
   have h : S.ofPolynomial.comp S.toPolynomial = AlgHom.id R _ := by
     refine SymmetricAlgebra.algHom_ext (LinearMap.ext fun n => ?_)
-    show S.ofPolynomial (S.toPolynomial (SymmetricAlgebra.ι R N n)) = SymmetricAlgebra.ι R N n
+    change S.ofPolynomial (S.toPolynomial (SymmetricAlgebra.ι R N n)) = SymmetricAlgebra.ι R N n
     rw [LineSplitting.toPolynomial_ι, map_add, map_smul, S.ofPolynomial_C, S.ofPolynomial_X,
       LineSplitting.symInclusion_ι, ← map_smul, ← map_add, S.j_p_add_q_smul]
   exact AlgHom.congr_fun h x
@@ -394,16 +394,16 @@ theorem LineSplitting.toPolynomial_ofPolynomial (p : (SymmetricAlgebra R M)[X]) 
     S.toPolynomial (S.ofPolynomial p) = p := by
   have hC : S.toPolynomial.comp S.symInclusion = Polynomial.CAlgHom := by
     refine SymmetricAlgebra.algHom_ext (LinearMap.ext fun m => ?_)
-    show S.toPolynomial (S.symInclusion (SymmetricAlgebra.ι R M m)) =
+    change S.toPolynomial (S.symInclusion (SymmetricAlgebra.ι R M m)) =
       C (SymmetricAlgebra.ι R M m)
     rw [LineSplitting.symInclusion_ι, LineSplitting.toPolynomial_ι, S.p_j, S.q_j, zero_smul,
       add_zero]
   have h : (S.toPolynomial.comp S.ofPolynomial).toRingHom = RingHom.id _ := by
     refine Polynomial.ringHom_ext (fun x => ?_) ?_
-    · show S.toPolynomial (S.ofPolynomial (C x)) = C x
+    · change S.toPolynomial (S.ofPolynomial (C x)) = C x
       rw [S.ofPolynomial_C]
       exact AlgHom.congr_fun hC x
-    · show S.toPolynomial (S.ofPolynomial (Polynomial.X : (SymmetricAlgebra R M)[X])) =
+    · change S.toPolynomial (S.ofPolynomial (Polynomial.X : (SymmetricAlgebra R M)[X])) =
         Polynomial.X
       rw [S.ofPolynomial_X, LineSplitting.toPolynomial_ι, S.p_t₀, S.q_t₀, map_zero, map_zero,
         one_smul, zero_add]
@@ -468,7 +468,7 @@ def reesToGraded : reesAlgebra J →+* gradedRing J :=
 theorem reesToGraded_of_mem {n : ℕ} {f : reesAlgebra J} (hf : f ∈ reesGrading J n) :
     reesToGraded J f =
       classOfPow J n ⟨((f : reesAlgebra J) : R[X]).coeff n, f.2 n⟩ := by
-  show reesSumToGraded J (DirectSum.decompose (reesGrading J) f) = _
+  change reesSumToGraded J (DirectSum.decompose (reesGrading J) f) = _
   rw [DirectSum.decompose_of_mem _ hf, reesSumToGraded, DirectSum.toSemiring_of,
     reesPieceToGraded_apply]
 
@@ -543,8 +543,7 @@ theorem baseChangeReesToGraded_eq_comp {C : Type*} [CommRing C] (ψ : gradedRing
     baseChangeReesToGraded J ψ hsurj hker =
       ψ.comp (baseChangeReesToGraded J (RingHom.id _) hsurj hker) := by
   refine RingHom.ext fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul s f =>
     rw [RingHom.comp_apply, baseChangeReesToGraded_tmul, baseChangeReesToGraded_tmul, map_mul]
     rfl
@@ -616,7 +615,7 @@ def gradedToBaseChange (hJ : J ≤ RingHom.ker (algebraMap R S)) :
 /-- `gradedToBaseChange` on the class of a representative. -/
 theorem gradedToBaseChange_classOfPow (hJ : J ≤ RingHom.ker (algebraMap R S)) (n : ℕ)
     (a : ↥(J ^ n)) : gradedToBaseChange J hJ (classOfPow J n a) = gradedToBaseChangeRep J n a := by
-  show DirectSum.toAddMonoid _ (DirectSum.of _ n _) = _
+  change DirectSum.toAddMonoid _ (DirectSum.of _ n _) = _
   rw [DirectSum.toAddMonoid_of]
   rfl
 
@@ -638,8 +637,7 @@ theorem bijective_baseChangeReesToGraded (hsurj : Function.Surjective (algebraMa
     Function.Bijective (baseChangeReesToGraded J (RingHom.id _) hsurj hker) := by
   refine ⟨Function.LeftInverse.injective (g := gradedToBaseChange J hJ) fun z => ?_,
     Function.RightInverse.surjective (g := gradedToBaseChange J hJ) fun x => ?_⟩
-  · induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+  · induction z using TensorProduct.inductionOn with
     | tmul s f =>
       obtain ⟨r, rfl⟩ := hsurj s
       rw [baseChangeReesToGraded_tmul, RingHom.id_apply, RingHom.id_apply,

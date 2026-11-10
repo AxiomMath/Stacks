@@ -370,7 +370,7 @@ def projection (hX : IsAlgebraicSpace B S hS X) (i : A.I) : A.limitSpace hX ⟶ 
 theorem transition_comp {i j k : A.I} (hij : i ≤ j) (hjk : j ≤ k) (hik : i ≤ k) :
     A.transition hjk ≫ A.transition hij = A.transition hik := by
   apply ObjectProperty.hom_ext
-  show A.system.map (homOfLE hjk).op ≫ A.system.map (homOfLE hij).op
+  change A.system.map (homOfLE hjk).op ≫ A.system.map (homOfLE hij).op
       = A.system.map (homOfLE hik).op
   rw [← A.system.map_comp]
   rfl
@@ -380,7 +380,7 @@ theorem transition_comp {i j k : A.I} (hij : i ≤ j) (hjk : j ≤ k) (hik : i �
 theorem projection_comp_transition (hX : IsAlgebraicSpace B S hS X) {i j : A.I} (h : i ≤ j) :
     A.projection hX j ≫ A.transition h = A.projection hX i := by
   apply ObjectProperty.hom_ext
-  show A.π.app (op j) ≫ A.system.map (homOfLE h).op = A.π.app (op i)
+  change A.π.app (op j) ≫ A.system.map (homOfLE h).op = A.π.app (op i)
   exact A.cone.w (homOfLE h).op
 
 /-! ### The modules and the groups of global sections of Stacks 07SI -/

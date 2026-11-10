@@ -86,7 +86,8 @@ cartesian square whose vertical arrows are **immersions**.  Two identifications 
 the passage, and **only the second is missing**.
 
 The first, that `AlgebraicGeometry.Space.kernelIdealSheaf` of the inclusion of a cartesian square
-is the defining ideal sheaf of the preimage subspace, *is* available, also outside the étale case.  It is
+is the defining ideal sheaf of the preimage subspace, *is* available, also outside the étale case.
+It is
 `AlgebraicGeometry.Space.kernelIdealSheaf_eq_definingIdealSheaf_preimageSubspace_of_isPullback`
 of `StacksFrontier/AlgebraicGeometry/Spaces/ConormalModuleBaseChangeCartesian.lean`, and it needs
 nothing new: the kernel ideal sheaf of the inclusion of a closed subspace is that subspace's

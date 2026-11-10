@@ -113,11 +113,12 @@ omit [IsAffine Z] in
 /-- The relations `∑ j, b i j * X j = 0` hold in `kernelCoordRing b`. -/
 theorem sum_algebraMap_mul_mk_X_eq_zero (i : Fin n) :
     ∑ j, algebraMap Γ(Z, ⊤) (kernelCoordRing b) (b i j) * Ideal.Quotient.mk _ (X j) = 0 := by
-  show ∑ j, Ideal.Quotient.mk _ (C (b i j)) * Ideal.Quotient.mk _ (X j) = 0
+  change ∑ j, Ideal.Quotient.mk _ (C (b i j)) * Ideal.Quotient.mk _ (X j) = 0
   simp only [← map_mul, ← map_sum]
   exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.subset_span ⟨i, rfl⟩)
 
 set_option synthInstance.maxHeartbeats 100000 in
+-- instance search in the `simp only` over `Γ(Spec _)` and `kernelCoordRing b` is heavy
 /-- The coordinates of a point of the kernel scheme lying over `t` satisfy the equations of the
 kernel of `b`, read through `t`. -/
 theorem sum_appTop_mul_appTop_kernelSchemeCoord {f : Y ⟶ Spec (.of (kernelCoordRing b))}
@@ -170,14 +171,14 @@ theorem surjective_kernelSchemePoint (t : Y ⟶ Z) :
   refine ⟨⟨Y.toSpecΓ ≫ Spec.map (CommRingCat.ofHom σ), ?_⟩, ?_⟩
   · rw [comp_kernelSchemeHom_eq_iff, appTop_toSpecΓ_comp_Spec_map, Iso.inv_hom_id_assoc]
     ext a
-    show σ (Ideal.Quotient.mk _ (C a)) = τ a
+    change σ (Ideal.Quotient.mk _ (C a)) = τ a
     exact (Ideal.Quotient.lift_mk _ _ _).trans (eval₂Hom_C _ _ _)
   · apply Subtype.ext
     funext j
-    show (Y.toSpecΓ ≫ Spec.map (CommRingCat.ofHom σ)).appTop
+    change (Y.toSpecΓ ≫ Spec.map (CommRingCat.ofHom σ)).appTop
       ((Scheme.ΓSpecIso _).inv (Ideal.Quotient.mk _ (X j))) = x j
     rw [appTop_toSpecΓ_comp_Spec_map]
-    show σ ((Scheme.ΓSpecIso (.of (kernelCoordRing b))).hom
+    change σ ((Scheme.ΓSpecIso (.of (kernelCoordRing b))).hom
       ((Scheme.ΓSpecIso _).inv (Ideal.Quotient.mk _ (X j)))) = x j
     rw [Iso.inv_hom_id_apply]
     exact (Ideal.Quotient.lift_mk _ _ _).trans (eval₂Hom_X' _ _ _)

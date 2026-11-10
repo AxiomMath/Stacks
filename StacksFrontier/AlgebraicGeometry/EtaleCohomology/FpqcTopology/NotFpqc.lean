@@ -56,7 +56,7 @@ namespace AlgebraicGeometry
 lemma sigmaι_comp_sigmaFromSpecStalk (X : Scheme.{u}) (x : X) :
     Sigma.ι (fun x : X ↦ Spec (X.presheaf.stalk x)) x ≫ sigmaFromSpecStalk X =
       X.fromSpecStalk x :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- `∐_{x ∈ X} Spec 𝒪_{X, x} ⟶ X` is flat, since each `Spec 𝒪_{X, x} ⟶ X` is. -/
 @[stacks 03NY "local_spectra_counterexample"]
@@ -197,7 +197,7 @@ theorem singleton_sigmaFromSpecStalk_notMem_fpqcPrecoverage :
     refine Set.image_subset_iff.2 fun z hz ↦ ?_
     obtain ⟨x, hxs, w, rfl⟩ := Set.mem_iUnion₂.1 (hsub hz)
     refine Set.mem_iUnion₂.2 ⟨x, hxs, ?_⟩
-    show (sigmaFromSpecStalk (Spec (CommRingCat.of (Polynomial k))))
+    change (sigmaFromSpecStalk (Spec (CommRingCat.of (Polynomial k))))
       (Sigma.ι (fun y : ↥(Spec (CommRingCat.of (Polynomial k))) ↦
         Spec ((Spec (CommRingCat.of (Polynomial k))).presheaf.stalk y)) x w) ⤳ x
     rw [← Scheme.Hom.comp_apply, sigmaι_comp_sigmaFromSpecStalk]

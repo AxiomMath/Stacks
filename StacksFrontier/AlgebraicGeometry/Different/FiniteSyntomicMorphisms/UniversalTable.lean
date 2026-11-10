@@ -84,7 +84,7 @@ theorem FiniteFreeAlgebra.ofBasis_eq_of_algEquiv {R B C : Type w} [CommRing R]
     ofBasis b hb = ofBasis c hc := by
   apply ext_coeff
   intro i j k
-  show (b.repr (b i * b j)) k = (c.repr (c i * c j)) k
+  change (b.repr (b i * b j)) k = (c.repr (c i * c j)) k
   have hre : b.repr = c.repr.comp e.toLinearMap := by
     apply b.ext
     intro l
@@ -119,7 +119,7 @@ theorem FiniteFreeAlgebra.ofBasis_map {R A : Type w} {S C : Type v} [CommRing R]
       ofBasis c hc := by
   apply ext_coeff
   intro i j k
-  show f ((b.repr (b i * b j)) k) = (c.repr (c i * c j)) k
+  change f ((b.repr (b i * b j)) k) = (c.repr (c i * c j)) k
   have hsum : q (b i * b j) =
       ∑ l, f ((b.repr (b i * b j)) l) • c l := by
     calc
@@ -248,7 +248,7 @@ theorem universalCarrierULiftBasis_apply (d : ℕ) [NeZero d] (i : Fin d) :
   let : Algebra (ULift.{u} (universalRing d))
       (UniversalFiniteFreeModule d) :=
     Algebra.compHom _ ULift.ringEquiv.toRingHom
-  show (universalCarrierULiftLinearEquiv.{u} d).symm
+  change (universalCarrierULiftLinearEquiv.{u} d).symm
     (Pi.basisFun (ULift.{u} (universalRing d)) (Fin d) i) = _
   apply universalCarrier_ext
   intro j
@@ -362,13 +362,13 @@ theorem universalCarrierGammaBasis_apply (d : ℕ) [NeZero d] (i : Fin d) :
   let : Algebra Γ(scheme.{u} d, ⊤)
       (UniversalFiniteFreeModule d) :=
     Algebra.compHom _ ρ.toRingHom
-  show (universalCarrierULiftLinearEquiv.{u} d).symm
+  change (universalCarrierULiftLinearEquiv.{u} d).symm
     (fun j => ρ ((Pi.basisFun _ (Fin d) i) j)) = _
   rw [show (fun j => ρ ((Pi.basisFun _ (Fin d) i) j)) =
       Pi.basisFun (ULift.{u} (universalRing d)) (Fin d) i from by
         ext j
         simp [Pi.basisFun_apply, Pi.single_apply, eq_comm]]
-  show universalCarrierULiftBasis.{u} d i = _
+  change universalCarrierULiftBasis.{u} d i = _
   exact universalCarrierULiftBasis_apply.{u} d i
 
 /-- The map on the universal coefficient ring induced by a point of the base `X_d`. -/
@@ -499,7 +499,7 @@ theorem affinePullbackΓTensorEquiv_snd
   let hΓ : Γ(pullback f g, ⊤) ≅ CommRingCat.of TT :=
     (asIso (Scheme.Γ.map φ.hom.op)).symm ≪≫ Scheme.ΓSpecIso (.of TT)
   let e := hΓ.commRingCatIsoToRingEquiv
-  show e ((pullback.snd f g).appTop.hom y) = _
+  change e ((pullback.snd f g).appTop.hom y) = _
   apply e.symm.injective
   have hΓφ : Scheme.Hom.appTop (Spec.map (CommRingCat.ofHom q)) ≫
       Scheme.Hom.appTop φ.hom =
@@ -508,7 +508,7 @@ theorem affinePullbackΓTensorEquiv_snd
     convert hh using 1 <;> rfl
   simp only [RingEquiv.symm_apply_apply]
   symm
-  show ((Scheme.ΓSpecIso (.of TT)).inv ≫ Scheme.Hom.appTop φ.hom)
+  change ((Scheme.ΓSpecIso (.of TT)).inv ≫ Scheme.Hom.appTop φ.hom)
       ((CommRingCat.ofHom q).hom y) = (pullback.snd f g).appTop.hom y
   rw [← CommRingCat.comp_apply,
     Scheme.ΓSpecIso_inv_naturality_assoc (CommRingCat.ofHom q) (Scheme.Hom.appTop φ.hom), hΓφ,
@@ -635,7 +635,7 @@ theorem universalTotalGammaBasis_apply (d : ℕ) [NeZero d] (i : Fin d) :
   let s := universalAlgebraStructure d
   let := s.ring
   let := s.algebra
-  show (Scheme.ΓSpecIso (.of
+  change (Scheme.ΓSpecIso (.of
     (ULift.{u} (UniversalFiniteFreeModule d)))).inv
       (ULift.up (universalCarrierGammaBasis.{u} d i)) = _
   rw [universalCarrierGammaBasis_apply.{u}]
@@ -682,7 +682,7 @@ theorem universalTotalGammaBasis_structure (d : ℕ) [NeZero d] :
   apply ext_coeff
   intro i j k
   rw [representation_equiv_coeff]
-  show (universalTotalGammaBasis.{u} d).repr
+  change (universalTotalGammaBasis.{u} d).repr
     (universalTotalGammaBasis.{u} d i * universalTotalGammaBasis.{u} d j) k =
       (pointRingHom d (𝟙 (scheme.{u} d)))
         (universalStructureConstant d i j k)
@@ -690,7 +690,7 @@ theorem universalTotalGammaBasis_structure (d : ℕ) [NeZero d] :
     universalTotalGammaBasis_apply.{u}]
   let e := ((Scheme.ΓSpecIso (.of
     (ULift.{u} (UniversalFiniteFreeModule d)))).commRingCatIsoToRingEquiv).trans ULift.ringEquiv
-  show (Scheme.ΓSpecIso (.of (ULift.{u} (universalRing d)))).inv
+  change (Scheme.ΓSpecIso (.of (ULift.{u} (universalRing d)))).inv
     (ULift.up ((e (e.symm
       (universalBasisVector d i) * e.symm
       (universalBasisVector d j))).coeff k)) = _
@@ -777,7 +777,7 @@ theorem affinePullbackGammaBasis_structure_of_map
       (Γ(Y, ⊤) ⊗[Γ(scheme.{u} d, ⊤)] Γ(T, ⊤)) :=
     AlgEquiv.ofRingEquiv (f := ePT) (by
       intro t
-      show ePT ((pullback.snd F f).appTop.hom t) = _
+      change ePT ((pullback.snd F f).appTop.hom t) = _
       rw [affinePullbackΓTensorEquiv_snd]
       rfl)
   have hTableTensor :
@@ -785,7 +785,7 @@ theorem affinePullbackGammaBasis_structure_of_map
     refine ofBasis_map f.appTop.hom Algebra.TensorProduct.includeLeftRingHom ?_
       b hb bTensor hbTensorOne ?_
     · intro r
-      show Algebra.TensorProduct.includeLeftRingHom
+      change Algebra.TensorProduct.includeLeftRingHom
           ((algebraMap Γ(scheme.{u} d, ⊤) Γ(Y, ⊤)) r) =
         algebraMap Γ(T, ⊤)
           (Γ(Y, ⊤) ⊗[Γ(scheme.{u} d, ⊤)] Γ(T, ⊤)) (f.appTop.hom r)

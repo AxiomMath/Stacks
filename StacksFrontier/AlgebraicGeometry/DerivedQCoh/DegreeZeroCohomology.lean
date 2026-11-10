@@ -758,7 +758,7 @@ theorem globalSectionsCyclesToHomology_comp_derivedGlobalSectionsHomologyZeroIso
         (globalSectionsOver (𝟙 (Spec R))).map
           ((DerivedCategory.homologyFunctorFactors (Spec R).Modules 0).hom.app K) =
       (globalSectionsOver (𝟙 (Spec R))).map (K.homologyπ 0) := by
-  show globalSectionsCyclesToHomology (𝟙 (Spec R)) K 0 ≫
+  change globalSectionsCyclesToHomology (𝟙 (Spec R)) K 0 ≫
     globalSectionsHomologyComparison R 0 K hK = _
   rw [globalSectionsCyclesToHomology_eq, globalSectionsHomologyComparison_eq, Category.assoc]
   exact mapCycles_comp_homologyπ_comp_homologyToMapHomology _ _ _

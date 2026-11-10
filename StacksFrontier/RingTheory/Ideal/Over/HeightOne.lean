@@ -395,7 +395,8 @@ and no localization of `R` intervening: the length bound is already over `R`, an
 
 That lemma splits into the two cases the weakened dimension hypothesis creates. For `m ≠ ⊥` it is
 `module_finite_quotient_span_singleton`, the application of the length bound in the uniform form
-`length_quotient_smul_le_finrank_mul` (Stacks 00PE/00PF, in `StacksFrontier.RingTheory.KrullAkizuki`),
+`length_quotient_smul_le_finrank_mul` (Stacks 00PE/00PF, in
+`StacksFrontier.RingTheory.KrullAkizuki`),
 which bounds `length_R (M/xM) ≤ finrank K V · length_R (R/xR)` for an `R`-submodule `M` of `V`;
 finite length gives Noetherian, hence finite. For `m = ⊥` the ring `R` is a field, there is no
 nonzero `x ∈ m` to run the length argument with, and `S` itself is finite over `R` because
@@ -764,7 +765,7 @@ public theorem finite_residueField_of_finite_residueField_liesOver
     [CommRing B] [IsLocalRing B] [Algebra A B] [IsLocalHom (algebraMap A B)]
     (p : Ideal A) [p.IsPrime] (q : Ideal B) [q.IsPrime] [q.LiesOver p]
     [Algebra (Localization.AtPrime p) (Localization.AtPrime q)]
-    [Localization.AtPrime.IsLiesOverAlgebra p q]
+    [IsScalarTower A (Localization.AtPrime p) (Localization.AtPrime q)]
     [Module.Finite p.ResidueField q.ResidueField]
     (hdim : ringKrullDim A ≤ 1) :
     Module.Finite (ResidueField A) (ResidueField B) := by
@@ -776,7 +777,7 @@ public theorem finite_residueField_of_finite_residueField_liesOver
   have _ : IsScalarTower (A ⧸ p) (B ⧸ q) q.ResidueField := by
     refine IsScalarTower.of_algebraMap_eq fun a => ?_
     obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective a
-    show algebraMap p.ResidueField q.ResidueField
+    change algebraMap p.ResidueField q.ResidueField
         (algebraMap (A ⧸ p) p.ResidueField (Ideal.Quotient.mk p a)) = _
     rw [Ideal.algebraMap_quotient_residueField_mk, ← IsScalarTower.algebraMap_apply A
       p.ResidueField q.ResidueField, Ideal.Quotient.algebraMap_mk_of_liesOver,
@@ -794,7 +795,8 @@ public theorem finite_residueField_of_quasiFiniteAt
     (hdim : ringKrullDim A ≤ 1) :
     Module.Finite (ResidueField A) (ResidueField B) := by
   let _ := Localization.AtPrime.algebraOfLiesOver (q.under A) q
-  have _ : Localization.AtPrime.IsLiesOverAlgebra (q.under A) q := inferInstance
+  have _ : IsScalarTower A (Localization.AtPrime (q.under A)) (Localization.AtPrime q) :=
+    inferInstance
   exact finite_residueField_of_finite_residueField_liesOver (q.under A) q hdim
 
 end IsLocalRing

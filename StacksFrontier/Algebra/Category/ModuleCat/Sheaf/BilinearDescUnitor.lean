@@ -88,11 +88,11 @@ theorem leftUnitor_inv_whiskerRight_bilinearDesc_val_app
       ((tensorSheafUnit U D).app V ((1 : (toRingCat J Osharp).obj.obj V) ⊗ₜ d)) :=
     (Stacks.SheafOfModules.inv_val_app_hom_val_app (T U D) V ((λ_ D).inv.val.app V d)).symm.trans
       (congrArg (fun x ↦ (T U D).inv.val.app V x) h2)
-  show (tensorSheafDesc (PresheafOfModules.ofBilinear β)).val.app V
+  change (tensorSheafDesc (PresheafOfModules.ofBilinear β)).val.app V
     ((T F D).hom.val.app V ((s ▷ D).val.app V ((λ_ D).inv.val.app V d))) = _
   rw [h3]
   -- the strict whiskering is the localized one conjugated by `T`
-  show (tensorSheafDesc (PresheafOfModules.ofBilinear β)).val.app V
+  change (tensorSheafDesc (PresheafOfModules.ofBilinear β)).val.app V
     ((@MonoidalCategoryStruct.whiskerRight _ _
         (Stacks.TensorSheafWorld.monoidalCategory Osharp).toMonoidalCategoryStruct
           _ _ s D).val.app V
@@ -109,7 +109,7 @@ theorem bilinearDesc_val_app_tensorSheafUnit
     (β : Stacks.BilinearMap F.val D.val Q.val) (V : Cᵒᵖ) (x : F.val.obj V) (y : D.val.obj V) :
     (bilinearDesc Osharp hO β).val.app V ((tensorObjIso Osharp.obj hO F D).inv.val.app V
       ((tensorSheafUnit F D).app V (x ⊗ₜ y))) = β.app V x y := by
-  show (tensorSheafDesc (PresheafOfModules.ofBilinear β)).val.app V
+  change (tensorSheafDesc (PresheafOfModules.ofBilinear β)).val.app V
     ((tensorObjIso Osharp.obj hO F D).hom.val.app V ((tensorObjIso Osharp.obj hO F D).inv.val.app V
       ((tensorSheafUnit F D).app V (x ⊗ₜ y)))) = _
   exact (congrArg (fun z ↦ (tensorSheafDesc (PresheafOfModules.ofBilinear β)).val.app V z)
@@ -127,7 +127,7 @@ theorem whiskerRight_bilinearDesc_val_app_tensorSheafUnit
       ((tensorSheafUnit M F).app V (m ⊗ₜ y))) = β.app V (φ.val.app V m) y := by
   let : MonoidalCategory (_root_.SheafOfModules.{w} (toRingCat J Osharp)) :=
     Stacks.SheafOfModules.monoidalCategory Osharp.obj hO
-  show (tensorSheafDesc (PresheafOfModules.ofBilinear β)).val.app V
+  change (tensorSheafDesc (PresheafOfModules.ofBilinear β)).val.app V
     ((@MonoidalCategoryStruct.whiskerRight _ _
         (Stacks.TensorSheafWorld.monoidalCategory Osharp).toMonoidalCategoryStruct
           _ _ φ F).val.app V

@@ -244,8 +244,8 @@ noncomputable def relationBaseChangeRight (h : U' ⟶ U) (s t : R ⟶ U) :
 intermediate fibre product `A = U' ×_{h, U, t} R`, the leg of that fibre product which is not
 `AlgebraicGeometry.Space.AlgebraicSpaces.relationBaseChangeSnd`. On points this is
 `(u'₁, ρ) ↦ u'₁`. -/
-noncomputable def relationBaseChangeMidFst (h : U' ⟶ U) (s t : R ⟶ U) :
-    relationBaseChangeMid B S hS h s t ⟶ U' :=
+noncomputable def relationBaseChangeMidFst (h : U' ⟶ U) (t : R ⟶ U) :
+    relationBaseChangeMid B S hS h t ⟶ U' :=
   pullback.fst h t
 
 /-- **The first leg of the doubled base change is a base change of `h`, on the underlying
@@ -271,7 +271,7 @@ the doubled base change is built in the category of algebraic spaces instead. -/
 theorem isPullback_relationBaseChangeFst (h : U' ⟶ U) (s t : R ⟶ U) :
     IsPullback (relationBaseChangeFst B S hS h s t).hom
       (relationBaseChangeRight B S hS h s t).hom
-      ((relationBaseChangeSnd B S hS h s t).hom ≫ s.hom) h.hom :=
+      ((relationBaseChangeSnd B S hS h t).hom ≫ s.hom) h.hom :=
   _root_.AlgebraicGeometry.AlgebraicSpaces.isPullback_hom B S hS
     (IsPullback.of_hasPullback (pullback.snd h t ≫ s) h)
 
@@ -292,9 +292,9 @@ is cartesian as a square of presheaves on the big fppf site of `S`, `pr₂` bein
 
 The square is the flip of the defining square of `A = U' ×_{h, U, t} R`, since it is the second
 projection of that fibre product which is a base change of `h`. -/
-theorem isPullback_relationBaseChangeSnd (h : U' ⟶ U) (s t : R ⟶ U) :
-    IsPullback (relationBaseChangeSnd B S hS h s t).hom
-      (relationBaseChangeMidFst B S hS h s t).hom t.hom h.hom :=
+theorem isPullback_relationBaseChangeSnd (h : U' ⟶ U) (t : R ⟶ U) :
+    IsPullback (relationBaseChangeSnd B S hS h t).hom
+      (relationBaseChangeMidFst B S hS h t).hom t.hom h.hom :=
   _root_.AlgebraicGeometry.AlgebraicSpaces.isPullback_hom B S hS
     (IsPullback.of_hasPullback h t).flip
 
@@ -303,26 +303,26 @@ theorem isPullback_relationBaseChangeSnd (h : U' ⟶ U) (s t : R ⟶ U) :
 /-- The **identity arrow of the intermediate stage** `A = U' ×_{h, U, t} R` attached to a unit
 section `e : U ⟶ R` of `t`, read on the underlying presheaves: the morphism `U' ⟶ A` with
 coordinates `𝟙 U'` and `h ≫ e`. On points it is `u' ↦ (u', e(h(u')))`. -/
-noncomputable def relationBaseChangeMidUnitHom (h : U' ⟶ U) (s t : R ⟶ U) (e : U ⟶ R)
+noncomputable def relationBaseChangeMidUnitHom (h : U' ⟶ U) (t : R ⟶ U) (e : U ⟶ R)
     (het : e ≫ t = 𝟙 U) :
-    U'.obj ⟶ (relationBaseChangeMid B S hS h s t).obj :=
-  (isPullback_relationBaseChangeSnd B S hS h s t).lift (h.hom ≫ e.hom) (𝟙 U'.obj) (by
+    U'.obj ⟶ (relationBaseChangeMid B S hS h t).obj :=
+  (isPullback_relationBaseChangeSnd B S hS h t).lift (h.hom ≫ e.hom) (𝟙 U'.obj) (by
     have het' : e.hom ≫ t.hom = 𝟙 U.obj := congrArg (fun k => k.hom) het
     rw [Category.assoc, het', Category.comp_id, Category.id_comp])
 
 /-- The identity arrow of the intermediate stage has first `U'`-coordinate the identity. -/
-theorem relationBaseChangeMidUnitHom_comp_midFst (h : U' ⟶ U) (s t : R ⟶ U) (e : U ⟶ R)
+theorem relationBaseChangeMidUnitHom_comp_midFst (h : U' ⟶ U) (t : R ⟶ U) (e : U ⟶ R)
     (het : e ≫ t = 𝟙 U) :
-    relationBaseChangeMidUnitHom B S hS h s t e het ≫
-        (relationBaseChangeMidFst B S hS h s t).hom = 𝟙 U'.obj :=
-  (isPullback_relationBaseChangeSnd B S hS h s t).lift_snd _ _ _
+    relationBaseChangeMidUnitHom B S hS h t e het ≫
+        (relationBaseChangeMidFst B S hS h t).hom = 𝟙 U'.obj :=
+  (isPullback_relationBaseChangeSnd B S hS h t).lift_snd _ _ _
 
 /-- The identity arrow of the intermediate stage lies over the identity arrow of `R`. -/
-theorem relationBaseChangeMidUnitHom_comp_snd (h : U' ⟶ U) (s t : R ⟶ U) (e : U ⟶ R)
+theorem relationBaseChangeMidUnitHom_comp_snd (h : U' ⟶ U) (t : R ⟶ U) (e : U ⟶ R)
     (het : e ≫ t = 𝟙 U) :
-    relationBaseChangeMidUnitHom B S hS h s t e het ≫
-        (relationBaseChangeSnd B S hS h s t).hom = h.hom ≫ e.hom :=
-  (isPullback_relationBaseChangeSnd B S hS h s t).lift_fst _ _ _
+    relationBaseChangeMidUnitHom B S hS h t e het ≫
+        (relationBaseChangeSnd B S hS h t).hom = h.hom ≫ e.hom :=
+  (isPullback_relationBaseChangeSnd B S hS h t).lift_fst _ _ _
 
 /-- The **identity arrow of the doubled base change** attached to a unit section `e : U ⟶ R` of
 the pair `(s, t)`, that is, to a morphism with `e ≫ s = 𝟙 U` and `e ≫ t = 𝟙 U`, read on the
@@ -337,7 +337,7 @@ noncomputable def relationBaseChangeUnitHom (h : U' ⟶ U) (s t : R ⟶ U) (e : 
     (hes : e ≫ s = 𝟙 U) (het : e ≫ t = 𝟙 U) :
     U'.obj ⟶ (relationBaseChange B S hS h s t).obj :=
   (isPullback_relationBaseChangeFst B S hS h s t).lift
-    (relationBaseChangeMidUnitHom B S hS h s t e het) (𝟙 U'.obj) (by
+    (relationBaseChangeMidUnitHom B S hS h t e het) (𝟙 U'.obj) (by
       have hes' : e.hom ≫ s.hom = 𝟙 U.obj := congrArg (fun k => k.hom) hes
       rw [← Category.assoc, relationBaseChangeMidUnitHom_comp_snd, Category.assoc, hes',
         Category.comp_id, Category.id_comp])
@@ -355,7 +355,7 @@ theorem relationBaseChangeUnitHom_comp_fst (h : U' ⟶ U) (s t : R ⟶ U) (e : U
     (hes : e ≫ s = 𝟙 U) (het : e ≫ t = 𝟙 U) :
     relationBaseChangeUnitHom B S hS h s t e hes het ≫
         (relationBaseChangeFst B S hS h s t).hom
-      = relationBaseChangeMidUnitHom B S hS h s t e het :=
+      = relationBaseChangeMidUnitHom B S hS h t e het :=
   (isPullback_relationBaseChangeFst B S hS h s t).lift_fst _ _ _
 
 /-- The **identity arrow of the doubled base change**, as a morphism of algebraic spaces. Its
@@ -404,11 +404,11 @@ hypotheses of
 `AlgebraicGeometry.Space.AlgebraicSpaces.ringKrullDim_etaleLocalRing_stepC_of_closedFibre_eq`. -/
 theorem geometricPointMap_relationBaseChangeUnit_midFst (h : U' ⟶ U) (s t : R ⟶ U) (e : U ⟶ R)
     (hes : e ≫ s = 𝟙 U) (het : e ≫ t = 𝟙 U) (x' : GeometricPoint B S hS U'.obj) :
-    geometricPointMap (relationBaseChangeMidFst B S hS h s t).hom
+    geometricPointMap (relationBaseChangeMidFst B S hS h t).hom
         (geometricPointMap (relationBaseChangeFst B S hS h s t).hom
           (geometricPointMap (relationBaseChangeUnit B S hS h s t e hes het).hom x')) = x' := by
   refine geometricPointMap_comp_eq_self B S hS (relationBaseChangeUnitHom B S hS h s t e hes het)
-    ((relationBaseChangeFst B S hS h s t).hom ≫ (relationBaseChangeMidFst B S hS h s t).hom) ?_ x'
+    ((relationBaseChangeFst B S hS h s t).hom ≫ (relationBaseChangeMidFst B S hS h t).hom) ?_ x'
   rw [← Category.assoc, relationBaseChangeUnitHom_comp_fst,
     relationBaseChangeMidUnitHom_comp_midFst]
 
@@ -435,7 +435,7 @@ theorem ringKrullDim_closedFibre_relationBaseChangeFst_eq (h : U' ⟶ U) (s t : 
       ringKrullDim (closedFibreEtaleLocalRing B S hS U'.property h.hom
         (geometricPointMap (relationBaseChangeRight B S hS h s t).hom r)) :=
   ringKrullDim_closedFibre_eq_of_hasClosedChartFibreSquare B S hS
-    (relationBaseChangeMid B S hS h s t).property U.property U'.property h.hom
+    (relationBaseChangeMid B S hS h t).property U.property U'.property h.hom
     (relationBaseChangeFst B S hS h s t).hom (relationBaseChangeRight B S hS h s t).hom
     (relationBaseChange B S hS h s t).property hlft r hcl
 
@@ -448,19 +448,19 @@ the closed fibre of `h` at the first `U'`-coordinate of that point.
 This is the hypothesis `hsnd` of
 `AlgebraicGeometry.Space.AlgebraicSpaces.ringKrullDim_etaleLocalRing_stepC_of_closedFibre_eq`, with
 `x'` taken to be that first coordinate. -/
-theorem ringKrullDim_closedFibre_relationBaseChangeSnd_eq (h : U' ⟶ U) (s t : R ⟶ U)
+theorem ringKrullDim_closedFibre_relationBaseChangeSnd_eq (h : U' ⟶ U) (t : R ⟶ U)
     (hlft : IsLocallyOfFiniteType B S hS h.hom)
-    (a : GeometricPoint B S hS (relationBaseChangeMid B S hS h s t).obj)
+    (a : GeometricPoint B S hS (relationBaseChangeMid B S hS h t).obj)
     (hcl : HasClosedChartFibreSquare B S hS h.hom
-      (relationBaseChangeSnd B S hS h s t).hom (relationBaseChangeMidFst B S hS h s t).hom a) :
-    ringKrullDim (closedFibreEtaleLocalRing B S hS (relationBaseChangeMid B S hS h s t).property
-        (relationBaseChangeSnd B S hS h s t).hom a) =
+      (relationBaseChangeSnd B S hS h t).hom (relationBaseChangeMidFst B S hS h t).hom a) :
+    ringKrullDim (closedFibreEtaleLocalRing B S hS (relationBaseChangeMid B S hS h t).property
+        (relationBaseChangeSnd B S hS h t).hom a) =
       ringKrullDim (closedFibreEtaleLocalRing B S hS U'.property h.hom
-        (geometricPointMap (relationBaseChangeMidFst B S hS h s t).hom a)) :=
+        (geometricPointMap (relationBaseChangeMidFst B S hS h t).hom a)) :=
   ringKrullDim_closedFibre_eq_of_hasClosedChartFibreSquare B S hS
     R.property U.property U'.property h.hom
-    (relationBaseChangeSnd B S hS h s t).hom (relationBaseChangeMidFst B S hS h s t).hom
-    (relationBaseChangeMid B S hS h s t).property hlft a hcl
+    (relationBaseChangeSnd B S hS h t).hom (relationBaseChangeMidFst B S hS h t).hom
+    (relationBaseChangeMid B S hS h t).property hlft a hcl
 
 /-- **The Step C identity of Stacks 0DS9, with its two base-change hypotheses discharged.** In
 the subtraction-free form
@@ -498,17 +498,17 @@ theorem ringKrullDim_etaleLocalRing_stepC_of_isClosed (h : U' ⟶ U) (s t : R �
     (r : GeometricPoint B S hS (relationBaseChange B S hS h s t).obj)
     (x' : GeometricPoint B S hS U'.obj)
     (hxfst : geometricPointMap (relationBaseChangeRight B S hS h s t).hom r = x')
-    (hxsnd : geometricPointMap (relationBaseChangeMidFst B S hS h s t).hom
+    (hxsnd : geometricPointMap (relationBaseChangeMidFst B S hS h t).hom
       (geometricPointMap (relationBaseChangeFst B S hS h s t).hom r) = x')
     (hcl₁ : HasClosedChartFibreSquare B S hS h.hom
       (relationBaseChangeFst B S hS h s t).hom (relationBaseChangeRight B S hS h s t).hom r)
     (hcl₂ : HasClosedChartFibreSquare B S hS h.hom
-      (relationBaseChangeSnd B S hS h s t).hom (relationBaseChangeMidFst B S hS h s t).hom
+      (relationBaseChangeSnd B S hS h t).hom (relationBaseChangeMidFst B S hS h t).hom
       (geometricPointMap (relationBaseChangeFst B S hS h s t).hom r)) :
     ringKrullDim (etaleLocalRing B S hS U'.obj x') +
           ringKrullDim (etaleLocalRing B S hS U'.obj x') +
         ringKrullDim (etaleLocalRing B S hS R.obj
-          (geometricPointMap (relationBaseChangeSnd B S hS h s t).hom
+          (geometricPointMap (relationBaseChangeSnd B S hS h t).hom
             (geometricPointMap (relationBaseChangeFst B S hS h s t).hom r))) =
       ringKrullDim (etaleLocalRing B S hS U.obj (geometricPointMap h.hom x')) +
             ringKrullDim (etaleLocalRing B S hS U.obj (geometricPointMap h.hom x')) +
@@ -518,7 +518,7 @@ theorem ringKrullDim_etaleLocalRing_stepC_of_isClosed (h : U' ⟶ U) (s t : R �
   · rw [← hxfst]
     exact ringKrullDim_closedFibre_relationBaseChangeFst_eq B S hS h s t hlft r hcl₁
   · rw [← hxsnd]
-    exact ringKrullDim_closedFibre_relationBaseChangeSnd_eq B S hS h s t hlft _ hcl₂
+    exact ringKrullDim_closedFibre_relationBaseChangeSnd_eq B S hS h t hlft _ hcl₂
 
 /-- **The Step C identity of Stacks 0DS9 along the identity arrow of a relation.** This is
 `AlgebraicGeometry.Space.AlgebraicSpaces.ringKrullDim_etaleLocalRing_stepC_of_isClosed` at the
@@ -543,13 +543,13 @@ theorem ringKrullDim_etaleLocalRing_stepC_unit_of_isClosed (h : U' ⟶ U) (s t :
       (relationBaseChangeFst B S hS h s t).hom (relationBaseChangeRight B S hS h s t).hom
       (geometricPointMap (relationBaseChangeUnit B S hS h s t e hes het).hom x'))
     (hcl₂ : HasClosedChartFibreSquare B S hS h.hom
-      (relationBaseChangeSnd B S hS h s t).hom (relationBaseChangeMidFst B S hS h s t).hom
+      (relationBaseChangeSnd B S hS h t).hom (relationBaseChangeMidFst B S hS h t).hom
       (geometricPointMap (relationBaseChangeFst B S hS h s t).hom
         (geometricPointMap (relationBaseChangeUnit B S hS h s t e hes het).hom x'))) :
     ringKrullDim (etaleLocalRing B S hS U'.obj x') +
           ringKrullDim (etaleLocalRing B S hS U'.obj x') +
         ringKrullDim (etaleLocalRing B S hS R.obj
-          (geometricPointMap (relationBaseChangeSnd B S hS h s t).hom
+          (geometricPointMap (relationBaseChangeSnd B S hS h t).hom
             (geometricPointMap (relationBaseChangeFst B S hS h s t).hom
               (geometricPointMap (relationBaseChangeUnit B S hS h s t e hes het).hom x')))) =
       ringKrullDim (etaleLocalRing B S hS U.obj (geometricPointMap h.hom x')) +

@@ -81,8 +81,7 @@ theorem span_tmul_D_eq_top_of_surjective (m : Ideal B) [m.IsMaximal] {c : ℕ} (
     rwa [smul_smul, inv_mul_cancel₀ hh, one_smul] at h3
   rw [eq_top_iff]
   rintro t -
-  induction t using TensorProduct.induction_on with
-  | zero => exact Sp.zero_mem
+  induction t using TensorProduct.inductionOn with
   | tmul a ω =>
     rw [show a ⊗ₜ[B] ω = a • ((1 : B ⧸ m) ⊗ₜ[B] ω) by
       rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]]

@@ -94,7 +94,7 @@ lemma moduleOfKerSMul_smul (Q : Type*) [AddCommGroup Q] [Module B Q]
     q b • x = b • x := by
   let : Module (B ⧸ RingHom.ker q) Q :=
     Module.IsTorsionBySet.module (I := RingHom.ker q) fun x j => hQ j j.2 x
-  show ((RingHom.quotientKerEquivOfSurjective hq).symm (q b)) • x = b • x
+  change ((RingHom.quotientKerEquivOfSurjective hq).symm (q b)) • x = b • x
   have : (RingHom.quotientKerEquivOfSurjective hq).symm (q b) = Ideal.Quotient.mk _ b :=
     (RingHom.quotientKerEquivOfSurjective hq).symm_apply_eq.mpr rfl
   rw [this]
@@ -168,7 +168,7 @@ theorem mulMap_coaction (σ : N →ₗ[S] S ⊗[R] N)
   have h2 : e.baseChange S = 0 := by
     refine LinearMap.ext_on_range hgen ?_
     rintro ⟨s, m⟩
-    rw [LinearMap.zero_apply, LinearMap.baseChange_eq_ltensor, ← LinearMap.comp_apply,
+    rw [LinearMap.zero_apply, LinearMap.baseChange_eq_lTensor, ← LinearMap.comp_apply,
       ← LinearMap.lTensor_comp]
     have hc : e ∘ₗ (LinearMap.lsmul S N s).restrictScalars R =
         ((LinearMap.lsmul S N s).restrictScalars R) ∘ₗ e := by
@@ -179,7 +179,7 @@ theorem mulMap_coaction (σ : N →ₗ[S] S ⊗[R] N)
   have h3 : e.restrictScalars R = 0 := by
     refine (Module.FaithfullyFlat.zero_iff_lTensor_zero R S _).mpr (LinearMap.ext fun y => ?_)
     have := LinearMap.congr_fun h2 y
-    rwa [LinearMap.baseChange_eq_ltensor] at this
+    rwa [LinearMap.baseChange_eq_lTensor] at this
   have := LinearMap.congr_fun h3 n
   simpa [he, sub_eq_zero] using this
 
@@ -361,7 +361,7 @@ theorem bijective_liftBaseChange_kerLinearMap (hqB : Function.Surjective qB) (hf
         map_zero' := by ext; simp
         map_add' := fun _ _ => by ext; simp }
       (fun b e j => by
-        show qE (b • e) ⊗ₜ[B₀] j = qE e ⊗ₜ[B₀] (b • j)
+        change qE (b • e) ⊗ₜ[B₀] j = qE e ⊗ₜ[B₀] (b • j)
         rw [← hJs, Algebra.smul_def, map_mul, RingHom.algebraMap_toAlgebra, ← RingHom.comp_apply,
           hg, RingHom.comp_apply, ← Algebra.smul_def, TensorProduct.smul_tmul])
   have hπ : ∀ x, (kerLinearMap hK hg hJs hKs hqB).liftBaseChange E₀ (π x) =
@@ -370,7 +370,7 @@ theorem bijective_liftBaseChange_kerLinearMap (hqB : Function.Surjective qB) (hf
     induction x with
     | add x y hx hy => rw [map_add, map_add, hx, hy, map_add]
     | tmul e j =>
-      show (kerLinearMap hK hg hJs hKs hqB).liftBaseChange E₀ (qE e ⊗ₜ j) = _
+      change (kerLinearMap hK hg hJs hKs hqB).liftBaseChange E₀ (qE e ⊗ₜ j) = _
       rw [LinearMap.liftBaseChange_tmul, LinearMap.liftBaseChange_tmul, hKs]
       rfl
   have hπs : Function.Surjective π := by
@@ -903,7 +903,7 @@ theorem surjective_of_comp_eq (hL₂ : RingHom.ker qD = Ideal.map e₂ (RingHom.
   obtain ⟨j, hj⟩ := exists_sub_mem_eqLocus hqB hqC hqD hJs hKs hLs hAC hd₀ hd₁ he₀ he₁ he₂ h01
     h02 h12 hC hD hβ hL₂ hfe₂ b ⟨a₀, hb.symm⟩
   refine ⟨⟨b - j, hj⟩, hφ ((RingHom.congr_fun hφψ _).trans ?_)⟩
-  show qB (b - j) = _
+  change qB (b - j) = _
   rw [map_sub, RingHom.mem_ker.mp j.2, sub_zero, hb]
 
 end SquareZeroEqualizerDescent
@@ -979,7 +979,7 @@ theorem RingHom.eqLocus_etale_faithfullyFlat_isPushout {A₀ B B₀ C C₀ D D�
   have hN := SquareZeroEqualizerDescent.mem_coinvariants_σ hqB hJs hKs hAC hd₀ hd₁ hC hβ
   have hrange : ∀ a : A, qB.comp A.subtype a ∈ φ.range := fun a => by
     refine RingHom.mem_range_of_isPushout_of_faithfullyFlat φ hφff d₀' d₁' hC ?_
-    show d₀' (qB a) = d₁' (qB a)
+    change d₀' (qB a) = d₁' (qB a)
     rw [← RingHom.comp_apply, ← hd₀, ← RingHom.comp_apply, ← hd₁]
     exact congrArg qC a.2
   obtain ⟨ψ, hφψ⟩ := RingHom.exists_comp_eq_of_forall_mem_range hφff.injective _ hrange

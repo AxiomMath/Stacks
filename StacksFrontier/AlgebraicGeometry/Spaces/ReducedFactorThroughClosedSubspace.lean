@@ -73,7 +73,7 @@ theorem factorThroughSubfunctor_of_locallySurjective {C : Type*} [Category C]
     have hc : Z.sieveOfSection (f.app U x) ∈ J U.unop := by
       apply J.superset_covering _ (hp.imageSieve_mem x)
       rintro V a ⟨y, hy⟩
-      show F.map a.op (f.app U x) ∈ Z.obj (Opposite.op V)
+      change F.map a.op (f.app U x) ∈ Z.obj (Opposite.op V)
       have hcomp : Z.ι.app (Opposite.op V) (g.app (Opposite.op V) y) =
           f.app (Opposite.op V) (p.app (Opposite.op V) y) := by
         simpa using congrArg (fun k : H ⟶ F => k.app (Opposite.op V) y) hg
@@ -173,7 +173,7 @@ theorem exists_lift_closedSubspace_iff_pointsMap_range_subset (B : BigFppfSite.{
         exact ⟨inferInstance, inferInstance, hpSurj.2 k b c hbc⟩
       let psh : (⟨yoneda.obj T, (isAlgebraicSpace_yoneda B S hS T).isSheaf⟩ :
         Sheaf J (Type u)) ⟶ ⟨Y, hY.isSheaf⟩ := ⟨p⟩
-      show Presheaf.IsLocallySurjective J psh.hom
+      change Presheaf.IsLocallySurjective J psh.hom
       exact isLocallySurjective_of_representable_flat_locallyOfFinitePresentation_surjective
         B S hS psh hpFppf
     exact factorThroughSubfunctor_of_locallySurjective Z f p hpLocal

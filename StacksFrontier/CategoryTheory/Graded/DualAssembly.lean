@@ -485,7 +485,7 @@ lemma coevApply_exactPairingOfComponents (coev : 𝟙_ C ⟶ tensorObj V W 0)
     (h : IsAssembledCoev V W p coev) (n : I) :
     letI := exactPairingOfComponents V W p coev h
     coevApply V W n = (p n).coevaluation' := by
-  show tensorUnit₀.inv ≫ gradedCoevOf V W coev 0 ≫
+  change tensorUnit₀.inv ≫ gradedCoevOf V W coev 0 ≫
     πTensorObj V W n (-n) 0 (add_neg_cancel n) = _
   rw [gradedCoevOf_zero, assoc, Iso.inv_hom_id_assoc]
   exact h n
@@ -537,7 +537,7 @@ from. -/
 lemma coevApply_exactPairingOfDegreewise (n : I) (hn : n ∈ s) :
     letI := exactPairingOfDegreewise V W s p hV hW
     coevApply V W n = (p n).coevaluation' := by
-  show tensorUnit₀.inv ≫ (gradedCoev V W s p) 0 ≫ πTensorObj V W n (-n) 0 _ = _
+  change tensorUnit₀.inv ≫ (gradedCoev V W s p) 0 ≫ πTensorObj V W n (-n) 0 _ = _
   rw [gradedCoev_zero]
   simp only [assoc, Iso.inv_hom_id_assoc]
   exact totalCoev_comp_πTensorObj V W s p n hn

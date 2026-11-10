@@ -51,7 +51,7 @@ theorem isAffine_of_isOpenImmersion_polynomial (K : Type u) [Field K] {V : Schem
     rw [← PrimeSpectrum.zeroLocus_span, ← hZ, hg]
   let W : (Spec (.of K[X])).Opens := PrimeSpectrum.basicOpen g
   have hrange : Set.range jV.base = (W : Set (Spec (.of K[X]))) := by
-    show Set.range jV.base = ((PrimeSpectrum.basicOpen g : _) : Set (PrimeSpectrum K[X]))
+    change Set.range jV.base = ((PrimeSpectrum.basicOpen g : _) : Set (PrimeSpectrum K[X]))
     rw [PrimeSpectrum.basicOpen_eq_zeroLocus_compl, h2, compl_compl]
     rfl
   have : IsAffine W.toScheme := IsAffineOpen.Spec_basicOpen (R := .of K[X]) g
@@ -91,15 +91,15 @@ theorem isPushout_ringMap :
   · ext a
     exact e.commutes a
   · ext x
-    · show e (1 ⊗ₜ AdjoinRoot.of (poly k g) x) =
+    · change e (1 ⊗ₜ AdjoinRoot.of (poly k g) x) =
         ringMap k g φ (algebraMap A (Ring k g) x)
       rw [ringMap_algebraMap]
       simp only [e, AlgEquiv.trans_apply, AdjoinRoot.tensorAlgEquiv_of]
       rw [AdjoinRoot.coe_mapAlgEquiv, AdjoinRoot.map_of]
-      show AdjoinRoot.of _ (Algebra.TensorProduct.rid A A' A' (1 ⊗ₜ x)) = _
+      change AdjoinRoot.of _ (Algebra.TensorProduct.rid A A' A' (1 ⊗ₜ x)) = _
       rw [Algebra.TensorProduct.rid_tmul, Algebra.smul_def, mul_one]
       rfl
-    · show e (1 ⊗ₜ AdjoinRoot.root (poly k g)) = ringMap k g φ (AdjoinRoot.root (poly k g))
+    · change e (1 ⊗ₜ AdjoinRoot.root (poly k g)) = ringMap k g φ (AdjoinRoot.root (poly k g))
       rw [ringMap_root]
       simp only [e, AlgEquiv.trans_apply, AdjoinRoot.tensorAlgEquiv_root]
       rw [AdjoinRoot.coe_mapAlgEquiv, AdjoinRoot.map_root]

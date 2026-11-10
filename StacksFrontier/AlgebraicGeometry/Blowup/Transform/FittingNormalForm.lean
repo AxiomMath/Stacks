@@ -381,7 +381,8 @@ an arbitrary ideal sheaf `I`, not part (4) of tag 0ESN. The latter is
 `StacksFrontier/AlgebraicGeometry/Blowup/Transform/FittingPerfectTransform.lean`, which assume only
 that `ℱ` is finitely presented.
 
-As above, the registration below records the base-change spelling used in the proof of part (4), not part (4) itself. -/
+As above, the registration below records the base-change spelling used in the proof of part (4), not
+part (4) itself. -/
 @[stacks 0ESN "the Tor dimension of the pullback"]
 theorem hasTorAmplitude_modulePullback_pullbackFst_blowUpToBase
     (F : OXMod.{u, u} X.toRingedSpace)

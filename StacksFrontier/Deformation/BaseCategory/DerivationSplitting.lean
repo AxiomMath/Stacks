@@ -248,7 +248,7 @@ include hA hq ht hDt in
 public theorem kernelAug_surjective : Function.Surjective (kernelAug q D hD) := by
   intro c
   refine ⟨retractionRestrict hA q hq D hD ht hDt (sec q hq c), ?_⟩
-  show q (retraction hA q hq D hD ht (sec q hq c)) = c
+  change q (retraction hA q hq D hD ht (sec q hq c)) = c
   rw [aug_retraction hA q hq D hD ht, aug_sec]
 
 end
@@ -323,9 +323,9 @@ public theorem exists_derivationSplitting {Λ : Type u} {k : Type w} [CommRing �
     refine ⟨(a' : A) + sec q hq c * t, ⟨?_, ?_⟩, ?_⟩
     · have h3 : ρ (sec q hq c * t) = 0 := by
         refine Subtype.ext ?_
-        show retraction hA q hq D hD ht (sec q hq c * t) = 0
+        change retraction hA q hq D hD ht (sec q hq c * t) = 0
         rw [retraction_apply, hDprod, sub_self]
-      show ρ ((a' : A) + sec q hq c * t) = a'
+      change ρ ((a' : A) + sec q hq c * t) = a'
       rw [map_add, hρS, h3, add_zero]
     · rw [map_add, hDprod, a'.2, zero_add]
     · intro b hb
@@ -343,7 +343,7 @@ public theorem exists_derivationSplitting {Λ : Type u} {k : Type w} [CommRing �
         ArtinianLocalAlgCat.id_hom, AlgHom.id_apply] using h
     have ht0 : ρ t = 0 := by
       refine Subtype.ext ?_
-      show retraction hA q hq D hD ht t = 0
+      change retraction hA q hq D hD ht t = 0
       exact retraction_eq_zero hA q hq D hD ht hDt
     have ha'0 : a' = 0 := by
       have h := hψσ a'

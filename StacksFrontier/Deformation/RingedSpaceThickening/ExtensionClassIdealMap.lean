@@ -111,7 +111,7 @@ theorem mkHom_comp_triangle_mor₃ {M X₀ X₁ : C} (d : X₀ ⟶ X₁) (a : M 
     HomologicalComplex.mkHomFromDouble_f₀ _ _ _ _ _ _
   rw [HomologicalComplex.comp_f, HomologicalComplex.comp_f, hψ, h₀]
   simp only [Category.assoc, Iso.inv_hom_id_assoc, hinl]
-  simp [HomologicalComplex.single_map_f_self, CochainComplex.singleFunctors,
+  simp [HomologicalComplex.single_map_f_self,
     shiftFunctorObjXIso, HomologicalComplex.singleObjXSelf, HomologicalComplex.XIsoOfEq,
     HomologicalComplex.singleObjXIsoOfEq]
 
@@ -185,7 +185,7 @@ theorem singleZeroShiftOneIso_hom (M : C)
     Functor.associator_hom_app, Functor.isoWhiskerLeft_hom, Iso.symm_hom, Functor.whiskerLeft_app,
     Functor.associator_inv_app, Functor.isoWhiskerRight_hom, Functor.whiskerRight_app, Iso.refl_hom,
     NatTrans.id_app, Category.id_comp]
-  simp only [Category.id_comp, Category.comp_id]
+  simp only [Category.comp_id]
 
 /-- **The projection of a two-term complex onto its shifted degree `-1` term, restricted to a
 complex concentrated in degree `-1`.** For a chain map `ψ : M[-1] ⟶ (X₀ ⟶ X₁)` with degree `-1`
@@ -252,7 +252,7 @@ variable {C : Type u} [Category.{v} C] (J : GrothendieckTopology C)
   (R A B : Sheaf J CommRingCat.{w}) (a : R ⟶ A) (φ : A ⟶ B) [Presheaf.IsLocallySurjective J φ.hom]
   (X : Cᵒᵖ)
 
-omit [HasWeakSheafify J CommRingCat.{w}] in
+omit [HasWeakSheafify J CommRingCat.{w}] [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The conormal class of a coefficient lying in the kernel ideal is killed by
 `ℐ/ℐ² ⟶ ℬ ⊗ Ω`**: the coefficients have zero differential. -/
 theorem conormalSequence_f_conormalClass_coefficient (r : R.obj.obj X)
@@ -293,6 +293,7 @@ variable {C : Type u} [Category.{v} C] (J : GrothendieckTopology C)
   [HasSheafify J AddCommGrpCat.{max w u v z}]
   [J.WEqualsLocallyBijective AddCommGrpCat.{max w u v z}]
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- In degree `-1` the chain map of a morphism of presentations is the map of conormal sheaves,
 read through the identifications `HomologicalComplex.doubleXIso₀` of the two-term complexes. -/
 theorem presentationNaiveCotangentComplexMap_f_negOne_doubleXIso₀ :
@@ -362,9 +363,9 @@ theorem baseUnit_mem_kernelIdeal {R : Sheaf (Opens.grothendieckTopology X.carrie
     Equiv.apply_symm_apply _ _
   have h2 := (homEquiv_app_apply (f ≫ t) (structureRingMap (f ≫ t)) V s).symm.trans
     (congrArg (fun k => (k.hom.app V).hom s) h3)
-  show (φ.hom.app _).hom ((b.hom.app _).hom _) = 0
+  change (φ.hom.app _).hom ((b.hom.app _).hom _) = 0
   refine h1.trans (h2.trans ?_)
-  show (f.hom.c.app _).hom ((t.hom.c.app V).hom s) = 0
+  change (f.hom.c.app _).hom ((t.hom.c.app V).hom s) = 0
   rw [hs, map_zero]
 
 namespace AlgebraSquareZeroExtension
@@ -549,7 +550,7 @@ theorem idealMap_eq_iff
       Stacks.ClosedImmersion.injective_idealSheafι_val_app t V.unop
         (idealSheafι_baseIdealSection t V s hs).symm
     refine (hc V s hs).trans ?_
-    show (prescribedIdealMap c).val.app V (baseIdealSection t V s hs) =
+    change (prescribedIdealMap c).val.app V (baseIdealSection t V s hs) =
       (prescribedIdealMap c).val.app V y
     rw [← hy]
 

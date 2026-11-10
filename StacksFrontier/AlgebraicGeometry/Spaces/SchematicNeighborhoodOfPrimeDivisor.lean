@@ -168,7 +168,7 @@ theorem PrimeDivisor.exists_schematic_neighborhood
       refine ⟨E (pointsMap B S hS L.toFunctor e.inv q), ?_⟩
       have hcomp := congrFun (pointsMap_comp B S hS (F := L.toFunctor) e.inv i) q
       rw [show e.inv ≫ i = L.ι by rw [hidef, Iso.inv_hom_id_assoc]] at hcomp
-      show pointsMap B S hS (yoneda.obj V) i (E.symm (E _)) = _
+      change pointsMap B S hS (yoneda.obj V) i (E.symm (E _)) = _
       rw [E.symm_apply_apply]
       exact hcomp.symm
   -- The generic point of `Z` lies in it, since it is a generic point of `|Z|`.
@@ -199,7 +199,7 @@ theorem PrimeDivisor.exists_schematic_neighborhood
   have hk := B.residueField_spec_contains V.left.property v
   have _ : Mono (residueFieldMap B S hS V v hk) := by
     apply (BigFppfOver.toScheme B S hS).mono_of_mono_map
-    show Mono (((BigFppfOver.toScheme B S hS).obj V).fromSpecResidueField v)
+    change Mono (((BigFppfOver.toScheme B S hS).obj V).fromSpecResidueField v)
     infer_instance
   refine ⟨{ scheme := V
             point := v
@@ -214,7 +214,7 @@ theorem PrimeDivisor.exists_schematic_neighborhood
     refine E.injective ?_
     rw [E.apply_symm_apply, hEdef, schemePointsHomeomorph_apply]
     exact pointsToScheme_presheafPoint B S hS V v hk
-  show pointsMap B S hS (yoneda.obj V) i (presheafPoint B S hS V v hk) = _
+  change pointsMap B S hS (yoneda.obj V) i (presheafPoint B S hS V v hk) = _
   rwa [he]
 
 end AlgebraicGeometry.Space

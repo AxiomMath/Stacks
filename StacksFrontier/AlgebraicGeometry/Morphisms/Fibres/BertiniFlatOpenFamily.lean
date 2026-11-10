@@ -171,7 +171,7 @@ theorem mem_smoothLocus_of_isPullback_of_mem_smoothLocus [Smooth D.toBase]
   have hrange : Set.range c ⊆ Set.range (D.universalDivisorSchemeOver W).ι := by
     rw [Scheme.Opens.range_ι]
     rintro _ ⟨y, rfl⟩
-    show D.universalFamilyMap.base (c.base y) ∈ W
+    change D.universalFamilyMap.base (c.base y) ∈ W
     rw [← Scheme.Hom.comp_apply, hsq.w, Scheme.Hom.comp_apply]
     exact ha _
   have hbig := (IsOpenImmersion.isPullback_lift_id c
@@ -320,7 +320,7 @@ theorem exists_nonempty_opens_subset_smoothLocus_of_closedPoints_over
         ((Nat.card D.basisIndex - 1 : ℕ) : WithBot ℕ∞) := by
     intro z hz
     have hpz : IsClosed ({D.nonSmoothToXOver W z} : Set D.X) :=
-      (D.nonSmoothToXOver W).closePoints_subset_preimage_closedPoints hz
+      (D.nonSmoothToXOver W).closedPoints_subset_preimage_closedPoints hz
     exact le_trans (add_le_add (topologicalKrullDimAt_le_topologicalKrullDim
       ((D.nonSmoothToXOver W).asFiber z)) le_rfl) (hclosed _ hpz)
   obtain ⟨U', hU', hsub⟩ :=

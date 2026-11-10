@@ -273,7 +273,7 @@ In the geometric reading (`J = j_!`, `Lj = j⁻¹` for an open immersion `j`, `L
 that the inverse image along `g` of the extension by zero `j_! A` is the extension by zero of the
 inverse image of `A`, in the form needed to compute `Ext` out of it. -/
 theorem isIso_homEquiv_symm_of_isIso_map
-    (hbc : IsIso (Stacks.CategoryTheory.BaseChange.twoSquare adjg adje eg ef).natTrans)
+    (hbc : IsIso (Stacks.CategoryTheory.BaseChange.twoSquare adjg adje eg ef))
     {Q : 𝒳} {A : 𝒲}
     (η : A ⟶ Lj.obj Q) (hη : IsIso ((adjj.homEquiv A Q).symm η)) :
     IsIso ((adjj'.homEquiv (Le.obj A) (Lg.obj Q)).symm
@@ -295,7 +295,7 @@ theorem isIso_homEquiv_symm_of_isIso_map
       ψ ≫ Stacks.CategoryTheory.BaseChange.map adjg adje eg ef N) :=
     (isIso_iff_yoneda_map_bijective _).1
       (inferInstanceAs
-        (IsIso ((Stacks.CategoryTheory.BaseChange.twoSquare adjg adje eg ef).natTrans.app N))) A
+        (IsIso ((Stacks.CategoryTheory.BaseChange.twoSquare adjg adje eg ef).app N))) A
   have key : ∀ f : Q ⟶ Rg.obj N, a ≫ Lj'.map ((adjg.homEquiv Q N).symm f) =
       (adje.homEquiv A (Lj'.obj N)).symm
         (η ≫ Lj.map f ≫ Stacks.CategoryTheory.BaseChange.map adjg adje eg ef N) := by

@@ -133,7 +133,7 @@ private theorem isPerfectModule_of_surjective_isPerfectRingMap
     (StacksDraft.PseudoCoherence.pseudoCoherent_iff_of_ringEquiv eA.toRingEquiv Kᵣ).2.mpr
       ((PseudoCoherence.pseudoCoherent_iso eF).2 hpcα)
   obtain ⟨a, b, hamp⟩ := htor
-  show StacksDraft.Perfect.IsPerfect Kᵣ
+  change StacksDraft.Perfect.IsPerfect Kᵣ
   exact (StacksDraft.Perfect.isPerfect_iff_pseudoCoherent_and_finiteTorDimension Kᵣ).1.mpr
     ⟨hpcR, a, b, (StacksDraft.TorAmplitude.hasTorAmplitude_iff_hasFlatRepresentative
       D.comparison D.isLeftDerived Kᵣ a b).mp hamp⟩
@@ -191,7 +191,7 @@ private theorem isStrictlyPerfect_pullback_of_iso
   refine ⟨?_, ?_⟩
   · exact hP.bounded.subset fun i hi hzero => hi (F.map_isZero hzero)
   · intro i
-    show StrictlyPerfect.IsDirectSummandOfFiniteFree (F.obj (P.X i))
+    change StrictlyPerfect.IsDirectSummandOfFiniteFree (F.obj (P.X i))
     obtain ⟨n, ⟨r⟩⟩ := (StrictlyPerfect.isDirectSummandOfFiniteFree_iff_retract
       (X := B.toRingedSpace) (E := P.X i)).mp (hP.directSummand i)
     let : PreservesColimitsOfShape (Discrete (ULift.{u} (Fin n))) F :=

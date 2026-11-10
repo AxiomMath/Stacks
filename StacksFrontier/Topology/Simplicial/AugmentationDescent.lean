@@ -273,16 +273,16 @@ theorem cosimplicialLimit_π_zero {D : SimplexCategory ⥤ Type u} {c : Cone D} 
   · apply (Types.isLimitEquivSections hc).injective
     apply Subtype.ext
     funext n
-    show c.π.app n s = c.π.app n s'
+    change c.π.app n s = c.π.app n s'
     rw [← c.w (SimplexCategory.const ⦋0⦌ n 0)]
     exact congrArg (D.map (SimplexCategory.const ⦋0⦌ n 0)) h
   · refine ⟨(Types.isLimitEquivSections hc).symm
       ⟨fun n => D.map (SimplexCategory.const ⦋0⦌ n 0) s₀, fun {n m} f => ?_⟩, ?_⟩
-    · show (D.map (SimplexCategory.const ⦋0⦌ n 0) ≫ D.map f) s₀ = _
+    · change (D.map (SimplexCategory.const ⦋0⦌ n 0) ≫ D.map f) s₀ = _
       rw [← D.map_comp, SimplexCategory.const_comp]
       exact (hvert s₀ h m _).symm
     · rw [Types.isLimitEquivSections_symm_apply]
-      show D.map (SimplexCategory.const ⦋0⦌ ⦋0⦌ 0) s₀ = s₀
+      change D.map (SimplexCategory.const ⦋0⦌ ⦋0⦌ 0) s₀ = s₀
       rw [SimplexCategory.const_eq_id, D.map_id]
       rfl
 
@@ -396,7 +396,7 @@ theorem exists_directImageSection₀_eq (S : SimplicialSheafSystem Y (Type u)) (
     ∃ t, directImageSection₀ Y X a S V t = s := by
   let D := pushforwardDiagram Y X a S
   refine (cosimplicialLimit_π_zero (isLimitSections Y X a S V)).2 s ?_
-  show (D.map (SimplexCategory.const ⦋0⦌ ⦋1⦌ 0)).hom.app (op V) s =
+  change (D.map (SimplexCategory.const ⦋0⦌ ⦋1⦌ 0)).hom.app (op V) s =
     (D.map (SimplexCategory.const ⦋0⦌ ⦋1⦌ 1)).hom.app (op V) s
   refine TopCat.Presheaf.section_ext (S.component (op ⦋1⦌)) _ _ _ fun w hw => ?_
   have h₀ : a.app (op ⦋0⦌) (vertex Y 0 w) ∈ V := (app_zero_vertex_aux Y X a 0 w).symm ▸ hw
@@ -428,7 +428,7 @@ theorem exists_germ_eq_of_isCompact {T : TopCat.{u}} (F : T.Sheaf (Type u)) {K :
       let V : Opens (TopCat.of K) := ⟨Subtype.val ⁻¹' (U : Set T),
         U.isOpen.preimage continuous_subtype_val⟩
       exact ⟨V, hxU, homOfLE le_top, U, fun y => y.2, s, fun y => by
-        show (⟨y.1.1, h y.1⟩ : GermPullback.Germs F.presheaf) = ⟨y.1.1, _⟩
+        change (⟨y.1.1, h y.1⟩ : GermPullback.Germs F.presheaf) = ⟨y.1.1, _⟩
         rw [hs y.1 y.2]
         rfl⟩⟩
   obtain ⟨U, hKU, s, hs⟩ := exists_isOpen_restrictToSubset_eq F hK hSep σ
@@ -636,7 +636,7 @@ private theorem preimage_subset_germEqOpens_directImageSection₀ (u : Y.obj (op
     rw [app_zero_vertex, ← app_zero_vertex 0 w, h0]
   have m : ∀ {W : Opens X}, a.app (op ⦋0⦌) u ∈ W → ∀ i : Fin 2,
       vertex Y i w ∈ (Opens.map (a.app (op ⦋0⦌))).obj W := fun {W} hW i => by
-    show a.app (op ⦋0⦌) (vertex Y i w) ∈ W
+    change a.app (op ⦋0⦌) (vertex Y i w) ∈ W
     rw [hv i]
     exact hW
   have r := (edgeRel_germ_iff (directImageSection₀ Y X a S V t) (m hxV 0) (m hxV 1)).2
@@ -679,7 +679,7 @@ private theorem injective_stalkComparison_π_zero (u : Y.obj (op ⦋0⦌)) :
     rw [directImageSection₀_map, directImageSection₀_map]
     refine TopCat.Presheaf.section_ext (S.component (op ⦋0⦌)) _ _ _ fun p hp => ?_
     obtain ⟨hp₁, hp₂, hp₃⟩ := hNsub hp.2
-    show G₀.germ _ p hp (G₀.map _ s) = G₀.germ _ p hp (G₀.map _ s')
+    change G₀.germ _ p hp (G₀.map _ s) = G₀.germ _ p hp (G₀.map _ s')
     rw [G₀.germ_res_apply, G₀.germ_res_apply]
     exact hp₃
   rw [← L.germ_res_apply i x hx'' t, ← L.germ_res_apply i' x hx'' t', heq]
@@ -702,7 +702,7 @@ private theorem preimage_subset_germEqOpens_transition (u : Y.obj (op ⦋0⦌))
   have hv : ∀ i : Fin 2, a.app (op ⦋0⦌) (vertex Y i w) = a.app (op ⦋0⦌) u := fun i =>
     (app_zero_vertex i w).trans hwx
   have m : ∀ i : Fin 2, vertex Y i w ∈ (Opens.map (a.app (op ⦋0⦌))).obj N := fun i => by
-    show a.app (op ⦋0⦌) (vertex Y i w) ∈ N
+    change a.app (op ⦋0⦌) (vertex Y i w) ∈ N
     rw [hv i]
     exact hxN
   obtain ⟨b₀, k₀, k₁, r₀⟩ := transfer_spec H hS u ξ _ (hv 0)

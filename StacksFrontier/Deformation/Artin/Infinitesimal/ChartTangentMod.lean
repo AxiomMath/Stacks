@@ -262,7 +262,7 @@ theorem exists_sum_siteModuleProd {A : Type u} [CommRing A] {B : BigFppfSite.{u}
     simp [hcomp, siteModuleInl_comp_snd, siteModuleInr_comp_snd]
   refine ⟨_, h₁, h₂, ?_⟩
   rw [Fu.map_add]
-  show Fu.map (siteModuleFst A B hA M M) _ + Fu.map (siteModuleSnd A B hA M M) _ = _
+  change Fu.map (siteModuleFst A B hA M M) _ + Fu.map (siteModuleSnd A B hA M M) _ = _
   rw [h₁, h₂]
 
 /-! ### Lift classes of the tangent functor at a chart point -/
@@ -374,7 +374,7 @@ theorem tangentToMod_of_liftEquiv {z : (F.functor.obj M : Type _)}
       mkMod (ℓ.toLinearMap - (ℓ₀ w M).toLinearMap) (sub_mem_Der (ℓ₀_reduce w M) hℓ) := by
   rw [tangentToMod, Equiv.trans_apply, Equiv.trans_apply, h]
   refine (Equiv.symm_apply_eq _).mpr ?_
-  show Quotient.mk _ (lift (a := a) (ι := ι) ℓ hℓ) =
+  change Quotient.mk _ (lift (a := a) (ι := ι) ℓ hℓ) =
     modToLiftClasses (ℓ₀ w M) (ℓ₀_reduce w M) (hrel M) (mkMod _ _)
   rw [modToLiftClasses_mk]
   congr 2

@@ -147,7 +147,7 @@ theorem exists_isOpenImmersion_represented_hilbertPolynomialQuot
       have hxA : x ∈ QA.obj T := (D.quotFamilyOverExtend_mem_iff M P x).1 (hx ▸ (e.hom.app T ⟨g⟩).2)
       refine ⟨⟨x, hxA⟩, Subtype.ext ?_⟩
       have h2 : w T x hxA = e.hom.app T ⟨g⟩ := Subtype.ext hx
-      show (e.inv.app T (w T x hxA)).down = g
+      change (e.inv.app T (w T x hxA)).down = g
       rw [h2]
       exact congrArg ULift.down (Iso.hom_inv_id_app_apply e T _)
   let ψ : QA.toFunctor ≅ U.toFunctor ⋙ uliftFunctor.{u + 1, u} :=
@@ -162,7 +162,7 @@ theorem exists_isOpenImmersion_represented_hilbertPolynomialQuot
         types_congr_hom (e.inv.naturality h) _
       have hx : w T' (x.baseChange h.unop) (QA.map h hxA) = QC.toFunctor.map h (w T x hxA) :=
         Subtype.ext (D.quotFamilyOverExtend_baseChange h.unop x)
-      show (e.inv.app T' (w T' (x.baseChange h.unop) (QA.map h hxA))).down =
+      change (e.inv.app T' (w T' (x.baseChange h.unop) (QA.map h hxA))).down =
         h.unop ≫ (e.inv.app T (w T x hxA)).down
       rw [hx, hnat]
       rfl)
@@ -183,9 +183,9 @@ theorem exists_isOpenImmersion_represented_hilbertPolynomialQuot
     ext T x
     refine congrArg ULift.up ?_
     have he' := congrArg ULift.down (types_congr_hom (NatTrans.congr_app he T) ⟨(φ T x).1⟩)
-    show (D.sourceSituation.quotSitePresheafToBase.app T x.1).down = q.app T (φ T x).1
+    change (D.sourceSituation.quotSitePresheafToBase.app T x.1).down = q.app T (φ T x).1
     refine Eq.trans ?_ he'
-    show _ = (D.targetSituation.quotSitePresheafToBase.app T
+    change _ = (D.targetSituation.quotSitePresheafToBase.app T
       (QC.ι.app T (e.hom.app T ⟨(φ T x).1⟩))).down
     rw [hw T x.1 x.2]
     rfl

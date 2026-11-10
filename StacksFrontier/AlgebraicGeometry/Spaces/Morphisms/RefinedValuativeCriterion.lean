@@ -77,6 +77,7 @@ private theorem siteOverHasPullbacks (B : AlgebraicGeometry.BigFppfSite.{u})
 attribute [local instance] siteOverHasPullbacks
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullbacks` for presheaves on the big fppf site is found only after a deep search
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_RefinedValuativeCriterion
@@ -84,6 +85,7 @@ local instance hasPullbacks_presheaf_RefinedValuativeCriterion
     HasPullbacks ((AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasLimitsOfShape` for presheaves on the big fppf site is found only after a deep search
 /-- Discrete limits of presheaves on the big fppf site (instance search times out without
 this shortcut). -/
 local instance hasLimitsOfShape_discrete_presheaf_RefinedValuativeCriterion
@@ -802,7 +804,7 @@ private lemma diagonal_refined_valuative_existence
     specialOver_left := e.specialOver_left
     generic_comm := e.generic_comm
     special_comm := by
-      apply pullback.hom_ext <;> simp [qd, specialDiag, pullback.lift_fst, pullback.lift_snd] }, ?_⟩
+      apply pullback.hom_ext <;> simp [qd, specialDiag] }, ?_⟩
   exact ⟨{
     map := lift.map
     generic_comm := lift.generic_comm
@@ -1986,7 +1988,6 @@ public theorem isSeparated_of_refinedValuativeCriterion
     (hX : AlgebraicGeometry.IsAlgebraicSpace B S hS X)
     (hY : AlgebraicGeometry.IsAlgebraicSpace B S hS Y)
     (h : U ⟶ X) (f : X ⟶ Y)
-    (hf : AlgebraicGeometry.Space.IsQuasiCompact B S hS f)
     (hh : AlgebraicGeometry.Space.IsQuasiCompact B S hS h)
     (hqs : AlgebraicGeometry.Space.IsQuasiSeparated B S hS f)
     (hdense : letI : TopologicalSpace (AlgebraicGeometry.Space.points B S hS X) :=

@@ -181,7 +181,7 @@ theorem isThickeningHom_of_isRepresentableThickeningULift
   have hsurj : Function.Surjective (Space.pointsMapULift.{u + 1} B S hS
       ((liftSheafFunctor B S hS).obj Wi).obj
       (Functor.whiskerRight f.hom uliftFunctor.{u + 1})) := by
-    show Function.Surjective (Space.pointsMapULift.{u + 1} B S hS _
+    change Function.Surjective (Space.pointsMapULift.{u + 1} B S hS _
       ((liftSheafFunctor B S hS).map f).hom)
     rw [hfhom, Space.pointsMapULift_comp, Space.pointsMapULift_comp]
     refine Function.Surjective.comp (Function.Surjective.comp ?_ hpts) ?_

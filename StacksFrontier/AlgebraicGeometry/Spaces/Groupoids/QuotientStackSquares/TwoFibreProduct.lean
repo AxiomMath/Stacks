@@ -236,7 +236,7 @@ private theorem pointwiseToQuotientStack_fullyFaithful
     (isomPresheaf_equiv_arrowFiber C S hS G)
   let := hf
   let := hi
-  show ((quotientPrestackEquivalence G).functor ⋙
+  change ((quotientPrestackEquivalence G).functor ⋙
     toQuotientStack G).Full ∧
     ((quotientPrestackEquivalence G).functor ⋙
     toQuotientStack G).Faithful
@@ -835,7 +835,7 @@ theorem relativeProductPreHom_rel (T : Bicategory.TwoCommSq h₀ s₀)
         h₀.hom.toFunctor s₀.hom.toFunctor).hom ≫
         Functor.whiskerRight b.hom s₀.hom.toFunctor := by
     ext w
-    show h₀.hom.toFunctor.map (a.hom.app w) ≫ t.hom.app w =
+    change h₀.hom.toFunctor.map (a.hom.app w) ≫ t.hom.app w =
       (γ.obj w).iso.hom ≫ s₀.hom.toFunctor.map (b.hom.app w)
     have hfwd : T.iso.hom.hom.toNatTrans.app w ≫
         s₀.hom.toFunctor.map (F.isoSnd.hom.hom.toNatTrans.app w) =

@@ -248,7 +248,7 @@ theorem exists_not_conductor_le (P : Ideal (𝓞 L)) [hPmax : P.IsMaximal] :
         Ideal.IsPrime.isMaximal inferInstance hp'bot
       have hnle : ¬ P'.comap (algebraMap (𝓞 K) (𝓞 L)) ≤ p := fun hle ↦
         hover (hp'max.eq_of_le hpmax.ne_top hle)
-      obtain ⟨a, ha, ha'⟩ := SetLike.not_le_iff_exists.mp hnle
+      obtain ⟨a, ha, ha'⟩ := IsConcreteLE.not_le_iff_exists.mp hnle
       exact ⟨algebraMap (𝓞 K) (𝓞 L) a, Subalgebra.algebraMap_mem _ a,
         fun h ↦ ha' (Ideal.mem_comap.mpr h), Ideal.mem_comap.mp ha⟩
   exact ⟨x, not_conductor_le_of_residue_surjective K L P h1 h2 h3⟩

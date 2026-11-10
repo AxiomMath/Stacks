@@ -84,7 +84,7 @@ private theorem exists_isProper_over_finiteSubalgebra (R A : Type u) [CommRing R
   let p := Spec.map (CommRingCat.ofHom (algebraMap R A))
   have hp : c.π ≫ t = (Functor.const (Finset A)ᵒᵖ).map p := by
     ext s
-    show Spec.map (CommRingCat.ofHom (Algebra.adjoin R (s.unop : Set A)).val.toRingHom) ≫
+    change Spec.map (CommRingCat.ofHom (Algebra.adjoin R (s.unop : Set A)).val.toRingHom) ≫
       Spec.map (CommRingCat.ofHom (algebraMap R (Algebra.adjoin R (s.unop : Set A)))) = p
     rw [← Spec.map_comp]
     rfl
@@ -94,11 +94,11 @@ private theorem exists_isProper_over_finiteSubalgebra (R A : Type u) [CommRing R
     infer_instance
   let : ∀ i : (Finset A)ᵒᵖ, CompactSpace (Dg.obj i) := by
     intro i
-    show CompactSpace (PrimeSpectrum (Algebra.adjoin R (i.unop : Set A)))
+    change CompactSpace (PrimeSpectrum (Algebra.adjoin R (i.unop : Set A)))
     infer_instance
   let : ∀ i : (Finset A)ᵒᵖ, QuasiSeparatedSpace (Dg.obj i) := by
     intro i
-    show QuasiSeparatedSpace (PrimeSpectrum (Algebra.adjoin R (i.unop : Set A)))
+    change QuasiSeparatedSpace (PrimeSpectrum (Algebra.adjoin R (i.unop : Set A)))
     infer_instance
   have : IsProper (show Y ⟶ c.pt from f) := inferInstanceAs (IsProper f)
   obtain ⟨s, hs⟩ :=
@@ -119,14 +119,14 @@ private theorem locallyOfFiniteType_of_contraction_of_isAffine
   let : Algebra R Γ(X', ⊤) := φ.hom.toAlgebra
   have hf : X'.toSpecΓ ≫ Spec.map φ = f := by
     apply ext_to_Spec
-    show (Scheme.ΓSpecIso (.of R)).inv ≫ (X'.toSpecΓ ≫ Spec.map φ).appTop = φ
+    change (Scheme.ΓSpecIso (.of R)).inv ≫ (X'.toSpecΓ ≫ Spec.map φ).appTop = φ
     rw [Scheme.Hom.comp_appTop, Scheme.toSpecΓ_appTop, ← Category.assoc,
       ← Scheme.ΓSpecIso_inv_naturality, Category.assoc, Iso.inv_hom_id, Category.comp_id]
   have : IsProper b := hb.isProper
   have : IsIso b.appTop := isIso_appTop_of_isContractionOfExceptionalCurve hb
   let : LocallyOfFiniteType ((b ≫ X'.toSpecΓ) ≫
       Spec.map (CommRingCat.ofHom (algebraMap R Γ(X', ⊤)))) := by
-    show LocallyOfFiniteType ((b ≫ X'.toSpecΓ) ≫ Spec.map φ)
+    change LocallyOfFiniteType ((b ≫ X'.toSpecΓ) ≫ Spec.map φ)
     simpa only [Category.assoc, hf] using inferInstanceAs (LocallyOfFiniteType (b ≫ f))
   obtain ⟨s, hs⟩ := exists_isProper_over_finiteSubalgebra R Γ(X', ⊤) (b ≫ X'.toSpecΓ)
   set B := Algebra.adjoin R (s : Set Γ(X', ⊤)) with hBdef
@@ -180,7 +180,7 @@ private theorem contraction_restrict {X X' : Scheme.{u}} (D : X.IdealSheafData) 
   have hz' : IsClosed ({zU} : Set U) := by
     have hpre : (Subtype.val : U → X') ⁻¹' ({z} : Set X') = {zU} := by
       ext y
-      show (y : X') = z ↔ y = zU
+      change (y : X') = z ↔ y = zU
       exact ⟨fun h => Subtype.ext h, fun h => congrArg Subtype.val h⟩
     exact hpre ▸ hz.preimage continuous_subtype_val
   let I := Scheme.IdealSheafData.vanishingIdeal (⟨{z}, hz⟩ : Closeds X')
@@ -192,13 +192,13 @@ private theorem contraction_restrict {X X' : Scheme.{u}} (D : X.IdealSheafData) 
   have : NoetherianSpace X' := IsNoetherian.noetherianSpace
   have : NoetherianSpace {x : X' // x ∈ U} := NoetherianSpace.set _
   have : CompactSpace U.toScheme := by
-    show CompactSpace {x : X' // x ∈ U}
+    change CompactSpace {x : X' // x ∈ U}
     exact NoetherianSpace.compactSpace _
   have : IsNoetherian U.toScheme := ⟨⟩
   refine ⟨inferInstance, zU, hz', inferInstance, ?_, ?_, ?_⟩
   · rw [(U.stalkIso zU).commRingCatIsoToRingEquiv.ringKrullDim]
     exact hdim
-  · show D.comap (b ⁻¹ᵁ U).ι = J.comap (b ∣_ U)
+  · change D.comap (b ⁻¹ᵁ U).ι = J.comap (b ∣_ U)
     rw [hD, ← Scheme.IdealSheafData.comap_comp, ← hIJ, ← Scheme.IdealSheafData.comap_comp,
       morphismRestrict_ι]
   · obtain ⟨h, hh⟩ := exists_isPullback_blowUpToBase_comap U.ι I
@@ -209,7 +209,7 @@ private theorem contraction_restrict {X X' : Scheme.{u}} (D : X.IdealSheafData) 
     have hcomm : eU.hom ≫ blowUpToBase (I.comap U.ι) = b ∣_ U := by
       dsimp [eU]
       rw [Category.assoc, hh.isoPullback_inv_fst, hlocal.isoPullback_hom_fst]
-    show ∃ eU : (b ⁻¹ᵁ U).toScheme ≅ blowUp J, eU.hom ≫ blowUpToBase J = b ∣_ U
+    change ∃ eU : (b ⁻¹ᵁ U).toScheme ≅ blowUp J, eU.hom ≫ blowUpToBase J = b ∣_ U
     rw [← hIJ]
     exact ⟨eU, hcomm⟩
 
@@ -243,7 +243,7 @@ public theorem locallyOfFinitePresentation_of_isContractionOfExceptionalCurve
     locallyOfFiniteType_of_contraction_of_isAffine hc (U.ι ≫ f')
   let W : X'.Opens := ⟨({z} : Set X')ᶜ, hz.isOpen_compl⟩
   have hW : LocallyOfFiniteType (W.ι ≫ f') := by
-    have := locallyOfFinitePresentation (nodal_on_compl_centre D b z hz ε hε f' hf).1.1
+    have := locallyOfFinitePresentation (nodal_on_compl_centre b z hz ε hε f' hf).1.1
     infer_instance
   let C : Bool → X'.Opens := fun t => if t then U else W
   have hcover : iSup C = ⊤ := by

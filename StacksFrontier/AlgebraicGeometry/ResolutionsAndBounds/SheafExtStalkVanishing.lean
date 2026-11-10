@@ -82,7 +82,7 @@ theorem shortExact_stalk_kernel
   have he : Epi ((stk y).map π) := Preadditive.epi_of_isZero_cokernel _
     ((isZero_stalk_of_vanishesOn hc hy).of_iso (PreservesCokernel.iso (stk y) π).symm)
   refine ShortComplex.ShortExact.mk' (hex.map (stk y)) ?_ he
-  show Mono ((stk y).map (kernel.ι π))
+  change Mono ((stk y).map (kernel.ι π))
   infer_instance
 
 /-- **The stalk of a finite free module is free** on the same index type. -/
@@ -135,7 +135,7 @@ theorem exists_basis_of_projective [IsLocallyNoetherian X] {y : X}
   have hM' : Projective M' := E.toAdjunction.map_projective M inferInstance
   let : Module (X.presheaf.stalk y) F := F'.isModule
   let bF : Module.Basis ι (X.presheaf.stalk y) F' := b.mapCoeffs e (fun c x => by
-    show e.symm (e c) • x = c • x
+    change e.symm (e c) • x = c • x
     rw [RingEquiv.symm_apply_apply])
   have : Module.Finite (X.presheaf.stalk y) F' := Module.Finite.of_basis bF
   have hp' : Epi (E.functor.map p) := inferInstance

@@ -162,7 +162,7 @@ private lemma extensionToValue_bijective {R : Type*} [CommRing R]
   have hf : RingHom.Flat
       ((AdequateFunctor.siteAlgebraInclusion R P).map
         (baseAlgebraHom P hR Y)).hom.toRingHom := by
-    show RingHom.Flat (algebraMap R Y.obj)
+    change RingHom.Flat (algebraMap R Y.obj)
     exact RingHom.flat_algebraMap_iff.mpr inferInstance
   have e := AdequateFunctor.moduleValuedFunctorBaseChangeMap_bijective
     (AdequateFunctor.siteAlgebraInclusion R P) F hF (baseAlgebraHom P hR Y) hf
@@ -187,8 +187,7 @@ private lemma extensionToValue_naturality {R : Type*} [CommRing R]
     F.map f.op.op (extensionToValue P hR F Y x) =
       extensionToValue P hR F Z
         (TensorProduct.map f.hom.hom.toLinearMap LinearMap.id x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero]; exact rfl
+  induction x using TensorProduct.inductionOn with
   | tmul b m =>
     rw [extensionToValue_tmul, TensorProduct.map_tmul,
       LinearMap.id_apply, extensionToValue_tmul]
@@ -496,7 +495,7 @@ private lemma flatBoundedProducts (R : CommRingCat.{u}) (κ : Cardinal.{u})
     refine ⟨?_, ?_⟩
     · exact lt_of_eq_of_lt (Scheme.size_congr (pullbackSpecIso R X.unop Y.unop)).symm
         (Scheme.size_pullback_lt _ _ hX.1 hY.1)
-    · show Module.Flat R (X.unop ⊗[R] Y.unop)
+    · change Module.Flat R (X.unop ⊗[R] Y.unop)
       infer_instance
   exact ObjectProperty.IsClosedUnderFiniteProducts.mk'
 
@@ -700,7 +699,7 @@ public theorem isZero_cechHomology_singleton_of_isAdequate
   let q := baseAlgebraHom P hR A'
   have hw : ex.hom ≫ (B.toOver.map (G.map q.op)).left =
       (B.toOver.map f).left ≫ ey.hom := by
-    show ((B.toOver.obj X).left.isoSpec.hom ≫ Spec.map eA.hom) ≫
+    change ((B.toOver.obj X).left.isoSpec.hom ≫ Spec.map eA.hom) ≫
       Spec.map (CommRingCat.ofHom (algebraMap (ULift.{u} R) (ULift.{u} A))) =
       (B.toOver.map f).left ≫ (B.toOver.obj Y).left.isoSpec.hom ≫ Spec.map eR.hom
     rw [← Scheme.isoSpec_hom_naturality_assoc, Category.assoc,
@@ -708,13 +707,13 @@ public theorem isZero_cechHomology_singleton_of_isAdequate
     congr 2
   let eY : Y ≅ G.obj (op (baseAlgebra P hR)) := Over.isoMk (P.isoMk ey) (by
     apply ObjectProperty.hom_ext
-    show ey.hom ≫ (Spec.map (𝟙 R') ≫ g) = (B.toOver.obj Y).hom
+    change ey.hom ≫ (Spec.map (𝟙 R') ≫ g) = (B.toOver.obj Y).hom
     rw [Spec.map_id]
-    show ey.hom ≫ (𝟙 _ ≫ (ey.inv ≫ _)) = _
+    change ey.hom ≫ (𝟙 _ ≫ (ey.inv ≫ _)) = _
     rw [Category.id_comp, Iso.hom_inv_id_assoc])
   let eX : X ≅ G.obj (op A') := Over.isoMk (P.isoMk ex) (by
     apply ObjectProperty.hom_ext
-    show ex.hom ≫ ((B.toOver.map (G.map q.op)).left ≫ g) = (B.toOver.obj X).hom
+    change ex.hom ≫ ((B.toOver.map (G.map q.op)).left ≫ g) = (B.toOver.obj X).hom
     refine ((Category.assoc _ _ _).symm.trans (congrArg (· ≫ g) hw)).trans ?_
     simp only [g, Category.assoc, Iso.hom_inv_id_assoc]
     exact (B.toOver.map f).w)

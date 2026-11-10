@@ -219,7 +219,7 @@ theorem chartDiagramProjectedDerivation_mul (d : ChartDiagram B S hS Z'.1 X.1 h'
       chartDiagramFunctionMap B S hS h' d a • chartDiagramProjectedDerivation B S hS h' G D d b +
         chartDiagramFunctionMap B S hS h' d b • chartDiagramProjectedDerivation B S hS h' G D d a
             := by
-  show chartDiagramProjection B S hS h' G d (D.d (a * b)) = _
+  change chartDiagramProjection B S hS h' G d (D.d (a * b)) = _
   rw [D.d_mul, map_add]
   exact congrArg₂ (· + ·) (chartDiagramProjection_smul B S hS h' G d a (D.d b))
     (chartDiagramProjection_smul B S hS h' G d b (D.d a))
@@ -371,7 +371,7 @@ theorem chartDiagramProjectedDerivation_naturality (d d' : ChartDiagram B S hS Z
       d'.g ≫ (SmallEtale.toOver B S hS X.1).map m) (a : chartFunctionRing B S hS d.V) :
     G.val.map i.op (chartDiagramProjectedDerivation B S hS h' G D d a) =
       chartDiagramProjectedDerivation B S hS h' G D d' (chartFunctionRestrict B S hS m a) := by
-  show G.val.map i.op (chartDiagramProjection B S hS h' G d (D.d a)) =
+  change G.val.map i.op (chartDiagramProjection B S hS h' G d (D.d a)) =
     chartDiagramProjection B S hS h' G d' (D.d (chartFunctionRestrict B S hS m a))
   rw [← chartDiagramProjection_naturality B S hS h' G d d' i m h]
   exact congrArg (chartDiagramProjection B S hS h' G d') (D.d_map m.op a).symm
@@ -399,17 +399,17 @@ theorem thickeningChartExtension_naturality (d d' : ChartDiagram B S hS Z'.1 X.1
   have key : d₁ = d₂ := by
     refine (hKL d hU hV).leibniz_ext d₁ d₂ ?_ ?_ ?_
     · intro x y
-      show G.val.map i.op (thickeningChartExtension B S hS h' G Zcl hG hKL D d hU hV (x * y)) = _
+      change G.val.map i.op (thickeningChartExtension B S hS h' G Zcl hG hKL D d hU hV (x * y)) = _
       rw [thickeningChartExtension_mul]
       exact ((G.val.map i.op).hom.map_add _ _).trans (congrArg₂ (· + ·)
         (G.val.map_smul i.op x _) (G.val.map_smul i.op y _))
     · intro x y
-      show thickeningChartExtension B S hS h' G Zcl hG hKL D d' hU' hV'
+      change thickeningChartExtension B S hS h' G Zcl hG hKL D d' hU' hV'
         (chartFunctionRestrict B S hS i (x * y)) = _
       rw [map_mul, thickeningChartExtension_mul]
       rfl
     · intro a
-      show G.val.map i.op (thickeningChartExtension B S hS h' G Zcl hG hKL D d hU hV
+      change G.val.map i.op (thickeningChartExtension B S hS h' G Zcl hG hKL D d hU hV
           (chartDiagramFunctionMap B S hS h' d a)) =
         thickeningChartExtension B S hS h' G Zcl hG hKL D d' hU' hV'
           (chartFunctionRestrict B S hS i (chartDiagramFunctionMap B S hS h' d a))
@@ -470,7 +470,7 @@ theorem thickeningLiftFamily_compatible (T : SmallEtale B S hS Z'.1) (s : chartF
         chartFunctionRestrict B S hS (c ≫ g₂) (chartFunctionRestrict B S hS f₂ s) := by
       rw [← chartFunctionRestrict_comp, ← chartFunctionRestrict_comp, Category.assoc,
           Category.assoc, hw]
-    show G.val.map c.op (G.val.map g₁.op (thickeningLiftFamily B S hS h' G Zcl hG hKL D T s f₁
+    change G.val.map c.op (G.val.map g₁.op (thickeningLiftFamily B S hS h' G Zcl hG hKL D T s f₁
         h₁)) =
       G.val.map c.op (G.val.map g₂.op (thickeningLiftFamily B S hS h' G Zcl hG hKL D T s f₂ h₂))
     exact (G.val.map_comp_apply g₁.op c.op _).symm.trans
@@ -606,7 +606,8 @@ theorem thickeningLiftValue_chartDiagramFunctionMap (d : ChartDiagram B S hS Z'.
 
 /-- **The extended derivation**, as an absolute derivation of `𝒪_{Z'}` with values in `G`. -/
 noncomputable def thickeningLiftDerivation :
-    PresheafOfModulesOfCommRing.Derivation' G.val (Stacks.Sites.constIntMap (smallEtaleRingedSite B S hS Z'.1 Z'.2).O.obj) where
+    PresheafOfModulesOfCommRing.Derivation' G.val
+      (Stacks.Sites.constIntMap (smallEtaleRingedSite B S hS Z'.1 Z'.2).O.obj) where
   d {T} := AddMonoidHom.mk' (thickeningLiftValue B S hS h' G Zcl hG hKL D T.unop)
     (thickeningLiftValue_add B S hS h' G Zcl hG hKL D T.unop)
   d_mul {T} s t := thickeningLiftValue_mul B S hS h' G Zcl hG hKL D T.unop s t
@@ -638,8 +639,8 @@ variable {Y : AlgebraicSpaces B S hS} (p : X ⟶ Y)
     IsAffine ((BigFppfOver.toScheme B S hS).obj d.V.1.left) →
     (chartDiagramFunctionMap B S hS h' d).IsUniversalFirstOrderThickening
       (definingIdealAt B S hS Z' Zcl (op d.U)))
-  (D : PresheafOfModulesOfCommRing.Derivation' ((modulePushforward B S hS h').obj G).val (structureSharpInverseImage B S hS
-      p).hom)
+  (D : PresheafOfModulesOfCommRing.Derivation' ((modulePushforward B S hS h').obj G).val
+      (structureSharpInverseImage B S hS p).hom)
 
 /-- The structure map of `h'` followed by the direct image of the extended derivation is `D`. -/
 theorem structureSharpSet_comp_map_thickeningLiftDerivation :
@@ -689,7 +690,8 @@ theorem structureSharpInverseImageSet_comp_thickeningLiftDerivation :
 
 /-- **The extended derivation**, as a `Y`-derivation of `𝒪_{Z'}` with values in `G`. -/
 noncomputable def thickeningLiftDerivationRelative :
-    PresheafOfModulesOfCommRing.Derivation' G.val (structureSharpInverseImage B S hS (h' ≫ p)).hom where
+    PresheafOfModulesOfCommRing.Derivation' G.val
+      (structureSharpInverseImage B S hS (h' ≫ p)).hom where
   d := (thickeningLiftDerivation B S hS h' G Zcl hG hKL D).d
   d_mul := (thickeningLiftDerivation B S hS h' G Zcl hG hKL D).d_mul
   d_map := (thickeningLiftDerivation B S hS h' G Zcl hG hKL D).d_map

@@ -128,14 +128,14 @@ theorem exists_isIdempotentElem_finite_notMem_of_finite (R : Type) [CommRing R] 
     let I : Ideal S := Ideal.span {A * B}
     let mkI : S →ₐ[R] (S ⧸ I) := Ideal.Quotient.mkₐ R I
     have heA : IsIdempotentElem (mkI A) := by
-      show mkI A * mkI A = mkI A
+      change mkI A * mkI A = mkI A
       rw [← map_mul, hA.eq]
     have heA' : IsIdempotentElem (1 - mkI A) := heA.one_sub
     have hsum : mkI A + (1 - mkI A) = 1 := by ring
     have hprod : mkI A * (1 - mkI A) = 0 := by rw [mul_sub, mul_one, heA.eq, sub_self]
     let E := AlgEquiv.prodQuotientOfIsIdempotentElem R heA heA' hsum hprod
     have hABzero : mkI (A * B) = 0 := by
-      show Ideal.Quotient.mk I (A * B) = 0
+      change Ideal.Quotient.mk I (A * B) = 0
       rw [Ideal.Quotient.eq_zero_iff_mem]
       exact Ideal.subset_span (by simp)
     have hfac1 : Module.Finite R ((S ⧸ I) ⧸ Ideal.span ({mkI A} : Set (S ⧸ I))) :=
@@ -181,7 +181,7 @@ theorem exists_isIdempotentElem_finite_notMem_of_finite (R : Type) [CommRing R] 
       have hmemu : (⟨q, hq⟩ : T) ∈ (Finset.univ : Finset T) := Finset.mem_univ _
       rw [← Finset.prod_erase_mul (Finset.univ : Finset T) g hmemu]
       have hz : g ⟨q, hq⟩ * cf q hq = 0 := by
-        show (1 - cf q hq) * cf q hq = 0
+        change (1 - cf q hq) * cf q hq = 0
         rw [sub_mul, one_mul, (hidem q hq).eq, sub_self]
       rw [mul_assoc, hz, mul_zero]
     have hcfeq : cf q hq = (1 - P) * cf q hq := by rw [sub_mul, one_mul, hPcf, sub_zero]
@@ -232,7 +232,7 @@ theorem not_quasiFiniteAt_quotient_of_idempotent_notMem (R : Type) [CommRing R] 
     have htower : (algebraMap R B') = (algebraMap S B').comp (algebraMap R S) :=
       IsScalarTower.algebraMap_eq R S B'
     have hunder : Ideal.under R q' = Ideal.under R q := by
-      show (q.comap (algebraMap S B')).comap (algebraMap R S) = q.comap (algebraMap R B')
+      change (q.comap (algebraMap S B')).comap (algebraMap R S) = q.comap (algebraMap R B')
       rw [Ideal.comap_comap, ← htower]
     rw [hunder]
     exact hlo.over
@@ -554,7 +554,7 @@ theorem hensel_factorization_over_R (R : Type u) [CommRing R] [HenselianLocalRin
               (algebraMap R (maximalIdeal R).ResidueField r)) =
           e.symm (algebraMap R (maximalIdeal R).ResidueField r)
       rw [Ideal.ResidueField.mapₐ_apply, Ideal.ResidueField.map_algebraMap]
-      show τ (algebraMap R' Q.ResidueField ((Algebra.ofId R R') r)) = _
+      change τ (algebraMap R' Q.ResidueField ((Algebra.ofId R R') r)) = _
       have hofId : (Algebra.ofId R R') r = algebraMap R R' r := rfl
       rw [hofId, hcond1 (algebraMap R R' r), σ₀.commutes, ← he]
       exact (e.symm_apply_apply _).symm ▸ rfl
@@ -616,7 +616,7 @@ private theorem hensel_idempotent_lift_of_finite_aux (R : Type) [CommRing R] [He
     have h0 : π (b * b - b) = 0 := by
       rw [hπ, Ideal.Quotient.eq_zero_iff_mem]; exact hb
     rw [map_sub, map_mul] at h0
-    show π b * π b = π b
+    change π b * π b = π b
     linear_combination h0
   have evalIdem :
     ∀ q : Polynomial (ResidueField R),
@@ -741,7 +741,7 @@ private theorem hensel_idempotent_lift_of_finite_aux (R : Type) [CommRing R] [He
   refine ⟨e, hidem, ?_⟩
   -- residue match: π e = π b
   rw [← Ideal.Quotient.eq_zero_iff_mem (I := mB), ← hπ, map_sub, sub_eq_zero]
-  show π e = bbar
+  change π e = bbar
   -- π e₂ = ψ (H₀.eval 1) * bbar
   have hπe₂ : π e₂ = ψ (H₀.eval 1) * bbar := by
     rw [he₂, key H, hHres, evalIdem H₀, hH₀0, map_zero, zero_mul, zero_add]

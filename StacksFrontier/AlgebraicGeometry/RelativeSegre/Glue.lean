@@ -53,7 +53,7 @@ theorem mem_range_chartι_res (a : (alg E).grading U 1) (p : (bun E).scheme)
     exact hq.symm
   have hmem : q' ∈ Proj.map ((alg E).res hWU) (irrelevant_le_map_res E hU hW hWU) ⁻¹ᵁ
       Proj.basicOpen ((alg E).grading U) (a : (alg E).sectionRing U) := by
-    show Proj.map _ _ q' ∈ Proj.basicOpen ((alg E).grading U) (a : (alg E).sectionRing U)
+    change Proj.map _ _ q' ∈ Proj.basicOpen ((alg E).grading U) (a : (alg E).sectionRing U)
     rw [hq', ← Proj.opensRange_awayι _ _ a.2 Nat.one_pos]
     exact ⟨q, rfl⟩
   rw [Proj.map_preimage_basicOpen, ← Proj.opensRange_awayι _ _ (resDeg1 E hWU a).2
@@ -137,7 +137,7 @@ theorem pieceSegre_compat (i k : PieceIndex H G) {T : Scheme.{u}}
     rw [hs]
     exact ⟨s' t, rfl⟩
   refine (T.openCoverOfIsOpenCover O hO).hom_ext _ _ fun t => ?_
-  show (O t).ι ≫ _ = (O t).ι ≫ _
+  change (O t).ι ≫ _ = (O t).ι ≫ _
   have hr₁ : Set.range ((O t).ι ≫ s ≫ pieceMap H G i.hU i.a i.b) ⊆
       Set.range (pieceMap H G (hDaff t) (resDeg1 H (hDi t) i.a) (resDeg1 G (hDi t) i.b)) := by
     rintro _ ⟨y, rfl⟩

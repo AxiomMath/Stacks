@@ -217,9 +217,9 @@ public lemma isGenusOneConfiguration_of_affine_A7 (T : NumericalType)
     intro r
     have hr := r.isLt
     by_cases h : r.val ≤ 3
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       linear_combination hlo r (by omega)
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       linear_combination hhi r (by omega) + ((7 : ℤ) - (r.val : ℤ)) * hab
   obtain ⟨hml, hwl⟩ := pendant_values_of_level_one T hn hminus l x hlx hleaf v hvinj hvl hvsurj
     .A w hcfg _ hr₀ hmain a 2 1 _ hmv (by norm_num) rfl
@@ -263,9 +263,9 @@ public lemma isGenusOneConfiguration_of_affine_A8_two (T : NumericalType)
     intro r
     have hr := r.isLt
     by_cases h : r.val ≤ 2
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       linear_combination hlo r (by omega) + ((r.val : ℤ) + 1) * hab
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       linear_combination hhi r (by omega)
   obtain ⟨hml, hwl⟩ := pendant_values_of_level_one T hn hminus l x hlx hleaf v hvinj hvl hvsurj
     .A w hcfg _ hr₀ hmain b 3 1 _ hmv (by norm_num) rfl
@@ -311,9 +311,9 @@ public lemma isGenusOneConfiguration_of_affine_A8_five (T : NumericalType)
     intro r
     have hr := r.isLt
     by_cases h : r.val ≤ 5
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       linear_combination hlo r (by omega)
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       linear_combination hhi r (by omega) + ((8 : ℤ) - (r.val : ℤ)) * hab
   obtain ⟨hml, hwl⟩ := pendant_values_of_level_one T hn hminus l x hlx hleaf v hvinj hvl hvsurj
     .A w hcfg _ hr₀ hmain a 3 1 _ hmv (by norm_num) rfl
@@ -355,9 +355,9 @@ public lemma isGenusOneConfiguration_of_affine_B4 (T : NumericalType)
       T.multiplicity (v r) = (if r.val = 0 then (1 : ℤ) else 2) * a := by
     intro r
     by_cases h : r.val = 0
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       linear_combination hb0 r h
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       linear_combination hb1 r (by omega)
   obtain ⟨hml, hwl⟩ := pendant_values_of_level_one T hn hminus l x hlx hleaf v hvinj hvl hvsurj
     .B w hcfg _ hr₀ hmain a 1 2 _ hmv (by norm_num) (by norm_num [DynkinShape.weightFactor])
@@ -395,11 +395,11 @@ public lemma isGenusOneConfiguration_of_affine_C4 (T : NumericalType)
     intro r
     have hr := r.isLt
     by_cases h : r.val = 0 ∨ r.val + 1 = 4
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       rcases h with h | h
       · linear_combination hc0 r h
       · linear_combination hc2 r h
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       linear_combination hc1 r (by omega) (by omega)
   obtain ⟨hml, hwl⟩ := pendant_values_of_level_one T hn hminus l x hlx hleaf v hvinj hvl hvsurj
     .C w hcfg _ hr₀ hmain a 1 1 _ hmv (by norm_num) (by norm_num [DynkinShape.weightFactor])
@@ -439,9 +439,9 @@ public lemma isGenusOneConfiguration_of_affine_D4_centre (T : NumericalType)
     intro r
     have hr := r.isLt
     by_cases h : r.val = 1
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       linear_combination hd1 r (by omega) (by omega)
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       rcases Nat.eq_zero_or_pos r.val with h0 | h0
       · linear_combination hd0 r h0
       · linear_combination hd2 r (by omega)
@@ -549,9 +549,9 @@ public lemma isGenusOneConfiguration_of_affine_D4_zero (T : NumericalType)
     intro r
     have hr := r.isLt
     by_cases hc : r.val + 3 ≤ 4
-    · rw [if_pos hc]
+    · rw [ite_eq_left hc]
       linear_combination hlo r hc
-    · rw [if_neg hc]
+    · rw [ite_eq_right hc]
       linear_combination hhi r (by omega)
   exact isGenusOneConfiguration_of_affine_D4_leg T hn hminus l x hlx hleaf v hvinj hvl hvsurj
     w hcfg hcard 0 hr₀ hmain a hapos _ hmv (by decide)

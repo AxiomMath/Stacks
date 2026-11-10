@@ -98,10 +98,10 @@ levelwise cokernels, by `CategoryTheory.Limits.kernel.mapIso` and
 Because of those two, **no `@[stacks 088B]` attribute is attached to anything in this file**: the
 statements below carry hypotheses standing in for content of the source's proof. The partial
 attributions already recorded for the tag — the maps `γ_n` of
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/DirectImageComparison.lean` and the
-closing paragraph of
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/ExceptionalAnnihilation.lean` — are
-unchanged.
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/DirectImageComparison.lean` and
+the closing paragraph of
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/ExceptionalAnnihilation.lean` —
+are unchanged.
 
 The maps `γ_n` of `Stacks.Coherent.directImageComparison` are *not* used. The source introduces
 them to characterize `α` uniquely, and that characterization is what its reduction to the affine

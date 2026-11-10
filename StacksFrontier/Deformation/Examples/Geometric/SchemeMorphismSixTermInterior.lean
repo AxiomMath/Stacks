@@ -29,7 +29,8 @@ exactness at the three spots is formal. All three inputs are available
 (`Deformation.Examples.exists_liftDeformationFiberAut_eq_iff`,
 `Deformation.Examples.liftClass_eq_zero_iff`, `Deformation.Examples.exists_liftClass_iff`), and
 so is the conjugation (`Deformation.Examples.globalLiftsOverBaseConj` with its two laws). The
-two further things needed are the *translation* action as a term rather than inside an existential, and
+two further things needed are the *translation* action as a term rather than inside an
+existential, and
 the arrow `b` at the parametrisation those inputs use. This file supplies the second and uses
 `Deformation.Examples.globalLiftsOverBaseVAdd` for the first.
 
@@ -434,7 +435,7 @@ theorem globalLiftsOverBaseAutPairConj_ofDerivations_val (ℓ : globalLiftsOverB
   have hinv : (globalLiftsOverBaseAutPairOfDerivations pX pY hm hsqj u v comm_i comm_j).1.1 ≫
       Stacks.Thickenings.derivationActionGlobal (ker_specialMap_pow_two_eq_bot P hm) u comm_i =
       𝟙 P.scheme := by
-    show Stacks.Thickenings.derivationActionGlobal (ker_specialMap_pow_two_eq_bot P hm) (-u)
+    change Stacks.Thickenings.derivationActionGlobal (ker_specialMap_pow_two_eq_bot P hm) (-u)
         comm_i ≫ Stacks.Thickenings.derivationActionGlobal
           (ker_specialMap_pow_two_eq_bot P hm) u comm_i = 𝟙 P.scheme
     simpa only [neg_neg] using Stacks.Thickenings.derivationActionGlobal_self_comp_neg

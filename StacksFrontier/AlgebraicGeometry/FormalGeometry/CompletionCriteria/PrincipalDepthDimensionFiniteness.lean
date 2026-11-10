@@ -84,7 +84,7 @@ theorem subsingleton_localizedModule_baseQuotient {A : Type u} [CommRing A] {f :
   intro m
   refine ⟨f, hfp, ?_⟩
   obtain ⟨x, rfl⟩ := Submodule.Quotient.mk_surjective (Ideal.span {f}) m
-  show (Submodule.Quotient.mk (f • x) : A ⧸ Ideal.span {f}) = 0
+  change (Submodule.Quotient.mk (f • x) : A ⧸ Ideal.span {f}) = 0
   refine (Submodule.Quotient.mk_eq_zero _).mpr ?_
   rw [smul_eq_mul]
   exact Ideal.mem_span_singleton.mpr ⟨x, rfl⟩

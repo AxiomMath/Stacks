@@ -20,8 +20,8 @@ Let `(S, δ)` be as in Situation 02QL.
   `(g ∘ f)^! = f^! ∘ g^!`.
 
 The proofs of 0FF2 and 0FF5 are those of the source and are carried out in
-`StacksFrontier.AlgebraicGeometry.Chow.GysinLocalCompleteIntersection.FactorizationIndependenceClass`
-and `StacksFrontier.AlgebraicGeometry.Chow.GysinLocalCompleteIntersection.LciGysinComposition`, from
+the modules `FactorizationIndependenceClass` and `LciGysinComposition` of
+`StacksFrontier.AlgebraicGeometry.Chow.GysinLocalCompleteIntersection`, from
 Stacks 0FF0 (`Stacks.Chow.regularImmersionCompositionCase` below), the base change of
 Stacks 0FBK (`Stacks.Chow.regularImmersionSmoothBaseChangeCase`), Stacks 02RD, the commutation of
 bivariant classes with flat pullback and Stacks 0FF1.

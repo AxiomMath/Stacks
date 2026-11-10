@@ -121,7 +121,7 @@ private theorem isProper_of_isProperOver (J : X.IdealSheafData) (hJ : J.support 
         ← Scheme.IdealSheafData.range_subschemeι]
       exact Set.mem_range_self y
     refine ⟨x, J.subschemeι.isEmbedding.injective ?_⟩
-    show (g ≫ J.subschemeι) x = J.subschemeι y
+    change (g ≫ J.subschemeι) x = J.subschemeι y
     rw [Scheme.IdealSheafData.inclusion_subschemeι]
     exact hx
   have : IsProper (g ≫ J.subschemeι ≫ f) := by
@@ -158,7 +158,7 @@ base. -/
 @[stacks 0CYN]
 public theorem isProperOver_of_le {X S : Scheme.{u}} (f : X ⟶ S) [LocallyOfFiniteType f]
     {Y Z : Closeds X} (hYZ : Y ≤ Z) (hZ : IsProperOver f Z) : IsProperOver f Y := by
-  show IsProper ((Scheme.IdealSheafData.vanishingIdeal Y).subschemeι ≫ f)
+  change IsProper ((Scheme.IdealSheafData.vanishingIdeal Y).subschemeι ≫ f)
   rw [← Scheme.IdealSheafData.inclusion_subschemeι
     (Scheme.IdealSheafData.vanishingIdeal_antimono hYZ), Category.assoc]
   infer_instance
@@ -219,7 +219,7 @@ public theorem isProperOver_closedImage {X Y S : Scheme.{u}} (f : X ⟶ Y) (g : 
     have haZ : iX a ∈ (Z : Set X) := by
       simpa [iX, I, Scheme.IdealSheafData.coe_support_vanishingIdeal] using
         (show iX a ∈ Set.range iX.base from ⟨a, rfl⟩)
-    show f (iX a) ∈ (J.support : Set Y)
+    change f (iX a) ∈ (J.support : Set Y)
     rw [Scheme.IdealSheafData.coe_support_vanishingIdeal]
     exact ⟨iX a, haZ, rfl⟩
   have : Surjective q := by
@@ -251,7 +251,7 @@ public theorem isProperOver_closedImage {X Y S : Scheme.{u}} (f : X ⟶ Y) (g : 
 /-- The empty closed subset is proper over the base. -/
 public theorem isProperOver_bot {X S : Scheme.{u}} (f : X ⟶ S) [LocallyOfFiniteType f] :
     IsProperOver f (⊥ : Closeds X) := by
-  show IsProper ((Scheme.IdealSheafData.vanishingIdeal (⊥ : Closeds X)).subschemeι ≫ f)
+  change IsProper ((Scheme.IdealSheafData.vanishingIdeal (⊥ : Closeds X)).subschemeι ≫ f)
   rw [Scheme.IdealSheafData.vanishingIdeal_bot]
   infer_instance
 
@@ -278,14 +278,14 @@ public theorem isProperOver_sup {X S : Scheme.{u}} (f : X ⟶ S) [LocallyOfFinit
     infer_instance
   have hqf : q ≫ f = r := by apply coprod.hom_ext <;> simp [q, r]
   have hqfOver : IsProperOver (q ≫ f) (⊤ : Closeds (A ⨿ B : Scheme.{u})) := by
-    show IsProper ((Scheme.IdealSheafData.vanishingIdeal
+    change IsProper ((Scheme.IdealSheafData.vanishingIdeal
       (⊤ : Closeds (A ⨿ B : Scheme.{u}))).subschemeι ≫ (q ≫ f))
     have : IsProper (q ≫ f) := hqf ▸ hr
     infer_instance
   have hImageProper := isProperOver_closedImage q f (⊤ : Closeds (A ⨿ B : Scheme.{u})) hqfOver
   have hImage : (q.closedImage (⊤ : Closeds (A ⨿ B : Scheme.{u})) : Set X) =
       (Z : Set X) ∪ (W : Set X) := by
-    show q '' Set.univ = _
+    change q '' Set.univ = _
     rw [Set.image_univ]
     calc
       Set.range q.base = Set.range (q.base ∘ coprodMk A B) :=

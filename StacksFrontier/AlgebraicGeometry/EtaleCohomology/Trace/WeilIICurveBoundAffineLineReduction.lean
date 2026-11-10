@@ -174,7 +174,7 @@ public theorem weilIICurveBoundAffineLine_of_inputs (hT : CurveTraceFormulaInput
   rcases eq_or_ne i 1 with rfl | hi
   · exact isCharpolyNormMixedOfWeightLE_one_of_isIotaRealizable B U ℓ f j kbar p n
       hcard hℓp x φ hφ htf (fun τ hτ => hFD τ hτ 1)
-      (fun τ hτ N => hF B U ℓ k f j kbar p n hcard hℓp x τ hτ 1 N)
+      (fun τ hτ N => hF B U ℓ k f j kbar p hℓp x τ hτ 1 N)
       (fun E _ _ _ _ b _ σ hσ ι' w'' _ hP =>
         hL B U ℓ k f e he j kbar p n hcard hℓp x E b σ hσ ι' w'' hP) ρ hρ ι w hmix hreal z hz
   · obtain ⟨e₂, he₂⟩ := hC B U ℓ k f j kbar p n hcard hℓp x ρ hρ φ hφ

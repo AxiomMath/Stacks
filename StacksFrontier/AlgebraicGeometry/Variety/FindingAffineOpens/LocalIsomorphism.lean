@@ -44,7 +44,7 @@ private theorem isOpenImmersion_of_section_of_formallyUnramified
   have : IsIso (pullback.snd (g ≫ f) f) :=
     (IsPullback.of_hasPullback (g ≫ f) f).isIso_snd_of_isIso
   have hcomp : (pullback.lift (𝟙 S) g (by simp) : S ⟶ pullback (g ≫ f) f) ≫
-      pullback.snd (g ≫ f) f = g := by simp [pullback.lift_snd]
+      pullback.snd (g ≫ f) f = g := by simp
   rw [← hcomp]
   infer_instance
 
@@ -91,7 +91,7 @@ public theorem exists_isOpenImmersion_res_of_isIso_stalkMap
   let φ : Spec (S.presheaf.stalk s) ⟶ X :=
     Spec.map (asIso (f.stalkMap x)).inv ≫ X.fromSpecStalk x
   have hφ : φ ≫ f = S.fromSpecStalk s := by
-    show Spec.map (asIso (f.stalkMap x)).inv ≫
+    change Spec.map (asIso (f.stalkMap x)).inv ≫
       X.fromSpecStalk x ≫ f = S.fromSpecStalk (f x)
     rw [← Scheme.SpecMap_stalkMap_fromSpecStalk f (x := x)]
     simp
@@ -121,7 +121,7 @@ public theorem exists_isOpenImmersion_res_of_isIso_stalkMap
   have hV₁ : IsAffineOpen V₁ := hV.basicOpen d
   have hV₁V : V₁ ≤ V := Scheme.basicOpen_le X d
   have hxV₁ : x ∈ V₁ := by
-    show x ∈ X.basicOpen d
+    change x ∈ X.basicOpen d
     rw [← hV.fromSpec_image_basicOpen]
     exact ⟨hV.primeIdealOf ⟨x, hxV⟩, hdq, hV.fromSpec_primeIdealOf ⟨x, hxV⟩⟩
   have hV₁U : V₁ ≤ f ⁻¹ᵁ W₀ := hV₁V.trans hVU
@@ -133,12 +133,12 @@ public theorem exists_isOpenImmersion_res_of_isIso_stalkMap
   let F := ρ.comp φR
   let G := (algebraMap Γ(X, V) (Localization.Away d)).comp φR
   have hformalG : RingHom.FormallyUnramified G := by
-    show RingHom.FormallyUnramified (algebraMap Γ(S, W₀) (Localization.Away d))
+    change RingHom.FormallyUnramified (algebraMap Γ(S, W₀) (Localization.Away d))
     rw [RingHom.formallyUnramified_algebraMap]
     exact hdunram.formallyUnramified
   have hfg : CommRingCat.ofHom F ≫ eB.toCommRingCatIso.hom = CommRingCat.ofHom G := by
     ext a
-    show eB (ρ (φR a)) = algebraMap Γ(X, V) (Localization.Away d) (φR a)
+    change eB (ρ (φR a)) = algebraMap Γ(X, V) (Localization.Away d) (φR a)
     simpa only [RingHom.algebraMap_toAlgebra] using eB.commutes (φR a)
   have hformalComp : RingHom.FormallyUnramified F := by
     let ee : Arrow.mk (CommRingCat.ofHom F) ≅ Arrow.mk (CommRingCat.ofHom G) :=
@@ -147,7 +147,7 @@ public theorem exists_isOpenImmersion_res_of_isIso_stalkMap
   let φR₁ := (f.appLE W₀ V₁ hV₁U).hom
   have hφR₁ : φR₁ = ρ.comp φR := by
     ext a
-    show (f.appLE W₀ V₁ hV₁U) a = ρ (φR a)
+    change (f.appLE W₀ V₁ hV₁U) a = ρ (φR a)
     simpa [ρ, φR] using congrArg (fun f => f a)
       (Scheme.Hom.appLE_map (f := f) hVU (homOfLE hV₁V).op).symm
   have hformalApp : RingHom.FormallyUnramified φR₁ := hφR₁ ▸ hformalComp
@@ -181,11 +181,11 @@ public theorem exists_isOpenImmersion_res_of_isIso_stalkMap
       have hclosed : Spec.map (asIso (f.stalkMap x)).inv c =
           (IsLocalRing.closedPoint (X.presheaf.stalk x) : Spec (X.presheaf.stalk x)) := by
         simpa [c, s] using (Spec_closedPoint (f := (asIso (f.stalkMap x)).inv))
-      show X.fromSpecStalk x (Spec.map (asIso (f.stalkMap x)).inv c) = x
+      change X.fromSpecStalk x (Spec.map (asIso (f.stalkMap x)).inv c) = x
       rw [hclosed, Scheme.fromSpecStalk_closedPoint]
     have hWc : W.fromSpecStalkOfMem s hsW c = ⟨s, hsW⟩ := by
       apply Subtype.ext
-      show (W.fromSpecStalkOfMem s hsW ≫ W.ι) c = s
+      change (W.fromSpecStalkOfMem s hsW ≫ W.ι) c = s
       rw [W.fromSpecStalkOfMem_ι]
       simp [c]
     have h := congrArg (fun k : Spec (S.presheaf.stalk s) ⟶ X => k c) hgφ
@@ -194,7 +194,7 @@ public theorem exists_isOpenImmersion_res_of_isIso_stalkMap
     exact h.symm
   let H : W.toScheme.Opens := g ⁻¹ᵁ V₁
   have hsH : (⟨s, hsW⟩ : W.toScheme) ∈ H := by
-    show g ⟨s, hsW⟩ ∈ V₁
+    change g ⟨s, hsW⟩ ∈ V₁
     rwa [hgs]
   have hrange : Set.range (H.ι ≫ g) ⊆ Set.range V₁.ι := by
     rintro y ⟨z, rfl⟩
@@ -231,7 +231,7 @@ public theorem exists_isOpenImmersion_res_of_isIso_stalkMap
     simp [jX, jBase, Category.assoc, hgf]
   let U : X.Opens := jX.opensRange
   have hxU : x ∈ U := by
-    show x ∈ jX.opensRange
+    change x ∈ jX.opensRange
     rw [Scheme.Hom.mem_opensRange]
     exact ⟨⟨⟨s, hsW⟩, hsH⟩, hgs⟩
   refine ⟨U, hxU, ?_⟩

@@ -134,7 +134,7 @@ theorem exists_epi_boundedUniversalSource (G : quasicoherentModules.{u, u + 1, u
   refine ⟨(boundedUniversalSource B S hS p hp).val.map e'.inv.op
     ((Sigma.ι _ ⟨i, n⟩ : _ ⟶ boundedUniversalSource B S hS p hp).val.app (op (X i))
       (freeYonedaSheafSection B S hS p hp (X i))), ?_⟩
-  rw [PresheafOfModules.naturality_apply, ← SheafOfModules.comp_val_app_apply, Sigma.ι_desc,
+  rw [PresheafOfModules.naturality_apply, ← SheafOfModules.comp_val_app_apply, Sigma.ι_comp_desc,
     freeYonedaSheafDesc_app, hn, ← PresheafOfModules.map_comp_apply, ← op_comp, e'.inv_hom_id,
     op_id, PresheafOfModules.map_id_apply]
 

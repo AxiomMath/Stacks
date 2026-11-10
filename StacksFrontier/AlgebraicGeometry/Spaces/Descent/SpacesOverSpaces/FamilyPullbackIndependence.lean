@@ -151,7 +151,7 @@ private lemma projection_move (D : DescentData f hT hX)
   have hg := P.gluing_comm i j
   simp only [eqToHom_refl, Category.id_comp, Category.comp_id] at hg
   apply Over.OverMorphism.ext
-  show ((prod.lift v y).left ≫ (P.datum.gluing i j).hom.left.left ≫
+  change ((prod.lift v y).left ≫ (P.datum.gluing i j).hom.left.left ≫
       (prod.snd : Over.mk (f' i) ⨯ component f' hT' hX' P.datum j ⟶ _).left) ≫
     P.objMap j = _
   simp only [DescentData.transport_move, Over.comp_left, Category.assoc]
@@ -288,7 +288,7 @@ private lemma comparison_naturality {D E : DescentData f hT hX} (φ : D ⟶ E)
   apply DescentData.Hom.ext
   funext i
   refine Over.map_injective (f' i) ?_
-  show (Over.map (f' i)).map (m.hom i ≫
+  change (Over.map (f' i)).map (m.hom i ≫
       comparison f f' hT hX hT' hX' α β g gᵢ hᵢ commα commβ E R U i) =
     (Over.map (f' i)).map (
       comparison f f' hT hX hT' hX' α β g gᵢ hᵢ commα commβ D P Q i ≫ n.hom i)

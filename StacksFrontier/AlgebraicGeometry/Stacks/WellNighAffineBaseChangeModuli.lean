@@ -164,14 +164,14 @@ theorem isCategoricalModuliSpaceIn_baseChange
   obtain ⟨h₀, hh₀, hu⟩ := hmod Z hZ ψ₀ hinv
   let h : Y' ⟶ W := ObjectProperty.homMk (e.hom ≫ yoneda.map h₀ ≫ eW.inv)
   have hψh : yoneda.map pr₁ ≫ e.inv ≫ h.hom = ψ := by
-    show yoneda.map pr₁ ≫ e.inv ≫ e.hom ≫ yoneda.map h₀ ≫ eW.inv = ψ
+    change yoneda.map pr₁ ≫ e.inv ≫ e.hom ≫ yoneda.map h₀ ≫ eW.inv = ψ
     rw [Iso.inv_hom_id_assoc, ← Category.assoc, ← yoneda.map_comp, hh₀, hψ₀, Category.assoc,
       Iso.hom_inv_id, Category.comp_id]
   have key : BasedFunctor.comp (CatFiberedInGroupoids.twoFibreProductSquare.{u, u, u + 1, u + 1}
         (associatedMap B S hS a.hom).1 K.moduliMap.hom).fst.hom
       (associatedMap B S hS h.hom).1.hom = g.hom := by
     refine K.baseChart_ext ha hpb _ _ (Eq.trans ?_ hψ.symm)
-    show BasedFunctor.comp (BasedFunctor.comp (K.baseChart ha hpb.w).hom
+    change BasedFunctor.comp (BasedFunctor.comp (K.baseChart ha hpb.w).hom
         (CatFiberedInGroupoids.twoFibreProductSquare.{u, u, u + 1, u + 1}
           (associatedMap B S hS a.hom).1 K.moduliMap.hom).fst.hom)
       (associatedMap B S hS h.hom).1.hom = _
@@ -195,7 +195,7 @@ theorem isCategoricalModuliSpaceIn_baseChange
     rw [yoneda.map_comp, hh'₀, hψ₀, ← hψh']
     simp only [Category.assoc])
   apply ObjectProperty.hom_ext
-  show h'.hom = e.hom ≫ yoneda.map h₀ ≫ eW.inv
+  change h'.hom = e.hom ≫ yoneda.map h₀ ≫ eW.inv
   rw [← hu h'₀ hfac, hh'₀]
   simp
 

@@ -106,7 +106,7 @@ theorem isUnit_generatorSections_unit (U : X.C)
   have he :
       (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).val.restrictₛₗ (𝟙 U).op
         s.val = s.val := by
-    show ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.map (𝟙 (op U))) (unitVal X U s.val) =
+    change ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.map (𝟙 (op U))) (unitVal X U s.val) =
       unitVal X U s.val
     rw [(Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.map_id]
     rfl

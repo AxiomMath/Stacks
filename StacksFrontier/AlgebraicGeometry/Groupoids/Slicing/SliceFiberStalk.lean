@@ -115,7 +115,7 @@ public theorem IsAffineOpen.specMap_mk_slicePoint :
     Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (Ideal.span {b}))) (hV.slicePoint hy hb) =
       hV.primeIdealOf ⟨y, hy⟩ := by
   refine PrimeSpectrum.ext ?_
-  show Ideal.comap (Ideal.Quotient.mk (Ideal.span {b}))
+  change Ideal.comap (Ideal.Quotient.mk (Ideal.span {b}))
       (Ideal.map (Ideal.Quotient.mk (Ideal.span {b}))
         (hV.primeIdealOf ⟨y, hy⟩).asIdeal) = _
   rw [Ideal.comap_map_of_surjective _ Ideal.Quotient.mk_surjective,

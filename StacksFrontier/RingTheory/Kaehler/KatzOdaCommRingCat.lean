@@ -492,8 +492,7 @@ include hres in
 theorem gradedTensor_map (k : ℕ) (z : ⋀[A]^k ↑(CommRingCat.KaehlerDifferential gR) ⊗[A] M) :
     gradedTensor gR φ' ψ' h' eM' heM' hsm' k (TensorProduct.map LinearMap.id res z) =
       gradedQuotMap gR φ ψ h φ' ψ' h' ρ hφ hψ k (k + b) (gradedTensor gR φ ψ h eM heM hsm k z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => simp only [map_add, hz, hz']
   | tmul ν m =>
     obtain ⟨y, hy⟩ := formsProj_surjective gR φ ψ h b (eM m)
@@ -525,13 +524,7 @@ include hdM in
 theorem gradedTensor_d (k : ℕ) (z : ⋀[A]^k ↑(CommRingCat.KaehlerDifferential gR) ⊗[A] M) :
     gradedTensor gR φ ψ h eM'' heM'' hsm k (TensorProduct.map LinearMap.id dM z) =
       gradedQuotD gR φ ψ h k (k + b) (gradedTensor gR φ ψ h eM heM hsm k z) := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-    have e1 : TensorProduct.map LinearMap.id dM
-        (0 : ⋀[A]^k ↑(CommRingCat.KaehlerDifferential gR) ⊗[A] M) = 0 := map_zero _
-    rw [e1, map_zero, map_zero]
-    exact (zero_smul ℤ _).symm.trans ((gradedQuotD_zsmul gR φ ψ h k (k + b) 0 0).symm.trans
-      (by rw [zero_smul]))
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' =>
     rw [map_add, map_add, hz, hz', map_add]
     let := gR.hom.toAlgebra

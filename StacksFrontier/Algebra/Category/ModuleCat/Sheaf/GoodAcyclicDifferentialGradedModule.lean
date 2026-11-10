@@ -98,7 +98,7 @@ theorem _root_.SheafOfModules.LeftDifferentialGradedModule.opRight_unopLeft
   obtain ⟨c, mul, h₁, h₂, h₃⟩ := N
   have : (LeftDifferentialGradedModule.mk c mul h₁ h₂ h₃).opRight.unopLeft.mul = mul :=
     funext fun n => funext fun p => hmul n p
-  show LeftDifferentialGradedModule.mk c _ _ _ _ = _
+  change LeftDifferentialGradedModule.mk c _ _ _ _ = _
   congr
 
 variable {A : DifferentialGradedAlgebra.{t, m} (toRingCat J Osharp)}

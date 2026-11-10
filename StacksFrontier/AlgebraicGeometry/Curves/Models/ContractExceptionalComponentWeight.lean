@@ -96,7 +96,6 @@ theorem finrank_globalSections_fibreSubscheme_eq_weight {I : S.X.IdealSheafData}
 /-- **A contracted component missing `C_n` keeps its weight**: if `C_i ∩ C_n = ∅` then
 `(C_i · C_n) = 0` forces `f⁻¹C'_i = C_i`, and `H⁰(f⁻¹C'_i, 𝒪) ≅ H⁰(C'_i, 𝒪)` gives `w'ᵢ = wᵢ`. -/
 public theorem contractedComponentWeight_eq_of_inter_eq_empty
-    [DecidableEq (irreducibleComponents S.specialFiber)]
     (hf : IsContractionOfExceptionalCurve (S.specialFiberComponentIdeal N) f)
     (κ : Type u) [Field κ] {ε : projectiveLineProj κ ≅ (S.specialFiberComponentIdeal N).subscheme}
     (hE : (S.specialFiberComponentIdeal N).IsExceptionalCurveOfFirstKind κ ε)
@@ -104,6 +103,7 @@ public theorem contractedComponentWeight_eq_of_inter_eq_empty
     (hdisj : (Z.1.1 : Set S.specialFiber) ∩ N.1 = ∅) :
     (S.contractedSituation hf).specialFiberComponentWeight (S.contractedComponentEquiv hf Z) =
       S.specialFiberComponentWeight Z.1 := by
+  classical
   obtain ⟨-, e, he⟩ := S.exists_comap_contractedComponent_eq hf Z
   have hNN : S.specialFiberIntersectionMatrix N N = -(S.specialFiberComponentWeight N : ℤ) := by
     rw [S.specialFiberIntersectionMatrix_self_eq_neg_weight_add_genus N κ hE,

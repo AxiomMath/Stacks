@@ -227,7 +227,7 @@ private theorem filtration_exhaustive {r : ℕ} {f : Fin r → A} (h : FormulaLa
     omega
   have hcomp (t : ℤ) :
       IsIso ((((h.inclusion none (some p) trivial).app K).app ⟨n⟩).f t) := by
-    show IsIso (termProjection (r := r) (some p) K t ≫ 𝟙 (coefficientKoszulTerm K t))
+    change IsIso (termProjection (r := r) (some p) K t ≫ 𝟙 (coefficientKoszulTerm K t))
     simpa only [Category.comp_id] using hterm t
   exact HomologicalComplex.Hom.isIso_of_components _
 
@@ -310,7 +310,7 @@ private theorem filteredDifferential_projection {r : ℕ} (f : Fin r → A) (p :
     simp only [filteredDifferential, eqToHom_refl, Category.comp_id,
       termProjection_none, termSection_none, Category.id_comp]
     refine hom_ext_pi fun x S ↦ ?_
-    show ((termSection p K (i + 1) ≫ termProjection p K (i + 1)).hom
+    change ((termSection p K (i + 1) ≫ termProjection p K (i + 1)).hom
       ((coefficientKoszulDifferential f n K i).hom ((termProjection p K i).hom x))) S = _
     rw [termSection_projection_apply]
     split_ifs with hS
@@ -389,7 +389,7 @@ private theorem filteredUnitTerm_projection {r : ℕ} (p : Option ℤ)
     filteredUnitTerm (r := r) p K t ≫ termProjection p K t = coefficientKoszulUnitTerm K t := by
   classical
   refine hom_ext_pi fun x S ↦ ?_
-  show ((termSection p K t ≫ termProjection p K t).hom
+  change ((termSection p K t ≫ termProjection p K t).hom
     ((coefficientKoszulUnitTerm (r := r) K t).hom x)) S = _
   rw [termSection_projection_apply]
   split_ifs with hS
@@ -426,7 +426,7 @@ private theorem augmentation_factor {r : ℕ} {f : Fin r → A} (h : FormulaLaws
       (((h.augmentation none).app ⟨n⟩).app K) := by
   apply HomologicalComplex.hom_ext
   intro t
-  show filteredUnitTerm (r := r) (some 0) K t ≫
+  change filteredUnitTerm (r := r) (some 0) K t ≫
       (termProjection (some 0) K t ≫ termSection none K t) =
     coefficientKoszulUnitTerm K t ≫ termSection none K t
   rw [← Category.assoc, filteredUnitTerm_projection (some 0) (le_refl 0)]
@@ -502,7 +502,7 @@ private theorem stupidTrunc_d_eq {ι κ : Type*} {c : ComplexShape ι} {c' : Com
       (K.stupidTruncXIso e hj).inv := by
   subst i'
   subst j'
-  show ((K.restriction e).extend e).d (e.f i) (e.f j) =
+  change ((K.restriction e).extend e).d (e.f i) (e.f j) =
     (((K.restriction e).extendXIso e rfl).hom ≫ 𝟙 ((K.restriction e).X i)) ≫
       (K.restriction e).d i j ≫
         (𝟙 ((K.restriction e).X j) ≫ ((K.restriction e).extendXIso e rfl).inv)
@@ -514,7 +514,7 @@ private theorem stupidTrunc_isZero_X (K : CochainComplex (ModuleCat.{v} A) ℤ)
     (p j : ℤ) (h : j < p) : IsZero ((K.stupidTrunc (ComplexShape.embeddingUpIntGE p)).X j) := by
   apply HomologicalComplex.isZero_stupidTrunc_X
   intro i
-  show p + (i : ℤ) ≠ j
+  change p + (i : ℤ) ≠ j
   omega
 
 set_option backward.isDefEq.respectTransparency false in
@@ -526,11 +526,11 @@ private theorem stupidTruncProjection_comm (K : CochainComplex (ModuleCat.{v} A)
   · by_cases hpi : p ≤ i
     · have hpj : p ≤ j := by omega
       have hi : (ComplexShape.embeddingUpIntGE p).f (i - p).toNat = i := by
-        show p + ((i - p).toNat : ℤ) = i
+        change p + ((i - p).toNat : ℤ) = i
         rw [Int.toNat_of_nonneg (by omega)]
         omega
       have hj : (ComplexShape.embeddingUpIntGE p).f (j - p).toNat = j := by
-        show p + ((j - p).toNat : ℤ) = j
+        change p + ((j - p).toNat : ℤ) = j
         rw [Int.toNat_of_nonneg (by omega)]
         omega
       rw [stupidTrunc_d_eq K _ hi hj]
@@ -587,7 +587,7 @@ private theorem standardKoszulInclusionTerm_comm {r : ℕ} (f : Fin r → A)
     | none => simp [standardKoszulInclusionTerm, standardKoszulProjectionTerm,
         standardKoszulSectionTerm]
     | some q =>
-      show (stupidTruncProjection (standardKoszulStage f none n) q i ≫ 𝟙 _) ≫ _ =
+      change (stupidTruncProjection (standardKoszulStage f none n) q i ≫ 𝟙 _) ≫ _ =
         _ ≫ (stupidTruncProjection (standardKoszulStage f none n) q j ≫ 𝟙 _)
       rw [Category.comp_id, Category.comp_id]
       exact stupidTruncProjection_comm (standardKoszulStage f none n) q i j
@@ -627,7 +627,7 @@ private theorem termProjection_unitRetraction_unit {r : ℕ}
       (show K.X (t + 0) = K.X t by rw [add_zero])
       (show K.X t = K.X (t + 0) by rw [add_zero]))
     exact LinearMap.congr_fun h ((termProjection (some 0) K t).hom x ∅)
-  · show (coefficientKoszulUnitTerm K t).hom _ S = _
+  · change (coefficientKoszulUnitTerm K t).hom _ S = _
     rw [coefficientKoszulUnitTerm_apply_of_ne K t S hS]
     symm
     apply termProjection_apply_eq_zero
@@ -687,7 +687,7 @@ private theorem graded_naturality {r : ℕ} {f : Fin r → A} (h : FormulaLaws.{
   apply Limits.Pi.hom_ext
   intro S
   simp only [Category.assoc, FormulaLaws.gradedProjection, Limits.Pi.lift_comp_π]
-  show _ = h.gradedProjection p hp n K ≫
+  change _ = h.gradedProjection p hp n K ≫
     (Limits.Pi.map (fun _ : KoszulBasis r p.natAbs ↦
       (shiftFunctor (CochainComplex (ModuleCat.{v} A) ℤ) (-p)).map g)) ≫
         Limits.Pi.π (fun _ : KoszulBasis r p.natAbs ↦ L⟦-p⟧) S
@@ -745,7 +745,7 @@ private theorem filteredDifferential_proj {r : ℕ} (f : Fin r → A) (p : ℤ) 
     apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro x
-    show (coefficientKoszulDifferential f n K i).hom
+    change (coefficientKoszulDifferential f n K i).hom
       ((termProjection (some p) K i).hom x) S.val = _
     dsimp only [coefficientKoszulDifferential, ModuleCat.hom_ofHom, LinearMap.coe_mk, AddHom.coe_mk]
     apply add_eq_left.mpr
@@ -758,7 +758,7 @@ private theorem filteredDifferential_proj {r : ℕ} (f : Fin r → A) (p : ℤ) 
     rw [termProjection_apply_eq_zero (some p) K i (insert a.val S.val) hcut x,
       map_zero, smul_zero]
   · rw [K.shape (i + S.val.card) (j + S.val.card) (by
-      show ¬ (i + S.val.card) + 1 = j + S.val.card
+      change ¬ (i + S.val.card) + 1 = j + S.val.card
       omega)]
     simp only [filteredDifferential, dite_eq_right hij, comp_zero, zero_comp]
 
@@ -766,7 +766,7 @@ private theorem shiftFunctorObjXIso_inv_d (K : CochainComplex (ModuleCat.{v} A) 
     (s i j a b : ℤ) (ha : a = i + s) (hb : b = j + s) :
     (CochainComplex.shiftFunctorObjXIso K s i a ha).inv ≫ (K⟦s⟧).d i j =
       s.negOnePow • (K.d a b ≫ (CochainComplex.shiftFunctorObjXIso K s j b hb).inv) := by
-  show eqToHom (congrArg K.X ha) ≫ (s.negOnePow • K.d (i + s) (j + s)) =
+  change eqToHom (congrArg K.X ha) ≫ (s.negOnePow • K.d (i + s) (j + s)) =
     s.negOnePow • (K.d a b ≫ eqToHom (congrArg K.X hb))
   rw [Linear.comp_units_smul, eqToHom_d K a (i + s) b (j + s) ha hb]
 

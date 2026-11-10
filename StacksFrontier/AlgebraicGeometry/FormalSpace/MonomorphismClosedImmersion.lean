@@ -170,7 +170,7 @@ theorem surjective_algebraMap_of_isLocallyNilpotent {R A : Type u} [CommRing R] 
     obtain ⟨r, hr⟩ := hquot (Ideal.Quotient.mk (J.map (algebraMap R A)) a)
     refine ⟨r, ?_⟩
     have hmem : algebraMap R A r - a ∈ J.map (algebraMap R A) := Ideal.Quotient.eq.mp hr
-    show Submodule.Quotient.mk (algebraMap R A r) = Submodule.Quotient.mk a
+    change Submodule.Quotient.mk (algebraMap R A r) = Submodule.Quotient.mk a
     rw [Submodule.Quotient.eq, Ideal.smul_top_eq_map]
     exact hmem
 
@@ -276,7 +276,7 @@ private theorem mono_hom_of_mono {V W : FppfSheaf B S hS} (p : V ⟶ W) (hp : Mo
     have hx : (⟨uliftYonedaEquiv.{u + 1}.symm x⟩ : yonedaSheaf B S hS U.unop ⟶ V) ≫ p =
         (⟨uliftYonedaEquiv.{u + 1}.symm y⟩ : yonedaSheaf B S hS U.unop ⟶ V) ≫ p := by
       refine Sheaf.hom_ext ?_
-      show uliftYonedaEquiv.{u + 1}.symm x ≫ p.hom =
+      change uliftYonedaEquiv.{u + 1}.symm x ≫ p.hom =
         uliftYonedaEquiv.{u + 1}.symm y ≫ p.hom
       rw [uliftYonedaEquiv_symm_comp, uliftYonedaEquiv_symm_comp]
       exact congrArg uliftYonedaEquiv.{u + 1}.symm hxy
@@ -523,7 +523,7 @@ theorem isClosedImmersion_pullback_snd_of_isReduction' {X Y : FppfSheaf B S hS} 
       (⟨(uliftYoneda.{u + 1}).map m⟩ : yonedaSheaf B S hS b ⟶ yonedaSheaf B S hS T) ≫ t := by
     refine Sheaf.hom_ext ?_
     have hrh : r.hom ≫ f.hom = iY.hom := congrArg (fun k : Yred ⟶ Y ↦ k.hom) hr
-    show (fst ≫ r.hom) ≫ f.hom = (uliftYoneda.{u + 1}).map m ≫ t.hom
+    change (fst ≫ r.hom) ≫ f.hom = (uliftYoneda.{u + 1}).map m ≫ t.hom
     rw [Category.assoc, hrh]
     exact sq.w
   obtain ⟨w, hw⟩ : ∃ w : yonedaSheaf B S hS b ⟶ pullback f t,
@@ -664,7 +664,7 @@ theorem isLocallySurjective_sigmaDesc_affineSchemePoints {Z : FppfSheaf B S hS}
       Sigma.desc (fun p : AffineSchemePoints B S hS Z ↦ p.2) =
       Sigma.desc (fun l : Λ ↦ colimit.ι K l ≫ eD.inv) := by
     refine Sigma.hom_ext _ _ fun l ↦ ?_
-    simp only [Sigma.ι_desc_assoc, Sigma.ι_desc]
+    simp only [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc]
     rfl
   have _ : Epi (Sigma.desc (fun l : Λ ↦ Sigma.ι A (σ l)) ≫
       Sigma.desc (fun p : AffineSchemePoints B S hS Z ↦ p.2)) := by
@@ -696,7 +696,7 @@ theorem hasNoetherianAffineSchemeCover_of_isLocallyNoetherian {Y : FppfSheaf B S
         Sigma.desc (fun p : Σ i : I, AffineSchemePoints B S hS (Yi i) ↦
           p.2.2 ≫ Sigma.ι Yi p.1) ≫ Sigma.desc c := by
       refine Sigma.hom_ext _ _ fun p ↦ ?_
-      simp only [Category.assoc, Sigma.ι_desc_assoc, Sigma.ι_desc]
+      simp only [Category.assoc, Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc]
     rw [h]
     have _ : Epi (Sigma.desc (fun p : Σ i : I, AffineSchemePoints B S hS (Yi i) ↦
         p.2.2 ≫ Sigma.ι Yi p.1)) := (Sheaf.isLocallySurjective_iff_epi _).1 hbig
@@ -738,7 +738,7 @@ theorem hasNoetherianAffineSchemeCover_of_isLocallyNoetherian {Y : FppfSheaf B S
       Sigma.desc (fun r : NoetherianAffineSchemePoints B S hS Y ↦ r.1.2) =
       Sigma.desc (fun p : Σ i : I, AffineSchemePoints B S hS (Yi i) ↦ p.2.2 ≫ c p.1) := by
     refine Sigma.hom_ext _ _ fun p ↦ ?_
-    simp only [Category.assoc, Sigma.ι_desc_assoc, Sigma.ι_desc, hv p]
+    simp only [Category.assoc, Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc, hv p]
   have _ : Epi (Sigma.desc (fun p : Σ i : I, AffineSchemePoints B S hS (Yi i) ↦
       v p ≫ Sigma.ι (fun r : NoetherianAffineSchemePoints B S hS Y ↦
         yonedaSheaf B S hS r.1.1) (q p)) ≫

@@ -254,7 +254,7 @@ lemma faithfullyFlat_colimit_leg (F : ℕ ⥤ CommRingCat.{u})
         (isColimitOfPreserves E (hc.underPost n))⟩
   have hp : Module.FaithfullyFlat (F.obj n) (E.obj c'.pt) :=
     faithfullyFlat_of_colimitPresentation p (fun j ↦ by
-      show (F.map (ULift.down j).hom).hom.FaithfullyFlat
+      change (F.map (ULift.down j).hom).hom.FaithfullyFlat
       exact h n (ULift.down j))
   exact (RingHom.faithfullyFlat_algebraMap_iff).mpr hp
 

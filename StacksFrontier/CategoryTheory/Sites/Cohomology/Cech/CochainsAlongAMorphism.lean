@@ -110,7 +110,7 @@ recovers the family. -/
 lemma cochainFam_famCochain (t : ∀ i, F.obj (op (E.X i))) :
     cochainFam E F (famCochain E F t) = t := by
   funext i
-  show F.map (inv (singletonProjection E i)).left.op
+  change F.map (inv (singletonProjection E i)).left.op
     (F.map (singletonProjection E i).left.op (t i)) = t i
   rw [← Functor.map_comp_apply, ← op_comp, ← Over.comp_left, IsIso.inv_hom_id, Over.id_left,
     op_id, F.map_id]
@@ -123,7 +123,7 @@ lemma famCochain_cochainFam (b : cechCochain E F 0) :
     famCochain E F (cochainFam E F b) = b := by
   funext l
   obtain ⟨i, rfl⟩ : ∃ i, l = fun _ ↦ i := ⟨l 0, funext fun j ↦ congrArg l (Fin.eq_zero j)⟩
-  show F.map (singletonProjection E i).left.op
+  change F.map (singletonProjection E i).left.op
     (F.map (inv (singletonProjection E i)).left.op (b fun _ ↦ i)) = _
   rw [← Functor.map_comp_apply, ← op_comp, ← Over.comp_left, IsIso.hom_inv_id, Over.id_left,
     op_id, F.map_id]

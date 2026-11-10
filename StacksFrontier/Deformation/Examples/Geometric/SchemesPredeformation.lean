@@ -224,7 +224,7 @@ theorem residueFiberHom_isHomLift
       (𝟙 (residueFieldObject.{u, u, u} Λ k)) (residueFiberHomVal x y) := by
   refine IsHomLift.of_fac' _ (𝟙 (residueFieldObject.{u, u, u} Λ k))
     (residueFiberHomVal x y) x.2 y.2 ?_
-  show eqToHom (x.2.trans y.2.symm) = _
+  change eqToHom (x.2.trans y.2.symm) = _
   simp
 
 /-- The canonical arrow of the fibre over the residue field. -/

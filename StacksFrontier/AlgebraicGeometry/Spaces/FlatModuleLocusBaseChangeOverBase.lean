@@ -212,7 +212,7 @@ theorem flatLocus_modulePullback_eq_preimage_of_isFlatOverBase
     ← isFlatOverAtOnChartDiagram_iff_isFlatOverAtGeometricPoint B S hS f F N AY C.α
       C.commF.symm]
   have hcp : chartPoint B S hS X.1 N = T.map C.qU (chartPoint B S hS X'.1 N') := by
-    show T.map (l ≫ C.qU) (IsLocalRing.closedPoint xbar.val.carrier) =
+    change T.map (l ≫ C.qU) (IsLocalRing.closedPoint xbar.val.carrier) =
       T.map C.qU ((T.map l) (IsLocalRing.closedPoint xbar.val.carrier))
     rw [Functor.map_comp]
     exact Scheme.Hom.comp_apply _ _ _

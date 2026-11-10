@@ -181,7 +181,7 @@ lemma lift_lift_apply (l m k : ℕ) (h₁ : m ≤ l) (h₂ : k ≤ m) (n : ℤ) 
         ((T.lift m k h₂ n hn).val.app U x) = (T.lift l k (h₂.trans h₁) n hn).val.app U x := by
   apply T.c_injective l k (h₂.trans h₁) n hn U
   rw [T.c_lift_apply, ← T.c_comp l m k h₁ h₂ n]
-  show ((T.c m k h₂).app n).val.app U (((T.c l m h₁).app n).val.app U _) = _
+  change ((T.c m k h₂).app n).val.app U (((T.c l m h₁).app n).val.app U _) = _
   rw [T.c_lift_apply, T.c_lift_apply]
 
 /-- Lifting the image of `y` under `φₖ` to `Cₘ` gives the image of `y` under `φₘ`. -/
@@ -246,12 +246,12 @@ def smulHom (n i : ℤ) (U : X.Opensᵒᵖ) :
 /-- For `i ≥ 0`, `smulHom` is given by `smulFun`. -/
 lemma smulHom_of_nonneg (n i : ℤ) (hi : 0 ≤ i) (U : X.Opensᵒᵖ) (x : (T.piece n).val.obj U)
     (y : (P.piece i).val.obj U) : T.smulHom n i U x y = T.smulFun n i hi U x y := by
-  simp only [smulHom, dif_pos hi, AddMonoidHom.mk'_apply]
+  simp only [smulHom, dite_eq_left hi, AddMonoidHom.mk'_apply]
 
 /-- For `i < 0`, `smulHom` is zero. -/
 lemma smulHom_of_neg (n i : ℤ) (hi : ¬ 0 ≤ i) (U : X.Opensᵒᵖ) (x : (T.piece n).val.obj U)
     (y : (P.piece i).val.obj U) : T.smulHom n i U x y = 0 := by
-  simp only [smulHom, dif_neg hi, AddMonoidHom.zero_apply]
+  simp only [smulHom, dite_eq_right hi, AddMonoidHom.zero_apply]
 
 /-- `smulFun` may be computed at any level `M` of the tower equal to `(n + i).toNat`. -/
 lemma smulFun_eq (n i : ℤ) (hi : 0 ≤ i) (_hn : 0 ≤ n) (M : ℕ) (hM : (n + i).toNat = M)
@@ -407,7 +407,7 @@ theorem isFiniteTypeOnAffine_module
     zero_add n, ?_⟩
   symm
   refine T.heq_of_heq_eqRec (zero_add n) _ _ ?_
-  show HEq (T.smulHom 0 n (op U.1) one a) _
+  change HEq (T.smulHom 0 n (op U.1) one a) _
   rw [T.smulHom_of_nonneg 0 n hn]
   simp only [smulFun]
   rw [T.lift_one_apply]

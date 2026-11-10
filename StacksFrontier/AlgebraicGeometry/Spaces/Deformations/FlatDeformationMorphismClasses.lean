@@ -155,7 +155,7 @@ theorem isSeparated_iff_and_isQuasiSeparated_iff_of_flatDeformationDiagram
 @[stacks 0CGX "part (11): affine"]
 theorem isAffineHom_iff_of_flatDeformationDiagram (D : FlatDeformationDiagram B S hS) :
     IsAffineHom B S hS D.f.hom ↔ IsAffineHom B S hS D.f'.hom :=
-  isAffineHom_iff_isAffineHom_of_isClosedImmersion_square_unconditional B S hS D.X.2 D.X'.2 D.Y'.2
+  isAffineHom_iff_isAffineHom_of_isClosedImmersion_square_unconditional B S hS D.X'.2 D.Y'.2
     D.f.hom D.f'.hom D.isThickeningHom_iX.isClosedImmersion
     D.isThickeningHom_iX.surjective_pointsMap D.isThickeningHom_iY.isClosedImmersion D.f_comp_iY
 

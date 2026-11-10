@@ -335,10 +335,10 @@ private theorem exists_iso_map_coskAdj_unit_app_of_preserves (n : ℕ) (K : Simp
   let _ : F.PreservesPointwiseRightKanExtension (L ⋙ X) L := fun _ ↦ inferInstance
   let _ : F.PreservesRightKanExtension (L ⋙ X) L := inferInstance
   let _ : Y.IsRightKanExtension α := by
-    show ((cosk n).obj X).IsRightKanExtension ((coskAdj n).counit.app ((truncation n).obj X))
+    change ((cosk n).obj X).IsRightKanExtension ((coskAdj n).counit.app ((truncation n).obj X))
     infer_instance
   let _ : Z.IsRightKanExtension ε := by
-    show ((cosk n).obj XF).IsRightKanExtension ((coskAdj n).counit.app ((truncation n).obj XF))
+    change ((cosk n).obj XF).IsRightKanExtension ((coskAdj n).counit.app ((truncation n).obj XF))
     infer_instance
   let e := Functor.rightKanExtensionUnique (Y ⋙ F) εs Z ε
   have he : L.whiskerLeft e.hom ≫ ε = εs := by

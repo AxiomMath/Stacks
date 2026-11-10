@@ -110,7 +110,8 @@ variable {C : ChowSituation.{u}} {G : GysinSystem C} {X : Scheme.{u}} {sX : X �
 of Stacks 0FEL whose degreewise product is the product of Stacks 0B7E, the degree-`0` coefficient
 of its unit series is the identity class `1 ∈ A^0(X)`.
 
-The implementation notes of `StacksFrontier.AlgebraicGeometry.Chow.ChernClassKGroup` record `R.one 0`
+The implementation notes of `StacksFrontier.AlgebraicGeometry.Chow.ChernClassKGroup` record
+`R.one 0`
 as unconstrained, the only condition on the unit series being `one_apply_succ`. That is not so
 once the degreewise product is known:
 `Stacks.Chow.ChowCohomologySeriesRing.gradedMul_one_apply_zero` extracts from the unit law of the
@@ -236,7 +237,7 @@ theorem ch_eq_seriesOfRank (E : X.Modules) (r : ℕ)
     D.ch hiso R E = D.seriesOfRank hiso E r inst := by
   have hex : ∃ s : ℕ,
       AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u} E s := ⟨r, inst⟩
-  have h1 : D.ch hiso R E = D.seriesOfRank hiso E hex.choose hex.choose_spec := dif_pos hex
+  have h1 : D.ch hiso R E = D.seriesOfRank hiso E hex.choose hex.choose_spec := dite_eq_left hex
   rw [h1]
   exact D.seriesOfRank_congr hiso E hex.choose r
     (D.rank_eq E hex.choose r hex.choose_spec inst) hex.choose_spec inst
@@ -245,7 +246,7 @@ theorem ch_eq_seriesOfRank (E : X.Modules) (r : ℕ)
 theorem ch_eq_one_of_forall_not (E : X.Modules)
     (h : ∀ r : ℕ, ¬ AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u} E r) :
     D.ch hiso R E = R.one :=
-  dif_neg (fun hex => h hex.choose hex.choose_spec)
+  dite_eq_right (fun hex => h hex.choose hex.choose_spec)
 
 /-! ### Three fields of the total Chern class datum -/
 

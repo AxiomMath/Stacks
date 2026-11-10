@@ -51,7 +51,7 @@ theorem exists_affineOpen_blowupIdealU_eq_span_singleton (x : (situationBlowUpU 
     IsLocallyNoetherian.component_noetherian ⟨W, hW⟩
   have hle : (⟨(situationBlowUpU S).ι ''ᵁ W, hW.image_of_isOpenImmersion _⟩ :
       (situationBlowUp S).affineOpens) ≤ T i := by
-    show SetLike.coe ((situationBlowUpU S).ι ''ᵁ W) ⊆
+    change SetLike.coe ((situationBlowUpU S).ι ''ᵁ W) ⊆
       SetLike.coe (T i : (situationBlowUp S).Opens)
     rintro _ ⟨w, hw, rfl⟩
     exact hWsub hw

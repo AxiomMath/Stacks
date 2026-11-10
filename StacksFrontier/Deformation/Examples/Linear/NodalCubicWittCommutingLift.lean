@@ -58,7 +58,8 @@ machine-checked as `Deformation.Examples.ArtinSchreier.commutator_add_two_mul`,
 so, `2` being a zerodivisor killed by `(4)` in `NCW`, vanishing of the commutator is a condition
 one stage past its reduction modulo `2`: that reduction is linear in `(S, T)`, and the stage after
 it carries the quadratic term `[S, T]`. That is the curvature of
-`StacksFrontier.Deformation.ObstructionVariationQuadratic` in the present setting, and it is the only
+`StacksFrontier.Deformation.ObstructionVariationQuadratic` in the present setting, and it is the
+only
 place where a *quadratic* equation such as `b² + b = Y` could be made to live. The suggestion to be
 tested was therefore: find a pair whose commuting lifts are governed by such a quadratic in one
 unknown entry, with `1 + 4Y` as the obstruction.

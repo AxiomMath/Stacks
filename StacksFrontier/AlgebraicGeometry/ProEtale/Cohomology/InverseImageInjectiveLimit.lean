@@ -90,14 +90,14 @@ theorem isAffineIndEtaleOverEtale_of_isLimit (Z : Scheme.{u}) {A : Type u} [Smal
   let d : D ⟶ (Functor.const (Over a₀)).obj (Ub.obj a₀).left :=
     { app b := (Ub.map b.hom).left
       naturality {b b'} g := by
-        show (Ub.map g.left).left ≫ (Ub.map b'.hom).left = (Ub.map b.hom).left ≫ 𝟙 _
+        change (Ub.map g.left).left ≫ (Ub.map b'.hom).left = (Ub.map b.hom).left ≫ 𝟙 _
         rw [Category.comp_id]
         exact congrArg (fun φ ↦ φ.left) ((Ub.map_comp g.left b'.hom).symm.trans
           (congrArg Ub.map (Over.w g))) }
   let p : (Functor.const (Over a₀)).obj c.pt.left ⟶ D :=
     { app b := (c.π.app b.left).left
       naturality {b b'} g := by
-        show 𝟙 _ ≫ (c.π.app b'.left).left = (c.π.app b.left).left ≫ (Ub.map g.left).left
+        change 𝟙 _ ≫ (c.π.app b'.left).left = (c.π.app b.left).left ≫ (Ub.map g.left).left
         rw [Category.id_comp]
         exact congrArg (fun φ ↦ φ.left) (c.w g.left).symm }
   have hd (b : Over a₀) : Etale (d.app b) := by
@@ -181,7 +181,7 @@ theorem isZero_rightDerived_sheafSections_epsilonInverseImage_of_isLimit_of_prod
   have : Finite E.I₀ := inferInstanceAs (Finite 𝒰.I₀)
   have hE : Sieve.generate E.presieve₀ ∈ Scheme.ProEt.topology X T := by
     refine Precoverage.generate_mem_toGrothendieck ?_
-    show Presieve.map qf (Presieve.ofArrows V ι) ∈ Scheme.proetalePrecoverage _
+    change Presieve.map qf (Presieve.ofArrows V ι) ∈ Scheme.proetalePrecoverage _
     rw [Presieve.map_ofArrows]
     have : MorphismProperty.ContainsIdentities (@WeaklyEtale : MorphismProperty Scheme.{u}) :=
       ⟨fun _ ↦ inferInstance⟩

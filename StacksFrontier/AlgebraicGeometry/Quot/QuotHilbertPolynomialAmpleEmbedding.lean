@@ -379,7 +379,7 @@ theorem isRepresentedProper_canonicalBaseChanged_of_projectiveChart
       ((presheaf_yoneda_map_iff B integerBase ℤS inferInstance i).2 hi)
       (isClosedImmersion_of_isIso B integerBase ℤS κ.hom.hom)
   have hcomp₁ : π₁ ≫ productSnd n (schemeSpace W) = schemeSpaceMap q := by
-    show (schemeSpaceMap i ≫ κ.hom) ≫ productSnd n (schemeSpace W) = schemeSpaceMap q
+    change (schemeSpaceMap i ≫ κ.hom) ≫ productSnd n (schemeSpace W) = schemeSpaceMap q
     rw [Category.assoc, projectiveSiteProductIso_hom_productSnd, ← hiq]
     exact ObjectProperty.hom_ext _ (yoneda.map_comp _ _).symm
   have hMqc : M.IsQuasicoherentOnSite :=

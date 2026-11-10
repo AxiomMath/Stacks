@@ -183,10 +183,10 @@ private theorem preservesProducts_singleFunctor
     exact Stacks.DerivedProducts.preservesLimitsOfShape_Q
   let : PreservesLimitsOfShape (Discrete ℕ)
       (CochainComplex.singleFunctor (ModuleCat.{u} A) 0) := by
-    show PreservesLimitsOfShape (Discrete ℕ)
+    change PreservesLimitsOfShape (Discrete ℕ)
       (HomologicalComplex.single (ModuleCat.{u} A) (ComplexShape.up ℤ) 0)
     infer_instance
-  show PreservesLimitsOfShape (Discrete ℕ)
+  change PreservesLimitsOfShape (Discrete ℕ)
     (CochainComplex.singleFunctor (ModuleCat.{u} A) 0 ⋙ DerivedCategory.Q)
   infer_instance
 
@@ -234,7 +234,7 @@ private theorem exists_smul_eq_id_of_iso {R : Type*} [CommRing R] {C : Type*} [C
     [Preadditive C] [Linear R C] (f : R) {X Y : C} (i : X ≅ Y) (v : End Y)
     (hv : f • v.asHom = 𝟙 Y) : ∃ u : End X, f • u.asHom = 𝟙 X := by
   refine ⟨.of (i.hom ≫ v.asHom ≫ i.inv), ?_⟩
-  show f • (i.hom ≫ v.asHom ≫ i.inv) = 𝟙 X
+  change f • (i.hom ≫ v.asHom ≫ i.inv) = 𝟙 X
   rw [← Linear.comp_smul, ← Linear.smul_comp, hv, Category.id_comp, Iso.hom_inv_id]
 
 private theorem eq_zero_of_isIso_difference {R : Type*} [CommRing R] {C : Type*} [Category C]
@@ -274,10 +274,10 @@ private theorem exists_smul_eq_id_restrictScalars_complex (A : Type u) [CommRing
   let : Module (Localization.Away f)
       (↑(((((ModuleCat.restrictScalars.{u} (algebraMap A (Localization.Away f))
         ).mapHomologicalComplex (ComplexShape.up ℤ)).obj M).X n))) := by
-    show Module (Localization.Away f)
+    change Module (Localization.Away f)
       ((ModuleCat.restrictScalars.{u} (algebraMap A (Localization.Away f))).obj (M.X n))
     infer_instance
-  show (algebraMap A (Localization.Away f) f) •
+  change (algebraMap A (Localization.Away f) f) •
     ((IsLocalization.Away.invSelf (S := Localization.Away f) f) • (x : M.X n)) = x
   rw [smul_smul, mul_comm, IsLocalization.Away.invSelf,
     IsLocalization.mk'_spec_mk]
@@ -293,7 +293,7 @@ private theorem exists_smul_eq_id_restrictScalars_derived (A : Type u) [CommRing
   refine exists_smul_eq_id_of_iso f
     (F.mapDerivedCategory.mapIso (DerivedCategory.Q.objObjPreimageIso E).symm ≪≫
       F.mapDerivedCategoryFactors.app _) (.of (DerivedCategory.Q.map w.asHom)) ?_
-  show f • DerivedCategory.Q.map w.asHom = _
+  change f • DerivedCategory.Q.map w.asHom = _
   rw [← Functor.map_smul, hw]
   exact DerivedCategory.Q.map_id _
 

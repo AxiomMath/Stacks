@@ -313,7 +313,7 @@ theorem lerayIso_comp_structure
     (qis X')
   ext K
   simp only [NatTrans.comp_app, Functor.whiskerRight_app, Functor.whiskerLeft_app]
-  show _ ≫ (lerayIso φ (𝟙 _) f' (g ≫ f) wgf).hom.app _ ≫
+  change _ ≫ (lerayIso φ (𝟙 _) f' (g ≫ f) wgf).hom.app _ ≫
       (sections (𝟙 (Spec (CommRingCat.of A)))).map
         ((derivedPushforwardCompIso g.toLRSHom.toShHom f.toLRSHom.toShHom).inv.app _) = _
   rw [← Category.assoc, lerayIso_hom_app_fac, ← Category.assoc, lerayIso_hom_app_fac]
@@ -450,7 +450,7 @@ theorem lerayIso_structure_comp
     (qis X')
   ext K
   simp only [NatTrans.comp_app, Functor.whiskerRight_app, Functor.whiskerLeft_app]
-  show _ ≫ (lerayIso φ (𝟙 _) f' (f' ≫ Spec.map (CommRingCat.ofHom φ)) w').hom.app _ ≫
+  change _ ≫ (lerayIso φ (𝟙 _) f' (f' ≫ Spec.map (CommRingCat.ofHom φ)) w').hom.app _ ≫
       (sections (𝟙 (Spec (CommRingCat.of A)))).map
         ((derivedPushforwardCompIso f'.toLRSHom.toShHom
           (Spec.map (CommRingCat.ofHom φ)).toLRSHom.toShHom).inv.app _) = _

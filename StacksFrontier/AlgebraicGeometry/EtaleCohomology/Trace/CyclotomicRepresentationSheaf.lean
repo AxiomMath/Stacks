@@ -90,7 +90,8 @@ def finiteEtaleOverIsoOfFiberEquiv {V W : FiniteEtaleOver S}
 theorem finiteEtaleOverIsoOfFiberEquiv_hom_apply {V W : FiniteEtaleOver S}
     (e : (finiteEtaleFiberFunctor x).obj V ≃ (finiteEtaleFiberFunctor x).obj W)
     (he : ∀ (σ : EtaleFundamentalGroup S x) (p : (finiteEtaleFiberFunctor x).obj V),
-      e ((σ.asIso.app V).hom p) = (σ.asIso.app W).hom (e p)) (p : (finiteEtaleFiberFunctor x).obj V) :
+      e ((σ.asIso.app V).hom p) = (σ.asIso.app W).hom (e p))
+    (p : (finiteEtaleFiberFunctor x).obj V) :
     (finiteEtaleFiberFunctor x).map (finiteEtaleOverIsoOfFiberEquiv x e he).hom p = e p := by
   have h := (finiteEtaleEquivalenceOfIsGaloisCategory S x).fullyFaithfulFunctor.map_preimage
     (ObjectProperty.isoMk _ (Action.mkIso (FintypeCat.equivEquivIso e) fun σ ↦ by
@@ -191,7 +192,7 @@ theorem rootsOfUnityBaseChangeFiberEquiv_eq {U : Z.Etale}
   let g : CategoryTheory.Over.mk (x.map f).hom ⟶
       (CategoryTheory.Over.map f).obj ((Scheme.Etale.forget Z).obj U) :=
     CategoryTheory.Over.homMk p (by
-      show p ≫ U.hom ≫ f = x.hom ≫ f
+      change p ≫ U.hom ≫ f = x.hom ≫ f
       rw [← Category.assoc, hp])
   refine rootsOfUnityEtaleOverHomEquiv_map_left Y n hn g _ _ ?_
   refine (congrArg (· ≫ pullback.fst _ f) hq).trans ?_
@@ -206,7 +207,7 @@ theorem rootsOfUnitySection_add (n : ℕ) (U : Z.Etaleᵒᵖ)
     (a b : ToType ((rootsOfUnitySheaf.{u, 0} Z n).obj.obj U)) :
     (rootsOfUnitySection.{u, 0} Z n U (a + b)).1 =
       (rootsOfUnitySection.{u, 0} Z n U a).1 * (rootsOfUnitySection.{u, 0} Z n U b).1 := by
-  show Additive.toMul (((rootsOfUnityι.{u, 0} Z n).hom.app U (a + b)).down) = _
+  change Additive.toMul (((rootsOfUnityι.{u, 0} Z n).hom.app U (a + b)).down) = _
   rw [map_add]
   rfl
 
@@ -298,7 +299,7 @@ theorem bijective_geometricPointRootsOfUnity :
       rw [map_pow, hz, map_one, ← map_pow, ← Units.val_pow_eq_pow_val, hx, Units.val_one,
         map_one])
     refine ⟨rootsOfUnity.mkOfPowEq z hzn, Subtype.ext (Units.ext (e.injective ?_))⟩
-    show ψ ((rootsOfUnity.mkOfPowEq z hzn : kbarˣ) : kbar) = _
+    change ψ ((rootsOfUnity.mkOfPowEq z hzn : kbarˣ) : kbar) = _
     rwa [rootsOfUnity.coe_mkOfPowEq]
 
 /-- `μ_n(k̄) ≃ μ_n(Γ(Spec Ω, 𝒪))`, by `AlgebraicGeometry.bijective_geometricPointRootsOfUnity`. -/
@@ -355,7 +356,7 @@ theorem rootsOfUnityKbarPoint_galois (σ : kbar ≃ₐ[k] kbar) (ζ : _root_.roo
   refine Subtype.ext (h.trans ?_).symm
   simp only [rootsOfUnityKbarPoint, Equiv.apply_symm_apply]
   apply Units.ext
-  show (Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom)).appTop.hom
+  change (Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom)).appTop.hom
       ((Scheme.ΓSpecIso (.of kbar)).inv.hom ((ζ : kbarˣ) : kbar)) =
     (Scheme.ΓSpecIso (.of kbar)).inv.hom (σ ((ζ : kbarˣ) : kbar))
   exact (ConcreteCategory.congr_hom
@@ -377,7 +378,7 @@ def cyclotomicCoverPoint (ζ : _root_.rootsOfUnity n kbar) :
     rw [Category.assoc, CategoryTheory.Over.w (rootsOfUnityKbarPoint kbar hnk ζ)]
     exact geometricPointToSpec_comp_specAlgebraMap B X f kbar y⟩
 
-omit [Algebra.IsSeparable k kbar] in
+omit [Smooth f] [GeometricallyConnected f] [Algebra.IsSeparable k kbar] in
 /-- The root of unity in `Γ(Spec Ω, 𝒪)` underlying the point attached to `ζ` is the image of
 `ζ`. -/
 theorem rootsOfUnityFiniteEtaleFiberEquiv_cyclotomicCoverPoint (ζ : _root_.rootsOfUnity n kbar) :
@@ -408,18 +409,19 @@ def cyclotomicFiberEquiv :
       (finiteEtaleFiberProjectionEquiv f (curveGeometricBasePoint B X f kbar y)
         (cyclotomicCover hnk)).symm)
 
-omit [Algebra.IsSeparable k kbar] in
+omit [Smooth f] [GeometricallyConnected f] [Algebra.IsSeparable k kbar] in
 /-- The image of the fibre point `cyclotomicFiberEquiv ζ` of `X ×_k μ_{n,k}` under the projection
 to the geometric fibre of `μ_{n,k}` is `cyclotomicCoverPoint ζ`. -/
 theorem finiteEtaleFiberProjection_cyclotomicFiberEquiv (ζ : _root_.rootsOfUnity n kbar) :
     finiteEtaleFiberProjection f (curveGeometricBasePoint B X f kbar y) (cyclotomicCover hnk)
         (cyclotomicFiberEquiv B X f kbar y hnk ζ) =
       cyclotomicCoverPoint B X f kbar y hnk ζ := by
-  show finiteEtaleFiberProjectionEquiv f (curveGeometricBasePoint B X f kbar y)
+  change finiteEtaleFiberProjectionEquiv f (curveGeometricBasePoint B X f kbar y)
     (cyclotomicCover hnk) ((finiteEtaleFiberProjectionEquiv f _ _).symm _) = _
   rw [Equiv.apply_symm_apply, Equiv.symm_apply_eq,
     rootsOfUnityFiniteEtaleFiberEquiv_cyclotomicCoverPoint]
 
+omit [Smooth f] in
 /-- **The monodromy on the geometric fibre of `W = X ×_k μ_{n,k}` is `ρ_μ`**: `γ ∈ π₁(X, x̄)`
 acts on `μ_n(k̄)` through its image in `Aut(k̄/k)`. -/
 theorem cyclotomicFiberEquiv_smul
@@ -434,7 +436,7 @@ theorem cyclotomicFiberEquiv_smul
   let := connectedSpace_of_isCurve B X f
   let := connectedSpace_fieldBaseChange f kbar
   apply (finiteEtaleFiberProjectionEquiv f _ (cyclotomicCover hnk)).injective
-  show finiteEtaleFiberProjection f _ _ _ = finiteEtaleFiberProjection f _ _ _
+  change finiteEtaleFiberProjection f _ _ _ = finiteEtaleFiberProjection f _ _ _
   rw [etaleFundamentalGroupMap_finiteEtaleFiberProjection,
     finiteEtaleFiberProjection_cyclotomicFiberEquiv,
     finiteEtaleFiberProjection_cyclotomicFiberEquiv]
@@ -443,7 +445,7 @@ theorem cyclotomicFiberEquiv_smul
     (rootsOfUnityKbarPoint kbar hnk ζ).left
     (CategoryTheory.Over.w (rootsOfUnityKbarPoint kbar hnk ζ))
     (cyclotomicCoverPoint B X f kbar y hnk ζ) rfl).trans ?_
-  show _ = geometricPointToSpec B X f kbar y ≫ (rootsOfUnityKbarPoint kbar hnk _).left
+  change _ = geometricPointToSpec B X f kbar y ≫ (rootsOfUnityKbarPoint kbar hnk _).left
   rw [rootsOfUnityKbarPoint_galois]
   rfl
 
@@ -474,6 +476,7 @@ def cyclotomicContinuousModuleEquiv :
     (cyclotomicContinuousModule B X f kbar y n).obj.obj.obj.V ≃ _root_.rootsOfUnity n kbar :=
   Equiv.ulift.trans Additive.toMul
 
+omit [Smooth f] in
 /-- Under `AlgebraicGeometry.cyclotomicContinuousModuleEquiv`, `γ` acts on `μ_n(k̄)` through its
 image in `Aut(k̄/k)`. -/
 theorem cyclotomicContinuousModuleEquiv_ρ
@@ -486,6 +489,7 @@ theorem cyclotomicContinuousModuleEquiv_ρ
         (cyclotomicContinuousModuleEquiv B X f kbar y m) :=
   rfl
 
+omit [Smooth f] in
 /-- Addition on `ρ_μ` is multiplication of roots of unity. -/
 theorem cyclotomicContinuousModuleEquiv_add
     (a b : (cyclotomicContinuousModule B X f kbar y n).obj.obj.obj.V) :
@@ -505,6 +509,7 @@ def cyclotomicRepresentationFiberRoot :
   (representationFibreEquiv B X _ (ZMod n) (cyclotomicContinuousModule B X f kbar y n)).trans
     (cyclotomicContinuousModuleEquiv B X f kbar y)
 
+omit [Smooth f] in
 /-- `AlgebraicGeometry.cyclotomicRepresentationFiberRoot` intertwines the monodromy with the action
 of `π₁(X, x̄)` on `μ_n(k̄)` through `Aut(k̄/k)`. -/
 theorem cyclotomicRepresentationFiberRoot_smul
@@ -525,6 +530,7 @@ theorem cyclotomicRepresentationFiberRoot_smul
   rw [Equiv.trans_apply, Equiv.trans_apply, h]
   exact cyclotomicContinuousModuleEquiv_ρ B X f kbar y γ _
 
+omit [Smooth f] in
 /-- `AlgebraicGeometry.cyclotomicRepresentationFiberRoot` is natural along morphisms `ρ₂ ⟶ ρ_μ`. -/
 theorem cyclotomicRepresentationFiberRoot_naturality
     {ρ₂ : letI := connectedSpace_of_isCurve B X f
@@ -560,6 +566,7 @@ def cyclotomicRepresentationFiberEquiv :
         ((finiteEtaleBaseChange f).obj (cyclotomicCover hnk)) :=
   (cyclotomicRepresentationFiberRoot B X f kbar y).trans (cyclotomicFiberEquiv B X f kbar y hnk)
 
+omit [Smooth f] in
 /-- `cyclotomicRepresentationFiberEquiv` is `cyclotomicFiberEquiv` applied after
 `cyclotomicRepresentationFiberRoot`. -/
 theorem cyclotomicRepresentationFiberEquiv_apply
@@ -571,6 +578,7 @@ theorem cyclotomicRepresentationFiberEquiv_apply
       cyclotomicFiberEquiv B X f kbar y hnk (cyclotomicRepresentationFiberRoot B X f kbar y v) :=
   Equiv.trans_apply _ _ _
 
+omit [Smooth f] in
 /-- `AlgebraicGeometry.cyclotomicRepresentationFiberEquiv` intertwines the monodromy actions. -/
 theorem cyclotomicRepresentationFiberEquiv_smul
     (γ : letI := connectedSpace_of_isCurve B X f
@@ -608,14 +616,14 @@ def cyclotomicRepresentationEtaleIso :
       (cyclotomicRepresentationCoverIso B X f kbar y hnk))
     (MorphismProperty.Over.w (cyclotomicRepresentationCoverIso B X f kbar y hnk).hom)
 
-omit [Algebra.IsSeparable k kbar] in
+omit [Smooth f] [GeometricallyConnected f] [Algebra.IsSeparable k kbar] in
 /-- The root of unity underlying the point of the fibre of `X ×_k μ_{n,k}` attached to
 `ζ ∈ μ_n(k̄)` is the image of `ζ`. -/
 theorem rootsOfUnityBaseChangeFiberEquiv_cyclotomicFiberEquiv (ζ : _root_.rootsOfUnity n kbar) :
     rootsOfUnityBaseChangeFiberEquiv f hnk (curveGeometricBasePoint B X f kbar y)
         (cyclotomicFiberEquiv B X f kbar y hnk ζ) =
       geometricPointRootsOfUnityEquiv B X f kbar y n ζ := by
-  show rootsOfUnityFiniteEtaleFiberEquiv (Spec (.of k)) n hnk
+  change rootsOfUnityFiniteEtaleFiberEquiv (Spec (.of k)) n hnk
     ((curveGeometricBasePoint B X f kbar y).map f)
       (finiteEtaleFiberProjection f (curveGeometricBasePoint B X f kbar y) (cyclotomicCover hnk)
         (cyclotomicFiberEquiv B X f kbar y hnk ζ)) = _
@@ -647,6 +655,7 @@ def cyclotomicRepresentationSectionEquiv (U : X.1.Etale) :
       (Equiv.ofBijective _
         (isRepresentedBy_rootsOfUnityBaseChangeUniversalSection.{u, 0} f n hnk).map_bijective))
 
+omit [Smooth f] in
 /-- The defining property of `AlgebraicGeometry.cyclotomicRepresentationSectionEquiv`. -/
 theorem cyclotomicRepresentationSectionEquiv_map {U : X.1.Etale}
     (t : letI := connectedSpace_of_isCurve B X f
@@ -676,6 +685,7 @@ private theorem map_comp_op_apply {C A : Type*} [Category C] [Category A] {FA : 
     F.map (h ≫ t).op s = F.map h.op (F.map t.op s) := by
   rw [op_comp, Functor.map_comp, ConcreteCategory.comp_apply]
 
+omit [Smooth f] in
 /-- `AlgebraicGeometry.cyclotomicRepresentationSectionEquiv` is natural in `U`. -/
 theorem cyclotomicRepresentationSectionEquiv_naturality {U V : X.1.Etale} (h : V ⟶ U)
     (s : letI := connectedSpace_of_isCurve B X f
@@ -703,6 +713,7 @@ abbrev representationCoverMap {X : B.Scheme} [ConnectedSpace X.1] (x : Geometric
     (φ : ρ ⟶ ρ') : representationCover B X x Λ ρ ⟶ representationCover B X x Λ ρ' :=
   (SmallEtale.toEtaleSite B X.1 X.2).map ((representationCoverSmall B X x Λ).map φ).hom
 
+omit [Smooth f] in
 /-- The geometric fibre of a cover map `V_{ρ₂} ⟶ V_{ρ_μ}`, followed by `V_{ρ_μ} ≅ X ×_k μ_{n,k}`,
 read through `AlgebraicGeometry.rootsOfUnityBaseChangeFiberEquiv`: it is the image in
 `Γ(Spec Ω, 𝒪)` of the root of unity attached to the fibre point by `ρ₂ ⟶ ρ_μ`. -/
@@ -748,6 +759,7 @@ theorem rootsOfUnityBaseChangeFiberEquiv_representationCoverMap
   rw [h2, cyclotomicRepresentationFiberEquiv_apply,
     rootsOfUnityBaseChangeFiberEquiv_cyclotomicFiberEquiv]
 
+omit [Smooth f] in
 /-- **Restriction of the universal root of unity along a sum of cover maps.** If
 `φ₃ = φ₁ + φ₂ : ρ₂ ⟶ ρ_μ` on underlying modules, then on the cover `V₂` representing `ℱ_{ρ₂}` the
 root of unity attached to the cover map of `φ₃`, followed by `V ≅ X ×_k μ_{n,k}`, is the product
@@ -783,7 +795,7 @@ theorem rootsOfUnityEtaleBaseChangeHomEquiv_representationCoverMap_of_add
         rw [mul_pow, (rootsOfUnityEtaleBaseChangeHomEquiv f n hnk V₂ k₁).2,
           (rootsOfUnityEtaleBaseChangeHomEquiv f n hnk V₂ k₂).2, one_mul]⟩
   suffices hkm : k₃ = km by
-    show (rootsOfUnityEtaleBaseChangeHomEquiv f n hnk V₂ k₃).1 = _
+    change (rootsOfUnityEtaleBaseChangeHomEquiv f n hnk V₂ k₃).1 = _
     rw [hkm, Equiv.apply_symm_apply]
   refine MorphismProperty.Over.Hom.ext ?_
   let W := (finiteEtaleBaseChange f).obj (cyclotomicCover hnk)
@@ -813,6 +825,7 @@ theorem rootsOfUnityEtaleBaseChangeHomEquiv_representationCoverMap_of_add
       geometricPointRootsOfUnityEquiv_mul]
   exact congrArg (fun m ↦ m.left) hab
 
+omit [Smooth f] in
 /-- On the cover `V₂` representing `ℱ_{ρ_μ ⊞ ρ_μ}`, the section of `μ_n` attached to the cover
 map of `p₁ + p₂` is the sum of those attached to `p₁` and `p₂`. -/
 theorem rootsOfUnitySheaf_map_representationCoverMap_biprod :
@@ -849,6 +862,7 @@ theorem rootsOfUnitySheaf_map_representationCoverMap_biprod :
       (rootsOfUnitySection_map_rootsOfUnityBaseChangeUniversalSection f hnk _))).symm.trans ?_
   exact (rootsOfUnitySection_add X.1 n _ _ _).symm
 
+omit [Smooth f] in
 /-- **Two sections of `ℱ_{ρ_μ}` and their sum are restrictions through one cover.** Given `s, t`
 over `U`, there is `h : U ⟶ V₂` into the cover representing `ℱ_{ρ_μ ⊞ ρ_μ}` such that `s`, `t` and
 `s + t` are the restrictions of the tautological section of `ℱ_{ρ_μ}` along `h` followed by the
@@ -902,7 +916,7 @@ theorem exists_representationCoverMap_biprod (U : X.1.Etale)
     rw [← hh]
     refine (ConcreteCategory.congr_hom ((Fr.map φ).hom.naturality h.op)
       (representationTautologicalSection B X x (ZMod n) (ρ ⊞ ρ))).trans ?_
-    show (Fr.obj ρ).obj.map h.op ((Fr.map φ).hom.app _
+    change (Fr.obj ρ).obj.map h.op ((Fr.map φ).hom.app _
       (representationTautologicalSection B X x (ZMod n) (ρ ⊞ ρ))) = _
     rw [representationTautologicalSection_naturality, map_comp_op_apply]
   have hz : (Fr.map (biprod.fst : ρ ⊞ ρ ⟶ ρ)).hom.app (op U) z = s ∧
@@ -913,6 +927,7 @@ theorem exists_representationCoverMap_biprod (U : X.1.Etale)
   rw [Fr.map_add]
   exact (congrArg₂ (· + ·) hz.1 hz.2).symm
 
+omit [Smooth f] in
 /-- **`AlgebraicGeometry.cyclotomicRepresentationSectionEquiv` is additive**, by
 `AlgebraicGeometry.exists_representationCoverMap_biprod` and
 `AlgebraicGeometry.rootsOfUnitySheaf_map_representationCoverMap_biprod`. -/
@@ -969,6 +984,7 @@ def cyclotomicRepresentationSheafIso :
       exact cyclotomicRepresentationSectionEquiv_naturality B X f kbar y
         (isUnit_natCast_ΓSpec_of_isUnit n hn) h.unop s))
 
+omit [Smooth f] in
 /-- **`AlgebraicGeometry.cyclotomicRepresentationSheafIso` on sections**: the restriction of the
 tautological section of `ℱ_{ρ_μ}` along `t : U ⟶ V` goes to the restriction of the universal
 root of unity along `U ⟶ V ≅ X ×_k μ_{n,k}`. -/

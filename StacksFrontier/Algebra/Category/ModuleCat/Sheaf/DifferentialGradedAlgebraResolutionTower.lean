@@ -159,7 +159,7 @@ noncomputable def familySection (n : ℤ) (V : Cᵒᵖ) (y : (P n).val.obj V) : 
 @[simp] theorem familySection_pair_self (n : ℤ) (V : Cᵒᵖ) (y : (P n).val.obj V) :
     (familySection P n V y).pair n = y := by
   change (if h : n = n then castHom P h V y else 0) = y
-  rw [dif_pos rfl]
+  rw [dite_eq_left rfl]
   exact castHom_rfl P V y
 
 /-- The local section named by a section of `P n` has degree `n`. -/
@@ -289,16 +289,22 @@ def consCases {U : Cᵒᵖ} {motive : Letter (consFam S F) U → Sort*}
     Fin.cases (motive := fun j => ∀ y : (consFam S F ⟨j⟩).Index U, motive ⟨⟨j⟩, y⟩)
       (fun y => new y) (fun i y => old ⟨⟨i⟩, y⟩) j y
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] [HasSheafify J AddCommGrpCat.{t}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{t}] in
 /-- `consCases` on a new letter is given by the case for new letters. -/
 @[simp] theorem consCases_new {U : Cᵒᵖ} {motive : Letter (consFam S F) U → Sort*}
     (new : ∀ y : S.Index U, motive (newLetter y)) (old : ∀ x : Letter F U, motive (succLetter x))
     (y : S.Index U) : consCases new old (newLetter y) = new y := rfl
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] [HasSheafify J AddCommGrpCat.{t}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{t}] in
 /-- `consCases` on an old letter is given by the case for old letters. -/
 @[simp] theorem consCases_old {U : Cᵒᵖ} {motive : Letter (consFam S F) U → Sort*}
     (new : ∀ y : S.Index U, motive (newLetter y)) (old : ∀ x : Letter F U, motive (succLetter x))
     (x : Letter F U) : consCases new old (succLetter x) = old x := rfl
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] [HasSheafify J AddCommGrpCat.{t}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{t}] in
 /-- Every letter of an extended family is new or old. -/
 theorem consLetter_induction {U : Cᵒᵖ} {P : Letter (consFam S F) U → Prop}
     (new : ∀ y : S.Index U, P (newLetter y)) (old : ∀ x : Letter F U, P (succLetter x))
@@ -343,7 +349,7 @@ noncomputable def consDerivation
 generator. -/
 noncomputable def succLetterMap :
     LetterMap F (freeGradedAlgebra (Osharp := Osharp) (consFam S F)) where
-  app U x := algGen (Osharp := Osharp) (consFam S F) (succLetter x)
+  app _ x := algGen (Osharp := Osharp) (consFam S F) (succLetter x)
   naturality f x := algGen_naturality (consFam S F) f (succLetter x)
 
 /-- The letter map of a family of morphisms out of `O⟨F⟩`: a letter goes to the image of its
@@ -566,13 +572,13 @@ theorem incl_algGen {U : Cᵒᵖ} (x : Letter s.F U) :
 component of its boundary pair, an old one to its old differential. -/
 noncomputable def nextδ : DerivationDatum (Osharp := Osharp) s.nextF :=
   consDerivation (fun U y => (s.incl (y.1 + 1)).val.app U (s.pairCycle y))
-    (fun {U V} f y =>
-      (PresheafOfModules.naturality_apply (s.incl (y.1 + 1)).val f _).symm.trans
-        (congrArg ((s.incl (y.1 + 1)).val.app V) (s.pairCycle_map f y)))
+    (fun f y => by
+      rw [← s.pairCycle_map f y]
+      exact (PresheafOfModules.naturality_apply (s.incl (y.1 + 1)).val f _).symm)
     (fun U x => (s.incl (letterDeg x + 1)).val.app U (s.δ.app U x))
-    (fun {U V} f x =>
-      (PresheafOfModules.naturality_apply (s.incl (letterDeg x + 1)).val f _).symm.trans
-        (congrArg ((s.incl (letterDeg x + 1)).val.app V) (s.δ.naturality f x)))
+    (fun f x => by
+      rw [← s.δ.naturality f x]
+      exact (PresheafOfModules.naturality_apply (s.incl (letterDeg x + 1)).val f _).symm)
 
 /-- The differential of a new generator is the cocycle component of its boundary pair. -/
 @[simp] theorem nextδ_new {U : Cᵒᵖ} (y : s.pairs.Index U) :
@@ -587,7 +593,7 @@ theorem incl_algD (n : ℤ) (U : Cᵒᵖ) (z : (algPiece (Osharp := Osharp) s.F 
     (s.incl (n + 1)).val.app U ((algD s.F s.δ n).val.app U z) =
       (algD s.nextF s.nextδ n).val.app U ((s.incl n).val.app U z) :=
   s.inclMap.liftPiece_algD_free s.δ s.nextδ
-    (fun U x => algD_algGen s.nextF s.nextδ (succLetter x)) n U z
+    (fun _ x => algD_algGen s.nextF s.nextδ (succLetter x)) n U z
 
 /-- The differential of the next stage is closed on the generators. -/
 theorem next_hδ (U : Cᵒᵖ) (x : Letter s.nextF U) :
@@ -617,7 +623,7 @@ noncomputable def inclHom : s.A ⟶ s.nextA :=
 primitive component of its boundary pair, an old one to its old image. -/
 noncomputable def nextMap : LetterMap s.nextF B.toGradedAlgebra :=
   consLetterMap (LetterMap.ofHom (fun n => s.φ.toHomologicalComplex.f n))
-    (fun U y => s.pairPrimitive y) (fun f y => s.pairPrimitive_map f y)
+    (fun _ y => s.pairPrimitive y) (fun f y => s.pairPrimitive_map f y)
 
 /-- A new generator goes to the primitive component of its boundary pair. -/
 @[simp] theorem nextMap_new {U : Cᵒᵖ} (y : s.pairs.Index U) :
@@ -710,7 +716,7 @@ noncomputable def stageLetterMap : (k : ℕ) →
     LetterMap (resolutionStage B k).F (freeGradedAlgebra (Osharp := Osharp) (resolutionGens B))
   | 0 => emptyLetterMap _
   | k + 1 => consLetterMap (stageLetterMap k)
-      (fun U y => algGen (Osharp := Osharp) (resolutionGens B) ⟨⟨k⟩, y⟩)
+      (fun _ y => algGen (Osharp := Osharp) (resolutionGens B) ⟨⟨k⟩, y⟩)
       (fun f y => algGen_naturality (resolutionGens B) f ⟨⟨k⟩, y⟩)
 
 /-- A generator adjoined at stage `k` goes to the generator it names in the free algebra on all
@@ -775,10 +781,11 @@ the generators. -/
 noncomputable def resolutionδ : DerivationDatum (Osharp := Osharp) (resolutionGens B) where
   app U x := (stageIncl B x.1.down (x.2.1 + 1)).val.app U
     ((resolutionStage B x.1.down).pairCycle x.2)
-  naturality {U V} f x :=
-    (PresheafOfModules.naturality_apply (stageIncl B x.1.down (x.2.1 + 1)).val f _).symm.trans
-      (congrArg ((stageIncl B x.1.down (x.2.1 + 1)).val.app V)
-        ((resolutionStage B x.1.down).pairCycle_map f x.2))
+  naturality f x := by
+    refine
+      (PresheafOfModules.naturality_apply (stageIncl B x.1.down (x.2.1 + 1)).val f _).symm.trans ?_
+    congr 1
+    exact (resolutionStage B x.1.down).pairCycle_map f x.2
 
 /-- The differential of a generator adjoined at stage `k` is the image of the cocycle component
 of its boundary pair. -/
@@ -839,7 +846,7 @@ noncomputable def stageHom (k : ℕ) : (resolutionStage B k).A ⟶ resolutionAlg
 /-- The letter map of the homomorphism `A ⟶ B`: a generator goes to the primitive component of
 its boundary pair. -/
 noncomputable def resolutionMap : LetterMap (resolutionGens B) B.toGradedAlgebra where
-  app U x := (resolutionStage B x.1.down).pairPrimitive x.2
+  app _ x := (resolutionStage B x.1.down).pairPrimitive x.2
   naturality f x := (resolutionStage B x.1.down).pairPrimitive_map f x.2
 
 /-- The homomorphism `A ⟶ B` agrees with the homomorphism of each stage on its generators. -/

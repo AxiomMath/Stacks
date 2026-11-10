@@ -168,7 +168,7 @@ public theorem finite_setOf_not_isRegularLocalRing [CompactSpace X] (f : X ⟶ S
     obtain ⟨z, hz⟩ :=
       (Stacks.NodalEtaleLocalStructure.mem_relativeSingular_iff_not_smoothAt_fiber f hf y).mpr hy'
     refine ⟨z, ?_, hz⟩
-    show (ι ≫ f).base z ∈ ({closedPoint R} : Set (Spec (.of R)))
+    change (ι ≫ f).base z ∈ ({closedPoint R} : Set (Spec (.of R)))
     rw [Scheme.Hom.comp_apply, hz]
     exact hgen y hy
   refine ⟨hFfin.image _ |>.subset hsub, fun y hy ↦ ?_⟩
@@ -264,18 +264,18 @@ public theorem nonempty_nodalChartAt_of_not_isRegularLocalRing (f : X ⟶ Spec (
     simp only [Scheme.Hom.comp_base, TopCat.hom_comp, ContinuousMap.comp_apply] at hcomp
     rw [hgu, hu] at hcomp
     have hbot : (PrimeSpectrum.comap (algebraMap R' (nodalChartRing R' 0)) η).asIdeal = ⊥ := by
-      show q.comap (algebraMap R' (nodalChartRing R' 0)) = ⊥
+      change q.comap (algebraMap R' (nodalChartRing R' 0)) = ⊥
       ext r
       simp only [Ideal.mem_comap, Ideal.mem_bot]
       rw [algebraMap_nodalChartRing_eq, ← Ideal.mem_comap]
-      show MvPolynomial.C r ∈ q.comap (Ideal.Quotient.mk (Ideal.span {nodalEquation R' 0})) ↔ _
+      change MvPolynomial.C r ∈ q.comap (Ideal.Quotient.mk (Ideal.span {nodalEquation R' 0})) ↔ _
       rw [hqc]
       simp [p₀, RingHom.mem_ker]
     have hinj : Function.Injective (algebraMap R R') :=
       FaithfulSMul.algebraMap_injective R R'
     have hmax : maximalIdeal R = ⊥ := by
       refine hcomp.trans ?_
-      show Ideal.comap (algebraMap R R')
+      change Ideal.comap (algebraMap R R')
         (PrimeSpectrum.comap (algebraMap R' (nodalChartRing R' 0)) η).asIdeal = ⊥
       rw [hbot, ← RingHom.ker_eq_comap_bot]
       exact (RingHom.injective_iff_ker_eq_bot _).mp hinj
@@ -466,9 +466,9 @@ private theorem exists_nodalBlowupChain_isRegular_aux (M : Multiset ℕ) :
   have hν' : ∀ y ∈ S', Nonempty (NodalChartAt (b ≫ f) y (ν' y)) := by
     intro y hy
     by_cases hyx : b.base y = x
-    · simp only [ν', if_pos hyx]
+    · simp only [ν', ite_eq_left hyx]
       exact hE y hyx ((hS' y).mp hy)
-    · simp only [ν', if_neg hyx]
+    · simp only [ν', ite_eq_right hyx]
       obtain ⟨c'⟩ := hν (b.base y) ((hmem y hyx).mp hy)
       exact NodalChartAt.nonempty_blowUp_of_ne f hxC y hyx c'
   -- The exponents drop in the Dershowitz–Manna order.
@@ -493,13 +493,13 @@ private theorem exists_nodalBlowupChain_isRegular_aux (M : Multiset ℕ) :
       rw [hsplit, ← hoff, Multiset.map_map]
       congr 1
       refine Multiset.map_congr rfl fun y hy ↦ ?_
-      simp only [Function.comp_apply, ν', if_neg (Multiset.mem_filter.mp hy).2]
+      simp only [Function.comp_apply, ν', ite_eq_right (Multiset.mem_filter.mp hy).2]
     · rw [← hM, ← Multiset.cons_erase hxS, Multiset.map_cons, Multiset.erase_cons_head,
         add_comm, Multiset.singleton_add]
     · intro k hk
       obtain ⟨y, hy, rfl⟩ := Multiset.mem_map.mp hk
       refine ⟨ν x, Multiset.mem_singleton_self _, ?_⟩
-      simp only [ν', if_pos (Multiset.mem_filter.mp hy).2]
+      simp only [ν', ite_eq_left (Multiset.mem_filter.mp hy).2]
       omega
   obtain ⟨Y, h, hchain, hreg⟩ := ih _ hDM (blowUp I) (b ≫ f) hnodal' hgen' S' hS' ν' hν' rfl
   exact ⟨Y, h ≫ b, NodalBlowupChain.of_blowUp hxC hxbad hnodal' hchain, hreg⟩
@@ -525,7 +525,7 @@ public theorem exists_nodalBlowupChain_isRegular_of_isRegularLocalRing {X : Sche
   have hy : ¬ IsRegularLocalRing (X.presheaf.stalk y) := by
     rw [Set.Finite.mem_toFinset] at hy
     exact hy
-  simp only [ν, dif_pos hy]
+  simp only [ν, dite_eq_left hy]
   exact (nonempty_nodalChartAt_of_not_isRegularLocalRing f hf hgen y hy).choose_spec
 
 /-- **Stacks Project, Tag 0CDE.** Let `R` be a discrete valuation ring and let `X` be a

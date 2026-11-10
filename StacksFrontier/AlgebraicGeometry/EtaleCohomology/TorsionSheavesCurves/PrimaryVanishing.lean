@@ -162,6 +162,7 @@ theorem locallyAnnihilated_pos_iff_torsionSheafProperty (F : Sheaf J AddCommGrpC
 variable [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   {S : ShortComplex (Sheaf J AddCommGrpCat.{w})}
 
+omit [J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- Local annihilation descends from the middle term of a short exact sequence of abelian
 sheaves to the sub-sheaf. -/
 theorem locallyAnnihilated_X₁_of_shortExact (P : ℕ → Prop) (hS : S.ShortExact)

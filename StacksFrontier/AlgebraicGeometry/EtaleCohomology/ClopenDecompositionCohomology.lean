@@ -66,8 +66,8 @@ theorem bijective_mk₀_comp_pi_of_isIso_biproduct_desc {ι : Type*} [Finite ι]
     intro m
     rw [biproduct.ι_desc, Preadditive.comp_sum]
     simp only [biproduct.ι_π_assoc]
-    rw [Finset.sum_eq_single m (fun k _ hk => by rw [dif_neg (Ne.symm hk), Limits.zero_comp])
-      (fun h => absurd (Finset.mem_univ m) h), dif_pos rfl, eqToHom_refl, Category.id_comp]
+    rw [Finset.sum_eq_single m (fun k _ hk => by rw [dite_eq_right (Ne.symm hk), Limits.zero_comp])
+      (fun h => absurd (Finset.mem_univ m) h), dite_eq_left rfl, eqToHom_refl, Category.id_comp]
   have hsg : ∑ k, s k ≫ g k = 𝟙 Z := by
     simp only [s, Category.assoc, ← Preadditive.comp_sum]
     rw [← hdesc, IsIso.inv_hom_id]
@@ -78,19 +78,19 @@ theorem bijective_mk₀_comp_pi_of_isIso_biproduct_desc {ι : Type*} [Finite ι]
       biproduct.ι_π]
   refine Function.bijective_iff_has_inverse.mpr
     ⟨fun y => ∑ k, (Ext.mk₀ (s k)).comp (y k) (zero_add n), fun x => ?_, fun y => ?_⟩
-  · show ∑ k, (Ext.mk₀ (s k)).comp ((Ext.mk₀ (g k)).comp x (zero_add n)) (zero_add n) = x
+  · change ∑ k, (Ext.mk₀ (s k)).comp ((Ext.mk₀ (g k)).comp x (zero_add n)) (zero_add n) = x
     simp only [Ext.mk₀_comp_mk₀_assoc]
     rw [← Ext.sum_comp, ← Ext.mk₀_sum, hsg]
     exact Ext.mk₀_id_comp x
   · funext m
-    show (Ext.mk₀ (g m)).comp (∑ k, (Ext.mk₀ (s k)).comp (y k) (zero_add n)) (zero_add n) = y m
+    change (Ext.mk₀ (g m)).comp (∑ k, (Ext.mk₀ (s k)).comp (y k) (zero_add n)) (zero_add n) = y m
     rw [Ext.comp_sum]
     simp only [Ext.mk₀_comp_mk₀_assoc, hgs]
     rw [Finset.sum_eq_single m]
     · simp only [dite_true, eqToHom_refl]
       exact Ext.mk₀_id_comp (y m)
     · intro k _ hk
-      rw [dif_neg (Ne.symm hk), Ext.mk₀_zero, Ext.zero_comp]
+      rw [dite_eq_right (Ne.symm hk), Ext.mk₀_zero, Ext.zero_comp]
     · intro h
       exact absurd (Finset.mem_univ m) h
 

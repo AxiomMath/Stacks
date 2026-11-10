@@ -102,7 +102,7 @@ private theorem contAction_topology_eq (G : Type u) [Group G] [TopologicalSpace 
     FintypeCatDiscrete.instTopologicalSpaceObjFinite X.obj.V =
       ((forget₂ (Action FintypeCat G) TopCat).obj X.obj).str := by
   have hdisc : DiscreteTopology ((forget₂ (Action FintypeCat G) TopCat).obj X.obj) := by
-    show DiscreteTopology X.obj.V.obj
+    change DiscreteTopology X.obj.V.obj
     infer_instance
   exact DiscreteTopology.eq_bot.trans hdisc.eq_bot.symm
 
@@ -123,13 +123,13 @@ public theorem continuous_actionOnForget (G : Type u) [Group G]
   let : TopologicalSpace (Aut (forget (ContAction FintypeCat.{u} G))) :=
     functorAutomorphismTopology _
   apply continuous_induced_rng.mpr
-  show Continuous ((componentEmbedding _) ∘ actionOnForget G)
+  change Continuous ((componentEmbedding _) ∘ actionOnForget G)
   apply continuous_pi_iff.mpr
   intro X
-  show Continuous (fun g : G =>
+  change Continuous (fun g : G =>
     ((forget FintypeCat).mapAut X.obj.V (Action.ρAut X.obj g)).asIso.toEquiv)
   let : MulAction G X.obj.V.obj := by
-    show MulAction G ((forget₂ (Action FintypeCat G) TopCat).obj X.obj)
+    change MulAction G ((forget₂ (Action FintypeCat G) TopCat).obj X.obj)
     infer_instance
   let : ContinuousSMul G X.obj.V.obj := contAction_continuousSMul G X
   have hsmul : Continuous (fun p : G × X.obj.V.obj => p.1 • p.2) := continuous_smul
@@ -157,7 +157,7 @@ public theorem canonicalHom_apply (G : Type u) [Group G] [TopologicalSpace G]
       functorAutomorphismTopology _
     ConcreteCategory.hom (((canonicalHom G) g).asIso.hom.app X) x =
       ConcreteCategory.hom (X.obj.ρ g).asHom x := by
-  show ConcreteCategory.hom (((actionOnForget G) g).asIso.hom.app X) x = _
+  change ConcreteCategory.hom (((actionOnForget G) g).asIso.hom.app X) x = _
   rfl
 
 private theorem exists_action_matching_finite_family (G : Type u) [Group G]
@@ -169,7 +169,7 @@ private theorem exists_action_matching_finite_family (G : Type u) [Group G]
       ConcreteCategory.hom (γ.asIso.hom.app (X i)) (x i) := by
   have : Fintype I := Fintype.ofFinite I
   let (i : I) : MulAction G ((X i).obj.V.obj) := by
-    show MulAction G ((forget₂ (Action FintypeCat G) TopCat).obj (X i).obj)
+    change MulAction G ((forget₂ (Action FintypeCat G) TopCat).obj (X i).obj)
     infer_instance
   let (i : I) : ContinuousSMul G ((X i).obj.V.obj) := contAction_continuousSMul G (X i)
   let E := ∀ i, (X i).obj.V.obj
@@ -186,7 +186,7 @@ private theorem exists_action_matching_finite_family (G : Type u) [Group G]
     constructor
     have hp : Continuous (fun p : G × ESmall.obj => (p.1, e p.2)) :=
       continuous_fst.prodMk (continuous_of_discreteTopology.comp continuous_snd)
-    show Continuous (fun p : G × ESmall.obj => e.symm (p.1 • e p.2))
+    change Continuous (fun p : G × ESmall.obj => e.symm (p.1 • e p.2))
     exact continuous_of_discreteTopology.comp (ContinuousSMul.continuous_smul.comp hp)
   have he_smul (g : G) (y : ESmall.obj) : e (g • y) = g • e y := e.apply_symm_apply _
   let x' : ESmall.obj := e.symm (fun i => x i)
@@ -200,7 +200,7 @@ private theorem exists_action_matching_finite_family (G : Type u) [Group G]
     have hs : Continuous (fun p : G × O => p.1 • (p.2 : ESmall.obj)) :=
       ContinuousSMul.continuous_smul.comp
         (continuous_fst.prodMk (continuous_subtype_val.comp continuous_snd))
-    show Continuous (fun p : G × O => (↑(p.1 • p.2) : ESmall.obj))
+    change Continuous (fun p : G × O => (↑(p.1 • p.2) : ESmall.obj))
     exact hs
   have hOdisc : DiscreteTopology O := Finite.instDiscreteTopology
   have hOtop :
@@ -209,7 +209,7 @@ private theorem exists_action_matching_finite_family (G : Type u) [Group G]
     hOdisc.eq_bot.symm
   let Q : Action FintypeCat G := Action.FintypeCat.ofMulAction G (FintypeCat.of O)
   have hQ : Q.IsContinuous := by
-    show @ContinuousSMul G ((FintypeCat.of O).obj) _
+    change @ContinuousSMul G ((FintypeCat.of O).obj) _
       _ (FintypeCatDiscrete.instTopologicalSpaceObjFinite (FintypeCat.of O))
     rw [hOtop]
     infer_instance
@@ -220,7 +220,7 @@ private theorem exists_action_matching_finite_family (G : Type u) [Group G]
     hom := FintypeCat.homMk (fun y : O => e y.1 i)
     comm := fun g => by
       ext y
-      show e (g • y.1) i = g • e y.1 i
+      change e (g • y.1) i = g • e y.1 i
       rw [he_smul]
       rw [Pi.smul_apply] }
   let yO : O := ConcreteCategory.hom (γ.hom.app Q') xO
@@ -228,13 +228,13 @@ private theorem exists_action_matching_finite_family (G : Type u) [Group G]
   refine ⟨g, fun i => ?_⟩
   have hnat := NatTrans.naturality_apply (γ.hom) (e₁ i) xO
   have hmapx : ((forget (ContAction FintypeCat.{u} G)).map (e₁ i)) xO = x i := by
-    show ConcreteCategory.hom ((e₁ i).hom.hom) xO = x i
-    show e xO.1 i = x i
+    change ConcreteCategory.hom ((e₁ i).hom.hom) xO = x i
+    change e xO.1 i = x i
     simp [xO, x']
   have hmapy : ((forget (ContAction FintypeCat.{u} G)).map (e₁ i))
       ((γ.hom.app Q') xO) = e yO.1 i := by
-    show ConcreteCategory.hom ((e₁ i).hom.hom) ((γ.hom.app Q') xO) = e yO.1 i
-    show e (((γ.hom.app Q') xO).1) i = e yO.1 i
+    change ConcreteCategory.hom ((e₁ i).hom.hom) ((γ.hom.app Q') xO) = e yO.1 i
+    change e (((γ.hom.app Q') xO).1) i = e yO.1 i
     rfl
   rw [hmapx, hmapy] at hnat
   change ConcreteCategory.hom ((γ.hom).app (X i)) (x i) = e yO.1 i at hnat
@@ -273,7 +273,7 @@ private theorem denseRange_canonicalHom (G : Type u) [Group G]
       (componentEmbedding (forget (ContAction FintypeCat.{u} G)) γ) j := by
     apply Equiv.ext
     intro y
-    show ConcreteCategory.hom (((canonicalHom G) g).asIso.hom.app j) y =
+    change ConcreteCategory.hom (((canonicalHom G) g).asIso.hom.app j) y =
       ConcreteCategory.hom (γ.asIso.hom.app j) y
     rw [canonicalHom_apply]
     simpa [X, x] using hg (⟨⟨j, hj⟩, y⟩ : I)
@@ -377,26 +377,26 @@ private theorem quotientAutComponent_canonicalHom
   let q : G →* A := (QuotientGroup.mk' U.toOpenSubgroup.toSubgroup).comp f.toMonoidHom
   let ψ : G →* Csmall.obj := e.mulEquiv.symm.toMonoidHom.comp q
   have hψ : Continuous ψ := by
-    show Continuous (fun g => e.symm (QuotientGroup.mk' U.toOpenSubgroup.toSubgroup (f g)))
+    change Continuous (fun g => e.symm (QuotientGroup.mk' U.toOpenSubgroup.toSubgroup (f g)))
     exact (continuous_of_discreteTopology).comp
       (QuotientGroup.continuous_mk.comp f.continuous_toFun)
   let : MulAction G Csmall.obj := MulAction.compHom Csmall.obj ψ
   let : ContinuousSMul G Csmall.obj := by
     constructor
-    show Continuous (fun p : G × Csmall.obj => ψ p.1 * p.2)
+    change Continuous (fun p : G × Csmall.obj => ψ p.1 * p.2)
     exact continuous_mul.comp ((hψ.comp continuous_fst).prodMk continuous_snd)
   let Xact : Action FintypeCat G := Action.FintypeCat.ofMulAction G Csmall
   have hXact : Xact.IsContinuous := by
-    show ContinuousSMul G Csmall.obj
+    change ContinuousSMul G Csmall.obj
     infer_instance
   let X : ContAction FintypeCat.{u} G := ⟨Xact, hXact⟩
   let : Group X.obj.V.obj := e.group
-  show e (ConcreteCategory.hom (((canonicalHom G) g).asIso.hom.app X) 1) =
+  change e (ConcreteCategory.hom (((canonicalHom G) g).asIso.hom.app X) 1) =
     QuotientGroup.mk' U.toOpenSubgroup.toSubgroup (f g)
   rw [canonicalHom_apply]
-  show e (ψ g * (1 : Csmall.obj)) = q g
+  change e (ψ g * (1 : Csmall.obj)) = q g
   simp only [mul_one]
-  show e (e.symm (q g)) = q g
+  change e (e.symm (q g)) = q g
   exact e.apply_symm_apply _
 
 private theorem quotientAutComponent_compatible
@@ -469,7 +469,7 @@ private theorem continuous_profiniteExtensionLimitHom
       TopologicalSpace (P ⧸ U.toOpenSubgroup.toSubgroup)) =
       (P.diagram.obj U).toProfinite.toTop.str :=
     DiscreteTopology.eq_bot
-  show @Continuous (Aut (forget (ContAction FintypeCat.{u} G)))
+  change @Continuous (Aut (forget (ContAction FintypeCat.{u} G)))
     (P ⧸ U.toOpenSubgroup.toSubgroup)
     (functorAutomorphismTopology _) (P.diagram.obj U).toProfinite.toTop.str
     (fun γ => qU γ)
@@ -501,12 +501,12 @@ private theorem profiniteExtension_comp_canonicalHom
   let e := ProfiniteGrp.continuousMulEquivLimittoFiniteQuotientFunctor P
   apply ContinuousMonoidHom.ext
   intro g
-  show (profiniteExtension G P f) ((canonicalHom G) g) = f g
-  show e.symm (profiniteExtensionLimitHom G P f ((canonicalHom G) g)) = f g
+  change (profiniteExtension G P f) ((canonicalHom G) g) = f g
+  change e.symm (profiniteExtensionLimitHom G P f ((canonicalHom G) g)) = f g
   have hlim : profiniteExtensionLimitHom G P f ((canonicalHom G) g) = e (f g) := by
     apply Subtype.ext
     funext U
-    show quotientAutComponent G P f U ((canonicalHom G) g) = _
+    change quotientAutComponent G P f U ((canonicalHom G) g) = _
     rw [quotientAutComponent_canonicalHom]
     rfl
   simpa using congrArg e.symm hlim
@@ -525,7 +525,7 @@ public theorem profiniteCompletionEquiv_forgetAut
     functorAutomorphismTopology _
   let : IsTopologicalGroup (Aut (forget (ContAction FintypeCat.{u} G))) :=
     functorAutomorphismIsTopologicalGroup _
-  show Stacks.Chapter05.Tag_0BR1.IsProfiniteTop
+  change Stacks.Chapter05.Tag_0BR1.IsProfiniteTop
     (Aut (forget (ContAction FintypeCat.{u} G))) ∧ _
   refine ⟨isProfiniteGrp_functorAutomorphismTopology _, fun Q _ _ _ hQ => ?_⟩
   let : CompactSpace Q := hQ.1

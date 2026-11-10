@@ -88,7 +88,7 @@ theorem pullbackTerminalSection_hom_app_chartDiagram (f : X ⟶ Y)
   have hTm : g.toToposHom.inverseImageTerminalIso.hom ≫
       pullbackTerminalSection (X := smallEtaleRingedTopos B S hS X)
         (Y := smallEtaleRingedTopos B S hS Y) g s = m := by
-    show g.toToposHom.inverseImageTerminalIso.hom ≫
+    change g.toToposHom.inverseImageTerminalIso.hom ≫
       g.toToposHom.inverseImageTerminalIso.inv ≫ m = m
     exact Iso.hom_inv_id_assoc _ _
   have e4 := congrArg (fun φ => φ.hom.app (op d.U)

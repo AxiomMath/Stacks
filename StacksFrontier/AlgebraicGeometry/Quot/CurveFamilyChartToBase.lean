@@ -60,7 +60,7 @@ theorem holds_chartToBase {P : MorphismProperty Scheme.{u}}
   hP _ _ U.obj.hom (𝟙 _) (X.chartToBase U) U.property
     (presheaf_id_of_iso B integerBase hZ _
       (fun _ _ g _ => by
-        show Etale ((BigFppfOver.toScheme B integerBase hZ).map g)
+        change Etale ((BigFppfOver.toScheme B integerBase hZ).map g)
         infer_instance) _)
     (by rw [yoneda_map_chartToBase]; exact Category.comp_id (U.obj.hom ≫ X.toBaseHom))
 

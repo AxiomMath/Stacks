@@ -301,7 +301,7 @@ theorem mem_supp_cokernel_iff_not_surjective (x : X) :
       ⟨fun g₁ g₂ hg => (inferInstance : Epi (cokernel.π θ)).left_cancellation g₁ g₂ hg⟩ x a
     obtain ⟨c, rfl⟩ := hsurj b
     apply ha
-    show mapFun (cokernel.π θ) x (mapFun θ x c) = 0
+    change mapFun (cokernel.π θ) x (mapFun θ x c) = 0
     rw [← mapFun_comp, cokernel.condition, mapFun_zero_apply]
   · refine not_imp_comm.mpr fun hx => ?_
     let T := AlgebraicGeometry.SheafOfModules.stalkFunctor X.ringCatSheaf x

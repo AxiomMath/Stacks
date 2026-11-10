@@ -515,7 +515,7 @@ public theorem BigSite.exists_affine_coproduct_morphism {τ : CoveringTopology} 
     obtain ⟨i, y, hy⟩ := hS x
     refine ⟨(Sigma.ι E'.X i).left y, ?_⟩
     change ((Sigma.ι E'.X i).left ≫ g.left) y = x
-    rwa [← Over.comp_left, show Sigma.ι E'.X i ≫ g = E'.f i from Sigma.ι_desc E'.f i]
+    rwa [← Over.comp_left, show Sigma.ι E'.X i ≫ g = E'.f i from Sigma.ι_comp_desc E'.f i]
   have hT : T.left.size < B.cutoff :=
     (Scheme.size_le_of_locallyOfFiniteType g.left).trans_lt X.left.property
   let Y : B.category :=

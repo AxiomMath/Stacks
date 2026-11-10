@@ -161,7 +161,7 @@ one module universe at which that file records it as not automatic.  It is delib
 registered as an instance; see the implementation notes. -/
 theorem locallySmall_modules_smallEtale : LocallySmall.{u} (Modules.{u, u} B S hS F hF) :=
   have hes : EssentiallySmall.{u} (smallEtaleRingedSite B S hS F hF).C := by
-    show EssentiallySmall.{u} (SmallEtale B S hS F)
+    change EssentiallySmall.{u} (SmallEtale B S hS F)
     infer_instance
   (SheafOfModules.isGrothendieckAbelian_of_essentiallySmall
     ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O))).locallySmall

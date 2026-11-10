@@ -122,6 +122,7 @@ theorem fibreTangentFinite_of_coefficientLiftComparison
     (fun hz₀ hD' => finiteDimensional_tangentModuleAt_fibreBasePoint_snd D iΛ x₀ hx₀ hfinite
       hqc hz₀ hD') Φ hD
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The infinitesimal-automorphism hypothesis on the fibre, from the groups
 `Hom(K₀, K₀ ⊗^L (O₀ ⊗_k V))`.** Let `Complexes_{X/Y}` satisfy (RS\*) (Stacks 0DLK, `rsC`) and let
 `x₀` be a field point over `Spec k ⟶ Spec Λ ⟶ S`. If the groups `Hom(K₀, K₀ ⊗^L (O₀ ⊗_k V))`
@@ -178,7 +179,7 @@ theorem fibreInfFinite_of_coefficientHom
           ((fgSiteModule B hk).map f) (aut V g))
     (hsurj : Function.Surjective (aut (FGModuleCat.of k k))) :
     FibreInfFinite D iΛ x₀ hx₀ := fun hD y hy P =>
-  finiteDimensional_localizedAutomorphismFunctorTangent_twoFibreProduct_of_coefficientHom.{d, d₀}
+  finiteDimensional_localizedAutomorphismFunctorTangent_twoFibreProduct_of_coefficientHom.{d₀}
     (θ := θ) (K₀ := K₀) hfib
     (baseProj_isFiberedInGroupoids D.Y) (Functor.IsFiberedInGroupoids.over_map x₀.T.left.hom)
     (complexesToBaseObjects_comp D) (schemePointToBase_comp D.Y x₀.T.left x₀.T.hom) rsC

@@ -111,7 +111,7 @@ theorem isIso_of_comp_ι_eq_of_iso (W : IntegralClosedSubspace B S hS X)
         (W'.subspace.ι ≫ e.inv)) =
       subspacePointSet B S hS X W.subspace := by
     rw [pointsMap_comp, Set.range_comp]
-    show pointsMap B S hS Y e.inv '' subspacePointSet B S hS Y W'.subspace = _
+    change pointsMap B S hS Y e.inv '' subspacePointSet B S hS Y W'.subspace = _
     rw [hpts, Set.image_image]
     simp only [pointsMap_inv_pointsMap_hom, Set.image_id']
   obtain ⟨n, hn⟩ := (exists_lift_closedSubspace_iff_pointsMap_range_subset B S hS hX
@@ -184,7 +184,7 @@ theorem cycleGroupClosedPushforward_integralClosedSubspacePushforward_of_iso
           hmi (W'.subspace.ι ≫ sY) (isGood_integralClosedSubspace D sY hY W').2.2
           (W.subspace.ι ≫ sX) (by rw [← Category.assoc, hm, Category.assoc, hcomp]) k c) := by
   refine Subtype.ext ?_
-  show cycleClosedPushforward D hY.1 hX.1 (D.isDecentSpace_of_isGood sY hY) _
+  change cycleClosedPushforward D hY.1 hX.1 (D.isDecentSpace_of_isGood sY hY) _
       (cycleClosedPushforward D hX.1 W.isClosedSubspace.1
         (D.isDecentSpace_of_isGood sX hX) W.isClosedSubspace.2 c.1) =
     cycleClosedPushforward D hY.1 W'.isClosedSubspace.1
@@ -288,7 +288,7 @@ theorem isRationallyEquivalentToZeroCanonical_cycleGroupClosedPushforward_of_iso
   · obtain ⟨T, rfl⟩ := IntegralClosedSubspace.surjective_pushforward_of_iso D.site D.base
       D.base_mem hX.1 hY.1 (D.isDecentSpace_of_isGood sX hX)
       (D.isDecentSpace_of_isGood sY hY) e T'
-    show cycleClosedPushforward D hY.1 hX.1 (D.isDecentSpace_of_isGood sY hY)
+    change cycleClosedPushforward D hY.1 hX.1 (D.isDecentSpace_of_isGood sY hY)
         (isClosedImmersion_of_isIso D.site D.base D.base_mem e.hom)
         (cycleFamilySum D sX hX W hWfin k c).1 _ = _
     rw [cycleClosedPushforward_apply_pushforward, cycleFamilySum_apply, cycleFamilySum_apply]

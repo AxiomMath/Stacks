@@ -170,6 +170,8 @@ public theorem isLinearTopology_quotient (K : Ideal R) :
     (Ideal.Quotient.mk K)).to_hasBasis (fun L hL => ⟨L, hL, ?_⟩) (fun L hL => ⟨L, hL, ?_⟩)
   all_goals rw [Ideal.map_eq_image_of_surjective _ Ideal.Quotient.mk_surjective]
 
+omit [TopologicalSpace B] [IsTopologicalRing B] [IsLinearTopology B B]
+  [TopologicalSpace R] [IsTopologicalRing R] [IsLinearTopology R R] in
 /-- **The kernel of `id ⊗ (R → R ⧸ K)` is the extension of `K`.**  This is the algebraic
 right-exactness of the tensor product, read off from Mathlib's
 `Algebra.TensorProduct.tensorQuotientEquiv`, which identifies `B ⊗[A] (R ⧸ K)` with

@@ -95,7 +95,7 @@ public theorem coefficientVecEquiv_mulVec (M : Matrix (Fin r) (Fin r) O)
   have hw : (b.repr (coefficientVecEquiv b r w j) : Fin d → R) =
       fun l => w (finProdFinEquiv (j, l)) :=
     b.equivFun.apply_symm_apply _
-  show _ = b.repr (M i j * coefficientVecEquiv b r w j) k
+  change _ = b.repr (M i j * coefficientVecEquiv b r w j) k
   rw [← Algebra.leftMulMatrix_mulVec_repr, hw]
   simp only [Matrix.mulVec, dotProduct, coefficientMatrixRingHom_apply]
 
@@ -254,7 +254,7 @@ public def characterTwist (ρ : G →* GL n O) (χ : G →* Oˣ) : G →* GL n O
   map_mul' g h := by
     ext : 1
     simp only [map_mul, Units.val_mul, Units.coe_map, RingHom.toMonoidHom_eq_coe,
-      MonoidHom.coe_coe]
+      MonoidHom.coe_ofClass]
     simp only [Matrix.mul_assoc]
     congr 1
     rw [← Matrix.mul_assoc, ← Matrix.mul_assoc,
@@ -263,7 +263,7 @@ public def characterTwist (ρ : G →* GL n O) (χ : G →* Oˣ) : G →* GL n O
 /-- The matrix of `characterTwist ρ χ g` is `χ(g) • ρ(g)`. -/
 public theorem characterTwist_val (ρ : G →* GL n O) (χ : G →* Oˣ) (g : G) :
     (characterTwist ρ χ g).val = (χ g : O) • (ρ g).val := by
-  show (ρ g).val * Matrix.scalar n (χ g : O) = _
+  change (ρ g).val * Matrix.scalar n (χ g : O) = _
   rw [← scalar_mul_comm, Matrix.smul_eq_diagonal_mul]
   rfl
 

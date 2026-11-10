@@ -110,7 +110,7 @@ theorem isProper_projToSpecCoeff (n : ℕ) : IsProper (projToSpecCoeff R n) := b
       (algebraMap R (MvPolynomial (Fin (n + 1)) R)))
       = Stacks.ProjectiveCohomology.polyDegreeZeroHom R n := by
     refine CommRingCat.hom_ext (RingHom.ext fun r => Subtype.ext ?_)
-    show ((DirectSum.decompose (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) R)
+    change ((DirectSum.decompose (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) R)
         (MvPolynomial.C r)) 0 : MvPolynomial (Fin (n + 1)) R) = MvPolynomial.C r
     exact DirectSum.decompose_of_mem_same _
       ((MvPolynomial.mem_homogeneousSubmodule 0 _).2 (MvPolynomial.isHomogeneous_C _ r))

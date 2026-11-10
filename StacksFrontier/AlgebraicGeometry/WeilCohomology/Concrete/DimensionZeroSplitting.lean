@@ -175,7 +175,7 @@ theorem splitInj_fst (σ : globalSections X →ₐ[k] L) :
     haveI := etale_globalSections hX
     splitInj hX L σ ≫ fst X (spec k L) = specMap σ ≫ (isoSpecOfDimensionZero hX).inv :=
   hom_ext_left (by
-    show (splitLift hX L σ ≫ 𝟙 _) ≫ pullback.fst _ _ = _
+    change (splitLift hX L σ ≫ 𝟙 _) ≫ pullback.fst _ _ = _
     rw [Category.comp_id, splitLift, pullback.lift_fst]
     rfl)
 
@@ -184,7 +184,7 @@ theorem splitInj_fst (σ : globalSections X →ₐ[k] L) :
 theorem splitInj_snd (σ : globalSections X →ₐ[k] L) :
     splitInj hX L σ ≫ snd X (spec k L) = 𝟙 _ :=
   hom_ext_left (by
-    show (splitLift hX L σ ≫ 𝟙 _) ≫ pullback.snd _ _ = 𝟙 _
+    change (splitLift hX L σ ≫ 𝟙 _) ≫ pullback.snd _ _ = 𝟙 _
     rw [Category.comp_id, splitLift, pullback.lift_snd])
 
 /-- The cofan of the coprojections `ι_σ`, `σ ∈ Hom_k(Γ(X, 𝒪_X), L)`. -/
@@ -243,7 +243,7 @@ def isColimitSplitCofan
       (pullbackSpecIso k (globalSections X) L).hom =
         sigmaSpec R ≫ Spec.map (CommRingCat.ofHom Φ.toRingEquiv.toRingHom) := by
     refine Sigma.hom_ext _ _ fun σ ↦ ?_
-    rw [Sigma.ι_desc_assoc, splitLift_prodMapSpec_pullbackSpecIso, ι_sigmaSpec_assoc,
+    rw [Sigma.ι_comp_desc_assoc, splitLift_prodMapSpec_pullbackSpecIso, ι_sigmaSpec_assoc,
       ← Spec.map_comp]
     congr 1
   haveI : IsIso (Sigma.desc (splitLift hX L) ≫ prodMapSpec hX L ≫
@@ -258,7 +258,7 @@ def isColimitSplitCofan
   haveI : IsIso (Sigma.desc c.inj) := by
     have : Sigma.desc c.inj = Sigma.desc (splitLift hX L) ≫ (prodLeftIso X (spec k L)).inv :=
       Sigma.hom_ext _ _ fun σ ↦ by
-        rw [Sigma.ι_desc, Sigma.ι_desc_assoc]
+        rw [Sigma.ι_comp_desc, Sigma.ι_comp_desc_assoc]
         rfl
     rw [this]
     infer_instance

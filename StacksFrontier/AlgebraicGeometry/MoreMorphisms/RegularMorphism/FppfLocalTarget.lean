@@ -72,7 +72,7 @@ public theorem Scheme.Hom.isRegular_iff_flat_and_geometricallyRegularFibers {X Y
     clear_value x
     have hxy : f x = y := by
       rw [hx]
-      show (f.fiberι y ≫ f) z = y
+      change (f.fiberι y ≫ f) z = y
       rw [f.fiber_fac]
       simp
     cases hxy
@@ -95,7 +95,7 @@ private theorem isGeometricallyRegular_of_isoOver {k : Type u} [Field k] {X Z : 
   let q : pullback f φ ⟶ pullback f' φ := pullback.map f φ f' φ i.hom (𝟙 _) (𝟙 _) h₁ h₂
   have _ : IsIso q := pullback.map_isIso f φ f' φ i.hom (𝟙 _) (𝟙 _) h₁ h₂
   have hcomp : q ≫ pullback.fst f' φ = pullback.fst f φ ≫ i.hom := by
-    show pullback.lift (pullback.fst f φ ≫ i.hom) (pullback.snd f φ ≫ 𝟙 _) _ ≫
+    change pullback.lift (pullback.fst f φ ≫ i.hom) (pullback.snd f φ ≫ 𝟙 _) _ ≫
       pullback.fst f' φ = _
     rw [pullback.lift_fst]
   have hx' : pullback.fst f' φ (q x'') = i.hom x := by
@@ -121,7 +121,7 @@ public theorem isGeometricallyRegular_fiber_iff_of_isPullback {X Y U V : Scheme.
   let _ : Algebra (Y.residueField (g x)) (U.residueField x) :=
     (g.residueFieldMap x).hom.toAlgebra
   have _ : Algebra.EssFiniteType (Y.residueField (g x)) (U.residueField x) := by
-    show ((IsLocalRing.ResidueField.map (g.stalkMap x).hom)).EssFiniteType
+    change ((IsLocalRing.ResidueField.map (g.stalkMap x).hom)).EssFiniteType
     exact RingHom.EssFiniteType.residueFieldMap (LocallyOfFiniteType.stalkMap g x)
   have _ : IsLocallyNoetherian (f.fiber (g x)) := hnoeth
   have hpb := isPullback_fiberToSpecResidueField_of_isPullback h x

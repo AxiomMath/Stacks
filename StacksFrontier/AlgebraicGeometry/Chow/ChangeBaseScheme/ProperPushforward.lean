@@ -323,7 +323,7 @@ theorem properPushforward_baseChangeCyclePullback
     (k + B.c)
   let L := (baseChangeCyclePullback B sX k).comp P
   let R := P'.comp (baseChangeCyclePullback B (f ≫ sX) k)
-  show R z = L z
+  change R z = L z
   refine Eq.symm (Subtype.ext (Function.locallyFinsuppWithin.ext fun x => ?_))
   -- the part of the support of `z` lying over the image of `x`
   set J : Set Y := f.base ⁻¹' {(pullback.fst sX B.g).base x} ∩ z.1.support with hJ
@@ -352,7 +352,7 @@ theorem properPushforward_baseChangeCyclePullback
     have hsum : evalAt β = ∑ a ∈ Finset.univ, z.1 a.1 * (pointTerm a).1 w := by
       rw [hβdef, map_sum]
       exact Finset.sum_congr rfl fun a _ => by rw [map_zsmul]; rfl
-    show evalAt β = z.1 w
+    change evalAt β = z.1 w
     rw [hsum]
     by_cases hz : z.1 w = 0
     · refine (Finset.sum_eq_zero fun a _ => ?_).trans hz.symm

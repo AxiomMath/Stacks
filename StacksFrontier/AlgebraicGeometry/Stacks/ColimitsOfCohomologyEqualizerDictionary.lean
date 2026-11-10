@@ -92,7 +92,8 @@ What they reduce condition (4) to is exactly **one step**, the hypothesis `h_aff
 
 **That step is proved**, for a stack quasi-separated over a quasi-separated base scheme, as
 `AlgebraicGeometry.Stack.exists_affine_dominating` in
-`StacksFrontier/AlgebraicGeometry/Stacks/ColimitsOfCohomologyEqualizerAffineCover.lean`, so condition
+`StacksFrontier/AlgebraicGeometry/Stacks/ColimitsOfCohomologyEqualizerAffineCover.lean`, so
+condition
 (4) for the fppf site is proved there and with it the fppf assertion of Stacks 0GQV. What follows
 records why that step is not obtained the way condition (3) is.
 
@@ -158,8 +159,8 @@ With it available,
 `.isIso_colimit_post_rightDerived_globalSections_fppf_of_exists_affine_dominating` below is the
 full assertion of **Stacks 0GQV** for a quasi-compact algebraic stack quasi-separated over a
 quasi-separated base scheme, condition (3) of Stacks 0GN4 having been proved in
-`StacksFrontier/AlgebraicGeometry/Stacks/ColimitsOfCohomologyProductAffineCover.lean`; that assertion
-with `h_affine_dominating` discharged is
+`StacksFrontier/AlgebraicGeometry/Stacks/ColimitsOfCohomologyProductAffineCover.lean`; that
+assertion with `h_affine_dominating` discharged is
 `AlgebraicGeometry.Stack.isIso_colimit_post_rightDerived_globalSections_fppf_of_isQuasiCompact`.
 
 ## Implementation notes

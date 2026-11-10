@@ -59,6 +59,7 @@ variable {X Y : RingedTopos.{u, u, u}}
     (HomotopyCategory.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
       (ComplexShape.up ℤ))]
 
+omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- Bijectivity of localization on morphisms out of `P` transports along an isomorphism of the
 target. -/
 theorem bijective_qh_map_of_iso

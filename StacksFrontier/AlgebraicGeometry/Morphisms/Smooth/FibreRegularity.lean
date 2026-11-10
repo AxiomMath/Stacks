@@ -110,7 +110,7 @@ theorem smoothAt_iff_isRegularLocalRing_stalk {k : Type u} [Field k] {X : Scheme
   let e : (↥(X.residueField x)) ≃+* q.ResidueField :=
     IsLocalRing.ResidueField.mapEquiv eL.toRingEquiv
   have he (r : Γ(X, V)) : e (X.evaluation V x hxV r) = algebraMap Γ(X, V) q.ResidueField r := by
-    show IsLocalRing.ResidueField.mapEquiv eL.toRingEquiv
+    change IsLocalRing.ResidueField.mapEquiv eL.toRingEquiv
         (IsLocalRing.residue _ ((X.presheaf.germ V x hxV).hom r)) = _
     rw [IsLocalRing.ResidueField.mapEquiv_apply, IsLocalRing.ResidueField.map_residue,
       IsScalarTower.algebraMap_apply Γ(X, V) (Localization.AtPrime q) q.ResidueField,

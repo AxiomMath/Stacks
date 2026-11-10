@@ -163,7 +163,7 @@ theorem isZero_homology_total_of_exactAt
     have hpq' : p + q = j := hpq
     by_cases hp : b < p
     · exact Functor.map_isZero (HomologicalComplex.eval C (up ℤ) q) (hTzero p (hpb p hp))
-    · show IsZero ((CochainComplex.truncLE (B.X p) m).X q)
+    · change IsZero ((CochainComplex.truncLE (B.X p) m).X q)
       exact CochainComplex.isZero_of_isStrictlyLE _ m q (by lia)
   exact (StacksDraft.TotalComplexQuasiIso.isZero_homology_of_isZero_X j hzero).of_iso
     (asIso (HomologicalComplex.homologyMap (HomologicalComplex₂.total.map ι (up ℤ)) j)).symm

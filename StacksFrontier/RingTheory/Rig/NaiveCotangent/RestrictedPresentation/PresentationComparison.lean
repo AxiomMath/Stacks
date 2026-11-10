@@ -138,7 +138,7 @@ private theorem restrictedSubstitution_polynomial
     (restrictedPolynomialRingFilterBasis A τ).toAddGroupFilterBasis.isUniformAddGroup
   let : IsUniformAddGroup (RestrictedPowerSeries A τ) :=
     inferInstanceAs (IsUniformAddGroup (UniformSpace.Completion (MvPolynomial τ A)))
-  show UniformSpace.Completion.extension
+  change UniformSpace.Completion.extension
       (MvPolynomial.aeval g : MvPolynomial σ A →ₐ[A] RestrictedPowerSeries A τ)
       (↑p : UniformSpace.Completion (MvPolynomial σ A)) = _
   exact UniformSpace.Completion.extension_coe
@@ -164,7 +164,7 @@ private theorem exists_continuous_presentationMap
   have hpol : Q.toAlgHom.comp (MvPolynomial.aeval g) = P.toAlgHom.comp (polynomialAlgHom P) := by
     ext i
     simp only [AlgHom.comp_apply, MvPolynomial.aeval_X]
-    show Q.toAlgHom (g i) = P.toAlgHom (P.var i)
+    change Q.toAlgHom (g i) = P.toAlgHom (P.var i)
     exact hg i
   have hPc : Continuous P.toAlgHom :=
     P.continuous_quotientEquiv.comp continuous_quotient_mk'
@@ -181,7 +181,7 @@ private theorem exists_continuous_presentationMap
   let : T2Space B := e.t2Space
   apply DFunLike.ext'
   refine eq_of_forall_polynomial (hQc.comp (continuous_restrictedSubstitution g)) hPc fun p => ?_
-  show Q.toAlgHom (restrictedSubstitution g
+  change Q.toAlgHom (restrictedSubstitution g
     (polynomialToRestrictedPowerSeries A (Fin P.variableCount) p)) = _
   rw [restrictedSubstitution_polynomial]
   exact DFunLike.congr_fun hpol p
@@ -314,7 +314,7 @@ private theorem presentationConormalMap_differential
   simp only [LinearMap.comp_apply]
   rw [presentationConormalMap_mk, L.differential_mk, K.differential_mk]
   rw [presentationDifferentialsMap_apply]
-  show Q.toAlgHom (L.partialDeriv j (F g.1)) = _
+  change Q.toAlgHom (L.partialDeriv j (F g.1)) = _
   rw [restrictedSubstitution_chainRule K L F hcont]
   simp only [map_sum, map_mul]
   apply Finset.sum_congr rfl
@@ -417,7 +417,7 @@ private theorem presentationHomotopyMap_differential
   have ht := presentationMap_sub_sub_mem_sq K F G hFc hGc Q.ker
     (fun i => (presentationDifference F G hF hG i).2) z.1
   simp only [Submodule.coe_sum, SetLike.val_smul, smul_eq_mul, presentationDifference] at *
-  show (∑ i, G (K.partialDeriv i z.1) * (F (P.var i) - G (P.var i))) -
+  change (∑ i, G (K.partialDeriv i z.1) * (F (P.var i) - G (P.var i))) -
       (F z.1 - G z.1) ∈ Q.ker ^ 2
   rw [show (∑ i, G (K.partialDeriv i z.1) * (F (P.var i) - G (P.var i))) - (F z.1 - G z.1) =
     -(F z.1 - G z.1 -
@@ -577,21 +577,21 @@ private theorem presentationCochainMap_id
     intro v
     funext j
     rw [presentationDifferentialsMap_apply]
-    show (∑ i, v i * P.toAlgHom (K.partialDeriv j
+    change (∑ i, v i * P.toAlgHom (K.partialDeriv j
       (polynomialToRestrictedPowerSeries A (Fin P.variableCount) (MvPolynomial.X i)))) = v j
     simp [K.partialDeriv_polynomial, MvPolynomial.pderiv_X, Pi.single_apply]
   apply from_double_hom_ext
-  · show (presentationCochainMap K K (AlgHom.id A P.ring) continuous_id_algHom
+  · change (presentationCochainMap K K (AlgHom.id A P.ring) continuous_id_algHom
         (AlgHom.comp_id P.toAlgHom)).f (-1) =
       HomologicalComplex.Hom.f (𝟙 K.cochainComplex) (-1)
     rw [presentationCochainMap_negOne, ha]
-    show K.degreeNegOneIso.hom ≫ 𝟙 _ ≫ K.degreeNegOneIso.inv = 𝟙 _
+    change K.degreeNegOneIso.hom ≫ 𝟙 _ ≫ K.degreeNegOneIso.inv = 𝟙 _
     simp
-  · show (presentationCochainMap K K (AlgHom.id A P.ring) continuous_id_algHom
+  · change (presentationCochainMap K K (AlgHom.id A P.ring) continuous_id_algHom
         (AlgHom.comp_id P.toAlgHom)).f 0 =
       HomologicalComplex.Hom.f (𝟙 K.cochainComplex) 0
     rw [presentationCochainMap_zero, hb]
-    show K.degreeZeroIso.hom ≫ 𝟙 _ ≫ K.degreeZeroIso.inv = 𝟙 _
+    change K.degreeZeroIso.hom ≫ 𝟙 _ ≫ K.degreeZeroIso.inv = 𝟙 _
     simp
 
 private def presentationCochainHomotopy
@@ -737,10 +737,10 @@ public theorem exists_restrictedPresentationComparison :
             equiv := presentationCochainEquiv K L F G hFc hGc hF hG
             conormal_mk := ?_, free_apply := ?_ }⟩
   · intro g
-    show (presentationCochainMap K L F hFc hF).f (-1) _ = _
+    change (presentationCochainMap K L F hFc hF).f (-1) _ = _
     rw [presentationCochainMap_mk, presentationConormalMap_mk]
   · intro v
-    show (presentationCochainMap K L F hFc hF).f 0 _ = _
+    change (presentationCochainMap K L F hFc hF).f 0 _ = _
     rw [presentationCochainMap_free]
 
 
@@ -753,7 +753,7 @@ private theorem restrictedPresentationComparison_hom_eq
     apply LinearMap.ext
     rintro ⟨x⟩
     obtain ⟨g, rfl⟩ := Algebra.Extension.Cotangent.mk_surjective x
-    show e.equiv.hom.f (-1) (K.degreeNegOneIso.inv (ULift.up _)) =
+    change e.equiv.hom.f (-1) (K.degreeNegOneIso.inv (ULift.up _)) =
       (presentationCochainMap K L e.map e.continuous_map e.commutes).f (-1)
         (K.degreeNegOneIso.inv (ULift.up (Algebra.Extension.Cotangent.mk g)))
     rw [e.conormal_mk, presentationCochainMap_mk, presentationConormalMap_mk]
@@ -761,7 +761,7 @@ private theorem restrictedPresentationComparison_hom_eq
     apply ModuleCat.hom_ext
     apply LinearMap.ext
     rintro ⟨v⟩
-    show e.equiv.hom.f 0 (K.degreeZeroIso.inv (ULift.up v)) =
+    change e.equiv.hom.f 0 (K.degreeZeroIso.inv (ULift.up v)) =
       (presentationCochainMap K L e.map e.continuous_map e.commutes).f 0
         (K.degreeZeroIso.inv (ULift.up v))
     rw [e.free_apply, presentationCochainMap_free]

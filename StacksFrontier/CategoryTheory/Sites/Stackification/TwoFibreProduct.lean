@@ -197,9 +197,9 @@ lemma isLocallySurjective_eqPullbackMap [IsLocallySurjective J l₁] [IsLocallyS
     refine ⟨⟨(A₁.map g.op a₁, A₂.map g.op a₂), ?_⟩, Subtype.ext (Prod.ext ?_ ?_)⟩
     · rw [uA.naturality_apply, vA.naturality_apply]
       exact hg
-    · show l₁.app (op Z) (A₁.map g.op a₁) = B₁.map g.op (B₁.map f.op b.val.1)
+    · change l₁.app (op Z) (A₁.map g.op a₁) = B₁.map g.op (B₁.map f.op b.val.1)
       rw [l₁.naturality_apply, ha₁]
-    · show l₂.app (op Z) (A₂.map g.op a₂) = B₂.map g.op (B₂.map f.op b.val.2)
+    · change l₂.app (op Z) (A₂.map g.op a₂) = B₂.map g.op (B₂.map f.op b.val.2)
       rw [l₂.naturality_apply, ha₂]
 
 end
@@ -289,7 +289,7 @@ lemma morPresheafMap_comp (hN : q.IsFibredOneMorphism r N) (hM : r.IsFibredOneMo
           ((fiberFunctorOfCompEq hN.comp_eq U).obj b) =
       (hN.comp hM).morPresheafMap a b := by
   ext g m
-  show (hM.morPresheafMap ((fiberFunctorOfCompEq hN.comp_eq U).obj a)
+  change (hM.morPresheafMap ((fiberFunctorOfCompEq hN.comp_eq U).obj a)
       ((fiberFunctorOfCompEq hN.comp_eq U).obj b)).app g
       ((hN.morPresheafMap a b).app g m) = ((hN.comp hM).morPresheafMap a b).app g m
   simp [morPresheafMap_app, mapPullbackFiberIso_comp hN hM a g.unop.hom,
@@ -423,7 +423,7 @@ lemma morPresheafMap_natIso {U : 𝒞} (a b : q.Fiber U) :
         (natIsoFiber hN hN' τ hτ a).inv (natIsoFiber hN hN' τ hτ b).hom =
       hN'.morPresheafMap a b := by
   ext g m
-  show pullbackFiberHom (natIsoFiber hN hN' τ hτ a).inv g.unop.hom ≫
+  change pullbackFiberHom (natIsoFiber hN hN' τ hτ a).inv g.unop.hom ≫
       ((hN.mapPullbackFiberIso a g.unop.hom).hom ≫
         (fiberFunctorOfCompEq hN.comp_eq g.unop.left).map m ≫
         (hN.mapPullbackFiberIso b g.unop.hom).inv) ≫
@@ -859,7 +859,7 @@ lemma morPresheafEqPullbackIso_hom_val_fst {U : 𝒞}
     (m : (morPresheaf (structureFunctor p𝒳 p𝒵 p𝒴 f g) P Q).obj o) :
     (((morPresheafEqPullbackIso hf hg P Q).hom.app o) m).val.1 =
       ((fst_isFibredOneMorphism p𝒳 p𝒵 p𝒴 f g hf hg).morPresheafMap P Q).app o m := by
-  show (pullbackFiberFstIso hf hg P o.unop.hom).homCongr
+  change (pullbackFiberFstIso hf hg P o.unop.hom).homCongr
       (pullbackFiberFstIso hf hg Q o.unop.hom) (fibFstHom m) = _
   rw [IsFibredOneMorphism.morPresheafMap_app, mapPullbackFiberIso_fst hf hg,
     mapPullbackFiberIso_fst hf hg]
@@ -874,7 +874,7 @@ lemma morPresheafEqPullbackIso_hom_val_snd {U : 𝒞}
     (m : (morPresheaf (structureFunctor p𝒳 p𝒵 p𝒴 f g) P Q).obj o) :
     (((morPresheafEqPullbackIso hf hg P Q).hom.app o) m).val.2 =
       ((snd_isFibredOneMorphism p𝒳 p𝒵 p𝒴 f g hf hg).morPresheafMap P Q).app o m := by
-  show (pullbackFiberSndIso hf hg P o.unop.hom).homCongr
+  change (pullbackFiberSndIso hf hg P o.unop.hom).homCongr
       (pullbackFiberSndIso hf hg Q o.unop.hom) (fibSndHom m) = _
   rw [IsFibredOneMorphism.morPresheafMap_app, mapPullbackFiberIso_snd hf hg,
     mapPullbackFiberIso_snd hf hg]

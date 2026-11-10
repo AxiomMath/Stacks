@@ -75,7 +75,7 @@ is the component at `X` of the `i`-th coproduct inclusion of `∐ L`. -/
 public theorem Sigma.ι_comp_coproductObjIso_inv (X : C) (i : I) :
     Sigma.ι (fun i => (L i).obj X) i ≫ (coproductObjIso L X).inv =
       (Sigma.ι L i).app X := by
-  simp only [coproductObjIso, Iso.trans_inv, HasColimit.isoOfNatIso_ι_inv_assoc]
+  simp only [coproductObjIso, Iso.trans_inv, HasColimit.ι_isoOfNatIso_inv_assoc]
   simp [colimitObjIsoColimitCompEvaluation_ι_inv (Discrete.functor L) ⟨i⟩ X]
 
 /-- The cofan on the values of a family of functors at an object, with legs the components

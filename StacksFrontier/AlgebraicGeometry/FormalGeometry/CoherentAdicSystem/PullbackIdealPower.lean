@@ -253,7 +253,7 @@ public theorem pullback_idealPowerMultiple_comp_eq_zero_iff (f : X ⟶ Y)
   constructor
   · intro hP V
     refine Submodule.smul_le.mpr fun a ha w _ => ?_
-    show g.app (V : X.Opens) (a • w) = 0
+    change g.app (V : X.Opens) (a • w) = 0
     refine eq_zero_of_germ_eq_zero N (V : X.Opens) _ fun x hxV => ?_
     refine (modulesStalkFunctor_map_germ g x (V : X.Opens) hxV (a • w)).symm.trans ?_
     refine (congrArg (fun y => ((modulesStalkFunctor X x).map g).hom y)
@@ -291,7 +291,7 @@ public theorem pullback_idealPowerMultiple_comp_eq_zero_iff (f : X ⟶ Y)
     exact hcomap hres
   · intro hQ U
     refine Submodule.smul_le.mpr fun b hb s _ => ?_
-    show (adj.homEquiv M N g).app (U : Y.Opens) (b • s) = 0
+    change (adj.homEquiv M N g).app (U : Y.Opens) (b • s) = 0
     refine (homEquiv_app f M N g (U : Y.Opens) (b • s)).trans ?_
     refine (congrArg (fun y => g.app (f ⁻¹ᵁ (U : Y.Opens)) y)
       (unit_app_smul f M (U : Y.Opens) b s)).trans ?_

@@ -139,25 +139,25 @@ public theorem sheafifiedPushforwardMap_stalk
     (G' : (SmallEtale B T.obj T.property)ᵒᵖ ⥤ AddCommGrpCat.{u + 1})
     (α : G ⟶ (smallEtaleBaseChange B g).op ⋙ G')
     (s' : GeometricPoint T.obj)
-    [HasColimit ((CategoryOfElements.π
+    [HasColimit ((Functor.Elements.π
       (geometricPointFiber B T.obj T.property s')).op ⋙
         (((smallEtaleBaseChange B g).sheafPullback AddCommGrpCat.{u + 1}
           (SmallEtale.topology B S.obj S.property)
           (SmallEtale.topology B T.obj T.property)).obj
             ⟨(SmallEtale.topology B S.obj S.property).sheafify G,
               (SmallEtale.topology B S.obj S.property).sheafify_isSheaf G⟩).obj)]
-    [HasColimit ((CategoryOfElements.π
+    [HasColimit ((Functor.Elements.π
       (geometricPointFiber B T.obj T.property s')).op ⋙
         (SmallEtale.topology B T.obj T.property).sheafify G')] :
     let F : Sheaf (SmallEtale.topology B S.obj S.property) AddCommGrpCat.{u + 1} :=
       ⟨(SmallEtale.topology B S.obj S.property).sheafify G,
         (SmallEtale.topology B S.obj S.property).sheafify_isSheaf G⟩
-    let D := (CategoryOfElements.π
+    let D := (Functor.Elements.π
       (geometricPointFiber B T.obj T.property s')).op ⋙
         (((smallEtaleBaseChange B g).sheafPullback AddCommGrpCat.{u + 1}
           (SmallEtale.topology B S.obj S.property)
           (SmallEtale.topology B T.obj T.property)).obj F).obj
-    let D' := (CategoryOfElements.π
+    let D' := (Functor.Elements.π
       (geometricPointFiber B T.obj T.property s')).op ⋙
         (SmallEtale.topology B T.obj T.property).sheafify G'
     ∀ (U : SmallEtale B S.obj S.property)
@@ -170,7 +170,7 @@ public theorem sheafifiedPushforwardMap_stalk
               (SmallEtale.topology B T.obj T.property)).unit.app F).hom.app (op U) ≫
             colimit.ι D (op (Functor.elementsMk _ ((smallEtaleBaseChange B g).obj U) p')) ≫
             colim.map (Functor.whiskerLeft
-              ((CategoryOfElements.π
+              ((Functor.Elements.π
                 (geometricPointFiber B T.obj T.property s')).op)
               (sheafifiedPushforwardAdjoint B g G G' α).hom)) =
           α.app (op U) ≫
@@ -222,17 +222,17 @@ public theorem sheafifiedPushforwardMap_stalk
         simpa only [NatTrans.comp_app, Functor.whiskerLeft_app,
           Functor.comp_obj, Functor.op_obj] using
           congrArg (fun f => f.app (op U)) (sheafifiedPushforwardMap_comm B g G G' α)
-  show ((SmallEtale.topology B S.obj S.property).toSheafify G).app (op U) ≫
+  change ((SmallEtale.topology B S.obj S.property).toSheafify G).app (op U) ≫
       unitAt ≫
       colimit.ι D (op j) ≫
       colim.map (Functor.whiskerLeft
-        ((CategoryOfElements.π (geometricPointFiber B T.obj T.property s')).op)
+        ((Functor.Elements.π (geometricPointFiber B T.obj T.property s')).op)
         (sheafifiedPushforwardAdjoint B g G G' α).hom) =
     α.app (op U) ≫
       ((SmallEtale.topology B T.obj T.property).toSheafify G').app
         (op ((smallEtaleBaseChange B g).obj U)) ≫ colimit.ι D' (op j)
   let θ := Functor.whiskerLeft
-    ((CategoryOfElements.π (geometricPointFiber B T.obj T.property s')).op)
+    ((Functor.Elements.π (geometricPointFiber B T.obj T.property s')).op)
     (sheafifiedPushforwardAdjoint B g G G' α).hom
   calc
     _ = (((SmallEtale.topology B S.obj S.property).toSheafify G).app (op U) ≫ unitAt) ≫

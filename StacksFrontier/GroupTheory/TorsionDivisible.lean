@@ -235,7 +235,7 @@ theorem isTorsionBasis_of_addEquiv {n : ℕ} [DecidableEq ι]
       (e.symm (fun i => (c i : ZMod n)) : G) := fun c => by
     have : ∑ i, c i • Pi.single i (1 : ZMod n) = fun i => (c i : ZMod n) := by
       ext j; simp [Finset.sum_apply, Pi.single_apply]
-    rw [← this, map_sum, AddSubgroup.val_finset_sum]
+    rw [← this, map_sum, AddSubgroup.val_finsetSum]
     exact Finset.sum_congr rfl fun i _ => by rw [map_zsmul, AddSubgroup.coe_zsmul]
   refine ⟨fun i => (Submodule.mem_torsionBy_iff _ _).mp (e.symm (Pi.single i 1)).2,
     fun c hc i => ?_, fun h hh => ?_⟩

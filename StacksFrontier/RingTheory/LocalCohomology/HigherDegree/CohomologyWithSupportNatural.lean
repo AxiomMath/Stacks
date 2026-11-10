@@ -184,7 +184,7 @@ private theorem isoRightDerivedToHomotopyCategoryObj_hom (F : A ⥤ B) [F.Additi
   have h1 : (F.mapHomotopyCategory (ComplexShape.up ℕ)).map (injectiveResolution M).iso.hom =
       𝟙 _ :=
     map_eq_id_of_eq_id _ (injectiveResolution_iso_hom M)
-  show (F.mapHomotopyCategory (ComplexShape.up ℕ)).map (injectiveResolution M).iso.hom ≫
+  change (F.mapHomotopyCategory (ComplexShape.up ℕ)).map (injectiveResolution M).iso.hom ≫
       ((F.mapHomotopyCategoryFactors (ComplexShape.up ℕ)).app
         (injectiveResolution M).cocomplex).hom = 𝟙 _
   rw [h1]
@@ -200,7 +200,7 @@ private theorem isoRightDerivedObj_hom (F : A ⥤ B) [F.Additive] (M : A) (n : �
   have h2 : (HomotopyCategory.homologyFunctor B (ComplexShape.up ℕ) n).map
       ((injectiveResolution M).isoRightDerivedToHomotopyCategoryObj F).hom = 𝟙 _ :=
     map_eq_id_of_eq_id _ (isoRightDerivedToHomotopyCategoryObj_hom F M)
-  show (HomotopyCategory.homologyFunctor B (ComplexShape.up ℕ) n).map
+  change (HomotopyCategory.homologyFunctor B (ComplexShape.up ℕ) n).map
       ((injectiveResolution M).isoRightDerivedToHomotopyCategoryObj F).hom ≫
       ((HomotopyCategory.homologyFunctorFactors B (ComplexShape.up ℕ) n).app
         ((F.mapHomologicalComplex (ComplexShape.up ℕ)).obj
@@ -312,7 +312,7 @@ private theorem rightDerivedIsoRes_inv_app (F : A ⥤ B) [F.Additive] (M : A) (n
         (HomotopyCategory.homologyFunctorFactors B (ComplexShape.up ℕ) n).inv.app
           ((F.mapHomologicalComplex (ComplexShape.up ℕ)).obj
             (injectiveResolution M).cocomplex) := by
-  show (Stacks.DerivedIndexing.nStep₂ F n).inv.app M ≫
+  change (Stacks.DerivedIndexing.nStep₂ F n).inv.app M ≫
       (Stacks.DerivedIndexing.nStep₁ F n).inv.app M = _
   rw [nStep₁_inv_app]
   rfl
@@ -398,7 +398,7 @@ private theorem natIso_app_eq (F : A ⥤ B) [F.Additive]
               ((F.mapHomologicalComplex (ComplexShape.up ℤ)).obj
                 ((injectiveResolution M).cocomplex.extend ComplexShape.embeddingUpNat))) ≫
           (Stacks.DerivedIndexing.rightDerivedIsoRes F n).inv.app M) := by
-    show (DerivedCategory.homologyFunctor B (n : ℤ)).map
+    change (DerivedCategory.homologyFunctor B (n : ℤ)).map
           (RF.map ((Stacks.DerivedFunctor.singleIsoResCompQh (A := A)).hom.app M)) ≫
         𝟙 _ ≫
         (DerivedCategory.homologyFunctor B (n : ℤ)).map
@@ -563,7 +563,7 @@ theorem sectionsWithSupportRightDerivedIsoLocalCohomologyNatIso_app
       (localCohomologyWithSupportInIsoRightDerived A
           (PrimeSpectrum.zeroLocus (I : Set A)) M n).symm ≪≫
         localCohomologyWithSupportInIsoLocalCohomologyModule A I hI M (n : ℤ) := by
-  show ((localCohomologyWithSupportInRightDerivedNatIso A
+  change ((localCohomologyWithSupportInRightDerivedNatIso A
         (PrimeSpectrum.zeroLocus (I : Set A)) n).app M).symm ≪≫
       (localCohomologyModelsNatIso A I hI (n : ℤ)).app M = _
   rw [localCohomologyWithSupportInRightDerivedNatIso_app, localCohomologyModelsNatIso_app]

@@ -201,12 +201,12 @@ theorem moduleSpecΓFunctor_map_quotUnitHom_toOpen (x : R) :
 theorem tilde_subtype_comp_quotUnitHom :
     tilde.map (ModuleCat.ofHom I.subtype) ≫ tildeSelf.hom ≫ quotUnitHom I = 0 := by
   refine (tilde.adjunction.homEquiv (ModuleCat.of R I) (pushforwardQuotUnit I)).injective ?_
-  show tilde.adjunction.unit.app _ ≫ moduleSpecΓFunctor.map _ =
+  change tilde.adjunction.unit.app _ ≫ moduleSpecΓFunctor.map _ =
     tilde.adjunction.unit.app _ ≫ moduleSpecΓFunctor.map _
   ext y
   have h1 := congr($(tilde.toOpen_map_app (ModuleCat.ofHom I.subtype) ⊤).hom y)
   simp only [ModuleCat.hom_comp, LinearMap.coe_comp, Function.comp_apply] at h1
-  show (moduleSpecΓFunctor.map (tildeSelf.hom ≫ quotUnitHom I)).hom
+  change (moduleSpecΓFunctor.map (tildeSelf.hom ≫ quotUnitHom I)).hom
       ((moduleSpecΓFunctor.map (tilde.map (ModuleCat.ofHom I.subtype))).hom
         ((tilde.toOpen (ModuleCat.of R I) ⊤).hom y)) = 0
   refine Eq.trans (congrArg (moduleSpecΓFunctor.map

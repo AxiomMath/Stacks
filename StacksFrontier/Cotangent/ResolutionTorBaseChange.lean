@@ -318,8 +318,7 @@ lemma bijective_baseChangeUnit_of_isPushout
       Algebra.IsPushout.equiv A (B : Type u) A' (B' : Type u)
         ((Algebra.TensorProduct.comm A A' (B : Type u)) z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a' x => simp [Algebra.IsPushout.equiv_tmul, hb x, mul_comm]
     | add z w hz hw => simp only [map_add, hz, hw]
   rw [show (baseChangeUnit b : A' ⊗[A] (B : Type u) → (B' : Type u)) =
@@ -347,10 +346,7 @@ lemma augmentationBaseChange_app_eq (n : SimplexCategoryᵒᵖ)
       baseChangeUnit b (TensorProduct.map (LinearMap.id : A' →ₗ[A] A')
         ((ε.app n).hom.toLinearMap) z) := by
   set φ := TensorProduct.map (LinearMap.id : A' →ₗ[A] A') ((ε.app n).hom.toLinearMap) with hφdef
-  induction z using TensorProduct.induction_on with
-  | zero =>
-    have h : ((augmentationBaseChange b ε).app n).hom 0 = 0 := map_zero _
-    exact h.trans (by rw [map_zero, map_zero])
+  induction z using TensorProduct.inductionOn with
   | tmul a' p =>
     refine (augmentationBaseChange_app_tmul b ε n a' p).trans ?_
     rw [hφdef, TensorProduct.map_tmul, baseChangeUnit_tmul]

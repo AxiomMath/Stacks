@@ -73,7 +73,7 @@ include hsq in
 /-- The underived base change map is invertible at every term of the Čech resolution. -/
 theorem isIso_moduleBaseChangeSquare_app_cechResolution_X (n : ℤ) :
     IsIso ((moduleBaseChangeSquare g'.toLRSHom.toShHom f'.toLRSHom.toShHom f.toLRSHom.toShHom
-      g.toLRSHom.toShHom (toShHom_comm hsq.w)).natTrans.app ((cechResolution T F).X n)) := by
+      g.toLRSHom.toShHom (toShHom_comm hsq.w)).app ((cechResolution T F).X n)) := by
   rw [moduleBaseChangeSquare_eq_baseChangeNatTrans hsq.w]
   by_cases h0 : 0 ≤ n
   · obtain ⟨p, rfl⟩ : ∃ p : ℕ, (p : ℤ) = n := ⟨n.toNat, by omega⟩
@@ -151,15 +151,15 @@ theorem isIso_derivedBaseChangeMap_comp_cechResolution_shift
   · rw [underivedBaseChangeSquare_app_quotient]
     suffices h : IsIso ((NatTrans.mapHomologicalComplex
         (moduleBaseChangeSquare g'.toLRSHom.toShHom f'.toLRSHom.toShHom f.toLRSHom.toShHom
-          g.toLRSHom.toShHom (toShHom_comm hsq.w)).natTrans (ComplexShape.up ℤ)).app
+          g.toLRSHom.toShHom (toShHom_comm hsq.w)) (ComplexShape.up ℤ)).app
         ((cechResolution T F)⟦n⟧)) from Functor.map_isIso _ _
     suffices hc : ∀ k, IsIso (((NatTrans.mapHomologicalComplex
         (moduleBaseChangeSquare g'.toLRSHom.toShHom f'.toLRSHom.toShHom f.toLRSHom.toShHom
-          g.toLRSHom.toShHom (toShHom_comm hsq.w)).natTrans (ComplexShape.up ℤ)).app
+          g.toLRSHom.toShHom (toShHom_comm hsq.w)) (ComplexShape.up ℤ)).app
         ((cechResolution T F)⟦n⟧)).f k) from HomologicalComplex.Hom.isIso_of_components _
     intro k
-    show IsIso ((moduleBaseChangeSquare g'.toLRSHom.toShHom f'.toLRSHom.toShHom
-      f.toLRSHom.toShHom g.toLRSHom.toShHom (toShHom_comm hsq.w)).natTrans.app
+    change IsIso ((moduleBaseChangeSquare g'.toLRSHom.toShHom f'.toLRSHom.toShHom
+      f.toLRSHom.toShHom g.toLRSHom.toShHom (toShHom_comm hsq.w)).app
         ((cechResolution T F).X (k + n)))
     exact isIso_moduleBaseChangeSquare_app_cechResolution_X hsq T F (k + n)
   · exact isIso_derivedPushforwardUnit_app_of_plus_of_rightAcyclic f'.toLRSHom.toShHom _
@@ -193,11 +193,11 @@ theorem isIso_derivedBaseChangeMap_comp_cechResolution
   · rw [underivedBaseChangeSquare_app_quotient]
     suffices h : IsIso ((NatTrans.mapHomologicalComplex
         (moduleBaseChangeSquare g'.toLRSHom.toShHom f'.toLRSHom.toShHom f.toLRSHom.toShHom
-          g.toLRSHom.toShHom (toShHom_comm hsq.w)).natTrans (ComplexShape.up ℤ)).app
+          g.toLRSHom.toShHom (toShHom_comm hsq.w)) (ComplexShape.up ℤ)).app
         (cechResolution T F)) from Functor.map_isIso _ _
     suffices hc : ∀ n, IsIso (((NatTrans.mapHomologicalComplex
         (moduleBaseChangeSquare g'.toLRSHom.toShHom f'.toLRSHom.toShHom f.toLRSHom.toShHom
-          g.toLRSHom.toShHom (toShHom_comm hsq.w)).natTrans (ComplexShape.up ℤ)).app
+          g.toLRSHom.toShHom (toShHom_comm hsq.w)) (ComplexShape.up ℤ)).app
         (cechResolution T F)).f n) from HomologicalComplex.Hom.isIso_of_components _
     exact isIso_moduleBaseChangeSquare_app_cechResolution_X hsq T F
   · obtain ⟨n₀, hn₀⟩ := ((Tag01XLDerivedIso.absoluteCechComplexPlus T).obj F).property
@@ -207,19 +207,21 @@ theorem isIso_derivedBaseChangeMap_comp_cechResolution
           (@CochainComplex.isZero_of_isStrictlyGE _ _ _ (cechResolution T F) n₀ i hi hn₀)⟩
       (rightAcyclic_modulePullback_cechResolution_X hsq T F)
 
+omit [Fintype T.I₀] in
 include hsq T in
 /-- **Base change for the derived direct image of a module flat over the base and over the
 source, through a finite affine open cover.** Let `X` and `S` have affine diagonal and let `T` be
 a finite affine open cover of `X`. For a quasi-coherent `𝒪_X`-module `ℱ` which is flat over `S`
 and flat as an `𝒪_X`-module, the derived base change map `Lg^*Rf_*ℱ ⟶ Rf'_*L(g')^*ℱ` is an
 isomorphism, for every base change `g`. -/
-theorem isIso_derivedBaseChangeMap_single_of_cover
+theorem isIso_derivedBaseChangeMap_single_of_cover [Finite T.I₀]
     (hF : IsFlatOver f.toLRSHom.toShHom F.obj)
     (hFX : AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := X.sheaf) F.obj) :
     IsIso (derivedBaseChangeMap g'.toLRSHom.toShHom f'.toLRSHom.toShHom f.toLRSHom.toShHom
         g.toLRSHom.toShHom (toShHom_comm hsq.w)
         (DerivedCategory.Qh.obj ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj
           ((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).obj F.obj)))) := by
+  have := Fintype.ofFinite T.I₀
   let ε : (HomologicalComplex.single (SheafOfModules.{u} (structureSheafRing X.toRingedSpace))
       (ComplexShape.up ℤ) 0).obj F.obj ⟶ cechResolution T F :=
     (CechSiteChange.absoluteCechAugZ X T).app F
@@ -232,17 +234,19 @@ theorem isIso_derivedBaseChangeMap_single_of_cover
   exact IsIso.of_isIso_comp_right _ ((derivedPushforward f'.toLRSHom.toShHom).map
     ((derivedPullbackComparison g'.toLRSHom.toShHom).app _))
 
+omit [Fintype T.I₀] in
 include hsq T in
 /-- **Base change for the derived direct image of a shift of a module flat over the base and over
 the source, through a finite affine open cover**: `isIso_derivedBaseChangeMap_single_of_cover`
 for the module placed in degree `-n`. -/
-theorem isIso_derivedBaseChangeMap_single_shift_of_cover
+theorem isIso_derivedBaseChangeMap_single_shift_of_cover [Finite T.I₀]
     (hF : IsFlatOver f.toLRSHom.toShHom F.obj)
     (hFX : AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := X.sheaf) F.obj) (n : ℤ) :
     IsIso (derivedBaseChangeMap g'.toLRSHom.toShHom f'.toLRSHom.toShHom f.toLRSHom.toShHom
         g.toLRSHom.toShHom (toShHom_comm hsq.w)
         (DerivedCategory.Qh.obj ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj
           (((HomologicalComplex.single _ (ComplexShape.up ℤ) 0).obj F.obj)⟦n⟧)))) := by
+  have := Fintype.ofFinite T.I₀
   let ε : (HomologicalComplex.single (SheafOfModules.{u} (structureSheafRing X.toRingedSpace))
       (ComplexShape.up ℤ) 0).obj F.obj ⟶ cechResolution T F :=
     (CechSiteChange.absoluteCechAugZ X T).app F

@@ -206,7 +206,7 @@ theorem algToSheaf_eq_sum {n : ℤ} {U : Cᵒᵖ} (a : algSections Osharp 𝒮 n
     (algToSheaf (Osharp := Osharp) 𝒮 n).app U a =
       ∑ w ∈ a.support, (a w) • freeGen Osharp (F := wordPresheaf 𝒮 n)
         (w : (wordPresheaf 𝒮 n).obj U) := by
-  show algToSheafAdd 𝒮 n U a = _
+  change algToSheafAdd 𝒮 n U a = _
   conv_lhs => rw [IsPresIn.eq_sum a]
   rw [map_sum]
   refine Finset.sum_congr rfl fun w _ => ?_
@@ -319,7 +319,7 @@ theorem filtIncl_algD_filtProj_filtIncl {D : Set (I →₀ ℕ)} (hD : IsWeightL
     have h1 : (filtIncl Osharp 𝒮 D n).val.app U (freeGen Osharp w) =
         (algToSheaf (Osharp := Osharp) 𝒮 n).app U (algOf 𝒮 n w.1 1) :=
       (filtIncl_gen 𝒮 D w).trans (freeGen_eq_algToSheaf 𝒮 w.1)
-    show (filtProj Osharp 𝒮 D (n + 1) ≫ filtIncl Osharp 𝒮 D (n + 1)).val.app U
+    change (filtProj Osharp 𝒮 D (n + 1) ≫ filtIncl Osharp 𝒮 D (n + 1)).val.app U
         ((algD 𝒮 δ n).val.app U ((filtIncl Osharp 𝒮 D n).val.app U (freeGen Osharp w))) =
       (algD 𝒮 δ n).val.app U ((filtIncl Osharp 𝒮 D n).val.app U (freeGen Osharp w))
     rw [h1]
@@ -523,7 +523,7 @@ theorem weightProj_d (w : Colex (I →₀ ℕ)) (i : ℤ) :
       filtProj Osharp 𝒮 (weightEQ w) (i + 1) = 0 := by
   rw [filtD_filtIncl_assoc 𝒮 δ htri (isWeightLower_weightLE w)]
   refine freePieceOf_hom_ext fun U u => ?_
-  show (filtProj Osharp 𝒮 (weightEQ w) (i + 1)).val.app U
+  change (filtProj Osharp 𝒮 (weightEQ w) (i + 1)).val.app U
       ((algD 𝒮 δ i).val.app U ((filtIncl Osharp 𝒮 (weightLE w) i).val.app U (freeGen Osharp u))) =
     (0 : filtPiece Osharp 𝒮 (weightLE w) i ⟶ _).val.app U (freeGen Osharp u)
   rw [(filtIncl_gen 𝒮 _ u).trans (freeGen_eq_algToSheaf 𝒮 u.1),
@@ -591,7 +591,7 @@ theorem weightSplitting_id (w : Colex (I →₀ ℕ)) (n : ℤ) :
         filtIncl Osharp 𝒮 (weightEQ w) n ≫ filtProj Osharp 𝒮 (weightLE w) n = 𝟙 _ := by
   refine freePieceOf_hom_ext fun U u => ?_
   rw [SheafOfModules.add_val, PresheafOfModules.add_app]
-  show (filtMap Osharp 𝒮 (weightLT_subset_weightLE w) n).val.app U
+  change (filtMap Osharp 𝒮 (weightLT_subset_weightLE w) n).val.app U
       ((filtIncl Osharp 𝒮 (weightLE w) n ≫ filtProj Osharp 𝒮 (weightLT w) n).val.app U
         (freeGen Osharp u)) +
     (filtIncl Osharp 𝒮 (weightEQ w) n ≫ filtProj Osharp 𝒮 (weightLE w) n).val.app U

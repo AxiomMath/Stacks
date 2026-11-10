@@ -60,6 +60,7 @@ namespace AlgebraicGeometry.Space
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves times out at the default limit
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_FiniteTypeSubmoduleSquareExtension :
@@ -92,9 +93,7 @@ theorem obj_le_span_chartRes_of_isCartesianOnAffineCharts (G : Modules.{u, u} B 
     rfl
   rw [hgu]
   clear hgu hu0
-  induction u using TensorProduct.induction_on with
-  | zero =>
-    exact mem_of_eq_of_mem ((congrArg _ (map_zero _)).trans (map_zero _)) (zero_mem _)
+  induction u using TensorProduct.inductionOn with
   | tmul r k =>
     exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨k.1, k.2, rfl⟩)
   | add u v hu hv =>

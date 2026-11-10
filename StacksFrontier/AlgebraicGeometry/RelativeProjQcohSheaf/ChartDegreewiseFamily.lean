@@ -87,7 +87,8 @@ No tag is carried here.
 This file belongs to the route to property (1) of [Stacks, Tag 01O7] through the
 isomorphism `α : h^*𝒪(d) ≅ L`, and the remarks in this section concern that route only.
 The comparison `ℳ̃_T ≅ h^*ℳ̃` of property (1) of [Stacks, Tag 01O7] is built by another route,
-in `StacksFrontier/AlgebraicGeometry/RelativeProjQuadrupleTilde/`, which uses nothing from this file:
+in `StacksFrontier/AlgebraicGeometry/RelativeProjQuadrupleTilde/`, which uses nothing from this
+file:
 on a chart datum (`Stacks.AlgebraicGeometry.RelativeProjQuadrupleTilde.ChartDatum.iso`) the
 degreewise maps send `x ⊗ l` to `g^*(x / c^m) · (l · w^m)`, their balancing relations are
 verified directly (`Stacks.AlgebraicGeometry.RelativeProjQuadrupleTilde.bmap_balanced`), and the
@@ -254,7 +255,7 @@ variable {S : Scheme.{u}} [IsAffine S] {A : SheafGradedAlgebra S} (𝔐 : SheafG
   (d : ℕ) {Y : Scheme.{u}}
   (φ : Y ⟶ (AlgebraicGeometry.Proj.degreeOpen (A.grading (⊤ : S.Opens)) d).toScheme)
   {L : SheafOfModules.{u} (structureRingSheaf Y.toRingedSpace)}
-  [Stacks.Ample.IsInvertibleModule Y L]
+  [hLinv : Stacks.Ample.IsInvertibleModule Y L]
   [Stacks.SheafOfModules.IsInvertible Y.toRingedSpace.presheaf (isSheafStruct Y) L]
 
 /-- The morphism `h : Y ⟶ Proj Γ(S, 𝒜)` that a morphism `φ : Y ⟶ U_d` into the degree-`d` open
@@ -320,7 +321,7 @@ def powContract (n : ℤ) :
       pullbackAssociated 𝔐 d φ :=
   (powContractIso (pullbackAssociated 𝔐 d φ) n).hom
 
-omit [IsAffine S] in
+omit [IsAffine S] hLinv in
 /-- **Untwisting the contraction is the identity**: it cancels against the insertion of the
 opposite tensor power that the untwisting criterion of [Stacks, Tag 01O6]'s balancing relations
 uses. This is `Stacks.AlgebraicGeometry.PullbackTwistPower.untwist_powContractIso`. -/
@@ -346,7 +347,7 @@ def contractHom (α : pullbackTwist (A.grading (⊤ : S.Opens)) φ (d : ℤ) ≅
   MonoidalCategoryStruct.whiskerRight (shiftHom 𝔐 d φ α n) ((laurent L).piece (-n)) ≫
     powContract 𝔐 d φ n
 
-omit [IsAffine S] in
+omit [IsAffine S] hLinv in
 /-- **Untwisting the contraction gives the comparison it was built from.** -/
 theorem untwist_contractHom (α : pullbackTwist (A.grading (⊤ : S.Opens)) φ (d : ℤ) ≅ L) (n : ℤ) :
     untwist (laurentInvLaw L n) (contractHom 𝔐 d φ α n) = shiftHom 𝔐 d φ α n :=
@@ -368,6 +369,7 @@ def degreewise (α : pullbackTwist (A.grading (⊤ : S.Opens)) φ (d : ℤ) ≅ 
   MonoidalCategoryStruct.whiskerRight (shiftedArrow 𝔐 d φ n) ((laurent L).piece (-n)) ≫
     contractHom 𝔐 d φ α n
 
+omit hLinv in
 /-- **The untwisting of the degreewise family is the shifted arrow followed by the comparison
 `h^*(ℳ(dn)~) ≅ h^*ℳ̃ ⊗ L^{⊗ n}`**: every tensor power of `L` disappears from it.
 
@@ -417,6 +419,7 @@ def Intertwines (α : pullbackTwist (A.grading (⊤ : S.Opens)) φ (d : ℤ) ≅
       untwist (laurentInvLaw L (p.1 + p.2))
         (rightLaw L (baseHom A (chartHom d φ)) (d : ℤ) ψ p (contractHom 𝔐 d φ α p.1))
 
+omit hLinv in
 /-- **The intertwining identity is checkable on the pure tensors of global sections.** Its two
 sides are morphisms out of `f^*ℳ_{nd} ⊗ f^*𝒜_{id}`, the tensor product of the pullbacks of two
 quasi-coherent modules on the affine base `S`, so
@@ -455,6 +458,7 @@ theorem intertwines_of_sections (α : pullbackTwist (A.grading (⊤ : S.Opens)) 
     (RelationSections.modulePiece (situationModule 𝔐) (d : ℤ) p.1)
     (RelationSections.algebraPiece (situationAlgebra A) (d : ℤ) p.2) _ hyp
 
+omit hLinv in
 /-- **The intertwining identity is exactly the balancing relation of [Stacks, Tag 01O6] in that
 bidegree.** The degree-`n` member of the family is the shifted arrow whiskered by `L^{⊗ (-n)}`
 followed by the contraction, which is the factorisation
@@ -469,6 +473,7 @@ theorem relation_of_intertwines (α : pullbackTwist (A.grading (⊤ : S.Opens)) 
   relation_of_untwist_eq L (baseHom A (chartHom d φ)) (situationModule 𝔐) (d : ℤ) ψ p
     (degreewise 𝔐 d φ α) (shiftedArrow 𝔐 d φ p.1) (contractHom 𝔐 d φ α p.1) rfl hint
 
+omit hLinv in
 /-- **The comparison `ℳ̃_T ⟶ h^*ℳ̃` of property (1) of [Stacks, Tag 01O7] exists and is unique
 on a chart as soon as the intertwining identity holds in every bidegree.** It is the morphism
 `Stacks.AlgebraicGeometry.RelativeProjQcohSheaf.Twisting.existsUnique_hom` produces from the

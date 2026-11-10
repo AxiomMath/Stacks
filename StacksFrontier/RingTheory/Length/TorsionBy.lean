@@ -61,7 +61,7 @@ theorem length_torsionBy_mul_le (a b : R) :
     intro x
     have hx : (a * b) • (x : M) = 0 := (mem_torsionBy_iff _ _).mp x.2
     simp only [LinearMap.comp_apply, coe_subtype, mem_torsionBy_iff]
-    show b • a • (x : M) = 0
+    change b • a • (x : M) = 0
     rw [smul_smul, mul_comm b a, hx]
   set φ := LinearMap.codRestrict (torsionBy R M b)
     ((DistribSMul.toLinearMap R M a).comp (torsionBy R M (a * b)).subtype) hmem with hφ

@@ -75,7 +75,7 @@ theorem iSup_ratioCover {d : ℕ} {U : (AlgebraicGeometry.Proj 𝒮).Opens}
   obtain ⟨e, f, g, hf, hg, hfx, hgx⟩ :=
     (ProjShared.mem_ratioLocus_iff 𝒮 d (U.ι.base y)).mp (hU hmem)
   refine Opens.mem_iSup.mpr ⟨⟨e, ⟨⟨f, hf⟩, ⟨g, hg⟩⟩⟩, ?_⟩
-  show U.ι.base y ∈ AlgebraicGeometry.Proj.basicOpen 𝒮 (f * g)
+  change U.ι.base y ∈ AlgebraicGeometry.Proj.basicOpen 𝒮 (f * g)
   rw [AlgebraicGeometry.Proj.mem_basicOpen]
   exact fun hmul => ((U.ι.base y).isPrime.mem_or_mem hmul).elim hfx hgx
 

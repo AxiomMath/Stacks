@@ -136,7 +136,7 @@ theorem hasSomeSurjectivePresentation_of_isCountablyIndexed {X : FppfSheaf B S h
       t hij (t hjk x) = t (le_trans hij hjk) x := by
     have heq : (homOfLE hjk).op ≫ (homOfLE hij).op =
         (homOfLE (le_trans hij hjk)).op := Subsingleton.elim _ _
-    show (F.map (homOfLE hjk).op ≫ F.map (homOfLE hij).op) x =
+    change (F.map (homOfLE hjk).op ≫ F.map (homOfLE hij).op) x =
       F.map (homOfLE (le_trans hij hjk)).op x
     rw [← F.map_comp, heq]
   have tsurj ⦃i j : I⦄ (hij : i ≤ j) : Function.Surjective (t hij) := by

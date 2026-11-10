@@ -211,7 +211,7 @@ private theorem dualComplex_isStrictlyGE (K : CochainComplex (FiniteFilteredObje
   rw [CochainComplex.isStrictlyGE_iff]
   intro i hi
   dsimp [dualComplex]
-  show IsZero ((dualFiniteFunctor A).obj (Opposite.op (K.X (-i))))
+  change IsZero ((dualFiniteFunctor A).obj (Opposite.op (K.X (-i))))
   exact (dualFiniteFunctor A).map_isZero (K.isZero_of_isStrictlyLE a (-i) (by lia)).op
 
 /-- The termwise dual of a filtered-projective complex has filtered-injective terms. -/
@@ -230,7 +230,7 @@ private theorem dualComplex_filteredInjectivePlusC
       ∀ n : ℤ, IsFilteredProjective (K.X n)) :
     CochainComplex.FilteredDerivedCategory.filteredInjectivePlusC Aᵒᵖ
       (dualComplex A K) := by
-  show (∃ a, (dualComplex A K).IsStrictlyGE a) ∧
+  change (∃ a, (dualComplex A K).IsStrictlyGE a) ∧
     ∀ n p, Injective ((FiniteFilteredObject.grP p).obj ((dualComplex A K).X n))
   obtain ⟨⟨b, hb⟩, hproj⟩ := hK
   exact ⟨⟨-b, dualComplex_isStrictlyGE A K b⟩,
@@ -358,16 +358,16 @@ private lemma map_bijective_of_square
     have hg := e.hom.naturality g
     dsimp only [Functor.comp_map] at hf hg
     rw [← hf, ← hg]
-    show H.map (F.map f) ≫ _ = H.map (F.map g) ≫ _
+    change H.map (F.map f) ≫ _ = H.map (F.map g) ≫ _
     rw [hfg]
   · intro f
     obtain ⟨g, hg⟩ := h.2 (e.inv.app X ≫ H.map f ≫ e.hom.app Y)
     obtain ⟨k, rfl⟩ := E.map_surjective g
     refine ⟨k, H.map_injective ?_⟩
     apply (cancel_mono (e.hom.app Y)).1
-    show (F ⋙ H).map k ≫ _ = _
+    change (F ⋙ H).map k ≫ _ = _
     rw [e.hom.naturality]
-    show e.hom.app X ≫ G.map (E.map k) = _
+    change e.hom.app X ≫ G.map (E.map k) = _
     rw [hg]
     simp
 

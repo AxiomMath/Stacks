@@ -198,7 +198,7 @@ theorem definingIdealSheaf_le_preimage_of_epi_idealSheafMap
         (preimageProjection B S hS g Y) (conormalEtaleRestrictionSquare B S hS g Y)).val.app
           (op W) t).1 :=
     h3.symm.trans e
-  show (SheafOfModules.unit (structureRingSheaf B S hS X')).val.map k.op a ∈
+  change (SheafOfModules.unit (structureRingSheaf B S hS X')).val.map k.op a ∈
     definingIdealAt B S hS X' (preimageSubspace B S hS g Y) (op W)
   rw [h4]
   exact ((idealSheafMap B S hS (preimageSubspace B S hS g Y) Y g
@@ -210,7 +210,7 @@ include hsq in
 theorem le_preimageSubspace_of_comm : X.1 ≤ (preimageSubspace B S hS g Y).1 := by
   intro T x hx
   have e := congrArg (fun m => m.hom.app T ⟨x, hx⟩) hsq
-  show g.hom.app T x ∈ Y.1.obj T
+  change g.hom.app T x ∈ Y.1.obj T
   have e' : g.hom.app T x = (Y.1.ι.app T (f.hom.app T ⟨x, hx⟩)) := e
   rw [e']
   exact (f.hom.app T ⟨x, hx⟩).2
@@ -225,7 +225,7 @@ theorem eq_preimageSubspace_of_isPullback
   have hp := AlgebraicSpaces.isPullback_hom B S hS h
   have hr := Subfunctor.range_eq_preimage_of_isPullback hp
   refine Subtype.ext ?_
-  show X.1 = Y.1.preimage g.hom
+  change X.1 = Y.1.preimage g.hom
   have e1 : Subfunctor.range (subspaceInclusion B S hS X' X).hom = X.1 := Subfunctor.range_ι X.1
   have e2 : Subfunctor.range (subspaceInclusion B S hS Y' Y).hom = Y.1 := Subfunctor.range_ι Y.1
   rw [← e1, hr, e2]

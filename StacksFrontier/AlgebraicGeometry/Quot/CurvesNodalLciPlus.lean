@@ -106,7 +106,7 @@ theorem isSmoothAt_pointsMap_of_smoothAt {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Typ
       point := IsLocalRing.closedPoint r.carrier
       maps_to := by rw [hr] }
   have hsrc : c.sourcePoint B S hS = x := by
-    show pointsToScheme B S hS U (r.class B S hS (yoneda.obj U)) = x
+    change pointsToScheme B S hS U (r.class B S hS (yoneda.obj U)) = x
     rw [hr, hp]
     exact pointsToScheme_pointsEquivScheme_symm B S hS U x
   have hY : IsAlgebraicSpace B S hS (yoneda.obj W) := isAlgebraicSpace_yoneda B S hS W

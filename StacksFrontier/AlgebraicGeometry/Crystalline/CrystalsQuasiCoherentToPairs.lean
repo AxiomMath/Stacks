@@ -591,7 +591,7 @@ theorem isOverWholeSpace_of_isIsomorphic {B C : CrystallineThickening S} (h : Is
   have hC' : IsIso C.obj.toX := hC
   have hnat : ((CrystallineThickening.ι S).mapIso e).hom.sourceHom ≫ C.obj.toX = B.obj.toX :=
     ((CrystallineThickening.ι S).mapIso e).hom.toX_naturality
-  show IsIso B.obj.toX
+  change IsIso B.obj.toX
   rw [← hnat]
   infer_instance
 

@@ -62,7 +62,7 @@ theorem exists_iso_uliftForPresentation_of_isCoherent
     ∃ M' : Modules.{u, u} B S hS F hF, IsCoherent B S hS F hF M' ∧
       Nonempty (SheafOfModules.uliftForPresentation.{u + 1, u, u, u, max (u + 1) w} M' ≅ M) := by
   have : EssentiallySmall.{u} (smallEtaleRingedSite B S hS F hF).C := by
-    show EssentiallySmall.{u} (SmallEtale B S hS F)
+    change EssentiallySmall.{u} (SmallEtale B S hS F)
     infer_instance
   have : ∀ X, Small.{u} (M.val.obj X) :=
     SheafOfModules.small_sections_of_isFiniteType.{u} M
@@ -78,7 +78,7 @@ theorem exists_iso_uliftForPresentation_of_isCoherent
     map_smul (SheafOfModules.shrinkSectionsEquiv.{u + 1, u, u, u, max (u + 1) w} M V).symm a x
   have hn {V W} (f : V ⟶ W) (x : M.val.obj V) :
       eM W (M.val.restrictₛₗ f x) = M'.val.restrictₛₗ f (eM V x) := by
-    show _ = (SheafOfModules.shrinkSectionsEquiv.{u + 1, u, u, u, max (u + 1) w} M W).symm
+    change _ = (SheafOfModules.shrinkSectionsEquiv.{u + 1, u, u, u, max (u + 1) w} M W).symm
       (M.val.restrictₛₗ f (SheafOfModules.shrinkSectionsEquiv.{u + 1, u, u, u, max (u + 1) w} M V
         ((SheafOfModules.shrinkSectionsEquiv.{u + 1, u, u, u, max (u + 1) w} M V).symm x)))
     rw [LinearEquiv.apply_symm_apply]

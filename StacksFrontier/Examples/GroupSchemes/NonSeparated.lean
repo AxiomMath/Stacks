@@ -57,15 +57,15 @@ public theorem not_isClosed_puncturedAffineLine (k : Type u) [Field k] :
     ⟨RingHom.ker ev, RingHom.ker_isPrime ev⟩
   let generic : PrimeSpectrum (↑(CommRingCat.of R)) := ⟨⊥, Ideal.isPrime_bot⟩
   have hbot : generic ∈ puncturedAffineLine k := by
-    show generic ∈ PrimeSpectrum.basicOpen (Polynomial.X : R)
+    change generic ∈ PrimeSpectrum.basicOpen (Polynomial.X : R)
     rw [PrimeSpectrum.mem_basicOpen]
-    show Polynomial.X ∉ (⊥ : Ideal (↑(CommRingCat.of R)))
+    change Polynomial.X ∉ (⊥ : Ideal (↑(CommRingCat.of R)))
     exact Polynomial.X_ne_zero
   have horigin : origin ∉ puncturedAffineLine k := by
-    show origin ∉ PrimeSpectrum.basicOpen (Polynomial.X : R)
+    change origin ∉ PrimeSpectrum.basicOpen (Polynomial.X : R)
     rw [PrimeSpectrum.mem_basicOpen]
     refine not_not_intro (show (Polynomial.X : R) ∈ RingHom.ker ev from ?_)
-    show Polynomial.eval 0 (Polynomial.X : R) = 0
+    change Polynomial.eval 0 (Polynomial.X : R) = 0
     rw [Polynomial.eval_X]
   exact fun hclosed => horigin (hclosed.stableUnderSpecialization
     ((PrimeSpectrum.le_iff_specializes generic origin).mp bot_le) hbot)

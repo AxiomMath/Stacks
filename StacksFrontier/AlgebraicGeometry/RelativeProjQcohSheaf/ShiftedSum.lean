@@ -164,7 +164,7 @@ theorem shiftedSumMap_ι (n : ℤ) :
       (isColimitOfHasCoproductOfPreservesColimit (pullbackFunctor (ringedSpaceHom f))
         fun k : ℤ => M.piece k)
       (colimit.isColimit _) (Discrete.mk n)
-  rw [shiftedSumMap, ← Category.assoc, h, Sigma.ι_desc]
+  rw [shiftedSumMap, ← Category.assoc, h, Sigma.ι_comp_desc]
 
 end Stacks.AlgebraicGeometry.RelativeProjQcohSheaf.Twisting
 

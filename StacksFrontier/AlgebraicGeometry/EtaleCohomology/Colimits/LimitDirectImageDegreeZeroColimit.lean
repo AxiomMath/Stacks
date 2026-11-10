@@ -108,7 +108,7 @@ theorem mapTranspose_hom_app (F : EtaleSheafSystem D AddCommGrpCat.{max u v + 1}
     z.hom.app (op Z)) ((congrArg ((smallEtaleAdjunctionAb (D.map a)).homEquiv _ _) h1).trans h2)
 
 variable {cX : Cone D} (E : PresentedSystem (c := cX) IsColimitPresentation)
-  [IsDirected I (· ≤ ·)] (i₀ : I) (W : (D.obj (op i₀)).Etale)
+  (i₀ : I) (W : (D.obj (op i₀)).Etale)
 
 /-- **The shifted transposed leg on sections over `W` is the leg on sections of
 `Stacks.EtaleCohomology.SmallEtaleLimitCohomology.qcqsSectionsLeg`.** -/
@@ -359,7 +359,7 @@ theorem existsUnique_directImage_desc [∀ {i j : Iᵒᵖ} (a : i ⟶ j), IsAffi
     exact (congrArg (directTransition γ AddCommGrpCat.{max u v + 1} E.sys (𝟙 i) ≫ ·)
       (hρ i.unop (𝟙 i))).trans (hσ (𝟙 i)).symm
   · refine hρu i.unop _ fun {m} a => ?_
-    show shiftLeg (c := cS) (legProjection γ cS hcS E) a ≫
+    change shiftLeg (c := cS) (legProjection γ cS hcS E) a ≫
         (smallEtalePushforward (cS.π.app (op i.unop)) AddCommGrpCat.{max u v + 1}).map χ' =
       shiftLeg (c := cS) σ a
     have hn := (coneProjectionComp AddCommGrpCat.{max u v + 1} cS a).hom.naturality χ'

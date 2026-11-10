@@ -84,7 +84,7 @@ theorem isZero_homology_of_isZero_extendScalars_field (F : DerivedCategory (Modu
     IsZero ((DerivedCategory.homologyFunctor (ModuleCat.{u} K) i).obj F) := by
   let := ψ.toAlgebra
   have hflat : ψ.Flat := by
-    show Module.Flat K L
+    change Module.Flat K L
     infer_instance
   have := StacksDraft.PseudoCoherence.preservesFiniteLimits_extendScalars_of_flat.{u, u, u} ψ hflat
   have hadd : (ModuleCat.extendScalars.{u, u, u} ψ).Additive :=

@@ -125,7 +125,7 @@ theorem smooth_of_comp_of_fppf (f : X ⟶ Y) (q : Y ⟶ S) [Surjective f] [Flat 
   have : Flat f' := by dsimp only [f']; infer_instance
   have : LocallyOfFinitePresentation f' := by dsimp only [f']; infer_instance
   have : Smooth (f' ≫ q') := by
-    show Smooth (f.resLE U (f ⁻¹ᵁ U) le_rfl ≫ q.resLE V U e)
+    change Smooth (f.resLE U (f ⁻¹ᵁ U) le_rfl ≫ q.resLE V U e)
     rw [Scheme.Hom.resLE_comp_resLE]
     infer_instance
   have hq' := smooth_of_comp_of_fppf_affine f' q'

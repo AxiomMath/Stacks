@@ -144,11 +144,11 @@ private theorem isProperOver_range_of_isProper_comp {X T S : Scheme.{u}} (p : X 
     (g : T ⟶ S) [LocallyOfFiniteType g] [IsProper (p ≫ g)] :
     IsProperOver g ⟨Set.range p.base, p.isClosedMap.isClosed_range⟩ := by
   have htop : IsProperOver (p ≫ g) (⊤ : Closeds X) := by
-    show IsProper ((Scheme.IdealSheafData.vanishingIdeal (⊤ : Closeds X)).subschemeι ≫ (p ≫ g))
+    change IsProper ((Scheme.IdealSheafData.vanishingIdeal (⊤ : Closeds X)).subschemeι ≫ (p ≫ g))
     infer_instance
   have heq : p.closedImage ⊤ = ⟨Set.range p.base, p.isClosedMap.isClosed_range⟩ := by
     refine Closeds.ext ?_
-    show p.base '' Set.univ = Set.range p.base
+    change p.base '' Set.univ = Set.range p.base
     exact Set.image_univ
   exact heq ▸ isProperOver_closedImage p g ⊤ htop
 

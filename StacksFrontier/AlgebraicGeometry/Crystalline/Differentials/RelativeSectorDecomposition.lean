@@ -272,7 +272,7 @@ theorem polynomialBidegreeFormsMonomialEquiv_symm_single (i j : ℕ)
     Eq.trans (polynomialBidegreeFormsFreeEquiv_tmul_basis A B W i j _ J)
       (congrArg (Finsupp.single J)
         ((polynomialCoefficientFormsBaseChangeEquiv A B W i).symm_apply_apply _))
-  show Finsupp.mapRange.linearEquiv (polynomialCoefficientMonomialEquiv A B W i)
+  change Finsupp.mapRange.linearEquiv (polynomialCoefficientMonomialEquiv A B W i)
       (polynomialBidegreeFormsFreeEquiv A B W i j
         (polynomialCoefficientFormsBaseChangeEquiv A B W i
             (dividedPowerPolynomialMonomial (B : Type uB) L ⊗ₜ[(B : Type uB)] omega) ⊗ₜ[

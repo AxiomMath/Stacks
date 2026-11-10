@@ -223,6 +223,7 @@ theorem derivedReductionUnit_app_comp_counitHomotopy
 
 /-! ### Localization of complexes versus localization of the homotopy category -/
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The comparison of `- ⊗^L_O M` on complexes, computed through the homotopy category.** Any
 natural transformation into `- ⊗^L_O M`, read against the comparison on cochain complexes, is
 its reading against the comparison on the homotopy category, conjugated by the identification

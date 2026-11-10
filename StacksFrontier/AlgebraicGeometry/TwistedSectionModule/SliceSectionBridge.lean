@@ -90,7 +90,8 @@ it is the restricted unit itself. Reading it as a section conjugates by
 unit images cancel against it and the section is `1`. The only non-formal inputs are
 `PresheafOfModules.sheafifyCounitIso_inv_apply`,
 `sheafifyCounitIso_hom_sheafifyUnit_apply` and
-`sheafificationAdjunction_unit_comp_homEquiv_symm`, all already in the library; nothing is reproved and
+`sheafificationAdjunction_unit_comp_homEquiv_symm`, all already in the library; nothing is reproved
+and
 the tensorator `μ`, which has no component formula, is never mentioned.
 
 **Why the proofs are elementwise.** The target of

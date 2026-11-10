@@ -281,7 +281,7 @@ private lemma iterShiftMap_isIso
   induction k with
   | zero => simpa [iterShiftMap]
   | succ k ih =>
-    show IsIso ((iterShiftMap k f)⟦(1 : ℤ)⟧')
+    change IsIso ((iterShiftMap k f)⟦(1 : ℤ)⟧')
     infer_instance
 
 /-- Iterating the shift `k` times on `X⟦1⟧` is iterating it `k + 1` times on `X`. -/
@@ -291,7 +291,7 @@ private lemma iterShift_shift
   induction k with
   | zero => rfl
   | succ k ih =>
-    show (iterShift k (X⟦(1 : ℤ)⟧))⟦(1 : ℤ)⟧ =
+    change (iterShift k (X⟦(1 : ℤ)⟧))⟦(1 : ℤ)⟧ =
       (iterShift (k + 1) X)⟦(1 : ℤ)⟧
     exact congrArg (fun Y : D => Y⟦(1 : ℤ)⟧) ih
 
@@ -390,7 +390,7 @@ private lemma boundedTailProjection_isIso_at_top
   have : IsIso (StacksDraft.StupidTruncation.stupidTruncGEπ C hi) :=
     stupidTruncGEπ_isIso_at_top C hi hhi
   apply (ObjectProperty.isIso_hom_iff (boundedTailProjection C lo hi hi hlo hhi hp)).1
-  show IsIso (DerivedCategory.Q.map
+  change IsIso (DerivedCategory.Q.map
     (StacksDraft.StupidTruncation.stupidTruncGEπ C hi))
   infer_instance
 
@@ -441,7 +441,7 @@ private lemma iterShiftTriangle_distinguished
   induction k with
   | zero => exact hT
   | succ k ih =>
-    show (Triangle.shiftFunctor D 1).obj (iterShiftTriangle k T) ∈ _
+    change (Triangle.shiftFunctor D 1).obj (iterShiftTriangle k T) ∈ _
     exact Triangle.shift_distinguished _ ih 1
 
 /-- The shifted rotated truncation triangle is distinguished. -/

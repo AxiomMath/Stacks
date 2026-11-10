@@ -54,7 +54,7 @@ theorem fieldValuedPoint_map_tautological {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Ty
       ⟨t.carrier, t.contained, t.toBase, 𝟙 t.siteObject⟩ = t := by
   obtain ⟨K, hK, tb, v⟩ := t
   simp only [FieldValuedPoint.map, FieldValuedPoint.mk.injEq, heq_eq_eq, true_and]
-  show F.map (𝟙 _).op v = v
+  change F.map (𝟙 _).op v = v
   simp
 
 /-- The class of a field-valued point `t` of `F` lies in the image of the points of the scheme
@@ -116,7 +116,7 @@ theorem exists_isOpenSubspace_factors_iff_fieldFibres_of_isProper
     refine ⟨pointsMap B S hS _ l w, ?_⟩
     refine (pointsMap_comp_apply B S hS l V.ι w).symm.trans ?_
     rw [hl]
-    show pointsMap B S hS _ (yonedaEquiv.symm t.value ≫ g.hom) w = _
+    change pointsMap B S hS _ (yonedaEquiv.symm t.value ≫ g.hom) w = _
     rw [pointsMap_comp_apply]
     exact congrArg (pointsMap B S hS Y'.1 g.hom) hw
 

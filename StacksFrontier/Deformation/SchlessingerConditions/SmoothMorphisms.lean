@@ -303,7 +303,8 @@ theorem isSmooth_elementsBasedFunctor_iff
           (G.elementsMk B yB) ((NatTrans.mapElements α).obj (F.elementsMk A xA)) f g hg).symm
     obtain ⟨xB, hxB, hyB⟩ := h f hf xA yB (by
       simpa [hval, NatTrans.mapElements] using g.map_val.symm)
-    refine ⟨F.elementsMk B xB, Functor.Elements.homMk f hxB, Functor.Elements.homMk (𝟙 B) ?_, ?_, ?_, ?_⟩
+    refine ⟨F.elementsMk B xB, Functor.Elements.homMk f hxB, Functor.Elements.homMk (𝟙 B) ?_,
+      ?_, ?_, ?_⟩
     · simpa [NatTrans.mapElements, Functor.map_id_apply] using hyB
     · exact IsHomLift.of_fac (BasedCategory.ofFunctor (Functor.Elements.π F)).p f
         (Functor.Elements.homMk (x := F.elementsMk B xB) (y := F.elementsMk A xA) f hxB) rfl rfl rfl

@@ -86,7 +86,7 @@ private lemma idealSection_smul {I : SheafOfModules.{u} Oₓ} (i : I ⟶ 𝒪)
     (U : (Opens X)ᵒᵖ) (r : (Stacks.SheafOfModules.TensorStalkRingedSpace.O X).obj U) (a : I.val.obj
       U) :
     idealSection X i U (r • a) = r • idealSection X i U a := by
-  show (i.val.app U).hom (r • a) = r • (i.val.app U).hom a
+  change (i.val.app U).hom (r • a) = r • (i.val.app U).hom a
   exact map_smul (i.val.app U).hom r a
 
 /-- Restricting a section of the ideal and then viewing it in the structure sheaf agrees with
@@ -236,7 +236,7 @@ private lemma stalkMapL_comp
       (Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X G.val H.val g.val x).comp
         (Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X F.val G.val f.val x) := by
   ext m
-  show ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
+  change ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
       ((PresheafOfModules.toPresheaf (Stacks.SheafOfModules.TensorStalkRingedSpace.O X)).map
         (f.val ≫ g.val))).hom m =
     ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map
@@ -295,7 +295,7 @@ private lemma idealTensorMultiplication_stalk_factor
     (congrArg qT (TI.apply_symm_apply z)).symm.trans (congrArg (fun f => f (TI.symm z)) hnat)
   have hz'' : TO.symm (qT z) = M (TI.symm z) :=
     (congrArg TO.symm hz').trans (TO.symm_apply_apply _)
-  show (Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X ((T.obj I).obj F).val F.val
+  change (Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X ((T.obj I).obj F).val F.val
       (idealTensorMultiplication X i F).val x) (TI.symm z) = eX (TO.symm (qT z))
   exact (congrArg (fun morphism => morphism (TI.symm z)) composition).trans
     (congrArg eX hz''.symm)
@@ -306,7 +306,7 @@ protected lemma stalkMapL_injective_of_mono
     Function.Injective (Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X F.val G.val f.val
       x) := by
   let T := SheafOfModules.toSheaf Oₓ
-  show Function.Injective
+  change Function.Injective
     ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} x).map (T.map f).1).hom
   exact (AddCommGrpCat.mono_iff_injective _).mp
     ((TopCat.Presheaf.mono_iff_stalk_mono (T.map f)).mp (Functor.map_mono T f) x)
@@ -541,7 +541,7 @@ private lemma idealBasisSection_res {X : RingedSpace.{u}}
       (1 : ↑(((structureSheafRing X).over U).obj.obj
         (op top))))) hnat
   rw [ModuleCat.hom_comp, LinearMap.comp_apply, ModuleCat.hom_comp, LinearMap.comp_apply] at hsec
-  show ((I.over U).val.map f.op).hom
+  change ((I.over U).val.map f.op).hom
       ((e.inv.val.app (op top)).hom
         (show ↑((SheafOfModules.unit
           ((structureSheafRing X).over U)).val.obj
@@ -564,7 +564,7 @@ private lemma unitOverMapOne {X : RingedSpace.{u}} (U V : Opens X) (hVU : V ≤ 
         (op (Over.mk (homOfLE hVU)))) from
         (1 : ↑((structureSheafRing X).obj.obj (op V))))
           := by
-  show ((PresheafOfModules.unit ((structureSheafRing
+  change ((PresheafOfModules.unit ((structureSheafRing
     X).over U).obj).map
     (Over.homMk (homOfLE hVU)).op).hom
       (1 : ↑(((structureSheafRing X).over U).obj.obj
@@ -597,7 +597,7 @@ private lemma idealBasisSection_hom_res_one {X : RingedSpace.{u}}
         (op (Over.mk (homOfLE hVU)))))
   have h := congrArg (fun q => (q.val.app (op (Over.mk (homOfLE hVU)))).hom u)
     e.inv_hom_id
-  show (e.hom.val.app (op (Over.mk (homOfLE hVU)))).hom
+  change (e.hom.val.app (op (Over.mk (homOfLE hVU)))).hom
       ((e.inv.val.app (op (Over.mk (homOfLE hVU)))).hom u) = u
   exact h
 
@@ -640,13 +640,13 @@ private lemma idealBasisSection_generates {X : RingedSpace.{u}}
   have hb' : (I.val.map (homOfLE hVU).op).hom (idealBasisSection U e) =
       (e.inv.val.app (op v)).hom uV := by
     rw [idealBasisSection_res U V hVU e, hmap]
-  show a = r • (I.val.map (homOfLE hVU).op).hom (idealBasisSection U e)
+  change a = r • (I.val.map (homOfLE hVU).op).hom (idealBasisSection U e)
   rw [hb']
   apply hinjApp
-  show (e.hom.val.app (op v)).hom a' =
+  change (e.hom.val.app (op v)).hom a' =
     (e.hom.val.app (op v)).hom (r' • (e.inv.val.app (op v)).hom uV)
   rw [map_smul, hunit]
-  show r' = r' * 1
+  change r' = r' * 1
   simp
 
 /-- The germ at `x` of the restriction of a section to `V` is the germ of the section. -/
@@ -657,7 +657,7 @@ lemma grpGerm_res {X : RingedSpace.{u}}
     Stacks.SheafOfModules.TensorStalkRingedSpace.grpGerm X F.val x V hxV
         ((F.val.map (homOfLE hVU).op).hom s) =
       Stacks.SheafOfModules.TensorStalkRingedSpace.grpGerm X F.val x U (hVU hxV) s := by
-  show (TopCat.Presheaf.germ (C := AddCommGrpCat.{u}) F.val.presheaf V x hxV).hom
+  change (TopCat.Presheaf.germ (C := AddCommGrpCat.{u}) F.val.presheaf V x hxV).hom
       ((F.val.presheaf.map (homOfLE hVU).op).hom
         ((PresheafOfModules.presheaf_obj_coe (M := F.val) (op U)).symm ▸ s)) = _
   rw [TopCat.Presheaf.germ_res_apply (C := AddCommGrpCat.{u}) F.val.presheaf
@@ -686,11 +686,11 @@ private lemma idealBasisSection_spans_stalk {X : RingedSpace.{u}}
   have hres : Stacks.SheafOfModules.TensorStalkRingedSpace.grpGerm X I.val x W hxW aW = m :=
     (grpGerm_res I V W inf_le_left x hxW a).trans ha
   have hr' : aW = r • fW := by
-    show aW = r • (I.val.map (homOfLE inf_le_right).op).hom (idealBasisSection U e)
+    change aW = r • (I.val.map (homOfLE inf_le_right).op).hom (idealBasisSection U e)
     exact hr
   refine ⟨Stacks.SheafOfModules.TensorStalkRingedSpace.ringGerm X x W hxW r, ?_⟩
   rw [← hres, hr', Stacks.SheafOfModules.TensorStalkRingedSpace.stalkModule_germ_smul]
-  show (Stacks.SheafOfModules.TensorStalkRingedSpace.ringGerm X x W hxW r) •
+  change (Stacks.SheafOfModules.TensorStalkRingedSpace.ringGerm X x W hxW r) •
       (Stacks.SheafOfModules.TensorStalkRingedSpace.grpGerm X I.val x W hxW
         ((I.val.map (homOfLE inf_le_right).op).hom (idealBasisSection U e))) = _
   rw [grpGerm_res I U W inf_le_right x hxW (idealBasisSection U e)]
@@ -958,7 +958,7 @@ private lemma tensorMap_injective_iff_smul
   · apply E.injective
     apply hQ
     apply D.injective
-    show D (Q (E m)) = D (Q (E n))
+    change D (Q (E m)) = D (Q (E n))
     simpa only [h] using hmn
   · obtain ⟨m, rfl⟩ := E.surjective z
     obtain ⟨n, rfl⟩ := E.surjective w
@@ -970,7 +970,7 @@ private lemma stalkMapL_id (F : SheafOfModules.{u} Oₓ) (x : X) :
     Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X F.val F.val (𝟙 F.val) x = LinearMap.id
       := by
   ext m
-  show ((TopCat.Presheaf.stalkFunctor AddCommGrpCat x).map
+  change ((TopCat.Presheaf.stalkFunctor AddCommGrpCat x).map
     ((PresheafOfModules.toPresheaf (Stacks.SheafOfModules.TensorStalkRingedSpace.O X)).map (𝟙
       F.val))).hom m = m
   simp
@@ -1049,14 +1049,15 @@ private lemma basis_stalk_tensorMap_injective_iff
       i.val x)
     B (unitStalkLinearEquiv X x)
   have hB : B 1 = g := by
-    show (1 : Stacks.SheafOfModules.TensorStalkRingedSpace.ringStalk X x) • g = g
+    change (1 : Stacks.SheafOfModules.TensorStalkRingedSpace.ringStalk X x) • g = g
     exact one_smul _ _
   have ha : unitStalkLinearEquiv X x
       (Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X I.val (SheafOfModules.unit Oₓ).val
         i.val x g) =
       Stacks.SheafOfModules.TensorStalkRingedSpace.ringGerm X x U hxU
         (idealSection X i (op U) (idealBasisSection U e)) :=
-    (congrArg (unitStalkLinearEquiv X x) (Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL_germ X _ _ i.val x U hxU _)).trans
+    (congrArg (unitStalkLinearEquiv X x)
+        (Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL_germ X _ _ i.val x U hxU _)).trans
       (unitStalkLinearEquiv_germ X x U hxU _)
   rwa [hB, ha] at h
 
@@ -1073,7 +1074,7 @@ private lemma isIdealTensorMultiplication_mono_of_generatorRegularOn
   apply (TopCat.Presheaf.mono_iff_stalk_mono (T.map (idealTensorMultiplication X i F))).2
   intro x
   apply (AddCommGrpCat.mono_iff_injective _).mpr
-  show Function.Injective (Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X
+  change Function.Injective (Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X
     ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       ⟨X.presheaf, X.IsSheaf⟩).obj (I)).obj (F))).val F.val
     (idealTensorMultiplication X i F).val x)
@@ -1119,7 +1120,7 @@ private lemma isGeneratorRegularOn_of_isIdealTorsionFree
     exact sub_eq_zero.mpr hst
   have hmem : s - t ∈ (idealAnnihilatedSubsheaf X i F).toSubmodule.obj (op V) := by
     dsimp [idealAnnihilatedSubsheaf]
-    show ∀ (W : Opens X) (hWV : W ≤ V) (a : I.val.obj (op W)),
+    change ∀ (W : Opens X) (hWV : W ≤ V) (a : I.val.obj (op W)),
       idealSection X i (op W) a •
         (F.val.map (homOfLE hWV).op).hom (s - t) = 0
     intro W hWV a
@@ -1199,7 +1200,7 @@ private lemma idealSection_pow_smul_eq_zero
       (z : (ModuleCat.restrictScalars fId).obj (F.val.obj (op W))) :
       eF.hom z = z := rfl
   simp only [eF_hom_id] at hkill₁
-  show ((F.val.obj (op W)).smul (idealSection X i (op W) fW ^ n)).asHom sW = 0
+  change ((F.val.obj (op W)).smul (idealSection X i (op W) fW ^ n)).asHom sW = 0
   have hmap : (F.val.map (𝟙 (op W))).hom sW = sW := by
     simp [PresheafOfModules.map_id, ModuleCat.restrictScalarsId'_inv_app]
     rfl
@@ -1231,7 +1232,7 @@ private lemma isIdealPowerTorsionFree_of_isGeneratorRegularOn
   intro N hN
   apply SheafOfModules.Submodule.le_iff.mpr
   intro U
-  show N.toSubmodule.obj U ≤ (⊥ : F.Submodule).toSubmodule.obj U
+  change N.toSubmodule.obj U ≤ (⊥ : F.Submodule).toSubmodule.obj U
   intro s hs
   have hzero : s = 0 := by
     apply TopCat.Presheaf.IsSheaf.section_ext F.isSheaf
@@ -1244,7 +1245,7 @@ private lemma isIdealPowerTorsionFree_of_isGeneratorRegularOn
       (hN (op W) sW (N.toSubmodule.map (homOfLE hWU).op hs))
     have hsW : sW = 0 := by
       apply hinjPow
-      show idealSection X i (op W) fW ^ n • sW =
+      change idealSection X i (op W) fW ^ n • sW =
         idealSection X i (op W) fW ^ n • (0 : F.val.obj (op W))
       rwa [smul_zero]
     refine ⟨W, hWU, hxW, ?_⟩
@@ -1254,7 +1255,7 @@ private lemma isIdealPowerTorsionFree_of_isGeneratorRegularOn
         (F.val.map (homOfLE hWU).op).hom s := rfl
     have hmap_0 : (F.val.presheaf.map (homOfLE hWU).op).hom 0 =
         (F.val.map (homOfLE hWU).op).hom 0 := rfl
-    show (F.val.presheaf.map (homOfLE hWU).op).hom s' =
+    change (F.val.presheaf.map (homOfLE hWU).op).hom s' =
       (F.val.presheaf.map (homOfLE hWU).op).hom 0
     rw [hmap_s, hmap_0, map_zero]
     exact hsW
@@ -1373,7 +1374,7 @@ public theorem idealTorsionFree_tfae
     intro m n hmn
     change f • m = f • n at hmn
     apply hg
-    show _ • m = _ • n
+    change _ • m = _ • n
     rw [hr, mul_smul, mul_smul, hmn]
   tfae_have 5 → 4 := isGeneratorRegularOn_of_isStalkwiseGeneratorRegular X i F
   tfae_finish

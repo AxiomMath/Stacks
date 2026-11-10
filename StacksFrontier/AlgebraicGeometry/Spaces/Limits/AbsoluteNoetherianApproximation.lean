@@ -220,7 +220,7 @@ theorem nonempty_presentedNoetherianApproximation
         Set.range (pointsMap B _ hZ (U (p + 1)).toFunctor (U (p + 1)).ι)
     · obtain ⟨z, hz⟩ := hy
       refine absurd ⟨pointsMap B _ hZ _ e.inv z, hinj ?_⟩ hx
-      show (pointsMap B _ hZ _ (U p).ι ∘ pointsMap B _ hZ _ Uo.ι ∘ pointsMap B _ hZ _ e.inv) z = _
+      change (pointsMap B _ hZ _ (U p).ι ∘ pointsMap B _ hZ _ Uo.ι ∘ pointsMap B _ hZ _ e.inv) z = _
       rw [← pointsMap_comp, ← pointsMap_comp, Category.assoc, ← he, ← Category.assoc,
         Iso.inv_hom_id, Category.id_comp, hz]
     · have hmem : pointsMap B _ hZ _ (U p).ι x ∈
@@ -229,7 +229,7 @@ theorem nonempty_presentedNoetherianApproximation
         exact ⟨⟨x, rfl⟩, hy⟩
       obtain ⟨t, ht⟩ := hmem
       refine ⟨t, hinj ?_⟩
-      show (pointsMap B _ hZ _ (U p).ι ∘ pointsMap B _ hZ _ (T k).ι) t = _
+      change (pointsMap B _ hZ _ (U p).ι ∘ pointsMap B _ hZ _ (T k).ι) t = _
       rw [← pointsMap_comp]
       exact ht
   have key : ∀ m, m ≤ n →

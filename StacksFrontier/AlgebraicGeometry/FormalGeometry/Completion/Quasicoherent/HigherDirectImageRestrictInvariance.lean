@@ -87,7 +87,7 @@ public theorem isIso_restrictFunctor_map_rightDerived_map {X Y : Scheme.{u}} (f 
       (((Scheme.Modules.pushforward f).rightDerived p).map φ)) := by
   have h1 : IsIso ((Scheme.Modules.restrictFunctor (f ⁻¹ᵁ V).ι ⋙
       (Scheme.Modules.pushforward (f ∣_ V)).rightDerived p).map φ) := by
-    show IsIso (((Scheme.Modules.pushforward (f ∣_ V)).rightDerived p).map
+    change IsIso (((Scheme.Modules.pushforward (f ∣_ V)).rightDerived p).map
       ((Scheme.Modules.restrictFunctor (f ⁻¹ᵁ V).ι).map φ))
     infer_instance
   have hnat := (higherDirectImageRestrictIso f V p).hom.naturality φ
@@ -184,7 +184,7 @@ public theorem isIso_restrictFunctor_map_unit_of_le {X : Scheme.{u}} {U U' : X.O
   have hiso : IsIso ((Scheme.Modules.restrictFunctor U.ι ⋙
       Scheme.Modules.restrictFunctor (X.homOfLE h)).map
       ((Scheme.Modules.restrictAdjunction U.ι).unit.app M)) := by
-    show IsIso ((Scheme.Modules.restrictFunctor (X.homOfLE h)).map
+    change IsIso ((Scheme.Modules.restrictFunctor (X.homOfLE h)).map
       ((Scheme.Modules.restrictFunctor U.ι).map
         ((Scheme.Modules.restrictAdjunction U.ι).unit.app M)))
     have := isIso_restrictFunctor_map_unit U M

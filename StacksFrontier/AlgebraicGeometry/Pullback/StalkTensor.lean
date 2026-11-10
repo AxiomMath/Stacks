@@ -115,7 +115,7 @@ lemma isLocalization_atPrime_of_isIso_stalkClosedPointTo {P R : CommRingCat.{u}}
   have : IsIso ρ := ‹_›
   let : Algebra P ((Spec P).presheaf.stalk q) := StructureSheaf.stalkAlgebra P q
   have hmap : CommRingCat.ofHom (algebraMap P ((Spec P).presheaf.stalk q)) ≫ ρ = Φ := by
-    show ((Scheme.ΓSpecIso P).inv ≫ (Spec P).presheaf.germ ⊤ q trivial) ≫ ρ = Φ
+    change ((Scheme.ΓSpecIso P).inv ≫ (Spec P).presheaf.germ ⊤ q trivial) ≫ ρ = Φ
     rw [Category.assoc, Scheme.germ_stalkClosedPointTo_Spec]
     simp
   let : Algebra P R := Φ.hom.toAlgebra

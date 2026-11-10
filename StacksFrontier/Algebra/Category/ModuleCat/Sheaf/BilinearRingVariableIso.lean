@@ -233,7 +233,7 @@ private lemma tensorSheafRestrictScalarsHom_comp_inv :
       ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨A₁, Presheaf.isSheaf_of_isSheaf_comp _ A₁
           (forget₂ CommRingCat RingCat) h₁⟩).obj ((SheafOfModules.restrictScalars a).obj F)).obj
           ((SheafOfModules.restrictScalars a).obj G)))))
-  show tensorSheafRestrictScalarsHom a F G ≫
+  change tensorSheafRestrictScalarsHom a F G ≫
       ((SheafOfModules.restrictScalars a).map
           (bilinearEquivTensorSheafHom (hA := h₂) (tensorRestrictInvPairing a F G)) ≫
         (restrictForthIso a).hom.app _) = 𝟙 _
@@ -345,7 +345,7 @@ private lemma tensorSheafRestrictScalarsInv_comp_hom :
                 ((SheafOfModules.restrictScalars a).obj F)).obj
                 ((SheafOfModules.restrictScalars a).obj G)))))
         (tensorRestrictInvPairing a F G)))) hfinal
-  show ((SheafOfModules.restrictScalars a).map
+  change ((SheafOfModules.restrictScalars a).map
         (bilinearEquivTensorSheafHom (hA := h₂) (tensorRestrictInvPairing a F G)) ≫
       (restrictForthIso a).hom.app _) ≫ tensorSheafRestrictScalarsHom a F G = 𝟙 _
   refine Eq.trans (Category.assoc _ _ _) ?_

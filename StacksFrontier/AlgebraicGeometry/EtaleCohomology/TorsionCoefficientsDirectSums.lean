@@ -67,8 +67,8 @@ the underlying abelian sheaf of an injective sheaf of `Λ`-modules is acyclic fo
 direct image and for abelian global sections (the acyclicity behind [Stacks, Tag 03FD]), so that
 forgetting the module structure commutes with taking higher direct images and cohomology
 (`Stacks.Cohomology.AcyclicCollapse.rightDerivedCompIsoOfAcyclic`, [Stacks, Tag 015M]). The
-acyclicity is proved in
-`StacksFrontier/CategoryTheory/Sites/Cohomology/HigherDirectImage/InjectiveModuleSheafAcyclicity.lean`
+acyclicity is proved in the module
+`StacksFrontier.CategoryTheory.Sites.Cohomology.HigherDirectImage.InjectiveModuleSheafAcyclicity`
 for sheaves of modules over a sheaf of rings; it is transported to sheaves valued in
 `ModuleCat Λ` through the equivalence
 `Stacks.ConstantSheaf.constantSheafModuleEquivalence` with sheaves of modules over the constant
@@ -197,7 +197,7 @@ private theorem torsionSheafProperty_etaleModuleForget_obj_aux (Λ : Type) [Ring
     Stacks.Torsion.torsionSheafProperty X.smallEtaleTopology
       ((etaleModuleForget Λ X).obj F) :=
   fun U x => ⟨⊤, X.smallEtaleTopology.top_mem U, fun V g _ => ⟨n, hn, by
-    show n • ((F.obj.map g.op).hom x : F.obj.obj (op V)) = 0
+    change n • ((F.obj.map g.op).hom x : F.obj.obj (op V)) = 0
     rw [← Nat.cast_smul_eq_nsmul Λ, hΛ, zero_smul]⟩⟩
 
 /-- **The underlying abelian sheaf of a sheaf of `ℤ/nℤ`-modules is torsion**, for `n ≥ 1`: every

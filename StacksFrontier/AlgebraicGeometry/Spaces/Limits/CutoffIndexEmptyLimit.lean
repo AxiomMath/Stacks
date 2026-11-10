@@ -277,7 +277,7 @@ theorem legOfHom_comp (s : Cone (systemOf B E hE))
   refine Yoneda.fullyFaithful.map_injective ?_
   rw [Functor.map_comp, legOfHom, legOfHom, Functor.FullyFaithful.map_preimage,
     Functor.FullyFaithful.map_preimage]
-  show (x ≫ s.π.app T) ≫ (systemOf B E hE).map g = x ≫ s.π.app T'
+  change (x ≫ s.π.app T) ≫ (systemOf B E hE).map g = x ≫ s.π.app T'
   rw [Category.assoc, s.w g]
 
 /-- A morphism from a representable presheaf to the vertex of a cone over the system, read as a

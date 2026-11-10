@@ -120,7 +120,7 @@ theorem smul_mem_smul_top_imp_of_isBaseChange (I : Ideal R) (t : A)
     intro y hy
     have hex : Function.Exact (K.subtype.lTensor A') (K.mkQ.lTensor A') :=
       lTensor_exact A' (LinearMap.exact_subtype_mkQ K) (Submodule.mkQ_surjective K)
-    obtain ⟨y₀, rfl⟩ := (hex y).mp (by simpa [hπ, LinearMap.baseChange_eq_ltensor] using hy)
+    obtain ⟨y₀, rfl⟩ := (hex y).mp (by simpa [hπ, LinearMap.baseChange_eq_lTensor] using hy)
     clear hy
     induction y₀ with
     | add y y' hy hy' => rw [map_add, map_add]; exact Submodule.add_mem _ hy hy'

@@ -47,8 +47,8 @@ minimal primes of `𝒪_{X, ξ}` of orders of vanishing of the germs of the rati
 the minimal primes of `𝒪_{X, ξ}` have to be matched with the irreducible components of `X` of
 delta-dimension `k + 1` through `ξ`, and the order of vanishing of the germs of `a / b` along
 such a component has to be matched with the order of vanishing of `s` there. Neither is a
-restatement of anything in the library, so this file carries **no** `@[stacks]` attribute: the tag's part
-(4) is the cycle equality, and the attribute belongs on that statement when it exists, not on a
+restatement of anything in the library, so this file carries **no** `@[stacks]` attribute: the tag's
+part (4) is the cycle equality, and the attribute belongs on that statement when it exists, not on a
 step toward it.
 
 **Where the one-dimensionality comes from.** Not from `HasNoEmbeddedPoints X`: on a disjoint
@@ -144,7 +144,7 @@ theorem exists_affineOpen_sheafMultiplicity_denominatorQuotients_sub_eq
   refine ⟨V, hξV, hVaff, a, b, ?_⟩
   obtain ⟨hfin, ha', hb', hdim1, hemb, hsupp, -⟩ :=
     StalkLocalSituation.lengthFormula_hypotheses C f F hdim hF hSupp
-      (denominatorBadLocus_isClosed X L s hL hs)
+      (denominatorBadLocus_isClosed X L s hL)
       (denominatorBadLocus_isNowhereDense X L s hL hs) hVaff hξV hξ hδ ha hb
   have : Module.Finite (X.presheaf.stalk ξ) (F.presheaf.stalk ξ) := hfin
   have h₂ : sheafMultiplicity

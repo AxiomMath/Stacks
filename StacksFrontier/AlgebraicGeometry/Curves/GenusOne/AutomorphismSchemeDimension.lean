@@ -100,7 +100,7 @@ theorem exists_weierstrassComparison (hE : (diagonalFamily f).IsElliptic)
     rw [Subsingleton.elim t (IsLocalRing.closedPoint k)]
     exact hU
   refine ⟨x.baseChange (IsOpenImmersion.lift U.ι q hrange), ?_⟩
-  show IsOpenImmersion.lift U.ι q hrange ≫ x.snd = q
+  change IsOpenImmersion.lift U.ι q hrange ≫ x.snd = q
   rw [hx, IsOpenImmersion.lift_fac]
 
 variable {f} in
@@ -167,7 +167,7 @@ theorem exists_comparison_of_isAlgClosed (p q : Spec (.of k) ⟶ X) (hp : p ≫ 
         (Weierstrass.curveAt y.fst).j = c := by
     intro s hs y hy
     rw [hJ, hy, ← hc]
-    show (s ≫ f).appTop c = c
+    change (s ≫ f).appTop c = c
     rw [hs]
     rfl
   -- so the two Weierstrass equations differ by a coordinate change
@@ -216,7 +216,7 @@ theorem surjective_autScheme_toCurve :
     let t : Spec (.of k) := IsLocalRing.closedPoint k
     refine ⟨pullback.lift u q hu t, ?_⟩
     rw [← pointOfClosedPoint_apply f x hx t]
-    show (pullback.lift u q hu ≫ pullback.snd _ _) t = q t
+    change (pullback.lift u q hu ≫ pullback.snd _ _) t = q t
     rw [pullback.lift_snd]
   have : JacobsonSpace X := LocallyOfFiniteType.jacobsonSpace f
   have h := π.isClosedMap.isClosed_range.closure_subset_iff.2 hpts

@@ -328,8 +328,8 @@ theorem ψ₁_unitDiffX (U : Opens X.carrier) (z : (FX P).obj.obj (op U)) :
       (structureComorphism g) P.presentation (presY f g) (ΦX g P) (ΦX_comp_presY g P)
       (inverseImageBaseRing f) (inverseImageBaseRing (g ≫ f))
       (freeAlgebraSheafCoefficientMap _ _ _) (freeAlgebraSheafCoefficientMap _ _ _)
-      (baseRingPushMap g f) (Stacks.SheafOfModules.freeAlgebraPushMap_coefficient g.hom.base
-        (structureRingMap_comp_structureComorphism g f)) (op U) z
+      (baseRingPushMap g f) (Stacks.SheafOfModules.freeAlgebraPushMap_coefficient g.hom.base)
+      (op U) z
   unfold diffY ψ₁ unitDiffX
   exact h1.trans h2
 
@@ -393,8 +393,7 @@ theorem ψpush_comm : dX P ≫ ψpush₁ g P = ψpush₀ g P ≫
     (structureComorphism g) P.presentation (presY f g) (ΦX g P) (ΦX_comp_presY g P)
     (inverseImageBaseRing f) (inverseImageBaseRing (g ≫ f))
     (freeAlgebraSheafCoefficientMap _ _ _) (freeAlgebraSheafCoefficientMap _ _ _)
-    (baseRingPushMap g f) (Stacks.SheafOfModules.freeAlgebraPushMap_coefficient g.hom.base
-      (structureRingMap_comp_structureComorphism g f))
+    (baseRingPushMap g f) (Stacks.SheafOfModules.freeAlgebraPushMap_coefficient g.hom.base)
   unfold dX ψpush₁ ψpush₀
   exact h
 

@@ -128,6 +128,7 @@ def complexMap {I : CochainComplex 𝒳 ℕ} {J : CochainComplex 𝒳' ℕ}
       (K.mapHomologicalComplex _).obj ((P'.mapHomologicalComplex _).obj J) :=
   (P.mapHomologicalComplex _).map c ≫ (NatTrans.mapHomologicalComplex e.hom _).app J
 
+omit [HasInjectiveResolutions 𝒳] [HasInjectiveResolutions 𝒳'] [PreservesFiniteLimits K] in
 /-- In degree `n`, `complexMap` is `P (c.f n)` followed by the component of `e` at `J.X n`. -/
 lemma complexMap_f {I : CochainComplex 𝒳 ℕ} {J : CochainComplex 𝒳' ℕ}
     (c : I ⟶ (H.mapHomologicalComplex _).obj J) (n : ℕ) :
@@ -187,7 +188,7 @@ theorem mapOf_eq_mapOf {X : 𝒳} {N : 𝒳'} (u : X ⟶ H.obj N)
     (I := I') (K := (H.mapHomologicalComplex _).obj J'.cocomplex) P
     (α ≫ c ≫ (H.mapHomologicalComplex _).map β) c' (by
       refine InjectiveResolution.ι_comp_ext _ _ ?_
-      show aug I' ≫ α.f 0 ≫ c.f 0 ≫ H.map (β.f 0) = aug I' ≫ c'.f 0
+      change aug I' ≫ α.f 0 ≫ c.f 0 ≫ H.map (β.f 0) = aug I' ≫ c'.f 0
       rw [reassoc_of% aug_comp_desc_id_f_zero I I', reassoc_of% hc, hc', ← H.map_comp,
         aug_comp_desc_id_f_zero J' J]) n
   have key := mapOf_naturality P P' H K e (𝟙 X) (𝟙 N) I' I J J' α β
@@ -246,7 +247,7 @@ theorem map_comp_map {X : 𝒳} {N N' : 𝒳'} (u : X ⟶ H.obj N) (g : N ⟶ N'
   have hβ : aug J ≫ β.f 0 = g ≫ aug J' := InjectiveResolution.desc_commutes_zero g J' J
   let c := comparison H u ≫ (H.mapHomologicalComplex _).map β
   have hc : aug (injectiveResolution X) ≫ c.f 0 = (u ≫ H.map g) ≫ H.map (aug J') := by
-    show aug (injectiveResolution X) ≫ (comparison H u).f 0 ≫ H.map (β.f 0) = _
+    change aug (injectiveResolution X) ≫ (comparison H u).f 0 ≫ H.map (β.f 0) = _
     rw [aug_comp_comparison_f_zero_assoc, assoc, ← H.map_comp, hβ, H.map_comp]
   rw [map_eq_mapOf P P' H K e _ _ J' c hc]
   simpa [map, c] using mapOf_naturality P P' H K e (𝟙 X) g _ _ J J' (𝟙 _) β (by simp) hβ
@@ -326,7 +327,7 @@ theorem map_comp
     c₁ ≫ (H₁.mapHomologicalComplex _).map c₂ ≫
       (NatTrans.mapHomologicalComplex ηH.hom _).app L.cocomplex
   have hc : aug I ≫ c.f 0 = (u₁ ≫ H₁.map u₂ ≫ ηH.hom.app Z) ≫ H.map (aug L) := by
-    show aug I ≫ c₁.f 0 ≫ H₁.map (c₂.f 0) ≫ ηH.hom.app (L.cocomplex.X 0) = _
+    change aug I ≫ c₁.f 0 ≫ H₁.map (c₂.f 0) ≫ ηH.hom.app (L.cocomplex.X 0) = _
     rw [aug_comp_comparison_f_zero_assoc, ← H₁.map_comp_assoc, aug_comp_comparison_f_zero,
       H₁.map_comp, assoc, assoc, assoc]
     congr 2

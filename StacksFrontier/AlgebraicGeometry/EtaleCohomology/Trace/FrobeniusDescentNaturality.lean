@@ -158,7 +158,7 @@ variable {S : Scheme.{u}} (p : ℕ) [Fact p.Prime] (hS : IsInCharacteristic S p)
 lemma absoluteFrobeniusPow_add_eq_comp :
     absoluteFrobeniusPow S p hS (a + b) =
       absoluteFrobeniusPow S p hS b ≫ absoluteFrobeniusPow S p hS a := by
-  simp only [absoluteFrobeniusPow, pow_add, End.mul_def]
+  simp only [absoluteFrobeniusPow, pow_add, End.mul_asHom]
 
 omit hS in
 /-- The `a`-fold absolute Frobenius followed by the `b`-fold one is the `(a + b)`-fold one. -/
@@ -166,7 +166,7 @@ lemma absoluteFrobeniusPow_comp_eq_add (X : Scheme.{u}) (hX : IsInCharacteristic
     absoluteFrobeniusPow X p hX a ≫ absoluteFrobeniusPow X p hX b =
       absoluteFrobeniusPow X p hX (a + b) := by
   rw [Nat.add_comm]
-  simp only [absoluteFrobeniusPow, pow_add, End.mul_def]
+  simp only [absoluteFrobeniusPow, pow_add, End.mul_asHom]
 
 /-- In a category, `eab ≫ pab = (ea ≫ eb ≫ i) ≫ pab` given six compatible factorizations of its
 pieces. -/

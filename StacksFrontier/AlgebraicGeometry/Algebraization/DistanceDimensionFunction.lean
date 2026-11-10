@@ -71,7 +71,7 @@ public theorem exists_max_dimensionFunction_on_closed
     Classical.choose_spec (QuasiSober.sober (hSirreducible t.1 (hFmem.mp t.2))
       (hSclosed t.1 (hFmem.mp t.2)))
   have hsubset (t : F) : (t : Set Y) ⊆ (Z : Set Y) := by
-    show (t : Set Y) ⊆ Z.carrier
+    change (t : Set Y) ⊆ Z.carrier
     rw [hSunion]
     exact Set.subset_sUnion_of_mem (hFmem.mp t.2)
   have : Nonempty F := by

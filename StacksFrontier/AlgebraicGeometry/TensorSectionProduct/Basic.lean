@@ -64,7 +64,8 @@ definitionally equal but not reducibly so; `Stacks.Ample.nonvanishingLocus` and
 `Stacks.ModuleStalk.maximalSmul` are keyed on the former while `Stacks.SectionProduct.pgerm` and
 `pstalkHom` are keyed on the latter, and instance search for the stalk module structure crosses
 neither. `Stacks.TensorSectionProduct.pgerm_eq_germ`, `pstalkHom_germ` and `exists_pstalkHom_eq`
-are the three bridges, each `rfl` or a term-mode application; this is the `def`-vs-`abbrev` mismatch in
+are the three bridges, each `rfl` or a term-mode application; this is the `def`-vs-`abbrev`
+mismatch in
 its stalk incarnation. For the same reason the presheaf-level `F.val ⊗ G.val` is never written in
 a type ascription — its monoidal structure is keyed on
   `(Stacks.SheafOfModules.TensorSheafification.structureSheaf _ _).obj` and is
@@ -220,13 +221,7 @@ theorem exists_smul_germ_tensorSection {W : X.Opens} (eF : Γ(F, W)) (eG : Γ(G,
           r • ((F ⊗ G : X.Modules).presheaf.germ W x hx).hom
             (Stacks.SectionTensorFormula.tensorSection F G eF eG) := by
     intro U hxU ξ
-    induction ξ using TensorProduct.induction_on with
-    | zero =>
-      refine ⟨0, ?_⟩
-      rw [zero_smul]
-      exact (congrArg ((F ⊗ G : X.Modules).presheaf.germ U x hxU).hom
-          (map_zero (ConcreteCategory.hom ((toTensorSectionX F G).app (op U))))).trans
-        (map_zero ((F ⊗ G : X.Modules).presheaf.germ U x hxU).hom)
+    induction ξ using TensorProduct.inductionOn with
     | add a b ha hb =>
       obtain ⟨r, hr⟩ := ha
       obtain ⟨r', hr'⟩ := hb

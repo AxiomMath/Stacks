@@ -81,7 +81,7 @@ public theorem functorAutomorphismIsTopologicalGroup (F : C ⥤ Type w) :
   let (X : C) : TopologicalSpace (Equiv.Perm (F.obj X)) := autTopology
   let : TopologicalSpace (Aut F) :=
     TopologicalSpace.induced (componentEmbedding F) inferInstance
-  show @IsTopologicalGroup (Aut F)
+  change @IsTopologicalGroup (Aut F)
     (TopologicalSpace.induced (componentEmbedding F) inferInstance) _
   have hcomp : Continuous (componentEmbedding F) := continuous_induced_dom
   have heval (X : C) : Continuous (fun σ : Aut F => (σ.asIso.app X).toEquiv) :=
@@ -107,7 +107,7 @@ public lemma isClosedEmbedding_componentEmbedding (F : C ⥤ Type w) :
   let (X : C) : TopologicalSpace (Equiv.Perm (F.obj X)) := autTopology
   let : TopologicalSpace (Aut F) :=
     TopologicalSpace.induced (componentEmbedding F) inferInstance
-  show IsClosedEmbedding (componentEmbedding F)
+  change IsClosedEmbedding (componentEmbedding F)
   rw [isClosedEmbedding_iff]
   constructor
   · refine ⟨Topology.IsInducing.induced _, ?_⟩
@@ -126,7 +126,7 @@ public lemma isClosedEmbedding_componentEmbedding (F : C ⥤ Type w) :
       simp only [Set.mem_range, Set.mem_iInter, Set.mem_ofPred_eq]
       constructor
       · rintro ⟨σ, rfl⟩ X Y f x
-        show F.map f (ConcreteCategory.hom (σ.asIso.hom.app X) x) =
+        change F.map f (ConcreteCategory.hom (σ.asIso.hom.app X) x) =
           ConcreteCategory.hom (σ.asIso.hom.app Y) (F.map f x)
         simpa only [types_comp_apply] using
           ConcreteCategory.congr_hom (σ.asIso.hom.naturality f).symm x
@@ -161,7 +161,7 @@ public lemma isProfiniteGrp_functorAutomorphismTopology (F : C ⥤ Type w)
   let : TopologicalSpace (Aut F) :=
     TopologicalSpace.induced (componentEmbedding F) inferInstance
   let : IsTopologicalGroup (Aut F) := functorAutomorphismIsTopologicalGroup F
-  show Stacks.Chapter05.Tag_0BR1.IsProfiniteTop (Aut F)
+  change Stacks.Chapter05.Tag_0BR1.IsProfiniteTop (Aut F)
   have h : IsClosedEmbedding (componentEmbedding F) := isClosedEmbedding_componentEmbedding F
   exact ⟨h.compactSpace, h.isEmbedding.t2Space,
     h.isEmbedding.toHomeomorph.symm.totallyDisconnectedSpace⟩

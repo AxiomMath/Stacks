@@ -122,7 +122,7 @@ theorem isScalarTower_of_retraction {A : Type u} {B : Type v} [CommRing A] [Comm
 the unit: this is the decomposition `B = A ⊕ I`. -/
 theorem sub_mem_augmentationIdeal (b : B) :
     b - algebraMap A B (algebraMap B A b) ∈ (augmentationIdeal A : Ideal B) := by
-  show algebraMap B A (b - algebraMap A B (algebraMap B A b)) = 0
+  change algebraMap B A (b - algebraMap A B (algebraMap B A b)) = 0
   rw [map_sub, algebraMap_algebraMap_self, sub_self]
 
 /-- The projection of `B` onto the ideal of the unit along the unit section, that is, the
@@ -161,7 +161,7 @@ def augmentationProj (b : B) : ↥(augmentationIdeal A : Ideal B) :=
 theorem augmentationProj_of_mem {x : B} (hx : x ∈ (augmentationIdeal A : Ideal B)) :
     augmentationProj A x = ⟨x, hx⟩ := by
   apply Subtype.ext
-  show x - algebraMap A B (algebraMap B A x) = x
+  change x - algebraMap A B (algebraMap B A x) = x
   rw [show algebraMap B A x = 0 from hx, map_zero, sub_zero]
 
 /-- Scalar multiplication on `I/I²` factors through the retraction: the ideal of the unit acts
@@ -251,7 +251,7 @@ theorem restrictToAugmentation_ker_le (hK : K ^ 2 = ⊥) (δ : InfinitesimalSect
     ((augmentationIdeal A : Ideal B) • ⊤ : Submodule B ↥(augmentationIdeal A : Ideal B)) ≤
       LinearMap.ker (restrictToAugmentation hK δ) := by
   refine Submodule.smul_le.mpr fun b hb x _ ↦ LinearMap.mem_ker.mpr (Subtype.ext ?_)
-  show δ.1 (b * (x : B)) = 0
+  change δ.1 (b * (x : B)) = 0
   rw [map_mul]
   exact mul_eq_zero_of_sq_eq_bot hK (δ.map_mem hb) (δ.map_mem x.2)
 

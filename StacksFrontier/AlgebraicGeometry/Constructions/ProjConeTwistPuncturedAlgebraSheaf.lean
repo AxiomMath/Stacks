@@ -152,7 +152,7 @@ theorem heq_twistMul_comm (i j : ℤ) (V : (Opens (ProjectiveSpectrum.top 𝒜))
     (a : (twistingSheaf 𝒜 i).val.obj V) (b : (twistingSheaf 𝒜 j).val.obj V) :
     HEq ((twistMul 𝒜 i j).app V a b) ((twistMul 𝒜 j i).app V b a) := by
   refine twist_heq 𝒜 (add_comm i j) fun s => ?_
-  show a.1 s * b.1 s = b.1 s * a.1 s
+  change a.1 s * b.1 s = b.1 s * a.1 s
   exact mul_comm _ _
 
 /-! ### The algebra of all integral twists as a sheaf of algebras over the structure sheaf -/

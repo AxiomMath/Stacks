@@ -142,7 +142,7 @@ theorem exists_injective_finite_adjoinRoot_integralClosure
       algebraMap A₂ K₂ (a₁₂ x) = algebraMap K₁ K₂ (algebraMap A₁ K₁ x) := by
     have he₂ := IsIntegralClosure.algebraMap_equiv A A₂ K₂ (integralClosure A K₂) (a₁₂ x)
     rw [← he₂]
-    show (eA₂ (eA₂.symm ((IsScalarTower.toAlgHom A K₁ K₂).mapIntegralClosure (eA₁ x))) : K₂) = _
+    change (eA₂ (eA₂.symm ((IsScalarTower.toAlgHom A K₁ K₂).mapIntegralClosure (eA₁ x))) : K₂) = _
     rw [eA₂.apply_symm_apply, AlgHom.coe_mapIntegralClosure]
     exact congrArg (algebraMap K₁ K₂)
       (IsIntegralClosure.algebraMap_equiv A A₁ K₁ (integralClosure A K₁) x)
@@ -157,14 +157,14 @@ theorem exists_injective_finite_adjoinRoot_integralClosure
   let a₂ : AdjoinRoot P₂ →+* A₂ :=
     AdjoinRoot.lift a₁₂.toRingHom β₂ (by
       simp only [P₂, eval₂_sub, eval₂_pow, eval₂_X, eval₂_C, sub_eq_zero]
-      show β₂ ^ p = a₁₂ c₁
+      change β₂ ^ p = a₁₂ c₁
       exact hβ₂pow)
   let : Algebra A₁ K₂ := ((algebraMap K₁ K₂).comp (algebraMap A₁ K₁)).toAlgebra
   have : IsScalarTower A₁ K₁ K₂ := IsScalarTower.of_algebraMap_eq (fun _ => rfl)
   let φ : AdjoinRoot P₂ →ₐ[A₁] K₂ :=
     { __ := (algebraMap A₂ K₂).comp a₂
       commutes' := fun r => by
-        show algebraMap A₂ K₂ (a₂ (AdjoinRoot.of P₂ r)) = _
+        change algebraMap A₂ K₂ (a₂ (AdjoinRoot.of P₂ r)) = _
         rw [AdjoinRoot.lift_of]
         exact ha₁₂ r }
   have hroot : algebraMap A₂ K₂ (a₂ (AdjoinRoot.root P₂)) = β := by
@@ -175,14 +175,14 @@ theorem exists_injective_finite_adjoinRoot_integralClosure
   have hiφ : Function.Injective φ :=
     adjoinRoot_algHom_injective_of_minpoly_eq_map hP₂
       (IsIntegralClosure.algebraMap_injective A₁ A K₁) φ (by
-        show minpoly K₁ (algebraMap A₂ K₂ (a₂ (AdjoinRoot.root P₂))) = _
+        change minpoly K₁ (algebraMap A₂ K₂ (a₂ (AdjoinRoot.root P₂))) = _
         rw [hroot, hβminpoly]
         simp only [P₂, Polynomial.map_sub, Polynomial.map_pow, Polynomial.map_X,
           Polynomial.map_C, hc₁])
   refine ⟨c₁, a₁₂, a₂, ha₁₂, ?_, Function.Injective.of_comp hiφ, ?_, ?_,
     finite_adjoinRoot_of_comp_eq (B := A) a₂ fun r => ?_⟩
   · ext x
-    show a₂ (AdjoinRoot.of P₂ x) = a₁₂ x
+    change a₂ (AdjoinRoot.of P₂ x) = a₁₂ x
     exact AdjoinRoot.lift_of _
   · rw [hroot, hβminpoly, hc₁]
   · rw [hroot]
@@ -319,10 +319,10 @@ private theorem adjoinRoot_lift_injective_of_tensor_comparison
   have heq : j.comp h = e.toRingHom.comp m := by
     apply AdjoinRoot.ringHom_ext
     · ext r
-      show j (h (AdjoinRoot.of P r)) = e (m (AdjoinRoot.of P r))
+      change j (h (AdjoinRoot.of P r)) = e (m (AdjoinRoot.of P r))
       rw [AdjoinRoot.map_of, tensorAdjoinRootAlgEquiv_of]
       exact hc r
-    · show j (h (AdjoinRoot.root P)) = e (m (AdjoinRoot.root P))
+    · change j (h (AdjoinRoot.root P)) = e (m (AdjoinRoot.root P))
       rw [AdjoinRoot.map_root, tensorAdjoinRootAlgEquiv_root]
       exact hr
   exact Function.Injective.of_comp (show Function.Injective (j.comp h) from
@@ -400,9 +400,9 @@ private theorem exists_injective_finite_adjoinRoot_map_integralClosure
   let e := tensorAdjoinRootAlgEquiv K L F E hβ hgen
   have hzero : eval₂ φ.toRingHom βB P = 0 := by
     apply Subtype.ext
-    show (integralClosure B (L ⊗[K] E)).val.toRingHom (eval₂ φ.toRingHom βB P) = 0
+    change (integralClosure B (L ⊗[K] E)).val.toRingHom (eval₂ φ.toRingHom βB P) = 0
     rw [hom_eval₂]
-    show eval₂ ((ψ.toRingHom).comp (integralClosure B (L ⊗[K] F)).val.toRingHom)
+    change eval₂ ((ψ.toRingHom).comp (integralClosure B (L ⊗[K] F)).val.toRingHom)
       (1 ⊗ₜ[K] β) P = 0
     rw [← eval₂_map, hPmap]
     rw [← tensorAdjoinRootAlgEquiv_root K L F E hβ hgen]
@@ -411,7 +411,7 @@ private theorem exists_injective_finite_adjoinRoot_map_integralClosure
       intro x
       exact (tensorAdjoinRootAlgEquiv_of K L F E hβ hgen x).symm
     rw [hcoeff]
-    show eval₂ (e.toRingHom.comp (AdjoinRoot.of _))
+    change eval₂ (e.toRingHom.comp (AdjoinRoot.of _))
       (e.toRingHom (AdjoinRoot.root _)) _ = 0
     rw [← hom_eval₂, AdjoinRoot.eval₂_root, map_zero]
   let h := AdjoinRoot.lift φ.toRingHom βB hzero
@@ -477,7 +477,7 @@ theorem integralClosureBaseChangeTensorEquiv_right
   let := D.algebraKL₁
   let := D.algebraLL₁
   let := D.algebraK₁L₁
-  show (AlgEquiv.quotientBot K _) ((Ideal.quotientEquivAlgOfEq K (nilradical_eq_zero _))
+  change (AlgEquiv.quotientBot K _) ((Ideal.quotientEquivAlgOfEq K (nilradical_eq_zero _))
     (D.eL₁ (algebraMap F D.L₁ x))) = _
   rw [D.eL₁_right, Ideal.quotientEquivAlgOfEq_mk, AlgEquiv.quotientBot_mk]
 
@@ -534,7 +534,7 @@ theorem integralClosureBaseChangeRightEquiv_apply
   let := D.algebraB₁L₁
   let := D.isScalarTowerBB₁L₁
   let := D.isIntegralClosureB₁
-  show integralClosureBaseChangeTensorEquiv A B K L F D hred
+  change integralClosureBaseChangeTensorEquiv A B K L F D hred
     ((IsIntegralClosure.equiv B D.B₁ D.L₁ (integralClosure B D.L₁) x : integralClosure B D.L₁) :
       D.L₁) = _
   exact congrArg (integralClosureBaseChangeTensorEquiv A B K L F D hred)
@@ -561,19 +561,19 @@ theorem isLocalization_away_adjoinRoot_map
   let e₁ := AdjoinRoot.mapAlgEquiv r
     (P.map (Algebra.TensorProduct.includeRight : R →ₐ[R] S ⊗[R] R).toRingHom) Q
     (by
-      show Associated ((P.map (Algebra.TensorProduct.includeRight : R →ₐ[R] S ⊗[R]
+      change Associated ((P.map (Algebra.TensorProduct.includeRight : R →ₐ[R] S ⊗[R]
         R).toRingHom).map r.toRingHom) Q
       rw [hmap])
   let e := e₀.trans e₁
   have heof (x : R) : e (1 ⊗ₜ[R] AdjoinRoot.of P x) = AdjoinRoot.of Q (algebraMap R S x) := by
-    show e₁ (e₀ (1 ⊗ₜ[R] AdjoinRoot.of P x)) = _
+    change e₁ (e₀ (1 ⊗ₜ[R] AdjoinRoot.of P x)) = _
     rw [AdjoinRoot.tensorAlgEquiv_of]
-    show AdjoinRoot.map r.toRingHom _ Q hmap.symm.dvd (AdjoinRoot.of _ (1 ⊗ₜ[R] x)) = _
+    change AdjoinRoot.map r.toRingHom _ Q hmap.symm.dvd (AdjoinRoot.of _ (1 ⊗ₜ[R] x)) = _
     rw [AdjoinRoot.map_of]
     congr 1
     simp [r, Algebra.smul_def]
   have heroot : e (1 ⊗ₜ[R] AdjoinRoot.root P) = AdjoinRoot.root Q := by
-    show e₁ (e₀ (1 ⊗ₜ[R] AdjoinRoot.root P)) = _
+    change e₁ (e₀ (1 ⊗ₜ[R] AdjoinRoot.root P)) = _
     rw [AdjoinRoot.tensorAlgEquiv_root]
     exact AdjoinRoot.map_root r.toRingHom _ Q hmap.symm.dvd
   have he : e.toRingHom.comp
@@ -582,9 +582,9 @@ theorem isLocalization_away_adjoinRoot_map
     apply AdjoinRoot.ringHom_ext
     · apply RingHom.ext
       intro x
-      show e (1 ⊗ₜ[R] AdjoinRoot.of P x) = f (AdjoinRoot.of P x)
+      change e (1 ⊗ₜ[R] AdjoinRoot.of P x) = f (AdjoinRoot.of P x)
       rw [heof, AdjoinRoot.map_of]
-    · show e (1 ⊗ₜ[R] AdjoinRoot.root P) = f (AdjoinRoot.root P)
+    · change e (1 ⊗ₜ[R] AdjoinRoot.root P) = f (AdjoinRoot.root P)
       rw [heroot, AdjoinRoot.map_root]
   let e' : S ⊗[R] AdjoinRoot P ≃ₐ[AdjoinRoot P] AdjoinRoot Q :=
     { __ := e.toRingEquiv
@@ -609,11 +609,11 @@ theorem isLocalization_away_of_adjoinRoot_equiv
     apply AdjoinRoot.ringHom_ext
     · apply RingHom.ext
       intro r
-      show e (m (AdjoinRoot.of P r)) = φ (AdjoinRoot.of P r)
+      change e (m (AdjoinRoot.of P r)) = φ (AdjoinRoot.of P r)
       rw [AdjoinRoot.map_of]
-      show e (algebraMap S _ (algebraMap R S r)) = φ (algebraMap R _ r)
+      change e (algebraMap S _ (algebraMap R S r)) = φ (algebraMap R _ r)
       rw [e.commutes, φ.commutes, ← IsScalarTower.algebraMap_apply]
-    · show e (m (AdjoinRoot.root P)) = φ (AdjoinRoot.root P)
+    · change e (m (AdjoinRoot.root P)) = φ (AdjoinRoot.root P)
       rw [AdjoinRoot.map_root]
       exact he
   let e' : AdjoinRoot (P.map (algebraMap R S)) ≃ₐ[AdjoinRoot P] T :=
@@ -640,7 +640,7 @@ theorem localizationEq_of_adjoinRoot_minpoly
   let e : AdjoinRoot (P.map (algebraMap R F)) ≃ₐ[F] E :=
     (Ideal.quotientEquivAlgOfEq F (congrArg (fun p : F[X] => Ideal.span {p}) hmin.symm)).trans e₀
   have he : e (AdjoinRoot.root _) = φ (AdjoinRoot.root P) := by
-    show e₀ ((Ideal.quotientEquivAlgOfEq F
+    change e₀ ((Ideal.quotientEquivAlgOfEq F
       (congrArg (fun p : F[X] => Ideal.span {p}) hmin.symm)) (Ideal.Quotient.mk _ X)) = _
     rw [Ideal.quotientEquivAlgOfEq_mk]
     exact adjoinRootAlgEquivOfAdjoinEqTop_root F E hβ hgen
@@ -688,7 +688,7 @@ private theorem localizationEq_of_tensor_adjoinRoot_comparison
     (Ideal.quotientEquivAlgOfEq (L ⊗[K] F)
       (congrArg (fun p : (L ⊗[K] F)[X] => Ideal.span {p}) hPmap)).trans e₀
   have he : e (AdjoinRoot.root _) = f (AdjoinRoot.root P) := by
-    show e₀ ((Ideal.quotientEquivAlgOfEq (L ⊗[K] F)
+    change e₀ ((Ideal.quotientEquivAlgOfEq (L ⊗[K] F)
       (congrArg (fun p : (L ⊗[K] F)[X] => Ideal.span {p}) hPmap)) (Ideal.Quotient.mk _ X)) = _
     rw [Ideal.quotientEquivAlgOfEq_mk]
     exact (tensorAdjoinRootAlgEquiv_root K L F E hβ hgen).trans hr.symm
@@ -710,7 +710,7 @@ theorem isLocalization_away_of_integralClosure_equiv
     IsLocalization.Away (algebraMap A R r) T := by
   let := ((integralClosure A T).val.toRingHom.comp e.toRingHom).toAlgebra
   have : IsScalarTower A R T := IsScalarTower.of_algebraMap_eq fun a => by
-    show algebraMap A T a = (e (algebraMap A R a) : T)
+    change algebraMap A T a = (e (algebraMap A R a) : T)
     rw [e.commutes]
     rfl
   have : IsIntegralClosure R A T :=
@@ -783,22 +783,22 @@ theorem exists_injective_finite_adjoinRoot_of_integralClosure_equiv
   have hc (r : R) : h (AdjoinRoot.of P r) = b r := by
     apply eS.injective
     apply Subtype.val_injective
-    show (eS (eS.symm (h₀ (eP (AdjoinRoot.of P r)))) : L ⊗[K] E) = _
+    change (eS (eS.symm (h₀ (eP (AdjoinRoot.of P r)))) : L ⊗[K] E) = _
     rw [eS.apply_symm_apply]
-    show (h₀ (AdjoinRoot.map eR.toRingHom P Q dvd_rfl (AdjoinRoot.of P r)) : L ⊗[K] E) = _
+    change (h₀ (AdjoinRoot.map eR.toRingHom P Q dvd_rfl (AdjoinRoot.of P r)) : L ⊗[K] E) = _
     rw [AdjoinRoot.map_of, hc₀]
-    show _ = (eS (eS.symm (ψ.mapIntegralClosure (eR r))) : L ⊗[K] E)
+    change _ = (eS (eS.symm (ψ.mapIntegralClosure (eR r))) : L ⊗[K] E)
     rw [eS.apply_symm_apply]
     rfl
   have hb (r : R) : (eS (b r) : L ⊗[K] E) =
       Algebra.TensorProduct.map (AlgHom.id K L) (IsScalarTower.toAlgHom K F E) (eR r) := by
-    show (eS (eS.symm (ψ.mapIntegralClosure (eR r))) : L ⊗[K] E) = _
+    change (eS (eS.symm (ψ.mapIntegralClosure (eR r))) : L ⊗[K] E) = _
     rw [eS.apply_symm_apply]
     rfl
   have hr : (eS (h (AdjoinRoot.root P)) : L ⊗[K] E) = 1 ⊗ₜ[K] β := by
-    show (eS (eS.symm (h₀ (eP (AdjoinRoot.root P)))) : L ⊗[K] E) = _
+    change (eS (eS.symm (h₀ (eP (AdjoinRoot.root P)))) : L ⊗[K] E) = _
     rw [eS.apply_symm_apply]
-    show (h₀ (AdjoinRoot.map eR.toRingHom P Q dvd_rfl (AdjoinRoot.root P)) : L ⊗[K] E) = _
+    change (h₀ (AdjoinRoot.map eR.toRingHom P Q dvd_rfl (AdjoinRoot.root P)) : L ⊗[K] E) = _
     rw [AdjoinRoot.map_root, hr₀]
   refine ⟨b, h, RingHom.ext hc, hb, hr,
     eS.symm.injective.comp (hi₀.comp eP.injective),

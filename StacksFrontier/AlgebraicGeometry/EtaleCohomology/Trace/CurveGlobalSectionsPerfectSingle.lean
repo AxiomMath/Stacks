@@ -53,7 +53,7 @@ lemma torsionSheafProperty_forget₂ {Y : Scheme.{u}}
   intro U x
   refine ⟨⊤, Y.smallEtaleTopology.top_mem U, fun V f _ => ⟨Nat.card Λ, Nat.card_pos, ?_⟩⟩
   have hc : (Nat.card Λ : Λ) = 0 := by rw [← nsmul_one, card_nsmul_eq_zero']
-  show Nat.card Λ • (G.obj.map f.op).hom x = 0
+  change Nat.card Λ • (G.obj.map f.op).hom x = 0
   rw [← Nat.cast_smul_eq_nsmul Λ, hc, zero_smul]
 
 /-- Forgetting a sheaf of `Λ`-modules to abelian groups through `ℤ`-modules or directly gives
@@ -62,7 +62,7 @@ def sheafForgetIsoForget₂ {Y : Scheme.{u}} (G : Stacks.EtaleCohomology.EtaleMo
     (Stacks.EtaleResolution.sheafForget Λ Y).obj G ≅
       (sheafCompose Y.smallEtaleTopology
         (forget₂ (ModuleCat.{max (u + 1) r} Λ) AddCommGrpCat.{max (u + 1) r})).obj G :=
-  (sheafComposeIso Y (NatIso.ofComponents (fun M => Iso.refl _) (fun f => rfl) :
+  (sheafComposeIso Y (Iso.refl _ :
     Stacks.EtaleResolution.forgetAb.{u + 1} Λ ≅
       forget₂ (ModuleCat.{max (u + 1) r} Λ) AddCommGrpCat.{max (u + 1) r})).app G
 
@@ -122,6 +122,7 @@ instance preservesFiniteLimits_moduleSections (Y : Scheme.{u}) :
       (evaluation _ _).obj (op (Scheme.Etale.mk (𝟙 Y)))) := comp_preservesFiniteLimits _ _
   preservesFiniteLimits_of_natIso (Iso.refl _)
 
+omit [Finite Λ] [∀ n, Injective (I.X n)] in
 /-- The global sections of `I` vanish in negative degrees. -/
 lemma isZero_homology_moduleSections_of_neg (i : ℤ) (hi : i < 0) :
     IsZero ((((moduleSections Y).mapHomologicalComplex (ComplexShape.up ℤ)).obj I).homology i) :=
@@ -146,6 +147,7 @@ def homologyGlobalSectionsForgetIso (n : ℤ) :
     ((((moduleSections Y).mapHomologicalComplex (ComplexShape.up ℤ)).obj I).sc n).mapHomologyIso
       (Stacks.EtaleResolution.forgetAb.{u + 1} Λ)
 
+omit [Finite Λ] [∀ n, Injective (I.X n)] in
 include ι in
 /-- **`H⁰(Γ(Y, I))` is finite when `Γ(Y, G)` is**: sections are left exact, so the cycles of
 `Γ(Y, I)` in degree `0` are the sections of the cycles `G` of `I`. -/
@@ -176,6 +178,7 @@ lemma finite_homology_zero_moduleSections (hG : Finite ((moduleSections Y).obj G
   have := Finite.of_injective φ hinj
   exact Finite.of_equiv _ (M'.isoHomologyπ _ 0 rfl hd).toLinearEquiv.toEquiv
 
+omit [Finite Λ] in
 /-- The sections over `Y` of a sheaf of modules are finite when its underlying abelian sheaf has
 finite `H⁰`. -/
 lemma finite_moduleSections_of_finite_ext

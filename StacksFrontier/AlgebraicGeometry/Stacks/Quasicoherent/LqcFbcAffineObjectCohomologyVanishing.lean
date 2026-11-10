@@ -471,7 +471,7 @@ theorem overPostLiftHypercover_sieve₀_mem (y : 𝒳)
   have h2 := Over.w (overPostLiftIso B S hS p hp y (G.X i)).inv
   change (overPostLiftIso B S hS p hp y (G.X i)).inv.left ≫
     (p.map (overPostLiftHom B S hS p hp y (G.X i))).left = (G.X i).hom at h2
-  show a ≫ (G.f i).left = (a ≫ (overPostLiftIso B S hS p hp y (G.X i)).inv.left) ≫
+  change a ≫ (G.f i).left = (a ≫ (overPostLiftIso B S hS p hp y (G.X i)).inv.left) ≫
     (p.map (overPostLiftHom B S hS p hp y (G.X i))).left
   rw [Category.assoc, h2, h1]
 
@@ -492,7 +492,7 @@ theorem exists_overPostLiftHypercover_le (y : 𝒳) (hy : IsAffineOver B S hS (p
       (Sieve.overEquiv (p.obj y) (R.functorPushforward p)) ∈
         overTopology .fppf B ((p ⋙ Over.forget (B.obj hS)).obj y).1
           ((p ⋙ Over.forget (B.obj hS)).obj y).2 T := by
-    show _ ∈ (B.topology.over ((p ⋙ Over.forget (B.obj hS)).obj y)) T
+    change _ ∈ (B.topology.over ((p ⋙ Over.forget (B.obj hS)).obj y)) T
     rw [GrothendieckTopology.mem_over_iff, (Sieve.overEquiv T).apply_symm_apply]
     exact hR
   obtain ⟨G', hGstd, hGle'⟩ := overStandardCoverings_cofinal .fppf B _ _ T hy _ hR₀
@@ -513,12 +513,12 @@ theorem exists_overPostLiftHypercover_le (y : 𝒳) (hy : IsAffineOver B S hS (p
   let Φ := overPostEquivalence B S hS p hp y
   let m₀ : G.X i ⟶ Φ.functor.obj (Over.mk φ) :=
     Over.homMk k.left (by
-      show k.left ≫ (p.map φ).left = (G.X i).hom
+      change k.left ≫ (p.map φ).left = (G.X i).hom
       exact hkl.symm.trans h1)
   let m : Φ.inverse.obj (G.X i) ⟶ Over.mk φ :=
     Φ.fullyFaithfulFunctor.preimage ((overPostLiftIso B S hS p hp y (G.X i)).hom ≫ m₀)
   have hm : m.left ≫ φ = overPostLiftHom B S hS p hp y (G.X i) := Over.w m
-  show R.arrows (overPostLiftHom B S hS p hp y (G.X i))
+  change R.arrows (overPostLiftHom B S hS p hp y (G.X i))
   rw [← hm]
   exact R.downward_closed hφ m.left
 

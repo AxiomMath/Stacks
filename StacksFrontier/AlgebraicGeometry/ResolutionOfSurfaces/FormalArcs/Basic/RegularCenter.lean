@@ -51,7 +51,7 @@ private theorem regular_of_maximalIdeal_eq_span_pair {A : Type u} [CommRing A]
         _ ≤ ({y} : Set A).ncard + 1 := Set.ncard_insert_le _ _
         _ = 2 := by simp
     have hfin : (Ideal.span ({x, y} : Set A)).spanFinrank ≤ 2 := by
-      show (Submodule.span A ({x, y} : Set A)).spanFinrank ≤ 2
+      change (Submodule.span A ({x, y} : Set A)).spanFinrank ≤ 2
       exact (Submodule.spanFinrank_span_le_ncard_of_finite
         (by simp : ({x, y} : Set A).Finite)).trans hcard
     exact_mod_cast hfin
@@ -99,7 +99,7 @@ private theorem exists_uniformizer_lift
   obtain ⟨x₁, hx₁⟩ := hf π
   refine ⟨x₁, ?_, ?_⟩
   · rw [← IsLocalRing.maximalIdeal_comap f]
-    show f x₁ ∈ maximalIdeal R
+    change f x₁ ∈ maximalIdeal R
     rw [hx₁, hπ]
     exact Ideal.subset_span (Set.mem_singleton π)
   · simpa [hx₁] using hπ
@@ -124,12 +124,13 @@ private theorem span_range_eq_span_range_erase_of_unit_relation
 generator from the ideal they generate. Terms containing that generator have a coefficient
 in the maximal ideal; all other terms already lie in the ideal of the remaining generators. -/
 private theorem span_range_eq_span_range_erase_of_quadratic_relation_with_remainder
-    {S ι : Type u} [CommRing S] [IsLocalRing S] [DecidableEq ι]
+    {S ι : Type u} [CommRing S] [IsLocalRing S]
     (y : ι → S) (i : ι) (t : Finset (ι × ι)) (a : ι × ι → S)
     (hy : ∀ j, y j ∈ maximalIdeal S)
     (extra : S) (hextra : extra ∈ Ideal.span (y '' {j | j ≠ i}))
     (hrel : y i = extra + ∑ q ∈ t, a q * y q.1 * y q.2) :
     Ideal.span (Set.range y) = Ideal.span (y '' {j | j ≠ i}) := by
+  classical
   let c : S := ∑ q ∈ t,
     (if q.1 = i then a q * y q.2 else if q.2 = i then a q * y q.1 else 0)
   let z : S := ∑ q ∈ t,
@@ -156,7 +157,7 @@ private theorem span_range_eq_span_range_erase_of_quadratic_relation_with_remain
 
 /-- The special case with no linear remainder in the quadratic relation. -/
 private theorem span_range_eq_span_range_erase_of_quadratic_relation
-    {S ι : Type u} [CommRing S] [IsLocalRing S] [DecidableEq ι]
+    {S ι : Type u} [CommRing S] [IsLocalRing S]
     (y : ι → S) (i : ι) (t : Finset (ι × ι)) (a : ι × ι → S)
     (hy : ∀ j, y j ∈ maximalIdeal S)
     (hrel : y i = ∑ q ∈ t, a q * y q.1 * y q.2) :
@@ -170,7 +171,7 @@ private theorem span_range_eq_span_range_erase_of_quadratic_relation
 Those terms are absorbed into the remaining ideal, after which the quadratic part
 has a coefficient in the maximal ideal on the distinguished generator. -/
 private theorem span_range_eq_span_range_erase_of_terminal_chart_relation
-    {S ι : Type u} [CommRing S] [IsLocalRing S] [DecidableEq ι]
+    {S ι : Type u} [CommRing S] [IsLocalRing S]
     (y : ι → S) (i : ι) (s : Finset ι) (d : ι → S)
     (t : Finset (ι × ι)) (a : ι × ι → S)
     (hi : ∀ j ∈ s, j ≠ i)
@@ -185,11 +186,12 @@ private theorem span_range_eq_span_range_erase_of_terminal_chart_relation
 /-- A relation eliminates its distinguished generator as soon as the coefficient of that
 generator lies in the maximal ideal. Coefficients of the other generators are unrestricted. -/
 private theorem span_range_eq_span_range_erase_of_self_coefficient_mem_maximalIdeal
-    {S ι : Type u} [CommRing S] [IsLocalRing S] [Fintype ι] [DecidableEq ι]
+    {S ι : Type u} [CommRing S] [IsLocalRing S] [Fintype ι]
     (y : ι → S) (i : ι) (c : ι → S)
     (hci : c i ∈ maximalIdeal S)
     (hrel : y i = ∑ j ∈ (Finset.univ : Finset ι), c j * y j) :
     Ideal.span (Set.range y) = Ideal.span (y '' {j | j ≠ i}) := by
+  classical
   have hz : (∑ j ∈ Finset.univ.erase i, c j * y j) ∈ Ideal.span (y '' {j | j ≠ i}) :=
     Ideal.sum_mem _ fun j hj =>
       Ideal.mul_mem_left _ (c j) (Ideal.subset_span ⟨j, (Finset.mem_erase.mp hj).1, rfl⟩)
@@ -203,12 +205,14 @@ private theorem span_range_eq_span_range_erase_of_self_coefficient_mem_maximalId
 /-- A relation modulo the square of the generated kernel eliminates a generator
 once its linear coefficient is in the maximal ideal. -/
 private theorem span_range_eq_span_range_erase_of_kernel_square_relation
-    {S ι : Type u} [CommRing S] [IsLocalRing S] [Fintype ι] [DecidableEq ι]
+    {S ι : Type u} [CommRing S] [IsLocalRing S] [Finite ι]
     (p : Ideal S) (y : ι → S) (i k : ι) (d : S)
     (hp : p = Ideal.span (Set.range y))
     (hpm : p ≤ maximalIdeal S) (hki : k ≠ i)
     (hrel : y i - d * y k ∈ p ^ 2) :
     Ideal.span (Set.range y) = Ideal.span (y '' {j | j ≠ i}) := by
+  classical
+  have := Fintype.ofFinite ι
   have heq : p • Submodule.span S (Set.range y) = p ^ 2 := by
     rw [pow_two, ← Ideal.smul_eq_mul, hp]
   obtain ⟨a, ha, hsum⟩ :=
@@ -223,7 +227,7 @@ private theorem span_range_eq_span_range_erase_of_kernel_square_relation
 /-- In a local ring, a quadratic relation among generators removes one of them as soon as
 one of the exponents on the two distinguished terms is zero. -/
 private theorem kernel_generators_erase_of_zero_power_relation
-    {S ι : Type u} [CommRing S] [IsLocalRing S] [Fintype ι] [DecidableEq ι]
+    {S ι : Type u} [CommRing S] [IsLocalRing S] [Finite ι]
     (p : Ideal S) (y : ι → S) (i k : ι) (x₁ u : S) (n m : ℕ)
     (hp : p = Ideal.span (Set.range y)) (hpm : p ≤ maximalIdeal S) (hki : k ≠ i)
     (hu : IsUnit u)
@@ -258,7 +262,7 @@ private theorem exists_affineOpen_ringEquiv
       hom_inv_id := by rw [← Spec.preimage_comp, h.inv_hom_id, Spec.preimage_id]
       inv_hom_id := by rw [← Spec.preimage_comp, h.hom_inv_id, Spec.preimage_id] }
   refine ⟨U, E.commRingCatIsoToRingEquiv, ?_⟩
-  show Spec.map (Spec.preimage h.hom) ≫ j = (isAffineOpen_coe U).fromSpec
+  change Spec.map (Spec.preimage h.hom) ≫ j = (isAffineOpen_coe U).fromSpec
   rw [Spec.map_preimage]
   exact IsOpenImmersion.isoOfRangeEq_hom_fac _ _ _
 
@@ -277,7 +281,7 @@ private theorem ArcBlowupSequence.arc_comp_toBase
   induction i with
   | zero => exact s.base_arc
   | succ i ih =>
-      show s.arc (i + 1) ≫ (s.step i ≫ s.toBase i) = _
+      change s.arc (i + 1) ≫ (s.step i ≫ s.toBase i) = _
       rw [← Category.assoc, s.step_arc i, ih]
 
 /-- The map from the base ring into the local ring of the `i`-th blowup at the arc centre. -/
@@ -300,7 +304,7 @@ private theorem ArcBlowupSequence.fromBaseToArcStalk_comp
       CommRingCat.ofHom f := by
   unfold fromBaseToArcStalk
   let x : Spec (.of R) := closedPoint R
-  show ((Scheme.ΓSpecIso (.of A)).inv ≫
+  change ((Scheme.ΓSpecIso (.of A)).inv ≫
       (Spec (.of A)).presheaf.germ ⊤ ((s.arc i ≫ s.toBase i) x)
         (Opens.mem_top _)) ≫
     ((s.toBase i).stalkMap ((s.arc i) x) ≫ Scheme.stalkClosedPointTo (s.arc i)) = _
@@ -312,7 +316,7 @@ private theorem ArcBlowupSequence.fromBaseToArcStalk_comp
       (Spec (.of A)).presheaf.germ ⊤ ((s.arc i ≫ s.toBase i) x)
         (Opens.mem_top _)) ≫ w) hcomp.symm).trans ?_
   rw [ArcBlowupSequence.arc_comp_toBase f s i]
-  show (Scheme.ΓSpecIso (.of A)).inv ≫
+  change (Scheme.ΓSpecIso (.of A)).inv ≫
     ((Spec (.of A)).presheaf.germ ⊤ _ (Opens.mem_top _) ≫
       Scheme.stalkClosedPointTo (Spec.map (CommRingCat.ofHom f))) = _
   rw [Scheme.germ_stalkClosedPointTo_Spec]
@@ -350,7 +354,7 @@ private theorem ArcBlowupSequence.arcStalkMap_kernel_comap
       (R := CommRingCat.of R) (s.arc i)).hom).comap
         (s.fromBaseToArcStalk i).hom = RingHom.ker f := by
   ext a
-  show ((s.fromBaseToArcStalk i ≫
+  change ((s.fromBaseToArcStalk i ≫
     Scheme.stalkClosedPointTo (R := CommRingCat.of R) (s.arc i)).hom a = 0) ↔ f a = 0
   rw [s.fromBaseToArcStalk_comp f i]
   rfl
@@ -453,7 +457,7 @@ private theorem blowup_chart_relation_decreases_of_square_mem
 /-- Along successive parameter charts, a two-term relation eliminates a
 kernel generator after the smaller of its two exponents many steps. -/
 private theorem exists_redundant_generator_of_iterated_chart_relation
-    {ι : Type u} [Fintype ι] [DecidableEq ι]
+    {ι : Type u} [Finite ι]
     (B : ℕ → Type u) [∀ l, CommRing (B l)] [∀ l, IsDomain (B l)]
     [∀ l, IsLocalRing (B l)]
     (p : ∀ l, Ideal (B l)) (y : ∀ l, ι → B l) (a c : ∀ l, B l)
@@ -495,7 +499,7 @@ private theorem exists_redundant_generator_of_iterated_chart_relation
 /-- A relation with a single linear term eliminates that generator after its
 parameter exponent many chart steps. -/
 private theorem redundant_generator_of_iterated_chart_torsion_relation
-    {ι : Type u} [Fintype ι] [DecidableEq ι]
+    {ι : Type u} [Finite ι]
     (B : ℕ → Type u) [∀ l, CommRing (B l)] [∀ l, IsDomain (B l)]
     [∀ l, IsLocalRing (B l)]
     (p : ∀ l, Ideal (B l)) (y : ∀ l, ι → B l) (a : ∀ l, B l)
@@ -569,7 +573,7 @@ private theorem ArcBlowupSequence.exists_regular_center_of_kernel_span_singleton
     .of_ringEquiv (stalkClosedPointIso (CommRingCat.of A)).commRingCatIsoToRingEquiv.symm
   have : IsLocalHom f := IsLocalHom.of_surjective f hf
   have hpoint : s.base.hom (s.arc 0 (closedPoint R)) = closedPoint A := by
-    show (s.arc 0 ≫ s.base.hom) (closedPoint (CommRingCat.of R)) =
+    change (s.arc 0 ≫ s.base.hom) (closedPoint (CommRingCat.of R)) =
       closedPoint (CommRingCat.of A)
     rw [s.base_arc]
     exact AlgebraicGeometry.Spec_closedPoint
@@ -605,6 +609,14 @@ private theorem mem_ker_comp_symm_sq {B C R : Type*} [CommRing B] [CommRing C] [
   rw [ker_comp_symm_eq_map, ← Ideal.map_pow]
   exact Ideal.mem_map_of_mem _ hz
 
+/-- A two-term relation modulo the square of a kernel, transported along a ring
+isomorphism. -/
+private theorem mem_ker_comp_symm_sq_of_relation {B C R : Type*} [CommRing B] [CommRing C]
+    [CommRing R] (E : B ≃+* C) (f : B →+* R) {u v w z : B} {n : ℕ}
+    (h : u ^ n * v - w * u ^ n * z ∈ RingHom.ker f ^ 2) :
+    E u ^ n * E v - E w * E u ^ n * E z ∈ RingHom.ker (f.comp E.symm.toRingHom) ^ 2 := by
+  simpa only [map_sub, map_mul, map_pow] using mem_ker_comp_symm_sq E f h
+
 /-- Precomposing a ring map with the inverse of the identification of `B` with the sections
 over an affine open moves an arc through `j` to an arc through `fromSpec`. -/
 private theorem spec_map_comp_symm_fromSpec {B R : Type u} [CommRing B] [CommRing R]
@@ -623,7 +635,7 @@ private theorem spec_map_comp_symm_fromSpec {B R : Type u} [CommRing B] [CommRin
 exponent zero, Nakayama's lemma makes the kernel principal at the center. -/
 private theorem exists_regular_center_of_balanced_relations
     {A R ι : Type u} [CommRing A] [CommRing R] [IsDomain R]
-    [IsDiscreteValuationRing R] [Fintype ι]
+    [IsDiscreteValuationRing R] [Finite ι]
     {f₀ : A →+* R} (s : ArcBlowupSequence A R f₀) (n : ℕ) :
     ∀ (i : ℕ) (U : (s.scheme i).affineOpens)
       [IsDomain Γ(s.scheme i, U.1)] [IsNoetherianRing Γ(s.scheme i, U.1)]
@@ -637,6 +649,7 @@ private theorem exists_regular_center_of_balanced_relations
       ∃ l : ℕ, IsRegularLocalRing ((s.scheme l).presheaf.stalk
         (s.arc l (closedPoint R))) := by
   classical
+  have := Fintype.ofFinite ι
   induction n with
   | zero =>
       intro i U _ _ f hf hα a x k c hp hπ hrel
@@ -695,13 +708,12 @@ private theorem exists_regular_center_of_balanced_relations
       apply ih (i + 1) V F hFs hFarc (φ a) (fun j => E (y j)) k
         (fun j => φ (c j)) hgenE hπE
       intro l
-      have hmap := mem_ker_comp_symm_sq E g (blowup_chart_relation_decreases_of_square_mem
+      have hmap := blowup_chart_relation_decreases_of_square_mem
         (algebraMap Γ(s.scheme i, U.1) B) (RingHom.ker f) (RingHom.ker g)
         a x y l k (c l) hp hker hdiv haB (n + 1) (n + 1)
-        (Nat.zero_lt_succ n) (Nat.zero_lt_succ n) (hrel l))
-      set_option synthInstance.maxHeartbeats 200000 in
-      simpa only [Nat.add_sub_cancel, map_sub, map_mul, map_pow,
-        RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom, φ, F, RingHom.comp_apply] using hmap
+        (Nat.zero_lt_succ n) (Nat.zero_lt_succ n) (hrel l)
+      rw [Nat.add_sub_cancel] at hmap
+      exact mem_ker_comp_symm_sq_of_relation E g hmap
 
 /-- A sequence of blowups along a formal arc whose generic image is regular eventually
 reaches a regular center. -/
@@ -732,7 +744,7 @@ theorem exists_regular_center
     let : Nonempty t := htne.to_subtype
     let x : t → A := Subtype.val
     have hx : RingHom.ker f = Ideal.span (Set.range x) := by
-      show RingHom.ker f = Submodule.span A (Set.range x)
+      change RingHom.ker f = Submodule.span A (Set.range x)
       have hset : Set.range x = (t : Set A) := by ext b; simp [x]
       rw [hset]
       exact ht.symm

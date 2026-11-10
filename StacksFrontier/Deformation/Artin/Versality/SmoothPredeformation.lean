@@ -118,7 +118,7 @@ private lemma surjective_and_ker_sq_of_eq_iso_comp
         (RingHom.ker f.hom.toRingHom).comap e₁.hom.hom.toRingHom := by
       ext a
       simp only [RingHom.mem_ker, Ideal.mem_comap]
-      show r.hom a = 0 ↔ f.hom (e₁.hom.hom a) = 0
+      change r.hom a = 0 ↔ f.hom (e₁.hom.hom a) = 0
       rw [hval]
       refine ⟨fun ha => (bijective_hom_of_iso e₂).1 (by simpa using ha), fun ha => ?_⟩
       rw [ha, map_zero]
@@ -402,7 +402,7 @@ private lemma isFirstOrderThickening_map_arrow {Λ k : Type u} [CommRing Λ] [Fi
       ((BigFppfOver.toScheme B S hS).map (𝒴.val.p.map m.arrow)) := by
   have hiSpec := Stacks.Smooth.isFirstOrderThickening_specMap
     (CommRingCat.ofHom m.ringHom.hom.toRingHom) (by simpa using hsurj) (by simpa using hker)
-  show IsFirstOrderThickening
+  change IsFirstOrderThickening
     (((𝒴.val.p ⋙ Over.post B.inclusion).map m.arrow).left)
   rw [map_arrow_left_eq B S hS 𝒴 m]
   exact isFirstOrderThickening_eqToHom_conj _ _ _ hiSpec
@@ -621,7 +621,7 @@ public theorem isSmoothOnPredeformationCategories_of_isFormallySmoothOnObjects
         IsAffine ((BigFppfOver.toScheme B S hS).obj (𝒴.val.p.obj d.point)) := by
       have hbase : (BigFppfOver.toScheme B S hS).obj (𝒴.val.p.obj d.point) =
           Spec (.of (↑d.algebra)) := by
-        show B.inclusion.obj (𝒴.val.p.obj d.point).left = _
+        change B.inclusion.obj (𝒴.val.p.obj d.point).left = _
         simpa [qY, BigFppfOver.toScheme, BigFppfOver.forget] using
           congrArg (fun z => z.left) d.base
       exact hbase ▸ (inferInstance : IsAffine (Spec (.of (↑d.algebra))))
@@ -654,7 +654,7 @@ public theorem isSmoothOnPredeformationCategories_of_isFormallySmoothOnObjects
     have hpostEq : qX.map liftArrow = (Over.post B.inclusion).map
         (eqToHom (IsHomLift.domain_eq 𝒳.val.p i liftArrow) ≫ i ≫
           eqToHom (IsHomLift.codomain_eq 𝒳.val.p i liftArrow).symm) := by
-      show (Over.post B.inclusion).map (𝒳.val.p.map liftArrow) = _
+      change (Over.post B.inclusion).map (𝒳.val.p.map liftArrow) = _
       exact congrArg (fun t : 𝒳.val.p.obj dx.point ⟶ 𝒳.val.p.obj x'.1 =>
         (Over.post B.inclusion).map t) (IsHomLift.fac' 𝒳.val.p i liftArrow)
     have hmleft := map_arrow_left_eq B S hS 𝒴 m

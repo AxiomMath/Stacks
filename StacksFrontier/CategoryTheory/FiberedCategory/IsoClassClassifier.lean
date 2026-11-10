@@ -95,7 +95,7 @@ theorem equiv_naturality [p.IsFibered] {U V : 𝒞ᵒᵖ} (f : U ⟶ V)
     c.equiv V (p.isoClassPresheaf.map f a) = F.map f (c.equiv U a) := by
   induction a using _root_.Quotient.ind with
   | _ x =>
-    show c.cls V.unop (pullbackFiber p x f.unop) = F.map f.unop.op (c.cls U.unop x)
+    change c.cls V.unop (pullbackFiber p x f.unop) = F.map f.unop.op (c.cls U.unop x)
     exact c.cls_map f.unop _ x (IsPreFibered.pullbackMap x.2 f.unop) inferInstance
 
 end IsoClassClassifier

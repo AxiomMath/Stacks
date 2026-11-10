@@ -49,7 +49,8 @@ loci `AlgebraicGeometry.nonvanishingLocus_iso` and
 `AlgebraicGeometry.tensorSections_nonvanishing_iff`. Commutativity of the exponent `nm` is
 handled by generalising the exponent and substituting, rather than by a reindexing isomorphism.
 
-The five file-local instances below are spelling bridges, and each is load-bearing: `X.Modules` has a ring sheaf that is only reducibly the structure ring sheaf of the
+The five file-local instances below are spelling bridges, and each is load-bearing: `X.Modules` has
+a ring sheaf that is only reducibly the structure ring sheaf of the
 underlying ringed space, and the two developments of Tag 01CS record invertibility in two
 different classes — `AlgebraicGeometry.SheafOfModules.IsInvertible`, for which the tensor powers
 of Tag 01CU are stated, and `Stacks.SheafOfModules.IsInvertible`, for which the nonvanishing

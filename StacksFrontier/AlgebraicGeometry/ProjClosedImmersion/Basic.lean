@@ -151,7 +151,7 @@ theorem isClosedImmersion_map (hf : ℬ₊ ≤ 𝒜₊.map f)
   refine IsZariskiLocalAtTarget.of_openCover (affineOpenCover 𝒜).openCover ?_
   rintro ⟨i, a⟩
   have hsq := (isPullback_awayι_map f hf i.2 (a : A) a.2).flip
-  show IsClosedImmersion (pullback.snd (Proj.map f hf) (awayι 𝒜 (a : A) a.2 i.2))
+  change IsClosedImmersion (pullback.snd (Proj.map f hf) (awayι 𝒜 (a : A) a.2 i.2))
   refine (MorphismProperty.cancel_left_of_respectsIso (P := @IsClosedImmersion)
     hsq.isoPullback.hom _).mp ?_
   have h := H i.2 (a : A) a.2

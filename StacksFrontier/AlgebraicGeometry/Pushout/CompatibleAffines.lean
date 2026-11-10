@@ -137,7 +137,7 @@ theorem exists_basicOpen_image_fibre_le (i : Z ⟶ X) (j : Z ⟶ Y) [IsIntegralH
         {hV.primeIdealOf ⟨y, hy⟩}) ⊆ {x : PrimeSpectrum Γ(X, U) | hU.fromSpec x ∈ W} := by
     rintro _ ⟨q, hq, rfl⟩
     obtain ⟨z, rfl⟩ := hsurj q
-    show hU.fromSpec _ ∈ W
+    change hU.fromSpec _ ∈ W
     rw [himage z]
     exact hW z.1 (hfibremem z hq)
   obtain ⟨f, hf₁, hf₂⟩ := exists_basicOpen_image_fibre (hV.primeIdealOf ⟨y, hy⟩)

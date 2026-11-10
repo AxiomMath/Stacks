@@ -29,7 +29,10 @@ variable {E : Type u} [SmallCategory E]
 variable (J : GrothendieckTopology C) (K : GrothendieckTopology D)
     (L : GrothendieckTopology E)
 
-add_to_stacks 03L5 "(1), the composition of two cocontinuous site functors is cocontinuous. Mathlib states it for arbitrary, independent object and hom universes; the statement this replaced fixed all three categories to a single universe `u` with `SmallCategory`, and its proof was a call to this declaration." CategoryTheory.isCocontinuous_comp
+add_to_stacks 03L5 "(1), the composition of two cocontinuous site functors is cocontinuous. \
+    Mathlib states it for arbitrary, independent object and hom universes; the statement this \
+    replaced fixed all three categories to a single universe `u` with `SmallCategory`, and its \
+    proof was a call to this declaration." CategoryTheory.isCocontinuous_comp
 add_to_sga "4 III 4.4" "Cocontinuity of u∘i" CategoryTheory.isCocontinuous_comp
 
 /-- The presheaf-level natural isomorphism `(u.op ⋙ v.op).ran ≅ u.op.ran ⋙ v.op.ran`, obtained

@@ -186,7 +186,7 @@ theorem push_eulerFirstArrow_dlogCocycle :
     (inter_le_stdCover A m y 1) (Additive.toMul ((twistOneCocycle A m).val y))
     (twistOneCocycle_smul A m y)).trans ?_
   rw [CechCochains.cechD_apply, Fin.sum_univ_two]
-  show _ = (-1 : ℤ) ^ ((0 : Fin 2) : ℕ) • CechCochains.restr
+  change _ = (-1 : ℤ) ^ ((0 : Fin 2) : ℕ) • CechCochains.restr
       (abSections (twistMinusOneSum A (m + 1))) (CechCochains.inter_le_omit (stdCover A m) y 0)
       (eulerSection A (m + 1) (y 1).down (inter_le_stdCover A m (y ∘ (0 : Fin 2).succAbove) 0)) +
     (-1 : ℤ) ^ ((1 : Fin 2) : ℕ) • CechCochains.restr
@@ -232,7 +232,7 @@ theorem hodgeFirstChernClassTwistingSheafOne_eq :
     (Scheme.Hom.logarithmicDifferentialSheafHom (projToSpecCoeff A (m + 1)))
     (twistOneCocycle A m) (dlogCocycle A m) (fun _ => rfl)
   refine Eq.trans ?_ h3
-  show ((Stacks.Cohomology.LerayLowDegree.abelianCohomology.{u, u} _ ⊤ 1).map
+  change ((Stacks.Cohomology.LerayLowDegree.abelianCohomology.{u, u} _ ⊤ 1).map
     (Scheme.Hom.logarithmicDifferentialSheafHom (projToSpecCoeff A (m + 1)))).hom
       ((Stacks.Picard.FirstCohomology.h1UnitsAddEquivPicard (projSpace A m)).symm
         (twistingSheafOnePicardClass A m)) = _

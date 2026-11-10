@@ -375,7 +375,7 @@ theorem smallEtaleDerivedGlobalSectionsRestriction_three (hh : e ≫ b ≫ a = h
     Functor.associator_inv_app, Category.id_comp] at h1 h2
   rw [h1, h2]
   simp only [smallEtaleDerivedPullbackThreeCompIso, Iso.trans_hom, NatTrans.comp_app,
-    eqToIso_refl, Iso.refl_hom, NatTrans.id_app, Iso.symm_hom, Functor.isoWhiskerRight_hom,
+    eqToIso_refl, Iso.refl_hom, Iso.symm_hom, Functor.isoWhiskerRight_hom,
     Functor.whiskerRight_app, Category.id_comp, Category.assoc, Functor.map_comp]
   rw [← Functor.map_comp_assoc, Iso.hom_inv_id_app, CategoryTheory.Functor.map_id,
     Category.id_comp, (smallEtaleDerivedGlobalSectionsRestriction e).naturality_assoc,
@@ -542,7 +542,7 @@ theorem smallEtaleDerivedGlobalSectionsRestriction_transport :
     Functor.comp_map]
   refine transport_rearrange (smallEtaleDerivedGlobalSections T) _ _ _ _ _ _ _ _ _ _ _
     (smallEtaleDerivedGlobalSectionsRestriction_three a b e h hh _) ?_
-  simp only [← Functor.map_comp_assoc, CategoryTheory.Functor.map_id, Category.id_comp,
+  simp only [← Functor.map_comp_assoc, CategoryTheory.Functor.map_id,
     Category.assoc, Iso.hom_inv_id_app_assoc]
   simp [← Functor.map_comp]
 

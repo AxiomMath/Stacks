@@ -170,7 +170,7 @@ abbrev skyscraperInt : Sheaf (Opens.grothendieckTopology primeSpectrumInt) AddCo
 /-- The global sections of the skyscraper sheaf at `(2)` are `ℤ`: the open `⊤` contains `(2)`. -/
 theorem sections_top_skyscraperInt :
     skyscraperInt.obj.obj (op (⊤ : Opens primeSpectrumInt)) = AddCommGrpCat.of ℤ := by
-  show (if primeTwoInt ∈ (⊤ : Opens primeSpectrumInt) then AddCommGrpCat.of ℤ
+  change (if primeTwoInt ∈ (⊤ : Opens primeSpectrumInt) then AddCommGrpCat.of ℤ
     else terminal _) = _
   exact ite_eq_left trivial
 

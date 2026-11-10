@@ -237,7 +237,7 @@ theorem isScalarTower_baseChangeSemilocalization :
     IsScalarTower A' (A' ⊗[A] B) (A' ⊗[A] Localization.AtPrime q.asIdeal) := by
   let := baseChangeSemilocalizationAlgebra A A' q
   refine IsScalarTower.of_algebraMap_eq fun x => ?_
-  show _ = baseChangeSemilocalization A A' q (algebraMap A' (A' ⊗[A] B) x)
+  change _ = baseChangeSemilocalization A A' q (algebraMap A' (A' ⊗[A] B) x)
   rw [Algebra.TensorProduct.algebraMap_apply, Algebra.TensorProduct.algebraMap_apply,
     baseChangeSemilocalization_tmul]
   simp
@@ -315,7 +315,7 @@ theorem baseChangeSemilocalization_comp_algebraMap :
           (A' ⊗[A] Localization.AtPrime q.asIdeal)).comp
         (algebraMap B (Localization.AtPrime q.asIdeal)) := by
   ext b
-  show baseChangeSemilocalization A A' q (algebraMap B (A' ⊗[A] B) b) = _
+  change baseChangeSemilocalization A A' q (algebraMap B (A' ⊗[A] B) b) = _
   rw [algebraMap_right_eq_includeRight, baseChangeSemilocalization_includeRight,
     RingHom.comp_apply, algebraMap_right_eq_includeRight]
 
@@ -334,7 +334,7 @@ theorem under_eq_maximalIdeal_of_mem
   have : (p.asIdeal.under (Localization.AtPrime q.asIdeal)).IsPrime :=
     Ideal.IsPrime.under _ p.asIdeal
   have hmem : π ∈ p.asIdeal.under (Localization.AtPrime q.asIdeal) := by
-    show algebraMap (Localization.AtPrime q.asIdeal) _ π ∈ p.asIdeal
+    change algebraMap (Localization.AtPrime q.asIdeal) _ π ∈ p.asIdeal
     rwa [algebraMap_right_eq_includeRight]
   exact eq_maximalIdeal (isMaximal_of_mem_of_isArtinianRing_quotient hart _ hmem)
 
@@ -348,10 +348,10 @@ theorem under_comap_baseChangeSemilocalization
       A' ⊗[A] Localization.AtPrime q.asIdeal) ∈ p.asIdeal) :
     (Ideal.comap (baseChangeSemilocalization A A' q).toRingHom p.asIdeal).under B = q.asIdeal := by
   have hP := under_eq_maximalIdeal_of_mem A A' q hart p hp
-  show Ideal.comap (algebraMap B (A' ⊗[A] B))
+  change Ideal.comap (algebraMap B (A' ⊗[A] B))
     (Ideal.comap (baseChangeSemilocalization A A' q).toRingHom p.asIdeal) = q.asIdeal
   rw [Ideal.comap_comap, baseChangeSemilocalization_comp_algebraMap, ← Ideal.comap_comap]
-  show (p.asIdeal.under (Localization.AtPrime q.asIdeal)).under B = q.asIdeal
+  change (p.asIdeal.under (Localization.AtPrime q.asIdeal)).under B = q.asIdeal
   rw [hP]
   exact IsLocalization.AtPrime.under_maximalIdeal _ q.asIdeal
 
@@ -384,7 +384,7 @@ theorem isMaximal_comap_baseChangeSemilocalization
         p.asIdeal.under (Localization.AtPrime q.asIdeal) := by
       rw [hP, ← maximalIdeal_comap (algebraMap A (Localization.AtPrime q.asIdeal))] at *
       exact hx
-    show algebraMap A (A' ⊗[A] Localization.AtPrime q.asIdeal) x ∈ p.asIdeal
+    change algebraMap A (A' ⊗[A] Localization.AtPrime q.asIdeal) x ∈ p.asIdeal
     rw [IsScalarTower.algebraMap_apply A (Localization.AtPrime q.asIdeal)
       (A' ⊗[A] Localization.AtPrime q.asIdeal)]
     exact h1
@@ -410,7 +410,7 @@ theorem isMaximal_comap_baseChangeSemilocalization
     Ideal.IsPrime.comap _
   refine Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := A')
     (Ideal.comap (baseChangeSemilocalization A A' q).toRingHom p.asIdeal) ?_
-  show ((Ideal.under (A' ⊗[A] B) p.asIdeal).under A').IsMaximal
+  change ((Ideal.under (A' ⊗[A] B) p.asIdeal).under A').IsMaximal
   rw [Ideal.under_under, hA']
   exact maximalIdeal.isMaximal A'
 
@@ -597,7 +597,7 @@ theorem map_norm_factorizationValue_pow_eq_prod_support
     simp only [map_mul, map_pow, map_inv, hneg]
   refine Units.ext ?_
   simp only [factorizationValue_eq_units_map_residue, hright]
-  simp only [Units.coe_prod, Units.val_pow_eq_pow_val, Units.coe_map, MonoidHom.coe_coe,
+  simp only [Units.coe_prod, Units.val_pow_eq_pow_val, Units.coe_map, MonoidHom.coe_ofClass,
     RingHom.toMonoidHom_eq_coe, map_pow, Ring.ord, baseChangeLocalizationHom_apply]
   simp only [map_pow] at hkey
   exact hkey.trans (Finset.prod_congr rfl fun i _ => rfl)

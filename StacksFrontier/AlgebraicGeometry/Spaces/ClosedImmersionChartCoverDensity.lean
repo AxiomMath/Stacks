@@ -244,7 +244,7 @@ private theorem exists_baseChange_chart_cover (B : BigFppfSite.{u}) (S : Scheme.
   obtain ⟨a, y, hy⟩ := (CovA j).exists_eq ((e j).hom w)
   refine ⟨⟨j, a⟩, (κ ⟨j, a⟩).inv y, ?_⟩
   rw [hmapφ ⟨j, a⟩]
-  show (BigFppfOver.toScheme B S hS).map pV
+  change (BigFppfOver.toScheme B S hS).map pV
     (Cov.f j ((e j).inv ((CovA j).f a ((κ ⟨j, a⟩).hom ((κ ⟨j, a⟩).inv y))))) = x
   rw [scheme_iso_hom_inv_apply, hy, scheme_iso_inv_hom_apply, hw, hz]
 
@@ -274,7 +274,7 @@ theorem smallBaseChange_isCoverDense_of_isClosedImmersion
     obtain ⟨w, hw⟩ := surjective_pointsToScheme B S hS
       ((SmallEtale.toOver B S hS Z.1).obj ((smallBaseChange B S hS i hi.rep).obj (Y k))) y
     refine ⟨k, w, injective_pointsToScheme B S hS V.1.left ?_⟩
-    show pointsToScheme B S hS V.1.left (pointsMap B S hS _
+    change pointsToScheme B S hS V.1.left (pointsMap B S hS _
       (yoneda.map ((SmallEtale.toOver B S hS Z.1).map (φ k))) w) = _
     rwa [pointsToScheme_pointsMap_yoneda, hw]
   have hgen : Sieve.generate E.presieve₀ ∈

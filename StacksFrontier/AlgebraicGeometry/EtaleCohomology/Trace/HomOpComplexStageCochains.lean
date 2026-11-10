@@ -85,7 +85,7 @@ def overEtaleEquivalence : Over W ≌ W.left.Etale where
   unitIso := NatIso.ofComponents (fun V ↦ Over.isoMk
     (MorphismProperty.Over.isoMk (Iso.refl _) (by
       change 𝟙 _ ≫ (V.hom.left ≫ W.hom) = V.left.hom
-      simpa using V.hom.w)) (by
+      simp)) (by
         apply MorphismProperty.Comma.Hom.ext
         · change 𝟙 _ ≫ V.hom.left = V.hom.left
           simp
@@ -331,7 +331,7 @@ lemma bijective_homOpComplexStageπ (m : ℤ) :
     have h1 := ModuleCat.piIsoPi_hom_ker_subtype_apply.{0, 0, max (u + 1) u}
       (fun x => E.obj (f x)) x ((piComparison E f) s)
     simp only at h1
-    show ((ModuleCat.piIsoPi.{0, 0, max (u + 1) u} (fun x => E.obj (f x))).hom
+    change ((ModuleCat.piIsoPi.{0, 0, max (u + 1) u} (fun x => E.obj (f x))).hom
       ((piComparison E f) s)) x = _
     rw [h1, ← ConcreteCategory.comp_apply, piComparison_comp_π]
   refine ⟨fun s t h => hb.1 (funext fun x => (key s x).trans ((congrFun h x).trans

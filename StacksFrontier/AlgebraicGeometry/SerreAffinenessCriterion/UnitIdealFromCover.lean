@@ -236,7 +236,7 @@ theorem epi_freeHomEquiv_symm_sectionOfTop {I : Type u} [Finite I] (f : I → Γ
         ∑ i, c i • (Stacks.PresheafOfModules.sectionOfTop
           (SheafOfModules.unit X.ringCatSheaf).val (f i)).eval (op W) := by
     intro W c
-    show q.val.app (op W) (Stacks.SheafOfModules.freeMk (op W) c) = _
+    change q.val.app (op W) (Stacks.SheafOfModules.freeMk (op W) c) = _
     rw [Stacks.SheafOfModules.app_freeMk q (op W) c]
     refine Finset.sum_congr rfl fun i _ => ?_
     rw [hq, Stacks.SheafOfModules.ιFree_comp_freeHomEquiv_symm,

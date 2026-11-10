@@ -54,7 +54,7 @@ theorem coe_frobAut_inv_pow_pow_card {m n : ℕ} (hn : n ≠ 0) (hnm : n ∣ m.f
       ← zpow_natCast (frobAut k m) n, ← zpow_mul, ← sub_eq_add_neg, ht]
   have h1 : (frobAut k m ^ (restrictedMod 1 n hn (Nat.coprime_one_right n) x).val)
       (((frobAut k m)⁻¹ ^ (redF m x).val) a) = a := by
-    show (frobAut k m ^ (restrictedMod 1 n hn (Nat.coprime_one_right n) x).val *
+    change (frobAut k m ^ (restrictedMod 1 n hn (Nat.coprime_one_right n) x).val *
       (frobAut k m)⁻¹ ^ (redF m x).val) a = a
     rw [hg]
     exact zpow_mem hstab t

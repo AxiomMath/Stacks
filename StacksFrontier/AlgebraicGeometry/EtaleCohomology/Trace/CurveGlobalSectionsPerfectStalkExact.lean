@@ -102,7 +102,7 @@ lemma exactAt_twistComplex_sheafFiber
   have hB (K : CochainComplex (ModuleCat.{max (u + 1) r} Λ) ℤ) :
       HasMapBifunctor R' K D.ordinary (ComplexShape.up ℤ) :=
     hasMapBifunctor_of_bounds D.ordinary R' K e c h'
-  show (mapBifunctor R' IΦ D.ordinary (ComplexShape.up ℤ)).ExactAt j
+  change (mapBifunctor R' IΦ D.ordinary (ComplexShape.up ℤ)).ExactAt j
   -- `I_Φ` resolves `G_Φ`
   let M := (Φ.sheafFiber (A := ModuleCat.{max (u + 1) r} Λ)).obj G
   let eG : (CochainComplex.singleFunctor _ 0).obj M ≅

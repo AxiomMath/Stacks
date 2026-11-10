@@ -101,13 +101,13 @@ theorem tensorHomLeft_comp (ε : A.Hom B) (ε' : B.Hom C)
     (tensorHomLeft ε' D).comp (tensorHomLeft ε D) = tensorHomLeft (ε'.comp ε) D := by
   refine hom_eq_of_toAlgebraHom_eq
     (tensorHom_ext (AlgHom.ext fun a => ?_) (AlgHom.ext fun c => ?_))
-  · show (tensorHomLeft ε' D).toAlgebraHom
+  · change (tensorHomLeft ε' D).toAlgebraHom
       ((tensorHomLeft ε D).toAlgebraHom (a ᵍ⊗ₜ[R] (1 : D.A) : A.grading ᵍ⊗[R] D.grading)) =
       (tensorHomLeft (ε'.comp ε) D).toAlgebraHom
         (a ᵍ⊗ₜ[R] (1 : D.A) : A.grading ᵍ⊗[R] D.grading)
     rw [tensorHomLeft_tmul, tensorHomLeft_tmul, tensorHomLeft_tmul]
     rfl
-  · show (tensorHomLeft ε' D).toAlgebraHom
+  · change (tensorHomLeft ε' D).toAlgebraHom
       ((tensorHomLeft ε D).toAlgebraHom ((1 : A.A) ᵍ⊗ₜ[R] c : A.grading ᵍ⊗[R] D.grading)) =
       (tensorHomLeft (ε'.comp ε) D).toAlgebraHom
         ((1 : A.A) ᵍ⊗ₜ[R] c : A.grading ᵍ⊗[R] D.grading)

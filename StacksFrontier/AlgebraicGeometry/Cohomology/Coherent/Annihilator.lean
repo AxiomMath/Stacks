@@ -135,12 +135,12 @@ theorem existsUnique_canonicalMap_of_smul_eq_bot
         exact hcompat (hx _) (by simp [map_add, hx, smul_add])
       map_smul' := by
         intro c y
-        show g • x (c • y) = c • (g • x y)
+        change g • x (c • y) = c • (g • x y)
         rw [smul_comm c g]
         exact hcompat (hx _) (by simp [map_smul, hx, smul_smul, mul_comm]) }
   refine ⟨b, ⟨fun y z hz => (hcompat hz (hx y)).symm, ?_⟩, fun c hc => ?_⟩
   · ext z
-    show g • x (a z) = (f * g) • z
+    change g • x (a z) = (f * g) • z
     calc
       g • x (a z) = g • (f • z) := hcompat (hx _) (by rw [map_smul])
       _ = (f * g) • z := by rw [smul_comm, smul_smul]
@@ -180,7 +180,7 @@ lemma pow_le_annihilator_ker_mapQ_of_exact
     rw [← Submodule.mapQ_apply (h := hJ)]
     exact LinearMap.mem_ker.mp (hx.symm ▸ z.property)
   apply Subtype.ext
-  show (f * g) • (z : M ⧸ P) = 0
+  change (f * g) • (z : M ⧸ P) = 0
   rw [← hx]
   calc
     (f * g) • Submodule.Quotient.mk x =
@@ -223,7 +223,7 @@ lemma pow_le_annihilator_coker_mapQ_of_exact
       _ = Submodule.Quotient.mk ((f * g) • n) := congrArg _ hx
       _ = (f * g) • Submodule.Quotient.mk n := (R.mkQ.map_smul _ _).symm
   rw [← hy]
-  show (f * g) • (LinearMap.range c).mkQ y = 0
+  change (f * g) • (LinearMap.range c).mkQ y = 0
   rw [← (LinearMap.range c).mkQ.map_smul, ← hn, ← hcx]
   exact (Submodule.Quotient.mk_eq_zero _).mpr
     (LinearMap.mem_range.mpr ⟨_, rfl⟩)
@@ -277,7 +277,7 @@ theorem pow_le_annihilator_ker_of_forall_mapQ_pow (I K : Ideal A) [IsHausdorff I
   rw [Module.mem_annihilator]
   intro x
   apply Subtype.ext
-  show f • (x : M) = 0
+  change f • (x : M) = 0
   refine IsHausdorff.haus (I := I) ‹_› _ fun n => ?_
   have hx : φ x ∈ I ^ (n + 1) • (⊤ : Submodule A N) := by
     rw [LinearMap.mem_ker.mp x.2]

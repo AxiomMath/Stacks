@@ -180,7 +180,7 @@ def chartSymPowEquiv (i : Z ⟶ X) [IsImmersion i] (U : X.affineOpens)
     SymPow.symmetricPower n Γ(Z, i ⁻¹ᵁ U.1) Γ(conormalPiece i 1, i ⁻¹ᵁ U.1)
       ≃ₗ[Γ(Z, i ⁻¹ᵁ U.1)] Γ(conormalSymPiece i (n : ℤ), i ⁻¹ᵁ U.1) :=
   haveI hVaff : IsAffineOpen (i ⁻¹ᵁ U.1) := isAffineOpen_preimage_affineChart i U hU
-  haveI hqc : (conormalPiece i 1).IsQuasicoherent := (conormalAlgebra i).isQuasicoherent 1
+  haveI : (conormalPiece i 1).IsQuasicoherent := (conormalAlgebra i).isQuasicoherent 1
   LinearEquiv.ofBijective
     (PresheafOfModules.Hom.app (PresheafOfModules.sheafifyUnit (R := Z.ringCatSheaf)
       (𝟙 Z.ringCatSheaf.obj) (PresheafOfModules.symPowInt (n : ℤ) (conormalPiece i 1).val))

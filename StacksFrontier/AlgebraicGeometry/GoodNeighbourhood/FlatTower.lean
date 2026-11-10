@@ -190,7 +190,7 @@ theorem exists_flat_sup_zeroScheme_of_isPullback {P S : Scheme.{u}} (f : P ⟶ S
     exists_preimage_pullback_of_isPullback_subschemeι hK o y₀ q₀ (hq₀'.trans (congrArg ι hy₀.symm))
   let N := (pullback.fst ρ o) ⁻¹ᵁ U₀
   have hwN : w ∈ N := by
-    show pullback.fst ρ o w ∈ U₀
+    change pullback.fst ρ o w ∈ U₀
     rw [hw₁]; exact hy₀U
   have : Nonempty N := ⟨⟨w, hwN⟩⟩
   have : IsIntegral U₀.toScheme := hU₀
@@ -206,7 +206,7 @@ theorem exists_flat_sup_zeroScheme_of_isPullback {P S : Scheme.{u}} (f : P ⟶ S
     have hzp : zeroScheme Q ((Scheme.Modules.pullback h).obj L) (pullbackGlobalSections h L g) =
         D.comap h := Stacks.Divisors.zeroScheme_pullback h L g
     rw [hzp, Scheme.IdealSheafData.support_comap]
-    show h q₀ ∈ (D.support : Set P)
+    change h q₀ ∈ (D.support : Set P)
     exact hq₀'.symm ▸ hyD
   have hfs : (h ≫ f) q₀ = s := by
     have e1 : (h ≫ f) q₀ = f (ι y) := by
@@ -247,7 +247,7 @@ theorem exists_flat_sup_zeroScheme_of_isPullback {P S : Scheme.{u}} (f : P ⟶ S
   refine ⟨(D'.comap o₁).subscheme, o', inferInstance, ?_, ?_⟩
   · have hoD : o₁ ⟨q₀, hq₀V⟩ ∈ (D'.support : Set J.subscheme) := by
       rw [hD', Scheme.IdealSheafData.support_comap]
-      show J.subschemeι (o q₀) ∈ (D.support : Set P)
+      change J.subschemeι (o q₀) ∈ (D.support : Set P)
       rw [hq₀']; exact hyD
     rw [← Scheme.IdealSheafData.range_subschemeι] at hoD
     obtain ⟨a, ha⟩ := hoD
@@ -292,7 +292,7 @@ theorem exists_mem_smoothLocus_of_isPullback {P S : Scheme.{u}} (f : P ⟶ S)
   have : LocallyOfFinitePresentation g' := MorphismProperty.of_isPullback hFq' inferInstance
   let N := (pullback.fst ρ o) ⁻¹ᵁ U₁
   have hwN : w ∈ N := by
-    show pullback.fst ρ o w ∈ U₁
+    change pullback.fst ρ o w ∈ U₁
     rw [hw₁]; exact hyU₁
   have hNg : N.ι ≫ g' = (pullback.fst ρ o ∣_ U₁) ≫ U₁.ι ≫ K.subschemeι ≫ q := by
     rw [← morphismRestrict_ι_assoc]

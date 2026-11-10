@@ -178,7 +178,7 @@ theorem prod_dpow_diffSection_eq_zero {ι : Type*} (ω : ι → crysDiffSections
   set g : ι → Γ((firstOrderThickeningObject S A).thickening.target.scheme, ⊤) := fun j ↦
     (crysDividedPowers S (firstOrderThickeningObject S A)).dpow (K j)
       (firstOrderThickeningDiffSection A (ω j))
-  show ∏ j ∈ K.support, g j = 0
+  change ∏ j ∈ K.support, g j = 0
   have hg : ∀ j ∈ K.support, g j = 0 ∨ g j = firstOrderThickeningDiffSection A (ω j) := by
     intro j hj
     by_cases h : K j = 1
@@ -294,6 +294,7 @@ theorem bijective_crysExtensionSectionsMap_levelObj (Fc : QuasiCoherentCrystal S
 
 /-! ### Divided powers -/
 
+omit [IsAffine S.X] [IsAffine S.S.scheme] in
 /-- The map `E(n) → D(n)` to the `p`-adic completion is a divided power morphism. -/
 theorem isDPMorphism_wsCompletionMap (n : ℕ) :
     DividedPowers.IsDPMorphism (wsEnvelope hp n).dividedPowers
@@ -314,6 +315,7 @@ theorem isDPMorphism_envLevelMap (n e : ℕ) :
       (DividedPowers.Quotient.isDPMorphism _ _))
     (isDPMorphism_wsCompletionMap hp n)
 
+omit [IsAffine S.X] [IsAffine S.S.scheme] in
 /-- The restriction of sections of `𝒪_{X/S}` along a morphism of `Cris(X/S)` is a divided power
 morphism. -/
 theorem isDPMorphism_sheafRingMap {A B : CrystallineThickening S} (k : A ⟶ B) :
@@ -368,6 +370,7 @@ theorem firstOrderLevelLiftEnv_δ_zero (e : ℕ) (y : wsEnvelope hp 0) :
         (envLevelMap hp 0 e y) :=
   firstOrderLevelLiftEnv_envReindex_eq hp e _ _ (firstOrderLevelLift_comp_δ_zero hp e) y
 
+omit [IsAffine S.X] [IsAffine S.S.scheme] in
 /-- `ξ_c = p₀(x_c) - p₁(x_c)` in `E(1)`. -/
 theorem algebraMap_coprojectionDifference_one_eq_sub (c : wholeSpaceIndex S hp) :
     (tensorPowerEnvelope (affineSituation S hp) (wholeSpacePresentation S hp)
@@ -382,7 +385,7 @@ theorem algebraMap_coprojectionDifference_one_eq_sub (c : wholeSpaceIndex S hp) 
           ((tensorPowerEnvelope (affineSituation S hp)
             (wholeSpacePresentation S hp) 0).algebraMap.toRingHom
               (MvPolynomial.X ((0 : Fin 1), c))) := by
-  show _ = (envelopeReindex _ _ _).1 ((tensorPowerEnvelope _ _ (⦋0⦌ : SimplexCategory).len
+  change _ = (envelopeReindex _ _ _).1 ((tensorPowerEnvelope _ _ (⦋0⦌ : SimplexCategory).len
       ).algebraMap.toRingHom _) - (envelopeReindex _ _ _).1 ((tensorPowerEnvelope _ _
         (⦋0⦌ : SimplexCategory).len).algebraMap.toRingHom _)
   rw [envelopeReindex_polynomial, envelopeReindex_polynomial, ← map_sub]
@@ -412,7 +415,7 @@ theorem sheafRingMap_firstOrderLevelLift_levelTaylorMonomial (e : ℕ)
         (crysDividedPowers S (firstOrderThickeningObject S (levelObj hp 0 e).obj)).dpow m
           (firstOrderThickeningDiffSection (levelObj hp 0 e).obj
             (-crysDerivation (levelObj hp 0 e).obj (levelCoordinate hp e c))) := by
-  show firstOrderLevelLiftEnv hp e (envelopeTaylorMonomial _ _ K) = _
+  change firstOrderLevelLiftEnv hp e (envelopeTaylorMonomial _ _ K) = _
   rw [envelopeTaylorMonomial_eq_prod_dpow, map_finsuppProd]
   refine Finsupp.prod_congr fun c _ ↦ ?_
   rw [← firstOrderLevelLiftEnv_coprojectionDifference]

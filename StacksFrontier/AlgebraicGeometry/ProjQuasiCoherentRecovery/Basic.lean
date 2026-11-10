@@ -54,7 +54,9 @@ the source omits — is proved there on the standard opens of the degree-one ele
   second assertion at an *arbitrary* family of local maps — an identity of sections over `X`
   that holds after restriction to every positive-degree standard open holds over `X`.  The
   assertion itself, for the canonical comparison of Tag 0B5I, is proved with nothing
-  hypothesised in `StacksFrontier/AlgebraicGeometry/TensorSectionNonvanishing/ProjTwistComparisonCompact.lean`; see the note above.
+  hypothesised in
+  `StacksFrontier/AlgebraicGeometry/TensorSectionNonvanishing/ProjTwistComparisonCompact.lean`; see
+  the note above.
 
 ## What is carried, and why
 
@@ -72,7 +74,8 @@ source's own proof:
   from the chain `M_{(f)} = Γ_*(X, 𝓛, ℱ)_{(s)} → Γ(X_s, ℱ)` of Properties, Lemma 01PW, for a cover
   by standard opens of a common degree `d` obtained from quasi-compactness. Both halves of Tag 01PW
   are available: the second is `Stacks.SheafOfModules.sectionLocalizationMap_bijective` in
-  `StacksFrontier/AlgebraicGeometry/Properties/PrincipalOpens/GradedSectionInjective.lean`, read on a
+  `StacksFrontier/AlgebraicGeometry/Properties/PrincipalOpens/GradedSectionInjective.lean`, read on
+  a
   chart of `Proj 𝒮` by `bijective_sectionLocalizationMap_degreeSection` in the namespace
   `Stacks.AlgebraicGeometry.ProjChartNonvanishingOpen`. The *first* equality of that chain, the
   identification of `M_{(f)}` with `Γ_*(X, 𝓛, ℱ)_{(s)}`, is reduced to a degreewise comparison of

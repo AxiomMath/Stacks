@@ -59,7 +59,7 @@ private lemma exists_objectsOverFiberForget_mapAut_eq {F C : Type*} [Category* F
       (hf : f.left = c.val) : (objectsOverFunctor p x).IsHomLift (𝟙 A) f := by
     apply IsHomLift.of_fac' (p := objectsOverFunctor p x) (𝟙 A) f y.2 y.2
     let : p.IsHomLift (𝟙 A) c.val := c.2
-    show p.map f.left = eqToHom y.2 ≫ 𝟙 A ≫ eqToHom y.2.symm
+    change p.map f.left = eqToHom y.2 ≫ 𝟙 A ≫ eqToHom y.2.symm
     rw [hf]
     simpa using IsHomLift.fac' p (𝟙 A) c.val
   have hqhom := hlift αO.hom b.asIso.hom hαhom
@@ -127,7 +127,7 @@ private lemma canonicalRetraction_objectsOverFunctor_left
     simp [r, Category.assoc])
   have htQ : j ≫ tQ = 𝟙 y₀.1 := by
     apply CostructuredArrow.hom_ext
-    show j.left ≫ t = 𝟙 y₀.1.left
+    change j.left ≫ t = 𝟙 y₀.1.left
     dsimp [t, he, h0i]
     calc
       j.left ≫ (eqToHom hε ≫ r ≫ eqToHom h₀.symm) =
@@ -215,7 +215,7 @@ private lemma exists_conjAut_objectsOverFiberForget_mapAut_eq
       (mem_infinitesimalAutomorphisms_iff hp.cofibered g e hpair i hi a).mp ha]
   obtain ⟨αQ, hαQ⟩ := exists_objectsOverFiberForget_mapAut_eq yε b hw
   refine ⟨αQ, ?_⟩
-  show (eqToIso hx).conjAut (G.mapAut yε αQ) = a
+  change (eqToIso hx).conjAut (G.mapAut yε αQ) = a
   rw [hαQ]
   simp [b]
 
@@ -255,7 +255,8 @@ public theorem infinitesimalAutomorphismGroup_objectsOverFunctor
   let φ : Aut yε →* Aut xε := (eqToIso hx).conjAut.toMonoidHom.comp (G.mapAut yε)
   have hφ (a : Aut yε) :
       (φ a).asIso.hom.val = eqToHom hε.symm ≫ a.asIso.hom.val.left ≫ eqToHom hε := by
-    show (Functor.Fiber.fiberInclusion.mapIso ((eqToIso hx).conjAut (G.mapAut yε a)).asIso).hom = _
+    change (Functor.Fiber.fiberInclusion.mapIso
+      ((eqToIso hx).conjAut (G.mapAut yε a)).asIso).hom = _
     rw [Functor.map_conjAut, fiberInclusion_mapIso_eqToIso hx hε]
     rfl
   let S : Subgroup (Aut xε) := infinitesimalAutomorphisms hp.cofibered g e hpair i hi

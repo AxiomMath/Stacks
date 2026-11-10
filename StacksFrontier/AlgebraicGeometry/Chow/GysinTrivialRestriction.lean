@@ -176,9 +176,10 @@ theorem cycle_eq_sum_zsmul_primeCycles {k : ℤ} (α : CycleGroup C p k)
     intro v hv
     rcases eq_or_ne y v with rfl | hne
     · rw [cycleAssociatedToClosedSubscheme_integralComponentAt_self C p y
-        (schemeDeltaDimension_cycleSupportIndex α ⟨y, hα.mem_toFinset.1 hv⟩), mul_one, if_pos rfl]
+        (schemeDeltaDimension_cycleSupportIndex α ⟨y, hα.mem_toFinset.1 hv⟩), mul_one,
+        ite_eq_left rfl]
     · rw [cycleAssociatedToClosedSubscheme_integralComponentAt_of_ne C p k v hne, mul_zero,
-        if_neg hne]
+        ite_eq_right hne]
   have hcoe : (∑ v ∈ hα.toFinset, α.1 v •
         cycleAssociatedToClosedSubscheme C p (integralComponentAt v).subschemeι k).1 y =
       ∑ v ∈ hα.toFinset, α.1 v *
@@ -186,8 +187,8 @@ theorem cycle_eq_sum_zsmul_primeCycles {k : ℤ} (α : CycleGroup C p k)
     simp [Function.locallyFinsuppWithin.coe_sum, Finset.sum_apply]
   rw [hcoe, Finset.sum_congr rfl hterm, Finset.sum_ite_eq]
   by_cases hy : y ∈ hα.toFinset
-  · rw [if_pos hy]
-  · rw [if_neg hy]
+  · rw [ite_eq_left hy]
+  · rw [ite_eq_right hy]
     exact Function.notMem_support.1 fun h ↦ hy (hα.mem_toFinset.2 h)
 
 end Presentation

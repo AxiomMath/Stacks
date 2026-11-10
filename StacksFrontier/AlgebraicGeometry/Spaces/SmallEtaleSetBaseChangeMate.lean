@@ -333,12 +333,12 @@ theorem isIso_mateEquiv_symm_smallSetPushforwardCompSquare (sq : IsPullback i f'
         (smallEtaleSetRestrictionAdjunction B S hS g hg)).symm
       (TwoSquare.mk _ _ _ _ ((smallEtaleDirectImageCompIso B S hS i f).hom ≫
           eqToHom (congrArg (fun k : X' ⟶ Y => smallEtaleDirectImage B S hS k) sq.w) ≫
-          (smallEtaleDirectImageCompIso B S hS f' g).inv))).natTrans := by
+          (smallEtaleDirectImageCompIso B S hS f' g).inv))) := by
   have hi := isEtale_of_isPullback B S hS f' i g f sq.flip hg
   have : Functor.ReflectsIsomorphisms
       (smallEtaleComparisonRestriction B S hS Y').asEquivalence.inverse := inferInstance
   have (U V : AlgebraicSpaces B S hS) (h : U ⟶ V) (hh : IsEtale B S hS h.hom) :
-      IsIso (TwoSquare.mk _ _ _ _ (smallEtaleSetRestrictionSpacesIso B S hS h hh).hom).natTrans :=
+      IsIso (TwoSquare.mk _ _ _ _ (smallEtaleSetRestrictionSpacesIso B S hS h hh).hom) :=
     inferInstanceAs (IsIso (smallEtaleSetRestrictionSpacesIso B S hS h hh).hom)
   have := isIso_mateEquiv_symm_spacesSetPushforwardCompSquare B S hS i f' f g sq hg
   refine Stacks.CategoryTheory.isIso_mateEquiv_symm_of_reflectsIsomorphisms
@@ -355,7 +355,7 @@ theorem isIso_mateEquiv_symm_smallSetPushforwardCompSquare (sq : IsPullback i f'
           (smallEtaleDirectImageCompIso B S hS f' g).inv))
     (TwoSquare.mk _ _ _ _ (spacesSetPushforwardCompSquare B S hS i f' f g sq.w)) ?_
   rw [mateEquiv_smallEtaleSetRestrictionSpacesIso, mateEquiv_smallEtaleSetRestrictionSpacesIso]
-  refine TwoSquare.ext _ _ fun N => ?_
+  refine NatTrans.ext (funext fun N => ?_)
   simp only [TwoSquare.vComp, TwoSquare.whiskerRight, TwoSquare.whiskerLeft, NatTrans.comp_app,
     Functor.whiskerLeft_app, Functor.whiskerRight_app, Functor.associator_hom_app,
     Functor.associator_inv_app, Category.id_comp, Category.comp_id, Category.assoc]

@@ -95,7 +95,7 @@ theorem strictHenselizationToBase_bot_mem [IrreducibleSpace S]
   have hsp' := hw ▸ hsp.map (S.fromSpecStalk x).continuous
   have hηU : genericPoint S ∈ U :=
     ((genericPoint_spec S).mem_open_set_iff U.isOpen).2 (by simpa using hU)
-  show S.fromSpecStalk x (Spec.map (CommRingCat.ofHom
+  change S.fromSpecStalk x (Spec.map (CommRingCat.ofHom
     (structureSheafStalkFromLocalRing B S hS s)) _) ∈ U
   rw [h1]
   exact hsp'.mem_open U.isOpen hηU

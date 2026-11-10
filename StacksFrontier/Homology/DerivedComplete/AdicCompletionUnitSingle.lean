@@ -83,7 +83,7 @@ theorem injective_comp_adicCompletion_of (I : Ideal A) (hI : I.FG)
     · intro y z hy hz
       rw [(f - g).map_add]
       exact Submodule.add_mem _ hy hz
-  show (f - g) x ∈ I ^ n • (⊤ : Submodule A N)
+  change (f - g) x ∈ I ^ n • (⊤ : Submodule A N)
   simpa only [map_sub, hq, sub_zero] using hmem
 
 /-- **The universal property of the ordinary `I`-adic completion.** For `I` finitely generated,
@@ -98,7 +98,7 @@ theorem bijective_comp_adicCompletion_of (I : Ideal A) (hI : I.FG)
   refine ⟨(AdicCompletion.ofLinearEquiv I N).symm.toLinearMap.comp
     ((AdicCompletion.map I f).restrictScalars A), ?_⟩
   ext x
-  show (AdicCompletion.ofLinearEquiv I N).symm
+  change (AdicCompletion.ofLinearEquiv I N).symm
     (AdicCompletion.map I f (AdicCompletion.of I M x)) = f x
   rw [AdicCompletion.map_of]
   exact (AdicCompletion.ofLinearEquiv I N).symm_apply_apply (f x)
@@ -126,7 +126,7 @@ def adicCompletionEquivOfUniversal (I : Ideal A) (hI : I.FG)
     refine injective_comp_adicCompletion_of I hI M (AdicCompletion I M) ?_
     change (f.comp g).comp (AdicCompletion.of I M) = LinearMap.id.comp (AdicCompletion.of I M)
     rw [LinearMap.comp_assoc, hg, hf, LinearMap.id_comp]
-  exact ⟨⟨LinearEquiv.ofLinear f g hfg hgf, hf⟩⟩
+  exact ⟨⟨LinearEquiv.ofLinearMap f g hfg hgf, hf⟩⟩
 
 end ModuleUniversal
 
@@ -170,19 +170,19 @@ theorem exists_iso_adicCompletionFunctor_single_normalized (I : Ideal A) (hI : I
       have he' : φ ≫ ModuleCat.ofHom g = φ ≫ ModuleCat.ofHom h := ModuleCat.hom_ext he
       have hgh : e.hom ≫ S.map (ModuleCat.ofHom g) = e.hom ≫ S.map (ModuleCat.ofHom h) :=
         hb.injective (by
-          show η ≫ _ = η ≫ _
+          change η ≫ _ = η ≫ _
           simpa only [Functor.map_comp, hφ, Category.assoc] using congrArg S.map he')
       exact congrArg ModuleCat.Hom.hom (S.map_injective ((cancel_epi e.hom).mp hgh))
     · intro g
       obtain ⟨k, hk⟩ := hb.surjective (S.map (ModuleCat.ofHom g))
       refine ⟨(S.preimage (e.inv ≫ k) : N ⟶ ModuleCat.of A P).hom, ?_⟩
-      show (φ ≫ S.preimage (e.inv ≫ k)).hom = (ModuleCat.ofHom g).hom
+      change (φ ≫ S.preimage (e.inv ≫ k)).hom = (ModuleCat.ofHom g).hom
       refine congrArg ModuleCat.Hom.hom (S.map_injective ?_)
       rw [Functor.map_comp, hφ, S.map_preimage]
       simpa only [Category.assoc, Iso.hom_inv_id_assoc] using hk
   set a := adicCompletionEquivOfUniversal I hI (M : Type u) (N : Type u) φ.hom hu
   refine ⟨e ≪≫ S.mapIso a.1.toModuleIso, ?_⟩
-  show η ≫ e.hom ≫ S.map a.1.toModuleIso.hom = _
+  change η ≫ e.hom ≫ S.map a.1.toModuleIso.hom = _
   rw [← Category.assoc, ← hφ, ← S.map_comp]
   exact congrArg S.map (ModuleCat.hom_ext a.2)
 
@@ -219,7 +219,7 @@ theorem isIso_adicCompletionFunctor_map_single_map (I : Ideal A) (hI : I.FG)
   have hu : u = ModuleCat.ofHom (AdicCompletion.of I (P : Type u)) ≫
       ModuleCat.ofHom ε.symm.toLinearMap := by
     refine ModuleCat.hom_ext (LinearMap.ext fun x ↦ ?_)
-    show u.hom x = ε.symm (AdicCompletion.of I (P : Type u) x)
+    change u.hom x = ε.symm (AdicCompletion.of I (P : Type u) x)
     rw [← LinearMap.congr_fun hε x]
     exact (ε.symm_apply_apply (u.hom x)).symm
   rw [hu, Functor.map_comp, Functor.map_comp]

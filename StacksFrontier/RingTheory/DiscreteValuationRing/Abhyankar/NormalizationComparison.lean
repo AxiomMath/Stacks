@@ -3,7 +3,7 @@ module
 public import StacksFrontier.RingTheory.DiscreteValuationRing.Abhyankar.AwayLocalizationField
 
 /-!
-# Abhyankar's lemma: normality of the reduced tensor product and comparison with the integral closure
+# Abhyankar's lemma: normality of the reduced tensor product, comparison with the integral closure
 
 The end of the namespace `ReducedTensorLocalization`: flatness of the reduced tensor product, the
 fact that every localization of the reduced tensor product at a maximal ideal is a discrete
@@ -294,7 +294,7 @@ private theorem actual_every_reduced_maximal_isDVR
   obtain ⟨_, _, _, _, g₀, hIntegral₀, hNil₀, _, hleft₀, hright₀⟩ := hEM.2.2.2.1
   have hker : RingHom.ker g₀ ≤ mRed.comap mk := by
     intro x hx
-    show mk x ∈ mRed
+    change mk x ∈ mRed
     have hzero : mk x = 0 := Ideal.Quotient.eq_zero_iff_mem.mpr (hNil₀ hx)
     rw [hzero]
     exact mRed.zero_mem
@@ -560,9 +560,9 @@ private theorem reduced_away_action_compatible
     ∀ s : S, algebraMap (S ⧸ nilradical S) V
         (Ideal.Quotient.mk (nilradical S) s) = algebraMap W V (g s) := by
   intro I eRed s
-  show eRed (algebraMap (S ⧸ nilradical S) (T ⧸ I)
+  change eRed (algebraMap (S ⧸ nilradical S) (T ⧸ I)
     (Ideal.Quotient.mk (nilradical S) s)) = algebraMap W V (g s)
-  show eRed (Ideal.Quotient.mk I (algebraMap S T s)) = algebraMap W V (g s)
+  change eRed (Ideal.Quotient.mk I (algebraMap S T s)) = algebraMap W V (g s)
   apply eV.injective
   simpa only [I, eRed, RingEquiv.trans_apply, RingEquiv.apply_symm_apply,
     reductionRingEquiv_of_ringEquiv,
@@ -615,7 +615,7 @@ private theorem generic_tensor_action_compatible
       eL₁.toRingHom.comp ((algebraMap B₁ L₁).comp g) := by
     apply Algebra.TensorProduct.ringHom_ext
     · ext b
-      show Ideal.Quotient.mk _
+      change Ideal.Quotient.mk _
         (genericIso (algebraMap (B ⊗[A] A₁) _ (b ⊗ₜ[A] 1))) =
         eL₁ (algebraMap B₁ L₁ (g (b ⊗ₜ[A] 1)))
       calc
@@ -626,7 +626,7 @@ private theorem generic_tensor_action_compatible
             ← IsScalarTower.algebraMap_apply B B₁ L₁,
             IsScalarTower.algebraMap_apply B L L₁, eL₁_left]
     · ext a
-      show Ideal.Quotient.mk _
+      change Ideal.Quotient.mk _
         (genericIso (algebraMap (B ⊗[A] A₁) _ (1 ⊗ₜ[A] a))) =
         eL₁ (algebraMap B₁ L₁ (g (1 ⊗ₜ[A] a)))
       calc

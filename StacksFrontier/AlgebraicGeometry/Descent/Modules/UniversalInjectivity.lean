@@ -50,8 +50,7 @@ private theorem congr_moduleEquiv_rTensor_apply.{t, w'}
               (ULift.moduleEquiv.{u, u, t} (R := R) (M := R)).toLinearMap)) z) =
       LinearMap.rTensor P' (Algebra.linearMap R A)
         (_root_.TensorProduct.congr (ULift.moduleEquiv.{u, u, t} (R := R) (M := R)) e z) := by
-  induction z using _root_.TensorProduct.induction_on with
-  | zero => simp
+  induction z using _root_.TensorProduct.inductionOn with
   | tmul a b => simp
   | add x y hx hy => simp [hx, hy]
 

@@ -125,7 +125,7 @@ private lemma finite_h1_of_finiteType
   let : Module.Finite A P.toExtension.Cotangent :=
     Algebra.Extension.Cotangent.finite P.fg_ker
   have : Module.Finite A P.toExtension.H1Cotangent := by
-    show Module.Finite A (LinearMap.ker P.toExtension.cotangentComplex)
+    change Module.Finite A (LinearMap.ker P.toExtension.cotangentComplex)
     infer_instance
   exact Module.Finite.of_surjective P.equivH1Cotangent.toLinearMap
     P.equivH1Cotangent.surjective
@@ -191,7 +191,7 @@ private lemma cartier_rank_identity_of_model
     (K ⊗[A] P.toExtension.Cotangent)
     (K ⊗[A] P.toExtension.CotangentSpace) (K ⊗[A] Ω[A⁄k])
     (f.baseChange K) (g.baseChange K)
-    (by simpa [LinearMap.baseChange_eq_ltensor] using
+    (by simpa [LinearMap.baseChange_eq_lTensor] using
       Module.Flat.lTensor_exact K P.toExtension.exact_cotangentComplex_toKaehler)
     (g.baseChange_surjective K P.toExtension.toKaehler_surjective)
   have hker : Module.finrank K (LinearMap.ker (f.baseChange K)) =
@@ -249,7 +249,7 @@ private lemma exists_globalCompleteIntersection_away
   obtain ⟨g, hg, hG⟩ :=
     P.exists_isGlobalCompleteIntersection_away_of_spanFinrank_ker_map_le k A ⊥ c
       (by simpa using hc) R (by
-        show (p.map (algebraMap P.Ring R)).spanFinrank ≤ c
+        change (p.map (algebraMap P.Ring R)).spanFinrank ≤ c
         rw [IsLocalization.AtPrime.map_eq_maximalIdeal p R])
   exact ⟨g, hg, hG⟩
 
@@ -401,10 +401,10 @@ private lemma δ_map_baseChange (x : H1Cotangent S T) :
         (H1Cotangent.δ R S T x) := by
   obtain ⟨x, hx⟩ := x
   obtain ⟨x, rfl⟩ := Extension.Cotangent.mk_surjective x
-  show Generators.H1Cotangent.δ _ _ ⟨_, _⟩ = _
+  change Generators.H1Cotangent.δ _ _ ⟨_, _⟩ = _
   simp only [LinearMap.domRestrict_apply, Extension.Cotangent.map_mk, H1Cotangent.δ,
     Generators.H1Cotangent.δ_eq_δAux]
-  show Generators.H1Cotangent.δAux R (Generators.self S U)
+  change Generators.H1Cotangent.δAux R (Generators.self S U)
     ((Generators.defaultHom (Generators.self S T) (Generators.self S U)).toAlgHom x.1) = _
   rw [defaultHom_toAlgHom_self S T U]
   exact δAux_rename R S T U x.1
@@ -429,8 +429,7 @@ private theorem liftBaseChange_injective_of_subsingleton_h1Cotangent
     simp only [LinearMap.coe_comp, Function.comp_apply, LinearMap.liftBaseChange_tmul,
       map_smul, δ_map_baseChange R S T U, LinearMap.baseChange_tmul]
     generalize H1Cotangent.δ R S T x = z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, tmul_add, smul_add, hx, hy]
     | tmul t w =>
       simp only [e, AlgebraTensorModule.map_tmul, Algebra.linearMap_apply, LinearMap.id_apply,

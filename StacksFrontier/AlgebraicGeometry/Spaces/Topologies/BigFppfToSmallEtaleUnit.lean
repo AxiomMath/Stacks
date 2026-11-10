@@ -105,7 +105,7 @@ theorem isIso_fppfToSmallEtaleMorphism_unit_app_of_isSheaf (X : T.Spaces)
     IsIso ((fppfToSmallEtaleMorphism T E h X).adj.unit.app G) := by
   have := E.isIso_bigToSmallEtaleMorphism_unit (etaleSpace T E h X)
   have := isIso_fppfToBigEtaleMorphism_unit_app_of_isSheaf T E h X _ hG
-  show IsIso (((E.bigToSmallEtaleMorphism (etaleSpace T E h X)).adj.comp
+  change IsIso (((E.bigToSmallEtaleMorphism (etaleSpace T E h X)).adj.comp
     (fppfToBigEtaleMorphism T E h X).adj).unit.app G)
   rw [Adjunction.comp_unit_app]
   infer_instance

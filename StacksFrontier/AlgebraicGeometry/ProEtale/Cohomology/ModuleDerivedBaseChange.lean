@@ -198,7 +198,7 @@ def proetaleModuleBaseChange :
       proetaleModuleInverseImage.{u, v, w} g' Λ ⋙ proetaleModuleDirectImage.{u, v, w} f' :=
   ((mateEquiv (proetaleModuleInverseImageAdjunction.{u, v, w} Λ g')
     (proetaleModuleInverseImageAdjunction.{u, v, w} Λ g)).symm
-      (TwoSquare.mk _ _ _ _ (proetaleModuleDirectImageSquare f g f' g' w).hom)).natTrans
+      (TwoSquare.mk _ _ _ _ (proetaleModuleDirectImageSquare f g f' g' w).hom))
 
 /-- **The base change map** `g⁻¹ Rf_* ⟶ Rf'_* (g')⁻¹` of a commutative square of schemes, on
 unbounded derived categories of pro-étale sheaves of `Λ`-modules (Cohomology on Sites, Remark

@@ -86,7 +86,7 @@ theorem baseChangeDown_pullback_eq (ψ : Twisting (f' ≫ g) A d L) (k : T₂ �
       (show Twisting ((k ≫ f') ≫ g) A d ((pullbackFunctor (ringedSpaceHom k)).obj L) from
         ψ.pullback k).baseChangeDown g (k ≫ f') A d :=
   Twisting.ext fun i => by
-    show compComparison k f' ((pullbackFunctor (ringedSpaceHom g)).obj (A.piece (i * d))) ≫
+    change compComparison k f' ((pullbackFunctor (ringedSpaceHom g)).obj (A.piece (i * d))) ≫
         ((pullbackFunctor (ringedSpaceHom k)).map
           (inv (compComparison f' g (A.piece (i * d))) ≫ ψ.app i) ≫ laurentPullback k L i) =
       inv (compComparison (k ≫ f') g (A.piece (i * d))) ≫
@@ -295,7 +295,7 @@ theorem baseChangeUp_restrictQuadruple_baseDescent (ψ : Twisting q (situationAl
       (algebraTransport_baseChangeDown_pullback q Φ (q₀ ≫ 𝟙 X) (ψ.pullback q₀) _)
   refine Quadruple.ext rfl fun i => heq_of_eq ?_
   refine congrArg (fun t => Twisting.app t i) ?_
-  show Twisting.baseChangeUp q ((⊤ : W.Opens).ι ≫ q₀ ≫ 𝟙 X) (situationAlgebra A) (k : ℤ)
+  change Twisting.baseChangeUp q ((⊤ : W.Opens).ι ≫ q₀ ≫ 𝟙 X) (situationAlgebra A) (k : ℤ)
       (Twisting.algebraTransport (unitalHomInverse Φ hΦ)
         (((((baseDescent q Φ ψ).pullback q₀).pullback (⊤ : W.Opens).ι).scale (k : ℤ)).congrDegree
           (mul_one (k : ℤ)))) =
@@ -321,7 +321,7 @@ theorem globalMorphism_baseDescent (ψ : Twisting q (situationAlgebra A) 1 L) :
       (toGradedPowerMap ψ).exists_mem_openOfPositiveSection_of_mem_coveringOpen y.2
     exact TopologicalSpace.Opens.mem_iSup.2 ⟨p, hp⟩
   refine Scheme.Cover.hom_ext (U.toScheme.openCoverOfIsOpenCover O hO) _ _ fun p => ?_
-  show (O p).ι ≫ _ = (O p).ι ≫ _
+  change (O p).ι ≫ _ = (O p).ι ≫ _
   let q₀ : (O p).toScheme ⟶ X := (O p).ι ≫ U.ι
   have : Epi ((ψ.pullback q₀).app ((p.deg + 1 : ℕ) : ℤ)) :=
     epi_pullback_app_of_preimage_eq_top ψ q₀ p (top_unique fun w _ => w.2)

@@ -151,11 +151,11 @@ theorem projective_submodule_of_projective_quotient [Module.Projective R X₂]
   let ρ : X₂ →ₗ[R] N :=
     (LinearMap.id - s ∘ₗ N.mkQ).codRestrict N fun x => by
       rw [← Submodule.Quotient.mk_eq_zero]
-      show N.mkQ (x - s (N.mkQ x)) = 0
+      change N.mkQ (x - s (N.mkQ x)) = 0
       rw [map_sub, ← LinearMap.comp_apply _ s, hs, LinearMap.id_apply, sub_self]
   have hρ : ρ ∘ₗ N.subtype = LinearMap.id := by
     ext ⟨y, hy⟩
-    show y - s (N.mkQ y) = y
+    change y - s (N.mkQ y) = y
     rw [show N.mkQ y = 0 from (Submodule.Quotient.mk_eq_zero _).mpr hy, map_zero, sub_zero]
   exact Module.Projective.of_split N.subtype ρ hρ
 
@@ -315,7 +315,7 @@ theorem finite_projective_extendScalars {A B : Type u} [CommRing A] [CommRing B]
       Module.Projective B ((ModuleCat.extendScalars ψ).obj P) := by
   obtain ⟨_, _⟩ := h
   let := ψ.toAlgebra
-  show Module.Finite B (B ⊗[A] P) ∧ Module.Projective B (B ⊗[A] P)
+  change Module.Finite B (B ⊗[A] P) ∧ Module.Projective B (B ⊗[A] P)
   exact ⟨inferInstance, inferInstance⟩
 
 /-- **Base change of a module that is finite free at a prime.**  If `P` becomes finite free over
@@ -481,7 +481,7 @@ theorem fiberRank_tilde_eq_finrank_extendScalars {R : CommRingCat.{u}} (M : Modu
   have : Nontrivial A := inferInstanceAs (Nontrivial ((Spec R).presheaf.stalk x))
   let κ := (Spec R).residueField x
   let : Algebra A κ := ((Spec R).residue x).hom.toAlgebra
-  show Module.finrank κ (κ ⊗[A] N) = _
+  change Module.finrank κ (κ ⊗[A] N) = _
   rw [e.finrank_eq]
   exact Module.finrank_baseChange
 

@@ -121,7 +121,7 @@ def etaleModuleUnderlyingAbelianInverseImageIsoOfRing (Λ : Type) [Ring Λ] {X Y
       (smallEtaleBaseChange g) AddCommGrpCat.{u + 1} X.smallEtaleTopology
       Y.smallEtaleTopology).symm ≪≫
     asIso (coefficientSheafPullbackTwoSquare (smallEtaleBaseChange g) X.smallEtaleTopology
-      Y.smallEtaleTopology (forget₂ (ModuleCat.{u + 1} Λ) AddCommGrpCat.{u + 1})).natTrans
+      Y.smallEtaleTopology (forget₂ (ModuleCat.{u + 1} Λ) AddCommGrpCat.{u + 1}))
 
 /-- **The comparison matches the units**, over any ring `Λ`: the underlying abelian map of the
 unit of `g^{-1} ⊣ g_*` on modules is the unit on abelian sheaves followed by `g_*` of the
@@ -216,7 +216,7 @@ theorem underlyingAbelian_map_inverseImage_unit (π : Y ⟶ X) (G : EtaleModules
           X.smallEtaleTopology Y.smallEtaleTopology).map
           ((etaleModuleUnderlyingAbelianInverseImageIsoOfRing Λ π).hom.app G) :=
     etaleModuleUnderlyingAbelianInverseImageIsoOfRing_unit Λ π G
-  show (etaleModuleUnderlyingAbelian P Λ).map ((etaleModuleInverseImage.{u, 0} Λ i').map η) = _
+  change (etaleModuleUnderlyingAbelian P Λ).map ((etaleModuleInverseImage.{u, 0} Λ i').map η) = _
   have h₃ : (etaleAbelianInverseImage.{u, 0} i').map ((etaleModuleUnderlyingAbelian X Λ).map η) =
       (etaleAbelianInverseImage.{u, 0} i').map
           ((etaleAbelianInverseImageDirectImageAdj.{u, 0} π).unit.app

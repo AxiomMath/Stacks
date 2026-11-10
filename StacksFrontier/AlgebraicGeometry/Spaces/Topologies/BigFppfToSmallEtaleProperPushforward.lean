@@ -70,7 +70,7 @@ at the image of `c`. -/
 theorem isIso_mateEquiv_symm_app_of_isIso_unit_counit (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂)
     (α : R₁ ⋙ G ≅ H ⋙ R₂) (c : C) [IsIso (adj₁.unit.app c)]
     [IsIso (adj₂.counit.app (H.obj (L₁.obj c)))] :
-    IsIso (((mateEquiv adj₁ adj₂).symm α.hom).natTrans.app c) := by
+    IsIso (((mateEquiv adj₁ adj₂).symm α.hom).app c) := by
   simp only [Functor.comp_obj, mateEquiv, Equiv.symm_mk, Equiv.coe_fn_mk, NatTrans.comp_app,
     Functor.id_obj, Functor.leftUnitor_inv_app, Functor.whiskerRight_app, Functor.comp_map,
     Functor.associator_inv_app, Functor.associator_hom_app, Functor.map_id,
@@ -158,7 +158,7 @@ theorem bigSmallEtale_pushforwardCommIso_hom_eq {X Y : T.Spaces} (f : Y ⟶ X) :
     (Space.SpacesEtale.inclusion T.fppfSite S T.fppf_mem X) (Over.pullback f)
     (Space.SpacesEtale.topology T.fppfSite S T.fppf_mem X)
     (T.bigEtaleTopology X) (T.bigEtaleTopology Y)
-  show (Functor.sheafPushforwardContinuousComp
+  change (Functor.sheafPushforwardContinuousComp
       (Space.spacesBaseChange T.fppfSite S T.fppf_mem f).functor
       (Space.SpacesEtale.inclusion T.fppfSite S T.fppf_mem Y) (Type (u + 1))
       (Space.SpacesEtale.topology T.fppfSite S T.fppf_mem X)
@@ -184,11 +184,11 @@ theorem bigSmallEtale_pushforwardCommIso_hom_eq {X Y : T.Spaces} (f : Y ⟶ X) :
 identification of the big étale direct image with restriction along `Over.pullback f`. -/
 theorem mateEquiv_symm_bigSmallEtale_pushforwardCommIso {X Y : T.Spaces} (f : Y ⟶ X) :
     ((mateEquiv (bigToSmallEtaleMorphism T Y).adj (bigToSmallEtaleMorphism T X).adj).symm
-        (T.bigSmallEtale_pushforwardCommIso f).hom).natTrans =
+        (T.bigSmallEtale_pushforwardCommIso f).hom) =
       bigToSmallEtaleBaseChange T f ≫ Functor.whiskerLeft _
         (StacksRelocalization.sheafPushforwardOverMapIso T.topology f).inv := by
   rw [bigSmallEtale_pushforwardCommIso_hom_eq]
-  exact congrArg TwoSquare.natTrans (mateEquiv_symm_whiskerLeft _ _ _ _)
+  exact mateEquiv_symm_whiskerLeft _ _ _ _
 
 end AlgebraicGeometry.BigEtaleSpaceSite
 
@@ -240,7 +240,7 @@ def fppfToSmallEtaleBaseChange {X Y : T.Spaces} (f : Y ⟶ X) :
         (fppfToSmallEtaleMorphism T E h X).inverseImage ⟶
       (fppfToSmallEtaleMorphism T E h Y).inverseImage ⋙ (bigFppfMorphism T f).pushforward :=
   ((mateEquiv (fppfToSmallEtaleMorphism T E h Y).adj (fppfToSmallEtaleMorphism T E h X).adj).symm
-    (bigFppfSmallEtale_pushforwardCommIso T E h f).hom).natTrans
+    (bigFppfSmallEtale_pushforwardCommIso T E h f).hom)
 
 /-- The canonical base change map is the mate of the square `bigSmallEtale_pushforwardCommIso` for
 `π`, followed by the mate of the big square `bigFppfBigEtale_pushforwardCommIso` for `ε`. -/
@@ -250,7 +250,7 @@ theorem fppfToSmallEtaleBaseChange_eq_vComp {X Y : T.Spaces} (f : Y ⟶ X) :
           (E.bigToSmallEtaleMorphism (etaleSpace T E h X)).adj).symm
           (E.bigSmallEtale_pushforwardCommIso (etaleMap T E h f)).hom) ≫ᵥ
         ((mateEquiv (fppfToBigEtaleMorphism T E h Y).adj (fppfToBigEtaleMorphism T E h X).adj).symm
-          (bigFppfBigEtale_pushforwardCommIso T E h f).hom)).natTrans := by
+          (bigFppfBigEtale_pushforwardCommIso T E h f).hom)) := by
   have h1 := mateEquiv_hcomp (E.bigToSmallEtaleMorphism (etaleSpace T E h Y)).adj
     (E.bigToSmallEtaleMorphism (etaleSpace T E h X)).adj (fppfToBigEtaleMorphism T E h Y).adj
     (fppfToBigEtaleMorphism T E h X).adj
@@ -268,7 +268,7 @@ theorem fppfToSmallEtaleBaseChange_eq_vComp {X Y : T.Spaces} (f : Y ⟶ X) :
   rw [e1, e2] at h1
   unfold fppfToSmallEtaleBaseChange
   rw [bigFppfSmallEtale_pushforwardCommIso_hom_eq_hComp]
-  exact congrArg TwoSquare.natTrans ((Equiv.symm_apply_eq _).2 h1.symm)
+  exact (Equiv.symm_apply_eq _).2 h1.symm
 
 /-- **Proper base change for the big fppf topos.** For a proper morphism `f : Y ⟶ X` of algebraic
 spaces, the canonical base change map `a_X⁻¹ ∘ f_{small,*} ⟶ f_{big,fppf,*} ∘ a_Y⁻¹` of functors
@@ -289,7 +289,7 @@ theorem isIso_fppfToSmallEtaleBaseChange_of_isProper {X Y : T.Spaces} (f : Y ⟶
         exact hf
   have hβ : IsIso ((mateEquiv (E.bigToSmallEtaleMorphism (etaleSpace T E h Y)).adj
       (E.bigToSmallEtaleMorphism (etaleSpace T E h X)).adj).symm
-      (E.bigSmallEtale_pushforwardCommIso (etaleMap T E h f)).hom).natTrans := by
+      (E.bigSmallEtale_pushforwardCommIso (etaleMap T E h f)).hom) := by
     rw [BigEtaleSpaceSite.mateEquiv_symm_bigSmallEtale_pushforwardCommIso]
     exact (BigEtaleSpaceSite.bigToSmallEtalePushforwardIsoOfIsProper E (etaleMap T E h f)
       hf').isIso_hom
@@ -306,7 +306,7 @@ theorem isIso_fppfToSmallEtaleBaseChange_of_isProper {X Y : T.Spaces} (f : Y ⟶
     ((E.bigToSmallEtaleMorphism (etaleSpace T E h Y)).inverseImage.obj F)
   have h₂ : IsIso (((mateEquiv (E.bigToSmallEtaleMorphism (etaleSpace T E h Y)).adj
       (E.bigToSmallEtaleMorphism (etaleSpace T E h X)).adj).symm
-      (E.bigSmallEtale_pushforwardCommIso (etaleMap T E h f)).hom).natTrans.app F) :=
+      (E.bigSmallEtale_pushforwardCommIso (etaleMap T E h f)).hom).app F) :=
     NatIso.isIso_app_of_isIso _ F
   exact IsIso.comp_isIso' (Functor.map_isIso _ _) this
 

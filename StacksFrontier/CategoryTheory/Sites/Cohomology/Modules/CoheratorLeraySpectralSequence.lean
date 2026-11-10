@@ -268,7 +268,8 @@ variable {X Y : RingedTopos.{u, u, u}}
   [Y.J.HasSheafCompose (forget AddCommGrpCat.{u})]
   [EnoughInjectives (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))]
   [EnoughInjectives (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))]
-  [PreservesFiniteLimits (globalSectionsFunctor.{u, u, u, u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))]
+  [PreservesFiniteLimits
+    (globalSectionsFunctor.{u, u, u, u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))]
   [HasSheafify Y.J AddCommGrpCat.{u}]
   [HasExt.{u} (Sheaf Y.J AddCommGrpCat.{u})]
   [HasInjectiveResolutions (Sheaf Y.J AddCommGrpCat.{u})]
@@ -279,9 +280,11 @@ variable {X Y : RingedTopos.{u, u, u}}
   [HasDerivedCategory.{u} AddCommGrpCat.{u}]
   [HasDerivedCategory.{u}
     (ModuleCat.{u} (RingCat.sectionsSubring (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj))]
-  [((globalSectionsFunctor.{u, u, u, u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).mapHomotopyCategoryPlus ⋙
+  [((globalSectionsFunctor.{u, u, u, u}
+      (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).mapHomotopyCategoryPlus ⋙
       DerivedCategory.Plus.Qh).HasRightDerivedFunctor
-        (HomotopyCategory.Plus.quasiIso (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)))]
+        (HomotopyCategory.Plus.quasiIso
+          (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)))]
   (f : Stacks.Sheaves.RingedToposModules.RingedToposHom X Y)
 
 /-- **The quasi-coherent higher direct image `R ^q f_{QCoh,*}`**, the composite
@@ -347,9 +350,11 @@ proved and is absent from the library: only its definition R^q f_{QCoh,*} = Q �
 reproduced", sga "4 V 5.3" "more general", sga "4 V 5.4" "special case"]
 theorem exists_quasicoherentLeraySpectralSequence {𝒬 : Type u₁} [Category.{v₁} 𝒬]
     (incl : 𝒬 ⥤ SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
-    (coherator : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) ⥤ 𝒬) (adj : incl ⊣ coherator)
+    (coherator : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) ⥤ 𝒬)
+    (adj : incl ⊣ coherator)
     (Parasitic : ObjectProperty (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)))
-    (hvanish : ∀ P : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O), Parasitic P → ∀ p : ℕ,
+    (hvanish : ∀ P : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O),
+      Parasitic P → ∀ p : ℕ,
       IsZero (((globalSectionsAb Y).rightDerivedPlus (p : ℤ)).obj P))
     (hker : ∀ M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O),
       Parasitic (kernel (adj.counit.app M)))

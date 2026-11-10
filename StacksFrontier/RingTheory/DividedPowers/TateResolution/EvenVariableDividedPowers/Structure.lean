@@ -126,7 +126,7 @@ private theorem evenExtensionDpow_odd_monomial_product
             simp only [mul_assoc]
           _ = N * ((N * (a * b)) * (a * b)) := by rw [hcommN]
           _ = (N * N) * ((a * b) * (a * b)) := by simp only [mul_assoc]
-      show (N * (a * b)) * (N * (a * b)) = 0
+      change (N * (a * b)) * (N * (a * b)) = 0
       rw [hN]
       have habMul : (a * b) * (a * b) = 0 := by simpa [pow_two] using hab2
       rw [habMul]
@@ -137,7 +137,7 @@ private theorem evenExtensionDpow_odd_monomial_product
       rw [hdecomp, pow_add, hc2]
       simp
     rw [EvenVariableAlgebra.monomial_mul_monomial]
-    show evenExtensionDpow d hd γ n
+    change evenExtensionDpow d hd γ n
       (EvenVariableAlgebra.monomial (i + j) c) = 0
     rw [evenExtensionDpow_monomial d hd γ n (i + j)
       (Nat.pos_of_ne_zero hzero) hcEven]
@@ -148,7 +148,7 @@ private theorem evenExtensionDpow_zero_arg
     (γ : DividedPowerStructure 𝒜) {n : ℕ} (hn : n ≠ 0) :
     evenExtensionDpow d hd γ n 0 = 0 := by
   rw [evenExtensionDpow_of_mem d hd γ n (Submodule.zero_mem _)]
-  show ((evenExtensionDividedPowers d hd γ).dpow n
+  change ((evenExtensionDividedPowers d hd γ).dpow n
     (0 : evenSubalgebra (EvenVariableAlgebra.grade 𝒜 d)) :
       EvenVariableAlgebra A) = 0
   rw [(evenExtensionDividedPowers d hd γ).dpow_eval_zero hn]
@@ -187,7 +187,7 @@ private theorem evenExtensionDpow_add_zero_of_products
     rw [evenExtensionDpow_of_mem d hd γ m hv] at h
     exact h
   rw [evenExtensionDpow_of_mem d hd γ n ((positiveEvenPart _).add_mem hu hv)]
-  show ((D.dpow n (U + V) : evenSubalgebra
+  change ((D.dpow n (U + V) : evenSubalgebra
     (EvenVariableAlgebra.grade 𝒜 d)) : EvenVariableAlgebra A) = 0
   exact congrArg Subtype.val
     (dividedPowers_dpow_add_eq_zero_of_mul_eq_zero D hU hV hpu' hpv' hUV n hn)
@@ -466,7 +466,7 @@ public theorem dpow_positivePolynomial
   let f (i : α) : C := term i
   have hsum : (∑ i : α, f i) = X := by
     apply Subtype.ext
-    show ((Finset.univ.sum (fun i : α => f i) : C) :
+    change ((Finset.univ.sum (fun i : α => f i) : C) :
       EvenVariableAlgebra A) = x
     simp only [AddSubmonoidClass.coe_finsetSum]
     rw [huniv]
@@ -526,7 +526,7 @@ public theorem dpow_positivePolynomial
           monomial (i.val * (e i).val)
             (dividedPowerMonomialCoefficient (e i).val i.val •
               x.coeff i.val ^ (e i).val))).prod := by
-    show ((∏ i : α, fac i (e i).val : C) : EvenVariableAlgebra A) = _
+    change ((∏ i : α, fac i (e i).val : C) : EvenVariableAlgebra A) = _
     have hmapcoerce (l : List α) :
         (((l.map (fun i => fac i (e i).val)).prod : C) :
           EvenVariableAlgebra A) =
@@ -564,7 +564,7 @@ public theorem dpow_positivePolynomial
   calc
     (evenVariableDividedPowerStructure d hd γ).dpow n x =
         ((Δ.dpow n X : C) : EvenVariableAlgebra A) := by
-      show evenExtensionDpow d hd γ n x = _
+      change evenExtensionDpow d hd γ n x = _
       rw [evenExtensionDpow_of_mem d hd γ n hxPos]
     _ = positivePolynomialDividedPower n x := by
       calc
@@ -640,7 +640,7 @@ public theorem evenVariableDividedPowerStructure_unique
     constructor
     · rw [Ideal.map_le_iff_le_comap]
       intro b hb
-      show algebraMap (evenSubalgebra 𝒜)
+      change algebraMap (evenSubalgebra 𝒜)
         (DividedPowerAlgebra (evenSubalgebra 𝒜) (Unit →₀ evenSubalgebra 𝒜)) b ∈
         dividedPowerPolynomialIdeal (positiveEvenIdeal 𝒜) Unit
       exact Submodule.mem_sup_left (Ideal.mem_map_of_mem _ hb)
@@ -654,7 +654,7 @@ public theorem evenVariableDividedPowerStructure_unique
         coeffEmbedding (γ.dpow n (b : A)) at hcomp
       rw [evenDPAToExtension_algebraMap]
       apply Subtype.ext
-      show δ.dpow n (coeffEmbedding (b : A)) =
+      change δ.dpow n (coeffEmbedding (b : A)) =
         coeffEmbedding (γ.dpow n (b : A))
       exact hcomp
   have hvariable : ∀ (i : Unit) (n : ℕ),
@@ -679,7 +679,7 @@ public theorem evenVariableDividedPowerStructure_unique
         evenDPAToExtension_dp_monomial d n
     rw [hmonomap]
     apply Subtype.ext
-    show δ.dpow n (monomial 1 (1 : A)) = monomial n (1 : A)
+    change δ.dpow n (monomial 1 (1 : A)) = monomial n (1 : A)
     rw [hmonomial n 1 (by omega)]
     have hcoeffOne : dividedPowerMonomialCoefficient n 1 = 1 := by
       simp only [dividedPowerMonomialCoefficient,
@@ -712,10 +712,10 @@ public theorem evenVariableDividedPowerStructure_unique
       simpa [X] using hmap_val
     have hright : E ((canonicalEvenPolynomialDividedPowers γ).dpow n z) =
         (evenVariableDividedPowerStructure d hd γ).dpow n x := by
-      show E ((canonicalEvenPolynomialDividedPowers γ).dpow n z) =
+      change E ((canonicalEvenPolynomialDividedPowers γ).dpow n z) =
         evenExtensionDpow d hd γ n x
       rw [evenExtensionDpow_of_mem d hd γ n hx]
-      show E ((canonicalEvenPolynomialDividedPowers γ).dpow n z) =
+      change E ((canonicalEvenPolynomialDividedPowers γ).dpow n z) =
         (((evenExtensionDividedPowers d hd γ).dpow n X :
           evenSubalgebra (EvenVariableAlgebra.grade 𝒜 d)) :
           EvenVariableAlgebra A)
@@ -729,7 +729,7 @@ public theorem evenVariableDividedPowerStructure_unique
           EvenVariableAlgebra A) := congrArg Subtype.val (congrArg E hdp)
     rw [hleft, hright] at hdpE
     exact hdpE
-  · show δ.dpow n x = evenExtensionDpow d hd γ n x
+  · change δ.dpow n x = evenExtensionDpow d hd γ n x
     rw [δ.dpow_null hx, evenExtensionDpow]
     simp [hx]
 

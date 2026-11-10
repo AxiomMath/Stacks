@@ -176,7 +176,7 @@ theorem homSingleStructureSheafComplexIso_unit_comp_eq_evaluation :
             (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0
               (_root_.SheafOfModules.unit (Tensor.ringSheaf (ringedSite Rc).O))).inv :=
       HomologicalComplex.single_map_f_self _ _ _
-    show (homSingleToSingleStructureSheaf Rc _).f 0 ≫ _ = _
+    change (homSingleToSingleStructureSheaf Rc _).f 0 ≫ _ = _
     let middleIso := HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0
       (RingedSite.internalHomSheaf (ringedSite Rc)
         (_root_.SheafOfModules.unit (Tensor.ringSheaf (ringedSite Rc).O))
@@ -195,7 +195,7 @@ theorem homSingleStructureSheafComplexIso_unit_comp_eq_evaluation :
     apply (Iso.comp_inv_eq targetIso).mpr
     refine _root_.SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun ⟨U⟩ =>
       ModuleCat.hom_ext (LinearMap.ext fun s => ?_))
-    show (internalHomSheafUnitIso Rc
+    change (internalHomSheafUnitIso Rc
           (_root_.SheafOfModules.unit (Tensor.ringSheaf (ringedSite Rc).O))).hom.val.app (op U)
         ((RingedSite.internalHomPre (ringedSite Rc)
             (HomologicalComplex.singleObjXIsoOfEq (ComplexShape.up ℤ) 0
@@ -213,7 +213,7 @@ theorem homSingleStructureSheafComplexIso_unit_comp_eq_evaluation :
           (RingedSite.structureSheafComplex (ringedSite Rc))).f 0).val.app (op U) s)
     refine (internalHomSheafUnitIso_hom_val_app Rc
       (_root_.SheafOfModules.unit (Tensor.ringSheaf (ringedSite Rc).O)) U _).trans ?_
-    show ((RingedSite.homStructureSheafDegreeIso (ringedSite Rc)
+    change ((RingedSite.homStructureSheafDegreeIso (ringedSite Rc)
             (RingedSite.structureSheafComplex (ringedSite Rc))
             (finite_support_single Rc
               (_root_.SheafOfModules.unit (Tensor.ringSheaf (ringedSite Rc).O)) 0) 0).hom.val.app

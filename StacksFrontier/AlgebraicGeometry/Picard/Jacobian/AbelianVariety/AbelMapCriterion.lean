@@ -242,6 +242,7 @@ theorem connectedSpace_carrier_of_closedPoints [LocallyOfFiniteType H.carrier.X.
   have := hs
   exact a'.surjective.connectedSpace a'.continuous
 
+omit [IsAlgClosed k] in
 /-- **Stacks Project, Tag 0BA0, for the degree-zero component: an abelian variety of dimension
 `n`, off an Abel-type map.** Let `G` be a group scheme over an algebraically closed field `k`,
 `H ⊆ G` an open subgroup scheme smooth of relative dimension `n` over `k`, and `a : A ⟶ G` a

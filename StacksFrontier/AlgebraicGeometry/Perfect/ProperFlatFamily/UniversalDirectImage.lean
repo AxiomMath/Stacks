@@ -186,7 +186,8 @@ open _root_.AlgebraicGeometry
 
 variable {X S : Scheme.{u}}
 
-/-- The fibre hypothesis at `s`, in the form the tagged statement uses, is invertibility of the comparison
+/-- The fibre hypothesis at `s`, in the form the tagged statement uses, is invertibility of the
+comparison
 of sheaves of rings for the fibre morphism. -/
 theorem isIso_fiberToSpecResidueField_unit_iff_isIso_c (f : X ⟶ S) (s : S) :
     IsIso (SheafOfModules.unitToPushforwardObjUnit
@@ -273,7 +274,8 @@ theorem baseChange_iff_forall_fiber_unit (f : X ⟶ S)
 
 /-- What the words "and this holds after any base change" add to part (a), and nothing more.
 Properness, flatness and local finite presentation are already stable under base change in
-Mathlib, so the base-changed morphism satisfies the standing assumptions of the statement automatically;
+Mathlib, so the base-changed morphism satisfies the standing assumptions of the statement
+automatically;
 the only further input is that the fibre condition is inherited by the base change.  The proof
 is bookkeeping: its whole content is that the three instances fire for `pullback.snd f g`. -/
 theorem baseChange_of_absolute_of_fiber_stable (f : X ⟶ S)

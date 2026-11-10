@@ -56,8 +56,8 @@ so at `AlgebraicGeometry.RingedSpace.canonicalCertifiedDerivedSheafTensoring`, w
 four instances the statement of `Stacks.Cohomology.TorAmplitude.derTensor` needs — additivity
 of `sheafTensor` in each variable, existence of the total complexes, and `HasDerivedCategory` at
 the spelling `Stacks.DerivedTensor.RingedSite.Modules X.sheaf` — are seated here as local
-instances, exactly as `StacksFrontier/AlgebraicGeometry/Perfect/TorDimensionCanonicalCertificate.lean`
-seats them.
+instances, exactly as
+`StacksFrontier/AlgebraicGeometry/Perfect/TorDimensionCanonicalCertificate.lean` seats them.
 
 **Locality of finite Tor dimension is Tag 09U8 at the inclusion of one open in another.** The
 property `AlgebraicGeometry.RingedSpace.FiniteTorDimensionRestricts` compares the restriction

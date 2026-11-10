@@ -96,7 +96,7 @@ theorem isConstructibleEtaleModule_rightDerived_constantSheaf_of_nsmul_eq_zero
       (Module.Finite.of_surjective _ hπ) (fun m => ?_) p
     obtain ⟨m, rfl⟩ := hπ m
     have hker : n' • m ∈ LinearMap.ker φ.hom := by
-      show ℓ • (n' • m) = 0
+      change ℓ • (n' • m) = 0
       rw [smul_smul]
       exact hnM m
     obtain ⟨k, hk⟩ := (ShortComplex.moduleCat_exact_iff_ker_sub_range

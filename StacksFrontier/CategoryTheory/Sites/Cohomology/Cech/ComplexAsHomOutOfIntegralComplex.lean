@@ -125,7 +125,7 @@ theorem homIntegralCechComplex_d (F : Cᵒᵖ ⥤ AddCommGrpCat.{max v a}) (n : 
       ∑ j : Fin (n + 2), (-1 : ℤ) ^ (j : ℕ) •
         (integralCechRealization.{w, v, u, a} (X := X)).map
           ((cechSimplicialObject E).δ j) := integralCechComplex_d.{w, v, u, a} E n
-  show (preadditiveYoneda.obj F).map
+  change (preadditiveYoneda.obj F).map
     ((integralCechComplex.{w, v, u, a} E).d (n + 1) n).op = _
   rw [hd]
   exact (preadditiveYoneda.obj F).map_op_sum_zsmul _ _

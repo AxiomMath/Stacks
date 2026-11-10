@@ -215,9 +215,9 @@ def moduleFreeRepresentableHom {P : Cᵒᵖ ⥤ ModuleCat.{u} B} (W : C) (s : P.
 `𝟙 W`: it is the given section. -/
 lemma moduleFreeRepresentableHom_id {P : Cᵒᵖ ⥤ ModuleCat.{u} B} (W : C) (s : P.obj (op W)) :
     (moduleFreeRepresentableHom W s).app (op W) (ModuleCat.freeMk (𝟙 W)) = s := by
-  show ModuleCat.freeDesc (↾moduleFreeRepresentableFun W s (op W)) (ModuleCat.freeMk (𝟙 W)) = s
+  change ModuleCat.freeDesc (↾moduleFreeRepresentableFun W s (op W)) (ModuleCat.freeMk (𝟙 W)) = s
   rw [ModuleCat.freeDesc_apply]
-  show (P.map (𝟙 (op W))) s = s
+  change (P.map (𝟙 (op W))) s = s
   rw [P.map_id]
   rfl
 
@@ -294,7 +294,7 @@ lemma moduleDirectSumPresheafDesc_app_lof {G : Cᵒᵖ ⥤ ModuleCat.{u} B} (η 
     (i : ι) (Y : Cᵒᵖ) (x : (F i).obj Y) :
     (moduleDirectSumPresheafDesc F η).app Y
         (DirectSum.lof B ι (fun j ↦ ((F j).obj Y : Type u)) i x) = (η i).app Y x := by
-  show DirectSum.toModule B ι (G.obj Y) (fun j ↦ ((η j).app Y).hom)
+  change DirectSum.toModule B ι (G.obj Y) (fun j ↦ ((η j).app Y).hom)
       (DirectSum.lof B ι (fun j ↦ ((F j).obj Y : Type u)) i x) = _
   rw [DirectSum.toModule_lof]
 

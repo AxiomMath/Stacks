@@ -263,7 +263,7 @@ theorem gysinCycleMap_flatPullbackMap_eq_of_forall_integral
       have h1 : α.1 W * mE W T ≠ 0 := hW
       exact Finset.mem_coe.2 (hSW.mem_toFinset.2 ⟨left_ne_zero_of_mul h1,
         hmEy W (right_ne_zero_of_mul h1)⟩)
-  show ∑ᶠ W', (∑ᶠ W, α.1 W * m W W') * c W' = ∑ᶠ W, α.1 W * mE W T
+  change ∑ᶠ W', (∑ᶠ W, α.1 W * m W W') * c W' = ∑ᶠ W, α.1 W * mE W T
   rw [hL, hR, Finset.sum_comm]
 
 end AlgebraicGeometry.Space

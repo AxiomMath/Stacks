@@ -47,7 +47,7 @@ theorem natCard_addMonoidHom_zmod {ℓ : ℕ} [Fact ℓ.Prime] (V : Type*) [AddC
   have : NeZero ℓ := ⟨hp.ne_zero⟩
   have : Module.Finite (ZMod ℓ) V := Module.Finite.of_finite
   rw [Nat.card_congr (AddMonoidHom.toZModLinearMapEquiv ℓ).toEquiv]
-  show Nat.card (Module.Dual (ZMod ℓ) V) = Nat.card V
+  change Nat.card (Module.Dual (ZMod ℓ) V) = Nat.card V
   rw [Module.natCard_eq_pow_finrank (K := ZMod ℓ) (V := Module.Dual (ZMod ℓ) V),
     Module.natCard_eq_pow_finrank (K := ZMod ℓ) (V := V), Subspace.dual_finrank_eq]
 

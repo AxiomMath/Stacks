@@ -108,7 +108,7 @@ private lemma transition_comp
     {I : Type v} [Preorder I] {J : IdealBasis A I}
     (P : FiniteTypeAlgebraSystem A I J) {i j k : I} (hij : i ≤ j) (hjk : j ≤ k) :
     (transition P hij).comp (transition P hjk) = transition P (hij.trans hjk) := by
-  show (P.B.map (homOfLE hjk).op ≫ P.B.map (homOfLE hij).op).hom = _
+  change (P.B.map (homOfLE hjk).op ≫ P.B.map (homOfLE hij).op).hom = _
   rw [← P.B.map_comp]
   rfl
 
@@ -246,7 +246,7 @@ private lemma extendedTransition_id
     (P : FiniteTypeAlgebraSystem A I J) (i : I) :
     extendedTransition P (i := i) le_rfl = RingHom.id _ := by
   rw [extendedTransition_of_le P (le_refl i)]
-  show (P.B.map (𝟙 (Opposite.op i))).hom = _
+  change (P.B.map (𝟙 (Opposite.op i))).hom = _
   rw [P.B.map_id]
   rfl
 
@@ -496,10 +496,10 @@ private lemma smallBasisIndex_directed
   refine ⟨fun a b => ?_⟩
   obtain ⟨i, hai, hbi⟩ := exists_ge_ge (smallBasisRepresentative J a) (smallBasisRepresentative J b)
   refine ⟨smallBasisPoint J i, ?_, ?_⟩
-  · show J.ideal i ≤ a.down.val
+  · change J.ideal i ≤ a.down.val
     rw [← smallBasisRepresentative_ideal J a]
     exact J.antitone hai
-  · show J.ideal i ≤ b.down.val
+  · change J.ideal i ≤ b.down.val
     rw [← smallBasisRepresentative_ideal J b]
     exact J.antitone hbi
 

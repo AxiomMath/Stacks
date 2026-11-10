@@ -260,7 +260,7 @@ theorem exists_cocycle_lift_of_isPerfect (𝔭 : Ideal A) [𝔭.IsPrime]
     obtain ⟨c', hc'⟩ := h1 (ei _ c) (Ez hc) (ei _ e)
       (by rw [← Einat, ← Einat, he])
     refine ⟨eh _ c', ?_⟩
-    show (bcMap res (G.map (C.d 0 1))).hom (eh _ c') = c
+    change (bcMap res (G.map (C.d 0 1))).hom (eh _ c') = c
     rw [← Ehnat, hc', Ehi]
   have hsurj' : ∀ y : bcObj res (D'.X 0), (bcMap res (D'.d 0 1)).hom y = 0 →
       ∃ y' : D'.X 0, (D'.d 0 1).hom y' = 0 ∧ (bcUnit res _).hom y' = y := by
@@ -269,14 +269,14 @@ theorem exists_cocycle_lift_of_isPerfect (𝔭 : Ideal A) [𝔭.IsPrime]
     have hut : IsUnit (ψ t) := IsLocalization.map_units A' (⟨t, ht⟩ : 𝔭.primeCompl)
     let v : (G.obj (D.X 0) : Type u) := (bcUnit ψ (D.X 0)).hom y''
     have hv : (D'.d 0 1).hom v = 0 := by
-      show (bcUnit ψ _).hom ((D.d 0 1).hom y'') = 0
+      change (bcUnit ψ _).hom ((D.d 0 1).hom y'') = 0
       rw [hy''d, map_zero]
     refine ⟨hut.unit⁻¹.1 • v, ?_, ?_⟩
     · rw [(D'.d 0 1).hom.map_smul, hv, smul_zero]
     · have h2 : (bcUnit res (G.obj (D.X 0))).hom v = ψ t • y := by
-        show (bcUnit res (G.obj (D.X 0))).hom ((bcUnit ψ _).hom y'') = _
+        change (bcUnit res (G.obj (D.X 0))).hom ((bcUnit ψ _).hom y'') = _
         rw [← Eunit, hy'', Esmul, Ehi]
-      show (bcUnit res (G.obj (D.X 0))).hom (hut.unit⁻¹.1 • v) = y
+      change (bcUnit res (G.obj (D.X 0))).hom (hut.unit⁻¹.1 • v) = y
       rw [(bcUnit res (G.obj (D.X 0))).hom.map_smul, h2, smul_smul, IsUnit.val_inv_mul, one_smul]
   have : ∀ i, Module.Flat A' (C'.X i) := fun i => flat_extendScalars_obj (C.X i)
   have : ∀ i, Module.Flat A' (D'.X i) := fun i => flat_extendScalars_obj (D.X i)
@@ -285,7 +285,7 @@ theorem exists_cocycle_lift_of_isPerfect (𝔭 : Ideal A) [𝔭.IsPrime]
   have : CochainComplex.IsStrictlyLE D' b := (CochainComplex.isStrictlyLE_iff D' b).2
     fun i hi => G.map_isZero (CochainComplex.isZero_of_isStrictlyLE D b i hi)
   have hx' : (bcMap res (C'.d 0 1)).hom (eh _ x) = 0 := by
-    show (bcMap res (G.map (C.d 0 1))).hom (eh _ x) = 0
+    change (bcMap res (G.map (C.d 0 1))).hom (eh _ x) = 0
     rw [← Ehnat, hx, map_zero]
   obtain ⟨c', hc'd, hc'x⟩ := exists_cocycle_lift_local Φ' b hD' (isPerfect_extendScalars ψ C b hCp)
     (isPerfect_extendScalars ψ D b hDp) h0' h1' hsurj' (eh _ x) hx'
@@ -307,9 +307,9 @@ theorem exists_cocycle_lift_of_isPerfect (𝔭 : Ideal A) [𝔭.IsPrime]
   have hd₀ : TensorProduct.mk A A' (C.X 1) 1 ((C.d 0 1).hom c₀) =
       TensorProduct.mk A A' (C.X 1) 1 0 := by
     rw [map_zero]
-    show (1 : A') ⊗ₜ[A] (C.d 0 1).hom c₀ = 0
+    change (1 : A') ⊗ₜ[A] (C.d 0 1).hom c₀ = 0
     rw [← he1, ← bcMap_bcUnit, ← hs']
-    show e _ ((C'.d 0 1).hom (ψ s • c')) = 0
+    change e _ ((C'.d 0 1).hom (ψ s • c')) = 0
     rw [map_smul, hc'd, smul_zero, map_zero]
   obtain ⟨t, ht⟩ := IsLocalizedModule.exists_of_eq (S := 𝔭.primeCompl)
     (f := TensorProduct.mk A A' (C.X 1) 1) hd₀

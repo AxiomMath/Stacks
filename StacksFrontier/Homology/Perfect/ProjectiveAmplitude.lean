@@ -445,10 +445,10 @@ theorem existsUnique_iso_biprod_truncations_of_ext_vanishing
     let q := (DerivedCategory.singleFunctorCompHomologyFunctorIso
       (ModuleCat.{max u v} R) 0).hom.app M
     refine (IsZero.iff_id_eq_zero _).2 ?_
-    show 𝟙 M = 0
+    change 𝟙 M = 0
     simpa [q] using congrArg (fun f ↦ f ≫ q) (hs.allEq (inv q) 0)
   have hL : t.IsLE L (a - 1) := by
-    show L.IsLE (a - 1)
+    change L.IsLE (a - 1)
     rw [DerivedCategory.isLE_iff]
     intro i hi
     rcases lt_or_eq_of_le (show a ≤ i by omega) with hai | rfl
@@ -526,7 +526,7 @@ private lemma preservesColimit_homComplexFunctor {R : Type u} [Ring R]
       (StacksDraft.PseudoCoherence.homComplexFunctor E ⋙
         HomologicalComplex.eval AddCommGrpCat.{v} (ComplexShape.up ℤ) n) :=
     preservesColimit_of_natIso M (StacksDraft.PseudoCoherence.homComplexEvalIso E n).symm
-  show IsColimit
+  change IsColimit
     ((StacksDraft.PseudoCoherence.homComplexFunctor E ⋙
       HomologicalComplex.eval AddCommGrpCat.{v} (ComplexShape.up ℤ) n).mapCocone
         (colimit.cocone M))
@@ -585,7 +585,7 @@ private lemma homologyExtAddEquiv_naturality {R : Type u} [Ring R]
     simp only [ConcreteCategory.comp_apply] at h1 h2 h3
     refine h1.trans ?_
     refine h2.trans ?_
-    show ((HomologicalComplex.iCycles H n) z).comp _ (add_zero n) = a.1.comp _ (add_zero n)
+    change ((HomologicalComplex.iCycles H n) z).comp _ (add_zero n) = a.1.comp _ (add_zero n)
     congr 1
   simp only [StacksDraft.PseudoCoherence.homologyExtAddEquiv, AddEquiv.trans_apply]
   have hnat := ConcreteCategory.congr_hom
@@ -689,7 +689,7 @@ private theorem colimit_ext_comparison_isIso_of_lt_and_mono
       (hτ n (M.obj j)).2 hn
     have : IsIso (Functor.whiskerLeft M (τ n)) := NatIso.isIso_of_isIso_app _
     have := hE' n
-    show IsIso (colimit.post M (extFunctor n))
+    change IsIso (colimit.post M (extFunctor n))
     have h2 : IsIso (colimit.post M (extFunctor n) ≫ (τ n).app (colimit M)) := by
       rw [hsq]; infer_instance
     exact IsIso.of_isIso_comp_right _ ((τ n).app (colimit M))
@@ -698,7 +698,7 @@ private theorem colimit_ext_comparison_isIso_of_lt_and_mono
     have : ∀ j, Mono ((Functor.whiskerLeft M (τ (-m))).app j) := fun j =>
       (hτ (-m) (M.obj j)).1 le_rfl
     have : Mono (Functor.whiskerLeft M (τ (-m))) := NatTrans.mono_of_mono_app _
-    show Mono (colimit.post M (extFunctor (-m)))
+    change Mono (colimit.post M (extFunctor (-m)))
     have : Mono (colim.map (Functor.whiskerLeft M (τ (-m)))) := inferInstance
     have h2 : Mono (colimit.post M (extFunctor (-m)) ≫ (τ (-m)).app (colimit M)) := by
       rw [hsq]; exact mono_comp _ _
@@ -962,7 +962,7 @@ private theorem ext_subsingleton_of_finitePresentation
     exact IsZero.of_iso (AddCommGrpCat.isZero_iff_subsingleton.mpr hsource) (asIso alpha).symm
   let colimIso : colimit M ≅ c.pt := (colimit.isColimit M).coconePointUniqueUpToIso hc
   let eIso : c.pt ≅ N := (presentationEquiv R N).toModuleIso
-  show Subsingleton (extFunctor.obj N)
+  change Subsingleton (extFunctor.obj N)
   rw [← AddCommGrpCat.isZero_iff_subsingleton]
   exact IsZero.of_iso (AddCommGrpCat.isZero_iff_subsingleton.mpr htarget)
     (extFunctor.mapIso (colimIso.trans eIso)).symm

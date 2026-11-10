@@ -89,7 +89,7 @@ theorem eq_zero_of_map_eq_zero_of_full {C D : Type*} [Category C] [Category D]
   have hFT := F.map_distinguished _ hT
   -- `F h` is a split monomorphism
   obtain ⟨r', hr'⟩ := Triangle.yoneda_exact₂ _ hFT (𝟙 (F.obj Y)) (by
-    show F.map g ≫ 𝟙 _ = 0
+    change F.map g ≫ 𝟙 _ = 0
     rw [hg, zero_comp])
   obtain ⟨r, rfl⟩ := hfull Z Y hZ hY r'
   have hhr : F.map (h ≫ r) = 𝟙 _ := by
@@ -100,7 +100,7 @@ theorem eq_zero_of_map_eq_zero_of_full {C D : Type*} [Category C] [Category D]
   have hW : P W := ObjectProperty.ext_of_isTriangulatedClosed₃ P _ hT' hY hY
   have hFW : IsZero (F.obj W) :=
     Triangle.isZero₃_of_isIso₁ _ (F.map_distinguished _ hT') (by
-      show IsIso (F.map (h ≫ r))
+      change IsIso (F.map (h ≫ r))
       rw [hhr]
       infer_instance)
   have hiso : IsIso (h ≫ r) := (Triangle.isZero₃_iff_isIso₁ _ hT').1 (hrefl W hW hFW)
@@ -657,7 +657,7 @@ theorem restrictBijectiveAgainst_edsSnd {W : AlgebraicSpaces B S hS}
     simp only [ObjectProperty.FullSubcategory.comp_hom, pointsMap_comp, Function.comp_apply] at hc'
     change pointsMap B S hS _ (edsSnd B S hS hsq).hom w' = v at hw
     rw [← hw, ← hc']
-    show pointsEquivScheme B S hS V₀ (pointsMap B S hS _
+    change pointsEquivScheme B S hS V₀ (pointsMap B S hS _
       (yoneda.map (openIncl B S hS V₀ O)) _) ∈ (O : Set _)
     rw [pointsEquivScheme_pointsMap_yoneda_map]
     exact (pointsEquivScheme B S hS (openObj B S hS V₀ O) _).2

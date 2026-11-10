@@ -168,7 +168,7 @@ theorem globalSections_map_scalar (r : R)
     ext U x
     rw [NatTrans.app_smul]
     exact hφ U x
-  show lim.map ((sectionsFunctor R).map φ) = r • 𝟙 (lim.obj ((sectionsFunctor R).obj M))
+  change lim.map ((sectionsFunctor R).map φ) = r • 𝟙 (lim.obj ((sectionsFunctor R).obj M))
   rw [hs, lim_map_smul_id]
 
 /-- The global sections of `r • f` are `r` times the global sections of `f`. -/

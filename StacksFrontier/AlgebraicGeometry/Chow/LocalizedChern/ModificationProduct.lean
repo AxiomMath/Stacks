@@ -157,7 +157,7 @@ theorem localizedModificationClass_supportedRightComp_of_heq
   refine (bivariantCompositeOfInvertible_heq_congr (Category.comp_id _) rfl rfl rfl ?_
     HEq.rfl).trans (BivariantClass.copy_heq _ _ _ _ _).symm
   refine (BivariantClass.congrHom_heq (Category.comp_id _) rfl _).symm.trans (heq_of_eq ?_)
-  show supportedRightComp C _ (modificationProjectionAtInfinity f b ≫ f) _ rfl _ _ = _
+  change supportedRightComp C _ (modificationProjectionAtInfinity f b ≫ f) _ rfl _ _ = _
   unfold modificationExtension
   refine (supportedRightComp_closedCoverExtension C (modificationProjectionAtInfinity f b ≫ f) t
     (pullback.fst (modificationProjectionAtInfinity f b) z)
@@ -433,14 +433,14 @@ theorem localizedModificationClass_isNewtonPowerSums
           (Category.id_comp _) (newton_degree_eq (Finset.mem_range.mp j.2))
           ((c ((j : ℕ) + 1)).mulId C _ (P (q - j) (q - j))) := fun j => by
     have hj := Finset.mem_range.mp j.2
-    show ((-1 : ℤ) ^ (j : ℕ)) •
+    change ((-1 : ℤ) ^ (j : ℕ)) •
       (TotalChowClass.homComponent ((j : ℕ) + 1) c * P (q - j)) (q + 1) = _
     rw [TotalChowClass.homPart_mul_apply C _ c (P (q - j))
       (by omega : (j : ℕ) + 1 + (q - j) = q + 1)]
   have hlast : (((-1 : ℤ) ^ q * ((q : ℤ) + 1)) • TotalChowClass.homComponent (q + 1) c) (q + 1) =
       ((-1 : ℤ) ^ q * ((q : ℤ) + 1)) • c (q + 1) := by
-    show ((-1 : ℤ) ^ q * ((q : ℤ) + 1)) • (TotalChowClass.homComponent (q + 1) c) (q + 1) = _
-    rw [TotalChowClass.homComponent_apply, if_pos rfl]
+    change ((-1 : ℤ) ^ q * ((q : ℤ) + 1)) • (TotalChowClass.homComponent (q + 1) c) (q + 1) = _
+    rw [TotalChowClass.homComponent_apply, ite_eq_left rfl]
   rw [← Finset.sum_attach, Finset.sum_congr rfl fun j _ => hterm j, hlast] at key
   refine (IsLocalizedModificationClass.eq (q := P (q + 1) (q + 1)) ?_ _).symm
   rw [key]

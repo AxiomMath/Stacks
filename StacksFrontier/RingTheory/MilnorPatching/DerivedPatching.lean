@@ -78,7 +78,7 @@ theorem one_tmul_smul_eq_tmul (f : R →+* S) (M : Type u) [AddCommGroup M] [Mod
     (1 : S) ⊗ₜ[R] (r • m) = f r ⊗ₜ[R] m := by
   let : Module R S := Module.compHom S f
   rw [← TensorProduct.smul_tmul]
-  show (f r * 1 : S) ⊗ₜ[R] m = f r ⊗ₜ[R] m
+  change (f r * 1 : S) ⊗ₜ[R] m = f r ⊗ₜ[R] m
   rw [mul_one]
 
 /-- A morphism out of the extension of scalars of `R` is determined by the image of `1 ⊗ 1`. -/
@@ -149,7 +149,7 @@ theorem fibreProductExtension_obj_iso_hom_one_tmul_one_tmul (M : ModuleCat.{u} s
         (1 : A) ⊗ₜ[s.fibreProduct,g] l := by
     rintro _ rfl
     rfl
-  show eS.hom.app M ((eqToIso (congrArg ModuleCat.extendScalars hc)).hom.app M
+  change eS.hom.app M ((eqToIso (congrArg ModuleCat.extendScalars hc)).hom.app M
     (eF.inv.app M ((1 : A) ⊗ₜ[B,toBase] ((1 : B) ⊗ₜ[s.fibreProduct,s.pullbackCone.fst.hom] l)))) = _
   refine (congrArg (fun t ↦ eS.hom.app M ((eqToIso (congrArg ModuleCat.extendScalars hc)).hom.app M
     t)) ((congrArg (eF.inv.app M) hz.symm).trans hi)).trans ?_
@@ -199,7 +199,7 @@ theorem exists_fibreProductExtension_self_hom
   apply extendScalars_extendScalars_self_hom_ext
   have hiso := fibreProductExtension_obj_iso_hom_one_tmul_one_tmul I s
     (ModuleCat.of s.fibreProduct s.fibreProduct) (1 : s.fibreProduct)
-  show X.iso.hom ((1 : A) ⊗ₜ[B,toBase] (m₁ ((1 : B) ⊗ₜ[s.fibreProduct,s.pullbackCone.fst.hom]
+  change X.iso.hom ((1 : A) ⊗ₜ[B,toBase] (m₁ ((1 : B) ⊗ₜ[s.fibreProduct,s.pullbackCone.fst.hom]
       (1 : s.fibreProduct)))) =
     (ModuleCat.extendScalars.{u, u, u} surjection).map m₂
       (((fibreProductExtension I s).obj (ModuleCat.of s.fibreProduct s.fibreProduct)).iso.hom
@@ -207,7 +207,7 @@ theorem exists_fibreProductExtension_self_hom
           (1 : s.fibreProduct))))
   rw [hm₁, h]
   refine Eq.trans ?_ (congrArg ((ModuleCat.extendScalars.{u, u, u} surjection).map m₂) hiso.symm)
-  show _ = (1 : A) ⊗ₜ[A',surjection] (m₂ ((1 : A') ⊗ₜ[s.fibreProduct,s.pullbackCone.snd.hom]
+  change _ = (1 : A) ⊗ₜ[A',surjection] (m₂ ((1 : A') ⊗ₜ[s.fibreProduct,s.pullbackCone.snd.hom]
       (1 : s.fibreProduct)))
   rw [hm₂]
 
@@ -260,14 +260,14 @@ theorem patchedComplexExtensionIso_fst_snd_one_tmul (n : ℤ)
       (patchedComplexExtendScalarsSndIso I s E P φ hE hP).hom.f n
         ((1 : A') ⊗ₜ[s.fibreProduct,s.pullbackCone.snd.hom] l) := by
   constructor
-  · show (patchedComplexExtensionIso I s E P φ hE hP n).hom.fst
+  · change (patchedComplexExtensionIso I s E P φ hE hP n).hom.fst
         ((1 : B) ⊗ₜ[s.fibreProduct,s.pullbackCone.fst.hom]
           ((patchedComplexXSpan I s E P φ hE hP n l).hom (1 : s.fibreProduct))) =
       (patchedComplexExtensionIso I s E P φ hE hP n).hom.fst
         ((1 : B) ⊗ₜ[s.fibreProduct,s.pullbackCone.fst.hom] l)
     congr 2
     exact one_smul _ _
-  · show (patchedComplexExtensionIso I s E P φ hE hP n).hom.snd
+  · change (patchedComplexExtensionIso I s E P φ hE hP n).hom.snd
         ((1 : A') ⊗ₜ[s.fibreProduct,s.pullbackCone.snd.hom]
           ((patchedComplexXSpan I s E P φ hE hP n l).hom (1 : s.fibreProduct))) =
       (patchedComplexExtensionIso I s E P φ hE hP n).hom.snd
@@ -289,7 +289,7 @@ theorem patchedComplex_X_ext (n : ℤ) {l l' : (patchedComplex I s E P φ hE hP)
   have hk : patchedComplexXSpan I s E P φ hE hP n l = patchedComplexXSpan I s E P φ hE hP n l' := by
     apply (ObjectProperty.ι (finiteProjectiveFibreProductModule I s) ⋙
       fibreProductExtension I s).map_injective
-    show (fibreProductExtension I s).map (patchedComplexXSpan I s E P φ hE hP n l).hom =
+    change (fibreProductExtension I s).map (patchedComplexXSpan I s E P φ hE hP n l).hom =
       (fibreProductExtension I s).map (patchedComplexXSpan I s E P φ hE hP n l').hom
     refine (cancel_mono (patchedComplexExtensionIso I s E P φ hE hP n).hom).1 ?_
     have e := patchedComplexExtensionIso_fst_snd_one_tmul I s E P φ hE hP n l

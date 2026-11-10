@@ -14,7 +14,8 @@ thickenings `(B, J, δ)` of `Γ(X, ⊤)` over `(Γ(S, ⊤), I(⊤), γ)` whose s
 `Γ(X, ⊤) → B/J` is bijective.
 
 This file proves that the affine-to-global bridge of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/AffineGlobalBridge.lean` is **an equivalence**
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/AffineGlobalBridge.lean` is **an
+equivalence**
 
 ```
 𝒞ᵒᵖ  ≌  Cris(Γ(X, ⊤)/Γ(S, ⊤)).
@@ -22,7 +23,8 @@ This file proves that the affine-to-global bridge of
 
 Faithfulness is the bridge's own `faithful_wholeSiteToAffine`; fullness is
 `Crystalline.GlobalCrystallineSituation.full_wholeSiteToAffine` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/AffineGlobalEquivalence.lean`; what is proved
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/AffineGlobalEquivalence.lean`; what is
+proved
 here is essential surjectivity.  Given `(B, J, δ)` in `Cris(Γ(X, ⊤)/Γ(S, ⊤))`, the object of `𝒞`
 mapping to it is `Spec (B/J) ↪ Spec (B, J, δ)`: the ambient divided power scheme is
 `Crystalline.DividedPowerScheme.specDividedPowerScheme (B, J, δ)`, the thickening of schemes is
@@ -325,6 +327,7 @@ variable [IsIso (specThickeningOfAffine hp T).toX]
 abbrev specImage : DividedPowerThickening.{u, u, u} (affineSituation S hp) :=
   wholeThickeningToAffine hp (specThickeningOfAffine hp T)
 
+omit [IsIso (specThickeningOfAffine hp T).toX] in
 /-- **The structural maps of `(B, J, δ)` and of its image under the bridge correspond under
 `Crystalline.DividedPowerScheme.specSectionsRingIso`.**  This is the second of the two
 compatibilities of [Stacks, Tag 07HM] for the comparison isomorphism. -/
@@ -334,7 +337,7 @@ theorem quotientMap_specSectionsRingIso_hom_comp :
       (specImage hp T).toQuotient := by
   refine RingHom.ext fun y ↦ ?_
   obtain ⟨β, hβ⟩ := Ideal.Quotient.mk_surjective (T.toQuotient y)
-  show DividedPowerRing.quotientRingHom (A := T.ring) (B := (specImage hp T).ring)
+  change DividedPowerRing.quotientRingHom (A := T.ring) (B := (specImage hp T).ring)
     (DividedPowerScheme.specSectionsRingIso T.ring).hom (T.toQuotient y) = _
   rw [← hβ]
   refine (DividedPowerRing.quotientRingHom_mk (A := T.ring) (B := (specImage hp T).ring)

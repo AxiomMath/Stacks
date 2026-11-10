@@ -404,7 +404,7 @@ private theorem middlePrime_le_prime_eq_self_or_maximal
     have hPmax : P ≤ IsLocalRing.maximalIdeal rankTwoRing :=
       IsLocalRing.le_maximalIdeal_of_isPrime P
     have hnotle : ¬ P ≤ middlePrime := fun hle => hEq (le_antisymm hle hP)
-    obtain ⟨x, hxP, hxnot⟩ := SetLike.not_le_iff_exists.mp hnotle
+    obtain ⟨x, hxP, hxnot⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
     have hxne : (x : HahnField) ≠ 0 := fun hx => hxnot (Or.inl hx)
     obtain ⟨hxfirst, hxsecond⟩ := rankTwoOrder_fst_eq_zero_and_snd_pos (hPmax hxP) hxnot
     let n : ℕ := ((ofLex (rankTwoOrder x)).2).toNat + 1

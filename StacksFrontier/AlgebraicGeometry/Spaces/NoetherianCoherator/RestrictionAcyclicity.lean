@@ -143,7 +143,7 @@ theorem restrictionHigherDirectImagesVanish_of_eds (hZ : B.Contains (⊤_ Scheme
         (BigFppfOver.toScheme B S hS)
     let _ : Q.presheaf.IsStableUnderBaseChange :=
       MorphismProperty.relative_isStableUnderBaseChange Q
-    show Q.presheaf (pullback.snd Uo.ι fV)
+    change Q.presheaf (pullback.snd Uo.ι fV)
     exact MorphismProperty.pullback_snd (P := Q.presheaf) Uo.ι fV hsq.isOpenSubspace.2
   have hPqc : IsQuasiCompactSpace B S hS (edsInter B S hS hsq).1 :=
     isQuasiCompactSpace_pullback B S hS hZ Uo.ι fV hsq.isOpenSubspace.1 W.2

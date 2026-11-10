@@ -111,7 +111,7 @@ theorem range_spacePointMap_subset_of_pointsWithin {𝒳 : AlgebraicStacks.{u, w
   refine h _ (a.toFunctor.map ?_)
   exact (PresheafOfCategories.homEquiv (U ⋙ typeToCat) _ _).symm
     ⟨pp.value, eqToHom (congrArg Discrete.mk (by
-      show U.map pp.value.op s = (yonedaEquiv.symm s).app (Opposite.op pp.siteObject) pp.value
+      change U.map pp.value.op s = (yonedaEquiv.symm s).app (Opposite.op pp.siteObject) pp.value
       simp))⟩
 
 /-- An object of a chart all of whose points lie in `Ω` lies in the locus of `Ω`: if every

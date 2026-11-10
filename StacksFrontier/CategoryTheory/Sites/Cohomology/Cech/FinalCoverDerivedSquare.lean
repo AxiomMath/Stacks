@@ -85,7 +85,7 @@ lemma singleFunctorPlusIsoCompQh_inv_app_comp_plusQIso_hom {X : 𝒞}
   have e₀ : (DerivedCategory.singleFunctorIsoCompQh 𝒞 0).inv.app X =
       (DerivedCategory.quotientCompQhIso 𝒞).hom.app _ :=
     Iso.inv_ext (f := (DerivedCategory.singleFunctorIsoCompQh 𝒞 0).app X) (by
-      show (DerivedCategory.singleFunctorIsoCompQh 𝒞 0).hom.app X ≫ _ = _
+      change (DerivedCategory.singleFunctorIsoCompQh 𝒞 0).hom.app X ≫ _ = _
       rw [Stacks.DerivedIndexing.singleFunctorIsoCompQh_hom_app]
       exact Iso.inv_hom_id_app _ _)
   rw [e₀]
@@ -125,10 +125,11 @@ lemma f_zero_eq_of_homotopy {K L : CochainComplex 𝒞 ℤ} (hK : IsZero (K.X 1)
     zero_add, zero_add] at this
   exact this
 
-variable {𝒞₀ : Type*} [Category* 𝒞₀] [Abelian 𝒞₀] [HasDerivedCategory 𝒞₀] [EnoughInjectives 𝒞₀]
-  [EnoughInjectives 𝒞] (P : 𝒞₀ ⥤ 𝒞) [P.Additive] [PreservesFiniteLimits P]
+variable {𝒞₀ : Type*} [Category* 𝒞₀] [Abelian 𝒞₀] [HasDerivedCategory 𝒞₀]
+  (P : 𝒞₀ ⥤ 𝒞) [P.Additive] [PreservesFiniteLimits P]
   [PreservesFiniteColimits P]
 
+omit [EnoughInjectives 𝒞] in
 /-- **A lift of an injective resolution along an exact functor to an injective resolution of the
 image.** For injective resolutions `X ⟶ I^•` and `P X ⟶ I'^•` there is a map of complexes
 `τ : P(I^•) ⟶ I'^•` which is compatible with the augmentations in the bounded below homotopy
@@ -298,8 +299,6 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C} (R : Sheaf J
   {A : Type uA} [Ring A] (φ : A →+* GlobalSectionRing R) {ι : Type w} (D : ι → C)
   [∀ (n : ℕ) (x : Fin (n + 1) → ι), HasProduct (fun a ↦ D (x a))]
   [HasSheafify J AddCommGrpCat.{max u v w}] [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
-  [EnoughInjectives (SheafOfModules.{max u v w} R)]
-  [HasDerivedCategory (SheafOfModules.{max u v w} R)]
   [HasDerivedCategory (ModuleCat.{max u v w} A)]
 
 /-- Equal composites in the bounded below homotopy category stay equal in `D⁺`. -/
@@ -416,7 +415,11 @@ def totalCechMap {L : CochainComplex (SheafOfModules.{max u v w} R) ℤ}
   HomologicalComplex₂.total.map (cechBicomplexHom R φ D R' φ' D' P ρ c τ) (up ℤ) ≫
     totalComparison _ _
 
-omit [EnoughInjectives (SheafOfModules.{max u v w} R)]
+omit [HasSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [HasSheafify J' AddCommGrpCat.{max u v w}]
+  [J'.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [EnoughInjectives (SheafOfModules.{max u v w} R)]
   [EnoughInjectives (SheafOfModules.{max u v w} R')] [PreservesFiniteLimits P]
   [PreservesFiniteColimits P] in
 /-- The components of `totalCechMap`. -/
@@ -482,7 +485,7 @@ lemma cechToTotal_comp_totalCechMap {N : SheafOfModules.{max u v w} R}
   rw [Category.assoc, ιTotal_totalCechMap_f]
   refine ((reassoc_of% hn) _).trans ?_
   congr 1
-  show _ = (ModuleCat.restrictScalars ρ).map
+  change _ = (ModuleCat.restrictScalars ρ).map
     (((cechIntFunctor R' φ' D').map I'.inclusionZero).f p ≫ _)
   rw [← Functor.map_comp, ← Category.assoc, ← HomologicalComplex.comp_f]
   congr 3

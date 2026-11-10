@@ -142,7 +142,7 @@ theorem smul_eq_zero_of_app_specialFiberι_eq_zero (Q : S.X.Modules)
   rw [specialFiberIdeal_ideal_eq_span (k := S.k) S.residueEquiv S.X_to_R S.uniformizer W hW]
     at hmem
   obtain ⟨b, hb⟩ := Ideal.mem_span_singleton'.mp hmem
-  show Q.presheaf.map (homOfLE hWU').op (a • m) = Q.presheaf.map (homOfLE hWU').op 0
+  change Q.presheaf.map (homOfLE hWU').op (a • m) = Q.presheaf.map (homOfLE hWU').op 0
   rw [Scheme.Modules.map_smul, ← hb, mul_smul, ← mulUniformizer_app, hQ,
     Scheme.Modules.Hom.zero_app]
   simp
@@ -151,7 +151,7 @@ theorem smul_eq_zero_of_app_specialFiberι_eq_zero (Q : S.X.Modules)
 theorem mulUniformizer_cokernel (F : S.X.Modules) :
     mulUniformizer S (cokernel (mulUniformizer S F)) = 0 := by
   rw [← cancel_epi (cokernel.π (mulUniformizer S F)), comp_zero]
-  show cokernel.π _ ≫ (S.uniformizerFunction • 𝟙 _) = 0
+  change cokernel.π _ ≫ (S.uniformizerFunction • 𝟙 _) = 0
   rw [Linear.comp_smul, Category.comp_id, ← Category.id_comp (cokernel.π _), ← Linear.smul_comp]
   exact cokernel.condition _
 
@@ -160,7 +160,7 @@ theorem mulUniformizer_pushforward (G : S.specialFiber.Modules) :
     mulUniformizer S ((Scheme.Modules.pushforward S.specialFiberι).obj G) = 0 := by
   ext U m
   rw [mulUniformizer_app]
-  show (S.specialFiberι.app U).hom ((chartHom S.X_to_R U).hom S.π) •
+  change (S.specialFiberι.app U).hom ((chartHom S.X_to_R U).hom S.π) •
     (show Γ(G, S.specialFiberι ⁻¹ᵁ U) from m) = 0
   rw [specialFiberι_app_chartHom_uniformizer, zero_smul]
 
@@ -168,12 +168,12 @@ theorem mulUniformizer_pushforward (G : S.specialFiber.Modules) :
 theorem mulUniformizer_comp_unit (F : S.X.Modules) :
     mulUniformizer S F ≫
       (Scheme.Modules.pullbackPushforwardAdjunction S.specialFiberι).unit.app F = 0 := by
-  show (S.uniformizerFunction • 𝟙 F) ≫ _ = 0
+  change (S.uniformizerFunction • 𝟙 F) ≫ _ = 0
   rw [Linear.smul_comp, Category.id_comp, ← Category.comp_id
     ((Scheme.Modules.pullbackPushforwardAdjunction S.specialFiberι).unit.app F),
     ← Linear.comp_smul]
   have h := mulUniformizer_pushforward S ((Scheme.Modules.pullback S.specialFiberι).obj F)
-  show _ ≫ mulUniformizer S ((Scheme.Modules.pushforward S.specialFiberι).obj
+  change _ ≫ mulUniformizer S ((Scheme.Modules.pushforward S.specialFiberι).obj
     ((Scheme.Modules.pullback S.specialFiberι).obj F)) = 0
   rw [h, comp_zero]
 
@@ -214,7 +214,7 @@ theorem injective_mulUniformizer_app (U : S.X.Opens) :
   intro x hx
   obtain ⟨W, hxW, hWU, ⟨e⟩⟩ := exists_affineOpens_linearEquiv_le S.X F x U hx
   refine ⟨W.1, hWU, hxW, ?_⟩
-  show F.presheaf.map (homOfLE hWU).op m = F.presheaf.map (homOfLE hWU).op 0
+  change F.presheaf.map (homOfLE hWU).op m = F.presheaf.map (homOfLE hWU).op 0
   rw [map_zero]
   have hres := congrArg (F.presheaf.map (homOfLE hWU).op) hm
   rw [Scheme.Modules.map_smul, map_zero] at hres

@@ -114,7 +114,7 @@ private theorem determinantExactSequenceMap_natural_on_symbols
           apply Fin.ext
           simp [b₀, Fin.val_cast]
         rw [Fin.append_left]
-        show i' (eu.1 b) = _
+        change i' (eu.1 b) = _
         dsimp only [q]
         rw [hidx, Fin.append_left]
         exact congrArg (fun g : K.of.obj →ₗ[R] L'.of.obj => g (e.1 b₀)) hu
@@ -126,7 +126,7 @@ private theorem determinantExactSequenceMap_natural_on_symbols
           apply Fin.ext
           simp [b₀, Fin.val_cast, Fin.val_natAdd, ← F.map_length u]
         rw [Fin.append_right]
-        show f' b = _
+        change f' b = _
         dsimp only [q]
         rw [hidx, Fin.append_right]
     funext a
@@ -160,8 +160,7 @@ public theorem determinantExactSequenceMap_natural
         (determinantExactSequenceMap i p hi hp hip
           K.of.property L.of.property M.of.property) := by
   refine LinearMap.ext fun z ↦ ?_
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy =>
       simp only [LinearMap.comp_apply, map_add, hx, hy]
   | tmul x y =>

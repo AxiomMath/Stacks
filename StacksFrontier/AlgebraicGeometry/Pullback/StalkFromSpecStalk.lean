@@ -52,7 +52,7 @@ public lemma flat_fromSpecStalk (X : Scheme.{u}) (x : X) :
   let U := (X.affineCover.f (X.affineCover.idx x)).opensRange
   have hU : IsAffineOpen U := isAffineOpen_opensRange _
   have hx : x ∈ U := X.affineCover.covers x
-  show Flat (hU.fromSpecStalk hx)
+  change Flat (hU.fromSpecStalk hx)
   dsimp [IsAffineOpen.fromSpecStalk]
   have hflat : (X.presheaf.germ U x hx).hom.Flat := by
     let : Algebra Γ(X, U) (X.presheaf.stalk x) := (X.presheaf.germ U x hx).hom.toAlgebra

@@ -106,7 +106,7 @@ private theorem surjective_quotient_mk_comp_of_denseRange {C : Type u} [CommRing
   have hgp : g p = b₀ + j := by rw [hp, ← hjz]
   refine ⟨p, ?_⟩
   rw [← hb₀]
-  show Ideal.Quotient.mk (J ^ m) (g p) = Ideal.Quotient.mk (J ^ m) b₀
+  change Ideal.Quotient.mk (J ^ m) (g p) = Ideal.Quotient.mk (J ^ m) b₀
   rw [hgp, map_add, (Ideal.Quotient.eq_zero_iff_mem).mpr hj, add_zero]
 
 /-- **The induced map `A{σ} → B{σ}` is topologically of finite type.**  If `B` carries the adic
@@ -146,7 +146,7 @@ public theorem isTopologicallyOfFiniteType_restrictedPowerSeriesMap (I : Ideal A
     obtain ⟨p, hp⟩ := surjective_quotient_mk_comp_of_denseRange _ hJ g hgd m b
     refine ⟨MvPolynomial.map (_root_.RestrictedPowerSeries.coefficientRingHom I σ) p, ?_⟩
     rw [hhmap]
-    show _root_.RestrictedPowerSeries.coefficientProjection (I.map (algebraMap A B)) σ m
+    change _root_.RestrictedPowerSeries.coefficientProjection (I.map (algebraMap A B)) σ m
       (algebraMap B (_root_.RestrictedPowerSeries (I.map (algebraMap A B)) σ) (g p)) = _
     rw [_root_.RestrictedPowerSeries.coefficientProjection_algebraMap]
     exact congrArg MvPolynomial.C hp

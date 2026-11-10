@@ -176,7 +176,7 @@ private theorem smul_mem_stableImage (I : Ideal A) (F : ℕᵒᵖ ⥤ ModuleShea
   have hy' : (H.map (powerSheafMap I n
       (F.map (homOfLE (Nat.le_add_left n k)).op))).hom y' = x.1 := by
     rw [hy'def]
-    show (H.map (powerSheafMap I n (F.map (homOfLE hm).op)) ≫
+    change (H.map (powerSheafMap I n (F.map (homOfLE hm).op)) ≫
       H.map (powerSheafMap I n (F.map (homOfLE (Nat.le_add_left n k)).op))).hom z = _
     rw [← H.map_comp, ← powerSheafMap_comp, ← F.map_comp, ← hz]
     rfl
@@ -184,7 +184,7 @@ private theorem smul_mem_stableImage (I : Ideal A) (F : ℕᵒᵖ ⥤ ModuleShea
   have hval := congrArg (fun t => t (k + n)) hcomp
   simp only [DirectSum.of_eq_same] at hval
   rw [hval, hy'def]
-  show (H.map (powerSheafSMul I k n a (F.obj (op m))) ≫
+  change (H.map (powerSheafSMul I k n a (F.obj (op m))) ≫
     H.map (powerSheafMap I (k + n) (F.map (homOfLE hm).op))).hom z = _
   rw [← H.map_comp, powerSheafSMul_comp_powerSheafMap, H.map_comp]
   rfl

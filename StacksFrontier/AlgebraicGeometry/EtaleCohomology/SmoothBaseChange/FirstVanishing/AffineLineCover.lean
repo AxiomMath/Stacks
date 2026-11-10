@@ -149,7 +149,7 @@ theorem exists_lift_of_genericFibreData (h03SC6 : CurveCohomologyAlgClosedInvari
       (hdie ((bc.map bZ).left) (pullback.fst Z.hom h)
         (smallEtaleBaseChange_map_left_fst h bZ))
     refine ⟨i, hi.trans ?_⟩
-    show (Sh.X₃.obj.map (bc.map a).op ≫ Sh.X₃.obj.map (bc.map bZ).op) c = _
+    change (Sh.X₃.obj.map (bc.map a).op ≫ Sh.X₃.obj.map (bc.map bZ).op) c = _
     rw [← Functor.map_comp, ← op_comp, ← Functor.map_comp]
 
 /-- An étale separated scheme `B` over an integral normal scheme `S` with separably closed
@@ -163,9 +163,9 @@ private theorem exists_isAffineOpen_isOpenImmersion_of_etale {S B : Scheme.{u}} 
   rw [sigmaMk_mk] at hkw
   let ιk := Sigma.ι Vs k ≫ eB.inv
   have hιk : ιk ≫ hB = js k := by
-    simp only [ιk, Category.assoc, ← heB, Iso.inv_hom_id_assoc, Sigma.ι_desc]
+    simp only [ιk, Category.assoc, ← heB, Iso.inv_hom_id_assoc, Sigma.ι_comp_desc]
   have hbO : b ∈ ιk.opensRange := ⟨w, by
-    show (Sigma.ι Vs k ≫ eB.inv) w = b
+    change (Sigma.ι Vs k ≫ eB.inv) w = b
     rw [Scheme.Hom.comp_apply, hkw, ← Scheme.Hom.comp_apply, Iso.hom_inv_id]
     rfl⟩
   obtain ⟨W, hWaff, hbW, hWle⟩ := exists_isAffineOpen_mem_and_subset hbO
@@ -207,7 +207,7 @@ private theorem exists_section_morphismRestrict {X Y : Scheme.{u}} (f : X ⟶ Y)
   have hσrange : Set.range (W.ι ≫ σ).base ⊆ Set.range (f ⁻¹ᵁ W).ι.base := by
     rintro _ ⟨x, rfl⟩
     rw [Scheme.Opens.range_ι]
-    show f (σ (W.ι x)) ∈ W
+    change f (σ (W.ι x)) ∈ W
     rw [← Scheme.Hom.comp_apply, hσ]
     exact x.2
   refine ⟨IsOpenImmersion.lift _ _ hσrange, ?_⟩
@@ -267,7 +267,7 @@ theorem exists_lift_through_point (h03SC6 : CurveCohomologyAlgClosedInvariance.{
   have : IsSeparated f₀ := MorphismProperty.of_isPullback hpb inferInstance
   obtain ⟨σ₀, hσ₀⟩ := exists_section_morphismRestrict gi σi hσ W₀
   have hf : f₀ ≫ j = U.hom ≫ f' := by
-    show (gi ∣_ W₀) ≫ W₀.ι ≫ hB = (U'.ι ≫ 𝒰.f i₀ ≫ V.hom) ≫ f'
+    change (gi ∣_ W₀) ≫ W₀.ι ≫ hB = (U'.ι ≫ 𝒰.f i₀ ≫ V.hom) ≫ f'
     rw [morphismRestrict_ι_assoc, hfac]
     simp only [Category.assoc]
     rfl

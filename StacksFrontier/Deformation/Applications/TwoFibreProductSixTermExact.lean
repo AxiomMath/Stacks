@@ -100,7 +100,7 @@ public theorem tangentConditionS2
     {𝓕 : BasedCategory.{v₁, u₁} (ArtinianLocalAlgCat.{u, max v w, w} Λ k)}
     (h𝓕 : IsDeformationCategory.{u, v, w} 𝓕.p) :
     SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered)) :=
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.predeformation.cofibered)) :=
   Artin.schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory 𝓕 h𝓕
 
 /-- The tangent module `T𝓕(M)` of a deformation category at a coordinate module `M`: the value

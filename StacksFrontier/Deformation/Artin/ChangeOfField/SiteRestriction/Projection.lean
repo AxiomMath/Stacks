@@ -84,7 +84,7 @@ private theorem siteObjectOver_post
     {Z : Scheme.{u}} (hZ : B.Contains Z) (f : Z ⟶ S) :
     (Over.post (X := B.obj hS) B.inclusion).obj
       (siteObjectOver B S hS hZ f) = Over.mk f := by
-  show Over.mk (B.inclusion.map (Classical.choose
+  change Over.mk (B.inclusion.map (Classical.choose
     (B.inclusion.map_surjective (X := B.obj hZ) (Y := B.obj hS) f))) = Over.mk f
   congr 1
   exact Classical.choose_spec
@@ -174,7 +174,7 @@ private theorem residueMap_comp_algebraMap
     (A : Deformation.ArtinianLocalAlgCat.{u, u, u} Λ k) :
     (Deformation.Artin.residueMap A).comp (algebraMap Λ A) = algebraMap Λ k := by
   ext x
-  show A.residueEquiv
+  change A.residueEquiv
     (IsLocalRing.residue A (algebraMap Λ A x)) = algebraMap Λ k x
   rw [← IsLocalRing.ResidueField.algebraMap_eq (R := A)]
   exact A.residueEquiv.commutes x
@@ -437,7 +437,7 @@ private theorem comparisonProjection_residueMap
       (algebraMap T.k T.l).comp
         (Deformation.Artin.residueMap ((Deformation.comparisonFunctor T).functor.obj A)) := by
   ext x
-  show (Deformation.residueMap T A)
+  change (Deformation.residueMap T A)
       (((Deformation.comparisonFunctor T).pullbackEquiv A x).val.1) =
     (algebraMap T.k T.l)
       (((Deformation.comparisonFunctor T).functor.obj A).residueEquiv
@@ -452,7 +452,7 @@ private theorem comparisonProjection_natural
         ((Deformation.comparisonFunctor T).functor.map f).hom.toRingHom =
       f.hom.toRingHom.comp (comparisonProjection T A) := by
   ext x
-  show ((Deformation.comparisonFunctor T).pullbackEquiv A'
+  change ((Deformation.comparisonFunctor T).pullbackEquiv A'
       (((Deformation.comparisonFunctor T).functor.map f).hom x)).val.1 =
     f.hom.toRingHom
       (((Deformation.comparisonFunctor T).pullbackEquiv A x).val.1)
@@ -756,7 +756,7 @@ private theorem extendedPointToChangedBase_base
       (Spec.map (CommRingCat.ofHom (algebraMap T.Λ T.l)) ≫ iΛ)
   have hPostA := siteObjectOverChangedBase_post T iΛ B hS p x₀ hx₀ a
   have hEhom : P.map eL.hom = (eqToIso (hPostL.trans hxₗ.symm)).hom := by
-    show (Over.post (X := B.obj hS) B.inclusion).map
+    change (Over.post (X := B.obj hS) B.inclusion).map
         (siteObjectOverIso B S hS
           (contains_extendedPoint T B S hS iΛ p xₗ hxₗ)
           (Spec.map (CommRingCat.ofHom (algebraMap T.Λ T.l)) ≫ iΛ)
@@ -775,13 +775,13 @@ private theorem extendedPointToChangedBase_base
       eqToHom (congrArg Over.left hPostL) ≫
         Spec.map (CommRingCat.ofHom (Deformation.Artin.residueMap a.snd)) ≫
         eqToHom (congrArg Over.left hPostA).symm := by
-    show B.inclusion.map (Over.Hom.left g₀) = _
+    change B.inclusion.map (Over.Hom.left g₀) = _
     dsimp only [g₀, siteObjectOverExtendedPointToChangedBase]
     have hraw := siteObjectOverHom_underlying B S hS
       (contains_extendedPoint T B S hS iΛ p xₗ hxₗ)
       (contains_changedBase T iΛ B hS p x₀ hx₀ a) _ _ _ (residuePoint_base a.snd iΛ)
     convert hraw using 1 <;> cat_disch
-  show eqToHom (congrArg Over.left hxₗ).symm ≫
+  change eqToHom (congrArg Over.left hxₗ).symm ≫
     (P.map eL.inv).left ≫ (P.map g₀).left ≫
     eqToHom (congrArg Over.left hPostA) = _
   rw [hEinv, hg₀]

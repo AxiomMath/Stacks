@@ -107,7 +107,7 @@ theorem schemeTheoreticImageSubfunctor_π_eq_top :
     (t := Cofork.ofπ ℓ heq) D.isColimit
   have hrι : r ≫ ιW = 𝟙 _ := by
     refine Cofork.IsColimit.hom_ext D.isColimit ?_
-    show D.π ≫ r ≫ ιW = D.π ≫ 𝟙 _
+    change D.π ≫ r ≫ ιW = D.π ≫ 𝟙 _
     rw [← Category.assoc, hr, hℓ, Category.comp_id]
   have hrι' : r.hom ≫ W.ι = 𝟙 _ := congrArg InducedCategory.Hom.hom hrι
   exact (Subfunctor.eq_top_iff_isIso W).2 ⟨⟨r.hom, (cancel_mono W.ι).1 (by
@@ -151,10 +151,10 @@ theorem isProper_glueMap : IsProper T.B T.S T.hS T.glueMap.hom := by
     (isColimitCofanMkObjOfIsColimit A T.summand T.summandIncl T.isColimitSummandCofan)
     (fun b => (T.summand b).property) T.glueSource.property T.hX T.glueMap.hom ?_
   rintro ⟨_ | _⟩
-  · show IsProper T.B T.S T.hS ((coprod.inl : T.modificationSpace ⟶ T.glueSource).hom ≫
+  · change IsProper T.B T.S T.hS ((coprod.inl : T.modificationSpace ⟶ T.glueSource).hom ≫
       T.glueMap.hom)
     exact T.inl_comp_glueMap ▸ T.hf
-  · show IsProper T.B T.S T.hS ((coprod.inr : T.closedSpace ⟶ T.glueSource).hom ≫
+  · change IsProper T.B T.S T.hS ((coprod.inr : T.closedSpace ⟶ T.glueSource).hom ≫
       T.glueMap.hom)
     exact T.inr_comp_glueMap ▸ isProper_of_isClosedImmersion T.B T.S T.hS T.hZ T.hX T.i T.hi
 
@@ -233,7 +233,7 @@ theorem pullback_snd_π_eq :
     rw [h1, h2] at h
     exact congrArg InducedCategory.Hom.hom h
   refine pullback.hom_ext ?_ ?_
-  · show b ≫ j = (b ≫ p) ≫ openSection D ≫ j
+  · change b ≫ j = (b ≫ p) ≫ openSection D ≫ j
     rw [openSection, pullback.lift_fst, ← pullback.condition, hac]
     simp only [c, incl, Category.assoc]
   · rw [Category.assoc, openSection_snd, Category.comp_id]

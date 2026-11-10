@@ -48,6 +48,7 @@ theorem sheafificationIso_inv_app (U : X.Opens) (t : Γ(E, U)) :
         (PresheafOfModules.sheafifyUnit (R := X.ringCatSheaf) (𝟙 X.ringCatSheaf.obj) E.val)
         (op U) t)) (Scheme.Modules.sheafificationIso X E).hom_inv_id
 
+omit [E.IsQuasicoherent] in
 /-- **The generator on sections**: the degree-one element attached to `t` by the generator of
 `Sym(ℰ)` is the image under the sheafification unit of the sectionwise generator, `ι t`. -/
 theorem symmetricAlgebraGen_app_eq (U : X.Opens) (t : Γ(E, U)) :

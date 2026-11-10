@@ -153,7 +153,7 @@ lemma IsFlatInDegreeZero.baseChange (φ : R →+* S) {N : DerivedCategory (Modul
     ⟨(totalDerivedExtensionScalars.{u, u, u} φ).functor.mapIso e ≪≫
       baseChangeSingleIsoOfFlat φ F⟩⟩
   let _ : Algebra R S := φ.toAlgebra
-  show Module.Flat S (TensorProduct R S F)
+  change Module.Flat S (TensorProduct R S F)
   infer_instance
 
 end BaseChange
@@ -317,7 +317,7 @@ lemma BaseChangeFlat.of_quotient_span_range_of_isNilpotent
         ((DoubleQuot.quotQuotEquivQuotSup _ _).trans (Ideal.quotEquivOfEq hsup))
     refine BaseChangeFlat.of_comp_ringEquiv e (h.of_eq ?_)
     ext a
-    show _ = (Ideal.quotEquivOfEq hsup) (DoubleQuot.quotQuotEquivQuotSup _ _
+    change _ = (Ideal.quotEquivOfEq hsup) (DoubleQuot.quotQuotEquivQuotSup _ _
       (DoubleQuot.quotQuotMk (Ideal.span {x}) (Ideal.span (Set.range t)) (φ a)))
     rw [DoubleQuot.quotQuotEquivQuotSup_quotQuotMk]
     simp

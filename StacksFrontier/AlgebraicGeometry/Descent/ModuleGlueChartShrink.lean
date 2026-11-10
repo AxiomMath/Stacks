@@ -184,14 +184,14 @@ private theorem restrictChartIso_chartIso_hom_eq :
       (Scheme.Modules.restrictFunctor (f j)).map (D.toModulesGlueData.chartAdjunct i) ≫
         (restrictChartIso (f i)
           ((Scheme.Modules.restrictFunctorAdjCounitIso (f i)).app (D.mod i)) b hb).hom := by
-    show (restrictCompIso b (f i) hb D.glued).hom ≫
+    change (restrictCompIso b (f i) hb D.glued).hom ≫
         (Scheme.Modules.restrictFunctor b).map (D.chartIso i).hom =
       (Scheme.Modules.restrictFunctor (f j)).map (D.toModulesGlueData.chartAdjunct i) ≫
         (restrictCompIso b (f i) hb ((Scheme.Modules.pushforward (f i)).obj (D.mod i))).hom ≫
           (Scheme.Modules.restrictFunctor b).map
             ((Scheme.Modules.restrictFunctorAdjCounitIso (f i)).app (D.mod i)).hom
     rw [hci, hmc, ← Category.assoc,  ← hnat, Category.assoc]
-  show (restrictChartIso (f i) (D.chartIso i) b hb).hom ≫ σ.hom =
+  change (restrictChartIso (f i) (D.chartIso i) b hb).hom ≫ σ.hom =
     (Scheme.Modules.restrictFunctor (f j)).map (D.toModulesGlueData.chartAdjunct i) ≫
       (restrictChartIso (f i)
         ((Scheme.Modules.restrictFunctorAdjCounitIso (f i)).app (D.mod i)) b hb).hom ≫ σ.hom

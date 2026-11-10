@@ -233,11 +233,11 @@ lemma frobeniusStageFunctorPullbackIso_id_inv_comp (X : Scheme.{u}) (hX : IsInCh
   apply ObjectProperty.hom_ext
   have key := frobeniusStageExtendScalarsPullbackIso_id_hom_app p X hX n E.obj
   rw [ObjectProperty.FullSubcategory.comp_hom]
-  show _ = (frobeniusStageExtendScalarsPullbackIso p (𝟙 X) hX hX n).hom.app E.obj ≫
+  change _ = (frobeniusStageExtendScalarsPullbackIso p (𝟙 X) hX hX n).hom.app E.obj ≫
     (frobeniusStageExtendScalars X p hX n).map ((Scheme.Modules.pullbackId X).hom.app E.obj)
   rw [key, Category.assoc]
   exact (Category.comp_id _).symm.trans (congrArg (_ ≫ ·)
-    (Iso.map_inv_hom_id ((Scheme.Modules.pullbackId X).app E.obj)
+    (Iso.inv_hom_id_map ((Scheme.Modules.pullbackId X).app E.obj)
       (frobeniusStageExtendScalars X p hX n)).symm)
 
 /-- **The stage bridge of vector bundles is compatible with composition**, in the form of inverses

@@ -115,7 +115,8 @@ modules on the localized site has its scalars in
 equal and are not the same term. Elaboration crosses that boundary freely — which is why
 `overIsoSection` can be *stated* at the first spelling and *defined* through the second — but
 instance search does not, so `r • x` across the boundary fails to synthesize `HSMul`, and `rw`
-does not, because it builds its motive at `implicit` transparency. For the first, a type *ascription* is not enough: an ascribed
+does not, because it builds its motive at `implicit` transparency. For the first, a type
+*ascription* is not enough: an ascribed
 `(φ.val.app _ 1 : L.val.obj (op U))` still elaborates at the slice spelling and the `•` beside it
 then fails to synthesize, which is why `overUnitHomApply` exists as a `def` — a definition's
 declared type does pin the side, and instantiating it later does not re-run synthesis. For the

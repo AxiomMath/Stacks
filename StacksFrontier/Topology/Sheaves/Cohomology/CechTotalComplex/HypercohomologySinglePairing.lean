@@ -66,9 +66,9 @@ theorem tensorPresheafModules_map_zero
       (SectionRing (ringSheaf O) ⊤)) :
     ((tensorPresheafModules.{u} (SectionRing (ringSheaf O) ⊤)).map (0 : P ⟶ P')).app Q = 0 := by
   refine tensorPresheafModules_hom_ext_tmul fun Z x y => ?_
-  show (TensorProduct.map _ _) (x ⊗ₜ y) = 0
+  change (TensorProduct.map _ _) (x ⊗ₜ y) = 0
   rw [TensorProduct.map_tmul]
-  show (0 : P'.obj Z) ⊗ₜ _ = 0
+  change (0 : P'.obj Z) ⊗ₜ _ = 0
   exact TensorProduct.zero_tmul _ _
 
 /-- The pointwise tensor product of presheaves of modules carries a zero morphism in the second
@@ -80,9 +80,9 @@ theorem tensorPresheafModules_obj_map_zero
       (SectionRing (ringSheaf O) ⊤)} :
     ((tensorPresheafModules.{u} (SectionRing (ringSheaf O) ⊤)).obj P).map (0 : Q ⟶ Q') = 0 := by
   refine tensorPresheafModules_hom_ext_tmul fun Z x y => ?_
-  show (TensorProduct.map _ _) (x ⊗ₜ y) = 0
+  change (TensorProduct.map _ _) (x ⊗ₜ y) = 0
   rw [TensorProduct.map_tmul]
-  show _ ⊗ₜ (0 : Q'.obj Z) = 0
+  change _ ⊗ₜ (0 : Q'.obj Z) = 0
   exact TensorProduct.tmul_zero _ _
 
 variable {O}
@@ -160,7 +160,7 @@ def singleXIso (F : SheafOfModules.{u} (ringSheaf O)) (a : ℤ) (h : a = 0) :
 /-- The differentials of the sections of a sheaf placed in degree zero vanish. -/
 theorem sectionsComplex_singlePlus_d (F : SheafOfModules.{u} (ringSheaf O)) (i j : ℤ) :
     ((Stacks.Cech.Refinement.sectionsComplex O).obj (singlePlus O F 0).obj).d i j = 0 := by
-  show (sectionsPresheafFunctor (R := ringSheaf O) (⊤ : Opens X)).map
+  change (sectionsPresheafFunctor (R := ringSheaf O) (⊤ : Opens X)).map
     (((HomologicalComplex.single _ (up ℤ) 0).obj F).d i j) = 0
   rw [HomologicalComplex.single_obj_d, Functor.map_zero]
 
@@ -192,7 +192,7 @@ theorem singlePairing_μ_zero {F G H : SheafOfModules.{u} (ringSheaf O)}
         ((tensorPresheafModules.{u} (SectionRing (ringSheaf O) ⊤)).obj (sectionsP O F)).map
           (singleXIso O G 0 rfl).hom ≫ μ₀ ≫ (singleXIso O H 0 rfl).inv := by
   dsimp only [singlePairing]
-  exact dif_pos ⟨rfl, rfl⟩
+  exact dite_eq_left ⟨rfl, rfl⟩
 
 /-- The pairing of sheaves placed in degree zero vanishes outside bidegree `(0, 0)`. -/
 theorem singlePairing_μ_of_ne {F G H : SheafOfModules.{u} (ringSheaf O)}
@@ -200,7 +200,7 @@ theorem singlePairing_μ_of_ne {F G H : SheafOfModules.{u} (ringSheaf O)}
       (sectionsP O G) (sectionsP O H)) (a b n : ℤ) (h : a + b = n) (hab : ¬(a = 0 ∧ b = 0)) :
     (singlePairing μ₀).μ a b n h = 0 := by
   dsimp only [singlePairing]
-  exact dif_neg hab
+  exact dite_eq_right hab
 
 variable (O) in
 /-- A morphism of sheaves of modules placed in degree zero. -/

@@ -9,8 +9,8 @@ public import StacksFrontier.RingTheory.Dualizing.TrivialDuality
 
 Let `f : S → T` be a homomorphism of commutative rings and let `Y` be an object of `D(S)`.  The
 derived coextension functor `RHom_S(T, -) : D(S) ⥤ D(T)` of
-`StacksFrontier/RingTheory/Dualizing/TrivialDuality.lean` is right adjoint to restriction of scalars,
-and `T` is free of rank one over itself, hence projective; so the degree-`j` cohomology of
+`StacksFrontier/RingTheory/Dualizing/TrivialDuality.lean` is right adjoint to restriction of
+scalars, and `T` is free of rank one over itself, hence projective; so the degree-`j` cohomology of
 `RHom_S(T, Y)` is the group of morphisms in `D(S)` from `T`, restricted to `S` along `f` and placed
 in degree zero, into `Y⟦j⟧`:
 

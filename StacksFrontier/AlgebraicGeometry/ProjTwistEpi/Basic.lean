@@ -133,7 +133,7 @@ public theorem exists_fractionSection_eq (ψ : 𝒜 →+*ᵍ ℬ) {N : ℕ}
   refine Eq.trans ?_ (heq ⟨(z.1 : ProjectiveSpectrum ℬ), hzV₀⟩).symm
   refine LocalizedModule.mk_eq.mpr ⟨1, ?_⟩
   simp only [one_smul]
-  show s₀ • ψ β = ψ c • b
+  change s₀ • ψ β = ψ c • b
   rw [hβe, hce, smul_eq_mul, smul_eq_mul]
   ring
 

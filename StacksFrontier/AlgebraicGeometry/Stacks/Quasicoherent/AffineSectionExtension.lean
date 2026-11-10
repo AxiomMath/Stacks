@@ -161,10 +161,7 @@ theorem mem_span_range_restriction (t : M.val.obj (op y)) :
     IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   obtain ⟨q, rfl⟩ := (bijective_liftBaseChange_of_eq_restriction M hM n hx hy
     (restrictionLinear M n) fun _ => rfl).2 t
-  induction q using TensorProduct.induction_on with
-  | zero =>
-    rw [map_zero]
-    exact Submodule.zero_mem _
+  induction q using TensorProduct.inductionOn with
   | tmul c s =>
     rw [LinearMap.liftBaseChange_tmul]
     exact Submodule.smul_mem _ c (Submodule.subset_span ⟨s, rfl⟩)
@@ -252,7 +249,7 @@ theorem extendAlong_map :
       rw [LinearMap.liftBaseChange_tmul, one_smul]
       rfl
     exact (congrArg _ h0.symm).trans (LinearEquiv.ofBijective_symm_apply_apply _ _)
-  show (θ.liftBaseChange (objRing B S hS p y)) ((LinearEquiv.ofBijective _ _).symm _) = _
+  change (θ.liftBaseChange (objRing B S hS p y)) ((LinearEquiv.ofBijective _ _).symm _) = _
   rw [h1, LinearMap.liftBaseChange_tmul, one_smul]
 
 /-- **The extension is compatible with restriction** along a further morphism `k : z ⟶ y` to an
@@ -303,7 +300,7 @@ theorem map_extendAlong {z : 𝒳} (k : z ⟶ y) (hz : IsAffineOver B S hS (p.ob
         (map_smul E₂ _ _) }
   refine LinearMap.congr_fun (semilinearMap_ext_of_restriction M hM n hx hy (θ₁ := L₁) (θ₂ := L₂)
     fun s => ?_) t
-  show N.val.map k.op (extendAlong M hM n hx hy N θ (M.val.map n.op s)) =
+  change N.val.map k.op (extendAlong M hM n hx hy N θ (M.val.map n.op s)) =
     extendAlong M hM (k ≫ n) hx hz N θ' (M.val.map k.op (M.val.map n.op s))
   rw [extendAlong_map, ← hθ, ← extendAlong_map M hM (k ≫ n) hx hz N θ' s]
   exact congrArg (extendAlong M hM (k ≫ n) hx hz N θ') (M.val.map_comp_apply n.op k.op s)

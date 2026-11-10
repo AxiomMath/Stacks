@@ -265,7 +265,7 @@ private noncomputable def cylpr (U : SimplicialObject A) (m : SimplexCategoryᵒ
 private lemma cylι_comp_cylpr (U : SimplicialObject A) (m : SimplexCategoryᵒᵖ)
     (α β : (Δ[1] : SSet.{0}).obj m) :
     cylι U m β ≫ cylpr U m α = if β = α then 𝟙 (U.obj m) else 0 :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 private lemma cylι_comp_cylpr_assoc (U : SimplicialObject A) (m : SimplexCategoryᵒᵖ)
     (α β : (Δ[1] : SSet.{0}).obj m) {Z : A} (h : U.obj m ⟶ Z) :
@@ -302,7 +302,7 @@ private noncomputable def cylπApp (U : SimplicialObject A) (m : SimplexCategory
 
 private lemma cylι_comp_cylπApp (U : SimplicialObject A) (m : SimplexCategoryᵒᵖ)
     (α : (Δ[1] : SSet.{0}).obj m) : cylι U m α ≫ cylπApp U m = 𝟙 (U.obj m) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The projection `U × Δ[1] ⟶ U`, the identity on every summand. -/
 private noncomputable def cylπ (U : SimplicialObject A) : cyl U ⟶ U where

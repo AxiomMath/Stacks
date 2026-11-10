@@ -131,7 +131,7 @@ theorem zeroBaseChange_eq_toBaseChange (u : S ⊗[R] ↥(𝒜 0)) :
   | tmul s y =>
       refine Subtype.ext ?_
       rw [Submodule.coe_toBaseChange_tmul]
-      show ((s ⊗ₜ[R] (1 : A)) * ((1 : S) ⊗ₜ[R] (y : A)) : S ⊗[R] A) = s ⊗ₜ[R] (y : A)
+      change ((s ⊗ₜ[R] (1 : A)) * ((1 : S) ⊗ₜ[R] (y : A)) : S ⊗[R] A) = s ⊗ₜ[R] (y : A)
       rw [Algebra.TensorProduct.tmul_mul_tmul, one_mul, mul_one]
   | add u v hu hv => rw [map_add, map_add, hu, hv]
 

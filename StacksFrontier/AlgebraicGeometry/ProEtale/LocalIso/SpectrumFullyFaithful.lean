@@ -64,7 +64,7 @@ private lemma specLocalRingedMap_stalk_isIso
     (A B : Type u) [CommRing A] [CommRing B] [Algebra A B]
     (hB : Algebra.IdentifiesLocalRings A B) (q : Spec (CommRingCat.of B)) :
     IsIso ((Spec.map (CommRingCat.ofHom (algebraMap A B))).toLRSHom.stalkMap q) := by
-  show IsIso ((Spec.sheafedSpaceMap (CommRingCat.ofHom (algebraMap A B))).hom.stalkMap q)
+  change IsIso ((Spec.sheafedSpaceMap (CommRingCat.ofHom (algebraMap A B))).hom.stalkMap q)
   let p : PrimeSpectrum B := q
   let f : CommRingCat.of A ⟶ CommRingCat.of B :=
     CommRingCat.ofHom (algebraMap A B)
@@ -82,7 +82,7 @@ private lemma specLocalRingedMap_stalk_isIso
   have : IsIso α := (ConcreteCategory.isIso_iff_bijective _).2 (RingEquiv.bijective _)
   have : IsIso β := (ConcreteCategory.isIso_iff_bijective _).2 (hB p.asIdeal)
   have : IsIso γ := (ConcreteCategory.isIso_iff_bijective _).2 (RingEquiv.bijective _)
-  show IsIso (α ≫ β ≫ γ)
+  change IsIso (α ≫ β ≫ γ)
   exact IsIso.comp_isIso
 
 /-- If `A → B` identifies local rings, the structure sheaf of `Spec B` is the inverse image of
@@ -119,7 +119,7 @@ private theorem algHom_eq_of_specTopMap_eq
       exact f.commutes a
     calc
       _ = F.map ((CommRingCat.ofHom f.toRingHom : RB ⟶ RC).op ≫ ab.op) := by
-        show F.map _ ≫ F.map ab.op = _
+        change F.map _ ≫ F.map ab.op = _
         simp
       _ = F.map (ab ≫ CommRingCat.ofHom f.toRingHom).op := by simp
       _ = F.map ac.op := by rw [hf]
@@ -153,7 +153,7 @@ theorem existsUnique_algHom_of_specTopMap_over
   let p : Y ⟶ X := (Spec.map ab).toLRSHom
   let q : Z ⟶ X := (Spec.map ac).toLRSHom
   have : IsIso (inverseImageStructureMap p) := by
-    show IsIso (inverseImageStructureMap (Spec.map ab).toLRSHom)
+    change IsIso (inverseImageStructureMap (Spec.map ab).toLRSHom)
     exact specMap_inverseImageStructureMap_isIso A B hB
   have hgbase : g ≫ p.base = q.base := hg
   have hbij := bijective_forgetToTop_morphism_over p q
@@ -178,10 +178,10 @@ theorem existsUnique_algHom_of_specTopMap_over
   let f : B →ₐ[A] C :=
     { toRingHom := φ.hom
       commutes' := fun a => by
-        show φ.hom (algebraMap A B a) = algebraMap A C a
+        change φ.hom (algebraMap A B a) = algebraMap A C a
         exact DFunLike.congr_fun hscalar a }
   have htop : Spec.topMap (CommRingCat.ofHom f.toRingHom) = g := by
-    show (F.map φ.op).base = g
+    change (F.map φ.op).base = g
     rw [hmapφ]
     exact hmBase
   exact ⟨f, htop, fun f' hf' => algHom_eq_of_specTopMap_eq hB (hf'.trans htop.symm)⟩

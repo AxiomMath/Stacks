@@ -260,11 +260,13 @@ theorem exists_eq_sum_map_of_mem_obstructionSpan (hf : I = Ideal.span (Set.range
   rw [← hρμ l n ⟨c l, hc l⟩, ← AdicCompletion.map_comp, LinearMap.comp_apply]
   exact Submodule.mem_iSup_of_mem l ⟨_, Submodule.mem_iSup_of_mem ⟨c l, hc l⟩ ⟨v, rfl⟩, rfl⟩
 
+omit [Fintype L] in
 /-- **`P_0` is finite over `A^∧`** when `V / IV` is finite over `A`. -/
-theorem finite_obstructionSpan_zero (hf : I = Ideal.span (Set.range f))
+theorem finite_obstructionSpan_zero [Finite L] (hf : I = Ideal.span (Set.range f))
     (hV : Module.Finite A (V ⧸ (I • ⊤ : Submodule A V))) :
     Module.Finite (AdicCompletion I A) (obstructionSpan μ 0) := by
   classical
+  cases nonempty_fintype L
   have hfI : ∀ l, f l ∈ I := fun l => hf ▸ Ideal.subset_span ⟨l, rfl⟩
   have hf1 : ∀ l, f l ∈ I ^ (0 + 1) := fun l => by simpa using hfI l
   have hVfin := Module.Finite.adicCompletion_of_finite_quotient_smul_top

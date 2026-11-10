@@ -40,14 +40,13 @@ theorem exists_sum_of_isPushout {R₀ A R' A' : CommRingCat.{u}} {f : R₀ ⟶ A
   let P := CommRingCat.isPushout_tensorProduct R₀ A R'
   let e := P.isoIsPushout _ _ h
   obtain ⟨y, rfl⟩ : ∃ y, e.hom y = x := ⟨e.inv x, by
-    show (e.inv ≫ e.hom) x = x
+    change (e.inv ≫ e.hom) x = x
     rw [Iso.inv_hom_id]; rfl⟩
   have hl : ∀ a : A, e.hom (a ⊗ₜ[R₀] (1 : R')) = inl a := fun a =>
     congrArg (fun φ : A ⟶ A' => φ a) (P.inl_isoIsPushout_hom _ _ h)
   have hr : ∀ t : R', e.hom ((1 : A) ⊗ₜ[R₀] t) = inr t := fun t =>
     congrArg (fun φ : R' ⟶ A' => φ t) (P.inr_isoIsPushout_hom _ _ h)
-  induction y using TensorProduct.induction_on with
-  | zero => exact ⟨0, Fin.elim0, Fin.elim0, by simp⟩
+  induction y using TensorProduct.inductionOn with
   | tmul a t =>
     refine ⟨1, fun _ => a, fun _ => t, ?_⟩
     have : a ⊗ₜ[R₀] t = (a ⊗ₜ[R₀] (1 : R')) * ((1 : A) ⊗ₜ[R₀] t) := by
@@ -97,7 +96,7 @@ theorem ker_eq_span_of_isPushout_of_retraction {R₀ A R' A' : CommRingCat.{u}} 
       Ideal.mul_mem_left _ _ (hmapK (Ideal.mem_map_of_mem _ (hsub _)))
   · rw [Ideal.span_le]
     rintro _ ⟨t, ht, rfl⟩
-    show g (inr t) = 0
+    change g (inr t) = 0
     refine hker t ?_
     have : t ∈ RingHom.ker β.hom := by rw [hK]; exact Ideal.subset_span ht
     exact this

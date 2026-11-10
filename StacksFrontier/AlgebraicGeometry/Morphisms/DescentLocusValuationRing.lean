@@ -152,9 +152,9 @@ theorem exists_res_eq_smul_of_germ_mem [ValuationRing A] (L : X.Modules) (s : Γ
       TopCat.Presheaf.germ L.val.presheaf W' x hxW'
         ((f.appLE ⊤ W' (le_preimage_top f W') r) • t') := by
     rw [germ_smul_appLE f L (le_preimage_top f W') r t' x hxW']
-    show (L.presheaf.Γgerm x).hom s = _
+    change (L.presheaf.Γgerm x).hom s = _
     rw [hn]
-    show ψ r • n = _
+    change ψ r • n = _
     rw [← ht']
     congr 1
     exact Scheme.Hom.germ_stalkMap_apply f ⊤ x trivial r
@@ -319,7 +319,7 @@ theorem Γgerm_mem_smul_top_iff [ValuationRing A] (L : X.Modules) (s : Γ(L, ⊤
           Stacks.NonvanishingOpen.triv t (homOfLE (hW'U.trans hUV)) (resF L hW'W t') := by
       rw [← Stacks.NonvanishingOpen.triv_res t (homOfLE hUV) (homOfLE hW'U)
         (homOfLE (hW'U.trans hUV))]
-      show Stacks.NonvanishingOpen.triv t _ (resF L hW'U (resF L le_top s)) = _
+      change Stacks.NonvanishingOpen.triv t _ (resF L hW'U (resF L le_top s)) = _
       rw [resF_resF, ← resF_resF L (le_top : W ≤ ⊤) hW'W, ht',
         resF_smul_appLE, Stacks.NonvanishingOpen.triv_smul]
     rw [← X.presheaf.germ_res_apply (homOfLE hW'U) z hzW', hc, map_mul]
@@ -329,7 +329,7 @@ theorem Γgerm_mem_smul_top_iff [ValuationRing A] (L : X.Modules) (s : Γ(L, ⊤
   · intro hc
     have he := t.eq_smul_basisAt (homOfLE hUV) (resF L le_top s)
     rw [← TopCat.Presheaf.Γgerm_res_apply L.presheaf (i := homOfLE (le_top : U ≤ ⊤)) z hz s]
-    show TopCat.Presheaf.germ L.val.presheaf U z hz (resF L le_top s) ∈ _
+    change TopCat.Presheaf.germ L.val.presheaf U z hz (resF L le_top s) ∈ _
     rw [he]
     have h := Submodule.smul_mem_smul hc
       (Submodule.mem_top (x := (L.presheaf.germ U z hz).hom (t.basisAt (homOfLE hUV))))
@@ -386,7 +386,7 @@ private theorem exists_mem_primeIdealOf_of_flat_quotient {X S : Scheme.{u}} (f :
     (hV'.primeIdealOf ⟨x, hxV'⟩).asIdeal.map (Ideal.Quotient.mk _)
   have hQ : Q.IsPrime := Ideal.map_isPrime_of_surjective Ideal.Quotient.mk_surjective hker
   have hQunder : Q.under Γ(S, W) = (hW.primeIdealOf ⟨f x, hV'W hxV'⟩).asIdeal := by
-    show Q.comap φ = _
+    change Q.comap φ = _
     rw [← Ideal.comap_comap, Ideal.comap_map_of_surjective' _ Ideal.Quotient.mk_surjective,
       sup_eq_left.2 hker]
     exact congrArg PrimeSpectrum.asIdeal
@@ -407,13 +407,13 @@ private theorem exists_mem_primeIdealOf_of_flat_quotient {X S : Scheme.{u}} (f :
     have h2 : hW.primeIdealOf ⟨f (hV'.fromSpec P''), hV'W hyV'⟩ = hW.primeIdealOf ⟨η, hηW⟩ := by
       rw [← h1]
       ext1
-      show (P.comap (Ideal.Quotient.mk _)).comap (f.appLE W V' hV'W).hom = _
+      change (P.comap (Ideal.Quotient.mk _)).comap (f.appLE W V' hV'W).hom = _
       rw [Ideal.comap_comap]
       exact hPover.over.symm
     have h3 := congrArg hW.fromSpec h2
     rwa [hW.fromSpec_primeIdealOf, hW.fromSpec_primeIdealOf] at h3
   · rw [hyP]
-    show Ideal.Quotient.mk _ a ∈ P
+    change Ideal.Quotient.mk _ a ∈ P
     rw [Ideal.Quotient.eq_zero_iff_mem.2 (Ideal.mem_span_singleton_self a)]
     exact P.zero_mem
 
@@ -450,7 +450,7 @@ theorem mem_nonvanishingLocus_of_not_mem [ValuationRing A] [Flat f] [LocallyOfFi
   -- the closed subscheme cut out by the closure of `x`
   let Z := Scheme.IdealSheafData.vanishingIdeal (⟨closure {x}, isClosed_closure⟩ : Closeds X)
   have hxZ : x ∈ Z.support := by
-    show x ∈ (Z.support : Set X)
+    change x ∈ (Z.support : Set X)
     rw [Scheme.IdealSheafData.coe_support_vanishingIdeal]
     exact subset_closure rfl
   have hxb : x ∉ X.basicOpen c := fun h =>
@@ -541,7 +541,7 @@ private theorem mem_range_fst_of_eq_genericPoint (K : Type u) [Field K] [Algebra
   refine ⟨IsLocalRing.closedPoint K, ?_⟩
   rw [hy, genericPoint_eq_bot_of_affine]
   apply PrimeSpectrum.ext
-  show Ideal.comap (algebraMap A K) (IsLocalRing.maximalIdeal K) = ⊥
+  change Ideal.comap (algebraMap A K) (IsLocalRing.maximalIdeal K) = ⊥
   rw [IsLocalRing.maximalIdeal_eq_bot, ← RingHom.ker_eq_comap_bot]
   exact (RingHom.injective_iff_ker_eq_bot _).1 (IsFractionRing.injective A K)
 
@@ -576,7 +576,7 @@ private theorem pullback_mem_span_pullback_basis (K : Type u) [Field K] [Algebra
       genericFibreSection f K L ε (r • a) = l * genericFibreSection f K L ε a := by
     intro r a
     refine ⟨(pullback.fst f g).app ⊤ ((Stacks.Cech.globalRingHom f).hom r), ?_⟩
-    show ε.hom.app (pullback.fst f g ⁻¹ᵁ ⊤)
+    change ε.hom.app (pullback.fst f g ⁻¹ᵁ ⊤)
       (Stacks.AlgebraicGeometry.SectionsBaseChange.pullbackUnitSections
       (pullback.fst f g) L ⊤ ((Stacks.Cech.globalRingHom f).hom r • a)) = _
     rw [Stacks.AlgebraicGeometry.SectionsBaseChange.pullbackUnitSections_smul,
@@ -624,9 +624,9 @@ private theorem one_mem_span_pullback_basis (K : Type u) [Field K] [Algebra A K]
       χ (β ⊗ₜ a) = l * genericFibreSection f K L ε a := by
     intro β a
     refine ⟨((pullback.snd f g).appLE ⊤ ⊤ (le_preimage_top _ ⊤)).hom β, ?_⟩
-    show ε.hom.app ⊤ (e (β ⊗ₜ a)) = _
+    change ε.hom.app ⊤ (e (β ⊗ₜ a)) = _
     rw [he β a]
-    show ε.hom.app ⊤
+    change ε.hom.app ⊤
         (((pullback.snd f g).appLE ⊤ ⊤ _).hom β •
           Stacks.AlgebraicGeometry.SectionsBaseChange.pullbackSectionsHom (pullback.fst f g) L ⊤ ⊤
             _ a) = _
@@ -635,16 +635,13 @@ private theorem one_mem_span_pullback_basis (K : Type u) [Field K] [Algebra A K]
     rfl
   let one' : Γ(Stacks.Ample.unitModule (pullback f g), ⊤) := (1 : Γ(pullback f g, ⊤))
   obtain ⟨z, hz⟩ : ∃ z, χ z = 1 := ⟨e.symm (ε.inv.app ⊤ one'), by
-    show ε.hom.app ⊤ (e (e.symm _)) = _
+    change ε.hom.app ⊤ (e (e.symm _)) = _
     rw [LinearEquiv.apply_symm_apply, ← ConcreteCategory.comp_apply,
       ← Scheme.Modules.Hom.comp_app, Iso.inv_hom_id, Scheme.Modules.Hom.id_app]
     rfl⟩
   rw [← hz]
   clear hz
-  induction z using TensorProduct.induction_on with
-  | zero =>
-    rw [map_zero]
-    exact Ideal.zero_mem _
+  induction z using TensorProduct.inductionOn with
   | tmul β a =>
     obtain ⟨l, hl⟩ := hχ β a
     rw [hl]
@@ -665,7 +662,7 @@ theorem exists_basis_mem_nonvanishingLocus [ValuationRing A] (K : Type u) [Field
       (algebraMap A K))))).obj L ≅ Stacks.Ample.unitModule _)
     (hΓ : Function.Bijective
       (pullback.snd f (Spec.map (CommRingCat.ofHom (algebraMap A K)))).appTop.hom)
-    {ι : Type u} [Fintype ι]
+    {ι : Type u} [Finite ι]
     (b : letI : Module A Γ(L, ⊤) := Module.compHom _ (Stacks.Cech.globalRingHom f).hom
       Module.Basis ι A Γ(L, ⊤)) :
     ∃ i, ∀ y : X, f y = genericPoint (Spec (.of A)) →
@@ -804,11 +801,11 @@ private theorem not_forall_Γgerm_mem_smul_top_of_basis [ValuationRing A] [IsPro
   set a : A := (Scheme.ΓSpecIso (.of A)).hom r
   have hsa : b i = a • t := by
     rw [hst]
-    show _ = (Stacks.Cech.globalRingHom f).hom a • t
+    change _ = (Stacks.Cech.globalRingHom f).hom a • t
     congr 1
-    show (f.appLE ⊤ (f ⁻¹ᵁ ⊤) le_rfl).hom r = _
+    change (f.appLE ⊤ (f ⁻¹ᵁ ⊤) le_rfl).hom r = _
     rw [Scheme.Hom.appLE_eq_app]
-    show _ = (f.appTop).hom ((Scheme.ΓSpecIso (.of A)).inv a)
+    change _ = (f.appTop).hom ((Scheme.ΓSpecIso (.of A)).inv a)
     simp only [a, ← ConcreteCategory.comp_apply, Iso.hom_inv_id, CategoryTheory.id_apply]
     rfl
   have h1 := congrArg (fun z => b.repr z i) hsa

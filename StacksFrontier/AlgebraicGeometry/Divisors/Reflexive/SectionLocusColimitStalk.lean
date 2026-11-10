@@ -117,7 +117,7 @@ theorem isIso_modulesStalkFunctor_map_restrictAdjunction_unit_app (U : X.Opens) 
       ((Scheme.Modules.restrictFunctor U.ι).obj M))
   refine (NatIso.isIso_map_iff (Scheme.Modules.restrictStalkNatIso U.ι y)
     ((Scheme.Modules.restrictAdjunction U.ι).unit.app M)).mp ?_
-  show IsIso ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} y).map
+  change IsIso ((TopCat.Presheaf.stalkFunctor AddCommGrpCat.{u} y).map
     ((Scheme.Modules.toPresheaf U.toScheme).map ((Scheme.Modules.restrictFunctor U.ι).map
       ((Scheme.Modules.restrictAdjunction U.ι).unit.app M))))
   infer_instance

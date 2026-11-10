@@ -146,7 +146,7 @@ public theorem isSmoothAt_of_flat_of_finrank_le {R A : Type u} [CommRing R] [Com
       (k := p.ResidueField) ⟨Q, hQprime⟩ (Localization.AtPrime Q)).1.out 1 2).mpr hdim
   obtain ⟨g, hg, hsm⟩ := Algebra.exists_notMem_smooth_of_isSmoothAt_fiber p Q q hQq
     ⟨1, (Ideal.ne_top_iff_one q).mp ‹q.IsPrime›.ne_top, inferInstance⟩
-  show (⟨q, ‹q.IsPrime›⟩ : PrimeSpectrum A) ∈ Algebra.smoothLocus R A
+  change (⟨q, ‹q.IsPrime›⟩ : PrimeSpectrum A) ∈ Algebra.smoothLocus R A
   exact Algebra.basicOpen_subset_smoothLocus_iff_smooth.mpr hsm hg
 
 end Stacks.Tag01V9NumericalCriterion

@@ -137,7 +137,7 @@ theorem repCohomologyToCohomologyClass_bijective (n : ℤ) :
       rw [rep_d_eq_zero_iff, LinearEquiv.apply_symm_apply]
       exact (Cocycle.mem_iff n (n + 1) rfl _).1 z.2
     refine ⟨Quotient.mk _ ⟨a, ha⟩, ?_⟩
-    show CohomologyClass.mk (repCocycle.{u, v, w, t, s} X K n ⟨a, ha⟩) = _
+    change CohomologyClass.mk (repCocycle.{u, v, w, t, s} X K n ⟨a, ha⟩) = _
     congr 1
     ext1
     exact LinearEquiv.apply_symm_apply _ _

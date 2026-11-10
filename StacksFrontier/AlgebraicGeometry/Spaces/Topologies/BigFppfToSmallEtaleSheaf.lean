@@ -132,7 +132,7 @@ private theorem overEquiv_symm_generate_presieve₀ {C : Type*} [Category C] {X 
   · rintro ⟨W, p, c, ⟨i⟩, hpc⟩
     refine ⟨Over.mk (E.f i ≫ U.hom), Over.homMk p ?_, Over.homMk (E.f i), ⟨i⟩,
       Over.OverMorphism.ext hpc⟩
-    show p ≫ E.f i ≫ U.hom = Z.hom
+    change p ≫ E.f i ≫ U.hom = Z.hom
     rw [← Category.assoc, hpc, Over.w g]
   · rintro ⟨W, p, c, ⟨i⟩, hpc⟩
     exact ⟨E.X i, p.left, E.f i, ⟨i⟩, congrArg CommaMorphism.left hpc⟩
@@ -163,10 +163,10 @@ theorem isSheaf_bigToSmallEtale_inverseImage (X : T.Spaces)
         ⟨eSchemeSite, eSchemeMem, tScheme, eFppfMem, eInitial, eInitialSmall, eInitialEtale,
           eBound, eOrdinal, eOrdinalLim, eInitialBounded, eIsSite, eRepresentative⟩
       let P := ((E'.bigToSmallEtaleMorphism X).inverseImage.obj G).obj
-      show Presheaf.IsSheaf (BigFppfSpaceOver.topology T' X) P
+      change Presheaf.IsSheaf (BigFppfSpaceOver.topology T' X) P
       rw [isSheaf_iff_isSheaf_of_type]
       have hle : BigFppfSpaceOver.topology T' X ≤ Sheaf.finestTopologySingle P := by
-        show T'.topology.over X ≤ _
+        change T'.topology.over X ≤ _
         rw [← Space.fppfSpaceCoverage_toGrothendieck T']
         exact over_le_of_coverage (Space.fppfSpaceCoverage T') X _ fun Y R hR ↦ by
           obtain ⟨E₀, rfl, hE₀⟩ := (BigFppfSpaceSite.mem_precoverage_iff T').mp hR

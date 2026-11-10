@@ -95,7 +95,7 @@ theorem Ideal.mem_of_map_mem_pi_faithfullyFlat {A : Type u} [CommRing A]
   let : Module.FaithfullyFlat A (∀ i, R i) := hff
   have hmap : I.map (RingHom.pi f) = Ideal.pi fun i => I.map (f i) := by
     refine Ideal.piOrderIso.injective (funext fun i => ?_)
-    show (I.map (RingHom.pi f)).map (Pi.evalRingHom R i) =
+    change (I.map (RingHom.pi f)).map (Pi.evalRingHom R i) =
       (Ideal.pi fun i => I.map (f i)).map (Pi.evalRingHom R i)
     rw [Ideal.map_map, Ideal.map_evalRingHom_pi]
     rfl

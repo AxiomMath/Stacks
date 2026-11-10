@@ -194,6 +194,19 @@ are not tagged where they are declared: Mathlib and core declarations without an
 `add_to_stacks` pointer in this library, and (with `--draft-only`) those of `StacksCore/`.
 -/
 
+/-- `add_to_sga_long "ref" "comment" "Full.Name"` is `add_to_sga "ref" "comment" Full.Name`,
+with the declaration named by a string literal, which can be wrapped with `\` gaps: for
+Mathlib's generated instance names that do not fit on one line. -/
+local syntax "add_to_sga_long " str ppSpace str ppSpace str : command
+
+/-- `add_to_sga_long_nc "ref" "Full.Name"` is `add_to_sga "ref" Full.Name`, the form of
+`add_to_sga_long` without a comment. -/
+local syntax "add_to_sga_long_nc " str ppSpace str : command
+
+macro_rules
+  | `(add_to_sga_long $r $c $n) => `(add_to_sga $r $c $(Lean.mkIdent n.getString.toName))
+  | `(add_to_sga_long_nc $r $n) => `(add_to_sga $r $(Lean.mkIdent n.getString.toName):ident)
+
 add_to_sga "1 I 2.1" AdicCompletion
 add_to_sga "1 I 2.1" IsLocalRing.ResidueField
 add_to_sga "1 I 2.1" IsNoetherianRing
@@ -214,8 +227,9 @@ add_to_sga "1 I 3.1" "(ii)" Algebra.instFiniteResidueFieldOfIsUnramifiedAt
 add_to_sga "1 I 3.1" "(ii)" Algebra.instIsSeparableResidueFieldOfFormallyUnramified
 add_to_sga "1 I 3.1" "(ii)" Algebra.instIsSeparableResidueFieldOfIsUnramifiedAt
 add_to_sga "1 I 3.1" "special case" Algebra.isUnramifiedAt_iff_map_eq
-add_to_sga "1 I 3.1" "(ii)"
-  AlgebraicGeometry.FormallyUnramified.instIsSeparableCarrierResidueFieldCoeContinuousMapCarrierCarrierCommRingCatHomTopCatBaseOfLocallyOfFiniteType
+add_to_sga_long "1 I 3.1" "(ii)"
+  "AlgebraicGeometry.FormallyUnramified.instIsSeparableCarrierResidueFieldCoeContinuousMap\
+    CarrierCarrierCommRingCatHomTopCatBaseOfLocallyOfFiniteType"
 add_to_sga "1 I 3.1" "global (iii) ⇒ (ii)"
   AlgebraicGeometry.FormallyUnramified.instOfIsOpenImmersionDiagonalScheme
 add_to_sga "1 I 3.1" "global (ii) ⇒ (iii)"
@@ -248,8 +262,9 @@ add_to_sga "1 I 4.6" "(iii), special case" AlgebraicGeometry.Etale.instMorphismR
 add_to_sga "1 I 4.6" "special case" AlgebraicGeometry.Etale.instResLE
 add_to_sga "1 I 4.6" "(iii), affine case" RingHom.Etale.isStableUnderBaseChange
 add_to_sga "1 I 4.6" "(ii), affine case" RingHom.Etale.stableUnderComposition
-add_to_sga "1 I 4.8" "more general"
-  AlgebraicGeometry.Etale.instHasOfPostcompPropertySchemeMinMorphismPropertyLocallyOfFiniteTypeFormallyUnramified
+add_to_sga_long "1 I 4.8" "more general"
+  "AlgebraicGeometry.Etale.instHasOfPostcompPropertySchemeMinMorphismProperty\
+    LocallyOfFiniteTypeFormallyUnramified"
 add_to_sga "1 I 4.8" "more general" AlgebraicGeometry.Etale.of_comp
 add_to_sga "1 I 4.10" "special case" Algebra.discr
 add_to_sga "1 I 4.10" "partial" Algebra.discr_isUnit_of_basis
@@ -467,16 +482,12 @@ add_to_sga "1 IV 2.1" "(i)" Module.FaithfullyFlat.lTensor_nontrivial
 add_to_sga "1 IV 2.1" "(i) ⇒ (ii)" Module.FaithfullyFlat.lTensor_reflects_exact
 add_to_sga "1 IV 2.1" "(ii), special case" Module.FaithfullyFlat.lTensor_surjective_iff_surjective
 add_to_sga "1 IV 2.1" "(i)" Module.FaithfullyFlat.nontrivial_tensorProduct_iff_left
-add_to_sga "1 IV 2.1" "(i)" Module.FaithfullyFlat.nontrivial_tensorProduct_iff_left._simp_1
 add_to_sga "1 IV 2.1" "(i)" Module.FaithfullyFlat.nontrivial_tensorProduct_iff_right
-add_to_sga "1 IV 2.1" "(i)" Module.FaithfullyFlat.nontrivial_tensorProduct_iff_right._simp_1
 add_to_sga "1 IV 2.1" "(i) ⇒ (ii)" Module.FaithfullyFlat.rTensor_exact_iff_exact
 add_to_sga "1 IV 2.1" "(i)" Module.FaithfullyFlat.rTensor_nontrivial
 add_to_sga "1 IV 2.1" "(i) ⇒ (ii)" Module.FaithfullyFlat.rTensor_reflects_exact
 add_to_sga "1 IV 2.1" "(i)" Module.FaithfullyFlat.subsingleton_tensorProduct_iff_left
-add_to_sga "1 IV 2.1" "(i)" Module.FaithfullyFlat.subsingleton_tensorProduct_iff_left._simp_1
 add_to_sga "1 IV 2.1" "(i)" Module.FaithfullyFlat.subsingleton_tensorProduct_iff_right
-add_to_sga "1 IV 2.1" "(i)" Module.FaithfullyFlat.subsingleton_tensorProduct_iff_right._simp_1
 add_to_sga "1 IV 2.1" "faithfulness half of (i)" Module.FaithfullyFlat.zero_iff_lTensor_zero
 add_to_sga "1 IV 2.1" "faithfulness half of (i)" Module.FaithfullyFlat.zero_iff_rTensor_zero
 add_to_sga "1 IV 2.3" "M = B" Ideal.exists_isPrime_liesOver_of_faithfullyFlat
@@ -584,8 +595,9 @@ add_to_sga "1 IX 3.4" AlgebraicGeometry.GeometricallyConnected
 add_to_sga "1 IX 3.4" "special case" AlgebraicGeometry.GeometricallyConnected.connectedSpace
 add_to_sga "1 IX 3.4" "special case" AlgebraicGeometry.Scheme.Hom.connectedComponentsHomeomorph
 add_to_sga "1 IX 3.4" "special case" AlgebraicGeometry.Scheme.Hom.isConnected_preimage
-add_to_sga "1 IX 3.4" "special case"
-  AlgebraicGeometry.instConnectedSpaceCarrierCarrierCommRingCatPullbackSchemeOfGeometricallyConnectedOfUniversallyOpen
+add_to_sga_long "1 IX 3.4" "special case"
+  "AlgebraicGeometry.instConnectedSpaceCarrierCarrierCommRingCatPullbackScheme\
+    OfGeometricallyConnectedOfUniversallyOpen"
 add_to_sga "1 IX 4.2" "special case" Algebra.Etale.baseChange
 add_to_sga "1 IX 4.2" "more general" CategoryTheory.Pseudofunctor.DescentData.pullFunctor
 add_to_sga "1 IX 4.2" "more general" CategoryTheory.Pseudofunctor.DescentData.pullFunctorObj
@@ -603,10 +615,12 @@ add_to_sga "1 IX 4.12" "partial"
 add_to_sga "1 IX 5.1" ConnectedComponents
 add_to_sga "1 IX 5.6" "Connectedness of S′" AlgebraicGeometry.GeometricallyConnected.connectedSpace
 add_to_sga "1 IX 5.6" "Connectedness of S′" AlgebraicGeometry.Scheme.Hom.isConnected_preimage
-add_to_sga "1 IX 5.6" "Connectedness of S′"
-  AlgebraicGeometry.instConnectedSpaceCarrierCarrierCommRingCatPullbackSchemeOfGeometricallyConnectedOfUniversallyOpen
-add_to_sga "1 IX 5.6" "Connectedness of S′"
-  AlgebraicGeometry.instConnectedSpaceCarrierCarrierCommRingCatPullbackSchemeOfGeometricallyConnectedOfUniversallyOpen_1
+add_to_sga_long "1 IX 5.6" "Connectedness of S′"
+  "AlgebraicGeometry.instConnectedSpaceCarrierCarrierCommRingCatPullbackScheme\
+    OfGeometricallyConnectedOfUniversallyOpen"
+add_to_sga_long "1 IX 5.6" "Connectedness of S′"
+  "AlgebraicGeometry.instConnectedSpaceCarrierCarrierCommRingCatPullbackScheme\
+    OfGeometricallyConnectedOfUniversallyOpen_1"
 add_to_sga "1 IX 6.1" AlgebraicGeometry.Scheme.Hom.fiberOverSpecResidueField
 add_to_sga "1 IX 6.1" "special case" AlgebraicGeometry.Spec.fiberToSpecResidueFieldIso
 add_to_sga "1 IX 6.2" "special case" Algebra.IsFiniteSplit
@@ -631,8 +645,9 @@ add_to_sga "1 V 2.4" "partial" FixedPoints.toAlgAut_surjective
 add_to_sga "1 V 2.4" "special case" Ideal.Quotient.stabilizerQuotientInertiaEquiv
 add_to_sga "1 V 2.4" "special case" IsFractionRing.stabilizerQuotientInertiaEquiv
 add_to_sga "1 V 3.3" "special case" AlgebraicGeometry.Etale.instHasOfPostcompPropertyScheme
-add_to_sga "1 V 3.3" "special case"
-  AlgebraicGeometry.Etale.instHasOfPostcompPropertySchemeMinMorphismPropertyLocallyOfFiniteTypeFormallyUnramified
+add_to_sga_long "1 V 3.3" "special case"
+  "AlgebraicGeometry.Etale.instHasOfPostcompPropertySchemeMinMorphismProperty\
+    LocallyOfFiniteTypeFormallyUnramified"
 add_to_sga "1 V 3.3" "special case" AlgebraicGeometry.Etale.instIsMultiplicativeScheme
 add_to_sga "1 V 3.3" "special case" AlgebraicGeometry.Etale.of_comp
 add_to_sga "1 V 3.3" "special case" AlgebraicGeometry.Scheme.instEtaleLeftDiscretePUnit
@@ -652,12 +667,15 @@ add_to_sga "1 V 3.6" CategoryTheory.RegularMono
 add_to_sga "1 V 3.7" "partial" AlgebraicGeometry.Scheme.pointSmallEtale
 add_to_sga "1 V 4.1" "partial" CategoryTheory.PreGaloisCategory.continuousSMul_aut_fiber
 add_to_sga "1 V 4.1" "partial" CategoryTheory.PreGaloisCategory.exists_lift_of_continuous
-add_to_sga "1 V 4.1" "partial"
-  CategoryTheory.PreGaloisCategory.instFaithfulContActionFintypeCatFunObjFiniteAutFunctorFunctorToContAction
-add_to_sga "1 V 4.1" "partial"
-  CategoryTheory.PreGaloisCategory.instFullContActionFintypeCatFunObjFiniteAutFunctorFunctorToContAction
-add_to_sga "1 V 4.1"
-  CategoryTheory.PreGaloisCategory.instIsEquivalenceContActionFintypeCatFunObjFiniteAutFunctorFunctorToContAction
+add_to_sga_long "1 V 4.1" "partial"
+  "CategoryTheory.PreGaloisCategory.instFaithfulContActionFintypeCat\
+    FunObjFiniteAutFunctorFunctorToContAction"
+add_to_sga_long "1 V 4.1" "partial"
+  "CategoryTheory.PreGaloisCategory.instFullContActionFintypeCat\
+    FunObjFiniteAutFunctorFunctorToContAction"
+add_to_sga_long_nc "1 V 4.1"
+  "CategoryTheory.PreGaloisCategory.instIsEquivalenceContActionFintypeCat\
+    FunObjFiniteAutFunctorFunctorToContAction"
 add_to_sga "1 V 4.1" "partial"
   CategoryTheory.PreGaloisCategory.instIsTopologicalGroupAutFunctorFintypeCat
 add_to_sga "1 V 4.2" CategoryTheory.Limits.HasFiniteColimits
@@ -675,18 +693,23 @@ add_to_sga "1 V 5.1" "partial" CategoryTheory.PreGaloisCategory.exists_lift_of_c
 add_to_sga "1 V 5.1" "partial" CategoryTheory.PreGaloisCategory.functorToAction
 add_to_sga "1 V 5.1" "partial" CategoryTheory.PreGaloisCategory.functorToAction_comp_forget₂_eq
 add_to_sga "1 V 5.1" "partial" CategoryTheory.PreGaloisCategory.functorToContAction
-add_to_sga "1 V 5.1" "partial"
-  CategoryTheory.PreGaloisCategory.instEssSurjContActionFintypeCatFunObjFiniteAutFunctorFunctorToContAction
-add_to_sga "1 V 5.1" "partial"
-  CategoryTheory.PreGaloisCategory.instEssSurjContActionFintypeCatFunObjFiniteAutFunctorFunctorToContActionOfFiberFunctor
+add_to_sga_long "1 V 5.1" "partial"
+  "CategoryTheory.PreGaloisCategory.instEssSurjContActionFintypeCat\
+    FunObjFiniteAutFunctorFunctorToContAction"
+add_to_sga_long "1 V 5.1" "partial"
+  "CategoryTheory.PreGaloisCategory.instEssSurjContActionFintypeCat\
+    FunObjFiniteAutFunctorFunctorToContActionOfFiberFunctor"
 add_to_sga "1 V 5.1" "partial"
   CategoryTheory.PreGaloisCategory.instFaithfulActionFintypeCatAutFunctorFunctorToAction
-add_to_sga "1 V 5.1" "partial"
-  CategoryTheory.PreGaloisCategory.instFaithfulContActionFintypeCatFunObjFiniteAutFunctorFunctorToContAction
-add_to_sga "1 V 5.1" "partial"
-  CategoryTheory.PreGaloisCategory.instFullContActionFintypeCatFunObjFiniteAutFunctorFunctorToContAction
-add_to_sga "1 V 5.1"
-  CategoryTheory.PreGaloisCategory.instIsEquivalenceContActionFintypeCatFunObjFiniteAutFunctorFunctorToContAction
+add_to_sga_long "1 V 5.1" "partial"
+  "CategoryTheory.PreGaloisCategory.instFaithfulContActionFintypeCat\
+    FunObjFiniteAutFunctorFunctorToContAction"
+add_to_sga_long "1 V 5.1" "partial"
+  "CategoryTheory.PreGaloisCategory.instFullContActionFintypeCat\
+    FunObjFiniteAutFunctorFunctorToContAction"
+add_to_sga_long_nc "1 V 5.1"
+  "CategoryTheory.PreGaloisCategory.instIsEquivalenceContActionFintypeCat\
+    FunObjFiniteAutFunctorFunctorToContAction"
 add_to_sga "1 V 5.1" ProfiniteAddGrp
 add_to_sga "1 V 5.1" "partial" ProfiniteGrp.continuousMulEquivLimittoFiniteQuotientFunctor
 add_to_sga "1 V 5.1" "partial" ProfiniteGrp.isIso_toLimit

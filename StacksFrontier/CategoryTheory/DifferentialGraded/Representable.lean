@@ -122,7 +122,7 @@ theorem repActionLinear_of {y : A.Obj} (i n : ℤ) (a : A.Hom x x i) (b : A.Hom 
   rw [← DirectSum.lof_eq_of R ℤ (endFamily A x) i a,
     ← DirectSum.lof_eq_of R ℤ (repFamily A x y) n b]
   simp only [repActionLinear, DirectSum.toModule_lof]
-  show DirectSum.toModule R ℤ (repTotal A x y) (fun j =>
+  change DirectSum.toModule R ℤ (repTotal A x y) (fun j =>
       (DirectSum.lof R ℤ (repFamily A x y) (j + i)).comp (repRightMul A x (y := y) i j a))
       (DirectSum.lof R ℤ (repFamily A x y) n b) = _
   rw [DirectSum.toModule_lof]
@@ -226,7 +226,7 @@ placed in degree `n + 1`. -/
 theorem repDifferential_of (y : A.Obj) (n : ℤ) (f : A.Hom x y n) :
     repDifferential A x y (DirectSum.of (repFamily A x y) n f) =
       DirectSum.of (repFamily A x y) (n + 1) (A.d f) := by
-  show DirectSum.toModule R ℤ (repTotal A x y)
+  change DirectSum.toModule R ℤ (repTotal A x y)
       (fun i => (DirectSum.lof R ℤ (repFamily A x y) (i + 1)).comp
         (repDifferentialComponent A x y i))
       (DirectSum.lof R ℤ (repFamily A x y) n f) = _

@@ -92,7 +92,7 @@ theorem sectionWeilDivisor_sectionsMap_meromorphicSectionSheafMap_inv {n : ℤ}
   let := (genericFractionEmbedding D.site D.base D.base_mem hX.1 hint.2.1 hint hNo).isNoetherianRing
   let := (genericFractionEmbedding D.site D.base D.base_mem hX.1 hint.2.1 hint hNo).krullDimLE
   refine Subtype.ext (funext fun Z => ?_)
-  show divisorCycleCoefficients D sX hX hint.2.1 L _ _ Z =
+  change divisorCycleCoefficients D sX hX hint.2.1 L _ _ Z =
     divisorCycleCoefficients D sX hX hint.2.1 N t _ Z
   by_cases h : codimension (integralClosedSubspaceSupport D.site D.base D.base_mem hX.1 Z) = 1
   · rw [divisorCycleCoefficients_of_codimension_eq_one D sX hX hint.2.1 L _ _ h,

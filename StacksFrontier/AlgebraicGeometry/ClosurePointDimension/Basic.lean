@@ -75,7 +75,7 @@ public theorem exists_topologicalKrullDim_eq_natCast_of_isProper (k : Type u) [F
     exact fun h ↦ h.false hX.some
   obtain ⟨m, hm⟩ := WithBot.ne_bot_iff_exists.mp hbot
   have hm' : m ≠ ⊤ := by rintro rfl; exact htop hm.symm
-  exact ⟨m.toNat, by rw [← hm]; exact congrArg _ (ENat.coe_toNat hm').symm⟩
+  exact ⟨m.toNat, by rw [← hm]; exact congrArg _ (ENat.natCast_toNat hm').symm⟩
 
 namespace Scheme.IdealSheafData
 

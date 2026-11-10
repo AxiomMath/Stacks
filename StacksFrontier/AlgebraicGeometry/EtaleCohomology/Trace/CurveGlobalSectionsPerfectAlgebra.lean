@@ -61,7 +61,7 @@ variable {Λ : Type u} [Ring Λ]
 def powFunctor (ι : Type v) : ModuleCat.{v} Λ ⥤ ModuleCat.{v} ℤ where
   obj M := ModuleCat.of ℤ (ι → M)
   map f := ModuleCat.ofHom (intLinearMapOfAddHom
-    (Pi.addMonoidHom fun i => f.hom.toAddMonoidHom.comp (Pi.evalAddMonoidHom _ i)))
+    (AddMonoidHom.pi fun i => f.hom.toAddMonoidHom.comp (Pi.evalAddMonoidHom _ i)))
   map_id _ := rfl
   map_comp _ _ := rfl
 
@@ -75,7 +75,7 @@ lemma powFunctor_map_apply (ι : Type v) {M M' : ModuleCat.{v} Λ} (f : M ⟶ M'
 def rightPowFunctor (ι : Type v) : ModuleCat.{v} (MulOpposite Λ) ⥤ ModuleCat.{v} ℤ where
   obj N := ModuleCat.of ℤ (ι → N)
   map f := ModuleCat.ofHom (intLinearMapOfAddHom
-    (Pi.addMonoidHom fun i => f.hom.toAddMonoidHom.comp (Pi.evalAddMonoidHom _ i)))
+    (AddMonoidHom.pi fun i => f.hom.toAddMonoidHom.comp (Pi.evalAddMonoidHom _ i)))
   map_id _ := rfl
   map_comp _ _ := rfl
 
@@ -143,24 +143,27 @@ def rightCoord (M : ModuleCat.{v} Λ) : N →ₗ[ℤ] M →ₗ[ℤ] (powFunctor 
         change (b.repr (n + n') i).unop • m = (b.repr n i).unop • m + (b.repr n' i).unop • m
         simp [add_smul] }
 
+omit [Fintype ι] in
 /-- The `i`-th coordinate of `rightCoord b M n m` is `nᵢ m`. -/
 @[simp]
 lemma rightCoord_apply (M : ModuleCat.{v} Λ) (n : N) (m : M) (i : ι) :
     rightCoord b M n m i = (b.repr n i).unop • m :=
   rfl
 
+omit [Fintype ι] in
 /-- The bilinear map `rightCoord b M` is `Λ`-balanced: `(n a, m)` and `(n, a m)` have the same
 coordinates. -/
 lemma rightCoord_balanced (M : ModuleCat.{v} Λ) (n : N) (a : Λ) (m : M) :
     rightCoord b M (MulOpposite.op a • n) m = rightCoord b M n (a • m) := by
   funext i
-  show (b.repr (MulOpposite.op a • n) i).unop • m = (b.repr n i).unop • a • m
+  change (b.repr (MulOpposite.op a • n) i).unop • m = (b.repr n i).unop • a • m
   simp [mul_smul]
 
 /-- The map `N ⊗[Λ] M → (ι → M)` taking coordinates against the basis of `N`. -/
 def tensorBasisRightHom (M : ModuleCat.{v} Λ) : (D.ordinary.obj N).obj M ⟶ (powFunctor ι).obj M :=
   tensorLift D N M _ (rightCoord b M) (rightCoord_balanced b M)
 
+omit [Fintype ι] in
 /-- The map `tensorBasisRightHom D b M` sends `n ⊗ m` to `i ↦ nᵢ m`. -/
 @[simp]
 lemma tensorBasisRightHom_pure (M : ModuleCat.{v} Λ) (n : N) (m : M) :
@@ -186,12 +189,12 @@ lemma tensorBasisRightHom_inv_apply (M : ModuleCat.{v} Λ) (x : ι → M) :
     tensorBasisRightHom D b M (tensorBasisRightInv D b M x) = x := by
   rw [tensorBasisRightInv_apply, map_sum]
   simp_rw [tensorBasisRightHom_pure]
-  show (∑ k, (fun i => (b.repr (b k) i).unop • x k : ι → M)) = x
+  change (∑ k, (fun i => (b.repr (b k) i).unop • x k : ι → M)) = x
   funext j
   rw [Finset.sum_apply, Finset.sum_eq_single j]
   · simp
   · intro k _ hk
-    simp [Module.Basis.repr_self, Finsupp.single_apply, hk]
+    simp [Module.Basis.repr_self, hk]
   · simp
 
 /-- `tensorBasisRightInv D b M` is a left inverse of `tensorBasisRightHom D b M` on pure
@@ -261,18 +264,20 @@ def leftCoord (N : ModuleCat.{v} (MulOpposite Λ)) : N →ₗ[ℤ] M →ₗ[ℤ]
         funext i
         exact smul_add _ _ _ }
 
+omit [Fintype ι] in
 /-- The `i`-th coordinate of `leftCoord b N n m` is `n mᵢ`. -/
 @[simp]
 lemma leftCoord_apply (N : ModuleCat.{v} (MulOpposite Λ)) (n : N) (m : M) (i : ι) :
     leftCoord b N n m i = MulOpposite.op (b.repr m i) • n :=
   rfl
 
+omit [Fintype ι] in
 /-- The bilinear map `leftCoord b N` is `Λ`-balanced: `(n a, m)` and `(n, a m)` have the same
 coordinates. -/
 lemma leftCoord_balanced (N : ModuleCat.{v} (MulOpposite Λ)) (n : N) (a : Λ) (m : M) :
     leftCoord b N (MulOpposite.op a • n) m = leftCoord b N n (a • m) := by
   funext i
-  show MulOpposite.op (b.repr m i) • MulOpposite.op a • n = MulOpposite.op (b.repr (a • m) i) • n
+  change MulOpposite.op (b.repr m i) • MulOpposite.op a • n = MulOpposite.op (b.repr (a • m) i) • n
   simp [← mul_smul]
 
 /-- The map `N ⊗[Λ] M → (ι → N)` taking coordinates against the basis of `M`. -/
@@ -280,6 +285,7 @@ def tensorBasisLeftHom (N : ModuleCat.{v} (MulOpposite Λ)) :
     (D.ordinary.obj N).obj M ⟶ (rightPowFunctor ι).obj N :=
   tensorLift D N M _ (leftCoord b N) (leftCoord_balanced b N)
 
+omit [Fintype ι] in
 /-- The map `tensorBasisLeftHom D b N` sends `n ⊗ m` to `i ↦ n mᵢ`. -/
 @[simp]
 lemma tensorBasisLeftHom_pure (N : ModuleCat.{v} (MulOpposite Λ)) (n : N) (m : M) :
@@ -306,12 +312,12 @@ lemma tensorBasisLeftHom_inv_apply (N : ModuleCat.{v} (MulOpposite Λ)) (x : ι 
     tensorBasisLeftHom D b N (tensorBasisLeftInv D b N x) = x := by
   rw [tensorBasisLeftInv_apply, map_sum]
   simp_rw [tensorBasisLeftHom_pure]
-  show (∑ k, (fun i => MulOpposite.op (b.repr (b k) i) • x k : ι → N)) = x
+  change (∑ k, (fun i => MulOpposite.op (b.repr (b k) i) • x k : ι → N)) = x
   funext j
   rw [Finset.sum_apply, Finset.sum_eq_single j]
   · simp
   · intro k _ hk
-    simp [Module.Basis.repr_self, Finsupp.single_apply, hk]
+    simp [Module.Basis.repr_self, hk]
   · simp
 
 /-- `tensorBasisLeftInv D b N` is a left inverse of `tensorBasisLeftHom D b N` on pure
@@ -428,12 +434,14 @@ instance ordinary_preservesZeroMorphisms : D.ordinary.PreservesZeroMorphisms whe
 
 /-- **Tensoring with a right module with a finite basis preserves homology.** -/
 lemma preservesHomology_ordinary_obj_of_basis {N : ModuleCat.{v} (MulOpposite Λ)} {ι : Type v}
-    [Fintype ι] (b : Module.Basis ι (MulOpposite Λ) N) : (D.ordinary.obj N).PreservesHomology :=
+    [Finite ι] (b : Module.Basis ι (MulOpposite Λ) N) : (D.ordinary.obj N).PreservesHomology :=
+  have := Fintype.ofFinite ι
   preservesHomology_of_iso (tensorBasisRightIso D b).symm
 
 /-- **Tensoring with a left module with a finite basis preserves homology.** -/
 lemma preservesHomology_ordinary_flip_obj_of_basis {M : ModuleCat.{v} Λ} {ι : Type v}
-    [Fintype ι] (b : Module.Basis ι Λ M) : (D.ordinary.flip.obj M).PreservesHomology :=
+    [Finite ι] (b : Module.Basis ι Λ M) : (D.ordinary.flip.obj M).PreservesHomology :=
+  have := Fintype.ofFinite ι
   preservesHomology_of_iso (tensorBasisLeftIso D b).symm
 
 /-- **Tensoring with a finite free right module preserves homology.** -/
@@ -602,15 +610,15 @@ lemma isIso_homologyMap_of_isIso_f {A : Type*} [Category* A] [Abelian A]
   have h₁ : (ComplexShape.up ℤ).prev i = i - 1 := by simp
   have h₃ : (ComplexShape.up ℤ).next i = i + 1 := by simp
   have : IsIso ((shortComplexFunctor A (ComplexShape.up ℤ) i).map f).τ₁ := by
-    show IsIso (f.f ((ComplexShape.up ℤ).prev i))
+    change IsIso (f.f ((ComplexShape.up ℤ).prev i))
     rw [h₁]; infer_instance
   have : IsIso ((shortComplexFunctor A (ComplexShape.up ℤ) i).map f).τ₂ := by
-    show IsIso (f.f i); infer_instance
+    change IsIso (f.f i); infer_instance
   have : IsIso ((shortComplexFunctor A (ComplexShape.up ℤ) i).map f).τ₃ := by
-    show IsIso (f.f ((ComplexShape.up ℤ).next i))
+    change IsIso (f.f ((ComplexShape.up ℤ).next i))
     rw [h₃]; infer_instance
   have := ShortComplex.isIso_of_isIso ((shortComplexFunctor A (ComplexShape.up ℤ) i).map f)
-  show IsIso (ShortComplex.homologyMap ((shortComplexFunctor A (ComplexShape.up ℤ) i).map f))
+  change IsIso (ShortComplex.homologyMap ((shortComplexFunctor A (ComplexShape.up ℤ) i).map f))
   infer_instance
 
 /-- A morphism of cochain complexes which is an isomorphism in the degrees `i - 1`, `i` and
@@ -661,7 +669,7 @@ lemma projective_cokernel_of_finite_tensor_exact {Λ : Type u} [Ring Λ] [Small.
   have hq_zero (φ : S.X₃ →ₗ[Λ] Λ) : q (φ.comp S.g.hom) = 0 := by
     have hv : V.mkQ (φ.comp S.g.hom) = 0 :=
       (Submodule.Quotient.mk_eq_zero V).2 ⟨φ, rfl⟩
-    show (Shrink.linearEquiv.{v} Λᵐᵒᵖ ((S.X₂ →ₗ[Λ] Λ) ⧸ V)).symm
+    change (Shrink.linearEquiv.{v} Λᵐᵒᵖ ((S.X₂ →ₗ[Λ] Λ) ⧸ V)).symm
       (V.mkQ (φ.comp S.g.hom)) = 0
     rw [hv, map_zero]
   obtain ⟨cA, hcA, hrA⟩ := exists_tensor_coordinates D N S.X₂ bA
@@ -671,13 +679,13 @@ lemma projective_cokernel_of_finite_tensor_exact {Λ : Type u} [Ring Λ] [Small.
   have hx : (D.ordinary.obj N).map S.g x = 0 := by
     have hz : cB ((D.ordinary.obj N).map S.g x) = 0 := by
       funext j
-      show cB ((D.ordinary.obj N).map S.g (∑ i, _)) j = 0
+      change cB ((D.ordinary.obj N).map S.g (∑ i, _)) j = 0
       simp +instances only [_root_.map_sum, Finset.sum_apply, D.natural_right, hcB]
       calc
         _ = q (∑ i, MulOpposite.op (bB.repr (S.g (bA i)) j) • bA.coord i) := by
           simp +instances
         _ = 0 := by
-          show q (∑ i, MulOpposite.op (((bB.coord j).comp S.g.hom) (bA i)) •
+          change q (∑ i, MulOpposite.op (((bB.coord j).comp S.g.hom) (bA i)) •
             bA.coord i) = 0
           rw [sum_dual_basis]
           exact hq_zero _
@@ -689,7 +697,7 @@ lemma projective_cokernel_of_finite_tensor_exact {Λ : Type u} [Ring Λ] [Small.
         fun φ ψ h => bA.ext fun i => congrFun h i
     have : Finite ((S.X₂ →ₗ[Λ] Λ) ⧸ V) :=
       Finite.of_surjective _ (Submodule.mkQ_surjective V)
-    show Finite (Shrink.{v} ((S.X₂ →ₗ[Λ] Λ) ⧸ V))
+    change Finite (Shrink.{v} ((S.X₂ →ₗ[Λ] Λ) ⧸ V))
     exact Finite.of_equiv _ (equivShrink.{v} ((S.X₂ →ₗ[Λ] Λ) ⧸ V))
   obtain ⟨y, hy⟩ := hex N hfinN x hx
   choose φ hφ using fun l => hq_surj (cC y l)
@@ -716,12 +724,12 @@ lemma projective_cokernel_of_finite_tensor_exact {Λ : Type u} [Ring Λ] [Small.
     refine (Submodule.Quotient.mk_eq_zero V).1
       ((Shrink.linearEquiv.{v} Λᵐᵒᵖ ((S.X₂ →ₗ[Λ] Λ) ⧸ V)).symm.injective ?_)
     rw [map_zero]
-    show q _ = 0
+    change q _ = 0
     rw [_root_.map_sub, hycoord, sub_self]
   choose ψ hψ using hmem
   let s : S.X₃ →ₗ[Λ] S.X₂ := ∑ i, (ψ i).smulRight (bA i)
   have hs (a : S.X₂) : s (S.g a) = a - S.f (h a) := by
-    show (∑ i, (ψ i).smulRight (bA i)) (S.g a) = _
+    change (∑ i, (ψ i).smulRight (bA i)) (S.g a) = _
     simp +instances only [LinearMap.sum_apply, LinearMap.smulRight_apply]
     have hψ' (i : Module.Free.ChooseBasisIndex Λ S.X₂) :
         ψ i (S.g a) = bA.repr a i - bA.repr (S.f (h a)) i :=
@@ -730,7 +738,7 @@ lemma projective_cokernel_of_finite_tensor_exact {Λ : Type u} [Ring Λ] [Small.
   let s' : S.X₃ ⟶ S.X₂ := ModuleCat.ofHom s
   have hgs : S.g ≫ s' ≫ S.g = S.g := by
     ext a
-    show S.g (s (S.g a)) = S.g a
+    change S.g (s (S.g a)) = S.g a
     rw [hs, _root_.map_sub]
     have hz : S.g (S.f (h a)) = 0 :=
       congrArg (fun f : S.X₁ ⟶ S.X₃ => f (h a)) S.zero
@@ -845,7 +853,7 @@ lemma isZero_homology_ordinary_of_isZero_homology_mapBifunctor [Finite Λ] [Smal
   let e : ℤ := min (i - b - 2) (i - w)
   let σR := R.stupidTrunc (ComplexShape.embeddingUpIntGE e)
   have hσf {p : ℤ} (hp : e ≤ p) : (ComplexShape.embeddingUpIntGE e).f (p - e).toNat = p := by
-    show e + ((p - e).toNat : ℤ) = p
+    change e + ((p - e).toNat : ℤ) = p
     omega
   let eσ {p : ℤ} (hp : e ≤ p) : σR.X p ≅ R.X p := R.stupidTruncXIso _ (hσf hp)
   have hσz (p : ℤ) (hp : p < e) : IsZero (σR.X p) :=

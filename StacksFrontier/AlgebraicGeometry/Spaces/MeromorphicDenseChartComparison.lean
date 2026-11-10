@@ -110,7 +110,7 @@ theorem bijective_pi_of_isIso.{m, r, v', u'}
   have hcomp : (fun s => q (E.map f s)) =
       fun s : A.val.obj U => fun i => (Pi.π M i).val.app U (f.val.app U s) := by
     funext s i
-    show (Types.productIso fun i => E.obj (M i)).hom (piComparison E M (E.map f s)) i = _
+    change (Types.productIso fun i => E.obj (M i)).hom (piComparison E M (E.map f s)) i = _
     rw [Types.productIso_hom_comp_eval_apply]
     exact ConcreteCategory.congr_hom (piComparison_comp_π E M i) (E.map f s)
   rw [← hcomp]
@@ -171,7 +171,7 @@ presheaves followed by the inclusion of a subfunctor, and `j_η` factors through
 definition of `j_η` as the composite of `Spec(𝒪_{X, η}) ⟶ P.scheme` with the chart. -/
 theorem isGenericChart_schematicChart : P.IsGenericChart P.schematicChart where
   mono := by
-    show Mono (P.iso.hom ≫ P.sub.ι)
+    change Mono (P.iso.hom ≫ P.sub.ι)
     exact mono_comp' (IsIso.mono_of_iso _) (Subfunctor.instMonoFunctorTypeι _)
   factors y hy := ⟨P.specStalkToScheme hy, rfl⟩
 
@@ -408,14 +408,14 @@ theorem IsGenericChart.map_prodFst_comp_prodLift :
       (P.representable_genericMorphism hy).snd
         (SmallEtale.prodObj B S hS X.1 U C).1.hom := by
   refine U.property.rep.hom_ext' ?_ ?_
-  · show (P.genericBaseChangeMap hy (SmallEtale.prodFst B S hS X.1 U C) ≫ hC.prodLift hy U) ≫
+  · change (P.genericBaseChangeMap hy (SmallEtale.prodFst B S hS X.1 U C) ≫ hC.prodLift hy U) ≫
         (SmallEtale.prodFst B S hS X.1 U C).hom.left =
       (P.representable_genericMorphism hy).snd
           (SmallEtale.prodObj B S hS X.1 U C).1.hom ≫
         (SmallEtale.prodFst B S hS X.1 U C).hom.left
     rw [Category.assoc, hC.prodLift_fst hy U,
       P.genericBaseChangeMap_snd hy (SmallEtale.prodFst B S hS X.1 U C)]
-  · show (P.genericBaseChangeMap hy (SmallEtale.prodFst B S hS X.1 U C) ≫ hC.prodLift hy U) ≫
+  · change (P.genericBaseChangeMap hy (SmallEtale.prodFst B S hS X.1 U C) ≫ hC.prodLift hy U) ≫
         (SmallEtale.prodSnd B S hS X.1 U C).hom.left =
       (P.representable_genericMorphism hy).snd
           (SmallEtale.prodObj B S hS X.1 U C).1.hom ≫
@@ -438,7 +438,7 @@ theorem IsGenericChart.isIso_smallBaseChange_map_prodFst :
       (P.representable_genericMorphism hy)).map (SmallEtale.prodFst B S hS X.1 U C)) := by
   refine ⟨hC.smallBaseChangeProdInv hy U, ?_, ?_⟩
   · refine ObjectProperty.hom_ext _ (CostructuredArrow.hom_ext _ _ ?_)
-    show P.genericBaseChangeMap hy (SmallEtale.prodFst B S hS X.1 U C) ≫
+    change P.genericBaseChangeMap hy (SmallEtale.prodFst B S hS X.1 U C) ≫
       hC.prodInv hy U = 𝟙 _
     refine (P.representable_genericMorphism hy).hom_ext ?_ ?_
     · have hid := yoneda.map_id ((P.representable_genericMorphism hy).pullback
@@ -449,7 +449,7 @@ theorem IsGenericChart.isIso_smallBaseChange_map_prodFst :
     · simp only [Category.assoc, Category.id_comp, hC.prodInv_snd hy U,
         hC.map_prodFst_comp_prodLift hy U]
   · refine ObjectProperty.hom_ext _ (CostructuredArrow.hom_ext _ _ ?_)
-    show hC.prodInv hy U ≫
+    change hC.prodInv hy U ≫
       P.genericBaseChangeMap hy (SmallEtale.prodFst B S hS X.1 U C) = 𝟙 _
     refine (P.representable_genericMorphism hy).hom_ext ?_ ?_
     · have hid := yoneda.map_id ((P.representable_genericMorphism hy).pullback U.1.hom)
@@ -542,7 +542,7 @@ theorem IsGenericChart.bijective_genericPointStructureSheaf_map_prodFst
   have := hC.isIso_smallBaseChange_map_prodFst hy U
   have : IsIso ((P.genericPointStructureSheaf hy).obj.map
       (SmallEtale.prodFst B S hS X.1 U C).op) := by
-    show IsIso ((structureSheaf B S hS (P.specStalkSpace hy).1
+    change IsIso ((structureSheaf B S hS (P.specStalkSpace hy).1
       (P.specStalkSpace hy).2).obj.map
         (((smallBaseChange B S hS (P.genericMorphism hy X.2)
           (P.representable_genericMorphism hy)).map
@@ -550,6 +550,7 @@ theorem IsGenericChart.bijective_genericPointStructureSheaf_map_prodFst
     infer_instance
   exact ConcreteCategory.bijective_of_isIso _
 
+omit hC in
 /-- The comparison `𝒦_X ⟶ j_{η, *}𝒪_{X, η}` is natural in the chart. -/
 theorem IsGenericChart.genericPointComparison_app_map_prodFst
     (U : SmallEtale B S hS X.1) {y : points B S hS X.1}
@@ -590,8 +591,8 @@ theorem IsGenericChart.bijective_meromorphicFunctionSheaf_map_prodFst
           (SmallEtale.prodFst B S hS X.1 U C).op).hom s =
         ((meromorphicFunctionSheaf B S hS X.1 X.2).obj.map
           (SmallEtale.prodFst B S hS X.1 U C).op).hom t := h
-    rw [← hC.genericPointComparison_app_map_prodFst U η.2 s,
-      ← hC.genericPointComparison_app_map_prodFst U η.2 t, h']
+    rw [← IsGenericChart.genericPointComparison_app_map_prodFst (P := P) (C := C) U η.2 s,
+      ← IsGenericChart.genericPointComparison_app_map_prodFst (P := P) (C := C) U η.2 t, h']
   · obtain ⟨u, hu⟩ : ∃ u : ∀ η : CodimensionZeroPoints B S hS X.1,
         (P.genericPointStructureSheaf η.2).obj.obj (op U),
         ∀ η : CodimensionZeroPoints B S hS X.1,
@@ -606,7 +607,8 @@ theorem IsGenericChart.bijective_meromorphicFunctionSheaf_map_prodFst
     have hs' : ∀ η : CodimensionZeroPoints B S hS X.1,
         ((P.genericPointComparison η.2).hom.app (op U)).hom s = u η := fun η => congrFun hs η
     refine ⟨s, hUC.injective (funext fun η => ?_)⟩
-    rw [hC.genericPointComparison_app_map_prodFst U η.2 s, hs' η, hu η]
+    rw [IsGenericChart.genericPointComparison_app_map_prodFst (P := P) (C := C) U η.2 s, hs' η,
+      hu η]
 
 end Restriction
 

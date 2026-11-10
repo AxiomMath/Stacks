@@ -179,8 +179,7 @@ lemma canonMod_baseChange (ψ : ∀ i, R i →ₐ[A] S) (u : M →ₗ[A] N) (i :
     (y : (R i) ⊗[A] M) :
     canonMod ψ N i ((LinearMap.baseChange (R i) u) y)
       = (LinearMap.baseChange S u) (canonMod ψ M i y) := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul r m => simp [canonMod_tmul, LinearMap.baseChange_tmul]
   | add x y hx hy => simp [map_add, hx, hy]
 
@@ -190,8 +189,7 @@ lemma transMod_baseChange (φ : ∀ ⦃i j : ι⦄, i ≤ j → R i →ₐ[A] R 
     (u : M →ₗ[A] N) ⦃i j : ι⦄ (hij : i ≤ j) (y : (R i) ⊗[A] M) :
     transMod φ N hij ((LinearMap.baseChange (R i) u) y)
       = (LinearMap.baseChange (R j) u) (transMod φ M hij y) := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul r m => simp [transMod_tmul, LinearMap.baseChange_tmul]
   | add x y hx hy => simp [map_add, hx, hy]
 
@@ -305,7 +303,7 @@ lemma baseChange_surjective_iff_coker_subsingleton
     LinearMap.baseChange_surjective T (Submodule.mkQ_surjective _)
   have hex : Function.Exact u q := LinearMap.exact_map_mkQ_range u
   have hexT : Function.Exact (LinearMap.baseChange T u) (LinearMap.baseChange T q) := by
-    rw [LinearMap.baseChange_eq_ltensor, LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor, LinearMap.baseChange_eq_lTensor]
     exact lTensor_exact T hex (Submodule.mkQ_surjective _)
   have hkey : Function.Surjective (LinearMap.baseChange T u) ↔ LinearMap.baseChange T q = 0 :=
     ⟨fun hu => LinearMap.ext fun w => (hexT w).mpr (hu w),

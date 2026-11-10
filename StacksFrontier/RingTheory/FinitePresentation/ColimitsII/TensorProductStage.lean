@@ -122,8 +122,7 @@ theorem Algebra.TensorProduct.exists_stage_of_directed_aux
     (Algebra.TensorProduct.map (fA j k h) (AlgHom.id (A i₀) C₀)).toRingHom
   have hself (P : Type v) [CommRing P] [Algebra (A i₀) P] (j : J) (x : A j.1 ⊗[A i₀] P) :
       Algebra.TensorProduct.map (fA j j le_rfl) (AlgHom.id (A i₀) P) x = x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul x y => simp [fA, DirectedSystem.map_self' (fun i j h => a i j h)]
     | add x y hx hy => simp only [map_add, hx, hy]
   have hcomp (P : Type v) [CommRing P] [Algebra (A i₀) P] (j k l : J) (hjk : j ≤ k) (hkl : k ≤ l)
@@ -168,16 +167,14 @@ theorem Algebra.TensorProduct.exists_stage_of_directed_aux
       Stacks.FinitePresentation.ColimitDescent.canonMod (fun j : J => IsScalarTower.toAlgHom (A i₀)
         (A j.1) R) P j y =
         Algebra.TensorProduct.map (gA j) (AlgHom.id (A i₀) P) y := by
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul x y => rfl
     | add x y hx hy => simp only [map_add, hx, hy]
   have htrans (P : Type v) [CommRing P] [Algebra (A i₀) P] (j k : J) (h : j ≤ k)
       (y : A j.1 ⊗[A i₀] P) :
       Stacks.FinitePresentation.ColimitDescent.transMod (fun j k (h : j ≤ k) => fA j k h) P h y =
         Algebra.TensorProduct.map (fA j k h) (AlgHom.id (A i₀) P) y := by
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul x y => rfl
     | add x y hx hy => simp only [map_add, hx, hy]
   have hs (P : Type v) [CommRing P] [Algebra (A i₀) P] (r : R ⊗[A i₀] P) :
@@ -201,7 +198,7 @@ theorem Algebra.TensorProduct.exists_stage_of_directed_aux
   have _ (j : J) : IsScalarTower B₀ C₀ (A j.1 ⊗[A i₀] C₀) := .of_algebraMap_eq fun _ => rfl
   have _ (j : J) : IsScalarTower B₀ (A j.1 ⊗[A i₀] B₀) (A j.1 ⊗[A i₀] C₀) :=
     .of_algebraMap_eq fun x => by
-      show (1 : A j.1) ⊗ₜ[A i₀] φ₀ x = Algebra.TensorProduct.map (AlgHom.id (A i₀) (A j.1)) φ₀
+      change (1 : A j.1) ⊗ₜ[A i₀] φ₀ x = Algebra.TensorProduct.map (AlgHom.id (A i₀) (A j.1)) φ₀
         ((1 : A j.1) ⊗ₜ[A i₀] x)
       simp
   have hbc (j : J) : Algebra.IsPushout B₀ C₀ (A j.1 ⊗[A i₀] B₀) (A j.1 ⊗[A i₀] C₀) :=
@@ -225,13 +222,13 @@ theorem Algebra.TensorProduct.exists_stage_of_directed_aux
     have : IsScalarTower (A j.1 ⊗[A i₀] B₀) (A j.1 ⊗[A i₀] C₀) (A k.1 ⊗[A i₀] C₀) :=
       .of_algebraMap_eq fun _ => rfl
     have : IsScalarTower B₀ (A j.1 ⊗[A i₀] C₀) (A k.1 ⊗[A i₀] C₀) := .of_algebraMap_eq fun x => by
-      show (1 : A k.1) ⊗ₜ[A i₀] φ₀ x = bJ j k h ((1 : A j.1) ⊗ₜ[A i₀] φ₀ x)
+      change (1 : A k.1) ⊗ₜ[A i₀] φ₀ x = bJ j k h ((1 : A j.1) ⊗ₜ[A i₀] φ₀ x)
       simp [bJ]
     have : IsScalarTower C₀ (A j.1 ⊗[A i₀] C₀) (A k.1 ⊗[A i₀] C₀) := .of_algebraMap_eq fun x => by
-      show (1 : A k.1) ⊗ₜ[A i₀] x = bJ j k h ((1 : A j.1) ⊗ₜ[A i₀] x)
+      change (1 : A k.1) ⊗ₜ[A i₀] x = bJ j k h ((1 : A j.1) ⊗ₜ[A i₀] x)
       simp [bJ]
     have : IsScalarTower B₀ (A j.1 ⊗[A i₀] B₀) (A k.1 ⊗[A i₀] B₀) := .of_algebraMap_eq fun x => by
-      show (1 : A k.1) ⊗ₜ[A i₀] x = aJ j k h ((1 : A j.1) ⊗ₜ[A i₀] x)
+      change (1 : A k.1) ⊗ₜ[A i₀] x = aJ j k h ((1 : A j.1) ⊗ₜ[A i₀] x)
       simp [aJ]
     have : Algebra.IsPushout B₀ (A j.1 ⊗[A i₀] B₀) C₀ (A j.1 ⊗[A i₀] C₀) := (hbc j).symm
     have h1 : Algebra.IsPushout (A j.1 ⊗[A i₀] B₀) (A k.1 ⊗[A i₀] B₀) (A j.1 ⊗[A i₀] C₀)

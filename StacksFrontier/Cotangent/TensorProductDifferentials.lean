@@ -169,10 +169,9 @@ abbrev overTensorAugmentation :
 /-- The augmentation of `Z` composed with `overTensorLift i j` is `overTensorAugmentation`. -/
 theorem augmentationRingHom_overTensorLift (w : (X.left : Type u) ⊗[A] (Y.left : Type u)) :
     augmentationRingHom Z (overTensorLift i j w) = overTensorAugmentation (X := X) (Y := Y) w := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul x y =>
-      show Z.hom.hom (i.left.hom x * j.left.hom y) = X.hom.hom x * Y.hom.hom y
+      change Z.hom.hom (i.left.hom x * j.left.hom y) = X.hom.hom x * Y.hom.hom y
       rw [map_mul]
       exact congrArg₂ (· * ·) (ConcreteCategory.congr_hom (Over.w i) x)
         (ConcreteCategory.congr_hom (Over.w j) y)
@@ -242,12 +241,10 @@ private theorem leibniz_of_tmul_mul_tmul {M : Type*} [AddCommGroup M] [Module (B
           overTensorAugmentation (x' ⊗ₜ[A] y') • D (x ⊗ₜ[A] y))
     (w w' : (X.left : Type u) ⊗[A] (Y.left : Type u)) :
     D (w * w') = overTensorAugmentation w • D w' + overTensorAugmentation w' • D w := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | add w₁ w₂ h₁ h₂ => simp only [add_mul, map_add, h₁, h₂, add_smul, smul_add]; abel
   | tmul x y =>
-    induction w' using TensorProduct.induction_on with
-    | zero => simp
+    induction w' using TensorProduct.inductionOn with
     | add w₁ w₂ h₁ h₂ => simp only [mul_add, map_add, h₁, h₂, add_smul, smul_add]; abel
     | tmul x' y' => exact h x x' y y'
 
@@ -298,7 +295,7 @@ theorem overTensorEquiv_symm_left (x : (X.left : Type u)) :
     (overTensorEquiv i j h).symm (i.left.hom x) = x ⊗ₜ[A] 1 := by
   apply (overTensorEquiv i j h).injective
   rw [AlgEquiv.apply_symm_apply]
-  show i.left.hom x = i.left.hom x * j.left.hom 1
+  change i.left.hom x = i.left.hom x * j.left.hom 1
   rw [map_one, mul_one]
 
 /-- The inverse of `overTensorEquiv i j h` sends `j y` to `1 ⊗ y`. -/
@@ -306,7 +303,7 @@ theorem overTensorEquiv_symm_right (y : (Y.left : Type u)) :
     (overTensorEquiv i j h).symm (j.left.hom y) = 1 ⊗ₜ[A] y := by
   apply (overTensorEquiv i j h).injective
   rw [AlgEquiv.apply_symm_apply]
-  show j.left.hom y = i.left.hom 1 * j.left.hom y
+  change j.left.hom y = i.left.hom 1 * j.left.hom y
   rw [map_one, one_mul]
 
 /-- The augmentation of `Z` is `overTensorAugmentation` transported along `overTensorEquiv`. -/
@@ -364,25 +361,25 @@ theorem isIso_biprod_desc_overDifferentialsFunctor_map :
     IsIso (biprod.desc (overDifferentialsFunctor.map i) (overDifferentialsFunctor.map j)) := by
   have h₁ : overDifferentialsFunctor.map i ≫ overTensorFst i j h = 𝟙 _ :=
     overDifferentials_hom_ext _ _ fun x => by
-      show overTensorFst i j h (overDifferentialsFunctor.map i (overDifferentialsMk X x)) =
+      change overTensorFst i j h (overDifferentialsFunctor.map i (overDifferentialsMk X x)) =
         overDifferentialsMk X x
       rw [overDifferentialsFunctor_map_mk, overTensorFst_mk,
         overTensorEquiv_symm_left, overTensorDerivFst_tmul, map_one, one_smul]
   have h₂ : overDifferentialsFunctor.map i ≫ overTensorSnd i j h = 0 :=
     overDifferentials_hom_ext _ _ fun x => by
-      show overTensorSnd i j h (overDifferentialsFunctor.map i (overDifferentialsMk X x)) = 0
+      change overTensorSnd i j h (overDifferentialsFunctor.map i (overDifferentialsMk X x)) = 0
       rw [overDifferentialsFunctor_map_mk, overTensorSnd_mk,
         overTensorEquiv_symm_left, overTensorDerivSnd_tmul, overDifferentialsMk_one, smul_zero]
       rfl
   have h₃ : overDifferentialsFunctor.map j ≫ overTensorFst i j h = 0 :=
     overDifferentials_hom_ext _ _ fun y => by
-      show overTensorFst i j h (overDifferentialsFunctor.map j (overDifferentialsMk Y y)) = 0
+      change overTensorFst i j h (overDifferentialsFunctor.map j (overDifferentialsMk Y y)) = 0
       rw [overDifferentialsFunctor_map_mk, overTensorFst_mk,
         overTensorEquiv_symm_right, overTensorDerivFst_tmul, overDifferentialsMk_one, smul_zero]
       rfl
   have h₄ : overDifferentialsFunctor.map j ≫ overTensorSnd i j h = 𝟙 _ :=
     overDifferentials_hom_ext _ _ fun y => by
-      show overTensorSnd i j h (overDifferentialsFunctor.map j (overDifferentialsMk Y y)) =
+      change overTensorSnd i j h (overDifferentialsFunctor.map j (overDifferentialsMk Y y)) =
         overDifferentialsMk Y y
       rw [overDifferentialsFunctor_map_mk, overTensorSnd_mk,
         overTensorEquiv_symm_right, overTensorDerivSnd_tmul, map_one, one_smul]
@@ -398,18 +395,16 @@ theorem isIso_biprod_desc_overDifferentialsFunctor_map :
         overDifferentialsFunctor_map_mk i
       have hj : ∀ y, φj (overDifferentialsMk Y y) = overDifferentialsMk Z (j.left.hom y) :=
         overDifferentialsFunctor_map_mk j
-      show φi (overTensorFst i j h (overDifferentialsMk Z _)) +
+      change φi (overTensorFst i j h (overDifferentialsMk Z _)) +
         φj (overTensorSnd i j h (overDifferentialsMk Z _)) = overDifferentialsMk Z _
       rw [overTensorFst_mk, overTensorSnd_mk, AlgEquiv.symm_apply_apply]
-      induction w using TensorProduct.induction_on with
-      | zero => rw [map_zero, map_zero, map_zero, map_zero, map_zero, overDifferentialsMk_zero,
-          add_zero]
+      induction w using TensorProduct.inductionOn with
       | add w w' hw hw' =>
           rw [map_add, map_add, map_add, map_add, map_add, overDifferentialsMk_add, ← hw, ← hw']
           abel
       | tmul x y =>
           rw [overTensorDerivFst_tmul, overTensorDerivSnd_tmul, map_smul, map_smul, hi, hj]
-          show _ = overDifferentialsMk Z (i.left.hom x * j.left.hom y)
+          change _ = overDifferentialsMk Z (i.left.hom x * j.left.hom y)
           rw [overDifferentialsMk_mul, augmentationRingHom_apply, augmentationRingHom_apply,
             ← ConcreteCategory.comp_apply, ← ConcreteCategory.comp_apply, Over.w i, Over.w j,
             add_comm]

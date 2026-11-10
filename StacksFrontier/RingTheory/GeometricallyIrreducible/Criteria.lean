@@ -156,8 +156,7 @@ compositum of two such, which is again finite over `k`. -/
 private theorem exists_finiteDimensional_mem_range [Algebra.IsAlgebraic k K] (x : R ⊗[k] K) :
     ∃ E : IntermediateField k K, FiniteDimensional k E ∧
       x ∈ (Algebra.TensorProduct.map (AlgHom.id k R) E.val).range := by
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨⊥, inferInstance, zero_mem _⟩
+  induction x using TensorProduct.inductionOn with
   | tmul r a =>
       exact ⟨IntermediateField.adjoin k {a},
         IntermediateField.adjoin.finiteDimensional (Algebra.IsIntegral.isIntegral a),

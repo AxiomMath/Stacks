@@ -58,7 +58,6 @@ variable {C : Type uu} [Category.{vv} C] {D : Type uu'} [Category.{vv'} D]
   [J.HasSheafCompose (forget₂ CommRingCat.{ww} RingCat.{ww})]
   [J.HasSheafCompose (forget RingCat.{ww})]
   [K.HasSheafCompose (forget RingCat.{ww})]
-  [K.HasSheafCompose (forget₂ CommRingCat.{ww} RingCat.{ww})]
   (G : C ⥤ D) [G.IsContinuous J K] (O : Sheaf K CommRingCat.{ww})
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{ww} RingCat.{ww})]

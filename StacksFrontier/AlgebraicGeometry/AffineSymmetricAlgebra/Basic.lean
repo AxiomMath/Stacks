@@ -106,8 +106,7 @@ theorem gradedPiece_eq_bot_of_neg {n : ℤ} (hn : n < 0) : gradedPiece (R := R) 
 theorem piecePresheaf_eq_zero_of_neg {n : ℤ} (hn : n < 0) (U : ((Spec R).Opens)ᵒᵖ)
     (t : (piecePresheaf M n).obj U) : t = 0 := by
   have hbot := gradedPiece_eq_bot_of_neg M hn
-  induction t using TensorProduct.induction_on with
-  | zero => rfl
+  induction t using TensorProduct.inductionOn with
   | tmul a z =>
       have hz : z = 0 := Subtype.ext (Submodule.mem_bot R |>.mp (hbot ▸ z.2))
       rw [hz]

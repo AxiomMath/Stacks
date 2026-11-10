@@ -167,7 +167,7 @@ theorem map_app_overlapUnit (f : Y' ⟶ Y) (u : Γ(Y, U₀ ⊓ U₁)ˣ) (u' : Γ
   have huv : (f.app (U₀ ⊓ U₁)).hom u.val =
       (Y'.presheaf.map (homOfLE hle).op).hom u'.val := congrArg Units.val hu
   refine Units.ext ?_
-  show (f.app V).hom ((Y.presheaf.map (homOfLE hV).op).hom u.val) =
+  change (f.app V).hom ((Y.presheaf.map (homOfLE hV).op).hom u.val) =
     (Y'.presheaf.map (homOfLE ((f.preimage_mono hV).trans hle)).op).hom u'.val
   rw [← UnitTransitionCocycle.app_presheafMap_apply f hV u.val, huv]
   exact congrArg Units.val (overlapUnit_restrict u' hle (f.preimage_mono hV))

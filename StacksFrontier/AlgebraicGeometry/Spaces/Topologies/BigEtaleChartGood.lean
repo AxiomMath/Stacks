@@ -157,7 +157,7 @@ theorem isZero_moduleCohomology_bigEtale_of_slice {X' : E.Spaces}
       (RingedSite.ringedTopos.{u + 1, u + 1, u + 1} (E.bigEtaleRingedSite X')).O)
         (Opposite.op V)).Additive := by
     dsimp [SheafOfModules.evaluation]; infer_instance
-  show IsZero (((SheafOfModules.evaluation (Stacks.SheafOfModules.Tensor.ringSheaf
+  change IsZero (((SheafOfModules.evaluation (Stacks.SheafOfModules.Tensor.ringSheaf
       (RingedSite.ringedTopos.{u + 1, u + 1, u + 1} (E.bigEtaleRingedSite X')).O)
         (Opposite.op V)).rightDerived (p + 1)).obj G)
   have : HasExt.{u + 1} (SheafOfModules.{u + 1} (Stacks.SheafOfModules.Tensor.ringSheaf
@@ -364,7 +364,7 @@ theorem isZero_moduleCohomology_bigFppf_of_slice {X' : T.Spaces}
       (RingedSite.ringedTopos.{u + 1, u + 1, u + 1} (bigFppfRingedSite T X')).O)
         (Opposite.op V)).Additive := by
     dsimp [SheafOfModules.evaluation]; infer_instance
-  show IsZero (((SheafOfModules.evaluation (Stacks.SheafOfModules.Tensor.ringSheaf
+  change IsZero (((SheafOfModules.evaluation (Stacks.SheafOfModules.Tensor.ringSheaf
       (RingedSite.ringedTopos.{u + 1, u + 1, u + 1} (bigFppfRingedSite T X')).O)
         (Opposite.op V)).rightDerived (p + 1)).obj G)
   have : HasExt.{u + 1} (SheafOfModules.{u + 1} (Stacks.SheafOfModules.Tensor.ringSheaf

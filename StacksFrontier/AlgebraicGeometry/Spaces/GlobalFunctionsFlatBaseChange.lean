@@ -123,7 +123,7 @@ theorem toScheme_map_siteTerminalHom_specAlgebraObj :
     (BigFppfOver.toScheme B (Spec (.of A)) hA).map
         (siteTerminalHom B (Spec (.of A)) hA (specAlgebraObj A T B hA hT)) =
       Spec.map (CommRingCat.ofHom (algebraMap A T)) := by
-  show B.inclusion.map (B.inclusion.preimage (X := B.obj hT) (Y := B.obj hA)
+  change B.inclusion.map (B.inclusion.preimage (X := B.obj hT) (Y := B.obj hA)
     (Spec.map (CommRingCat.ofHom (algebraMap A T)))) = _
   rw [Functor.map_preimage]
 

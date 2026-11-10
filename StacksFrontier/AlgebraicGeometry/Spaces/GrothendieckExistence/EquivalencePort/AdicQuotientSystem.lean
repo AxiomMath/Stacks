@@ -61,7 +61,7 @@ theorem C1573.smallEtaleAdicQuotientTransition_naturality (e : ℕ) {M N : Modul
       smallEtaleAdicQuotientTransition B S hS F hF 𝓚 e M ≫
         (smallEtaleAdicQuotientFunctor B S hS F hF 𝓚 e).map φ := by
   refine (cancel_epi (smallEtaleAdicQuotientProjection B S hS F hF 𝓚 (e + 1) M)).1 ?_
-  show smallEtaleAdicQuotientProjection B S hS F hF 𝓚 (e + 1) M ≫
+  change smallEtaleAdicQuotientProjection B S hS F hF 𝓚 (e + 1) M ≫
       smallEtaleAdicQuotientMapOfHom B S hS F hF 𝓚 (e + 1) φ ≫
         smallEtaleAdicQuotientTransition B S hS F hF 𝓚 e N =
     smallEtaleAdicQuotientProjection B S hS F hF 𝓚 (e + 1) M ≫
@@ -96,7 +96,7 @@ theorem C1573.isCoherentAdicSystem_quotientSystem (hK : 𝓚.toSheafOfModules.Is
     have : Epi (smallEtaleAdicQuotientProjection B S hS F hF 𝓚 e (E.obj (op (n + 1)))) :=
       inferInstanceAs (Epi (cokernel.π _))
     refine (cancel_epi (smallEtaleAdicQuotientProjection B S hS F hF 𝓚 e _)).1 ?_
-    show smallEtaleAdicQuotientProjection B S hS F hF 𝓚 e _ ≫
+    change smallEtaleAdicQuotientProjection B S hS F hF 𝓚 e _ ≫
         smallEtaleAdicQuotientProjection B S hS F hF 𝓘 (n + 1) _ ≫
           adicQuotientCommHom B S hS F hF 𝓘 𝓚 e (n + 1) (E.obj (op (n + 1))) ≫
             smallEtaleAdicQuotientMapOfHom B S hS F hF 𝓚 e en.hom =

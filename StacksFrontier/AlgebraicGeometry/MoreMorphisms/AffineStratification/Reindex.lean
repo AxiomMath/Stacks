@@ -71,7 +71,7 @@ private lemma stratumLevel_mono {I : Type v} [PartialOrder I] [Finite I]
     stratumLevel n i ≤ stratumLevel n j := by
   have hi := coheight_le_nat hn i
   have hc : Order.coheight j ≤ Order.coheight i := by
-    show Order.height (OrderDual.toDual j) ≤ Order.height (OrderDual.toDual i)
+    change Order.height (OrderDual.toDual j) ≤ Order.height (OrderDual.toDual i)
     exact Order.height_mono hij
   have hci : Order.coheight i ≠ ⊤ := fun htop => by simp [htop] at hi
   have hnat : (Order.coheight j).toNat ≤ (Order.coheight i).toNat :=
@@ -154,7 +154,7 @@ private lemma levelStrata_isLocallyClosed {X : Scheme.{u}} {I : Type v}
   have hUiopen (i : I) : IsOpen (Ui i) :=
     (s.isLocallyFiniteStratification.isStratification.isPartition.locallyClosed
       i).isOpen_coborder.inter
-      ((hF.subset Set.diff_subset).isClosed_biUnion fun _ _ => isClosed_closure).isOpen_compl
+      ((hF.subset Set.sdiff_subset).isClosed_biUnion fun _ _ => isClosed_closure).isOpen_compl
   have hU : IsOpen U := isOpen_biUnion fun i _ => hUiopen i
   have hC : IsClosed C := hF.isClosed_biUnion fun _ _ => isClosed_closure
   have heq : levelStrata n s k = U ∩ C := by
@@ -166,10 +166,10 @@ private lemma levelStrata_isLocallyClosed {X : Scheme.{u}} {I : Type v}
       · simp only [U, Set.mem_iUnion₂]
         refine ⟨i.1, i.2, ?_⟩
         dsimp [Ui]
-        show x ∈ coborder (s.strata i.1) ∧
+        change x ∈ coborder (s.strata i.1) ∧
           x ∉ ⋃ j ∈ F \ {i.1}, closure (s.strata j)
         constructor
-        · show x ∉ closure (s.strata i.1) \ s.strata i.1
+        · change x ∉ closure (s.strata i.1) \ s.strata i.1
           exact fun h => h.2 hxi
         · intro hxj
           simp only [Set.mem_iUnion₂] at hxj
@@ -227,9 +227,9 @@ private lemma levelStrata_isLocallyFiniteStratification {X : Scheme.{u}} {I : Ty
     refine Set.mem_iUnion.mpr ⟨stratumLevel n i, ?_⟩
     exact Set.mem_iUnion.mpr ⟨⟨i, rfl⟩, hxi⟩
   · intro k
-    show closure (⋃ i : {i : I // stratumLevel n i = k}, s.strata i.1) ⊆ _
+    change closure (⋃ i : {i : I // stratumLevel n i = k}, s.strata i.1) ⊆ _
     rw [Set.iUnion_subtype]
-    show closure (⋃ i ∈ {i : I | stratumLevel n i = k}, s.strata i) ⊆ _
+    change closure (⋃ i ∈ {i : I | stratumLevel n i = k}, s.strata i) ⊆ _
     rw [(Set.toFinite {i : I | stratumLevel n i = k}).closure_biUnion]
     apply Set.iUnion₂_subset
     intro i hi x hx
@@ -332,7 +332,7 @@ private lemma levelStratum_isAffine {X : Scheme.{u}} {I : Type v}
     ext y
     constructor
     · rintro ⟨z, rfl⟩
-      show f (g i z) ∈ s.strata i.1
+      change f (g i z) ∈ s.strata i.1
       have hmem : fi i z ∈ Set.range (fi i) := ⟨z, rfl⟩
       rw [hgf]
       simpa [hfirange i] using hmem
@@ -434,7 +434,7 @@ private lemma levelStratum_isAffine {X : Scheme.{u}} {I : Type v}
     have hVeq : (⨆ i : F, V i) = f ⁻¹ᵁ W := by
       ext y
       rw [Opens.coe_iSup, Set.mem_iUnion]
-      show (∃ i : F, y ∈ (g i) '' ((fi i) ⁻¹ᵁ W : Set (Yi i))) ↔ f y ∈ W
+      change (∃ i : F, y ∈ (g i) '' ((fi i) ⁻¹ᵁ W : Set (Yi i))) ↔ f y ∈ W
       constructor
       · rintro ⟨i, z, hzmem, hzy⟩
         have hzW : fi i z ∈ W := hzmem
@@ -445,7 +445,7 @@ private lemma levelStratum_isAffine {X : Scheme.{u}} {I : Type v}
           simp
         obtain ⟨i, ⟨z, hzy⟩⟩ := Set.mem_iUnion.mp hycover
         refine ⟨i, z, ?_, hzy⟩
-        show fi i z ∈ W
+        change fi i z ∈ W
         simpa only [← hzy, hgf] using hy
     rw [← hVeq]
     exact IsAffineOpen.iSup_of_disjoint hVaff hVdis

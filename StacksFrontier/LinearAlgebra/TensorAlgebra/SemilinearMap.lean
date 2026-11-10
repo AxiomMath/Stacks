@@ -273,7 +273,7 @@ theorem exists_liftRing
         ∀ (r : R) (x : TensorAlgebra R M), Φ (r • x) = r • Φ x := by
   let _ : Algebra R T := Algebra.ofModule h₁ h₂
   refine ⟨(TensorAlgebra.lift R γ).toRingHom, TensorAlgebra.lift_ι_apply γ, fun r x => ?_⟩
-  show (TensorAlgebra.lift R γ) (r • x) = r • (TensorAlgebra.lift R γ) x
+  change (TensorAlgebra.lift R γ) (r • x) = r • (TensorAlgebra.lift R γ) x
   rw [Algebra.smul_def, map_mul, AlgHom.commutes, Algebra.algebraMap_eq_smul_one, h₁, one_mul]
 
 /-- The ring homomorphism `TensorAlgebra R M →+* T` extending a linear map into a semiring with a
@@ -504,7 +504,7 @@ theorem exists_liftRing
   let _ : Algebra R T := Algebra.ofModule h₁ h₂
   refine ⟨(ExteriorAlgebra.lift R ⟨γ, hγ⟩).toRingHom,
     ExteriorAlgebra.lift_ι_apply R γ hγ, fun r x => ?_⟩
-  show (ExteriorAlgebra.lift R ⟨γ, hγ⟩) (r • x) = r • (ExteriorAlgebra.lift R ⟨γ, hγ⟩) x
+  change (ExteriorAlgebra.lift R ⟨γ, hγ⟩) (r • x) = r • (ExteriorAlgebra.lift R ⟨γ, hγ⟩) x
   rw [Algebra.smul_def, map_mul, AlgHom.commutes, Algebra.algebraMap_eq_smul_one, h₁, one_mul]
 
 /-- The ring homomorphism `ExteriorAlgebra R M →+* T` extending a linear map with square-zero

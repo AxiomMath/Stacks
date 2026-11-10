@@ -20,7 +20,8 @@ de Rham complex on the image of such a wedge.
 * `AlgebraicGeometry.Scheme.Hom.deRhamComplex_d_homogeneousProdLeft`: **the de Rham rule of
   `Ω^•_{X/S}`, in every degree**, for an arbitrary morphism of schemes: the differential of the
   relative de Rham complex carries `b · (d c₁ ∧ ⋯ ∧ d c_p)` to `d b ∧ d c₁ ∧ ⋯ ∧ d c_p`. This is
-  the library's `DeRhamDifferential.differential_smul_homogeneousProdLeft`, read on the arrows of the
+  the library's `DeRhamDifferential.differential_smul_homogeneousProdLeft`, read on the arrows of
+  the
   complex of a morphism of schemes.
 * `Stacks.AlgebraicGeometry.AffineDifferentialsIso.differentialFormsSectionsIso_ιMulti`: the
   degreewise comparison carries a wedge `m₁ ∧ ⋯ ∧ m_p` of Kähler differentials to the ordered

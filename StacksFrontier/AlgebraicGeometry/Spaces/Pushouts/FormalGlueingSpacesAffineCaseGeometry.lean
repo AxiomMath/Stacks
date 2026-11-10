@@ -63,8 +63,7 @@ theorem _root_.CommRingCat.isPushout_of_tensorAddEquiv {R A B C : CommRingCat.{u
   let φ := Algebra.TensorProduct.productMap iA jB
   have hφ : ∀ x, φ x = e x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul a b =>
       rw [he]
       exact Algebra.TensorProduct.productMap_apply_tmul iA jB a b
@@ -128,6 +127,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Q Q' : AlgebraicSpaces B S hS}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is slow
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_FormalGlueingSpacesAffineCaseGeometry :

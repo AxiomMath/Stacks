@@ -255,7 +255,7 @@ theorem frobeniusStageRestrictCocone_precompose_ι_app (n j : ℕ) :
         (frobeniusStageRestrictToSheafIso X p hX G n).symm.hom =
       ((_root_.SheafOfModules.toSheaf X.ringSheafOnOpens).mapCocone
         (frobeniusStageRestrictCocone X p hX n G)).ι.app j := by
-  show ((frobeniusRestrictExtendDiagramToSheafIso X p hX G).hom.app j ≫
+  change ((frobeniusRestrictExtendDiagramToSheafIso X p hX G).hom.app j ≫
         @CategoryTheory.Functor.map _ _ _ _
           (PresheafOfModules.toPresheaf X.ringSheafOnOpens.obj ⋙
             presheafToSheaf (Opens.grothendieckTopology (X : TopCat)) AddCommGrpCat.{u})

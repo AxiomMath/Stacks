@@ -127,7 +127,7 @@ theorem isStableCurveFamily_curveFamilyOfIsPullback_of_hasStableFibresAt (Y : Cu
   have : Nonempty (T.obj W) :=
     (connectedSpace_of_isIso_globalSections Q.carrier (T.map w)).toNonempty
   refine ⟨⟨?_, ?_⟩, fun p => ?_⟩
-  · show Space.IsAtWorstNodalOfRelativeDimensionOne B integerBase hZ (yoneda.map w)
+  · change Space.IsAtWorstNodalOfRelativeDimensionOne B integerBase hZ (yoneda.map w)
     refine (Space.holdsOnEveryEtaleChart_yoneda_map_iff B integerBase hZ
       isAtWorstNodalOfRelativeDimensionOne_isEtaleLocalOnSourceAndTarget w).2 ?_
     exact (isAtWorstNodalOfRelativeDimensionOne_iff_of_field Q.carrier (T.map w)).2
@@ -146,7 +146,7 @@ theorem isStableCurveFamily_curveFamilyOfIsPullback_of_hasStableFibresAt (Y : Cu
         toBase := p.toBase
         value := pv ≫ t }
     have hQ's : ∀ x, T.map Q'.value x = s := fun x => by
-      show T.map (pv ≫ t) x = s
+      change T.map (pv ≫ t) x = s
       rw [Functor.map_comp, Scheme.Hom.comp_apply]
       exact hQs _
     have hV := IsPullback.of_hasPullback w pv
@@ -155,7 +155,7 @@ theorem isStableCurveFamily_curveFamilyOfIsPullback_of_hasStableFibresAt (Y : Cu
       exact hV.map yoneda
     · have hY' : IsPullback (yoneda.map (pullback.fst w pv) ≫ r) (yoneda.map (pullback.snd w pv))
           Y.toBase.hom (yonedaEquiv.symm Q'.value) := by
-        show IsPullback _ _ _ (yoneda.map (pv ≫ t))
+        change IsPullback _ _ _ (yoneda.map (pv ≫ t))
         rw [Functor.map_comp]
         exact (hV.map yoneda).paste_horiz hr
       exact (hY Q' hQ's (pullback.snd w pv) _ hY').2.2.2.2

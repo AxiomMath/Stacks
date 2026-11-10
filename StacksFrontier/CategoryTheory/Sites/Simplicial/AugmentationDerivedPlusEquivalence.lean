@@ -65,7 +65,6 @@ variable (S : SimplicialSiteSituation.{u}) (D : Cat.{u, u}) (K : GrothendieckTop
   [HasDerivedCategory (Sheaf K AddCommGrpCat.{u})]
   [HasDerivedCategory (Sheaf S.totalTopology AddCommGrpCat.{u})]
   [EnoughInjectives (Sheaf K AddCommGrpCat.{u})]
-  [EnoughInjectives (Sheaf S.totalTopology AddCommGrpCat.{u})]
 
 /-- `D⁺_𝒜((C_n)_total)`: the bounded below complexes of abelian sheaves on the total site all of
 whose cohomology sheaves are cartesian. -/
@@ -80,6 +79,8 @@ theorem derivedCategoryB_rightDerivedFunctorPlus_totalInverseImageAb_obj
     cartesianDerivedPlus S ((totalInverseImageAb S D K a).rightDerivedFunctorPlus.obj X) :=
   Adjunction.derivedCategoryB_rightDerivedFunctorPlus_obj (IsCartesianAbSheaf S)
     (isCartesianAbSheaf_totalInverseImageAb S D K a) X
+
+variable [EnoughInjectives (Sheaf S.totalTopology AddCommGrpCat.{u})]
 
 /-- **`a⁻¹ : D⁺(D) ⟶ D⁺_𝒜((C_n)_total)` is an equivalence with quasi-inverse `Ra_*`**, granted
 cohomological descent `K ≅ Ra_*a⁻¹K` on `D⁺(D)` and that every cartesian abelian sheaf on the

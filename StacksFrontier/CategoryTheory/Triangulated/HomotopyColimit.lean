@@ -271,8 +271,8 @@ theorem IsHomotopyColimitCocone.of_iso {F F' : ℕ ⥤ D} [HasCoproduct F.obj] [
     (Triangle.isoMk _ _ s s (Iso.refl _) ?_ ?_ ?_)⟩
   · refine Sigma.hom_ext _ _ fun n ↦ ?_
     have hn := e.hom.naturality (homOfLE (Nat.le_succ n))
-    simp only [Triangle.mk_obj₁, Triangle.mk_obj₂, Triangle.mk_mor₁, s, Sigma.ι_desc_assoc,
-      Sigma.ι_desc, Preadditive.sub_comp, Category.assoc, Preadditive.comp_sub]
+    simp only [Triangle.mk_obj₁, Triangle.mk_obj₂, Triangle.mk_mor₁, s, Sigma.ι_comp_desc_assoc,
+      Sigma.ι_comp_desc, Preadditive.sub_comp, Category.assoc, Preadditive.comp_sub]
     rw [reassoc_of% hn]
   · refine Sigma.hom_ext _ _ fun n ↦ ?_
     simp [s]

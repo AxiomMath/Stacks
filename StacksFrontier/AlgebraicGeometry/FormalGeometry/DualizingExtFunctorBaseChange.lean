@@ -61,7 +61,9 @@ What this subsumes. `Dualizing.extBaseChangeLinearEquiv` is the content of
 `Stacks.Algebraization.isIso_dualizingExtFunctorBaseChange_app` at a single module, with `Ext`
 in place of `H^{-i}(RHom)` and with the base change written as a tensor product rather than as
 extension of scalars; `Dualizing.localizedExtLinearEquiv` is the same statement with `S` a
-localization, where flatness is automatic. Neither is rederived from the statement here: both live in other files, and `Dualizing.localizedExtLinearEquiv` additionally has a `private` clone at
+localization, where flatness is automatic. Neither is rederived from the statement here:
+both live in other files, and `Dualizing.localizedExtLinearEquiv` additionally
+has a `private` clone at
 `StacksFrontier.RingTheory.Dualizing.UpperShriek.CompleteIntersectionLocal`.
 `Dualizing.extAdicSystemCompletionAddEquiv` is *not* subsumed: it composes flat base change with
 a completion comparison, and only its flat half appears here.

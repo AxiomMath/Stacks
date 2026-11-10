@@ -97,7 +97,7 @@ theorem ideal_componentIdeal_le_radical (I : V.X.IdealSheafData) (i : Fin V.numb
     rw [← U.2.fromSpec_image_zeroLocus]
     exact ⟨p, hp, rfl⟩
   rw [← Scheme.IdealSheafData.coe_support_inter] at h1
-  show U.2.fromSpec p ∈ (componentClosed V i : Set V.X)
+  change U.2.fromSpec p ∈ (componentClosed V i : Set V.X)
   rw [coe_componentClosed]
   exact hU h1
 

@@ -144,7 +144,7 @@ theorem isThickening_specMap_of_sq_eq_bot (hg : Function.Surjective g)
     (hI : RingHom.ker g ^ 2 = ⊥) :
     Stacks.Thickenings.IsThickening (Spec.map (CommRingCat.ofHom g)) := by
   refine ⟨IsClosedImmersion.spec_of_surjective (CommRingCat.ofHom g) hg, ?_⟩
-  show Function.Surjective (PrimeSpectrum.comap g)
+  change Function.Surjective (PrimeSpectrum.comap g)
   intro p
   have hp : p ∈ PrimeSpectrum.zeroLocus (RingHom.ker g : Set R') := fun x hx =>
     p.isPrime.mem_of_pow_mem 2 (by
@@ -423,7 +423,7 @@ theorem twoChartGoodOfThickening : TwoChartGoodOfThickening.{u} := by
           D.sections σ k := by
       rintro ⟨x, y⟩ hq
       have hq' : D'.cechDiff k (x, y) = 0 := hq
-      show D.cechDiff k _ = 0
+      change D.cechDiff k _ = 0
       have := congrArg (i.appLE (D'.U ⊓ D'.V) (D.U ⊓ D.V) hUV.ge).hom hq'
       rw [TwoChartDatum.cechDiff_apply, map_zero, map_sub, map_mul, map_pow] at this
       rw [TwoChartDatum.cechDiff_apply, ← this, ← hb]
@@ -471,10 +471,10 @@ theorem twoChartGoodOfThickening : TwoChartGoodOfThickening.{u} := by
           ext <;> simp
         map_smul' := fun r q' => by
           ext
-          · show (i.appLE D'.U D.U hU).hom (algebraMap R' Γ(X', D'.U) r * q'.1.1) =
+          · change (i.appLE D'.U D.U hU).hom (algebraMap R' Γ(X', D'.U) r * q'.1.1) =
               algebraMap R Γ(X, D.U) (g r) * (i.appLE D'.U D.U hU).hom q'.1.1
             rw [map_mul, hρU]
-          · show (i.appLE D'.V D.V hV).hom (algebraMap R' Γ(X', D'.V) r * q'.1.2) =
+          · change (i.appLE D'.V D.V hV).hom (algebraMap R' Γ(X', D'.V) r * q'.1.2) =
               algebraMap R Γ(X, D.V) (g r) * (i.appLE D'.V D.V hV).hom q'.1.2
             rw [map_mul, hρV] }
     have hφ : Function.Surjective φ := by

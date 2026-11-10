@@ -26,10 +26,10 @@ base**, and builds the resulting functor
 
 That functor is the one construction missing behind the binder `hTransport` of
 `Stacks.Algebraization.isProper_systemAnnihilatorIdeal_of_transport`
-(`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/ProperSupportAlgebraization.lean`,
-whose module docstring records the gap: "What is not in this library is the functor pushing a
-coherent adic system on `Y` forward to `Y'` along the open immersion `j`, without which `β` cannot
-be produced"). The last two sections produce `β`.
+(`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/`
+`ProperSupportAlgebraization.lean`, whose module docstring records the gap: "What is not in this
+library is the functor pushing a coherent adic system on `Y` forward to `Y'` along the open
+immersion `j`, without which `β` cannot be produced"). The last two sections produce `β`.
 
 ## Why properness of the support, and not any property of the immersion, is what works
 
@@ -411,9 +411,9 @@ public theorem isIso_directImageQuotientComparison_of_supp_subset {X : Scheme.{u
     if b.down then ⟨Tᶜ, hT.isOpen_compl⟩ else U with hcov
   have hsup : (⨆ b, cov b) = ⊤ := by
     rw [iSup_ulift, iSup_bool_eq]
-    show (⟨Tᶜ, hT.isOpen_compl⟩ : X.Opens) ⊔ U = ⊤
+    change (⟨Tᶜ, hT.isOpen_compl⟩ : X.Opens) ⊔ U = ⊤
     ext x
-    show (x ∈ (⟨Tᶜ, hT.isOpen_compl⟩ : X.Opens) ∨ x ∈ U) ↔ True
+    change (x ∈ (⟨Tᶜ, hT.isOpen_compl⟩ : X.Opens) ∨ x ∈ U) ↔ True
     refine ⟨fun _ => trivial, fun _ => ?_⟩
     by_cases hx : x ∈ T
     · exact Or.inr (hTU hx)
@@ -698,7 +698,7 @@ public theorem isProperOver_comp_of_isClosed_image {Y' S : Scheme.{u}} (U : Y'.O
   have : IsClosedImmersion
       ((Scheme.IdealSheafData.vanishingIdeal C).subschemeι ≫ U.ι) :=
     IsClosedImmersion.of_isPreimmersion _ (hrange ▸ hC)
-  show IsProper ((Scheme.IdealSheafData.vanishingIdeal C).subschemeι ≫ U.ι ≫ p)
+  change IsProper ((Scheme.IdealSheafData.vanishingIdeal C).subschemeι ≫ U.ι ≫ p)
   rw [← Category.assoc]
   infer_instance
 
@@ -801,7 +801,7 @@ public theorem exists_hasProperSupport_iso_completionFunctor_of_isProjectiveMorp
     _root_.SheafOfModules.isClosed_supp G.obj⟩, rfl, ?_⟩, ?_⟩
   · refine isProperOver_comp_of_isClosed_image U p
       ⟨_root_.SheafOfModules.supp G.obj, _root_.SheafOfModules.isClosed_supp G.obj⟩ ?_
-    show IsClosed (U.ι.base '' _root_.SheafOfModules.supp G.obj)
+    change IsClosed (U.ι.base '' _root_.SheafOfModules.supp G.obj)
     rw [himage]
     exact _root_.SheafOfModules.isClosed_supp G'.obj
   · exact ⟨iso_completion_restrictCoherentModules U 𝓘 𝓖.obj 𝓗.property G' e4⟩

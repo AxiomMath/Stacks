@@ -330,7 +330,7 @@ theorem exists_extendScalarsTargetHom
   · have : IsIso (extendScalarsTargetHom k φ φ' hsq L) :=
       (extendScalarsTargetIso k φ φ' hsq L).isIso_hom
     exact ConcreteCategory.bijective_of_isIso _
-  · show e (e.symm (aff.hom (extendScalarsTargetHom k φ φ' hsq L ((1 : S) ⊗ₜ[R,φ] a)))) = _
+  · change e (e.symm (aff.hom (extendScalarsTargetHom k φ φ' hsq L ((1 : S) ⊗ₜ[R,φ] a)))) = _
     rw [e.apply_symm_apply, extendScalarsTargetHom_one_tmul]
     rfl
 

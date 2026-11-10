@@ -38,6 +38,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks in this presheaf category exceeds the default limit
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_QuasiAffineOpenImmersionChartSections :
@@ -176,7 +177,7 @@ theorem exists_finset_isOpenImmersion_of_pushforwardRingMap_app {X Y : Algebraic
   have hinj' : Function.Injective (T.map m).appTop := by
     intro a b hab
     rw [← heq] at hab
-    simp only [CommRingCat.comp_apply] at hab
+    simp only at hab
     exact (ConcreteCategory.bijective_of_isIso σZ.inv).1
       (hinj ((ConcreteCategory.bijective_of_isIso σY.hom).1 hab))
   have hrange' : (s₀ : Set _) ⊆ Set.range (T.map m).appTop :=

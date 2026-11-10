@@ -155,7 +155,7 @@ private lemma inverseImageConstantIso_unit_constModuleSection_app (T : Y.Etale) 
 private lemma nonempty_smallEtaleBaseChange_obj_left_of_mem_range (T : Y.Etale) {w : W}
     (hw : i w ∈ Set.range T.hom.base) : Nonempty ((smallEtaleBaseChange i).obj T).left := by
   rw [← not_isEmpty_iff]
-  show ¬ IsEmpty ↥(Limits.pullback (T.hom : T.left ⟶ Y) i)
+  change ¬ IsEmpty ↥(Limits.pullback (T.hom : T.left ⟶ Y) i)
   rw [Scheme.isEmpty_pullback_iff, Set.not_disjoint_iff]
   exact ⟨i w, hw, ⟨w, rfl⟩⟩
 
@@ -171,7 +171,7 @@ theorem injective_unit_app_constantSheaf_smallEtaleIdObject
   intro s hs
   refine (ConcreteCategory.bijective_of_isIso (e.hom.app (op (smallEtaleIdObject Y)))).1 ?_
   rw [map_zero]
-  show ((e.hom.app (op (smallEtaleIdObject Y))).hom s :
+  change ((e.hom.app (op (smallEtaleIdObject Y))).hom s :
     LocallyConstant (smallEtaleIdObject Y).left M) = 0
   refine LocallyConstant.ext fun y => ?_
   by_contra hm

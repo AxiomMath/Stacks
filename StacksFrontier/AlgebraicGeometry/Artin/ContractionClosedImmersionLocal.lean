@@ -30,12 +30,14 @@ namespace AlgebraicGeometry.Artin.ContractionSituation
 
 attribute [local instance] Space.pointTopology
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of fppf sheaves times out under the default limit
 /-- Pullbacks of fppf sheaves on `BigFppfOver B S hS`: instance search for them times out under
 Lean v4.35.0. -/
 local instance (priority := high) hasPullbacks_sheaf_ContractionClosedImmersionLocal
     {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
     HasPullbacks (FormalSpace.FppfSheaf B S hS) := by
-  set_option synthInstance.maxHeartbeats 400000 in infer_instance
+  infer_instance
 
 local instance (priority := high) hasLimit_cospan_sheaf_ContractionClosedImmersionLocal
     {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
@@ -61,7 +63,7 @@ theorem hasImageIn_zeroLocusPoints_of_pow (I : Ideal A) {V : BigFppfOver B S hS}
   intro x
   rw [← FormalSpace.toSpecΓ_comp_spec_chartRing v]
   intro a ha
-  show FormalSpace.chartRing v a ∈ (((BigFppfOver.toScheme B S hS).obj V).toSpecΓ x).asIdeal
+  change FormalSpace.chartRing v a ∈ (((BigFppfOver.toScheme B S hS).obj V).toSpecΓ x).asIdeal
   apply Ideal.IsPrime.mem_of_pow_mem inferInstance (n + 1)
   rw [← map_pow, hv _ (Ideal.pow_mem_pow ha _)]
   exact Ideal.zero_mem _
@@ -85,7 +87,7 @@ theorem nonempty_completionSheaf_of_pow (Z : Set (Space.points B S hS
   have hg : Space.HasImageIn B S hS G.toFunctor (Space.pointsMap B S hS _ G.ι ⁻¹' Z) V g := by
     rw [Space.hasImageIn_iff_range_subset]
     rintro _ ⟨p, rfl⟩
-    show Space.pointsMap B S hS _ G.ι (Space.pointsMap B S hS _ (yonedaEquiv.symm g) p) ∈ Z
+    change Space.pointsMap B S hS _ G.ι (Space.pointsMap B S hS _ (yonedaEquiv.symm g) p) ∈ Z
     rw [← Function.comp_apply (f := Space.pointsMap B S hS _ G.ι), ← Space.pointsMap_comp]
     have h1 : yonedaEquiv.symm g ≫ G.ι = yonedaEquiv.symm v ≫
         terminal.from (yoneda.obj (FormalSpace.affineOver B S hS hA f)) := terminal.hom_ext _ _
@@ -101,10 +103,10 @@ omit [IsNoetherianRing A] in
 theorem ker_chartRing_quotientToAffineOver (K : Ideal A) :
     RingHom.ker (FormalSpace.chartRing (Space.quotientToAffineOver B S hS f hA K)) = K := by
   ext a
-  show (Scheme.ΓSpecIso (CommRingCat.of A)).inv a ∈ RingHom.ker
+  change (Scheme.ΓSpecIso (CommRingCat.of A)).inv a ∈ RingHom.ker
       ((BigFppfOver.toScheme B S hS).map (Space.quotientToAffineOver B S hS f hA K)).appTop.hom ↔ _
   rw [Space.ker_appTop_quotientToAffineOver B S hS f hA K]
-  show (Scheme.ΓSpecIso (CommRingCat.of A)).hom ((Scheme.ΓSpecIso (CommRingCat.of A)).inv a)
+  change (Scheme.ΓSpecIso (CommRingCat.of A)).hom ((Scheme.ΓSpecIso (CommRingCat.of A)).inv a)
     ∈ K ↔ _
   rw [Iso.inv_hom_id_apply]
 
@@ -170,7 +172,7 @@ theorem exists_chartIdeal (c : ContractionSituation B S hS)
     have h := Space.toScheme_map_terminal_from B S hS V0
     have : Etale ((BigFppfOver.toScheme B S hS).map (terminal.from V0) ≫
         (Space.toSchemeTerminalIso B S hS).hom) := by
-      rw [h]; show Etale f; infer_instance
+      rw [h]; change Etale f; infer_instance
     exact (MorphismProperty.cancel_right_of_respectsIso (P := @Etale) _ _).1 this
   have h1 : Space.IsEtale B S hS (yoneda.map (terminal.from V0)) :=
     (Space.isEtale_iff_presheaf_of_yoneda B S hS _).2
@@ -233,7 +235,8 @@ theorem exists_chartIdeal (c : ContractionSituation B S hS)
         q0.app _ v ∈ (Space.openSubspaceOfPoints B S hS _ Zᶜ).obj (Opposite.op V) := by
     intro V _ v
     rw [← FormalSpace.range_subset_compl_zeroLocusPoints_iff I v]
-    show _ ↔ Set.range (Space.pointsMap B S hS (yoneda.obj V) (yonedaEquiv.symm (q0.app _ v))) ⊆ Zᶜ
+    change _ ↔
+      Set.range (Space.pointsMap B S hS (yoneda.obj V) (yonedaEquiv.symm (q0.app _ v))) ⊆ Zᶜ
     have h1 : yonedaEquiv.symm (q0.app _ v) = yoneda.map v ≫ q0 := terminal.hom_ext _ _
     rw [h1, Space.pointsMap_comp, Set.range_comp, hIZ, Set.image_subset_iff, Set.preimage_compl]
   -- every ideal `K` is the kernel of an affine point, which kills any ideal contained in `K`
@@ -349,7 +352,7 @@ theorem exists_chartIdeal (c : ContractionSituation B S hS)
       rw [Ideal.map_le_iff_le_comap]
       intro j hj
       rw [Ideal.mem_comap, RingHom.mem_ker]
-      show ((BigFppfOver.toScheme B S hS).map v').appTop
+      change ((BigFppfOver.toScheme B S hS).map v').appTop
         ((Scheme.ΓSpecIso (CommRingCat.of (AdicCompletion I A ⧸ (st n).1))).inv
           (Ideal.Quotient.mk (st n).1 (algebraMap A (AdicCompletion I A) j))) = 0
       rw [hring]

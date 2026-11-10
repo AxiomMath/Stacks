@@ -95,7 +95,7 @@ lemma δ_comp_cochainEval {m : ℤ} (hnm : n + 1 = m) {p q : ℤ} (hpq : p + m =
         ((m.negOnePow : ℤˣ) : ℤ) •
           cochainEval K L n (show p + 1 + n = q by omega) ((K.d p (p + 1)).hom x) := by
   refine ModuleCat.hom_ext (LinearMap.ext fun (z : Cochain K L n) => ?_)
-  show ((δ n m z).v p q hpq).hom x = _
+  change ((δ n m z).v p q hpq).hom x = _
   rw [δ_v n m hnm z p q hpq (q - 1) (p + 1) rfl rfl]
   simp [Units.smul_def]
   all_goals rfl
@@ -105,7 +105,7 @@ lemma postcomp_comp_cochainEval {L' : CochainComplex (ModuleCat.{v} R) ℤ} (h :
     {p q : ℤ} (hpq : p + n = q) (x : K.X p) :
     (postcomp R K L L' h).f n ≫ cochainEval K L' n hpq x = cochainEval K L n hpq x ≫ h.f q := by
   refine ModuleCat.hom_ext (LinearMap.ext fun (z : Cochain K L n) => ?_)
-  show ((z.comp (Cochain.ofHom h) (add_zero n)).v p q hpq).hom x = _
+  change ((z.comp (Cochain.ofHom h) (add_zero n)).v p q hpq).hom x = _
   rw [Cochain.comp_zero_cochain_v]
   rfl
 
@@ -189,7 +189,7 @@ lemma comparison_naturality {L L' : CochainComplex (ModuleCat.{v} R) ℤ} (h : L
   refine HomologicalComplex.hom_ext _ _ fun n => ModuleCat.hom_ext (LinearMap.ext
     fun (x : E.obj ((HomComplexR R K L).X n)) =>
       Cochain.ext _ _ fun p q hpq => ModuleCat.hom_ext (LinearMap.ext fun y => ?_))
-  show (E.map (cochainEval K L' n hpq y)).hom ((E.map ((postcomp R K L L' h).f n)).hom x) =
+  change (E.map (cochainEval K L' n hpq y)).hom ((E.map ((postcomp R K L L' h).f n)).hom x) =
     (((comparisonCochain K L n E x).comp (Cochain.ofHom ((E.mapHomologicalComplex _).map h))
       (add_zero n)).v p q hpq).hom y
   rw [map_hom_map_hom, postcomp_comp_cochainEval, E.map_comp, Cochain.comp_zero_cochain_v]
@@ -204,7 +204,7 @@ lemma comparison_natTrans {E' : ModuleCat.{v} R ⥤ ModuleCat.{v} R} [E'.Additiv
   refine HomologicalComplex.hom_ext _ _ fun n => ModuleCat.hom_ext (LinearMap.ext
     fun (x : E.obj ((HomComplexR R K L).X n)) =>
       Cochain.ext _ _ fun p q hpq => ModuleCat.hom_ext (LinearMap.ext fun y => ?_))
-  show (E'.map (cochainEval K L n hpq y)).hom ((α.app _).hom x) =
+  change (E'.map (cochainEval K L n hpq y)).hom ((α.app _).hom x) =
     (((comparisonCochain K L n E x).comp
       (Cochain.ofHom ((NatTrans.mapHomologicalComplex α _).app L)) (add_zero n)).v p q hpq).hom y
   rw [Cochain.comp_zero_cochain_v]
@@ -242,7 +242,7 @@ def singleSmulRight {p : ℤ} (φ : Module.Dual R (K.X p)) :
 lemma cochainEval_singleSmulRight_self {p : ℤ} (φ : Module.Dual R (K.X p)) (m : K.X p)
     (w : L.X (p + n)) :
     (cochainEval K L n rfl m).hom ((singleSmulRight L n φ).hom w) = φ m • w := by
-  show ((Cochain.single (ModuleCat.ofHom (φ.smulRight w)) n).v p (p + n) rfl).hom m = _
+  change ((Cochain.single (ModuleCat.ofHom (φ.smulRight w)) n).v p (p + n) rfl).hom m = _
   rw [Cochain.single_v]
   rfl
 
@@ -250,7 +250,7 @@ lemma cochainEval_singleSmulRight_self {p : ℤ} (φ : Module.Dual R (K.X p)) (m
 lemma cochainEval_singleSmulRight_of_ne {p p' q' : ℤ} (φ : Module.Dual R (K.X p))
     (hp : p' ≠ p) (hpq' : p' + n = q') (m : K.X p') (w : L.X (p + n)) :
     (cochainEval K L n hpq' m).hom ((singleSmulRight L n φ).hom w) = 0 := by
-  show ((Cochain.single (ModuleCat.ofHom (φ.smulRight w)) n).v p' q' hpq').hom m = _
+  change ((Cochain.single (ModuleCat.ofHom (φ.smulRight w)) n).v p' q' hpq').hom m = _
   rw [Cochain.single_v_eq_zero _ _ _ _ _ hp]
   rfl
 
@@ -313,7 +313,7 @@ lemma sum_cochainEval_comp_singleSmulRight (a b : ℤ) [K.IsStrictlyGE a] [K.IsS
   refine ModuleCat.hom_ext (LinearMap.ext fun z => Cochain.ext _ _ fun p' q' hpq' =>
     ModuleCat.hom_ext (LinearMap.ext fun m => ?_))
   subst hpq'
-  show (cochainEval K L n rfl m).hom
+  change (cochainEval K L n rfl m).hom
       ((∑ p ∈ Finset.Icc a b, ∑ i, cochainEval K L n rfl (e p i) ≫
         singleSmulRight L n (φ p i)).hom z) = (cochainEval K L n rfl m).hom z
   simp only [ModuleCat.hom_sum, LinearMap.sum_apply, ModuleCat.hom_comp, LinearMap.comp_apply,

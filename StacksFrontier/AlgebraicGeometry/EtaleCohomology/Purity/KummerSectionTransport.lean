@@ -82,7 +82,7 @@ variable {X S : Scheme.{u}} (f : X ⟶ S)
 sections over a final object: it carries the canonical section of `A` over the final object of
 `S_ét` to the canonical section of `A` over its base change. -/
 theorem smallEtalePullbackAbConstantIso_transpose_apply (M : Ab.{u + 1}) {T : S.Etale}
-    (hT : IsTerminal T) (n : ToType M) :
+    (n : ToType M) :
     ((smallEtaleAdjunctionAb f).homEquiv _ _
         ((smallEtalePullbackAbConstantIso f).hom.app M)).hom.app (op T)
       ((toSheafify (smallEtaleTopology S) ((Functor.const _).obj M)).app (op T) n) =
@@ -192,7 +192,7 @@ theorem pullback_map_torsionSectionSheafHom_comp {N : ℕ} [NeZero N]
     (ULift.up n)
   rw [torsionSectionHom_apply] at hr
   have hθ := smallEtalePullbackAbConstantIso_transpose_apply f
-    (AddCommGrpCat.of (ULift.{u + 1} (ZMod N))) (isTerminal_opensToEtale_top S) (ULift.up n)
+    (AddCommGrpCat.of (ULift.{u + 1} (ZMod N))) (T := (opensToEtale S).obj ⊤) (ULift.up n)
   have hcX := ConcreteCategory.congr_hom (toSheafify_app_comp_constantSheaf_map
     (smallEtaleTopology X) (AddCommGrpCat.of (ULift.{u + 1} (ZMod N)))
     ((isTerminal_opensToEtale_top X).from
@@ -203,7 +203,7 @@ theorem pullback_map_torsionSectionSheafHom_comp {N : ℕ} [NeZero N]
     ((toSheafify (smallEtaleTopology X)
       ((Functor.const _).obj (AddCommGrpCat.of (ULift.{u + 1} (ZMod N))))).app
         (op ((opensToEtale X).obj ⊤)) (ULift.up n))
-  show ((smallEtaleAdjunctionAb f).homEquiv _ _ φ).hom.app (op ((opensToEtale S).obj ⊤))
+  change ((smallEtaleAdjunctionAb f).homEquiv _ _ φ).hom.app (op ((opensToEtale S).obj ⊤))
       ((torsionSectionSheafHom s hs).hom.app (op ((opensToEtale S).obj ⊤))
         ((toSheafify (smallEtaleTopology S)
           ((Functor.const _).obj (AddCommGrpCat.of (ULift.{u + 1} (ZMod N))))).app
@@ -337,7 +337,7 @@ theorem appTop_puncturedFunction_top {U₀ U Z : Scheme.{u}} (j : U₀ ⟶ U)
     φ.appTop (puncturedFunction j ⊤ t) = (φ ≫ pullback.snd _ j ≫ j).appTop t := by
   rw [puncturedFunction_eq_appTop, openFunction,
     Stacks.AlgebraicGeometry.GlobalSectionsBaseChange.appLE_top_top]
-  show (φ ≫ pullback.fst _ j ≫ (⊤ : U.Opens).ι).appTop t = _
+  change (φ ≫ pullback.fst _ j ≫ (⊤ : U.Opens).ι).appTop t = _
   rw [pullback.condition]
 
 /-- **The transposed base change map on a Kummer class.** The transpose
@@ -360,7 +360,7 @@ theorem homEquiv_kummerBaseChangeMap_localKummerClass (t : Γ(S, ⊤))
     ((isTerminal_opensToEtale_top X').from
       ((smallEtaleBaseChange f').obj ((opensToEtale S).obj ⊤))).op
     (ofUnit.{u, 0} (X := Y) (U := puncturedOpen h ⊤) ht'.unit))
-  show (kummerDirectImageδ h hN0 hNY).hom.app
+  change (kummerDirectImageδ h hN0 hNY).hom.app
       (op ((smallEtaleBaseChange f').obj ((opensToEtale S).obj ⊤)))
       (((smallEtaleSquarePushforwardIso f' g h e w).hom.app (multiplicativeSheaf.{u, 0} Y)).hom.app
         (op ((opensToEtale S).obj ⊤))
@@ -368,7 +368,7 @@ theorem homEquiv_kummerBaseChangeMap_localKummerClass (t : Γ(S, ⊤))
           (ofUnit.{u, 0} ht.unit))) = _
   refine congrArg (ConcreteCategory.hom ((kummerDirectImageδ h hN0 hNY).hom.app
     (op ((smallEtaleBaseChange f').obj ((opensToEtale S).obj ⊤))))) ?_
-  show ofUnit.{u, 0} (X := Y) (U := (smallEtaleBaseChange h).obj
+  change ofUnit.{u, 0} (X := Y) (U := (smallEtaleBaseChange h).obj
       ((smallEtaleBaseChange f').obj ((opensToEtale S).obj ⊤)))
       (Units.map ((smallEtaleBaseChangeComp' h f' (h ≫ f') rfl).inv.app
           ((opensToEtale S).obj ⊤)).left.appTop.hom.toMonoidHom
@@ -388,7 +388,7 @@ theorem homEquiv_kummerBaseChangeMap_localKummerClass (t : Γ(S, ⊤))
     ((isTerminal_opensToEtale_top X').from
       ((smallEtaleBaseChange f').obj ((opensToEtale S).obj ⊤)))).left (f'.appTop t)
   refine L.trans (Eq.trans ?_ R.symm)
-  show _ = (((smallEtaleBaseChange h).map ((isTerminal_opensToEtale_top X').from
+  change _ = (((smallEtaleBaseChange h).map ((isTerminal_opensToEtale_top X').from
       ((smallEtaleBaseChange f').obj ((opensToEtale S).obj ⊤)))).left ≫
         pullback.snd _ h ≫ h ≫ f').appTop t
   refine congrArg (fun m => ConcreteCategory.hom (Scheme.Hom.appTop m) t) ?_

@@ -83,7 +83,7 @@ theorem eq_conjugateEquiv_restrict_comp
   simp only [Adjunction.comp_counit_app, Functor.comp_map, Functor.comp_obj] at h
   simp only [Adjunction.comp_counit_app, Functor.comp_map, Functor.comp_obj,
     FullSubcategory.comp_hom, hβ]
-  show Lf'.map (Lg.map (τ.app d).hom) ≫ Lf'.map ((ag.restrictFullyFaithful P₁.fullyFaithfulι
+  change Lf'.map (Lg.map (τ.app d).hom) ≫ Lf'.map ((ag.restrictFullyFaithful P₁.fullyFaithfulι
       P₃.fullyFaithfulι (P₃.liftCompιIso _ hLg).symm (P₁.liftCompιIso _ hRg).symm).counit.app
         ((P₃.lift (P₄.ι ⋙ Rf') hRf').obj d)).hom ≫
       ((af'.restrictFullyFaithful P₃.fullyFaithfulι P₄.fullyFaithfulι

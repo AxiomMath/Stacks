@@ -109,7 +109,7 @@ theorem bandSmulAt_eq {U V : 𝒞} (g : V ⟶ U) (y y' : p.Fiber V) (r : R.obj (
     bandSmulAt p J 𝒢 R Θ smul g y r a = bandSmulAt p J 𝒢 R Θ smul g y' r a := by
   obtain ⟨T, hT, hiso⟩ := hlc V y y'
   refine (hsh T hT).isSeparatedFor.ext fun Z k hk => ?_
-  show 𝒢.obj.map k.op _ = 𝒢.obj.map k.op _
+  change 𝒢.obj.map k.op _ = 𝒢.obj.map k.op _
   rw [map_bandSmulAt hΘres hpull, map_bandSmulAt hΘres hpull]
   exact bandSmulAt_eq_of_iso hΘconj hconj _ (hiso k hk).some r a
 
@@ -135,7 +135,7 @@ theorem exists_bandSmul_spec {U : 𝒞} (r : R.obj (op U)) (a : 𝒢.obj.obj (op
     fun V g hg => bandSmulAt p J 𝒢 R Θ smul g (hne' g hg).some r a
   have hfam : fam.Compatible := by
     intro Z₁ Z₂ Z h₁ h₂ g₁ g₂ hg₁ hg₂ hcomm
-    show 𝒢.obj.map h₁.op (fam g₁ hg₁) = 𝒢.obj.map h₂.op (fam g₂ hg₂)
+    change 𝒢.obj.map h₁.op (fam g₁ hg₁) = 𝒢.obj.map h₂.op (fam g₂ hg₂)
     simp only [fam]
     rw [map_bandSmulAt hΘres hpull, map_bandSmulAt hΘres hpull]
     have key : ∀ (k k' : Z ⟶ U) (hk : k = k') (y y' : p.Fiber Z),
@@ -145,7 +145,7 @@ theorem exists_bandSmul_spec {U : 𝒞} (r : R.obj (op U)) (a : 𝒢.obj.obj (op
     exact key _ _ hcomm _ _
   refine ⟨(hsh S hS).amalgamate fam hfam, fun V g y => ?_⟩
   refine (hsh _ (J.pullback_stable g hS)).isSeparatedFor.ext fun Z k hk => ?_
-  show 𝒢.obj.map k.op (𝒢.obj.map g.op _) = 𝒢.obj.map k.op _
+  change 𝒢.obj.map k.op (𝒢.obj.map g.op _) = 𝒢.obj.map k.op _
   rw [map_comp_apply_eq', map_bandSmulAt hΘres hpull]
   have hk' : S.arrows (k ≫ g) := hk
   refine ((hsh S hS).valid_glue hfam (k ≫ g) hk').trans ?_

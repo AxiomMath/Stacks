@@ -81,13 +81,12 @@ private lemma liftBaseChange_baseChangeHom_lcomp
         (LinearMap.baseChange B (LinearMap.lcomp A N h) t) =
       (LinearMap.liftBaseChange B (LinearMap.baseChangeHom A B Y N) t).comp
         (LinearMap.baseChange B h) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add t s ht hs => simp only [map_add, ht, hs, LinearMap.add_comp]
   | tmul b φ =>
     simp only [LinearMap.baseChange_tmul, LinearMap.liftBaseChange_tmul,
       LinearMap.baseChangeHom_apply, LinearMap.smul_comp]
-    show b • LinearMap.baseChange B (φ ∘ₗ h) = _
+    change b • LinearMap.baseChange B (φ ∘ₗ h) = _
     rw [LinearMap.baseChange_comp]
 
 /-- **Linear maps out of a finite projective module base-change to linear maps out of the scalar
@@ -111,11 +110,11 @@ lemma linearMap_isBaseChange_of_finite_projective
   let β := LinearMap.baseChange B (LinearMap.lcomp A N f)
   have hαβ : ∀ t, α (β t) = t := by
     intro t
-    show (α ∘ₗ β) t = t
+    change (α ∘ₗ β) t = t
     rw [← LinearMap.baseChange_comp]
     have : (LinearMap.lcomp A N g) ∘ₗ (LinearMap.lcomp A N f) = LinearMap.id := by
       ext φ x
-      show φ (f (g x)) = φ x
+      change φ (f (g x)) = φ x
       rw [← LinearMap.comp_apply f g, hfg, LinearMap.id_apply]
     rw [this, LinearMap.baseChange_id, LinearMap.id_apply]
   have hnatα : ∀ t, ΦM (α t) = (ΦF t).comp (LinearMap.baseChange B g) :=
@@ -131,7 +130,7 @@ lemma linearMap_isBaseChange_of_finite_projective
     · obtain ⟨y, hy⟩ := hΦFbij.2 (ψ.comp (LinearMap.baseChange B f))
       exact ⟨α y, by rw [hnatα, hy, LinearMap.comp_assoc, hfgB, LinearMap.comp_id]⟩
   refine IsBaseChange.of_equiv (LinearEquiv.ofBijective ΦM hbij) fun x => ?_
-  show ΦM (1 ⊗ₜ x) = _
+  change ΦM (1 ⊗ₜ x) = _
   simp [ΦM]
 
 section
@@ -171,15 +170,14 @@ lemma homCochainBaseChange_bijective_of_projective
   have he : homCochainBaseChange f P F n = e.toLinearMap := by
     refine LinearMap.ext fun t => ?_
     change B ⊗[A] CochainComplex.HomComplex.Cochain P F n at t
-    show (LinearMap.liftBaseChange B (homCochainExtendScalars f P F n)) t = e t
+    change (LinearMap.liftBaseChange B (homCochainExtendScalars f P F n)) t = e t
     apply eN.injective
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction t using TensorProduct.inductionOn with
     | add t s ht hs => simp only [map_add, ht, hs]
     | tmul c z =>
       simp only [LinearMap.liftBaseChange_tmul, map_smul, e, LinearEquiv.trans_apply,
         LinearEquiv.baseChange_tmul]
-      show c • eN ((homCochainExtendScalars f P F n) z) =
+      change c • eN ((homCochainExtendScalars f P F n) z) =
         eN (eN.symm (hg.equiv (c ⊗ₜ[A] eM z)))
       refine Eq.trans ?_ (eN.apply_symm_apply (hg.equiv (c ⊗ₜ[A] eM z))).symm
       rfl
@@ -312,7 +310,7 @@ theorem isZero_homology_homComplexR_of_subsingleton_cohomologyClass {S : Type u}
     CochainComplex.HomComplex.mem_coboundaries_iff c (k - 1) (by omega)] at hc
   obtain ⟨β, hβ⟩ := hc
   exact ⟨β, by
-    show CochainComplex.HomComplex.δ (k - 1) k β = x
+    change CochainComplex.HomComplex.δ (k - 1) k β = x
     rw [hβ]
     rfl⟩
 
@@ -517,7 +515,7 @@ theorem nonempty_extendScalars_resolution_iso
         map_add' := fun _ _ => rfl
         map_smul' := by
           intro r x
-          show p.toRingHom (algebraMap R P r) * x.down = r • x.down
+          change p.toRingHom (algebraMap R P r) * x.down = r • x.down
           rw [hr, Algebra.smul_def]
         left_inv := fun _ => rfl
         right_inv := fun _ => rfl }

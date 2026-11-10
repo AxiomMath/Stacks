@@ -203,7 +203,8 @@ def preComp (G : D ⥤ C) (F : C ⥤ Type w) :
 /-- If `G` is faithful, then `preComp G F` is faithful. -/
 instance faithful_preComp (G : D ⥤ C) [G.Faithful] (F : C ⥤ Type w) :
     (preComp G F).Faithful where
-  map_injective h := Functor.Elements.hom_ext (G.map_injective (congrArg Functor.Elements.Hom.hom h))
+  map_injective h :=
+    Functor.Elements.hom_ext (G.map_injective (congrArg Functor.Elements.Hom.hom h))
 
 /-- If `G` is full, then `preComp G F` is full. -/
 instance full_preComp (G : D ⥤ C) [G.Full] (F : C ⥤ Type w) :

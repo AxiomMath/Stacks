@@ -224,7 +224,7 @@ theorem transpose_baseChange_compatible
         (e'.hom.app (R'.obj (H.obj M)) ≫ P'.map (a'.counit.app (H.obj M)) ≫ z') := by
   apply (b'.homEquiv ((R ⋙ G).obj M) N').symm.injective
   simp only [Functor.id_obj] at *
-  show (b'.homEquiv ((R ⋙ G).obj M) N').symm
+  change (b'.homEquiv ((R ⋙ G).obj M) N').symm
         (G.map (b.homEquiv (R.obj M) N
           (e.hom.app (R.obj M) ≫ P.map (a.counit.app M) ≫ z)) ≫ γ.app N ≫ T'.map n) =
       (b'.homEquiv ((R ⋙ G).obj M) N').symm (β.app M ≫

@@ -28,10 +28,11 @@ statements in the existential-witness style this repository uses for Example tag
 they form the covering set — the first for the forgetful functor, the second for the identification
 of `Finite-G-Sets`.
 
-Everything is assembled from results already in the library; nothing new is proved. The fibre-functor and
-exactness instances come from
+Everything is assembled from results already in the library; nothing new is proved. The
+fibre-functor and exactness instances come from
 `StacksFrontier/AlgebraicGeometry/FundamentalGroup/GaloisCategories/ContinuousActions.lean` and
-`StacksFrontier/AlgebraicGeometry/FundamentalGroup/GaloisCategories/ContActionForget.lean`, and the identification of the full subcategory from
+`StacksFrontier/AlgebraicGeometry/FundamentalGroup/GaloisCategories/ContActionForget.lean`, and the
+identification of the full subcategory from
 `AlgebraicGeometry.finiteContinuousGSetEquivalence`.
 
 The two statements cannot be folded into one. `AlgebraicGeometry.finiteContinuousGSetEquivalence`

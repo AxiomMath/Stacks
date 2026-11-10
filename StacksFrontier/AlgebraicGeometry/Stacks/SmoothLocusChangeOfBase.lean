@@ -319,9 +319,9 @@ theorem isSmooth_structureMorphism_iff_changeBase (𝒳 : AlgebraicStacks.{u, w}
       let Y : Over U := (Over.iteratedSliceBackward U).obj
         ((Over.iteratedSliceForward ((Over.map g).obj U)).obj (Over.mk (𝟙 _)))
       have hY : 𝒳.val.val.p.obj (f.obj Y) = (Over.forget U).obj Y := Functor.congr_obj f.w Y
-      show Smooth (B.inclusion.map (𝒳.val.val.p.obj (f.obj Y)).hom) ↔ _
+      change Smooth (B.inclusion.map (𝒳.val.val.p.obj (f.obj Y)).hom) ↔ _
       rw [hY]
-      show Smooth (B.inclusion.map (𝟙 _ ≫ U.hom)) ↔ _
+      change Smooth (B.inclusion.map (𝟙 _ ≫ U.hom)) ↔ _
       rw [Category.id_comp]
     rw [← hcomp]
     exact isSmooth_iff_isSmooth_comp_of_relative B S' hS' a' _ hrep'

@@ -156,6 +156,7 @@ abbrev secondProjectionTwistedAdjunction :
 abbrev twistedUnit : quasiCoherentDerivedCategory (pullback f g) :=
   (secondProjectionTwistedInverseImage f g).obj (𝟙_ _)
 
+omit [QuasiCompact g] [QuasiSeparated g] [CompactSpace X] [QuasiSeparatedSpace X] in
 /-- `a(𝒪_Y)` lies in `D⁺_QCoh` ([Stacks, Tag 0A9I]). -/
 theorem twistedUnit_mem_derivedCategoryBPlus :
     DerivedCategoryB.derivedCategoryBPlus (A := (pullback f g).Modules)
@@ -200,6 +201,7 @@ def dualKernelPairing (K : quasiCoherentDerivedCategory (pullback f g))
       ((quasiCoherentDerivedPullback' (pullback.snd f g)).obj N).obj (twistedUnit f g).obj ≫
     (InternalHom.derivedSheafHom K.obj).map ((twistedComparison f g).app N).hom
 
+omit [QuasiCompact g] [QuasiSeparated g] [CompactSpace X] [QuasiSeparatedSpace X] in
 /-- **`γ` is natural in `N`.** -/
 theorem dualKernelPairing_naturality (K : quasiCoherentDerivedCategory (pullback f g))
     (hK : RingedSpace.IsPseudoCoherent (X := (pullback f g).toRingedSpace) K.obj)
@@ -216,12 +218,13 @@ theorem dualKernelPairing_naturality (K : quasiCoherentDerivedCategory (pullback
     ((twistedComparison f g).app N).hom ≫ ((secondProjectionTwistedInverseImage f g).map n).hom
     at hβ
   dsimp only [dualKernelPairing]
-  show ((quasiCoherentDerivedPullback' (pullback.snd f g)).map n).hom ▷
+  change ((quasiCoherentDerivedPullback' (pullback.snd f g)).map n).hom ▷
       (InternalHom.derivedSheafHom K.obj).obj (twistedUnit f g).obj ≫ _ ≫ _ = _
   rw [← Category.assoc, internalHomStrength_naturality_left, Category.assoc, ← Functor.map_comp,
     hβ, Functor.map_comp]
   exact (Category.assoc _ _ _).symm
 
+omit [QuasiCompact g] [QuasiSeparated g] [CompactSpace X] [QuasiSeparatedSpace X] in
 /-- `γ` is invertible when the strength `α` and the comparison `β` are. -/
 private theorem isIso_dualKernelPairing_of_isIso_of_isIso
     (K : quasiCoherentDerivedCategory (pullback f g))
@@ -233,10 +236,11 @@ private theorem isIso_dualKernelPairing_of_isIso_of_isIso
     (h₂ : IsIso ((twistedComparison f g).app N)) :
     IsIso (dualKernelPairing f g K hK N) := by
   have h₃ : IsIso ((twistedComparison f g).app N).hom := by
-    show IsIso ((ObjectProperty.ι _).map ((twistedComparison f g).app N))
+    change IsIso ((ObjectProperty.ι _).map ((twistedComparison f g).app N))
     infer_instance
   exact IsIso.comp_isIso' h₁ ((InternalHom.derivedSheafHom K.obj).map_isIso _)
 
+omit [QuasiCompact g] [QuasiSeparated g] [CompactSpace X] [QuasiSeparatedSpace X] in
 /-- **`γ` is invertible on perfect objects**: the map `α` of [Stacks, Tag 0BYS] is invertible
 when the tensor factor `Lq^*N` is perfect ([Stacks, Tag 0ATN], [Stacks, Tag 09UA]), and the map
 `β` of [Stacks, Tag 0A9S] is invertible on perfect objects ([Stacks, Tag 0A9T]). -/
@@ -268,6 +272,7 @@ theorem isIso_dualKernelPairing_of_isPerfect (K : quasiCoherentDerivedCategory (
     infer_instance
   exact isIso_dualKernelPairing_of_isIso_of_isIso f g K hK N h₁ h₂
 
+omit [QuasiCompact g] [QuasiSeparated g] [CompactSpace X] [QuasiSeparatedSpace X] in
 /-- **`γ` is invertible for a perfect kernel over a proper flat morphism of finite
 presentation**: the map `α` of [Stacks, Tag 0BYS] is invertible when the source `K` of the
 internal Hom is perfect ([Stacks, Tag 0ATN]), and the map `β` of [Stacks, Tag 0A9S] is invertible
@@ -345,6 +350,7 @@ def rightAdjointComparison (K : quasiCoherentDerivedCategory (pullback f g))
   rightAdjointComparisonTarget f g K M N
     (rightAdjointComparisonSource f g K hK M N v ≫ dualKernelPairing f g K hK N)
 
+omit [QuasiCompact g] [QuasiSeparated g] [CompactSpace X] [QuasiSeparatedSpace X] in
 /-- The second half of the comparison is natural in `M`. -/
 theorem rightAdjointComparisonTarget_symm_naturality_left
     (K : quasiCoherentDerivedCategory (pullback f g))
@@ -369,6 +375,7 @@ theorem rightAdjointComparisonTarget_symm_naturality_left
     Functor.FullyFaithful.homEquiv_apply, Functor.FullyFaithful.homEquiv_apply, Functor.map_comp,
     hw, Adjunction.homEquiv_naturality_left]
 
+omit [QuasiSeparatedSpace X] in
 /-- **The comparison map is natural in `M`.** -/
 theorem rightAdjointComparison_naturality_left
     (K : quasiCoherentDerivedCategory (pullback f g))
@@ -381,7 +388,7 @@ theorem rightAdjointComparison_naturality_left
   have h₁ : rightAdjointComparisonSource f g K hK M' N (m ≫ v) =
       ((quasiCoherentDerivedPullback' (pullback.fst f g)).map m).hom ≫
         rightAdjointComparisonSource f g K hK M N v := by
-    show (((firstProjectionAdjunction f g).homEquiv _ _).symm (m ≫ v)).hom = _
+    change (((firstProjectionAdjunction f g).homEquiv _ _).symm (m ≫ v)).hom = _
     rw [Adjunction.homEquiv_naturality_left_symm]
     rfl
   dsimp only [rightAdjointComparison]
@@ -390,6 +397,7 @@ theorem rightAdjointComparison_naturality_left
   rw [Equiv.symm_apply_apply, rightAdjointComparisonTarget_symm_naturality_left,
     Equiv.symm_apply_apply]
 
+omit [QuasiCompact g] [QuasiSeparated g] [CompactSpace X] [QuasiSeparatedSpace X] in
 /-- The second half of the comparison is natural in `N`. -/
 theorem rightAdjointComparisonTarget_symm_naturality_right
     (K : quasiCoherentDerivedCategory (pullback f g)) (M : quasiCoherentDerivedCategory X)
@@ -406,6 +414,7 @@ theorem rightAdjointComparisonTarget_symm_naturality_right
     ObjectProperty.ι_map, Adjunction.homEquiv_naturality_right]
   rfl
 
+omit [QuasiSeparatedSpace X] in
 /-- **The comparison map is natural in `N`.** -/
 theorem rightAdjointComparison_naturality_right
     (K : quasiCoherentDerivedCategory (pullback f g))
@@ -420,7 +429,7 @@ theorem rightAdjointComparison_naturality_right
         (v ≫ (fourierMukaiDualLocallySmall f g (dualKernel f g K hK)).map n) =
       rightAdjointComparisonSource f g K hK M N v ≫
         ((quasiCoherentDerivedPullback' (pullback.snd f g)).map n ▷ dualKernel f g K hK).hom := by
-    show (((firstProjectionAdjunction f g).homEquiv _ _).symm
+    change (((firstProjectionAdjunction f g).homEquiv _ _).symm
       (v ≫ (quasiCoherentDerivedPushforward (pullback.fst f g)
         (isQuasicoherent_homology_derivedPushforward_of_qcqs _)).map
           ((MonoidalCategory.tensorRight (dualKernel f g K hK)).map
@@ -433,6 +442,7 @@ theorem rightAdjointComparison_naturality_right
   rw [Equiv.symm_apply_apply, rightAdjointComparisonTarget_symm_naturality_right,
     Equiv.symm_apply_apply]
 
+omit [QuasiSeparatedSpace X] in
 /-- The comparison map is bijective as soon as `γ` is invertible. -/
 theorem bijective_rightAdjointComparison_of_isIso
     (K : quasiCoherentDerivedCategory (pullback f g))

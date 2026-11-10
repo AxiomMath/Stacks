@@ -106,7 +106,7 @@ theorem exists_globalSection_of_forall_mem_range_stalk [IsIntegral X] {z : X.fun
   have hgen (W : X.Opens) (hW : Nonempty W) : genericPoint X ∈ W :=
     ((genericPoint_spec X).mem_open_set_iff W.isOpen).mpr (by simpa using hW)
   choose c hc using h
-  choose V hxV r hr using fun x => X.presheaf.germ_exist (x := x) (c x)
+  choose V hxV r hr using fun x => X.presheaf.exists_germ_eq (x := x) (c x)
   have hne (x : X) : Nonempty (V x) := ⟨⟨x, hxV x⟩⟩
   have hs : ∀ x : X, X.germToFunctionField (V x) (r x) = z := fun x => by
     have := hne x

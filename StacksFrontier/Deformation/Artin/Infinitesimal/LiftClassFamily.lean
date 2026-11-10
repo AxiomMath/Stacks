@@ -122,7 +122,7 @@ def sigmaDesc {W : Over U'} (g : ∀ k, Y k ⟶ W) : coprodOver Y ⟶ W :=
       change Sigma.ι (sigmaFam Y) k ≫ Sigma.desc (fun k ↦ (BigAffineFppf.inclusion B S hS).map
           (g k).left) ≫ (BigAffineFppf.inclusion B S hS).map W.hom =
         Sigma.ι (sigmaFam Y) k ≫ Sigma.desc fun k ↦ (BigAffineFppf.inclusion B S hS).map (Y k).hom
-      rw [Sigma.ι_desc_assoc, Sigma.ι_desc, ← Functor.map_comp, Over.w (g k)]))
+      rw [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc, ← Functor.map_comp, Over.w (g k)]))
 
 /-- The morphism `∐ Y_k ⟶ W` induced by a family restricts to each member of the family. -/
 @[reassoc (attr := simp)]
@@ -138,7 +138,7 @@ theorem isDisjointCover_sigmaι :
       (fun j ↦ (BigAffineFppf.inclusion B S hS).map (sigmaι Y j.down).left) := by
   refine BigFppfOver.isDisjointCover_of_isOpenImmersion _ _ (fun j ↦ ?_) (fun x ↦ ?_)
     (fun j j' hjj' Z a b hab ↦ ?_)
-  · show IsOpenImmersion ((BigFppfOver.toScheme B S hS).map (Sigma.ι (sigmaFam Y) j.down))
+  · change IsOpenImmersion ((BigFppfOver.toScheme B S hS).map (Sigma.ι (sigmaFam Y) j.down))
     rw [toScheme_map_sigma_ι]
     infer_instance
   · change ↥((BigFppfOver.toScheme B S hS).obj (∐ sigmaFam Y)) at x
@@ -149,7 +149,7 @@ theorem isDisjointCover_sigmaι :
     change ↥((BigFppfOver.toScheme B S hS).obj (sigmaFam Y k)) at z
     change (Sigma.ι (fun k ↦ (BigFppfOver.toScheme B S hS).obj (sigmaFam Y k)) k) z = _ at hz
     refine ⟨⟨k⟩, z, ?_⟩
-    show (BigFppfOver.toScheme B S hS).map (Sigma.ι (sigmaFam Y) k) z = x
+    change (BigFppfOver.toScheme B S hS).map (Sigma.ι (sigmaFam Y) k) z = x
     rw [toScheme_map_sigma_ι, Scheme.Hom.comp_apply, hz, ← Scheme.Hom.comp_apply,
       IsIso.inv_hom_id]
     rfl

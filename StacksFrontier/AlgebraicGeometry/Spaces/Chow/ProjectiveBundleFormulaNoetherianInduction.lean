@@ -274,7 +274,7 @@ theorem surjective_bundleFormulaMap_of_forall_integralClosedSubspace (N : ℤ)
     by
       have h := β.2.1.comp_injective (Subtype.val_injective (p := fun W => β.1 W ≠ 0))
       refine h.subset fun W => ?_
-      simp only [Function.comp_apply, if_neg W.2, subset_refl]
+      simp only [Function.comp_apply, ite_eq_right W.2, subset_refl]
   have hlf : LocallyFinite fun W : I => subspacePointSet D.site D.base D.base_mem X
       (ZW W).subspace := by
     have h := (locallyFinite_closure_image_pointsMap D sP hP sX hX hπB hp.2.1.2
@@ -477,7 +477,6 @@ def HasGenericallySurjectiveBundleFormula : Prop :=
           (ObjectProperty.homMk j' : (⟨PU, hPU.1⟩ : AlgebraicSpaces D.site D.base D.base_mem) ⟶
             ⟨P, hP.1⟩) L hL)
 
-include hp in
 /-- **The hypothesis passes to closed subspaces of the base**: a base change of
 `π^{-1}(Z) → Z` along `j ≫ g : U → Z` is one of `π` along `j ≫ g ≫ (Z → X)`, and the two
 pullbacks of `ℒ` agree. -/
@@ -514,8 +513,6 @@ theorem HasGenericallySurjectiveBundleFormula.closedSubspace
     IsPullback.of_right (by rw [h1, Category.assoc]; exact sq) h2 t
   have hj''B : j'' ≫ (Z.preimage π).ι ≫ sP = sPU := by rw [← Category.assoc, h1, hj'B]
   refine ⟨U, PU, sU, hU, sPU, hPU, j, hj, hjB, hne, j'', πU, hj''B, hπUB, sq', ?_⟩
-  have hprop : IsProper D.site D.base D.base_mem πU :=
-    isProper_of_isPullback D.site D.base D.base_mem hPU.1 hP.1 hU.1 hX.1 sq hp
   have hmod : (modulePullback D.site D.base D.base_mem
         (ObjectProperty.homMk j' : (⟨PU, hPU.1⟩ : AlgebraicSpaces D.site D.base D.base_mem) ⟶
           ⟨P, hP.1⟩)).obj L =
@@ -525,8 +522,8 @@ theorem HasGenericallySurjectiveBundleFormula.closedSubspace
           closedSubspaceHom D.site D.base D.base_mem hP.1 (Z.preimage π) hc)).obj L := by
     rw [← h1]
     rfl
-  exact BundleFormulaSurjective.of_iso D sU hU sPU hPU sPU hPU πU hπUB πU hπUB n _ _ hprop _ _
-    hprop _ _ _ _ (𝟙 PU) (Category.id_comp _) (Category.id_comp _)
+  exact BundleFormulaSurjective.of_iso D sU hU sPU hPU sPU hPU πU hπUB πU hπUB n _ _ _ _ _ _ _ _
+    (𝟙 PU) (Category.id_comp _) (Category.id_comp _)
     ((modulePullbackIdIso D.site D.base D.base_mem ⟨PU, hPU.1⟩).app _ ≪≫ eqToIso hmod ≪≫
       ((modulePullbackCompIso D.site D.base D.base_mem
         (ObjectProperty.homMk j'' : (⟨PU, hPU.1⟩ : AlgebraicSpaces D.site D.base D.base_mem) ⟶
@@ -577,7 +574,7 @@ theorem surjective_bundleFormulaMap_of_forall_deltaValue_le_add (m : ℕ) :
     have hZgood := isGood_ι_of_isClosedSubspace D sX hX Z.subspace Z.isClosedSubspace
     have hpZ := isProper_fromPreimage_of_isClosedSubspace D sX hX sP hP π hp Z.subspace
       Z.isClosedSubspace
-    have hZgen := hgen.closedSubspace D sX hX sP hP π hπB n hflat hrel hp L hL Z.subspace
+    have hZgen := hgen.closedSubspace D sX hX sP hP π hπB n hflat hrel L hL Z.subspace
       Z.isClosedSubspace
     obtain ⟨U, PU, sU, hU, sPU, hPU, j, hj, hjB, hne, j', πU, hj'B, hπUB, sq, hsurj⟩ :=
       hZgen (Z.subspace.ι ≫ sX) hZgood (𝟙 _) (Category.id_comp _) Z.isIntegralSpace
@@ -640,7 +637,7 @@ theorem surjective_bundleFormulaMap_of_forall_deltaValue_le_add (m : ℕ) :
       (isProper_fromPreimage_of_isClosedSubspace D _ hZgood ((Z.subspace.preimage π).ι ≫ sP)
         (isGood_ι_of_isClosedSubspace D sP hP _ hZc) _ hpZ Y hYc) _ _
       (hZgen.closedSubspace D _ hZgood ((Z.subspace.preimage π).ι ≫ sP)
-        (isGood_ι_of_isClosedSubspace D sP hP _ hZc) _ _ n _ _ hpZ _ _ Y hYc) hδY
+        (isGood_ι_of_isClosedSubspace D sP hP _ hZc) _ _ n _ _ _ _ Y hYc) hδY
 
 end Induction
 
@@ -675,7 +672,7 @@ theorem bundleFormulaSurjective_of_hasGenericallySurjectiveBundleFormula
   refine surjective_bundleFormulaMap_of_forall_deltaValue_le_add D n N d hd
     (dZ - (N - n - 1)).toNat _ _ _ _ _ _ _ _
     (isProper_fromPreimage_of_isClosedSubspace D sX hX sP hP π hp Z.subspace Z.isClosedSubspace)
-    _ _ (h.closedSubspace D sX hX sP hP π hπB n hflat hrel hp L hL Z.subspace Z.isClosedSubspace)
+    _ _ (h.closedSubspace D sX hX sP hP π hπB n hflat hrel L hL Z.subspace Z.isClosedSubspace)
     fun z => ?_
   have hle : D.deltaValue (Z.subspace.ι ≫ sX) z ≤ dZ := by
     by_cases hz : z = Z.genericPoint D.site D.base D.base_mem

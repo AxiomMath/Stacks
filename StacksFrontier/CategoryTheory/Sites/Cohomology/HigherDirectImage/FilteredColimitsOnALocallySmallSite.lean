@@ -71,7 +71,7 @@ theorem localDesc_naturality_of_isColimit (coc : Cocone F) (r : Cocone F)
   change (coc.ι.app i).app (op V) ≫
     hV.desc (((evaluation Cᵒᵖ A).obj (op V)).mapCocone r) =
     (r.ι.app i).app (op V) at hVfac
-  show (coc.ι.app i).app (op V) ≫ coc.pt.map f.op ≫
+  change (coc.ι.app i).app (op V) ≫ coc.pt.map f.op ≫
     hU.desc (((evaluation Cᵒᵖ A).obj (op U)).mapCocone r) =
     (coc.ι.app i).app (op V) ≫
     hV.desc (((evaluation Cᵒᵖ A).obj (op V)).mapCocone r) ≫ r.pt.map f.op
@@ -187,7 +187,7 @@ theorem existsUnique_presheafCoconeDesc_of_hasEnoughObjects (K : GrothendieckTop
     apply Y.property.hom_ext (S U.unop)
     intro I₀
     obtain ⟨T, k, g, hT, hkg⟩ := I₀.hf
-    show ((c.ι.app i).app U ≫ descAt U.unop) ≫ Y.obj.map I₀.f.op =
+    change ((c.ι.app i).app U ≫ descAt U.unop) ≫ Y.obj.map I₀.f.op =
       (η i).app U ≫ Y.obj.map I₀.f.op
     rw [Category.assoc, descAt_map, family_eq U.unop I₀ hT k g hkg]
     calc
@@ -211,7 +211,7 @@ theorem existsUnique_presheafCoconeDesc_of_hasEnoughObjects (K : GrothendieckTop
   intro δ' hδ'
   apply NatTrans.ext
   funext V
-  show δ'.app V = descAt V.unop
+  change δ'.app V = descAt V.unop
   apply Y.property.hom_ext (S V.unop)
   intro I₀
   obtain ⟨T, k, g, hT, hkg⟩ := I₀.hf

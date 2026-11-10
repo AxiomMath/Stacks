@@ -268,7 +268,7 @@ private theorem algHomEquivPrimeSpectrum_tensorProduct_sepClosure_asIdeal
     apply Algebra.TensorProduct.ringHom_ext <;> ext <;> simp
   ext x
   have hx := DFunLike.congr_fun key x
-  show _ = 0 ↔ _ = 0
+  change _ = 0 ↔ _ = 0
   exact Iff.of_eq (congrArg (· = 0) hx)
 
 private theorem quotientMap_isIntegral_of_eq_comap
@@ -348,7 +348,7 @@ private theorem fibre_tensorProduct_integral
   let β : C →ₐ[A] ksep :=
     { e.symm.toRingHom.comp (residue C) with
       commutes' := fun a ↦ by
-        show e.symm (residue C (algebraMap A C a)) = algebraMap F ksep (residue A a)
+        change e.symm (residue C (algebraMap A C a)) = algebraMap F ksep (residue A a)
         rw [← he a, RingEquiv.symm_apply_apply] }
   have hβsurj : Function.Surjective β := fun y ↦ by
     obtain ⟨b, hb⟩ := residue_surjective (e y)
@@ -381,7 +381,7 @@ private theorem fibre_tensorProduct_integral
     refine ⟨hq'.ge, ?_⟩
     rw [← hC, Ideal.map_le_iff_le_comap, hm, ← hq']
     intro a ha
-    show (1 : B) ⊗ₜ[A] algebraMap A C a ∈ q.asIdeal
+    change (1 : B) ⊗ₜ[A] algebraMap A C a ∈ q.asIdeal
     change algebraMap A B a ⊗ₜ[A] (1 : C) ∈ q.asIdeal at ha
     rwa [Algebra.algebraMap_eq_smul_one, TensorProduct.smul_tmul,
       ← Algebra.algebraMap_eq_smul_one] at ha
@@ -391,13 +391,13 @@ private theorem fibre_tensorProduct_integral
           (Algebra.TensorProduct.includeLeftRingHom : B →+* B ⊗[A] C) q = m'.toPrimeSpectrum} :=
     { toFun := fun q ↦ ⟨PrimeSpectrum.comap g.toRingHom q, by
         ext a
-        show g (a ⊗ₜ[A] (1 : C)) ∈ q.asIdeal ↔ a ∈ m'.asIdeal
+        change g (a ⊗ₜ[A] (1 : C)) ∈ q.asIdeal ↔ a ∈ m'.asIdeal
         rw [hg_tmul, map_one, map_one]
         have hbot : q.asIdeal.comap
             (Algebra.TensorProduct.includeLeftRingHom : K →+* K ⊗[F] ksep) = ⊥ :=
           Ideal.eq_bot_of_prime (q.asIdeal.comap (Algebra.TensorProduct.includeLeftRingHom : K →+* K
             ⊗[F] ksep))
-        show Ideal.Quotient.mk m'.asIdeal a ∈ q.asIdeal.comap
+        change Ideal.Quotient.mk m'.asIdeal a ∈ q.asIdeal.comap
             (Algebra.TensorProduct.includeLeftRingHom : K →+* K ⊗[F] ksep) ↔ _
         rw [hbot, Ideal.mem_bot, Ideal.Quotient.eq_zero_iff_mem]⟩
       invFun := fun q ↦
@@ -422,11 +422,11 @@ private theorem fibre_tensorProduct_integral
   have hφ₀ (a : B) (b : C) :
       φ₀.toRingHom.comp g.toRingHom (a ⊗ₜ[A] b) =
         σ.1 (Ideal.Quotient.mk m'.asIdeal a) * algebraMap ksep kbar (e.symm (residue C b)) := by
-    show φ₀ (g (a ⊗ₜ[A] b)) = _
+    change φ₀ (g (a ⊗ₜ[A] b)) = _
     rw [hg_tmul]
     rfl
   refine ⟨φ₀.toRingHom.comp g.toRingHom, hφ₀, ?_, ?_⟩
-  · show (pointEquiv (ringHomEquiv σ)).asIdeal.comap g.toRingHom = _
+  · change (pointEquiv (ringHomEquiv σ)).asIdeal.comap g.toRingHom = _
     rw [algHomEquivPrimeSpectrum_tensorProduct_sepClosure_asIdeal]
     rfl
   · intro ψ hψ

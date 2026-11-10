@@ -42,8 +42,8 @@ universe u v u₁
 /-- The projection from the category of elements of a set-valued functor is cofibered in
 groupoids. -/
 theorem isCofiberedInGroupoids_elementsProjection {𝒞 : Type u} [Category.{v} 𝒞]
-    (G : 𝒞 ⥤ Type u₁) : IsCofiberedInGroupoids (CategoryOfElements.π G) := by
-  show Functor.IsFiberedInGroupoids (Functor.Elements.π G).op
+    (G : 𝒞 ⥤ Type u₁) : IsCofiberedInGroupoids (Functor.Elements.π G) := by
+  change Functor.IsFiberedInGroupoids (Functor.Elements.π G).op
   constructor
   · intro V U f x hx
     rcases V with ⟨V⟩
@@ -81,9 +81,9 @@ theorem isCofiberedInGroupoids_elementsProjection {𝒞 : Type u} [Category.{v} 
 source to the value of its target. -/
 theorem elementsFiberValue_map {𝒞 : Type u} [Category.{v} 𝒞]
     (G : 𝒞 ⥤ Type u₁) {A B : 𝒞} (f : A ⟶ B)
-    (x : Functor.Fiber (CategoryOfElements.π G) A)
-    (y : Functor.Fiber (CategoryOfElements.π G) B) (m : x.1 ⟶ y.1)
-    (hm : (CategoryOfElements.π G).IsHomLift f m) :
+    (x : Functor.Fiber (Functor.Elements.π G) A)
+    (y : Functor.Fiber (Functor.Elements.π G) B) (m : x.1 ⟶ y.1)
+    (hm : (Functor.Elements.π G).IsHomLift f m) :
     G.map f (elementsFiberValue G A x) = elementsFiberValue G B y := by
   rcases x with ⟨@⟨X, x⟩, hx⟩
   rcases y with ⟨@⟨Y, y⟩, hy⟩
@@ -91,7 +91,7 @@ theorem elementsFiberValue_map {𝒞 : Type u} [Category.{v} 𝒞]
   change Y = B at hy
   subst hx hy
   have hf : f = m.hom := by
-    have h := IsHomLift.fac (CategoryOfElements.π G) f m
+    have h := IsHomLift.fac (Functor.Elements.π G) f m
     change f = eqToHom (rfl : X = X) ≫ m.hom ≫ eqToHom (rfl : Y = Y) at h
     simpa using h
   subst hf

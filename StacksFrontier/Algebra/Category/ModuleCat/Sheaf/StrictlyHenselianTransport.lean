@@ -165,10 +165,10 @@ theorem exists_map_inl_or_map_inr {D : Type*} [Category D] (q : D ⥤ Type t) {A
   have hy : e.hom (e.inv y) = y := by simp
   have hinl : ∀ a, e.hom ((coprod.inl : q.obj A ⟶ q.obj A ⨿ q.obj B) a) = q.map coprod.inl a :=
     fun a ↦ (types_comp_apply _ _ _).symm.trans
-      (ConcreteCategory.congr_hom (coprodComparison_inl (F := q) (A := A) (B := B)) a)
+      (ConcreteCategory.congr_hom (inl_coprodComparison (F := q) (A := A) (B := B)) a)
   have hinr : ∀ b, e.hom ((coprod.inr : q.obj B ⟶ q.obj A ⨿ q.obj B) b) = q.map coprod.inr b :=
     fun b ↦ (types_comp_apply _ _ _).symm.trans
-      (ConcreteCategory.congr_hom (coprodComparison_inr (F := q) (A := A) (B := B)) b)
+      (ConcreteCategory.congr_hom (inr_coprodComparison (F := q) (A := A) (B := B)) b)
   set x := e.inv y
   have hx : (Types.binaryCoproductIso _ _).inv ((Types.binaryCoproductIso _ _).hom x) = x := by
     simp
@@ -234,6 +234,7 @@ def unitsOrOneSub [HasBinaryCoproduct (units X) (units X)] :
     units X ⨿ units X ⟶ ringSheaf (ringStructureSheaf X) :=
   coprod.desc (unitsIncl X) (unitsIncl X ≫ oneSubHom X)
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **A left-exact left adjoint carries a sheaf of rings that is locally local to a local ring.**
 Let `X` be a ringed topos in which every section `a` of `O_X` is, locally, invertible or has
 `1 - a` invertible, and let `q` be a left-exact functor from sheaves of sets to sets which is a
@@ -258,15 +259,15 @@ theorem isLocalRing_map_of_isUnit_or_isUnit_one_sub [HasBinaryCoproduct (units X
     rcases hTs i hi with ⟨v, hv⟩ | ⟨v, hv⟩
     · refine ⟨F.map coprod.inl (unitsMk X (op W') (v.1 : F.obj (ringSheaf (ringStructureSheaf X)))
         v.2 v.3), ?_⟩
-      show F.map (unitsOrOneSub X) (F.map coprod.inl _) = _
+      change F.map (unitsOrOneSub X) (F.map coprod.inl _) = _
       rw [← F.map_comp_apply, unitsOrOneSub, coprod.inl_desc]
       exact hv
     · refine ⟨F.map coprod.inr (unitsMk X (op W') (v.1 : F.obj (ringSheaf (ringStructureSheaf X)))
         v.2 v.3), ?_⟩
-      show F.map (unitsOrOneSub X) (F.map coprod.inr _) = _
+      change F.map (unitsOrOneSub X) (F.map coprod.inr _) = _
       rw [← F.map_comp_apply, unitsOrOneSub, coprod.inr_desc, F.map_comp_apply,
         sectionsFunctor_map_oneSubHom]
-      show 1 - (v.1 : X.O.obj.obj (op W')) = (X.O.obj.map i.op) s
+      change 1 - (v.1 : X.O.obj.obj (op W')) = (X.O.obj.map i.op) s
       rw [hv]
       exact (congrArg (1 - ·) (((X.O.obj.map i.op).hom.map_sub 1 s).trans
         (congrArg (· - _) (X.O.obj.map i.op).hom.map_one))).trans (sub_sub_cancel _ _)
@@ -363,6 +364,7 @@ theorem map_ringZeroHom_apply (P : Sheaf X.J (Type w) ⥤ Type t) [PreservesFini
     P.map (ringZeroHom (ringStructureSheaf X)) x = 0 :=
   congrArg (P.map (ringZeroHom (ringStructureSheaf X))) (Subsingleton.elim _ _)
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **A point of the root locus gives a root.** After a finite-limit preserving functor `P` to
 sets, a point of the root locus lies over a point `z` of `N × O` at which `F` vanishes and `E`
 is invertible. -/
@@ -401,6 +403,7 @@ private theorem exists_rootLocus_of_eq {X : RingedTopos.{v, u, w}}
   refine ⟨r, ?_⟩
   rw [rootLocusπ, P.map_comp_apply, P.map_comp_apply, hr, hr₁, Functor.map_fst_prodObjMk]
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **A root gives a point of the root locus.** After a finite-limit preserving functor `P` to
 sets, a point `n` of `N` and a point `a` of `O` at which `F` vanishes and `E` is invertible
 come from a point of the root locus over `n`. -/
@@ -509,6 +512,7 @@ theorem isLocallySurjective_rootLocusπ
     (by rw [sectionsFunctor_map_rootPolyHom, hroot, hfun]; exact haE)
   exact ⟨r, hr⟩
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **Local roots give roots after a left-exact left adjoint.** Under the hypothesis of
 `AlgebraicGeometry.RingedTopos.isLocallySurjective_rootLocusπ`, for every family `x` of
 elements of the transported ring `q(O)` at which `p` is invertible, the polynomial `F` with
@@ -556,6 +560,7 @@ section StrictlyHenselian
 
 open MvPolynomial
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **A left-exact left adjoint carries a locally strictly henselian sheaf of rings to a strictly
 henselian ring.** Let `X` be a ringed topos and `q` a left-exact functor from sheaves of sets to
 sets which is a left adjoint, with `q(O_X)` nonzero.  Suppose that

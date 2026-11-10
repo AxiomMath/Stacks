@@ -93,12 +93,12 @@ theorem preservesColimit_of_isColimitCofan
     { desc := cofanDesc incl hF hH
       fac := fun s k ↦ Cofan.IsColimit.hom_ext (hH (D.obj k)) _ _ fun i ↦ ?_
       uniq := fun s m hm ↦ Cofan.IsColimit.hom_ext (hH c.pt) _ _ fun i ↦ ?_ }
-  · show (incl i).app (D.obj k) ≫ H.map (c.ι.app k : D.obj k ⟶ c.pt) ≫ cofanDesc incl hF hH s =
+  · change (incl i).app (D.obj k) ≫ H.map (c.ι.app k : D.obj k ⟶ c.pt) ≫ cofanDesc incl hF hH s =
       (incl i).app (D.obj k) ≫ s.ι.app k
     rw [← (incl i).naturality_assoc (X := D.obj k) (Y := c.pt), incl_comp_cofanDesc,
       map_comp_cofanComponent]
   · have hm' : ∀ k : K, H.map (c.ι.app k : D.obj k ⟶ c.pt) ≫ m = s.ι.app k := hm
-    show (incl i).app c.pt ≫ m = (incl i).app c.pt ≫ cofanDesc incl hF hH s
+    change (incl i).app c.pt ≫ m = (incl i).app c.pt ≫ cofanDesc incl hF hH s
     rw [incl_comp_cofanDesc]
     refine cofanComponent_uniq incl hF i s _ fun k ↦ ?_
     rw [(incl i).naturality_assoc (X := D.obj k) (Y := c.pt), hm' k]
@@ -157,7 +157,7 @@ private lemma alpha_comp_cokernelComponent
     α.app c.pt ≫ cokernelComponent π hG s = 0 ≫ cokernelComponent π hG s := by
   rw [zero_comp]
   refine hF.hom_ext fun k ↦ ?_
-  show F.map (c.ι.app k : D.obj k ⟶ c.pt) ≫ α.app c.pt ≫ cokernelComponent π hG s =
+  change F.map (c.ι.app k : D.obj k ⟶ c.pt) ≫ α.app c.pt ≫ cokernelComponent π hG s =
     F.map (c.ι.app k : D.obj k ⟶ c.pt) ≫ 0
   rw [comp_zero, α.naturality_assoc (X := D.obj k) (Y := c.pt), map_comp_cokernelComponent,
     ← Category.assoc, hzero (D.obj k), zero_comp]
@@ -187,12 +187,12 @@ theorem preservesColimit_of_isColimitCokernelCofork
     { desc := cokernelDesc α π hzero hG hH hF
       fac := fun s k ↦ Cofork.IsColimit.hom_ext (hH (D.obj k)) ?_
       uniq := fun s m hm ↦ Cofork.IsColimit.hom_ext (hH c.pt) ?_ }
-  · show π.app (D.obj k) ≫ H.map (c.ι.app k : D.obj k ⟶ c.pt) ≫
+  · change π.app (D.obj k) ≫ H.map (c.ι.app k : D.obj k ⟶ c.pt) ≫
       cokernelDesc α π hzero hG hH hF s = π.app (D.obj k) ≫ s.ι.app k
     rw [← π.naturality_assoc (X := D.obj k) (Y := c.pt), pi_comp_cokernelDesc,
       map_comp_cokernelComponent]
   · have hm' : ∀ k : K, H.map (c.ι.app k : D.obj k ⟶ c.pt) ≫ m = s.ι.app k := hm
-    show π.app c.pt ≫ m = π.app c.pt ≫ cokernelDesc α π hzero hG hH hF s
+    change π.app c.pt ≫ m = π.app c.pt ≫ cokernelDesc α π hzero hG hH hF s
     rw [pi_comp_cokernelDesc]
     refine cokernelComponent_uniq π hG s _ fun k ↦ ?_
     rw [π.naturality_assoc (X := D.obj k) (Y := c.pt), hm' k]

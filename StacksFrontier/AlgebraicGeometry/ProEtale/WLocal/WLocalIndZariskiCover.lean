@@ -118,7 +118,7 @@ theorem exists_faithfullyFlat_indZariski_wLocal_extremallyDisconnected (A : Type
         {p : PrimeSpectrum (stratificationColimitRing (A := A)) × T //
           S.componentMap.hom p.1 = S.toConnectedComponents.hom p.2} :=
     (Homeomorph.ulift.prodCongr Homeomorph.ulift).subtype (fun p => by
-      show (ULift.up (ConnectedComponents.mk p.1.down) = ULift.up (π p.2.down)) ↔
+      change (ULift.up (ConnectedComponents.mk p.1.down) = ULift.up (π p.2.down)) ↔
         ConnectedComponents.mk p.1.down = π p.2.down
       exact ULift.up_inj)
   let eB : PrimeSpectrum B ≃ₜ S.Y :=

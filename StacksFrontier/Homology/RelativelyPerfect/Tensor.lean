@@ -214,7 +214,7 @@ private lemma isZero_homology_derivedTensor_iff
     exact ⟨n, fun j hj => G.map_isZero (hn j hj)⟩
   have hf' : ∀ j : ℤ, Module.Flat (ULift.{v} R) (P'.X j) := by
     intro j
-    show Module.Flat (ULift.{v} R) (P.X j)
+    change Module.Flat (ULift.{v} R) (P.X j)
     rw [Module.Flat.ulift_left_iff]
     exact hflat j
   have hcounit := isIso_termwiseDerivedCounit_app_of_flat (G.obj N) P' hb' hf'
@@ -419,7 +419,7 @@ private lemma finite_coproduct_of_isZero {ι : Type} (F : ι → ModuleCat.{max 
     apply Sigma.hom_ext
     intro j
     by_cases hj : j ∈ s
-    · simpa only [f, Category.assoc, Sigma.ι_desc_assoc] using
+    · simpa only [f, Category.assoc, Sigma.ι_comp_desc_assoc] using
         congrArg (fun k => Sigma.ι G ⟨j, hj⟩ ≫ k) heq
     · exact (hs j hj).eq_of_src _ _
   exact Module.Finite.of_surjective f.hom ((ModuleCat.epi_iff_surjective f).mp inferInstance)
@@ -446,9 +446,9 @@ private lemma tensorLeftLarge_finiteFree
   have : ∀ j, Module.Free A (F j) := fun j => by
     have := (hE j.1.1).2
     have := (hX j.1.2).2
-    show Module.Free A (TensorProduct A (E.X j.1.1) (X.X j.1.2))
+    change Module.Free A (TensorProduct A (E.X j.1.1) (X.X j.1.2))
     infer_instance
-  show Module.Finite A (∐ F : ModuleCat.{max u v} A) ∧
+  change Module.Finite A (∐ F : ModuleCat.{max u v} A) ∧
     Module.Free A (∐ F : ModuleCat.{max u v} A)
   refine ⟨?_, Module.Free.of_equiv (ModuleCat.coprodIsoDirectSum F).symm.toLinearEquiv⟩
   let s : Finset {pq : ℤ × ℤ // pq.1 + pq.2 = i} :=
@@ -492,8 +492,7 @@ private lemma flat_tensorProduct {R A : Type*} [CommRing R] [CommRing A] [Algebr
       (g.lTensor P).restrictScalars R ∘ₗ eX.toLinearMap.restrictScalars R := by
     apply TensorProduct.ext'
     intro z x
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul p q => rfl
     | add z z' hz hz' =>
         simpa only [map_add, TensorProduct.add_tmul] using congrArg₂ (· + ·) hz hz'
@@ -665,7 +664,7 @@ private lemma tensorLeftLarge_flat_restrictScalars
     intro j
     have := hE j.1.1
     exact flat_restrictScalars_tensorProduct (E.X j.1.1) (X.X j.1.2) (hX j.1.2)
-  show Module.Flat R (U.obj (∐ F : ModuleCat.{max u v w} A))
+  change Module.Flat R (U.obj (∐ F : ModuleCat.{max u v w} A))
   have hds : Module.Flat R
       (U.obj (ModuleCat.of A (DirectSum _ fun j => (F j : Type (max u v w))))) := by
     have : Module.Flat R (DirectSum _ fun j => (U.obj (F j) : Type (max u v w))) :=

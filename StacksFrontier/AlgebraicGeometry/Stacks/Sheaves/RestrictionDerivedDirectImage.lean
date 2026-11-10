@@ -9,7 +9,7 @@ public import StacksFrontier.AlgebraicGeometry.Stacks.RestrictionDirectImageComp
 public import StacksFrontier.AlgebraicGeometry.Stacks.RestrictionProjectionExactness
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPushforward.Composition
 public import
-  StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPushforward.CompositionOfToposHomUnconditional
+StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPushforward.CompositionOfToposHomUnconditional
 
 /-!
 # The derived direct image of a morphism representable by algebraic spaces, restricted
@@ -236,7 +236,7 @@ obstructions stood in the way and neither implies the other.
   the target `RingedTopos.{u, u + 1, u}`, so the application is rejected before any hypothesis
   is examined. The restriction is inherited, not essential — `rightAdjoint_preserves_isKInjective`
   (Stacks 070G) declares its two abelian categories over one pair of universe variables, as the
-  implementation notes of `StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/CompositionWithAFlatFirstMorphism.lean` in
+  implementation notes of `CompositionWithAFlatFirstMorphism.lean` in
   `StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/` already record — and a
   generalization of those binders would remove it.
 * *The flatness, which is the real obstruction.* `PreservesFiniteLimits (pullbackModules π_F)`

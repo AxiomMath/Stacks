@@ -171,7 +171,7 @@ theorem module_finite_pinch (hmn : m ≠ n) : Module.Finite (pinch m n φ) B := 
       simp [hna, he0]
   have hb : b = ((⟨b - a - a' * e, ht⟩ + ⟨a, ha⟩ : pinch m n φ) • (1 : B) +
       (⟨a', ha2⟩ : pinch m n φ) • e) := by
-    show b = (b - a - a' * e + a) * 1 + a' * e
+    change b = (b - a - a' * e + a) * 1 + a' * e
     ring
   rw [hb]
   exact add_mem (Submodule.smul_mem _ _ (Submodule.subset_span (by simp)))

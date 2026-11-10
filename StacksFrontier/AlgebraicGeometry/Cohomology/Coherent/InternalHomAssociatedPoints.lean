@@ -54,7 +54,7 @@ public theorem associatedPoints_internalHomOf_subset [IsLocallyNoetherian X] (F 
     AlgebraicGeometry.Scheme.Modules.finite_stalk_of_isCoherent G x
   have hG : (1 : ℕ∞) ≤ Module.depth (X.presheaf.stalk x)
       (IsLocalRing.maximalIdeal (X.presheaf.stalk x)) (G.presheaf.stalk x) := by
-    refine ENat.one_le_iff_ne_zero.2 fun h0 => hxG ?_
+    refine Order.one_le_iff_ne_zero.2 fun h0 => hxG ?_
     exact (isAssociatedPrimeStacks_iff_mem_associatedPrimes _).2
       ((Module.depth_eq_zero_iff_maximalIdeal_mem_associatedPrimes).1 h0)
   have hH := one_le_depth_stalk_internalHom F G H x hG

@@ -151,7 +151,7 @@ abbrev patternStageRing (𝔉 : Finset A) : Type u :=
 /-- The transition map of the system of stages, assembled from the canonical maps of
 localizations. -/
 def patternStageMap {𝔉 𝔊 : Finset A} (h : 𝔉 ⊆ 𝔊) : patternStageRing E 𝔉 →+* patternStageRing E 𝔊 :=
-  Pi.ringHom fun σ ↦ (awayMapOfDvd (patternElement_dvd h σ.1)).comp
+  RingHom.pi fun σ ↦ (awayMapOfDvd (patternElement_dvd h σ.1)).comp
     (Pi.evalRingHom _ (goodRestrict E h σ))
 
 /-- The transition maps of the system of stages, indexed by `𝔉 ≤ 𝔊`. -/

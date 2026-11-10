@@ -164,12 +164,12 @@ theorem boundaryOrd_eq_zero_iff [IsLocallyNoetherian Y] (V : Y.Opens) [Nonempty 
       rw [map_zero] at hc
       exact (IsUnit.of_mul_eq_one b hab).ne_zero hc.symm
     refine ⟨Units.mk0 c hc0, Units.ext ?_⟩
-    show structMapOpen k g V c = u.1
+    change structMapOpen k g V c = u.1
     rw [structMapOpen_apply, hc]
     exact Y.germToFunctionField_injective V (by rw [hres, ha])
   · rintro ⟨c, rfl⟩
     funext b
-    show Scheme.ord (Y.germToFunctionField V (structMapOpen k g V (c : k))) b.1 = 0
+    change Scheme.ord (Y.germToFunctionField V (structMapOpen k g V (c : k))) b.1 = 0
     rw [structMapOpen_apply, hres]
     exact Scheme.ord_of_isUnit (U := ⊤) (c.isUnit.map (structMap k g)) trivial
 

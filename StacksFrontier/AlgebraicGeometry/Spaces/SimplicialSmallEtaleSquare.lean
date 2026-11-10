@@ -242,8 +242,8 @@ theorem pasted_ran_comp_eq {P₁ : D₁ᵒᵖ ⥤ A} {P₂ : D₂ᵒᵖ ⥤ A} {
   refine Functor.hom_ext_of_isRightKanExtension _ (q₂.op.ranCounit.app _) _ _ ?_
   ext U
   have fac := Stacks.SheafOfModules.ranBaseChange_fac w.op (ua.op ⋙ PX) U
-  have u₁ := ((q₁.op.ranAdjunction A).unit.app P₁).naturality (w.op.natTrans.app U)
-  have n₁ := (q₁.op.ran.map φa).naturality (w.op.natTrans.app U)
+  have u₁ := ((q₁.op.ranAdjunction A).unit.app P₁).naturality (w.op.app U)
+  have n₁ := (q₁.op.ran.map φa).naturality (w.op.app U)
   dsimp only [Functor.id_obj, Functor.comp_obj, Functor.whiskeringLeft_obj_obj] at u₁
   simp only [NatTrans.comp_app, Functor.whiskerLeft_app, Category.assoc,
     ran_map_app_ranCounit_app]
@@ -282,7 +282,7 @@ theorem pastedPushforwardIso_commutes [q₁.IsContinuous J₁ K₁] [q₂.IsCont
         (q₂.sheafPushforwardCocontinuous A J₂ K₂).map
           ((ub.sheafPushforwardContinuous A J₂ JY).map hS) := by
   refine ObjectProperty.hom_ext _ ?_
-  show fS.hom ≫ Functor.whiskerLeft uf.op
+  change fS.hom ≫ Functor.whiskerLeft uf.op
       (((q₁.sheafAdjunctionCocontinuous A J₁ K₁).unit.app O₁).hom ≫ q₁.op.ran.map aS.hom) ≫
         ((pastedPushforwardIso (A := A) (JX := JX) (JY := JY) (J₁ := J₁) (J₂ := J₂) (K₁ := K₁)
           (K₂ := K₂) w sq).hom.app OX).hom =
@@ -305,6 +305,7 @@ variable {X Y : SimplicialObject (AlgebraicSpaces B S hS)} {Z₁ Z₂ : Algebrai
   (f : Z₁ ⟶ Z₂) (w : h ≫ b = a ≫ (Functor.const _).map f)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the pointwise right Kan extension along `constForget Z`
 /-- Right Kan extensions along forgetting the degree exist (cached: instance search for it is
 slow). -/
 instance hasPointwiseRightKanExtension_constForget_simplicialSmallEtaleSquare
@@ -398,6 +399,7 @@ theorem comp_eq_of_app_zero
     _ = (a ≫ (Functor.const _).map f).app n := by rw [← Category.assoc, map_comp_app_zero a]; rfl
 
 set_option maxHeartbeats 400000 in
+-- the `commutes` proof rewrites through large composites of ringed topos morphisms
 /-- **Stacks 0DE7.** For a morphism `h : X ⟶ Y` of simplicial algebraic spaces with
 augmentations `a : X → X₋₁`, `b : Y → Y₋₁` and a morphism `h₋₁ : X₋₁ ⟶ Y₋₁` with
 `h₋₁ ∘ a₀ = b₀ ∘ h₀`, the square of morphisms of ringed topoi commutes:

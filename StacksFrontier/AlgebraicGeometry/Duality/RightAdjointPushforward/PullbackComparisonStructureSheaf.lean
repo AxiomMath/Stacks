@@ -110,7 +110,7 @@ theorem compareWithPullback_naturality {K K' : quasiCoherentDerivedCategory Y} (
       ρ.hom.app K' = ρ.hom.app K ≫ h := ρ.hom.naturality h
   have hnat := compareWithPullbackTensor_naturality_left f hpush α adj h
     (derivedStructureSheaf Y)
-  show ((quasiCoherentDerivedTensor X).map
+  change ((quasiCoherentDerivedTensor X).map
         ((quasiCoherentDerivedPullback' f).map h)).app
         (a.obj (derivedStructureSheaf Y)) ≫
       (compareWithPullbackTensor f hpush α adj K' (derivedStructureSheaf Y) ≫

@@ -107,7 +107,8 @@ module-side assertions of the tag:
   section of Stacks 08PB that makes those maps invertible here;
 * the derived assertions of parts (3) and (4) are absent.
 
-Stacks 0D6X is **available**: it is proved in general form, for an arbitrary continuous functor of sites, as
+Stacks 0D6X is **available**: it is proved in general form, for an arbitrary continuous functor of
+sites, as
 `Stacks.CechSite.injective_module_sheafCohomology_isZero_of_functor`; Stacks 0D6Y and condition
 (1) of Stacks 07A1 for the inverse image of an injective module are proved beside it in
 `StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriek/TotalAcyclicityOfTheInverseImage.lean`.

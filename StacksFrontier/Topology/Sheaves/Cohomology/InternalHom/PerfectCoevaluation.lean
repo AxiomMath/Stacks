@@ -152,7 +152,7 @@ theorem eq_id_of_whiskerRight_comp_derivedDualEvaluation
   have hc' : ((derivedTensorProductFunctor (ringedSite Rc)).map c).app K ≫
       RingedSite.derivedDualEvaluation (ringedSite Rc) K =
         RingedSite.derivedDualEvaluation (ringedSite Rc) K := hc
-  show c = 𝟙 (RingedSite.derivedDual (ringedSite Rc) K)
+  change c = 𝟙 (RingedSite.derivedDual (ringedSite Rc) K)
   refine (RingedSite.derivedCurryHomEquiv (ringedSite Rc)
       (RingedSite.derivedDual (ringedSite Rc) K) K
       (RingedSite.derivedStructureSheaf (ringedSite Rc))).injective ?_

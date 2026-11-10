@@ -75,10 +75,10 @@ four results of the library:
   cannot be written down without it. It is a theorem, proved unconditionally for an arbitrary flat
   morphism of relative dimension `r` as
   `Stacks.Chow.flatPullbackFactorsThroughRationalEquivalence_general` in
-  `StacksFrontier.AlgebraicGeometry.Chow.FlatPullback.GeneralRationalEquivalence`. It is carried as a
-  `Prop` here to keep these statements parallel to those of
-  `StacksFrontier.AlgebraicGeometry.Chow.Gysin42.FlatPullback`, which cannot reach that proof, and it
-  is threaded the same way in `StacksFrontier.AlgebraicGeometry.Chow.Bivariant.Basic`. It is
+  `StacksFrontier.AlgebraicGeometry.Chow.FlatPullback.GeneralRationalEquivalence`. It is carried as
+  a `Prop` here to keep these statements parallel to those of
+  `StacksFrontier.AlgebraicGeometry.Chow.Gysin42.FlatPullback`, which cannot reach that proof, and
+  it is threaded the same way in `StacksFrontier.AlgebraicGeometry.Chow.Bivariant.Basic`. It is
   substituted in `StacksFrontier.AlgebraicGeometry.Chow.Gysin42.FlatPullbackDischarge`.
 * `hZ`, `hDZ`, `hZ'`, `hDZ'`, `hZD` in the closed-subscheme statement: the delta-dimension bounds
   and the conditions that the two intersections `Z ∩ D` and `f^{-1}Z ∩ D'` are effective Cartier
@@ -93,8 +93,8 @@ four results of the library:
   source proves it by Stacks 02RE when the component is not contained in the zero scheme and by
   Stacks 02SS when it is. Stacks 02SS is available in this repository only under the component
   hypothesis `Stacks.Chow.FirstChernCapRationallyCompatibleWithFlatPullback` of
-  `StacksFrontier.AlgebraicGeometry.Chow.ChernClasses.FlatPullbackInvertible`, and the contained case
-  additionally needs the commutation of flat pullback with proper pushforward across the square
+  `StacksFrontier.AlgebraicGeometry.Chow.ChernClasses.FlatPullbackInvertible`, and the contained
+  case additionally needs the commutation of flat pullback with proper pushforward across the square
   `f^{-1}W ⟶ W`, `D' ⟶ D`, which this repository has only when both legs are isomorphisms
   (`StacksFrontier.AlgebraicGeometry.Chow.FlatPullback.IsomorphismBaseChange`). So
   `Stacks.Chow.gysinHomomorphismOfInvertible_flatPullback` carries that case and **does not** carry
@@ -106,7 +106,8 @@ four results of the library:
 The flat pullback of a `(k+1)`-cycle has degree `(k + 1) + r`, while the Gysin map in degree
 `k + r` consumes a cycle of degree `(k + r) + 1`. These are the same integer and not the same
 term, so a transport along `k + 1 + r = k + r + 1` appears in both statements, as it does in
-`StacksFrontier.AlgebraicGeometry.Chow.Gysin42.FlatPullback`. It is discharged by `omega` rather than
+`StacksFrontier.AlgebraicGeometry.Chow.Gysin42.FlatPullback`. It is discharged by `omega` rather
+than
 carried, and `Stacks.Chow.val_cycleGroup_cast` says it does not change the coefficient function.
 
 ## References
@@ -152,7 +153,7 @@ private theorem flatPullback_cycleAssociatedToClosedSubscheme_comap_aux (C : Cho
   apply Function.locallyFinsuppWithin.ext
   intro x'
   rw [flatPullback_apply]
-  show _ = closedSubschemeCycleCoeff C sX' (I.comap q).subschemeι (d + (r : ℤ)) x'
+  change _ = closedSubschemeCycleCoeff C sX' (I.comap q).subschemeι (d + (r : ℤ)) x'
   rw [closedSubschemeCycleCoeff_comap C sX' sX q hbase r hq I d hI x']
   rfl
 
@@ -259,7 +260,7 @@ theorem gysinHomomorphismOfInvertible_flatPullback_cycleAssociatedToClosedSubsch
     (pullbackGlobalSections f L s)] at hL
   rw [Stacks.Divisors.sectionsOfTop_eval_top L s] at hR
   rw [flatPullback_cycleAssociatedToClosedSubscheme_comap f C p r hf k Z hZ, hL, hR]
-  show (QuotientAddGroup.mk (cycleAssociatedToClosedSubscheme C
+  change (QuotientAddGroup.mk (cycleAssociatedToClosedSubscheme C
       ((pullbackZeroScheme f L s).subschemeι ≫ (f ≫ p))
       ((Z.comap f).comap (pullbackZeroScheme f L s).subschemeι).subschemeι (k + (r : ℤ))) :
       chowGroup C ((pullbackZeroScheme f L s).subschemeι ≫ (f ≫ p)) (k + (r : ℤ))) = _

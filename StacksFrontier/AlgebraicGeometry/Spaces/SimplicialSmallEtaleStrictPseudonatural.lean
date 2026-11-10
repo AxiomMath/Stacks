@@ -212,7 +212,7 @@ theorem componentStrictTransitionPushforwardIso_pasting {l m n : SimplexCategory
         by
   apply Iso.ext
   ext P c x
-  show P.obj.map ((componentStrictTransitionRealizeIso X (ψ ≫ φ)).inv.app c.unop).op
+  change P.obj.map ((componentStrictTransitionRealizeIso X (ψ ≫ φ)).inv.app c.unop).op
       (P.obj.map (𝟙 (op ((componentRealize X n).obj ((componentStrictTransition X (ψ ≫ φ)).obj
         c.unop)))) x) =
     ((eqToHom (congrArg (fun k ↦ (spacesBaseChange B S hS k).functor.sheafPushforwardContinuous

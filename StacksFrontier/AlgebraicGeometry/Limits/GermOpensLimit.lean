@@ -184,7 +184,7 @@ theorem isLimit_germOpensCone [P.IsPrime] [IsAffine Z] [∀ e : GermIdx P, IsAff
       i.unop.unop j.unop.unop
     obtain ⟨k, hk₁, hk₀⟩ := (inferInstance : IsDirected (GermIdx P) (· ≤ ·)).directed k₁ e₀
     refine ⟨op (op k), (homOfLE (hik₁.trans hk₁)).op.op, (homOfLE (hjk₁.trans hk₁)).op.op, ?_⟩
-    show (T.homOfLE (hmono (show ofDual k.1 ≤ ofDual i.unop.unop.1 from hik₁.trans hk₁))).appTop
+    change (T.homOfLE (hmono (show ofDual k.1 ≤ ofDual i.unop.unop.1 from hik₁.trans hk₁))).appTop
         ((U (ofDual i.unop.unop.1)).ι.appTop ai) =
       (T.homOfLE (hmono (show ofDual k.1 ≤ ofDual j.unop.unop.1 from hjk₁.trans hk₁))).appTop
         ((U (ofDual j.unop.unop.1)).ι.appTop aj)
@@ -240,7 +240,7 @@ theorem isLimit_germOpensCone_preimage [P.IsPrime] (hc : IsLimit (germOpensCone 
     ((Over.pullback π).obj ((germOpensOverDiagram hmono P).obj e)).hom
   have hr : ∀ e : (GermIdx P)ᵒᵖ, Set.range (ιπ e).base =
       Set.range (π ⁻¹ᵁ U (ofDual e.unop.1)).ι.base := fun e => by
-    show Set.range (pullback.snd (U (ofDual e.unop.1)).ι π).base = _
+    change Set.range (pullback.snd (U (ofDual e.unop.1)).ι π).base = _
     rw [IsOpenImmersion.range_pullbackSnd, Scheme.Opens.range_ι, Scheme.Opens.opensRange_ι]
   have : ∀ e, IsOpenImmersion (ιπ e) := fun e =>
     inferInstanceAs (IsOpenImmersion (pullback.snd (U (ofDual e.unop.1)).ι π))
@@ -262,7 +262,7 @@ theorem isLimit_germOpensCone_preimage [P.IsPrime] (hc : IsLimit (germOpensCone 
   have h2 : ((Over.forget W).mapCone ((Over.pullback π).mapCone
       (germOpensOverCone hmono P t ht))).π.app e ≫ ιπ e = pullback.snd t π :=
     Over.w (((Over.pullback π).mapCone (germOpensOverCone hmono P t ht)).π.app e)
-  show ((Over.forget W).mapCone ((Over.pullback π).mapCone
+  change ((Over.forget W).mapCone ((Over.pullback π).mapCone
       (germOpensOverCone hmono P t ht))).π.app e ≫ (β e).hom ≫ germOpensι hmono' P e =
     (pullbackSymmetry t π).hom ≫ (germOpensCone hmono' P (pullback.fst π t) ht').π.app e ≫
       germOpensι hmono' P e

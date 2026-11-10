@@ -182,11 +182,11 @@ comparison.
 what the degree induction of an obstruction theory consumes.
 
 Stated in the `f_* ⋙ Γ(V, −)` spelling of the source rather than the
-`Γ(f⁻¹V, −) ⋙ restrictScalars` one, and that is a matter of cost rather than aesthetics: crossing the two
-spellings costs a `whnf` of `Functor.sheafPushforwardContinuous`, and a statement that crosses it
-twice — once in the δ-functor and once in the comparison — exhausts the default heartbeat budget.
-`sectionsRestrictionDeltaIso` pays the crossing exactly once, and a consumer that wants the other
-spelling transports along it. -/
+`Γ(f⁻¹V, −) ⋙ restrictScalars` one, and that is a matter of cost rather than aesthetics: crossing
+the two spellings costs a `whnf` of `Functor.sheafPushforwardContinuous`, and a statement that
+crosses it twice — once in the δ-functor and once in the comparison — exhausts the default heartbeat
+budget. `sectionsRestrictionDeltaIso` pays the crossing exactly once, and a consumer that wants the
+other spelling transports along it. -/
 theorem comparison_comp_δ {S : ShortComplex (SheafOfModules.{u} (structureSheafRing X))}
     (hS : S.ShortExact) (n : ℕ) :
     (comparison f V n).app S.X₃ ≫

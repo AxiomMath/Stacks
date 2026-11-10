@@ -753,58 +753,59 @@ theorem inversePointReadingHom_twoSpace :
           (structureRingSheaf B S hS X).property Q.L (-1)) ≫
         (modulePullback B S hS (pointHom v)).map (modulePullbackTensorPowerIso g Q.L (-1)).hom) ≫
       (inversePointReadingIso X' T' v (Q.baseChange g (Iso.refl _)).L).hom := by
-  haveI hQ : IsInvertible (structureCommRings B S hS X) (structureRingSheaf B S hS X).property
-      Q.L :=
-    Q.invertible.toAlgebraicGeometry
   have hQ' : IsInvertible (structureCommRings B S hS X') (structureRingSheaf B S hS X').property
       (Q.baseChange g (Iso.refl _)).L :=
       (Q.baseChange g (Iso.refl _)).invertible.toAlgebraicGeometry
-  haveI := isInvertible_zariskiReading T'
-    ((modulePullback B S hS (pointHom (yoneda.map h ≫ u))).obj Q.L)
-    ((Stacks.SheafOfModules.isInvertible_iff_algebraicGeometry _ _ _).mpr
-      (isInvertible_modulePullback_obj B S hS (pointHom (yoneda.map h ≫ u)) Q.L hQ))
   have := isInvertible_zariskiReading T' ((modulePullback B S hS (pointHom v)).obj
       (Q.baseChange g (Iso.refl _)).L)
     ((Stacks.SheafOfModules.isInvertible_iff_algebraicGeometry _ _ _).mpr
       (isInvertible_modulePullback_obj B S hS (pointHom v) _ hQ'))
-  refine CategoryTheory.Functor.comp_eq_comp_of_evaluation
-    (ℬ := ((BigFppfOver.toScheme B S hS).obj T').Modules) (iℬ := Scheme.Modules.instCategory)
-    (U := SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf
-      ((BigFppfOver.toScheme B S hS).obj T').presheaf
-      ((BigFppfOver.toScheme B S hS).obj T').ringCatSheaf.2))
-    (Λ₀ := Stacks.SheafOfModules.Invertible.tensorPower
+  -- The instance on `X` is inlined (term-mode `haveI`): bound as a local hypothesis
+  -- it makes the kernel check of this proof time out.
+  refine
+    haveI := isInvertible_zariskiReading T'
+        ((modulePullback B S hS (pointHom (yoneda.map h ≫ u))).obj Q.L)
+        ((Stacks.SheafOfModules.isInvertible_iff_algebraicGeometry _ _ _).mpr
+          (isInvertible_modulePullback_obj B S hS (pointHom (yoneda.map h ≫ u)) Q.L
+            Q.invertible.toAlgebraicGeometry))
+    CategoryTheory.Functor.comp_eq_comp_of_evaluation
+      (ℬ := ((BigFppfOver.toScheme B S hS).obj T').Modules) (iℬ := Scheme.Modules.instCategory)
+      (U := SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf
+        ((BigFppfOver.toScheme B S hS).obj T').presheaf
+        ((BigFppfOver.toScheme B S hS).obj T').ringCatSheaf.2))
+      (Λ₀ := Stacks.SheafOfModules.Invertible.tensorPower
+          ((BigFppfOver.toScheme B S hS).obj T').presheaf
+          ((BigFppfOver.toScheme B S hS).obj T').ringCatSheaf.2
+          ((zariskiReadingFunctor T').obj
+            ((modulePullback B S hS (pointHom (yoneda.map h ≫ u))).obj Q.L)) (-1))
+      (Λ₁ := Stacks.SheafOfModules.Invertible.tensorPower
+          ((BigFppfOver.toScheme B S hS).obj T').presheaf
+          ((BigFppfOver.toScheme B S hS).obj T').ringCatSheaf.2
+          ((zariskiReadingFunctor T').obj ((modulePullback B S hS (pointHom v)).obj
+            (Q.baseChange g (Iso.refl _)).L)) (-1))
+      (L₀ := (zariskiReadingFunctor T').obj
+        ((modulePullback B S hS (pointHom (yoneda.map h ≫ u))).obj Q.L))
+      (L₁ := (zariskiReadingFunctor T').obj ((modulePullback B S hS (pointHom v)).obj
+            (Q.baseChange g (Iso.refl _)).L))
+      (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((BigFppfOver.toScheme B S hS).obj T').presheaf,
+        Presheaf.isSheaf_of_isSheaf_comp _ ((BigFppfOver.toScheme B S hS).obj T').presheaf
+          (forget₂ CommRingCat RingCat) ((BigFppfOver.toScheme B S hS).obj T').ringCatSheaf.2⟩)
+      _ _ _ _
+      ((zariskiReadingFunctor T').map ((pointPullbackCompIso X g u v h hvh).hom.app Q.L))
+      (Stacks.SheafOfModules.Invertible.tensorPowerSuccIso
         ((BigFppfOver.toScheme B S hS).obj T').presheaf
         ((BigFppfOver.toScheme B S hS).obj T').ringCatSheaf.2
         ((zariskiReadingFunctor T').obj
-          ((modulePullback B S hS (pointHom (yoneda.map h ≫ u))).obj Q.L)) (-1))
-    (Λ₁ := Stacks.SheafOfModules.Invertible.tensorPower
+          ((modulePullback B S hS (pointHom (yoneda.map h ≫ u))).obj Q.L)) (-1)).hom
+      (Stacks.SheafOfModules.Invertible.tensorPowerSuccIso
         ((BigFppfOver.toScheme B S hS).obj T').presheaf
         ((BigFppfOver.toScheme B S hS).obj T').ringCatSheaf.2
         ((zariskiReadingFunctor T').obj ((modulePullback B S hS (pointHom v)).obj
-          (Q.baseChange g (Iso.refl _)).L)) (-1))
-    (L₀ := (zariskiReadingFunctor T').obj
-      ((modulePullback B S hS (pointHom (yoneda.map h ≫ u))).obj Q.L))
-    (L₁ := (zariskiReadingFunctor T').obj ((modulePullback B S hS (pointHom v)).obj
-          (Q.baseChange g (Iso.refl _)).L))
-    (Stacks.SheafOfModules.Tensor.sheafTensor ⟨((BigFppfOver.toScheme B S hS).obj T').presheaf,
-      Presheaf.isSheaf_of_isSheaf_comp _ ((BigFppfOver.toScheme B S hS).obj T').presheaf
-        (forget₂ CommRingCat RingCat) ((BigFppfOver.toScheme B S hS).obj T').ringCatSheaf.2⟩)
-    _ _ _ _
-    ((zariskiReadingFunctor T').map ((pointPullbackCompIso X g u v h hvh).hom.app Q.L))
-    (Stacks.SheafOfModules.Invertible.tensorPowerSuccIso
-      ((BigFppfOver.toScheme B S hS).obj T').presheaf
-      ((BigFppfOver.toScheme B S hS).obj T').ringCatSheaf.2
-      ((zariskiReadingFunctor T').obj
-        ((modulePullback B S hS (pointHom (yoneda.map h ≫ u))).obj Q.L)) (-1)).hom
-    (Stacks.SheafOfModules.Invertible.tensorPowerSuccIso
-      ((BigFppfOver.toScheme B S hS).obj T').presheaf
-      ((BigFppfOver.toScheme B S hS).obj T').ringCatSheaf.2
-      ((zariskiReadingFunctor T').obj ((modulePullback B S hS (pointHom v)).obj
-        (Q.baseChange g (Iso.refl _)).L)) (-1)).hom
-    (inversePointEvaluation X T' (yoneda.map h ≫ u) Q.L (hL := Q.invertible.toAlgebraicGeometry))
-    (inversePointEvaluation X' T' v (Q.baseChange g (Iso.refl _)).L
-      (hL := (Q.baseChange g (Iso.refl _)).invertible.toAlgebraicGeometry)) ?hδ
-    ?hi ?hi' ?hm ?huniq
+          (Q.baseChange g (Iso.refl _)).L)) (-1)).hom
+      (inversePointEvaluation X T' (yoneda.map h ≫ u) Q.L (hL := Q.invertible.toAlgebraicGeometry))
+      (inversePointEvaluation X' T' v (Q.baseChange g (Iso.refl _)).L
+        (hL := (Q.baseChange g (Iso.refl _)).invertible.toAlgebraicGeometry)) ?hδ
+      ?hi ?hi' ?hm ?huniq
   case hi =>
     exact inversePointReadingIso_evaluationEq X T' (yoneda.map h ≫ u) Q.L
       (hL := Q.invertible.toAlgebraicGeometry)

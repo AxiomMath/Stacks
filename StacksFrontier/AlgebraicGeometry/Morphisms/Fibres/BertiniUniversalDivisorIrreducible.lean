@@ -589,7 +589,7 @@ omit [IsDomain A] in
 theorem span_le_genericPrime (f : Fin (n + 1) → A) :
     Ideal.span {universalLinearForm f} ≤ genericPrime f := by
   refine Ideal.span_le.mpr (Set.singleton_subset_iff.mpr ?_)
-  show universalLinearForm f ∈ genericPrime f
+  change universalLinearForm f ∈ genericPrime f
   rw [genericPrime, Ideal.mem_comap, map_universalLinearForm]
   exact Ideal.subset_span rfl
 

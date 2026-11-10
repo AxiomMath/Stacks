@@ -159,7 +159,7 @@ theorem genericFibreToFunctionField_appTop_of_flat_over [AlgebraicGeometry.IsInt
   have hz : (pullback.fst g (genericPointInclusion X)).base
       (q.base (genericFibrePoint gV)) = genericPoint U := by
     refine hsq.trans ?_
-    show w.base ((pullback.fst gV (genericPointInclusion X)).base (genericFibrePoint gV)) = _
+    change w.base ((pullback.fst gV (genericPointInclusion X)).base (genericFibrePoint gV)) = _
     rw [hV, hgen]
   have hisoV := isIso_stalkMap_pullback_fst_genericPointInclusion X gV (genericFibrePoint gV)
   have hfield : dominantFunctionFieldMap w =
@@ -205,7 +205,7 @@ theorem genericFibreOrd_appTop_of_etale_over (w : V ⟶ U) [AlgebraicGeometry.Et
     genericFibreOrd gV y (Additive.ofMul (Units.map q.appTop.hom.toMonoidHom a)) =
       genericFibreOrd g (w.base y) (Additive.ofMul a) := by
   rw [genericFibreOrd_apply, genericFibreOrd_apply]
-  show Scheme.ord (genericFibreToFunctionField gV
+  change Scheme.ord (genericFibreToFunctionField gV
     (q.appTop (a : Γ(pullback g (genericPointInclusion X), ⊤)))) y = _
   rw [genericFibreToFunctionField_appTop_of_flat_over g gV w q hq]
   exact Stacks.Chow.ord_dominantFunctionFieldMap_eq_ord_base_of_etale w _ y

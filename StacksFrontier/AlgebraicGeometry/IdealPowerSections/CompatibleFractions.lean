@@ -116,7 +116,7 @@ public theorem exists_hom_of_compatible_pow_smul (f : ι → A) (n : ℕ) (x : �
     have hmem : (a.sum fun i c => c • x i) ∈ K := by
       rw [hK, Submodule.mem_torsionBySet_iff]
       rintro ⟨b, j, rfl⟩
-      show f j ^ n • (a.sum fun i c => c • x i) = 0
+      change f j ^ n • (a.sum fun i c => c • x i) = 0
       calc f j ^ n • (a.sum fun i c => c • x i)
           = a.sum fun i c => (c * f i ^ n) • x j := by
             rw [Finsupp.smul_sum]

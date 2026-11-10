@@ -230,7 +230,7 @@ theorem freeAlgebraSheafCoefficientMap_comp_presheafToSheaf_map :
         (presheafToSheaf J CommRingCat.{w}).map (polynomialPresheafMap J A e) =
       freeAlgebraSheafCoefficientMap J A E₂ := by
   apply (fullyFaithfulSheafToPresheaf J CommRingCat.{w}).homEquiv.injective
-  show polynomialCoefficientMap J A E₁ ≫
+  change polynomialCoefficientMap J A E₁ ≫
       ((toSheafification J CommRingCat.{w}).app (polynomialPresheaf J A E₁) ≫
         (sheafToPresheaf J CommRingCat.{w}).map
           ((presheafToSheaf J CommRingCat.{w}).map (polynomialPresheafMap J A e))) =
@@ -250,7 +250,7 @@ theorem freeAlgebraSheafVariable_comp_presheafToSheaf_map :
   have key := congrArg (fun f => Functor.whiskerRight f (forget CommRingCat.{w}))
     (toSheafification_comp_presheafToSheaf_map J A e)
   simp only [Functor.whiskerRight_comp] at key
-  show polynomialVariable J A E₁ ≫ (Functor.whiskerRight ((toSheafification J CommRingCat.{w}).app
+  change polynomialVariable J A E₁ ≫ (Functor.whiskerRight ((toSheafification J CommRingCat.{w}).app
       (polynomialPresheaf J A E₁)) (forget CommRingCat.{w}) ≫ Functor.whiskerRight
       ((sheafToPresheaf J CommRingCat.{w}).map
         ((presheafToSheaf J CommRingCat.{w}).map (polynomialPresheafMap J A e)))

@@ -74,8 +74,7 @@ theorem bijective_liftBaseChange_of_bijective (i : N →ₗ[A] P) (hi : Function
     Function.Bijective (μ.liftBaseChange A') := by
   have hcomp : ∀ z, i' (μ.liftBaseChange A' z) = θP (i.baseChange A' z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul r n =>
       rw [liftBaseChange_tmul, baseChange_tmul, map_smul, hμ, ← map_smul, TensorProduct.smul_tmul',
         smul_eq_mul, mul_one]
@@ -122,7 +121,7 @@ theorem isSurjective_chartLift_smallBaseChangeDiagram (f : X ⟶ Y)
   refine ⟨pointsMap B S hS _ e.inv.hom y, ?_⟩
   rw [← pointsMap_comp_apply]
   have h : e.inv.hom ≫ e.hom.hom = 𝟙 _ := congrArg (fun q => q.hom) e.inv_hom_id
-  show pointsMap B S hS _ (e.inv.hom ≫ e.hom.hom) y = y
+  change pointsMap B S hS _ (e.inv.hom ≫ e.hom.hom) y = y
   rw [h, pointsMap_id, id_eq]
 
 /-- **The sections of `f_*F` over an étale chart `V` are the sections of `F` over the

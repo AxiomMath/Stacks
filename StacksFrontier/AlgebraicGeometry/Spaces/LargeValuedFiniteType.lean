@@ -631,7 +631,7 @@ public theorem relative_id_surjective (T : BigFppfOver B S hS) :
         (𝟙 ((uliftYoneda.{w}).obj T)) := by
   refine relative_id_of_isomorphisms B S hS _ (fun _ _ φ hφ => ?_) T
   have := hφ
-  show AlgebraicGeometry.Surjective ((BigFppfOver.toScheme B S hS).map φ)
+  change AlgebraicGeometry.Surjective ((BigFppfOver.toScheme B S hS).map φ)
   infer_instance
 
 

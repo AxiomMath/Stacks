@@ -42,7 +42,7 @@ the ring of functions is the zero ring. -/
 public theorem Scheme.Modules.subsingleton_pushforward_sections_of_disjoint_range (f : X ⟶ Y)
     (M : X.Modules) (V : Y.Opens) (hV : (V : Set Y) ∩ Set.range f.base = ∅) :
     Subsingleton Γ((Scheme.Modules.pushforward f).obj M, V) := by
-  show Subsingleton Γ(M, f ⁻¹ᵁ V)
+  change Subsingleton Γ(M, f ⁻¹ᵁ V)
   rw [Scheme.Hom.preimage_eq_bot_of_disjoint_range f V hV]
   exact Module.subsingleton Γ(X, ⊥) _
 

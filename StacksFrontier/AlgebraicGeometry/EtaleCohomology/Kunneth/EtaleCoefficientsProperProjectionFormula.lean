@@ -130,7 +130,7 @@ unbounded, the projection map
 is an isomorphism. This is `Stacks.EtaleCohomology.isIso_etalePushforwardProjectionMap_of_isProper`
 read through `isIso_etalePushforwardProjectionMap_iff_isIso_projectionMap`; the coefficient ring of
 the Künneth section is `ULift Λ`, the copy of `Λ` in the universe of its sites. -/
-theorem isIso_projectionMap_of_isProper (hΛ : AddMonoid.IsTorsion Λ) {X Y : Scheme.{u}}
+theorem isIso_projectionMap_of_isProper (hΛ : IsAddTorsion Λ) {X Y : Scheme.{u}}
     (f : X ⟶ Y) [IsProper f] (A : DerivedModules (ULift.{u + 1} Λ) Y)
     (B : DerivedModules (ULift.{u + 1} Λ) X) :
     IsIso (projectionMap (ULift.{u + 1} Λ) f A B) := by
@@ -168,7 +168,7 @@ all `E ∈ D(X_étale, Λ)` and `K ∈ D(Y_étale, Λ)`, unbounded, the map
 
 of the morphism of ringed topoi `ringedToposHom (ULift Λ) f` is an isomorphism. -/
 @[sga "4 XVIII 2.13" "special case", sga "5 III 1.6" "special case"]
-theorem isIso_projectionFormulaMap_of_isProper (hΛ : AddMonoid.IsTorsion Λ) {X Y : Scheme.{u}}
+theorem isIso_projectionFormulaMap_of_isProper (hΛ : IsAddTorsion Λ) {X Y : Scheme.{u}}
     (f : X ⟶ Y) [IsProper f] (E : DerivedModules (ULift.{u + 1} Λ) X)
     (K : DerivedModules (ULift.{u + 1} Λ) Y) :
     IsIso (Stacks.Cohomology.ProjectionFormulaOnRingedTopoi.projectionFormulaMap

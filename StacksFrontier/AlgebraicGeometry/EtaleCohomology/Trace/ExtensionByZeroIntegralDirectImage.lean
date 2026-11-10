@@ -116,10 +116,9 @@ section FieldBaseChange
 
 open Stacks.Frobenius
 
-variable {k : Type u} [Field k] [Fintype k] {Zk Yk : Over (Spec (.of k))} (i : Zk ⟶ Yk)
+variable {k : Type u} [Field k] {Zk Yk : Over (Spec (.of k))} (i : Zk ⟶ Yk)
   (kbar : Type u) [Field kbar] [Algebra k kbar]
 
-omit [Fintype k] in
 /-- The base change `i_k̄ : Z_k̄ ⟶ Y_k̄` to `k̄` of a morphism `i : Z ⟶ Y` over `k` is a
 pullback of `i`. -/
 theorem isPullback_fieldBaseChangeMap :

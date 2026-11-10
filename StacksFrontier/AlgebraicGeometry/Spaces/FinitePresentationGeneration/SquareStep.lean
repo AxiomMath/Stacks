@@ -102,7 +102,7 @@ theorem fpGen_val_app_zero {M N : Modules.{u, u} B S hS X hX} (f : M ⟶ N)
 theorem hom_app_sectionsMap_inv {M N : Modules.{u, u} B S hS X hX} (e : M ≅ N)
     (s : N.val.sections) (T : SmallEtale B S hS X) :
     e.hom.val.app (op T) ((PresheafOfModules.sectionsMap e.inv.val s).1 (op T)) = s.1 (op T) := by
-  show (e.inv ≫ e.hom).val.app (op T) (s.1 (op T)) = s.1 (op T)
+  change (e.inv ≫ e.hom).val.app (op T) (s.1 (op T)) = s.1 (op T)
   rw [Iso.inv_hom_id]
   rfl
 

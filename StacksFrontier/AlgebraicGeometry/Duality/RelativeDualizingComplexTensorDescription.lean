@@ -94,6 +94,7 @@ namespace Stacks.Duality
 variable {X Y : Scheme.{u}} (f : X ⟶ Y) [CompactSpace Y] [QuasiSeparatedSpace Y] [IsProper f]
   [Flat f] [LocallyOfFinitePresentation f]
 
+omit [Flat f] [LocallyOfFinitePresentation f] in
 /-- The relative dualizing complex `ω^•_{X/Y}` of [Stacks, Tag 0B6S],
 `Stacks.Duality.relativeDualizingComplexStructureSheaf`, is `a(𝒪_Y)` for the right adjoint `a`
 of [Stacks, Tag 0A9E]. -/
@@ -103,6 +104,7 @@ theorem relativeDualizingComplexStructureSheaf_eq :
         (derivedStructureSheaf Y) :=
   rfl
 
+omit [Flat f] [LocallyOfFinitePresentation f] in
 /-- The trace map `Tr_{f, 𝒪_Y}` of [Stacks, Tag 0B6S],
 `Stacks.Duality.relativeDualizingTraceStructureSheaf`, is the counit of `Rf_* ⊣ a` at `𝒪_Y`. -/
 theorem relativeDualizingTraceStructureSheaf_eq :
@@ -186,7 +188,7 @@ theorem map_relativeDualizingTensorIso_hom_app_comp_trace (K : quasiCoherentDeri
   let ρ := quasiCoherentRightUnitor (Y := Y)
   let α := (pullbackCotensorator f)
   rw [relativeDualizingTraceStructureSheaf_eq]
-  show (quasiCoherentDerivedPushforward f hpush).map
+  change (quasiCoherentDerivedPushforward f hpush).map
       (compareWithPullbackTensor f hpush α adj K (derivedStructureSheaf Y) ≫
         (twistedInverseImage f hpush).map (ρ.hom.app K)) ≫ adj.counit.app K =
     inv (projectionFormulaMap f hpush α _ K) ≫
@@ -203,11 +205,15 @@ section BaseChange
 variable {X' Y' : Scheme.{u}} [CompactSpace Y'] [QuasiSeparatedSpace Y'] {g' : X' ⟶ X}
   {f' : X' ⟶ Y'} {g : Y' ⟶ Y} (sq : IsPullback g' f' f g)
 
+omit [CompactSpace Y] [QuasiSeparatedSpace Y] [Flat f] [LocallyOfFinitePresentation f]
+  [CompactSpace Y'] [QuasiSeparatedSpace Y'] in
 include sq in
 /-- The base change `f'` of `f` is quasi-compact. -/
 theorem quasiCompact_of_isPullback_relativeDualizing : QuasiCompact f' :=
   MorphismProperty.of_isPullback sq inferInstance
 
+omit [CompactSpace Y] [QuasiSeparatedSpace Y] [Flat f] [LocallyOfFinitePresentation f]
+  [CompactSpace Y'] [QuasiSeparatedSpace Y'] in
 include sq in
 /-- The base change `f'` of `f` is quasi-separated. -/
 theorem quasiSeparated_of_isPullback_relativeDualizing : QuasiSeparated f' :=
@@ -304,20 +310,20 @@ theorem map_trace_comp_eq_baseChange_comp_trace :
           (isQuasicoherent_homology_derivedPushforward_of_qcqs f')
           (isQuasicoherent_homology_derivedPushforward_of_qcqs g)
           (isQuasicoherent_homology_derivedPullback' g)
-          (isQuasicoherent_homology_derivedPullback' g') sq.w).natTrans ∧
+          (isQuasicoherent_homology_derivedPullback' g') sq.w) ∧
     (quasiCoherentDerivedPullback' g).map
         ((twistedInverseImageAdjunction f
           (isQuasicoherent_homology_derivedPushforward_of_qcqs f)).counit.app
           (derivedStructureSheaf Y)) ≫
       (quasiCoherentDerivedPullbackDerivedStructureSheafIsoOfIsQuasicoherent g
         (isQuasicoherent_homology_derivedPullback' g)).hom =
-    (quasiCoherentDerivedBaseChange g' f' f g
+    NatTrans.app (quasiCoherentDerivedBaseChange g' f' f g
           (isQuasicoherent_homology_derivedPushforward_of_qcqs g')
           (isQuasicoherent_homology_derivedPushforward_of_qcqs f)
           (isQuasicoherent_homology_derivedPushforward_of_qcqs f')
           (isQuasicoherent_homology_derivedPushforward_of_qcqs g)
           (isQuasicoherent_homology_derivedPullback' g)
-          (isQuasicoherent_homology_derivedPullback' g') sq.w).natTrans.app
+          (isQuasicoherent_homology_derivedPullback' g') sq.w)
         ((twistedInverseImage f (isQuasicoherent_homology_derivedPushforward_of_qcqs f)).obj
           (derivedStructureSheaf Y)) ≫
       (quasiCoherentDerivedPushforward f'

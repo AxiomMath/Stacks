@@ -224,7 +224,7 @@ theorem exists_open_isFinitePresentation_isFlatOver_of_etale
     refine ⟨fun a ↦ ?_⟩
     obtain ⟨b, hb⟩ := a.property
     refine ⟨b, O.ι.injective ?_⟩
-    show (k ≫ O.ι) b = a.val
+    change (k ≫ O.ι) b = a.val
     rw [hk, hb]
   let G := (Scheme.Modules.pullback O.ι).obj F
   have : G.IsQuasicoherent := Stacks.Modules.isQuasicoherent_pullback O.ι F inferInstance
@@ -289,9 +289,9 @@ theorem exists_open_of_etale_stalk_pullback
   refine ⟨O, v, ?_, isFinitePresentation_isFlatOver_of_iso (O.ι ≫ pullback.snd f b) E' hfpO
     hflatO⟩
   · rw [hv]
-    show (e ≫ pullback.fst f b) z = x
+    change (e ≫ pullback.fst f b) z = x
     rw [heX]
-    show U.toBase (pullback.fst h bV z) = x
+    change U.toBase (pullback.fst h bV z) = x
     rw [hz, U.map_point]
 
 /-- **Stacks Project, Tag 05I5**, the pointwise form. The dictionary of Stacks 05I0 enters as

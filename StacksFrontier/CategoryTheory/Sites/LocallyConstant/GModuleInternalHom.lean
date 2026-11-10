@@ -315,8 +315,8 @@ def homIsFiniteMap {M M' N N' : (ContinuousGAddCommGrp.isFinite.{u, w} G).FullSu
       comm := fun g ↦ by
         refine AddCommGrpCat.hom_ext (AddMonoidHom.ext
           fun (φ : M.obj.obj.obj.V →+ N.obj.obj.obj.V) ↦ AddMonoidHom.ext fun m ↦ ?_)
-        change b.hom.hom.hom.hom.hom ((N.obj.obj.obj.ρ g).asHom.hom (φ ((M.obj.obj.obj.ρ g⁻¹).asHom.hom
-            (a.hom.hom.hom.hom.hom m)))) =
+        change b.hom.hom.hom.hom.hom ((N.obj.obj.obj.ρ g).asHom.hom
+            (φ ((M.obj.obj.obj.ρ g⁻¹).asHom.hom (a.hom.hom.hom.hom.hom m)))) =
           (N'.obj.obj.obj.ρ g).asHom.hom (b.hom.hom.hom.hom.hom (φ (a.hom.hom.hom.hom.hom
             ((M'.obj.obj.obj.ρ g⁻¹).asHom.hom m))))
         rw [hom_apply_rho b g, ← hom_apply_rho a g⁻¹] }))

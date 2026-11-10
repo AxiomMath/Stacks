@@ -21,7 +21,8 @@ of `V`.
 reduced finite `F`-algebra the norm of an element of `T` over `F` is the product of the norms of
 its images in those function fields.
 
-This is the `A`-free restatement of `StacksFrontier.RingTheory.TensorProduct.GenericFibreComponents`,
+This is the `A`-free restatement of
+`StacksFrontier.RingTheory.TensorProduct.GenericFibreComponents`,
 whose statements are made for `C = O ⊗[A] B` and `T = F ⊗[K] L` with `A` a domain with fraction
 field `K` and `B` a domain integral over `A` with fraction field `L`. That shape is unusable in
 the proof of **Stacks 0EQ4** for algebraic spaces: there `Y` is an algebraic space and has no

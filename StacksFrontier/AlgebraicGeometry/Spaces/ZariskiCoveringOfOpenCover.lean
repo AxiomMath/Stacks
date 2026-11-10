@@ -79,13 +79,13 @@ theorem exists_fieldValuedPoint_of_mem_range
     rw [B.inclusion.map_comp]
     have hw : ∀ {W : BigFppfOver B S hS} (f : W ⟶ T),
         G.map f ≫ B.inclusion.map T.hom = B.inclusion.map W.hom := fun f => by
-      show B.inclusion.map f.left ≫ B.inclusion.map T.hom = _
+      change B.inclusion.map f.left ≫ B.inclusion.map T.hom = _
       rw [← B.inclusion.map_comp, f.w]
     rw [hk, ← hw j, ← Category.assoc, hψ]
     exact hw p.value)
   have hg : g ≫ j = p.value := by
     apply Over.OverMorphism.ext
-    show k ≫ j.left = p.value.left
+    change k ≫ j.left = p.value.left
     apply B.inclusion.map_injective
     rw [B.inclusion.map_comp, hk]
     exact hψ

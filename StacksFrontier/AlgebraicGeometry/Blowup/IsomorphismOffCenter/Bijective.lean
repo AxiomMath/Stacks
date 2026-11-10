@@ -65,7 +65,7 @@ theorem blowUpToBase_injective_of_notMem_support (I : X.IdealSheafData) {y₁ y�
     (h : blowUpToBase I y₁ = blowUpToBase I y₂) : y₁ = y₂ := by
   set V : X.Opens := ⟨I.supportᶜ, I.support.isClosed.isOpen_compl⟩
   have hy₂ : blowUpToBase I y₂ ∈ V := by
-    show blowUpToBase I y₂ ∉ (I.support : Set X)
+    change blowUpToBase I y₂ ∉ (I.support : Set X)
     rwa [← h]
   have heq : (blowUpToBase I ∣_ V) ⟨y₁, hy⟩ = (blowUpToBase I ∣_ V) ⟨y₂, hy₂⟩ :=
     Subtype.ext ((morphismRestrict_base_coe (blowUpToBase I) V ⟨y₁, hy⟩).trans

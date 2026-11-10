@@ -339,7 +339,7 @@ theorem bijective_invariantRingMap_comp_restrictInvariantOpenHom
     have hbv' : (invariantSource G' σ.opensRange).left.appTop.hom bv =
         (invariantTarget G' σ.opensRange hV).left.appTop.hom bv := hbv
     refine ⟨⟨(liftSection σ).appTop.hom bv, ?_⟩, Subtype.ext ((hcoe _).trans (hB _))⟩
-    show G.source.left.appTop.hom ((liftSection σ).appTop.hom bv) =
+    change G.source.left.appTop.hom ((liftSection σ).appTop.hom bv) =
       G.target.left.appTop.hom ((liftSection σ).appTop.hom bv)
     rw [hs' bv, ht' bv, hbv']
 
@@ -366,7 +366,7 @@ theorem isCompl_opensRange_sectionComplement (hcl : IsClosed (Set.range σ.base)
     exact hmem.2 hmem.1
   · refine codisjoint_iff.mpr (TopologicalSpace.Opens.ext ?_)
     refine Set.eq_univ_iff_forall.mpr fun x => ?_
-    show x ∈ (σ.opensRange ⊔ sectionComplement σ hcl : G'.objects.left.Opens)
+    change x ∈ (σ.opensRange ⊔ sectionComplement σ hcl : G'.objects.left.Opens)
     exact em (x ∈ Set.range σ.base)
 
 /-- **`G'` is the disjoint union of the sheet of a section and its complement.** The sheet is

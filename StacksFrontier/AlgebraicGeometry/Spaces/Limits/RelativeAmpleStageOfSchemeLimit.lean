@@ -153,13 +153,13 @@ theorem exists_le_isRelativelyAmple_of_isRelativelyAmple_limit {V : BigFppfOver 
             have h₂ := cE.w f.left
             simp only [Functor.const_obj_obj, Functor.const_obj_map, Category.id_comp,
               Functor.map_comp, Functor.map_preimage, Category.assoc]
-            show _ = _ ≫ _ ≫ _ ≫ (W ⋙ yoneda).map f
+            change _ = _ ≫ _ ≫ _ ≫ (W ⋙ yoneda).map f
             rw [← h₁]
-            show _ = eZ.hom ≫ cE.π.app X.left ≫ E.map f.left ≫ eW.inv.app Y
+            change _ = eZ.hom ≫ cE.π.app X.left ≫ E.map f.left ≫ eW.inv.app Y
             rw [reassoc_of% h₂] } }
   have hπ : ∀ X : Over (op i₀),
       yoneda.map (cW.π.app X) ≫ eW.hom.app X = eZ.hom ≫ cE.π.app X.left := fun X => by
-    show yoneda.map (yoneda.preimage _) ≫ _ = _
+    change yoneda.map (yoneda.preimage _) ≫ _ = _
     rw [Functor.map_preimage, Category.assoc, Category.assoc, Iso.inv_hom_id_app]
     exact congrArg (eZ.hom ≫ ·) (Category.comp_id _)
   have hcW : IsLimit cW := by

@@ -140,7 +140,7 @@ theorem mem_span_of_forall_restrict_mem_span (G : Modules.{u, u} B S hS F hF)
       G.val.obj (op (z i)) := fun i => Fintype.linearCombination _ fun l => rN i (τ l)
   have hsq : ∀ (i) (q : κ → chartRing B S hS F hF U), rN i (bT q) = bW i (rP i q) := by
     intro i q
-    show rN i (Fintype.linearCombination _ τ q) = Fintype.linearCombination _ _ (rP i q)
+    change rN i (Fintype.linearCombination _ τ q) = Fintype.linearCombination _ _ (rP i q)
     rw [Fintype.linearCombination_apply, map_sum, Fintype.linearCombination_apply]
     exact Finset.sum_congr rfl fun l _ => map_smul (rN i) (q l) (τ l)
   have hP : ∀ i, Function.Surjective ((rP i).liftBaseChange (chartRing B S hS F hF (z i))) := by
@@ -148,7 +148,7 @@ theorem mem_span_of_forall_restrict_mem_span (G : Modules.{u, u} B S hS F hF)
     refine (Module.BaseChange.bijective_liftBaseChange_of_basis
       (Pi.basisFun (chartRing B S hS F hF U) κ)
       (Pi.basisFun (chartRing B S hS F hF (z i)) κ) (rP i) fun l => funext fun j => ?_).2
-    show algebraMap (chartRing B S hS F hF U) (chartRing B S hS F hF (z i))
+    change algebraMap (chartRing B S hS F hF U) (chartRing B S hS F hF (z i))
         (Pi.basisFun (chartRing B S hS F hF U) κ l j) =
       Pi.basisFun (chartRing B S hS F hF (z i)) κ l j
     rw [Pi.basisFun_apply, Pi.basisFun_apply]
@@ -160,7 +160,7 @@ theorem mem_span_of_forall_restrict_mem_span (G : Modules.{u, u} B S hS F hF)
     fun i => (hG U (z i) hU (hz i) (φ i)).1
   have hn : ∀ i, rN i x ∈ LinearMap.range (bW i) := by
     intro i
-    show rN i x ∈ LinearMap.range (Fintype.linearCombination _ fun l => rN i (τ l))
+    change rN i x ∈ LinearMap.range (Fintype.linearCombination _ fun l => rN i (τ l))
     rw [Fintype.range_linearCombination]
     exact hx i
   have hmem := Module.BaseChange.mem_range_of_forall_mem_range_of_liftBaseChange
@@ -393,7 +393,7 @@ theorem surjective_val_app_of_coversTop {G H : Modules.{u, u} B S hS F hF} (q : 
   have e : chartRestrictLinear H ρ (q.val.app (op (Y i)) g) =
       q.val.app (op (z l)) (chartRestrictLinear G ρ g) :=
     (PresheafOfModules.naturality_apply q.val ρ.op g).symm
-  show chartRestrictLinear H ρ (q.val.app (op (Y i)) g) ∈ T
+  change chartRestrictLinear H ρ (q.val.app (op (Y i)) g) ∈ T
   rw [e]
   exact h2 _
 

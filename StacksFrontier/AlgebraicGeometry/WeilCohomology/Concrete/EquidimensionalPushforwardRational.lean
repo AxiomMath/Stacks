@@ -41,8 +41,7 @@ theorem rationalProperChowPushforward_comp (C : ChowSituation.{u}) {X Y Z : Sche
   induction x using DirectSum.induction_on with
   | zero => simp only [map_zero]
   | of m t =>
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul r α =>
       rw [rationalProperChowPushforward_of_tmul, rationalProperChowPushforward_of_tmul,
         rationalProperChowPushforward_of_tmul,

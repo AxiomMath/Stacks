@@ -108,7 +108,7 @@ theorem Framing.act_add (t t' : Fr.G) (z : 𝔓.Lifts R) :
     act (Fr.toT (t + t')) z = act (Fr.toT t) (act (Fr.toT t') z) := by
   apply Fr.liftEquiv.injective
   rw [Fr.liftEquiv_act, Fr.liftEquiv_act, Fr.liftEquiv_act]
-  show Fr.translate _ (Fr.tangentEquiv (t + t')) = _
+  change Fr.translate _ (Fr.tangentEquiv (t + t')) = _
   rw [Fr.tangentEquiv_add, Fr.translate_add]
   rfl
 
@@ -116,7 +116,7 @@ theorem Framing.act_add (t t' : Fr.G) (z : 𝔓.Lifts R) :
 theorem Framing.act_zero (z : 𝔓.Lifts R) : act (Fr.toT (0 : Fr.G)) z = z := by
   apply Fr.liftEquiv.injective
   rw [Fr.liftEquiv_act]
-  show Fr.translate _ (Fr.tangentEquiv (0 : Fr.G)) = _
+  change Fr.translate _ (Fr.tangentEquiv (0 : Fr.G)) = _
   rw [Fr.tangentEquiv_zero, Fr.translate_zero]
 
 /-- Two tangent vectors acting in the same way on one lift are equal. -/
@@ -140,7 +140,7 @@ theorem Framing.pull_smul {F' : Frame 𝔓} {R' : Alg D} (Fr' : Framing F' R') (
     (a : Q D.C R.R) (t : Fr.G) :
     Fr'.ofT ((Fr.toT (a • t)).pull h) = qMap D.C h a • Fr'.ofT ((Fr.toT t).pull h) := by
   apply congrArg Fr'.ofT
-  show _ = Fr'.toT (qMap D.C h a • Fr'.ofT ((Fr.toT t).pull h))
+  change _ = Fr'.toT (qMap D.C h a • Fr'.ofT ((Fr.toT t).pull h))
   rw [Fr'.smul_eq, Fr.smul_eq, Fr'.toT_ofT, Problem.Tangents.smul_pull]
 
 end AlgebraicGeometry.Space.SmoothLift

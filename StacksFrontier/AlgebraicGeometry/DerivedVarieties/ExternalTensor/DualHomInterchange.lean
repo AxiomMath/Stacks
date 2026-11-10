@@ -141,7 +141,7 @@ theorem nestedTensorSection_comp_whiskerLeft_braiding_inv [BraidedCategory C] {A
   rw [← Category.assoc,
     show (A ⊗ D₀) ◁ (β_ B E).inv = (whiskerLeftIso (A ⊗ D₀) (β_ B E)).inv from rfl,
     Iso.comp_inv_eq]
-  show _ = _ ≫ (A ⊗ D₀) ◁ (β_ B E).hom
+  change _ = _ ≫ (A ⊗ D₀) ◁ (β_ B E).hom
   monoidal
 
 /-- A whiskered tensorator cancels its whiskered inverse. -/

@@ -136,12 +136,12 @@ lemma piConstι_comp_π (j j' : J) :
 @[simp]
 lemma piConstι_comp_π_self (j : J) :
     piConstι A j ≫ Pi.π (fun _ : J => A) j = 𝟙 A := by
-  rw [piConstι_comp_π, if_pos rfl]
+  rw [piConstι_comp_π, ite_eq_left rfl]
 
 /-- The `j'`-th component of `piConstι A j` is zero when `j ≠ j'`. -/
 lemma piConstι_comp_π_of_ne {j j' : J} (h : j ≠ j') :
     piConstι A j ≫ Pi.π (fun _ : J => A) j' = 0 := by
-  rw [piConstι_comp_π, if_neg h]
+  rw [piConstι_comp_π, ite_eq_right h]
 
 /-- A product of copies of `A`, with the projections and the inclusions `piConstι`, as a
 bicone on the constant family. -/

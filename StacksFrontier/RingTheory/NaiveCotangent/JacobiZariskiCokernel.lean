@@ -199,7 +199,7 @@ private theorem cotangentComplex_towerNullHomotopyBaseChange
 /-- The ring map underlying `NaiveCotangent.towerTopHom` sends each variable `X t` to `X t`. -/
 theorem toRingHom_towerTopHom_X (t : C) :
     (towerTopHom A B C).toExtensionHom.toRingHom (X t) = X t := by
-  show (towerTopHom A B C).toAlgHom (X t) = X t
+  change (towerTopHom A B C).toAlgHom (X t) = X t
   rw [Generators.Hom.toAlgHom_X, towerTopHom_val]
 
 /-- The map `g` in degree `0`, on cotangent spaces induced by `NaiveCotangent.towerTopHom`, is
@@ -259,7 +259,7 @@ theorem cotangentSpaceMap_toComp_cotangentSpaceBasis (b : B) :
       ((Generators.self B C).comp (Generators.self A B)).cotangentSpaceBasis (Sum.inr b) := by
   have e₂ : (((Generators.self B C).toComp (Generators.self A B)).toExtensionHom).toAlgHom
       (X b) = X (Sum.inr b) := by
-    show ((Generators.self B C).toComp (Generators.self A B)).toAlgHom (X b) = _
+    change ((Generators.self B C).toComp (Generators.self A B)).toAlgHom (X b) = _
     rw [Generators.Hom.toAlgHom_X, Generators.toComp_val]
   rw [Generators.cotangentSpaceBasis_apply, Generators.cotangentSpaceBasis_apply]
   refine (Extension.CotangentSpace.map_tmul
@@ -282,18 +282,18 @@ theorem towerCompSub_cotangentSpaceBasis (b : B) :
     (Extension.Hom.sub_one_tmul (towerOfCompHom A B C) (towerCompRelHom A B C)
       (X (Sum.inr b)))
   have hof : (towerOfCompHom A B C).toAlgHom (X (Sum.inr b)) = MvPolynomial.C b := by
-    show ((Generators.self B C).ofComp (Generators.self A B)).toAlgHom (X (Sum.inr b)) = _
+    change ((Generators.self B C).ofComp (Generators.self A B)).toAlgHom (X (Sum.inr b)) = _
     rw [Generators.Hom.toAlgHom_X, Generators.ofComp_val]
     rfl
   have hrel : (towerCompRelHom A B C).toAlgHom (X (Sum.inr b)) = X (algebraMap B C b) := by
     have e : (towerCompHom A B C).toAlgHom (X (Sum.inr b)) = X (algebraMap B C b) := by
       rw [Generators.Hom.toAlgHom_X, towerCompHom_val, Generators.comp_val]
       rfl
-    show (towerTopHom A B C).toAlgHom ((towerCompHom A B C).toAlgHom (X (Sum.inr b))) = _
+    change (towerTopHom A B C).toAlgHom ((towerCompHom A B C).toAlgHom (X (Sum.inr b))) = _
     rw [e, Generators.Hom.toAlgHom_X, towerTopHom_val]
   rw [h1, towerNullHomotopy_cotangentSpaceBasis, ← map_neg]
   refine congrArg Extension.Cotangent.mk (Subtype.ext ?_)
-  show (towerOfCompHom A B C).toAlgHom (X (Sum.inr b)) -
+  change (towerOfCompHom A B C).toAlgHom (X (Sum.inr b)) -
       (towerCompRelHom A B C).toAlgHom (X (Sum.inr b)) =
     -(X (algebraMap B C b) - MvPolynomial.C b)
   rw [hof, hrel]
@@ -321,8 +321,7 @@ theorem towerCompSub_liftBaseChange_apply
             x) =
       -(towerNullHomotopyBaseChange A B C x) := by
   have key := towerCompSub_comp_cotangentSpaceMap_toComp A B C
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul c m =>
     rw [LinearMap.liftBaseChange_tmul, map_smul, towerNullHomotopyBaseChange_tmul, ← smul_neg]
     refine congrArg (fun t ↦ c • t) ?_

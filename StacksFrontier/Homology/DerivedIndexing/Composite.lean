@@ -509,7 +509,7 @@ theorem extendResolutionComparison_f_zero (X : C) :
     ((embeddingUpNat.extendFunctor D).map
       (Stacks.Cohomology.RightDerivedEdge.resolutionComparison P X))
     (mapExtendIso P embeddingUpNat (injectiveResolution X).cocomplex).hom 0) ?_
-  show (HomologicalComplex.extendMap
+  change (HomologicalComplex.extendMap
       (Stacks.Cohomology.RightDerivedEdge.resolutionComparison P X) embeddingUpNat).f 0 ≫
       (mapExtendIso P embeddingUpNat (injectiveResolution X).cocomplex).hom.f 0 = _
   rw [HomologicalComplex.extendMap_f _ embeddingUpNat (i := 0) (by simp), Category.assoc,

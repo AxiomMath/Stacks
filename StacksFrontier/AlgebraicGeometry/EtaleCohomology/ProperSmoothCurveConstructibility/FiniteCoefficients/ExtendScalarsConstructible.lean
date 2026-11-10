@@ -146,8 +146,8 @@ theorem isConstructibleEtaleModule_zmodExtendScalars [IsNoetherianRing Λ]
         HasWeakSheafify ((SmallEtale.topology B T.obj T.property).over V)
           AddCommGrpCat.{u + 1} := fun _ _ ↦ inferInstance
     have : ∀ (S T : B.Scheme) (f : T ⟶ S),
-        ((AlgebraicGeometry.smallEtaleBaseChange B f).sheafPushforwardContinuous AddCommGrpCat.{u + 1}
-          (SmallEtale.topology B S.obj S.property)
+        ((AlgebraicGeometry.smallEtaleBaseChange B f).sheafPushforwardContinuous
+          AddCommGrpCat.{u + 1} (SmallEtale.topology B S.obj S.property)
           (SmallEtale.topology B T.obj T.property)).IsRightAdjoint := fun _ _ f ↦
       (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous
         (AlgebraicGeometry.smallEtaleBaseChange B f)

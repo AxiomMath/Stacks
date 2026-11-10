@@ -108,7 +108,7 @@ private theorem subsingleton_relativeDifferentialStalk_iff_formallyUnramified_st
   classical
   let := Stacks.RelativeDifferentialStalkMap.algebraStalkMap f x
   have he := Stacks.RelativeDifferentialStalkMap.relativeDifferentialsStalkKaehlerEquiv f x
-  show Subsingleton (relativeDifferentialStalk f x) ↔
+  change Subsingleton (relativeDifferentialStalk f x) ↔
     Algebra.FormallyUnramified (ToType (S.presheaf.stalk (f x)))
       (ToType (X.sheaf.presheaf.stalk x))
   rw [Algebra.formallyUnramified_iff]
@@ -124,7 +124,7 @@ private theorem subsingleton_relativeDifferentialStalk_iff_relativeCotangentSpac
   let := relativeDifferentialStalkModule f x
   let : Algebra ↥(X.presheaf.stalk x) ↥(X.residueField x) := (X.residue x).hom.toAlgebra
   have hfin := Stacks.RelativeDifferentialStalkMap.finite_relativeDifferentialStalk f x
-  show _ ↔ Subsingleton (↥(X.residueField x) ⊗[↥(X.presheaf.stalk x)]
+  change _ ↔ Subsingleton (↥(X.residueField x) ⊗[↥(X.presheaf.stalk x)]
     relativeDifferentialStalk f x)
   exact (IsLocalRing.subsingleton_tensorProduct
     (R := ↥(X.presheaf.stalk x)) (M := relativeDifferentialStalk f x)).symm
@@ -219,7 +219,7 @@ private theorem formallyUnramified_stalkMap_iff_residueCriterion
       refine Algebra.algebra_ext _ _ fun y ↦ ?_
       obtain ⟨y, rfl⟩ := IsLocalRing.residue_surjective y
       rfl
-    · show (IsLocalRing.maximalIdeal A).map (algebraMap A B) = _
+    · change (IsLocalRing.maximalIdeal A).map (algebraMap A B) = _
       convert hmax using 1
 
 /-- **Flatness of the stalk map together with vanishing relative differentials gives smoothness at
@@ -290,7 +290,7 @@ private theorem standardEtalePairMapRingEquiv_algebraMap
     Ideal.span {Polynomial.C P'.f, Polynomial.X * Polynomial.C P'.g - 1}
   have hJ : J = Ideal.map (f : Polynomial (Polynomial R) →+* Polynomial (Polynomial R')) I := by
     exact standardEtalePair_span_map P e
-  show ((P.equivPolynomialQuotient.toRingEquiv.trans
+  change ((P.equivPolynomialQuotient.toRingEquiv.trans
     ((Ideal.quotientEquiv I J f hJ).trans P'.equivPolynomialQuotient.toRingEquiv.symm))
       (algebraMap R P.Ring r)) = _
   rw [RingEquiv.trans_apply]
@@ -314,7 +314,7 @@ private theorem standardEtalePairMapRingEquiv_algebraMap
       Ideal.Quotient.mk J (Polynomial.C (Polynomial.C (e r))) := by
     rfl
   rw [← hmk']
-  show P'.equivPolynomialQuotient.symm
+  change P'.equivPolynomialQuotient.symm
       (algebraMap R' (Polynomial (Polynomial R') ⧸ J) (e r)) = _
   exact P'.equivPolynomialQuotient.symm.commutes (e r)
 
@@ -339,7 +339,7 @@ private theorem etalePresentationLocalization_away_derivative_isStandardEtale
   let I0 : Ideal R[X] := Ideal.span {p}
   let I : Ideal L := Ideal.map (algebraMap R[X] L) I0
   have hI : I = Ideal.span {(algebraMap R[X] L) p} := by
-    show Ideal.map (algebraMap R[X] L) (Ideal.span {p}) = _
+    change Ideal.map (algebraMap R[X] L) (Ideal.span {p}) = _
     rw [Ideal.map_span]
     simp
   let B := L ⧸ I
@@ -371,7 +371,7 @@ private theorem etalePresentationLocalization_away_derivative_isStandardEtale
   let L₂ := Localization.Away (q * p.derivative)
   let I₂ : Ideal L₂ := Ideal.map (algebraMap R[X] L₂) I0
   have hI₂ : I₂ = Ideal.span {(algebraMap R[X] L₂) p} := by
-    show Ideal.map (algebraMap R[X] L₂) (Ideal.span {p}) = _
+    change Ideal.map (algebraMap R[X] L₂) (Ideal.span {p}) = _
     rw [Ideal.map_span]
     simp
   let A₂ := L₂ ⧸ I₂
@@ -397,7 +397,7 @@ private theorem etalePresentationLocalization_away_derivative_isStandardEtale
   let e : B' ≃ₐ[R] P.Ring :=
     (locIso.restrictScalars R).trans (eA₂.trans P.equivAwayQuotient.symm)
   have hstd : Algebra.IsStandardEtale R B' := Algebra.IsStandardEtale.of_equiv e.symm
-  show Algebra.IsStandardEtale R (Localization.Away d)
+  change Algebra.IsStandardEtale R (Localization.Away d)
   exact hstd
 
 /-! ### The criteria -/
@@ -498,7 +498,7 @@ public theorem etaleAt_tfae {X S : Scheme.{u}} (f : X ⟶ S)
             ((algebraMap Γ(S, V.1)[X] (Localization.Away q))
               (derivative p))) ∉
             (U.2.primeIdealOf ⟨x, hxU⟩).asIdeal
-  show List.TFAE [C1, C2, C3, C4, C5, C6, C7, C8, C9, C10, C11]
+  change List.TFAE [C1, C2, C3, C4, C5, C6, C7, C8, C9, C10, C11]
   let hSmooth := Stacks.Tag01V9NumericalCriterion.smoothAt_tfae f x
   let hEtale := etaleAt_iff_smoothAt_and_unramifiedAt f x
   let hEtaleFiber := etaleAt_iff_smoothAt_and_unramifiedAt
@@ -623,7 +623,7 @@ public theorem etaleAt_tfae {X S : Scheme.{u}} (f : X ⟶ S)
       let Qs : Algebra.SubmersivePresentation R B' (Unit ⊕ Fin n) (Unit ⊕ Fin n) :=
         ⟨Q, hJ⟩
       have hdim : Qs.dimension = 0 := by
-        show Nat.card (Unit ⊕ Fin n) - Nat.card (Unit ⊕ Fin n) = 0
+        change Nat.card (Unit ⊕ Fin n) - Nat.card (Unit ⊕ Fin n) = 0
         simp
       have hStd : Algebra.IsStandardSmoothOfRelativeDimension 0 R B' := by
         have h' := Qs.isStandardSmoothOfRelativeDimension hdim
@@ -673,7 +673,7 @@ public theorem etaleAt_tfae {X S : Scheme.{u}} (f : X ⟶ S)
               β ((V.1.topIso.hom ≫ f.appLE V U hUV ≫ U.1.topIso.inv).hom
                 (α.symm r)) := congrArg β (congrArg (fun g : R₀ ⟶ B₀ => g (α.symm r)) htop)
           _ = (f.appLE V U hUV).hom r := by
-            show U.1.topIso.hom
+            change U.1.topIso.hom
               ((V.1.topIso.hom ≫ f.appLE V U hUV ≫ U.1.topIso.inv)
                 (V.1.topIso.inv r)) = _
             simp only [CommRingCat.comp_apply, CommRingCat.hom_inv_apply]
@@ -686,7 +686,7 @@ public theorem etaleAt_tfae {X S : Scheme.{u}} (f : X ⟶ S)
         have h0 : pres.equivRing.toRingEquiv
             ((f.resLE V.1 U.1 hUV).appTop.hom (α.symm r)) =
             algebraMap R₀ P.Ring (α.symm r) := by
-          show pres.equivRing (algebraMap R₀ B₀ (α.symm r)) = _
+          change pres.equivRing (algebraMap R₀ B₀ (α.symm r)) = _
           exact pres.equivRing.commutes (α.symm r)
         have hm : m (pres.equivRing.toRingEquiv
             ((f.resLE V.1 U.1 hUV).appTop.hom (α.symm r))) =
@@ -694,7 +694,7 @@ public theorem etaleAt_tfae {X S : Scheme.{u}} (f : X ⟶ S)
           rw [h0]
           simpa using standardEtalePairMapRingEquiv_algebraMap P α (α.symm r)
         simp only [RingHom.comp_apply]
-        show e ((f.appLE V U hUV).hom r) = _
+        change e ((f.appLE V U hUV).hom r) = _
         rw [← hr]
         simp only [e, RingEquiv.trans_apply, RingEquiv.symm_apply_apply]
         rw [hm]
@@ -727,7 +727,7 @@ public theorem etaleAt_tfae {X S : Scheme.{u}} (f : X ⟶ S)
       let Iₛ : Ideal L := Ideal.span {(algebraMap R[X] L) p}
       let Iᵢ : Ideal L := Ideal.map (algebraMap R[X] L) I₀
       have hI : Iᵢ = Iₛ := by
-        show Ideal.map (algebraMap R[X] L) (Ideal.span {p}) = _
+        change Ideal.map (algebraMap R[X] L) (Ideal.span {p}) = _
         rw [Ideal.map_span]
         simp [Iₛ]
       let Aᵢ := etalePresentationLocalization R p q
@@ -743,7 +743,7 @@ public theorem etaleAt_tfae {X S : Scheme.{u}} (f : X ⟶ S)
         toRingEquiv := e.trans eQ.toRingEquiv
         commutes' r := by
           have hbase : e (algebraMap R B r) = StandardEtale.standardEtaleMap R p q r := by
-            show e ((f.appLE V U hUV).hom r) = _
+            change e ((f.appLE V U hUV).hom r) = _
             exact congrArg
               (fun φ : R →+* StandardEtale.StandardEtaleAlg R p q => φ r) hcomm
           exact (congrArg eQ hbase).trans (hQcomm r)
@@ -752,16 +752,16 @@ public theorem etaleAt_tfae {X S : Scheme.{u}} (f : X ⟶ S)
       have : IsScalarTower R[X] C Aᵢ := by infer_instance
       let dᵢ : Aᵢ := algebraMap C Aᵢ (algebraMap R[X] C p.derivative)
       have hderQ : eQ (Ideal.Quotient.mk Iₛ ((algebraMap R[X] L) p.derivative)) = dᵢ := by
-        show (Ideal.quotientEquivAlgOfEq R hI.symm)
+        change (Ideal.quotientEquivAlgOfEq R hI.symm)
           (Ideal.Quotient.mk Iₛ ((algebraMap R[X] L) p.derivative)) = _
         rw [Ideal.quotientEquivAlgOfEq_mk]
-        show Ideal.Quotient.mk Iᵢ ((algebraMap R[X] L) p.derivative) =
+        change Ideal.Quotient.mk Iᵢ ((algebraMap R[X] L) p.derivative) =
           (algebraMap C Aᵢ) (algebraMap R[X] C p.derivative)
         rw [← IsScalarTower.algebraMap_apply R[X] C Aᵢ]
         rfl
       let dB : B := eAlg.symm dᵢ
       have hdB : dB = e.symm (Ideal.Quotient.mk Iₛ ((algebraMap R[X] L) p.derivative)) := by
-        show (e.trans eQ.toRingEquiv).symm dᵢ = _
+        change (e.trans eQ.toRingEquiv).symm dᵢ = _
         rw [← hderQ]
         simp
       have hnotB : dB ∉ (U.2.primeIdealOf ⟨x, hxU⟩).asIdeal := by
@@ -785,7 +785,7 @@ public theorem etaleAt_tfae {X S : Scheme.{u}} (f : X ⟶ S)
       have : IsScalarTower R Aᵢ A' := IsScalarTower.of_algebraMap_eq'
         (R := R) (S := Aᵢ) (A := A') hmap
       have : IsLocalization.Away dᵢ A' := by
-        show IsLocalization.Away dᵢ (Localization.Away dᵢ)
+        change IsLocalization.Away dᵢ (Localization.Away dᵢ)
         infer_instance
       have hpow : Submonoid.map eAlg (Submonoid.powers dB) = Submonoid.powers dᵢ := by
         rw [Submonoid.map_powers]

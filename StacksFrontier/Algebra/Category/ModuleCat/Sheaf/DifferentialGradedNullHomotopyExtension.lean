@@ -116,7 +116,7 @@ theorem exists_actionLinear_delta_extension
     apply Hom.ext
     intro n
     have h : Cochain.ofHom (S.f ≫ g).toHomologicalComplex = 0 := by
-      show Cochain.ofHom (S.f.toHomologicalComplex ≫ g.toHomologicalComplex) = 0
+      change Cochain.ofHom (S.f.toHomologicalComplex ≫ g.toHomologicalComplex) = 0
       rw [Cochain.ofHom_comp, hg, hdd, Cochain.comp_sub, ← Cochain.ofHom_comp,
         ← δ_ofHom_comp, hres, hd₁]
       exact sub_self _
@@ -140,7 +140,7 @@ theorem exists_actionLinear_delta_extension
       rw [h, add_zero]
     rw [hz'd, ← Cochain.comp_assoc_of_first_is_zero_cochain, ← Cochain.ofHom_comp]
     have hzero : S.f.toHomologicalComplex ≫ S.g.toHomologicalComplex = 0 := by
-      show (S.f ≫ S.g).toHomologicalComplex = 0
+      change (S.f ≫ S.g).toHomologicalComplex = 0
       rw [S.zero]
       rfl
     rw [hzero, Cochain.ofHom_zero, Cochain.zero_comp]

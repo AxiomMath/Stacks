@@ -257,7 +257,7 @@ theorem bijective_familySectionsMap {I : Type s} {E P : SheafOfModules.{s} R}
     intro i x
     have e1 : (AddCommGrpCat.Hom.hom φa) (Finsupp.single i x)
         = (G.map (ι i)).hom x := (key i x).symm
-    show ψ.hom ((AddCommGrpCat.Hom.hom φa) (Finsupp.single i x)) = _
+    change ψ.hom ((AddCommGrpCat.Hom.hom φa) (Finsupp.single i x)) = _
     rw [e1, hfac' i x]
     rfl
   exact Function.bijective_iff_has_inverse.mpr
@@ -323,14 +323,13 @@ theorem ker_eq_span_image_mapRange_of_flat {A A' : Type*} [instA : CommRing A]
     intro b p
     refine Finsupp.ext fun i => ?_
     rw [he, TensorProduct.finsuppScalarRight_apply_tmul_apply]
-    show p i • b = b * algebraMap A A' (p i)
+    change p i • b = b * algebraMap A A' (p i)
     rw [Algebra.smul_def]
     exact mul_comm _ _
   have hkey : ∀ t : TensorProduct A A' (I →₀ A),
       φ₁ (e t) = c (LinearMap.lTensor A' φ₀ t) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul b p => rw [htmul, hsq, LinearMap.lTensor_tmul]
     | add t t' ht ht' => rw [map_add, map_add, ht, ht', map_add, map_add]
   have ht0 : LinearMap.lTensor A' φ₀ (e.symm y) = 0 := by
@@ -346,8 +345,7 @@ theorem ker_eq_span_image_mapRange_of_flat {A A' : Type*} [instA : CommRing A]
         ((fun p : I →₀ A => Finsupp.mapRange (algebraMap A A') (map_zero _) p) ''
           (LinearMap.ker φ₀ : Set (I →₀ A))) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]; exact Submodule.zero_mem _
+    induction z using TensorProduct.inductionOn with
     | tmul b p =>
       rw [LinearMap.lTensor_tmul, htmul]
       exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨p.1, p.2, rfl⟩)

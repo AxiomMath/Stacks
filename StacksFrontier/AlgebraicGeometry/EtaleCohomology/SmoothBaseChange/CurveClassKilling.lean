@@ -230,7 +230,7 @@ theorem exists_galoisCover_of_restriction_algebraicClosure_eq_zero [IsAffine X]
   let : Algebra k E₂ := ((algebraMap K E₂).comp (algebraMap k K)).toAlgebra
   have : IsScalarTower k K E₂ := IsScalarTower.of_algebraMap_eq fun _ => rfl
   have : IsScalarTower k k' E₂ := IsScalarTower.of_algebraMap_eq fun c => Subtype.ext <| by
-    show algebraMap K (Ωbar K) (algebraMap k K c) =
+    change algebraMap K (Ωbar K) (algebraMap k K c) =
       ((algebraMap k' L₀ (algebraMap k k' c) : L₀) : Ωbar K)
     rw [← IsScalarTower.algebraMap_apply k k' L₀]
     exact (IsScalarTower.algebraMap_apply k K (Ωbar K) c).symm
@@ -334,7 +334,7 @@ theorem exists_galoisCover_of_eq_one [IsCurve k f] [IsAffine X] (x : Spec (.of k
   have : FiniteDimensional k E' := Module.Finite.trans E.1 E'
   let ιE : E' →+* Ωbar K := (algebraMap (kbar k K) (Ωbar K)).comp ιE'.toRingHom
   have hιE : ∀ c : k, ιE (algebraMap k E' c) = algebraMap k (Ωbar K) c := fun c => by
-    show algebraMap (kbar k K) (Ωbar K) (ιE' (algebraMap k E' c)) = _
+    change algebraMap (kbar k K) (Ωbar K) (ιE' (algebraMap k E' c)) = _
     rw [IsScalarTower.algebraMap_apply k E.1 E', ιE'.commutes]
     rfl
   obtain ⟨L₀, hL₀, hmem⟩ := exists_finiteDimensional_intermediateField_range_le K

@@ -42,7 +42,8 @@ product.
 * `Stacks.TorAmplitudeTriangle.DerivedTensoringLarge` and
   `Stacks.TorAmplitudeTriangle.HasTorAmplitudeInLarge`: the datum and the Tor-amplitude predicate
   with the module carriers in a universe independent of the ring's. A statement relating two rings
-  that do not share a universe — Stacks 0H75 in `StacksFrontier.Homology.TorAmplitude.Nilpotent` — has
+  that do not share a universe — Stacks 0H75 in `StacksFrontier.Homology.TorAmplitude.Nilpotent` —
+  has
   to be phrased against these, since `DerivedCat R` puts the modules in the universe of `R`. At an
   equal module universe they are the two notions above.
 -/

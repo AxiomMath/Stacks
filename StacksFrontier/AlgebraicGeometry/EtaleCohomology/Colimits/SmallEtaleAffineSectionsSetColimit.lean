@@ -145,15 +145,15 @@ theorem existsUnique_desc_of_affineSetSections :
     fun j => sheafHom_ext_of_affineEtale_set fun W => ?_,
     fun σ' hσ' => sheafHom_ext_of_affineEtale_set fun W => ?_⟩
   · ext t
-    show (descSet T lg hdir hlg hsurj hinj μ hμ).hom.app _ ((lg j).hom.app _ t) = _
+    change (descSet T lg hdir hlg hsurj hinj μ hμ).hom.app _ ((lg j).hom.app _ t) = _
     rw [descSet_app, descAppSet_apply T lg hdir hlg hsurj hinj μ hμ]
     rfl
   · ext x
     obtain ⟨j, t, rfl⟩ := hsurj W x
-    show σ'.hom.app _ ((lg j).hom.app _ t) =
+    change σ'.hom.app _ ((lg j).hom.app _ t) =
       (descSet T lg hdir hlg hsurj hinj μ hμ).hom.app _ ((lg j).hom.app _ t)
     rw [descSet_app, descAppSet_apply T lg hdir hlg hsurj hinj μ hμ]
-    show ((lg j) ≫ σ').hom.app _ t = _
+    change ((lg j) ≫ σ').hom.app _ t = _
     rw [hσ' j]
 
 end Stacks.EtaleCohomology

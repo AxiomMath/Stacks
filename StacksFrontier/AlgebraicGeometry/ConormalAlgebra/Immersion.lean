@@ -389,7 +389,7 @@ theorem coborderChartMap_smul (n : ℕ) (r : Γ(X, U)) (a b : ↥(chartIdeal i U
           (op (coborderAffineChart i U hU).1) from coborderSectionEquiv i U hU r) •
         coborderPowerEquiv i U hU n a := by
     refine Subtype.ext ?_
-    show coborderSectionEquiv i U hU ((r • a : ↥(chartIdeal i U ^ n)) : Γ(X, U)) =
+    change coborderSectionEquiv i U hU ((r • a : ↥(chartIdeal i U ^ n)) : Γ(X, U)) =
       coborderSectionEquiv i U hU r * coborderSectionEquiv i U hU (a : Γ(X, U))
     rw [SetLike.val_smul, smul_eq_mul, map_mul]
   rw [coborderChartMap_apply, coborderChartMap_apply, hp,

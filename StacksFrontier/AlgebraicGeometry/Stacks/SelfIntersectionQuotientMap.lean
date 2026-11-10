@@ -91,7 +91,7 @@ site. -/
 theorem toStackUliftOfPointwise_comp (hsetU : 𝒰.val.p.IsFiberedInSetoids) :
     toStackUliftOfPointwise eU eR hsetU ⋙ (stackUlift 𝒳).p =
       (Stack.quotientPrestack (selfIntersectionGroupoid eU eR hsetU)).p := by
-  show _ ⋙ (toStackOfPointwiseGroupoid eU eR hsetU).toFunctor ⋙
+  change _ ⋙ (toStackOfPointwiseGroupoid eU eR hsetU).toFunctor ⋙
     (BasedCategory.uliftUp 𝒳.val ⋙ (stackUlift 𝒳).p) = _
   rw [BasedCategory.uliftUp_comp 𝒳.val, (toStackOfPointwiseGroupoid eU eR hsetU).w]
   rfl

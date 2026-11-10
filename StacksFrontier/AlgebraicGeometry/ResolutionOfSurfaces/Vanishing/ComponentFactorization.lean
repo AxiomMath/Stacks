@@ -74,7 +74,7 @@ private theorem componentInSource_isClosed (V : VanishingSituation.{u})
 private theorem componentClosed_coe (V : VanishingSituation.{u})
     (i : Fin V.numberOfComponents) :
     (componentClosed V i : Set V.X) = componentInSource V i := by
-  show closure (componentInSource V i) = componentInSource V i
+  change closure (componentInSource V i) = componentInSource V i
   exact closure_eq_iff_isClosed.mpr (componentInSource_isClosed V i)
 
 private theorem componentScheme_support (V : VanishingSituation.{u})
@@ -89,7 +89,7 @@ private theorem fiberι_ker_le_componentIdeal (V : VanishingSituation.{u})
       Scheme.IdealSheafData.vanishingIdeal (componentClosed V i) := by
   have : IsClosedImmersion (V.f.fiberι V.closedPoint) := fiberι_isClosedImmersion V
   apply (Scheme.IdealSheafData.le_support_iff_le_vanishingIdeal).mp
-  show (componentClosed V i : Set V.X) ⊆
+  change (componentClosed V i : Set V.X) ⊆
     (((V.f.fiberι V.closedPoint).ker).support : Set V.X)
   rw [componentClosed_coe, Scheme.Hom.support_ker]
   exact Set.image_subset_iff.mpr fun x _ => subset_closure ⟨x, rfl⟩
@@ -144,7 +144,7 @@ private theorem exists_closed_point_on_component_only (V : VanishingSituation.{u
     · exact hηnot j hji (by simpa [hji] using hj)
   let U : Set V.specialFiber := C ∩ Tᶜ
   have hU : IsLocallyClosed U := by
-    show IsLocallyClosed (C ∩ Tᶜ)
+    change IsLocallyClosed (C ∩ Tᶜ)
     exact (isClosed_of_mem_irreducibleComponents C hC).isLocallyClosed.inter
       hT.isOpen_compl.isLocallyClosed
   have hUne : U.Nonempty := ⟨η, hηmem, hηT⟩
@@ -178,10 +178,10 @@ private theorem exists_componentScheme_point (V : VanishingSituation.{u})
     have h := s.isClosedEmbedding.isClosedMap ({x} : Set V.specialFiber) hxclosed
     simpa [xX] using h
   refine ⟨y, ?_, ?_, ?_⟩
-  · show IsClosed ({I.subschemeι y} : Set V.X)
+  · change IsClosed ({I.subschemeι y} : Set V.X)
     rw [hy]
     exact hclosedX
-  · show I.subschemeι y ∈ componentInSource V i
+  · change I.subschemeι y ∈ componentInSource V i
     rw [hy]
     exact hxsource
   · intro j hji hbad
@@ -221,10 +221,10 @@ private theorem componentSchemeToResidueField_locallyOfFiniteType
   have : LocallyOfFiniteType q := inferInstance
   have : LocallyOfFiniteType e.hom := inferInstance
   have : LocallyOfFiniteType (V.f.fiberToSpecResidueField V.closedPoint) := by
-    show LocallyOfFiniteType (Limits.pullback.snd V.f
+    change LocallyOfFiniteType (Limits.pullback.snd V.f
       (V.base.fromSpecResidueField V.closedPoint))
     infer_instance
-  show LocallyOfFiniteType (q ≫ e.hom ≫ V.f.fiberToSpecResidueField V.closedPoint)
+  change LocallyOfFiniteType (q ≫ e.hom ≫ V.f.fiberToSpecResidueField V.closedPoint)
   infer_instance
 
 private theorem componentScheme_point_isClosed (V : VanishingSituation.{u})
@@ -237,7 +237,7 @@ private theorem componentScheme_point_isClosed (V : VanishingSituation.{u})
     ext z
     simp only [Set.mem_preimage, Set.mem_singleton_iff]
     exact I.subschemeι.isClosedEmbedding.injective.eq_iff
-  show IsClosed ({y} : Set I.subscheme)
+  change IsClosed ({y} : Set I.subscheme)
   rw [← hpre]
   exact (I.subschemeι).isClosedEmbedding.isClosed_preimage _ hy
 
@@ -346,7 +346,7 @@ private theorem exists_fraction_for_stalk_element
     V.f.stalkSpecializes_stalkMap ηX x (genericPoint_specializes x)
   have hstalk : StructureSheaf.toStalk V.A (V.f x) ≫
       V.base.presheaf.stalkSpecializes hfx = StructureSheaf.toStalk V.A (V.f ηX) := by
-    show StructureSheaf.toStalk V.A (V.f x) ≫
+    change StructureSheaf.toStalk V.A (V.f x) ≫
       (Spec.structureSheaf V.A).presheaf.stalkSpecializes hfx =
         StructureSheaf.toStalk V.A (V.f ηX)
     exact StructureSheaf.toStalk_stalkSpecializes hfx
@@ -386,7 +386,7 @@ private theorem exists_fraction_for_stalk_element
       _ = (algebraMap (V.X.presheaf.stalk x) V.X.functionField g) * γ b := by rw [hdiv]
   have hmap_apply (r : V.A) :
       (algebraMap (V.X.presheaf.stalk x) V.X.functionField) (α r) = γ r := by
-    show (algebraMap (V.X.presheaf.stalk x) V.X.functionField) (α r) = φ r
+    change (algebraMap (V.X.presheaf.stalk x) V.X.functionField) (α r) = φ r
     simpa only [RingHom.comp_apply] using
       congrArg (fun k : V.A →+* V.X.functionField => k r) hmap
   have hlocal : α a = g * α b := by
@@ -519,7 +519,7 @@ theorem exists_ne_zero_mem_maximalIdeal_factorization
       rw [map_prod]
       exact (Finset.mul_prod_erase Finset.univ (fun j => ρ i (a₀ j))
         (Finset.mem_univ i)).symm
-    show ρ i a = g i * hi i
+    change ρ i a = g i * hi i
     calc
       ρ i a = ρ i c * ρ i (∏ j : Fin V.numberOfComponents, a₀ j) := by
         simp [a]

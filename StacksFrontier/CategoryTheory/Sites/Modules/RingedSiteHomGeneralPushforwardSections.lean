@@ -66,7 +66,7 @@ theorem HomGeneral.sectionsFunctor_map_preservesLimitPair_inv_prodObjMk
       Functor.prodObjMk (P := Sheaf.sectionsFunctor X.J (f.u.op.obj V)) a b := by
   apply ((Sheaf.sectionsFunctor Y.J V).mapIso
     (PreservesLimitPair.iso f.toposHom.pushforward A B)).toEquiv.injective
-  show ((Sheaf.sectionsFunctor Y.J V).map (PreservesLimitPair.iso f.toposHom.pushforward A B).hom)
+  change ((Sheaf.sectionsFunctor Y.J V).map (PreservesLimitPair.iso f.toposHom.pushforward A B).hom)
       (((Sheaf.sectionsFunctor Y.J V).map (PreservesLimitPair.iso f.toposHom.pushforward A B).inv)
         _) =
       ((Sheaf.sectionsFunctor Y.J V).map (PreservesLimitPair.iso f.toposHom.pushforward A B).hom)

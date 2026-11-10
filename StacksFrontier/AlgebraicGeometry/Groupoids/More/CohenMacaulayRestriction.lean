@@ -112,7 +112,7 @@ private theorem fiberIsoOfSourceIso_asFiber {X Y S : Scheme.{u}}
   have hmap : (fiberIsoOfSourceIso (f := f) e rfl (f (e.hom x))).hom ≫
       f.fiberι (f (e.hom x)) =
       (e.hom ≫ f).fiberι (f (e.hom x)) ≫ e.hom := by
-    show (asIso (pullback.map (e.hom ≫ f) (S.fromSpecResidueField (f (e.hom x))) f
+    change (asIso (pullback.map (e.hom ≫ f) (S.fromSpecResidueField (f (e.hom x))) f
       (S.fromSpecResidueField (f (e.hom x))) e.hom (𝟙 _) (𝟙 _) (by simp) (by simp))).hom ≫
         pullback.fst f (S.fromSpecResidueField (f (e.hom x))) =
           pullback.fst (e.hom ≫ f) (S.fromSpecResidueField (f (e.hom x))) ≫ e.hom
@@ -140,7 +140,7 @@ private theorem fiberIsoOfSourceIso_asFiber {X Y S : Scheme.{u}}
     _ = ((e.hom ≫ f).fiberι ((e.hom ≫ f) x) ≫ e.hom)
         ((e.hom ≫ f).asFiber x) := by rw [hmapc]
     _ = e.hom x := by
-      show e.hom ((e.hom ≫ f).fiberι ((e.hom ≫ f) x) ((e.hom ≫ f).asFiber x)) = _
+      change e.hom ((e.hom ≫ f).fiberι ((e.hom ≫ f) x) ((e.hom ≫ f).asFiber x)) = _
       rw [Scheme.Hom.fiberι_asFiber]
     _ = f.fiberι (f (e.hom x)) (f.asFiber (e.hom x)) := by simp
 
@@ -524,7 +524,7 @@ private theorem restrictionSource_cohenMacaulay_of_targetPreimage {S : Scheme.{u
     dsimp [eAopen, targetOpenPullbackIso, V]
     exact IsOpenImmersion.isoOfRangeEq_hom_fac _ _ _
   have heA : eA.hom ≫ V.ι = t.left := by
-    show eAcomp.hom ≫ (eAopen.hom ≫ V.ι) = (pullback.snd g G.target).left
+    change eAcomp.hom ≫ (eAopen.hom ≫ V.ι) = (pullback.snd g G.target).left
     calc
       _ = eAcomp.hom ≫ pullback.snd W.ι G.target.left := by rw [heAopen]
       _ = (Over.forget S).map (pullback.snd g G.target) :=
@@ -552,23 +552,23 @@ private theorem restrictionSource_cohenMacaulay_of_targetPreimage {S : Scheme.{u
   let qOver := pullback fOver g
   let Q := pullback fA W.ι
   let eQ : qOver.left ≅ Q := by
-    show (Over.forget S).obj qOver ≅
+    change (Over.forget S).obj qOver ≅
       pullback ((Over.forget S).map fOver) ((Over.forget S).map g)
     simpa [Over.forget_map, fA] using
       (PreservesPullback.iso (Over.forget S) fOver g)
   let eAssoc : restrictionArrows G g ≅ qOver := by
-    show pullback t (pullback.fst G.source g) ≅ pullback fOver g
+    change pullback t (pullback.fst G.source g) ≅ pullback fOver g
     exact sourcePullbackAssocIso t G.source g
   let eAssocScheme := (Over.forget S).mapIso eAssoc
   let eP : (restrictionArrows G g).left ≅ Q := eAssocScheme ≪≫ eQ
   have heAssoc : eAssoc.hom ≫ pullback.snd fOver g = restrictionSource G g := by
-    show (sourcePullbackAssocIso (pullback.snd g G.target) G.source g).hom ≫
+    change (sourcePullbackAssocIso (pullback.snd g G.target) G.source g).hom ≫
         pullback.snd ((pullback.snd g G.target) ≫ G.source) g =
       pullback.snd (pullback.snd g G.target) (pullback.fst G.source g) ≫
         pullback.snd G.source g
     exact sourcePullbackAssocIso_hom_snd (pullback.snd g G.target) G.source g
   have heQ : eQ.hom ≫ pullback.snd fA W.ι = (pullback.snd fOver g).left := by
-    show (PreservesPullback.iso (Over.forget S) fOver g).hom ≫
+    change (PreservesPullback.iso (Over.forget S) fOver g).hom ≫
       pullback.snd (Over.Hom.left fOver) (Over.Hom.left g) =
         (pullback.snd fOver g).left
     exact PreservesPullback.iso_hom_snd (Over.forget S) fOver g

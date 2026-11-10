@@ -60,7 +60,7 @@ theorem finite_homology_of_isPerfect_padic {ℓ : ℕ} [Fact ℓ.Prime]
       ((ModuleCat.epi_iff_surjective _).mp inferInstance)
   have : Module.Finite ℤ_[ℓ]
       ((HomologicalComplex.homologyFunctor (ModuleCat.{v} ℤ_[ℓ]) (.up ℤ) i).obj P) := by
-    show Module.Finite ℤ_[ℓ] (P.homology i)
+    change Module.Finite ℤ_[ℓ] (P.homology i)
     infer_instance
   exact Module.Finite.equiv
     (((DerivedCategory.homologyFunctor (ModuleCat.{v} ℤ_[ℓ]) i).mapIso e) ≪≫
@@ -219,7 +219,7 @@ theorem exists_eq_pow_smul_of_limitCohomologyProjection_eq_zero_and_pow_smul_mem
     rw [Functor.map_comp, Category.assoc]
     rw [restrictHomologyIsoOfHom_hom_app_Q]
     simp only [Functor.map_comp, Category.assoc, Functor.comp_obj]
-    rw [Iso.map_inv_hom_id_assoc]
+    rw [Iso.inv_hom_id_map_assoc]
     have hn : (DerivedCategory.homologyFunctor (ModuleCat.{v} R) i).map
           ((ModuleCat.restrictScalars.{v} f).mapDerivedCategory.map
             (restrictDerivedFactors g P).inv) ≫
@@ -236,13 +236,13 @@ theorem exists_eq_pow_smul_of_limitCohomologyProjection_eq_zero_and_pow_smul_mem
     rw [reassoc_of% hn]
     rw [restrictHomologyIsoOfHom_hom_app_Q, restrictHomologyIsoOfHom_hom_app_Q]
     simp only [Functor.map_comp, Category.assoc]
-    rw [Iso.map_inv_hom_id_assoc]
+    rw [Iso.inv_hom_id_map_assoc]
     rw [← Functor.map_comp_assoc _ ((DerivedCategory.homologyFunctor (ModuleCat.{v} S) i).map
         (restrictDerivedFactors g P).inv)
       ((DerivedCategory.homologyFunctor (ModuleCat.{v} S) i).map
         (restrictDerivedFactors g P).hom),
-      Iso.map_inv_hom_id, CategoryTheory.Functor.map_id, Category.id_comp]
-    rw [Iso.map_hom_inv_id_assoc]
+      Iso.inv_hom_id_map, CategoryTheory.Functor.map_id, Category.id_comp]
+    rw [Iso.hom_inv_id_map_assoc]
     have heid : e.hom.app P = 𝟙 _ := by ext j x; rfl
     have hid {Z : ModuleCat.{v} R}
         (w : (DerivedCategory.homologyFunctor (ModuleCat.{v} R) i).obj (DerivedCategory.Q.obj
@@ -257,7 +257,7 @@ theorem exists_eq_pow_smul_of_limitCohomologyProjection_eq_zero_and_pow_smul_mem
           ((DerivedCategory.homologyFunctor (ModuleCat.{v} R) i).map_id _)]
       exact Category.id_comp w
     rw [hid]
-    show (homologyFactors (((ModuleCat.restrictScalars.{v} (g.comp f)).mapHomologicalComplex
+    change (homologyFactors (((ModuleCat.restrictScalars.{v} (g.comp f)).mapHomologicalComplex
           (.up ℤ)).obj P) i).inv ≫
         ((P.sc i).mapHomologyIso
             (ModuleCat.restrictScalars.{v} g ⋙ ModuleCat.restrictScalars.{v} f)).hom ≫
@@ -296,7 +296,7 @@ theorem exists_eq_pow_smul_of_limitCohomologyProjection_eq_zero_and_pow_smul_mem
         Functor.whiskerLeft HA (ModuleCat.restrictScalarsComp'.{v} f g (g.comp f) rfl).inv
     have hQ (P : CochainComplex (ModuleCat.{v} A) ℤ) :
         α.app (DerivedCategory.Q.obj P) = β.app (DerivedCategory.Q.obj P) := by
-      show HR.map ((StacksDraft.DerivedInverseLimit.derivedRestrictScalarsComp.{0, v}
+      change HR.map ((StacksDraft.DerivedInverseLimit.derivedRestrictScalarsComp.{0, v}
         f g (g.comp f) rfl).hom.app (DerivedCategory.Q.obj P)) ≫
         (restrictHomologyIsoOfHom (g.comp f) i).hom.app (DerivedCategory.Q.obj P) = _
       dsimp only [β, NatTrans.comp_app, Functor.whiskerRight_app, Functor.whiskerLeft_app,
@@ -329,7 +329,7 @@ theorem exists_eq_pow_smul_of_limitCohomologyProjection_eq_zero_and_pow_smul_mem
       exact h
     obtain ⟨a, ha⟩ := hval x hx
     obtain ⟨b, hb⟩ := hval y hy
-    show x * y = 0
+    change x * y = 0
     rw [← ZMod.natCast_zmod_val x, ← ZMod.natCast_zmod_val y, ← Nat.cast_mul]
     apply (ZMod.natCast_eq_zero_iff _ _).mpr
     rw [ha, hb]
@@ -410,7 +410,7 @@ theorem exists_eq_pow_smul_of_limitCohomologyProjection_eq_zero_and_pow_smul_mem
         Functor.ofOpSequence_map_homOfLE_succ]
       -- The square, restated with the ring maps spelled `PadicInt.toZModPow` and `levelCast`
       -- rather than as the components of the cone `ccoef`.
-      show (DerivedCategory.homologyFunctor (ModuleCat.{v} ℤ_[ℓ]) i).map
+      change (DerivedCategory.homologyFunctor (ModuleCat.{v} ℤ_[ℓ]) i).map
           ((ModuleCat.restrictScalars.{v}
             (PadicInt.toZModPow (p := ℓ) (n + 1 + 1))).mapDerivedCategory.map (T.transition n) ≫
           (StacksDraft.DerivedInverseLimit.derivedRestrictScalarsComp
@@ -467,7 +467,7 @@ theorem exists_eq_pow_smul_of_limitCohomologyProjection_eq_zero_and_pow_smul_mem
     have h1 := congrArg (fun φ => φ.hom (q x)) (limitIsoLimitCohomology_hom_π T i Ecoh n)
     have h2 := congrArg (fun φ => φ.hom x) (hq n)
     simp only [ModuleCat.hom_comp, LinearMap.coe_comp, Function.comp_apply] at h1 h2
-    show limitCohomologyProjection T i n (E.hom (q x)) = _
+    change limitCohomologyProjection T i n (E.hom (q x)) = _
     refine h1.trans ?_
     rw [h2, show (DerivedCategory.homologyFunctor (ModuleCat.{v} ℤ_[ℓ]) i).map g =
       (DerivedCategory.homologyFunctor (ModuleCat.{v} ℤ_[ℓ]) i).map a ≫
@@ -481,7 +481,7 @@ theorem exists_eq_pow_smul_of_limitCohomologyProjection_eq_zero_and_pow_smul_mem
       refine ⟨⟨(ℓ : ℤ_[ℓ]) ^ (n + 1), ?_⟩, ?_⟩
       · exact mem_nonZeroDivisors_of_ne_zero (pow_ne_zero _ (Nat.cast_ne_zero.2
           (Fact.out : ℓ.Prime).ne_zero))
-      · show (ℓ : ℤ_[ℓ]) ^ (n + 1) • z = 0
+      · change (ℓ : ℤ_[ℓ]) ^ (n + 1) • z = 0
         rw [← Nat.cast_pow, Nat.cast_smul_eq_nsmul]
         exact hz
     have := hk z hmem
@@ -525,7 +525,7 @@ theorem exists_eq_pow_smul_of_limit_π_eq_zero_and_pow_smul_mem_range
     rw [← map_nsmul L.symm, ← ha', LinearEquiv.symm_apply_apply]
   · obtain ⟨a', ha'⟩ := (hc n).2 ((e.hom.app (Opposite.op n)).hom y)
     refine ⟨L.symm a', (e.app (Opposite.op n)).toLinearEquiv.injective ?_⟩
-    show (e.hom.app (Opposite.op n)).hom _ = (e.hom.app (Opposite.op n)).hom _
+    change (e.hom.app (Opposite.op n)).hom _ = (e.hom.app (Opposite.op n)).hom _
     rw [← hL, LinearEquiv.apply_symm_apply, ha', map_nsmul]
     rfl
 

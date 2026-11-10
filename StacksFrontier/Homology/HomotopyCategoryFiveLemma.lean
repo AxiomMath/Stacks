@@ -123,17 +123,17 @@ public theorem isIso_homology_of_homotopyTriangleMorphism
     ComposableArrows.homMk₄ (G.map φ.hom₁) (G.map φ.hom₂) (G.map φ.hom₃) (G'.map φ.hom₁)
       (G'.map φ.hom₂)
       (by
-        show G.map S.mor₁ ≫ G.map φ.hom₂ = G.map φ.hom₁ ≫ G.map T.mor₁
+        change G.map S.mor₁ ≫ G.map φ.hom₂ = G.map φ.hom₁ ≫ G.map T.mor₁
         rw [← Functor.map_comp, ← Functor.map_comp, φ.comm₁])
       (by
-        show G.map S.mor₂ ≫ G.map φ.hom₃ = G.map φ.hom₂ ≫ G.map T.mor₂
+        change G.map S.mor₂ ≫ G.map φ.hom₃ = G.map φ.hom₂ ≫ G.map T.mor₂
         rw [← Functor.map_comp, ← Functor.map_comp, φ.comm₂])
       (by
-        show F.homologySequenceδ S i (i + 1) rfl ≫ G'.map φ.hom₁
+        change F.homologySequenceδ S i (i + 1) rfl ≫ G'.map φ.hom₁
           = G.map φ.hom₃ ≫ F.homologySequenceδ T i (i + 1) rfl
         exact (F.homologySequenceδ_naturality φ i (i + 1) rfl).symm)
       (by
-        show G'.map S.mor₁ ≫ G'.map φ.hom₂ = G'.map φ.hom₁ ≫ G'.map T.mor₁
+        change G'.map S.mor₁ ≫ G'.map φ.hom₂ = G'.map φ.hom₁ ≫ G'.map T.mor₁
         rw [← Functor.map_comp, ← Functor.map_comp, φ.comm₁])
   exact Abelian.isIso_of_epi_of_isIso_of_isIso_of_mono exS exT φ' h1 h2 h1' h2'
 
@@ -164,14 +164,14 @@ public theorem epi_homology_of_homotopyTriangleMorphism
   let φ' : rowS ⟶ rowT :=
     ComposableArrows.homMk₃ (G.map φ.hom₂) (G.map φ.hom₃) (G'.map φ.hom₁) (G'.map φ.hom₂)
       (by
-        show G.map S.mor₂ ≫ G.map φ.hom₃ = G.map φ.hom₂ ≫ G.map T.mor₂
+        change G.map S.mor₂ ≫ G.map φ.hom₃ = G.map φ.hom₂ ≫ G.map T.mor₂
         rw [← Functor.map_comp, ← Functor.map_comp, φ.comm₂])
       (by
-        show F.homologySequenceδ S i (i + 1) rfl ≫ G'.map φ.hom₁
+        change F.homologySequenceδ S i (i + 1) rfl ≫ G'.map φ.hom₁
           = G.map φ.hom₃ ≫ F.homologySequenceδ T i (i + 1) rfl
         exact (F.homologySequenceδ_naturality φ i (i + 1) rfl).symm)
       (by
-        show G'.map S.mor₁ ≫ G'.map φ.hom₂ = G'.map φ.hom₁ ≫ G'.map T.mor₁
+        change G'.map S.mor₁ ≫ G'.map φ.hom₂ = G'.map φ.hom₁ ≫ G'.map T.mor₁
         rw [← Functor.map_comp, ← Functor.map_comp, φ.comm₁])
   exact Abelian.epi_of_epi_of_epi_of_mono φ' exS exT h2 h1' h2'
 

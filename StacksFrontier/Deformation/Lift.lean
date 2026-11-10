@@ -290,10 +290,10 @@ private lemma base_pullback_iso
   have hb' : IsPullback
       (p.map d.fst ≫ eqToHom h₁) (p.map d.snd ≫ eqToHom h₂) f₁ f₂ := by
     apply hb.of_iso (Iso.refl _) (eqToIso h₁) (eqToIso h₂) (eqToIso x.2)
-    · show p.map d.fst ≫ eqToHom h₁ =
+    · change p.map d.fst ≫ eqToHom h₁ =
         𝟙 (p.obj d.pt) ≫ (p.map d.fst ≫ eqToHom h₁)
       simp
-    · show p.map d.snd ≫ eqToHom h₂ =
+    · change p.map d.snd ≫ eqToHom h₂ =
         𝟙 (p.obj d.pt) ≫ (p.map d.snd ≫ eqToHom h₂)
       simp
     · rw [CategoryTheory.IsHomLift.fac' p f₁ a₁.hom]
@@ -336,7 +336,7 @@ private lemma exists_fiber_product_of_surj_second
   let g₂ : y ⟶ a₂.obj := inv e ≫ d.snd
   have hg₁ : p.IsHomLift c.fst g₁ := by
     apply CategoryTheory.IsHomLift.of_commsq p c.fst g₁ hy h₁
-    show p.map (inv e ≫ d.fst) ≫ eqToHom h₁ = eqToHom hy ≫ c.fst
+    change p.map (inv e ≫ d.fst) ≫ eqToHom h₁ = eqToHom hy ≫ c.fst
     calc
       p.map (inv e ≫ d.fst) ≫ eqToHom h₁ =
           (eqToHom hy ≫ i.inv) ≫ (p.map d.fst ≫ eqToHom h₁) := by
@@ -344,7 +344,7 @@ private lemma exists_fiber_product_of_surj_second
       _ = eqToHom hy ≫ c.fst := by rw [← hi₁]; simp [Category.assoc]
   have hg₂ : p.IsHomLift c.snd g₂ := by
     apply CategoryTheory.IsHomLift.of_commsq p c.snd g₂ hy h₂
-    show p.map (inv e ≫ d.snd) ≫ eqToHom h₂ = eqToHom hy ≫ c.snd
+    change p.map (inv e ≫ d.snd) ≫ eqToHom h₂ = eqToHom hy ≫ c.snd
     calc
       p.map (inv e ≫ d.snd) ≫ eqToHom h₂ =
           (eqToHom hy ≫ i.inv) ≫ (p.map d.snd ≫ eqToHom h₂) := by
@@ -438,7 +438,7 @@ private lemma fiber_product_of_lift
       have hdFlip : Nonempty (IsLimit d.flip) :=
         isLimit_of_map_isLimit hRS a₂.hom a₁.hom d.flip
           (surjective_map_of_lift p f₁ a₁.hom h₁) (by
-            show Nonempty (IsLimit (d.map p).flip)
+            change Nonempty (IsLimit (d.map p).flip)
             exact ⟨hdmapFlip⟩)
       exact ⟨PullbackCone.isLimitOfFlip hdFlip.some⟩
     · exact isLimit_of_map_isLimit hRS a₁.hom a₂.hom d
@@ -637,7 +637,7 @@ private lemma pairToClass_of_fiber_product
   have hw : IsFiberProductOf c w.1 a₁ a₂ :=
     fiber_product_transport c x w.2 (Iso.refl w.1) j₁ j₂
   have ⟨i⟩ := fiber_product_unique hRS.1 c hc x a₁ a₂ w.1 z hw hz
-  show ThinSkeleton.mk w.1 = ThinSkeleton.mk z
+  change ThinSkeleton.mk w.1 = ThinSkeleton.mk z
   exact Quotient.sound ⟨i⟩
 
 private lemma classToPair_of_fiber_product
@@ -658,7 +658,7 @@ private lemma classToPair_of_fiber_product
     gb₁ ga₁ hgb₁ hga₁ hfacb₁ hfaca₁
   obtain ⟨i₂, _⟩ := factor_unique hRS.1 c.snd f₂ x (liftOfEq p c.condition z) b.1.2 a₂
     gb₂ ga₂ hgb₂ hga₂ hfacb₂ hfaca₂
-  show (ThinSkeleton.mk b.1.1, ThinSkeleton.mk b.1.2) =
+  change (ThinSkeleton.mk b.1.1, ThinSkeleton.mk b.1.2) =
     (ThinSkeleton.mk a₁, ThinSkeleton.mk a₂)
   exact Prod.ext (Quotient.sound ⟨i₁⟩) (Quotient.sound ⟨i₂⟩)
 
@@ -836,7 +836,7 @@ private lemma fixedDecompositionFirst
   rcases hz with ⟨g₁, g₂, comm, hg₁, hg₂, hfac₁, hfac₂, hlim⟩
   obtain ⟨i, _⟩ := factor_unique hRS.1 c.fst f₁ x z a₁' a₁ g₁ b.hom
     hg₁ b.isHomLift hfac₁ (by rfl)
-  show (E.equiv.symm (ThinSkeleton.mk z)).1 = ThinSkeleton.mk a₁
+  change (E.equiv.symm (ThinSkeleton.mk z)).1 = ThinSkeleton.mk a₁
   rw [hpair]
   exact Quotient.sound ⟨i⟩
 
@@ -869,13 +869,13 @@ private lemma isPushforward_iff_fiberProduct
       apply (IsPullback.of_isLimit hlim.some).of_iso
         (Iso.refl (liftToComposite a₁ b).obj) (lift_iso_obj j)
         (Iso.refl a₂.obj) (Iso.refl x.1)
-      · show g₁ ≫ j.hom.hom = 𝟙 (liftToComposite a₁ b).obj ≫ g₁'
+      · change g₁ ≫ j.hom.hom = 𝟙 (liftToComposite a₁ b).obj ≫ g₁'
         simp [g₁']
-      · show g₂ ≫ 𝟙 a₂.obj = 𝟙 (liftToComposite a₁ b).obj ≫ g₂
+      · change g₂ ≫ 𝟙 a₂.obj = 𝟙 (liftToComposite a₁ b).obj ≫ g₂
         simp
       · dsimp only [lift_iso_obj]
         simpa only [Iso.refl_hom, Category.comp_id] using j.hom.fac.symm
-      · show a₂.hom ≫ 𝟙 x.1 = 𝟙 a₂.obj ≫ a₂.hom
+      · change a₂.hom ≫ 𝟙 x.1 = 𝟙 a₂.obj ≫ a₂.hom
         simp
     have hlim' : IsLimit (PullbackCone.mk g₁' g₂ comm') := by
       convert hpb.isLimit using 1
@@ -890,10 +890,10 @@ private lemma isPushforward_iff_fiberProduct
           PullbackCone.mk b.hom g₂ commB :=
         PullbackCone.ext (Iso.refl (liftToComposite a₁ b).obj)
           (by
-            show g₁' = 𝟙 (liftToComposite a₁ b).obj ≫ b.hom
+            change g₁' = 𝟙 (liftToComposite a₁ b).obj ≫ b.hom
             exact hfirst.trans (Category.id_comp _).symm)
           (by
-            show g₂ = 𝟙 (liftToComposite a₁ b).obj ≫ g₂
+            change g₂ = 𝟙 (liftToComposite a₁ b).obj ≫ g₂
             exact (Category.id_comp _).symm)
       exact IsLimit.ofIsoLimit hlim' hcone
     exact ⟨g₂, commB, hg₂', ⟨hlimB⟩⟩
@@ -971,7 +971,7 @@ public theorem liftClassesEquivOfFixedLift
   have hmaps : ∀ (b : Lift p c.fst (liftSourceFiber a₁)) (a₂ : Lift p f₂ x),
       toSecond (ThinSkeleton.mk b) = ThinSkeleton.mk a₂ ↔ IsPushforwardOf c a₁ b a₂ := by
     intro b a₂
-    show (E.equiv.symm (ThinSkeleton.mk (liftToComposite a₁ b))).2 =
+    change (E.equiv.symm (ThinSkeleton.mk (liftToComposite a₁ b))).2 =
       ThinSkeleton.mk a₂ ↔ IsPushforwardOf c a₁ b a₂
     have hfirst := fixedDecompositionFirst p hRS c hc hsurj x a₁ E b
     change (E.equiv.symm (ThinSkeleton.mk (liftToComposite a₁ b))).1 =
@@ -1018,7 +1018,7 @@ public theorem liftClassesEquivOfFixedLift
     have hpush : IsPushforwardOf c a₁ b a₂ := (hmaps b a₂).1 hto
     obtain ⟨i⟩ := fixedFiberProduct_unique p hRS c hc x a₁ a₂ b b'.1
       hpush b'.2
-    show ThinSkeleton.mk b'.1 = q
+    change ThinSkeleton.mk b'.1 = q
     calc
       ThinSkeleton.mk b'.1 = ThinSkeleton.mk b := Quotient.sound ⟨i.symm⟩
       _ = q := hbq

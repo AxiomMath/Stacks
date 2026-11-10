@@ -239,11 +239,11 @@ theorem cls_comp_singleδ {n m : ℤ} (hnm : 1 + n = m)
         (ShiftedHom.mk₀ 0 rfl (Q.map (mappingCone.descShortComplex T))) (zero_add n) := by
     rw [h1, cls_postcomp, ShiftedHom.comp_mk₀]
     rfl
-  show ShiftedHom.comp (cls x₃ : ShiftedHom (Q.obj K) (Q.obj T.X₃) n)
+  change ShiftedHom.comp (cls x₃ : ShiftedHom (Q.obj K) (Q.obj T.X₃) n)
     (triangleOfSESδ hT) hnm = _
   rw [h4, ShiftedHom.comp_assoc _ _ _ (zero_add n) (add_zero 1) (by omega), ShiftedHom.mk₀_comp,
     descShortComplex_triangleOfSESδ]
-  show (ShiftedHom.map (Cocycle.equivHomShift.symm y : ShiftedHom K (mappingCone T.f) n) Q).comp
+  change (ShiftedHom.map (Cocycle.equivHomShift.symm y : ShiftedHom K (mappingCone T.f) n) Q).comp
     (ShiftedHom.map ψ Q) hnm = _
   rw [← ShiftedHom.map_comp, h3, ← cls_neg]
   rfl
@@ -386,7 +386,7 @@ lemma can_comp_singleδ (p n m : ℤ) (hn : p + n = 0) (hm : p - 1 + m = 0) (hnm
         ((DerivedCategory.singleFunctor C 0).map
           ((((m.negOnePow : ℤˣ) : ℤ)) • cokerToKer P p))⟦m⟧' := by
   have hw : (cokerπ P (p - 1) ≫ cokerToKer P p) ≫ (sc P p).f = P.d (p - 1) p ≫ 𝟙 _ := by
-    show (cokerπ P (p - 1) ≫ cokerToKer P p) ≫ kerι P p = P.d (p - 1) p ≫ 𝟙 _
+    change (cokerπ P (p - 1) ≫ cokerToKer P p) ≫ kerι P p = P.d (p - 1) p ≫ 𝟙 _
     rw [comp_id, assoc, cokerToKer_kerι, cokerπ_cokerD]
   refine (cls_toSingleMk_comp_singleδ (sc_shortExact P p) hn (by omega)
     (show p - 1 - 1 + 1 = p - 1 by omega) hnm (cokerπ P p) (d_cokerπ P (by omega)) (𝟙 _)
@@ -522,7 +522,7 @@ theorem isIso_of_bijective_comp_singleFunctor_injective [EnoughInjectives C]
         comp_id]
     have hwg : w ≫ g⟦(1 : ℤ)⟧' = 0 := comp_distTriang_mor_zero₃₁ _ hT
     rw [hy]
-    show w ≫ _ = 0
+    change w ≫ _ = 0
     rw [reassoc_of% hwg, zero_comp]
   have hrot := rot_of_distTriang _ hT
   have : (X⟦(1 : ℤ)⟧).IsLE (a - 1) := TStructure.t.isLE_shift X a 1 (a - 1) (by omega)
@@ -530,7 +530,7 @@ theorem isIso_of_bijective_comp_singleFunctor_injective [EnoughInjectives C]
     (TStructure.t.isLE_of_le Y b (max a b) (le_max_right a b))
     (TStructure.t.isLE_of_le (X⟦(1 : ℤ)⟧) (a - 1) (max a b) (by omega))
   refine (Triangle.isZero₃_iff_isIso₁ _ hT).1 ?_
-  show IsZero Z
+  change IsZero Z
   rw [DerivedCategory.isZero_iff_forall_isZero_homology]
   by_contra hne
   simp only [not_forall] at hne
@@ -650,7 +650,7 @@ theorem exists_isIso_eq_comp_of_isLE [EnoughProjectives C] [EnoughInjectives C]
       simp only [ψ]
       rw [← assoc, hnat, assoc])
     (fun hS n m hnm x ↦ by
-      show E'.hom ≫ φ m _ (E.inv ≫ ShiftedHom.comp x hS.singleδ hnm) = _
+      change E'.hom ≫ φ m _ (E.inv ≫ ShiftedHom.comp x hS.singleδ hnm) = _
       rw [show E.inv ≫ ShiftedHom.comp x hS.singleδ hnm =
         ShiftedHom.comp (E.inv ≫ x) hS.singleδ hnm by simp [ShiftedHom.comp], hδ]
       simp [ShiftedHom.comp, ψ])

@@ -111,7 +111,7 @@ theorem eq_zero_of_comp_unit_eq_zero {M N : Modules.{u, u} B S hS P.1 P.2}
   let R : Sieve U.unop := Presheaf.equalizerSieve (F := M.val.presheaf) (X := U) x 0
   have hR : R ∈ SmallEtale.topology B S hS P.1 U.unop :=
     mem_topology_of_hasAffineChartDiagram B S hS p U.unop R fun W a hW => by
-      show M.val.map a.op (s.val.app U n) = M.val.map a.op 0
+      change M.val.map a.op (s.val.app U n) = M.val.map a.op 0
       rw [map_zero]
       exact (PresheafOfModules.naturality_apply s.val (a.op : U ⟶ op W) n).symm.trans
         (hchart W hW _)

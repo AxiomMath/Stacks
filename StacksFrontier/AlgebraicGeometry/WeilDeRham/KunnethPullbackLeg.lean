@@ -62,7 +62,7 @@ theorem homEquiv_ofNatIsoLeft_comp {La : C ⥤ D} {Ra : D ⥤ C} {Lp : D ⥤ E} 
     (g : L.obj (Ra.obj k) ⟶ Lp.obj k) (hg : e.hom.app (Ra.obj k) ≫ g = Lp.map (adja.counit.app k)) :
     ((adja.comp adjp).ofNatIsoLeft e).homEquiv _ _ g = Ra.map (adjp.unit.app k) := by
   rw [Adjunction.homEquiv_unit]
-  show ((adja.comp adjp).unit.app _ ≫ Ra.map (Rp.map (e.hom.app _))) ≫ Ra.map (Rp.map g) = _
+  change ((adja.comp adjp).unit.app _ ≫ Ra.map (Rp.map (e.hom.app _))) ≫ Ra.map (Rp.map g) = _
   rw [Category.assoc]
   rw [← Functor.map_comp, ← Functor.map_comp, hg, Adjunction.comp_unit_app, Category.assoc,
     ← Functor.map_comp, adjp.unit_naturality, Functor.map_comp, ← Category.assoc,

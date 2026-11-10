@@ -173,7 +173,7 @@ private theorem ringKrullDim_eq_of_finite_injective
   · -- ringKrullDim B ≤ ringKrullDim A: comap is strictly monotone
     refine Order.krullDim_le_of_strictMono (PrimeSpectrum.comap (algebraMap A B)) ?_
     intro x y hxy
-    exact Ideal.IsIntegral.comap_lt_comap (R := A) (A := B) hxy
+    exact Ideal.IsIntegral.under_lt_under (R := A) (A := B) hxy
   · -- ringKrullDim A ≤ ringKrullDim B: going-up chain lift
     have lift : ∀ (l : LTSeries (PrimeSpectrum A)) (P₀ : PrimeSpectrum B),
         PrimeSpectrum.comap (algebraMap A B) P₀ = l.head →
@@ -327,8 +327,7 @@ private theorem exists_fiberMap_eq_unit_smul
   have span_top : ∀ a : p.Fiber S,
       a ∈ Submodule.span p.ResidueField (Set.range (fiberMap R S p)) := by
     intro a
-    induction a using TensorProduct.induction_on with
-    | zero => exact Submodule.zero_mem _
+    induction a using TensorProduct.inductionOn with
     | tmul c s =>
       have : (c ⊗ₜ[R] s : TensorProduct R p.ResidueField S) = c • (fiberMap R S p s) := by
         simp [fiberMap, Algebra.TensorProduct.includeRight_apply, TensorProduct.smul_tmul']
@@ -910,7 +909,7 @@ private theorem module_finite_residueField_fiber_descent
       = e_inner.symm.toRingHom.comp (algebraMap κt F) := by
     apply RingHom.ext
     intro c
-    simp only [RingHom.comp_apply, RingEquiv.toRingHom_eq_coe, RingEquiv.coe_ringHom_refl,
+    simp only [RingHom.comp_apply, RingEquiv.toRingHom_eq_coe, RingEquiv.toRingHom_refl,
       RingHom.id_apply]
     rw [← key c]
     exact (RingEquiv.symm_apply_apply e_inner _).symm

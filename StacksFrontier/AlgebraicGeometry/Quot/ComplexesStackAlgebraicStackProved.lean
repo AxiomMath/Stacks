@@ -10,8 +10,8 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.Deformations.DerivedExiste
 
 Stacks 0DIQ, the derived Grothendieck existence theorem, is
 `AlgebraicGeometry.Space.DerivedExistenceSystem.exists_isPseudoCoherent_stageDerivedPullback_iso`
-(`StacksFrontier/AlgebraicGeometry/Spaces/Deformations/DerivedExistenceGrothendieck.lean`), stated for
-the systems of Situation 0DIK. The change of base of
+(`StacksFrontier/AlgebraicGeometry/Spaces/Deformations/DerivedExistenceGrothendieck.lean`), stated
+for the systems of Situation 0DIK. The change of base of
 `StacksFrontier/AlgebraicGeometry/Quot/ComplexesStackDerivedExistenceBridge.lean`
 (`ComplexesSituation.SpecLimitTower.exists_restriction_of_derivedExistence`,
 with the comparison over a smaller base

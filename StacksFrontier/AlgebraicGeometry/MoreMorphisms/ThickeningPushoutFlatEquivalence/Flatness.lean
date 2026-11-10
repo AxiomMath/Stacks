@@ -182,7 +182,7 @@ theorem flat_of_ringEquiv_base {R R' S M : Type u} [CommRing R] [CommRing R'] [C
   let : Module R' M := Module.compHom M φ
   let : Module R M := Module.compHom M (φ.comp eR.toRingHom)
   let : IsScalarTower R R' M := ⟨fun r r' m ↦ by
-    show (φ ((eR r) * r')) • m = φ (eR r) • (φ r' • m)
+    change (φ ((eR r) * r')) • m = φ (eR r) • (φ r' • m)
     rw [map_mul, mul_smul]⟩
   let : Module.Flat R R' :=
     Module.Flat.of_linearEquiv

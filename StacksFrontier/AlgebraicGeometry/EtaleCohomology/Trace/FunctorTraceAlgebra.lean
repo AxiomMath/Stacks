@@ -36,7 +36,7 @@ theorem finite_restrictScalars_algebraMap [Module.Finite R S] (P : Type*) [AddCo
     Module.Finite R P := by
   let : Module R P := Module.compHom P (algebraMap R S)
   have : IsScalarTower R S P := ⟨fun r s p => by
-    show (r • s) • p = algebraMap R S r • (s • p)
+    change (r • s) • p = algebraMap R S r • (s • p)
     rw [Algebra.smul_def, mul_smul]⟩
   exact Module.Finite.trans S P
 
@@ -47,7 +47,7 @@ theorem projective_restrictScalars_algebraMap [Module.Free R S] (P : Type*) [Add
     Module.Projective R P := by
   let : Module R P := Module.compHom P (algebraMap R S)
   have : IsScalarTower R S P := ⟨fun r s p => by
-    show (r • s) • p = algebraMap R S r • (s • p)
+    change (r • s) • p = algebraMap R S r • (s • p)
     rw [Algebra.smul_def, mul_smul]⟩
   rcases Module.projective_def.mp (show Module.Projective S P from inferInstance) with ⟨i, hi⟩
   let q : (P →₀ S) →ₗ[S] P := Finsupp.linearCombination S id
@@ -90,7 +90,7 @@ theorem eval_functorTraceMap_restrictScalarsSMulNatTrans [Module.Free R S] [Modu
       invFun := fun s => (⟨s⟩ : ULift.{u + 1} S)
       map_add' := fun _ _ => rfl
       map_smul' := fun r y => by
-        show algebraMap R S r * (y : ULift.{u + 1} S).down = r • (y : ULift.{u + 1} S).down
+        change algebraMap R S r * (y : ULift.{u + 1} S).down = r • (y : ULift.{u + 1} S).down
         rw [Algebra.smul_def]
       left_inv := fun _ => rfl
       right_inv := fun _ => rfl }
@@ -99,11 +99,11 @@ theorem eval_functorTraceMap_restrictScalarsSMulNatTrans [Module.Free R S] [Modu
   have : Module.Finite R ((ModuleCat.restrictScalars.{u + 1} (algebraMap R S)).obj
       (regularModule.{0, u + 1} S)) := Module.Finite.equiv e.symm
   rw [Stacks.Trace.projectiveModuleTrace_eq_mk_trace]
-  show LinearMap.trace R _ _ = _
+  change LinearMap.trace R _ _ = _
   rw [← LinearMap.trace_conj' _ e, Algebra.trace_apply]
   congr 1
   refine LinearMap.ext fun s => ?_
-  show c * s * t = c * t * s
+  change c * s * t = c * t * s
   ring
 
 end Stacks.EtaleCohomology

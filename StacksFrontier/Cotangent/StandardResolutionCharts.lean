@@ -168,7 +168,7 @@ theorem openToSpec_comm (U : X.Opens) :
         Spec.map (CommRingCat.ofHom
           (algebraMap Λ ((openAlgebra Λ X structureMap).obj (op U))))
       = U.ι ≫ structureMap := by
-  show (U : Scheme.{u}).toSpecΓ ≫ Spec.map (baseRingHom Λ X structureMap ≫ U.ι.appTop)
+  change (U : Scheme.{u}).toSpecΓ ≫ Spec.map (baseRingHom Λ X structureMap ≫ U.ι.appTop)
       = U.ι ≫ structureMap
   rw [Spec.map_comp, ← Scheme.toSpecΓ_naturality_assoc, ← structureMap_eq]
 
@@ -177,7 +177,7 @@ theorem openToSpec_naturality {U V : X.Opens} (h : U ≤ V) :
     X.homOfLE h ≫ openToSpec Λ X structureMap V
       = openToSpec Λ X structureMap U ≫
         Spec.map ((openRing Λ X structureMap).map (homOfLE h).op) := by
-  show X.homOfLE h ≫ (V : Scheme.{u}).toSpecΓ
+  change X.homOfLE h ≫ (V : Scheme.{u}).toSpecΓ
       = (U : Scheme.{u}).toSpecΓ ≫ Spec.map ((X.homOfLE h).appTop)
   rw [Scheme.toSpecΓ_naturality]
 
@@ -271,7 +271,7 @@ theorem ofAugmentation_toBase {U : X.Opens} {ι : Type u} {P : CommAlgCat.{u} Λ
     (e : P ≅ CommAlgCat.of Λ (MvPolynomial ι Λ))
     (φ : P ⟶ (openAlgebra Λ X structureMap).obj (op U)) :
     (ofAugmentation e φ).toBase = Spec.map (CommRingCat.ofHom (algebraMap Λ P)) := by
-  show Spec.map ((forget₂ (CommAlgCat.{u} Λ) CommRingCat.{u}).map e.inv) ≫
+  change Spec.map ((forget₂ (CommAlgCat.{u} Λ) CommRingCat.{u}).map e.inv) ≫
       Spec.map (CommRingCat.ofHom (MvPolynomial.C : Λ →+* MvPolynomial ι Λ)) = _
   rw [← Spec.map_comp, ofHom_C_comp]
 

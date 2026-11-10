@@ -127,7 +127,7 @@ theorem towerCotangentBaseChange_extendUnit (U : Cᵒᵖ)
     refine hv.trans ?_
     exact (derivationEquiv_val_app J g (op ⦋1⦌) _ _ U x).symm.trans
       (squareCotangentTermMap_d _ (op ⦋1⦌) U x)
-  show (cotangentComplex_degreeIso.{u, v, w} J (g ≫ h) 1).inv.val.app U
+  change (cotangentComplex_degreeIso.{u, v, w} J (g ≫ h) 1).inv.val.app U
       (((baseChangeSimplicialMap.{u, v, w} J g h).app (op ⦋1⦌)).val.app U
         (((towerExtendScalars.{u, v, w} J h).map
           (cotangentComplex_degreeIso.{u, v, w} J g 1).hom).val.app U _)) = _
@@ -166,6 +166,7 @@ noncomputable def canonicalRelation (U : Cᵒᵖ)
         (resolutionZeroIsoFreeAlgebra_hom_comp_canonicalPresentation J f)) U y.2⟩
 
 set_option maxHeartbeats 2000000 in
+-- the proof unfolds the naive cotangent comparison maps on sections, which is expensive
 /-- **The comparison of Tag 08US on a pure differential**: in degree `-1` it sends `d x` to the
 conormal class of `d₀ x - d₁ x`, read in the canonical presentation. -/
 theorem canonicalNaiveComparison_negOne_apply (U : Cᵒᵖ)
@@ -180,7 +181,7 @@ theorem canonicalNaiveComparison_negOne_apply (U : Cᵒᵖ)
       (naiveCotangentComplexXNegOneIso.{u, v, w} J f).inv.val.app U
         (conormalClassSection J f U (faceDifference J f U x)) := by
     rw [naiveComparison_f_negOne]
-    show (naiveCotangentComplexXNegOneIso.{u, v, w} J f).inv.val.app U
+    change (naiveCotangentComplexXNegOneIso.{u, v, w} J f).inv.val.app U
       ((naiveComparisonNegOne.{u, v, w} J f).val.app U
         ((cotangentComplex_degreeIso.{u, v, w} J f 1).hom.val.app U _)) = _
     exact congrArg (fun y => (naiveCotangentComplexXNegOneIso.{u, v, w} J f).inv.val.app U y)
@@ -257,6 +258,7 @@ theorem canonicalRelation_baseRelation (f : A ⟶ B) (U : Cᵒᵖ) (r : A.obj.ob
   congrArg (fun k => (k.hom.app U).hom r) (resolutionBase_comp_resolutionZeroIsoFreeAlgebra_hom J f)
 
 set_option maxHeartbeats 2000000 in
+-- the proof unfolds the naive cotangent comparison maps on sections, which is expensive
 /-- **The map `NL_{B/A} ⊗_B D ⟶ NL_{D/A}` on the class of a relation coming from `A`.** For a
 local section `r` of `A` killed by `g`, the map carries the extended conormal class of the
 relation `r` of `A[B] ⟶ B` to the conormal class of the relation `r` of `A[D] ⟶ D`. -/
@@ -288,7 +290,7 @@ theorem baseChangedNaiveMap_extendUnit_canonicalNaiveClass (U : Cᵒᵖ) (r : A.
     exact baseChangedNaiveComparison_comp_baseChangedNaiveMap.{u, v, w} J g h
   have s₅ : faceDifference J (g ≫ h) U ((sq.resolution (op ⦋1⦌)).hom.app U x) =
       baseRelation J (g ≫ h) U r (by
-        show (h.hom.app U).hom ((g.hom.app U).hom r) = 0
+        change (h.hom.app U).hom ((g.hom.app U).hom r) = 0
         rw [hr, map_zero]) := by
     refine Subtype.ext ?_
     have hface : ∀ k : Fin 2, faceSections J (g ≫ h) k U ((sq.resolution (op ⦋1⦌)).hom.app U x) =

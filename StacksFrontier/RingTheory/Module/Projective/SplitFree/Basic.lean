@@ -12,11 +12,11 @@ Let `M` be a finitely presented module over a commutative ring `R`. Serre's spli
 that if the space of closed points of `Spec R` is Noetherian of dimension at most `d`, and at
 every closed point the localisation of `M` has a free direct summand of rank greater than `d`,
 then `M` itself has a free direct summand of rank one. The proof runs on the canonical quotients
-`V(x)` of `StacksFrontier.RingTheory.Module.Projective.SplitFree.Fibres`: one adjoins sections one at
-a time, prescribing the new section at finitely many points so that the locus where the chosen
-sections become linearly dependent gains codimension at each step. Once that codimension exceeds
-the dimension of the space, the dependent locus is empty and a single section generates a free
-rank-one summand.
+`V(x)` of `StacksFrontier.RingTheory.Module.Projective.SplitFree.Fibres`: one adjoins sections one
+at a time, prescribing the new section at finitely many points so that the locus where the chosen
+sections become linearly dependent gains codimension at each step. Once that codimension exceeds the
+dimension of the space, the dependent locus is empty and a single section generates a free rank-one
+summand.
 
 ## Main definitions
 

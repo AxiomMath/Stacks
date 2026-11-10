@@ -99,7 +99,7 @@ theorem quasiIso_homothety_shift {R : Type u} [CommRing R]
       rw [HomologicalComplex.comp_f]
       ext a
       change ULift.{v} R at a
-      show (e.hom.f 0).hom (ULift.up
+      change (e.hom.f 0).hom (ULift.up
         (a.down • CochainComplex.HomComplex.Cochain.ofHom (𝟙 I))) =
         ULift.up (a.down • CochainComplex.HomComplex.Cochain.ofHom (𝟙 (I⟦n⟧)))
       exact congrArg ULift.up ((homComplexSelfShiftIso I n).2 a.down)
@@ -335,7 +335,7 @@ theorem exists_endAddEquiv_hom_derivedTensorUnit_of_isIso_bidualityMor [IsNoethe
         ((homUnitAddEquiv d (StacksDraft.DerivedHom.derivedTensorUnit.{u, max v u} A)
             (StacksDraft.DerivedHom.derivedTensorUnitLeft.{u, max v u} A) ω D₁).symm.trans
           (postcompAddEquiv _ bid.symm)))), fun b φ => ?_⟩
-  simp only [AddEquiv.trans_apply (e₁ := End.addEquiv), End.addEquiv_apply, End.homEquiv_apply,
+  simp only [AddEquiv.trans_apply (e₁ := End.addEquiv), End.addEquiv_apply,
     End.smul_asHom]
   generalize φ.asHom = φ
   have h₁ : (adj.homAddEquiv ((derivedHom.{u, v, u} f).obj ω) ω).symm (b • φ) =
@@ -367,7 +367,7 @@ theorem exists_endAddEquiv_hom_derivedTensorUnit_of_isIso_bidualityMor [IsNoethe
   dsimp only [AddEquiv.trans_apply, postcompAddEquiv, AddEquiv.coe_mk, Equiv.coe_fn_mk,
     Iso.symm_hom]
   rw [h₁]
-  show _ ≫ bid.inv = _
+  change _ ≫ bid.inv = _
   rw [show (precompAddEquiv θ ω).symm
       ((ModuleCat.restrictScalars.{max v u} f).mapDerivedCategory.map
           (b • 𝟙 ((derivedHom.{u, v, u} f).obj ω)) ≫
@@ -376,7 +376,7 @@ theorem exists_endAddEquiv_hom_derivedTensorUnit_of_isIso_bidualityMor [IsNoethe
           (Opposite.op (targetSingle.{u, v} f), ω)) ≫
         (precompAddEquiv θ ω).symm
           ((adj.homAddEquiv ((derivedHom.{u, v, u} f).obj ω) ω).symm φ) from by
-    show θ.inv ≫ _ ≫ _ = _ ≫ θ.inv ≫ _
+    change θ.inv ≫ _ ≫ _ = _ ≫ θ.inv ≫ _
     rw [← Category.assoc, h₂, Category.assoc]]
   rw [show (homUnitAddEquiv d (StacksDraft.DerivedHom.derivedTensorUnit.{u, max v u} A)
         (StacksDraft.DerivedHom.derivedTensorUnitLeft.{u, max v u} A) ω D₁).symm
@@ -421,7 +421,7 @@ theorem nonempty_endLinearEquiv_derivedHom_of_isIso_bidualityMor [IsNoetherianRi
           (targetMul.{u, v} f b)) =
         (precompAddEquiv uIso (targetSingle.{u, v} f)).symm (E φ) ≫ S.map
           (targetMul.{u, v} f b) := by
-      show uIso.inv ≫ E φ ≫ S.map (targetMul.{u, v} f b) =
+      change uIso.inv ≫ E φ ≫ S.map (targetMul.{u, v} f b) =
         (uIso.inv ≫ E φ) ≫ S.map (targetMul.{u, v} f b)
       rw [Category.assoc]
     simp only [hΘ, AddEquiv.trans_apply]

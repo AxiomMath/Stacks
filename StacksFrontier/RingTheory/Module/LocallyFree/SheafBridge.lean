@@ -705,7 +705,7 @@ theorem actionTransport_app_eq
   let Mt := AlgebraicGeometry.tilde (R := CommRingCat.of R) (ModuleCat.of R M)
   have e1 : ((AlgebraicGeometry.Scheme.Modules.restrictFunctorComp e.inv U.ι).app Mt).inv
       = (AlgebraicGeometry.Scheme.Modules.restrictFunctorComp e.inv U.ι).inv.app Mt := rfl
-  show AlgebraicGeometry.Scheme.Modules.Hom.app
+  change AlgebraicGeometry.Scheme.Modules.Hom.app
       ((AlgebraicGeometry.Scheme.Modules.restrictFunctorComp e.inv U.ι).app Mt).inv ⊤ = _
   rw [e1, AlgebraicGeometry.Scheme.Modules.restrictFunctorComp_inv_app_app]
 

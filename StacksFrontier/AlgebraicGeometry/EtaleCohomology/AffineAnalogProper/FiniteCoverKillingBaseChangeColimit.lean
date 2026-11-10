@@ -161,7 +161,7 @@ def EtaleCohomologyBaseChangeColimit : Prop :=
         ∃ (j : Iᵒᵖ) (a : j ⟶ i),
           etaleCohomologyRestrictionMap.{u, v, w}
             (pullback.map (s.app j) g (s.app i) g (D.map a) (𝟙 X) (𝟙 T)
-              (by simpa using (s.naturality a).symm) (by simp)) _ p ξ = 0)
+              (by simp) (by simp)) _ p ξ = 0)
 
 /-! ### Stacks 09ZD (2) -/
 

@@ -102,8 +102,8 @@ with a coefficient one-form raises the coefficient degree, and that a connection
 ## What is deliberately not claimed
 
 * **The relative part is not identified with a de Rham differential of `P` over `B`.**  As in
-  `StacksFrontier/AlgebraicGeometry/Crystalline/Differentials/PolynomialFormsDecomposition.lean`, the
-  variable factor of the bidegree decomposition is the exterior power of the free module on the
+  `StacksFrontier/AlgebraicGeometry/Crystalline/Differentials/PolynomialFormsDecomposition.lean`,
+  the variable factor of the bidegree decomposition is the exterior power of the free module on the
   symbols `d x_w` and is not called `Ωʲ_{D'/D}`; `d_rel` is defined as a component of `d` and
   nothing says it is the differential of a relative de Rham complex.
 * **No bigraded complex is assembled.**  `d_rel² = 0` is proved; `d_base² = 0` and the

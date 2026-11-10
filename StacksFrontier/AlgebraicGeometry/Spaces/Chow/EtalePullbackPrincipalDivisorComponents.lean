@@ -462,7 +462,7 @@ theorem IntegralClosedSubspace.exists_eq_preimageComponent
   refine eq_integralClosedSubspaceOfPoints D.site D.base D.base_mem hX.1
     (D.isDecentSpace_of_isGood sX hX) T (Z.preimageComponentPoints D.site D.base D.base_mem f
       hY.1 ⟨C, hC⟩) ?_ |>.symm
-  show subspacePointSet D.site D.base D.base_mem X T.subspace = Subtype.val '' C
+  change subspacePointSet D.site D.base D.base_mem X T.subspace = Subtype.val '' C
   rw [← hξ.def, ← hwξ', hw.def]
 
 /-- The local finiteness of Stacks 0ENN on the integral target `Y`: the prime divisors of `Y`
@@ -877,8 +877,8 @@ theorem etalePullbackPrincipalDivisorCycle_apply_of_isIntegralSpace
         principalDivisorCycleCoefficients D sY hY hintY.2.1
           (integralSpaceFractionEmbedding D sY hY hintY).emb g
           (fun Q => hg.map ((integralSpaceFractionEmbedding D sY hY hintY).emb Q)) Z from rfl,
-      principalDivisorCycleCoefficients, principalDivisorCycleCoefficients, dif_pos hcodZ,
-      dif_pos hcodT]
+      principalDivisorCycleCoefficients, principalDivisorCycleCoefficients, dite_eq_left hcodZ,
+      dite_eq_left hcodT]
     exact hord.symm
   · have hcodT : codimension
         (integralClosedSubspaceSupport D.site D.base D.base_mem hX.1 T) ≠ 1 := fun hcod =>

@@ -86,7 +86,7 @@ public theorem structurePresheaf_comp_forget (S : Scheme.{u}) {C : Type (u + 1)}
     [Category.{u} C] (toOver : C ⥤ Over S) :
     structurePresheaf S toOver ⋙ CategoryTheory.forget RingCat.{u} =
       toOver.op ⋙ globalSectionsOver S := by
-  show (toOver.op ⋙ (Over.forget S).op ⋙ Scheme.Γ.{u} ⋙ forget₂ CommRingCat RingCat) ⋙
+  change (toOver.op ⋙ (Over.forget S).op ⋙ Scheme.Γ.{u} ⋙ forget₂ CommRingCat RingCat) ⋙
       CategoryTheory.forget RingCat.{u} =
     toOver.op ⋙ (Over.forget S).op ⋙ Scheme.Γ.{u} ⋙ CategoryTheory.forget CommRingCat
   simp only [Functor.assoc, HasForget₂.forget_comp]

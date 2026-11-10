@@ -85,7 +85,7 @@ private noncomputable def retractOfLocal {I : C} (hI : W.isLocal I) {M : C}
 
 private theorem retractOfLocal_Q_map {I : C} (hI : W.isLocal I) {M : C} (f : M ⟶ I) :
     retractOfLocal hI (W.Q.map f) = f := by
-  show ((homInto.{v} I).map f).unop (𝟙 I) = f
+  change ((homInto.{v} I).map f).unop (𝟙 I) = f
   simp
 
 /-- The localization functor is injective on morphisms into a `W`-local object. -/

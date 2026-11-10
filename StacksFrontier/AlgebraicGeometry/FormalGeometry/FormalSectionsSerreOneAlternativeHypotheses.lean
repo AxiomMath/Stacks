@@ -204,7 +204,7 @@ private theorem depth_add_dim_gt_of_depth_eq_zero
   have hbound := h2 x hx hpI hy q hpq haq
   rw [closureLocalDimension_eq_ringKrullDim_quotient_localizationAtPrime] at hbound
   rw [hd]
-  show _ < ((0 : ℤ) : EInt) + _
+  change _ < ((0 : ℤ) : EInt) + _
   rwa [show ((0 : ℤ) : EInt) = 0 from rfl, zero_add]
 
 include e in

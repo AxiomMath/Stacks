@@ -194,11 +194,11 @@ theorem specialTowerObjectsEffective_curvesSmall :
   let eV : (limitRing f Λ β hβ hβ0 hR).siteOver ≅ specSite B hZ (limit f) (contains_limit f hR) :=
     isoOfIntegers (Iso.refl _)
   have hκ : ∀ n, κ' n ≫ eV.hom = (e n).hom ≫ κs n := fun n => by
-    show (eqToHom (hy n) ≫ L n) ≫ eV.hom = (eqToHom (hy n) ≫ (eL n).hom) ≫ κs n
+    change (eqToHom (hy n) ≫ L n) ≫ eV.hom = (eqToHom (hy n) ≫ (eL n).hom) ≫ κs n
     rw [Category.assoc, Category.assoc]
     congr 1
   have hℓ : ∀ n, ℓ' n ≫ (e (n + 1)).hom = (e n).hom ≫ ℓs n := fun n => by
-    show (eqToHom (hy n) ≫ T n ≫ eqToHom (hy (n + 1)).symm) ≫ eqToHom (hy (n + 1)) ≫
+    change (eqToHom (hy n) ≫ T n ≫ eqToHom (hy (n + 1)).symm) ≫ eqToHom (hy (n + 1)) ≫
         (eL (n + 1)).hom = (eqToHom (hy n) ≫ (eL n).hom) ≫ ℓs n
     simp only [Category.assoc, eqToHom_trans_assoc, eqToHom_refl, Category.id_comp]
     congr 1
@@ -225,7 +225,7 @@ theorem specialTowerObjectsEffective_curvesSmall :
       exact ker_appTop_specMap_sq_eq_bot _ (hsq n)
   have hnoeth : IsLocallyNoetherian ((𝒯).obj (y' 0).base) := by
     have := hsp.isNoetherianRing
-    show IsLocallyNoetherian ((𝒯).obj ((curvesSmall B hZ).val.p.obj (y 0)))
+    change IsLocallyNoetherian ((𝒯).obj ((curvesSmall B hZ).val.p.obj (y 0)))
     rw [hy 0]
     exact inferInstanceAs (IsLocallyNoetherian (Spec (.of (R 0))))
   -- descent of the local limit objects

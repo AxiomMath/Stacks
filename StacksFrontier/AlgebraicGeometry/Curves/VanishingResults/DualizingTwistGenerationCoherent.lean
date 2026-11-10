@@ -157,7 +157,7 @@ public theorem epi_globalSectionsHom_comp_of_coherent {ω F Q : S.X.Modules}
   have hQc : Q.IsCoherent :=
     Stacks.AlgebraicGeometry.CoherentOfFiniteType.isCoherent_of_epi_of_isQuasicoherent hFc β
   have : HasCokernel (globalSectionsHom F ≫ β) := by
-    set_option synthInstance.maxHeartbeats 400000 in infer_instance
+    exact HasCokernels.has_colimit _
   have hγ0 : globalSectionsHom F ≫ (β ≫ cokernel.π (globalSectionsHom F ≫ β)) = 0 := by
     rw [← Category.assoc]; exact cokernel.condition _
   have hα0 : α ≫ (β ≫ cokernel.π (globalSectionsHom F ≫ β)) = 0 := by

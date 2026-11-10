@@ -68,7 +68,7 @@ theorem topologicalKrullDim_nonpos_of_t1Space (T : Type*) [TopologicalSpace T] [
   have hW : W.carrier = {w} := by rw [← hw.def, closure_singleton]
   have hsub : Z.carrier ⊆ W.carrier := hZW
   have hzw : z = w := by simpa [hW] using hsub (by simp [hZ] : z ∈ Z.carrier)
-  show W.carrier ⊆ Z.carrier
+  change W.carrier ⊆ Z.carrier
   simp [hZ, hW, hzw]
 
 /-- The fibre of a quasi-compact morphism locally of finite type over a point `y` is finite as

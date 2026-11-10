@@ -314,7 +314,7 @@ theorem reesDivide_comp_algebraMap_comp_reesGradingZeroEquiv :
         (algebraMap (reesGrading I 0) (reesAlgebra I))).comp
       (reesGradingZeroEquiv I).toRingHom = φ := by
   refine RingHom.ext fun r => ?_
-  show reesDivide φ I t hIt ht
+  change reesDivide φ I t hIt ht
       (algebraMap (reesGrading I 0) (reesAlgebra I) (algebraMap R (reesGrading I 0) r)) = φ r
   rw [← IsScalarTower.algebraMap_apply, reesDivide_algebraMap]
 
@@ -322,7 +322,7 @@ theorem reesDivide_comp_algebraMap_comp_reesGradingZeroEquiv :
 composite with `Stacks.Blowup.toSpec I` is the structure morphism `X ⟶ Spec R` given by `φ`. -/
 theorem toBlowUpSpec_toSpec :
     toBlowUpSpec I φ t hIt ht ≫ toSpec I = X.toSpecΓ ≫ Spec.map (CommRingCat.ofHom φ) := by
-  show Proj.fromOfGlobalSections (reesGrading I) (reesDivide φ I t hIt ht)
+  change Proj.fromOfGlobalSections (reesGrading I) (reesDivide φ I t hIt ht)
         (map_reesDivide_irrelevant_eq_top φ I t hIt ht) ≫
       Proj.toSpecZero (reesGrading I) ≫
         Spec.map (CommRingCat.ofHom (reesGradingZeroEquiv I).toRingHom) =

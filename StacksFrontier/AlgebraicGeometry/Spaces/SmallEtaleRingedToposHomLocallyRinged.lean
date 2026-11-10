@@ -130,9 +130,9 @@ each of them the fibre of `f⁻¹𝒪_Y ⟶ 𝒪_X` is the map of étale local r
 @[stacks 04KJ]
 theorem smallEtaleRingedToposHom_isLocallyRinged :
     (smallEtaleRingedToposHom B S hS f).IsLocallyRinged := by
-  haveI : HasLimitsOfShape WalkingCospan (Sheaf (smallEtaleRingedTopos B S hS X).J (Type u)) :=
+  have : HasLimitsOfShape WalkingCospan (Sheaf (smallEtaleRingedTopos B S hS X).J (Type u)) :=
     HasFiniteLimits.out _
-  haveI : HasPullback (RingedTopos.unitsιOf (smallEtaleRingedTopos B S hS X).O)
+  have : HasPullback (RingedTopos.unitsιOf (smallEtaleRingedTopos B S hS X).O)
       (RingedTopos.forgetRingMap (smallEtaleRingedToposHom B S hS f).fSharpInverseImage) :=
     HasLimitsOfShape.has_limit _
   have hP : ∀ Φ : (ObjectProperty.ofObj

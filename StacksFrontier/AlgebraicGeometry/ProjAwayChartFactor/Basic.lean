@@ -75,7 +75,7 @@ public theorem chartHomEquiv_symm_val (hr : r ∈ 𝒜 d) (hd : 0 < d)
     (ρ : CommRingCat.of (HomogeneousLocalization.Away 𝒜 r) ⟶ Γ(Y, ⊤)) :
     ((ProjF1DegreeOneChart.chartHomEquiv 𝒜 hr hd Y).symm ρ).1
       = Y.toSpecΓ ≫ Spec.map ρ ≫ Proj.awayι 𝒜 r hr hd := by
-  show ((Iso.refl Y).hom ≫ (ProjF1DegreeOneChart.specHomEquiv _ Y).symm ρ ≫
+  change ((Iso.refl Y).hom ≫ (ProjF1DegreeOneChart.specHomEquiv _ Y).symm ρ ≫
     (Proj.basicOpenIsoSpec 𝒜 r hr hd).inv) ≫ (Proj.basicOpen 𝒜 r).ι = _
   rw [Iso.refl_hom, Category.id_comp, specHomEquiv_symm, Category.assoc, Category.assoc,
     Proj.basicOpenIsoSpec_inv_ι]

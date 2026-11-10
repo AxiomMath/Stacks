@@ -217,7 +217,7 @@ lemma finite_stalkMap_of_preimage_singleton
           f z.1 = (f' z).1 := by simp [f', morphismRestrict_base_coe]
           _ = (f' x').1 := h
           _ = f x := by
-            show ((f ∣_ U) x').1 = f x
+            change ((f ∣_ U) x').1 = f x
             rw [morphismRestrict_base_coe]
       have hmem : z.1 ∈ f ⁻¹' {f x} := hval
       have hzx : z.1 = x := by simpa [hx] using hmem
@@ -284,7 +284,7 @@ lemma finitePresentation_stalkMap_of_preimage_singleton
         exact hunder
       have hspec : Spec.map (f.appLE U V le_rfl) z =
           hU.primeIdealOf ⟨f x, hyU⟩ := by
-        show PrimeSpectrum.comap g z = hU.primeIdealOf ⟨f x, hyU⟩
+        change PrimeSpectrum.comap g z = hU.primeIdealOf ⟨f x, hyU⟩
         apply PrimeSpectrum.ext
         rw [PrimeSpectrum.comap_asIdeal]
         simpa [p, g] using hcomap
@@ -302,7 +302,7 @@ lemma finitePresentation_stalkMap_of_preimage_singleton
       have hqr : r = q := by simpa using hr
       subst r
       refine ⟨inferInstance, ⟨?_⟩⟩
-      show p = Ideal.comap (algebraMap A B) q
+      change p = Ideal.comap (algebraMap A B) q
       simpa [hAlg] using hpq
   let : LocallyOfFinitePresentation f := hfp.locallyOfFinitePresentation
   have hlocal := finitePresentation_localRingHom_of_unique_prime g p q hAlg hpq hprimes
@@ -406,7 +406,7 @@ private lemma stalkPushforward_smul {X Y : Scheme.{u}} (f : X ⟶ Y) (F : X.Modu
     ((Scheme.Modules.pushforward f).obj F).presheaf.map i₂.op zs with ht
   rw [← hm', ← hz', ← hgsG r t, germ_stalkPushforward_apply,
     germ_stalkPushforward_apply]
-  show F.presheaf.germ (f ⁻¹ᵁ W) x hWX (r • t) =
+  change F.presheaf.germ (f ⁻¹ᵁ W) x hWX (r • t) =
     (f.stalkMap x).hom (Y.presheaf.germ W (f x) hW r) • F.presheaf.germ (f ⁻¹ᵁ W) x hWX t
   rw [Scheme.Hom.germ_stalkMap_apply f W x hW r, ← hgsF (f.app W r) t]
   rfl

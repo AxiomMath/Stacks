@@ -96,7 +96,7 @@ projective model.** -/
 theorem of_isNoetherianRing [IsNoetherianRing R] [Module.Flat R C₀] [Module.Flat R C₁]
     (hker : Module.Finite R (LinearMap.ker d))
     (hcoker : Module.Finite R (C₁ ⧸ LinearMap.range d)) : HasFiniteProjectiveModel d := by
-  obtain ⟨n, c, hc⟩ := exists_finsuppModel d hker hcoker
+  obtain ⟨n, c, hc⟩ := exists_finsuppModel d hcoker
   have := FinsuppModel.finite_K₀ d c hker
   have := FinsuppModel.projective_K₀ d c hc hker
   exact ⟨_, _, _, _, _, _, inferInstance, inferInstance, inferInstance, inferInstance, _, _, _,
@@ -225,14 +225,14 @@ noncomputable def baseChangeKerEquiv [Module.Flat R C₁] (d : C₀ →ₗ[R] C�
     (hd : Function.Surjective d) (B : Type u) [CommRing B] [Algebra R B] :
     B ⊗[R] LinearMap.ker d ≃ₗ[B] LinearMap.ker (d.baseChange B) := by
   have hinj : Function.Injective ((LinearMap.ker d).subtype.baseChange B) := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact LinearMap.lTensor_injective_of_exact_of_flat d hd _ (LinearMap.ker d).subtype_injective
       (LinearMap.exact_subtype_ker_map _) B
   have hrange : LinearMap.range ((LinearMap.ker d).subtype.baseChange B) =
       LinearMap.ker (d.baseChange B) := by
     ext x
     have h := (lTensor_exact B (LinearMap.exact_subtype_ker_map d) hd x).symm
-    rwa [← LinearMap.baseChange_eq_ltensor, ← LinearMap.baseChange_eq_ltensor] at h
+    rwa [← LinearMap.baseChange_eq_lTensor, ← LinearMap.baseChange_eq_lTensor] at h
   exact (LinearEquiv.ofInjective _ hinj).trans (LinearEquiv.ofEq _ _ hrange)
 
 /-- `baseChangeKerEquiv` sends `b ⊗ₜ x` to the element `b ⊗ₜ x` of `B ⊗[R] C₀`. -/

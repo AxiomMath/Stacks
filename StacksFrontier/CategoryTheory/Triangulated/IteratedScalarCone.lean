@@ -97,6 +97,7 @@ theorem exists_iso_biprod_of_mor₁_eq_zero (T : Triangle C) (hT : T ∈ distTri
 variable {A : Type*} [Semiring A] [Linear A C]
   [∀ n : ℤ, (CategoryTheory.shiftFunctor C n).Linear A]
 
+omit [HasZeroObject C] [Pretriangulated C] in
 /-- **A scalar killing the identity of an object kills the identity of its shift.** -/
 theorem smul_id_shift_one_eq_zero {M : C} {a : A} (h : a • 𝟙 M = 0) :
     a • 𝟙 (M⟦(1 : ℤ)⟧) = 0 := by
@@ -141,7 +142,7 @@ theorem exists_iteratedCone_biprod_summand (P : C → Prop)
     have hRT : R.mapTriangle.obj (Triangle.mk (a ^ m • 𝟙 E₀) v w) ∈ distTriang D :=
       R.map_distinguished _ hT
     have hRzero : (R.mapTriangle.obj (Triangle.mk (a ^ m • 𝟙 E₀) v w)).mor₁ = 0 := by
-      show R.map (a ^ m • 𝟙 E₀) = 0
+      change R.map (a ^ m • 𝟙 E₀) = 0
       rw [Functor.map_smul, CategoryTheory.Functor.map_id, hm]
     obtain ⟨e⟩ := exists_iso_biprod_of_mor₁_eq_zero _ hRT hRzero
     have ε₁ : (S₀ ⊞ (R.obj E₀)⟦(1 : ℤ)⟧) ⊞ F ≅ R.obj Z :=

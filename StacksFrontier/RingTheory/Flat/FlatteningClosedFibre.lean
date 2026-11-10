@@ -103,8 +103,7 @@ private theorem exists_finset_mem_range_subTensor {A B : Type*} [CommRing A] [Co
     rintro s t hst _ ⟨w, rfl⟩
     exact ⟨_, DFunLike.congr_fun (subTensor_comp_inclusion
       (Algebra.adjoin_mono (by exact_mod_cast hst))) w⟩
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨∅, 0, map_zero _⟩
+  induction z using TensorProduct.inductionOn with
   | tmul b l =>
     exact ⟨{l}, b ⊗ₜ ⟨l, Algebra.subset_adjoin (by simp)⟩, by simp [subTensor]⟩
   | add z₁ z₂ h₁ h₂ =>
@@ -205,7 +204,7 @@ private theorem closedFiberIdeal_le_ker_map {A B R C : Type*} [CommRing A] [Comm
       RingHom.ker (Algebra.TensorProduct.map f (Ideal.Quotient.mkₐ A (maximalIdeal R))).toRingHom :=
   Ideal.map_le_iff_le_comap.mpr fun x hx ↦ by
     rw [Ideal.mem_comap, RingHom.mem_ker]
-    show Algebra.TensorProduct.map f (Ideal.Quotient.mkₐ A (maximalIdeal R)) (1 ⊗ₜ[A] x) = 0
+    change Algebra.TensorProduct.map f (Ideal.Quotient.mkₐ A (maximalIdeal R)) (1 ⊗ₜ[A] x) = 0
     simp [Ideal.Quotient.eq_zero_iff_mem.mpr hx]
 
 /-- **The generic point of the closed fibre of a base change contracts to the generic point of
@@ -251,12 +250,12 @@ theorem comap_closedFiberIdeal_tensorProduct (A : Type u) (B : Type v) (R : Type
         (K := R ⧸ maximalIdeal R) (B ⧸ Algebra.closedFiberIdeal A B) h1)
   · have hx : (algebraMap A B a) ⊗ₜ[A] (1 : R) =
         algebraMap R (B ⊗[A] R) (algebraMap A R a) := by
-      show (algebraMap A B a) ⊗ₜ[A] (1 : R) = (1 : B) ⊗ₜ[A] (algebraMap A R a)
+      change (algebraMap A B a) ⊗ₜ[A] (1 : R) = (1 : B) ⊗ₜ[A] (algebraMap A R a)
       rw [Algebra.algebraMap_eq_smul_one (R := A) (A := B),
         Algebra.algebraMap_eq_smul_one (R := A) (A := R)]
       exact TensorProduct.smul_tmul _ _ _
     rw [Ideal.mem_comap, Ideal.mem_comap]
-    show (algebraMap A B a) ⊗ₜ[A] (1 : R) ∈ Algebra.closedFiberIdeal R (B ⊗[A] R)
+    change (algebraMap A B a) ⊗ₜ[A] (1 : R) ∈ Algebra.closedFiberIdeal R (B ⊗[A] R)
     rw [hx]
     exact Ideal.mem_map_of_mem _ (hle ha)
 
@@ -306,9 +305,9 @@ theorem exists_isPrime_closedFiber_comap_eq {A : Type u} [CommRing A] [IsLocalRi
   · exact (closedFiberIdeal_le_ker_map (A := A) (R := R) _).trans (Ideal.comap_mono bot_le)
   · ext b
     rw [Ideal.mem_comap, Ideal.mem_comap]
-    show Θ (b ⊗ₜ[A] (1 : R)) ∈ 𝔭 ↔ b ∈ Q
+    change Θ (b ⊗ₜ[A] (1 : R)) ∈ 𝔭 ↔ b ∈ Q
     rw [Algebra.TensorProduct.map_tmul, map_one]
-    show (algebraMap B Q.ResidueField b) ⊗ₜ[A] (1 : R ⧸ maximalIdeal R) ∈ 𝔭 ↔ b ∈ Q
+    change (algebraMap B Q.ResidueField b) ⊗ₜ[A] (1 : R ⧸ maximalIdeal R) ∈ 𝔭 ↔ b ∈ Q
     refine ⟨fun h ↦ ?_, fun hb ↦ ?_⟩
     · by_contra hb
       have hu : IsUnit (algebraMap B Q.ResidueField b) := by
@@ -328,7 +327,7 @@ theorem bijective_baseChange_baseChange_iff {B : Type*} [CommRing B] (S : Type*)
     (α : P →ₗ[B] M) :
     Function.Bijective ((α.baseChange S).baseChange K) ↔ Function.Bijective (α.baseChange K) := by
   rw [LinearMap.baseChange_baseChange (A := S) (B := K) α]
-  show Function.Bijective
+  change Function.Bijective
     (⇑(TensorProduct.AlgebraTensorModule.cancelBaseChange B S K K M).symm ∘
       ⇑(α.baseChange K) ∘ ⇑(TensorProduct.AlgebraTensorModule.cancelBaseChange B S K K P)) ↔ _
   rw [EquivLike.comp_bijective _
@@ -343,7 +342,7 @@ theorem bijective_baseChange_of_tower {B : Type*} [CommRing B] (S : Type*) [Comm
     (α : P →ₗ[B] M) (h : Function.Bijective (α.baseChange S)) :
     Function.Bijective (α.baseChange K) := by
   refine (bijective_baseChange_baseChange_iff S K α).mp ?_
-  rw [LinearMap.baseChange_eq_ltensor]
+  rw [LinearMap.baseChange_eq_lTensor]
   exact (LinearEquiv.lTensor K (LinearEquiv.ofBijective (α.baseChange S) h)).bijective
 
 /-- **The fibre condition of a dévissage stage survives an arbitrary local base change of the
@@ -376,7 +375,7 @@ theorem bijective_baseChange_closedFiber_tensorProduct {A : Type u} {B : Type v}
   have : IsScalarTower B (Algebra.closedFiberIdeal A B).ResidueField
       (Algebra.closedFiberIdeal R (B ⊗[A] R)).ResidueField :=
     IsScalarTower.of_algebraMap_eq fun b ↦ by
-      show _ = φ _
+      change _ = φ _
       rw [Ideal.ResidueField.map_algebraMap,
         IsScalarTower.algebraMap_apply B (B ⊗[A] R)
           (Algebra.closedFiberIdeal R (B ⊗[A] R)).ResidueField]

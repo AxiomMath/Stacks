@@ -134,7 +134,7 @@ theorem exists_derivation_of_isLocalRing {R₀ P₀ : Type*} [CommRing R₀] [Co
         (maximalIdeal P₀) • (⊤ : Submodule P₀ (RingHom.ker (algebraMap P₀ A)).Cotangent) := by
       have hmap := Submodule.mem_map_of_mem (f := L) h1
       rw [Submodule.map_smul''] at hmap
-      exact SetLike.le_def.1 (smul_mono_right _ le_top) hmap
+      exact IsConcreteLE.le_iff.1 (smul_mono_right _ le_top) hmap
     rw [show L (kerCotangentToTensor R₀ P₀ A _) = _ from LinearMap.congr_fun hL _] at h2
     have hIker : RingHom.ker (algebraMap P₀ A) = I := Ideal.mk_ker
     have hm : RingHom.ker (algebraMap P₀ A) ≤ maximalIdeal P₀ := by rw [hIker]; exact hfm
@@ -146,7 +146,7 @@ theorem exists_derivation_of_isLocalRing {R₀ P₀ : Type*} [CommRing R₀] [Co
   obtain ⟨l, hl⟩ := Module.exists_leftInverse_of_isLocalRing φ hφ
   refine ⟨((l.restrictScalars P₀) ∘ₗ (TensorProduct.mk P₀ A Ω[P₀⁄R₀] 1)).compDer (D R₀ P₀),
     fun i => ?_⟩
-  show l (1 ⊗ₜ D R₀ P₀ (f i)) = _
+  change l (1 ⊗ₜ D R₀ P₀ (f i)) = _
   rw [← hφe i]
   exact LinearMap.congr_fun hl _
 

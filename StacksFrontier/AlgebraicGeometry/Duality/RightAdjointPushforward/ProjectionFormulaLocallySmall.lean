@@ -206,7 +206,7 @@ theorem isIso_standard_pullback_tensor_pullback_map {U V X₀ Y₀ : RingedSpace
       (Functor.map_isIso Lf' (Lj.map v))
   let m : ((c, Lf.obj J) : _ × _) ⟶ (c, Lf.obj I) := 𝟙 c ×ₘ Lf.map v
   have h₂ : IsIso ((Stacks.Cohomology.DerivedPullbackTensor.tensorOfPullbacks j').map m) := by
-    show IsIso ((Functor.uncurry.obj
+    change IsIso ((Functor.uncurry.obj
       (Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor U.sheaf)).map
         ((Lj'.prod Lj').map m))
     have e : Lj'.map (𝟙 c) = 𝟙 (Lj'.obj c) := Lj'.map_id c

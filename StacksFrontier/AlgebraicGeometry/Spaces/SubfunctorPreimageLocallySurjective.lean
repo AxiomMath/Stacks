@@ -41,7 +41,7 @@ theorem le_sheafify_of_preimage_le {Z₁ Z₂ : Subfunctor F} (c : W ⟶ F)
   intro U x hx
   refine J.superset_covering ?_ (hc.imageSieve_mem x)
   rintro V f ⟨y, hy⟩
-  show F.map f.op x ∈ Z₂.obj (Opposite.op V)
+  change F.map f.op x ∈ Z₂.obj (Opposite.op V)
   have hy' : c.app (Opposite.op V) y = F.map f.op x := hy
   rw [← hy']
   exact h _ (show c.app _ y ∈ Z₁.obj _ from hy' ▸ Z₁.map f.op hx)

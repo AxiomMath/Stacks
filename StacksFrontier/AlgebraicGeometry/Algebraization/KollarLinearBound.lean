@@ -356,7 +356,7 @@ public theorem exists_nat_length_quotient_range_objExtPrecomp_le_of_notMem (A : 
     Dualizing.moduleExtInto_finite.{u, u} (M := A ⧸ Ideal.span {f}) ω hω 2
   have hid : ModuleCat.ofHom g = a • 𝟙 (ModuleCat.of A W) := by
     refine ModuleCat.hom_ext (LinearMap.ext fun z => ?_)
-    show g z = _
+    change g z = _
     rw [hg z]
     rfl
   have hrange : LinearMap.range (Dualizing.objExtPrecomp (ModuleCat.ofHom g) ω (-2)) =
@@ -440,7 +440,7 @@ public theorem exists_notMem_of_isFiniteLength_quotient_range (A : Type u) [Comm
         rw [Submodule.mem_comap, hc]
         exact ⟨m, rfl⟩)
       rw [LinearMap.mem_ker, ← hc]
-      show Submodule.mkQ p.asIdeal c = 0
+      change Submodule.mkQ p.asIdeal c = 0
       exact (Submodule.Quotient.mk_eq_zero _).mpr hcp
     have hq : Function.Surjective (Submodule.liftQ (LinearMap.range ψ) _ hle2) := by
       intro w
@@ -639,7 +639,7 @@ public theorem eulerCharacteristic_unitTwistZ_neg_le_of_length_step_le
         LinearMap.range (Dualizing.objExtPrecomp
           (ModuleCat.ofHom (unitTwistZRestrictStep A f htf T hT x x₀ hx k)) ω (-2))) ≤ (c : ℕ∞))
     (n : ℕ) :
-    (unitTwistZ A f htf T hT (-(n : ℤ))).eulerCharacteristic hfm hreg ≤ (c * n : ℤ) := by
+    (unitTwistZ A f htf T hT (-(n : ℤ))).eulerCharacteristic ≤ (c * n : ℤ) := by
   have hd2 : (2 : ℕ∞) ≤ Module.depth A (maximalIdeal A) A :=
     (show (2 : ℕ∞) ≤ 3 by decide).trans hdepth
   have hb := two_le_depth_quotient_of_three_le_depth A f hfm hreg.left hdepth
@@ -767,7 +767,7 @@ public theorem exists_linear_bound_eulerCharacteristic_twistZ_neg
     (T : CoherentTriple A f) (hT : IsInvertibleTriple T)
     (hF₀ : T.F₀ = Stacks.Ample.unitModule (closedFibre A f)) :
     ∃ c : ℕ, ∀ n : ℕ,
-      ((CoherentTriple.unit A f htf).twistZ T hT (-(n : ℤ))).eulerCharacteristic hfm hreg
+      ((CoherentTriple.unit A f htf).twistZ T hT (-(n : ℤ))).eulerCharacteristic
         ≤ (c * n : ℤ) := by
   have := hT.invertible_F
   have := hT.invertible_F₀
@@ -836,7 +836,7 @@ public theorem exists_linear_bound_eulerCharacteristic_twistZ_neg
       (e (pullbackGlobalSections (puncturedClosedFibre A f).ι
         (Stacks.Ample.unitModule (closedFibre A f)) (1 : Γ(closedFibre A f, ⊤))))
     refine hx' p ⟨hp, by simpa using hpne⟩ (a * c₀) ?_ (Ideal.mul_mem_right _ _ hap)
-    show e (puncturedClosedFibreSectionsMap A f
+    change e (puncturedClosedFibreSectionsMap A f
       ((Scheme.Modules.pullback (puncturedClosedFibre A f).ι).map (eqToIso hF₀).hom)
       (globalSectionsMap A f T x)) = _
     rw [← hkey, ha, map_smul, ← hc₀, ← map_smul, smul_eq_mul]

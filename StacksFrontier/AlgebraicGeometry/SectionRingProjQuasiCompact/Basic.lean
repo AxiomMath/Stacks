@@ -216,7 +216,8 @@ cover `X` — and `X` quasi-compact, the canonical morphism `f : X ⟶ Proj Γ_*
 `Proj` of any graded ring is quasi-separated
 (`Stacks.AlgebraicGeometry.ProjQuasiSeparated.quasiSeparatedSpace_proj`), so this is
 `AlgebraicGeometry.quasiCompact_of_compactSpace`, which is Stacks Tag 01KO. -/
-@[stacks 01Q0 "the canonical morphism of 01PZ is quasi-compact, under (a) the X_s cover X and (b) X quasi-compact"]
+@[stacks 01Q0 "the canonical morphism of 01PZ is quasi-compact, under (a) the X_s cover X \
+  and (b) X quasi-compact"]
 theorem quasiCompact_projHomOfCovers [CompactSpace X]
     (hcov : Stacks.SectionRingProjMorphism.nvUnion L = ⊤) :
     QuasiCompact (Stacks.SectionRingProjMorphism.projHomOfCovers L hcov) :=
@@ -229,7 +230,8 @@ has dense image.
 A nonempty open of `Proj Γ_*(X, L)` missing the image would contain a nonempty `D₊(a)` with `a`
 homogeneous of positive degree, whose preimage `X_a` would then be empty; but then `a` is
 nilpotent and `D₊(a) = ∅`. -/
-@[stacks 01Q0 "the canonical morphism of 01PZ has dense image, under (a) the X_s cover X and (b) X quasi-compact"]
+@[stacks 01Q0 "the canonical morphism of 01PZ has dense image, under (a) the X_s cover X \
+  and (b) X quasi-compact"]
 theorem denseRange_projHomOfCovers [CompactSpace X]
     (hcov : Stacks.SectionRingProjMorphism.nvUnion L = ⊤) :
     DenseRange (Stacks.SectionRingProjMorphism.projHomOfCovers L hcov).base := by

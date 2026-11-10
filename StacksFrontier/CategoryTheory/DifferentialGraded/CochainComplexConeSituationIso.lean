@@ -106,7 +106,7 @@ connecting morphism is `π d(s)`, and only `s` has changed sign. -/
 theorem connectingHom_negSurjection {x y z : A.Obj}
     (E : GradedSplitShortExact (A := A) x y z) :
     connectingHom E.negSurjection = -connectingHom E := by
-  show A.comp (by omega : (0 : ℤ) + (0 + 1) = 1) E.π (A.d (-E.s)) = -connectingHom E
+  change A.comp (by omega : (0 : ℤ) + (0 + 1) = 1) E.π (A.d (-E.s)) = -connectingHom E
   rw [d_neg, comp_neg_right]
   rfl
 

@@ -252,7 +252,7 @@ theorem UniversallySubmersiveHasPHRefinement.of_denseFlat
     have h1 : Flat (pullback.snd (f i) ((V k).ι ≫ z k)) := by
       have h0 := flat_pullback_snd_comp_left (f := Sigma.desc f) (Sigma.ι Y i)
         ((V k).ι ≫ z k) (hflat k)
-      rwa [Sigma.ι_desc] at h0
+      rwa [Sigma.ι_comp_desc] at h0
     rw [← pullbackLeftPullbackSndIso_hom_snd (f i) (z k) (V k).ι]
     infer_instance
   choose K' Z' g' hph' hhom using hinner
@@ -270,7 +270,7 @@ theorem UniversallySubmersiveHasPHRefinement.of_denseFlat
     { s₀ := fun km ↦ (φ km.1).s₀ km.2
       h₀ := fun km ↦ (φ km.1).h₀ km.2 ≫ pullback.fst (f ((φ km.1).s₀ km.2)) (z km.1)
       w₀ := fun km ↦ by
-        show ((φ km.1).h₀ km.2 ≫ pullback.fst (f ((φ km.1).s₀ km.2)) (z km.1)) ≫
+        change ((φ km.1).h₀ km.2 ≫ pullback.fst (f ((φ km.1).s₀ km.2)) (z km.1)) ≫
           f ((φ km.1).s₀ km.2) = g' km.1 km.2 ≫ z km.1
         rw [Category.assoc, pullback.condition, ← Category.assoc, hw km.1 km.2] }
 

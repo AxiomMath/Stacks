@@ -102,7 +102,7 @@ theorem exists_zeroTwistIso (S : Scheme.{u}) (p : ℕ) [Fact p.Prime]
   have hpowS : absoluteFrobeniusPow S p hS 0 = 𝟙 S := by
     simp [absoluteFrobeniusPow]
   have h0 : nFoldFrobeniusTwist S p hS 0 X = (Over.pullback (𝟙 S)).obj X := by
-    show (Over.pullback (absoluteFrobeniusPow S p hS 0)).obj X = _
+    change (Over.pullback (absoluteFrobeniusPow S p hS 0)).obj X = _
     rw [hpowS]
   refine ⟨(Over.pullbackId.app X).symm ≪≫ (eqToIso h0).symm, ?_⟩
   apply Over.OverMorphism.ext
@@ -112,7 +112,7 @@ theorem exists_zeroTwistIso (S : Scheme.{u}) (p : ℕ) [Fact p.Prime]
             pullback.fst X.hom (absoluteFrobeniusPow S p hS 0) = 𝟙 X.left := by
         dsimp
         rw [Category.assoc, Over.eqToHom_left, eqToHom_pullback_fst X.hom hpowS.symm]
-        simp [Over.pullbackId, Category.assoc, pullback.lift_fst]
+        simp [Over.pullbackId, Category.assoc]
       _ = (nFoldRelativeFrobenius S p hS 0 X).left ≫
           pullback.fst X.hom (absoluteFrobeniusPow S p hS 0) := by
         rw [nFoldRelativeFrobenius_fst]
@@ -122,7 +122,7 @@ theorem exists_zeroTwistIso (S : Scheme.{u}) (p : ℕ) [Fact p.Prime]
             pullback.snd X.hom (absoluteFrobeniusPow S p hS 0) = X.hom := by
         dsimp
         rw [Category.assoc, Over.eqToHom_left, eqToHom_pullback_snd X.hom hpowS.symm]
-        simp [Over.pullbackId, Category.assoc, pullback.lift_snd]
+        simp [Over.pullbackId, Category.assoc]
       _ = (nFoldRelativeFrobenius S p hS 0 X).left ≫
           pullback.snd X.hom (absoluteFrobeniusPow S p hS 0) := by
         rw [nFoldRelativeFrobenius_snd]
@@ -132,7 +132,7 @@ theorem exists_zeroTwistIso (S : Scheme.{u}) (p : ℕ) [Fact p.Prime]
 theorem nFoldFrobeniusTwist_one (S : Scheme.{u}) (p : ℕ) [Fact p.Prime]
     (hS : IsInCharacteristic S p) (X : Over S) :
     (frobeniusTwist S p hS).obj X = nFoldFrobeniusTwist S p hS 1 X := by
-  show (Over.pullback (absoluteFrobenius S p hS)).obj X =
+  change (Over.pullback (absoluteFrobenius S p hS)).obj X =
     (Over.pullback (absoluteFrobeniusPow S p hS 1)).obj X
   congr 1
 
@@ -166,8 +166,8 @@ theorem absoluteFrobeniusPow_naturality {V W : Scheme.{u}} (h : V ⟶ W) (p n : 
   induction n with
   | zero => simp [absoluteFrobeniusPow]
   | succ n ih =>
-      simp only [absoluteFrobeniusPow, pow_succ, End.mul_def]
-      show (absoluteFrobenius V p hV ≫ absoluteFrobeniusPow V p hV n) ≫ h =
+      simp only [absoluteFrobeniusPow, pow_succ, End.mul_asHom]
+      change (absoluteFrobenius V p hV ≫ absoluteFrobeniusPow V p hV n) ≫ h =
         h ≫ (absoluteFrobenius W p hW ≫ absoluteFrobeniusPow W p hW n)
       rw [Category.assoc, ih, ← Category.assoc, absoluteFrobenius_naturality h p hV hW,
         Category.assoc]
@@ -186,7 +186,7 @@ theorem nFoldRelativeFrobenius_naturality (S : Scheme.{u}) (p n : ℕ) [Fact p.P
   have hV : IsInCharacteristic V.left p := isInCharacteristic_of_hom V.hom p hS
   ext
   apply pullback.hom_ext
-  · show (nFoldRelativeFrobenius S p hS n U).left ≫
+  · change (nFoldRelativeFrobenius S p hS n U).left ≫
         pullback.lift (pullback.fst U.hom (absoluteFrobeniusPow S p hS n) ≫ f.left)
           (pullback.snd U.hom (absoluteFrobeniusPow S p hS n)) _ ≫
           pullback.fst V.hom (absoluteFrobeniusPow S p hS n) =
@@ -203,13 +203,13 @@ theorem nFoldRelativeFrobenius_naturality (S : Scheme.{u}) (p n : ℕ) [Fact p.P
       _ = f.left ≫ (nFoldRelativeFrobenius S p hS n V).left ≫
           pullback.fst V.hom (absoluteFrobeniusPow S p hS n) := by
             rw [← nFoldRelativeFrobenius_fst]
-  · show (nFoldRelativeFrobenius S p hS n U).left ≫
+  · change (nFoldRelativeFrobenius S p hS n U).left ≫
         pullback.lift (pullback.fst U.hom (absoluteFrobeniusPow S p hS n) ≫ f.left)
           (pullback.snd U.hom (absoluteFrobeniusPow S p hS n)) _ ≫
           pullback.snd V.hom (absoluteFrobeniusPow S p hS n) =
       f.left ≫ (nFoldRelativeFrobenius S p hS n V).left ≫
         pullback.snd V.hom (absoluteFrobeniusPow S p hS n)
-    simp [pullback.lift_snd, nFoldRelativeFrobenius_snd, Over.w]
+    simp [nFoldRelativeFrobenius_snd, Over.w]
 
 /-- **The formal assembly step.** A chain of `n` morphisms, each of which is the relative
 Frobenius of its source up to an isomorphism with the Frobenius twist, composes to the
@@ -350,7 +350,7 @@ theorem smooth_of_inseparable_chain
         (hcurve m) (hcurve (m + 1)) (hproper m) (hproper (m + 1)) hsm (hreg m)
         (hreg (m + 1)) (g m) (hnc m (by omega)) (hdeg m (by omega)) (hpure m (by omega))
       have : Smooth ((frobeniusTwist (Spec (.of k)) p hS).obj (C m)).hom := by
-        show Smooth (pullback.snd (C m).hom (absoluteFrobenius (Spec (.of k)) p hS))
+        change Smooth (pullback.snd (C m).hom (absoluteFrobenius (Spec (.of k)) p hS))
         infer_instance
       exact smooth_hom_of_iso a this
 
@@ -362,7 +362,7 @@ theorem isReduced_nFoldFrobeniusTwist
     (X : Over (Spec (.of k))) (hX : Smooth X.hom) :
     IsReduced (nFoldFrobeniusTwist (Spec (.of k)) p hS n X).left := by
   have hsmooth : Smooth (nFoldFrobeniusTwist (Spec (.of k)) p hS n X).hom := by
-    show Smooth (pullback.snd X.hom (absoluteFrobeniusPow (Spec (.of k)) p hS n))
+    change Smooth (pullback.snd X.hom (absoluteFrobeniusPow (Spec (.of k)) p hS n))
     infer_instance
   have : GeometricallyReduced (nFoldFrobeniusTwist (Spec (.of k)) p hS n X).hom :=
     geometricallyReduced_of_smooth _
@@ -388,13 +388,13 @@ theorem isHomeomorph_nFoldRelativeFrobenius (S : Scheme.{u}) (p : ℕ) [Fact p.P
       cases m with
       | zero =>
           rw [nFoldRelativeFrobenius_one S p hS X (nFoldFrobeniusTwist_one S p hS X)]
-          show IsHomeomorph ((relativeFrobenius S p hS X).left ≫
+          change IsHomeomorph ((relativeFrobenius S p hS X).left ≫
             (eqToHom (nFoldFrobeniusTwist_one S p hS X)).left)
           exact (eqToHom (nFoldFrobeniusTwist_one S p hS X)).left.homeomorph.isHomeomorph.comp
             (hrel X)
       | succ l =>
           rw [← nFoldRelativeFrobenius_succ_succ S p hS l X]
-          show IsHomeomorph ((nFoldRelativeFrobenius S p hS (l + 1) X).left ≫
+          change IsHomeomorph ((nFoldRelativeFrobenius S p hS (l + 1) X).left ≫
             (relativeFrobenius S p hS (nFoldFrobeniusTwist S p hS (l + 1) X)).left ≫
               (successiveTwistIso S p hS (l + 1) X).hom.left)
           exact ((successiveTwistIso S p hS (l + 1) X).hom.left.homeomorph.isHomeomorph.comp
@@ -420,7 +420,7 @@ theorem genericPoint_map_of_surjective {A B : Scheme.{u}} [IrreducibleSpace A]
 theorem smooth_nFoldFrobeniusTwist (S : Scheme.{u}) (p : ℕ) [Fact p.Prime]
     (hS : IsInCharacteristic S p) (n : ℕ) (X : Over S) (hX : Smooth X.hom) :
     Smooth (nFoldFrobeniusTwist S p hS n X).hom := by
-  show Smooth (pullback.snd X.hom (absoluteFrobeniusPow S p hS n))
+  change Smooth (pullback.snd X.hom (absoluteFrobeniusPow S p hS n))
   infer_instance
 
 /-- The `n`-fold Frobenius twist of a smooth curve over a field is again a curve: it is
@@ -438,14 +438,14 @@ theorem isCurve_nFoldFrobeniusTwist
   have : IsIntegral (nFoldFrobeniusTwist (Spec (.of k)) p hS n X).left :=
     isIntegral_of_irreducibleSpace_of_isReduced _
   have : IsSeparated (nFoldFrobeniusTwist (Spec (.of k)) p hS n X).hom := by
-    show IsSeparated (pullback.snd X.hom (absoluteFrobeniusPow (Spec (.of k)) p hS n))
+    change IsSeparated (pullback.snd X.hom (absoluteFrobeniusPow (Spec (.of k)) p hS n))
     infer_instance
   have : LocallyOfFiniteType (nFoldFrobeniusTwist (Spec (.of k)) p hS n X).hom := by
-    show LocallyOfFiniteType
+    change LocallyOfFiniteType
       (pullback.snd X.hom (absoluteFrobeniusPow (Spec (.of k)) p hS n))
     infer_instance
   have : QuasiCompact (nFoldFrobeniusTwist (Spec (.of k)) p hS n X).hom := by
-    show QuasiCompact (pullback.snd X.hom (absoluteFrobeniusPow (Spec (.of k)) p hS n))
+    change QuasiCompact (pullback.snd X.hom (absoluteFrobeniusPow (Spec (.of k)) p hS n))
     infer_instance
   refine { topologicalKrullDim_eq_one := ?_ }
   exact (hh.topologicalKrullDim_eq _).symm.trans (IsCurve.topologicalKrullDim_eq_one X.hom)
@@ -473,7 +473,7 @@ theorem residueDegree_nFoldRelativeFrobenius
       | zero =>
           rw [nFoldRelativeFrobenius_one (Spec (.of k)) p hS X
             (nFoldFrobeniusTwist_one (Spec (.of k)) p hS X)]
-          show ((relativeFrobenius (Spec (.of k)) p hS X).left ≫
+          change ((relativeFrobenius (Spec (.of k)) p hS X).left ≫
             (eqToHom (nFoldFrobeniusTwist_one (Spec (.of k)) p hS X)).left).residueDegree
               (genericPoint X.left) = p ^ 1
           rw [residueDegree_comp, residueDegree_of_isIso, one_mul, pow_one]
@@ -490,7 +490,7 @@ theorem residueDegree_nFoldRelativeFrobenius
               (nFoldFrobeniusTwist (Spec (.of k)) p hS (l + 1) X).left :=
             isReduced_nFoldFrobeniusTwist p hS (l + 1) X hXsmooth
           have hh := isHomeomorph_nFoldRelativeFrobenius (Spec (.of k)) p hS X (l + 1)
-          show ((nFoldRelativeFrobenius (Spec (.of k)) p hS (l + 1) X).left ≫
+          change ((nFoldRelativeFrobenius (Spec (.of k)) p hS (l + 1) X).left ≫
             (relativeFrobenius (Spec (.of k)) p hS
                 (nFoldFrobeniusTwist (Spec (.of k)) p hS (l + 1) X)).left ≫
               (successiveTwistIso (Spec (.of k)) p hS (l + 1) X).hom.left).residueDegree
@@ -520,8 +520,8 @@ Frobenius of `X` to `f`.
 The number `n` of steps is here the given length of the chain. The chain itself is produced by
 [Stacks, Tag 0CCX], and the tag is registered on
 `AlgebraicGeometry.existsUnique_nat_existsUnique_iso_nFoldFrobeniusTwist` in
-`StacksFrontier/AlgebraicGeometry/Curves/InseparableFrobeniusChainAssembly.lean`, where that chain is
-supplied and the number of steps is shown unique. -/
+`StacksFrontier/AlgebraicGeometry/Curves/InseparableFrobeniusChainAssembly.lean`, where that chain
+is supplied and the number of steps is shown unique. -/
 theorem existsUnique_iso_nFoldFrobeniusTwist_of_inseparable_chain
     {k : Type u} [Field k] (p : ℕ) [Fact p.Prime] [CharP k p]
     (hS : IsInCharacteristic (Spec (.of k)) p)

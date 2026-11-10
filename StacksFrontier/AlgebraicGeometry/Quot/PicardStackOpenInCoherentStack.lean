@@ -1134,8 +1134,8 @@ are D, g, F, 0CZT's own three conditions on F, and the antecedent (b). The \
 base-change invariance of clause (1) of Tag 0CZS \
 (flat_geometricFibreModuleStalk_modulePullback_iff) does NOT need condition (2) of Tag 05WY. \
 The converse implication, \
-from |T'| mapping into U to invertibility of F_T', does not need the source's rank decomposition of \
-X_T. The decomposition is replaced by pinning the rank to one at the level of the \
+from |T'| mapping into U to invertibility of F_T', does not need the source's rank \
+decomposition of X_T. The decomposition is replaced by pinning the rank to one at the level of the \
 locus (etaleRankOneFreeLocus), and that converse is complete in \
 isInvertibleModule_modulePullback_relativeMap_of_subset_fibrewiseEtaleRankOneFreeLocus. F \
 carries 0CZT's own three hypotheses, quasi-coherent, of finite presentation and flat over T, \

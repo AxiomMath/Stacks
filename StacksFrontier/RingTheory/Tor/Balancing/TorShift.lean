@@ -393,7 +393,7 @@ theorem lesShift.ses (S : ShortComplex (ModuleCat.{u} R)) (hS : S.ShortExact)
     (S.map (lesShift.phi R (projectiveResolution N).complex)).ShortExact := by
   apply HomologicalComplex.shortExact_of_degreewise_shortExact
   intro q
-  show (S.map (tensorRight ((projectiveResolution N).complex.X q))).ShortExact
+  change (S.map (tensorRight ((projectiveResolution N).complex.X q))).ShortExact
   have hflat : Module.Flat R ((projectiveResolution N).complex.X q) := by infer_instance
   exact @ShortComplex.ShortExact.map_of_exact _ _ _ _ _ _ _ hS
     (tensorRight ((projectiveResolution N).complex.X q)) _
@@ -654,7 +654,7 @@ theorem Tor_iso_Tor'.oneIsoTK_hsq (M N : ModuleCat.{u} R) :
     HomologicalComplex.homologyMap (Tor_iso_Tor'.oneIsoTK_S R M N).f 0
         ≫ (Tor_iso_Tor'.oneIsoTK_q R M N).hom
       = (Tor_iso_Tor'.oneIsoTK_p R M N).hom ≫ Tor_iso_Tor'.oneIsoTK_κ R M N := by
-  show HomologicalComplex.homologyMap (Tor_iso_Tor'.oneIsoTK_S R M N).f 0 ≫
+  change HomologicalComplex.homologyMap (Tor_iso_Tor'.oneIsoTK_S R M N).f 0 ≫
       ((projectiveResolution N).isoLeftDerivedObj
           (tensorLeft ((Tor_iso_Tor'.syzygySC R M).X₂)) 0).inv ≫
         (Functor.leftDerivedZeroIsoSelf
@@ -680,7 +680,7 @@ theorem Tor_iso_Tor'.oneIsoTK_hsq (M N : ModuleCat.{u} R) :
         ≫ (NatTrans.leftDerived
             ((tensoringLeft (ModuleCat.{u} R)).map
               (Limits.kernel.ι (Projective.π M))) 0).app N := by
-    show (HomologicalComplex.homologyFunctor (ModuleCat.{u} R) (ComplexShape.down ℕ) 0).map
+    change (HomologicalComplex.homologyFunctor (ModuleCat.{u} R) (ComplexShape.down ℕ) 0).map
           ((NatTrans.mapHomologicalComplex
             ((tensoringLeft (ModuleCat.{u} R)).map (Limits.kernel.ι (Projective.π M)))
             (ComplexShape.down ℕ)).app (projectiveResolution N).complex)
@@ -822,7 +822,7 @@ theorem Tor_iso_Tor'.oneIsoTK_p_naturality (M : ModuleCat.{u} R) {N N' : ModuleC
       (projectiveResolution N) (projectiveResolution N')
       (Tor_iso_Tor'.oneIsoTK_lift R g) (Tor_iso_Tor'.oneIsoTK_lift_comm R g)
       (tensorLeft (Tor_iso_Tor'.syzygy R M)) 0
-    show ((tensorLeft (Tor_iso_Tor'.syzygy R M)).mapHomologicalComplex (ComplexShape.down ℕ) ⋙
+    change ((tensorLeft (Tor_iso_Tor'.syzygy R M)).mapHomologicalComplex (ComplexShape.down ℕ) ⋙
           HomologicalComplex.homologyFunctor (ModuleCat.{u} R) (ComplexShape.down ℕ) 0).map
           (Tor_iso_Tor'.oneIsoTK_lift R g)
         = ((projectiveResolution N).isoLeftDerivedObj

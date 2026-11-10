@@ -20,13 +20,14 @@ The construction is the affine case of Grothendieck existence, and every analyti
 available. Given a coherent adic system `(F_n)` along `I 𝒪_X`, its module of compatible global
 sections `M = limₙ Γ(X, F_n)` is `I`-adically complete, its projection to level `n` is surjective
 with kernel `I ^ (n+1) M`, and `M / I M` is a finite module (Stacks 087W, in
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/CoherentAdicSystem/Equivalence.lean`). Over an `I`-adically complete ring that forces `M`
-itself to be finite, by [Stacks, Tag 031D]. So `M̃` is a coherent module on `X`, and the surjection
-`M ↠ Γ(X, F_n)` with kernel `I ^ (n+1) M` becomes, after `~`, the quotient of `M̃` by
-`I ^ (n+1) M̃` — which is exactly the `n`-th term of the completion of `M̃`. Composing with the
-counit `Γ(X, F_n)~ ≅ F_n`, which is an isomorphism because `F_n` is quasi-coherent, identifies the
-two systems term by term; the identification is compatible with the transition maps because both
-sides are compatible with the canonical projections out of `M̃`, which are epimorphisms.
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/CoherentAdicSystem/Equivalence.lean`). Over an
+`I`-adically complete ring that forces `M` itself to be finite, by [Stacks, Tag 031D]. So `M̃` is a
+coherent module on `X`, and the surjection `M ↠ Γ(X, F_n)` with kernel `I ^ (n+1) M` becomes, after
+`~`, the quotient of `M̃` by `I ^ (n+1) M̃` — which is exactly the `n`-th term of the completion of
+`M̃`. Composing with the counit `Γ(X, F_n)~ ≅ F_n`, which is an isomorphism because `F_n` is
+quasi-coherent, identifies the two systems term by term; the identification is compatible with the
+transition maps because both sides are compatible with the canonical projections out of `M̃`, which
+are epimorphisms.
 
 ## Main results
 
@@ -47,8 +48,8 @@ sides are compatible with the canonical projections out of `M̃`, which are epim
 for a *proper* morphism to the spectrum of a complete ring; only the case of the identity morphism
 is proved here, so that tag's covering set is not complete. Tag 0EIL's covering set is spread over
 this file and
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionCriteria/Algebraization.lean`, and placing
-it is a separate decision.
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionCriteria/Algebraization.lean`, and
+placing it is a separate decision.
 
 The ideal of `Γ(X, 𝒪_X)` attached to `I` is `Ideal.map (Scheme.ΓSpecIso (.of A)).inv.hom I`; the
 statements of Stacks 087W are indexed by such an ideal through

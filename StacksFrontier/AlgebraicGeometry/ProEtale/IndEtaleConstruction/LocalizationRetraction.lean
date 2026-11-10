@@ -62,7 +62,7 @@ private theorem localization_ideal_le_jacobson
     Ideal.map (algebraMap A R) I ≤ Ideal.jacobson (⊥ : Ideal R) := by
   rw [Ideal.map_le_iff_le_comap]
   intro i hi
-  show algebraMap A R i ∈ Ideal.jacobson (⊥ : Ideal R)
+  change algebraMap A R i ∈ Ideal.jacobson (⊥ : Ideal R)
   rw [Ideal.mem_jacobson_bot]
   intro y
   obtain ⟨a, s, rfl⟩ := IsLocalization.exists_mk'_eq M y
@@ -114,13 +114,13 @@ private theorem isLocalization_map_of_surjective {A A' R : Type*} [CommRing A] [
   rw [isLocalization_iff]
   refine ⟨?_, ?_, ?_⟩
   · rintro ⟨_, a, ha, rfl⟩
-    show IsUnit (algebraMap A' R (π a))
+    change IsUnit (algebraMap A' R (π a))
     rw [h]
     exact IsLocalization.map_units R ⟨a, ha⟩
   · intro z
     obtain ⟨⟨a, s⟩, hs⟩ := IsLocalization.surj M z
     refine ⟨⟨π a, ⟨π s, s, s.2, rfl⟩⟩, ?_⟩
-    show z * algebraMap A' R (π s) = algebraMap A' R (π a)
+    change z * algebraMap A' R (π s) = algebraMap A' R (π a)
     rw [h, h]
     exact hs
   · intro x y hxy
@@ -129,7 +129,7 @@ private theorem isLocalization_map_of_surjective {A A' R : Type*} [CommRing A] [
     rw [h, h] at hxy
     obtain ⟨s, hs⟩ := (IsLocalization.eq_iff_exists M R).mp hxy
     refine ⟨⟨π s, s, s.2, rfl⟩, ?_⟩
-    show π s * π a = π s * π b
+    change π s * π a = π s * π b
     rw [← map_mul, ← map_mul, hs]
 
 /-- A finitely generated subalgebra of a localization `R` of `A'` at `M'`, with `A' → R`
@@ -154,7 +154,7 @@ private theorem exists_away_algHom_of_fg {A' R : Type*} [CommRing A'] [CommRing 
       rw [gT.commutes]
       simpa [Algebra.smul_def] using hb
     refine ⟨algebraMap A' _ b * ↑ud.unit⁻¹, ?_⟩
-    show gT (algebraMap A' _ b * ↑ud.unit⁻¹) = x
+    change gT (algebraMap A' _ b * ↑ud.unit⁻¹) = x
     rw [map_mul, gT.commutes, ← IsUnit.unit_inv_map gT ud, hb', mul_right_comm,
       IsUnit.mul_val_inv, one_mul]
   have hinjT : Function.Injective gT :=
@@ -266,7 +266,7 @@ private theorem one_sub_single_mem_map_pi {A' ι : Type*} [CommRing A'] [Finite 
       Ideal.pi fun j => J.map (algebraMap A' (E j)) := by
     apply (Ideal.piOrderIso (R := E)).injective
     funext j
-    show (J.map _).map (Pi.evalRingHom E j) = (Ideal.pi _).map (Pi.evalRingHom E j)
+    change (J.map _).map (Pi.evalRingHom E j) = (Ideal.pi _).map (Pi.evalRingHom E j)
     rw [Ideal.map_evalRingHom_pi, hJ]
   rw [hpi, Ideal.mem_pi]
   rintro (_ | i)
@@ -295,11 +295,12 @@ private theorem algebraMap_apply_eq_one_of_idempotent {A' R D : Type*} [CommRing
 other than `E none`, gives an `A'`-algebra map `E none → R` when `J R` lies in the Jacobson
 radical of `R`. -/
 private theorem nonempty_algHom_of_retraction_pi {A' R ι : Type*} [CommRing A'] [CommRing R]
-    [Algebra A' R] [Finite ι] [DecidableEq ι] {J : Ideal A'}
+    [Algebra A' R] [Finite ι] {J : Ideal A'}
     (hJ : J.map (algebraMap A' R) ≤ Ideal.jacobson ⊥)
     (E : Option ι → Type*) [∀ j, CommRing (E j)] [∀ j, Algebra A' (E j)]
     (hE : ∀ i, J.map (algebraMap A' (E (some i))) = ⊤) (r : (∀ j, E j) →ₐ[A'] A') :
     Nonempty (E none →ₐ[A'] R) := by
+  classical
   have hu := algebraMap_apply_eq_one_of_idempotent hJ r (e := Pi.single none 1)
     (by rw [← Pi.single_mul, mul_one]) (one_sub_single_mem_map_pi E hE)
   have hsc (a : A') : Pi.single none (algebraMap A' (E none) a) =
@@ -313,7 +314,7 @@ private theorem nonempty_algHom_of_retraction_pi {A' R ι : Type*} [CommRing A']
       map_add' b c := by simp only [Pi.single_add, map_add]
       map_mul' b c := by simp only [Pi.single_mul, map_mul] }
   have hg (a : A') : g (algebraMap A' (E none) a) = algebraMap A' R a := by
-    show algebraMap A' R (r (Pi.single none (algebraMap A' (E none) a))) = _
+    change algebraMap A' R (r (Pi.single none (algebraMap A' (E none) a))) = _
     rw [hsc, map_mul, map_mul, hu, one_mul, AlgHom.commutes]
     rfl
   exact ⟨{ toRingHom := g, commutes' := hg }⟩
@@ -363,7 +364,7 @@ private theorem nonempty_algHom_of_tensorProduct {A' : Type u} {T R C : Type*} (
       ⟨RingHom.flat_algebraMap_iff.mpr inferInstance, hDspec⟩
   obtain ⟨r⟩ := hquot D
   refine nonempty_algHom_of_retraction_pi hJ E (fun i => ?_) r
-  show J.map (algebraMap A' (Localization.Away (f i : A'))) = ⊤
+  change J.map (algebraMap A' (Localization.Away (f i : A'))) = ⊤
   exact Ideal.eq_top_of_isUnit_mem _
     (Ideal.mem_map_of_mem (algebraMap A' (Localization.Away (f i : A'))) (f i).property)
     (IsLocalization.Away.algebraMap_isUnit (f i : A'))

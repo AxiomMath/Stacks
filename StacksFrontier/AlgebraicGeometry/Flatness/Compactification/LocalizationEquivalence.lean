@@ -83,7 +83,7 @@ lemma compactificationInterior_inverts (S : Scheme.{u}) :
     (interiorIsomorphisms S).IsInvertedBy (compactificationInterior S) := by
   intro X Y f hf
   apply (IsCompactifyable S).isIso_hom_iff ((compactificationInterior S).map f) |>.1
-  show IsIso (Arrow.Hom.left f.hom)
+  change IsIso (Arrow.Hom.left f.hom)
   have : IsIso ((Over.forget S).map (Arrow.Hom.left f.hom)) := hf
   exact isIso_of_reflects_iso (Arrow.Hom.left f.hom) (Over.forget S)
 
@@ -207,7 +207,7 @@ private lemma equalizerRefinementToX_mem (S : Scheme.{u})
     have : IsClosedImmersion e.left := isClosedImmersion_equalizer_ι_left fB gB
     infer_instance
   dsimp only [interiorIsomorphisms, equalizerRefinementToX]
-  show IsIso (pullback.fst X.obj.hom.left e.left)
+  change IsIso (pullback.fst X.obj.hom.left e.left)
   rw [← hl]
   infer_instance
 
@@ -220,7 +220,7 @@ private lemma equalizerRefinementToX_condition (S : Scheme.{u})
   apply Arrow.hom_ext
   · apply Over.OverMorphism.ext
     dsimp only [equalizerRefinementToX]
-    show pullback.fst X.obj.hom.left
+    change pullback.fst X.obj.hom.left
       (equalizer.ι (Arrow.Hom.right f.hom) (Arrow.Hom.right g.hom)).left ≫
       (Arrow.Hom.left f.hom).left =
       pullback.fst X.obj.hom.left
@@ -294,20 +294,20 @@ private lemma exists_refinement_of_factorization (S : Scheme.{u})
   let cOver : Over S := Over.mk p
   let cImmersion : A.obj.left ⟶ cOver := Over.homMk i hi
   let C : Compactification S := ⟨Arrow.mk cImmersion, by
-    show IsProper p ∧ IsOpenImmersion i ∧ QuasiCompact i
+    change IsProper p ∧ IsOpenImmersion i ∧ QuasiCompact i
     exact ⟨hp, hio, hqc⟩⟩
   let leftU : C.obj.left ⟶ A.obj.left := Over.homMk (𝟙 A.obj.left.left) rfl
   let rightU : cOver ⟶ A.obj.right := Over.homMk a ha
   have squareU : cImmersion ≫ rightU = leftU ≫ A.obj.hom := by
     apply Over.OverMorphism.ext
-    show i ≫ a = 𝟙 _ ≫ A.obj.hom.left
+    change i ≫ a = 𝟙 _ ≫ A.obj.hom.left
     rw [hia, Category.id_comp]
   let leftV : C.obj.left ⟶ B.obj.left := Over.homMk f.left (Over.w f)
   let rightV : cOver ⟶ B.obj.right := Over.homMk b hb
   have squareV : cImmersion ≫ rightV = leftV ≫ B.obj.hom := Over.OverMorphism.ext hib
   refine ⟨C, ObjectProperty.homMk (Arrow.homMk leftU rightU squareU.symm),
     ObjectProperty.homMk (Arrow.homMk leftV rightV squareV.symm), ?_, rfl⟩
-  show IsIso (𝟙 A.obj.left.left)
+  change IsIso (𝟙 A.obj.left.left)
   infer_instance
 
 /-- Every morphism between the interiors of two compactifications is realized by a common
@@ -339,7 +339,7 @@ private lemma compactification_lift_of_interior_hom (S : Scheme.{u})
   let jTA : T ⟶ A.obj.right := Over.homMk jA ((Over.w A.obj.hom).trans hk.symm)
   let auxA : CompactificationOf T :=
     ⟨StructuredArrow.mk jTA, by
-      show IsOpenImmersion jA ∧ IsProper A.obj.right.hom
+      change IsOpenImmersion jA ∧ IsProper A.obj.right.hom
       exact ⟨A.property.2.1, A.property.1⟩⟩
   obtain ⟨J, hJ⟩ := exists_quasiCompact_compactification_over
     (f := k) (g := g) ⟨auxA, A.property.2.2⟩

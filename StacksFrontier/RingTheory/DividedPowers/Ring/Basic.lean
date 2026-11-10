@@ -410,16 +410,16 @@ private lemma exists_bounded_model (α : Type u)
     { support := s, ring := inferInstance, ideal := J, dividedPowers := δ }
   refine ⟨i, ?_, ?_, ?_⟩
   · apply DividedPowers.DPMorphism.mk' (f := r.toRingHom)
-    show DividedPowers.IsDPMorphism A.dividedPowers δ r.toRingHom
+    change DividedPowers.IsDPMorphism A.dividedPowers δ r.toRingHom
     refine ⟨le_rfl, ?_⟩
     intro n a ha
-    show δ.dpow n (r a) = r (A.dividedPowers.dpow n a)
+    change δ.dpow n (r a) = r (A.dividedPowers.dpow n a)
     simp [δ]
   · apply DividedPowers.DPMorphism.mk' (f := r.symm.toRingHom)
-    show DividedPowers.IsDPMorphism δ A.dividedPowers r.symm.toRingHom
+    change DividedPowers.IsDPMorphism δ A.dividedPowers r.symm.toRingHom
     refine ⟨le_of_eq (Ideal.map_of_equiv r), ?_⟩
     intro n a ha
-    show A.dividedPowers.dpow n (r.symm a) = r.symm (δ.dpow n a)
+    change A.dividedPowers.dpow n (r.symm a) = r.symm (δ.dpow n a)
     simp [δ, DividedPowers.ofRingEquiv]
   · ext a; exact r.symm_apply_apply a
 

@@ -67,7 +67,7 @@ private theorem ideal_map_inv_eq_comap_hom {R : Type u} [CommRing R] (m : Ideal 
       (Scheme.ΓSpecIso (CommRingCat.of R)).hom.hom = RingHom.id _ :=
     congrArg CommRingCat.Hom.hom (Scheme.ΓSpecIso (CommRingCat.of R)).hom_inv_id
   refine le_antisymm (Ideal.map_le_iff_le_comap.2 fun y hy => ?_) fun x hx => ?_
-  · show (Scheme.ΓSpecIso (CommRingCat.of R)).hom.hom
+  · change (Scheme.ΓSpecIso (CommRingCat.of R)).hom.hom
       ((Scheme.ΓSpecIso (CommRingCat.of R)).inv.hom y) ∈ m
     rw [← RingHom.comp_apply, hφψ]
     simpa using hy
@@ -91,7 +91,7 @@ theorem exceptionalIdealData_eq_comap {R : Type u} [CommRing R] (m : Ideal R)
         (d ≫ AlgebraicGeometry.blowUpToBase (AffineModel.specIdealSheaf m)) :=
     (Scheme.IdealSheafData.comap_comp _ _ _).symm
   rw [h1, hd]
-  show (Scheme.IdealSheafData.ofIdealTop
+  change (Scheme.IdealSheafData.ofIdealTop
       (Ideal.comap (Scheme.ΓSpecIso (CommRingCat.of R)).hom.hom m)).comap (toSpec m) = _
   rw [AffineModel.specIdealSheaf, ideal_map_inv_eq_comap_hom]
 
@@ -102,7 +102,7 @@ theorem vanishingIdeal_comap_fromSpecStalk_eq_specIdealSheaf {X : Scheme.{u}} (z
     (Scheme.IdealSheafData.vanishingIdeal (⟨{z}, hz⟩ : Closeds X)).comap (X.fromSpecStalk z) =
       AffineModel.specIdealSheaf (maximalIdeal (X.presheaf.stalk z)) := by
   rw [vanishingIdeal_singleton_comap_fromSpecStalk z hz, Scheme.ker_SpecMap]
-  show Scheme.IdealSheafData.ofIdealTop
+  change Scheme.IdealSheafData.ofIdealTop
     (Ideal.map _ (RingHom.ker (IsLocalRing.residue (X.presheaf.stalk z)))) = _
   rw [IsLocalRing.ker_residue]
   rfl

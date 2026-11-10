@@ -162,7 +162,7 @@ private theorem homologyFunctor_shiftIso_hom_app_Q {C : Type*} [Category* C] [Ab
         (homologyFunctorFactors C n₁).inv.app M := by
   refine Eq.trans ?_ (congrArg ((homologyFunctor C n₀).map ((Q.commShiftIso (1 : ℤ)).inv.app M) ≫ ·)
     (CochainComplex.HomComplex.shiftIso_hom_app_Q_obj M 1 n₀ n₁ h))
-  exact (Iso.map_inv_hom_id_assoc ((Q.commShiftIso (1 : ℤ)).app M) (homologyFunctor C n₀) _).symm
+  exact (Iso.inv_hom_id_map_assoc ((Q.commShiftIso (1 : ℤ)).app M) (homologyFunctor C n₀) _).symm
 
 private theorem map_comp₄ {𝒞 𝒟 : Type*} [Category* 𝒞] [Category* 𝒟] (F : 𝒞 ⥤ 𝒟)
     {X₀ X₁ X₂ X₃ X₄ : 𝒞} (a : X₀ ⟶ X₁) (b : X₁ ⟶ X₂) (c : X₂ ⟶ X₃) (d : X₃ ⟶ X₄) :
@@ -277,16 +277,16 @@ theorem derivedHomologyIso_shiftIso (n₀ n₁ : ℤ) (h : 1 + n₀ = n₁) (L :
       (Iso.inv_hom_id_app _ _) ?_ ?_
     · exact (congrArg E.map (homologyFunctor_shiftIso_hom_app_Q n₀ n₁ h M)).trans
         (map_comp₄ E _ _ _ _)
-    · exact Iso.map_inv_hom_id (E.mapDerivedCategory.mapIso ((Q.commShiftIso (1 : ℤ)).app M))
+    · exact Iso.inv_hom_id_map (E.mapDerivedCategory.mapIso ((Q.commShiftIso (1 : ℤ)).app M))
         (homologyFunctor B n₀)
     · have hφ := NatTrans.shift_app_comm E.mapDerivedCategoryFactors.hom (1 : ℤ) M
       rw [Functor.commShiftIso_comp_hom_app, Functor.commShiftIso_comp_hom_app] at hφ
       have := congrArg (homologyFunctor B n₀).map hφ
       simp only [Functor.map_comp, Category.assoc] at this
       exact this
-    · exact Iso.map_hom_inv_id ((Q.commShiftIso (1 : ℤ)).app ((E.mapHomologicalComplex _).obj M))
+    · exact Iso.hom_inv_id_map ((Q.commShiftIso (1 : ℤ)).app ((E.mapHomologicalComplex _).obj M))
         (homologyFunctor B n₀)
-    · exact Iso.map_inv_hom_id ((homologyFunctorFactors A n₀).app (M⟦(1 : ℤ)⟧)) E
+    · exact Iso.inv_hom_id_map ((homologyFunctorFactors A n₀).app (M⟦(1 : ℤ)⟧)) E
   exact (NatTrans.congr_app hαβ L).trans (id_chain₄ _ _ _ _)
 
 private theorem delta_chain {𝒳 : Type*} [Category* 𝒳] {o₁ o₂ o₃ o₄ o₅ o₆ o₇ : 𝒳}
@@ -527,7 +527,7 @@ theorem exactRightDerivedPlusHomologyIso_homologySequenceδ
     rfl
   rw [e₀, e₁]
   exact (Category.assoc _ _ _).trans <| conj_chain hnat
-    (Iso.map_hom_inv_id ((exactMapDerivedCategoryPlusIso E).app T.obj₁) _) hx
+    (Iso.hom_inv_id_map ((exactMapDerivedCategoryPlusIso E).app T.obj₁) _) hx
 
 omit [EnoughInjectives A] in
 /-- Under the inclusion `Plus.ι`, the component at `X` of `exactMapDerivedCategoryPlusSingle E n`
@@ -571,7 +571,7 @@ theorem mapDerivedCategoryPlus_singleδPlus {S : ShortComplex A} (hS : S.ShortEx
     ((E.mapDerivedCategory.map_comp _ _).symm.trans
       (congrArg E.mapDerivedCategory.map (Stacks.DerivedIndexing.ι_map_singleδPlus hS))) n₅ ?_
     ?_
-  · exact Iso.map_inv_hom_id ((E.mapDerivedCategorySingleFunctor 0).app S.X₁) _
+  · exact Iso.inv_hom_id_map ((E.mapDerivedCategorySingleFunctor 0).app S.X₁) _
   · exact Stacks.DerivedIndexing.ι_map_singleδPlus (hS.map_of_exact E)
 
 private theorem single_chain₂ {𝒳 : Type*} [Category* 𝒳] {o₀ o₁ o₂ o₃ o₄ o₅ o₆ o₇ : 𝒳}
@@ -611,7 +611,7 @@ theorem exactSingleFunctorRightDerivedPlusIso_singleδPlus {S : ShortComplex A}
     (NatTrans.shift_app_comm (exactMapDerivedCategoryPlusIso E).hom 1 _)
     (mapDerivedCategoryPlus_singleδPlus E hS)
     ((exactMapDerivedCategoryPlusSingle E 0).inv_hom_id_app S.X₃)
-    (Iso.map_hom_inv_id ((exactMapDerivedCategoryPlusSingle E 0).app S.X₁) _)
+    (Iso.hom_inv_id_map ((exactMapDerivedCategoryPlusSingle E 0).app S.X₁) _)
     (congrArg (_ ≫ ·) ((shiftFunctor (Plus B) (1 : ℤ)).map_comp _ _))
 
 end Plus

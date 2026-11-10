@@ -46,7 +46,7 @@ theorem mapHomotopyCategoryPlusNatIso_hom_app_quotient {F G : A ⥤ B} [F.Additi
           (Y := G.mapCochainComplexPlus.obj N)
           ((NatTrans.mapHomologicalComplex e.hom (ComplexShape.up ℤ)).app N.obj)) := by
   apply (HomotopyCategory.Plus.ι B).map_injective
-  show (NatTrans.mapHomotopyCategory e.hom (ComplexShape.up ℤ)).app
+  change (NatTrans.mapHomotopyCategory e.hom (ComplexShape.up ℤ)).app
     ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).obj N.obj) = _
   rfl
 
@@ -95,7 +95,7 @@ theorem ι_map_mapDerivedCategoryPlusQIso_hom_app (K : CochainComplex.Plus A) :
   simp only [mapDerivedCategoryPlusQIso, Iso.trans_hom, NatTrans.comp_app,
     isoWhiskerLeft_hom, isoWhiskerRight_hom, whiskerLeft_app, whiskerRight_app, Iso.symm_hom,
     associator_hom_app, associator_inv_app, Category.id_comp, Functor.map_comp]
-  show F.mapDerivedCategory.map (DerivedCategory.Plus.ι.map
+  change F.mapDerivedCategory.map (DerivedCategory.Plus.ι.map
       ((DerivedCategory.Plus.quotientCompQhIso A).inv.app K)) ≫
     F.mapDerivedCategoryFactorsh.hom.app
       ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).obj K.obj) ≫

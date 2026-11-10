@@ -350,7 +350,7 @@ theorem extSectionsAddEquiv_cohomologyOfClosedMapUnivLE_zero
         ((openNeighborhoodCohomologyZeroIsoUnivLE.{t} Z F).hom.app U x) :=
     (ConcreteCategory.comp_apply _ _ x).symm.trans
       ((ConcreteCategory.congr_hom
-        (HasColimit.isoOfNatIso_ι_hom
+        (HasColimit.ι_isoOfNatIso_hom
           (openNeighborhoodCohomologyZeroIsoUnivLE.{t} Z F) U) x).trans
           (ConcreteCategory.comp_apply _ _ x))
   rw [cohomologyOfClosedMapUnivLE_ι.{t}, hκ]
@@ -916,7 +916,7 @@ theorem isIso_cohomologyOfClosedMap_of_univLE (p : ℕ)
           (cohomologyPresheafObjIsoPinned (Opens.grothendieckTopology (TopCat.of Z))
             ((restrictionFunctor X Z).obj F) p ⊤).hom := by
       refine ConcreteCategory.hom_ext _ _ fun x => ?_
-      show cohomologyOfClosedMapComp Z F p U.unop ((e.hom.app U) x) =
+      change cohomologyOfClosedMapComp Z F p U.unop ((e.hom.app U) x) =
         ((cohomologyPresheafObjIsoPinned (Opens.grothendieckTopology (TopCat.of Z))
           ((restrictionFunctor X Z).obj F) p ⊤).hom)
           (cohomologyOfClosedMapCompUnivLE.{s} Z F p U.unop x)
@@ -929,7 +929,7 @@ theorem isIso_cohomologyOfClosedMap_of_univLE (p : ℕ)
         (mk₀_inv_mk₀_hom_comp _ _))
     exact ((Category.assoc _ _ _).symm.trans
       ((congrArg (fun m => m ≫ cohomologyOfClosedMap Z F p)
-          (HasColimit.isoOfNatIso_ι_hom e U)).trans
+          (HasColimit.ι_isoOfNatIso_hom e U)).trans
         ((Category.assoc _ _ _).trans
           ((congrArg (fun m => e.hom.app U ≫ m) hiP).trans middle)))).trans
       ((congrArg (fun m => m ≫ (cohomologyPresheafObjIsoPinned

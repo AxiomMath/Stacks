@@ -121,8 +121,8 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 space.** For `g : X' ⟶ X` the situation over `X'` has `Y' = Y ×_X X'`, closed part `g⁻¹(Z)` and
 `f'` the projection `Y' ⟶ X'`.
 
-Each of the six conditions of Stacks 0AEV is a base-change stability that is already proved; the module
-docstring says which discharges which.  Flatness of `g` is not used. -/
+Each of the six conditions of Stacks 0AEV is a base-change stability that is already proved; the
+module docstring says which discharges which.  Flatness of `g` is not used. -/
 def baseChangeAlong : FormalGlueingSituation B S hS where
   X := X'
   Y := pullback D.f g
@@ -169,7 +169,7 @@ theorem baseChangeAlong_U_eq : (D.baseChangeAlong hX' g).U = D.U.preimage g :=
 inverse image of the open complement of the inverse image of the closed part: both are the
 inverse image of `U` along the composite `Y' ⟶ X`. -/
 theorem baseChangeAlong_V_eq : (D.baseChangeAlong hX' g).V = D.V.preimage (pullback.fst D.f g) := by
-  show ((D.baseChangeAlong hX' g).U).preimage (pullback.snd D.f g) =
+  change ((D.baseChangeAlong hX' g).U).preimage (pullback.snd D.f g) =
     (D.U.preimage D.f).preimage (pullback.fst D.f g)
   rw [baseChangeAlong_U_eq]
   exact Subfunctor.preimage_preimage_of_isPullback D.U (IsPullback.of_hasPullback D.f g)

@@ -77,7 +77,8 @@ available as well — see "What is not done".
 * `Stacks.AmpleProjectiveImmersion.exists_immersion_projectiveSpaceOver_of_isAmple` and
   `Stacks.AmpleProjectiveImmersion.exists_immersion_projectiveSpaceOver_of_isAmple'`: **the
   statement of Tag 01VS**, with the auxiliary definitions of the source statement replaced by their
-  library names and nothing else changed, from `ImmersionTwistGap`. The primed form uses the ampleness theory's own
+  library names and nothing else changed, from `ImmersionTwistGap`.
+  The primed form uses the ampleness theory's own
   family of tensor powers in place of Tag 01CU's; see the implementation notes.
 
 ## Implementation notes

@@ -180,7 +180,7 @@ theorem exists_smul_eq_of_level_one_eq_zero (x : formalLimit f M U) (hx : x.1 1 
     rw [hy n, ← moduleSectionsMap_comp_apply, quotLe_comp_quotUp, moduleSectionsMap_lsmul]
     exact smul_eq_of_moduleSectionsMap_quotUp_eq f M U x (n + 1) (y (n + 1)) (hy (n + 1))
   refine ⟨⟨y, hcompat⟩, formalLimit_ext f M U fun n ↦ ?_, hy⟩
-  show f • y n = x.1 n
+  change f • y n = x.1 n
   exact smul_eq_of_moduleSectionsMap_quotUp_eq f M U x n (y n) (hy n)
 
 /-- **The kernel of the projection to level `n` is `fⁿ` times the limit.** -/
@@ -236,7 +236,7 @@ theorem ker_levelOne :
     true_and]
   refine ⟨fun hx ↦ (exists_smul_eq_of_level_one_eq_zero f M U hf x hx).imp fun _ h ↦ h.1, ?_⟩
   rintro ⟨y, rfl⟩
-  show f • y.1 1 = 0
+  change f • y.1 1 = 0
   simpa using pow_smul_level_eq_zero f M U 1 (y.1 1)
 
 include hf in

@@ -111,7 +111,7 @@ public theorem exists_cofiltered_smooth_limit_presentation_specCompletedStalk
       (AdicCompletion (maximalIdeal (S.presheaf.stalk s)) (S.presheaf.stalk s)) := by
     refine Stacks.Smoothing.indSmooth_of_ringEquiv _ _ _ _ (RingEquiv.refl Γ(S, ⊤))
       (Stacks.FormalFibres.completionRingEquiv eS.symm) (fun r => ?_) hind
-    show Stacks.FormalFibres.completionRingEquiv eS.symm
+    change Stacks.FormalFibres.completionRingEquiv eS.symm
         (algebraMap (Localization.AtPrime pS.asIdeal) _
           (algebraMap Γ(S, ⊤) (Localization.AtPrime pS.asIdeal) r)) = _
     rw [Stacks.FormalFibres.completionRingEquiv_algebraMap, ← hcomm r, eS.symm_apply_apply]
@@ -121,7 +121,7 @@ public theorem exists_cofiltered_smooth_limit_presentation_specCompletedStalk
   refine ⟨I, hI, hcof, D, pp ≫ (Functor.const I).map S.isoSpec.inv, c, hc, e, haff,
     fun i => ?_, fun i => ?_⟩
   · have := hsm i
-    show Smooth (pp.app i ≫ S.isoSpec.inv)
+    change Smooth (pp.app i ≫ S.isoSpec.inv)
     infer_instance
   · have key : Spec.map (CommRingCat.ofHom (algebraMap Γ(S, ⊤)
         (AdicCompletion (maximalIdeal (S.presheaf.stalk s)) (S.presheaf.stalk s)))) ≫
@@ -135,7 +135,7 @@ public theorem exists_cofiltered_smooth_limit_presentation_specCompletedStalk
           Category.comp_id]
       rw [← hfss, ← Category.assoc, ← Spec.map_comp]
       rfl
-    show e.hom ≫ c.π.app i ≫ pp.app i ≫ S.isoSpec.inv = _
+    change e.hom ≫ c.π.app i ≫ pp.app i ≫ S.isoSpec.inv = _
     rw [← key, ← hcompat i]
     simp only [Category.assoc]
 

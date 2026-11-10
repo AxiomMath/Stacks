@@ -147,7 +147,7 @@ theorem isStronglyCartesian_toMorQuotient_map {R S : 𝒮} (f : R ⟶ S) {x y : 
     -- `χ' ≫ φ` and `ψ` are locally equal.
     have hloc : p.LocallyEqual J (χ' ≫ φ) ψ := by
       refine (CategoryTheory.Quotient.functor_map_eq_iff (p.locallyEqualRel J) _ _).mp ?_
-      show (p.toMorQuotient J).map (χ' ≫ φ) = (p.toMorQuotient J).map ψ
+      change (p.toMorQuotient J).map (χ' ≫ φ) = (p.toMorQuotient J).map ψ
       rw [Functor.map_comp, hX₂, hψ]
     obtain ⟨-, T, hT, hagree⟩ := hloc
     refine (CategoryTheory.Quotient.functor_map_eq_iff (p.locallyEqualRel J) _ _).mpr ?_

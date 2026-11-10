@@ -68,7 +68,8 @@ three-step argument of `Stacks.DerivedQCoh.AnyModel.RestrictComposite` — faith
 reflection of the zero object, and reflection of Hom-vanishing — for restriction along an
 isomorphism.
 
-**The model is the locally small one** of `StacksFrontier/Homology/DerivedCategory/LocallySmall.lean`:
+**The model is the locally small one** of
+`StacksFrontier/Homology/DerivedCategory/LocallySmall.lean`:
 no `CategoryTheory.HasDerivedCategory` binder appears below, so instance search supplies the
 global instances. This is forced. The base case passes through the affine derived Spec–Γ
 equivalence of [Stacks, Tag 06Z0], which is available at that model and at no other, and the

@@ -59,7 +59,7 @@ theorem ideal_vanishingIdeal_closure_singleton (x : X) (U : X.affineOpens)
       (hU.primeIdealOf ⟨x, hx⟩).asIdeal := by
   have hsingleton : hU.fromSpec ⁻¹' ({x} : Set X) = {hU.primeIdealOf ⟨x, hx⟩} := by
     ext z
-    show hU.fromSpec z = x ↔ z = hU.primeIdealOf ⟨x, hx⟩
+    change hU.fromSpec z = x ↔ z = hU.primeIdealOf ⟨x, hx⟩
     have hfrom : hU.fromSpec (hU.primeIdealOf ⟨x, hx⟩) = x :=
       hU.fromSpec_primeIdealOf ⟨x, hx⟩
     exact ⟨fun h ↦ hU.fromSpec.isOpenEmbedding.injective (h.trans hfrom.symm),
@@ -68,7 +68,7 @@ theorem ideal_vanishingIdeal_closure_singleton (x : X) (U : X.affineOpens)
       closure {hU.primeIdealOf ⟨x, hx⟩} :=
     (hU.fromSpec.isOpenEmbedding.isOpenMap.preimage_closure_eq_closure_preimage
       hU.fromSpec.continuous ({x} : Set X)).trans (congrArg closure hsingleton)
-  show PrimeSpectrum.vanishingIdeal
+  change PrimeSpectrum.vanishingIdeal
     (hU.fromSpec ⁻¹' (Closeds.closure ({x} : Set X) : Set X)) = _
   exact (congrArg PrimeSpectrum.vanishingIdeal hclosure).trans
     ((PrimeSpectrum.vanishingIdeal_closure _).trans (PrimeSpectrum.vanishingIdeal_singleton _))

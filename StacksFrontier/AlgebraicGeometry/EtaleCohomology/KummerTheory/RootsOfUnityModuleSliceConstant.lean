@@ -222,7 +222,7 @@ theorem imageSieve_sliceRootPresheafHom_mem (W : Over V)
   have hcov : Sieve.ofArrows Z g ∈ X.smallEtaleTopology W.left := by
     rw [Scheme.ofArrows_mem_smallEtaleTopology_iff]
     have hspan : Ideal.span (Set.range e) = ⊤ := by
-      rw [Ideal.eq_top_iff_one, ← sum_rootIdempotent hζ hn (x : Γ(W.left.left, ⊤)),
+      rw [Ideal.eq_top_iff_one, ← sum_rootIdempotent (k := k) hn (x : Γ(W.left.left, ⊤)),
         ← Finset.sum_coe_sort]
       exact Ideal.sum_mem _ fun ρ _ => Ideal.subset_span ⟨ρ, rfl⟩
     have h := AlgebraicGeometry.iSup_basicOpen_of_span_eq_top (X := W.left.left) ⊤ _ hspan

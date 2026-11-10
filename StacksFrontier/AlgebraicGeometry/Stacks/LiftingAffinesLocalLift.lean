@@ -49,7 +49,7 @@ theorem isSmooth_map_of_isSmooth {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y)
   refine isSmooth_of_isSmooth_representingMap B S hS X.obj Y.obj X.property Y.property
     (StacksRepresentableCFG.EquivalenceOver.refl _)
     (StacksRepresentableCFG.EquivalenceOver.refl _) _ ?_
-  show Space.IsSmooth B S hS (representingMap B S hS (fibredCategory B S hS X.obj)
+  change Space.IsSmooth B S hS (representingMap B S hS (fibredCategory B S hS X.obj)
     (fibredCategory B S hS Y.obj) X.obj Y.obj
     (StacksRepresentableCFG.EquivalenceOver.refl _)
     (StacksRepresentableCFG.EquivalenceOver.refl _) (associatedMap B S hS f.hom).1)
@@ -78,7 +78,7 @@ theorem ker_le_nilradical_of_surjective {X Y : Scheme.{u}} [IsAffine X] [IsAffin
   rw [hx, hz] at h
   intro r hr
   have hr' : r ∈ (PrimeSpectrum.comap f.appTop.hom (X.isoSpec.hom x)).asIdeal := by
-    show f.appTop.hom r ∈ (X.isoSpec.hom x).asIdeal
+    change f.appTop.hom r ∈ (X.isoSpec.hom x).asIdeal
     rw [RingHom.mem_ker.mp hr]
     exact Ideal.zero_mem _
   rwa [← h] at hr'
@@ -166,7 +166,7 @@ theorem exists_smooth_chart_of_liftedPresentation {B' A₀ D C : Type u} [CommRi
       (algebraMap B' (Algebra.LiftedPresentation.Chart g'' f'')) =
       𝔢.comap (algebraMap B' C) := by
     rw [h𝔢, Ideal.comap_comap]
-    show (𝔭.map lam).comap (algebraMap B' (Algebra.LiftedPresentation.Reduced π g'' f'')) = _
+    change (𝔭.map lam).comap (algebraMap B' (Algebra.LiftedPresentation.Reduced π g'' f'')) = _
     rw [← hlamB, ← Ideal.comap_comap, ← Ideal.comap_comap, hcomap, Ideal.comap_comap]
   obtain ⟨𝔷, _, h𝔷, -⟩ := exists_isPrime_tensor _ 𝔢 hcontr
   have : Algebra.FinitePresentation B' (Algebra.LiftedPresentation.Chart g'' f'') :=
@@ -246,7 +246,7 @@ theorem exists_reduction_factor
   let k₁ : Space.yonedaSpace _ _ _ T₀ ⟶ U := repHom mT₀ ≫ e
   have hk₁ : k₁ ≫ iU = repHom (mT₀ ≫ εU) :=
     ObjectProperty.hom_ext _ (by
-      show yoneda.map mT₀ ≫ e.hom ≫ iU.hom = yoneda.map (mT₀ ≫ εU)
+      change yoneda.map mT₀ ≫ e.hom ≫ iU.hom = yoneda.map (mT₀ ≫ εU)
       rw [yoneda.map_comp, hεU])
   have η₁ : F.map (repHom (mT₀ ≫ εU)) ≫ b ≅ F.map (repHom εV) ≫ bw :=
     eqToIso (by rw [← hεsq, repHom_comp]; rfl) ≪≫ α_ (F.map (repHom εV)) (F.map (repHom ιV)) b
@@ -352,7 +352,7 @@ theorem exists_smooth_reduced_tensor
     exact RingHom.etale_algebraMap.mpr (Algebra.Etale.of_isLocalizationAway d)
   have hk : (repHom κ ≫ (ObjectProperty.homMk eY.hom : Space.yonedaSpace _ _ _ Yw ⟶ Uw)) ≫ iUw =
       repHom εV := ObjectProperty.hom_ext _ (by
-    show yoneda.map κ ≫ eY.hom ≫ iUw.hom = yoneda.map εV
+    change yoneda.map κ ≫ eY.hom ≫ iUw.hom = yoneda.map εV
     rw [heY, ← yoneda.map_comp, hκ])
   let k₂ := repHom κ ≫ (ObjectProperty.homMk eY.hom : Space.yonedaSpace _ _ _ Yw ⟶ Uw)
   let θ₁ : (algebraicSpaceStackFunctor.{u, w} B S hS).map (repHom mT₀ ≫ t') ≫ (x ≫ ι) ≅

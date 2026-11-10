@@ -100,8 +100,7 @@ theorem isIso_extendScalars_homEquiv_symm_of_ringSquare (f : A →+* B) (r : C �
   let br := ((ModuleCat.extendRestrictScalarsAdj r).homEquiv _ _).symm g
   have hcomp : ∀ z, br.hom (u z) = bf.hom z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact (congrArg _ (map_zero u)).trans (br.hom.map_zero.trans bf.hom.map_zero.symm)
+    induction z using TensorProduct.inductionOn with
     | tmul c x =>
       refine (extendRestrictScalarsAdj_homEquiv_symm_tmul r g (β c) x).trans ?_
       refine Eq.trans ?_ (extendRestrictScalarsAdj_homEquiv_symm_tmul f n c x).symm

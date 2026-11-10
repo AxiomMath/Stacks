@@ -49,7 +49,8 @@ the library as
 `W ×_𝒴 𝒳` is an algebraic space. In the algebraic-stacks statements the implication (1) `⟹` (2)
 reads representability off clause (1) itself — it is the first conjunct of each notion of
 Stacks 04YL — and the implication (2) `⟹` (1) obtains it from the converse of Stacks 04ZP,
-`AlgebraicGeometry.Stack.AlgebraicStacks.isRepresentableByAlgebraicSpaces_of_isTwoFibreProduct_of_bootstrap`.
+`isRepresentableByAlgebraicSpaces_of_isTwoFibreProduct_of_bootstrap` in the namespace
+`AlgebraicGeometry.Stack.AlgebraicStacks`.
 Representability of `W ⟶ 𝒴` by algebraic spaces is Stacks 045G, the diagonal of `𝒴` being
 representable: `AlgebraicGeometry.Stack.isRepresentableByAlgebraicSpaces_of_isAlgebraicStack`.
 The statements for categories fibred in groupoids, where neither is available, take both as

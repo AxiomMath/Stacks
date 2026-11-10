@@ -193,7 +193,7 @@ private theorem exists_fieldBaseMap
   have hrange : Set.range f ⊆ Set.range hU.fromSpec := by
     rw [hU.range_fromSpec]
     rintro _ ⟨x, rfl⟩
-    show f x ∈ U
+    change f x ∈ U
     rw [Subsingleton.elim x (IsLocalRing.closedPoint k)]
     exact hx
   let g : Spec (.of k) ⟶ Spec Γ(S, U) := IsOpenImmersion.lift hU.fromSpec f hrange
@@ -202,7 +202,7 @@ private theorem exists_fieldBaseMap
   let φ := e.symm.toRingHom.comp ψ
   let d : fieldBaseData S := ⟨⟨U, hU⟩, ⟨I, hI⟩, φ⟩
   refine ⟨d, e, ?_⟩
-  show Spec.map (CommRingCat.ofHom e.toRingHom) ≫
+  change Spec.map (CommRingCat.ofHom e.toRingHom) ≫
     (Spec.map (CommRingCat.ofHom φ) ≫ hU.fromSpec) = f
   rw [← Category.assoc, ← Spec.map_comp]
   have hφ : CommRingCat.ofHom φ ≫ CommRingCat.ofHom e.toRingHom =
@@ -225,7 +225,7 @@ private theorem fieldBase_spec_mem
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (d : fieldBaseData S) :
     B.Contains (Spec (.of (FreeCommRing S.size.out ⧸ d.2.1.1))) := by
-  show (Spec (.of (FreeCommRing S.size.out ⧸ d.2.1.1))).size < B.cutoff
+  change (Spec (.of (FreeCommRing S.size.out ⧸ d.2.1.1))).size < B.cutoff
   rw [Scheme.size_Spec]
   exact (max_le S.aleph0_le_size
     (quotient_freeCommRing_cardinal_le S.size S.aleph0_le_size d.2.1.1)).trans_lt hS
@@ -244,7 +244,7 @@ private theorem exists_finiteTypeFieldBaseMap
       Spec.map (CommRingCat.ofHom e.toRingHom) ≫ fieldBaseMap S d.1 = f := by
   obtain ⟨d, e, he⟩ := exists_fieldBaseMap S k f
   have : IsIso (Spec.map (CommRingCat.ofHom e.toRingHom)) := by
-    show IsIso (Scheme.Spec.map e.toCommRingCatIso.hom.op)
+    change IsIso (Scheme.Spec.map e.toCommRingCatIso.hom.op)
     infer_instance
   have hbase : fieldBaseMap S d = inv (Spec.map (CommRingCat.ofHom e.toRingHom)) ≫ f := by
     rw [← he, IsIso.inv_hom_id_assoc]
@@ -334,12 +334,12 @@ private theorem isFiniteTypePoint_image_of_specField
       ⟨s, CommRingCat.ofHom (RingHom.id (S.residueField s))⟩ := by
     apply (Scheme.SpecToEquivOfField (S.residueField s) S).symm.injective
     rw [(Scheme.SpecToEquivOfField (S.residueField s) S).symm_apply_apply]
-    show g = Spec.map (𝟙 (.of (S.residueField s))) ≫ S.fromSpecResidueField s
+    change g = Spec.map (𝟙 (.of (S.residueField s))) ≫ S.fromSpecResidueField s
     rw [Spec.map_id, Category.id_comp]
   apply ((AlgebraicGeometry.finiteType_specField_tfae (k := S.residueField s) g).out 4 1).mp
   have hxs : (x : S) = s := hx
   have hmem : g (IsLocalRing.closedPoint (S.residueField s)) ∈ U.1 := by
-    show ((Scheme.SpecToEquivOfField (S.residueField s) S) g).1 ∈ U.1
+    change ((Scheme.SpecToEquivOfField (S.residueField s) S) g).1 ∈ U.1
     rw [hspec, ← hxs]
     exact x.property
   refine ⟨U, (Scheme.preimage_eq_top_of_closedPoint_mem g hmem).ge, x, ?_,
@@ -347,7 +347,7 @@ private theorem isFiniteTypePoint_image_of_specField
   · rw [hspec]
     exact hxs
   · rw [hspec]
-    show Module.Finite (S.residueField s) (S.residueField s)
+    change Module.Finite (S.residueField s) (S.residueField s)
     infer_instance
 
 open CategoryTheory.Limits
@@ -382,7 +382,7 @@ private def finiteTypeCoproductι {ι : Type u}
     U i ⟶ finiteTypeCoproduct B S hS U hι hU :=
   Over.homMk (ObjectProperty.homMk (Sigma.ι (fun j => (U j).left.1) i)) (by
     apply ObjectProperty.hom_ext
-    exact Sigma.ι_desc _ _)
+    exact Sigma.ι_comp_desc _ _)
 
 private theorem finiteTypeCoproductι_isOpenImmersion {ι : Type u}
     (U : ι → AlgebraicGeometry.BigFppfOver B S hS)
@@ -390,7 +390,7 @@ private theorem finiteTypeCoproductι_isOpenImmersion {ι : Type u}
     (hU : ∀ i, Deformation.Artin.IsFiniteTypeOver B S hS (U i)) (i : ι) :
     AlgebraicGeometry.IsOpenImmersion ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map
       (finiteTypeCoproductι B S hS U hι hU i)) := by
-  show AlgebraicGeometry.IsOpenImmersion (Sigma.ι (fun j => (U j).left.1) i)
+  change AlgebraicGeometry.IsOpenImmersion (Sigma.ι (fun j => (U j).left.1) i)
   infer_instance
 
 private theorem finiteTypeCoproductι_jointly_surjective {ι : Type u}
@@ -403,7 +403,7 @@ private theorem finiteTypeCoproductι_jointly_surjective {ι : Type u}
         (finiteTypeCoproductι B S hS U hι hU i)) y = x := by
   obtain ⟨⟨i, y⟩, h⟩ := (sigmaMk (fun i => (U i).left.1)).surjective x
   refine ⟨i, y, ?_⟩
-  show Sigma.ι (fun j => (U j).left.1) i y = x
+  change Sigma.ι (fun j => (U j).left.1) i y = x
   exact (sigmaMk_mk (fun j => (U j).left.1) i y).symm.trans h
 
 section DisjointCover
@@ -476,7 +476,7 @@ private theorem disjointRestrictionIso_self_fac
   have hab' : a = b := (cancel_mono (f i)).mp hab
   subst b
   simp only [disjointRestrictionIso, dite_eq_left, Iso.trans_hom, Iso.symm_hom]
-  show (Fiber.fiberInclusion.map xr.fiberIso.inv ≫
+  change (Fiber.fiberInclusion.map xr.fiberIso.inv ≫
     Fiber.fiberInclusion.map yr.fiberIso.hom) ≫ yr.hom = _
   rw [Category.assoc]
   rw [Restriction.fiberIso_hom_fac, Restriction.fiberIso_inv_fac]
@@ -511,7 +511,7 @@ private theorem disjointRestrictionIso_restrict
     isHomLift_of_eq (n := 𝟙 Z ≫ g) inferInstance (Category.id_comp _)
   have hright : p.IsHomLift g (Restriction.compTo p g a hc xr xz ≫ e.hom.1) :=
     isHomLift_of_eq (n := g ≫ 𝟙 W) inferInstance (Category.comp_id _)
-  show e'.hom.1 ≫ Restriction.compTo p g b hd' yr yz =
+  change e'.hom.1 ≫ Restriction.compTo p g b hd' yr yz =
     Restriction.compTo p g a hc xr xz ≫ e.hom.1
   by_cases hij : i = j
   · subst j
@@ -548,7 +548,7 @@ private theorem disjointRestrictionIso_cocycle
   have he₂ : p.IsHomLift (𝟙 W) e₂.hom.1 := e₂.hom.2
   have hecomp : p.IsHomLift (𝟙 W) (e₁.hom.1 ≫ e₂.hom.1) :=
     isHomLift_of_eq (n := 𝟙 W ≫ 𝟙 W) inferInstance (Category.id_comp _)
-  show e.hom.1 = e₁.hom.1 ≫ e₂.hom.1
+  change e.hom.1 = e₁.hom.1 ≫ e₂.hom.1
   by_cases hij : i = j
   · subst j
     by_cases hik : i = k
@@ -666,7 +666,7 @@ private lemma sieve_mem_of_etale
     rw [hf i]
     exact D.sieve₀.downward_closed (D.sieve₀_f (β i)) (eqToHom (hX i))
   apply ((AlgebraicGeometry.etaleTopology B).mem_over_iff E.sieve₀).mpr
-  show Sieve.overEquiv V (Sieve.ofArrows E.X E.f) ∈ _
+  change Sieve.overEquiv V (Sieve.ofArrows E.X E.f) ∈ _
   rw [Sieve.overEquiv_ofArrows]
   exact (AlgebraicGeometry.etaleTopology B).superset_covering hle
     (Precoverage.generate_mem_toGrothendieck ⟨D', rfl, hD'⟩)
@@ -722,11 +722,11 @@ private lemma coproduct_etale_cover
         obtain ⟨t, rfl⟩ := e.hom.homeomorph.surjective t
         obtain ⟨⟨i, x⟩, rfl⟩ := (sigmaMk A).surjective t
         refine ⟨ULift.up i, x, ?_⟩
-        show T.map (j i) x = _
+        change T.map (j i) x = _
         rw [← he i, Scheme.Hom.comp_apply, sigmaMk_mk]
         rfl
       · intro i
-        show Etale (T.map (j i.down))
+        change Etale (T.map (j i.down))
         rw [← he i.down]
         infer_instance
     have hh := sieve_mem_of_etale B S hS E hE
@@ -742,7 +742,7 @@ private theorem schemeBelow_closed_under_isomorphisms (B : AlgebraicGeometry.Big
     (AlgebraicGeometry.schemeSizeBelow B.cutoff).IsClosedUnderIsomorphisms :=
   ⟨by
     intro X Y e h
-    show Y.size < B.cutoff
+    change Y.size < B.cutoff
     rwa [← Scheme.size_congr e]⟩
 
 private theorem schemeBelow_closed_under_pullbacks (B : AlgebraicGeometry.BigFppfSite.{u}) :
@@ -751,7 +751,7 @@ private theorem schemeBelow_closed_under_pullbacks (B : AlgebraicGeometry.BigFpp
     schemeBelow_closed_under_isomorphisms B
   exact .mk' (by
     rintro _ ⟨F, hF⟩
-    show (limit F).size < B.cutoff
+    change (limit F).size < B.cutoff
     rw [Scheme.size_congr (HasLimit.isoOfNatIso (diagramIsoCospan F))]
     exact Scheme.size_pullback_lt _ _ (hF .left) (hF .right))
 

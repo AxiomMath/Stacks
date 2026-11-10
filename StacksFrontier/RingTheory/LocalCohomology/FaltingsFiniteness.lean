@@ -196,7 +196,7 @@ private theorem finite_extendScalars_of_finite {R S : Type u} [CommRing R] [Comm
     (f : R →+* S) (Y : ModuleCat.{u} R) (hY : Module.Finite R Y) :
     Module.Finite S ((ModuleCat.extendScalars f).obj Y) := by
   algebraize [f]
-  show Module.Finite S (TensorProduct R S Y)
+  change Module.Finite S (TensorProduct R S Y)
   infer_instance
 
 /-- Finiteness descends along a faithfully flat ring map. -/

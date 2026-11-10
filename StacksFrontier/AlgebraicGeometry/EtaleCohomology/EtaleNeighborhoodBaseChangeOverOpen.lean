@@ -142,7 +142,7 @@ theorem etaleNeighborhoodDirectedBaseChangeConePtIso_hom_toSource :
     (etaleNeighborhoodDirectedBaseChangeConePtIso B S hS s U hU f).hom ≫
         strictHenselizationBaseChangeToSource B hS f s =
       pullback.snd _ _ ≫ pullback.fst f U.ι := by
-  show (pullbackSymmetry (strictHenselizationToOpen B S hS s U hU) (pullback.snd f U.ι)).hom ≫
+  change (pullbackSymmetry (strictHenselizationToOpen B S hS s U hU) (pullback.snd f U.ι)).hom ≫
       (pullbackLeftPullbackSndIso f U.ι (strictHenselizationToOpen B S hS s U hU)).hom ≫
         (pullback.congrHom (f₁ := f) rfl (strictHenselizationToOpen_ι B S hS s U hU)).hom ≫
           pullback.fst f (strictHenselizationToBase B S hS s) =
@@ -158,7 +158,7 @@ theorem etaleNeighborhoodDirectedBaseChangeConePtIso_hom_toStrictHenselization :
     (etaleNeighborhoodDirectedBaseChangeConePtIso B S hS s U hU f).hom ≫
         strictHenselizationBaseChangeToStrictHenselization B hS f s =
       pullback.fst _ _ := by
-  show (pullbackSymmetry (strictHenselizationToOpen B S hS s U hU) (pullback.snd f U.ι)).hom ≫
+  change (pullbackSymmetry (strictHenselizationToOpen B S hS s U hU) (pullback.snd f U.ι)).hom ≫
       (pullbackLeftPullbackSndIso f U.ι (strictHenselizationToOpen B S hS s U hU)).hom ≫
         (pullback.congrHom (f₁ := f) rfl (strictHenselizationToOpen_ι B S hS s U hU)).hom ≫
           pullback.snd f (strictHenselizationToBase B S hS s) =

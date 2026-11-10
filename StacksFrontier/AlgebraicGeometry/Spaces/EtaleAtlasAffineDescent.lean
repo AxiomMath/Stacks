@@ -44,8 +44,8 @@ which is what lets
 `AlgebraicGeometry.Space.isEffectiveDescentAlongSurjectiveEtale_of_hasDescendedHull` turn a
 candidate into representability with no further sheaf theory; the quasi-affine morphisms are not
 below the monomorphisms, which is why the route through Stacks 0247 in
-`StacksFrontier.AlgebraicGeometry.Spaces.EtaleAtlasQuasiAffineDescent` cannot be replaced by this one
-termwise. The two reductions are independent: Stacks 0247 implies the hypothesis here, and this
+`StacksFrontier.AlgebraicGeometry.Spaces.EtaleAtlasQuasiAffineDescent` cannot be replaced by this
+one termwise. The two reductions are independent: Stacks 0247 implies the hypothesis here, and this
 hypothesis is strictly weaker than Stacks 0247 as a statement about which morphisms descend.
 
 Its fppf descent is assembled by hand because quasi-compactness descends along the surjective flat

@@ -168,7 +168,8 @@ def presentationOfIsoSpec {R : CommRingCat.{u}} (e : T ≅ Spec R)
   have _hc : ∀ I : Type u, PreservesColimitsOfShape (Discrete I)
       (SheafOfModules.restrictScalars.{u} β) := fun I ↦
     RestrictScalarsColimits.preservesColimitsOfShape_restrictScalars β (Discrete I)
-  have _hm : ∀ (I : Type u) (R : CommRingCat.{u}), HasColimitsOfShape (Discrete I) (ModuleCat.{u} R) :=
+  have _hm : ∀ (I : Type u) (R : CommRingCat.{u}),
+      HasColimitsOfShape (Discrete I) (ModuleCat.{u} R) :=
     fun _ _ ↦ inferInstance
   have hfree : ∀ I : Type u,
       ((SheafOfModules.restrictScalars.{u} β).obj

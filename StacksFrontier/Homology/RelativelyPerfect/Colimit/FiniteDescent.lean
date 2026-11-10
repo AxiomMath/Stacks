@@ -43,8 +43,7 @@ private lemma baseChange_proj_piRight {A : Type u} [CommRing A]
     (N : Type w) [AddCommGroup N] [Module A N] (a : ι) (x : R ⊗[A] (ι → N)) :
     (LinearMap.proj a : (ι → N) →ₗ[A] N).baseChange R x =
       TensorProduct.piRight A R R (fun _ : ι ↦ N) x a := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul r n => rfl
   | add x y hx hy => simp [hx, hy]
 
@@ -56,8 +55,7 @@ private lemma rTensor_baseChange {A : Type u} [CommRing A]
     (f : R →ₐ[A] S) (g : M →ₗ[A] N) (x : R ⊗[A] M) :
     g.baseChange S (LinearMap.rTensor M f.toLinearMap x) =
       LinearMap.rTensor N f.toLinearMap (g.baseChange R x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul r m => rfl
   | add x y hx hy => simp [hx, hy]
 
@@ -103,7 +101,7 @@ private theorem exists_baseChange_family_eq
     ext m
     apply (TensorProduct.piRight A R R (fun _ : ι ↦ N)).injective
     ext a
-    show (1 : R) ⊗ₜ[A] u a m = (1 : R) ⊗ₜ[A] u' a m
+    change (1 : R) ⊗ₜ[A] u a m = (1 : R) ⊗ₜ[A] u' a m
     exact LinearMap.congr_fun (hu a) ((1 : R) ⊗ₜ[A] m)
   obtain ⟨j, hj⟩ := h _ _ hpi
   refine ⟨j, fun a ↦ ?_⟩
@@ -118,8 +116,7 @@ private lemma cancelBaseChange_tmul_eq_smul_rTensor
     {M : Type t} [AddCommGroup M] [Module A M] (r : R) (x : S ⊗[A] M) :
     TensorProduct.AlgebraTensorModule.cancelBaseChange A S R R M (r ⊗ₜ[S] x) =
       r • LinearMap.rTensor M (IsScalarTower.toAlgHom A S R).toLinearMap x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul s m => simp [TensorProduct.smul_tmul', Algebra.smul_def, mul_comm]
   | add x y hx hy => simp [TensorProduct.tmul_add, hx, hy]
 
@@ -300,7 +297,7 @@ private lemma isZero_complexOfIdempotents_X.{u, v} {S : Type u} [Ring S]
     (n : ℤ) (hn : e n = 0) :
     Limits.IsZero ((complexOfIdempotents M e d hd hdd).X n) := by
   apply ModuleCat.isZero_iff_subsingleton.mpr
-  show Subsingleton (LinearMap.range (e n))
+  change Subsingleton (LinearMap.range (e n))
   rw [hn, LinearMap.range_zero]
   infer_instance
 
@@ -337,8 +334,7 @@ private def baseChangeRange.{u, v} {S : Type u} [CommRing S] (T : Type*) [CommRi
     [Algebra S T] {M : Type v} [AddCommGroup M] [Module S M] (e : M →ₗ[S] M) :
     T ⊗[S] LinearMap.range e →ₗ[T] LinearMap.range (e.baseChange T) :=
   (((LinearMap.range e).subtype.baseChange T)).codRestrict _ (fun x ↦ by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul t y =>
       obtain ⟨_, z, rfl⟩ := y
       exact ⟨t ⊗ₜ z, by simp⟩
@@ -352,8 +348,7 @@ private theorem bijective_baseChangeRange.{u, v} {S : Type u} [CommRing S]
   let r : T ⊗[S] M →ₗ[T] T ⊗[S] LinearMap.range e := e.rangeRestrict.baseChange T
   have hleft : ∀ x, r (LinearMap.range e |>.subtype.baseChange T x) = x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul t y =>
       obtain ⟨_, z, rfl⟩ := y
       simp only [r, LinearMap.baseChange_tmul, Submodule.coe_subtype]
@@ -648,8 +643,7 @@ private def tensorProductMapSemilinear {A S T : Type*} [CommRing A] [CommRing S]
   map_smul' r x := by
     change LinearMap.rTensor M f.toLinearMap (r • x) =
       f r • LinearMap.rTensor M f.toLinearMap x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul s m => simp [TensorProduct.smul_tmul']
     | add x y hx hy => simpa only [smul_add, map_add] using congrArg₂ (· + ·) hx hy
 
@@ -702,7 +696,7 @@ private theorem exists_stage_flat_baseChange {R₀ : Type uR} [CommRing R₀]
     · intro i x
       simp [a]
     · intro i j l hij hjl x
-      show (F.map (G.map (homOfLE hjl))).hom ((F.map (G.map (homOfLE hij))).hom x) = _
+      change (F.map (G.map (homOfLE hjl))).hom ((F.map (G.map (homOfLE hij))).hom x) = _
       rw [← CommAlgCat.comp_apply, ← F.map_comp, ← G.map_comp]
       rfl
   have hg : ∀ i j (h : i ≤ j), (γ j).comp (a i j h) = (b i j h).comp (γ i) := by
@@ -735,15 +729,15 @@ private theorem exists_stage_flat_baseChange {R₀ : Type uR} [CommRing R₀]
     a b ha hsys γ n ρ σ ν hg
     (by
       intro i x
-      show LinearMap.rTensor M (f i i le_rfl).toLinearMap x = x
+      change LinearMap.rTensor M (f i i le_rfl).toLinearMap x = x
       have hf : f i i le_rfl = AlgHom.id Bk (B i) := AlgHom.ext fun x ↦
         DirectedSystem.map_self (f := fun i j h ↦ ⇑(f i j h)) x
       rw [hf]
-      show LinearMap.rTensor M (LinearMap.id : B i →ₗ[Bk] B i) x = x
+      change LinearMap.rTensor M (LinearMap.id : B i →ₗ[Bk] B i) x = x
       simp)
     (by
       intro i j l hij hjl x
-      show LinearMap.rTensor M (f j l hjl).toLinearMap
+      change LinearMap.rTensor M (f j l hjl).toLinearMap
         (LinearMap.rTensor M (f i j hij).toLinearMap x) =
           LinearMap.rTensor M (f i l (hij.trans hjl)).toLinearMap x
       exact rTensor_rTensor_of_comp_eq M _ _ _
@@ -755,7 +749,7 @@ private theorem exists_stage_flat_baseChange {R₀ : Type uR} [CommRing R₀]
     (by intro i j h; funext x; exact hfg i j h x)
     (by
       intro i j h x
-      show LinearMap.rTensor M (g j).toLinearMap (LinearMap.rTensor M (f i j h).toLinearMap x) =
+      change LinearMap.rTensor M (g j).toLinearMap (LinearMap.rTensor M (f i j h).toLinearMap x) =
         LinearMap.rTensor M (g i).toLinearMap x
       exact rTensor_rTensor_of_comp_eq M _ _ _ (hfg i j h) x)
     hσγ
@@ -792,17 +786,16 @@ private theorem exists_stage_flat_baseChange {R₀ : Type uR} [CommRing R₀]
       let := (b i j h).toAlgebra
       have ht : IsScalarTower (A i) (B i) (B j) :=
         IsScalarTower.of_algebraMap_eq fun x ↦ by
-          show (algebraMap (A i) (B j)) x = b i j h ((algebraMap (A i) (B i)) x)
-          show (a i j h x) ⊗ₜ[R₀] 1 = b i j h (x ⊗ₜ[R₀] 1)
+          change (algebraMap (A i) (B j)) x = b i j h ((algebraMap (A i) (B i)) x)
+          change (a i j h x) ⊗ₜ[R₀] 1 = b i j h (x ⊗ₜ[R₀] 1)
           exact RingHom.congr_fun (hg i j h) x
       let := ht
       have hp := @Algebra.IsPushout.tensorProduct_tensorProduct R₀ A₀ (A i) (A j)
         _ _ _ _ _ _ _ _ _ ((b i j h).toAlgebra) ht (by
         ext x
-        show f i j h (1 ⊗ₜ[R₀] x) = 1 ⊗ₜ[R₀] x
+        change f i j h (1 ⊗ₜ[R₀] x) = 1 ⊗ₜ[R₀] x
         simp [hf₀, stageDirectedMap])
       convert! hp using 1 <;> first
-      | rfl
       | (apply Algebra.algebra_ext; intro x; rfl))
     (by
       intro i j h
@@ -814,14 +807,13 @@ private theorem exists_stage_flat_baseChange {R₀ : Type uR} [CommRing R₀]
         IsScalarTower.of_algebraMap_smul fun _ _ ↦ rfl
       let u : N i →ₗ[B i] N j :=
         ⟨(n i j h).toAddHom, fun x y ↦ (n i j h).map_smul' x y⟩
-      show @IsBaseChange (B i) (N i) (N j) (B j) _ _ _ _ _ _ _ _ htN u
+      change @IsBaseChange (B i) (N i) (N j) (B j) _ _ _ _ _ _ _ _ htN u
       refine @IsBaseChange.of_equiv (B i) (N i) (N j) (B j) _ _ _ _ _ _ _ _ htN u
         (TensorProduct.AlgebraTensorModule.cancelBaseChange Bk (B i) (B j) (B j) M) ?_
       intro x
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul r m =>
-        show (TensorProduct.AlgebraTensorModule.cancelBaseChange Bk (B i) (B j) (B j) M)
+        change (TensorProduct.AlgebraTensorModule.cancelBaseChange Bk (B i) (B j) (B j) M)
           (1 ⊗ₜ[B i] (r ⊗ₜ[Bk] m)) = f i j h r ⊗ₜ[Bk] m
         simp only [TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul, Algebra.smul_def,
           mul_one]

@@ -119,17 +119,17 @@ theorem eq_of_common_section_to_spec_field
     have happR : σ.appTop.hom.comp h.appTop.hom = RingHom.id _ :=
       congrArg CommRingCat.Hom.hom (by
         simp only [← Scheme.Hom.comp_appTop, hσh, Scheme.Hom.id_appTop] : h.appTop ≫ σ.appTop = 𝟙 _)
-    show ((((Scheme.ΓSpecIso (.of k)).inv ≫ h.appTop ≫ σ.appTop ≫
+    change ((((Scheme.ΓSpecIso (.of k)).inv ≫ h.appTop ≫ σ.appTop ≫
       (Scheme.ΓSpecIso (.of k)).hom).hom) a) = a
     simp [RingHom.comp_assoc, happR]
   -- Hence the two ring maps agree, and so do the two morphisms.
   apply ext_to_Spec
   apply CommRingCat.Hom.ext
   ext a
-  show ψf a = ψg a
+  change ψf a = ψg a
   have hsub : (⟨ψf a, hmem f a⟩ : A) - ⟨ψg a, hmem g a⟩ = 0 := by
     refine hker _ ?_
-    show ev (ψf a - ψg a) = 0
+    change ev (ψf a - ψg a) = 0
     rw [map_sub, eval_comp f hσf, eval_comp g hσg, sub_self]
   exact congrArg Subtype.val (sub_eq_zero.mp hsub)
 
@@ -150,7 +150,7 @@ theorem topologicalKrullDim_arrows_eq_stabilizer
     isSeparated_of_injective G.objects.hom fun a b _ => Subsingleton.elim a b
   have : IsClosedImmersion (stabilizerArrow G) := by
     have hdiag : IsClosedImmersion (diagonal G).left := by
-      show IsClosedImmersion (Limits.pullback.diagonal G.objects.hom)
+      change IsClosedImmersion (Limits.pullback.diagonal G.objects.hom)
       infer_instance
     exact IsClosedImmersion.isStableUnderBaseChange.of_isPullback
       (overFibreProduct_isPullback (sourceTarget G) (diagonal G)).flip hdiag

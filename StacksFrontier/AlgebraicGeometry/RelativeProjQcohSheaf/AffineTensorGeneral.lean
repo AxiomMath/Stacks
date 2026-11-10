@@ -254,10 +254,7 @@ private theorem exists_mem_span_gammaTmul_comparison_eq (F G : S.Modules)
         (Set.range fun p : Γ(F, ⊤) × Γ(G, ⊤) => gammaTmul F G p.1 p.2),
       comparisonTop F G (unitTop (tensorMod F G) x) =
         AffineTensorRecovery.gammaTensorEquiv (pullbackMod F) (pullbackMod G) z := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      exact ⟨0, Submodule.zero_mem _, by
-        rw [unitTop_zero, comparisonTop_zero, map_zero]⟩
+  induction z using TensorProduct.inductionOn with
   | tmul s t =>
       obtain ⟨a, ha⟩ := (unitTop_bijective F).surjective s
       obtain ⟨b, hb⟩ := (unitTop_bijective G).surjective t

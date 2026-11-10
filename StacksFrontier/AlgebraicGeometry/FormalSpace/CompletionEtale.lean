@@ -154,7 +154,7 @@ public theorem hasPropertyULift_whiskerRight_of_isEtale
   let C := BigFppfOver B S hS
   let H := (Functor.whiskeringRight Cᵒᵖ (Type u) (Type (u + 1))).obj uliftFunctor.{u + 1}
   intro U ξ
-  show Space.IsEtaleULift.{u + 1} B S hS
+  change Space.IsEtaleULift.{u + 1} B S hS
     (pullback.fst ξ (Functor.whiskerRight f uliftFunctor.{u + 1}))
   obtain ⟨ξ₀, hξ₀⟩ := H.map_surjective (ξ : H.obj (yoneda.obj U) ⟶ H.obj X)
   let A : AlgebraicSpaces B S hS := ⟨X', hX'⟩
@@ -233,7 +233,7 @@ theorem isEtale_completionSheafMap
     (sheafToPresheaf J (Type (u + 1)))
   have hcomm : (Space.sheafifiedULiftMap B S hS f).hom ≫ eX.inv = eX'.inv ≫ H.map f := by
     have hn' : H.map f ≫ eX.hom = eX'.hom ≫ (Space.sheafifiedULiftMap B S hS f).hom := by
-      show (Functor.whiskerRight f uliftFunctor.{u + 1}) ≫
+      change (Functor.whiskerRight f uliftFunctor.{u + 1}) ≫
           J.toSheafify (X ⋙ uliftFunctor.{u + 1}) =
         J.toSheafify (X' ⋙ uliftFunctor.{u + 1}) ≫
           J.sheafifyMap (Functor.whiskerRight f uliftFunctor.{u + 1})
@@ -299,7 +299,7 @@ private theorem isPullback_completionSheafInclusion
       eX'.inv ≫ Functor.whiskerRight f uliftFunctor.{u + 1} := by
     have hn' : Functor.whiskerRight f uliftFunctor.{u + 1} ≫ eX.hom =
         eX'.hom ≫ (Space.sheafifiedULiftMap B S hS f).hom := by
-      show (Functor.whiskerRight f uliftFunctor.{u + 1}) ≫
+      change (Functor.whiskerRight f uliftFunctor.{u + 1}) ≫
           J.toSheafify (X ⋙ uliftFunctor.{u + 1}) =
         J.toSheafify (X' ⋙ uliftFunctor.{u + 1}) ≫
           J.sheafifyMap (Functor.whiskerRight f uliftFunctor.{u + 1})

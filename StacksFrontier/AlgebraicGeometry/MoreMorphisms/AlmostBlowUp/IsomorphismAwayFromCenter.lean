@@ -75,12 +75,13 @@ public theorem supportedSectionsIdeal_eq_complementKernel {X : Scheme.{u}} (Z : 
   have hN (V : X.affineOpens) : N.toSubmodule.obj (op V.1) =
       RingHom.ker (j.app V.1).hom := by
     ext s
-    show s ∈ (Scheme.Modules.supportedSectionsSubmodule Z
+    change s ∈ (Scheme.Modules.supportedSectionsSubmodule Z
       (SheafOfModules.unit X.ringCatSheaf)).toSubmodule.obj (op V.1) ↔
         (j.app V.1).hom s = 0
     convert supported_iff_restrict_eq_zero Z hZ
-      (SheafOfModules.unit X.ringCatSheaf) V.1 s using 1 <;> rfl
-  show Scheme.IdealSheafData.ofIdeals
+      (SheafOfModules.unit X.ringCatSheaf) V.1 s using 1
+    rfl
+  change Scheme.IdealSheafData.ofIdeals
       (fun V : X.affineOpens => N.toSubmodule.obj (op V.1)) =
     Scheme.IdealSheafData.ofIdeals
       (fun V : X.affineOpens => RingHom.ker (j.app V.1).hom)

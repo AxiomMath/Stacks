@@ -80,9 +80,9 @@ private lemma squareCubeAlgebra_isIntegral (A : Type u) [CommRing A] (x y : A) :
   have ht : _root_.IsIntegral A t := by
     refine ⟨Polynomial.X ^ 2 - Polynomial.C x, ?_, ?_⟩
     · exact Polynomial.monic_X_pow_sub_C x (by decide)
-    · show Polynomial.aeval t (Polynomial.X ^ 2 - Polynomial.C x) = 0
+    · change Polynomial.aeval t (Polynomial.X ^ 2 - Polynomial.C x) = 0
       rw [squareCubeAlgebra_aeval_root]
-      show Ideal.Quotient.mk _ (Polynomial.X ^ 2 - Polynomial.C x) = 0
+      change Ideal.Quotient.mk _ (Polynomial.X ^ 2 - Polynomial.C x) = 0
       rw [Ideal.Quotient.eq_zero_iff_mem]
       exact Ideal.subset_span (by simp)
   have htop : Algebra.adjoin A ({t} : Set B) = ⊤ := by
@@ -144,19 +144,19 @@ private lemma squareCubeFiber_nontrivial (A : Type u) [CommRing A] (x y : A)
     ({Polynomial.X ^ 2 - Polynomial.C x, Polynomial.X ^ 3 - Polynomial.C y} : Set (Polynomial A))
   let ev : Polynomial A →ₐ[A] k := Polynomial.aeval l
   have hker : I ≤ RingHom.ker ev.toRingHom := by
-    show Ideal.span
+    change Ideal.span
         ({Polynomial.X ^ 2 - Polynomial.C x,
           Polynomial.X ^ 3 - Polynomial.C y} : Set (Polynomial A)) ≤
       RingHom.ker ev.toRingHom
     rw [Ideal.span_le]
     rintro p (rfl | rfl)
-    · show Polynomial.eval₂ (algebraMap A k) l
+    · change Polynomial.eval₂ (algebraMap A k) l
         (Polynomial.X ^ 2 - Polynomial.C x) = 0
       simp only [Polynomial.eval₂_sub, Polynomial.eval₂_pow,
         Polynomial.eval₂_X, Polynomial.eval₂_C]
       rw [show algebraMap A k = g from rfl, hl2]
       ring
-    · show Polynomial.eval₂ (algebraMap A k) l
+    · change Polynomial.eval₂ (algebraMap A k) l
         (Polynomial.X ^ 3 - Polynomial.C y) = 0
       simp only [Polynomial.eval₂_sub, Polynomial.eval₂_pow,
         Polynomial.eval₂_X, Polynomial.eval₂_C]
@@ -169,7 +169,7 @@ private lemma squareCubeFiber_nontrivial (A : Type u) [CommRing A] (x y : A)
   have hsurj : Function.Surjective φ := by
     intro c
     refine ⟨Algebra.TensorProduct.includeRight c, ?_⟩
-    show (Algebra.TensorProduct.lift f g' hfg).comp Algebra.TensorProduct.includeRight c = c
+    change (Algebra.TensorProduct.lift f g' hfg).comp Algebra.TensorProduct.includeRight c = c
     rw [Algebra.TensorProduct.lift_comp_includeRight']
     rfl
   exact hsurj.nontrivial
@@ -183,10 +183,10 @@ private lemma squareCubeAlgebra_root_square (A : Type u) [CommRing A] (x y : A) 
     ({Polynomial.X ^ 2 - Polynomial.C x, Polynomial.X ^ 3 - Polynomial.C y} : Set (Polynomial A))
   let t : B := Ideal.Quotient.mk I Polynomial.X
   have hr : (Ideal.Quotient.mkₐ A I) (Polynomial.X ^ 2 - Polynomial.C x) = 0 := by
-    show Ideal.Quotient.mk I (Polynomial.X ^ 2 - Polynomial.C x) = 0
+    change Ideal.Quotient.mk I (Polynomial.X ^ 2 - Polynomial.C x) = 0
     rw [Ideal.Quotient.eq_zero_iff_mem]
     exact Ideal.subset_span (by simp)
-  show t ^ 2 = algebraMap A B x
+  change t ^ 2 = algebraMap A B x
   have hh := sub_eq_zero.mp (by simpa [map_sub, map_pow, t, B, I] using hr)
   exact hh
 
@@ -199,10 +199,10 @@ private lemma squareCubeAlgebra_root_cube (A : Type u) [CommRing A] (x y : A) :
     ({Polynomial.X ^ 2 - Polynomial.C x, Polynomial.X ^ 3 - Polynomial.C y} : Set (Polynomial A))
   let t : B := Ideal.Quotient.mk I Polynomial.X
   have hr : (Ideal.Quotient.mkₐ A I) (Polynomial.X ^ 3 - Polynomial.C y) = 0 := by
-    show Ideal.Quotient.mk I (Polynomial.X ^ 3 - Polynomial.C y) = 0
+    change Ideal.Quotient.mk I (Polynomial.X ^ 3 - Polynomial.C y) = 0
     rw [Ideal.Quotient.eq_zero_iff_mem]
     exact Ideal.subset_span (by simp)
-  show t ^ 3 = algebraMap A B y
+  change t ^ 3 = algebraMap A B y
   have hh := sub_eq_zero.mp (by simpa [map_sub, map_pow, t, B, I] using hr)
   exact hh
 
@@ -217,7 +217,7 @@ private lemma squareCubeFiber_root_square (A : Type u) [CommRing A] (x y : A)
   let B := SquareCubeAlgebra A x y
   let := Algebra.TensorProduct.rightAlgebra (R := A) (A := B) (B := k)
   let t : B := Ideal.Quotient.mk _ Polynomial.X
-  show ((Algebra.TensorProduct.includeLeft (R := A) (S := A) (A := B) (B := k) t) ^ 2) =
+  change ((Algebra.TensorProduct.includeLeft (R := A) (S := A) (A := B) (B := k) t) ^ 2) =
     Algebra.TensorProduct.includeRight (g x)
   rw [← map_pow (Algebra.TensorProduct.includeLeft (R := A) (S := A) (A := B) (B := k)),
     squareCubeAlgebra_root_square]
@@ -235,7 +235,7 @@ private lemma squareCubeFiber_root_cube (A : Type u) [CommRing A] (x y : A)
   let B := SquareCubeAlgebra A x y
   let := Algebra.TensorProduct.rightAlgebra (R := A) (A := B) (B := k)
   let t : B := Ideal.Quotient.mk _ Polynomial.X
-  show ((Algebra.TensorProduct.includeLeft (R := A) (S := A) (A := B) (B := k) t) ^ 3) =
+  change ((Algebra.TensorProduct.includeLeft (R := A) (S := A) (A := B) (B := k) t) ^ 3) =
     Algebra.TensorProduct.includeRight (g y)
   rw [← map_pow (Algebra.TensorProduct.includeLeft (R := A) (S := A) (A := B) (B := k)),
     squareCubeAlgebra_root_cube]
@@ -390,10 +390,10 @@ private lemma exists_algHom_apply_eq_and_ker_eq {k D : Type u} [Field k] [CommRi
     convert hi using 1
     rfl)
   refine ⟨e.symm.toAlgHom.comp (IsScalarTower.toAlgHom k D K), ?_, ?_⟩
-  · show e.symm (algebraMap D K t) = l
+  · change e.symm (algebraMap D K t) = l
     rw [ht]
     exact e.symm_apply_apply l
-  · show RingHom.ker (e.symm.toRingHom.comp (algebraMap D K)) = p.asIdeal
+  · change RingHom.ker (e.symm.toRingHom.comp (algebraMap D K)) = p.asIdeal
     rw [RingHom.ker_comp_of_injective _ e.symm.injective]
     exact Ideal.ker_algebraMap_residueField (R := D) (I := p.asIdeal)
 

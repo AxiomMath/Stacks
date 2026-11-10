@@ -65,8 +65,7 @@ theorem exists_isChart_of_field (K : Type u) [Field K] (s : Spec (.of K) ⟶ S)
     rw [eq_top_iff]
     rintro x -
     obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul r a =>
       have : Ideal.Quotient.mk (familyKernel Z) (r ⊗ₜ[Γ(S, ⊤)] a) = r • v a := by
         rw [Algebra.smul_def, ← Ideal.Quotient.mk_algebraMap, ← map_mul,

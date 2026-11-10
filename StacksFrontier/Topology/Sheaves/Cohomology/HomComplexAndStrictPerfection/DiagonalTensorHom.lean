@@ -317,7 +317,7 @@ private theorem slicePureTensorMap_add
   apply PresheafOfModules.hom_ext
   intro V
   rw [SheafOfModules.add_val, PresheafOfModules.add_app]
-  show Stacks.HomComplex.TensorHomMap.tmulLeft _ (restrictSection Rc (K.X n) (leOfHom V.unop.hom)
+  change Stacks.HomComplex.TensorHomMap.tmulLeft _ (restrictSection Rc (K.X n) (leOfHom V.unop.hom)
     (k + k')) ≫
       localTensorTotalSummand Rc V.unop.left K L n p q hnpq =
     Stacks.HomComplex.TensorHomMap.tmulLeft _ (restrictSection Rc (K.X n) (leOfHom V.unop.hom) k) ≫
@@ -354,7 +354,7 @@ private theorem sheaf_units_smul_app
     {A B : SheafOfModules R} (z : ℤˣ) (f : A ⟶ B) (V : Cᵒᵖ) :
     (z • f).val.app V = z • f.val.app V := by
   have : (SheafOfModules.evaluation R V).Additive := { map_add := by intros; rfl }
-  show (SheafOfModules.evaluation R V).map (z • f) =
+  change (SheafOfModules.evaluation R V).map (z • f) =
     z • (SheafOfModules.evaluation R V).map f
   exact Functor.map_units_smul _ _ _
 
@@ -372,7 +372,7 @@ private theorem slicePureTensorMap_d
   apply PresheafOfModules.hom_ext
   intro V
   rw [SheafOfModules.add_val, PresheafOfModules.add_app, sheaf_units_smul_app]
-  show (Stacks.HomComplex.TensorHomMap.tmulLeft _ (restrictSection Rc (K.X n) (leOfHom V.unop.hom)
+  change (Stacks.HomComplex.TensorHomMap.tmulLeft _ (restrictSection Rc (K.X n) (leOfHom V.unop.hom)
     k) ≫
       localTensorTotalSummand Rc V.unop.left K L n p q hnpq) ≫
       (moduleSectionComplex Rc V.unop.left (tensorTotal Rc K L)).d q (q + 1) =
@@ -402,7 +402,7 @@ private theorem sliceDiagonalCochain_d
   intro p q hpq
   rw [δ_v n (n + 1) rfl _ p q hpq (n + p) (p + 1) (by omega) rfl]
   obtain rfl : q = n + p + 1 := by omega
-  show slicePureTensorMap Rc U K L n p (n + p) rfl k ≫
+  change slicePureTensorMap Rc U K L n p (n + p) rfl k ≫
       (restrictComplex Rc (tensorTotal Rc K L) U).d (n + p) (n + p + 1) +
       (n + 1).negOnePow • ((restrictComplex Rc L U).d p (p + 1) ≫
         slicePureTensorMap Rc U K L n (p + 1) (n + p + 1) (by omega) k) = _
@@ -420,7 +420,7 @@ private theorem slicePureTensorMap_natural
   apply SheafOfModules.hom_ext
   apply PresheafOfModules.hom_ext
   intro V
-  show (Stacks.HomComplex.TensorHomMap.tmulLeft _ (restrictSection Rc (K.X n) (leOfHom V.unop.hom)
+  change (Stacks.HomComplex.TensorHomMap.tmulLeft _ (restrictSection Rc (K.X n) (leOfHom V.unop.hom)
     k) ≫
       localTensorTotalSummand Rc V.unop.left K L n p q hnpq) ≫
       ((tensorTotalMap Rc f g).f q).val.app (op V.unop.left) =
@@ -457,7 +457,7 @@ private theorem diagonalLocalHomSection_cochain
       (((sheafHomComplex Rc L (tensorTotal Rc K L)).sectionsIso U).hom.f n)
         (diagonalLocalHomSection Rc U K L n k) =
       sliceDiagonalCochain Rc U K L n k := by
-  show (((sheafHomComplex Rc L (tensorTotal Rc K L)).sectionsIso U).inv.f n ≫
+  change (((sheafHomComplex Rc L (tensorTotal Rc K L)).sectionsIso U).inv.f n ≫
     ((sheafHomComplex Rc L (tensorTotal Rc K L)).sectionsIso U).hom.f n)
       (sliceDiagonalCochain Rc U K L n k) = _
   rw [← HomologicalComplex.comp_f, Iso.inv_hom_id]
@@ -529,7 +529,7 @@ private theorem diagonalDegree_comm
       (diagonalLocalHomSection Rc U.unop K L n k)) =
     AddCommGrpCat.Hom.hom ((H.sectionsIso U.unop).hom.f (n + 1))
       ((H.obj.d n (n + 1)).val.app U (diagonalLocalHomSection Rc U.unop K L n k)) at hc
-  show AddCommGrpCat.Hom.hom ((H.sectionsIso U.unop).hom.f (n + 1))
+  change AddCommGrpCat.Hom.hom ((H.sectionsIso U.unop).hom.f (n + 1))
       ((H.obj.d n (n + 1)).val.app U (diagonalLocalHomSection Rc U.unop K L n k)) =
     AddCommGrpCat.Hom.hom ((H.sectionsIso U.unop).hom.f (n + 1))
       (diagonalLocalHomSection Rc U.unop K L (n + 1) ((K.d n (n + 1)).val.app U k))
@@ -553,15 +553,15 @@ theorem diagonalTensorHom_exists
     obtain rfl : m = n + 1 := hnm.symm
     exact diagonalDegree_comm Rc K L n
   · intro U n p k l hpq
-    show ((AddCommGrpCat.Hom.hom
+    change ((AddCommGrpCat.Hom.hom
       (((sheafHomComplex Rc L (tensorTotal Rc K L)).sectionsIso U).hom.f n)
       (diagonalLocalHomSection Rc U K L n k)).v p (n + p) (by omega)).val.app
         (op (Over.mk (𝟙 U))) l = _
     rw [diagonalLocalHomSection_cochain]
-    show (localTensorTotalSummand Rc U K L n p (n + p) rfl).hom
+    change (localTensorTotalSummand Rc U K L n p (n + p) rfl).hom
       (restrictSection Rc (K.X n) (le_refl U) k ⊗ₜ[_] l) = _
     have hid : restrictSection Rc (K.X n) (le_refl U) k = k := by
-      show ((K.X n).val.map (𝟙 (op U))) k = k
+      change ((K.X n).val.map (𝟙 (op U))) k = k
       rw [PresheafOfModules.map_id]
       rfl
     rw [hid]
@@ -605,7 +605,7 @@ private theorem diagonalTensorHom_cochain
   intro V
   apply ModuleCat.hom_ext
   ext l
-  show ((AddCommGrpCat.Hom.hom
+  change ((AddCommGrpCat.Hom.hom
     (((sheafHomComplex Rc L (tensorTotal Rc K L)).sectionsIso U).hom.f n)
     (((diagonalTensorHom Rc K L).f n).val.app (op U) k)).v p (n + p) hpq).val.app
       (op (Over.mk (homOfLE (leOfHom V.unop.hom)))) l =
@@ -641,7 +641,7 @@ theorem diagonalTensorHom_natural
   refine homSection_ext Rc (sheafHomComplex Rc L (tensorTotal Rc K' L'))
     U.unop n _ _ ?_
   intro p q hpq W hWU l
-  show ((AddCommGrpCat.Hom.hom
+  change ((AddCommGrpCat.Hom.hom
       (((sheafHomComplex Rc L (tensorTotal Rc K' L')).sectionsIso U.unop).hom.f n)
       (((sheafHomComplexMap Rc (𝟙 L) (tensorTotalMap Rc f g)).f n).val.app U
         (((diagonalTensorHom Rc K L).f n).val.app U k))).v p q hpq).val.app
@@ -654,7 +654,7 @@ theorem diagonalTensorHom_natural
   rw [sheafHomComplexMap_isInduced, sheafHomComplexMap_isInduced,
     diagonalTensorHom_cochain Rc K L U.unop n k,
     diagonalTensorHom_cochain Rc K' L' U.unop n ((f.f n).val.app U k)]
-  show ((slicePureTensorMap Rc U.unop K L n p q (by omega) k ≫
+  change ((slicePureTensorMap Rc U.unop K L n p q (by omega) k ≫
     ((tensorTotalMap Rc f g).f q).over U.unop).val.app
       (op (Over.mk (homOfLE hWU)))) l =
     (((g.f p).over U.unop ≫ slicePureTensorMap Rc U.unop K' L' n p q (by omega)

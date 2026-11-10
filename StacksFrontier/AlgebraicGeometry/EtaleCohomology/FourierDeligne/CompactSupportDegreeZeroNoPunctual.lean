@@ -123,7 +123,7 @@ theorem extensionByZero_section_eq_zero_of_forall_map_eq_zero {X Y : Scheme.{u}}
     Spec.map (CommRingCat.ofHom (algebraMap (Y.residueField z)
       (AlgebraicClosure (Y.residueField z)))) ≫ Y.fromSpecResidueField z
   let x₀ : (Scheme.pointSmallEtale zbar).fiber.obj T :=
-    Over.homMk zbar (by show zbar ≫ 𝟙 Y = zbar; rw [Category.comp_id])
+    Over.homMk zbar (by change zbar ≫ 𝟙 Y = zbar; rw [Category.comp_id])
   obtain ⟨W, g, ⟨p, hp⟩, yW, -⟩ := (Scheme.pointSmallEtale zbar).jointly_surjective _
     (Presheaf.imageSieve_mem Y.smallEtaleTopology
       (CategoryTheory.toSheafify Y.smallEtaleTopology P) (U := op T) s) x₀
@@ -131,7 +131,7 @@ theorem extensionByZero_section_eq_zero_of_forall_map_eq_zero {X Y : Scheme.{u}}
   let y : W.left := yW.left pt
   have hWz : W.hom y = z := by
     have hw : yW.left ≫ W.hom = zbar := Over.w yW
-    show (yW.left ≫ W.hom) pt = z
+    change (yW.left ≫ W.hom) pt = z
     rw [hw]
     exact Scheme.fromSpecResidueField_apply z _
   have hP : IsZero (P.obj (op W)) := by

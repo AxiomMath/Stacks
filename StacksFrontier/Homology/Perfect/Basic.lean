@@ -162,7 +162,7 @@ private lemma cone_perfect {R : Type u} [Ring R]
   · intro i
     let _ := hf₁ (i + 1)
     let _ := hf₂ i
-    show Module.Finite R
+    change Module.Finite R
       (HomologicalComplex.homotopyCofiber.X (C := ModuleCat.{v} R) f i)
     rw [Module.Finite.equiv_iff
       (HomologicalComplex.homotopyCofiber.XIsoBiprod f i (i + 1) (by simp)).toLinearEquiv]
@@ -172,7 +172,7 @@ private lemma cone_perfect {R : Type u} [Ring R]
     let _ : Module.Projective R (↑(P₁.X (i + 1)) × ↑(P₂.X i)) := inferInstance
     let _ : Module.Projective R ↑(P₁.X (i + 1) ⊞ P₂.X i) :=
       Module.Projective.of_equiv (ModuleCat.biprodIsoProd _ _).symm.toLinearEquiv
-    show Module.Projective R
+    change Module.Projective R
       (HomologicalComplex.homotopyCofiber.X (C := ModuleCat.{v} R) f i)
     exact Module.Projective.of_equiv
       (HomologicalComplex.homotopyCofiber.XIsoBiprod f i (i + 1) (by simp)).symm.toLinearEquiv
@@ -200,7 +200,7 @@ private lemma perfect_obj₃ {R : Type u} [Ring R]
   have hf : DerivedCategory.Q.map f = e₁.inv ≫ T.mor₁ ≫ e₂.hom := by
     apply (cancel_epi (qiso.hom.app P₁)).1
     rw [← qiso.hom.naturality f]
-    show DerivedCategory.Qh.map (q.map f) ≫ qiso.hom.app P₂ = _
+    change DerivedCategory.Qh.map (q.map f) ≫ qiso.hom.app P₂ = _
     rw [hg']
     simp [g, Category.assoc]
   obtain ⟨C, a, b, hge, hle, hfin, hproj, ⟨ec⟩⟩ :=
@@ -209,7 +209,7 @@ private lemma perfect_obj₃ {R : Type u} [Ring R]
     (Triangle.π₃.mapIso (isoTriangleOfIso₁₂ T
       (DerivedCategory.Q.mapTriangle.obj (CochainComplex.mappingCone.triangle f)) hT
       (DerivedCategory.mappingCone_triangle_distinguished f) e₁ e₂ (by
-          show T.mor₁ ≫ e₂.hom = e₁.hom ≫ DerivedCategory.Q.map f
+          change T.mor₁ ≫ e₂.hom = e₁.hom ≫ DerivedCategory.Q.map f
           rw [hf]
           simp))).trans ec⟩⟩
 
@@ -270,7 +270,7 @@ private lemma isPerfect_of_bounded {R : Type u} [CommRing R] (a : ℤ) (n : ℕ)
       apply (isPerfect_of_distinguished (Triangle.mk f g h) hT).2.1
       · exact isPerfect_singleFunctor_obj _ (hL b (by omega) le_rfl) b
       · exact ih (b - 1) (by omega) _ (fun i hi hi' => by
-          show IsPerfect
+          change IsPerfect
             ((DerivedCategory.singleFunctor (ModuleCat.{v} R) 0).obj
               ((L.stupidTrunc (embeddingUpIntLE (b - 1))).X i))
           exact isPerfect_of_iso ((DerivedCategory.singleFunctor (ModuleCat.{v} R) 0).mapIso
@@ -361,15 +361,15 @@ private lemma perfect_interval {R : Type u} [CommRing R] (a : ℤ) (n : ℕ)
         dsimp [b]
         assumption
       have : T.obj₁.IsGE a := by
-        show DerivedCategory.TStructure.t.IsGE
+        change DerivedCategory.TStructure.t.IsGE
           ((DerivedCategory.TStructure.t.truncLT b).obj K) a
         infer_instance
       have : T.obj₁.IsLE (a + n) := by
-        show DerivedCategory.TStructure.t.IsLE
+        change DerivedCategory.TStructure.t.IsLE
           ((DerivedCategory.TStructure.t.truncLT b).obj K) (a + n)
         exact DerivedCategory.TStructure.t.isLE_truncLT_obj K b (a + n) (by dsimp [b]; omega)
       have : T.obj₃.IsLE b := by
-        show DerivedCategory.TStructure.t.IsLE
+        change DerivedCategory.TStructure.t.IsLE
           ((DerivedCategory.TStructure.t.truncGE b).obj K) b
         infer_instance
       have hleft : IsPerfect T.obj₁ := by
@@ -654,7 +654,7 @@ private lemma support_idempotent {R : Type u} [CommRing R]
     | smul b x hx ih => simpa [smul_eq_mul, mul_left_comm a b] using congrArg (b * ·) ih
   refine ⟨e, ?_, heM, fun a ha => hann a ha e heI⟩
   have h := hann (1 - e) (fun m => by simp [sub_smul, heM m]) e heI
-  show e * e = e
+  change e * e = e
   rw [sub_mul, one_mul, sub_eq_zero] at h
   exact h.symm
 
@@ -687,7 +687,7 @@ private lemma small_projective_quotient {R : Type u} [CommRing R]
     apply LinearMap.ext
     intro x
     obtain ⟨a, rfl⟩ := I.mkQ_surjective x
-    show Ideal.Quotient.mk I (a * e) = Ideal.Quotient.mk I a
+    change Ideal.Quotient.mk I (a * e) = Ideal.Quotient.mk I a
     apply Ideal.Quotient.eq.mpr
     apply Module.mem_annihilator.mpr
     intro m
@@ -722,7 +722,7 @@ private lemma exists_small_coefficient_ring {R : Type u} [CommRing R]
   intro m
   have h : i 1 - 1 ∈ I := by
     apply Ideal.Quotient.eq_zero_iff_mem.mp
-    show algebraMap R (R ⧸ I) (i 1 - 1) = 0
+    change algebraMap R (R ⧸ I) (i 1 - 1) = 0
     have h1 := LinearMap.congr_fun hi 1
     change algebraMap R S (i 1) = 1 at h1
     have h2 : algebraMap R (R ⧸ I) (i 1) = 1 :=
@@ -778,9 +778,8 @@ private lemma coefficientExtension_unit_isIso {R : Type u} {S : Type v}
   let j : S ⊗[R] M →ₗ[R] M := (TensorProduct.lid R M).toLinearMap.comp (i.rTensor M)
   have hj (m : M) : j (1 ⊗ₜ[R] m) = m := by simp [j, hM]
   refine ⟨fun x y h => (hj x).symm.trans ((congrArg j h).trans (hj y)), fun z => ?_⟩
-  show ∃ m : M, (1 : S) ⊗ₜ[R] m = z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  change ∃ m : M, (1 : S) ⊗ₜ[R] m = z
+  induction z using TensorProduct.inductionOn with
   | tmul s m =>
     refine ⟨i s • m, ?_⟩
     have hs : (i s) • (1 : S) = s := by
@@ -884,7 +883,7 @@ private lemma coefficientRestriction_finiteProjective {R : Type u} {S : Type v}
   let : Module S N := M.isModule
   have : IsScalarTower R S N := ⟨fun r s m => by
     rw [Algebra.smul_def]
-    show (algebraMap R S r * s) • m = (algebraMap R S r) • s • m
+    change (algebraMap R S r * s) • m = (algebraMap R S r) • s • m
     exact mul_smul _ _ _⟩
   have : Module.Finite S N := inferInstanceAs (Module.Finite S M)
   have : Module.Projective S N := inferInstanceAs (Module.Projective S M)
@@ -954,7 +953,7 @@ theorem isPerfect_of_biproduct
     isIso_app_of_retract η (Y := K ⊞ L) biprod.inr biprod.snd biprod.inr_snd
   have hFsum : IsPerfect (F.mapDerivedCategory.obj (K ⊞ L)) :=
     perfect_map F (fun N _ _ => by
-      show Module.Finite S (S ⊗[R] N) ∧ Module.Projective S (S ⊗[R] N)
+      change Module.Finite S (S ⊗[R] N) ∧ Module.Projective S (S ⊗[R] N)
       exact ⟨inferInstance, inferInstance⟩) h
   have : F.mapDerivedCategory.Additive := inferInstance
   have : PreservesBinaryBiproducts F.mapDerivedCategory :=

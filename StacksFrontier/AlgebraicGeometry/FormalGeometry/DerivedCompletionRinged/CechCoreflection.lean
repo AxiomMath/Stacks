@@ -282,6 +282,8 @@ theorem subsingleton_hom_restrictScalars_of_isZero_derivedCoefficientChange
     (adj.homEquiv T N).symm.injective.subsingleton
   exact Stacks.LocalCohomology.subsingleton_hom_of_iso (e.app N) h1
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] [HasSheafify J AddCommGrpCat.{u}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **Left orthogonality propagates along a tower of sheaves of rings**: if `T` admits no
 nonzero morphism into the image of `D(R')` in `D(R)` and `R ⟶ R''` factors through `R'`, then it
 admits none into the image of `D(R'')` either.
@@ -317,6 +319,8 @@ theorem subsingleton_hom_restrictScalars_of_factorization
 
 section Conservative
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] [HasSheafify J AddCommGrpCat.{u}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **Restriction of scalars reflects the zero object of the derived category.** If the image of
 `Y` in `D(R)` under restriction of scalars along `R ⟶ R'` is zero then `Y` is zero.
 
@@ -622,6 +626,7 @@ theorem exists_iso_extendedAlternatingCech_of_universal {r : ℕ}
       (derivedPowerTorsion_extendedAlternatingCech X f)).1
     (hκ _ hK).1
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The universal property on a slice site**, which is the form [Stacks, Tag 099E] uses it in:
 for an object `U` of `𝒞` and a finite family `f` of global sections of `𝒪_U` — the family that
 `AlgebraicGeometry.RingedSite.exists_coversTop_eq_generatedIdealSheaf_of_isFiniteType` produces

@@ -68,7 +68,7 @@ private theorem fittingIdeal_kaehlerDifferential_adjoinRoot (A : Type u) [CommRi
   let P := Polynomial A
   let I : Ideal P := Ideal.span {f}
   let Q := P ⧸ I
-  show fittingIdeal (M := KaehlerDifferential A Q) 0 =
+  change fittingIdeal (M := KaehlerDifferential A Q) 0 =
     Ideal.span {Ideal.Quotient.mk I f.derivative}
   let : Module.Finite Q (KaehlerDifferential A Q) := KaehlerDifferential.finite A Q
   let J := RingHom.ker (algebraMap P Q)
@@ -85,7 +85,7 @@ private theorem fittingIdeal_kaehlerDifferential_adjoinRoot (A : Type u) [CommRi
   let map := KaehlerDifferential.mapBaseChange A P Q
   let ψ : Q →ₗ[Q] KaehlerDifferential A Q := map.comp e.toLinearMap
   let cgen : J.Cotangent := J.toCotangent ⟨f, by
-    show f ∈ J
+    change f ∈ J
     rw [hJI]
     exact Ideal.subset_span (Set.mem_singleton f)⟩
   let cmap := ConormalSeq.conormalMap A hsurj
@@ -95,17 +95,17 @@ private theorem fittingIdeal_kaehlerDifferential_adjoinRoot (A : Type u) [CommRi
     simpa only [cgen] using
       span_toCotangent_generators_eq_top hsurj I hJI (fun _ : Unit ↦ f) (by simp [I, hrange])
   have hqgen : q cgen = Ideal.Quotient.mk I f.derivative := by
-    show e.symm (cmap cgen) = _
+    change e.symm (cmap cgen) = _
     rw [ConormalSeq.conormalMap_toCotangent A hsurj]
-    show (basis.repr ((1 : Q) ⊗ₜ[P] KaehlerDifferential.D A P f)) Unit.unit = _
+    change (basis.repr ((1 : Q) ⊗ₜ[P] KaehlerDifferential.D A P f)) Unit.unit = _
     rw [Module.Basis.baseChange_repr_tmul]
-    show (b0.repr (KaehlerDifferential.D A P f)) Unit.unit • (1 : Q) = _
-    show (((Pi.basisFun P Unit).repr
+    change (b0.repr (KaehlerDifferential.D A P f)) Unit.unit • (1 : Q) = _
+    change (((Pi.basisFun P Unit).repr
       ((LinearEquiv.funUnique Unit P P).symm
         (KaehlerDifferential.polynomialEquiv A (KaehlerDifferential.D A P f)))) Unit.unit) •
         (1 : Q) = _
     rw [Pi.basisFun_repr, LinearEquiv.funUnique_symm_apply, KaehlerDifferential.polynomialEquiv_D]
-    show algebraMap P (P ⧸ I) f.derivative * (1 : P ⧸ I) = _
+    change algebraMap P (P ⧸ I) f.derivative * (1 : P ⧸ I) = _
     rw [mul_one]
     exact congrArg (fun g : P →+* P ⧸ I ↦ g f.derivative) (Ideal.Quotient.algebraMap_eq I)
   have hqrange : q.range = Submodule.span Q (Set.range fun _ : Unit ↦ q cgen) := by
@@ -122,7 +122,7 @@ private theorem fittingIdeal_kaehlerDifferential_adjoinRoot (A : Type u) [CommRi
       (ConormalSeq.conormal_exact_sequence A P Q hsurj).1]
     refine le_antisymm ?_ fun z hz ↦ ⟨e z, hz, e.symm_apply_apply z⟩
     rintro _ ⟨w, hw, rfl⟩
-    show map (e (e.symm w)) = 0
+    change map (e (e.symm w)) = 0
     simpa using hw
   have hrel : (Ideal.span {Ideal.Quotient.mk I f.derivative} : Submodule Q Q) = ψ.ker := by
     simpa only [Set.range_const, hqgen] using hqrange.symm.trans hqker

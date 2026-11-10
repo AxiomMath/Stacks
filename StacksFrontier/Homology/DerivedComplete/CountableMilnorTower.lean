@@ -189,7 +189,7 @@ private lemma mappingCoconeMap_f {F G : Tower.{u, v} (A := A)} (f : F ⟶ G) (i 
         (towerProductMap f).f (i + -1) ≫
           (CochainComplex.mappingCocone.inr (oneMinusShift G)).1.v (i + -1) i (by omega) := by
   dsimp [mappingCoconeMap]
-  show (mappingConeMap f).f (i + (-1 : ℤ)) = _
+  change (mappingConeMap f).f (i + (-1 : ℤ)) = _
   dsimp only [mappingConeMap, oneMinusShiftArrowMap,
     HomologicalComplex.homotopyCofiber.mapArrowHom]
   rw [HomologicalComplex.homotopyCofiber.desc_f _ _ _ (i + (-1 : ℤ)) i
@@ -243,7 +243,7 @@ public def milnorDegreeIso (F : Tower.{u, v} (A := A)) (i : ℤ) :
     (countableMilnorFunctor.map f).f i ≫ (milnorDegreeIso G i).hom =
       (milnorDegreeIso F i).hom ≫
         biprod.map ((towerProductMap f).f i) ((towerProductMap f).f (i + -1)) := by
-  show (mappingCoconeMap f).f i ≫ _ = _
+  change (mappingCoconeMap f).f i ≫ _ = _
   rw [mappingCoconeMap_f]
   apply biprod.hom_ext
   all_goals simp [milnorDegreeIso, Preadditive.add_comp, Category.assoc]
@@ -360,7 +360,7 @@ public theorem augmentationMap_projection (n : ℕ) :
   rw [show (projection (A := A) n).app F =
       CochainComplex.mappingCocone.fst (oneMinusShift F) ≫
         Limits.Pi.π (fun k : ℕ ↦ F.obj ⟨k⟩) n by rfl]
-  show (augmentationMap a ≫ CochainComplex.mappingCocone.fst (oneMinusShift F)) ≫
+  change (augmentationMap a ≫ CochainComplex.mappingCocone.fst (oneMinusShift F)) ≫
       Limits.Pi.π (fun k : ℕ ↦ F.obj ⟨k⟩) n = a.app n
   rw [augmentationMap_fst, productLift, Pi.lift_comp_π]
 
@@ -387,7 +387,7 @@ public theorem augmentationMap_naturality {G : Tower.{u, v} (A := A)}
   apply HomologicalComplex.hom_ext
   intro i
   simp only [HomologicalComplex.comp_f]
-  show k.f i ≫ (augmentationMap b).f i =
+  change k.f i ≫ (augmentationMap b).f i =
     (augmentationMap a).f i ≫ (mappingCoconeMap f).f i
   rw [mappingCoconeMap_f, augmentationMap_f, augmentationMap_f]
   simp only [comp_add, Category.assoc,
@@ -476,7 +476,7 @@ public theorem map_quasiIso_and_milnor_triangle :
       exact isIso₃_of_isIso₁₂ (DerivedCategory.Q.mapTriangle.map (mappingConeTriangleMap f))
         (DerivedCategory.mappingCone_triangle_distinguished (oneMinusShift F))
         (DerivedCategory.mappingCone_triangle_distinguished (oneMinusShift G)) hQ hQ
-    show IsIso (DerivedCategory.Q.map
+    change IsIso (DerivedCategory.Q.map
       ((shiftFunctor (CoefficientComplex.{u, v} (A := A)) (-1 : ℤ)).map (mappingConeMap f)))
     rwa [DerivedCategory.isIso_Q_map_iff_quasiIso, CochainComplex.quasiIso_shift_iff]
   · intro F
@@ -542,7 +542,7 @@ private lemma productDegreeIso_naturality {F G : Tower.{u, v} (A := A)}
   refine Pi.hom_ext _ _ fun n ↦ ?_
   simp only [Category.assoc, ModuleCat.piIsoPi_inv_kernel_ι, productDegreeIso_π]
   refine Eq.trans ?_ (productDegreeIso_π_assoc F i n ((f.app ⟨n⟩).f i)).symm
-  show (towerProductMap f ≫ Pi.π (fun n : ℕ ↦ G.obj ⟨n⟩) n).f i =
+  change (towerProductMap f ≫ Pi.π (fun n : ℕ ↦ G.obj ⟨n⟩) n).f i =
     (Pi.π (fun n : ℕ ↦ F.obj ⟨n⟩) n ≫ f.app ⟨n⟩).f i
   simp [towerProductMap]
 

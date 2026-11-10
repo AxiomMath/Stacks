@@ -91,7 +91,7 @@ theorem withBot_enat_le_one_iff_lt_two (x : WithBot ℕ∞) : x ≤ 1 ↔ x < 2 
     | top => exact ⟨fun h => absurd h (by decide), fun h => absurd h (by decide)⟩
     | coe n =>
       rw [show (1 : ℕ∞) = ((1 : ℕ) : ℕ∞) from rfl, show (2 : ℕ∞) = ((2 : ℕ) : ℕ∞) from rfl,
-        ENat.coe_le_coe, ENat.coe_lt_coe]
+        ENat.natCast_le_natCast, ENat.natCast_lt_natCast]
       omega
 
 /-- **A proper smooth family of curves over an affine base comes from a Noetherian base.** Let
@@ -146,7 +146,7 @@ theorem exists_isPullback_isNoetherian_curveFamily (B : BigEtaleSite.{u}) {X S :
   let h : pullback h₀ V.ι ⟶ V := pullback.snd h₀ V.ι
   have hV : B.Contains V := Scheme.size_lt_of_isOpenImmersion V.ι hT₀
   have hmemV : ∀ v : V, V.ι v ∈ V₀ := fun v => by
-    show V.ι v ∈ (V : Set T₀)
+    change V.ι v ∈ (V : Set T₀)
     rw [← Scheme.Opens.range_ι]
     exact ⟨v, rfl⟩
   have hY₀ : B.Contains Y₀ := Scheme.size_lt_of_locallyOfFiniteType_of_quasiCompact h₀ hT₀
@@ -221,7 +221,7 @@ theorem isConstructibleEtaleModule_rightDerivedConstantUnit_of_forall_isNoetheri
       trivial
     obtain ⟨k, hk⟩ := TopologicalSpace.Opens.mem_iSup.1 hs
     exact Set.mem_iUnion.2 ⟨k, by
-      show s ∈ Set.range k.1.ι
+      change s ∈ Set.range k.1.ι
       rwa [Scheme.Opens.range_ι]⟩
   · have : IsAffine (U k).obj := k.2
     have hXk : B.Contains (pullback f k.1.ι) :=

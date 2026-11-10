@@ -94,7 +94,7 @@ theorem middleCap_bijective_vectorBundle (C : ChowSituation.{u}) {Y X : Scheme.{
   set q := Scheme.Modules.vectorBundleToBase Y E
   refine (properChowPushforward_bijective_of_isIso C _ _ _ _ _
     (properPushforwardDescends C _ _ _ _ _)).comp ?_
-  show Function.Bijective (flatPullbackBivariantCap C (q ≫ sY) sY q rfl r
+  change Function.Bijective (flatPullbackBivariantCap C (q ≫ sY) sY q rfl r
     (relativeDimension_vectorBundleToBase E r) (flatPullbackDescends C) (pullback.fst g t) m)
   refine (chowGroupDegreeEquiv C _ _).bijective.comp ?_
   exact flatPullbackChow_bijective_of_isPullback_vectorBundleToBase C _ _ E r

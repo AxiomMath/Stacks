@@ -95,8 +95,8 @@ tensor analogue of `chartSourceIso` is needed. `comparison_tensor` is not used a
 the structural compatibilities actually used are
 `Stacks.AlgebraicGeometry.TwistMultTransport.comparison_pullbackComp_hom`,
 `Stacks.AlgebraicGeometry.TwistMultCompat.comparison_tensorSheafMap_nat` and
-`Stacks.AlgebraicGeometry.TwistMultTransport.pullbackCongr_rfl_hom_app`, all already available at the
-scheme spelling, and no tensor analogue of `chartSourceIso` exists or is wanted — the tensor
+`Stacks.AlgebraicGeometry.TwistMultTransport.pullbackCongr_rfl_hom_app`, all already available at
+the scheme spelling, and no tensor analogue of `chartSourceIso` exists or is wanted — the tensor
 products are moved by the *generic* lemmas of `TwistMulLeg`, where the chart isomorphisms do not
 occur.
 

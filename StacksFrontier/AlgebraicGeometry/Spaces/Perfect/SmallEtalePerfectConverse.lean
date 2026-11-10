@@ -93,6 +93,8 @@ end Stacks.SheafOfModules
 
 namespace AlgebraicGeometry.SmallEtale
 
+section LocalModel
+
 variable (B : BigEtaleSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   [HasDerivedCategory.{d} (SheafOfModules.{u} S.ringCatSheaf)]
   [HasDerivedCategory.{d'} (SheafOfModules.{u} (structureSheaf B S hS))]
@@ -434,9 +436,6 @@ end Zariski
 
 section Converse
 
-variable [HasDerivedCategory.{d} (SheafOfModules.{u} S.ringCatSheaf)]
-  [HasDerivedCategory.{d'} (SheafOfModules.{u} (structureSheaf B S hS))]
-
 /-- **A strictly perfect local model at every point.** If `ε^*E` is perfect and `K` represents
 `E`, every point of an open `U` of `S` has an open neighbourhood `W ≤ U` over which `K` receives
 a quasi-isomorphism from a strictly perfect complex. -/
@@ -504,9 +503,12 @@ theorem exists_local_model_of_isPerfect_associatedModule
 
 end Converse
 
+end LocalModel
+
 section Statement
 
-variable [HasDerivedCategory.{d}
+variable (B : BigEtaleSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+  [HasDerivedCategory.{d}
     (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.zariskiRingedSite.O))]
   [HasDerivedCategory.{d'} (SheafOfModules.{u} (structureSheaf B S hS))]
 

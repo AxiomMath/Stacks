@@ -125,7 +125,7 @@ public theorem augmentation_natural {F G : X.Modules} (φ : F ⟶ G) :
           (HomologicalComplex.single X.Modules (ComplexShape.up ℤ) 0).map φ := by
     let e := ComplexShape.embeddingUpNat
     have hzero : e.f 0 = 0 := rfl
-    show HomologicalComplex.extendMap ((CochainComplex.single₀ X.Modules).map φ) e ≫
+    change HomologicalComplex.extendMap ((CochainComplex.single₀ X.Modules).map φ) e ≫
           (HomologicalComplex.extendSingleIso e G 0 0 hzero).hom =
         (HomologicalComplex.extendSingleIso e F 0 0 hzero).hom ≫
           (HomologicalComplex.single X.Modules (ComplexShape.up ℤ) 0).map φ
@@ -180,7 +180,7 @@ public theorem augmentation_natural {F G : X.Modules} (φ : F ⟶ G) :
               (HomologicalComplex.single X.Modules (ComplexShape.up ℤ) 0).map φ) := by
           rw [hsingle]
       _ = _ := by rw [← Category.assoc]
-  show DerivedCategory.Q.map
+  change DerivedCategory.Q.map
       (HomologicalComplex.extendMap ((extendedAlternatingCechFunctor f).map φ)
         ComplexShape.embeddingUpNat) ≫
         DerivedCategory.Q.map

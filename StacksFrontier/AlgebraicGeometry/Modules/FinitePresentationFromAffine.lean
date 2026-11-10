@@ -47,8 +47,8 @@ twists on a relative projective spectrum are shown to be of finite presentation 
 Both halves of this file exist already in the development, but only as `private` declarations
 inside proofs of other theorems, and in two copies each:
 `StacksFrontier/AlgebraicGeometry/CoherenceCriteria/FiniteTildeTFAE.lean`,
-`StacksFrontier/AlgebraicGeometry/Descent/Modules/FpqcFinitePresentation.lean` and the
-`StacksFrontier/AlgebraicGeometry/Morphisms/WeaklyEtale/RelativeFinitePresentation/FinitePresentation.lean` of
+`StacksFrontier/AlgebraicGeometry/Descent/Modules/FpqcFinitePresentation.lean` and the file
+`RelativeFinitePresentation/FinitePresentation.lean` of
 `StacksFrontier/AlgebraicGeometry/Morphisms/WeaklyEtale/` each carry a private
 `over_has_finite_global_presentation` and a private `tilde_has_finite_presentation`. The versions
 here are public, so that the statement can be used rather than re-proved a fourth time.

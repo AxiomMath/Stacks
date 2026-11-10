@@ -46,7 +46,7 @@ is the identity, whichever sections of `F` over `j.obj B` the two transports are
 theorem map_srcIsoSelf_hom_inv (H : Dᵒᵖ ⥤ Type w) {B : D} (s s' : F.obj (op (j.obj B)))
     (x : H.obj (op (srcObj hsupp s))) :
     H.map (srcIsoSelf hsupp B s').hom.op (H.map (srcIsoSelf hsupp B s).inv.op x) = x := by
-  show H.map (srcIsoSelf hsupp B s).hom.op (H.map (srcIsoSelf hsupp B s).inv.op x) = x
+  change H.map (srcIsoSelf hsupp B s).hom.op (H.map (srcIsoSelf hsupp B s).inv.op x) = x
   simp [← Functor.map_comp_apply, ← op_comp]
 
 omit [∀ (X : Cᵒᵖ), Subsingleton (F.obj X)] in

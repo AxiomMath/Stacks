@@ -244,7 +244,7 @@ theorem situationSectionModuleEquiv_res {U V : S.Opens} (h : U ≤ V) :
           (s := situationOfGradedAlgebra A hcomm hneg hqc) ℳ h).comp
         (situationSectionModuleEquiv hcomm hneg hqc ℳ hqcM V).toAddMonoidHom := by
   refine DirectSum.addHom_ext fun n x => ?_
-  show situationSectionModuleEquiv hcomm hneg hqc ℳ hqcM U
+  change situationSectionModuleEquiv hcomm hneg hqc ℳ hqcM U
       ((toSheafGradedModule hcomm hneg hqc ℳ hqcM).res h (DirectSum.of _ n x)) = _
   rw [SheafGradedModule.res_of, situationSectionModuleEquiv_of]
   exact (sectionModuleRestrict_of_situation hcomm hneg hqc ℳ hqcM h n x).symm

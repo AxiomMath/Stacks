@@ -85,7 +85,7 @@ private lemma moduleSheaf_supp_iff_nontrivial_stalk {X : Scheme.{u}}
       Nontrivial ((TopCat.Presheaf.stalk (C := AddCommGrpCat.{u})
         ((Scheme.Modules.toPresheaf X).obj M)) x) := by
   let F : RingedSpace.ModuleSheaf.{u} X.toRingedSpace := ⟨M.val, M.isSheaf⟩
-  show (∃ a : F.abPresheaf.stalk x, a ≠ 0) ↔ _
+  change (∃ a : F.abPresheaf.stalk x, a ≠ 0) ↔ _
   rw [(nontrivial_iff_exists_ne (0 : F.abPresheaf.stalk x)).symm]
   rfl
 
@@ -113,7 +113,7 @@ private lemma scheme_pushforward_support_subset_range {Z X : Scheme.{u}}
     (TopCat.of Z) (TopCat.of X) j.base j.isClosedEmbedding 𝒜 x hnot
   have hzero' : IsZero ((show TopCat.Presheaf Ab.{u} (TopCat.of X) from
       ((Scheme.Modules.pushforward j).obj M).val.presheaf).stalk x) := by
-    show IsZero
+    change IsZero
       (TopCat.Presheaf.stalk
         ((closedInclusionPushforward (TopCat.of Z) (TopCat.of X) j.base).obj 𝒜).1 x)
     exact hzero
@@ -152,7 +152,7 @@ private lemma scheme_pushforward_support_superset_range {Z X : Scheme.{u}}
     (Equiv.nontrivial_congr
       (asIso (TopCat.Presheaf.stalkPushforward AddCommGrpCat.{u}
         j.base 𝒜.obj z)).addCommGroupIsoToAddEquiv.toEquiv).mpr hn
-  show Nontrivial
+  change Nontrivial
     (TopCat.Presheaf.stalk
       (C := AddCommGrpCat.{u}) ((Scheme.Modules.toPresheaf X).obj
         ((Scheme.Modules.pushforward j).obj
@@ -294,8 +294,8 @@ lemma mem_idealRestriction {X Y : Scheme.{u}} (f : X ⟶ Y) [IsOpenImmersion f]
     (J : (structureSheafModule Y.toRingedSpace).Submodule) (V : X.Opens) (s : Γ(X, V)) :
     s ∈ (idealRestriction f J).obj (op V) ↔
       (f.appIso V).inv s ∈ J.obj (op (f ''ᵁ V)) := by
-  show (cokernel.π J.ι).val.app (op (f ''ᵁ V)) ((f.appIso V).inv s) = 0 ↔ _
-  show (f.appIso V).inv s ∈ (kernelSubmodule (cokernel.π J.ι)).obj (op (f ''ᵁ V)) ↔ _
+  change (cokernel.π J.ι).val.app (op (f ''ᵁ V)) ((f.appIso V).inv s) = 0 ↔ _
+  change (f.appIso V).inv s ∈ (kernelSubmodule (cokernel.π J.ι)).obj (op (f ''ᵁ V)) ↔ _
   rw [kernelSubmodule_cokernel_π_eq]
 
 /-- The extension of an ideal subsheaf along a morphism: a section over `V` belongs to it
@@ -311,8 +311,8 @@ original ideal. -/
 lemma mem_idealExtension {X Y : Scheme.{u}} (f : X ⟶ Y)
     (J : (structureSheafModule X.toRingedSpace).Submodule) (V : Y.Opens) (s : Γ(Y, V)) :
     s ∈ (idealExtension f J).obj (op V) ↔ f.app V s ∈ J.obj (op (f ⁻¹ᵁ V)) := by
-  show (cokernel.π J.ι).val.app (op (f ⁻¹ᵁ V)) (f.app V s) = 0 ↔ _
-  show f.app V s ∈ (kernelSubmodule (cokernel.π J.ι)).obj (op (f ⁻¹ᵁ V)) ↔ _
+  change (cokernel.π J.ι).val.app (op (f ⁻¹ᵁ V)) (f.app V s) = 0 ↔ _
+  change f.app V s ∈ (kernelSubmodule (cokernel.π J.ι)).obj (op (f ⁻¹ᵁ V)) ↔ _
   rw [kernelSubmodule_cokernel_π_eq]
 
 private lemma mem_map_eq_iff {X : Scheme.{u}}
@@ -461,7 +461,7 @@ lemma definingIdealOfHom_comp_open {Z X Y : Scheme.{u}} (j : Z ⟶ X) (f : X ⟶
   apply Submodule.ext
   intro s
   rw (transparency := .default) [mem_idealRestriction f (definingIdealOfHom (j ≫ f)) V s]
-  show (j ≫ f).app (f ''ᵁ V) ((f.appIso V).inv s) = 0 ↔ j.app V s = 0
+  change (j ≫ f).app (f ''ᵁ V) ((f.appIso V).inv s) = 0 ↔ j.app V s = 0
   have he : j ⁻¹ᵁ V = (j ≫ f) ⁻¹ᵁ (f ''ᵁ V) := by simp
   have hmorph : (f.appIso V).hom ≫ j.app V =
       (j ≫ f).appLE (f ''ᵁ V) (j ⁻¹ᵁ V) he.le := by
@@ -592,7 +592,7 @@ theorem isQuasiRegularImmersion_iff_of_open {Z X : Scheme.{u}} (i : Z ⟶ X) [Is
     exact IsOpenImmersion.of_comp f i.coborderRange.ι
   have hf : j ≫ f = i.liftCoborder := closedFactor_eq_liftCoborder i U j hij
   have : IsClosedImmersion (j ≫ f) := hf ▸ inferInstance
-  show IsQuasiRegularIdealSheaf _ (definingIdealOfHom i.liftCoborder) ↔ _
+  change IsQuasiRegularIdealSheaf _ (definingIdealOfHom i.liftCoborder) ↔ _
   rw [← hf]
   exact isQuasiRegularIdealSheaf_comp_open_iff j f
 

@@ -623,7 +623,7 @@ private noncomputable def Rung.step {M : ChainComplex A ℕ} {k : ℕ} (c : Cove
 the step factors through the kernel of the previous one. -/
 private lemma Rung.step_δ_comp_δ {M : ChainComplex A ℕ} {k : ℕ} (c : Cover P) (r : Rung M P k) :
     (r.step c).δ ≫ r.δ = 0 := by
-  show (c.proj _ ≫ pullback.fst r.β (M.toCycles (k + 1) k) ≫ kernel.ι r.δ) ≫ r.δ = 0
+  change (c.proj _ ≫ pullback.fst r.β (M.toCycles (k + 1) k) ≫ kernel.ι r.δ) ≫ r.δ = 0
   simp
 
 /-- The commutation rule of the inductive step. -/
@@ -642,7 +642,7 @@ private lemma Rung.step_lift {M : ChainComplex A ℕ} {k : ℕ} (c : Cover P) (r
   obtain ⟨W', π, hπ, x, hx⟩ := surjective_up_to_refinements_of_epi
     (c.proj (pullback r.β (M.toCycles (k + 1) k))) (pullback.lift v y h)
   refine ⟨W', π, hπ, x, ?_⟩
-  show x ≫ c.proj _ ≫ pullback.fst r.β (M.toCycles (k + 1) k) ≫ kernel.ι r.δ
+  change x ≫ c.proj _ ≫ pullback.fst r.β (M.toCycles (k + 1) k) ≫ kernel.ι r.δ
     = π ≫ v ≫ kernel.ι r.δ
   simp only [← reassoc_of% hx, pullback.lift_fst_assoc]
 

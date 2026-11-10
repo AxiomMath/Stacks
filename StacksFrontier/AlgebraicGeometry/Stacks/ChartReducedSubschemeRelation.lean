@@ -274,7 +274,7 @@ theorem mem_chartReducedSubscheme_of_hom {W : BigFppfOver B S hS} (h h' : W ⟶ 
   refine (BigFppfOver.topology B S hS).superset_covering ?_
     (Space.sieve_generate_singleton_mem_topology_over B S hS m hms hme)
   rintro V g ⟨_, g', _, ⟨⟩, rfl⟩
-  show (g' ≫ m) ≫ h' ∈ (Space.subschemePoints B S hS Z).obj (op V)
+  change (g' ≫ m) ≫ h' ∈ (Space.subschemePoints B S hS Z).obj (op V)
   rw [Category.assoc]
   exact (Space.subschemePoints B S hS Z).map g'.op hm'
 

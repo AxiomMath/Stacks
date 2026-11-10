@@ -181,7 +181,7 @@ private theorem algHom_gradedComponent
       map_mem := by
         intro i x hx
         exact hgrade i x hx }
-  show (DirectSum.decompose Cᵢ (ι a) m : C) =
+  change (DirectSum.decompose Cᵢ (ι a) m : C) =
     ι (DirectSum.decompose Aᵢ a m : A)
   exact (GradedRingHom.map_directSumDecompose
     (𝒜 := Aᵢ) (ℬ := Cᵢ) φ (x := a) (i := m)).symm
@@ -226,7 +226,7 @@ private theorem gradedComponent_neg
     {R : Type u} {A : Type v} [CommRing R] [Ring A] [Algebra R A]
     (Aᵢ : ℕ → Submodule R A) [GradedAlgebra Aᵢ] (x : A) (m : ℕ) :
     gradedComponent Aᵢ (-x) m = -gradedComponent Aᵢ x m := by
-  show ((DirectSum.decompose Aᵢ (-x) m : Aᵢ m) : A) = _
+  change ((DirectSum.decompose Aᵢ (-x) m : Aᵢ m) : A) = _
   rw [DirectSum.decompose_neg]
   exact Submodule.coe_neg (Aᵢ m) ((DirectSum.decompose Aᵢ x) m)
 
@@ -237,7 +237,7 @@ private theorem gradedComponent_mul
       ∑ ij ∈ Finset.antidiagonal m,
         gradedComponent Aᵢ x ij.1 * gradedComponent Aᵢ y ij.2 := by
   classical
-  show ((DirectSum.decompose Aᵢ (x * y) m : Aᵢ m) : A) = _
+  change ((DirectSum.decompose Aᵢ (x * y) m : Aᵢ m) : A) = _
   rw [DirectSum.decompose_mul, DirectSum.coe_mul_apply_eq_sum_antidiagonal]
   simp [gradedComponent]
 
@@ -368,7 +368,7 @@ private theorem finiteVariableStage_gradedComponent_mem
       exact Q.sum_mem fun ij hij => Q.mul_mem (hy ij.1) (hz ij.2)
   }
   have hGK : G ⊆ K := fun y hy => hgenerator y hy
-  show gradedComponent Cᵢ x m ∈ Q
+  change gradedComponent Cᵢ x m ∈ Q
   have hxK : x ∈ K := Subring.closure_le.mpr hGK hx
   exact hxK m
 
@@ -524,7 +524,7 @@ public theorem existsUnique_dividedPowerStructure_of_finiteStages
     let z := repY x hx
     have hz : z ∈ positiveEvenPart (Bᵢ T) := rep_pos x hx
     have hzx : ι T z = x := rep_image x hx
-    show ι T ((γ T).dpow n z) = ι S ((γ S).dpow n y)
+    change ι T ((γ T).dpow n z) = ι S ((γ S).dpow n y)
     obtain ⟨U, hTU, hSU, he⟩ := heq T S z y (hzx.trans hiy.symm)
     calc
       ι T ((γ T).dpow n z) = ι U (transition hTU ((γ T).dpow n z)) :=

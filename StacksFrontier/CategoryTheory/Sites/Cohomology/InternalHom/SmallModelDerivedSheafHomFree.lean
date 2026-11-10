@@ -176,8 +176,9 @@ def smallModelModulesEquivFreeIso (ι : Type u) :
     fun _ => PresheafOfModules.hasColimitsOfShape _ _
   haveI : HasCoproducts.{u}
       (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :=
-    fun J => SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
-      _ (Discrete J)
+    fun J =>
+      SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
+        _ (Discrete J)
   PreservesCoproduct.iso (smallModelModulesEquiv X).functor _ ≪≫
     Sigma.mapIso fun _ => smallModelModulesEquivUnitIso X
 

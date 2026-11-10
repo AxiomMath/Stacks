@@ -211,6 +211,7 @@ def modulesMonoidalClosed :
 
 attribute [local instance] modulesMonoidalClosed
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The internal Hom of `AlgebraicGeometry.RingedSite.modulesMonoidalClosed` is the descended
 internal Hom of Stacks 03EM, on the nose: a statement about
 `CategoryTheory.MonoidalClosed.internalHom` on such a site is a statement about

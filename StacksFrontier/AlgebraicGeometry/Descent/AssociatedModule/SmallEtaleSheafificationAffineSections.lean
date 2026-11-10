@@ -149,7 +149,7 @@ theorem bijective_sheafificationAdjunction_unit_app_of_isAffine
       ((PresheafOfModules.sheafification (𝟙 (structureSheaf B S hS).obj)).obj P)
   have hA := isSheaf_affineRestriction_forget P hP
   let V' : SmallAffineEtale B S hS := ⟨V, hV⟩
-  show Function.Bijective (Q.app (op (ι.obj V')))
+  change Function.Bijective (Q.app (op (ι.obj V')))
   refine ⟨injective_toSheafify_app_of_isAffine P hP V', fun s => ?_⟩
   have hI := functorPullback_mem_smallAffineEtale B S hS (V := V') (Presheaf.imageSieve_mem J Q s)
   let x : Presieve.FamilyOfElements
@@ -180,7 +180,7 @@ theorem bijective_sheafificationAdjunction_unit_app_of_isAffine
   rintro Y h ⟨W, f, h', hf, rfl⟩
   have e := NatTrans.naturality_apply Q (ι.map f).op t
   rw [ht f hf, hx f hf] at e
-  show G.map (h' ≫ ι.map f).op (Q.app _ t) = G.map (h' ≫ ι.map f).op s
+  change G.map (h' ≫ ι.map f).op (Q.app _ t) = G.map (h' ≫ ι.map f).op s
   rw [op_comp, G.map_comp_apply, G.map_comp_apply, ← e]
 
 variable {B S hS} in
@@ -227,7 +227,7 @@ variable {B S hS} in
 theorem globalRingHom_app_self {t : SmallEtale B S hS} (ht : IsTerminal t)
     (r : (commStructurePresheaf B S hS).obj (op t)) :
     ((globalRingHom ht).app (op t)).hom r = r := by
-  show ((commStructurePresheaf B S hS).map (ht.from t).op).hom r = r
+  change ((commStructurePresheaf B S hS).map (ht.from t).op).hom r = r
   rw [show ht.from t = 𝟙 t from ht.hom_ext _ _, op_id, CategoryTheory.Functor.map_id]
   rfl
 
@@ -271,16 +271,14 @@ def changeOfRingsConstGlobalModuleObjIso {t : SmallEtale B S hS} (ht : IsTermina
   have hk : ∀ a x, k (a ⊗ₜ x) = (a : Γ₁) • x := fun _ _ => TensorProduct.lift.tmul _ _
   have kj : ∀ x, k ((1 : Γ₂) ⊗ₜ x) = x := fun x => (hk _ x).trans (one_smul _ x)
   have jk : ∀ y, (1 : Γ₂) ⊗ₜ[Γ₁] k y = y := fun y => by
-    induction y using TensorProduct.induction_on with
-    | zero => rw [map_zero, TensorProduct.tmul_zero]
+    induction y using TensorProduct.inductionOn with
     | add a b ha hb => rw [map_add, TensorProduct.tmul_add, ha, hb]
     | tmul a x =>
       rw [hk, ← TensorProduct.smul_tmul (R := Γ₁) (R' := Γ₁) (a : Γ₁) (1 : Γ₂) x]
       congr 1
       exact (Algebra.smul_def (R := Γ₁) (a : Γ₁) (1 : Γ₂)).trans ((mul_one _).trans (hθ a))
   have hks : ∀ (c : Γ₂) y, k (c • y) = (c : Γ₁) • k y := fun c y => by
-    induction y using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero, smul_zero]
+    induction y using TensorProduct.inductionOn with
     | add a b ha hb => rw [smul_add, map_add, ha, hb, map_add, smul_add]
     | tmul a x =>
       rw [TensorProduct.smul_tmul', hk, hk, smul_eq_mul]

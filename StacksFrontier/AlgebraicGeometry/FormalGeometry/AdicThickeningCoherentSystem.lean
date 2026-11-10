@@ -233,7 +233,7 @@ public lemma hasProperSupport_adicThickeningCompletion_zero [LocallyOfFiniteType
   refine ⟨Z.preimage (pullback.fst f (adicThickeningι A I 0)).continuous, ?_, ?_⟩
   · rw [adicThickeningCompletion,
       Stacks.Modules.supp_pullback (pullback.fst f (adicThickeningι A I 0)) G]
-    show (pullback.fst f (adicThickeningι A I 0)) ⁻¹' (Z : Set X) = _
+    change (pullback.fst f (adicThickeningι A I 0)) ⁻¹' (Z : Set X) = _
     rw [hZeq]
   · exact isProperOver_preimage_baseChange (pullback.fst f (adicThickeningι A I 0))
       (pullback.snd f (adicThickeningι A I 0)) f (adicThickeningι A I 0)

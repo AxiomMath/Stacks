@@ -159,7 +159,7 @@ theorem exists_presentation_of_span_eq_top (M : X.Modules) {U : X.Opens} (hU : I
     ((Scheme.Modules.restrictFunctorComp hU.isoSpec.hom hU.fromSpec).app M).symm ≪≫
       (Scheme.Modules.restrictFunctorCongr hU.isoSpec_hom_fromSpec).app M
   refine ⟨presentationOver U M (presentationOfIso iso P2), ?_⟩
-  show Cardinal.mk ↥s' ≤ Cardinal.mk ↥s
+  change Cardinal.mk ↥s' ≤ Cardinal.mk ↥s
   rw [hs']
   exact Cardinal.mk_image_le
 
@@ -282,7 +282,7 @@ theorem isLocalizedModule_gabber {U : X.Opens} (hU : IsAffineOpen U) (a : Γ(X, 
     · obtain ⟨v, hv⟩ := hunit.exists_left_inv
       refine ⟨v • z, ?_⟩
       rw [Module.algebraMap_end_apply]
-      show (X.presheaf.map (homOfLE hle).op a) • v • z = z
+      change (X.presheaf.map (homOfLE hle).op a) • v • z = z
       rw [smul_smul, mul_comm, hv, one_smul]
   · intro z
     have hz : val F N hN z ∈ N ⟨X.basicOpen a, hV⟩ := val_mem F N hN ⟨X.basicOpen a, hV⟩ z

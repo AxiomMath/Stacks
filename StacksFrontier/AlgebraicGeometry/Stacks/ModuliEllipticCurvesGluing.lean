@@ -744,7 +744,7 @@ def uniqueIso : P₁ ≅ P₂ :=
 /-- The triple of `P₂` classified by `uniqueIso r₁ r₂` is the universal triple of `P₁`. -/
 theorem homEquiv_uniqueIso_hom :
     r₂.homEquiv P₁ (uniqueIso r₁ r₂).hom = r₁.homEquiv P₁ (𝟙 P₁) := by
-  show r₂.homEquiv P₁ ((r₂.homEquiv P₁).symm (r₁.homEquiv P₁ (𝟙 P₁))) = _
+  change r₂.homEquiv P₁ ((r₂.homEquiv P₁).symm (r₁.homEquiv P₁ (𝟙 P₁))) = _
   exact Equiv.apply_symm_apply _ _
 
 /-- The isomorphism `uniqueIso r₁ r₂` is compatible with the first projections. -/
@@ -825,7 +825,7 @@ theorem ofRestrictSnd_congr (c' : S₀' ⟶ S') {a₁ a₂ : T ⟶ S₀'} {y₁ 
 /-- `Comparison.ofRestrictSnd` is a left inverse of `Comparison.toRestrictSnd`. -/
 theorem ofRestrictSnd_toRestrictSnd (c' : S₀' ⟶ S') (x : Comparison E (E'.pullback c') T) :
     ofRestrictSnd c' x.snd (toRestrictSnd c' x) rfl = x := by
-  show Comparison.ofFamilyIso x.fst x.snd _ = Comparison.ofFamilyIso x.fst x.snd x.familyIso
+  change Comparison.ofFamilyIso x.fst x.snd _ = Comparison.ofFamilyIso x.fst x.snd x.familyIso
   refine Comparison.ofFamilyIso_ext ?_
   dsimp only [toRestrictSnd, Comparison.ofFamilyIso, FamilyIso.trans_iso, FamilyIso.symm_iso,
     Comparison.familyIso_iso, Iso.trans_hom, Iso.symm_hom]
@@ -837,7 +837,7 @@ theorem toRestrictSnd_ofRestrictSnd (c' : S₀' ⟶ S') (a' : T ⟶ S₀') (y : 
   obtain ⟨b, b', i, hi₁, hi₂⟩ := y
   dsimp only at h₂
   subst h₂
-  show Comparison.ofFamilyIso b (a' ≫ c') _ = Comparison.ofFamilyIso b (a' ≫ c') ⟨i, hi₁, hi₂⟩
+  change Comparison.ofFamilyIso b (a' ≫ c') _ = Comparison.ofFamilyIso b (a' ≫ c') ⟨i, hi₁, hi₂⟩
   refine Comparison.ofFamilyIso_ext ?_
   dsimp only [ofRestrictSnd, Comparison.ofFamilyIso, FamilyIso.trans_iso, FamilyIso.symm_iso,
     Comparison.familyIso_iso, Iso.trans_hom, Iso.symm_hom]
@@ -881,7 +881,7 @@ theorem range_homEquiv_symm_toRestrictSnd {T : Scheme.{u}}
       Set.range (r.restrictSndOpen U).ι := by
   rw [Scheme.Opens.range_ι]
   rintro _ ⟨t, rfl⟩
-  show (r.homEquiv P (𝟙 P)).snd _ ∈ U
+  change (r.homEquiv P (𝟙 P)).snd _ ∈ U
   rw [← Scheme.Hom.comp_apply, ← r.snd_homEquiv, Equiv.apply_symm_apply,
     Comparison.toRestrictSnd_snd, Scheme.Hom.comp_apply]
   exact opens_ι_apply_mem U _
@@ -944,7 +944,7 @@ projection. -/
 theorem restrictSnd_fst :
     ((r.restrictSnd U).homEquiv _ (𝟙 _)).fst =
       (r.restrictSndOpen U).ι ≫ (r.homEquiv P (𝟙 P)).fst := by
-  show (r.homEquiv _ (𝟙 _ ≫ (r.restrictSndOpen U).ι)).fst = _
+  change (r.homEquiv _ (𝟙 _ ≫ (r.restrictSndOpen U).ι)).fst = _
   rw [Category.id_comp, r.fst_homEquiv]
 
 end RepresentsComparisons
@@ -1095,7 +1095,7 @@ theorem isOpenImmersion_restrictChart : IsOpenImmersion.presheaf (restrictChart 
       · exact apply_mem_of_comp_ι_eq hfst t
       · exact apply_mem_of_comp_ι_eq hsnd t
     refine ⟨IsOpenImmersion.lift _ k hk, ?_, IsOpenImmersion.lift_fac _ _ _⟩
-    show IsOpenImmersion.lift _ k hk ≫ chartPoint r x = p
+    change IsOpenImmersion.lift _ k hk ≫ chartPoint r x = p
     apply (r.homEquiv T'.unop).injective
     apply Comparison.toRestrict_injective U.ι U'.ι
     refine (toRestrict_homEquiv_comp_chartPoint r x _).trans ?_
@@ -1133,8 +1133,8 @@ theorem restrictChart_isLocallySurjective (hU : ⨆ i, U i = ⊤) (hU' : ⨆ j, 
   refine ⟨(Sigma.ι (fun k : ι × ι' => yoneda.obj (P k.1 k.2)) k).app (op (W k).toScheme)
     (chartPoint (r k.1 k.2) x), ?_⟩
   refine (congrArg (fun t => t.app (op (W k).toScheme) (chartPoint (r k.1 k.2) x))
-    (Sigma.ι_desc (fun k : ι × ι' => restrictChart (r k.1 k.2)) k)).trans ?_
-  show Comparison.toRestrict _ _ ((r k.1 k.2).homEquiv _ (chartPoint (r k.1 k.2) x)) = _
+    (Sigma.ι_comp_desc (fun k : ι × ι' => restrictChart (r k.1 k.2)) k)).trans ?_
+  change Comparison.toRestrict _ _ ((r k.1 k.2).homEquiv _ (chartPoint (r k.1 k.2) x)) = _
   rw [chartPoint, Equiv.apply_symm_apply, Comparison.toRestrict_restrictTo]
   rfl
 

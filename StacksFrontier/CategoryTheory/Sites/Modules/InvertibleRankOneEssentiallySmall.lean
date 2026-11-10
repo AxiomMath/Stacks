@@ -90,7 +90,7 @@ private lemma isIso_cofanInj_of_isColimit {A M : D} (ι : Fin 1 → (A ⟶ M))
   refine h.hom_ext (fun j => ?_)
   obtain ⟨j⟩ := j
   fin_cases j
-  show ι 0 ≫ _ ≫ ι 0 = ι 0 ≫ 𝟙 M
+  change ι 0 ≫ _ ≫ ι 0 = ι 0 ≫ 𝟙 M
   rw [← Category.assoc, hf, Category.id_comp, Category.comp_id]
 
 /-- An isomorphism `A ≅ M`, read as a one element family, presents `M` as a coproduct of one

@@ -269,7 +269,7 @@ lemma fiberEndConj_morRestrict {g₁ g₂ : Over V} (h : g₁ ⟶ g₂)
     (fiberEndConj p (pullbackFiberBaseChangeIso p e m hm g₂) φ)
     (fiberEndConj p (pullbackFiberBaseChangeIso p e m hm g₁)
       (morRestrict p x' x' h φ)) ?_
-  show Fiber.fiberInclusion.map ((pullbackFiberBaseChangeIso p e m hm g₁).inv ≫
+  change Fiber.fiberInclusion.map ((pullbackFiberBaseChangeIso p e m hm g₁).inv ≫
         morRestrict p x' x' h φ ≫ (pullbackFiberBaseChangeIso p e m hm g₁).hom) ≫
       IsPreFibered.pullbackMap x.2 (g₁.hom ≫ e) =
     pullbackFiberMap p x ((Over.map e).map h) ≫
@@ -357,7 +357,7 @@ lemma morPresheafMap_app_fiberEndConj (g : Over V)
   have key₂ : A.inv ≫ Cr.hom = T.map c.hom ≫ I.inv := by
     rw [Iso.eq_comp_inv, Category.assoc, ← key, ← Category.assoc, A.inv_hom_id,
       Category.id_comp]
-  show Cr.inv ≫ (A.hom ≫ T.map φ ≫ A.inv) ≫ Cr.hom =
+  change Cr.inv ≫ (A.hom ≫ T.map φ ≫ A.inv) ≫ Cr.hom =
     I.hom ≫ T.map (c.inv ≫ φ ≫ c.hom) ≫ I.inv
   simp only [T.map_comp, Category.assoc]
   rw [reassoc_of% key₁, key₂]

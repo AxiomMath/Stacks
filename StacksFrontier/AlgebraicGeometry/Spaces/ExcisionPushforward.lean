@@ -101,7 +101,7 @@ theorem isSheaf_natTransEqualizer {J : GrothendieckTopology C}
     Presieve.IsSheaf J (natTransEqualizer α β).toFunctor := by
   rw [Subfunctor.isSheaf_iff _ hF]
   intro A s hs
-  show α.app A s = β.app A s
+  change α.app A s = β.app A s
   refine hG _ hs (fun T i _ => G.map i.op (α.app A s)) _ _ (fun T i _ => rfl)
     (fun T i hi => ?_)
   have hi' : α.app (op T) (F.map i.op s) = β.app (op T) (F.map i.op s) := hi

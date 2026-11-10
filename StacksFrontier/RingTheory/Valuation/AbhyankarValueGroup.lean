@@ -261,7 +261,7 @@ theorem toENat_rank_valueGroup_add_trdeg_le_ringKrullDim :
       ringKrullDim R := by
   obtain ⟨d, hd⟩ : ∃ d : ℕ, ringKrullDim R = d := by
     rw [← IsLocalRing.maximalIdeal_height_eq_ringKrullDim]
-    exact ⟨_, congrArg _ (ENat.coe_toNat
+    exact ⟨_, congrArg _ (ENat.natCast_toNat
       (Ideal.height_ne_top (IsLocalRing.maximalIdeal.isMaximal R).ne_top)).symm⟩
   have h := rank_valueGroup_add_trdeg_le (K := K) (V := V) d hd
   rw [hd]

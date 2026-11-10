@@ -147,7 +147,7 @@ theorem map_atPrime_eq_maximalIdeal_iff {A : Type u} [CommRing A] [IsNoetherianR
     IsLocalization.AtPrime.map_eq_maximalIdeal p Ap
   by_cases hN : N ≤ p
   case neg =>
-    obtain ⟨a, haN, hap⟩ := SetLike.not_le_iff_exists.1 hN
+    obtain ⟨a, haN, hap⟩ := IsConcreteLE.not_le_iff_exists.1 hN
     have hunit : IsUnit (algebraMap A Ap a) :=
       IsLocalization.map_units (M := p.primeCompl) Ap ⟨a, hap⟩
     have htop : N.map (algebraMap A Ap) = ⊤ :=

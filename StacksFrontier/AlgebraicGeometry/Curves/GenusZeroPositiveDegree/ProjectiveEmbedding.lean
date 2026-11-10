@@ -140,7 +140,7 @@ theorem adjoin_ratio_eq_top_of_basis [IsProper f] [IsIntegral X]
   -- the chart of `t` is affine: it is a chart of the family `(t, s₀, …, s_d)`
   let s' : Fin (d + 2) → Γ(L, ⊤) := Fin.cons t s
   have hs' : IsOpenCover (nvCover s') := by
-    show (⨆ j, nvCover s' j) = ⊤
+    change (⨆ j, nvCover s' j) = ⊤
     exact eq_top_iff.mpr (ht ▸ sup_le (le_iSup (nvCover s') i.succ) (le_iSup (nvCover s') 0))
   have hV : IsAffineOpen (nvOpen L t) :=
     PlaneConic.isAffineOpen_nvCover_of_isOpenCover f s' hdim hs' (fun j => hvan _) 0

@@ -29,7 +29,8 @@ subcategories of any equivalence normalized as the equivalence of Stacks 06WT is
 `e` of `AlgebraicGeometry.Stack.coherentPresentationEquivalence`, together with the normalization
 `he` of its forward functor.  The equivalence `QCoh(𝒪_𝒳) ≅ QCoh(𝒪_{[U/R]}) ≅ QCoh(U, R, s, t, c)`
 and its normalization are constructed in
-`StacksFrontier/AlgebraicGeometry/Stacks/CoherentFlatPresentationEquivalence.lean`, where Stacks 0GRC
+`StacksFrontier/AlgebraicGeometry/Stacks/CoherentFlatPresentationEquivalence.lean`, where
+Stacks 0GRC
 is registered on `AlgebraicGeometry.Stack.SelfIntersection.coherentFlatPresentationEquivalence`.
 
 ## Main definitions
@@ -279,7 +280,7 @@ theorem inverseImage_coherentModules_eq_chartCoherentQuasicoherentSheaves
         (quasicoherentFromSpaceBase B S hS G φ hφ) =
       chartCoherentQuasicoherentSheaves B S hS G φ := by
   funext ℱ
-  show IsCoherent B S hS G.objects.1 G.objects.2 (spaceBaseObj B S hS G φ hφ ℱ).F.obj =
+  change IsCoherent B S hS G.objects.1 G.objects.2 (spaceBaseObj B S hS G φ hφ ℱ).F.obj =
     IsCoherent B S hS G.objects.1 G.objects.2 ((modulePullback B S hS φ).obj ℱ.obj)
   rw [spaceBaseObj_F_obj]
 

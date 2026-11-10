@@ -137,7 +137,7 @@ theorem exists_stalk_eq_span_of_isEffectiveCartierDivisor [IsIntegral X]
 theorem PrimeDivisor.support_eq_closure_genericPoint (Z : PrimeDivisor X) :
     (Z.support : Set X) = closure ({Z.genericPoint} : Set X) := by
   have := Z.integral
-  show ((Z.idealSheaf.support : Closeds X) : Set X) = _
+  change ((Z.idealSheaf.support : Closeds X) : Set X) = _
   rw [← Scheme.IdealSheafData.range_subschemeι]
   set η := _root_.genericPoint Z.idealSheaf.subscheme with hη
   calc Set.range Z.idealSheaf.subschemeι

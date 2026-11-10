@@ -56,7 +56,7 @@ private theorem isHenselization_of_algEquiv {A B C : Type u} [CommRing A] [IsLoc
     ((CommAlgCat.etale A).ind.prop_of_iso (CommAlgCat.isoMk e)
       (IsHenselization.ind_etale_of_universe_le.{u, v} L))
   refine ⟨a.trans (ResidueField.mapEquiv e.toRingEquiv), fun r => ?_⟩
-  show ResidueField.map (e : B →+* C) (a _) = _
+  change ResidueField.map (e : B →+* C) (a _) = _
   rw [ha, ResidueField.map_residue]
   exact congrArg (residue C) (e.commutes r)
 
@@ -94,7 +94,7 @@ public theorem pullback_baseChange_spec {A B N : Type u} [CommRing A] [CommRing 
     simp [pullbackRightPullbackFstIso_hom_fst, pullbackSymmetry_hom_comp_snd]
   have htensor : toTensor.hom ≫ Spec.map (CommRingCat.ofHom (algebraMap B (B ⊗[A] N))) =
       toTarget.hom ≫ pullback.snd ν (g ≫ f) := by
-    show m ≫ (pullbackSpecIso A B N).hom ≫
+    change m ≫ (pullbackSpecIso A B N).hom ≫
       Spec.map (CommRingCat.ofHom (algebraMap B (B ⊗[A] N))) = _
     calc
       _ = m ≫ pullback.fst g (Spec.map (CommRingCat.ofHom (algebraMap A N))) := by
@@ -133,7 +133,7 @@ public theorem toIntegralClosure_bijective_of_isHenselization {A B D : Type u} [
   have hf : DirectedSystem G fun i j hij => f i j hij := by
     refine ⟨?_, ?_⟩
     · intro i y
-      show (p.diag.map (𝟙 i)).hom y = y
+      change (p.diag.map (𝟙 i)).hom y = y
       simp
     · intro k j i hij hjk y
       have hcomp : homOfLE hij ≫ homOfLE hjk = homOfLE (hij.trans hjk) :=
@@ -163,7 +163,7 @@ public theorem toIntegralClosure_bijective_of_isHenselization {A B D : Type u} [
       intro z
       obtain ⟨i, y, hz⟩ := DirectLimit.exists_eq_mk f z
       rw [hz]
-      show fromB (toB (DirectLimit.Algebra.of G f i y)) = DirectLimit.Algebra.of G f i y
+      change fromB (toB (DirectLimit.Algebra.of G f i y)) = DirectLimit.Algebra.of G f i y
       rw [DirectLimit.Algebra.lift_of (ULift.{u} B) stageToB stageCompat i y]
       exact hfac i y
     have hright : Function.LeftInverse toB fromB := by
@@ -173,7 +173,7 @@ public theorem toIntegralClosure_bijective_of_isHenselization {A B D : Type u} [
         intro i
         apply CommAlgCat.hom_ext
         ext y
-        show (toB (fromB (stageToB i y))).down = (stageToB i y).down
+        change (toB (fromB (stageToB i y))).down = (stageToB i y).down
         rw [hfac, DirectLimit.Algebra.lift_of (ULift.{u} B) stageToB stageCompat i y]
       exact DFunLike.congr_fun (congrArg CommAlgCat.Hom.hom hh) z
     exact AlgEquiv.ofBijective toB ⟨hleft.injective, hright.surjective⟩
@@ -244,7 +244,7 @@ public theorem normalization_baseChange_isHenselization (X : Scheme.{u}) [IsLoca
   have hscalar (b : Ah) :
       eA (Algebra.TensorProduct.includeLeft (R := A) (S := Ah) (A := Ah) (B := N) b) =
         algebraMap A0 N0 (eAh0 b) := by
-    show eN0 (eTensor (Algebra.TensorProduct.includeLeft (R := A) (S := Ah)
+    change eN0 (eTensor (Algebra.TensorProduct.includeLeft (R := A) (S := Ah)
       (A := Ah) (B := N) b)) = _
     simpa only [hTensorLeft] using eN0.commutes (eAh0 b)
   let eN : (Ah ⊗[A] N) ≃ₐ[Ah] N0 := AlgEquiv.ofRingEquiv (f := eA.toRingEquiv) hscalar
@@ -255,7 +255,7 @@ public theorem normalization_baseChange_isHenselization (X : Scheme.{u}) [IsLoca
     rw [← Spec.map_comp, Spec.map_injective.eq_iff]
     apply CommRingCat.hom_ext
     ext b
-    show eN.symm (algebraMap Ah N0 b) = algebraMap Ah (Ah ⊗[A] N) b
+    change eN.symm (algebraMap Ah N0 b) = algebraMap Ah (Ah ⊗[A] N) b
     rw [eN.symm.commutes]
   let j := Spec.map i.inv
   have hj : j = Y.fromSpecStalk y := Spec_stalkClosedPointIso (.of Ah)

@@ -152,7 +152,7 @@ theorem mapPoint_curry' {X : C} (f : X ⟶ X) :
         (Functor.LaxMonoidal.μ F X (𝟙_ C) ≫ F.map ((ρ_ X).hom ≫ f)) := by
     rw [Functor.LaxMonoidal.right_unitality F X, Functor.map_comp]
     simp only [Category.assoc]
-  show (Functor.LaxMonoidal.ε F ≫ F.map (MonoidalClosed.curry' f)) ≫
+  change (Functor.LaxMonoidal.ε F ≫ F.map (MonoidalClosed.curry' f)) ≫
       MonoidalClosed.ihomFunctorComparison F X X
     = MonoidalClosed.curry ((ρ_ (F.obj X)).hom ≫ F.map f)
   rw [Category.assoc, h1, h2, MonoidalClosed.curry_natural_left]
@@ -198,11 +198,11 @@ theorem natTensorPowPoint_comp_natTensorPowCongr_inv {A B : AlgebraSheaf S} (e :
       natTensorPowPoint m p ≫ (natTensorPowCongr e m).inv.hom
         = natTensorPowPoint m (fun j => p j ≫ e.inv.hom)
   | 0, p => by
-    show 𝟙 (𝟙_ (ModuleSheaf S)) ≫ (natTensorPowCongr e 0).inv.hom = 𝟙 (𝟙_ (ModuleSheaf S))
+    change 𝟙 (𝟙_ (ModuleSheaf S)) ≫ (natTensorPowCongr e 0).inv.hom = 𝟙 (𝟙_ (ModuleSheaf S))
     exact Category.id_comp _
   | m + 1, p => by
     have ih := natTensorPowPoint_comp_natTensorPowCongr_inv e m (Fin.init p)
-    show (λ_ (𝟙_ (ModuleSheaf S))).inv ≫
+    change (λ_ (𝟙_ (ModuleSheaf S))).inv ≫
         (natTensorPowPoint m (Fin.init p) ⊗ₘ p (Fin.last m)) ≫
         ((natTensorPowCongr e m).inv.hom ⊗ₘ e.inv.hom)
       = (λ_ (𝟙_ (ModuleSheaf S))).inv ≫
@@ -228,7 +228,7 @@ theorem natTensorPowPoint_curry' {E : ModuleSheaf S}
     have h1 : 𝟙 (𝟙_ (ModuleSheaf S)) ⊗ₘ f (Fin.last 0)
         = (λ_ E).hom ≫ f (Fin.last 0) ≫ (λ_ E).inv :=
       (id_tensorHom _ _).trans (whiskerLeft_unit_eq_conj _)
-    show (λ_ (𝟙_ (ModuleSheaf S))).inv ≫
+    change (λ_ (𝟙_ (ModuleSheaf S))).inv ≫
         (𝟙 (𝟙_ (ModuleSheaf S)) ⊗ₘ MonoidalClosed.curry' (f (Fin.last 0))) ≫
         ((λ_ ((MonoidalClosed.internalEnd E).X)).hom ≫
           (MonoidalClosed.internalEndCongr (λ_ E).symm).hom.hom)
@@ -238,7 +238,7 @@ theorem natTensorPowPoint_curry' {E : ModuleSheaf S}
         (congrArg MonoidalClosed.curry' h1.symm))
   | n + 1, f => by
     have ih := natTensorPowPoint_curry' hE n (Fin.init f)
-    show (λ_ (𝟙_ (ModuleSheaf S))).inv ≫
+    change (λ_ (𝟙_ (ModuleSheaf S))).inv ≫
         (natTensorPowPoint (n + 1) (fun j => MonoidalClosed.curry' (Fin.init f j)) ⊗ₘ
           MonoidalClosed.curry' (f (Fin.last (n + 1)))) ≫
         (((natTensorPowEndAlgebraIso hE n).hom.hom ⊗ₘ
@@ -312,7 +312,7 @@ theorem curry'_altProjFree_comp_natTensorPowTrivIso_inv_eq_sum {T : Scheme.{u}}
             (natTensorPowEndAlgebraIso (isFiniteLocallyFree_free (S := T)
               (ULift.{u, 0} (Fin (n + 1)))) n).inv.hom) ≫
           (natTensorPowCongr M (n + 1)).inv.hom := by
-      show matIncl (S := T) (ULift.up.{u, 0} c, ULift.up.{u, 0} e) ≫
+      change matIncl (S := T) (ULift.up.{u, 0} c, ULift.up.{u, 0} e) ≫
           ((endAlgebraCongr (natTensorPowFreeIso T (n + 1) (n + 1))).inv.hom ≫
             (natTensorPowEndAlgebraIso (isFiniteLocallyFree_free (S := T)
               (ULift.{u, 0} (Fin (n + 1)))) n).inv.hom ≫

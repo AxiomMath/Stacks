@@ -68,7 +68,7 @@ theorem isStandardCovering_sliceImageFamily [IsAffine (chartScheme W)]
     refine ⟨i, ((BigFppfOver.toScheme B S hS).map
       ((SmallEtale.toOver B S hS F).map h)) y, ?_⟩
     rw [← hy]
-    show ((BigFppfOver.toScheme B S hS).map ((SmallEtale.toOver B S hS F).map (E.f i)))
+    change ((BigFppfOver.toScheme B S hS).map ((SmallEtale.toOver B S hS F).map (E.f i)))
         (((BigFppfOver.toScheme B S hS).map ((SmallEtale.toOver B S hS F).map h)) y) =
       ((BigFppfOver.toScheme B S hS).map ((SmallEtale.toOver B S hS F).map (h ≫ E.f i))) y
     rw [Functor.map_comp, Functor.map_comp]

@@ -54,7 +54,7 @@ variable (k : Type u) [Field k]
 theorem isLocallyNoetherian_affineLine : IsLocallyNoetherian (affineLine k).left := by
   have _ : Finite PUnit.{u + 1} := inferInstance
   have _ : LocallyOfFinitePresentation (affineLine k).hom := by
-    show LocallyOfFinitePresentation
+    change LocallyOfFinitePresentation
       (AffineSpace PUnit.{u + 1} (Spec (.of k)) ↘ Spec (.of k))
     infer_instance
   have _ : IsLocallyNoetherian (Spec (.of k)) := inferInstance
@@ -86,7 +86,7 @@ theorem isNoetherian_involutionQuotient (hchar : (2 : k) ≠ 0) (B : BigFppfSite
     (Space.isEtale_iff_presheaf_of_yoneda B (Spec (.of k)) hS _).2 hetale⟩,
     isAbsolutelyQuasiSeparated_involutionQuotient k B hS hchar hZ,
     ⟨affineLineChart k B hS, _, hsurj, hetale, ?_⟩⟩
-  · show CompactSpace (affineLine k).left
+  · change CompactSpace (affineLine k).left
     infer_instance
   · exact isLocallyNoetherian_affineLine k
 

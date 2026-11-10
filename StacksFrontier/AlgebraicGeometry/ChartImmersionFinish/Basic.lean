@@ -146,13 +146,13 @@ variable {X : Scheme.{u}}
 /-- Restricting twice is restricting once. -/
 theorem resO_resO {W₁ W₂ W₃ : X.Opens} (h₁₂ : W₂ ≤ W₁) (h₂₃ : W₃ ≤ W₂) (a : Γ(X, W₁)) :
     resO h₂₃ (resO h₁₂ a) = resO (h₂₃.trans h₁₂) a := by
-  show (X.presheaf.map (homOfLE h₂₃).op).hom ((X.presheaf.map (homOfLE h₁₂).op).hom a) = _
+  change (X.presheaf.map (homOfLE h₂₃).op).hom ((X.presheaf.map (homOfLE h₁₂).op).hom a) = _
   rw [← CommRingCat.comp_apply, ← X.presheaf.map_comp]
   exact congrArg (fun q => (X.presheaf.map q).hom a) (Subsingleton.elim _ _)
 
 /-- Restriction along `le_rfl` is the identity. -/
 theorem resO_self {W : X.Opens} (h : W ≤ W) (a : Γ(X, W)) : resO h a = a := by
-  show (X.presheaf.map (homOfLE h).op).hom a = a
+  change (X.presheaf.map (homOfLE h).op).hom a = a
   rw [show (homOfLE h).op = 𝟙 (op W) from Subsingleton.elim _ _, X.presheaf.map_id]
   rfl
 

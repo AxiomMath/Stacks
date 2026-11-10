@@ -139,8 +139,8 @@ theorem restrictQuotientSheafMap_mono (hj : IsPreEquivalenceRelation j) :
     let r' := restrictRelationPoint j g F b a r hs ht
     refine ⟨r', ?_, ?_⟩ <;>
       simp [r', restrictRelationPoint, j', AlgebraicGeometry.PreRelation.restrict,
-        PreRelation.source, PreRelation.target, pullback.lift_fst_assoc]
-  show Mono ((presheafToSheaf J (Type u)).map m)
+        PreRelation.source, PreRelation.target]
+  change Mono ((presheafToSheaf J (Type u)).map m)
   infer_instance
 
 /-- **Stacks 045Z, bijectivity.** If `g` induces a local surjection on restricted functors of

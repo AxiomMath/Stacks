@@ -446,7 +446,7 @@ lemma eventually_le_depth_map [Algebra.FiniteType R S] (d : ℕ)
     · push Not at hall
       obtain ⟨y, hy, hyq⟩ := hall
       exact hunit q' y (hys y hy) hyq
-  · obtain ⟨x, hxI, hxq⟩ := SetLike.not_le_iff_exists.mp hIq
+  · obtain ⟨x, hxI, hxq⟩ := IsConcreteLE.not_le_iff_exists.mp hIq
     filter_upwards [(PrimeSpectrum.basicOpen x).isOpen.mem_nhds hxq] with q' hq'
     exact hunit q' x hxI hq'
 
@@ -613,7 +613,7 @@ public theorem Algebra.isOpen_setOf_injective_and_exact_baseChange_fiber
     have := isLocalRing_fib (R := R) q
     have := isNoetherianRing_fib (R := R) q
     rw [baseChange_exact_iff, exact_iff_forall _ e n M hM]
-  show IsOpen {q : PrimeSpectrum S | Function.Injective ((φ e).baseChange (Fib R q)) ∧
+  change IsOpen {q : PrimeSpectrum S | Function.Injective ((φ e).baseChange (Fib R q)) ∧
     ∀ k < e, Function.Exact ((φ (k + 1)).baseChange (Fib R q)) ((φ k).baseChange (Fib R q))}
   simp_rw [hset]
   refine isOpen_iff_mem_nhds.mpr fun q hq => ?_
@@ -649,7 +649,7 @@ public theorem Algebra.isOpen_setOf_injective_and_exact_baseChange_fiber
   have := nontrivial_fib (R := R) q'
   intro k hk
   refine ⟨(hq k hk).1, ⟨?_, fun j hj => ?_⟩, h2 ⟨k, Nat.lt_succ_iff.mpr hk⟩⟩
-  · show exteriorPower.map _ _ ≠ 0
+  · change exteriorPower.map _ _ ≠ 0
     rw [Stacks.DeterminantalRank.exteriorPower_map_ne_zero_iff_exists_minor]
     by_contra hall
     push Not at hall

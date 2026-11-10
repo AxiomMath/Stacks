@@ -70,7 +70,7 @@ theorem definingIdealOfHom_le_comp {Z Y X : Scheme.{u}} (i : Z ⟶ Y) (j : Y ⟶
   refine SheafOfModules.Submodule.le_iff.mpr (PresheafOfModules.Submodule.le_iff.mpr ?_)
   intro V s hs
   have hs0 : (j.app V.unop).hom s = 0 := hs
-  show (i.app (j ⁻¹ᵁ V.unop)).hom ((j.app V.unop).hom s) = 0
+  change (i.app (j ⁻¹ᵁ V.unop)).hom ((j.app V.unop).hom s) = 0
   rw [hs0, map_zero]
 
 end Composite

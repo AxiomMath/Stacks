@@ -109,7 +109,7 @@ lemma inclusionHom_comp_val {j k : StageSubalgebra F P} (h : j ≤ k) :
       inclusionHom h ≫ CommRingCat.ofHom ((sub k).val : sub k →+* F.obj (stage k)) := by
   apply CommRingCat.hom_ext
   refine RingHom.ext fun a ↦ ?_
-  show F.map (homOfLE (le_stage h)) (a : F.obj (stage j)) =
+  change F.map (homOfLE (le_stage h)) (a : F.obj (stage j)) =
     ((inclusionAlgHom h a : sub k) : F.obj (stage k))
   rw [inclusionAlgHom_coe]
 
@@ -245,7 +245,7 @@ lemma preimage_opensRange_specLeg
   rw [opensRange_specLeg_app b γ hγ hrU hcover j, opensRange_specLeg_app b γ hγ hrU hcover k,
     specDiagram_map, SpecMap_preimage_iSup_basicOpen]
   refine iSup_congr fun l ↦ congrArg PrimeSpectrum.basicOpen (Subtype.ext ?_)
-  show ((inclusionAlgHom hu ⟨b (stage (OrderDual.ofDual k)) l,
+  change ((inclusionAlgHom hu ⟨b (stage (OrderDual.ofDual k)) l,
     (isChartedSubalgebra_sub b (OrderDual.ofDual k)).mem l⟩ :
       sub (OrderDual.ofDual j)) : F.obj (stage (OrderDual.ofDual j))) = _
   rw [inclusionAlgHom_coe]

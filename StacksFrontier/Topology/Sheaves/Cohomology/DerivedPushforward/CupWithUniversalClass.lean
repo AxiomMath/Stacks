@@ -150,7 +150,7 @@ theorem cupUniversalClass_comp_eq (i : ℤ)
         (DerivedCategory.homologyFunctor (ModuleCat.{u} (baseRing S)) i).map
           ((baseSections S).map g) =
       (classAdjunctEquiv (onePointComparisonCanonical S) Z i).symm g := by
-  show _ = DerivedCategory.homologyFromSingleLinearEquiv (ModuleCat.of (baseRing S) (baseRing S))
+  change _ = DerivedCategory.homologyFromSingleLinearEquiv (ModuleCat.of (baseRing S) (baseRing S))
     ((baseSections S).obj Z) i (baseRing S)
       ((onePointComparisonCanonical S).adjunction.homEquiv _ _ g)
   rw [Adjunction.homEquiv_unit, DerivedCategory.homologyFromSingleLinearEquiv_comp]

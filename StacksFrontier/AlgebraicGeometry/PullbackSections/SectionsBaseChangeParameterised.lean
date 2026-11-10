@@ -89,7 +89,7 @@ theorem isBaseChange_sections_baseChange
   refine Stacks.FlatSectionsDescent.isBaseChange_of_bijective_liftBaseChange ρ ?_
   refine Stacks.FlatSectionsDescent.bijective_liftBaseChange_of_tmul ρ
     (ψ.comp e.toAddEquiv.toAddMonoidHom) (hψ.comp e.bijective) (fun b a => ?_)
-  show ψ (e (b ⊗ₜ[Γ(S, ⊤)] a)) = b • ρ a
+  change ψ (e (b ⊗ₜ[Γ(S, ⊤)] a)) = b • ρ a
   rw [he b a, hρ a]
   exact hψsmul b _
 

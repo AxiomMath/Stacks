@@ -134,7 +134,7 @@ def geometricGroupHomologyTwist :
   (geometricGroupHomology B X f kbar Λ y).postcomp
     (rootsOfUnityHomFunctor Λ kbar (Fintype.card Λ))
 
-omit [IsAlgClosure k kbar] [CompactSpace X.1] [QuasiSeparatedSpace X.1] in
+omit [Smooth f] [IsAlgClosure k kbar] [CompactSpace X.1] [QuasiSeparatedSpace X.1] in
 /-- In degree `i`, the twisted homology is `H_i(π₁(X_k̄, η̄), -)` followed by
 `Hom(μ_{#Λ}(k̄), -)`. -/
 lemma geometricGroupHomologyTwist_functor (i : ℕ) :

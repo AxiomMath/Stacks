@@ -327,7 +327,7 @@ include ha in
 theorem fppfStructurePresheaf_map_pointRingHom (r : R) :
     (fppfStructurePresheaf B S hS 𝒳).map a.inv.op (pointRingHom B S hS 𝒳 x e r) =
       pointRingHom B S hS 𝒳 y ey r := by
-  show (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (𝒳.val.val.p.map a.inv)).op)
+  change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (𝒳.val.val.p.map a.inv)).op)
       ((Scheme.Γ.map e.hom.op) ((Scheme.ΓSpecIso (CommRingCat.of R)).inv r)) =
     (Scheme.Γ.map ey.hom.op) ((Scheme.ΓSpecIso (CommRingCat.of R)).inv r)
   rw [← toScheme_map_inv_comp B S hS 𝒳 e ey a ha, op_comp, Functor.map_comp]

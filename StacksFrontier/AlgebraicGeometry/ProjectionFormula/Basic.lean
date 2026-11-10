@@ -217,16 +217,17 @@ lemma smul_tensorSheaf_eq_zero (M N : SheafOfModules.{u} (structureSheafRing X))
     (U : Opens X.carrier) (a : X.presheaf.obj (op U))
     (hM : ∀ (V : Opens X.carrier) (hVU : V ≤ U) (m : M.val.obj (op V)),
       (X.presheaf.map (homOfLE hVU).op a) • m = 0)
-    (s : ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf).obj (M)).obj (N))).val.obj (op U)) :
+    (s : ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf).obj (M)).obj
+      (N))).val.obj (op U)) :
     a • s = 0 := by
   refine Stacks.RingedSpace.section_ext_grpGerm
-    ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf).obj (M)).obj (N))) U _ 0 ?_
+    ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf).obj (M)).obj (N)))
+    U _ 0 ?_
   intro p hp
   have hten : ∀ y : (grpStalk X M.val p) ⊗[ringStalk X p] (grpStalk X N.val p),
       ringGerm X p U hp a • y = 0 := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul m n =>
         rw [TensorProduct.smul_tmul', ringGerm_smul_eq_zero M U a p hp hM m,
           TensorProduct.zero_tmul]
@@ -249,21 +250,29 @@ arbitrary morphism of ringed spaces: the adjoint transpose of the pullback tenso
 [Stacks, Tag 01CD] followed by the counit of `f^* ⊣ f_*` in the first factor. -/
 def projectionFormulaMap (G : SheafOfModules.{u} (structureRingSheaf Z))
     (H : SheafOfModules.{u} (structureRingSheaf X)) :
-    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf))).obj ((pushforwardFunctor f).obj G, H) ⟶
+    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf))).obj
+        ((pushforwardFunctor f).obj G, H) ⟶
       (pushforwardFunctor f).obj
-        (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf))).obj (G, (pullbackFunctor f).obj H)) :=
-  adjunctionTensorMap (pullbackAdjunction f) ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf)))
-    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf))) (comparisonNatTrans f) G H
+        (((Functor.uncurry.obj
+          (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf))).obj
+            (G, (pullbackFunctor f).obj H)) :=
+  adjunctionTensorMap (pullbackAdjunction f)
+    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf)))
+    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf)))
+    (comparisonNatTrans f) G H
 
 /-- The projection-formula map, written through the unit of `f^* ⊣ f_*`. -/
 lemma projectionFormulaMap_eq_unit_comp (G : SheafOfModules.{u} (structureRingSheaf Z))
     (H : SheafOfModules.{u} (structureRingSheaf X)) :
     projectionFormulaMap f G H =
       (pullbackAdjunction f).unit.app
-          (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf))).obj ((pushforwardFunctor f).obj G, H)) ≫
+          (((Functor.uncurry.obj
+            (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf))).obj
+              ((pushforwardFunctor f).obj G, H)) ≫
         (pushforwardFunctor f).map
           ((comparisonNatTrans f).app ((pushforwardFunctor f).obj G, H) ≫
-            ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf))).map
+            ((Functor.uncurry.obj
+              (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf))).map
               ((pullbackAdjunction f).counit.app G ×ₘ 𝟙 ((pullbackFunctor f).obj H))) :=
   adjunctionTensorMap_eq_unit_comp _ _ _ _ G H
 
@@ -271,17 +280,21 @@ lemma projectionFormulaMap_eq_unit_comp (G : SheafOfModules.{u} (structureRingSh
 @[reassoc]
 lemma projectionFormulaMap_natural {G G' : SheafOfModules.{u} (structureRingSheaf Z)}
     {H H' : SheafOfModules.{u} (structureRingSheaf X)} (g : G ⟶ G') (k : H ⟶ H') :
-    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf))).map ((pushforwardFunctor f).map g ×ₘ k) ≫
+    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf))).map
+        ((pushforwardFunctor f).map g ×ₘ k) ≫
         projectionFormulaMap f G' H' =
       projectionFormulaMap f G H ≫
         (pushforwardFunctor f).map
-          (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf))).map (g ×ₘ (pullbackFunctor f).map k)) :=
+          (((Functor.uncurry.obj
+            (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf))).map
+              (g ×ₘ (pullbackFunctor f).map k)) :=
   adjunctionTensorMap_natural _ _ _ _ g k
 
 /-- Tensoring the unit of `f^* ⊣ f_*` and then applying the projection-formula map is the adjoint
 transpose of the pullback tensor comparison. -/
 lemma projectionFormulaMap_natural_unit (F H : SheafOfModules.{u} (structureRingSheaf X)) :
-    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf))).map ((pullbackAdjunction f).unit.app F ×ₘ 𝟙 H) ≫
+    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf))).map
+        ((pullbackAdjunction f).unit.app F ×ₘ 𝟙 H) ≫
         projectionFormulaMap f ((pullbackFunctor f).obj F) H =
       (pullbackAdjunction f).homEquiv _ _ ((comparisonNatTrans f).app (F, H)) :=
   adjunctionTensorMap_unit _ _ _ _ F H
@@ -301,7 +314,9 @@ half of the same tag. -/
 theorem isIso_unit_app_tensorSheaf (G : SheafOfModules.{u} (structureRingSheaf S.Z))
     (H : SheafOfModules.{u} (structureRingSheaf S.X)) :
     IsIso ((pullbackAdjunction S.i).unit.app
-      (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} S.X.sheaf))).obj ((pushforwardFunctor S.i).obj G, H))) := by
+      (((Functor.uncurry.obj
+        (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} S.X.sheaf))).obj
+          ((pushforwardFunctor S.i).obj G, H))) := by
   let : (modulePushforward S.i).Full := S.full_modulePushforward
   let : (modulePushforward S.i).Faithful := S.faithful_modulePushforward
   have hpush := (S.modulePushforward_essImage_iff ((modulePushforward S.i).obj G)).mp
@@ -337,9 +352,12 @@ theorem isIso_projectionFormulaMap (G : SheafOfModules.{u} (structureRingSheaf S
 isomorphism. -/
 def projectionFormulaIso (G : SheafOfModules.{u} (structureRingSheaf S.Z))
     (H : SheafOfModules.{u} (structureRingSheaf S.X)) :
-    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} S.X.sheaf))).obj ((pushforwardFunctor S.i).obj G, H) ≅
+    ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} S.X.sheaf))).obj
+        ((pushforwardFunctor S.i).obj G, H) ≅
       (pushforwardFunctor S.i).obj
-        (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} S.Z.sheaf))).obj (G, (pullbackFunctor S.i).obj H)) :=
+        (((Functor.uncurry.obj
+          (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} S.Z.sheaf))).obj
+            (G, (pullbackFunctor S.i).obj H)) :=
   haveI := isIso_projectionFormulaMap S G H
   asIso (projectionFormulaMap S.i G H)
 
@@ -370,7 +388,8 @@ def closedImmersionProjectionFormulaIso
     ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf))).obj
         ((pushforwardFunctor i.toLRSHom.toShHom).obj G, H) ≅
       (pushforwardFunctor i.toLRSHom.toShHom).obj
-        (((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf))).obj
+        (((Functor.uncurry.obj
+          (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Z.sheaf))).obj
           (G, (pullbackFunctor i.toLRSHom.toShHom).obj H)) :=
   projectionFormulaIso (Stacks.ClosedImmersion.closedQuotientOfClosedImmersion i) G H
 

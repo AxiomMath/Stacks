@@ -111,7 +111,7 @@ private theorem algebraicSpaceStackSection_mem_openSubspaceOfPoints (ξ : 𝒳.v
   have heq : (⟨𝒳.val.val.p.obj ξ, Discrete.mk (algebraicSpaceStackSection f ξ)⟩ :
       (fibredCategory B S hS Y).val.obj) = f.hom.hom.toFunctor.obj ξ :=
     obj_eq_of_elementOf_eq rfl (Functor.congr_obj f.hom.hom.w ξ) rfl
-  show pointsWithin (algebraicSpaceStack.{u, w} B S hS Y hY) _
+  change pointsWithin (algebraicSpaceStack.{u, w} B S hS Y hY) _
     ⟨𝒳.val.val.p.obj ξ, Discrete.mk (algebraicSpaceStackSection f ξ)⟩
   rwa [heq]
 

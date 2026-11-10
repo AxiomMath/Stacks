@@ -137,7 +137,8 @@ theorem bundleEmbedding_toBase :
 
 /-- **The closed immersion `C_ZX ⟶ N`** of the construction preceding Stacks 0FBK: the canonical
 closed immersion `C_ZX ⟶ N_ZX` of Divisors, Equation 0637, followed by `N_ZX ⟶ N`. -/
-def coneEmbedding : Stacks.Conormal.normalCone i ⟶ Scheme.Modules.vectorBundle Z (dualSheaf 𝒩.bundle) :=
+def coneEmbedding :
+    Stacks.Conormal.normalCone i ⟶ Scheme.Modules.vectorBundle Z (dualSheaf 𝒩.bundle) :=
   Stacks.Conormal.normalConeToNormalBundle i ≫ 𝒩.bundleEmbedding
 
 instance isClosedImmersion_coneEmbedding : IsClosedImmersion 𝒩.coneEmbedding := by

@@ -80,7 +80,7 @@ theorem exists_complementIso_tensor {r : ℕ} (f : Fin r → A)
     let T₀ := Φ.mapTriangle.obj (Triangle.mk (CechFormula.cechAugmentation A f) g h)
     have comm : (D.triangle M).mor₁ ≫ (CechFormula.derivedTensorLeftUnitor A).inv.app X =
         (CechFormula.localCohomologyCechIso A J hJ f hf).hom.app X ≫ T₀.mor₁ := by
-      show (Dualizing.localCohomologyAdjunction A J hJ).counit.app X ≫ _ = _
+      change (Dualizing.localCohomologyAdjunction A J hJ).counit.app X ≫ _ = _
       refine ((CechFormula.derivedTensorLeftUnitor A).app X).comp_inv_eq.2 ?_
       exact hcounit.symm.trans (Category.assoc _ _ _).symm
     obtain ⟨c, hc₁, hc₂⟩ := complete_distinguished_triangle_morphism (D.triangle M) T₀

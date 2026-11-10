@@ -103,7 +103,7 @@ theorem mono_extendScalarsFromInt_map (S : ShortComplex AddCommGrpCat.{max r v})
       S.g.hom.toIntLinearMap.surjective_rangeRestrict S.f.hom.toIntLinearMap
       ((AddCommGrpCat.mono_iff_injective _).mp inferInstance)
       (fun x ↦ by
-        show (S.g.hom.toIntLinearMap.rangeRestrict x = 0) ↔ x ∈ Set.range S.f.hom
+        change (S.g.hom.toIntLinearMap.rangeRestrict x = 0) ↔ x ∈ Set.range S.f.hom
         rw [Subtype.ext_iff]
         exact (S.ab_exact_iff_function_exact.mp hS) x) R
 

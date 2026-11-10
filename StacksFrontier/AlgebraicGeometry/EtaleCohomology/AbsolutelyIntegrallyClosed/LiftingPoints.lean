@@ -59,7 +59,7 @@ public theorem surjective_precomp_localizationMap_of_isAbsolutelyIntegrallyClose
       simp [hΦ0] at hDegree
     let P : R[X] := Φ.map (algebraMap A R) - C a
     have hPmonic : P.Monic := by
-      show (Φ.map (algebraMap A R) - C a).Monic
+      change (Φ.map (algebraMap A R) - C a).Monic
       rw [Monic, leadingCoeff_sub_of_degree_lt]
       · exact hMonic.map (algebraMap A R)
       · rw [degree_eq_natDegree (hMonic.map (algebraMap A R)).ne_zero]
@@ -93,12 +93,12 @@ public theorem surjective_precomp_localizationMap_of_isAbsolutelyIntegrallyClose
     refine ⟨g, ?_⟩
     apply IsLocalization.algHom_ext (Submonoid.powers (C (π ^ ℓ) * X + 1))
     ext
-    show g (localizationMap A π ℓ Φ hΦ
+    change g (localizationMap A π ℓ Φ hΦ
       (algebraMap A[X] (Localization.Away (C (π ^ ℓ) * X + 1)) X)) =
         h (algebraMap A[X] (Localization.Away (C (π ^ ℓ) * X + 1)) X)
     rw [localizationMap_X]
     have hgX : g (algebraMap A[X] (Localization.Away (C π * X + 1)) X) = b := by
-      show IsLocalization.Away.lift (C π * X + 1) hdenUnit
+      change IsLocalization.Away.lift (C π * X + 1) hdenUnit
         (algebraMap A[X] (Localization.Away (C π * X + 1)) X) = b
       rw [IsLocalization.Away.lift_eq]
       simp [f]

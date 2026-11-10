@@ -105,7 +105,7 @@ public lemma singleHomEquivExt_singleFunctor_map_comp {A A' B : 𝒜} (a : A' �
     (hi : q + (i : ℤ) = p) (f : (singleFunctor 𝒜 p).obj A ⟶ (singleFunctor 𝒜 q).obj B) :
     singleHomEquivExt A' B p q i hi ((singleFunctor 𝒜 p).map a ≫ f) =
       (Ext.mk₀ a).comp (singleHomEquivExt A B p q i hi f) (zero_add i) := by
-  rw [Equiv.apply_eq_iff_eq_symm_apply, singleHomEquivExt_symm_mk₀_comp, Equiv.symm_apply_apply]
+  rw [← Equiv.eq_symm_apply, singleHomEquivExt_symm_mk₀_comp, Equiv.symm_apply_apply]
 
 end DerivedCategory
 
@@ -258,7 +258,7 @@ public lemma singleHomEquivExt_mapSingleFunctorIso_conj [HasExt.{w} 𝒜] [HasEx
         ((Φ.mapSingleFunctorIso p).inv.app A ≫ Φ.mapDerivedCategory.map f ≫
           (Φ.mapSingleFunctorIso q).hom.app B) =
       (DerivedCategory.singleHomEquivExt A B p q i hi f).mapExactFunctor Φ := by
-  rw [Equiv.apply_eq_iff_eq_symm_apply,
+  rw [← Equiv.eq_symm_apply,
     ← Φ.mapSingleFunctorIso_conj_singleHomEquivExt_symm A B p q i hi
       (DerivedCategory.singleHomEquivExt A B p q i hi f), Equiv.symm_apply_apply]
 

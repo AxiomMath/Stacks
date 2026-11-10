@@ -197,7 +197,7 @@ theorem comp_eq_comp_of_forall_lift_gluedRelation
     obtain ⟨y', hy'⟩ := hlift t p₂ hbt y hr₀t
     have hgW : yoneda.map x' ≫ gW = yoneda.map y' ≫ gW := by
       refine huπ.hom_ext fun j ↦ ?_
-      show (yoneda.map x' ≫ gW) ≫ uπ.app j = (yoneda.map y' ≫ gW) ≫ uπ.app j
+      change (yoneda.map x' ≫ gW) ≫ uπ.app j = (yoneda.map y' ≫ gW) ≫ uπ.app j
       rw [Category.assoc, Category.assoc, ← hwg, ← Functor.map_comp_assoc,
         ← Functor.map_comp_assoc]
       obtain ⟨r, hrs, hrt⟩ := hr j

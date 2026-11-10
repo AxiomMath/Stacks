@@ -133,6 +133,7 @@ namespace Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` for `HasPullbacks` on presheaves over the big fppf site is a deep instance search
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_genericallyFinite :
@@ -144,6 +145,7 @@ local instance (priority := high) hasPullback_presheaf_genericallyFinite
   CategoryTheory.Limits.HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasLimitsOfShape (Discrete J)` on presheaves over the big fppf site is a deep instance search
 /-- Discrete limits of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance (priority := high) hasDiscreteLimits_presheaf_genericallyFinite (J : Type) :
@@ -159,7 +161,7 @@ field-valued representative. -/
 lemma sourcePoint_eq_schemePoint {f : X ⟶ Y} {x : points B S hS X}
     (c : EtaleChartAtPoint B S hS f x) :
     c.sourcePoint B S hS = schemePoint B S hS c.U c.representative := by
-  show (BigFppfOver.toScheme B S hS).map c.representative.value c.point = _
+  change (BigFppfOver.toScheme B S hS).map c.representative.value c.point = _
   rw [Subsingleton.elim c.point (IsLocalRing.closedPoint c.representative.carrier)]
   rfl
 
@@ -208,7 +210,7 @@ private lemma pointsMap_chartPoint_eq {f : X ⟶ Y} {x : points B S hS X}
   let q₀ := FieldValuedPoint.map B S hS (yoneda.obj c.U) (yoneda.map c.h) c.representative
   have hsame : pointsToScheme B S hS c.V (qV.class B S hS (yoneda.obj c.V)) =
       pointsToScheme B S hS c.V (q₀.class B S hS (yoneda.obj c.V)) := by
-    show schemePoint B S hS c.V qV = schemePoint B S hS c.V q₀
+    change schemePoint B S hS c.V qV = schemePoint B S hS c.V q₀
     rwa [schemePoint_map_yoneda, schemePoint_map_yoneda, ← sourcePoint_eq_schemePoint,
       schemePointRepresentative_point]
   have hclass : qV.class B S hS (yoneda.obj c.V) = q₀.class B S hS (yoneda.obj c.V) :=
@@ -347,7 +349,7 @@ theorem quasiFiniteAt_over_codimensionZeroPoint_tfae
           representative := q, point := IsLocalRing.closedPoint q.carrier
           maps_to := rfl }
       have hsrc : cz.sourcePoint B S hS = z := by
-        show T.map q.value (IsLocalRing.closedPoint q.carrier) = z
+        change T.map q.value (IsLocalRing.closedPoint q.carrier) = z
         exact schemePointRepresentative_point B S hS c.U z
       have := (isQuasiFiniteAt_iff_forall_quasiFiniteAt_chart B S hS hX hY f hf xz).mp
         (h3 xz hdimz hxyz) cz
@@ -391,7 +393,7 @@ private theorem pullback_point_maps_to_fieldPoint (f : X ⟶ Y)
         (pullback.fst f (yonedaEquiv.symm p.value)) z) =
       p.class B S hS Y := by
   let g := yonedaEquiv.symm p.value
-  show pointsMap B S hS X f
+  change pointsMap B S hS X f
       (pointsMap B S hS (pullback f g) (pullback.fst f g) z) = p.class B S hS Y
   induction z using Quot.inductionOn with
   | h w =>
@@ -403,7 +405,7 @@ private theorem pullback_point_maps_to_fieldPoint (f : X ⟶ Y)
         refine ⟨FieldValuedPoint.map B S hS (yoneda.obj (p.siteObject B S hS Y)) g wb,
           FieldValuedPoint.dominates_refl B S hS Y _, ?_⟩
         refine ⟨wb.value, ?_⟩
-        show Y.map wb.value.op p.value =
+        change Y.map wb.value.op p.value =
           (FieldValuedPoint.map B S hS (yoneda.obj (p.siteObject B S hS Y)) g wb).value
         rfl
       have hmaps : pointsMap B S hS X f (wx.class B S hS _) =
@@ -441,15 +443,15 @@ private theorem finite_fieldFibre_of_empty_setFibre (f : X ⟶ Y)
   rw [hemp]
   exact Set.finite_empty
 
-/-- **Stacks 0ACK, condition (8) implies condition (4) for a nonempty fibre.** Let
+/-- **Stacks 0ACK, condition (8) implies condition (4).** Let
 `f : X ⟶ Y` be a morphism of algebraic spaces over `S` of finite type and let `p` be a
-field-valued point of `Y` whose set-theoretic fibre is nonempty. If `f` is quasi-finite at
+field-valued point of `Y`. If `f` is quasi-finite at
 every point of `|X|` above the point represented by `p`, then the field fibre `X_k` has
 finitely many points: its point space is discrete by Stacks 0ACK, conditions (5) and (8), and
 compact because `X_k ⟶ Spec(k)` is a quasi-compact base change of `f`. -/
 private theorem finite_fieldFiber_of_quasiFiniteAt (hX : IsAlgebraicSpace B S hS X)
     (hY : IsAlgebraicSpace B S hS Y) (f : X ⟶ Y) (p : FieldValuedPoint B S hS Y)
-    (hft : IsFiniteType B S hS f) (hne : (setFibre B S hS f p).Nonempty)
+    (hft : IsFiniteType B S hS f)
     (hqf : ∀ x : points B S hS X, pointsMap B S hS X f x = p.class B S hS Y →
       IsQuasiFiniteAt B S hS f x) :
     (Set.univ : Set (points B S hS (pullback f (yonedaEquiv.symm p.value)))).Finite := by
@@ -464,15 +466,14 @@ private theorem finite_fieldFiber_of_quasiFiniteAt (hX : IsAlgebraicSpace B S hS
       (IsQuasiCompactSpace.of_iso B S hS
         (hft.2 _ (isAlgebraicSpace_yoneda B S hS (p.siteObject B S hS Y))
           (isQuasiCompact_yoneda_of_compact B S hS _ (by
-            show CompactSpace (Spec (.of p.carrier))
+            change CompactSpace (Spec (.of p.carrier))
             infer_instance)) (yonedaEquiv.symm p.value))
         (pullbackSymmetry (yonedaEquiv.symm p.value) f))
   have : Finite (points B S hS (fieldFibre B S hS f p)) := finite_of_compact_of_discrete
   exact Set.toFinite Set.univ
 
-/-- **Stacks 0ACK, condition (8) implies condition (4).** The previous lemma without the
-nonemptiness hypothesis, phrased for a point `y` of `|Y|` represented by `p`: an empty
-set-theoretic fibre leaves the field fibre without points. -/
+/-- **Stacks 0ACK, condition (8) implies condition (4).** The previous lemma, phrased for a
+point `y` of `|Y|` represented by `p`. -/
 private theorem finite_fieldFiber_of_quasiFiniteAt_on_fiber (hX : IsAlgebraicSpace B S hS X)
     (hY : IsAlgebraicSpace B S hS Y) (f : X ⟶ Y) (p : FieldValuedPoint B S hS Y)
     (hft : IsFiniteType B S hS f) (y : points B S hS Y) (hp : p.class B S hS Y = y)
@@ -480,10 +481,8 @@ private theorem finite_fieldFiber_of_quasiFiniteAt_on_fiber (hX : IsAlgebraicSpa
       IsQuasiFiniteAt B S hS f x) :
     Set.Finite (Set.univ : Set (points B S hS
       (pullback f (yonedaEquiv.symm p.value)))) := by
-  by_cases hne : (setFibre B S hS f p).Nonempty
-  · exact finite_fieldFiber_of_quasiFiniteAt B S hS hX hY f p hft hne
-      fun x hx ↦ hqf x (by simpa [hp] using hx)
-  · exact finite_fieldFibre_of_empty_setFibre B S hS f p hne
+  exact finite_fieldFiber_of_quasiFiniteAt B S hS hX hY f p hft
+    fun x hx ↦ hqf x (by simpa [hp] using hx)
 
 /-- **Stacks 0ACZ, conditions (1) and (2).** Let `f : X ⟶ Y` be a quasi-separated morphism of
 algebraic spaces over `S` of finite type and let `p` be a field-valued representative of a
@@ -501,7 +500,7 @@ theorem finite_fieldFiber_iff_quasiFiniteAt_fiber (hX : IsAlgebraicSpace B S hS 
   refine ⟨fun hfinite x hxy ↦ ?_,
     finite_fieldFiber_of_quasiFiniteAt_on_fiber B S hS hX hY f p hft y hp⟩
   have hxset : x ∈ setFibre B S hS f p := by
-    show pointsMap B S hS X f x = p.class B S hS Y
+    change pointsMap B S hS X f x = p.class B S hS Y
     rw [hxy, hp]
   exact (isDiscreteFieldFibrePoints_iff_isQuasiFiniteAboveFieldValuedPoint
     B S hS hX hY hft.1 p).1 (discreteTopology_points_fieldFibre_of_finite_of_isDecent
@@ -749,7 +748,7 @@ private theorem exists_affine_etale_generic_chart
   have hg : P.presheaf g := etale_presheaf_comp B S hS a (W i).ι haet hi
   have hchart : ChartPoint B S hS U g v y := by
     refine ⟨p, rfl, ?_⟩
-    show pointsMap B S hS (yoneda.obj U) (a ≫ (W i).ι)
+    change pointsMap B S hS (yoneda.obj U) (a ≫ (W i).ι)
       (p.class B S hS _) = y
     rw [pointsMap_comp]
     exact (congrArg (pointsMap B S hS (W i).toFunctor (W i).ι) hz).trans hx
@@ -835,19 +834,19 @@ private theorem schemePointRepresentative_class_eq
     (AlgebraicGeometry.FieldValuedPoint.canonical_isSmallest z) hp (hpx.trans hcx.symm)
   have hqmap : hq.map = (AlgebraicGeometry.FieldValuedPoint.canonical T z).map := by
     let kobj : B.Schemes := B.obj (B.residueField_spec_contains U.left.property z)
-    show B.inclusion.map (B.inclusion.preimage (X := kobj) (Y := U.left)
+    change B.inclusion.map (B.inclusion.preimage (X := kobj) (Y := U.left)
       (T.fromSpecResidueField z)) = T.fromSpecResidueField z
     rw [B.inclusion.map_preimage]
   let φ' : B.inclusion.obj
       (p.siteObject B S hS (yoneda.obj U)).left ⟶
       B.inclusion.obj (q.siteObject B S hS (yoneda.obj U)).left := by
-    show Spec (.of p.carrier) ⟶ Spec (.of q.carrier)
+    change Spec (.of p.carrier) ⟶ Spec (.of q.carrier)
     exact φ
   let fbase := B.inclusion.preimage φ'
   have hleft : fbase ≫ q.value.left = p.value.left := by
     apply B.inclusion.map_injective
     rw [B.inclusion.map_comp, B.inclusion.map_preimage]
-    show φ' ≫ B.inclusion.map q.value.left = B.inclusion.map p.value.left
+    change φ' ≫ B.inclusion.map q.value.left = B.inclusion.map p.value.left
     have hqleft : B.inclusion.map q.value.left = hq.map := rfl
     have hpleft : hp.map = B.inclusion.map p.value.left := rfl
     have htemp : φ' ≫ B.inclusion.map q.value.left = hp.map := by
@@ -871,7 +870,7 @@ private theorem schemePointRepresentative_class_eq
     Over.homMk fbase hbase
   have hdom : FieldValuedPoint.Dominates B S hS (yoneda.obj U) p q := by
     refine ⟨f, ?_⟩
-    show f ≫ q.value = p.value
+    change f ≫ q.value = p.value
     exact Over.OverMorphism.ext hleft
   exact (FieldValuedPoint.class_eq_class_of_hasCommonExtension B S hS (yoneda.obj U)
     ⟨p, FieldValuedPoint.dominates_refl B S hS (yoneda.obj U) p, hdom⟩).symm
@@ -953,7 +952,7 @@ private theorem schemePointRepresentative_natural
         ((BigFppfOver.toScheme B S hS).map k x)).class := by
   let p := schemePointRepresentative B S hS U x
   let q := FieldValuedPoint.map B S hS (yoneda.obj U) (yoneda.map k) p
-  show q.class B S hS _ = _
+  change q.class B S hS _ = _
   rw [← schemePointRepresentative_class_eq B S hS V q]
   have hq : schemePoint B S hS V q =
       (BigFppfOver.toScheme B S hS).map k
@@ -991,10 +990,10 @@ private theorem quasiFiniteAt_fiber_on_chart
   intro x hx
   apply quasiFiniteAt_on_chart B S hS hX hY f U V a b k ha hb hk x
   apply hqf
-  show (pointsMap B S hS X f ∘
+  change (pointsMap B S hS X f ∘
     pointsMap B S hS (yoneda.obj U) a) _ = y
   rw [← pointsMap_comp, ← hk, pointsMap_comp]
-  show pointsMap B S hS (yoneda.obj V) b
+  change pointsMap B S hS (yoneda.obj V) b
     (pointsMap B S hS (yoneda.obj U) (yoneda.map k) _) = y
   rw [schemePointRepresentative_natural, hx]
   exact pointsMap_schemePointRepresentative_class B S hS hv
@@ -1323,7 +1322,7 @@ private theorem exists_finite_etale_chart
     have hw : T.map i w = v := by rw [hi]; rfl
     refine ⟨(schemePointRepresentative B S hS W w).class, ?_⟩
     rw [pointsMap_comp]
-    show pointsMap B S hS (yoneda.obj V) a
+    change pointsMap B S hS (yoneda.obj V) a
       (pointsMap B S hS (yoneda.obj W) (yoneda.map i) _) = y
     rw [schemePointRepresentative_natural, hw]
     exact pointsMap_schemePointRepresentative_class B S hS hv

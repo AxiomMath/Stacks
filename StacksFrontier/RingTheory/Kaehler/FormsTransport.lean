@@ -47,7 +47,7 @@ def baseEquiv (b : Λ ≃+* R) (h : ∀ l, algebraMap Λ B l = algebraMap R B (b
   haveI : IsScalarTower R Λ B := .of_algebraMap_eq fun r => by
     change algebraMap R B r = algebraMap Λ B (b.symm r)
     rw [h, RingEquiv.apply_symm_apply]
-  LinearEquiv.ofLinear (map Λ R B B) (map R Λ B B)
+  LinearEquiv.ofLinearMap (map Λ R B B) (map R Λ B B)
     (Derivation.liftKaehlerDifferential_unique _ _ (Derivation.ext fun x => by simp))
     (Derivation.liftKaehlerDifferential_unique _ _ (Derivation.ext fun x => by simp))
 
@@ -94,7 +94,7 @@ theorem formsTransport_smul (p : ℕ) (c : B) (x : ⋀[B]^p ↥(CommRingCat.Kaeh
     formsTransport φ b e h p (c • x) = e.symm c • formsTransport φ b e h p x := by
   let := φ.hom.toAlgebra
   let := transportAlgebra R e
-  show formsₛₗ _ p (Stacks.AffineExteriorPower.exteriorPowerCongr _ p (c • x)) = _
+  change formsₛₗ _ p (Stacks.AffineExteriorPower.exteriorPowerCongr _ p (c • x)) = _
   rw [LinearEquiv.map_smul, map_smulₛₗ]
   rfl
 
@@ -107,7 +107,7 @@ theorem formsTransport_ιMulti_d (p : ℕ) (x : Fin p → B) :
   let := φ.hom.toAlgebra
   let := transportAlgebra R e
   let hb : ∀ l, algebraMap Λ B l = algebraMap R B (b l) := h
-  show formsₛₗ _ p (exteriorPower.map p (baseEquiv b hb).toLinearMap
+  change formsₛₗ _ p (exteriorPower.map p (baseEquiv b hb).toLinearMap
     (exteriorPower.ιMulti B p fun i ↦ D Λ B (x i))) = _
   rw [exteriorPower.map_apply_ιMulti, formsₛₗ_ιMulti]
   congr 1

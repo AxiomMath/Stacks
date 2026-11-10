@@ -116,8 +116,7 @@ theorem isCartesianOnAffineCharts_meromorphicDenominatorIdeal :
   have hsq : ∀ z, pureMeromorphicSectionLinear B S hS X L V (sectionsBaseChange L f z) =
       cP (LinearMap.lTensor _ (pureMeromorphicSectionLinear B S hS X L U) z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp [hz, hw]
     | tmul a m =>
       rw [chartBaseChange_tmul, LinearMap.map_smul, LinearMap.lTensor_tmul, hcPt]
@@ -128,7 +127,7 @@ theorem isCartesianOnAffineCharts_meromorphicDenominatorIdeal :
     rw [hcPt]
     congr 1
     refine (hbij V hV).1 ?_
-    show toMeromorphicSectionSheaf B S hS X.1 X.2 L V
+    change toMeromorphicSectionSheaf B S hS X.1 X.2 L V
       (((meromorphicSectionModule B S hS X.1 X.2 L).map f.op).hom x₀) = _
     rw [hx']
     refine (toMeromorphicSectionSheaf_map B S hS X.1 X.2 L U V f x₀).symm.trans ?_
@@ -148,8 +147,7 @@ theorem isCartesianOnAffineCharts_meromorphicDenominatorIdeal :
       Module.idealBaseChange (A := chartRing B S hS X.1 X.2 V)
         (meromorphicDenominatorIdealAt B S hS X L t U) z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact (congrArg Subtype.val (map_zero _)).trans (map_zero _).symm
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw =>
       exact (congrArg Subtype.val (map_add _ z w)).trans
         ((congrArg₂ (· + ·) hz hw).trans (map_add _ z w).symm)

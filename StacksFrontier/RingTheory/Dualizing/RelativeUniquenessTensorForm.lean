@@ -260,14 +260,14 @@ theorem nonempty_restrictScalars_homComplex_iso [N.IsStrictlyLE d]
 lemma tensorUnit_isKProjective :
     (𝟙_ (CochainComplex (ModuleCat.{u} A) ℤ)).IsKProjective := by
   have : (𝟙_ (CochainComplex (ModuleCat.{u} A) ℤ)).IsStrictlyLE 0 := by
-    show CochainComplex.IsStrictlyLE ((HomologicalComplex.single (ModuleCat.{u} A)
+    change CochainComplex.IsStrictlyLE ((HomologicalComplex.single (ModuleCat.{u} A)
       (ComplexShape.up ℤ) 0).obj (𝟙_ (ModuleCat.{u} A))) 0
     infer_instance
   have : ∀ n, Projective ((𝟙_ (CochainComplex (ModuleCat.{u} A) ℤ)).X n) := by
     intro n
     by_cases hn : n = 0
     · subst hn
-      show Projective ((HomologicalComplex.single (ModuleCat.{u} A) (ComplexShape.up ℤ) 0).obj
+      change Projective ((HomologicalComplex.single (ModuleCat.{u} A) (ComplexShape.up ℤ) 0).obj
         (𝟙_ (ModuleCat.{u} A)) |>.X 0)
       exact Projective.of_iso (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0
         (𝟙_ (ModuleCat.{u} A))).symm
@@ -334,7 +334,7 @@ sections of `Δ` and let `N` be a bounded-above complex of finite free `S`-modul
 `Δ^!(s'^* M) ≅ A`, and assume that `s_*(N^∨ ⊗ s'^* M)` has flat terms. Then
 `X ≅ Δ^!(s'^* M ⊗ s^* X)` in `D(A)`. -/
 theorem nonempty_iso_derivedHom_tensor [N.IsStrictlyLE d] (s' : A →+* S)
-    (hs : Δ.comp s = RingHom.id A) (hs' : Δ.comp s' = RingHom.id A)
+    (hs : Δ.comp s = RingHom.id A)
     (hker : (RingHom.ker Δ).FG)
     (eN : DerivedCategory.Q.obj N ≅ (ModuleCat.restrictScalars.{u} Δ).mapDerivedCategory.obj
       ((DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).obj (ModuleCat.of A A)))
@@ -430,8 +430,7 @@ lemma flat_tensorProduct' {R A : Type*} [CommRing R] [CommRing A] [Algebra R A]
   have he : eY.toLinearMap.restrictScalars R ∘ₗ f.lTensor (P ⊗[A] Q) =
       (g.lTensor P).restrictScalars R ∘ₗ eX.toLinearMap.restrictScalars R := by
     refine TensorProduct.ext' fun z x => ?_
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul p q => rfl
     | add z z' hz hz' =>
         simpa only [map_add, TensorProduct.add_tmul] using congrArg₂ (· + ·) hz hz'
@@ -461,7 +460,7 @@ lemma flat_restrictScalars_dual_tensor_X (s : A →+* S) (N : CochainComplex (Mo
       IsScalarTower.of_algebraMap_smul fun _ _ => rfl
     have : Module.Flat A (Y.X j.1.2) := hY j.1.2
     exact flat_tensorProduct' ((dual N).X j.1.1) (Y.X j.1.2)
-  show Module.Flat A (U.obj (∐ F : ModuleCat.{u} S))
+  change Module.Flat A (U.obj (∐ F : ModuleCat.{u} S))
   have hds : Module.Flat A (U.obj (ModuleCat.of S (DirectSum _ fun j => (F j : Type u)))) :=
     (Module.Flat.directSum : Module.Flat A (DirectSum _ fun j => (U.obj (F j) : Type u)))
   exact Module.Flat.of_linearEquiv (U.mapIso (ModuleCat.coprodIsoDirectSum F)).toLinearEquiv

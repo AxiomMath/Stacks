@@ -110,7 +110,7 @@ private lemma tensor_localization_eq_zero
   have hc : (AlgebraTensorModule.rTensor A M p) ((TensorProduct.comm A M P) z) = 0 := by
     refine (IsLocalizedModule.eq_zero_iff S (AlgebraTensorModule.rTensor A M p)).mpr ⟨s, ?_⟩
     change (s : A) • z = 0 at hs
-    show (s : A) • (TensorProduct.comm A M P) z = 0
+    change (s : A) • (TensorProduct.comm A M P) z = 0
     rw [← map_smul, hs, map_zero]
   apply (TensorProduct.comm A M (LocalizedModule S P)).injective
   rw [map_zero]
@@ -181,9 +181,9 @@ private lemma mem_smallerFlatnessIdeal_iff {A : Type u} [CommRing A]
     (a : A) ∈ smallerFlatnessIdeal I U ↔
       ∀ (p : PrimeSpectrum A) (_hp : p ∈ U),
         LocalizedModule.mkLinearMap p.asIdeal.primeCompl I.Cotangent (I.toCotangent a) = 0 := by
-  show a ∈ Submodule.comap I.subtype (smallerFlatnessIdeal I U) ↔ _
+  change a ∈ Submodule.comap I.subtype (smallerFlatnessIdeal I U) ↔ _
   rw [cotangentSectionMap_ker_comap]
-  show (StructureSheaf.toOpenₗ A I.Cotangent U) (I.toCotangent a) = 0 ↔ _
+  change (StructureSheaf.toOpenₗ A I.Cotangent U) (I.toCotangent a) = 0 ↔ _
   exact ⟨fun h p hp => congrArg (fun s => s.val ⟨p, hp⟩) h,
     fun h => Subtype.ext (funext fun p => h p.val p.property)⟩
 
@@ -216,7 +216,7 @@ private lemma quotient_ideal_localizations_injective {A : Type u} [CommRing A]
     have hrp : (r : A) ∈ p.asIdeal.primeCompl := Submonoid.powers_le.mpr hpf r.property
     apply IsLocalizedModule.smul_injective
       (LocalizedModule.mkLinearMap p.asIdeal.primeCompl I.Cotangent) ⟨r, hrp⟩
-    show (r : A) • _ = (r : A) • (0 : LocalizedModule p.asIdeal.primeCompl I.Cotangent)
+    change (r : A) • _ = (r : A) • (0 : LocalizedModule p.asIdeal.primeCompl I.Cotangent)
     simpa only [map_smul, smul_zero] using
       (mem_smallerFlatnessIdeal_iff I U ((r : A) • (⟨a, ha⟩ : I))).mp hra p hp
   exact Subtype.ext (haj.symm.trans (Ideal.Quotient.eq_zero_iff_mem.mpr haK))
@@ -228,9 +228,9 @@ private lemma finite_basicOpen_cover {A : Type u} [CommRing A]
   classical
   obtain ⟨s, hs⟩ := PrimeSpectrum.isCompact_isOpen_iff.mp ⟨hU, U.isOpen⟩
   refine ⟨s, fun p => ?_⟩
-  show p ∈ U.1 ↔ _
+  change p ∈ U.1 ↔ _
   rw [← hs]
-  show p ∉ PrimeSpectrum.zeroLocus (s : Set A) ↔ _
+  change p ∉ PrimeSpectrum.zeroLocus (s : Set A) ↔ _
   simp [PrimeSpectrum.mem_zeroLocus, Set.not_subset, PrimeSpectrum.mem_basicOpen]
 
 /-- A flat sheaf of modules on a scheme is flat as a module over the structure sheaf of the
@@ -238,7 +238,7 @@ underlying ringed space. -/
 private lemma oxModuleFlat_of_isFlat {X : Scheme.{u}} (F : X.Modules)
     (hF : SheafOfModules.IsFlat.{u, u, u, u} (O := X.sheaf) F) :
     OXModule.Flat (show OXModule X.toLocallyRingedSpace.toRingedSpace from F) := by
-  show ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf).flip.obj
+  change ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf).flip.obj
     F).PreservesMonomorphisms
   let _ : Limits.PreservesLimitsOfShape Limits.WalkingCospan
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf).flip.obj F) :=
@@ -308,7 +308,7 @@ private lemma flat_basicOpen_sections {A : Type u} [CommRing A]
   let e : Γ(F, W) ≃ₗ[A] ((modulesSpecToSheaf.obj (tilde M)).presheaf.obj (.op V)) :=
     { __ := AddEquiv.refl _
       map_smul' a m := by
-        show ((tilde M).smul ((U.ι.appIso W).inv ((U.ι.appLE ⊤ W hWtop) (φ a)))).asHom.hom m =
+        change ((tilde M).smul ((U.ι.appIso W).inv ((U.ι.appLE ⊤ W hWtop) (φ a)))).asHom.hom m =
           ((tilde M).smul ((Spec (.of A)).presheaf.map
             (homOfLE (show V ≤ ⊤ from le_top)).op (φ a))).asHom.hom m
         rw [Scheme.Hom.appLE_appIso_inv_apply] }

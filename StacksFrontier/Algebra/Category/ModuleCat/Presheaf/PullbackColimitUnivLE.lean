@@ -155,8 +155,7 @@ noncomputable def baseChangeMap (αV : A →+* B) (αW : A' →+* B') {ρ : A �
       rw [map_mul, hα, φ.map_smulₛₗ, ← TensorProduct.smul_tmul]
       rfl)
   have hg : ∀ (s : B) (x : B ⊗[A] M), g (s • x) = σ s • g x := fun s x ↦ by
-    induction x using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero, smul_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul b m =>
         change σ (s * b) ⊗ₜ[A'] φ m = σ s • (σ b ⊗ₜ[A'] φ m)
         rw [map_mul, TensorProduct.smul_tmul', smul_eq_mul]
@@ -495,7 +494,7 @@ lemma unit_restrict
     (CostructuredArrow.homMk (f := CostructuredArrow.mk (𝟙 (F.op.obj V) ≫ F.op.map g))
       (f' := CostructuredArrow.mk (𝟙 (F.op.obj V'))) g
       (by
-        show F.op.map g ≫ 𝟙 (F.op.obj V') = 𝟙 (F.op.obj V) ≫ F.op.map g
+        change F.op.map g ≫ 𝟙 (F.op.obj V') = 𝟙 (F.op.obj V) ≫ F.op.map g
         rw [Category.comp_id, Category.id_comp])) 1 a
 
 /-- The adjoint transpose of a morphism `L₀ A ⟶ M`. -/
@@ -786,7 +785,7 @@ lemma exists_map_eq_zero_of_ι_eq_zero [IsFiltered (CostructuredArrow F.op U)]
     rw [hy, map_zero]
   obtain ⟨T', ψ, ψ', hψ⟩ := Concrete.colimit_exists_of_rep_eq (diagram F R A U) y 0 h
   refine ⟨T', ψ, ?_⟩
-  show (diagram F R A U).map ψ y = 0
+  change (diagram F R A U).map ψ y = 0
   rw [hψ, map_zero]
 
 end Filtered

@@ -96,7 +96,7 @@ theorem curryObj_bifunctorMapIso_hom {C₁ C₂ D : Type*} [Category* C₁] [Cat
     ((Functor.curryObj F).bifunctorMapIso e₁ e₂).hom =
       F.map (X := (X, Y)) (Y := (X', Y')) (e₁.hom, e₂.hom) := by
   rw [Functor.bifunctorMapIso_hom]
-  show F.map ((e₁.hom, 𝟙 Y) : (X, Y) ⟶ (X', Y)) ≫ F.map ((𝟙 X', e₂.hom) : (X', Y) ⟶ (X', Y')) = _
+  change F.map ((e₁.hom, 𝟙 Y) : (X, Y) ⟶ (X', Y)) ≫ F.map ((𝟙 X', e₂.hom) : (X', Y) ⟶ (X', Y')) = _
   rw [← F.map_comp]
   congr 1
   exact Prod.ext (Category.comp_id _) (Category.id_comp _)
@@ -188,7 +188,7 @@ theorem leftComplexDeRhamIso_hom_f (n : ℕ) :
     ComplexShape.embeddingUpNat (deRhamDiffOpComplex c) (embeddingUpNat_f n)
   have h₂ := HomologicalComplex.extendMap_f (deRhamComplexInverseImageIso c).hom
     ComplexShape.embeddingUpNat (embeddingUpNat_f n)
-  show (Stacks.DerivedIndexing.mapExtendIso (toInverseImageModules c) ComplexShape.embeddingUpNat
+  change (Stacks.DerivedIndexing.mapExtendIso (toInverseImageModules c) ComplexShape.embeddingUpNat
       (deRhamDiffOpComplex c)).inv.f (n : ℤ) ≫
     (HomologicalComplex.extendMap (deRhamComplexInverseImageIso c).hom
       ComplexShape.embeddingUpNat).f (n : ℤ) = _

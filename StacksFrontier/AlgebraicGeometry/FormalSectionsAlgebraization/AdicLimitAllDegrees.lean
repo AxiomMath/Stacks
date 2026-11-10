@@ -94,7 +94,7 @@ theorem nonempty_isLimit_mapCone_of_iso {J C E : Type*} [Category J] [Category C
     (h : Nonempty (IsLimit (H.mapCone c'))) : Nonempty (IsLimit (H.mapCone c)) := by
   obtain ⟨h⟩ := h
   let i : c ≅ (Cone.postcompose α.inv).obj c' := Cone.ext e fun j => by
-    show c.π.app j = e.hom ≫ c'.π.app j ≫ α.inv.app j
+    change c.π.app j = e.hom ≫ c'.π.app j ≫ α.inv.app j
     rw [← Category.assoc, ← w, Category.assoc, α.hom_inv_id_app, Category.comp_id]
   have h' : IsLimit (H.mapCone ((Cone.postcompose α.inv).obj c')) :=
     IsLimit.ofIsoLimit ((IsLimit.postcomposeHomEquiv (Functor.isoWhiskerRight α.symm H) _).symm h)
@@ -153,19 +153,19 @@ theorem nonempty_isLimit_idealPowerQuotientCone (hM : IsAdicComplete I M) :
     fun h => ModuleCat.InverseSystem.map_eq_of_succ x hx h
   choose f hf using fun n => Submodule.Quotient.mk_surjective (I ^ n • ⊤ : Submodule A M) (x n)
   obtain ⟨L, hL⟩ := hM.toIsPrecomplete.prec' f fun {m n} hmn => by
-    show Submodule.Quotient.mk (f m) = Submodule.Quotient.mk (f n)
+    change Submodule.Quotient.mk (f m) = Submodule.Quotient.mk (f n)
     rw [hf m, ← hcompat hmn, ← hf n]
     rfl
   refine ⟨L, fun n => ?_, fun y hy => ?_⟩
-  · show Submodule.Quotient.mk L = x n
+  · change Submodule.Quotient.mk L = x n
     rw [← hf n]
     exact (hL n).symm
   · let y' : M := y
     refine sub_eq_zero.1 (hM.toIsHausdorff.haus' (y' - L) fun n => ?_)
-    show Submodule.Quotient.mk (y' - L) =
+    change Submodule.Quotient.mk (y' - L) =
       (Submodule.Quotient.mk 0 : M ⧸ (I ^ n • ⊤ : Submodule A M))
     rw [Submodule.Quotient.mk_sub, Submodule.Quotient.mk_zero, sub_eq_zero]
-    show (idealPowerQuotientCone.{u, u} I M).π.app (op n) y = Submodule.Quotient.mk L
+    change (idealPowerQuotientCone.{u, u} I M).π.app (op n) y = Submodule.Quotient.mk L
     rw [hy n, ← hf n]
     exact hL n
 
@@ -382,7 +382,7 @@ theorem isIso_nearVanishingCocone_ι_app (V : OpensNearVanishing A I a)
   have hlim : IsLimit (nearVanishingCone A I a F p V) :=
     IsLimit.ofIsoLimit ((IsLimit.postcomposeHomEquiv β _).symm h)
       (Cone.ext (Iso.refl _) fun n => by
-        show (complementOpenCohomology A a V.openSet p).map
+        change (complementOpenCohomology A a V.openSet p).map
             (adicProj (idealSheafNearVanishing A I a) F n) ≫ β.hom.app n =
           𝟙 _ ≫ (complementOpenCohomology A a V.openSet p).map
             (adicProj (idealSheafNearVanishing A I a) F n) ≫ inv (r.app (D.obj n))

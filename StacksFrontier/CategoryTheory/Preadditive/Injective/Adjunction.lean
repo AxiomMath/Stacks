@@ -180,7 +180,7 @@ theorem hasFunctorialInjectiveEmbeddings_of_adjunction
   refine hasFunctorialInjectiveEmbeddings_of_natTrans (v ⋙ JA ⋙ u)
     (adj.unit ≫ Functor.whiskerLeft v (Functor.whiskerRight ηA u))
     (fun Y => injective_uJAvY u v adj JA Y (hJA _) hv_mono) fun Y => ?_
-  show Mono (adj.unit.app Y ≫ u.map (ηA.app (v.obj Y)))
+  change Mono (adj.unit.app Y ≫ u.map (ηA.app (v.obj Y)))
   rw [Preadditive.mono_iff_cancel_zero]
   intro Z k hk
   have := hηA (v.obj Y)

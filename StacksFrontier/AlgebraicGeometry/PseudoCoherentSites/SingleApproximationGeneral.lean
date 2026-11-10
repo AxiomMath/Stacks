@@ -98,7 +98,7 @@ theorem isStrictlyPerfect_singleObj {A : SheafOfModules.{w} R}
   bounded := by
     refine (Set.finite_singleton p).subset ?_
     intro i hi
-    simp only [Set.mem_setOf_eq] at hi
+    simp only [Set.mem_ofPred_eq] at hi
     by_contra hne
     exact hi (HomologicalComplex.isZero_single_obj_X (ComplexShape.up ℤ) p A i
       (by simpa only [Set.mem_singleton_iff] using hne))

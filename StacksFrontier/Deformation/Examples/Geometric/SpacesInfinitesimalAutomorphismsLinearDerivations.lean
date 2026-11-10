@@ -50,7 +50,8 @@ variable {C : Type*} [Category C] {R₀ R : Cᵒᵖ ⥤ CommRingCat.{w}} (φ : R
 /-- **Multiplication of a derivation by a family of sections compatible with restriction**:
 `(a • D)(x) = a_U · D(x)` for `x` a section over `U`. -/
 def derivationSectionSmul (a : ∀ U, R.obj U) (ha : ∀ {U V : Cᵒᵖ} (g : U ⟶ V), R.map g (a U) = a V)
-    (D : PresheafOfModulesOfCommRing.Derivation' M φ) : PresheafOfModulesOfCommRing.Derivation' M φ where
+    (D : PresheafOfModulesOfCommRing.Derivation' M φ) :
+    PresheafOfModulesOfCommRing.Derivation' M φ where
   d {U} :=
     (DistribSMul.toAddMonoidHom (M.obj U) (a U : (R ⋙ forget₂ CommRingCat RingCat).obj U)).comp D.d
   d_mul {U} x y := by
@@ -72,7 +73,8 @@ def derivationSectionSmul (a : ∀ U, R.obj U) (ha : ∀ {U V : Cᵒᵖ} (g : U 
 
 /-- The derivation `a • D` sends a section `x` over `U` to `a_U • D(x)`. -/
 theorem derivationSectionSmul_d (a : ∀ U, R.obj U)
-    (ha : ∀ {U V : Cᵒᵖ} (g : U ⟶ V), R.map g (a U) = a V) (D : PresheafOfModulesOfCommRing.Derivation' M φ) {U : Cᵒᵖ}
+    (ha : ∀ {U V : Cᵒᵖ} (g : U ⟶ V), R.map g (a U) = a V)
+    (D : PresheafOfModulesOfCommRing.Derivation' M φ) {U : Cᵒᵖ}
     (x : R.obj U) :
     (derivationSectionSmul φ M a ha D).d x =
       (a U : (R ⋙ forget₂ CommRingCat RingCat).obj U) • D.d x :=
@@ -104,7 +106,8 @@ instance modulesGlobalSectionLinear (X : AlgebraicSpaces B S hS) :
 acts by `(a • D)(x) = a|_U · D(x)` on a section `x` over an étale chart `U`. -/
 instance derivationGlobalSectionModule (f : X ⟶ Y) (F : Modules.{u, u} B S hS X.1 X.2) :
     Module (GlobalSectionRing (structureRingSheaf B S hS X))
-      (PresheafOfModulesOfCommRing.Derivation' F.val (structureSharpInverseImage B S hS f).hom) where
+      (PresheafOfModulesOfCommRing.Derivation' F.val
+        (structureSharpInverseImage B S hS f).hom) where
   smul a D := derivationSectionSmul _ F.val (fun U => a.1 U) (fun g => a.2 g) D
   one_smul D := by
     ext U x
@@ -129,8 +132,8 @@ instance derivationGlobalSectionModule (f : X ⟶ Y) (F : Modules.{u, u} B S hS 
 restriction. -/
 theorem derivationGlobalSectionModule_smul_d (f : X ⟶ Y) (F : Modules.{u, u} B S hS X.1 X.2)
     (a : GlobalSectionRing (structureRingSheaf B S hS X))
-    (D : PresheafOfModulesOfCommRing.Derivation' F.val (structureSharpInverseImage B S hS f).hom) {U}
-    (x : (structureRingSheaf B S hS X).obj.obj U) :
+    (D : PresheafOfModulesOfCommRing.Derivation' F.val (structureSharpInverseImage B S hS f).hom)
+    {U} (x : (structureRingSheaf B S hS X).obj.obj U) :
     (a • D).d x = (globalSmul _ a F).val.app U (D.d x) :=
   rfl
 
@@ -167,7 +170,8 @@ def modulesLinearOfRingHom : Linear R (Modules.{u, u} B S hS X.1 X.2) :=
 `r` acts as the global function `ψ r`. -/
 @[instance_reducible]
 def derivationModuleOfRingHom (f : X ⟶ Y) (F : Modules.{u, u} B S hS X.1 X.2) :
-    Module R (PresheafOfModulesOfCommRing.Derivation' F.val (structureSharpInverseImage B S hS f).hom) :=
+    Module R
+      (PresheafOfModulesOfCommRing.Derivation' F.val (structureSharpInverseImage B S hS f).hom) :=
   Module.compHom _ ψ
 
 /-- **The universal property of `Ω_{X/Y}` is `R`-linear**, for the `R`-linear structure on

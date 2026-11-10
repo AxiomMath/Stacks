@@ -324,7 +324,7 @@ theorem isUnit_algebraMap_end_of_isUnit_ringGermAt (M : X.Modules) {S : X.Opens}
   have key : ∀ (c : Γ(X, S)) (t : modStalk M x),
       (↑v⁻¹ : ringStalk X.sheaf x) • (c • t) = c • ((↑v⁻¹ : ringStalk X.sheaf x) • t) := by
     intro c t
-    show (↑v⁻¹ : ringStalk X.sheaf x) • (ringGermAt X S x hx c • t)
+    change (↑v⁻¹ : ringStalk X.sheaf x) • (ringGermAt X S x hx c • t)
       = ringGermAt X S x hx c • ((↑v⁻¹ : ringStalk X.sheaf x) • t)
     rw [smul_smul, smul_smul, mul_comm]
   refine ⟨⟨algebraMap Γ(X, S) (Module.End Γ(X, S) (modStalk M x)) a,
@@ -332,10 +332,10 @@ theorem isUnit_algebraMap_end_of_isUnit_ringGermAt (M : X.Modules) {S : X.Opens}
       map_add' := fun t w ↦ smul_add _ _ _
       map_smul' := key }, ?_, ?_⟩, rfl⟩
   · refine LinearMap.ext fun t ↦ ?_
-    show ringGermAt X S x hx a • ((↑v⁻¹ : ringStalk X.sheaf x) • t) = t
+    change ringGermAt X S x hx a • ((↑v⁻¹ : ringStalk X.sheaf x) • t) = t
     rw [← hv, smul_smul, Units.mul_inv, one_smul]
   · refine LinearMap.ext fun t ↦ ?_
-    show (↑v⁻¹ : ringStalk X.sheaf x) • (ringGermAt X S x hx a • t) = t
+    change (↑v⁻¹ : ringStalk X.sheaf x) • (ringGermAt X S x hx a • t) = t
     rw [← hv, smul_smul, Units.inv_mul, one_smul]
 
 /-- **The stalk of `M` at the generic point is the localization of `Γ(M, S)` at `q`.** Here `q`

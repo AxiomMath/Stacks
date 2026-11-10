@@ -66,7 +66,7 @@ theorem mem_coboundaries_of_homologyMap_eq_zero {K L : CochainComplex C ℤ} (W 
     rw [Functor.map_zero]
     have h := (DerivedCategory.quotientCompQhIso C).hom.naturality z'
     rw [hQ, comp_zero] at h
-    show (HomotopyCategory.quotient C _ ⋙ DerivedCategory.Qh).map z' = 0
+    change (HomotopyCategory.quotient C _ ⋙ DerivedCategory.Qh).map z' = 0
     exact (cancel_mono _).1 (h.trans zero_comp.symm)
   rwa [← CohomologyClass.toHom_mk_eq_zero_iff, CohomologyClass.toHom_mk]
 

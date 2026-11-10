@@ -71,7 +71,7 @@ private lemma exists_local_extension
   have hbase : (specStalkCone X x).π ≫ (δ ≫ (Functor.const (AffineOpenNhds X x)).map fX) =
       (Functor.const _).map (b ≫ fY) := by
     ext W
-    show Scheme.Opens.fromSpecStalkOfMem (X := X) W.obj.1 x W.obj.2 ≫
+    change Scheme.Opens.fromSpecStalkOfMem (X := X) W.obj.1 x W.obj.2 ≫
       Scheme.Opens.ι (X := X) W.obj.1 ≫ fX = b ≫ fY
     rw [← Category.assoc, Scheme.Opens.fromSpecStalkOfMem_ι, hb]
   obtain ⟨W, g, hg, hgf⟩ := Scheme.exists_π_app_comp_eq_of_locallyOfFinitePresentation
@@ -86,7 +86,7 @@ private lemma exists_hom_of_covering_opens
     ∃ f : X ⟶ Y, U.ι ≫ f = a ∧ V.ι ≫ f = b := by
   let opens : Bool → X.Opens := fun i => if i then V else U
   have hopen : TopologicalSpace.IsOpenCover opens := by
-    show (⨆ i, opens i) = ⊤
+    change (⨆ i, opens i) = ⊤
     simpa [opens, iSup_bool_eq, sup_comm] using hcover
   let cover := X.openCoverOfIsOpenCover opens hopen
   let maps : ∀ i : Bool, (opens i).toScheme ⟶ Y := fun i =>
@@ -101,7 +101,7 @@ private lemma exists_hom_of_covering_opens
         (cancel_mono U.ι).mp pullback.condition
       exact congrArg (fun g => g ≫ a) h
     · exact hab
-    · show pullback.fst V.ι U.ι ≫ b = pullback.snd V.ι U.ι ≫ a
+    · change pullback.fst V.ι U.ι ≫ b = pullback.snd V.ι U.ι ≫ a
       have h := congrArg (fun g => (pullbackSymmetry V.ι U.ι).hom ≫ g) hab.symm
       rw [← Category.assoc, ← Category.assoc,
         pullbackSymmetry_hom_comp_snd, pullbackSymmetry_hom_comp_fst] at h
@@ -144,7 +144,7 @@ theorem existsUnique_hom_of_punctured_and_stalk
   let πA : Spec (X.presheaf.stalk x) ⟶ D.obj initial := cD.π.app initial
   let cA : D.obj initial ⟶ Y := X.homOfLE hAW ≫ cW
   have hcA : cA ≫ fY = ιA ≫ fX := by
-    show (X.homOfLE hAW ≫ cW) ≫ fY = Scheme.Opens.ι (X := X) A ≫ fX
+    change (X.homOfLE hAW ≫ cW) ≫ fY = Scheme.Opens.ι (X := X) A ≫ fX
     rw [Category.assoc, hcW, ← Category.assoc]
     congr 1
     exact Scheme.homOfLE_ι X hAW
@@ -157,7 +157,7 @@ theorem existsUnique_hom_of_punctured_and_stalk
     congr 1
     exact Scheme.homOfLE_ι X hAW
   have hcbA : πA ≫ cA = b := by
-    show A.fromSpecStalkOfMem x hxA ≫ (X.homOfLE hAW ≫ cW) = b
+    change A.fromSpecStalkOfMem x hxA ≫ (X.homOfLE hAW ≫ cW) = b
     rw [← Category.assoc, hmapA, hcbW]
   have hlimX : πA ≫ ιA = X.fromSpecStalk x :=
     Scheme.Opens.fromSpecStalkOfMem_ι A x hxA
@@ -179,7 +179,7 @@ theorem existsUnique_hom_of_punctured_and_stalk
   have hqU : Set.range (q ≫ ιA) ⊆ Set.range U.ι := by
     rintro _ ⟨z, rfl⟩
     refine ⟨⟨(q ≫ ιA) z, ?_⟩, rfl⟩
-    show ιA z.val ∈ U
+    change ιA z.val ∈ U
     have hz : q z ∈ D.map (𝟙 initial) ⁻¹ᵁ V := z.2
     rw [CategoryTheory.Functor.map_id, Scheme.Hom.id_preimage] at hz
     exact hz
@@ -188,10 +188,10 @@ theorem existsUnique_hom_of_punctured_and_stalk
   let localA : E.obj first ⟶ Y := aFirst ≫ a
   let localB : E.obj first ⟶ Y := q ≫ cA
   have haBase : t.app first = localA ≫ fY := by
-    show q ≫ ιA ≫ fX = (aFirst ≫ a) ≫ fY
+    change q ≫ ιA ≫ fX = (aFirst ≫ a) ≫ fY
     rw [Category.assoc, ha, ← Category.assoc aFirst, haFirst, Category.assoc]
   have hbBase : t.app first = localB ≫ fY := by
-    show q ≫ ιA ≫ fX = (q ≫ cA) ≫ fY
+    change q ≫ ιA ≫ fX = (q ≫ cA) ≫ fY
     rw [Category.assoc, hcA]
   let L : (Spec (X.presheaf.stalk x)).Opens := πA ⁻¹ᵁ V
   have hL : L = X.fromSpecStalk x ⁻¹ᵁ U := specStalkCone_π_preimage X x initial U
@@ -200,7 +200,7 @@ theorem existsUnique_hom_of_punctured_and_stalk
   have hrange : Set.range (L.ι ≫ X.fromSpecStalk x) ⊆ Set.range U.ι := by
     rintro _ ⟨z, rfl⟩
     refine ⟨⟨(L.ι ≫ X.fromSpecStalk x) z, ?_⟩, rfl⟩
-    show (X.fromSpecStalk x) (L.ι z) ∈ U
+    change (X.fromSpecStalk x) (L.ι z) ∈ U
     exact (show L ≤ X.fromSpecStalk x ⁻¹ᵁ U from hL.le) z.2
   let toU : L.toScheme ⟶ U.toScheme :=
     IsOpenImmersion.lift U.ι (L.ι ≫ X.fromSpecStalk x) hrange
@@ -213,7 +213,7 @@ theorem existsUnique_hom_of_punctured_and_stalk
     rw [Category.assoc, haFirst, ← Category.assoc, hprojection, Category.assoc, hlimX]
     exact htoU.symm
   have hlimitB : πE ≫ localB = L.ι ≫ b := by
-    show πE ≫ (q ≫ cA) = L.ι ≫ b
+    change πE ≫ (q ≫ cA) = L.ι ≫ b
     rw [← Category.assoc, hprojection, Category.assoc]
     exact congrArg (fun g => L.ι ≫ g) hcbA
   have hlimit : πE ≫ localA = πE ≫ localB := by
@@ -245,24 +245,24 @@ theorem existsUnique_hom_of_punctured_and_stalk
   have hBι : D.map index.hom ≫ ιA = ιB :=
     (δ.naturality index.hom).trans (Category.comp_id _)
   have hcB : cB ≫ fY = ιB ≫ fX := by
-    show (D.map index.hom ≫ cA) ≫ fY = ιB ≫ fX
+    change (D.map index.hom ≫ cA) ≫ fY = ιB ≫ fX
     rw [Category.assoc, hcA, ← Category.assoc, hBι]
   have hcbB : πB ≫ cB = b := by
-    show πB ≫ (D.map index.hom ≫ cA) = b
+    change πB ≫ (D.map index.hom ≫ cA) = b
     rw [← Category.assoc, show πB ≫ D.map index.hom = πA from cD.w index.hom]
     exact hcbA
   have hπB : πB ≫ ιB = X.fromSpecStalk x :=
     Scheme.Opens.fromSpecStalkOfMem_ι B x index.left.obj.2
   have hoverlap : (D.map index.hom ⁻¹ᵁ V) = ιB ⁻¹ᵁ U := by
-    show D.map index.hom ⁻¹ᵁ (ιA ⁻¹ᵁ U) = ιB ⁻¹ᵁ U
+    change D.map index.hom ⁻¹ᵁ (ιA ⁻¹ᵁ U) = ιB ⁻¹ᵁ U
     rw [← Scheme.Hom.comp_preimage, hBι]
   let projection : pullback U.ι ιB ⟶ D.obj index.left := pullback.snd U.ι ιB
   have hprojectionRange : Set.range projection ⊆ Set.range inclusion := by
     rintro _ ⟨z, rfl⟩
     refine ⟨⟨projection z, ?_⟩, rfl⟩
-    show projection z ∈ D.map index.hom ⁻¹ᵁ V
+    change projection z ∈ D.map index.hom ⁻¹ᵁ V
     rw [hoverlap]
-    show ιB (projection z) ∈ U
+    change ιB (projection z) ∈ U
     have hpoint := congrArg (fun g => g z) (pullback.condition (f := U.ι) (g := ιB))
     change U.ι ((pullback.fst U.ι ιB) z) = ιB (projection z) at hpoint
     rw [← hpoint]
@@ -277,21 +277,21 @@ theorem existsUnique_hom_of_punctured_and_stalk
       ← Category.assoc, htoIndex]
     exact pullback.condition.symm
   have hright : toIndex ≫ E.map transition ≫ localB = projection ≫ cB := by
-    show toIndex ≫ E.map transition ≫ (q ≫ cA) = projection ≫ cB
+    change toIndex ≫ E.map transition ≫ (q ≫ cA) = projection ≫ cB
     rw [← Category.assoc (E.map transition), htransition]
     simp only [Category.assoc]
     rw [← Category.assoc toIndex inclusion, htoIndex]
   have hcompat : pullback.fst U.ι ιB ≫ a = pullback.snd U.ι ιB ≫ cB := by
     calc
       pullback.fst U.ι ιB ≫ a = toIndex ≫ E.map transition ≫ localA := by
-        show pullback.fst U.ι ιB ≫ a = toIndex ≫ E.map transition ≫ aFirst ≫ a
+        change pullback.fst U.ι ιB ≫ a = toIndex ≫ E.map transition ≫ aFirst ≫ a
         rw [← Category.assoc (E.map transition), ← Category.assoc toIndex, hleft]
       _ = toIndex ≫ E.map transition ≫ localB := congrArg (fun g => toIndex ≫ g) heq
       _ = pullback.snd U.ι ιB ≫ cB := hright
   have hcover : U ⊔ B = ⊤ := by
     apply top_unique
     intro z _
-    show z ∈ U ∨ z ∈ B
+    change z ∈ U ∨ z ∈ B
     by_cases hzx : z = x
     · exact Or.inr (hzx ▸ index.left.obj.2)
     · exact Or.inl hzx
@@ -302,7 +302,7 @@ theorem existsUnique_hom_of_punctured_and_stalk
     intro z
     by_cases hzx : z = x
     · refine ⟨B, hzx ▸ index.left.obj.2, ?_⟩
-      show ιB ≫ f ≫ fY = ιB ≫ fX
+      change ιB ≫ f ≫ fY = ιB ≫ fX
       rw [← Category.assoc, hfB', hcB]
     · refine ⟨U, hzx, ?_⟩
       rw [← Category.assoc, hfU, ha]
@@ -314,10 +314,10 @@ theorem existsUnique_hom_of_punctured_and_stalk
     Scheme.exists_hom_comp_eq_comp_of_locallyOfFiniteType D
       (δ ≫ (Functor.const (AffineOpenNhds X x)).map fX) fY cD
       (isLimitSpecStalkCone X x) (i := initial) (ιA ≫ g) (ιA ≫ f)
-      (by show ιA ≫ fX = (ιA ≫ g) ≫ fY; rw [Category.assoc, hg.1])
-      (by show ιA ≫ fX = (ιA ≫ f) ≫ fY; rw [Category.assoc, hfS])
+      (by change ιA ≫ fX = (ιA ≫ g) ≫ fY; rw [Category.assoc, hg.1])
+      (by change ιA ≫ fX = (ιA ≫ f) ≫ fY; rw [Category.assoc, hfS])
       (by
-        show πA ≫ ιA ≫ g = πA ≫ ιA ≫ f
+        change πA ≫ ιA ≫ g = πA ≫ ιA ≫ f
         rw [← Category.assoc, ← Category.assoc, hlimX, hg.2.2, hfb])
   let ιS : D.obj smaller ⟶ X := Scheme.Opens.ι (X := X) smaller.obj.1
   have hι : D.map restriction ≫ ιA = ιS :=

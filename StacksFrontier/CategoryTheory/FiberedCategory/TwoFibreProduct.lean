@@ -187,7 +187,7 @@ lemma exists_isStronglyCartesian
   refine IsHomLift.of_fac' (structureFunctor p𝒳 p𝒴 p𝒮 F G) f Φ (a := P) (b := Q) rfl rfl ?_
   -- `change` re-elaborates the two `eqToHom`s at the reflexivity `V = V`, which is what lets
   -- `simp` discharge them; at the ambient reducibility they do not match `eqToHom_refl`.
-  show Φ.hbase = eqToHom rfl ≫ f ≫ eqToHom rfl
+  change Φ.hbase = eqToHom rfl ≫ f ≫ eqToHom rfl
   simp [hΦ_def]
 
 /-- **The converse of the analytic core.** If `Φ : P ⟶ Q` is strongly cartesian for the

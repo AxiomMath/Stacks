@@ -75,7 +75,7 @@ private theorem exists_splittingMorphism_isProjective_aux (C : ChowSituation.{u}
       · exact Stacks.WeilCohomology.hasInvertibleFiltration_of_rank_le_one _ (r i)
           (@AlgebraicGeometry.isFiniteLocallyFreeOfRank_pullback _ _ (𝟙 Y) (E i) (r i) (hE i))
           (hr i)
-      · show IsProjective (𝟙 Y ≫ g)
+      · change IsProjective (𝟙 Y ≫ g)
         rw [Category.id_comp]
         exact hg
     -- some rank exceeds one: the bottom layer is the projective bundle of that module
@@ -109,9 +109,9 @@ private theorem exists_splittingMorphism_isProjective_aux (C : ChowSituation.{u}
         exact (hTw j).pullback D.π
     have hchoose : (m + 1).choose 2 + (m + 1) = (r i).choose 2 := by
       have key : (m + 1 + 1).choose 2 = (m + 1).choose 2 + (m + 1) := by
-        show Nat.choose (m + 1 + 1) (1 + 1) = _
+        change Nat.choose (m + 1 + 1) (1 + 1) = _
         rw [Nat.choose_succ_succ, Nat.choose_one_right]
-        show m + 1 + Nat.choose (m + 1) 2 = Nat.choose (m + 1) 2 + (m + 1)
+        change m + 1 + Nat.choose (m + 1) 2 = Nat.choose (m + 1) 2 + (m + 1)
         omega
       rw [hm, key]
     have hA : (∑ j, (Function.update r i (m + 1) j).choose 2) =

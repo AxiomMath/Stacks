@@ -110,12 +110,12 @@ theorem compositionAt_homMap {U T : s.SchemesOver} (g : U ⟶ T)
       (s.endoSource.homMap g (s.compositionAt T q).1,
         s.endoTarget.homMap g (s.compositionAt T q).2) := by
   refine Prod.ext ?_ ?_
-  · show s.endoSourceOfModuleHom (s.toModuleHom (s.homMap g q.2) ≫
+  · change s.endoSourceOfModuleHom (s.toModuleHom (s.homMap g q.2) ≫
         s.swapToModuleHom (s.swap.homMap g q.1)) =
       s.endoSource.homMap g (s.endoSourceOfModuleHom (s.toModuleHom q.2 ≫ s.swapToModuleHom q.1))
     rw [s.endoSource_homMap, s.swap_homMap, s.toModuleHom_homMap]
     exact congrArg s.endoSourceOfModuleHom (Functor.conjHom_comp_morphism _ _ _).symm
-  · show s.endoTargetOfModuleHom (s.swapToModuleHom (s.swap.homMap g q.1) ≫
+  · change s.endoTargetOfModuleHom (s.swapToModuleHom (s.swap.homMap g q.1) ≫
         s.toModuleHom (s.homMap g q.2)) =
       s.endoTarget.homMap g (s.endoTargetOfModuleHom (s.swapToModuleHom q.1 ≫ s.toModuleHom q.2))
     rw [s.endoTarget_homMap, s.swap_homMap, s.toModuleHom_homMap]

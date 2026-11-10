@@ -52,7 +52,7 @@ theorem addEquivOfSurjectiveKerEq_apply {M A B : Type*} [AddCommGroup M] [AddCom
   have h1 : (QuotientAddGroup.quotientKerEquivOfSurjective f hf).symm (f x) =
       (QuotientAddGroup.mk x : M ⧸ f.ker) :=
     (QuotientAddGroup.quotientKerEquivOfSurjective f hf).symm_apply_eq.mpr rfl
-  show (QuotientAddGroup.quotientKerEquivOfSurjective g hg)
+  change (QuotientAddGroup.quotientKerEquivOfSurjective g hg)
       ((QuotientAddGroup.quotientAddEquivOfEq (ker_eq_ker_of_eq_zero_iff f g hker))
         ((QuotientAddGroup.quotientKerEquivOfSurjective f hf).symm (f x))) = g x
   rw [h1]

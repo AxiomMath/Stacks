@@ -79,10 +79,10 @@ private theorem isNoetherianRing_of_henselianPair
       AdicCompletion (I.map (algebraMap A H)) H :=
     { E with
       map_smul' := fun r x ↦ by
-        show E (k r * x) = algebraMap H _ r * E x
+        change E (k r * x) = algebraMap H _ r * E x
         rw [map_mul]
         congr 1
-        show E (E.symm (algebraMap H _ r)) = _
+        change E (E.symm (algebraMap H _ r)) = _
         exact E.apply_symm_apply _ }
   have hkfaithful : Module.FaithfullyFlat H (AdicCompletion I A) := by
     rw [Module.faithfullyFlat_iff]
@@ -165,7 +165,7 @@ private theorem maximal_comap_and_map_eq_of_quotientMap_surjective
     let : Field (B ⧸ m) := Ideal.Quotient.field m
     have heq : m.comap (algebraMap A B) = RingHom.ker f := by
       ext a
-      show algebraMap A B a ∈ m ↔ Ideal.Quotient.mk m (algebraMap A B a) = 0
+      change algebraMap A B a ∈ m ↔ Ideal.Quotient.mk m (algebraMap A B a) = 0
       exact Ideal.Quotient.eq_zero_iff_mem.symm
     rw [heq]
     exact RingHom.ker_isMaximal_of_surjective f hf
@@ -173,7 +173,7 @@ private theorem maximal_comap_and_map_eq_of_quotientMap_surjective
   intro b hb
   obtain ⟨a, ha⟩ := exists_sub_mem_map_of_quotientMap_surjective I h b
   have ha' : a ∈ m.comap (algebraMap A B) := by
-    show algebraMap A B a ∈ m
+    change algebraMap A B a ∈ m
     simpa only [sub_sub_cancel] using m.sub_mem hb (hI ha)
   have hba := Ideal.map_mono (Ideal.map_le_iff_le_comap.mp hI) ha
   simpa only [sub_add_cancel] using
@@ -294,7 +294,7 @@ private theorem tensorProductToResidueField_surjective
   have hBmem : ∀ b : B, algebraMap B q.ResidueField b ∈ R := by
     intro b
     refine ⟨1 ⊗ₜ[A] b, ?_⟩
-    show f (1 ⊗ₜ[A] b) = _
+    change f (1 ⊗ₜ[A] b) = _
     exact (Algebra.TensorProduct.lift_tmul _ _ _ _ _).trans
       (by rw [map_one, one_mul]; rfl)
   have hQmem : ∀ c : B ⧸ q, algebraMap (B ⧸ q) q.ResidueField c ∈ R := by
@@ -302,7 +302,7 @@ private theorem tensorProductToResidueField_surjective
     obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective c
     simpa only [Ideal.algebraMap_quotient_residueField_mk] using hBmem b
   intro y
-  show y ∈ R
+  change y ∈ R
   obtain ⟨a, b, hb, hab⟩ := IsFractionRing.div_surjective (A := B ⧸ q) y
   have hbn : algebraMap (B ⧸ q) q.ResidueField b ≠ 0 := fun hz => nonZeroDivisors.ne_zero hb
     ((IsFractionRing.injective (B ⧸ q) q.ResidueField) (hz.trans (map_zero _).symm))
@@ -323,7 +323,7 @@ private theorem fiber_ringEquiv_of_isLocalization
   let f : p.ResidueField →ₐ[R] q.ResidueField :=
     { Ideal.ResidueField.map p q (algebraMap R S) rfl with
       commutes' := fun r => by
-        show Ideal.ResidueField.map p q (algebraMap R S) rfl
+        change Ideal.ResidueField.map p q (algebraMap R S) rfl
           (algebraMap R p.ResidueField r) = algebraMap R q.ResidueField r
         rw [Ideal.ResidueField.map_algebraMap, ← IsScalarTower.algebraMap_apply] }
   let e := AlgEquiv.ofBijective f
@@ -344,8 +344,8 @@ private theorem exists_tensorProduct_baseChangeRight_algEquiv
       ((Algebra.TensorProduct.cancelBaseChange A B B T k).toRingEquiv.trans
         (Algebra.TensorProduct.comm A T k).toRingEquiv))
   refine ⟨{ e with commutes' := fun z => ?_ }⟩
-  show e ((z ⊗ₜ[A] 1) ⊗ₜ[B] 1) = z ⊗ₜ[A] 1
-  show (Algebra.TensorProduct.comm A T k)
+  change e ((z ⊗ₜ[A] 1) ⊗ₜ[B] 1) = z ⊗ₜ[A] 1
+  change (Algebra.TensorProduct.comm A T k)
     ((Algebra.TensorProduct.cancelBaseChange A B B T k) (1 ⊗ₜ[B] (1 ⊗ₜ[A] z))) = _
   rw [Algebra.TensorProduct.cancelBaseChange_tmul, one_smul, Algebra.TensorProduct.comm_tmul]
 
@@ -411,12 +411,12 @@ private theorem holds_fiber_of_ind_etale
   let : Algebra C K := f.toRingHom.toAlgebra
   let : Algebra B C := Algebra.TensorProduct.rightAlgebra
   have : IsScalarTower B C K := IsScalarTower.of_algebraMap_eq fun b => by
-    show algebraMap B K b = f (1 ⊗ₜ[A] b)
+    change algebraMap B K b = f (1 ⊗ₜ[A] b)
     symm
     exact (Algebra.TensorProduct.lift_tmul _ _ _ _ _).trans
       (by rw [map_one, one_mul]; rfl)
   have : IsScalarTower k C K := IsScalarTower.of_algebraMap_eq fun z => by
-    show algebraMap k K z = f (z ⊗ₜ[A] 1)
+    change algebraMap k K z = f (z ⊗ₜ[A] 1)
     symm
     exact (Algebra.TensorProduct.lift_tmul _ _ _ _ _).trans
       (by rw [map_one, mul_one]; rfl)
@@ -465,7 +465,7 @@ private theorem holds_fiber_iff_of_isLocalization
     apply RingHom.ext
     intro a
     apply E.injective
-    show E (E.symm (algebraMap q.ResidueField (q.Fiber T) a)) =
+    change E (E.symm (algebraMap q.ResidueField (q.Fiber T) a)) =
       E (algebraMap (q.under R).ResidueField ((q.under R).Fiber T) (e.symm a))
     rw [E.apply_symm_apply]
     have hh := DFunLike.congr_fun he (e.symm a)
@@ -655,7 +655,7 @@ private lemma isNoetherianRing_strictHenselization
       separable := Algebra.IsSeparable.of_equiv_equiv
         (ResidueField.mapEquiv eR).symm (RingEquiv.refl L) (by
           ext a
-          show algebraMap (ResidueField R) L
+          change algebraMap (ResidueField R) L
             ((ResidueField.mapEquiv eR) ((ResidueField.mapEquiv eR).symm a)) = _
           rw [RingEquiv.apply_symm_apply]
           rfl) }
@@ -762,9 +762,9 @@ private lemma isLocalization_of_surjectiveOnStalks
     { (RingEquiv.ofBijective f hf).trans eK.symm.toRingEquiv with
       commutes' := fun a => by
         apply eK.injective
-        show eK (eK.symm (f (algebraMap A Ap a))) = eK (algebraMap A K a)
+        change eK (eK.symm (f (algebraMap A Ap a))) = eK (algebraMap A K a)
         rw [eK.apply_symm_apply]
-        show f (algebraMap A Ap a) = algebraMap K Kp (algebraMap A K a)
+        change f (algebraMap A Ap a) = algebraMap K Kp (algebraMap A K a)
         exact Localization.localRingHom_to_map p ⊥ (algebraMap A K) rfl a }
   exact IsLocalization.isLocalization_of_algEquiv p.primeCompl E
 
@@ -793,14 +793,14 @@ private lemma exists_fiber_localization
     { φ₀.toRingHom with
       commutes' := by
         intro h
-        show φ₀ ((1 : p.ResidueField) ⊗ₜ[R] h) = algebraMap H K h
-        show (Ideal.ResidueField.mapₐ p q (Algebra.ofId R H) hp) 1 * algebraMap H K h = _
+        change φ₀ ((1 : p.ResidueField) ⊗ₜ[R] h) = algebraMap H K h
+        change (Ideal.ResidueField.mapₐ p q (Algebra.ofId R H) hp) 1 * algebraMap H K h = _
         rw [map_one, one_mul] }
   let : Algebra F K := φ.toRingHom.toAlgebra
   have : IsScalarTower H F K := IsScalarTower.of_algebraMap_eq' φ.comp_algebraMap.symm
   have hφ : φ.toRingHom.SurjectiveOnStalks := by
     apply RingHom.SurjectiveOnStalks.of_comp (f := algebraMap H F)
-    show (φ.toRingHom.comp (algebraMap H F)).SurjectiveOnStalks
+    change (φ.toRingHom.comp (algebraMap H F)).SurjectiveOnStalks
     rw [show φ.toRingHom.comp (algebraMap H F) = algebraMap H K from RingHom.ext φ.commutes]
     exact q.surjectiveOnStalks_residueField
   let M := ((⊥ : Ideal K).comap (algebraMap F K)).primeCompl
@@ -814,13 +814,13 @@ private lemma exists_fiber_localization
   have : IsScalarTower F D G := IsScalarTower.of_algebraMap_eq' (R := F) (S := D) (A := G) (by
     apply RingHom.ext
     intro a
-    show (φ a) ⊗ₜ[H] (1 : T) = δ (a ⊗ₜ[H] (1 : T))
+    change (φ a) ⊗ₜ[H] (1 : T) = δ (a ⊗ₜ[H] (1 : T))
     rfl)
   have hloc :=
     IsLocalization.tensorProduct_tensorProduct H T M K (by
       apply RingHom.ext
       intro t
-      show (φ 1) ⊗ₜ[H] t = 1 ⊗ₜ[H] t
+      change (φ 1) ⊗ₜ[H] t = 1 ⊗ₜ[H] t
       rw [map_one])
   let e : D ≃+* p.Fiber T :=
     (Algebra.TensorProduct.congr (Algebra.TensorProduct.commRight R H p.ResidueField).symm
@@ -833,12 +833,12 @@ private lemma exists_fiber_localization
   · apply IsScalarTower.of_algebraMap_eq' (R := p.ResidueField) (S := p.Fiber T) (A := G)
     apply RingHom.ext
     intro a
-    show algebraMap q.ResidueField G (algebraMap p.ResidueField q.ResidueField a) =
+    change algebraMap q.ResidueField G (algebraMap p.ResidueField q.ResidueField a) =
       δ (e.symm (a ⊗ₜ[R] (1 : T)))
-    show (algebraMap p.ResidueField q.ResidueField a) ⊗ₜ[H] (1 : T) =
+    change (algebraMap p.ResidueField q.ResidueField a) ⊗ₜ[H] (1 : T) =
       (φ ((a ⊗ₜ[R] (1 : H)))) ⊗ₜ[H] (1 : T)
     congr 1
-    show _ = (Ideal.ResidueField.map p q (algebraMap R H) hp a) * algebraMap H K 1
+    change _ = (Ideal.ResidueField.map p q (algebraMap R H) hp a) * algebraMap H K 1
     rw [map_one, mul_one]
     rfl
   · exact IsLocalization.of_surjective (R := D) (R' := p.Fiber T) (S' := G)
@@ -847,7 +847,7 @@ private lemma exists_fiber_localization
       (by
         apply RingHom.ext
         intro d
-        show δ d = δ (e.symm (e d))
+        change δ d = δ (e.symm (e d))
         rw [e.symm_apply_apply])
       (by
         rw [(RingHom.injective_iff_ker_eq_bot (RingHom.id G)).mp Function.injective_id]
@@ -919,7 +919,7 @@ private lemma fibersHave_of_regularAscent
   have : IsScalarTower R' S' T' := IsScalarTower.of_algebraMap_eq' (R := R') (S := S') (A := T') (by
     apply RingHom.ext
     intro a
-    show ULift.up (algebraMap R T a.down) =
+    change ULift.up (algebraMap R T a.down) =
       ULift.up (algebraMap S T (algebraMap R S a.down))
     rw [← IsScalarTower.algebraMap_apply R S T])
   have hRS' : ∀ p : PrimeSpectrum R',
@@ -1070,7 +1070,7 @@ private lemma formalFibersHave_henselizations
       (by
         apply RingHom.ext
         intro a
-        show a ⊗ₜ[R] E 1 = a ⊗ₜ[R] (1 : B)
+        change a ⊗ₜ[R] E 1 = a ⊗ₜ[R] (1 : B)
         rw [map_one]) ((formalFibersHaveAt_iff P R).mp hR p)
   have hf' : f.comp (algebraMap R A) = (algebraMap H C).comp (algebraMap R H) := RingHom.ext hf
   have : IsLocalHom f := isLocalHom_completionMap (algebraMap R H) f hf'
@@ -1192,7 +1192,7 @@ private lemma formalFibersHave_strictHenselization
       separable := Algebra.IsSeparable.of_equiv_equiv
         (ResidueField.mapEquiv eR).symm (RingEquiv.refl L) (by
           ext a
-          show algebraMap (ResidueField R) L
+          change algebraMap (ResidueField R) L
             ((ResidueField.mapEquiv eR) ((ResidueField.mapEquiv eR).symm a)) = _
           rw [RingEquiv.apply_symm_apply]
           rfl) }

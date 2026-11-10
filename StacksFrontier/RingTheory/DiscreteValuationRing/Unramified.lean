@@ -366,7 +366,7 @@ theorem integralClosure_finite_dedekind_and_degree_eq_sum_ramification_inertia
   have hBnotfield : ¬ IsField B := fun hfield => IsDiscreteValuationRing.not_isField A <|
     isField_of_isIntegral_of_isField (FaithfulSMul.algebraMap_injective A B) hfield
   have hhens : HenselianLocalRing A → n = 1 := fun _ => by
-    show Fintype.card (p.primesOver B) = 1
+    change Fintype.card (p.primesOver B) = 1
     apply Fintype.card_eq_one_iff.mpr
     have : IsLocalRing B := isLocalRing_of_finite_domain_of_henselian A B
     obtain ⟨q, hqmax, hq⟩ := Ideal.exists_maximal_ideal_liesOver_of_isIntegral (S := B) p
@@ -651,7 +651,7 @@ private theorem finite_formallyUnramified_sup
   classical
   induction s using Finset.induction_on with
   | empty =>
-    show Module.Finite R ↥(⊥ : Subalgebra R S) ∧
+    change Module.Finite R ↥(⊥ : Subalgebra R S) ∧
       Algebra.FormallyUnramified R ↥(⊥ : Subalgebra R S)
     refine ⟨inferInstance, ?_⟩
     apply Algebra.FormallyUnramified.of_surjective (Algebra.ofId R (⊥ : Subalgebra R S))
@@ -857,7 +857,7 @@ theorem isUnramifiedWithRespectTo_of_tower_and_exists_isGalois_and_common_extens
     have hgen : g₁.fieldRange ⊔ g₂.fieldRange = ⊤ := by
       apply IntermediateField.map_injective F.val
       rw [IntermediateField.map_sup, AlgHom.map_fieldRange, AlgHom.map_fieldRange]
-      show f₁.fieldRange ⊔ f₂.fieldRange = (⊤ : IntermediateField K F).map F.val
+      change f₁.fieldRange ⊔ f₂.fieldRange = (⊤ : IntermediateField K F).map F.val
       rw [← AlgHom.fieldRange_eq_map, IntermediateField.fieldRange_val]
     refine ⟨F, inferInstance, inferInstance, inferInstance, inferInstance,
       inferInstance, inferInstance, inferInstance, inferInstance, inferInstance, inferInstance, ?_⟩
@@ -879,7 +879,7 @@ theorem isUnramifiedIn_comp
   have hq : q.IsPrime := Ideal.IsPrime.comap (algebraMap B C)
   have hqp : q.LiesOver p := by
     constructor
-    show p = Ideal.comap (algebraMap A B) (Ideal.comap (algebraMap B C) P)
+    change p = Ideal.comap (algebraMap A B) (Ideal.comap (algebraMap B C) P)
     rw [Ideal.comap_comap, ← IsScalarTower.algebraMap_eq A B C]
     exact hPp.over
   have : P.LiesOver q := ⟨rfl⟩

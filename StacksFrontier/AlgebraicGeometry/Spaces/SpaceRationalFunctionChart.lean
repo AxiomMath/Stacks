@@ -128,7 +128,7 @@ theorem isOpenImmersion_openChart {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (C : SmallEtale B S hS F) (hC : IsOpenImmersion B S hS C.1.hom)
     (O : (chartScheme C).Opens) :
     IsOpenImmersion B S hS (openChart B S hS F C O).1.hom := by
-  show IsOpenImmersion B S hS (yoneda.map (openSubHom C.obj.left O) ≫ C.1.hom)
+  change IsOpenImmersion B S hS (yoneda.map (openSubHom C.obj.left O) ≫ C.1.hom)
   exact isOpenImmersion_comp B S hS _ _ (isOpenImmersion_yoneda_map_openSubHom _ O) hC
 
 namespace CodimensionZeroPresentation
@@ -142,7 +142,7 @@ variable {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (P : CodimensionZeroPresent
 /-- The point set of the chart presenting the dense open subspace is dense. -/
 theorem denseRange_pointsMap_chart :
     DenseRange (pointsMap B S hS (yoneda.obj P.scheme) P.chart) := by
-  show Dense (Set.range (pointsMap B S hS (yoneda.obj P.scheme) P.chart))
+  change Dense (Set.range (pointsMap B S hS (yoneda.obj P.scheme) P.chart))
   rw [show pointsMap B S hS (yoneda.obj P.scheme) P.chart =
       pointsMap B S hS P.sub.toFunctor P.sub.ι ∘
         pointsMap B S hS (yoneda.obj P.scheme) P.iso.hom from
@@ -221,7 +221,7 @@ theorem nonempty_genericChartIn (P : CodimensionZeroPresentation B S hS X.1)
     (hfin : HasLocallyFiniteIrreducibleComponents B S hS X.1) {W : Subfunctor X.1}
     (hW : IsDenseOpenSubspace B S hS X.2 W) : Nonempty (GenericChartIn P W) := by
   obtain ⟨Ω, hΩ, τ, hτ⟩ := exists_dense_open_le_of_isDenseOpenSubspace P.schematicChart
-    P.isOpenImmersion_schematicChart P.denseRange_pointsMap_schematicChart hW.1 hW.2
+    P.isOpenImmersion_schematicChart hW.1 hW.2
   exact ⟨⟨openChart B S hS X.1 P.schematicChart Ω,
     P.isGenericChart_openChart_schematicChart hfin Ω hΩ,
     isOpenImmersion_openChart P.schematicChart P.isOpenImmersion_schematicChart Ω,
@@ -476,7 +476,7 @@ theorem rationalToMeromorphic_add (x y : rationalFunctions B S hS X.2) :
     rw [← hx, ← hy]
     exact hadd
   refine (D.isGenericChart.bijective_val_genericChart hwa hfin).injective ?_
-  show (rationalToMeromorphic P hwa hfin (x + y)).val (op D.chart) =
+  change (rationalToMeromorphic P hwa hfin (x + y)).val (op D.chart) =
     (rationalToMeromorphic P hwa hfin x).val (op D.chart) +
       (rationalToMeromorphic P hwa hfin y).val (op D.chart)
   rw [val_rationalToMeromorphic_chart P hwa hfin hsum D,
@@ -497,7 +497,7 @@ theorem rationalToMeromorphic_mul (x y : rationalFunctions B S hS X.2) :
     rw [← hx, ← hy]
     exact hmul
   refine (D.isGenericChart.bijective_val_genericChart hwa hfin).injective ?_
-  show (rationalToMeromorphic P hwa hfin (x * y)).val (op D.chart) =
+  change (rationalToMeromorphic P hwa hfin (x * y)).val (op D.chart) =
     (rationalToMeromorphic P hwa hfin x).val (op D.chart) *
       (rationalToMeromorphic P hwa hfin y).val (op D.chart)
   rw [val_rationalToMeromorphic_chart P hwa hfin hprod D,

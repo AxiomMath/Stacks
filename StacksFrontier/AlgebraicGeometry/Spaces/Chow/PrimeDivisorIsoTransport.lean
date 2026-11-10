@@ -64,7 +64,7 @@ theorem map_closureSingleton_pointsMap_of_iso (e : X ≅ Y) (x : points B S hS X
         (IrreducibleCloseds.closureSingleton x) =
       IrreducibleCloseds.closureSingleton (pointsMap B S hS X e.hom x) := by
   refine IrreducibleCloseds.ext ?_
-  show closure (pointsMap B S hS X e.hom '' closure {x}) =
+  change closure (pointsMap B S hS X e.hom '' closure {x}) =
     closure {pointsMap B S hS X e.hom x}
   rw [closure_image_closure (continuous_pointsMap B S hS e.hom), Set.image_singleton]
 
@@ -110,7 +110,7 @@ theorem integralClosedSubspaceSupport_pushforward_of_iso (hX : IsAlgebraicSpace 
         (isClosedImmersion_of_isIso B S hS e.hom)).isClosedMap _
       (isClosed_range_pointsMap_integralClosedSubspace B S hS hX Z)
   refine IrreducibleCloseds.ext ?_
-  show subspacePointSet B S hS Y
+  change subspacePointSet B S hS Y
       (IntegralClosedSubspace.pushforward B S hS hY hX hYdec
         (isClosedImmersion_of_isIso B S hS e.hom) Z).subspace =
     closure (pointsMap B S hS X e.hom '' subspacePointSet B S hS X Z.subspace)
@@ -276,7 +276,7 @@ theorem PrimeDivisor.support_pushforwardOfIso (hX : IsAlgebraicSpace B S hS X)
     (Z : PrimeDivisor B S hS X) :
     (Z.pushforwardOfIso B S hS hX hY hYdec e).support B S hS Y =
       pointsMap B S hS X e.hom '' Z.support B S hS X := by
-  show subspacePointSet B S hS Y
+  change subspacePointSet B S hS Y
       (IntegralClosedSubspace.pushforward B S hS hY hX hYdec
         (isClosedImmersion_of_isIso B S hS e.hom)
         (Z.toIntegralClosedSubspace B S hS)).subspace = _

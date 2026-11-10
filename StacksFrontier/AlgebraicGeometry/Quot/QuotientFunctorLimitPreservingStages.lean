@@ -148,7 +148,7 @@ theorem quotientTransport_quotientRestrictOver_modulePullback
     refine kernelSubobject_eq_of_comp_mono _ _
       ((modulePullback B S hS g).map
         (quotientTransportCokernelIso ((modulePullbackTriangle B S hS hk).app F) K).inv) ?_
-    show _ = (modulePullbackTriangle B S hS hg).hom.app F ≫ (modulePullback B S hS g).map
+    change _ = (modulePullbackTriangle B S hS hg).hom.app F ≫ (modulePullback B S hS g).map
       (cokernel.π (quotientTransport ((modulePullbackTriangle B S hS hk).app F) K).arrow)
     rw [← comp_quotientTransportCokernelIso_inv]
     simp only [Functor.map_comp, Category.assoc]
@@ -175,7 +175,7 @@ theorem quotientTransport_transportEquiv_modulePullbackSquare
   refine (quotientTransport_eq_kernelSubobject_comp _ _ _ _ hπ).trans ?_
   unfold quotientRestrictOver Functor.conjSubobject Functor.conjQuotientProjection
   congr 1
-  show (modulePullbackTriangle B S hS (rfl : b ≫ a = b ≫ a)).hom.app F ≫
+  change (modulePullbackTriangle B S hS (rfl : b ≫ a = b ≫ a)).hom.app F ≫
       ((modulePullbackTriangle B S hS (rfl : b ≫ a = b ≫ a)).inv.app F ≫
         (modulePullbackTriangle B S hS hφ).hom.app F) ≫
         (modulePullback B S hS φ.hom).map (cokernel.π K.arrow) =
@@ -286,7 +286,7 @@ theorem limitPreserving_finitePresentationQuotientsFunctor_of_stages
         { app := fun A => Over.homMk (c.π.app A.left) (c.w A.hom)
           naturality := fun A A' k => by
             apply Over.OverMorphism.ext
-            show 𝟙 c.pt ≫ c.π.app A'.left = c.π.app A.left ≫ E.map k.left
+            change 𝟙 c.pt ≫ c.π.app A'.left = c.π.app A.left ≫ E.map k.left
             rw [Category.id_comp, c.w k.left] } }
   let Φ : Over T₀ ⥤ SchemesOver (D.canonicalBaseChangedSituation T₀.hom).Y :=
     D.toHomSituation.overStageSection T₀
@@ -300,13 +300,13 @@ theorem limitPreserving_finitePresentationQuotientsFunctor_of_stages
     (Functor.associator _ _ _ ≪≫
       Functor.isoWhiskerLeft (Over.post E) (D.toHomSituation.overStageSectionIso T₀))
     (CostructuredArrow.isoMk (Iso.refl _) ?_) ?_ hcol
-  · show (schemeSpaceFunctor B S hS).map (𝟙 _) ≫ c.pt.hom =
+  · change (schemeSpaceFunctor B S hS).map (𝟙 _) ≫ c.pt.hom =
       (schemeSpaceFunctor B S hS).map (c.π.app i₀).left ≫ T₀.hom
     rw [CategoryTheory.Functor.map_id, Category.id_comp]
     exact (CostructuredArrow.w (c.π.app i₀)).symm
   · intro A
     refine CostructuredArrow.hom_ext _ _ ?_
-    show (c.π.app A.left).left ≫ 𝟙 _ = 𝟙 _ ≫ (c.π.app A.left).left
+    change (c.π.app A.left).left ≫ 𝟙 _ = 𝟙 _ ≫ (c.π.app A.left).left
     rw [Category.comp_id, Category.id_comp]
 
 end QuotientSituation

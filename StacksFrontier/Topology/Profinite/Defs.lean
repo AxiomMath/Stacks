@@ -3,7 +3,7 @@ module
 public import Mathlib.Topology.Category.Profinite.AsLimit
 public import Mathlib.Topology.Connected.Separation
 public import Mathlib.Topology.Separation.Connected
-public import Mathlib.Topology.Separation.Lemmas
+public import Mathlib.Topology.Separation.CompletelyRegular
 
 /-!
 # Profinite topological spaces

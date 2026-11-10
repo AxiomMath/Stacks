@@ -382,7 +382,7 @@ theorem freeAlgebraSheafStalkRingEquiv_sheafify
     freeAlgebraSheafStalkRingEquiv A E x
         ((stalkSheafifyIso (polynomialPresheaf (Opens.grothendieckTopology X) A E) x).hom.hom ξ) =
       polynomialStalkHom A E x ξ := by
-  show polynomialStalkHom A E x
+  change polynomialStalkHom A E x
       ((stalkSheafifyIso (polynomialPresheaf (Opens.grothendieckTopology X) A E) x).inv.hom
         ((stalkSheafifyIso (polynomialPresheaf (Opens.grothendieckTopology X) A E) x).hom.hom ξ)) =
     polynomialStalkHom A E x ξ

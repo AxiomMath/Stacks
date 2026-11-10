@@ -96,7 +96,7 @@ private theorem coextUnderlying_restr
     (coextPresheafHom α F).map g.op (coextUnderlying α F U ψ) =
       coextUnderlying α F V (Stacks.PresheafOfModules.CoextendScalars.coextRestrFun α.hom F.val g.op
         ψ) := by
-  show Functor.whiskerLeft (Over.map g).op
+  change Functor.whiskerLeft (Over.map g).op
       ((PresheafOfModules.toPresheaf ((Over.forget U).op ⋙ 𝒪₁.obj)).map ψ) =
     (PresheafOfModules.toPresheaf ((Over.forget V).op ⋙ 𝒪₁.obj)).map
       ((Stacks.PresheafOfModules.CoextendScalars.overRestrictIso V U g
@@ -117,7 +117,7 @@ private theorem coextRestrFun_comp
       Stacks.PresheafOfModules.CoextendScalars.coextRestrFun α.hom F.val g.op
         (Stacks.PresheafOfModules.CoextendScalars.coextRestrFun α.hom F.val f.op ψ) := by
   apply (PresheafOfModules.toPresheaf ((Over.forget W).op ⋙ 𝒪₁.obj)).map_injective
-  show coextUnderlying α F W
+  change coextUnderlying α F W
       (Stacks.PresheafOfModules.CoextendScalars.coextRestrFun α.hom F.val (g ≫ f).op ψ) =
     coextUnderlying α F W
       (Stacks.PresheafOfModules.CoextendScalars.coextRestrFun α.hom F.val g.op
@@ -271,7 +271,7 @@ private theorem coextRestr_gGlued
     Stacks.PresheafOfModules.CoextendScalars.coextRestrFun α.hom F.val I.f.op (coextGluedHom α F S φ
       hφ) = φ I := by
   apply (PresheafOfModules.toPresheaf ((Over.forget I.Y).op ⋙ 𝒪₁.obj)).map_injective
-  show coextUnderlying α F I.Y
+  change coextUnderlying α F I.Y
       (Stacks.PresheafOfModules.CoextendScalars.coextRestrFun α.hom F.val I.f.op (coextGluedHom α F
         S φ hφ)) =
     coextUnderlying α F I.Y (φ I)
@@ -290,7 +290,7 @@ private theorem coextRestrictToCover_bijective
     apply ((coextPresheafHom_isSheaf α F).isSheafFor S.1 S.2).isSeparatedFor.ext
     intro V f hf
     have hloc := congrFun (congrArg Subtype.val hψ) ⟨V, f, hf⟩
-    show (coextPresheafHom α F).map f.op (coextUnderlying α F U ψ) =
+    change (coextPresheafHom α F).map f.op (coextUnderlying α F U ψ) =
       (coextPresheafHom α F).map f.op (coextUnderlying α F U ψ')
     rw [coextUnderlying_restr α F f ψ, coextUnderlying_restr α F f ψ']
     exact congrArg (coextUnderlying α F V) hloc
@@ -374,7 +374,7 @@ private theorem coextObj_isSheaf
   · apply AddCommGrpCat.hom_ext
     apply AddMonoidHom.ext
     intro e
-    show (ConcreteCategory.hom
+    change (ConcreteCategory.hom
         ((S.multifork (Stacks.PresheafOfModules.CoextendScalars.coextObj α.hom F.val).presheaf).ι
           i)) (L E e) =
       (ConcreteCategory.hom (E.ι i)) e
@@ -383,7 +383,7 @@ private theorem coextObj_isSheaf
   · apply AddCommGrpCat.hom_ext
     apply AddMonoidHom.ext
     intro e
-    show (ConcreteCategory.hom m) e = L E e
+    change (ConcreteCategory.hom m) e = L E e
     refine hext _ _ fun I => ?_
     rw [hLrestr]
     have h2 := ConcreteCategory.congr_hom (hm I) e

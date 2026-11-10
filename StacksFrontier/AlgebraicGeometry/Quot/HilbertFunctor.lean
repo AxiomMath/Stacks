@@ -450,7 +450,7 @@ theorem toBase_mapFrom_app_apply {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (z : F.obj T) :
     M.toBase.app T ((M.mapFrom p).app T z) =
       ((hilbertPresheafToBase f).app T (p.app T ⟨z⟩)).down := by
-  show ((hilbertPresheafToBase f).app T
+  change ((hilbertPresheafToBase f).app T
     (M.iso.hom.app T (M.iso.inv.app T (p.app T ⟨z⟩)))).down = _
   exact congrArg (fun w ↦ ((hilbertPresheafToBase f).app T w).down)
     (types_congr_hom (M.iso.inv_hom_id_app T) (p.app T ⟨z⟩))

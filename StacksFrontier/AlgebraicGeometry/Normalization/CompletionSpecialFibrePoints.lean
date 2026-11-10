@@ -218,7 +218,7 @@ theorem comap_vanishingIdeal_singleton_of_isIso_fiberToSpecResidueField
     Closeds.ext (by rw [Closeds.coe_closure, p.range_fiberι x, hxy]; exact hy.closure_eq)
   rw [← fromSpecResidueField_ker_eq_vanishingIdeal x hx,
     ← Scheme.IdealSheafData.ker_fst_of_isClosedImmersion (X.fromSpecResidueField x) p]
-  show (p.fiberι x).ker = _
+  change (p.fiberι x).ker = _
   rw [Scheme.Hom.ker_eq_vanishingIdeal_closure_range, hcl]
 
 /-- For a flat morphism whose fibres over the closure of the image of a closed point `y` are

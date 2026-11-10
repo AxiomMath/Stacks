@@ -58,8 +58,8 @@ structure sheaf.
 
 The invertibility of `homMap X (𝟙 E) (diagonalTensorUnit X)` is established inline rather than
 through a named lemma: the named form is `AlgebraicGeometry.RingedSite.isIso_homMap` of
-`StacksFrontier.CategoryTheory.Sites.Cohomology.InternalHom.EvaluationLocality`, which this file does
-not import.
+`StacksFrontier.CategoryTheory.Sites.Cohomology.InternalHom.EvaluationLocality`, which this file
+does not import.
 
 ## References
 

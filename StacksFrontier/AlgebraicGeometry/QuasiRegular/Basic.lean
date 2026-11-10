@@ -380,7 +380,7 @@ theorem generatedIdeal_eq_germIdeal : generatedIdeal X f = germIdeal X f := by
       rw [← res_res (inf_le_left (a := V.unop) (b := V₀)) hWW₀ s, hdW]
       refine Finset.sum_congr rfl fun i _ => ?_
       rw [map_mul, res_res, restrictFamily, restrictFamily, res_res]
-    show X.presheaf.map _ s ∈ _
+    change X.presheaf.map _ s ∈ _
     rw [hrel]
     refine Submodule.sum_mem _ fun i _ => ?_
     have hfi : restrictFamily X f W i ∈ I.1.obj (op W) :=

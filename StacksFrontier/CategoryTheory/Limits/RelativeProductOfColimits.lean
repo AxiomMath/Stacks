@@ -79,6 +79,7 @@ section Conditions
 
 variable {c₁ c₂ a b}
 
+omit [HasPullbacks Q] in
 /-- Transporting a commutation over `c₁.ι.app i ≫ a` along a transition of the first
 diagram. -/
 theorem relativeProduct_cond_left {i i' : I₁} (f : i ⟶ i') {W X : Q} (v : X ⟶ Z)
@@ -87,6 +88,7 @@ theorem relativeProduct_cond_left {i i' : I₁} (f : i ⟶ i') {W X : Q} (v : X 
   rw [Category.assoc, ← Category.assoc (F₁.map f) (c₁.ι.app i') a, c₁.w f]
   exact h
 
+omit [HasPullbacks Q] in
 /-- Transporting a commutation over `c₂.ι.app j ≫ b` along a transition of the second
 diagram. -/
 theorem relativeProduct_cond_right {j j' : I₂} (g : j ⟶ j') {W X : Q} (u : X ⟶ Z)
@@ -95,18 +97,21 @@ theorem relativeProduct_cond_right {j j' : I₂} (g : j ⟶ j') {W X : Q} (u : X
   rw [Category.assoc, ← Category.assoc (F₂.map g) (c₂.ι.app j') b, c₂.w g]
   exact h
 
+omit [HasPullbacks Q] in
 /-- Reading a commutation over `c₁.ι.app i ≫ a` as one over `a`. -/
 theorem relativeProduct_cond_vertexLeft {i : I₁} {W X : Q} (v : X ⟶ Z)
     (p : W ⟶ F₁.obj i) (q : W ⟶ X) (h : p ≫ c₁.ι.app i ≫ a = q ≫ v) :
     (p ≫ c₁.ι.app i) ≫ a = q ≫ v := by
   rw [Category.assoc]; exact h
 
+omit [HasPullbacks Q] in
 /-- Reading a commutation over `c₂.ι.app j ≫ b` as one over `b`. -/
 theorem relativeProduct_cond_vertexRight {j : I₂} {W X : Q} (u : X ⟶ Z)
     (p : W ⟶ X) (q : W ⟶ F₂.obj j) (h : p ≫ u = q ≫ c₂.ι.app j ≫ b) :
     p ≫ u = (q ≫ c₂.ι.app j) ≫ b := by
   rw [Category.assoc]; exact h
 
+omit [HasPullbacks Q] in
 /-- `CategoryTheory.IsPullback.of_right` with the two horizontal composites named: the form in
 which it applies to a goal whose morphisms are fields of a diagram or a cocone. -/
 theorem isPullback_of_right_of_eq {X₁₁ X₁₂ X₁₃ X₂₁ X₂₂ X₂₃ : Q} {h₁₁ : X₁₁ ⟶ X₁₂}
@@ -422,7 +427,7 @@ theorem uncurry_relativeProductDiagram_map_fst {p q : I₁ × I₂} (f : p ⟶ q
     (Functor.uncurry.obj (relativeProductDiagram c₁ c₂ a b)).map f ≫
         pullback.fst (c₁.ι.app q.1 ≫ a) (c₂.ι.app q.2 ≫ b) =
       pullback.fst (c₁.ι.app p.1 ≫ a) (c₂.ι.app p.2 ≫ b) ≫ F₁.map f.1 := by
-  show (relativeBaseTransition c₁ c₂ a b f.1 p.2 ≫
+  change (relativeBaseTransition c₁ c₂ a b f.1 p.2 ≫
     relativeStageTransition c₁ c₂ a b q.1 f.2) ≫ _ = _
   simp
 
@@ -433,7 +438,7 @@ theorem uncurry_relativeProductDiagram_map_snd {p q : I₁ × I₂} (f : p ⟶ q
     (Functor.uncurry.obj (relativeProductDiagram c₁ c₂ a b)).map f ≫
         pullback.snd (c₁.ι.app q.1 ≫ a) (c₂.ι.app q.2 ≫ b) =
       pullback.snd (c₁.ι.app p.1 ≫ a) (c₂.ι.app p.2 ≫ b) ≫ F₂.map f.2 := by
-  show (relativeBaseTransition c₁ c₂ a b f.1 p.2 ≫
+  change (relativeBaseTransition c₁ c₂ a b f.1 p.2 ≫
     relativeStageTransition c₁ c₂ a b q.1 f.2) ≫ _ = _
   simp
 
@@ -635,8 +640,7 @@ def fibreProductDiagram : J ⥤ Q where
     refine pullback.hom_ext ?_ ?_ <;> simp
   map_comp _ _ := by
     refine pullback.hom_ext ?_ ?_ <;>
-      simp [pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc,
-        pullback.lift_snd_assoc]
+      simp
 
 /-- The stage of `fibreProductDiagram` at `j` is `G₁ j ×_{G₃ j} G₂ j`. -/
 @[simp]

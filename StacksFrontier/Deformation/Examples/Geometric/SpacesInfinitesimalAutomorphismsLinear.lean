@@ -160,7 +160,7 @@ theorem spaceInfinitesimalAutomorphismGroupMulEquivDerivations_pushforward
     exact (SetLike.ext_iff.mp htop _).mpr (Subgroup.mem_top _)⟩, rfl, ?_⟩
   rw [spaceInfinitesimalAutomorphismGroupMulEquivDerivations_apply,
     spaceInfinitesimalAutomorphismGroupMulEquivDerivations_apply]
-  show differentialsHomAddEquiv B (Spec (.of Λ)) hΛ (spaceStructureMap B hΛ hSpec X hX toK)
+  change differentialsHomAddEquiv B (Spec (.of Λ)) hΛ (spaceStructureMap B hΛ hSpec X hX toK)
       (spaceStructureModule B hΛ (spaceOf B hΛ X hX))
       (spaceLiftHomAddEquiv B hΛ hSpec X hX toK hpair i
         (spaceAutToHom B hΛ hSpec X hX toK hpair i

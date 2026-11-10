@@ -378,6 +378,7 @@ theorem isZariskiLocallyQuasiSeparatedOver_of_hasAffineQuasiCompactEtaleCoverInt
     (isAffine_prod_of_mapsTo_isAffineOpen B S hS U hU V hV hbase) hqc hsurj hetale
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search over presheaves on `BigFppfOver B S hS` (pullbacks, base-change stability)
 /-- **Stacks 03W7, (3) implies (2).** Each member of a condition-(3) covering is
 quasi-separated by Stacks 07S4: its atlas has affine, hence quasi-separated, source, and the
 kernel-pair projection is quasi-compact because the atlas is. A quasi-separated algebraic
@@ -474,14 +475,14 @@ theorem isZariskiLocallyQuasiSeparatedOver_of_isAbsolutelyZariskiLocallyQuasiSep
         η.app (Opposite.op T) (F.map k.op x) := by
       rw [hnat]
       exact (congrArg (fun m ↦ m.app (Opposite.op ((Over.map b).obj T)) z)
-        (Sigma.ι_desc (fun i ↦ (U i).ι) i)).symm.trans hy
+        (Sigma.ι_comp_desc (fun i ↦ (U i).ι) i)).symm.trans hy
     let z' : (V i).toFunctor.obj (Opposite.op T) :=
       ⟨F.map k.op x, by
         change η.app (Opposite.op T) (F.map k.op x) ∈ (U i).obj _
         rw [← hz]
         exact z.property⟩
     exact ⟨(Sigma.ι (fun i ↦ (V i).toFunctor) i).app (Opposite.op T) z',
-      congrArg (fun m ↦ m.app (Opposite.op T) z') (Sigma.ι_desc (fun i ↦ (V i).ι) i)⟩
+      congrArg (fun m ↦ m.app (Opposite.op T) z') (Sigma.ι_comp_desc (fun i ↦ (V i).ι) i)⟩
   · -- each preimage is quasi-separated over `S`
     have _ : Mono ((W i).fromPreimage η) := (hpb i).mono_fst_of_mono
     exact isQuasiSeparatedOver_of_mono B S hS ((W i).fromPreimage η)

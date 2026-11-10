@@ -33,7 +33,8 @@ ambient big site contains `Spec ℤ`, which `BigFppfSite.contains_terminal` alwa
 
 @[expose] public section
 
+open AlgebraicGeometry.Space in
 add_to_stacks 087E
-  AlgebraicGeometry.Space.exists_isBlowupAlong_isFlat_isFinitePresentation_strictTransformSpaceToBlowUp_of_isFiniteType
+  exists_isBlowupAlong_isFlat_isFinitePresentation_strictTransformSpaceToBlowUp_of_isFiniteType
 
 end

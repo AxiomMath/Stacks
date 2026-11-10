@@ -98,7 +98,7 @@ private lemma finite_rank_pushforward {k : Type u} [Field k] {Z : Scheme.{u}}
   have hmod : Module.IsFiniteLocallyFreeOfRank k ((moduleSpecΓFunctor.obj M)) r :=
     (tilde_isFiniteLocallyFreeOfRank_iff k ((moduleSpecΓFunctor.obj M)) r).mp htilde'
   have hfin := finite_rank_field (k := k) ((moduleSpecΓFunctor.obj M)) hmod
-  show Module.Finite k Γ(Z, ⊤) ∧ Module.finrank k Γ(Z, ⊤) = r
+  change Module.Finite k Γ(Z, ⊤) ∧ Module.finrank k Γ(Z, ⊤) = r
   exact hfin
 
 
@@ -188,7 +188,7 @@ private theorem finite_card_fiber_of_isPullback
     apply yoneda.map_injective
     rw [← h.lift_fst (yoneda.map a.val) (𝟙 _) (hw a),
       ← h.lift_fst (yoneda.map b.val) (𝟙 _) (hw b)]
-    show l a ≫ i = l b ≫ i
+    change l a ≫ i = l b ≫ i
     rw [← hq a, ← hq b, hqeq]
   exact finite_card_le_of_injective hfinite hj hcard
 
@@ -247,7 +247,7 @@ private theorem exists_uniform_finite_card_scheme_fibers
   let V := {r : Spec (.of k) ⟶ G.obj R // r ≫ G.map s = x}
   let j₀ (r : V) : T ⟶ R := Over.homMk (⟨r.val⟩ : B.obj hK ⟶ R.left) (by
     apply B.inclusion.map_injective
-    show r.val ≫ R.hom.hom = x ≫ U.hom.hom
+    change r.val ≫ R.hom.hom = x ≫ U.hom.hom
     rw [← hbase, ← Category.assoc, r.property])
   have hj₀ (r : V) : j₀ r ≫ s = x' := G.map_injective r.property
   let j : V → {g : T ⟶ R // (yoneda.map s).app (op T) g = x'} :=
@@ -419,7 +419,7 @@ theorem scheme_etale_of_isEtale_yoneda
   have hid : P.presheaf (𝟙 (yoneda.obj R)) :=
     presheafProperty_id P (fun {_ _} f hf => by
       let := hf
-      show Etale (G.map f)
+      change Etale (G.map f)
       infer_instance) _
   apply (MorphismProperty.relative_map_iff (F := yoneda) (P := P)).mp
   simpa only [Category.id_comp] using hs R (𝟙 _) hid
@@ -519,10 +519,10 @@ theorem openObject_isEtaleEquivalenceRelation
   · rw [ht, hs]
     exact ⟨⟨equivalenceRelation_over hA.nonempty_equivalenceRelation.some⟩⟩
   · rw [hs]
-    show Etale (A.ι ≫ (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map s)
+    change Etale (A.ι ≫ (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map s)
     infer_instance
   · rw [ht]
-    show Etale (A.ι ≫ (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map t)
+    change Etale (A.ι ≫ (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map t)
     infer_instance
 
 /-- If `s` is étale as a morphism of schemes, then `yoneda.map s` is étale as a morphism of
@@ -642,7 +642,7 @@ theorem fppf_cover_sieve_mem
   let E : Covering.{u + 1, u, u + 1} B.Schemes :=
     ⟨T.left, ⟨I, fun i => (V i).left, fun i => (f i).left⟩⟩
   have hE : _root_.AlgebraicGeometry.IsFppfCovering E := by
-    show E.2.presieve₀.map B.inclusion ∈ Scheme.fppfPrecoverage T.left.obj
+    change E.2.presieve₀.map B.inclusion ∈ Scheme.fppfPrecoverage T.left.obj
     rw [PreZeroHypercover.presieve₀, Presieve.map_ofArrows,
       Scheme.fppfPrecoverage, Scheme.ofArrows_mem_precoverage_iff]
     exact ⟨hcov, hf⟩
@@ -692,7 +692,7 @@ theorem sheaf_hom_ext_of_open_cover
       (show x ∈ ⨆ i, A i by rw [hA]; trivial)
     exact ⟨⟨i⟩, ⟨x, hi⟩, rfl⟩
   · intro i
-    show Flat (A i.down).ι ∧ LocallyOfFinitePresentation (A i.down).ι
+    change Flat (A i.down).ι ∧ LocallyOfFinitePresentation (A i.down).ι
     exact ⟨inferInstance, inferInstance⟩
 
 /-- The morphism of the site `openObject R A ⟶ openObject R A'` induced by an inclusion `A ≤ A'` of
@@ -766,7 +766,7 @@ theorem exists_compact_etale_lift
     have hx : x ∈ (G.map v) '' (A : Set (G.obj V)) := hA.symm ▸ Set.mem_univ x
     obtain ⟨y, hy, rfl⟩ := hx
     exact ⟨⟨y, hy⟩, rfl⟩
-  · show Etale ((Scheme.Opens.ι (X := G.obj V) A) ≫ G.map v)
+  · change Etale ((Scheme.Opens.ι (X := G.obj V) A) ≫ G.map v)
     infer_instance
   · rw [yoneda.map_comp, yoneda.map_comp, Category.assoc, Category.assoc, hw, hpb.w]
 

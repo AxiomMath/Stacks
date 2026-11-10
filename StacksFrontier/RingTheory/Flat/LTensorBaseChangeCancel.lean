@@ -66,7 +66,7 @@ noncomputable def lTensorBaseChangeEquiv (e : C ≃ₐ[A] A ⊗[R] R') :
 /-- The identification sends `1 ⊗ n` to `n ⊗ 1`. -/
 theorem lTensorBaseChangeEquiv_one_tmul (e : C ≃ₐ[A] A ⊗[R] R') (n : N) :
     lTensorBaseChangeEquiv (N := N) e ((1 : C) ⊗ₜ[A] n) = n ⊗ₜ[R] (1 : R') := by
-  show TensorProduct.AlgebraTensorModule.cancelBaseChange R A A N R'
+  change TensorProduct.AlgebraTensorModule.cancelBaseChange R A A N R'
       (n ⊗ₜ[A] e (1 : C)) = n ⊗ₜ[R] (1 : R')
   rw [map_one, Algebra.TensorProduct.one_def,
     TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul, one_smul]

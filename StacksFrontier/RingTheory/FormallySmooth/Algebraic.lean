@@ -35,7 +35,7 @@ theorem of_formallySmooth_of_isAdic.{u, v, w}
   let gbarAlg : S →ₐ[R] A ⧸ J :=
     { gbar with
       commutes' := fun r ↦ by
-        show gbar (phi r) = Ideal.Quotient.mk J (f r)
+        change gbar (phi r) = Ideal.Quotient.mk J (f r)
         exact DFunLike.congr_fun hcomm r }
   let : Algebra.FormallySmooth R S := hphi
   obtain ⟨g, hg⟩ := Algebra.FormallySmooth.exists_lift J ⟨2, hJ⟩ gbarAlg
@@ -53,7 +53,7 @@ theorem of_formallySmooth_of_isAdic.{u, v, w}
     apply (RingHom.continuous_adic_iff g.toRingHom n ⊥).2
     obtain ⟨k, hk, hkmap⟩ :=
       (RingHom.continuous_adic_iff gbar n ⊥).1 (by
-        show @Continuous S (A ⧸ J) n.adicTopology
+        change @Continuous S (A ⧸ J) n.adicTopology
           (⊥ : Ideal (A ⧸ J)).adicTopology gbar
         rw [← hn, ← hQ]
         exact hgbarCont)

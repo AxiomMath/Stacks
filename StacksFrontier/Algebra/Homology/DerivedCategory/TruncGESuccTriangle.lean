@@ -108,7 +108,7 @@ public theorem exists_truncLESucc_triangle (E : DerivedCategory C) (a : ℤ) :
     ((TStructure.t.truncLE (a + 1)).obj E)
   have : IsIso ((homologyFunctor C (a + 1)).map
       ((TStructure.t.truncLEι (a + 1)).app E)) := by
-    show IsIso ((homologyFunctor C (a + 1)).map
+    change IsIso ((homologyFunctor C (a + 1)).map
       ((TStructure.t.truncLTι ((a + 1) + 1)).app E))
     exact isIso_homologyMap_truncLTι_app (C := C) ((a + 1) + 1) (a + 1)
       (by omega) E
@@ -124,7 +124,7 @@ public theorem exists_truncLESucc_triangle (E : DerivedCategory C) (a : ℤ) :
       (TStructure.t.natTransTruncLEOfLE a (a + 1) (by omega)).app E := by
     apply TStructure.t.to_truncLE_obj_ext
     rw [Category.assoc, TStructure.t.natTransTruncLEOfLE_ι_app]
-    show inv ((TStructure.t.truncLE a).map ((TStructure.t.truncLEι (a + 1)).app E)) ≫
+    change inv ((TStructure.t.truncLE a).map ((TStructure.t.truncLEι (a + 1)).app E)) ≫
       ((TStructure.t.truncLEι a).app ((TStructure.t.truncLE (a + 1)).obj E) ≫
         (𝟭 (DerivedCategory C)).map ((TStructure.t.truncLEι (a + 1)).app E)) = _
     rw [← (TStructure.t.truncLEι a).naturality, IsIso.inv_hom_id_assoc]
@@ -144,7 +144,7 @@ public theorem exists_truncLESucc_triangle (E : DerivedCategory C) (a : ℤ) :
           ((TStructure.t.truncLE (a + 1)).obj E) ≫
             (shiftFunctor _ (1 : ℤ)).map eX.hom))
       eX (Iso.refl _) eZ ?_ ?_ ?_).symm
-  · show (TStructure.t.truncLEι a).app ((TStructure.t.truncLE (a + 1)).obj E) ≫
+  · change (TStructure.t.truncLEι a).app ((TStructure.t.truncLE (a + 1)).obj E) ≫
       𝟙 _ = eX.hom ≫
         (TStructure.t.natTransTruncLEOfLE a (a + 1) (by omega)).app E
     rw [Category.comp_id, ← hw, eX.hom_inv_id_assoc]
@@ -191,7 +191,7 @@ public theorem exists_truncGESucc_triangle (E : DerivedCategory C) (a : ℤ) :
     have hge : TStructure.t.IsGE ((TStructure.t.truncGE (a + 1)).obj E) a :=
       TStructure.t.isGE_of_ge _ a (a + 1) (by omega)
     apply TStructure.t.from_truncGE_obj_ext
-    show (TStructure.t.truncGEπ a).app E ≫
+    change (TStructure.t.truncGEπ a).app E ≫
       (TStructure.t.truncGEπ (a + 1)).app ((TStructure.t.truncGE a).obj E) ≫
         inv ((TStructure.t.truncGE (a + 1)).map ((TStructure.t.truncGEπ a).app E)) = _
     rw [← Category.assoc, ← TStructure.t.truncGEπ_naturality, Category.assoc,

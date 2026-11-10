@@ -113,7 +113,7 @@ by an isomorphism. -/
 public theorem isLocalHom_residueMap : IsLocalHom (residueMap C) := by
   refine ⟨fun a ha => notMem_maximalIdeal.mp fun hmem => ha.ne_zero ?_⟩
   have hzero : residue (C : Type u) a = 0 := Ideal.Quotient.eq_zero_iff_mem.mpr hmem
-  show C.residueEquiv (residue (C : Type u) a) = 0
+  change C.residueEquiv (residue (C : Type u) a) = 0
   rw [hzero, map_zero]
 
 include hloc hres in

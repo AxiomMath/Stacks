@@ -121,9 +121,9 @@ coproduct, so this determines the comparison. -/
 lemma ι_freeSigmaIso_hom [HasCoproduct fun i => free (R := O) (K i)] (i : ι) :
     Sigma.ι (fun i => free (R := O) (K i)) i ≫ (freeSigmaIso (O := O) K).hom =
       freeMap fun j => (⟨i, j⟩ : Σ i, K i) :=
-  (Sigma.ι_desc _ i).trans
+  (Sigma.ι_comp_desc _ i).trans
     (Cofan.IsColimit.hom_ext (isColimitFreeCofan (R := O) (K i)) _ _ fun j =>
-      (Sigma.ι_desc _ j).trans (ιFree_freeMap (R := O) (fun j => (⟨i, j⟩ : Σ i, K i)) j).symm)
+      (Sigma.ι_comp_desc _ j).trans (ιFree_freeMap (R := O) (fun j => (⟨i, j⟩ : Σ i, K i)) j).symm)
 
 /-- `SheafOfModules.freeSigmaIso` read on the generating sections: the generator of the `i`-th
 summand indexed by `j : K i` goes to the generator indexed by `⟨i, j⟩`. -/

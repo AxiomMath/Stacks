@@ -129,7 +129,7 @@ abbrev puncturedPushforward : (Spec (CommRingCat.of A)).Modules :=
 /-- A prime of `A/I` contracts to a prime of `A` containing `I`. -/
 theorem mem_comap_of_mem (x : PrimeSpectrum (A ⧸ I)) (a : A) (ha : a ∈ I) :
     a ∈ (PrimeSpectrum.comap (Ideal.Quotient.mk I) x).asIdeal := by
-  show (Ideal.Quotient.mk I) a ∈ x.asIdeal
+  change (Ideal.Quotient.mk I) a ∈ x.asIdeal
   rw [Ideal.Quotient.eq_zero_iff_mem.2 ha]
   exact x.asIdeal.zero_mem
 
@@ -141,7 +141,7 @@ theorem preimage_complementZeroLocus_eq_bot :
   simp only [TopologicalSpace.Opens.coe_bot, Set.mem_empty_iff_false, iff_false]
   intro hx
   refine (hx : (quotientSpecMap A I).base x ∈ (complementZeroLocus A I).1) ?_
-  show (I : Set A) ⊆ (PrimeSpectrum.comap (Ideal.Quotient.mk I) x).asIdeal
+  change (I : Set A) ⊆ (PrimeSpectrum.comap (Ideal.Quotient.mk I) x).asIdeal
   exact fun a ha => mem_comap_of_mem A I x a ha
 
 /-- The fibre of `U` over `Spec (A/I)` is the empty scheme. -/

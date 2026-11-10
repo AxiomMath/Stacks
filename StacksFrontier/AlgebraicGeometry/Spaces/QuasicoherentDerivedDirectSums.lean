@@ -173,7 +173,7 @@ discharged by `AlgebraicGeometry.Space.isQuasicoherentOnSite_sigma_of_h03DX`, fe
 theorem hasCoproducts_quasicoherentDerivedCategory_ringUniverse :
     HasCoproducts.{u} (QuasicoherentDerivedCategory.{u, u} B S hS F hF) := by
   have hes : EssentiallySmall.{u} (smallEtaleRingedSite B S hS F hF).C := by
-    show EssentiallySmall.{u} (SmallEtale B S hS F)
+    change EssentiallySmall.{u} (SmallEtale B S hS F)
     infer_instance
   have : IsGrothendieckAbelian.{u} (Modules.{u, u} B S hS F hF) :=
     SheafOfModules.isGrothendieckAbelian_of_essentiallySmall _

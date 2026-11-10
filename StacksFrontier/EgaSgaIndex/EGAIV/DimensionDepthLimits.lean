@@ -219,18 +219,24 @@ add_to_ega "IV 4.5.7" "special case" AlgebraicGeometry.GeometricallyConnected.co
 add_to_ega "IV 4.5.7" "special case" AlgebraicGeometry.GeometricallyIrreducible.irreducibleSpace
 add_to_ega "IV 4.5.7" "special case" AlgebraicGeometry.Scheme.Hom.isConnected_preimage
 add_to_ega "IV 4.5.7" "special case" AlgebraicGeometry.Scheme.Hom.isIrreducible_preimage
-add_to_ega "IV 4.5.7" "connected clause"
-  AlgebraicGeometry.instConnectedSpaceCarrierCarrierCommRingCatPullbackSchemeOfGeometricallyConnectedOfUniversallyOpen
-add_to_ega "IV 4.5.7" "connected clause"
-  AlgebraicGeometry.instConnectedSpaceCarrierCarrierCommRingCatPullbackSchemeOfGeometricallyConnectedOfUniversallyOpen_1
-add_to_ega "IV 4.5.7"
-  AlgebraicGeometry.instIrreducibleSpaceCarrierCarrierCommRingCatPullbackSchemeOfGeometricallyIrreducibleOfUniversallyOpen
-add_to_ega "IV 4.5.7"
-  AlgebraicGeometry.instIrreducibleSpaceCarrierCarrierCommRingCatPullbackSchemeOfGeometricallyIrreducibleOfUniversallyOpen_1
-add_to_ega "IV 4.5.8" "more general"
-  AlgebraicGeometry.instConnectedSpaceCarrierCarrierCommRingCatPullbackSchemeOfGeometricallyConnectedOfUniversallyOpen
-add_to_ega "IV 4.5.8" "more general"
-  AlgebraicGeometry.instConnectedSpaceCarrierCarrierCommRingCatPullbackSchemeOfGeometricallyConnectedOfUniversallyOpen_1
+-- The auto-generated instance names are longer than a line, so each identifier is assembled
+-- from pieces before being handed to `add_to_ega`.
+run_cmd do
+  let conn := "instConnectedSpaceCarrierCarrierCommRingCatPullbackScheme" ++
+    "OfGeometricallyConnectedOfUniversallyOpen"
+  let irr := "instIrreducibleSpaceCarrierCarrierCommRingCatPullbackScheme" ++
+    "OfGeometricallyIrreducibleOfUniversallyOpen"
+  let mk (s : String) : Lean.Ident := Lean.mkIdent <| .str `AlgebraicGeometry s
+  let c := mk conn
+  let c1 := mk (conn ++ "_1")
+  let i := mk irr
+  let i1 := mk (irr ++ "_1")
+  Lean.Elab.Command.elabCommand (← `(command| add_to_ega "IV 4.5.7" "connected clause" $c:ident))
+  Lean.Elab.Command.elabCommand (← `(command| add_to_ega "IV 4.5.7" "connected clause" $c1:ident))
+  Lean.Elab.Command.elabCommand (← `(command| add_to_ega "IV 4.5.7" $i:ident))
+  Lean.Elab.Command.elabCommand (← `(command| add_to_ega "IV 4.5.7" $i1:ident))
+  Lean.Elab.Command.elabCommand (← `(command| add_to_ega "IV 4.5.8" "more general" $c:ident))
+  Lean.Elab.Command.elabCommand (← `(command| add_to_ega "IV 4.5.8" "more general" $c1:ident))
 add_to_ega "IV 4.5.9" AlgebraicGeometry.GeometricallyIrreducible
 add_to_ega "IV 4.6.1" "(c) ⇒ (d)"
   Algebra.instIsReducedTensorProductOfIsAlgebraicOfIsGeometricallyReduced
@@ -530,8 +536,14 @@ add_to_ega "IV 8.5.4" "special case" AlgebraicGeometry.AffineScheme.Γ_preserves
 add_to_ega "IV 8.5.4" "partial" AlgebraicGeometry.exists_appTop_π_eq_of_isAffine_of_isLimit
 add_to_ega "IV 8.5.4" "partial" AlgebraicGeometry.exists_appTop_π_eq_of_isLimit
 add_to_ega "IV 8.5.4" "partial" AlgebraicGeometry.exists_app_map_eq_map_of_isLimit
-add_to_ega "IV 8.5.4" "structure sheaf"
-  AlgebraicGeometry.instPreservesLimitSchemeOppositeCommRingCatRightOpΓOfIsAffineHomMapOfCompactSpaceOfQuasiSeparatedSpaceCarrierCarrierObj
+-- The auto-generated instance name is longer than a line, so its identifier is assembled
+-- from two pieces before being handed to `add_to_ega`.
+run_cmd do
+  let decl := Lean.mkIdent <| .str `AlgebraicGeometry <|
+    "instPreservesLimitSchemeOppositeCommRingCatRightOpΓOfIsAffineHomMap" ++
+      "OfCompactSpaceOfQuasiSeparatedSpaceCarrierCarrierObj"
+  Lean.Elab.Command.elabCommand
+    (← `(command| add_to_ega "IV 8.5.4" "structure sheaf" $decl:ident))
 add_to_ega "IV 8.5.4" "structure sheaf" AlgebraicGeometry.nonempty_isColimit_Γ_mapCocone
 add_to_ega "IV 8.5.4" "special case" AlgebraicGeometry.preservesColimit_Γ
 add_to_ega "IV 8.5.5" "special case" Module.FinitePresentation.exists_free_localizedModule_powers

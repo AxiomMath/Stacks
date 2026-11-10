@@ -96,7 +96,7 @@ theorem geometricModuleStalkGerm_eq_zero_iff_mem_largestOpenZeroLocus
   constructor
   · rintro ⟨M, f, hf⟩
     refine ⟨op M, f.op, ?_⟩
-    show F.val.map f.hom.op s = F.val.map f.hom.op 0
+    change F.val.map f.hom.op s = F.val.map f.hom.op 0
     simpa using hf
   · rintro ⟨M, f, hf⟩
     refine ⟨M.unop, f.unop, ?_⟩

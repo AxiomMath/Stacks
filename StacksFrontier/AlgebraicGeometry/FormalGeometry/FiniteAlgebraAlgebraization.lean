@@ -27,9 +27,9 @@ and the account of the reduction's six steps is in
 The reduction is not in this file because one of the residuals stated here,
 `AlgebraicGeometry.AlgebraSheafProperSupportBridge`, is **no longer a residual**: it is proved, as
 `AlgebraicGeometry.algebraSheafProperSupportBridge`, in
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/AlgebraSheafSupport.lean`, and that
-file imports this one in order to state it. A reduction that discharges the bridge must therefore
-sit downstream of the proof rather than beside the statement.
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/AlgebraSheafSupport.lean`, and
+that file imports this one in order to state it. A reduction that discharges the bridge must
+therefore sit downstream of the proof rather than beside the statement.
 
 ## The residuals, and why each is a hypothesis
 
@@ -204,7 +204,8 @@ The inputs that argument needs are in these states in this library:
   degree-zero theorem on formal functions for a coherent sheaf of proper support — Stacks 087U,
   i.e. Stacks 02OC in degree zero — proved there. (The general-`I` form,
   `Stacks.Algebraization.bijective_completionFunctor_map_unit_of_hasProperSupport` of
-  `StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/AsymmetricFormalFunctions.lean`, still carries that as a binder.) What is **missing** is only
+  `StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/AsymmetricFormalFunctions.lean`,
+  still carries that as a binder.) What is **missing** is only
   the comparison of the two pictures on hom-sets out of `𝒪_X`: those statements are about
   `Stacks.Algebraization.completionFunctor X ℐ`, while the systems of this file's reduction are
   those of `adicThickeningCompletionFunctor`, and the bridge between them is at object level only

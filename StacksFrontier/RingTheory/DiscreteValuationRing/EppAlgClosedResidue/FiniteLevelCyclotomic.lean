@@ -389,8 +389,7 @@ theorem normal_and_finrank_le_of_surjective_tensorProduct
     intro x hx
     clear hx
     obtain ⟨t, rfl⟩ := hsurj x
-    induction t using TensorProduct.induction_on with
-    | zero => simpa only [map_zero] using (IntermediateField.adjoin K _).zero_mem
+    induction t using TensorProduct.inductionOn with
     | tmul k e =>
       change φ (k ⊗ₜ[F] e) ∈ _
       rw [AlgHom.liftEquiv_tmul]
@@ -432,7 +431,6 @@ theorem ramificationIdx_dvd_finrank_of_isLocalRing
     { default := Ideal.primesOver.mk p q
       uniq P := Subtype.ext (IsLocalRing.eq_maximalIdeal
         (Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := R) P.1 (by
-          change (P.1.under R).IsMaximal
           rw [← Ideal.over_def P.1 p]
           infer_instance))) }
   have h := Ideal.sum_ramification_inertia_eq_finrank p S
@@ -507,8 +505,7 @@ theorem exists_fieldFactor_normal_and_finrank_le
   have hψ : Function.Surjective ψ := by
     intro x
     obtain ⟨t, rfl⟩ := hsurj x
-    induction t using TensorProduct.induction_on with
-    | zero => exact ⟨0, by rw [map_zero, map_zero]⟩
+    induction t using TensorProduct.inductionOn with
     | tmul m n =>
       refine ⟨algebraMap N (H i) n ⊗ₜ[L] m, ?_⟩
       rw [AlgHom.liftEquiv_tmul, Algebra.smul_def, hφ]

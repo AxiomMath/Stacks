@@ -206,12 +206,12 @@ private theorem coneForgetXIso_fst
         ((forgetToCochainComplex A).map f)).1.v n (n + 1) rfl =
     ModuleCat.ofHom ((LinearMap.snd R (L.toCochainComplex.X n)
       (K.toCochainComplex.X (n + 1))).comp (coneGradingEquiv A f n).toLinearMap) := by
-  show (coneForgetXIso A f n).hom ≫
+  change (coneForgetXIso A f n).hom ≫
     HomologicalComplex.homotopyCofiber.fstX
       ((forgetToCochainComplex A).map f) n (n + 1) rfl = _
   let c := HomologicalComplex.homotopyCofiber.XIsoBiprod
     ((forgetToCochainComplex A).map f) n (n + 1) rfl
-  show ((((coneGradingEquiv A f n).trans
+  change ((((coneGradingEquiv A f n).trans
       (LinearEquiv.prodComm R (L.toCochainComplex.X n)
         (K.toCochainComplex.X (n + 1)))).toModuleIso ≪≫
       (ModuleCat.biprodIsoProd _ _).symm ≪≫ c.symm).hom ≫ c.hom ≫
@@ -247,13 +247,13 @@ private theorem coneForgetXIso_snd
       obtain rfl := (ComplexShape.up ℤ).next_eq' hrel
       simp only [HomologicalComplex.homotopyCofiber.sndX, dite_eq_left hrel]
     exact h (n + 1) rfl
-  show (coneForgetXIso A f n).hom ≫
+  change (coneForgetXIso A f n).hom ≫
     HomologicalComplex.homotopyCofiber.sndX
       ((forgetToCochainComplex A).map f) n = _
   rw [hsnd]
   let c := HomologicalComplex.homotopyCofiber.XIsoBiprod
     ((forgetToCochainComplex A).map f) n (n + 1) rfl
-  show ((((coneGradingEquiv A f n).trans
+  change ((((coneGradingEquiv A f n).trans
       (LinearEquiv.prodComm R (L.toCochainComplex.X n)
         (K.toCochainComplex.X (n + 1)))).toModuleIso ≪≫
       (ModuleCat.biprodIsoProd _ _).symm ≪≫ c.symm).hom ≫ c.hom ≫
@@ -322,7 +322,7 @@ private theorem coneToQuotient_quasiIso
     dsimp only [CochainComplex.mappingCone.descShortComplex]
     rw [CochainComplex.mappingCone.desc_f (φ := S'.f) (α := 0) (β := S'.g) (eq := by simp)
       n (n + 1) rfl]
-    show (F.map (coneToQuotient A S)).f n = (coneForgetXIso A S.f n).hom ≫ _
+    change (F.map (coneToQuotient A S)).f n = (coneForgetXIso A S.f n).hom ≫ _
     simp only [CochainComplex.HomComplex.Cochain.zero_v, Limits.comp_zero, zero_add,
       ← Category.assoc, S', ShortComplex.map_f]
     rw [coneForgetXIso_snd A S.f n]
@@ -350,7 +350,7 @@ private theorem coneInclusion_comp_coneToQuotient
   apply DifferentialGradedModule.Hom.ext
   apply LinearMap.ext
   intro x
-  show S.g.toFun ((cone S.f).coordinates ((cone S.f).inclusion.toFun x)).1 = S.g.toFun x
+  change S.g.toFun ((cone S.f).coordinates ((cone S.f).inclusion.toFun x)).1 = S.g.toFun x
   rw [(cone S.f).inclusion_coordinates x]
 
 /-- The cone map is compatible with the cone-to-quotient maps. -/
@@ -360,7 +360,7 @@ private theorem coneMap_comp_coneToQuotient
   apply DifferentialGradedModule.Hom.ext
   apply LinearMap.ext
   intro x
-  show S'.g.toFun (φ.τ₂.toFun ((cone S.f).coordinates x).1) =
+  change S'.g.toFun (φ.τ₂.toFun ((cone S.f).coordinates x).1) =
     φ.τ₃.toFun (S.g.toFun ((cone S.f).coordinates x).1)
   exact LinearMap.congr_fun (congrArg (fun g : S.X₂ ⟶ S'.X₃ => g.toFun) φ.comm₂₃) _
 

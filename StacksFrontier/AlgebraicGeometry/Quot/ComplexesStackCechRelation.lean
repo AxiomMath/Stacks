@@ -126,7 +126,7 @@ variable {C} {A : ComplexesObject D}
 theorem IsRelated.base_w {i j : I} {x : ComplexesHom A (C.X i)} {y : ComplexesHom A (C.X j)}
     (h : C.IsRelated x y) : x.base ≫ C.a i = y.base ≫ C.a j := by
   obtain ⟨o, rfl, rfl⟩ := h
-  show (o.base ≫ (C.n i j).base) ≫ C.a i = (o.base ≫ (C.m i j).base) ≫ C.a j
+  change (o.base ≫ (C.n i j).base) ≫ C.a i = (o.base ≫ (C.m i j).base) ≫ C.a j
   rw [Category.assoc, Category.assoc, C.w]
 
 /-- A morphism to a member is related to a morphism over every base map to another member
@@ -137,7 +137,7 @@ theorem IsRelated.exists_right {i : I} (x : ComplexesHom A (C.X i)) (j : I)
   obtain ⟨b, hb₁, hb₂⟩ := exists_hom_of_isPullback_left (C.isPullback₂ i j) x.base zj h
   obtain ⟨o, hob, ho⟩ := exists_complexesHom_lift (C.n i j) b x hb₁
   refine ⟨o.comp (C.m i j), ?_, o, ho, rfl⟩
-  show o.base ≫ (C.m i j).base = zj
+  change o.base ≫ (C.m i j).base = zj
   rw [hob, hb₂]
 
 /-- A morphism to a member is related to a morphism from every base map to another member
@@ -148,7 +148,7 @@ theorem IsRelated.exists_left {j : I} (y : ComplexesHom A (C.X j)) (i : I)
   obtain ⟨b, hb₁, hb₂⟩ := exists_hom_of_isPullback_left (C.isPullback₂ i j) zi y.base h
   obtain ⟨o, hob, ho⟩ := exists_complexesHom_lift (C.m i j) b y hb₂
   refine ⟨o.comp (C.n i j), ?_, o, rfl, ho⟩
-  show o.base ≫ (C.n i j).base = zi
+  change o.base ≫ (C.n i j).base = zi
   rw [hob, hb₁]
 
 /-- A morphism is related to at most one morphism over a given base map. -/
@@ -177,7 +177,7 @@ theorem IsRelated.trans {i j k : I} {x : ComplexesHom A (C.X i)} {y : ComplexesH
   obtain ⟨ε, hε, hε₁⟩ := exists_complexesHom_lift (C.c₁₂ i j k) t o₁ ht₁
   have hε₂ : ε.comp (C.c₂₃ i j k) = o₂ := by
     refine complexesHom_cancel_right (C.n j k) ?_ ?_
-    · show ε.base ≫ (C.c₂₃ i j k).base = o₂.base
+    · change ε.base ≫ (C.c₂₃ i j k).base = o₂.base
       rw [hε, ht₂]
     · rw [ComplexesHom.assoc, ← C.comp₂, ← ComplexesHom.assoc, hε₁, h₂, h₂']
   refine ⟨ε.comp (C.c₁₃ i j k), ?_, ?_⟩
@@ -340,7 +340,7 @@ theorem IsUnionRelated.exists_member (a : ComplexesHom A R.unionComplex) (i : I)
   choose l hl hl' using R.exists_pieceLift a
   have hw : ∀ k, ((l k).comp (R.memberToCover k)).base ≫ C.a (R.σ k) =
       (R.pieceHom a.base k ≫ z) ≫ C.a i := fun k => by
-    show ((l k).base ≫ R.memberMap k) ≫ C.a (R.σ k) = _
+    change ((l k).base ≫ R.memberMap k) ≫ C.a (R.σ k) = _
     rw [hl k, pieceMember_memberMap_w, Category.assoc, hz]
   choose x hx hxr using fun k =>
     IsRelated.exists_right ((l k).comp (R.memberToCover k)) i (R.pieceHom a.base k ≫ z) (hw k)
@@ -407,7 +407,7 @@ theorem IsUnionRelated.comp_left {a : ComplexesHom A R.unionComplex} {i : I}
     {x : ComplexesHom A (C.X i)} (h : R.IsUnionRelated a x) {A' : ComplexesObject D}
     (g : ComplexesHom A' A) : R.IsUnionRelated (g.comp a) (g.comp x) := by
   refine ⟨?_, fun k l hl hl' => ?_⟩
-  · show (g.base ≫ x.base) ≫ C.a i = (g.base ≫ a.base) ≫ R.unionHom
+  · change (g.base ≫ x.base) ≫ C.a i = (g.base ≫ a.base) ≫ R.unionHom
     rw [Category.assoc, Category.assoc, h.1]
   obtain ⟨l₀, hl₀, hl₀'⟩ := R.exists_pieceLift a k
   obtain ⟨κ, he, hκ⟩ := exists_pieceComp a g k l₀ hl₀ hl₀'
@@ -462,7 +462,7 @@ theorem IsUnionTransport.exists (a : ComplexesHom A R.unionComplex) (c' : A.T �
   subst ha'
   intro A'' g i y hy
   refine ⟨?_, fun k l'' hl₁ hl₂ => ?_⟩
-  · show y.base ≫ C.a i = (g.base ≫ a'.base) ≫ R.unionHom
+  · change y.base ≫ C.a i = (g.base ≫ a'.base) ≫ R.unionHom
     rw [hy.1, Category.assoc, ← hc]
     rfl
   obtain ⟨κ, he, hκ⟩ := exists_pieceComp a' g k (l k) (hl k) (hak k).symm

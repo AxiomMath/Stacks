@@ -143,7 +143,7 @@ theorem map_add [AddCommGroup M] (h : IsThetaMonomialFamily M theta thetaPow)
   | single_add a b K _ _ ih =>
       have h2 : Finsupp.single a b + K = K + Finsupp.single a b := by abel
       rw [h2, h.add_single]
-      show (theta a)^[b] (thetaPow K (x + y)) = _
+      change (theta a)^[b] (thetaPow K (x + y)) = _
       rw [ih, iterate_map_add (hadd a)]
       rfl
 
@@ -382,7 +382,7 @@ theorem exists_hasTaylorSum (hfam : IsThetaMonomialFamily M theta thetaPow)
 /-- The divided power monomial at the one-point multi-index `single i 1` is `ξ_i`. -/
 theorem taylorMonomial_single_one (xi : ι → (B : Type u)) (i : ι) (hxi : xi i ∈ B.ideal) :
     taylorMonomial B xi (Finsupp.single i 1) = xi i := by
-  rw [taylorMonomial, Finsupp.support_single_ne_zero i one_ne_zero, Finset.prod_singleton,
+  rw [taylorMonomial, Finsupp.support_single i one_ne_zero, Finset.prod_singleton,
     Finsupp.single_eq_same, B.dividedPowers.dpow_one hxi]
 
 /-- If the composite coordinate operators vanish at `m` outside the empty multi-index and the

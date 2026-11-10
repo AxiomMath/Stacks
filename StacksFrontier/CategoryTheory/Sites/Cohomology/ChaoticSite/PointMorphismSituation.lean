@@ -92,7 +92,7 @@ theorem star_isFibredOneMorphism (C : Type u) [Category.{v} C] :
           Discrete PUnit.{u + 1} ⥤ Discrete PUnit.{u + 1}))
         (G := (Functor.star C : C ⥤ Discrete PUnit.{u + 1})) rfl f φ
     have : IsIso ((Functor.star C : C ⥤ Discrete PUnit.{u + 1}).map φ) := by
-      show IsIso (𝟙 _)
+      change IsIso (𝟙 _)
       infer_instance
     exact Functor.IsStronglyCartesian.of_isIso _ f _
 

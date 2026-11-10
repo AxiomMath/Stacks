@@ -61,7 +61,7 @@ theorem Ideal.isIntegralOver_iff_isIntegralElemOverIdeal (I : Ideal R) (x : R) :
     refine ⟨_, Polynomial.monic_X_pow_add hqdeg, fun j => ?_, ?_⟩
     · rw [hnd]
       rcases lt_trichotomy j k with h | h | h
-      · rw [Polynomial.coeff_add, Polynomial.coeff_X_pow, if_neg (by omega), zero_add,
+      · rw [Polynomial.coeff_add, Polynomial.coeff_X_pow, ite_eq_right (by omega), zero_add,
           Polynomial.finsetSum_coeff]
         simpa [Polynomial.coeff_C_mul_X_pow, Finset.mem_range.mpr h] using hc j h
       · -- at the leading degree the ambient ideal is `I ^ 0 = ⊤`

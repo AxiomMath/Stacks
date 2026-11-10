@@ -298,13 +298,13 @@ public theorem socleElement_mul_variable (k : Type u) [Field k] (i : Fin 5) :
   have hb3 : b ^ 3 ∈ I := Ideal.subset_span (by simp [b])
   have hrel : x * a ^ 2 + y * a * b + z * b ^ 2 ∈ I :=
     Ideal.subset_span (by simp [a, b, x, y, z])
-  show Ideal.Quotient.mk I (a ^ 2 * b ^ 2 * MvPowerSeries.X i) = 0
+  change Ideal.Quotient.mk I (a ^ 2 * b ^ 2 * MvPowerSeries.X i) = 0
   rw [Ideal.Quotient.eq_zero_iff_mem]
   fin_cases i
-  · show a ^ 2 * b ^ 2 * a ∈ I
+  · change a ^ 2 * b ^ 2 * a ∈ I
     convert I.mul_mem_right (b ^ 2) ha3 using 1
     ring
-  · show a ^ 2 * b ^ 2 * b ∈ I
+  · change a ^ 2 * b ^ 2 * b ∈ I
     convert I.mul_mem_right (a ^ 2) hb3 using 1
     ring
   · have hy : y * a * b ^ 3 ∈ I := by
@@ -312,7 +312,7 @@ public theorem socleElement_mul_variable (k : Type u) [Field k] (i : Fin 5) :
     have hz : (z * b) * b ^ 3 ∈ I := I.mul_mem_left (z * b) hb3
     have hprod : (x * a ^ 2 + y * a * b + z * b ^ 2) * b ^ 2 ∈ I :=
       I.mul_mem_right (b ^ 2) hrel
-    show a ^ 2 * b ^ 2 * x ∈ I
+    change a ^ 2 * b ^ 2 * x ∈ I
     convert I.sub_mem (I.sub_mem hprod hy) hz using 1
     ring_nf
   · have hx : x * a ^ 3 * b ∈ I := by
@@ -321,7 +321,7 @@ public theorem socleElement_mul_variable (k : Type u) [Field k] (i : Fin 5) :
       simpa [mul_comm, mul_left_comm, mul_assoc] using I.mul_mem_right (z * a) hb3
     have hprod : (x * a ^ 2 + y * a * b + z * b ^ 2) * (a * b) ∈ I :=
       I.mul_mem_right (a * b) hrel
-    show a ^ 2 * b ^ 2 * y ∈ I
+    change a ^ 2 * b ^ 2 * y ∈ I
     convert I.sub_mem (I.sub_mem hprod hx) hz using 1
     ring_nf
   · have hx : (x * a) * a ^ 3 ∈ I := I.mul_mem_left (x * a) ha3
@@ -329,7 +329,7 @@ public theorem socleElement_mul_variable (k : Type u) [Field k] (i : Fin 5) :
       simpa [mul_comm, mul_left_comm, mul_assoc] using I.mul_mem_right (y * b) ha3
     have hprod : (x * a ^ 2 + y * a * b + z * b ^ 2) * a ^ 2 ∈ I :=
       I.mul_mem_right (a ^ 2) hrel
-    show a ^ 2 * b ^ 2 * z ∈ I
+    change a ^ 2 * b ^ 2 * z ∈ I
     convert I.sub_mem (I.sub_mem hprod hx) hy using 1
     ring_nf
 
@@ -380,10 +380,10 @@ public theorem socleRing_depth (k : Type u) [Field k] :
     | cons f rest =>
         have hfreg := (RingTheory.Sequence.isRegular_cons_iff A f rest).mp hreg |>.1
         have hzero : f • socleElement k = 0 := by
-          show f * socleElement k = 0
+          change f * socleElement k = 0
           exact hkill f (hmem f (by simp))
         exact False.elim (socleElement_ne_zero k (hfreg (by simpa using hzero)))
-  rw [Module.depth, if_neg hsat]
+  rw [Module.depth, ite_eq_right hsat]
   refine le_antisymm (iSup₂_le fun rs hrs => ?_) bot_le
   simp [hno rs hrs.1 hrs.2]
 
@@ -428,7 +428,7 @@ lemma depth_powerSeries (R : Type*) [CommRing R] [IsLocalRing R]
   let : IsLocalRing (PowerSeries R ⧸ Ideal.span {(PowerSeries.X : PowerSeries R)}) :=
     IsLocalRing.of_surjective' (Ideal.Quotient.mk _) Ideal.Quotient.mk_surjective
   have hx : (PowerSeries.X : PowerSeries R) ∈ IsLocalRing.maximalIdeal (PowerSeries R) := by
-    show ¬ IsUnit (PowerSeries.X : PowerSeries R)
+    change ¬ IsUnit (PowerSeries.X : PowerSeries R)
     simp [PowerSeries.isUnit_iff_constantCoeff]
   rw [← depth_quotient_add_one _ _ hx PowerSeries.X_mul_injective,
     Module.depth_self_eq_of_ringEquiv e]
@@ -517,10 +517,10 @@ ideal. -/
 public theorem intermediateRing_depth (k : Type u) [Field k] :
     Module.depth (intermediateRing k) (IsLocalRing.maximalIdeal (intermediateRing k))
       (intermediateRing k) = 2 := by
-  show Module.depth (extendedSocleRing k 2)
+  change Module.depth (extendedSocleRing k 2)
     (IsLocalRing.maximalIdeal (extendedSocleRing k 2)) (extendedSocleRing k 2) = 2
   rw [extendedSocleRing_depth]
-  show Module.depth (socleRing k) (IsLocalRing.maximalIdeal (socleRing k))
+  change Module.depth (socleRing k) (IsLocalRing.maximalIdeal (socleRing k))
     (socleRing k) + 2 = 2
   rw [socleRing_depth, zero_add]
 
@@ -528,7 +528,7 @@ public theorem intermediateRing_depth (k : Type u) [Field k] :
 @[stacks 0F9L "regular ambient ring"]
 public theorem powerSeriesRing_isRegularLocalRing (k : Type u) [Field k] :
     IsRegularLocalRing (powerSeriesRing k 8) := by
-  show IsRegularLocalRing (MvPowerSeries (Fin 8) k)
+  change IsRegularLocalRing (MvPowerSeries (Fin 8) k)
   apply IsRegularLocalRing.of_spanFinrank_maximalIdeal_le
   have hspan : (IsLocalRing.maximalIdeal (MvPowerSeries (Fin 8) k)).spanFinrank ≤
       (8 : WithBot ℕ∞) := by
@@ -540,7 +540,7 @@ The power-series ring `k⟦a,b,x,y,z,u,v,w⟧` has Krull dimension `8`. -/
 @[stacks 0F9L "dimension of the ambient ring"]
 public theorem powerSeriesRing_dimension (k : Type u) [Field k] :
     ringKrullDim (powerSeriesRing k 8) = 8 := by
-  show ringKrullDim (MvPowerSeries (Fin 8) k) = 8
+  change ringKrullDim (MvPowerSeries (Fin 8) k) = 8
   have hle : ringKrullDim (MvPowerSeries (Fin 8) k) ≤ (8 : WithBot ℕ∞) :=
     (ringKrullDim_le_spanFinrank_maximalIdeal _).trans
       (by exact_mod_cast spanFinrank_maximalIdeal_finiteMvPowerSeries_le k 8)

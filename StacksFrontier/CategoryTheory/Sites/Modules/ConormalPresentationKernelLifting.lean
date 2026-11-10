@@ -138,7 +138,8 @@ theorem polynomialUnit_mem_kernelIdeal (X : Cᵒᵖ) (p : (polynomialPresheaf J 
     ((presentation J A B a E α).hom.app X) ((polynomialUnit J A E).app X)
     (polynomialUnit_app_comp_presentation_app J A B a E α X) hp
 
-omit [J.WEqualsLocallyBijective CommRingCat] in
+omit [J.WEqualsLocallyBijective CommRingCat]
+  [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The universal differential of a restriction of a vanishing section vanishes.**  A section
 of `A[E]` whose universal differential in `B ⊗[A[E]] Ω[A[E]/A]` is zero has the same property
 for any section that restricts from it. -/
@@ -158,7 +159,8 @@ theorem tensorDifferential_eq_zero_of_map {X Y : Cᵒᵖ} (f : X ⟶ Y)
     ((presentationConormalSequence.{v, u, w, z} J A B a E α).X₂.val.map f) hx) ?_
   exact map_zero ((presentationConormalSequence.{v, u, w, z} J A B a E α).X₂.val.map f).hom
 
-omit [J.WEqualsLocallyBijective CommRingCat] in
+omit [J.WEqualsLocallyBijective CommRingCat]
+  [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **A polynomial lift of a restriction represents the restricted conormal class.**  If the
 conormal class of a section `x` of the kernel ideal over `Y` is the restriction along `g` of a
 section `c` of the conormal sheaf, and a polynomial `q` over `Z` has for image in `A[E]` the
@@ -195,7 +197,8 @@ theorem conormalClass_polynomialUnit_eq {X Y Z : C}
   exact ((presentationConormalSequence.{v, u, w, z} J A B a E α).X₁.val.map_comp_apply
     g.op k.op c).symm
 
-omit [J.WEqualsLocallyBijective CommRingCat] in
+omit [J.WEqualsLocallyBijective CommRingCat]
+  [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The class equation of a polynomial representative is stable under restriction.**  If the
 conormal class of the image in `A[E]` of a polynomial `q` in the kernel over `Z` is the
 restriction of `c` along `n`, then for every `m : V ⟶ Z` the conormal class of the image of the
@@ -236,7 +239,8 @@ variable (E₁ E₂ : Functor Cᵒᵖ (Type w)) (h : E₁ ⟶ E₂)
   [Presheaf.IsLocallySurjective J (presentation J A B a E₂ α₂).hom]
   (hα : h ≫ α₂ = α₁)
 
-omit [J.WEqualsLocallyBijective CommRingCat] in
+omit [J.WEqualsLocallyBijective CommRingCat]
+  [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The ring-level step: one arrow of the lifting sieve.**  Let `q` be a polynomial over `V`
 lying in the kernel of the polynomial model of the second presentation, let all of its partial
 derivatives lie there too, let the image in `B` of every variable occurring in `q` lift through
@@ -304,6 +308,7 @@ theorem conormalKernelLiftSieve_arrows_of_vars_lift {X V : C}
     exact conormalClass_eq_of_sub_mem_sq.{v, u, w, z} J A (freeAlgebraSheaf J A E₂) B
       (freeAlgebraSheafCoefficientMap J A E₂) (presentation J A B a E₂ α₂) (op V) _ _ hsub2
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The fourth covering: lifting the variables.**  A polynomial `q` over `W` in the kernel of
 the polynomial model of the second presentation, all of whose partial derivatives stay in that
 kernel after any restriction, and whose conormal class is the restriction of `c` along `n`,
@@ -391,9 +396,6 @@ theorem conormalKernelLiftSieve_mem (X : C)
   rw [← hcomp]
   exact hder V (m ≫ l) (S''.downward_closed hlS'' m) i
 
-variable [hsh : HasSheafify J AddCommGrpCat.{max w u v z}]
-
-include hsh in
 /-- **Stacks 08TY in degree `-1`, local surjectivity.**  The map on the kernels of the two
 conormal maps induced by a morphism of polynomial presentations is locally surjective. -/
 theorem isLocallySurjective_presentationKernelMap :

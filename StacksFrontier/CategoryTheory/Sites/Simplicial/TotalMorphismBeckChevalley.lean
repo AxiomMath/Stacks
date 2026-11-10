@@ -46,12 +46,12 @@ for adjunctions `L₂ ⊣ R` and `L₄ ⊣ R₃` is invertible, so is its mate f
 and `L₃ ⊣ R₃` with the same right adjoints. -/
 theorem isIso_mateEquiv_symm_congr (adj₁ : L₁ ⊣ R) (adj₂ : L₂ ⊣ R) (adj₃ : L₃ ⊣ R₃)
     (adj₄ : L₄ ⊣ R₃) (β : TwoSquare R Hh G R₃)
-    (hiso : IsIso ((mateEquiv adj₂ adj₄).symm β).natTrans) :
-    IsIso ((mateEquiv adj₁ adj₃).symm β).natTrans := by
+    (hiso : IsIso ((mateEquiv adj₂ adj₄).symm β)) :
+    IsIso ((mateEquiv adj₁ adj₃).symm β) := by
   rw [Stacks.CategoryTheory.mateEquiv_symm_congr_left adj₁ adj₂ adj₃ β,
     Stacks.CategoryTheory.mateEquiv_symm_congr_right adj₂ adj₄ adj₃ β]
-  show IsIso ((Functor.whiskerLeft G (Adjunction.leftAdjointUniq adj₃ adj₄).hom ≫
-    ((mateEquiv adj₂ adj₄).symm β).natTrans) ≫
+  change IsIso ((Functor.whiskerLeft G (Adjunction.leftAdjointUniq adj₃ adj₄).hom ≫
+    ((mateEquiv adj₂ adj₄).symm β)) ≫
     Functor.whiskerRight (Adjunction.leftAdjointUniq adj₂ adj₁).hom Hh)
   infer_instance
 
@@ -99,12 +99,12 @@ theorem compIso_inv_app_hom_eq_ranCompSquare
     [i.IsCocontinuous Jn K] [i'.IsCocontinuous Jn' K'] [v.IsCocontinuous Jn Jn']
     [V.IsCocontinuous K K'] [(i ⋙ V).IsCocontinuous Jn K'] [(v ⋙ i').IsCocontinuous Jn K']
     (e : i ⋙ V = v ⋙ i') (w : TwoSquare i v V i')
-    (hw : w.op.natTrans = eqToHom (congrArg Functor.op e.symm)) (Z : Sheaf Jn (Type u)) :
+    (hw : w.op = eqToHom (congrArg Functor.op e.symm)) (Z : Sheaf Jn (Type u)) :
     ((sheafPushforwardCocontinuousCompIso Jn K K' i V).inv.app Z).hom ≫
         ((SimplicialSiteSituation.cocontinuousPushforwardIsoOfEq.{u, u, u, u, u} Jn K'
           e.symm).inv.app Z).hom ≫
         ((sheafPushforwardCocontinuousCompIso Jn Jn' K' v i').hom.app Z).hom =
-      (ranCompSquare (Type u) w.op).natTrans.app Z.obj := by
+      (ranCompSquare (Type u) w.op).app Z.obj := by
   have hS := (Iso.eq_inv_comp _).mpr (ranCompIso_hom_comp_ranCompSquare (H := Type u) w.op)
   rw [sheafPushforwardCocontinuousCompIso_inv_app_hom,
     cocontinuousPushforwardIsoOfEq_inv_app_hom,
@@ -138,7 +138,7 @@ instance guitartExact_inclusionSquare_op : (inclusionSquare h n).op.GuitartExact
 /-- The 2-cell of the opposite square of component inclusions is the transport along the equality
 of site functors it comes from. -/
 theorem inclusionSquare_op_natTrans :
-    (inclusionSquare h n).op.natTrans =
+    (inclusionSquare h n).op =
       eqToHom (congrArg Functor.op (h.ι_comp_totalFunctor (op n)).symm) := by
   refine NatTrans.ext (funext fun X => ?_)
   exact ((eqToHom_app (congrArg Functor.op (h.ι_comp_totalFunctor (op n)).symm) X).trans
@@ -149,7 +149,7 @@ composite right Kan extensions.** -/
 theorem totalComponentPushforwardIso_inv_app_hom
     (Z : Sheaf ((⟨Sum.inr C⟩ : SimplicialSiteSituation.{u}).componentTopology n) (Type u)) :
     ((h.totalComponentPushforwardIso n).inv.app Z).hom =
-      (ranCompSquare (Type u) (inclusionSquare h n).op).natTrans.app Z.obj := by
+      (ranCompSquare (Type u) (inclusionSquare h n).op).app Z.obj := by
   let iv : ((h.hom.app (op n)).toFunctor).IsCocontinuous
       (topologyOfCoverings (C.coverage (op n))) (topologyOfCoverings (C'.coverage (op n))) :=
     h.isCocontinuous (op n)
@@ -189,7 +189,7 @@ theorem isIso_totalComponentPushforward_mate :
           (⟨Sum.inr C⟩ : SimplicialSiteSituation.{u}) n).adj
         (SimplicialSiteSituation.componentMorphism
           (⟨Sum.inr C'⟩ : SimplicialSiteSituation.{u}) n).adj).symm
-      (TwoSquare.mk _ _ _ _ (h.totalComponentPushforwardIso n).inv)).natTrans := by
+      (TwoSquare.mk _ _ _ _ (h.totalComponentPushforwardIso n).inv)) := by
   let ic : (Grothendieck.ι C.underlying (op n)).IsContinuous
       (topologyOfCoverings (C.coverage (op n)))
       (SimplicialCoverings.totalTopology C.underlying C.coverage) :=
@@ -237,7 +237,7 @@ theorem isIso_totalComponentPushforward_mate :
         ((Grothendieck.ι C'.underlying (op n)).sheafPushforwardCocontinuous (Type u)
           (topologyOfCoverings (C'.coverage (op n)))
           (SimplicialCoverings.totalTopology C'.underlying C'.coverage))
-        (h.totalComponentPushforwardIso n).inv)).natTrans := by
+        (h.totalComponentPushforwardIso n).inv)) := by
     rw [NatTrans.isIso_iff_isIso_app]
     intro Y
     refine (isIso_iff_of_reflects_iso _ (sheafToPresheaf _ (Type u))).mp ?_

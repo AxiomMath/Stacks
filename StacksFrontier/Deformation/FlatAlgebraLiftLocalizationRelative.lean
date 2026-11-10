@@ -145,10 +145,10 @@ theorem hasFlatAlgebraLift_localization_of_hasFlatAlgebraLift
     IsScalarTower.of_algebraMap_eq' rfl
   have : IsScalarTower B' B (A ⊗[A'] Localization S') := by
     refine IsScalarTower.of_algebraMap_eq fun b' => ?_
-    show (1 : A) ⊗ₜ[A'] (algebraMap B' (Localization S') b') =
+    change (1 : A) ⊗ₜ[A'] (algebraMap B' (Localization S') b') =
       sigma (algebraMap B' B b')
     rw [hsigmadef]
-    show (1 : A) ⊗ₜ[A'] (algebraMap B' (Localization S') b') =
+    change (1 : A) ⊗ₜ[A'] (algebraMap B' (Localization S') b') =
       Algebra.TensorProduct.map (AlgHom.id A A)
         (IsScalarTower.toAlgHom A' B' (Localization S')) (e.symm (rho b'))
     rw [hrhoapp b', AlgEquiv.symm_apply_apply, Algebra.TensorProduct.map_tmul]
@@ -441,7 +441,7 @@ theorem hasFlatAlgebraLift_of_hasFlatAlgebraLift_localization_at
     MvPolynomial.ker_map (algebraMap A' A)
   have : IsScalarTower A' (MvPolynomial (Fin n) A') (MvPolynomial (Fin n) A) := by
     refine IsScalarTower.of_algebraMap_eq fun a' => ?_
-    show MvPolynomial.C (algebraMap A' A a') =
+    change MvPolynomial.C (algebraMap A' A a') =
       MvPolynomial.map (algebraMap A' A) (MvPolynomial.C a')
     rw [MvPolynomial.map_C]
   let : Algebra (MvPolynomial (Fin n) A) B := f.toRingHom.toAlgebra
@@ -963,10 +963,10 @@ theorem hasFlatAlgebraLift_of_baseChange_of_presentation_of_sqZero
       ∀ x : P', ePP (1 ⊗ₜ[A'] x) = algebraMap P' (TensorProduct A' P' A) x :=
     ⟨AlgEquiv.ofRingEquiv (f := (Algebra.TensorProduct.comm A' A P').toRingEquiv)
       (fun a => by
-        show (Algebra.TensorProduct.comm A' A P') (a ⊗ₜ[A'] (1 : P')) = (1 : P') ⊗ₜ[A'] a
+        change (Algebra.TensorProduct.comm A' A P') (a ⊗ₜ[A'] (1 : P')) = (1 : P') ⊗ₜ[A'] a
         rw [Algebra.TensorProduct.comm_tmul]),
       fun x => by
-        show (Algebra.TensorProduct.comm A' A P') ((1 : A) ⊗ₜ[A'] x) = x ⊗ₜ[A'] (1 : A)
+        change (Algebra.TensorProduct.comm A' A P') ((1 : A) ⊗ₜ[A'] x) = x ⊗ₜ[A'] (1 : A)
         rw [Algebra.TensorProduct.comm_tmul]⟩
   rintro ⟨C', _, _, hflatC', ⟨eCa⟩⟩
   obtain ⟨gq, hgq⟩ := hlift C' inferInstance inferInstance eCa
@@ -1019,13 +1019,13 @@ theorem hasFlatAlgebraLift_of_hasFlatAlgebraLift_localization_of_sqZero
     refine ⟨((Algebra.TensorProduct.comm A' (MvPolynomial (Fin n) A') A).trans
       ((MvPolynomial.algebraTensorAlgEquiv (σ := Fin n) A' A).restrictScalars A')).toRingEquiv,
       fun x => ?_, fun a => ?_⟩
-    · show MvPolynomial.algebraTensorAlgEquiv (σ := Fin n) A'
+    · change MvPolynomial.algebraTensorAlgEquiv (σ := Fin n) A'
         A ((Algebra.TensorProduct.comm A' (MvPolynomial (Fin n) A') A)
           (x ⊗ₜ[A'] (1 : A))) = _
       rw [Algebra.TensorProduct.comm_tmul,
         ← MvPolynomial.algebraTensorAlgEquiv_symm_map (σ := Fin n) A' A x,
         AlgEquiv.apply_symm_apply]
-    · show MvPolynomial.algebraTensorAlgEquiv (σ := Fin n) A'
+    · change MvPolynomial.algebraTensorAlgEquiv (σ := Fin n) A'
         A ((Algebra.TensorProduct.comm A' (MvPolynomial (Fin n) A') A)
           ((1 : MvPolynomial (Fin n) A') ⊗ₜ[A'] a)) = _
       rw [Algebra.TensorProduct.comm_tmul]

@@ -188,7 +188,7 @@ variable (F : Type u) [Field F] (B : BigFppfSite.{u})
 open Refute07SQ in
 /-- The spectrum of `ℤ[T]` belongs to the site. -/
 theorem contains_spec_stage (T : Finset F) : B.Contains (Spec ((stageFunctor F).obj T)) := by
-  show (Spec _).size < B.cutoff
+  change (Spec _).size < B.cutoff
   rw [Scheme.size_Spec]
   exact (max_le le_rfl Cardinal.mk_le_aleph0).trans_lt B.aleph0_lt_cutoff
 

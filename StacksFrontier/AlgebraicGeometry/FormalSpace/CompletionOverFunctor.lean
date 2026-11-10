@@ -286,6 +286,7 @@ def completionOverBaseChangeIso {X₁ X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
   completionBaseChangeIso B S hS M.hom g T
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks in slices of presheaves on the big fppf site over `S`
 /-- **Completion commutes with base change.** For a morphism `g : X₁ ⟶ X` of presheaves on the
 big fppf site of `S` and a set `T` of points of `X`, base change along `g` followed by
 completion along `T₁ = |g|⁻¹T` is naturally isomorphic to completion along `T` followed by base

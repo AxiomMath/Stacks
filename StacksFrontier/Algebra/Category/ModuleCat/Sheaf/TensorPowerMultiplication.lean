@@ -114,7 +114,7 @@ theorem powSucc_app_negSucc : (k : ℕ) → (M : A) →
         rw [CategoryTheory.Equivalence.powStepDown_of_pos e (n := (1 : ℤ)) (p := (0 : ℤ))
           rfl one_pos]
         exact id_comp' _ rfl _
-      show (CategoryTheory.Equivalence.powSucc e (Int.negSucc 0) 0 rfl).app M =
+      change (CategoryTheory.Equivalence.powSucc e (Int.negSucc 0) 0 rfl).app M =
         powSuccIso e (Int.negSucc 0) M
       rw [hstep]
       exact Iso.ext ((id_comp' _ ha _).trans ((id_comp' _ hb _).trans hc))
@@ -129,7 +129,7 @@ theorem powSucc_app_negSucc : (k : ℕ) → (M : A) →
       have ha := (congrArg (fun g => (e ^ (1 : ℤ)).functor.map g) h1).trans
         ((e ^ (1 : ℤ)).functor.map_id _)
       have ih := congrArg Iso.hom (powSucc_app_negSucc 0 (e.inverse.obj M))
-      show (CategoryTheory.Equivalence.powSucc e (Int.negSucc 1) (Int.negSucc 0) rfl).app M =
+      change (CategoryTheory.Equivalence.powSucc e (Int.negSucc 1) (Int.negSucc 0) rfl).app M =
         powSuccIso e (Int.negSucc 1) M
       rw [hstep]
       exact Iso.ext ((id_comp' _ ha _).trans ((comp_id' _ h2 _).trans ih))
@@ -144,7 +144,7 @@ theorem powSucc_app_negSucc : (k : ℕ) → (M : A) →
       have ha := (congrArg (fun g => (e ^ (1 : ℤ)).functor.map g) h1).trans
         ((e ^ (1 : ℤ)).functor.map_id _)
       have ih := congrArg Iso.hom (powSucc_app_negSucc (k + 1) (e.inverse.obj M))
-      show (CategoryTheory.Equivalence.powSucc e (Int.negSucc (k + 2))
+      change (CategoryTheory.Equivalence.powSucc e (Int.negSucc (k + 2))
           (Int.negSucc (k + 1)) rfl).app M = powSuccIso e (Int.negSucc (k + 2)) M
       rw [hstep]
       exact Iso.ext ((id_comp' _ ha _).trans ((comp_id' _ h2 _).trans ih))

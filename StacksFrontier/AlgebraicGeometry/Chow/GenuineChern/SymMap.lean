@@ -48,7 +48,7 @@ theorem surjective_gradedMapₛₗ {R : Type u} [CommRing R] {M N : Type u} [Add
   refine ⟨gradedMapₛₗ (n : ℤ) (RingHom.id R) f
       ⟨∏ i : Fin n, SymmetricAlgebra.ι R M (s i), SymmetricAlgebra.prod_ι_mem R s⟩,
     ⟨_, trivial, rfl⟩, ?_⟩
-  show SymmetricAlgebra.mapₛₗ (RingHom.id R) f (∏ i : Fin n, SymmetricAlgebra.ι R M (s i)) = _
+  change SymmetricAlgebra.mapₛₗ (RingHom.id R) f (∏ i : Fin n, SymmetricAlgebra.ι R M (s i)) = _
   simp only [map_prod, SymmetricAlgebra.mapₛₗ_ι, hs]
 
 variable {X : Scheme.{u}} {E F : X.Modules} (g : E ⟶ F)

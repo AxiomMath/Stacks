@@ -142,7 +142,7 @@ theorem singleton_mem_bigFppf_topology_of_flat
     Sieve.generate (Presieve.singleton g) ∈ B.topology X := by
   let E : Covering B.Schemes := ⟨X, PreZeroHypercover.singleton g⟩
   have hE : _root_.AlgebraicGeometry.IsFppfCovering E := by
-    show (PreZeroHypercover.singleton g).presieve₀.map B.inclusion ∈
+    change (PreZeroHypercover.singleton g).presieve₀.map B.inclusion ∈
       Scheme.fppfPrecoverage (B.inclusion.obj X)
     rw [PreZeroHypercover.presieve₀_singleton, Presieve.map_singleton,
       Scheme.fppfPrecoverage_eq_inf]
@@ -290,7 +290,7 @@ theorem isLocallySurjective_of_surjective_flat
   -- The covering sieve, and the lift of the point over it.
   have hbase := Space.singleton_mem_bigFppf_topology_of_flat B k.left hksurj hkflat hkfp
   have hcover : Sieve.generate (Presieve.singleton k) ∈ BigFppfOver.topology B S hS T := by
-    show Sieve.generate (Presieve.singleton k) ∈ B.topology.over (B.obj hS) T
+    change Sieve.generate (Presieve.singleton k) ∈ B.topology.over (B.obj hS) T
     rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_generate,
       ← Sieve.arrows_generate_map_eq_functorPushforward, Sieve.generate_sieve,
       Presieve.map_singleton]
@@ -367,7 +367,7 @@ theorem hasMonoLocallySurjectiveFamily_of_hasMonoFlatCover {X Y : FppfSheaf B S 
   refine ⟨PUnit.{u + 2}, fun _ ↦ Z, fun _ ↦ c, ?_, fun _ ↦ hmono⟩
   have hfac : (Sigma.ι (fun _ : PUnit.{u + 2} ↦ Z) PUnit.unit).hom ≫
       (Sigma.desc (fun _ : PUnit.{u + 2} ↦ c)).hom = c.hom := by
-    rw [← ObjectProperty.FullSubcategory.comp_hom, Sigma.ι_desc]
+    rw [← ObjectProperty.FullSubcategory.comp_hom, Sigma.ι_comp_desc]
   exact Presheaf.isLocallySurjective_of_isLocallySurjective_fac _ hfac
 
 /-- **Stacks 0GHV, condition (1) implies condition (6).** The identity of the target is a flat

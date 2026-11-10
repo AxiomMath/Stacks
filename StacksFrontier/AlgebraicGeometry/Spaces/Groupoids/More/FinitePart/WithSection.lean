@@ -70,8 +70,8 @@ universe u
 
 namespace AlgebraicGeometry.Space
 
-set_option synthInstance.maxHeartbeats 400000
-
+set_option synthInstance.maxHeartbeats 400000 in
+-- scoped from the former file-wide `synthInstance.maxHeartbeats 400000` of this file
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 private instance (priority := high) hasPullbacks_presheaf_finitePartWithSection
@@ -79,12 +79,16 @@ private instance (priority := high) hasPullbacks_presheaf_finitePartWithSection
     HasPullbacks ((AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
   Limits.functorCategoryHasLimitsOfShape
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- scoped from the former file-wide `synthInstance.maxHeartbeats 400000` of this file
 private instance (priority := high) hasPullback_presheaf_finitePartWithSection
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Y Z : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
     HasLimit (cospan f g) :=
   (hasPullbacks_presheaf_finitePartWithSection B S hS).has_limit _
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- scoped from the former file-wide `synthInstance.maxHeartbeats 400000` of this file
 private theorem yoneda_subfunctor_lift_iff
     {C : Type*} [Category C] {F : Cᵒᵖ ⥤ Type u} (Z : Subfunctor F)
     (U : C) (α : yoneda.obj U ⟶ F) :
@@ -97,6 +101,8 @@ private theorem yoneda_subfunctor_lift_iff
     have h' : Subfunctor.range α ≤ Z := by simpa [Subfunctor.range_eq_ofSection] using h
     exact ⟨Subfunctor.lift α h', Subfunctor.lift_ι α h'⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- scoped from the former file-wide `synthInstance.maxHeartbeats 400000` of this file
 /-- A finite open pair contains the section induced by `σ`. -/
 public def ContainsSection
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
@@ -108,6 +114,8 @@ public def ContainsSection
       pullback.lift (𝟙 T.obj) (p.toBase.hom ≫ σ.hom) (by
         simp only [Category.id_comp, Category.assoc, hσ, Category.comp_id])
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- scoped from the former file-wide `synthInstance.maxHeartbeats 400000` of this file
 /-- Containing the section after restriction is equivalent to factorization of the
 restricted section through the original finite open subspace. -/
 public theorem containsSection_restrict_iff_factor
@@ -198,6 +206,8 @@ public theorem containsSection_restrict_iff_factor
         _ = q.toBase.hom ≫ σ.hom := by rw [hbase', Category.assoc]
         _ = sQ ≫ pullback.snd q.toBase.hom f.hom := hsQsnd.symm
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- scoped from the former file-wide `synthInstance.maxHeartbeats 400000` of this file
 /-- The finite-part functor with the condition that its open subspace contains
 the given section. The pointwise equivalence fixes the subfunctor uniquely. -/
 public structure FinitePartWithSection
@@ -214,6 +224,8 @@ public structure FinitePartWithSection
       ContainsSection B S hS f σ hσ
         ((Space.finiteOpenSubspacePresheaf B S hS f).sections T p)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- scoped from the former file-wide `synthInstance.maxHeartbeats 400000` of this file
 /-- The canonical transformation from finite open pairs containing a section
 to all finite open pairs, with its pointwise characterization. -/
 @[stacks 04RR "the transformation"]
@@ -233,6 +245,8 @@ public noncomputable def finitePartWithSection
   · intro T x
     rfl
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- scoped from the former file-wide `synthInstance.maxHeartbeats 400000` of this file
 private theorem preimage_finitePartWithSection
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Y : AlgebraicGeometry.AlgebraicSpaces B S hS}
@@ -258,12 +272,12 @@ private theorem preimage_finitePartWithSection
     rw [← hg]
     exact (yonedaEquiv_symm_app_apply x V z).symm
   ext V z
-  show g.app V z ∈ H.obj V ↔ s.app V z ∈ p.subspace.obj V
+  change g.app V z ∈ H.obj V ↔ s.app V z ∈ p.subspace.obj V
   let h : V.unop ⟶ U := z
   have heval : yonedaEquiv ((schemeSpaceMap h).hom ≫ s) = s.app V z := by
     rw [yonedaEquiv_apply]
     dsimp [schemeSpaceMap, schemeSpace]
-    show s.app V ((yoneda.map h).app V (𝟙 (V.unop))) = s.app V z
+    change s.app V ((yoneda.map h).app V (𝟙 (V.unop))) = s.app V z
     simp [h]
   rw [← hsectionmap]
   calc
@@ -276,6 +290,8 @@ private theorem preimage_finitePartWithSection
       yoneda_subfunctor_lift_iff p.subspace V.unop _
     _ ↔ s.app V z ∈ p.subspace.obj V := by rw [heval]
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- scoped from the former file-wide `synthInstance.maxHeartbeats 400000` of this file
 private theorem presheaf_ι_of_preimage
     {C : Type (u + 1)} [Category.{u} C] {F : Cᵒᵖ ⥤ Type u}
     (Q : MorphismProperty C) [Q.RespectsIso] [Q.presheaf.IsStableUnderBaseChange]
@@ -291,6 +307,8 @@ private theorem presheaf_ι_of_preimage
   exact ⟨(h U g).1.pullback idU, i ≫ H.fromPreimage g, j,
     hpb.paste_horiz (Subfunctor.isPullback_preimage g H), (h U g).2 idU i j hpb⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- scoped from the former file-wide `synthInstance.maxHeartbeats 400000` of this file
 private theorem finitePartWithSection_property
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Y : AlgebraicGeometry.AlgebraicSpaces B S hS}
@@ -311,6 +329,8 @@ private theorem finitePartWithSection_property
   rw [preimage_finitePartWithSection B S hS f σ hσ U g]
   exact Q.presheaf.of_isPullback (Subfunctor.isPullback_preimage s p.subspace) (hp U p)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- scoped from the former file-wide `synthInstance.maxHeartbeats 400000` of this file
 /-- The transformation is representable by open immersions. -/
 @[stacks 04RR "part (1)"]
 public theorem isOpenImmersion_finitePartWithSection
@@ -325,6 +345,8 @@ public theorem isOpenImmersion_finitePartWithSection
   have : Q.presheaf.IsStableUnderBaseChange := MorphismProperty.relative_isStableUnderBaseChange Q
   exact finitePartWithSection_property B S hS f σ hσ Q (fun _ p => p.isOpen.2)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- scoped from the former file-wide `synthInstance.maxHeartbeats 400000` of this file
 /-- For separated `f`, the same transformation is representable by closed
 immersions as well as open immersions. -/
 @[stacks 04RR "part (2)"]
@@ -345,6 +367,8 @@ public theorem isClosedImmersion_finitePartWithSection
     (fun U p => (Space.FiniteOpenSubspace.isClosedSubspace B S hS f
       (schemeSpace U) p hf).2)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- scoped from the former file-wide `synthInstance.maxHeartbeats 400000` of this file
 /-- If the finite-part functor is an algebraic space, the section-containing
 subfunctor is an open algebraic subspace of it. -/
 @[stacks 04RR "part (3)"]
@@ -360,6 +384,8 @@ public theorem isOpenSubspace_finitePartWithSection
     (isOpenImmersion_finitePartWithSection B S hS f σ hσ).1 hfin,
     isOpenImmersion_finitePartWithSection B S hS f σ hσ⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- scoped from the former file-wide `synthInstance.maxHeartbeats 400000` of this file
 /-- A scheme representing the finite-part functor contains the
 section-containing functor as a compatible open subscheme. -/
 @[stacks 04RR "part (4)"]

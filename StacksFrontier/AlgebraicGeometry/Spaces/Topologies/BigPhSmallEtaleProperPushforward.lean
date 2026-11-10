@@ -72,9 +72,9 @@ square and an invertible target counit: the component of the mate `G ⋙ L₂ �
 `L₂` of `G` of the unit at `c`, followed by `L₂` of the square at `L₁ c` and the counit at
 `H (L₁ c)`. -/
 theorem isIso_mateEquiv_symm_app_of_isIso_unit_app (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂)
-    (θ : TwoSquare R₁ H G R₂) [IsIso θ.natTrans] [IsIso adj₂.counit] (c : A)
+    (θ : TwoSquare R₁ H G R₂) [IsIso θ] [IsIso adj₂.counit] (c : A)
     [IsIso (adj₁.unit.app c)] :
-    IsIso (((mateEquiv adj₁ adj₂).symm θ).natTrans.app c) := by
+    IsIso (((mateEquiv adj₁ adj₂).symm θ).app c) := by
   simp only [mateEquiv, Equiv.coe_fn_symm_mk]
   dsimp
   infer_instance
@@ -141,7 +141,7 @@ def phToSmallEtaleBaseChange :
         (phToSmallEtaleMorphism P E h X).inverseImage ⟶
       (phToSmallEtaleMorphism P E h Y).inverseImage ⋙ (bigPHMorphism P f).pushforward :=
   ((mateEquiv (phToSmallEtaleMorphism P E h Y).adj (phToSmallEtaleMorphism P E h X).adj).symm
-    (phToSmallEtaleSquare P E h f)).natTrans
+    (phToSmallEtaleSquare P E h f))
 
 /-- The mate `f_{big,*} ⋙ ε_X⁻¹ ⟶ ε_Y⁻¹ ⋙ f_{big,ph,*}` of the big ph–big étale square. -/
 def phToBigEtaleBaseChange :
@@ -183,15 +183,15 @@ theorem isIso_phToSmallEtaleBaseChange_app_of_isIso_unit
     [IsIso ((phToBigEtaleMorphism P E h Y).adj.unit.app
       ((E.bigToSmallEtaleMorphism (etaleSpace P E h Y)).inverseImage.obj F))] :
     IsIso ((phToSmallEtaleBaseChange P E h f).app F) := by
-  have e := congrArg (fun w : TwoSquare _ _ _ _ ↦ w.natTrans.app F)
+  have e := congrArg (fun w : TwoSquare _ _ _ _ ↦ w.app F)
     (phToSmallEtaleBaseChange_eq_vComp P E h f)
-  show IsIso (((mateEquiv ((E.bigToSmallEtaleMorphism (etaleSpace P E h Y)).adj.comp
+  change IsIso (((mateEquiv ((E.bigToSmallEtaleMorphism (etaleSpace P E h Y)).adj.comp
         (phToBigEtaleMorphism P E h Y).adj)
       ((E.bigToSmallEtaleMorphism (etaleSpace P E h X)).adj.comp
-        (phToBigEtaleMorphism P E h X).adj)).symm (phToSmallEtaleSquare P E h f)).natTrans.app F)
+        (phToBigEtaleMorphism P E h X).adj)).symm (phToSmallEtaleSquare P E h f)).app F)
   rw [e]
   have := BigEtaleSpaceSite.isIso_bigToSmallEtaleBaseChange_of_isProper E (etaleMap P E h f) hf
-  have : IsIso ((phToBigEtaleBaseChange P E h f).natTrans.app
+  have : IsIso ((phToBigEtaleBaseChange P E h f).app
       ((E.bigToSmallEtaleMorphism (etaleSpace P E h Y)).inverseImage.obj F)) :=
     isIso_mateEquiv_symm_app_of_isIso_unit_app _ _ _ _
   simp only [TwoSquare.vComp, NatTrans.comp_app, Functor.associator_inv_app,

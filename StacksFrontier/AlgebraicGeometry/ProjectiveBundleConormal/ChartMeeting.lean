@@ -124,7 +124,8 @@ the monoidal tensor product of sheaves of modules and the tensor product sheaf o
    * the value of the trivialisation on the unit section,
      `(restrictIsoUnitOfSpanEqTop L U hU t ht).inv (1) = t` up to
      `AlgebraicGeometry.Scheme.Opens.ι_image_top`, is
-     `Stacks.ProjectiveBundleConormal.restrictIsoUnitOfSpanEqTop_inv_val_app_one`. **The chain is definitional on
+     `Stacks.ProjectiveBundleConormal.restrictIsoUnitOfSpanEqTop_inv_val_app_one`. **The chain is
+     definitional on
      sections apart from two steps.** `Stacks.AlgebraicGeometry.TwistMapsInvertible`
      `.restrictIsoUnitOfOverIsoUnit` on a section is a `rfl`,
      `AlgebraicGeometry.Scheme.Modules.overFunctorEquiv` is the *identity* on sections in both
@@ -446,6 +447,7 @@ open SymmetricAlgebra
 variable {W : X.Opens} (hW : IsAffineOpen W) (eL : Γ(Q.L, W) ≃ₗ[Γ(X, W)] Γ(X, W))
   (t : Γ(E, W)) (ht : chartLinearForm Q W eL t = 1)
 
+omit [IsImmersion σ] in
 include hσ e hqe in
 /-- **The affine chart of the frame, composed into the tautological chart, is `σ` restricted** —
 up to the identification of `W` with `σ ⁻¹ᵁ` of the tautological chart.
@@ -519,6 +521,7 @@ def chartIdealSection
             (homOfLE ((tautologicalChart E W t).ι.image_preimage_le
               (tautologicalChart E W t))).op y))))
 
+omit [IsImmersion σ] in
 include hσ e hqe in
 /-- **`Stacks.ProjectiveBundleConormal.chartIdealSection` read as the hypothesis `hxy` of
 `Stacks.Conormal.restrictConormalIsoOfOpenFactor_hom_canonicalConormalQuotientMap`.** It is the
@@ -556,6 +559,7 @@ theorem chartIdealSection_eq
       chartIdealSection E Q hσ e hqe hW eL t ht y :=
   rfl
 
+omit [IsImmersion σ] in
 include hσ e hqe in
 /-- **The image of `Stacks.ProjectiveBundleConormal.chartIdealSection` in the structure sheaf.**
 The section of the ideal sheaf of the affine chart that a section `y` of `ℐ(σ)` over the

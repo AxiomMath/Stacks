@@ -96,11 +96,11 @@ theorem FreeOnSurjectiveOpen.map {Y T Y₂ T₂ : Scheme.{u}} {g : Y ⟶ T} {g�
   have hri : MorphismProperty.RespectsIso (@Flat) :=
     MorphismProperty.IsStableUnderBaseChange.respectsIso
   have hinv : ∀ y : Y, eY.inv.base (eY.hom.base y) = y := fun y ↦ by
-    show (eY.hom ≫ eY.inv).base y = y
+    change (eY.hom ≫ eY.inv).base y = y
     rw [eY.hom_inv_id]
     rfl
   have hsq : ∀ y : Y, g₂.base (eY.hom.base y) = eT.hom.base (g.base y) := fun y ↦ by
-    show (eY.hom ≫ g₂).base y = (g ≫ eT.hom).base y
+    change (eY.hom ≫ g₂).base y = (g ≫ eT.hom).base y
     rw [hw]
   refine ⟨?_, eY.inv ⁻¹ᵁ V, ?_, ?_⟩
   · exact (MorphismProperty.arrow_mk_iso_iff (P := @Flat) (Arrow.isoMk eY eT hw.symm)).mp hflat
@@ -110,7 +110,7 @@ theorem FreeOnSurjectiveOpen.map {Y T Y₂ T₂ : Scheme.{u}} {g : Y ⟶ T} {g�
     have h2 := freeAtPointOfRank_of_pullback_isIso eY.hom G₂ (eY.inv.base y₂) r
       (freeAtPointOfRank_of_moduleIso e hr)
     have h3 : eY.hom.base (eY.inv.base y₂) = y₂ := by
-      show (eY.inv ≫ eY.hom).base y₂ = y₂
+      change (eY.inv ≫ eY.hom).base y₂ = y₂
       rw [eY.inv_hom_id]
       rfl
     rwa [h3] at h2
@@ -118,13 +118,13 @@ theorem FreeOnSurjectiveOpen.map {Y T Y₂ T₂ : Scheme.{u}} {g : Y ⟶ T} {g�
     obtain ⟨v, hv⟩ := hsurj (eT.inv.base t₂)
     have hv' : g.base (V.ι.base v) = eT.inv.base t₂ := hv
     have hmem : eY.hom.base (V.ι.base v) ∈ (eY.inv ⁻¹ᵁ V : Y₂.Opens) := by
-      show eY.inv.base (eY.hom.base (V.ι.base v)) ∈ V
+      change eY.inv.base (eY.hom.base (V.ι.base v)) ∈ V
       rw [hinv]
       exact v.2
     refine ⟨⟨eY.hom.base (V.ι.base v), hmem⟩, ?_⟩
-    show g₂.base (eY.hom.base (V.ι.base v)) = t₂
+    change g₂.base (eY.hom.base (V.ι.base v)) = t₂
     rw [hsq, hv']
-    show (eT.inv ≫ eT.hom).base t₂ = t₂
+    change (eT.inv ≫ eT.hom).base t₂ = t₂
     rw [eT.inv_hom_id]
     rfl
 
@@ -139,7 +139,7 @@ theorem freeOnSurjectiveOpen_iff_of_iso {Y T Y₂ T₂ : Scheme.{u}} (g : Y ⟶ 
   refine FreeOnSurjectiveOpen.map eY.symm eT.symm ?_ ?_
   · have hgg : eY.hom ≫ g₂ ≫ eT.inv = g := by
       rw [← Category.assoc, ← hw, Category.assoc, eT.hom_inv_id, Category.comp_id]
-    show g₂ ≫ eT.inv = eY.inv ≫ g
+    change g₂ ≫ eT.inv = eY.inv ≫ g
     rw [← hgg, ← Category.assoc, eY.inv_hom_id, Category.id_comp]
   · exact ((Scheme.Modules.pullback eY.inv).mapIso e ≪≫
       (Scheme.Modules.pullbackComp eY.inv eY.hom).app G₂ ≪≫
@@ -189,11 +189,11 @@ theorem freeOnSurjectiveOpen_of_cover {Y T : Scheme.{u}} (g : Y ⟶ T) (G : Y.Mo
         (⨆ j, pullback.fst g (W j).ι ''ᵁ V j : Y.Opens) :=
       TopologicalSpace.Opens.mem_iSup.mpr ⟨i, ⟨(V i).ι.base v, v.2, rfl⟩⟩
     refine ⟨⟨(pullback.fst g (W i).ι).base ((V i).ι.base v), hmem⟩, ?_⟩
-    show g.base ((pullback.fst g (W i).ι).base ((V i).ι.base v)) = t
+    change g.base ((pullback.fst g (W i).ι).base ((V i).ι.base v)) = t
     have hcond : ∀ z : ↥(Limits.pullback g (W i).ι),
         g.base ((pullback.fst g (W i).ι).base z) =
           (W i).ι.base ((pullback.snd g (W i).ι).base z) := fun z ↦ by
-      show (pullback.fst g (W i).ι ≫ g).base z = (pullback.snd g (W i).ι ≫ (W i).ι).base z
+      change (pullback.fst g (W i).ι ≫ g).base z = (pullback.snd g (W i).ι ≫ (W i).ι).base z
       rw [pullback.condition]
     rw [hcond, hv']
     rfl
@@ -221,11 +221,11 @@ theorem freeOnSurjectiveOpen_sheaf {Y T : Scheme.{u}} (g : Y ⟶ T) (G : Y.Modul
       Scheme.Pullback.exists_preimage_pullback (V.ι.base v) t' hv'
     have hmem : z ∈ (pullback.fst g (blowUpToBase I) ⁻¹ᵁ V :
         (Limits.pullback g (blowUpToBase I)).Opens) := by
-      show (pullback.fst g (blowUpToBase I)).base z ∈ V
+      change (pullback.fst g (blowUpToBase I)).base z ∈ V
       rw [hz₁]
       exact v.2
     refine ⟨⟨z, hmem⟩, ?_⟩
-    show (pullback.snd g (blowUpToBase I)).base z = t'
+    change (pullback.snd g (blowUpToBase I)).base z = t'
     exact hz₂
 
 /-- **The property on the strict transform proper and on the ambient base change agree.** The
@@ -251,7 +251,7 @@ theorem freeOnSurjectiveOpen_strictTransform_iff_sheaf {Y T : Scheme.{u}} (g : Y
     with hs
   have hw1 : pullback.snd g (blowUpToBase I) ≫ (Iso.refl (blowUp I)).hom =
       (asIso s).symm.hom ≫ strictTransformToBlowUp g I := by
-    show pullback.snd g (blowUpToBase I) ≫ 𝟙 _ = inv s ≫ (s ≫ pullback.snd g (blowUpToBase I))
+    change pullback.snd g (blowUpToBase I) ≫ 𝟙 _ = inv s ≫ (s ≫ pullback.snd g (blowUpToBase I))
     rw [Category.comp_id, ← Category.assoc, IsIso.inv_hom_id, Category.id_comp]
   have he1 : Stacks.StrictTransform.sheaf g (blowUpToBase I) (exceptionalIdeal I) G ≅
       (Scheme.Modules.pullback (asIso s).symm.hom).obj (strictTransformBlowUpModule g I G) :=

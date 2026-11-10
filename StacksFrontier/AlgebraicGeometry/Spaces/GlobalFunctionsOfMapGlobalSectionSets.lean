@@ -43,6 +43,8 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {X : AlgebraicSpaces B S hS} {T : BigFppfOver B S hS}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits of presheaves on the small étale site exceeds the default
+-- budget
 /-- Discrete limits of presheaves of sets on the small étale site (instance search times out
 without this shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discrete_GlobalFunctionsOfMapGlobalSectionSets
@@ -51,6 +53,7 @@ local instance (priority := high) hasLimitsOfShape_discrete_GlobalFunctionsOfMap
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of sheaves on the small étale site exceeds the default budget
 /-- The terminal sheaf of sets on the small étale site (instance search times out without this
 shortcut). -/
 local instance (priority := high) hasTerminal_topos_GlobalFunctionsOfMapGlobalSectionSets

@@ -296,7 +296,7 @@ private theorem nerveOverMap_essSurj
   · intro j
     rw [← cancel_mono i.hom]
     simpa [nerveOverMap, Cech.nerveMap, z, b, Category.assoc] using hs j
-  · show i.inv ≫ a.hom = e.map β
+  · change i.inv ≫ a.hom = e.map β
     rw [← ha]
     simp
 

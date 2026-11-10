@@ -70,7 +70,7 @@ private lemma appLE_hom_comp_appLE_hom {X Y S : Scheme.{u}} {f : X ⟶ Y} {g : Y
     (hV : V ≤ g ⁻¹ᵁ U) (hW : W ≤ f ⁻¹ᵁ V) (hW' : W ≤ h ⁻¹ᵁ U) :
     (f.appLE V W hW).hom.comp (g.appLE U V hV).hom = (h.appLE U W hW').hom := by
   subst e
-  show (g.appLE U V hV ≫ f.appLE V W hW).hom = _
+  change (g.appLE U V hV ≫ f.appLE V W hW).hom = _
   rw [Scheme.Hom.appLE_comp_appLE]
 
 private lemma appLE_hom_comp_appLE_eqToHom_hom {X Y S : Scheme.{u}} {f : X ⟶ Y} {g : Y ⟶ S}
@@ -106,14 +106,14 @@ private theorem finiteType_of_isPullback
       CommRingCat.ofHom (algebraMap R P) := by
     apply hPB.hom_ext
     · apply CommRingCat.hom_ext
-      show pA.toRingHom.comp (er.toRingHom.comp (algebraMap R (↥(f.pullback g)))) =
+      change pA.toRingHom.comp (er.toRingHom.comp (algebraMap R (↥(f.pullback g)))) =
         pA.toRingHom.comp (algebraMap R P)
       rw [← RingHom.comp_assoc, hIsoA']
       simp only [AlgHom.toRingHom_eq_coe, AlgHom.comp_algebraMap_of_tower]
       ext r
       rfl
     · apply CommRingCat.hom_ext
-      show pB.toRingHom.comp (er.toRingHom.comp (algebraMap R (↥(f.pullback g)))) =
+      change pB.toRingHom.comp (er.toRingHom.comp (algebraMap R (↥(f.pullback g)))) =
         pB.toRingHom.comp (algebraMap R P)
       rw [← RingHom.comp_assoc, hIsoB']
       simp only [AlgHom.toRingHom_eq_coe, AlgHom.comp_algebraMap_of_tower]

@@ -86,7 +86,7 @@ theorem IsAffineOpen.isoSpec_inv_comp {X Y : Scheme.{u}} {W : X.Opens} (hW : IsA
   calc Y.isoSpec.inv ≫ f = Spec.map f.appTop ≫ W.toScheme.isoSpec.inv :=
         (Scheme.isoSpec_inv_naturality f).symm
     _ = Spec.map (W.topIso.inv ≫ f.appTop) ≫ hW.isoSpec.inv := by
-        show Spec.map f.appTop ≫ W.toScheme.isoSpec.inv =
+        change Spec.map f.appTop ≫ W.toScheme.isoSpec.inv =
           Spec.map (W.topIso.inv ≫ f.appTop) ≫
             (Scheme.Spec.mapIso W.topIso.symm.op).inv ≫ W.toScheme.isoSpec.inv
         rw [Spec.map_comp,

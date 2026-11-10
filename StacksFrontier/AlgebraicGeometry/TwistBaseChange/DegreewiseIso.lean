@@ -80,7 +80,7 @@ public theorem isIso_homEquiv_symm_of_comp {C D D' : Type*} [Category C] [Catego
   have e3 : (adjC.homEquiv _ _).symm (g ≫ α.hom.app _) =
       I.map ((adjP.homEquiv _ _).symm gP) := by
     rw [h, Adjunction.comp_homEquiv]
-    show (adjI.homEquiv _ _).symm ((adjP.homEquiv _ _).symm (gP ≫ Rp.map (adjI.unit.app Y))) = _
+    change (adjI.homEquiv _ _).symm ((adjP.homEquiv _ _).symm (gP ≫ Rp.map (adjI.unit.app Y))) = _
     rw [Adjunction.homEquiv_naturality_right_symm, Adjunction.homEquiv_naturality_left_symm]
     have hid : (adjI.homEquiv Y (I.obj Y)).symm (adjI.unit.app Y) = 𝟙 (I.obj Y) :=
       (Equiv.symm_apply_eq _).mpr (Adjunction.homEquiv_id _ _).symm
@@ -108,7 +108,7 @@ include hdom in
 `AlgebraicGeometry.Proj.map`. -/
 public theorem basePoint_eq_comapFun (y : (mapDomain 𝒜 ℬ ψ).toScheme) :
     basePoint 𝒜 ℬ ψ y = ProjectiveSpectrum.comapFun ψ hψ y.1 := by
-  show (mapHom 𝒜 ℬ ψ).base y = _
+  change (mapHom 𝒜 ℬ ψ).base y = _
   rw [mapHom_eq_ι_comp 𝒜 ℬ ψ hψ hdom, Scheme.Hom.comp_apply]
   rfl
 
@@ -253,7 +253,7 @@ public theorem irrelevant_le_map_of_isBaseChange :
   · intro m
     exact Ideal.subset_span ⟨m, Set.mem_iUnion₂.mpr ⟨d, hd, m.2⟩, rfl⟩
   · intro s x hx
-    show (s : B) * (x : B) ∈ _
+    change (s : B) * (x : B) ∈ _
     exact Ideal.mul_mem_left _ _ hx
   · intro x y hx hy
     exact add_mem hx hy
@@ -310,36 +310,36 @@ public theorem isBaseChange_of_ringEquiv
   let : Module S Q := Module.compHom Q eS.toRingHom
   let : Module R Q := Module.compHom Q eR.toRingHom
   have : IsScalarTower R S Q := ⟨fun r s q => by
-    show eS (r • s) • q = eR r • eS s • q
+    change eS (r • s) • q = eR r • eS s • q
     rw [Algebra.smul_def, map_mul, ← hRS, mul_smul, algebraMap_smul]⟩
   let g₀ : M →ₗ[R] Q :=
     { toFun := fun m => g (eM m)
       map_add' := fun a b => by rw [map_add, map_add]
       map_smul' := fun r m => by
-        show g (eM (r • m)) = eR r • g (eM m)
+        change g (eM (r • m)) = eR r • g (eM m)
         rw [heM, map_smul] }
   let G := hf.lift g₀
   let g' : N' →ₗ[S'] Q :=
     { toFun := fun x => G (eN.symm x)
       map_add' := fun a b => by rw [map_add, map_add]
       map_smul' := fun s x => by
-        show G (eN.symm (s • x)) = s • G (eN.symm x)
+        change G (eN.symm (s • x)) = s • G (eN.symm x)
         rw [heN', G.map_smul]
-        show eS (eS.symm s) • G (eN.symm x) = s • G (eN.symm x)
+        change eS (eS.symm s) • G (eN.symm x) = s • G (eN.symm x)
         rw [RingEquiv.apply_symm_apply] }
   refine ⟨g', LinearMap.ext fun m' => ?_, fun y hy => ?_⟩
   · obtain ⟨m, rfl⟩ := eM.surjective m'
-    show G (eN.symm (f' (eM m))) = g (eM m)
+    change G (eN.symm (f' (eM m))) = g (eM m)
     rw [hff, AddEquiv.symm_apply_apply]
     exact hf.lift_eq g₀ m
   · let Y : N →ₗ[S] Q :=
       { toFun := fun x => y (eN x)
         map_add' := fun a b => by rw [map_add, map_add]
         map_smul' := fun s x => by
-          show y (eN (s • x)) = eS s • y (eN x)
+          change y (eN (s • x)) = eS s • y (eN x)
           rw [heN, map_smul] }
     have hYG : Y = G := hf.algHom_ext Y G fun m => by
-      show y (eN (f m)) = G (f m)
+      change y (eN (f m)) = G (f m)
       rw [hf.lift_eq g₀ m, ← hff]
       exact LinearMap.congr_fun hy (eM m)
     refine LinearMap.ext fun x => ?_
@@ -391,16 +391,16 @@ public theorem isBaseChange_pieceMap_comp_of_isIso
     (gradePieceAddEquivOfInverse α' α hα₂ hα₁ n) (fun r m => Subtype.ext ?_)
     (gradePieceAddEquivOfInverse γ γ' hγ₁ hγ₂ n) (fun s x => Subtype.ext ?_)
     (fun m => Subtype.ext ?_) (hβ n)
-  · show (algebraMap ↥(𝒜 0) ↥(ℬ 0) (α'.gradedZeroRingHom r) : B) =
+  · change (algebraMap ↥(𝒜 0) ↥(ℬ 0) (α'.gradedZeroRingHom r) : B) =
       γ (algebraMap ↥(𝒜' 0) ↥(ℬ' 0) r : B')
     rw [halg, halgβ]
-    show γ (β (α (α' (r : A')))) = γ (β (r : A'))
+    change γ (β (α (α' (r : A')))) = γ (β (r : A'))
     rw [hαα]
-  · show α' ((r : A') * (m : A')) = (α' (r : A')) * α' (m : A')
+  · change α' ((r : A') * (m : A')) = (α' (r : A')) * α' (m : A')
     exact map_mul α' _ _
-  · show γ ((s : B') * (x : B')) = γ (s : B') * γ (x : B')
+  · change γ ((s : B') * (x : B')) = γ (s : B') * γ (x : B')
     exact map_mul γ _ _
-  · show γ (β (α (α' (m : A')))) = γ (β (m : A'))
+  · change γ (β (α (α' (m : A')))) = γ (β (m : A'))
     rw [hαα]
 
 end Transport

@@ -293,7 +293,8 @@ public theorem isHomeomorph_comap_and_isPurelyInseparable_and_baseChange_of_adjo
   have hsurj : Function.Surjective (PrimeSpectrum.comap (algebraMap R S)) := by
     rintro ⟨p, hp⟩
     obtain ⟨Q, -, hQ, hQc⟩ := Ideal.exists_ideal_over_prime_of_isIntegral p (⊥ : Ideal S)
-      (by rw [Ideal.under_def, ← RingHom.ker_eq_comap_bot]; exact hker.trans (nilradical_le_prime p))
+      (by rw [Ideal.under_def, ← RingHom.ker_eq_comap_bot]
+          exact hker.trans (nilradical_le_prime p))
     exact ⟨⟨Q, hQ⟩, PrimeSpectrum.ext hQc⟩
   obtain ⟨hhom, hbc⟩ :=
     PrimeSpectrum.isHomeomorph_comap_and_baseChange_of_bijective_comap_of_isPurelyInseparable

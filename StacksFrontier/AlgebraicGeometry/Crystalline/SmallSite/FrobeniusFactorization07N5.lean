@@ -175,6 +175,9 @@ variable (T : Crystalline.FCrystalSituation.{u})
   [HasDerivedCategory.{wB} (BigModuleSheaf T.frobeniusTwistSituation)]
   [HasDerivedCategory.{wA} (ModuleCat.{u + 1} Γ(T.global.S.scheme, ⊤))]
 
+omit [HasDerivedCategory.{wB} (BigModuleSheaf T.global)]
+  [HasDerivedCategory.{wB} (BigModuleSheaf T.frobeniusTwistSituation)]
+  [HasDerivedCategory.{wA} (ModuleCat.{u + 1} Γ(T.global.S.scheme, ⊤))] in
 /-- **The underived comparisons of the two halves of the Frobenius square paste to the comparison
 of the Frobenius square**, through `F_{X/S₀}^* E^{(1)} = (F_X)^*_cris E`: restricting a global
 section along `Spec(σ)` and `X^{(1)} ⟶ X`, then along `F_{X/S₀}`, is restricting it along
@@ -200,7 +203,7 @@ theorem changeBaseBigBaseGlobalSectionsTrans_paste (M : BigModuleSheaf T.global)
           ((frobeniusBigModulePullbackIso T).inv.app M)) := by
   ext x
   refine Subtype.ext (funext fun A => ?_)
-  show x.val (op (T.sigmaChangeBase.obj (T.twistChangeBase.obj A.unop))) =
+  change x.val (op (T.sigmaChangeBase.obj (T.twistChangeBase.obj A.unop))) =
     M.val.map (T.twistChangeBaseCompIso.hom.app A.unop).op
       (x.val (op (T.frobeniusChangeBase.obj A.unop)))
   exact (x.2 (T.twistChangeBaseCompIso.hom.app A.unop).op).symm
@@ -290,6 +293,7 @@ theorem derivedChangeBaseBigGlobalSectionsMap_frobenius_eq_ulift
 variable [HasDerivedCategory.{wS} (ModuleSheaf T.global)]
   [HasDerivedCategory.{wS} (ModuleSheaf T.frobeniusTwistSituation)]
 
+omit [HasDerivedCategory.{wS} (ModuleSheaf T.frobeniusTwistSituation)] in
 /-- `derivedChangeBaseBigGlobalSectionsMap_frobenius_eq_ulift` followed by the passage to the
 small site at the target. -/
 theorem derivedFrobeniusBigGlobalSectionsMap_comp_restrict
@@ -344,8 +348,6 @@ theorem derivedFrobeniusRestrictGlobalSectionsMap_eq
   (CategoryTheory.whisker_eq (derivedRestrictModuleGlobalSectionsULiftIso T.global N).inv
     (derivedFrobeniusBigGlobalSectionsMap_comp_restrict' T N)).trans
     (book3 _ _ _ _ _)
-
-variable [HasDerivedCategory.{wA} (ModuleCat.{u + 1} Γ(T.global.S.scheme, ⊤))]
 
 /-- **The source's factorization of the map of [Stacks, Tag 07N5]**: the composite of the first
 two arrows of its proof — the base change map (07QC) followed by the

@@ -96,6 +96,7 @@ variable {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
   {B : AlgebraicSpaces C S hS}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks in this presheaf category times out at the default limit
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_TwoArrowCocycle :
@@ -136,7 +137,7 @@ private theorem associatedMap_comp_obj
   apply (PresheafOfCategories.objEquiv
     ((H ⋙ typeToGrpd) ⋙ Grpd.forgetToCat)).injective
   apply Sigma.ext
-  · show ((associatedMap C S hS (a ≫ b)).1.hom.obj x).base = _
+  · change ((associatedMap C S hS (a ≫ b)).1.hom.obj x).base = _
     calc
       _ = x.base := BasedFunctor.w_obj
         (associatedMap C S hS (a ≫ b)).1.hom x
@@ -148,7 +149,7 @@ private theorem associatedMap_comp_obj
   · let xa := (associatedMap C S hS a).1.hom.obj x
     let xc := (associatedMap C S hS (a ≫ b)).1.hom.obj x
     let xr := (associatedMap C S hS b).1.hom.obj xa
-    show xc.fiber ≍ xr.fiber
+    change xc.fiber ≍ xr.fiber
     have hxa : xa.base = x.base := BasedFunctor.w_obj (associatedMap C S hS a).1.hom x
     have hxc : xc.base = x.base := BasedFunctor.w_obj (associatedMap C S hS (a ≫ b)).1.hom x
     have hxr : xr.base = x.base :=
@@ -276,7 +277,7 @@ private theorem associatedMap_fiber_as
     HEq (Discrete.as (((associatedMap C S hS a).1.hom.obj x).fiber))
       (a.app (Opposite.op x.base) (Discrete.as x.fiber)) := by
   let y := ((associatedMap C S hS a).1.hom).obj x
-  show HEq (Discrete.as y.fiber)
+  change HEq (Discrete.as y.fiber)
     (a.app (Opposite.op x.base) (Discrete.as x.fiber))
   have hybase : y.base = x.base := BasedFunctor.w_obj (associatedMap C S hS a).1.hom x
   have hyprop : y.fiber ≍ Discrete.mk
@@ -285,7 +286,7 @@ private theorem associatedMap_fiber_as
   rcases y with ⟨ybase, yfiber⟩
   change ybase = x.base at hybase
   subst ybase
-  show HEq (Discrete.as yfiber) (a.app (Opposite.op x.base) (Discrete.as x.fiber))
+  change HEq (Discrete.as yfiber) (a.app (Opposite.op x.base) (Discrete.as x.fiber))
   have hdisc : yfiber ≍ Discrete.mk
       (a.app (Opposite.op x.base) (Discrete.as x.fiber)) := by
     simpa using hyprop
@@ -318,7 +319,7 @@ private theorem associatedMap_obj_quotient
   have hybase : y.base = x.base := BasedFunctor.w_obj (associatedMap C S hS a).1.hom x
   have hv := associatedMap_fiber_as a x
   dsimp [BasedFunctor.comp]
-  show (quotientStackProjection G).obj y = _
+  change (quotientStackProjection G).obj y = _
   rw [quotientStackProjection_obj]
   have hobj : (⟨y.base, Discrete.as y.fiber⟩ :
       (presheafOfGroupoids
@@ -364,14 +365,14 @@ private theorem composableToPullback_app_projections
   let b := (pullback.snd G.source.hom G.target.hom).app (Opposite.op T) p
   have h : G.source.hom.app (Opposite.op T) a = G.target.hom.app (Opposite.op T) b :=
     source_fst_eq_target_snd G T p
-  show (composableToPullback G.source.hom G.target.hom).app (Opposite.op T) ⟨(a, b), h⟩ = p
+  change (composableToPullback G.source.hom G.target.hom).app (Opposite.op T) ⟨(a, b), h⟩ = p
   apply pullback_eval_ext G.source.hom G.target.hom (Opposite.op T)
-  · show ((composableToPullback G.source.hom G.target.hom ≫
+  · change ((composableToPullback G.source.hom G.target.hom ≫
       pullback.fst G.source.hom G.target.hom).app (Opposite.op T) ⟨(a, b), h⟩) = a
     unfold composableToPullback
     rw [pullback.lift_fst]
     rfl
-  · show ((composableToPullback G.source.hom G.target.hom ≫
+  · change ((composableToPullback G.source.hom G.target.hom ≫
       pullback.snd G.source.hom G.target.hom).app (Opposite.op T) ⟨(a, b), h⟩) = b
     unfold composableToPullback
     rw [pullback.lift_snd]
@@ -721,7 +722,7 @@ theorem quotientStackTwoArrow_cocycle
   apply BasedNatTrans.ext
   apply NatTrans.ext
   funext x
-  show (quotientStackTwoArrow G).app
+  change (quotientStackTwoArrow G).app
       (((associatedMap C S hS G.comp.hom).1.hom).obj x) = _
   simp only [BasedCategory.whiskerLeft]
   let ac := (associatedMap C S hS G.comp.hom).1.hom
@@ -747,7 +748,7 @@ theorem quotientStackTwoArrow_cocycle
     quotient_arrows_comp G x.base p xc x₁ x₀ hinputC hinput₁ hinput₀
       gc g₁ g₀ hgc hg₁ hg₀ hgcval hg₁val hg₀val hqsrc hqmid hqtgt
   rw [hc]
-  show _ =
+  change _ =
     (eqToHom (quotientStackTwoArrow_source_comp_eq G)).toNatTrans.app x ≫
       (quotientStackTwoArrow G).toNatTrans.app (a₁.obj x) ≫
       (eqToHom (quotientStackTwoArrow_middle_comp_eq G)).toNatTrans.app x ≫

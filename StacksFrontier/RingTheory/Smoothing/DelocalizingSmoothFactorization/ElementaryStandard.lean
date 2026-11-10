@@ -164,7 +164,7 @@ theorem exists_factorization_isElementaryStandard
     ((finSumFinEquiv : Fin c ⊕ Fin rC ≃ Fin (c + rC)).trans
       (finCongr hcr)).symm
   have heOld_inl (j : Fin c) : eOld (Fin.castLE hcnm j) = Sum.inl j := by
-    show (finSumFinEquiv : Fin c ⊕ Fin rC ≃ Fin (c + rC)).symm
+    change (finSumFinEquiv : Fin c ⊕ Fin rC ≃ Fin (c + rC)).symm
       ((finCongr hcr).symm (Fin.castLE hcnm j)) = Sum.inl j
     have hcast : (finCongr hcr).symm (Fin.castLE hcnm j) = Fin.castAdd rC j := Fin.ext rfl
     rw [hcast, finSumFinEquiv_symm_apply_castAdd]
@@ -256,7 +256,7 @@ theorem exists_factorization_isElementaryStandard
     have hmat : (fun i j : Fin nA =>
         MvPolynomial.pderiv (Fin.castLE (Nat.le_refl nA) i) (QA.relation j)) =
           (1 : Matrix (Fin nA) (Fin nA) (MvPolynomial (Fin nA) C)) := by
-      show (fun i j : Fin nA => MvPolynomial.pderiv i (QA.relation j)) =
+      change (fun i j : Fin nA => MvPolynomial.pderiv i (QA.relation j)) =
         (1 : Matrix (Fin nA) (Fin nA) (MvPolynomial (Fin nA) C))
       apply funext
       intro i
@@ -378,7 +378,7 @@ theorem exists_factorization_isElementaryStandard
       have hidx : ecomp (Sum.inl (Sum.inl j)) = Sum.inr i := by
         simp [ecomp, eOld, hi]
       simp only [oldVarB, he]
-      show Pcomp.toGenerators.val
+      change Pcomp.toGenerators.val
         (ecomp (eFin.symm (eFin (Sum.inl (Sum.inl j))))) = gC.val i
       rw [eFin.symm_apply_apply, hidx]
       simp [Pcomp, Algebra.Presentation.comp, PC]
@@ -387,7 +387,7 @@ theorem exists_factorization_isElementaryStandard
       have hidx : ecomp (Sum.inr k) = Sum.inr i := by
         simp [ecomp, eOld, hi]
       simp only [oldVarB, he]
-      show Pcomp.toGenerators.val
+      change Pcomp.toGenerators.val
         (ecomp (eFin.symm (eFin (Sum.inr k)))) = gC.val i
       rw [eFin.symm_apply_apply, hidx]
       simp [Pcomp, Algebra.Presentation.comp, PC]
@@ -402,7 +402,7 @@ theorem exists_factorization_isElementaryStandard
         ecomp (eFin.symm (Fin.castAdd rC (Fin.natAdd c i))) =
             ecomp (Sum.inl (Sum.inr i)) := by rw [← hleft, eFin.symm_apply_apply]
         _ = Sum.inl i := hright
-    show Pcomp.toGenerators.val
+    change Pcomp.toGenerators.val
       (ecomp (eFin.symm (Fin.castAdd rC (Fin.natAdd c i)))) = vC i
     rw [hidx]
     simp [Pcomp, Algebra.Presentation.comp, QA, gA]
@@ -453,7 +453,7 @@ theorem exists_factorization_isElementaryStandard
       MvPolynomial.aeval (PextFin.toGenerators.val ∘ sourceVar) (P.relation j) = 0 := by
     have hcomp : PextFin.toGenerators.val ∘ sourceVar = vC := funext hsourceExt
     rw [hcomp]
-    show (MvPolynomial.aeval (aToC ∘ P.toGenerators.val) (P.relation j)) = 0
+    change (MvPolynomial.aeval (aToC ∘ P.toGenerators.val) (P.relation j)) = 0
     have hcoeff (r : R) : aToC (algebraMap R A r) = algebraMap R C r := by
       change algebraMap B' C (algebraMap R B' r) = _
       rw [IsScalarTower.algebraMap_apply R (Localization S) B' r,
@@ -578,7 +578,7 @@ theorem exists_factorization_isElementaryStandard
     simp [liftB]
   have hsourceRelEval (j : Fin (Algebra.Presentation.ofFinitePresentationRels R A)) :
       MvPolynomial.aeval liftB (sourceRelPoly j) = 0 := by
-    show MvPolynomial.aeval liftB
+    change MvPolynomial.aeval liftB
       (MvPolynomial.aeval (fun i => MvPolynomial.X (sourceVar i)) (P.relation j)) = 0
     rw [MvPolynomial.comp_aeval_apply
       (fun i => MvPolynomial.X (sourceVar i)) (MvPolynomial.aeval liftB)]
@@ -607,7 +607,7 @@ theorem exists_factorization_isElementaryStandard
           (MvPolynomial.aeval (fun i => MvPolynomial.X (sourceVar i)) q) =
         MvPolynomial.aeval (fun i => MvPolynomial.X (sourceVar i))
           (MvPolynomial.map (algebraMap R (Localization S)) q) := by
-    show MvPolynomial.map (algebraMap R (Localization S))
+    change MvPolynomial.map (algebraMap R (Localization S))
         (MvPolynomial.aeval (MvPolynomial.X ∘ sourceVar) q) =
       MvPolynomial.aeval (MvPolynomial.X ∘ sourceVar)
         (MvPolynomial.map (algebraMap R (Localization S)) q)
@@ -619,7 +619,7 @@ theorem exists_factorization_isElementaryStandard
     have hzero : MvPolynomial.aeval PextFin.toGenerators.val
         (MvPolynomial.map (algebraMap R (Localization S)) (sourceRelPoly j)) = 0 := by
       rw [hmapEvalLoc]
-      show MvPolynomial.aeval PextFin.toGenerators.val
+      change MvPolynomial.aeval PextFin.toGenerators.val
         (MvPolynomial.aeval (fun i => MvPolynomial.X (sourceVar i)) (P.relation j)) = 0
       rw [MvPolynomial.comp_aeval_apply
         (fun i => MvPolynomial.X (sourceVar i))
@@ -768,7 +768,7 @@ theorem exists_factorization_isElementaryStandard
     rw [← P.span_range_relation_eq_ker]
     apply Ideal.span_le.mpr
     rintro _ ⟨j, rfl⟩
-    show Ideal.Quotient.mk relIdealB (sourceRelPoly j) = 0
+    change Ideal.Quotient.mk relIdealB (sourceRelPoly j) = 0
     rw [Ideal.Quotient.eq_zero_iff_mem]
     exact hsourceRel_mem j
   let fromQuot : P.Quotient →ₐ[R] B :=
@@ -790,7 +790,7 @@ theorem exists_factorization_isElementaryStandard
     obtain ⟨p, hp⟩ := Ideal.Quotient.mkₐ_surjective R P.toGenerators.ker q
     rw [← hp]
     have hh := congrArg (fun φ : MvPolynomial (Fin nA) R →ₐ[R] Λ => φ p) hpolyComposite
-    show bToΛ (fromQuot (Ideal.Quotient.mk P.toGenerators.ker p)) =
+    change bToΛ (fromQuot (Ideal.Quotient.mk P.toGenerators.ker p)) =
       algebraMap A Λ (eP (Ideal.Quotient.mk P.toGenerators.ker p))
     have hfrom : fromQuot (Ideal.Quotient.mk P.toGenerators.ker p) = evalSource p := by
       rfl
@@ -799,7 +799,7 @@ theorem exists_factorization_isElementaryStandard
   have hTowerAB_map : bToΛ.comp aToB = IsScalarTower.toAlgHom R A Λ := by
     apply AlgHom.ext
     intro a
-    show bToΛ (fromQuot (eP.symm a)) = algebraMap A Λ a
+    change bToΛ (fromQuot (eP.symm a)) = algebraMap A Λ a
     rw [hquotComposite]
     simp
   let : Algebra A B := aToB.toRingHom.toAlgebra
@@ -851,17 +851,17 @@ theorem exists_factorization_isElementaryStandard
     intro j
     let jSource : Fin mSource := Fin.cast hmSub j
     have hsourceBound : cFinal + jSource.1 < mFinal := by
-      show cFinal + jSource.1 < cFinal + mSource
+      change cFinal + jSource.1 < cFinal + mSource
       exact Nat.add_lt_add_left jSource.2 cFinal
     have hidx : presentationTailIndex hcmFinal j =
         (⟨cFinal + jSource.1, hsourceBound⟩ : Fin mFinal) := by
       apply Fin.ext
       simp [presentationTailIndex, jSource]
-    show p0 * relB (presentationTailIndex hcmFinal j) ∈ _
+    change p0 * relB (presentationTailIndex hcmFinal j) ∈ _
     rw [hfirstRelIdeal, hidx, hrelTail jSource]
     have heq : p0 * sourceRelPoly jSource =
         δ * (MvPolynomial.C (denTail : R) * sourceRelPoly jSource) := by
-      show (MvPolynomial.C (denTail : R) * δ) * sourceRelPoly jSource = _
+      change (MvPolynomial.C (denTail : R) * δ) * sourceRelPoly jSource = _
       ring
     rw [heq]
     exact Ideal.mul_mem_left _ _ (hdenTail jSource)
@@ -904,12 +904,12 @@ theorem exists_factorization_isElementaryStandard
       evalBaseC.mapMatrix PextPre.jacobiMatrix := by
     ext i j
     dsimp [baseJacobianMatrix]
-    show evalBaseC (MvPolynomial.pderiv (Fin.castLE hcnFinal i) (fLoc j)) =
+    change evalBaseC (MvPolynomial.pderiv (Fin.castLE hcnFinal i) (fLoc j)) =
       evalBaseC (PextPre.jacobiMatrix i j)
     rw [Algebra.PreSubmersivePresentation.jacobiMatrix_apply]
     rw [hPextMap]
     have hrel : PextPre.relation j = fLoc j := by
-      show PextPre.toPresentation.relation j = PextFin.relation j
+      change PextPre.toPresentation.relation j = PextFin.relation j
       rw [hPextPre]
     rw [hrel]
   have hbaseJacobianUnit : IsUnit (Matrix.det baseJacobianMatrix) := by
@@ -918,7 +918,7 @@ theorem exists_factorization_isElementaryStandard
       rw [PextPre.jacobian_eq_jacobiMatrix_det]
       have hval : PextPre.toPresentation.toGenerators.val = PextFin.toGenerators.val := by
         rw [hPextPre]
-      show MvPolynomial.aeval PextFin.toGenerators.val _ = _
+      change MvPolynomial.aeval PextFin.toGenerators.val _ = _
       rw [← hval]
       exact PextPre.toPresentation.toGenerators.algebraMap_apply _
     rw [hdet]
@@ -996,7 +996,7 @@ theorem exists_factorization_isElementaryStandard
     ext j i
     simp only [AlgHom.mapMatrix_apply,
       Matrix.map_apply, jacobianMatrixR]
-    show evalScaledC (MvPolynomial.map (algebraMap R (Localization S))
+    change evalScaledC (MvPolynomial.map (algebraMap R (Localization S))
         (MvPolynomial.pderiv (Fin.castLE hcnFinal i)
           (PF.f (Fin.castLE hcmFinal j)))) =
       evalScaledC (MvPolynomial.pderiv (Fin.castLE hcnFinal i)
@@ -1088,7 +1088,7 @@ theorem exists_factorization_isElementaryStandard
   let finalP0 : MvPolynomial (Fin nB) R := MvPolynomial.C (finalDen : R)
   let finalA : B := algebraMap R B (finalDen : R)
   have hfinalP0 : PF.IsLift finalA finalP0 := by
-    show PF.lift finalP0 = finalA
+    change PF.lift finalP0 = finalA
     simp [PF, finalP0, finalA, Presentation.lift]
   have hmulTailFinal : ∀ j : Fin (mFinal - cFinal),
       finalP0 * PF.f (presentationTailIndex hcmFinal j) ∈
@@ -1118,7 +1118,7 @@ theorem exists_factorization_isElementaryStandard
   have hfinalCond : PF.StandardCond2 finalA cFinal hcmFinal :=
     standardCond2_of_mul_mem PF finalA cFinal hcmFinal finalP0 hfinalP0 hmulTailFinal
   have hquotFactor : PF.lift (qPoly * δ) = algebraMap R B (clearDen : R) := by
-    show Ideal.Quotient.mk relIdealB (qPoly * δ) =
+    change Ideal.Quotient.mk relIdealB (qPoly * δ) =
       Ideal.Quotient.mk relIdealB (MvPolynomial.C (clearDen : R))
     exact (Ideal.Quotient.eq).2 hqPolyRelB
   have hfinalElementary : IsElementaryStandard (R := R) finalA := by

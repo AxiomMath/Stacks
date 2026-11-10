@@ -7,8 +7,7 @@ public import
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.SeparablyClosedFieldCohomology
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.FiniteLocallyConstant.GaloisTrivializationInverseImage
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ExtensionByZero.CoverTriangleModules
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.FourierDeligne.FourierGenericCoinvariantFibreSplit
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.FourierDeligne.FourierGenericCoinvariantFibreSplit
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Duality.LocallyFreeRankOneDual
 
 /-!

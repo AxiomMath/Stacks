@@ -107,7 +107,7 @@ theorem exists_flat_localRing_residueField_of_transcendental
       = residue A' (φ a) := by
     intro a
     rw [hφeq]
-    show (algebraMap (A[X] ⧸ P) P.ResidueField)
+    change (algebraMap (A[X] ⧸ P) P.ResidueField)
         ((Ideal.polynomialQuotientEquivQuotientPolynomial (maximalIdeal A)) (Polynomial.C (residue
             A a))) = _
     rw [IsLocalRing.residue_def, ← Polynomial.map_C,
@@ -137,7 +137,7 @@ theorem exists_flat_localRing_residueField_of_transcendental
   obtain ⟨a, rfl⟩ := IsLocalRing.residue_surjective x
   rw [RingHom.comp_apply, IsLocalRing.ResidueField.map_residue]
   rw [← hkey a]
-  show σ4 (σ3 (σ2 (σ1 (algebraMap (ResidueField A)[X] (ResidueField A') (Polynomial.C (residue A
+  change σ4 (σ3 (σ2 (σ1 (algebraMap (ResidueField A)[X] (ResidueField A') (Polynomial.C (residue A
       a)))))) = _
   rw [σ1.commutes]
   have hsc : algebraMap (ResidueField A)[X] (RatFunc (ResidueField A)) (Polynomial.C (residue A a))
@@ -593,13 +593,13 @@ theorem goodLift_colimit_flat_over_base {R : Type u} [CommRing R] [IsLocalRing R
   let gk : ∀ k, A k →+* RJ := fun k => (ofRJ (c k)).comp (t k (c k).val (hc k))
   have hgk_compat : ∀ k k' (hkk' : k ≤ k') (x : A k), gk k' (t k k' hkk' x) = gk k x := by
     intro k k' hkk' x
-    show ofRJ (c k') (t k' (c k').val (hc k') (t k k' hkk' x)) = ofRJ (c k) (t k (c k).val (hc k)
+    change ofRJ (c k') (t k' (c k').val (hc k') (t k k' hkk' x)) = ofRJ (c k) (t k (c k).val (hc k)
         x)
     obtain ⟨d, hd1, hd2⟩ := directed_of (· ≤ ·) (c k) (c k')
     rw [← hofRJ_f (c k) d hd1 (t k (c k).val (hc k) x)]
     rw [← hofRJ_f (c k') d hd2 (t k' (c k').val (hc k') (t k k' hkk' x))]
     congr 1
-    show t (c k').val d.val hd2 (t k' (c k').val (hc k') (t k k' hkk' x))
+    change t (c k').val d.val hd2 (t k' (c k').val (hc k') (t k k' hkk' x))
         = t (c k).val d.val hd1 (t k (c k).val (hc k) x)
     rw [show t (c k').val d.val hd2 (t k' (c k').val (hc k') (t k k' hkk' x))
           = t k' d.val (le_trans (hc k') hd2) (t k k' hkk' x) from
@@ -620,7 +620,7 @@ theorem goodLift_colimit_flat_over_base {R : Type u} [CommRing R] [IsLocalRing R
     induction z using Ring.DirectLimit.induction_on with
     | ih k x =>
       rw [hG_of k x]
-      show F (ofRJ (c k) (t k (c k).val (hc k) x)) = ofL k x
+      change F (ofRJ (c k) (t k (c k).val (hc k) x)) = ofL k x
       rw [hF_of (c k) (t k (c k).val (hc k) x)]
       show ofL (c k).val (t k (c k).val (hc k) x) = ofL k x
       exact hofL_f k (c k).val (hc k) x
@@ -629,14 +629,14 @@ theorem goodLift_colimit_flat_over_base {R : Type u} [CommRing R] [IsLocalRing R
     induction z using Ring.DirectLimit.induction_on with
     | ih a x =>
       rw [hF_of a x]
-      show G (ofL a.val x) = ofRJ a x
+      change G (ofL a.val x) = ofRJ a x
       rw [hG_of a.val x]
-      show ofRJ (c a.val) (t a.val (c a.val).val (hc a.val) x) = ofRJ a x
+      change ofRJ (c a.val) (t a.val (c a.val).val (hc a.val) x) = ofRJ a x
       obtain ⟨d, hd1, hd2⟩ := directed_of (· ≤ ·) a (c a.val)
       rw [← hofRJ_f a d hd1 x]
       rw [← hofRJ_f (c a.val) d hd2 (t a.val (c a.val).val (hc a.val) x)]
       congr 1
-      show t (c a.val).val d.val hd2 (t a.val (c a.val).val (hc a.val) x) = t a.val d.val hd1 x
+      change t (c a.val).val d.val hd2 (t a.val (c a.val).val (hc a.val) x) = t a.val d.val hd1 x
       rw [show t (c a.val).val d.val hd2 (t a.val (c a.val).val (hc a.val) x)
             = t a.val d.val (le_trans (hc a.val) hd2) x from
           congrArg (fun (m : A a.val →+* A d.val) => m x)
@@ -655,7 +655,7 @@ theorem goodLift_colimit_flat_over_base {R : Type u} [CommRing R] [IsLocalRing R
   let modL : Module B L := (ofL i).toAlgebra.toModule
   have hRingSmul : ∀ (r : B) (w : RJ), eRing (r • w) = r • eRing w := by
     intro r w
-    show F (ofRJ i₀J r * w) = ofL i r * F w
+    change F (ofRJ i₀J r * w) = ofL i r * F w
     rw [map_mul, hF_of i₀J r]
   let eLinRing : RJ ≃ₗ[B] L :=
     { eRing.toAddEquiv with
@@ -712,16 +712,16 @@ private theorem goodLift_colimit_chosen_core {R : Type u} [CommRing R] [IsLocalR
   have hdsRF : DirectedSystem RF (fun i j h => (rtf i j h : RF i → RF j)) := by
     refine ⟨?_, ?_⟩
     · intro i x
-      show (@ResidueField.map (A i) (A i) _ _ _ _ (t i i (le_refl i)) (ht_local i i (le_refl i)))
+      change (@ResidueField.map (A i) (A i) _ _ _ _ (t i i (le_refl i)) (ht_local i i (le_refl i)))
           x = x
       have h1 : (@ResidueField.map (A i) (A i) _ _ _ _ (t i i (le_refl i)) (ht_local i i (le_refl
           i)))
           = ResidueField.map (RingHom.id (A i)) := by congr 1; exact ht_id i
       rw [h1, ResidueField.map_id]; rfl
     · intro k j i hij hjk x
-      show (rtf j k hjk) ((rtf i j hij) x) = (rtf i k (le_trans hij hjk)) x
+      change (rtf j k hjk) ((rtf i j hij) x) = (rtf i k (le_trans hij hjk)) x
       have h2 : (rtf j k hjk).comp (rtf i j hij) = rtf i k (le_trans hij hjk) := by
-        show (@ResidueField.map (A j) (A k) _ _ _ _ (t j k hjk) _).comp
+        change (@ResidueField.map (A j) (A k) _ _ _ _ (t j k hjk) _).comp
               (@ResidueField.map (A i) (A j) _ _ _ _ (t i j hij) _)
             = @ResidueField.map (A i) (A k) _ _ _ _ (t i k (le_trans hij hjk)) _
         rw [← ResidueField.map_comp (t i j hij) (t j k hjk)]; congr 1; exact ht_comp i j k hij hjk
@@ -774,7 +774,7 @@ private theorem goodLift_colimit_chosen_core {R : Type u} [CommRing R] [IsLocalR
       have hfa : (g i₀).φ a ∈ maximalIdeal (A i₀) := by
         rw [(g i₀).maxeq]; exact Ideal.mem_map_of_mem _ ha
       have hcalc : π (phiInf a) = ofRL i₀ (residue (A i₀) ((g i₀).φ a)) := by
-        show π (ofL i₀ ((g i₀).φ a)) = _
+        change π (ofL i₀ ((g i₀).φ a)) = _
         rw [hπ_ofL i₀ ((g i₀).φ a)]
       rw [hcalc, (residue_eq_zero_iff ((g i₀).φ a)).mpr hfa, map_zero]
     intro z hz; exact hle hz
@@ -825,15 +825,15 @@ private theorem goodLift_colimit_chosen_core {R : Type u} [CommRing R] [IsLocalR
       intro x
       obtain ⟨a, rfl⟩ := IsLocalRing.residue_surjective x
       rw [RingHom.comp_apply, IsLocalRing.ResidueField.map_residue]
-      show ιL (residue L (phiInf a)) = algebraMap (ResidueField R) K (residue R a)
-      show δ (πbar (residue L (phiInf a))) = _
+      change ιL (residue L (phiInf a)) = algebraMap (ResidueField R) K (residue R a)
+      change δ (πbar (residue L (phiInf a))) = _
       rw [hπbar_res (phiInf a)]
-      show δ (π (ofL i₀ ((g i₀).φ a))) = _
+      change δ (π (ofL i₀ ((g i₀).φ a))) = _
       rw [hπ_ofL i₀ ((g i₀).φ a)]
       rw [show residue (A i₀) ((g i₀).φ a) = ResidueField.map (g i₀).φ (residue R a) from
         (IsLocalRing.ResidueField.map_residue (g i₀).φ a).symm]
       rw [hδ_ofRL i₀ (ResidueField.map (g i₀).φ (residue R a))]
-      show ((g i₀).ι.comp (ResidueField.map (g i₀).φ)) (residue R a) = _
+      change ((g i₀).ι.comp (ResidueField.map (g i₀).φ)) (residue R a) = _
       rw [(g i₀).hι] }
   have hlocal_ofL : ∀ i, IsLocalHom (ofL i) := by
     intro i
@@ -852,9 +852,9 @@ private theorem goodLift_colimit_chosen_core {R : Type u} [CommRing R] [IsLocalR
     apply RingHom.ext
     intro x
     obtain ⟨a, rfl⟩ := IsLocalRing.residue_surjective x
-    show ιL (ResidueField.map (ofL i) (residue (A i) a)) = (g i).ι (residue (A i) a)
+    change ιL (ResidueField.map (ofL i) (residue (A i) a)) = (g i).ι (residue (A i) a)
     rw [IsLocalRing.ResidueField.map_residue]
-    show δ (πbar (residue L (ofL i a))) = _
+    change δ (πbar (residue L (ofL i a))) = _
     rw [hπbar_res (ofL i a), hπ_ofL i a, hδ_ofRL i (residue (A i) a)]
   · exact fun z => Ring.DirectLimit.exists_of (G := A) (f := tf) z
   · intro T _ τ hτ
@@ -864,7 +864,7 @@ private theorem goodLift_colimit_chosen_core {R : Type u} [CommRing R] [IsLocalR
     intro i
     apply RingHom.ext
     intro x
-    show Ring.DirectLimit.lift A tf T τ hcompat (ofL i x) = τ i x
+    change Ring.DirectLimit.lift A tf T τ hcompat (ofL i x) = τ i x
     exact Ring.DirectLimit.lift_of (G := A) (f := tf) T _ hcompat i x
   · intro ht_flat i
     exact goodLift_colimit_flat_over_base g t ht_id ht_comp ht_flat i
@@ -1018,7 +1018,7 @@ theorem goodLift_monogenic_step {R : Type u} [CommRing R] [IsLocalRing R]
   have hcompose :=
     flat_and_maximalIdeal_eq_map_comp R h.carrier A' h.φ m h.flat mflat h.maxeq mmaxeq
   have hι'm : ι'.comp (@ResidueField.map h.carrier A' _ _ _ _ m hm) = h.ι := by
-    show ((algebraMap F K).comp (σ : ResidueField A' →+* F)).comp
+    change ((algebraMap F K).comp (σ : ResidueField A' →+* F)).comp
       (@ResidueField.map h.carrier A' _ _ _ _ m hm) = h.ι
     rw [RingHom.comp_assoc, hσ, ← hamK]
     exact (IsScalarTower.algebraMap_eq (ResidueField h.carrier) F K).symm
@@ -1037,7 +1037,7 @@ theorem goodLift_monogenic_step {R : Type u} [CommRing R] [IsLocalRing R]
   refine ⟨h', m, hm, mflat, mmaxeq, rfl, hι'm, ?_⟩
   obtain ⟨z, hz⟩ := σ.surjective g
   refine ⟨z, ?_⟩
-  show (algebraMap F K) (σ z) = α
+  change (algebraMap F K) (σ z) = α
   rw [hz, IntermediateField.algebraMap_apply, hgdef, IntermediateField.AdjoinSimple.coe_gen]
 
 /-- Given a coherent directed system `(g, t)` of good lifts with flat transition maps and an

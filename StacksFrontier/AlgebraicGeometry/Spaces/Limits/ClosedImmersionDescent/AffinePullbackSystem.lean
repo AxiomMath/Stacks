@@ -227,7 +227,7 @@ private lemma affinePullbackStage_transition
   let lift := Pi.isPullback.lift (Pj.p ≫ a) (yoneda.map Pj.q) hsq
   let g := yoneda.preimage lift
   refine ⟨g, ?_, ?_⟩
-  · show yoneda.map g ≫ Pi.p = Pj.p ≫ a
+  · change yoneda.map g ≫ Pi.p = Pj.p ≫ a
     rw [show yoneda.map g = lift from yoneda.map_preimage lift]
     exact Pi.isPullback.lift_fst _ _ _
   · rw [show yoneda.map g = lift from yoneda.map_preimage lift]
@@ -521,7 +521,7 @@ private lemma affinePullbackSchemeDiagram_obj_isAffine
     (p₀ : yoneda.obj U₀ ⟶ D.obj (op i₀))
     (i : (AffinePullbackTail I i₀)ᵒᵖ) :
     IsAffine ((affinePullbackSchemeDiagram B S hS D hAffine i₀ U₀ hU₀ p₀).obj i) := by
-  show IsAffine ((BigFppfOver.toScheme B S hS).obj
+  change IsAffine ((BigFppfOver.toScheme B S hS).obj
     ((BigAffineFppf.inclusion B S hS).obj
       (affinePullbackStage B S hS D hAffine i₀ U₀ hU₀ p₀ i.unop).W))
   exact BigAffineFppf.isAffine_toScheme_obj B S hS
@@ -768,7 +768,7 @@ private lemma eventually_isClosedImmersion_of_affine_atlas
         _root_.AlgebraicGeometry.IsClosedImmersion.isStableUnderBaseChange.of_isPullback
           (h.map T) hf }
     apply MorphismProperty.relative_map
-    show _root_.AlgebraicGeometry.IsClosedImmersion (T.map (k (op l)))
+    change _root_.AlgebraicGeometry.IsClosedImmersion (T.map (k (op l)))
     infer_instance
   have hOuter : IsPullback (eV.hom ≫ b) (eV.hom ≫ a) p₀
       (f ≫ limit.π D (op i₀)) :=
@@ -790,7 +790,7 @@ private lemma eventually_isClosedImmersion_of_affine_atlas
   refine ⟨A.obj (op l), (P l).p, hpS', hPE (op l), ?_⟩
   have heq : hSquare.flip.isoPullback.inv ≫ yoneda.map (k (op l)) =
       pullback.snd (f ≫ limit.π D (op i)) (P l).p := IsPullback.isoPullback_inv_snd _
-  show C (pullback.snd (f ≫ limit.π D (op i)) (P l).p)
+  change C (pullback.snd (f ≫ limit.π D (op i)) (P l).p)
   rw [← heq]
   exact MorphismProperty.RespectsIso.precomp C hSquare.flip.isoPullback.inv
     (yoneda.map (k (op l))) hKC

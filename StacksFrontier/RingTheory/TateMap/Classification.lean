@@ -76,7 +76,7 @@ theorem isLocalization_away_of_mul {Q S T : Type*} [CommRing Q] [CommRing S] [Co
   let e : S' ≃ₐ[Q] T := IsLocalization.algEquiv (Submonoid.powers (y * w)) S' T
   have he : (e.toRingHom).comp (algebraMap S S') = algebraMap S T := by
     refine IsLocalization.ringHom_ext (Submonoid.powers y) (RingHom.ext fun q ↦ ?_)
-    show e (algebraMap S S' (algebraMap Q S q)) = algebraMap S T (algebraMap Q S q)
+    change e (algebraMap S S' (algebraMap Q S q)) = algebraMap S T (algebraMap Q S q)
     rw [← IsScalarTower.algebraMap_apply, AlgEquiv.commutes, ← IsScalarTower.algebraMap_apply]
   let e' : S' ≃ₐ[S] T := AlgEquiv.ofRingEquiv (f := e.toRingEquiv) fun x ↦ congr($he x)
   exact IsLocalization.isLocalization_of_algEquiv (Submonoid.powers (algebraMap Q S w)) e'
@@ -318,8 +318,8 @@ theorem classificationAlgebra_algebraMap (hk : IsUnit (algebraMap
       algebraMap (localizedCompleteIntersection A n h f) B'
         (algebraMap (MvPolynomial (Fin n) A) _ (MvPolynomial.map φ p)) := by
   let := φ.toAlgebra
-  show classificationTensorMap k φ h f hf B' hk (1 ⊗ₜ _) = _
-  show lciMap h f (MvPolynomial.map φ k) hk (classificationTensorEquiv k φ f hf (1 ⊗ₜ _)) = _
+  change classificationTensorMap k φ h f hf B' hk (1 ⊗ₜ _) = _
+  change lciMap h f (MvPolynomial.map φ k) hk (classificationTensorEquiv k φ f hf (1 ⊗ₜ _)) = _
   rw [classificationTensorEquiv_tmul, one_smul, localizedCompleteIntersectionMap_algebraMap]
   have hc := localizedCompleteIntersectionCongr_algebraMap (S := A) (n := n)
     (h := MvPolynomial.map φ k) (h' := MvPolynomial.map φ k) (f' := f) rfl (funext hf)
@@ -347,7 +347,7 @@ def classificationOf (hk : IsUnit (algebraMap (localizedCompleteIntersection A n
     elt := (classificationTensorEquiv k φ f hf).symm
       (algebraMap (MvPolynomial (Fin n) A) _ (h * g))
     isLocalization := by
-      letI := (lciMap h f (MvPolynomial.map φ k) hk).toRingHom.toAlgebra
+      let := (lciMap h f (MvPolynomial.map φ k) hk).toRingHom.toAlgebra
       have H := isLocalization_away_lciMap h f (MvPolynomial.map φ k) g (T := B') hk
       have H' := IsLocalization.isLocalization_of_base_ringEquiv (S := B')
         (Submonoid.powers (algebraMap (MvPolynomial (Fin n) A)

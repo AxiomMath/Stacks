@@ -104,7 +104,8 @@ quasi-coherence supplies a presentation: it constructs the restriction functor f
 the ambient scheme of an object over `B'` into that localised site, with its continuity and
 cocontinuity, and concludes that the comparison map is an isomorphism at every morphism whose
 target is `B'`.
-`StacksFrontier.AlgebraicGeometry.Crystalline.CrystalsModules.QuasicoherentCrystal` then glues over a
+`StacksFrontier.AlgebraicGeometry.Crystalline.CrystalsModules.QuasicoherentCrystal` then glues over
+a
 Zariski cover of the ambient scheme of the target, with the cocycle of the `f`-map and the
 locality of the crystal condition, and so proves the implication (1) ⇒ (2)(b) itself, as
 `Crystalline.GlobalCrystallineSituation.isSheafCrystal_of_isQuasicoherentOnSite`; the small site's

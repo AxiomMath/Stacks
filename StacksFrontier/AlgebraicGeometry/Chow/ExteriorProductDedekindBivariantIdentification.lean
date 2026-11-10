@@ -502,7 +502,7 @@ theorem cap_fundamentalChowClass_eq_zero_of_dimensionFunction_eq_one (hS : IsDed
     have _ : Flat g := hS.flat_of_mem_genericPoints g hgen
     have hδ := hδ1 hgen
     have hge : 1 ≤ relativeDimension C.dimensionFunction g η := by
-      show 1 ≤ C.dimensionFunction (g.base η) + (Cardinal.toNat (residueTrdeg g η) : ℤ)
+      change 1 ≤ C.dimensionFunction (g.base η) + (Cardinal.toNat (residueTrdeg g η) : ℤ)
       omega
     set r := (relativeDimension C.dimensionFunction g η - 1).toNat with hrdef
     have hr : AlgebraicGeometry.RelativeDimension g r := by
@@ -575,7 +575,7 @@ theorem cap_fundamentalChowClass_eq_zero_of_dimensionFunction_eq_one (hS : IsDed
     have _ : LocallyOfFiniteType (h ≫ D.subschemeι ≫ V.ι) := by rw [hhfac]; infer_instance
     have _ : LocallyOfFiniteType h := locallyOfFiniteType_of_comp h (D.subschemeι ≫ V.ι)
     have hnn : 0 ≤ relativeDimension C.dimensionFunction g η := by
-      show 0 ≤ C.dimensionFunction s + (Cardinal.toNat (residueTrdeg g η) : ℤ)
+      change 0 ≤ C.dimensionFunction s + (Cardinal.toNat (residueTrdeg g η) : ℤ)
       omega
     set r := (relativeDimension C.dimensionFunction g η).toNat with hrdef
     have hr : AlgebraicGeometry.RelativeDimension h r := by
@@ -584,7 +584,7 @@ theorem cap_fundamentalChowClass_eq_zero_of_dimensionFunction_eq_one (hS : IsDed
         Order.coheight_eq_zero.mpr fun b _ ↦ le_of_eq (Subsingleton.elim _ _)
       rw [hmax, zero_add, hhfac, relativeDimension_comp_closedImmersion, ← Category.comp_id V.ι,
         relativeDimension_opensι_comp, relativeDimension_id, hDpt]
-      show (r : ℕ∞) = ((relativeDimension C.dimensionFunction g η -
+      change (r : ℕ∞) = ((relativeDimension C.dimensionFunction g η -
         C.dimensionFunction s).toNat : ℕ∞)
       rw [hδs, sub_zero]
     -- `c` kills `[V]₁`
@@ -705,7 +705,7 @@ theorem exists_bivariantClass_cap_eq_of_closedPoint (hS : IsDedekindChowBase C) 
   have _ : LocallyOfFiniteType h := locallyOfFiniteType_of_comp h D.subschemeι
   have hnn : 0 ≤ 1 - p := by
     rw [← hδ]
-    show 0 ≤ C.dimensionFunction (sU'.base (genericPoint U')) +
+    change 0 ≤ C.dimensionFunction (sU'.base (genericPoint U')) +
       (Cardinal.toNat (residueTrdeg sU' (genericPoint U')) : ℤ)
     rw [hpt, hδs]
     omega
@@ -717,7 +717,7 @@ theorem exists_bivariantClass_cap_eq_of_closedPoint (hS : IsDedekindChowBase C) 
       Order.coheight_eq_zero.mpr fun b _ ↦ le_of_eq (Subsingleton.elim _ _)
     rw [hmax, zero_add, hh, hδ, relativeDimension_comp_closedImmersion,
       relativeDimension_comp_isOpenImmersion, relativeDimension_id, hDpt]
-    show (r : ℕ∞) = ((1 - p - C.dimensionFunction s).toNat : ℕ∞)
+    change (r : ℕ∞) = ((1 - p - C.dimensionFunction s).toNat : ℕ∞)
     rw [hδs, sub_zero, ← hr1, Int.toNat_natCast]
   -- the class
   let γ := (gysinBivariantClass C (V.ι ≫ 𝟙 C.S) L σ).1
@@ -764,7 +764,7 @@ theorem exists_bivariantClass_cap_eq_of_closedPoint (hS : IsDedekindChowBase C) 
       relativeDimension_id,
       ← Scheme.Hom.comp_apply (pullback.snd D.subschemeι t) t, ← pullback.condition,
       Scheme.Hom.comp_apply, hDpt]
-    show C.dimensionFunction s ≤ 1 - 1
+    change C.dimensionFunction s ≤ 1 - 1
     rw [hδs]
     norm_num
   have h5 := IsBivariantFlatPullback.cap_fundamentalChowClass
@@ -851,7 +851,7 @@ theorem exists_cycle_mem_range_of_mem_genericPoints (hS : IsDedekindChowBase C)
     have h1 := hδ j₀
     have h2 : C.dimensionFunction (sX.base (y j₀)) ≤
         relativeDimension C.dimensionFunction sX (y j₀) := by
-      show _ ≤ C.dimensionFunction (sX.base (y j₀)) +
+      change _ ≤ C.dimensionFunction (sX.base (y j₀)) +
         (Cardinal.toNat (residueTrdeg sX (y j₀)) : ℤ)
       omega
     rw [hδ1] at h2
@@ -881,7 +881,7 @@ theorem exists_cycle_mem_range_of_mem_genericPoints (hS : IsDedekindChowBase C)
       rw [hδ j, hδ1]
       omega
     rw [e] at h
-    exact AlgebraicGeometry.RelativeDimension.of_eq (Sigma.ι_desc_assoc _ _ _).symm h
+    exact AlgebraicGeometry.RelativeDimension.of_eq (Sigma.ι_comp_desc_assoc _ _ _).symm h
   exact exists_cycle_mem_range_of_sigma C sX (-(r : ℤ)) y hδ
     (flatPullbackBivariantClassOfInvertible C (Sigma.desc v ≫ sX) (𝟙 C.S) (Sigma.desc v ≫ sX)
         (Category.comp_id _) r hr)
@@ -933,13 +933,13 @@ theorem exists_cycle_mem_range_of_notMem_genericPoints (hS : IsDedekindChowBase 
   have hUXpt : ∀ j (w : (UX j : Scheme.{u})), sW.base ((UX j).ι.base w) = sX.base (y j) := by
     intro j w
     obtain ⟨z, hz⟩ := w.2
-    show sW.base w.1 = _
-    rw [← hz, hsW, ← Scheme.Hom.comp_apply, ← Category.assoc, Sigma.ι_desc, Scheme.Hom.comp_apply,
-      hZpt]
+    change sW.base w.1 = _
+    rw [← hz, hsW, ← Scheme.Hom.comp_apply, ← Category.assoc, Sigma.ι_comp_desc,
+      Scheme.Hom.comp_apply, hZpt]
   have ha : ∀ j, UX j ≤ sW ⁻¹ᵁ V j := by
     intro j w hw
     have h1 := hUXpt j ⟨w, hw⟩
-    show sW.base w ∈ V j
+    change sW.base w ∈ V j
     change sW.base w = _ at h1
     rw [h1]
     exact hsV j
@@ -1005,10 +1005,10 @@ theorem exists_cycle_mem_range_of_notMem_genericPoints (hS : IsDedekindChowBase 
     have hx : sX.base (y j) ∈ (𝟙 C.S) ⁻¹ᵁ V j := hsV j
     have hx' : t₀ j ∈ (𝟙 C.S) ⁻¹ᵁ V j := (hts j).mem_open (V j).isOpen (hsV j)
     refine hc j (Scheme.Hom.resLE (𝟙 C.S) (V j) ((𝟙 C.S) ⁻¹ᵁ V j) le_rfl) ⟨_, hx⟩ ⟨_, hx'⟩ ?_ ?_
-    · show ((Scheme.Hom.resLE (𝟙 C.S) (V j) ((𝟙 C.S) ⁻¹ᵁ V j) le_rfl).base ⟨_, hx⟩).1 = _
+    · change ((Scheme.Hom.resLE (𝟙 C.S) (V j) ((𝟙 C.S) ⁻¹ᵁ V j) le_rfl).base ⟨_, hx⟩).1 = _
       rw [Scheme.Hom.coe_resLE_apply]
       rfl
-    · show ((Scheme.Hom.resLE (𝟙 C.S) (V j) ((𝟙 C.S) ⁻¹ᵁ V j) le_rfl).base ⟨_, hx'⟩).1 = _
+    · change ((Scheme.Hom.resLE (𝟙 C.S) (V j) ((𝟙 C.S) ⁻¹ᵁ V j) le_rfl).base ⟨_, hx'⟩).1 = _
       rw [Scheme.Hom.coe_resLE_apply]
       rfl
   refine exists_cycle_mem_range_of_sigma C sX p y hδ ξ ?_
@@ -1047,10 +1047,10 @@ theorem exists_cycle_mem_range_of_multiplicity (a : CycleGroup C sX (1 - p)) (Q 
   refine ⟨P, hP, fun x ↦ ?_⟩
   rw [hPy]
   by_cases hx : x ∈ Function.support (a.1 : X → ℤ) ∧ Q x
-  · rw [dif_pos hx]
+  · rw [dite_eq_left hx]
     exact (finsum_mem_preimage_sigma_fst_one (fun i : I ↦ ((i.1 : _) : X))
       (fun i i' h ↦ Subtype.ext (Subtype.ext h)) ⟨⟨x, hx.1⟩, hx.2⟩).trans (by simp)
-  · rw [dif_neg hx]
+  · rw [dite_eq_right hx]
     refine (finsum_mem_congr (Set.eq_empty_of_forall_notMem fun j hj ↦ hx ?_)
       fun _ _ ↦ rfl).trans finsum_mem_empty
     have hj' : (j.1.1 : X) = x := hj
@@ -1084,20 +1084,20 @@ theorem bivariantCapBaseFundamentalClass_surjective (hS : IsDedekindChowBase C)
   obtain ⟨P₄, hP₄, hP₄y⟩ := hv fun i ↦ (-a.1 i).toNat
   have hsub : a = P₁ - P₂ + (P₃ - P₄) := by
     refine Subtype.ext (Function.locallyFinsuppWithin.ext fun x ↦ ?_)
-    show a.1 x = P₁.1 x - P₂.1 x + (P₃.1 x - P₄.1 x)
+    change a.1 x = P₁.1 x - P₂.1 x + (P₃.1 x - P₄.1 x)
     rw [hP₁y, hP₂y, hP₃y, hP₄y]
     by_cases hx : x ∈ Function.support (a.1 : X → ℤ)
     · by_cases hg : sX.base x ∈ genericPoints C.S
-      · rw [dif_pos ⟨hx, hg⟩, dif_pos ⟨hx, hg⟩, dif_neg (fun h ↦ h.2 hg),
-          dif_neg (fun h ↦ h.2 hg)]
+      · rw [dite_eq_left ⟨hx, hg⟩, dite_eq_left ⟨hx, hg⟩, dite_eq_right (fun h ↦ h.2 hg),
+          dite_eq_right (fun h ↦ h.2 hg)]
         simp only
         omega
-      · rw [dif_neg (fun h ↦ hg h.2), dif_neg (fun h ↦ hg h.2), dif_pos ⟨hx, hg⟩,
-          dif_pos ⟨hx, hg⟩]
+      · rw [dite_eq_right (fun h ↦ hg h.2), dite_eq_right (fun h ↦ hg h.2), dite_eq_left ⟨hx, hg⟩,
+          dite_eq_left ⟨hx, hg⟩]
         simp only
         omega
-    · rw [dif_neg (fun h ↦ hx h.1), dif_neg (fun h ↦ hx h.1), dif_neg (fun h ↦ hx h.1),
-        dif_neg (fun h ↦ hx h.1)]
+    · rw [dite_eq_right (fun h ↦ hx h.1), dite_eq_right (fun h ↦ hx h.1),
+        dite_eq_right (fun h ↦ hx h.1), dite_eq_right (fun h ↦ hx h.1)]
       simpa using hx
   have hmem : QuotientAddGroup.mk' (rationalEquivalences C sX (1 - p)) a ∈
       (bivariantCapBaseFundamentalClass C (gysinSystemOfInvertible C) sX p).range := by

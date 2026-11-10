@@ -65,7 +65,8 @@ the two being identified by `isCohenMacaulayLocalRing_iff_isMaximalCohenMacaulay
 
 Krull dimensions are `ringKrullDim`, valued in `WithBot ℕ∞`, and the source's `dim(R/fR) = d₂ - 1`
 is stated additively as `dim(R/fR) + 1 = dim(R)`, as in
-`ringKrullDim_add_length_eq_ringKrullDim_of_isRegular` and in the statement of Lemma 02JN; the strict
+`ringKrullDim_add_length_eq_ringKrullDim_of_isRegular` and in the statement of Lemma 02JN; the
+strict
 inequality `dim(R/fR) < dim(R)` is recorded separately because it is what the source's conclusion
 (a) literally says. The `IsLocalRing` structure on the quotient `R ⧸ (u f)` is bound
 existentially, again following the statement of Lemma 02JN, since `f` is itself existentially bound

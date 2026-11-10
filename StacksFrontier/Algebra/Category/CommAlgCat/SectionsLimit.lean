@@ -154,7 +154,7 @@ theorem surjective_sectionsCone_π
     refine (mem_sectionsSubalgebra_iff a).mpr fun i j f => ?_
     obtain ⟨m⟩ := i
     obtain ⟨n⟩ := j
-    show F.map f (F.map _ (seq m)) = F.map _ (seq n)
+    change F.map f (F.map _ (seq m)) = F.map _ (seq n)
     rw [← hseq (leOfHom f.unop), ← ConcreteCategory.comp_apply, ← F.map_comp,
       ← ConcreteCategory.comp_apply, ← F.map_comp]
     rfl
@@ -175,7 +175,7 @@ theorem ker_sectionsCone_π_zero_sq_eq_bot
       c ∈ RingHom.ker ((sectionsCone F).π.app (op 0)).hom.toRingHom →
         c.1 (op n) ∈ RingHom.ker (F.map (homOfLE (Nat.zero_le n)).op).hom.toRingHom := by
     intro c hc
-    show F.map (homOfLE (Nat.zero_le n)).op (c.1 (op n)) = 0
+    change F.map (homOfLE (Nat.zero_le n)).op (c.1 (op n)) = 0
     rw [(mem_sectionsSubalgebra_iff c.1).mp c.2]
     exact hc
   have := Ideal.mul_mem_mul (hmem a ha) (hmem b hb)

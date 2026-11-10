@@ -249,8 +249,7 @@ theorem tensorHomComplex_differential_component
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul f k =>
       change (HomologicalComplex.ιTensorObj (HomComplexR R L M) K
             (p + q + 1) r (p + q + r + 1) (by omega)).hom

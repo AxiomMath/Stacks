@@ -70,6 +70,7 @@ theorem relativelyRepresentable_toBase_of_subsingleton :
     (Space.relativelyRepresentable_yoneda_map B integerBase hZ q)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance synthesis on the chart schemes of `Space.smallBaseChange` is deep
 include hY hAff hNoeth in
 /-- **The chart of the total space over the identity chart of the base is a Noetherian scheme of
 dimension at most one.** Its structure map to the total space is an isomorphism, so it is
@@ -92,7 +93,7 @@ theorem noetherianSpace_and_dim_le_chartScheme_smallBaseChange_idEtaleChart
     (fun A' m => ObjectProperty.hom_ext _ (CostructuredArrow.hom_ext _ _
       (yoneda.map_injective (by
         have hw := CostructuredArrow.w m.hom
-        show _ = yoneda.map (yoneda.preimage (A'.obj.hom ≫ inv W.obj.hom))
+        change _ = yoneda.map (yoneda.preimage (A'.obj.hom ≫ inv W.obj.hom))
         rw [Functor.map_preimage, ← hw]
         simp))))
   let i : W ≅ A := hWt.uniqueUpToIso hA

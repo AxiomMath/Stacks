@@ -110,7 +110,7 @@ theorem exists_restrictDerivedExtClass_eq_iff_obstructionExtClass_eq_zero {f : X
         restrictDerivedExtClass (derivedPullbackNaiveCotangentMap f t) z = η) ↔
       obstructionExtClass w η = 0 := by
   refine (exists_mor₁_comp_eq_iff_of_distTriang _ htri η).trans ?_
-  show w ≫ η⟦(1 : ℤ)⟧' = 0 ↔ ShiftedHom.comp w η _ = 0
+  change w ≫ η⟦(1 : ℤ)⟧' = 0 ↔ ShiftedHom.comp w η _ = 0
   rw [ShiftedHom.comp, ← Category.assoc]
   refine ⟨fun h => by rw [h, zero_comp], fun h => ?_⟩
   rwa [← cancel_mono ((shiftFunctorAdd'

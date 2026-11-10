@@ -191,7 +191,7 @@ private theorem homComplexRestrictScalarsMap_naturality
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro z
-  show (((Cochain.ofHom a).comp z (zero_add n)).comp
+  change (((Cochain.ofHom a).comp z (zero_add n)).comp
       (Cochain.ofHom b) (add_zero n)).map (ModuleCat.restrictScalars f) = _
   simp only [Cochain.map_comp, Cochain.map_ofHom]
   rfl
@@ -231,7 +231,7 @@ private theorem homComplexExtendRestrictScalarsMap_f_apply
     (((homComplexExtendRestrictScalarsMap.{uR, uA, uM} f K J).f n) z).v p q hpq =
       (ModuleCat.extendRestrictScalarsAdj.{max uR uM, uR, uA} f).homEquiv
         (K.X p) (J.X q) (z.v p q hpq) := by
-  show ((Cochain.ofHom (extendScalarsComplexUnit.{uR, uA, uM} f K)).comp
+  change ((Cochain.ofHom (extendScalarsComplexUnit.{uR, uA, uM} f K)).comp
     (z.map (ModuleCat.restrictScalars f)) (zero_add n)).v p q hpq = _
   erw [Cochain.zero_cochain_comp_v, Cochain.ofHom_v, Cochain.map_v]
   rfl
@@ -289,7 +289,7 @@ private theorem homComplexExtendRestrictScalarsMap_naturality
   apply LinearMap.ext
   intro z
   change Cochain ((CochainComplex.extendScalarsLarge.{uM, uR, uA} f).obj K) J n at z
-  show ((homComplexExtendRestrictScalarsMap.{uR, uA, uM} f K' J').f n)
+  change ((homComplexExtendRestrictScalarsMap.{uR, uA, uM} f K' J').f n)
       (((Cochain.ofHom ((CochainComplex.extendScalarsLarge.{uM, uR, uA} f).map a)).comp z
         (zero_add n)).comp (Cochain.ofHom b) (add_zero n)) =
     ((Cochain.ofHom a).comp
@@ -303,7 +303,7 @@ private theorem homComplexExtendRestrictScalarsMap_naturality
     Cochain.ofHom_v, Cochain.ofHom_v,
     Cochain.comp_zero_cochain_v, Cochain.zero_cochain_comp_v,
     Cochain.ofHom_v, Cochain.ofHom_v, homComplexExtendRestrictScalarsMap_f_apply]
-  show (ModuleCat.extendRestrictScalarsAdj.{max uR uM, uR, uA} f).homEquiv _ _
+  change (ModuleCat.extendRestrictScalarsAdj.{max uR uM, uR, uA} f).homEquiv _ _
       ((ModuleCat.extendScalars f).map (a.f p) ≫ z.v p q hpq ≫ b.f q) = _
   rw [Adjunction.homEquiv_naturality_left, Adjunction.homEquiv_naturality_right]
   exact (Category.assoc _ _ _).symm
@@ -333,7 +333,7 @@ public theorem homComplexChangeOfRingsMap_f_apply
     (((homComplexChangeOfRingsMap.{uR, uA, uM} f K J I q).f n) z).v p r hpr =
       (ModuleCat.extendRestrictScalarsAdj.{max uR uM, uR, uA} f).homEquiv
         (K.X p) (J.X r) (z.v p r hpr) ≫ q.f r := by
-  show ((((homComplexExtendRestrictScalarsMap.{uR, uA, uM} f K J).f n) z).comp
+  change ((((homComplexExtendRestrictScalarsMap.{uR, uA, uM} f K J).f n) z).comp
     (Cochain.ofHom q) (add_zero n)).v p r hpr = _
   erw [Cochain.comp_zero_cochain_v, Cochain.ofHom_v]
   rw [homComplexExtendRestrictScalarsMap_f_apply]
@@ -555,9 +555,9 @@ private theorem homComplexCocycleMap_mem_coboundaries
     homComplexCocycleMap g n z ∈ coboundaries K' L' n := by
   obtain ⟨m, hm, w, hw⟩ := hz
   refine ⟨m, hm, (g.f m) w, ?_⟩
-  show ((g.f m) ≫ (HomComplex K' L').d m n) w = _
+  change ((g.f m) ≫ (HomComplex K' L').d m n) w = _
   rw [g.comm]
-  show (g.f n) (δ m n w) = (g.f n) (z : Cochain K L n)
+  change (g.f n) (δ m n w) = (g.f n) (z : Cochain K L n)
   rw [hw]
 
 /-- The induced additive map on the quotient of cocycles by coboundaries. -/
@@ -612,7 +612,7 @@ private theorem homotopyToDerivedEquiv_map
     {K I : CochainComplex C ℤ} [I.IsKInjective] (g : K ⟶ I) :
     homotopyToDerivedEquiv K I ((HomotopyCategory.quotient C (.up ℤ)).map g) =
       DerivedCategory.Q.map g := by
-  show (DerivedCategory.quotientCompQhIso C).inv.app K ≫
+  change (DerivedCategory.quotientCompQhIso C).inv.app K ≫
     DerivedCategory.Qh.map ((HomotopyCategory.quotient C (.up ℤ)).map g) ≫
     (DerivedCategory.quotientCompQhIso C).hom.app I = _
   rw [DerivedCategory.quotientCompQhIso_hom_naturality]
@@ -662,7 +662,7 @@ private theorem homComplexChangeOfRingsAbMap_homShift
   rw [Cochain.rightShift_v _ n 0 (zero_add n) p p (add_zero p) (p + n) rfl]
   simp only [shiftFunctorObjXIso, HomologicalComplex.XIsoOfEq, eqToIso_refl,
     Iso.refl_inv, Category.comp_id]
-  show (((homComplexChangeOfRingsMap.{uR, uA, uM} f K J I q).f n)
+  change (((homComplexChangeOfRingsMap.{uR, uA, uM} f K J I q).f n)
     (z : Cochain _ _ n)).v p (p + n) rfl = _
   rw [homComplexChangeOfRingsMap_f_apply]
   simp only [Adjunction.homEquiv_unit, HomologicalComplex.comp_f,
@@ -704,7 +704,7 @@ private theorem quasiIso_homComplexChangeOfRingsMap
   have : IsIso (α.app K) := isIso_extendScalarsCounit_app_of_kFlat f F α K hK
   apply (HomologicalComplex.quasiIso_map_iff_of_preservesHomology _
     (forget₂ (ModuleCat.{max uR uA uM} R) Ab)).1
-  show QuasiIso (homComplexChangeOfRingsAbMap.{uR, uA, uM} f K J I q)
+  change QuasiIso (homComplexChangeOfRingsAbMap.{uR, uA, uM} f K J I q)
   rw [quasiIso_homComplex_iff]
   intro n
   let β := (ModuleCat.restrictScalars.{max uR uA uM, uR, uA} f).mapDerivedCategoryFactors
@@ -726,12 +726,12 @@ private theorem quasiIso_homComplexChangeOfRingsMap
       (homComplexChangeOfRingsAbMap.{uR, uA, uM} f K J I q) n = dmap ∘ e₁ := by
     funext z
     obtain ⟨z, rfl⟩ := CohomologyClass.mk_surjective z
-    show homComplexCohomologyDerivedEquiv K I n
+    change homComplexCohomologyDerivedEquiv K I n
         (CohomologyClass.mk (homComplexCocycleMap
           (homComplexChangeOfRingsAbMap.{uR, uA, uM} f K J I q) n z)) = _
     rw [homComplexCohomologyDerivedEquiv_mk,
       homComplexChangeOfRingsAbMap_homShift]
-    show DerivedCategory.Q.map
+    change DerivedCategory.Q.map
       ((mapCochainAdjunction
         (ModuleCat.extendRestrictScalarsAdj.{max uR uM, uR, uA} f)).homEquiv _ _
           (Cocycle.equivHomShift.symm z) ≫ qn) = _

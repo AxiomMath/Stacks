@@ -281,7 +281,9 @@ lemma sheafTensor_obj_map_restriction {F F' : RingedSite.Modules.{c, u, u} X} (�
       sliceTensorRightMap X U α G :=
   rfl
 
-omit [(sheafTensor.{c, u, u, u, u} X.O).Additive]
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+    [(X.J.over U).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+    [(sheafTensor.{c, u, u, u, u} X.O).Additive]
     [∀ M, ((sheafTensor.{c, u, u, u, u} X.O).obj M).Additive]
     [(sheafTensor.{max c u, u, u, u, u} (X.O.over U)).Additive]
     [∀ M, ((sheafTensor.{max c u, u, u, u, u} (X.O.over U)).obj M).Additive]
@@ -333,7 +335,9 @@ lemma extensionTensorIso_naturality_left {G G' : RingedSite.Modules.{max c u, u,
 
 /-! ### The comparison of the two bicomplexes -/
 
-omit [∀ (K L : CochainComplex (RingedSite.Modules.{c, u, u} X) ℤ),
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+    [(X.J.over U).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+    [∀ (K L : CochainComplex (RingedSite.Modules.{c, u, u} X) ℤ),
       HomologicalComplex.HasMapBifunctor K L (sheafTensor.{c, u, u, u, u} X.O) (ComplexShape.up ℤ)]
     [∀ (K L : CochainComplex (RingedSite.Modules.{max c u, u, u} (X.over U)) ℤ),
       HomologicalComplex.HasMapBifunctor K L (sheafTensor.{max c u, u, u, u, u} (X.O.over U))
@@ -412,7 +416,9 @@ def tensorComplexExtensionIso :
 
 /-! ### K-flatness of the restriction -/
 
-omit [HasBinaryBiproducts (RingedSite.Modules.{c, u, u} X)]
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+    [(X.J.over U).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+    [HasBinaryBiproducts (RingedSite.Modules.{c, u, u} X)]
     [HasBinaryBiproducts (RingedSite.Modules.{max c u, u, u} (X.over U))] in
 /-- **Stacks Project, Tag 0E8K over a site with large objects.** Let `(C, O)` be a ringed site
 whose objects form a type in an arbitrary universe `c` while its morphisms, the sections of `O`

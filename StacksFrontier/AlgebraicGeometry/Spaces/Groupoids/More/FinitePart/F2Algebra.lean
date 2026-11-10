@@ -220,7 +220,7 @@ theorem sectionMap_comp_baseMap
     sectionMap P opr hres ≫ P.baseMap = 𝟙 Y.obj := by
   ext T y
   apply yonedaEquiv.symm.injective
-  show yonedaEquiv.symm (P.baseMap.app T ((sectionMap P opr hres).app T y)) =
+  change yonedaEquiv.symm (P.baseMap.app T ((sectionMap P opr hres).app T y)) =
     yonedaEquiv.symm y
   rw [P.baseMap_spec, sections_sectionMap]
   rfl

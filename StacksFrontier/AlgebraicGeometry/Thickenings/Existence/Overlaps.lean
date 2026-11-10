@@ -101,7 +101,7 @@ private lemma affineThickeningSkeleton_existsUnique_lift
     have h𝒯f (k : 𝒰.I₀) : 𝒯.f k = pullback.fst j (𝒰.f k) := rfl
     apply 𝒯.hom_ext
     intro k
-    show pullback.fst j (𝒰.f k) ≫ j ≫ f =
+    change pullback.fst j (𝒰.f k) ≫ j ≫ f =
       pullback.fst j (𝒰.f k) ≫ a ≫ H.inclusion
     calc
       pullback.fst j (𝒰.f k) ≫ j ≫ f =
@@ -229,13 +229,13 @@ private lemma affineChartToBase_comp_ι {Z X : Scheme.{u}} (h : Z ⟶ X)
     exact Scheme.Hom.resLE_comp_ι h (U := U) (V := h ⁻¹ᵁ U) le_rfl
   have href : affineSourceChartMap h i ≫ (h ⁻¹ᵁ U).ι =
       (affineSourceCover h).f i := by
-    show ((affinePreimageCover h).X i.1).affineCover.f i.2 ≫ (h ⁻¹ᵁ U).ι =
+    change ((affinePreimageCover h).X i.1).affineCover.f i.2 ≫ (h ⁻¹ᵁ U).ι =
       (affinePreimageCover h).affineRefinement.openCover.f i
     exact (affinePreimageCover h).fromAffineRefinement.w₀ i
   calc
     affineChartToBase h i ≫ U.ι =
         affineSourceChartMap h i ≫ ((h ∣_ U) ≫ U.ι) := by
-          show (affineSourceChartMap h i ≫ (h ∣_ U)) ≫ U.ι =
+          change (affineSourceChartMap h i ≫ (h ∣_ U)) ≫ U.ι =
             affineSourceChartMap h i ≫ ((h ∣_ U) ≫ U.ι)
           exact Category.assoc _ _ _
     _ = affineSourceChartMap h i ≫ ((h ⁻¹ᵁ U).ι ≫ h) :=
@@ -405,7 +405,7 @@ lemma isoOfIsUniversal_hom_fac
   let ef := hBuniv.existsUnique_lift iA hAuniv.isFirstOrderThickening
     (𝟙 Z) hA hAuniv.inclusion_toBase
   have hf := Classical.choose_spec ef.exists
-  show iA ≫ Classical.choose ef.exists = iB
+  change iA ≫ Classical.choose ef.exists = iB
   simpa [ef] using hf.1
 
 /-- `isoOfIsUniversal` is a morphism over the base. -/
@@ -419,7 +419,7 @@ lemma isoOfIsUniversal_hom_toBase
   let ef := hBuniv.existsUnique_lift iA hAuniv.isFirstOrderThickening
     (𝟙 Z) hA hAuniv.inclusion_toBase
   have hf := Classical.choose_spec ef.exists
-  show Classical.choose ef.exists ≫ hB = hA
+  change Classical.choose ef.exists ≫ hB = hA
   exact hf.2
 
 /-- The charts of an open cover are open immersions. -/
@@ -589,7 +589,7 @@ noncomputable def sourceOverlapIso {Z : Scheme.{u}} (𝒰 : Z.OpenCover)
 lemma sourceOverlapIso_self {Z : Scheme.{u}} (𝒰 : Z.OpenCover) (i : 𝒰.I₀) :
     (sourceOverlapIso 𝒰 i i).hom = 𝟙 _ := by
   apply (cancel_mono ((sourceOverlap 𝒰 i i).ι ≫ 𝒰.f i)).mp
-  show (IsOpenImmersion.isoOfRangeEq _ _ _).hom ≫ _ = _
+  change (IsOpenImmersion.isoOfRangeEq _ _ _).hom ≫ _ = _
   exact IsOpenImmersion.isoOfRangeEq_hom_fac
     ((sourceOverlap 𝒰 i i).ι ≫ 𝒰.f i)
     ((sourceOverlap 𝒰 i i).ι ≫ 𝒰.f i) (sourceOverlap_range 𝒰 i i)
@@ -643,7 +643,7 @@ lemma tripleRestrictionMap_opensRange {Z X : Scheme.{u}}
   rw [Scheme.Opens.opensRange_ι, Scheme.Opens.opensRange_ι,
     Scheme.Opens.opensRange_ι]
   apply SetLike.coe_injective
-  show (thickeningHomeomorph (A i).inclusion
+  change (thickeningHomeomorph (A i).inclusion
       (A i).isUniversal.isFirstOrderThickening.isThickening) ''
       (sourceOverlap 𝒰 i j ⊓ sourceOverlap 𝒰 i k : Set (𝒰.X i)) =
     ((thickeningHomeomorph (A i).inclusion

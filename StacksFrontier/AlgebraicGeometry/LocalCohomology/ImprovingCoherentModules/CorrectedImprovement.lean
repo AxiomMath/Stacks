@@ -2,8 +2,7 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.CoherentFinite.Basic
 public import StacksFrontier.AlgebraicGeometry.CoherentTFAE.Basic
-public import
-  StacksFrontier.AlgebraicGeometry.LocalCohomology.ImprovingCoherentModules.ImprovementExistenceClosed
+public import StacksFrontier.AlgebraicGeometry.LocalCohomology.ImprovingCoherentModules.ImprovementExistenceClosed
 public import StacksFrontier.AlgebraicGeometry.LocalCohomology.ImprovingCoherentModules.ImprovementExistenceCounterexample
 public import
   StacksFrontier.AlgebraicGeometry.LocalCohomology.ImprovingCoherentModules.LowDepthLocusClosure

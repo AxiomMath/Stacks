@@ -1,7 +1,7 @@
 module
 
 public import
-  StacksFrontier.AlgebraicGeometry.FundamentalGroup.PurityRamification.LowEmbeddingDimensionUnramified
+StacksFrontier.AlgebraicGeometry.FundamentalGroup.PurityRamification.LowEmbeddingDimensionUnramified
 public import StacksFrontier.AlgebraicGeometry.FundamentalGroup.PurityRamification.QuasiFiniteCase
 public import StacksFrontier.AlgebraicGeometry.FundamentalGroup.PurityRamificationLocus.CutByParameter
 public import StacksFrontier.AlgebraicGeometry.Morphisms.Unramified.Properties
@@ -75,7 +75,7 @@ theorem exists_specializes_isLocalization_atPrime_stalk {X : Scheme.{u}} (x : X)
     (Stacks.StalkSpecialization.isLocalization_atPrime_stalkSpecializes hz)
   have h1 : X.fromSpecStalk x
       ((Spec.map (X.presheaf.stalkSpecializes hz)) (closedPoint (X.presheaf.stalk z))) = z := by
-    show (Spec.map (X.presheaf.stalkSpecializes hz) ≫ X.fromSpecStalk x)
+    change (Spec.map (X.presheaf.stalkSpecializes hz) ≫ X.fromSpecStalk x)
       (closedPoint (X.presheaf.stalk z)) = z
     rw [Scheme.SpecMap_stalkSpecializes_fromSpecStalk hz, Scheme.fromSpecStalk_closedPoint]
   exact congrArg PrimeSpectrum.asIdeal (hinj h1)

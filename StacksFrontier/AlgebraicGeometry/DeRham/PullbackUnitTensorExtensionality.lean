@@ -215,7 +215,7 @@ theorem tensor_hom_ext_of_unitSections
       (tensorEvalMap v U (x ⊗ₜ[Z.presheaf.obj U] y)) ∈ JX Z U.unop := by
     refine (JX Z).superset_covering ?_ ((JX Z).intersection_covering hxS hyS)
     rintro W i ⟨hi₁, hi₂⟩
-    show C.val.map i.op (tensorEvalMap u U (x ⊗ₜ[Z.presheaf.obj U] y)) =
+    change C.val.map i.op (tensorEvalMap u U (x ⊗ₜ[Z.presheaf.obj U] y)) =
       C.val.map i.op (tensorEvalMap v U (x ⊗ₜ[Z.presheaf.obj U] y))
     exact Eq.trans (tensorEvalMap_restrict u i.op x y)
       (Eq.trans

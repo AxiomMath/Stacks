@@ -100,7 +100,7 @@ an étale chart `V` on which `M` is free of rank `n`. -/
 theorem mem_rankLocus_iff (M : Modules.{u, u} B S hS Y.1 Y.2) (n : ℕ) (y : points B S hS Y.1) :
     y ∈ rankLocus M n ↔ ∃ (V : SmallEtale B S hS Y.1) (v : chartScheme V),
       IsFreeOfRankOn M V n ∧ chartSchemeToPoints B S hS Y.1 V v = y := by
-  simp only [rankLocus, Set.mem_iUnion, Set.mem_setOf_eq, exists_prop]
+  simp only [rankLocus, Set.mem_iUnion, Set.mem_ofPred_eq, exists_prop]
   constructor
   · rintro ⟨V, hV, hy⟩
     obtain ⟨v, hv⟩ := exists_chartSchemeToPoints_eq_of_mem_range B S hS V hy

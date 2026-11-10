@@ -14,8 +14,8 @@ Let a group `G` act freely on an object `V` of a big fppf site over a scheme `S`
 the chart `h_V ⟶ V/G` is defined as
 `AlgebraicGeometry.Space.freeActionQuotientMap`, a morphism of presheaves on the big fppf site.
 
-The results about that chart which are in the library — that its kernel pair is the disjoint union of
-one copy of `V` per group element, and that it is finite locally free and surjective — are all
+The results about that chart which are in the library — that its kernel pair is the disjoint union
+of one copy of `V` per group element, and that it is finite locally free and surjective — are all
 stated in that presheaf spelling, as properties holding after every representable base change.
 This file moves the chart into the *spaces-étale site of the quotient*, which is the site on
 which [Stacks, Tag 0727] speaks: it reads the two properties of the chart that the small site

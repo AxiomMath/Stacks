@@ -72,9 +72,9 @@ instance isClosedUnderFiniteCoproducts_isCoherentOnSite :
       (fun M : _root_.SheafOfModules.{w} R => _root_.SheafOfModules.IsCoherentOnSite M) where
   isClosedUnderColimitsOfShape I _ := by
     refine ⟨fun X ⟨h⟩ => ?_⟩
-    haveI : HasColimitsOfShape (Discrete I) (PresheafOfModules.{w} R.obj) :=
+    have : HasColimitsOfShape (Discrete I) (PresheafOfModules.{w} R.obj) :=
       PresheafOfModules.hasColimitsOfShape _ _
-    haveI : HasColimitsOfShape (Discrete I) (_root_.SheafOfModules.{w} R) :=
+    have : HasColimitsOfShape (Discrete I) (_root_.SheafOfModules.{w} R) :=
       SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
         R (Discrete I)
     let f : I → _root_.SheafOfModules.{w} R := fun j => h.diag.obj ⟨j⟩

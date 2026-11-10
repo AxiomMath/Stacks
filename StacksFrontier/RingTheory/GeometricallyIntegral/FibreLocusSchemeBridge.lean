@@ -107,9 +107,9 @@ of the base and no transport along a homeomorphism appears in any statement.
 Nothing here carries a Stacks tag. These are bridge lemmas between two spellings of one condition,
 not statements of the source. That the equivalences are not vacuous is proved rather than asserted:
 the two degenerate hypersurfaces of
-`StacksFrontier.RingTheory.GeometricallyIntegral.HypersurfaceFibreIrreducibility0559` are transported
-in the final section, giving a morphism all of whose fibres satisfy the scheme-side condition and
-another, in the same family, none of whose fibres do.
+`StacksFrontier.RingTheory.GeometricallyIntegral.HypersurfaceFibreIrreducibility0559` are
+transported in the final section, giving a morphism all of whose fibres satisfy the scheme-side
+condition and another, in the same family, none of whose fibres do.
 
 ## References
 

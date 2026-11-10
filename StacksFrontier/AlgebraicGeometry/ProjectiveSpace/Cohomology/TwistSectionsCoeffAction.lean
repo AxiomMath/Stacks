@@ -80,7 +80,7 @@ private theorem map_mul_eq {A : Type u} [CommRing A] {P : Submonoid A} (a : A)
   rw [← Localization.mk_one_eq_algebraMap a]
   induction z using Localization.induction_on with
   | H y =>
-    show LocalizedModule.map P (LinearMap.mul A A a) (LocalizedModule.mk y.1 y.2) = _
+    change LocalizedModule.map P (LinearMap.mul A A a) (LocalizedModule.mk y.1 y.2) = _
     rw [LocalizedModule.map_mk, Localization.mk_mul]
     simp only [LinearMap.mul_apply', one_mul]
     rfl
@@ -167,7 +167,7 @@ theorem twistSheafScalarMap_zero_eq_globalSmulCenter (m : ℤ) (a : 𝒮 0)
     twistSheafScalarMap 𝒮 F 0 m m (twistedDegree_zero m) a =
       (globalSmulCenter (AlgebraicGeometry.Proj 𝒮) c).app (twistSheafOfModules 𝒮 F m) := by
   refine Eq.trans ?_ (tensorSheafMap_id_globalSmulCenter 𝒮 F m c)
-  show ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
+  change ((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor
       ⟨(((AlgebraicGeometry.Proj 𝒮).toRingedSpace)).presheaf,
         (((AlgebraicGeometry.Proj 𝒮).toRingedSpace)).IsSheaf⟩)).map
       (((𝟙 F), (twistScalarSheafMap 𝒮 0 m m (twistedDegree_zero m) a)) :

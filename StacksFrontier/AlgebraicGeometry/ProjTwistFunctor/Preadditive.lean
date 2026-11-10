@@ -47,11 +47,13 @@ instance monoidalPreadditive :
     MonoidalPreadditive (PresheafOfModules.{w} (R ⋙ forget₂ CommRingCat RingCat)) where
   whiskerLeft_zero {X Y Z} := by
     ext1 U
-    change (𝟙 (PresheafOfModulesOfCommRing.obj X U)) ⊗ₘ (0 : PresheafOfModulesOfCommRing.obj Y U ⟶ PresheafOfModulesOfCommRing.obj Z U) = 0
+    change (𝟙 (PresheafOfModulesOfCommRing.obj X U)) ⊗ₘ
+      (0 : PresheafOfModulesOfCommRing.obj Y U ⟶ PresheafOfModulesOfCommRing.obj Z U) = 0
     exact MonoidalPreadditive.tensor_zero _
   zero_whiskerRight {X Y Z} := by
     ext1 U
-    change (0 : PresheafOfModulesOfCommRing.obj Y U ⟶ PresheafOfModulesOfCommRing.obj Z U) ⊗ₘ (𝟙 (PresheafOfModulesOfCommRing.obj X U)) = 0
+    change (0 : PresheafOfModulesOfCommRing.obj Y U ⟶ PresheafOfModulesOfCommRing.obj Z U) ⊗ₘ
+      (𝟙 (PresheafOfModulesOfCommRing.obj X U)) = 0
     exact MonoidalPreadditive.zero_tensor _
   whiskerLeft_add {X Y Z} f g := by
     ext1 U

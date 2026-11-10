@@ -71,7 +71,7 @@ theorem exists_eq_algebraMap_of_ord_nonneg {f : C.functionField} (hf0 : f ≠ 0)
   have hdeg := degree_divOf g hd
   have hx₀mem : (⟨x₀, hx₀⟩ : ClosedPoint C) ∈ (divOf g hd).support := by
     rw [Finsupp.mem_support_iff, divOf_apply]
-    show C.ord d x₀ ≠ 0
+    change C.ord d x₀ ≠ 0
     omega
   have hle := Finset.single_le_sum (f := fun y => divOf g hd y)
     (fun y _ => by rw [divOf_apply]; exact hnonneg y) hx₀mem

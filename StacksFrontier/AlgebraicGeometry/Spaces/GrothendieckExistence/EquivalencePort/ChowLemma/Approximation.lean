@@ -258,7 +258,7 @@ theorem C1573.exists_chowDatum_of_isFinitePresentation {X Y : AlgebraicSpaces B 
   let α : M.sourceLimit ≅ X.1 :=
     pullbackSymmetry (limit.π A.diagram i) X₀.hom ≪≫ (Over.forget _).mapIso eX.symm
   have hαf : α.inv ≫ pullback.fst (limit.π A.diagram i) X₀.hom = f ≫ e.hom := by
-    show (eX.hom.left ≫ (pullbackSymmetry (limit.π A.diagram i) X₀.hom).inv) ≫ _ = _
+    change (eX.hom.left ≫ (pullbackSymmetry (limit.π A.diagram i) X₀.hom).inv) ≫ _ = _
     rw [Category.assoc, pullbackSymmetry_inv_comp_fst]
     exact Over.w eX.hom
   set Ysys := M.baseDescentSituation with hYsys

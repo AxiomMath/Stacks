@@ -195,7 +195,7 @@ theorem exists_isPullback_affine_of_isLocallyArtinian (hZ : B.Contains (⊤_ Sch
     intro X Y k fst snd hsq
     have : IsIso (yoneda.map snd) := hsq.isIso_snd_of_isIso
     have : IsIso snd := Yoneda.fullyFaithful.isIso_of_isIso_map snd
-    show Etale (T.map snd)
+    change Etale (T.map snd)
     infer_instance
   have hq : yoneda.map q = e.hom ≫ toU.hom := by simp [q]
   have hMapEtale : Q.presheaf (yoneda.map q) := by
@@ -210,7 +210,7 @@ theorem exists_isPullback_affine_of_isLocallyArtinian (hZ : B.Contains (⊤_ Sch
     (fst := e.hom ≫ pullback.fst f g) (snd := yoneda.map r) (f := f) (g := g)
     ⟨?_⟩ e rfl (by rw [hr]; rfl)
   rw [hr]
-  show (e.hom ≫ pullback.fst f g) ≫ f = (e.hom ≫ pullback.snd f g) ≫ g
+  change (e.hom ≫ pullback.fst f g) ≫ f = (e.hom ≫ pullback.snd f g) ≫ g
   simp [pullback.condition]
 
 /-- **Stacks 09TF, for an affine locally Artinian object of the site.**  A morphism from an

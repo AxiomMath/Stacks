@@ -75,18 +75,19 @@ pointing at a route that does not exist. `ComputesSecond` is strictly weaker, is
 content of the clause, and is what the source's route through Stacks 0D6E delivers. It is
 discharged for every morphism of ringed sites by
 `Stacks.Cohomology.LerayUnbounded.computesSecond_pushforwardTopos_globalSections`
-(`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/LerayForUnboundedGlobalSectionsGeneral.lean`), which is why the tag no
-longer sits on the flat case.
+(`Cohomology/DerivedPushforward/LerayForUnboundedGlobalSectionsGeneral.lean`),
+which is why the tag no longer sits on the flat case.
 
 That composition law is **not** what the source's route is blocked on here. Stacks 0D6E holds
 unconditionally, as
 `Stacks.Cohomology.DerivedPushforwardCompositionOnTopoi.derivedPushforwardCompIsoUnconditional`
 and `quasiIso_mapHomotopyCategory_pushforward_of_isKInjective`
-(`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/CompositionOnRingedTopoiUnconditional.lean:541` and `:445`), and so does the unbounded
-derived pullback it rests on,
+(`Cohomology/DerivedPushforward/CompositionOnRingedTopoiUnconditional.lean:541` and `:445`),
+and so does the unbounded derived pullback it rests on,
 `Stacks.Cohomology.DerivedPullbackOnRingedTopoi.hasLeftDerivedFunctor_pullbackOnHomotopy`
-(`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPullback/DerivedPullbackExistence.lean:130`). What is missing is the third morphism
-of the source's chain `(C, O_C) → (D, O_D) → (pt, O_pt)`: the library's 0D6E composes direct
+(`Cohomology/DerivedPullback/DerivedPullbackExistence.lean:130`).
+What is missing is the third morphism of the source's chain
+`(C, O_C) → (D, O_D) → (pt, O_pt)`: the library's 0D6E composes direct
 images along morphisms of ringed topoi presented by morphisms of *sites*, while `Γ(D, -)` is
 `M.sections`, the limit over the whole site — the direct image along the structure morphism to
 the punctual topos, which no functor of sites presents unless the site has a final object. The
@@ -97,15 +98,16 @@ is under `**Why not the source's proof**` in the module docstring of
 **The route that closed the other clause, and that closed this one.** The clause on
 sections over an object no longer carries flatness: it is
 `Stacks.Cohomology.LerayUnbounded.derivedSectionsOverObjectPushforwardIsoGeneral`
-(`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/LerayForUnboundedSectionsGeneral.lean:235`), proved by corepresenting
-`Γ(V, -)` by `j_{V!} O_V` and running
+(`Cohomology/DerivedPushforward/LerayForUnboundedSectionsGeneral.lean:235`),
+proved by corepresenting `Γ(V, -)` by `j_{V!} O_V` and running
 `Stacks.Cohomology.DerivedPullbackOnRingedTopoi.bijective_qh_map_pushforward_of_isKInjective`.
 **That route does not need a final object, and it transfers to global sections**: `Γ(D, -)` is
 corepresented by the structure sheaf itself, not by any `j_{D!} O_D` — Mathlib's
 `CategoryTheory.SheafOfModules.unitHomEquiv` reads `Hom(O_D, M)` as `M.sections`, which is the
 limit over the whole site, with no terminal object anywhere. The packaged form is
 `Stacks.Cohomology.SiteModules.coyonedaUnitGlobalSectionsIso`
-(`StacksFrontier/CategoryTheory/Sites/Cohomology/Modules/GlobalSectionsCorepresentable.lean:113`). So the punctual presentation above is
+(`StacksFrontier/CategoryTheory/Sites/Cohomology/Modules/GlobalSectionsCorepresentable.lean:113`).
+So the punctual presentation above is
 what *the source's* proof needs, not what this clause needs.
 
 The four inputs the route needs are these. The comparison `Lf^* ⟶ f^*` of Stacks 06YY is
@@ -114,8 +116,9 @@ the flatness is `Stacks.SheafOfModules.isFlat_unit`
 (`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/FlatUnit.lean:45`), the analogue here of Stacks
 03EV's flatness of `j_{V!} O_V` there. The bijectivity of postcomposition is
 `bijective_postcomp_quotient_shift_of_isKInjective`
-(`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/PostcompIntoPushforwardOfKInjective.lean:112`), which is stated for an
-arbitrary such complex. And the passage from `AddCommGrpCat`, where the corepresentability lands,
+(`Cohomology/DerivedPushforward/PostcompIntoPushforwardOfKInjective.lean:112`),
+which is stated for an arbitrary such complex. And the passage from `AddCommGrpCat`,
+where the corepresentability lands,
 back to `ModuleCat (Γ(O_D))`, where this clause's `G` lands, is
 `CategoryTheory.HomologicalComplex.quasiIso_map_iff_of_preservesHomology`
 (`Mathlib/Algebra/Homology/QuasiIso.lean:282`) along `forget₂`, whose `PreservesHomology` and
@@ -313,7 +316,7 @@ other clause, the one on sections over an object of `D`, is
 **No tag: this clause is covered in general.** The flatness here is a genuine restriction,
 and the tag sits on
 `Stacks.Cohomology.LerayUnbounded.derivedGlobalSectionsPushforwardIsoGeneral`
-(`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/LerayForUnboundedGlobalSectionsGeneral.lean`), which is the same
+(`Cohomology/DerivedPushforward/LerayForUnboundedGlobalSectionsGeneral.lean`), which is the same
 conclusion for an arbitrary morphism of ringed sites. This flat form is kept because it is the
 one whose hypothesis is an instance — `PreservesFiniteLimits` on `f^*` — and so the one instance
 search finds without an argument. -/

@@ -142,7 +142,7 @@ theorem exists_ringEquiv_residueFieldHom_comm_of_isOpenImmersion
           ((BigFppfOver.toScheme B S hS).obj CX).fromSpecResidueField u ≫
             (BigFppfOver.toScheme B S hS).map h :=
       Scheme.Hom.SpecMap_residueFieldMap_fromSpecResidueField _ u
-    show (BigFppfOver.toScheme B S hS).map gh = _
+    change (BigFppfOver.toScheme B S hS).map gh = _
     exact (cancel_mono
       (((BigFppfOver.toScheme B S hS).obj CY).fromSpecResidueField v)).1
       (hcan.trans hsqScheme.symm)

@@ -158,7 +158,7 @@ lemma index_injective (u : minimalPrimes A → ι)
     (hu : ∀ q, σ (u q) = Ideal.under R (q : Ideal A)) : Function.Injective u := by
   intro q₁ q₂ h
   refine under_injective p A ?_
-  show Ideal.under R (q₁ : Ideal A) = Ideal.under R (q₂ : Ideal A)
+  change Ideal.under R (q₁ : Ideal A) = Ideal.under R (q₂ : Ideal A)
   rw [← hu q₁, ← hu q₂, h]
 
 omit [∀ i, (σ i).IsPrime] in
@@ -235,7 +235,7 @@ theorem isLocalization_residueFieldProduct (u : minimalPrimes A → ι)
       by_cases h : σ i ≤ p
       · exact ⟨1, fun hone => p.ne_top_iff_one.mp (Ideal.IsPrime.ne_top ‹p.IsPrime›) hone,
           fun hc => absurd h hc⟩
-      · obtain ⟨a, ha, ha'⟩ := SetLike.not_le_iff_exists.mp h
+      · obtain ⟨a, ha, ha'⟩ := IsConcreteLE.not_le_iff_exists.mp h
         exact ⟨a, ha', fun _ => ha⟩
     choose t htmem htbad using key
     refine ⟨⟨algebraMap R (enumResidueFieldProduct σ) (∏ i : ι, t i),

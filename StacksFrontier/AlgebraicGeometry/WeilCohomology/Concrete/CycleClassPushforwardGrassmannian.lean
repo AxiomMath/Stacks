@@ -143,7 +143,7 @@ theorem pushforwardCompatible_id (X : (SmoothProjectiveScheme k).FullSubcategory
     relativeDimension_unique hX.nonempty.some hX.relativeDimension hY.relativeDimension
   obtain rfl : q = p + ((d : ℤ) - d) := by omega
   have : IsClosedImmersion (𝟙 X : X ⟶ X).hom.left := by
-    show IsClosedImmersion (𝟙 _)
+    change IsClosedImmersion (𝟙 _)
     infer_instance
   exact 𝔚.toWeilData.cycleClass_pushforward_of_closedImmersion_of_retraction 𝔚.perfectPairing
     𝔚.cycleClassPullback 𝔚.cycleClassMul (𝔚.cycleClass_congr X) (𝟙 X) (𝟙 X)
@@ -204,7 +204,7 @@ theorem pushforwardCompatible_of_isClosedImmersion
     have h1 := smoothGysinRingHom_equiv X.obj.hom T.W.obj.hom (Over.w T.j.hom)
       ((smoothChowEquiv T.W.obj.hom).symm (chW ((1 : ℚ) ⊗ₜ[ℤ] y₀)))
     rw [LinearEquiv.apply_symm_apply] at h1
-    show _ = smoothChowEquiv X.obj.hom (smoothGysinRational X.obj.hom T.W.obj.hom
+    change _ = smoothChowEquiv X.obj.hom (smoothGysinRational X.obj.hom T.W.obj.hom
       (Over.w T.j.hom) _)
     rw [← h1, smoothGysinRingHom_rationalChernCharacterAlgEquiv, LinearMap.baseChange_tmul,
       AddMonoidHom.coe_toIntLinearMap, pullback_eq_pullbackRingHom, hy₀, ← hc', map_zsmul,
@@ -240,11 +240,11 @@ theorem pushforwardCompatible_of_connectedSpace
       ψ.hom.left := pullback.lift_snd _ _ _
   let j : X ⟶ prod Y (SmoothProjectiveScheme.grassmannian k l n) :=
     ObjectProperty.homMk (Over.homMk hlft (by
-      show hlft ≫ pullback.fst Y.obj.hom (SmoothProjectiveScheme.grassmannian k l n).obj.hom ≫
+      change hlft ≫ pullback.fst Y.obj.hom (SmoothProjectiveScheme.grassmannian k l n).obj.hom ≫
         Y.obj.hom = X.obj.hom
       rw [← Category.assoc, hlfst, Over.w f.hom]))
   have : IsClosedImmersion j.hom.left := by
-    show IsClosedImmersion hlft
+    change IsClosedImmersion hlft
     have : IsClosedImmersion
         (hlft ≫ pullback.snd Y.obj.hom (SmoothProjectiveScheme.grassmannian k l n).obj.hom) := by
       rw [hlsnd]

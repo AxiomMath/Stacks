@@ -115,7 +115,7 @@ theorem valuativeCriterionExistence_toBase_of_forall_exists_baseChange_eq
   have hx : x.toBase = (schemeSpaceFunctor B S hS).map q.fracHom ≫
       ObjectProperty.homMk q.special := by
     refine ObjectProperty.hom_ext _ (yonedaEquiv.injective ?_)
-    show (D.quotSitePresheafToBase.app _ x).down = _
+    change (D.quotSitePresheafToBase.app _ x).down = _
     refine (yonedaEquiv_comp q.generic N.toBase).symm.trans ?_
     rw [q.comm]
     rfl
@@ -129,19 +129,19 @@ theorem valuativeCriterionExistence_toBase_of_forall_exists_baseChange_eq
       at hnat
     rw [hyx] at hnat
     have hz : N.iso.inv.app _ x = ⟨z⟩ := by
-      show (N.iso.hom ≫ N.iso.inv).app _ ⟨z⟩ = _
+      change (N.iso.hom ≫ N.iso.inv).app _ ⟨z⟩ = _
       rw [Iso.hom_inv_id]
       rfl
     exact congrArg ULift.down (hnat.symm.trans hz)
   · rw [yonedaEquiv_symm_naturality_right]
     refine yonedaEquiv.symm_apply_eq.mpr ?_
-    show (D.quotSitePresheafToBase.app _ (N.iso.hom.app _ ⟨w⟩)).down = _
+    change (D.quotSitePresheafToBase.app _ (N.iso.hom.app _ ⟨w⟩)).down = _
     have hw : N.iso.hom.app _ ⟨w⟩ = y := by
-      show (N.iso.inv ≫ N.iso.hom).app _ y = y
+      change (N.iso.inv ≫ N.iso.hom).app _ y = y
       rw [Iso.inv_hom_id]
       rfl
     rw [hw]
-    show yonedaEquiv y.toBase.hom = _
+    change yonedaEquiv y.toBase.hom = _
     rw [hy]
     rfl
 

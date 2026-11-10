@@ -55,7 +55,8 @@ map does that.
 `Crystalline.dividedPowerDifferentials_lift` is an `ExistsUnique` statement rather than a bundled
 construction, so the map is `Classical.choose` of it and the two results above are the two halves
 of its `Classical.choose_spec` — the pattern the private lifts of
-`StacksFrontier/AlgebraicGeometry/Crystalline/Differentials.lean` already use.  No `Algebra` instance
+`StacksFrontier/AlgebraicGeometry/Crystalline/Differentials.lean` already use.  No `Algebra`
+instance
 has to be introduced: `Crystalline.completedTensorPowerDividedPowerRing` is the divided power ring
 whose carrier is `Crystalline.pAdicCompletedTensorPowerEnvelope`, and the `A`-algebra structure on
 that carrier is the one `Crystalline.tensorPowerDerivation` is already stated over.

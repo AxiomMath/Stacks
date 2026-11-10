@@ -190,7 +190,7 @@ theorem intSecOf_intPullSection (k : ℤ) (t : Γ(tensorPowerModule Y L k, ⊤))
       = unitPullback j ≫ (Scheme.Modules.pullback j).map (intSecOf L t) ≫ c k := by
   refine (Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv Y'
     (tensorPowerModule Y' ((Scheme.Modules.pullback j).obj L) k)).symm_apply_eq.mpr ?_
-  show intPullSection j L c k t = globalSection Y' _ _
+  change intPullSection j L c k t = globalSection Y' _ _
   rw [← Category.assoc, Stacks.SectionProduct.globalSection_comp _ _
       (unitPullback j ≫ (Scheme.Modules.pullback j).map (intSecOf L t)) (c k),
     ← pullbackSectionHom_globalSection j (tensorPowerModule Y L k) (intSecOf L t),

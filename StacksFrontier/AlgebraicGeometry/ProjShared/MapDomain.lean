@@ -143,7 +143,7 @@ public theorem irrelevant_le_map_of_mem_span (ψ : 𝒜 →+*ᵍ ℬ)
       g ∈ Ideal.span (ψ '' ⋃ n > 0, (𝒜 n : Set A))) :
     HomogeneousIdeal.irrelevant ℬ ≤ (HomogeneousIdeal.irrelevant 𝒜).map ψ := by
   refine (HomogeneousIdeal.irrelevant_le ℬ).mpr fun i hi g hg => ?_
-  show g ∈ ((HomogeneousIdeal.irrelevant 𝒜).map ψ).toIdeal
+  change g ∈ ((HomogeneousIdeal.irrelevant 𝒜).map ψ).toIdeal
   rw [HomogeneousIdeal.toIdeal_map, HomogeneousIdeal.irrelevant_eq_span, Ideal.map_span]
   exact h i hi g hg
 

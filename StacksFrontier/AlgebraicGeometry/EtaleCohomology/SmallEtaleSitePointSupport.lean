@@ -96,7 +96,7 @@ public theorem sitePoint_cover_surjective
       X i := (Y i.down).obj.left
       f i := (f i.down).hom.left }
   have hE : IsEtaleCovering ⟨X.obj.left, E⟩ := by
-    show (E.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage _
+    change (E.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage _
     rw [PreZeroHypercover.presieve₀_map, Presieve.map_ofArrows]
     exact (Scheme.ofArrows_mem_precoverage_iff (@Etale)).2
       ⟨fun x => (hc x).elim fun i hi => ⟨ULift.up i, hi⟩, fun i => he i.down⟩
@@ -106,7 +106,7 @@ public theorem sitePoint_cover_surjective
   obtain ⟨α, hY, hf⟩ := hcomb.2
   let Y' (j : E'.I₀) : SmallEtale B S hS :=
     ⟨Over.mk (E'.f j ≫ X.obj.hom), by
-      show Etale (B.inclusion.map (E'.f j ≫ X.obj.hom))
+      change Etale (B.inclusion.map (E'.f j ≫ X.obj.hom))
       rw [hf j, Category.assoc, Over.w, Functor.map_comp]
       infer_instance⟩
   let f' (j : E'.I₀) : Y' j ⟶ X := ObjectProperty.homMk (Over.homMk (E'.f j))
@@ -115,7 +115,7 @@ public theorem sitePoint_cover_surjective
   obtain ⟨j, b, hb⟩ := exists_fiber_preimage_of_presieve₀_mem B S hS p H hH a
   let l : Y' j ⟶ Y (α j).down := ObjectProperty.homMk
     (Over.homMk (eqToHom (hY j)) (by
-      show eqToHom (hY j) ≫ (Y (α j).down).obj.hom = E'.f j ≫ X.obj.hom
+      change eqToHom (hY j) ≫ (Y (α j).down).obj.hom = E'.f j ≫ X.obj.hom
       rw [hf j, Category.assoc, Over.w]))
   refine ⟨(α j).down, p.fiber.map l b, ?_⟩
   have hl : l ≫ f (α j).down = f' j :=
@@ -295,12 +295,12 @@ public theorem openFiber_inter_nonempty (p : (SmallEtale.topology B S hS).Point.
       (X := z.obj.obj.left)
       (Y := ((opensToBoundedEtale B S hS).obj W).obj.left) g') ?_
     apply B.inclusion.map_injective
-    show B.inclusion.map (B.inclusion.preimage g') ≫ _ = _
+    change B.inclusion.map (B.inclusion.preimage g') ≫ _ = _
     rw [B.inclusion.map_preimage]
     have hg' : g' = g := by
       simp [g', ZS, opensToBoundedEtale, BigEtaleSite.inclusion, schemeBelowInclusion]
     rw [hg']
-    show g ≫ W.ι = B.inclusion.map z.obj.obj.hom
+    change g ≫ W.ι = B.inclusion.map z.obj.obj.hom
     calc
       g ≫ W.ι = (g ≫ S.homOfLE inf_le_left) ≫ U.ι := by
         simp [Category.assoc, Scheme.homOfLE_ι]
@@ -324,7 +324,7 @@ public theorem openFiber_cover (p : (SmallEtale.topology B S hS).Point.{max u w}
       X i := B.obj (V i.down).toScheme (Scheme.size_lt_of_isOpenImmersion (V i.down).ι hS)
       f i := B.inclusion.preimage (S.homOfLE (hle i.down)) }
   have hEtale : IsEtaleCovering ⟨B.obj U.toScheme hUsize, E⟩ := by
-    show (E.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage _
+    change (E.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage _
     rw [PreZeroHypercover.presieve₀_map, Presieve.map_ofArrows]
     apply (Scheme.ofArrows_mem_precoverage_iff (P := @Etale)).2
     constructor
@@ -344,9 +344,9 @@ public theorem openFiber_cover (p : (SmallEtale.topology B S hS).Point.{max u w}
   let uS : B.obj U.toScheme hUsize ⟶ B.obj S hS := ObjectProperty.homMk U.ι
   let Yrep : ErepFam.I₀ → SmallEtale B S hS := fun j =>
     ⟨Over.mk (ErepFam.f j ≫ uS), by
-      show Etale (B.inclusion.map (ErepFam.f j ≫ uS))
+      change Etale (B.inclusion.map (ErepFam.f j ≫ uS))
       rw [Functor.map_comp]
-      show Etale (B.inclusion.map (ErepFam.f j) ≫ U.ι)
+      change Etale (B.inclusion.map (ErepFam.f j) ≫ U.ι)
       have hm := BigEtaleSite.IsCovering.etale hErep
       change (ErepFam.map B.inclusion).presieve₀ ∈ _ at hm
       have hi := (Scheme.ofArrows_mem_precoverage_iff
@@ -371,7 +371,7 @@ public theorem openFiber_cover (p : (SmallEtale.topology B S hS).Point.{max u w}
     simpa only [hXV, hα, ULift.down_up] using hfs j
   have hViSize : B.Contains (V i).toScheme := Scheme.size_lt_of_isOpenImmersion (V i).ι hS
   have hEMap : B.inclusion.map (E.f (ULift.up i)) = S.homOfLE (hle i) := by
-    show B.inclusion.map (B.inclusion.preimage
+    change B.inclusion.map (B.inclusion.preimage
       (X := B.obj (V i).toScheme hViSize) (Y := B.obj U.toScheme hUsize)
       (S.homOfLE (hle i))) = _
     exact B.inclusion.map_preimage _
@@ -379,7 +379,7 @@ public theorem openFiber_cover (p : (SmallEtale.topology B S hS).Point.{max u w}
     dsimp only [XU, XVi, opensToBoundedEtale]
     apply B.inclusion.map_injective
     rw [Functor.map_comp, hEMap]
-    show S.homOfLE (hle i) ≫ U.ι = (V i).ι
+    change S.homOfLE (hle i) ≫ U.ι = (V i).ι
     exact Scheme.homOfLE_ι S (hle i)
   let jOpen : Esmall.X j ⟶ XVi := by
     apply ObjectProperty.homMk
@@ -433,7 +433,7 @@ public theorem siteEtaleImageFactor_map (X : SmallEtale B S hS) :
         rintro _ ⟨z, rfl⟩
         exact ⟨⟨(B.inclusion.map X.obj.hom) z, ⟨z, rfl⟩⟩, rfl⟩) := by
   dsimp [siteEtaleImageFactor]
-  show B.inclusion.map (B.inclusion.preimage _) = _
+  change B.inclusion.map (B.inclusion.preimage _) = _
   exact B.inclusion.map_preimage _
 
 /-- If the fibre of a point at `X` is nonempty then the support of the point lies in the open
@@ -463,11 +463,11 @@ public theorem sitePoint_fiber_nonempty_of_support_in_image
   have hSingletonBound : Cardinal.mk PUnit ≤ B.coveringBound :=
     (B.coverings_isSite.1 (𝟙 (B.obj O.toScheme (Scheme.size_lt_of_isOpenImmersion O.ι hS)))).2
   have hcover : SmallEtale.IsCovering B S hS ⟨T, E⟩ := by
-    show B.IsCovering ⟨B.obj O.toScheme (Scheme.size_lt_of_isOpenImmersion O.ι hS),
+    change B.IsCovering ⟨B.obj O.toScheme (Scheme.size_lt_of_isOpenImmersion O.ι hS),
       (E.map (SmallEtale.inclusion B S hS)).map (Over.forget (B.obj S hS))⟩
-    show CovBounded IsEtaleCovering B.coveringBound _
+    change CovBounded IsEtaleCovering B.coveringBound _
     refine ⟨?_, hSingletonBound⟩
-    show (((E.map (SmallEtale.inclusion B S hS)).map
+    change (((E.map (SmallEtale.inclusion B S hS)).map
       (Over.forget (B.obj S hS))).map B.inclusion).presieve₀ ∈
         Scheme.etalePrecoverage (B.inclusion.obj (B.obj O.toScheme
           (Scheme.size_lt_of_isOpenImmersion O.ι hS)))
@@ -475,10 +475,10 @@ public theorem sitePoint_fiber_nonempty_of_support_in_image
     apply (Scheme.ofArrows_mem_precoverage_iff (P := @Etale)).2
     constructor
     · intro y
-      show ∃ i, y ∈ Set.range (B.inclusion.map ((E.f i).hom).left)
+      change ∃ i, y ∈ Set.range (B.inclusion.map ((E.f i).hom).left)
       have hmap : B.inclusion.map (E.f PUnit.unit).hom.left =
           IsOpenImmersion.lift O.ι f hfRange := by
-        show B.inclusion.map (siteEtaleImageFactor B S hS X).hom.left = _
+        change B.inclusion.map (siteEtaleImageFactor B S hS X).hom.left = _
         simpa [O, f] using siteEtaleImageFactor_map B S hS X
       obtain ⟨z, hz⟩ := (show (y.1 : S) ∈ Set.range f from y.2)
       refine ⟨PUnit.unit, ⟨z, ?_⟩⟩
@@ -489,7 +489,7 @@ public theorem sitePoint_fiber_nonempty_of_support_in_image
           congrArg (fun k => k z) (IsOpenImmersion.lift_fac O.ι f hfRange)
         _ = y.1 := hz
     · intro i
-      show Etale (B.inclusion.map (E.f i).hom.left)
+      change Etale (B.inclusion.map (E.f i).hom.left)
       have : Etale (IsOpenImmersion.lift O.ι f hfRange ≫ O.ι) := by
         rw [IsOpenImmersion.lift_fac]
         exact X.property

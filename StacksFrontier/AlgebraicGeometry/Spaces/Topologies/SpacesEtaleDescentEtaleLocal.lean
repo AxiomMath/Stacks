@@ -153,7 +153,7 @@ theorem spacesToposBaseChangeSquare_eq (sq : IsPullback i f' f g) :
 of Stacks 03LR, part (1).** -/
 theorem mateEquiv_spacesEtalePseudofunctor_isoMapOfCommSq (sq : IsPullback i f' f g) :
     (mateEquiv (spacesEtaleAdjunction B S hS f) (spacesEtaleAdjunction B S hS f')
-        (commSqTwoSquare (spacesEtalePseudofunctor B S hS) sq.w)).natTrans =
+        (commSqTwoSquare (spacesEtalePseudofunctor B S hS) sq.w)) =
       spacesToposBaseChangeSquare B S hS i f' f g sq := by
   have key := iterated_mateEquiv_conjugateEquiv (spacesEtaleAdjunction B S hS f)
     (spacesEtaleAdjunction B S hS f') (spacesEtaleAdjunction B S hS g)
@@ -170,7 +170,7 @@ inverse-image comparison is invertible. -/
 theorem isIso_mateEquiv_spacesEtalePseudofunctor_isoMapOfCommSq (sq : IsPullback i f' f g)
     (hg : IsEtale B S hS g.hom) :
     IsIso (mateEquiv (spacesEtaleAdjunction B S hS f) (spacesEtaleAdjunction B S hS f')
-      (commSqTwoSquare (spacesEtalePseudofunctor B S hS) sq.w)).natTrans :=
+      (commSqTwoSquare (spacesEtalePseudofunctor B S hS) sq.w)) :=
   (congrArg IsIso (mateEquiv_spacesEtalePseudofunctor_isoMapOfCommSq B S hS i f' f g sq)).mpr
     (isIso_spacesToposBaseChangeSquare B S hS i f' f g sq hg)
 
@@ -179,6 +179,7 @@ end
 /-! ### Chosen fibre products and the inverse-image adjunction -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site is deep
 /-- Presheaves of types on the big fppf site of `S` have pullbacks (instance search times out
 at the default budget without this shortcut). -/
 theorem hasPullbacksPresheaf_descentEtaleLocal :
@@ -235,10 +236,10 @@ theorem isIso_mateEquiv_commSqTwoSquare {X' Y' : AlgebraicSpaces B S hS}
     (M : (spacesEtalePseudofunctor B S hS).obj (.mk (.op X))) :
     IsIso ((mateEquiv (spacesEtalePseudofunctorAdjunction B S hS f)
       (spacesEtalePseudofunctorAdjunction B S hS f')
-      (commSqTwoSquare (spacesEtalePseudofunctor B S hS) sq.w)).natTrans.app M) := by
+      (commSqTwoSquare (spacesEtalePseudofunctor B S hS) sq.w)).app M) := by
   have h : IsIso (mateEquiv (spacesEtalePseudofunctorAdjunction B S hS f)
       (spacesEtalePseudofunctorAdjunction B S hS f')
-      (commSqTwoSquare (spacesEtalePseudofunctor B S hS) sq.w)).natTrans :=
+      (commSqTwoSquare (spacesEtalePseudofunctor B S hS) sq.w)) :=
     isIso_mateEquiv_spacesEtalePseudofunctor_isoMapOfCommSq B S hS i f' f g sq hg
   exact NatIso.isIso_app_of_isIso _ M
 

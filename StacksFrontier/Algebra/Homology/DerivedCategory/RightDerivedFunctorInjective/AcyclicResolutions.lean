@@ -12,7 +12,7 @@ import Mathlib.CategoryTheory.Functor.Derived.RightDerivedTriangulated
 import Mathlib.CategoryTheory.Limits.Types.Filtered
 import Mathlib.CategoryTheory.Localization.DerivabilityStructure.Constructor
 public import Mathlib.CategoryTheory.Localization.DerivabilityStructure.Derives
-import Mathlib.Data.Int.Star
+import Mathlib.Algebra.Order.Star.Int
 import Mathlib.Tactic.ENatToNat
 public import StacksFrontier.Algebra.Homology.DerivedCategory.AcyclicObjects
 public import StacksFrontier.Algebra.Homology.DerivedCategory.Basic

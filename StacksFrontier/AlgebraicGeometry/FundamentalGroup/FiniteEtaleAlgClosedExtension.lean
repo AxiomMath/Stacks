@@ -15,8 +15,8 @@ The *faithful* half needs nothing: `Spec k'` is a one-point scheme over the one-
 `Spec k`, so the projection `X_{k'} ⟶ X` is surjective, and
 `AlgebraicGeometry.faithful_finiteEtaleBaseChange_of_forall_exists_specializes` applies with every
 point of `X` specializing to itself.  By the same surjectivity the reduction of Tag 0GS2 in
-`StacksFrontier.AlgebraicGeometry.FundamentalGroup.FiniteEtaleProperEquivalence` applies verbatim, and
-the whole statement is reduced to *essential surjectivity over every finite étale cover of `X`*
+`StacksFrontier.AlgebraicGeometry.FundamentalGroup.FiniteEtaleProperEquivalence` applies verbatim,
+and the whole statement is reduced to *essential surjectivity over every finite étale cover of `X`*
 (`AlgebraicGeometry.isEquivalence_finiteEtaleBaseChange_specMap_algebraMap_of_essSurj`).
 
 ## What is carried as a hypothesis

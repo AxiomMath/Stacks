@@ -113,7 +113,7 @@ theorem coe_symmetricPowerEquivHomogeneousSubmodule_symm_C {κ : Type*} (b : Mod
   rw [LinearEquiv.apply_symm_apply] at h
   refine (SymmetricAlgebra.equivMvPolynomial b).injective ?_
   rw [← h]
-  show (MvPolynomial.C r : MvPolynomial κ R) = _
+  change (MvPolynomial.C r : MvPolynomial κ R) = _
   rw [map_smul, map_one, ← Algebra.algebraMap_eq_smul_one, MvPolynomial.algebraMap_eq]
 
 /-- **The monomial formula for the basis of a symmetric power.** For a basis `b` of `M` and a

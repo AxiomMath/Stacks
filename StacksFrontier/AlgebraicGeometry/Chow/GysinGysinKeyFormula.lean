@@ -199,7 +199,7 @@ theorem isRationallyEquivalentToZeroWithin_gysinRuleInter_cycle_sub_restricted
     (isRationallyEquivalentToZeroWithin_add C p k (ha.mono hcarr) (hb2.mono hmono))
     (hc2.mono hmono)
     fun y ↦ ?_
-  show (_ : ℤ) - _ = ((_ - _) + (_ - _)) - (_ - _)
+  change (_ : ℤ) - _ = ((_ - _) + (_ - _)) - (_ - _)
   ring
 
 end Member
@@ -223,7 +223,7 @@ theorem locallyFinite_image_of_isClosedEmbedding {A B I : Type*} [TopologicalSpa
   · refine ⟨(Set.range f)ᶜ, hf.isClosed_range.isOpen_compl.mem_nhds hb, ?_⟩
     have hzero : {i : I | ((fun i ↦ f '' F i) i ∩ (Set.range f)ᶜ).Nonempty} = ∅ := by
       ext i
-      simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+      simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
       rintro ⟨-, ⟨x, -, rfl⟩, h⟩
       exact h ⟨x, rfl⟩
     rw [hzero]
@@ -452,7 +452,7 @@ theorem isRationallyEquivalentToZeroWithin_sub_add {a b c d : CycleGroup C p k} 
     (isRationallyEquivalentToZeroWithin_add C p k
       (isRationallyEquivalentToZeroWithin_add C p k ha hnb) hc) 1 fun y ↦ ?_
   rw [hd y, one_mul]
-  show a.1 y - b.1 y + c.1 y = a.1 y + -b.1 y + c.1 y
+  change a.1 y - b.1 y + c.1 y = a.1 y + -b.1 y + c.1 y
   ring
 
 /-- If `α` and `β` are rationally equivalent to zero within `T` and `γ = α + β`
@@ -465,7 +465,7 @@ theorem isRationallyEquivalentToZeroWithin_add_of {α β γ : CycleGroup C p k} 
   refine isRationallyEquivalentToZeroWithin_zsmul C p k
     (isRationallyEquivalentToZeroWithin_add C p k hα hβ) 1 fun y ↦ ?_
   rw [hγ y, one_mul]
-  show _ = α.1 y + β.1 y
+  change _ = α.1 y + β.1 y
   rfl
 
 end Generic
@@ -542,7 +542,7 @@ theorem ratioL_eq_one_of_not_le
       (genericPoint (integralComponentAt ξ).subscheme) trivial
       (AlgebraicGeometry.pullbackGlobalSections (integralComponentAt ξ).subschemeι L s) := by
     rw [hsectionL]
-    show Stacks.Divisors.pullbackStalkAt (integralComponentAt ξ).subschemeι L
+    change Stacks.Divisors.pullbackStalkAt (integralComponentAt ξ).subschemeι L
       (genericPoint (integralComponentAt ξ).subscheme) (genericPointOf_integralComponentAt ξ)
       (componentGeneratorAt L s ξ) = _
     rw [componentGeneratorAt_of_not_le L s hPξ,
@@ -606,7 +606,7 @@ theorem componentDivisorPushforward_apply_finsum
   have hval : (chernCycleOfRestrictedStalk C p (k + 1) L (integralComponentAt ξ)
         (isIntegral_integralComponentAt ξ) hDimW (genericPointOf_integralComponentAt ξ)
         (componentGeneratorAt L s ξ)).1 = weilDivisorAlgebraicCycle ℱ.weilDivisorL := by
-    show weilDivisorAlgebraicCycle (Stacks.Divisors.weilDivisorOfMeromorphicSection
+    change weilDivisorAlgebraicCycle (Stacks.Divisors.weilDivisorOfMeromorphicSection
       (isTrivializedNear_restrictModule (integralComponentAt ξ) L)
       (Stacks.Chow.restrictStalk (integralComponentAt ξ) L
         (genericPointOf_integralComponentAt ξ) (componentGeneratorAt L s ξ))) = _
@@ -864,7 +864,7 @@ theorem isRationallyEquivalentToZeroWithin_memberGysinPushforward_sub
         (schemeDeltaDimension_base_componentPoint C p k L L' ξ ℱ hDimW j.1))
       (schemeDeltaDimension_componentPoint C p k L L' ξ ℱ hDimW j.1)
   refine isRationallyEquivalentToZeroWithin_zsmul C p k hC (ℱ.orderL j.1) fun y ↦ ?_
-  show ℱ.orderL j.1 * _ - ℱ.orderL j.1 * _ = ℱ.orderL j.1 * (_ - _)
+  change ℱ.orderL j.1 * _ - ℱ.orderL j.1 * _ = ℱ.orderL j.1 * (_ - _)
   ring
 
 /-- The iterated Gysin cycle of `Z_ξ` taken through `D = Z(s)`, pushed forward to `X`, is the sum
@@ -966,7 +966,7 @@ theorem isRationallyEquivalentToZeroWithin_properPushforward_gysinGysinComponent
     (hsum.mono (Set.iUnion_subset fun j ↦ ?_)) fun y ↦ ?_
   · exact fun z hz ↦ ⟨coe_support_integralComponentAt_subset_of_mem _
       (subschemeι_base_mem_support_integralComponentAt ξ (ℱ.componentPoint j.1)) hz.1, hz.2⟩
-  · show (_ : ℤ) - _ = (_ - _) + (_ - _)
+  · change (_ : ℤ) - _ = (_ - _) + (_ - _)
     ring
 
 /-! ### The left hand side of the key formula as a cycle -/
@@ -1010,7 +1010,7 @@ theorem componentDifference_keyFormulaDataZeroL (hDimW : schemeDeltaDimension C
         (isIntegral_integralComponentAt (ℱ.componentPoint i))
         (schemeDeltaDimension_componentPoint C p k L L' ξ ℱ hDimW i)
         (genericPointOf_integralComponentAt (ℱ.componentPoint i)) (ℱ.localGeneratorN i)).1 := by
-  show (keyFormulaDataZeroL C p L L' ξ ℱ).orderL i •
+  change (keyFormulaDataZeroL C p L L' ξ ℱ).orderL i •
       (keyFormulaDataZeroL C p L L' ξ ℱ).restrictedDivisorN i -
     (keyFormulaDataZeroL C p L L' ξ ℱ).orderN i • (0 : AlgebraicCycle _ ℤ) = _
   rw [smul_zero, sub_zero]
@@ -1053,7 +1053,7 @@ theorem properPushforward_leftCycleGroup_zeroL_apply
       rfl rfl k, memberKeyFormulaDivisor, hgenN i]
     rw [properPushforward_zsmul]
   · intro w
-    show ∑ᶠ i : ℱ.Index, closedSubschemeCyclePushforward C
+    change ∑ᶠ i : ℱ.Index, closedSubschemeCyclePushforward C
       ((integralComponentAt ξ).subschemeι ≫ p) (integralComponentAt (ℱ.componentPoint i))
       ((keyFormulaDataZeroL C p L L' ξ ℱ).componentDifference i) w = _
     refine finsum_congr fun i ↦ ?_
@@ -1109,7 +1109,7 @@ theorem properPushforward_leftCycleGroup_apply
     simp only [memberKeyFormulaDivisor, KeyFormulaSituation.swap_componentPoint, hgenN i,
       hgenL i]
   · intro w
-    show ∑ᶠ i : ℱ.Index, closedSubschemeCyclePushforward C
+    change ∑ᶠ i : ℱ.Index, closedSubschemeCyclePushforward C
       ((integralComponentAt ξ).subschemeι ≫ p) (integralComponentAt (ℱ.componentPoint i))
       ((ℱ.toKeyFormulaData C ((integralComponentAt ξ).subschemeι ≫ p)).componentDifference i)
       w = _
@@ -1266,7 +1266,7 @@ theorem isRationallyEquivalentToZeroWithin_gysinGysinComponentCycle_sub_of_situa
           (ℱ.orderL i • memberKeyFormulaDivisor C p k L L' s' ξ ℱ hDimW i).1 y -
             (ℱ.orderN i • memberKeyFormulaDivisor C p k L' L s ξ ℱ.swap hDimW i).1 y :=
       fun _ ↦ rfl
-    show (properPushforward C ((integralComponentAt ξ).subschemeι ≫ p) p
+    change (properPushforward C ((integralComponentAt ξ).subschemeι ≫ p) p
         (integralComponentAt ξ).subschemeι rfl k
         (leftCycleGroup C k (keyFormulaDataZeroL C p L L' ξ ℱ)
           ((integralComponentAt ξ).subschemeι ≫ p) hn2)).1 y -
@@ -1287,7 +1287,7 @@ theorem isRationallyEquivalentToZeroWithin_gysinGysinComponentCycle_sub_of_situa
       fun z hz ↦ ⟨hz.1, hz.2.2, hz.2.1⟩)
     (isRationallyEquivalentToZeroWithin_properPushforward_leftCycleGroup C p k L L' s s' ξ ℱ
       hDimW hn2 hsectionL hsectionN hgenL hgenN) fun y ↦ ?_
-  show (_ : ℤ) - _ = (_ - _) - (_ - (_ - _)) + _
+  change (_ : ℤ) - _ = (_ - _) - (_ - (_ - _)) + _
   ring
 
 end Assembly

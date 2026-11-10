@@ -184,17 +184,17 @@ public theorem isFiniteLocallyConstant_of_finite_etaleStalk_of_bijective_special
     let V : SmallEtale B S hS :=
       ⟨Over.mk (Y := B.obj E.toScheme hsize)
         (ObjectProperty.homMk (E.ι ≫ B.inclusion.map Z.1.obj.hom)), by
-        show Etale (E.ι ≫ B.inclusion.map Z.1.obj.hom)
+        change Etale (E.ι ≫ B.inclusion.map Z.1.obj.hom)
         infer_instance⟩
     let ιE : V ⟶ Z.1 := ObjectProperty.homMk (Over.homMk (ObjectProperty.homMk E.ι) rfl)
     refine ⟨V, ιE ≫ a.1, ⟨IsOpenImmersion.lift E.ι Z.2.1 hrange, ?_⟩, ?_,
       etaleStalk B S hS s F.obj, hsfin, ?_⟩
-    · show IsOpenImmersion.lift E.ι Z.2.1 hrange ≫ E.ι ≫ B.inclusion.map Z.1.obj.hom = s.hom
+    · change IsOpenImmersion.lift E.ι Z.2.1 hrange ≫ E.ι ≫ B.inclusion.map Z.1.obj.hom = s.hom
       rw [← Category.assoc, hp]
       exact Z.2.2
     · have hy : (geometricPointFiber B S hS s).map ιE
           ⟨IsOpenImmersion.lift E.ι Z.2.1 hrange, by
-            show IsOpenImmersion.lift E.ι Z.2.1 hrange ≫ E.ι ≫
+            change IsOpenImmersion.lift E.ι Z.2.1 hrange ≫ E.ι ≫
               B.inclusion.map Z.1.obj.hom = s.hom
             rw [← Category.assoc, hp]
             exact Z.2.2⟩ = Z.2 := Subtype.ext hp
@@ -204,7 +204,7 @@ public theorem isFiniteLocallyConstant_of_finite_etaleStalk_of_bijective_special
         (fun α => F.obj.map ιE.op (z α)) ?_
       intro r w
       have hw : ((geometricPointFiber B S hS r).map ιE w).1 default ∈ E := by
-        show (w.1 ≫ E.ι) default ∈ E
+        change (w.1 ≫ E.ι) default ∈ E
         rw [Scheme.Hom.comp_apply]
         exact (w.1 default).property
       have h1 := (hE ⟨r.residueField, ((geometricPointFiber B S hS r).map ιE w).1⟩).mp hw

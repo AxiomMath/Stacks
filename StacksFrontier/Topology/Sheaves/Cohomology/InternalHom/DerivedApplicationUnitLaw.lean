@@ -86,7 +86,8 @@ the left vertical arrow of Stacks 0FVB in `Stacks.SheafOfModules.derivedDualPair
    whole cost is instance pinning and the choice of spellings described below.
 3. (UL) follows from the unit coherence by applying degree-zero global hypercohomology: the
    contravariant naturality of Stacks 08JA
-   (`AlgebraicGeometry.RingedSite.derivedSheafHomGlobalSectionsEquiv_naturality_source_homologyMap`) turns
+   (`AlgebraicGeometry.RingedSite.derivedSheafHomGlobalSectionsEquiv_naturality_source_homologyMap`)
+   turns
    `(λ_ K).hom ≫ -` into the map induced by `λ_ K` on internal Hom, Stacks 08DI read on global
    hypercohomology (`Stacks.SheafOfModules.derivedSheafHomTensorEquiv_globalSections`) turns the
    currying isomorphism into the bijection of morphism groups, and
@@ -420,10 +421,14 @@ instance isIsoDerivedSheafHomMapUL
     {A A' B B' : DerivedCategory (StructureSheafModules Rc)}
     (a : A' ⟶ A) (b : B ⟶ B') [IsIso a] [IsIso b] :
     IsIso (derivedSheafHomMap Rc a b) := by
-  show IsIso (((derivedSheafHom Rc).map a.op).app B ≫
+  change IsIso (((derivedSheafHom Rc).map a.op).app B ≫
     ((derivedSheafHom Rc).obj (op A')).map b)
   infer_instance
 
+omit [(Tensor.sheafTensor.{u, u, u, u, u} Rc).Additive]
+  [∀ A, ((Tensor.sheafTensor.{u, u, u, u, u} Rc).obj A).Additive]
+  [∀ (K₁ K₂ : CochainComplex (SheafOfModules.{u} (Tensor.ringSheaf.{u, u, u} Rc)) ℤ),
+    HomologicalComplex.HasMapBifunctor K₁ K₂ (Tensor.sheafTensor Rc) (ComplexShape.up ℤ)] in
 /-- At the identity of the structure sheaf in the source, the two-variable map on derived
 internal Hom is the map induced by the target alone.  This is
 `AlgebraicGeometry.RingedSite.derivedSheafHomMap_id_left` with the bifunctor spelled
@@ -681,8 +686,8 @@ theorem derivedSheafHomCounit_unit_law_apply
     derivedStructureSheafGlobalSectionsEquiv_apply,
     derivedSheafHomTensorEquiv_globalSections,
     ← homologyMap_derivedStructureSheafHomIso_inv_comp_derivedCurryIso]
-  exact RingedSite.derivedSheafHomGlobalSectionsEquiv_naturality_source_homologyMap (ringedSite Rc) M
-    (derivedLeftUnitorHom Rc K) x
+  exact RingedSite.derivedSheafHomGlobalSectionsEquiv_naturality_source_homologyMap
+    (ringedSite Rc) M (derivedLeftUnitorHom Rc K) x
 
 /-- **(UL), the unit law tying Stacks 08JA at source the structure sheaf to Stacks 08J8.**  For
 every `y : O_X ⟶ RSheafHom(K, M)`, the morphism `K ⟶ M` that `y` names under the two

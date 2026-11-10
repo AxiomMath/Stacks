@@ -84,8 +84,8 @@ identity on the constant presheaf, hence the identity.
 
 The equivalence itself is
 `AlgebraicGeometry.inertia_equivalence_stackCoproduct` in
-`StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.AbstractGroupQuotientInertiaEquivalence`. There the
-disjoint union of the formula is the coproduct of *stacks*, the stackification of the disjoint
+`StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.AbstractGroupQuotientInertiaEquivalence`. There
+the disjoint union of the formula is the coproduct of *stacks*, the stackification of the disjoint
 union of categories `Σ g, [Y^g/G]` used here: the source only produces the element `g` with `α`
 equal to multiplication by `g` locally in the fppf topology over `T`, and the plain disjoint union
 is not equivalent to the inertia stack.
@@ -493,7 +493,7 @@ lemma totalToTarget_fixed_inv {g : G}
       (show ρ g⁻¹ * ρ g = 1 by rw [← map_mul, inv_mul_cancel, map_one])
   have h1 : (ρ g⁻¹).asIso.hom.app V ((ρ g).asIso.hom.app V (A.totalToTarget V p)) =
       A.totalToTarget V p := by
-    simpa using types_congr_hom (NatTrans.congr_app h0 V) (A.totalToTarget V p)
+    simp
   rwa [hA V p] at h1
 
 /-- **Multiplication by `g` as an automorphism of an object of `[[X/G]]`**, the automorphism

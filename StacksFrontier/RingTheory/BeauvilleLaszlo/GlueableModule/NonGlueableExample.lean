@@ -114,14 +114,14 @@ private theorem smooth_germ_decomposition (r : smoothRingStalk) :
         smoothRingSheaf.presheaf.map iWtop.op coordSection * q := by
     apply ContMDiffMap.ext
     intro x
-    show g ⟨x.1, hWU x.2⟩ =
+    change g ⟨x.1, hWU x.2⟩ =
       g ⟨0, h0U⟩ + x.1 * q x
     exact hq x
   have hstalk := congrArg
     (fun s : smoothRingSheaf.presheaf.obj (op W) =>
       smoothRingSheaf.presheaf.germ W 0 h0W s) hsec
   rw [smoothSheafCommRing.eval_germ]
-  show smoothRingSheaf.presheaf.germ U 0 h0U g =
+  change smoothRingSheaf.presheaf.germ U 0 h0U g =
     constantGermHom (g ⟨0, h0U⟩) +
       smoothRingSheaf.presheaf.germ ⊤ 0 (Set.mem_univ 0) coordSection *
         smoothRingSheaf.presheaf.germ W 0 h0W q
@@ -215,7 +215,7 @@ private theorem flatDivSection_apply (x : ℝ) :
   · simp [flatDivSection, hx]
   · have hpos : 0 < x ^ 2 := sq_pos_of_ne_zero hx
     simp only [flatDivSection, Polynomial.eval_X,
-      expNegInvGlue, if_neg (not_le.mpr hpos), if_neg hx]
+      expNegInvGlue, ite_eq_right (not_le.mpr hpos), ite_eq_right hx]
     rw [show x * ((x ^ 2)⁻¹ * Real.exp (-(x ^ 2)⁻¹)) =
       Real.exp (-(x ^ 2)⁻¹) / x by field_simp]
     simp [div_eq_mul_inv]
@@ -242,7 +242,7 @@ private theorem flatPowerSection_apply (n : ℕ) (x : ℝ) :
   · simp [flatPowerSection, hx]
   · have hpos : 0 < x ^ 2 := sq_pos_of_ne_zero hx
     simp only [flatPowerSection, Polynomial.eval_pow, Polynomial.eval_X,
-      expNegInvGlue, if_neg (not_le.mpr hpos), if_neg hx]
+      expNegInvGlue, ite_eq_right (not_le.mpr hpos), ite_eq_right hx]
     field_simp
     ring_nf
     simp [hx]
@@ -251,7 +251,7 @@ private theorem coord_pow_mul_flatPower (n : ℕ) :
     coordSection ^ n * flatPowerSection n = flatSection := by
   apply ContMDiffMap.ext
   intro x
-  show x.1 ^ n * flatPowerSection n x = flatSection x
+  change x.1 ^ n * flatPowerSection n x = flatSection x
   have hp := flatPowerSection_apply n x.1
   have hf := flatSection_apply x.1
   change flatPowerSection n x = _ at hp
@@ -266,7 +266,7 @@ private theorem coord_pow_mul_flatPower_succ (n : ℕ) :
     coordSection ^ n * flatPowerSection (n + 1) = flatDivSection := by
   apply ContMDiffMap.ext
   intro x
-  show x.1 ^ n * flatPowerSection (n + 1) x = flatDivSection x
+  change x.1 ^ n * flatPowerSection (n + 1) x = flatDivSection x
   have hp := flatPowerSection_apply (n + 1) x.1
   have hf := flatDivSection_apply x.1
   change flatPowerSection (n + 1) x = _ at hp
@@ -312,21 +312,21 @@ private theorem coord_germ_regular :
     IsRegular (smoothRingSheaf.presheaf.germ ⊤ 0 (Set.mem_univ 0) coordSection) := by
   apply regular_germ_of_punctured_nonzero
   intro x hx
-  show x ≠ 0
+  change x ≠ 0
   exact hx
 
 private theorem flat_germ_regular :
     IsRegular (smoothRingSheaf.presheaf.germ ⊤ 0 (Set.mem_univ 0) flatSection) := by
   apply regular_germ_of_punctured_nonzero
   intro x hx
-  rw [flatSection_apply, if_neg hx]
+  rw [flatSection_apply, ite_eq_right hx]
   exact (Real.exp_pos _).ne'
 
 private theorem coord_mul_flatDiv :
     coordSection * flatDivSection = flatSection := by
   apply ContMDiffMap.ext
   intro x
-  show x.1 * (x.1 * ((Polynomial.X : Polynomial ℝ).eval ((x.1 ^ 2)⁻¹) *
+  change x.1 * (x.1 * ((Polynomial.X : Polynomial ℝ).eval ((x.1 ^ 2)⁻¹) *
     expNegInvGlue (x.1 ^ 2))) = expNegInvGlue (x.1 ^ 2)
   by_cases hx : x.1 = 0
   · simp [hx]
@@ -389,7 +389,7 @@ private theorem flatDiv_quotient_nonzero
 
 private theorem quotient_mul_torsion {R : Type*} [CommRing R] (f ψ : R) :
     f • (Ideal.Quotient.mk (Ideal.span {f * ψ}) ψ) = 0 := by
-  show (Ideal.Quotient.mk (Ideal.span {f * ψ})) (f * ψ) = 0
+  change (Ideal.Quotient.mk (Ideal.span {f * ψ})) (f * ψ) = 0
   simp
 
 private theorem quotient_tmul_zero {R C : Type*} [CommRing R] [CommRing C]
@@ -399,7 +399,7 @@ private theorem quotient_tmul_zero {R C : Type*} [CommRing R] [CommRing C]
   have hm : (Ideal.Quotient.mk (Ideal.span {φ})) ψ =
       ψ • (1 : R ⧸ Ideal.span {φ}) := by simp [Algebra.smul_def]
   rw [hm]
-  show (ψ • (1 : R ⧸ Ideal.span {φ})) ⊗ₜ[R] (1 : C) = 0
+  change (ψ • (1 : R ⧸ Ideal.span {φ})) ⊗ₜ[R] (1 : C) = 0
   rw [TensorProduct.smul_tmul]
   simp [Algebra.smul_def, hψ]
 
@@ -561,7 +561,7 @@ private theorem polynomialEvalAdicCompletionEquiv_of
         (Polynomial.eval₂ s f p) := by
   apply AdicCompletion.ext
   intro n
-  show polynomialEvalQuotientEquiv s eps f hsec hf hreg hdec n
+  change polynomialEvalQuotientEquiv s eps f hsec hf hreg hdec n
       ((AdicCompletion.of (Ideal.span {(Polynomial.X : Polynomial k)})
         (Polynomial k) p).val n) =
       ((AdicCompletion.of (Ideal.span {f}) A
@@ -608,7 +608,7 @@ private theorem adicCompletionCongrRingEquiv_of
       algebraMap B (AdicCompletion J B) (e a) := by
   apply AdicCompletion.ext
   intro n
-  show (Ideal.quotientEquiv (I ^ n • ⊤ : Ideal A)
+  change (Ideal.quotientEquiv (I ^ n • ⊤ : Ideal A)
       (J ^ n • ⊤ : Ideal B) e (pow_smul_top_eq_map e I J hIJ n))
     ((AdicCompletion.of I A a).val n) =
       (AdicCompletion.of J B (e a)).val n
@@ -648,7 +648,7 @@ private theorem polyCompletionEquivPowerSeries_coord :
         Polynomial.X) = PowerSeries.X := by
   apply polyCompletionEquivPowerSeries.symm.injective
   rw [RingEquiv.symm_apply_apply]
-  show (algebraMap (Polynomial ℝ)
+  change (algebraMap (Polynomial ℝ)
       (AdicCompletion (Ideal.span {(Polynomial.X : Polynomial ℝ)}) (Polynomial ℝ))
       Polynomial.X) =
     (adicCompletionCongrRingEquiv
@@ -657,11 +657,11 @@ private theorem polyCompletionEquivPowerSeries_coord :
       (Ideal.span {Polynomial.X}) uniqueAlgEquiv_map_idealOfVars.symm)
       ((MvPowerSeries.toAdicCompletionAlgEquiv Unit ℝ).toRingEquiv
         (PowerSeries.X : PowerSeries ℝ))
-  show _ = adicCompletionCongrRingEquiv _ _
+  change _ = adicCompletionCongrRingEquiv _ _
     (Ideal.span {Polynomial.X}) uniqueAlgEquiv_map_idealOfVars.symm
     (MvPowerSeries.toAdicCompletion Unit ℝ (MvPowerSeries.X () : MvPowerSeries Unit ℝ))
   rw [← MvPolynomial.coe_X, MvPowerSeries.toAdicCompletion_coe]
-  show _ = adicCompletionCongrRingEquiv _ _ _ _
+  change _ = adicCompletionCongrRingEquiv _ _ _ _
     (algebraMap (MvPolynomial Unit ℝ)
       (AdicCompletion (MvPolynomial.idealOfVars Unit ℝ) (MvPolynomial Unit ℝ))
       (MvPolynomial.X ()))
@@ -704,7 +704,7 @@ private theorem smoothGermCompletionEquiv_coord :
   have hX := polynomialEvalAdicCompletionEquiv_of constantGermHom eps f hsec hf
     coord_germ_regular smooth_germ_decomposition (Polynomial.X : Polynomial ℝ)
   simp only [Polynomial.eval₂_X] at hX
-  show polyCompletionEquivPowerSeries
+  change polyCompletionEquivPowerSeries
       (e.symm (algebraMap smoothRingStalk
         (AdicCompletion (Ideal.span {f}) smoothRingStalk) f)) = PowerSeries.X
   rw [← hX, e.symm_apply_apply]

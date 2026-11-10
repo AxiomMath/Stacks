@@ -80,7 +80,7 @@ theorem modules_eq_of_forall_point {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
   have hcomp : ∀ w : M.val.obj (op V),
       (M.val.map (p ≫ a i).op).hom w = (M.val.map p.op).hom ((M.val.map (a i).op).hom w) :=
     fun w ↦ congrArg (fun φ => φ.hom w) (M.val.map_comp (a i).op p.op)
-  show (M.val.map (p ≫ a i).op).hom x = (M.val.map (p ≫ a i).op).hom y
+  change (M.val.map (p ≫ a i).op).hom x = (M.val.map (p ≫ a i).op).hom y
   rw [hcomp, hcomp]
   exact congrArg _ (hxy i)
 

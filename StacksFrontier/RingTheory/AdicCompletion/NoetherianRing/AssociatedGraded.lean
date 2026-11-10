@@ -205,7 +205,7 @@ lemma grPiece_ann (S : Type*) [CommRing S] (J : Ideal S) (n : ℕ) :
   | _ z =>
     rw [← Submodule.Quotient.mk_smul, Submodule.Quotient.mk_eq_zero]
     simp only [Submodule.mem_comap]
-    show c * (z : S) ∈ (J ^ (n + 1) : Ideal S)
+    change c * (z : S) ∈ (J ^ (n + 1) : Ideal S)
     have : c * (z : S) ∈ J * J ^ n := Ideal.mul_mem_mul hc z.property
     rwa [← pow_succ'] at this
 
@@ -294,13 +294,13 @@ lemma grShift_comm (S : Type*) [CommRing S] (J : Ideal S) (m : ℕ) (b c : S)
   unfold grPiece at x
   induction x using Submodule.Quotient.induction_on with
   | _ z =>
-    show grShift S J 1 c hc (m + 1) (grShift S J 1 b hb m (grMk S J m z))
+    change grShift S J 1 c hc (m + 1) (grShift S J 1 b hb m (grMk S J m z))
       = grShift S J 1 b hb (m + 1) (grShift S J 1 c hc m (grMk S J m z))
     rw [grShift_grMk, grShift_grMk, grShift_grMk, grShift_grMk]
     unfold grMk
     rw [Submodule.Quotient.eq]
     simp only [Submodule.mem_comap]
-    show c * (b * z) - b * (c * z) ∈ _
+    change c * (b * z) - b * (c * z) ∈ _
     have : c * (b * z) - b * (c * z) = 0 := by ring
     rw [this]; exact Submodule.zero_mem _
 
@@ -311,7 +311,7 @@ lemma mulA_comp_comm (S : Type*) [CommRing S] (J : Ideal S) (t : ℕ) (a : Fin t
     (mulA S J t a ha i).comp (mulA S J t a ha j)
       = (mulA S J t a ha j).comp (mulA S J t a ha i) := by
   refine DirectSum.linearMap_ext _ fun m => LinearMap.ext fun x => ?_
-  show mulA S J t a ha i (mulA S J t a ha j (DirectSum.lof S ℕ (fun n => grPiece S J n) m x))
+  change mulA S J t a ha i (mulA S J t a ha j (DirectSum.lof S ℕ (fun n => grPiece S J n) m x))
     = mulA S J t a ha j (mulA S J t a ha i (DirectSum.lof S ℕ (fun n => grPiece S J n) m x))
   rw [mulA_lof, mulA_lof, mulA_lof, mulA_lof]
   congr 1
@@ -404,7 +404,7 @@ lemma mulAMonoidHom_single (S : Type*) [CommRing S] (J : Ideal S) (t : ℕ) (a :
     (ha : J = Ideal.span (Set.range a)) (i : Fin t) :
     mulAMonoidHom S J t a ha (Multiplicative.ofAdd (Finsupp.single i 1)) = mulA' S J t a ha i := by
   classical
-  show Finset.univ.noncommProd
+  change Finset.univ.noncommProd
       (fun j => (mulA' S J t a ha j) ^ ((Finsupp.single i 1 : Fin t →₀ ℕ) j))
       (mulA'_pow_pairwise S J t a ha (Finsupp.single i 1))
     = mulA' S J t a ha i
@@ -426,12 +426,12 @@ lemma mulAMonoidHom_single (S : Type*) [CommRing S] (J : Ideal S) (t : ℕ) (a :
     · rw [one_pow]
     · intro j hj
       have hji : j ≠ i := Finset.ne_of_mem_erase hj
-      show (mulA' S J t a ha j) ^ ((Finsupp.single i 1 : Fin t →₀ ℕ) j) = 1
+      change (mulA' S J t a ha j) ^ ((Finsupp.single i 1 : Fin t →₀ ℕ) j) = 1
       have : (Finsupp.single i 1 : Fin t →₀ ℕ) j = 0 := by
         rw [Finsupp.single_apply, ite_eq_right (Ne.symm hji)]
       rw [this, pow_zero]
   rw [hrest, mul_one]
-  show (mulA' S J t a ha i) ^ ((Finsupp.single i 1 : Fin t →₀ ℕ) i) = mulA' S J t a ha i
+  change (mulA' S J t a ha i) ^ ((Finsupp.single i 1 : Fin t →₀ ℕ) i) = mulA' S J t a ha i
   rw [Finsupp.single_eq_same, pow_one]
 
 /-- The ring hom `MvPolynomial (Fin t) (S ⧸ J) →+* Module.End (S ⧸ J) (grModule S J)`
@@ -460,7 +460,7 @@ lemma grModule_X_smul (S : Type*) [CommRing S] (J : Ideal S) (t : ℕ) (a : Fin 
     (ha : J = Ideal.span (Set.range a)) (i : Fin t) (x : grModule S J) :
     letI := grModulePModule S J t a ha
     (MvPolynomial.X i : MvPolynomial (Fin t) (S ⧸ J)) • x = mulA S J t a ha i x := by
-  show grModuleRingHom S J t a ha (MvPolynomial.X i) x = mulA S J t a ha i x
+  change grModuleRingHom S J t a ha (MvPolynomial.X i) x = mulA S J t a ha i x
   have hX : (MvPolynomial.X i : MvPolynomial (Fin t) (S ⧸ J))
       = AddMonoidAlgebra.single (Finsupp.single i 1) 1 := rfl
   rw [hX, grModuleRingHom, AddMonoidAlgebra.liftNCRingHom_single]
@@ -472,7 +472,7 @@ lemma grModule_C_smul (S : Type*) [CommRing S] (J : Ideal S) (t : ℕ) (a : Fin 
     (ha : J = Ideal.span (Set.range a)) (c : S ⧸ J) (x : grModule S J) :
     letI := grModulePModule S J t a ha
     (MvPolynomial.C c : MvPolynomial (Fin t) (S ⧸ J)) • x = c • x := by
-  show grModuleRingHom S J t a ha (MvPolynomial.C c) x = c • x
+  change grModuleRingHom S J t a ha (MvPolynomial.C c) x = c • x
   have hC : (MvPolynomial.C c : MvPolynomial (Fin t) (S ⧸ J))
       = AddMonoidAlgebra.single (0 : Fin t →₀ ℕ) c := rfl
   rw [hC, grModuleRingHom, AddMonoidAlgebra.liftNCRingHom_single]
@@ -556,7 +556,7 @@ lemma star_pow_eq_span_monomials
         have := hsum μ i
         rw [← hνeq] at this
         omega
-      · show a i * (fun ν : Fin t →₀ ℕ => ∏ k, a k ^ ν k) μ
+      · change a i * (fun ν : Fin t →₀ ℕ => ∏ k, a k ^ ν k) μ
           = (fun ν : Fin t →₀ ℕ => ∏ k, a k ^ ν k) ν
         rw [← hmon, ← hνeq]
 

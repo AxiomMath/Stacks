@@ -115,7 +115,7 @@ public theorem surjective_comp_toStalk_comp_residue {R B : CommRingCat.{u}} (φ 
   rw [RingHom.comp_apply] at hr
   refine ⟨r, ?_⟩
   rw [key]
-  show (Scheme.Spec.residueFieldIso B z).inv.hom
+  change (Scheme.Spec.residueFieldIso B z).inv.hom
     (algebraMap (↑B) z.asIdeal.ResidueField (φ.hom r)) = y
   rw [← Ideal.algebraMap_quotient_residueField_mk, hr, hw]
   exact hy'

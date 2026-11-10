@@ -84,7 +84,7 @@ theorem ofArrows_mem_etaleTopology_of_isOpenImmersion {T : BigFppfOver B S hS} {
   let E : PreZeroHypercover.{u + 1} T.left :=
     ⟨ULift.{u + 1} ι, fun i => (X i.down).left, fun i => (f i.down).left⟩
   have hE : IsEtaleCovering (⟨T.left, E⟩ : Covering B.Schemes) := by
-    show Presieve.ofArrows (fun i => B.inclusion.obj (E.X i)) (fun i => B.inclusion.map (E.f i))
+    change Presieve.ofArrows (fun i => B.inclusion.obj (E.X i)) (fun i => B.inclusion.map (E.f i))
       ∈ Scheme.etalePrecoverage (B.inclusion.obj T.left)
     refine (Scheme.ofArrows_mem_precoverage_iff (P := @Etale.{u})).2 ⟨fun x => ?_, fun i => ?_⟩
     · obtain ⟨i, hi⟩ := hcov x
@@ -222,7 +222,7 @@ theorem isSurjective_pullback_fst_of_cover {V : BigFppfOver B S hS} (a : yoneda.
   refine ⟨z.class B S hS (pullback β a), ?_⟩
   rw [Space.pointsMap_class]
   congr 1
-  show Space.FieldValuedPoint.mk _ _ _ ((pullback.fst β a).app _ (yonedaEquiv
+  change Space.FieldValuedPoint.mk _ _ _ ((pullback.fst β a).app _ (yonedaEquiv
     (pullback.lift (yoneda.map ψ) (yoneda.map g) hw))) = p
   rw [← yonedaEquiv_comp, pullback.lift_fst, yonedaEquiv_yoneda_map]
 
@@ -352,7 +352,7 @@ theorem exists_chart_of_model [IsLocallyNoetherian S]
         letI : Fact (IsPredeformationCategory (BasedCategory.ofFunctor
             (predeformationCategory iΛ ((Stack.fibredCategory B S hS F).val.p ⋙
               Over.post B.inclusion) x₀ hx₀).projection).p) := ⟨hD.predeformation⟩
-        letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+        letI : Fact (SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
             (BasedCategory.ofFunctor (predeformationCategory iΛ
               ((Stack.fibredCategory B S hS F).val.p ⋙ Over.post B.inclusion) x₀
                 hx₀).projection)
@@ -388,7 +388,7 @@ theorem exists_chart_of_model [IsLocallyNoetherian S]
   let i₀ : Spec (.of k) ⟶ S := N.obj.isoSpec.inv ≫ N.hom ≫ W.1.ι
   have : IsOpenImmersion W.1.ι := W.1.instIsOpenImmersionι
   have hlft : LocallyOfFiniteType i₀ := by
-    show LocallyOfFiniteType (N.obj.isoSpec.inv ≫ N.hom ≫ W.1.ι)
+    change LocallyOfFiniteType (N.obj.isoSpec.inv ≫ N.hom ≫ W.1.ι)
     infer_instance
   have hqc : QuasiCompact i₀ := inferInstance
   have hK : B.Contains (Spec (.of k)) :=
@@ -398,7 +398,7 @@ theorem exists_chart_of_model [IsLocallyNoetherian S]
   let isoSite : A ⟶ M := BigFppfOver.homOfComp (X := A) (Y := M) N.obj.isoSpec.inv rfl
   let invSite : M ⟶ A := BigFppfOver.homOfComp (X := M) (Y := A) N.obj.isoSpec.hom
     (by
-      show N.obj.isoSpec.hom ≫ N.obj.isoSpec.inv ≫ N.hom ≫ W.1.ι = N.hom ≫ W.1.ι
+      change N.obj.isoSpec.hom ≫ N.obj.isoSpec.inv ≫ N.hom ≫ W.1.ι = N.hom ≫ W.1.ι
       rw [Iso.hom_inv_id_assoc])
   have hinv : invSite ≫ isoSite = 𝟙 M :=
     BigFppfOver.homOfComp_comp_homOfComp _ _ _ _ N.obj.isoSpec.hom_inv_id
@@ -463,7 +463,7 @@ theorem exists_chart_of_artinAxioms [IsLocallyNoetherian S]
         letI : Fact (IsPredeformationCategory (BasedCategory.ofFunctor
             (predeformationCategory iΛ ((Stack.fibredCategory B S hS F).val.p ⋙
               Over.post B.inclusion) x₀ hx₀).projection).p) := ⟨hD.predeformation⟩
-        letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+        letI : Fact (SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
             (BasedCategory.ofFunctor (predeformationCategory iΛ
               ((Stack.fibredCategory B S hS F).val.p ⋙ Over.post B.inclusion) x₀
                 hx₀).projection)
@@ -538,7 +538,7 @@ theorem exists_chart_of_artinAxioms [IsLocallyNoetherian S]
       have : IsOpenImmersion W.1.ι := W.1.instIsOpenImmersionι
       refine (Cardinal.mk_subtype_le _).trans ((hT₀ (MO W i) Γ((M W i).obj, ⊤)
         ⟨(M W i).obj.isoSpec⟩ ?_).trans ((le_max_right _ _).trans hκμ))
-      show LocallyOfFiniteType ((M W i).hom ≫ W.1.ι)
+      change LocallyOfFiniteType ((M W i).hom ≫ W.1.ι)
       infer_instance
     · exact (Cardinal.mk_eq_zero_iff.mpr ⟨fun x => hf x.2⟩).le.trans (zero_le)
   have hI : ∀ W, Cardinal.mk (I W) ≤ μ := by
@@ -577,7 +577,7 @@ theorem exists_chart_of_artinAxioms [IsLocallyNoetherian S]
       have : IsZariskiLocalAtSource @LocallyOfFiniteType.{u} :=
         HasRingHomProperty.instIsZariskiLocalAtSource
       refine IsZariskiLocalAtSource.of_openCover (P := @LocallyOfFiniteType.{u}) 𝒰 (fun j => ?_)
-      show LocallyOfFiniteType (B.inclusion.map (c j).left ≫ B.inclusion.map Z.hom)
+      change LocallyOfFiniteType (B.inclusion.map (c j).left ≫ B.inclusion.map Z.hom)
       rw [← Functor.map_comp, Over.w (c j)]
       exact hVlft j
     have hversal : ∀ z : (q.obj xZ).left, IsFiniteTypePoint z →
@@ -629,17 +629,17 @@ theorem exists_chart_of_artinAxioms [IsLocallyNoetherian S]
           Scheme.ΓSpecIso (.of K)).commRingCatIsoToRingEquiv.toMulEquiv
     let Y : BigFppfOver B S hS := Over.mk (⟨toBase⟩ : B.obj hK ⟶ B.obj hS)
     let ψ : MO ⟨W, hW⟩ i ⟶ Y := BigFppfOver.homOfComp (X := MO ⟨W, hW⟩ i) (Y := Y) e.hom (by
-      show e.hom ≫ toBase = (M ⟨W, hW⟩ i).hom ≫ W.ι
+      change e.hom ≫ toBase = (M ⟨W, hW⟩ i).hom ≫ W.ι
       rw [← hl, ← Category.assoc]
       exact congrArg (· ≫ W.ι) he)
     let φ : Y ⟶ MO ⟨W, hW⟩ i := BigFppfOver.homOfComp (X := Y) (Y := MO ⟨W, hW⟩ i) e.inv (by
-      show e.inv ≫ (M ⟨W, hW⟩ i).hom ≫ W.ι = toBase
+      change e.inv ≫ (M ⟨W, hW⟩ i).hom ≫ W.ι = toBase
       rw [← he, Category.assoc, Iso.inv_hom_id_assoc, hl])
     have hφψ : φ ≫ ψ = 𝟙 Y := BigFppfOver.homOfComp_comp_homOfComp _ _ _ _ e.inv_hom_id
     let j : J := ⟨⟨W, hW⟩, i, ⟨F.map ψ.op x, hfield⟩⟩
     refine ⟨φ ≫ g j ≫ c j, ?_⟩
     rw [map_comp_op_apply, map_comp_op_apply, hτ j, hg j]
-    show F.map φ.op (F.map ψ.op x) = x
+    change F.map φ.op (F.map ψ.op x) = x
     rw [← map_comp_op_apply, hφψ, op_id, Functor.map_id_apply]
 
 /-- **Artin's criterion for a functor to be an algebraic space** (the statement of Stacks 07Y1,
@@ -692,7 +692,7 @@ theorem isAlgebraicSpace_of_artinAxioms [IsLocallyNoetherian S]
         letI : Fact (IsPredeformationCategory (BasedCategory.ofFunctor
             (predeformationCategory iΛ ((Stack.fibredCategory B S hS F).val.p ⋙
               Over.post B.inclusion) x₀ hx₀).projection).p) := ⟨hD.predeformation⟩
-        letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+        letI : Fact (SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
             (BasedCategory.ofFunctor (predeformationCategory iΛ
               ((Stack.fibredCategory B S hS F).val.p ⋙ Over.post B.inclusion) x₀
                 hx₀).projection)

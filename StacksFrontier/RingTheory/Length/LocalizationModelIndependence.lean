@@ -78,14 +78,14 @@ theorem Module.length_eq_of_isLocalization_of_isLocalizedModule
   let _ : Module (Localization S) N := Module.compHom N (algebraMap (Localization S) T)
   have : IsScalarTower (Localization S) T N :=
     ⟨fun x t n => by
-      show (x • t) • n = (algebraMap (Localization S) T x) • (t • n)
+      change (x • t) • n = (algebraMap (Localization S) T x) • (t • n)
       rw [Algebra.smul_def, mul_smul]⟩
   have : IsScalarTower R (Localization S) N :=
     ⟨fun r x n => by
       have h1 : algebraMap (Localization S) T (r • x)
           = algebraMap R T r * algebraMap (Localization S) T x := by
         rw [Algebra.smul_def, map_mul, ← RingHom.comp_apply, hmap]
-      show (algebraMap (Localization S) T (r • x)) • n
+      change (algebraMap (Localization S) T (r • x)) • n
         = r • ((algebraMap (Localization S) T x) • n)
       rw [h1, ← Algebra.smul_def, smul_assoc]⟩
   exact (LinearEquiv.extendScalarsOfIsLocalization S (Localization S)

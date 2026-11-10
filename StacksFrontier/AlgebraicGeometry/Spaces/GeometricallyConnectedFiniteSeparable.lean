@@ -272,7 +272,7 @@ private theorem range_pointsMap_eq_preimage_of_preimage_eqToHom_eq
   cases e
   simp only [eqToHom_refl, Subfunctor.preimage_id] at hWA
   subst hWA
-  show _ = pointsMap B S hS F (𝟙 F) ⁻¹' _
+  change _ = pointsMap B S hS F (𝟙 F) ⁻¹' _
   rw [pointsMap_id, Set.preimage_id]
 
 /-- The point set of the base change of an open subspace is the preimage of its point set. -/

@@ -92,10 +92,10 @@ private theorem comparisonRing_isPullback
     (CommRingCat.ofHom (algebraMap T.k T.l)))
   apply h.of_iso e.toCommRingCatIso.symm (Iso.refl _) (Iso.refl _) (Iso.refl _)
   · ext x
-    show x.val.1 = (e (e.symm x)).val.1
+    change x.val.1 = (e (e.symm x)).val.1
     exact congrArg (fun y => y.val.1) (e.apply_symm_apply x).symm
   · ext x
-    show x.val.2 =
+    change x.val.2 =
       Deformation.Artin.residueMap ((Deformation.comparisonFunctor T).functor.obj A) (e.symm x)
     rw [show (Deformation.Artin.residueMap ((Deformation.comparisonFunctor T).functor.obj A))
         (e.symm x) = (e (e.symm x)).val.2 from
@@ -133,10 +133,10 @@ private theorem fiberSquareComparison_hom_ext
       c.map j a ≫ Fiber.fiberInclusion.map β) : α = β := by
   apply (Deformation.Artin.fiberSquareComparison q c f g i j w).map_injective
   apply CategoricalPullback.hom_ext
-  · show c.homMap i α = c.homMap i β
+  · change c.homMap i α = c.homMap i β
     apply fiber_hom_ext_of_cartesian i (c.map i b) inferInstance
     simpa only [c.homMap_fac] using hi
-  · show c.homMap j α = c.homMap j β
+  · change c.homMap j α = c.homMap j β
     apply fiber_hom_ext_of_cartesian j (c.map j b) inferInstance
     simpa only [c.homMap_fac] using hj
 
@@ -174,7 +174,7 @@ private theorem fiberSquareComparison_iso_fac (x : q.Fiber Z) :
     Fiber.fiberInclusion.map
         ((Deformation.Artin.fiberSquareComparison q c f g i j w).obj x).iso.hom ≫
       c.map g (c.obj j x) ≫ c.map j x = c.map f (c.obj i x) ≫ c.map i x := by
-  show Fiber.fiberInclusion.map
+  change Fiber.fiberInclusion.map
     (((c.pullbackFunctorCompIso f i).inv.app x) ≫
       ((eqToIso (congrArg c.pullbackFunctor w)).hom.app x) ≫
       ((c.pullbackFunctorCompIso g j).hom.app x)) ≫ _ = _
@@ -183,10 +183,10 @@ private theorem fiberSquareComparison_iso_fac (x : q.Fiber Z) :
       c.map g (c.obj j x) ≫ c.map j x = c.map (g ≫ j) x from c.objCompIso_hom_fac g j x]
   rw [pullbackFunctor_eqToHom_fac c w x]
   have h := c.objCompIso_hom_fac f i x
-  show Fiber.fiberInclusion.map (c.objCompIso f i x).inv ≫ c.map (f ≫ i) x = _
+  change Fiber.fiberInclusion.map (c.objCompIso f i x).inv ≫ c.map (f ≫ i) x = _
   rw [← h]
   simp only [← Category.assoc, ← Functor.map_comp, Iso.inv_hom_id]
-  show (𝟙 _ ≫ c.map f (c.obj i x)) ≫ c.map i x = _
+  change (𝟙 _ ≫ c.map f (c.obj i x)) ≫ c.map i x = _
   simp
 
 private theorem fiberSquareComparison_glue
@@ -241,7 +241,7 @@ private theorem fiberSquareComparison_glue
     Fiber.fiberInclusion.map eV.hom ≫ α ≫ γ = c.map f y ≫ γ := by rw [← Category.assoc, heV]
     _ = Fiber.fiberInclusion.map d.iso.hom ≫ c.map g z ≫ δ := hw
     _ = Fiber.fiberInclusion.map eV.hom ≫ β ≫ δ := by
-      show Fiber.fiberInclusion.map (eV.hom ≫ eW.inv) ≫ _ = _
+      change Fiber.fiberInclusion.map (eV.hom ≫ eW.inv) ≫ _ = _
       rw [Functor.map_comp, Category.assoc, ← Category.assoc (Fiber.fiberInclusion.map eW.inv), heW]
 
 /-- Two fibre morphisms agreeing after precomposition with a cartesian lift agree after
@@ -441,7 +441,7 @@ private theorem siteObject_isFiniteTypeOver_of_post_eq
     (h : (Over.post B.inclusion).obj U = Over.mk f)
     (hf : LocallyOfFiniteType f ∧ QuasiCompact f) :
     Deformation.Artin.IsFiniteTypeOver B S hS U := by
-  show LocallyOfFiniteType ((Over.post B.inclusion).obj U).hom ∧
+  change LocallyOfFiniteType ((Over.post B.inclusion).obj U).hom ∧
     QuasiCompact ((Over.post B.inclusion).obj U).hom
   rw [h]
   exact hf

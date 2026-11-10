@@ -367,7 +367,7 @@ theorem totalChern_commute (E F : X.Modules) (r s : ℕ)
   have := GenuineChern.isFiniteLocallyFreeOfRank_of_shortExact
     (ShortComplex.mk (biprod.inl : F ⟶ F ⊞ E) (biprod.snd : F ⊞ E ⟶ E) (by simp))
     (ShortComplex.Splitting.ofHasBinaryBiproduct F E).shortExact s r ‹_› ‹_›
-  show totalChern C sX E r * totalChern C sX F s = totalChern C sX F s * totalChern C sX E r
+  change totalChern C sX E r * totalChern C sX F s = totalChern C sX F s * totalChern C sX E r
   rw [← totalChern_biprod C sX E F r s, ← totalChern_biprod C sX F E s r]
   exact totalChern_congr C sX (biprod.braiding E F) (Nat.add_comm r s)
 
@@ -377,7 +377,7 @@ theorem totalChernClassOfModule_commute (E F : X.Modules)
     [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u} E]
     [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u} F] :
     Commute (totalChernClassOfModule C sX E) (totalChernClassOfModule C sX F) := by
-  show totalChernClassOfModule C sX E * totalChernClassOfModule C sX F =
+  change totalChernClassOfModule C sX E * totalChernClassOfModule C sX F =
     totalChernClassOfModule C sX F * totalChernClassOfModule C sX E
   refine TotalChowClass.eq_of_res_eq_of_rank E F fun V a b ha hb ↦ ?_
   rw [map_mul, map_mul, res_totalChernClassOfModule_of_rank C sX E V.ι rfl a,

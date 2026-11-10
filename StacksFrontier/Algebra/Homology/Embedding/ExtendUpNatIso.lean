@@ -76,7 +76,7 @@ theorem extendUpNatXIso_natCast (n : ℕ) :
     extendUpNatXIso K L hL e (n : ℤ) =
       K.extendXIso ComplexShape.embeddingUpNat (i := n) (i' := (n : ℤ)) rfl ≪≫
         e n (n : ℤ) rfl :=
-  dif_pos (Int.natCast_nonneg n)
+  dite_eq_left (Int.natCast_nonneg n)
 
 /-- **An `ℕ`-indexed complex extended by zero is isomorphic to a `ℤ`-indexed complex vanishing
 in negative degrees**, as soon as their terms are isomorphic compatibly with the

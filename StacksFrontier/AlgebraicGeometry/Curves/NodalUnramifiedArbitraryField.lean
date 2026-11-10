@@ -90,7 +90,7 @@ theorem isScalarTower_residueField {k : Type u} [Field k] {X : Scheme.{u}}
   let : Algebra ((Spec (.of k)).residueField (f.base x)) (X.residueField x) :=
     (f.residueFieldMap x).hom.toAlgebra
   refine IsScalarTower.of_algebraMap_eq' ?_
-  show (fieldToResidue f x).hom = _
+  change (fieldToResidue f x).hom = _
   rw [fieldToResidue_eq_residueFieldMap]
   rfl
 

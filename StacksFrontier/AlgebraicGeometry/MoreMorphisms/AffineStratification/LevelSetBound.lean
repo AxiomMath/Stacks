@@ -55,7 +55,7 @@ theorem isLocallyClosed_levelSet_of_lowerSemicontinuous {T : Type*} [Topological
     IsLocallyClosed {y | F y = d} := by
   have heq : {y | F y = d} = F ⁻¹' Set.Ioi (d - 1) ∩ F ⁻¹' Set.Iic d := by
     ext y
-    simp only [Set.mem_setOf_eq, Set.mem_inter_iff, Set.mem_preimage, Set.mem_Ioi, Set.mem_Iic]
+    simp only [Set.mem_ofPred_eq, Set.mem_inter_iff, Set.mem_preimage, Set.mem_Ioi, Set.mem_Iic]
     omega
   rw [heq]
   exact (hF.isOpen_preimage _).isLocallyClosed.inter (hF.isClosed_preimage _).isLocallyClosed

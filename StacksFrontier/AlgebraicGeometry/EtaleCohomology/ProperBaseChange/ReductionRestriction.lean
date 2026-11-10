@@ -35,11 +35,6 @@ namespace Stacks.EtaleCohomology
 
 variable (k k' : Type u) [Field k] [Field k'] [Algebra k k'] {X : Scheme.{u}}
   (π : X ⟶ Spec (.of k))
-  [HasExt.{w} (Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1})]
-  [HasExt.{w} (Sheaf X.reduction.smallEtaleTopology AddCommGrpCat.{u + 1})]
-  [HasExt.{w} (Sheaf (scalarExtension k k' π).smallEtaleTopology AddCommGrpCat.{u + 1})]
-  [HasExt.{w} (Sheaf (scalarExtension k k' (X.reductionι ≫ π)).smallEtaleTopology
-    AddCommGrpCat.{u + 1})]
 
 /-- The unit `F ⟶ i_* i^{-1} F` along the reduction `i : X_red ⟶ X` is an isomorphism. -/
 theorem isIso_unit_reductionι (F : Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1}) :
@@ -55,6 +50,12 @@ private noncomputable def unitIsoReductionι (F : Sheaf X.smallEtaleTopology Add
       ((etaleAbelianInverseImage.{u, 0} X.reductionι).obj F) :=
   have := isIso_unit_reductionι F
   asIso ((etaleAbelianInverseImageDirectImageAdj.{u, 0} X.reductionι).unit.app F)
+
+variable [HasExt.{w} (Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1})]
+  [HasExt.{w} (Sheaf X.reduction.smallEtaleTopology AddCommGrpCat.{u + 1})]
+  [HasExt.{w} (Sheaf (scalarExtension k k' π).smallEtaleTopology AddCommGrpCat.{u + 1})]
+  [HasExt.{w} (Sheaf (scalarExtension k k' (X.reductionι ≫ π)).smallEtaleTopology
+    AddCommGrpCat.{u + 1})]
 
 /-- **Surjectivity of restriction can be tested on the reduction.** -/
 theorem surjective_etaleCohomologyRestrictionMap_iff_reduction

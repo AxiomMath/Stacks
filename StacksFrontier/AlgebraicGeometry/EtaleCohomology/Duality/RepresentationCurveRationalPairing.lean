@@ -80,13 +80,13 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) (ℓ : ℕ)
   [Algebra k kbar] (p q : ℕ) [Fact p.Prime] [CharP k p] [CharP kbar p]
   (hcard : Fintype.card k = p ^ q)
 
-omit [IsAlgClosed kbar] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
+omit [Fintype k] [IsAlgClosed kbar] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The cup product pairings of the levels are balanced for `ℱ_A` and `ℱ_{Aᵀ}`**, for an
 intertwiner `A` of `ρ₀`: `εₙ(ℱ_A x, y) = εₙ(x, ℱ_{Aᵀ} y)` for the pairing
 `Stacks.EtaleCohomology.LAdicSheaf.curveLevelPairing` of `ℱ_{ρ₀}` and `ℱ_{ρ₀^∨}` along the
 coefficient pairing `Stacks.EtaleCohomology.LAdicSheaf.representationCurveLevelPairing`, any traces
 `t`. -/
-theorem LAdicSheaf.representationCurveLevelPairing_balanced
+theorem LAdicSheaf.representationCurveLevelPairing_balanced [Finite k]
     (t : ∀ n : ℕ, Ext.{u + 1} (𝟙_ (EtaleModules.{u, 0} (ZMod (ℓ ^ (n + 1)))
         (fieldBaseChange (Over.mk j.toBase) kbar)))
         (Stacks.Cohomology.GlobalSections.constantModuleSheaf (ZMod (ℓ ^ (n + 1)))
@@ -146,7 +146,8 @@ theorem LAdicSheaf.representationCurveLevelPairing_balanced
     (fun n => LAdicSheaf.representationCurveLevelPairing B X x ρ₀ hρ₀ n f j) hflat hflat
     (fun n => LAdicSheaf.representationCurveLevelPairing_adjoint B X x ρ₀ hρ₀ n f j A hA) n a b
 
-omit [ConnectedSpace X.1] [IsAlgClosed kbar] [CharP kbar p] in
+omit [ConnectedSpace X.1] [IsAlgClosed kbar] [CharP kbar p] [LocallyOfFiniteType f] [QuasiCompact f]
+  [IsSeparated f] in
 /-- **Balanced Poincaré duality over `ℚ_ℓ` from finite levels**, for ℓ-adic sheaves `F`, `F'` with
 pow-exact levels and perfect `RΓ_c(X_k̄, Fₙ)`, `RΓ_c(X_k̄, F'ₙ)`: pairings `εₙ` of
 `Hⁱ_c(X_k̄, Fₙ)` and `H^{i'}_c(X_k̄, F'ₙ)` into `ℤ/ℓⁿ⁺¹` with left kernels killed by `ℓ^{K₁}`,

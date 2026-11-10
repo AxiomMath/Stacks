@@ -201,7 +201,8 @@ so the correction is determined, not chosen.
    naturality, and the two spellings `(BigFppfOver.toScheme B S hS).obj T` and `T.left.obj` of
    the underlying scheme do go together, by `rfl`, with no device needed.
 
-   **Two spellings decide whether the composed statement elaborates.**  The square's two vertical adjunctions have to be *named definitions*: with
+   **Two spellings decide whether the composed statement elaborates.**  The square's two vertical
+   adjunctions have to be *named definitions*: with
    `CategoryTheory.Adjunction.comp` written out underneath the hom-set bijection the statement
    exceeds the heartbeat budget, and introducing the pieces as reducible `abbrev`s exceeds it
    too.  The comparison of right adjoints has to be *written out*: naming it exhausts the

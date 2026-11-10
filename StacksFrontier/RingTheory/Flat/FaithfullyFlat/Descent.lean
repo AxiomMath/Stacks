@@ -178,9 +178,7 @@ and part (3) is `Module.Flat.of_flat_tensorProduct`, both in Mathlib.",
     "fin. pres., descent",
   sga "1 VIII 1.10" "fin. pres., affine",
   sga "4½ Arcata 1.4.2"
-      "(ii), fin. presentation",
-  ega "IV 2.5.2" "(ii), descent, affine",
-  sga "1 VIII 1.11" "fin. pres., descent", sga "4½ Arcata 1.4.2" "(ii), fin. presentation"]
+      "(ii), fin. presentation"]
 theorem FinitePresentation.of_isBaseChange_of_faithfullyFlat {R : Type*} [CommRing R]
     {S : Type*} [CommRing S] [Algebra R S] [Module.FaithfullyFlat R S]
     {M : Type*} [AddCommGroup M] [Module R M]

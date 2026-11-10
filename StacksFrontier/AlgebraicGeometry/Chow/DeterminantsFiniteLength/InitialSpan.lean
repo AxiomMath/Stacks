@@ -190,7 +190,7 @@ public lemma admissible_update (e : AdmissibleSequence R M)
     IsAdmissibleSequence (R := R) (Function.update e.1 i x) := by
   classical
   intro j r hr
-  show r • Function.update e.1 i x j ∈ initialSpan (R := R) (Function.update e.1 i x) j.val
+  change r • Function.update e.1 i x j ∈ initialSpan (R := R) (Function.update e.1 i x) j.val
   rw [initialSpan_update e.1 i x y a hi hy]
   by_cases h : j = i
   · subst j
@@ -270,7 +270,7 @@ public lemma admissible_swap (e : AdmissibleSequence R M)
   have hp : initialSpan (R := R) (swapEntries e.1 a b) b.val = initialSpan e.1 b.val :=
     initialSpan_swap _ _ _ (by omega)
   intro i r hr
-  show r • swapEntries e.1 a b i ∈ initialSpan (R := R) (swapEntries e.1 a b) i.val
+  change r • swapEntries e.1 a b i ∈ initialSpan (R := R) (swapEntries e.1 a b) i.val
   by_cases hib : i = b
   · subst i
     rw [hp]

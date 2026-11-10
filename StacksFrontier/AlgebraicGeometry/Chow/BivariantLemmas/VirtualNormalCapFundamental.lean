@@ -260,7 +260,7 @@ theorem isRegular_of_isCohenMacaulayLocalRing_stalk (C : ChowSituation.{u})
   have hgp : ξ ∈ genericPoints (pullback i g : Scheme.{u}) := by
     obtain ⟨W, hW⟩ :=
       isGenericPoint_component_of_relativeDimension_eq C (g ≫ sX) (pullback.snd i g) hZY ξ hξ
-    show closure ({ξ} : Set (pullback i g : Scheme.{u})) ∈
+    change closure ({ξ} : Set (pullback i g : Scheme.{u})) ∈
       irreducibleComponents (pullback i g : Scheme.{u})
     rw [hW.def]
     exact W.2

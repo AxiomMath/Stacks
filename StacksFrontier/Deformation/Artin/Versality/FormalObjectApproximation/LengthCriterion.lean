@@ -269,7 +269,7 @@ private theorem injective_of_injective_truncations
       (show StrictMono (fun n : ℕ => n + 1) from fun _ _ h => Nat.add_lt_add_right h 1)
     intro n _
     apply hf n
-    show Ideal.Quotient.mk (maximalIdeal S ^ (n + 1)) (f.hom x) =
+    change Ideal.Quotient.mk (maximalIdeal S ^ (n + 1)) (f.hom x) =
       Ideal.Quotient.mk (maximalIdeal S ^ (n + 1)) (f.hom y)
     rw [hxy]
   exact congrFun h ()
@@ -284,7 +284,7 @@ private theorem isIso_of_bijective_completeLocalHom
     hom := e.symm.toAlgHom
     isLocal := IsLocalHom.of_surjective _ e.symm.surjective
     residue_comm := fun s => by
-      show R.residueEquiv (residue R (e.symm s)) = S.residueEquiv (residue S s)
+      change R.residueEquiv (residue R (e.symm s)) = S.residueEquiv (residue S s)
       have h := f.residue_comm (e.symm s)
       change S.residueEquiv (residue S (e (e.symm s))) =
         R.residueEquiv (residue R (e.symm s)) at h
@@ -407,9 +407,9 @@ private theorem exists_degreewise_addEquiv
   have hf (i : ι) (x : M i) : DirectSum.of N i (f i x) = e (DirectSum.of M i x) := by
     obtain ⟨y, hy⟩ := he i x
     simp only [f, AddMonoidHom.comp_apply, AddEquiv.toAddMonoidHom_eq_coe,
-      AddMonoidHom.coe_coe, LinearMap.toAddMonoidHom_coe]
+      AddMonoidHom.coe_ofClass, LinearMap.toAddMonoidHom_coe]
     rw [hy]
-    show DirectSum.of N i ((DirectSum.component ℤ ι N i)
+    change DirectSum.of N i ((DirectSum.component ℤ ι N i)
       (DirectSum.lof ℤ ι N i y)) = _
     rw [DirectSum.component.lof_self]
   have hmap : DirectSum.map f = e.toAddMonoidHom := by
@@ -443,7 +443,7 @@ private theorem associatedGraded_of_smul
   induction z using Quotient.inductionOn with
   | h z =>
     rw [AssociatedGraded.of_mul_of]
-    show DirectSum.of _ n (AssociatedGraded.mk I n (r • z)) =
+    change DirectSum.of _ n (AssociatedGraded.mk I n (r • z)) =
       DirectSum.of _ (0 + n) (AssociatedGraded.mk I (0 + n)
         ⟨r * z.val, AssociatedGraded.smul_mem_power I (by simp) z.property⟩)
     apply Eq.symm
@@ -466,11 +466,11 @@ private theorem exists_gradedPiece_linearEquiv
   refine ⟨{ f n with map_smul' := ?_ }⟩
   intro r z
   apply DirectSum.of_injective n
-  show DirectSum.of _ n (f n (r • z)) = DirectSum.of _ n (r • f n z)
+  change DirectSum.of _ n (f n (r • z)) = DirectSum.of _ n (r • f n z)
   rw [hf]
-  show e (DirectSum.of _ n (r • z)) = _
+  change e (DirectSum.of _ n (r • z)) = _
   rw [associatedGraded_of_smul, map_mul, he₀]
-  show _ * e.toAddEquiv (DirectSum.of _ n z) = _
+  change _ * e.toAddEquiv (DirectSum.of _ n z) = _
   rw [← hf]
   simpa only [algebraMap_smul] using
     (associatedGraded_of_smul J n (algebraMap R S r) (f n z)).symm
@@ -561,7 +561,7 @@ private theorem length_eq_of_addEquiv_of_smul
       have h : e.symm (s • y) = r • e.symm y := by
         apply e.injective
         simpa using (hr (e.symm y)).symm
-      show e.symm (s • y) ∈ P
+      change e.symm (s • y) ∈ P
       rw [h]
       exact P.smul_mem r hy }
   let g (Q : Submodule S N) : Submodule R M := {
@@ -571,7 +571,7 @@ private theorem length_eq_of_addEquiv_of_smul
     smul_mem' := by
       intro r x hx
       obtain ⟨s, hs⟩ := hf r
-      show e (r • x) ∈ Q
+      change e (r • x) ∈ Q
       rw [hs x]
       exact Q.smul_mem s hx }
   let E : Submodule R M ≃o Submodule S N := {
@@ -648,7 +648,7 @@ private theorem bijective_of_surjective_of_graded_equiv
   let : Algebra R S := f.hom.toRingHom.toAlgebra
   apply bijective_of_surjective_of_truncation_length_eq f hf
   intro n
-  show Module.length (R ⧸ maximalIdeal R ^ (n + 1)) (R ⧸ maximalIdeal R ^ (n + 1)) =
+  change Module.length (R ⧸ maximalIdeal R ^ (n + 1)) (R ⧸ maximalIdeal R ^ (n + 1)) =
     Module.length (S ⧸ maximalIdeal S ^ (n + 1)) (S ⧸ maximalIdeal S ^ (n + 1))
   calc
     _ = Module.length R (R ⧸ maximalIdeal R ^ (n + 1)) :=
@@ -679,7 +679,7 @@ private theorem completedLocalizationQuotientEquiv_mk
   simp only [completedLocalizationQuotientEquiv, RingEquiv.trans_apply,
     completionQuotientEquiv_mk]
   apply (IsLocalization.AtPrime.equivQuotMaximalIdealPow m Rₘ n).injective
-  show (IsLocalization.AtPrime.equivQuotMaximalIdealPow m Rₘ n)
+  change (IsLocalization.AtPrime.equivQuotMaximalIdealPow m Rₘ n)
     ((IsLocalization.AtPrime.equivQuotMaximalIdealPow m Rₘ n).symm _) = _
   rw [AlgEquiv.apply_symm_apply,
     IsLocalization.AtPrime.equivQuotMaximalIdealPow_apply_mk]
@@ -781,7 +781,7 @@ theorem formalBaseMap_comp
     have hg := (Deformation.Artin.FormalObject.Hom.baseMap_spec g).2 n
     dsimp only [Deformation.Artin.truncationOver, Deformation.Artin.FormalBase.truncation]
       at hf hg ⊢
-    show tmap (f ≫ g) n ≫
+    change tmap (f ≫ g) n ≫
       AlgebraicGeometry.adicThickeningι Z.base.R (maximalIdeal Z.base.R) n =
         AlgebraicGeometry.adicThickeningι X.base.R (maximalIdeal X.base.R) n ≫
           (f.baseMap ≫ g.baseMap)
@@ -812,7 +812,7 @@ theorem formalBaseMap_id
   constructor
   · simp
   · intro n
-    show (eqToHom (X.level_eq n).symm ≫ p.map (𝟙 (X.level n)) ≫
+    change (eqToHom (X.level_eq n).symm ≫ p.map (𝟙 (X.level n)) ≫
       eqToHom (X.level_eq n)).left.hom ≫
         AlgebraicGeometry.adicThickeningι X.base.R (maximalIdeal X.base.R) n =
       AlgebraicGeometry.adicThickeningι X.base.R (maximalIdeal X.base.R) n

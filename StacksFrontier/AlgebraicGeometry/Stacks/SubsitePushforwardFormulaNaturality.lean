@@ -226,7 +226,7 @@ theorem subsitePushforwardSectionsEquiv_naturality (η : ℋ ⟶ 𝒢)
   intro T
   rw [subsitePushforwardSectionsEquiv_apply (T := T.unop),
     Presheaf.globalSectionsEquivSections_naturality]
-  show _ = ((primedProjection p𝒳 p𝒴 f P c y).op.whiskerLeft η).app T
+  change _ = ((primedProjection p𝒳 p𝒴 f P c y).op.whiskerLeft η).app T
     (((Presheaf.globalSectionsEquivSections ((primedProjection p𝒳 p𝒴 f P c y).op ⋙ ℋ))
       (subsitePushforwardSectionsEquiv p𝒳 p𝒴 f P hPQ h𝒴 hf c y ℋ s)).1 T)
   rw [subsitePushforwardSectionsEquiv_apply]

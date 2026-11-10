@@ -81,7 +81,7 @@ original ideal sheaf is. -/
 private theorem nonempty_complementaryCurve_map_of_isIso {X X' : Scheme.{u}} (θ : X ⟶ X')
     [IsIso θ] {C : X.IdealSheafData} (hne : Nonempty (complementaryCurve C)) :
     Nonempty (complementaryCurve (C.map θ)) := by
-  show Nonempty (complementaryCurveIdeal (C.map θ)).subscheme
+  change Nonempty (complementaryCurveIdeal (C.map θ)).subscheme
   rw [complementaryCurveIdeal_map_of_isIso]
   exact ⟨((complementaryCurveIdeal C).subschemeMapIso θ).hom hne.some⟩
 
@@ -115,7 +115,7 @@ theorem isRationalTail_map_of_isIso {k : Type u} [Field k] {X X' : Scheme.{u}}
       rw [Scheme.Γevaluation_naturality e.hom x]
       infer_instance
     exact IsIso.of_isIso_comp_right _ (e.hom.residueFieldMap x)
-  · show genus ((C.map θ).subschemeι ≫ f') = 0
+  · change genus ((C.map θ).subschemeι ≫ f') = 0
     have heq : (C.map θ).subschemeι ≫ f' = e.symm.hom ≫ (C.subschemeι ≫ f) := by
       rw [← cancel_epi e.hom, ← hθ]
       simp [e]
@@ -196,7 +196,7 @@ theorem isRationalTail_comp_isIso_iff {k k' : Type u} [Field k] [Field k'] {X : 
     exact (genus_eq_of_isPullback k k' φ.hom (𝟙 _) (C.subschemeι ≫ f') _
       (IsPullback.of_horiz_isIso ⟨by simp⟩)).symm
   simp only [isRationalTail_iff]
-  show _ ∧ _ ∧ _ ∧ (∃ x hx, _ ∧ _ ∧ genus (C.subschemeι ≫ f' ≫ Spec.map φ) = 0) ↔
+  change _ ∧ _ ∧ _ ∧ (∃ x hx, _ ∧ _ ∧ genus (C.subschemeι ≫ f' ≫ Spec.map φ) = 0) ↔
     _ ∧ _ ∧ _ ∧ (∃ x hx, _ ∧ _ ∧ genus (C.subschemeι ≫ f') = 0)
   rw [hg]
 

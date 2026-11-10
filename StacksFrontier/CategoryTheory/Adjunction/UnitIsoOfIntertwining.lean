@@ -97,7 +97,7 @@ theorem isIso_unit_app_iff_bijective_map (adj : F ⊣ G) (X : C) :
       adj.homEquiv P (F.obj X) ∘ (fun f : P ⟶ X => F.map f) := by
     funext f
     simp [Adjunction.homEquiv_unit]
-  show Function.Bijective (fun f : P ⟶ X => f ≫ adj.unit.app X) ↔ _
+  change Function.Bijective (fun f : P ⟶ X => f ≫ adj.unit.app X) ↔ _
   rw [h, Function.Bijective.of_comp_iff' (adj.homEquiv P (F.obj X)).bijective]
 
 /-- **The unit is an isomorphism at `X` when it is one at `K X`**, for an endofunctor `K` of `C`

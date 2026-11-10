@@ -277,7 +277,7 @@ theorem opUnswap_tmul (n : ℤ) (q : TensorIndex n) (X : Cᵒᵖ)
 /-- The two interchanges are inverse to one another. -/
 theorem opSwap_opUnswap (n : ℤ) : opSwap M P n ≫ opUnswap M P n = 𝟙 _ := by
   refine gradedTensor_hom_ext (gP P) (gN M.opLeft) fun q X u w ↦ ?_
-  show PresheafOfModules.Hom.app (opUnswap M P n).val X
+  change PresheafOfModules.Hom.app (opUnswap M P n).val X
       (PresheafOfModules.Hom.app (opSwap M P n).val X
         (tmul (gP P) (gN M.opLeft) n q X u w)) = tmul (gP P) (gN M.opLeft) n q X u w
   rw [opSwap_tmul, hom_val_app_zsmul, opUnswap_tmul, smul_smul, Int.mul_comm q.1.2 q.1.1,
@@ -286,7 +286,7 @@ theorem opSwap_opUnswap (n : ℤ) : opSwap M P n ≫ opUnswap M P n = 𝟙 _ := 
 /-- The two interchanges are inverse to one another. -/
 theorem opUnswap_opSwap (n : ℤ) : opUnswap M P n ≫ opSwap M P n = 𝟙 _ := by
   refine gradedTensor_hom_ext (gP M) (gN P.unopLeft) fun q X x y ↦ ?_
-  show PresheafOfModules.Hom.app (opSwap M P n).val X
+  change PresheafOfModules.Hom.app (opSwap M P n).val X
       (PresheafOfModules.Hom.app (opUnswap M P n).val X
         (tmul (gP M) (gN P.unopLeft) n q X x y)) = tmul (gP M) (gN P.unopLeft) n q X x y
   rw [opUnswap_tmul, hom_val_app_zsmul, opSwap_tmul, smul_smul, Int.mul_comm q.1.2 q.1.1,
@@ -306,7 +306,7 @@ theorem opSwap_comm_d (n : ℤ) :
     rw [← Units.val_mul, ← Int.negOnePow_add,
       show q.1.1 + q.1.1 * (q.1.2 + 1) = q.1.1 * q.1.2 + 2 * q.1.1 by ring, Int.negOnePow_add,
       Int.negOnePow_two_mul, _root_.mul_one]
-  show PresheafOfModules.Hom.app (dgTensorD M P.unopLeft n).val X
+  change PresheafOfModules.Hom.app (dgTensorD M P.unopLeft n).val X
       (PresheafOfModules.Hom.app (opSwap M P n).val X
         (tmul (gP P) (gN M.opLeft) n q X u w)) =
     PresheafOfModules.Hom.app (opSwap M P (n + 1)).val X

@@ -261,7 +261,7 @@ theorem derivedDualCoevaluation_comp
           (Stacks.SheafOfModules.canonicalDerivedTensorProduct X) K K =
       derivedIdentitySection X K := by
   have := h
-  show (derivedIdentitySection X K ≫
+  change (derivedIdentitySection X K ≫
       inv (derivedTensorDualToSheafHom X
         (Stacks.SheafOfModules.canonicalDerivedTensorProduct X) K K)) ≫
       derivedTensorDualToSheafHom X

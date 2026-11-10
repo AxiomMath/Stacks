@@ -64,11 +64,11 @@ theorem specAlgebraRingHom_structureHom_coe (hsc : IsStructureCompatible D S f) 
   have happ := congrArg (fun φ : Γ(Spec (.of B), ⊤) ⟶ Γ(D.relSpec.left, ⊤) =>
       φ.hom ((Scheme.ΓSpecIso (.of B)).inv.hom (b : B)))
     (GradedQcohAlgebra.appTop_structureHom_eq B f D (basePullbackHom D S f hsc))
-  show (structureHom D S f hsc).appTop.hom ((Scheme.ΓSpecIso (.of B)).inv.hom (b : B)) = _
+  change (structureHom D S f hsc).appTop.hom ((Scheme.ΓSpecIso (.of B)).inv.hom (b : B)) = _
   refine happ.trans ?_
   refine congrArg (fun z => ((pushforwardAlgebraIso D.sheaf).inv.right.hom.app (op ⊤)).hom z) ?_
   refine (basePullbackHom_app_unit D S f hsc _).trans ?_
-  show secRingHom D S (op (f ⁻¹ᵁ (⊤ : (Spec (.of A)).Opens)))
+  change secRingHom D S (op (f ⁻¹ᵁ (⊤ : (Spec (.of A)).Opens)))
       ((Scheme.ΓSpecIso (.of B)).hom.hom ((Scheme.ΓSpecIso (.of B)).inv.hom (b : B))) = _
   rw [Iso.inv_hom_id_apply (Scheme.ΓSpecIso (.of B)) (b : B)]
   exact secRingHom_coe D S b _

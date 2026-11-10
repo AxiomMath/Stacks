@@ -32,7 +32,7 @@ theorem quasiSeparatedSpace_sigma {ι : Type*} (X : ι → Type*) [∀ i, Topolo
     ext W
     simp
   · rintro ⟨i, U, hUo, hUc⟩ ⟨j, V, hVo, hVc⟩
-    show IsCompact ((Sigma.mk i '' U) ∩ (Sigma.mk j '' V))
+    change IsCompact ((Sigma.mk i '' U) ∩ (Sigma.mk j '' V))
     by_cases hij : i = j
     · subst hij
       rw [← Set.image_inter sigma_mk_injective]

@@ -170,7 +170,7 @@ theorem mapUnit_cup {F G T : C} [(tensorRight G).Additive]
     ← Stacks.ExtFunctorial.mapExactFunctor_comp_functor] at key
   have hu : (λ_ (Φ.obj G)).inv ≫ (tensorRight (Φ.obj G)).map (Functor.LaxMonoidal.ε Φ) ≫
       Functor.LaxMonoidal.μ Φ (𝟙_ C) G = Φ.map (λ_ G).inv := by
-    show _ ≫ Functor.LaxMonoidal.ε Φ ▷ Φ.obj G ≫ _ = _
+    change _ ≫ Functor.LaxMonoidal.ε Φ ▷ Φ.obj G ≫ _ = _
     rw [← cancel_epi (λ_ (Φ.obj G)).hom, Iso.hom_inv_id_assoc, Functor.LaxMonoidal.left_unitality,
       Category.assoc, Category.assoc, ← Φ.map_comp, Iso.hom_inv_id, Φ.map_id, Category.comp_id]
   simp only [mapUnit, cup, Ext.mapExactFunctor_comp, Ext.mapExactFunctor_mk₀,

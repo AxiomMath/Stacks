@@ -54,7 +54,7 @@ theorem exists_openImmersion_closedImmersion_factorization_of_isReduced
   let Y : Scheme := I.subscheme
   let i : Y ⟶ X := I.subschemeι
   have hT : Set.range f ⊆ (I.support : Set X) := by
-    show Set.range f ⊆ ((Scheme.IdealSheafData.vanishingIdeal T).support : Set X)
+    change Set.range f ⊆ ((Scheme.IdealSheafData.vanishingIdeal T).support : Set X)
     rw [Scheme.IdealSheafData.coe_support_vanishingIdeal]; exact subset_closure
   obtain ⟨j, hj⟩ :=
     (Scheme.IdealSheafData.exists_lift_subschemeι_iff_range_subset_support I f).2 hT
@@ -67,10 +67,10 @@ theorem exists_openImmersion_closedImmersion_factorization_of_isReduced
   have hgk : g ≫ k = f := f.liftCoborder_ι
   have hjf : j ≫ i = f := hj.trans (by simp)
   have hrange : Set.range p = Set.range g := by
-    show Set.range (pullback.fst k (I.subschemeι)) = Set.range (f.liftCoborder)
+    change Set.range (pullback.fst k (I.subschemeι)) = Set.range (f.liftCoborder)
     rw [Scheme.Pullback.range_fst, Scheme.IdealSheafData.range_subschemeι,
       Scheme.IdealSheafData.coe_support_vanishingIdeal]
-    show k ⁻¹' (closure (Set.range f)) = Set.range g
+    change k ⁻¹' (closure (Set.range f)) = Set.range g
     have hkg (z : Z) : k (g z) = f z := by
       simpa [Scheme.Hom.comp_apply] using congrArg (fun m : Z ⟶ X => m z) hgk
     ext x
@@ -81,7 +81,7 @@ theorem exists_openImmersion_closedImmersion_factorization_of_isReduced
           (show k x ∈ closure (Set.range f) ∩ coborder (Set.range f) from ⟨hx, x.2⟩)
       exact ⟨z, k.isOpenEmbedding.injective ((hkg z).trans hz)⟩
     · rintro ⟨z, rfl⟩
-      show k (g z) ∈ closure (Set.range f)
+      change k (g z) ∈ closure (Set.range f)
       exact hkg z ▸ subset_closure ⟨z, rfl⟩
   let e : Z ⟶ P := pullback.lift g j (hgk.trans hjf.symm)
   have he₁ : e ≫ p = g := pullback.lift_fst _ _ _

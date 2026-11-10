@@ -142,7 +142,7 @@ theorem whiskerLeft_whiskerRight_t_eq_of_degreeTransition
     rw [← CategoryTheory.Functor.map_comp_assoc, ← CategoryTheory.Functor.map_comp_assoc,
       Category.assoc, h1,
       CategoryTheory.Functor.map_comp_assoc, reassoc_of% hA', hII']
-  show _ = (associator r g b).e.inv ≫ (degreeAugmentationTwoIso sD sA aD).e.hom ≫
+  change _ = (associator r g b).e.inv ≫ (degreeAugmentationTwoIso sD sA aD).e.hom ≫
     (realizedTransitionTwoIso τ (degreeAugmentationTwoIso sD' sA aD') κ).e.inv
   rw [← Category.assoc, ← key, Category.assoc, Iso.hom_inv_id, Category.comp_id]
 
@@ -521,7 +521,7 @@ theorem degreeTransitionNatTrans_pasting {m n : SimplexCategory} (φ : m ⟶ n)
   · simp only [comp_base, hr]
     rfl
   · simp only [comp_hom, hr]
-    show StrictObj.transitionRealizeInv φ V ≫ (𝟙 _ ≫ StrictObj.transitionProj φ V) =
+    change StrictObj.transitionRealizeInv φ V ≫ (𝟙 _ ≫ StrictObj.transitionProj φ V) =
       pullback.fst _ _
     rw [Category.id_comp]
     exact (Category.assoc _ _ _).symm.trans ((congrArg (· ≫ _)
@@ -605,7 +605,7 @@ theorem strictAugmentationTriangleTwoIso_e_hom_app_hom {m n : SimplexCategory} (
       Functor.whiskerRight (NatTrans.op
         (eqToHom (congrArg (fun g => (spacesBaseChange B S hS g).functor) hk.symm) ≫
           (spacesBaseChange_comp B S hS (X.map φ.op) (a.app (op m))).inv)) F.obj := by
-  show (((spacesEtaleRingedToposHomCompTwoIsoSpacesEtaleRingedToposHomComp (Z := Z) (X.map φ.op)
+  change (((spacesEtaleRingedToposHomCompTwoIsoSpacesEtaleRingedToposHomComp (Z := Z) (X.map φ.op)
       (a.app (op m))).e.inv.app F) ≫ ((RingedToposHom.TwoIso.ofEq
         (congrArg (fun g => spacesEtaleRingedToposHom (Z₂ := Z) g) hk)).e.hom.app F)).hom = _
   rw [ObjectProperty.FullSubcategory.comp_hom, ofEq_spacesEtaleRingedToposHom_e_hom_app_hom hk F,

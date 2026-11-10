@@ -184,7 +184,7 @@ theorem tensorComparisonCompatibility_of_restrict_extend
     TensorComparisonCompatibility hTor baseChangeR comparisonR baseChangeA comparisonA
       Ff alphaf Fi alphai X := by
   replace h : _ = _ := h
-  show _ = _
+  change _ = _
   exact Stacks.CategoryTheory.BaseChange.comp_tensorComparisonOfIso_eq_of_monad
     (derivedExtensionScalarsAdjunction.{uR, uA, max v uRp} (algebraMap R A) Ff alphaf)
     (derivedExtensionScalarsAdjunction.{uRp, max uA uRp, max v uR}

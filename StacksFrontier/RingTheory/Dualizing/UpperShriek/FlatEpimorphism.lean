@@ -243,13 +243,13 @@ theorem one_tmul_smul_eq_C_tmul (c : R') (m : N) :
       rw [← hψ]; rfl
     have hC : toQ R (MvPolynomial.C (r • c) : P₁) =
         (MvPolynomial.C r : P₀) • toQ R (MvPolynomial.C c : P₁) := by
-      show (MvPolynomial.C (r • c) : P₁) = polyMap (MvPolynomial.C r) * MvPolynomial.C c
+      change (MvPolynomial.C (r • c) : P₁) = polyMap (MvPolynomial.C r) * MvPolynomial.C c
       rw [Algebra.smul_def, MvPolynomial.C_mul]
       simp [polyMap]
     have hm : (toM ψ ((r • d) • m : N)) = (MvPolynomial.C r : P₀) • (toM ψ (d • m : N)) := by
-      show ((r • d) • m : N) = ψ (MvPolynomial.C r) • (d • m)
+      change ((r • d) • m : N) = ψ (MvPolynomial.C r) • (d • m)
       rw [hr, Algebra.smul_def, mul_smul]
-    show (toQ R (MvPolynomial.C (r • c) : P₁)) ⊗ₜ[P₀] (toM ψ (d • m : N)) =
+    change (toQ R (MvPolynomial.C (r • c) : P₁)) ⊗ₜ[P₀] (toM ψ (d • m : N)) =
       (toQ R (MvPolynomial.C c : P₁)) ⊗ₜ[P₀] (toM ψ ((r • d) • m : N))
     rw [hC, hm]
     exact TensorProduct.smul_tmul _ _ _
@@ -268,12 +268,12 @@ theorem one_tmul_evalHom_smul (q : P₁) (m : N) :
   | C c => rw [evalHom_C]; exact one_tmul_smul_eq_C_tmul ψ hψ N c m
   | add p q hp hq =>
     rw [map_add, add_smul]
-    show (toQ R (1 : P₁)) ⊗ₜ[P₀] (toM ψ ((evalHom ψ p • m : N)) + (toM ψ (evalHom ψ q • m : N))) =
+    change (toQ R (1 : P₁)) ⊗ₜ[P₀] (toM ψ ((evalHom ψ p • m : N)) + (toM ψ (evalHom ψ q • m : N))) =
       ((toQ R p) + (toQ R q)) ⊗ₜ[P₀] (toM ψ m)
     rw [TensorProduct.tmul_add, hp, hq, TensorProduct.add_tmul]
   | mul_X p i hp =>
     have hX : (toQ R (p * MvPolynomial.X i : P₁)) = (MvPolynomial.X i : P₀) • (toQ R p) := by
-      show (p * MvPolynomial.X i : P₁) = polyMap (MvPolynomial.X i) * p
+      change (p * MvPolynomial.X i : P₁) = polyMap (MvPolynomial.X i) * p
       simp [polyMap, mul_comm]
     have hm : (toM ψ (ψ (MvPolynomial.X i) • m : N)) = (MvPolynomial.X i : P₀) • (toM ψ m) := rfl
     have he : evalHom ψ (p * MvPolynomial.X i) = evalHom ψ p * ψ (MvPolynomial.X i) := by
@@ -288,10 +288,7 @@ theorem baseChangeHom_bijective : Function.Bijective (baseChangeHom ψ hψ N) :=
   · have key : ∀ x : TensorProduct P₀ Q Mψ,
         (toQ R (1 : P₁)) ⊗ₜ[P₀] (toM ψ (baseChangeHom ψ hψ N x : N)) = x := by
       intro x
-      induction x using TensorProduct.induction_on with
-      | zero =>
-        exact (congrArg (fun z => toQ R (1 : P₁) ⊗ₜ[P₀] toM ψ z)
-          (map_zero (baseChangeHom ψ hψ N).hom)).trans (TensorProduct.tmul_zero _ _)
+      induction x using TensorProduct.inductionOn with
       | tmul q m => exact one_tmul_evalHom_smul ψ hψ N q m
       | add x y hx hy =>
         exact (congrArg (fun z => toQ R (1 : P₁) ⊗ₜ[P₀] toM ψ z)
@@ -299,7 +296,7 @@ theorem baseChangeHom_bijective : Function.Bijective (baseChangeHom ψ hψ N) :=
             ((TensorProduct.tmul_add _ _ _).trans (congrArg₂ (· + ·) hx hy))
     rw [← key x, ← key y]
     exact congrArg _ hxy
-  · show evalHom ψ 1 • m = m
+  · change evalHom ψ 1 • m = m
     rw [map_one, one_smul]
 
 /-- **Base change along `P → P'` of an `R'`-module is the module itself.**  For `R → R'` an

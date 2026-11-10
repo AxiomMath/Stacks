@@ -158,7 +158,7 @@ theorem cycleCoeffOfClosedSubspace_eq_cycleAssociatedToClosedSubscheme_chart_ker
     (Z : IntegralClosedSubspace D.site D.base D.base_mem X) (v : chartScheme V)
     (hv : chartSchemeToPoints D.site D.base D.base_mem X V v =
       Z.ambientGenericPoint D.site D.base D.base_mem) :
-    haveI hft := locallyOfFiniteType_id_chartChowSituation D sX hX V hs
+    haveI := locallyOfFiniteType_id_chartChowSituation D sX hX V hs
     cycleCoeffOfClosedSubspace D sX hX Y hY k γ Z =
       (Stacks.Chow.cycleAssociatedToClosedSubscheme (chartChowSituation D sX hX V hs)
         (𝟙 (chartScheme V))
@@ -227,8 +227,8 @@ theorem cycleCoeffOfClosedSubspace_eq_componentZeroCycleSumCoeff_chart_of_affine
     (hfinite : Module.length ((chartScheme V).presheaf.stalk v)
       ((chartScheme V).presheaf.stalk v ⧸
         Ideal.span {((chartScheme V).presheaf.germ U.1 v hvU).hom a}) ≠ ⊤) :
-    haveI hft := locallyOfFiniteType_id_chartChowSituation D sX hX V hs
-    haveI hftD := locallyOfFiniteType_subschemeι_comp_id_chartChowSituation D sX hX V hs
+    haveI := locallyOfFiniteType_id_chartChowSituation D sX hX V hs
+    haveI := locallyOfFiniteType_subschemeι_comp_id_chartChowSituation D sX hX V hs
       (closedSubspaceBaseChangeChartProj D.site D.base D.base_mem hX.1
         (vanishingLocus D sX hX L s).1 (vanishingLocus D sX hX L s).2 V).ker
     Stacks.Chow.schemeDeltaDimension (chartChowSituation D sX hX V hs)
@@ -376,7 +376,7 @@ theorem cycleCoeffOfClosedSubspace_zeroScheme_eq_componentZeroCycleSumCoeff
         refine Stacks.Chow.cycleAssociatedToClosedSubscheme_apply_eq_zero_of_notMem_range _ _ _
           k fun hmem => ?_
         have h1 : v ∈ (componentVanishingLocusChartImmersion D sX hX L s W.1 V).ker.support := by
-          show v ∈ (((componentVanishingLocusChartImmersion D sX hX L s W.1 V).ker.support :
+          change v ∈ (((componentVanishingLocusChartImmersion D sX hX L s W.1 V).ker.support :
             _) : Set (chartScheme V))
           rw [Scheme.Hom.support_ker]
           exact subset_closure hmem

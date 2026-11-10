@@ -143,7 +143,7 @@ theorem bijective_stalkSpecializes_meromorphicSectionSheaf [IsIntegral X] (F : X
         ((PresheafOfModules.toPresheaf _).map (toMeromorphicSectionSheaf X.sheaf F)) h a).symm
   have h6 : IsLocalizedModule (regularGerms X.sheaf x)
       (g ∘ₗ toMeromorphicSectionStalk X.sheaf F x) := by rwa [h5]
-  show Function.Bijective g
+  change Function.Bijective g
   rw [← IsLocalizedModule.linearEquiv_of_isLocalizedModule_comp
     (S := regularGerms X.sheaf x) (f := toMeromorphicSectionStalk X.sheaf F x) g]
   exact (IsLocalizedModule.linearEquiv (regularGerms X.sheaf x)

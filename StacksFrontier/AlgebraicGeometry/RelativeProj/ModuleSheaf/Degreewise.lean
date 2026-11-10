@@ -125,7 +125,8 @@ public theorem map_decompose (hm : IsAwayDegreewiseModule φ 𝒨 𝒩 f g) (x :
   (DirectSum.coe_decompose_map (ℳ := 𝒨) (𝒩 := 𝒩) f.toAddMonoidHom
     (fun j _ hj => hm.map_mem j hj) i x).symm
 
-omit [AddSubgroupClass σ A] [AddSubgroupClass τ B] [GradedRing 𝒜] [GradedRing ℬ] in
+omit [AddSubgroupClass σ A] [AddSubgroupClass τ B] [GradedRing 𝒜] [GradedRing ℬ]
+  [AddSubgroupClass μ M] [DirectSum.Decomposition 𝒨] in
 /-- Every element of `N`, not only every homogeneous one, becomes the image of an element of `M`
 after multiplication by a power of the image of `g`. -/
 public theorem exists_pow_smul_eq_map (hm : IsAwayDegreewiseModule φ 𝒨 𝒩 f g) (y : N) :

@@ -8,8 +8,8 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.IdealSheafMapVanishing
 -- used only in the proof below, and re-exporting its closure puts the generic abelian structure
 -- of sheaves of modules on a site ahead of the one the module categories need in the instance
 -- search of every importer.  This is the convention of
--- `StacksFrontier/AlgebraicGeometry/Spaces/SummandSubspaceConormal.lean`, whose implementation notes
--- record what a public import of that closure breaks.
+-- `StacksFrontier/AlgebraicGeometry/Spaces/SummandSubspaceConormal.lean`, whose implementation
+-- notes record what a public import of that closure breaks.
 import StacksFrontier.AlgebraicGeometry.Spaces.SummandSubspaceConormal
 
 /-!

@@ -46,7 +46,7 @@ theorem isIso_unit_app_of_bijective_representedZariskiModuleAdjunction (P : Obje
   have hg' : L.map g = adj.counit.app (L.obj X) := hg
   have ht := adj.left_triangle_components X
   refine ⟨g, (hP hX hX).1 ?_, ?_⟩
-  · show L.map (adj.unit.app X ≫ g) = L.map (𝟙 X)
+  · change L.map (adj.unit.app X ≫ g) = L.map (𝟙 X)
     rw [Functor.map_comp, hg', ht, Functor.map_id]
   · apply (adj.homEquiv _ _).symm.injective
     rw [Adjunction.homEquiv_counit, Adjunction.homEquiv_counit, Functor.map_comp, Category.assoc,
@@ -183,7 +183,8 @@ theorem isQuasicoherent_representedZariskiModulePushforward_obj_representedZaris
         B S hS U H hH))
 
 /-- `ε^*` carries quasi-coherent modules to quasi-coherent modules. -/
-theorem isQuasicoherentOnSite_representedZariskiModulePullback_obj_representedZariskiModuleAdjunction
+theorem
+    isQuasicoherentOnSite_representedZariskiModulePullback_obj_representedZariskiModuleAdjunction
     (F : (representedSchemeRepresentedZariskiRingedToposHom B S hS U).Modules)
     (hF : F.IsQuasicoherent) :
     ((representedZariskiModulePullbackRepresentedZariskiPullbackExact B S hS U).obj

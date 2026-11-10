@@ -268,7 +268,7 @@ private lemma le_depth_detIdeal_of_exact_aux :
         simp
     have hAexact : ∀ i, i < e + 2 → ExactAtSucc n A i := by
       intro i hi
-      show LinearMap.ker (A i).mulVecLin = LinearMap.range (A (i + 1)).mulVecLin
+      change LinearMap.ker (A i).mulVecLin = LinearMap.range (A (i + 1)).mulVecLin
       rcases Nat.lt_or_ge i (e + 1) with h | h
       · rw [hAle i (by omega), hAle (i + 1) (by omega)]
         exact hAex i h
@@ -280,11 +280,11 @@ private lemma le_depth_detIdeal_of_exact_aux :
     have hred : ∀ i ≤ e + 1, reduceMat x n A i
         = (LinearMap.toMatrix' (φ i)).map (Ideal.Quotient.mk (Ideal.span {x})) := by
       intro i hi
-      show (A i).map (Ideal.Quotient.mk (Ideal.span {x})) = _
+      change (A i).map (Ideal.Quotient.mk (Ideal.span {x})) = _
       rw [hAle i hi]
     have hred0 : ∀ i, e + 1 < i → reduceMat x n A i = 0 := by
       intro i hi
-      show (A i).map (Ideal.Quotient.mk (Ideal.span {x})) = 0
+      change (A i).map (Ideal.Quotient.mk (Ideal.span {x})) = 0
       rw [hAgt i hi]
       simp
     have hspanle : Ideal.span {x} ≤ detIdeal (LinearMap.toMatrix' (φ (j + 1))) :=
@@ -420,7 +420,7 @@ private lemma le_depth_map_algebraMap_atPrime (I : Ideal R) (p : Ideal R) [p.IsP
     · intro r hr
       obtain ⟨r', hr', rfl⟩ := List.mem_map.mp hr
       exact Ideal.mem_map_of_mem _ (hrsI r' hr')
-  · obtain ⟨x, hxI, hxp⟩ := SetLike.not_le_iff_exists.mp hIp
+  · obtain ⟨x, hxI, hxp⟩ := IsConcreteLE.not_le_iff_exists.mp hIp
     have htop : I.map (algebraMap R (Localization.AtPrime p)) = ⊤ :=
       Ideal.eq_top_of_isUnit_mem _ (Ideal.mem_map_of_mem _ hxI)
         (IsLocalization.map_units (Localization.AtPrime p) ⟨x, hxp⟩ (M := p.primeCompl))
@@ -467,11 +467,11 @@ lemma numericalMat_map_atPrime (E : ℕ) (n : ℕ → ℕ)
   obtain ⟨x, hx, hxI⟩ := exists_nonZeroDivisor_mem_of_one_le_depth hone
   have hxmin : x ∈ StacksComplex.minorIdeal (A k) := by rwa [← detIdeal_eq_minorIdeal]
   refine ⟨?_, ?_⟩
-  · show ((exteriorRank ((A k).map (algebraMap R (Localization.AtPrime p))) : ℤ)) = _
+  · change ((exteriorRank ((A k).map (algebraMap R (Localization.AtPrime p))) : ℤ)) = _
     rw [exteriorRank_eq_rank, rank_map_algebraMap_atPrime_eq p _ hx hxmin,
       ← exteriorRank_eq_rank]
     exact hrk
-  · show ((k + 1 : ℕ) : ℕ∞) ≤ Module.depth (Localization.AtPrime p)
+  · change ((k + 1 : ℕ) : ℕ∞) ≤ Module.depth (Localization.AtPrime p)
       (detIdeal ((A k).map (algebraMap R (Localization.AtPrime p)))) _
     rw [detIdeal_eq_minorIdeal, minorIdeal_map_algebraMap_atPrime p _ hx hxmin,
       ← detIdeal_eq_minorIdeal]
@@ -592,7 +592,7 @@ lemma ker_eq_range_of_forall_atPrime (E : ℕ) (n : ℕ → ℕ)
     intro k
     rw [C.exactAt_iff' (k + 2) (k + 1) k (by simp) (by simp),
       ShortComplex.moduleCat_exact_iff_range_eq_ker]
-    show LinearMap.range (C.d (k + 1 + 1) (k + 1)).hom = LinearMap.ker (C.d (k + 1) k).hom ↔ _
+    change LinearMap.range (C.d (k + 1 + 1) (k + 1)).hom = LinearMap.ker (C.d (k + 1) k).hom ↔ _
     rw [hCd (k + 1), hCd k, hddef]
     exact ⟨fun h => h.symm, fun h => h.symm⟩
   intro k hk

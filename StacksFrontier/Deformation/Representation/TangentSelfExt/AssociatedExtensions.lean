@@ -283,7 +283,7 @@ theorem exists_associatedSelfExtension
   let gk : M →ₗ[k] V :=
     { q with
       map_smul' := fun a z ↦ by
-        show q ((TrivSqZeroExt.inl a : DualNumber k) • z) = a • q z
+        change q ((TrivSqZeroExt.inl a : DualNumber k) • z) = a • q z
         have hh : q ((TrivSqZeroExt.inl a : DualNumber k) • z) =
             β (TrivSqZeroExt.inl a) • q z := α.map_smul _ _
         exact hh.trans (congrArg (fun c : k ↦ c • q z) (hbase _)) }
@@ -305,7 +305,7 @@ theorem exists_associatedSelfExtension
       isIntertwining' := fun γ ↦ by
         ext v
         obtain ⟨z, rfl⟩ := hsurjk v
-        show fk (ρ₀ γ (gk z)) = ρd γ (fk (gk z))
+        change fk (ρ₀ γ (gk z)) = ρd γ (fk (gk z))
         have heq : gk (ρd γ z) = ρ₀ γ (gk z) := α.equivariant γ z
         rw [← heq, hfg_apply, hfg_apply, map_smul] }
   let G : Rep.of ρk ⟶ Rep.of ρ₀ := Rep.ofHom
@@ -318,13 +318,13 @@ theorem exists_associatedSelfExtension
   refine ⟨R.obj (Rep.of ρk), f, g, hzero, hexact, ?_⟩
   · refine ⟨ρk.asModuleEquiv.toAddEquiv, ?_, ?_, fun _ ↦ rfl, hfg_apply⟩
     · intro a z
-      show ρk.asModuleEquiv ((MonoidAlgebra.single 1 a) • z) =
+      change ρk.asModuleEquiv ((MonoidAlgebra.single 1 a) • z) =
         (TrivSqZeroExt.inl a : DualNumber k) • ρk.asModuleEquiv z
       rw [Representation.asModuleEquiv_map_smul, Representation.asAlgebraHom_single,
         ρk.map_one]
       rfl
     · intro γ z
-      show ρk.asModuleEquiv ((MonoidAlgebra.single γ 1) • z) =
+      change ρk.asModuleEquiv ((MonoidAlgebra.single γ 1) • z) =
         ρd γ (ρk.asModuleEquiv z)
       rw [Representation.asModuleEquiv_map_smul, Representation.asAlgebraHom_single_one]
       rfl
@@ -409,7 +409,7 @@ theorem exists_associatedPairExtension
   let gk : M →ₗ[k] V :=
     { q with
       map_smul' := fun a z ↦ by
-        show q ((TrivSqZeroExt.inl a : TrivSqZeroExt k (k × k)) • z) = a • q z
+        change q ((TrivSqZeroExt.inl a : TrivSqZeroExt k (k × k)) • z) = a • q z
         have hh : q ((TrivSqZeroExt.inl a : TrivSqZeroExt k (k × k)) • z) =
             β (TrivSqZeroExt.inl a) • q z := α.map_smul _ _
         exact hh.trans (congrArg (fun c : k ↦ c • q z) (hbase _)) }
@@ -428,7 +428,7 @@ theorem exists_associatedPairExtension
       isIntertwining' := fun γ ↦ by
         apply LinearMap.ext
         intro v
-        show fk ((ρ₀ γ v.1, ρ₀ γ v.2)) = ρd γ (fk v)
+        change fk ((ρ₀ γ v.1, ρ₀ γ v.2)) = ρd γ (fk v)
         rw [hf, hf]
         exact (squareZero_pair_kernelMap_equivariant hbase b gd hgd
           s (fun v ↦ (hs v).trans rfl) (ρd γ) (ρ₀ γ).toAddMonoidHom
@@ -443,30 +443,30 @@ theorem exists_associatedPairExtension
   have hann (c : TrivSqZeroExt k (k × k)) (hc : ∀ x, gd x = 0 → c • x = 0) (z : M) :
       c • s (gk z) = c • z := by
     have hz : gd (s (gk z) - z) = 0 := by
-      show gk (s (gk z) - z) = 0
+      change gk (s (gk z) - z) = 0
       rw [map_sub, hs, sub_self]
     simpa only [smul_sub, sub_eq_zero] using hc _ hz
   refine ⟨R.obj (Rep.of ρk), f, g, hzero, hexact, ?_⟩
   · refine ⟨ρk.asModuleEquiv.toAddEquiv, ?_, ?_, fun _ ↦ rfl, ?_, ?_⟩
     · intro a z
-      show ρk.asModuleEquiv ((MonoidAlgebra.single 1 a) • z) =
+      change ρk.asModuleEquiv ((MonoidAlgebra.single 1 a) • z) =
         (TrivSqZeroExt.inl a : TrivSqZeroExt k (k × k)) • ρk.asModuleEquiv z
       rw [Representation.asModuleEquiv_map_smul, Representation.asAlgebraHom_single,
         ρk.map_one]
       rfl
     · intro γ z
-      show ρk.asModuleEquiv ((MonoidAlgebra.single γ 1) • z) =
+      change ρk.asModuleEquiv ((MonoidAlgebra.single γ 1) • z) =
         ρd γ (ρk.asModuleEquiv z)
       rw [Representation.asModuleEquiv_map_smul, Representation.asAlgebraHom_single_one]
       rfl
     · intro z
-      show fk (gk z, 0) = _
+      change fk (gk z, 0) = _
       rw [hf]
       simp only [map_zero, smul_zero, add_zero]
       exact hann _ (fun x hx ↦
         (squareZero_pair_radical_annihilates_kernel hbase b gd hgd x hx).1) z
     · intro z
-      show fk (0, gk z) = _
+      change fk (0, gk z) = _
       rw [hf]
       simp only [map_zero, smul_zero, zero_add]
       exact hann _ (fun x hx ↦
@@ -519,18 +519,18 @@ theorem exists_deformation_of_selfExtension
       finite := ?_
       projective := ?_
       action := ?_ }
-    · show Module (DualNumber k) U
+    · change Module (DualNumber k) U
       exact extensionDualNumberModule fk gk hgf
-    · show Module.Finite (DualNumber k) U
+    · change Module.Finite (DualNumber k) U
       exact extensionDualNumberModule_finite fk gk hgf hker hgs
-    · show Module.Projective (DualNumber k) U
+    · change Module.Projective (DualNumber k) U
       infer_instance
-    · show Representation (DualNumber k) Γ U
+    · change Representation (DualNumber k) Γ U
       exact extensionLiftedRepresentation ρ₀ U.ρ fk gk hgf hfρ hgρ
   have hgsml (r : DualNumber k) (z : U) :
       gk (r • z) = r.fst • gk z := by
     rw [extensionDualNumberModule_smul fk gk hgf]
-    show gk (r.fst • z + r.snd • fk (gk z)) = _
+    change gk (r.fst • z + r.snd • fk (gk z)) = _
     rw [map_add, map_smul, map_smul,
       show gk (fk (gk z)) = 0 from LinearMap.congr_fun hgf _, smul_zero, add_zero]
   let α : X ⟶ Deformation.RepresentationCategory.specialFiber
@@ -603,7 +603,7 @@ theorem associatedSelfExtension_extClass_eq
   let l : M ≃ₗ[MonoidAlgebra k Γ] M' :=
     { a with
       map_smul' := fun r z ↦ by
-        show a (r • z) = r • a z
+        change a (r • z) = r • a z
         induction r using MonoidAlgebra.induction_linear with
         | zero => simp only [zero_smul, map_zero]
         | add r s hr hs => simp only [add_smul, map_add, hr, hs]
@@ -618,7 +618,7 @@ theorem associatedSelfExtension_extClass_eq
     ext v
     obtain ⟨z, rfl⟩ := (ModuleCat.epi_iff_surjective g).1 h.epi_g v
     apply e'.injective
-    show e' (a (f.hom (g.hom z))) = e' (f'.hom (g.hom z))
+    change e' (a (f.hom (g.hom z))) = e' (f'.hom (g.hom z))
     rw [ha, heε, ← hq, heε']
     exact congrArg _ (ha z).symm
   exact (Abelian.Ext.extClass_surjective_and_eq_iff_iso_and_baerSum _ _ _).2.1

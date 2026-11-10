@@ -50,7 +50,7 @@ theorem isFlat_of_ringEquiv {R S : Type u} [CommRing R] [CommRing S]
       { toFun := e.symm
         map_add' := fun x y ↦ map_add e.symm x y
         map_smul' := fun r s ↦ by
-          show e.symm (r • s) = r * e.symm s
+          change e.symm (r • s) = r * e.symm s
           rw [Algebra.smul_def, hmap, map_mul, e.symm_apply_apply]
         invFun := e
         left_inv := fun s ↦ e.apply_symm_apply s

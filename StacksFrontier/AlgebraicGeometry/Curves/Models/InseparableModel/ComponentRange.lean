@@ -154,20 +154,20 @@ private theorem mem_range_jC₁_of_mem (x : XR) (hπ : πA ∈ x.asHomogeneousId
     MvPolynomial.eval₂Hom (q.comp kA) ![q (zA 1), q (zA 3)]
   have hψ : ψ.comp ringC₁ = q := by
     refine ringHom_ext_A (fun r => ?_) (fun i => ?_)
-    · show ψ (evC₁ (MvPolynomial.C r)) = _
+    · change ψ (evC₁ (MvPolynomial.C r)) = _
       have h := kA_constantCoeff_sub_mem hπ' r
       rw [← Ideal.Quotient.eq] at h
       simp only [ψ, evC₁, MvPolynomial.eval₂Hom_C, RingHom.comp_apply,
         RingHom.algebraMap_toAlgebra]
       exact h.symm
-    · show ψ (evC₁ (MvPolynomial.X i)) = q (zA i)
+    · change ψ (evC₁ (MvPolynomial.X i)) = q (zA i)
       fin_cases i
       · simpa [ψ, evC₁] using (Ideal.Quotient.eq_zero_iff_mem.mpr h0').symm
       · simp [ψ, evC₁]
       · simpa [ψ, evC₁] using (Ideal.Quotient.eq_zero_iff_mem.mpr h2).symm
       · simp [ψ, evC₁]
   refine mem_range_map_of_ker φC₁ irrelevant_le_map_φC₁ ψ x fun a => ?_
-  show (ψ.comp ringC₁) a = 0 ↔ _
+  change (ψ.comp ringC₁) a = 0 ↔ _
   rw [hψ, Ideal.Quotient.eq_zero_iff_mem]
   exact HomogeneousIdeal.mem_iff
 
@@ -190,7 +190,7 @@ private theorem mem_range_jE_of_notMem (x : XR) (hπ : πA ∈ x.asHomogeneousId
   have hw : w ^ 2 = (ι.comp kA) t := by
     have h := congrArg ι rel₁
     simp only [map_add, map_mul, map_pow, hπ0, zero_mul, zero_add] at h
-    show w ^ 2 = ι tA
+    change w ^ 2 = ι tA
     rw [hwdef, div_pow, div_eq_iff (pow_ne_zero 2 hu), h]
   have h3 : ι (zA 3) = w * ι (zA 1) := by
     have h := congrArg ι zA_rel₀
@@ -209,14 +209,14 @@ private theorem mem_range_jE_of_notMem (x : XR) (hπ : πA ∈ x.asHomogeneousId
     MvPolynomial.eval₂Hom lκ ![ι (zA 0), ι (zA 1)]
   have hψ : ψ.comp ringE = ι := by
     refine ringHom_ext_A (fun r => ?_) (fun i => ?_)
-    · show ψ (evE (MvPolynomial.C r)) = _
+    · change ψ (evE (MvPolynomial.C r)) = _
       have h := kA_constantCoeff_sub_mem hπ' r
       rw [← hιinj, map_sub, sub_eq_zero] at h
       rw [h]
       simp only [ψ, evE, MvPolynomial.eval₂Hom_C, RingHom.comp_apply,
         RingHom.algebraMap_toAlgebra]
       exact hlκk _
-    · show ψ (evE (MvPolynomial.X i)) = ι (zA i)
+    · change ψ (evE (MvPolynomial.X i)) = ι (zA i)
       rw [evE, MvPolynomial.eval₂Hom_X']
       fin_cases i
       · simp [ψ]
@@ -226,7 +226,7 @@ private theorem mem_range_jE_of_notMem (x : XR) (hπ : πA ∈ x.asHomogeneousId
       · simp only [ψ, MvPolynomial.coe_eval₂Hom]
         simp [hlκθ, h3]
   refine mem_range_map_of_ker φE irrelevant_le_map_φE ψ x fun a => ?_
-  show (ψ.comp ringE) a = 0 ↔ _
+  change (ψ.comp ringE) a = 0 ↔ _
   rw [hψ, hιinj]
   exact HomogeneousIdeal.mem_iff
 

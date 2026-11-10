@@ -98,7 +98,8 @@ theorem derivedSheafHomCounit_homComparison (B C : CochainComplex (StructureShea
 
 /-- The composition morphism of Stacks 0A8V on a ringed space is the ringed-site one at the derived
 internal Hom of the bifunctor. -/
-theorem derivedSheafHomComposition_eq_ofBifunctor (K L M : DerivedCategory (StructureSheafModules Rc)) :
+theorem derivedSheafHomComposition_eq_ofBifunctor
+    (K L M : DerivedCategory (StructureSheafModules Rc)) :
     derivedSheafHomComposition Rc K L M = RingedSite.derivedSheafHomComposition (ringedSite Rc)
       (canonicalDerivedTensorProduct (ringedSite Rc))
       (RingedSite.derivedInternalHomOfBifunctor (ringedSite Rc)) K L M := rfl
@@ -106,7 +107,8 @@ theorem derivedSheafHomComposition_eq_ofBifunctor (K L M : DerivedCategory (Stru
 /-- **The composition morphism of Stacks 0A8V against the comparison of Stacks 08DM**: conjugated
 by `σ` on both tensor factors and on the target, it is the class of the transpose of the double
 contraction. -/
-theorem homComparison_derivedSheafHomComposition (P J I : CochainComplex (StructureSheafModules Rc) ℤ) :
+theorem homComparison_derivedSheafHomComposition
+    (P J I : CochainComplex (StructureSheafModules Rc) ℤ) :
     ((derivedTensor Rc).map (homComparisonSpace Rc J I)).app
         (DerivedCategory.Q.obj (RingedSite.sheafHomComplex (ringedSite Rc) P J).obj) ≫
       ((derivedTensor Rc).obj _).map (homComparisonSpace Rc P J) ≫
@@ -280,9 +282,9 @@ theorem derivedSheafHomComposition_whiskerRight_comp_derivedSheafHomCounit_model
       ((derivedTensor Rc).obj _).map
         (derivedSheafHomCounit Rc (DerivedCategory.Q.obj P) (DerivedCategory.Q.obj J)) ≫
       derivedSheafHomCounit Rc (DerivedCategory.Q.obj J) (DerivedCategory.Q.obj I) := by
-  haveI : (show CochainComplex (SheafOfModules.{u} (Tensor.ringSheaf (ringedSite Rc).O)) ℤ
+  have : (show CochainComplex (SheafOfModules.{u} (Tensor.ringSheaf (ringedSite Rc).O)) ℤ
       from J).IsKInjective := ‹J.IsKInjective›
-  haveI : (show CochainComplex (SheafOfModules.{u} (Tensor.ringSheaf (ringedSite Rc).O)) ℤ
+  have : (show CochainComplex (SheafOfModules.{u} (Tensor.ringSheaf (ringedSite Rc).O)) ℤ
       from I).IsKInjective := ‹I.IsKInjective›
   have hJI : IsIso (homComparisonSpace Rc J I) :=
     RingedSite.isIso_strictlyPerfectHomComparison_of_isKInjective _ _ _ _

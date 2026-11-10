@@ -205,7 +205,7 @@ theorem exists_singleton_weaklyContractible_hypercovering_unconditional (U : B.S
             B.topology.IsWeaklyContractible ((K.obj (op ⦋n⦌)).obj i).left ∧
             Presieve.singleton ((K.obj (op ⦋n⦌)).obj i).hom ∈
               B.topology.toPretopology U := by
-  refine Stacks.CategoryTheory.Hypercovering.exists_singleton_weaklyContractible_hypercovering_finiteDisjointUnions
+  refine exists_singleton_weaklyContractible_hypercovering_finiteDisjointUnions
     B.topology U
     (takeUnionsFinPreservesCoverings_of_ofArrows_sigmaι B.topology U
       (fun A ↦ ofArrows_sigmaι_mem_topology B A))
@@ -219,19 +219,16 @@ site covering `U`.
 
 The one-element coverings by weakly contractible objects are those of Stacks 0F4P, supplied by
 `AlgebraicGeometry.ProEtale.exists_weaklyContractible_singleton_covering`; the hypotheses on
-disjoint unions are those of Stacks 0DB2, together with the weak contractibility of a finite
-disjoint union of weakly contractible objects. -/
+disjoint unions are discharged as in
+`exists_singleton_weaklyContractible_hypercovering_unconditional`. -/
 @[stacks 09A1 "(1), at the library's big pro-etale site. The one-element weakly contractible \
-covering is Tag 0F4P, discharged here; hunions and the two instance hypotheses are \
+covering is Tag 0F4P, discharged here; the three instance hypotheses are \
 Tag 0DB2's own hypotheses, propagated"]
 theorem exists_singleton_weaklyContractible_hypercovering (U : B.Scheme)
     [HasFiniteCoproducts (Over U)]
     [ObjectProperty.IsClosedUnderFiniteLimits
       (fun A : FormalCoproduct.{u + 1} (Over U) ↦ HasCoproduct A.obj)]
-    [PreservesFiniteLimits (takeUnions.{u + 1, u, u + 1} (C := Over U))]
-    (hunions : TakeUnionsFinPreservesCoverings.{u + 1} B.topology U)
-    (sum_weaklyContractible :
-      SumMemFin.{u + 1} {V : B.Scheme | B.topology.IsWeaklyContractible V} U) :
+    [PreservesFiniteLimits (takeUnions.{u + 1, u, u + 1} (C := Over U))] :
     ∃ K : SimplicialObject (FormalCoproduct.{u + 1} (Over U)),
       IsHypercovering B.topology.toPretopology K ∧
         ∀ n : ℕ, ∃ i : (K.obj (op ⦋n⦌)).I,

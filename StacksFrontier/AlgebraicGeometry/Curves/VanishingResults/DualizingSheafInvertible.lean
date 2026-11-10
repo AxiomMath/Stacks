@@ -276,7 +276,7 @@ theorem stalkLengthNat_genericPoint_dualizingSheafOverField [IsAlgClosed S.k] [I
     intro h0
     have htw : S.twistDegree L ω hωc = 0 := by
       rw [twistDegree_eq_sum, hsum]
-      show (stalkLengthNat ω (genericPoint S.X) : ℤ) * _ = 0
+      change (stalkLengthNat ω (genericPoint S.X) : ℤ) * _ = 0
       rw [h0]
       simp
     have hsupp := S.supp_dim_le_zero_of_twistDegree_eq_zero hL ω hωc htw

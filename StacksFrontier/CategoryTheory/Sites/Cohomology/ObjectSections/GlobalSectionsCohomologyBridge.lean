@@ -90,7 +90,7 @@ def constantHomAddEquivSections {J : GrothendieckTopology C} (R : Sheaf J RingCa
 /-- The constant presheaf on `ℤ` is sectionwise torsion free. -/
 theorem isTorsionFree_constantZPresheaf (X : Cᵒᵖ) :
     Module.IsTorsionFree ℤ ((constantZPresheaf (C := C)).obj X) := by
-  show Module.IsTorsionFree ℤ (ULift.{u} ℤ)
+  change Module.IsTorsionFree ℤ (ULift.{u} ℤ)
   exact Function.Injective.moduleIsTorsionFree (fun x : ULift ℤ => x.down)
     ULift.down_injective (fun _ _ => rfl)
 

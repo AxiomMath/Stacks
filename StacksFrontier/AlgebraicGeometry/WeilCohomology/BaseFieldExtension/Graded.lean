@@ -81,8 +81,7 @@ theorem mem_iff_baseChange_mem (v : V) (n : ℤ) : v ∈ 𝒱 n ↔ ψ (1 ⊗ₜ
 /-- The restriction `F' ⊗_F V_n → W_n` of a graded isomorphism `F' ⊗_F V ≅ W`. -/
 def baseChangeGradeMap (n : ℤ) : F' ⊗[F] 𝒱 n →ₗ[F'] 𝒲 n :=
   LinearMap.codRestrict (𝒲 n) (ψ.toLinearMap ∘ₗ (𝒱 n).subtype.baseChange F') fun x => by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a v =>
       simp only [LinearMap.coe_comp, LinearEquiv.coe_coe, Function.comp_apply,
         LinearMap.baseChange_tmul, Submodule.coe_subtype]
@@ -114,8 +113,7 @@ theorem bijective_baseChangeGradeMap (n : ℤ) : Bijective (baseChangeGradeMap �
     refine ⟨p.baseChange F' x, Subtype.ext ?_⟩
     have key : ∀ z : F' ⊗[F] V, ψ (((𝒱 n).subtype.baseChange F') (p.baseChange F' z)) =
         (decompose 𝒲 (ψ z) n : W) := fun z => by
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul a v =>
         rw [LinearMap.baseChange_tmul, LinearMap.baseChange_tmul,
           show a ⊗ₜ[F] (𝒱 n).subtype (p v) = a • ((1 : F') ⊗ₜ[F] (decompose 𝒱 v n : V)) by
@@ -124,7 +122,7 @@ theorem bijective_baseChangeGradeMap (n : ℤ) : Bijective (baseChangeGradeMap �
           map_smul, map_smul, decompose_smul, baseChange_decompose ψ hψ]
         rfl
       | add z z' hz hz' => rw [map_add, map_add, map_add, hz, hz', map_add, decompose_add]; rfl
-    show ψ _ = _
+    change ψ _ = _
     rw [key, hx, decompose_of_mem_same 𝒲 y.2]
 
 /-- **A graded isomorphism `F' ⊗_F V ≅ W` restricts to `F' ⊗_F V_n ≅ W_n`.** -/

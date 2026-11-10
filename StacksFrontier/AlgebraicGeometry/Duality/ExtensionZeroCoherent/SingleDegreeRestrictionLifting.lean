@@ -110,7 +110,7 @@ public lemma restrictionLifting_singleFunctor_of_ext (S : ℕᵒᵖ ⥤ 𝒜) (B
     refine conj_injective Φ (S.obj (op m)) B p q ?_
     dsimp only
     rw [Φ.mapSingleFunctorIso_conj_singleHomEquivExt_symm (S.obj (op m)) B p q i hi ξ, hξ]
-    show _ = (Φ.mapSingleFunctorIso p).inv.app (S.obj (op m)) ≫
+    change _ = (Φ.mapSingleFunctorIso p).inv.app (S.obj (op m)) ≫
       (Φ.mapDerivedCategory.map ((DerivedCategory.singleFunctor 𝒜 p).map (tr S h)) ≫ g) ≫ _
     rw [Category.assoc, ← reassoc_of% (mapSingleFunctorIso_inv_naturality Φ p (tr S h)),
       DerivedCategory.singleHomEquivExt_symm_mk₀_comp, Equiv.symm_apply_apply]

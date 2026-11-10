@@ -175,7 +175,7 @@ public theorem four_mul_add_mul_self_notMem_of_isNodalAlgebra (k : Type u) (A : 
   -- the image of the global generator in the normalization of the local ring
   let ψ : T →+* D := (e : Tl →+* D).comp (algebraMap T Tl)
   have hψ : ∀ b : A, ψ (algebraMap A T b) = algebraMap Rl D (algebraMap A Rl b) := fun b => by
-    show e (algebraMap T Tl (algebraMap A T b)) = algebraMap Rl D (algebraMap A Rl b)
+    change e (algebraMap T Tl (algebraMap A T b)) = algebraMap Rl D (algebraMap A Rl b)
     rw [← IsScalarTower.algebraMap_apply A T Tl, IsScalarTower.algebraMap_apply A Rl Tl,
       e.commutes]
   -- `A' = A + A t` localizes to `A'_𝔪 = A_𝔪 + A_𝔪 t`

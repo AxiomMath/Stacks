@@ -285,6 +285,7 @@ lemma modStalkProdEquiv_apply (t : modStalk (∏ᶜ P) x) (i : ι) :
     (fun j => (modStalk (P j) x : Type u)) (directSumModStalkProdEquiv P x s hs)
     (fun j => modStalkMap (Pi.π P j) x) (modStalkMap_π_directSumModStalkProdEquiv P x s hs) _ _ t i
 
+omit [DecidableEq ι] in
 include s hs in
 /-- **Joint injectivity of the stalk maps of the projections.** For a family all but finitely
 many of whose members vanish, two germs of the product with the same image under every
@@ -292,8 +293,9 @@ projection are equal.
 
 Hypotheses: the finite set `s` and the vanishing `hs` off it, as for `modStalkProdEquiv`. -/
 theorem modStalkMap_π_jointly_injective {t t' : modStalk (∏ᶜ P) x}
-    (h : ∀ i : ι, modStalkMap (Pi.π P i) x t = modStalkMap (Pi.π P i) x t') : t = t' :=
-  (modStalkProdEquiv P x s hs).injective <| funext fun i => by
+    (h : ∀ i : ι, modStalkMap (Pi.π P i) x t = modStalkMap (Pi.π P i) x t') : t = t' := by
+  classical
+  exact (modStalkProdEquiv P x s hs).injective <| funext fun i => by
     simpa only [modStalkProdEquiv_apply] using h i
 
 end Product

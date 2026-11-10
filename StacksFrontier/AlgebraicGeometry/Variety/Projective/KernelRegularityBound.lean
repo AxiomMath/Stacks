@@ -254,14 +254,14 @@ public structure KernelChainData (k : Type u) [Field k] (n : ℕ)
 public def kernelRegularityBound (n : ℕ) (P : Polynomial ℚ) (b : ℤ) : ℤ :=
   b + (⌈P.eval (b : ℚ)⌉₊ : ℤ) + n
 
-/-- [Stacks, Tag 08AG] at a given base degree. Fix `n`, a rank `r ≥ 1`, a rational polynomial
+/-- [Stacks, Tag 08AG] at a given base degree. Fix `n`, a rank `r`, a rational polynomial
 `P` and a degree `b ≥ 0`. There is a single integer `m`, namely
 `AlgebraicGeometry.kernelRegularityBound n P b`, such that for every field `k`, every coherent
 sheaf `ℱ` on `ℙⁿ_k`, every epimorphism `q : 𝒪^{⊕r} ⟶ ℱ` and every chain data
 `AlgebraicGeometry.KernelChainData` for `𝒦 = ker q` at `b`, if the Hilbert polynomial of `ℱ` is
 `P` then `𝒦` is `m`-regular. -/
 public theorem exists_isMRegular_kernel_free_of_kernelChainData
-    (n r : ℕ) (hr : 1 ≤ r) (P : Polynomial ℚ) (b : ℤ) (hb : 0 ≤ b) :
+    (n r : ℕ) (P : Polynomial ℚ) (b : ℤ) (hb : 0 ≤ b) :
     ∃ m : ℤ, ∀ (k : Type u) [Field k]
       (Q : (projectiveSpaceOverRing n (.of k)).Modules) [Q.IsCoherent]
       (q : freeModules k n r ⟶ Q) [Epi q],

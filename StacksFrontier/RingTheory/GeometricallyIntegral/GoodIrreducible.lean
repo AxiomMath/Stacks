@@ -5,10 +5,10 @@ public import StacksFrontier.RingTheory.GeometricallyIntegral.GoodReduced
 /-!
 # Spreading out a reducible generic fibre, and the irreducible half of Stacks 05FT
 
-`StacksFrontier.RingTheory.GeometricallyIntegral.SpreadOut` proves the *bad* half of the generic-fibre
-dichotomy for the geometrically reduced fibre locus — the affine case of Stacks 0577 at the generic
-point — and for the geometrically integral one, leaving the two *good* halves (the affine cases of
-Stacks 0578 and Stacks 055A) as the only hypotheses of
+`StacksFrontier.RingTheory.GeometricallyIntegral.SpreadOut` proves the *bad* half of the
+generic-fibre dichotomy for the geometrically reduced fibre locus — the affine case of Stacks 0577
+at the generic point — and for the geometrically integral one, leaving the two *good* halves (the
+affine cases of Stacks 0578 and Stacks 055A) as the only hypotheses of
 `Algebra.projective_of_geometricallyIntegral_fibres_of_good_halves`. The bad half for the
 geometrically **irreducible** fibre locus was not among them, because the technique used there does
 not reach it: a failure of irreducibility of `Spec (T ⊗[D] K)` is a pair of elements with nilpotent

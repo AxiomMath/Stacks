@@ -64,10 +64,6 @@ and part (2) of Stacks 05W1 concludes.
 
 @[expose] public section
 
--- Instance search for pullbacks of presheaves on the big fppf site exceeds the default
--- budget under Lean v4.35.0.
-set_option synthInstance.maxHeartbeats 400000
-
 open CategoryTheory CategoryTheory.Limits
 open MonObj MonoidalCategory CartesianMonoidalCategory
 open scoped CategoryTheory.MonObj CategoryTheory.MonoidalCategory
@@ -79,7 +75,10 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {Bs : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {hBs : IsAlgebraicSpace B S hS Bs}
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site exceeds the default budget
 set_option maxHeartbeats 1000000 in
+-- elaborating the `Over.pullback` lax-monoidal unit and its `pullback.fst` composites
 /-- The unit of a base-changed group algebraic space projects to the unit of the original
 one. -/
 theorem one_baseChange_left_comp_fst (G : GroupAlgebraicSpace B S hS Bs hBs)
@@ -106,6 +105,8 @@ theorem one_baseChange_left_comp_fst (G : GroupAlgebraicSpace B S hS Bs hBs)
     _ = f ≫ (MonObj.one (X := G.obj.X)).left := by
           rw [hnat (MonObj.one (X := G.obj.X)), ← Category.assoc, hε]
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site exceeds the default budget
 /-- Quasi-finiteness at the identity over every point of the base is inherited by the point
 of the source determined by a global section of a base change. -/
 private theorem isQuasiFiniteAt_pointsMap_fst_of_forall_at_one
@@ -151,6 +152,8 @@ private theorem isQuasiFiniteAt_pointsMap_fst_of_forall_at_one
   exact (hiff _).mp ((isQuasiFiniteAt_one_iff_at_section B S hS
     (GroupAlgebraicSpace.baseChange B S hS hBt f G) g b).mp ((hiff _).mpr (hpoint ▸ h _)))
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site exceeds the default budget
 /-- The point of the base cut out by a field-valued point of a group algebraic space: the
 morphism from the representing object of the site to the base determined by the structure
 morphism. -/
@@ -161,6 +164,8 @@ private noncomputable def baseOfFieldValuedPoint (G : GroupAlgebraicSpace B S hS
   yonedaEquiv.symm
     (G.obj.X.hom.app (Opposite.op (p.siteObject B S hS G.obj.X.left)) p.value)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site exceeds the default budget
 /-- The morphism of presheaves underlying the global section of the base change of a group
 algebraic space determined by a field-valued point of it. -/
 private noncomputable def sectionMapOfFieldValuedPoint
@@ -172,6 +177,8 @@ private noncomputable def sectionMapOfFieldValuedPoint
     apply yonedaEquiv.injective
     simp [baseOfFieldValuedPoint, yonedaEquiv_comp])
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site exceeds the default budget
 /-- The global section of the base change of a group algebraic space along the base point of a
 field-valued point of it, determined by that field-valued point. -/
 private noncomputable def sectionOfFieldValuedPoint (G : GroupAlgebraicSpace B S hS Bs hBs)
@@ -183,6 +190,8 @@ private noncomputable def sectionOfFieldValuedPoint (G : GroupAlgebraicSpace B S
         (baseOfFieldValuedPoint B S hS G p) G).obj.X :=
   Over.homMk (sectionMapOfFieldValuedPoint B S hS G p) (pullback.lift_snd _ _ _)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site exceeds the default budget
 /-- The section of the base change determined by a field-valued point projects back to the
 class of that point. -/
 private theorem pointsMap_fst_sectionMapOfFieldValuedPoint
@@ -204,6 +213,8 @@ private theorem pointsMap_fst_sectionMapOfFieldValuedPoint
     ⟨p, ⟨𝟙 _, ?_⟩, FieldValuedPoint.dominates_refl B S hS _ p⟩
   exact (G.obj.X.left.map_id_apply _ _).trans (G.obj.X.left.map_id_apply _ _)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site exceeds the default budget
 /-- **Stacks 0DSI.** A group algebraic space locally of finite type over its base is locally
 quasi-finite exactly when it is quasi-finite at the identity point over every point of the
 base. -/
@@ -227,6 +238,8 @@ theorem isLocallyQuasiFinite_iff_at_identity (G : GroupAlgebraicSpace B S hS Bs 
 
 /-! ### The unramified characterization -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site exceeds the default budget
 /-- The property of being an open immersion, as a relative property of morphisms of presheaves
 on the big fppf site of `S`. -/
 private abbrev openImmersions : MorphismProperty ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
@@ -234,6 +247,8 @@ private abbrev openImmersions : MorphismProperty ((BigFppfOver B S hS)ᵒᵖ ⥤
     (@_root_.AlgebraicGeometry.IsOpenImmersion.{u} : MorphismProperty Scheme.{u})
     (BigFppfOver.toScheme B S hS))
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site exceeds the default budget
 /-- The relative diagonal of a monomorphism of presheaves is an open immersion: it is an
 isomorphism. -/
 private theorem isOpenImmersion_pullbackDiagonal_of_mono
@@ -244,6 +259,8 @@ private theorem isOpenImmersion_pullbackDiagonal_of_mono
   have : (openImmersions B S hS).RespectsIso := inferInstance
   exact (openImmersions B S hS).of_isIso (pullback.diagonal g)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site exceeds the default budget
 /-- If a composite of morphisms of presheaves is an open immersion and the relative diagonal of
 its second factor is an open immersion, then its first factor is an open immersion.
 
@@ -271,6 +288,8 @@ private theorem isOpenImmersion_of_comp_of_isOpenImmersion_pullbackDiagonal
   exact ((MorphismProperty.hasOfPostcompProperty_iff_le_diagonal
     (P := Q.presheaf) (Q := Q.presheaf.diagonal)).2 le_rfl).of_postcomp g f hf hgf
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site exceeds the default budget
 /-- The restriction of a morphism of algebraic spaces over `S` to an open subspace whose set of
 points is exactly the set of points at which the morphism is unramified is unramified.
 
@@ -326,6 +345,8 @@ private theorem isUnramified_ι_of_range_eq_setOf_isUnramifiedAt
       (@_root_.AlgebraicGeometry.Unramified.{u} : MorphismProperty Scheme.{u})
       (asIso β).symm (U.ι ≫ f)).mp hUf
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site exceeds the default budget
 /-- **Stacks 0DSI.** A group algebraic space locally of finite type over its base is unramified
 exactly when it is unramified at the identity point over every point of the base. -/
 @[stacks 0DSI "the unramified characterization"]

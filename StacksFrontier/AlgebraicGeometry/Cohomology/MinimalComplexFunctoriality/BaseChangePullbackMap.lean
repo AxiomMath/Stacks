@@ -84,12 +84,12 @@ theorem pullbackMap_chase (Lg : CS ⥤ CS') (LgP : CP ⥤ CP') (LgX : CX ⥤ CX'
   exact congrArg (fun t => bA K ≫ Rp'.map (adjI'.unit.app (LgP.obj K)) ≫ t) hc
 
 /-- `CategoryTheory.unit_mateEquiv`, with the identity functor evaluated away and the
-components written through `TwoSquare.natTrans`. -/
+components written as the `app` of the `TwoSquare`. -/
 theorem unit_mateEquiv_natTrans_app {C D E F : Type*} [Category C] [Category D] [Category E]
     [Category F] {G : C ⥤ E} {H : D ⥤ F} {L₁ : C ⥤ D} {R₁ : D ⥤ C} {L₂ : E ⥤ F} {R₂ : F ⥤ E}
     (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂) (α : TwoSquare G L₁ L₂ H) (c : C) :
-    G.map (adj₁.unit.app c) ≫ (mateEquiv adj₁ adj₂ α).natTrans.app (L₁.obj c) =
-      adj₂.unit.app (G.obj c) ≫ R₂.map (α.natTrans.app c) :=
+    G.map (adj₁.unit.app c) ≫ (mateEquiv adj₁ adj₂ α).app (L₁.obj c) =
+      adj₂.unit.app (G.obj c) ≫ R₂.map (α.app c) :=
   unit_mateEquiv adj₁ adj₂ α c
 
 end Abstract
@@ -114,13 +114,13 @@ theorem derivedBaseChangeMap_pullbackMap (sqC : gX ≫ i = i' ≫ gP) (sqA : gP 
         (derivedPushforwardCompIso i' p').hom.app
           ((derivedPullback i').obj ((derivedPullback gP).obj K))) ≫
       (derivedPushforward (i' ≫ p')).map
-        ((derivedPullbackSquare gX i' i gP sqC).natTrans.app K) := by
+        ((derivedPullbackSquare gX i' i gP sqC).app K) := by
   have hC : (derivedPullback gP).map ((derivedAdjunction i).unit.app K) ≫
       derivedBaseChangeMap gX i' i gP sqC ((derivedPullback i).obj K) =
       (derivedAdjunction i').unit.app ((derivedPullback gP).obj K) ≫
-        (derivedPushforward i').map ((derivedPullbackSquare gX i' i gP sqC).natTrans.app K) := by
+        (derivedPushforward i').map ((derivedPullbackSquare gX i' i gP sqC).app K) := by
     rw [show derivedBaseChangeMap gX i' i gP sqC ((derivedPullback i).obj K) =
-        (derivedBaseChangeSquare gX i' i gP sqC).natTrans.app ((derivedPullback i).obj K) from rfl,
+        (derivedBaseChangeSquare gX i' i gP sqC).app ((derivedPullback i).obj K) from rfl,
       derivedBaseChangeSquare_eq_mateEquiv]
     exact unit_mateEquiv_natTrans_app (derivedAdjunction i) (derivedAdjunction i')
       (derivedPullbackSquare gX i' i gP sqC) K

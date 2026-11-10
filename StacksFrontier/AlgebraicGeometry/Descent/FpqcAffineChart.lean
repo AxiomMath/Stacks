@@ -132,7 +132,7 @@ theorem exists_affine_chart_of_finite_fpqc
   -- the comparison isomorphism identifies `G.map (Sigma.desc w)` with the coproduct descent
   have hgdesc : e.hom ≫ G.map (Sigma.desc w) = Sigma.desc fun i ↦ G.map (w i) := by
     refine Sigma.hom_ext _ _ fun i ↦ ?_
-    rw [← Category.assoc, he i, ← Functor.map_comp, Sigma.ι_desc]
+    rw [← Category.assoc, he i, ← Functor.map_comp, Sigma.ι_comp_desc]
     have hfac : (Cofan.mk (∐ W) (Sigma.ι W)).inj i ≫ Sigma.desc w = w i := by simp
     exact congrArg G.map hfac
   rw [Precoverage.mem_comap_iff, Presieve.map_ofArrows] at hmem
@@ -154,12 +154,12 @@ theorem exists_affine_chart_of_finite_fpqc
     refine transport (@Surjective.{u}) ⟨fun y ↦ ?_⟩
     obtain ⟨i, z, hzy⟩ := hjs y
     refine ⟨Sigma.ι (fun i ↦ G.obj (W i)) i z, ?_⟩
-    rw [← Scheme.Hom.comp_apply, Sigma.ι_desc]
+    rw [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
     exact hzy
   have hZ' := hZ
   have hqc : QuasiCompact (G.map (Sigma.desc w)) := inferInstance
   exact ⟨∐ W, Sigma.ι W, Sigma.desc w, ⟨hc⟩, hcaff, hsurj, hflat, hqc,
-    fun i ↦ Sigma.ι_desc _ _⟩
+    fun i ↦ Sigma.ι_comp_desc _ _⟩
 
 end BigFppfOver
 

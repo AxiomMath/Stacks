@@ -77,7 +77,7 @@ theorem comp_gluingPullbackIso_inv_fst {T : Scheme.{u}}
         (by simp only [Category.assoc]; rw [pullback.condition]) := by
   rw [actInv]
   congr 1
-  apply pullback.hom_ext <;> simp [pullback.lift_fst, pullback.lift_snd]
+  apply pullback.hom_ext <;> simp
 
 /-- **The inverse gluing action is the gluing action.** For a descent datum relative to a single
 morphism, the point that `φ⁻¹` attaches to `(x, v)` is the translate `act v x` of `v` to the

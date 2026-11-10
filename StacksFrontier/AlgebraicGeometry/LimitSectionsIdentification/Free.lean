@@ -65,16 +65,16 @@ theorem spanOne_apply (N : ModuleCat.{u} R) (n : N) (r : R) : spanOne N n r = r 
 theorem spanOne_comp {N P : ModuleCat.{u} R} (n : N) (f : N ⟶ P) :
     spanOne N n ≫ f = spanOne P (f n) := by
   refine ModuleCat.hom_ext (LinearMap.ext fun r => ?_)
-  show f (r • n) = r • f n
+  change f (r • n) = r • f n
   exact map_smul _ _ _
 
 /-- **Every linear map out of `R` is `spanOne` of its value at `1`.** -/
 theorem spanOne_eq {N : ModuleCat.{u} R} (f : ModuleCat.of R ↑R ⟶ N) :
     f = spanOne N (f (1 : R)) := by
   refine ModuleCat.hom_ext (LinearMap.ext fun r => ?_)
-  show f r = r • f 1
+  change f r = r • f 1
   rw [← map_smul]
-  show f r = f (r * 1)
+  change f r = f (r * 1)
   rw [mul_one]
 
 end SpanOne
@@ -91,12 +91,12 @@ def gammaLin : ModuleCat.of A ↑A ⟶ (ModuleCat.restrictScalars γ.hom).obj (M
 
 /-- `tmulOne γ` sends `a` to `a ⊗ 1`. -/
 theorem tmulOne_apply (a : A') : tmulOne γ a = (a ⊗ₜ[A, γ.hom] (1 : A)) := by
-  show ((a * 1 : A') ⊗ₜ[A, γ.hom] (1 : A)) = _
+  change ((a * 1 : A') ⊗ₜ[A, γ.hom] (1 : A)) = _
   rw [mul_one]
 
 /-- `gammaLin γ` sends `a` to `γ a`. -/
 theorem gammaLin_apply (a : A) : gammaLin γ a = γ.hom a := by
-  show γ.hom a * 1 = _
+  change γ.hom a * 1 = _
   rw [mul_one]
 
 /-- In the extension of scalars of `A` along `γ`, the scalar `m` can be
@@ -107,7 +107,7 @@ theorem one_tmul_eq (m : A) :
     ((ModuleCat.extendRestrictScalarsAdj γ.hom).unit.app (ModuleCat.of A ↑A))).hom m)
   rw [ModuleCat.extendRestrictScalarsAdj_unit_app_apply] at h
   refine h.trans ?_
-  show ((γ.hom m * 1 : A') ⊗ₜ[A, γ.hom] (1 : A)) = _
+  change ((γ.hom m * 1 : A') ⊗ₜ[A, γ.hom] (1 : A)) = _
   rw [mul_one]
 
 /-- The transpose of `gammaLin γ` sends `1 ⊗ m` to `γ m`. -/
@@ -133,7 +133,7 @@ theorem tmulOne_comp_transposeExtend :
 theorem transposeExtend_comp_tmulOne :
     transposeExtend γ (gammaLin γ) ≫ tmulOne γ = 𝟙 _ := by
   refine ModuleCat.ExtendScalars.hom_ext fun m => ?_
-  show tmulOne γ (transposeExtend γ (gammaLin γ) ((1 : A') ⊗ₜ[A, γ.hom] m)) =
+  change tmulOne γ (transposeExtend γ (gammaLin γ) ((1 : A') ⊗ₜ[A, γ.hom] m)) =
     ((1 : A') ⊗ₜ[A, γ.hom] m)
   rw [transposeExtend_gammaLin_one_tmul, tmulOne_apply, ← one_tmul_eq]
 

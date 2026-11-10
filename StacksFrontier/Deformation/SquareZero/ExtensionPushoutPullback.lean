@@ -178,14 +178,14 @@ public lemma conormalCokernelPullback_self (y : extOneCokernel A B N) :
     conormalCokernelPullback A B B y = y := by
   induction y using Quotient.inductionOn' with
   | h e =>
-    show Submodule.Quotient.mk (towerConormalPullback A B B e) = Submodule.Quotient.mk e
+    change Submodule.Quotient.mk (towerConormalPullback A B B e) = Submodule.Quotient.mk e
     rw [towerConormalPullback_self]
 
 /-- The map `Ext¹_B(NL_{B/A}, N) → Ext¹_B(NL_{B/A}, N)` induced by the identity of `N` is the
 identity. -/
 public lemma naiveCotangentExtOneMap_id (x : naiveCotangentExtOne A B N) :
     naiveCotangentExtOneMap A B (LinearMap.id : N →ₗ[B] N) x = x := by
-  show (extCokernelIso A B N).symm
+  change (extCokernelIso A B N).symm
     (conormalCokernelPush A B (LinearMap.id : N →ₗ[B] N) (extCokernelIso A B N x)) = x
   rw [conormalCokernelPush_id]
   exact (extCokernelIso A B N).symm_apply_apply x
@@ -194,7 +194,7 @@ public lemma naiveCotangentExtOneMap_id (x : naiveCotangentExtOne A B N) :
 identity. -/
 public lemma naiveCotangentExtOneTowerMap_self (x : naiveCotangentExtOne A B N) :
     naiveCotangentExtOneTowerMap A B B x = x := by
-  show (extCokernelIso A B N).symm
+  change (extCokernelIso A B N).symm
     (conormalCokernelPullback A B B (extCokernelIso A B N x)) = x
   rw [conormalCokernelPullback_self]
   exact (extCokernelIso A B N).symm_apply_apply x
@@ -291,7 +291,7 @@ public lemma pullback_val_mul_kernelInclusion
     (b' : Y.B' × B) * (kernelInclusion Y n, (0 : B))
       = (kernelInclusion Y (pullbackToB A B C Y b' • n), (0 : B)) := by
   refine Prod.ext ?_ (mul_zero _)
-  show (b' : Y.B' × B).1 * kernelInclusion Y n = _
+  change (b' : Y.B' × B).1 * kernelInclusion Y n = _
   rw [mul_kernelInclusion' Y]
   refine congrArg (kernelInclusion Y) ?_
   have hb : reduction Y (b' : Y.B' × B).1 = algebraMap B C (b' : Y.B' × B).2 := b'.2
@@ -551,7 +551,7 @@ public lemma pushout_mul_inr (w : TrivSqZeroExt X.B' N) (n : N) :
   · rw [TrivSqZeroExt.snd_mul, TrivSqZeroExt.snd_inr, TrivSqZeroExt.fst_inr,
       TrivSqZeroExt.snd_inr]
     have h0 : (MulOpposite.op (0 : X.B') : (X.B')ᵐᵒᵖ) • w.snd = (0 : N) := by
-      show reduction X 0 • w.snd = (0 : N)
+      change reduction X 0 • w.snd = (0 : N)
       rw [map_zero, zero_smul]
     rw [h0, add_zero]
     rfl
@@ -605,12 +605,12 @@ public lemma pushoutKernelHom_bijective : Function.Bijective (pushoutKernelHom c
     obtain ⟨m, hm⟩ := exists_eq_kernelInclusion' X hw
     refine ⟨w.snd + c m, ?_⟩
     apply Subtype.ext
-    show pushoutMk c X (TrivSqZeroExt.inr (w.snd + c m)) = pushoutMk c X w
+    change pushoutMk c X (TrivSqZeroExt.inr (w.snd + c m)) = pushoutMk c X w
     rw [← sub_eq_zero, ← map_sub, pushoutMk_eq_zero_iff]
     refine ⟨-m, TrivSqZeroExt.ext ?_ ?_⟩
-    · show kernelInclusion X (-m) = _
+    · change kernelInclusion X (-m) = _
       rw [kernelInclusion_neg', hm, TrivSqZeroExt.fst_sub, TrivSqZeroExt.fst_inr, zero_sub]
-    · show -c (-m) = _
+    · change -c (-m) = _
       rw [map_neg, neg_neg, TrivSqZeroExt.snd_sub, TrivSqZeroExt.snd_inr]
       abel
 
@@ -710,13 +710,13 @@ relation imposed by the antidiagonal ideal. -/
 public lemma pushoutMap_kernelInclusion (m : M) :
     pushoutMap c X (kernelInclusion X m)
       = kernelInclusion (pushoutExtension c X) (c m) := by
-  show (pushoutMk c X (TrivSqZeroExt.inl (kernelInclusion X m)) : pushoutRing c X)
+  change (pushoutMk c X (TrivSqZeroExt.inl (kernelInclusion X m)) : pushoutRing c X)
     = pushoutMk c X (TrivSqZeroExt.inr (c m))
   rw [← sub_eq_zero, ← map_sub, pushoutMk_eq_zero_iff]
   refine ⟨m, TrivSqZeroExt.ext ?_ ?_⟩
-  · show kernelInclusion X m = _
+  · change kernelInclusion X m = _
     rw [TrivSqZeroExt.fst_sub, TrivSqZeroExt.fst_inl, TrivSqZeroExt.fst_inr, sub_zero]
-  · show -c m = _
+  · change -c m = _
     rw [TrivSqZeroExt.snd_sub, TrivSqZeroExt.snd_inl, TrivSqZeroExt.snd_inr, zero_sub]
 
 end Pushout
@@ -776,7 +776,7 @@ public theorem isomorphic_pushoutExtension_pullbackExtension_iff (c : M →ₗ[B
         (∀ z : X.B', Y.toB (h z) = algebraMap B C (X.toB z)) ∧
           ∀ m : M, h (kernelInclusion X m) = kernelInclusion Y (c m) := by
   rw [exists_compatible_algebraMap_iff A B C c X Y]
-  show _ ↔ naiveCotangentExtOneMap A B c (extClass X)
+  change _ ↔ naiveCotangentExtOneMap A B c (extClass X)
     = naiveCotangentExtOneTowerMap A B C (extClass Y)
   rw [← extClass_pushoutExtension, ← extClass_pullbackExtension]
   exact ⟨fun h ↦ congrArg (squareZeroAlgebraExtensionClassesEquivExtOne A B N) (Quotient.sound h),

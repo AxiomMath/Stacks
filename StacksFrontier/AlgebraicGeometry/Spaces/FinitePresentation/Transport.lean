@@ -53,14 +53,14 @@ public theorem limitPreserving_of_natIso
   let E := Cocone.precomposeEquivalence eD
   have hIso : E.functor.obj cP ≅ cQ := Cocone.ext (e.app (Opposite.op c.pt)) (by
     intro i
-    show e.inv.app (D.op.obj i) ≫ P.map (c.op.ι.app i) ≫
+    change e.inv.app (D.op.obj i) ≫ P.map (c.op.ι.app i) ≫
         e.hom.app c.op.pt = Q.map (c.op.ι.app i)
     rw [← Category.assoc, ← e.inv.naturality (c.op.ι.app i)]
     simp)
   have hMapped : IsColimit (E.functor.obj cP) := by
     refine IsColimit.mk (fun s => hP.desc ((Cocone.precompose eD.hom).obj s)) ?_ ?_
     · intro s i
-      show e.inv.app (Opposite.op (D.obj i.unop)) ≫ cP.ι.app i ≫
+      change e.inv.app (Opposite.op (D.obj i.unop)) ≫ cP.ι.app i ≫
         hP.desc ((Cocone.precompose eD.hom).obj s) = s.ι.app i
       calc
         _ = e.inv.app (Opposite.op (D.obj i.unop)) ≫

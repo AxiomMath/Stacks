@@ -191,8 +191,7 @@ noncomputable def tensorAbPresheaf : (TopologicalSpace.Opens X)ᵒᵖ ⥤ Ab.{u}
     let := (α.app U).hom.toAlgebra
     apply AddCommGrpCat.hom_ext
     refine AddMonoidHom.ext fun x => ?_
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul s m =>
       simp only [AddCommGrpCat.hom_ofHom, AddCommGrpCat.hom_id, LinearMap.toAddMonoidHom_coe,
         AddMonoidHom.id_apply, TensorProduct.map_tmul, o'Semilin_apply, fSemilin_apply, O'.map_id,
@@ -205,8 +204,7 @@ noncomputable def tensorAbPresheaf : (TopologicalSpace.Opens X)ᵒᵖ ⥤ Ab.{u}
     let := (α.app W).hom.toAlgebra
     apply AddCommGrpCat.hom_ext
     refine AddMonoidHom.ext fun x => ?_
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul s m =>
       simp only [AddCommGrpCat.hom_ofHom, AddCommGrpCat.hom_comp, LinearMap.toAddMonoidHom_coe,
         AddMonoidHom.comp_apply, TensorProduct.map_tmul, o'Semilin_apply, fSemilin_apply,
@@ -245,8 +243,7 @@ noncomputable def tensorSemilin (U V : (TopologicalSpace.Opens X)ᵒᵖ) (i : U 
     map_add' := by intro a b; exact map_add _ a b
     map_smul' := by
       intro r x
-      induction x using TensorProduct.induction_on with
-      | zero => rw [smul_zero, map_zero, smul_zero]
+      induction x using TensorProduct.inductionOn with
       | tmul s m =>
         rw [TensorProduct.smul_tmul', TensorProduct.map_tmul, TensorProduct.map_tmul,
             TensorProduct.smul_tmul']
@@ -611,8 +608,7 @@ theorem lift_bilinMap_smul :
       (TopCat.Presheaf.stalk (C := Ab.{u}) (tensorPresheafOfModules O O' α F).presheaf x) :=
     Module.compHom _ (stalkHom O O' α x).hom
   intro a z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => rw [smul_add, map_add, map_add, smul_add, hz, hz']
   | tmul mx sx =>
       rw [rightTensorModule_smul_tmul, TensorProduct.lift.tmul, TensorProduct.lift.tmul]
@@ -760,8 +756,7 @@ theorem liftC_res (W W' : TopologicalSpace.Opens X) (hx : x ∈ W) (hx' : x ∈ 
   let := (stalkHom O O' α x).hom.toAlgebra
   let := (α.app (Opposite.op W)).hom.toAlgebra
   let := (α.app (Opposite.op W')).hom.toAlgebra
-  induction p using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  induction p using TensorProduct.inductionOn with
   | tmul s m =>
     rw [tensorPresheaf_map_tmul O O' α F W W' j s m]
     rw [liftC_tmul, liftC_tmul]
@@ -824,8 +819,7 @@ theorem liftC_smul (W : TopologicalSpace.Opens X) (hx : x ∈ W)
   let := rightTensorModule (O.stalk x) (O'.stalk x)
     (TopCat.Presheaf.stalk (C := Ab.{u}) F.presheaf x)
   let := (α.app (Opposite.op W)).hom.toAlgebra
-  induction p using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction p using TensorProduct.inductionOn with
   | tmul s m =>
     rw [o'_smul_tmul O O' α F W a s m]
     rw [liftC_tmul, liftC_tmul]
@@ -954,8 +948,7 @@ theorem tensorPresheafStalk_fwdMap_invMap
   obtain ⟨U, hU, p, rfl⟩ :=
     TopCat.Presheaf.exists_germ_eq (tensorPresheafOfModules O O' α F).presheaf t
   let := (α.app (Opposite.op U)).hom.toAlgebra
-  induction p using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  induction p using TensorProduct.inductionOn with
   | tmul s m =>
       have hgt : TopCat.Presheaf.germ (tensorPresheafOfModules O O' α F).presheaf U x hU
           (s ⊗ₜ[O.obj (Opposite.op U)] m) = germTmul O O' α F x U hU s m := rfl
@@ -973,8 +966,7 @@ theorem tensorPresheafStalk_invMap_fwdMap :
   let := rightTensorModule (O.stalk x) (O'.stalk x)
     (TopCat.Presheaf.stalk (C := Ab.{u}) F.presheaf x)
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul mx sx =>
       obtain ⟨U, hU, m, rfl⟩ := TopCat.Presheaf.exists_germ_eq F.presheaf mx
       obtain ⟨V, hV, s, rfl⟩ := TopCat.Presheaf.exists_germ_eq O' sx
@@ -1134,7 +1126,7 @@ theorem tensorSheafStalk_bijective :
       ((PresheafOfModules.toPresheaf _).map η)) := by
     rw [PresheafOfModules.toPresheaf_map_sheafificationAdjunction_unit_app]
     exact TopCat.Presheaf.stalkFunctor_map_unit_toSheafify_isIso x Ab _
-  show Function.Bijective ⇑(ConcreteCategory.hom ((TopCat.Presheaf.stalkFunctor Ab.{u} x).map
+  change Function.Bijective ⇑(ConcreteCategory.hom ((TopCat.Presheaf.stalkFunctor Ab.{u} x).map
       ((PresheafOfModules.toPresheaf _).map η)))
   exact CategoryTheory.ConcreteCategory.bijective_of_isIso _
 

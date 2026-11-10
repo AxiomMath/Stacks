@@ -117,7 +117,7 @@ theorem appLE_comp_fibreSections {V W : X.Opens} (h : V ≤ W) (e : W ≤ f ⁻�
       (pullback.fst (pullback.snd (𝟙 S) f) V.ι ≫ pullback.fst (𝟙 S) f).appTop := by
   rw [fibreSections, Scheme.Hom.appLE_comp_appLE, appTop_eq_appLE]
   refine appLE_eq_of_eq ?_ _ _ _
-  show (pullback.snd (pullback.snd (𝟙 S) f) V.ι ≫ V.ι) ≫ f = _
+  change (pullback.snd (pullback.snd (𝟙 S) f) V.ι ≫ V.ι) ≫ f = _
   rw [← pullback.condition, Category.assoc, ← pullback.condition, Category.comp_id]
 
 end Sections
@@ -156,7 +156,7 @@ theorem fibreSections_baseRingHom {V W : X.Opens} (h : V ≤ W) (b : Γ(Spec (.o
     (fibreSections f h).hom ((Stacks.Cech.baseRingHom f W).hom (specΓHom A b)) =
       (pullback.fst (pullback.snd (𝟙 _) f) V.ι ≫ pullback.fst (𝟙 _) f).appTop.hom b := by
   rw [Stacks.Cech.baseRingHom_eq_appLE f W (le_top.trans (Scheme.Hom.preimage_top f).ge)]
-  show (f.appLE ⊤ W (le_top.trans (Scheme.Hom.preimage_top f).ge) ≫ fibreSections f h).hom
+  change (f.appLE ⊤ W (le_top.trans (Scheme.Hom.preimage_top f).ge) ≫ fibreSections f h).hom
     ((toSpecΓ (CommRingCat.of A)).hom (specΓHom A b)) = _
   rw [appLE_comp_fibreSections, toSpecΓ_specΓHom]
 
@@ -222,7 +222,7 @@ theorem explicitToBaseCechF_comm (p : ℕ) :
     explicitToBaseCechF f U p ≫ (baseCech f U).d p (p + 1) =
       (explicitCech f U).d p (p + 1) ≫ explicitToBaseCechF f U (p + 1) := by
   refine ModuleCat.hom_ext (LinearMap.ext fun s => baseCech_ext f U fun y => ?_)
-  show π U (baseSectionsPresheaf f) (p + 1) y
+  change π U (baseSectionsPresheaf f) (p + 1) y
       ((baseCech f U).d p (p + 1) ((explicitToBaseCechF f U p).hom s)) =
     π U (baseSectionsPresheaf f) (p + 1) y ((explicitToBaseCechF f U (p + 1)).hom
       (((explicitCech f U).d p (p + 1)).hom s))
@@ -282,7 +282,7 @@ theorem free_finite_restrictScalars (M : ModuleCat.{u} A) (hfree : Module.Free A
   let : Module Γ(Spec (.of A), ⊤) M :=
     ((ModuleCat.restrictScalars.{u} (specΓHom A)).obj M).isModule
   have h : ∀ (c : A) (x : M), (specΓEquiv A).symm c • x = c • x := fun c x => by
-    show specΓHom A ((specΓEquiv A).symm c) • x = c • x
+    change specΓHom A ((specΓEquiv A).symm c) • x = c • x
     rw [show specΓHom A ((specΓEquiv A).symm c) = c from (specΓEquiv A).apply_symm_apply c]
   let b := (Module.Free.chooseBasis A M).mapCoeffs (specΓEquiv A).symm h
   exact ⟨Module.Free.of_basis b, Module.Finite.of_basis b⟩
@@ -328,7 +328,7 @@ theorem exists_cocycles_isIso (q : ℕ)
   choose c hc using fun i => hπ (bs i)
   let z : Fin _ → K.X q := fun i => (K.iCycles q).hom (c i)
   have hz : ∀ i, K.d q (q + 1) (z i) = 0 := fun i => by
-    show (K.iCycles q ≫ K.d q (q + 1)).hom (c i) = 0
+    change (K.iCycles q ≫ K.d q (q + 1)).hom (c i) = 0
     rw [K.iCycles_d]
     rfl
   refine ⟨_, z, hz, ?_⟩
@@ -338,17 +338,17 @@ theorem exists_cocycles_isIso (q : ℕ)
     intro i
     have h1 : L.hom (Pi.single i 1) = c i := by
       apply (ModuleCat.mono_iff_injective (K.iCycles q)).1 inferInstance
-      show (L ≫ K.iCycles q).hom _ = _
+      change (L ≫ K.iCycles q).hom _ = _
       rw [K.liftCycles_i]
       exact moduleBasisMapDeg_single f U z i
-    show (K.homologyπ q).hom (L.hom (Pi.single i 1)) = _
+    change (K.homologyπ q).hom (L.hom (Pi.single i 1)) = _
     rw [h1, hc]
   have hlin : (L ≫ K.homologyπ q).hom = bs.equivFun.symm.toLinearMap :=
     (Pi.basisFun Γ(S, ⊤) (Fin _)).ext fun i => by
       rw [Pi.basisFun_apply, hΦ, LinearEquiv.coe_coe, eq_comm, LinearEquiv.symm_apply_eq,
         Module.Basis.equivFun_apply, Module.Basis.repr_self, Finsupp.single_eq_pi_single]
   refine (ConcreteCategory.isIso_iff_bijective _).2 ?_
-  show Function.Bijective (L ≫ K.homologyπ q).hom
+  change Function.Bijective (L ≫ K.homologyπ q).hom
   rw [hlin]
   exact bs.equivFun.symm.bijective
 

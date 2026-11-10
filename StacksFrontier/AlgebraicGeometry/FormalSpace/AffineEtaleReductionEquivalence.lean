@@ -140,7 +140,7 @@ theorem affineEtaleChartsToSpacesEtale_obj_mem_essImage {X : FppfSheaf B S hS}
       fun A C g fst snd hpb ↦ ?_⟩
     have : IsIso (yoneda.map snd) := hpb.isIso_snd_of_isIso
     have : IsIso snd := Functor.FullyFaithful.isIso_of_isIso_map Yoneda.fullyFaithful snd
-    show Etale ((BigFppfOver.toScheme B S hS).map snd)
+    change Etale ((BigFppfOver.toScheme B S hS).map snd)
     infer_instance
   let V : R.AffineEtale := ⟨⟨CostructuredArrow.mk f.hom, hetale T e.hom.hom he⟩, hTaff⟩
   exact ⟨V, ⟨ObjectProperty.isoMk _ (Over.isoMk e rfl)⟩⟩

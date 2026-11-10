@@ -54,7 +54,7 @@ theorem TotalDerivedExtensionScalars.isIso_comparison_app_of_flat {f : R →+* S
       (extensionOfScalarsComplexGeneral.{u, u, u, w'} f) := by
     intro K L φ hφ
     have : QuasiIso φ := hφ
-    show IsIso (DerivedCategory.Q.map
+    change IsIso (DerivedCategory.Q.map
       ((ModuleCat.extendScalars.{u, u, u} f).mapHomologicalComplex (ComplexShape.up ℤ) |>.map φ))
     infer_instance
   have := Functor.isIso_of_isLeftDerivedFunctor_of_inverts D.functor D.comparison hF
@@ -79,7 +79,7 @@ theorem quasiIso_extendRestrictScalarsAdj_counit_of_isIPowerTorsion (f : R →+*
     exact (ConcreteCategory.isIso_iff_bijective _).2
       (IPowerTorsion.extendRestrictScalarsAdj_counit_app_bijective.{u, u, u} I hf hq _ (hJ n))
   have h := NatTrans.app_homology (ModuleCat.extendRestrictScalarsAdj.{u, u, u} f).counit (J.sc n)
-  show IsIso (ShortComplex.homologyMap ((J.sc n).mapNatTrans
+  change IsIso (ShortComplex.homologyMap ((J.sc n).mapNatTrans
     (ModuleCat.extendRestrictScalarsAdj.{u, u, u} f).counit))
   have : IsIso (((J.sc n).mapHomologyIso _).inv ≫ ShortComplex.homologyMap ((J.sc n).mapNatTrans
       (ModuleCat.extendRestrictScalarsAdj.{u, u, u} f).counit) ≫

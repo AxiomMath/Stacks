@@ -113,7 +113,7 @@ theorem contains_spec_limit (B : AlgebraicGeometry.BigFppfSite.{u}) (F : ℕᵒ�
           Cardinal.prod_le_prod _ _ (fun n => le_ciSup Cardinal.bddAbove_of_small n)
       _ = κ ^ Cardinal.aleph0 := by
           rw [Cardinal.prod_const, hN, Cardinal.lift_uzero]
-  show Scheme.size (Spec (limit F)) < B.cutoff
+  change Scheme.size (Spec (limit F)) < B.cutoff
   rw [Scheme.size_Spec]
   exact max_lt B.aleph0_lt_cutoff (hle.trans_lt (Cardinal.power_lt_of_isStrongPrelimit
     B.aleph0_lt_cutoff B.cutoff_isStrongPrelimit hκ B.aleph0_lt_cutoff))
@@ -157,7 +157,7 @@ theorem ker_limit_π_comp_sq_eq_bot (F : ℕᵒᵖ ⥤ CommRingCat.{u}) {A : Com
     rw [← CommRingCat.comp_apply, e]
     exact hv
   refine Concrete.limit_ext F _ _ (fun n => ?_)
-  show (limit.π F n).hom (a * b) = (limit.π F n).hom 0
+  change (limit.π F n).hom (a * b) = (limit.π F n).hom 0
   rw [map_mul, map_zero]
   exact Stacks.Groupoids.mul_eq_zero_of_sq_eq_bot (hker n.unop) (hmem a ha n.unop)
     (hmem b hb n.unop)
@@ -256,7 +256,7 @@ theorem hasEffectiveThickeningTowers_diagonalFibre
   let g : ∀ n, x ⟶ Xs.obj n := fun n => fromX (n + 1)
   have hfromX : ∀ {i j : ℕ} (f : i ⟶ j), g i ≫ Xs.map f = g j := fun f =>
     comp_map_of_succ Xs g (fun n => by
-      show fromX (n + 1 + 1) = fromX (n + 1) ≫ Xs.map (homOfLE (Nat.le_succ n))
+      change fromX (n + 1 + 1) = fromX (n + 1) ≫ Xs.map (homOfLE (Nat.le_succ n))
       rw [hXs]
       exact hfromS (n + 1)) f
   have hclosed : ∀ {i j : ℕ} (f : i ⟶ j), IsClosedImmersion (VV.map (Tn.map f)) := fun f =>
@@ -277,7 +277,7 @@ theorem hasEffectiveThickeningTowers_diagonalFibre
     have e : (VV.map (q.map (g n)) ≫ B.inclusion.map (Tn.obj n).hom).base u = fx.base u := by
       rw [hfT n]
     rw [Scheme.Hom.comp_apply] at e
-    show (B.inclusion.map (Tn.obj n).hom).base ((VV.map (q.map (g n))).base u) ∈ W
+    change (B.inclusion.map (Tn.obj n).hom).base ((VV.map (q.map (g n))).base u) ∈ W
     rw [e]
     exact hxW ⟨u, rfl⟩
   let τ : ∀ n, VV.obj (Tn.obj n) ⟶ W := fun n =>
@@ -298,7 +298,7 @@ theorem hasEffectiveThickeningTowers_diagonalFibre
     have : IsAffine (VV.obj (Tn.obj n.unop)) := hTaff n.unop
     have h : Scheme.size (VV.obj (Tn.obj n.unop)) < B.cutoff := (Tn.obj n.unop).left.2
     rw [Scheme.size_of_isAffine] at h
-    show Scheme.size (Spec (F.obj n)) < B.cutoff
+    change Scheme.size (Spec (F.obj n)) < B.cutoff
     rw [Scheme.size_Spec]
     exact h
   have hRc : B.Contains (Spec R) := contains_spec_limit B F hFc
@@ -306,7 +306,7 @@ theorem hasEffectiveThickeningTowers_diagonalFibre
     { pt := Γ(W, ⊤)
       π := { app := fun n => (τ n.unop).appTop
              naturality := fun a b f => by
-               show 𝟙 _ ≫ (τ b.unop).appTop =
+               change 𝟙 _ ≫ (τ b.unop).appTop =
                  (τ a.unop).appTop ≫ (VV.map (Tn.map f.unop)).appTop
                rw [Category.id_comp, ← Scheme.Hom.comp_appTop, hτmap] } }
   let toV : Spec R ⟶ V.left.1 := Spec.map lam ≫ (W : Scheme.{u}).isoSpec.inv ≫ W.ι
@@ -336,7 +336,7 @@ theorem hasEffectiveThickeningTowers_diagonalFibre
     apply ObjectProperty.hom_ext
     have := hTaff i
     have := hTaff j
-    show VV.map (Tn.map f) ≫ (VV.obj (Tn.obj j)).isoSpec.hom ≫ Spec.map (πn j) =
+    change VV.map (Tn.map f) ≫ (VV.obj (Tn.obj j)).isoSpec.hom ≫ Spec.map (πn j) =
       (VV.obj (Tn.obj i)).isoSpec.hom ≫ Spec.map (πn i)
     rw [← Scheme.isoSpec_hom_naturality_assoc, ← Spec.map_comp, hπw]
   let c : Cocone Tn :=
@@ -366,11 +366,11 @@ theorem hasEffectiveThickeningTowers_diagonalFibre
     refine le_bot_iff.mp ((Ideal.pow_right_mono ?_ 2).trans hk.le)
     intro z hz
     have hz' : (VV.map (Tn.map f)).appTop.hom z = 0 := hz
-    show (VV.map (q.map (g j))).appTop.hom z = 0
+    change (VV.map (q.map (g j))).appTop.hom z = 0
     rw [hqfac f, CommRingCat.comp_apply, hz', map_zero]
   have hrange : Set.range (B.inclusion.map cS.pt.hom).base ⊆ (G : Set S) := by
     rintro _ ⟨t, rfl⟩
-    show (toV ≫ B.inclusion.map V.hom).base t ∈ G
+    change (toV ≫ B.inclusion.map V.hom).base t ∈ G
     have e : toV ≫ B.inclusion.map V.hom =
         (Spec.map lam ≫ (W : Scheme.{u}).isoSpec.inv) ≫ W.ι ≫ B.inclusion.map V.hom := by
       simp only [toV, Category.assoc]

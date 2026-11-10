@@ -159,7 +159,7 @@ theorem chartBaseChangeW_ι :
     chartBaseChangeW hpb D D' w hw (U := U) (V' := V') ≫ (restrictChart D hUV).ι =
       (restrictChartBaseChange D' (U := U) (V' := V')).ι ≫
         pullbackMapOfIsPullback (isPullback_chart hpb hUV hV'V) := by
-  show chartBaseChangeW hpb D D' w hw ≫ (D.restrict U.ι).ι ≫ (pullbackFactorIso _ _ _).hom =
+  change chartBaseChangeW hpb D D' w hw ≫ (D.restrict U.ι).ι ≫ (pullbackFactorIso _ _ _).hom =
     ((D'.restrict _).ι ≫ (pullbackFactorIso _ _ _).hom) ≫ _
   rw [restrictBaseChangeHom_ι_assoc, Category.assoc]
   congr 1

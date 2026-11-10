@@ -34,7 +34,8 @@ the closed map `p` and the open nonvanishing locus of `σ` (Tag 01CY), followed 
 nowhere, and a nowhere vanishing section of an invertible module trivializes it
 (`AlgebraicGeometry.isTrivial_of_nonvanishingLocus_eq_univ`). The module on `P ×_S U` is the
 `modulePullback` along `pullback.fst p U.ι`, the spelling of "`L` over `P_U`" used in
-`StacksFrontier/AlgebraicGeometry/Descent/TrivialOnOpen0BF3.lean`, and the fibre over `s` is the base
+`StacksFrontier/AlgebraicGeometry/Descent/TrivialOnOpen0BF3.lean`, and the fibre over `s` is the
+base
 change along `S.fromSpecResidueField s`.
 
 Invertibility is taken in the `AlgebraicGeometry.SheafOfModules.IsInvertible` spelling of the
@@ -101,7 +102,7 @@ theorem exists_isTrivial_modulePullback_fst_ι_of_mem_nonvanishingLocus
     (Stacks.SheafOfModules.modulePullbackSection q.toLRSHom L σ) ?_
   refine (Stacks.SheafOfModules.preimage_nonvanishingLocus q.toLRSHom L σ).symm.trans
     (Set.eq_univ_of_forall fun y => hVsub ?_)
-  show p.base (q.base y) ∈ V
+  change p.base (q.base y) ∈ V
   have hy : p.base (q.base y) = U.ι.base ((pullback.snd p U.ι).base y) := by
     rw [← Scheme.Hom.comp_apply, pullback.condition, Scheme.Hom.comp_apply]
   rw [hy]

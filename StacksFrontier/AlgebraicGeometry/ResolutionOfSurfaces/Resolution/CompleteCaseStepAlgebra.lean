@@ -118,7 +118,7 @@ theorem exists_algebra_adicCompletion_finite_faithfulSMul_finrank_le (p : Ideal 
     intro y
     obtain ⟨t, ht⟩ := e.surjective (Function.update 0 q₀ y)
     refine ⟨(Algebra.TensorProduct.comm R₀ Rh S).symm t, ?_⟩
-    show e ((Algebra.TensorProduct.comm R₀ Rh S) ((Algebra.TensorProduct.comm R₀ Rh S).symm t))
+    change e ((Algebra.TensorProduct.comm R₀ Rh S) ((Algebra.TensorProduct.comm R₀ Rh S).symm t))
       q₀ = y
     rw [AlgEquiv.apply_symm_apply, ht, Function.update_self]
   let alg : Algebra Rh Sh := (Ψ.comp (algebraMap Rh (Rh ⊗[R₀] S))).toAlgebra

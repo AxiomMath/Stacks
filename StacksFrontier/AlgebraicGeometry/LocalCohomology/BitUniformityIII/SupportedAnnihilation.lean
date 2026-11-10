@@ -103,7 +103,7 @@ theorem smul_twistedPullbackSupported_eq_zero (P : ANCPresentation I n c M) (q :
   obtain ⟨h, hfac⟩ := exists_resScalarRetraction P ha
   refine smul_eq_zero_of_mono_comp_map_eq_zero (twistedPullbackFunctor I q)
     P.resShortComplex.f h a hfac (kernel.ι _) ?_
-  show kernel.ι (P.resShortComplex.map (twistedPullbackFunctor I q)).toCycles ≫
+  change kernel.ι (P.resShortComplex.map (twistedPullbackFunctor I q)).toCycles ≫
       (P.resShortComplex.map (twistedPullbackFunctor I q)).f = 0
   rw [← ShortComplex.toCycles_i, ← Category.assoc, kernel.condition, zero_comp]
 

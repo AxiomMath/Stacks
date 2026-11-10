@@ -100,7 +100,7 @@ public theorem over_map_obj_surjective {C : Type u₁} [Category.{v₁} C]
   intro Y
   refine ⟨(Over.map e.inv).obj Y, ?_⟩
   rcases Y with ⟨a, ⟨⟨⟩⟩, f⟩
-  show Over.mk ((f ≫ e.inv) ≫ e.hom) = Over.mk f
+  change Over.mk ((f ≫ e.inv) ≫ e.hom) = Over.mk f
   simp
 
 /-- The comparison functor from the fibre of `F ⋙ p` over `b` to the fibre of `p` over `b`. -/
@@ -247,7 +247,7 @@ public theorem objectsOverFunctor_fiber_equiv_punit_of_isTerminal
     intro f
     apply Functor.Fiber.hom_ext
     apply Over.OverMorphism.ext
-    show f.1.left = mF.1.left
+    change f.1.left = mF.1.left
     exact (cancel_mono z0.hom).mp (by rw [Over.w f.1, Over.w mF.1])
 
 /-- A pullback cone of `f₁.left` and `f₂.left` lifts to a pullback cone of `f₁` and `f₂` in

@@ -164,7 +164,7 @@ theorem chowDescend_firstChernCapCycleMap (k : ℤ) :
     chowDescend.{u, u + 1} D sX hX sX hX
         (firstChernCapCycleMap D sX hX k (canonicalFirstChernRule D sX hX N hN k)) =
       PrivateChow.canonicalFirstChernCapChow D sX hX N hN k := by
-  rw [chowDescend, dif_pos (respectsRationalEquivalence_firstChernCapCycleMap D sX hX N hN k)]
+  rw [chowDescend, dite_eq_left (respectsRationalEquivalence_firstChernCapCycleMap D sX hX N hN k)]
   rfl
 
 end PrivateChern

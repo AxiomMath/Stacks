@@ -55,14 +55,14 @@ theorem isDomain_stalk_of_smoothOffSupport {k : Type u} [Field k] {X : Scheme.{u
     (T.comapIso U.ι).hom ≫ pullback.snd U.ι T.subschemeι
   obtain ⟨z, hz⟩ : w ∈ Set.range (pullback.snd U.ι T.subschemeι).base := by
     rw [IsOpenImmersion.range_pullbackSnd]
-    show T.subschemeι w ∈ U.ι.opensRange
+    change T.subschemeι w ∈ U.ι.opensRange
     rw [Scheme.Opens.opensRange_ι]
     exact hw
   let w' := (T.comapIso U.ι).inv z
   have hw' : φ w' = w := by
     have h1 : (T.comapIso U.ι).hom ((T.comapIso U.ι).inv z) = z := by
       rw [← Scheme.Hom.comp_apply, Iso.inv_hom_id]; rfl
-    show ((T.comapIso U.ι).hom ≫ pullback.snd U.ι T.subschemeι) ((T.comapIso U.ι).inv z) = w
+    change ((T.comapIso U.ι).hom ≫ pullback.snd U.ι T.subschemeι) ((T.comapIso U.ι).inv z) = w
     rw [Scheme.Hom.comp_apply, h1, hz]
   have := isRegularLocalRing_stalk_of_smooth
     ((T.comap U.ι).subschemeι ≫ (U.ι ≫ f)) w'
@@ -99,7 +99,7 @@ theorem germ_restrictedSection_ne_zero {X : Scheme.{u}} (I T : X.IdealSheafData)
   have h0' : (ConcreteCategory.hom (((Scheme.Modules.pullback T.subschemeι).obj M).presheaf.germ
       ⊤ w (Opens.mem_top w))) ((restrictedSection T M s).eval (op ⊤)) = 0 := h0
   rw [h0', map_zero] at h1
-  show (ConcreteCategory.hom (((Scheme.Modules.pullback T.subschemeι).obj M).presheaf.germ
+  change (ConcreteCategory.hom (((Scheme.Modules.pullback T.subschemeι).obj M).presheaf.germ
       ⊤ η.1 (Opens.mem_top _))) ((restrictedSection T M s).eval (op ⊤)) ∈ _
   rw [← h1]
   exact Submodule.zero_mem _

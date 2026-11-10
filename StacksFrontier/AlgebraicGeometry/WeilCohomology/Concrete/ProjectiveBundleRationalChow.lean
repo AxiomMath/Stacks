@@ -130,7 +130,7 @@ theorem chernCharacterVectorBundle_classOf_one_of_isInvertible :
   have := AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.isFiniteLocallyFree L 1
   rw [chernCharacterVectorBundle_apply, powerSumKHom_classOf,
     powerSumOfFiniteLocallyFree_eq_powerSumTotal _ _ _ 1, powerSumTotal_of_rank_one, pow_one,
-    TotalChowClass.homComponent_apply, if_pos rfl,
+    TotalChowClass.homComponent_apply, ite_eq_left rfl,
     show ((Nat.factorial 1 : ℕ) : ℚ)⁻¹ = 1 by norm_num]
 
 /-- **Capping with `c_1(ℒ) ∈ A^1(X)` is the first Chern class operation `c₁(ℒ) ∩ -`** of
@@ -385,8 +385,7 @@ theorem exists_eq_sum_rationalFirstChernClass_pow_mul
     rw [map_add, hy, hy']
     simp only [Pi.add_apply, map_add, mul_add, Finset.sum_add_distrib]
   | of j t =>
-    induction t using TensorProduct.induction_on with
-    | zero => exact ⟨0, by simp⟩
+    induction t using TensorProduct.inductionOn with
     | add t t' ht ht' =>
       obtain ⟨y, hy⟩ := ht
       obtain ⟨y', hy'⟩ := ht'
@@ -451,17 +450,17 @@ theorem rationalPush_rationalFirstChernClass_pow (i : Fin (n + 1)) :
         (d + n - (i : ℕ)) ((1 : ℚ) ⊗ₜ t))) hb).trans ?_
     by_cases hi : i = Fin.last n
     · have hin : (i : ℕ) = n := by rw [hi, Fin.val_last]
-      simp only [dif_pos hin, if_pos hi]
+      simp only [dite_eq_left hin, ite_eq_left hi]
       exact congrArg _ (of_tmul_eq_of_tmul_of_heq _ _ (by omega) 1 (chowGroupCast_heq _ _ _ _))
     · have hin : (i : ℕ) ≠ n := fun h' => hi (Fin.ext (by rw [h', Fin.val_last]))
-      simp only [dif_neg hin, if_neg hi, TensorProduct.tmul_zero, map_zero]
+      simp only [dite_eq_right hin, ite_eq_right hi, TensorProduct.tmul_zero, map_zero]
   have hone : rationalFirstChernClass Q L ^ (i : ℕ) = rationalFirstChernClass Q L ^ (i : ℕ) *
       smoothGysinRingHom Q.obj.hom U.obj.hom (Over.w q.hom) 1 := by
     rw [map_one, mul_one]
   rw [hone, h1, map_sum, Finset.mul_sum, map_sum, Finset.sum_congr rfl fun d _ => key d]
   by_cases hi : i = Fin.last n
-  · simp only [if_pos hi]
-  · simp only [if_neg hi, Finset.sum_const_zero]
+  · simp only [ite_eq_left hi]
+  · simp only [ite_eq_right hi, Finset.sum_const_zero]
 
 end Bundle
 

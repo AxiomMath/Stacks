@@ -644,6 +644,8 @@ abbrev cechToPageTwoZero (K : HypercoveringOfTerminal.{w} J) (i : ℕ) :=
         AddCommGrpCat.{max (max u v) (max v w)}).rightDerivedZeroIsoSelf.inv.app F) ≫
     (globalPageTwoIso.{w} J F i 0 K).inv
 
+omit [HasBinaryProducts C]
+  [HasExt (Sheaf J.toGrothendieck AddCommGrpCat.{max (max u v) (max v w)})] in
 /-- `cechToPageTwoZero` is an isomorphism: both of its factors are. -/
 lemma isIso_cechToPageTwoZero (K : HypercoveringOfTerminal.{w} J) (i : ℕ) :
     IsIso (cechToPageTwoZero.{w} J F K i) := by
@@ -654,6 +656,7 @@ lemma isIso_cechToPageTwoZero (K : HypercoveringOfTerminal.{w} J) (i : ℕ) :
   have h₂ : IsIso ((globalPageTwoIso.{w} J F i 0 K).inv) := inferInstance
   exact IsIso.comp_isIso' h₁ h₂
 
+omit [HasBinaryProducts C] in
 /-- **The canonical comparison `globalCechEdge` is `cechToPageTwoZero` followed by the bottom-row
 edge map of the abutment.** -/
 lemma cechToPageTwoZero_comp_bottomRowEdge (K : HypercoveringOfTerminal.{w} J)
@@ -692,12 +695,15 @@ lemma cechCohomologyFunctorMap_comp_cechToPageTwoZero
   simp only [Category.assoc]
   rw [← hB]
 
+omit [HasBinaryProducts C]
+  [HasExt (Sheaf J.toGrothendieck AddCommGrpCat.{max (max u v) (max v w)})] in
 /-- `cechToPageTwoZero` is a monomorphism, being an isomorphism. -/
 lemma mono_cechToPageTwoZero (K : HypercoveringOfTerminal.{w} J) (i : ℕ) :
     Mono (cechToPageTwoZero.{w} J F K i) := by
   have := isIso_cechToPageTwoZero.{w} J F K i
   infer_instance
 
+omit [HasBinaryProducts C] in
 /-- **The canonical comparison `globalCechEdge` factors as `cechToPageTwoZero` followed by the
 edge epimorphism `E₂^{i,0} ⟶ E_∞^{i,0}` followed by a monomorphism**: the bottom-row edge map of
 the abutment, unfolded into its four factors. -/
@@ -725,12 +731,15 @@ def cechCohomologyToPageTwoZero (K : HypercoveringOfTerminal.{w} J) (i : ℕ) :
       ((globalSpectralSequenceAt.{w} J F K).page 2 le_rfl).X (i, 0) :=
   cechToPageTwoZero.{w} J F K i
 
+omit [HasBinaryProducts C]
+  [HasExt (Sheaf J.toGrothendieck AddCommGrpCat.{max (max u v) (max v w)})] in
 /-- `cechCohomologyToPageTwoZero` is a monomorphism, being `cechToPageTwoZero`, which is an
 isomorphism. -/
 lemma mono_cechCohomologyToPageTwoZero (K : HypercoveringOfTerminal.{w} J) (i : ℕ) :
     Mono (cechCohomologyToPageTwoZero.{w} J F K i) :=
   mono_cechToPageTwoZero.{w} J F K i
 
+omit [HasBinaryProducts C] in
 /-- **The canonical comparison `cechCohomologyEdge` factors as `cechCohomologyToPageTwoZero`
 followed by the edge epimorphism `E₂^{i,0} ⟶ E_∞^{i,0}` followed by a monomorphism.** -/
 lemma cechCohomologyToPageTwoZero_comp_edgeEpi_comp (K : HypercoveringOfTerminal.{w} J) (i : ℕ) :
@@ -767,6 +776,7 @@ lemma mono_edgeEpi_tail (K : HypercoveringOfTerminal.{w} J) (i : ℕ) :
     (mono_comp' ((globalAbutment J K).mono_evalHomForget_app i F)
       (IsIso.mono_of_iso (((globalAbutment J K).abutmentIso i).hom.app F)))
 
+omit [HasBinaryProducts C] in
 /-- **A Čech class that the canonical comparison `cechCohomologyEdge` kills is killed, after
 `cechCohomologyToPageTwoZero`, by the edge epimorphism `E₂^{i,0} ⟶ E_∞^{i,0}` of the second
 page.** -/

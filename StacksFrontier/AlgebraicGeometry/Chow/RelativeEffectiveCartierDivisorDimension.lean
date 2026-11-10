@@ -308,7 +308,7 @@ theorem relativeDimension_of_isRelativeEffectiveCartierDivisor {X Y : Scheme.{u}
   have : JacobsonSpace (Stacks.Chow.fieldChowSituation ↥(Y.residueField s)).S :=
     inferInstanceAs (JacobsonSpace (Spec (.of ↥(Y.residueField s))))
   have : LocallyOfFiniteType (p.fiberToSpecResidueField s) := by
-    show LocallyOfFiniteType (pullback.snd p (Y.fromSpecResidueField s))
+    change LocallyOfFiniteType (pullback.snd p (Y.fromSpecResidueField s))
     infer_instance
   have hdrop := Stacks.Chow.topologicalKrullDim_irreducibleComponents_of_isEffectiveCartierDivisor
     (Stacks.Chow.fieldChowSituation ↥(Y.residueField s))

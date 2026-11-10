@@ -90,7 +90,7 @@ theorem isIso_homologyFunctor_map_mapHomologicalComplex_counit_app (adj : F ⊣ 
       ((adj.mapHomologicalComplex (ComplexShape.up ℤ)).counit.app K)) := by
   have : PreservesFiniteLimits (G ⋙ F) := comp_preservesFiniteLimits G F
   have : PreservesFiniteColimits (G ⋙ F) := comp_preservesFiniteColimits G F
-  show IsIso (ShortComplex.homologyMap ((K.sc i).mapNatTrans adj.counit))
+  change IsIso (ShortComplex.homologyMap ((K.sc i).mapNatTrans adj.counit))
   rw [ShortComplex.homologyMap_mapNatTrans]
   have : IsIso (adj.counit.app (K.sc i).homology) := hi
   infer_instance
@@ -106,7 +106,7 @@ theorem isIso_homologyFunctor_map_mapHomologicalComplex_unit_app (adj : F ⊣ G)
       ((adj.mapHomologicalComplex (ComplexShape.up ℤ)).unit.app K)) := by
   have : PreservesFiniteLimits (F ⋙ G) := comp_preservesFiniteLimits F G
   have : PreservesFiniteColimits (F ⋙ G) := comp_preservesFiniteColimits F G
-  show IsIso (ShortComplex.homologyMap ((K.sc i).mapNatTrans adj.unit))
+  change IsIso (ShortComplex.homologyMap ((K.sc i).mapNatTrans adj.unit))
   rw [ShortComplex.homologyMap_mapNatTrans]
   have : IsIso (adj.unit.app (K.sc i).homology) := hi
   infer_instance
@@ -204,7 +204,7 @@ theorem subsingleton_stalkSet_iff_isZero_sheafFiber {F : (BigFppfOver B S hS)ᵒ
     Subsingleton (stalkSet x (G.obj ⋙ forget AddCommGrpCat.{u})) ↔
       IsZero ((etaleSitePoint B S hS F x hF).sheafFiber.obj G) := by
   let p := etaleSitePoint B S hS F x hF
-  let D := (CategoryOfElements.π p.fiber).op ⋙ G.obj
+  let D := (Functor.Elements.π p.fiber).op ⋙ G.obj
   let e₀ : (D ⋙ forget AddCommGrpCat.{u}).ColimitType ≃
       stalkSet x (G.obj ⋙ forget AddCommGrpCat.{u}) :=
     { toFun := Quot.map

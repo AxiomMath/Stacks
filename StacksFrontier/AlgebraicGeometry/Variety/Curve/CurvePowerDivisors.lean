@@ -82,7 +82,7 @@ omit [IsAlgClosed k] [IsVariety k C.hom] [IsProper C.hom] [SmoothOfRelativeDimen
 /-- The graph section is a morphism over `k`. -/
 theorem graphSection_comp_hom (m : ℕ) (y : power C m ⟶ C) :
     graphSection C m y ≫ (power C (m + 1)).hom = (power C m).hom := by
-  show Stacks.Hilbert.pointGraph C (power C m) y ≫
+  change Stacks.Hilbert.pointGraph C (power C m) y ≫
     (pullback.fst C.hom (power C m).hom ≫ C.hom) = _
   rw [pullback.condition, ← Category.assoc, Stacks.Hilbert.pointGraph_comp_snd, Category.id_comp]
 

@@ -104,7 +104,7 @@ theorem mapSubobjects_imageSubobject
     (mapSubobjects (HomologicalComplex.eval
           (_root_.SheafOfModules.{u} (ringSheaf A)) (ComplexShape.up ℤ) n) L).obj
         (imageSubobject ψ) = imageSubobject (ψ.f n) := by
-  show (mapSubobjects _ L).obj (Subobject.mk (image.ι ψ)) = _
+  change (mapSubobjects _ L).obj (Subobject.mk (image.ι ψ)) = _
   rw [mapSubobjects_mk, map_imageSubobject_eq]
   rfl
 
@@ -117,7 +117,7 @@ theorem mapSubobjects_wedgeFiltrationStep
         (deRhamComplexInt B D)).obj (wedgeFiltrationStep B D P ι k) =
       imageSubobject ((CochainComplex.wedgeAlongBrutalInt (sheafTensor.{u,u,u,u,u} A)
         (wedgeProduct B D) P ι k.toNat).f n) := by
-  show (mapSubobjects (HomologicalComplex.eval _ (ComplexShape.up ℤ) n)
+  change (mapSubobjects (HomologicalComplex.eval _ (ComplexShape.up ℤ) n)
       (deRhamComplexInt B D)).obj ((wedgeImageSystem B D P ι).filtrationStep k) = _
   rw [(wedgeImageSystem B D P ι).filtrationStep_of_pos hk]
   exact mapSubobjects_imageSubobject (A := A) _ n
@@ -126,7 +126,7 @@ theorem mapSubobjects_wedgeFiltrationStep
 theorem piNat_add_sub_mem (k m : ℕ) (h : k ≤ m) :
     ComplexShape.π (ComplexShape.up ℕ) (ComplexShape.up ℕ) (ComplexShape.up ℕ) (k, m - k)
       ∈ ({m} : Set ℕ) := by
-  show k + (m - k) = m
+  change k + (m - k) = m
   omega
 
 /-- **The degree-`m` image of the wedge map is the least upper bound of the images of its

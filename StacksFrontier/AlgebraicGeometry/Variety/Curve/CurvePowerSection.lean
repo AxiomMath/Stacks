@@ -102,15 +102,15 @@ theorem insertPoint_comp_swapTwo :
   have hsnd : snd C (power C 0) = toPowerZero C 1 := toUnit_unique _ _
   refine hom_ext 2 fun i => ?_
   fin_cases i
-  · show (insertPoint C c 1 0 ≫ swapTwo C) ≫ coord C 2 0 = _ ≫ coord C 2 0
+  · change (insertPoint C c 1 0 ≫ swapTwo C) ≫ coord C 2 0 = _ ≫ coord C 2 0
     rw [Category.assoc, h0]
-    show coord C 1 0 = CartesianMonoidalCategory.lift (fst C (power C 0))
+    change coord C 1 0 = CartesianMonoidalCategory.lift (fst C (power C 0))
       (snd C (power C 0) ≫ pointOne C c) ≫ fst C (power C 1)
     exact (lift_fst _ _).symm
-  · show (insertPoint C c 1 0 ≫ swapTwo C) ≫ coord C 2 ((0 : Fin 1).succ) =
+  · change (insertPoint C c 1 0 ≫ swapTwo C) ≫ coord C 2 ((0 : Fin 1).succ) =
       _ ≫ coord C 2 ((0 : Fin 1).succ)
     rw [Category.assoc, show coord C 2 ((0 : Fin 1).succ) = coord C 2 1 from rfl, h1]
-    show _ = CartesianMonoidalCategory.lift (fst C (power C 0))
+    change _ = CartesianMonoidalCategory.lift (fst C (power C 0))
       (snd C (power C 0) ≫ pointOne C c) ≫ snd C (power C 1) ≫ coord C 1 0
     refine Eq.trans ?_ (lift_snd_assoc (fst C (power C 0)) (snd C (power C 0) ≫ pointOne C c)
       (coord C 1 0)).symm

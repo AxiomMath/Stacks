@@ -67,6 +67,7 @@ public theorem finite_zmod_pow_succ (n : ℕ) : Finite (ZMod (ℓ ^ (n + 1))) :=
   have : NeZero (ℓ ^ (n + 1)) := ⟨pow_ne_zero _ (Fact.out : ℓ.Prime).ne_zero⟩
   inferInstance
 
+omit [IsSeparated f] in
 /-- **The ℓ-adic identity from the finite-coefficient identity at every level.** -/
 public theorem LAdicSheaf.adicDeterminantIdentity_of_lFunctionCharSeriesIdentity
     (F : LAdicSheaf B X ℓ) (hF : ∀ n, PowExact ℓ (n + 1) (F.level n))

@@ -113,7 +113,7 @@ noncomputable def yonedaCompEvaluationIso (K : Cᵒᵖ) :
     rw [ι_comp_sigmaObjIso_inv (CategoryTheory.yoneda.obj ∘ X.obj) K i]
     rw [Functor.comp_map, evaluation_obj_map]
     dsimp only
-    rw [← NatTrans.comp_app, Sigma.ι_desc, NatTrans.comp_app]
+    rw [← NatTrans.comp_app, Sigma.ι_comp_desc, NatTrans.comp_app]
     ext g
     simp only [Functor.comp_obj, evaluation_obj_obj, Function.comp_apply, yoneda_obj_obj,
       yoneda_map_app, Iso.trans_hom, Category.assoc, ι_comp_sigmaObjIso_hom_assoc, comp_apply,

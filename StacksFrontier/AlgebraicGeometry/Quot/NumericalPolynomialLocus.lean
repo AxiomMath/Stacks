@@ -62,7 +62,7 @@ theorem isClopen_setOf_forall_eq_of_isLocallyConstant {T : Type*} [TopologicalSp
     have heq : {t | ∀ d, χ t d = P d} =
         ⋂ i ∈ Finset.range (n + 1), {t | χ t (i : ℤ) = P (i : ℤ)} := by
       ext t
-      simp only [Set.mem_setOf_eq, Set.mem_iInter]
+      simp only [Set.mem_ofPred_eq, Set.mem_iInter]
       refine ⟨fun ht i _ => ht i, fun ht d => ?_⟩
       obtain ⟨Q, hQ, hχt⟩ := hpoly t
       have hQQ : Q = Q₀ := polynomial_eq_of_natDegree_le_of_eval_range_eq hQ hQ₀ fun i hi => by

@@ -161,8 +161,8 @@ theorem isLimitPreservingOnObjects_of_isLimitPreserving
       _ = (eSmall.hom ≫ KY.map hy.hom) ≫ KY.map hy.inv :=
         congrArg (fun q => q ≫ KY.map hy.inv) hcompat.symm
       _ = lhs.map hx.hom ≫ (lhs.map hx.inv ≫ eSmall.hom) := by
-        simp only [Category.assoc, Iso.map_hom_inv_id, Functor.comp_obj,
-          Iso.map_hom_inv_id_assoc]
+        simp only [Category.assoc, Iso.hom_inv_id_map, Functor.comp_obj,
+          Iso.hom_inv_id_map_assoc]
         exact Category.comp_id eSmall.hom
   let β₀ := AsSmall.down.map hx.inv
   have hcompatFiber : AsSmall.down.map (η.app z).hom ≫ cmpY.map hy.inv =

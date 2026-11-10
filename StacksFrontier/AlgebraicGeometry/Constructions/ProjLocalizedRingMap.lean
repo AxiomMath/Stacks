@@ -79,12 +79,12 @@ public lemma val_mapIdₐ {x y : S} (h : Submonoid.powers x ≤ Submonoid.powers
         (T := Submonoid.powers y) (Localization.Away y) (RingHom.id S)
         (by intro w hw; simpa using h hw) (HomogeneousLocalization.val z) := by
   obtain ⟨c, rfl⟩ := HomogeneousLocalization.mk_surjective z
-  show HomogeneousLocalization.val
+  change HomogeneousLocalization.val
       (HomogeneousLocalization.map (.id 𝒜) (by intro w hw; simpa using h hw)
         (HomogeneousLocalization.mk c)) = _
   simp only [HomogeneousLocalization.map_mk, HomogeneousLocalization.val_mk,
     Localization.mk_eq_mk', IsLocalization.map_mk']
-  show IsLocalization.mk' _ (c.num : S) _ = IsLocalization.mk' _ (c.num : S) _
+  change IsLocalization.mk' _ (c.num : S) _ = IsLocalization.mk' _ (c.num : S) _
   rfl
 
 end HomogeneousLocalization
@@ -182,7 +182,7 @@ public lemma val_degreeZeroMapOfFactorization {f g a : S} {e d : ℕ}
       localizationMapOfFactorization hga (HomogeneousLocalization.val z) := by
   rw [degreeZeroMapOfFactorization, AlgHom.comp_apply, HomogeneousLocalization.val_mapIdₐ,
     HomogeneousLocalization.awayMapₐ_apply, HomogeneousLocalization.val_awayMap]
-  show localizationMapViaPower hga (HomogeneousLocalization.val z) =
+  change localizationMapViaPower hga (HomogeneousLocalization.val z) =
     localizationMapOfFactorization hga (HomogeneousLocalization.val z)
   apply DFunLike.congr_fun (IsLocalization.ringHom_ext (Submonoid.powers f) ?_)
   ext s
@@ -336,7 +336,7 @@ public theorem isLocalizationAway_degreeZeroRingMap (f g : S) (d e : ℕ) (hd : 
     rw [show algebraMap (HomogeneousLocalization.Away 𝒜 f)
         (HomogeneousLocalization.Away 𝒜 g) =
         degreeZeroRingMap 𝒜 f g ⟨d, hd, hf⟩ ⟨e, he, hg⟩ hfg from rfl]
-    show HomogeneousLocalization.val
+    change HomogeneousLocalization.val
       (HomogeneousLocalization.Away.mk 𝒜 hg n a ha *
         (degreeZeroRingMap 𝒜 f g ⟨d, hd, hf⟩ ⟨e, he, hg⟩ hfg) (t ^ n)) =
       HomogeneousLocalization.val
@@ -432,7 +432,7 @@ public theorem isLocalizationAway_degreeZeroRingMap (f g : S) (d e : ℕ) (hd : 
     rw [Localization.mk_eq_mk']
     simp only [← IsLocalization.mk'_pow, ← IsLocalization.mk'_mul]
     apply IsLocalization.mk'_eq_of_eq
-    show ((f ^ e) ^ k * (sa : S)) * ((g ^ d) ^ k * b) =
+    change ((f ^ e) ^ k * (sa : S)) * ((g ^ d) ^ k * b) =
       ((f ^ e) ^ k * (sb : S)) * ((g ^ d) ^ k * a)
     obtain ⟨d', rfl⟩ : ∃ d', d = d' + 1 := ⟨d - 1, by omega⟩
     linear_combination -((f ^ e) ^ k * (g ^ d') ^ k) * hk

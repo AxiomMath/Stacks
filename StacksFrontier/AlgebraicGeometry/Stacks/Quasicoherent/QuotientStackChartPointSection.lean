@@ -44,8 +44,7 @@ theorem Stacks.bijective_one_tmul_comp {R R' M N : Type*} [CommRing R] [CommRing
   suffices h : ∃ m : M, (1 : R') ⊗ₜ[R] m = t by
     obtain ⟨m, rfl⟩ := h
     exact ⟨m, rfl⟩
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨0, TensorProduct.tmul_zero _ _⟩
+  induction t using TensorProduct.inductionOn with
   | tmul r' m =>
     obtain ⟨r, rfl⟩ := hφ.2 r'
     refine ⟨r • m, ?_⟩

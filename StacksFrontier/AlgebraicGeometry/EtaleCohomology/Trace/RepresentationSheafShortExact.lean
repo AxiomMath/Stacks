@@ -199,10 +199,10 @@ public theorem shortExact_canonicalFiniteLocallyConstantAbelianSheafEquivalence_
     have hinj' := injective_abelianEtaleStalk_map_of_injective B X x φ hinj (s := s)
     refine ⟨fun hb => ⟨0, by rw [hinj' (hb.trans (map_zero _).symm), map_zero]; rfl⟩, ?_⟩
     rintro ⟨a, rfl⟩
-    show (abelianEtaleStalkFunctor.{u, u + 1} B X.1 X.2 s).map f
+    change (abelianEtaleStalkFunctor.{u, u + 1} B X.1 X.2 s).map f
       ((abelianEtaleStalkFunctor.{u, u + 1} B X.1 X.2 s).map 0 a) = 0
     rw [Functor.map_zero]
-    show (abelianEtaleStalkFunctor.{u, u + 1} B X.1 X.2 s).map f 0 = 0
+    change (abelianEtaleStalkFunctor.{u, u + 1} B X.1 X.2 s).map f 0 = 0
     exact map_zero _
   have hepi : Epi g := by
     have h0 : g ≫ (0 : _ ⟶ (0 : Sheaf (SmallEtale.topology B X.1 X.2) AddCommGrpCat.{u + 1})) = 0 :=
@@ -211,7 +211,7 @@ public theorem shortExact_canonicalFiniteLocallyConstantAbelianSheafEquivalence_
     refine (exact_iff_etaleStalk_exact.{u, u + 1} B X.1 X.2 _).2 fun s b => ?_
     have hsurj' := surjective_abelianEtaleStalk_map_of_surjective B X x ψ hsurj (s := s)
     refine ⟨fun _ => hsurj' b, fun _ => ?_⟩
-    show (abelianEtaleStalkFunctor.{u, u + 1} B X.1 X.2 s).map 0 b = 0
+    change (abelianEtaleStalkFunctor.{u, u + 1} B X.1 X.2 s).map 0 b = 0
     rw [Functor.map_zero]
     rfl
   exact { exact := hexact, mono_f := hmono, epi_g := hepi }
@@ -326,7 +326,7 @@ public theorem shortExact_padicLevelMap_representationLAdicSheafMap {r₁ r₂ r
       obtain ⟨b, hb⟩ := hsurj (n + 1) c.down
       exact ⟨ULift.up b, ULift.ext hb⟩)
     (fun b => by
-      show ULift.up _ = (0 : ULift _) ↔ _
+      change ULift.up _ = (0 : ULift _) ↔ _
       refine ⟨fun h => ?_, ?_⟩
       · obtain ⟨a, ha⟩ := (hex (n + 1) b.down).1 (congrArg ULift.down h)
         exact ⟨ULift.up a, ULift.ext ha⟩

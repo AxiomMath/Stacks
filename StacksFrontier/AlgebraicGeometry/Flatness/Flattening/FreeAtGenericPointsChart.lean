@@ -307,7 +307,7 @@ theorem condition_iff (q : ℕ) :
       (c.j a).isOpenEmbedding.isOpen_range.preimage ((D.baseChangeMap T').fiberι t).continuous
     have hy₀mem : (c.j a).base y₀ ∈ Set.range ((D.baseChangeMap T').fiberι t).base := by
       rw [Scheme.Hom.range_fiberι]
-      show (c.j a ≫ pullback.snd D.f (a ≫ c.V.ι)).base y₀ = t
+      change (c.j a ≫ pullback.snd D.f (a ≫ c.V.ι)).base y₀ = t
       rw [c.j_snd]
       exact hy₀
     obtain ⟨z₀, hz₀⟩ := hy₀mem
@@ -334,7 +334,7 @@ theorem condition_iff (q : ℕ) :
     refine ⟨(c.j a).base y, ?_, ?_⟩
     · exact freeAtPointOfRank_of_isOpenImmersion (c.j a) _ y q
         (freeAtPointOfRank_of_moduleIso (c.moduleIso a) hfree)
-    · show (c.j a ≫ pullback.snd D.f (a ≫ c.V.ι)).base y = t
+    · change (c.j a ≫ pullback.snd D.f (a ≫ c.V.ι)).base y = t
       rw [c.j_snd]
       exact hy
 

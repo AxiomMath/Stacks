@@ -87,7 +87,7 @@ theorem flatPullbackWeight_eq_one_of_isAffineSpaceBundle {ξ : X}
       ((𝟙 (W.comap f).subscheme : (W.comap f).subscheme ⟶ _).base
         (genericPoint (W.comap f).subscheme)) =
         relativeDimension C.dimensionFunction sX ξ := by
-    show relativeDimension C.dimensionFunction ((W.comap f).subschemeι ≫ sX)
+    change relativeDimension C.dimensionFunction ((W.comap f).subschemeι ≫ sX)
       (genericPoint (W.comap f).subscheme) = _
     rw [relativeDimension_comp_of_bijective_residueFieldMap C.dimensionFunction
         (W.comap f).subschemeι sX _ (bijective_residueFieldMap_of_isClosedImmersion _ _),

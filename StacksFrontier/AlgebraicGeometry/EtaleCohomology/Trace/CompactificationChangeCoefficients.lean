@@ -67,6 +67,7 @@ public theorem map_comp_map_eq_of_comp_eq {C D : Type*} [Category* C] [Category*
     F.map a ≫ F.map b = F.map c ≫ F.map d := by
   rw [← F.map_comp, ← F.map_comp, h]
 
+omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The isomorphism of the inverse systems `n ↦ Hⁱ_c(X_k̄, Fₙ)` through `j` and through `l` is
 natural in the ℓ-adic sheaf.** -/
 public theorem LAdicSheaf.geometricCompactlySupportedCohomologySystemHomIso_hom_naturality
@@ -90,6 +91,7 @@ public theorem LAdicSheaf.geometricCompactlySupportedCohomologySystemHomIso_hom_
       y ≫ x = (𝟙 a ≫ y ≫ 𝟙 b) ≫ x := fun x y => by simp
   exact (e₁ _ _).trans (h.trans (e₂ _ _))
 
+omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The isomorphism `Hⁱ_c(X_k̄, F ⊗ ℚ_ℓ)` through `j` `≅` through `l` is natural in the ℓ-adic
 sheaf.** -/
 public theorem LAdicSheaf.rationalGeometricCompactlySupportedCohomologyHomIso_hom_naturality
@@ -109,9 +111,12 @@ public theorem iso_conj_apply {R : Type*} [Ring R] {M N : ModuleCat.{u + 1} R} (
     e.hom (a (e.inv w)) = b w := by
   simpa using congrArg (fun t => t.hom (e.inv w)) h
 
+namespace LAdicSheaf.CoefficientSheaf
+
+omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The isomorphism `Hⁱ_c(X_k̄, F ⊗ ℚ_ℓ)` through `j` `≅` through `l` is `E`-linear** for an
 ℓ-adic sheaf with coefficients in `O` and `E = O[1/ℓ]`. -/
-public theorem LAdicSheaf.CoefficientSheaf.rationalGeometricCompactlySupportedCohomologyHomIso_hom_rationalRingHom
+public theorem rationalGeometricCompactlySupportedCohomologyHomIso_hom_rationalRingHom
     {O : Type} [CommRing O] [Algebra ℤ_[ℓ] O] (F : LAdicSheaf.CoefficientSheaf B X ℓ O) (i : ℤ)
     (E : Type) [CommRing E] [Algebra ℚ_[ℓ] E] [Algebra O E]
     [IsLocalization (Submonoid.powers (ℓ : O)) E] (e : E)
@@ -138,8 +143,10 @@ public theorem LAdicSheaf.CoefficientSheaf.rationalGeometricCompactlySupportedCo
     (RingHom.congr_fun (IsLocalization.ringHom_ext (Submonoid.powers (ℓ : O)) hO) e)
     ((LAdicSheaf.rationalGeometricCompactlySupportedCohomologyHomIso B ℓ f g kbar
       F.toLAdicSheaf i).hom v))
-  show _ = c (F.rationalRingHom f j kbar i E e (c.symm (c v)))
+  change _ = c (F.rationalRingHom f j kbar i E e (c.symm (c v)))
   rw [LinearEquiv.symm_apply_apply]
   rfl
+
+end LAdicSheaf.CoefficientSheaf
 
 end Stacks.EtaleCohomology

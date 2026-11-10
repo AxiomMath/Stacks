@@ -314,7 +314,7 @@ theorem isFlat_freeModuleSheaf (O : Sheaf J CommRingCat.{max u v w}) :
     IsFlat (freeModuleSheaf J O E) :=
   isFlat_moduleSheafification.{v, u, max u v w, max u v w} O
     (PresheafOfModules.freeObj E) fun X => by
-      show Module.Flat ((ringPresheaf O.obj).obj X) (E.obj X →₀ (ringPresheaf O.obj).obj X)
+      change Module.Flat ((ringPresheaf O.obj).obj X) (E.obj X →₀ (ringPresheaf O.obj).obj X)
       infer_instance
 
 variable (A : Sheaf J CommRingCat.{max u v w})

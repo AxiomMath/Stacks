@@ -304,7 +304,7 @@ instance preservesColimit_comp_stalkFunctor_forget :
     PreservesColimit (D ⋙ stalkFunctor O x)
       (forget (ModuleCat.{u} (TopCat.Presheaf.stalk
         (C := RingCat.{u}) (X := X) O.obj x))) := by
-  letI : PreservesFilteredColimitsOfSize.{0, 0} (forget (ModuleCat.{u}
+  let : PreservesFilteredColimitsOfSize.{0, 0} (forget (ModuleCat.{u}
       (TopCat.Presheaf.stalk (C := RingCat.{u}) (X := X) O.obj x))) :=
     preservesFilteredColimitsOfSize_of_univLE.{u, u, 0, 0} _
   infer_instance

@@ -227,7 +227,7 @@ lemma exists_stage_map_eq_map_of_iso {Q : X.ProEtᵒᵖ ⥤ Type (max (u + 1) v)
     (e.hom.app _ y) (e.hom.app _ y') (by rw [← NatTrans.naturality_apply,
       ← NatTrans.naturality_apply, h])
   refine ⟨i, g, (Equiv.injective (e.app _).toEquiv) ?_⟩
-  show e.hom.app _ _ = e.hom.app _ _
+  change e.hom.app _ _ = e.hom.app _ _
   rw [NatTrans.naturality_apply, NatTrans.naturality_apply, hg]
 
 variable {Q : X.ProEtᵒᵖ ⥤ Type*}
@@ -457,9 +457,9 @@ theorem exists_covering_nonempty_of_isAffine
     have hxz : ∀ a, tuple₂ (Z := E.X) x z a ≫ E.f (![k₁, k₂] a) = c := tuple₂_comp _ _ hx hz
     rw [stageEval_comp_πM E M m πM hπ (γ₁ ![k₁, k₂]) c (tuple₂ (Z := E.X) x z) hxz _ hy
       (fun a ↦ by fin_cases a; exacts [hy₁, hy₂])]
-    show H.presheaf.map _ (H.presheaf.map _ _) = _
+    change H.presheaf.map _ (H.presheaf.map _ _) = _
     rw [hγ₁ ![k₁, k₂]]
-    show H.presheaf.map _ ((T.sectionEquivGroup _ _).symm _) = _
+    change H.presheaf.map _ ((T.sectionEquivGroup _ _).symm _) = _
     rw [T.map_sectionEquivGroup_symm, ← Functor.map_comp_apply,
       ← Functor.map_comp_apply, ← op_comp, ← op_comp]
     exact congrArg₂ (fun a b ↦ (T.sectionEquivGroup (op W)
@@ -493,7 +493,7 @@ theorem exists_covering_nonempty_of_isAffine
       refine (map_stageEval E M m _ κ _ _ _ c₃ _ hy
         (fun a ↦ by fin_cases a; exacts [hκ i, hκ i'])).trans ?_
       exact hrestr (τ i) (τ i') c₃ (pr 2 τ i) (pr 2 τ i') (hpr i) (hpr i') _ _ rfl rfl hy
-    show H.presheaf.map κ.op (Γ τ 1 2 * Γ τ 0 1 * (Γ τ 0 2)⁻¹) = H.presheaf.map κ.op 1
+    change H.presheaf.map κ.op (Γ τ 1 2 * Γ τ 0 1 * (Γ τ 0 2)⁻¹) = H.presheaf.map κ.op 1
     rw [H.map_mul, H.map_mul, ← H.presheafMapHom_apply κ.op (Γ τ 0 2)⁻¹, map_inv,
       H.presheafMapHom_apply, hΓ, hΓ, hΓ, T.sectionEquivGroup_symm_mul,
       mul_inv_cancel, SheafOfGroups.map_one (G := H)]
@@ -603,7 +603,7 @@ theorem exists_covering_nonempty_of_isAffine
   let wl (l : E.I₀) : Wl l ⟶ U := MorphismProperty.Over.homMk ((m l).app μ).left rfl
   let el (l : E.I₀) : X.etaleToProetale.obj (Wl l) ⟶ (M l).obj μ :=
     MorphismProperty.Over.homMk (𝟙 _) (by
-      show 𝟙 _ ≫ ((M l).obj μ).hom = ((m l).app μ).left ≫ U.hom
+      change 𝟙 _ ≫ ((M l).obj μ).hom = ((m l).app μ).left ≫ U.hom
       rw [Category.id_comp]
       exact (MorphismProperty.Over.w ((m l).app μ)).symm)
   refine ⟨Sieve.ofArrows Wl wl, ?_, ?_⟩
@@ -612,7 +612,7 @@ theorem exists_covering_nonempty_of_isAffine
     obtain ⟨V, h, hh, y, rfl⟩ := Scheme.ProEt.exists_mem_range_of_mem_topology hE x
     obtain ⟨_, a, _, ⟨k⟩, rfl⟩ := hh
     refine Set.mem_iUnion.2 ⟨k, (a ≫ (πM k).app μ).left y, ?_⟩
-    show ((a ≫ (πM k).app μ) ≫ (m k).app μ).left y = (a ≫ E.f k).left y
+    change ((a ≫ (πM k).app μ) ≫ (m k).app μ).left y = (a ≫ E.f k).left y
     rw [Category.assoc, hπμ]
   · rintro V f ⟨_, h, _, ⟨l⟩, rfl⟩
     obtain ⟨t⟩ := hsec l

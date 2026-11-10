@@ -194,7 +194,8 @@ projection formula of Tag 0FML. The spectral sequence, its boundedness in the se
 hvanish, and its graded pieces together with Tag 0FML as the hypothesis hgr"]
 theorem exists_boundedDeRhamSpectralSequence
     [QuasiCompact f] [QuasiSeparated f] [Smooth f]
-    (K : CochainComplex.Filtered (SheafOfModules.{u} (structureSheafRing (inverseImageBase (f ≫ g)))))
+    (K : CochainComplex.Filtered
+      (SheafOfModules.{u} (structureSheafRing (inverseImageBase (f ≫ g)))))
     (hKX : K.X = deRhamCochainComplex (f ≫ g))
     (hexh : ∀ p : ℤ, p ≤ 0 → IsIso (K.filtration.ι.app (op p)))
     (hvanish : ∀ n : ℤ, ∃ p₀ : ℤ, ∀ p : ℤ, p₀ ≤ p →

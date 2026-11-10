@@ -129,7 +129,7 @@ theorem kerMap_sectionCocycle {F G : X.Modules} (φ : F ⟶ G) (s : Γ(F, ⊤)) 
     Stacks.TwoTermComplex.kerMap (cechD_comp_cechMap f U φ) (sectionCocycle f U F s) =
       sectionCocycle f U G (φ.app ⊤ s) := by
   refine Subtype.ext (Subtype.ext (funext fun i => ?_))
-  show φ.app _ (F.presheaf.map (homOfLE le_top).op s) = G.presheaf.map (homOfLE le_top).op _
+  change φ.app _ (F.presheaf.map (homOfLE le_top).op s) = G.presheaf.map (homOfLE le_top).op _
   exact ConcreteCategory.congr_hom (φ.mapPresheaf.naturality
     (homOfLE (le_top : CechCochains.inter U i ≤ ⊤)).op) s
 

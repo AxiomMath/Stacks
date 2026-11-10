@@ -1,8 +1,7 @@
 module
 
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Duality.CurveDualityMapBaseChange
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperProjectionFormula.GeometricPointConservativity
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperProjectionFormula.GeometricPointConservativity
 
 /-!
 # The duality map of a relative curve is checked on geometric fibres

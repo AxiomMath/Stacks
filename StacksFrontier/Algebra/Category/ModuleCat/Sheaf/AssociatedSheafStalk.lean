@@ -255,7 +255,6 @@ theorem presheafStalkLeg_restrict {U V : Opens X.carrier} (g : V ⟶ U) (hxV : x
       presheafStalkLeg X α M x U hxU t := by
   let := stalkAlgebra X α x
   induction t using Stacks.SitePointBaseChange.cof_induction with
-  | zero => rw [map_zero, map_zero, map_zero]
   | add a b ha hb => rw [map_add, map_add, map_add, ha, hb]
   | tmul s m =>
     refine Eq.trans (congrArg (presheafStalkLeg X α M x V hxV)
@@ -348,7 +347,6 @@ theorem presheafStalkBack_presheafStalkLeg (U : Opens X.carrier) (hx : x ∈ U)
     presheafStalkBack X α M x (presheafStalkLeg X α M x U hx t) = assocGerm X α M x U hx t := by
   let := stalkAlgebra X α x
   induction t using Stacks.SitePointBaseChange.cof_induction with
-  | zero => rw [map_zero, map_zero, map_zero]
   | add a b ha hb => rw [map_add, map_add, map_add, ha, hb]
   | tmul s m =>
     refine Eq.trans (congrArg (presheafStalkBack X α M x)
@@ -377,8 +375,7 @@ theorem presheafStalkFwd_presheafStalkBack :
       presheafStalkFwd X α M x (presheafStalkBack X α M x z) = z := by
   let := stalkAlgebra X α x
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | add a b ha hb => rw [map_add, map_add, ha, hb]
   | tmul r m =>
     obtain ⟨U, hx, s, hs⟩ := TopCat.Presheaf.exists_germ_eq X.presheaf r
@@ -412,8 +409,7 @@ theorem presheafStalkBack_smul (r : X.presheaf.stalk x) :
       presheafStalkBack X α M x (r • z) = r • presheafStalkBack X α M x z := by
   let := stalkAlgebra X α x
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction z using TensorProduct.inductionOn with
   | add a b ha hb => rw [smul_add, map_add, map_add, ha, hb, smul_add]
   | tmul r' m =>
     refine Eq.trans (congrArg (presheafStalkBack X α M x)

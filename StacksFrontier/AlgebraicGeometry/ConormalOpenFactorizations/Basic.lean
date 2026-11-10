@@ -96,7 +96,8 @@ Two measurements, both costing a rewrite each:
 
 ## Universe situation
 
-A single universe `u`, as in the tagged statements, except for `comp_map_reassoc`, which is a statement about
+A single universe `u`, as in the tagged statements, except for `comp_map_reassoc`, which is a
+statement about
 arbitrary categories.
 
 ## References
@@ -182,7 +183,8 @@ noncomputable def idealRestrictHom :
     (modulePushforward j.toLRSHom.toShHom).map
       (Stacks.IdealSheafRestrict.pullbackIdealSheafIso j k).hom
 
-/-- `Stacks.Conormal.unit_comp_map_pullbackUnitModuleIso` in the vocabulary of the tagged statements. The two
+/-- `Stacks.Conormal.unit_comp_map_pullbackUnitModuleIso` in the vocabulary of the tagged
+statements. The two
 spellings of the category of modules on a scheme are definitionally equal but not at the
 elaborator's `implicit` transparency, so the bridge is a term-mode declaration of its own. -/
 theorem unit_comp_map_pullbackUnitIso :

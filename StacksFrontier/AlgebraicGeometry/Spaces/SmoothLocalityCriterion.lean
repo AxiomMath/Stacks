@@ -133,6 +133,7 @@ theorem precomp_smooth_of_isLocalAtSource
 /-! ### Stacks 06EM, smooth case -/
 
 set_option synthInstance.maxHeartbeats 100000 in
+-- instance search for pullbacks of algebraic spaces (`HasPullback f g`, `pullbackSymmetry`)
 /-- **Stacks 06EM**, the smooth case. A property of morphisms of algebraic spaces over `S` which
 is local on the target for the smooth topology is preserved by base change along a smooth
 morphism, in the form of the first projection out of the fibre product of Stacks 02X2.

@@ -94,7 +94,7 @@ private theorem exists_lift_linearEquiv_quotient
   have hquot : inducedQuot I φ = e := by
     refine LinearMap.ext fun (x : P ⧸ (I • (⊤ : Submodule A P))) => ?_
     obtain ⟨p, rfl⟩ := Submodule.mkQ_surjective (I • (⊤ : Submodule A P)) x
-    show Submodule.mkQ (I • (⊤ : Submodule A F)) (φ p) =
+    change Submodule.mkQ (I • (⊤ : Submodule A F)) (φ p) =
       e (Submodule.mkQ (I • (⊤ : Submodule A P)) p)
     simpa using LinearMap.congr_fun hφ p
   have hbij : Function.Bijective (inducedQuot I φ) := hquot ▸ e.bijective
@@ -202,7 +202,7 @@ public theorem exists_finiteFree_lift_of_fibrewise_koszul
     have hzExt : IsZero (((ModuleCat.extendScalars (Ideal.Quotient.mk I)).obj
         (P.X i))) := CategoryTheory.Limits.IsZero.of_iso (hEzero i hi) eRedI
     have : Subsingleton (TensorProduct S.A (S.A ⧸ I) (P.X i)) := by
-      show Subsingleton ↑(((ModuleCat.extendScalars (Ideal.Quotient.mk I)).obj
+      change Subsingleton ↑(((ModuleCat.extendScalars (Ideal.Quotient.mk I)).obj
         (P.X i)))
       exact ModuleCat.subsingleton_of_isZero hzExt
     let qeq := TensorProduct.quotTensorEquivQuotSMul (P.X i : Type u) I
@@ -262,7 +262,7 @@ public theorem exists_finiteFree_lift_of_fibrewise_koszul
       (1 : S.A ⧸ I) ⊗ₜ[S.A]
         (LinearEquiv.piCongrLeft' S.A (fun _ : Fin (S.r.choose 1) => S.A)
           (Equiv.cast (congrArg Fin (Nat.choose_one_right S.r)))).symm (Pi.single i 1)
-    show (ConcreteCategory.hom ((ModuleCat.restrictScalars (Ideal.Quotient.mk I)).map
+    change (ConcreteCategory.hom ((ModuleCat.restrictScalars (Ideal.Quotient.mk I)).map
       (ModuleCat.ofHom ((Pi.basisFun S.A (Fin (S.r.choose 1))).baseChange
         (S.A ⧸ I)).equivFun.toLinearMap))) v = _
     rw [ModuleCat.restrictScalars.map_apply]
@@ -324,7 +324,7 @@ public theorem exists_finiteFree_lift_of_fibrewise_koszul
   have hscalar0 := congrArg p0bar hcoord0'
   have hleft0 : p0bar ((basis 0).symm ((1 : S.A ⧸ I) ⊗ₜ[S.A] e₀base.hom.hom z)) =
       Ideal.Quotient.mk I (p0 (e₀base.hom.hom z)) := by
-    show p0bar (bFRed0.equivFun ((1 : S.A ⧸ I) ⊗ₜ[S.A]
+    change p0bar (bFRed0.equivFun ((1 : S.A ⧸ I) ⊗ₜ[S.A]
       e₀base.hom.hom z)) = _
     simp [p0bar, p0, eFin0, scalar_finOneEquiv, bFRed0,
       Module.Basis.equivFun_apply, Module.Basis.baseChange_repr_tmul,
@@ -336,7 +336,7 @@ public theorem exists_finiteFree_lift_of_fibrewise_koszul
     calc
       _ = p0bar ((basis 0).symm ((1 : S.A ⧸ I) ⊗ₜ[S.A] e₀base.hom.hom z)) := by
         rw [hleft0]
-        show Ideal.Quotient.mk I (e₀.hom.hom z) =
+        change Ideal.Quotient.mk I (e₀.hom.hom z) =
           Ideal.Quotient.mk I (p0 (e₀base.hom.hom z))
         rfl
       _ = _ := hscalar0
@@ -355,7 +355,7 @@ public theorem exists_finiteFree_lift_of_fibrewise_koszul
         ComplexShape.embeddingDownNat
         (show ComplexShape.embeddingDownNat.f 1 = -1 by rfl)
         (show ComplexShape.embeddingDownNat.f 0 = 0 by rfl)
-      show (ModuleCat.Hom.hom eX0.hom)
+      change (ModuleCat.Hom.hom eX0.hom)
           ((ModuleCat.Hom.hom
             (((Koszul.seqComplex S.residueSequence).extend
               ComplexShape.embeddingDownNat).d (-1) 0)) hred1) = _
@@ -377,9 +377,9 @@ public theorem exists_finiteFree_lift_of_fibrewise_koszul
   have hcoordSeq : p0bar (term 0 (red 0 ((qP 0).symm (Submodule.mkQ
       (I • ⊤) z)))) =
       exteriorPower.zeroEquiv (S.A ⧸ I) (Fin S.r → S.A ⧸ I) w0 := by
-    show p0bar ((exteriorPower_finIso (R := S.A ⧸ I) S.r 0).hom.hom w0) =
+    change p0bar ((exteriorPower_finIso (R := S.A ⧸ I) S.r 0).hom.hom w0) =
       exteriorPower.zeroEquiv (S.A ⧸ I) (Fin S.r → S.A ⧸ I) w0
-    show scalar_finOneEquiv (R := S.A ⧸ I)
+    change scalar_finOneEquiv (R := S.A ⧸ I)
         (exteriorPower.zeroEquiv (S.A ⧸ I) (Fin S.r → S.A ⧸ I) w0)
         (eFin0 (eFin0.symm 0)) = _
     simp [scalar_finOneEquiv]

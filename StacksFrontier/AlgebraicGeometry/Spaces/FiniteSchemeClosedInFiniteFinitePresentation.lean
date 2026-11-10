@@ -77,7 +77,7 @@ theorem isFinite_pushforwardAlgebra_of_isFinite {X Y : AlgebraicSpaces B S hS} (
   have hrep : yoneda.relativelyRepresentable f.hom :=
     (relativelyRepresentable_and_presheaf_isAffineHom B S hS f.hom Y.2 X.2
       (IsFinite.isAffineHom hf)).2.rep
-  show RingHom.Finite ((smallEtaleRingedToposHom B S hS (Over.mk f).hom).fSharp.hom.app
+  change RingHom.Finite ((smallEtaleRingedToposHom B S hS (Over.mk f).hom).fSharp.hom.app
     (op W)).hom
   rw [pushforwardAlgebra_algebraMap_eq_comp B S hS f hrep W]
   refine RingHom.Finite.comp ?_ ?_
@@ -87,16 +87,16 @@ theorem isFinite_pushforwardAlgebra_of_isFinite {X Y : AlgebraicSpaces B S hS} (
     exact finite_smallBaseChangeChartRingHom B S hS f hf hrep W hW
 
 /-- **A finite scheme over a quasi-compact quasi-separated algebraic space, factoring Zariski
-locally through an affine étale chart, is closed in a finite and finitely presented scheme.**
-Let `X` be a quasi-compact and quasi-separated algebraic space, `p : h_V ⟶ X` étale with `V`
-affine, and `f : h_Y ⟶ X` finite, factoring through `p` Zariski locally on `Y`. Then there are an
-object `T` of the big fppf site, a finite morphism of finite presentation `g : h_T ⟶ X` and a
+locally through an étale chart, is closed in a finite and finitely presented scheme.**
+Let `X` be a quasi-compact and quasi-separated algebraic space, `p : h_V ⟶ X` étale, and
+`f : h_Y ⟶ X` finite, factoring through `p` Zariski locally on `Y`. Then there are an object
+`T` of the big fppf site, a finite morphism of finite presentation `g : h_T ⟶ X` and a
 closed immersion `i : h_Y ⟶ h_T` with `i ≫ g = f`. -/
 theorem exists_isClosedImmersion_isFinite_isFinitePresentation_of_factorsZariskiLocallyThrough
     (hZ : B.Contains (⊤_ Scheme.{u}))
     (X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (hX : IsAlgebraicSpace B S hS X)
     (hXqc : IsQuasiCompactSpace B S hS X) (hXqs : IsAbsolutelyQuasiSeparated B S hS hZ X)
-    (V : BigFppfOver B S hS) (hV : IsAffine ((BigFppfOver.toScheme B S hS).obj V))
+    (V : BigFppfOver B S hS)
     (p : yoneda.obj V ⟶ X) (hp : IsEtale B S hS p) (Y : BigFppfOver B S hS)
     (f : yoneda.obj Y ⟶ X) (hf : IsFinite B S hS f)
     (hfac : FactorsZariskiLocallyThrough B S hS p Y f) :
@@ -153,7 +153,7 @@ theorem exists_isClosedImmersion_isFinite_isFinitePresentation_of_factorsZariski
         φ.right.hom.app W c := by
     intro W c
     rw [← pushforwardAlgebraMap_right, hgalg]
-    show (φ.right.hom.app W) ((e.hom.right.hom.app W) ((e.inv.right.hom.app W) c)) = _
+    change (φ.right.hom.app W) ((e.hom.right.hom.app W) ((e.inv.right.hom.app W) c)) = _
     rw [hinvhom]
   have hPalgfp : (pushforwardAlgebra B S hS P.obj).IsFinitePresentation := by
     intro W hW
@@ -223,7 +223,7 @@ theorem exists_isClosedImmersion_isFinite_isFinitePresentation_of_factorsZariski
   have hJtC : Scheme.IdealSheafData.ofIdealTop I ≤ chartKer B S hS P.obj.left C
       (hPrep.fst Ws.1.hom) := by
     rw [le_chartKer_iff]
-    show (Subfunctor.range gY).preimage _ ≤ _
+    change (Subfunctor.range gY).preimage _ ≤ _
     rw [← Subfunctor.range_eq_preimage_of_isPullback sqW.flip]
     exact range_yoneda_map_le_idealPoints B S hS m _ hle
   let ε : yoneda.obj Y ≅ (Subfunctor.range gY).toFunctor := asIso (Subfunctor.toRange gY)
@@ -237,7 +237,7 @@ theorem exists_isClosedImmersion_isFinite_isFinitePresentation_of_factorsZariski
       (isAlgebraicSpace_yoneda B S hS Y) C.2.1 hW', ?_, W'.fromPreimage ε.inv ≫ c', ?_⟩
     · rw [range_pointsMap_preimage_ι]
       exact hy
-    · show (W'.preimage ε.inv).ι ≫ (Subfunctor.range gY).ι ≫ qP = _
+    · change (W'.preimage ε.inv).ι ≫ (Subfunctor.range gY).ι ≫ qP = _
       rw [hCι, Category.assoc, Category.assoc, hgq, ← hc',
         ← Category.assoc (W'.fromPreimage ε.inv), Subfunctor.fromPreimage_ι, Category.assoc]
   -- A closed subspace `T ⊇ C` of finite presentation which is a scheme.

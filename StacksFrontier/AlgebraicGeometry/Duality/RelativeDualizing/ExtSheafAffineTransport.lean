@@ -59,8 +59,8 @@ companion, theorems rather than instances in this development. The same holds of
 `StacksFrontier/AlgebraicGeometry/Duality/DerivedTilde/AffineExt/Basic.lean`.
 
 The derived model is pinned with priority `10000`, as the import closure reaches
-`StacksFrontier/Homology/DerivedCategory/LocallySmall.lean`, whose `HasDerivedCategory` instances are
-global; see the note in
+`StacksFrontier/Homology/DerivedCategory/LocallySmall.lean`, whose `HasDerivedCategory` instances
+are global; see the note in
 `StacksFrontier.AlgebraicGeometry.Duality.DerivedTilde.SchemeSheafPseudoCoherentHomQuasicoherent`.
 
 ## References

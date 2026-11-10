@@ -82,7 +82,7 @@ lemma homFunctorExact_of_projective {P : 𝒜} (hP : Projective P) :
   have := hS.mono_f
   have := hS.epi_g
   have hmono : Mono ((homFunctor P).mapShortComplex.obj S).f := by
-    show Mono ((homFunctor P).map S.f); infer_instance
+    change Mono ((homFunctor P).map S.f); infer_instance
   have hepi : Epi ((homFunctor P).mapShortComplex.obj S).g := by
     rw [AddCommGrpCat.epi_iff_surjective]
     intro h

@@ -156,6 +156,7 @@ lemma isZero_derivedModuleRestriction_iff (K : DerivedCategory (fppfModules B S 
       ∀ n : ℤ, parasitic B S hS 𝒳 ((DerivedCategory.homologyFunctor _ n).obj K) :=
   FlatFppf.isZero_derivedModuleRestriction_iff_forall_isParasitic B S hS 𝒳 K
 
+omit [𝓛.IsWeakSerreClass] in
 include adj in
 /-- **Stacks 07BA** for `𝓛`, the orthogonality: `Hom(Lg_! g^* K, P') = 0` for `P'` in
 `D_{Parasitic ∩ 𝓛}(𝒪_𝒳)`. -/

@@ -131,7 +131,7 @@ theorem mem_jointImageSieve_of_isColimit (hc : IsColimit (Cocone.mk M φ)) {X : 
             apply SheafOfModules.hom_ext
             refine PresheafOfModules.hom_ext fun U => ModuleCat.hom_ext (LinearMap.ext fun z => ?_)
             refine Subtype.ext ?_
-            show (φ.app k').val.app U ((D.map g).val.app U z) = (φ.app k).val.app U z
+            change (φ.app k').val.app U ((D.map g).val.app U z) = (φ.app k).val.app U z
             rw [← ConcreteCategory.comp_apply, ← PresheafOfModules.comp_app,
               ← SheafOfModules.comp_val, φ.naturality]
             rfl } }

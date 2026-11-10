@@ -107,14 +107,12 @@ private abbrev moduleExtensionAddGroupFunctor {A : Type u} [CommRing A]
     (TensorProduct.map f.hom.toLinearMap LinearMap.id).toAddMonoidHom
   map_id B := by
     ext x
-    induction x using TensorProduct.induction_on with
-    | zero => rfl
+    induction x using TensorProduct.inductionOn with
     | tmul b m => rfl
     | add x y hx hy => rw [map_add, map_add, hx, hy]
   map_comp f g := by
     ext x
-    induction x using TensorProduct.induction_on with
-    | zero => rfl
+    induction x using TensorProduct.inductionOn with
     | tmul b m => rfl
     | add x y hx hy => rw [map_add, map_add, hx, hy]
 
@@ -226,8 +224,7 @@ private noncomputable def moduleExtensionAddGroupCocone {A : Type u} [CommRing A
     (TensorProduct.map (c.ι.app k).hom.toLinearMap LinearMap.id).toAddMonoidHom
   ι.naturality k l f := by
     ext x
-    induction x using TensorProduct.induction_on with
-    | zero => rfl
+    induction x using TensorProduct.inductionOn with
     | tmul b m =>
       change (c.ι.app l).hom ((D.map f).hom b) ⊗ₜ[A] m =
         (c.ι.app k).hom b ⊗ₜ[A] m
@@ -245,15 +242,15 @@ private theorem tensorCoconeBilinearMap_balance {A : Type u} [CommRing A] {I : T
   let r := tensorColimitRep hc b
   let y : D.obj r.1 := a • r.2
   have hy : (c.ι.app r.1).hom y = a • b := by
-    show (c.ι.app r.1).hom (a • r.2) = a • b
+    change (c.ι.app r.1).hom (a • r.2) = a • b
     rw [map_smul, tensorColimitRep_spec hc b]
   let r' := tensorColimitRep hc (a • b)
   have heq := tensorCocone_rep_eq hc M s r'.2 y
     ((tensorColimitRep_spec hc (a • b)).trans hy.symm) m
   have ht : y ⊗ₜ[A] m = r.2 ⊗ₜ[A] (a • m) := by
-    show (a • r.2) ⊗ₜ[A] m = r.2 ⊗ₜ[A] (a • m)
+    change (a • r.2) ⊗ₜ[A] m = r.2 ⊗ₜ[A] (a • m)
     exact TensorProduct.smul_tmul a r.2 m
-  show ConcreteCategory.hom (s.ι.app r'.1) (r'.2 ⊗ₜ[A] m) = _
+  change ConcreteCategory.hom (s.ι.app r'.1) (r'.2 ⊗ₜ[A] m) = _
   rw [heq, ht]
   rfl
 
@@ -271,11 +268,7 @@ private noncomputable def isColimit_moduleExtensionAddGroupCocone {A : Type u} [
     uniq := ?_ }
   · intro s' k
     ext x
-    induction x using TensorProduct.induction_on with
-    | zero =>
-      change (TensorProduct.liftAddHom (tensorCoconeBilinearMap hc M s')
-        (tensorCoconeBilinearMap_balance hc M s')) 0 = _
-      simp
+    induction x using TensorProduct.inductionOn with
     | tmul b m =>
       let p := tensorCoconeBilinearMap hc M s'
       let hb := tensorCoconeBilinearMap_balance hc M s'
@@ -288,11 +281,7 @@ private noncomputable def isColimit_moduleExtensionAddGroupCocone {A : Type u} [
     | add x y hx hy => rw [map_add, map_add, hx, hy]
   · intro s' q hm
     ext x
-    induction x using TensorProduct.induction_on with
-    | zero =>
-      change q.hom 0 = (TensorProduct.liftAddHom (tensorCoconeBilinearMap hc M s')
-        (tensorCoconeBilinearMap_balance hc M s')) 0
-      simp
+    induction x using TensorProduct.inductionOn with
     | tmul b n =>
       let p := tensorCoconeBilinearMap hc M s'
       let r := tensorColimitRep hc b
@@ -350,7 +339,7 @@ private theorem adequateKernelEmbedding_naturality {A : Type u} [CommRing A]
     ((e.hom.app X).hom (ULift.up.{max u v, w} x))
   have he := PresheafOfModules.naturality_apply e.hom a (ULift.up.{max u v, w} x)
   dsimp [adequateKernelEmbedding]
-  show (moduleExtensionAddGroupFunctor M).map ((unopUnop (CommAlgCat.{max u v} A)).map a)
+  change (moduleExtensionAddGroupFunctor M).map ((unopUnop (CommAlgCat.{max u v} A)).map a)
       (((kernel.ι g).app X).hom ((e.hom.app X).hom (ULift.up.{max u v, w} x))) =
     ((kernel.ι g).app Y).hom ((e.hom.app Y).hom (UF.map a (ULift.up.{max u v, w} x)))
   rw [he]
@@ -384,7 +373,7 @@ private theorem adequateKernelEmbedding_injective {A : Type u} [CommRing A]
   let ev := PresheafOfModules.evaluation (AdequateFunctor.algebraRingDiagram A) X
   let κ : (kernel g).obj X ≅ kernel (g.app X) := PreservesKernel.iso ev g
   have hκ : κ.hom ≫ kernel.ι (g.app X) = (kernel.ι g).app X := by
-    show (PreservesKernel.iso ev g).hom ≫ kernel.ι (g.app X) = (kernel.ι g).app X
+    change (PreservesKernel.iso ev g).hom ≫ kernel.ι (g.app X) = (kernel.ι g).app X
     rw [PreservesKernel.iso_hom]
     exact kernelComparison_comp_ι g ev
   have hK : Function.Injective ((kernel.ι g).app X).hom := by
@@ -464,7 +453,7 @@ private theorem adequate_exists_stage_preimage {A : Type u} [CommRing A]
       have hh := congrArg (fun q => q.app c.pt) (kernel.condition g)
       change (kernel.ι g).app c.pt ≫ g.app c.pt = 0 at hh
       exact hh
-    show (g.app c.pt).hom
+    change (g.app c.pt).hom
       (((kernel.ι g).app c.pt).hom ((e.hom.app c.pt).hom (ULift.up x))) = 0
     have h := ConcreteCategory.congr_hom hcond ((e.hom.app c.pt).hom (ULift.up x))
     simpa using h
@@ -474,10 +463,7 @@ private theorem adequate_exists_stage_preimage {A : Type u} [CommRing A]
         (tM.ι.app k).hom zk = z := by
     have hcomm : (tN.ι.app i).hom ((g.app (D.obj i)).hom zi) =
         (g.app c.pt).hom ((tM.ι.app i).hom zi) := by
-      induction zi using TensorProduct.induction_on with
-      | zero =>
-        show 0 = (g.app c.pt).hom 0
-        exact (map_zero _).symm
+      induction zi using TensorProduct.inductionOn with
       | tmul b m => rfl
       | add x y hx hy =>
         simp only [map_add, hx, hy]
@@ -485,11 +471,11 @@ private theorem adequate_exists_stage_preimage {A : Type u} [CommRing A]
     have hzero : (tN.ι.app i).hom ((g.app (D.obj i)).hom zi) =
         (tN.ι.app i).hom 0 := by
       rw [hcomm, hzi, hz]
-      show 0 = (tN.ι.app i).hom (0 : GN.obj i)
+      change 0 = (tN.ι.app i).hom (0 : GN.obj i)
       rw [map_zero]
     obtain ⟨k, α, β, hαβ⟩ := Concrete.isColimit_exists_of_rep_eq
       (GN ⋙ L) htN' (ULift.up ((g.app (D.obj i)).hom zi)) (ULift.up (0 : GN.obj i)) (by
-        show ULift.up ((tN.ι.app i).hom ((g.app (D.obj i)).hom zi)) =
+        change ULift.up ((tN.ι.app i).hom ((g.app (D.obj i)).hom zi)) =
           ULift.up ((tN.ι.app i).hom (0 : GN.obj i))
         exact congrArg ULift.up hzero)
     let zk : GM.obj k := (GM.map α) zi
@@ -506,7 +492,7 @@ private theorem adequate_exists_stage_preimage {A : Type u} [CommRing A]
         _ = (GN.map α) ((g.app (D.obj i)).hom zi) := hnat'
         _ = 0 := hαβ'
     have hstage : (tM.ι.app k).hom zk = z := by
-      show (tM.ι.app k).hom ((GM.map α).hom zi) = z
+      change (tM.ι.app k).hom ((GM.map α).hom zi) = z
       have hh := ConcreteCategory.congr_hom (tM.w α) zi
       change (tM.ι.app k).hom ((GM.map α).hom zi) = (tM.ι.app i).hom zi at hh
       exact hh.trans hzi
@@ -525,13 +511,13 @@ private theorem adequate_exists_stage_preimage {A : Type u} [CommRing A]
       have hh := ConcreteCategory.congr_hom hcomp kx
       change (e.hom.app X).hom ((e.inv.app X).hom kx) = kx at hh
       exact hh
-    show ((kernel.ι g).app X).hom ((e.hom.app X).hom yULift) = zk
+    change ((kernel.ι g).app X).hom ((e.hom.app X).hom yULift) = zk
     rw [he]
     exact hkx
   have htransport : adequateKernelEmbedding F f e c.pt
       (F.presheaf.map (c.ι.app k) y) = z := by
     let yP : (F.presheaf.obj (D.obj k) : Type _) := y
-    show adequateKernelEmbedding F f e c.pt (F.presheaf.map (c.ι.app k) yP) = z
+    change adequateKernelEmbedding F f e c.pt (F.presheaf.map (c.ι.app k) yP) = z
     have hnat := adequateKernelEmbedding_naturality F f e (c.ι.app k) yP
     have hnat' : (moduleExtensionAddGroupFunctor M).map
         ((unopUnop (CommAlgCat.{max u v} A)).map (c.ι.app k))
@@ -601,11 +587,11 @@ private theorem adequate_exists_stage_eq {A : Type u} [CommRing A]
         adequateKernelEmbedding F f e (D.obj k) (F.presheaf.map (D.map b) y) := by
     have hma' : (GM ⋙ L).map a (ULift.up z₁) = ULift.up
         (adequateKernelEmbedding F f e (D.obj k) (F.presheaf.map (D.map a) x)) := by
-      show ULift.up ((GM.map a).hom z₁) = _
+      change ULift.up ((GM.map a).hom z₁) = _
       exact congrArg ULift.up hma
     have hmb' : (GM ⋙ L).map b (ULift.up z₂) = ULift.up
         (adequateKernelEmbedding F f e (D.obj k) (F.presheaf.map (D.map b) y)) := by
-      show ULift.up ((GM.map b).hom z₂) = _
+      change ULift.up ((GM.map b).hom z₂) = _
       exact congrArg ULift.up hmb
     exact ULift.up_injective (hma'.symm.trans (hab.trans hmb'))
   exact ⟨k, a, b, adequateKernelEmbedding_injective F f e (D.obj k) hstage⟩
@@ -652,7 +638,7 @@ public theorem isColimit_mapCocone_of_isAdequate
         calc
           F.presheaf.map (c.ι.app r.1) r.2 = 0 := rep_spec 0
           _ = F.presheaf.map (c.ι.app k) 0 := (map_zero _).symm
-      show (s.ι.app r.1).hom r.2 = 0
+      change (s.ι.app r.1).hom r.2 = 0
       exact (cocone_map_eq s hr).trans (map_zero (s.ι.app k).hom)
     map_add' x y := by
       let rx := rep x
@@ -672,16 +658,16 @@ public theorem isColimit_mapCocone_of_isAdequate
       have hyb : F.presheaf.map (c.ι.app k) (F.presheaf.map (D.map b) ry.2) = y :=
         (ConcreteCategory.congr_hom hcb ry.2).trans (rep_spec y)
       have hz : F.presheaf.map (c.ι.app k) z = x + y := by
-        show F.presheaf.map (c.ι.app k)
+        change F.presheaf.map (c.ι.app k)
             (F.presheaf.map (D.map a) rx.2 + F.presheaf.map (D.map b) ry.2) = _
         rw [map_add, hxa, hyb]
         rfl
       have hrep := cocone_map_eq s (i := (rep (x + y)).1) (j := k)
         (x := (rep (x + y)).2) (y := z) ((rep_spec (x + y)).trans hz.symm)
-      show (s.ι.app (rep (x + y)).1).hom (rep (x + y)).2 = _
+      change (s.ι.app (rep (x + y)).1).hom (rep (x + y)).2 = _
       rw [hrep]
-      show (s.ι.app k).hom z = _
-      show (s.ι.app k).hom
+      change (s.ι.app k).hom z = _
+      change (s.ι.app k).hom
           (F.presheaf.map (D.map a) rx.2 + F.presheaf.map (D.map b) ry.2) = _
       rw [map_add]
       have h₁ := ConcreteCategory.congr_hom (s.w a) rx.2
@@ -699,14 +685,14 @@ public theorem isColimit_mapCocone_of_isAdequate
   · intro s i
     ext x
     have hh := cocone_map_eq s (rep_spec (F.presheaf.map (c.ι.app i) x))
-    show (s.ι.app (rep (F.presheaf.map (c.ι.app i) x)).1).hom
+    change (s.ι.app (rep (F.presheaf.map (c.ι.app i) x)).1).hom
         (rep (F.presheaf.map (c.ι.app i) x)).2 = (s.ι.app i).hom x
     exact hh
   · intro s m hm
     ext x
     let r := rep x
     have hh := ConcreteCategory.congr_hom (hm r.1) r.2
-    show m.hom x = (s.ι.app r.1).hom r.2
+    change m.hom x = (s.ι.app r.1).hom r.2
     rw [← rep_spec x]
     exact hh
 
@@ -750,6 +736,7 @@ private noncomputable def diagramHLinear
     (Fin d.m → A) →ₗ[A] N :=
   (Pi.basisFun A (Fin d.m)).constr A d.h
 
+set_option linter.checkUnivs false in
 private noncomputable def liftFreeMap
     {A : Type u} [CommRing A] (n m : ℕ)
     (f : (Fin n → A) →ₗ[A] (Fin m → A)) :
@@ -757,6 +744,7 @@ private noncomputable def liftFreeMap
       AdequateFunctor.finiteFreeModule.{max u v w} A m :=
   (ModuleCat.uliftFunctor.{max u v w, u} A).map (ModuleCat.ofHom f)
 
+set_option linter.checkUnivs false in
 private noncomputable def liftFreeToModule
     {A : Type u} [CommRing A] {M : ModuleCat.{max u v w} A} (n : ℕ)
     (f : (Fin n → A) →ₗ[A] M) :
@@ -861,14 +849,14 @@ private lemma exists_diagram_tensor_preimage
       (kernel.condition ((AdequateFunctor.moduleExtensionFunctor.{max u v w, v} A).map φ))
   have hk' := congrArg (fun f => f.hom (e.hom.app X y)) hk
   have hk'' : (((AdequateFunctor.moduleExtensionFunctor.{max u v w, v} A).map φ).app X) w₀ = 0 := by
-    show ((AdequateFunctor.moduleExtensionFunctor.{max u v w, v} A).map φ).app X
+    change ((AdequateFunctor.moduleExtensionFunctor.{max u v w, v} A).map φ).app X
         ((kernel.ι ((AdequateFunctor.moduleExtensionFunctor.{max u v w, v} A).map φ)).app X
           (e.hom.app X y)) = 0
     exact hk'
   let g₀ : (Fin r → A) →ₗ[A] M := (Pi.basisFun A (Fin r)).constr A m
   let x₀ : (Fin r → A) ⊗[A] B := ∑ i, (Pi.single i (1 : A)) ⊗ₜ[A] b i
   have hx₀ : g₀.rTensor B x₀ = x := by
-    show g₀.rTensor B (∑ i, (Pi.single i (1 : A)) ⊗ₜ[A] b i) =
+    change g₀.rTensor B (∑ i, (Pi.single i (1 : A)) ⊗ₜ[A] b i) =
       ∑ i, m i ⊗ₜ[A] b i
     rw [map_sum]
     apply Finset.sum_congr rfl
@@ -883,7 +871,7 @@ private lemma exists_diagram_tensor_preimage
         (ConcreteCategory.hom
           (((AdequateFunctor.moduleExtensionFunctor.{max u v w, v} A).map φ).app X))
             (b i ⊗ₜ[A] m i) = b i ⊗ₜ[A] φ.hom (m i) := by
-      show (((AdequateFunctor.moduleExtensionFunctor.{max u v w, v} A).map φ).app X)
+      change (((AdequateFunctor.moduleExtensionFunctor.{max u v w, v} A).map φ).app X)
           (b i ⊗ₜ[A] m i) = _
       exact AdequateFunctor.moduleExtensionFunctor_map_app_tmul A φ X (b i) (m i)
     simpa only [map_sum, hterm] using hk''
@@ -892,9 +880,9 @@ private lemma exists_diagram_tensor_preimage
     simpa [x, map_sum, LinearMap.rTensor_tmul, TensorProduct.comm_tmul] using hsum
   let f₀ : (Fin r → A) →ₗ[A] N := φ.hom.comp g₀
   have hzero : f₀.rTensor B x₀ = 0 := by
-    show (φ.hom.comp g₀).rTensor B x₀ = 0
+    change (φ.hom.comp g₀).rTensor B x₀ = 0
     rw [LinearMap.rTensor_comp]
-    show φ.hom.rTensor B (g₀.rTensor B x₀) = 0
+    change φ.hom.rTensor B (g₀.rTensor B x₀) = 0
     rw [hx₀]
     exact hφx
   let E : (Fin r → A) ≃ₗ[A] ULift.{max u v w} (Fin r → A) := ULift.moduleEquiv.symm
@@ -905,14 +893,14 @@ private lemma exists_diagram_tensor_preimage
   let fLift : ULift.{max u v w} (Fin r → A) →ₗ[A] N :=
     φ.hom.comp (g₀.comp E.symm.toLinearMap)
   have hcancel : E.symm.toLinearMap.rTensor B xLift = x₀ := by
-    show ((E.symm.toLinearMap.rTensor B).comp (E.toLinearMap.rTensor B)) x₀ = x₀
+    change ((E.symm.toLinearMap.rTensor B).comp (E.toLinearMap.rTensor B)) x₀ = x₀
     rw [← LinearMap.rTensor_comp]
     simp [E]
   have hzeroLift : fLift.rTensor B xLift = 0 := by
-    show (φ.hom.comp (g₀.comp E.symm.toLinearMap)).rTensor B
+    change (φ.hom.comp (g₀.comp E.symm.toLinearMap)).rTensor B
       (E.toLinearMap.rTensor B x₀) = 0
     rw [LinearMap.rTensor_comp, LinearMap.rTensor_comp]
-    show φ.hom.rTensor B
+    change φ.hom.rTensor B
       (g₀.rTensor B (E.symm.toLinearMap.rTensor B (E.toLinearMap.rTensor B x₀))) = 0
     rw [hcancel, hx₀]
     exact hφx
@@ -935,7 +923,7 @@ private lemma exists_diagram_tensor_preimage
     rw [← ht, hφ]
     rw [LinearMap.comp_assoc]
   have hrel : p.rTensor B (α.rTensor B x₀) = 0 := by
-    show ((p.rTensor B).comp (α.rTensor B)) x₀ = 0
+    change ((p.rTensor B).comp (α.rTensor B)) x₀ = 0
     rw [← LinearMap.rTensor_comp, hα, LinearMap.rTensor_comp]
     exact hx
   have hT := rTensor_exact B hExact hp
@@ -953,7 +941,7 @@ private lemma exists_diagram_tensor_preimage
   have hH : H = β.comp p := by
     apply (Pi.basisFun A (Fin k)).ext
     intro j
-    show ((Pi.basisFun A (Fin k)).constr A hm) (Pi.basisFun A (Fin k) j) =
+    change ((Pi.basisFun A (Fin k)).constr A hm) (Pi.basisFun A (Fin k) j) =
       β (p (Pi.basisFun A (Fin k) j))
     rw [(Pi.basisFun A (Fin k)).constr_basis]
     simp [hm, ← Pi.basisFun_apply]
@@ -988,7 +976,7 @@ private lemma exists_diagram_tensor_preimage
       have hφj : φ.hom (g₀ (Pi.single j (1 : A))) =
           β (f' (E (Pi.single j (1 : A)))) := by
         have := congrArg (fun f => f (Pi.single j (1 : A))) hφ0
-        show φ.hom (g₀ (Pi.single j (1 : A))) = β (f' (E (Pi.single j (1 : A))))
+        change φ.hom (g₀ (Pi.single j (1 : A))) = β (f' (E (Pi.single j (1 : A))))
         simpa [f₀, LinearMap.comp_apply] using this
       have hg₀j : g₀ (Pi.single j (1 : A)) = m j := by
         simpa [g₀, ← Pi.basisFun_apply] using (Pi.basisFun A (Fin r)).constr_basis A m j
@@ -1063,7 +1051,7 @@ private lemma exists_diagram_tensor_preimage
           (Pi.single (castN (Fin.natAdd r j)) (1 : A)) = 0 := by
     simpa [castN] using hGLright j
   refine ⟨d, z, ?_, ?_⟩
-  · show (((AdequateFunctor.moduleExtensionFunctor.{max u v w, v} A).map
+  · change (((AdequateFunctor.moduleExtensionFunctor.{max u v w, v} A).map
       (liftFreeMap.{u, v, w} (A := A) d.n d.m
           (diagramQLinear.{u, max u v w} M N φ d))).app X).hom z = 0
     rw [show z = zLeft + zRight by rfl]
@@ -1071,7 +1059,7 @@ private lemma exists_diagram_tensor_preimage
       (liftFreeMap.{u, v, w} (A := A) d.n d.m
         (diagramQLinear.{u, max u v w} M N φ d))).app X).hom.map_add zLeft zRight,
       map_sum, map_sum]
-    show (∑ i : Fin r, b i ⊗ₜ[A]
+    change (∑ i : Fin r, b i ⊗ₜ[A]
         (ULift.up (diagramQLinear.{u, max u v w} M N φ d
           (Pi.single (castN (Fin.castAdd s i)) (1 : A))) :
             ↑(AdequateFunctor.finiteFreeModule.{max u v w} A d.m))) +
@@ -1097,7 +1085,7 @@ private lemma exists_diagram_tensor_preimage
       rw [hQLright' j]
     rw [hleft, hright]
     rw [hTensorUp]
-    show (∑ j : Fin s, c j ⊗ₜ[A] (ULift.up (ρ (v₀ j)))) +
+    change (∑ j : Fin s, c j ⊗ₜ[A] (ULift.up (ρ (v₀ j)))) +
       (∑ j : Fin s, c j ⊗ₜ[A] (-(ULift.up (ρ (v₀ j)))) ) = 0
     have hneg :
         (∑ j : Fin s, c j ⊗ₜ[A] (-(ULift.up (ρ (v₀ j))))) =
@@ -1112,7 +1100,7 @@ private lemma exists_diagram_tensor_preimage
               rw [Finset.sum_neg_distrib]
     rw [hneg]
     exact add_neg_cancel _
-  · show (((AdequateFunctor.moduleExtensionFunctor.{max u v w, v} A).map
+  · change (((AdequateFunctor.moduleExtensionFunctor.{max u v w, v} A).map
       (liftFreeToModule.{u, v, w} (A := A) d.n (diagramGLinear.{u, max u v w} M N φ d))).app X).hom
         z = w₀
     rw [show z = zLeft + zRight by rfl]
@@ -1120,7 +1108,7 @@ private lemma exists_diagram_tensor_preimage
       (liftFreeToModule.{u, v, w} (A := A) d.n
         (diagramGLinear.{u, max u v w} M N φ d))).app X).hom.map_add zLeft zRight,
       map_sum, map_sum]
-    show (∑ i : Fin r, b i ⊗ₜ[A]
+    change (∑ i : Fin r, b i ⊗ₜ[A]
         diagramGLinear.{u, max u v w} M N φ d
           (Pi.single (castN (Fin.castAdd s i)) (1 : A))) +
       (∑ j : Fin s, c j ⊗ₜ[A]
@@ -1179,8 +1167,8 @@ public lemma exists_coproduct_linearlyAdequate_surjective
       let q := diagramQ.{u, v, w} d
       obtain ⟨zL, hinc⟩ := exists_kernel_ι_app_eq q X z hzq
       refine ⟨(Sigma.ι L d).app X zL, ?_⟩
-      show (Sigma.ι L d ≫ f).app X zL = y
-      rw [Sigma.ι_desc]
+      change (Sigma.ι L d ≫ f).app X zL = y
+      rw [Sigma.ι_comp_desc]
       have hinj : Function.Injective (e.hom.app X) :=
         ModuleCat.mono_iff_injective _ |>.mp inferInstance
       apply hinj
@@ -1208,7 +1196,7 @@ public lemma exists_coproduct_linearlyAdequate_surjective
         calc
           _ = ((kernel.ι q ≫ diagramG d).app X).hom zL := hmapZ
           _ = (diagramG d).app X z := by
-            show (diagramG d).app X (((kernel.ι q).app X).hom zL) = _
+            change (diagramG d).app X (((kernel.ι q).app X).hom zL) = _
             rw [hinc]
       exact hmapZ'.trans hzg
 

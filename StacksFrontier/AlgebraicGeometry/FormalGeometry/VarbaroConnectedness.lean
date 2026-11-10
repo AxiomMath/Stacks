@@ -387,7 +387,7 @@ theorem exists_mem_ringKrullDim_quotient_sup_span_singleton_le (K J : Ideal A) (
         rw [← WithBot.coe_one, ← WithBot.coe_add, top_add]
       rw [h1] at hdrop
       have h2 : (⊤ : ℕ∞) ≤ ((e + 1 : ℕ) : ℕ∞) := WithBot.coe_le_coe.mp hdrop
-      exact absurd h2 (not_le.mpr (ENat.coe_lt_top _))
+      exact absurd h2 (not_le.mpr (ENat.natCast_lt_top _))
     | coe b =>
       have : b + 1 ≤ e + 1 := by exact_mod_cast hdrop
       exact_mod_cast (by omega : b ≤ e)
@@ -457,7 +457,7 @@ theorem isConnected_zeroLocus_diff_of_krullDimToEInt_lt
   set c := minDimDisconnectingClosed (PrimeSpectrum A)
   set d := minDimIrreducibleComponent (PrimeSpectrum A)
   rcases Set.eq_empty_or_nonempty Z with rfl | hZne
-  · rw [Set.diff_empty] at hnc
+  · rw [Set.sdiff_empty] at hnc
     exact hnc (isConnected_zeroLocus I hI)
   have hmZ : closedPoint A ∈ Z := closedPoint_mem_of_isClosed hZ hZne
   set J := vanishingIdeal Z with hJdef
@@ -499,7 +499,7 @@ theorem isConnected_zeroLocus_diff_of_krullDimToEInt_lt
         intro w hw ⟨x, hx⟩
         have hlc : IsLocallyClosed (Subtype.val ⁻¹' ((Y \ Z) ∩ w) : Set U) := by
           refine IsLocallyClosed.preimage ?_ continuous_subtype_val
-          rw [Set.diff_eq]
+          rw [Set.sdiff_eq]
           exact ((isClosed_zeroLocus _).isLocallyClosed.inter
             hZ.isOpen_compl.isLocallyClosed).inter hw.isLocallyClosed
         have hxU : x ∈ U := fun hxm => hx.1.2 (Set.mem_singleton_iff.mp hxm ▸ hmZ)

@@ -52,7 +52,7 @@ def dehomogenize (hcb : c * b = g) : A →+* Localization.Away g :=
     (by simp)
     (fun {i j} ai aj => by
       simp only [AddMonoidHom.coe_comp, Function.comp_apply, AddMonoidHom.coe_mulRight,
-        RingHom.toAddMonoidHom_eq_coe, AddMonoidHom.coe_coe, AddSubmonoidClass.coe_subtype,
+        RingHom.toAddMonoidHom_eq_coe, AddMonoidHom.coe_ofClass, AddSubmonoidClass.coe_subtype,
         SetLike.coe_gMul, map_mul, pow_add, Units.val_mul]
       ring)).comp (DirectSum.decomposeRingEquiv 𝒜).toRingHom
 
@@ -93,7 +93,7 @@ theorem exists_isPrime_homogeneousCore_eq (hc : c ∈ 𝒜 (m + 1)) (hb : b ∈ 
       IsLocalization.AtPrime.to_map_mem_maximal_iff (Localization.AtPrime p) p]
   have hcore : p'.homogeneousCore 𝒜 = p.homogeneousCore 𝒜 := by
     apply HomogeneousIdeal.ext
-    show Ideal.span _ = Ideal.span _
+    change Ideal.span _ = Ideal.span _
     congr 1
     ext x
     simp only [Set.mem_image, Set.mem_preimage, SetLike.mem_coe]
@@ -170,10 +170,10 @@ theorem ringKrullDim_quotient_conePrime_le [Algebra.FiniteType k A] {d : ℕ} (_
     let φ : A →ₐ[k] 𝒜 0 :=
       { GradedRing.projZeroRingHom' 𝒜 with
         commutes' := fun r => Subtype.ext (by
-          show GradedRing.projZeroRingHom 𝒜 (algebraMap k A r) = algebraMap k A r
+          change GradedRing.projZeroRingHom 𝒜 (algebraMap k A r) = algebraMap k A r
           rw [GradedRing.projZeroRingHom_apply, DirectSum.decompose_of_mem_same 𝒜 (hk r)]) }
     refine Algebra.FiniteType.of_surjective φ fun a => ⟨a, Subtype.ext ?_⟩
-    show GradedRing.projZeroRingHom 𝒜 a = a
+    change GradedRing.projZeroRingHom 𝒜 a = a
     rw [GradedRing.projZeroRingHom_apply, DirectSum.decompose_of_mem_same 𝒜 a.2]
   have : IsScalarTower k (𝒜 0) (Away 𝒜 g) := IsScalarTower.of_algebraMap_eq fun _ => rfl
   have : Algebra.FiniteType k (Away 𝒜 g) :=
@@ -193,7 +193,7 @@ theorem ringKrullDim_quotient_conePrime_le [Algebra.FiniteType k A] {d : ℕ} (_
   let ψ : Away 𝒜 g →+* p.ResidueField :=
     (algebraMap (Localization.AtPrime p) p.ResidueField).comp (degreeZeroToAtPrime 𝒜 p hgp)
   have hker : ∀ z, ψ z = 0 ↔ z ∈ conePrime 𝒜 p hgp := fun z => by
-    show IsLocalRing.residue _ _ = 0 ↔ _
+    change IsLocalRing.residue _ _ = 0 ↔ _
     rw [IsLocalRing.residue_eq_zero_iff]
     rfl
   let ψbar : Away 𝒜 g ⧸ conePrime 𝒜 p hgp →+* p.ResidueField :=
@@ -207,11 +207,11 @@ theorem ringKrullDim_quotient_conePrime_le [Algebra.FiniteType k A] {d : ℕ} (_
   let f : FractionRing (Away 𝒜 g ⧸ conePrime 𝒜 p hgp) →ₐ[k] p.ResidueField :=
     { IsFractionRing.lift hψinj with
       commutes' := fun r => by
-        show IsFractionRing.lift hψinj (algebraMap (Away 𝒜 g ⧸ conePrime 𝒜 p hgp) _
+        change IsFractionRing.lift hψinj (algebraMap (Away 𝒜 g ⧸ conePrime 𝒜 p hgp) _
           (algebraMap k _ r)) = _
         rw [IsFractionRing.lift_algebraMap]
-        show ψ (fieldToAway k hk r) = algebraMap A p.ResidueField (algebraMap k A r)
-        show algebraMap (Localization.AtPrime p) p.ResidueField
+        change ψ (fieldToAway k hk r) = algebraMap A p.ResidueField (algebraMap k A r)
+        change algebraMap (Localization.AtPrime p) p.ResidueField
           (awayToAtPrime p hgp (algebraMap A (Localization.Away g) (algebraMap k A r))) = _
         rw [awayToAtPrime_algebraMap, ← IsScalarTower.algebraMap_apply] }
   exact_mod_cast Cardinal.toENat.monotone' (trdeg_le_of_injective f f.injective)

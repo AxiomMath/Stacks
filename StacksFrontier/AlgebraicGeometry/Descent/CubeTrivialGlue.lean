@@ -280,13 +280,13 @@ theorem eq_of_sectionAlong_eq_one (T : P.Opens)
       have hinj : Function.Injective ((δ ≫ p).app W) :=
         (ConcreteCategory.bijective_of_isIso ((δ ≫ p).app W)).1
       have h2 : (δ ≫ p).app W d = (δ ≫ p).app W 1 := by
-        show δ.app (p ⁻¹ᵁ W) (p.app W d) = δ.app (p ⁻¹ᵁ W) (p.app W 1)
+        change δ.app (p ⁻¹ᵁ W) (p.app W d) = δ.app (p ⁻¹ᵁ W) (p.app W 1)
         rw [hd, map_one, map_one]
         have hnat := congr($(δ.naturality (homOfLE hWT).op) (u : Γ(P, T)))
         simp only [CommRingCat.comp_apply] at hnat
-        show δ.app (p ⁻¹ᵁ W) (P.presheaf.map (homOfLE hWT).op (u : Γ(P, T))) = 1
+        change δ.app (p ⁻¹ᵁ W) (P.presheaf.map (homOfLE hWT).op (u : Γ(P, T))) = 1
         rw [hnat, h1, map_one]
-      show P.presheaf.map (homOfLE hWT).op (u : Γ(P, T)) = P.presheaf.map (homOfLE hWT).op 1
+      change P.presheaf.map (homOfLE hWT).op (u : Γ(P, T)) = P.presheaf.map (homOfLE hWT).op 1
       rw [← hd, hinj h2, map_one, map_one]
   calc a = (1 : Γ(P, T)) • a := (one_smul _ a).symm
     _ = b := by rw [← hu1]; exact hu
@@ -317,7 +317,7 @@ theorem exists_sectionAlong_eq_one (U : Z.Opens)
       (p ⁻¹ᵁ U) a ha hwu.unit V' h
     rwa [hwu.unit_spec] at this
   · rw [sectionAlong_smul]
-    show (δ ≫ p).app U w * _ = 1
+    change (δ ≫ p).app U w * _ = 1
     rw [hw]
     exact hv.val_inv_mul
 
@@ -342,9 +342,9 @@ theorem nonempty_iso_unit_of_cover
         exact ⟨W, hW, hxW, fun y hy => hWU hy⟩
       · exact hb z _ inf_le_left
       · exact hb w _ inf_le_right
-      · show sectionAlong δ L ε _ (L.presheaf.map (homOfLE inf_le_left).op (b z)) = 1
+      · change sectionAlong δ L ε _ (L.presheaf.map (homOfLE inf_le_left).op (b z)) = 1
         rw [sectionAlong_map, hbn, map_one]
-      · show sectionAlong δ L ε _ (L.presheaf.map (homOfLE inf_le_right).op (b w)) = 1
+      · change sectionAlong δ L ε _ (L.presheaf.map (homOfLE inf_le_right).op (b w)) = 1
         rw [sectionAlong_map, hbn, map_one])
   refine Stacks.SheafOfModules.nonempty_iso_unit_of_bijective_smul_on_cover (X := P.toRingedSpace)
     L (Stacks.SheafOfModules.sectionsOfTop L s) (fun z => p ⁻¹ᵁ U z)

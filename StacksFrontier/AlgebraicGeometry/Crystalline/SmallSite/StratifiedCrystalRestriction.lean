@@ -80,8 +80,7 @@ theorem evalEquiv_stratSectionsEquiv_crystalPointMap {A : AffineCrystallineThick
       ((crystalPointMap hp (stratCrystal E) h.hom).toAddMonoidHom.comp
         (LinearMap.lTensor _ (stratLimitEquiv E hM).symm.toLinearMap).toAddMonoidHom))
   change Φ z = z
-  induction z using TensorProduct.induction_on with
-  | zero => exact map_zero Φ
+  induction z using TensorProduct.inductionOn with
   | tmul b m =>
     have hs : Φ (b ⊗ₜ m) = b.val • E.evalEquiv h (stratSectionsEquiv E A
         (crysRestrict (stratCrystal E).obj h.hom

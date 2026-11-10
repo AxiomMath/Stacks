@@ -56,9 +56,9 @@ mixture is affordable around a *module* and not around the unit of a *tensor pro
 (tensorSheafUnit ((moduleRestriction X U).obj M)    ((moduleRestriction X U).obj L)).app V z =
 (tensorSheafUnit ((openSubspaceRestriction U).obj M) ((openSubspaceRestriction U).obj L)).app V z
 ```
-is `rfl`, and costs **267,731** — past the budget, so it cannot be stated as a lemma, and a declaration
-which quotes it inside a larger proof cannot either. (For comparison, the same crossing around a
-single module is 21,653, recorded in
+is `rfl`, and costs **267,731** — past the budget, so it cannot be stated as a lemma, and a
+declaration which quotes it inside a larger proof cannot either. (For comparison, the same crossing
+around a single module is 21,653, recorded in
 `StacksFrontier.AlgebraicGeometry.Modules.TensorOpenSubspaceRestriction`.) This is the same
 phenomenon that file records for the functor and morphism equalities, one `tensorSheafUnit`
 further in.

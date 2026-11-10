@@ -55,7 +55,7 @@ variable (U : D.X.Opens) [IsAffine U.toScheme]
 
 /-- The part of `H_univ` over a trivializing affine chart is an affine open. -/
 theorem isAffineOpen_chartDivisorOpen : IsAffineOpen (D.chartDivisorOpen U) := by
-  show IsAffineOpen (D.universalDivisor.subschemeι ⁻¹ᵁ (D.chartOpen U : D.parameterSpace.Opens))
+  change IsAffineOpen (D.universalDivisor.subschemeι ⁻¹ᵁ (D.chartOpen U : D.parameterSpace.Opens))
   have : IsOpenImmersion (D.universalDivisor.subschemeCover.f (D.chartOpen U)) :=
     D.universalDivisor.subschemeCover.map_prop _
   rw [← Scheme.IdealSheafData.opensRange_subschemeCover_map D.universalDivisor (D.chartOpen U)]
@@ -72,7 +72,7 @@ theorem chartΓEquiv_symm_apply
     (D.chartΓEquiv U).symm a =
       ((D.chartMap U).appLE (D.chartOpen U : D.parameterSpace.Opens) ⊤
         (Scheme.Hom.preimage_image_eq _ _).ge) a := by
-  show (((D.chartMap U).appIso ⊤).hom) a = _
+  change (((D.chartMap U).appIso ⊤).hom) a = _
   rw [Scheme.Hom.appIso_hom']
   rfl
 
@@ -102,7 +102,7 @@ theorem chartMvPolynomialEquiv_parameterBaseMap_appLE (b : Γ(D.parameterBase, �
         (D.parameterBaseMap.appLE ⊤ (D.chartOpen U : D.parameterSpace.Opens) le_top b) =
       (AffineSpace.ΓIso D.basisIndex U.toScheme).hom
         ((AffineSpace.map D.basisIndex (U.ι ≫ D.toBase)).appTop b) := by
-  show (AffineSpace.ΓIso D.basisIndex U.toScheme).hom
+  change (AffineSpace.ΓIso D.basisIndex U.toScheme).hom
       ((D.chartΓEquiv U).symm
         (D.parameterBaseMap.appLE ⊤ (D.chartOpen U : D.parameterSpace.Opens) le_top b)) = _
   congr 1
@@ -135,7 +135,7 @@ theorem chartDivisorParameterMap_apply (b : Γ(D.parameterBase, ⊤)) :
     D.chartDivisorParameterMap c b =
       Ideal.Quotient.mk _ ((AffineSpace.ΓIso D.basisIndex c.U.toScheme).hom
         ((AffineSpace.map D.basisIndex (c.U.ι ≫ D.toBase)).appTop b)) := by
-  show D.chartSubschemeΓEquiv c.U c.triv
+  change D.chartSubschemeΓEquiv c.U c.triv
       ((D.universalFamily.appLE ⊤ (D.chartDivisorOpen c.U) le_top) b) = _
   rw [D.universalFamily_appLE_chartDivisorOpen c, CommRingCat.comp_apply,
     D.chartSubschemeΓEquiv_subschemeι_app c.U c.triv,

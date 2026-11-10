@@ -99,7 +99,7 @@ theorem exists_isTerminal_fst_comp (hp𝒴 : p𝒴.IsFiberedInGroupoids)
     let g : (a ⋙ p𝒳).obj c.left.x ⟶ (a ⋙ p𝒳).obj y' :=
       eqToHom (c.left.hx.trans c.left.hy.symm) ≫ p𝒳.map (b.map u₂) ≫ eqToHom hy'.symm
     have hg : g ≫ (a ⋙ p𝒳).map k = (a ⋙ p𝒳).map u₁ := by
-      show g ≫ p𝒳.map (a.map k) = p𝒳.map (a.map u₁)
+      change g ≫ p𝒳.map (a.map k) = p𝒳.map (a.map u₁)
       have h1 : p𝒳.map (a.map k) = eqToHom hy' ≫ p𝒳.map tb.hom := hk
       have h2 : p𝒳.map (b.map u₂) ≫ p𝒳.map tb.hom =
           p𝒳.map c.left.iso.inv ≫ p𝒳.map (a.map u₁) := by
@@ -109,11 +109,11 @@ theorem exists_isTerminal_fst_comp (hp𝒴 : p𝒴.IsFiberedInGroupoids)
     obtain ⟨ma, ⟨hma₁, hma₂⟩, hmau⟩ := hp𝒴.unique_lift k u₁ g hg
     refine ⟨CostructuredArrow.homMk (Hom.mk' (P := c.left) (Q := P) ma u₂ ?_ ?_) ?_, trivial,
       fun m _ => ?_⟩
-    · show eqToHom c.left.hy.symm ≫ p𝒳.map (b.map u₂) ≫ eqToHom rfl =
+    · change eqToHom c.left.hy.symm ≫ p𝒳.map (b.map u₂) ≫ eqToHom rfl =
         eqToHom c.left.hx.symm ≫ (a ⋙ p𝒳).map ma ≫ eqToHom hy'
       rw [hma₁]
       simp [g]
-    · show a.map ma ≫ φ = c.left.iso.hom ≫ b.map u₂
+    · change a.map ma ≫ φ = c.left.iso.hom ≫ b.map u₂
       refine (hp𝒳.unique_lift tb.hom (a.map u₁) (p𝒳.map (a.map ma ≫ φ)) ?_).unique
         ⟨rfl, ?_⟩ ⟨?_, ?_⟩
       · rw [← p𝒳.map_comp, Category.assoc, hφ₂, ← a.map_comp, hma₂]
@@ -122,19 +122,19 @@ theorem exists_isTerminal_fst_comp (hp𝒴 : p𝒴.IsFiberedInGroupoids)
           show p𝒳.map (a.map ma) = g from hma₁]
         simp [g]
       · rw [Category.assoc, hu₂, Iso.hom_inv_id_assoc]
-    · show a.map ma ≫ a.map k ≫ ta.hom = c.hom
+    · change a.map ma ≫ a.map k ≫ ta.hom = c.hom
       rw [← a.map_comp_assoc, hma₂, hu₁]
     · -- uniqueness
       have hm : (fst _ _ _ a b ⋙ a).map m.left ≫ (a.map k ≫ ta.hom) = c.hom := CostructuredArrow.w m
       have hmk : m.left.a ≫ k = u₁ := congrArg CommaMorphism.left
         (hta.hom_ext (CostructuredArrow.homMk (m.left.a ≫ k) (by
-          show a.map (m.left.a ≫ k) ≫ ta.hom = c.hom
+          change a.map (m.left.a ≫ k) ≫ ta.hom = c.hom
           rw [a.map_comp, Category.assoc]
           exact hm) : ca ⟶ ta) (hta.from ca))
       have hmw : a.map m.left.a ≫ φ = c.left.iso.hom ≫ b.map m.left.b := m.left.w
       have hmb : m.left.b = u₂ := congrArg CommaMorphism.left
         (htb.hom_ext (CostructuredArrow.homMk m.left.b (by
-          show b.map m.left.b ≫ tb.hom = c.left.iso.inv ≫ a.map u₁
+          change b.map m.left.b ≫ tb.hom = c.left.iso.inv ≫ a.map u₁
           have hb' : b.map m.left.b = c.left.iso.inv ≫ a.map m.left.a ≫ φ := by
             rw [hmw, Iso.inv_hom_id_assoc]
           rw [hb', Category.assoc, Category.assoc, hφ₂, ← a.map_comp, hmk]) :
@@ -143,7 +143,7 @@ theorem exists_isTerminal_fst_comp (hp𝒴 : p𝒴.IsFiberedInGroupoids)
         refine hmau m.left.a ⟨?_, hmk⟩
         have h1 := Hom.hbase_eq m.left
         have h2 := Hom.hbase_eq_snd m.left
-        show (a ⋙ p𝒳).map m.left.a = g
+        change (a ⋙ p𝒳).map m.left.a = g
         have h3 : (a ⋙ p𝒳).map m.left.a =
             eqToHom c.left.hx ≫ m.left.hbase ≫ eqToHom hy'.symm := by
           rw [h1]

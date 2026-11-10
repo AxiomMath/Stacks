@@ -73,7 +73,7 @@ theorem uncurry_map_inv_comp_map_hom_app_comp_obj_map_hom {C' E : Type*} [Catego
     [Category E] (S : C ⥤ C' ⥤ E) {a a' : C} {b b' : C'} (e₁ : a ≅ a') (e₂ : b ≅ b') :
     (Functor.uncurry.obj S).map ((e₁.inv, e₂.inv) : ((a', b') : C × C') ⟶ (a, b)) ≫
         (S.map e₁.hom).app b ≫ (S.obj a').map e₂.hom = 𝟙 _ := by
-  show ((S.map e₁.inv).app b' ≫ (S.obj a).map e₂.inv) ≫ (S.map e₁.hom).app b ≫
+  change ((S.map e₁.inv).app b' ≫ (S.obj a).map e₂.inv) ≫ (S.map e₁.hom).app b ≫
     (S.obj a').map e₂.hom = 𝟙 _
   rw [Category.assoc, ← Category.assoc ((S.obj a).map e₂.inv), (S.map e₁.hom).naturality e₂.inv,
     Category.assoc, ← Category.assoc, ← NatTrans.comp_app, ← Functor.map_comp, Iso.inv_hom_id,

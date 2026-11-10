@@ -651,7 +651,7 @@ private lemma exists_prime_gt_of_prime_quotient
     {A₁ C F : Type*} [CommRing A₁] [Nontrivial A₁] [CommRing C] [Algebra A₁ C]
     [CommRing F] [Algebra C F] (M : Submonoid C) [IsLocalization M F]
     (hMdef : M = Algebra.algebraMapSubmonoid C (nonZeroDivisors A₁))
-    (q : Ideal C) (c : C) (P : Ideal F) (hP : P.IsPrime)
+    (q : Ideal C) (c : C) (P : Ideal F)
     (hPq : P.comap (algebraMap C F) ≤ q)
     (j : Ideal (C ⧸ P.comap (algebraMap C F))) (hj : j.IsPrime)
     (hjq : j ≤ q.map (Ideal.Quotient.mk _))
@@ -966,11 +966,10 @@ private lemma exists_gt_mem_of_not_isMaximal
     (M : Submonoid C) [IsLocalization M F]
     (hMdef : M = Algebra.algebraMapSubmonoid C (nonZeroDivisors A₁))
     (hαft : (algebraMap A₁ C).FiniteType)
-    (hαinj : Function.Injective (algebraMap A₁ C))
     (q : PrimeSpectrum C) [q.asIdeal.IsMaximal]
     (hqover : q.asIdeal.comap (algebraMap A₁ C) = IsLocalRing.maximalIdeal A₁)
     (hmAne : IsLocalRing.maximalIdeal A₁ ≠ (⊥ : Ideal A₁))
-    (c : C) (hcne : c ≠ 0)
+    (c : C)
     (hgenericComap : ∀ (Q : Ideal F) [Q.IsPrime],
       (Q.comap (algebraMap C F)).comap (algebraMap A₁ C) = ⊥)
     (P : Ideal F)
@@ -1074,7 +1073,7 @@ private lemma exists_gt_mem_of_not_isMaximal
   obtain ⟨jNew, hjNew, hjNewne, hjNewq, hjNewA, hcnotjNew⟩ :=
     exists_isPrime_le_comap_eq_bot_notMem M_R rfl hαRinj qR hqRover hmAne hposG hgenericComapR
       hcGne
-  exact exists_prime_gt_of_prime_quotient M hMdef q.asIdeal c P hP.1 hp₂q jNew hjNew
+  exact exists_prime_gt_of_prime_quotient M hMdef q.asIdeal c P hp₂q jNew hjNew
     hjNewq (by rwa [Ideal.comap_comap]) hcnotjNew hjNewne
 
 private lemma exists_isMaximal_comap_le_notMem
@@ -1091,7 +1090,7 @@ private lemma exists_isMaximal_comap_le_notMem
     (hpos : 0 < ringKrullDim ((⊥ : Ideal A₁).Fiber C))
     (hgenericComap : ∀ (Q : Ideal F) [Q.IsPrime],
       (Q.comap (algebraMap C F)).comap (algebraMap A₁ C) = ⊥)
-    (c : C) (hcne : c ≠ 0) (hcF : algebraMap C F c ≠ 0) :
+    (c : C) (hcF : algebraMap C F c ≠ 0) :
     ∃ P : Ideal F, P.IsMaximal ∧ P.comap (algebraMap C F) ≤ q.asIdeal ∧
       algebraMap C F c ∉ P := by
   subst hMdef
@@ -1110,8 +1109,8 @@ private lemma exists_isMaximal_comap_le_notMem
       ⟨pF, inferInstance, by rwa [hpFunder], fun hc => hcnotp₁ (hpFunder ▸ hc)⟩
   refine ⟨P, ?_, hP.2⟩
   by_contra hnot
-  obtain ⟨Q, hQE, hPQ⟩ := exists_gt_mem_of_not_isMaximal _ rfl hαft hαinj q hqover hmAne c
-    hcne hgenericComap P hP hnot
+  obtain ⟨Q, hQE, hPQ⟩ := exists_gt_mem_of_not_isMaximal _ rfl hαft q hqover hmAne c
+    hgenericComap P hP hnot
   exact hPmax Q hQE hPQ
 
 private lemma eq_comap_of_isMaximal_of_comap_le {C F : Type u} [CommRing C] [CommRing F]
@@ -1300,7 +1299,7 @@ private lemma exists_closed_specialization_affine_integral
     rw [hηpoint] at hd hposGeneric
     exact hposGeneric.trans_eq hd
   obtain ⟨P, hmaximal, hPq, hPc⟩ := exists_isMaximal_comap_le_notMem M rfl hαft hαinj q
-    hqover hmAne hposGenericRing hgenericComap c hcne hcFne
+    hqover hmAne hposGenericRing hgenericComap c hcFne
   have : Ideal.IsPrime P := hmaximal.isPrime
   let p₂ : Ideal C := Ideal.comap fC P
   have : Ideal.IsPrime p₂ := Ideal.IsPrime.comap fC
@@ -1547,7 +1546,7 @@ private lemma exists_closed_specialization_near_distinct_base
     {X S : Scheme.{u}} (f : X ⟶ S) [LocallyOfFiniteType f]
     (x x' : X) (hxx' : x ⤳ x')
     (hx' : IsClosed ({f.asFiber x'} : Set (f.fiber (f x'))))
-    (hbase : f x ≠ f x') (hq : ¬ f.QuasiFiniteAt x)
+    (hbase : f x ≠ f x')
     (U : Set (f.fiber (f x))) (hU : IsOpen U) (hxU : f.asFiber x ∈ U) :
     ∃ y : f.fiber (f x), y ∈ U ∧
       IsClosed ({y} : Set (f.fiber (f x))) ∧
@@ -1721,7 +1720,7 @@ public theorem closure_closedPoints_between_fiber_eq
     · exact dense_of_initial_point_closed_in_fiber f x x' hxx'
         hq.isClopen_singleton_asFiber.isClosed
     · exact dense_of_closed_specializations_in_every_neighborhood f x x'
-        (exists_closed_specialization_near_distinct_base f x x' hxx' hx' hbase hq)
+        (exists_closed_specialization_near_distinct_base f x x' hxx' hx' hbase)
 
 /-- **Stacks 053U**, under the hypotheses of the tag and no others. Let `f : X ⟶ S` be locally
 of finite type, let `x ⤳ x'` be a specialization in `X` with `x'` closed in its fibre

@@ -97,7 +97,7 @@ lemma sliceSingletonCechProj_naturality {n m : SimplexCategory} (g : n ⟶ m) :
         sliceSingletonCechProj.{w} h H m =
       sliceSingletonCechProj.{w} h H n ≫
         (powerSections (Over.mk h) H).map g := by
-  show (Pi.lift (fun i : Fin (m.len + 1) → PUnit.{w + 1} =>
+  change (Pi.lift (fun i : Fin (m.len + 1) → PUnit.{w + 1} =>
       Pi.π (fun _ : (Fin (n.len + 1) → PUnit.{w + 1}) =>
           (powerSections (Over.mk h) H).obj n)
         (fun a => i (g.toOrderHom a)) ≫

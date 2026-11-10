@@ -113,7 +113,7 @@ theorem holdsOnEveryEtaleChart_algebraicSpaceMap_iff_toYonedaId
         ((spacesOverSmallerBaseFunctor B U.left.1 S U.left.2 hS U.hom).obj ⟨X, hX⟩)).hom ↔
       Space.HoldsOnEveryEtaleChart B U.left.1 U.left.2 P
         (Space.toYonedaId B U.left.1 U.left.2 X) := by
-  show Space.HoldsOnEveryEtaleChart B S hS P
+  change Space.HoldsOnEveryEtaleChart B S hS P
       ((spacesOverSmallerBaseFunctor B U.left.1 S U.left.2 hS U.hom).obj ⟨X, hX⟩).1.hom ↔ _
   rw [← Space.holdsOnEveryEtaleChart_iso_comp_iff B S hS P
       ((spacesOverSmallerBaseFunctorForgetIso B U.left.1 S U.left.2 hS U.hom).inv.app ⟨X, hX⟩) _,
@@ -147,7 +147,7 @@ theorem exists_nonempty_section_of_isSurjective (U : BigFppfOver B S hS)
       ((spacesOverSmallerBaseFunctorForgetIso B U.left.1 S U.left.2 hS U.hom).hom.app ⟨X, hX⟩)
       q)
   refine ⟨r.siteObject, ?_, ⟨r.value⟩⟩
-  show Nonempty (Spec (.of r.carrier))
+  change Nonempty (Spec (.of r.carrier))
   infer_instance
 
 namespace FiniteHilbert
@@ -248,7 +248,7 @@ theorem exists_lciLocus_of_isFieldObject
         rw [Object.coverToBase_eq_toTautological]
         rfl }
   have hmap : D.map.hom = f := by
-    show yonedaEquiv.symm (PresheafOfCategories.sectionOfObj e
+    change yonedaEquiv.symm (PresheafOfCategories.sectionOfObj e
       ⟨(Over.map U.hom).obj Z, Z, x, rfl, hx, α, hα⟩ rfl) = f
     rw [hsec]
     exact yonedaEquiv.symm_apply_apply f

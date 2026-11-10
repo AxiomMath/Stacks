@@ -94,7 +94,7 @@ theorem isPullback_schemeSpaceMap_of_isPullback {A C D E : BigFppfOver B integer
     IsPullback (schemeSpaceMap a) (schemeSpaceMap b) (schemeSpaceMap c) (schemeSpaceMap d) := by
   refine IsPullback.of_map (ObjectProperty.ι _) ?_ ?_
   · exact ObjectProperty.hom_ext _ (by
-      show yoneda.map a ≫ yoneda.map c = yoneda.map b ≫ yoneda.map d
+      change yoneda.map a ≫ yoneda.map c = yoneda.map b ≫ yoneda.map d
       rw [← Functor.map_comp, ← Functor.map_comp, H.w])
   · exact H.map yoneda
 
@@ -302,7 +302,7 @@ theorem exists_isOpen_isStructureContraction_of_chart (X Y : CurveFamily B hZ)
   have hγq : γ ≫ qY = qX := by
     apply yoneda.map_injective
     rw [Functor.map_comp]
-    show (schemeSpaceMap γ ≫ schemeSpaceMap qY).hom = (schemeSpaceMap qX).hom
+    change (schemeSpaceMap γ ≫ schemeSpaceMap qY).hom = (schemeSpaceMap qX).hom
     rw [hγ, sqYg.lift_snd]
   have cX : IsPullback pX (schemeSpaceMap γ) c pY :=
     .of_bot (by rwa [hγ, sqYg.lift_snd, hc]) (by rw [hγ, sqYg.lift_fst]) sqYg
@@ -366,7 +366,7 @@ theorem exists_isOpen_isStructureContraction_of_chart (X Y : CurveFamily B hZ)
     rw [← schemeSpaceMap_comp, ← schemeSpaceMap_comp]
     congr 1
     apply (𝒯).map_injective
-    show (pullback.snd ((𝒯).map h) (U₀.ι ≫ (𝒯).map φ) ≫ U₀.ι) ≫ (𝒯).map φ =
+    change (pullback.snd ((𝒯).map h) (U₀.ι ≫ (𝒯).map φ) ≫ U₀.ι) ≫ (𝒯).map φ =
       pullback.fst ((𝒯).map h) (U₀.ι ≫ (𝒯).map φ) ≫ (𝒯).map h
     exact (Category.assoc _ _ _).trans pullback.condition.symm
   have cX' := isPullback_of_isPullback_of_isPullback hc sqX' sqY' hc₁ hc₂

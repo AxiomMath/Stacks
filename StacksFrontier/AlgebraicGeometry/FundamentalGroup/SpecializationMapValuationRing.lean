@@ -150,13 +150,13 @@ theorem exists_isSpecializationMap_isomorphic_over_valuationRing
   have hηq : η.hom ≫ q = p' := by
     have h : CommRingCat.ofHom φ ≫ CommRingCat.ofHom (algebraMap V s'.residueField)
         = Spec.preimage p' := CommRingCat.hom_ext (by ext a; rfl)
-    show Spec.map (CommRingCat.ofHom (algebraMap V s'.residueField))
+    change Spec.map (CommRingCat.ofHom (algebraMap V s'.residueField))
       ≫ Spec.map (CommRingCat.ofHom φ) = p'
     rw [← Spec.map_comp, h, Spec.map_preimage]
   have hηgeneric : η.hom default = genericPoint (Spec (.of V)) := by
     have hdef : (default : Spec (.of s'.residueField))
         = genericPoint (Spec (.of s'.residueField)) := Subsingleton.elim _ _
-    show Spec.map (CommRingCat.ofHom (algebraMap V s'.residueField))
+    change Spec.map (CommRingCat.ofHom (algebraMap V s'.residueField))
       (default : Spec (.of s'.residueField)) = _
     rw [hdef, genericPoint_eq_bot_of_affine (CommRingCat.of V)]
     refine specMap_genericPoint_eq_of_ker (algebraMap V s'.residueField) (⊥ : Ideal V) fun a ↦ ?_
@@ -201,7 +201,7 @@ theorem exists_isSpecializationMap_isomorphic_over_valuationRing
   have hspRform : ∀ γ, etaleFundamentalGroupMap iVo yo (spR γ)
       = etaleFundamentalGroupMulEquiv tV (etaleFundamentalGroupMap iVη yη γ) := by
     intro γ
-    show etaleFundamentalGroupMap iVo yo
+    change etaleFundamentalGroupMap iVo yo
       ((etaleFundamentalGroupMulEquivOfIsEquivalence iVo yo).symm
         (etaleFundamentalGroupMulEquiv tV (etaleFundamentalGroupMap iVη yη γ))) = _
     rw [← etaleFundamentalGroupMulEquivOfIsEquivalence_apply]
@@ -217,11 +217,11 @@ theorem exists_isSpecializationMap_isomorphic_over_valuationRing
     rw [show Spec.preimage o.hom = CommRingCat.ofHom (residue V) from Spec.preimage_map _]
     exact residue_surjective
   refine ⟨r, η, o, yη, yo, spR, hηgeneric, hoclosed, hηfrac, hosurj, ?_, ?_, hspR, ?_⟩
-  · show gA (q (η.hom default)) = s'.hom default
+  · change gA (q (η.hom default)) = s'.hom default
     rw [hηA]
     have h := congrArg (fun w => w default) hp'
     simpa [gA, Scheme.Hom.comp_base] using h
-  · show gA (q (o.hom default)) = s.hom default
+  · change gA (q (o.hom default)) = s.hom default
     rw [hoclosed, hqc, ← hclosed]
     have h := congrArg (fun w => w (closedPoint s.residueField)) hp
     exact h.trans (congrArg s.hom (Subsingleton.elim _ _))
@@ -252,7 +252,7 @@ theorem exists_isSpecializationMap_isomorphic_over_valuationRing
       rw [show k = eV.hom ≫ j from rfl, ← Category.assoc, e]
       exact (IsPullback.of_hasPullback fV g.hom).paste_horiz hj
     have hclosedA : sA.hom default = (o.map q).hom default := by
-      show p default = q (o.hom default)
+      change p default = q (o.hom default)
       rw [hoclosed, hqc, ← hclosed]
       exact congrArg p (Subsingleton.elim _ _)
     have hgenericA : sA'.hom default = (η.map q).hom default := hηA.symm
@@ -272,7 +272,7 @@ theorem exists_isSpecializationMap_isomorphic_over_valuationRing
     refine exists_intertwining_of_factorizations iA' iVη k a b hab ha hb hk
       x' x yη yo zW dA dV sp spR ?_ ?_
     · intro γ
-      show sp γ = (etaleFundamentalGroupMulEquivOfIsEquivalence iA x).symm
+      change sp γ = (etaleFundamentalGroupMulEquivOfIsEquivalence iA x).symm
         (etaleFundamentalGroupMulEquiv t (etaleFundamentalGroupMap iA' x' γ))
       rw [← hform γ, ← etaleFundamentalGroupMulEquivOfIsEquivalence_apply]
       exact ((etaleFundamentalGroupMulEquivOfIsEquivalence iA x).symm_apply_apply (sp γ)).symm

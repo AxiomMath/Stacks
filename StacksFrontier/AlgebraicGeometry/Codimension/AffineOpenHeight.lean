@@ -110,7 +110,7 @@ theorem exists_mem_minimalPrimes_height_eq_of_isAffineOpen {X : Scheme.{u}} (U :
     obtain ⟨y, hy⟩ := hxU
     obtain ⟨p, hp⟩ := (Scheme.homeoOfIso U.toScheme.isoSpec.symm).surjective y
     have hfp : f p = x := by
-      show U.ι.base (U.toScheme.isoSpec.inv.base p) = x
+      change U.ι.base (U.toScheme.isoSpec.inv.base p) = x
       rw [show U.toScheme.isoSpec.inv.base p = y from hp, hy]
     exact ⟨p, by rw [Set.mem_preimage, hfp]; exact hxZ⟩
   exact ⟨PrimeSpectrum.vanishingIdeal (f ⁻¹' (Z : Set X)),

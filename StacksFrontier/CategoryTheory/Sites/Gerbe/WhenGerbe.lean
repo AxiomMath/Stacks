@@ -317,7 +317,8 @@ for one such factorization exactly when it holds for every one, which is the sou
 The equivalence `a` is asked to be an equivalence over `𝒞`, as the source asks and as Stacks 06N7
 delivers, not over `𝒴`: `CategoryTheory.isGerbeOver_iff_of_isEquivalenceOver`, the relative
 Stacks 06P0, assumes the latter, and 06N7's factorization does not satisfy it — see
-`StacksFrontier.CategoryTheory.Sites.Gerbe.BaseEquivalence`, which supplies the version used here. -/
+`StacksFrontier.CategoryTheory.Sites.Gerbe.BaseEquivalence`, which supplies the version used here.
+-/
 @[stacks 06P1]
 theorem isGerbe_of_factorization_iff_isGerbeOver {𝒳' : Type u₄} [Category.{v₄} 𝒳']
     {F' : 𝒳' ⥤ 𝒴} {a : 𝒳 ⥤ 𝒳'} (ha : a ⋙ F' = F)

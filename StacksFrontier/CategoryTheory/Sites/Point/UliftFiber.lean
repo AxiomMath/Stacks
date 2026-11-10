@@ -39,8 +39,8 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
 fibre of its universe lift commutes with the projections to the site, on the nose. -/
 theorem uliftElements_comp_π :
     (Functor.Elements.uliftEquiv.{w', w} Φ.fiber).functor ⋙
-        CategoryOfElements.π (Φ.ulift.{w'} (J := J)).fiber =
-      CategoryOfElements.π Φ.fiber :=
+        Functor.Elements.π (Φ.ulift.{w'} (J := J)).fiber =
+      Functor.Elements.π Φ.fiber :=
   rfl
 
 /-- **The stalk of a presheaf at the universe lift of a point is its stalk at the point.** The

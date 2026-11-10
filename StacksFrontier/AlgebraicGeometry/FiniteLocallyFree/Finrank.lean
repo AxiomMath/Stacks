@@ -156,7 +156,7 @@ theorem isFiniteLocallyFreeOfRank_iff_forall_finrank_eq {X S : Scheme.{u}} (f : 
     have h3 := (isFiniteLocallyFreeOfRank_iff_forall_finrank_eq_of_isAffine _ r).mp h2 y
     rwa [Scheme.Hom.finrank_pullback_snd, hy] at h3
   · intro h i
-    show IsFiniteLocallyFreeOfRank (pullback.snd f (S.affineCover.f i)) r
+    change IsFiniteLocallyFreeOfRank (pullback.snd f (S.affineCover.f i)) r
     refine (isFiniteLocallyFreeOfRank_iff_forall_finrank_eq_of_isAffine _ r).mpr fun y => ?_
     rw [Scheme.Hom.finrank_pullback_snd]
     exact h _

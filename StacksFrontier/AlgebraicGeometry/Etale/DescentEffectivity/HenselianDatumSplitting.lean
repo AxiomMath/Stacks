@@ -168,7 +168,7 @@ lemma isCompl_opensRange_of_isIso_coprodDesc {Y Y' : Scheme.{u}} (a : Y ⟶ T) (
     (Set.eq_empty_iff_forall_notMem.mpr ?_)
   rintro x ⟨⟨y, hy⟩, ⟨z, hz⟩⟩
   refine inl_ne_inr Y Y' y z ((Scheme.homeoOfIso (asIso (coprod.desc a b))).injective ?_)
-  show (coprod.desc a b) ((coprod.inl : Y ⟶ Y ⨿ Y') y) =
+  change (coprod.desc a b) ((coprod.inl : Y ⟶ Y ⨿ Y') y) =
     (coprod.desc a b) ((coprod.inr : Y' ⟶ Y ⨿ Y') z)
   rw [← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply, coprod.inl_desc, coprod.inr_desc,
     hy, hz]
@@ -180,7 +180,7 @@ theorem isTransitionInvariant_of_isCompl (W' : D.over.left.Opens) (hWW' : IsComp
     (hW : D.IsTransitionInvariant W) : D.IsTransitionInvariant W' := by
   refine le_antisymm (fun y hy ↦ ?_) (fun y hy ↦ ?_)
   · obtain ⟨z, hz, rfl⟩ := hy
-    show pullback.snd f (D.over.hom ≫ f) (D.transitionPullbackIso.hom z) ∈ W'
+    change pullback.snd f (D.over.hom ≫ f) (D.transitionPullbackIso.hom z) ∈ W'
     rcases mem_or_mem_of_isCompl hWW'
         (pullback.snd f (D.over.hom ≫ f) (D.transitionPullbackIso.hom z)) with h | h
     · refine absurd ?_ (false_of_mem_of_mem_of_isCompl hWW' · hz)
@@ -190,7 +190,7 @@ theorem isTransitionInvariant_of_isCompl (W' : D.over.left.Opens) (hWW' : IsComp
     · exact h
   · have e := Scheme.inv_hom_apply D.transitionPullbackIso y
     refine ⟨D.transitionPullbackIso.inv y, ?_, e⟩
-    show pullback.fst (D.over.hom ≫ f) f (D.transitionPullbackIso.inv y) ∈ W'
+    change pullback.fst (D.over.hom ≫ f) f (D.transitionPullbackIso.inv y) ∈ W'
     rcases mem_or_mem_of_isCompl hWW'
         (pullback.fst (D.over.hom ≫ f) f (D.transitionPullbackIso.inv y)) with h | h
     · refine absurd ?_ (false_of_mem_of_mem_of_isCompl hWW' · hy)
@@ -236,7 +236,7 @@ theorem isTransitionInvariant_of_isFinite_of_isEmpty_closedFiber
         rw [D.range_opensTargetMap U]; exact hU
       refine ⟨t, ?_⟩
       rw [Scheme.Hom.comp_base]
-      show D.transitionPullbackIso.inv (D.opensTargetMap U t) = y
+      change D.transitionPullbackIso.inv (D.opensTargetMap U t) = y
       rw [ht, Scheme.hom_inv_apply]
     rcases mem_or_mem_of_isCompl hWW'
         (pullback.snd f (D.over.hom ≫ f) (D.transitionPullbackIso.hom y)) with h | h
@@ -248,7 +248,7 @@ theorem isTransitionInvariant_of_isFinite_of_isEmpty_closedFiber
     simp only [Category.assoc]
     rw [← Category.assoc D.transitionPullbackIso.inv,
       D.transitionPullbackIso_inv_comp_pullbackSnd]
-    simpa using congrArg (· ≫ D.over.hom ≫ f) (D.opensTargetMap_comp_snd W')
+    simp
   have hfib' : IsEmpty (pullback ((D.opensTargetMap W' ≫ D.transitionPullbackIso.inv) ≫
         (pullback.snd (D.over.hom ≫ f) f ≫ f))
       (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I))) : Scheme.{u}) :=
@@ -272,7 +272,7 @@ theorem isTransitionInvariant_of_isFinite_of_isEmpty_closedFiber
     rw [Scheme.Hom.comp_base] at ht
     change D.transitionPullbackIso.inv (D.opensTargetMap W t) = z at ht
     rw [← ht, Scheme.inv_hom_apply]
-  show pullback.snd f (D.over.hom ≫ f) (D.transitionPullbackIso.hom z) ∈ W
+  change pullback.snd f (D.over.hom ≫ f) (D.transitionPullbackIso.hom z) ∈ W
   rw [ht']
   have : D.opensTargetMap W t ∈ Set.range (D.opensTargetMap W).base := ⟨t, rfl⟩
   rwa [D.range_opensTargetMap W] at this
@@ -548,13 +548,13 @@ def isColimitBinaryCofanRestrictOpenHom (W' : D.over.left.Opens) (hWW' : IsCompl
 /-- The restriction of an étale descent datum to an invariant open is étale over `X`. -/
 lemma etale_restrictOpen_over_hom (hW : D.IsTransitionInvariant W) [Etale D.over.hom] :
     Etale (D.restrictOpen W hW).over.hom := by
-  show Etale (W.ι ≫ D.over.hom)
+  change Etale (W.ι ≫ D.over.hom)
   infer_instance
 
 /-- The restriction of a separated descent datum to an invariant open is separated over `X`. -/
 lemma isSeparated_restrictOpen_over_hom (hW : D.IsTransitionInvariant W)
     [IsSeparated D.over.hom] : IsSeparated (D.restrictOpen W hW).over.hom := by
-  show IsSeparated (W.ι ≫ D.over.hom)
+  change IsSeparated (W.ι ≫ D.over.hom)
   infer_instance
 
 /-- The restriction of a quasi-compact descent datum to an invariant open with open complement
@@ -569,7 +569,7 @@ lemma quasiCompact_restrictOpen_over_hom (W' : D.over.left.Opens) (hWW' : IsComp
     refine IsClosedImmersion.of_isPreimmersion W.ι ?_
     rw [Scheme.Opens.range_ι, hset]
     exact W'.isOpen.isClosed_compl
-  show QuasiCompact (W.ι ≫ D.over.hom)
+  change QuasiCompact (W.ι ≫ D.over.hom)
   infer_instance
 
 /-- An étale descent datum, as an object of `AlgebraicGeometry.EtaleDescentData`. -/

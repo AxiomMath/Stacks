@@ -103,7 +103,7 @@ theorem principalDivisorCycle_pow (C : ChowSituation.{u}) {X : Scheme.{u}} (p : 
   apply Subtype.ext
   apply Function.locallyFinsuppWithin.ext
   intro z
-  show (principalDivisorCycle C p hn (g ^ m) : AlgebraicCycle X ℤ) z =
+  change (principalDivisorCycle C p hn (g ^ m) : AlgebraicCycle X ℤ) z =
     (((m : ℤ) • principalDivisorCycle C p hn g : CycleGroup C p (n - 1)) : AlgebraicCycle X ℤ) z
   rw [principalDivisorCycle_apply C p hn (g ^ m) z, X.ord_pow hg m z]
   simp [principalDivisorCycle_apply C p hn g z]
@@ -133,7 +133,7 @@ theorem properPushforward_principalDivisorCycle_algebraMap (C : ChowSituation.{u
   let _ : Algebra Y.functionField X.functionField := (dominantFunctionFieldMap p).toAlgebra
   have hga : algebraMap Y.functionField X.functionField g ≠ 0 :=
     fun h ↦ hg ((map_eq_zero_iff _ (algebraMap Y.functionField X.functionField).injective).1 h)
-  show properPushforward C sX sY p hp (n - 1)
+  change properPushforward C sX sY p hp (n - 1)
       (principalDivisorCycle C sX hnX (algebraMap Y.functionField X.functionField g)) =
     (Module.finrank Y.functionField X.functionField : ℤ) • principalDivisorCycle C sY hnY g
   rw [properPushforward_principalDivisorCycle C sX sY hnX hnY p hp _ hga,

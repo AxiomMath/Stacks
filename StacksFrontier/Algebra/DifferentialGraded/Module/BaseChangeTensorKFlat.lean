@@ -178,7 +178,7 @@ total degree `p + q`. -/
 theorem absFiberEquiv_lof (p q : ℤ) (x : M.grading p ⊗[R] C.grading q) :
     absFiberEquiv M C (DirectSum.lof R _ _ (p, q) x) =
       DirectSum.lof R _ _ (p + q) (DirectSum.lof R _ _ ⟨(p, q), rfl⟩ x) := by
-  show DirectSum.sigmaFiberAddEquiv (fun pq : ℤ × ℤ ↦ pq.1 + pq.2)
+  change DirectSum.sigmaFiberAddEquiv (fun pq : ℤ × ℤ ↦ pq.1 + pq.2)
       (DirectSum.of (fun pq : ℤ × ℤ ↦ M.grading pq.1 ⊗[R] C.grading pq.2) (p, q) x) = _
   exact DirectSum.sigmaFiberAddEquiv_of
     (β := fun pq : ℤ × ℤ ↦ M.grading pq.1 ⊗[R] C.grading pq.2)
@@ -222,8 +222,7 @@ theorem absFiberMap_mem (n : ℤ) (x : absTotalComponents M C n) :
   | zero => simp
   | add x y hx hy => simpa using (absTensorGrading M C n).add_mem hx hy
   | of pq x =>
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simpa using (absTensorGrading M C n).add_mem hx hy
     | tmul a b =>
       rw [← DirectSum.lof_eq_of (R := R), absFiberMap_lof_tmul]
@@ -270,7 +269,7 @@ theorem absGradingEquiv_coe (n : ℤ) (x : absTensorGrading M C n) :
         (DirectSum.lof R ℤ (absTotalComponents M C) n y) =
       DirectSum.lof R ℤ (fun i ↦ absTensorGrading M C i) n (absComponentEquiv M C n y) by
     simpa [absGradingEquiv, absComponentEquiv_coe, absFiberMap] using h
-  show (DirectSum.lmap (fun i ↦ (absComponentEquiv M C i).toLinearMap))
+  change (DirectSum.lmap (fun i ↦ (absComponentEquiv M C i).toLinearMap))
     (DirectSum.lof R ℤ (absTotalComponents M C) n y) = _
   simp
 
@@ -339,9 +338,8 @@ theorem absTensorDifferential_sq_tmul (p : ℤ) (a : M.grading p) (b : C.A) :
 theorem absTensorDifferential_sq :
     absTensorDifferential M C ∘ₗ absTensorDifferential M C = 0 := by
   apply LinearMap.ext; intro x
-  show absTensorDifferential M C (absTensorDifferential M C x) = 0
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  change absTensorDifferential M C (absTensorDifferential M C x) = 0
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp [map_add, hx, hy]
   | tmul a b =>
     induction a using DirectSum.Decomposition.inductionOn M.grading with
@@ -365,7 +363,7 @@ attribute [local instance] absTensorRightScalarTower
 /-- The right action of `b` on a pure tensor `x ⊗ y` is `x ⊗ (y * b)`. -/
 theorem absTensor_smul_tmul (x : M.M) (y b : C.A) :
     MulOpposite.op b • (x ⊗ₜ[R] y) = x ⊗ₜ[R] (y * b) := by
-  show (TensorProduct.comm R C.A M.M)
+  change (TensorProduct.comm R C.A M.M)
     (MulOpposite.op b • (TensorProduct.comm R M.M C.A) (x ⊗ₜ[R] y)) = _
   simp [TensorProduct.smul_tmul', MulOpposite.smul_eq_mul_unop]
 
@@ -496,7 +494,6 @@ theorem absUnbalance_smul (M : DifferentialGradedModule.{u, u, u} B) (x : M.M)
     absUnbalance B C M x (y * ((1 : B.A) ᵍ⊗ₜ[R] c)) =
       MulOpposite.op c • absUnbalance B C M x y := by
   induction y using gradedTensor_induction with
-  | zero => simp
   | add z w hz hw => rw [add_mul, map_add, hz, hw, map_add, smul_add]
   | tmul b c₀ =>
     rw [tmul_mul_one_tmul, absUnbalance_tmul, absUnbalance_tmul, absTensor_smul_tmul]
@@ -507,7 +504,6 @@ theorem absUnbalance_balance (M : DifferentialGradedModule.{u, u, u} B) (x : M.M
     absUnbalance B C M (MulOpposite.op a • x) y =
       absUnbalance B C M x ((a ᵍ⊗ₜ[R] (1 : C.A)) * y) := by
   induction y using gradedTensor_induction with
-  | zero => simp
   | add z w hz hw => rw [map_add, hz, hw, mul_add, map_add]
   | tmul b c =>
     rw [absUnbalance_tmul, tmul_one_mul_tmul, absUnbalance_tmul, MulOpposite.op_mul, mul_smul]
@@ -519,7 +515,6 @@ theorem absUnbalance_d (M : DifferentialGradedModule.{u, u, u} B) (p : ℤ) (x :
       absUnbalance B C M (M.d x) y +
         (p.negOnePow : ℤ) • absUnbalance B C M (x : M.M) (tensorProductDifferential B C y) := by
   induction y using gradedTensor_induction with
-  | zero => simp
   | add z w hz hw =>
     rw [map_add, map_add, map_add, map_add, map_add, hz, hw, smul_add]
     abel
@@ -649,8 +644,7 @@ def absBalanceInverse (M : DifferentialGradedModule.{u, u, u} B) :
     absoluteTensor M C ⟶ absRelativeTensor B C M where
   toFun := absBalanceInverseLinear B C M
   map_smul z c := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp only [smul_add, map_add, hx, hy]
     | tmul x a =>
       rw [absTensor_smul_tmul, absBalanceInverseLinear_tmul, absBalanceInverseLinear_tmul,
@@ -668,8 +662,7 @@ def absBalanceInverse (M : DifferentialGradedModule.{u, u, u} B) :
     apply LinearMap.ext; intro z
     change absBalanceInverseLinear B C M (absTensorDifferential M C z) =
       (absRelativeTensor B C M).d (absBalanceInverseLinear B C M z)
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul x c =>
       induction x using DirectSum.Decomposition.inductionOn M.grading with
@@ -703,7 +696,6 @@ theorem absBalanceInverse_unbalance (M : DifferentialGradedModule.{u, u, u} B) (
     absBalanceInverseLinear B C M (absUnbalance B C M x y) =
       absRelativePureBilinear B C M x y := by
   induction y using gradedTensor_induction with
-  | zero => rw [map_zero, map_zero, map_zero]
   | add z w hz hw => rw [map_add, map_add, hz, hw, map_add]
   | tmul b c =>
     rw [absUnbalance_tmul, absBalanceInverseLinear_tmul, absRelativePureBilinear_balance,
@@ -746,8 +738,7 @@ def absTotalForwardSummand (M : DifferentialGradedModule.{u, u, u} B) (p q : ℤ
   ModuleCat.ofHom <| LinearMap.codRestrict _
     (TensorProduct.map (M.grading p).subtype (C.grading q).subtype) (by
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy => simpa only [map_add] using Submodule.add_mem _ hx hy
       | tmul x y =>
         subst n
@@ -814,7 +805,7 @@ theorem absTotalBackward_pure (M : DifferentialGradedModule.{u, u, u} B) (p q n 
     apply (absComponentEquiv M C n).injective
     rw [LinearEquiv.apply_symm_apply]
     exact Subtype.ext (absFiberMap_lof_tmul M C n ⟨(p, q), h⟩ x y).symm
-  show absTotalBackwardLinear B C M n ((absComponentEquiv M C n).symm _) = _
+  change absTotalBackwardLinear B C M n ((absComponentEquiv M C n).symm _) = _
   rw [he, absTotalBackwardLinear_lof]
 
 /-- Composing the map from the bigraded pieces into the total complex with the map out of it
@@ -824,7 +815,7 @@ theorem absTotalForward_comp_backwardLinear (M : DifferentialGradedModule.{u, u,
     (absTotalForward B C M n).hom ∘ₗ absTotalBackwardLinear B C M n =
       (absComponentEquiv M C n).toLinearMap := by
   refine DirectSum.linearMap_ext R fun pq => TensorProduct.ext' fun x y => ?_
-  show (absTotalForward B C M n).hom (absTotalBackwardLinear B C M n
+  change (absTotalForward B C M n).hom (absTotalBackwardLinear B C M n
     (DirectSum.lof R _ _ pq (x ⊗ₜ[R] y))) = absComponentEquiv M C n (DirectSum.lof R _ _ pq _)
   rw [absTotalBackwardLinear_lof]
   apply Subtype.ext
@@ -835,7 +826,7 @@ theorem absTotalForward_comp_backwardLinear (M : DifferentialGradedModule.{u, u,
 theorem absTotalBackward_forward (M : DifferentialGradedModule.{u, u, u} B) (n : ℤ) :
     absTotalBackward B C M n ≫ absTotalForward B C M n = 𝟙 _ := by
   apply ModuleCat.hom_ext
-  show (absTotalForward B C M n).hom ∘ₗ
+  change (absTotalForward B C M n).hom ∘ₗ
       (absTotalBackwardLinear B C M n ∘ₗ (absComponentEquiv M C n).symm.toLinearMap) =
     LinearMap.id
   rw [← LinearMap.comp_assoc, absTotalForward_comp_backwardLinear]
@@ -849,7 +840,7 @@ theorem absTotalForward_backward (M : DifferentialGradedModule.{u, u, u} B) (n :
   apply ModuleCat.hom_ext
   apply TensorProduct.ext'
   intro x y
-  show (absTotalBackward B C M n) ((absTotalForward B C M n)
+  change (absTotalBackward B C M n) ((absTotalForward B C M n)
     (absTensorInclusion B C M p q n h (x ⊗ₜ[R] y))) = _
   rw [absTotalForward_ι, absTotalBackward_pure]
   rfl
@@ -866,11 +857,11 @@ theorem absTotalForward_comm (M : DifferentialGradedModule.{u, u, u} B) (n m : �
   have h₂ : (ComplexShape.up ℤ).Rel q (q + 1) := rfl
   have ha : (ComplexShape.up ℤ).π (ComplexShape.up ℤ) (ComplexShape.up ℤ) (p + 1, q) = n + 1 := by
     change p + q = n at hpq
-    show p + 1 + q = n + 1
+    change p + 1 + q = n + 1
     omega
   have hb : (ComplexShape.up ℤ).π (ComplexShape.up ℤ) (ComplexShape.up ℤ) (p, q + 1) = n + 1 := by
     change p + q = n at hpq
-    show p + (q + 1) = n + 1
+    change p + (q + 1) = n + 1
     omega
   rw [HomologicalComplex.mapBifunctor.d_eq]
   simp only [Preadditive.add_comp, Preadditive.comp_add,
@@ -933,7 +924,7 @@ theorem absBalancedComplexIso_pure (M : DifferentialGradedModule.{u, u, u} B) (p
       (absRelativeTensor B C M).grading n).val =
       absRelativePureBilinear B C M (x : M.M)
         (((1 : B.A) ᵍ⊗ₜ[R] (y : C.A) : B.grading ᵍ⊗[R] C.grading)) := by
-  show (absBalanceInverse B C M).toFun
+  change (absBalanceInverse B C M).toFun
     (show (absoluteTensor M C).grading n from
       absTotalForward B C M n (absTensorInclusion B C M p q n h (x ⊗ₜ[R] y))).val = _
   rw [absTotalForward_ι]
@@ -955,14 +946,14 @@ theorem absBalancedComplexIso_naturality {P M : DifferentialGradedModule.{u, u, 
   ext n : 1
   apply HomologicalComplex.mapBifunctor.hom_ext
   intro p q h
-  show HomologicalComplex.ιTensorObj _ _ p q n h ≫
+  change HomologicalComplex.ιTensorObj _ _ p q n h ≫
       (HomologicalComplex.tensorHom ((forgetToCochainComplex B).map f) (𝟙 _)).f n ≫ _ = _
   rw [HomologicalComplex.ι_mapBifunctorMap_assoc]
   apply ModuleCat.hom_ext
   apply TensorProduct.ext'
   intro x y
   apply Subtype.ext
-  show ((absBalancedComplexIso B C M).hom.f n
+  change ((absBalancedComplexIso B C M).hom.f n
       (absTensorInclusion B C M p q n h (((forgetToCochainComplex B).map f).f p x ⊗ₜ[R] y)) :
         (absRelativeTensor B C M).grading n).val =
     ((Bimodule.tensorCompFunctor (baseChangeBimodule B C)).map f).toFun

@@ -178,7 +178,7 @@ theorem exists_representing_over_of_openCover_of_size_le
   · intro y
     obtain ⟨i, hi⟩ := hucov y
     refine ⟨⟨o i, ⟨i, rfl⟩⟩, ?_⟩
-    show y ∈ o (s ⟨o i, ⟨i, rfl⟩⟩)
+    change y ∈ o (s ⟨o i, ⟨i, rfl⟩⟩)
     rw [hs ⟨o i, ⟨i, rfl⟩⟩]
     exact hi
   · intro Z k hk hkcov

@@ -62,7 +62,7 @@ theorem range_pointsMap_of_isPullback_fieldValuedPoint
   ext x
   refine ⟨?_, fun hx ↦ ?_⟩
   · rintro ⟨w, rfl⟩
-    show pointsMap B S hS X f (pointsMap B S hS W q w) = _
+    change pointsMap B S hS X f (pointsMap B S hS W q w) = _
     rw [← pointsMap_apply_comm B S hS sq.w w]
     exact FieldValuedPoint.pointsMap_eq_class B S hS p _
   · obtain ⟨w, -, hw⟩ := exists_points_of_isPullback B S hS sq
@@ -119,7 +119,7 @@ theorem finite_setOf_isQuasiFiniteAt_of_isQuasiCompactSpace
   have hd : HasRelativeDimensionAt 0 B S hS f (pointsMap B S hS (yoneda.obj U) a w₀) :=
     (isQuasiFiniteAt_iff_hasRelativeDimensionAt_zero B S hS hW
       (isAlgebraicSpace_yoneda B S hS V) f hf _).mp hw
-  show quasiFiniteAt _ _
+  change quasiFiniteAt _ _
   rw [quasiFiniteAt_iff_fiberDimensionAt_eq_zero, ← hzero]
   refine (hasRelativeDimensionAt_pointsMap_iff B S hS 0 f U V a (𝟙 (yoneda.obj V))
     (yoneda.preimage (a ≫ f)) hap hbp hcomm (pointsEquivScheme B S hS U w₀)).mp ?_

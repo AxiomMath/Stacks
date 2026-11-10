@@ -102,11 +102,11 @@ theorem blowUpToBase_genericPoint_blowUpAffineChart (U : X.affineOpens) (a : I.i
       (algebraMap (X.presheaf.obj (.op U.1)) (blowUpAffineChartRing I U a)))
       (genericPoint (Spec (.of (blowUpAffineChartRing I U a)))) =
       genericPoint (Spec (.of (X.presheaf.obj (.op U.1)))) := by
-    show PrimeSpectrum.comap _ _ = _
+    change PrimeSpectrum.comap _ _ = _
     rw [genericPoint_eq_bot_of_affine (CommRingCat.of (blowUpAffineChartRing I U a)),
       genericPoint_eq_bot_of_affine (CommRingCat.of (X.presheaf.obj (.op U.1)))]
     refine PrimeSpectrum.ext (Ideal.ext fun p ↦ ?_)
-    show (algebraMap (X.presheaf.obj (.op U.1)) (blowUpAffineChartRing I U a) p = 0) ↔ p = 0
+    change (algebraMap (X.presheaf.obj (.op U.1)) (blowUpAffineChartRing I U a) p = 0) ↔ p = 0
     exact ⟨fun hp ↦ hmap (hp.trans (map_zero _).symm), fun hp ↦ hp ▸ map_zero _⟩
   have hcomp := congrArg (fun f ↦ f (genericPoint
     (Spec (.of (blowUpAffineChartRing I U a))))) (blowUpAffineChart_comp_blowUpToBase I U a)
@@ -153,7 +153,7 @@ theorem isIntegral_blowUp (hI : I ≠ ⊥) : IsIntegral (blowUp I) := by
     have hRV : (Set.range (blowUpAffineChart I W a) ∩ (V : Set (blowUp I))).Nonempty := by
       refine ⟨blowUpAffineChart I W a
         (genericPoint (Spec (.of (blowUpAffineChartRing I W a)))), ⟨_, rfl⟩, ?_⟩
-      show blowUpToBase I (blowUpAffineChart I W a _) ∈ U
+      change blowUpToBase I (blowUpAffineChart I W a _) ∈ U
       rw [blowUpToBase_genericPoint_blowUpAffineChart I W a ha]
       exact hηU
     obtain ⟨w, -, hw⟩ := hRirr (V : Set (blowUp I)) O V.isOpen hO

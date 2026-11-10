@@ -331,7 +331,7 @@ private lemma exists_eq_map_add_map_of_range_eq
   obtain ⟨y, hy⟩ : dY x ∈ LinearMap.range dX.hom := heq ▸ LinearMap.mem_range_self _ x
   obtain ⟨z, hz⟩ : x - P.map up y ∈ LinearMap.range (P.map down).hom := by
     rw [hd]
-    show dY (x - P.map up y) = 0
+    change dY (x - P.map up y) = 0
     rw [map_sub, ← ModuleCat.comp_apply, hdu, hy, sub_self]
   exact ⟨y, z, by rw [hz]; abel⟩
 
@@ -341,7 +341,7 @@ private lemma map_pow_app_hom {B : Type*} [Ring B] {C : Type*} [Category C]
     (P.map ((ρ ^ n).asHom.app X)).hom = (P.map (ρ.asHom.app X)).hom ^ n := by
   induction n with
   | zero =>
-    show (P.map (𝟙 X)).hom = 1
+    change (P.map (𝟙 X)).hom = 1
     rw [P.map_id]
     rfl
   | succ n ih =>
@@ -403,11 +403,12 @@ private theorem isMittagLeffler_of_boundaries
   let a : Module.End B (P.obj (obj i)) := (P.map (ρ.asHom.app (obj i))).hom
   have ht (n : ℕ) : P.map (map (i + n)) ≫ t n = t (n + 1) := by
     rw [← Functor.ofOpSequence_map_homOfLE_succ map (i + n)]
-    show T.map (homOfLE (Nat.le_succ (i + n))).op ≫
+    change T.map (homOfLE (Nat.le_succ (i + n))).op ≫
       T.map (homOfLE (Nat.le_add_right i n)).op = _
     rw [← T.map_comp]
     rfl
-  have hnat (n : ℕ) : P.map (ρ.asHom.app (obj (i + n))) ≫ t n = t n ≫ P.map (ρ.asHom.app (obj i)) := by
+  have hnat (n : ℕ) :
+      P.map (ρ.asHom.app (obj (i + n))) ≫ t n = t n ≫ P.map (ρ.asHom.app (obj i)) := by
     have h := congrArg P.map
       (ρ.asHom.naturality ((Functor.ofOpSequence map).map (homOfLE (Nat.le_add_right i n)).op))
     rw [P.map_comp, P.map_comp] at h
@@ -499,13 +500,14 @@ theorem isMittagLefflerCategorical_of_finite_cohomology
     intro n
     induction n with
     | zero =>
-      show Epi (𝟙 _)
+      change Epi (𝟙 _)
       infer_instance
     | succ n ih =>
       let := ih
-      show Epi (map n ≫ TorsionFreeDivisible.proj obj map n)
+      change Epi (map n ≫ TorsionFreeDivisible.proj obj map n)
       infer_instance
-  have hup (n : ℕ) : up n ≫ map n = ρ.asHom.app (obj n) := comp_eq_app_of_mono ρ (up n) (map n) (hf n)
+  have hup (n : ℕ) : up n ≫ map n = ρ.asHom.app (obj n) :=
+    comp_eq_app_of_mono ρ (up n) (map n) (hf n)
   have hnil (n : ℕ) : (ρ ^ (n + 1)).asHom.app (obj n) = 0 := by
     apply (cancel_epi (map n)).1
     rw [← TorsionFreeDivisible.mulF_naturality (ρ ^ (n + 1)) (map n), ← hj, Category.assoc, wj,
@@ -517,7 +519,7 @@ theorem isMittagLefflerCategorical_of_finite_cohomology
     calc
       TorsionFreeDivisible.proj obj map (n + 2) ≫ (j n ≫ up (n + 1)) =
           map (n + 1) ≫ (ρ ^ (n + 1)).asHom.app (obj (n + 1)) ≫ up (n + 1) := by
-        show (map (n + 1) ≫ TorsionFreeDivisible.proj obj map (n + 1)) ≫
+        change (map (n + 1) ≫ TorsionFreeDivisible.proj obj map (n + 1)) ≫
           (j n ≫ up (n + 1)) = _
         rw [Category.assoc, ← Category.assoc
           (TorsionFreeDivisible.proj obj map (n + 1)), hj]
@@ -722,7 +724,7 @@ private lemma transUp_comp_transDown_eq_zero
     ← TorsionFreeDivisible.mulF_naturality (g ^ (n - i)) (transUp ι hc)]
   have hz : (g ^ (n - i)).asHom.app (obj c) = 0 := by
     rw [show n - i = (c + 1) + (n - i - (c + 1)) by omega, pow_add]
-    show (g ^ (n - i - (c + 1))).asHom.app (obj c) ≫ (g ^ (c + 1)).asHom.app (obj c) = 0
+    change (g ^ (n - i - (c + 1))).asHom.app (obj c) ≫ (g ^ (c + 1)).asHom.app (obj c) = 0
     rw [hkill, comp_zero]
   rw [hz, zero_comp]
 
@@ -907,7 +909,7 @@ theorem isMittagLefflerCategorical_of_finite_cohomology_image
     (Q.obj (obj 0)) d (fun c n h => P.map (transUp ι h))
     (fun n x hx => (ShortComplex.moduleCat_exact_iff _).mp (hex (hS 0 n)).2 x hx) hdU
     (fun c i n hc hi hn => ?_) ⟨c, fun n hn => ?_⟩
-  · show P.map (transUp ι hc) ≫ P.map (transDown map hi) = 0
+  · change P.map (transUp ι hc) ≫ P.map (transDown map hi) = 0
     rw [← P.map_comp, transUp_comp_transDown_eq_zero map ι g hf hm hkill c i n hc hi hn,
       P.map_zero]
   · ext x

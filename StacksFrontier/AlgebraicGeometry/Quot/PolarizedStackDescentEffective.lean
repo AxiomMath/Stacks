@@ -55,7 +55,7 @@ theorem pullbackCompHom_comp_pullbackCongr_symm {X Y Z : Scheme.{u}} (g : X ⟶ 
     Stacks.Descent.pullbackCompHom g t q e M ≫ (Scheme.Modules.pullbackCongr e.symm).hom.app M ≫
       (Scheme.Modules.pullbackComp g t).inv.app M = 𝟙 _ := by
   subst e
-  show ((Scheme.Modules.pullbackComp g t).hom.app M ≫ 𝟙 _) ≫ 𝟙 _ ≫
+  change ((Scheme.Modules.pullbackComp g t).hom.app M ≫ 𝟙 _) ≫ 𝟙 _ ≫
     (Scheme.Modules.pullbackComp g t).inv.app M = 𝟙 _
   simp only [Category.comp_id, Category.id_comp, Iso.hom_inv_id_app]
 

@@ -311,7 +311,7 @@ theorem exists_isGeneratedByOn_of_isFiniteType
   refine Ideal.sum_mem _ fun j _ => ?_
   rw [germ_mul_map_restrict hV'V (a j : X.presheaf.obj (op V')) (sec j).1 y hyV']
   refine Ideal.mul_mem_left _ _ (Ideal.subset_span ⟨e j, ?_⟩)
-  show X.presheaf.germ V y hy (sec (e.symm (e j))).1 = _
+  change X.presheaf.germ V y hy (sec (e.symm (e j))).1 = _
   rw [Equiv.symm_apply_apply]
 
 /-- **The Nakayama and shrinking step in the proof of Stacks tag 063H.**  Let `J ⊆ O_X` be a

@@ -160,7 +160,7 @@ def closedPointsClopenLift (S : Clopens (closedPoints X)) : Clopens X where
 that set. -/
 theorem mem_closedPointsClopenLift (S : Clopens (closedPoints X)) (c : closedPoints X) :
     (c : X) ∈ closedPointsClopenLift S ↔ c ∈ S := by
-  show ConnectedComponents.mk (c : X) ∈
+  change ConnectedComponents.mk (c : X) ∈
     closedPointsComponentsHomeomorph (X := X) '' (S : Set (closedPoints X)) ↔ c ∈ S
   rw [Set.mem_image]
   refine ⟨?_, fun hc => ⟨c, hc, rfl⟩⟩
@@ -173,7 +173,7 @@ one of its closed specializations lies in that set. -/
 theorem mem_closedPointsClopenLift_iff_specialization (S : Clopens (closedPoints X)) (x : X) :
     x ∈ closedPointsClopenLift S ↔ ∃ c : closedPoints X, x ⤳ c.1 ∧ c ∈ S := by
   obtain ⟨c, ⟨hc, hxc⟩, huniq⟩ := WLocalSpace.existsUnique_closedPoint_specializes x
-  show ConnectedComponents.mk x ∈
+  change ConnectedComponents.mk x ∈
     closedPointsComponentsHomeomorph (X := X) '' (S : Set (closedPoints X)) ↔ _
   rw [connectedComponents_eq_of_specializes hxc]
   constructor
@@ -212,7 +212,7 @@ theorem mem_stratum_iff_vanishingPattern (E : Finset A)
     q ∈ locallyClosedPoints (stratumIdeal E i) (stratumOpenElement i.val) ↔
       (∀ a ∈ i.val, a ∉ q.asIdeal) ∧ ∀ a ∈ ((E : Set A) \ (i.val : Set A)), a ∈ q.asIdeal := by
   classical
-  show Ideal.span (↑(E \ i.val) : Set A) ≤ q.asIdeal ∧ i.val.prod id ∉ q.asIdeal ↔ _
+  change Ideal.span (↑(E \ i.val) : Set A) ≤ q.asIdeal ∧ i.val.prod id ∉ q.asIdeal ↔ _
   constructor
   · rintro ⟨hspan, hprod⟩
     rw [Ideal.IsPrime.prod_mem_iff] at hprod
@@ -404,7 +404,7 @@ theorem stratumIdempotent_mul_eq_of_clopen_subset (E₁ E₂ : Finset A)
   have hbasic : PrimeSpectrum.basicOpen (e₂ * e₁) = PrimeSpectrum.basicOpen e₂ := by
     refine SetLike.coe_injective ?_
     ext p
-    show (e₂ * e₁ ∉ p.asIdeal) ↔ e₂ ∉ p.asIdeal
+    change (e₂ * e₁ ∉ p.asIdeal) ↔ e₂ ∉ p.asIdeal
     rw [p.2.mul_mem_iff_mem_or_mem]
     simp only [not_or]
     exact ⟨fun hp => hp.1, fun hp => ⟨hp, (mem_stratumClopen_iff_idempotent_notMem f E₁ i₁ p).1
@@ -524,7 +524,7 @@ theorem quotientProductEquiv_symm_single_one (E : Finset A) (i : {E' : Finset A 
   refine e.injective ?_
   rw [e.apply_symm_apply]
   refine funext fun j => ?_
-  show _ = Ideal.Quotient.mk _ (stratumIdempotent f E i)
+  change _ = Ideal.Quotient.mk _ (stratumIdempotent f E i)
   rw [hcoord j]
   by_cases hji : j = i
   · subst j; simp

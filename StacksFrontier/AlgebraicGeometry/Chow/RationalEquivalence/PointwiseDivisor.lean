@@ -386,7 +386,7 @@ theorem pointwiseDivisorSum_add (k : ℤ) (a b : PointwiseKOneGroup C p k) :
     pointwiseDivisorSum C p k (a + b) =
       pointwiseDivisorSum C p k a + pointwiseDivisorSum C p k b := by
   refine Subtype.ext (Function.locallyFinsuppWithin.ext fun y ↦ ?_)
-  show (pointwiseDivisorSum C p k (a + b)).1 y =
+  change (pointwiseDivisorSum C p k (a + b)).1 y =
     (pointwiseDivisorSum C p k a).1 y + (pointwiseDivisorSum C p k b).1 y
   rw [pointwiseDivisorSum_apply, pointwiseDivisorSum_apply, pointwiseDivisorSum_apply,
     ← finsum_add_distrib (finite_support_pointwiseDivisorTerm C p k a y)
@@ -429,7 +429,7 @@ theorem principalDivisorFamilyCoefficient_eq_of_genericPointOf (k : ℤ)
     (rationalFunctionUnitsEquivOfGenericPoint (integralComponentAt j.1.1) (hW j)
         (hGeneric j)).injective
       ((hCompat j).trans (integralComponentFunction_value j.1.1 _).symm)
-  show (∑ᶠ j, principalDivisorPushforward C p _ _ (g j) y) = _
+  change (∑ᶠ j, principalDivisorPushforward C p _ _ (g j) y) = _
   exact finsum_congr fun j ↦ by rw [hgj j]
 
 /-! ### The divisor differential -/

@@ -175,7 +175,7 @@ lemma restrictₛₗ_natural {M : PresheafOfModules.{v} R} {U : C} (x : M.obj (o
     ∀ ⦃Y Z : Cᵒᵖ⦄ (f : Y ⟶ Z) (g : (yoneda.obj U).obj Y),
       M.restrictₛₗ ((yoneda.obj U).map f g).op x = M.map f (M.restrictₛₗ g.op x) := by
   intro Y Z f g
-  show M.map ((f.unop ≫ g).op) x = M.map f (M.map g.op x)
+  change M.map ((f.unop ≫ g).op) x = M.map f (M.map g.op x)
   rw [← M.map_comp_apply]
   rfl
 

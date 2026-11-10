@@ -101,7 +101,7 @@ theorem nat_card_sections_eq_of_etale_of_isFiniteLocallyFreeOfRank
   let g : k →+* B := f.appTop.hom.comp φ
   let : Algebra k B := g.toAlgebra
   have hEtale : Algebra.Etale k B := by
-    show RingHom.Etale g
+    change RingHom.Etale g
     exact RingHom.Etale.stableUnderComposition φ f.appTop.hom
       (RingHom.Etale.of_bijective
         ((ConcreteCategory.isIso_iff_bijective (Scheme.ΓSpecIso (.of k)).inv).mp inferInstance))

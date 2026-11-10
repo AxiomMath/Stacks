@@ -102,10 +102,11 @@ private theorem coe_decompose_rangeGrading_eq_zero_iff (x : ⨁ n : ℤ, V n) (i
   exact ⟨fun h => DirectSum.of_injective (β := V) i (h.trans (map_zero _).symm),
     fun h => by rw [h, map_zero]⟩
 
+omit [AddSubgroupClass σ S] [GradedRing 𝒮] in
 /-- A degree-raising action makes the tautological grading a graded module: a homogeneous scalar
 of degree `i` carries the degree-`n` summand into the degree-`i + n` summand, which is exactly
 the compatibility `SetLike.GradedSMul` asks for. -/
-@[instance_reducible] public def gradedActionGradedSMul [Module S (⨁ n : ℤ, V n)]
+public theorem gradedActionGradedSMul [Module S (⨁ n : ℤ, V n)]
     (act : ∀ (i : ℕ) (n : ℤ), 𝒮 i → V n → V ((i : ℤ) + n))
     (hsmul : ∀ (i : ℕ) (n : ℤ) (a : 𝒮 i) (s : V n),
       (a : S) • (DirectSum.of V n s : ⨁ m : ℤ, V m) =

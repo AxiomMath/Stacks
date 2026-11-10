@@ -136,14 +136,14 @@ public theorem setIndexedDividedPowerPolynomialReindex_comp {X : Type x}
   (setIndexedDividedPowerPolynomialReindex_unique A (τ ∘ σ) _
     (by
       ext a
-      show setIndexedDividedPowerPolynomialReindex A τ
+      change setIndexedDividedPowerPolynomialReindex A τ
           (setIndexedDividedPowerPolynomialReindex A σ
             (algebraMap A (setIndexedDividedPowerPolynomialAlgebra A V) a)) =
         algebraMap A (setIndexedDividedPowerPolynomialAlgebra A X) a
       rw [setIndexedDividedPowerPolynomialReindex_algebraMap,
         setIndexedDividedPowerPolynomialReindex_algebraMap])
     fun v ↦ by
-      show setIndexedDividedPowerPolynomialReindex A τ
+      change setIndexedDividedPowerPolynomialReindex A τ
         (setIndexedDividedPowerPolynomialReindex A σ
           (dividedPowerPolynomialVariable A v)) = _
       rw [setIndexedDividedPowerPolynomialReindex_variable,

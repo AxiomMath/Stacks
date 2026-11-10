@@ -104,7 +104,7 @@ lemma sectionFamilySize_eq_presheaf (O : Cᵒᵖ ⥤ RingCat.{r})
         (R := chaoticRingSheaf.{u, v, r} O)
         (F := (chaoticComplexEquivalence (chaoticRingSheaf.{u, v, r} O)).inverse.obj F) Omega =
       presheafSectionFamilySize.{w} Omega := by
-  show Cardinal.lift.{max v r} (Cardinal.mk (Σ i : ℤ, Σ U : C, {x // x ∈ Omega i U})) =
+  change Cardinal.lift.{max v r} (Cardinal.mk (Σ i : ℤ, Σ U : C, {x // x ∈ Omega i U})) =
     Cardinal.mk (Σ i : ℤ, Σ U : C, {x // x ∈ Omega i U})
   exact Cardinal.lift_id'.{max v r, max u w} _
 

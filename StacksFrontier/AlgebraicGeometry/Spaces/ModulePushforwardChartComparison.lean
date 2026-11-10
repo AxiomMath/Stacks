@@ -393,6 +393,7 @@ noncomputable def chartRanIso (f : X ⟶ Y) (hf : yoneda.relativelyRepresentable
   asIso (chartRanNatTrans B S hS f hf)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `PreservesFiniteProducts` of this pushforward exceeds the default budget
 /-- Restriction along base change of étale scheme charts preserves finite products (it is a right
 adjoint); recorded here because instance search for it exceeds the default budget. -/
 theorem preservesFiniteProducts_smallBaseChange_sheafPushforwardContinuous (f : X ⟶ Y)

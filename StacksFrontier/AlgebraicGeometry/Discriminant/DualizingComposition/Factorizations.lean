@@ -158,14 +158,14 @@ lemma quasiFinite_of_span_eq_top {R : Type u} {S : Type v}
     IsScalarTower.of_algebraMap_eq' (by
       ext x
       rw [IsScalarTower.algebraMap_apply R (P.Fiber S) (Localization.AtPrime J)]
-      show (algebraMap (P.Fiber S) (Localization.AtPrime J))
+      change (algebraMap (P.Fiber S) (Localization.AtPrime J))
           (algebraMap R (P.Fiber S) x) =
         (algebraMap (P.Fiber S) (Localization.AtPrime J))
           (Algebra.TensorProduct.includeRight (algebraMap R S x))
       rw [Algebra.TensorProduct.algebraMap_apply']
       rfl)
   have hunit : IsUnit ((IsScalarTower.toAlgHom R S (Localization.AtPrime J)) r) := by
-    show IsUnit (algebraMap (P.Fiber S) (Localization.AtPrime J)
+    change IsUnit (algebraMap (P.Fiber S) (Localization.AtPrime J)
       (Algebra.TensorProduct.includeRight r))
     exact IsLocalization.map_units (M := J.primeCompl) (Localization.AtPrime J)
       ⟨Algebra.TensorProduct.includeRight r, hrJ⟩
@@ -190,7 +190,7 @@ lemma quasiFinite_of_span_eq_top {R : Type u} {S : Type v}
       _ = ((IsScalarTower.toAlgHom P.ResidueField (P.Fiber S)
           (Localization.AtPrime J)).restrictScalars R).comp
           Algebra.TensorProduct.includeRight a := by
-        show fS a = _
+        change fS a = _
         rfl
   exact (congrArg (fun g => g a) hψ).symm.trans
     (show ψ (f a ⟨r, hrs⟩) = 0 by simp only [ha, Pi.zero_apply, map_zero])
@@ -403,8 +403,7 @@ noncomputable def tensorEpiLmulEquiv
       simp [f₀]
   }
   have hfun (x : B ⊗[R] C) : f x = TensorProduct.lid' R B C x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp [f]
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp [map_add, hx, hy]
     | tmul b c => simp [f, f₀, TensorProduct.lid'_apply_tmul, Algebra.smul_def]
   exact AlgEquiv.ofBijective f ⟨fun x y hxy => (TensorProduct.lid' R B C).injective

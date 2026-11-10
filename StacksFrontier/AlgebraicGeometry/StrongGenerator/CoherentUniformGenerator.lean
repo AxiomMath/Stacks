@@ -120,8 +120,8 @@ presentation of [Stacks, Tag 0FZ5]. -/
 @[stacks 0FZ7 "the source's statement, read at the locally small derived-category model \
 `AlgebraicGeometry.Scheme.Modules.hasDerivedCategory` and proved there by transporting \
 `AlgebraicGeometry.exists_uniform_generator_isCoherent` — the same tag at the standard model, in \
-StacksFrontier/AlgebraicGeometry/StrongGenerator/CoherentUniformGeneratorUnconditional.lean — along \
-the exact equivalence `AlgebraicGeometry.Scheme.Modules.derivedModelEquiv`, with Stacks 0FX5 \
+StacksFrontier/AlgebraicGeometry/StrongGenerator/CoherentUniformGeneratorUnconditional.lean — \
+along the exact equivalence `AlgebraicGeometry.Scheme.Modules.derivedModelEquiv`, with Stacks 0FX5 \
 (`Stacks.TriangulatedGenerators.`\
 `retractClosure_extensionProductIter_biSup_shift_inverseImage_of_le`) moving the four closure \
 operations with the window and the level fixed and \

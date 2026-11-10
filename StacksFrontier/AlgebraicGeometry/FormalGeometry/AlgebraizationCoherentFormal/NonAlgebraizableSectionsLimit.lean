@@ -117,7 +117,7 @@ public theorem twoChartCoords_match (u : (X.presheaf.obj (op (U₀ ⊓ U₁)))ˣ
   rw [hu] at hs
   change (X.presheaf.map (homOfLE _).op).hom u.val * _ = _ at hs
   rw [map_self_apply] at hs
-  show (X.presheaf.map (homOfLE inf_le_right).op).hom
+  change (X.presheaf.map (homOfLE inf_le_right).op).hom
       ((X.presheaf.map (homOfLE _).op).hom _) =
     u.val * (X.presheaf.map (homOfLE inf_le_left).op).hom ((X.presheaf.map (homOfLE _).op).hom _)
   rw [map_map_apply, map_map_apply]
@@ -154,7 +154,7 @@ public theorem exists_twoChartCoords_eq (u : (X.presheaf.obj (op (U₀ ⊓ U₁)
       (overlapUnit u V hV).val * (X.presheaf.map (homOfLE (hV.trans inf_le_left)).op).hom c.1 =
         (X.presheaf.map (homOfLE (hV.trans inf_le_right)).op).hom c.2 := by
     intro V hV
-    show (X.presheaf.map (homOfLE hV).op).hom u.val * _ = _
+    change (X.presheaf.map (homOfLE hV).op).hom u.val * _ = _
     rw [← map_map_apply (inf_le_left : U₀ ⊓ U₁ ≤ U₀) hV, ← map_mul, ← hc, map_map_apply]
   let cc : (i : ULift.{u} Bool) → X.presheaf.obj (op (twoChartFamily U₀ U₁ i)) := fun i =>
     match i with
@@ -163,15 +163,15 @@ public theorem exists_twoChartCoords_eq (u : (X.presheaf.obj (op (U₀ ⊓ U₁)
   refine ⟨⟨fun i => (X.presheaf.map (homOfLE (inf_le_right :
       W ⊓ twoChartFamily U₀ U₁ i ≤ twoChartFamily U₀ U₁ i)).op).hom (cc i), ?_⟩, ?_⟩
   · rintro ⟨_ | _⟩ ⟨_ | _⟩
-    · show (1 : (X.presheaf.obj (op _))ˣ).val * _ = _
+    · change (1 : (X.presheaf.obj (op _))ˣ).val * _ = _
       rw [Units.val_one, one_mul]
-    · show (overlapUnit u _ _).val * _ = _
+    · change (overlapUnit u _ _).val * _ = _
       rw [map_map_apply, map_map_apply]
       exact key _ _
-    · show ((overlapUnit u _ _)⁻¹).val * _ = _
+    · change ((overlapUnit u _ _)⁻¹).val * _ = _
       rw [map_map_apply, map_map_apply, Units.inv_mul_eq_iff_eq_mul]
       exact (key _ _).symm
-    · show (1 : (X.presheaf.obj (op _))ˣ).val * _ = _
+    · change (1 : (X.presheaf.obj (op _))ˣ).val * _ = _
       rw [Units.val_one, one_mul]
   · refine Prod.ext ?_ ?_ <;> exact (map_map_apply _ _ _).trans (map_self_apply _ _)
 
@@ -182,7 +182,7 @@ public theorem UnitTransitionCocycle.chartLinearEquiv_sectionsMap {ι : Type u}
     (h : P ≤ W) (hP : P ≤ U i) (s : D.sectionsSubmodule W) :
     D.chartLinearEquiv i hP (D.sectionsMap h s) =
       (X.presheaf.map (homOfLE (le_inf h hP : P ≤ W ⊓ U i)).op).hom (s.val i) := by
-  show (X.presheaf.map (homOfLE (le_inf le_rfl hP)).op).hom ((D.sectionsMap h s).val i) = _
+  change (X.presheaf.map (homOfLE (le_inf le_rfl hP)).op).hom ((D.sectionsMap h s).val i) = _
   rw [UnitTransitionCocycle.sectionsMap_val, map_map_apply]
 
 end Stacks.SheafOfModules
@@ -292,7 +292,7 @@ public def levelSectionsCoords (n : ℕ) :
 /-- The overlap unit is the transition element, read as a section over the overlap. -/
 public theorem levelOverlapUnit_val (n : ℕ) :
     (levelOverlapUnit k a φ n).val = levelOverlapRingEquiv k n (transitionElement k a φ n) := by
-  show levelOverlapRingEquiv k n ((isUnit_transitionElement k a φ n).unit.val) = _
+  change levelOverlapRingEquiv k n ((isUnit_transitionElement k a φ n).unit.val) = _
   rw [IsUnit.unit_spec]
 
 /-- Restriction from the chart of `x̄` to the overlap, on chart coordinates. -/
@@ -380,7 +380,7 @@ public theorem levelCoord_sectionsMap (n : ℕ) (r : AmbientRing k) (i : ULift.{
     levelCoord k a φ n r i hle hri hW
         ((Stacks.SheafOfModules.twoChartCocycle (levelOverlapUnit k a φ n)).sectionsMap h σ) =
       levelCoord k a φ n r i hle hri (hW.trans h) σ := by
-  show (levelChartRingEquiv k r n hle).symm (((levelOpen k n).toScheme.presheaf.map _).hom
+  change (levelChartRingEquiv k r n hle).symm (((levelOpen k n).toScheme.presheaf.map _).hom
       (((Stacks.SheafOfModules.twoChartCocycle (levelOverlapUnit k a φ n)).sectionsMap h σ).val i))
     = _
   rw [Stacks.SheafOfModules.UnitTransitionCocycle.sectionsMap_val,
@@ -396,7 +396,7 @@ public theorem levelSectionsCoords_levelTransitionOnOpen (n : ℕ)
     levelSectionsCoords k a φ n ((levelTransitionOnOpen k a φ n).app ⊤ σ) =
       (chartReduction k (xVar k) n (levelSectionsCoords k a φ (n + 1) σ).1,
         chartReduction k (yVar k) n (levelSectionsCoords k a φ (n + 1) σ).2) := by
-  show levelSectionsCoords k a φ n
+  change levelSectionsCoords k a φ n
       ((Stacks.SheafOfModules.twoChartCocycle (levelOverlapUnit k a φ n)).sectionsMap
         (le_top : (⊤ : (levelOpen k n).toScheme.Opens) ≤ levelOpenMap k n ⁻¹ᵁ ⊤)
         ((levelTransition k a φ n).val.app (op ⊤) σ)) = _
@@ -419,7 +419,7 @@ public theorem levelCoord_smul (n : ℕ) (r : AmbientRing k) (i : ULift.{u} Bool
       (levelChartRingEquiv k r n hle).symm
           (((levelOpen k n).toScheme.presheaf.map (homOfLE (hri.trans hW)).op).hom c) *
         levelCoord k a φ n r i hle hri hW σ := by
-  show (levelChartRingEquiv k r n hle).symm (((levelOpen k n).toScheme.presheaf.map _).hom
+  change (levelChartRingEquiv k r n hle).symm (((levelOpen k n).toScheme.presheaf.map _).hom
       (((levelOpen k n).toScheme.presheaf.map
         (homOfLE (inf_le_left : W ⊓ (chartFam n) i ≤ W)).op).hom c * σ.val i)) = _
   rw [map_mul, Stacks.SheafOfModules.map_map_apply, map_mul]
@@ -505,7 +505,7 @@ public theorem levelSectionsAddEquiv_map (m : ℕ)
   have h : (((globalSectionsSystem (situation k) (levelCoherentAdicSystem k a φ)).map
       (homOfLE (Nat.le_succ m)).op).hom σ) =
       ((levelTransitionOnOpen k a φ (m + 1)).app ⊤).hom σ := by
-    show ((((levelSystem k a φ).map (homOfLE (Nat.le_succ m)).op).app ⊤).hom σ) = _
+    change ((((levelSystem k a φ).map (homOfLE (Nat.le_succ m)).op).app ⊤).hom σ) = _
     rw [levelSystem_map_succ]
     rfl
   rw [coe_levelSectionsAddEquiv, h]
@@ -542,7 +542,7 @@ public def sectionsLimitπ (m : ℕ) :
 public theorem levelSectionsAddEquiv_sectionsLimitπ (m : ℕ) (s : sectionsLimit k a φ) :
     (levelSectionsAddEquiv k a φ m (sectionsLimitπ k a φ m s) :
         chartRing k (xVar k) (m + 1) × chartRing k (yVar k) (m + 1)) = s.1 (m + 1) := by
-  show ((levelSectionsAddEquiv k a φ m ((levelSectionsAddEquiv k a φ m).symm _) :
+  change ((levelSectionsAddEquiv k a φ m ((levelSectionsAddEquiv k a φ m).symm _) :
     chartRing k (xVar k) (m + 1) × chartRing k (yVar k) (m + 1))) = _
   rw [AddEquiv.apply_symm_apply]
   rfl

@@ -82,8 +82,10 @@ def smallEtaleAbelianInverseImageIsoPostcomp {U V : T.Spaces} (h : U ⟶ V)
       (sheafCompose (Space.SpacesEtale.topology T.fppfSite S T.fppf_mem V) (forget Ab.{u + 1}))
       (Space.spacesToposMorphism_inverseImageIso T.fppfSite S T.fppf_mem h hh))
 
-set_option maxHeartbeats 800000 in
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the exactness instances on étale sites exceeds the default budget
+set_option maxHeartbeats 800000 in
+-- elaborating the sheaf-pullback adjunction and its exactness instances on étale sites
 /-- **The étale inverse image of abelian sheaves preserves K-injective complexes.** -/
 theorem isKInjective_smallEtaleAbelianInverseImage_of_isEtale {U V : T.Spaces} (h : U ⟶ V)
     (hh : Space.IsEtale T.fppfSite S T.fppf_mem h.hom)

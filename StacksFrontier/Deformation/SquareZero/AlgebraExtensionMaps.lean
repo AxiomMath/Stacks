@@ -452,7 +452,7 @@ public lemma naiveCotangentExtOneMap_classEquiv :
           (algebraExtensionProblem A B M)) X))
       = (extCokernelIso A B N).symm
         (Submodule.Quotient.mk (towerConormalPush A B c (baseObstruction A B X))) := by
-  show (extCokernelIso A B N).symm (conormalCokernelPush A B c
+  change (extCokernelIso A B N).symm (conormalCokernelPush A B c
     (extCokernelIso A B M (squareZeroAlgebraExtensionClassesEquivExtOne A B M
       (Quotient.mk (SquareZeroExtensionProblem.CompatibleExtension.isomorphicSetoid
         (algebraExtensionProblem A B M)) X)))) = _
@@ -465,7 +465,7 @@ public lemma naiveCotangentExtOneTowerMap_classEquiv :
           (algebraExtensionProblem A C N)) Y))
       = (extCokernelIso A B N).symm
         (Submodule.Quotient.mk (towerConormalPullback A B C (towerObstruction A C Y))) := by
-  show (extCokernelIso A B N).symm (conormalCokernelPullback A B C
+  change (extCokernelIso A B N).symm (conormalCokernelPullback A B C
     (extCokernelIso A C N (squareZeroAlgebraExtensionClassesEquivExtOne A C N
       (Quotient.mk (SquareZeroExtensionProblem.CompatibleExtension.isomorphicSetoid
         (algebraExtensionProblem A C N)) Y)))) = _

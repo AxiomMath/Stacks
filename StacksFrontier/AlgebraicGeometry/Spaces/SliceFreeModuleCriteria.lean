@@ -239,7 +239,7 @@ theorem isIso_over_map_of_bijective_app {M N : Modules.{u, u} B S hS F hF} (φ :
     have hs := PresheafOfModules.sections_property
       (SheafOfModules.sectionsMap e.inv (SheafOfModules.freeSection i))
       (Over.homMk X.unop.hom (Category.comp_id _) : X.unop ⟶ t).op
-    show (φ.val.app (op X.unop.left)).hom
+    change (φ.val.app (op X.unop.left)).hom
         ((SheafOfModules.sectionsMap e.inv (SheafOfModules.freeSection i)).val X) =
       N.val.map X.unop.hom.op (b' i)
     rw [hb, ← hs]
@@ -273,12 +273,13 @@ theorem nonempty_iso_free_symmetricPower_over (Cm : Modules.{u, u} B S hS F hF)
     (A : SheafOfModules.GradedAlgebra.{u, u}
       (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O))
     (ι : Cm ⟶ A.piece 1) (hA : SheafOfModules.GradedAlgebra.IsSymmetricAlgebra A ι)
-    (T : SmallEtale B S hS F) {γ : Type u} [DecidableEq γ]
+    (T : SmallEtale B S hS F) {γ : Type u}
     (e : Cm.over T ≅ SheafOfModules.free (R := SmallEtale.sliceRingSheaf B S hS F hF T) γ)
     (n : ℕ) :
     Nonempty ((A.piece (n : ℤ)).over T ≅
       SheafOfModules.free (R := SmallEtale.sliceRingSheaf B S hS F hF T)
         {d : γ →₀ ℕ | d.degree = n}) := by
+  classical
   have h4 : ∀ U : (smallEtaleRingedSite B S hS F hF).C,
       ((smallEtaleRingedSite B S hS F hF).J.over U).HasSheafCompose
         (forget₂ CommRingCat.{u} RingCat.{u}) := fun U =>

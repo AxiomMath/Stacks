@@ -261,7 +261,7 @@ public theorem exists_shortExact_serreOne_of_nonempty [IsNoetherianRing A]
       rw [← Functor.map_comp, kernel.condition, Functor.map_zero]
     refine notMem_associatedPoints_of_stalk_eq_zero (kernel g) x₀ fun m => ?_
     refine AlgebraicGeometry.stalk_map_injective_of_mono (kernel.ι g) x₀ ?_
-    show ((stalkAb (complementZeroLocus A a : Scheme) x₀).map (kernel.ι g)).hom m
+    change ((stalkAb (complementZeroLocus A a : Scheme) x₀).map (kernel.ι g)).hom m
       = ((stalkAb (complementZeroLocus A a : Scheme) x₀).map (kernel.ι g)).hom 0
     rw [hzero]
     rfl
@@ -271,7 +271,7 @@ public theorem exists_shortExact_serreOne_of_nonempty [IsNoetherianRing A]
     ⟨associatedPointsOffVanishing_subset_of_mono A I a (kernel.ι g) hx,
       fun hxx₀ => hx₀F' (hxx₀ ▸ hx.1)⟩
   have hlt : associatedRank A I a (kernel g) < associatedRank A I a F :=
-    Set.ncard_lt_ncard ⟨hsub.trans Set.diff_subset, fun hcon => (hsub (hcon hx₀S)).2 rfl⟩
+    Set.ncard_lt_ncard ⟨hsub.trans Set.sdiff_subset, fun hcon => (hsub (hcon hx₀S)).2 rfl⟩
       (finite_associatedPointsOffVanishing A I a F)
   exact ⟨kernel g, G, kernel.ι g, g, kernel.condition g,
     ⟨CategoryTheory.ShortComplex.exact_kernel g⟩, hF'c, hGc,

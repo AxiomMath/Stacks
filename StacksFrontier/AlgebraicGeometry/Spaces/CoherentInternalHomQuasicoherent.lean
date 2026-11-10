@@ -14,7 +14,7 @@ Let `F` be an algebraic space over a scheme `S` and let `M`, `N` be coherent `�
 
 This is Stacks 03M1(6) with its hypotheses supplied from coherence alone.  That clause,
 `AlgebraicGeometry.Space.isQuasicoherentOnSite_smallEtaleInternalHom`, asks for quasi-coherence
-of both modules and finite presentation of the source; coherence delivers all three, and on any
+of the target and finite presentation of the source; coherence delivers both, and on any
 ringed site, with no Noetherian hypothesis anywhere:
 
 * quasi-coherence is a parent of `AlgebraicGeometry.Space.IsCoherent`, which is declared as a
@@ -67,8 +67,9 @@ for quasi-coherence of the two modules and finite presentation of the source; co
 all three, so no hypothesis beyond coherence is needed, and in particular neither Noetherianity
 of `F` nor coherence of the internal Hom itself.
 
-The clause is `AlgebraicGeometry.Space.isQuasicoherentOnSite_smallEtaleInternalHom`.  Its first
-two hypotheses are parent projections of `AlgebraicGeometry.Space.IsCoherent` and the third is
+The clause is `AlgebraicGeometry.Space.isQuasicoherentOnSite_smallEtaleInternalHom`, which needs
+only quasi-coherence of the target and finite presentation of the source.  The first is a parent
+projection of `AlgebraicGeometry.Space.IsCoherent` and the second is
 `CategoryTheory.SheafOfModules.isFinitePresentationOnSite_of_isCoherentOnSite`, which is not an
 instance — two routes from coherence to quasi-coherence would otherwise exist — and so is
 applied by name. -/
@@ -77,8 +78,7 @@ theorem isQuasicoherentOnSite_smallEtaleInternalHom_of_isCoherent
     (M N : Modules.{u, u} B S hS F hF)
     (hM : IsCoherent B S hS F hF M) (hN : IsCoherent B S hS F hF N) :
     (smallEtaleInternalHom B S hS F hF M N).IsQuasicoherentOnSite :=
-  isQuasicoherentOnSite_smallEtaleInternalHom B S hS F hF M N
-    hM.toIsQuasicoherentOnSite hN.toIsQuasicoherentOnSite
+  isQuasicoherentOnSite_smallEtaleInternalHom B S hS F hF M N hN.toIsQuasicoherentOnSite
     (SheafOfModules.isFinitePresentationOnSite_of_isCoherentOnSite M hM.toIsCoherentOnSite)
 
 end AlgebraicGeometry.Space

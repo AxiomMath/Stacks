@@ -209,7 +209,7 @@ theorem exactMapDerivedCategoryPlusSingle_comp_inv_app (Y : C₀) :
           (exactMapDerivedCategoryPlusSingle U 0).inv.app Y) =
       (DerivedCategory.singleFunctor C₂ 0).map (c.hom.app Y) ≫
         (U.mapDerivedCategorySingleFunctor 0).inv.app Y := by
-    show (DerivedCategory.singleFunctor C₂ 0).map (c.hom.app Y) ≫
+    change (DerivedCategory.singleFunctor C₂ 0).map (c.hom.app Y) ≫
       DerivedCategory.Plus.ι.map ((exactMapDerivedCategoryPlusSingle U 0).inv.app Y) = _
     rw [ι_map_exactMapDerivedCategoryPlusSingle_inv_app]
     rfl
@@ -227,7 +227,7 @@ theorem exactMapDerivedCategoryPlusSingle_comp_inv_app (Y : C₀) :
             (mapDerivedNatTrans c.hom).app
               (DerivedCategory.Plus.ι.obj
                 ((DerivedCategory.Plus.singleFunctor C₀ 0).obj Y))) := by
-    show DerivedCategory.Plus.ι.map
+    change DerivedCategory.Plus.ι.map
           ((exactMapDerivedCategoryPlusSingle U₂ 0).inv.app (U₁.obj Y)) ≫
         U₂.mapDerivedCategory.map (DerivedCategory.Plus.ι.map
             ((exactMapDerivedCategoryPlusSingle U₁ 0).inv.app Y)) ≫

@@ -72,7 +72,7 @@ def frameTrace (A B : Type u) [CommRing A] [CommRing B] [Algebra A B] (p : ℕ) 
 matter). -/
 theorem frameTrace_eq (F : AnyFrame A B) (p : ℕ) : frameTrace A B p = F.frame.trace p := by
   have h : Nonempty (AnyFrame A B) := ⟨F⟩
-  rw [frameTrace, dif_pos h, AnyFrame.trace_eq h.some F]
+  rw [frameTrace, dite_eq_left h, AnyFrame.trace_eq h.some F]
 
 /-- `frameTrace` is the trace of any frame, as a family of maps. -/
 private theorem frameTrace_eq_trace (F : AnyFrame A B) : frameTrace A B = F.frame.trace :=
@@ -80,7 +80,7 @@ private theorem frameTrace_eq_trace (F : AnyFrame A B) : frameTrace A B = F.fram
 
 /-- An algebra with no frame, which is zero, has `frameTrace = 0`. -/
 theorem frameTrace_of_isEmpty (h : IsEmpty (AnyFrame A B)) (p : ℕ) : frameTrace A B p = 0 := by
-  rw [frameTrace, dif_neg (not_nonempty_iff.mpr h)]
+  rw [frameTrace, dite_eq_right (not_nonempty_iff.mpr h)]
 
 /-- The forms of a zero ring are zero. -/
 theorem subsingleton_forms (R : Type u) [CommRing R] [Subsingleton R] (p : ℕ) :

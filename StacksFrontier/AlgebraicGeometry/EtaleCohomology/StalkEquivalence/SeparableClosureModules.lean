@@ -184,11 +184,11 @@ lemma etaleGlobalSectionAbelianGerm_naturality
   have hnat := ConcreteCategory.congr_hom
     ((abelianEtaleStalkEquivalenceIso.{u, max (u + 1) v} B K hK sbar).inv.naturality f)
     (ConcreteCategory.hom (colimit.ι
-      ((CategoryOfElements.π (geometricPointFiber B (Spec (.of K)) hK sbar)).op ⋙
+      ((Functor.Elements.π (geometricPointFiber B (Spec (.of K)) hK sbar)).op ⋙
         (sheafToPresheaf _ _).obj F₁) (op (finalPointedNeighborhood B K hK sbar))) t)
   refine Eq.trans ?_ hnat
   have hι := ConcreteCategory.congr_hom (colimit.ι_map (Functor.whiskerLeft
-    (CategoryOfElements.π (geometricPointFiber B (Spec (.of K)) hK sbar)).op f.hom)
+    (Functor.Elements.π (geometricPointFiber B (Spec (.of K)) hK sbar)).op f.hom)
     (op (finalPointedNeighborhood B K hK sbar))) t
   exact congrArg (fun y ↦ ConcreteCategory.hom
     ((abelianEtaleStalkEquivalenceIso.{u, max (u + 1) v} B K hK sbar).inv.app F₂) y) hι.symm
@@ -252,6 +252,7 @@ def SmallEtale.toEtaleSiteFinalIsTerminal (B : BigEtaleSite.{u}) (S : Scheme.{u}
       SmallEtale.final]))
 
 set_option maxHeartbeats 1000000 in
+-- elaborating a long composite of whiskered natural isomorphisms across several universes
 /-- **Global sections of an abelian sheaf on the small étale site of a field are the Galois
 invariants of the associated module**, naturally in the sheaf. -/
 def fieldEtaleSheafEquivΓIso :
@@ -316,14 +317,15 @@ theorem exists_pow_smul_abelianEtaleStalk_eq_zero (B : BigEtaleSite.{u}) (S : Sc
     (y : (abelianEtaleStalkFunctor.{u, max (u + 1) v} B S hS s).obj G) :
     ∃ k : ℕ, ℓ ^ k • y = 0 := by
   have := forget_preservesFiberColimits.{u, max (u + 1) v} B S hS s
-  set D := (CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ G.obj
+  set D := (Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ G.obj
   obtain ⟨j, t, rfl⟩ := Limits.Concrete.colimit_exists_rep D y
   obtain ⟨@⟨U, p⟩⟩ := j
   obtain ⟨R, hR, hann⟩ := hG U t
   obtain ⟨V, f, hf, q, hq⟩ := (geometricPointSitePoint B S hS s).jointly_surjective R hR p
   obtain ⟨r, -, hr⟩ := hann V f hf
   refine ⟨r, ?_⟩
-  have hw : ConcreteCategory.hom (colimit.ι D (op ((geometricPointFiber B S hS s).elementsMk U p))) t =
+  have hw :
+      ConcreteCategory.hom (colimit.ι D (op ((geometricPointFiber B S hS s).elementsMk U p))) t =
       ConcreteCategory.hom (colimit.ι D (op ((geometricPointFiber B S hS s).elementsMk V q)))
         (ConcreteCategory.hom (G.obj.map f.op) t) :=
     (ConcreteCategory.congr_hom (colimit.w D
@@ -331,7 +333,8 @@ theorem exists_pow_smul_abelianEtaleStalk_eq_zero (B : BigEtaleSite.{u}) (S : Sc
         (y := (geometricPointFiber B S hS s).elementsMk U p) f hq).op) t).symm
   rw [hw]
   have h := map_nsmul
-    (ConcreteCategory.hom (colimit.ι D (op ((geometricPointFiber B S hS s).elementsMk V q)))) (ℓ ^ r)
+    (ConcreteCategory.hom (colimit.ι D (op ((geometricPointFiber B S hS s).elementsMk V q))))
+    (ℓ ^ r)
     (ConcreteCategory.hom (G.obj.map f.op) t)
   rw [hr] at h
   exact h.symm.trans (map_zero _)

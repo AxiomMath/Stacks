@@ -57,7 +57,7 @@ theorem eq_smulHom_unit
   refine (SheafOfModules.unitHomEquiv _).injective (Subtype.ext (funext fun U => ?_))
   have := PresheafOfModules.naturality_apply φ.val (homOfLE (le_top : U.unop ≤ ⊤)).op
     (1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj.obj (op ⊤))
-  show φ.val.app U (1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj.obj U) =
+  change φ.val.app U (1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj.obj U) =
     (globalRes (φ.val.app (op ⊤)
       (1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj.obj (op ⊤)))
       U.unop : (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj.obj U) * 1

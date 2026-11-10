@@ -151,7 +151,7 @@ theorem fib3Diag_sigma (c₁ c₂ : C'.obj) : fib3Diag e hκ ≫ fib3Sigma e hκ
   apply ObjectProperty.hom_ext
   apply CommAlgCat.hom_ext
   ext c
-  show c + c₁ * (c - c) + c₂ * (c - c) = c
+  change c + c₁ * (c - c) + c₂ * (c - c) = c
   ring
 
 /-- Three lifts with a common reduction, as a point of the algebra of triples. -/

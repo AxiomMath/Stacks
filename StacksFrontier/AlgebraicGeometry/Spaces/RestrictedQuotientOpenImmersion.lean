@@ -81,7 +81,7 @@ private theorem corestriction_fppf {X Y : Scheme.{u}} (f : X ⟶ Y)
   have hP : P = ⊤ := by
     ext x
     refine ⟨fun _ => by simp, fun _ => ?_⟩
-    show f x ∈ (W : Set Y)
+    change f x ∈ (W : Set Y)
     rcases hW ⟨x, rfl⟩ with ⟨y, hy⟩
     rw [← hy]
     exact y.property
@@ -94,19 +94,19 @@ private theorem corestriction_fppf {X Y : Scheme.{u}} (f : X ⟶ Y)
       AlgebraicGeometry.IsOpenImmersion.lift_fac (f := W.ι) (g := f) hW]
     simp [e, P]
   refine ⟨?_, ?_, ?_⟩
-  · show Flat k
+  · change Flat k
     rw [← hk]
     infer_instance
-  · show LocallyOfFinitePresentation k
+  · change LocallyOfFinitePresentation k
     rw [← hk]
     infer_instance
-  · show Surjective k
+  · change Surjective k
     constructor
     intro y
     rcases hWsurj ⟨y, rfl⟩ with ⟨x, hx⟩
     refine ⟨x, ?_⟩
     apply W.ι.isOpenEmbedding.injective
-    show (k ≫ W.ι) x = W.ι y
+    change (k ≫ W.ι) x = W.ι y
     rw [AlgebraicGeometry.IsOpenImmersion.lift_fac (f := W.ι) (g := f) hW]
     simpa using hx
 
@@ -205,9 +205,9 @@ private theorem restrictionReach_fppf {S : Scheme.{u}} {U' : Over S}
     rw [← overPullbackLeftIso_hom_snd]
     infer_instance
   constructor
-  · show Flat ((pullback.snd g G.target).left ≫ G.source.left)
+  · change Flat ((pullback.snd g G.target).left ≫ G.source.left)
     infer_instance
-  · show LocallyOfFinitePresentation ((pullback.snd g G.target).left ≫ G.source.left)
+  · change LocallyOfFinitePresentation ((pullback.snd g G.target).left ≫ G.source.left)
     exact locallyOfFinitePresentation_comp _ _
 
 /-- A surjective, flat, locally finitely presented morphism of `S`-schemes induces a local
@@ -236,7 +236,7 @@ private theorem sheafified_fppf_map_locallySurjective
     let E : PreZeroHypercover.{u + 1} (B.inclusion.obj A.left) :=
       PreZeroHypercover.singleton q.left
     have hE : E.presieve₀ ∈ Scheme.fppfPrecoverage (B.inclusion.obj A.left) := by
-      show E.presieve₀ ∈ Scheme.precoverage (@Flat ⊓ @LocallyOfFinitePresentation)
+      change E.presieve₀ ∈ Scheme.precoverage (@Flat ⊓ @LocallyOfFinitePresentation)
         (B.inclusion.obj A.left)
       rw [Scheme.presieve₀_mem_precoverage_iff]
       refine ⟨fun y => ?_, fun _ => ⟨hq.1, hq.2.1⟩⟩
@@ -261,7 +261,7 @@ private theorem sheafified_fppf_map_locallySurjective
       have hbp : b ≫ q.left = B.inclusion.map (V.f i) := ref.w₀ i
       have hbeta : b ≫ P.hom = (F.obj W).hom := by
         rw [← Over.w q]
-        show (b ≫ q.left) ≫ (F.obj A).hom = (F.obj W).hom
+        change (b ≫ q.left) ≫ (F.obj A).hom = (F.obj W).hom
         rw [hbp]
         exact (B.inclusion.map_comp _ _).symm
       let β : F.obj W ⟶ P := Over.homMk b hbeta
@@ -270,13 +270,13 @@ private theorem sheafified_fppf_map_locallySurjective
         exact hbp
       let t : F.obj W ⟶ X := β ≫ pullback.fst k f
       have hlift : p.app (op W) t = (F.op ⋙ yoneda.obj Y).map α.op s := by
-        show t ≫ k = F.map α ≫ f
+        change t ≫ k = F.map α ≫ f
         rw [← hfactor]
         simp [t, q, pullback.condition]
       rw [Sieve.overEquiv_iff, Presheaf.imageSieve_apply]
       exact ⟨t, hlift⟩
     exact J.superset_covering hle hRcov
-  show Presheaf.IsLocallySurjective J (sheafifyMap J p)
+  change Presheaf.IsLocallySurjective J (sheafifyMap J p)
   let PX := F.op ⋙ yoneda.obj X
   apply (Presheaf.comp_isLocallySurjective_iff J (toSheafify J PX) (sheafifyMap J p)).1
   rw [(toSheafify_naturality J p).symm]
@@ -314,10 +314,10 @@ theorem isOpenImmersion_restrictedQuotientMap
   have hobjIso : IsIso objIso.left := inferInstanceAs (IsIso ((Over.forget S).map objIso))
   let gg : U' ⟶ G.objects := g ≫ objIso
   have hggflat : Flat gg.left := by
-    show Flat (g.left ≫ objIso.left)
+    change Flat (g.left ≫ objIso.left)
     infer_instance
   have hgglfp : LocallyOfFinitePresentation gg.left := by
-    show LocallyOfFinitePresentation (g.left ≫ objIso.left)
+    change LocallyOfFinitePresentation (g.left ≫ objIso.left)
     infer_instance
   let q := GroupoidScheme.restrictionReachMap G gg
   obtain ⟨hqflat, hqlfp⟩ := restrictionReach_fppf G gg
@@ -327,17 +327,17 @@ theorem isOpenImmersion_restrictedQuotientMap
   let Wover : Over S := Over.mk (W.ι ≫ G.objects.hom)
   let i : Wover ⟶ G.objects := Over.homMk W.ι (by simp [Wover])
   have hi : AlgebraicGeometry.IsOpenImmersion i.left := by
-    show AlgebraicGeometry.IsOpenImmersion W.ι
+    change AlgebraicGeometry.IsOpenImmersion W.ι
     infer_instance
   let kScheme := AlgebraicGeometry.IsOpenImmersion.lift W.ι q.left hW
   let k : pullback gg G.target ⟶ Wover := Over.homMk kScheme (by
-    show kScheme ≫ (W.ι ≫ G.objects.hom) = (pullback gg G.target).hom
+    change kScheme ≫ (W.ι ≫ G.objects.hom) = (pullback gg G.target).hom
     rw [← Category.assoc,
       AlgebraicGeometry.IsOpenImmersion.lift_fac (f := W.ι) (g := q.left) hW]
     exact q.w)
   have hk : k ≫ i = q := by
     ext
-    show kScheme ≫ W.ι = q.left
+    change kScheme ≫ W.ι = q.left
     exact AlgebraicGeometry.IsOpenImmersion.lift_fac (f := W.ι) (g := q.left) hW
   obtain ⟨_, _, _⟩ : Flat k.left ∧ LocallyOfFinitePresentation k.left ∧ Surjective k.left :=
     corestriction_fppf q.left W hW hWsurj
@@ -347,7 +347,7 @@ theorem isOpenImmersion_restrictedQuotientMap
       ((presheafToSheaf J (Type u)).map (F.op.whiskerLeft (yoneda.map k))) :=
     sheafified_fppf_map_locallySurjective B hS k
   have hrange : Set.range i.left.base = Set.range q.left.base := by
-    show Set.range W.ι.base = Set.range q.left.base
+    change Set.range W.ι.base = Set.range q.left.base
     rw [Scheme.Opens.range_ι]
     rfl
   let jG := groupoidPreRelation G
@@ -436,7 +436,7 @@ theorem isOpenImmersion_restrictedQuotientMap
       ((𝟙 U' ≫ gg) ≫ f0Inv) g _ _ _ _ hfcomp
   have hmap : isoRest.hom.hom ≫ qRel.hom ≫ isoBase.hom.hom = qActual.hom :=
     congrArg (fun x => x.hom) hcompSheaf
-  show P qActual.hom
+  change P qActual.hom
   rw [← hmap]
   exact MorphismProperty.RespectsIso.postcomp P isoBase.hom.hom _
     (MorphismProperty.RespectsIso.precomp P isoRest.hom.hom qRel.hom hqRel)

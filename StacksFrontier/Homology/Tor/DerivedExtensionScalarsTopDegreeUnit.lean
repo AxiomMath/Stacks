@@ -63,8 +63,7 @@ theorem surjective_homology_unit (hf : Function.Surjective f) :
   have hu₀ : Function.Surjective (TensorProduct.mk R R₀
       ((DerivedCategory.homologyFunctor (ModuleCat.{u} R) 0).obj M) 1) := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => exact ⟨0, map_zero _⟩
+    induction y using TensorProduct.inductionOn with
     | tmul r m =>
       obtain ⟨a, rfl⟩ := hf r
       refine ⟨a • m, ?_⟩

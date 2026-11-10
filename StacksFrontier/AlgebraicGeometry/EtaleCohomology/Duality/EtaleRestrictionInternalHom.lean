@@ -52,8 +52,8 @@ instance full_over_post_smallEtaleCompose (V : U.Etale) :
     have hw : h.left.left ≫ W'.hom.left = W.hom.left :=
       congrArg (fun φ => φ.left) (Over.w h)
     refine ⟨Over.homMk (MorphismProperty.Over.homMk h.left.left ?_) ?_, ?_⟩
-    · have h₁ : W'.hom.left ≫ V.hom = W'.left.hom := by simpa using W'.hom.w
-      have h₂ : W.hom.left ≫ V.hom = W.left.hom := by simpa using W.hom.w
+    · have h₁ : W'.hom.left ≫ V.hom = W'.left.hom := by simp
+      have h₂ : W.hom.left ≫ V.hom = W.left.hom := by simp
       rw [← h₁, ← h₂, ← hw]
       exact (Category.assoc _ _ _).symm
     · exact MorphismProperty.Comma.Hom.ext hw (Subsingleton.elim _ _)

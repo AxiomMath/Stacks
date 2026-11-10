@@ -84,7 +84,7 @@ theorem tensorComparisonCompatible_of_iso {M N M' N' : S} (e : ((M, N) : S × S)
   let β : A ⋙ Lg ⋙ Lf' ⟶ (Lf ⋙ Lg').prod (Lf ⋙ Lg') ⋙ B' :=
     Functor.whiskerLeft A σ ≫ Functor.whiskerRight αf Lg' ≫ Functor.whiskerLeft (Lf.prod Lf) αg'
   have hX : α.app (M, N) = β.app (M, N) := h
-  show α.app (M', N') = β.app (M', N')
+  change α.app (M', N') = β.app (M', N')
   rw [← cancel_epi ((A ⋙ Lg ⋙ Lf').map e.hom), α.naturality, β.naturality, hX]
 
 /-- When the two composites around the square are identified with the second one by the

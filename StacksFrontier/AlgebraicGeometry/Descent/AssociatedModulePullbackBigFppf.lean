@@ -153,7 +153,7 @@ public theorem range_baseChangeOpensObj_le (V : Y.Opens) :
       ∈ (V : Set Y) := by
     rw [← Scheme.Opens.range_ι V]
     exact Set.mem_range_self _
-  show f.base ((pullback.snd (opensObj B Y hY V).hom (siteHom B hX hY f)).hom.base z)
+  change f.base ((pullback.snd (opensObj B Y hY V).hom (siteHom B hX hY f)).hom.base z)
     ∈ (V : Set Y)
   exact hz ▸ hmem
 
@@ -219,7 +219,7 @@ public theorem comparisonComp_opensBaseChangeIso :
       SheafOfModules.comparisonComp f.toRingCatSheafHom (structureMap B X hX) := by
   ext : 2
   funext V
-  show (structureMap B Y hY).hom.app V ≫
+  change (structureMap B Y hY).hom.app V ≫
       (Scheme.Γ ⋙ forget₂ CommRingCat RingCat.{u}).map
           (B.inclusion.map
             (pullback.fst (opensObj B Y hY V.unop).hom (siteHom B hX hY f))).op ≫
@@ -241,7 +241,7 @@ public theorem comparisonComp_opensBaseChangeIso :
   refine Eq.trans (congrArg (fun k => (structureMap B Y hY).hom.app V ≫ k) hcomb) ?_
   have key := Scheme.Opens.topIso_inv_appTop_of_comp f V.unop (f ∣_ V.unop)
     (morphismRestrict_ι f V.unop)
-  show (forget₂ CommRingCat RingCat.{u}).map (Scheme.Opens.topIso (X := Y) V.unop).inv ≫
+  change (forget₂ CommRingCat RingCat.{u}).map (Scheme.Opens.topIso (X := Y) V.unop).inv ≫
       (forget₂ CommRingCat RingCat.{u}).map (f ∣_ V.unop).appTop =
     (forget₂ CommRingCat RingCat.{u}).map (f.app V.unop) ≫
       (forget₂ CommRingCat RingCat.{u}).map
@@ -270,8 +270,8 @@ elsewhere — `f_big` at the other four topologies by
 (`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModulePullbackBigSites.lean`, which is this
 construction read at a variable topology), the small étale `f_small` by
 `AlgebraicGeometry.SmallEtale.associatedModuleBaseChangeIso` and the small Zariski `f_small` by
-`AlgebraicGeometry.SmallZariski.lcAssociatedModulePullbackIso`
-(`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallZariskiPushforwardSquare.lean:458`).
+`AlgebraicGeometry.SmallZariski.lcAssociatedModulePullbackIso` (
+`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallZariskiPushforwardSquare.lean:458`).
 (The last was formerly cited as
 `AlgebraicGeometry.SmallZariski.associatedModulePullbackIso`, which states the commutation over
 the *identity reading* of `𝓕 ↦ 𝓕^a` and is a tautology about `𝟭`; it is untagged, and naming it

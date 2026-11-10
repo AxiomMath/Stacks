@@ -165,7 +165,7 @@ theorem weaklyEtale_of_comp (A : Type u) (B : Type v) (C : Type w)
     let : SMul X C := algXC.toSMul
     let : Module X C := algXC.toModule
     let : IsScalarTower X Y C := .of_algebraMap_eq' (by
-      show (Algebra.TensorProduct.lmul' A (S := C)).toRingHom =
+      change (Algebra.TensorProduct.lmul' A (S := C)).toRingHom =
         (Algebra.TensorProduct.lmul' B (S := C)).toRingHom.comp f.toRingHom
       ext x <;>
         simp only [AlgHom.toRingHom_eq_coe, RingHom.coe_comp, RingHom.coe_coe,
@@ -174,7 +174,7 @@ theorem weaklyEtale_of_comp (A : Type u) (B : Type v) (C : Type w)
           mul_one, one_mul, f] <;>
         rw [Algebra.TensorProduct.mapOfCompatibleSMul_tmul] <;> simp)
     have hf : Function.Surjective (algebraMap X Y) := by
-      show Function.Surjective f
+      change Function.Surjective f
       exact Algebra.TensorProduct.mapOfCompatibleSMul_surjective B A A C C
     have hmul : (Algebra.TensorProduct.lmul' X (S := Y)).Flat := by
       exact RingHom.Flat.of_bijective (LinearMap.mul'_bijective_of_surjective X Y hf)
@@ -214,7 +214,7 @@ private lemma tensorMap_transition {A : Type u} [CommRing A]
     tensorMap c k (tensorTransition F g z) = tensorMap c j z := by
   have heq : (c.ι.app k).hom.comp (F.map g).hom = (c.ι.app j).hom :=
     AlgHom.ext (hom_map_hom_apply c g)
-  show ((Algebra.TensorProduct.map (c.ι.app k).hom (c.ι.app k).hom).comp
+  change ((Algebra.TensorProduct.map (c.ι.app k).hom (c.ι.app k).hom).comp
     (Algebra.TensorProduct.map (F.map g).hom (F.map g).hom)) z = _
   rw [← Algebra.TensorProduct.map_comp, heq]
 
@@ -223,8 +223,7 @@ private lemma exists_tensor_lift {A : Type u} [CommRing A]
     {F : J ⥤ CommAlgCat.{w} A} {c : Cocone F} (hc : IsColimit c)
     (z : c.pt ⊗[A] c.pt) :
     ∃ (j : J) (y : F.obj j ⊗[A] F.obj j), tensorMap c j y = z := by
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨IsFiltered.nonempty.some, 0, map_zero _⟩
+  induction z using TensorProduct.inductionOn with
   | tmul x y =>
       obtain ⟨j, a, ha⟩ := AlgebraicGeometry.exists_lift_of_isColimit hc x
       obtain ⟨k, b, hb⟩ := AlgebraicGeometry.exists_lift_of_isColimit hc y
@@ -272,8 +271,7 @@ private lemma lmul_map {A : Type u} [CommRing A]
     h ((Algebra.TensorProduct.lmul' A) z) =
       (Algebra.TensorProduct.lmul' A)
         ((Algebra.TensorProduct.map h h) z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x y => simp [Algebra.TensorProduct.lmul'_apply_tmul]
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -287,7 +285,7 @@ private lemma flat_lmul_of_isColimit {A : Type u} [CommRing A]
   let cD : Cocone D := (forget (CommAlgCat A)).mapCocone c
   let L := Algebra.TensorProduct.lmul' A (S := c.pt)
   let : Algebra (c.pt ⊗[A] c.pt) c.pt := L.toRingHom.toAlgebra
-  show Module.Flat (c.pt ⊗[A] c.pt) c.pt
+  change Module.Flat (c.pt ⊗[A] c.pt) c.pt
   apply Module.Flat.of_forall_isTrivialRelation
   intro n f x hx
   change ∑ i, L (f i) * x i = 0 at hx
@@ -314,7 +312,7 @@ private lemma flat_lmul_of_isColimit {A : Type u} [CommRing A]
         rw [lmul_map, ha' i, hy' i]
       _ = 0 := hx
   have hr' := (Types.FilteredColimit.isColimit_eq_iff' hcD r (0 : F.obj m)).mp (by
-    show (c.ι.app m).hom r = (c.ι.app m).hom 0
+    change (c.ι.app m).hom r = (c.ι.app m).hom 0
     simpa only [map_zero] using hr)
   obtain ⟨l, g, hg⟩ := hr'
   let a'' : Fin n → F.obj l ⊗[A] F.obj l :=
@@ -335,7 +333,7 @@ private lemma flat_lmul_of_isColimit {A : Type u} [CommRing A]
   let : Module.Flat (F.obj l ⊗[A] F.obj l) (F.obj l) := hflat
   have hrel : Module.IsTrivialRelation a'' y'' :=
     Module.Flat.isTrivialRelation_of_sum_smul_eq_zero (by
-      show ∑ i, (Algebra.TensorProduct.lmul' A) (a'' i) * y'' i = 0
+      change ∑ i, (Algebra.TensorProduct.lmul' A) (a'' i) * y'' i = 0
       exact hg')
   obtain ⟨q, b, z, hz, hb⟩ := hrel
   let zC : Fin q → c.pt := fun t ↦ (c.ι.app l).hom (z t)
@@ -349,7 +347,7 @@ private lemma flat_lmul_of_isColimit {A : Type u} [CommRing A]
         rw [map_sum]
         apply Finset.sum_congr rfl
         intro t _
-        show (c.ι.app l).hom ((Algebra.TensorProduct.lmul' A) (b i t) * z t) =
+        change (c.ι.app l).hom ((Algebra.TensorProduct.lmul' A) (b i t) * z t) =
           L (tensorMap c l (b i t)) * zC t
         rw [map_mul, lmul_map]
   have hsecond : ∀ t, ∑ i, f i * tensorMap c l (b i t) = 0 := by
@@ -374,7 +372,7 @@ private lemma weaklyEtale_of_isLocalization (A : Type u) (B : Type v)
     let i : B →ₐ[A] B ⊗[A] B := Algebra.TensorProduct.includeLeft
     have hii : (Algebra.TensorProduct.includeLeft : B →ₐ[A] B ⊗[A] B) =
         Algebra.TensorProduct.includeRight := by
-      apply AlgHom.coe_ringHom_injective
+      apply AlgHom.toRingHom_injective
       apply IsLocalization.ringHom_ext M
       ext a
       simp

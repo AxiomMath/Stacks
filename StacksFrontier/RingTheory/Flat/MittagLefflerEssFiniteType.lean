@@ -222,7 +222,7 @@ dominates `f` when tested against every `R`-module in every universe. -/
 theorem Dominates.of_small [Small.{v} R] {f : P →ₗ[R] M} {g : P →ₗ[R] Q}
     (h : Dominates.{uR, uP, uM, uQ, v} f g) : Dominates.{uR, uP, uM, uQ, uN} f g := by
   intro N _ _
-  show LinearMap.ker (LinearMap.rTensor N f) ≤ LinearMap.ker (LinearMap.rTensor N g)
+  change LinearMap.ker (LinearMap.rTensor N f) ≤ LinearMap.ker (LinearMap.rTensor N g)
   intro x hx
   rw [LinearMap.mem_ker] at hx ⊢
   obtain ⟨k, p, nn, rfl⟩ := TensorProduct.exists_sum_tmul_eq (R := R) (M := P) (N := N) x
@@ -283,13 +283,13 @@ theorem IsMittagLeffler.of_small_univ {R : Type uR} [CommRing R] [Small.{v} R] {
     Module.FinitePresentation.of_equiv eQ.symm,
     eQ.symm.toLinearMap ∘ₗ g₀ ∘ₗ eP.symm.toLinearMap, ?_, ?_⟩
   · intro N _ _
-    show LinearMap.ker (LinearMap.rTensor N f) ≤
+    change LinearMap.ker (LinearMap.rTensor N f) ≤
       LinearMap.ker (LinearMap.rTensor N (eQ.symm.toLinearMap ∘ₗ g₀ ∘ₗ eP.symm.toLinearMap))
     rw [LinearMap.ker_rTensor_equiv_comp,
       ← LinearMap.ker_rTensor_comp_equiv_le_iff eP f (g₀ ∘ₗ eP.symm.toLinearMap) N, hfold]
     exact hd₁' N
   · intro N _ _
-    show LinearMap.ker
+    change LinearMap.ker
         (LinearMap.rTensor N (eQ.symm.toLinearMap ∘ₗ g₀ ∘ₗ eP.symm.toLinearMap)) ≤
       LinearMap.ker (LinearMap.rTensor N f)
     rw [LinearMap.ker_rTensor_equiv_comp,

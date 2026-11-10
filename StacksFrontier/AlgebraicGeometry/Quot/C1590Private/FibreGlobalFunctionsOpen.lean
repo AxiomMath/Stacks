@@ -213,7 +213,7 @@ theorem globalFunctionsFieldLocus_eq_preimage {F G : CurveFamily B hZ} (φ : F �
     globalFunctionsFieldLocus F =
       (BigFppfOver.toScheme B integerBase hZ).map φ.baseMap ⁻¹' globalFunctionsFieldLocus G := by
   ext x
-  show HasGlobalFunctionsFieldAt F (F.residueFieldPoint x) ↔ _
+  change HasGlobalFunctionsFieldAt F (F.residueFieldPoint x) ↔ _
   rw [HasGlobalFunctionsFieldAt, ← CurveFamily.hasFibreSatisfying_map_iff φ,
     ← HasGlobalFunctionsFieldAt, hasGlobalFunctionsFieldAt_iff_mem]
   have hpt := (Space.schemePoint_map_yoneda B integerBase hZ φ.baseMap _).trans

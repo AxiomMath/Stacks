@@ -116,7 +116,7 @@ theorem germ_comp_of_lift {Z : Scheme.{u}} (i : Y ⟶ X) (j : Z ⟶ Y) (z : Z)
     (ha : (i.stalkMap (j z)).hom h = Y.presheaf.germ ⊤ (j z) trivial a) :
     ((j ≫ i).stalkMap z).hom h = Z.presheaf.germ ⊤ z trivial (j.appTop a) := by
   rw [Scheme.Hom.stalkMap_comp]
-  show (j.stalkMap z).hom ((i.stalkMap (j z)).hom h) = _
+  change (j.stalkMap z).hom ((i.stalkMap (j z)).hom h) = _
   rw [ha]
   exact (congrArg (fun k : Γ(Y, ⊤) ⟶ Z.presheaf.stalk z => k.hom a)
     (appTop_comp_germ_top j z)).symm

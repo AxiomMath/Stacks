@@ -7,7 +7,8 @@ public import StacksFrontier.Homology.KFlat.BifunctorBoundedAbove
 
 /-! # Tensoring with the structure sheaf, with the module universe free of the site
 
-Let `(C, O)` be a ringed site. `StacksFrontier/CategoryTheory/Sites/Modules/TensorUnit.lean` records the unit law
+Let `(C, O)` be a ringed site. `StacksFrontier/CategoryTheory/Sites/Modules/TensorUnit.lean` records
+the unit law
 `F ⊗_O O ≅ F` of Stacks 06YM and the three consequences a derived-category client needs, but
 only for a structure sheaf whose sections lie in `max u v`, `u` and `v` being the object and
 morphism universes of the site: it reads the unitor off the re-seated monoidal structure of
@@ -37,7 +38,8 @@ there — is `Stacks.SheafOfModules.tensorSheafUnitRightIso_naturality` below.
 ## Implementation notes
 
 Each declaration generalises the sibling of the same name without the `OfSize` suffix in
-`StacksFrontier/CategoryTheory/Sites/Modules/TensorUnit.lean`, whose consumers identify `sheafTensorUnitNatIso` with the
+`StacksFrontier/CategoryTheory/Sites/Modules/TensorUnit.lean`, whose consumers identify
+`sheafTensorUnitNatIso` with the
 right unitor of the re-seated monoidal structure and so cannot be served by the generalisation;
 the two are kept side by side for that reason.
 

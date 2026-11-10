@@ -67,8 +67,8 @@ The base change maps of the square appear with an equation of the square each
 (`w'`, `w''`): matching two base change maps whose equations are different proofs of the same
 equation unfolds the base change map in the kernel.
 
-The derived categories are the standard model, as in
-`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/AdjunctionForRingedTopoi.lean:394`.
+The derived categories are the standard model, as at line 394 of
+`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/AdjunctionForRingedTopoi.lean`.
 
 ## References
 
@@ -119,7 +119,7 @@ end Stacks.ProjectionFormula
 namespace Stacks.EtaleCohomology.EtaleCoefficients
 
 -- `derivedPullback` (`StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/
--- StacksFrontier/CategoryTheory/Sites/Cohomology/DerivedPushforward/AdjunctionForRingedTopoi.lean:394`) is stated for the standard model of the derived category.
+-- AdjunctionForRingedTopoi.lean:394`) is stated for the standard model of the derived category.
 attribute [local instance] HasDerivedCategory.standard
 
 variable (Λ : Type (u + 1)) [CommRing Λ]

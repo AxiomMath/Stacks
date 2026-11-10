@@ -56,7 +56,7 @@ theorem exists_bound_mk_quotient_fiber (D : ComplexesSituation B S hS) :
   refine ⟨2 ^ 2 ^ 2 ^ max S.size μ, hsl (hsl (hsl (max_lt hS hμ))), fun U k _ hU hk => ?_⟩
   refine (h U k hU).trans (Cardinal.lift_le.mpr ?_)
   have hsize : ((BigFppfOver.toScheme B S hS).obj U).size ≤ S.size := by
-    show (U.left.1).size ≤ S.size
+    change (U.left.1).size ≤ S.size
     rw [hU, Scheme.size_Spec]
     exact max_le S.aleph0_le_size hk
   exact power_le_power_left two_ne_zero (power_le_power_left two_ne_zero

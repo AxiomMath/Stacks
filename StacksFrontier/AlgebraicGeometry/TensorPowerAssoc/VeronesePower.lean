@@ -92,11 +92,11 @@ theorem whiskerRight_mulMap_powAdd {L : C} {p : ℕ} (a : powSections L p) (k : 
       (mulMap a k ▷ natTensorPow L e) ≫ powAdd L (p + k) e
         = powAdd L k e ≫ mulMap a (k + e) ≫ powCongr L (Nat.add_assoc p k e).symm
   | 0 => by
-      show (mulMap a k ▷ 𝟙_ C) ≫ (ρ_ (natTensorPow L (p + k))).hom
+      change (mulMap a k ▷ 𝟙_ C) ≫ (ρ_ (natTensorPow L (p + k))).hom
         = (ρ_ (natTensorPow L k)).hom ≫ mulMap a k ≫ 𝟙 _
       simp [whiskerRight_id]
   | e + 1 => by
-      show (mulMap a k ▷ (natTensorPow L e ⊗ L)) ≫ powAdd L (p + k) (e + 1)
+      change (mulMap a k ▷ (natTensorPow L e ⊗ L)) ≫ powAdd L (p + k) (e + 1)
         = powAdd L k (e + 1) ≫ mulMap a (k + (e + 1)) ≫
             powCongr L (Nat.add_assoc p k (e + 1)).symm
       rw [powAdd_succ, powAdd_succ, mulMap_add_succ, ← Category.assoc,
@@ -188,7 +188,7 @@ theorem mulMap_ofPowPow (L : C) (d n : ℕ) (a : powSections L (d * n)) :
         = (powPowIso L d m).hom ≫ mulMap a (d * m) ≫
             powCongr L (Nat.left_distrib d n m).symm
   | 0 => by
-      show ofPowPow L d n a ≫ (powPowIso L d n).hom = 𝟙 _ ≫ a ≫ 𝟙 _
+      change ofPowPow L d n a ≫ (powPowIso L d n).hom = 𝟙 _ ≫ a ≫ 𝟙 _
       simp [ofPowPow_def]
   | m + 1 => mulMap_ofPowPow_step L d n m a (mulMap_ofPowPow L d n a m)
 

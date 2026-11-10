@@ -298,7 +298,7 @@ theorem isLE_derivedLowerShriekUnbounded_obj_of_fibreBound
         ((etaleModuleForgetAb.{u, r} Λ j.space).obj
           ((etaleModuleExtensionByZero.{u, r} Λ j.immersion).obj M)) :=
       Stacks.Torsion.torsionSheafProperty_of_iso _
-        (asIso ((etaleModuleExtensionByZeroForget.{u, r} Λ j.immersion).natTrans.app M))
+        (asIso ((etaleModuleExtensionByZeroForget.{u, r} Λ j.immersion).app M))
         (torsionSheafProperty_extensionByZero.{u, r} j.immersion
           ((etaleModuleForgetAb.{u, r} Λ X).obj M) hM)
     have : ((etaleModuleDerivedDirectImageUnbounded.{u, r} Λ j.toBase).obj
@@ -319,7 +319,7 @@ theorem isLE_derivedLowerShriekUnbounded_obj_of_fibreBound
   have h₁ : E'.IsGE a := (DerivedCategory.Plus.isGE_ι_obj_iff E' a).1 hGE
   have h₂ : E'.IsLE (a + n) := (DerivedCategory.Plus.isLE_ι_obj_iff E' _).1 (by
     rw [hn]
-    show E.IsLE b
+    change E.IsLE b
     infer_instance)
   have h := key a n E' h₁ h₂ (fun q _ _ ↦ hB q)
   rw [hn] at h

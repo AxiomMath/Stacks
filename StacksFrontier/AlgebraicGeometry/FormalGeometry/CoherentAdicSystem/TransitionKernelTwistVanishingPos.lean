@@ -154,7 +154,7 @@ public theorem exists_isZero_Hgroup_transitionKernel_tensorPowModule_of_pos
           smul_piece_eq_zero_of_mem D.toAssociatedGradedAlgebraData D.module U ha (n : ℤ) x) m
   -- Serre vanishing upstairs, brought down to `X`.
   obtain ⟨d₀, hd₀⟩ :=
-    @Stacks.GradedProperCohomology.exists_isZero_Hgroup_tensorPowTwist_of_coprodIso_of_isAmple_subscheme
+    @GradedProperCohomology.exists_isZero_Hgroup_tensorPowTwist_of_coprodIso_of_isAmple_subscheme
       X (Stacks.Cohomology.FormalFunctions.reesRelativeSpec I (Over.mk f)).left
       ↥(reesAlgebra I) _ hBN
       (Stacks.Cohomology.FormalFunctions.reesRelativeSpec I (Over.mk f)).hom _

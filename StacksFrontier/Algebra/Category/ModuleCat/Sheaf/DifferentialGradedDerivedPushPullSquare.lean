@@ -127,6 +127,8 @@ variable {φ : DifferentialGradedAlgebra.SemilinearHom uf σ B A}
   {ιB : DifferentialGradedAlgebra.SemilinearHom (𝟭 C') (𝟙 R'.obj) W B}
   {χ : DifferentialGradedAlgebra.SemilinearHom uf σ W Z}
 
+omit [HasSheafify J AddCommGrpCat] [J.WEqualsLocallyBijective AddCommGrpCat]
+  [HasSheafify J' AddCommGrpCat] [J'.WEqualsLocallyBijective AddCommGrpCat] in
 /-- **The square of direct images on the homotopy categories.** The direct image along `f`
 followed by the restriction of scalars along `ιB` is the restriction of scalars along `ιA`
 followed by the direct image along `f`, as an equality of functors

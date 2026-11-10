@@ -174,7 +174,6 @@ theorem of_cokernel [HasZeroMorphisms 𝒞] {A B C : K → 𝒞}
     (hvT : ∀ {i j : K} (a : i ⟶ j), TB a ≫ v i = v j ≫ TC a)
     {𝒜 ℬ 𝒞' : 𝒞} {α : ∀ i, A i ⟶ 𝒜} {β : ∀ i, B i ⟶ ℬ} (γ : ∀ i, C i ⟶ 𝒞')
     (hA : IsSystemColimit A TA 𝒜 α) (hB : IsSystemColimit B TB ℬ β)
-    (hα : ∀ {i j : K} (a : i ⟶ j), TA a ≫ α i = α j)
     (U : 𝒜 ⟶ ℬ) (V : ℬ ⟶ 𝒞') (hU : ∀ i, α i ≫ U = u i ≫ β i)
     (hV : ∀ i, β i ≫ V = v i ≫ γ i) {hUV : U ≫ V = 0}
     (hcok : IsColimit (CokernelCofork.ofπ V hUV)) :

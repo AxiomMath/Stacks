@@ -123,7 +123,7 @@ theorem torShortComplexExact₁ : (torShortComplexDelta₁ S hS k M).Exact := by
   refine ShortComplex.isoMk (torIsoHomology S.X₃ M (k + 1)).symm
     (torIsoHomology S.X₁ M k).symm (torIsoHomology S.X₂ M k).symm ?_
     (torIsoHomology_inv_naturality S.f M k).symm
-  show (torIsoHomology S.X₃ M (k + 1)).inv ≫ torDelta S hS M k
+  change (torIsoHomology S.X₃ M (k + 1)).inv ≫ torDelta S hS M k
     = (lesShift.ses A S hS M).δ (k + 1) k (downRel k) ≫ (torIsoHomology S.X₁ M k).inv
   rw [torDelta_eq, Iso.inv_hom_id_assoc]
 

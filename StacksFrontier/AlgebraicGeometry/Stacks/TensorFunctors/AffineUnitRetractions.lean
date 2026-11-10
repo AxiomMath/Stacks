@@ -167,7 +167,7 @@ theorem hasFlatLocalUnitRetractions_affineQuasicoherentStructureSheaf
           σ.hom (((pushforwardCommRingHom g hg).app (op y')).hom b * m') = b * σ.hom m' :=
         fun b m' => by rw [map_mul, affineUnitRetractionRingHom_pushforwardCommRingHom]
       exact key a (PresheafOfModules.toRingElem (pushforwardCommRingHom g hg) m)
-    · show σ.hom (PresheafOfModules.toRingElem (pushforwardCommRingHom g hg)
+    · change σ.hom (PresheafOfModules.toRingElem (pushforwardCommRingHom g hg)
         (η[affineQuasicoherentStructureSheaf g hg].hom.val.app (op y')
           (1 : fibredSectionRing B S hS 𝒳.val.val.p y'))) = 1
       rw [unit_hom_val_app_affineQuasicoherentStructureSheaf]

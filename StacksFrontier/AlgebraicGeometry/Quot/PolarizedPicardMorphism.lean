@@ -190,7 +190,7 @@ theorem ampleModelBaseMap_comp_ampleModelSpaceIso (g : A.T ⟶ C.T) :
         (ampleModelSpaceIso hC).hom =
       (ampleModelSpaceIso hA).hom ≫ Space.baseChangeMap (properFlatPicardSituation X₀).f g := by
   have h := schemeSpaceMap_ampleModelBaseMap (hA := hA) (hC := hC) g
-  show schemeSpaceMap (ampleModelBaseMap hA hC g) ≫ (ampleModelSpaceIso hC).hom = _
+  change schemeSpaceMap (ampleModelBaseMap hA hC g) ≫ (ampleModelSpaceIso hC).hom = _
   rw [h, Category.assoc, Category.assoc, Iso.inv_hom_id, Category.comp_id]
 
 /-- The square of represented algebraic spaces relating the morphism of scheme models with the

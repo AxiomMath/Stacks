@@ -334,13 +334,13 @@ theorem exists_cohomologicalChernCharacter
       (S.obj X) (chM X) (hzero X) (fun f g w => hadd X f g w) (hmul X) (hone X)
   refine ⟨ch, hch, fun X α => ?_, fun {X Y} f α => ?_, fun X L hL => ?_⟩
   · refine mem_of_classOf_mem (ch X).toAddMonoidHom _ (fun M hM => ?_) α
-    show ch X (VectorBundleKZero.classOf (S.obj X) M) ∈ gradedPowerSeries 𝔄 X
+    change ch X (VectorBundleKZero.classOf (S.obj X) M) ∈ gradedPowerSeries 𝔄 X
     rw [hch X M hM]
     exact hgrade X M
   · refine DFunLike.congr_fun (VectorBundleKZero.addHom_ext
       (φ := (PowerSeries.map (𝔄.pull f)).toAddMonoidHom.comp (ch Y).toAddMonoidHom)
       (ψ := (ch X).toAddMonoidHom.comp (κ f).toAddMonoidHom) fun E hE => ?_) α
-    show PowerSeries.map (𝔄.pull f) (ch Y (VectorBundleKZero.classOf (S.obj Y) E)) =
+    change PowerSeries.map (𝔄.pull f) (ch Y (VectorBundleKZero.classOf (S.obj Y) E)) =
       ch X (κ f (VectorBundleKZero.classOf (S.obj Y) E))
     rw [hch Y E hE, hκ f E hE, hch X _ (hflf f E hE), hpullM f E hE]
   · rw [hch X L (stacksFlf_of_isInvertible L hL), hinvM X L hL]

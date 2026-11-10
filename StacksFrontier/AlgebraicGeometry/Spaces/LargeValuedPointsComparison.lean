@@ -240,7 +240,7 @@ theorem isClosedMorphismULift_whiskerRight_iff
               pointsULiftEquiv.{w} B S hS F) := by
       funext x
       rw [Function.comp_apply, Function.comp_apply, hnat x, Equiv.symm_apply_apply]
-    show IsClosedMap (pointsMap B S hS F q)
+    change IsClosedMap (pointsMap B S hS F q)
     rw [heq]
     exact (pointsHomeomorphPointsULift.{w} B S hS G).symm.isClosedMap.comp
       (h'.comp (pointsHomeomorphPointsULift.{w} B S hS F).isClosedMap)
@@ -253,13 +253,14 @@ theorem isClosedMorphismULift_whiskerRight_iff
       funext y
       rw [Function.comp_apply, Function.comp_apply,
         ← hnat ((pointsULiftEquiv.{w} B S hS F).symm y), Equiv.apply_symm_apply]
-    show IsClosedMap (pointsMapULift B S hS (F ⋙ uliftFunctor.{w})
+    change IsClosedMap (pointsMapULift B S hS (F ⋙ uliftFunctor.{w})
       (Functor.whiskerRight q uliftFunctor.{w}))
     rw [heq]
     exact ((pointsHomeomorphPointsULift.{w} B S hS G).isClosedMap.comp h').comp
       (pointsHomeomorphPointsULift.{w} B S hS F).symm.isClosedMap
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of universe-lifted presheaves on the big fppf site
 /-- The universe lift of a universally closed morphism of presheaves of `Type u` is
 universally closed: an algebraic space over `S` with values in `Type (max w u)` is isomorphic
 to the universe lift of a presheaf of `Type u`, so a base change of the lift along a morphism

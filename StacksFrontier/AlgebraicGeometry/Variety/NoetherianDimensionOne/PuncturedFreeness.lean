@@ -63,9 +63,9 @@ isomorphism with the spectrum, which carries the basic open of the spectrum to t
 locus. -/
 theorem notMem_primeIdealOf_iff_mem_basicOpen (x : V) (r : Γ(X, V)) :
     r ∉ (hV.primeIdealOf x).asIdeal ↔ (x : X) ∈ X.basicOpen r := by
-  show hV.primeIdealOf x ∈ PrimeSpectrum.basicOpen r ↔ _
+  change hV.primeIdealOf x ∈ PrimeSpectrum.basicOpen r ↔ _
   rw [← hV.fromSpec_preimage_basicOpen]
-  show hV.fromSpec (hV.primeIdealOf x) ∈ X.basicOpen r ↔ _
+  change hV.fromSpec (hV.primeIdealOf x) ∈ X.basicOpen r ↔ _
   rw [hV.fromSpec_primeIdealOf]
 
 include hV in

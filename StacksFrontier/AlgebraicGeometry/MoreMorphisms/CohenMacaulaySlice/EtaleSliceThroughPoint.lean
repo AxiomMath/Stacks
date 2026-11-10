@@ -158,7 +158,7 @@ theorem unramifiedAt_comp_of_fiber_generators {Z X S : Scheme.{u}} (ψ : Z ⟶ X
         refine sup_le le_rfl ?_
         rw [Ideal.map_ofList, Ideal.ofList, Ideal.span_le]
         intro y hy
-        simp only [Set.mem_setOf_eq, List.map_ofFn, List.mem_ofFn] at hy
+        simp only [Set.mem_ofPred_eq, List.map_ofFn, List.mem_ofFn] at hy
         obtain ⟨i, rfl⟩ := hy
         have h0 : (ψ.stalkMap z).hom
             (X.presheaf.germ ⊤ (ψ z) trivial (F i)) = 0 :=

@@ -146,6 +146,7 @@ open Stacks.Intersection.ReductionToDiagonal
 variable [IsAlgClosed K] {Y : Scheme.{u}} (f : Y ⟶ Spec (.of K)) [IsVariety K f]
   (hY : IsRegular Y) [IsLocallyNoetherian Y]
 
+omit [IsAlgClosed K] in
 /-- The Section 43.14 product of two closed subvarieties is symmetric. -/
 theorem torSubvarietyProductOfBound_comm {n : ℤ} {x y : Y}
     (h : TorSupportBound (fieldChowSituation K) f hY n x y)
@@ -154,6 +155,7 @@ theorem torSubvarietyProductOfBound_comm {n : ℤ} {x y : Y}
       torSubvarietyProductOfBound (fieldChowSituation K) f hY n h' :=
   intersectionProductCycle_comm (fieldChowSituation K) f hY _ _ _ _ n _ _
 
+omit [IsAlgClosed K] in
 /-- The product of two prime cycles is the Section 43.14 product of the two closures, when the
 latter is defined. -/
 theorem torFormula_single_single_eq_ofBound [DecidableEq Y] {n : ℤ} {x y : Y}
@@ -309,12 +311,14 @@ section LineFamily
 
 variable {K} [IsAlgClosed K] {V P : Scheme.{u}} (sP : P ⟶ Spec (.of K)) (i : V ⟶ P)
 
+omit [IsAlgClosed K] in
 /-- The family over a closed immersion is cut out by the inverse image of its ideal. -/
 theorem ker_familyBaseChange [IsClosedImmersion i] :
     (familyBaseChange sP i).ker =
       i.ker.comap (pullback.fst sP (relativeProjectiveLine (Spec (.of K)) ↘ Spec (.of K))) :=
   ker_eq_comap_ker_of_isPullback (isPullback_familyBaseChange sP i).flip
 
+omit [IsAlgClosed K] in
 /-- The image of the family over `V` is the inverse image of `V`. -/
 theorem range_familyBaseChange :
     Set.range (familyBaseChange sP i).base =
@@ -480,6 +484,7 @@ theorem relativeDimension_lineGenericPoint :
   exact relativeDimension_eq_succ_of_topologicalKrullDim_closure K sP
     (topologicalKrullDim_closure_lineGenericPoint sP v)
 
+omit [IsAlgClosed K] in
 /-- The delta-dimension of the reduced closure of a point is its relative dimension. -/
 theorem schemeDeltaDimension_integralComponentAt_eq {Y : Scheme.{u}} (s : Y ⟶ Spec (.of K))
     [LocallyOfFiniteType s] (y : Y) :
@@ -528,6 +533,7 @@ section ZeroSection
 variable {K} [IsAlgClosed K] {P : Scheme.{u}} (sP : P ⟶ Spec (.of K)) [IsVariety K sP]
   (hQ : IsRegular (projectiveLineProduct sP)) [IsLocallyNoetherian (projectiveLineProduct sP)]
 
+omit [IsAlgClosed K] [IsLocallyNoetherian (projectiveLineProduct sP)] in
 /-- The dimension of `P × 𝐏¹` is bounded by a natural number. -/
 theorem exists_topologicalKrullDim_projectiveLineProduct_le_of_isVariety :
     ∃ d : ℕ, topologicalKrullDim (projectiveLineProduct sP) ≤ (d : WithBot ℕ∞) := by
@@ -536,6 +542,7 @@ theorem exists_topologicalKrullDim_projectiveLineProduct_le_of_isVariety :
   exact exists_topologicalKrullDim_projectiveLineProduct_le K (fieldChowSituation K) rfl sP
 
 open scoped Classical in
+omit [IsAlgClosed K] in
 /-- **Stacks 0B07, part (1)(b), on `P × 𝐏¹`, for a prime cycle.** -/
 theorem properPushforward_eq_zeroFiberCycle_of_coe_eq_single (x : projectiveLineProduct sP)
     (k : ℤ) (hx : relativeDimension (fieldChowSituation K).dimensionFunction
@@ -589,7 +596,7 @@ theorem properPushforward_flatPullback_product_zeroSection (hf : RelativeDimensi
         a.1 v • Function.locallyFinsuppWithin.single (lineGenericPoint sP v) 1 := by
     conv_lhs => rw [cycle_eq_sum_zsmul_primeCycles a hfin]
     rw [map_sum]
-    simp only [map_zsmul, AddSubgroup.val_finset_sum, AddSubgroup.coe_zsmul]
+    simp only [map_zsmul, AddSubgroup.val_finsetSum, AddSubgroup.coe_zsmul]
     exact Finset.sum_congr rfl fun v hv => by
       rw [flatPullback_primeCycle_eq_single sP v hf m (hdim v hv)]
   have key : ∀ v ∈ hfin.toFinset, properPushforward (fieldChowSituation K)
@@ -618,7 +625,7 @@ theorem properPushforward_flatPullback_product_zeroSection (hf : RelativeDimensi
           (Function.locallyFinsuppWithin.single ((zeroSection sP).base (genericPoint P)) 1),
           torFormulaCycleIntersectionProduct_mem_cyclesOfDimension _ _ _ _ _ _⟩ := by
     apply Subtype.ext
-    simp only [AddSubgroup.val_finset_sum, AddSubgroup.coe_zsmul]
+    simp only [AddSubgroup.val_finsetSum, AddSubgroup.coe_zsmul]
     rw [hpull, torFormulaCycleIntersectionProduct, cycleIntersectionProduct_sum_left]
     refine Finset.sum_congr rfl fun v _ => ?_
     rw [cycleIntersectionProduct_zsmul_left _ _ (finite_support_of_compactSpace _)
@@ -630,6 +637,7 @@ theorem properPushforward_flatPullback_product_zeroSection (hf : RelativeDimensi
   rw [map_zsmul, properPushforwardHom_apply, key v hv]
 
 open scoped Classical in
+omit [IsAlgClosed K] [IsLocallyNoetherian (projectiveLineProduct sP)] in
 /-- Pushing forward along `pr : P × 𝐏¹ ⟶ P` the prime cycle of the image under the zero section
 of the closure of `z` gives the prime cycle of `z`. -/
 theorem properPushforward_single_zeroSection (z : P) (r : ℤ)
@@ -670,6 +678,7 @@ theorem properPushforward_single_zeroSection (z : P) (r : ℤ)
   rw [h4, h3, h2]
   simp only [Category.assoc, zeroSection_comp_fst, Category.comp_id, hgen]
 
+omit [IsAlgClosed K] [IsVariety K sP] [IsLocallyNoetherian (projectiveLineProduct sP)] in
 /-- The zero section preserves relative dimension. -/
 theorem relativeDimension_zeroSection (y : P) :
     relativeDimension (fieldChowSituation K).dimensionFunction
@@ -680,6 +689,7 @@ theorem relativeDimension_zeroSection (y : P) :
     Category.id_comp]
 
 open scoped Classical in
+omit [IsAlgClosed K] [IsLocallyNoetherian (projectiveLineProduct sP)] in
 /-- The prime cycle of `σ(z)` is a cycle of the dimension of `z`. -/
 theorem single_zeroSection_mem_cyclesOfDimension (z : P) (r : ℤ)
     (hz : relativeDimension (fieldChowSituation K).dimensionFunction sP z = r) :

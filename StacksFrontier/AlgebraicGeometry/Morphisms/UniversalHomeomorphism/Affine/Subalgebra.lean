@@ -110,7 +110,7 @@ lemma universallyInjective_specMap_subalgebra
   let f' : Spec (CommRingCat.of B') ⟶ Spec (CommRingCat.of A) :=
     Scheme.Spec.map (CommRingCat.ofHom (algebraMap A B')).op
   have hcomp : g ≫ f' = f₀ := by
-    show Spec.map (CommRingCat.ofHom (Subalgebra.val B').toRingHom) ≫
+    change Spec.map (CommRingCat.ofHom (Subalgebra.val B').toRingHom) ≫
       Spec.map (CommRingCat.ofHom (algebraMap A B')) =
       Spec.map (CommRingCat.ofHom (algebraMap A B))
     rw [← Spec.map_comp, Spec.map_inj]
@@ -146,7 +146,7 @@ lemma universallyInjective_specMap_subalgebra
     let : Algebra K L := γ.toAlgebra
     have : IsScalarTower K E L := IsScalarTower.of_algebraMap_eq' hγα
     have : IsPurelyInseparable K L := hcrit.2 q
-    show α.IsPurelyInseparable
+    change α.IsPurelyInseparable
     exact IsPurelyInseparable.tower_bot K E L
 
 /-- **Stacks 0CN7.** If the map on spectra of an algebra is a universal homeomorphism, then so
@@ -171,7 +171,7 @@ lemma universalHomeomorphism_specMap_subalgebra
       universallyInjective_specMap_subalgebra B', ?_⟩
   let g := Scheme.Spec.map (CommRingCat.ofHom (B'.val : B' →+* B)).op
   have hc : g ≫ Scheme.Spec.map (CommRingCat.ofHom (algebraMap A B')).op = f := by
-    show Spec.map (CommRingCat.ofHom (B'.val : B' →+* B)) ≫
+    change Spec.map (CommRingCat.ofHom (B'.val : B' →+* B)) ≫
       Spec.map (CommRingCat.ofHom (algebraMap A B')) =
       Spec.map (CommRingCat.ofHom (algebraMap A B))
     rw [← Spec.map_comp]
@@ -186,7 +186,7 @@ private lemma exists_spec_point_lift_subalgebra
     [Algebra.IsIntegral A B] (B' : Subalgebra A B) (x : Spec (.of B')) :
     ∃ y : Spec (.of B),
       (Scheme.Spec.map (CommRingCat.ofHom (Subalgebra.val B')).op) y = x := by
-  show ∃ y : PrimeSpectrum B,
+  change ∃ y : PrimeSpectrum B,
     PrimeSpectrum.comap (Subalgebra.val B').toRingHom y = x
   exact primeSpectrum_comap_subalgebra_surjective_of_isIntegral B' x
 
@@ -302,7 +302,7 @@ lemma universalHomeomorphism_specMap_to_subring
     exact universalHomeomorphism_of_isIso _
   have hcomp : g ≫ j =
       Scheme.Spec.map (CommRingCat.ofHom C.toSubring.subtype).op := by
-    show Scheme.Spec.map ((CommRingCat.ofHom (algebraMap C B)).op) ≫
+    change Scheme.Spec.map ((CommRingCat.ofHom (algebraMap C B)).op) ≫
       Scheme.Spec.map ((CommRingCat.ofHom e.symm.toRingHom).op) =
       Scheme.Spec.map (CommRingCat.ofHom C.toSubring.subtype).op
     rw [← Functor.map_comp]

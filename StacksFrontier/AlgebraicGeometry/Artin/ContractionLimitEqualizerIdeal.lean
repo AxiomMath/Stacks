@@ -66,7 +66,7 @@ theorem exists_isClosedImmersion_represents_equalizer {F W : FppfSheaf B S hS} (
   · intro heq
     let φ : yonedaSheaf B S hS T ⟶ F := ObjectProperty.homMk ((uliftYoneda.{u + 1}).map t ≫ ξ)
     let e := equalizer.lift φ (ObjectProperty.hom_ext _ (by
-      show ((uliftYoneda.{u + 1}).map t ≫ ξ) ≫ x₁.hom = ((uliftYoneda.{u + 1}).map t ≫ ξ) ≫ x₂.hom
+      change ((uliftYoneda.{u + 1}).map t ≫ ξ) ≫ x₁.hom = ((uliftYoneda.{u + 1}).map t ≫ ξ) ≫ x₂.hom
       simpa only [Category.assoc] using heq))
     have he : e.hom ≫ (equalizer.ι x₁ x₂).hom = (uliftYoneda.{u + 1}).map t ≫ ξ :=
       congrArg (fun k => k.hom) (equalizer.lift_ι φ _)
@@ -108,9 +108,9 @@ theorem exists_comp_eq_iff_ker_le {Q R T : BigFppfOver B S hS}
       have hr := congrArg (fun k => k.hom) (Over.w r)
       have ht := congrArg (fun k => k.hom) (Over.w t)
       simp only [ObjectProperty.FullSubcategory.comp_hom] at hr ht ⊢
-      show s₀ ≫ R.hom.hom = T.hom.hom
+      change s₀ ≫ R.hom.hom = T.hom.hom
       rw [← hr, ← Category.assoc]
-      show (s₀ ≫ (BigFppfOver.toScheme B S hS).map r) ≫ Q.hom.hom = T.hom.hom
+      change (s₀ ≫ (BigFppfOver.toScheme B S hS).map r) ≫ Q.hom.hom = T.hom.hom
       rw [hs₀]
       exact ht)
     exact ⟨s, (BigFppfOver.toScheme B S hS).map_injective ((Functor.map_comp _ _ _).trans hs₀)⟩

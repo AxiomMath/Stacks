@@ -72,6 +72,7 @@ private theorem nsmul_two_add_sub (n : ℤ) (i : ℕ) : i • (2 : ℤ) + (n - 2
 
 variable {𝒜 ℬ}
 
+omit [_root_.GradedAlgebra 𝒜] in
 /-- For `ξ ∈ B^2` and `a ∈ A^{n - 2i}`, the product `ξ^i φ(a)` lies in `B^n`. -/
 theorem pow_mul_mem {φ : A →ₐ[F] B} (hφ : ∀ n, ∀ a ∈ 𝒜 n, φ a ∈ ℬ n) {ξ : B} (hξ : ξ ∈ ℬ 2)
     (n : ℤ) (i : ℕ) {a : A} (ha : a ∈ 𝒜 (n - 2 * (i : ℤ))) : ξ ^ i * φ a ∈ ℬ n := by
@@ -86,6 +87,7 @@ def degreewiseMap {φ : A →ₐ[F] B} (hφ : ∀ n, ∀ a ∈ 𝒜 n, φ a ∈ 
   ⟨∑ i : Fin r, ξ ^ (i : ℕ) * φ (a i),
     Submodule.sum_mem _ fun i _ => pow_mul_mem hφ hξ n i (a i).2⟩
 
+omit [_root_.GradedAlgebra 𝒜] in
 /-- The value of `Stacks.WeilDeRham.degreewiseMap` at `(a_i)`, read in `B`, is `∑ ξ^i φ(a_i)`. -/
 theorem coe_degreewiseMap {φ : A →ₐ[F] B} (hφ : ∀ n, ∀ a ∈ 𝒜 n, φ a ∈ ℬ n) {ξ : B}
     (hξ : ξ ∈ ℬ 2) (r : ℕ) (n : ℤ) (a : ∀ i : Fin r, 𝒜 (n - 2 * ((i : ℕ) : ℤ))) :
@@ -97,7 +99,7 @@ theorem decompose_sumPowMulMap {φ : A →ₐ[F] B} (hφ : ∀ n, ∀ a ∈ 𝒜
     (hξ : ξ ∈ ℬ 2) (r : ℕ) (a : Fin r → A) (n : ℤ) :
     (decompose ℬ (sumPowMulMap φ ξ r a) n : B) =
       ∑ i : Fin r, ξ ^ (i : ℕ) * φ (decompose 𝒜 (a i) (n - 2 * ((i : ℕ) : ℤ))) := by
-  rw [sumPowMulMap_apply, decompose_sum, DFinsupp.finset_sum_apply, Submodule.coe_sum]
+  rw [sumPowMulMap_apply, decompose_sum, DFinsupp.finsetSum_apply, Submodule.coe_sum]
   refine Finset.sum_congr rfl fun i _ => ?_
   have h := coe_decompose_mul_add_of_left_mem ℬ (b := φ (a i)) (j := n - 2 * ((i : ℕ) : ℤ))
     (SetLike.pow_mem_graded (i : ℕ) hξ)
@@ -128,6 +130,7 @@ theorem injective_sumPowMulMap_of_degreewise {φ : A →ₐ[F] B}
   rw [add_sub_cancel_right] at this
   simpa using this
 
+omit [_root_.GradedAlgebra 𝒜] in
 /-- **Surjectivity from surjectivity in every degree.** -/
 theorem surjective_sumPowMulMap_of_degreewise {φ : A →ₐ[F] B}
     (hφ : ∀ n, ∀ a ∈ 𝒜 n, φ a ∈ ℬ n) {ξ : B} (hξ : ξ ∈ ℬ 2) (r : ℕ)

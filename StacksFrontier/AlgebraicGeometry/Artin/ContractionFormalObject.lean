@@ -131,7 +131,7 @@ theorem Triple.xhatValue_mapTriple_of_hasImageIn {V₂ V₁ : BigFppfOver B S hS
   have e : ρ.app (op V₂) e₂ = ⟨ULift.up φ, hφ⟩ := by
     apply Subtype.ext
     apply ULift.ext
-    show 𝟙 V₂ ≫ φ = φ
+    change 𝟙 V₂ ≫ φ = φ
     rw [Category.id_comp]
   let ι₁ : G₁ ⟶ (Space.completionSheaf B S hS (yoneda.obj V₁) t.Z).obj :=
     (BigFppfOver.topology B S hS).toSheafify G₁
@@ -142,10 +142,10 @@ theorem Triple.xhatValue_mapTriple_of_hasImageIn {V₂ V₁ : BigFppfOver B S hS
     Space.completionSheafRestrict B S hS (yoneda.map φ) _ t.Z (fun _ hz => hz)
   have hr : ι₂ ≫ r.hom = ρ ≫ ι₁ := (GrothendieckTopology.toSheafify_naturality _ ρ).symm
   have h1 : ι₂ ≫ (r ≫ t.xhat).hom = ρ ≫ ι₁ ≫ t.xhat.hom := by
-    show ι₂ ≫ r.hom ≫ t.xhat.hom = _
+    change ι₂ ≫ r.hom ≫ t.xhat.hom = _
     rw [← Category.assoc, hr, Category.assoc]
   refine (congrArg (fun η : G₂ ⟶ c.W.obj => η.app (op V₂) e₂) h1).trans ?_
-  show t.xhat.hom.app (op V₂) (ι₁.app (op V₂) (ρ.app (op V₂) e₂)) = _
+  change t.xhat.hom.app (op V₂) (ι₁.app (op V₂) (ρ.app (op V₂) e₂)) = _
   rw [e]
   rfl
 
@@ -171,7 +171,7 @@ theorem hasEffectiveFormalObjects_of
   obtain ⟨u, hu⟩ := h₂ A hA Z hZc (hZ 0) x hx
   let t : Triple c (baseOver B S hS A hRS) := ⟨Z, hZc, u, x, hx, hu⟩
   refine ⟨t, fun n => ?_⟩
-  show mapTriple c (restrictionToBase B S hS A hRS hA n) t = ξ n
+  change mapTriple c (restrictionToBase B S hS A hRS hA n) t = ξ n
   have h' : (mapTriple c (restrictionToBase B S hS A hRS hA n) t).Z = Set.univ := by
     refine Set.eq_univ_of_forall fun q => ?_
     obtain ⟨p, rfl⟩ := Quot.exists_rep q

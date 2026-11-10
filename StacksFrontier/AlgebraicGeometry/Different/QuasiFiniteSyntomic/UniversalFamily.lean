@@ -143,10 +143,10 @@ theorem mem_universalQuasiFiniteOpen_iff
   rw [universalQuasiFiniteOpen, Scheme.Hom.mem_quasiFiniteLocus]
   refine ⟨fun hx ↦ ⟨?_, hx⟩, And.right⟩
   have hbase : IsAffine (universalBaseScheme n d) := by
-    show IsAffine (Spec (.of (universalCoefficientRing n d)))
+    change IsAffine (Spec (.of (universalCoefficientRing n d)))
     infer_instance
   have hamb : IsAffine (universalAmbientScheme n d) := by
-    show IsAffine (Spec (.of (universalQuotientRing n d)))
+    change IsAffine (Spec (.of (universalQuotientRing n d)))
     infer_instance
   exact ⟨⟨⊤, isAffineOpen_top _⟩, ⟨⊤, isAffineOpen_top _⟩, by simp, by simp,
     LocallyOfFiniteType.finiteType_appLE (universalAmbientMorphism n d)
@@ -205,11 +205,11 @@ theorem universalQuasiFiniteOpen_greatest
     [LocallyQuasiFinite (U.ι ≫ universalAmbientMorphism n d)] :
     U ≤ universalQuasiFiniteOpen n d := by
   intro x hx
-  show (universalAmbientMorphism n d).QuasiFiniteAt x
+  change (universalAmbientMorphism n d).QuasiFiniteAt x
   have hq := (U.ι ≫ universalAmbientMorphism n d).quasiFiniteAt ⟨x, hx⟩
   have hq' := (Scheme.Hom.quasiFiniteAt_comp_iff_of_isOpenImmersion
     (f := U.ι) (g := universalAmbientMorphism n d)).mp hq
-  show (universalAmbientMorphism n d).QuasiFiniteAt x
+  change (universalAmbientMorphism n d).QuasiFiniteAt x
   exact hq'
 
 end AlgebraicGeometry

@@ -66,7 +66,7 @@ theorem galoisEquivEtaleFundamentalGroup_apply_eq_self_iff (Y : FiniteEtaleOver 
         ((finiteEtaleFiberIso K L Ω).hom.app Y (e.symm ⟨g, hg⟩)).1 =
           Spec.map (CommRingCat.ofHom (algebraMap L Ω)) ≫ g := fun g hg => by
       rw [finiteEtaleFiberIso_apply]
-      show _ ≫ (e (e.symm ⟨g, hg⟩)).1 = _
+      change _ ≫ (e (e.symm ⟨g, hg⟩)).1 = _
       rw [Equiv.apply_symm_apply]
     have h1 := galoisEquivEtaleFundamentalGroup_apply K L Ω Y σ _ f (hp f hf)
     rw [h] at h1
@@ -135,7 +135,7 @@ theorem forall_apply_eq_of_forall_spec_comp_eq {x : GeometricPoint X} (J : Spec 
     ((finiteEtaleBaseChange J).obj Y) σ).2 (fun f hf => by
       let f' : Spec (.of L) ⟶ pullback Y.hom J := f
       have hf' : f' ≫ pullback.snd Y.hom J = Spec.map (CommRingCat.ofHom (algebraMap K L)) := hf
-      show Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫ f' = f'
+      change Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫ f' = f'
       apply pullback.hom_ext
       · rw [Category.assoc]
         exact hσ _ (by rw [Category.assoc, pullback.condition, ← Category.assoc, hf'])

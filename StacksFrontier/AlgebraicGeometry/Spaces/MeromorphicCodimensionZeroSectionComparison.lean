@@ -303,8 +303,7 @@ theorem bijective_pi_genericPointMeromorphicComparison_app
           (P.genericPointChartDiagram η.2 U)).toAddMonoidHom.comp
           (LinearMap.rTensor (F.val.obj (op U)) (cp η)).toAddMonoidHom := by
       refine AddMonoidHom.ext fun z => ?_
-      induction z using TensorProduct.induction_on with
-      | zero => exact (AddMonoidHom.map_zero _).trans (AddMonoidHom.map_zero _).symm
+      induction z using TensorProduct.inductionOn with
       | tmul a s =>
         refine Eq.trans (P.genericPointMeromorphicComparison_tmul η.2 F U a s) ?_
         exact (modulePullbackChartBaseChange_tmul B S hS (P.genericMorphism η.2 X.2) F

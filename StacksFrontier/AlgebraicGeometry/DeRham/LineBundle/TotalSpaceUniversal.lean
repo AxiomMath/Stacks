@@ -130,7 +130,7 @@ theorem Situation.algebraSheafAugmentation_algebraSheafIncl {n : â„¤} (hn : n â‰
   have h := ConcreteCategory.congr_hom (NatTrans.congr_app hunit (op U))
     (D.symmetricAlgebra.toPresheafGradedAlgebra.incl n x)
   refine h.trans ?_
-  show pieceZeroAugmentation D.symmetricAlgebra D.pieceZeroIso (op U)
+  change pieceZeroAugmentation D.symmetricAlgebra D.pieceZeroIso (op U)
     (D.symmetricAlgebra.toPresheafGradedAlgebra.degreeZeroComponent (op U)
       (D.symmetricAlgebra.toPresheafGradedAlgebra.incl n x)) = 0
   rw [D.symmetricAlgebra.toPresheafGradedAlgebra.degreeZeroComponent_incl_of_ne hn, map_zero]

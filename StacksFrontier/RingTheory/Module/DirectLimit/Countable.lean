@@ -521,8 +521,8 @@ a `Set J` satisfying `DirectedOn (· ≤ ·)`; antisymmetry is nowhere used. Cou
 `M` is written inline as the existence of a countable spanning set, since Mathlib has no predicate
 for it; this is equivalent to the cardinal bound `(⊤ : Submodule R M).spanRank ≤ Cardinal.aleph0`
 by `Submodule.spanRank_span_le_card` and `Submodule.exists_span_set_card_eq_spanRank`, and to the
-`Module.CountablyGenerated` of `StacksFrontier/RingTheory/Flat/FaithfullyFlat/Descent.lean`, which is
-the spelling the siblings 059X, 05A6 and 05A9 use. The ring is not assumed commutative.
+`Module.CountablyGenerated` of `StacksFrontier/RingTheory/Flat/FaithfullyFlat/Descent.lean`, which
+is the spelling the siblings 059X, 05A6 and 05A9 use. The ring is not assumed commutative.
 
 Faithfulness. (1) No hypothesis is dead: directedness of `J` is what enlarges a countable subset to
 a countable directed one; `Nonempty J` is what makes `J'` nonempty, as a directed set is; factoring

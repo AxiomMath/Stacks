@@ -266,7 +266,7 @@ theorem mem_range_sectionsMap_invertibleSheafMap_of_notMem_nonvanishingChart
       idealStalk (Scheme.IdealSheafData.vanishingIdeal (⟨{y}, hy⟩ : Closeds Y) ^ n) y
         = Ideal.span ({pi} : Set (ringStalk Y.sheaf y)) ^ n := by
     intro n
-    show AlgebraicGeometry.IdealSheafData.stalk _ y = _
+    change AlgebraicGeometry.IdealSheafData.stalk _ y = _
     rw [AlgebraicGeometry.IdealSheafData.stalk_pow,
       AlgebraicGeometry.IdealSheafData.stalk_vanishingIdeal_singleton y hy, hmax]
     rfl

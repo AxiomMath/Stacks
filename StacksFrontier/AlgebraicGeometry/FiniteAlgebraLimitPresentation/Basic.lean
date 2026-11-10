@@ -77,7 +77,8 @@ inherits preservation of connected limits; this is what lets the sections over a
 `U` be computed as a colimit.
 
 `Stacks.AffineAlgebraEquivalence.pushforwardAlgebra` and the finiteness predicates of
-`Stacks.RelativeSpec.AlgebraSheaf` realize the pushforward algebra of Tag 01SA and the finiteness and finite presentation
+`Stacks.RelativeSpec.AlgebraSheaf` realize the pushforward algebra of Tag 01SA and the finiteness
+and finite presentation
 predicates on sheaves of algebras of Tag 05JS used in the tagged statement.
 
 `FiniteLimitPresentation.indexType` is declared in `Type (u + 1)`, in faithfulness to Tag 09YY,
@@ -176,7 +177,7 @@ noncomputable def pullbackRestrictOverIso {X : Scheme.{u}} (U : X.Opens) :
   NatIso.ofComponents (fun Y => pullbackRestrictIsoRestrict Y.hom U) (by
     intro Y Z f
     apply (cancel_mono (Z.hom ⁻¹ᵁ U).ι).mp
-    simp [restrictOver, Over.pullback_map_left, pullback.lift_fst])
+    simp [restrictOver, Over.pullback_map_left])
 
 /-! ### The sections of a pushed-forward structure sheaf -/
 
@@ -196,7 +197,7 @@ lemma pushforwardAlgebraMap_app {X : Scheme.{u}} {Y Z : Over X}
     (f : Y ⟶ Z) (U : X.Opens) :
     (pushforwardAlgebraMap f).right.hom.app (.op U) =
       f.left.appLE (Z.hom ⁻¹ᵁ U) (Y.hom ⁻¹ᵁ U) (over_preimage_le f U) := by
-  show f.left.app (Z.hom ⁻¹ᵁ U) ≫
+  change f.left.app (Z.hom ⁻¹ᵁ U) ≫
     (eqToHom (congrArg pushforwardAlgebra (Over.w f))).right.hom.app (.op U) = _
   rw [pushforwardAlgebra_eqToHom_app (Over.w f) U]
   rfl
@@ -354,13 +355,13 @@ lemma isSurjective_map_of_isClosedImmersion
   have h := congrArg ev.map (E.pushforwardIso_naturality X f)
   change _ ≫ eY.hom = eZ.hom ≫ _ at h
   have hp : Function.Surjective (ev.map (pushforwardAlgebraMap f.hom)) := by
-    show Function.Surjective ((pushforwardAlgebraMap f.hom).right.hom.app (.op U))
+    change Function.Surjective ((pushforwardAlgebraMap f.hom).right.hom.app (.op U))
     rw [pushforwardAlgebraMap_app]
     have : IsAffineHom Z.obj.hom := Z.property
     apply appLE_surjective_of_eq_preimage _ _ (hU.preimage Z.obj.hom)
     rw [← Scheme.Hom.comp_preimage, Over.w]
   have heq := (Iso.eq_comp_inv eY).mpr h
-  show Function.Surjective
+  change Function.Surjective
     (((IsQuasicoherentAlgebra X).ι.map
       ((E.equivalence X).functor.map f.op)).right.hom.app (.op U))
   rw [heq]
@@ -389,7 +390,7 @@ private lemma structure_map_app_of_iso {S : Scheme.{u}} {A B : AlgebraSheaf S} (
   let eU := (sheafToPresheaf (Opens.grothendieckTopology S) CommRingCat ⋙
     (evaluation _ _).obj (.op U)).mapIso ((Under.forget S.sheaf).mapIso e)
   have : IsIso (e.hom.right.hom.app (.op U)) := by
-    show IsIso eU.hom
+    change IsIso eU.hom
     infer_instance
   have hfin := hB U hU
   rw [← hcomp] at hfin
@@ -515,13 +516,13 @@ theorem exists_isColimit_finite_finitePresentation_of_finiteLimitPresentation
     ⟨Over.homMk (P.limitCone.app i) (P.compatible i).symm⟩
   have hp {i j : P.indexTypeᵒᵖ} (g : i ⟶ j) : p i ≫ D.map g = p j := by
     ext
-    show P.limitCone.app i ≫ P.diagram.map g = P.limitCone.app j
+    change P.limitCone.app i ≫ P.diagram.map g = P.limitCone.app j
     simpa using (P.limitCone.naturality g).symm
   let c : Cone D := Cone.mk Y
     { app := p
       naturality := fun _ _ g => by simpa using (hp g).symm }
   have hcOver : IsLimit ((IsAffineHomOver X).ι.mapCone c) := by
-    show IsLimit (Over.liftCone P.diagram P.structureMap
+    change IsLimit (Over.liftCone P.diagram P.structureMap
       (Cone.mk Y.obj.left P.limitCone) Y.obj.hom
       (fun i => (P.compatible i).symm))
     exact Over.isLimitLiftCone P.diagram P.structureMap

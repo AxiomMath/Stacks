@@ -127,7 +127,7 @@ private theorem respectsIso_inverseImage_of_isSmoothLocalOnSourceAndTarget
   have hQpre : ∀ {X Y Z : C} (e : X ⟶ Y) (f : Y ⟶ Z),
       IsIso e → Q f → Q (e ≫ f) := by
     intro X Y Z e f he hf
-    show P (e.hom ≫ f.hom)
+    change P (e.hom ≫ f.hom)
     change P f.hom at hf
     refine (hP.iff_forall_exists_smooth_neighborhood X.property Z.property
       (e.hom ≫ f.hom)).2 fun x => ?_
@@ -142,7 +142,7 @@ private theorem respectsIso_inverseImage_of_isSmoothLocalOnSourceAndTarget
   have hQpost : ∀ {X Y Z : C} (f : X ⟶ Y) (e : Y ⟶ Z),
       IsIso e → Q f → Q (f ≫ e) := by
     intro X Y Z f e he hf
-    show P (f.hom ≫ e.hom)
+    change P (f.hom ≫ e.hom)
     change P f.hom at hf
     refine (hP.iff_forall_exists_smooth_neighborhood X.property Z.property
       (f.hom ≫ e.hom)).2 fun x => ?_
@@ -177,11 +177,11 @@ theorem isSmoothLocalAtSource
   intro Xsp Ysp fsp Rsp hR
   obtain ⟨I, Yi, g, hR_eq, hcover⟩ := hR
   rw [hR_eq]
-  show Q fsp ↔ ∀ {U : C} (g' : U ⟶ Xsp),
+  change Q fsp ↔ ∀ {U : C} (g' : U ⟶ Xsp),
     Presieve.ofArrows Yi g g' → Q (g' ≫ fsp)
   constructor
   · rintro hf U g' ⟨i⟩
-    show P ((g i).hom ≫ fsp.hom)
+    change P ((g i).hom ≫ fsp.hom)
     change P fsp.hom at hf
     exact hP.precomp (X := (Yi i).obj) (Y := Xsp.obj) (Z := Ysp.obj)
       (Yi i).property Xsp.property Ysp.property (g i).hom fsp.hom
@@ -227,7 +227,7 @@ theorem isSmoothLocalAtTarget
   intro Xsp Ysp fsp Rsp hR
   obtain ⟨I, Yi, g, hR_eq, hcover⟩ := hR
   rw [hR_eq]
-  show Q fsp ↔ ∀ {U : C} (g' : U ⟶ Ysp) [HasPullback fsp g'],
+  change Q fsp ↔ ∀ {U : C} (g' : U ⟶ Ysp) [HasPullback fsp g'],
     Presieve.ofArrows Yi g g' → Q (pullback.snd fsp g')
   constructor
   · rintro hf U g' _ ⟨i⟩
@@ -404,7 +404,7 @@ theorem smoothLocalOnSourceAndTarget_tfae
       exact ⟨U, V, hU, hV, a, b, h, u, has, hbs, hu, hcomm, hph⟩
     · intro ha
       refine ⟨X, Y, hX, hY, 𝟙 X, 𝟙 Y, f, isSmooth_id B S hS hX, ?_, hIdY, by simp, ha⟩
-      show Function.Surjective (pointsMap B S hS X (𝟙 X))
+      change Function.Surjective (pointsMap B S hS X (𝟙 X))
       exact fun x => ⟨x, pointsMap_id_apply B S hS x⟩
   · constructor
     · intro hd

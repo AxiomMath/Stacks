@@ -77,7 +77,8 @@ namespace CategoryTheory.Adjunction
 
 /-- **A left adjoint transports endomorphisms of the identity functor**, provided the right
 adjoint transports them back: if `U.map (b.asHom.app N) = a.asHom.app (U.obj N)` for every `N`, then
-`L.map (a.asHom.app X) = b.asHom.app (L.obj X)` for every `X`. Both sides correspond, under the adjunction,
+`L.map (a.asHom.app X) = b.asHom.app (L.obj X)` for every `X`. Both sides correspond, under the
+adjunction,
 to `a.asHom.app X ≫ unit.app X`, by the naturality of the unit and of `a`. -/
 theorem map_endOfId {C D : Type*} [Category C] [Category D] {L : C ⥤ D} {U : D ⥤ C}
     (adj : L ⊣ U) {a : End (𝟭 C)} {b : End (𝟭 D)}
@@ -139,7 +140,7 @@ theorem tensorRight_map_presheafSmul {O : Cᵒᵖ ⥤ CommRingCat.{w}}
         (PresheafOfModules.tensorObj (O := O) P F) := by
   refine PresheafOfModules.tensorObj_hom_ext fun U x y ↦ ?_
   let r : ((ringPresheaf O).obj U) := f.val U
-  show (r • x) ⊗ₜ[(ringPresheaf O).obj U] y = r • (x ⊗ₜ[(ringPresheaf O).obj U] y)
+  change (r • x) ⊗ₜ[(ringPresheaf O).obj U] y = r • (x ⊗ₜ[(ringPresheaf O).obj U] y)
   rw [TensorProduct.smul_tmul']
 
 end Presheaf

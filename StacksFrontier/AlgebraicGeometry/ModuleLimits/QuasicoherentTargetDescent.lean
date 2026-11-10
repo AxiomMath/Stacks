@@ -300,10 +300,10 @@ theorem exists_map_of_pullback_canonical_of_isAffine_of_isQuasicoherent (i : I)
   have hφj : (bcTop g F).hom ≫ appTopHom φj = ulM ≫ (bcTop g G).hom := by
     have h1 : appTopHom φj = vj := ModuleCat.hom_ext (LinearMap.ext fun a => hφj0 a)
     rw [h1]
-    show (bcTop g F).hom ≫ (bcTop g F).inv ≫ ulM ≫ (bcTop g G).hom = _
+    change (bcTop g F).hom ≫ (bcTop g F).inv ≫ ulM ≫ (bcTop g G).hom = _
     rw [← Category.assoc, Iso.hom_inv_id, Category.id_comp]
   have hE : u ≫ (bcTop pii G).hom = (bcTop pii F).hom ≫ appTopHom φ := by
-    show ((bcTop pii F).hom ≫ appTopHom φ ≫ (bcTop pii G).inv) ≫ (bcTop pii G).hom = _
+    change ((bcTop pii F).hom ≫ appTopHom φ ≫ (bcTop pii G).inv) ≫ (bcTop pii G).hom = _
     rw [Category.assoc, Category.assoc, Iso.inv_hom_id, Category.comp_id]
   have hf : ∀ β : Γ(D.obj j, ⊤), Stacks.RingFilteredColimits.legAlgHom haR l β
       = (Scheme.Hom.appTop qq).hom β := fun _ => rfl

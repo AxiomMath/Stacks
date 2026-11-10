@@ -49,7 +49,8 @@ underlying sheaf of rings of `O_C` *is* `π⁻¹` of the underlying sheaf of rin
 the identity typechecks as the inverse-image form.
 
 The four `GrothendieckTopology.HasSheafCompose` hypotheses are assumed rather than derived,
-following `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/ToposPushforward.lean` and `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/RingedToposModules.lean`: deriving them needs a
+following `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/ToposPushforward.lean` and
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/RingedToposModules.lean`: deriving them needs a
 `UnivLE` relation between the site's hom universe and the universe of sections, which the
 independent universes here do not provide.
 

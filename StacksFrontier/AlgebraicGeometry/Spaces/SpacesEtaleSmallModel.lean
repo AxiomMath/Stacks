@@ -127,18 +127,18 @@ theorem isSheaf_shrinkCommRingPresheaf {J : GrothendieckTopology C}
       invFun := fun g => CommRingCat.ofHom ((Shrink.ringEquiv (P.obj (op X))).toRingHom.comp
         (g.hom.comp (ULift.ringEquiv (R := E)).toRingHom))
       left_inv := fun g => CommRingCat.hom_ext (RingHom.ext fun x => by
-        show Shrink.ringEquiv (P.obj (op X)) ((Shrink.ringEquiv (P.obj (op X))).symm
+        change Shrink.ringEquiv (P.obj (op X)) ((Shrink.ringEquiv (P.obj (op X))).symm
           (g.hom ((ULift.ringEquiv (R := E)).symm (ULift.ringEquiv.{m, max m t} x)))) = g.hom x
         simp only [RingEquiv.apply_symm_apply, RingEquiv.symm_apply_apply])
       right_inv := fun g => CommRingCat.hom_ext (RingHom.ext fun x => by
-        show (Shrink.ringEquiv (P.obj (op X))).symm (Shrink.ringEquiv (P.obj (op X))
+        change (Shrink.ringEquiv (P.obj (op X))).symm (Shrink.ringEquiv (P.obj (op X))
           (g.hom (ULift.ringEquiv.{m, max m t} ((ULift.ringEquiv (R := E)).symm x)))) = g.hom x
         rw [RingEquiv.apply_symm_apply]
         exact (Shrink.ringEquiv (P.obj (op X))).symm_apply_apply (g.hom x)) })
     (fun X Y f x => ?_) (hP _)
   refine CommRingCat.hom_ext (RingHom.ext fun r => ?_)
   apply (Shrink.ringEquiv (P.obj (op X))).injective
-  show Shrink.ringEquiv (P.obj (op X)) ((Shrink.ringEquiv (P.obj (op X))).symm
+  change Shrink.ringEquiv (P.obj (op X)) ((Shrink.ringEquiv (P.obj (op X))).symm
       ((P.map f.op).hom (x.hom ((ULift.ringEquiv.{m, max m t} (R := E)).symm r)))) =
     Shrink.ringEquiv (P.obj (op X)) ((Shrink.ringEquiv (P.obj (op X))).symm ((P.map f.op).hom
       (Shrink.ringEquiv (P.obj (op Y)) ((Shrink.ringEquiv (P.obj (op Y))).symm

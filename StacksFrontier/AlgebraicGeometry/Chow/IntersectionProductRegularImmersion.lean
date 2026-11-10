@@ -414,7 +414,8 @@ the degrees of the two sides, so nothing is lost by not binding e separately; eq
 of Y is the delta-dimension bound dim_delta(Y) <= e, which is WEAKER than a generic-point
 equality, and equidimensionality of X is not assumed, entering only through the degree of the
 carried diagonal class. CARRIED: the i^! half of Tag 0FF6, which is Tag 0FBP, as h0FBP; and
-clauses (1) and (2) of Tag 0FC2 as hA and h0FC2, neither being formalized -- 0FC2 is formalized only as
+clauses (1) and (2) of Tag 0FC2 as hA and h0FC2, neither being formalized -- 0FC2 is formalized \
+only as
 the map c |-> c cap [X]_d plus injectivity reductions. PROVED here: i^![X]_d = [Y]_e (Tag 0FBM
 at vanishing excess, g = identity) and c cap i_*beta = i_*(c cap beta) (Tag 0B76 clause (1) at
 the test scheme identity), and the chain combining them with the three carried clauses. Also

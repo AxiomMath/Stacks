@@ -280,7 +280,7 @@ theorem exists_eq_pow_smul_of_eq_pow_smul {f : A} (hreg : IsSMulRegular N f)
     obtain ⟨z, hz⟩ := ih x ⟨f • y, by rw [hy, pow_succ, mul_smul]⟩
     have hzy : φ z = f • y := by
       apply hreg.pow n
-      show f ^ n • φ z = f ^ n • (f • y)
+      change f ^ n • φ z = f ^ n • (f • y)
       rw [← map_smul, ← hz, hy, pow_succ, mul_smul]
     obtain ⟨w, hw⟩ := hinj z ⟨y, hzy⟩
     exact ⟨w, by rw [hz, hw, pow_succ, mul_smul]⟩
@@ -321,7 +321,7 @@ theorem isSMulRegular_localizedModule (S : Submonoid A) {f : A} (hreg : IsSMulRe
       obtain ⟨u, hu⟩ := hv
       have hun : (u : A) • n = 0 := by
         apply hreg
-        show f • ((u : A) • n) = f • (0 : N)
+        change f • ((u : A) • n) = f • (0 : N)
         rw [smul_zero, smul_comm]
         simpa [Submonoid.smul_def] using hu
       rw [← LocalizedModule.zero_mk 1, LocalizedModule.mk_eq]

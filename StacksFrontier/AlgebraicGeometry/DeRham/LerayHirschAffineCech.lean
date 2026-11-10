@@ -272,6 +272,7 @@ theorem deRhamCup_eq_cupHomScheme [IsAffineHom (pullback.diagonal (terminal.from
       rw [Stacks.Cech.Hypercohomology.cocycleClass_congr N h0 _
         (toMor_comp_d_eq_zero _ (map_zero _)), cocycleClass_toMor_zero, map_zero]
 
+omit [DecidableEq I] in
 /-- **[Stacks, Tag 0FUM], given the quasi-isomorphism of the zeroth graded pieces**: for `f`
 smooth, `Y`, `S` affine, a finite covering of `X` (with affine diagonal) by affine opens with
 affine intersections and cocycles `x_i` of `Tot(Č(U, Ω^•_{X/S}))` of degrees `n_i` with classes
@@ -283,6 +284,7 @@ theorem bijective_sum_deRhamCup_of_quasiIso [IsAffineHom (pullback.diagonal (ter
     Function.Bijective (fun a : ∀ i, Scheme.Hom.deRhamCohomologyBaseModule g (N - n i) =>
       ∑ i, Scheme.Hom.deRhamCup (f ≫ g) (n i) (N - n i) N (by ring)
         (cechDeRhamClass f g U hU n x hx i) (deRhamPullbackModule f g (N - n i) (a i))) := by
+  classical
   have hAff : Function.Bijective (fun (c : ∀ i,
       (Stacks.KatzOda.ShiftedSum.intComplex (baseMap g)).homology (N - n i)) i =>
         (affineClassMap g (N - n i)).hom (c i)) :=

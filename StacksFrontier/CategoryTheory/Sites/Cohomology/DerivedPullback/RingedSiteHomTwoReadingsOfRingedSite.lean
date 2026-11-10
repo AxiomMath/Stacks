@@ -6,7 +6,8 @@ public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.Rin
 # The two derived readings of a morphism of ringed sites, at a morphism of ringed sites
 
 The results of
-`StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.RingedSiteHomTwoReadings` for the two
+`StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.RingedSiteHomTwoReadings` for the
+two
 readings `h.toRingedToposSiteHom` and `h.ringedToposHom` of a morphism of ringed sites `h`
 (Stacks 03AD), whose pullbacks of sheaves of modules are identified by
 `RingedSite.Hom.pullbackModulesToposIso`.
@@ -39,7 +40,6 @@ attribute [local instance] HasDerivedCategory.standard
 section RingedSite
 
 variable {X Y : RingedSite.{u, u, u}}
-  [X.J.HasSheafCompose (forget RingCat.{u})] [Y.J.HasSheafCompose (forget RingCat.{u})]
   [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [X.J.HasSheafCompose (forget AddCommGrpCat.{u})]
@@ -58,6 +58,11 @@ instance hasLeftDerivedFunctor_toRingedToposSiteHom :
   Stacks.Cohomology.DerivedPullbackOnRingedTopoi.hasLeftDerivedFunctor_pullbackOnHomotopy _
     h.isMorphismOfSites_toRingedToposSiteHom
 
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{u})]
+  [Y.J.HasSheafCompose (forget AddCommGrpCat.{u})]
+  [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify X.J (Type u)] [HasSheafify Y.J (Type u)] in
 /-- The morphism of ringed topoi `modulesHomOfSiteHom` of the site-presented reading
 `h.toRingedToposSiteHom` is `h.ringedToposHom.toModulesHom`. -/
 theorem modulesHomOfSiteHom_eq :
@@ -83,6 +88,7 @@ variable [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additiv
     HomologicalComplex.HasMapBifunctor A B
       (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O) (ComplexShape.up ℤ)]
 
+omit [HasSheafify X.J (Type u)] [HasSheafify Y.J (Type u)] in
 /-- `pullbackToposIso` carries the comparison of total tensor complexes of Stacks 03EL of the
 site-presented reading to that of the topos reading. -/
 theorem totalTensorCompat_pullbackToposIso :

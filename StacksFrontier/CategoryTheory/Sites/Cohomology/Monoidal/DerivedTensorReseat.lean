@@ -172,8 +172,8 @@ def canonicalDerivedSymmetric :
 the total tensor product of complexes.**  This is Tag 06YU's K-flat comparison verbatim: the
 re-seated tensor product is Tag 06YU's bifunctor by construction, so no transport is
 needed. -/
-def canonicalComparison (K L : Complexes R) (hK : Stacks.SheafOfModules.KFlat.KFlat R K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+def canonicalComparison (K L : Complexes R) (hK : Stacks.SheafOfModules.KFlat R K)
+    (hL : Stacks.SheafOfModules.KFlat R L) :
     letI := canonicalDerivedMonoidal R
     DerivedCategory.Q.obj K ⊗ DerivedCategory.Q.obj L ≅ DerivedCategory.Q.obj (K ⊗ L) :=
   (Stacks.DerivedTensor.RingedSite.canonicalDerivedTensorProduct R).comparison K L hK hL
@@ -181,8 +181,8 @@ def canonicalComparison (K L : Complexes R) (hK : Stacks.SheafOfModules.KFlat.KF
 /-- `Stacks.SheafOfModules.DerivedMonoidal.canonicalComparison` *is* the comparison of the
   canonical derived tensor
 product of Tag 06YU, not merely an isomorphism with the same source and target. -/
-theorem canonicalComparison_hom (K L : Complexes R) (hK : Stacks.SheafOfModules.KFlat.KFlat R K)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+theorem canonicalComparison_hom (K L : Complexes R) (hK : Stacks.SheafOfModules.KFlat R K)
+    (hL : Stacks.SheafOfModules.KFlat R L) :
     (canonicalComparison R K L hK hL).hom =
       ((Stacks.DerivedTensor.RingedSite.canonicalDerivedTensorProduct R).comparison K L hK hL).hom
         :=
@@ -193,8 +193,8 @@ two morphisms is the composite of the two one-variable actions of Tag 06YU's bif
 `MonoidalCategory.tensorHom_def` and the definition of the re-seated structure, so this is
 Tag 06YU's merged naturality field. -/
 theorem canonicalComparison_naturality {K K' L L' : Complexes R} (f : K ⟶ K') (g : L ⟶ L')
-    (hK : Stacks.SheafOfModules.KFlat.KFlat R K) (hK' : Stacks.SheafOfModules.KFlat.KFlat R K')
-    (hL : Stacks.SheafOfModules.KFlat.KFlat R L) (hL' : Stacks.SheafOfModules.KFlat.KFlat R L') :
+    (hK : Stacks.SheafOfModules.KFlat R K) (hK' : Stacks.SheafOfModules.KFlat R K')
+    (hL : Stacks.SheafOfModules.KFlat R L) (hL' : Stacks.SheafOfModules.KFlat R L') :
     letI := canonicalDerivedMonoidal R
     (DerivedCategory.Q.map f ⊗ₘ DerivedCategory.Q.map g) ≫
         (canonicalComparison R K' L' hK' hL').hom =

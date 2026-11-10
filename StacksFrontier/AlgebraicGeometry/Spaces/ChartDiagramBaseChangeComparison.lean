@@ -209,8 +209,7 @@ theorem modulePullbackChartBaseChange_map (a : M ⟶ M')
           (LinearMap.lTensor (chartRing B S hS X.1 X.2 d.U) (a.val.app (op d.V)).hom z) := by
   let := chartDiagramAlgebra B S hS f d
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul b s =>
     rw [LinearMap.lTensor_tmul, modulePullbackChartBaseChange_tmul,
       modulePullbackChartBaseChange_tmul,
@@ -237,7 +236,8 @@ times the value of the identification `𝒪_X ≅ f^*𝒪_Y` of Stacks 03LU on t
 theorem modulePullbackChartSection_unit (d : ChartDiagram B S hS X.1 Y.1 f.hom)
     (x : chartRing B S hS Y.1 Y.2 d.V) :
     modulePullbackChartSection B S hS f
-        (unit ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O))) d x =
+        (unit ((Stacks.SheafOfModules.Tensor.ringSheaf
+            (smallEtaleRingedSite B S hS Y.1 Y.2).O))) d x =
       chartDiagramRestrict B S hS f d x •
         (modulePullbackUnitIso B S hS f).inv.val.app (op d.U)
           (1 : chartRing B S hS X.1 X.2 d.U) := by
@@ -245,7 +245,8 @@ theorem modulePullbackChartSection_unit (d : ChartDiagram B S hS X.1 Y.1 f.hom)
     (modulePullbackUnitIso_inv_val_app_one B S hS f d).symm)
   exact Eq.trans
     (congrArg (modulePullbackChartSection B S hS f
-      (unit ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O))) d) (mul_one x).symm)
+      (unit ((Stacks.SheafOfModules.Tensor.ringSheaf
+          (smallEtaleRingedSite B S hS Y.1 Y.2).O))) d) (mul_one x).symm)
     (modulePullbackChartSection_smul B S hS f
       (unit ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O))) d x
       (1 : chartRing B S hS Y.1 Y.2 d.V))
@@ -254,7 +255,8 @@ theorem modulePullbackChartSection_unit (d : ChartDiagram B S hS X.1 Y.1 f.hom)
 image of modules of Stacks 03LU: `SheafOfModules.mapFreeIso` for the identification
 `𝒪_X ≅ f^*𝒪_Y` of the structure sheaves. -/
 noncomputable def modulePullbackFreeIso (I : Type u) :
-    (free (R := (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O)) I) ≅
+    (free (R := (Stacks.SheafOfModules.Tensor.ringSheaf
+        (smallEtaleRingedSite B S hS X.1 X.2).O)) I) ≅
       (modulePullback B S hS f).obj (SheafOfModules.free I) :=
   haveI := preservesColimitsOfSize_modulePullback B S hS f
   SheafOfModules.mapFreeIso (modulePullback B S hS f) I (modulePullbackUnitIso B S hS f).symm
@@ -263,13 +265,16 @@ noncomputable def modulePullbackFreeIso (I : Type u) :
 inverse image of the `i`-th coproduct injection applied to the unit function. -/
 theorem modulePullbackFreeIso_hom_val_app_ιFree (I : Type u) (i : I)
     (W : ((smallEtaleRingedSite B S hS X.1 X.2).C)ᵒᵖ)
-    (x : ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O)).obj.obj W) :
+    (x : ((Stacks.SheafOfModules.Tensor.ringSheaf
+        (smallEtaleRingedSite B S hS X.1 X.2).O)).obj.obj W) :
     (modulePullbackFreeIso B S hS f I).hom.val.app W
-        ((ιFree (R := (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O)) i).val.app W x) =
+        ((ιFree (R := (Stacks.SheafOfModules.Tensor.ringSheaf
+            (smallEtaleRingedSite B S hS X.1 X.2).O)) i).val.app W x) =
       ((modulePullback B S hS f).map (SheafOfModules.ιFree i)).val.app W
         ((modulePullbackUnitIso B S hS f).inv.val.app W x) :=
   haveI := preservesColimitsOfSize_modulePullback B S hS f
-  congrArg (fun m : unit ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O)) ⟶
+  congrArg (fun m : unit ((Stacks.SheafOfModules.Tensor.ringSheaf
+      (smallEtaleRingedSite B S hS X.1 X.2).O)) ⟶
       (modulePullback B S hS f).obj (SheafOfModules.free I) ↦ m.val.app W x)
     (SheafOfModules.ιFree_mapFreeIso_hom (modulePullback B S hS f) I
       (modulePullbackUnitIso B S hS f).symm i)
@@ -283,20 +288,25 @@ theorem modulePullbackChartBaseChange_ιFree (I : Type u)
     (a : chartRing B S hS X.1 X.2 d.U) (x : chartRing B S hS Y.1 Y.2 d.V) :
     letI := chartDiagramAlgebra B S hS f d
     modulePullbackChartBaseChange B S hS f
-        (free (R := (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O)) I) d
+        (free (R := (Stacks.SheafOfModules.Tensor.ringSheaf
+            (smallEtaleRingedSite B S hS Y.1 Y.2).O)) I) d
         (TensorProduct.tmul (chartRing B S hS Y.1 Y.2 d.V) a
-          ((ιFree (R := (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O)) i).val.app (op d.V) x)) =
+          ((ιFree (R := (Stacks.SheafOfModules.Tensor.ringSheaf
+              (smallEtaleRingedSite B S hS Y.1 Y.2).O)) i).val.app (op d.V) x)) =
       (modulePullbackFreeIso B S hS f I).hom.val.app (op d.U)
-        ((ιFree (R := (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O)) i).val.app (op d.U)
+        ((ιFree (R := (Stacks.SheafOfModules.Tensor.ringSheaf
+            (smallEtaleRingedSite B S hS X.1 X.2).O)) i).val.app (op d.U)
           (a * chartDiagramRestrict B S hS f d x)) := by
   let := chartDiagramAlgebra B S hS f d
   rw [modulePullbackChartBaseChange_tmul,
     ← modulePullbackChartSection_map B S hS f
       (unit ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O)))
-      (ιFree (R := (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O)) i) d x,
+      (ιFree (R := (Stacks.SheafOfModules.Tensor.ringSheaf
+          (smallEtaleRingedSite B S hS Y.1 Y.2).O)) i) d x,
     modulePullbackChartSection_unit,
     (((modulePullback B S hS f).map
-      (ιFree (R := (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O)) i)).val.app
+      (ιFree (R := (Stacks.SheafOfModules.Tensor.ringSheaf
+          (smallEtaleRingedSite B S hS Y.1 Y.2).O)) i)).val.app
         (op d.U)).hom.map_smul]
   refine Eq.trans (congrArg (fun y ↦ a • chartDiagramRestrict B S hS f d x • y)
     (modulePullbackFreeIso_hom_val_app_ιFree B S hS f I i (op d.U)
@@ -307,10 +317,12 @@ theorem modulePullbackChartBaseChange_ιFree (I : Type u)
   refine congrArg
     (fun y ↦ (modulePullbackFreeIso B S hS f I).hom.val.app (op d.U) y) ?_
   exact Eq.trans
-    (((ιFree (R := (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O)) i).val.app
+    (((ιFree (R := (Stacks.SheafOfModules.Tensor.ringSheaf
+        (smallEtaleRingedSite B S hS X.1 X.2).O)) i).val.app
       (op d.U)).hom.map_smul _ _).symm
     (congrArg
-      (fun c ↦ (ιFree (R := (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O)) i).val.app
+      (fun c ↦ (ιFree (R := (Stacks.SheafOfModules.Tensor.ringSheaf
+          (smallEtaleRingedSite B S hS X.1 X.2).O)) i).val.app
         (op d.U) c)
       (mul_one (a * chartDiagramRestrict B S hS f d x)))
 
@@ -349,7 +361,8 @@ theorem bijective_modulePullbackChartBaseChange_free (I : Type u)
     (hV : IsAffine ((SmallEtale.toOver B S hS Y.1 ⋙ BigFppfOver.toScheme B S hS).obj d.V)) :
     letI := chartDiagramAlgebra B S hS f d
     Function.Bijective (modulePullbackChartBaseChange B S hS f
-      (free (R := (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O)) I) d) := by
+      (free (R := (Stacks.SheafOfModules.Tensor.ringSheaf
+          (smallEtaleRingedSite B S hS Y.1 Y.2).O)) I) d) := by
   classical
   let := chartDiagramAlgebra B S hS f d
   obtain ⟨eV, heV⟩ := exists_linearEquiv_free_sections B S hS Y I d.V hV
@@ -367,7 +380,8 @@ theorem bijective_modulePullbackChartBaseChange_free (I : Type u)
         TensorProduct.tmul (chartRing B S hS Y.1 Y.2 d.V) b (eV w) := fun _ _ ↦ rfl
   have key : ∀ (b : chartRing B S hS X.1 X.2 d.U) (w : I →₀ chartRing B S hS Y.1 Y.2 d.V),
       modulePullbackChartBaseChange B S hS f
-          (free (R := (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O)) I) d
+          (free (R := (Stacks.SheafOfModules.Tensor.ringSheaf
+              (smallEtaleRingedSite B S hS Y.1 Y.2).O)) I) d
           (TensorProduct.tmul (chartRing B S hS Y.1 Y.2 d.V) b (eV w)) =
         (modulePullbackFreeIso B S hS f I).hom.val.app (op d.U)
           (eU (TensorProduct.finsuppScalarRight (chartRing B S hS Y.1 Y.2 d.V)
@@ -383,20 +397,21 @@ theorem bijective_modulePullbackChartBaseChange_free (I : Type u)
   have key' : ∀ z : TensorProduct (chartRing B S hS Y.1 Y.2 d.V)
       (chartRing B S hS X.1 X.2 d.U) (I →₀ chartRing B S hS Y.1 Y.2 d.V),
       modulePullbackChartBaseChange B S hS f
-          (free (R := (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O)) I) d
+          (free (R := (Stacks.SheafOfModules.Tensor.ringSheaf
+              (smallEtaleRingedSite B S hS Y.1 Y.2).O)) I) d
           (LinearEquiv.lTensor (chartRing B S hS X.1 X.2 d.U) eV z) =
         (modulePullbackFreeIso B S hS f I).hom.val.app (op d.U)
           (eU (TensorProduct.finsuppScalarRight (chartRing B S hS Y.1 Y.2 d.V)
             (chartRing B S hS X.1 X.2 d.U) (chartRing B S hS X.1 X.2 d.U) I z)) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul b w =>
       rw [hτ]
       exact key b w
     | add z w hz hw => simp only [map_add, hz, hw]
   have hcomp : ⇑(modulePullbackChartBaseChange B S hS f
-        (free (R := (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O)) I) d) =
+        (free (R := (Stacks.SheafOfModules.Tensor.ringSheaf
+            (smallEtaleRingedSite B S hS Y.1 Y.2).O)) I) d) =
       fun y ↦ (modulePullbackFreeIso B S hS f I).hom.val.app (op d.U)
         (eU (TensorProduct.finsuppScalarRight (chartRing B S hS Y.1 Y.2 d.V)
           (chartRing B S hS X.1 X.2 d.U) (chartRing B S hS X.1 X.2 d.U) I

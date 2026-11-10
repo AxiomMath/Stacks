@@ -32,8 +32,8 @@ the source's own statement is not reached.  See "What remains" below.
 ## Main definitions
 
 * `Stacks.Sheaves.FlatNeighbourhood.tensorUnitNatTrans` is the natural transformation
-  `𝟭 ⟶ (sheafTensor O).flip.obj (RestrictedRingModule φ)` whose component at `F` is the canonical map
-  `F ⟶ F ⊗_O O'` of `Stacks.Sheaves.FlatNeighbourhood.tensorUnitMap`.
+  `𝟭 ⟶ (sheafTensor O).flip.obj (RestrictedRingModule φ)` whose component at `F` is the canonical
+  map `F ⟶ F ⊗_O O'` of `Stacks.Sheaves.FlatNeighbourhood.tensorUnitMap`.
 * `Stacks.Sheaves.FlatNeighbourhood.tensorUnitComplexMap` is that map applied degreewise to a
   complex of `O`-modules.
 * `Stacks.Sheaves.FlatNeighbourhood.IsAnnihilatedByPow` says that some iterated product of
@@ -59,7 +59,8 @@ The Čech complex of the source's statement is reached in
 `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/FlatNeighbourhoodCech.lean`, whose
 `Stacks.Sheaves.CechFlatNeighbourhood.quasiIso_extendedAlternatingCechBaseChangeMap` proves it
 (the tag is registered on its consequence in
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/FlatNeighbourhoodCechNatural.lean`): the extended alternating Čech complex of `O` at `f₁, …, f_r` is the colimit of
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/FlatNeighbourhoodCechNatural.lean`): the extended
+alternating Čech complex of `O` at `f₁, …, f_r` is the colimit of
 the Koszul complexes `K(O, f₁ⁿ, …, f_rⁿ)` (Tag 0913 on a site,
 `AlgebraicGeometry.RingedSite.isColimitKoszulCechComplexCocone`), cohomology commutes with that
 colimit, and on each approximant the comparison is invertible on cohomology by
@@ -183,7 +184,8 @@ flatness of `φ`. -/
 lemma isFlatMap_of_preservesFiniteLimitsColimits : IsFlatMap φ :=
   (exactFunctor_iff _).mpr ⟨inferInstance, inferInstance⟩
 
-variable {I : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)} (i : I ⟶ RingModule O) [Mono i]
+variable {I : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)} (i : I ⟶ RingModule O)
+  [Mono i]
   (e : cokernel i ≅ cokernel (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} O).flip.obj
     (RestrictedRingModule φ)).map i))
   (he : cokernel.π i ≫ e.hom = (tensorUnitMap φ (RingModule O)).val ≫
@@ -212,7 +214,7 @@ theorem quasiIso_tensorUnitComplexMap_of_isAnnihilatedByPow {ι : Type*} {c : Co
   HomologicalComplex.quasiIso_mapNatTrans_app (tensorUnitNatTrans φ) K
     (fun n ↦ isIso_tensorUnitNatTrans_app_of_isAnnihilatedByPow φ i e he (K.homology n) (hK n))
 
-omit he [Mono i] in
+omit he [Mono i] [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The annihilation of Koszul cohomology, [Stacks, Tag 0663], in the shape Tag 0GLY wants.**
 If the ideal sheaf `I` is generated on sections by the global sections `f₁, …, f_r`, then every
 cohomology sheaf of the Koszul complex `K(O, f₁, …, f_r)` is annihilated by `I` itself — the
@@ -231,10 +233,11 @@ theorem isAnnihilatedByPow_homology_koszulComplex {r : ℕ}
   refine ⟨1, fun X a x ↦ ?_⟩
   obtain ⟨c, hc⟩ := hgen X (a 0)
   have hx : ∀ k : Fin r,
-      (show (Stacks.SheafOfModules.Tensor.ringSheaf O).obj.obj X from (f k).val X) • x = 0 := fun k ↦
-    Stacks.Sheaves.KoszulGlobalSections.smul_homology_eq_zero O f k p X x
+      (show (Stacks.SheafOfModules.Tensor.ringSheaf O).obj.obj X from (f k).val X) • x = 0 :=
+    fun k ↦ Stacks.Sheaves.KoszulGlobalSections.smul_homology_eq_zero O f k p X x
   rw [Fin.prod_univ_one, hc]
-  change (∑ k, c k * (show (Stacks.SheafOfModules.Tensor.ringSheaf O).obj.obj X from (f k).val X)) • x = 0
+  change (∑ k, c k * (show (Stacks.SheafOfModules.Tensor.ringSheaf O).obj.obj X from
+    (f k).val X)) • x = 0
   rw [Finset.sum_smul]
   exact Finset.sum_eq_zero fun k _ ↦ by rw [mul_smul, hx k, smul_zero]
 

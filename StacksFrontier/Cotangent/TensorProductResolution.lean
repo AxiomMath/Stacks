@@ -242,8 +242,7 @@ private lemma whiskerRight_tensorStandardResolutionAugmentation :
           (standardResolution.{u, u} R (CommAlgCat.of R B)).hom) (toAddCommGrpCat A) ≫
         (constForgetIso R A B).hom := by
   ext n x
-  induction x using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction x using TensorProduct.inductionOn with
   | tmul p q =>
       change ((standardResolution.{u, u} R (CommAlgCat.of R A)).hom.app n).hom p ⊗ₜ[R]
           ((standardResolution.{u, u} R (CommAlgCat.of R B)).hom.app n).hom q =

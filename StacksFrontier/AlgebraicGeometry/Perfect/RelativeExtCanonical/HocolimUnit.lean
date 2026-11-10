@@ -53,7 +53,7 @@ private theorem transition_comp_coprojection_of_isHomotopyColimitWith {F : ℕ �
   have h0 := comp_distTriang_mor_zero₁₂ _ hT
   have h1 := congrArg (fun g ↦ Limits.Sigma.ι F.obj n ≫ g) h0
   simp only [Triangle.mk_mor₁, Triangle.mk_mor₂, comp_zero] at h1
-  rw [← Category.assoc, Limits.Sigma.ι_desc, Preadditive.sub_comp, Category.assoc, hc, hc,
+  rw [← Category.assoc, Limits.Sigma.ι_comp_desc, Preadditive.sub_comp, Category.assoc, hc, hc,
     sub_eq_zero] at h1
   exact h1.symm
 
@@ -70,12 +70,12 @@ theorem IsHomotopyColimitWith.exists_desc {F : ℕ ⥤ D} [HasCoproduct F.obj] {
       F.map (homOfLE (Nat.le_succ n)) ≫ Limits.Sigma.ι F.obj (n + 1)) ≫
         Limits.Sigma.desc x = 0 := by
     refine Limits.Sigma.hom_ext _ _ fun n ↦ ?_
-    rw [← Category.assoc, Limits.Sigma.ι_desc, Preadditive.sub_comp, Limits.Sigma.ι_desc,
-      Category.assoc, Limits.Sigma.ι_desc, hx n, sub_self, comp_zero]
+    rw [← Category.assoc, Limits.Sigma.ι_comp_desc, Preadditive.sub_comp, Limits.Sigma.ι_comp_desc,
+      Category.assoc, Limits.Sigma.ι_comp_desc, hx n, sub_self, comp_zero]
   obtain ⟨y, hy⟩ := Triangle.yoneda_exact₂ _ hT (Limits.Sigma.desc x) hw
   refine ⟨y, fun n ↦ ?_⟩
   have h1 := congrArg (fun g ↦ Limits.Sigma.ι F.obj n ≫ g) hy
-  simp only [Triangle.mk_mor₂, Limits.Sigma.ι_desc] at h1
+  simp only [Triangle.mk_mor₂, Limits.Sigma.ι_comp_desc] at h1
   rw [h1, ← Category.assoc, hc]
 
 /-- **Isomorphic systems have isomorphic homotopy colimits, compatibly with the coprojections.**
@@ -94,8 +94,8 @@ theorem IsHomotopyColimitWith.exists_iso_of_iso {F F' : ℕ ⥤ D} [HasCoproduct
         F'.map (homOfLE (Nat.le_succ n)) ≫ Limits.Sigma.ι F'.obj (n + 1) := by
     refine Limits.Sigma.hom_ext _ _ fun n ↦ ?_
     have hn := α.hom.naturality (homOfLE (Nat.le_succ n))
-    simp only [a, Limits.Sigma.ι_desc_assoc, Preadditive.sub_comp, Category.assoc,
-      Limits.Sigma.ι_map, Limits.Sigma.ι_map_assoc, Limits.Sigma.ι_desc,
+    simp only [a, Limits.Sigma.ι_comp_desc_assoc, Preadditive.sub_comp, Category.assoc,
+      Limits.Sigma.ι_map, Limits.Sigma.ι_map_assoc, Limits.Sigma.ι_comp_desc,
       Preadditive.comp_sub]
     rw [← reassoc_of% hn]
   obtain ⟨φ, hφ₂, hφ₃⟩ := complete_distinguished_triangle_morphism _ _ hT hT' a a ha

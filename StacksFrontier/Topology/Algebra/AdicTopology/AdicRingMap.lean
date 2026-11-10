@@ -53,7 +53,7 @@ private lemma exists_fg_map_isAdic
     {A B : Type*} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
     [IsLinearTopology A A] [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
     [IsLinearTopology B B]
-    (φ : A →+* B) (hφ : Continuous φ) (hTaut : RingHom.IsTaut φ)
+    (φ : A →+* B) (hTaut : RingHom.IsTaut φ)
     (hA : ∃ I : Ideal A, I.FG ∧ _root_.IsAdic I)
     [hComplete : @CompleteSpace B (IsTopologicalAddGroup.rightUniformSpace B)] [T2Space B] :
     ∃ I : Ideal A, I.FG ∧ _root_.IsAdic I ∧ _root_.IsAdic (I.map φ) := by
@@ -90,16 +90,16 @@ private lemma exists_fg_map_isAdic
   have hkerPow : ∀ n : ℕ,
       Khat ^ n = RingHom.ker (AdicCompletion.evalₐ K n).toRingHom := by
     intro n; ext x
-    show x ∈ ((K.map (algebraMap B (AdicCompletion K B))) ^ n) ↔ _
+    change x ∈ ((K.map (algebraMap B (AdicCompletion K B))) ^ n) ↔ _
     rw [← Ideal.map_pow]
-    show x ∈ Submodule.restrictScalars B (Ideal.map (algebraMap B _) (K ^ n)) ↔ _
+    change x ∈ Submodule.restrictScalars B (Ideal.map (algebraMap B _) (K ^ n)) ↔ _
     rw [← Ideal.smul_top_eq_map]
-    show x ∈ K ^ n • (⊤ : Submodule B (AdicCompletion K B)) ↔ _
+    change x ∈ K ^ n • (⊤ : Submodule B (AdicCompletion K B)) ↔ _
     rw [AdicCompletion.pow_smul_top_eq_ker_eval hKfg, RingHom.mem_ker]
     have hpow : (K ^ n • (⊤ : Ideal B) : Ideal B) = K ^ n := by
       ext y; simp
     let q := Ideal.quotientEquivAlgOfEq B hpow
-    show (AdicCompletion.eval K B n x = 0) ↔
+    change (AdicCompletion.eval K B n x = 0) ↔
       (q (AdicCompletion.eval K B n x) = 0)
     exact (map_eq_zero_iff q.toRingHom q.injective).symm
   let coeB : ULift.{0} B →+* AdicCompletion K B :=
@@ -108,10 +108,10 @@ private lemma exists_fg_map_isAdic
       coeB ⁻¹' ((Khat ^ n : Ideal (AdicCompletion K B)) : Set (AdicCompletion K B)) =
         ((L ^ n : Ideal (ULift.{0} B)) : Set (ULift.{0} B)) := by
     intro n; ext x
-    show coeB x ∈ Khat ^ n ↔ x ∈ L ^ n
+    change coeB x ∈ Khat ^ n ↔ x ∈ L ^ n
     rw [hkerPow n, RingHom.mem_ker]
-    show AdicCompletion.evalₐ K n (coeB x) = 0 ↔ x ∈ L ^ n
-    show AdicCompletion.evalₐ K n
+    change AdicCompletion.evalₐ K n (coeB x) = 0 ↔ x ∈ L ^ n
+    change AdicCompletion.evalₐ K n
         (algebraMap B (AdicCompletion K B) (ULift.ringEquiv (R := B) x)) = 0 ↔
       x ∈ L ^ n
     simp only [AdicCompletion.algebraMap_apply, AdicCompletion.evalₐ_of,
@@ -120,9 +120,9 @@ private lemma exists_fg_map_isAdic
   have htopInd : Topology.IsInducing coeB := by
     rw [IsTopologicalAddGroup.isInducing_iff_nhds_zero]
     apply hLBasis.ext (hKhatBasis.comap coeB)
-    · intro n _
+    · rintro n -
       exact ⟨n, trivial, by rw [hpre n]⟩
-    · intro n _
+    · rintro n -
       exact ⟨n, trivial, by rw [hpre n]⟩
   have huni : IsUniformInducing coeB := AddMonoidHom.isUniformInducing_of_isInducing htopInd
   have hdense : DenseRange coeB := by
@@ -156,12 +156,12 @@ private lemma exists_fg_map_isAdic
       (f := liftToHat) (g := cmp.toEquiv.toFun)
       (UniformSpace.Completion.continuous_extension (f := coeB))
       cmp.uniformContinuous_toFun.continuous fun x => by
-        show UniformSpace.Completion.extensionHom coeB pkg.continuous_coe
+        change UniformSpace.Completion.extensionHom coeB pkg.continuous_coe
             (x : UniformSpace.Completion (ULift.{0} B)) =
           AbstractCompletion.compareEquiv (UniformSpace.Completion.cPkg (α := ULift.{0} B)) pkg
             (x : UniformSpace.Completion (ULift.{0} B))
         rw [UniformSpace.Completion.extensionHom_coe coeB pkg.continuous_coe x]
-        show coeB x =
+        change coeB x =
           AbstractCompletion.compareEquiv (UniformSpace.Completion.cPkg (α := ULift.{0} B)) pkg
             ((UniformSpace.Completion.cPkg (α := ULift.{0} B)).coe x)
         exact (AbstractCompletion.compare_coe
@@ -206,34 +206,34 @@ private lemma exists_fg_map_isAdic
       algebraMap B (AdicCompletion K B) := by
     apply RingHom.ext
     intro b
-    show liftToHat ((ULift.up b : ULift.{0} B) : UniformSpace.Completion (ULift.{0} B)) =
+    change liftToHat ((ULift.up b : ULift.{0} B) : UniformSpace.Completion (ULift.{0} B)) =
       algebraMap B (AdicCompletion K B) b
     rw [hlift_eq_cmp]
-    show (UniformSpace.Completion.cPkg (α := ULift.{0} B)).compare pkg
+    change (UniformSpace.Completion.cPkg (α := ULift.{0} B)).compare pkg
         ((UniformSpace.Completion.cPkg (α := ULift.{0} B)).coe (ULift.up b)) = _
     rw [AbstractCompletion.compare_coe
       (UniformSpace.Completion.cPkg (α := ULift.{0} B)) pkg (ULift.up b)]
-    show algebraMap B (AdicCompletion K B)
+    change algebraMap B (AdicCompletion K B)
         (ULift.ringEquiv (R := B) (ULift.up b : ULift.{0} B)) =
       algebraMap B (AdicCompletion K B) b
     exact congrArg (algebraMap B (AdicCompletion K B)) rfl
   have hsection : ψ.comp (algebraMap B (AdicCompletion K B)) = RingHom.id B := by
     apply RingHom.ext
     intro b
-    show toB (liftToHatEquiv.symm (algebraMap B (AdicCompletion K B) b)) = b
+    change toB (liftToHatEquiv.symm (algebraMap B (AdicCompletion K B) b)) = b
     have hcoe_b : liftToHatEquiv (intoCompletion b) = algebraMap B (AdicCompletion K B) b :=
       congrArg (fun f : B →+* AdicCompletion K B => f b) hcoe
     rw [← hcoe_b, RingEquiv.symm_apply_apply]
-    show toB ((ULift.up b : ULift.{0} B) : UniformSpace.Completion (ULift.{0} B)) = b
+    change toB ((ULift.up b : ULift.{0} B) : UniformSpace.Completion (ULift.{0} B)) = b
     simp only [toB, UniformSpace.Completion.extensionHom_coe]
-    show ULift.ringEquiv (R := B) (ULift.up b : ULift.{0} B) = b
+    change ULift.ringEquiv (R := B) (ULift.up b : ULift.{0} B) = b
     rfl
   have hψsurj : Function.Surjective ψ := by
     intro b
     exact ⟨algebraMap B (AdicCompletion K B) b,
       by simpa using congrArg (fun f : B →+* B => f b) hsection⟩
   have hmapKhat : Khat.map ψ = K := by
-    show Ideal.map ψ (K.map (algebraMap B (AdicCompletion K B))) = K
+    change Ideal.map ψ (K.map (algebraMap B (AdicCompletion K B))) = K
     rw [Ideal.map_map, hsection, Ideal.map_id]
   have hmapKhatPow (n : ℕ) : Ideal.map ψ (Khat ^ n) = K ^ n := by
     rw [Ideal.map_pow, hmapKhat]
@@ -278,7 +278,7 @@ private lemma exists_fg_map_isAdic
         _ = cmp (cmp.symm x) := (cmp.apply_symm_apply x).symm
     exact (UniformSpace.Completion.continuous_extension
       (f := (ULift.ringEquiv (R := B)).toRingHom)).comp (by
-        show Continuous (fun x => liftToHatEquiv.symm x)
+        change Continuous (fun x => liftToHatEquiv.symm x)
         rw [hInv]
         exact cmp.uniformContinuous_invFun.continuous)
   have hopen := RingHom.isOpenMap_of_isTaut_of_denseRange ψ hψcont inferInstance
@@ -307,11 +307,11 @@ public theorem exists_fg_ideal_isAdic_of_isTaut
     {A B : Type*} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
     [IsLinearTopology A A] [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
     [IsLinearTopology B B]
-    (φ : A →+* B) (hφ : Continuous φ) (hTaut : RingHom.IsTaut φ)
+    (φ : A →+* B) (hTaut : RingHom.IsTaut φ)
     (hA : ∃ I : Ideal A, I.FG ∧ _root_.IsAdic I)
     [@CompleteSpace B (IsTopologicalAddGroup.rightUniformSpace B)] [T2Space B] :
     ∃ J : Ideal B, J.FG ∧ _root_.IsAdic J := by
-  rcases exists_fg_map_isAdic φ hφ hTaut hA with ⟨I, hIfg, _hIadic, hKadic⟩
+  rcases exists_fg_map_isAdic φ hTaut hA with ⟨I, hIfg, -, hKadic⟩
   exact ⟨I.map φ, hIfg.map φ, by simpa using hKadic⟩
 
 section
@@ -323,11 +323,11 @@ public theorem isAdic_of_isTaut
     {A B : Type*} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
     [IsLinearTopology A A] [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
     [IsLinearTopology B B]
-    (φ : A →+* B) (hφ : Continuous φ) (hTaut : RingHom.IsTaut φ)
+    (φ : A →+* B) (hTaut : RingHom.IsTaut φ)
     (hA : ∃ I : Ideal A, I.FG ∧ _root_.IsAdic I)
     [@CompleteSpace B (IsTopologicalAddGroup.rightUniformSpace B)] [T2Space B] :
     RingHom.IsAdic φ := by
-  rcases exists_fg_map_isAdic φ hφ hTaut hA with ⟨I, _hIfg, hIadic, hKadic⟩
+  rcases exists_fg_map_isAdic φ hTaut hA with ⟨I, -, hIadic, hKadic⟩
   exact ⟨I, hIadic, by simpa using hKadic⟩
 
 end
@@ -342,8 +342,8 @@ private theorem isAdic_map_of_isAdic_map {R S : Type*} [CommRing R] [CommRing S]
     [TopologicalSpace R] [TopologicalSpace S] (f : R →+* S) (I J : Ideal R)
     (hI : _root_.IsAdic I) (hJ : _root_.IsAdic J)
     (hJmap : _root_.IsAdic (J.map f)) : _root_.IsAdic (I.map f) := by
-  let _ : IsTopologicalRing R := hI ▸ inferInstance
-  let _ : IsTopologicalRing S := hJmap ▸ inferInstance
+  let : IsTopologicalRing R := hI ▸ inferInstance
+  let : IsTopologicalRing S := hJmap ▸ inferInstance
   rw [isAdic_iff] at hI hJ hJmap ⊢
   constructor
   · intro n
@@ -354,15 +354,14 @@ private theorem isAdic_map_of_isAdic_map {R S : Type*} [CommRing R] [CommRing S]
     obtain ⟨n, hn⟩ := hJmap.2 U hU
     obtain ⟨m, hm⟩ := hI.2 _ ((hJ.1 n).mem_nhds (J ^ n).zero_mem)
     refine ⟨m, Set.Subset.trans ?_ hn⟩
-    show (I.map f) ^ m ≤ (J.map f) ^ n
+    change (I.map f) ^ m ≤ (J.map f) ^ n
     simpa only [Ideal.map_pow] using (Ideal.map_mono hm : (I ^ m).map f ≤ (J ^ n).map f)
 
 /-- The composite of two continuous adic ring homomorphisms is adic. -/
 @[stacks 0GXA]
 public theorem isAdic_comp {A B C : Type*} [CommRing A] [CommRing B] [CommRing C]
     [TopologicalSpace A] [TopologicalSpace B] [TopologicalSpace C]
-    (f : A →+* B) (g : B →+* C) (hf_continuous : Continuous f)
-    (hg_continuous : Continuous g) (hf : RingHom.IsAdic f)
+    (f : A →+* B) (g : B →+* C) (hf : RingHom.IsAdic f)
     (hg : RingHom.IsAdic g) :
     RingHom.IsAdic (g.comp f) := by
   obtain ⟨I, hI, hIf⟩ := hf
@@ -404,8 +403,8 @@ public theorem isAdic_of_comp {A B C : Type*} [CommRing A] [CommRing B] [CommRin
   let : TopologicalSpace C := L.adicTopology
   let : IsTopologicalRing C := L.ringFilterBasis.isTopologicalRing
   have hLcharacterization := (_root_.isAdic_iff.mp (show _root_.IsAdic L from rfl))
-  obtain ⟨m, _, hfm⟩ := (RingHom.continuous_adic_iff f I K).mp hf_continuous
-  obtain ⟨n, _, hgn⟩ := (RingHom.continuous_adic_iff g K L).mp hg_continuous
+  obtain ⟨m, -, hfm⟩ := (RingHom.continuous_adic_iff f I K).mp hf_continuous
+  obtain ⟨n, -, hgn⟩ := (RingHom.continuous_adic_iff g K L).mp hg_continuous
   have hfm' : Ideal.map f (I ^ m) ≤ K := Ideal.map_le_iff_le_comap.mpr hfm
   have hgn' : Ideal.map g (K ^ n) ≤ L := Ideal.map_le_iff_le_comap.mpr hgn
   have hLM : L ^ m ≤ M := by simpa only [L, M, Ideal.map_pow] using Ideal.map_mono (f := g) hfm'
@@ -437,7 +436,7 @@ public theorem isTaut_of_isAdic
     {A B : Type*} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
     [IsLinearTopology A A] [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
     [IsLinearTopology B B]
-    (φ : A →+* B) (hφ : Continuous φ) (hAdic : RingHom.IsAdic φ) :
+    (φ : A →+* B) (hAdic : RingHom.IsAdic φ) :
     RingHom.IsTaut φ := by
   obtain ⟨I, hI, hJ⟩ := hAdic
   let J : Ideal B := I.map φ
@@ -450,7 +449,7 @@ public theorem isTaut_of_isAdic
         rw [← Ideal.map_pow]; exact (Ideal.map_mono hn).trans subset_closure))
   refine ⟨hopen, Filter.hasBasis_iff.mpr fun s ↦ ?_⟩
   constructor
-  · intro hs; obtain ⟨n, _, hn⟩ := hJ.hasBasis_nhds_zero.mem_iff.mp hs
+  · intro hs; obtain ⟨n, -, hn⟩ := hJ.hasBasis_nhds_zero.mem_iff.mp hs
     refine ⟨I ^ n, (isAdic_iff.mp hI).1 n, ?_⟩
     have hclosed : IsClosed ((J ^ n : Ideal B) : Set B) :=
       (J ^ n).toAddSubgroup.isClosed_of_isOpen (hpowOpen n)
@@ -468,11 +467,11 @@ public theorem isAdic_iff_isTaut
     {A B : Type*} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
     [IsLinearTopology A A] [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
     [IsLinearTopology B B]
-    (φ : A →+* B) (hφ : Continuous φ)
+    (φ : A →+* B)
     (hA : ∃ I : Ideal A, I.FG ∧ _root_.IsAdic I)
     [@CompleteSpace B (IsTopologicalAddGroup.rightUniformSpace B)] [T2Space B] :
     RingHom.IsAdic φ ↔ RingHom.IsTaut φ := by
-  exact ⟨isTaut_of_isAdic φ hφ, (RingHom.isAdic_of_isTaut φ hφ · hA)⟩
+  exact ⟨isTaut_of_isAdic φ, (RingHom.isAdic_of_isTaut φ · hA)⟩
 
 end
 

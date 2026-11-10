@@ -205,9 +205,9 @@ private theorem isFinitePresentation_of_presentation {C : Type u} [Category.{u} 
     [∀ Y : C, (J.over Y).WEqualsLocallyBijective AddCommGrpCat.{u}]
     {M : SheafOfModules.{u} S} (P : M.Presentation) [P.IsFinite] : M.IsFinitePresentation := by
   refine ⟨P.quasicoherentData.shrink, ⟨fun i => ⟨⟨?_⟩, ⟨?_⟩⟩⟩⟩
-  · show Finite P.generators.I
+  · change Finite P.generators.I
     exact (show P.IsFinite from inferInstance).isFiniteType_generators.finite
-  · show Finite P.relations.I
+  · change Finite P.relations.I
     exact (show P.IsFinite from inferInstance).isFiniteType_relations.finite
 
 /-- The kernel of a map from a finite free module into a module with a global finite
@@ -248,9 +248,9 @@ private theorem kernel_free_to_globalPresentation_over
   set P' := P.map E.inverse (Iso.refl _) with hP'
   have : P'.IsFinite := by
     refine ⟨⟨?_⟩, ⟨?_⟩⟩
-    · show Finite P.generators.I
+    · change Finite P.generators.I
       exact (show P.IsFinite from inferInstance).isFiniteType_generators.finite
-    · show Finite P.relations.I
+    · change Finite P.relations.I
       exact (show P.IsFinite from inferInstance).isFiniteType_relations.finite
   set a := mapFreeIso E.inverse I (Iso.refl _) with ha
   have hg : (kernel (a.hom ≫ E.inverse.map f)).IsFiniteType :=

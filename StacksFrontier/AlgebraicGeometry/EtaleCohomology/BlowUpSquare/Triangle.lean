@@ -192,7 +192,7 @@ public theorem isIso_map_etaleAbelianDerivedAdjunction_unit_of_isPullback_of_isI
     IsIso ((etaleAbelianDerivedInverseImage.{u, v} o).map
       ((etaleAbelianDerivedAdjunction.{u, v} b).unit.app K)) := by
   let α := etaleAbelianDerivedSquare.{u, v} b o o' bU (o' ≫ b) rfl sq.w
-  have hα : IsIso α.natTrans := by
+  have hα : IsIso α := by
     dsimp only [α, etaleAbelianDerivedSquare]
     infer_instance
   have hβ : IsIso (etaleAbelianDerivedBaseChange.{u, v} b o o' bU sq.w) :=
@@ -213,9 +213,9 @@ public theorem isIso_map_etaleAbelianDerivedAdjunction_unit_of_isPullback_of_isI
   have : IsIso ((etaleAbelianDerivedAdjunction.{u, v} bU).unit.app
       ((etaleAbelianDerivedInverseImage.{u, v} o).obj K)) := inferInstance
   have : IsIso ((mateEquiv (etaleAbelianDerivedAdjunction.{u, v} b)
-      (etaleAbelianDerivedAdjunction.{u, v} bU) α).natTrans.app
+      (etaleAbelianDerivedAdjunction.{u, v} bU) α).app
         ((etaleAbelianDerivedInverseImage.{u, v} b).obj K)) := inferInstance
-  have : IsIso (α.natTrans.app K) := inferInstance
+  have : IsIso (α.app K) := inferInstance
   dsimp only [Functor.id_obj, Functor.comp_obj] at h
   exact IsIso.of_isIso_fac_right h
 

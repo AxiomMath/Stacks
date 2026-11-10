@@ -131,7 +131,7 @@ theorem exists_isStandardOpenCoverOfSpectrum_refinement {U : X.Opens} (hU : IsAf
   refine ⟨Fintype.card t, fun j ↦ f₀ (e.symm j), fun j ↦ i₀ (e.symm j), ?_, hcover,
     fun j ↦ hle₀ (e.symm j)⟩
   -- The ring-theoretic standard-covering condition, from the geometric one.
-  show (⨆ j, PrimeSpectrum.basicOpen (f₀ (e.symm j))) = PrimeSpectrum.basicOpen (1 : Γ(X, U))
+  change (⨆ j, PrimeSpectrum.basicOpen (f₀ (e.symm j))) = PrimeSpectrum.basicOpen (1 : Γ(X, U))
   rw [PrimeSpectrum.basicOpen_one]
   exact PrimeSpectrum.iSup_basicOpen_eq_top_iff.mpr
     (hU.iSup_basicOpen_eq_self_iff.mp (by simpa only [iSup_range'] using hcover))

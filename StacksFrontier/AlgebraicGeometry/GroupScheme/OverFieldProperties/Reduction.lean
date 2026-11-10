@@ -57,15 +57,15 @@ theorem exists_closedSubgroupScheme_reduction
   let H : Over (Spec (.of k)) := Over.mk (I.subschemeι ≫ G.X.hom)
   let j : H ⟶ G.X := Over.homMk I.subschemeι rfl
   have : IsClosedImmersion j.left := by
-    show IsClosedImmersion I.subschemeι
+    change IsClosedImmersion I.subschemeι
     infer_instance
   have : IsReduced H.left :=
     Scheme.IdealSheafData.isReduced_subscheme_vanishingIdeal (⊤ : Closeds G.X.left)
   have : IsReduced ((𝟙_ (Over (Spec (.of k)))).left) := by
-    show IsReduced (Spec (.of k))
+    change IsReduced (Spec (.of k))
     infer_instance
   have : IsReduced ((H ⊗ H).left) := by
-    show IsReduced (pullback H.hom H.hom)
+    change IsReduced (pullback H.hom H.hom)
     exact isReduced_pullback_over_perfectField H.hom H.hom
   have hfactor {Y : Over (Spec (.of k))} [IsReduced Y.left]
       (f : Y ⟶ G.X) : ∃ g : Y ⟶ H, g ≫ j = f := by
@@ -73,7 +73,7 @@ theorem exists_closedSubgroupScheme_reduction
       (Scheme.IdealSheafData.exists_lift_subschemeι_iff_range_subset_support I f.left).2
         (by simp [I])
     refine ⟨Over.homMk g ?_, ?_⟩
-    · show g ≫ I.subschemeι ≫ G.X.hom = Y.hom
+    · change g ≫ I.subschemeι ≫ G.X.hom = Y.hom
       exact ((reassoc_of% hg) G.X.hom).trans f.w
     · exact Over.OverMorphism.ext hg
   obtain ⟨K, e, heq⟩ := (isClosedSubgroupScheme_iff_factor G j).2

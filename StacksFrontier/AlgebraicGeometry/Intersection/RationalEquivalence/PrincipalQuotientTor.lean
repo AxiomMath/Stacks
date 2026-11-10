@@ -223,7 +223,7 @@ theorem periodicLength_zero_lsmul :
     S₁.moduleCatHomologyIso
   have h0 : Module.length B (K.homology 0) = Module.length B (QuotSMulTop t T) := by
     rw [e0.toLinearEquiv.length_eq]
-    show Module.length B (T ⧸ LinearMap.range S₀.f.hom) = _
+    change Module.length B (T ⧸ LinearMap.range S₀.f.hom) = _
     have hf : S₀.f.hom = LinearMap.lsmul B T t := by
       simp [S₀, K, HomologicalComplex.sc', AlgebraicGeometry.twoPeriodicComplex, htwo]
       rfl
@@ -245,14 +245,14 @@ theorem periodicLength_zero_lsmul :
       rfl
     have hf1 : S₁.moduleCatToCycles = 0 := by
       ext x
-      show S₁.f.hom x = 0
+      change S₁.f.hom x = 0
       rw [hf0]
       rfl
-    show Module.length B ((LinearMap.ker S₁.g.hom) ⧸
+    change Module.length B ((LinearMap.ker S₁.g.hom) ⧸
       LinearMap.range S₁.moduleCatToCycles) = _
     rw [hf1, LinearMap.range_zero, (Submodule.quotEquivOfEqBot _ rfl).length_eq]
     exact congrArg (fun f : T →ₗ[B] T => Module.length B (LinearMap.ker f)) hg1
-  show ((Module.length B (K.homology 0)).toNat : ℤ) -
+  change ((Module.length B (K.homology 0)).toNat : ℤ) -
     ((Module.length B (K.homology 1)).toNat : ℤ) = _
   rw [h0, h1]
 
@@ -326,7 +326,7 @@ variable {B : Type u} [CommRing B]
 /-- `Tor` against a zero module vanishes, on the right. -/
 theorem isZero_tor_of_isZero_right (X : ModuleCat.{u} B) {Y : ModuleCat.{u} B} (hY : IsZero Y)
     (p : ℕ) : IsZero (((Tor (ModuleCat.{u} B) p).obj X).obj Y) := by
-  show IsZero (((tensorLeft X).leftDerived p).obj Y)
+  change IsZero (((tensorLeft X).leftDerived p).obj Y)
   exact Functor.map_isZero _ hY
 
 /-- `Tor` against a zero module has length zero, on either side. -/
@@ -367,7 +367,7 @@ theorem sum_length_tor_quotSMulTop_eq (M N : ModuleCat.{u} B) [Module.Finite B M
   classical
   set P := ModuleCat.of B (B ⧸ Ideal.span {t}) with hPdef
   have hsuppP : Module.support B P = PrimeSpectrum.zeroLocus {t} := by
-    show Module.support B (B ⧸ Ideal.span {t}) = _
+    change Module.support B (B ⧸ Ideal.span {t}) = _
     rw [Module.support_eq_zeroLocus, Ideal.annihilator_quotient, PrimeSpectrum.zeroLocus_span]
   have hA := Stacks.Intersection.finsum_alternating_length_tor_assoc_of_isRegularLocalRing B M N
     P n hdim (by rw [hsuppP]; exact hsupp)

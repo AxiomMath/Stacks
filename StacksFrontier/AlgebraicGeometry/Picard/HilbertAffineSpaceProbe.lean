@@ -173,14 +173,14 @@ theorem isFiniteLocallyFreeOfRank_subschemeι_iff
   let ψ : MvPolynomial n A →ₐ[A] Γ(I.subscheme, ⊤) :=
     { toRingHom := I.subschemeι.appTop.hom.comp (polyHom n s)
       commutes' := fun a ↦ by
-        show I.subschemeι.appTop (polyHom n s (C a)) = _
+        change I.subschemeι.appTop (polyHom n s (C a)) = _
         rw [polyHom_C]
-        show _ = ((Scheme.ΓSpecIso A).inv ≫ g.appTop) a
+        change _ = ((Scheme.ΓSpecIso A).inv ≫ g.appTop) a
         simp only [g, Scheme.Hom.comp_appTop, CommRingCat.comp_apply] }
   have hsurj : Function.Surjective ψ :=
     (I.subschemeι_app_surjective ⟨⊤, isAffineOpen_top _⟩).comp (polyHom_bijective n s).2
   have hker : RingHom.ker ψ.toRingHom = probeIdeal n s I := by
-    show RingHom.ker (I.subschemeι.appTop.hom.comp (polyHom n s)) = _
+    change RingHom.ker (I.subschemeι.appTop.hom.comp (polyHom n s)) = _
     rw [← RingHom.comap_ker]
     exact congrArg (Ideal.comap (polyHom n s)) (I.ker_subschemeι_app ⟨⊤, isAffineOpen_top _⟩)
   let e : (MvPolynomial n A ⧸ probeIdeal n s I) ≃ₐ[A] Γ(I.subscheme, ⊤) :=
@@ -222,7 +222,7 @@ theorem probeIdeal_comap (I : (pullback (𝔸(n; S) ↘ S) s).IdealSheafData) :
     (Ideal.map_comap_of_surjective _ (polyHom_bijective n s).2 _).symm
   rw [probeIdeal, Scheme.IdealSheafData.comap_eq_ofIdealTop_of_isAffine]
   rw [Scheme.IdealSheafData.ideal_ofIdealTop_top, hI]
-  show Ideal.comap (polyHom n (Spec.map φ ≫ s)) (Ideal.map (probeMap n s φ).appTop.hom
+  change Ideal.comap (polyHom n (Spec.map φ ≫ s)) (Ideal.map (probeMap n s φ).appTop.hom
     (Ideal.map (polyHom n s) (probeIdeal n s I))) = _
   rw [Ideal.map_map, probeMap_appTop_polyHom, ← Ideal.map_map]
   exact Ideal.comap_map_of_bijective _ (polyHom_bijective n _)

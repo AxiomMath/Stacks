@@ -221,7 +221,7 @@ theorem isFlat_of_coversTop {ι : Type*} {V : ι → X.C} (hV : X.J.CoversTop V)
     refine ⟨fun {A B} g hg => ?_⟩
     have : Mono g := hg
     refine mono_of_mono_over hV _ fun i => ?_
-    show Mono ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} X.O).map g).app M).over
+    change Mono ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} X.O).map g).app M).over
       (V i))
     have hmg : Mono (g.over (V i)) :=
       have := preservesHomology_overFunctor

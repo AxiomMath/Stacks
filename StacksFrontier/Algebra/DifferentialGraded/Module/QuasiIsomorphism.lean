@@ -301,7 +301,7 @@ theorem degreeZeroHomology_shift_isZero_iff
     IsZero ((homologyOnHomotopy (A := A) i).obj ((toHomotopyCategory.{u, u, u} A).obj M)) := by
   have hshift : (((toHomotopyCategory.{u, u, u} A).obj M)⟦i⟧) =
       (toHomotopyCategory.{u, u, u} A).obj (shift M i) := by
-    show ((CategoryTheory.shiftFunctor
+    change ((CategoryTheory.shiftFunctor
         (HomotopyCategory.{u, u, u} A) i).obj
           ((toHomotopyCategory.{u, u, u} A).obj M)) =
       (toHomotopyCategory.{u, u, u} A).obj
@@ -418,11 +418,11 @@ theorem degreeZeroHomologyOnHomotopy_isHomological :
   let F0 := forgetToCochainComplex A ⋙
     HomologicalComplex.homologyFunctor (ModuleCat.{u} R) (ComplexShape.up ℤ) 0
   have hF0 : (S.map F0).Exact := by
-    show ((HomologicalComplex.HomologySequence.composableArrows₅ hS 0 1 (by simp)).sc
+    change ((HomologicalComplex.HomologySequence.composableArrows₅ hS 0 1 (by simp)).sc
       hLES.toIsComplex 0 (by omega)).Exact
     exact hLES.exact 0
   let isoH : Q ⋙ H ≅ F0 := CategoryTheory.Quotient.lift.isLift _ _ _
-  show (S.map (Q ⋙ H)).Exact
+  change (S.map (Q ⋙ H)).Exact
   exact (ShortComplex.exact_iff_of_iso (S.mapNatIso isoH)).2 hF0
 
 /-- Being a quasi-isomorphism is invariant under homotopy of homomorphisms. -/
@@ -435,7 +435,7 @@ theorem quasiIso_of_homotopic'
   apply (quasiIsoAt_iff _ i).2
   have hIso : IsIso (HomologicalComplex.homologyMap g.toCochainMap i) := by
     rw [← (underlyingHomotopy A h.some).homologyMap_eq i]
-    show IsIso (ShortComplex.homologyMap
+    change IsIso (ShortComplex.homologyMap
       ((HomologicalComplex.shortComplexFunctor (ModuleCat.{u} R) (ComplexShape.up ℤ) i).map
         f.toCochainMap))
     exact ((quasiIsoAt_iff f.toCochainMap i).1 (hf.quasiIsoAt i)).isIso'
@@ -468,7 +468,7 @@ theorem degreeZeroHomology_map_isIso
       ((HomologicalComplex.shortComplexFunctor (ModuleCat.{u} R)
         (ComplexShape.up ℤ) 0).map (F.map g)) :=
     (quasiIsoAt_iff (F.map g) 0).1 ((quasiIso_iff (F.map g)).1 hg 0)
-  show IsIso (HomologicalComplex.homologyMap (F.map g) 0)
+  change IsIso (HomologicalComplex.homologyMap (F.map g) 0)
   exact hQi.isIso'
 
 /-- Degree-zero cohomology on the homotopy category inverts the quasi-isomorphisms, which is what
@@ -560,7 +560,7 @@ theorem homologicalKernel_degreeZeroHomology_eq_acyclic :
   ext X
   cases X with
   | mk M =>
-    show (∀ i : ℤ, IsZero ((degreeZeroHomologyOnHomotopy A).obj
+    change (∀ i : ℤ, IsZero ((degreeZeroHomologyOnHomotopy A).obj
       (((toHomotopyCategory.{u, u, u} A).obj M)⟦i⟧))) ↔ M.toCochainComplex.Acyclic
     rw [acyclic_iff_homologyOnHomotopy A M]
     exact forall_congr' (degreeZeroHomology_shift_isZero_iff A M)
@@ -621,7 +621,7 @@ theorem acyclic_trW_eq_quasiIsomorphisms' :
     (acyclic' A).trW = quasiIsomorphisms' A := by
   rw [← homologicalKernel_degreeZeroHomology_eq_acyclic A]
   let H := degreeZeroHomologyOnHomotopy A
-  show H.homologicalKernel.trW = quasiIsomorphisms' A
+  change H.homologicalKernel.trW = quasiIsomorphisms' A
   let := degreeZeroHomologyOnHomotopy_isHomological A
   let : H.ShiftSequence ℤ := Functor.ShiftSequence.tautological H ℤ
   ext X Y f
@@ -631,7 +631,7 @@ theorem acyclic_trW_eq_quasiIsomorphisms' :
     | mk N =>
       induction f using Quot.inductionOn with
       | _ g =>
-        show H.homologicalKernel.trW ((toHomotopyCategory.{u, u, u} A).map g) ↔
+        change H.homologicalKernel.trW ((toHomotopyCategory.{u, u, u} A).map g) ↔
           quasiIsomorphisms' A ((toHomotopyCategory.{u, u, u} A).map g)
         rw [quasiIsomorphisms_map_iff', H.mem_homologicalKernel_trW_iff,
           quasiIso_iff]

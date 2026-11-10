@@ -201,7 +201,7 @@ public theorem isQuasicoherentDerived_of_isPseudoCoherent (X : Scheme.{u})
       (SheafOfModules.isQuasicoherent
         (StrictlyPerfect.structureSheafOfRings X.toRingedSpace)) E := by
   obtain ⟨K, hK, ⟨e⟩⟩ := hE
-  show ∀ i : ℤ, ((DerivedCategory.homologyFunctor
+  change ∀ i : ℤ, ((DerivedCategory.homologyFunctor
     (StrictlyPerfect.OXMod.{u, u, u} X.toRingedSpace) i).obj E).IsQuasicoherent
   exact fun i ↦ isQuasicoherent_homology_of_isPseudoCoherentFrom X E (i - 1) i
     ⟨K, hK (i - 1), ⟨e⟩⟩ (by lia)

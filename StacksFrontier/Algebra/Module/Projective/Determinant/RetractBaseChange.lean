@@ -130,13 +130,13 @@ theorem linearMapLeftRight_of_projective [Module.Finite R M] [Module.Projective 
     simp only [LinearMap.comp_apply, LinearMap.coe_restrictScalars]
     refine jF.algHom_ext _ _ fun x => ?_
     have h1 : fS ((TensorProduct.mk R S (Fin n → R) 1) x) = α (f x) := jF.lift_eq (α.comp f) x
-    simp only [LinearMap.lcomp_apply, LinearMap.comp_apply, linearMapLeftRightHom_comp_apply, h1]
+    simp only [LinearMap.lcomp_apply, linearMapLeftRightHom_comp_apply, h1]
   · refine LinearMap.ext fun φ => ?_
     simp only [LinearMap.comp_apply, LinearMap.coe_restrictScalars]
     refine j.algHom_ext _ _ fun x => ?_
     have h1 : gS (α x) = (TensorProduct.mk R S (Fin n → R) 1) (g x) :=
       j.lift_eq ((TensorProduct.mk R S (Fin n → R) 1).comp g) x
-    simp only [LinearMap.lcomp_apply, LinearMap.comp_apply, linearMapLeftRightHom_comp_apply, h1]
+    simp only [LinearMap.lcomp_apply, linearMapLeftRightHom_comp_apply, h1]
 
 end LinearMap
 
@@ -204,9 +204,9 @@ theorem ker_restrict [Module.Projective R N] {f : M →ₗ[R] N} (f' : M' →ₗ
   refine hσ.of_retract (kerRestrict f f' σ ν hc) (LinearMap.ker f).subtype p ?_
     (LinearMap.ker f').subtype p' ?_ ?_ ?_
   · ext x
-    simp [p, x.2]
+    simp [p]
   · ext x
-    simp [p', x.2]
+    simp [p']
   · ext x
     rfl
   · ext m

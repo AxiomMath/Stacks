@@ -305,7 +305,7 @@ theorem isIso_twistedInverseImageCompareWithPullback_of_isCompactlyGenerated
     isIso_compareWithPullbackTensor_of_isCompactlyGenerated f hpush α adj
       (derivedStructureSheaf Y) hα E hEc hE hdual K
   have h₂ : IsIso ((twistedInverseImage f hpush).map (ρ.hom.app K)) := inferInstance
-  show IsIso (compareWithPullbackTensor f hpush α adj K (derivedStructureSheaf Y) ≫
+  change IsIso (compareWithPullbackTensor f hpush α adj K (derivedStructureSheaf Y) ≫
     (twistedInverseImage f hpush).map (ρ.hom.app K))
   infer_instance
 

@@ -163,7 +163,7 @@ def isoSpecOver {V : BigFppfOver B S hS} (v : V ⟶ T')
 theorem toScheme_map_isoSpecOverSelf_inv :
     (BigFppfOver.toScheme B S hS).map (isoSpecOverSelf B S hS T').inv =
       ((BigFppfOver.toScheme B S hS).obj T').isoSpec.inv := by
-  show B.inclusion.map (B.inclusion.preimageIso _).inv = _
+  change B.inclusion.map (B.inclusion.preimageIso _).inv = _
   rw [Functor.preimageIso_inv, Functor.map_preimage]
 
 variable {T'} in
@@ -176,7 +176,7 @@ theorem toScheme_map_isoSpecOver_inv {V : BigFppfOver B S hS} (v : V ⟶ T')
         ((BigFppfOver.toScheme B S hS).map v).appTop.hom) :
     (BigFppfOver.toScheme B S hS).map (isoSpecOver B S hS v hv).inv =
       ((BigFppfOver.toScheme B S hS).obj V).isoSpec.inv := by
-  show B.inclusion.map (B.inclusion.preimageIso _).inv = _
+  change B.inclusion.map (B.inclusion.preimageIso _).inv = _
   rw [Functor.preimageIso_inv, Functor.map_preimage]
 
 variable {T'} in
@@ -194,7 +194,7 @@ theorem isoSpecOver_inv_comp {V : BigFppfOver B S hS} (v : V ⟶ T')
   apply (BigFppfOver.toScheme B S hS).map_injective
   rw [Functor.map_comp, Functor.map_comp, toScheme_map_isoSpecOver_inv,
     toScheme_map_isoSpecOverSelf_inv, toScheme_map_specOverHom]
-  show _ = Spec.map (CommRingCat.ofHom (algebraMap _ _)) ≫ _
+  change _ = Spec.map (CommRingCat.ofHom (algebraMap _ _)) ≫ _
   rw [hv, CommRingCat.ofHom_hom, Scheme.isoSpec_inv_naturality]
 
 end IsoSpec

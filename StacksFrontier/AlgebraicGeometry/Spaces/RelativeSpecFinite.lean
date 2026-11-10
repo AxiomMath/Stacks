@@ -166,8 +166,7 @@ theorem AlgebraSheaf.isIntegral_algebraMap_of_surjective_sectionsBaseChange
     rw [hcomp, ← Polynomial.hom_eval₂, hP, map_zero]
   intro y
   obtain ⟨t, rfl⟩ := hsurj y
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero]; exact RingHom.isIntegralElem_zero _
+  induction t using TensorProduct.inductionOn with
   | add a b ha hb => rw [map_add]; exact RingHom.IsIntegralElem.add _ ha hb
   | tmul o c =>
     rw [chartBaseChange_tmul]

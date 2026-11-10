@@ -180,7 +180,7 @@ theorem baseFst_comp_eq (ha : e.inv ≫ a.hom = yoneda.map a₀)
         L.obj ((schemeFibredCategoryMap B S hS pr₂).hom.obj z)) K.chart_comp_moduliMap
   refine Eq.trans ?_ hR.symm
   let z' : Over U' := z
-  show (associatedMap B S hS a.hom).1.hom.obj
+  change (associatedMap B S hS a.hom).1.hom.obj
       ((associatedMap B S hS (yoneda.map pr₁ ≫ e.inv)).1.hom.obj
       ((sliceElementsComparison B S hS U').obj z)) =
     (associatedMap B S hS (yoneda.map K.quotientMap)).1.hom.obj
@@ -190,7 +190,7 @@ theorem baseFst_comp_eq (ha : e.inv ≫ a.hom = yoneda.map a₀)
   have hval : a.hom.app (op z'.left) (e.inv.app (op z'.left) (z'.hom ≫ pr₁)) =
       (z'.hom ≫ pr₂) ≫ K.quotientMap := by
     refine h₁.trans ?_
-    show (z'.hom ≫ pr₁) ≫ a₀ = _
+    change (z'.hom ≫ pr₁) ≫ a₀ = _
     rw [Category.assoc, Category.assoc, hcomm]
   exact congrArg (fun x => (⟨z'.left, Discrete.mk x⟩ :
     (fibredCategory B S hS K.moduliSpace.obj).val.obj)) hval
@@ -443,7 +443,7 @@ theorem exists_hom_baseChart (hpb : IsPullback pr₂ pr₁ K.quotientMap a₀)
   refine IsHomLift.of_fac' _ k _ (K.baseChart_p_obj ha hpb.w (Over.mk u₀))
     (K.twoFibreProductSquare_p_obj ζ) ?_
   refine (K.twoFibreProductSquare_p_map _).trans ?_
-  show k = eqToHom rfl ≫ k ≫ eqToHom rfl
+  change k = eqToHom rfl ≫ k ≫ eqToHom rfl
   simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
 
 /-- **Every object of `T ×_M 𝒳` comes from the base-changed chart after restriction to a

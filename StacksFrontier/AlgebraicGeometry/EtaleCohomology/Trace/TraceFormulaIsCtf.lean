@@ -27,8 +27,7 @@ in `Λ^♮`. That `R π_*` preserves `D_ctf` along proper morphisms, the proposi
   the closed subschemes of `X` disjoint from `U`.
 * `cohomologicalTraceFormula_extensionByZero_of_isCtf_of_isSeparated_of_properDirectImageCtfInput`:
   `T''(X̄, j_! K) = T'(X̄, j_! K)` for every compactification.
-* `perfectDerivedTrace_canonicalCompactSupportFrobenius_eq_sum_of_isCtf_of_isSeparated_of_`
-  `properDirectImageCtfInput`:
+* `perfectDerivedTrace_compactSupportFrobenius_eq_sum_of_isCtf_of_properDirectImageCtfInput`:
   the trace formula of [Stacks, Tag 03V3].
 
 ## References
@@ -292,7 +291,8 @@ separated of finite type over `k`, lying in the big étale site, a compactificat
 and a bounded below complex `K` whose class lies in `D_ctf(X, Λ)`, `RΓ(X̄_k̄, j_! K)` is perfect
 and the trace of the geometric Frobenius on it is the sum of the local terms of `K` at the rational
 points. -/
-theorem cohomologicalTraceFormula_extensionByZero_of_isCtf_of_isSeparated_of_properDirectImageCtfInput
+theorem
+    cohomologicalTraceFormula_extensionByZero_of_isCtf_of_isSeparated_of_properDirectImageCtfInput
     (hΛ : (Nat.card Λ : k) ≠ 0) (hctf : ProperDirectImageCtfInput B Λ) {X : Scheme.{u}}
     (f : X ⟶ Spec (.of k)) [LocallyOfFiniteType f] [IsSeparated f] [QuasiCompact f]
     (J : CompactificationOf (Over.mk f)) (K : CochainComplex.Plus (EtaleModules.{u, 0} Λ X))
@@ -327,7 +327,7 @@ and `RΓ_c(X_k̄, K)` are perfect and `Tr(π_X^* | RΓ_c(X_k̄, K)) = ∑_{x ∈
 
 That `R π_*` preserves `D_ctf` along proper morphisms is the hypothesis `hctf`
 (`Stacks.EtaleCohomology.ProperDirectImageCtfInput`). -/
-theorem perfectDerivedTrace_canonicalCompactSupportFrobenius_eq_sum_of_isCtf_of_isSeparated_of_properDirectImageCtfInput
+theorem perfectDerivedTrace_compactSupportFrobenius_eq_sum_of_isCtf_of_properDirectImageCtfInput
     (hΛ : (Nat.card Λ : k) ≠ 0) (hctf : ProperDirectImageCtfInput B Λ) {X : Scheme.{u}}
     (f : X ⟶ Spec (.of k)) [LocallyOfFiniteType f] [IsSeparated f] [QuasiCompact f]
     [Fintype (rationalPoints f)] (J : CompactificationOf (Over.mk f))

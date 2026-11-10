@@ -122,7 +122,7 @@ private theorem isMaximalCohenMacaulay_localizationAtPrime_iff (k S K : Type*) [
     Module.Flat.of_linearEquiv (Algebra.TensorProduct.commRight k S K).symm.toLinearEquiv
   have : qK.LiesOver q := ⟨hqK⟩
   have : IsLocalHom (algebraMap (Localization.AtPrime q) (Localization.AtPrime qK)) := by
-    rw [Localization.AtPrime.IsLiesOverAlgebra.algebraMap_eq]
+    rw [Localization.AtPrime.algebraMap_eq]
     exact Localization.isLocalHom_localRingHom _ _ _ Ideal.LiesOver.over
   rw [Module.isMaximalCohenMacaulay_self_iff_of_flat (Localization.AtPrime q)
     (Localization.AtPrime qK)]

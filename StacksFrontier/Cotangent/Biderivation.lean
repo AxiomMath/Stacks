@@ -160,15 +160,15 @@ theorem ext_mvPolynomial (D E : Biderivation A (MvPolynomial S A) M)
   | C a =>
       have h (F : Biderivation A (MvPolynomial S A) M) : F.toLinearMap 1 = 0 := by
         simpa using F.leibniz 1 1
-      show D.toLinearMap (C a) = E.toLinearMap (C a)
+      change D.toLinearMap (C a) = E.toLinearMap (C a)
       simp [MvPolynomial.C_eq_smul_one, h D, h E]
   | add p q hp hq =>
-      show D.toLinearMap (p + q) = E.toLinearMap (p + q)
+      change D.toLinearMap (p + q) = E.toLinearMap (p + q)
       change D.toLinearMap p = E.toLinearMap p at hp
       change D.toLinearMap q = E.toLinearMap q at hq
       rw [D.toLinearMap.map_add, E.toLinearMap.map_add, hp, hq]
   | mul_X p s hp =>
-      show D.toLinearMap (p * X s) = E.toLinearMap (p * X s)
+      change D.toLinearMap (p * X s) = E.toLinearMap (p * X s)
       rw [D.leibniz, E.leibniz]
       change D.toLinearMap p = E.toLinearMap p at hp
       rw [show D.toLinearMap (X s) = E.toLinearMap (X s) from hX s, hp]
@@ -257,7 +257,7 @@ private theorem monomialWord_product {A S : Type*} [CommSemiring A] (e : S →�
 private theorem monomialWord_add_perm {S : Type*} (e f : S →₀ ℕ) :
     List.Perm (monomialWord (e + f)) (monomialWord e ++ monomialWord f) := by
   apply Multiset.coe_eq_coe.mp
-  show ((Finsupp.toMultiset (e + f)).toList : Multiset S) =
+  change ((Finsupp.toMultiset (e + f)).toList : Multiset S) =
     ((Finsupp.toMultiset e).toList ++ (Finsupp.toMultiset f).toList : List S)
   rw [Multiset.coe_toList, ← Multiset.coe_add, Multiset.coe_toList, Multiset.coe_toList,
     Finsupp.toMultiset_add]
@@ -362,7 +362,7 @@ theorem existsUnique_mvPolynomial (m : S → M) (hcomm : IsCompatibleOnVars A m)
       leibniz := mvPolynomialLinearMap_leibniz m hcomm }
   have hD : ∀ s, D (X s) = m s := by
     intro s
-    show mvPolynomialLinearMap m (monomial (Finsupp.single s 1) (1 : A)) = m s
+    change mvPolynomialLinearMap m (monomial (Finsupp.single s 1) (1 : A)) = m s
     rw [mvPolynomialLinearMap_monomial]
     classical
     simp [monomialWord, wordValue, wordProduct]

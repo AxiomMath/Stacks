@@ -197,7 +197,7 @@ abbrev pullSheaf (k : K) : (c.pt : TopCat.{u}).Sheaf AddCommGrpCat.{u} :=
 lemma mem_stageOpen {j i : K} (a : j ⟶ i) (V : Opens ((E.obj i : TopCat.{u}) : Type u))
     (z : (Opens.map (c.π.app i).hom.base).obj V) :
     projFun c j z.1 ∈ (Opens.map (E.map a).hom.base).obj V := by
-  show ConcreteCategory.hom (E.map a).hom.base (projFun c j z.1) ∈ V
+  change ConcreteCategory.hom (E.map a).hom.base (projFun c j z.1) ∈ V
   rw [projFun_comp]
   exact z.2
 

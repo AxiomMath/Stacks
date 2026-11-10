@@ -59,11 +59,11 @@ theorem isIso_internalHomStrength_of_source_dual {M N : C} [ExactPairing M N] {H
     rw [a.homEquiv_naturality_left_symm, a.homEquiv_naturality_left_symm]
     simp only [internalHomStrength, Equiv.symm_apply_apply]
     rw [a.homEquiv_symm_apply]
-    show (K ◁ e.hom.app L) ▷ M ≫ (α_ K (H.obj L) M).hom ≫ K ◁ a.counit.app L =
+    change (K ◁ e.hom.app L) ▷ M ≫ (α_ K (H.obj L) M).hom ≫ K ◁ a.counit.app L =
       (α_ K L N).inv ▷ M ≫ e.hom.app (K ⊗ L) ▷ M ≫ a.counit.app (K ⊗ L)
     rw [associator_naturality_middle_assoc, ← whiskerLeft_comp, he, he]
     have hc (X : C) : b.counit.app X = (α_ X N M).hom ≫ X ◁ ε_ M N ≫ (ρ_ X).hom := by
-      show (𝟙 (X ⊗ N)) ▷ M ≫ _ = _
+      change (𝟙 (X ⊗ N)) ▷ M ≫ _ = _
       simp
     rw [hc, hc]
     monoidal

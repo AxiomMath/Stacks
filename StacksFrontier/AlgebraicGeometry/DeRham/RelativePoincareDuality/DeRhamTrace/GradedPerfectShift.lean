@@ -1,9 +1,7 @@
 module
 
-public import
-  StacksFrontier.AlgebraicGeometry.DeRham.RelativePoincareDuality.DeRhamTrace.GradedComplexIdentities
-public import
-  StacksFrontier.AlgebraicGeometry.DeRham.RelativePoincareDuality.DeRhamTrace.GradedToTensorShift
+public import StacksFrontier.AlgebraicGeometry.DeRham.RelativePoincareDuality.DeRhamTrace.GradedComplexIdentities
+public import StacksFrontier.AlgebraicGeometry.DeRham.RelativePoincareDuality.DeRhamTrace.GradedToTensorShift
 
 /-!
 # The right shift of a pairing of complexes of `𝒪_X`-modules, in the derived category

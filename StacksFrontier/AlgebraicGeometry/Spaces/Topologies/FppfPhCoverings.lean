@@ -42,6 +42,7 @@ universe u v
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site over `S` is deep
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_FppfPhCoverings :
@@ -98,7 +99,7 @@ theorem isPHCovering_of_isFppfCovering {I : Type v}
   have hb (j : A.I₀) : ∃ b : Q.X j ⟶ V (H.s₀ j), toSch.map b = H.h₀ j := by
     refine ⟨Over.homMk (ObjectProperty.homMk (H.h₀ j)) ?_, rfl⟩
     apply ObjectProperty.hom_ext
-    show H.h₀ j ≫ (V (H.s₀ j)).hom.hom = A.f j ≫ U.hom.hom
+    change H.h₀ j ≫ (V (H.s₀ j)).hom.hom = A.f j ≫ U.hom.hom
     have hfac : toSch.map (v (H.s₀ j)) ≫ U.hom.hom = (V (H.s₀ j)).hom.hom :=
       congrArg (fun q ↦ q.hom) (v (H.s₀ j)).w
     rw [← hfac, ← Category.assoc, hw j]
@@ -109,7 +110,7 @@ theorem isPHCovering_of_isFppfCovering {I : Type v}
     apply Functor.map_injective toSch
     rw [Functor.map_comp, hbmap]
     exact hw j
-  show (yoneda.map (b j) ≫ β (H.s₀ j) ≫ pullback.snd a (f (H.s₀ j))) ≫ f (H.s₀ j) =
+  change (yoneda.map (b j) ≫ β (H.s₀ j) ≫ pullback.snd a (f (H.s₀ j))) ≫ f (H.s₀ j) =
     yoneda.map (Q.f j) ≫ a
   rw [← hQv j, Functor.map_comp, hvmap]
   simp [pullback.condition]

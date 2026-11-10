@@ -67,14 +67,14 @@ theorem baseChangeDesc_apply (g : M →ₗ[R] N)
   let : Module A P := Module.compHom P l
   let : Module R P := Module.compHom P (l.comp (algebraMap R A))
   let : IsScalarTower R A P := ⟨fun r a p => by
-    show l (r • a) • p = l (algebraMap R A r) • (l a • p)
+    change l (r • a) • p = l (algebraMap R A r) • (l a • p)
     rw [Algebra.smul_def, map_mul, mul_smul]⟩
   let h' : M →ₗ[R] P := { h with map_smul' := h.map_smul' }
   let e := LinearEquiv.ofBijective (g.liftBaseChange A) hg
   have he : e ((1 : A) ⊗ₜ[R] t) = g t := by
-    show g.liftBaseChange A ((1 : A) ⊗ₜ[R] t) = g t
+    change g.liftBaseChange A ((1 : A) ⊗ₜ[R] t) = g t
     rw [LinearMap.liftBaseChange_tmul, one_smul]
-  show h'.liftBaseChange A (e.symm (g t)) = h t
+  change h'.liftBaseChange A (e.symm (g t)) = h t
   rw [← he, e.symm_apply_apply, LinearMap.liftBaseChange_tmul, one_smul]
   rfl
 
@@ -85,8 +85,7 @@ theorem baseChangeDesc_unique (g : M →ₗ[R] N)
     (l : A →+* E) (h₁ h₂ : N →ₛₗ[l] P) (he : ∀ t, h₁ (g t) = h₂ (g t)) : h₁ = h₂ := by
   ext y
   obtain ⟨z, rfl⟩ := hg.2 y
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul a t =>
     rw [LinearMap.liftBaseChange_tmul, h₁.map_smulₛₗ, h₂.map_smulₛₗ, he]
   | add z z' hz hz' => simp only [map_add, hz, hz']
@@ -130,16 +129,12 @@ theorem baseChangeLift_bijective_of_equiv
     { __ := eA.toAddEquiv
       map_smul' := by
         intro a b
-        show eA (f a * (@id A b)) = f' (eR a) * eA (@id A b)
+        change eA (f a * (@id A b)) = f' (eR a) * eA (@id A b)
         rw [map_mul, hRing] }
   let E := TensorProduct.congr eS eM
   have h : ∀ t, baseChangeLift f' M' g' (E t) = eN (baseChangeLift f M g t) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero =>
-      refine Eq.trans (congrArg (baseChangeLift f' M' g') (map_zero E)) ?_
-      exact (map_zero (baseChangeLift f' M' g')).trans
-        ((congrArg eN (map_zero (baseChangeLift f M g))).trans (map_zero eN)).symm
+    induction t using TensorProduct.inductionOn with
     | tmul a y =>
       refine Eq.trans (congrArg (baseChangeLift f' M' g')
         (TensorProduct.congr_tmul eS eM a y)) ?_

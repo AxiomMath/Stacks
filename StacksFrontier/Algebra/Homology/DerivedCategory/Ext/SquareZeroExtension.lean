@@ -214,13 +214,13 @@ theorem epsSequence_precomp_eq_zero (hM : IsEpsTrivial M) (i : ℕ)
         (TrivSqZeroExt.inr b : DualNumber R) (1 : DualNumber R)
       rw [smul_eq_mul, mul_one] at h
       simp only [epsSequence_f, ModuleCat.hom_zero, LinearMap.zero_apply]
-      show (ModuleCat.Hom.hom g) (TrivSqZeroExt.inr b) = 0
+      change (ModuleCat.Hom.hom g) (TrivSqZeroExt.inr b) = 0
       rw [h]
       exact smul_inr_eq_zero hM b _
     rw [hg, Abelian.Ext.mk₀_zero]
   | succ i =>
     have : Projective (epsSequence R).X₂ := by
-      show Projective (ModuleCat.of (DualNumber R) (DualNumber R))
+      change Projective (ModuleCat.of (DualNumber R) (DualNumber R))
       infer_instance
     rw [Abelian.Ext.eq_zero_of_projective x, Abelian.Ext.comp_zero]
 
@@ -289,7 +289,7 @@ theorem coefficientModule_isEpsTrivial (n : ℕ) :
   intro m
   induction m using Submodule.Quotient.induction_on with
   | _ a =>
-    show Submodule.Quotient.mk ((DualNumber.eps : sourceRing k) * a) = 0
+    change Submodule.Quotient.mk ((DualNumber.eps : sourceRing k) * a) = 0
     exact (Submodule.Quotient.mk_eq_zero _).mpr
       (Ideal.mul_mem_right _ _ (eps_mem_coefficientIdeal k n))
 
@@ -311,7 +311,7 @@ theorem coefficientModule_xpow_smul (n : ℕ) (m : coefficientModule k n) :
     (TrivSqZeroExt.inl (Polynomial.X : Polynomial k) : sourceRing k) ^ n • m = 0 := by
   induction m using Submodule.Quotient.induction_on with
   | _ a =>
-    show Submodule.Quotient.mk
+    change Submodule.Quotient.mk
       ((TrivSqZeroExt.inl (Polynomial.X : Polynomial k) : sourceRing k) ^ n * a) = 0
     rw [Submodule.Quotient.mk_eq_zero]
     refine Ideal.mul_mem_right _ _ ?_

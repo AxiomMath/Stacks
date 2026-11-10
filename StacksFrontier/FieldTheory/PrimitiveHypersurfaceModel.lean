@@ -79,7 +79,7 @@ theorem exists_primitive_hypersurface_model (k K : Type u) [Field k] [PerfectFie
   let : Algebra R0 M := (MvPolynomial.aeval tM).toAlgebra
   have hval : ∀ f : R0, (algebraMap R0 M f : K) = MvPolynomial.aeval t f := by
     intro f
-    show (IsScalarTower.toAlgHom k M K) (MvPolynomial.aeval tM f) = _
+    change (IsScalarTower.toAlgHom k M K) (MvPolynomial.aeval tM f) = _
     rw [MvPolynomial.comp_aeval_apply]
     rfl
   have hinj : Function.Injective (algebraMap R0 M) := fun a b hab =>
@@ -158,7 +158,7 @@ theorem exists_nonempty_algHom_of_hypersurface_model {k K : Type u} [Field k] [F
     have hbS : (⟨b, hb'⟩ : S) ≠ 0 := fun h => hb0 (congrArg Subtype.val h)
     have hbint : IsIntegral R0 (⟨b, hb'⟩ : S) :=
       (isIntegral_algHom_iff S.val Subtype.val_injective).mp (adjoin_le_integralClosure hyint hb')
-    have hcomap := Ideal.comap_ne_bot_of_integral_mem hbS (Ideal.mem_span_singleton_self _) hbint
+    have hcomap := Ideal.under_ne_bot_of_integral_mem hbS (Ideal.mem_span_singleton_self _) hbint
     obtain ⟨r, hr, hr0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hcomap
     obtain ⟨c, hc⟩ := Ideal.mem_span_singleton'.mp (Ideal.mem_comap.mp hr)
     have hcK : (c : K) * b = algebraMap R0 K r := congrArg Subtype.val hc
@@ -222,16 +222,16 @@ theorem exists_nonempty_algHom_of_hypersurface_model {k K : Type u} [Field k] [F
       have h := congrArg ι (IsLocalization.mk'_spec T x s)
       rw [map_mul, ha, zero_mul] at h
       simpa [ι] using h.symm
-    show IsLocalization.mk' T x s = 0
+    change IsLocalization.mk' T x s = 0
     rw [hqbar (hx.trans (map_zero qbar).symm), IsLocalization.mk'_zero]
   have hB : B ≤ ι.range := by
     intro b hb
     obtain ⟨m, f, hf⟩ := hBden ⟨b, hb⟩
     refine ⟨IsLocalization.mk' T (Ideal.Quotient.mk I f) (⟨γ ^ m, m, rfl⟩ : Submonoid.powers γ), ?_⟩
-    show ι _ = b
+    change ι _ = b
     rw [IsLocalization.Away.liftAlgHom_apply, IsLocalization.Away.lift,
       IsLocalization.lift_mk'_spec]
-    show q f = qbar (γ ^ m) * b
+    change q f = qbar (γ ^ m) * b
     rw [map_pow, hqγ]
     exact hf.symm
   let toT : B →ₐ[k] T :=

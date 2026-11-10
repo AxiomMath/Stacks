@@ -109,7 +109,7 @@ theorem isWeakSolution_canonicalBaseChange_of_isWeakSolution
   refine Stacks.DiscreteValuationRing.EppLevelInduction.isWeakSolution_of_ringEquiv_square D
     (canonicalBaseChange A B K L K₁) eA eB ?_ hD
   intro x
-  show algebraMap (integralClosure A K₁) (integralClosure B (reducedCompositum K L K₁)) (eA x)
+  change algebraMap (integralClosure A K₁) (integralClosure B (reducedCompositum K L K₁)) (eA x)
       = eB (algebraMap D.A₁ D.B₁ x)
   apply Subtype.ext
   have hleft : ∀ y : integralClosure A K₁,

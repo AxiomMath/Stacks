@@ -483,7 +483,7 @@ theorem colimitMap_comp (φ : A →+* B) (ψ : B →+* D) (hI : I.FG) (hJ : J.FG
       colimitMap φ hI hJ hφ M ≫ (ModuleCat.restrictScalars φ).map (colimitMap ψ hJ hL hψ M) ≫
         (ModuleCat.restrictScalarsComp φ ψ).inv.app ((colimitFunctor hL).obj M) := by
   refine hom_ext_germAt hI fun X m => ?_
-  show colimitMap (ψ.comp φ) hI hL hχ M (germAt hI M X m) =
+  change colimitMap (ψ.comp φ) hI hL hχ M (germAt hI M X m) =
     colimitMap ψ hJ hL hψ M (colimitMap φ hI hJ hφ M (germAt hI M X m))
   rw [colimitMap_germAt, colimitMap_germAt]
   exact (colimitMap_germAt ψ hJ hL hψ M ((transport φ hφ).obj X) m).symm
@@ -538,7 +538,7 @@ theorem selfHom_restriction (P : Pair.{u}) (M : PairModule.{u})
     selfHom P M Y (M.restriction (Hom.toHom f) m) = selfHom P M X m := by
   have h : Hom.toHom f ≫ Hom.toHom (toSelf Y) = Hom.toHom (toSelf X) :=
     congrArg Hom.toHom (toSelf_unique (f ≫ toSelf Y))
-  show M.restriction (Hom.toHom (toSelf Y)) (M.restriction (Hom.toHom f) m) =
+  change M.restriction (Hom.toHom (toSelf Y)) (M.restriction (Hom.toHom f) m) =
     M.restriction (Hom.toHom (toSelf X)) m
   rw [← PairModule.restriction_comp_apply M (Hom.toHom f) (Hom.toHom (toSelf Y)) m, h]
 
@@ -778,7 +778,7 @@ theorem exists_pairOver_lift_span {r : ℕ} (f : Fin r → A)
   refine ⟨⟨Pair.ofEval f (fun j : Fin r => MvPolynomial.X j), Pair.ofEvalHom f, hmap⟩,
     fun j => Ideal.Quotient.mk (RingHom.ker (Pair.eval f)) (MvPolynomial.X j), Pair.eval_X f,
     ?_, Pair.ofEvalHom_injective f⟩
-  show Ideal.span (Set.range fun j : Fin r =>
+  change Ideal.span (Set.range fun j : Fin r =>
       Ideal.Quotient.mk (RingHom.ker (Pair.eval f)) (MvPolynomial.X j)) =
     (Ideal.span (Set.range fun j : Fin r => (MvPolynomial.X j : presentationRing.{u} r))).map
       (Ideal.Quotient.mk (RingHom.ker (Pair.eval f)))

@@ -311,7 +311,8 @@ def globalSectionsTensor (P Q : quasicoherentModules B S hS (schemeStack.{u, w} 
   (Stacks.SheafOfModules.TensorSheafification.toSheafify
     (fppfStructurePresheaf B S hS (schemeStack.{u, w} B S hS U))
     (fppfStructurePresheaf_isSheaf B S hS (schemeStack.{u, w} B S hS U))
-    (PresheafOfModulesOfCommRing.Monoidal.tensorObj P.obj.val Q.obj.val)).app (op (siteTop.{u, w} U))
+    (PresheafOfModulesOfCommRing.Monoidal.tensorObj P.obj.val Q.obj.val)).app
+    (op (siteTop.{u, w} U))
 
 /-- The tensor comparison of global sections is natural in the right factor. -/
 theorem globalSectionsTensor_naturality_right
@@ -706,12 +707,12 @@ theorem isMonoidal_localizedPullbackTensorComparison_comp :
         (algebraMap R (comparisonTensorAlgebra g hg F hF))) (F.obj X) (F.obj Y) ≫
         (τ.app X ⊗ₘ τ.app Y) ≫
           Functor.LaxMonoidal.μ (pointPullback B S hS 𝒳 _ (chartPointIso g hU) ⋙ ext) X Y := by
-    show _ ≫ θ.app (X ⊗ Y) ≫ ext.map iXY = _ ≫ ((θ.app X ≫ ext.map iX) ⊗ₘ
+    change _ ≫ θ.app (X ⊗ Y) ≫ ext.map iXY = _ ≫ ((θ.app X ≫ ext.map iX) ⊗ₘ
       (θ.app Y ≫ ext.map iY)) ≫ Functor.LaxMonoidal.μ ext _ _ ≫ ext.map μu
     rw [← Category.assoc, key', ← MonoidalCategory.tensorHom_comp_tensorHom]
     simp only [Category.assoc]
     rw [Functor.LaxMonoidal.μ_natural_assoc, ← Functor.map_comp, ← e']
-    simp only [Category.assoc]
+    simp only
     exact (congrArg (fun k => _ ≫ _ ≫ _ ≫ k) (ext.map_comp μΓ iXY)).symm
   rw [Functor.LaxMonoidal.comp_μ, Category.assoc, key, Functor.Monoidal.μ_δ_assoc]
 
@@ -743,7 +744,7 @@ comparison `F(-) ⊗_R C ≅ g(U)^*(-) ⊗_A C` is monoidal
 and so is the base change along `A ⟶ C`. -/
 instance isMonoidal_localizedPointPullbackTensorIso :
     NatTrans.IsMonoidal (localizedPointPullbackTensorIso g hg F hU ey ψ hψ).hom := by
-  haveI := isMonoidal_localizedPullbackTensorComparison_comp g hg F hU
+  have := isMonoidal_localizedPullbackTensorComparison_comp g hg F hU
   have e : (localizedPointPullbackTensorIso g hg F hU ey ψ hψ).hom =
       (localizedPullbackTensorComparison g hg F hU ≫
         Functor.whiskerRight (pointPullbackChartIso g hU).inv

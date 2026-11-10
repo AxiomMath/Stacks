@@ -68,7 +68,7 @@ theorem shrinkComparisonQhIso_hom_app_quotient (K : CochainComplex C ℤ) :
         (Stacks.Injectives.grothendieckModelEquiv.{w} C).functor.map
           ((@DerivedCategory.quotientCompQhIso C _ _ (HasDerivedCategory.standard C)).inv.app K) :=
               by
-  show (@DerivedCategory.quotientCompQhIso C _ _
+  change (@DerivedCategory.quotientCompQhIso C _ _
       (Stacks.Injectives.hasDerivedCategory_of_isGrothendieckAbelian.{w} C)).hom.app K ≫
     𝟙 _ ≫ (Stacks.Injectives.grothendieckModelEquiv.{w} C).functor.map
       ((@DerivedCategory.quotientCompQhIso C _ _ (HasDerivedCategory.standard C)).inv.app K) ≫

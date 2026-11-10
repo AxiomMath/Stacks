@@ -125,7 +125,7 @@ theorem mono_etaleModuleDirectImage_map_inverseImageAdj_unit (G : EtaleModules.{
     apply (etaleModuleInverseImage.{u, 0} (ZMod N) fbar ⋙
       etaleModuleInverseImage.{u, 0} (ZMod N) i).map_injective
     rw [Functor.map_zero]
-    show (etaleModuleInverseImage.{u, 0} (ZMod N) i).map
+    change (etaleModuleInverseImage.{u, 0} (ZMod N) i).map
       ((etaleModuleInverseImage.{u, 0} (ZMod N) fbar).map b) = 0
     rwa [hb]
   have hx₀ : (adj.homEquiv T F).symm x = 0 := by
@@ -297,7 +297,7 @@ theorem isFiniteTypeLocallyConstant_lowerShriekHomology_of_factorization [Etale 
   let P : ObjectProperty (EtaleModules.{u, 0} (ZMod N) S) :=
     Stacks.ConstantSheaf.IsFiniteTypeLocallyConstantModuleSheaf.{u, u + 1, 0}
       S.smallEtaleTopology (ZMod N)
-  show P _
+  change P _
   refine P.prop_of_iso ((lowerShriekHomologyFactorizationIso N f j fbar hjf jf q).app G).symm ?_
   let F := (etaleModuleInverseImage.{u, 0} (ZMod N) fbar).obj G
   obtain ⟨h, hS⟩ := shortExact_etaleModuleExtensionByZero_directImage (ZMod N) i j hij F
@@ -311,7 +311,7 @@ theorem isFiniteTypeLocallyConstant_lowerShriekHomology_of_factorization [Etale 
     Φ.map_distinguished _ (Stacks.DerivedIndexing.singleTrianglePlus_distinguished hS)
   refine prop_homology_obj₁_of_distTriang_plus P T hT (fun p => hF p) (fun p => ?_) q
   -- the boundary term: `(i ≫ f̄)_* i⁻¹ F` in degree `0`, and `0` in the other degrees
-  show P ((DerivedCategory.Plus.homologyFunctor _ p).obj
+  change P ((DerivedCategory.Plus.homologyFunctor _ p).obj
     (Φ.obj ((DerivedCategory.Plus.singleFunctor _ 0).obj SC.X₃)))
   by_cases hp : p = 0
   · subst hp

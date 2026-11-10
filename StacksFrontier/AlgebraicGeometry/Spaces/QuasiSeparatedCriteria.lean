@@ -177,7 +177,7 @@ to be an identity. -/
 theorem isOpenImmersion_of_isIso (f : F ⟶ G) [IsIso f] : IsOpenImmersion B S hS f := by
   refine MorphismProperty.relative.of_exists (fun a g ↦ ⟨a, g ≫ inv f, 𝟙 a, ?_, ?_⟩)
   · exact IsPullback.of_vert_isIso ⟨by simp⟩
-  · show AlgebraicGeometry.IsOpenImmersion ((BigFppfOver.toScheme B S hS).map (𝟙 a))
+  · change AlgebraicGeometry.IsOpenImmersion ((BigFppfOver.toScheme B S hS).map (𝟙 a))
     rw [CategoryTheory.Functor.map_id]
     infer_instance
 

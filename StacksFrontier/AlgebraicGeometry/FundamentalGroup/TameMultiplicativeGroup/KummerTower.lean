@@ -111,7 +111,7 @@ theorem exists_isPrimitiveRoot_pow_eq {Ω : Type*} [Field Ω] [IsAlgClosed Ω] {
   have hM0 : 0 < M := hM ▸ Nat.mul_pos hN hr
   have : NeZero M := ⟨hM0.ne'⟩
   have : NeZero N := ⟨hN.ne'⟩
-  obtain ⟨ω, hω⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot Ω M
+  obtain ⟨ω, hω⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot Ω M
   have hωr : IsPrimitiveRoot (ω ^ r) N := hω.pow hM0 (by rw [hM, mul_comm])
   obtain ⟨j, -, hj⟩ := hωr.eq_pow_of_pow_eq_one hζ.pow_eq_one
   have hjcop : j.Coprime N := (hωr.pow_iff_coprime hN j).mp (hj ▸ hζ)
@@ -149,7 +149,7 @@ def frobField (f : ℕ) : IntermediateField k (Omega k) :=
 /-- An element `a ∈ Ω` lies in `𝔽_f` if and only if `a^{q^f} = a`. -/
 theorem mem_frobField {f : ℕ} {a : Omega k} :
     a ∈ frobField k f ↔ a ^ (Fintype.card k ^ f) = a := by
-  show (FiniteField.frobeniusAlgHom k (Omega k) ^ f) a = a ↔ _
+  change (FiniteField.frobeniusAlgHom k (Omega k) ^ f) a = a ↔ _
   rw [AlgHom.coe_pow, FiniteField.coe_frobeniusAlgHom, pow_iterate]
 
 /-- If `f ∣ f'`, then `𝔽_f ⊆ 𝔽_{f'}`. -/
@@ -185,7 +185,7 @@ instance (f : ℕ) [NeZero f] : FiniteDimensional k (frobField k f) := Module.Fi
 instance (f : ℕ) [NeZero f] : Algebra.IsSeparable k (frobField k f) := inferInstance
 
 /-- For `f ≠ 0`, every `a ∈ Ω` with `a^{q^f - 1} = 1` lies in `𝔽_f`. -/
-theorem mem_frobField_of_pow_eq_one {f : ℕ} (hf : f ≠ 0) {a : Omega k}
+theorem mem_frobField_of_pow_eq_one {f : ℕ} {a : Omega k}
     (ha : a ^ (Fintype.card k ^ f - 1) = 1) : a ∈ frobField k f := by
   rw [mem_frobField, ← Nat.sub_add_cancel (Nat.one_le_pow _ _ Fintype.card_pos), pow_succ, ha,
     one_mul]
@@ -208,11 +208,13 @@ theorem one_lt_card_pow (m : ℕ) : 1 < Fintype.card k ^ m.factorial :=
 /-- The integer `N_m` is positive. -/
 theorem towerN_pos (m : ℕ) : 0 < towerN k m := Nat.sub_pos_of_lt (one_lt_card_pow k m)
 
+omit [Field k] in
 /-- `N_m` divides `N_{m+1}`. -/
 theorem towerN_dvd (m : ℕ) : towerN k m ∣ towerN k (m + 1) := by
   have h := Nat.sub_one_dvd_pow_sub_one (x := Fintype.card k ^ m.factorial) (n := m + 1)
   rwa [← pow_mul, mul_comm, ← Nat.factorial_succ] at h
 
+omit [Field k] in
 /-- `N_{m+1} = N_m · (N_{m+1} / N_m)`. -/
 theorem towerN_mul_ratio (m : ℕ) : towerN k (m + 1) = towerN k m * towerRatio k m :=
   (Nat.mul_div_cancel' (towerN_dvd k m)).symm
@@ -248,9 +250,9 @@ theorem pow_towerN_succ (m : ℕ) {t t' : Omega k} (h1 : t' ^ towerRatio k m = t
 `t_m^{N_m} = x`, with `ζ_{m+1}^{N_{m+1}/N_m} = ζ_m` and `t_{m+1}^{N_{m+1}/N_m} = t_m`. -/
 def towerData : (m : ℕ) →
     {p : Omega k × Omega k // IsPrimitiveRoot p.1 (towerN k m) ∧ p.2 ^ towerN k m = xΩ k}
-  | 0 => ⟨(Classical.choose (HasEnoughRootsOfUnity.exists_primitiveRoot (Omega k) (towerN k 0)),
+  | 0 => ⟨(Classical.choose (HasEnoughRootsOfUnity.exists_isPrimitiveRoot (Omega k) (towerN k 0)),
       Classical.choose (IsAlgClosed.exists_pow_nat_eq (xΩ k) (towerN_pos k 0))),
-      Classical.choose_spec (HasEnoughRootsOfUnity.exists_primitiveRoot (Omega k) (towerN k 0)),
+      Classical.choose_spec (HasEnoughRootsOfUnity.exists_isPrimitiveRoot (Omega k) (towerN k 0)),
       Classical.choose_spec (IsAlgClosed.exists_pow_nat_eq (xΩ k) (towerN_pos k 0))⟩
   | m + 1 =>
     ⟨(Classical.choose (exists_isPrimitiveRoot_pow_eq (towerN_mul_ratio k m) (towerN_pos k m)

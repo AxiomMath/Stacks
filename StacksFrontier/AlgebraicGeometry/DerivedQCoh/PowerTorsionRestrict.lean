@@ -86,7 +86,7 @@ public theorem globalScalar_val_image {X Y : Scheme.{u}} (g : X ⟶ Y) [IsOpenIm
   have h : (g.appIso V).hom (Y.presheaf.map (isTerminalTop.from (g ''ᵁ V)).op f) =
       X.presheaf.map (isTerminalTop.from V).op (g.appTop f) := by
     rw [← CommRingCat.comp_apply, map_top_comp_appIso_hom g V, CommRingCat.comp_apply]
-  show Y.presheaf.map (isTerminalTop.from (g ''ᵁ V)).op f =
+  change Y.presheaf.map (isTerminalTop.from (g ''ᵁ V)).op f =
     (g.appIso V).inv (X.presheaf.map (isTerminalTop.from V).op (g.appTop f))
   rw [← h, ← CommRingCat.comp_apply, (g.appIso V).hom_inv_id, CommRingCat.id_apply]
 

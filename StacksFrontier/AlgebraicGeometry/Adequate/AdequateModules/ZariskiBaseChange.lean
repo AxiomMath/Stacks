@@ -136,7 +136,7 @@ public theorem structureSheaf_map_opensIsoSpecOver_inv (BB : BigSite τ S) {U : 
     (forget₂ CommRingCat RingCat).map (Scheme.Opens.topIso U).inv ≫
         BB.structureSheaf.obj.map (opensIsoSpecOver BB.base_mem hU hsz p hp).inv.op =
       (forget₂ CommRingCat RingCat).map (Scheme.ΓSpecIso Γ(S, U)).inv := by
-  show (forget₂ CommRingCat RingCat).map
+  change (forget₂ CommRingCat RingCat).map
       ((Scheme.Opens.topIso U).inv ≫ hU.isoSpec.inv.appTop) = _
   rw [hU.isoSpec_inv_appTop, Iso.inv_hom_id_assoc]
 
@@ -218,7 +218,7 @@ public theorem BigSite.affineOpenBaseChange (B : BigSite τ S)
   let aV : B.category := (affineSpecOver B Γ(S, V) hV.fromSpec).obj (op XV)
   let aU : B.category := (affineSpecOver B Γ(S, V) hV.fromSpec).obj (op YU)
   have haV : aV.hom.hom = hV.fromSpec := by
-    show Spec.map (CommRingCat.ofHom (algebraMap Γ(S, V) Γ(S, V))) ≫ hV.fromSpec = _
+    change Spec.map (CommRingCat.ofHom (algebraMap Γ(S, V) Γ(S, V))) ≫ hV.fromSpec = _
     simp
   have haU : aU.hom.hom = hU.fromSpec := hV.map_fromSpec hU (homOfLE h).op
   let isoV := opensIsoSpecOver B.base_mem hV hszV aV.hom.hom haV
@@ -239,7 +239,7 @@ public theorem BigSite.affineOpenBaseChange (B : BigSite τ S)
     (LinearEquiv.refl Γ(S, U) Γ(S, U)) eM ≪≫ₗ eBC ≪≫ₗ eN.symm) fun x ↦ ?_
   have key : (affineSectionFunctor B G Γ(S, V) hV.fromSpec).map gUV.op.op (eM x) =
       eN (restrictₗ (B.zariskiRestrictModule.obj G) h x) := by
-    show G.val.map ((affineSpecOver B Γ(S, V) hV.fromSpec).map gUV.op).op
+    change G.val.map ((affineSpecOver B Γ(S, V) hV.fromSpec).map gUV.op).op
         (G.val.map isoV.inv.op x) =
       G.val.map isoU.inv.op (G.val.map (opensBelowHom B.base_mem h).op x)
     have e1 := G.val.map_comp_apply isoV.inv.op
@@ -250,7 +250,7 @@ public theorem BigSite.affineOpenBaseChange (B : BigSite τ S)
         (opensBelowHom B.base_mem h).op ≫ isoU.inv.op :=
       congrArg Quiver.Hom.op (overHom_ext_opensBelowObj _ _)
     exact e1.symm.trans ((G.val.congr_map_apply e3 x).trans e2)
-  show eN.symm ((1 : Γ(S, U)) •
+  change eN.symm ((1 : Γ(S, U)) •
     (affineSectionFunctor B G Γ(S, V) hV.fromSpec).map gUV.op.op (eM x)) = _
   rw [one_smul, key]
   exact eN.symm_apply_apply _

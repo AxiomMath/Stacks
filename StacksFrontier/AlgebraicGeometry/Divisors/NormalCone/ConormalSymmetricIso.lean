@@ -171,8 +171,8 @@ single nonzerodivisor. This is the local shape of an effective Cartier divisor,
 [Stacks, Tag 01WS]. -/
 def HasPrincipalChartBasis (i : Z ⟶ X) [IsImmersion i] : Prop :=
   ∀ (V : Z.Opens) (x : Z), x ∈ V →
-    ∃ (U : X.affineOpens) (hU : IsClosedImmersion (i.resLE U.1 (i ⁻¹ᵁ U.1) le_rfl))
-      (f : Γ(X, U.1)), x ∈ i ⁻¹ᵁ U.1 ∧ i ⁻¹ᵁ U.1 ≤ V ∧
+    ∃ U : X.affineOpens, IsClosedImmersion (i.resLE U.1 (i ⁻¹ᵁ U.1) le_rfl) ∧
+      ∃ f : Γ(X, U.1), x ∈ i ⁻¹ᵁ U.1 ∧ i ⁻¹ᵁ U.1 ≤ V ∧
         chartIdeal i U = Ideal.span {f} ∧ f ∈ nonZeroDivisors Γ(X, U.1)
 
 /-! ### Injectivity, and the isomorphism -/

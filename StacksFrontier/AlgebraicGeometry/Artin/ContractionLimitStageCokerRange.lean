@@ -41,6 +41,7 @@ variable {c : ContractionSituation B S hS} {I : Type u} [Category.{u} I] [IsCofi
     ((BigFppfOver.toScheme B S hS).obj (D.obj k₀).obj).zeroLocus
       (I₀ : Set Γ((BigFppfOver.toScheme B S hS).obj (D.obj k₀).obj, ⊤)))
 
+omit [IsCofiltered I] hD hpt in
 /-- If the images of generators of the liftable functions on `V'_k` come from `A_{k₁}`, so do the
 images of all liftable functions. -/
 theorem mem_range_of_mem_liftableFunctions_of_span {k k₁ : Over k₀} (f₁ : k₁ ⟶ k)
@@ -71,6 +72,7 @@ theorem mem_range_of_mem_liftableFunctions_of_span {k k₁ : Over k₀} (f₁ : 
     exact (congrArg (· ∈ (pullbackRingHom B _ (spaceHom _ (stageQ W k₁))).range) e).mpr
       (Subring.mul_mem _ ⟨res D f₁ r, rfl⟩ hx)
 
+omit hpt in
 include hκ in
 /-- **The liftable functions come from `A_{k₁}` at a single later stage** (they form a finite
 `Γ(V_k, 𝒪)`-module). -/
@@ -100,6 +102,7 @@ theorem exists_stage_forall_mem_liftableFunctions (k : Over k₀) :
       (hG ▸ Submodule.subset_span hm))
   exact ⟨k₁, f₁, fun m hm => mem_range_of_mem_liftableFunctions_of_span W f₁ G hG hf₁ m hm⟩
 
+omit [IsCofiltered I] in
 include hZI₀ in
 /-- If `c = α(x) + c'` in `C_k^∧` and the image of `c` in `C^∧` comes from `A^∧`, then `c'` is
 liftable. -/
@@ -131,6 +134,7 @@ theorem mem_liftableFunctions_of_mem_range (k : Over k₀)
   exact (eq_sub_of_add_eq' (hy.trans h1).symm).trans
     ((limitAlpha W hZI₀).map_sub y (cresL I₀ κ k x)).symm
 
+omit [IsCofiltered I] hpt in
 /-- If `c = α(x) + c'` in `C_k^∧` and the image of `c'` on `V'_{k₁}` comes from `A_{k₁}`, then the
 image of `c` in `C_{k₁}^∧` comes from `A_{k₁}^∧`. -/
 theorem mem_range_stageAlpha_of_decomposition {k k₁ : Over k₀} (f₁ : k₁ ⟶ k)
@@ -158,6 +162,7 @@ theorem mem_range_stageAlpha_of_decomposition {k k₁ : Over k₀} (f₁ : k₁ 
   exact ((congrArg (towerRingMap (D.map f₁.left).hom (stageIdeal_map_le I₀ f₁) (stageQ W k)
     (stageQ W k₁) (stageHom W f₁) (stageHom_q W f₁)) hxc).trans (RingHom.map_add _ _ _)).symm
 
+omit [IsCofiltered I] in
 include hZI₀ in
 /-- If the liftable functions on `V'_k` come from `A_{k₁}`, then every element of `C_k^∧` whose
 image in `C^∧` comes from `A^∧` has image in `C_{k₁}^∧` coming from `A_{k₁}^∧`. -/

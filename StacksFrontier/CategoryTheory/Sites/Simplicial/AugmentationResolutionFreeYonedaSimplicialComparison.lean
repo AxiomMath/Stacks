@@ -270,7 +270,7 @@ theorem augmentationComponentFreeYonedaIso_hom_comp_freeYonedaProd_map :
         (transitionAbelianLowerShriekAdjunction J K φ).counit.app (((sliceForget K (op
         ⦋m⦌)).sheafPushforwardContinuous AddCommGrpCat.{u} ((situation J K).componentTopology ⦋m⦌)
         J).obj (Stacks.Cohomology.CohomologyPresheaf.freeYonedaSheaf J V)))) := by
-  show ((componentLowerShriekCompAugmentationAbelianIso J K ⦋n⦌).hom.app (((sliceForget K (op
+  change ((componentLowerShriekCompAugmentationAbelianIso J K ⦋n⦌).hom.app (((sliceForget K (op
     ⦋n⦌)).sheafPushforwardContinuous AddCommGrpCat.{u} ((situation J K).componentTopology ⦋n⦌)
     J).obj (Stacks.Cohomology.CohomologyPresheaf.freeYonedaSheaf J V)) ≫
     (sliceFreeYonedaLowerShriekIso J K ⦋n⦌ V).hom) ≫ (freeYonedaProd J V).map (K.map φ.op) ≫

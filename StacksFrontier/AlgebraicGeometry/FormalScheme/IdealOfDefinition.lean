@@ -261,10 +261,10 @@ private theorem nhds_zero_iSup_le {ι : Type u} (U : ι → Opens X) :
           (X.presheaf.map (homOfLE (inf_le_left : U i ⊓ U i' ≤ U i)).op).1 ∘
             (X.presheaf.map (homOfLE (le_iSup U i)).op).1 := by
         funext x
-        show (X.presheaf.map _).1 x = ((X.presheaf.map _ ≫ X.presheaf.map _).1 x)
+        change (X.presheaf.map _).1 x = ((X.presheaf.map _ ≫ X.presheaf.map _).1 x)
         rw [← X.presheaf.map_comp]
         rfl
-      show (⨅ i, Filter.comap _ (nhds 0)) ≤
+      change (⨅ i, Filter.comap _ (nhds 0)) ≤
         Filter.comap (fun x => (X.presheaf.map (homOfLE ((inf_le_left : U i ⊓ U i' ≤ U i).trans
           (le_iSup U i))).op).1 x) (nhds 0)
       rw [hfun, ← Filter.comap_comap]

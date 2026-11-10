@@ -76,7 +76,7 @@ theorem exists_etale_isPullback_of_isThickening {U₀ U Q₀ : BigFppfOver B S h
     rw [← he, Iso.inv_hom_id_assoc]
   have hk : (e.inv ≫ pullback.fst q' (F.map i₀)) ≫ B.inclusion.map P.hom =
       B.inclusion.map Q₀.hom := by
-    show (e.inv ≫ pullback.fst q' (F.map i₀)) ≫ q' ≫ B.inclusion.map U.hom = _
+    change (e.inv ≫ pullback.fst q' (F.map i₀)) ≫ q' ≫ B.inclusion.map U.hom = _
     rw [Category.assoc, reassoc_of% pullback.condition, reassoc_of% he',
       BigFppfOver.toScheme_map_comp_hom, BigFppfOver.toScheme_map_comp_hom]
   let k : Q₀ ⟶ P := BigFppfOver.homOfCompEq B S hS _ hk
@@ -84,7 +84,7 @@ theorem exists_etale_isPullback_of_isThickening {U₀ U Q₀ : BigFppfOver B S h
     BigFppfOver.toScheme_map_homOfCompEq B S hS _ _
   have hw : k ≫ p = q ≫ i₀ := by
     apply BigFppfOver.map_toScheme_injective B S hS
-    show F.map (k ≫ p) = F.map (q ≫ i₀)
+    change F.map (k ≫ p) = F.map (q ≫ i₀)
     rw [F.map_comp, F.map_comp, hkF, hp, Category.assoc, pullback.condition,
       ← Category.assoc, he']
   have hsq : IsPullback (F.map k) (F.map q) (F.map p) (F.map i₀) := by
@@ -211,7 +211,7 @@ theorem isPullback_thickeningPushforwardι (hinj : ∀ T, Function.Injective (ι
   have hce : c.app T e = z := (w.2.mem _ _ _ e he).2
   refine ⟨e, ⟨?_, hce⟩, fun e' ⟨he'w, he'z⟩ ↦ ?_⟩
   · refine Subtype.ext (Prod.ext ?_ ?_)
-    · show ι.app T (c.app T e) = w.1.1
+    · change ι.app T (c.app T e) = w.1.1
       rw [hce]
       exact hwz.symm
     · refine IsPushforwardSection.eq_of_subset
@@ -371,7 +371,7 @@ theorem existsUnique_map_pushforwardGraph
   · exact pushforwardGraph_restrict_eq hsq₀ hsq₁ hsq hψp hψk hm₀q' w.2 hψ₁
       (by rwa [hm₀e])
   · have he₀' : e₀ ∈ pushforwardGraph fst₀ fst₁ q k _ (t' ≫ b) z₀ := by
-      show e₀ ∈ (fun T' g z ↦ pushforwardGraph fst₀ fst₁ q k T' (g ≫ b) z) _ t' z₀
+      change e₀ ∈ (fun T' g z ↦ pushforwardGraph fst₀ fst₁ q k T' (g ≫ b) z) _ t' z₀
       rwa [show (fun T' g z ↦ pushforwardGraph fst₀ fst₁ q k T' (g ≫ b) z) = w.1.2 from
         congrArg (fun v ↦ v.1.2) hbw]
     obtain ⟨m, hmk, hmz, hme⟩ := he₀'
@@ -408,7 +408,7 @@ theorem exists_isPullback_thickeningPushforwardπ
   refine ⟨P, p, uliftYonedaEquiv.symm r₀, hp,
     isPullback_of_existsUnique_app ?_ fun T w a hwa ↦ ?_⟩
   · ext T ⟨b⟩
-    show X.map b.op (ξ.app _ ⟨p⟩) = ξ.app T ⟨b ≫ p⟩
+    change X.map b.op (ξ.app _ ⟨p⟩) = ξ.app T ⟨b ≫ p⟩
     rw [app_up_comp]
   · obtain ⟨T⟩ := T
     obtain ⟨a⟩ := a
@@ -460,7 +460,7 @@ theorem existsUnique_isAmalgamation_of_isPullback_uliftYoneda
     ULift.up (l f hf)
   have hlf : lf.Compatible := by
     intro Y₁ Y₂ Z g₁ g₂ f₁ f₂ h₁ h₂ hcomm
-    show (⟨g₁ ≫ l f₁ h₁⟩ : ULift.{u + 1} (Z ⟶ P)) = ⟨g₂ ≫ l f₂ h₂⟩
+    change (⟨g₁ ≫ l f₁ h₁⟩ : ULift.{u + 1} (Z ⟶ P)) = ⟨g₂ ≫ l f₂ h₂⟩
     refine congrArg ULift.up (eq_of_isPullback_uliftYoneda hpb ?_ ?_)
     · rw [app_up_comp, app_up_comp, hl₁, hl₁]
       exact hs g₁ g₂ h₁ h₂ hcomm
@@ -476,7 +476,7 @@ theorem existsUnique_isAmalgamation_of_isPullback_uliftYoneda
       (by rw [htx, hξ]; simp)
     have hl't : lf.IsAmalgamation ⟨l'⟩ := by
       intro Y f hf
-      show (⟨f ≫ l'⟩ : ULift.{u + 1} (Y ⟶ P)) = ⟨l f hf⟩
+      change (⟨f ≫ l'⟩ : ULift.{u + 1} (Y ⟶ P)) = ⟨l f hf⟩
       refine congrArg ULift.up (eq_of_isPullback_uliftYoneda hpb ?_ ?_)
       · rw [app_up_comp, hl₁, hl'₁]
         exact ht f hf

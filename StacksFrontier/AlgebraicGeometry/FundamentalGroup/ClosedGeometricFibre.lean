@@ -77,7 +77,7 @@ theorem exists_specializes_mem_range_pullback_fst_of_isLocalHom [IsProper f] (z 
   have hr : Set.range (Spec.map (CommRingCat.ofHom
       (Ideal.Quotient.mk (maximalIdeal A)))).base
       = PrimeSpectrum.zeroLocus (maximalIdeal A : Set A) := by
-    show Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk (maximalIdeal A))) = _
+    change Set.range (PrimeSpectrum.comap (Ideal.Quotient.mk (maximalIdeal A))) = _
     rw [range_comap_of_surjective _ _ Ideal.Quotient.mk_surjective, Ideal.mk_ker]
   rw [Scheme.Pullback.range_fst, Set.mem_preimage, hr] at hz'mem
   -- the image of `z'` contains the maximal ideal, hence is the closed point

@@ -799,8 +799,8 @@ private theorem pi_lift_comp_pi_lift_sub (V : ℕ → A) [HasProduct V] (t : ∀
     {W : A} (u : ∀ n, W ⟶ V n) (hu : ∀ n, u (n + 1) ≫ t n = u n) :
     Pi.lift u ≫ (Pi.lift fun n => Pi.π V n - Pi.π V (n + 1) ≫ t n) = 0 := by
   refine Pi.hom_ext _ _ fun n ↦ ?_
-  rw [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, Pi.lift_comp_π, ← Category.assoc, Pi.lift_comp_π,
-    hu n, sub_self, zero_comp]
+  rw [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, Pi.lift_comp_π, ← Category.assoc,
+    Pi.lift_comp_π, hu n, sub_self, zero_comp]
 
 /-- An inverse system `V : ℕ → A` indexed by `ℕ` which is zero below some `N` and constant equal to
 `W` from `N` on — the maps `u n : W ⟶ V n` of the cone being isomorphisms for `n ≥ N` — has `W` as

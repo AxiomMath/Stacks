@@ -81,14 +81,14 @@ lemma mul_sheafToPresheaf_ι_setCommGrp
   let S := sheafToPresheaf J (Type (max u v))
   let R : CommGrp (Sheaf J (Type (max u v))) := Sites.AbelianSheaf.internalSheafObj J 𝒢.obj
   let m₁ : P.ι.obj A ⊗ P.ι.obj A ⟶ P.ι.obj A := @MonObj.mul _ _ _ R.X R.grp.toMonObj
-  show Functor.LaxMonoidal.μ S (P.ι.obj A) (P.ι.obj A) ≫
+  change Functor.LaxMonoidal.μ S (P.ι.obj A) (P.ι.obj A) ≫
       S.map (Functor.LaxMonoidal.μ P.ι A A ≫
           P.ι.map (P.fullyFaithfulι.preimage (X := A ⊗ A) (Y := A)
             (Functor.OplaxMonoidal.δ P.ι A A ≫ m₁))) = _
   rw [Functor.FullyFaithful.map_preimage, Functor.Monoidal.μ_δ_assoc]
   let m₂ : S.obj (P.ι.obj A) ⊗ S.obj (P.ι.obj A) ⟶ S.obj (P.ι.obj A) :=
     (Sites.AbelianSheaf.presheafGrpObj 𝒢.obj.obj).mul
-  show Functor.LaxMonoidal.μ S (P.ι.obj A) (P.ι.obj A) ≫
+  change Functor.LaxMonoidal.μ S (P.ι.obj A) (P.ι.obj A) ≫
       S.map ((fullyFaithfulSheafToPresheaf J (Type (max u v))).preimage
           (X := P.ι.obj A ⊗ P.ι.obj A) (Y := P.ι.obj A)
           (Functor.OplaxMonoidal.δ S (P.ι.obj A) (P.ι.obj A) ≫ m₂)) = m₂
@@ -506,7 +506,7 @@ lemma internalHomYonedaEquiv_comp
     fun T f ↦ e.toAdjunction.homEquiv T Z (Q.fullyFaithfulι.preimage f)
   have n₅ : ∀ f : Q.ι.obj (e.functor.obj T) ⟶ Q.ι.obj Z,
       tail₅ T' (Q.ι.map (e.functor.map h) ≫ f) = h ≫ tail₅ T f := fun f ↦ by
-    show e.toAdjunction.homEquiv T' Z
+    change e.toAdjunction.homEquiv T' Z
         (Q.fullyFaithfulι.preimage (Q.ι.map (e.functor.map h) ≫ f)) =
       h ≫ e.toAdjunction.homEquiv T Z (Q.fullyFaithfulι.preimage f)
     rw [← e.toAdjunction.homEquiv_naturality_left]
@@ -609,7 +609,7 @@ lemma internalHomForgetActionIso_hom_apply
       ((ContinuousGAddCommGrp.homPairingEquiv (EE.functor.obj 𝒢).obj (EE.functor.obj ℱ).obj
         (e.functor.obj T₀).obj).symm q')
   have hθ : (internalHomForgetActionIso J e 𝒢 ℱ hℋ).hom = f' := by
-    show e.functor.map (e.toAdjunction.homEquiv T₀ Z f') ≫ e.toAdjunction.counit.app Z = f'
+    change e.functor.map (e.toAdjunction.homEquiv T₀ Z f') ≫ e.toAdjunction.counit.app Z = f'
     exact (e.toAdjunction.homEquiv_counit (g := e.toAdjunction.homEquiv T₀ Z f')).symm.trans
       (Equiv.symm_apply_apply _ f')
   exact congrArg (fun φ : e.functor.obj T₀ ⟶ Z ↦
@@ -745,7 +745,7 @@ lemma internalHomEvalTransport_naturality
       (congrArg Subtype.val (Equiv.apply_symm_apply (mulRightPairingEquiv J T₀' 𝒢' ℱ) p₀'))
   have hD : h ▷ _ ≫ evD' = T₀ ◁ k ≫ evD := by
     apply hΦ
-    show Functor.LaxMonoidal.μ S _ _ ≫ S.map (Functor.LaxMonoidal.μ P.ι _ _ ≫ P.ι.map _) =
+    change Functor.LaxMonoidal.μ S _ _ ≫ S.map (Functor.LaxMonoidal.μ P.ι _ _ ≫ P.ι.map _) =
       Functor.LaxMonoidal.μ S _ _ ≫ S.map (Functor.LaxMonoidal.μ P.ι _ _ ≫ P.ι.map _)
     rw [Functor.μ_comp_map_whiskerRight_comp, Functor.μ_comp_map_whiskerRight_comp,
       Functor.μ_comp_map_whiskerLeft_comp, Functor.μ_comp_map_whiskerLeft_comp]
@@ -771,7 +771,7 @@ lemma internalHomEvalTransport_naturality
   have hT : Tr (h ▷ _ ≫ evD') = (gsetPresheaf (G := G)).map
       ((AlgebraicGeometry.ContinuousGSet.isFinite.{u', max u v} G).ι.map (e.functor.map h)) ▷ _ ≫
       Tr evD' := by
-    show _ ≫ _ = _
+    change _ ≫ _ = _
     rw [Functor.μ_comp_map_whiskerRight_comp e.functor,
       @Functor.μ_comp_map_whiskerRight_comp _ _ _ _ _ _
         (AlgebraicGeometry.ContinuousGSet.isFinite.{u', max u v} G).ι
@@ -781,7 +781,7 @@ lemma internalHomEvalTransport_naturality
   have hA : Tr (T₀ ◁ k ≫ evD) = _ ◁ (gsetPresheaf (G := G)).map
       ((AlgebraicGeometry.ContinuousGSet.isFinite.{u', max u v} G).ι.map (e.functor.map k)) ≫
       Tr evD := by
-    show _ ≫ _ = _
+    change _ ≫ _ = _
     rw [Functor.μ_comp_map_whiskerLeft_comp e.functor,
       @Functor.μ_comp_map_whiskerLeft_comp _ _ _ _ _ _
         (AlgebraicGeometry.ContinuousGSet.isFinite.{u', max u v} G).ι

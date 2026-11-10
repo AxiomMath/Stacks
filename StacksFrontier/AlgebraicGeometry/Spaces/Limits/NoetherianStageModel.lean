@@ -207,10 +207,10 @@ theorem exists_iso_relocalizeRestrict_of_quotient (hX : IsAlgebraicSpace B (Spec
   have hck : IsPullback (yoneda.map r₁) (yoneda.map r₂) c' c' := by
     refine P₁.isPullback.of_iso (yoneda.mapIso φR) (yoneda.mapIso φW) (yoneda.mapIso φW)
       (Iso.refl _) ?_ ?_ ?_ ?_
-    · show yoneda.map ((Over.pullback g).map sR) ≫ yoneda.map φW.hom =
+    · change yoneda.map ((Over.pullback g).map sR) ≫ yoneda.map φW.hom =
         yoneda.map φR.hom ≫ yoneda.map r₁
       rw [← Functor.map_comp, ← Functor.map_comp, hφs]
-    · show yoneda.map ((Over.pullback g).map tR) ≫ yoneda.map φW.hom =
+    · change yoneda.map ((Over.pullback g).map tR) ≫ yoneda.map φW.hom =
         yoneda.map φR.hom ≫ yoneda.map r₂
       rw [← Functor.map_comp, ← Functor.map_comp, hφt]
     all_goals exact (Category.comp_id _).trans ((Category.id_comp _).symm.trans
@@ -336,7 +336,7 @@ theorem exists_stageModel_of_atlas (hX : IsAlgebraicSpace B (Spec (.of A)) hA X)
     fun g hg => ?_⟩
   · have hci : _root_.AlgebraicGeometry.IsClosedImmersion
         ((BigFppfOver.toScheme B S₀ h₀).map (prod.lift sR tR)) := by
-      show _root_.AlgebraicGeometry.IsClosedImmersion (G₀.map (prod.lift sR tR)).left
+      change _root_.AlgebraicGeometry.IsClosedImmersion (G₀.map (prod.lift sR tR)).left
       refine (AlgebraicGeometry.prop_prodLift_map_iff
         @_root_.AlgebraicGeometry.IsClosedImmersion G₀ sR tR).1 ?_
       rw [hsR, htR]

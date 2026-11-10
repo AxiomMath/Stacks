@@ -193,7 +193,7 @@ theorem localMul_eq_tensorSection (n m : ℤ) {W : X.Opens}
     localMul L y z = (mulIso L n m).hom.app W
       (tensorSection (tensorPowerModule X L n) (tensorPowerModule X L m) y z) := by
   rw [tensorSection_eq L n m y z, localMul_eq L n m y z]
-  show _ = (powMulIso L n m).hom.app W ((powTensorIso L n m).inv.app W
+  change _ = (powMulIso L n m).hom.app W ((powTensorIso L n m).inv.app W
     ((powTensorIso L n m).hom.app W (commonSection L n m y z)))
   rw [app_inv_app]
 

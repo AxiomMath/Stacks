@@ -1150,13 +1150,13 @@ theorem homological_universal_property
     have hepi : Epi (H.map f) := by
       have hex := H.map_distinguished_exact T dt
       refine hex.epi_f ?_
-      show H.map g = 0
+      change H.map g = 0
       exact ((hz 0).of_iso (H.mapIso ((shiftFunctorZero C ℤ).app Z).symm)).eq_of_tgt _ _
     have hmono : Mono (H.map f) := by
       have dt' : T.invRotate ∈ distinguishedTriangles := inv_rot_of_distTriang T dt
       have hex := H.map_distinguished_exact T.invRotate dt'
       refine hex.mono_g ?_
-      show H.map T.invRotate.mor₁ = 0
+      change H.map T.invRotate.mor₁ = 0
       exact (hz (-1)).eq_of_src _ _
     exact isIso_of_mono_of_epi (H.map f)
   refine ⟨Localization.lift H hinv P.trW.Q, Localization.fac H hinv P.trW.Q, ?_, ?_⟩

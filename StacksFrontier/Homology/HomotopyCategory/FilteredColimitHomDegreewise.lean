@@ -42,8 +42,8 @@ the universe of the schemes; the scheme-level Stacks 09RE is proved in this libr
 restriction (`AlgebraicGeometry.DescentSituation.isHomColimit`, whose index is `I : Type u`), and
 over an index set one universe up the statement is **false**:
 `AlgebraicGeometry.DescentSituation.exists_not_isHomColimit` of
-`StacksFrontier/AlgebraicGeometry/Perfect/LimitHomDescent/Counterexample.lean` exhibits a situation of
-type 09RD indexed by a preorder in `Type (u+1)` and an `E₀ = K₀ = 𝒪_{S₀}` which is perfect,
+`StacksFrontier/AlgebraicGeometry/Perfect/LimitHomDescent/Counterexample.lean` exhibits a situation
+of type 09RD indexed by a preorder in `Type (u+1)` and an `E₀ = K₀ = 𝒪_{S₀}` which is perfect,
 pseudo-coherent, of finite Tor dimension and with quasi-coherent cohomology, for which the
 conclusion fails.  So an index-universe restriction is not optional for any route to 09RE or 09RI,
 and the clause it has to sit on is the colimit assertion about the modules.

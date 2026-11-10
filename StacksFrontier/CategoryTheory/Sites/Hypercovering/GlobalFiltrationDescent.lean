@@ -443,6 +443,7 @@ lemma isIso_globalStepToAbutment_zero (K : HypercoveringOfTerminal.{w} J) (n : �
 
 /-! ### The canonical comparison factored through the abutment of [Stacks, Tag 09VX] -/
 
+omit [HasBinaryProducts C] in
 /-- **The canonical comparison of [Stacks, Tag 09VY], factored through the abutment of
 [Stacks, Tag 09VX]**: `cechCohomologyToPageTwoZero` followed by the bottom-row edge map of the
 abutment of [Stacks, Tag 09VX] and then by the passage to global cohomology.  This is
@@ -459,6 +460,7 @@ lemma cechCohomologyToPageTwoZero_comp_bottomRowEdge_comp (K : HypercoveringOfTe
 
 /-! ### The bottom step of the filtration is the image of the canonical comparison -/
 
+omit [HasBinaryProducts C] in
 /-- **The canonical comparison of [Stacks, Tag 09VY] is `cechCohomologyToPageTwoZero` followed by
 the bottom-row edge map of the abutment of [Stacks, Tag 09VY]**: that edge map is the one of
 [Stacks, Tag 09VX] followed by the passage to global cohomology
@@ -472,18 +474,21 @@ lemma cechCohomologyToPageTwoZero_comp_globalBottomRowEdge (K : HypercoveringOfT
       (Category.assoc _ _ _).symm).trans
     (cechCohomologyToPageTwoZero_comp_bottomRowEdge_comp.{w} J F K i)
 
+omit [HasBinaryProducts C] [HasExt (Sheaf J.toGrothendieck AddCommGrpCat)] in
 /-- `cechCohomologyToPageTwoZero` is an isomorphism, being `cechToPageTwoZero`.  The two spellings
 of its source are identified here, once, exactly as `mono_cechCohomologyToPageTwoZero` does. -/
 lemma isIso_cechCohomologyToPageTwoZero (K : HypercoveringOfTerminal.{w} J) (i : ℕ) :
     IsIso (cechCohomologyToPageTwoZero.{w} J F K i) :=
   isIso_cechToPageTwoZero.{w} J F K i
 
+omit [HasBinaryProducts C] [HasExt (Sheaf J.toGrothendieck AddCommGrpCat)] in
 /-- `cechCohomologyToPageTwoZero` is an epimorphism, being an isomorphism. -/
 lemma epi_cechCohomologyToPageTwoZero (K : HypercoveringOfTerminal.{w} J) (i : ℕ) :
     Epi (cechCohomologyToPageTwoZero.{w} J F K i) :=
   have := isIso_cechCohomologyToPageTwoZero.{w} J F K i
   IsIso.epi_of_iso _
 
+omit [HasBinaryProducts C] in
 /-- **The canonical comparison of [Stacks, Tag 09VY] is `cechCohomologyToPageTwoZero`, followed
 by an epimorphism onto the bottom step `F^iH^i(𝓕)` of the abutment filtration, followed by the
 inclusion of that step into global cohomology**: this is
@@ -501,6 +506,7 @@ lemma cechCohomologyToPageTwoZero_comp_globalStepToAbutment
       ((globalAbutment J K).bottomRowEdge_app_eq i F).symm).trans
     (cechCohomologyToPageTwoZero_comp_globalBottomRowEdge.{w} J F K i)
 
+omit [HasBinaryProducts C] in
 /-- **Every cohomology class in the bottom step `F^iH^i(𝓕)` of the abutment filtration carried by
 a hypercovering of the final presheaf is the image of a Čech class under the canonical comparison
 of [Stacks, Tag 09VY]**, in the same degree and on the same hypercovering.

@@ -233,7 +233,7 @@ theorem modulePullbackReindex_naturality {U V W : AlgebraicSpaces 𝒞 S hS} (f 
       modulePullbackReindex f α ≫ (modulePullback 𝒞 S hS (f ≫ b)).map φ := by
   simp only [modulePullbackReindex, Category.assoc]
   rw [NatTrans.naturality_assoc]
-  show _ ≫ (modulePullback 𝒞 S hS f).map ((modulePullback 𝒞 S hS a).map φ) ≫ _ = _
+  change _ ≫ (modulePullback 𝒞 S hS f).map ((modulePullback 𝒞 S hS a).map φ) ≫ _ = _
   rw [← Functor.map_comp_assoc, ← hφ, Functor.map_comp]
   simp only [Category.assoc]
   rw [← (modulePullbackCompIso 𝒞 S hS f b).hom.naturality φ]

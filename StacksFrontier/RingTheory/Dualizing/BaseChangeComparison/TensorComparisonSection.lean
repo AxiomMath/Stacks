@@ -184,7 +184,7 @@ theorem tensorComparisonCompatibility_iff_section
         (derivedAlgebraSingle.{uR, uA, max v uRp} (algebraMap R A)))) ?_
     exact Category.id_comp _
   · intro h
-    show _ = _
+    change _ = _
     refine Eq.trans (congrArg (fun z => _ ≫ z) h) ?_
     refine Eq.trans (Category.assoc _ _ _).symm ?_
     refine Eq.trans (congrArg (fun z => z ≫ _)

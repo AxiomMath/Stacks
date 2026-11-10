@@ -302,7 +302,7 @@ theorem exists_mem_definingIdealAt_and_sub_one_mem_of_surjective_sectionsMap
     (hX : ∀ ⦃M N : Modules.{u, u} B S hS X.1 X.2⦄ (g : M ⟶ N), Epi g →
       M.IsQuasicoherentOnSite → N.IsQuasicoherentOnSite →
         Function.Surjective (SheafOfModules.sectionsMap g))
-    (W₀ W₁ W : ClosedSubspaces B S hS X.1)
+    (W₀ W₁ : ClosedSubspaces B S hS X.1)
     (Uc : SmallEtale B S hS X.1)
     (hsurj : IsSurjective B S hS Uc.1.hom)
     (hcom : ∀ A : SmallEtale B S hS X.1,
@@ -322,7 +322,7 @@ theorem exists_mem_definingIdealAt_and_sub_one_mem_of_surjective_sectionsMap
     (SheafOfModules.sectionsMap (structureProjection B S hS X W₁) (oneSections B S hS X))
   refine ⟨SheafOfModules.sectionsMap (definingIdealSheaf B S hS X W₀).ι s,
     fun V => (s.val V).2, fun V => ?_⟩
-  show _ - 1 ∈ (definingIdealSheaf B S hS X W₁).obj V
+  change _ - 1 ∈ (definingIdealSheaf B S hS X W₁).obj V
   rw [← ker_structureProjection B S hS X W₁]
   refine (PresheafOfModules.Submodule.mem_ker (structureProjection B S hS X W₁).val V _).2 ?_
   have hV : PresheafOfModules.Hom.app (structureProjection B S hS X W₁).val V
@@ -350,8 +350,6 @@ theorem exists_subset_compl_sectionSupport_of_disjoint_of_surjective_sectionsMap
       isClosedSubspace_reducedClosedSubspace B S hS X.1 X.2 Z₀ hZ₀⟩
     ⟨reducedClosedSubspace B S hS X.1 X.2 Z₁ hZ₁,
       isClosedSubspace_reducedClosedSubspace B S hS X.1 X.2 Z₁ hZ₁⟩
-    ⟨reducedClosedSubspace B S hS X.1 X.2 (Z₀ ∪ Z₁) (hZ₀.union hZ₁),
-      isClosedSubspace_reducedClosedSubspace B S hS X.1 X.2 (Z₀ ∪ Z₁) (hZ₀.union hZ₁)⟩
     ⟨CostructuredArrow.mk (Classical.choose (Classical.choose_spec X.2.exists_atlas)),
       (Classical.choose_spec (Classical.choose_spec X.2.exists_atlas)).2⟩
     ((presheafSurjective_iff_isSurjective_yoneda B S hS X.1 X.2 _ _).1
@@ -388,6 +386,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (s : Γ((BigFppfOver.toScheme B S hS).obj T, ⊤))
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks in the presheaf category of the big fppf site is heavy
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 instance hasPullbacks_presheaf_rightExactGlobalSectionsSeparated :
@@ -585,7 +584,7 @@ theorem eq_zero_of_forall_val_eq_zero (N : NormalizationInData B S hS f)
       Scheme.Hom.app_injective _ ⊤
     rw [← hre, Scheme.Hom.comp_appTop] at hn
     have hxy' : e.inv.appTop x = e.inv.appTop y := hn (by
-      show ((BigFppfOver.toScheme B S hS).map r).appTop (e.hom.appTop (e.inv.appTop x)) =
+      change ((BigFppfOver.toScheme B S hS).map r).appTop (e.hom.appTop (e.inv.appTop x)) =
         ((BigFppfOver.toScheme B S hS).map r).appTop (e.hom.appTop (e.inv.appTop y))
       rw [key, key]
       exact hxy)
@@ -621,20 +620,20 @@ theorem surjective_pullbackToGlobalFunctions_of_section {Y : AlgebraicSpaces B S
   rw [← sub_eq_zero]
   refine N.eq_zero_of_forall_val_eq_zero (isAlgebraicSpace_yoneda B S hS T) Y.2 hqf hsep hopen _
     (fun V a ha => ?_)
-  show (pullbackToGlobalFunctions B S hS N.toAlgebraicSpaces T
+  change (pullbackToGlobalFunctions B S hS N.toAlgebraicSpaces T
       (ObjectProperty.homMk N.fromNorm ≫ q) c).val (op V) - φ.val (op V) = 0
   rw [sub_eq_zero, pullbackToGlobalFunctions_apply_chart]
   have hpre : yoneda.preimage (V.obj.hom ≫
       ((ObjectProperty.homMk N.fromNorm : N.toAlgebraicSpaces ⟶ Y) ≫ q).hom) =
       yoneda.preimage a := by
     congr 1
-    show V.obj.hom ≫ N.fromNorm ≫ q.hom = a
+    change V.obj.hom ≫ N.fromNorm ≫ q.hom = a
     rw [ha, Category.assoc, ← Category.assoc N.toNorm, N.fac, hsq, Category.comp_id]
   rw [hpre, ← hE V]
   let a' : yoneda.obj V.obj.left ⟶ yoneda.obj T := a
   let g : (SmallEtale.inclusion B S hS N.space).obj V ⟶ CostructuredArrow.mk N.toNorm :=
     CostructuredArrow.homMk (yoneda.preimage a') (by
-      show yoneda.map (yoneda.preimage a') ≫ N.toNorm = V.obj.hom
+      change yoneda.map (yoneda.preimage a') ≫ N.toNorm = V.obj.hom
       rw [yoneda.map_preimage, ha]
       rfl)
   exact E.property g.op
@@ -652,7 +651,7 @@ variable (hZ : B.Contains (⊤_ Scheme.{u})) {Y : AlgebraicSpaces B S hS}
     (q : Y ⟶ _root_.AlgebraicGeometry.schemeSpace T)
     (hq : Function.Surjective (pullbackToGlobalFunctions B S hS Y T q))
 
-include hY hqc hqs hq in
+include hY hqc hqs in
 /-- Let `Y` be a quasi-compact, quasi-separated algebraic space whose global sections are right
 exact on quasi-coherent modules, and let `q : Y ⟶ T` be a morphism to an affine object of the
 site such that every global function on `Y` is pulled back along `q`. Then every section of `q`
@@ -685,12 +684,12 @@ theorem isClosedImmersion_of_section (s : _root_.AlgebraicGeometry.schemeSpace T
   let q' : N.space ⟶ yoneda.obj T := N.fromNorm ≫ q.hom
   let j : yoneda.obj T ⟶ N.space := N.toNorm
   have hid : j ≫ q' = 𝟙 _ := by
-    show N.toNorm ≫ N.fromNorm ≫ q.hom = 𝟙 _
+    change N.toNorm ≫ N.fromNorm ≫ q.hom = 𝟙 _
     rw [← Category.assoc, N.fac, hsq]
   have hsurj : Function.Surjective (pointsMap B S hS (yoneda.obj T) j) := by
     intro y
     refine ⟨pointsMap B S hS N.space q' y, hinj ?_⟩
-    show pointsMap B S hS N.space q' (pointsMap B S hS (yoneda.obj T) j
+    change pointsMap B S hS N.space q' (pointsMap B S hS (yoneda.obj T) j
       (pointsMap B S hS N.space q' y)) = pointsMap B S hS N.space q' y
     rw [← pointsMap_comp_apply, hid, pointsMap_id]
     rfl
@@ -706,13 +705,14 @@ theorem isClosedImmersion_of_section (s : _root_.AlgebraicGeometry.schemeSpace T
       (BigFppfOver.toScheme B S hS)).relative yoneda).cancel_left_of_respectsIso
       N.toNorm N.fromNorm).2 ?_
     exact MorphismProperty.relative_monotone (fun _ _ _ h => by
-      show _root_.AlgebraicGeometry.UniversallyClosed _
+      change _root_.AlgebraicGeometry.UniversallyClosed _
       have : _root_.AlgebraicGeometry.IsIntegralHom _ := h
       infer_instance) _ hint'.2
   exact isClosedImmersion_of_mono_of_charts B S hS s.hom (mono_of_section B S hS q.hom s.hom hsq)
     (locallyOfFiniteType_presheaf_section B S hS q.hom Y.2 s.hom hsq) hUC
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site, used throughout the proof
 include hY hqc hqs hq in
 /-- Let `Y` be a quasi-compact, quasi-separated algebraic space whose global sections are right
 exact on quasi-coherent modules, and let `q : Y ⟶ T` be a morphism to a reduced affine object of
@@ -727,7 +727,7 @@ theorem eq_of_section [IsReduced ((BigFppfOver.toScheme B S hS).obj T)]
   let q' : Y.1 ⟶ yoneda.obj T := q.hom
   have hsa : a' ≫ q' = 𝟙 _ := congrArg (fun k => k.hom) ha
   have hsb : b' ≫ q' = 𝟙 _ := congrArg (fun k => k.hom) hb
-  have hbci : IsClosedImmersion B S hS b' := isClosedImmersion_of_section hZ hY hqc hqs q hq b hb
+  have hbci : IsClosedImmersion B S hS b' := isClosedImmersion_of_section hZ hY hqc hqs q b hb
   have hrep := hbci.rep
   let E := hrep.pullback a'
   let fst := hrep.fst a'
@@ -800,7 +800,7 @@ theorem valuativeCriterion_uniqueness_of_surjective_pullbackToGlobalFunctions :
   have hτ : yoneda.map τ = vs.special := yoneda.map_preimage _
   let sec : vs.Lift → (_root_.AlgebraicGeometry.schemeSpace U ⟶ YU) := fun l =>
     ObjectProperty.homMk (pullback.lift (𝟙 _) l.map (by
-      show 𝟙 _ ≫ yoneda.map τ = l.map ≫ q.hom
+      change 𝟙 _ ≫ yoneda.map τ = l.map ≫ q.hom
       rw [Category.id_comp, l.special_comm]
       exact hτ))
   have hsec : ∀ l, sec l ≫ pr' = 𝟙 _ := fun l =>

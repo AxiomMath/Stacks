@@ -70,7 +70,7 @@ theorem exists_mul_chartXK_add_mul_chartYK (c : Fin 3) :
   · exact ⟨C (algebraMap R K π)⁻¹, 0, by simp [chartXK, chartX, ← C_mul, hπ]⟩
   · exact ⟨0, C (algebraMap R K π)⁻¹, by simp [chartYK, chartY, ← C_mul, hπ]⟩
   · refine ⟨1, C (algebraMap R K tR / algebraMap R K π), ?_⟩
-    show 1 * (1 - C tR * X ^ 2 : R[X]).map (algebraMap R K) +
+    change 1 * (1 - C tR * X ^ 2 : R[X]).map (algebraMap R K) +
       C _ * (C π * X ^ 2 : R[X]).map (algebraMap R K) = 1
     simp only [Polynomial.map_sub, Polynomial.map_one, Polynomial.map_mul, Polynomial.map_C,
       Polynomial.map_pow, Polynomial.map_X]
@@ -179,7 +179,7 @@ theorem toLoc_includeRight (b : B) :
 
 /-- `K[s][1/x] → K ⊗_R B → K[s][1/x]` is the identity. -/
 theorem toLoc_comp_fromLoc : (toLoc c e).comp (fromLoc c e) = AlgHom.id K _ := by
-  apply AlgHom.coe_ringHom_injective
+  apply AlgHom.toRingHom_injective
   apply IsLocalization.ringHom_ext (Submonoid.powers (chartXK c))
   have : ((toLoc c e).comp (toTensorPoly c e)) =
       IsScalarTower.toAlgHom K K[X] (chartLocK c) := by
@@ -205,13 +205,13 @@ theorem fromLoc_toLoc_includeRight_mk (q : (R[X])[X]) :
     · apply Polynomial.algHom_ext
       simp only [f, AlgHom.comp_apply, AlgHom.restrictScalars_apply, Ideal.Quotient.mkₐ_eq_mk,
         CAlgHom_apply, AlgEquiv.coe_toAlgHom, toLoc_includeRight, AlgEquiv.symm_apply_apply]
-      show fromLoc c e (toLocPoly c (C X)) = sK c e
+      change fromLoc c e (toLocPoly c (C X)) = sK c e
       simp only [toLocPoly, AlgHom.coe_mk, coe_eval₂RingHom, eval₂_C, RingHom.coe_comp,
         Function.comp_apply, coe_mapRingHom, Polynomial.map_X, fromLoc_algebraMap]
       exact aeval_X _
     · simp only [f, AlgHom.comp_apply, AlgHom.restrictScalars_apply, Ideal.Quotient.mkₐ_eq_mk,
         AlgEquiv.coe_toAlgHom, toLoc_includeRight, AlgEquiv.symm_apply_apply]
-      show fromLoc c e (toLocPoly c X) = TK c e
+      change fromLoc c e (toLocPoly c X) = TK c e
       simp only [toLocPoly, AlgHom.coe_mk, coe_eval₂RingHom, eval₂_X, map_mul]
       rw [fromLoc_algebraMap, ← toTensorPoly_chartXK_mul_TK, mul_comm,
         ← mul_assoc, hinv, one_mul]

@@ -93,14 +93,14 @@ theorem aut_pow_hom_comp (k : ℕ) :
   induction k with
   | zero =>
     rw [Nat.mul_zero, iterateFrobenius_zero]
-    show 𝟙 C ≫ g = g ≫ Spec.map (𝟙 _)
+    change 𝟙 C ≫ g = g ≫ Spec.map (𝟙 _)
     rw [Spec.map_id, Category.id_comp, Category.comp_id]
   | succ k ih =>
     rw [aut_pow_succ_hom, Category.assoc, hΨ, ← Category.assoc, ih, Category.assoc,
       ← Spec.map_comp]
     congr 2
     ext c
-    show (c ^ p ^ n) ^ p ^ (n * k) = c ^ p ^ (n * (k + 1))
+    change (c ^ p ^ n) ^ p ^ (n * k) = c ^ p ^ (n * (k + 1))
     rw [← pow_mul, ← pow_add, Nat.mul_succ, Nat.add_comm]
 
 end Powers
@@ -187,9 +187,9 @@ theorem exists_period_invariantCount
     refine ⟨k, hk, ∑ i ∈ Finset.range k, f i, ?_, ?_⟩
     · rw [map_sum]
       have h1 : ∀ i, P (f i) = f (i + 1) := fun i => by
-        show Stacks.Picard.schemePullbackClass Ψ.hom (pointClass g _) = _
+        change Stacks.Picard.schemePullbackClass Ψ.hom (pointClass g _) = _
         rw [schemePullbackClass_pointClass, ← hσ]
-        show pointClass g _ = pointClass g _
+        change pointClass g _ = pointClass g _
         rw [Function.iterate_succ_apply']
       simp only [h1]
       have h2 := Finset.sum_range_succ' f k

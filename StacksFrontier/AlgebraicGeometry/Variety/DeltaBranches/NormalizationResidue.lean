@@ -182,7 +182,7 @@ public theorem normalizationResidueQuotientMap_surjective
   refine Quotient.inductionOn' y fun x => ?_
   obtain ⟨b, hb⟩ := hsurj x
   refine ⟨(LinearMap.range (Algebra.linearMap A B)).mkQ b, ?_⟩
-  show (LinearMap.range (f.comp (Algebra.linearMap A B))).mkQ (f b) = _
+  change (LinearMap.range (f.comp (Algebra.linearMap A B))).mkQ (f b) = _
   rw [hb]
   rfl
 

@@ -135,7 +135,7 @@ theorem conjugacyTrace_mk [Fintype G] (g : G) (x : Λ[G]) :
     (by ext m; simp), freeModuleTrace_apply]
   congr 1
   refine Finset.sum_congr rfl fun k _ => ?_
-  show (MonoidAlgebra.single g⁻¹ (1 : Λ) *
+  change (MonoidAlgebra.single g⁻¹ (1 : Λ) *
     (∑ j, MonoidAlgebra.single j (standardBasisVector Λ G k j)) * x).coeff k = _
   have hs : (∑ j, MonoidAlgebra.single j (standardBasisVector Λ G k j)) =
       MonoidAlgebra.single k (1 : Λ) := by

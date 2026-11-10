@@ -86,7 +86,7 @@ theorem pullbackCompSectionsIsoOfEq_hom (hg' : g' = k ≫ g) (A : Over W') :
       ((Scheme.Modules.pullback A.hom).map
         ((Scheme.Modules.pullbackFactoredComp k g g' hg'.symm).hom.app 𝓕)).app ⊤ := by
   subst hg'
-  show ((Scheme.Modules.pullback A.hom).map
+  change ((Scheme.Modules.pullback A.hom).map
       ((Scheme.Modules.pullbackComp k g).hom.app 𝓕 ≫
         ((Scheme.Modules.pullbackCongr (rfl : k ≫ g = k ≫ g)).app 𝓕).inv)).app ⊤ = _
   rw [show ((Scheme.Modules.pullbackCongr (rfl : k ≫ g = k ≫ g)).app 𝓕).inv = 𝟙 _ from rfl,
@@ -195,9 +195,10 @@ sections.**  `AlgebraicGeometry.Stack.LiftedSectionsFactorFourSquareStandIn` —
 theorem liftedSectionsFactorFourSquare_of_compat
     (hc : AssociatedModuleBaseChangeFinalSectionsCompat B E h S hS p hp) :
     LiftedSectionsFactorFourSquareStandIn B E h S hS p hp := by
-  intro F hlqcF x 𝓕 h𝓕 hMx eU z' z ψ φ φ' hφ' hkg hiso hiso' n hn
+  intro F hlqcF x 𝓕 h𝓕 hMx eU z' z ψ φ hkg hiso hiso' n
   let := h𝓕
-  subst hφ'
+  have hn : n.left = B.inclusion.map (p.map ψ).left :=
+    (Category.comp_id _).symm.trans ((Over.w n).trans (Category.id_comp _))
   have hMz : Presheaf.IsSheaf (SmallEtale.topology E (p.obj z).left.1
       (contains_base B E h S hS p z))
       (restrictModuleToSmallEtale B E h S hS p hp z (etaleTopology B)

@@ -59,7 +59,7 @@ theorem exists_etale_faithfullyFlat_lift (hA : Function.Surjective (algebraMap A
     obtain ⟨Q, hQ⟩ := PrimeSpectrum.comap_surjective_of_faithfullyFlat (A := A) (B := B)
       ⟨P₀, hP₀⟩
     refine ⟨PrimeSpectrum.comap (ψ : B' →+* B) Q, PrimeSpectrum.ext ?_⟩
-    show Ideal.comap (algebraMap A' B') (Ideal.comap (ψ : B' →+* B) Q.asIdeal) = P.asIdeal
+    change Ideal.comap (algebraMap A' B') (Ideal.comap (ψ : B' →+* B) Q.asIdeal) = P.asIdeal
     rw [Ideal.comap_comap, show (ψ : B' →+* B).comp (algebraMap A' B') = algebraMap A' B from
       ψ.comp_algebraMap, IsScalarTower.algebraMap_eq A' A B, ← Ideal.comap_comap]
     have hQ' : Q.asIdeal.comap (algebraMap A B) = P₀ := congrArg PrimeSpectrum.asIdeal hQ
@@ -70,7 +70,7 @@ theorem exists_etale_faithfullyFlat_lift (hA : Function.Surjective (algebraMap A
     have hΦ : ∀ (a : A) (b : B'), Φ (a ⊗ₜ b) = algebraMap A B a * ψ b := fun a b =>
       Algebra.TensorProduct.lift_tmul _ _ _ _ _
     have hΦr : Φ.comp (redπ A' A B') = ψ := AlgHom.ext fun b => by
-      show Φ ((1 : A) ⊗ₜ b) = ψ b
+      change Φ ((1 : A) ⊗ₜ b) = ψ b
       rw [hΦ, map_one, one_mul]
     have hbij : Function.Bijective Φ := by
       refine ⟨fun t t' h => ?_, fun b => ?_⟩
@@ -85,7 +85,7 @@ theorem exists_etale_faithfullyFlat_lift (hA : Function.Surjective (algebraMap A
       · obtain ⟨b', rfl⟩ := hψ b
         exact ⟨redπ A' A B' b', by rw [← AlgHom.comp_apply, hΦr]⟩
     refine ⟨AlgEquiv.ofBijective Φ hbij, fun a => ?_⟩
-    show Φ (a ⊗ₜ 1) = _
+    change Φ (a ⊗ₜ 1) = _
     rw [hΦ, map_one, mul_one]
 
 end Stacks

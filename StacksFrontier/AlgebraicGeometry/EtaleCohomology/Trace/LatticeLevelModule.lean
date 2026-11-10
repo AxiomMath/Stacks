@@ -48,6 +48,7 @@ theorem latticeLevelMap_apply (k : ℕ) (v : LatticeModule ρ) (i : Fin r) :
     latticeLevelMap ρ k v i = PadicInt.toZModPow k (latticeModuleEquiv ρ v i) :=
   rfl
 
+omit [TopologicalSpace G] in
 /-- **Reduction is `G`-equivariant.** -/
 theorem latticeLevelMap_of_smul (k : ℕ) (g : G) (v : LatticeModule ρ) :
     latticeLevelMap ρ k (of ℤ G g • v) = levelRepresentation ρ k g (latticeLevelMap ρ k v) := by
@@ -109,6 +110,7 @@ theorem latticeLevelEquiv_mk (k : ℕ) (v : LatticeModule ρ) :
     latticeLevelEquiv ρ k (Submodule.Quotient.mk v) = latticeLevelMap ρ k v :=
   rfl
 
+omit [TopologicalSpace G] in
 /-- `latticeLevelEquiv` is `G`-equivariant. -/
 theorem latticeLevelEquiv_of_smul (k : ℕ) (g : G)
     (x : LatticeModule ρ ⧸ latticeLevelSubmodule ρ k) :
@@ -124,7 +126,7 @@ theorem latticeLevel_nsmul_eq_zero (k : ℕ)
     (x : ULift.{w} (LatticeModule ρ ⧸ latticeLevelSubmodule ρ k)) :
     ℓ ^ k • x = 0 := by
   refine ULift.ext ((latticeLevelEquiv ρ k).injective ?_)
-  show latticeLevelEquiv ρ k (ℓ ^ k • x.down) = latticeLevelEquiv ρ k 0
+  change latticeLevelEquiv ρ k (ℓ ^ k • x.down) = latticeLevelEquiv ρ k 0
   rw [map_nsmul, map_zero]
   funext i
   rw [Pi.smul_apply, nsmul_eq_mul, ZMod.natCast_self, Pi.zero_apply, zero_mul]
@@ -147,7 +149,7 @@ theorem groupRingIsContinuous_latticeLevel (hρ : Continuous ρ) (k : ℕ) :
       {g : G | levelRepresentation ρ k g (latticeLevelEquiv ρ k m.down) =
         latticeLevelEquiv ρ k m.down} := by
     ext g
-    simp only [Set.mem_setOf_eq, ← latticeLevelEquiv_of_smul]
+    simp only [Set.mem_ofPred_eq, ← latticeLevelEquiv_of_smul]
     exact ⟨fun h => by rw [← ULift.smul_down, h], fun h => ULift.ext
       ((latticeLevelEquiv ρ k).injective (by rw [ULift.smul_down]; exact h))⟩
   rw [this]

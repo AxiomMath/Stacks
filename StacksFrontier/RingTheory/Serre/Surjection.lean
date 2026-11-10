@@ -166,7 +166,7 @@ public theorem propertySkModule_of_surjective_algebraMap {R A : Type*} [CommRing
     Localization.AtPrime.algebraOfLiesOver p q
   have hsurj' : Function.Surjective
       (algebraMap (Localization.AtPrime p) (Localization.AtPrime q)) := by
-    rw [Localization.AtPrime.IsLiesOverAlgebra.algebraMap_eq (p := p) (P := q)]
+    rw [Localization.AtPrime.algebraMap_eq (p := p) (P := q)]
     exact Localization.surjective_localRingHom (algebraMap R A) hsurj p q hp
   let : Module (Localization.AtPrime p) (LocalizedModule q.primeCompl M) :=
     Module.compHom _ (algebraMap (Localization.AtPrime p) (Localization.AtPrime q))

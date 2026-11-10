@@ -2,7 +2,7 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.DeRham.Gysin.GysinSupportCohomologyExcisionClassical
 public import
-  StacksFrontier.AlgebraicGeometry.Perfect.SupportClosedSubset.LocalCohomologyExcisionPullbackDerived
+ StacksFrontier.AlgebraicGeometry.Perfect.SupportClosedSubset.LocalCohomologyExcisionPullbackDerived
 
 /-!
 # The derived excision of Tag 0G78 is the abelian excision, in the restriction spelling

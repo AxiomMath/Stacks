@@ -24,8 +24,9 @@ above the size of a finite affine cover ([Stacks, Tag 01XI]) and stepped, *at a 
 type*, by the short exact sequence `0 → F' → ⊕ⱼ L^{⊗ -dⱼ} → F → 0` that global generation after
 an ample twist produces ([Stacks, Tag 01Q3], clause (8); quasi-coherence of the kernel `F'` is
 Schemes, Lemma 26.24.1, formalized as
-`Stacks.AlgebraicGeometry.QcohLimits.isQuasicoherent_kernel` — and **not** 01PG). A module of infinite type is brought into range not by that sequence
-but by a colimit argument on cohomology: [Stacks, Tag 01PG] writes it as the directed colimit of
+`Stacks.AlgebraicGeometry.QcohLimits.isQuasicoherent_kernel` — and **not** 01PG). A module of
+infinite type is brought into range not by that sequence but by a colimit argument on cohomology:
+[Stacks, Tag 01PG] writes it as the directed colimit of
 its finite-type quasi-coherent submodules and Cohomology, Lemma 20.19.1 commutes cohomology with
 that colimit.
 
@@ -71,7 +72,8 @@ finite-type quasi-coherent modules. Any instance of the source's lemmas supplies
 **The finite-type hypothesis on `hgen` is not optional: without it this file would be vacuous.**
 Without it, `hgen` would demand the dévissage sequence for *every* quasi-coherent `F`, which is
 the false clause (8) rather than the source's: on a nonempty scheme no module of infinite type is
-a quotient of a finite direct sum of invertible modules, so `hgen` would have **no instances** and both
+a quotient of a finite direct sum of invertible modules, so `hgen` would have **no instances** and
+both
 theorems below would be unusable. The witness is `F = ∐_{i : I} 𝒪_X` for a countably infinite
 `I : Type u`, quasi-coherent by
 `Stacks.AlgebraicGeometry.QuasicoherentColimits.isQuasicoherent_sigma`; `S.ShortExact` makes

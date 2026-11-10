@@ -471,7 +471,7 @@ private theorem exists_levelwise_milnor_maps {D : Type u} [Category.{v} D]
     rw [← comparison_levelwiseRep, IsIso.inv_hom_id_assoc]
   have e₁ : (levelwiseRep φ J).productFirst =
       Rlim.Hom.shiftedHomProductMap L F G (Limits.Pi.map fun n : ℕ ↦ φ.app (op n)) := by
-    show _ = inv (piComparison J _) ≫ J.map _ ≫ piComparison J _
+    change _ = inv (piComparison J _) ≫ J.map _ ≫ piComparison J _
     rw [← comparison_levelwiseRep, IsIso.inv_hom_id_assoc]
   have e₂ : (levelwiseRep φ J).productSecond =
       Rlim.Hom.shiftedHomProductMap L F G (Limits.Pi.map fun n : ℕ ↦ φ.app (op n)) := by
@@ -646,11 +646,11 @@ public theorem isDerivedLimitWithProjections_of_map_of_equivalence
   apply (U.map_distinguished_iff (Triangle.mk (Pi.lift p) dF g)).1
   refine Pretriangulated.isomorphic_distinguished (Triangle.mk a dG δ) ha _
     (Triangle.isoMk _ _ (Iso.refl _) e e ?_ ?_ ?_)
-  · show U.map (Pi.lift p) ≫ e.hom = 𝟙 _ ≫ _
+  · change U.map (Pi.lift p) ≫ e.hom = 𝟙 _ ≫ _
     simpa using hf
-  · show U.map dF ≫ e.hom = e.hom ≫ dG
+  · change U.map dF ≫ e.hom = e.hom ≫ dG
     exact hd
-  · show (U.map g ≫ (U.commShiftIso (1 : ℤ)).hom.app X) ≫
+  · change (U.map g ≫ (U.commShiftIso (1 : ℤ)).hom.app X) ≫
       (shiftFunctor D 1).map (𝟙 _) = e.hom ≫ δ
     simpa using hg.symm
 
@@ -757,7 +757,7 @@ public theorem powerSpan_antitone {r : ℕ} (g : Fin r → R) {m n : ℕ} (h : n
       Ideal.span (Set.range fun i ↦ g i ^ (n + 1)) := by
   rw [Ideal.span_le]
   rintro _ ⟨i, rfl⟩
-  show g i ^ (m + 1) ∈ _
+  change g i ^ (m + 1) ∈ _
   rw [show m + 1 = (m - n) + (n + 1) by omega, pow_add]
   exact Ideal.mul_mem_left _ _ (Ideal.subset_span ⟨i, rfl⟩)
 
@@ -909,7 +909,7 @@ private theorem koszulPowerUnitChain_comp_augmentation {r : ℕ} (g : Fin r → 
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro a
-  show (Ideal.span (Set.range fun i ↦ g i ^ (n + 1))).mkQ
+  change (Ideal.span (Set.range fun i ↦ g i ^ (n + 1))).mkQ
       (exteriorPower.zeroEquiv R (Fin r → R)
         ((AdicKoszul.koszulPowerUnitChain g n).f 0 a)) = _
   rw [hchain, map_smul]
@@ -933,7 +933,7 @@ public theorem koszulPowerUnit_comp_koszulIdealPowerComparison {r : ℕ} (g : Fi
     NatTrans.ofOpSequence_app, NoetherianKoszulProIso.koszulQuotientComparison_app,
     derivedQuotientFactor, idealPowerQuotientMap]
   rw [← Functor.map_comp, ← Functor.map_comp]
-  show _ = DerivedCategory.Q.map ((HomologicalComplex.single _ _ 0).map _) ≫ _
+  change _ = DerivedCategory.Q.map ((HomologicalComplex.single _ _ 0).map _) ≫ _
   rw [← Functor.map_comp]
   congr 1
   apply HomologicalComplex.from_single_hom_ext
@@ -956,7 +956,7 @@ public theorem comap_uliftRingEquiv_eq_span {A : Type u} [CommRing A] {r : ℕ} 
     I.comap (ULift.ringEquiv.{u, v} (R := A)).toRingHom =
       Ideal.span (Set.range fun i ↦ (ULift.up (f i) : ULift.{v} A)) := by
   subst hf
-  show Ideal.comap (ULift.ringEquiv.{u, v} (R := A)).symm.symm _ = _
+  change Ideal.comap (ULift.ringEquiv.{u, v} (R := A)).symm.symm _ = _
   rw [← Ideal.map_comap_of_equiv, Ideal.map_span, ← Set.range_comp]
   rfl
 
@@ -994,7 +994,7 @@ public theorem koszulPowerCompletion_idealPowerCone
       (Functor.whiskerRight φ (T.tensor.obj (U.obj K)))
       ((koszulIdealPowerComparison_hasEventualInverses g J hJ).whiskerRight _)
   · intro K n
-    show U.map (C.unit.app K) ≫ (C.projection n).app K ≫
+    change U.map (C.unit.app K) ≫ (C.projection n).app K ≫
         (T.tensor.obj (U.obj K)).map (φ.app ⟨n⟩) = _
     rw [reassoc_of% C.unit_projection K n]
     simp only [AdicKoszul.derivedTensorKoszulPowerUnit, derivedReductionMap, Category.assoc,
@@ -1086,7 +1086,7 @@ public theorem idealPowerDerivedLimitSolution
       rw [nat a, nat b, hmap]
     · intro m
       refine ⟨C.functor.map m ≫ inv (C.unit.app Y.obj), ?_⟩
-      show C.unit.app X ≫ (C.functor.map m ≫ inv (C.unit.app Y.obj)) = m
+      change C.unit.app X ≫ (C.functor.map m ≫ inv (C.unit.app Y.obj)) = m
       rw [← Category.assoc, show C.unit.app X ≫ C.functor.map m = m ≫ C.unit.app Y.obj from
         (nat m).symm]
       simp

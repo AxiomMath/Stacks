@@ -171,7 +171,7 @@ private theorem exists_pow_le_idealSheaf_of_disjoint_puncturedSpectrum
     intro p hp
     by_contra hne
     have hpU : (p : X) ∈ Stacks.Divisors.puncturedSpectrum B := by
-      show p ∈ ({IsLocalRing.closedPoint B}ᶜ : Set (PrimeSpectrum B))
+      change p ∈ ({IsLocalRing.closedPoint B}ᶜ : Set (PrimeSpectrum B))
       simpa using hne
     exact Set.disjoint_left.mp hJ hpU (by rwa [hsupp])
   obtain ⟨n, hn⟩ := exists_pow_le_ideal_of_zeroLocus_subset_closedPoint B K hV
@@ -244,19 +244,19 @@ private theorem comap_ofIdealTop_eq_of_ideal_top {R S : Type u} [CommRing R] [Co
   have hCtop : C.ideal U₀ = I.map γ₀.inv.hom := by
     simp [C, U₀]
   have happ : c.appTop.hom.comp γ₀.inv.hom = γ₁.inv.hom.comp φ := by
-    show CommRingCat.Hom.hom (γ₀.inv ≫ c.appTop) =
+    change CommRingCat.Hom.hom (γ₀.inv ≫ c.appTop) =
       CommRingCat.Hom.hom (CommRingCat.ofHom φ ≫ γ₁.inv)
     exact congrArg CommRingCat.Hom.hom
       (Scheme.ΓSpecIso_inv_naturality (CommRingCat.ofHom φ)).symm
   have hLtop : (C.comap c).ideal U₁ = J.ideal U₁ := by
     apply Ideal.comap_injective_of_surjective γ₁.inv.hom
       (ConcreteCategory.bijective_of_isIso γ₁.inv).2
-    show Ideal.comap γ₁.inv.hom ((C.comap c).ideal U₁) =
+    change Ideal.comap γ₁.inv.hom ((C.comap c).ideal U₁) =
       Ideal.comap γ₁.inv.hom (J.ideal U₁)
     rw [Stacks.IdealSheaf.ideal_comap_top_of_isAffine, hCtop, Ideal.map_map, happ,
       ← Ideal.map_map, comap_map_ΓSpecIso_inv]
     exact hJ.symm
-  show C.comap c = J
+  change C.comap c = J
   rw [eq_ofIdealTop_ideal (C.comap c), eq_ofIdealTop_ideal J, hLtop]
 
 /-! ### The descent -/

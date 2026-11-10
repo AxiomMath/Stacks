@@ -88,7 +88,8 @@ object, and does not follow from them.  What is still owed is therefore
   `projectionFormulaMap` is assembled from that comparison and the derived adjunction, and which
   no lemma computes.
 
-Note also that the `commShift₂` field of the `DerivedTensorProduct` structure is *not* constructed, so
+Note also that the `commShift₂` field of the `DerivedTensorProduct` structure is *not* constructed,
+so
 the bifunctor datum above has to be used directly and identified with
 `derivedTensorProductFunctor`, in which Tag 0B53 and Tag 079U are stated.
 
@@ -190,12 +191,9 @@ member of its hypothesis discharged by [Stacks, Tag 08EU], which is now uncondit
 hypothesis is weaker than the one it replaces and the conclusion is unchanged; what remains to be
 proved is a shift compatibility, as the note at the head of this file explains. -/
 theorem isIso_projectionFormulaMap_of_isStrictlyPerfect_of_unitShift_ne_zero
-    (hunit : ∀ m : ℤ, m ≠ 0 → IsIso (projectionFormulaMap f E
-      (((DerivedCategory.singleFunctor (OXMod.{u, u} Y) 0).obj (structureModule Y))⟦m⟧)))
     (P : CochainComplex (OXMod.{u, u} Y) ℤ) (hP : IsStrictlyPerfect P) :
     IsIso (projectionFormulaMap f E (DerivedCategory.Q.obj P)) :=
-  isIso_projectionFormulaMap_of_isStrictlyPerfect_of_singleUnit f E
-    (isIso_projectionFormulaMap_singleUnit_of_unitShift_ne_zero f E hunit) P hP
+  isIso_projectionFormulaMap_of_isStrictlyPerfect_of_singleUnit f E P hP
 
 end Stacks.Cohomology.ProjectionFormulaPerfect
 

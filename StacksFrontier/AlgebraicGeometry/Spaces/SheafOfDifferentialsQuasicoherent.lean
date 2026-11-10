@@ -49,7 +49,8 @@ scheme is quasi-coherent (Stacks 03DV (2)), and quasi-coherence descends from a 
 ## Implementation notes
 
 The proof uses four inputs, listed below under the names `hloc`, `ecomp`/`hecomp` and
-`hschemeChart`, and all four are proved; none of them is quasi-coherence of a sheaf of differentials, on a chart or anywhere else.  The
+`hschemeChart`, and all four are proved; none of them is quasi-coherence of a sheaf of
+differentials, on a chart or anywhere else.  The
 quasi-coherence in the proof is produced by the two theorems of this development named above,
 `AlgebraicGeometry.Scheme.Hom.isQuasicoherent_relativeDifferentials` and
 `AlgebraicGeometry.Space.isQuasicoherentOnSite_representedAssociatedModule`.

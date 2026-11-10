@@ -654,7 +654,7 @@ theorem glueingConjugateIso_derivedExtensionSquareIso :
     refine (Iso.inv_ext ?_).symm
     rw [← r₂, conjugateEquiv_comp, Iso.hom_inv_id, conjugateEquiv_id]
   ext1
-  show conjugateEquiv _ _ (_ ≫ _) = _
+  change conjugateEquiv _ _ (_ ≫ _) = _
   rw [← conjugateEquiv_comp _ (chosenDerivedExtensionScalarsAdjunction q), r₁, Iso.symm_inv, hX]
   rfl
 

@@ -147,7 +147,8 @@ theorem exists_approximation_of_isPseudoCoherentFrom_representedAffineDerivedSec
       (epi_comp' (epi_comp'
         (@IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_hom ((Φ₀.mapDerivedCategoryHomologyIso m).app _)))
         (epi_comp' hα
-          (@IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_inv ((Φ₀.mapDerivedCategoryHomologyIso m).app _)))))
+          (@IsIso.epi_of_iso _ _ _ _ _
+            (Iso.isIso_inv ((Φ₀.mapDerivedCategoryHomologyIso m).app _)))))
         (@IsIso.epi_of_iso _ _ _ _ _ hε))
 
 end Affine

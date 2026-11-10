@@ -98,8 +98,6 @@ object of `D(𝒪_X)`, let `K` be an object of `D(𝒪_X)`, and suppose the coho
 quasi-separated object `U` of the spaces-étale site of `X`. -/
 theorem countable_ext_etaleRestrict_of_countable_sections_derivedDualTensor
     (X : AlgebraicSpaces B S hS) (hZ : B.Contains (⊤_ Scheme.{u}))
-    (hXqc : IsQuasiCompactSpace B S hS X.1)
-    (hXqs : IsAbsolutelyQuasiSeparated B S hS hZ X.1)
     (K : DerivedCategory (Modules.{u, u} B S hS X.1 X.2))
     (E : DerivedCategory (Modules.{u, u} B S hS X.1 X.2))
     (hE : RingedSite.IsPerfect (smallEtaleRingedSite B S hS X.1 X.2) E)
@@ -119,7 +117,7 @@ theorem countable_ext_etaleRestrict_of_countable_sections_derivedDualTensor
       ((etaleModulePullback.{u, u} B S hS U.1.hom U.2).mapDerivedCategory.obj E) :=
     RingedSite.IsPerfect.of_iso _ (isPerfect_smallEtaleDerivedModulePullback U.1.hom E hE)
       ((smallEtaleDerivedModulePullbackIsoEtale B S hS U.1.hom U.2).app E)
-  have := (hasCountableCohomology_derivedGlobalSectionsAb_restrict B S hS hZ X hXqc hXqs
+  have := (hasCountableCohomology_derivedGlobalSectionsAb_restrict B S hS hZ X
     (((smallEtaleDerivedTensor B S hS X).obj (smallEtaleDerivedDual B S hS X E)).obj K)
     hqcL hcount U hUqc hUqs).of_iso
       ((derivedGlobalSectionsAb B S hS U.1.left).mapIso

@@ -150,11 +150,7 @@ theorem tensorCellCoords_tensorOneMul_of_mem (α : ℤ) {a : A.A} (ha : a ∈ A.
         ((a ᵍ⊗ₜ[R] (1 : (𝒦).A) : A.grading ᵍ⊗[R] (𝒦).grading) * x)) m) j
       = (((m : ℤ) * α).negOnePow : ℤ) • (a * ((tensorCellCoords A φ x) m) j) := by
   obtain ⟨X, rfl⟩ := (GradedTensorProduct.of R A.grading (𝒦).grading).surjective x
-  induction X using TensorProduct.induction_on with
-  | zero =>
-      rw [map_zero (GradedTensorProduct.of R A.grading (𝒦).grading), mul_zero,
-        map_zero (tensorCellCoords A φ)]
-      simp only [DirectSum.zero_apply, mul_zero, smul_zero]
+  induction X using TensorProduct.inductionOn with
   | add X Y hX hY =>
       rw [map_add (GradedTensorProduct.of R A.grading (𝒦).grading), mul_add,
         map_add (tensorCellCoords A φ), DirectSum.add_apply, DirectSum.add_apply, hX, hY,

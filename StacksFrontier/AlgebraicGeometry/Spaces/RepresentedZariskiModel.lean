@@ -345,7 +345,7 @@ theorem selfOpensStructureMap_comp_selfOpensFunctorIso :
           (J' := SmallEtale.topology B S hS (yoneda.obj T))
           (representedSmallEtaleEquivalence B S hS T)
           (representedSchemeStructureSheaf B S hS T))).hom.app O) = 𝟙 _ := by
-    show (representedSchemeStructureSheaf B S hS T).obj.map
+    change (representedSchemeStructureSheaf B S hS T).obj.map
         ((representedSmallEtaleEquivalence B S hS T).counit.app
           (_root_.AlgebraicGeometry.SmallEtale.opensObj (associatedBigEtaleSite B)
             ((BigFppfOver.toScheme B S hS).obj T) T.left.property O.unop)).op = 𝟙 _
@@ -357,11 +357,11 @@ theorem selfOpensStructureMap_comp_selfOpensFunctorIso :
         RingCat.{u} (Opens.grothendieckTopology ↥(chartScheme (idEtaleChart B S hS T)))
         (SmallEtale.topology B S hS (yoneda.obj T))).app
         (representedStructureRingSheaf B S hS T)).hom.app O = 𝟙 _ := by
-    show (representedStructureRingSheaf B S hS T).obj.map
+    change (representedStructureRingSheaf B S hS T).obj.map
       (eqToHom (selfOpensFunctor_obj B S hS T O.unop).symm).op = 𝟙 _
     exact (congrArg (representedStructureRingSheaf B S hS T).obj.map (eqToHom_op _)).trans
       ((eqToHom_map (representedStructureRingSheaf B S hS T).obj _).trans rfl)
-  show (_ ≫ _) ≫ _ = _
+  change (_ ≫ _) ≫ _ = _
   rw [h2, h3]
   exact (Category.comp_id _).trans (Category.comp_id _)
 
@@ -482,7 +482,7 @@ theorem chartSchemePushforwardDefiningIdealIso_hom_comp_ι :
       SheafOfModules.kerIota (SheafOfModules.unitToPushforwardObjUnit
         (zariskiClosedImmersion B S hS T Z).toRingCatSheafHom) :=
     (Iso.inv_comp_eq _).2 h.symm
-  show (chartIdealToKer B S hS ⟨yoneda.obj T, AlgebraicGeometry.isAlgebraicSpace_yoneda B S hS T⟩
+  change (chartIdealToKer B S hS ⟨yoneda.obj T, AlgebraicGeometry.isAlgebraicSpace_yoneda B S hS T⟩
       (idEtaleChart B S hS T) Z ≫
     (Stacks.Conormal.idealSheafKerObjIso (zariskiClosedImmersion B S hS T Z)).inv) ≫ _ = _
   refine (Category.assoc _ _ _).trans ?_

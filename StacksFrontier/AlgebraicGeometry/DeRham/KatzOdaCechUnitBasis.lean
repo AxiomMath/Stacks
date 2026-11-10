@@ -35,7 +35,7 @@ variable {C : Type u} [Category.{u} C] [HasFiniteProducts C] {ι : Type u} [Fint
   (hx : ∀ i, totDTo U P (n i) (n i + 1) rfl (x i) = 0)
   {Q : CochainComplex (Cᵒᵖ ⥤ ModuleCat.{u} A) ℕ} (EQ : FormsData U D D.φ D.φ_ρ Q)
 
-omit [DecidableEq I] in
+omit [Fintype ι] [DecidableEq ι] [DecidableEq I] in
 include hx in
 /-- The image under `unitHom` of a vector is a cocycle. -/
 theorem d_unitMap (q : ℤ) (v : ∀ (_ : {i : I // (n i : ℤ) = q}), A) :
@@ -50,6 +50,7 @@ def unitClass (q : ℤ) (i : {i : I // (n i : ℤ) = q}) : (cechTot U Q).homolog
     (AlgebraicGeometry.DeRhamKatzOdaCech.toMor_comp_d_eq_zero _
       (d_unitMap D EP n x hx EQ q _))).hom 1
 
+omit [Fintype ι] [DecidableEq ι] in
 include hx in
 /-- **The zeroth graded piece of `x̃` is a quasi-isomorphism** when, in every degree `q`, the
 classes of the `x̄_i` with `n_i = q` form a basis of `H^q(Tot(Č(U, Q)))` over `A`. -/

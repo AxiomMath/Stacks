@@ -536,7 +536,7 @@ public theorem exists_forall_le_levelEnvelope_hom
       qB (coeff a) = B.toQuotient (algebraMap s.A s.C a) :=
         congrFun (congrArg DFunLike.coe B.commutes) a
       _ = target (MvPolynomial.C a) := by
-        show B.toQuotient (algebraMap s.A s.C a) =
+        change B.toQuotient (algebraMap s.A s.C a) =
           B.toQuotient (f (E (algebraMap s.A (MvPolynomial σ s.A) a)))
         rw [E.commutes, f.commutes]
   have hvars : (fun i => qB (lifts i)) = fun i => target (MvPolynomial.X i) := funext hlifts
@@ -557,13 +557,13 @@ public theorem exists_forall_le_levelEnvelope_hom
   have hJ : (presentationKernel s f).map g ≤ B.ring.ideal := by
     rw [Ideal.map_le_iff_le_comap]
     intro x hx
-    show g x ∈ B.ring.ideal
+    change g x ∈ B.ring.ideal
     have hxval : qB (g x) = B.toQuotient (f.toRingHom x) := DFunLike.congr_fun hdesc x
     rw [RingHom.mem_ker.mp hx, map_zero] at hxval
     exact Ideal.Quotient.eq_zero_iff_mem.mp hxval
   let pI := DividedPowers.pAdicIdeal (A := P) s.p ^ e
   have hkill : pI ≤ RingHom.ker g := by
-    show DividedPowers.pAdicIdeal (A := P) s.p ^ e ≤ RingHom.ker g
+    change DividedPowers.pAdicIdeal (A := P) s.p ^ e ≤ RingHom.ker g
     rw [DividedPowers.pAdicIdeal, Ideal.span_singleton_pow, Ideal.span_le, Set.singleton_subset_iff]
     apply RingHom.mem_ker.mpr
     simp [g, eval, coeff, RingHom.comp_apply, hpn]
@@ -571,7 +571,7 @@ public theorem exists_forall_le_levelEnvelope_hom
   let lift : P ⧸ pI →+* B.ring := Ideal.Quotient.lift pI g hkill
   have hlift : lift.comp qP = g := Ideal.Quotient.lift_comp_mk pI g hkill
   have hlevelJ : (levelKernel s f e).map lift ≤ B.ring.ideal := by
-    show ((presentationKernel s f).map qP).map lift ≤ B.ring.ideal
+    change ((presentationKernel s f).map qP).map lift ≤ B.ring.ideal
     rw [Ideal.map_map, hlift]
     exact hJ
   let env := levelEnvelope s f e
@@ -591,7 +591,7 @@ public theorem exists_forall_le_levelEnvelope_hom
     apply Ideal.map_mono
     rw [Ideal.map_le_iff_le_comap]
     intro x hx
-    show f (algebraMap s.A P x) = 0
+    change f (algebraMap s.A P x) = 0
     rw [f.commutes, ← Ideal.mem_bot, ← s.ideal_map_eq_bot]
     exact Ideal.mem_map_of_mem (algebraMap s.A s.C) hx
   have hbasePair : IdealPair.Hom.comp ψ

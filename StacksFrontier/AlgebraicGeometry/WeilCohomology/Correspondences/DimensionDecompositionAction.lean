@@ -58,6 +58,7 @@ variable (k : Type u) [Field k] {X Y Z : Scheme.{u}}
 
 /-! ### Transport along equalities of degrees -/
 
+omit [IsSeparated sX] [IsSeparated sY] in
 /-- Transport of mixed correspondences along `r = r` is the identity. -/
 theorem corrCongr_self {r : ℤ} (h : r = r) (c : Corr k sX sY r) : corrCongr k sX sY h c = c := by
   induction c using Corr.induction_on with
@@ -89,6 +90,7 @@ theorem codimChowCongr_lof {i i' : ℤ} (h : i = i') (d : ℕ)
   simp [codimChowCongr, DirectSum.coe_congrLinearEquiv]
   rfl
 
+omit [IsSeparated sX] in
 /-- Transport of degrees commutes with the identification
 `CH_{-r}(X) ⊗ ℚ = Corrʳ(X, Spec k)` of Stacks 0FG0 (2). -/
 theorem corrCongr_corrToPointEquiv [IsProper sX] {r r' : ℤ} (h : r = r')
@@ -99,6 +101,7 @@ theorem corrCongr_corrToPointEquiv [IsProper sX] {r r' : ℤ} (h : r = r')
   subst h
   rw [corrCongr_self, baseChange_chowGroupDegreeEquiv_self]
 
+omit [IsSeparated sX] in
 /-- Transport of degrees commutes with the identification
 `CH^r(X) ⊗ ℚ = Corrʳ(Spec k, X)` of Stacks 0FG0 (3). -/
 theorem corrCongr_corrFromPointEquiv {r r' : ℤ} (h : r = r') (x : CodimChow k sX r) :

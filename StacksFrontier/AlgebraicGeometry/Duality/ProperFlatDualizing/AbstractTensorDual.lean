@@ -105,11 +105,11 @@ theorem homEquiv_naturality (M M' : D) (hM : QD M) (hM' : QD M') (g : M' ⟶ M)
     rw [← Adjunction.homEquiv_naturality_left_symm]
     rfl
   simp only [homEquiv, Equiv.trans_apply, Adjunction.homEquiv_naturality_left_symm,
-    tensorLeftHomEquiv_symm_naturality, Functor.FullyFaithful.homEquiv_symm_apply,
+    tensorLeftHomEquiv_symm_naturality,
     Functor.FullyFaithful.homEquiv_apply, Iso.homCongr_apply, Iso.symm_inv, Iso.refl_inv,
     Iso.refl_hom, Category.id_comp, Category.comp_id]
   rw [h₁]
-  simp only [ObjectProperty.ι_map, ObjectProperty.FullSubcategory.comp_hom, Functor.map_comp,
+  simp only [ObjectProperty.ι_map, ObjectProperty.FullSubcategory.comp_hom,
     ObjectProperty.lift_map, Functor.comp_map, ObjectProperty.homMk_hom, Category.assoc]
   rw [← reassoc_of% (hπ M M' hM hM' g)]
   have h₂ : ∀ t : M ⊗ R.obj Ed ⟶ 𝟙_ D, (tensorRightHomEquiv M' (R.obj Ed) Pd (𝟙_ D))

@@ -59,6 +59,7 @@ attribute [local instance] pointTopology
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out at the default limit
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_UniversallyInjectiveEtaleCriterion :
@@ -70,6 +71,7 @@ local instance (priority := high) hasPullback_presheaf_UniversallyInjectiveEtale
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks in the big fppf site times out at the default limit
 /-- Pullbacks in the big fppf site (instance search times out without this shortcut). -/
 local instance hasPullbacks_site_UniversallyInjectiveEtaleCriterion :
     HasPullbacks (BigFppfOver B S hS) := inferInstance
@@ -210,7 +212,7 @@ private theorem isLocallyQuasiFinite_snd_fieldFibre_of_etale_tests
       (a.2.trans b.2.symm))⟩
   exact (isIsolatedPoint_fibre_iff_isQuasiFiniteAt B S hS hX hY f hf
     (isDecentSpace_yoneda B S hS U) (pointsMap B S hS X f x) ⟨x, rfl⟩).mp (by
-      show IsOpen _
+      change IsOpen _
       rw [show ({⟨x, rfl⟩} : Set ↥(pointsMap B S hS X f ⁻¹' {pointsMap B S hS X f x})) =
         Set.univ from Set.eq_univ_of_forall fun _ => Subsingleton.elim _ _]
       exact isOpen_univ)
@@ -280,17 +282,17 @@ private theorem universallyInjective_of_isIso_fieldFibre
       rw [Category.assoc, hNq, ← Category.assoc, ← Spec.map_comp, ha]
     have e1 : B.inclusion.map R'.hom =
         Spec.map (CommRingCat.ofHom (algebraMap k k')) ≫ B.inclusion.map c.siteObject.hom := by
-      show B.inclusion.map (siteMapOfSchemeMap B S hS c.siteObject hK' _ ≫ _) = _
+      change B.inclusion.map (siteMapOfSchemeMap B S hS c.siteObject hK' _ ≫ _) = _
       rw [Functor.map_comp, map_siteMapOfSchemeMap]
       rfl
     have e2 : B.inclusion.map c.siteObject.hom =
         (T.obj U).fromSpecResidueField x₀ ≫ B.inclusion.map U.hom := by
       rw [← hcval]
-      show _ = B.inclusion.map c.value.left ≫ B.inclusion.map U.hom
+      change _ = B.inclusion.map c.value.left ≫ B.inclusion.map U.hom
       rw [← Functor.map_comp, Over.w]
       rfl
     have e3 : B.inclusion.map V.hom = N.toBase ≫ B.inclusion.map U.hom := by
-      show B.inclusion.map (_ ≫ U.hom) = _
+      change B.inclusion.map (_ ≫ U.hom) = _
       rw [Functor.map_comp]
       rfl
     let m' : T.obj R' ⟶ T.obj V := m
@@ -429,7 +431,7 @@ theorem universallyInjective_of_injective_pointsMap_pullback_yoneda :
     have heq : yoneda.preimage (z ≫ e.inv) = yoneda.preimage (z' ≫ e.inv) := by
       apply T.map_injective
       apply hfield p.carrier
-      show T.map _ ≫ T.map φ = T.map _ ≫ T.map φ
+      change T.map _ ≫ T.map φ = T.map _ ≫ T.map φ
       rw [← Functor.map_comp, ← Functor.map_comp, ha z hz, ha z' hz']
     have h2 := congrArg yoneda.map heq
     rw [yoneda.map_preimage, yoneda.map_preimage] at h2

@@ -144,7 +144,7 @@ private lemma homComplexBaseChange_f_tmul
       a • z.map (ModuleCat.extendScalars.{uR, uA, max uR uA uM} f) := by
   rw [show a ⊗ₜ[R,f] z = a • ((1 : A) ⊗ₜ[R,f] z :
       (ModuleCat.extendScalars f).obj (ModuleCat.of R (Cochain K L n))) from by
-    show a ⊗ₜ[R,f] z = (a * 1) ⊗ₜ[R,f] z
+    change a ⊗ₜ[R,f] z = (a * 1) ⊗ₜ[R,f] z
     rw [mul_one]]
   exact ((homComplexBaseChange.{uR, uA, uM} f K L).f n).hom.map_smul a
     ((1 : A) ⊗ₜ[R,f] z) |>.trans (congrArg (a • ·)
@@ -159,7 +159,7 @@ private lemma homComplexBaseChange_f_tmul_v
         (b ⊗ₜ[R,f] x) =
       (a * b) ⊗ₜ[R,f] (z.v p q hpq) x := by
   rw [homComplexBaseChange_f_tmul]
-  show a • ((ModuleCat.extendScalars f).map (z.v p q hpq) (b ⊗ₜ[R,f] x)) = _
+  change a • ((ModuleCat.extendScalars f).map (z.v p q hpq) (b ⊗ₜ[R,f] x)) = _
   rw [ModuleCat.ExtendScalars.map_tmul, ModuleCat.ExtendScalars.smul_tmul]
 
 /-- The scalar-adjunction comparison sends the base-changed cochain to tensor evaluation. -/
@@ -176,7 +176,7 @@ private lemma homComplexChangeOfRingsMap_baseChange_f_tmul
       q.f r (j.f r (a ⊗ₜ[R,f] (z.v p r hpr) x)) := by
   rw [Stacks.DerivedHom.BaseChange.homComplexChangeOfRingsMap_f_apply]
   rw [ModuleCat.comp_apply, ModuleCat.extendRestrictScalarsAdj_homEquiv_apply]
-  show q.f r (((((homComplexBaseChange.{uR, uA, uM} f K L).f n
+  change q.f r (((((homComplexBaseChange.{uR, uA, uM} f K L).f n
     (a ⊗ₜ[R,f] z)).comp (Cochain.ofHom j) (add_zero n)).v p r hpr)
       ((1 : A) ⊗ₜ[R,f] x)) = _
   rw [Cochain.comp_zero_cochain_v, Cochain.ofHom_v, ModuleCat.comp_apply,
@@ -225,23 +225,23 @@ private lemma homComplexBaseChange_projection
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro x
-  show (((Stacks.DerivedHom.BaseChange.homComplexChangeOfRingsMap f K J I q).f n
+  change (((Stacks.DerivedHom.BaseChange.homComplexChangeOfRingsMap f K J I q).f n
       ((Stacks.HomComplex.TensorHomMap.postcomp A _ _ J j).f n
         ((homComplexBaseChange f K L).f n (a ⊗ₜ[R,f] z)))).v p r hpr) x = _
   rw [homComplexChangeOfRingsMap_baseChange_f_tmul]
   simp only [HomologicalComplex.comp_f, ModuleCat.hom_comp, LinearMap.comp_apply]
   rw [extensionRestrictionComplexIso_hom_app_f]
-  show _ = (((Stacks.HomComplex.TensorHomMap.postcomp R K (B ⊗ L) I
+  change _ = (((Stacks.HomComplex.TensorHomMap.postcomp R K (B ⊗ L) I
     ((extensionRestrictionComplexIso f).inv.app L ≫
       (CochainComplex.restrictScalarsLarge f).map j ≫ q)).f n
       ((Stacks.HomComplex.TensorHomComparison.theta B L K).f n
         ((HomologicalComplex.ιTensorObj B (HomComplexR R K L) 0 n n (zero_add n))
           (TensorProduct.tmul R (show B.X 0 from a) z)))).v p r hpr) x
-  show _ = ((((Stacks.HomComplex.TensorHomComparison.theta B L K).f n _).comp
+  change _ = ((((Stacks.HomComplex.TensorHomComparison.theta B L K).f n _).comp
     (Cochain.ofHom ((extensionRestrictionComplexIso f).inv.app L ≫
       (CochainComplex.restrictScalarsLarge f).map j ≫ q)) (add_zero n)).v p r hpr) x
   rw [Cochain.comp_zero_cochain_v, Cochain.ofHom_v, ModuleCat.comp_apply]
-  show _ = ((extensionRestrictionComplexIso f).inv.app L ≫
+  change _ = ((extensionRestrictionComplexIso f).inv.app L ≫
     (CochainComplex.restrictScalarsLarge f).map j ≫ q).f r
       (((Stacks.HomComplex.TensorHomComparison.thetaDeg B L K n)
         ((HomologicalComplex.ιTensorObj B (HomComplexR R K L) 0 n n (zero_add n))
@@ -329,7 +329,7 @@ private lemma chainTranspose_apply {R : Type u} [CommRing R]
     ((((chainTranspose h).f r).hom x).v s t hrs).hom y =
       (h.f t).hom ((HomologicalComplex.ιTensorObj K L r s t (by omega)).hom
         (x ⊗ₜ[R] y)) := by
-  show (((Stacks.HomComplex.TensorHomMap.Phiv R K L r x).comp (Cochain.ofHom h) (add_zero r)).v s
+  change (((Stacks.HomComplex.TensorHomMap.Phiv R K L r x).comp (Cochain.ofHom h) (add_zero r)).v s
     t hrs).hom y = _
   rw [Cochain.comp_v _ _ _ s t t hrs (add_zero t), Cochain.ofHom_v]
   exact congrArg (h.f t).hom (Phiv_v_apply R K L r x s t hrs y)
@@ -356,7 +356,7 @@ private lemma curry_chainTranspose {R : Type u} [CommRing R]
   apply ModuleCat.hom_ext
   apply TensorProduct.ext'
   intro x y
-  show ((((Stacks.HomComplex.Currying.curryIso K L I).hom.f 0).hom
+  change ((((Stacks.HomComplex.Currying.curryIso K L I).hom.f 0).hom
     (Cochain.ofHom (chainTranspose h))).v t t (add_zero t)).hom
       ((HomologicalComplex.ιTensorObj K L r s t hrs).hom (x ⊗ₜ[R] y)) = _
   rw [curryIso_zero_apply]
@@ -375,7 +375,7 @@ private lemma chainTranspose_untranspose {R : Type u} [CommRing R]
   apply Cochain.ofHom_injective
   apply (ConcreteCategory.bijective_of_isIso
     ((HomologicalComplex.eval _ _ 0).map (Stacks.HomComplex.Currying.curryIso K L I).hom)).injective
-  show ((Stacks.HomComplex.Currying.curryIso K L I).hom.f 0).hom
+  change ((Stacks.HomComplex.Currying.curryIso K L I).hom.f 0).hom
     (Cochain.ofHom (chainTranspose (chainUntranspose f))) = _
   rw [curry_chainTranspose]
   exact Cocycle.cochain_ofHom_homOf_eq_coe _
@@ -415,7 +415,7 @@ private lemma homComplexFunctor_map_apply {R : Type u} [CommRing R]
       (show (Opposite.op K, I) ⟶ (Opposite.op K', I') from (f.op, g))).f n).hom z).v
         p q hpq).hom x =
       (g.f q).hom ((z.v p q hpq).hom ((f.f p).hom x)) := by
-  show ((((Cochain.ofHom f).comp z (zero_add n)).comp
+  change ((((Cochain.ofHom f).comp z (zero_add n)).comp
     (Cochain.ofHom g) (add_zero n)).v p q hpq).hom x = _
   simp only [Cochain.comp_zero_cochain_v, Cochain.zero_cochain_comp_v, Cochain.ofHom_v]
   rfl
@@ -452,15 +452,15 @@ private lemma chainTranspose_naturality {R : Type u} [CommRing R]
         (show (Opposite.op L, I) ⟶ (Opposite.op L', I') from (g.op, h)) := by
   apply hom_ext_homComplex
   intro n x p q hpq y
-  show ((((chainTranspose ((f ⊗ₘ g) ≫ a ≫ h)).f n).hom x).v p q hpq).hom y =
+  change ((((chainTranspose ((f ⊗ₘ g) ≫ a ≫ h)).f n).hom x).v p q hpq).hom y =
     (((((StacksDraft.DerivedHom.Model.homComplexFunctor R).map
         (show (Opposite.op L, I) ⟶ (Opposite.op L', I') from (g.op, h))).f n).hom
       (((chainTranspose a).f n).hom ((f.f n).hom x))).v p q hpq).hom y
   rw [chainTranspose_apply, homComplexFunctor_map_apply, chainTranspose_apply]
-  show (h.f q).hom ((a.f q).hom (((f ⊗ₘ g).f q).hom
+  change (h.f q).hom ((a.f q).hom (((f ⊗ₘ g).f q).hom
       ((HomologicalComplex.ιTensorObj K' L' n p q (by omega)).hom (x ⊗ₜ[R] y)))) = _
   congr 2
-  show ((HomologicalComplex.ιTensorObj K' L' n p q (by omega) ≫
+  change ((HomologicalComplex.ιTensorObj K' L' n p q (by omega) ≫
     (f ⊗ₘ g).f q).hom (x ⊗ₜ[R] y)) = _
   rw [CochainComplex.ιTensorObj_tensorHom]
   simp only [ModuleCat.hom_comp, LinearMap.comp_apply]
@@ -564,7 +564,7 @@ private lemma homComplexScalarAdjunction_naturality
   apply hom_ext_homComplex
   intro n z p q hpq x
   change Cochain ((CochainComplex.extendScalarsLarge f).obj K) J n at z
-  show (((homComplexScalarAdjunction f K J').f n
+  change (((homComplexScalarAdjunction f K J').f n
       (((StacksDraft.DerivedHom.Model.homComplexFunctor A).map
         (show (Opposite.op ((CochainComplex.extendScalarsLarge f).obj K), J) ⟶
           (Opposite.op ((CochainComplex.extendScalarsLarge f).obj K), J') from (𝟙 _, g))).f n z)).v
@@ -572,7 +572,7 @@ private lemma homComplexScalarAdjunction_naturality
   rw [homComplexScalarAdjunction_f_apply]
   simp only
   erw [homComplexFunctor_map_id_apply g n z p q hpq]
-  show _ = (((((StacksDraft.DerivedHom.Model.homComplexFunctor R).map
+  change _ = (((((StacksDraft.DerivedHom.Model.homComplexFunctor R).map
       (show (Opposite.op K, (CochainComplex.restrictScalarsLarge f).obj J) ⟶
         (Opposite.op K, (CochainComplex.restrictScalarsLarge f).obj J') from
           (𝟙 _, (CochainComplex.restrictScalarsLarge f).map g))).f n).hom

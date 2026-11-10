@@ -130,16 +130,16 @@ private theorem exists_opens_isConstructibleAbelianSheaf_pullback_of_etale (X : 
     rintro ⟨_, v, hv, rfl⟩
     refine ⟨⟨v, hv⟩, ?_⟩
     apply W.ι.isOpenEmbedding.injective
-    show (h₀ ≫ W.ι).base ⟨v, hv⟩ = _
+    change (h₀ ≫ W.ι).base ⟨v, hv⟩ = _
     rw [IsOpenImmersion.lift_fac]
     rfl
   have : IsAffine (V : Scheme) := hV
   have hWcpt : CompactSpace Wb.obj := by
-    show CompactSpace (W : Set X.obj)
+    change CompactSpace (W : Set X.obj)
     rw [← isCompact_iff_compactSpace]
     exact hV.isCompact.image g₀.continuous
   have hWqs : QuasiSeparatedSpace Wb.obj := by
-    show QuasiSeparatedSpace (W : Set X.obj)
+    change QuasiSeparatedSpace (W : Set X.obj)
     exact (isQuasiSeparated_iff_quasiSeparatedSpace _ W.2).1
       (hU.isQuasiSeparated.of_subset hWU)
   exact ⟨W, hWc, ⟨t, htV, ht⟩, (isConstructibleAbelianSheaf_pullback_iff_of_surjective B hb
@@ -169,7 +169,7 @@ theorem isConstructibleAbelianSheaf_of_etale_local (X : B.Scheme)
   ext x
   simp only [Set.mem_univ, Set.mem_iUnion, true_iff]
   exact ⟨x, by
-    show x ∈ Set.range (W x).ι.base
+    change x ∈ Set.range (W x).ι.base
     rw [Scheme.Opens.range_ι]
     exact hxW x⟩
 
@@ -200,7 +200,7 @@ private theorem generatingSections_sum_injective
     simp only [map_smul]
     have hδ (i : σ.I) : coord k (((SheafOfModules.ιFree i ≫ σ.π).val.app U).hom
         (1 : R.obj.obj U)) = (if i = k then (1 : R.obj.obj U) else 0 : R.obj.obj U) := by
-      show ((SheafOfModules.ιFree i ≫ σ.π ≫ inv σ.π ≫ e.hom ≫ biproduct.π G k).val.app
+      change ((SheafOfModules.ιFree i ≫ σ.π ≫ inv σ.π ≫ e.hom ≫ biproduct.π G k).val.app
         U).hom (1 : R.obj.obj U) = _
       rw [IsIso.hom_inv_id_assoc, reassoc_of% (hi i)]
       split_ifs with h
@@ -211,12 +211,12 @@ private theorem generatingSections_sum_injective
         rfl
     simp only [hδ]
     rw [Finset.sum_eq_single k (fun i _ hik => by
-        simp only [hik, if_false]
-        show c i * 0 = 0
+        simp only [hik, ite_false]
+        change c i * 0 = 0
         rw [mul_zero])
       (fun h => absurd (Finset.mem_univ k) h)]
-    simp only [if_true]
-    show c k * 1 = c k
+    simp only [ite_true]
+    change c k * 1 = c k
     rw [mul_one]
   intro c c' hcc'
   ext k
@@ -238,7 +238,7 @@ private theorem generatingSections_sum_surjective
         c • ((SheafOfModules.ιFree i ≫ σ.π).val.app U).hom (1 : R.obj.obj U) := by
     rw [← ((SheafOfModules.ιFree i ≫ σ.π).val.app U).hom.map_smul c (1 : R.obj.obj U)]
     congr 1
-    show c = c * 1
+    change c = c * 1
     rw [mul_one]
   intro x
   obtain ⟨a, ha⟩ := generatingSections_eq_sum σ U x
@@ -302,17 +302,18 @@ theorem frobeniusFixedScheme.toΓ_C (c : Γ(Y, ⊤)) :
   have hc : (CommRingCat.ofHom (algebraMap A Q)) ≫
       CommRingCat.ofHom (frobeniusFixedScheme.toΓ p n Y a) =
         (frobeniusFixedScheme.π p n Y a).appTop := by
-    show CommRingCat.ofHom (algebraMap A Q) ≫ (Scheme.ΓSpecIso (.of Q)).inv ≫
+    change CommRingCat.ofHom (algebraMap A Q) ≫ (Scheme.ΓSpecIso (.of Q)).inv ≫
       (pullback.fst g Y.toSpecΓ).appTop = (pullback.snd g Y.toSpecΓ).appTop
     rw [← Category.assoc, Scheme.ΓSpecIso_inv_naturality, Category.assoc,
       ← Scheme.Hom.comp_appTop, pullback.condition, Scheme.Hom.comp_appTop,
       Scheme.toSpecΓ_appTop]
-    show (Scheme.ΓSpecIso A).inv ≫ (Scheme.ΓSpecIso A).hom ≫ _ = _
+    change (Scheme.ΓSpecIso A).inv ≫ (Scheme.ΓSpecIso A).hom ≫ _ = _
     rw [Iso.inv_hom_id_assoc]
   rw [show Ideal.Quotient.mk _ (MvPolynomial.C c) = algebraMap A Q c from rfl]
   exact ConcreteCategory.congr_hom hc c
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the algebra structures on `Γ(Y, ⊤)` and its quotient algebra
 /-- The universal solution solves the Frobenius fixed-point equations. -/
 theorem frobeniusFixedScheme.coord_eq (i : Fin n) :
     ∑ j, (frobeniusFixedScheme.π p n Y a).appTop (a j i) *
@@ -339,7 +340,7 @@ theorem frobeniusFixedScheme.etale_π [Fact p.Prime]
   have : Etale (Spec.map (CommRingCat.ofHom (algebraMap A Q))) :=
     (HasRingHomProperty.Spec_iff (P := @Etale)).2
       (RingHom.etale_algebraMap.mpr inferInstance)
-  show Etale (pullback.snd _ _)
+  change Etale (pullback.snd _ _)
   infer_instance
 
 /-- A solution of the Frobenius equations on a `Y`-scheme `T` comes from a morphism of `Y`-schemes
@@ -363,7 +364,7 @@ theorem frobeniusFixedScheme.exists_lift {T : Scheme.{u}} (t : T ⟶ Y) (c : Fin
     rw [hc i, sub_self]
   let ψ : Q →+* Γ(T, ⊤) := Ideal.Quotient.lift _ ev (fun z hz => RingHom.mem_ker.mp (hker hz))
   have hψC (z : A) : ψ (algebraMap A Q z) = t.appTop z := by
-    show ev (MvPolynomial.C z) = _
+    change ev (MvPolynomial.C z) = _
     simp only [ev, MvPolynomial.eval₂Hom_C]
   let φ : T ⟶ Spec (.of Q) := T.toSpecΓ ≫ Spec.map (CommRingCat.ofHom ψ)
   have hφ : φ ≫ g = t ≫ Y.toSpecΓ := by
@@ -373,13 +374,13 @@ theorem frobeniusFixedScheme.exists_lift {T : Scheme.{u}} (t : T ⟶ Y) (c : Fin
     ext z
     exact hψC z
   refine ⟨pullback.lift φ t hφ, pullback.lift_snd _ _ _, fun j => ?_⟩
-  show ((Scheme.ΓSpecIso (.of Q)).inv ≫ (pullback.fst g Y.toSpecΓ).appTop ≫
+  change ((Scheme.ΓSpecIso (.of Q)).inv ≫ (pullback.fst g Y.toSpecΓ).appTop ≫
     (pullback.lift φ t hφ).appTop) (Ideal.Quotient.mk _ (MvPolynomial.X j)) = c j
   rw [← Scheme.Hom.comp_appTop, pullback.lift_fst]
   simp only [φ, Scheme.Hom.comp_appTop, Scheme.toSpecΓ_appTop]
   rw [← Category.assoc, ← Scheme.ΓSpecIso_inv_naturality, Category.assoc, Iso.inv_hom_id,
     Category.comp_id]
-  show ev (MvPolynomial.X j) = c j
+  change ev (MvPolynomial.X j) = c j
   simp only [ev, MvPolynomial.eval₂Hom_X']
 
 /-- A morphism of `Y`-schemes to `AlgebraicGeometry.frobeniusFixedScheme` is determined by the
@@ -405,7 +406,7 @@ theorem frobeniusFixedScheme.hom_ext {T : Scheme.{u}} (f f' : T ⟶ frobeniusFix
           ((Ideal.Quotient.mk _).comp MvPolynomial.C z) =
         k.appTop ((frobeniusFixedScheme.π p n Y a).appTop z) := by
       intro k
-      show k.appTop (frobeniusFixedScheme.toΓ p n Y a
+      change k.appTop (frobeniusFixedScheme.toΓ p n Y a
         (Ideal.Quotient.mk _ (MvPolynomial.C z))) = _
       rw [frobeniusFixedScheme.toΓ_C]
     exact (h2 f).trans (hz.trans (h2 f').symm)
@@ -415,7 +416,7 @@ theorem frobeniusFixedScheme.hom_ext {T : Scheme.{u}} (f f' : T ⟶ frobeniusFix
 theorem frobeniusFixedScheme.isAffine [IsAffine Y] :
     IsAffine (frobeniusFixedScheme p n Y a) := by
   have : IsAffineHom (frobeniusFixedScheme.π p n Y a) := by
-    show IsAffineHom (pullback.snd _ _)
+    change IsAffineHom (pullback.snd _ _)
     infer_instance
   exact isAffine_of_isAffineHom (frobeniusFixedScheme.π p n Y a)
 
@@ -525,7 +526,7 @@ private theorem kernel_ι_app_injective_and_exists {C : Type*} [Category C]
       (ConcreteCategory.injective_of_mono_of_preservesPullback e.hom) (Subtype.ext hab)
   · refine ⟨e.inv ⟨x, hx⟩, ?_⟩
     rw [he]
-    show ((e.inv ≫ e.hom) _).1 = x
+    change ((e.inv ≫ e.hom) _).1 = x
     simp
 
 section Local
@@ -639,7 +640,7 @@ private theorem bijective_sum_smul_map_generatingSections {X V : SmallEtale B S 
     rw [Equiv.arrowCongr_apply, Function.comp_apply, Function.comp_apply,
       Equiv.symm_apply_apply]
     rfl
-  show Function.Bijective (fun c : Fin n → (SmallEtale.structureSheaf B S hS).obj.obj (op T) =>
+  change Function.Bijective (fun c : Fin n → (SmallEtale.structureSheaf B S hS).obj.obj (op T) =>
     ∑ j, c j • E.val.map f.op (b (Over.mk h₀) (eI j)))
   rw [hfun]
   exact (generatingSections_sum_bijective σ (op (Over.mk (f ≫ h₀)))).comp
@@ -692,12 +693,12 @@ private theorem exists_kernel_section_frobeniusFixedEtale (V : SmallEtale B S hS
     ext
     exact congrArg (fun k => B.inclusion.map k) (Over.w f.hom)
   refine (ConcreteCategory.congr_hom (ι.hom.naturality (pc.map f).op) ξ₀).trans ?_
-  show E.val.map (pc.map f).op (ι.hom.app _ ξ₀) = _
+  change E.val.map (pc.map f).op (ι.hom.app _ ξ₀) = _
   rw [hξ₀]
   refine (SheafOfModules.val_map_sum_smul E (pc.map f) xb (s' Wobj)).trans
     (Finset.sum_congr rfl fun j _ => ?_)
   congr 1
-  show E.val.map (pc.map f).op (E.val.map (toV Wobj).op (s j)) = E.val.map (toV T).op (s j)
+  change E.val.map (pc.map f).op (E.val.map (toV Wobj).op (s j)) = E.val.map (toV T).op (s j)
   rw [← hcomp, op_comp, E.val.map_comp]
   rfl
 
@@ -791,7 +792,7 @@ theorem isConstructibleAbelianSheaf_kernel_frobeniusSemilinear_sub_id
   have hV₀c : B.Contains V₀ := Scheme.size_lt_of_isOpenImmersion V₀.ι W.obj.left.property
   let V : SmallEtale B S hS := ⟨Over.mk (ObjectProperty.homMk V₀.ι ≫ W.obj.hom :
     B.obj V₀ hV₀c ⟶ B.obj S hS), by
-      show Etale (V₀.ι ≫ B.inclusion.map W.obj.hom)
+      change Etale (V₀.ι ≫ B.inclusion.map W.obj.hom)
       infer_instance⟩
   let jV : V ⟶ W := ObjectProperty.homMk (Over.homMk (ObjectProperty.homMk V₀.ι) rfl)
   have : IsAffine V.obj.left.obj := hV₀
@@ -803,7 +804,7 @@ theorem isConstructibleAbelianSheaf_kernel_frobeniusSemilinear_sub_id
   refine ⟨V.obj.left, V.obj.hom, V.property, ⟨⟨w, hwV₀⟩, ?_⟩, ?_⟩
   · have hW : B.inclusion.map W.obj.hom = B.inclusion.map g.hom.left := by
       simpa [SmallEtale.final] using (congrArg (fun k => B.inclusion.map k) (Over.w g.hom)).symm
-    show (B.inclusion.map W.obj.hom).base (V₀.ι.base ⟨w, hwV₀⟩) = x
+    change (B.inclusion.map W.obj.hom).base (V₀.ι.base ⟨w, hwV₀⟩) = x
     rw [hW]
     exact hw
   · exact isConstructibleAbelianSheaf_pullback_kernel_frobenius_sub_one B p S hS E F hF V

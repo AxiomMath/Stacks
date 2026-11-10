@@ -6,7 +6,7 @@ public import StacksFrontier.CategoryTheory.Sites.Cohomology.StrictlyPerfect.Loc
 # Local representation of a derived map, with the site's universes independent
 
 `AlgebraicGeometry.RingedSite.exists_coveringSieve_complexMap` of
-`StacksFrontier/CategoryTheory/Sites/Cohomology/StrictlyPerfect/LocalRepresentationOfADerivedMap.lean`
+`StacksFrontier.CategoryTheory.Sites.Cohomology.StrictlyPerfect.LocalRepresentationOfADerivedMap`
 is Stacks 08FR (1) on a ringed site whose objects and morphisms share a universe. This file
 states it, and its quasi-isomorphism form, with the object and morphism universes of the site
 independent, which is what the small étale site of a scheme (objects in `Type (u + 1)`,
@@ -37,7 +37,8 @@ namespace AlgebraicGeometry.RingedSite
 complexes of `O|_U`-modules with `E` strictly perfect. Any morphism `α : E ⟶ F` of `D(O|_U)` is,
 after restriction along the arrows of a covering sieve of `U`, the image under the localisation
 functor of a morphism of complexes. -/
-alias exists_coveringSieve_complexMap_general := exists_coveringSieve_complexMap_independentUniverses
+alias exists_coveringSieve_complexMap_general :=
+  exists_coveringSieve_complexMap_independentUniverses
 
 /-- **An isomorphism of `D(O|_U)` out of a strictly perfect complex is, locally, a
 quasi-isomorphism of complexes**, with the object and morphism universes of the site independent.

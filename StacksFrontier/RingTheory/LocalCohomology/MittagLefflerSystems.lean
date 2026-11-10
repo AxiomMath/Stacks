@@ -52,7 +52,7 @@ private theorem isMittagLeffler_of_isArtinian
     { toFun := fun n => transitionImage F i (i + n) (by omega)
       monotone' := by
         intro a b hab
-        show Limits.imageSubobject (F.map (homOfLE (show i ≤ i + b by omega)).op) ≤
+        change Limits.imageSubobject (F.map (homOfLE (show i ≤ i + b by omega)).op) ≤
           Limits.imageSubobject (F.map (homOfLE (show i ≤ i + a by omega)).op)
         rw [show F.map (homOfLE (show i ≤ i + b by omega)).op =
             F.map (homOfLE (show i + a ≤ i + b by omega)).op ≫

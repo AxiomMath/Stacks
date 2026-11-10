@@ -130,7 +130,7 @@ theorem familyImage_excisionMap_sieveOfSection_mem (f : V ⟶ W) (T : Subfunctor
     refine ⟨false, aU.app (op Z'') z, ?_⟩
     have hc := ConcreteCategory.congr_hom (NatTrans.congr_app hqfac (op Z'')) z
     simp only [NatTrans.comp_app, ConcreteCategory.comp_apply] at hc
-    show f.hom.app (op Z'') (aU.app (op Z'') z) = W.obj.map (k ≫ g).op w
+    change f.hom.app (op Z'') (aU.app (op Z'') z) = W.obj.map (k ≫ g).op w
     rw [← hc, hz, NatTrans.naturality_apply I.ι k.op y, hy, op_comp,
       Functor.map_comp_apply]
   · -- The member is the open complement: the arrow is already in the sieve.

@@ -307,11 +307,11 @@ theorem PrimeDivisor.exists_unit_canonicalGenericRatio_eq_of_genericStalk
         etaleLocalRingGerm B S hS (Z.genericStalkSpace B S hS hX hdec).1 ybar (op
             (Z.genericStalkNeighborhood B S hS hX hdec ybar)) a :=
       RingHom.congr_fun (etaleLocalRingGerm_comp_map B S hS mA) a
-    show ρe.symm (etaleLocalRingGerm B S hS (Z.genericStalkSpace B S hS hX hdec).1 ybar (op NQ)
+    change ρe.symm (etaleLocalRingGerm B S hS (Z.genericStalkSpace B S hS hX hdec).1 ybar (op NQ)
         _) = _
     rw [h1, ← Z.etaleLocalRingMap_genericStalkToEtaleLocalRing_ΓSpecIso B S hS hX hdec ybar hy
         hlift a]
-    show ρe.symm (ρe _) = _
+    change ρe.symm (ρe _) = _
     rw [RingEquiv.symm_apply_apply]
     exact (Z.henselianToEtaleLocalRing_stalkToHenselianLocalRing B S hS hX hdec hy _).symm
   -- on regular functions of `V` it is the germ at `x̄`
@@ -385,7 +385,7 @@ theorem PrimeDivisor.exists_unit_canonicalGenericRatio_eq_of_genericStalk
         (Z.genericStalkSpace B S hS hX hdec).1 (Z.genericStalkSpace B S hS hX
         hdec).2).hom.naturality
       (ι ≫ chartToIdEtaleChart B S hS (Z.genericStalkBaseChangeChart B S hS hX hdec N.chart)).op) w
-    show ΘQ (((meromorphicFunctionSheaf B S hS (Z.genericStalkSpace B S hS hX hdec).1
+    change ΘQ (((meromorphicFunctionSheaf B S hS (Z.genericStalkSpace B S hS hX hdec).1
         (Z.genericStalkSpace B S hS hX hdec).2).obj.map
         (ι ≫ chartToIdEtaleChart B S hS (Z.genericStalkBaseChangeChart B S hS hX hdec
             N.chart)).op).hom
@@ -431,7 +431,7 @@ theorem PrimeDivisor.exists_unit_canonicalGenericRatio_eq_of_genericStalk
           (Z.genericStalkSpace B S hS hX hdec).2).hom.naturality ι.op)
       (chartDiagramRestrict B S hS (Z.genericStalkMorphism B S hS hX hdec)
         (Z.genericStalkBaseChangeDiagram B S hS hX hdec N.chart) b)
-    show ΘQ (((meromorphicFunctionSheaf B S hS (Z.genericStalkSpace B S hS hX hdec).1
+    change ΘQ (((meromorphicFunctionSheaf B S hS (Z.genericStalkSpace B S hS hX hdec).1
         (Z.genericStalkSpace B S hS hX hdec).2).obj.map ι.op).hom
         (chartMeromorphicPullbackHom B S hS (Z.genericStalkMorphism B S hS hX hdec)
           (Z.pullbacksMeromorphicSections_genericStalkMorphism B S hS hX hdec)

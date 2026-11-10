@@ -181,7 +181,7 @@ theorem homOf_projector (M : ChowMotiveCat k) : homOf 0 M.projector = M.p :=
 theorem projector_comp_projector (M : ChowMotiveCat k) :
     (canonicalCorrespondenceCompositionData k).comp M.projector M.projector = M.projector := by
   apply homOf_injective 0
-  show homOf (0 + 0) _ = _
+  change homOf (0 + 0) _ = _
   rw [← homOf_comp_homOf, homOf_projector, M.idem]
 
 /-- The scheme of the motive `(X, p, m)` is `X`. -/
@@ -210,7 +210,7 @@ theorem mk'_twist (X : (SmoothProjectiveScheme k).FullSubcategory) (p : SmoothPr
 theorem mk'_eta (M : ChowMotiveCat k) :
     mk' M.scheme M.projector (projector_comp_projector M) M.twist = M := by
   obtain ⟨X, p, p_mem, idem, m⟩ := M
-  show TwistedKaroubi.mk _ _ _ _ _ = _
+  change TwistedKaroubi.mk _ _ _ _ _ = _
   congr
   exact homOf_projector _
 
@@ -249,7 +249,7 @@ theorem mem_corrHom_iff {M N : ChowMotiveCat k}
           (0 + (N.twist - M.twist) + 0)
           ((canonicalCorrespondenceCompositionData k).comp
             ((canonicalCorrespondenceCompositionData k).comp M.projector c) N.projector) := by
-  show homOf _ a ∈ TwistedKaroubi.homSubmodule M N ↔ _
+  change homOf _ a ∈ TwistedKaroubi.homSubmodule M N ↔ _
   rw [TwistedKaroubi.mem_homSubmodule_iff]
   constructor
   · rintro ⟨b, hb, hab⟩

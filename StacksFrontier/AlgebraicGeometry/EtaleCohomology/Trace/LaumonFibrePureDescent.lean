@@ -92,7 +92,7 @@ public theorem exists_mvPolynomial_map_eq_mul [Finite k₀] {σ : Type*} (D₀ :
     apply MvPolynomial.map_injective (τ : k₀ →+* k₀) τ.injective
     rw [h, map_zero]
   · rw [hD]
-    show ∏ τ : Gal(k₀/k), MvPolynomial.map (τ : k₀ →+* k₀) D₀ = _
+    change ∏ τ : Gal(k₀/k), MvPolynomial.map (τ : k₀ →+* k₀) D₀ = _
     rw [← Finset.mul_prod_erase Finset.univ
       (fun τ : Gal(k₀/k) => MvPolynomial.map (τ : k₀ →+* k₀) D₀) (Finset.mem_univ 1)]
     congr 1
@@ -175,7 +175,7 @@ public theorem continuous_restrictScalarsRep_of_conj {ℓ : ℕ} [Fact ℓ.Prime
     (continuous_const.mul (hτ.comp hΦ)).mul continuous_const
   convert hcont using 1
   funext γ
-  show Units.map (restrictScalarsMonoidHom b m) (τ' γ) = _
+  change Units.map (restrictScalarsMonoidHom b m) (τ' γ) = _
   rw [hg γ, map_mul, map_mul, map_inv]
   rfl
 
@@ -243,7 +243,7 @@ public theorem exists_conj_characterTwist_compositum [Finite k] [Finite k₀]
   let ψ'' := (ψ.compAddMonoidHom (Algebra.trace k k₀).toAddMonoidHom).compAddMonoidHom
     (Algebra.trace k₀ k'').toAddMonoidHom
   have hψ : ∀ a, ψ'' a = ψ' (Algebra.trace k' k'' a) := fun a => by
-    show ψ (Algebra.trace k k₀ (Algebra.trace k₀ k'' a)) =
+    change ψ (Algebra.trace k k₀ (Algebra.trace k₀ k'' a)) =
       ψ (Algebra.trace k k' (Algebra.trace k' k'' a))
     rw [Algebra.trace_trace, Algebra.trace_trace]
   have hg : Polynomial.mapAlgHom (Algebra.ofId k' k'')

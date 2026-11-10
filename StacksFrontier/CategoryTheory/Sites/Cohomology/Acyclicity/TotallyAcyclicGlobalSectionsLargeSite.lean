@@ -159,7 +159,7 @@ lemma isTorsionFree_freeAbelianSheaf_terminal (U : Cᵒᵖ) :
     Module.IsTorsionFree ℤ (((Presheaf.freeAbelianSheaf J).obj (terminalSheaf J).obj).obj.obj U) :=
   ModuleSheafCohomology.isTorsionFree_sheafify J (terminalPresheaf ⋙ AddCommGrpCat.free)
     (fun V ↦ by
-      show Module.IsTorsionFree ℤ (FreeAbelianGroup PUnit)
+      change Module.IsTorsionFree ℤ (FreeAbelianGroup PUnit)
       exact Module.Flat.isTorsionFree) U
 
 variable [J.WEqualsLocallyBijective AddCommGrpCat.{u}]

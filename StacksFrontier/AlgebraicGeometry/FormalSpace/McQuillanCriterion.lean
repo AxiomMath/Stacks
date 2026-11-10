@@ -353,7 +353,7 @@ theorem HasAffineClosedImmersionCriterion.hasSurjectiveSectionProjections
       ((BigAffineFppf.toScheme B S hS).map (c i₀))).2 a
   refine ⟨⟨fun jo => ((BigAffineFppf.toScheme B S hS).map (c jo.unop)).appTop b, ?_⟩, hb⟩
   intro jo ko ψ
-  show Scheme.Γ.map ((BigAffineFppf.toScheme B S hS).map (D.map ψ.unop)).op
+  change Scheme.Γ.map ((BigAffineFppf.toScheme B S hS).map (D.map ψ.unop)).op
       (((BigAffineFppf.toScheme B S hS).map (c jo.unop)).appTop b) =
     ((BigAffineFppf.toScheme B S hS).map (c ko.unop)).appTop b
   rw [Scheme.Γ_map_op, hw ψ.unop, Functor.map_comp, Scheme.Hom.comp_appTop]

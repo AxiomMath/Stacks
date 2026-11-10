@@ -36,7 +36,7 @@ theorem formallySmoothNAdic_of_ringEquiv.{w}
   have hcomm' : (ψ.comp eB.toRingHom).comp f =
       (Ideal.Quotient.mk J).comp (α.comp eA.toRingHom) := by
     ext a
-    show ψ (eB (f a)) = Ideal.Quotient.mk J (α (eA a))
+    change ψ (eB (f a)) = Ideal.Quotient.mk J (α (eA a))
     rw [← heval a]
     exact DFunLike.congr_fun hcomm (eA a)
   obtain ⟨n, hn, hk⟩ := hk
@@ -53,7 +53,7 @@ theorem formallySmoothNAdic_of_ringEquiv.{w}
     simpa using DFunLike.congr_fun hδ (eB.symm b)
   · ext a
     obtain ⟨a, rfl⟩ := eA.surjective a
-    show δ (eB.symm (f' (eA a))) = α (eA a)
+    change δ (eB.symm (f' (eA a))) = α (eA a)
     rw [heval a, eB.symm_apply_apply]
     exact DFunLike.congr_fun hδα a
 
@@ -77,7 +77,7 @@ private theorem formallySmoothNAdic_localRingHom_of_ringEquiv
   apply formallySmoothNAdic_of_ringEquiv _ _ e₁ e₂ _ h
   apply IsLocalization.ringHom_ext ((q.comap eS.toRingHom).comap f).primeCompl
   ext r
-  show Localization.localRingHom (q.comap f') q f' rfl
+  change Localization.localRingHom (q.comap f') q f' rfl
       (Localization.localRingHom ((q.comap eS.toRingHom).comap f) (q.comap f') eR.toRingHom hp
         (algebraMap R _ r)) =
     Localization.localRingHom (q.comap eS.toRingHom) q eS.toRingHom rfl
@@ -132,13 +132,13 @@ theorem formallySmoothNAdic_localRingHom_of_isLocalization
   apply formallySmoothNAdic_of_ringEquiv _ _ eR eS.toRingEquiv _ h
   apply IsLocalization.ringHom_ext (n.comap ((algebraMap S D).comp f)).primeCompl
   ext r
-  show Localization.localRingHom (q.comap f) q f rfl
+  change Localization.localRingHom (q.comap f) q f rfl
       (Localization.localRingHom (n.comap ((algebraMap S D).comp f)) (q.comap f)
         (RingHom.id R) (hp.trans (Ideal.comap_id _).symm) (algebraMap R _ r)) =
     eS (Localization.localRingHom (n.comap ((algebraMap S D).comp f)) n
       ((algebraMap S D).comp f) rfl (algebraMap R _ r))
   simp only [Localization.localRingHom_to_map, RingHom.id_apply, RingHom.comp_apply]
-  show algebraMap S (Localization.AtPrime q) (f r) =
+  change algebraMap S (Localization.AtPrime q) (f r) =
     eS (algebraMap S (Localization.AtPrime n) (f r))
   exact (eS.commutes (f r)).symm
 
@@ -160,24 +160,24 @@ theorem formallySmoothNAdic_of_ulift_testRing.{vTest, wTest}
   have hcomm' : (eQ.toRingHom.comp ψ).comp f =
       (Ideal.Quotient.mk J').comp (e.toRingHom.comp α) := by
     ext a
-    show eQ (ψ (f a)) = Ideal.Quotient.mk J' (e (α a))
+    change eQ (ψ (f a)) = Ideal.Quotient.mk J' (e (α a))
     rw [show ψ (f a) = Ideal.Quotient.mk J (α a) from DFunLike.congr_fun hcomm a]
     exact Ideal.quotientEquiv_mk J J' e rfl (α a)
   have hk' : ∃ k : ℕ, 1 ≤ k ∧ n ^ k ≤ RingHom.ker (eQ.toRingHom.comp ψ) := by
     obtain ⟨k, hk, hker⟩ := hk
     refine ⟨k, hk, fun b hb => ?_⟩
-    show eQ (ψ b) = 0
+    change eQ (ψ b) = 0
     rw [show ψ b = 0 from hker hb, map_zero]
   obtain ⟨δ, hδ, hδα⟩ := h C' J' hJ' (e.toRingHom.comp α)
     (eQ.toRingHom.comp ψ) hcomm' hk'
   refine ⟨e.symm.toRingHom.comp δ, ?_, ?_⟩
   · ext b
     apply eQ.injective
-    show eQ (Ideal.Quotient.mk J (e.symm (δ b))) = eQ (ψ b)
+    change eQ (Ideal.Quotient.mk J (e.symm (δ b))) = eQ (ψ b)
     rw [heQ, e.apply_symm_apply]
     exact DFunLike.congr_fun hδ b
   · ext a
-    show e.symm (δ (f a)) = α a
+    change e.symm (δ (f a)) = α a
     rw [show δ (f a) = e (α a) from DFunLike.congr_fun hδα a, e.symm_apply_apply]
 
 /-- Over a perfect residue field, a weakly unramified extension of discrete valuation
@@ -235,7 +235,7 @@ private theorem formallySmoothNAdic_of_perfectField_residueField
     have he : φ.comp eA.symm.toRingHom = eB.symm.toRingHom.comp (algebraMap A B) := by
       ext a
       rfl
-    show (IsLocalRing.maximalIdeal A).map (φ.comp eA.symm.toRingHom) = _
+    change (IsLocalRing.maximalIdeal A).map (φ.comp eA.symm.toRingHom) = _
     rw [he, ← Ideal.map_map,
       (IsDiscreteValuationRing.weaklyUnramified_iff_map_maximalIdeal A B).1 h, hB]
   have hs := formallySmoothNAdic_of_perfectField_residueField_sameUniverse A' B' hφ
@@ -325,7 +325,7 @@ theorem formallySmoothNAdic_integralClosure_of_isSolution
   let eT : D.L₁ ≃ₐ[B] Q :=
     { D.eL₁.toRingEquiv with
       commutes' := fun b => by
-        show D.eL₁ (algebraMap B D.L₁ b) = algebraMap B Q b
+        change D.eL₁ (algebraMap B D.L₁ b) = algebraMap B Q b
         rw [IsScalarTower.algebraMap_apply B L D.L₁, D.eL₁_left]
         rfl }
   let eA := IsIntegralClosure.equiv A D.A₁ K₁ (integralClosure A K₁)
@@ -337,7 +337,7 @@ theorem formallySmoothNAdic_integralClosure_of_isSolution
     IsIntegralClosure.algebraMap_equiv B D.B₁ D.L₁ (integralClosure B D.L₁) x
   have hsquare : f.comp eA.toRingHom = eB.toRingHom.comp (algebraMap D.A₁ D.B₁) := by
     ext x
-    show (f (eA x)).val =
+    change (f (eA x)).val =
       (eT.mapIntegralClosure (eB₀ (algebraMap D.A₁ D.B₁ x))).val
     rw [hf, AlgEquiv.coe_mapIntegralClosure, heA, heB₀, D.ringSquare]
     exact (D.eL₁_right _).symm
@@ -440,7 +440,7 @@ private theorem isAlgebraic_of_forall_exists_prime_pow
   choose y hy using hx'
   have hstep (n : ℕ) : y (n + 1) ^ p = y n := by
     apply iterateFrobenius_inj L p n
-    show (y (n + 1) ^ p) ^ (p ^ n) = y n ^ (p ^ n)
+    change (y (n + 1) ^ p) ^ (p ^ n) = y n ^ (p ^ n)
     rw [← pow_mul, ← pow_succ', hy, hy]
   let F := IntermediateField.adjoin k {x}
   let C := algebraicClosure F L
@@ -449,7 +449,7 @@ private theorem isAlgebraic_of_forall_exists_prime_pow
   have hyint (n : ℕ) : IsIntegral F (y n) := by
     apply IsIntegral.of_pow (pow_pos hp.pos n)
     rw [hy]
-    show IsIntegral F (algebraMap F L ⟨x, IntermediateField.subset_adjoin k _ rfl⟩)
+    change IsIntegral F (algebraMap F L ⟨x, IntermediateField.subset_adjoin k _ rfl⟩)
     exact isIntegral_algebraMap
   let J (n : ℕ) : IntermediateField F L := IntermediateField.adjoin F {y n}
   have hJ : Monotone J := monotone_nat_of_le_succ fun n => by
@@ -475,7 +475,7 @@ private theorem isAlgebraic_of_forall_exists_prime_pow
     exact hz
   have hm (i : ℕ) :
       (J i).restrictScalars k = IntermediateField.adjoin k {y i} := by
-    show (IntermediateField.adjoin F {y i}).restrictScalars k = _
+    change (IntermediateField.adjoin F {y i}).restrictScalars k = _
     rw [IntermediateField.restrictScalars_adjoin_eq_sup]
     apply sup_eq_right.mpr
     apply IntermediateField.adjoin_le_iff.mpr

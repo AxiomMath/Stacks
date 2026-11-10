@@ -60,8 +60,8 @@ named below, with the result it stands for.
   structure descends to `(U^ν, R^ν)`. Of this, the existence of the normalization of the object
   space alone is provable rather than forced: it is
   `AlgebraicGeometry.Space.nonempty_normalizationData`
-  (`StacksFrontier.AlgebraicGeometry.Spaces.NormalizationSpaceConstruction`), which this file does not
-  import, for an algebraic space satisfying condition (2) of Stacks 0BB1. What has to stay a
+  (`StacksFrontier.AlgebraicGeometry.Spaces.NormalizationSpaceConstruction`), which this file does
+  not import, for an algebraic space satisfying condition (2) of Stacks 0BB1. What has to stay a
   hypothesis is the rest: the library has no construction of the normalized *groupoid* — the
   groupoid object `(U^ν, R^ν)` with its lifted structure morphisms, the morphism of groupoids to
   `(U, R)` and its smoothness — so this is data, and `𝒳^ν` and `ν` are constructed from it
@@ -79,8 +79,8 @@ named below, with the result it stands for.
   normalized groupoid — but in the 2-category of stacks in groupoids of Stacks 02ZK, and a square
   proved 2-cartesian in one of those two sub-2-categories of the categories over the site cannot
   be moved to the other, for the reason recorded in the implementation notes of
-  `StacksFrontier.AlgebraicGeometry.Stacks.InertiaPresentationSquare`. The second obstruction is that
-  the 1-morphism of Stacks 046Q appears twice in the library, as
+  `StacksFrontier.AlgebraicGeometry.Stacks.InertiaPresentationSquare`. The second obstruction is
+  that the 1-morphism of Stacks 046Q appears twice in the library, as
   `AlgebraicGeometry.Stack.quotientStackMap` in the groupoid development and as
   `AlgebraicGeometry.Stack.quotientStackMapHom` here, and the proof of Stacks 04ZN is stated for
   the former. So these hypotheses stay. Integrality is genuinely derived from them: the descent
@@ -227,7 +227,8 @@ along the presenting chart, and integrality descends. The base-change identifica
 Stacks 04ZN and is carried; integrality of `U^ν ⟶ U` is Stacks 0BB4, part (2), and is proved in
 this library. See the partial-coverage section of the module documentation for every hypothesis
 and the result it stands for. -/
-@[stacks 0GMJ "integrality of ν; the normalized groupoid, Stacks 04ZP and the 04ZN form of the base change are hypotheses"]
+@[stacks 0GMJ "integrality of ν; the normalized groupoid, Stacks 04ZP and the 04ZN form of \
+  the base change are hypotheses"]
 theorem isIntegralHom_quotientStackMapHom_normalization
     {G : GroupoidInAlgebraicSpaces C S hS B} (N : NormalizationGroupoid C S hS G)
     (hf : IsRepresentableByAlgebraicSpaces C S hS (quotientStackMapHom N.hom).hom)
@@ -321,7 +322,8 @@ chart through
 equivalences of Stacks 0GMI are stated for `AlgebraicGeometry.Stack.AlgebraicStacks`, and
 exhibiting a quotient stack there is Stacks 04TK, which this library does not have, so no 0GMI
 condition can be stated at this presentation. -/
-@[stacks 0GMK "the normalization ν : 𝒳^ν ⟶ 𝒳 at a presenting smooth groupoid, with the normalized groupoid as data"]
+@[stacks 0GMK "the normalization ν : 𝒳^ν ⟶ 𝒳 at a presenting smooth groupoid, with the \
+  normalized groupoid as data"]
 noncomputable abbrev normalization {G : GroupoidInAlgebraicSpaces C S hS B}
     (N : NormalizationGroupoid C S hS G) :
     normalizationStack C S hS N ⟶ quotientStackCFG C S hS G :=

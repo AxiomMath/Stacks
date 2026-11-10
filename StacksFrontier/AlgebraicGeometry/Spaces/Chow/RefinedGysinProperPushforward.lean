@@ -180,20 +180,18 @@ theorem
   · have hfin₁ := hasFiniteSupport_mul_finsum_mul (α'.1 ·)
       (properCycleMult D p' hp' p hp f · ·)
       (fun _ W₀ => (gysinComponentCycle D p E hE k rule W₀).1 T)
-      (finite_properPushforwardGysinSupport D p hp p' hp' hfbase hfqc E hE E' hE' hgbase
-        hgqc k rule rule' α' T)
+      (finite_properPushforwardGysinSupport D p hp p' hp' hfbase hfqc E hE k rule α' T)
     have hfin₂ := hasFiniteSupport_mul_finsum_mul (α'.1 ·)
       (fun W' T' => (gysinComponentCycle D p' E' hE' k rule' W').1 T')
       (fun _ T' => properCycleMult D (E'.1.ι ≫ p') hE' (E.1.ι ≫ p) hE g T' T)
-      (finite_gysinProperPushforwardSupport D p hp p' hp' hfbase hfqc E hE E' hE' hgbase
-        hgqc k rule rule' α' T)
+      (finite_gysinProperPushforwardSupport D p p' hp' E hE E' hE' hgbase hgqc k rule' α' T)
     change (gysinCycleMap D p E hE k rule
         (properCyclePushforward D p' hp' p hp hfbase hfqc (k + 1) α')).1 T -
       (properCyclePushforward D (E'.1.ι ≫ p') hE' (E.1.ι ≫ p) hE hgbase hgqc k
         (gysinCycleMap D p' E' hE' k rule' α')).1 T = _
-    rw [gysinCoeff_properPushforward D p hp p' hp' hfbase hfqc E hE E' hE' hgbase hgqc k rule
-      rule' α' T, properPushforward_gysinCoeff D p hp p' hp' hfbase hfqc E hE E' hE' hgbase hgqc
-      k rule rule' α' T, ← finsum_sub_distrib hfin₁ hfin₂]
+    rw [gysinCoeff_properPushforward D p hp p' hp' hfbase hfqc E hE k rule α' T,
+      properPushforward_gysinCoeff D p p' hp' E hE E' hE' hgbase hgqc k rule' α' T,
+      ← finsum_sub_distrib hfin₁ hfin₂]
     refine finsum_congr fun W' => ?_
     have hsingle : (∑ᶠ W₀ : IntegralClosedSubspace D.site D.base D.base_mem X,
         properCycleMult D p' hp' p hp f W' W₀ * (gysinComponentCycle D p E hE k rule W₀).1 T) =
@@ -202,7 +200,7 @@ theorem
       rw [finsum_eq_single _ (W W') fun W₀ hW₀ => by
         rw [properCycleMult_eq_zero_of_ne D p' hp' p hp f W' (Ne.symm hW₀), zero_mul]]
       unfold properCycleMult
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
     rw [hsingle, ← properPushforward_apply D (E'.1.ι ≫ p') hE' (E.1.ι ≫ p) hE hgbase hgqc k]
     rw [AddSubgroup.coe_zsmul, Pi.smul_apply, smul_eq_mul, AddSubgroup.coe_sub, Pi.sub_apply,
       AddSubgroup.coe_zsmul, Pi.smul_apply, smul_eq_mul, mul_sub]
@@ -405,7 +403,7 @@ Then for every `(k+1)`-cycle `α'` on `X'`
 is canonically rationally equivalent to zero on `E`. The remaining branch, `W' ⊄ E'` with image
 closure of smaller δ-dimension, is proved:
 `properCyclePushforward_gysinIntersectionCycle_eq_zero_of_deltaDimension_closureImage_ne`. -/
-theorem isCanonicallyRationallyEquivalentToZeroWithin_gysinCycleMap_canonicalGysinComponentRule_properPushforward_sub
+theorem isCanonicallyRationallyEquivalentToZeroWithin_gysinCycleMap_canonical_properPushforward_sub
     (hf : IsProper D.site D.base D.base_mem f)
     (hpt : subspacePointSet D.site D.base D.base_mem X' E'.1 =
       pointsMap D.site D.base D.base_mem X' f ⁻¹'
@@ -444,7 +442,8 @@ theorem isCanonicallyRationallyEquivalentToZeroWithin_gysinCycleMap_canonicalGys
         properCyclePushforward D (E'.1.ι ≫ p') hE' (E.1.ι ≫ p) hE hgbase hgqc k
           (gysinCycleMap D p' E' hE' k (canonicalGysinComponentRule D p' hp' E' hE' k chern') α'))
       Set.univ := by
-  refine (isCanonicallyRationallyEquivalentToZeroWithin_gysinCycleMap_properPushforward_sub_of_component.{v}
+  refine
+    (isCanonicallyRationallyEquivalentToZeroWithin_gysinCycleMap_properPushforward_sub_of_component
     D p hp p' hp' hfbase hf.2.1.2 E hE E' hE' hgbase hgqc k _ _ (fun W' hW' => ?_) α').mono
     (Set.subset_univ _)
   by_cases hW'E' : W'.subspace ≤ E'.1
@@ -461,7 +460,7 @@ theorem isCanonicallyRationallyEquivalentToZeroWithin_gysinCycleMap_canonicalGys
       exact isCycleFamilySumWithin_zero D (E.1.ι ≫ p) hE k _
     · have hdeg : properCycleDegree D p' hp' p hp f W' = 0 := by
         unfold properCycleDegree
-        rw [if_neg (by rwa [hW'])]
+        rw [ite_eq_right (by rwa [hW'])]
       rw [hdeg, zero_smul,
         properCyclePushforward_gysinIntersectionCycle_eq_zero_of_deltaDimension_closureImage_ne D p
           hp p' hp' hfbase E hE E' hE' hgbase hgqc k hpt hw hW' hW'E' hW, sub_zero]
@@ -611,7 +610,7 @@ theorem
               (pullbackGlobalSection D p hp p' hp' f L s) k
               (isInvertibleSheaf_pullbackSheaf D p hp p' hp' f L hL)) α'))
       Set.univ :=
-  isCanonicallyRationallyEquivalentToZeroWithin_gysinCycleMap_canonicalGysinComponentRule_properPushforward_sub
+  isCanonicallyRationallyEquivalentToZeroWithin_gysinCycleMap_canonical_properPushforward_sub
     D p hp p' hp' hfbase (vanishingLocus D p hp L s) (isGood_vanishingLocus D p hp L s)
     (vanishingLocus D p' hp' (pullbackSheaf D p hp p' hp' f L)
           (pullbackGlobalSection D p hp p' hp' f L s))

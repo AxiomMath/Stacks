@@ -117,7 +117,7 @@ theorem Hom.ι_genericPointResidueSpectrumMap (f : X ⟶ Y) [Flat f] (η : gener
       Spec.map (f.residueFieldMap η.1) ≫
         Sigma.ι (fun ξ : genericPoints Y ↦ Spec (.of (Y.residueField ξ.1)))
           ⟨f η.1, f.mem_genericPoints_of_flat η.2⟩ :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The induced morphism of generic-point residue spectra lies over the given morphism. -/
 theorem Hom.genericPointResidueSpectrumMap_fromGenericPointResidueFields (f : X ⟶ Y) [Flat f] :

@@ -161,7 +161,7 @@ theorem isBijectiveMod_toAdicCompletionAlgHom (𝔟 : Ideal A)
   · obtain ⟨c, hc⟩ := Ideal.Quotient.mk_surjective (AdicCompletion.evalₐ K m y)
     refine ⟨c, ?_⟩
     rw [← hker, RingHom.mem_ker]
-    show AdicCompletion.evalₐ K m (y - algebraMap C _ c) = 0
+    change AdicCompletion.evalₐ K m (y - algebraMap C _ c) = 0
     rw [map_sub, heval, hc, sub_self]
   · rw [← hker, RingHom.mem_ker] at hc
     change AdicCompletion.evalₐ K m (algebraMap C _ c) = 0 at hc

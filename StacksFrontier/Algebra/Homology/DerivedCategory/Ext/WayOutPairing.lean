@@ -88,7 +88,7 @@ lemma exists_comp_eq_of_ker_le {B E A : Type*} [AddCommGroup B] [AddCommGroup E]
       (QuotientAddGroup.mk b : B ⧸ α.ker) := by
     rw [AddEquiv.symm_apply_eq]
     rfl
-  show QuotientAddGroup.lift α.ker φ hle
+  change QuotientAddGroup.lift α.ker φ hle
     ((QuotientAddGroup.quotientKerEquivRange α).symm ⟨α b, b, rfl⟩) = φ b
   rw [this]
   rfl

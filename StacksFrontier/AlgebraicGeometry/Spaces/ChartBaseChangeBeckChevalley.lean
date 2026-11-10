@@ -156,7 +156,7 @@ theorem chartSquareBaseChangeIso_hom_app_left_comp_snd (Z : SmallEtale B S hS X.
   have eg := smallBaseChangeCongr_hom_app_left_comp_snd B S hS
     (chartSquare_w B S hS f hf V).symm h1 h2 Z
   have inv2 : (c2.inv.app Z).hom.left ≫ (c2.hom.app Z).hom.left = 𝟙 _ := by
-    show ((c2.inv.app Z ≫ c2.hom.app Z)).hom.left = _
+    change ((c2.inv.app Z ≫ c2.hom.app Z)).hom.left = _
     rw [Iso.inv_hom_id_app]
     rfl
   have hd : ((chartSquareBaseChangeIso B S hS f hf V).hom.app Z).hom.left =
@@ -191,15 +191,16 @@ def chartSquareMate :
       smallEtalePostcomp B S hS (chartToSpace B S hS X V) (isEtale_chartToSpace B S hS X V) ⋙
         smallBaseChange B S hS f hf :=
   ((mateEquiv (chartSquareAdjX B S hS V) (chartSquareAdjY B S hS f hf V)).symm
-    (TwoSquare.mk _ _ _ _ (chartSquareBaseChangeIso B S hS f hf V).hom)).natTrans
+    (TwoSquare.mk _ _ _ _ (chartSquareBaseChangeIso B S hS f hf V).hom))
 
 /-- The mate of the mate is the comparison of the two composites of base change. -/
 theorem mateEquiv_chartSquareMate :
     (mateEquiv (chartSquareAdjX B S hS V) (chartSquareAdjY B S hS f hf V)
-      (TwoSquare.mk _ _ _ _ (chartSquareMate B S hS f hf V))).natTrans =
+      (TwoSquare.mk _ _ _ _ (chartSquareMate B S hS f hf V)) :
+        _ ⟶ _) =
       (chartSquareBaseChangeIso B S hS f hf V).hom :=
-  congrArg TwoSquare.natTrans ((mateEquiv (chartSquareAdjX B S hS V)
-    (chartSquareAdjY B S hS f hf V)).apply_symm_apply _)
+  (mateEquiv (chartSquareAdjX B S hS V)
+    (chartSquareAdjY B S hS f hf V)).apply_symm_apply _
 
 /-- **The mate is an isomorphism**: on a chart `V'` of `V` it compares the fibre products
 `V' ×_V W` and `V' ×_X Y`, which agree because the square is cartesian. -/
@@ -238,11 +239,11 @@ theorem isIso_of_isIso_yoneda_map_left {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type 
     {A A' : SmallEtale B S hS F} (k : A ⟶ A') (h : IsIso (yoneda.map k.hom.left)) : IsIso k := by
   have : IsIso k.hom.left := isIso_of_reflects_iso _ yoneda
   have : IsIso ((CostructuredArrow.proj yoneda F).map k.hom) := by
-    show IsIso k.hom.left
+    change IsIso k.hom.left
     infer_instance
   have : IsIso k.hom := isIso_of_reflects_iso _ (CostructuredArrow.proj yoneda F)
   have : IsIso ((ObjectProperty.ι (IsEtaleChart B S hS F)).map k) := by
-    show IsIso k.hom
+    change IsIso k.hom
     infer_instance
   exact isIso_of_reflects_iso _ (ObjectProperty.ι (IsEtaleChart B S hS F))
 

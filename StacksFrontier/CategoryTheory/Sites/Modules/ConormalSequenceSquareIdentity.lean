@@ -56,7 +56,7 @@ lemma conormalSheafMapOfSquare_eq_id (ψ : A ⟶ A) (hψ : ψ = 𝟙 A)
   apply sheafify_hom_ext.{v, u, w, z} J A B φ (conormalPresheaf φ.hom)
   intro X c
   obtain ⟨x, rfl⟩ := (kernelIdeal φ.hom X).toCotangent_surjective c
-  show ((conormalSheafMapOfSquare.{v, u, w, z} J A A B B φ φ (𝟙 A) (𝟙 B) hsq).val.app X)
+  change ((conormalSheafMapOfSquare.{v, u, w, z} J A A B B φ φ (𝟙 A) (𝟙 B) hsq).val.app X)
       (toAssociatedModule.{v, u, w, z} J A B φ (conormalPresheaf φ.hom) X
         ((kernelIdeal φ.hom X).toCotangent x)) =
     toAssociatedModule.{v, u, w, z} J A B φ (conormalPresheaf φ.hom) X
@@ -93,7 +93,7 @@ lemma tensorSheafMapOfSquare_eq_id (ψ : A ⟶ A) (hψ : ψ = 𝟙 A) (ρ : R �
           tensorObj φ.hom a.hom X) = LinearMap.id := by
       apply tensor_hom_ext φ.hom a.hom X
       intro b x
-      show F X (b ⊗ₜ[A.obj.obj X] CommRingCat.KaehlerDifferential.d (f := a.hom.app X) x) =
+      change F X (b ⊗ₜ[A.obj.obj X] CommRingCat.KaehlerDifferential.d (f := a.hom.app X) x) =
         b ⊗ₜ[A.obj.obj X] CommRingCat.KaehlerDifferential.d (f := a.hom.app X) x
       refine (TensorProduct.map_tmul _ _ _ _).trans ?_
       exact congrArg₂ (fun b (ω : (differentialsPresheaf a.hom).obj X) ↦

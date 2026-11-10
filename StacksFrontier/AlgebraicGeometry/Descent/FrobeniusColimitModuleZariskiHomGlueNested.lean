@@ -12,7 +12,8 @@ public import StacksFrontier.Topology.Sheaves.OpenImmersion.ModuleExtensionByZer
 restrictions `M.over V ⟶ N.over V` with morphisms of the transition functors of [Stacks, Tag 0EXE].
 This file proves that these bijections are compatible with passing to a smaller open — the
 *slice-to-slice comparison* that the roadmap in
-`StacksFrontier/AlgebraicGeometry/Descent/FrobeniusColimitTwoGeneratorSquare.lean` records as missing
+`StacksFrontier/AlgebraicGeometry/Descent/FrobeniusColimitTwoGeneratorSquare.lean` records as
+missing
 for the existence half of the stack condition — and draws the gluing of morphisms with the overlap
 compatibility given over chosen overlap schemes, in the transition-functor spelling.
 
@@ -85,13 +86,13 @@ theorem exists_comp_map_eq_map_of_isIso_counit (o : C ⥤ D) (S : D ⥤ E) [S.Fa
       (adj.left_triangle_components_assoc M (S.map φ))
   refine ⟨R.obj ((o ⋙ S).obj N), adj.unit.app M ≫ R.map (S.map φ), adj.unit.app N, ?_, ?_⟩
   · have : IsIso (S.map (o.map (adj.unit.app N))) := by
-      show IsIso ((o ⋙ S).map (adj.unit.app N))
+      change IsIso ((o ⋙ S).map (adj.unit.app N))
       rw [htri]
       infer_instance
     exact isIso_of_reflects_iso _ S
   · apply S.map_injective
     rw [S.map_comp]
-    show S.map φ ≫ (o ⋙ S).map (adj.unit.app N) =
+    change S.map φ ≫ (o ⋙ S).map (adj.unit.app N) =
       (o ⋙ S).map (adj.unit.app M ≫ R.map (S.map φ))
     rw [htri, IsIso.comp_inv_eq, hc]
 

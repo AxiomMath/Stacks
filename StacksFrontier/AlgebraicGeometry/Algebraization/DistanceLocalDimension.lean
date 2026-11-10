@@ -106,7 +106,7 @@ public theorem distanceFunction_le_closureLocalDimension
     _ ≤ IrreducibleClosedsCodim.topCodim V W := ENat.natCast_toNat_le_self _
     _ ≤ Order.coheight (⟨V, hVW⟩ : Set.Iic W) := topCodim_le_coheight_Iic V W hVW
     _ = Order.coheight (⟨z, hzy⟩ : (closure {y} : Set Y)) := by
-      show Order.coheight ((closurePointOrderIso Y y) ⟨z, hzy⟩) = _
+      change Order.coheight ((closurePointOrderIso Y y) ⟨z, hzy⟩) = _
       exact Order.coheight_orderIso (closurePointOrderIso Y y) ⟨z, hzy⟩
 
 end Stacks.Algebraization

@@ -69,7 +69,7 @@ instance isIso_copowerProj_const :
     · refine Sigma.hom_ext _ _ fun u => ?_
       obtain rfl : u = PUnit.unit := rfl
       simp [copowerProj]
-    · exact Sigma.ι_desc _ _
+    · exact Sigma.ι_comp_desc _ _
   exact NatIso.isIso_of_isIso_app _
 
 /-- **The copower of `V` by the constant functor with value a singleton is `V`**, the

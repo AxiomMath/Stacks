@@ -166,7 +166,7 @@ theorem isIso_coordinateMorphism_globalSections (k : Type u) [Field k]
     have hcan : (Scheme.ΓSpecIso R).inv.hom p = (chartInclusion k n 0).appTop.hom s := by
       simp [p]
     refine ⟨p, (doubledZeroGlueData k n).openCover.ext_elem (q.hom p) s fun ⟨i⟩ => ?_⟩
-    show (chartInclusion k n i).appTop.hom (q.hom p) = (chartInclusion k n i).appTop.hom s
+    change (chartInclusion k n i).appTop.hom (q.hom p) = (chartInclusion k n i).appTop.hom s
     fin_cases i
     · simpa using (hchart 0 p).trans hcan
     · simpa using (hchart 1 p).trans (hcan.trans (chart_sections_eq k n hn s))

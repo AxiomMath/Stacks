@@ -230,7 +230,7 @@ private theorem isZero_torInDegree_of_neg (R : Type u) [CommRing R] {n : ℤ} (h
   rw [ModuleCat.isZero_iff_subsingleton]
   unfold TorInDegree
   simp only [dite_eq_right (show ¬ 0 ≤ n by omega)]
-  show Subsingleton (ULift.{v} (Fin 0 → R))
+  change Subsingleton (ULift.{v} (Fin 0 → R))
   infer_instance
 
 /-- **A K-flat resolution computes `Tor` in nonnegative degrees.** If `ε : P ⟶ M` is a
@@ -339,12 +339,10 @@ private noncomputable def restrictTensorExtendIso
   intro X Y g
   ext w
   change (N ⊗[S] ((ModuleCat.extendScalars f).obj X)) at w
-  induction w using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction w using TensorProduct.inductionOn with
   | add a b ha hb => simp only [map_add, ha, hb]
   | tmul n t =>
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [map_zero, TensorProduct.tmul_zero]
+    induction t using TensorProduct.inductionOn with
     | add t t' ht ht' => simp only [map_add, TensorProduct.tmul_add, ht, ht']
     | tmul s x => rfl
 
@@ -371,8 +369,7 @@ private noncomputable def restrictExtendLinearEquiv
       map_add' := fun s t ↦ e.map_add s t
       map_smul' := fun r t ↦ by
         change e (f r • t) = r • e t
-        induction t using TensorProduct.induction_on with
-        | zero => simp only [smul_zero, map_zero]
+        induction t using TensorProduct.inductionOn with
         | add a b ha hb => simp only [smul_add, map_add, ha, hb]
         | tmul s x => rfl }
 
@@ -384,8 +381,7 @@ private noncomputable def restrictExtendIso
   intro X Y g
   ext w
   change (TensorProduct R ((ModuleCat.restrictScalars f).obj (ModuleCat.of S S)) X) at w
-  induction w using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction w using TensorProduct.inductionOn with
   | add a b ha hb => simp only [map_add, ha, hb]
   | tmul s x => rfl
 
@@ -430,7 +426,7 @@ private theorem baseChangeComplex_free {R S : Type u} [CommRing R] [CommRing S]
     Module.Free S ((baseChangeComplex f P).X i) := by
   let _ : Algebra R S := f.toAlgebra
   have : Module.Free R (P.X i) := hP i
-  show Module.Free S (TensorProduct R S (P.X i))
+  change Module.Free S (TensorProduct R S (P.X i))
   infer_instance
 
 /-! ### The change-of-rings spectral sequence -/

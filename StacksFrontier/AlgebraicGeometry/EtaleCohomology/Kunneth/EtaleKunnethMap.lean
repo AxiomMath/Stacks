@@ -120,7 +120,7 @@ theorem structureMap_comp (p : W ⟶ X) (f : X ⟶ S) :
   have hn := (toSheafify (topology W) ((Functor.const _).obj (CommRingCat.of Λ))).naturality
     ((baseChangeComp p f).hom.app V.unop).op
   simp only [Functor.const_obj_obj, Functor.const_obj_map, Category.id_comp] at hn
-  show (toSheafify (topology S) ((Functor.const _).obj (CommRingCat.of Λ))).app V ≫
+  change (toSheafify (topology S) ((Functor.const _).obj (CommRingCat.of Λ))).app V ≫
       (structureMap Λ f).hom.app V ≫
       (structureMap Λ p).hom.app (Opposite.op ((baseChange f).obj V.unop)) ≫
       (sheafify (topology W) ((Functor.const _).obj (CommRingCat.of Λ))).map

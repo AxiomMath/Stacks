@@ -19,7 +19,8 @@ The derived tensor product is right t-exact in both variables
 (`Stacks.DerivedTensor.RingedSite.isLE_derivedTensorProductFunctor`), its cohomology is
 quasi-coherent ([Stacks, Tag 08DX]) and supported over `Z`, and over the affine open `U` the
 second projection is affine, so its derived direct image preserves the vanishing
-(`Stacks.AlgebraicGeometry.SupportedPushforwardReflect.isZero_homology_derivedPushforward_pullback_snd`).
+(`isZero_homology_derivedPushforward_pullback_snd`, in the namespace
+`Stacks.AlgebraicGeometry.SupportedPushforwardReflect`).
 
 This is the bound on the transforms of the "error" terms in the construction of
 [Stacks, Section 0G07]: a kernel concentrated in degrees `≤ a` has its transform concentrated in

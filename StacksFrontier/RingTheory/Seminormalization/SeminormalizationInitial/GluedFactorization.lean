@@ -102,7 +102,7 @@ public theorem relativeSeminormalizationFromSource_compatible
     have hnat := f.naturality
       (homOfLE (Scheme.AffineZariskiSite.toOpens_mono
         (V.basicOpen_le r))).op
-    show (f.appLE V.1 (f ⁻¹ᵁ (V.basicOpen r).1)
+    change (f.appLE V.1 (f ⁻¹ᵁ (V.basicOpen r).1)
         (f.preimage_mono (Scheme.AffineZariskiSite.toOpens_mono
           (V.basicOpen_le r)))).hom =
       (f.app (V.basicOpen r).1).hom.comp (X.presheaf.map
@@ -146,7 +146,7 @@ public theorem relativeSeminormalizationFromSource_compatible
     let : Limits.HasColimit (relativeSeminormalizationGlueData f).functor := inferInstance
     dsimp [relativeSeminormalizationOpenCover]
     rw [htransition]
-    show (relativeSeminormalizationGlueData f).functor.map i ≫
+    change (relativeSeminormalizationGlueData f).functor.map i ≫
       Limits.colimit.ι (relativeSeminormalizationGlueData f).functor V = _
     exact Limits.colimit.w (relativeSeminormalizationGlueData f).functor i
   calc
@@ -273,9 +273,9 @@ public theorem relativeSeminormalizationFactorization_fac
   intro U
   let V : X.AffineZariskiSite := ⟨U.1, U.2⟩
   let := (f.app V.1).hom.toAlgebra
-  show Limits.pullback.fst f U.1.ι ≫ _ = Limits.pullback.fst f U.1.ι ≫ f
+  change Limits.pullback.fst f U.1.ι ≫ _ = Limits.pullback.fst f U.1.ι ≫ f
   rw [← pullbackRestrictIsoRestrict_hom_ι (f := f) V.1]
-  show (pullbackRestrictIsoRestrict f V.1).hom ≫
+  change (pullbackRestrictIsoRestrict f V.1).hom ≫
       ((f ⁻¹ᵁ V.1).ι ≫ relativeSeminormalizationFromSource f ≫
         relativeSeminormalizationToBase f) =
     (pullbackRestrictIsoRestrict f V.1).hom ≫ ((f ⁻¹ᵁ V.1).ι ≫ f)
@@ -329,7 +329,7 @@ public theorem relativeSeminormalizationToBase_universalHomeomorphism
   let d := relativeSeminormalizationGlueData f
   have hpb := d.isPullback_natTrans_ι_toBase i
   have hchart : UniversalHomeomorphism (d.natTrans.app i) := by
-    show UniversalHomeomorphism
+    change UniversalHomeomorphism
       (affineSemiNormalizationToBase f i.1 i.2)
     exact (affineSemiNormalizationToBase_subintegral f i.1 i.2).1
   have hinv : UniversalHomeomorphism (hpb.flip.isoPullback.inv) :=
@@ -357,7 +357,7 @@ public theorem relativeSeminormalizationToBase_residueFieldMap_isIso
   let : Limits.HasColimit d.functor := inferInstance
   obtain ⟨i, y, hy⟩ := Scheme.IsLocallyDirected.ι_jointly_surjective d.functor x
   have hchart : IsIso ((d.natTrans.app i).residueFieldMap y) := by
-    show IsIso ((affineSemiNormalizationToBase f i.1 i.2).residueFieldMap y)
+    change IsIso ((affineSemiNormalizationToBase f i.1 i.2).residueFieldMap y)
     exact (affineSemiNormalizationToBase_subintegral f i.1 i.2).2 y
   have hopen : IsIso
       (((Scheme.AffineZariskiSite.directedCover X).f i).residueFieldMap
@@ -369,7 +369,7 @@ public theorem relativeSeminormalizationToBase_residueFieldMap_isIso
     Scheme.Cover.RelativeGluingData.ι_toBase (d := d) i
   have hchartComp : IsIso ((d.natTrans.app i ≫ i.1.ι).residueFieldMap y) := by
     rw [Scheme.residueFieldMap_comp (d.natTrans.app i) i.1.ι y]
-    show IsIso (((Scheme.AffineZariskiSite.directedCover X).f i).residueFieldMap
+    change IsIso (((Scheme.AffineZariskiSite.directedCover X).f i).residueFieldMap
       (d.natTrans.app i y) ≫ (d.natTrans.app i).residueFieldMap y)
     exact IsIso.comp_isIso' hopen hchart
   have hglobal : IsIso
@@ -383,7 +383,7 @@ public theorem relativeSeminormalizationToBase_residueFieldMap_isIso
     rw [← Scheme.residueFieldMap_comp]
     exact hglobal
   let : IsIso ((Limits.colimit.ι d.functor i).residueFieldMap y) := hcover
-  show IsIso (d.toBase.residueFieldMap x)
+  change IsIso (d.toBase.residueFieldMap x)
   rw [← hy]
   exact (isIso_comp_right_iff _ _).mp hglobal'
 
@@ -709,7 +709,7 @@ public theorem relativeSeminormalization_competitorChartLift_natural
     Scheme.Hom.map_appLE _ _ _
   have h := congrArg CommRingCat.Hom.hom (hnat.symm.trans hnat'.symm)
   dsimp only [relativeSeminormalizationDiagram, E_U, E_V] at h ⊢
-  show ((Y.presheaf.map (homOfLE (f.preimage_mono
+  change ((Y.presheaf.map (homOfLE (f.preimage_mono
       (Scheme.AffineZariskiSite.toOpens_mono i.1.1))).op).hom
       (relativeSeminormalization_competitorChartAlgebra f F V.1 V.2 c)) =
     relativeSeminormalization_competitorChartAlgebra f F U.1 U.2

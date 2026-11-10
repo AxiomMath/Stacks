@@ -3,8 +3,7 @@ module
 public import StacksFrontier.AlgebraicGeometry.Artin.ContractionFormalObjectSeparated
 public import
   StacksFrontier.AlgebraicGeometry.Spaces.GrothendieckExistence.InductionClosedSubspaceTower
-public import
-  StacksFrontier.AlgebraicGeometry.Spaces.GrothendieckExistence.HomBijection.CompletionBijectiveOnHomsBaseObject
+public import StacksFrontier.AlgebraicGeometry.Spaces.GrothendieckExistence.HomBijection.CompletionBijectiveOnHomsBaseObject
 
 /-!
 # Effectivity of formal objects for a separated `X'`, from Grothendieck's existence theorem

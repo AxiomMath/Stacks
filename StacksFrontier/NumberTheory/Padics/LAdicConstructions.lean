@@ -68,7 +68,7 @@ theorem toLinAlgEquiv'_mem_logLieSpan_map {G : Subgroup (Matrix n n K)ˣ}
   suffices h : logLieSpan ℓ G ≤ (logLieSpan ℓ (G.map R)).comap (endLieHom D) from h hA
   refine (LieSubalgebra.lieSpan_le).mpr ?_
   rintro _ ⟨g, hg, rfl⟩
-  show endLieHom D _ ∈ logLieSpan ℓ (G.map R)
+  change endLieHom D _ ∈ logLieSpan ℓ (G.map R)
   rw [endLieHom_toLinAlgEquiv']
   have hlog : ‖ladicLog ℓ (g : Matrix n n K)‖ < (ℓ : ℝ)⁻¹ :=
     (norm_ladicLog_le (hG g hg).le).trans_lt (hG g hg)

@@ -119,7 +119,7 @@ theorem commuteComparisonHom_snd_fst {T : Scheme.{u}} (t : T ⟶ X) :
     commuteComparisonHom f₁ f₂ t ≫ pullback.snd f₂ (pullback.fst f₁ t ≫ f₁) ≫
         pullback.fst f₁ t =
       pullback.fst f₁ (pullback.fst f₂ t ≫ f₂) := by
-  simp [commuteComparisonHom, pullback.lift_fst, pullback.lift_snd_assoc]
+  simp [commuteComparisonHom]
 
 /-- The second projection of the comparison morphism, followed by the projection to the test
 scheme. -/
@@ -128,7 +128,7 @@ theorem commuteComparisonHom_snd_snd {T : Scheme.{u}} (t : T ⟶ X) :
     commuteComparisonHom f₁ f₂ t ≫ pullback.snd f₂ (pullback.fst f₁ t ≫ f₁) ≫
         pullback.snd f₁ t =
       pullback.snd f₁ (pullback.fst f₂ t ≫ f₂) ≫ pullback.snd f₂ t := by
-  simp [commuteComparisonHom, pullback.lift_snd, pullback.lift_snd_assoc]
+  simp [commuteComparisonHom]
 
 /-- The comparison morphisms of the two orders are mutually inverse. -/
 @[simp]

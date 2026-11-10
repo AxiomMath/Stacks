@@ -216,7 +216,7 @@ private lemma exists_small_finite_free_surjective_finitePresentation_ker
   have hfin' : Module.Finite A F' :=
     Module.Finite.of_surjective e.symm.toLinearMap e.symm.surjective
   have hfp' : Module.FinitePresentation A p'.ker := by
-    show Module.FinitePresentation A (Submodule.comap e.toLinearMap p.ker)
+    change Module.FinitePresentation A (Submodule.comap e.toLinearMap p.ker)
     exact Module.FinitePresentation.of_equiv (e.ofSubmodule' p.ker).symm
   have hp' : Function.Surjective p' := hp.comp e.surjective
   refine ⟨F', p', hfree', hfin', hp', hfp', ?_⟩
@@ -306,7 +306,7 @@ private lemma pseudoCoherentFrom_single_of_flat_finitePresentation
           (pseudoCoherent_single_of_finite_free.{v, max u v w} F) (-(n + 1 : ℤ))
       apply PseudoCoherence.isPseudoCoherent_of_distinguished_one (-(n + 1 : ℤ))
         (DerivedCategory.triangleOfSES hSC) (DerivedCategory.triangleOfSES_distinguished hSC)
-      · show IsPseudoCoherentFrom
+      · change IsPseudoCoherentFrom
           ((DerivedCategory.singleFunctor (ModuleCat.{max u v w} A) 0).obj N) _
         convert ih N using 1
         simp

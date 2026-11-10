@@ -71,7 +71,7 @@ private theorem mapped_relativeWeakNormalization_isUniversalHomeomorphism
     exact (Scheme.Spec.mapIso (asIso (CommRingCat.ofHom eN.toRingHom)).op).isIso_hom
   let fN := Scheme.Spec.map (CommRingCat.ofHom (algebraMap A N)).op
   have hcomp : q ≫ fN = Scheme.Spec.map (CommRingCat.ofHom (algebraMap A M)).op := by
-    show Scheme.Spec.map (CommRingCat.ofHom eN.toRingHom).op ≫
+    change Scheme.Spec.map (CommRingCat.ofHom eN.toRingHom).op ≫
       Scheme.Spec.map (CommRingCat.ofHom (algebraMap A N)).op = _
     rw [← Scheme.Spec.map_comp]
     congr 1
@@ -351,7 +351,7 @@ private theorem restrictedChartIso_comp_toBase
     Scheme.Hom.isoImage_hom_ι U.ι V
   have hAppLE : U.ι.appLE (U.ι ''ᵁ V) V hVU = 𝟙 A := by
     rw [Scheme.Opens.ι_appLE]
-    show X.presheaf.map
+    change X.presheaf.map
       (homOfLE (le_rfl : U.ι ''ᵁ V ≤ U.ι ''ᵁ V)).op = 𝟙 _
     simp
   -- The comparison map on sections is the identity, so the two `fromSpec`
@@ -510,7 +510,7 @@ private theorem restrictedChartIso_fromSource
   let eBase : Bx ≃ₐ[A] Bu :=
     AlgEquiv.ofRingEquiv (f := eB) (restrictedSectionsIso_hom_apply f U V)
   have hWNVal (x : Nx) : ((eAlg x : Nu) : Bu) = eB (x : Bx) := by
-    show ((relativeWeakNormalizationAlgEquiv eBase hdomx hdomu x : Nu) : Bu) = _
+    change ((relativeWeakNormalizationAlgEquiv eBase hdomx hdomu x : Nu) : Bu) = _
     exact relativeWeakNormalizationAlgEquiv_apply_val eBase hdomx hdomu x
   have hWNComp :
       CommRingCat.ofHom eAlg.toRingEquiv.toRingHom ≫
@@ -519,7 +519,7 @@ private theorem restrictedChartIso_fromSource
           CommRingCat.ofHom eB.toRingHom := by
     ext x
     exact hWNVal x
-  show (Wu.toSpecΓ ≫ Spec.map (CommRingCat.ofHom (Nu.val.toRingHom))) ≫ e.hom =
+  change (Wu.toSpecΓ ≫ Spec.map (CommRingCat.ofHom (Nu.val.toRingHom))) ≫ e.hom =
     (restrictedSourceOpenIso f U V).hom ≫
       (Wx.toSpecΓ ≫ Spec.map (CommRingCat.ofHom (Nx.val.toRingHom)))
   dsimp [e, restrictedAffineWeakNormalizationChartIso]
@@ -560,7 +560,7 @@ private theorem eq_of_fromSource_comp_eq
       Γ((f ⁻¹ᵁ U).toScheme, (f ∣_ U) ⁻¹ᵁ V) := by
     simpa using Scheme.Opens.toScheme_presheaf_obj ((f ∣_ U) ⁻¹ᵁ V) ⊤
   have htopSections : ((f ∣_ U) ⁻¹ᵁ V).topIso.inv = eqToHom hSections.symm := by
-    show (f ⁻¹ᵁ U).toScheme.presheaf.map
+    change (f ⁻¹ᵁ U).toScheme.presheaf.map
       (eqToHom ((f ∣_ U) ⁻¹ᵁ V).ι_image_top).op = _
     rw [eqToHom_op, eqToHom_map]
     rfl
@@ -571,7 +571,7 @@ private theorem eq_of_fromSource_comp_eq
   have hsrcMap :
       (Scheme.ΓSpecIso (affineWeakNormalizationAlgebra (f ∣_ U) V)).inv ≫
         (affineWeakNormalizationFromSource (f ∣_ U) V).appTop = inc := by
-    show (Scheme.ΓSpecIso (CommRingCat.of
+    change (Scheme.ΓSpecIso (CommRingCat.of
         (relativeWeakNormalization Γ(U.toScheme, V)
           Γ((f ⁻¹ᵁ U).toScheme, (f ∣_ U) ⁻¹ᵁ V)))).inv ≫
       (Spec.map (CommRingCat.ofHom
@@ -714,11 +714,11 @@ private theorem comparison_isPullback_of_affineCharts
     let iP := (D_U.isPullback V hV).isoPullback
     exact hchart.flip.of_iso iP (Iso.refl _) (Iso.refl _) (Iso.refl _)
       (by
-        show affineWeakNormalizationToBase (f ∣_ U) hV =
+        change affineWeakNormalizationToBase (f ∣_ U) hV =
           iP.hom ≫ pullback.snd F_U.toBase V.ι
         exact (D_U.isPullback V hV).isoPullback_hom_snd.symm)
       (by
-        show chartU ≫ h =
+        change chartU ≫ h =
           (D_U.isPullback V hV).isoPullback.hom ≫
             pullback.fst F_U.toBase V.ι ≫ h
         rw [← Category.assoc, (D_U.isPullback V hV).isoPullback_hom_fst])
@@ -771,10 +771,10 @@ public theorem weakNormalization_isPullback_open
       let p := isPullback_morphismRestrict F.toBase U
       let β : F_U.middle ⟶ R.middle := p.lift F_U.toBase g hg.1.w.symm
       have hβi : β ≫ i = g := by
-        show β ≫ (F.toBase ⁻¹ᵁ U).ι = g
+        change β ≫ (F.toBase ⁻¹ᵁ U).ι = g
         exact p.lift_snd F_U.toBase g hg.1.w.symm
       have hβb : β ≫ R.toBase = F_U.toBase := by
-        show β ≫ (F.toBase ∣_ U) = F_U.toBase
+        change β ≫ (F.toBase ∣_ U) = F_U.toBase
         exact p.lift_fst F_U.toBase g hg.1.w.symm
       have hβs : F_U.toMiddle ≫ β = R.toMiddle := by
         apply (cancel_mono i).1

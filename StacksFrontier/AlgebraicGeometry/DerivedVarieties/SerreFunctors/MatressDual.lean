@@ -102,7 +102,7 @@ private lemma dual_comp_zero {k : Type u} [Field k] {A B C : ModuleCat.{max u v}
     (f : A ⟶ B) (g : B ⟶ C) (h : f ≫ g = 0) :
     ModuleCat.ofHom g.hom.dualMap ≫ ModuleCat.ofHom f.hom.dualMap = 0 := by
   apply ModuleCat.hom_ext
-  show f.hom.dualMap ∘ₗ g.hom.dualMap = 0
+  change f.hom.dualMap ∘ₗ g.hom.dualMap = 0
   rw [LinearMap.dualMap_comp_dualMap, show g.hom ∘ₗ f.hom = 0 from congrArg ModuleCat.Hom.hom h]
   ext φ x
   exact map_zero φ
@@ -113,7 +113,7 @@ private lemma dual_comp_eq {k : Type u} [Field k] {A B C D : ModuleCat.{max u v}
     ModuleCat.ofHom g.hom.dualMap ≫ ModuleCat.ofHom f.hom.dualMap =
       ModuleCat.ofHom i.hom.dualMap ≫ ModuleCat.ofHom h.hom.dualMap := by
   apply ModuleCat.hom_ext
-  show f.hom.dualMap ∘ₗ g.hom.dualMap = h.hom.dualMap ∘ₗ i.hom.dualMap
+  change f.hom.dualMap ∘ₗ g.hom.dualMap = h.hom.dualMap ∘ₗ i.hom.dualMap
   simp only [LinearMap.dualMap_comp_dualMap]
   exact congrArg LinearMap.dualMap (congrArg ModuleCat.Hom.hom w)
 
@@ -244,7 +244,7 @@ private lemma negative_dual_square {k : Type u} [Field k]
     apply (cancel_mono j.hom).1
     simp [Category.assoc, w]
   ext φ x
-  show -φ (f (i.inv x)) = -φ (j.inv (g x))
+  change -φ (f (i.inv x)) = -φ (j.inv (g x))
   rw [show f (i.inv x) = j.inv (g x) from
     congrArg (fun t : C ⟶ B => t x) h]
 
@@ -409,7 +409,7 @@ private lemma dual_fill {k : Type u} [Field k]
       change P.hom (e z) = n • f x at hz₂
       have he : β (e z) = n • β (P.inv (f x)) := by
         simpa [Units.smul_def] using congrArg (fun z => β (P.inv z)) hz₂
-      show n • β (P.inv (f x)) = α (d y)
+      change n • β (P.inv (f x)) = α (d y)
       rw [← he, ← hce z, hz₁])
   have ha : a' ≫ D.hom = A.hom ≫ a :=
     vertical_periodic hK _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -419,20 +419,20 @@ private lemma dual_fill {k : Type u} [Field k]
     horizontal_periodic hK _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
   refine ⟨n • χ.comp D.hom.hom, ?_, ?_⟩ <;> simp only [dual_horizontal, dual_vertical] <;>
     refine LinearMap.ext fun x => ?_
-  · show n • χ (D.hom (a' x)) = β (f' x)
+  · change n • χ (D.hom (a' x)) = β (f' x)
     rw [show D.hom (a' x) = a (A.hom x) from ConcreteCategory.congr_hom ha x]
     have hχ := congrArg (fun t : Module.Dual k (K.X r s) => t (A.hom x)) hχa
     change χ (a (A.hom x)) = n • β (P.inv (f (A.hom x))) at hχ
     rw [hχ, smul_smul, Int.units_mul_self, one_smul,
       ← show P.hom (f' x) = f (A.hom x) from ConcreteCategory.congr_hom hf x]
     simp
-  · show -(n • χ (D.hom (b' (B.inv x)))) = (p + q).negOnePow • α (d x)
+  · change -(n • χ (D.hom (b' (B.inv x)))) = (p + q).negOnePow • α (d x)
     rw [show D.hom (b' (B.inv x)) = b x by simpa using ConcreteCategory.congr_hom hb (B.inv x)]
     have hχ := congrArg (fun t : Module.Dual k (K.X (-q) (-(p + 1))) => t x) hχb
     change χ (b x) = α (d x) at hχ
     rw [hχ]
     have hn : n = -(p + q).negOnePow := by
-      show (r + s).negOnePow = _
+      change (r + s).negOnePow = _
       rw [show r + s = -(p + q) - 1 by dsimp [r, s]; omega,
         Int.negOnePow_sub, Int.negOnePow_neg]
       simp
@@ -484,7 +484,7 @@ public theorem exists_dual_matress (k : Type u) [Field k]
       simpa [L, vertical, reindexIso_hom, Category.assoc] using hh
     · intro p q α β h
       have hh := dual_fill (k := k) (K := K) hK p q α β (by
-        show (L.d₂ p q) α =
+        change (L.d₂ p q) α =
           (reindexIso L (p := (p - 1) + 1) (q := q + 1)
             (p' := p) (q' := q + 1) (by omega) rfl).hom ((L.d₁ (p - 1) (q + 1)) β)
         exact h)

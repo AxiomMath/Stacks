@@ -119,7 +119,7 @@ flatness being an object property which contains a zero object and with every sh
 a quotient of a flat one — and Stacks 06YQ makes that complex K-flat. -/
 theorem exists_kFlat_isStrictlyLE_representative (K : DerivedModules R) (a : ℤ) [K.IsLE a] :
     ∃ F : CochainComplex (Modules R) ℤ,
-      Stacks.SheafOfModules.KFlat.KFlat R F ∧ F.IsStrictlyLE a ∧
+      Stacks.SheafOfModules.KFlat R F ∧ F.IsStrictlyLE a ∧
         Nonempty (DerivedCategory.Q.obj F ≅ K) := by
   obtain ⟨P, ⟨eP⟩⟩ : ∃ P, Nonempty (DerivedCategory.Q.obj P ≅ K) :=
     ⟨_, ⟨DerivedCategory.Q.objObjPreimageIso K⟩⟩
@@ -142,7 +142,7 @@ tensor complex of those complexes.** This is the two-sided comparison of Stacks 
 transported along the two chosen representatives. -/
 def derivedTensorProductIso (T : DerivedTensorProduct R) {K L : DerivedModules R}
     {F G : CochainComplex (Modules R) ℤ}
-    (hF : Stacks.SheafOfModules.KFlat.KFlat R F) (hG : Stacks.SheafOfModules.KFlat.KFlat R G)
+    (hF : Stacks.SheafOfModules.KFlat R F) (hG : Stacks.SheafOfModules.KFlat R G)
     (eF : DerivedCategory.Q.obj F ≅ K) (eG : DerivedCategory.Q.obj G ≅ L) :
     (T.tensor.obj K).obj L ≅ DerivedCategory.Q.obj
       (HomologicalComplex.mapBifunctor F G (Stacks.SheafOfModules.Tensor.sheafTensor R)

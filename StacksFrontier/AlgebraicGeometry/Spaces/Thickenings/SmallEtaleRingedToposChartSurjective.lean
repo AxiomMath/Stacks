@@ -64,7 +64,7 @@ theorem isLocallySurjective_cartesianProjectionSharp {Z Z' : AlgebraicSpaces B S
   have h2 : Presheaf.IsLocallySurjective (SmallEtale.topology B S hS Z'.1)
       (chartProjectionSharpDirectImage B S hS i hrep).hom :=
     Presheaf.isLocallySurjective_of_iso _ _
-  show Presheaf.IsLocallySurjective _
+  change Presheaf.IsLocallySurjective _
     (((sheafCompose (SmallEtale.topology B S hS Z'.1) (forget₂ CommRingCat.{u} RingCat.{u})).map
       (smallEtaleRingedToposHom B S hS i).fSharp).hom ≫
         (chartProjectionSharpDirectImage B S hS i hrep).hom)
@@ -154,7 +154,7 @@ theorem surjective_appTop_snd_of_isLocallySurjective_fSharp {Z Z' : AlgebraicSpa
     simp only [Scheme.Hom.comp_base, TopCat.comp_app] at h
     change ((BigFppfOver.toScheme B S hS).map (φ k).hom.left) w = _ at hw
     rw [hw] at h
-    show (Spec.map (gφ k)).base _ = p
+    change (Spec.map (gφ k)).base _ = p
     rw [← h]
     have hi := congrArg (fun f => f.base p)
       ((BigFppfOver.toScheme B S hS).obj V.obj.left).isoSpec.inv_hom_id

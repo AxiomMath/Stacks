@@ -282,6 +282,8 @@ theorem bijective_etaleCohomologyRestrictionMap_of_torsion_of_curve_of_picard
   bijective_etaleCohomologyRestrictionMap_of_torsion_of_curve_of_isAlgClosed k k' hinj
     (fun ℓ hℓ hℓk r C πC hC hn hirr hCdim =>
       have : IsProper πC := hC
+      have : IsNormal C := hn
+      have : IrreducibleSpace C := hirr
       surjective_etaleCohomologyRestrictionMap_constant_zmod_of_picard hPic hdiv k k' ℓ hℓ hℓk r
         πC hCdim (hinj C πC hC hCdim.le _ r))
     π hdim F hF q

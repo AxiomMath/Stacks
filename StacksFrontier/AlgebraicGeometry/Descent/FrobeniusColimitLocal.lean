@@ -199,7 +199,7 @@ lemma unitScal_twistIter {K : T ⟶ Y} (θ : HomAt K (Scheme.unitModule Y) (Sche
   induction m with
   | zero => simp [twistIter, frobPow]
   | succ m ih =>
-    show unitScal (frobOf p hY (frobPow p hY K m) ≫ frobPow p hY K m)
+    change unitScal (frobOf p hY (frobPow p hY K m) ≫ frobPow p hY K m)
       (twist p hY (twistIter p hY m θ)) = _
     rw [unitScal_twist, ih, ← pow_mul, pow_succ]
 

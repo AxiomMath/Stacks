@@ -85,7 +85,7 @@ noncomputable def baseChangeSystem : I ⥤ Scheme.{u} where
     refine pullback.hom_ext ?_ ?_ <;> simp [pullback.map]
   map_comp {i j k} h₁ h₂ := by
     refine pullback.hom_ext ?_ ?_ <;>
-      simp [pullback.map, pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc]
+      simp [pullback.map]
 
 omit [IsCofiltered I] in
 /-- A transition morphism of `AlgebraicGeometry.baseChangeSystem` followed by the first
@@ -112,8 +112,7 @@ noncomputable def baseChangeSystemCone : Cone (baseChangeSystem φ g) where
     { app i := pullback.map _ _ _ _ (cX.π.app i) (𝟙 T) (cS.π.app i) (hf i).symm (by simp)
       naturality := fun i j h ↦ by
         refine pullback.hom_ext ?_ ?_ <;>
-          simp [baseChangeSystem, pullback.map, pullback.lift_fst, pullback.lift_snd,
-            pullback.lift_fst_assoc, cX.w h] }
+          simp [baseChangeSystem, pullback.map, cX.w h] }
 
 omit [IsCofiltered I] in
 /-- A projection of `AlgebraicGeometry.baseChangeSystemCone` followed by the first projection is
@@ -142,11 +141,11 @@ lemma baseChangeDiagram_cone_snd_eq (s : Cone (baseChangeSystem φ g)) (i j : I)
     intro a b h
     calc s.π.app a ≫ pullback.snd (φ.app a) (g ≫ cS.π.app a)
         = s.π.app a ≫ ((baseChangeSystem φ g).map h ≫
-            pullback.snd (φ.app b) (g ≫ cS.π.app b)) := by rw [baseChangeDiagram_map_snd]; try rfl
+            pullback.snd (φ.app b) (g ≫ cS.π.app b)) := by rw [baseChangeDiagram_map_snd]
       _ = (s.π.app a ≫ (baseChangeSystem φ g).map h) ≫
             pullback.snd (φ.app b) (g ≫ cS.π.app b) := (Category.assoc _ _ _).symm
-      _ = s.π.app b ≫ pullback.snd (φ.app b) (g ≫ cS.π.app b) := by rw [s.w h]; try rfl
-  rw [← key _ _ (IsCofiltered.minToLeft i j), ← key _ _ (IsCofiltered.minToRight i j)]; try rfl
+      _ = s.π.app b ≫ pullback.snd (φ.app b) (g ≫ cS.π.app b) := by rw [s.w h]
+  rw [← key _ _ (IsCofiltered.minToLeft i j), ← key _ _ (IsCofiltered.minToRight i j)]
 
 /-- The cone over `X` obtained from a cone over `AlgebraicGeometry.baseChangeSystem`. -/
 @[reducible]
@@ -159,11 +158,11 @@ noncomputable def baseChangeSystem.coneX (s : Cone (baseChangeSystem φ g)) : Co
             (s.π.app i ≫ pullback.fst (φ.app i) (g ≫ cS.π.app i)) ≫ X.map h :=
           calc s.π.app j ≫ pullback.fst (φ.app j) (g ≫ cS.π.app j)
               = (s.π.app i ≫ (baseChangeSystem φ g).map h) ≫
-                  pullback.fst (φ.app j) (g ≫ cS.π.app j) := by rw [s.w h]; try rfl
+                  pullback.fst (φ.app j) (g ≫ cS.π.app j) := by rw [s.w h]
             _ = s.π.app i ≫ ((baseChangeSystem φ g).map h ≫
                   pullback.fst (φ.app j) (g ≫ cS.π.app j)) := Category.assoc _ _ _
             _ = s.π.app i ≫ (pullback.fst (φ.app i) (g ≫ cS.π.app i) ≫ X.map h) := by
-                  rw [baseChangeDiagram_map_fst]; try rfl
+                  rw [baseChangeDiagram_map_fst]
             _ = (s.π.app i ≫ pullback.fst (φ.app i) (g ≫ cS.π.app i)) ≫ X.map h :=
                   (Category.assoc _ _ _).symm
         simpa using key }
@@ -222,21 +221,21 @@ noncomputable def isLimitBaseChangeSystemConeAux : IsLimit (baseChangeSystemCone
     (fun s i ↦ by
       refine pullback.hom_ext ?_ ?_
       · dsimp only [baseChangeSystemCone_π_app]
-        simp [pullback.map, pullback.lift_fst, hcX.fac (baseChangeSystem.coneX φ g s) i]
+        simp [pullback.map, hcX.fac (baseChangeSystem.coneX φ g s) i]
       · dsimp only [baseChangeSystemCone_π_app]
-        simp [pullback.map, pullback.lift_snd,
+        simp [pullback.map,
           baseChangeDiagram_cone_snd_eq φ g s i₀ i])
     (fun s m hm ↦ by
       refine pullback.hom_ext (hcX.hom_ext fun i ↦ ?_) ?_
       · have h1 : (m ≫ pullback.fst f g) ≫ cX.π.app i =
             (m ≫ (baseChangeSystemCone φ hf g).π.app i) ≫
               pullback.fst (φ.app i) (g ≫ cS.π.app i) := by simp
-        rw [h1, hm i]; try rfl
+        rw [h1, hm i]
         simp [hcX.fac (baseChangeSystem.coneX φ g s) i]
       · have h2 : m ≫ pullback.snd f g =
             (m ≫ (baseChangeSystemCone φ hf g).π.app i₀) ≫
               pullback.snd (φ.app i₀) (g ≫ cS.π.app i₀) := by simp
-        rw [h2, hm i₀]; try rfl
+        rw [h2, hm i₀]
         simp)
 
 /-- Base change commutes with a cofiltered limit of morphisms of schemes: if `X` and `S` are

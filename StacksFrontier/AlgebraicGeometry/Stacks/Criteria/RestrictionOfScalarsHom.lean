@@ -92,12 +92,12 @@ theorem exists_hom_of_yoneda {C : Type*} [Category.{u} C] {F G : Cᵒᵖ ⥤ Typ
             naturality := ?_ }, fun U i => ?_⟩
   · intro U V f
     ext t
-    show yonedaEquiv (a V.unop (yonedaEquiv.symm (F.map f t))) =
+    change yonedaEquiv (a V.unop (yonedaEquiv.symm (F.map f t))) =
       G.map f (yonedaEquiv (a U.unop (yonedaEquiv.symm t)))
     rw [yonedaEquiv_symm_map, ha, ← yonedaEquiv_naturality']
   · apply yonedaEquiv.injective
     rw [yonedaEquiv_comp]
-    show yonedaEquiv (a U (yonedaEquiv.symm (yonedaEquiv i))) = _
+    change yonedaEquiv (a U (yonedaEquiv.symm (yonedaEquiv i))) = _
     rw [Equiv.symm_apply_apply]
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
@@ -120,7 +120,7 @@ theorem RestrictionPair.isPullbackAlong_postcomp {X' X Z Q : AlgebraicSpaces B S
       (RestrictionPair.postcomp g hg p') := by
   obtain ⟨hbase, q, hfst, hsnd, hlift⟩ := h
   refine ⟨hbase, q, hfst, hsnd, ?_⟩
-  show p'.lift ≫ g.hom = q ≫ p.lift ≫ g.hom
+  change p'.lift ≫ g.hom = q ≫ p.lift ≫ g.hom
   rw [hlift, Category.assoc]
 
 /-- **Postcomposing the second component of a pair commutes with base change of the pair.** -/
@@ -318,7 +318,7 @@ theorem pairEquiv_homOfRestrictionPair (p : RestrictionPair B S hS x z T)
         (yonedaEquiv (i ≫ homOfRestrictionPair x z p)) =
       RestrictionPair.restrict i p := by
   rw [yonedaEquiv_comp]
-  show (restrictionOfScalars B S hS x z).pairEquiv U
+  change (restrictionOfScalars B S hS x z).pairEquiv U
     (((restrictionOfScalars B S hS x z).pairEquiv U).symm
       (RestrictionPair.restrict (yonedaEquiv.symm (yonedaEquiv i)) p)) = _
   rw [Equiv.apply_symm_apply, Equiv.symm_apply_apply]

@@ -105,7 +105,7 @@ theorem ι_map_totalFunctor (h : SimplicialSite.Morphism C C') (b : SimplexCateg
     h.totalFunctor.map ((CoGrothendieck.ι C'.totalPseudofunctor b).map u) =
       (CoGrothendieck.ι C.totalPseudofunctor b).map ((h.hom.app b.unop).toFunctor.map u) := by
   refine CoGrothendieck.Hom.ext _ _ rfl ?_
-  show (h.hom.app b.unop).toFunctor.map
+  change (h.hom.app b.unop).toFunctor.map
         (u ≫ (C'.totalPseudofunctor.mapId ⟨Opposite.op b⟩).inv.toNatTrans.app Q) ≫
       eqToHom (h.app_obj_map (𝟙 b).unop Q) =
     ((h.hom.app b.unop).toFunctor.map u ≫
@@ -121,7 +121,7 @@ theorem ι_comp_totalFunctor (h : SimplicialSite.Morphism C C') (b : SimplexCate
     CoGrothendieck.ι C'.totalPseudofunctor b ⋙ h.totalFunctor =
       (h.hom.app b.unop).toFunctor ⋙ CoGrothendieck.ι C.totalPseudofunctor b :=
   Functor.ext (fun _ => rfl) fun X Y u => by
-    show h.totalFunctor.map ((CoGrothendieck.ι C'.totalPseudofunctor b).map u) =
+    change h.totalFunctor.map ((CoGrothendieck.ι C'.totalPseudofunctor b).map u) =
       𝟙 _ ≫ (CoGrothendieck.ι C.totalPseudofunctor b).map
         ((h.hom.app b.unop).toFunctor.map u) ≫ 𝟙 _
     simp only [h.ι_map_totalFunctor b u, Category.id_comp, Category.comp_id]
@@ -189,7 +189,8 @@ theorem totalFunctor_pullbacksPreservedBy (h : SimplicialSite.Morphism C C') :
   exact preservesLimit_of_iso_diagram _ (cospanCompIso _ u w)
 
 /-- The functor between the total categories is continuous. -/
-@[sga "4 VI 7.4.9" "simplicial, continuous", instance, stacks 0D96 "case (A), continuity of the functor of total sites"]
+@[sga "4 VI 7.4.9" "simplicial, continuous", instance,
+  stacks 0D96 "case (A), continuity of the functor of total sites"]
 theorem totalFunctor_isContinuous (h : SimplicialSite.Morphism C C') :
     h.totalFunctor.IsContinuous C'.totalTopology C.totalTopology := by
   have : C'.totalCoverage.HasPullbacks := C'.totalCoverage_hasPullbacks

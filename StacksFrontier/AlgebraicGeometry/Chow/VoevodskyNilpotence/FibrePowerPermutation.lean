@@ -15,10 +15,10 @@ and uses it to discharge one of the two hypotheses of
 
 ## What `Sⁿ(X)` is, and what it is not
 
-**`Sⁿ(X)` is not `Xⁿ/Sₙ`.** Stacks 0FH9 does not define `Sⁿ(X)` as a quotient of `Xⁿ`; it defines it as the
-Hilbert scheme `Hilb^n_{X/k}`, citing Stacks 0B94 and 0B9C, and that is also what the repository
-has — `Stacks.Hilbert` builds `Hilb^d_{X/S}` and the point-addition morphism of Stacks 0B9G
-without ever presenting it as a quotient. The correct account is in the module documentation of
+**`Sⁿ(X)` is not `Xⁿ/Sₙ`.** Stacks 0FH9 does not define `Sⁿ(X)` as a quotient of `Xⁿ`; it defines it
+as the Hilbert scheme `Hilb^n_{X/k}`, citing Stacks 0B94 and 0B9C, and that is also what the
+repository has — `Stacks.Hilbert` builds `Hilb^d_{X/S}` and the point-addition morphism of Stacks
+0B9G without ever presenting it as a quotient. The correct account is in the module documentation of
 `StacksFrontier.AlgebraicGeometry.Chow.VoevodskyNilpotence.NormGroupProduct` and of
 `StacksFrontier.AlgebraicGeometry.Picard.SymmetricPowerNormPullback`, which also record why a
 quotient presentation is not merely unbuilt but unavailable: the hypotheses of the two quotient

@@ -97,7 +97,7 @@ theorem subsingleton_hom_shift_of_homology (L : DerivedCategory C) (n₀ : ℤ) 
     have hT : T ∈ distTriang _ := TStructure.t.triangleLTGE_distinguished b K
     have h₁GE : T.obj₁.IsGE a := by
       dsimp only [T]
-      show TStructure.t.IsGE ((TStructure.t.truncLT b).obj K) a
+      change TStructure.t.IsGE ((TStructure.t.truncLT b).obj K) a
       infer_instance
     have h₁LE : T.obj₁.IsLE (a + d) := by
       have : TStructure.t.IsLE T.obj₁ (b - 1) := by
@@ -110,7 +110,7 @@ theorem subsingleton_hom_shift_of_homology (L : DerivedCategory C) (n₀ : ℤ) 
     have h₃LE : T.obj₃.IsLE b := by
       have : TStructure.t.IsLE K b := hLE
       dsimp only [T]
-      show TStructure.t.IsLE ((TStructure.t.truncGE b).obj K) b
+      change TStructure.t.IsLE ((TStructure.t.truncGE b).obj K) b
       infer_instance
     refine ⟨fun x y => ?_⟩
     obtain ⟨g, hg⟩ := T.yoneda_exact₂ hT (x - y) (by

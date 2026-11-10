@@ -82,10 +82,10 @@ theorem finiteFieldFrobenius_pow_smul_eq_iff (κ : Type u) [Field κ] [Algebra k
       (Spec.map (CommRingCat.ofHom (iterateFrobenius z.residueField p (n * d))) ≫ Spec.map e :
         Spec (.of z.residueField) ⟶ Spec (.of κ)) = Spec.map e := by
     rw [Subtype.ext_iff]
-    show (((finiteFieldFrobenius p n hq z) ^ d • y : (finiteEtaleFiberFunctor z).obj _) :
+    change (((finiteFieldFrobenius p n hq z) ^ d • y : (finiteEtaleFiberFunctor z).obj _) :
       finiteEtaleFiber z _).1 = yv ↔ _
     rw [hy]
-    show Spec.map (CommRingCat.ofHom (iterateFrobenius z.residueField p (n * d))) ≫ yv = yv ↔ _
+    change Spec.map (CommRingCat.ofHom (iterateFrobenius z.residueField p (n * d))) ≫ yv = yv ↔ _
     rw [← he]
   rw [hiff, ← Spec.map_comp]
   constructor
@@ -216,7 +216,7 @@ theorem exists_finiteFieldExtensionCover_hom (W : FiniteEtaleOver (Spec (.of k))
     MorphismProperty.Over.homMk (W.left.fromSpecResidueField w) hι
   refine ⟨W.left.residueField w, inferInstance, inferInstance, inferInstance, ι,
     ⟨Spec.map e, ?_⟩, Subtype.ext hfac0⟩
-  show Spec.map e ≫ Spec.map (CommRingCat.ofHom (algebraMap k (W.left.residueField w))) = z.hom
+  change Spec.map e ≫ Spec.map (CommRingCat.ofHom (algebraMap k (W.left.residueField w))) = z.hom
   refine (congrArg (Spec.map e ≫ ·) hι.symm).trans ?_
   rw [← Category.assoc, hfac0, y.2]
 
@@ -244,14 +244,14 @@ theorem dense_zpowers_finiteFieldFrobenius :
       (finiteFieldExtensionCover κ)),
       σ • (finiteEtaleFiberFunctor z).map ι a = (finiteEtaleFiberFunctor z).map ι (σ • a) :=
     fun σ a => by
-      show (σ.asIso.hom.app W) ((finiteEtaleFiberFunctor z).map ι a) =
+      change (σ.asIso.hom.app W) ((finiteEtaleFiberFunctor z).map ι a) =
         (finiteEtaleFiberFunctor z).map ι ((σ.asIso.hom.app _) a)
       exact NatTrans.naturality_apply σ.asIso.hom ι a
   refine ⟨Φ ^ i, ?_, pow_mem (Subgroup.mem_zpowers Φ) i⟩
   have hmem : γ⁻¹ * Φ ^ i ∈ MulAction.stabilizer (EtaleFundamentalGroup (Spec (.of k)) z)
       ((finiteEtaleFiberFunctor z).map ι y') := by
     rw [MulAction.mem_stabilizer_iff, mul_smul, hnat, hi, ← hnat, inv_smul_smul]
-  simpa only [Set.mem_setOf_eq, mul_inv_cancel_left] using hO hmem
+  simpa only [Set.mem_ofPred_eq, mul_inv_cancel_left] using hO hmem
 
 /-- **The powers of `Φ` are detected by an open subgroup**: for `L > 0` the stabilizer of a point
 of the fibre of `Spec κ`, `κ` of degree `L` over `k`, contains `Φ ^ j` only when `L ∣ j`. -/
@@ -271,7 +271,7 @@ theorem exists_isOpen_finiteFieldFrobenius_zpow_mem_dvd (L : ℕ) (hL : 0 < L) :
   let ε : κ →ₐ[k] z.residueField := IsAlgClosed.lift
   let y : (finiteEtaleFiberFunctor z).obj (finiteFieldExtensionCover κ) :=
     ⟨Spec.map (CommRingCat.ofHom ε.toRingHom), by
-      show Spec.map (CommRingCat.ofHom ε.toRingHom) ≫
+      change Spec.map (CommRingCat.ofHom ε.toRingHom) ≫
         Spec.map (CommRingCat.ofHom (algebraMap k κ)) = z.hom
       rw [← Spec.map_comp, ← hφz]
       congr 1
@@ -333,9 +333,9 @@ theorem dense_ker_sup_zpowers_of_etaleFundamentalGroupMap_eq_inv :
     rintro _ ⟨j, rfl⟩
     refine ⟨φ ^ (-j), Subgroup.le_topologicalClosure _ (Subgroup.mem_sup_right
       (Subgroup.zpow_mem_zpowers φ _)), ?_⟩
-    show F.toMonoidHom (φ ^ (-j)) = _
+    change F.toMonoidHom (φ ^ (-j)) = _
     rw [map_zpow]
-    show (F φ) ^ (-j) = _
+    change (F φ) ^ (-j) = _
     rw [hφ, inv_zpow', neg_neg]
   have hall : F '' (S : Set (EtaleFundamentalGroup X x)) = Set.univ := by
     refine Set.eq_univ_of_univ_subset ?_
@@ -346,7 +346,7 @@ theorem dense_ker_sup_zpowers_of_etaleFundamentalGroupMap_eq_inv :
   obtain ⟨s, hs, hgs⟩ := hall.symm ▸ Set.mem_univ (F g)
   have hker : g * s⁻¹ ∈ K := by
     rw [MonoidHom.mem_ker, map_mul, map_inv]
-    show F g * (F s)⁻¹ = 1
+    change F g * (F s)⁻¹ = 1
     rw [hgs, mul_inv_cancel]
   have := S.mul_mem (Subgroup.le_topologicalClosure _ (Subgroup.mem_sup_left hker)) hs
   rwa [inv_mul_cancel_right] at this

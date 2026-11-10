@@ -147,7 +147,7 @@ theorem pieceι_snd : pieceι X E σ ≫ (snd X (spec k E)).hom.left = pieceToSp
   have h3 := congrArg (fun f ↦ f.hom.left)
     (splitInj_snd (topologicalKrullDim_specGlobalSections X) E σ)
   dsimp only [ObjectProperty.FullSubcategory.comp_hom, Over.comp_left] at h2 h3
-  show pieceι X E σ ≫ (snd X (spec k E)).hom.left = pieceToSpec X E σ
+  change pieceι X E σ ≫ (snd X (spec k E)).hom.left = pieceToSpec X E σ
   rw [← h2, ← Category.assoc, h, Category.assoc, h3]
   exact Category.comp_id _
 

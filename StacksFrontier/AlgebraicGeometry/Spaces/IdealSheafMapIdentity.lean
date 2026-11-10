@@ -63,8 +63,8 @@ law followed by `𝓘_Y ⊆ 𝒪_X`.  Naturality of the unit law at `𝓘_Y ⊆ 
 `AlgebraicGeometry.Space.Modules` and the other as a `SheafOfModules` over the structure ring
 sheaf is not type-correct at `implicit` transparency, so the rewriting tactics cannot be used on
 it; this is the device the implementation notes of
-`StacksFrontier/AlgebraicGeometry/Spaces/IdealSheafMapKernel.lean` describe, and the chains below are
-built from `Eq.trans` and `congrArg` for the same reason.
+`StacksFrontier/AlgebraicGeometry/Spaces/IdealSheafMapKernel.lean` describe, and the chains below
+are built from `Eq.trans` and `congrArg` for the same reason.
 
 **No `@[stacks]` attribute is placed.**  [Stacks Project, Tag 04CP] produces the map and
 [Stacks Project, Tag 03LU] the unit law; neither says anything about the value of the first at an

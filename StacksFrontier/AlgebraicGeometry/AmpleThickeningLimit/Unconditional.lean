@@ -168,7 +168,7 @@ theorem isAmple_of_isAmple_modulePullback_of_isHomeomorph [IsClosedImmersion i]
     rintro _ ⟨x, rfl⟩
     obtain ⟨z, rfl⟩ := i.surjective x
     refine ⟨(cZ.π.app j') z, ?_⟩
-    show ((cZ.π.app j') ≫ ι.app j').base z = _
+    change ((cZ.π.app j') ≫ ι.app j').base z = _
     rw [closedSubschemeImageCone_π_app_comp_imageι]
     rfl
   obtain ⟨k, hk, hkS⟩ :=

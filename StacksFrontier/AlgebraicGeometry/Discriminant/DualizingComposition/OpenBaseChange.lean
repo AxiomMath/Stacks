@@ -421,8 +421,7 @@ lemma traceAfterOpenBaseChange_tmul_of_compatible
     change e (e.symm (algebraMap G.middle C (compatibleTensorLift j hjR t))) =
       e (Algebra.TensorProduct.map (AlgHom.id R B) (IsScalarTower.toAlgHom R K.middle C) t)
     rw [e.apply_symm_apply]
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction t using TensorProduct.inductionOn with
     | add t s ht hs => simp only [map_add, ht, hs]
     | tmul b t =>
       change algebraMap G.middle C (compatibleTensorLift j hjR (b ⊗ₜ[R] t)) =
@@ -499,7 +498,7 @@ def dualMapOfFlatEpi
     exact map_smul_of_flat_epi hepi hinj ((Algebra.linearMap R B).comp f) s m
 
 /-- To prove a property of every element of the relative dualizing module of `C` over `B` it
-suffices to treat zero, sums, scalar multiples, and the images of the pure tensors coming from
+suffices to treat sums, scalar multiples, and the images of the pure tensors coming from
 a finite-open factorization of `C` over `R`. -/
 lemma openBaseChange_induction
     {R : Type u} {B : Type v} {C : Type w}
@@ -510,7 +509,6 @@ lemma openBaseChange_induction
     (K : FiniteOpenFactorization.{u, w, x} R C)
     (G : FiniteOpenFactorization.{v, w, y} B C)
     {P : dualizingModule G → Prop}
-    (hzero : P 0)
     (htmul : ∀ (f : Module.Dual R K.middle) (c : C),
       P (dualizingModuleEquiv
           (retargetFactorization (FiniteOpenFactorization.baseChange K B)
@@ -532,14 +530,12 @@ lemma openBaseChange_induction
   obtain ⟨n, rfl⟩ := (dualizingModuleEquiv G₀ G).surjective m
   obtain ⟨n, rfl⟩ := (retargetDualizingMap_bijective Kb e).surjective n
   obtain ⟨n, rfl⟩ := hbc.equiv.surjective n
-  induction n using TensorProduct.induction_on with
-  | zero => simpa only [map_zero] using hzero
+  induction n using TensorProduct.inductionOn with
   | add m n hm hn => simpa only [map_add] using hadd _ _ hm hn
   | tmul t n =>
     rw [hbc.equiv_tmul, retargetDualizingMap_smul, map_smul]
     apply hsmul
     induction n using dualizingModule.induction_on K with
-    | zero => simpa only [map_zero] using hzero
     | add m n hm hn => simpa only [map_add] using hadd _ _ hm hn
     | tmul f c =>
       have hstep : retargetDualizingMap Kb e
@@ -561,8 +557,7 @@ lemma span_range_includeRight
       (Algebra.TensorProduct.includeRight : S →ₐ[R] B ⊗[R] S)) = ⊤ := by
   rw [Submodule.eq_top_iff']
   intro t
-  induction t using TensorProduct.induction_on with
-  | zero => exact Submodule.zero_mem _
+  induction t using TensorProduct.inductionOn with
   | add t s ht hs => exact Submodule.add_mem _ ht hs
   | tmul b s =>
     rw [← mul_one b, ← smul_eq_mul, ← TensorProduct.smul_tmul']

@@ -51,14 +51,12 @@ theorem bcTensorEquiv_tmul (X Y : ModuleCat.{u} C) (d : D) (x : X) (y : Y) :
 /-- Induction on `D ⊗_C (X ⊗_C Y)`: it suffices to treat the elements `d ⊗ (x ⊗ y)`. -/
 private theorem induction_on_tmul_tmul_right {X Y : Type u} [AddCommGroup X] [Module C X]
     [AddCommGroup Y] [Module C Y] {motive : D ⊗[C] (X ⊗[C] Y) → Prop} (t : D ⊗[C] (X ⊗[C] Y))
-    (zero : motive 0) (add : ∀ t t', motive t → motive t' → motive (t + t'))
+    (add : ∀ t t', motive t → motive t' → motive (t + t'))
     (tmul : ∀ d x y, motive (d ⊗ₜ[C] (x ⊗ₜ[C] y))) : motive t := by
-  induction t using TensorProduct.induction_on with
-  | zero => exact zero
+  induction t using TensorProduct.inductionOn with
   | add t t' ht ht' => exact add _ _ ht ht'
   | tmul d z =>
-    induction z using TensorProduct.induction_on with
-    | zero => simpa using zero
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' => simpa [TensorProduct.tmul_add] using add _ _ hz hz'
     | tmul x y => exact tmul d x y
 
@@ -71,7 +69,6 @@ theorem distribBaseChange_naturality_left {X X' Y : Type u} [AddCommGroup X] [Mo
       LinearMap.rTensor _ (f.baseChange D)
         (TensorProduct.AlgebraTensorModule.distribBaseChange C D X Y t) := by
   induction t using induction_on_tmul_tmul_right with
-  | zero => simp only [map_zero]
   | add t t' ht ht' => simp only [map_add, ht, ht']
   | tmul d x y => rfl
 
@@ -84,7 +81,6 @@ theorem distribBaseChange_naturality_right {X Y Y' : Type u} [AddCommGroup X] [M
       LinearMap.lTensor _ (g.baseChange D)
         (TensorProduct.AlgebraTensorModule.distribBaseChange C D X Y t) := by
   induction t using induction_on_tmul_tmul_right with
-  | zero => simp only [map_zero]
   | add t t' ht ht' => simp only [map_add, ht, ht']
   | tmul d x y => rfl
 
@@ -197,15 +193,13 @@ theorem projectionAddEquiv_tmul (c : B₀) (x : X)
 /-- Induction on `(B₀ ⊗_A Y) ⊗_{B₀} V`: it suffices to treat the elements `(c ⊗ y) ⊗ v`. -/
 private theorem induction_on_tmul_tmul_left {Y V : Type u} [AddCommGroup Y] [Module A Y]
     [AddCommGroup V] [Module B₀ V] {motive : (B₀ ⊗[A] Y) ⊗[B₀] V → Prop}
-    (t : (B₀ ⊗[A] Y) ⊗[B₀] V) (zero : motive 0)
+    (t : (B₀ ⊗[A] Y) ⊗[B₀] V)
     (add : ∀ t t', motive t → motive t' → motive (t + t'))
     (tmul : ∀ c y v, motive ((c ⊗ₜ[A] y) ⊗ₜ[B₀] v)) : motive t := by
-  induction t using TensorProduct.induction_on with
-  | zero => exact zero
+  induction t using TensorProduct.inductionOn with
   | add t t' ht ht' => exact add _ _ ht ht'
   | tmul m v =>
-    induction m using TensorProduct.induction_on with
-    | zero => simpa using zero
+    induction m using TensorProduct.inductionOn with
     | add m m' hm hm' => simpa [TensorProduct.add_tmul] using add _ _ hm hm'
     | tmul c y => exact tmul c y v
 
@@ -216,7 +210,6 @@ theorem projectionAddEquiv_smul (b : B₀)
       modelRingMap R A R' A' R₀ b •
         projectionAddEquiv (R := R) (A := A) (R' := R') (A' := A') (R₀ := R₀) X W t := by
   induction t using induction_on_tmul_tmul_left with
-  | zero => rw [smul_zero, map_zero, smul_zero]
   | add t t' ht ht' => rw [smul_add, map_add, map_add, ht, ht', smul_add]
   | tmul c x w =>
     rw [TensorProduct.smul_tmul', TensorProduct.smul_tmul', smul_eq_mul, projectionAddEquiv_tmul,
@@ -234,7 +227,6 @@ theorem projectionAddEquiv_naturality_left {X X' : Type u} [AddCommGroup X] [Mod
       LinearMap.rTensor W (f.baseChange A')
         (projectionAddEquiv (R := R) (A := A) (R' := R') (A' := A') (R₀ := R₀) X W t) := by
   induction t using induction_on_tmul_tmul_left with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
   | add t t' ht ht' => rw [map_add, map_add, ht, ht', map_add, map_add]
   | tmul c x w =>
     rw [LinearMap.rTensor_tmul, LinearMap.baseChange_tmul, projectionAddEquiv_tmul,
@@ -250,7 +242,6 @@ theorem projectionAddEquiv_naturality_right (X : Type u) [AddCommGroup X] [Modul
       LinearMap.lTensor _ g.hom
         (projectionAddEquiv (R := R) (A := A) (R' := R') (A' := A') (R₀ := R₀) X W t) := by
   induction t using induction_on_tmul_tmul_left with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
   | add t t' ht ht' => rw [map_add, map_add, ht, ht', map_add, map_add]
   | tmul c x w =>
     rw [LinearMap.lTensor_tmul, projectionAddEquiv_tmul, projectionAddEquiv_tmul,
@@ -442,25 +433,20 @@ theorem tensorThree_linearMap_ext {X Y W T : Type u} [AddCommGroup X] [Module A 
         ψ ((((1 : B₀) ⊗ₜ[A] x) ⊗ₜ[B₀] ((1 : B₀) ⊗ₜ[A] y)) ⊗ₜ[B₀] ((1 : B₀) ⊗ₜ[R₀] w))) :
     φ = ψ := by
   refine LinearMap.ext fun t => ?_
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | add t t' ht ht' => rw [map_add, map_add, ht, ht']
   | tmul m v =>
-    induction v using TensorProduct.induction_on with
-    | zero => rw [TensorProduct.tmul_zero, map_zero, map_zero]
+    induction v using TensorProduct.inductionOn with
     | add v v' hv hv' => rw [TensorProduct.tmul_add, map_add, map_add, hv, hv']
     | tmul b₃ w =>
-      induction m using TensorProduct.induction_on with
-      | zero => rw [TensorProduct.zero_tmul, map_zero, map_zero]
+      induction m using TensorProduct.inductionOn with
       | add m m' hm hm' => rw [TensorProduct.add_tmul, map_add, map_add, hm, hm']
       | tmul m₁ m₂ =>
-        induction m₁ using TensorProduct.induction_on with
-        | zero => rw [TensorProduct.zero_tmul, TensorProduct.zero_tmul, map_zero, map_zero]
+        induction m₁ using TensorProduct.inductionOn with
         | add m m' hm hm' =>
           rw [TensorProduct.add_tmul, TensorProduct.add_tmul, map_add, map_add, hm, hm']
         | tmul b₁ x =>
-          induction m₂ using TensorProduct.induction_on with
-          | zero => rw [TensorProduct.tmul_zero, TensorProduct.zero_tmul, map_zero, map_zero]
+          induction m₂ using TensorProduct.inductionOn with
           | add m m' hm hm' =>
             rw [TensorProduct.tmul_add, TensorProduct.add_tmul, map_add, map_add, hm, hm']
           | tmul b₂ y =>

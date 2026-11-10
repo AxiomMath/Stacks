@@ -83,7 +83,7 @@ private lemma finitePresentationRel_localized_of_isLocalized
   let : Module (Localization.Away g) N := Module.compHom N eA.toRingHom
   let : IsScalarTower A (Localization.Away g) N := ⟨fun a b n => by
     rw [Algebra.smul_def]
-    show eA (algebraMap A (Localization.Away g) a * b) • n = a • (eA b • n)
+    change eA (algebraMap A (Localization.Away g) a * b) • n = a • (eA b • n)
     rw [map_mul, eA.commutes a, mul_smul]
     exact IsScalarTower.algebraMap_smul B a (eA b • n)⟩
   let eM : LocalizedModule.Away g M ≃ₗ[A] N :=
@@ -93,7 +93,7 @@ private lemma finitePresentationRel_localized_of_isLocalized
     eM.extendScalarsOfIsLocalization (Submonoid.powers g) (Localization.Away g)
   let eAR : Localization.Away g ≃ₐ[R] B := eA.restrictScalars R
   refine finitePresentationRel_of_semilinearEquiv eAR.symm eML.symm.toAddEquiv (fun b n => ?_) h
-  show eML.symm (b • n) = eA.symm b • eML.symm n
+  change eML.symm (b • n) = eA.symm b • eML.symm n
   conv_lhs => rw [← eA.apply_symm_apply b]
   exact eML.symm.map_smul (eA.symm b) n
 
@@ -248,7 +248,7 @@ private lemma exists_standard_refinement_of_le_iSup
     obtain ⟨hy, hxy⟩ := Set.mem_iUnion.mp hxy
     exact (le_iSup (fun j => X.basicOpen (f j)) (e ⟨y, hy⟩)) (by simpa [f] using hxy)
   refine ⟨Fintype.card t, f, i, g, ?_, hcover', fun j => hfg₀ (e.symm j)⟩
-  show (⨆ j, PrimeSpectrum.basicOpen (f j)) = PrimeSpectrum.basicOpen (1 : Γ(X, V))
+  change (⨆ j, PrimeSpectrum.basicOpen (f j)) = PrimeSpectrum.basicOpen (1 : Γ(X, V))
   rw [PrimeSpectrum.basicOpen_one]
   apply PrimeSpectrum.iSup_basicOpen_eq_top_iff.mpr
   apply (hV.iSup_basicOpen_eq_self_iff (s := Set.range f)).mp
@@ -449,12 +449,12 @@ theorem isFinitelyPresentedRelative_resLE
     (U.ι ''ᵁ W) (hW.image_of_isOpenImmersion U.ι) (V.ι ''ᵁ T)
     (hT.image_of_isOpenImmersion V.ι) hWT'
   let : Module Γ(U, W) Γ(M, U.ι ''ᵁ W) := by
-    show Module Γ(X, U.ι ''ᵁ W) Γ(M, U.ι ''ᵁ W)
+    change Module Γ(X, U.ι ''ᵁ W) Γ(M, U.ι ''ᵁ W)
     infer_instance
   let e : Γ(M.restrict U.ι, W) ≃ₗ[Γ(U, W)] Γ(M, U.ι ''ᵁ W) :=
     { (M.restrictAppIso U.ι W).addCommGroupIsoToAddEquiv with
       map_smul' := fun r m => by
-        show (M.restrictAppIso U.ι W).hom (r • m) =
+        change (M.restrictAppIso U.ι W).hom (r • m) =
           r • (M.restrictAppIso U.ι W).hom m
         have hr : (U.ι.appIso W).inv r = r := by
           rw [Scheme.Opens.ι_appIso]

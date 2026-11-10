@@ -109,7 +109,7 @@ def isInitialStructuredArrowOfIsPullback {x : 𝒵} (c : x ⟶ t) {w : Over V} (
       exact congrArg _ (ht.hom_ext _ _)
     · rw [hpb.lift_snd]
       exact congrArg CommaMorphism.left hk
-  haveI : (q ⋙ Over.forget V).IsHomLift (u _ Bo.hom.unop) k.right.unop := by
+  have : (q ⋙ Over.forget V).IsHomLift (u _ Bo.hom.unop) k.right.unop := by
     rw [← hu]
     infer_instance
   exact Functor.IsStronglyCartesian.map_uniq (q ⋙ Over.forget V) ((q ⋙ Over.forget V).map c) c
@@ -134,7 +134,7 @@ theorem exists_isPullback_baseChangeChart (w : Over V) :
     exact Over.w (q.map c)
   refine ⟨x, c, Over.homMk (eqToHom e ≫ pullback.snd _ _) hx, ?_⟩
   refine IsPullback.of_iso_pullback ⟨?_⟩ (eqToIso e) hfac.symm rfl
-  show (q ⋙ Over.forget V).map c ≫ (q.obj t).hom = (eqToHom e ≫ pullback.snd _ _) ≫ w.hom
+  change (q ⋙ Over.forget V).map c ≫ (q.obj t).hom = (eqToHom e ≫ pullback.snd _ _) ≫ w.hom
   rw [hx]
   exact Over.w (q.map c)
 
@@ -174,7 +174,7 @@ theorem moduleSheafPushforwardEvaluation_restriction
         ((moduleSheafAdjunction.{u, u + 1, u, u, u + 1, u} B S hS p q hp hq F hF
           B.topology le_rfl).counit.app N)
   have h' : φ.op ≫ A.hom = A'.hom ≫ (F.map ψ).op := Quiver.Hom.unop_inj h.symm
-  show P.map φ.op ≫ P.map A.hom ≫ ε.app A.right =
+  change P.map φ.op ≫ P.map A.hom ≫ ε.app A.right =
     (P.map A'.hom ≫ ε.app A'.right) ≫ _
   rw [← Category.assoc, ← Functor.map_comp, h', Functor.map_comp, Category.assoc,
     Category.assoc]

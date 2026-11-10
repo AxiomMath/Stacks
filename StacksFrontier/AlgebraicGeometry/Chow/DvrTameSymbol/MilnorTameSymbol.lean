@@ -283,7 +283,7 @@ theorem dvrMilnorTensorMap_mem_milnorKShiftGrading (hϖ : Irreducible ϖ) (n : �
       obtain ⟨r, rfl⟩ := hx
       have hr : dvrMilnorTensorMap (F := F) hϖ ((Algebra.linearMap ℤ (MilnorKTensorAlgebra F)) r) =
           r • (1 : MilnorKShift (ResidueField A)) := by
-        show dvrMilnorTensorMap (F := F) hϖ (algebraMap ℤ (MilnorKTensorAlgebra F) r) = _
+        change dvrMilnorTensorMap (F := F) hϖ (algebraMap ℤ (MilnorKTensorAlgebra F) r) = _
         rw [AlgHom.commutes, Algebra.algebraMap_eq_smul_one]
       rw [hr]
       exact zsmul_mem one_mem_milnorKShiftGrading _
@@ -403,7 +403,7 @@ theorem dvrMilnorShiftMap_unitSymbolProd (hϖ : Irreducible ϖ) (l : List Aˣ) :
       MilnorKShift.mk (residueSymbolProd A l) 0 := by
   induction l with
   | nil =>
-      show dvrMilnorShiftMap (F := F) hϖ 1 = _
+      change dvrMilnorShiftMap (F := F) hϖ 1 = _
       rw [map_one]
       rfl
   | cons w l ih =>

@@ -90,7 +90,7 @@ theorem isCohomologicalChernCharacter_twist
   refine ⟨fun X α n => ?_, fun X α β => ?_, fun X α β => ?_, fun X => ?_,
     fun {X Y} f α n => ?_, fun X L hL => ?_⟩
   · rw [(𝔇'.baseChangeData k).mem_range_tateTwistMap_iff]
-    show 𝔇'.κ _ n (Φ.twist X n (ch X α n)) ∈ 𝔇'.grade _ (2 * (n : ℤ))
+    change 𝔇'.κ _ n (Φ.twist X n (ch X α n)) ∈ 𝔇'.grade _ (2 * (n : ℤ))
     rw [κ_twist]
     exact Submodule.smul_mem _ _
       (Φ.ρ_mem_grade X _ _ ((𝔇.mem_range_tateTwistMap_iff _ _ _).mp (h.1 X α n)))
@@ -104,7 +104,7 @@ theorem isCohomologicalChernCharacter_twist
   · dsimp only
     rw [h.2.2.2.1]
     exact Φ.twistFamily_oneConv X
-  · show Φ.twist X n (ch X _ n) = _
+  · change Φ.twist X n (ch X _ n) = _
     rw [h.2.2.2.2.1 f α n]
     exact Φ.twist_pullTw f n _
   · dsimp only
@@ -193,10 +193,7 @@ theorem cycleClassMap_baseChange (hA1 : 𝔇.CoproductAxiom) (hA2 : 𝔇.Pullbac
       VectorBundleKZero.pullback_eq_pullbackRingHom,
       Φ.chernCharacterOf_baseChange hA1 hA2 hA3 hA4 h'A1 h'A2 h'A3 h'A4, twist_smul,
       (algebraMap F F').map_rat_algebraMap]
-  induction β using TensorProduct.induction_on with
-  | zero =>
-    rw [← TensorProduct.zero_tmul ℚ (0 : VectorBundleKZero ((toScheme k).obj X))]
-    exact htmul 0 0
+  induction β using TensorProduct.inductionOn with
   | tmul q a => exact htmul q a
   | add x y hx hy =>
     rw [map_add, map_add, FirstChernClassData.IsCohomologicalChernCharacter.cycleClassMap_add,

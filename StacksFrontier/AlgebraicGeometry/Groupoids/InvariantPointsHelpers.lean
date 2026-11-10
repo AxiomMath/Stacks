@@ -75,7 +75,7 @@ theorem exists_ringHom_comp_eq_of_isIntegral {C A k : Type u} [CommRing C] [Comm
     Module.isTorsionFree_iff_algebraMap_injective.2 hcbar
   let φ : (A ⧸ q.asIdeal) →ₐ[C ⧸ q.asIdeal.comap f] k := IsAlgClosed.lift
   refine ⟨φ.toRingHom.comp (Ideal.Quotient.mk q.asIdeal), RingHom.ext fun x ↦ ?_⟩
-  show φ (algebraMap (C ⧸ q.asIdeal.comap f) (A ⧸ q.asIdeal)
+  change φ (algebraMap (C ⧸ q.asIdeal.comap f) (A ⧸ q.asIdeal)
     (Ideal.Quotient.mk (q.asIdeal.comap f) x)) = c x
   rw [AlgHom.commutes]
   exact congrArg (fun z ↦ z) (Ideal.Quotient.lift_mk _ _ _)
@@ -92,7 +92,7 @@ theorem exists_ringHom_to_algClosed_of_maximal {k D : Type u} [Field k] [IsAlgCl
     (RingHom.injective _) (RingHom.id k)
   refine ⟨g.comp (Ideal.Quotient.mk m.asIdeal), RingHom.ext fun x ↦ ?_, fun x hx ↦ ?_⟩
   · simpa using RingHom.congr_fun hg x
-  · show g (Ideal.Quotient.mk m.asIdeal x) = 0
+  · change g (Ideal.Quotient.mk m.asIdeal x) = 0
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr hx, map_zero]
 
 /-- An element of a ring over an algebraically closed field whose linear polynomial has a

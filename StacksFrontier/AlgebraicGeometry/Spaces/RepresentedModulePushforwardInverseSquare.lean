@@ -334,7 +334,7 @@ theorem functor_map_representedSmallEtaleBaseChangeInverseIso_hom
           ((representedSmallEtaleEquivalence B S hS U).inverse.obj T) ≫
         (representedSchemeBaseChange B S hS k).map
           ((representedSmallEtaleEquivalence B S hS U).counitIso.hom.app T) := by
-  show (representedSmallEtaleEquivalence B S hS U').functor.map
+  change (representedSmallEtaleEquivalence B S hS U').functor.map
       ((representedSmallEtaleEquivalence B S hS U').unitIso.hom.app
           ((smallBaseChange B S hS (representedSpaceMap B S hS k) hk).obj
             ((representedSmallEtaleEquivalence B S hS U).inverse.obj T)) ≫

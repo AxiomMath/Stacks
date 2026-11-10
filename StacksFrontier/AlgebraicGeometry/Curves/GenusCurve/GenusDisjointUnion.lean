@@ -85,7 +85,7 @@ theorem sections_bijective_of_disjoint_cover
   · intro s t h
     apply Y.sheaf.eq_of_locally_eq' U V (fun i ↦ homOfLE (hUV i)) hsup
     intro i
-    show Y.presheaf.map (homOfLE (hUV i)).op s =
+    change Y.presheaf.map (homOfLE (hUV i)).op s =
       Y.presheaf.map (homOfLE (hUV i)).op t
     rw [← happ, ← happ]
     exact congrArg (fun a ↦ (e i).inv a) (congrFun h i)
@@ -103,7 +103,7 @@ theorem sections_bijective_of_disjoint_cover
       (fun i ↦ homOfLE (hUV i)) hsup sf hc
     refine ⟨s, funext fun i ↦ ?_⟩
     apply (e i).symm.commRingCatIsoToRingEquiv.injective
-    show (e i).inv ((f i).app V s) = sf i
+    change (e i).inv ((f i).app V s) = sf i
     exact (happ i s).trans (hs i)
 
 /-- **The structure sheaf of a finite disjoint union is the product of the structure sheaves of

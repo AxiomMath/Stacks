@@ -85,10 +85,10 @@ theorem coprodComparison_comp_left_coprod_desc {S : Scheme.{u}} {X Y Z : Over S}
       = coprod.desc a.left b.left := by
   refine coprod.hom_ext ?_ ?_
   · simp only [coprodComparison, coprod.inl_desc_assoc, coprod.inl_desc]
-    show ((coprod.inl : X ⟶ X ⨿ Y) ≫ coprod.desc a b).left = _
+    change ((coprod.inl : X ⟶ X ⨿ Y) ≫ coprod.desc a b).left = _
     rw [coprod.inl_desc]
   · simp only [coprodComparison, coprod.inr_desc_assoc, coprod.inr_desc]
-    show ((coprod.inr : Y ⟶ X ⨿ Y) ≫ coprod.desc a b).left = _
+    change ((coprod.inr : Y ⟶ X ⨿ Y) ≫ coprod.desc a b).left = _
     rw [coprod.inr_desc]
 
 /-- A morphism property which respects isomorphisms holds for the underlying morphism of

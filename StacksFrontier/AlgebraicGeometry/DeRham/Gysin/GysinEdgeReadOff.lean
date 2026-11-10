@@ -92,7 +92,7 @@ theorem isIso_homologyMap_toTensor_singleShift
       obtain ⟨N, π, hflat, hepi⟩ :=
         Stacks.SheafOfModules.FlatTensorShortExact.exists_epi_from_flat R M
       exact ⟨N, hflat, π, hepi⟩) 0).2 sA
-  have hL : Stacks.SheafOfModules.KFlat.KFlat R L :=
+  have hL : Stacks.SheafOfModules.IsKFlat R L :=
     Stacks.SheafOfModules.kFlat_of_boundedAbove_of_flat R L ⟨0, hLE⟩ hLflat
   have nat := T.toTensor_naturality s (𝟙 sB)
   rw [DerivedCategory.Q.map_id, CategoryTheory.Functor.map_id] at nat

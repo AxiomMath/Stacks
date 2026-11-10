@@ -252,7 +252,7 @@ private lemma isIdealTorsionFree_of_mono {I : SheafOfModules.{u} Oₛ} (i : I �
     {A M : SheafOfModules.{u} Oₛ} (f : A ⟶ M) [Mono f]
     (hM : IsIdealTorsionFree X i M) :
     IsIdealTorsionFree X i A := by
-  show idealPowerAnnihilatorSubsheaf X i A 1 = ⊥
+  change idealPowerAnnihilatorSubsheaf X i A 1 = ⊥
   refine le_antisymm (sSup_le ?_) bot_le
   intro N hN U s hs
   refine mem_bot_submodule (Stacks.SheafOfModules.injective_app_of_mono f U ?_)
@@ -265,7 +265,7 @@ private lemma isIdealTorsionFree_of_mono {I : SheafOfModules.{u} Oₛ} (i : I �
 private lemma isIdealTorsionFree_of_isZero {I : SheafOfModules.{u} Oₛ} (i : I ⟶ 𝒪ₛ)
     {A : SheafOfModules.{u} Oₛ} (hA : IsZero A) :
     IsIdealTorsionFree X i A := by
-  show idealPowerAnnihilatorSubsheaf X i A 1 = ⊥
+  change idealPowerAnnihilatorSubsheaf X i A 1 = ⊥
   refine le_antisymm (sSup_le ?_) bot_le
   intro N hN U s hs
   exact mem_bot_submodule (Stacks.SheafOfModules.eq_zero_of_isZero hA U s)
@@ -296,7 +296,7 @@ private lemma isIdealTorsionFree_biprod {I : SheafOfModules.{u} Oₛ} (i : I ⟶
     (M N : SheafOfModules.{u} Oₛ)
     (hM : IsIdealTorsionFree X i M) (hN : IsIdealTorsionFree X i N) :
     IsIdealTorsionFree X i (M ⊞ N) := by
-  show idealPowerAnnihilatorSubsheaf X i (M ⊞ N) 1 = ⊥
+  change idealPowerAnnihilatorSubsheaf X i (M ⊞ N) 1 = ⊥
   refine le_antisymm (sSup_le ?_) bot_le
   intro K hK U s hs
   have hj : K.ι = 0 :=

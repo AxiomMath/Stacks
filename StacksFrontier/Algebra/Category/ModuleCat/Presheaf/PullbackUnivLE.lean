@@ -137,7 +137,7 @@ lemma ι_fromPresentation (M : PresheafOfModules.{v} R) (U : C) (x : M.obj (op U
     Sigma.ι (presentationFamily R M) (⟨U, x⟩ : presentationIndex R M) ≫
         fromPresentation R M =
       fromFreeYonedaShrink R x :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- **Every presheaf of modules is a quotient of a coproduct of free presheaves of modules on
 representables**, with the universes of the site, of its morphisms, of the rings and of the

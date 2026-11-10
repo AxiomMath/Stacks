@@ -272,16 +272,7 @@ theorem chartPullbackMeromorphicSections_comp
         (((modulePullback B S hS f).obj M).val.map i.op).hom
           ((modulePullbackChartFMap B S hS f M).app d x) := fun x ↦
     (modulePullbackChartFMap B S hS f M).naturality d d' i j h x
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    exact (congrArg (fun z ↦ chartPullbackMeromorphicSections B S hS f M hf d' z)
-        (map_zero ((regularSectionsLocalizationModule B S hS Y.1 Y.2 M).map j.op).hom)).trans
-      ((map_zero (chartPullbackMeromorphicSections B S hS f M hf d')).trans
-        (((congrArg (fun z ↦ ((regularSectionsLocalizationModule B S hS X.1 X.2
-                ((modulePullback B S hS f).obj M)).map i.op).hom z)
-              (map_zero (chartPullbackMeromorphicSections B S hS f M hf d))).trans
-            (map_zero ((regularSectionsLocalizationModule B S hS X.1 X.2
-              ((modulePullback B S hS f).obj M)).map i.op).hom)).symm))
+  induction t using TensorProduct.inductionOn with
   | add x y hx hy =>
     exact ((congrArg (fun z ↦ chartPullbackMeromorphicSections B S hS f M hf d' z)
           (map_add ((regularSectionsLocalizationModule B S hS Y.1 Y.2 M).map j.op).hom

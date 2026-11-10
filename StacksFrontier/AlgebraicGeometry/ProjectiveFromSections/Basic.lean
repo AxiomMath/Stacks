@@ -26,7 +26,8 @@ that that step is conditional on. See "What is not done".
 `AlgebraicGeometry.Proj.fromOfGlobalSections`
 (`Mathlib/AlgebraicGeometry/ProjectiveSpectrum/Basic.lean`) takes a ring homomorphism
 `A →+* Γ(X, ⊤)`, i.e. sections of `𝒪_X` itself, so it gives the morphism only where `L` is
-trivial, and it lands in the absolute `Proj`. This is why this file exists: the whole content here is the reduction of the nontrivial case to the
+trivial, and it lands in the absolute `Proj`. This is why this file exists: the whole content here
+is the reduction of the nontrivial case to the
 trivial one over a cover, which is precisely the ratio package of the sibling file.
 
 ## Main definitions

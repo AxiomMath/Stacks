@@ -84,11 +84,11 @@ theorem exists_glued_algebra
   have hmem : ∀ x : A' × A₁, x ∈ Asub ↔ x ∈ kernel f αm := by
     intro x
     rw [AlgHom.mem_equalizer, LinearMap.mem_ker]
-    show α (algebraMap A' (Localization.Away (algebraMap R A' f)) x.1) = 1 ⊗ₜ[R] x.2 ↔ _
+    change α (algebraMap A' (Localization.Away (algebraMap R A' f)) x.1) = 1 ⊗ₜ[R] x.2 ↔ _
     rw [show difference f αm x =
         LocalizedModule.mk x.1 1 - αm.symm (1 ⊗ₜ[R] x.2) from rfl, sub_eq_zero,
       LinearEquiv.eq_symm_apply]
-    show _ ↔ α (β (LocalizedModule.mk x.1 1)) = _
+    change _ ↔ α (β (LocalizedModule.mk x.1 1)) = _
     rw [hβ]
   let E : Asub ≃ₗ[R] kernel f αm :=
     { toFun := fun x ↦ ⟨x.1, (hmem x.1).1 x.2⟩
@@ -107,7 +107,7 @@ theorem exists_glued_algebra
       funext z
       induction z using TensorProduct.inductionOn with
       | tmul s a =>
-        show (Algebra.ofId S A') s * (a : A' × A₁).1 = s • (a : A' × A₁).1
+        change (Algebra.ofId S A') s * (a : A' × A₁).1 = s • (a : A' × A₁).1
         rw [Algebra.smul_def]
         rfl
       | add x y hx hy => simp only [map_add, Function.comp_apply, hx, hy]
@@ -132,7 +132,7 @@ theorem exists_glued_algebra
       (map_mul_of_isLocalizedModule (Submonoid.powers f) l eL.toLinearMap h heL
         (IsLocalizedModule.map_units h.toLinearMap))
   refine ⟨Asub, inferInstance, inferInstance, e₁, AlgEquiv.ofBijective q hq, fun a ↦ ?_⟩
-  show α (algebraMap A' _ ((Algebra.ofId S A') 1 * (a : A' × A₁).1)) = 1 ⊗ₜ[R] e₁ (l a)
+  change α (algebraMap A' _ ((Algebra.ofId S A') 1 * (a : A' × A₁).1)) = 1 ⊗ₜ[R] e₁ (l a)
   rw [map_one, one_mul, show e₁ (l a) = h a from heL a]
   exact (AlgHom.mem_equalizer φ ψ _).1 a.2
 

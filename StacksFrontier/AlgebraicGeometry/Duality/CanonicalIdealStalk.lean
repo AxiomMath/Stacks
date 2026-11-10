@@ -119,7 +119,7 @@ theorem surjective_liftBaseChange_toStalk :
   obtain ⟨v, hv⟩ := hunit
   refine ⟨(↑v⁻¹ : (Spec R).presheaf.stalk y) ⊗ₜ[R] a, ?_⟩
   rw [LinearMap.liftBaseChange_tmul, ← hs]
-  show (↑v⁻¹ : (Spec R).presheaf.stalk y) • ((specGerm y).hom (s : R) • m) = m
+  change (↑v⁻¹ : (Spec R).presheaf.stalk y) • ((specGerm y).hom (s : R) • m) = m
   rw [← hv, smul_smul, Units.inv_mul, one_smul]
 
 end PullbackStalk
@@ -177,9 +177,9 @@ theorem exists_surjective_tensor_stalk_of_epi_of_eq_stalkMap {R : CommRingCat.{u
     ((Spec R).presheaf.stalk (f x)) (X.presheaf.stalk x) (X.presheaf.stalk x) J
   let v' := v.baseChange (X.presheaf.stalk x)
   have hv' : Function.Surjective v' := by
-    show Function.Surjective (v.baseChange (X.presheaf.stalk x) :
+    change Function.Surjective (v.baseChange (X.presheaf.stalk x) :
       _ → X.presheaf.stalk x ⊗[(Spec R).presheaf.stalk (f x)] _)
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact LinearMap.lTensor_surjective _ (surjective_liftBaseChange_toStalk J (f x))
   let e₁ : X.presheaf.stalk x ⊗[(Spec R).presheaf.stalk (f x)] (tilde J).presheaf.stalk (f x)
       ≃ₗ[X.presheaf.stalk x]

@@ -136,7 +136,7 @@ lemma complexSectionSize_le_of_epi_f
     {F G : CochainComplex (PresheafOfModules.{max u v r w} O) ℤ} (q : F ⟶ G)
     (hq : ∀ i : ℤ, Epi (q.f i)) :
     complexSectionSize.{w} O G ≤ complexSectionSize.{w} O F := by
-  show Cardinal.mk (Σ i : ℤ, Σ V : C, (G.X i).obj (op V)) ≤
+  change Cardinal.mk (Σ i : ℤ, Σ V : C, (G.X i).obj (op V)) ≤
     Cardinal.mk (Σ i : ℤ, Σ V : C, (F.X i).obj (op V))
   refine Cardinal.mk_le_of_surjective
     (f := fun p : (Σ i : ℤ, Σ V : C, (F.X i).obj (op V)) =>

@@ -104,7 +104,7 @@ theorem IsFiberedInGroupoids.essSurj_overPost (hp : p.IsFiberedInGroupoids) (x :
     have := hφ
     have hy : p.obj y = B.left := IsHomLift.domain_eq p B.hom φ
     refine ⟨Over.mk φ, ⟨Over.isoMk (eqToIso hy) ?_⟩⟩
-    show (eqToIso hy).hom ≫ B.hom = p.map φ
+    change (eqToIso hy).hom ≫ B.hom = p.map φ
     rw [IsHomLift.fac' p B.hom φ]
     simp
 

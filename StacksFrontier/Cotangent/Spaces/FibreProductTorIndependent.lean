@@ -149,8 +149,7 @@ theorem isZero_cone_fundamentalMor_of_ringEquiv_of_torIndependent (φ : A ⊗[R]
   have hτ : ∀ t, ρC (algebraMap (A' ⊗[R'] B') C' t) =
       φ (TorChangeOfRings.equivTensorProductRingEquiv ρR ρA ρB hA hB t) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul a b =>
       change ρC (ψ (a ⊗ₜ[R'] b)) =
         φ (TorChangeOfRings.equivTensorProductMap ρR ρA ρB hA hB (a ⊗ₜ[R'] b))

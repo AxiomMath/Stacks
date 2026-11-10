@@ -78,8 +78,7 @@ theorem isKoszulRegular_algebraMap_of_pow_smul_homology_eq_zero {P : Type u} [Co
     (homologySelfIso h i).toLinearEquiv).toEquiv.subsingleton_congr.2 ⟨fun x y => ?_⟩
   have hzero : ∀ z : S ⊗[P] (seqComplex h).homology i, z = 0 := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rfl
+    induction z using TensorProduct.inductionOn with
     | add z₁ z₂ h₁ h₂ => rw [h₁, h₂, add_zero]
     | tmul s m =>
       obtain ⟨u, hu⟩ := ht.pow c
@@ -162,7 +161,7 @@ theorem isLocalCompleteIntersection_algebraMap_affineBlowup {A : Type u} [CommRi
   have hker : RingHom.ker p.toRingHom = J := by
     ext x
     simp only [RingHom.mem_ker, AlgHom.toRingHom_eq_coe, RingHom.coe_coe]
-    show e.symm (Ideal.Quotient.mk J x) = 0 ↔ x ∈ J
+    change e.symm (Ideal.Quotient.mk J x) = 0 ↔ x ∈ J
     rw [map_eq_zero_iff _ e.symm.injective, Ideal.Quotient.eq_zero_iff_mem]
   rw [RingHom.IsLocalCompleteIntersection, _root_.toAlgebra_algebraMap]
   refine ⟨RingHom.finiteType_algebraMap.mpr (Algebra.FiniteType.of_surjective p hp),
@@ -224,9 +223,9 @@ theorem smooth_quotientMap_affineBlowup {A : Type u} [CommRing A] {r : ℕ}
       (Ψ.symm.toRingEquiv.toRingHom).comp MvPolynomial.C := by
     refine Ideal.Quotient.ringHom_ext (RingHom.ext fun a => ?_)
     simp only [RingHom.comp_apply, Ideal.quotientMap_mk, RingEquiv.toRingHom_eq_coe,
-      RingEquiv.coe_toRingHom, AlgEquiv.coe_ringEquiv]
+      RingEquiv.coe_toRingHom, AlgEquiv.coe_toRingEquiv]
     refine (Ψ.symm_apply_eq.2 ?_).symm
-    show MvPolynomial.C (Ideal.Quotient.mk _ a) = Ψ (algebraMap A _ a)
+    change MvPolynomial.C (Ideal.Quotient.mk _ a) = Ψ (algebraMap A _ a)
     rw [AlgEquiv.commutes]
     rfl
   rw [hfac]

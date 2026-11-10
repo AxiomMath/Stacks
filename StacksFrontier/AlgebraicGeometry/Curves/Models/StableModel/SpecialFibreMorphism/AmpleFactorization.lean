@@ -71,7 +71,7 @@ theorem exists_comp_eq_of_isAmple_of_isIso_unitToPushforwardObjUnit_left [Surjec
     obtain ⟨x, rfl⟩ := d.surjective y₀
     obtain ⟨n, -, s, hxs, haff⟩ := hL.exists_affine_nonvanishingLocus (c x)
     refine Opens.mem_iSup.2 ⟨⟨n, s, haff⟩, ?_⟩
-    show x ∈ d ⁻¹ᵁ V₀ ⟨n, s, haff⟩
+    change x ∈ d ⁻¹ᵁ V₀ ⟨n, s, haff⟩
     rw [hV₀]
     exact hxs
 

@@ -96,7 +96,7 @@ theorem pushTransition_app {B C Z : TopCat.{u}} (f : B ⟶ C) (b : B ⟶ Z) (c :
       t.hom.app (op ((Opens.map c).obj V.unop)) ≫
         F.obj.map (eqToHom (by rw [← h]; rfl)) := by
   subst h
-  show ((pf c).map t ≫ 𝟙 _).hom.app V = _
+  change ((pf c).map t ≫ 𝟙 _).hom.app V = _
   rw [Category.comp_id]
   exact (Category.comp_id _).symm.trans (congrArg _ (F.obj.map_id _).symm)
 
@@ -141,7 +141,7 @@ theorem componentSectionsIso_transition
     ((Iso.eq_inv_comp em).mp (((Iso.comp_inv_eq en).mp hc).trans (Category.assoc _ _ _))).symm
   let un := (E.underlyingPresheafIso.hom.app F).app (op ⟨n, (Opens.map (Y.map φ)).obj W⟩)
   let um := (E.underlyingPresheafIso.hom.app F).app (op ⟨m, W⟩)
-  show T ≫ (en.hom ≫ un) = (em.hom ≫ um) ≫ F.obj.map (SimplicialSheafSystem.transitionHom φ W).op
+  change T ≫ (en.hom ≫ un) = (em.hom ≫ um) ≫ F.obj.map (SimplicialSheafSystem.transitionHom φ W).op
   calc T ≫ (en.hom ≫ un) = (T ≫ en.hom) ≫ un := (Category.assoc _ _ _).symm
     _ = (em.hom ≫ tM) ≫ un := congrArg (fun k => k ≫ un) key
     _ = em.hom ≫ (tM ≫ un) := Category.assoc _ _ _

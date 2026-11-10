@@ -184,7 +184,7 @@ theorem bundleChainPullbackPi_of_mem {m m' : ℤ} {n : ℕ}
     bundleChainPullbackPi C sX sY f m m' n a ξ =
       milnorKTransport (f.residueFieldMap ξ.1).hom n (a ⟨f.base ξ.1, h⟩) := by
   classical
-  rw [bundleChainPullbackPi, dif_pos h]
+  rw [bundleChainPullbackPi, dite_eq_left h]
 
 omit [LocallyOfFiniteType sX] [LocallyOfFiniteType sY] in
 /-- The coordinate of `bundleChainPullbackPi` at a point `ξ` whose image `f ξ` is not of relative
@@ -194,7 +194,7 @@ theorem bundleChainPullbackPi_of_notMem {m m' : ℤ} {n : ℕ}
     (ξ : pointsOfDimension C sX m') (h : f.base ξ.1 ∉ pointsOfDimension C sY m) :
     bundleChainPullbackPi C sX sY f m m' n a ξ = 0 := by
   classical
-  rw [bundleChainPullbackPi, dif_neg h]
+  rw [bundleChainPullbackPi, dite_eq_right h]
 
 /-- If the coordinate of `bundleChainPullbackPi` at `ξ` is nonzero, then `f ξ` has relative
 dimension `m`. -/

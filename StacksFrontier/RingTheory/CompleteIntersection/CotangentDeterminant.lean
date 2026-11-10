@@ -169,7 +169,7 @@ theorem Presentation.delta_cotangentComplex_eq
     TwoTermComplex.delta P.toExtension.cotangentComplex P.isRankZero_cotangentComplex =
       P.relationJacobiMatrix.det • P.cotangentDeterminantBasis b k := by
   rw [Presentation.cotangentDeterminantBasis, ProjectiveDeterminant.basisHom_apply]
-  show ProjectiveDeterminant.map _ P.toExtension.cotangentComplex = _
+  change ProjectiveDeterminant.map _ P.toExtension.cotangentComplex = _
   rw [ProjectiveDeterminant.map_eq_det_toMatrix_smul_basisEquiv b P.cotangentSpaceBasis,
     P.toMatrix_cotangentComplex_eq_relationJacobiMatrix b hb]
 

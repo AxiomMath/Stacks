@@ -274,7 +274,7 @@ lemma differentialsMapOfSquare_comp (X : Cᵒᵖ) (ω : (differentialsPresheaf a
   induction mem using Submodule.span_induction with
   | mem x hx =>
       obtain ⟨x, rfl⟩ := hx
-      show differentialsMapOfSquare ψ' a₂ a₃ ρ' ha' X (differentialsMapOfSquare ψ a₁ a₂ ρ ha X
+      change differentialsMapOfSquare ψ' a₂ a₃ ρ' ha' X (differentialsMapOfSquare ψ a₁ a₂ ρ ha X
             (CommRingCat.KaehlerDifferential.d (f := a₁.app X) x)) =
           differentialsMapOfSquare (ψ ≫ ψ') a₁ a₃ (ρ ≫ ρ') (square_comp ha ha') X
             (CommRingCat.KaehlerDifferential.d (f := a₁.app X) x)
@@ -293,8 +293,7 @@ lemma tensorMapOfSquareₛₗ_comp (X : Cᵒᵖ)
         (tensorMapOfSquareₛₗ φ₁ φ₂ ψ β hsq a₁ a₂ ρ ha X t) =
       tensorMapOfSquareₛₗ φ₁ φ₃ (ψ ≫ ψ') (β ≫ β') (square_comp hsq hsq') a₁ a₃ (ρ ≫ ρ')
         (square_comp ha ha') X t := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul b ω =>
     refine (congrArg (tensorMapOfSquareₛₗ φ₂ φ₃ ψ' β' hsq' a₂ a₃ ρ' ha' X)
       (TensorProduct.map_tmul _ _ b ω)).trans ?_

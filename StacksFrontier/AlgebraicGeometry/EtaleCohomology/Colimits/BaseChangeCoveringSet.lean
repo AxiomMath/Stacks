@@ -5,7 +5,7 @@ public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Colimits.QcqsBase
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.PointsOtherTopologies.SmallAffineEtale
 public import StacksFrontier.AlgebraicGeometry.FundamentalGroup.LocalConnectedness.Basic
 public import
-  StacksFrontier.CategoryTheory.Sites.Cohomology.FilteredColimits.FiniteCoveringCriterionOnALargeSite
+ StacksFrontier.CategoryTheory.Sites.Cohomology.FilteredColimits.FiniteCoveringCriterionOnALargeSite
 public import StacksFrontier.CategoryTheory.Sites.Pretopology.AsSmallSite
 public import StacksFrontier.CategoryTheory.Sites.QuasiCompact.CoveringSetFromCoversTop
 public import StacksFrontier.CategoryTheory.Sites.Representable.LocalSurjectivityFromSiteMorphisms

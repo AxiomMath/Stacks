@@ -143,9 +143,8 @@ private noncomputable def directLimitCocone {ι : Type u} [Preorder ι] (F : ι 
     (fun _ _ h => (F.map (homOfLE h)).hom))
   ι.app i := CommRingCat.ofHom (Ring.DirectLimit.of (fun i => F.obj i)
     (fun _ _ h => (F.map (homOfLE h)).hom) i)
-  ι.naturality i j h := CommRingCat.hom_ext <| RingHom.ext fun x =>
-    Ring.DirectLimit.of_f (G := fun i => F.obj i)
-      (f := fun i j h => (F.map (homOfLE h)).hom) (leOfHom h) x
+  ι.naturality _ _ h := CommRingCat.hom_ext <| RingHom.ext fun x =>
+    Ring.DirectLimit.of_f (G := fun i => F.obj i) (leOfHom h) x
 
 /-- The direct-limit cocone is a colimit cocone, by the universal property of the direct
 limit. -/

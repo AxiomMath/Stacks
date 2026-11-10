@@ -79,7 +79,7 @@ theorem counit_comm
         simp only [Functor.comp_obj, Functor.comp_map, Functor.id_map, Functor.id_obj] at h1 h2 ⊢
         rw [reassoc_of% h1, ← EX.map_comp, Category.assoc, ← EX.map_comp, h2] }
   refine app_eq_of_iso_app_eq α β e ?_
-  show L₂.map (ψ.hom.app (Q₁X.obj N)) ≫ A₂.counit.app (EX.obj (Q₁X.obj N)) =
+  change L₂.map (ψ.hom.app (Q₁X.obj N)) ≫ A₂.counit.app (EX.obj (Q₁X.obj N)) =
     φ.inv.app (R₁.obj (Q₁X.obj N)) ≫ EX.map (A₁.counit.app (Q₁X.obj N))
   rw [← cancel_epi (L₂.map (EY.map (η₁.app N)))]
   have hl : L₂.map (EY.map (η₁.app N)) ≫ L₂.map (ψ.hom.app (Q₁X.obj N)) ≫
@@ -158,7 +158,7 @@ theorem comp_comm
           ← EX.map_comp, n3, EX.map_comp]
         simp only [Category.assoc] }
   refine app_eq_of_iso_app_eq α β i ?_
-  show C₂.hom.app (EZ.obj (Q₁Z.obj M)) ≫ φc.inv.app (Q₁Z.obj M) =
+  change C₂.hom.app (EZ.obj (Q₁Z.obj M)) ≫ φc.inv.app (Q₁Z.obj M) =
     L₂f.map (φg.inv.app (Q₁Z.obj M)) ≫ φf.inv.app (L₁g.obj (Q₁Z.obj M)) ≫
       EX.map (C₁.hom.app (Q₁Z.obj M))
   rw [← cancel_mono (EX.map (c₁c.app M) ≫ κX.hom.app (pc.obj M))]

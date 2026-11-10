@@ -174,7 +174,7 @@ theorem coveringSieveBody_affineBase_of_affineFlatSource {P : MorphismProperty S
   have key : e.hom ≫ (BigFppfOver.toScheme B S hS).map p =
       Sigma.desc fun x : {x // x ∈ t} => (BigFppfOver.toScheme B S hS).map (v x.1) := by
     refine Sigma.hom_ext _ _ fun x => ?_
-    rw [← Category.assoc, he x, Sigma.ι_desc, ← Functor.map_comp, hp x]
+    rw [← Category.assoc, he x, Sigma.ι_comp_desc, ← Functor.map_comp, hp x]
   have hinj : ∀ x : {x // x ∈ t}, _root_.AlgebraicGeometry.IsOpenImmersion
       ((BigFppfOver.toScheme B S hS).map (inj x)) := by
     intro x

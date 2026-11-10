@@ -45,7 +45,7 @@ private lemma pderiv_rename_inr {R σ τ : Type*} [CommRing R]
 open MvPolynomial in
 lemma chart_jacobian_notMem
     {R A σ τ δ κ : Type*} [CommRing R] [CommRing A] [Algebra R A]
-    [Fintype δ] [Fintype κ] [DecidableEq δ] [DecidableEq κ]
+    [Fintype δ] [Finite κ] [DecidableEq δ]
     (P : Algebra.Presentation R A (σ ⊕ τ) (δ ⊕ κ))
     (cols : δ ↪ σ) (rows : δ → τ) (rest : κ ↪ τ)
     (hdis : ∀ d k, rows d ≠ rest k)
@@ -64,10 +64,11 @@ lemma chart_jacobian_notMem
     (Algebra.PreSubmersivePresentation.mk P
       (Sum.map cols rest) (Function.Embedding.sumMap cols rest).injective).jacobian ∉ q := by
   classical
+  have := Fintype.ofFinite κ
   let f : MvPolynomial (σ ⊕ τ) R →+* A ⧸ q :=
     (Ideal.Quotient.mk q).comp (aeval P.val).toRingHom
   have hfπ : f (C π) = 0 := by
-    show Ideal.Quotient.mk q ((aeval P.val) (C π)) = 0
+    change Ideal.Quotient.mk q ((aeval P.val) (C π)) = 0
     rw [aeval_C]
     exact Ideal.Quotient.eq_zero_iff_mem.mpr hπ
   let T := Algebra.PreSubmersivePresentation.mk P
@@ -106,7 +107,7 @@ lemma chart_jacobian_notMem
   have ha' : f (rename Sum.inl a) ≠ 0 := Ideal.Quotient.eq_zero_iff_mem.not.mpr ha
   intro hj
   have hz : f T.jacobiMatrix.det = 0 := by
-    show Ideal.Quotient.mk q ((aeval P.val) T.jacobiMatrix.det) = 0
+    change Ideal.Quotient.mk q ((aeval P.val) T.jacobiMatrix.det) = 0
     apply Ideal.Quotient.eq_zero_iff_mem.mpr
     rw [Algebra.PreSubmersivePresentation.jacobian_eq_jacobiMatrix_det] at hj
     rw [T.algebraMap_eq] at hj
@@ -118,7 +119,7 @@ lemma chart_jacobian_notMem
   exact (mul_ne_zero hB (Finset.prod_ne_zero_iff.mpr fun _ _ => ha')) hz
 
 lemma exists_coordinates_of_linear_relations
-    {A τ : Type*} [CommRing A] [Fintype τ] [DecidableEq τ]
+    {A τ : Type*} [CommRing A] [DecidableEq τ]
     (V : Finset τ) (d : τ → V → A) (z : τ → A) (a : A)
     (H : τ → V → A) (ha : IsUnit a)
     (hdet : IsUnit (Matrix.det fun i j : V => d i.1 j))
@@ -229,7 +230,7 @@ private lemma pderiv_mem_of_mem_ideal_sq
       exact I.add_mem ih₁ ih₂
 
 lemma pderiv_relation_mod_pi
-    {R σ τ : Type*} [CommRing R] [Fintype τ]
+    {R σ τ : Type*} [CommRing R]
     (π : R) (F : τ → MvPolynomial σ R) (V : Finset τ)
     (a : MvPolynomial σ R) (H : V → MvPolynomial σ R)
     (l : τ) (T E : MvPolynomial σ R)
@@ -260,7 +261,7 @@ lemma pderiv_relation_mod_pi
   simp only [map_sub, map_add, map_mul, map_sum, hF, hT', hπsq,
     mul_zero, zero_mul, zero_add, sub_zero] at hqd
   apply (Ideal.Quotient.eq_zero_iff_mem).mp
-  show q (a * MvPolynomial.pderiv i (F l) -
+  change q (a * MvPolynomial.pderiv i (F l) -
     (∑ j : V, H j * MvPolynomial.pderiv i (F j.1))) = 0
   simpa only [map_sub, map_mul, map_sum] using hqd
 
@@ -437,9 +438,9 @@ lemma isSmoothAt_of_factorization_through_formallySmooth
   have hFG : F.comp G = AlgHom.id R T := by
     apply IsLocalization.algHom_ext q.primeCompl
     ext a
-    show F (G (algebraMap A T a)) = algebraMap A T a
+    change F (G (algebraMap A T a)) = algebraMap A T a
     rw [show G (algebraMap A T a) = h' a from IsLocalization.lift_eq hgu a]
-    show F (algebraMap P W (h a)) = algebraMap A T a
+    change F (algebraMap P W (h a)) = algebraMap A T a
     exact (IsLocalization.lift_eq hfu (h a)).trans (DFunLike.congr_fun hf a)
   let : Algebra.FormallySmooth R W := Algebra.FormallySmooth.comp R P W
   exact formallySmooth_of_retraction F G hFG

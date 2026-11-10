@@ -74,7 +74,7 @@ theorem functorPullback_mem_of_map_mem_toPrecoverage {C₂ : Type v₃} [Categor
   refine J₂.superset_covering ?_ hS
   intro V f hf
   have hmem : (S.functorPullback e.functor).arrows (e.inverse.map f ≫ e.unitInv.app Z) := by
-    show S (e.functor.map (e.inverse.map f ≫ e.unitInv.app Z))
+    change S (e.functor.map (e.inverse.map f ≫ e.unitInv.app Z))
     have heq : e.functor.map (e.inverse.map f ≫ e.unitInv.app Z) = e.counit.app V ≫ f := by
       simp
     rw [heq]
@@ -123,7 +123,7 @@ theorem functorPullback_mem_toGrothendieck_comap_asSmall {A : Type v₁} [Catego
         (Precoverage.generate_mem_toGrothendieck
           (show R.map (AsSmall.up : A ⥤ AsSmall.{v₃} A) ∈
               (K.comap AsSmall.down) (AsSmall.up.obj Y) by
-            show (R.map (AsSmall.up : A ⥤ AsSmall.{v₃} A)).map AsSmall.down ∈ K Y
+            change (R.map (AsSmall.up : A ⥤ AsSmall.{v₃} A)).map AsSmall.down ∈ K Y
             rw [presieve_map_up_down]
             exact hR))
       rintro W f ⟨W', p, r, ⟨hr⟩, rfl⟩

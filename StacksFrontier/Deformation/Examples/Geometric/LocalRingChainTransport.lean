@@ -166,7 +166,7 @@ theorem algebraMap_adicCompletionHenselizationEquiv_symm (R : Type w) [CommRing 
       (I.map (algebraMap R (henselization R I : Type w))) le_rfl)
     (algebraMap k R a)
   simp only [RingHom.coe_comp, Function.comp_apply] at h
-  show _ = adicCompletionMap (algebraMap R (henselization R I : Type w)) I
+  change _ = adicCompletionMap (algebraMap R (henselization R I : Type w)) I
       (I.map (algebraMap R (henselization R I : Type w))) le_rfl
       (algebraMap k (AdicCompletion I R) a)
   rw [IsScalarTower.algebraMap_apply k R (AdicCompletion I R), h,
@@ -240,7 +240,7 @@ theorem comap_transport_eq (X : ringDeformationCategory (Λ := Λ) (k := k) R) :
     I.comap X.hom.map.hom =
       J.comap ((ringDeformationTransport (Λ := Λ) d hd).obj X).hom.map.hom := by
   refine Ideal.ext fun z => ?_
-  show X.hom.map.hom z ∈ I ↔ d (X.hom.map.hom z) ∈ J
+  change X.hom.map.hom z ∈ I ↔ d (X.hom.map.hom z) ∈ J
   rw [← hIJ]
   refine ⟨Ideal.mem_map_of_mem _, fun hz => ?_⟩
   have hz' : X.hom.map.hom z ∈ (I.map d.toRingHom).comap d.toRingHom := hz
@@ -320,10 +320,10 @@ theorem completionCongrEquiv_special (X : ringDeformationCategory (Λ := Λ) (k 
   have hαβ : α = β := by
     symm
     refine ringHom_eq_of_apply_algebraMap_eq _ _ _ hmap hfg β α (fun z => ?_) (fun z => ?_)
-    · show D ((C.functor.obj X).hom.map.hom (completionUnit I C X z)) = _
+    · change D ((C.functor.obj X).hom.map.hom (completionUnit I C X z)) = _
       unfold completionUnit
       exact (congrArg D (C.special_comm X z)).trans (hD _)
-    · show (C'.functor.obj ((ringDeformationTransport (Λ := Λ) d hd).obj X)).hom.map.hom
+    · change (C'.functor.obj ((ringDeformationTransport (Λ := Λ) d hd).obj X)).hom.map.hom
         (completionCongrEquiv d hd I J hIJ X (completionUnit I C X z)) = _
       rw [completionCongrEquiv_completionUnit]
       exact C'.special_comm ((ringDeformationTransport (Λ := Λ) d hd).obj X) z
@@ -349,7 +349,7 @@ theorem completionCongrEquiv_naturality {X Y : ringDeformationCategory (Λ := Λ
   let φ : X.left.fiber →+* TY.left.fiber := f.left.map.hom
   have hmap : (I.comap X.hom.map.hom).map φ ≤ N := by
     refine Ideal.map_le_iff_le_comap.mpr fun z hz => ?_
-    show d (Y.hom.map.hom (f.left.map.hom z)) ∈ J
+    change d (Y.hom.map.hom (f.left.map.hom z)) ∈ J
     have hw : Y.hom.map.hom (f.left.map.hom z) = X.hom.map.hom z :=
       congrArg (fun t => t.map.hom z) (Over.w f)
     rw [hw, ← hIJ]
@@ -412,7 +412,7 @@ theorem isSmooth_of_conj (hA' : IsPredeformationCategory 𝓐'.p)
     (e : BasedFunctor.comp S F ≅ BasedFunctor.comp G T) (hS : IsSmooth S) (hG : IsSmooth G)
     (hT : IsSmooth T) : IsSmooth F := by
   have := essSurj_of_isSmooth hA' hA S hS
-  exact isSmooth_of_essSurj_comp hA'.cofibered S F (isSmooth_of_iso e (isSmooth_comp G T hG hT))
+  exact isSmooth_of_essSurj_comp S F (isSmooth_of_iso e (isSmooth_comp G T hG hT))
 
 /-- If `S ⋙ F ≅ G ⋙ T` with `S`, `G` and `T` bijective on tangent spaces, then so is `F`. -/
 theorem bijective_differential_of_conj (hA' : IsCofiberedInGroupoids 𝓐'.p)

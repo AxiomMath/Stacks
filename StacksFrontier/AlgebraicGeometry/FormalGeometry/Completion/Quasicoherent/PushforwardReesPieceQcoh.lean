@@ -71,7 +71,7 @@ public theorem reesMultiple_isQuasicoherent' {X : Scheme.{u}} (I : X.IdealSheafD
   · obtain ⟨m, rfl⟩ := Int.eq_ofNat_of_zero_le hn
     exact reesMultiple_isQuasicoherent I m F
   · have he : reesMultiple I n F = ⊥ := reesMultiple_eq_bot_of_neg I n F hn
-    show ((reesMultiple I n F).toSheafOfModules : X.Modules).IsQuasicoherent
+    change ((reesMultiple I n F).toSheafOfModules : X.Modules).IsQuasicoherent
     rw [he]
     exact Stacks.AlgebraicGeometry.HigherDirectImage.isQuasicoherent_of_isZero
       (R := X.ringCatSheaf) (isZero_toSheafOfModules_bot F)

@@ -100,10 +100,10 @@ theorem isPushout_quotient_maximalIdeal (R : Type u) (A : Type v) [CommRing R] [
     (Algebra.TensorProduct.quotIdealMapEquivTensorQuot A (maximalIdeal R)).symm
     (RingHom.ext fun z => by
       obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective z
-      show (Algebra.TensorProduct.quotIdealMapEquivTensorQuot A (maximalIdeal R)).symm
+      change (Algebra.TensorProduct.quotIdealMapEquivTensorQuot A (maximalIdeal R)).symm
           ((1 : A) ⊗ₜ[R] Ideal.Quotient.mk (maximalIdeal R) r) =
         algebraMap R (A ⧸ (maximalIdeal R).map (algebraMap R A)) r
-      show Ideal.Quotient.mk ((maximalIdeal R).map (algebraMap R A)) (r • (1 : A)) = _
+      change Ideal.Quotient.mk ((maximalIdeal R).map (algebraMap R A)) (r • (1 : A)) = _
       rw [Algebra.smul_def, mul_one]
       rfl)
 

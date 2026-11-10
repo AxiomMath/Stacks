@@ -166,7 +166,7 @@ private theorem stalkGenerator_baseChange
       z ≫ eqToHom ((finiteSupportPushforward B f hsmall).2.obj_eq F V.1).symm ≫
         colimit.ι (etaleStalkDiagram B Y.obj Y.property s
           ((finiteSupportPushforward B f hsmall).1.obj F)) (op V)) hres
-  simp only [Category.assoc, eqToHom_trans_assoc, eqToHom_refl, Category.id_comp] at h
+  simp only [Category.assoc] at h
   unfold stalkGenerator
   refine h.symm.trans ?_
   exact congrArg (fun z => colimit.ι (finiteSupportDiagram B f F U.1) E ≫
@@ -320,13 +320,13 @@ private theorem exists_shrink_sectionsMap_eq_zero
         (finiteSupportOpen B f U.1 E) hmem).1.base default = j.base z :=
       (congrArg (fun m : s.source ⟶ _ => m.base (default : ↥s.source)) hlift).trans
         (congrArg j.base hrz)
-    show j.base z ∈
+    change j.base z ∈
       zeroOpen B X.obj X.property F (finiteSupportOpenObject B f U.1 E) a.val
     exact hpt ▸ hmem0
   obtain ⟨V, g, hg⟩ := exists_shrink_mem_of_fibre_subset B f s U i
     (j ⁻¹ᵁ zeroOpen B X.obj X.property F (finiteSupportOpenObject B f U.1 E) a.val) hzero
   refine ⟨V, g, Subtype.ext ?_⟩
-  show F.obj.map (finiteSupportBaseChange B f F g.1 E).openMap.op a.val = 0
+  change F.obj.map (finiteSupportBaseChange B f F g.1 E).openMap.op a.val = 0
   refine (map_eq_zero_iff_range_subset_zeroOpen B X.obj X.property F
     (finiteSupportOpenObject B f U.1 E) a.val _
     (finiteSupportBaseChange B f F g.1 E).openMap).2 ?_
@@ -394,7 +394,7 @@ private theorem fiberPointLift_mem_preimage
       (fiberPointLift B f s U.1 U.2 x).base default :=
     congrArg (fun m : s.source ⟶ _ => m.base (default : ↥s.source))
       (fiberPointLift_comp_baseChange B f s U.1 V.1 g.1 U.2 V.2 g.2 x)
-  show ((SmallEtale.toScheme B X.obj X.property).map
+  change ((SmallEtale.toScheme B X.obj X.property).map
       ((smallEtaleBaseChange B f).map g.1)).base
       ((fiberPointLift B f s V.1 V.2 x).base default) ∈ E ↔ _
   rw [hpt]
@@ -602,7 +602,7 @@ private theorem exists_cut_section
   let b := e.symm aO
   have hOQ : O ≤ finiteSupportOpen B f U.1 T := by
     intro z hz
-    show z ∈ coborder T.1
+    change z ∈ coborder T.1
     rw [mem_coborder_iff_imp]
     intro hzT
     have he := O.ι.isOpenEmbedding.isOpenMap.preimage_closure_eq_closure_preimage
@@ -709,7 +709,7 @@ private theorem preimage_finiteSupportOpen_subset
         Set ((SmallEtale.toScheme B X.obj X.property).obj (baseChange B f U.1))) ⊆
       (finiteSupportOpen B f V.1 (finiteSupportBaseChange B f F g.1 E).support :
         Set ((SmallEtale.toScheme B X.obj X.property).obj (baseChange B f V.1))) := by
-  show _ ⊆ coborder _
+  change _ ⊆ coborder _
   rw [(finiteSupportBaseChange B f F g.1 E).support_eq]
   exact ((SmallEtale.toScheme B X.obj X.property).map
     ((smallEtaleBaseChange B f).map g.1)).continuous.preimage_coborder_subset E.1
@@ -769,13 +769,13 @@ private theorem stalkGenerator_sum_eq_zero_of_isOpen_supports
   have hTE : ∀ (i : I) (j : {j : J //
       (fiberPointLift B f s U.1 U.2 (x j)).base default ∈ (E i).1}), T i j ≤ E i := by
     intro i j
-    show (T i j).1 ⊆ (E i).1
+    change (T i j).1 ⊆ (E i).1
     rw [hT]
     exact Set.inter_subset_left
   have hTW : ∀ (i : I) (j : {j : J //
       (fiberPointLift B f s U.1 U.2 (x j)).base default ∈ (E i).1}), T i j ≤ W j.1 := by
     intro i j
-    show (T i j).1 ⊆ (W j.1).1
+    change (T i j).1 ⊆ (W j.1).1
     rw [hT]
     exact Set.inter_subset_right
   let d : ∀ (i : I) (j : J), (finiteSupportDiagram B f F U.1).obj (E i) := fun i j =>

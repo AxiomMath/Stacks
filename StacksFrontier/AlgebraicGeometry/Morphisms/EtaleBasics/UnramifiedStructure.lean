@@ -63,7 +63,7 @@ theorem exists_standardEtalePair_localization_surjection
   obtain ⟨d, hd⟩ := hφ (algebraMap C (Localization.Away f) s)
   refine ⟨⟨a, d, IsLocalRing.notMem_maximalIdeal.mpr (by
     simpa [qP, ξ, j, hd, IsLocalization.Away.lift_eq] using IsLocalization.map_units B s)⟩, ?_⟩
-  show b * ξ d = ξ a
+  change b * ξ d = ξ a
   simpa [ξ, j, ha, hd, IsLocalization.Away.lift_eq] using hs
 
 end Algebra

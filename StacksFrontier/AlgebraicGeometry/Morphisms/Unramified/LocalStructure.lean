@@ -99,7 +99,7 @@ private lemma equivAwayAdjoinRoot_X (P : StandardEtalePair R) :
     · rw [aeval_algebraMap_apply, AdjoinRoot.aeval_eq, AdjoinRoot.mk_self, map_zero]
     · rw [aeval_algebraMap_apply, AdjoinRoot.aeval_eq]
       exact IsLocalization.Away.algebraMap_isUnit _
-  show P.lift _ h P.X = _
+  change P.lift _ h P.X = _
   rw [P.lift_X]
 
 /-- Localizing `A[t]_{f'}/(f)` further at `g` gives `A[t]_g/(f)`, so the normalization map of
@@ -158,7 +158,7 @@ public lemma isOpenImmersion_specMap_fromDerivativePair (P : StandardEtalePair R
     have hrootP : P'.HasMap P.X := ⟨P.hasMap_X.1, P.hasMap_X.isUnit_derivative_f⟩
     dsimp [k, loc]
     rw [heD_X]
-    show eP.symm (eTG (algebraMap D T (algebraMap A D (AdjoinRoot.root P.f)))) =
+    change eP.symm (eTG (algebraMap D T (algebraMap A D (AdjoinRoot.root P.f)))) =
       P'.lift P.X hrootP P'.X
     rw [P'.lift_X]
     have hTG : eTG (algebraMap D T (algebraMap A D (AdjoinRoot.root P.f))) =
@@ -182,7 +182,7 @@ public lemma isImmersion_specMap_aeval_X (P : StandardEtalePair R) :
   have he : e.toRingHom.comp (aeval (R := R) P.X).toRingHom =
       (Ideal.Quotient.mk I).comp (algebraMap R[X] L) := by
     refine RingHom.ext fun p => ?_
-    show e ((aeval P.X) p) = algebraMap R[X] (L ⧸ I) p
+    change e ((aeval P.X) p) = algebraMap R[X] (L ⧸ I) p
     rw [← Polynomial.aeval_algHom_apply]
     have hx : e P.X = algebraMap R[X] (L ⧸ I) Polynomial.X := by
       have h : P.HasMap (algebraMap R[X] (L ⧸ I) Polynomial.X) := by
@@ -193,7 +193,7 @@ public lemma isImmersion_specMap_aeval_X (P : StandardEtalePair R) :
         · rw [aeval_algebraMap_apply, IsScalarTower.algebraMap_apply _ L (L ⧸ I),
             aeval_X_left_apply]
           exact (IsLocalization.Away.algebraMap_isUnit P.g).map _
-      show (P.lift _ h) P.X = _
+      change (P.lift _ h) P.X = _
       exact P.lift_X _ h
     rw [hx, Polynomial.aeval_algebraMap_apply, Polynomial.aeval_X_left_apply]
   have hinv : (aeval (R := R) P.X).toRingHom =
@@ -298,7 +298,7 @@ private theorem exists_affineOpen_equiv_localizationAway
     have hxm : hU.fromSpec p ∈ X.basicOpen g := by
       rw [← hU.fromSpec_image_basicOpen g]
       exact Set.mem_image_of_mem _ ((PrimeSpectrum.mem_basicOpen g p).2 hg)
-    show x ∈ X.basicOpen g
+    change x ∈ X.basicOpen g
     simpa [p, IsAffineOpen.fromSpec_primeIdealOf] using hxm
   have hWU : W.1 ≤ U := Scheme.basicOpen_le X g
   let : Algebra Γ(X, U) Γ(X, W.1) := (X.presheaf.map (homOfLE hWU).op).hom.toAlgebra

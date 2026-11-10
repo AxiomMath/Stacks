@@ -154,7 +154,7 @@ cokernels. -/
 public noncomputable def extensionCokernelEquiv {E : Algebra.Extension.{w} A B}
     {E' : Algebra.Extension.{w'} A B} (f : E.Hom E') (g : E'.Hom E) :
     extensionCokernel N E' ≃ₗ[B] extensionCokernel N E :=
-  LinearEquiv.ofLinear (extensionCokernelMap N f) (extensionCokernelMap N g)
+  LinearEquiv.ofLinearMap (extensionCokernelMap N f) (extensionCokernelMap N g)
     (by
       rw [← extensionCokernelMap_comp, extensionCokernelMap_eq N (g.comp f)
         (Algebra.Extension.Hom.id E), extensionCokernelMap_id])

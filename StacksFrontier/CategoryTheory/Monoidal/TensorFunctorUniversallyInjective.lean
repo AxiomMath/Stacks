@@ -74,7 +74,7 @@ theorem μ_unitElement_tmul {X D : Q} (s : 𝟙_ Q ⟶ X) (d : F.obj D) :
     rw [comp_whiskerRight, Category.assoc, LaxMonoidal.μ_natural_left, LaxMonoidal.left_unitality,
       F.map_comp]
     simp only [Category.assoc, ← F.map_comp_assoc, Iso.hom_inv_id, F.map_id, Category.id_comp]
-  show (((LaxMonoidal.ε F ≫ F.map s) ▷ F.obj D) ≫ LaxMonoidal.μ F X D).hom ((1 : R) ⊗ₜ d) = _
+  change (((LaxMonoidal.ε F ≫ F.map s) ▷ F.obj D) ≫ LaxMonoidal.μ F X D).hom ((1 : R) ⊗ₜ d) = _
   rw [h, ModuleCat.hom_comp, LinearMap.comp_apply, ModuleCat.MonoidalCategory.leftUnitor_hom_apply,
     one_smul]
 

@@ -80,7 +80,7 @@ theorem topologicalKrullDim_le_of_le_coheight (S : Set X) (hS : IsClosed S) {d j
   have hfin : height T ≠ ⊤ := by
     intro h
     rw [h, top_add] at h4
-    exact ENat.coe_ne_top d (top_le_iff.mp h4)
+    exact ENat.natCast_ne_top d (top_le_iff.mp h4)
   obtain ⟨m, hm⟩ := ENat.ne_top_iff_exists.mp hfin
   rw [← hm] at h4 ⊢
   have h5 : m + j ≤ d := by exact_mod_cast h4

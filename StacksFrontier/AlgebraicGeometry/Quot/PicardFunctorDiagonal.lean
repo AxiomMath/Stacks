@@ -106,7 +106,7 @@ theorem mem_diagonalEqualizer_iff {a U : BigFppfOver B S hS} (h : yoneda.obj a �
     (g : U ⟶ a) :
     g ∈ (diagonalEqualizer q h).obj (Opposite.op U) ↔
       yoneda.map g ≫ h ≫ pullback.fst q q = yoneda.map g ≫ h ≫ pullback.snd q q := by
-  show F.map g.op _ = F.map g.op _ ↔ _
+  change F.map g.op _ = F.map g.op _ ↔ _
   rw [yonedaEquiv_naturality, yonedaEquiv_naturality]
   exact yonedaEquiv.injective.eq_iff
 
@@ -115,7 +115,7 @@ the equalizer of the two components of the point. -/
 theorem preimage_range_diagonal {a : BigFppfOver B S hS} (h : yoneda.obj a ⟶ pullback q q) :
     (Subfunctor.range (pullback.diagonal q)).preimage h = diagonalEqualizer q h := by
   ext ⟨U⟩ g
-  show h.app _ g ∈ (Subfunctor.range (pullback.diagonal q)).obj _ ↔ _
+  change h.app _ g ∈ (Subfunctor.range (pullback.diagonal q)).obj _ ↔ _
   rw [mem_diagonalEqualizer_iff]
   have hg : h.app (Opposite.op U) g = yonedaEquiv (yoneda.map g ≫ h) := by
     rw [yonedaEquiv_comp, yonedaEquiv_yoneda_map]
@@ -282,7 +282,7 @@ theorem picardEqualizer_picardClassMap_sub (T : s.SchemesOver) (v w : s.picardAt
     simp only [picardMap_eq, ← picardPullbackHom_apply, map_sub, map_zero, sub_eq_zero]
   let m := CostructuredArrow.liftHom (schemeSpaceFunctor B S hS) s.base T g
   refine Iff.of_eq (congrArg (fun R => R ∈ s.fppfTopology _) (Sieve.ext fun W n => ?_))
-  show s.picardMap n (s.picardMap m v) = s.picardMap n (s.picardMap m w) ↔
+  change s.picardMap n (s.picardMap m v) = s.picardMap n (s.picardMap m w) ↔
     s.picardMap n (s.picardMap m (v - w)) = s.picardMap n (s.picardMap m (0 : s.picardAt T))
   rw [← s.picardMap_comp, ← s.picardMap_comp, ← s.picardMap_comp, ← s.picardMap_comp]
   exact key _
@@ -337,7 +337,7 @@ theorem map_val_eq_iff_mem_picardEqualizer (T : s.SchemesOver)
       g ∈ (s.picardEqualizer T x y).obj (Opposite.op U) := by
   let m := CostructuredArrow.liftHom (schemeSpaceFunctor B S hS) s.base T g
   refine Iff.trans ?_ (s.mem_picardEqualizer_iff x y m).symm
-  show F.map m.left.op _ = F.map m.left.op _ ↔ _
+  change F.map m.left.op _ = F.map m.left.op _ ↔ _
   rw [← he, ← he]
   exact ⟨fun h' => (e _).injective (Subtype.ext h'), fun h' => by rw [h']⟩
 
@@ -351,7 +351,7 @@ theorem diagonalEqualizer_eq_picardEqualizer (T : s.SchemesOver)
     (hy : yonedaEquiv (h ≫ pullback.snd q q) = (e T y).val) :
     diagonalEqualizer q h = s.picardEqualizer T x y := by
   ext ⟨U⟩ g
-  show F.map g.op _ = F.map g.op _ ↔ _
+  change F.map g.op _ = F.map g.op _ ↔ _
   rw [hx, hy]
   exact s.map_val_eq_iff_mem_picardEqualizer F q e he T x y g
 

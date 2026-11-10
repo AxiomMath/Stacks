@@ -211,7 +211,6 @@ theorem exists_isInvertible_tensor_iso_of_affineLocal (W : Scheme.{u})
     [∀ V : Opens W.toTopCat,
       (SheafOfModules.overFunctor.{u} (structureSheaf W.sheaf) V).Additive]
     (K K' : DerivedCategory (StructureSheafModules W.sheaf))
-    (hK : Stacks.Duality.IsDualizingComplex K) (hK' : Stacks.Duality.IsDualizingComplex K')
     (hinv : ∀ V : W.affineOpens, IsIso ((SheafOfModules.overFunctor.{u}
       (structureSheaf W.sheaf) (V : W.Opens)).mapDerivedCategory.map
         (derivedUnitEvaluation W.sheaf (((derivedSheafHom W.sheaf).obj (op K)).obj K'))))

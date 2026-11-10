@@ -12,7 +12,8 @@ public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.GradedModuleAbelia
 **arbitrary** open, together with the equations it satisfies sectionwise: additivity, the Leibniz
 rule, compatibility with restriction, the vanishing at `1` and the vanishing on sections pulled
 back from the base. This file packages those equations as a single
-`PresheafOfModulesOfCommRing.Derivation'` on the Zariski site of `Y'`, which is the notion of derivation
+`PresheafOfModulesOfCommRing.Derivation'` on the Zariski site of `Y'`, which is the notion of
+derivation
 that [Stacks Project, Tag 04BV] — `AlgebraicGeometry.Scheme.Hom.derivationDirectImageEquiv` of
 `StacksFrontier/AlgebraicGeometry/Morphisms/Differentials/DerivationsIntoDirectImage.lean` —
 consumes, and in exactly the shape it consumes: a
@@ -28,8 +29,8 @@ The algebraic-spaces analogue of this bundling, on the small étale site, is
 * `Stacks.Thickenings.mapDifferenceCoefficients`: the defining ideal of `i : X ⟶ X'`, pushed
   forward along `a'` to a sheaf of `𝒪_{Y'}`-modules.
 * `Stacks.Thickenings.mapDifferenceDerivationData`: the four equations bundled as a
-  `PresheafOfModulesOfCommRing.Derivation'` over the constant presheaf `ℤ`, that is, with no vanishing
-  condition beyond the Leibniz rule.
+  `PresheafOfModulesOfCommRing.Derivation'` over the constant presheaf `ℤ`, that is, with no
+  vanishing condition beyond the Leibniz rule.
 * `Stacks.Thickenings.mapDifferenceSheafDerivation`: the same derivation read over
   `q⁻¹𝒪_S ⟶ 𝒪_{Y'}`, so that it is a derivation of `𝒪_{Y'}` **relative to `S`**.
 

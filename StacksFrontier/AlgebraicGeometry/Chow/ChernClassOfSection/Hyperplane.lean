@@ -187,7 +187,7 @@ theorem zeroScheme_homSection_eq_bundleHyperplaneSection (s : Γ(E, ⊤)) :
       Scheme.Modules.Hom.app (Stacks.ProjectiveBundleSplitting.tautologicalMap E (bundlePieces E))
         ⊤ (((Scheme.Modules.pullback (bundleProj E)).obj E).val.map (homOfLE hj).op
           (unitSection (bundleProj E) E ⊤ s)) := by
-    show Scheme.Modules.Hom.app (Stacks.ProjectiveBundleSplitting.tautologicalMap E
+    change Scheme.Modules.Hom.app (Stacks.ProjectiveBundleSplitting.tautologicalMap E
       (bundlePieces E)) ⊤ (Scheme.Modules.Hom.app ((Scheme.Modules.pullback (bundleProj E)).map
         (sectionHom E s)) ⊤ (N.val.map (homOfLE hj).op x)) = _
     congr 1
@@ -199,7 +199,7 @@ theorem zeroScheme_homSection_eq_bundleHyperplaneSection (s : Γ(E, ⊤)) :
     congr 1
     exact sectionHom_app_one E s
   refine h1.trans ((congrArg _ h2).trans (h3.trans ?_))
-  show _ = Scheme.Modules.Hom.app
+  change _ = Scheme.Modules.Hom.app
     (Stacks.ProjectiveBundleSplitting.tautologicalMap E (bundlePieces E)) ⊤
       (pullbackGlobalSections (bundleProj E) E s)
   congr 1

@@ -49,7 +49,7 @@ private lemma affine_isOpenMap_tensorProduct_includeLeft_of_forall_isOpenMap_mvP
     IsOpenMap (Spec.map (CommRingCat.ofHom
       (Algebra.TensorProduct.includeLeftRingHom (R := A) (A := A') (B := B)))) := by
   classical
-  show IsOpenMap (PrimeSpectrum.comap (Algebra.TensorProduct.includeLeftRingHom
+  change IsOpenMap (PrimeSpectrum.comap (Algebra.TensorProduct.includeLeftRingHom
     (R := A) (A := A') (B := B)))
   rw [PrimeSpectrum.isTopologicalBasis_basic_opens.isOpenMap_iff]
   rintro _ ⟨g, rfl⟩
@@ -77,22 +77,22 @@ private lemma affine_isOpenMap_tensorProduct_includeLeft_of_forall_isOpenMap_mvP
     (inferInstance : Algebra (MvPolynomial (ULift.{u} (Fin k)) A) (A' ⊗[A] B)).toSMul
   let : IsScalarTower A (MvPolynomial (ULift.{u} (Fin k)) A) A' := by
     refine .of_algebraMap_eq fun x => ?_
-    show algebraMap A A' x = evA (MvPolynomial.C x)
+    change algebraMap A A' x = evA (MvPolynomial.C x)
     simp [evA]
   let : IsScalarTower A (MvPolynomial (ULift.{u} (Fin k)) B) (A' ⊗[A] B) := by
     refine .of_algebraMap_eq fun x => ?_
-    show algebraMap A (A' ⊗[A] B) x = evB (MvPolynomial.C ((algebraMap A B) x))
+    change algebraMap A (A' ⊗[A] B) x = evB (MvPolynomial.C ((algebraMap A B) x))
     simp [evB]
   let : IsScalarTower A (MvPolynomial (ULift.{u} (Fin k)) A) (A' ⊗[A] B) := by
     refine IsScalarTower.of_algebraMap_eq (R := A) (S := MvPolynomial (ULift.{u} (Fin k)) A)
       (A := A' ⊗[A] B) fun x => ?_
-    show algebraMap A (A' ⊗[A] B) x =
+    change algebraMap A (A' ⊗[A] B) x =
       Algebra.TensorProduct.includeLeftRingHom (evA (MvPolynomial.C x))
     simp [evA]
   let : IsScalarTower A (MvPolynomial (ULift.{u} (Fin k)) A)
       (MvPolynomial (ULift.{u} (Fin k)) B) := by
     refine .of_algebraMap_eq fun x => ?_
-    show algebraMap A (MvPolynomial (ULift.{u} (Fin k)) B) x =
+    change algebraMap A (MvPolynomial (ULift.{u} (Fin k)) B) x =
       MvPolynomial.map (algebraMap A B) (MvPolynomial.C x)
     simp
   let : IsScalarTower (MvPolynomial (ULift.{u} (Fin k)) A) (MvPolynomial (ULift.{u} (Fin k)) B)
@@ -104,19 +104,19 @@ private lemma affine_isOpenMap_tensorProduct_includeLeft_of_forall_isOpenMap_mvP
         algebraMap (MvPolynomial (ULift.{u} (Fin k)) A) (A' ⊗[A] B) := by
       apply MvPolynomial.ringHom_ext'
       · ext a
-        show (algebraMap (MvPolynomial (ULift.{u} (Fin k)) B) (A' ⊗[A] B))
+        change (algebraMap (MvPolynomial (ULift.{u} (Fin k)) B) (A' ⊗[A] B))
             (MvPolynomial.map (algebraMap A B) (MvPolynomial.C a)) =
           (algebraMap (MvPolynomial (ULift.{u} (Fin k)) A) (A' ⊗[A] B)) (MvPolynomial.C a)
         rw [MvPolynomial.map_C, RingHom.algebraMap_toAlgebra, RingHom.algebraMap_toAlgebra]
-        show evB (MvPolynomial.C ((algebraMap A B) a)) =
+        change evB (MvPolynomial.C ((algebraMap A B) a)) =
           Algebra.TensorProduct.includeLeftRingHom (evA (MvPolynomial.C a))
         simp [evA, evB]
       · intro i
-        show (algebraMap (MvPolynomial (ULift.{u} (Fin k)) B) (A' ⊗[A] B))
+        change (algebraMap (MvPolynomial (ULift.{u} (Fin k)) B) (A' ⊗[A] B))
             (MvPolynomial.map (algebraMap A B) (MvPolynomial.X i)) =
           (algebraMap (MvPolynomial (ULift.{u} (Fin k)) A) (A' ⊗[A] B)) (MvPolynomial.X i)
         rw [MvPolynomial.map_X, RingHom.algebraMap_toAlgebra, RingHom.algebraMap_toAlgebra]
-        show evB (MvPolynomial.X i) =
+        change evB (MvPolynomial.X i) =
           Algebra.TensorProduct.includeLeftRingHom (evA (MvPolynomial.X i))
         simp [evA, evB]
     exact (DFunLike.congr_fun hmaps x).symm
@@ -174,7 +174,7 @@ private lemma affine_isOpenMap_tensorProduct_includeLeft_of_forall_isOpenMap_mvP
             (MvPolynomial.map (σ := ULift.{u} (Fin k)) (algebraMap A B))).hom ''
             ↑(PrimeSpectrum.basicOpen p)) at himage
     simpa only [hpre] using himage
-  show IsOpen (PrimeSpectrum.comap (CommRingCat.ofHom
+  change IsOpen (PrimeSpectrum.comap (CommRingCat.ofHom
     (Algebra.TensorProduct.includeLeftRingHom (R := A) (A := A') (B := B))).hom ''
       (PrimeSpectrum.basicOpen g : Set (PrimeSpectrum (A' ⊗[A] B))))
   rw [hset]
@@ -207,7 +207,7 @@ private lemma forall_isOpenMap_affineSpaceMap_of_forall_isOpenMap_pullback_snd
     hp.isoPullback.hom _).mpr ?_
   refine (MorphismProperty.cancel_left_of_respectsIso (P := topologically @IsOpenMap)
     (pullbackSymmetry f (AffineSpace (ULift.{u} (Fin n)) S ↘ S)).hom _).mp ?_
-  show IsOpenMap _
+  change IsOpenMap _
   simpa only [pullbackSymmetry_hom_comp_fst] using
     h _ (AffineSpace (ULift.{u} (Fin n)) S ↘ S) inferInstance
 
@@ -292,7 +292,7 @@ private lemma universallyOpen_of_forall_isOpenMap_affineSpaceMap
   let iX : p.affineCover.X k ⟶ X := iW ≫ i₁
   have hfactor : iX ≫ f = gV ≫ S.affineCover.f j := by
     simp [iX, gV, i₁, i₂, Category.assoc]
-  show UniversallyOpen gV
+  change UniversallyOpen gV
   refine universallyOpen_of_forall_isOpenMap_affineSpaceMap_of_isAffine gV fun n => ?_
   have hopenImm {Y Z : Scheme.{u}} (g : Y ⟶ Z) [IsOpenImmersion g] :
       IsOpenImmersion (AffineSpace.map (ULift.{u} (Fin n)) g) :=

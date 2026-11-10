@@ -217,7 +217,7 @@ theorem finiteTypeAdicAlgebra_of_isClosedImmersion_chart {X Y : FppfSheaf B S hS
   have hiff : (RingHom.IsTaut g.toRingHom ∧
       TopologicalRing.IsTopologicallyOfFiniteType g.toRingHom) ↔
       Rig.FiniteTypeAdicAlgebraForEveryIdeal g.toRingHom :=
-    (Rig.adicFiniteType_tfae g.toRingHom g.continuous hAdicA hAdicC hAfg hCfg).out 2 6
+    (Rig.adicFiniteType_tfae g.toRingHom hAdicA hAdicC hAfg hCfg).out 2 6
   exact hiff.mp ⟨htaut, hftop⟩
 
 end Tautness
@@ -279,7 +279,7 @@ theorem exists_adic_presentation_of_isPullback {X Y : FppfSheaf B S hS} {f : X �
     have hT2 : T2Space Q.ring := hQw.2.2
     have hCompl : @CompleteSpace Q.ring (IsTopologicalAddGroup.rightUniformSpace Q.ring) :=
       hQw.2.1
-    obtain ⟨I, -, hImap⟩ := RingHom.isAdic_of_isTaut g'.toRingHom g'.continuous htaut
+    obtain ⟨I, -, hImap⟩ := RingHom.isAdic_of_isTaut g'.toRingHom htaut
       ⟨I₀, Ideal.fg_of_isNoetherianRing I₀, hI₀adic⟩
     exact ⟨⟨I.map g'.toRingHom, TopologicalRing.isIdealOfDefinition_of_isAdic hImap, hImap⟩,
       hT2, hCompl⟩
@@ -370,7 +370,7 @@ theorem isRigEtale_of_hasAnnihilatedConormalOnPullbackCharts {X Y : FppfSheaf B 
     isTaut_of_isRepresentableByAlgebraicSpacesULift_formalSpectrumMap_of_isAffine B S hS hRw hCw
       E' E hE'aff hEaff h hhet.1
   have hh' : RingHom.IsRigEtale h.toRingHom :=
-    Rig.isRigEtale_of_etale_quotientMap hRadic hAdicC h.toRingHom h.continuous hhtaut
+    Rig.isRigEtale_of_etale_quotientMap hRadic hAdicC h.toRingHom hhtaut
       fun I hI ↦ etale_quotientMap_of_isRepresentableEtale_formalSpectrumMap hRw hCw E' E h
         hhtaut hhet I hI
   -- the chart homomorphism of the square is the composite

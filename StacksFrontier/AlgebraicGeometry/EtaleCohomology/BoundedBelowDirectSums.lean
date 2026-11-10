@@ -265,7 +265,7 @@ lemma preservesColimit_rightDerivedFunctorPlus_of_isGE
   have hM (i : I) : (((InjectiveObject.ι A).mapCochainComplexPlus.obj (L i)).obj).IsStrictlyGE
       a := by
     have := hL i
-    show CochainComplex.IsStrictlyGE
+    change CochainComplex.IsStrictlyGE
       (((InjectiveObject.ι A).mapHomologicalComplex (ComplexShape.up ℤ)).obj (L i).obj) a
     infer_instance
   have hinj (i : I) (n : ℤ) :

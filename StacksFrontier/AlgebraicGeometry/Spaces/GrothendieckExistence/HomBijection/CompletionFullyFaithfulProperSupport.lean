@@ -107,7 +107,7 @@ theorem smallEtaleInternalHomSmallAdicEquivOfBijective_apply_eq (M N : Modules.{
           (smallEtaleInternalHomSmallAdicComparison_compat B S hS F hF 𝓘 M N) x)) :
     smallEtaleInternalHomSmallAdicEquivOfBijective B S hS F hF 𝓘 M N hb x =
       (systemHomEquiv B S hS F hF _ _ _ _).symm γ := by
-  show (systemHomEquiv B S hS F hF _ _ _ _).symm
+  change (systemHomEquiv B S hS F hF _ _ _ _).symm
       ((Equiv.ofBijective _ (bijective_smallEtaleInternalHomAdicSection B S hS F hF 𝓘 M N)).symm
         (smallEtaleInternalHomSmallAdicSectionsShrink B S hS F hF 𝓘 M N
           (adicSectionsMap B S hS F hF _ _ _ _ _
@@ -203,7 +203,7 @@ theorem smallSystemHomEquiv_adicEquiv_eq (M N : Modules.{u, u} B (Spec (.of A)) 
     refine Subtype.ext (funext fun n => ?_)
     apply (smallEtaleInternalHomSectionsEquiv B (Spec (.of A)) hA X.1 X.2 M
       (smallEtaleAdicQuotient B (Spec (.of A)) hA X.1 X.2 𝓘 (n + 1) N)).injective
-    show smallEtaleInternalHomSectionsEquiv B (Spec (.of A)) hA X.1 X.2 M _
+    change smallEtaleInternalHomSectionsEquiv B (Spec (.of A)) hA X.1 X.2 M _
         ((smallEtaleInternalHomSectionsEquiv B (Spec (.of A)) hA X.1 X.2 M _).symm
           (smallEtaleAdicQuotientProjection B (Spec (.of A)) hA X.1 X.2 𝓘 (n + 1) M ≫
             smallEtaleAdicQuotientMapOfHom B (Spec (.of A)) hA X.1 X.2 𝓘 (n + 1) φ)) =
@@ -224,7 +224,7 @@ theorem smallSystemHomEquiv_adicEquiv_eq (M N : Modules.{u, u} B (Spec (.of A)) 
     (adicSectionsOfSection X I _ (internalHomSmallSectionsEquiv X M N φ)) γ hh
   refine NatTrans.ext (funext fun n => ?_)
   obtain ⟨n⟩ := n
-  show (smallEtaleInternalHomSmallAdicEquivOfBijective B (Spec (.of A)) hA X.1 X.2 𝓘 M N
+  change (smallEtaleInternalHomSmallAdicEquivOfBijective B (Spec (.of A)) hA X.1 X.2 𝓘 M N
     (bijective_smallAdicSectionsMapAt B (Spec (.of A)) hA X.1 X.2 𝓘
       (isQuasicoherentOnSite_baseIdealSubmodule (X := X.1) (hX := X.2) I) M N)
     (adicSectionsOfSection X I _ (internalHomSmallSectionsEquiv X M N φ))).app (op n) = _

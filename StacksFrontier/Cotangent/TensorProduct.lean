@@ -263,7 +263,7 @@ theorem isIso_cotangentTensorProductBaseChangeMap
     bijective_baseChangeUnit_of_isPushout _ fun _ => rfl
   have h := isIso_Q_map_cotangentExtendScalarsComplexMap
     (tensorProductIncludeLeft R A B) hTor hpush hQI
-  show IsIso
+  change IsIso
     ((cotangentComplexDerivedBaseChangeTermwiseIso R (CommAlgCat.of R A) (A ⊗[R] B)).hom ≫
       DerivedCategory.Q.map (cotangentExtendScalarsComplexMap (tensorProductIncludeLeft R A B)))
   exact @IsIso.comp_isIso _ _ _ _ _ _ _ inferInstance h

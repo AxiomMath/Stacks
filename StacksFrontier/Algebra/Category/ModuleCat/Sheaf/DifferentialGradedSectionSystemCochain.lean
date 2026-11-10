@@ -89,9 +89,10 @@ instance {k : ℤ} : Add (HomogeneousFamily X Y k) where
   add f g :=
     { app := fun U ↦ f.app U + g.app U
       naturality := fun a x ↦ by
-        show Y.restrFun a ((f.app _).1 x + (g.app _).1 x) = (f.app _).1 _ + (g.app _).1 _
+        change Y.restrFun a ((f.app _).1 x + (g.app _).1 x) = (f.app _).1 _ + (g.app _).1 _
         rw [Y.restrFun_add, f.naturality, g.naturality] }
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- The component of a sum of natural families over `U` is the sum of the components. -/
 @[simp] theorem add_app {k : ℤ} (f g : HomogeneousFamily X Y k) (U : Cᵒᵖ) :
     (f + g).app U = f.app U + g.app U :=
@@ -108,6 +109,7 @@ def d {k : ℤ} (f : HomogeneousFamily X Y k) : HomogeneousFamily X Y (k + 1) wh
       ← Y.restrFun_apply, Y.restrFun_d, f.naturality, f.naturality, X.restrFun_d]
     rfl
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- The component of the differential `f.d` over `U` is the differential of `f.app U` in the hom
 complex `Hom(X(U), Y(U))`. -/
 @[simp] theorem d_app {k : ℤ} (f : HomogeneousFamily X Y k) (U : Cᵒᵖ) :
@@ -121,7 +123,7 @@ def comp {k l m : ℤ} (h : l + k = m) (g : HomogeneousFamily Y Z l) (f : Homoge
   app U := _root_.DifferentialGradedModule.homogeneousMapComp (A.sectionAlgebra U) h
     (g.app U) (f.app U)
   naturality a x := by
-    show Z.restrFun a ((g.app _).1 ((f.app _).1 x)) = (g.app _).1 ((f.app _).1 (X.restrFun a x))
+    change Z.restrFun a ((g.app _).1 ((f.app _).1 x)) = (g.app _).1 ((f.app _).1 (X.restrFun a x))
     rw [g.naturality, f.naturality]
 
 omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
@@ -173,6 +175,7 @@ def realizeCochain {k : ℤ} (f : HomogeneousFamily X Y k) :
     Cochain X.realize.complex Y.realize.complex k :=
   Cochain.mk fun p q h ↦ f.pieceMap p q h
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- On a homogeneous element `x` of degree `p` over `U`, the component of `realizeCochain f` from
 degree `p` to degree `q` is `f.app U` applied to `x`. -/
 theorem coe_realizeCochain_v {k : ℤ} (f : HomogeneousFamily X Y k) (p q : ℤ) (h : p + k = q)
@@ -182,6 +185,7 @@ theorem coe_realizeCochain_v {k : ℤ} (f : HomogeneousFamily X Y k) (p q : ℤ)
   simp only [realizeCochain]
   rfl
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- Two cochains between realizations agreeing on all homogeneous elements are equal. -/
 theorem realize_cochain_ext {k : ℤ} {c c' : Cochain X.realize.complex Y.realize.complex k}
     (h : ∀ (p q : ℤ) (hpq : p + k = q) (U : Cᵒᵖ) (x : (X.complex.X p).val.obj U),
@@ -192,11 +196,13 @@ theorem realize_cochain_ext {k : ℤ} {c c' : Cochain X.realize.complex Y.realiz
     ext U x
     exact Y.cElt_injective (h p q hpq U x)
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- Evaluating a sum of morphisms of sheaves of modules at a local section. -/
 private theorem add_val_app_apply {p q : ℤ} {U : Cᵒᵖ} (x : (X.complex.X p).val.obj U)
     (a b : X.complex.X p ⟶ Y.complex.X q) : (a + b).val.app U x = a.val.app U x + b.val.app U x :=
   map_add (evalSectionHom U x) a b
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- **Realization is additive.** -/
 theorem realizeCochain_add {k : ℤ} (f g : HomogeneousFamily X Y k) :
     realizeCochain (f + g) = realizeCochain f + realizeCochain g :=
@@ -206,6 +212,7 @@ theorem realizeCochain_add {k : ℤ} (f g : HomogeneousFamily X Y k) :
       Y.coe_cElt_add, coe_realizeCochain_v, coe_realizeCochain_v]
     rfl
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- **Realization commutes with the differentials of the hom complexes.** -/
 theorem realizeCochain_d {k : ℤ} (f : HomogeneousFamily X Y k) :
     realizeCochain f.d = δ k (k + 1) (realizeCochain f) :=
@@ -224,6 +231,7 @@ theorem realizeCochain_d {k : ℤ} (f : HomogeneousFamily X Y k) :
       ((congrArg Neg.neg (uliftInt_smul_eq' (Y.obj U).module _ _)).trans
         (by rw [down_gradedSign, Int.negOnePow_succ, Units.val_neg, neg_smul])))
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- **Realization preserves composition.** -/
 theorem realizeCochain_comp {k l m : ℤ} (h : k + l = m) (f : HomogeneousFamily X Y k)
     (g : HomogeneousFamily Y Z l) :
@@ -234,6 +242,7 @@ theorem realizeCochain_comp {k l m : ℤ} (h : k + l = m) (f : HomogeneousFamily
       coe_realizeCochain_v, coe_realizeCochain_v, comp_app,
       _root_.DifferentialGradedModule.homogeneousMapComp_val, LinearMap.comp_apply]
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{t} RingCat.{t})] in
 /-- **On a morphism, realization is the realization of the morphism.** -/
 theorem realizeCochain_ofHom (φ : X ⟶ Y) :
     realizeCochain (ofHom φ) = Cochain.ofHom (realizeMap φ).toHomologicalComplex :=
@@ -247,7 +256,6 @@ end HomogeneousFamily
 section ActionLinear
 
 variable {C : Type u} [Category.{u} C]
-  [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   {Osharp : Sheaf (⊥ : GrothendieckTopology C) CommRingCat.{u}}
   {A : DifferentialGradedAlgebra.{u, m} (Stacks.SheafOfModules.Tensor.ringSheaf Osharp)}
   {X Y : SectionSystem A}

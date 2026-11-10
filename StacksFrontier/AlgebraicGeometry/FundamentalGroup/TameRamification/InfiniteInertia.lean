@@ -90,7 +90,7 @@ private lemma inertia_isClosed
   · intro τ hτ hτI
     have hsmul : τ • b = σ • b := by
       apply Subtype.ext
-      show ((galRestrict A K L (integralClosure A L) τ) b : L) =
+      change ((galRestrict A K L (integralClosure A L) τ) b : L) =
         ((galRestrict A K L (integralClosure A L) σ) b : L)
       exact (algebraMap_galRestrict_apply (A := A) (K := K) (L := L)
         (B := integralClosure A L) τ b).trans
@@ -155,7 +155,7 @@ private lemma finite_tame_properties
   obtain ⟨_, _, _, _, hcard, θcan, _⟩ :=
     IsDiscreteValuationRing.canonicalInertiaCharacter_spec.{_, _, _, 0} A K L P
   have hn : 0 < n := by
-    show 0 < IsDiscreteValuationRing.tameRamificationIndex A L P
+    change 0 < IsDiscreteValuationRing.tameRamificationIndex A L P
     rw [← hcard]
     exact Nat.card_pos
   refine ⟨hn, ?_, ?_⟩
@@ -270,7 +270,7 @@ private lemma inertia_restriction_surjective
   let resI : P.inertia Gal(L/K) →* q.inertia Gal(F/K) :=
     (res.comp (P.inertia Gal(L/K)).subtype).codRestrict _ (by
       intro σ
-      show res (σ : Gal(L/K)) ∈ (q.inertia Gal(F/K) : Set Gal(F/K))
+      change res (σ : Gal(L/K)) ∈ (q.inertia Gal(F/K) : Set Gal(F/K))
       rw [← hImage]
       exact ⟨σ, σ.property, rfl⟩)
   refine ⟨resI, ?_, ?_⟩
@@ -311,7 +311,7 @@ private lemma stabilizer_restriction
   dsimp only
   intro τ
   have hτ : res (τ : Gal(L/K)) ∈ MulAction.stabilizer Gal(F/K) q := by
-    show res (τ : Gal(L/K)) ∈
+    change res (τ : Gal(L/K)) ∈
       (MulAction.stabilizer Gal(F/K) q : Set Gal(F/K))
     rw [← hImage]
     exact ⟨τ, τ.property, rfl⟩
@@ -339,7 +339,7 @@ private lemma mapIntegralClosure_restrict_smul
     IsIntegralClosure.MulSemiringAction A K F (integralClosure A F)
   intro g x
   apply Subtype.ext
-  show algebraMap F L (algebraMap (integralClosure A F) F
+  change algebraMap F L (algebraMap (integralClosure A F) F
       (galRestrict A K F (integralClosure A F)
         (AlgEquiv.restrictNormal g (F : IntermediateField K L)) x)) =
     algebraMap (integralClosure A L) L
@@ -387,7 +387,7 @@ private lemma quotientMap_quotientEquiv
   intro τ τF hτF z
   induction z using Quotient.inductionOn with
   | _ x =>
-      show Ideal.Quotient.mk P ((τ : Gal(L/K)) • f x) =
+      change Ideal.Quotient.mk P ((τ : Gal(L/K)) • f x) =
         Ideal.Quotient.mk P (f ((τF : Gal(F/K)) • x))
       apply congrArg (Ideal.Quotient.mk P)
       symm
@@ -472,7 +472,7 @@ private lemma finite_tame_character_pow
     IsIntegralClosure.MulSemiringAction A K F (integralClosure A F)
   let ζ := IsDiscreteValuationRing.canonicalInertiaCharacter A K F q
     ((inertia_restriction_surjective A K L P F).choose σ)
-  show (Units.map (Ideal.quotientMap P f.toRingHom le_rfl).toMonoidHom
+  change (Units.map (Ideal.quotientMap P f.toRingHom le_rfl).toMonoidHom
     (ζ : (integralClosure A F ⧸ q)ˣ)) ^
       IsDiscreteValuationRing.tameRamificationIndex A F q = 1
   rw [← map_pow]
@@ -540,7 +540,7 @@ private lemma finite_tame_character_le
     apply Subtype.ext
     have hσG := (inertia_restriction_surjective A K L P G).choose_spec.2 σ
     have hσF := (inertia_restriction_surjective A K L P F).choose_spec.2 σ
-    show (resI σG : Gal(F/K)) = (σF : Gal(F/K))
+    change (resI σG : Gal(F/K)) = (σF : Gal(F/K))
     rw [hresI σG, hσG, hσF]
     exact (IsScalarTower.AlgEquiv.restrictNormalHom_comp_apply F G
       (σ : Gal(L/K))).symm
@@ -554,7 +554,7 @@ private lemma finite_tame_character_le
     rw [hchar σG, hσ] at he
     convert he using 1 <;> rfl
   apply Units.ext
-  show ((finite_tame_character A K L P F σ : (integralClosure A L ⧸ P)ˣ) :
+  change ((finite_tame_character A K L P F σ : (integralClosure A L ⧸ P)ˣ) :
       integralClosure A L ⧸ P) =
     ((finite_tame_character A K L P G σ : (integralClosure A L ⧸ P)ˣ) :
       integralClosure A L ⧸ P) ^
@@ -636,16 +636,16 @@ private lemma finite_tame_character_surjective
     (inertia_restriction_surjective A K L P F).choose_spec.1 σF
   have hcan : IsDiscreteValuationRing.canonicalInertiaCharacter A K F q σF = ξ ^ i := by
     rw [← hθ σF]
-    show θcan ((QuotientGroup.mk'
+    change θcan ((QuotientGroup.mk'
       (IsDiscreteValuationRing.wildInertiaGroup A K F q)) σF) = ξ ^ i
     rw [hσF, ht]
   refine ⟨σ, ?_⟩
   apply Units.ext
   rw [finite_tame_character_apply A K L P F σ]
-  show φ ((IsDiscreteValuationRing.canonicalInertiaCharacter A K F q
+  change φ ((IsDiscreteValuationRing.canonicalInertiaCharacter A K F q
     ((inertia_restriction_surjective A K L P F).choose σ)).1.1) = ζ.val
   rw [hσ, hcan]
-  show φ (z ^ i) = ζ.val
+  change φ (z ^ i) = ζ.val
   rw [map_pow]
   exact hzi
 
@@ -685,7 +685,7 @@ private lemma finite_tame_character_eq_one_iff
   have hmap : Function.Injective
       (Units.map (Ideal.quotientMap P f.toRingHom le_rfl).toMonoidHom) :=
     Units.map_injective Ideal.quotientMap_injective
-  show (Units.map (Ideal.quotientMap P f.toRingHom le_rfl).toMonoidHom
+  change (Units.map (Ideal.quotientMap P f.toRingHom le_rfl).toMonoidHom
     (((IsDiscreteValuationRing.canonicalInertiaCharacter A K F q) σF :
       rootsOfUnity (IsDiscreteValuationRing.tameRamificationIndex A F q)
         (integralClosure A F ⧸ q)) : (integralClosure A F ⧸ q)ˣ)) = 1 ↔ _
@@ -812,10 +812,10 @@ private lemma finite_tame_character_conj
   let QF := Ideal.quotientEquiv q q
     ((MulSemiringAction.toRingEquiv Gal(F/K) (integralClosure A F))
       (τF : Gal(F/K))) τF.property.symm
-  show φ ((IsDiscreteValuationRing.canonicalInertiaCharacter A K F q ρF).1.1) =
+  change φ ((IsDiscreteValuationRing.canonicalInertiaCharacter A K F q ρF).1.1) =
     QL (φ ((IsDiscreteValuationRing.canonicalInertiaCharacter A K F q σF).1.1))
   rw [hcan]
-  show φ (QF ((IsDiscreteValuationRing.canonicalInertiaCharacter A K F q σF).1.1)) =
+  change φ (QF ((IsDiscreteValuationRing.canonicalInertiaCharacter A K F q σF).1.1)) =
     QL (φ ((IsDiscreteValuationRing.canonicalInertiaCharacter A K F q σF).1.1))
   exact (quotientMap_quotientEquiv A K L P F τ τF hτF _).symm
 
@@ -1019,7 +1019,7 @@ private lemma inertia_subgroup_isPGroup_of_wild
     intro σ hσ
     have hfix : ((σ : P.inertia Gal(L/K)) : Gal(L/K)) ∈
         (E.fixingSubgroup : Set Gal(L/K)) := by
-      show ((σ : P.inertia Gal(L/K)) : Gal(L/K)) ∈ E.fixingSubgroup
+      change ((σ : P.inertia Gal(L/K)) : Gal(L/K)) ∈ E.fixingSubgroup
       rw [IntermediateField.mem_fixingSubgroup_iff]
       intro x hx
       have hres := (inertia_restriction_surjective A K L P F).choose_spec.2
@@ -1148,7 +1148,7 @@ private lemma exists_inertia_of_compatible_family
     {σ | finite_tame_character A K L P F σ = c F}
   have hmono (F G : FiniteGaloisIntermediateField K L) (h : F ≤ G) : t G ⊆ t F := by
     intro σ hσ
-    show finite_tame_character A K L P F σ = c F
+    change finite_tame_character A K L P F σ = c F
     rw [finite_tame_character_le A K L P F G h σ]
     rw [show finite_tame_character A K L P G σ = c G from hσ]
     exact hcompat F G h
@@ -1342,7 +1342,7 @@ public theorem exists_tameInertiaCharacter
       map_mul' := by
         intro σ τ
         funext m
-        show finite_tame_character A K L P (stage m) (σ * τ) ^
+        change finite_tame_character A K L P (stage m) (σ * τ) ^
           (n (stage m) / m.1) =
           finite_tame_character A K L P (stage m) σ ^ (n (stage m) / m.1) *
           finite_tame_character A K L P (stage m) τ ^ (n (stage m) / m.1)
@@ -1396,14 +1396,14 @@ public theorem exists_tameInertiaCharacter
         simp [hc]
     refine ⟨θ, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
     · intro σ m
-      show (finite_tame_character A K L P (stage m) σ ^
+      change (finite_tame_character A K L P (stage m) σ ^
         (n (stage m) / m.1)) ^ m.1 = 1
       rw [← pow_mul, Nat.div_mul_cancel (hstage m)]
       exact finite_tame_character_pow A K L P (stage m) σ
     · intro σ m k hmk
       have hmstage : m.1 ∣ n (stage k) := hmk.trans (hstage k)
       rw [hθ_stage σ m (stage k) hmstage]
-      show (finite_tame_character A K L P (stage k) σ ^
+      change (finite_tame_character A K L P (stage k) σ ^
         (n (stage k) / k.1)) ^ (k.1 / m.1) =
           finite_tame_character A K L P (stage k) σ ^ (n (stage k) / m.1)
       rw [← pow_mul, ← div_chain hmk (hstage k)]

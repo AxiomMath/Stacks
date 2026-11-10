@@ -118,11 +118,11 @@ theorem isCoequalizer_of_isLocallySurjective
       simpa only [yonedaEquiv_comp, yonedaEquiv_yoneda_map] using hxy
     let l := hR.lift (yoneda.map x) (yoneda.map y) hxy'
     refine ⟨yonedaEquiv l, ?_, ?_⟩
-    · show (yoneda.map s).app (Opposite.op T) (yonedaEquiv l) = x
+    · change (yoneda.map s).app (Opposite.op T) (yonedaEquiv l) = x
       rw [← yonedaEquiv_comp, show x = yonedaEquiv (yoneda.map x) from
         (yonedaEquiv_yoneda_map x).symm]
       exact congrArg yonedaEquiv (hR.lift_fst _ _ hxy')
-    · show (yoneda.map t).app (Opposite.op T) (yonedaEquiv l) = y
+    · change (yoneda.map t).app (Opposite.op T) (yonedaEquiv l) = y
       rw [← yonedaEquiv_comp, show y = yonedaEquiv (yoneda.map y) from
         (yonedaEquiv_yoneda_map y).symm]
       exact congrArg yonedaEquiv (hR.lift_snd _ _ hxy')

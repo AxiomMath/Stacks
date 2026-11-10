@@ -332,10 +332,10 @@ This is the form of condition (4) of Stacks 0CXU which its proof uses: it only n
 tower `x → x₁ → x₂ → ⋯` it constructs, an object over `Spec (lim Rₙ)` receiving compatible
 arrows from the `xₙ` up to isomorphism of lifts. -/
 public def IsSquareZeroTowerEffectiveOnClasses : Prop :=
-  ∀ (R : ℕ → Type u) [∀ n, CommRing (R n)] (f : ∀ n, R (n + 1) →+* R n)
-    (hf : ∀ n, Function.Surjective (f n))
-    (hsq : ∀ n, RingHom.ker (SquareZeroTower.toBase f n) ^ 2 = ⊥)
-    (toS : Spec (.of (R 0)) ⟶ S) (hA : B.Contains (Spec (.of (R 0))))
+  ∀ (R : ℕ → Type u) [∀ n, CommRing (R n)] (f : ∀ n, R (n + 1) →+* R n),
+    (∀ n, Function.Surjective (f n)) →
+    (∀ n, RingHom.ker (SquareZeroTower.toBase f n) ^ 2 = ⊥) →
+    ∀ (toS : Spec (.of (R 0)) ⟶ S) (hA : B.Contains (Spec (.of (R 0))))
     (Λ : AugmentedSiteRing (R 0) B S hS toS hA) (β : ∀ n, Λ.ring →+* R n)
     (hβ : ∀ n, (f n).comp (β (n + 1)) = β n) (hβ0 : β 0 = Λ.aug)
     (hR : ∀ n, B.Contains (Spec (.of (R n)))),

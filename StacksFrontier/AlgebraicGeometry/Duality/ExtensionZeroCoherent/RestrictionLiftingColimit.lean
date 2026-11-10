@@ -59,7 +59,7 @@ public lemma RestrictionLifting.of_comp {F : ℕᵒᵖ ⥤ 𝒟} {R : 𝒟 ⥤ �
     obtain ⟨g', rfl⟩ := (hU n).2 g
     obtain ⟨m, hm, f, hf⟩ := h.lift n g'
     refine ⟨m, hm, f ≫ s, ?_⟩
-    show R.map (f ≫ s) = R.map (tr F hm) ≫ g' ≫ R.map s
+    change R.map (f ≫ s) = R.map (tr F hm) ≫ g' ≫ R.map s
     rw [R.map_comp, hf, Category.assoc]
   eq n f g hfg := by
     obtain ⟨f', rfl⟩ := hX n f

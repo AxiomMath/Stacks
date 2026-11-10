@@ -305,7 +305,7 @@ private theorem trdeg_residueField_eq_of_etale {k : Type u} [Field k] {X R : Sch
     ((Scheme.ΓSpecIso (.of k)).inv ≫ (s ≫ g).appTop ≫ R.Γevaluation z).hom.toAlgebra
   have htower : IsScalarTower k (X.residueField (s z)) (R.residueField z) :=
     .of_algebraMap_eq fun w => by
-      show (R.Γevaluation z).hom ((s ≫ g).appTop.hom ((Scheme.ΓSpecIso (.of k)).inv.hom w)) =
+      change (R.Γevaluation z).hom ((s ≫ g).appTop.hom ((Scheme.ΓSpecIso (.of k)).inv.hom w)) =
         (s.residueFieldMap z).hom ((X.Γevaluation (s z)).hom
           (g.appTop.hom ((Scheme.ΓSpecIso (.of k)).inv.hom w)))
       rw [Scheme.Γevaluation_naturality_apply s z (g.appTop.hom _)]
@@ -360,7 +360,7 @@ private theorem locallyQuasiFinite_of_eq_of_specializes {X Y : Scheme.{u}} (f : 
   have hthird : IsClosed ({f.asFiber x} : Set (f.fiber (f x))) ∧
       ¬ ∃ x' : f.fiber (f x), x' ≠ f.asFiber x ∧ x' ⤳ f.asFiber x := ⟨hclosed, hno⟩
   have hqf := ((quasiFiniteAt_tfae f x).out 3 1).mp hthird
-  show IsOpen ({⟨x, by simp⟩} : Set (f ⁻¹' {f x}))
+  change IsOpen ({⟨x, by simp⟩} : Set (f ⁻¹' {f x}))
   simpa only [Set.image_singleton, Scheme.Hom.asFiber, Homeomorph.apply_symm_apply] using
     (f.fiberHomeo (f x)).isOpen_image.mpr
       (Scheme.Hom.quasiFiniteAt_iff_isOpen_singleton_asFiber.mp hqf.2)
@@ -395,6 +395,7 @@ local instance (priority := high) hasPullback_presheaf_QuasiFinite
   (hasPullbacks_presheaf_QuasiFinite B S hS).has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is slow (see the docstring)
 /-- Discrete limits of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut under Lean v4.35.0). -/
 local instance (priority := high) quasiFinite_hasLimitsOfShape_discrete (J : Type) :
@@ -531,7 +532,7 @@ theorem isLocallyQuasiFinite_of_isImmersion {X Y : (BigFppfOver B S hS)ᵒᵖ �
   have hq' := locallyQuasiFinite_of_etale (T.map q)
   have : LocallyOfFiniteType (T.map q) := hq'.1
   have : LocallyQuasiFinite (T.map q) := hq'.2
-  show LocallyOfFiniteType (T.map h) ∧ LocallyQuasiFinite (T.map h)
+  change LocallyOfFiniteType (T.map h) ∧ LocallyQuasiFinite (T.map h)
   rw [← hqs, Functor.map_comp]
   exact ⟨inferInstance, inferInstance⟩
 
@@ -620,7 +621,7 @@ theorem isLocallyQuasiFinite_yoneda_map_iff {U V : BigFppfOver B S hS} (a : U �
     · intro A C D e g hg
       refine MorphismProperty.comp_mem _ g e.hom hg ?_
       constructor <;> infer_instance
-  show HoldsOnEveryEtaleChart B S hS
+  change HoldsOnEveryEtaleChart B S hS
     ((@AlgebraicGeometry.LocallyOfFiniteType.{u} : MorphismProperty Scheme.{u}) ⊓
       (@AlgebraicGeometry.LocallyQuasiFinite.{u} : MorphismProperty Scheme.{u}))
     (yoneda.map a) ↔ _
@@ -684,7 +685,7 @@ theorem isLocallyQuasiFinite_iff_forall_isQuasiFiniteAt
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y) (f : X ⟶ Y) :
     IsLocallyQuasiFinite B S hS f ↔ ∀ x : points B S hS X, IsQuasiFiniteAt B S hS f x := by
-  show HoldsOnEveryEtaleChart B S hS
+  change HoldsOnEveryEtaleChart B S hS
     ((@AlgebraicGeometry.LocallyOfFiniteType.{u} : MorphismProperty Scheme.{u}) ⊓
       (@AlgebraicGeometry.LocallyQuasiFinite.{u} : MorphismProperty Scheme.{u})) f ↔ _
   rw [holdsOnEveryEtaleChart_iff_forall_atPoint B S hS
@@ -732,7 +733,7 @@ private theorem isLocallyQuasiFinite_of_affine_baseChange
     have haS : aS ≫ V.hom.hom = U.hom.hom := congrArg (fun k => k.hom) a.w
     let a' : U' ⟶ V' := Over.homMk (ObjectProperty.homMk (aS ∣_ W.1)) (by
       apply ObjectProperty.hom_ext
-      show (aS ∣_ W.1) ≫ W.1.ι ≫ V.hom.hom = Upre.ι ≫ U.hom.hom
+      change (aS ∣_ W.1) ≫ W.1.ι ≫ V.hom.hom = Upre.ι ≫ U.hom.hom
       rw [morphismRestrict_ι_assoc, haS])
     have hav : a' ≫ v = i ≫ a := by
       apply Over.OverMorphism.ext
@@ -749,7 +750,7 @@ private theorem isLocallyQuasiFinite_of_affine_baseChange
     have hpb := isAlgebraicSpace_pullback B S hS g f hV' hX hY
     have hi : IsLocallyQuasiFinite B S hS (yoneda.map i) := by
       refine (isLocallyQuasiFinite_yoneda_map_iff B S hS i).mpr ?_
-      show LocallyOfFiniteType Upre.ι ∧ LocallyQuasiFinite Upre.ι
+      change LocallyOfFiniteType Upre.ι ∧ LocallyQuasiFinite Upre.ι
       constructor <;> infer_instance
     have hp'qf : IsLocallyQuasiFinite B S hS p' :=
       isLocallyQuasiFinite_comp B S hS hU' (isAlgebraicSpace_yoneda B S hS U) hX
@@ -941,7 +942,7 @@ theorem locallyQuasiFinite_tfae {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
       isLocallyQuasiFinite_of_comp B S hS (isAlgebraicSpace_yoneda B S hS W)
         (isAlgebraicSpace_yoneda B S hS V) hY (yoneda.map a) q hcompqf
     have hrpSurj : IsSurjective B S hS (r ≫ p) := by
-      show Function.Surjective (pointsMap B S hS (yoneda.obj W) (r ≫ p))
+      change Function.Surjective (pointsMap B S hS (yoneda.obj W) (r ≫ p))
       rw [pointsMap_comp]
       exact hpSurj.comp ((surjective_iff_surjective_pointsMap B S hS (yoneda.obj U)
         (isAlgebraicSpace_yoneda B S hS U) W r).mp hrSurj)
@@ -1326,7 +1327,7 @@ private theorem discreteTopology_sitePullback_of_discrete_fibre
       (pullback.fst (yonedaEquiv.symm q.value) f) (Limits.pullback.snd g lam) hjfst
       hjEtale hdiscD hftW
   have hsub : Subsingleton ((BigFppfOver.toScheme B S hS).obj q.siteObject) := by
-    show Subsingleton (PrimeSpectrum q.carrier)
+    change Subsingleton (PrimeSpectrum q.carrier)
     infer_instance
   exact discreteTopology_of_locallyQuasiFinite_of_subsingleton
     ((BigFppfOver.toScheme B S hS).map (Limits.pullback.snd g lam)) hsub
@@ -1386,7 +1387,7 @@ private theorem locallyQuasiFinite_map_of_discrete_fibres
   have hlamScheme : (BigFppfOver.toScheme B S hS).map
       (schemePointRepresentative B S hS V v).value =
       ((BigFppfOver.toScheme B S hS).obj V).fromSpecResidueField v := by
-    show B.inclusion.map (B.inclusion.preimage
+    change B.inclusion.map (B.inclusion.preimage
       (X := B.obj (B.residueField_spec_contains V.left.property v)) (Y := V.left)
       (((BigFppfOver.toScheme B S hS).obj V).fromSpecResidueField v)) = _
     rw [B.inclusion.map_preimage]
@@ -1452,7 +1453,7 @@ theorem isLocallyQuasiFinite_iff_forall_discreteTopology_fibre
     have _ : LocallyQuasiFinite ((BigFppfOver.toScheme B S hS).map
       (yonedaEquiv (a ≫ pullback.fst (yonedaEquiv.symm p.value) f))) := hchart.2
     have hsub : Subsingleton ((BigFppfOver.toScheme B S hS).obj p.siteObject) := by
-      show Subsingleton (PrimeSpectrum p.carrier)
+      change Subsingleton (PrimeSpectrum p.carrier)
       infer_instance
     have hdiscU : DiscreteTopology ((BigFppfOver.toScheme B S hS).obj U) :=
       discreteTopology_of_locallyQuasiFinite_of_subsingleton

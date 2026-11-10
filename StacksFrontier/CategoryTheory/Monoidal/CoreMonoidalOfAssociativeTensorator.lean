@@ -77,8 +77,6 @@ def unitIsoOfAssociativeTensorator : 𝟙_ D ≅ F.obj (𝟙_ C) :=
   (tensorRightFullyFaithfulOfIsoUnit u).preimageIso
     ((λ_ (F.obj (𝟙_ C))) ≪≫ (unitMulIso μIso).symm)
 
-include hnatl hnatr hassoc
-
 /-- The unit comparison satisfies the left unitality law at `𝟙_ C`. -/
 theorem unitIsoOfAssociativeTensorator_whiskerRight_comp :
     (unitIsoOfAssociativeTensorator μIso u).hom ▷ F.obj (𝟙_ C) ≫ (unitMulIso μIso).hom =
@@ -87,6 +85,8 @@ theorem unitIsoOfAssociativeTensorator_whiskerRight_comp :
       (λ_ (F.obj (𝟙_ C))).hom ≫ (unitMulIso μIso).inv :=
     (tensorRightFullyFaithfulOfIsoUnit u).map_preimage _
   rw [h, Category.assoc, Iso.inv_hom_id, Category.comp_id]
+
+include hnatl hnatr hassoc
 
 /-- **The associativity law at `(𝟙, 𝟙, X)`**: the left action of `F 𝟙` on `F X` is compatible
 with the multiplication of `F 𝟙`. -/
@@ -107,7 +107,7 @@ theorem whiskerLeft_leftActIso_comp (X : C) :
 theorem left_unitality_ofAssociativeTensorator (X : C) :
     (λ_ (F.obj X)).hom = (unitIsoOfAssociativeTensorator μIso u).hom ▷ F.obj X ≫
       (μIso (𝟙_ C) X).hom ≫ F.map (λ_ X).hom := by
-  have key := unitIsoOfAssociativeTensorator_whiskerRight_comp μIso hnatl hnatr hassoc u
+  have key := unitIsoOfAssociativeTensorator_whiskerRight_comp μIso u
   have hact := whiskerLeft_leftActIso_comp μIso hnatl hnatr hassoc X
   set e := (unitIsoOfAssociativeTensorator μIso u).hom
   set φ := leftActIso μIso X
@@ -126,14 +126,14 @@ theorem left_unitality_ofAssociativeTensorator (X : C) :
 theorem whiskerLeft_unitIsoOfAssociativeTensorator_comp :
     F.obj (𝟙_ C) ◁ (unitIsoOfAssociativeTensorator μIso u).hom ≫ (unitMulIso μIso).hom =
       (ρ_ (F.obj (𝟙_ C))).hom := by
-  have key := unitIsoOfAssociativeTensorator_whiskerRight_comp μIso hnatl hnatr hassoc u
+  have key := unitIsoOfAssociativeTensorator_whiskerRight_comp μIso u
   have hact := whiskerLeft_leftActIso_comp μIso hnatl hnatr hassoc (𝟙_ C)
   have hφ : leftActIso μIso (𝟙_ C) = unitMulIso μIso := rfl
   rw [hφ, Iso.eq_inv_comp] at hact
   set e := (unitIsoOfAssociativeTensorator μIso u).hom
   set m := unitMulIso μIso
   apply (tensorRightFullyFaithfulOfIsoUnit u).map_injective
-  show _ ▷ _ = _ ▷ _
+  change _ ▷ _ = _ ▷ _
   refine (cancel_mono m.hom).1 ?_
   rw [comp_whiskerRight, Category.assoc, ← hact, associator_naturality_middle_assoc,
     ← MonoidalCategory.whiskerLeft_comp_assoc, key]

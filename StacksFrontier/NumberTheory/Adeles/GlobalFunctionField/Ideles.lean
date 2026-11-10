@@ -123,7 +123,7 @@ public theorem finite_setOf_ordC_ne_zero (c : (AdeleRing K)ˣ) :
     (Filter.eventually_cofinite.1 ((c⁻¹ : (AdeleRing K)ˣ) : AdeleRing K).2)).subset ?_
   intro v hv
   by_contra hmem
-  simp only [Set.mem_union, Set.mem_setOf_eq, not_or, not_not] at hmem
+  simp only [Set.mem_union, Set.mem_ofPred_eq, not_or, not_not] at hmem
   have h1 := (Place.mem_ball_iff_ordC (isDiscrete k v) (m := 0)).1
     (Place.mem_ball_zero_iff.2 hmem.1)
   have h2 := (Place.mem_ball_iff_ordC (isDiscrete k v) (m := 0)).1
@@ -253,9 +253,9 @@ public theorem idelDiv_unifInvIdele (v : Place K) :
   simp only [idelDiv_apply, Finsupp.coe_neg, Pi.neg_apply, Finsupp.single_apply]
   by_cases hw : w = v
   · subst hw
-    rw [unifInvIdele, localIdele_apply_self, if_pos rfl,
+    rw [unifInvIdele, localIdele_apply_self, ite_eq_left rfl,
       ← zpow_neg_one, ← map_zpow₀, ordC_coeRingHom_unif_zpow k w]
-  · rw [unifInvIdele, localIdele_apply_ne hw, if_neg (Ne.symm hw), ordC_one k, neg_zero]
+  · rw [unifInvIdele, localIdele_apply_ne hw, ite_eq_right (Ne.symm hw), ordC_one k, neg_zero]
 
 /-- The scalar matrix of the inverse uniformizer at `v` is central data for `U_v`. -/
 public theorem isCentralDataAt_scalarGL_unifInvIdele (v : Place K) :

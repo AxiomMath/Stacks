@@ -376,7 +376,7 @@ theorem not_forall_exists_fg_isNilpotent_flat_quotient :
     Submodule.Quotient.mk (p := ((⊥ : Ideal A) • (⊤ : Submodule A N)))
       (Ideal.Quotient.mk P 1) with hxdef
   have h21 : ((2 : ℕ) : A) • (Ideal.Quotient.mk P 1 : N) = 0 := by
-    show Ideal.Quotient.mk P (((2 : ℕ) : A) * 1) = 0
+    change Ideal.Quotient.mk P (((2 : ℕ) : A) * 1) = 0
     rw [mul_one]
     exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.subset_span rfl)
   have hsmul : (Ideal.Quotient.mk (⊥ : Ideal A) (((2 : ℕ) : A))) • x = 0 := by

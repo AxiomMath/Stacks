@@ -294,8 +294,7 @@ theorem kerElement_lTensor_mulRightPiece
     kerElement hret hsq hbc n
         (LinearMap.lTensor ↥(RingHom.ker (algebraMap A k)) (mulRightPiece p hmulP) ζ) =
       kerElement hret hsq hbc d ζ * q := by
-  induction ζ using TensorProduct.induction_on with
-  | zero => simp
+  induction ζ using TensorProduct.inductionOn with
   | tmul a y =>
       obtain ⟨m, rfl⟩ := SquareZeroRetraction.surjective_of_isBaseChange hret (hbc d) y
       have hmy : (m : Q) * q ∈ 𝒬 n := hmulQ (m : Q) m.2
@@ -551,8 +550,7 @@ theorem sum_relationComponent_lTensor_pderivValPiece_eq_zero
     ∑ j, relationComponent pres eV j
       (LinearMap.lTensor ↥(RingHom.ker (algebraMap A k)) (pderivValPiece pres j i) ζ) = 0 := by
   classical
-  induction ζ using TensorProduct.induction_on with
-  | zero => simp
+  induction ζ using TensorProduct.inductionOn with
   | tmul a y =>
       have hj : ∀ j : σ, pderivValPiece pres j i y = pres.jacobian (Pi.single i y) j := by
         intro j

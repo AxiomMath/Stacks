@@ -74,7 +74,7 @@ public theorem derivationToTangent_surjective
   classical
   let : Algebra ξ.base k := (residueHom ξ.base).toRingHom.toAlgebra
   let hsource := categoryOfElements_projection_isCofibered (restrictedCoyoneda ξ.base)
-  let 𝓢 := BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda ξ.base))
+  let 𝓢 := BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda ξ.base))
   intro y
   obtain ⟨z, hz⟩ := ((isVersal_iff_differential_surjective_and_base_lifts
     (BasedCategory.ofFunctor p) hp hS1 hS2 ξ P).mp hξ).1 y
@@ -82,7 +82,7 @@ public theorem derivationToTangent_surjective
   change A' = artinianDualNumbers Λ k at hA
   cases hA
   refine ⟨tangentSpaceDerivationsLinearEquiv ξ.base α, ?_⟩
-  show mapIsomorphismClasses hsource hp.cofibered
+  change mapIsomorphismClasses hsource hp.cofibered
       (associatedMorphism hp.cofibered ξ P).toBasedFunctor
       (artinianDualNumbers Λ k)
       (classOf 𝓢 hsource ⟨Functor.elementsMk _ (artinianDualNumbers Λ k)
@@ -160,7 +160,7 @@ public theorem derivationToTangent_add_residueCompDerivation
         (δ, derivationToTangent hp.cofibered ξ P D) := by
   let : Algebra ξ.base k := (residueHom ξ.base).toRingHom.toAlgebra
   let hsource := categoryOfElements_projection_isCofibered (restrictedCoyoneda ξ.base)
-  let 𝓢 := BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda ξ.base))
+  let 𝓢 := BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda ξ.base))
   let e := tangentSpaceDerivationsLinearEquiv ξ.base
   let twist := dualNumbersTwistHom.{u, v, w} p hp δ
   let α : tangentSpaceArtinian Λ k (restrictedCoyoneda ξ.base) := e.symm D
@@ -187,7 +187,7 @@ public theorem derivationToTangent_add_residueCompDerivation
       (mapIsomorphismClasses hsource hp.cofibered
         (associatedMorphism hp.cofibered ξ P).toBasedFunctor
         (artinianDualNumbers.{u, w, v} Λ k) (classOf 𝓢 hsource x)) at hnat
-  show mapIsomorphismClasses hsource hp.cofibered
+  change mapIsomorphismClasses hsource hp.cofibered
       (associatedMorphism hp.cofibered ξ P).toBasedFunctor
       (artinianDualNumbers.{u, w, v} Λ k)
       (classOf 𝓢 hsource ⟨Functor.elementsMk _ (artinianDualNumbers.{u, w, v} Λ k)

@@ -44,6 +44,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits of presheaves on the small étale site times out
 /-- Discrete limits indexed by `Type` of presheaves of sets on the small étale site (instance
 search times out without this shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discrete₀_PreimageIdealGlobalSectionSets
@@ -52,6 +53,7 @@ local instance (priority := high) hasLimitsOfShape_discrete₀_PreimageIdealGlob
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits of presheaves on the small étale site times out
 /-- Discrete limits of presheaves of sets on the small étale site (instance search times out
 without this shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discrete_PreimageIdealGlobalSectionSets
@@ -60,22 +62,27 @@ local instance (priority := high) hasLimitsOfShape_discrete_PreimageIdealGlobalS
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits of presheaves on the small étale site times out
 /-- Discrete limits indexed by `Type` of presheaves of sets on the small étale site of a sheaf
 (instance search times out without this shortcut). -/
-local instance (priority := high) hasLimitsOfShape_discrete₀_smallEtale_PreimageIdealGlobalSectionSets
+local instance (priority := high)
+    hasLimitsOfShape_discrete₀_smallEtale_PreimageIdealGlobalSectionSets
     (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (J : Type) :
     HasLimitsOfShape (Discrete J) ((SmallEtale B S hS F)ᵒᵖ ⥤ Type u) :=
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits of presheaves on the small étale site times out
 /-- Discrete limits of presheaves of sets on the small étale site of a sheaf (instance search
 times out without this shortcut). -/
-local instance (priority := high) hasLimitsOfShape_discrete_smallEtale_PreimageIdealGlobalSectionSets
+local instance (priority := high)
+    hasLimitsOfShape_discrete_smallEtale_PreimageIdealGlobalSectionSets
     (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (J : Type u) :
     HasLimitsOfShape (Discrete J) ((SmallEtale B S hS F)ᵒᵖ ⥤ Type u) :=
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the terminal sheaf on the small étale site times out
 /-- The terminal sheaf of sets on the small étale site (instance search times out without this
 shortcut). -/
 local instance (priority := high) hasTerminal_topos_PreimageIdealGlobalSectionSets
@@ -87,6 +94,7 @@ local instance (priority := high) hasTerminal_topos_PreimageIdealGlobalSectionSe
     (sheafToPresheaf (SmallEtale.topology B S hS Z.1) (Type u))
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the terminal sheaf on the small étale site times out
 /-- The terminal sheaf of sets on the small étale site of a sheaf (instance search times out
 without this shortcut). -/
 local instance (priority := high) hasTerminal_sheaf_smallEtale_PreimageIdealGlobalSectionSets

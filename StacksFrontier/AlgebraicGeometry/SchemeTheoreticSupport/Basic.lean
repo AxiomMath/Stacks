@@ -277,7 +277,7 @@ theorem supp_eq_univ_of_pushforward_iso_annihilatorIdeal [IsLocallyNoetherian X]
   have _ : IsIso ψ := inferInstance
   have hpush :
       Nontrivial ((i.base _* (Scheme.Modules.toPresheaf _).obj G).stalk (i.base z)) := by
-    show Nontrivial (T.obj ((Scheme.Modules.pushforward i).obj G))
+    change Nontrivial (T.obj ((Scheme.Modules.pushforward i).obj G))
     obtain ⟨a, b, hab⟩ := exists_pair_ne (T.obj F)
     exact ⟨ConcreteCategory.hom ψ a, ConcreteCategory.hom ψ b,
       fun heq => hab ((ConcreteCategory.bijective_of_isIso ψ).1 heq)⟩

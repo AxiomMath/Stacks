@@ -88,7 +88,7 @@ private theorem matrix_presentation_eventually
     {I : Type uI} [Category.{uI} I] [IsFiltered I]
     (R : I ⥤ CommRingCat.{uR}) [PreservesColimit R (forget CommRingCat)]
     (c : Cocone R) (hc : IsColimit c)
-    {n α β : Type uA} [Fintype n] [DecidableEq n] [Fintype β]
+    {n α β : Type uA} [Fintype n] [DecidableEq n] [Finite β]
     (i : I) (M : α → Matrix n n (R.obj i))
     (lhs rhs : β → MatrixExpr α)
     (h : ∀ b, (lhs b).eval (fun a => (M a).map (c.ι.app i).hom) =
@@ -121,7 +121,7 @@ private theorem matrix_presentation_stage_exists
     {I : Type uI} [Category.{uI} I] [IsFiltered I]
     (R : I ⥤ CommRingCat.{uR}) [PreservesColimit R (forget CommRingCat)]
     (c : Cocone R) (hc : IsColimit c)
-    {n α β : Type uA} [Fintype n] [DecidableEq n] [Fintype α] [Fintype β]
+    {n α β : Type uA} [Fintype n] [DecidableEq n] [Finite α] [Finite β]
     (M : α → Matrix n n c.pt) (lhs rhs : β → MatrixExpr α)
     (h : ∀ b, (lhs b).eval M = (rhs b).eval M) :
     ∃ (j : I) (N : α → Matrix n n (R.obj j)),
@@ -182,7 +182,7 @@ private theorem uniform_projective_differentials_stage_exists
     {I : Type uI} [Category.{uI} I] [IsFiltered I]
     (R : I ⥤ CommRingCat.{uR}) [PreservesColimit R (forget CommRingCat)]
     (c : Cocone R) (hc : IsColimit c)
-    {α n : Type uA} [Fintype α] [Fintype n] [DecidableEq n]
+    {α n : Type uA} [Finite α] [Fintype n]
     (next : α → α) (E D : α → Matrix n n c.pt)
     (hE : ∀ a, E a * E a = E a)
     (hleft : ∀ a, E (next a) * D a = D a)
@@ -195,6 +195,7 @@ private theorem uniform_projective_differentials_stage_exists
       (∀ a, D' (next a) * D' a = 0) ∧
       (∀ a, (E' a).map (c.ι.app j).hom = E a) ∧
       (∀ a, (D' a).map (c.ι.app j).hom = D a) := by
+  classical
   obtain ⟨j, N, hN, hmap⟩ := matrix_presentation_stage_exists R c hc (Sum.elim E D)
     (differentialRelLhs next) differentialRelRhs
     ((differentialRel_iff next _).2 ⟨hE, hleft, hright, hsquare⟩)
@@ -209,7 +210,7 @@ private theorem uniform_projective_differentials_eventually
     {I : Type uI} [Category.{uI} I] [IsFiltered I]
     (R : I ⥤ CommRingCat.{uR}) [PreservesColimit R (forget CommRingCat)]
     (c : Cocone R) (hc : IsColimit c)
-    {α n : Type uA} [Fintype α] [Fintype n] [DecidableEq n]
+    {α n : Type uA} [Finite α] [Fintype n]
     (i : I) (next : α → α) (E D : α → Matrix n n (R.obj i))
     (hE : ∀ a, (E a).map (c.ι.app i).hom * (E a).map (c.ι.app i).hom =
       (E a).map (c.ι.app i).hom)
@@ -227,6 +228,7 @@ private theorem uniform_projective_differentials_eventually
       (∀ a, (D a).map (R.map f).hom * (E a).map (R.map f).hom =
         (D a).map (R.map f).hom) ∧
       (∀ a, (D (next a)).map (R.map f).hom * (D a).map (R.map f).hom = 0) := by
+  classical
   obtain ⟨j, f, hf⟩ := matrix_presentation_eventually R c hc i (Sum.elim E D)
     (differentialRelLhs next) differentialRelRhs
     ((differentialRel_iff next _).2 ⟨hE, hleft, hright, hsquare⟩)
@@ -267,7 +269,7 @@ private theorem idempotentDifferential_comp_zero
   apply LinearMap.ext
   intro x
   apply Subtype.ext
-  show Matrix.toLin' (D (next a)) (Matrix.toLin' (D a) x.1) = 0
+  change Matrix.toLin' (D (next a)) (Matrix.toLin' (D a) x.1) = 0
   have h := toLin'_comp_of_mul_eq (hsquare a)
   simpa using DFunLike.congr_fun h x.1
 
@@ -300,7 +302,7 @@ private theorem idempotentComplex_finite_projective
     (toLin'_comp_of_mul_eq (hE i))
   have := hf
   have := hp
-  show Module.Finite A (ULift.{uM} (Matrix.toLin' (E i)).range) ∧
+  change Module.Finite A (ULift.{uM} (Matrix.toLin' (E i)).range) ∧
     Module.Projective A (ULift.{uM} (Matrix.toLin' (E i)).range)
   constructor <;> infer_instance
 
@@ -344,7 +346,7 @@ private theorem finite_projective_family_retract
   intro i
   apply LinearMap.ext
   intro x
-  show (f (g (Pi.single i x))) i = x
+  change (f (g (Pi.single i x))) i = x
   rw [← LinearMap.comp_apply f g, hfg]
   simp
 
@@ -369,7 +371,7 @@ private theorem bounded_projective_retract
   refine ⟨n, f', g', ?_, fun i hi => by simp only [f', g', dite_eq_right hi, and_self]⟩
   intro i
   by_cases hi : i ∈ Finset.Icc a b
-  · simpa only [f', g', dif_pos hi] using hfg ⟨i, hi⟩
+  · simpa only [f', g', dite_eq_left hi] using hfg ⟨i, hi⟩
   · have hz : IsZero (P.X i) := by
       simp only [Finset.mem_Icc, not_and_or, not_le] at hi
       rcases hi with hi | hi
@@ -406,7 +408,7 @@ private theorem projective_retract_matrices
     intro x
     simp only [LinearMap.comp_apply, hfg_apply, LinearMap.zero_apply]
     have hd : (P.d (i + 1) (i + 1 + 1)).hom ((P.d i (i + 1)).hom (f i x)) = 0 := by
-      show ((P.d i (i + 1) ≫ P.d (i + 1) (i + 1 + 1)).hom) (f i x) = 0
+      change ((P.d i (i + 1) ≫ P.d (i + 1) (i + 1 + 1)).hom) (f i x) = 0
       rw [P.d_comp_d]
       rfl
     rw [hd, map_zero]
@@ -593,7 +595,7 @@ private theorem idempotentMatrixRangeBaseChange_tmul
         fun j => b * f (x.down.1 j) := by
   let : Algebra A B := f.toAlgebra
   intro b x
-  show (idempotent_range_baseChange_equiv f n (Matrix.toLin' E) (toLin'_comp_of_mul_eq hE)
+  change (idempotent_range_baseChange_equiv f n (Matrix.toLin' E) (toLin'_comp_of_mul_eq hE)
     ((LinearEquiv.baseChange A B _ _ ULift.moduleEquiv) (b ⊗ₜ[A] x))).1 = _
   rw [idempotent_range_baseChange_equiv_apply]
   ext j
@@ -621,8 +623,7 @@ private noncomputable def idempotentComplexBaseChange
   apply LinearMap.ext
   intro z
   change B ⊗[A] ULift.{uM} (Matrix.toLin' (E i)).range at z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z w hz hw => simp only [map_add, hz, hw]
   | tmul b x =>
     apply ULift.ext

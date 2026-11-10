@@ -61,12 +61,13 @@ theorem pow_pow_eq_of_twisted {Ω : Type*} [Field Ω] (σ : A ≃+* A) {N : ℕ}
       rw [Function.iterate_succ_apply', hφ, ih, ← pow_mul, pow_succ]
   rw [← key N a, hN]
 
-include hdvr hFA in
+include hdvr in
+omit [IsDedekindDomain A] in
 /-- **The congruence at the place of a twisted point.** If `φ` is `σ`-twisted with kernel `P`
 and `x` is a place with `𝒪_{M,x} = A_P`, then `τ y ≡ y ^ Q` at `x` for every regular `y`, where
 `τ` extends `σ` to the function field. -/
 theorem one_le_curveVal_sub_pow_of_twisted {Ω : Type*} [Field Ω] (σ : A ≃+* A) (Q : ℕ)
-    (hQ : Q ≠ 0) (φ : A →+* Ω) (hφ : ∀ a, φ (σ a) = φ a ^ Q) [(RingHom.ker φ).IsMaximal]
+    (φ : A →+* Ω) (hφ : ∀ a, φ (σ a) = φ a ^ Q) [(RingHom.ker φ).IsMaximal]
     (x : CurvePlace M)
     (hx : ∀ f : M.functionField,
       (∃ s : M.presheaf.stalk x.1, algebraMap _ M.functionField s = f) ↔
@@ -119,7 +120,7 @@ theorem one_le_curveVal_sub_pow_of_twisted {Ω : Type*} [Field Ω] (σ : A ≃+*
   exact Ideal.mul_mem_right _ _ hNm
 
 include hFA in
-omit [IsLocallyNoetherian M] [IsDedekindDomain A] in
+omit [IsLocallyNoetherian M] [IsDedekindDomain A] [IsFractionRing A M.functionField] in
 /-- The inclusion `A → 𝒪_{M,x}` carries the constants of `A` to those of the local ring. -/
 theorem toStalk_algebraMap (x : M)
     (hA : ∀ a : A, ∃ s : M.presheaf.stalk x,
@@ -169,7 +170,7 @@ private theorem exists_algHom_comp_eq_of_surjective {R κ Ω : Type*} [CommRing 
   rfl
 
 include hFA in
-omit [IsLocallyNoetherian M] in
+omit [IsLocallyNoetherian M] [IsDedekindDomain A] in
 /-- **The fibre of the place map.** The ring homomorphisms `φ : A → Ω` over `ι` whose kernel has
 `A_P = 𝒪_{M,x}` number at most `deg x`: each factors through `κ(x) = A / P` as an `F`-embedding. -/
 theorem ncard_le_curveDeg {Ω : Type*} [Field Ω] (ι : F →+* Ω) [Algebra.FiniteType F A]
@@ -236,6 +237,7 @@ theorem ncard_le_curveDeg {Ω : Type*} [Field Ω] (ι : F →+* Ω) [Algebra.Fin
   rw [Stacks.Chow.residueDegree_eq_finrank_residueField F p x.1]
 
 include hdvr in
+omit [IsDedekindDomain A] in
 /-- An element of `A` lies in `P` exactly when it vanishes at the place `x_P`. -/
 theorem mem_iff_one_le_curveVal {P : Ideal A} [P.IsMaximal] {x : CurvePlace M}
     (hx : ∀ f : M.functionField,
@@ -297,6 +299,7 @@ private theorem ker_ne_bot_of_twisted {Ω : Type*} [Field Ω] (σ : A ≃+* A) {
   exact absurd h0 (by decide)
 
 include hdvr hFA in
+omit [IsDedekindDomain A] in
 /-- **Counting the twisted points through their places.** A finite set `s` of twisted points maps
 to places with fibres of size at most the degree, and the twisted Stepanov bound `hγ` limits the
 total degree of the places other than `P₀`. -/
@@ -362,7 +365,7 @@ include hdvr hFA in
 ring automorphism of finite order of `A` fixing `F`. There is `γ` such that for `Q = r²`,
 `r = p ^ e > γ² + 3γ + 1`, the `σ`-twisted points `φ : A → Ω` over `ι`
 (`φ(σ a) = φ(a) ^ Q`) number at most `Q + (2γ + 1) r`. -/
-theorem ncard_twisted_le [Fintype F] (pr : ℕ) [Fact pr.Prime] [CharP F pr] [IsProper p]
+theorem ncard_twisted_le [Finite F] (pr : ℕ) [Fact pr.Prime] [CharP F pr] [IsProper p]
     [IsCurve F p] [Algebra.FiniteType F A] (P₀ : CurvePlace M)
     (hsurj : Function.Surjective fun c : F =>
       IsLocalRing.residue (M.presheaf.stalk P₀.1) ((fieldToStalk p P₀.1).hom c))
@@ -373,6 +376,7 @@ theorem ncard_twisted_le [Fintype F] (pr : ℕ) [Fact pr.Prime] [CharP F pr] [Is
       {φ : PointsOver A ι | ∀ a, φ.1 (σ a) = φ.1 a ^ (pr ^ e * pr ^ e)}.ncard ≤
         pr ^ e * pr ^ e + (2 * γ + 1) * pr ^ e := by
   classical
+  have := Fintype.ofFinite F
   set τ : M.functionField ≃+* M.functionField :=
     IsFractionRing.ringEquivOfRingEquiv (K := M.functionField) (L := M.functionField) σ
   have hτ : ∀ a, τ (algebraMap A M.functionField a) = algebraMap A M.functionField (σ a) :=
@@ -390,9 +394,6 @@ theorem ncard_twisted_le [Fintype F] (pr : ℕ) [Fact pr.Prime] [CharP F pr] [Is
     hmaps
   refine ⟨γ, fun e he => ?_⟩
   set Q := pr ^ e * pr ^ e with hQ
-  have hQ0 : Q ≠ 0 := by
-    have := (Fact.out : pr.Prime).pos
-    positivity
   set T := {φ : PointsOver A ι | ∀ a, φ.1 (σ a) = φ.1 a ^ Q} with hTdef
   have hF : ∀ c : F, ∃ a : A, algebraMap A M.functionField a =
       (fieldToStalk p (genericPoint M)).hom c := fun c => ⟨_, hFA c⟩
@@ -421,7 +422,7 @@ theorem ncard_twisted_le [Fintype F] (pr : ℕ) [Fact pr.Prime] [CharP F pr] [Is
       ((1 : ℤ) : WithTop ℤ) ≤ curveVal hdvr (X φ) (τ y - y ^ Q) := by
     intro φ hφ y hy
     have := hmax φ hφ
-    exact one_le_curveVal_sub_pow_of_twisted p hdvr hFA σ Q hQ0 φ.1 hφ (X φ) (hX φ hφ) y hy
+    exact one_le_curveVal_sub_pow_of_twisted hdvr σ Q φ.1 hφ (X φ) (hX φ hφ) y hy
   -- the bound for finite sets of twisted points, hence for all of `T`
   exact finite_and_ncard_le_of_card_le T _ fun s hs =>
     card_le_of_subset_twisted p hdvr hFA ι P₀ hP₀ Q _ T hmax X hX τ hcong (hγ e he) s hs

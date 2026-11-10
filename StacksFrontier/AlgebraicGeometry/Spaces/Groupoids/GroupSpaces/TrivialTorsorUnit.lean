@@ -52,6 +52,7 @@ variable {𝒞 : BigFppfSite.{u}} {S : Scheme.{u}} {hS : 𝒞.Contains S}
   (G : GroupAlgebraicSpace 𝒞 S hS B hB)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site over `S` is slow
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_TrivialTorsorUnit :
@@ -62,8 +63,10 @@ local instance (priority := high) hasPullback_presheaf_TrivialTorsorUnit
     HasLimit (cospan f g) :=
   HasLimitsOfShape.has_limit _
 
-set_option maxHeartbeats 1000000 in
 set_option synthInstance.maxHeartbeats 1000000 in
+-- synthesizing the `LaxMonoidal` instance of the slice pullback functor is slow
+set_option maxHeartbeats 1000000 in
+-- elaborating the `LaxMonoidal` instance of the slice pullback functor is slow
 /-- The lax monoidal structure of base change along a morphism into `B` (instance search times
 out without this shortcut). -/
 local instance (priority := high) overPullbackLaxMonoidal_TrivialTorsorUnit
@@ -76,9 +79,9 @@ local instance (priority := high) overPullbackLaxMonoidal_TrivialTorsorUnit
 theorem pullbackGroup_unit_left_comp_fst (U : BigFppfOver 𝒞 S hS) (b : yoneda.obj U ⟶ B) :
     (η[(pullbackGroup hB G U b).obj.X]).left ≫ pullback.fst G.obj.X.hom b =
       b ≫ (η[G.obj.X]).left := by
-  show (Functor.LaxMonoidal.ε (Over.pullback b)).left ≫
+  change (Functor.LaxMonoidal.ε (Over.pullback b)).left ≫
     ((Over.pullback b).map (η[G.obj.X])).left ≫ pullback.fst G.obj.X.hom b = _
-  show (Functor.LaxMonoidal.ε (Over.pullback b)).left ≫
+  change (Functor.LaxMonoidal.ε (Over.pullback b)).left ≫
     pullback.lift (pullback.fst (𝟙 B) b ≫ (η[G.obj.X]).left)
       (pullback.snd (𝟙 B) b) _ ≫ pullback.fst G.obj.X.hom b = _
   rw [pullback.lift_fst]

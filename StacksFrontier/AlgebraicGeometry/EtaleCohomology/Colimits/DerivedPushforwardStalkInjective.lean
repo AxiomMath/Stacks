@@ -64,6 +64,9 @@ variable (B : BigEtaleSite.{u}) {X Y : Scheme.{u}} (hY : B.Contains Y) (f : X �
       (HomotopyCategory.quasiIso
         (Sheaf (smallEtaleTopology (strictHenselizationBaseChange B hY f s)) Ab.{u + 1}) (.up ℤ))]
 
+omit [((smallEtalePushforwardAb f).mapHomotopyCategory (.up ℤ) ⋙
+      DerivedCategory.Qh).HasRightDerivedFunctor
+      (HomotopyCategory.quasiIso (Sheaf (smallEtaleTopology X) Ab.{u + 1}) (.up ℤ))] in
 /-- The unit of `RΓ` on the base change to the strict henselization is invertible at the inverse
 image of a bounded below complex of injective sheaves. -/
 theorem isIso_derivedGlobalSectionsUnit_pullback
@@ -122,6 +125,9 @@ theorem isIso_derivedPushforwardUnit_of_isKInjective
     (Stacks.DerivedFunctor.exists_quasiIso_isKInjective.{u + 1, u + 2})
     (smallEtaleDerivedPushforwardAb f) (smallEtaleDerivedPushforwardAbUnit f) (𝟙 J) hJK
 
+omit [((smallEtalePushforwardAb f).mapHomotopyCategory (.up ℤ) ⋙
+      DerivedCategory.Qh).HasRightDerivedFunctor
+      (HomotopyCategory.quasiIso (Sheaf (smallEtaleTopology X) Ab.{u + 1}) (.up ℤ))] in
 /-- The comparison on the homotopy category is invertible at a bounded below complex of
 injective sheaves, given degree zero on injective sheaves. -/
 theorem isIso_derivedPushforwardStalkUnit_of_injective

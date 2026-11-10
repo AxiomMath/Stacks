@@ -240,7 +240,7 @@ private lemma derivedDiagram_mapId_inv
       (derivedExtensionScalarsId.{u, v} (diagram.obj stage)).hom.app object ≫
         (derivedExtensionScalarsCongr.{u, v}
           (congrArg CommRingCat.Hom.hom (diagram.map_id stage).symm)).hom.app object := by
-  show (derivedExtensionScalarsId.{u, v} (diagram.obj stage)).hom.app object ≫
+  change (derivedExtensionScalarsId.{u, v} (diagram.obj stage)).hom.app object ≫
       ((derivedExtensionScalarsPseudofunctor comp hcomp).map₂
         (diagram.toPseudofunctor.mapId ⟨stage⟩).inv).toNatTrans.app object = _
   congr 1
@@ -259,7 +259,7 @@ private lemma derivedDiagram_mapComp_inv
       (comp (diagram.map first).hom (diagram.map second).hom).hom.app object ≫
         (derivedExtensionScalarsCongr.{u, v}
           (congrArg CommRingCat.Hom.hom (diagram.map_comp first second).symm)).hom.app object := by
-  show (comp (diagram.map first).hom (diagram.map second).hom).hom.app object ≫
+  change (comp (diagram.map first).hom (diagram.map second).hom).hom.app object ≫
       ((derivedExtensionScalarsPseudofunctor comp hcomp).map₂
         (diagram.toPseudofunctor.mapComp first.toLoc second.toLoc).inv).toNatTrans.app object = _
   congr 1
@@ -285,8 +285,7 @@ private def extendScalarsAlgebraMapEquiv {A : Type uA} {B : Type uB}
     map_smul' := by
       intro b x
       change e (b • x) = b • e x
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul c m => rw [ModuleCat.ExtendScalars.smul_tmul]; simp [e, eB, TensorProduct.smul_tmul']
       | add x y hx hy => simpa only [smul_add, map_add] using congrArg₂ (· + ·) hx hy }
 
@@ -317,7 +316,7 @@ private lemma flat_extendScalars_of_isPushout {R : Type uR} {A : Type uA} {S : T
     { e.toAddEquiv with
       map_smul' := by
         intro s x
-        show e ((algebraMap S B s) • x) = s • e x
+        change e ((algebraMap S B s) • x) = s • e x
         simp only [map_smul, IsScalarTower.algebraMap_smul] }
   exact Module.Flat.of_linearEquiv
     (e'.trans (Algebra.IsPushout.cancelBaseChange R S A B M))
@@ -399,13 +398,13 @@ theorem isRelativelyPerfect_tensorProduct_map
   let : IsScalarTower R₀ S T := IsScalarTower.of_algebraMap_eq fun x ↦ (f.commutes x).symm
   let : Algebra A B := g.toAlgebra
   let : IsScalarTower S A B := IsScalarTower.of_algebraMap_eq fun x ↦ by
-    show f x ⊗ₜ[R₀] 1 = g (x ⊗ₜ[R₀] 1)
+    change f x ⊗ₜ[R₀] 1 = g (x ⊗ₜ[R₀] 1)
     simp [g]
   let : Algebra.IsPushout S T A B :=
     @Algebra.IsPushout.tensorProduct_tensorProduct R₀ A₀ S T
       _ _ _ _ _ _ _ _ _ g.toAlgebra inferInstance (by
         ext x
-        show g (1 ⊗ₜ[R₀] x) = 1 ⊗ₜ[R₀] x
+        change g (1 ⊗ₜ[R₀] x) = 1 ⊗ₜ[R₀] x
         simp [g])
   let L := totalDerivedExtensionScalars.{max uR uA, max uR uA, uM} g
   have : L.functor.IsLeftDerivedFunctor L.comparison
@@ -528,7 +527,7 @@ private lemma coGrothendieck_cartesianLift_naturality {V W : I} (f : W ⟶ V)
         CoGrothendieck.cartesianLift Y f =
       CoGrothendieck.cartesianLift X f ≫ (CoGrothendieck.ι F V).map α := by
   ext
-  · show 𝟙 W ≫ f = f ≫ 𝟙 V
+  · change 𝟙 W ≫ f = f ≫ 𝟙 V
     exact (Category.id_comp f).trans (Category.comp_id f).symm
   · simp only [CoGrothendieck.ι, CoGrothendieck.categoryStruct_comp_base, op_comp,
       Quiver.Hom.comp_toLoc, CoGrothendieck.categoryStruct_comp_fiber,

@@ -40,7 +40,7 @@ theorem ModuleCat.iSup_range_eq_top_of_isColimit {A : Type u} [Ring A] {ι : Typ
   let P : Submodule A c.pt := ⨆ i : ι, (LinearMap.range (c.ι.app ⟨i⟩).hom : Submodule A c.pt)
   have h : ModuleCat.ofHom P.mkQ = 0 := by
     refine hc.hom_ext fun j ↦ ModuleCat.hom_ext (LinearMap.ext fun x ↦ ?_)
-    show P.mkQ ((c.ι.app j : F.obj j ⟶ c.pt).hom x) = 0
+    change P.mkQ ((c.ι.app j : F.obj j ⟶ c.pt).hom x) = 0
     rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
     exact Submodule.mem_iSup_of_mem j.as (LinearMap.mem_range_self _ x)
   refine eq_top_iff.2 fun x _ ↦ ?_
@@ -91,7 +91,7 @@ theorem bijective_pushforward_map_unit (t' : C') (ht : IsTerminal (ι.obj t'))
         x'.val.app (op (ι.obj t')) (1 : R.obj.obj (op (ι.obj t'))) :=
       congrArg (fun φ ↦ φ.val.app (op t') (1 : R.obj.obj (op (ι.obj t')))) hxx'
     refine M.unitHomEquiv.injective (Subtype.ext (funext fun U ↦ ?_))
-    show x.val.app U (1 : R.obj.obj U) = x'.val.app U (1 : R.obj.obj U)
+    change x.val.app U (1 : R.obj.obj U) = x'.val.app U (1 : R.obj.obj U)
     rw [unit_hom_app_eq_smul R x (ht.from U.unop), unit_hom_app_eq_smul R x' (ht.from U.unop), h0]
   · intro ψ
     let m : M.val.obj (op (ι.obj t')) := ψ.val.app (op t') (1 : R.obj.obj (op (ι.obj t')))
@@ -105,7 +105,7 @@ theorem bijective_pushforward_map_unit (t' : C') (ht : IsTerminal (ι.obj t'))
       fun U ↦ congrArg (fun σ : M.sections ↦ σ.val (op U)) (M.unitHomEquiv.apply_symm_apply s)
     refine _root_.SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun U ↦
       ModuleCat.hom_ext (LinearMap.ext ?_))
-    show ∀ r : ((ι.sheafPushforwardContinuous RingCat.{u} J' J).obj R).obj.obj U,
+    change ∀ r : ((ι.sheafPushforwardContinuous RingCat.{u} J' J).obj R).obj.obj U,
       (M.unitHomEquiv.symm s).val.app (op (ι.obj U.unop)) r = ψ.val.app U r
     intro r
     have hψ := unit_hom_app_eq_smul_one (R := (ι.sheafPushforwardContinuous RingCat.{u} J' J).obj R)
@@ -180,7 +180,7 @@ theorem exists_finsupp_free (I : Type u) {V : C}
   obtain ⟨p, hp⟩ := hg
   obtain ⟨c, rfl⟩ := exists_finsupp_freePres R I p
   refine ⟨c, hp.symm.trans ?_⟩
-  show (toFree R I).app (op B) (c.sum fun i r ↦ _) = _
+  change (toFree R I).app (op B) (c.sum fun i r ↦ _) = _
   rw [map_finsuppSum]
   refine Finset.sum_congr rfl fun i _ ↦ ?_
   have h := congrArg (fun φ ↦ (PresheafOfModules.Hom.app φ (op B)).hom (c i)) (ι_toFree R I i)
@@ -240,7 +240,7 @@ omit [HasSheafify J AddCommGrpCat] [J.WEqualsLocallyBijective AddCommGrpCat] in
 include ht in
 theorem map_from_self (P : PresheafOfModules.{u} R.obj) (m : P.obj (op t)) :
     P.map (ht.from t).op m = m := by
-  show (P.presheaf ⋙ forget _).map (ht.from t).op m = m
+  change (P.presheaf ⋙ forget _).map (ht.from t).op m = m
   rw [ht.hom_ext (ht.from t) (𝟙 t), op_id, CategoryTheory.Functor.map_id]
   rfl
 
@@ -288,7 +288,7 @@ theorem isPresentedByGlobalSections_of_terminal (I K : Type u) (s : I → N.val.
     exact Finset.sum_congr rfl fun i _ ↦ congrArg (c i • ·) (hb B i)
   have hab : a ≫ b = 0 := by
     refine N.freeHomEquiv.injective (funext fun k ↦ sections_ext t ht ?_)
-    show b.val.app (op t) (a.val.app (op t) (freeElt K t k)) =
+    change b.val.app (op t) (a.val.app (op t) (freeElt K t k)) =
       (SheafOfModules.ιFree (R := R) k ≫ 0).val.app (op t) (1 : R.obj.obj (op t))
     rw [ha, map_from_self t ht, hbsum, comp_zero]
     refine Eq.trans (Finset.sum_congr rfl fun i _ ↦ ?_) (hρ k)
@@ -307,7 +307,7 @@ theorem isPresentedByGlobalSections_of_terminal (I K : Type u) (s : I → N.val.
     have hby : (c.sum fun i r ↦ r •
         (show N.val.obj (op B) from N.val.map (ht.from B).op (s i))) = 0 := by
       rw [← hbsum, ← hc, PresheafOfModules.naturality_apply]
-      show N.val.map g.op (((kernel.ι b).val ≫ b.val).app (op V) z) = 0
+      change N.val.map g.op (((kernel.ι b).val ≫ b.val).app (op V) z) = 0
       rw [← SheafOfModules.comp_val, kernel.condition]
       exact map_zero _
     obtain ⟨T₂, hT₂, hd⟩ := hrel B c hby
@@ -329,7 +329,7 @@ theorem isPresentedByGlobalSections_of_terminal (I K : Type u) (s : I → N.val.
         L (d.sum fun k r ↦ r • (ρ k).mapRange (R.obj.map (ht.from B').op).hom (map_zero _)) := by
       rw [app_finsupp_sum_smul, map_finsuppSum]
       refine Finset.sum_congr rfl fun k _ ↦ ?_
-      show d k • a.val.app (op B') (freeElt K B' k) = L (d k • _)
+      change d k • a.val.app (op B') (freeElt K B' k) = L (d k • _)
       rw [ha, map_smul, map_finsupp_sum_smul, hL]
       exact congrArg (_ • ·)
         (Finset.sum_congr rfl fun i _ ↦ congrArg (_ • ·) (map_freeElt I (ht.from B') i))

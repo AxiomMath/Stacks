@@ -158,6 +158,7 @@ public def moduleFShriekDerivedCompHomologyFunctorIso (i : ℤ) :
 
 variable [QuasiCompact (B.inclusion.map f)] [QuasiSeparated (B.inclusion.map f)]
 
+omit [IsNoetherianRing Λ] in
 /-- **Stacks 0GK3**, granted the sheaf-level case. Let `Λ` be a Noetherian ring and let
 `f : X ⟶ Y` be a morphism of schemes which is locally quasi-finite and of finite presentation.
 If a complex `K` of étale sheaves of `Λ`-modules on `X` lies in `D_c(X_étale, Λ)`, then

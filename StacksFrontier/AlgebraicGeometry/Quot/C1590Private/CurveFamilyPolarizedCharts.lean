@@ -280,7 +280,7 @@ theorem hasPolarizedChartAt_of_isRelativeEffectiveCartierDivisor (Y : CurveFamil
       (Space.closedSubspaceOfIdeal V E) ?_]
     · exact schemeSpaceIdeal_closedSubspaceOfIdeal B integerBase hZ V E
     · rw [← hDE, hqV]
-      show _ = (D.1.preimage eY.hom).preimage (q ≫ eY.inv)
+      change _ = (D.1.preimage eY.hom).preimage (q ≫ eY.inv)
       rw [← Subfunctor.preimage_comp, Category.assoc, Iso.inv_hom_id, Category.comp_id]
   rw [yonedaEquiv_symm_value] at hq
   have hsqY : IsPullback (yoneda.map qV) (yoneda.map v) (yoneda.map fZ)

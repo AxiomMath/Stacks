@@ -56,6 +56,7 @@ instance : IsDirected (GeIndex i₀) (· ≤ ·) :=
     obtain ⟨c, hac, hbc⟩ := directed_of (· ≤ ·) a.1 b.1
     exact ⟨⟨c, a.2.trans hac⟩, hac, hbc⟩⟩
 
+omit [IsDirected I (· ≤ ·)] in
 /-- The inclusion of the indices above `i₀` into `I` is monotone. -/
 theorem geIndex_val_monotone : Monotone (Subtype.val : GeIndex i₀ → I) := fun _ _ h => h
 

@@ -96,7 +96,7 @@ private theorem isIPowerTorsion_localized {A M : Type*} [CommRing A] [AddCommGro
   obtain ⟨e, he, hkill⟩ := hT m
   refine ⟨e, he, fun a ha => ?_⟩
   rw [← hx]
-  show a • IsLocalizedModule.mk' (LocalizedModule.mkLinearMap S M) m s = 0
+  change a • IsLocalizedModule.mk' (LocalizedModule.mkLinearMap S M) m s = 0
   rw [← IsLocalizedModule.mk'_smul, hkill a ha]
   simp
 
@@ -225,20 +225,20 @@ private theorem localCohomology_homology_exact_sequences (A : Type u) [CommRing 
   let Hcurr := DerivedCategory.homologyFunctor (ModuleCat.{v} A) i
   let : Hcurr.Additive := inferInstance
   let : Ecurr.Additive := by
-    show (DerivedCategory.singleFunctor (ModuleCat.{v} A) 0 ⋙ F ⋙ Hcurr).Additive
+    change (DerivedCategory.singleFunctor (ModuleCat.{v} A) 0 ⋙ F ⋙ Hcurr).Additive
     infer_instance
   let δprev := DerivedCategory.HomologySequence.δ T' (i - 1) i (by omega)
   let δnext := DerivedCategory.HomologySequence.δ T' i (i + 1) (by omega)
   have hcurr : Ecurr.map S.f ≫ Ecurr.map S.g = 0 := by
     rw [← Functor.map_comp, S.zero, Functor.map_zero]
   refine ⟨δprev, ?_, ?_, hcurr, ?_, δnext, ?_, ?_⟩
-  · show δprev ≫ Hcurr.map T'.mor₁ = 0
+  · change δprev ≫ Hcurr.map T'.mor₁ = 0
     exact DerivedCategory.HomologySequence.δ_comp T' hT (i - 1) i (by omega)
   · convert DerivedCategory.HomologySequence.exact₁ T' hT (i - 1) i (by omega) using 1
     rfl
   · convert DerivedCategory.HomologySequence.exact₂ T' hT i using 1
     rfl
-  · show Hcurr.map T'.mor₂ ≫ δnext = 0
+  · change Hcurr.map T'.mor₂ ≫ δnext = 0
     exact DerivedCategory.HomologySequence.comp_δ T' hT i (i + 1) (by omega)
   · convert DerivedCategory.HomologySequence.exact₃ T' hT i (i + 1) (by omega) using 1
     rfl
@@ -266,7 +266,7 @@ private theorem exists_pow_le_annihilator_of_finite_associatedPrimes_localizatio
     apply _root_.zero_at_ass_zero A M
     ext p
     let : p.val.IsPrime := p.property.isPrime
-    show LocalizedModule.mkLinearMap p.val.primeCompl M (a • x) =
+    change LocalizedModule.mkLinearMap p.val.primeCompl M (a • x) =
       LocalizedModule.mkLinearMap p.val.primeCompl M (0 : M)
     rw [map_smul, map_zero]
     exact Module.mem_annihilator.mp (hp p (Ideal.pow_le_pow_right (he p) ha)) _
@@ -537,7 +537,7 @@ private theorem finite_of_ker_smul_of_pow_smul_zero
       apply Submodule.fg_of_fg_map_of_fg_inf_ker (f • (LinearMap.id : M →ₗ[R] M))
       · apply ih.of_le
         rintro _ ⟨x, hx, rfl⟩
-        show f ^ e • (f • x) = 0
+        change f ^ e • (f • x) = 0
         simpa [pow_succ, mul_smul] using hx
       · exact hker.of_le inf_le_right
   have heq : LinearMap.ker (f ^ n • (LinearMap.id : M →ₗ[R] M)) = ⊤ := by
@@ -605,10 +605,10 @@ private theorem derivedSupportCohomology_linear
       (DerivedCategory.homologyFunctor (ModuleCat.{v} A) i)).mp
     have : (HomologicalComplex.shortComplexFunctor (ModuleCat.{v} A) (.up ℤ) i).Linear A :=
       ⟨fun f a => by ext <;> rfl⟩
-    show ((HomologicalComplex.shortComplexFunctor (ModuleCat.{v} A) (.up ℤ) i) ⋙
+    change ((HomologicalComplex.shortComplexFunctor (ModuleCat.{v} A) (.up ℤ) i) ⋙
       ShortComplex.homologyFunctor (ModuleCat.{v} A)).Linear A
     infer_instance
-  show (DerivedCategory.singleFunctor (ModuleCat.{v} A) 0 ⋙
+  change (DerivedCategory.singleFunctor (ModuleCat.{v} A) 0 ⋙
     (Dualizing.localCohomologyFunctor.{u, v} A I hI ⋙
       (Dualizing.derivedPowerTorsionProperty.{u, v} A I hI).ι) ⋙
     DerivedCategory.homologyFunctor (ModuleCat.{v} A) i).Linear A

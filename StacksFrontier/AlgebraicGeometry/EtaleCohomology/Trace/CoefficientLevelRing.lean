@@ -122,7 +122,7 @@ public theorem coeffLevelBasis_apply (k : ℕ) (i : Fin d) :
 public theorem coeffLevelBasis_repr_of (k : ℕ) (o : O) (i : Fin d) :
     (coeffLevelBasis ℓ b k).repr (coeffLevelRing.of ℓ O k o) i =
       PadicInt.toZModPow k (b.repr o i) := by
-  show (Algebra.TensorProduct.basis (ZMod (ℓ ^ k)) b).repr (1 ⊗ₜ o) i = _
+  change (Algebra.TensorProduct.basis (ZMod (ℓ ^ k)) b).repr (1 ⊗ₜ o) i = _
   rw [Algebra.TensorProduct.basis_repr_tmul, one_smul, Finsupp.mapRange_apply]
   rfl
 

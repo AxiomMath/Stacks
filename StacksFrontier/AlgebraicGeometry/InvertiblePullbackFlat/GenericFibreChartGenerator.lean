@@ -175,7 +175,7 @@ theorem specMapFiberIsoSpecFiberRing_inv_fiberι {R S : Type u} [CommRing R] [Co
         (Spec.map (CommRingCat.ofHom (algebraMap R S))).fiberι p =
       Spec.map (CommRingCat.ofHom (algebraMap S (p.asIdeal.Fiber S))) := by
   refine (Iso.inv_comp_eq _).mpr ?_
-  show Scheme.Hom.fiberι (Spec.map (CommRingCat.ofHom (algebraMap R S))) p =
+  change Scheme.Hom.fiberι (Spec.map (CommRingCat.ofHom (algebraMap R S))) p =
       _ ≫ Spec.map (CommRingCat.ofHom
         (Algebra.TensorProduct.includeRight (R := R) (A := p.asIdeal.ResidueField)
           (B := S)).toRingHom)

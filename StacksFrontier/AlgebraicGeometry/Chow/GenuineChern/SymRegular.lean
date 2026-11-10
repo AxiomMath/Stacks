@@ -59,7 +59,7 @@ theorem aeval_splitHom (t : N) (l : N →ₗ[R] R) (x : SymmetricAlgebra R N) :
   have h : ((aeval (SymmetricAlgebra.ι R N t)).restrictScalars R).comp (splitHom t l) =
       AlgHom.id R (SymmetricAlgebra R N) := by
     refine SymmetricAlgebra.algHom_ext (LinearMap.ext fun n => ?_)
-    show aeval (SymmetricAlgebra.ι R N t) (splitHom t l (SymmetricAlgebra.ι R N n)) =
+    change aeval (SymmetricAlgebra.ι R N t) (splitHom t l (SymmetricAlgebra.ι R N n)) =
       SymmetricAlgebra.ι R N n
     rw [splitHom_ι, map_add, aeval_C, Algebra.algebraMap_self, RingHom.id_apply,
       ← algebraMap_smul (SymmetricAlgebra R N) (l n) X, map_smul, aeval_X, map_sub,
@@ -151,7 +151,7 @@ theorem ker_symAlgMap_eq_span_singleton_of_exact [Module.Projective R N'] (i : R
 /-- `ker_symAlgMap_eq_span_singleton_of_exact` with the splitting supplied as a functional
 `l` with `l (i 1) = 1` instead of being derived from projectivity of the quotient. -/
 theorem ker_symAlgMap_eq_span_singleton_of_exact' (i : R →ₗ[R] N) (g : N →ₗ[R] N')
-    (hi : Function.Injective i) (hg : Function.Surjective g)
+    (hg : Function.Surjective g)
     (hexact : LinearMap.range i = LinearMap.ker g) (l : N →ₗ[R] R) (hl : l (i 1) = 1) :
     RingHom.ker (SymPow.symAlgMap g) = Ideal.span {SymmetricAlgebra.ι R N (i 1)} ∧
       IsRegular (SymmetricAlgebra.ι R N (i 1)) :=

@@ -48,8 +48,7 @@ private theorem exists_eq_sum_tmul {A B C : Type*} [CommRing A] [AddCommGroup B]
     [AddCommGroup C] [Module A C] {r : ℕ} (w : Fin r → B)
     (hw : Submodule.span A (Set.range w) = ⊤) (t : B ⊗[A] C) :
     ∃ c : Fin r → C, t = ∑ k, w k ⊗ₜ[A] c k := by
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction t using TensorProduct.inductionOn with
   | tmul b c =>
     have hb : b ∈ Submodule.span A (Set.range w) := hw ▸ Submodule.mem_top
     obtain ⟨a, ha⟩ := (Submodule.mem_span_range_iff_exists_fun A).mp hb

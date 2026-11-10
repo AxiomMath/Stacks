@@ -91,13 +91,13 @@ theorem toQuotientPresheaf_apply_eq_iff_related {S : Scheme.{u}} {C : Type v}
     have h₂ : (HasColimit.isoOfNatIso eH).hom ((colimit.ι G WalkingParallelPair.one) x) =
         ((eH.hom.app WalkingParallelPair.one) ≫
           colimit.ι (parallelPair s t) WalkingParallelPair.one) x :=
-      congrArg (fun k => k x) (HasColimit.isoOfNatIso_ι_hom eH WalkingParallelPair.one)
+      congrArg (fun k => k x) (HasColimit.ι_isoOfNatIso_hom eH WalkingParallelPair.one)
     have h₃ : (colimit.isoColimitCocone (Types.coequalizerColimit s t)).hom
         ((colimit.ι (parallelPair s t) WalkingParallelPair.one) x) =
           Function.Coequalizer.mk s t x :=
       congrArg (fun k => k x)
         (colimit.isoColimitCocone_ι_hom (Types.coequalizerColimit s t) WalkingParallelPair.one)
-    show (colimit.isoColimitCocone (Types.coequalizerColimit s t)).hom
+    change (colimit.isoColimitCocone (Types.coequalizerColimit s t)).hom
       ((HasColimit.isoOfNatIso eH).hom
         ((colimitObjIsoColimitCompEvaluation H (op T)).hom
           ((toQuotientPresheaf F j).app (op T) x))) = _
@@ -148,7 +148,7 @@ theorem toQuotientSheaf_apply_eq_iff_locally_related
   let q := toQuotientPresheaf F j
   let qa := q.app (op T) a
   let qb := q.app (op T) b
-  show θ.app (op T) qa = θ.app (op T) qb ↔ _
+  change θ.app (op T) qa = θ.app (op T) qb ↔ _
   have key {X : C} (f : X ⟶ T) : P.map f.op qa = P.map f.op qb ↔
       ∃ r : F.obj X ⟶ R, (r ≫ j.source = F.map f ≫ a) ∧ (r ≫ j.target = F.map f ≫ b) := by
     rw [← toQuotientPresheaf_app_map_comp F j f a, ← toQuotientPresheaf_app_map_comp F j f b,

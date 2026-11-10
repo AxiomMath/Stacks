@@ -133,17 +133,17 @@ theorem nonempty_iso_of_associatedSelfExtension
               TrivSqZeroExt.fst_inl, TrivSqZeroExt.snd_inl,
               DualNumber.fst_eps, DualNumber.snd_eps,
               mul_zero, mul_one, add_zero, zero_add]
-        show a (r • z) = r • a z
+        change a (r • z) = r • a z
         conv_lhs => rw [hr]
         conv_rhs => rw [hr]
         rw [add_smul, add_smul, map_add, mul_smul, mul_smul, ha₁, ha₁, haε] }
   have hlΓ (γ : Γ) (z : U) : l (ρU γ z) = ρW γ (l z) := by
     obtain ⟨z, rfl⟩ := e.surjective z
-    show a (ρU γ (e z)) = ρW γ (a (e z))
+    change a (ρU γ (e z)) = ρW γ (a (e z))
     rw [← heΓ, ha, heΓ', ha]
   have hlq (z : U) : β.map (l z) = α.map z := by
     obtain ⟨z, rfl⟩ := e.surjective z
-    show β.map (a (e z)) = α.map (e z)
+    change β.map (a (e z)) = α.map (e z)
     rw [ha]
     exact (heq' z).symm.trans (heq z)
   let j := representationIsoOfLinearEquiv Deformation.augmentedDualNumbers ρU ρW l hlΓ
@@ -200,7 +200,7 @@ theorem associatedSelfExtension_of_extensionIso
   · intro z
     exact (hq z).symm.trans (heq (l z))
   · intro z
-    show e (l (f.hom (g.hom z))) = _
+    change e (l (f.hom (g.hom z))) = _
     rw [hl, ← hq]
     exact heε (l z)
 
@@ -361,14 +361,14 @@ theorem associatedSelfExtension_extClass_smul_of_hom
     { l with map_smul' := map_smul_monoidAlgebra_of_single l hl₁ hlΓ }
   have hq (z : M) : g'.hom (lR z) = g.hom z := by
     rw [heq', heq]
-    show β.map (e' (l z)) = α.map (e z)
+    change β.map (e' (l z)) = α.map (e z)
     rw [hl]
     exact congrArg (fun q ↦ q.map (e z)) b.w
   have hi : f ≫ ModuleCat.ofHom lR = (a • 𝟙 _) ≫ f' := by
     ext v
     obtain ⟨z, rfl⟩ := (ModuleCat.epi_iff_surjective g).1 h.epi_g v
     apply e'.injective
-    show e' (l (f.hom (g.hom z))) =
+    change e' (l (f.hom (g.hom z))) =
       e' (f'.hom ((MonoidAlgebra.single 1 a : MonoidAlgebra k Γ) • g.hom z))
     rw [hl, heε, b.left.map_smul, hbε, mul_smul]
     rw [show f'.hom ((MonoidAlgebra.single 1 a : MonoidAlgebra k Γ) • g.hom z) =
@@ -573,26 +573,26 @@ theorem pairShortComplexHom
   have hscalar (d : k) (v : V) :
       (MonoidAlgebra.single 1 d : MonoidAlgebra k Γ) •
         (show ρ₀.asModule from v) = (show ρ₀.asModule from d • v) := by
-    show (ρ₀.asAlgebraHom (MonoidAlgebra.single 1 d)) v = d • v
+    change (ρ₀.asAlgebraHom (MonoidAlgebra.single 1 d)) v = d • v
     simp
   have hi : f ≫ l = Q ≫ f' := by
     ext v
     rcases v with ⟨v₁, v₂⟩
     obtain ⟨z₁, rfl⟩ := (ModuleCat.epi_iff_surjective g).1 h.epi_g v₁
     obtain ⟨z₂, rfl⟩ := (ModuleCat.epi_iff_surjective g).1 h.epi_g v₂
-    show l.hom (f.hom (g.hom z₁, g.hom z₂)) =
+    change l.hom (f.hom (g.hom z₁, g.hom z₂)) =
       f'.hom (Q.hom (g.hom z₁, g.hom z₂))
     have hQ : Q.hom (g.hom z₁, g.hom z₂) =
         (MonoidAlgebra.single 1 a : MonoidAlgebra k Γ) • g.hom z₁ +
           (MonoidAlgebra.single 1 b : MonoidAlgebra k Γ) • g.hom z₂ := by
-      show (a • (show V from g.hom z₁) : V) +
+      change (a • (show V from g.hom z₁) : V) +
         (b • (show V from g.hom z₂) : V) = _
       exact congrArg₂ (· + ·) (hscalar a (show V from g.hom z₁)).symm
         (hscalar b (show V from g.hom z₂)).symm
     rw [hQ]
     have hp : ((g.hom z₁, g.hom z₂) : V × V) =
         (g.hom z₁, (0 : V)) + (0, g.hom z₂) := by
-      show (g.hom z₁, g.hom z₂) = (g.hom z₁ + 0, 0 + g.hom z₂)
+      change (g.hom z₁, g.hom z₂) = (g.hom z₁ + 0, 0 + g.hom z₂)
       simp
     have hpf : f.hom (g.hom z₁, g.hom z₂) =
         f.hom (g.hom z₁, 0) + f.hom (0, g.hom z₂) := by
@@ -688,7 +688,7 @@ theorem associatedPairExtension_shortComplexHom
     { l with map_smul' := map_smul_monoidAlgebra_of_single l hl₁ hlΓ }
   have hq (z : M) : g'.hom (lR z) = g.hom z := by
     rw [heq', heq]
-    show β.map (e' (l z)) = α.map (e z)
+    change β.map (e' (l z)) = α.map (e z)
     rw [hl]
     exact congrArg (fun q ↦ q.map (e z)) b.w
   have key (d : k) (z : M) (p : V × V)
@@ -697,7 +697,7 @@ theorem associatedPairExtension_shortComplexHom
       (hbu : b.left.base.hom u = (TrivSqZeroExt.inl d : DualNumber k) * DualNumber.eps) :
       lR (f.hom p) = f'.hom ((MonoidAlgebra.single 1 d : MonoidAlgebra k Γ) • g.hom z) := by
     apply e'.injective
-    show e' (l (f.hom p)) =
+    change e' (l (f.hom p)) =
       e' (f'.hom ((MonoidAlgebra.single 1 d : MonoidAlgebra k Γ) • g.hom z))
     rw [hl, hu, b.left.map_smul, hbu]
     erw [mul_smul]

@@ -71,7 +71,7 @@ private theorem isScalarTower_map (S : Type u) [CommRing S] [Algebra R S] [Algeb
   let _ : Algebra S (B ⊗[R] E) := Algebra.TensorProduct.leftAlgebra
   let _ : Algebra (A ⊗[R] D) (B ⊗[R] E) := (map s p).toRingHom.toAlgebra
   refine IsScalarTower.of_algebraMap_eq' (RingHom.ext fun x ↦ ?_)
-  show (algebraMap S B x) ⊗ₜ[R] (1 : E) = map s p ((algebraMap S A x) ⊗ₜ[R] (1 : D))
+  change (algebraMap S B x) ⊗ₜ[R] (1 : E) = map s p ((algebraMap S A x) ⊗ₜ[R] (1 : D))
   rw [map_tmul, map_one, hs]
 
 /-- Changing the two factors of a tensor product separately is a cocartesian square of

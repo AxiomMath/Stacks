@@ -300,8 +300,7 @@ theorem pieceSegre_compat_sameBase (a a' : (alg H).grading U 1) (b b' : (alg G).
     rw [fn_algebraMap, fn_algebraMap, ← hρA, ← hρA', fn_comp_SpecMap, fn_comp_SpecMap]
     simp only [CommRingCat.hom_ofHom, awayMap_fromZeroRingHom]
   · obtain ⟨t, rfl⟩ := (Stacks.SectionTensorFormula.tensorSectionEquiv H G hU).surjective m
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [map_zero, deg1, mul_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul h g =>
       rw [Stacks.SectionTensorFormula.tensorSectionEquiv_tmul]
       simp only [RingHom.comp_apply, segreRingHom_deg1, segreLin_tensorSection]

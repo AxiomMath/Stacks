@@ -168,7 +168,7 @@ private theorem isGeometricallyReducedFibreAt_snd_of_isPullback_algebraicSpaces
   rw [← sq.isoPullback_hom_snd]
   refine isGeometricallyReducedFibreAt_comp_of_etale B S hS (pullback.snd f g) hP' hZ
     sq.isoPullback.hom hW (MorphismProperty.presheaf_of_isIso _ _) (fun z' => ?_) z
-  show z' ∈ geometricallyReducedFibreLocus B S hS _ hP' hZ
+  change z' ∈ geometricallyReducedFibreLocus B S hS _ hP' hZ
   rw [geometricallyReducedFibreLocus_pullback B S hS f g hX hY hZ]
   exact hred _
 
@@ -289,7 +289,7 @@ private theorem isIso_map_of_bijective_pullbackToGlobalFunctions
       (ObjectProperty.homMk m : (⟨_, hP⟩ : AlgebraicSpaces B S hS) ⟶ schemeSpace V) ≫
         schemeSpaceMap q := by
     apply ObjectProperty.hom_ext
-    show b = m ≫ yoneda.map q
+    change b = m ≫ yoneda.map q
     exact hmb.symm
   have hcomp : pullbackToGlobalFunctions B S hS ⟨_, hP⟩ U
       ((ObjectProperty.homMk m : (⟨_, hP⟩ : AlgebraicSpaces B S hS) ⟶ schemeSpace V) ≫
@@ -381,7 +381,7 @@ theorem isIso_restrictSiteMap_piece {X Y Y' : (BigFppfOver B S hS)ᵒᵖ ⥤ Typ
   have hUaff : IsAffine ((BigFppfOver.toScheme B S hS).obj U) :=
     (isAffineOpen_top ((BigFppfOver.toScheme B S hS).obj U₀)).basicOpen r
   have hV'aff' : IsAffine ((BigFppfOver.toScheme B S hS).obj V') := by
-    show IsAffineOpen ((BigFppfOver.toScheme B S hS).map (ι ≫ p₀) ⁻¹ᵁ W)
+    change IsAffineOpen ((BigFppfOver.toScheme B S hS).map (ι ≫ p₀) ⁻¹ᵁ W)
     rw [hWdef, Scheme.preimage_basicOpen_top]
     exact (isAffineOpen_top ((BigFppfOver.toScheme B S hS).obj V)).basicOpen _
   have hEt : (MorphismProperty.inverseImage
@@ -434,7 +434,7 @@ private theorem range_map_comp_subset_range_map_opensSiteObjectInclusion
     rw [map_opensSiteObjectInclusion]
     exact x.2
   have hmem : t ∈ (BigFppfOver.toScheme B S hS).map p₀ ⁻¹ᵁ W := by
-    show (BigFppfOver.toScheme B S hS).map p₀ t ∈ W
+    change (BigFppfOver.toScheme B S hS).map p₀ t ∈ W
     rw [← hx, ← Scheme.Hom.comp_apply]
     have hc : (BigFppfOver.toScheme B S hS).map (lami ≫ ι) ≫
         (BigFppfOver.toScheme B S hS).map p₀ =
@@ -504,15 +504,15 @@ private theorem exists_apply_eq_of_comp_eq_map {T₀ U₀ : BigFppfOver B S hS} 
     isOpenImmersion_map_opensSiteObjectInclusion B S hS _ _
   obtain ⟨i, v, hv⟩ := hcov ((BigFppfOver.toScheme B S hS).map lam t)
   have hvmem : v ∈ (BigFppfOver.toScheme B S hS).map (ι i ≫ p₀) ⁻¹ᵁ W := by
-    show (BigFppfOver.toScheme B S hS).map (ι i ≫ p₀) v ∈ W
+    change (BigFppfOver.toScheme B S hS).map (ι i ≫ p₀) v ∈ W
     rw [Functor.map_comp, Scheme.Hom.comp_apply, hv,
       map_opensSiteObjectInclusion_apply B S hS T₀]
     exact t.2
   refine ⟨i, ⟨v, hvmem⟩, ?_⟩
   apply ((BigFppfOver.toScheme B S hS).map lam).isOpenEmbedding.injective
-  show (μ i ≫ (BigFppfOver.toScheme B S hS).map lam) ⟨v, hvmem⟩ = _
+  change (μ i ≫ (BigFppfOver.toScheme B S hS).map lam) ⟨v, hvmem⟩ = _
   rw [hμ, Functor.map_comp (BigFppfOver.toScheme B S hS) _ (ι i)]
-  show (BigFppfOver.toScheme B S hS).map (ι i)
+  change (BigFppfOver.toScheme B S hS).map (ι i)
     ((BigFppfOver.toScheme B S hS).map (opensSiteObjectInclusion B S hS (V i) _) ⟨v, hvmem⟩) = _
   rw [map_opensSiteObjectInclusion_apply B S hS (V i) _ ⟨v, hvmem⟩, hv,
     map_opensSiteObjectInclusion_apply B S hS T₀]
@@ -560,7 +560,7 @@ private theorem etale_map_restrictSiteMap_of_isIso {T₀ U₀ : BigFppfOver B S 
   have _hel : IsZariskiLocalAtSource (@AlgebraicGeometry.Etale.{u}) :=
     HasRingHomProperty.instIsZariskiLocalAtSource (Q := RingHom.Etale)
   refine IsZariskiLocalAtSource.of_openCover 𝒰 fun i => ?_
-  show AlgebraicGeometry.Etale
+  change AlgebraicGeometry.Etale
     (μ i ≫ (BigFppfOver.toScheme B S hS).map (restrictSiteMap B S hS p₀ W))
   rw [comp_map_restrictSiteMap_of_comp_eq B S hS p₀ W (ι i) (μ i) (hμfac i)]
   have := hiso i
@@ -746,7 +746,7 @@ theorem isFinite_and_isEtale_of_stein_of_inputs {X Y Y' : (BigFppfOver B S hS)�
     IsFinite B S hS π ∧ IsEtale B S hS π := by
   refine isFinite_and_isEtale_of_forall_point B S hS hY π hπ fun y => ?_
   obtain ⟨U₀, T₀, ξ₀, p₀, e₀, z₀, n, V, ι, hU₀, -, hξ₀, hpb₀, hp₀, hz₀, hVaff, hιo, hιc, hcov,
-    huniq⟩ := exists_split_affine_chart B S hS hX hY hY' f' π hπint hfp.2.1
+    huniq⟩ := exists_split_affine_chart B S hS hY f' π hπint hfp.2.1
       hf.2.1.1 (isSurjective_of_connectedPullback B S hS f' hconn) y
   exact exists_finite_etale_chart_of_split B S hS hX hY hY' f' π hf hfl hfp hred hconn hglob h0E0S
     h0E1E y ξ₀ p₀ e₀ z₀ V ι hU₀ hξ₀ hpb₀ hp₀ hz₀ hVaff hιo hιc hcov huniq

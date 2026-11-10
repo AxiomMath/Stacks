@@ -442,7 +442,7 @@ theorem moduleOfAlgHom_isScalarTower (C : DifferentialGradedAlgebra R) (X : Type
   let _ := (moduleOfAlgHom C X F : Module (MulOpposite C.A) X)
   constructor
   intro r a x
-  show (actionRingHom C X F (r • a)) x = r • ((actionRingHom C X F a) x)
+  change (actionRingHom C X F (r • a)) x = r • ((actionRingHom C X F a) x)
   simp [actionRingHom, map_smul]
 
 /-- Two algebra homomorphisms into the opposite endomorphism algebra of `X` that commute up to the
@@ -469,7 +469,7 @@ theorem liftedTensorAction_smul_tmul {C D : DifferentialGradedAlgebra R} (X : Ty
         (DifferentialGradedAlgebra.tensorProduct C D).A) :
         MulOpposite (DifferentialGradedAlgebra.tensorProduct C D).A) • x =
       MulOpposite.unop (g b) (MulOpposite.unop (f a) x) := by
-  show MulOpposite.unop ((liftTensorActionAlgHom X f g h)
+  change MulOpposite.unop ((liftTensorActionAlgHom X f g h)
     (GradedTensorProduct.tmul (R := R) (𝒜 := C.grading) (ℬ := D.grading) a b)) x = _
   rw [liftTensorActionAlgHom, GradedTensorProduct.lift_tmul, MulOpposite.unop_mul]
   rfl

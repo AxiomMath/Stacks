@@ -129,7 +129,7 @@ theorem surjectiveOnStalks_of_epi_unitToPushforwardObjUnit {Z X : Scheme.{u}} (i
       CommRingCat hi.isInducing Z.presheaf z
   obtain ⟨a, ha⟩ := hc ((asIso (Z.presheaf.stalkPushforward CommRingCat i.base z)).inv.hom b)
   refine ⟨a, ?_⟩
-  show (Z.presheaf.stalkPushforward CommRingCat i.base z).hom
+  change (Z.presheaf.stalkPushforward CommRingCat i.base z).hom
     (((TopCat.Presheaf.stalkFunctor CommRingCat (i.base z)).map i.toLRSHom.c).hom a) = b
   rw [ha]
   simp

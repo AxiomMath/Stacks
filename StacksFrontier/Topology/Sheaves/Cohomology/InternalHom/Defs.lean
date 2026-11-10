@@ -20,10 +20,11 @@ composition laws.
 
 No complex is constructed here: a `SheafHomComplex` is a *realization*, and this file fixes only
 the vocabulary. A realization exists for every pair of complexes —
-`Stacks.SheafOfModules.sheafHomComplex` ([Stacks, Tag 0A8K], in
-`StacksFrontier.Topology.Sheaves.Cohomology.HomComplexAndStrictPerfection.InternalHomComplexQuasiIso`)
-— so a statement about the internal Hom complex can be made here for an arbitrary realization and
-then instantiated at that construction, holding with no realization hypothesis. That is what
+`Stacks.SheafOfModules.sheafHomComplex` ([Stacks, Tag 0A8K], in the file
+`StacksFrontier/Topology/Sheaves/Cohomology/HomComplexAndStrictPerfection/`
+`InternalHomComplexQuasiIso.lean`) — so a statement about the internal Hom complex can be made
+here for an arbitrary realization and then instantiated at that construction, holding with no
+realization hypothesis. That is what
 `Stacks.SheafOfModules.sheafHomComplexHomologyEquiv` ([Stacks, Tag 0A8L]) does; the corresponding
 statement for [Stacks, Tag 0A8R] is still carried only for an arbitrary realization.
 

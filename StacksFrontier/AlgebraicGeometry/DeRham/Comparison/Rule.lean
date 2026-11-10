@@ -105,7 +105,7 @@ theorem GarelMaps.absoluteFormsMap_comp {L : Y.Modules} {δ : Γ(L, ⊤)} {c : f
       (ρ_ (f.pullbackForms p)).inv ≫ (f.pullbackForms p ◁ Scheme.Modules.globalSectionHom L δ) := by
   refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun V => ?_)
   ext ω
-  show (c p).val.app V ((f.absoluteFormsMap p).val.app V ω) =
+  change (c p).val.app V ((f.absoluteFormsMap p).val.app V ω) =
     (f.pullbackForms p ◁ Scheme.Modules.globalSectionHom L δ).val.app V
       ((ρ_ (f.pullbackForms p)).inv.val.app V ω)
   rw [GarelMaps.app_absoluteFormsMap hn hm p V.unop ω]

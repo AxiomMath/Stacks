@@ -130,7 +130,7 @@ private theorem exists_boundedWitness_eval {K : Precoverage C} {ι : C → Type 
         simp [y, hz]
       have hy' : y.Compatible := hyeq ▸ hcompat
       simp only [BoundedWitness.eval, dite_eq_left hall]
-      show (if hy : y.Compatible then some (hP _ hR y hy).choose else none) = some t
+      change (if hy : y.Compatible then some (hP _ hR y hy).choose else none) = some t
       rw [dite_eq_left hy']
       exact congrArg some ((hP _ hR y hy').choose_spec.2 t (hyeq ▸ ht)).symm
 
@@ -200,7 +200,7 @@ private theorem generatedSubfunctor_isSheafTopological
   let H := generatedSubfunctor F G f
   let Q := topologicalSubfunctor G.obj H
   let ι := topologicalSubfunctorInclusion G.obj H
-  show Presheaf.IsSheaf J Q
+  change Presheaf.IsSheaf J Q
   intro E X S hS x hx
   let α : Q ⋙ coyoneda.obj (op E) ⟶ G.obj ⋙ coyoneda.obj (op E) :=
     Functor.whiskerRight ι (coyoneda.obj (op E))
@@ -256,7 +256,7 @@ private theorem lift_sheafSize_generatedSubfunctor_le
   rw [sheafSize, Cardinal.lift_iSup hbdd]
   refine ciSup_le' fun X => ?_
   rw [Cardinal.lift_lift]
-  show Cardinal.lift.{max u v, w}
+  change Cardinal.lift.{max u v, w}
     (Cardinal.mk ((generatedSubfunctor F G f).obj (op X))) ≤ _
   exact (generatedSection_card_le_witness F G f X hP).trans
     (le_ciSup Cardinal.bddAbove_of_small X)
@@ -287,7 +287,7 @@ public theorem exists_bounded_subsheaf_factorization (F : Cᵒᵖ ⥤ TopCat.{w}
     have := mono_topologicalSubfunctorInclusion_app G.obj H
     exact (sheafToPresheaf J TopCat).mono_of_mono_map (NatTrans.mono_of_mono_app i₀)
   have hbase (U : Cᵒᵖ) (a : F.obj U) : (f.app U).hom a ∈ H.obj U := by
-    show K.SubsheafClosure (F := G.obj ⋙ CategoryTheory.forget TopCat)
+    change K.SubsheafClosure (F := G.obj ⋙ CategoryTheory.forget TopCat)
       (fun X => Set.range fun b : F.obj (op X) => (f.app (op X)).hom b)
       U.unop ((f.app U).hom a)
     exact .base ⟨a, rfl⟩

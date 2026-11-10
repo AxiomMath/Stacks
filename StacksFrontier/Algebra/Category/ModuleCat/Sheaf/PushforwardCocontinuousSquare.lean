@@ -74,7 +74,7 @@ it is the transformation that the square and the counit of the right Kan extensi
 produce. -/
 lemma ranBaseChange_fac (F : C₃ ⥤ A) (X₁ : C₁) :
     (w.ranBaseChange.app F).app (T.obj X₁) ≫ (T.ranCounit.app (L ⋙ F)).app X₁
-      = (B.ran.obj F).map (w.natTrans.app X₁) ≫ (B.ranCounit.app F).app (L.obj X₁) := by
+      = (B.ran.obj F).map (w.app X₁) ≫ (B.ranCounit.app F).app (L.obj X₁) := by
   have h := ((T.ranAdjunction A).homEquiv
       ((B.ran ⋙ (Functor.whiskeringLeft C₂ C₄ A).obj R).obj F)
       (((Functor.whiskeringLeft C₁ C₃ A).obj L).obj F)).symm_apply_apply
@@ -90,7 +90,7 @@ transformation, is the leg at the image of `(a, ψ)` under the comparison functo
 the limit cone computing the right Kan extension of `F` along `B`. -/
 lemma ranBaseChange_π (F : C₃ ⥤ A) (X₂ : C₂) (j : StructuredArrow X₂ T) :
     (w.ranBaseChange.app F).app X₂ ≫ ranπ T (L ⋙ F) X₂ j
-      = ranπ B F (R.obj X₂) (StructuredArrow.mk (R.map j.hom ≫ w.natTrans.app j.right)) := by
+      = ranπ B F (R.obj X₂) (StructuredArrow.mk (R.map j.hom ≫ w.app j.right)) := by
   have hnat := (w.ranBaseChange.app F).naturality j.hom
   dsimp only [ranπ, Functor.comp_obj, Functor.comp_map, Functor.whiskeringLeft_obj_obj,
     Functor.whiskeringLeft_obj_map, StructuredArrow.mk_right, StructuredArrow.mk_hom_eq_self]
@@ -125,7 +125,7 @@ category of the right Kan extension along `u.op` at `v.op(V')`. -/
 abbrev squareIndex (hsq : u' ⋙ v = v' ⋙ u) {V' : D'ᵒᵖ} (j : StructuredArrow V' u'.op) :
     StructuredArrow (v.op.obj V') u.op :=
   StructuredArrow.mk (v.op.map j.hom ≫
-    (Stacks.Sites.CocontinuousExchange.twoSquare hsq).op.natTrans.app j.right)
+    (Stacks.Sites.CocontinuousExchange.twoSquare hsq).op.app j.right)
 
 omit [v'.IsCocontinuous J' J]
   [∀ G : Cᵒᵖ ⥤ AddCommGrpCat.{v}, u.op.HasPointwiseRightKanExtension G]

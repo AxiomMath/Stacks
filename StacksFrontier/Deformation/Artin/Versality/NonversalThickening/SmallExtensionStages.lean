@@ -268,7 +268,7 @@ private theorem pullbackCone_fst_ker_sq
       rwa [← pow_two, hp, Ideal.mem_bot] at hmem
     apply Subtype.ext
     apply Prod.ext
-    · show x.1.1 * y.1.1 = 0
+    · change x.1.1 * y.1.1 = 0
       rw [hx, hy]
       simp
     · exact hxyB

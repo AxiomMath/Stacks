@@ -83,6 +83,8 @@ variable {X Y : Scheme.{u}} (g : Y ⟶ X)
   [HasExt.{w} (Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1})]
   [HasExt.{w} (Sheaf Y.smallEtaleTopology AddCommGrpCat.{u + 1})]
 
+omit [HasExt.{w} (Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1})]
+  [HasExt.{w} (Sheaf Y.smallEtaleTopology AddCommGrpCat.{u + 1})] in
 /-- **The comparison on `𝐆_a`, computed on a section.** A global function `x` on an étale
 `X`-scheme `V`, viewed as a section of `g^{-1} 𝐆_{a,X}` over `V ×_X Y` through the unit of the
 adjunction, is carried to its pullback along the projection `V ×_X Y ⟶ V`. -/
@@ -146,6 +148,7 @@ section Boundary
 variable (X : Scheme.{u}) {p : ℕ} (hp : p.Prime) (hX : (p : Γ(X, ⊤)) = 0)
   [HasExt.{w} (Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1})]
 
+omit [HasExt.{w} (Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1})] in
 /-- **The Artin–Schreier sequence is short exact**, stated with the terms of the sequence
 displayed, so that its objects are `𝐙/p𝐙` and `𝐆_a` up to reducible unfolding. -/
 theorem shortExact_mk_artinSchreierMap :

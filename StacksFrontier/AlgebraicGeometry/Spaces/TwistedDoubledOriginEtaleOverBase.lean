@@ -92,7 +92,7 @@ finite separable extension is étale over the affine line over the ground field.
 theorem etale_coverMap [FiniteDimensional k K] [Algebra.IsSeparable k K] :
     Etale (coverMap k K) := by
   rw [coverMap, HasRingHomProperty.Spec_iff (P := @Etale)]
-  show (algebraMap (Polynomial k) (Polynomial K)).Etale
+  change (algebraMap (Polynomial k) (Polynomial K)).Etale
   rw [RingHom.etale_algebraMap]
   exact etale_polynomial_of_isSeparable k K
 
@@ -102,7 +102,7 @@ theorem isFinite_coverMap [FiniteDimensional k K] : IsFinite (coverMap k K) := b
   have : Module.Finite (Polynomial k) (TensorProduct k (Polynomial k) K) :=
     Module.Finite.base_change k (Polynomial k) K
   rw [coverMap, IsFinite.SpecMap_iff]
-  show (algebraMap (Polynomial k) (Polynomial K)).Finite
+  change (algebraMap (Polynomial k) (Polynomial K)).Finite
   rw [RingHom.finite_algebraMap]
   exact Module.Finite.equiv (polynomialCoefficientEquiv k K).symm.toLinearEquiv
 

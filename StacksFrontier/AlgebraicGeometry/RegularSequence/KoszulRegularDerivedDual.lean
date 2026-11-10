@@ -153,6 +153,7 @@ def normalSheafQuotient :
 
 section OffSupport
 
+omit [HasWeakSheafify (Opens.grothendieckTopology Y.carrier) CommRingCat.{u}] in
 /-- **Off the support the sheaf of ideals contains `1`.** Membership in a sheaf of ideals is
 local, and a point off the support of `O_Y/𝓘` has a neighbourhood on which `1 ∈ 𝓘`. -/
 theorem one_mem_of_forall_notMem (W : Opens Y.carrier)
@@ -164,8 +165,10 @@ theorem one_mem_of_forall_notMem (W : Opens Y.carrier)
   have h := J.toSubmodule.map_mem (homOfLE (inf_le_left : U ⊓ W ≤ U)).op h1
   change Y.presheaf.map (homOfLE inf_le_right).op 1 ∈ J.obj (op (U ⊓ W))
   change Y.presheaf.map (homOfLE inf_le_left).op 1 ∈ J.obj (op (U ⊓ W)) at h
-  rwa [map_one] at h ⊢
+  rw [map_one] at h ⊢
+  assumption
 
+omit [HasWeakSheafify (Opens.grothendieckTopology Y.carrier) CommRingCat.{u}] in
 /-- **A module annihilated by `𝓘` has no nonzero sections where `1 ∈ 𝓘`.** -/
 theorem section_eq_zero_of_annihilated {M : StructureSheafModules Y.sheaf}
     (hM : ∀ (V : Opens Y.carrier) (a : (structureSheaf Y.sheaf).obj.obj (op V)),
@@ -179,6 +182,7 @@ theorem section_eq_zero_of_annihilated {M : StructureSheafModules Y.sheaf}
   rw [← one_smul ((structureSheaf Y.sheaf).obj.obj (op V)) m]
   exact hM V 1 h1V m
 
+omit [HasWeakSheafify (Opens.grothendieckTopology Y.carrier) CommRingCat.{u}] in
 /-- **A module annihilated by `𝓘` restricts to zero on an open where `1 ∈ 𝓘`**, read on the slice
 site. -/
 theorem isZero_overFunctor_obj_of_annihilated {M : StructureSheafModules Y.sheaf}
@@ -192,6 +196,7 @@ theorem isZero_overFunctor_obj_of_annihilated {M : StructureSheafModules Y.sheaf
   exact (section_eq_zero_of_annihilated J hM h1 (leOfHom V.unop.hom) m).trans
     (section_eq_zero_of_annihilated J hM h1 (leOfHom V.unop.hom) _).symm
 
+omit [HasWeakSheafify (Opens.grothendieckTopology Y.carrier) CommRingCat.{u}] in
 /-- **A module annihilated by `𝓘` restricts to zero on an open where `1 ∈ 𝓘`**, read on the open
 subspace. -/
 theorem isZero_jStar_obj_of_annihilated {M : StructureSheafModules Y.sheaf}
@@ -304,6 +309,7 @@ abbrev dualModel : CochainComplex (StructureSheafModules Y.sheaf) ℤ :=
   (RingedSite.sheafHomComplex (ringedSite Y.sheaf)
     (Stacks.RingedSpace.singleZero Y (cokernel J.ι)) (unitModel (Y := Y))).obj
 
+omit [HasWeakSheafify (Opens.grothendieckTopology Y.carrier) CommRingCat.{u}] in
 /-- If every term of a complex restricts to zero on `V`, so does its cohomology. -/
 theorem isZero_overFunctor_homology_of_isZero_X
     (K : CochainComplex (StructureSheafModules Y.sheaf) ℤ)
@@ -316,6 +322,11 @@ theorem isZero_overFunctor_homology_of_isZero_X
     ((K.sc k).mapHomologyIso
       (_root_.SheafOfModules.overFunctor (structureSheaf Y.sheaf) V)).symm
 
+omit [HasWeakSheafify (Opens.grothendieckTopology Y.carrier) CommRingCat.{u}]
+  [∀ V : Opens Y.carrier,
+    HasSheafify ((Opens.grothendieckTopology Y.carrier).over V) AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    ((Opens.grothendieckTopology Y.carrier).over V).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The terms of the model are annihilated by `𝓘`**: they are internal Homs out of `O_X`. -/
 theorem isZero_overFunctor_dualModel_X {W : Opens Y.carrier}
     (h1 : (1 : Y.presheaf.obj (op W)) ∈ J.obj (op W)) (k : ℤ) :
@@ -385,6 +396,19 @@ variable [HasSheafify (Opens.grothendieckTopology Y.carrier) AddCommGrpCat.{u}]
   [∀ V : Opens Y.carrier,
     HasWeakSheafify ((Opens.grothendieckTopology Y.carrier).over V) CommRingCat.{u}]
 
+omit [HasWeakSheafify (Opens.grothendieckTopology Y.carrier) CommRingCat.{u}]
+  [HasSheafify (Opens.grothendieckTopology Y.carrier) AddCommGrpCat.{u}]
+  [(Opens.grothendieckTopology Y.carrier).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    HasSheafify ((Opens.grothendieckTopology Y.carrier).over V) AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    ((Opens.grothendieckTopology Y.carrier).over V).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier, HasSheafify (Opens.grothendieckTopology ↥V) AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    (Opens.grothendieckTopology ↥V).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier, HasWeakSheafify (Opens.grothendieckTopology ↥V) CommRingCat.{u}]
+  [∀ V : Opens Y.carrier,
+    HasWeakSheafify ((Opens.grothendieckTopology Y.carrier).over V) CommRingCat.{u}] in
 /-- A sheaf of modules zero on an open subspace has zero stalks there. -/
 theorem isZero_stalk_of_isZero_jStar {V : Opens Y.carrier} {M : StructureSheafModules Y.sheaf}
     (h : IsZero ((jStar V (structureSheaf Y.sheaf)).obj M)) (x : Y.carrier) (hx : x ∈ V) :
@@ -395,12 +419,38 @@ theorem isZero_stalk_of_isZero_jStar {V : Opens Y.carrier} {M : StructureSheafMo
         (resRing V (structureSheaf Y.sheaf)) _).1 h ⟨x, hx⟩))
     (TopCat.Presheaf.stalkRestrictIso V M.val.presheaf ⟨x, hx⟩).symm
 
+omit [HasWeakSheafify (Opens.grothendieckTopology Y.carrier) CommRingCat.{u}]
+  [HasSheafify (Opens.grothendieckTopology Y.carrier) AddCommGrpCat.{u}]
+  [(Opens.grothendieckTopology Y.carrier).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    HasSheafify ((Opens.grothendieckTopology Y.carrier).over V) AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    ((Opens.grothendieckTopology Y.carrier).over V).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier, HasSheafify (Opens.grothendieckTopology ↥V) AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    (Opens.grothendieckTopology ↥V).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier, HasWeakSheafify (Opens.grothendieckTopology ↥V) CommRingCat.{u}]
+  [∀ V : Opens Y.carrier,
+    HasWeakSheafify ((Opens.grothendieckTopology Y.carrier).over V) CommRingCat.{u}] in
 /-- A sheaf of modules zero on the slice site over `V` is zero on the open subspace `V`. -/
 theorem isZero_jStar_of_isZero_overFunctor {V : Opens Y.carrier} {M : StructureSheafModules Y.sheaf}
     (h : IsZero ((_root_.SheafOfModules.overFunctor (structureSheaf Y.sheaf) V).obj M)) :
     IsZero ((jStar V (structureSheaf Y.sheaf)).obj M) :=
   Functor.map_isZero (sliceToSubspaceFunctor Y.sheaf V) h
 
+omit [HasWeakSheafify (Opens.grothendieckTopology Y.carrier) CommRingCat.{u}]
+  [HasSheafify (Opens.grothendieckTopology Y.carrier) AddCommGrpCat.{u}]
+  [(Opens.grothendieckTopology Y.carrier).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    HasSheafify ((Opens.grothendieckTopology Y.carrier).over V) AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    ((Opens.grothendieckTopology Y.carrier).over V).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier, HasSheafify (Opens.grothendieckTopology ↥V) AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    (Opens.grothendieckTopology ↥V).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier, HasWeakSheafify (Opens.grothendieckTopology ↥V) CommRingCat.{u}]
+  [∀ V : Opens Y.carrier,
+    HasWeakSheafify ((Opens.grothendieckTopology Y.carrier).over V) CommRingCat.{u}] in
 /-- A sheaf of modules zero on the open subspace `V` is zero on the slice site over `V`. -/
 theorem isZero_overFunctor_of_isZero_jStar {V : Opens Y.carrier} {M : StructureSheafModules Y.sheaf}
     (h : IsZero ((jStar V (structureSheaf Y.sheaf)).obj M)) :
@@ -427,6 +477,18 @@ abbrev extQuotientMap (n : ℤ) :
     (DerivedCategory.Q.map ((single (StructureSheafModules Y.sheaf) (ComplexShape.up ℤ) 0).map
       (quotientMap J)))
 
+omit [HasSheafify (Opens.grothendieckTopology Y.carrier) AddCommGrpCat.{u}]
+  [(Opens.grothendieckTopology Y.carrier).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    HasSheafify ((Opens.grothendieckTopology Y.carrier).over V) AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    ((Opens.grothendieckTopology Y.carrier).over V).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier, HasSheafify (Opens.grothendieckTopology ↥V) AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    (Opens.grothendieckTopology ↥V).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier, HasWeakSheafify (Opens.grothendieckTopology ↥V) CommRingCat.{u}]
+  [∀ V : Opens Y.carrier,
+    HasWeakSheafify ((Opens.grothendieckTopology Y.carrier).over V) CommRingCat.{u}] in
 /-- The restriction of scalars of an `O_X`-module is annihilated by `𝓘`. -/
 theorem smul_restrictScalars_eq_zero
     (P : _root_.SheafOfModules.{u}
@@ -443,6 +505,13 @@ theorem smul_restrictScalars_eq_zero
       (quotientRingSheaf.{u, u, u} J)).obj.obj (op V) from
         (quotientRingHom J).hom.app (op V) a) = 0 from hker, zero_smul]
 
+omit [HasWeakSheafify (Opens.grothendieckTopology Y.carrier) CommRingCat.{u}]
+  [∀ V : Opens Y.carrier, HasSheafify (Opens.grothendieckTopology ↥V) AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    (Opens.grothendieckTopology ↥V).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier, HasWeakSheafify (Opens.grothendieckTopology ↥V) CommRingCat.{u}]
+  [∀ V : Opens Y.carrier,
+    HasWeakSheafify ((Opens.grothendieckTopology Y.carrier).over V) CommRingCat.{u}] in
 /-- **`𝓔xtⁿ(O_X, O_Y)` vanishes on an open where `1 ∈ 𝓘`**: it is the cohomology of the model,
 whose terms vanish there. -/
 theorem isZero_jStar_extInto_of_one_mem {W : Opens Y.carrier}
@@ -454,6 +523,18 @@ theorem isZero_jStar_extInto_of_one_mem {W : Opens Y.carrier}
         (fun k => isZero_overFunctor_dualModel_X J h1 k) n))
     ((jStar W (structureSheaf Y.sheaf)).mapIso (derivedSheafExtIsoDualModelHomology J n))
 
+omit [HasSheafify (Opens.grothendieckTopology Y.carrier) AddCommGrpCat.{u}]
+  [(Opens.grothendieckTopology Y.carrier).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    HasSheafify ((Opens.grothendieckTopology Y.carrier).over V) AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    ((Opens.grothendieckTopology Y.carrier).over V).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier, HasSheafify (Opens.grothendieckTopology ↥V) AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    (Opens.grothendieckTopology ↥V).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier, HasWeakSheafify (Opens.grothendieckTopology ↥V) CommRingCat.{u}]
+  [∀ V : Opens Y.carrier,
+    HasWeakSheafify ((Opens.grothendieckTopology Y.carrier).over V) CommRingCat.{u}] in
 /-- **The rank-`n` piece of `⋀ʳ𝒩` vanishes on an open where `1 ∈ 𝓘`.** -/
 theorem isZero_jStar_restrictScalars_of_one_mem {W : Opens Y.carrier}
     (h1 : (1 : Y.presheaf.obj (op W)) ∈ J.obj (op W))
@@ -480,6 +561,17 @@ def restrictQuotientIso (d : KoszulPresentation Y J) :
   koszulRestrictedQuotientIso d.U d.f J.ι
     (fun W => sectionIdeal_sliceIdealOfSections_eq d.U d.f J d.generated W)
 
+omit [HasWeakSheafify (Opens.grothendieckTopology Y.carrier) CommRingCat.{u}]
+  [∀ V : Opens Y.carrier,
+    HasSheafify ((Opens.grothendieckTopology Y.carrier).over V) AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    ((Opens.grothendieckTopology Y.carrier).over V).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier, HasSheafify (Opens.grothendieckTopology ↥V) AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier,
+    (Opens.grothendieckTopology ↥V).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier, HasWeakSheafify (Opens.grothendieckTopology ↥V) CommRingCat.{u}]
+  [∀ V : Opens Y.carrier,
+    HasWeakSheafify ((Opens.grothendieckTopology Y.carrier).over V) CommRingCat.{u}] in
 /-- The restriction of the quotient map to the open subspace, in the two spellings of the
 restriction functor. -/
 theorem restrictMap_eq (d : KoszulPresentation Y J) :
@@ -488,6 +580,10 @@ theorem restrictMap_eq (d : KoszulPresentation Y J) :
         ((_root_.SheafOfModules.overFunctor (structureSheafRing Y) d.U).map (cokernel.π J.ι)) :=
   rfl
 
+omit [HasWeakSheafify (Opens.grothendieckTopology Y.carrier) CommRingCat.{u}]
+  [∀ V : Opens Y.carrier, HasWeakSheafify (Opens.grothendieckTopology ↥V) CommRingCat.{u}]
+  [∀ V : Opens Y.carrier,
+    HasWeakSheafify ((Opens.grothendieckTopology Y.carrier).over V) CommRingCat.{u}] in
 /-- **`koszulRestrictedQuotientIso` carries the restricted quotient map to the quotient map of the
 Koszul morphism**, in the spelling of the restriction that it is defined with. -/
 theorem koszulRestrictedQuotientIso_comm (d : KoszulPresentation Y J) :
@@ -519,6 +615,10 @@ theorem derivedSheafExtMapIso_comm {X : TopCat.{u}} (Rc : TopCat.Sheaf CommRingC
   rw [derivedSheafExtMapIso_hom, derivedSheafExtMapIso_hom, derivedSheafExtMap_comp,
     derivedSheafExtMap_comp, Category.comp_id, Category.id_comp, h]
 
+omit [HasWeakSheafify (Opens.grothendieckTopology Y.carrier) CommRingCat.{u}]
+  [∀ V : Opens Y.carrier, HasWeakSheafify (Opens.grothendieckTopology ↥V) CommRingCat.{u}]
+  [∀ V : Opens Y.carrier,
+    HasWeakSheafify ((Opens.grothendieckTopology Y.carrier).over V) CommRingCat.{u}] in
 /-- **The restriction of the quotient map is the quotient map of the Koszul morphism.** -/
 theorem restrictQuotientIso_comm (d : KoszulPresentation Y J) :
     (openSubspaceRestrictFunctor d.U).map (cokernel.π J.ι) ≫ (restrictQuotientIso J d).hom =
@@ -562,6 +662,10 @@ def restrictExtQuotientIso (d : KoszulPresentation Y J) (n : ℤ) :
       (((openSubspaceRestrictFunctor d.U).mapDerivedCategorySingleFunctor 0).app _ ≪≫
         (DerivedCategory.singleFunctor _ 0).mapIso (restrictQuotientIso J d))
 
+omit [HasWeakSheafify (Opens.grothendieckTopology Y.carrier) CommRingCat.{u}]
+  [∀ V : Opens Y.carrier, HasWeakSheafify (Opens.grothendieckTopology ↥V) CommRingCat.{u}]
+  [∀ V : Opens Y.carrier,
+    HasWeakSheafify ((Opens.grothendieckTopology Y.carrier).over V) CommRingCat.{u}] in
 /-- **The restriction of `𝓔xtⁿ(O_X, O_Y) ⟶ 𝓔xtⁿ(O_X, O_X)` to the open of a presentation is the
 map induced by the Koszul quotient map there.** -/
 theorem restrictExtIso_natural (d : KoszulPresentation Y J) (n : ℤ) :
@@ -606,6 +710,12 @@ instance quasiIso_presentation_augmentation (d : KoszulPresentation Y J) :
   Stacks.RegularSequence.quasiIso_koszulChainData_augmentation _
     (Stacks.RegularSequence.quasiIso_koszulAugmentation_restrict Y d.U d.f d.koszulExact)
 
+omit [HasWeakSheafify (Opens.grothendieckTopology Y.carrier) CommRingCat.{u}]
+  [∀ V : Opens Y.carrier,
+    HasSheafify ((Opens.grothendieckTopology Y.carrier).over V) AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier, HasWeakSheafify (Opens.grothendieckTopology ↥V) CommRingCat.{u}]
+  [∀ V : Opens Y.carrier,
+    HasWeakSheafify ((Opens.grothendieckTopology Y.carrier).over V) CommRingCat.{u}] in
 /-- **The first local statement: over the open of a presentation of length `r`, `𝓔xtⁿ(O_X, O_Y)`
 vanishes for `n ≠ r`.** -/
 theorem isZero_restrict_extInto_of_ne (d : KoszulPresentation Y J) (n : ℤ) (hn : n ≠ d.r) :
@@ -620,6 +730,12 @@ theorem isZero_restrict_extInto_of_ne (d : KoszulPresentation Y J) (n : ℤ) (hn
           x.1 x.2)) hn)
     (restrictExtIso J d n)
 
+omit [HasWeakSheafify (Opens.grothendieckTopology Y.carrier) CommRingCat.{u}]
+  [∀ V : Opens Y.carrier,
+    HasSheafify ((Opens.grothendieckTopology Y.carrier).over V) AddCommGrpCat.{u}]
+  [∀ V : Opens Y.carrier, HasWeakSheafify (Opens.grothendieckTopology ↥V) CommRingCat.{u}]
+  [∀ V : Opens Y.carrier,
+    HasWeakSheafify ((Opens.grothendieckTopology Y.carrier).over V) CommRingCat.{u}] in
 /-- The first local statement, read with restriction to the open subspace as `j^*`. -/
 theorem isZero_jStar_extInto_of_ne (d : KoszulPresentation Y J) (n : ℤ) (hn : n ≠ d.r) :
     IsZero ((jStar d.U (structureSheaf Y.sheaf)).obj
@@ -627,6 +743,10 @@ theorem isZero_jStar_extInto_of_ne (d : KoszulPresentation Y J) (n : ℤ) (hn : 
   have h := isZero_restrict_extInto_of_ne J d n hn
   rwa [openSubspaceRestrictFunctor_eq_jStar] at h
 
+omit [HasWeakSheafify (Opens.grothendieckTopology Y.carrier) CommRingCat.{u}]
+  [∀ V : Opens Y.carrier, HasWeakSheafify (Opens.grothendieckTopology ↥V) CommRingCat.{u}]
+  [∀ V : Opens Y.carrier,
+    HasWeakSheafify ((Opens.grothendieckTopology Y.carrier).over V) CommRingCat.{u}] in
 /-- **The second local statement: over the open of a presentation of length `r`,
 `𝓔xtʳ(O_X, O_Y) ⟶ 𝓔xtʳ(O_X, O_X)` is an isomorphism.** -/
 theorem isIso_restrict_extQuotientMap (d : KoszulPresentation Y J) :
@@ -646,6 +766,10 @@ theorem isIso_restrict_extQuotientMap (d : KoszulPresentation Y J) :
   exact @IsIso.comp_isIso _ _ _ _ _ _ _ (Iso.isIso_hom _)
     (@IsIso.comp_isIso _ _ _ _ _ _ _ h (Iso.isIso_inv _))
 
+omit [HasWeakSheafify (Opens.grothendieckTopology Y.carrier) CommRingCat.{u}]
+  [∀ V : Opens Y.carrier, HasWeakSheafify (Opens.grothendieckTopology ↥V) CommRingCat.{u}]
+  [∀ V : Opens Y.carrier,
+    HasWeakSheafify ((Opens.grothendieckTopology Y.carrier).over V) CommRingCat.{u}] in
 /-- The second local statement, read with restriction to the open subspace as `j^*`. -/
 theorem isIso_jStar_extQuotientMap (d : KoszulPresentation Y J) :
     IsIso ((jStar d.U (structureSheaf Y.sheaf)).map (extQuotientMap J d.r)) := by

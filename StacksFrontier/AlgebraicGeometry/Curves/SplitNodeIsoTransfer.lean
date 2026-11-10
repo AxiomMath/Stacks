@@ -66,7 +66,7 @@ theorem isSplitNode_of_isIso (k : Type u) [Field k] (X Y : Scheme.{u})
   subst hfY
   intro hx
   refine ⟨(isNode_iff_of_etale k X Y fX hdim e y).mp hx.1, ?_, ?_⟩
-  · show Function.Bijective (fieldToResidue (e ≫ fX) y).hom
+  · change Function.Bijective (fieldToResidue (e ≫ fX) y).hom
     rw [fieldToResidue_comp]
     exact (ConcreteCategory.bijective_of_isIso (e.residueFieldMap y)).comp hx.2.1
   · exact quadraticAlgebra_split_of_ringEquiv (X.presheaf.stalk (e.base y))

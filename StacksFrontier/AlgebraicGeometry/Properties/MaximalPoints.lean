@@ -223,7 +223,7 @@ private theorem maximal_denseTrace_finite (T : Set S) [IsNoetherian S] :
   let Y : Set S := closure A
   have hBY : B ⊆ Y := by
     intro x hx
-    show x ∈ closure A
+    change x ∈ closure A
     rw [← hBclosure]
     exact subset_closure hx
   let AY : Set Y := Subtype.val ⁻¹' A
@@ -272,7 +272,7 @@ private theorem maximal_denseTrace_finite (T : Set S) [IsNoetherian S] :
     exact hAYinf (hunionfinite.subset hcover')
   obtain ⟨g, hginf⟩ := hex
   have hgP : g.1.1 ∈ P := by
-    show hasCountableDenseTrace T g.1.1
+    change hasCountableDenseTrace T g.1.1
     exact genericPoint_has_countable_trace hBYdense hBYcount
       (by simpa [hBYimage] using hBT) g
   have hFsub : AY ∩ closure ({g.1} : Set Y) ⊆ {g.1} := by

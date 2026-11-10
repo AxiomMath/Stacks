@@ -243,7 +243,7 @@ private theorem trdeg_residueField_eq_of_base_field (k : Type u) [Field k] {X : 
   have he : e.toRingHom = α := RingHom.ext fun z ↦ by
     dsimp [e, α, e₂]
     rw [Ideal.algEquivResidueFieldOfField_apply]
-    show (CommRingCat.Hom.hom
+    change (CommRingCat.Hom.hom
       (CommRingCat.ofHom (algebraMap k (f x).asIdeal.ResidueField) ≫
         (Scheme.Spec.residueFieldIso (.of k) (f x)).inv)) z = _
     have h := congrArg CommRingCat.Hom.hom
@@ -254,16 +254,16 @@ private theorem trdeg_residueField_eq_of_base_field (k : Type u) [Field k] {X : 
     { toRingEquiv := e
       commutes' := by
         intro z
-        show e.toRingHom z = α z
+        change e.toRingHom z = α z
         exact congrArg (fun g : k →+* K => g z) he }
   have hmap (z : k) : Algebra.linearMap k K z = eK z := by
-    show algebraMap k K z = eK z
+    change algebraMap k K z = eK z
     simp
   have : Module.Finite k K := .of_surjective (Algebra.linearMap k K)
     fun y ↦ ⟨eK.symm y, (hmap _).trans (eK.apply_symm_apply y)⟩
   have halg : Algebra.IsAlgebraic k K := .of_finite k K
   have htower : IsScalarTower k K L := .of_algebraMap_eq fun z ↦ by
-    show β z = (f.residueFieldMap x).hom
+    change β z = (f.residueFieldMap x).hom
         (((Scheme.ΓSpecIso (.of k)).inv ≫ (Spec (.of k)).Γevaluation (f x)).hom z)
     exact (Scheme.Γevaluation_naturality_apply f x
       ((Scheme.ΓSpecIso (.of k)).inv.hom z)).symm
@@ -305,7 +305,7 @@ private lemma exists_ne_specialization_of_positive_topologicalKrullDim (Y : Type
   have hy := A.isIrreducible'.isGenericPoint_genericPoint A.isClosed'
   refine ⟨_, _, hx.specializes (hAB.le hy.mem), fun h ↦ hAB.ne ?_⟩
   apply TopologicalSpace.IrreducibleCloseds.ext
-  show A.carrier = B.carrier
+  change A.carrier = B.carrier
   rw [← hy.def, ← hx.def, h]
 
 /-- The transcendence degree at the image of a point of an étale chart is the transcendence
@@ -346,7 +346,7 @@ private theorem hasTranscendenceDegreeAt_chartPoint (D : FiniteTypeOverField.{u}
     schemePointRepresentative_point D.B (Spec (.of D.k)) D.base_mem U u
   have hsome : HoldsOnSomeEtaleChartAtPoint D.B (Spec (.of D.k)) D.base_mem Q D.X.hom x := by
     refine ⟨c, ?_⟩
-    show Q (MorphismOfGerms.ofSchemeHom (T.map c.h) (c.sourcePoint D.B (Spec (.of D.k))
+    change Q (MorphismOfGerms.ofSchemeHom (T.map c.h) (c.sourcePoint D.B (Spec (.of D.k))
       D.base_mem))
     rw [hc]
     exact hlocal
@@ -415,7 +415,7 @@ private lemma topologicalKrullDim_nonneg_of_nonempty {Y : Type*} [TopologicalSpa
     [Nonempty Y] : (0 : WithBot ℕ∞) ≤ topologicalKrullDim Y := by
   have : Nonempty (TopologicalSpace.IrreducibleCloseds Y) :=
     ⟨⟨closure {Classical.arbitrary Y}, isIrreducible_singleton.closure, isClosed_closure⟩⟩
-  show (0 : WithBot ℕ∞) ≤ Order.krullDim (TopologicalSpace.IrreducibleCloseds Y)
+  change (0 : WithBot ℕ∞) ≤ Order.krullDim (TopologicalSpace.IrreducibleCloseds Y)
   exact_mod_cast Order.krullDim_nonneg
 
 @[ega "0 14.1.12" "dim(X) = 0", ega "0 14.1.9" "sufficiency"]
@@ -429,7 +429,7 @@ private lemma irreducibleCloseds_eq_of_le_of_topologicalKrullDim_eq_zero {Y : Ty
     (hY : topologicalKrullDim Y = 0) : A = B := by
   by_contra hne
   have hone : (1 : WithBot ℕ∞) ≤ topologicalKrullDim Y := by
-    show (1 : WithBot ℕ∞) ≤ Order.krullDim (TopologicalSpace.IrreducibleCloseds Y)
+    change (1 : WithBot ℕ∞) ≤ Order.krullDim (TopologicalSpace.IrreducibleCloseds Y)
     exact_mod_cast Order.one_le_krullDim_iff.mpr ⟨A, B, lt_of_le_of_ne hAB hne⟩
   rw [hY] at hone
   norm_num at hone
@@ -473,7 +473,7 @@ private lemma noNontrivialSpecialization_of_zeroTopologicalDimension
       (points D.B (Spec (.of D.k)) D.base_mem D.X.left) :=
     ⟨closure {y}, isIrreducible_singleton.closure, isClosed_closure⟩
   have hAB : B ≤ A := by
-    show closure ({y} : Set _) ⊆ closure ({x} : Set _)
+    change closure ({y} : Set _) ⊆ closure ({x} : Set _)
     exact specializes_iff_closure_subset.mp hxy
   have hEq := irreducibleCloseds_eq_of_le_of_topologicalKrullDim_eq_zero hAB hD
   have hclosure : closure ({x} : Set _) = closure ({y} : Set _) :=
@@ -532,7 +532,7 @@ private lemma zeroDimension_iff_forall_dimensionAtPoint_eq_zero
         from hD]
     exact le_iSup_of_le x le_rfl
   · intro hx
-    show (⨆ x : points D.B (Spec (.of D.k)) D.base_mem D.X.left,
+    change (⨆ x : points D.B (Spec (.of D.k)) D.base_mem D.X.left,
       dimensionAtPoint D.B (Spec (.of D.k)) D.base_mem D.X.left D.isAlgebraicSpace x) = 0
     refine le_antisymm (iSup_le fun x ↦ (hx x).le) ?_
     obtain ⟨x⟩ := D.nonempty
@@ -589,7 +589,7 @@ private lemma discrete_chart_of_topologicalKrullDim_le_zero (D : FiniteTypeOverF
   have : LocallyOfFiniteType (T.map (baseChartMap D U a)) :=
     baseChartMap_locallyOfFiniteType D U a ha
   have : IsLocallyNoetherian (T.obj (Over.mk (𝟙 (D.B.obj D.base_mem)))) := by
-    show IsLocallyNoetherian (Spec (.of D.k))
+    change IsLocallyNoetherian (Spec (.of D.k))
     infer_instance
   have : IsLocallyNoetherian (T.obj U) :=
     LocallyOfFiniteType.isLocallyNoetherian (T.map (baseChartMap D U a))
@@ -677,7 +677,7 @@ theorem zeroDimension_iff_locallyQuasiFinite (D : FiniteTypeOverField.{u}) :
     have : LocallyOfFiniteType f := hpair.1
     have : LocallyQuasiFinite f := hpair.2
     have : Subsingleton (T.obj c.V) := by
-      show Subsingleton (Spec (.of D.k))
+      change Subsingleton (Spec (.of D.k))
       infer_instance
     let u := c.sourcePoint D.B (Spec (.of D.k)) D.base_mem
     have hset : f ⁻¹' ({f u} : Set (T.obj c.V)) = Set.univ :=

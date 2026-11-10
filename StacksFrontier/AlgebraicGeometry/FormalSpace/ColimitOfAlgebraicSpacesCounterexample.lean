@@ -121,7 +121,7 @@ theorem isThickening_specMap_sqZeroRes {μ ν : Finset σ} (h : μ ⊆ ν) :
   have hsurj : Function.Surjective (TrivSqZeroExt.map (sqZeroRes k h)).toRingHom :=
     surjective_map_sqZeroRes k h
   refine ⟨IsClosedImmersion.spec_of_surjective _ hsurj, ?_⟩
-  show Function.Surjective (PrimeSpectrum.comap (TrivSqZeroExt.map (sqZeroRes k h)).toRingHom)
+  change Function.Surjective (PrimeSpectrum.comap (TrivSqZeroExt.map (sqZeroRes k h)).toRingHom)
   rw [← Set.range_eq_univ, range_comap_of_surjective _ _ hsurj, Set.eq_univ_iff_forall]
   refine fun p ↦ (PrimeSpectrum.mem_zeroLocus _ _).2 fun x hx ↦ p.isPrime.mem_of_pow_mem 2 ?_
   rw [pow_two, mul_self_eq_zero_of_map_sqZeroRes_eq_zero k h x hx]
@@ -135,7 +135,7 @@ theorem mk_sqZero_le (μ : Finset σ) :
   have h2 : #(μ → k) ≤ max ℵ₀ #k := by
     rw [← Cardinal.power_def, Cardinal.mk_coe_finset]
     exact (Cardinal.power_le_power_right (le_max_right _ _)).trans (Cardinal.power_nat_le hm)
-  show #(k × (μ → k)) ≤ _
+  change #(k × (μ → k)) ≤ _
   rw [Cardinal.mk_prod, Cardinal.lift_id, Cardinal.lift_id]
   exact (mul_le_mul' (le_max_right _ _) h2).trans (Cardinal.mul_eq_self hm).le
 
@@ -192,7 +192,7 @@ theorem sqZeroStageHom_comp {μ ν ρ : Finset σ}
   apply ObjectProperty.hom_ext
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom φ.toRingHom) ≫ Spec.map (CommRingCat.ofHom ψ.toRingHom) =
+  change Spec.map (CommRingCat.ofHom φ.toRingHom) ≫ Spec.map (CommRingCat.ofHom ψ.toRingHom) =
     Spec.map (CommRingCat.ofHom (φ.comp ψ).toRingHom)
   rw [← Spec.map_comp, ← CommRingCat.ofHom_comp]
   rfl
@@ -203,7 +203,7 @@ theorem sqZeroStageHom_id (μ : Finset σ) :
   apply ObjectProperty.hom_ext
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom (AlgHom.id k (TrivSqZeroExt k (μ → k))).toRingHom) =
+  change Spec.map (CommRingCat.ofHom (AlgHom.id k (TrivSqZeroExt k (μ → k))).toRingHom) =
     𝟙 (Spec (.of (TrivSqZeroExt k (μ → k))))
   rw [← Spec.map_id]
   rfl
@@ -404,7 +404,7 @@ theorem not_satisfiesSetTheoreticCondition_colimit_sqZeroSheafDiagram (hσ : B.c
     have hε₁ : (BigAffineFppf.inclusion B S hS).map (D.map hsν) ≫ ε = 𝟙 T := by
       rw [← CategoryTheory.Functor.map_comp, hε₁₀, CategoryTheory.Functor.map_id]
     have hε₂₀ : D.map hμν ≫ ε₀ ≫ ρ₀ = D.map hμν ≫ ε₀ := by
-      show sqZeroStageHom B S hS k hk t σ _ ≫ sqZeroStageHom B S hS k hk t σ _ ≫
+      change sqZeroStageHom B S hS k hk t σ _ ≫ sqZeroStageHom B S hS k hk t σ _ ≫
           sqZeroStageHom B S hS k hk t σ _ =
         sqZeroStageHom B S hS k hk t σ _ ≫ sqZeroStageHom B S hS k hk t σ _
       rw [sqZeroStageHom_map_comp, sqZeroStageHom_map_comp, sqZeroStageHom_map_comp,
@@ -422,7 +422,7 @@ theorem not_satisfiesSetTheoreticCondition_colimit_sqZeroSheafDiagram (hσ : B.c
     have hsh := ((isSheaf_iff_isSheaf_of_type J _).1 (J.uliftYoneda.{u + 1}.obj T).property) R' hR'
     have h := hsh.isSeparatedFor.ext (t₁ := (ULift.up ρ : ULift.{u + 1} (T ⟶ T)))
       (t₂ := ULift.up (𝟙 T)) (fun Y g hg ↦ by
-        show ULift.up (g ≫ ρ) = ULift.up (g ≫ 𝟙 T)
+        change ULift.up (g ≫ ρ) = ULift.up (g ≫ 𝟙 T)
         rw [hkey g hg, Category.comp_id])
     exact congrArg ULift.down h
   have hρ' := congrArg (BigFppfOver.toScheme B S hS).map hρ

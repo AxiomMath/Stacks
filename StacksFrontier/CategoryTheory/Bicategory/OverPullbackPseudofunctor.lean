@@ -111,10 +111,7 @@ lemma pullbackComp_left_fst_fst {X Y Z : C} (f : X ⟶ Y) (g : Y ⟶ Z)
     ((Over.pullbackComp f g).hom.app A).left ≫
         pullback.fst ((Over.pullback g).obj A).hom f ≫ pullback.fst A.hom g =
       pullback.fst A.hom (f ≫ g) := by
-  simpa [Adjunction.comp_counit_app, Over.mapComp, Over.pullbackComp] using
-    congrArg (fun morphism => morphism.left)
-      (conjugateEquiv_counit (Over.mapPullbackAdj (f ≫ g))
-        ((Over.mapPullbackAdj f).comp (Over.mapPullbackAdj g)) (Over.mapComp f g).inv A)
+  simp [Over.mapComp, Over.pullbackComp]
 
 end Projections
 

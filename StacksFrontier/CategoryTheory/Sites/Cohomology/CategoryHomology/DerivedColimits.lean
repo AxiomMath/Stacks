@@ -88,15 +88,15 @@ theorem replacementComplexFunctor_map_shortExact
       (S.map ((evaluation Cᵒᵖ AddCommGrpCat).obj (op i.right))).ShortExact :=
     hS.map_of_exact _
   refine { exact := ?_, mono_f := ?_, epi_g := ?_ }
-  · show (ShortComplex.mk (replacementGroupMap S.f n) (replacementGroupMap S.g n) _).Exact
+  · change (ShortComplex.mk (replacementGroupMap S.f n) (replacementGroupMap S.g n) _).Exact
     rw [ShortComplex.ab_exact_iff_function_exact]
     exact directSum_exact _ _ fun i =>
       (ShortComplex.ab_exact_iff_function_exact _).1 (hcomp i).exact
-  · show Mono (replacementGroupMap S.f n)
+  · change Mono (replacementGroupMap S.f n)
     rw [AddCommGrpCat.mono_iff_injective]
     exact (DirectSum.map_injective _).2 fun i =>
       (AddCommGrpCat.mono_iff_injective _).1 (hcomp i).mono_f
-  · show Epi (replacementGroupMap S.g n)
+  · change Epi (replacementGroupMap S.g n)
     rw [AddCommGrpCat.epi_iff_surjective]
     exact (DirectSum.map_surjective _).2 fun i =>
       (AddCommGrpCat.epi_iff_surjective _).1 (hcomp i).epi_g
@@ -132,7 +132,7 @@ lemma replacementGroupMap_summand {F G : Cᵒᵖ ⥤ AddCommGrpCat.{max u v}} (�
     (replacementGroupMap η n).hom (replacementSummand F n x s) =
       replacementSummand G n x ((η.app (op x.right)).hom s) := by
   classical
-  show (DirectSum.map fun z => (η.app (op z.right)).hom)
+  change (DirectSum.map fun z => (η.app (op z.right)).hom)
     (DirectSum.of (fun z : ComposableArrows C n => F.obj (op z.right)) x s) = _
   rw [DirectSum.map_of]
   rfl

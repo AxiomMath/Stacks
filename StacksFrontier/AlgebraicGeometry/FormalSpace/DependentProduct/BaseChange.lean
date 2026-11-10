@@ -519,7 +519,7 @@ theorem bcCone_comp_liftAlongBaseChange (hcomm' : q ≫ p = p' ≫ g) :
     bcCone q hk hσ hcomm hWex α β hαβ ≫ liftAlongBaseChange q hIex hcomm' = α := by
   refine Sheaf.hom_ext (NatTrans.ext (funext fun T ↦
     ConcreteCategory.hom_ext _ _ fun z ↦ ?_))
-  show bcApp q hIex hcomm' T.unop (bcConeApp q hk hσ hcomm hWex α β hαβ T.unop z)
+  change bcApp q hIex hcomm' T.unop (bcConeApp q hk hσ hcomm hWex α β hαβ T.unop z)
     = α.hom.app T z
   refine LiftAlong.ext _ _ (bcCone_base hk hσ α β hαβ z) fun T' s w h h' ↦ ?_
   refine Eq.trans (bcConeRule_snd q hk hσ hcomm hWex α β hαβ z
@@ -541,7 +541,7 @@ theorem bcCone_uniq (hcomm' : q ≫ p = p' ≫ g) (m : Z ⟶ liftAlong B S hS i'
     congrArg (fun n : Z ⟶ X' ↦ n.hom.app T z) hm₂
   have hpush : bcApp q hIex hcomm' T.unop (m.hom.app T z) = α.hom.app T z :=
     congrArg (fun n : Z ⟶ liftAlong B S hS i p ↦ n.hom.app T z) hm₁
-  show m.hom.app T z = bcConeApp q hk hσ hcomm hWex α β hαβ T.unop z
+  change m.hom.app T z = bcConeApp q hk hσ hcomm hWex α β hαβ T.unop z
   refine LiftAlong.ext _ _ hbase fun T' s v hv hv' ↦ ?_
   have hA : i.hom.app (Opposite.op T') (g.hom.app (Opposite.op T') v)
       = X.obj.map s.op (f.hom.app T (m.hom.app T z).base) :=
@@ -577,14 +577,14 @@ theorem liftAlongBaseChange_comp_liftAlongMap (hcomm' : q ≫ p = p' ≫ g) :
       = liftAlongBase B S hS i' p' ≫ σ := by
   refine Sheaf.hom_ext (NatTrans.ext (funext fun T ↦
     ConcreteCategory.hom_ext _ _ fun ξ ↦ ?_))
-  show LiftAlong.pushforward B S hS i k hk T.unop (bcApp q hIex hcomm' T.unop ξ)
+  change LiftAlong.pushforward B S hS i k hk T.unop (bcApp q hIex hcomm' T.unop ξ)
     = σ.hom.app T ξ.base
   refine LiftAlong.ext _ _
     ((congrArg (fun m : X' ⟶ X ↦ m.hom.app T ξ.base) hσ).symm) fun T' t w h h' ↦ ?_
   have hy := ξ.lift_proj T' t (bcAux hIex ξ T' t w h) (bcAux_fst hIex ξ T' t w h)
   have hkq := comp_app_congr hcommW (Opposite.op T')
     (ξ.lift T' t (bcAux hIex ξ T' t w h) (bcAux_fst hIex ξ T' t w h))
-  show k.hom.app (Opposite.op T')
+  change k.hom.app (Opposite.op T')
       (q.hom.app (Opposite.op T') (ξ.lift T' t (bcAux hIex ξ T' t w h)
         (bcAux_fst hIex ξ T' t w h)))
     = (σ.hom.app T ξ.base).lift T' t w h'
@@ -648,7 +648,7 @@ theorem isPullback_liftAlongBaseChange
   have H := isPullback_liftAlongMap q hIex hk hσ hcomm hWex' hcommW hcomm'
   refine H.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _)
     (asIso (liftAlongBase B S hS i (𝟙 I))) (by simp) (by simp) ?_ (by simp)
-  show liftAlongMap B S hS i p hk ≫ liftAlongBase B S hS i (𝟙 I)
+  change liftAlongMap B S hS i p hk ≫ liftAlongBase B S hS i (𝟙 I)
     = (Iso.refl (liftAlong B S hS i p)).hom ≫ liftAlongBase B S hS i p
   rw [Iso.refl_hom, Category.id_comp]
   exact liftAlongMap_comp_base B S hS i p hk

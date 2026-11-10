@@ -137,7 +137,7 @@ theorem exists_isAffineOpen_superset_of_sigmaIso {ι : Type u} (Y : ι → Schem
   intro w hw
   have h1 : e.inv.base w ∈ t' := ⟨w, hw, rfl⟩
   have h2 : idx (e.inv.base w) ∈ F := ⟨_, h1, rfl⟩
-  show e.inv.base w ∈ O'
+  change e.inv.base w ∈ O'
   rw [hO']
   exact TopologicalSpace.Opens.mem_iSup.2 ⟨⟨_, h2⟩, hmem _⟩
 

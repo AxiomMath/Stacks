@@ -165,7 +165,7 @@ theorem conjugateEquiv_comp_left {L₁ : C ⥤ D} {R₁ : D ⥤ C} {LA LB : D �
       Functor.whiskerRight (conjugateEquiv adjA adjB α) R₁ := by
   refine conjugateEquiv_eq_of_homEquiv _ _ _ _ (fun c Z f ↦ ?_)
   rw [Adjunction.comp_homEquiv_apply, Adjunction.comp_homEquiv_apply]
-  show adj₁.homEquiv c (RA.obj Z) (adjA.homEquiv (L₁.obj c) Z f) ≫
+  change adj₁.homEquiv c (RA.obj Z) (adjA.homEquiv (L₁.obj c) Z f) ≫
       R₁.map ((conjugateEquiv adjA adjB α).app Z) = _
   rw [← Adjunction.homEquiv_naturality_right]
   exact congrArg (adj₁.homEquiv c (RB.obj Z))
@@ -180,7 +180,7 @@ theorem conjugateEquiv_comp_right {LA LB : C ⥤ D} {RA RB : D ⥤ C} {L₂ : D 
       Functor.whiskerLeft R₂ (conjugateEquiv adjA adjB α) := by
   refine conjugateEquiv_eq_of_homEquiv _ _ _ _ (fun c Z f ↦ ?_)
   rw [Adjunction.comp_homEquiv_apply, Adjunction.comp_homEquiv_apply]
-  show adjA.homEquiv c (R₂.obj Z) (adj₂.homEquiv (LA.obj c) Z f) ≫
+  change adjA.homEquiv c (R₂.obj Z) (adj₂.homEquiv (LA.obj c) Z f) ≫
       (conjugateEquiv adjA adjB α).app (R₂.obj Z) = _
   rw [homEquiv_comp_conjugateEquiv adjA adjB α c (R₂.obj Z) (adj₂.homEquiv (LA.obj c) Z f)]
   exact congrArg (adjB.homEquiv c (R₂.obj Z))
@@ -316,13 +316,15 @@ section Conjugate
 
 variable [HasWeakSheafify K AddCommGrpCat.{u}] [K.WEqualsLocallyBijective AddCommGrpCat.{u}]
 
-omit [HasWeakSheafify K AddCommGrpCat.{u}] [K.WEqualsLocallyBijective AddCommGrpCat.{u}] in
+omit [K.HasSheafCompose (forget₂ CommRingCat RingCat)] [HasWeakSheafify K AddCommGrpCat.{u}]
+  [K.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The two assemblies of precomposition into a natural transformation agree. -/
 theorem internalHomMapLeftNatTrans_eq
     {F F' : _root_.SheafOfModules.{u} (Tensor.ringSheaf O)} (f : F ⟶ F') :
     internalHomMapLeftNatTrans O f = internalHomPrecompNatTrans K O f :=
   NatTrans.ext (funext fun _ ↦ rfl)
 
+omit [K.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The conjugate of the tensor whiskering is precomposition on the internal Hom sheaf**, with
 the precomposition transformation spelled by `internalHomPrecompNatTrans`. -/
 theorem conjugateEquiv_sheafTensor_map_precomp

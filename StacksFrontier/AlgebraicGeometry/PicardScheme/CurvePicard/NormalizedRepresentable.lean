@@ -253,11 +253,11 @@ theorem pullback_fst_map_eq_pullback_snd_map (T : BigFppfOver B (Spec (.of k)) h
   let p₂ : Q ⟶ BigFppfOver.openSubObj B _ hk T O₂ :=
     Over.homMk (ObjectProperty.homMk (pullback.snd O₁.ι O₂.ι)) (by
       apply ObjectProperty.hom_ext
-      show pullback.snd O₁.ι O₂.ι ≫ O₂.ι ≫ T.hom.hom = pullback.fst O₁.ι O₂.ι ≫ O₁.ι ≫ T.hom.hom
+      change pullback.snd O₁.ι O₂.ι ≫ O₂.ι ≫ T.hom.hom = pullback.fst O₁.ι O₂.ι ≫ O₁.ι ≫ T.hom.hom
       exact (pullback.condition_assoc _).symm)
   have hsq : p₁ ≫ BigFppfOver.openSubHom B _ hk T O₁ = p₂ ≫ BigFppfOver.openSubHom B _ hk T O₂ := by
     apply BigFppfOver.map_toScheme_injective B _ hk
-    show pullback.fst O₁.ι O₂.ι ≫ O₁.ι = pullback.snd O₁.ι O₂.ι ≫ O₂.ι
+    change pullback.fst O₁.ι O₂.ι ≫ O₁.ι = pullback.snd O₁.ι O₂.ι ≫ O₂.ι
     exact pullback.condition
   have heq : (picardFunctor B hX hk f).map (p₁ ≫ m₁).op (universalClass B hX hk f H hH) =
       (picardFunctor B hX hk f).map (p₂ ≫ m₂).op (universalClass B hX hk f H hH) := by
@@ -302,7 +302,7 @@ theorem exists_map_universalClass_eq (T : BigFppfOver B (Spec (.of k)) hk)
     𝒰.ι_glueMorphisms _ hcompat t
   have hgw : g ≫ B.inclusion.map H.hom = B.inclusion.map T.hom := by
     refine 𝒰.hom_ext _ _ fun t => ?_
-    show (O t).ι ≫ g ≫ B.inclusion.map H.hom = (O t).ι ≫ B.inclusion.map T.hom
+    change (O t).ι ≫ g ≫ B.inclusion.map H.hom = (O t).ι ≫ B.inclusion.map T.hom
     calc (O t).ι ≫ g ≫ B.inclusion.map H.hom = ((O t).ι ≫ g) ≫ B.inclusion.map H.hom :=
           (Category.assoc _ _ _).symm
       _ = B.inclusion.map ((familyHom B hX hk f H hH (D t)).left ≫ H.hom) := by
@@ -317,7 +317,7 @@ theorem exists_map_universalClass_eq (T : BigFppfOver B (Spec (.of k)) hk)
   have hm : ∀ t, BigFppfOver.openSubHom B _ hk T (O t) ≫ m = familyHom B hX hk f H hH (D t) :=
     fun t => by
       apply BigFppfOver.map_toScheme_injective B _ hk
-      show (O t).ι ≫ B.inclusion.map (B.inclusion.preimage g) = _
+      change (O t).ι ≫ B.inclusion.map (B.inclusion.preimage g) = _
       rw [Functor.map_preimage, hg]
   refine ⟨m, eq_of_map_openSubHom_eq B hX hk f T O (fun t => ⟨t, hO t⟩) _ _ fun t => ?_⟩
   rw [← picardFunctor_map_comp_apply, hm, hmt]
@@ -369,7 +369,7 @@ theorem normalizedHilbertPoint_bijective (T : BigFppfOver B (Spec (.of k)) hk) :
   have hrange : Set.range ⇑((BigFppfOver.toScheme B _ hk).map m) ⊆
       (normalizedOpen B hX hk f σ hσ H hH : Set H.left.obj) := Set.range_subset_iff.2 hW
   refine ⟨AlgebraicGeometry.Space.openSubObjLift B _ hk H _ m hrange, Subtype.ext ?_⟩
-  show (picardFunctor B hX hk f).map
+  change (picardFunctor B hX hk f).map
     (AlgebraicGeometry.Space.openSubObjLift B _ hk H _ m hrange ≫
       BigFppfOver.openSubHom B _ hk H _).op _ = _
   rw [AlgebraicGeometry.Space.openSubObjLift_comp_openSubHom, hm]

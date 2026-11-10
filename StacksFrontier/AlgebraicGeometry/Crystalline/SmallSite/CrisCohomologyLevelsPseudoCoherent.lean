@@ -127,7 +127,7 @@ theorem ι_map_app_eq_derivedRestrictScalarsComp_hom_app
   obtain ⟨K, rfl⟩ := HomotopyCategory.quotient_obj_surjective L
   have e1 := congrArg DerivedCategory.Plus.ι.map (hρ ⟨(HomotopyCategory.quotient _ _).obj K, hL⟩)
   simp only [Functor.map_comp] at e1
-  show DerivedCategory.Plus.ι.map (ρ.app (DerivedCategory.Plus.Qh.obj ⟨_, hL⟩)) =
+  change DerivedCategory.Plus.ι.map (ρ.app (DerivedCategory.Plus.Qh.obj ⟨_, hL⟩)) =
     (derivedRestrictScalarsComp.{u, v} f g h w).hom.app
       (DerivedCategory.Qh.obj ((HomotopyCategory.quotient _ _).obj K))
   let c := (NatTrans.mapHomologicalComplex (ModuleCat.restrictScalarsComp'.{max u v} f g h w).inv
@@ -242,7 +242,7 @@ def levelSectionsEquiv {e : ℕ} (he : S.IsLevel e) :
 theorem levelSectionsEquiv_baseChangeRingHom_levelProj {e : ℕ} (he : S.IsLevel e)
     (a : Γ(S.S.scheme, ⊤)) :
     S.levelSectionsEquiv he (baseChangeRingHom (S.levelProj he) a) = Ideal.Quotient.mk _ a := by
-  show (Scheme.ΓSpecIso _).hom.hom
+  change (Scheme.ΓSpecIso _).hom.hom
     ((Spec.map (CommRingCat.ofHom (pAdicLevelProj S.baseIdeal S.baseDividedPowers S.p he
       ).toRingHom)).appTop.hom (S.S.scheme.isoSpec.inv.appTop.hom a)) = _
   rw [ΓSpecIso_hom_specMap_appTop, isoSpec_inv_appTop_eq_ΓSpecIso_inv]

@@ -149,7 +149,7 @@ private lemma tensorIso_hom_comm
         ((quasiCoherentDerivedPullback' f).obj Q)).app
           ((quasiCoherentDerivedPullback' f).obj P)).hom =
           𝟙 _ := rfl
-    show 𝟙 _ ≫ ((derivedPullback f).map
+    change 𝟙 _ ≫ ((derivedPullback f).map
         (((quasiCoherentDerivedTensorIsoCurriedTensor Y).hom.app Q).app P).hom ≫
       (Functor.OplaxMonoidal.δ (quasiCoherentDerivedPullback' f) Q P).hom ≫
       (((quasiCoherentDerivedTensorIsoCurriedTensor X).inv.app
@@ -157,11 +157,11 @@ private lemma tensorIso_hom_comm
           ((quasiCoherentDerivedPullback' f).obj P)).hom) = _
     rw [ha, hb1, hb2]
     simp only [CategoryTheory.Functor.map_id, Category.id_comp]
-    show (derivedPullback f).map (𝟙 (Q.obj ⊗ P.obj)) ≫
+    change (derivedPullback f).map (𝟙 (Q.obj ⊗ P.obj)) ≫
       Functor.OplaxMonoidal.δ (derivedPullback f) Q.obj P.obj ≫
         𝟙 ((derivedPullback f).obj Q.obj ⊗ (derivedPullback f).obj P.obj) = _
     simp only [CategoryTheory.Functor.map_id, Category.id_comp, Category.comp_id]
-  · show _ = (derivedPullback f).map (β_ P.obj Q.obj).inv ≫
+  · change _ = (derivedPullback f).map (β_ P.obj Q.obj).inv ≫
       Functor.OplaxMonoidal.δ (derivedPullback f) P.obj Q.obj ≫ (𝟙 _ ⊗ₘ 𝟙 _) ≫ (β_ _ _).hom
     rw [MonoidalCategory.id_tensorHom_id, Category.id_comp, hb, ← Functor.map_comp_assoc,
       Iso.inv_hom_id, CategoryTheory.Functor.map_id, Category.id_comp]
@@ -279,7 +279,7 @@ def tensorModelIso (Z : Scheme.{u}) :
     (fun PQ => ((Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctorModelIso
       Z.sheaf).app PQ.1).app PQ.2) (by
     rintro ⟨P, Q⟩ ⟨P', Q'⟩ ⟨p, q⟩
-    letI := Scheme.Modules.canonicalDerivedMonoidal Z
+    let := Scheme.Modules.canonicalDerivedMonoidal Z
     have h := (Functor.uncurry.map
       (Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctorModelIso Z.sheaf).hom).naturality
         (X := (P, Q)) (Y := (P', Q')) (p, q)

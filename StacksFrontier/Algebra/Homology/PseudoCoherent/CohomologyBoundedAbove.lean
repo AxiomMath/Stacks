@@ -125,7 +125,7 @@ private theorem isPseudoCoherentFrom_of_isLE_homology_aux (m : ℤ) :
     have hE : E.IsLE m := by simpa using hLE
     refine isPseudoCoherentFrom_obj₂_of_distinguished m _
       (DerivedCategory.TStructure.t.triangleLTGE_distinguished m E) ?_ ?_
-    · show IsPseudoCoherentFrom ((DerivedCategory.TStructure.t.truncLT m).obj E) m
+    · change IsPseudoCoherentFrom ((DerivedCategory.TStructure.t.truncLT m).obj E) m
       have : ((DerivedCategory.TStructure.t.truncLT m).obj E).IsLE (m - 1) :=
         DerivedCategory.TStructure.t.isLE_truncLT_obj E m (m - 1) (by omega)
       exact isPseudoCoherentFrom_of_isZero_homology_ge _ m fun j hj =>
@@ -137,7 +137,7 @@ private theorem isPseudoCoherentFrom_of_isLE_homology_aux (m : ℤ) :
       DerivedCategory.TStructure.t.isLE_of_le E (m + ((n + 1 : ℕ) : ℤ)) _ (by push_cast; omega)
     refine isPseudoCoherentFrom_obj₂_of_distinguished m _
       (DerivedCategory.TStructure.t.triangleLTGE_distinguished (m + (n : ℤ) + 1) E) ?_ ?_
-    · show IsPseudoCoherentFrom
+    · change IsPseudoCoherentFrom
         ((DerivedCategory.TStructure.t.truncLT (m + (n : ℤ) + 1)).obj E) m
       have hlt :
           ((DerivedCategory.TStructure.t.truncLT (m + (n : ℤ) + 1)).obj E).IsLE (m + (n : ℤ)) :=

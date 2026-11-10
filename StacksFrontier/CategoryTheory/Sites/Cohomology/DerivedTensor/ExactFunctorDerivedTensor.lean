@@ -500,7 +500,8 @@ end Descent
 
 section Model
 
-omit [X.J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
+omit [X.J.HasSheafCompose (forget₂ CommRingCat RingCat)]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 include tot_nat in
 /-- The comparison evaluated on the image of a pair of K-flat complexes with flat terms is the
 transported value out of which it was descended. -/
@@ -521,7 +522,8 @@ lemma derivedTensorIso_hom_app_modelPair
   rw [hdef, Localization.liftNatIso_hom, Localization.liftNatTrans_app]
   simp
 
-omit [X.J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
+omit [X.J.HasSheafCompose (forget₂ CommRingCat RingCat)]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 include tot_nat in
 /-- **The comparison at a pair of K-flat complexes with flat terms is the composite of the two
 halves of the chain.** This is what pins the comparison down: everything proved about it beyond

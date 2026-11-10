@@ -68,14 +68,14 @@ perfectness itself being carried by Stacks 08H3,
 
 That comparison exists in this development for a morphism of ringed sites in a *single* universe,
 as `AlgebraicGeometry.RingedSite.Hom.localizedPullbackToposSquare`
-(`StacksFrontier/CategoryTheory/Sites/Modules/LocalizationRingedSites/PullbackToposSquare.lean`).  It
-does not apply to `ε`, whose source site has its objects in `Type (u + 1)` and its morphisms and
+(`StacksFrontier/CategoryTheory/Sites/Modules/LocalizationRingedSites/PullbackToposSquare.lean`).
+It does not apply to `ε`, whose source site has its objects in `Type (u + 1)` and its morphisms and
 sections in `Type u`, so that `AlgebraicGeometry.RingedSite.Hom` cannot even hold `ε` — which is
 why `ε` is an `AlgebraicGeometry.RingedSite.HomGeneral`.  Porting it is a transport of the same
 kind as
 `AlgebraicGeometry.RingedSite.HomGeneral.pullbackModulesToposIsoGeneral`
-(`StacksFrontier/CategoryTheory/Sites/Modules/RingedToposModulesPullbackToposGeneral.lean`), which is
-the first step of it and is proved; what is left is the localization half, namely the localized
+(`StacksFrontier/CategoryTheory/Sites/Modules/RingedToposModulesPullbackToposGeneral.lean`), which
+is the first step of it and is proved; what is left is the localization half, namely the localized
 morphism of ringed sites at independent universes together with the 2-isomorphism of Stacks 04J0
 for it.
 
@@ -85,7 +85,8 @@ is the termwise functor, so clause (2) can be read through
 `CategoryTheory.Functor.mapDerivedCategory` of an additive functor and the localization machinery
 above is not required.  The comparison square that replaces it is available, as
 `AlgebraicGeometry.SmallEtale.associatedModuleOverIso`
-(`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleOpenCoverQuasicoherence.lean`).
+(`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/`
+`SmallEtaleOpenCoverQuasicoherence.lean`).
 `CategoryTheory.Limits.PreservesFiniteLimits` of
 `AlgebraicGeometry.SmallEtale.opensToSmallEtale` is available there too, as an instance.
 
@@ -122,7 +123,7 @@ count.
    **Available** at `AlgebraicGeometry.Scheme.zariskiRingedSite`.
    `AlgebraicGeometry.RingedSite.isFiniteType_homology`
    (`StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriekAndPerfection/`
-   `StacksFrontier/CategoryTheory/Sites/Cohomology/LowerShriekAndPerfection/TopCohomologyFiniteness.lean`) is stated at `RingedSite.{u, u, w}`, and all seven of its
+   `TopCohomologyFiniteness.lean`) is stated at `RingedSite.{u, u, w}`, and all seven of its
    typeclass hypotheses are found at that site.
 3. **Stacks 08HD, that a module whose associated module is of finite type is of finite type.**
    **Available for a quasi-coherent `𝓕`**, which is the case this chain consumes;
@@ -175,7 +176,8 @@ count.
 
    Four further steps lie between that engine and the
    statement.  All four are assembled, in
-   `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleAffineFiniteTypeSections.lean`
+   `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/`
+   `SmallEtaleAffineFiniteTypeSections.lean`
    and
    `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleFiniteTypeDescent.lean`:
 
@@ -237,7 +239,8 @@ count.
    not:
 
    * **Proved.** `AlgebraicGeometry.SmallEtale.exists_sieve_imageOpen_section`
-     (`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleImageOpenSurjective.lean`):
+     (`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/`
+     `SmallEtaleImageOpenSurjective.lean`):
      a section of `ε⁻¹F` over an object `V` of the small étale site is, on a covering sieve of
      `V`, the image of a section of `F` over the **image open** `im V` — which is an open because
      étale morphisms are open (Stacks 03WT).  This is the step of the source's proof that produces
@@ -280,7 +283,8 @@ count.
    The **derived-level** form of this step — the one the induction actually applies, which takes
    the finite-type conclusion that step 2 produces on the *étale* side at `Hⁿ(ε^*E)` and returns
    it on the Zariski side at `Hⁿ(E)` — is proved in
-   `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleDerivedFiniteTypeDescent.lean`
+   `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/`
+   `SmallEtaleDerivedFiniteTypeDescent.lean`
    as
    `SmallEtale.isFiniteTypeOnSite_homology_of_isFiniteTypeOnSite_homology_associatedModule`
    and, in the `SheafOfModules.IsFiniteType` spelling that Stacks 08FX produces and the
@@ -297,8 +301,8 @@ count.
    `𝒪_S^{⊕t}[-n] → E`.**  **Available at an affine chart**, as
    `AlgebraicGeometry.exists_lift_truncGEπ_zero_cofan_of_isAffineOpen`
    (`StacksFrontier/AlgebraicGeometry/Cohomology/AffineOpenTruncationLift.lean`); the source omits
-   its details.  The nearest machinery in the library lifts *through* a strictly perfect approximation
-   rather than *into* `E` — `RingedSite.exists_coveringSieve_lift_homotopy_general`
+   its details.  The nearest machinery in the library lifts *through* a strictly perfect
+   approximation rather than *into* `E` — `RingedSite.exists_coveringSieve_lift_homotopy_general`
    (Stacks 08FQ) — and is not what is used.  This step needs three
    things, and all three are available and composed.
 
@@ -379,10 +383,10 @@ count.
      two right derived functors of isomorphic functors, which this paragraph used to prescribe:
      the corepresentation of `Γ(U, -)` by `j_{U!}𝒪_U` is already carried through complexes by
      `Stacks.Sites.ExtensionByZero.sectionsOverObjectHomologyAddEquiv`
-     (`StacksFrontier/CategoryTheory/Sites/Modules/SectionsOverObjectHomotopyCategory.lean`, over Stacks 0G1V in the
-     additive form `coyonedaExtensionByZeroUnitIso`), which identifies `Hⁿ(Γ(U, M^•))` with
-     `Hom_{K(𝒪)}((j_{U!}𝒪_U)[0], M^•⟦n⟧)` for an arbitrary complex; evaluating it at a K-injective
-     complex turns both sides into derived-category data at once, by
+     (`StacksFrontier/CategoryTheory/Sites/Modules/SectionsOverObjectHomotopyCategory.lean`, over
+     Stacks 0G1V in the additive form `coyonedaExtensionByZeroUnitIso`), which identifies
+     `Hⁿ(Γ(U, M^•))` with `Hom_{K(𝒪)}((j_{U!}𝒪_U)[0], M^•⟦n⟧)` for an arbitrary complex; evaluating
+     it at a K-injective complex turns both sides into derived-category data at once, by
      `Stacks.Cohomology.Localization.derivedUnit_isIsoOnKInjective` on the left and
      `CochainComplex.IsKInjective.Qh_map_bijective` (Stacks 0A64) on the right.  No `Ext` and no
      uniqueness-of-derived-functors argument is used.  The universe bookkeeping does not arise in
@@ -402,7 +406,8 @@ count.
      compared the two nowhere.  It does now:
      `Stacks.Cohomology.HypercohomologyEdge.derivedSectionsForgetModuleIso`, with the degreewise
      form `homologyDerivedSectionsForgetModuleIso` that a consumer actually uses, in
-     `StacksFrontier/CategoryTheory/Sites/Cohomology/HypercohomologyEdge/DerivedSectionsUnderlyingGroups.lean`.
+     `StacksFrontier/CategoryTheory/Sites/Cohomology/HypercohomologyEdge/`
+     `DerivedSectionsUnderlyingGroups.lean`.
      Forgetting the module structure commutes with the right derived functor because
      `forget₂ (ModuleCat R) AddCommGrpCat` is exact, and the general brick for that was already
      in the tree —
@@ -437,8 +442,8 @@ count.
    The identification of `τ^{≥0}(E⟦n⟧)` with `Hⁿ(E)` placed in degree zero, which is what turns a
    surjection `𝒪^{⊕t} → Hⁿ(E)` into the `g` this lift consumes, is **proved**:
    `DerivedCategory.truncGEZeroShiftIsoSingleHomology`
-   (`StacksFrontier/Algebra/Homology/DerivedCategory/TruncGEOfIsLESingle.lean`), beside the unshifted
-   form `DerivedCategory.truncGEIsoSingleHomologyOfIsLE`.  Both are
+   (`StacksFrontier/Algebra/Homology/DerivedCategory/TruncGEOfIsLESingle.lean`), beside the
+   unshifted form `DerivedCategory.truncGEIsoSingleHomologyOfIsLE`.  Both are
    `DerivedCategory.truncGELTIsoHomologyFunctorCompSingleFunctor` read through
    `CategoryTheory.Triangulated.TStructure.isLE_iff_isIso_truncLTι_app`: being `≤ n` is exactly
    what makes `τ^{<n+1}E ⟶ E` invertible, which removes the inner truncation of the one-step
@@ -471,8 +476,8 @@ convenience, and the demonstration of that is in step 4 above.
   small étale site of a quasi-compact scheme**, as
   `AlgebraicGeometry.SmallEtale.exists_isLE_Q_obj_of_isPseudoCoherentComplexFrom` and its affine
   specialisation `…_of_isAffine`
-  (`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleBoundedAbove.lean`), read off
-  the general `AlgebraicGeometry.RingedSite.exists_isLE_Q_obj_of_isPseudoCoherentComplexFrom`
+  (`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleBoundedAbove.lean`), read
+  off the general `AlgebraicGeometry.RingedSite.exists_isLE_Q_obj_of_isPseudoCoherentComplexFrom`
   (`StacksFrontier/CategoryTheory/Sites/Cohomology/PseudoCoherent/BoundedAboveDescent.lean`), which
   still carries the finite-refinement hypothesis explicitly: every covering presieve of the
   starting object admits a finite subfamily still covering the final object.  That proviso is not
@@ -485,8 +490,8 @@ convenience, and the demonstration of that is in step 4 above.
     to lie in the given presieve, so no finite *affine* refinement is needed — which is just as
     well, there being none for the small étale site.  What discharges it is
     `AlgebraicGeometry.SmallEtale.exists_finite_subfamily_coversTop`
-    (`StacksFrontier/AlgebraicGeometry/Topologies/Etale/FiniteCoversTopRefinement.lean`): the members
-    of a covering presieve of the small étale site are jointly surjective
+    (`StacksFrontier/AlgebraicGeometry/Topologies/Etale/FiniteCoversTopRefinement.lean`): the
+    members of a covering presieve of the small étale site are jointly surjective
     (`exists_mem_arrows_mem_range`) and have **open** images — each is étale, hence flat and
     locally of finite presentation, hence universally open — so over a quasi-compact space
     finitely many of them already cover, and a jointly surjective family generates a covering
@@ -499,9 +504,9 @@ convenience, and the demonstration of that is in step 4 above.
     `RingedSite.{u + 1, u, u}`, not `RingedSite.{u, u, u}`, so the site universes are free there
     (the module universe still has to match the universe of the
     ring's sections, because `Stacks.SheafOfModules.isZero_of_coversTop` is stated that way, and
-    on this site both are `u`).  And its derived category is a `HasDerivedCategory` hypothesis, as in this
-    module, not the *standard* localization model declared as a local instance, which would be
-    visible in the statement, where it does not elaborate within the heartbeat budget.
+    on this site both are `u`).  And its derived category is a `HasDerivedCategory` hypothesis, as
+    in this module, not the *standard* localization model declared as a local instance, which would
+    be visible in the statement, where it does not elaborate within the heartbeat budget.
 
   The two halves of the general proof are as follows.  The per-member half is in
   `StacksFrontier/CategoryTheory/Sites/Cohomology/PseudoCoherent/BoundedAbove.lean`: a complex with
@@ -557,16 +562,16 @@ convenience, and the demonstration of that is in step 4 above.
     why the chain below is run through the locality reduction and not on `S` itself.
   * The **cone cohomology** is
     `DerivedCategory.HomologySequence.isZero_homology_obj₃_of_epi_top`
-    (`StacksFrontier/Homology/DerivedCategory/PerfectApproximation.lean`) — if the first two vertices
-    of a distinguished triangle have no cohomology in degrees `> n` and the first morphism is epic
-    on `Hⁿ`, the third vertex has none in any degree `≥ n`.  It is stated for an arbitrary abelian
-    category with a derived category, carries no sheaf hypotheses, and substitutes with no
+    (`StacksFrontier/Homology/DerivedCategory/PerfectApproximation.lean`) — if the first two
+    vertices of a distinguished triangle have no cohomology in degrees `> n` and the first morphism
+    is epic on `Hⁿ`, the third vertex has none in any degree `≥ n`.  It is stated for an arbitrary
+    abelian category with a derived category, carries no sheaf hypotheses, and substitutes with no
     recovery cost.  `AlgebraicGeometry.RingedSite.exists_distTriang_isZero_homology_obj₃_of_epi`
     is it packaged with `Pretriangulated.distinguished_cocone_triangle`, so that a *morphism* with
     those properties yields the *triangle* the recursion wants.
   * The **recursion** is `AlgebraicGeometry.RingedSite.isPseudoCoherentFrom_of_descentStep`
-    (`StacksFrontier/CategoryTheory/Sites/Cohomology/PseudoCoherent/TopDegreeInduction.lean`).  It is
-    stated with the standing hypotheses of the step abstracted into a predicate `P` on objects of
+    (`StacksFrontier/CategoryTheory/Sites/Cohomology/PseudoCoherent/TopDegreeInduction.lean`).  It
+    is stated with the standing hypotheses of the step abstracted into a predicate `P` on objects of
     `D(O)` — in this application `P E` is "`ε^*E` is `m`-pseudo-coherent and the cohomology
     sheaves of `E` are quasi-coherent" — because the step is not a statement about `E` alone and
     `P` has to be carried from `E` to the cone for the recursion to continue.  Given that every
@@ -576,8 +581,8 @@ convenience, and the demonstration of that is in step 4 above.
     above some degree is `m`-pseudo-coherent.  The measure is `(n + 1 - m).toNat`, the bottom is
     the base case named above, and each step concludes by Stacks 08FV part (2).
 
-  Two further ingredients the recursion needs are also proved.  The **first vertex** of its triangle is
-  `𝒪^{⊕t}` placed in degree `n`, and that it is `m`-pseudo-coherent for every `m` is
+  Two further ingredients the recursion needs are also proved.  The **first vertex** of its triangle
+  is `𝒪^{⊕t}` placed in degree `n`, and that it is `m`-pseudo-coherent for every `m` is
   `AlgebraicGeometry.RingedSite.isPseudoCoherentFrom_singleFunctor_obj_free`
   (`StacksFrontier/CategoryTheory/Sites/Cohomology/PseudoCoherent/SingleFreeStrictlyPerfect.lean`),
   through `IsStrictlyPerfect.single_obj` and
@@ -590,8 +595,8 @@ convenience, and the demonstration of that is in step 4 above.
 
   **That the pieces fit is itself checked**, by
   `AlgebraicGeometry.RingedSite.exists_distTriang_free_of_lift`
-  (`StacksFrontier/CategoryTheory/Sites/Cohomology/PseudoCoherent/TopDegreeInductionStep.lean`): from
-  `E` in `D^{≤n}`, an epimorphism `φ : 𝒪^{⊕t} ⟶ Hⁿ(E)` with `t` finite, and a lift of
+  (`StacksFrontier/CategoryTheory/Sites/Cohomology/PseudoCoherent/TopDegreeInductionStep.lean`):
+  from `E` in `D^{≤n}`, an epimorphism `φ : 𝒪^{⊕t} ⟶ Hⁿ(E)` with `t` finite, and a lift of
   `singleMapTruncGEZeroShift E n φ` along `E⟦n⟧ ⟶ τ^{≥0}(E⟦n⟧)`, it returns the whole triangle
   datum that `isPseudoCoherentFrom_of_descentStep` asks of its step — distinguished, second vertex
   `E`, first vertex `m`-pseudo-coherent for every `m`, third vertex with no cohomology in degrees
@@ -617,13 +622,15 @@ convenience, and the demonstration of that is in step 4 above.
      structure map is the identity.
 
      The *transport of `IsPseudoCoherentFrom` across it* is **proved** too, in
-     `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/ZariskiRingedSiteOpenSliceTransport.lean`:
+     `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/`
+     `ZariskiRingedSiteOpenSliceTransport.lean`:
      `AlgebraicGeometry.RingedSite.isPseudoCoherentFrom_pushforwardPushforwardEquivalence_inverse`
      moves the predicate along an arbitrary equivalence of ringed sites, and
      `AlgebraicGeometry.Scheme.isPseudoCoherentFrom_zariskiOver_of_toScheme` reads that at the open
      slice.  The capstone is
      `AlgebraicGeometry.Scheme.isPseudoCoherentFrom_zariskiRingedSite_of_locally_toScheme`
-     (`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/ZariskiRingedSiteOpenSliceLocality.lean`): pseudo-coherence on a scheme is local on open
+     (`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/`
+     `ZariskiRingedSiteOpenSliceLocality.lean`): pseudo-coherence on a scheme is local on open
      subschemes, with nothing transported appearing in either the hypothesis or the conclusion.  So
      the affine-chart statements can now be fed to the locality reduction, and that join is
      machine-checked rather than asserted.
@@ -641,7 +648,8 @@ convenience, and the demonstration of that is in step 4 above.
      that spelling is reconciled separately as `zariskiOverPsi_eq_psiOfIso`.
 
      The *other* conjunct of `P` across the slice is **proved** too, in
-     `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/ZariskiRingedSiteOpenSliceQuasicoherent.lean`:
+     `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/`
+     `ZariskiRingedSiteOpenSliceQuasicoherent.lean`:
      `AlgebraicGeometry.Scheme.isQuasicoherent_homology_modulesOverEquiv_overFunctor` carries
      quasi-coherence of `Hʲ(E)` to quasi-coherence of `Hʲ` of the reading of `E|_V` as a complex of
      `𝒪_V`-modules — the very object the capstone's hypothesis is about — so both conjuncts of `P`
@@ -661,8 +669,8 @@ convenience, and the demonstration of that is in step 4 above.
      modules to the derived category is `mapDerivedCategoryCompHomologyFunctorIso` at the two
      functors, both exact.  The two private near-misses in the tree are no use: the pair
      `overRestrictIso`/`overRestrictFunctor` in
-     `StacksFrontier/AlgebraicGeometry/Scheme/FunctorialityQuasiCoherent/Basic.lean` is `private`, and
-     `isQuasicoherent_over_of_restrict` is not in the library.
+     `StacksFrontier/AlgebraicGeometry/Scheme/FunctorialityQuasiCoherent/Basic.lean` is `private`,
+     and `isQuasicoherent_over_of_restrict` is not in the library.
 
      **Running the induction on `V.toScheme`.**  Instantiating the ε-side machinery
      at the open subscheme is free; what is *not* in the tree is a statement restricting the
@@ -691,8 +699,8 @@ convenience, and the demonstration of that is in step 4 above.
      Not free: quasi-compactness.  The boundedness bullet above costs it, and an open subscheme of
      a quasi-compact scheme need not be quasi-compact; but the capstone lets the covering be
      chosen, `AlgebraicGeometry.Scheme.affineZeroHypercover_sieve₀_mem`
-     (`StacksFrontier/AlgebraicGeometry/Cohomology/TruncationTowerInput.lean`) covers every open of a
-     scheme by the affine opens below it, and `SmallEtaleBoundedAbove.lean` has the `[IsAffine S]`
+     (`StacksFrontier/AlgebraicGeometry/Cohomology/TruncationTowerInput.lean`) covers every open of
+     a scheme by the affine opens below it, and `SmallEtaleBoundedAbove.lean` has the `[IsAffine S]`
      form beside the quasi-compact one.  That is also what step 4 wants, it being stated at an
      affine chart.
 
@@ -718,16 +726,17 @@ convenience, and the demonstration of that is in step 4 above.
      `StacksFrontier/CategoryTheory/Sites/Modules/SingleExtensionByZeroUnitFreeCofan.lean`, and
      composed with the affine-chart lift in
      `AlgebraicGeometry.exists_lift_truncGEπ_zero_single_free_of_isAffineOpen_top`
-     (`StacksFrontier/AlgebraicGeometry/Cohomology/AffineSchemeTruncationLiftFree.lean`): on a scheme
-     whose total space is an affine open, a morphism out of `𝒪^{⊕ι}[0]` into `τ^{≥0}F` lifts with
-     nothing shrunk.
+     (`StacksFrontier/AlgebraicGeometry/Cohomology/AffineSchemeTruncationLiftFree.lean`): on a
+     scheme whose total space is an affine open, a morphism out of `𝒪^{⊕ι}[0]` into `τ^{≥0}F` lifts
+     with nothing shrunk.
   4. **The propagation of `P` to the cone on the étale side is available**; the quasi-coherence
      conjunct of `P` on the cone is not.  `ε^*` is exact, so it carries the triangle
      `𝒪^{⊕t}[-n] ⟶ E ⟶ C` to a distinguished triangle, `ε^*(𝒪^{⊕t}[-n])` is strictly perfect, and
      Stacks 08FV part (1) then makes `ε^*C` `m`-pseudo-coherent.  That composition is proved,
      in two files.
 
-     `StacksFrontier/CategoryTheory/Sites/Cohomology/PseudoCoherent/ConePropagationAlongAnExactFunctor.lean`
+     `StacksFrontier/CategoryTheory/Sites/Cohomology/PseudoCoherent/`
+     `ConePropagationAlongAnExactFunctor.lean`
      has it for an arbitrary exact additive `F : Mod(O) ⥤ Mod(O')` carrying the unit to the unit,
      at independent object and morphism universes:
      `AlgebraicGeometry.RingedSite.isPseudoCoherentFrom_mapDerivedCategory_obj₃_of_distinguished`
@@ -744,8 +753,8 @@ convenience, and the demonstration of that is in step 4 above.
      `AlgebraicGeometry.RingedToposHom` and which therefore does not apply to a bare functor, but
      by `SheafOfModules.isStrictlyPerfect_map`, which is what 08H3 itself is proved from.
 
-     `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleConePropagation.lean` reads
-     those at `ε`, as `SmallEtale.isPseudoCoherentFromSmallEtale_obj₃_of_distinguished`
+     `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleConePropagation.lean`
+     reads those at `ε`, as `SmallEtale.isPseudoCoherentFromSmallEtale_obj₃_of_distinguished`
      and `AlgebraicGeometry.SmallEtale.exists_distTriang_free_of_lift_smallEtale`, whose
      conclusions are literally
      `AlgebraicGeometry.SmallEtale.IsPseudoCoherentFromSmallEtale` of the third vertex.  The unit
@@ -764,7 +773,8 @@ convenience, and the demonstration of that is in step 4 above.
      `StacksFrontier/Algebra/Homology/DerivedCategory/SerreSubcategoryCone.lean` and the fused datum
      carrying *both* conjuncts in
      `AlgebraicGeometry.SmallEtale.exists_distTriang_free_of_lift_smallEtale_quasicoherent`
-     (`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleConePropagationQuasicoherent.lean`).  It needed no hypothesis at the induction
+     (`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/`
+     `SmallEtaleConePropagationQuasicoherent.lean`).  It needed no hypothesis at the induction
      site: the triangle lemma asks for quasi-coherence at the two other vertices, and on the
      induction step's triangle the first vertex is `𝒪_S^{⊕t}` in a single degree, whose cohomology
      is quasi-coherent for free.
@@ -800,9 +810,10 @@ This section is a second, independent account of the same obligation; it is not 
 the sections above.
 
 `PseudoCoherentToAssociatedModule` is discharged **unconditionally** by
-`AlgebraicGeometry.SmallEtale.pseudoCoherentToAssociatedModule_of_slice_exact`, which carries the `@[stacks 08HE]` attribute for clause (1) ⇒ (2).  It is not conditional on left exactness of the
-pullback along the slice structure map, despite the name of the theorem.  Its statement carries no hypothesis beyond the two derived-category models: the `_of_slice_exact` in
-the name refers to
+`AlgebraicGeometry.SmallEtale.pseudoCoherentToAssociatedModule_of_slice_exact`, which carries the
+`@[stacks 08HE]` attribute for clause (1) ⇒ (2).  It is not conditional on left exactness of the
+pullback along the slice structure map, despite the name of the theorem.  Its statement carries no
+hypothesis beyond the two derived-category models: the `_of_slice_exact` in the name refers to
 `AlgebraicGeometry.SmallEtale.preservesFiniteLimits_pullback_sliceStructureMap`, which is a
 **theorem proved in that same file**, not a hypothesis of the one that consumes it.
 
@@ -828,8 +839,8 @@ purpose:
   the opens of `S` carrying a bound on the top nonvanishing degree of `E` cover every open of
   `S`.  It rests on
   `AlgebraicGeometry.SmallEtale.isZero_over_of_isZero_over_associatedModule`
-  (`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleSliceConservativity.lean`), the **localization to a Zariski slice of the
-  zero-detection assertion of Stacks 08H8**.
+  (`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleSliceConservativity.lean`),
+  the **localization to a Zariski slice of the zero-detection assertion of Stacks 08H8**.
 * **Taking pseudo-coherence apart.**
   `AlgebraicGeometry.RingedSite.isPseudoCoherentFrom_derivedRestriction`
   (`StacksFrontier/CategoryTheory/Sites/Cohomology/PseudoCoherent/Restriction.lean`), Stacks 08FU

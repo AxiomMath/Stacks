@@ -218,7 +218,7 @@ theorem descendsAfterFrobenius_of_flattening (k : Type u) [Field k] (s : Y ⟶ S
   have hQ := isIso_c_strictTransformToBlowUp_morphismRestrict f ℐ hdisj
     (isIso_c_morphismRestrict_of_isIso_c f U)
   have hD₁ := descendsAfterFrobenius_of_flat k (b ≫ s) f'' (b ⁻¹ᵁ U)
-    (dense_preimage_blowUpToBase ℐ hU hdisj) hQ hX'' hY'' _
+    (dense_preimage_blowUpToBase ℐ hU) hQ hX'' hY'' _
     (hE.pullback (g' := i₁ ≫ gW) (f' := f'') (g := b) (by
       simp only [Category.assoc, gW, pullback.condition]; rfl) hX hX'')
   -- the descent over the part above `Z`, from the hypothesis
@@ -274,8 +274,8 @@ theorem descendsAfterFrobenius_of_closedEmbedding (k : Type u) [Field k] (Y₀ :
     [IsNoetherian Y₀] (T : TopologicalSpace.Closeds Y₀) :
     ∀ {X Y : Scheme.{u}} (s : Y ⟶ Spec (.of k)) [LocallyOfFiniteType s] [CompactSpace Y]
       (φ : Y ⟶ Y₀), Topology.IsClosedEmbedding φ.base → Set.range φ.base ⊆ T →
-      ∀ (f : X ⟶ Y) [IsProper f] [GeometricallyConnected f] (hX : IsInCharacteristic X p)
-        (hY : IsInCharacteristic Y p) (E : X.Vect),
+      ∀ (f : X ⟶ Y) [IsProper f] [GeometricallyConnected f] (hX : IsInCharacteristic X p),
+        IsInCharacteristic Y p → ∀ (E : X.Vect),
         Scheme.Vect.IsFreeOnReducedFibresAfterFrobenius f p hX E →
           Scheme.Vect.DescendsAfterFrobenius f p hX E := by
   induction T using WellFoundedLT.induction with

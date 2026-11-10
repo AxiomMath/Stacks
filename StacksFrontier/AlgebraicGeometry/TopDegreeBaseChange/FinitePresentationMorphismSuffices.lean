@@ -52,8 +52,8 @@ which is [Stacks, Tag 089W] read on vanishing; nothing of that step is rebuilt h
 What remains of [Stacks, Tag 0E7D] after this file is the second reduction, from an arbitrary affine
 base to an affine *Noetherian* one, where the Noetherian case is
 `Stacks.AlgebraicGeometry.TopDegreeBaseChange.isZero_cohomology_of_isLocallyNoetherian_affine_base`
-of `StacksFrontier/AlgebraicGeometry/TopDegreeBaseChange/ProperFibreDimensionVanishing.lean`. Its two
-geometric inputs are available:
+of `StacksFrontier/AlgebraicGeometry/TopDegreeBaseChange/ProperFibreDimensionVanishing.lean`. Its
+two geometric inputs are available:
 `AlgebraicGeometry.exists_isProper_finitePresentation_baseChange_of_isAffine` of
 `../ProperLimitStage/SeparatedModel.lean` produces the model over an affine Noetherian scheme of
 finite type over the integers ([Stacks, Tags 01ZM] part (1), [01ZQ] and [081F]), and

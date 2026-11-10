@@ -53,9 +53,9 @@ theorem map_mem_minimalPrimes_of_disjoint {A B : Type*} [CommRing A] [CommRing B
     (hdisj : Disjoint (M : Set A) p) : p.map (algebraMap A B) ∈ minimalPrimes B := by
   have hmin := IsLocalization.minimalPrimes_map M B (⊥ : Ideal A)
   rw [Ideal.map_bot] at hmin
-  show p.map (algebraMap A B) ∈ (⊥ : Ideal B).minimalPrimes
+  change p.map (algebraMap A B) ∈ (⊥ : Ideal B).minimalPrimes
   rw [hmin]
-  show (p.map (algebraMap A B)).comap (algebraMap A B) ∈ minimalPrimes A
+  change (p.map (algebraMap A B)).comap (algebraMap A B) ∈ minimalPrimes A
   have hu := IsLocalization.under_map_of_isPrime_disjoint M B hp.1.1 hdisj
   rw [Ideal.under] at hu
   rw [hu]
@@ -100,7 +100,7 @@ theorem isUnit_of_isUnit_algebraMap_away (x : C)
     rw [map_mul, ← hc, ← hu, ← mul_assoc, Units.mul_inv, one_mul]
   obtain ⟨m, hm⟩ := exists_pow_mul_eq_of_algebraMap_eq (algebraMap A C r) key
   have hmem : r ^ (m + n) ∈ I := by
-    show algebraMap A C (r ^ (m + n)) ∈ Ideal.span {x}
+    change algebraMap A C (r ^ (m + n)) ∈ Ideal.span {x}
     rw [map_pow, pow_add, hm]
     exact Ideal.mul_mem_left _ _ (Ideal.mul_mem_right _ _ (Ideal.mem_span_singleton_self x))
   exact Set.disjoint_left.mp hdisj hmem ⟨m + n, rfl⟩
@@ -165,7 +165,7 @@ theorem nonZeroDivisors_of_away_span
     obtain ⟨m, hm⟩ := exists_pow_mul_eq_of_algebraMap_eq (algebraMap A C r) key
     have hJ : t0 * r ^ k * r ^ m ∈ J := by
       refine ⟨r ^ m * (x0 * r ^ l), ?_⟩
-      show algebraMap A C (r ^ m * (x0 * r ^ l)) = (t0 * r ^ k * r ^ m) • c
+      change algebraMap A C (r ^ m * (x0 * r ^ l)) = (t0 * r ^ k * r ^ m) • c
       rw [Algebra.smul_def, map_mul, map_pow, ← hm]
       simp only [map_mul, map_pow]
       ring

@@ -413,7 +413,7 @@ theorem exists_degreeFiltration_symmetricPower_cover_of_quasiCompact
       B.obj (hQuotientSite n) ⟶ B.obj hS)
   let quotientSiteIso (n : ℕ) : (Over.post B.inclusion).obj (V n) ≅
       (quotient n).space := Over.isoMk (Iso.refl _) (by
-        show 𝟙 _ ≫ (quotient n).space.hom = (quotient n).space.hom
+        change 𝟙 _ ≫ (quotient n).space.hom = (quotient n).space.hom
         exact Category.id_comp _)
   let quotientSiteMap (n : ℕ) : W n ⟶ V n :=
     (Over.post B.inclusion).preimage
@@ -522,7 +522,7 @@ theorem exists_degreeFiltration_symmetricPower_cover_of_quasiCompact
   have hLocusZero : distinctFiberPowerLocus B S hS a haRep haOpen haClosed 0 = ⊤ := by
     apply top_unique
     intro x _
-    show x ∉ ⋃ ij : {ij : Fin 1 × Fin 1 // ij.1 ≠ ij.2},
+    change x ∉ ⋃ ij : {ij : Fin 1 × Fin 1 // ij.1 ≠ ij.2},
       Set.range ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map
         (haOpen.rep.snd (fiberPowerPair a haRep 0 ij.1.1 ij.1.2)))
     rintro h
@@ -538,7 +538,7 @@ theorem exists_degreeFiltration_symmetricPower_cover_of_quasiCompact
       map_opensSiteObjectInclusion B S hS _ _
     have hi : IsIso ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map i) := by
       rw [hiL, hLocusZero]
-      show IsIso (Scheme.topIso _).hom
+      change IsIso (Scheme.topIso _).hom
       infer_instance
     have hi' : IsIso i := isIso_of_reflects_iso i
       (AlgebraicGeometry.BigFppfOver.toScheme B S hS)
@@ -593,13 +593,13 @@ theorem exists_degreeFiltration_symmetricPower_cover_of_quasiCompact
       (action n σ).asHom ≫ quotientSiteMap n = quotientSiteMap n := by
     apply (Over.post B.inclusion).map_injective
     rw [Functor.map_comp]
-    show (overAction n σ).asIso.hom ≫ (Over.post B.inclusion).map (quotientSiteMap n) = _
+    change (overAction n σ).asIso.hom ≫ (Over.post B.inclusion).map (quotientSiteMap n) = _
     have heq := congrArg (fun k ↦ Sigma.ι
       (fun _ : Equiv.Perm (Fin (n + 1)) ↦ (Over.post B.inclusion).obj (W n)) σ ≫ k)
       (hQuotientSiteKernelPair n).w
     simpa only [AlgebraicGeometry.Space.actionRelationTarget,
       AlgebraicGeometry.Space.actionRelationSource,
-      ← Category.assoc, Sigma.ι_desc, Category.id_comp] using heq
+      ← Category.assoc, Sigma.ι_comp_desc, Category.id_comp] using heq
   let P := pullback Z.ι (h p)
   let π : P ⟶ Z.toFunctor := pullback.fst Z.ι (h p)
   let v : P ⟶ yoneda.obj (V p) := pullback.snd Z.ι (h p)
@@ -655,7 +655,7 @@ theorem exists_degreeFiltration_symmetricPower_cover_of_quasiCompact
   let z' : AlgebraicGeometry.Space.FieldValuedPoint B S hS K :=
     ⟨z₂''.carrier, z₂''.contained, z₂''.toBase, K.map E.op z.value⟩
   have ha' : a' ≫ quotientSiteMap p = E ≫ z₁.value := by
-    show (e₂ ≫ z₁'.value) ≫ quotientSiteMap p = (e₂ ≫ e₁) ≫ z₁.value
+    change (e₂ ≫ z₁'.value) ≫ quotientSiteMap p = (e₂ ≫ e₁) ≫ z₁.value
     change z₁'.value ≫ quotientSiteMap p = e₁ ≫ z₁.value at he₁
     rw [Category.assoc, he₁, Category.assoc]
   have hb' : b' ≫ quotientSiteMap p = E ≫ z₂.value := by
@@ -668,14 +668,14 @@ theorem exists_degreeFiltration_symmetricPower_cover_of_quasiCompact
       (yoneda.obj (V p)).map E.op (β₂.app (Opposite.op (z.siteObject B S hS K)) z.value) :=
     NatTrans.naturality_apply β₂ E.op z.value
   have hv₁ : β₁.app _ z'.value = a' ≫ quotientSiteMap p := by
-    show β₁.app (Opposite.op (z'.siteObject B S hS K)) (K.map E.op z.value) = _
+    change β₁.app (Opposite.op (z'.siteObject B S hS K)) (K.map E.op z.value) = _
     refine hnat₁.trans ?_
-    show E ≫ z₁.value = _
+    change E ≫ z₁.value = _
     exact ha'.symm
   have hv₂ : β₂.app _ z'.value = b' ≫ quotientSiteMap p := by
-    show β₂.app (Opposite.op (z'.siteObject B S hS K)) (K.map E.op z.value) = _
+    change β₂.app (Opposite.op (z'.siteObject B S hS K)) (K.map E.op z.value) = _
     refine hnat₂.trans ?_
-    show E ≫ z₂.value = _
+    change E ≫ z₂.value = _
     exact hb'.symm
   have hab : yoneda.map a' ≫ w p = yoneda.map b' ≫ w p := by
     simp only [← hg p, ← Category.assoc, ← Functor.map_comp]
@@ -694,12 +694,12 @@ theorem exists_degreeFiltration_symmetricPower_cover_of_quasiCompact
       rw [← hσ, Category.assoc a' (action p σ).asHom, hQAction]
     refine ⟨z', E, rfl, ?_⟩
     apply pullback.hom_ext
-    · show (yonedaEquiv.symm z'.value ≫ pullback.fst π π) ≫ π =
+    · change (yonedaEquiv.symm z'.value ≫ pullback.fst π π) ≫ π =
         (yonedaEquiv.symm z'.value ≫ pullback.snd π π) ≫ π
       rw [Category.assoc, Category.assoc, pullback.condition]
     · apply yonedaEquiv.injective
       simp only [yonedaEquiv_comp, Equiv.apply_symm_apply]
-      show β₁.app _ z'.value = β₂.app _ z'.value
+      change β₁.app _ z'.value = β₂.app _ z'.value
       rw [hv₁, hv₂, hqeq]
   · let zZ := AlgebraicGeometry.Space.FieldValuedPoint.map B S hS K κ z'
     let zL : AlgebraicGeometry.Space.FieldValuedPoint B S hS (yoneda.obj (W (p + 1))) :=
@@ -746,11 +746,13 @@ alias isEtale_of_presheaf_inverseImage_etale := isEtale_of_representablyEtale
 
 /-- A section of an fppf sheaf over the source of a surjective flat morphism of finite
 presentation whose two pullbacks agree descends uniquely to the target. -/
-alias existsUnique_map_eq_of_surjective_flat_locallyOfFinitePresentation := exists_unique_descent_along_fppf_cover
+alias existsUnique_map_eq_of_surjective_flat_locallyOfFinitePresentation :=
+  exists_unique_descent_along_fppf_cover
 
 /-- A morphism of the site whose underlying image lies in the image of an open immersion of the
 site factors through it. -/
-alias exists_comp_eq_of_isOpenImmersion_of_range_subset := exists_lift_of_isOpenImmersion_range_subset
+alias exists_comp_eq_of_isOpenImmersion_of_range_subset :=
+  exists_lift_of_isOpenImmersion_range_subset
 
 /-- Let `a : A ⟶ X` be an étale morphism from
 an affine object of the site into an algebraic space `X` over `S`, and let `n : ℕ`. There are an
@@ -872,7 +874,7 @@ theorem exists_symmetricPower_etaleChart
     Over.mk (ObjectProperty.homMk quot.space.hom : B.obj hQuotientSite ⟶ B.obj hS) with hVdef
   set quotientSiteIso : (Over.post B.inclusion).obj V ≅ quot.space :=
     Over.isoMk (Iso.refl _) (by
-      show 𝟙 _ ≫ quot.space.hom = quot.space.hom
+      change 𝟙 _ ≫ quot.space.hom = quot.space.hom
       exact Category.id_comp _) with hqsIsodef
   set π : W ⟶ V := (Over.post B.inclusion).preimage
     (eqToHom hGroupoidObjects.symm ≫ quot.quotientMap ≫ quotientSiteIso.inv) with hpidef
@@ -898,7 +900,7 @@ theorem exists_symmetricPower_etaleChart
     have hι := congrArg (fun k ↦ Sigma.ι (fun _ : Equiv.Perm (Fin (n + 1)) ↦
       (Over.post B.inclusion).obj W) τ ≫ k) hπKernelPair.w
     simp only [← Category.assoc, actionRelationTarget, actionRelationSource,
-      Sigma.ι_desc] at hι
+      Sigma.ι_comp_desc] at hι
     apply (Over.post B.inclusion).map_injective
     rw [CategoryTheory.Functor.map_comp, hmapAction]
     simpa only [Category.id_comp] using hι

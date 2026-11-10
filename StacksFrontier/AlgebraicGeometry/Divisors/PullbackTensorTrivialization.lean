@@ -89,7 +89,7 @@ theorem pullbackSectionHom_preimage_self {T Y : Scheme.{u}} (q : T ⟶ Y) (M : Y
     (V : Y.Opens) (a : Γ(M, V)) :
     pullbackSectionHom q M V (q ⁻¹ᵁ V) le_rfl a =
       Stacks.RingedSpace.pullbackUnit q.toLRSHom.toShHom M (op V) a := by
-  show Scheme.Modules.pullbackSection q M V (q ⁻¹ᵁ V) le_rfl a = _
+  change Scheme.Modules.pullbackSection q M V (q ⁻¹ᵁ V) le_rfl a = _
   unfold Scheme.Modules.pullbackSection
   have hid : (homOfLE (le_refl (q ⁻¹ᵁ V))).op = 𝟙 (op (q ⁻¹ᵁ V)) := Subsingleton.elim _ _
   rw [hid]

@@ -171,7 +171,8 @@ on the unbounded derived categories, with no further hypothesis. It is
 `AlgebraicGeometry.Stack.FlatFppf.qh_map_bijective_directImageCorep_restriction`. -/
 @[stacks 07AV "the module case for the flat-fppf sites, first identity: \
 g⁻¹ ∘ Rf_* = Rf'_* ∘ (g')⁻¹ on the unbounded derived categories of sheaves of modules, as an \
-isomorphism (g')^* ⋙ Rf'_* ≅ Rf_* ⋙ g^* for any total right derived functors Rf_*, Rf'_* of the two \
+isomorphism (g')^* ⋙ Rf'_* ≅ Rf_* ⋙ g^* for any total right derived \
+functors Rf_*, Rf'_* of the two \
 direct images, with no further hypothesis: the degree-zero square of Stacks 07AT (2) on modules \
 and the fact that restricted K-injective complexes of modules compute Rf'_* (Stacks 0D6J with \
 Stacks 07AK at the 2-fibre products V ×_y 𝒳) are proved, not assumed"]

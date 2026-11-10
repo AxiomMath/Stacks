@@ -225,7 +225,7 @@ private theorem localLimitLift_fac (s : Cone D) (i : Fin r) (j : J) :
         (limit.lift (D ⋙ localEvaluation S f c i) ((localEvaluation S f c i).mapCone s))).hom) =
       ((ModuleCat.restrictScalars (algebraMap R (Localization.Away (f i)))).map
         ((s.π.app j).localPiece i)).hom := by
-  show ((ModuleCat.restrictScalars (algebraMap R (Localization.Away (f i)))).map
+  change ((ModuleCat.restrictScalars (algebraMap R (Localization.Away (f i)))).map
     (limit.lift (D ⋙ localEvaluation S f c i) ((localEvaluation S f c i).mapCone s) ≫
       limit.π (D ⋙ localEvaluation S f c i) j)).hom = _
   rw [limit.lift_π]
@@ -348,7 +348,7 @@ private theorem canonical_additive : (canonicalFunctor.{u, v, w} S f).Additive w
       ext x
       induction x using LocalizedModule.induction_on with
       | h m s =>
-        show LocalizedModule.map (Submonoid.powers (f i)) (a.hom + b.hom)
+        change LocalizedModule.map (Submonoid.powers (f i)) (a.hom + b.hom)
           (LocalizedModule.mk m s) =
           LocalizedModule.map (Submonoid.powers (f i)) a.hom (LocalizedModule.mk m s) +
             LocalizedModule.map (Submonoid.powers (f i)) b.hom (LocalizedModule.mk m s)
@@ -521,7 +521,7 @@ private theorem colimitCompatibility (i k : Fin r) :
       cechMod f (restrictFromAway f k (colimit (D ⋙ localEvaluation S f c k))) {i}))
   intro j
   ext m
-  show TensorProduct.map LinearMap.id (colimitAlphaIJ S f c D i k).toLinearMap
+  change TensorProduct.map LinearMap.id (colimitAlphaIJ S f c D i k).toLinearMap
     (TensorProduct.map LinearMap.id (LocalizedModule.mkLinearMap (cechSub f {k}) _)
       (colimitAlpha S f c D i (LocalizedModule.mkLinearMap _ _
         (colimit.ι (D ⋙ genericEvaluation S f c) j m)))) =
@@ -609,7 +609,7 @@ private theorem localColimitDesc_fac (s : Cocone D) (i : Fin r) (j : J) :
     (localColimitDesc S f c D s i).comp (localColimitMap S f c D i j) =
       ((ModuleCat.restrictScalars (algebraMap R (Localization.Away (f i)))).map
         ((s.ι.app j).localPiece i)).hom := by
-  show ((ModuleCat.restrictScalars (algebraMap R (Localization.Away (f i)))).map
+  change ((ModuleCat.restrictScalars (algebraMap R (Localization.Away (f i)))).map
     (colimit.ι (D ⋙ localEvaluation S f c i) j ≫
       colimit.desc (D ⋙ localEvaluation S f c i) ((localEvaluation S f c i).mapCocone s))).hom = _
   rw [colimit.ι_desc]
@@ -624,7 +624,7 @@ private theorem colimitDesc_alpha (s : Cocone D) (i : Fin r) :
     (N := ModuleCat.of S (S ⊗[R] restrictFromAway f i (s.pt.localPiece i)))
   intro j
   ext m
-  show s.pt.alpha i (LocalizedModule.mkLinearMap _ _
+  change s.pt.alpha i (LocalizedModule.mkLinearMap _ _
     ((colimit.ι (D ⋙ genericEvaluation S f c) j ≫
       colimit.desc (D ⋙ genericEvaluation S f c) ((genericEvaluation S f c).mapCocone s)) m)) =
     TensorProduct.map LinearMap.id (localColimitDesc S f c D s i)
@@ -645,13 +645,13 @@ private theorem colimitDesc_alphaIJ (s : Cocone D) (i k : Fin r) :
     (N := ModuleCat.of R (cechMod f (restrictFromAway f k (s.pt.localPiece k)) {i}))
   intro j
   ext m
-  show s.pt.alphaIJ i k (LocalizedModule.mkLinearMap (cechSub f {k}) _
+  change s.pt.alphaIJ i k (LocalizedModule.mkLinearMap (cechSub f {k}) _
     (((localColimitDesc S f c D s i).comp (localColimitMap S f c D i j)) m)) =
     localizedMap f {i} (localColimitDesc S f c D s k)
       (colimitAlphaIJ S f c D i k
         (LocalizedModule.mkLinearMap (cechSub f {k}) _ (localColimitMap S f c D i j m)))
   rw [localColimitDesc_fac, colimitAlphaIJ_mk_ι]
-  show _ = ((localizedMap f {i} (localColimitDesc S f c D s k)).comp
+  change _ = ((localizedMap f {i} (localColimitDesc S f c D s k)).comp
     (localizedMap f {i} (localColimitMap S f c D k j))) _
   rw [← localizedMap_comp, localColimitDesc_fac]
   exact (s.ι.app j).alphaIJ_compatibility i k m
@@ -744,7 +744,7 @@ public theorem moduleGlueingConstruction_abelian_exact_preservesColimits
   let := canonical_preservesFiniteLimits.{u, v, w} S f
   let := canonical_preservesColimits.{u, v, w} S f
   refine ⟨⟨glueingAbelian S f (localizationComparisons f)⟩, ?_, ?_⟩
-  · show PreservesFiniteLimits (canonicalFunctor.{u, v, w} S f) ∧
+  · change PreservesFiniteLimits (canonicalFunctor.{u, v, w} S f) ∧
       PreservesFiniteColimits (canonicalFunctor.{u, v, w} S f)
     exact ⟨inferInstance, inferInstance⟩
   · exact canonical_preservesColimits S f

@@ -58,8 +58,8 @@ declaration covers only the affine branch and its tag carries that clause string
 quasi-affine branch is a different argument, routing through [Stacks, Tag 0891] and
 [Stacks, Tag 0FDD]; **both are proved** — as
 `Stacks.AmplePullback.isRelativelyAmple_iff_isQuasiAffineHom_of_iso_unitModule` and
-`AlgebraicGeometry.hasResolutionProperty_of_isRelativelyAmple`. The quasi-affine case, and the full disjunction of the
-source, are
+`AlgebraicGeometry.hasResolutionProperty_of_isRelativelyAmple`. The quasi-affine case, and the
+full disjunction of the source, are
 `AlgebraicGeometry.hasResolutionProperty_of_isQuasiAffineHom` and
 `AlgebraicGeometry.hasResolutionProperty_of_isAffineHom_or_isQuasiAffineHom` in
 `StacksFrontier/AlgebraicGeometry/Perfect/ResolutionPropertyQuasiAffineHom.lean`. The proof below

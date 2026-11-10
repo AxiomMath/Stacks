@@ -126,7 +126,7 @@ theorem exists_wittTwo_lift_of_formallySmooth {R : Type u} [CommRing R] (r : R)
   let f : Localization.Away r →ₐ[ℤ] F :=
     { toRingHom := φ'
       commutes' := fun n => by
-        show φ' (algebraMap ℤ (Localization.Away r) n) = algebraMap ℤ F n
+        change φ' (algebraMap ℤ (Localization.Away r) n) = algebraMap ℤ F n
         rw [eq_intCast (algebraMap ℤ (Localization.Away r)), eq_intCast (algebraMap ℤ F),
           map_intCast] }
   let ψ' := Algebra.FormallySmooth.liftOfSurjective f
@@ -154,7 +154,7 @@ theorem mem_smoothLocus_int_bot (R : Type u) [CommRing R] [IsDomain R] [CharZero
   have : Algebra.FormallySmooth ℤ ℚ := Algebra.FormallySmooth.of_isLocalization (nonZeroDivisors ℤ)
   have : Algebra.FormallySmooth ℤ (FractionRing R) :=
     Algebra.FormallySmooth.comp ℤ ℚ (FractionRing R)
-  show Algebra.FormallySmooth ℤ (Localization.AtPrime (⊥ : Ideal R))
+  change Algebra.FormallySmooth ℤ (Localization.AtPrime (⊥ : Ideal R))
   have : IsFractionRing R (Localization.AtPrime (⊥ : Ideal R)) := by
     simpa [Ideal.primeCompl_bot] using Localization.isLocalization (M := (⊥ : Ideal R).primeCompl)
   exact Algebra.FormallySmooth.of_equiv

@@ -179,7 +179,7 @@ theorem exists_desc_of_isFpqcCovering_of_schemeTheoreticImageSubfunctor_eq_top
   -- the descent condition
   have hdesc : pr₁ ≫ ψ' ≫ p₂ = pr₂ ≫ ψ' ≫ p₂ := by
     have hfg : (pr₁ ≫ ψ' ≫ p₂).hom ≫ g₂.hom = (pr₂ ≫ ψ' ≫ p₂).hom ≫ g₂.hom := by
-      show ((pr₁ ≫ ψ' ≫ p₂) ≫ g₂).hom = ((pr₂ ≫ ψ' ≫ p₂) ≫ g₂).hom
+      change ((pr₁ ≫ ψ' ≫ p₂) ≫ g₂).hom = ((pr₂ ≫ ψ' ≫ p₂) ≫ g₂).hom
       rw [Category.assoc, Category.assoc pr₂, hT, ← Category.assoc, ← Category.assoc, hW]
     refine ObjectProperty.hom_ext _ (eq_of_comp_eq_of_schemeTheoreticImageSubfunctor_eq_top
       T.2 W.2 Y₂.2 g₂.hom hg₂ hfg d hd ?_)

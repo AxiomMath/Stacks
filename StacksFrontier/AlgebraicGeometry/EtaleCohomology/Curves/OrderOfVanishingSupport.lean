@@ -176,7 +176,7 @@ theorem exists_opens_forall_ord_eq_zero [NoetherianSpace X] {x : X} (hx : coheig
     ord_eq_zero_of_coheight_neq_one
       (by simp [coheight_eq_zero_of_coheight_eq_one_of_lt hx hxy]) g
   have hZ : IsClosed (⋃ y ∈ {y : X | ord g y ≠ 0} \ {x}, closure ({y} : Set X)) :=
-    Set.Finite.isClosed_biUnion ((finite_support_ord g).subset Set.diff_subset)
+    Set.Finite.isClosed_biUnion ((finite_support_ord g).subset Set.sdiff_subset)
       fun _ _ => isClosed_closure
   refine ⟨⟨_, hZ.isOpen_compl⟩, ?_, fun y hyU hyx => ?_⟩
   · intro hmem

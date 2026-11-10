@@ -160,6 +160,7 @@ def reindex {J' : Type u} [Category.{u} J'] (F : J' ⥤ J) : EtaleRelationSystem
   isEtaleEquivalenceRelation j := E.isEtaleEquivalenceRelation (F.obj j)
   isPullback_s g := E.isPullback_s (F.map g)
 
+omit [HasSheafify (BigFppfOver.topology B S hS) (Type u)] in
 /-- **A system of étale relations of finite type over `Spec ℤ` has a small subsystem with the
 same limits.** If the objects of an inverse system of étale equivalence relations over the
 opposite of a directed set are quasi-compact and locally of finite type over `Spec ℤ`, with

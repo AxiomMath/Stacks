@@ -157,7 +157,7 @@ theorem isEquivalence_etaleCanonicalDescentFunctor_of_isZariskiCovering
     (etaleCanonicalDescentFunctor B S hS Yi f hf).IsEquivalence :=
   have := isCoverDense_memberFunctor_of_isZariskiCovering B S hS Yi f hf hcov
   isEquivalence_etaleCanonicalDescentFunctorOfIsZariskiCovering B S hS Yi f hf hcov
-    (exists_memberReading B S hS Yi f hf)
+    fun D => (exists_memberReading B S hS Yi f hf D).imp fun _ => exists_prop.mp
 
 /-! ### The two clauses of the tag -/
 

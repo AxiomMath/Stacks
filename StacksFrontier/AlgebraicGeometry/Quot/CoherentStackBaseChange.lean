@@ -475,7 +475,7 @@ theorem baseObjects_eq_of_vertical {Y : AlgebraicSpaces B S hS} {u v : BaseObjec
   have hc : (ULiftHom.objDown v).left = U :=
     IsHomLift.codomain_eq (baseBasedCategory Y).p (𝟙 U) m
   refine schemesOver_eq_of_left_eqToHom (hd.trans hc.symm) m.down ?_
-  show (baseBasedCategory Y).p.map m = eqToHom (hd.trans hc.symm)
+  change (baseBasedCategory Y).p.map m = eqToHom (hd.trans hc.symm)
   rw [IsHomLift.fac' (baseBasedCategory Y).p (𝟙 U) m]
   simp
   rfl

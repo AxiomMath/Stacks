@@ -145,7 +145,7 @@ reindexing the degree.** -/
 theorem laurentHom_app_reindex (γ : laurent L ⟶ laurent L') {n m : ℤ} (h : n = m) :
     (reindexIso L h).hom ≫ γ.app m = γ.app n ≫ (reindexIso L' h).hom := by
   subst h
-  show CategoryStruct.id _ ≫ _ = _ ≫ CategoryStruct.id _
+  change CategoryStruct.id _ ≫ _ = _ ≫ CategoryStruct.id _
   rw [Category.id_comp, Category.comp_id]
 
 /-- **A homomorphism of Laurent algebras is multiplicative for the multiplication with its total
@@ -158,7 +158,7 @@ theorem mulPairIso_app (γ : laurent L ⟶ laurent L') (a i j : ℤ) :
         (mulPairIso L' (degMul (rfl : i + j = i + j) a)).hom := by
   have hγ := mulSheaf_comp_app (laurent L) (laurent L') γ (i * a) (j * a)
   rw [mulSheaf_laurent, mulSheaf_laurent] at hγ
-  show ((mulIso L (i * a) (j * a)).hom ≫
+  change ((mulIso L (i * a) (j * a)).hom ≫
       (reindexIso L (degMul (rfl : i + j = i + j) a)).hom) ≫ γ.app ((i + j) * a) =
     (γ.app (i * a) ⊗ₘ γ.app (j * a)) ≫ ((mulIso L' (i * a) (j * a)).hom ≫
       (reindexIso L' (degMul (rfl : i + j = i + j) a)).hom)

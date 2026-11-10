@@ -89,7 +89,7 @@ theorem isIso_openComplementRestriction_toImageY
     intro a
     have ha := a.2
     change Set.range _ ⊆ _ at ha
-    show Set.range _ ⊆ c.T'ᶜ
+    change Set.range _ ⊆ c.T'ᶜ
     refine ha.trans ?_
     rw [Set.preimage_compl, hpre]
   have htgt : Subsingleton ((Space.openSubspaceOfPoints B S hS c.imageY.toFunctor
@@ -108,9 +108,9 @@ theorem isIso_openComplementRestriction_toImageY
     have htZ : t ∈ (Space.openSubspaceOfPoints B S hS (⊤_ ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u))
         Zᶜ).obj (Opposite.op V) := by
       have hy := y.2
-      show Set.range (Space.pointsMap B S hS (yoneda.obj V) (yonedaEquiv.symm t)) ⊆ Zᶜ
+      change Set.range (Space.pointsMap B S hS (yoneda.obj V) (yonedaEquiv.symm t)) ⊆ Zᶜ
       have hs : yonedaEquiv.symm t = yonedaEquiv.symm y.1 ≫ c.imageY.ι := by
-        show yonedaEquiv.symm (c.imageY.ι.app _ y.1) = _
+        change yonedaEquiv.symm (c.imageY.ι.app _ y.1) = _
         rw [yonedaEquiv_symm_naturality_right]
       rw [hs, Space.pointsMap_comp, Set.range_comp]
       rintro _ ⟨p, hp, rfl⟩
@@ -124,7 +124,7 @@ theorem isIso_openComplementRestriction_toImageY
     refine ⟨⟨z.1, ?_⟩, Subsingleton.elim _ _⟩
     have hz := z.2
     change Set.range _ ⊆ c.T'ᶜ at hz
-    show Set.range _ ⊆ _
+    change Set.range _ ⊆ _
     rwa [Set.preimage_compl, hpre]
 
 /-- **`X' → Y` is an isomorphism over `Y ∖ Z`.** -/

@@ -382,6 +382,7 @@ theorem taylorSum_tmul_differential_delta_val (n : ℕ) (S : Finset (ι →₀ �
 
 end Expansions
 
+omit [DecidableEq ι] in
 include hbeta in
 /-- **The coface `δ : ⦋0⦌ ⟶ ⦋1⦌, 0 ↦ 1` is horizontal for the base-change connections, given the
 Taylor expansion of `M(δ)`.**

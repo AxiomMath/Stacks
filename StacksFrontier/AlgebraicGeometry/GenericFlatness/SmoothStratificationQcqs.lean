@@ -114,11 +114,11 @@ theorem HasSmoothStratification.of_isPullback {A B A' B' : Scheme.{u}}
   rw [Scheme.IdealSheafData.isThickening_subschemeι_iff] at hthick
   refine ⟨t, fun i ↦ (I i).comap p, ?_, fun i ↦ (hfin i).comap p,
     fun i ↦ Scheme.IdealSheafData.comap_mono p (hmono i), ?_, ?_⟩
-  · show Stacks.Thickenings.IsThickening ((I 0).comap p).subschemeι
+  · change Stacks.Thickenings.IsThickening ((I 0).comap p).subschemeι
     rw [Scheme.IdealSheafData.isThickening_subschemeι_iff,
       Scheme.IdealSheafData.support_comap, hthick]
     exact TopologicalSpace.Closeds.ext (by simp)
-  · show (I (Fin.last t)).comap p = ⊤
+  · change (I (Fin.last t)).comap p = ⊤
     rw [hlast, Scheme.IdealSheafData.comap_top]
   · intro i
     dsimp only
@@ -133,7 +133,7 @@ theorem HasSmoothStratification.of_isPullback {A B A' B' : Scheme.{u}}
     have hW : (J.comap p).subschemeι ⁻¹ᵁ ((I i.succ).comap p).support.compl =
         ψ ⁻¹ᵁ (J.subschemeι ⁻¹ᵁ (I i.succ).support.compl) := by
       refine TopologicalSpace.Opens.ext (Set.ext fun x ↦ ?_)
-      show (J.comap p).subschemeι.base x ∉ (((I i.succ).comap p).support : Set A') ↔
+      change (J.comap p).subschemeι.base x ∉ (((I i.succ).comap p).support : Set A') ↔
         (ψ ≫ J.subschemeι).base x ∉ ((I i.succ).support : Set A)
       rw [Scheme.IdealSheafData.support_comap, ← hq]
       rfl
@@ -165,14 +165,14 @@ theorem smooth_subschemeι_ker_stratum {A B Z₁ Z₂ : Scheme.{u}} (q : A ⟶ B
   have hmem : ∀ x : Z₁, j₁.toImage x ∈ V ↔ x ∈ W := by
     intro x
     rw [hW x]
-    show j₁.ker.subschemeι (j₁.toImage x) ∉ (j₂.ker.support : Set A) ↔ _
+    change j₁.ker.subschemeι (j₁.toImage x) ∉ (j₂.ker.support : Set A) ↔ _
     rw [Scheme.Hom.support_ker, j₂.isClosedEmbedding.isClosed_range.closure_eq,
       ← Scheme.Hom.comp_apply, hφ]
   have hr : Set.range (W.ι ≫ j₁.toImage).base = Set.range V.ι.base := by
     rw [Scheme.Opens.range_ι]
     refine Set.ext fun y ↦ ⟨?_, fun hy ↦ ?_⟩
     · rintro ⟨x, rfl⟩
-      show j₁.toImage x.1 ∈ V
+      change j₁.toImage x.1 ∈ V
       exact (hmem x.1).mpr x.2
     · obtain ⟨x, rfl⟩ := (ConcreteCategory.bijective_of_isIso j₁.toImage.base).2 y
       exact ⟨⟨x, (hmem x).mp hy⟩, rfl⟩
@@ -198,7 +198,7 @@ theorem hasSmoothStratification_of_closedImmersionChain {A B : Scheme.{u}} (q : 
     (hsmooth : ∀ i : Fin t, Smooth ((W i).ι ≫ j i.castSucc ≫ q)) :
     HasSmoothStratification q := by
   refine ⟨t, fun i ↦ (j i).ker, ?_, ?_, ?_, ?_, ?_⟩
-  · show Stacks.Thickenings.IsThickening (j 0).ker.subschemeι
+  · change Stacks.Thickenings.IsThickening (j 0).ker.subschemeι
     rw [Scheme.IdealSheafData.isThickening_subschemeι_iff]
     refine TopologicalSpace.Closeds.ext ?_
     have := hj 0
@@ -216,10 +216,10 @@ theorem hasSmoothStratification_of_closedImmersionChain {A B : Scheme.{u}} (q : 
       ((MorphismProperty.cancel_left_of_respectsIso (P := @LocallyOfFinitePresentation.{u})
         (j i).toImage (j i).ker.subschemeι).mp h1)
   · intro i
-    show (j i.castSucc).ker ≤ (j i.succ).ker
+    change (j i.castSucc).ker ≤ (j i.succ).ker
     rw [← hkj i]
     exact Scheme.Hom.le_ker_comp (k i) (j i.castSucc)
-  · show (j (Fin.last t)).ker = ⊤
+  · change (j (Fin.last t)).ker = ⊤
     exact (Scheme.Hom.ker_eq_top_iff_isEmpty _).mpr hempty
   · intro i
     have := hj i.castSucc

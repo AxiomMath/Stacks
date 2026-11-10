@@ -188,7 +188,7 @@ private theorem isAbsolutelyWeaklyNormal_absoluteWeakNormalization (X : Scheme.{
   let awn : UniversalHomeomorphismOver X := initial (UniversalHomeomorphismOver X)
   refine (isIso_initialTo_iff_isAbsolutelyWeaklyNormal X awn).mp ?_
   rw [show initial.to awn = 𝟙 awn from Subsingleton.elim _ _]
-  show IsIso (𝟙 awn.obj.left)
+  change IsIso (𝟙 awn.obj.left)
   infer_instance
 
 /-- The `ZMod p`-algebra structure on a ring in which the prime `p` vanishes. -/
@@ -240,14 +240,14 @@ private theorem pow_bijective_of_isAbsolutelyWeaklyNormal {Y : Scheme.{u}}
   obtain ⟨t, ht, -⟩ := Y.sheaf.existsUnique_gluing' U ⊤ (fun V => homOfLE le_top) hcov r (by
     intro V W
     apply hinj
-    show (Y.presheaf.map _ (r V)) ^ p = (Y.presheaf.map _ (r W)) ^ p
+    change (Y.presheaf.map _ (r V)) ^ p = (Y.presheaf.map _ (r W)) ^ p
     rw [← map_pow, ← map_pow, hr', hr', ← ConcreteCategory.comp_apply,
       ← ConcreteCategory.comp_apply, ← Functor.map_comp, ← Functor.map_comp]
     rfl)
   let t' : Γ(Y, ⊤) := t
   have ht' (V : Y.affineOpens) : Y.presheaf.map (homOfLE le_top : V.1 ⟶ ⊤).op t' = r V := ht V
   refine ⟨t', Y.sheaf.eq_of_locally_eq' U ⊤ (fun V => homOfLE le_top) hcov _ _ fun V => ?_⟩
-  show Y.presheaf.map (homOfLE le_top : V.1 ⟶ ⊤).op (t' ^ p) =
+  change Y.presheaf.map (homOfLE le_top : V.1 ⟶ ⊤).op (t' ^ p) =
     Y.presheaf.map (homOfLE le_top : V.1 ⟶ ⊤).op s
   rw [map_pow, ht', hr']
 
@@ -299,7 +299,7 @@ private theorem exists_pow_eq_algebraMap_absoluteWeakNormalization (A : Type u) 
   let ι0 : A →+* ↑(colimit D) := (colimit.ι D 0).hom
   let eR : ↑(colimit D) →+* Algebra.AbsoluteWeakNormalization A := e.hom.hom
   have hr : r = eR (ιn a) := by
-    show r = e.hom (colimit.ι D n a)
+    change r = e.hom (colimit.ι D n a)
     rw [ha]
     exact (Iso.inv_hom_id_apply e r).symm
   have h0 : eR (ι0 a) = algebraMap A (Algebra.AbsoluteWeakNormalization A) a :=
@@ -339,7 +339,7 @@ private theorem exists_pow_eq_appTop_of_universalHomeomorphism {Y Z : Scheme.{u}
   have hY₂ : IsAbsolutelyWeaklyNormal Y₂.obj.left := by
     intro x
     refine ⟨⟨⊤, isAffineOpen_top (Spec (.of R))⟩, Set.mem_univ _, ?_⟩
-    show IsAbsolutelyWeaklyNormalRing Γ(Spec (.of R), ⊤)
+    change IsAbsolutelyWeaklyNormalRing Γ(Spec (.of R), ⊤)
     exact absolutelyWeaklyNormalRing_of_ringEquiv
       ((Scheme.ΓSpecIso (.of R)).symm.commRingCatIsoToRingEquiv) hRawn
   let i₁ : Z.absoluteWeakNormalization ⟶ Y := (initial.to Y₁).hom.left
@@ -363,12 +363,12 @@ private theorem exists_pow_eq_appTop_of_universalHomeomorphism {Y Z : Scheme.{u}
     rfl
   have hqa : q.appTop a = j.appTop ((Scheme.ΓSpecIso (.of R)).inv (algebraMap A R a)) := by
     rw [← hj, Scheme.Hom.comp_appTop]
-    show j.appTop ((Spec.map φ).appTop (Z.isoSpec.inv.appTop a)) = _
+    change j.appTop ((Spec.map φ).appTop (Z.isoSpec.inv.appTop a)) = _
     rw [hinvSpec]
     congr 1
     exact (ConcreteCategory.congr_hom (Scheme.ΓSpecIso_inv_naturality φ) a).symm
   rw [hqa, ← hra, map_pow, map_pow]
-  show g ^ p ^ n = (j.appTop ((Scheme.ΓSpecIso (.of R)).inv
+  change g ^ p ^ n = (j.appTop ((Scheme.ΓSpecIso (.of R)).inv
     ((Scheme.ΓSpecIso (.of R)).hom ((inv j).appTop g)))) ^ p ^ n
   rw [Iso.hom_inv_id_apply, ← ConcreteCategory.comp_apply, ← Scheme.Hom.comp_appTop,
     IsIso.hom_inv_id]
@@ -480,7 +480,7 @@ private theorem exists_pow_eq_appTop_of_compactSpace (Z : Scheme.{u}) [CompactSp
     refine isNilpotent_of_absoluteWeakNormalizationHom_app_eq_zero
       (QuasiSeparatedSpace.inter_isCompact _ _ (U i).isOpen i.1.2.isCompact (U j).isOpen
         j.1.2.isCompact) _ ?_
-    show π.app _ (_ - _) = 0
+    change π.app _ (_ - _) = 0
     rw [map_sub, hres, hres, sub_self]
   choose k hk using fun i j => exists_pow_prime_pow_eq_zero p (hd i j)
   let K := Finset.univ.sup fun i => Finset.univ.sup fun j => k i j
@@ -501,7 +501,7 @@ private theorem exists_pow_eq_appTop_of_compactSpace (Z : Scheme.{u}) [CompactSp
     hc i
   have hci := app_map_apply π (le_top : U i ≤ ⊤) c
   rw [hc', map_pow, ← ha'] at hci
-  show Y.presheaf.map (homOfLE le_top : π ⁻¹ᵁ U i ⟶ ⊤).op (g ^ p ^ (N + K)) = _
+  change Y.presheaf.map (homOfLE le_top : π ⁻¹ᵁ U i ⟶ ⊤).op (g ^ p ^ (N + K)) = _
   rw [map_pow, pow_add, pow_mul, hci]
   rfl
 
@@ -584,7 +584,7 @@ public theorem isLocallyInjective_of_injective_isAffine
     ((BigAffineH.inclusion B S hS).is_cover_of_isCoverDense
       (BigHOver.topology B S hS) X.unop)
   rintro Y f ⟨⟨Z, l, m, fac⟩⟩
-  show P.map f.op a = P.map f.op b
+  change P.map f.op a = P.map f.op b
   have hm : P.map m.op a = P.map m.op b := by
     refine h ((BigAffineH.inclusion B S hS).obj Z) Z.property ?_
     rw [NatTrans.naturality_apply φ m.op a, NatTrans.naturality_apply φ m.op b, hab]
@@ -784,12 +784,12 @@ public theorem frobeniusSectionsHom_comp_awnStage (n : ℕ) :
   induction n with
   | zero =>
     have := isIso_awnFrobenius B S hS p hSp
-    show frobeniusSectionsHom B S hS p ≫ awnUnit B S hS ≫ inv (awnFrobenius B S hS p) =
+    change frobeniusSectionsHom B S hS p ≫ awnUnit B S hS ≫ inv (awnFrobenius B S hS p) =
       awnUnit B S hS
     rw [← Category.assoc, frobeniusSectionsHom_comp_awnUnit, Category.assoc, IsIso.hom_inv_id,
       Category.comp_id]
   | succ n ih =>
-    show frobeniusSectionsHom B S hS p ≫ awnStage B S hS p hSp (n + 1) ≫
+    change frobeniusSectionsHom B S hS p ≫ awnStage B S hS p hSp (n + 1) ≫
         awnFrobeniusInv B S hS p hSp = awnStage B S hS p hSp (n + 1)
     rw [← Category.assoc, ih]
     rfl
@@ -905,7 +905,7 @@ public theorem bijective_awnComparison_app (X : BigHOver B S hS)
   · obtain ⟨n, a, ha⟩ := exists_pow_eq_appTop_of_compactSpace p Z hZ g
     refine ⟨colimitStage B S hS p n X a, ?_⟩
     apply hpow n
-    show c (colimitStage B S hS p n X a) ^ p ^ n = g ^ p ^ n
+    change c (colimitStage B S hS p n X a) ^ p ^ n = g ^ p ^ n
     have h1 : c (colimitStage B S hS p n X a) = awnStageFun B S hS p hSp n X a :=
       awnComparison_colimitStage B S hS p hSp n X a
     rw [h1, awnStageFun_pow, ha]

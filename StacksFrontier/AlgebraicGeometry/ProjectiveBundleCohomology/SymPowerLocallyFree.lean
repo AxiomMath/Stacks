@@ -69,7 +69,7 @@ theorem isFiniteLocallyFree_piece_of_isSymmetricAlgebra
         {d : (q.generators i).I →₀ ℕ | d.degree = n}).ofEpi (E i).inv⟩, ?_, ?_⟩⟩
   · constructor
     intro i
-    show IsIso ((_root_.SheafOfModules.free.generatingSections
+    change IsIso ((_root_.SheafOfModules.free.generatingSections
       {d : (q.generators i).I →₀ ℕ | d.degree = n}).ofEpi (E i).inv).π
     have h0 : IsIso (_root_.SheafOfModules.free.generatingSections
         (R := (Sheaf.toRingCat J Osharp).over (q.X i))

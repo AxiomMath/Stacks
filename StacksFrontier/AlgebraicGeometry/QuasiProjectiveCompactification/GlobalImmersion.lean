@@ -133,7 +133,7 @@ theorem range_chartIncl :
   ext y
   constructor
   · rintro ⟨z, rfl⟩
-    show (P.globalMorphism rp) ((chartIncl P hV hg) z) ∈ rp.chart V hV '' _
+    change (P.globalMorphism rp) ((chartIncl P hV hg) z) ∈ rp.chart V hV '' _
     rw [← Scheme.Hom.comp_apply, chartIncl_globalMorphism, Scheme.Hom.comp_apply]
     exact ⟨_, GradedSections.chartToProj_base_mem _ hg le_rfl one_pos z, rfl⟩
   · rintro ⟨w, hw, hwy⟩
@@ -154,7 +154,7 @@ theorem range_chartIncl :
       exact e.symm
     have hmem : y' ∈ relativeChart rp V hV (P.affineDatum V) ⁻¹ᵁ
         (rp.chart V hV ''ᵁ AlgebraicGeometry.Proj.basicOpen (A.grading V) g) := by
-      show relativeChart rp V hV (P.affineDatum V) y' ∈ rp.chart V hV '' _
+      change relativeChart rp V hV (P.affineDatum V) y' ∈ rp.chart V hV '' _
       rw [hry']
       exact ⟨w, hw, hwy⟩
     rw [preimage_image_basicOpen_relativeChart rp V hV (P.affineDatum V) hg one_pos] at hmem
@@ -206,7 +206,7 @@ theorem isImmersion_globalMorphism_of_chartsAreImmersions (h : ChartsAreImmersio
     exact hy
   · rw [chartIncl_globalMorphism]
     have := himm
-    show IsImmersion ((((P.affineDatum V).homogeneousRatios hg le_rfl).toSpecAway one_pos ≫
+    change IsImmersion ((((P.affineDatum V).homogeneousRatios hg le_rfl).toSpecAway one_pos ≫
       AlgebraicGeometry.Proj.awayι (A.grading V) g hg one_pos) ≫ rp.chart V hV)
     infer_instance
 

@@ -385,7 +385,7 @@ theorem IsBlowupAlong.of_iso_over {X X' X'' : AlgebraicSpaces B S hS}
     (isPullbackDefined_of_iso_over e rfl Z hf.isPullbackDefined) fun W w hw => ?_
   obtain ⟨l, hl, hlu⟩ := hf.existsUnique_lift w hw
   refine ⟨l ≫ e.inv, ?_, fun m hm => ?_⟩
-  · show (l ≫ e.inv) ≫ e.hom ≫ f = w
+  · change (l ≫ e.inv) ≫ e.hom ≫ f = w
     rw [Category.assoc, Iso.inv_hom_id_assoc]
     exact hl
   · have hm' : m ≫ e.hom ≫ f = w := hm
@@ -560,7 +560,7 @@ theorem exists_isAdmissibleBlowup_factoring_isAdmissibleBlowup
     refine ⟨e.hom ≫ blowUpAlongHom' Jb (Pi i) hci₁ hci₂ hci₃,
       by rw [Category.assoc]; exact he,
       Jb, isFinitePresentation_ι_preimage (b i) J hJfp, ?_, hcib.of_iso_over e⟩
-    show Disjoint (subspacePointSet B S hS (Xi i).1 (U.1.preimage (b i).hom))
+    change Disjoint (subspacePointSet B S hS (Xi i).1 (U.1.preimage (b i).hom))
       (subspacePointSet B S hS (Xi i).1 (J.1.preimage (b i).hom))
     rw [subspacePointSet_preimage, subspacePointSet_preimage]
     exact hJd.preimage _

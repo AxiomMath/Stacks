@@ -133,7 +133,7 @@ theorem mem_range_U_iff (v : points B S hS (yoneda.obj V)) :
 theorem map_s_mem_iff (x : (F).obj E.R) :
     (F).map E.s x ∈ Set.range ((F).map E.j) ↔ (F).map E.t x ∈ Set.range ((F).map E.j) := by
   obtain ⟨w, rfl⟩ := (pointsEquivScheme B S hS E.R).surjective x
-  show (F).map E.s (pointsToScheme B S hS _ w) ∈ _ ↔ (F).map E.t (pointsToScheme B S hS _ w) ∈ _
+  change (F).map E.s (pointsToScheme B S hS _ w) ∈ _ ↔ (F).map E.t (pointsToScheme B S hS _ w) ∈ _
   rw [← pointsToScheme_pointsMap_yoneda, ← pointsToScheme_pointsMap_yoneda, ← E.mem_range_U_iff,
     ← E.mem_range_U_iff, ← pointsMap_comp_apply, ← pointsMap_comp_apply, E.isPullback.w]
 
@@ -141,7 +141,7 @@ theorem map_s_mem_iff (x : (F).obj E.R) :
 theorem mem_range_Δ_of_not_mem (x : (F).obj E.R)
     (hx : (F).map E.s x ∉ Set.range ((F).map E.j)) : x ∈ Set.range ((F).map E.Δ) := by
   obtain ⟨w, rfl⟩ := (pointsEquivScheme B S hS E.R).surjective x
-  show pointsToScheme B S hS _ w ∈ _
+  change pointsToScheme B S hS _ w ∈ _
   replace hx : (F).map E.s (pointsToScheme B S hS _ w) ∉ Set.range ((F).map E.j) := hx
   set g : yoneda.obj E.R ⟶ X := yoneda.map E.s ≫ E.f with hg
   have hw : pointsMap B S hS _ g w ∈ Set.range (pointsMap B S hS E.T.toFunctor E.T.ι) := by
@@ -215,14 +215,14 @@ theorem exists_eq_or_factor {Y : BigFppfOver B S hS} (a b : Y ⟶ V)
       rintro _ ⟨z, rfl⟩
       have hz := z.2
       change (F).map E.s ((F).map c (O.ι z)) ∈ Set.range ((F).map E.j) at hz
-      show ((F).map a) (O.ι z) ∈ _
+      change ((F).map a) (O.ι z) ∈ _
       rw [← hcs]
       exact hz
     have Hb : Set.range (O.ι ≫ (F).map b) ⊆ Set.range ((F).map E.j) := by
       rintro _ ⟨z, rfl⟩
       have hz := z.2
       change (F).map E.s ((F).map c (O.ι z)) ∈ Set.range ((F).map E.j) at hz
-      show ((F).map b) (O.ι z) ∈ _
+      change ((F).map b) (O.ι z) ∈ _
       rw [← hct]
       exact (E.map_s_mem_iff _).mp hz
     exact ⟨O, hy, Or.inr ⟨IsOpenImmersion.lift _ _ Ha, IsOpenImmersion.lift _ _ Hb,

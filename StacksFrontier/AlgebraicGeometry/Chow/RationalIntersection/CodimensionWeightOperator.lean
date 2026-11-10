@@ -110,8 +110,7 @@ theorem rationalCycleCoeff_tmul (k : ℤ) (x : X) (q : ℚ) (c : CycleGroup C f 
 theorem rationalCycleCoeff_eq_zero_of_relativeDimension_ne {k : ℤ} {x : X}
     (hx : relativeDimension C.dimensionFunction f x ≠ k) (y : ℚ ⊗[ℤ] CycleGroup C f k) :
     rationalCycleCoeff C f k x y = 0 := by
-  induction y using TensorProduct.induction_on with
-  | zero => exact map_zero _
+  induction y using TensorProduct.inductionOn with
   | tmul q c =>
     rw [rationalCycleCoeff_tmul]
     by_cases hc : c.1 x = 0
@@ -156,10 +155,7 @@ theorem rationalCycleCoeff_supportedCoherentKZeroRatCycle_eq_zero_of_notMem {Z :
       · by_contra hne
         exact hk ((mem_cyclesOfDimension_iff_forall_point C f k _).1
           (supportedCoherentKZeroCycle C f Z k hZ (KZero.mk _ A)).2 x hne)
-  induction y using TensorProduct.induction_on with
-  | zero =>
-    exact (congrArg (rationalCycleCoeff C f k x)
-      (map_zero (supportedCoherentKZeroRatCycle C f Z k hZ))).trans (map_zero _)
+  induction y using TensorProduct.inductionOn with
   | tmul q a =>
     rw [supportedCoherentKZeroRatCycle_tmul, rationalCycleCoeff_tmul]
     have := DFunLike.congr_fun h a

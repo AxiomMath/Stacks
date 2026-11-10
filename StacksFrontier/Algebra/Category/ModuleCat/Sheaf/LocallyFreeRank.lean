@@ -567,7 +567,7 @@ theorem Trivialization.stalk_restrictMod_linearEquiv
     have hcol := Functor.Final.ι_colimitIso_hom (h.functorNhds (⟨x,hU⟩ : (TopCat.of (U:Type u)))).op
       ((OpenNhds.inclusion x).op ⋙ F.val.presheaf) (Opposite.op ⟨Z', hxZ'⟩)
     rw [haddE]
-    show (ConcreteCategory.hom coreIsoF.hom) _ = _
+    change (ConcreteCategory.hom coreIsoF.hom) _ = _
     rw [hcoreEq]
     exact apply_eq_of_comp_eq hcol s
   -- rewrite both `addE (germ ...)` via keyF
@@ -590,7 +590,7 @@ theorem Trivialization.stalk_restrictMod_linearEquiv
       ((OpenNhds.inclusion x).op ⋙ (toRingSheaf X O).obj)).ringCatIsoToRingEquiv with heCoreR
   set eReconR := (preservesColimitIso (forget₂ CommRingCat.{u} RingCat.{u})
       ((OpenNhds.inclusion x).op ⋙ O.obj)).symm.ringCatIsoToRingEquiv with heReconR
-  show (ConcreteCategory.hom (TopCat.Presheaf.germ ((sheafToPresheaf (Opens.grothendieckTopology
+  change (ConcreteCategory.hom (TopCat.Presheaf.germ ((sheafToPresheaf (Opens.grothendieckTopology
       X) CommRingCat).obj O)
           ((inclF X U).obj (V ⊓ W)) x hximg)) rr
       = eReconR (eCoreR ((ConcreteCategory.hom (TopCat.Presheaf.germ
@@ -610,7 +610,7 @@ theorem Trivialization.stalk_restrictMod_linearEquiv
   have hcol := ι_preservesColimitIso_inv (forget₂ CommRingCat.{u} RingCat.{u})
     ((OpenNhds.inclusion x).op ⋙ O.obj) (Opposite.op ⟨(inclF X U).obj (V ⊓ W), hximg⟩)
   have hcol2 := apply_eq_of_comp_eq hcol rr
-  show (ConcreteCategory.hom (TopCat.Presheaf.germ ((sheafToPresheaf (Opens.grothendieckTopology
+  change (ConcreteCategory.hom (TopCat.Presheaf.germ ((sheafToPresheaf (Opens.grothendieckTopology
       X) CommRingCat).obj O)
           ((inclF X U).obj (V ⊓ W)) x hximg)) rr
       = (ConcreteCategory.hom (preservesColimitIso (forget₂ CommRingCat.{u} RingCat.{u})
@@ -976,23 +976,23 @@ theorem Trivialization.stalk_presheafCoprod_directSum_linearEquiv
         (DirectSum.toAddMonoid (fun i => (t.inj i).hom))) ?_ ?_
     · intro t i
       ext m
-      show (DirectSum.toAddMonoid (fun i => (t.inj i).hom))
+      change (DirectSum.toAddMonoid (fun i => (t.inj i).hom))
         ((DirectSum.of M i) m) = (t.inj i).hom m
       exact DirectSum.toAddMonoid_of (fun i => (t.inj i).hom) i m
     · intro t m hm
       ext z
-      show m.hom z = (DirectSum.toAddMonoid (fun i => (t.inj i).hom)) z
+      change m.hom z = (DirectSum.toAddMonoid (fun i => (t.inj i).hom)) z
       have key : m.hom = (DirectSum.toAddMonoid (fun i => (t.inj i).hom) :
           (DirectSum ι (fun i => M i)) →+ _) := by
         refine DirectSum.addHom_ext (β := M) (fun i y => ?_)
         have h2 := DFunLike.congr_fun (congrArg AddCommGrpCat.Hom.hom (hm i)) y
-        show m.hom ((DirectSum.of M i) y) = (DirectSum.toAddMonoid (fun i => (t.inj i).hom))
+        change m.hom ((DirectSum.of M i) y) = (DirectSum.toAddMonoid (fun i => (t.inj i).hom))
           ((DirectSum.of M i) y)
         have hrhs : (DirectSum.toAddMonoid (fun i => (t.inj i).hom))
             ((DirectSum.of M i) y) = (t.inj i).hom y :=
           DirectSum.toAddMonoid_of (fun i => (t.inj i).hom) i y
         rw [hrhs]
-        show m.hom ((DirectSum.lof kU ι M i) y) = (t.inj i).hom y
+        change m.hom ((DirectSum.lof kU ι M i) y) = (t.inj i).hom y
         rw [show (DirectSum.lof kU ι M i) y = (Dcofan.inj i).hom y from rfl, ← h2]
         rfl
       exact DFunLike.congr_fun key z
@@ -1008,10 +1008,10 @@ theorem Trivialization.stalk_presheafCoprod_directSum_linearEquiv
       have hfac2 := DFunLike.congr_fun (congrArg AddCommGrpCat.Hom.hom hfac) y
       -- LHS of hfac2: (Dcofan.inj i ≫ Φ.inv).hom y = Φ.inv.hom (lof i y)
       -- RHS: (𝟙 ≫ G.map (Sigma.ι P i)).hom y = (G.map (Sigma.ι P i)).hom y
-      show (g.toAddMonoidHom) ((DirectSum.of M i) y) = Φ.inv.hom ((DirectSum.of M i) y)
+      change (g.toAddMonoidHom) ((DirectSum.of M i) y) = Φ.inv.hom ((DirectSum.of M i) y)
       have hg1 : (g.toAddMonoidHom) ((DirectSum.of M i) y)
           = (stalkLMap (Limits.Sigma.ι P i) p) y := by
-        show g ((DirectSum.of M i) y) = _
+        change g ((DirectSum.of M i) y) = _
         rw [hg]
         rw [show (DirectSum.of M i) y = (DirectSum.lof kU ι M i) y from rfl]
         rw [DirectSum.toModule_lof]
@@ -1023,7 +1023,7 @@ theorem Trivialization.stalk_presheafCoprod_directSum_linearEquiv
                 ⟨i⟩ ≫ (G.mapCocone (Cofan.mk (∐ P) (Limits.Sigma.ι P))).ι.app ⟨i⟩).hom y := by
           have := hfac2
           exact this
-        show Φ.inv.hom ((DirectSum.lof kU ι M i) y) = _
+        change Φ.inv.hom ((DirectSum.lof kU ι M i) y) = _
         rw [hfac2']
         rfl
       rw [hg1, hL, hR]
@@ -1162,18 +1162,18 @@ theorem Trivialization.stalk_linearEquiv_finsupp
             map_add' := h.map_add
             map_smul' := ?_ }⟩
   intro c m
-  show h (c • m) = c • h m
+  change h (c • m) = c • h m
   -- The k-action on F_x restricts (along e) to the kU-action used by g.
   have hsmul : c • m = (e.symm c) • m := by
     have h1 : (e.symm c) • m = (e (e.symm c)) • m := rfl
     rw [h1, e.apply_symm_apply]
   have hg : g ((e.symm c) • m) = (e.symm c) • g m := g.map_smul (e.symm c) m
   rw [hsmul]
-  show Finsupp.mapRange.addEquiv e.toAddEquiv (g.toAddEquiv ((e.symm c) • m)) = c • _
+  change Finsupp.mapRange.addEquiv e.toAddEquiv (g.toAddEquiv ((e.symm c) • m)) = c • _
   have hgg : g.toAddEquiv (e.symm c • m) = e.symm c • g m := hg
   rw [hgg]
   ext i
-  show (Finsupp.mapRange.addEquiv e.toAddEquiv (e.symm c • g m)) i
+  change (Finsupp.mapRange.addEquiv e.toAddEquiv (e.symm c • g m)) i
       = (c • Finsupp.mapRange.addEquiv e.toAddEquiv (g m)) i
   have he : ∀ y : restrictStalkRing X O x U hU, (e.toAddEquiv y) = e y := fun _ => rfl
   simp only [Finsupp.mapRange.addEquiv_apply, Finsupp.mapRange_apply, Finsupp.coe_smul,
@@ -1218,7 +1218,7 @@ theorem Trivialization.rank_eq_of_mem
   rw [rank_finsupp_self, rank_finsupp_self] at hrank
   -- In universe `u` the `Cardinal.lift` is the identity, so we recover `mk s.ι = mk t.ι`.
   simp only [Cardinal.lift_id] at hrank
-  show Cardinal.mk t.ι = Cardinal.mk s.ι
+  change Cardinal.mk t.ι = Cardinal.mk s.ι
   exact hrank.symm
 
 /-- **Stacks Tag 01C9.**  Let `X` be a ringed space whose structure sheaf `O_X` is a sheaf

@@ -162,8 +162,7 @@ omit [IsNoetherianRing S] in
 /-- If `h ∈ H` maps to `x ∈ S^∧`, then `muH0` sends `z ⊗ x` to `muH0 (z ⊗ 1) * h`. -/
 theorem muH0_tmul_mul (z : PS N S) (x : Sh f S) (h : H) (hh : e (Ideal.Quotient.mk _ h) = x) :
     muH0 N hN f S H e (z ⊗ₜ x) = muH0 N hN f S H e (z ⊗ₜ 1) * h := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul a n =>
     obtain ⟨b, hb⟩ := Ideal.Quotient.mk_surjective (e.symm (algebraMap S (Sh f S) a))
     rw [muH0_tmul N hN f S H e a n 1 b (by rw [mul_one, hb]),
@@ -182,18 +181,18 @@ theorem exists_tmul_eq_of_muH0_eq_zero (w : PH N f S) (hw : muH0 N hN f S H e w 
     apply Prod.ext
     · funext u
       apply muH_injective N hN f S H e hflat u.1 (nonempty_of_card_eq u)
-      show muH N hN f S H e u.1 (LocalizedModule.mkLinearMap _ _ w -
+      change muH N hN f S H e u.1 (LocalizedModule.mkLinearMap _ _ w -
         LocalizedModule.map (cechSub (gS f S) u.1)
           ((TensorProduct.mk S (PS N S) (Sh f S)).flip 1) 0) = muH N hN f S H e u.1 0
       rw [map_zero, sub_zero, muH_mk, hw, map_zero, map_zero]
     · funext T
-      show -(glueingDifferential (gS f S) (PS N S) 1 0 T) = 0
+      change -(glueingDifferential (gS f S) (PS N S) 1 0 T) = 0
       simp
   obtain ⟨z, hz⟩ := ((glueingComplex_exact S (Sh f S) (gS f S) (PS N S) (flat_Sh f S)
     (quotientMap_Sh_bijective f S)).2 (w, 0)).mp hβ
   exact ⟨z, congrArg Prod.fst hz, fun u ↦ congrFun (congrArg Prod.snd hz) u⟩
 
-include hL hflat in
+include hflat in
 /-- **Effectivity.** An element of `P ⊗[S] S^∧` with vanishing image in `H` comes from an element
 of `P` with vanishing localizations. -/
 theorem exists_eq_tmul_of_muH0_eq_zero (w : PH N f S) (hw : muH0 N hN f S H e w = 0) :
@@ -259,7 +258,7 @@ theorem Lam_mem_of_tmul (n : ℕ) (hn : 0 < n) (z : PS N S) (w₁ : PH N f S)
     Lam N hN f S H e L hL hNS hflat z ∈
       ((Ideal.span (Set.range f)) ^ n).map (algebraMap R (TT N hN f S H e L hL)) := by
   set K : Ideal S := ((Ideal.span (Set.range f)) ^ n).map (algebraMap R S)
-  obtain ⟨z₀, hz₀, hz₀V⟩ := exists_eq_tmul_of_muH0_eq_zero N hN f S H e L hL hflat _ hD
+  obtain ⟨z₀, hz₀, hz₀V⟩ := exists_eq_tmul_of_muH0_eq_zero N hN f S H e hflat _ hD
   have hLz₀ : Lam N hN f S H e L hL hNS hflat z₀ = 0 :=
     Lam_eq_zero N hN f S H e L hL hNS hflat z₀ (by rw [hz₀, hD]) hz₀V
   let u : PS N S := z - z₀
@@ -277,12 +276,11 @@ theorem Lam_mem_of_tmul (n : ℕ) (hn : 0 < n) (z : PS N S) (w₁ : PH N f S)
         rw [span_range_gS] at hc
         rw [← map_smul, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
         exact Submodule.smul_mem_smul (by simpa only [K, Ideal.map_pow] using hc) Submodule.mem_top
-      · show q.rTensor (Sh f S) (u ⊗ₜ 1) = 0
+      · change q.rTensor (Sh f S) (u ⊗ₜ 1) = 0
         refine Submodule.smul_induction_on hu1 (fun c hc x _ ↦ ?_)
           (fun x y hx hy ↦ by rw [map_add, hx, hy, add_zero])
         rw [map_smul]
-        induction (q.rTensor (Sh f S) x) using TensorProduct.induction_on with
-        | zero => simp
+        induction (q.rTensor (Sh f S) x) using TensorProduct.inductionOn with
         | tmul a b =>
           rw [TensorProduct.smul_tmul']
           obtain ⟨a', rfl⟩ := Submodule.mkQ_surjective _ a
@@ -345,7 +343,7 @@ theorem exists_approx (n : ℕ) (z : PS N S) (s : Finset H) (a : H → R)
   let y : Fin m → TT N hN f S H e L hL := fun l ↦ ∑ i : s, a i • τ (σ i l)
   have hyker : ∀ l, y l ∈ N.map (algebraMap R (TT N hN f S H e L hL)) := fun l ↦ by
     rw [← ker_prS N hN f S H e L hL hNS hflat]
-    show prS N hN f S H e L hL (y l) = 0
+    change prS N hN f S H e L hL (y l) = 0
     simp only [y, map_sum, Algebra.smul_def, map_mul, AlgHom.commutes, hτ]
     exact hσ l
   have hyIn : ∀ l, y l ∈ ((Ideal.span (Set.range f)) ^ n).map
@@ -410,7 +408,7 @@ theorem mem_map_of_prH_mem (n : ℕ) (t : TT N hN f S H e L hL)
   obtain ⟨t', ht', htt'⟩ := exists_mem_map_prS_eq N hN f S H e L hL hflat _ hS
   have hker : t - t' ∈ N.map (algebraMap R (TT N hN f S H e L hL)) := by
     rw [← ker_prS N hN f S H e L hL hNS hflat]
-    show prS N hN f S H e L hL (t - t') = 0
+    change prS N hN f S H e L hL (t - t') = 0
     rw [map_sub, sub_eq_zero]
     exact htt'.symm
   have hH' : prH N hN f S H e L hL (t - t') ∈

@@ -68,7 +68,7 @@ i₁_* 𝒞_{T₁/T₁'} ⟶ i₁_* h_* 𝒞_{T₂/T₂'} ≅ h'_* i₂_* 𝒞_{
 ```
 By `Stacks.Thickenings.conormalTransportSheaf_eq` it is the inclusion of `𝒞_{T₁/T₁'}` into
 `𝒪_{T₁'}` followed by `(h')^♯`. -/
-def conormalTransportSheaf (hi₁ : i₁.ker ^ 2 = ⊥) (hi₂ : i₂.ker ^ 2 = ⊥)
+def conormalTransportSheaf (hi₂ : i₂.ker ^ 2 = ⊥)
     (cT : i₂ ≫ h' = h ≫ i₁) :
     (modulePushforward i₁.toLRSHom.toShHom).obj (immersionConormalSheaf i₁) ⟶
       (modulePushforward h'.toLRSHom.toShHom).obj
@@ -87,7 +87,7 @@ ambient structure sheaves, the canonical map `h^* 𝒞_{T₁/T₁'} ⟶ 𝒞_{T�
 structure-sheaf map `(h')^♯` of the ambient morphism. -/
 theorem conormalTransportSheaf_eq (hi₁ : i₁.ker ^ 2 = ⊥) (hi₂ : i₂.ker ^ 2 = ⊥)
     (cT : i₂ ≫ h' = h ≫ i₁) :
-    conormalTransportSheaf hi₁ hi₂ cT =
+    conormalTransportSheaf hi₂ cT =
       firstOrderImmersionConormalSheafι i₁ hi₁ ≫ structureSheafModuleHom h'.toLRSHom.toShHom := by
   have hiso := isIso_canonicalConormalQuotientMap i₁ hi₁
   refine (cancel_epi (canonicalConormalQuotientMap i₁)).mp ?_
@@ -107,7 +107,7 @@ theorem conormalTransportSheaf_apply (hi₁ : i₁.ker ^ 2 = ⊥) (hi₂ : i₂.
     (cT : i₂ ≫ h' = h ≫ i₁) (V : T₁'.Opens)
     (m : ((modulePushforward i₁.toLRSHom.toShHom).obj (immersionConormalSheaf i₁)).val.obj
       (op V)) :
-    (conormalTransportSheaf hi₁ hi₂ cT).val.app (op V) m =
+    (conormalTransportSheaf hi₂ cT).val.app (op V) m =
       (h'.app V).hom ((firstOrderImmersionConormalSheafι i₁ hi₁).val.app (op V) m) :=
   congrArg (fun φ ↦ φ.val.app (op V) m) (conormalTransportSheaf_eq hi₁ hi₂ cT)
 

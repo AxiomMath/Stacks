@@ -59,7 +59,7 @@ def overPostRestrictionSquareCocontinuousBaseChange :
 
 /-- The identity of the restrictions along the two composites of the square
 `v' ⋙ j_{v(V)} = j_V ⋙ v` is an isomorphism. -/
-instance : IsIso (overPostRestrictionSquareCocontinuousBaseChange v V).natTrans :=
+instance : IsIso (overPostRestrictionSquareCocontinuousBaseChange v V) :=
   @NatIso.isIso_of_isIso_app _ _ _ _ _ _ _ fun P ↦
     inferInstanceAs (IsIso (𝟙 ((Over.forget V).op ⋙ v.op ⋙ P)))
 
@@ -120,7 +120,7 @@ theorem overPostRanBaseChange_homEquiv_symm_cocontinuousBaseChange {A : Dᵒᵖ 
 theorem isIso_mateEquiv_overPostRanBaseChange_cocontinuousBaseChange :
     IsIso (mateEquiv ((Over.forget V).op.ranAdjunction (Type u))
       ((Over.forget (v.obj V)).op.ranAdjunction (Type u))
-        (overPostRanBaseChangeCocontinuousBaseChange v V)).natTrans := by
+        (overPostRanBaseChangeCocontinuousBaseChange v V)) := by
   rw [overPostRanBaseChangeCocontinuousBaseChange, iterated_mateEquiv_conjugateEquiv]
   exact conjugateEquiv_iso _ _ _
 
@@ -175,7 +175,7 @@ theorem mateEquiv_overPostSheafBaseChange_app_hom_cocontinuousBaseChange
 theorem isIso_mateEquiv_overPostSheafBaseChange_cocontinuousBaseChange :
     IsIso (mateEquiv ((Over.forget V).sheafAdjunctionCocontinuous (Type u) (J.over V) J)
       ((Over.forget (v.obj V)).sheafAdjunctionCocontinuous (Type u) (K.over (v.obj V)) K)
-      (overPostSheafBaseChangeCocontinuousBaseChange v V)).natTrans := by
+      (overPostSheafBaseChangeCocontinuousBaseChange v V)) := by
   have h := isIso_mateEquiv_overPostRanBaseChange_cocontinuousBaseChange v V
   refine @NatIso.isIso_of_isIso_app _ _ _ _ _ _ _ fun N ↦ ?_
   rw [← isIso_iff_of_reflects_iso _ (sheafToPresheaf K (Type u))]

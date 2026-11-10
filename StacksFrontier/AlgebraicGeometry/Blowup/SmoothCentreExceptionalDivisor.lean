@@ -25,7 +25,8 @@ inverse image of the ideal sheaf of `Z`: the second assertion of Stacks tag 0FUT
 
 ## The argument
 
-It runs along the four steps of `StacksFrontier/AlgebraicGeometry/Blowup/SmoothCentre.lean`, with the
+It runs along the four steps of
+`StacksFrontier/AlgebraicGeometry/Blowup/SmoothCentre.lean`, with the
 local model supplied by Stacks tag 0H1H (`Stacks.MoreMorphisms.exceptionalDivisor_smooth_of_pos`)
 and the base-change squares by `AlgebraicGeometry.exists_isPullback_exceptionalDivisor_comap`,
 which lifts flat base change of the blowup to its exceptional divisor. One step is shorter: there

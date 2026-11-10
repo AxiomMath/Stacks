@@ -110,9 +110,9 @@ private theorem exact_quotientDiagonal_quotientDifference (P Q : Submodule R M) 
     obtain ⟨p, hp, q, hq, hpq⟩ := Submodule.mem_sup.mp h
     refine ⟨x - p, ?_⟩
     apply Prod.ext
-    · show P.mkQ (x - p) = P.mkQ x
+    · change P.mkQ (x - p) = P.mkQ x
       rw [map_sub, show P.mkQ p = 0 from (Submodule.Quotient.mk_eq_zero P).2 hp, sub_zero]
-    · show Q.mkQ (x - p) = Q.mkQ y
+    · change Q.mkQ (x - p) = Q.mkQ y
       have heq : x - p = y + q := by
         apply sub_eq_zero.mp
         calc (x - p) - (y + q) = (x - y) - (p + q) := by abel
@@ -202,8 +202,7 @@ private noncomputable def extensionRestrictQuotientIso (I : Ideal R) :
   intro x
   change (TensorProduct.quotTensorEquivQuotSMul N I) ((f.hom.baseChange (R ⧸ I)) x) =
     (quotientFunctor I).map f ((TensorProduct.quotTensorEquivQuotSMul M I) x)
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul r m =>
     obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective r
     simp only [LinearMap.baseChange_tmul, TensorProduct.quotTensorEquivQuotSMul_mk_tmul]
@@ -332,7 +331,7 @@ private theorem productComplex_id (K L : CochainComplex (ModuleCat.{v} R) ℤ) :
     productComplexFst K L ≫ productComplexInl K L +
       productComplexSnd K L ≫ productComplexInr K L = 𝟙 (productComplex K L) := by
   ext i x
-  show (x.1, 0) + (0, x.2) = x
+  change (x.1, 0) + (0, x.2) = x
   exact Prod.ext (add_zero _) (zero_add _)
 
 private def productComplexMap {K K' L L' : CochainComplex (ModuleCat.{v} R) ℤ}
@@ -350,14 +349,14 @@ private theorem productComplexMap_inl {K K' L L' : CochainComplex (ModuleCat.{v}
     (f : K ⟶ K') (g : L ⟶ L') :
     productComplexInl K L ≫ productComplexMap f g = f ≫ productComplexInl K' L' := by
   ext i x
-  show ((f.f i) x, (g.f i) 0) = ((f.f i) x, 0)
+  change ((f.f i) x, (g.f i) 0) = ((f.f i) x, 0)
   rw [map_zero]
 
 private theorem productComplexMap_inr {K K' L L' : CochainComplex (ModuleCat.{v} R) ℤ}
     (f : K ⟶ K') (g : L ⟶ L') :
     productComplexInr K L ≫ productComplexMap f g = g ≫ productComplexInr K' L' := by
   ext i x
-  show ((f.f i) 0, (g.f i) x) = (0, (g.f i) x)
+  change ((f.f i) 0, (g.f i) x) = (0, (g.f i) x)
   rw [map_zero]
 
 /-- Surjectivity of a compactness map is inherited by a termwise product of families: split the
@@ -551,7 +550,7 @@ theorem bijective_cofanMap_sigma_ι_of_surjective (K : DerivedCategory (ModuleCa
   have heSum (i : ι) : Sigma.ι E i ≫ eSum.hom =
       (e i).hom ≫ DerivedCategory.Q.map (Sigma.ι P i) := by
     dsimp only [eSum, Iso.trans_hom]
-    rw [← Category.assoc, HasColimit.isoOfNatIso_ι_hom, Category.assoc]
+    rw [← Category.assoc, HasColimit.ι_isoOfNatIso_hom, Category.assoc]
     exact congrArg (fun f => (e i).hom ≫ f)
       (IsColimit.comp_coconePointUniqueUpToIso_hom
         (coproductIsCoproduct fun i => DerivedCategory.Q.obj (P i)) hc ⟨i⟩)
@@ -582,7 +581,7 @@ theorem isPerfect_of_isPerfect_reductions (I J : Ideal R) (hIJ : I ⊓ J = ⊥)
   intro ι _ E _
   choose P hP hflat e₀ using fun i => exists_kFlat_representative.{u, v} (R := R) (E i)
   have : ∀ i n, Module.Flat R ((P i).X n) := hflat
-  show Function.Bijective (cofanMap K (Limits.Sigma.ι E))
+  change Function.Bijective (cofanMap K (Limits.Sigma.ι E))
   exact bijective_cofanMap_sigma_ι_of_surjective K E P (fun i => (e₀ i).some)
     (surjective_cofanMap_sigma_ι_of_reductions I J hIJ K hI hJ hS P)
 

@@ -12,8 +12,8 @@ object of the category of schemes over `Spec A₀` — by `A₀` itself.  This f
 value of the presheaf of Tag 03DS at `Spec β` with `A'`, for every `β : A₀ ⟶ A'`, and the
 presheaf map with the ring homomorphism.
 
-The case used in the refutation of the statement of Tag 01Z0 is `F` the structure sheaf, which is `structSheaf`
-with its trivialization `structSheafTrivialization`.
+The case used in the refutation of the statement of Tag 01Z0 is `F` the structure sheaf, which is
+`structSheaf` with its trivialization `structSheafTrivialization`.
 
 ## Main definitions
 

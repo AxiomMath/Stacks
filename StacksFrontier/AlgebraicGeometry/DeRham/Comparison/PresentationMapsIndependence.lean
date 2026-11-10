@@ -112,8 +112,7 @@ theorem lTensor_map_id_eq {K T₁ T₂ D : Type*} [AddCommGroup K] [Module R K] 
     e₂.toLinearMap.lTensor _ (TensorProduct.map
         (exteriorPower.map p (LinearEquiv.refl R K).toLinearMap) Θ.toLinearMap u) =
       e₁.toLinearMap.lTensor _ u := by
-  induction u using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction u using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul x t =>
     rw [TensorProduct.map_tmul, LinearMap.lTensor_tmul, LinearMap.lTensor_tmul,
@@ -189,8 +188,7 @@ theorem surjective_cotangentSpaceMap (hΦ : Function.Surjective Φ.toRingHom) :
     Function.Surjective (Algebra.Extension.CotangentSpace.map Φ) := by
   rw [← LinearMap.range_eq_top, eq_top_iff]
   rintro y -
-  induction y using TensorProduct.induction_on with
-  | zero => exact Submodule.zero_mem _
+  induction y using TensorProduct.inductionOn with
   | add x y hx hy => exact Submodule.add_mem _ hx hy
   | tmul b ω =>
     have hω : ω ∈ Submodule.span P.toExtension.Ring
@@ -333,7 +331,7 @@ noncomputable def joinPresentation : Algebra.Presentation A B (Fin (m + n)) (Fin
 /-- The values of the variables of the common refinement. -/
 theorem joinPresentation_val (k : Fin (m + n)) :
     (joinPresentation P Q).val k = Sum.elim Q.val P.val (finSumFinEquiv.symm k) := by
-  show ((selfPresentation Q.val).toGenerators.comp P.toGenerators).val
+  change ((selfPresentation Q.val).toGenerators.comp P.toGenerators).val
     (finSumFinEquiv.symm k) = _
   rcases finSumFinEquiv.symm k with j | i <;> rfl
 

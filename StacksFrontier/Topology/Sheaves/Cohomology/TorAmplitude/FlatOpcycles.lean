@@ -38,9 +38,10 @@ This is the pair of sentences "hence `Ker(d^{a-1})` is flat" and "it follows tha
 `Tor_1(E', F) = 0` where `E' = Coker(E^{a-1} ⟶ E^a)`, hence `E'` is flat" of the source's proof
 of Stacks 08CP, with `a = n + 1`. The ringed-site development runs the same two steps in
 `StacksFrontier/CategoryTheory/Sites/Cohomology/TorAmplitude/FlatModuleOfTorAmplitude.lean` and
-`StacksFrontier/CategoryTheory/Sites/Cohomology/TorAmplitude/FlatOpcycles.lean`; the two are kept apart there and together here, because on a ringed
-space the two statements share the whole of their input — Tag 08CI and Tag 08CJ (3) at the
-ringed-space Tor-amplitude predicate — and neither is used without the other.
+`StacksFrontier/CategoryTheory/Sites/Cohomology/TorAmplitude/FlatOpcycles.lean`; the two are kept
+apart there and together here, because on a ringed space the two statements share the whole of their
+input — Tag 08CI and Tag 08CJ (3) at the ringed-space Tor-amplitude predicate — and neither is
+used without the other.
 
 The *cycles* half is read off the representative Tag 08CI produces: a complex `K` of flat
 `O_X`-modules concentrated in `[n, b]` with `H^i(K) = 0` for `i > n` makes

@@ -26,7 +26,8 @@ classes of members of `Hilb`.
 ## Main results
 
 * `Stacks.Chow.isRelativeCycle_of_relativeCycleWeight_eq_nsmul` — the statement just made, with
-  the two inputs it needs from elsewhere in the proof of Tag 0H5P taken as hypotheses: the base-change
+  the two inputs it needs from elsewhere in the proof of Tag 0H5P taken as hypotheses: the
+  base-change
   compatibility of `w_·` and the weighting property of `w_γ` over a discrete valuation ring.
 
 ## Implementation notes
@@ -106,7 +107,7 @@ theorem isRelativeCycle_of_relativeCycleWeight_eq_nsmul {X S : Scheme.{u}} (f : 
       refine IsWeighting.eq_zero_of_eq_zero_over_genericPoint
         (IsWeighting.sub (hdvr R c β hβrel) (IsWeighting.const_mul (n : ℤ) hw')) ?_
       intro z hz
-      show relativeCycleWeight f' β z - (n : ℤ) * (w ∘ p) z = 0
+      change relativeCycleWeight f' β z - (n : ℤ) * (w ∘ p) z = 0
       rw [relativeCycleWeight_eq_of_apply_eq f' hb z hz, hα' z, sub_self]
     exact fun z ↦ congrFun hdiff z
   -- Hence `β = α'`.

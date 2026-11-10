@@ -62,7 +62,7 @@ being a localization. -/
 theorem flat_specMap_algebraMap_fractionRing :
     Flat (Spec.map (CommRingCat.ofHom (algebraMap B L))) := by
   rw [Flat.SpecMap_iff]
-  show (algebraMap B L).Flat
+  change (algebraMap B L).Flat
   rw [RingHom.flat_algebraMap_iff]
   exact IsLocalization.flat L (nonZeroDivisors B)
 

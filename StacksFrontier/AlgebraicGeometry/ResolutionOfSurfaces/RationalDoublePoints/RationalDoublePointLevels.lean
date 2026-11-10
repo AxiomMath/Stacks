@@ -209,13 +209,13 @@ theorem singularLocus_eq_empty_or_level_zero (S : RationalDoublePointSituation.{
   rcases (singularLocus (blowUp (maximalIdealSheaf S.A))).eq_empty_or_nonempty with he | ⟨z, hz⟩
   · exact Or.inl he
   right
-  obtain ⟨w, a, hspan, hupper, -, hrel, hcase⟩ := h
+  obtain ⟨w, a, hspan, -, -, hrel, hcase⟩ := h
   obtain ⟨j, hj⟩ := exists_memChart S.A w hspan z
   obtain ⟨M, hM, hle, hprime, ε, hε, hnoeth, hdom, hic, hdim, hsing⟩ :=
     S.exists_chartData _ z hz hj
   have := hM
   have := hnoeth
-  exact exists_isGoodCoordinate_of_chart w hspan a hupper hrel hcase j _ M hle hdim hsing
+  exact exists_isGoodCoordinate_of_chart w hspan a hrel hcase j _ M hle hdim hsing
 
 /-- A singular point in case I has a lower level, or its Situation has a regular blowup. -/
 theorem descent_of_isCaseOne (S : RationalDoublePointSituation.{u})
@@ -258,7 +258,7 @@ theorem step_level_zero (S : RationalDoublePointSituation.{u}) (x : S.A)
   have := hM
   have := hN
   have hexc := S.map_maximalIdeal_eq_span_of_chart ε hε (w 0)
-    (map_maximalIdeal_eq_span_of_isGoodCoordinate_chart w hspan a hupper hrel hgood j _ M hle
+    (map_maximalIdeal_eq_span_of_isGoodCoordinate_chart w hspan a hrel hgood j _ M hle
       hdim hsing)
   obtain ⟨M₀, hM₀, hle₀, hp₀, ε₀, hε₀, hN₀, -, -, hdim₀, hsing₀⟩ :=
     S.exists_chartData (hw 0) z hz (memChart_of_map_maximalIdeal_eq_span S.A (hw 0) z hexc)

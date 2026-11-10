@@ -109,7 +109,7 @@ private theorem isScalarTower_compHom_algebraMap {A B C : Type*} [CommRing A] [C
   let : Module B N := Module.compHom N (algebraMap B C)
   let : Module A N := Module.compHom N (algebraMap A C)
   refine ⟨fun r s n => ?_⟩
-  show algebraMap B C (r • s) • n = algebraMap A C r • (algebraMap B C s • n)
+  change algebraMap B C (r • s) • n = algebraMap A C r • (algebraMap B C s • n)
   simp only [Algebra.smul_def, map_mul, ← IsScalarTower.algebraMap_apply A B C, mul_smul]
 
 variable {R : Type u} {Rh : Type v} {Rsh : Type w} [CommRing R] [IsLocalRing R]
@@ -527,7 +527,7 @@ public theorem Module.Flat.quotSMul_baseChange_iff_of_isHenselization
   let : IsScalarTower (A ⧸ I) (Ash ⧸ I.map (algebraMap A Ash)) ((Csh ⊗[C] M) ⧸
       (J.map (algebraMap C Csh)) • (⊤ : Submodule Csh (Csh ⊗[C] M))) := by
     refine ⟨fun a b x => ?_⟩
-    show algebraMap (Ash ⧸ I.map (algebraMap A Ash)) (Csh ⧸ J.map (algebraMap C Csh))
+    change algebraMap (Ash ⧸ I.map (algebraMap A Ash)) (Csh ⧸ J.map (algebraMap C Csh))
         (a • b) • x = _
     rw [Algebra.smul_def, map_mul, mul_smul,
       ← IsScalarTower.algebraMap_apply (A ⧸ I) (Ash ⧸ I.map (algebraMap A Ash))

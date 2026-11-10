@@ -94,7 +94,7 @@ theorem res_baseRingToSections {U V : X.left.Opens} (h : V ≤ U) (a : A) :
     (X.left.presheaf.map (homOfLE h).op).hom
         (baseRingToSections A X (op U) a : Γ(X.left, U)) =
       (baseRingToSections A X (op V) a : Γ(X.left, V)) := by
-  show (X.left.presheaf.map (homOfLE h).op).hom
+  change (X.left.presheaf.map (homOfLE h).op).hom
       ((X.left.presheaf.map (homOfLE (le_top (a := U))).op).hom
         (((Scheme.ΓSpecIso (.of A)).inv ≫ X.hom.appTop).hom a)) = _
   rw [← CommRingCat.comp_apply, ← Functor.map_comp, ← op_comp]
@@ -131,16 +131,16 @@ theorem quotient_baseUnitSection_eq_zero (k : ℕ) {a : A} (ha : a ∈ I ^ k) (U
   let h : V.1 ≤ U := hVU
   let f := (homOfLE h).op
   have hmem : (baseRingToSections A X (op V.1) a : Γ(X.left, V.1)) ∈ J.ideal V := by
-    show (baseRingToSections A X (op V.1) a : Γ(X.left, V.1)) ∈
+    change (baseRingToSections A X (op V.1) a : Γ(X.left, V.1)) ∈
       ((baseIdealSheaf A I X.hom) ^ k).ideal V
     rw [Scheme.IdealSheafData.ideal_pow, Pi.pow_apply]
     exact baseRingToSections_mem_pow I X k ha V
   have hqV : ((q.val.app (op V.1)).hom) (baseUnitSection X a V.1) = 0 := by
-    show (J.subschemeι.app V.1).hom
+    change (J.subschemeι.app V.1).hom
       (baseRingToSections A X (op V.1) a : Γ(X.left, V.1)) = 0
     exact RingHom.mem_ker.mp ((J.ker_subschemeι_app V).ge hmem)
   refine ⟨V.1, h, hzV, ?_⟩
-  show ConcreteCategory.hom (Q.val.map f)
+  change ConcreteCategory.hom (Q.val.map f)
       (((q.val.app (op U)).hom) (baseUnitSection X a U)) =
     ConcreteCategory.hom (Q.val.map f) 0
   have hunit : ConcreteCategory.hom ((SheafOfModules.unit X.left.ringCatSheaf).val.map f)
@@ -179,7 +179,7 @@ theorem baseSmul_comp_quotient_eq_zero (k : ℕ) {a : A} (ha : a ∈ I ^ k) :
   intro U
   apply ModuleCat.hom_ext
   refine LinearMap.ext fun x ↦ ?_
-  show (((baseIdealSheaf A I X.hom) ^ k).subschemeι.app U.unop).hom
+  change (((baseIdealSheaf A I X.hom) ^ k).subschemeι.app U.unop).hom
       (Stacks.Blowup.ringSectionToGamma (baseRingToSections A X U a) *
         Stacks.Blowup.ringSectionToGamma x) = 0
   rw [map_mul]
@@ -220,12 +220,12 @@ theorem reesPieceAmbient_baseReesSection (k : ℕ) (a : A) (ha : a ∈ I ^ k) (U
       Stacks.Blowup.ringSectionToGamma (baseRingToSections A X (op U) a) := by
   have h := congrArg (fun φ : unitModule X ⟶ unitModule X ↦
     (φ.val.app (op U)).hom (Stacks.Blowup.unitOne U)) (baseReesLift_comp_ι I X k a ha)
-  show Stacks.Blowup.idealPowerKernelAmbient (baseIdealSheaf A I X.hom) k U
+  change Stacks.Blowup.idealPowerKernelAmbient (baseIdealSheaf A I X.hom) k U
       ((baseReesLift I X k a ha).val.app (op U) (Stacks.Blowup.unitOne U)) = _
   refine h.trans ?_
-  show Stacks.Blowup.ringSectionToGamma (baseRingToSections A X (op U) a) *
+  change Stacks.Blowup.ringSectionToGamma (baseRingToSections A X (op U) a) *
     Stacks.Blowup.ringSectionToGamma (Stacks.Blowup.unitOne U) = _
-  show _ * (1 : Γ(X.left, U)) = _
+  change _ * (1 : Γ(X.left, U)) = _
   rw [mul_one]
 
 /-- Sections of the degree-`k` piece of the Rees algebra are determined by their images in
@@ -359,7 +359,7 @@ theorem smulSectionsHom_reesGradedModule_eq (k n : ℕ) (a : A) (ha : a ∈ I ^ 
           submoduleCast X F (reesMultiple_add_eq_idealPowerSub I X F k n).symm := by
   refine cancel_sheafSubmodule_ι _ _ _ (hom_ext_of_sections X fun U x ↦ ?_)
   refine (smulSectionsHom_reesGradedModule_coe I X F k n a ha U x).trans ?_
-  show _ = ((((submoduleCast X F (reesMultiple_add_eq_idealPowerSub I X F k n).symm).val.app U)
+  change _ = ((((submoduleCast X F (reesMultiple_add_eq_idealPowerSub I X F k n).symm).val.app U)
       (((idealPowerSmul I X F (le_refl (k + n)) a ha).val.app U)
         (((submoduleCast X F (reesMultiple_natCast_eq_idealPowerSub I X F n)).val.app U) x)))).1
   rw [submoduleCast_coe, idealPowerSmul_coe]

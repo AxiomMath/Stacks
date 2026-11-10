@@ -229,7 +229,7 @@ theorem eq_deRhamClassDerivedMorphism (n : ℤ) (ξ : deRhamCohomology B D n)
   obtain ⟨g, rfl⟩ := hlift
   have key := c.evalOne_forget_classEquiv n ((c.classEquiv n).symm g)
   rw [Equiv.apply_symm_apply, hev] at key
-  show c.forget n g = c.forget n (c.classEquiv n ξ)
+  change c.forget n g = c.forget n (c.classEquiv n ξ)
   exact congrArg (c.forget n) ((Equiv.symm_apply_eq _).1 key.symm)
 
 /-- Distinct relative de Rham cohomology classes of degree `n` give distinct morphisms

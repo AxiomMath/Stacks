@@ -21,8 +21,8 @@ RΓ(U,K) ⊗ᴸ_R 𝒪_{Spec R, y}  ≅  (K_{i y}) ⊗ᴸ_{𝒪_{X, i y}} 𝒪_{
 
 the extension of scalars on the right being along the germ isomorphism `𝒪_{X, i y} ≅
 𝒪_{Spec R, y}` of the open immersion. This is the first of the two inputs that
-`StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.AffineChartCohomologyComparison` records
-as missing for turning condition (1) of Stacks 0DJ8 into condition (2).
+`StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.AffineChartCohomologyComparison`
+records as missing for turning condition (1) of Stacks 0DJ8 into condition (2).
 
 The statement proved is slightly more general and asks nothing of `i`: for *any* morphism
 `i : Spec R ⟶ X` of schemes out of an affine scheme the two displayed objects are isomorphic,

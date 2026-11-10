@@ -33,7 +33,8 @@ degree zero, the route recorded in the module documentation of
 `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleQcqsPushforward.lean`, and it
 is what replaces the relative Leray spectral sequence of [Stacks, Tag 0734] that the source's
 induction uses — unavailable here, for the reason recorded in
-`StacksFrontier/AlgebraicGeometry/Spaces/HigherPushforwardQuasicoherent.lean`: that tag is formalized
+`StacksFrontier/AlgebraicGeometry/Spaces/HigherPushforwardQuasicoherent.lean`: that tag is
+formalized
 for a ringed topos whose three universes agree, whereas the small étale site has its objects one
 universe above its modules.  Leray's acyclicity lemma needs no spectral sequence, and
 `Stacks.RightDerivedComp.isoRightDerivedObjOfAcyclic` carries it at exactly the generality used

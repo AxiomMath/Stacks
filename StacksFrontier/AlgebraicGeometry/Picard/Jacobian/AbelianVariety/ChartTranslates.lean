@@ -57,7 +57,7 @@ theorem smoothOfRelativeDimension_of_rightTranslates (G : Grp (Over (Spec (.of k
   let 𝒰 : G.X.left.OpenCover := Scheme.Cover.mkOfCovers G.X.left (fun _ => W) map (fun p => by
     obtain ⟨w, hw⟩ := hr p
     refine ⟨p, w, ?_⟩
-    show (rightTranslationIso G (r p)).inv.left (c w) = p
+    change (rightTranslationIso G (r p)).inv.left (c w) = p
     rw [hw, ← Scheme.Hom.comp_apply, ← Over.comp_left, Iso.hom_inv_id, Over.id_left]
     rfl)
   let : IsZariskiLocalAtSource (@SmoothOfRelativeDimension.{u} n) :=
@@ -65,7 +65,7 @@ theorem smoothOfRelativeDimension_of_rightTranslates (G : Grp (Over (Spec (.of k
       (Q := RingHom.Locally (RingHom.IsStandardSmoothOfRelativeDimension n))
   refine IsZariskiLocalAtSource.of_openCover (P := @SmoothOfRelativeDimension.{u} n) 𝒰
     fun p => ?_
-  show SmoothOfRelativeDimension n ((c ≫ (rightTranslationIso G (r p)).inv.left) ≫ G.X.hom)
+  change SmoothOfRelativeDimension n ((c ≫ (rightTranslationIso G (r p)).inv.left) ≫ G.X.hom)
   rw [Category.assoc, Over.w]
   infer_instance
 

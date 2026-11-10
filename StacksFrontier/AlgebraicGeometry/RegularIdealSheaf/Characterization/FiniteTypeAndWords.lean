@@ -74,7 +74,7 @@ private lemma isFiniteType_of_local_generators (X : RingedSpace.{u})
     { I := X
       X := U
       coversTop := (Opens.coversTop_iff X U).2 (by
-        show iSup U = ⊤
+        change iSup U = ⊤
         apply top_unique
         intro x _
         exact (Opens.mem_iSup).mpr ⟨x, hx x⟩)
@@ -246,7 +246,7 @@ private lemma polynomialQuasiRegularCanonicalMap_monomial {R : Type u} [CommRing
     associatedGradedMap f
       (MvPolynomial.monomial e (Ideal.Quotient.mk (Jid f) a)) = imgTargetLin f e a := by
   unfold associatedGradedMap
-  show quasiRegularCanonicalMap f
+  change quasiRegularCanonicalMap f
     ((MvPolynomial.monomial e (Ideal.Quotient.mk (Jid f) a)) ⊗ₜ[qrRbar f]
       ((Submodule.quotEquivOfEq (Jid f : Submodule R R)
         (Jid f • (⊤ : Submodule R R)) (by simp) : qrRbar f →ₗ[R] qrMbar R f) 1)) = _
@@ -254,7 +254,7 @@ private lemma polynomialQuasiRegularCanonicalMap_monomial {R : Type u} [CommRing
       Ideal.Quotient.mk (Jid f) a • MvPolynomial.monomial e (1 : qrRbar f) := by
     rw [MvPolynomial.smul_monomial, smul_eq_mul, mul_one]
   rw [h, TensorProduct.smul_tmul]
-  show quasiRegularCanonicalMap f (srcMono f e (a * 1)) = _
+  change quasiRegularCanonicalMap f (srcMono f e (a * 1)) = _
   rw [mul_one, canonicalMap_srcMono]
 
 /-- The generators `f i` span the ideal `Jid f`, viewed as an `R`-module. -/
@@ -281,7 +281,7 @@ private lemma conormalSymmetricToGradedMap_isIso_iff_locallyInjective
       PresheafOfModules.IsLocallyInjective (Opens.grothendieckTopology X)
         (canonicalPresheafMap X J n) := by
   rw [← isIso_iff_of_reflects_iso _ (SheafOfModules.toSheaf _)]
-  show IsIso ((presheafToSheaf (Opens.grothendieckTopology X) AddCommGrpCat.{u}).map
+  change IsIso ((presheafToSheaf (Opens.grothendieckTopology X) AddCommGrpCat.{u}).map
     ((PresheafOfModules.toPresheaf _).map (canonicalPresheafMap X J n))) ↔ _
   rw [← GrothendieckTopology.W_iff, GrothendieckTopology.W_iff_isLocallyBijective]
   have hs : Presheaf.IsLocallySurjective (Opens.grothendieckTopology X)
@@ -318,7 +318,7 @@ lemma conormalSymmetricToGradedMap_isIso_iff_local_kernel
       ((map_sub (Construction.canonicalMap (sectionIdeal X J U) n) z w).trans
         (sub_eq_zero.mpr hzw)) x hx
     refine ⟨V, i, ?_, hxV⟩
-    show Construction.symmetricMap _ _ _ _ n z = Construction.symmetricMap _ _ _ _ n w
+    change Construction.symmetricMap _ _ _ _ n z = Construction.symmetricMap _ _ _ _ n w
     exact sub_eq_zero.mp
       ((map_sub (Construction.symmetricMap (sectionIdeal X J U) (sectionIdeal X J (op V))
         (X.presheaf.map i.op).hom (sectionIdeal_map X J i.op) n) z w).symm.trans hi)
@@ -357,11 +357,11 @@ private lemma cotangentToTarget_generator {R : Type u} [CommRing R] {r : ℕ}
       associatedGradedMap f (MvPolynomial.X i) := by
   rw [MvPolynomial.X, ← map_one (Ideal.Quotient.mk (Jid f)),
     polynomialQuasiRegularCanonicalMap_monomial]
-  show (DirectSum.lof R ℕ (fun n => Tcomp R f n) 1)
+  change (DirectSum.lof R ℕ (fun n => Tcomp R f n) 1)
     (Submodule.Quotient.mk ⟨f i, _⟩) = imgTargetLin f (Finsupp.single i 1) 1
   have he : qrMdeg (Finsupp.single i 1) = 1 := by simp [qrMdeg]
   apply target_mk_eq_of_val_eq f he.symm
-  show f i = fpow f (Finsupp.single i 1) • (1 : R)
+  change f i = fpow f (Finsupp.single i 1) • (1 : R)
   simp [fpow, Finsupp.single_apply]
 
 @[sga "1 II 4.14" "(ii)"]
@@ -616,7 +616,7 @@ private lemma monomialWord_tupleExponent {R : Type u} [CommRing R] {r n : ℕ}
   classical
   let h : ∃ s : Fin n → Fin r, tupleExponent s = tupleExponent t := ⟨t, rfl⟩
   rw [monomialWord, dite_eq_left h]
-  show Construction.wordClass (Jid f) n (idealGenerator f ∘ h.choose) = _
+  change Construction.wordClass (Jid f) n (idealGenerator f ∘ h.choose) = _
   obtain ⟨σ, hσ⟩ := (tupleExponent_eq_iff h.choose t).mp h.choose_spec
   rw [← hσ]
   exact Construction.wordClass_perm (Jid f) (idealGenerator f ∘ t) σ
@@ -629,7 +629,7 @@ private noncomputable def polynomialToWord {R : Type u} [CommRing R] {r : ℕ}
 private lemma polynomialToWord_monomial {R : Type u} [CommRing R] {r : ℕ}
     (f : Fin r → R) (n : ℕ) (e : Fin r →₀ ℕ) :
     polynomialToWord f n (MvPolynomial.monomial e 1) = monomialWord f n e := by
-  show (MvPolynomial.basisMonomials (Fin r) (qrRbar f)).constr (qrRbar f)
+  change (MvPolynomial.basisMonomials (Fin r) (qrRbar f)).constr (qrRbar f)
     (monomialWord f n) ((MvPolynomial.basisMonomials (Fin r) (qrRbar f)) e) = _
   exact Module.Basis.constr_basis _ _ _ _
 
@@ -693,10 +693,10 @@ lemma polynomialCanonicalMap_tuple {R : Type u} [CommRing R] {r n : ℕ}
   rw [hw]
   dsimp only [gradedPieceToTarget, canonicalMapOverQuotient,
     LinearMap.extendScalarsOfSurjective_apply]
-  show (DirectSum.lof R ℕ (fun k => Tcomp R f k) n)
+  change (DirectSum.lof R ℕ (fun k => Tcomp R f k) n)
     (Submodule.Quotient.mk ⟨∏ j, f (t j), _⟩) = imgTargetLin f (tupleExponent t) 1
   apply target_mk_eq_of_val_eq f (tupleExponent_degree t).symm
-  show (∏ j, f (t j)) = fpow f (tupleExponent t) • (1 : R)
+  change (∏ j, f (t j)) = fpow f (tupleExponent t) • (1 : R)
   simp only [fpow_tupleExponent, smul_eq_mul, mul_one]
 
 lemma polynomialCanonicalMap_tuplePolynomialMap {R : Type u} [CommRing R] {r : ℕ}
@@ -720,7 +720,7 @@ lemma canonicalMap_injective_of_polynomialCanonicalMap_injective
     obtain ⟨w, rfl⟩ := tupleWordMap_surjective f n z
     have h : associatedGradedMap f (tuplePolynomialMap f n w) = 0 := by
       rw [polynomialCanonicalMap_tuplePolynomialMap]
-      show gradedPieceToTarget f n (Construction.canonicalMap (Jid f) n _) = 0
+      change gradedPieceToTarget f n (Construction.canonicalMap (Jid f) n _) = 0
       rw [hz, map_zero]
     have hp : tuplePolynomialMap f n w = 0 := hf (h.trans (map_zero _).symm)
     rw [← polynomialToWord_tuplePolynomialMap, hp, map_zero]
@@ -775,7 +775,7 @@ lemma coefficients_mem_of_sum_mem_square {R : Type u} [CommRing R] {r : ℕ}
     simpa only [Submodule.coe_sum, Submodule.coe_smul, smul_eq_mul] using ha
   have hs' : ∑ i, (Ideal.Quotient.mk (Jid f) (a i)) •
       (Jid f).toCotangent (idealGenerator f i) = 0 := by
-    show ∑ i, (algebraMap R (R ⧸ Jid f) (a i)) •
+    change ∑ i, (algebraMap R (R ⧸ Jid f) (a i)) •
       (Jid f).toCotangent (idealGenerator f i) = 0
     simpa only [map_sum, map_smul, algebraMap_smul] using hs
   have hli := cotangent_generators_linearIndependent f hf

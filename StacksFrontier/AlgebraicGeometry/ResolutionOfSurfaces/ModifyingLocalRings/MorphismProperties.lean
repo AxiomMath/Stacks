@@ -115,7 +115,7 @@ private theorem exists_open_pullback_snd_of_spread (P : MorphismProperty Scheme.
     ∃ V : S.Opens, U ≤ V ∧ s ∈ V ∧ P (pullback.snd f V.ι) := by
   have he : (GlueingNearPoint.neighborhoodModelToAmbient S U s).obj
       (topNeighborhoodModel f hf U s) = Over.mk f := by
-    show Over.mk ((f ≫ S.topIso.inv) ≫ (⊤ : S.Opens).ι) = Over.mk f
+    change Over.mk ((f ≫ S.topIso.inv) ≫ (⊤ : S.Opens).ι) = Over.mk f
     rw [Category.assoc, Scheme.toIso_inv_ι, Category.comp_id]
   obtain ⟨V, hUV, -, hsV, hPV⟩ := hspread S U s hs
     (IsRetrocompact_iff_isSpectralMap_subtypeVal.mpr (quasiCompact_iff_isSpectralMap.mp hU))

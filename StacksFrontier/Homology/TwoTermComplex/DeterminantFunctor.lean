@@ -188,7 +188,7 @@ private theorem nonempty_homotopy_of_Q_map_eq {R : Type u} [CommRing R]
     ((HomotopyCategory.quotient _ _).obj L)).injective
   let e := DerivedCategory.quotientCompQhIso (ModuleCat.{u} R)
   apply (cancel_mono (e.hom.app L)).mp
-  show ((HomotopyCategory.quotient _ _ ⋙ DerivedCategory.Qh).map f) ≫ e.hom.app L =
+  change ((HomotopyCategory.quotient _ _ ⋙ DerivedCategory.Qh).map f) ≫ e.hom.app L =
     ((HomotopyCategory.quotient _ _ ⋙ DerivedCategory.Qh).map g) ≫ e.hom.app L
   rw [e.hom.naturality, e.hom.naturality, h]
 
@@ -230,12 +230,12 @@ private theorem cohomology_maps_eq_of_homotopy {R : Type u} [CommRing R]
   obtain ⟨hn, hz⟩ := homotopy_components h
   constructor
   · ext x
-    show (f.f (-1)).hom x = (g.f (-1)).hom x
+    change (f.f (-1)).hom x = (g.f (-1)).hom x
     rw [hn]
     simp only [LinearMap.add_apply, LinearMap.comp_apply]
     rw [show (P.complex.d (-1) 0).hom x = 0 from x.property, map_zero, add_zero]
   · ext x
-    show Submodule.Quotient.mk ((f.f 0).hom x) =
+    change Submodule.Quotient.mk ((f.f 0).hom x) =
       (Submodule.Quotient.mk ((g.f 0).hom x) : _ ⧸ (Q.complex.d (-1) 0).hom.range)
     rw [Submodule.Quotient.eq, hz]
     exact ⟨(h.hom 0 (-1)).hom x, by simp⟩
@@ -252,7 +252,7 @@ private theorem twoTerm_quasiIso_of_homotopyEquiv {R : Type u} [CommRing R]
     fun x => DFunLike.congr_fun hq.1 x
   have hpz : Function.LeftInverse (Q.hom P e.inv).hZero (P.hom Q e.hom).hZero := by
     intro x
-    show ((Q.hom P e.inv).hZero.comp (P.hom Q e.hom).hZero) x = x
+    change ((Q.hom P e.inv).hZero.comp (P.hom Q e.hom).hZero) x = x
     have hc : (Q.hom P e.inv).hZero.comp (P.hom Q e.hom).hZero =
         (P.hom P (e.hom ≫ e.inv)).hZero := by ext x; rfl
     rw [hc, hp.2]
@@ -260,7 +260,7 @@ private theorem twoTerm_quasiIso_of_homotopyEquiv {R : Type u} [CommRing R]
     rw [hi, LinearMap.id_apply]
   have hqz : Function.RightInverse (Q.hom P e.inv).hZero (P.hom Q e.hom).hZero := by
     intro x
-    show ((P.hom Q e.hom).hZero.comp (Q.hom P e.inv).hZero) x = x
+    change ((P.hom Q e.hom).hZero.comp (Q.hom P e.inv).hZero) x = x
     have hc : (P.hom Q e.hom).hZero.comp (Q.hom P e.inv).hZero =
         (Q.hom Q (e.inv ≫ e.hom)).hZero := by ext x; rfl
     rw [hc, hq.2]
@@ -589,11 +589,11 @@ private theorem nonempty_surjectiveSpan {R : Type u} [CommRing R]
       simp [c, t, e₀]
     have hi : (c.f 0) ((i.f 0) x) = (f.f 0) x :=
       ConcreteCategory.congr_hom (HomologicalComplex.biprod_inl_desc_f f t 0) x
-    show (c.f 0).hom _ = y
+    change (c.f 0).hom _ = y
     have he' : (c.f 0).hom ((biprod.inr : D ⟶ M).f 0 (e₀.inv z)) =
         (Q.complex.d (-1) 0).hom z := ConcreteCategory.congr_hom he z
     rw [map_sub, hi, he']
-    show (f.f 0) x - (Q.complex.d (-1) 0).hom z = y
+    change (f.f 0) x - (Q.complex.d (-1) 0).hom z = y
     rw [hz]
     abel
   exact ⟨⟨S, b, c, hbs, ⟨hcn, hcz⟩, hbi, hci, hc.symm⟩⟩
@@ -699,7 +699,7 @@ private theorem spanEquiv_eq {R : Type u} [CommRing R]
   let z := A.symm (U.symm x)
   have hz : B z = U'.symm x :=
     U'.injective (by simpa [z] using (DFunLike.congr_fun hdl z).symm)
-  show V (U.symm x) = V' (U'.symm x)
+  change V (U.symm x) = V' (U'.symm x)
   calc
     V (U.symm x) = V (A z) := by simp [z]
     _ = V' (B z) := DFunLike.congr_fun hdr z
@@ -744,7 +744,7 @@ private theorem determinantTransport_eq_of_surjective {R : Type u} [CommRing R]
     ⟨P, 𝟙 _, f, ⟨Function.surjective_id, Function.surjective_id⟩, hs, hi,
       inferInstance, by simp⟩
   rw [determinantTransport_eq_span s]
-  show (isoSurjectiveDeterminant P P (𝟙 _) _).symm.trans _ = _
+  change (isoSurjectiveDeterminant P P (𝟙 _) _).symm.trans _ = _
   dsimp only [isoSurjectiveDeterminant]
   rw [isoSurjectiveDeterminant_id]
   exact LinearEquiv.refl_trans _
@@ -784,7 +784,7 @@ private theorem determinantTransport_comp {R : Type u} [CommRing R]
     r.right t.left r.left_surjective s.right_surjective r.right_surjective t.left_surjective hr
   rw [determinantTransport_eq_span s, determinantTransport_eq_span t,
     determinantTransport_eq_span c]
-  show (spanEquiv s).trans (spanEquiv t) =
+  change (spanEquiv s).trans (spanEquiv t) =
     (isoSurjectiveDeterminant r.middle P (r.left ≫ s.left) _).symm.trans
       (isoSurjectiveDeterminant r.middle S (r.right ≫ t.right) _)
   dsimp only [isoSurjectiveDeterminant]
@@ -799,7 +799,7 @@ private theorem determinantTransport_comp {R : Type u} [CommRing R]
   let U' := isoSurjectiveDeterminant t.middle Q t.left t.left_surjective
   let V' := isoSurjectiveDeterminant t.middle S t.right t.right_surjective
   change A.trans V = B.trans U' at hdm
-  show (U.symm.trans V).trans (U'.symm.trans V') = (A.trans U).symm.trans (B.trans V')
+  change (U.symm.trans V).trans (U'.symm.trans V') = (A.trans U).symm.trans (B.trans V')
   apply LinearEquiv.ext
   intro x
   have hx := DFunLike.congr_fun hdm (A.symm (U.symm x))
@@ -847,7 +847,7 @@ private theorem determinantTransport_apply_delta {R : Type u} [CommRing R]
   obtain ⟨_, hr⟩ := surjectiveDeterminantEquiv_apply_delta s.middle Q s.right s.right_surjective
     (twoTerm_quasiIso_of_isIso_Q_map _ _ _) hQ
   rw [determinantTransport_eq_span s]
-  show (isoSurjectiveDeterminant s.middle Q s.right s.right_surjective)
+  change (isoSurjectiveDeterminant s.middle Q s.right s.right_surjective)
     ((isoSurjectiveDeterminant s.middle P s.left s.left_surjective).symm
       (presentationDelta P hP)) = _
   rw [← hl, LinearEquiv.symm_apply_apply]
@@ -866,7 +866,7 @@ public theorem presentationTransport_id {R : Type u} [CommRing R]
     {K : DerivedCategory (ModuleCat.{u} R)} (P : TwoTermPresentation K) :
     presentationTransport P P (Iso.refl K) = LinearEquiv.refl R (presentationDeterminant P) := by
   have h : P.iso.symm ≪≫ Iso.refl K ≪≫ P.iso = Iso.refl _ := by ext; simp
-  show determinantTransport P P _ = _
+  change determinantTransport P P _ = _
   rw [h, determinantTransport_id]
 
 /-- The transport along a composite isomorphism is the composite of the transports. -/
@@ -876,7 +876,7 @@ public theorem presentationTransport_comp {R : Type u} [CommRing R]
     (a : K ≅ L) (b : L ≅ M) :
     (presentationTransport P Q a).trans (presentationTransport Q S b) =
       presentationTransport P S (a ≪≫ b) := by
-  show (determinantTransport _ _ _).trans (determinantTransport _ _ _) = _
+  change (determinantTransport _ _ _).trans (determinantTransport _ _ _) = _
   rw [determinantTransport_comp]
   congr 1
   ext
@@ -913,7 +913,7 @@ private theorem presentationTransport_eq_surjectiveDeterminant {R : Type u} [Com
     simp
   have hi : IsIso (DerivedCategory.Q.map f) := he ▸ (P.iso.symm ≪≫ a ≪≫ Q.iso).isIso_hom
   have he' : P.iso.symm ≪≫ a ≪≫ Q.iso = asIso (DerivedCategory.Q.map f) := Iso.ext he
-  show determinantTransport P Q _ = _
+  change determinantTransport P Q _ = _
   rw [he', determinantTransport_eq_of_surjective]
 
 /-- Transports commute with the determinant equivalence of a surjective quasi-isomorphism. -/
@@ -1054,7 +1054,7 @@ public theorem exists_determinantFunctor_natural_delta {R : Type u} [CommRing R]
   have hc (K : PerfectTwoTermComplex R) (P : TwoTermPresentation K.obj)
       (hP : P.IsRankZero) : comparison K P (delta K ⟨P, hP⟩) = presentationDelta P hP := by
     let h : IsRankZero K.obj := ⟨P, hP⟩
-    show presentationTransport (p K) P (Iso.refl K.obj)
+    change presentationTransport (p K) P (Iso.refl K.obj)
       (presentationTransport h.choose (p K) (Iso.refl K.obj)
         (presentationDelta h.choose h.choose_spec)) = _
     rw [presentationTransport_comp_apply]
@@ -1073,7 +1073,7 @@ public theorem exists_determinantFunctor_natural_delta {R : Type u} [CommRing R]
     let e : K.obj ≅ L.obj := (perfectTwoTermComplexProperty R).ι.mapIso a.iso
     apply (comparison L hL.choose).injective
     rw [hc L hL.choose hL.choose_spec]
-    show presentationTransport (p L) hL.choose (Iso.refl L.obj)
+    change presentationTransport (p L) hL.choose (Iso.refl L.obj)
       (presentationTransport (p K) (p L) e
         (presentationTransport hK.choose (p K) (Iso.refl K.obj)
           (presentationDelta hK.choose hK.choose_spec))) = _
@@ -1144,7 +1144,7 @@ public theorem detPresentationIso_delta {R : Type u} [CommRing R]
     (detPresentationIso K P) (delta K ⟨P, hP⟩) =
       TwoTermComplex.delta (P.complex.d (-1) 0).hom hP := by
   let h : IsRankZero K.obj := ⟨P, hP⟩
-  show presentationTransport (presentation R K) P (Iso.refl K.obj)
+  change presentationTransport (presentation R K) P (Iso.refl K.obj)
     (presentationTransport h.choose (presentation R K) (Iso.refl K.obj)
       (presentationDelta h.choose h.choose_spec)) = _
   rw [presentationTransport_comp_apply]
@@ -1161,7 +1161,7 @@ public theorem det_map_delta {R : Type u} [CommRing R] {K L : PerfectTwoTermComp
     ((det R).map a).iso.hom (delta K hK) = delta L hL := by
   apply (detPresentationIso L hL.choose).injective
   rw [detPresentationIso_delta L hL.choose hL.choose_spec]
-  show presentationTransport (presentation R L) hL.choose (Iso.refl L.obj)
+  change presentationTransport (presentation R L) hL.choose (Iso.refl L.obj)
     (presentationTransport (presentation R K) (presentation R L)
       ((perfectTwoTermComplexProperty R).ι.mapIso a.iso)
       (presentationTransport hK.choose (presentation R K) (Iso.refl K.obj)

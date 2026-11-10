@@ -191,7 +191,7 @@ theorem isFirstOrderThickening_thickeningFiltration (hZ : IsThickening B S hS X 
     isClosedSubspace_preimage B S hS ι.hom (F (k + 1)).1 X.2 Y.2 (F (k + 1)).2⟩ :
       ClosedSubspaces B S hS Y.1) hpre (d i).U
   rw [hnext] at hbot
-  show definingIdealAt B S hS Y (⟨(F k).1.preimage ι.hom,
+  change definingIdealAt B S hS Y (⟨(F k).1.preimage ι.hom,
       isClosedSubspace_preimage B S hS ι.hom (F k).1 X.2 Y.2 (F k).2⟩ :
         ClosedSubspaces B S hS Y.1) (op (W' i)) ^ (1 + 1) = ⊥
   have key := map_mul_self_eq_bot_of_mul_self_le

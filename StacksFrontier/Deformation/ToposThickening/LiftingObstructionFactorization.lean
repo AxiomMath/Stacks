@@ -116,6 +116,11 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
 
 /-! ### The derivation `b - φ ∘ a` of `𝒪_{B'₁}[ℰ]` attached to a lift -/
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- The difference `b(x) - φ(a(x))` is killed by the reduction of the back layer, so it is the
 image of exactly one local section of `𝒢₂`. -/
 theorem existsUnique_liftAlgebraSection (p : Lift D) (X : Cᵒᵖ)
@@ -132,6 +137,11 @@ def liftAlgebraSection (p : Lift D) (X : Cᵒᵖ)
     (x : (freeAlgebraSheaf J D.front.OB' (pairPresheaf D)).obj.obj X) : D.back.G.val.obj X :=
   (existsUnique_liftAlgebraSection D p X x).choose
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- The defining equation of `liftAlgebraSection`. -/
 theorem incl_liftAlgebraSection (p : Lift D) (X : Cᵒᵖ)
     (x : (freeAlgebraSheaf J D.front.OB' (pairPresheaf D)).obj.obj X) :
@@ -139,6 +149,11 @@ theorem incl_liftAlgebraSection (p : Lift D) (X : Cᵒᵖ)
       p.hom.hom.app X ((frontAlgebra D).hom.app X x) :=
   (existsUnique_liftAlgebraSection D p X x).choose_spec.1
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- `liftAlgebraSection` is additive. -/
 theorem liftAlgebraSection_add (p : Lift D) (X : Cᵒᵖ)
     (x y : (freeAlgebraSheaf J D.front.OB' (pairPresheaf D)).obj.obj X) :
@@ -149,12 +164,22 @@ theorem liftAlgebraSection_add (p : Lift D) (X : Cᵒᵖ)
     incl_liftAlgebraSection, map_add, map_add, map_add]
   abel
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- `liftAlgebraSection` sends `0` to `0`. -/
 theorem liftAlgebraSection_zero (p : Lift D) (X : Cᵒᵖ) :
     liftAlgebraSection D p X 0 = 0 := by
   refine D.back.incl_injective ?_
   rw [incl_liftAlgebraSection, D.back.incl_zero, map_zero, map_zero, map_zero, sub_zero]
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- `liftAlgebraSection` is compatible with the restriction maps of the site. -/
 theorem liftAlgebraSection_map (p : Lift D) {X Y : Cᵒᵖ} (f : X ⟶ Y)
     (x : (freeAlgebraSheaf J D.front.OB' (pairPresheaf D)).obj.obj X) :
@@ -167,6 +192,11 @@ theorem liftAlgebraSection_map (p : Lift D) {X Y : Cᵒᵖ} (f : X ⟶ Y)
     sheafHom_naturality_apply J (frontAlgebra D) f x,
     sheafHom_naturality_apply J p.hom f ((frontAlgebra D).hom.app X x)]
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- **The Leibniz rule for `b - φ ∘ a`.** The scalars act on `𝒢₂` through the presentation
 followed by the comparison `g`, which is the module structure of `g_*𝒢₂`. -/
 theorem liftAlgebraSection_mul (p : Lift D) (X : Cᵒᵖ)
@@ -185,6 +215,11 @@ theorem liftAlgebraSection_mul (p : Lift D) (X : Cᵒᵖ)
   rw [← D.back.mul_incl, incl_liftAlgebraSection]
   ring
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- **The derivation `b - φ ∘ a` vanishes on the coefficients.** The two algebra maps agree on
 `𝒪_{B'₁}` because a lift is under the comparison `gB'` of thickened bases. -/
 theorem liftAlgebraSection_coefficientMap (p : Lift D) (X : Cᵒᵖ)
@@ -196,6 +231,11 @@ theorem liftAlgebraSection_coefficientMap (p : Lift D) (X : Cᵒᵖ)
   refine D.back.incl_injective ?_
   rw [incl_liftAlgebraSection, D.back.incl_zero, ha, hb, p.base_app _ _, sub_self]
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- **The value of `b - φ ∘ a` on a variable** is the value `x₂ - φ(x₁)` of Step 2. -/
 theorem liftAlgebraSection_variable (p : Lift D) (X : Cᵒᵖ) (x : D.PairSection X) :
     liftAlgebraSection D p X
@@ -235,6 +275,11 @@ def liftDerivation (p : Lift D) :
   d_map {_X _Y} f x := liftAlgebraSection_map D p f x
   d_app {X} j := liftAlgebraSection_coefficientMap D p X j
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- The derivation of a lift takes a local section `x` to `liftAlgebraSection D p X x`. -/
 @[simp] theorem liftDerivation_d (p : Lift D) (X : Cᵒᵖ)
     (x : (freeAlgebraSheaf J D.front.OB' (pairPresheaf D)).obj.obj X) :
@@ -262,6 +307,11 @@ def tensorDerivation (θ : reducedDegreeZero D ⟶ pushedIdeal D) :
       (freeAlgebraSheafCoefficientMap J D.front.OB (pairPresheaf D)).hom :=
   degreeZeroHomEquivDerivation D (pushedIdeal D) θ
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- The derivation corresponding to `θ` takes a local section `y` to the value of `θ` on
 `1 ⊗ d y`. -/
 theorem tensorDerivation_d (θ : reducedDegreeZero D ⟶ pushedIdeal D) (X : Cᵒᵖ)
@@ -280,6 +330,11 @@ def baseChangeDerivationFun (X : Cᵒᵖ)
     (x : (freeAlgebraSheaf J D.front.OB' (pairPresheaf D)).obj.obj X) : D.back.G.val.obj X :=
   Θ.d ((algebraBaseChange D).hom.app X x)
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- `baseChangeDerivationFun` is additive. -/
 theorem baseChangeDerivationFun_add (X : Cᵒᵖ)
     (x y : (freeAlgebraSheaf J D.front.OB' (pairPresheaf D)).obj.obj X) :
@@ -288,6 +343,11 @@ theorem baseChangeDerivationFun_add (X : Cᵒᵖ)
   (congrArg (fun t => Θ.d t) (map_add ((algebraBaseChange D).hom.app X).hom x y)).trans
     (map_add Θ.d _ _)
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- `baseChangeDerivationFun` commutes with restriction along a morphism `f : X ⟶ Y`. -/
 theorem baseChangeDerivationFun_map {X Y : Cᵒᵖ} (f : X ⟶ Y)
     (x : (freeAlgebraSheaf J D.front.OB' (pairPresheaf D)).obj.obj X) :
@@ -297,6 +357,11 @@ theorem baseChangeDerivationFun_map {X Y : Cᵒᵖ} (f : X ⟶ Y)
   (congrArg (fun t => Θ.d t)
     (sheafHom_naturality_apply J (algebraBaseChange D) f x)).trans (Θ.d_map f _)
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- `baseChangeDerivationFun` vanishes on the image of the coefficients `𝒪_{B'₁}`. -/
 theorem baseChangeDerivationFun_coefficientMap (X : Cᵒᵖ) (j : D.front.OB'.obj.obj X) :
     baseChangeDerivationFun D Θ X
@@ -307,6 +372,11 @@ theorem baseChangeDerivationFun_coefficientMap (X : Cᵒᵖ) (j : D.front.OB'.ob
       (freeAlgebraSheafCoefficientMap_comp_baseChange J D.front.baseReduction
         (pairPresheaf D)))).trans (Θ.d_app _)
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- The Leibniz rule for `baseChangeDerivationFun`, the scalars acting through the thickened
 presentation. -/
 theorem baseChangeDerivationFun_mul (X : Cᵒᵖ)
@@ -336,6 +406,11 @@ def baseChangeDerivation :
   d_map {_X _Y} f x := baseChangeDerivationFun_map D Θ f x
   d_app {X} j := baseChangeDerivationFun_coefficientMap D Θ X j
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- The pullback of `Θ` takes a local section `x` to the value of `Θ` on its reduction. -/
 @[simp] theorem baseChangeDerivation_d (X : Cᵒᵖ)
     (x : (freeAlgebraSheaf J D.front.OB' (pairPresheaf D)).obj.obj X) :
@@ -345,6 +420,11 @@ end BaseChangeDerivation
 
 /-! ### The two derivations agree -/
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- The reduction of coefficients is the identity on the variables, in the form the agreement of
 the two derivations on the generators needs. -/
 theorem algebraBaseChange_variable (X : Cᵒᵖ) (x : D.PairSection X) :
@@ -356,6 +436,9 @@ theorem algebraBaseChange_variable (X : Cᵒᵖ) (x : D.PairSection X) :
         underlyingPresheaf J (freeAlgebraSheaf J D.front.OB (pairPresheaf D)) => k.app X x)
     (freeAlgebraSheafVariable_comp_baseChange J D.front.baseReduction (pairPresheaf D))
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- **The derivation of a lift is the pullback of the derivation of the prescribed morphism out
 of `NL(α)₀`.** Both are derivations of `𝒪_{B'₁}[ℰ]` over `𝒪_{B'₁}`, and a derivation of a free
 algebra sheaf is determined by its values on the variables; on the variable `[x]` both take the
@@ -383,6 +466,11 @@ theorem liftDerivation_eq (p : Lift D) :
 
 /-! ### The factorization of `ξ` -/
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- **The value of the derivation `b - φ ∘ a` on a local section of `ℐ'`.** It is the difference
 of the two restriction data of Step 1, in the order `b|_{ℐ'} - ν ∘ a|_{ℐ'}`: the compatibility of
 a lift with `ν` is what turns `φ(a(x))` into `ν(a(x))`. -/
@@ -395,6 +483,11 @@ theorem liftAlgebraSection_thickIdeal (p : Lift D) (X : Cᵒᵖ) (x : D.thickIde
         D.back.incl (D.nuSection (frontIdealSection D X x)) by
       rw [← incl_frontIdealSection, p.kernel_comm]]
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- The two restriction data of Step 1 are `ν ∘ a|_{ℐ'}` and `b|_{ℐ'}` by definition. -/
 theorem frontRestriction_sub_backRestriction_app (X : Cᵒᵖ) (x : D.thickIdeal X) :
     (frontRestriction D).app X x - (backRestriction D).app X x =
@@ -418,16 +511,25 @@ consumes. -/
 def liftFactorization (p : Lift D) : reducedDegreeZero D ⟶ pushedIdeal D :=
   -liftDegreeZeroHom D p
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- `liftFactorization D p` is the negative of `liftDegreeZeroHom D p`. -/
 theorem liftFactorization_eq_neg (p : Lift D) :
     liftFactorization D p = -liftDegreeZeroHom D p := rfl
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- The value of `liftFactorization D p` on a local section is the negative of the value of
 `liftDegreeZeroHom D p`. -/
 theorem liftFactorization_app (p : Lift D) (X : Cᵒᵖ)
     (t : (reducedDegreeZero D).val.obj X) :
     (liftFactorization D p).val.app X t = -((liftDegreeZeroHom D p).val.app X t) := rfl
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- **The morphism prescribed by a lift factors the difference cocycle of Step 1.** Pulled back
 along `ℐ'/(ℐ')² ↠ ℐ/ℐ²` the composite `d ≫ liftFactorization` is the difference cocycle
 `ν ∘ a|_{ℐ'} - b|_{ℐ'}`: the conormal class of a local section `x` of `ℐ'` goes to the class of
@@ -486,6 +588,11 @@ section Sufficiency
 
 variable (θ : reducedDegreeZero D ⟶ pushedIdeal D)
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- **The chain of Step 2, with the morphism out of the degree `0` term left free.** The
 derivation `θ` induces on `𝒪_{B'₁}[ℰ]` takes on a local section `x` of `ℐ'` the value of
 `d ≫ θ` on the conormal class of `x`: the class of `x` in `ℐ'/(ℐ')²` goes to the class of its
@@ -541,6 +648,11 @@ theorem tensorDerivation_d_baseChange_thickIdeal
     (thickenedPresentation D) (pushedIdeal D) (frontRestriction D) (backRestriction D) X x
   exact ((tensorDerivation_d_baseChange_eq_apply_conormalClass D θ X x).trans hval).trans hR
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- **`hred` for the source's own presentation:** `b` reduces to `α` followed by `g`, and `a`
 reduces to `α`, so `b` is over `g ∘ (reduction ∘ a)`. -/
 theorem reduction_backAlgebra_eq_g_reduction_frontAlgebra (X : Cᵒᵖ)
@@ -549,6 +661,11 @@ theorem reduction_backAlgebra_eq_g_reduction_frontAlgebra (X : Cᵒᵖ)
       D.g.hom.app X (D.front.reduction.hom.app X ((frontAlgebra D).hom.app X x)) := by
   rw [reduction_backAlgebra_apply, reduction_frontAlgebra_apply]
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- **`hc` for the source's own presentation:** the coefficient map followed by `a` is the
 structure map of the front thickened square. -/
 theorem coefficientMap_comp_frontAlgebra :
@@ -557,6 +674,11 @@ theorem coefficientMap_comp_frontAlgebra :
   freeAlgebraSheafCoefficientMap_comp_desc J D.front.OB' D.front.O' (pairPresheaf D)
     D.front.f' (pairFst D)
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- The coefficient map followed by `b` is the comparison of thickened bases followed by the
 structure map of the back thickened square: the half of `hbase` that does not involve the
 derivation. -/
@@ -566,6 +688,11 @@ theorem coefficientMap_comp_backAlgebra :
   freeAlgebraSheafCoefficientMap_comp_desc J D.front.OB' D.back.O' (pairPresheaf D)
     (D.gB' ≫ D.back.f') (pairSnd D)
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- **A local section of `𝒪_{B'₁}[ℰ]` carried by `a` into the ideal `𝒢₁` lies in `ℐ'`.** This is
 the hypothesis of `hideal`, half turned into what Step 3 uses. -/
 theorem mem_thickIdeal_of_frontAlgebra_eq_incl (X : Cᵒᵖ) (m : D.front.G.val.obj X)
@@ -575,6 +702,11 @@ theorem mem_thickIdeal_of_frontAlgebra_eq_incl (X : Cᵒᵖ) (m : D.front.G.val.
   RingHom.mem_ker.mpr (by
     rw [← reduction_frontAlgebra_apply, hx, D.front.reduction_incl])
 
+omit [HasWeakSheafify J AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective AddCommGrpCat.{max u v w}]
+  [J.WEqualsLocallyBijective CommRingCat.{max u v w}]
+  [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
+  [HasSheafify J AddCommGrpCat.{max u v w}] in
 /-- **And `a|_{ℐ'}` then recovers the section of `𝒢₁` it was carried to**, by injectivity of the
 ideal inclusion. This is the other half of the hypothesis of `hideal`. -/
 theorem frontIdealSection_of_frontAlgebra_eq_incl (X : Cᵒᵖ) (m : D.front.G.val.obj X)

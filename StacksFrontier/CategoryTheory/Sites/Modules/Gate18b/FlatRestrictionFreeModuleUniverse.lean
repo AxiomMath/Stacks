@@ -88,7 +88,6 @@ open Stacks.Sites.ExtensionByZero.FreeModuleUniverse
 section SheafLevel
 
 variable {C : Type u} [Category.{v} C] (J : GrothendieckTopology C)
-  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [J.WEqualsLocallyBijective AddCommGrpCat.{max v a}]
   [HasWeakSheafify J AddCommGrpCat.{max v a}]
 
@@ -135,8 +134,6 @@ end SheafLevel
 section Flat
 
 variable (X : RingedSite.{u, v, w}) (U : X.C)
-  [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
-  [(X.J.over U).HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [X.J.WEqualsLocallyBijective AddCommGrpCat.{max v a}]
   [HasWeakSheafify X.J AddCommGrpCat.{max v a}]
   [(X.J.over U).WEqualsLocallyBijective AddCommGrpCat.{max v a}]

@@ -168,7 +168,7 @@ private theorem isLocalization_algebraMapSubmonoid_baseChange
   induction x with
   | add a b ha hb => simp only [map_add, ha, hb]
   | tmul s b =>
-      show e (1 ⊗ₜ (s ⊗ₜ b)) = _
+      change e (1 ⊗ₜ (s ⊗ₜ b)) = _
       rw [hc]
       simp [e, e₁, e₂, e₃, Algebra.smul_def]
 
@@ -206,7 +206,7 @@ private theorem essentiallyOfFinitePresentation_of_tower {R : Type u} {S : Type 
   have hc : ∀ (s : S) (b : B),
       algebraMap (S ⊗[R] B) (S ⊗[R] S') (s ⊗ₜ b) = s ⊗ₜ algebraMap B S' b := by
     intro s b
-    show φ (s ⊗ₜ b) = _
+    change φ (s ⊗ₜ b) = _
     simp [φ]
   obtain ⟨W, hlocW⟩ : ∃ W : Submonoid (S ⊗[R] B), IsLocalization W (S ⊗[R] S') :=
     ⟨_, isLocalization_algebraMapSubmonoid_baseChange U hc⟩
@@ -240,7 +240,7 @@ private theorem essentiallyOfFinitePresentation_of_tower {R : Type u} {S : Type 
     rw [Ideal.map_span, Ideal.span_le]
     rintro _ ⟨_, ⟨a, ha, rfl⟩, rfl⟩
     rw [SetLike.mem_coe, RingHom.mem_ker]
-    show π (algebraMap (S ⊗[R] B) (S ⊗[R] S') (yy a).1) = 0
+    change π (algebraMap (S ⊗[R] B) (S ⊗[R] S') (yy a).1) = 0
     rw [← hyy a, map_mul, hπee a, zero_mul]
   have hkerK : RingHom.ker π ≤ Ideal.map (algebraMap (S ⊗[R] B) (S ⊗[R] S')) K := by
     refine hkerJ.trans ?_
@@ -270,7 +270,7 @@ private theorem essentiallyOfFinitePresentation_of_tower {R : Type u} {S : Type 
     refine IsScalarTower.of_algebraMap_eq' (RingHom.ext fun s => ?_)
     rw [RingHom.comp_apply,
       show algebraMap S ((S ⊗[R] B) ⧸ K) s = Ideal.Quotient.mk K (s ⊗ₜ[R] (1 : B)) from rfl]
-    show algebraMap S S' s = π (algebraMap (S ⊗[R] B) (S ⊗[R] S') (s ⊗ₜ[R] (1 : B)))
+    change algebraMap S S' s = π (algebraMap (S ⊗[R] B) (S ⊗[R] S') (s ⊗ₜ[R] (1 : B)))
     rw [hc, map_one, hπtmul, mul_one]
   obtain ⟨A', instA', algSA', algA'S', towerSA'S', fpSA', V, locV⟩ :=
     essFP_reuniverse (R := S) (T := S') ((S ⊗[R] B) ⧸ K) (Submonoid.map (Ideal.Quotient.mk K) W)

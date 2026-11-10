@@ -136,7 +136,7 @@ theorem isProper_sigmaDesc_of_locallyFinite {Y : Scheme.{u}} {I : Type u} (Z : I
     (hfinite : LocallyFinite fun i ↦ Set.range (f i)) : IsProper (Sigma.desc f) := by
   have hj (i : I) : IsClosedImmersion (Sigma.ι Z i) := isClosedImmersion_sigmaι Z i
   have hp (i : I) : IsProper (Sigma.ι Z i ≫ Sigma.desc f) := by
-    simpa only [Sigma.ι_desc] using (inferInstance : IsProper (f i))
+    simpa only [Sigma.ι_comp_desc] using (inferInstance : IsProper (f i))
   have _ : IsZariskiLocalAtSource (@LocallyOfFiniteType) :=
     HasRingHomProperty.instIsZariskiLocalAtSource (P := @LocallyOfFiniteType)
       (Q := RingHom.FiniteType)
@@ -147,7 +147,7 @@ theorem isProper_sigmaDesc_of_locallyFinite {Y : Scheme.{u}} {I : Type u} (Z : I
   · exact Stacks.Topology.locallyFinite_of_disjoint_open_cover _
       (fun i ↦ (Sigma.ι Z i).isOpenEmbedding.isOpen_range) (exists_mem_range_sigmaι Z)
       (pairwise_disjoint_range_sigmaι Z)
-  · simpa only [Sigma.ι_desc] using hfinite
+  · simpa only [Sigma.ι_comp_desc] using hfinite
 
 /-! ### Decompositions presented by open immersions -/
 

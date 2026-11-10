@@ -210,13 +210,11 @@ private theorem _root_.ModuleCat.exists_tensorProduct_addEquiv_of_ringEquiv {A A
   obtain ⟨τ', hτ'⟩ := ModuleCat.exists_tensorProduct_addMonoidHom b s α.symm β.symm hsq'
     (P := N) eN.symm.toAddMonoidHom hNs
   have hττ' : ∀ z, τ' (τ z) = z := fun z => by
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul c n => rw [hτ, hτ']; simp
     | add z z' hz hz' => rw [map_add, map_add, hz, hz']
   have hτ'τ : ∀ z, τ (τ' z) = z := fun z => by
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul c n => rw [hτ', hτ]; simp
     | add z z' hz hz' => rw [map_add, map_add, hz, hz']
   exact ⟨AddEquiv.mk ⟨τ, τ', hττ', hτ'τ⟩ (map_add τ), hτ⟩
@@ -250,10 +248,7 @@ theorem _root_.ModuleCat.bijective_homEquiv_symm_iff_of_ringEquiv {A A' B B' : T
       c • (show P' from k.hom n) := ModuleCat.extendRestrictScalarsAdj_homEquiv_symm_hom_tmul b k
   obtain ⟨τ, hτ⟩ := ModuleCat.exists_tensorProduct_addEquiv_of_ringEquiv s b α β hsq eN hN
   have hcomp : ∀ z, Tk.hom (τ z) = eN' (Tg.hom z) := fun z => by
-    induction z using TensorProduct.induction_on with
-    | zero =>
-      exact (congrArg Tk.hom (map_zero τ)).trans ((map_zero Tk.hom).trans
-        ((congrArg eN' (map_zero Tg.hom)).trans (map_zero eN')).symm)
+    induction z using TensorProduct.inductionOn with
     | tmul c n =>
       refine (congrArg Tk.hom (hτ c n)).trans ((hTk (β c) (eN n)).trans ?_)
       refine Eq.trans ?_ (congrArg eN' (hTg c n)).symm
@@ -299,11 +294,16 @@ theorem _root_.Stacks.PresheafOfModules.bijective_restrictionBaseChange_iff_of_a
   · change M.map β (M.map g n) = M.map g₁ (M.map α n)
     rw [← PresheafOfModules.map_comp_apply, ← PresheafOfModules.map_comp_apply, hsq]
 
+end AlgebraicGeometry.Stack
+
+namespace Stacks.PresheafOfModules
+
 /-- **The base-change comparison after restriction along a functor and an isomorphism of rings**,
 for modules with sections in `Type (u + 1)` over presheaves of commutative rings in `Type u`.
-This is `Stacks.PresheafOfModules.bijective_restrictionBaseChange_restrictScalars_pushforward₀_iff`
+This is
+`Stacks.PresheafOfModules.bijective_restrictionBaseChange_restrictScalars_pushforward₀_iff`
 with the sections in the universe above that of the rings. -/
-theorem _root_.Stacks.PresheafOfModules.bijective_restrictionBaseChange_restrictScalars_pushforward₀_iff_succ
+theorem bijective_restrictionBaseChange_restrictScalars_pushforward₀_iff_succ
     {C : Type v} [Category.{w} C] {D : Type u₂} [Category.{v₂} D]
     (q : D ⥤ C) (R : Cᵒᵖ ⥤ CommRingCat.{u}) (R' : Dᵒᵖ ⥤ CommRingCat.{u})
     (ψ : R' ⋙ forget₂ CommRingCat RingCat ⟶ q.op ⋙ R ⋙ forget₂ CommRingCat RingCat)
@@ -322,6 +322,16 @@ theorem _root_.Stacks.PresheafOfModules.bijective_restrictionBaseChange_restrict
     (fun t => RingHom.congr_fun (congrArg RingCat.Hom.hom (ψ.naturality g)) t)
     _ (M.map (q.op.map g)) (AddEquiv.refl _) (AddEquiv.refl _)
     (fun _ _ => rfl) (fun _ _ => rfl) (fun _ => rfl)
+
+end Stacks.PresheafOfModules
+
+namespace AlgebraicGeometry.Stack
+
+variable (B : BigFppfSite.{u}) (E : BigEtaleSite.{u}) (h : E.cutoff = B.cutoff)
+  (S : Scheme.{u}) (hS : B.Contains S)
+  {𝒳 : Type v} [Category.{w} 𝒳] (p : 𝒳 ⥤ BigFppfOver B S hS) (hp : p.IsFiberedInGroupoids)
+
+variable {x y : 𝒳} (φ : x ⟶ y)
 
 /-- **The restriction of Stacks 06WJ is cartesian over a morphism `g` of the small étale site
 exactly when the module is cartesian over the image of `g` under the index functor**, for modules

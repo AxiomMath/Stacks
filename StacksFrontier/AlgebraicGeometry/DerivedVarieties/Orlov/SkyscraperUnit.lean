@@ -85,7 +85,7 @@ theorem isZero_stalkFunctor_skyscraperObj_of_ne (hx : IsClosed ({x} : Set X)) {y
       (SheafOfModules.skyscraperObj X.ringCatSheaf x N).val.presheaf y, t = 0 by
     rw [this a, this b]
   intro t
-  obtain ⟨U, hyU, s, rfl⟩ := TopCat.Presheaf.germ_exist
+  obtain ⟨U, hyU, s, rfl⟩ := TopCat.Presheaf.exists_germ_eq
     (SheafOfModules.skyscraperObj X.ringCatSheaf x N).val.presheaf (x := y) t
   let V : Opens X := ⟨{x}ᶜ, hx.isOpen_compl⟩
   have hyW : y ∈ U ⊓ V := ⟨hyU, hy⟩
@@ -112,7 +112,7 @@ theorem isIso_stalkSkyscraperAdjunction_counit :
     IsIso (SheafOfModules.stalkSkyscraperAdjunction X.ringCatSheaf x).counit := by
   rw [NatTrans.isIso_iff_isIso_app]
   intro N
-  show IsIso (SheafOfModules.stalkSkyscraperDown X.ringCatSheaf x _ N (𝟙 _))
+  change IsIso (SheafOfModules.stalkSkyscraperDown X.ringCatSheaf x _ N (𝟙 _))
   unfold SheafOfModules.stalkSkyscraperDown
   exact @IsIso.comp_isIso _ _ _ _ _ _ _ (Functor.map_isIso _ _)
     (SheafOfModules.skyscraperStalkIsoObj X.ringCatSheaf x N).isIso_hom

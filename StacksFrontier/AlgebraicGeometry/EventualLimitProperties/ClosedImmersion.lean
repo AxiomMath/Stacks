@@ -117,7 +117,7 @@ lemma exists_ι_app_eq {d : Cocone F} (hd : IsColimit d) (z : d.pt) :
         naturality := fun j k g => by
           ext y
           refine Subtype.ext ?_
-          show (d.ι.app k).hom ((F.map g).hom y) = (d.ι.app j).hom y
+          change (d.ι.app k).hom ((F.map g).hom y) = (d.ι.app j).hom y
           exact ι_app_map_apply d g y } }
   have hcomp : hd.desc e ≫ CommRingCat.ofHom (jointRange d).subtype = 𝟙 d.pt := by
     refine hd.hom_ext fun j => ?_

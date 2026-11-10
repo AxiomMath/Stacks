@@ -261,7 +261,7 @@ private lemma mapHomotopyQObjIso_naturalityNatTrans
           (G.mapHomotopyCategoryFactors c).hom.app K =
           (F.mapHomotopyCategoryFactors c).hom.app K ≫ qB.map τK := by
     dsimp [NatTrans.mapHomotopyCategory]
-    show qB.map τK ≫ 𝟙 _ = 𝟙 _ ≫ qB.map τK
+    change qB.map τK ≫ 𝟙 _ = 𝟙 _ ≫ qB.map τK
     cat_disch
   rw [mapHomotopyQObjIso_hom_app, mapHomotopyQObjIso_hom_app]
   calc
@@ -591,7 +591,7 @@ private lemma canonicalRightDerivedComparisonIso_naturality
     have : IsIso (ηG.app I) := canonicalRightDerivedUnit_isIso X G I.1.as I.property.1
     have hfac : ηF.app I ≫ δ.app ((kInjectiveQ X).obj I) =
         τ.app I.1 ≫ ηG.app I := NatTrans.congr_app hδ I.1
-    show δ.app ((kInjectiveQ X).obj I) ≫ (asIso (ηG.app I)).inv =
+    change δ.app ((kInjectiveQ X).obj I) ≫ (asIso (ηG.app I)).inv =
       (asIso (ηF.app I)).inv ≫ τ.app I.1
     apply (cancel_epi (ηF.app I)).1
     apply (cancel_mono (ηG.app I)).1
@@ -601,7 +601,7 @@ private lemma canonicalRightDerivedComparisonIso_naturality
       eG.hom.app (E.inverse.obj K) =
       eF.hom.app (E.inverse.obj K) ≫ τ.app (E.inverse.obj K).1 :=
     NatTrans.congr_app hE (E.inverse.obj K)
-  show δ.app K ≫ (canonicalRightDerivedComparisonIso X G).hom.app K =
+  change δ.app K ≫ (canonicalRightDerivedComparisonIso X G).hom.app K =
     (canonicalRightDerivedComparisonIso X F).hom.app K ≫ τ.app (E.inverse.obj K).1
   rw [canonicalRightDerivedComparisonIso_hom_app,
     canonicalRightDerivedComparisonIso_hom_app]
@@ -657,7 +657,7 @@ private lemma sectionsWithSupportTriangleOnKInjectives_distinguished
   | mk K =>
       let I : (kInjectiveObjects X).FullSubcategory :=
         ⟨(HomotopyCategory.quotient (ModuleSheaves X) (ComplexShape.up ℤ)).obj K, hI'⟩
-      show Triangle.mk
+      change Triangle.mk
           ((Functor.whiskerLeft (kInjectiveObjects X).ι
             (Functor.whiskerRight
               ((show sectionsWithSupport X Z hZ ⟶

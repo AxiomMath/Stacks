@@ -160,7 +160,7 @@ private theorem exists_flatPullbackWeight_eq {X : Scheme.{u}} (f : X ⟶ B.base.
       closure ({y} : Set (pullback f B.g : Scheme.{u})) := by
     rw [Scheme.IdealSheafData.range_subschemeι, Scheme.IdealSheafData.support_comap,
       Closeds.coe_preimage, hI, Scheme.IdealSheafData.coe_support_vanishingIdeal]
-    show q.base ⁻¹' closure ({x} : Set X) = _
+    change q.base ⁻¹' closure ({x} : Set X) = _
     rw [hx, ← Set.image_singleton, ← (hhom f).image_closure,
       Set.preimage_image_eq _ (hhom f).injective]
   have hrangej : Set.range j.base = closure ({y} : Set (pullback f B.g : Scheme.{u})) := by
@@ -207,7 +207,7 @@ private theorem injective_baseChangeCyclePullback {X : Scheme.{u}} (f : X ⟶ B.
     Function.Injective (baseChangeCyclePullback B f r) := by
   refine (injective_iff_map_eq_zero _).mpr fun z hz ↦
     Subtype.ext (Function.locallyFinsuppWithin.ext fun x ↦ ?_)
-  show z.1 x = 0
+  change z.1 x = 0
   by_contra hx
   obtain ⟨y, hy⟩ := (hhom f).surjective x
   obtain ⟨-, m, hm, -, hweight⟩ := exists_flatPullbackWeight_eq B p hc hhom hmul f y

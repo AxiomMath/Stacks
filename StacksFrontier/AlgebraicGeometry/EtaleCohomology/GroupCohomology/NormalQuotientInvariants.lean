@@ -157,7 +157,7 @@ lemma isContinuous_normalInvariantsQuotientRepresentation :
   rw [isContinuous_actionOfRepresentation_iff]
   intro x
   refine isOpen_coinduced.mpr ?_
-  show IsOpen {γ : Γ |
+  change IsOpen {γ : Γ |
     normalInvariantsQuotientRepresentation N M (QuotientGroup.mk γ) x = x}
   have hpre : {γ : Γ |
         normalInvariantsQuotientRepresentation N M (QuotientGroup.mk γ) x = x} =

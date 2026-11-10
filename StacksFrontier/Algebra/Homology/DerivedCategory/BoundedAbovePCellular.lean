@@ -55,11 +55,11 @@ variable {K N Q}
 
 /-- Below `N` the truncated ladder is the ladder. -/
 noncomputable def ladderObjIsoBelow {n : ℕ} (h : n < N) : ladderObj K N Q n ≅ Q n :=
-  eqToIso (if_pos h)
+  eqToIso (ite_eq_left h)
 
 /-- From `N` on the truncated ladder is `K`. -/
 noncomputable def ladderObjIsoAbove {n : ℕ} (h : ¬ n < N) : ladderObj K N Q n ≅ K :=
-  eqToIso (if_neg h)
+  eqToIso (ite_eq_right h)
 
 /-- The transition maps of the truncated ladder. -/
 noncomputable def ladderMap (n : ℕ) : ladderObj K N Q n ⟶ ladderObj K N Q (n + 1) :=
@@ -84,13 +84,13 @@ lemma ladderMap_comp_ladderToObj
     ladderMap f g n ≫ ladderToObj (N := N) f (n + 1) = ladderToObj f n := by
   by_cases h₁ : n + 1 < N
   · have h₂ : n < N := by omega
-    simp only [ladderMap, ladderToObj, dif_pos h₁, dif_pos h₂, Category.assoc,
+    simp only [ladderMap, ladderToObj, dite_eq_left h₁, dite_eq_left h₂, Category.assoc,
       Iso.inv_hom_id_assoc]
     rw [hladder n]
   · by_cases h₂ : n < N
-    · simp only [ladderMap, ladderToObj, dif_neg h₁, dif_pos h₂, Category.assoc,
+    · simp only [ladderMap, ladderToObj, dite_eq_right h₁, dite_eq_left h₂, Category.assoc,
         Iso.inv_hom_id, Category.comp_id]
-    · simp only [ladderMap, ladderToObj, dif_neg h₁, dif_neg h₂, Category.assoc,
+    · simp only [ladderMap, ladderToObj, dite_eq_right h₁, dite_eq_right h₂, Category.assoc,
         Iso.inv_hom_id, Category.comp_id]
 
 /-- The cocone of the truncated ladder with vertex `K`. -/
@@ -116,7 +116,7 @@ lemma isIso_ladderCocone_ι_app
     (hladder : ∀ n : ℕ, g n ≫ f (n + 1) ≫ K.ιTruncLE ((n + 1 : ℕ) : ℤ) =
       f n ≫ K.ιTruncLE ((n : ℕ) : ℤ)) {n : ℕ} (h : ¬ n < N) :
     IsIso ((ladderCocone (N := N) hladder).ι.app n) := by
-  simp only [ladderCocone_ι_app, ladderToObj, dif_neg h]
+  simp only [ladderCocone_ι_app, ladderToObj, dite_eq_right h]
   exact Iso.isIso_hom _
 
 /-- The truncated ladder is constant from `N` on. -/
@@ -135,11 +135,11 @@ omit g in
 lemma quasiIsoAt_ladderToObj (hf : ∀ n, QuasiIso (f n)) (n : ℕ) (i : ℤ) (hi : i ≤ (n : ℤ)) :
     QuasiIsoAt (ladderToObj (N := N) f n) i := by
   by_cases h : n < N
-  · simp only [ladderToObj, dif_pos h]
+  · simp only [ladderToObj, dite_eq_left h]
     have := hf n
     have : QuasiIsoAt (K.ιTruncLE (n : ℤ)) i := CochainComplex.quasiIsoAt_ιTruncLE K _ _ hi
     infer_instance
-  · simp only [ladderToObj, dif_neg h]
+  · simp only [ladderToObj, dite_eq_right h]
     infer_instance
 
 end Ladder
@@ -162,14 +162,14 @@ public lemma isPCellular_of_isStrictlyLE_of_biprod_of_epi (P : ObjectProperty A)
   refine ⟨ladderObj K N Q, ladderMap f g, c, hc, Iso.refl _, fun n => ?_, fun n i => ?_,
     fun n i hi => ?_⟩
   · by_cases h : n < N
-    · rw [ladderObj, if_pos h]
+    · rw [ladderObj, ite_eq_left h]
       exact hle n
-    · rw [ladderObj, if_neg h]
+    · rw [ladderObj, ite_eq_right h]
       exact CochainComplex.isStrictlyLE_of_le K a n (by omega)
   · by_cases h : n < N
-    · rw [ladderObj, if_pos h]
+    · rw [ladderObj, ite_eq_left h]
       exact hQ n i
-    · rw [ladderObj, if_neg h]
+    · rw [ladderObj, ite_eq_right h]
       exact hK i
   · exact (quasiIsoAt_iff_comp_right (c.ι.app n) (Iso.refl c.pt).hom i).2
       (quasiIsoAt_ladderToObj (N := N) (f := f) hf n i hi)

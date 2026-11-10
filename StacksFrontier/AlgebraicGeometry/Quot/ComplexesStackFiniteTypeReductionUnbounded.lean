@@ -55,6 +55,7 @@ variable {B : BigFppfSite.{u}}
 attribute [local instance] complexesCategory
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullbacks` for presheaves on the big fppf site is a deep instance search
 /-- Pullbacks of presheaves on the big fppf site over the terminal scheme (instance search
 times out without this shortcut). -/
 local instance hasPullbacks_presheaf_ComplexesStackFiniteTypeReductionUnbounded

@@ -66,7 +66,7 @@ private theorem idealPowerMultiple_eq_bot_of_stalks (I : X.IdealSheafData) (t : 
   apply idealPowerMultiple_eq_bot_of_affine_sections_annihilated
   intro U r hr x
   refine TopCat.Presheaf.section_ext ⟨M.presheaf, M.isSheaf⟩ U.1 _ 0 fun y hy => ?_
-  show (M.presheaf.germ U.1 y hy).hom (r • x) = (M.presheaf.germ U.1 y hy).hom 0
+  change (M.presheaf.germ U.1 y hy).hom (r • x) = (M.presheaf.germ U.1 y hy).hom 0
   rw [map_zero, germ_smul y U.1 hy r x]
   exact h y _ (germ_mem_stalk_pow I t U hy hr) _
 

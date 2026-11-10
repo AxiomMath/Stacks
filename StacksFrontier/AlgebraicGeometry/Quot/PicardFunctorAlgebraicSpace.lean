@@ -127,7 +127,7 @@ theorem overTotalToValue_overTotalMap {U T : SchemesOver Y} (g : U ⟶ T) (a : O
   obtain ⟨b, r⟩ := a
   dsimp only at ha
   subst ha
-  show R.map (CostructuredArrow.homMk (f := U)
+  change R.map (CostructuredArrow.homMk (f := U)
       (f' := CostructuredArrow.mk ((schemeSpaceFunctor B S hS).map g.left ≫ T.hom)) (𝟙 _) _).op
       (R.map (CostructuredArrow.homMk
         (f := CostructuredArrow.mk ((schemeSpaceFunctor B S hS).map g.left ≫ T.hom))
@@ -195,7 +195,7 @@ theorem bijective_modelPointsToValue (hF : IsAlgebraicSpace B S hS F) (T : Schem
   let a : OverTotal R T.left := ⟨T.hom, R.map (CostructuredArrow.homMk
     (f := CostructuredArrow.mk T.hom) (f' := T) (𝟙 T.left) (by simp)).op r⟩
   refine ⟨⟨(e T.left).symm a, ?_⟩, ?_⟩
-  · show testPoint (CostructuredArrow.mk (e T.left ((e T.left).symm a)).1) = testPoint T
+  · change testPoint (CostructuredArrow.mk (e T.left ((e T.left).symm a)).1) = testPoint T
     rw [Equiv.apply_symm_apply]
     rfl
   · rw [modelPointsToValue, overTotalToValue_congr R T (Equiv.apply_symm_apply _ a)]
@@ -275,7 +275,7 @@ theorem kernelCoproductToIsoClass_kernelCoproductMap (hstr : s.StructureSheafMap
     have h1 := picardClass_kernelObject (σ := σ) (hσ := hσ) _ (kernelCoproductMap g ⟨h, x⟩).2
     have h2 := picardClass_kernelObject (σ := σ) (hσ := hσ) h x
     refine h1.trans ?_
-    show s.picardMap b x.1 = _
+    change s.picardMap b x.1 = _
     conv_lhs => rw [← h2]
     exact picardPullback_picardClass (baseChangeMap s.f b) A.toPicardObject.lineBundle
       A.toPicardObject.invertible

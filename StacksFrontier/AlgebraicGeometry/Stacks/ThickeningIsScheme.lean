@@ -22,8 +22,8 @@ public import StacksFrontier.AlgebraicGeometry.Stacks.ThickeningSchemeStack
 affine case of Stacks 05ZR, `hAffineCase`: an algebraic space receiving a surjective closed
 immersion from an affine algebraic space is affine. That statement is
 `AlgebraicGeometry.Space.isAffineSpace_of_isClosedImmersion_of_isSurjective_of_isAffineSpace`
-(`StacksFrontier.AlgebraicGeometry.Spaces.Thickenings.AffineOfAffineThickening`), which discharges the
-hypothesis.
+(`StacksFrontier.AlgebraicGeometry.Spaces.Thickenings.AffineOfAffineThickening`), which discharges
+the hypothesis.
 
 Being a scheme is read, as in `StacksFrontier.AlgebraicGeometry.Stacks.ThickeningSchemeStack`, as
 `Stacks.RepresentableMorphism.IsRepresentableCFG` of the structure functor: the category fibred

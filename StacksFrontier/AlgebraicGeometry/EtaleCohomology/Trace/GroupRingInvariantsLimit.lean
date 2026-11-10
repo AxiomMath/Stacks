@@ -62,9 +62,9 @@ lemma groupRingAugmentation_scalars (c : Λ) :
 /-- The scalars `Λ` are central in `Λ[G]`. -/
 lemma groupRingScalars_commute (c : Λ) (a : MonoidAlgebra Λ G) :
     groupRingScalars Λ G c * a = a * groupRingScalars Λ G c := by
-  show MonoidAlgebra.single 1 c * a = a * MonoidAlgebra.single 1 c
+  change MonoidAlgebra.single 1 c * a = a * MonoidAlgebra.single 1 c
   ext x
-  rw [MonoidAlgebra.single_one_mul_apply, MonoidAlgebra.mul_single_one_apply, mul_comm]
+  rw [MonoidAlgebra.coeff_single_one_mul, MonoidAlgebra.coeff_mul_single_one, mul_comm]
 
 /-- **The action of `g ∈ G`** as an endomorphism of restriction of scalars along `Λ → Λ[G]`:
 multiplication by the group element, which is `Λ`-linear because `Λ` is central. -/
@@ -119,7 +119,7 @@ lemma smul_eq_augmentation_smul_of_invariant {M : Type*} [AddCommGroup M]
   | add a b ha hb => rw [add_smul, ha, hb, map_add, map_add, add_smul]
   | single g c =>
     have : MonoidAlgebra.single g c = groupRingScalars Λ G c * MonoidAlgebra.single g 1 := by
-      show MonoidAlgebra.single g c = MonoidAlgebra.single 1 c * MonoidAlgebra.single g 1
+      change MonoidAlgebra.single g c = MonoidAlgebra.single 1 c * MonoidAlgebra.single g 1
       rw [MonoidAlgebra.single_mul_single, one_mul, mul_one]
     rw [groupRingAugmentation_single, this, mul_smul, hm]
 
@@ -183,7 +183,7 @@ lemma coextendScalars_augmentation_apply (M : ModuleCat.{max v u} (MonoidAlgebra
     φ x = groupRingScalars Λ G x • φ (1 : Λ) := by
   have h := (ModuleCat.CoextendScalars.equiv _ M φ).map_smul (groupRingScalars Λ G x) (1 : Λ)
   refine Eq.trans (congrArg (ModuleCat.CoextendScalars.equiv _ M φ) ?_) h
-  show x = groupRingAugmentation Λ G (groupRingScalars Λ G x) * 1
+  change x = groupRingAugmentation Λ G (groupRingScalars Λ G x) * 1
   rw [groupRingAugmentation_scalars, mul_one]
 
 /-- **Invariants are the limit of restriction of scalars with `G` acting**: evaluation at `1`

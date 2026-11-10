@@ -65,14 +65,11 @@ noncomputable def fiber_pullback_snd_homeomorphic_fiber
       simpa [y.2] using ConcreteCategory.congr_hom (pullback.condition (f := f) (g := g)) y.1⟩
   { toFun := toFun
     invFun := fun x => ⟨lift x, by
-      simpa [lift, second] using
-        ConcreteCategory.congr_hom (pullback.lift_snd first second compat) x⟩
+      simp [lift, second]⟩
     left_inv := fun y => by
       refine Subtype.ext (pullback_point_ext f g _ _ ?_ ?_)
-      · simpa [lift, first, toFun] using
-          ConcreteCategory.congr_hom (pullback.lift_fst first second compat) (toFun y)
-      · simpa [lift, second, y.2] using
-          ConcreteCategory.congr_hom (pullback.lift_snd first second compat) (toFun y)
+      · simp [lift, first, toFun]
+      · simp [lift, second, y.2]
     right_inv := fun x => Subtype.ext
       (ConcreteCategory.congr_hom (pullback.lift_fst first second compat) x)
     continuous_toFun :=

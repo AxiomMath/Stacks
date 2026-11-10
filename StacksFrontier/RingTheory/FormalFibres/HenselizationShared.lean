@@ -107,12 +107,12 @@ lemma henselianLocalRing_of_ringEquiv {A : Type u} {B : Type v}
   constructor
   intro f hf b hb hd
   have hb' : (f.map e.symm.toRingHom).eval (e.symm b) ∈ IsLocalRing.maximalIdeal A := by
-    show (f.map e.symm.toRingHom).eval (e.symm.toRingHom b) ∈ _
+    change (f.map e.symm.toRingHom).eval (e.symm.toRingHom b) ∈ _
     rw [Polynomial.eval_map_apply]
     exact (hm _).mpr hb
   have hd' : IsUnit ((f.map e.symm.toRingHom).derivative.eval (e.symm b)) := by
     rw [Polynomial.derivative_map]
-    show IsUnit ((f.derivative.map e.symm.toRingHom).eval (e.symm.toRingHom b))
+    change IsUnit ((f.derivative.map e.symm.toRingHom).eval (e.symm.toRingHom b))
     rw [Polynomial.eval_map_apply]
     exact hd.map e.symm.toRingHom
   obtain ⟨a, ha, hab⟩ := HenselianLocalRing.is_henselian
@@ -153,7 +153,7 @@ lemma isHenselization_ulift (R : Type u) (L : Type v) (H : Type w)
   obtain ⟨eL, heL⟩ := IsHenselization.exists_residueFieldEquiv (R := R) (L := L) (Rh := H)
   refine IsHenselization.of_ind_etale.{max u w, v, 0} hH hind
     ⟨eL.trans (ResidueField.mapEquiv eH), fun r => ?_⟩
-  show ResidueField.mapEquiv eH
+  change ResidueField.mapEquiv eH
     (eL (algebraMap (ResidueField R) L (ResidueField.mapEquiv eR (residue R' r)))) = _
   simp only [ResidueField.mapEquiv, RingEquiv.coe_mk, Equiv.coe_fn_mk,
     ResidueField.map_residue, heL]

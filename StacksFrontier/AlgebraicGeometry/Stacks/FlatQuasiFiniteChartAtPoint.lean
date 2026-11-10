@@ -663,7 +663,7 @@ theorem exists_presheafEtale_comparison_of_isPullback_relationSlice
   have := hmiso
   refine ⟨P, hP, eP, γ ≫ m, ?_, ?_, ?_⟩
   · exact (MorphismProperty.cancel_right_of_respectsIso _ γ m).mpr hγ
-  · show (γ ≫ m) ≫ representingMap B S hS
+  · change (γ ≫ m) ≫ representingMap B S hS
         (CatFiberedInGroupoids.twoFibreProductSquare.{u, u, u + 1, u + 1} a.hom
           (schemeStackMap.{u, w} B S hS ιZ ≫ a).hom).pt
         (schemeStack.{u, w} B S hS V₀).val P (yoneda.obj V₀) eP
@@ -674,7 +674,7 @@ theorem exists_presheafEtale_comparison_of_isPullback_relationSlice
       Functor.map_comp, hbLegY]
     simp only [Category.assoc]
     rfl
-  · show (γ ≫ m) ≫ representingMap B S hS
+  · change (γ ≫ m) ≫ representingMap B S hS
         (CatFiberedInGroupoids.twoFibreProductSquare.{u, u, u + 1, u + 1} a.hom
           (schemeStackMap.{u, w} B S hS ιZ ≫ a).hom).pt
         (schemeStack.{u, w} B S hS Z).val P (yoneda.obj Z) eP

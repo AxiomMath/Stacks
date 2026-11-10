@@ -375,7 +375,7 @@ public theorem exists_associatedPrime_stalk_of_isImmediateSpecialization
   refine ⟨PP, hP, hlt, localized_quotient_dim_le_one (S := S)
     p.asIdeal q.asIdeal hpq hinterval, ?_⟩
   rw [← hU.fromSpecStalk_eq_fromSpecStalk hx]
-  show hU.fromSpec (PrimeSpectrum.comap (algebraMap Γ(X, U) S) PP) = x'
+  change hU.fromSpec (PrimeSpectrum.comap (algebraMap Γ(X, U) S) PP) = x'
   rw [show PrimeSpectrum.comap (algebraMap Γ(X, U) S) PP = p from PrimeSpectrum.ext hunder]
   exact ep
 
@@ -401,7 +401,7 @@ private lemma associatedPrime_comap_of_witness
     rw [hg]
     exact Submodule.mem_colon_span_singleton.mp
       (hm.symm ▸ (show φ a.1 ∈ q from by
-        show a.1 ∈ p
+        change a.1 ∈ p
         rw [← hT]
         exact Ideal.subset_span a.2))
   choose t ht hk using kill
@@ -424,10 +424,10 @@ private lemma associatedPrime_comap_of_witness
       rw [Submodule.mem_colon_span_singleton, Submodule.mem_bot] at hr
       rw [hr, map_zero]
     rw [hg, hg, smul_comm, hv.smul_eq_zero] at hzero
-    show φ r ∈ q
+    change φ r ∈ q
     rw [← hm, Submodule.mem_colon_span_singleton, Submodule.mem_bot]
     exact hzero
-  · show p ≤ _
+  · change p ≤ _
     rw [← hT, Ideal.span_le]
     intro a ha
     exact Submodule.mem_colon_span_singleton.mpr (hkill ⟨a, ha⟩)

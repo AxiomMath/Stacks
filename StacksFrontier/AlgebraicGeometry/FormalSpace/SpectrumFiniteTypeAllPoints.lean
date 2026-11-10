@@ -147,10 +147,10 @@ theorem exists_isPullback_affineFiniteType_formalSpectrumMap_of_isAffine
       (BigFppfOver.toScheme B S hS))
         (W.map (f.stageMap (OrderDual.ofDual j) ⟨_, hKw⟩ hIK)) := by
     refine ⟨?_, ?_⟩
-    · show IsAffineHom (Spec.map (CommRingCat.ofHom
+    · change IsAffineHom (Spec.map (CommRingCat.ofHom
         (Ideal.quotientMap _ f.toRingHom hIK)))
       infer_instance
-    · show LocallyOfFiniteType (Spec.map (CommRingCat.ofHom
+    · change LocallyOfFiniteType (Spec.map (CommRingCat.ofHom
         (Ideal.quotientMap _ f.toRingHom hIK)))
       exact HasRingHomProperty.Spec_iff.mpr
         (hmod.2 (OrderDual.ofDual j).1 (OrderDual.ofDual j).2)
@@ -189,7 +189,6 @@ the lemma, whose condition (1) speaks of a finite type morphism of them."]
 theorem isFiniteType_formalSpectrumMap_of_isTaut
     (hA : TopologicalRing.IsWeaklyAdmissible A) (hC : TopologicalRing.IsWeaklyAdmissible C)
     (D : QuotientSystem B S hS A) (E : QuotientSystem B S hS C) (f : ContinuousHom D E)
-    (hD : IsAffineFormalAlgebraicSpace B S hS (formalSpectrum D))
     (hE : IsAffineFormalAlgebraicSpace B S hS (formalSpectrum E))
     (htaut : RingHom.IsTaut f.toRingHom)
     (hfin : TopologicalRing.IsTopologicallyOfFiniteType f.toRingHom) :
@@ -199,7 +198,7 @@ theorem isFiniteType_formalSpectrumMap_of_isTaut
   -- Condition (a) of Stacks 0ANU, with no countability hypothesis.
   have hmod : TopologicalRing.FiniteTypeModuloEveryWeakIdeal f.toRingHom :=
     TopologicalRing.finiteTypeModuloEveryWeakIdeal_of_topologicallyOfFiniteType
-      f.toRingHom f.continuous htaut hfin
+      f.toRingHom htaut hfin
   have _ : FunctorToTypes.Small.{u} (formalSpectrum E).obj :=
     CartesianColimit.small_of_setTheoreticCondition B S hS _ hE.1
   have _ := respectsIso_isAffineHom_inf_locallyOfFiniteType

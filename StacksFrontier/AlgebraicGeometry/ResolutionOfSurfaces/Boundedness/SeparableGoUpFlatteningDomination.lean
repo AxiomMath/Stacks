@@ -65,7 +65,7 @@ theorem preimage_puncturedSpectrum_le (φ : A →+* B) [IsLocalHom φ] :
       Stacks.puncturedSpectrum B := by
   intro q hq hqB
   apply hq
-  show PrimeSpectrum.comap φ q = closedPoint A
+  change PrimeSpectrum.comap φ q = closedPoint A
   rw [show q = closedPoint B from hqB]
   exact IsLocalRing.comap_closedPoint φ
 
@@ -256,7 +256,7 @@ theorem exists_isFinite_dominating_of_isModification {A B : Type u} [CommRing A]
   obtain ⟨π, hπ, -⟩ := Scheme.existsUnique_lift_normalization hX₁ (νY ≫ π₁) fun η => by
     obtain ⟨η, hη⟩ := η
     have hη' : η = genericPoint _ := by simpa [genericPoints_eq_singleton] using hη
-    show (νY ≫ π₁) η ∈ _
+    change (νY ≫ π₁) η ∈ _
     rw [hη', hgenY', genericPoints_eq_singleton]
     rfl
   have hπfin : IsFinite π := by

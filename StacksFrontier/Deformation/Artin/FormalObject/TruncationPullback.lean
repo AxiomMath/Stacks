@@ -52,12 +52,12 @@ theorem isPushout_quotientMap {R A : Type u} [CommRing R] [CommRing A] [Algebra 
   refine (isPushout_tensorProduct R A (R ⧸ I)).of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _)
     e.toCommRingCatIso (by simp) (by simp) ?_ ?_
   · ext a
-    show (Algebra.TensorProduct.quotIdealMapEquivTensorQuot A I).symm (a ⊗ₜ[R] 1) = _
+    change (Algebra.TensorProduct.quotIdealMapEquivTensorQuot A I).symm (a ⊗ₜ[R] 1) = _
     rw [← map_one (Ideal.Quotient.mk I),
       Algebra.TensorProduct.quotIdealMapEquivTensorQuot_symm_tmul, one_smul]
     rfl
   · ext r
-    show (Algebra.TensorProduct.quotIdealMapEquivTensorQuot A I).symm
+    change (Algebra.TensorProduct.quotIdealMapEquivTensorQuot A I).symm
       (1 ⊗ₜ[R] Ideal.Quotient.mk I r) = _
     simp [Algebra.algebraMap_eq_smul_one]
 
@@ -169,7 +169,7 @@ theorem toScheme_map_eq_isoSpec_hom_specMap [IsAffine ((BigFppfOver.toScheme B S
   have hinv : Spec.map (Scheme.ΓSpecIso (.of A.R)).hom ≫ Spec.map (Scheme.ΓSpecIso (.of A.R)).inv =
       𝟙 _ := by
     rw [← Spec.map_comp, Iso.inv_hom_id, Spec.map_id]
-  show g = _
+  change g = _
   calc g = g ≫ Spec.map (Scheme.ΓSpecIso (.of A.R)).hom ≫
         Spec.map (Scheme.ΓSpecIso (.of A.R)).inv := by
         rw [hinv, Category.comp_id]

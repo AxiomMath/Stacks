@@ -79,7 +79,7 @@ public def copowerDesc {M : ModuleCat.{w} R} {E : Type w} {A : ModuleCat.{w} R}
 public theorem copowerMk_comp_desc {M : ModuleCat.{w} R} {E : Type w} {A : ModuleCat.{w} R}
     (f : E → (M ⟶ A)) (e : E) : copowerMk e ≫ copowerDesc f = f e := by
   ext m
-  show Finsupp.lsum ℕ (fun e => (f e).hom) (Finsupp.single e m) = _
+  change Finsupp.lsum ℕ (fun e => (f e).hom) (Finsupp.single e m) = _
   exact Finsupp.lsum_single _ _ _ _
 
 /-- The map of `ModuleCat.copower M` along `f` carries the summand at `e` to the summand at
@@ -88,7 +88,7 @@ public theorem copowerMk_comp_desc {M : ModuleCat.{w} R} {E : Type w} {A : Modul
 public theorem copowerMk_comp_map {M : ModuleCat.{w} R} {E E' : Type w} (f : E ⟶ E') (e : E) :
     copowerMk e ≫ (copower M).map f = copowerMk (f e) := by
   ext m
-  show Finsupp.mapDomain f (Finsupp.single e m) = Finsupp.single (f e) m
+  change Finsupp.mapDomain f (Finsupp.single e m) = Finsupp.single (f e) m
   exact Finsupp.mapDomain_single
 
 /-- Two morphisms out of `ModuleCat.copower M` at `E` agreeing on every summand agree. -/

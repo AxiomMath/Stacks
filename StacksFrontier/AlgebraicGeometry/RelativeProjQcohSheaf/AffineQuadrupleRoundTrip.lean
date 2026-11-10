@@ -124,7 +124,7 @@ theorem natTensorPowCompare_one_comp_tensorPowerOneIso
       = (Stacks.SheafOfModules.tensorObjIso O hO
           (_root_.SheafOfModules.unit
             (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) L).hom := by
-    show 𝟙 _ ≫ (𝟙 (natTensorPow L 0) ⊗ₘ 𝟙 L) ≫
+    change 𝟙 _ ≫ (𝟙 (natTensorPow L 0) ⊗ₘ 𝟙 L) ≫
         ((Stacks.SheafOfModules.tensorObjIso O hO
           (_root_.SheafOfModules.unit
             (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) L).hom ≫ 𝟙 _) = _
@@ -156,7 +156,7 @@ theorem natTensorPowCompare_succ
     (natTensorPowCompare O hO L (n + 1)).hom
       = ((natTensorPowCompare O hO L n).hom ▷ L) ≫
           ((tensorPowerSystem O hO L).succIso n).hom := by
-  show 𝟙 _ ≫ ((natTensorPowCompare O hO L n).hom ⊗ₘ 𝟙 L) ≫
+  change 𝟙 _ ≫ ((natTensorPowCompare O hO L n).hom ⊗ₘ 𝟙 L) ≫
       ((tensorPowerSystem O hO L).succIso n).hom = _
   rw [Category.id_comp, MonoidalCategory.tensorHom_id]
 
@@ -203,7 +203,7 @@ theorem sectionHom_smul (ψ : Twisting f A d L) (k : ℤ)
     (r : (structureRingSheaf S.toRingedSpace).obj.obj U)
     (a : (A.piece (k * d)).val.obj U) :
     ψ.sectionHom k U (r • a) = sharp (ringedSpaceHom f) U r • ψ.sectionHom k U a := by
-  show (ψ.app k).val.app _
+  change (ψ.app k).val.app _
       (pullbackUnit (ringedSpaceHom f) (A.piece (k * d)) U (r • a)) = _
   rw [pullbackUnit_smul]
   exact map_smul _ _ _
@@ -263,7 +263,7 @@ twistings do. -/
 theorem congrBase_eq {g g' : T ⟶ S} (h : g = g') (Q : Quadruple g A d) (P : Quadruple g' A d)
     (hL : Q.L = P.L) (hψ : HEq Q.twisting P.twisting) : congrBase h Q = P := by
   subst h
-  show Q = P
+  change Q = P
   obtain ⟨L₁, i₁, t₁, e₁⟩ := Q
   obtain ⟨L₂, i₂, t₂, e₂⟩ := P
   cases hL
@@ -359,10 +359,10 @@ theorem AffineTripleSections.structureHom_veroneseSections [IsAffine S]
       nonvanishingOpen T M (psiSection (B.grading (⊤ : S.Opens)) (veroneseSections ψ) g)) = ⊤) :
     AffineTripleSections.structureHom B (veroneseSections ψ) hgen = f := by
   refine (Stacks.RelativeSpec.affineHomEquiv S T).injective ?_
-  show (AffineTripleSections.structureHom B (veroneseSections ψ) hgen).appTop = f.appTop
+  change (AffineTripleSections.structureHom B (veroneseSections ψ) hgen).appTop = f.appTop
   rw [AffineTripleSections.structureHom_appTop]
   refine CommRingCat.hom_ext (RingHom.ext fun r => ?_)
-  show degreeZeroHom (B.grading (⊤ : S.Opens)) (veroneseSections ψ)
+  change degreeZeroHom (B.grading (⊤ : S.Opens)) (veroneseSections ψ)
       (AffineTripleSections.toFun_zero_eq_unitGlobal B (veroneseSections ψ) hgen)
       (B.gradeZeroHom ⊤ r) = f.appTop r
   exact degreeZeroHom_veroneseSections ψ
@@ -383,7 +383,7 @@ theorem globalSectionHom_twisting_veroneseSections [IsAffine S] (hk : 0 < k)
     ?_
   match i with
   | .ofNat n =>
-      show (powCompare M n).hom.app ⊤
+      change (powCompare M n).hom.app ⊤
           (veroneseRaw ψ n (((B.ofGrading ⊤ (n * k) x : B.grading ⊤ (n * k)) :
             B.sectionRing ⊤) (n * k))) = _
       rw [show ((B.ofGrading ⊤ (n * k) x : B.grading ⊤ (n * k)) : B.sectionRing ⊤) (n * k)

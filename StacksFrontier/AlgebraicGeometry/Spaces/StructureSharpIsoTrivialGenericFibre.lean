@@ -110,7 +110,7 @@ theorem _root_.AlgebraicGeometry.Scheme.fromSpecTotalFractionRing_apply_eq_gener
       genericPoint (Spec Γ(T, ⊤)) := by
     rw [genericPoint_eq_bot_of_affine]
     refine PrimeSpectrum.ext ?_
-    show Ideal.comap (algebraMap Γ(T, ⊤) (FractionRing Γ(T, ⊤)))
+    change Ideal.comap (algebraMap Γ(T, ⊤) (FractionRing Γ(T, ⊤)))
       (z : PrimeSpectrum (FractionRing Γ(T, ⊤))).asIdeal = ⊥
     rw [@Ideal.eq_bot_of_prime _ _ _ (z : PrimeSpectrum (FractionRing Γ(T, ⊤))).isPrime,
       Ideal.comap_bot_of_injective _ (IsFractionRing.injective _ _)]
@@ -133,7 +133,7 @@ theorem pointsMap_eq_of_pointsToScheme_eq_genericPoint (hYdec : IsDecentSpace B 
     pointsMap B S hS _ V.obj.hom w = ξ := by
   have hgen : genericPoint ((BigFppfOver.toScheme B S hS).obj V.obj.left) ∈
       genericPoints ((BigFppfOver.toScheme B S hS).obj V.obj.left) := by
-    show closure {_} ∈ irreducibleComponents _
+    change closure {_} ∈ irreducibleComponents _
     rw [irreducibleComponents_eq_singleton, (genericPoint_spec _).def]
     rfl
   have hdim : localRingDimension B S hS (pointsMap B S hS _ V.obj.hom w) = 0 :=
@@ -173,7 +173,7 @@ theorem exists_totalFractionObject_comp_fieldMorphism (hYint : IsIntegralSpace B
       (fun W : Scheme.{u} => IsReduced W) := by
     refine hasEtaleLocalProperty_of_representable B S hS _
       (fun W : Scheme.{u} => IsReduced W) _ (Iso.refl _) ?_
-    show IsReduced (Spec (CommRingCat.of (FractionRing Γ(V.obj.left.left.1, ⊤))))
+    change IsReduced (Spec (CommRingCat.of (FractionRing Γ(V.obj.left.left.1, ⊤))))
     have : IsDomain (FractionRing Γ(V.obj.left.left.1, ⊤)) := inferInstance
     infer_instance
   obtain ⟨g', hg'⟩ := exists_comp_fieldMorphism_eq_of_range_pointsMap_subset_singleton B S hS
@@ -192,7 +192,7 @@ theorem _root_.AlgebraicGeometry.Scheme.isFractionRing_fromSpecTotalFractionRing
       (f := (Scheme.ΓSpecIso
         (CommRingCat.of (FractionRing Γ(T, ⊤)))).symm.commRingCatIsoToRingEquiv)
       (fun a => by
-        show (Scheme.ΓSpecIso _).inv _ = T.fromSpecTotalFractionRing.appTop a
+        change (Scheme.ΓSpecIso _).inv _ = T.fromSpecTotalFractionRing.appTop a
         rw [← ΓSpecIso_hom_fromSpecTotalFractionRing_appTop]
         exact (Scheme.ΓSpecIso _).hom_inv_id_apply _)
   exact IsLocalization.isLocalization_of_algEquiv _ e
@@ -415,7 +415,7 @@ theorem injective_globalFunctionsMap_chartGenericFibreInclusion (f : X ⟶ Y)
   have hZ := BigFppfSite.contains_terminal B
   have : IsAffine ((BigFppfOver.toScheme B S hS).obj V.obj.left) := ‹IsAffine V.obj.left.left.1›
   have : IsAffine ((BigFppfOver.toScheme B S hS).obj (totalFractionObject B S hS V.obj.left)) := by
-    show IsAffine (Spec _)
+    change IsAffine (Spec _)
     infer_instance
   have : IsIntegral V.obj.left.left.1 :=
     ‹IsIntegral ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS Y.1).obj V))›
@@ -459,14 +459,14 @@ theorem bijective_pullbackToGlobalFunctions_chartGenericFibreProjection (f : X �
       (chartGenericFibreProjection f V)) := by
   have hZ := BigFppfSite.contains_terminal B
   have : IsAffine ((BigFppfOver.toScheme B S hS).obj (totalFractionObject B S hS V.obj.left)) := by
-    show IsAffine (Spec _)
+    change IsAffine (Spec _)
     infer_instance
   have haffκ : IsAffine ((BigFppfOver.toScheme B S hS).obj (r.siteObject B S hS Y.1)) := by
-    show IsAffine (Spec _)
+    change IsAffine (Spec _)
     infer_instance
   have := subsingleton_toScheme_siteObject B S hS Y.1 r
   have : IsIntegral ((BigFppfOver.toScheme B S hS).obj (r.siteObject B S hS Y.1)) := by
-    show IsIntegral (Spec _)
+    change IsIntegral (Spec _)
     infer_instance
   obtain ⟨gK', hgK'⟩ := exists_totalFractionObject_comp_fieldMorphism hYint hξ V r hr hmono hqc
   have hsq := isPullback_fieldFibre_lift (isPullback_chartBaseChangeProjection B S hS f V)

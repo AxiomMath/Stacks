@@ -168,7 +168,7 @@ theorem preservesColimit_parallelPair [IsAffineHom h]
   refine ⟨hcokF.desc (CokernelCofork.ofπ s.π hs), hfac, fun {m} hm => ?_⟩
   refine Cofork.IsColimit.hom_ext hcokF ?_
   have hm' : F.map (cokernel.π (u - v)) ≫ m = s.π := hm
-  show F.map (cokernel.π (u - v)) ≫ m = F.map (cokernel.π (u - v)) ≫ _
+  change F.map (cokernel.π (u - v)) ≫ m = F.map (cokernel.π (u - v)) ≫ _
   rw [hm']
   exact hfac.symm
 

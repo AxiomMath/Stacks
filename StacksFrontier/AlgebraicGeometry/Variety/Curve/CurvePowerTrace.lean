@@ -229,12 +229,12 @@ theorem classP_sumMap (m : ℕ) (w : Fin m → ℤ) :
     classP J L hL (Additive.ofMul (sumMap C J aj m w)) =
       linClass C (classP J L hL (Additive.ofMul (coord C 1 0 ≫ aj))) m w := by
   rw [ofMul_sumMap]
-  show classPHom J L hL _ (∑ i, _) = _
+  change classPHom J L hL _ (∑ i, _) = _
   rw [map_sum]
   refine sum_congr rfl fun i _ => ?_
   rw [map_zsmul]
   congr 1
-  show classP J L hL _ = _
+  change classP J L hL _ = _
   rw [schemePullbackClass_classP, precompHom_apply, toMul_ofMul, reindex_coord_assoc]
 
 include hC c₀ in
@@ -291,7 +291,7 @@ theorem classYα_zsmul (α : J ⟶ J) [IsMonHom α] {T : Over (Spec (.of k))} (v
   have hQ := classQ_cube J L hL (T := T)
   rw [classYα, classYα, ← Stacks.QuadraticMap.cubeBilin_zsmul hQ]
   congr 1
-  show Additive.ofMul ((Additive.toMul x ^ v) ≫ α) = _
+  change Additive.ofMul ((Additive.toMul x ^ v) ≫ α) = _
   rw [GrpObj.zpow_comp (Additive.toMul x) v α]
   rfl
 
@@ -336,7 +336,7 @@ theorem update_const_eq_seqClass {G : Type*} (x y : G) :
     refine Fin.cases ?_ (fun t => ?_) q
     · rw [Function.update_of_ne (by simp [Fin.ext_iff])]
       rfl
-    · show _ = seqClass x y n t
+    · change _ = seqClass x y n t
       rw [← update_const_eq_seqClass x y n, ← Fin.succ_last]
       by_cases h : t = Fin.last n
       · subst h; simp
@@ -377,7 +377,7 @@ theorem powerForm_update_sumMap (haj : c₀ ≫ aj = 1) (c S b : ℤ)
   have h := powerForm_sumMapTuple_eq C hC c₀ J aj L hL Y hYnat haj c S b hE hS hb m 1
   have h1 : ∏ t : Fin (m + 1), (1 : Fin (m + 1) → ℤ) t ^ 2 = 1 := by simp
   rw [h1, mul_one] at h
-  show powerForm C hC (m + 1) _ = _
+  change powerForm C hC (m + 1) _ = _
   rw [hfun, h, Nat.add_sub_cancel]
 
 end Closed

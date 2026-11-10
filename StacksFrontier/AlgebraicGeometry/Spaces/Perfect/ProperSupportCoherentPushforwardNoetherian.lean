@@ -69,7 +69,7 @@ theorem isCoherent_rightDerived_modulePushforward_of_hasProperSupport_of_isQuasi
   have _hFc := hF
   have _hFcs := hF.toIsCoherentOnSite
   have _hinjX := hasInjectiveResolutions_modules B S hS X.1 X.2
-  show IsCoherent B S hS Y.1 Y.2 (((modulePushforward B S hS f).rightDerived p).obj F)
+  change IsCoherent B S hS Y.1 Y.2 (((modulePushforward B S hS f).rightDerived p).obj F)
   obtain ⟨Z, G, hGqc, -, hZp, ⟨e⟩⟩ :=
     ((hasProperSupport_tfae B S hS X Y f.hom hf F hF.toIsQuasicoherentOnSite
       (isFiniteTypeOnSite_of_isCoherentOnSite B S hS X F)

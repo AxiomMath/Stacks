@@ -104,6 +104,7 @@ theorem surjective_moduleRestrictionEquivalence_map_val_app
         (ringSheaf (spacesEtaleRingedSite B S hS Y).O)).functor.map φ).val.app (op Z)) := h
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search through the module restriction equivalences on the étale sites is deep
 /-- Surjectivity on sections is read through the transport to the small étale site. -/
 theorem surjective_readingEquivalence_map_val_app
     {M N : SheafOfModules.{u + 1} (ringSheaf (spacesEtaleRingedSite B S hS Y).O)} (φ : M ⟶ N)

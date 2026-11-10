@@ -101,7 +101,7 @@ in front, which `CategoryTheory.Adjunction.comp_homEquiv_apply` exhibits. -/
 theorem Adjunction.id_comp_homEquiv_apply {L : D ⥤ C} {R : C ⥤ D} (adj : L ⊣ R) (d : D) (X : C)
     (f : L.obj d ⟶ X) :
     (Adjunction.id.comp adj).homEquiv d X f = adj.homEquiv d X f := by
-  simp [Adjunction.comp_homEquiv_apply, Adjunction.homEquiv_unit]
+  simp [Adjunction.homEquiv_unit]
 
 /-- **The counit of `R₁ ⊣ R₂` as a conjugate for a composite that carries the identity
 adjunction in the middle.**  This is `CategoryTheory.counit_eq_conjugateEquiv_unit` for the
@@ -180,7 +180,6 @@ namespace Stacks.SheafOfModules.InternalHom
 universe u
 
 variable {D : Type u} [Category.{u} D] (K : GrothendieckTopology D)
-  [K.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   (O : Sheaf K CommRingCat.{u})
   [HasWeakSheafify K AddCommGrpCat.{u}] [K.WEqualsLocallyBijective AddCommGrpCat.{u}]
 

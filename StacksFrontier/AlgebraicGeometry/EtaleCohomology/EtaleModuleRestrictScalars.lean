@@ -176,7 +176,7 @@ theorem coefficientSheafPullbackTwoSquare_unit (c : Sheaf J A) :
     (sheafCompose J Gf).map ((uf.sheafAdjunctionContinuous A J K).unit.app c) =
       (uf.sheafAdjunctionContinuous B J K).unit.app ((sheafCompose J Gf).obj c) ≫
         (uf.sheafPushforwardContinuous B J K).map
-          ((coefficientSheafPullbackTwoSquare uf J K Gf).natTrans.app c) := by
+          ((coefficientSheafPullbackTwoSquare uf J K Gf).app c) := by
   have h := unit_mateEquiv_symm (uf.sheafAdjunctionContinuous A J K)
     (uf.sheafAdjunctionContinuous B J K) (coefficientPushforwardTwoSquare uf J K Gf) c
   exact (Category.comp_id _).symm.trans h
@@ -185,7 +185,7 @@ omit [K.PreservesSheafification Gf] in
 /-- The comparison for the abstract inverse image is the comparison for the Kan-extension
 construction, conjugated by the identifications of the two inverse images. -/
 theorem coefficientSheafPullbackTwoSquare_app (c : Sheaf J A) :
-    (coefficientSheafPullbackTwoSquare uf J K Gf).natTrans.app c =
+    (coefficientSheafPullbackTwoSquare uf J K Gf).app c =
       (Functor.sheafPullbackConstruction.sheafPullbackIso uf B J K).hom.app
           ((sheafCompose J Gf).obj c) ≫
         coefficientPullbackComparison uf J K Gf c ≫
@@ -209,7 +209,7 @@ theorem coefficientSheafPullbackTwoSquare_app (c : Sheaf J A) :
 
 /-- **The comparison for the abstract inverse image is invertible.** -/
 instance isIso_coefficientSheafPullbackTwoSquare :
-    IsIso (coefficientSheafPullbackTwoSquare uf J K Gf).natTrans := by
+    IsIso (coefficientSheafPullbackTwoSquare uf J K Gf) := by
   rw [NatTrans.isIso_iff_isIso_app]
   intro c
   rw [coefficientSheafPullbackTwoSquare_app, ← coefficientPullbackTwoSquare_app]
@@ -257,7 +257,7 @@ def etaleModuleInverseImageRestrictScalars {X Y : Scheme.{u}} (f : X ⟶ Y) :
     etaleModuleRestrictScalars ρ Y ⋙ etaleModuleInverseImage.{u, 0} Λ f ≅
       etaleModuleInverseImage.{u, 0} Λ' f ⋙ etaleModuleRestrictScalars ρ X :=
   asIso (coefficientSheafPullbackTwoSquare (smallEtaleBaseChange f) Y.smallEtaleTopology
-    X.smallEtaleTopology (ModuleCat.restrictScalars.{u + 1} ρ)).natTrans
+    X.smallEtaleTopology (ModuleCat.restrictScalars.{u + 1} ρ))
 
 /-- **Extension by zero commutes with `res_ρ`**, by the same mate construction for
 `j_! ⊣ j^{-1}`. -/
@@ -265,7 +265,7 @@ def etaleModuleExtensionByZeroRestrictScalars {U X : Scheme.{u}} (j : U ⟶ X) [
     etaleModuleRestrictScalars ρ U ⋙ etaleModuleExtensionByZero.{u, 0} Λ j ≅
       etaleModuleExtensionByZero.{u, 0} Λ' j ⋙ etaleModuleRestrictScalars ρ X :=
   asIso (coefficientPullbackTwoSquare (Scheme.Etale.smallEtaleCompose j) U.smallEtaleTopology
-    X.smallEtaleTopology (ModuleCat.restrictScalars.{u + 1} ρ)).natTrans
+    X.smallEtaleTopology (ModuleCat.restrictScalars.{u + 1} ρ))
 
 end Stacks.EtaleCohomology
 

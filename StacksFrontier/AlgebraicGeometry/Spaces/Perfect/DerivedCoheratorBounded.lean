@@ -200,8 +200,7 @@ theorem isZero_of_isZero_chartSectionsAb_of_isTerminal (Y : AlgebraicSpaces B S 
     obtain ⟨ty, rfl⟩ := (hcart T W hTa hWa (hT.from W)).2 y
     have h0 : ∀ t, sectionsBaseChange M (hT.from W) t = 0 := by
       intro t
-      induction t using TensorProduct.induction_on with
-      | zero => exact map_zero _
+      induction t using TensorProduct.inductionOn with
       | tmul b m => rw [Subsingleton.elim m 0, TensorProduct.tmul_zero, map_zero]
       | add t₁ t₂ h₁ h₂ => rw [map_add, h₁, h₂, add_zero]
     rw [h0, h0]

@@ -101,7 +101,7 @@ theorem isThickeningHom_id (X : AlgebraicSpaces B S hS) :
     MorphismProperty.relative.of_exists fun a g =>
       ⟨a, g, 𝟙 a, by simpa using IsPullback.of_id_snd, hid a⟩
   refine (isThickeningHom_iff_isClosedImmersion_and_isSurjective B S hS (𝟙 X)).mpr ⟨hci, ?_⟩
-  show Function.Surjective (pointsMap B S hS X.1 (𝟙 X.1))
+  change Function.Surjective (pointsMap B S hS X.1 (𝟙 X.1))
   simpa only [pointsMap_id] using Function.surjective_id
 
 /-- Being a thickening is fpqc local on the base for morphisms of algebraic spaces over `S`: a

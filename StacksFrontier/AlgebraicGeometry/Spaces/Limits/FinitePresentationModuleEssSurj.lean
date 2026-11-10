@@ -53,6 +53,7 @@ variable {i : I} {U₀ : BigAffineFppf B S hS}
   (C : AffineChartSystem B S hS i D U₀ f₀) (L : AffineChartSystem.LimitBridge C)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_FinitePresentationModuleEssSurj :
@@ -170,7 +171,7 @@ theorem exists_stage_descentDatum (hQs : ∀ i, IsAbsolutelyQuasiSeparated B S h
         (huu T y z hyz))
       (by
         rw [stageTransition_stage_eq B S hS D hD C f₁ _ hnat x]
-        show _ = _ ≫ tripleFst B S hS D hD C m ≫ stageChartPairFst B S hS D hD C m ≫
+        change _ = _ ≫ tripleFst B S hS D hD C m ≫ stageChartPairFst B S hS D hD C m ≫
           chartStageMap B S hS D hD U₀ f₀ C m
         rw [← Category.assoc, tripleLift_fst, ← Category.assoc, chartPairLift_fst])
     have key := hj₁ s (tripleLift B S hS D hD C m (x ≫ schemeSpaceMap (C.siteDiagram.map

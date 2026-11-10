@@ -168,7 +168,7 @@ theorem isLocallyOfFiniteType_of_wellNighAffine_etale_moduli_cover {ι : Type v}
     (AlgebraicStacks.isLocallyOfFiniteType_of_isEtale B S hS (g i) (hgrep i) (hget i)) hp
   refine isLocallyOfFiniteType_of_isWellNighAffine_of_isCategoricalModuliSpace B S hS (𝒳i i)
     (h𝒳i i) hY (g i ≫ p) hpi (fi i) (hfi i) (b i ≫ q) ⟨?_⟩
-  show (fi i).hom ≫ (associatedMap B S hS ((b i).hom ≫ q.hom)).1 ≅ (g i).hom ≫ p.hom
+  change (fi i).hom ≫ (associatedMap B S hS ((b i).hom ≫ q.hom)).1 ≅ (g i).hom ≫ p.hom
   rw [associatedMap_comp]
   exact comp_iso_of_comp_isos ε η
 
@@ -213,7 +213,7 @@ theorem isLocallyOfFiniteType_of_wellNighAffine_etale_moduli_squares {ι : Type 
     (fun i => Space.isEtale_comp B S hS (hg' i)
       (Space.isEtale_of_isIso B S hS ((ObjectProperty.ι _).map (e i).hom)))
     (fun i => ⟨?_⟩)
-  show (f' i).hom ≫ (associatedMap B S hS ((g' i).hom ≫ (e i).hom.hom)).1 ≅ (g i).hom ≫ f.hom
+  change (f' i).hom ≫ (associatedMap B S hS ((g' i).hom ≫ (e i).hom.hom)).1 ≅ (g i).hom ≫ f.hom
   rw [associatedMap_comp]
   exact comp_iso_of_comp_isos (eqToIso (hcomm i)) (eqToIso (he i))
 

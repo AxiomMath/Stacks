@@ -156,7 +156,7 @@ public theorem range_quotientMap :
   constructor
   · rintro ⟨q, rfl⟩ v hv
     rw [mem_pointSubmodule_iff]
-    show quotientGradedHom k V W (SymmetricAlgebra.ι k V v) ∈ q.asHomogeneousIdeal
+    change quotientGradedHom k V W (SymmetricAlgebra.ι k V v) ∈ q.asHomogeneousIdeal
     rw [SymPow.gradedSymAlgMap_apply, SymPow.symAlgMap_ι,
       show W.mkQ v = 0 from (Submodule.Quotient.mk_eq_zero W).mpr hv, map_zero]
     exact zero_mem _

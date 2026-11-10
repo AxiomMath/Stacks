@@ -261,14 +261,14 @@ theorem algebraicIndependent_and_adjoin_eq_top_of_isFractionRing
   have : IsScalarTower (MvPolynomial (Fin n) A) (MvPolynomial (Fin n) K) Ω := by
     refine .of_algebraMap_eq' (MvPolynomial.ringHom_ext (fun a ↦ ?_) (fun i ↦ ?_))
     · rw [halg]
-      show algebraMap (MvPolynomial (Fin n) A) Ω (C a) =
+      change algebraMap (MvPolynomial (Fin n) A) Ω (C a) =
         ψ (MvPolynomial.map (algebraMap A K) (C a))
       rw [map_C]
-      show _ = ψ (algebraMap K (MvPolynomial (Fin n) K) (algebraMap A K a))
+      change _ = ψ (algebraMap K (MvPolynomial (Fin n) K) (algebraMap A K a))
       rw [ψ.commutes]
       exact (hcompat a).symm
     · rw [halg]
-      show algebraMap (MvPolynomial (Fin n) A) Ω (X i) =
+      change algebraMap (MvPolynomial (Fin n) A) Ω (X i) =
         ψ (MvPolynomial.map (algebraMap A K) (X i))
       rw [map_X]
       exact (MvPolynomial.aeval_X x i).symm

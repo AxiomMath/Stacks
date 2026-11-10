@@ -262,10 +262,10 @@ theorem statement1_kerEquiv [Module.Flat R R'] (P : Algebra.Extension R S) :
           = (AlgebraTensorModule.lTensor R' R' incl) := by
       apply TensorProduct.AlgebraTensorModule.curry_injective
       ext s
-      show (kerMapPrime R' P) ((statement1_source_iso R' P).symm ((1:R') ⊗ₜ[R] s)) = _
+      change (kerMapPrime R' P) ((statement1_source_iso R' P).symm ((1:R') ⊗ₜ[R] s)) = _
       rw [statement1_source_iso, IsPushout.cancelBaseChange_symm_tmul,
         kerMapPrime, LinearMap.liftBaseChange_tmul, map_one, one_smul]
-      show inclToPrime R' P s = (1:R') ⊗ₜ[R] (incl s)
+      change inclToPrime R' P s = (1:R') ⊗ₜ[R] (incl s)
       simp only [inclToPrime, hincl, LinearMap.coe_comp, Function.comp_apply,
         LinearMap.coe_restrictScalars, Algebra.linearMap_apply, Submodule.coe_subtype]
       rw [right_algebraMap_apply]
@@ -278,7 +278,7 @@ theorem statement1_kerEquiv [Module.Flat R R'] (P : Algebra.Extension R S) :
         ext x; simp [hα, Algebra.Extension.ker, RingHom.mem_ker]
       rw [h, hincl, LinearMap.range_restrictScalars]; ext x; simp [Submodule.range_subtype]
     apply SetLike.coe_injective
-    show (LinearMap.range (kerMapPrime R' P) : Set (R' ⊗[R] P.Ring)) = _
+    change (LinearMap.range (kerMapPrime R' P) : Set (R' ⊗[R] P.Ring)) = _
     -- Identify `range (kerMapPrime R' P)` (as a Set) with `range (AlgebraTensorModule.lTensor R'
     -- R' incl)`:
     -- coerce-equate `range km` with `range (km.restrictScalars R')`, then use `hcomp` and the
@@ -318,7 +318,7 @@ theorem statement1_kerEquiv [Module.Flat R R'] (P : Algebra.Extension R S) :
   -- ASSEMBLY: build the equivalence onto the range and transport to `I'`.
   refine ⟨(LinearEquiv.ofInjective (kerMapPrime R' P) hinj).trans
       (LinearEquiv.ofEq _ _ hrange), ?_⟩
-  letI : Module (P.baseChange (T := R')).Ring ((R' ⊗[R] P.Ring) ⊗[P.Ring] P.ker) :=
+  let : Module (P.baseChange (T := R')).Ring ((R' ⊗[R] P.Ring) ⊗[P.Ring] P.ker) :=
     (inferInstance : Module (R' ⊗[R] P.Ring) ((R' ⊗[R] P.Ring) ⊗[P.Ring] P.ker))
   refine LinearMap.ext fun x => ?_
   rw [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.trans_apply,
@@ -425,7 +425,7 @@ theorem statement2_flavor_iso (P : Algebra.Extension R S) :
   apply LinearMap.restrictScalars_injective R
   apply TensorProduct.ext'
   intro r' x
-  show (cotDiffBaseChangeS R' P) (flavorEquiv1 R' P (r' ⊗ₜ[R] x))
+  change (cotDiffBaseChangeS R' P) (flavorEquiv1 R' P (r' ⊗ₜ[R] x))
       = flavorEquiv0 R' P (cotDiffBaseChangeR R' P (r' ⊗ₜ[R] x))
   simp only [cotDiffBaseChangeR, cotDiffBaseChangeS, flavorEquiv0, flavorEquiv1,
     LinearMap.baseChange_tmul, IsPushout.cancelBaseChange_symm_tmul,
@@ -447,10 +447,7 @@ theorem cotComparison0_bijective (P : Algebra.Extension R S) :
   have key : ∀ y : R' ⊗[R] P.CotangentSpace,
       cotComparison0 R' P (g.symm y) = P.tensorCotangentSpace R' y := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero =>
-        show cotComparison0 R' P (g.symm 0) = P.tensorCotangentSpace R' 0
-        simp only [LinearEquiv.map_zero, LinearMap.map_zero]
+    induction y using TensorProduct.inductionOn with
     | tmul r' x =>
         rw [hg, IsPushout.cancelBaseChange_symm_tmul]
         rw [cotComparison0, LinearMap.liftBaseChange_tmul,
@@ -510,7 +507,7 @@ theorem cotComparison1_bijective [Module.Flat R R'] (P : Algebra.Extension R S) 
       have hy : ((P.baseChange (T := R')).ker.subtype y) ∈ LinearMap.range (kerMapPrime R' P) := by
         refine ⟨ek.symm y, ?_⟩
         rw [← hek]
-        show (P.baseChange (T := R')).ker.subtype (ek (ek.symm y)) = _
+        change (P.baseChange (T := R')).ker.subtype (ek (ek.symm y)) = _
         rw [LinearEquiv.apply_symm_apply]
       obtain ⟨z, hz⟩ := hy
       refine ⟨z, ?_⟩
@@ -588,8 +585,7 @@ theorem cotComparison1_bijective [Module.Flat R R'] (P : Algebra.Extension R S) 
         = ⇑Tr ∘ ⇑(Ideal.tensorCotangentEquiv R R' P.ker) := by
       funext c
       simp only [Function.comp_apply]
-      induction c using TensorProduct.induction_on with
-      | zero => simp only [map_zero]
+      induction c using TensorProduct.inductionOn with
       | add a b ha hb =>
           rw [map_add (Ideal.tensorCotangentEquiv R R' P.ker), map_add Tr, ← ha, ← hb,
             map_add bridge.symm, map_add (flavorEquiv1 R' P), map_add (cotComparison1 R' P)]
@@ -599,7 +595,7 @@ theorem cotComparison1_bijective [Module.Flat R R'] (P : Algebra.Extension R S) 
               -- LHS: simplify bridge.symm then flavorEquiv1 then cotComparison1.
               have hbs : bridge.symm (r' ⊗ₜ[R] P.ker.toCotangent z)
                   = r' ⊗ₜ[R] Algebra.Extension.Cotangent.mk z := by
-                show (TensorProduct.congr (LinearEquiv.refl R R') bridgeC).symm
+                change (TensorProduct.congr (LinearEquiv.refl R R') bridgeC).symm
                     (r' ⊗ₜ[R] P.ker.toCotangent z) = _
                 rw [TensorProduct.congr_symm_tmul]
                 rfl
@@ -650,7 +646,7 @@ theorem cotComparison1_bijective [Module.Flat R R'] (P : Algebra.Extension R S) 
               apply hvalinj
               rw [Algebra.Extension.Cotangent.val_smul, Algebra.Extension.Cotangent.map_mk,
                 Algebra.Extension.Cotangent.val_mk]
-              show _ = (r' • Tr ((Ideal.map (Algebra.TensorProduct.includeRight.toRingHom :
+              change _ = (r' • Tr ((Ideal.map (Algebra.TensorProduct.includeRight.toRingHom :
                   P.Ring →+* R' ⊗[R] P.Ring) P.ker).toCotangent
                     ⟨1 ⊗ₜ[R] (z : P.Ring), Ideal.mem_map_of_mem _ z.property⟩))
               rw [← algebraMap_smul (R' ⊗[R] P.Ring) r', hTr,
@@ -702,8 +698,7 @@ theorem cotComparison1_bijective [Module.Flat R R'] (P : Algebra.Extension R S) 
             (LinearMap.liftBaseChange (P.baseChange (T := R')).Ring (f.mapKer halg) w)
           ∈ LinearMap.range (cotComparison1 R' P) := by
       intro w
-      induction w using TensorProduct.induction_on with
-      | zero => simp
+      induction w using TensorProduct.inductionOn with
       | add a b ha hb => rw [map_add, map_add]; exact Submodule.add_mem _ ha hb
       | tmul a x =>
           rw [LinearMap.liftBaseChange_tmul, map_smul]
@@ -957,7 +952,7 @@ theorem bridgeGH_id :
   rw [Algebra.Extension.Hom.comp_toRingHom, Algebra.Extension.Hom.id_toRingHom]
   apply RingHom.ext
   intro x
-  show (bridgeE (R := R) (S := S) R') ((bridgeE (R := R) (S := S) R').symm x) = x
+  change (bridgeE (R := R) (S := S) R') ((bridgeE (R := R) (S := S) R').symm x) = x
   rw [AlgEquiv.apply_symm_apply]
 
 /-- Round-trip `bridgeH ∘ bridgeG = id` (on `pbc`). -/
@@ -968,7 +963,7 @@ theorem bridgeHG_id :
   rw [Algebra.Extension.Hom.comp_toRingHom, Algebra.Extension.Hom.id_toRingHom]
   apply RingHom.ext
   intro x
-  show (bridgeE (R := R) (S := S) R').symm ((bridgeE (R := R) (S := S) R') x) = x
+  change (bridgeE (R := R) (S := S) R').symm ((bridgeE (R := R) (S := S) R') x) = x
   rw [AlgEquiv.symm_apply_apply]
 
 /-- The bridge isomorphism of two-term complexes `NL(pbc) ≅ NL(pap)` (no flatness;
@@ -1302,13 +1297,13 @@ theorem statement3_hcomp1
   apply LinearMap.restrictScalars_injective S
   apply TensorProduct.AlgebraTensorModule.curry_injective
   ext a y
-  show (Algebra.Extension.Cotangent.map (statement3_dHom R'))
+  change (Algebra.Extension.Cotangent.map (statement3_dHom R'))
       ((Algebra.Extension.Cotangent.map (bridgeG (R := R) (S := S) R'))
         (cotComparison1 R' P (a ⊗ₜ[S] y)))
     = a • (Algebra.Extension.Cotangent.map (statement3_g R')) y
   rw [cotComparison1, LinearMap.liftBaseChange_tmul, map_smul, map_smul]
   congr 1
-  show (Algebra.Extension.Cotangent.map (statement3_dHom R'))
+  change (Algebra.Extension.Cotangent.map (statement3_dHom R'))
       ((Algebra.Extension.Cotangent.map (bridgeG (R := R) (S := S) R'))
         ((Algebra.Extension.Cotangent.map (P.toBaseChange R')) y))
     = (Algebra.Extension.Cotangent.map (statement3_g R')) y
@@ -1336,13 +1331,13 @@ theorem statement3_hcomp0
   apply LinearMap.restrictScalars_injective S
   apply TensorProduct.AlgebraTensorModule.curry_injective
   ext a y
-  show (Algebra.Extension.CotangentSpace.map (statement3_dHom R'))
+  change (Algebra.Extension.CotangentSpace.map (statement3_dHom R'))
       ((Algebra.Extension.CotangentSpace.map (bridgeG (R := R) (S := S) R'))
         (cotComparison0 R' P (a ⊗ₜ[S] y)))
     = a • (Algebra.Extension.CotangentSpace.map (statement3_g R')) y
   rw [cotComparison0, LinearMap.liftBaseChange_tmul, map_smul, map_smul]
   congr 1
-  show (Algebra.Extension.CotangentSpace.map (statement3_dHom R'))
+  change (Algebra.Extension.CotangentSpace.map (statement3_dHom R'))
       ((Algebra.Extension.CotangentSpace.map (bridgeG (R := R) (S := S) R'))
         ((Algebra.Extension.CotangentSpace.map (P.toBaseChange R')) y))
     = (Algebra.Extension.CotangentSpace.map (statement3_g R')) y

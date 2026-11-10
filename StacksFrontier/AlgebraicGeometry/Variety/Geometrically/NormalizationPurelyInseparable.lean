@@ -197,7 +197,7 @@ private theorem exists_dense_isClosedImmersion_of_isHomeomorph
   have hU : Dense (U : Set A) := hV.preimage e.symm.isOpenMap
   have hUV : g ⁻¹ᵁ U = V := by
     ext x
-    show e.symm (e x) ∈ V ↔ x ∈ V
+    change e.symm (e x) ∈ V ↔ x ∈ V
     simp
   have hci : IsClosedImmersion (pullback.snd f g ∣_ g ⁻¹ᵁ U) := by
     rw [hUV]
@@ -268,7 +268,7 @@ private theorem bijOn_genericPoints_normalizationOverField (k : Type u) [Field k
     have hU : Dense (U : Set X) := hV.preimage er.symm.isOpenMap
     have hUV : X.nilradical.subschemeι ⁻¹ᵁ U = V := by
       ext x
-      show er.symm (er x) ∈ V ↔ x ∈ V
+      change er.symm (er x) ∈ V ↔ x ∈ V
       simp
     have hci : IsClosedImmersion (X.nilradical.subscheme.normalization hX' ∣_
         X.nilradical.subschemeι ⁻¹ᵁ U) := by
@@ -519,7 +519,7 @@ private theorem exists_finiteDimensional_isGeometricallyNormal_normalizationOver
         (pullback (spectrumMap k (E : Type u)) p : Scheme.{u}) ↦
           r (hfsthomeo.homeomorph.symm z)) (pullback.condition (f := μ) (g := q))
       simp only [Scheme.Hom.comp_apply] at hc
-      show q ((pullback.snd μ q) (hfsthomeo.homeomorph.symm z)) = μ z
+      change q ((pullback.snd μ q) (hfsthomeo.homeomorph.symm z)) = μ z
       rw [← hc, hd]
     exact heq ▸ hcc
   have hciφ : IsClosedImmersion (pullback.snd μ q ∣_ UK) := by

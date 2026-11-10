@@ -94,22 +94,22 @@ public theorem isFiniteTypePoint_of_locallyOfFiniteType (g : Spec (.of k) ⟶ X)
   have hg' : (Scheme.SpecToEquivOfField k' X) g' =
       ⟨s, CommRingCat.ofHom (RingHom.id k')⟩ := by
     rw [← Equiv.eq_symm_apply]
-    show g' = Spec.map (𝟙 (.of k')) ≫ X.fromSpecResidueField s
+    change g' = Spec.map (𝟙 (.of k')) ≫ X.fromSpecResidueField s
     rw [Spec.map_id]
     exact (Category.id_comp _).symm
   apply ((finiteType_specField_tfae g').out 4 1).mp
   obtain ⟨U, -, y, hy, hyc, -⟩ := ((finiteType_specField_tfae g).out 2 4).mp hg
   refine ⟨U, ?_, y, ?_, hyc, ?_⟩
   · refine (Scheme.preimage_eq_top_of_closedPoint_mem g' ?_).ge
-    show ((Scheme.SpecToEquivOfField k' X) g').1 ∈ U.1
+    change ((Scheme.SpecToEquivOfField k' X) g').1 ∈ U.1
     rw [hg', ← hy]
     exact y.property
   · simpa only [hg'] using hy
-  · show let q := (Scheme.SpecToEquivOfField k' X) g'
+  · change let q := (Scheme.SpecToEquivOfField k' X) g'
       let := q.2.hom.toAlgebra
       Module.Finite (X.residueField q.1) k'
     rw [hg']
-    show Module.Finite k' k'
+    change Module.Finite k' k'
     infer_instance
 
 /-- A morphism locally of finite type from the spectrum of a field makes that field a finite

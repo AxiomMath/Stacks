@@ -50,7 +50,8 @@ universe u
 
 namespace Stacks.LinearSystemScheme
 
--- As in `StacksFrontier/AlgebraicGeometry/ProjectiveSpace/HyperplaneIsProjectiveSpace.lean`: without
+-- As in `StacksFrontier/AlgebraicGeometry/ProjectiveSpace/HyperplaneIsProjectiveSpace.lean`:
+-- without
 -- these the invertibility class that `AlgebraicGeometry.zeroScheme` asks for cannot be stated at
 -- `twistingSheaf`, because the two descriptions of the structure sheaf of `Proj` agree only up to
 -- unfolding.

@@ -94,7 +94,7 @@ theorem exists_dense_isClosedImmersion_normalizationOverField (k : Type u) [Fiel
   let W : X.Opens := ⟨ι '' V, h.isOpenMap _ V.isOpen⟩
   have hWV : ι ⁻¹ᵁ W = V := by
     ext x
-    show ι x ∈ ι '' (V : Set X.nilradical.subscheme) ↔ x ∈ V
+    change ι x ∈ ι '' (V : Set X.nilradical.subscheme) ↔ x ∈ V
     exact ι.isClosedEmbedding.injective.mem_set_image
   refine ⟨W, h.surjective.denseRange.dense_image h.continuous hVd, ?_⟩
   · have hν : normalizationOverField k p = e.hom ≫ (f ≫ ι) := he.symm
@@ -152,7 +152,7 @@ theorem exists_curveDiagram_over_field (k : Type u) [Field k] {X : Scheme.{u}}
   let qbar : (∐ Ybar) ⟶ T := Limits.Sigma.map rbar
   have hsbar : sbar = qbar ≫ t := by
     refine Sigma.hom_ext _ _ fun i => ?_
-    rw [← Category.assoc, Sigma.ι_map, Category.assoc, Sigma.ι_desc]
+    rw [← Category.assoc, Sigma.ι_map, Category.assoc, Sigma.ι_comp_desc]
     exact (hrbar i).symm
   have hιq : ∀ i, Sigma.ι Ybar i ≫ qbar = rbar i ≫ Sigma.ι (fun i => Spec (.of (K i))) i :=
     fun i => Sigma.ι_map _ _
@@ -182,7 +182,7 @@ theorem exists_curveDiagram_over_field (k : Type u) [Field k] {X : Scheme.{u}}
     exact isFinite_sigmaDesc_of_locallyFinite _ (locallyFinite_of_finite _)
   · exact etale_sigmaDesc _ fun i => by
       rw [HasRingHomProperty.Spec_iff (P := @Etale)]
-      show (algebraMap k' (K i)).Etale
+      change (algebraMap k' (K i)).Etale
       rw [RingHom.etale_algebraMap]
       exact ⟨Algebra.FormallyEtale.of_isSeparable k' (K i),
         Algebra.FinitePresentation.of_finiteType.mp inferInstance⟩
@@ -198,7 +198,7 @@ theorem exists_curveDiagram_over_field (k : Type u) [Field k] {X : Scheme.{u}}
   · intro s
     obtain ⟨i, x, rfl⟩ := exists_sigmaι_apply_eq _ s
     have h := congrFun (Scheme.Hom.fiberDimension_eq_of_isPullback (isPullback_sigmaMap rbar i)) x
-    show qbar.fiberDimension _ ≤ 1
+    change qbar.fiberDimension _ ≤ 1
     rw [Function.comp_apply] at h
     rw [← h]
     exact ((IsHomeomorph.topologicalKrullDim_eq _ ((rbar i).fiberHomeo x).isHomeomorph).trans_le
@@ -220,7 +220,7 @@ theorem exists_curveDiagram_over_field (k : Type u) [Field k] {X : Scheme.{u}}
     rw [isClosed_irreducibleComponent.closure_eq] at hgen
     let η : normalizationSchemeOverField k' pk := hC.genericPoint
     have hηgen : η ∈ genericPoints (normalizationSchemeOverField k' pk) := by
-      show closure {η} ∈ irreducibleComponents _
+      change closure {η} ∈ irreducibleComponents _
       rw [hgen.def]
       exact irreducibleComponent_mem_irreducibleComponents ξ
     have hηξ : η ⤳ ξ := hgen.specializes mem_irreducibleComponent
@@ -230,7 +230,7 @@ theorem exists_curveDiagram_over_field (k : Type u) [Field k] {X : Scheme.{u}}
     refine ⟨η, mem_of_mem_genericPoints_of_dense W hWd
       (Scheme.normalization_mem_genericPoints _ _ hηgen), ?_⟩
     rw [← hy]
-    show (Sigma.ι Ybar i ≫ qbar) y = _
+    change (Sigma.ι Ybar i ≫ qbar) y = _
     rw [hιq, Scheme.Hom.comp_apply]
     congr 1
     exact Subsingleton.elim _ _

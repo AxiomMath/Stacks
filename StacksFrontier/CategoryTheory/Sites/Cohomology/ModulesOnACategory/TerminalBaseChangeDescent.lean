@@ -56,9 +56,7 @@ theorem exists_baseChangePresheaf_restrictionEquiv {T W : C} (g : W ⟶ T) :
   refine ⟨TensorProduct.AlgebraTensorModule.cancelBaseChange ((constRing O X).obj (op T))
     ((commPresheaf O).obj (op T)) ((commPresheaf O).obj (op W)) ((commPresheaf O).obj (op W))
     ((constModObj.{t} O X M).obj (op T)), fun n => ?_⟩
-  induction n using TensorProduct.induction_on with
-  | zero =>
-    exact (congrArg _ (TensorProduct.tmul_zero _ _)).trans ((map_zero _).trans (map_zero _).symm)
+  induction n using TensorProduct.inductionOn with
   | tmul s m =>
     refine Eq.trans (b := (((show (commPresheaf O).obj (op W) from (O.map g.op).hom s) * 1)
         ⊗ₜ[(constRing O X).obj (op T)] m :

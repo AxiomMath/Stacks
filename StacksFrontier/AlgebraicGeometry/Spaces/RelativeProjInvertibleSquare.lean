@@ -131,7 +131,7 @@ theorem algebraTransport_unitalHomInverse_algebraTransport
     algebraTransport (unitalHomInverse Φ hΦ) (algebraTransport Φ ψ) = ψ := by
   refine Twisting.ext fun i => ?_
   have := hΦ (i * d)
-  show (pullbackFunctor (ringedSpaceHom f)).map (inv (Φ.app (i * d))) ≫
+  change (pullbackFunctor (ringedSpaceHom f)).map (inv (Φ.app (i * d))) ≫
       (pullbackFunctor (ringedSpaceHom f)).map (Φ.app (i * d)) ≫ ψ.app i = ψ.app i
   rw [← CategoryTheory.Functor.map_comp_assoc, IsIso.inv_hom_id, CategoryTheory.Functor.map_id,
     Category.id_comp]
@@ -568,7 +568,7 @@ theorem squareTargetChangeZ_eq :
     ρ.squareTargetChangeZ hc hX ψ g f' g' hsq =
       Twisting.congrBase (comp_id_eq_id_comp g')
         (ψ.pullback ((BigFppfOver.toScheme B S hS).map g')) := by
-  show Twisting.baseChangeUp ((BigFppfOver.toScheme B S hS).map g')
+  change Twisting.baseChangeUp ((BigFppfOver.toScheme B S hS).map g')
       (𝟙 ((BigFppfOver.toScheme B S hS).obj X')) (situationAlgebra (Â Z f)) 1
       (Twisting.algebraTransport (unitalHomInverse (ρ.restrict g' f (yoneda.map f' ≫ g) hsq.symm)
           (ρ.isIso_restrict_app g' f _ hsq.symm))

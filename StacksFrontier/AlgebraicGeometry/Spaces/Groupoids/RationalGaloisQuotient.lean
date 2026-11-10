@@ -153,7 +153,8 @@ is contravariant, so an automorphism acts through its inverse. -/
 def galoisAction : galoisGroup →* Aut (Space.underlyingOver B hS (siteCover B hS hU)) where
   toFun σ := .of <| Over.isoMk (Scheme.Spec.mapIso ((σ⁻¹).toRingEquiv.toCommRingCatIso).op)
     (specMapAlgAut_comp_structureMap ℚ (AlgebraicClosure ℚ) σ⁻¹)
-  map_one' := Aut.ext <| Iso.ext <| Over.OverMorphism.ext <| specMapAlgAut_one ℚ (AlgebraicClosure ℚ)
+  map_one' := Aut.ext <| Iso.ext <| Over.OverMorphism.ext <|
+    specMapAlgAut_one ℚ (AlgebraicClosure ℚ)
   map_mul' σ τ := Aut.ext <| Iso.ext <| Over.OverMorphism.ext <|
     (congrArg (specMapAlgAut ℚ (AlgebraicClosure ℚ)) (mul_inv_rev σ τ)).trans
       (specMapAlgAut_mul ℚ (AlgebraicClosure ℚ) τ⁻¹ σ⁻¹)
@@ -285,10 +286,10 @@ private theorem toGaloisQuotient_app_eq_of_orbit (T : BigFppfOver B base hS)
     simp only [Space.actionRelation, prod.lift_fst]
   have hs : (f ≫ Sigma.ι (fun _ : galoisGroup ↦ galoisCover B hS hU) σ) ≫
       (galoisRelation B hS hU).source = f := by
-    rw [hsrcEq, Category.assoc, Space.actionRelationSource, Sigma.ι_desc, Category.comp_id]
+    rw [hsrcEq, Category.assoc, Space.actionRelationSource, Sigma.ι_comp_desc, Category.comp_id]
   have ht : (f ≫ Sigma.ι (fun _ : galoisGroup ↦ galoisCover B hS hU) σ) ≫
       (galoisRelation B hS hU).target = g := by
-    rw [htgtEq, Category.assoc, Space.actionRelationTarget, Sigma.ι_desc, hfg]
+    rw [htgtEq, Category.assoc, Space.actionRelationTarget, Sigma.ι_comp_desc, hfg]
   have hrel := congrArg (fun η ↦ η (f ≫ Sigma.ι (fun _ : galoisGroup ↦ galoisCover B hS hU) σ))
     (NatTrans.congr_app (Stacks.Groupoids.sourceMap_toQuotientSheaf
       (BigFppfOver.topology B base hS) (Over.post B.inclusion) (galoisRelation B hS hU))

@@ -81,8 +81,7 @@ theorem bijective_baseChangeTensorRingMap [Algebra.IsPushout R A R' A'] :
       baseChangeTensorRingMap (R := R) (A := A) (R' := R') (A' := A') x =
         Algebra.IsPushout.equiv R A R' A' x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul a b =>
       rw [Algebra.IsPushout.equiv_tmul]
       change (Algebra.TensorProduct.lift (IsScalarTower.toAlgHom R A A')
@@ -117,8 +116,7 @@ private lemma bijective_one_tmul {B C : Type u} [CommRing B] [CommRing C] (k : B
     rw [map_one, one_smul]
   have h2 : ∀ t : TensorProduct B C H, ((1 : C) ⊗ₜ[B, k] (ψ t)) = t := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, TensorProduct.tmul_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul c m =>
       rw [TensorProduct.lift.tmul]
       change ((1 : C) ⊗ₜ[B, k] (e.symm c • m)) = c ⊗ₜ m

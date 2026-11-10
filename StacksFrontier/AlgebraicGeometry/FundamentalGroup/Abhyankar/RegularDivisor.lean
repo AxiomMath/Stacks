@@ -21,8 +21,7 @@ covers `Spec (A[x]/(x^e - φ))_φ ⟶ Spec A_φ` ([Stacks, Tag 0EYF]) with `e` i
 ## Main results
 
 * `AlgebraicGeometry.exists_etale_standardTamelyRamified_of_isTamelyRamifiedInCodimensionOne`:
-  Abhyankar's lemma for a regular divisor, granted purity for regular local rings and
-  [Stacks, Tag 0EYD].
+  Abhyankar's lemma for a regular divisor, granted [Stacks, Tag 0EYD].
 * `AlgebraicGeometry.Abhyankar.isTamelyRamifiedInCodimensionOne_chart`: the cover stays tamely
   ramified in codimension one after base change to a flat regular local `Γ(X, V)`-algebra.
 * `AlgebraicGeometry.Abhyankar.isRegularLocalRing_localization_fromSpec`: the local rings
@@ -52,10 +51,10 @@ lemma fromSpec_preimage_compl_support (V : X.affineOpens) (φ : Γ(X, V.1))
     V.2.fromSpec ⁻¹ᵁ (D.support.compl : X.Opens) = PrimeSpectrum.basicOpen φ := by
   ext y
   have hyV : V.2.fromSpec y ∈ V.1 := V.2.range_fromSpec.subset ⟨y, rfl⟩
-  show V.2.fromSpec y ∉ D.support ↔ y ∈ PrimeSpectrum.basicOpen φ
+  change V.2.fromSpec y ∉ D.support ↔ y ∈ PrimeSpectrum.basicOpen φ
   rw [Scheme.IdealSheafData.mem_support_iff_of_mem hyV, hφ, Scheme.zeroLocus_span,
     Scheme.zeroLocus_singleton]
-  show ¬ V.2.fromSpec y ∉ X.basicOpen φ ↔ _
+  change ¬ V.2.fromSpec y ∉ X.basicOpen φ ↔ _
   rw [not_not, ← SetLike.mem_coe, ← Set.mem_preimage, ← TopologicalSpace.Opens.map_coe]
   exact congrArg (fun W : (Spec Γ(X, V.1)).Opens ↦ y ∈ W) (V.2.fromSpec_preimage_basicOpen φ)
     |>.to_iff
@@ -129,7 +128,7 @@ lemma SpecMap_comp_fromSpec_mem_compl_iff (V : X.affineOpens) (φ : Γ(X, V.1))
     (y : Spec (.of T)) :
     (Spec.map (CommRingCat.ofHom (algebraMap Γ(X, V.1) T)) ≫ V.2.fromSpec) y ∈
       (D.support.compl : X.Opens) ↔ algebraMap Γ(X, V.1) T φ ∉ y.asIdeal := by
-  show Spec.map (CommRingCat.ofHom (algebraMap Γ(X, V.1) T)) y ∈
+  change Spec.map (CommRingCat.ofHom (algebraMap Γ(X, V.1) T)) y ∈
     V.2.fromSpec ⁻¹ᵁ (D.support.compl : X.Opens) ↔ _
   rw [fromSpec_preimage_compl_support D V φ hφ]
   exact Iff.rfl
@@ -157,7 +156,7 @@ theorem isTamelyRamifiedInCodimensionOne_chart [IsLocallyNoetherian X]
       (Scheme.Opens.ι (X := Spec (.of T)) (PrimeSpectrum.basicOpen (algebraMap Γ(X, V.1) T φ)))
       (AffineFieldFactors.coverMap (R := .of T) (algebraMap Γ(X, V.1) T φ)
         (Localization.Away (algebraMap Γ(X, V.1) T φ) ⊗[Localization.Away φ]
-          @chartRing _ (D.support.compl : X.Opens) _ V.2.fromSpec V.2.isOpenImmersion_fromSpec φ
+          @chartRing _ (D.support.compl : X.Opens) _ V.2.fromSpec φ
             (fromSpec_preimage_compl_support D V φ hVφ) _ f)) := by
   have := V.2.isOpenImmersion_fromSpec
   let := (Localization.awayMap (algebraMap Γ(X, V.1) T) φ).toAlgebra
@@ -194,7 +193,7 @@ theorem isTamelyRamifiedInCodimensionOne_chart [IsLocallyNoetherian X]
       finite_f := inferInstance
       etale_f := inferInstance
       dense_U' := by
-        show Dense (Set.range (pullback.fst g U.ι))
+        change Dense (Set.range (pullback.fst g U.ι))
         rw [hrange]
         refine IsOpen.dense (PrimeSpectrum.basicOpen (algebraMap _ T φ)).isOpen
           ⟨⟨⊥, Ideal.isPrime_bot⟩, fun h ↦ hφT ((Submodule.mem_bot T).mp h)⟩
@@ -293,7 +292,7 @@ lemma isIso_sigmaDesc_SpecMap_evalRingHom {n : ℕ} (K : Fin n → CommRingCat.{
         (Scheme.Spec.mapIso τ.toCommRingCatIso.op).hom := by
     apply Sigma.hom_ext
     intro i
-    rw [Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc]
     have := Sigma.ι_reindex_hom_assoc ε (fun j ↦ Spec (K' j)) i
       (sigmaSpec K' ≫ (Scheme.Spec.mapIso τ.toCommRingCatIso.op).hom)
     refine Eq.trans ?_ this.symm
@@ -326,11 +325,11 @@ lemma exists_iso_sigma_standardTamelyRamifiedCover {A : CommRingCat.{u}} (φ : A
   have hdesc : Sigma.desc (fun i ↦ standardTamelyRamifiedCover A φ (e i)) =
       Sigma.desc (fun i ↦ Spec.map (CommRingCat.ofHom (Pi.evalRingHom (fun i ↦
         Localization.Away (algebraMap A (standardTamelyRamifiedAlgebra A φ (e i)) φ)) i))) ≫
-        Spec.map (CommRingCat.ofHom (Pi.ringHom fun i ↦ Localization.awayMap
+        Spec.map (CommRingCat.ofHom (RingHom.pi fun i ↦ Localization.awayMap
           (algebraMap A (standardTamelyRamifiedAlgebra A φ (e i))) φ)) := by
     apply Sigma.hom_ext
     intro i
-    rw [Sigma.ι_desc, Sigma.ι_desc_assoc, ← Spec.map_comp]
+    rw [Sigma.ι_comp_desc, Sigma.ι_comp_desc_assoc, ← Spec.map_comp]
     rfl
   refine ⟨hY.isoPullback.symm ≪≫ Scheme.Spec.mapIso σ.toCommRingCatIso.op ≪≫
     (asIso (Sigma.desc (fun i ↦ Spec.map (CommRingCat.ofHom (Pi.evalRingHom (fun i ↦
@@ -341,7 +340,7 @@ lemma exists_iso_sigma_standardTamelyRamifiedCover {A : CommRingCat.{u}} (φ : A
   rw [← hY.isoPullback_inv_snd]
   congr 1
   rw [Functor.mapIso_hom, Iso.op_hom, RingEquiv.toCommRingCatIso_hom]
-  show Spec.map _ ≫ Spec.map _ = _
+  change Spec.map _ ≫ Spec.map _ = _
   rw [← Spec.map_comp]
   congr 1
   ext1
@@ -354,17 +353,15 @@ namespace AlgebraicGeometry
 
 open Abhyankar Stacks.FundamentalGroup
 
-/-- **Abhyankar's lemma for a regular divisor**, granted purity for regular local rings and
-[Stacks, Tag 0EYD]. Let `X` be a locally Noetherian scheme, `D ⊆ X` an effective Cartier divisor
+/-- **Abhyankar's lemma for a regular divisor**, granted [Stacks, Tag 0EYD].
+Let `X` be a locally Noetherian scheme, `D ⊆ X` an effective Cartier divisor
 which is a regular scheme, and `f : Y ⟶ X ∖ D` finite étale and tamely ramified over `X` in
 codimension one. Then every `x ∈ X` has an étale neighbourhood `Spec A ⟶ X` on which `D` is cut
 out by a nonzerodivisor `φ` with `A/φ` regular, such that the base change of `f` to
 `Spec A_φ = Spec A ×_X (X ∖ D)` is a finite disjoint union of standard tamely ramified covers
-`Spec (A[x]/(x^{eᵢ} - φ))_φ ⟶ Spec A_φ` with `eᵢ ≥ 1` invertible in `A`. The arguments are
-`h0BMA`, purity for regular local rings ([Stacks, Tag 0BMA] (1)), and `h0EYD`, the tame half of
-[Stacks, Tag 0EYD]. -/
+`Spec (A[x]/(x^{eᵢ} - φ))_φ ⟶ Spec A_φ` with `eᵢ ≥ 1` invertible in `A`. The argument
+`h0EYD` is the tame half of [Stacks, Tag 0EYD]. -/
 theorem exists_etale_standardTamelyRamified_of_isTamelyRamifiedInCodimensionOne
-    (h0BMA : PurityAtRegularLocalRings.{u})
     (h0EYD : ∀ S : CodimensionOnePullbackSetup.{u}, IsTamelyRamifiedInCodimensionOne S.U.ι S.f →
       IsTamelyRamifiedInCodimensionOne (pullback.fst S.g S.U.ι) S.pulledBackCover)
     {X : Scheme.{u}} [IsLocallyNoetherian X] (D : X.IdealSheafData)
@@ -397,7 +394,7 @@ theorem exists_etale_standardTamelyRamified_of_isTamelyRamifiedInCodimensionOne
   let p : Spec Γ(X, V.1) := V.2.primeIdealOf ⟨x, hxV⟩
   have hpx : V.2.fromSpec p = x := V.2.fromSpec_primeIdealOf ⟨x, hxV⟩
   obtain ⟨D', _, _, hD'et, q, hq, hqp, n, e, he, ⟨σ⟩⟩ :=
-    exists_etale_kummerAway_algEquiv h0BMA φ hφ p.asIdeal
+    exists_etale_kummerAway_algEquiv φ hφ p.asIdeal
       (fun h ↦ isRegularLocalRing_localization_fromSpec D hD hDreg V φ hVφ p h)
       (chartRing U V.2.fromSpec φ hψU f)
       (fun _ _ hφ0 ↦ isTamelyRamifiedInCodimensionOne_chart D h0EYD hD hDreg f htame V φ hφ hVφ
@@ -413,7 +410,7 @@ theorem exists_etale_standardTamelyRamified_of_isTamelyRamifiedInCodimensionOne
   have hσ : ∀ r, σ (fun i ↦ Localization.awayMap
       (algebraMap D' (standardTamelyRamifiedAlgebra D' φ' (e i))) φ' r) =
       algebraMap (Localization.Away φ') _ r := by
-    have h : σ.toRingHom.comp (Pi.ringHom fun i ↦ Localization.awayMap
+    have h : σ.toRingHom.comp (RingHom.pi fun i ↦ Localization.awayMap
         (algebraMap D' (standardTamelyRamifiedAlgebra D' φ' (e i))) φ') =
         Algebra.TensorProduct.includeLeftRingHom := by
       apply IsLocalization.ringHom_ext (Submonoid.powers φ')
@@ -434,14 +431,14 @@ theorem exists_etale_standardTamelyRamified_of_isTamelyRamifiedInCodimensionOne
     Spec.map (CommRingCat.ofHom (Localization.awayMap (algebraMap Γ(X, V.1) D') φ)) ≫
       chartU U V.2.fromSpec φ hψU, hU.w, hU, n, e, he, ?_⟩
   · rw [← hpx]
-    show V.2.fromSpec _ = V.2.fromSpec p
+    change V.2.fromSpec _ = V.2.fromSpec p
     congr 1
     exact PrimeSpectrum.ext hqp
   · have hreg : IsSMulRegular D' φ := Module.Flat.isSMulRegular_of_nonZeroDivisors hφ
     rw [mem_nonZeroDivisors_iff_right]
     intro a ha
     apply hreg
-    show φ • a = φ • (0 : D')
+    change φ • a = φ • (0 : D')
     rwa [smul_zero, Algebra.smul_def, mul_comm]
   · have hRq : IsRegularRing (Γ(X, V.1) ⧸ Ideal.span {φ}) := by
       rw [← hVφ]

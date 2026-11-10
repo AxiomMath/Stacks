@@ -85,7 +85,7 @@ theorem exists_stage_module_of_stage (A₀ : CoherentObject D)
   obtain ⟨k, Q, hQ, ⟨α⟩⟩ := hES A₀.F A₀.finitePresentation
   have hβ : (cT.π.app k).left =
       eqToHom hA₀ ≫ ((BigAffineFppf.inclusion B S hS).mapCone c).π.app k.left := by
-    show v.hom.left ≫ (BigAffineFppf.inclusion B S hS).map (c.π.app k.left) = _
+    change v.hom.left ≫ (BigAffineFppf.inclusion B S hS).map (c.π.app k.left) = _
     rw [hv]
     rfl
   obtain ⟨j, e, hfps⟩ :=
@@ -112,7 +112,7 @@ theorem exists_coherentHom_stage_of_stage (A₀ : CoherentObject D)
       δ.base.left = eqToHom hA₀ ≫ (BigAffineFppf.inclusion B S hS).map (c.π.app j.left) ≫
         eqToHom (congrArg CostructuredArrow.left hxi).symm := by
   let v : A₀.T ≅ (D.stageTestCone E c g).pt := CostructuredArrow.isoMk (eqToIso hA₀) (by
-    show (schemeSpaceFunctor B S hS).map (eqToHom hA₀) ≫
+    change (schemeSpaceFunctor B S hS).map (eqToHom hA₀) ≫
       ((schemeSpaceFunctor B S hS).map ((BigAffineFppf.inclusion B S hS).map (c.π.app i)) ≫ g) =
         A₀.T.hom
     rw [hg, Functor.map_comp, Category.assoc])

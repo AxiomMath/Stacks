@@ -173,8 +173,7 @@ theorem chartRing_ringHom_ext {m₁ m₂ : chartRing k n f c →+* T}
     (h₂ : m₁.comp (chartRight k n f c) = m₂.comp (chartRight k n f c)) : m₁ = m₂ := by
   refine AdjoinRoot.ringHom_ext ?_ ?_
   · refine RingHom.ext fun x => ?_
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a s =>
         have ha := congrArg (fun φ => φ (C a)) h₁
         have hs := congrArg (fun φ => φ s) h₂

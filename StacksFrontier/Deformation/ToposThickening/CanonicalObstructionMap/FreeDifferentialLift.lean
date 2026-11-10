@@ -100,7 +100,7 @@ private theorem exists_kernel_resolution_data
   have hqm : QuasiIso ((tensorLeft P).map m) :=
     StacksDraft.TorAmplitude.quasiIso_tensorLeft_map P hP m
   refine ⟨Q, m, hQ, hm, ?_⟩
-  show IsIso (DerivedCategory.Q.map ((tensorLeft P).map m))
+  change IsIso (DerivedCategory.Q.map ((tensorLeft P).map m))
   infer_instance
 
 private noncomputable abbrev freeLiftTerm (_f : R' →+* R)
@@ -135,7 +135,7 @@ private theorem freeLiftReduction_surjective (f : R' →+* R)
   let b := freeLiftBasis f P hfree n
   obtain ⟨x, hx⟩ := Finsupp.mapRange_surjective f (RingHom.map_zero f) hf (b.repr y)
   refine ⟨x, ?_⟩
-  show b.repr.symm (Finsupp.mapRange f (RingHom.map_zero f) x) = y
+  change b.repr.symm (Finsupp.mapRange f (RingHom.map_zero f) x) = y
   rw [hx]
   exact b.repr.symm_apply_apply y
 
@@ -149,7 +149,7 @@ private theorem freeLiftReduction_ker (f : R' →+* R)
   have hker : LinearMap.ker (freeLiftReduction f P hfree n) =
       Finsupp.submodule (fun _ : Module.Free.ChooseBasisIndex R (P.X n) => RingHom.ker f) := by
     ext x
-    show (b.repr.symm (Finsupp.mapRange f (RingHom.map_zero f)
+    change (b.repr.symm (Finsupp.mapRange f (RingHom.map_zero f)
       x) = 0) ↔
       x ∈
         Finsupp.submodule (fun _ : Module.Free.ChooseBasisIndex R (P.X n) => RingHom.ker f)
@@ -159,7 +159,7 @@ private theorem freeLiftReduction_ker (f : R' →+* R)
   rw [hker]
   have hs := Finsupp.submodule_smul R' (Module.Free.ChooseBasisIndex R (P.X n))
     (fun _ => (⊤ : Submodule R' R')) (RingHom.ker f)
-  show Finsupp.submodule
+  change Finsupp.submodule
       (fun _ : Module.Free.ChooseBasisIndex R (P.X n) => RingHom.ker f) =
     RingHom.ker f • (⊤ : Submodule R'
       (Module.Free.ChooseBasisIndex R (P.X n) →₀ R'))
@@ -185,12 +185,12 @@ private theorem exists_freeLiftMap (f : R' →+* R) (hf : Function.Surjective f)
     map_add' := (P.d i j).hom.map_add
     map_smul' := by
       intro r x
-      show P.d i j (f r • x) = f r • P.d i j x
+      change P.d i j (f r • x) = f r • P.d i j x
       exact (P.d i j).hom.map_smul (f r) x }
   let g : freeLiftTerm f P hfree i →ₗ[R'] P.X j := dR.comp (ρ i)
   obtain ⟨φ, hφ⟩ := Module.projective_lifting_property (ρ j) g
     (by
-      show Function.Surjective (freeLiftReduction f P hfree j)
+      change Function.Surjective (freeLiftReduction f P hfree j)
       exact freeLiftReduction_surjective f hf P hfree j)
   refine ⟨φ, ?_⟩
   intro x
@@ -339,7 +339,7 @@ private theorem freeDifferentialLift_square_mem_ker
       LinearMap.ker (L.reduction (n + 2)) := by
   rw [LinearMap.mem_ker]
   rw [L.reduction_d, L.reduction_d]
-  show (P.d n (n + 1) ≫ P.d (n + 1) (n + 2)) (L.reduction n x) = 0
+  change (P.d n (n + 1) ≫ P.d (n + 1) (n + 2)) (L.reduction n x) = 0
   rw [P.d_comp_d]
   rfl
 
@@ -578,7 +578,7 @@ private lemma kernelModule_smul
   let K := ↥(RingHom.ker f • (⊤ : Submodule R' (L.X n)))
   have hkill := squareZeroIdeal_isTorsionBySet_smul_top (M := L.X n) (RingHom.ker f) hzero
   let : Module (R' ⧸ RingHom.ker f) K := hkill.module
-  show (((RingHom.quotientKerEquivOfSurjective hf).symm (f r)) • x : K).val = _
+  change (((RingHom.quotientKerEquivOfSurjective hf).symm (f r)) • x : K).val = _
   rw [RingHom.quotientKerEquivOfSurjective_symm_apply hf r, hkill.mk_smul]
   rfl
 
@@ -608,7 +608,7 @@ private lemma kernelTensorEquiv_tmul
       rw [← hi, Module.Basis.repr_self]
     have ha : squareZeroCotangentToIdeal f hf hzero ((RingHom.ker f).toCotangent a) = a :=
       (squareZeroCotangentToIdeal f hf hzero).apply_symm_apply a
-    show (freeLiftKernelCoordinateEquiv f hf hzero L n b
+    change (freeLiftKernelCoordinateEquiv f hf hzero L n b
       (TensorProduct.finsuppScalarLeft R (RingHom.ker f) _
         (TensorProduct.congr (L.reductionBasis hf n b).repr
           (squareZeroCotangentToIdeal f hf hzero) _))).val = _
@@ -616,7 +616,7 @@ private lemma kernelTensorEquiv_tmul
       TensorProduct.finsuppScalarLeft_apply_tmul]
     simp only [Finsupp.sum_single_index, zero_smul, Finsupp.single_zero, one_smul]
     exact (freeLiftKernelCoordinateEquivData f hf hzero L n b).property i a
-  show (e _).val = _
+  change (e _).val = _
   rw [← b.linearCombination_repr x, Finsupp.linearCombination_apply, Finsupp.sum]
   simp only [map_sum, map_smulₛₗ, TensorProduct.sum_tmul, ← TensorProduct.smul_tmul',
     RingHom.id_apply, AddSubmonoidClass.coe_finsetSum, Finset.smul_sum]

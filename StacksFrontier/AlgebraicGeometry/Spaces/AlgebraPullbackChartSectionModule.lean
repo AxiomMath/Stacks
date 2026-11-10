@@ -185,7 +185,9 @@ local instance (priority := high)
   @functorCategoryHasLimitsOfShape _ _ _ _ _ _ inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the module categories of the small étale ringed topos is deep
 set_option maxHeartbeats 1000000 in
+-- elaborating the universe-polymorphic pullback isomorphism at these instances is slow
 /-- **The identification of the inverse image of the `𝒪_X`-module underlying `A` with the
 `f⁻¹𝒪_X`-module underlying `f⁻¹A`.**  This is
 `Stacks.Sheaves.ToposPullback.AnyUniverse.pullbackRestrictUnitIso`, which is the identity on the

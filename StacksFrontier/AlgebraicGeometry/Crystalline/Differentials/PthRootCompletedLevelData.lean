@@ -127,8 +127,7 @@ theorem primeConnection_baseChange_map {M₁ M₂ : Type w} [AddCommGroup M₁] 
     primeConnection A B p lam hp M₂ nab₂ (f.baseChange (primeRing B p lam) y) =
       TensorProduct.map (f.baseChange (primeRing B p lam)) LinearMap.id
         (primeConnection A B p lam hp M₁ nab₁ y) := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction y using TensorProduct.inductionOn with
   | add a b ha hb =>
     rw [map_add, Connection.map_add, ha, hb, Connection.map_add, map_add]
   | tmul b' m =>
@@ -142,8 +141,7 @@ theorem primeConnection_baseChange_map {M₁ M₂ : Type w} [AddCommGroup M₁] 
           TensorProduct.map (f.baseChange (primeRing B p lam)) LinearMap.id
             (Connection.baseChangeValues (primeFormsComparison A B p lam hp) t) := by
       intro t
-      induction t using TensorProduct.induction_on with
-      | zero => simp only [map_zero]
+      induction t using TensorProduct.inductionOn with
       | tmul a w => simp [Connection.baseChangeValues_tmul]
       | add a b ha hb => simp only [map_add, ha, hb]
     rw [LinearMap.baseChange_tmul]
@@ -175,7 +173,7 @@ theorem comparison_naturality {M₁ M₂ : Type w} [AddCommGroup M₁] [Module (
     (F := (c₂.toAddMonoidHom.comp (baseTermMap A B f q).toAddMonoidHom))
     (G := ((primeTermMap A B p lam hp f q).toAddMonoidHom.comp c₁.toAddMonoidHom))
     (fun m v ↦ by
-      show c₂ (f m ⊗ₜ exteriorPower.ιMulti (B : Type u) q v) =
+      change c₂ (f m ⊗ₜ exteriorPower.ιMulti (B : Type u) q v) =
         primeTermMap A B p lam hp f q (c₁ (m ⊗ₜ exteriorPower.ιMulti (B : Type u) q v))
       rw [hc₂, hc₁, TensorProduct.map_tmul, LinearMap.baseChange_tmul, LinearMap.id_apply])
   exact DFunLike.congr_fun this x
@@ -198,6 +196,7 @@ variable (A : Type u) [CommRing A] (B : DividedPowerRing.{u}) [Algebra A (B : Ty
 abbrev levelNabla (n : ℕ) :=
   levelConnection p A (B : Type u) B.dividedPowers M nabla n
 
+omit [Nontrivial (XiAlg B)] [Fact p.Prime] [Algebra (IntegersAtPrime p) (B : Type u)] in
 include hint in
 /-- The level connections of an integrable completed connection are integrable. -/
 theorem levelNabla_integrable (n : ℕ) :
@@ -205,6 +204,7 @@ theorem levelNabla_integrable (n : ℕ) :
       (baseFormsGenerationHypothesis A B S) (levelNabla A B p M nabla n) :=
   isIntegrable_levelConnection p A (B : Type u) B.dividedPowers M nabla S hint n
 
+omit [Nontrivial (XiAlg B)] [Fact p.Prime] [Algebra (IntegersAtPrime p) (B : Type u)] in
 include hint in
 /-- The canonical map of [Stacks, Tag 07PY] for `M_n` exists. -/
 theorem exists_levelComparison (n : ℕ) :
@@ -234,6 +234,7 @@ theorem exists_levelComparison (n : ℕ) :
 def levelComparison (n : ℕ) := Classical.choose
   (exists_levelComparison A B p lam hp M nabla hint S S' n)
 
+omit [Nontrivial (XiAlg B)] [Fact p.Prime] [Algebra (IntegersAtPrime p) (B : Type u)] in
 /-- The level canonical map on a tensor of a wedge. -/
 theorem levelComparison_wedge (n q : ℕ) (m : levelModule p (B : Type u) M n)
     (omega : Fin q → baseForms A B) :
@@ -243,6 +244,7 @@ theorem levelComparison_wedge (n q : ℕ) (m : levelModule p (B : Type u) M n)
         exteriorPower.ιMulti (primeRing B p lam) q ((primeFormsComparison A B p lam hp) ∘ omega) :=
   (Classical.choose_spec (exists_levelComparison A B p lam hp M nabla hint S S' n)).1 q m omega
 
+omit [Nontrivial (XiAlg B)] [Fact p.Prime] [Algebra (IntegersAtPrime p) (B : Type u)] in
 /-- The level canonical map commutes with the extended connections. -/
 theorem levelComparison_comm (n q : ℕ) (x : levelModule p (B : Type u) M n ⊗[(B : Type u)]
     (⋀[(B : Type u)]^q (baseForms A B))) :
@@ -329,12 +331,14 @@ abbrev levelTransition : levelModule p (B : Type u) M k →ₗ[(B : Type u)] lev
     M m :=
   AdicCompletion.transitionMap (pAdicIdeal (A := (B : Type u)) p) M hmk
 
+omit [Nontrivial (XiAlg B)] [Fact p.Prime] [Algebra (IntegersAtPrime p) (B : Type u)] in
 /-- The transition maps are horizontal for the level connections. -/
 theorem levelNabla_transition (x : levelModule p (B : Type u) M k) :
     levelNabla A B p M nabla m (levelTransition B p M hmk x) =
       TensorProduct.map (levelTransition B p M hmk) LinearMap.id (levelNabla A B p M nabla k x) :=
   levelConnection_transitionMap p A (B : Type u) B.dividedPowers M nabla hmk x
 
+omit [Nontrivial (XiAlg B)] [Fact p.Prime] [Algebra (IntegersAtPrime p) (B : Type u)] in
 /-- The extended level connections commute with the transition maps. -/
 theorem baseExtended_transition (q : ℕ) (x : baseDeRhamTerm A B (levelModule p (B : Type u) M k) q)
     :
@@ -347,6 +351,7 @@ theorem baseExtended_transition (q : ℕ) (x : baseDeRhamTerm A B (levelModule p
     (baseFormsGenerationHypothesis A B S) (levelNabla A B p M nabla k) (levelNabla A B p M nabla m)
     (levelTransition B p M hmk) (levelNabla_transition A B p M nabla hmk) q x
 
+omit [Nontrivial (XiAlg B)] [Fact p.Prime] [Algebra (IntegersAtPrime p) (B : Type u)] in
 /-- The extended base-changed level connections commute with the transition maps. -/
 theorem primeExtended_transition (q : ℕ)
     (y : primeDeRhamTerm A B p lam hp (levelModule p (B : Type u) M k) q) :
@@ -365,6 +370,7 @@ theorem primeExtended_transition (q : ℕ)
       (levelNabla A B p M nabla m) (levelTransition B p M hmk)
       (levelNabla_transition A B p M nabla hmk)) q y
 
+omit [Nontrivial (XiAlg B)] [Fact p.Prime] [Algebra (IntegersAtPrime p) (B : Type u)] in
 /-- The transition maps commute with multiplication by `p`. -/
 theorem primeTermMap_lsmul (q : ℕ) (y : primeDeRhamTerm A B p lam hp (levelModule p (B : Type u) M
     k) q) :
@@ -377,6 +383,7 @@ theorem primeTermMap_lsmul (q : ℕ) (y : primeDeRhamTerm A B p lam hp (levelMod
             lam hp (levelTransition B p M hmk) q y) :=
   (primeTermMap A B p lam hp (levelTransition B p M hmk) q).map_smul _ y
 
+omit [Fact p.Prime] [Algebra (IntegersAtPrime p) (B : Type u)] in
 /-- The transition maps carry the homotopy `h_k` of the extended differential to `h_m`. -/
 private theorem primeTermMap_homotopy_extended (q : ℕ)
     (y : primeDeRhamTerm A B p lam hp (levelModule p (B : Type u) M k) q) :

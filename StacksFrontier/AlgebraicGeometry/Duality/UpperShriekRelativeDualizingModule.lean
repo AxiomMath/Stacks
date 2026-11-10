@@ -115,7 +115,7 @@ def chosenOpenFiniteFactorization : OpenFiniteFactorization f := by
 /-- For finite `f`, the chosen factorization is `f` itself. -/
 theorem chosenOpenFiniteFactorization_of_isFinite [IsFinite f.left] :
     chosenOpenFiniteFactorization f = OpenFiniteFactorization.ofIsFinite f := by
-  rw [chosenOpenFiniteFactorization, dif_pos (inferInstance : IsFinite f.left)]
+  rw [chosenOpenFiniteFactorization, dite_eq_left (inferInstance : IsFinite f.left)]
 
 variable {f} (F : OpenFiniteFactorization f)
 
@@ -221,7 +221,7 @@ theorem bijective_traceDual_finiteTrace (U : Y.left.affineOpens) :
             let b' : Γ(F.space, F.toBase ⁻¹ᵁ U.1) := b
             have e : (show Γ(F.space, F.toBase ⁻¹ᵁ U.1) from a • b) = a • b' := by
               rw [Algebra.smul_def]
-              show ((F.toBase).app U.1).hom a * _ = _
+              change ((F.toBase).app U.1).hom a * _ = _
               rw [← Scheme.Hom.appLE_eq_app (F.toBase)]
               rfl
             rw [RingHom.id_apply]

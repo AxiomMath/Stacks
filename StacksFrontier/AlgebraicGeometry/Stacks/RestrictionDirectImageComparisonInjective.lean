@@ -157,7 +157,7 @@ theorem ranSection_comp
   have key : (f.op.ran.obj ℱ.obj).map (f.map m ≫ κ).op s =
       (f.op.ran.obj ℱ.obj).map (f.map m).op ((f.op.ran.obj ℱ.obj).map κ.op s) := by
     rw [← Functor.map_comp_apply, ← op_comp]
-  show (f.op.ranCounit.app ℱ.obj).app (op Z')
+  change (f.op.ranCounit.app ℱ.obj).app (op Z')
     ((f.op.ran.obj ℱ.obj).map (f.map m ≫ κ).op s) = _
   rw [key]
   exact NatTrans.naturality_apply (f.op.ranCounit.app ℱ.obj) m.op _

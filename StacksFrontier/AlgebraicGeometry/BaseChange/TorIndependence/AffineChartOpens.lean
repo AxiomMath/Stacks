@@ -69,7 +69,7 @@ public theorem BaseChangeChart.exists_incU'_ofAffineOpens_eq {X X' S S' : Scheme
     rw [Scheme.Pullback.range_map _ _ f g incU incV' incV hwU hwV']
     exact ⟨hz hU sq.isoPullback_hom_fst hxU, hz hV' sq.isoPullback_hom_snd hs'V'⟩
   refine ⟨e.hom w, ?_⟩
-  show sq.isoPullback.inv (q (e.inv (e.hom w))) = x'
+  change sq.isoPullback.inv (q (e.inv (e.hom w))) = x'
   simp [hw]
 
 end AlgebraicGeometry

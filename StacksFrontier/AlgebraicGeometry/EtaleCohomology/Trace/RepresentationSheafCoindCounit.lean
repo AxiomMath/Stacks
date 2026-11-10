@@ -112,7 +112,7 @@ lemma coindSum_naturality {M N : Stacks.Injectives.ContinuousModule.{u, v, max u
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro f
-  show coindSumLinearMap R V N.obj.obj.V (fun x ↦ φ.hom.hom.hom.hom (f x)) =
+  change coindSumLinearMap R V N.obj.obj.V (fun x ↦ φ.hom.hom.hom.hom (f x)) =
     φ.hom.hom.hom.hom (coindSumLinearMap R V M.obj.obj.V f)
   exact (coindSumLinearMap_apply R V _ _).trans
     ((map_finsum φ.hom.hom.hom.hom (Set.toFinite _)).symm.trans
@@ -125,7 +125,7 @@ lemma coindSum_apply_single [DecidableEq (G ⧸ (V : Subgroup G))]
       (Pi.single ((1 : G) : G ⧸ (V : Subgroup G)) m) = m := by
   let : Fintype (G ⧸ (V : Subgroup G)) := Fintype.ofFinite _
   rw [coindSum_apply, finsum_eq_sum_of_fintype]
-  exact Finset.sum_pi_single' _ _ _ |>.trans (if_pos (Finset.mem_univ _))
+  exact Finset.sum_pi_single' _ _ _ |>.trans (ite_eq_left (Finset.mem_univ _))
 
 /-- **The sum map is an epimorphism.** -/
 instance epi_coindSum (M : Stacks.Injectives.ContinuousModule.{u, v, max u v w} R G) :

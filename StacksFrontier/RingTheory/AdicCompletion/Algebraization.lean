@@ -101,7 +101,7 @@ private theorem isLocalizationAtIdempotent_of_surjective_of_isIdempotentElem_ker
   let := g.toAlgebra
   refine ⟨1 - e, he.one_sub, ?_⟩
   apply IsLocalization.away_of_isIdempotentElem he.one_sub
-  · show RingHom.ker g = Ideal.span {1 - (1 - e)}
+  · change RingHom.ker g = Ideal.span {1 - (1 - e)}
     simpa [Ideal.submodule_span_eq] using hker
   · exact hg
 
@@ -187,15 +187,15 @@ theorem ofTensorProductLinearEquiv_tmul_eval
           (AdicCompletion.evalₐ I n a) *
         Ideal.Quotient.mk ((I.map (algebraMap R D)) ^ n) d := by
   obtain ⟨a, rfl⟩ := AdicCompletion.mk_surjective I R a
-  show AdicCompletion.evalₐ _ n (adicCompletionLinearEquivMap I D
+  change AdicCompletion.evalₐ _ n (adicCompletionLinearEquivMap I D
     (AdicCompletion.ofTensorProduct I D (AdicCompletion.mk I R a ⊗ₜ[R] d))) = _
   rw [AdicCompletion.ofTensorProduct_tmul, AdicCompletion.evalₐ_mk]
   rw [← AdicCompletion.factor_eval_eq_evalₐ _ _ (by simp)]
-  show Ideal.Quotient.factorₐ D (by simp)
+  change Ideal.Quotient.factorₐ D (by simp)
     (quotEquivMapPow I D n ((AdicCompletion.mk I R a • AdicCompletion.of I D d).val n)) = _
   simp only [AdicCompletion.smul_eval, AdicCompletion.mk_apply_coe,
     AdicCompletion.of_apply, Submodule.mkQ_apply]
-  show Ideal.Quotient.factorₐ D (by simp)
+  change Ideal.Quotient.factorₐ D (by simp)
     (quotEquivMapPow I D n (Submodule.Quotient.mk (a n • d))) = _
   rw [quotEquivMapPow_mk]
   simp only [Ideal.quotientMap_mk, map_mul, Algebra.smul_def]
@@ -374,7 +374,7 @@ private theorem exists_finiteType_adicCompletion_quotient_idempotent
     AdicCompletion.isAdicComplete_self J (Ideal.fg_of_isNoetherianRing _)
   have hmap : (I.map (algebraMap R (AdicCompletion I R))).map E.toRingHom = K := by
     rw [Ideal.map_map]
-    show I.map _ = (I.map (algebraMap R S)).map (algebraMap S (AdicCompletion J S))
+    change I.map _ = (I.map (algebraMap R S)).map (algebraMap S (AdicCompletion J S))
     rw [Ideal.map_map]
     congr 1
     ext r : 1
@@ -415,7 +415,7 @@ private theorem exists_finiteType_adicCompletion_quotient_idempotent
   let F := (Ideal.quotientEquivAlg _ _ E hL).trans
     ((adicCompletionQuotientAlgEquiv J L).restrictScalars R)
   refine ⟨Q, inferInstance, inferInstance, inferInstance, ⟨?_⟩⟩
-  show (AdicCompletion I R ⧸ Ideal.span {1 - e}) ≃ₐ[R] AdicCompletion _ Q
+  change (AdicCompletion I R ⧸ Ideal.span {1 - e}) ≃ₐ[R] AdicCompletion _ Q
   rw [← hIQ]
   exact F
 
@@ -433,7 +433,7 @@ private theorem ker_fst_comp_algEquiv_prod
     ext <;> simp [hx']
   · refine Ideal.span_le.mpr ?_
     rintro _ rfl
-    show (E (1 - E.symm (1, 0))).1 = 0
+    change (E (1 - E.symm (1, 0))).1 = 0
     simp
 
 /-- If a product algebra is a completion, each factor is a completion of a finite-type
@@ -544,7 +544,7 @@ theorem exists_finiteType_algEquiv_adicCompletion_of_cotangent_annihilated
   have : IsScalarTower A B T := by
     apply IsScalarTower.of_algebraMap_eq
     intro a
-    show algebraMap A T a = algebraMap R T (algebraMap B R (algebraMap A B a))
+    change algebraMap A T a = algebraMap R T (algebraMap B R (algebraMap A B a))
     rw [← IsScalarTower.algebraMap_apply A B R, ← IsScalarTower.algebraMap_apply A R T]
   obtain ⟨r, f, hf⟩ :=
     Submodule.fg_iff_exists_fin_generating_family.mp

@@ -222,10 +222,10 @@ theorem leftDerivedModuleRealizationComponentInclusion_comp_augmentation
       (leftDerivedModuleRealizationComponentAugmented T hT m).hom.app
         (Opposite.op ⦋0⦌) = 𝟙 _ := by
   let e := leftDerivedModuleRealizationComponentComparisonIso T hT m
-  show leftDerivedModuleRealizationComponentInclusion T hT ψ ≫ e.inv.app (Opposite.op ⦋0⦌) ≫
+  change leftDerivedModuleRealizationComponentInclusion T hT ψ ≫ e.inv.app (Opposite.op ⦋0⦌) ≫
     Limits.Sigma.desc (fun _ : ⦋0⦌ ⟶ m => 𝟙 (T.obj m)) = 𝟙 _
   rw [← leftDerivedModuleRealizationComponentComparison_ι T hT ψ]
-  show (Limits.Sigma.ι (fun _ : ⦋0⦌ ⟶ m => T.obj m) ψ ≫ e.hom.app (Opposite.op ⦋0⦌)) ≫
+  change (Limits.Sigma.ι (fun _ : ⦋0⦌ ⟶ m => T.obj m) ψ ≫ e.hom.app (Opposite.op ⦋0⦌)) ≫
     e.inv.app (Opposite.op ⦋0⦌) ≫ Limits.Sigma.desc _ = _
   simp
 

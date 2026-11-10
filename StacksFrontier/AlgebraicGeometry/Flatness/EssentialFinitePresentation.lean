@@ -71,7 +71,7 @@ theorem EssentiallyOfFinitePresentation.comp_ringEquiv_source {R R₂ S : Type u
   let := (f.comp (e : R₂ →+* R)).toAlgebra
   let : Algebra R₂ A := ((algebraMap R A).comp (e : R₂ →+* R)).toAlgebra
   have : IsScalarTower R₂ A S := IsScalarTower.of_algebraMap_eq' <| by
-    show f.comp (e : R₂ →+* R) = (algebraMap A S).comp ((algebraMap R A).comp (e : R₂ →+* R))
+    change f.comp (e : R₂ →+* R) = (algebraMap A S).comp ((algebraMap R A).comp (e : R₂ →+* R))
     rw [← RingHom.comp_assoc, ← IsScalarTower.algebraMap_eq R A S]
     rfl
   have : Algebra.FinitePresentation R₂ A :=

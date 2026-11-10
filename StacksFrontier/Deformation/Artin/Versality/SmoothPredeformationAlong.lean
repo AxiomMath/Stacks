@@ -73,7 +73,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 theorem toScheme_obj_obj_point
     (d : DeformationObject iΛ (𝒴.val.p ⋙ Over.post B.inclusion) y₀ hy₀) :
     (BigFppfOver.toScheme B S hS).obj (𝒴.val.p.obj d.point) = Spec (.of (↑d.algebra)) := by
-  show B.inclusion.obj (𝒴.val.p.obj d.point).left = _
+  change B.inclusion.obj (𝒴.val.p.obj d.point).left = _
   simpa [BigFppfOver.toScheme, BigFppfOver.forget] using congrArg (fun z => z.left) d.base
 
 /-- The scheme underlying the base of a deformation is affine. -/
@@ -225,7 +225,7 @@ public theorem isSmoothOnPredeformationCategories_of_isFormallySmoothOnObjectsAl
     have hpostEq : qX.map liftArrow = (Over.post B.inclusion).map
         (eqToHom (IsHomLift.domain_eq 𝒳.val.p i liftArrow) ≫ i ≫
           eqToHom (IsHomLift.codomain_eq 𝒳.val.p i liftArrow).symm) := by
-      show (Over.post B.inclusion).map (𝒳.val.p.map liftArrow) = _
+      change (Over.post B.inclusion).map (𝒳.val.p.map liftArrow) = _
       exact congrArg (fun t : 𝒳.val.p.obj dx.point ⟶ 𝒳.val.p.obj x'.1 =>
         (Over.post B.inclusion).map t) (IsHomLift.fac' 𝒳.val.p i liftArrow)
     have hmleft : (qY.map m.arrow).left =

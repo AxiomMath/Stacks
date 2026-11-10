@@ -51,7 +51,7 @@ theorem finite_fieldValuedPoints : Finite (fieldValuedPoints f K) := by
     intro x σ
     obtain ⟨hc, hd⟩ := isClosed_and_dvd_of_residueEmbeddings f K x σ
     refine ⟨hc, Finset.mem_filter.2 ⟨?_, hd⟩⟩
-    simp only [closedPointsDegreeLE, Set.Finite.mem_toFinset, Set.mem_setOf_eq]
+    simp only [closedPointsDegreeLE, Set.Finite.mem_toFinset, Set.mem_ofPred_eq]
     exact Nat.le_of_dvd hpos hd
   let e : (Σ x : X, residueEmbeddings f K x) ≃ Σ y : S, residueEmbeddings f K y.1.1 :=
     { toFun := fun c => ⟨⟨⟨c.1, (hmem c.1 c.2).1⟩, (hmem c.1 c.2).2⟩, c.2⟩
@@ -62,7 +62,7 @@ theorem finite_fieldValuedPoints : Finite (fieldValuedPoints f K) := by
     intro y
     refine Nat.finite_of_card_ne_zero ?_
     have hd := (Finset.mem_filter.1 y.2).2
-    rw [natCard_residueEmbeddings, if_pos hd]
+    rw [natCard_residueEmbeddings, ite_eq_left hd]
     intro h0
     rw [h0, zero_dvd_iff] at hd
     omega

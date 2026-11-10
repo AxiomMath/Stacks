@@ -100,7 +100,7 @@ private theorem tangentArrow_cast_val {X S : Scheme.{u}} (f : X ⟶ S)
       (X.residueFieldCongr (rfl : x = x)).commRingCatIsoToRingEquiv).toRingHom =
       RingHom.id _ :=
     RingHom.ext fun ⟨_, _⟩ => rfl
-  show v.val = Spec.map (CommRingCat.ofHom
+  change v.val = Spec.map (CommRingCat.ofHom
     (dualNumberCongr
       (X.residueFieldCongr (rfl : x = x)).commRingCatIsoToRingEquiv).toRingHom) ≫ v.val
   rw [hring]
@@ -162,11 +162,11 @@ theorem tangentMap_transport_apply {X Y S : Scheme.{u}} (f : X ⟶ Y) (p : X ⟶
   have hinv : inv ((Y.residueFieldCongr hxy).inv ≫ f.residueFieldMap x) =
       inv (f.residueFieldMap x) ≫ (Y.residueFieldCongr hxy).hom := by simp
   apply TrivSqZeroExt.ext
-  · show (Y.residueFieldCongr hxy).hom.hom ((inv (f.residueFieldMap x)).hom value.fst) =
+  · change (Y.residueFieldCongr hxy).hom.hom ((inv (f.residueFieldMap x)).hom value.fst) =
       (inv ((Y.residueFieldCongr hxy).inv ≫ f.residueFieldMap x)).hom value.fst
     rw [hinv]
     rfl
-  · show (Y.residueFieldCongr hxy).hom.hom ((inv (f.residueFieldMap x)).hom value.snd) =
+  · change (Y.residueFieldCongr hxy).hom.hom ((inv (f.residueFieldMap x)).hom value.snd) =
       (inv ((Y.residueFieldCongr hxy).inv ≫ f.residueFieldMap x)).hom value.snd
     rw [hinv]
     rfl
@@ -200,10 +200,10 @@ theorem tangentMap_transport_apply_eq {P X S : Scheme.{u}} (i : X ⟶ S) (p : P 
   apply RingHom.ext
   intro value
   apply TrivSqZeroExt.ext
-  · show (inv ((X.residueFieldCongr ha).inv ≫ a.residueFieldMap z)).hom value.fst =
+  · change (inv ((X.residueFieldCongr ha).inv ≫ a.residueFieldMap z)).hom value.fst =
       (inv ((X.residueFieldCongr hb).inv ≫ b.residueFieldMap z)).hom value.fst
     rw [hinv]
-  · show (inv ((X.residueFieldCongr ha).inv ≫ a.residueFieldMap z)).hom value.snd =
+  · change (inv ((X.residueFieldCongr ha).inv ≫ a.residueFieldMap z)).hom value.snd =
       (inv ((X.residueFieldCongr hb).inv ≫ b.residueFieldMap z)).hom value.snd
     rw [hinv]
 
@@ -286,7 +286,7 @@ private theorem constantArrow_factor_unit {S P : Scheme.{u}}
       _ = (baseCongr.hom ≫ d) ≫ c := by rw [hmapD]
       _ = totalCongr.hom := by
         rw [Category.assoc, hdc]
-        show (S.residueFieldCongr (congrArg G.hom h₁)).hom ≫
+        change (S.residueFieldCongr (congrArg G.hom h₁)).hom ≫
           (S.residueFieldCongr hp).hom =
           (S.residueFieldCongr ((congrArg G.hom h₁).trans hp)).hom
         exact S.residueFieldCongr_trans_hom (congrArg G.hom h₁) hp
@@ -391,7 +391,7 @@ private theorem tangentMap_firstFactor_eq {S : Scheme.{u}} (G : Over S) [GrpObj 
   let T := tangentMap m (pullback.fst G.hom G.hom ≫ G.hom) G.hom hbase z
   let a := h₁'.symm ▸ v
   let x₁ := E.toLinearEquiv.symm (a, 0)
-  show hm' ▸ T x₁ = v
+  change hm' ▸ T x₁ = v
   apply Subtype.ext
   rw [tangentArrow_cast_val G.hom hm' (T x₁)]
   let em := (asIso (m.residueFieldMap z)).commRingCatIsoToRingEquiv
@@ -410,7 +410,7 @@ private theorem tangentMap_firstFactor_eq {S : Scheme.{u}} (G : Over S) [GrpObj 
     calc
       f ≫ G.hom = g ≫ G.hom := by simpa [f, g] using hcond
       _ = (q ≫ (η[G]).left) ≫ G.hom := by
-        show secondConstantArrow G.hom G.hom z ≫ G.hom = _
+        change secondConstantArrow G.hom G.hom z ≫ G.hom = _
         rw [hg]
       _ = q := by simp [Category.assoc, hη]
   have hmult := groupMultiplication_lift_second_unit G f g q hf
@@ -459,7 +459,7 @@ private theorem tangentMap_secondFactor_eq {S : Scheme.{u}} (G : Over S) [GrpObj
   let T := tangentMap m (pullback.fst G.hom G.hom ≫ G.hom) G.hom hbase z
   let b := h₂'.symm ▸ w
   let x₂ := E.toLinearEquiv.symm (0, b)
-  show hm' ▸ T x₂ = w
+  change hm' ▸ T x₂ = w
   apply Subtype.ext
   rw [tangentArrow_cast_val G.hom hm' (T x₂)]
   let em := (asIso (m.residueFieldMap z)).commRingCatIsoToRingEquiv
@@ -478,7 +478,7 @@ private theorem tangentMap_secondFactor_eq {S : Scheme.{u}} (G : Over S) [GrpObj
     calc
       f ≫ G.hom = g ≫ G.hom := by simpa [f, g] using hcond.symm
       _ = (q ≫ (η[G]).left) ≫ G.hom := by
-        show firstConstantArrow G.hom G.hom z ≫ G.hom = _
+        change firstConstantArrow G.hom G.hom z ≫ G.hom = _
         rw [hg]
       _ = q := by simp [Category.assoc, hη]
   have hunit : (q ≫ (η[G]).left) ≫ G.hom = f ≫ G.hom := by simp [hη, hf]
@@ -554,14 +554,14 @@ theorem tangentMap_mul_at_identity {S : Scheme.{u}} (G : Over S) [GrpObj G]
     have hunitmul : (lift (η[G]) (η[G])).left ≫ (μ[G]).left = (η[G]).left :=
       congrArg Over.Hom.left hunitmulOver
     dsimp [m, z, e]
-    show ((lift (η[G]) (η[G])).left ≫ (μ[G]).left) s = _
+    change ((lift (η[G]) (η[G])).left ≫ (μ[G]).left) s = _
     rw [hunitmul]
   have hbase : m ≫ G.hom = pullback.fst G.hom G.hom ≫ G.hom := by
     simp [m, Over.Hom.w (μ[G])]
   let ρ : G.left ⟶ pullback G.hom G.hom :=
     pullback.lift (𝟙 G.left) (G.hom ≫ (η[G]).left) (by simp [Category.assoc, hη])
   have hρm : ρ ≫ m = 𝟙 G.left := by
-    show ((lift (𝟙 G) (toUnit G ≫ η[G])).left ≫ (μ[G]).left) = 𝟙 G.left
+    change ((lift (𝟙 G) (toUnit G ≫ η[G])).left ≫ (μ[G]).left) = 𝟙 G.left
     exact congrArg Over.Hom.left
       (MonObj.lift_comp_one_right (𝟙 G) (toUnit G))
   let q : S ⟶ pullback G.hom G.hom :=
@@ -617,7 +617,7 @@ theorem tangentMap_mul_at_identity {S : Scheme.{u}} (G : Over S) [GrpObj G]
       tangentMap_firstFactor_eq G s z h₁' h₂' hm' hbase hmiso E v
     have hsecond : hm' ▸ T u₂ = w :=
       tangentMap_secondFactor_eq G s z h₁' h₂' hm' hbase hmiso E w
-    show hm' ▸ T (E.toLinearEquiv.symm (vFst, wSnd)) = v + w
+    change hm' ▸ T (E.toLinearEquiv.symm (vFst, wSnd)) = v + w
     calc
       hm' ▸ T (E.toLinearEquiv.symm (vFst, wSnd)) = hm' ▸ (T u₁ + T u₂) :=
         congrArg (fun q => hm' ▸ q) hTdecomp

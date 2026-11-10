@@ -167,11 +167,11 @@ theorem isOpenImmersion_sheafify_iSup_ι {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Typ
         ((BigFppfOver.toScheme B S hS).map (si i)) (hrange i)))
       (by
         apply ObjectProperty.hom_ext
-        show AlgebraicGeometry.IsOpenImmersion.lift V.ι
+        change AlgebraicGeometry.IsOpenImmersion.lift V.ι
             ((BigFppfOver.toScheme B S hS).map (si i)) (hrange i) ≫
             V.ι ≫ B.inclusion.map a.hom = B.inclusion.map (Pi i).hom
         rw [← Category.assoc, hlf i]
-        show B.inclusion.map (si i).left ≫ B.inclusion.map a.hom = _
+        change B.inclusion.map (si i).left ≫ B.inclusion.map a.hom = _
         rw [← B.inclusion.map_comp, Over.w (si i)]) with htidef
   have htimap : ∀ i, (BigFppfOver.toScheme B S hS).map (ti i) =
       AlgebraicGeometry.IsOpenImmersion.lift V.ι
@@ -196,7 +196,7 @@ theorem isOpenImmersion_sheafify_iSup_ι {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Typ
     refine (BigFppfOver.topology B S hS).superset_covering ?_ hgen
     rw [Sieve.generate_le_iff]
     rintro Z z ⟨i⟩
-    show F.map (ti i).op (g.app (Opposite.op Pobj) sn) ∈ (⨆ i, X i).obj _
+    change F.map (ti i).op (g.app (Opposite.op Pobj) sn) ∈ (⨆ i, X i).obj _
     have hmem : g.app (Opposite.op (Pi i)) (si i) ∈ (X i).obj (Opposite.op (Pi i)) := by
       have hw : (fsti i ≫ (X i).ι).app (Opposite.op (Pi i)) (𝟙 (Pi i)) =
           (yoneda.map (si i) ≫ g).app (Opposite.op (Pi i)) (𝟙 (Pi i)) := by
@@ -256,7 +256,7 @@ theorem isOpenImmersion_sheafify_iSup_ι {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Typ
           rw [Functor.map_comp, yoneda.map_preimage,
             (hpb i).lift_snd (Subfunctor.lift (yoneda.map y ≫ g) hαle) (yoneda.map y) hαw]
         refine ⟨yoneda.preimage ((hpb i).lift _ (yoneda.map y) hαw) ≫ ti i, ?_⟩
-        show (yoneda.preimage ((hpb i).lift _ (yoneda.map y) hαw) ≫ ti i) ≫ sn = h ≫ x
+        change (yoneda.preimage ((hpb i).lift _ (yoneda.map y) hαw) ≫ ti i) ≫ sn = h ≫ x
         rw [Category.assoc, hti i, hk, hy]
       rw [hNeq]
       exact (BigFppfOver.topology B S hS).superset_covering hle hx
@@ -308,7 +308,7 @@ theorem isRepresentable_sheafify_iSup
         (w i).hom.app (Opposite.op W') t = v :=
       ⟨(w i).inv.app (Opposite.op W') v, by rw [← NatTrans.comp_app_apply, Iso.inv_hom_id]; rfl⟩
     refine ⟨(Sigma.ι (fun j => yoneda.obj (T j)) i).app (Opposite.op W') t, Subtype.ext ?_⟩
-    rw [← NatTrans.comp_app_apply, Sigma.ι_desc]
+    rw [← NatTrans.comp_app_apply, Sigma.ι_comp_desc]
     have h2 : (((f i).app (Opposite.op W') t).1 : F.obj (Opposite.op W')) =
         ((w i).hom ≫ (X i).ι).app (Opposite.op W') t := by
       rw [← hfL i]

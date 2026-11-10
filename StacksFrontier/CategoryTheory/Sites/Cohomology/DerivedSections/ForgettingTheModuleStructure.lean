@@ -258,7 +258,7 @@ theorem sectionsForgetComparison_isIso (U : X.C) :
       ((presheafToSheaf X.J AddCommGrpCat.{u}).obj (yoneda.obj U ⋙ AddCommGrpCat.free))
       (evaluationRepresentation X.J U).symm
       (isTorsionFree_sheafify X.J _ fun W => by
-        show Module.IsTorsionFree ℤ (FreeAbelianGroup (W.unop ⟶ U))
+        change Module.IsTorsionFree ℤ (FreeAbelianGroup (W.unop ⟶ U))
         exact Module.Flat.isTorsionFree)
       (derivedAbelianSections X U) (derivedAbelianSectionsUnit X U) I
     dsimp only [γ, sectionsForgetUnit, NatTrans.comp_app,

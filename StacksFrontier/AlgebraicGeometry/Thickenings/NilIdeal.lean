@@ -36,7 +36,7 @@ theorem isThickening_specMap_quotientMk {A : Type u} [CommRing A] (I : Ideal A)
     (hI : ∀ x ∈ I, IsNilpotent x) :
     IsThickening (Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I))) := by
   refine ⟨IsClosedImmersion.spec_of_surjective _ Ideal.Quotient.mk_surjective, ?_⟩
-  show Function.Surjective (PrimeSpectrum.comap (Ideal.Quotient.mk I))
+  change Function.Surjective (PrimeSpectrum.comap (Ideal.Quotient.mk I))
   exact (PrimeSpectrum.comap_quotientMk_bijective_of_le_nilradical
     (fun x hx => mem_nilradical.mpr (hI x hx))).surjective
 
@@ -57,7 +57,7 @@ theorem surjective_units_map_appTop_specMap_quotientMk {A : Type u} [CommRing A]
         (Scheme.ΓSpecIso (CommRingCat.of (A ⧸ I))).inv := by
     simp
   rw [h]
-  show Function.Surjective (Units.map
+  change Function.Surjective (Units.map
     (((Scheme.ΓSpecIso (CommRingCat.of (A ⧸ I))).inv.hom.comp
       ((Ideal.Quotient.mk I).comp
         (Scheme.ΓSpecIso (CommRingCat.of A)).hom.hom)).toMonoidHom))

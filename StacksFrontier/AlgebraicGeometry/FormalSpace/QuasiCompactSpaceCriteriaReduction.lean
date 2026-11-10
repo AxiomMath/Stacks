@@ -342,7 +342,7 @@ theorem isLocallySurjective_sigmaDesc_of_jointlySurjective_points {I : Type (u +
   rintro W k ⟨i⟩
   refine ⟨uliftYonedaEquiv.{u + 1} ((hrep i).fst ξ ≫ (Sigma.ι Xi i).hom), ?_⟩
   have hι : (Sigma.ι Xi i).hom ≫ (Sigma.desc f).hom = (f i).hom := by
-    have h : (Sigma.ι Xi i ≫ Sigma.desc f).hom = (f i).hom := by rw [Sigma.ι_desc]
+    have h : (Sigma.ι Xi i ≫ Sigma.desc f).hom = (f i).hom := by rw [Sigma.ι_comp_desc]
     exact h
   calc (Sigma.desc f).hom.app _ (uliftYonedaEquiv.{u + 1}
           ((hrep i).fst ξ ≫ (Sigma.ι Xi i).hom))

@@ -129,7 +129,7 @@ theorem presheaf_inverseImage_of_isZariskiLocalAtSource
       X := fun i => T.obj (pullback (inj i) q)
       f := fun i => T.map (pullback.snd (inj i) q)
       mem₀ := (Scheme.ofArrows_mem_precoverage_iff _).2 ⟨hcovW, hopenW⟩ }
-  show P (T.map (hrep.snd ξ))
+  change P (T.map (hrep.snd ξ))
   refine IsZariskiLocalAtSource.of_openCover 𝒰 fun i => ?_
   have hsq2 : IsPullback (yoneda.map q) (yoneda.map (hrep.snd ξ)) a ξ :=
     hq ▸ hrep.isPullback ξ

@@ -78,7 +78,7 @@ theorem inl_comp_involutionRelation :
     (coprod.inl : affineLine k ⟶ relationScheme k) ≫ involutionRelation k
       = Limits.diag (affineLine k) := by
   refine prod.hom_ext ?_ ?_ <;>
-    simp [involutionRelation, Limits.diag, coprod.inl_desc]
+    simp [involutionRelation, Limits.diag]
 
 /-- **Stacks 02Z1.** The pre-relation `j : R ⟶ U ×_k U` of the involution quotient is not an
 immersion.

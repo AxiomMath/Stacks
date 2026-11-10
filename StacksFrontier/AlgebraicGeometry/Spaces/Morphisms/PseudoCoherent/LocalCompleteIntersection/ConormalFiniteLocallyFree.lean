@@ -76,7 +76,7 @@ theorem representableConormalSheafComparison : RepresentableConormalSheafCompari
       hom_inv_id := ObjectProperty.hom_ext _ U.1.reprW.inv_hom_id
       inv_hom_id := ObjectProperty.hom_ext _ U.1.reprW.hom_inv_id }
   have hfu : FormallyUnramified ((schemeSpaceFunctor B S hS).map q₀).hom := by
-    show FormallyUnramified (yoneda.map q₀)
+    change FormallyUnramified (yoneda.map q₀)
     rw [hq₀]
     exact formallyUnramified_comp _ _
       (formallyUnramified_of_etale B S hS _ (presheaf_etale_of_iso B S hS V.1.reprW))
@@ -90,7 +90,7 @@ theorem representableConormalSheafComparison : RepresentableConormalSheafCompari
       isUniversal := s.isUniversal.comp_iso B S hS ψ
       sourceIso := V.1.reprW ≪≫ s.sourceIso
       sourceIso_ι_toBase := by
-        show (V.1.reprW.hom ≫ s.sourceIso.hom) ≫ s.sub.ι ≫ s.toBase.hom ≫ U.1.reprW.inv =
+        change (V.1.reprW.hom ≫ s.sourceIso.hom) ≫ s.sub.ι ≫ s.toBase.hom ≫ U.1.reprW.inv =
           yoneda.map q₀
         rw [hq₀, ← s.sourceIso_ι_toBase]
         simp only [Category.assoc] }

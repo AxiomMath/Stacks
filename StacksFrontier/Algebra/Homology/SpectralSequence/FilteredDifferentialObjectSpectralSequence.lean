@@ -335,26 +335,26 @@ private lemma exists_isPageTurn_aux (r : ℤ) (hr : 0 ≤ r) (p : ℤ)
       exact rfl
     rw [← cancel_epi (cokernel.π _), hδ₂, hδ₃, π_pageMap_assoc]
   have hPi : (ComplexShape.up' r).prev p = p - r := (ComplexShape.up' r).prev_eq' (by
-    show p - r + r = p; omega)
+    change p - r + r = p; omega)
   have hPk : (ComplexShape.up' r).next p = p + r := (ComplexShape.up' r).next_eq' rfl
   have hGi : (ComplexShape.up' ((r, 1 - r) : ℤ × ℤ)).prev (p, 0) = (p - r, r - 1) :=
     (ComplexShape.up' _).prev_eq' (by
-      show ((p - r, r - 1) : ℤ × ℤ) + (r, 1 - r) = (p, 0)
+      change ((p - r, r - 1) : ℤ × ℤ) + (r, 1 - r) = (p, 0)
       ext <;> simp)
   have hGk : (ComplexShape.up' ((r, 1 - r) : ℤ × ℤ)).next (p, 0) = (p + r, 1 - r) :=
     (ComplexShape.up' _).next_eq' (by
-      show ((p, 0) : ℤ × ℤ) + (r, 1 - r) = (p + r, 1 - r)
+      change ((p, 0) : ℤ × ℤ) + (r, 1 - r) = (p + r, 1 - r)
       ext <;> simp)
   let Φ : (X.pageComplex r).sc' (p - r) p (p + r) ≅
       (E.page r hr).sc' (p - r, r - 1) (p, 0) (p + r, 1 - r) :=
     ShortComplex.isoMk (e r (p - r) (r - 1) (p - 1) hr (by omega)).symm
       (e r p 0 p hr (by omega)).symm (e r (p + r) (1 - r) (p + 1) hr (by omega)).symm
       (by
-        show _ ≫ (E.page r hr).d _ _ = (X.pageComplex r).d _ _ ≫ _
+        change _ ≫ (E.page r hr).d _ _ = (X.pageComplex r).d _ _ ≫ _
         rw [pageComplex_d X r (p - r) p (by omega)]
         exact key _ _ _ _ _ _ _ (by omega) (by omega) (by omega))
       (by
-        show _ ≫ (E.page r hr).d _ _ = (X.pageComplex r).d _ _ ≫ _
+        change _ ≫ (E.page r hr).d _ _ = (X.pageComplex r).d _ _ ≫ _
         rw [pageComplex_d X r p (p + r) rfl]
         exact key _ _ _ _ _ _ _ (by omega) (by omega) (by omega))
   refine ⟨(X.pageComplex r).homologyIsoSc' (p - r) p (p + r) hPi hPk ≪≫
@@ -420,7 +420,7 @@ theorem exists_pageHomologyIso (r : ℤ) (hr : 0 ≤ r) (p : ℤ) :
   have hZ : ∀ r p n : ℤ, Z r p n =
       F p n ⊓ (Subobject.pullback (K.X.d n (n + 1))).obj (F (p + r) (n + 1)) := by
     intro r p n
-    show X.pageCycles r p =
+    change X.pageCycles r p =
       X.F p ⊓ (Subobject.pullback ((toCochainComplex X).d n (n + 1))).obj _
     rw [toCochainComplex_d X rfl]
     rfl
@@ -428,7 +428,7 @@ theorem exists_pageHomologyIso (r : ℤ) (hr : 0 ≤ r) (p : ℤ) :
   have hD : ∀ r p n : ℤ, D r p n = Z (r - 1) (p + 1) n ⊔
       (Subobject.exists (K.X.d (n - 1) n)).obj (Z (r - 1) (p - r + 1) (n - 1)) := by
     intro r p n
-    show X.pageBoundaries r p = _ ⊔
+    change X.pageBoundaries r p = _ ⊔
       (Subobject.exists ((toCochainComplex X).d (n - 1) n)).obj _
     rw [toCochainComplex_d X (by omega)]
     rfl
@@ -486,7 +486,7 @@ lemma homologyπ_spectralSequence_iso_hom (r : ℤ) (hr : 0 ≤ r) (p : ℤ) {T 
     (hy : y ≫ (X.spectralSequence.page r hr).iCycles p = x' ≫ cokernel.π _) :
     y ≫ (X.spectralSequence.page r hr).homologyπ p ≫ (X.spectralSequence.iso r (r + 1) p).hom =
       x ≫ cokernel.π _ := by
-  show y ≫ (X.pageComplex r).homologyπ p ≫ (X.pageHomologyIso r hr p).hom ≫ 𝟙 _ = _
+  change y ≫ (X.pageComplex r).homologyπ p ≫ (X.pageHomologyIso r hr p).hom ≫ 𝟙 _ = _
   rw [Category.comp_id]
   exact X.homologyπ_pageHomologyIso_hom r hr p y x x' hx hy
 
@@ -668,7 +668,7 @@ lemma π_pageOneIso_hom (p : ℤ) :
       m ≫ (X.gr p).toShortComplex.homologyπ := ShortComplex.homologyπ_naturality _
   let S := ((X.pageComplex 0).homologyIsoSc' p p p hi hk).hom
   let H := ShortComplex.homologyMap (X.pageZeroScIso p).hom
-  show cokernel.π _ ≫ (X.pageHomologyIso 0 le_rfl p).inv ≫ S ≫ H = _
+  change cokernel.π _ ≫ (X.pageHomologyIso 0 le_rfl p).inv ≫ S ≫ H = _
   calc (cokernel.π _ ≫ (X.pageHomologyIso 0 le_rfl p).inv ≫ S ≫ H : _ ⟶ (X.gr p).homology)
       = ((cokernel.π _ ≫ (X.pageHomologyIso 0 le_rfl p).inv) ≫ S ≫ H :
           _ ⟶ (X.gr p).homology) := (Category.assoc _ _ _).symm
@@ -746,7 +746,7 @@ sequence `0 → gr^{p + 1} K → F^p K / F^{p + 2} K → gr^p K → 0`. -/
 theorem spectralSequence_d_one (p : ℤ) :
     (X.spectralSequence.page 1).d p (p + 1) ≫ (X.pageOneIso (p + 1)).hom =
       (X.pageOneIso p).hom ≫ (X.grShortExactSequence p).δ := by
-  show (X.pageComplex 1).d p (p + 1) ≫ _ = _
+  change (X.pageComplex 1).d p (p + 1) ≫ _ = _
   apply (cancel_epi (cokernel.π (Subobject.ofLE _ _
     (inf_le_right : X.pageBoundaries 1 p ⊓ X.pageCycles 1 p ≤ _)))).1
   refine (congrArg (fun t ↦ cokernel.π _ ≫ t ≫ (X.pageOneIso (p + 1)).hom)
@@ -797,7 +797,7 @@ lemma inducedFiltration_eq_imageSubobject (p : ℤ) :
   let S := X.shortComplex
   let φ := X.shortComplexFHom p
   have e₁ : X.inducedFiltration p = imageSubobject (ShortComplex.cyclesMap φ ≫ S.homologyπ) := by
-    show imageSubobject (ShortComplex.homologyMap φ) = _
+    change imageSubobject (ShortComplex.homologyMap φ) = _
     rw [← imageSubobject_epi_comp (X.shortComplexF p).homologyπ,
       ShortComplex.homologyπ_naturality]
   have ha : (X.cyclesInStep p).Factors (ShortComplex.cyclesMap φ) := by

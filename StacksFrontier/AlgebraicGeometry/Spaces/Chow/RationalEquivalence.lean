@@ -235,7 +235,7 @@ theorem isPrincipalDivisorCycle_neg (sY : Y ⟶ D.space) (k : ℤ) {c : CycleGro
     (↑f⁻¹ : rationalFunctions D.site D.base D.base_mem hY.1)
     (f : rationalFunctions D.site D.base D.base_mem hY.1)
     (fun W => f⁻¹.isUnit.map (E.emb W)) (fun W => f.isUnit.map (E.emb W)) f.inv_mul
-  show ((-c : CycleGroup D sY k) :
+  change ((-c : CycleGroup D sY k) :
       IntegralClosedSubspace D.site D.base D.base_mem Y → ℤ) = _
   rw [show ((-c : CycleGroup D sY k) :
       IntegralClosedSubspace D.site D.base D.base_mem Y → ℤ) =
@@ -303,12 +303,12 @@ theorem isRationallyEquivalentToZero_add (sX : X ⟶ D.space) (hX : D.IsGood sX)
       Sum.elim (fun j => (integralClosedSubspacePushforward D sX hX (W j) k (c j)).1 Z)
         (fun l => (integralClosedSubspacePushforward D sX hX (V l) k (e l)).1 Z) :=
     funext fun s => by cases s <;> rfl
-  show (α + β).1 Z = _
+  change (α + β).1 Z = _
   rw [cycleFamilySum_apply, hsplit, Stacks.Chow.finsum_sum_elim _ _
       (finite_support_cycleFamilyCoeff D sX hX W hWfin k c Z)
       (finite_support_cycleFamilyCoeff D sX hX V hVfin k e Z)]
   rw [hWsum, hVsum]
-  show (cycleFamilySum D sX hX W hWfin k c).1 Z + (cycleFamilySum D sX hX V hVfin k e).1 Z = _
+  change (cycleFamilySum D sX hX W hWfin k c).1 Z + (cycleFamilySum D sX hX V hVfin k e).1 Z = _
   rw [cycleFamilySum_apply, cycleFamilySum_apply]
 
 /-- The negative of a cycle rationally equivalent to zero is rationally equivalent to zero, via
@@ -320,7 +320,7 @@ theorem isRationallyEquivalentToZero_neg (sX : X ⟶ D.space) (hX : D.IsGood sX)
   refine ⟨J, W, hWfin, (fun j => -c j), hWdim,
     (fun j => isPrincipalDivisorCycle_neg D _ k (hWprin j)), ?_⟩
   refine Subtype.ext (funext fun Z => ?_)
-  show -α.1 Z = _
+  change -α.1 Z = _
   rw [hWsum]
   show -(cycleFamilySum D sX hX W hWfin k c).1 Z = _
   rw [cycleFamilySum_apply, cycleFamilySum_apply, ← finsum_neg_distrib]

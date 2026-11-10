@@ -199,8 +199,7 @@ theorem smul_eq_map_baseChangeTensorModuleMul (r : Γ((BigFppfOver.toScheme B S 
       r • z = TensorProduct.map (baseChangeTensorModuleMul B S hS q r).hom LinearMap.id z := by
   let := ((BigFppfOver.toScheme B S hS).map q).appTop.hom.toAlgebra
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact (smul_zero r).trans (map_zero _).symm
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy =>
     exact (smul_add r x y).trans ((congrArg₂ (· + ·) hx hy).trans (map_add _ x y).symm)
   | tmul s x => exact TensorProduct.smul_tmul' r s x

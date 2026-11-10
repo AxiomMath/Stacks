@@ -106,7 +106,7 @@ theorem map_quotientAlgebraAction_semilinear {R' : Type u'} [Ring R'] {M' : Type
   | zero => simp
   | add y₁ y₂ h₁ h₂ =>
     rw [map_add, map_add, map_add]
-    show f ((quotientAlgebraAction M U hU) y₁ m + (quotientAlgebraAction M U hU) y₂ m) =
+    change f ((quotientAlgebraAction M U hU) y₁ m + (quotientAlgebraAction M U hU) y₂ m) =
       (quotientAlgebraAction M' U hU') (MonoidAlgebra.mapRingHom _ φ y₁) (f m) +
         (quotientAlgebraAction M' U hU') (MonoidAlgebra.mapRingHom _ φ y₂) (f m)
     rw [map_add, h₁, h₂]
@@ -199,11 +199,11 @@ lemma exists_mem_fixedSubmodule [IsTopologicalGroup Q] [CompactSpace Q] (x : N.o
   let S : Subgroup Q :=
     { carrier := {g | (N.obj.obj.ρ g).asHom.hom x = x}
       mul_mem' := fun {a b} ha hb ↦ by
-        show (N.obj.obj.ρ (a * b)).asHom.hom x = x
+        change (N.obj.obj.ρ (a * b)).asHom.hom x = x
         rw [continuousModuleRho_mul_apply, show (N.obj.obj.ρ b).asHom.hom x = x from hb, ha]
       one_mem' := continuousModuleRho_one_apply R N x
       inv_mem' := fun {a} ha ↦ by
-        show (N.obj.obj.ρ a⁻¹).asHom.hom x = x
+        change (N.obj.obj.ρ a⁻¹).asHom.hom x = x
         conv_lhs => rw [← (show (N.obj.obj.ρ a).asHom.hom x = x from ha)]
         rw [← continuousModuleRho_mul_apply, inv_mul_cancel, continuousModuleRho_one_apply] }
   have hS : IsOpen (S : Set Q) := Stacks.GroupCohomology.isOpen_stabilizer R Q N x
@@ -241,7 +241,7 @@ lemma smulAt_of_le {U U' : OpenNormalSubgroup Q} (h : U' ≤ U) (x : CompletedGr
     (quotientAlgebraAction_comp (fixedSubmodule R N (U : Subgroup Q)) h hU'm
       (fixedSubmodule.smul_eq_self R N (U : Subgroup Q))) (CompletedGroupAlgebra.eval U' x)) m
   rw [RingHom.comp_apply, CompletedGroupAlgebra.quotientAlgebraMap_eval] at hcomp
-  show ((quotientAlgebraAction (fixedSubmodule R N (U' : Subgroup Q)) U'
+  change ((quotientAlgebraAction (fixedSubmodule R N (U' : Subgroup Q)) U'
       (fixedSubmodule.smul_eq_self R N (U' : Subgroup Q)) (CompletedGroupAlgebra.eval U' x)
       (ι m)) : N.obj.obj.V) = _
   rw [← key, ← hcomp]
@@ -358,7 +358,7 @@ private theorem discreteSMul_eq_smul_rho_of_eval_eq_single (x : CompletedGroupAl
       CompletedGroupAlgebra.eval U x = single (q : Q ⧸ (U : Subgroup Q)) a) (v : N.obj.obj.V) :
     discreteSMul R N x v = a • (N.obj.obj.ρ q).asHom.hom v := by
   rw [discreteSMul, smulAt, hx]
-  show ((quotientAlgebraAction _ _ _ (single (q : Q ⧸ _) a)
+  change ((quotientAlgebraAction _ _ _ (single (q : Q ⧸ _) a)
     ⟨v, mem_fixedSubmodule_fixingSubgroup R N v⟩ : fixedSubmodule R N _) : N.obj.obj.V) = _
   rw [quotientAlgebraAction_single]
   rfl

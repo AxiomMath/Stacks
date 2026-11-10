@@ -63,7 +63,8 @@ whose image in schemes is a limit cone: `Spec` of the direct limit of the finite
 subalgebras of the coordinate ring. Local finite presentation of each stage over `Spec Λ` is read
 off the finitely generated presentation.
 
-*Universes.* Stacks 06CU as stated in the library compares a 1-morphism's source and target at a single universe
+*Universes.* Stacks 06CU as stated in the library compares a 1-morphism's source and target at a
+single universe
 quadruple, and the target here is the site itself, so `𝒳` and `𝒴` are at the site's own universes,
 as they are for `AlgebraicGeometry.Stack.IsAlgebraicStack`. The index universes of the
 limit-preservation hypothesis stay free: the hypothesis is used at the universe of the coordinate
@@ -423,7 +424,7 @@ private theorem twoFibreProductPrecomposeFiberFunctor_full
   refine ⟨⟨l, hl⟩, ?_⟩
   apply Functor.Fiber.hom_ext
   apply TwoFibreProductOver.Hom.ext'
-  · show H.map (𝟙 U) = k.1.a
+  · change H.map (𝟙 U) = k.1.a
     simpa using hk.symm
   · rfl
 
@@ -477,7 +478,7 @@ private theorem isHomLift_map_along
   apply IsHomLift.of_fac' q _ _
     ((Functor.congr_obj h x).trans (congrArg H.obj (IsHomLift.domain_eq p g a)))
     ((Functor.congr_obj h y).trans (congrArg H.obj (IsHomLift.codomain_eq p g a)))
-  show (F ⋙ q).map a = _
+  change (F ⋙ q).map a = _
   rw [Functor.congr_hom h]
   simp [Functor.comp_map, IsHomLift.fac' p g a, eqToHom_map, Category.assoc]
 
@@ -697,6 +698,7 @@ private theorem algebraicSpaceMap_eq_relocalizedProjection
   exact h.symm
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of shape `Discrete J` in a presheaf category is deep
 /-- Products of presheaves of types (instance search times out without this shortcut). -/
 private instance (priority := high) presheaf_hasLimitsOfShape_discrete
     {C : Type*} [Category* C] (J : Type) :
@@ -1238,7 +1240,7 @@ private theorem affinePresentation_siteTransition_map
     Scheme.Spec.map (CommRingCat.ofHom (D.q j i h).toRingHom).op
   let g : Xi ⟶ Xj := B.inclusion.preimage f
   have hg : B.inclusion.map g = f := B.inclusion.map_preimage f
-  show B.inclusion.map g = f
+  change B.inclusion.map g = f
   exact hg
 
 private noncomputable def affinePresentation_siteDiagram
@@ -1322,7 +1324,7 @@ private theorem affinePresentation_sitePushforward_map
   let K := Over.map f'
   have h : e.map ((affinePresentation_sitePushforward B hR S hS f).map g) =
       K.map ((BigAffineFppf.inclusion B (Spec (.of R)) hR).map g) := by
-    show e.map (e.preimage _) = _
+    change e.map (e.preimage _) = _
     exact e.map_preimage _
   have h := congrArg (fun z => z.left.hom) h
   rw [Over.map_map_left] at h
@@ -1405,7 +1407,7 @@ private theorem affinePresentation_siteConeLeg_map
   let f : B.inclusion.obj UL ⟶ B.inclusion.obj Xi :=
     Scheme.Spec.map (CommRingCat.ofHom (D.g i).toRingHom).op
   let g : UL ⟶ Xi := B.inclusion.preimage f
-  show B.inclusion.map g = f
+  change B.inclusion.map g = f
   exact B.inclusion.map_preimage f
 
 private noncomputable def affinePresentation_siteCone
@@ -1663,7 +1665,7 @@ private theorem iteratedSliceForward_overMap_eq_forget
     | mk Aleft _ Ahom =>
       cases Aleft with
       | mk _ _ AtoS =>
-        show Over.mk (Ahom.left ≫ U.hom) = Over.mk AtoS
+        change Over.mk (Ahom.left ≫ U.hom) = Over.mk AtoS
         congr 1
         exact Ahom.w
 
@@ -1700,13 +1702,13 @@ private theorem sectionFromFiberObject_comp
   let : 𝒴.val.p.IsFibered :=
     (CatFiberedInGroupoids.isFiberedInGroupoids 𝒴).isFibered
   let G := Functor.FiberedMor.OfFiberObj.fiberedMor 𝒴.val.p U x.2
-  show (Over.iteratedSliceBackward U ⋙ G.toFunctor) ⋙ 𝒴.val.p = Over.map U.hom
+  change (Over.iteratedSliceBackward U ⋙ G.toFunctor) ⋙ 𝒴.val.p = Over.map U.hom
   calc
     (Over.iteratedSliceBackward U ⋙ G.toFunctor) ⋙ 𝒴.val.p =
         Over.iteratedSliceBackward U ⋙ (G.toFunctor ⋙ 𝒴.val.p) := rfl
     _ = Over.iteratedSliceBackward U ⋙ Over.forget U := by
       have hG : G.toFunctor ⋙ 𝒴.val.p = Over.forget U := by
-        show G.toFunctor ⋙ (BasedCategory.ofFunctor 𝒴.val.p).p = Over.forget U
+        change G.toFunctor ⋙ (BasedCategory.ofFunctor 𝒴.val.p).p = Over.forget U
         exact G.w
       exact congrArg (fun F => Over.iteratedSliceBackward U ⋙ F) hG
     _ = Over.map U.hom := Over.iteratedSliceBackward_forget U
@@ -1763,11 +1765,11 @@ private theorem affinePresentation_stage_map_locallyOfFinitePresentation
       ((BigAffineFppf.inclusion B (Spec (.of R)) hR).obj
         ((affinePresentation_siteDiagram B hR D).obj i)).hom) := by
   let : Algebra.FinitePresentation R (D.G i.unop) := D.finitePresentation i.unop
-  show LocallyOfFinitePresentation
+  change LocallyOfFinitePresentation
     (Scheme.Spec.map (CommRingCat.ofHom (algebraMap R (D.G i.unop))).op)
   exact (LocallyOfFinitePresentation.SpecMap_iff
     (CommRingCat.ofHom (algebraMap R (D.G i.unop)))).2 (by
-      show (algebraMap R (D.G i.unop)).FinitePresentation
+      change (algebraMap R (D.G i.unop)).FinitePresentation
       rw [RingHom.finitePresentation_algebraMap]
       exact D.finitePresentation i.unop)
 
@@ -1783,7 +1785,7 @@ private theorem affinePresentation_stageOver_map_locallyOfFinitePresentation
       ((BigAffineFppf.inclusion B (Spec (.of R)) hR).obj
         ((affinePresentation_siteDiagram B hR D).obj i)).hom) :=
     affinePresentation_stage_map_locallyOfFinitePresentation B hR D i
-  show LocallyOfFinitePresentation
+  change LocallyOfFinitePresentation
     (B.inclusion.map
       (((BigAffineFppf.inclusion B (Spec (.of R)) hR).obj
         ((affinePresentation_siteDiagram B hR D).obj i)).hom ≫
@@ -1977,6 +1979,7 @@ private theorem limitPreserving_small
     hδ, hβ, hβiso, hγ', hcomm⟩
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `Etale` on the composite of the `BigFppfOver.toScheme` images is deep
 private theorem etale_chart_of_open_immersion
     (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Y : BigFppfOver B S hS} (g : X ⟶ Y)
@@ -2037,7 +2040,7 @@ private theorem fppfCovering_yoneda_of_open_cover
       IsOpenImmersion.lift_fac _ _ hr
     let q : p.siteObject ⟶ V i := Over.homMk (ObjectProperty.homMk l) (by
       apply B.inclusion.map_injective
-      show l ≫ (V i).hom.hom = p.toBase
+      change l ≫ (V i).hom.hom = p.toBase
       calc
         l ≫ (V i).hom.hom = l ≫ ((g i).left.hom ≫ U.hom.hom) := by
           congr 1
@@ -2051,10 +2054,10 @@ private theorem fppfCovering_yoneda_of_open_cover
         toBase := p.toBase
         value := q }
     refine Set.mem_iUnion.mpr ⟨i, p'.class B S hS _, ?_⟩
-    show Quot.mk _ (Space.FieldValuedPoint.map B S hS _ (yoneda.map (g i)) p') =
+    change Quot.mk _ (Space.FieldValuedPoint.map B S hS _ (yoneda.map (g i)) p') =
       Quot.mk _ p
     apply congrArg (Quot.mk _)
-    show (Space.FieldValuedPoint.mk p.carrier p.contained p.toBase (q ≫ g i)) = p
+    change (Space.FieldValuedPoint.mk p.carrier p.contained p.toBase (q ≫ g i)) = p
     rw [hq]
   all_goals
     intro i A C a b h ha hb hh
@@ -2078,11 +2081,11 @@ private theorem exists_affine_limit_presentation
   let A := Γ(U.left.1, ⊤)
   let : Algebra R A := k.appTop.hom.toAlgebra
   have hR : B.Contains (Spec (.of R)) := by
-    show (Spec Γ(V, ⊤)).size < B.cutoff
+    change (Spec Γ(V, ⊤)).size < B.cutoff
     rw [← Scheme.size_congr V.isoSpec]
     exact hV
   have hA : B.Contains (Spec (.of A)) := by
-    show (Spec Γ(U.left.1, ⊤)).size < B.cutoff
+    change (Spec Γ(U.left.1, ⊤)).size < B.cutoff
     rw [← Scheme.size_congr U.left.1.isoSpec]
     exact U.left.2
   let g' : Spec (.of R) ⟶ S := V.isoSpec.inv ≫ g
@@ -2093,12 +2096,12 @@ private theorem exists_affine_limit_presentation
   have he₀ : e₀.hom ≫ c.pt.obj.hom = U.hom := by
     apply B.inclusion.map_injective
     rw [Functor.map_comp]
-    show U.left.1.isoSpec.hom ≫ B.inclusion.map
+    change U.left.1.isoSpec.hom ≫ B.inclusion.map
       ((ObjectProperty.homMk (Scheme.Spec.map (CommRingCat.ofHom (algebraMap R A)).op) :
           B.obj hA ⟶ B.obj hR) ≫
         B.inclusion.preimage (X := B.obj hR) (Y := B.obj hS) g') = _
     rw [Functor.map_comp, Functor.map_preimage]
-    show U.left.1.isoSpec.hom ≫ (Spec.map k.appTop ≫ (V.isoSpec.inv ≫ g)) = _
+    change U.left.1.isoSpec.hom ≫ (Spec.map k.appTop ≫ (V.isoSpec.inv ≫ g)) = _
     rw [← Category.assoc, Scheme.isoSpec_hom_naturality, Category.assoc,
       Iso.hom_inv_id_assoc]
     exact hk

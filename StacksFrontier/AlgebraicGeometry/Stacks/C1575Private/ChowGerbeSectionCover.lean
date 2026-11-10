@@ -187,7 +187,7 @@ theorem SectionCover.iUnion (hW : Space.IsOpenSubspace B S hS W) {K : Type u} [F
   let pS : P ⟶ Ysh := Sigma.desc pk
   let pp : P.obj ⟶ Y := pS.hom
   have hιp : ∀ k, (ι k).hom ≫ pp = p k := fun k =>
-    Sheaf.hom_ext_iff.mp (Sigma.ι_desc pk k)
+    Sheaf.hom_ext_iff.mp (Sigma.ι_comp_desc pk k)
   have hpp : Space.IsProper B S hS pp :=
     Space.isProper_of_isColimit_cofan B S hS ι hP (fun k => hY' k) hPalg hY pp
       (fun k => by rw [hιp k]; exact hp k)

@@ -203,9 +203,9 @@ theorem torIndependent_ι_chowBaseChangeMap (hX : IsPullback φ f f' s) (hP : Is
   have ha : (iZ' ⁻¹ᵁ O').ι ≫ iZ' = (iZ' ∣_ O') ≫ O'.ι := (morphismRestrict_ι _ _).symm
   intro z t hzt
   have hz : z ∈ iZ' ⁻¹ᵁ O' := by
-    show iZ'.base z ∈ O'
+    change iZ'.base z ∈ O'
     rw [hzt, Scheme.Hom.comp_apply]
-    show ((pullback.snd f g ⁻¹ᵁ (ψ ⁻¹ᵁ V')).ι).base t ∈ chowBaseChangeMap hX hP ⁻¹ᵁ O'
+    change ((pullback.snd f g ⁻¹ᵁ (ψ ⁻¹ᵁ V')).ι).base t ∈ chowBaseChangeMap hX hP ⁻¹ᵁ O'
     rw [hTV]
     exact t.2
   obtain ⟨w, rfl⟩ : z ∈ Set.range (iZ' ⁻¹ᵁ O').ι := by rwa [Scheme.Opens.range_ι]

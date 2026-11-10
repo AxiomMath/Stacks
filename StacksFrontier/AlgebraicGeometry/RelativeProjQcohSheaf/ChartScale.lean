@@ -64,7 +64,7 @@ theorem Fd.toProj_chartEquiv_scale (hU : IsAffineOpen U) {k a : ℕ} (hk : 0 < k
             (Quadruple.classifyingHomOfClass hm hqc η.2)
           ≫ eqToHom (restrict_ι_proj A U) := by
     intro m hm η
-    show (Quadruple.classifyingHomOfClass hm hqc η.2
+    change (Quadruple.classifyingHomOfClass hm hqc η.2
         ≫ eqToHom (SheafGradedAlgebra.restrict_ι_degreeOpen_toScheme A U m))
         ≫ (degreeOpen (A.grading U) m).ι = _
     rw [Category.assoc, eqToHom_comp_ι (restrict_ι_proj A U)

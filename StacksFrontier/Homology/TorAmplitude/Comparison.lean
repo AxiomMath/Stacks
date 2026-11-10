@@ -219,7 +219,7 @@ public lemma tensorSingleInclusion_isIso (M : ModuleCat.{u} R)
     · subst hj
       have hi : i = n := by simpa using h
       subst hi
-      show (tensorSingleInclusion M K).f i ≫ p ≫ _ = _
+      change (tensorSingleInclusion M K).f i ≫ p ≫ _ = _
       erw [← Category.assoc, hp, Category.id_comp]
     · exact (((tensoringLeft (ModuleCat.{u} R)).obj (K.X i)).map_isZero
         (HomologicalComplex.isZero_single_obj_X (ComplexShape.up ℤ) 0 M j hj)).eq_of_src _ _

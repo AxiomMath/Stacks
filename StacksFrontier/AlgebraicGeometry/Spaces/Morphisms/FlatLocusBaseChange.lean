@@ -82,7 +82,7 @@ private theorem isFlat_germ_iff_isFlatAt {U V : Scheme.{u}} (k : U ⟶ V) (x : U
       _root_.AlgebraicGeometry.IsFlatAt k.toLRSHom.toShHom x := by
   refine ⟨flatAt_of_isFlat_germ k x, fun hk => ?_⟩
   refine ⟨⟨⊤, by simp, U.topIso.hom ≫ k, rfl⟩, rfl, ?_⟩
-  show ((U.topIso.hom ≫ k).stalkMap ⟨x, by simp⟩).hom.Flat
+  change ((U.topIso.hom ≫ k).stalkMap ⟨x, by simp⟩).hom.Flat
   exact (congrArg (fun j => j.hom.Flat)
     (Scheme.Hom.stalkMap_comp U.topIso.hom k ⟨x, by simp⟩)).mpr
       (hk.comp (Flat.stalkMap U.topIso.hom ⟨x, by simp⟩))
@@ -505,7 +505,7 @@ theorem isFlatAt_baseChangeOverBase_iff
         FieldValuedPoint.map B S hS (yoneda.obj (pullback C.α C.pV)) (yoneda.map C.qU) r
       point := IsLocalRing.closedPoint r.carrier
       maps_to := by
-        show (pointsMap B S hS (yoneda.obj C.U) C.u ∘
+        change (pointsMap B S hS (yoneda.obj C.U) C.u ∘
           pointsMap B S hS (yoneda.obj (pullback C.α C.pV)) (yoneda.map C.qU))
             (r.class B S hS (yoneda.obj (pullback C.α C.pV))) = _
         rw [← pointsMap_comp B S hS (yoneda.obj (pullback C.α C.pV)) (yoneda.map C.qU) C.u,
@@ -513,7 +513,7 @@ theorem isFlatAt_baseChangeOverBase_iff
           pointsMap_comp B S hS (yoneda.obj (pullback C.α C.pV)) C.cU (pullback.fst p g)]
         simp only [Function.comp_apply, hzr] }
   have hsource : chartF.sourcePoint B S hS = T.map C.qU (chartBC.sourcePoint B S hS) := by
-    show T.map (r.value ≫ C.qU) (IsLocalRing.closedPoint r.carrier) =
+    change T.map (r.value ≫ C.qU) (IsLocalRing.closedPoint r.carrier) =
       T.map C.qU ((T.map r.value) (IsLocalRing.closedPoint r.carrier))
     rw [Functor.map_comp]
     exact Scheme.Hom.comp_apply _ _ _

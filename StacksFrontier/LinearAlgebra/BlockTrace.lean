@@ -67,7 +67,7 @@ theorem trace_toZModLinearMap_eq_of_addEquiv {n : ℕ} {A B : Type*} [AddCommGro
   congr 1
   ext y
   obtain ⟨x, rfl⟩ := e.surjective y
-  show e (f (e.symm (e x))) = g (e x)
+  change e (f (e.symm (e x))) = g (e x)
   rw [e.symm_apply_apply, h]
 
 end AddMonoidHom
@@ -83,7 +83,7 @@ theorem projectiveModuleTrace_eq_mk_trace (R : Type*) [CommRing R] (P : Type*) [
   let p : (Fin h.choose → R) →ₗ[R] P := h.choose_spec.choose
   let i : P →ₗ[R] (Fin h.choose → R) := h.choose_spec.choose_spec.choose
   have hi : p.comp i = LinearMap.id := h.choose_spec.choose_spec.choose_spec.2.2
-  show freeModuleTrace R (Fin h.choose) (i.comp (f.comp p)) = _
+  change freeModuleTrace R (Fin h.choose) (i.comp (f.comp p)) = _
   rw [freeModuleTrace_apply]
   congr 1
   have : LinearMap.trace R P f = LinearMap.trace R (Fin h.choose → R) (i.comp (f.comp p)) := by

@@ -146,7 +146,7 @@ theorem isProper_inclusion_comp_structureMorphism_of_denseTestExistence
     isLocallyOfFiniteType_comp B S hS W.inclusion _
       (isLocallyOfFiniteType_of_isOpenImmersion B S hS W.inclusion W.isOpenImmersion) hlft
   have hWqs : IsQuasiSeparatedOver.{u, w} B S hS W.toAlgebraicStack := by
-    show IsQuasiSeparated B S hS _
+    change IsQuasiSeparated B S hS _
     exact comp_structureMorphism B S hS W.inclusion ▸ isQuasiSeparated_of_isSeparated B S hS hsep
   have hWqc : IsQuasiCompactMorphism B S hS (W.inclusion ≫ structureMorphism B S hS 𝒞) :=
     isQuasiCompactMorphism_of_isQuasiCompactStack B S hS inferInstance _ hqc

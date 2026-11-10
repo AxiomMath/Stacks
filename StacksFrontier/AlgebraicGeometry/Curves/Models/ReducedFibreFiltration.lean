@@ -588,7 +588,7 @@ theorem fibreSubschemeToSpec_comapCommIso (Z Z' : S.X.IdealSheafData)
     exact comapCommIso_compat Z Z'
   have h4 : p ≫ fibreSubschemeι S Z h = q ≫ fibreSubschemeι S Z' h' :=
     (cancel_mono S.specialFiberι).mp h3
-  show q ≫ (fibreSubschemeι S Z' h' ≫ S.specialFiberToSpec) =
+  change q ≫ (fibreSubschemeι S Z' h' ≫ S.specialFiberToSpec) =
     p ≫ (fibreSubschemeι S Z h ≫ S.specialFiberToSpec)
   rw [← Category.assoc, ← Category.assoc, h4]
 
@@ -975,12 +975,11 @@ the whole space is left exact, so the restriction `Γ(D + C, 𝒪) ⟶ Γ(D, �
 @[sga "7 X 1.13" "partial"]
 theorem injective_inclusion_appTop_of_forall_eq_zero {X : Scheme.{u}}
     (D C : X.IdealSheafData) (hD : IsEffectiveCartierDivisor D)
-    (hDC : IsEffectiveCartierDivisor (D * C)) (hC : IsEffectiveCartierDivisor C)
     (hvanish : ∀ y : Γ((Scheme.Modules.pushforward C.subschemeι).obj
       ((Scheme.Modules.pullback C.subschemeι).obj (negativeTwist D)), ⊤), y = 0)
     (hle : D * C ≤ D) :
     Function.Injective (Scheme.IdealSheafData.inclusion hle).appTop.hom := by
-  obtain ⟨f, hzero, hSE⟩ := addEffectiveCartierDivisor_shortExact D (D * C) C hD hDC hC hle rfl
+  obtain ⟨f, hzero, hSE⟩ := addEffectiveCartierDivisor_shortExact D (D * C) C hD hle rfl
   have hinj : Function.Injective
       ((Scheme.IdealSheafData.closedSubschemeRestriction hle).app ⊤) := by
     intro u v huv
@@ -1049,14 +1048,13 @@ private theorem isFieldFinite_of_le {D E : S.X.IdealSheafData} (hle : E ≤ D)
 /-- Adding a component `B` to an effective Cartier divisor `D`, when `𝒪_X(-D)|_B` has no nonzero
 global section, preserves `IsFieldFinite`. -/
 private theorem isFieldFinite_mul_of_forall_eq_zero {D B : S.X.IdealSheafData}
-    (hD : IsEffectiveCartierDivisor D) (hDB : IsEffectiveCartierDivisor (D * B))
-    (hB : IsEffectiveCartierDivisor B)
+    (hD : IsEffectiveCartierDivisor D)
     (hvanish : ∀ y : Γ((Scheme.Modules.pushforward B.subschemeι).obj
       ((Scheme.Modules.pullback B.subschemeι).obj (negativeTwist D)), ⊤), y = 0)
     (hsfi : S.specialFiberIdeal ≤ D * B) (hff : IsFieldFinite S D) :
     IsFieldFinite S (D * B) :=
   isFieldFinite_of_le S (mul_le_left _ _) hsfi
-    (injective_inclusion_appTop_of_forall_eq_zero D B hD hDB hB hvanish _) hff
+    (injective_inclusion_appTop_of_forall_eq_zero D B hD hvanish _) hff
 
 /-- **The induction behind [Stacks, Tag 0C68]**, at the one geometric input it needs: that at
 every stage short of `Σ (mᵢ/d)Cᵢ` some component `Cᵢ` still to be added carries no nonzero global
@@ -1090,7 +1088,7 @@ private theorem exists_chain_aux
   intro n
   induction n with
   | zero =>
-    intro a _ ha2 hn hff
+    rintro a - ha2 hn hff
     have hfull : ∀ i ∈ s, a i = m i / s.gcd m := fun i hi =>
       le_antisymm (ha2 i hi) (Nat.le_of_sub_eq_zero (Finset.sum_eq_zero_iff.mp hn i hi))
     have heq : (∏ j ∈ s, C j ^ a j) = reducedSpecialFibre s C m :=
@@ -1110,14 +1108,11 @@ private theorem exists_chain_aux
     have hprod : (∏ j ∈ s, C j ^ a' j) = (∏ j ∈ s, C j ^ a j) * C i :=
       prod_pow_succ_at s C hi ha'i fun j _ hj => ha'ne j hj
     have hle : (∏ j ∈ s, C j ^ a j) * C i ≤ ∏ j ∈ s, C j ^ a j := mul_le_left _ _
-    have hcart' : IsEffectiveCartierDivisor ((∏ j ∈ s, C j ^ a j) * C i) :=
-      hprod ▸ hcart a'
     have hsfi' : S.specialFiberIdeal ≤ (∏ j ∈ s, C j ^ a j) * C i :=
       hprod ▸ hsfi_le a' ha2'
     have hff' : IsFieldFinite S (∏ j ∈ s, C j ^ a' j) := by
       rw [hprod]
-      exact isFieldFinite_mul_of_forall_eq_zero S (hcart a) hcart'
-        (hC i hi) hzero hsfi' hff
+      exact isFieldFinite_mul_of_forall_eq_zero S (hcart a) hzero hsfi' hff
     obtain ⟨M, Z, hZ0, hZM, hsteps, hprops⟩ := ih a' ha1' ha2' hsum hff'
     let Z' : ℕ → S.X.IdealSheafData := fun
       | 0 => ∏ j ∈ s, C j ^ a j

@@ -124,7 +124,7 @@ linear map `g : MP →ₗ[R] MQ` is bijective. -/
 theorem bijective_of_tmul_eq {R : Type*} [CommRing R] {MA MP MQ : Type*}
     [AddCommGroup MA] [Module R MA] [AddCommGroup MP] [Module R MP]
     [AddCommGroup MQ] [Module R MQ] {g : MP →ₗ[R] MQ} (hg : Function.Bijective g)
-    (F : MA ⊗[R] MP → MA ⊗[R] MQ) (hF0 : F 0 = 0)
+    (F : MA ⊗[R] MP → MA ⊗[R] MQ)
     (hFadd : ∀ u v : MA ⊗[R] MP, F (u + v) = F u + F v)
     (hF : ∀ (a : MA) (p : MP), F (a ⊗ₜ[R] p) = a ⊗ₜ[R] g p) :
     Function.Bijective F := by
@@ -132,8 +132,7 @@ theorem bijective_of_tmul_eq {R : Type*} [CommRing R] {MA MP MQ : Type*}
   have key : ∀ z : MA ⊗[R] MP,
       F z = TensorProduct.congr (LinearEquiv.refl R MA) (LinearEquiv.ofBijective g hg) z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [hF0]; exact (map_zero _).symm
+    induction z using TensorProduct.inductionOn with
     | tmul a p => rw [hF a p, TensorProduct.congr_tmul]; rfl
     | add u v hu hv =>
         rw [hFadd u v, hu, hv]
@@ -148,7 +147,7 @@ theorem whiskerLeft_app_bijective (A : PresheafOfModulesOfCommRing.{u} X.preshea
     {P Q : PresheafOfModulesOfCommRing.{u} X.presheaf} (φ : P ⟶ Q) (U : X.Opens)
     (h : Function.Bijective (φ.app (op U))) :
     Function.Bijective ((PresheafOfModules.tensorHom (𝟙 A) φ).app (op U)) :=
-  bijective_of_tmul_eq (g := ModuleCat.Hom.hom (φ.app (op U))) h _ (map_zero _)
+  bijective_of_tmul_eq (g := ModuleCat.Hom.hom (φ.app (op U))) h _
     (fun u v => map_add _ u v) (fun _ _ => rfl)
 
 /-! ### Bijectivity on stalks for modules on a scheme -/

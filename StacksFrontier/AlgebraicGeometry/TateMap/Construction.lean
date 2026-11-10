@@ -234,7 +234,7 @@ theorem exists_classified_basicOpen (U : X.affineOpens) (V : Y.affineOpens)
     (f.appLE U (Y.basicOpen b) ((Y.basicOpen_le b).trans hVU)).hom.toAlgebra
   have : IsScalarTower Γ(X, U.1) Γ(Y, V.1) Γ(Y, Y.basicOpen b) :=
     IsScalarTower.of_algebraMap_eq' (by
-      show (f.appLE U (Y.basicOpen b) ((Y.basicOpen_le b).trans hVU)).hom =
+      change (f.appLE U (Y.basicOpen b) ((Y.basicOpen_le b).trans hVU)).hom =
         ((Y.presheaf.map (homOfLE (Y.basicOpen_le b)).op).hom).comp (f.appLE U V hVU).hom
       rw [← CommRingCat.hom_comp, ← f.appLE_map hVU (homOfLE (Y.basicOpen_le b)).op])
   have : IsLocalization.Away b Γ(Y, Y.basicOpen b) := V.2.isLocalization_basicOpen b
@@ -478,7 +478,7 @@ theorem pullbackTate_classifiedTate_eq (κ l : ClassifiedChart f) (U₀ : X.affi
   have := l.quasiFinite
   have := κ.neZero
   have := κ.quasiFinite
-  show pullbackTate Dl (tateOf l.k l.instR l.instC l.data (classifiedFact f hf l)) G₀ =
+  change pullbackTate Dl (tateOf l.k l.instR l.instC l.data (classifiedFact f hf l)) G₀ =
     pullbackTate Dκ (tateOf κ.k κ.instR κ.instC κ.data (classifiedFact f hf κ)) G₀
   let iRl : Algebra (univBase.{u} l.n l.d) Γ(X, U₀.1) :=
     ((algebraMap Γ(X, l.base.1) Γ(X, U₀.1)).comp (@algebraMap _ _ _ _ l.instR)).toAlgebra
@@ -515,7 +515,7 @@ theorem classifiedEquiv_restrict (κ l : ClassifiedChart f) (h : l.source.1 ≤ 
   have hV₀l : V₀.1 ≤ l.source.1 := hbW
   have hV₀κ : V₀.1 ≤ κ.source.1 := hbW.trans h
   have hU₀l : U₀.1 ≤ l.base.1 := by
-    show X.basicOpen a₁ ≤ _
+    change X.basicOpen a₁ ≤ _
     rw [ha]
     exact X.basicOpen_le a₂
   have hV₀U₀ : V₀.1 ≤ f ⁻¹ᵁ U₀.1 := hba
@@ -536,7 +536,7 @@ theorem classifiedEquiv_restrict (κ l : ClassifiedChart f) (h : l.source.1 ≤ 
     ((detNL f hf).presheaf.map (homOfLE h).op s)
   have hκ := chartSections_restrict f hf κ.base κ.source κ.source_le U₀ V₀ a₁ b₁ rfl rfl
     (X.basicOpen_le a₁) hV₀κ hV₀U₀ Dκ (classifiedFact f hf κ) G₀ (classifiedTate f hf κ) s
-  show (omega f hf).presheaf.map (homOfLE hV₀l).op
+  change (omega f hf).presheaf.map (homOfLE hV₀l).op
       (chartSections f hf l.base l.source l.source_le (classifiedFact f hf l)
         (classifiedTate f hf l) _) = (omega f hf).presheaf.map (homOfLE hV₀l).op
       ((omega f hf).presheaf.map (homOfLE h).op
@@ -599,7 +599,7 @@ theorem chartValue_tateIso (U : X.affineOpens) (V : Y.affineOpens) (hVU : V.1 �
       classifiedTate f hf κ :=
     chartValue_eq_of_app f hf _ U κ.source κ.source_le _ _ (tateIso_app f hf κ)
   rw [← chartValue_natural f hf (tateIso f hf) U κ.source κ.source_le (classifiedFact f hf κ) G]
-  show chartValue (tateIso f hf) U κ.source κ.source_le (classifiedFact f hf κ) ≪≫ₗ _ = _
+  change chartValue (tateIso f hf) U κ.source κ.source_le (classifiedFact f hf κ) ≪≫ₗ _ = _
   rw [h₁]
   exact pullbackTate_natural_right D _ (classifiedFact f hf κ) G
 

@@ -188,7 +188,7 @@ theorem cycleDimensionLayerWideHom_eq_zero_of_sigma (C : ChowSituation.{u}) (sX 
     hP₁ hP₂ ?_
   -- the cycle of the difference of the two direct sums is `β`
   refine Subtype.ext (Function.locallyFinsuppWithin.ext fun x ↦ ?_)
-  show (dimensionLayerCycle C sX k P₂).1 x - (dimensionLayerCycle C sX k P₁).1 x = β.1 x
+  change (dimensionLayerCycle C sX k P₂).1 x - (dimensionLayerCycle C sX k P₁).1 x = β.1 x
   rw [hβ x, dimensionLayerCycle_sigmaDimLE_apply, dimensionLayerCycle_sigmaDimLE_apply]
   have hfin : ∀ Q : J → CoherentModulesDimLE C sX k,
       (LocallyFinite fun j ↦ SheafOfModules.supp (Q j).obj.obj) →

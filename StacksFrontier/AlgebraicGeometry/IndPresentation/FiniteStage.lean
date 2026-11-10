@@ -197,7 +197,7 @@ private lemma eventually_eq_zero
         apply AlgHom.ext
         intro z
         obtain ⟨w, rfl⟩ := hsurj j.hom z
-        show qmap k ((B.map f.right).hom ((fstage j) w)) = qmap j ((fstage j) w)
+        change qmap k ((B.map f.right).hom ((fstage j) w)) = qmap j ((fstage j) w)
         have harg : (B.map f.right).hom ((fstage j) w) = fstage k w := by
           rw [← AlgHom.comp_apply, hcomp f]
         rw [harg]
@@ -206,7 +206,7 @@ private lemma eventually_eq_zero
           (AlgHom.liftOfSurjective_apply (fstage j) (hsurj j.hom) q (hker j) w).symm }
   have hinit : fstage init = AlgHom.id A (B.obj i) := by
     ext y
-    show (B.map (𝟙 i)).hom y = y
+    change (B.map (𝟙 i)).hom y = y
     simp
   have hqmap : qmap init = q := by
     apply AlgHom.ext
@@ -219,14 +219,14 @@ private lemma eventually_eq_zero
     have hfac' := congrArg CategoryTheory.Under.Hom.right hfac
     have hfacval := ConcreteCategory.congr_hom hfac' x
     have hx' : (c.ι.app init).right.hom x = 0 := by
-      show (ι.app i).hom x = 0
+      change (ι.app i).hom x = 0
       exact hx
     change (hc.desc d).right.hom ((c.ι.app init).right.hom x) = qmap init x at hfacval
     rw [hx', map_zero] at hfacval
     simpa [hqmap] using hfacval.symm
   obtain ⟨j, hxj⟩ := hK_mem (Ideal.Quotient.eq_zero_iff_mem.mp hzero)
   exact ⟨j.right, j.hom, by
-    show fstage j x = 0
+    change fstage j x = 0
     exact RingHom.mem_ker.mp hxj⟩
 
 private lemma exists_stage_killing_finset
@@ -258,7 +258,7 @@ private lemma exists_stage_killing_finset
       rcases hy with rfl | hy
       · exact hg
       · have h := hkill y hy
-        show (B.map g).hom ((B.map f).hom y) = 0
+        change (B.map g).hom ((B.map f).hom y) = 0
         rw [h, map_zero]
 
 private lemma exists_stage_surjective_to_apex
@@ -331,23 +331,23 @@ private lemma universalHomeomorphism_of_surjective_nil_kernel
       (Scheme.Spec.map (CommRingCat.ofHom f).op) := by
   let g := Scheme.Spec.map (CommRingCat.ofHom f).op
   have hint : IsIntegralHom g := by
-    show IsIntegralHom (Spec.map (CommRingCat.ofHom f))
+    change IsIntegralHom (Spec.map (CommRingCat.ofHom f))
     rw [IsIntegralHom.SpecMap_iff]
     exact RingHom.isIntegral_of_surjective f hf
   have hclosed : IsClosedImmersion g := by
-    show IsClosedImmersion (Spec.map (CommRingCat.ofHom f))
+    change IsClosedImmersion (Spec.map (CommRingCat.ofHom f))
     exact IsClosedImmersion.spec_of_surjective (CommRingCat.ofHom f) hf
   have hinj : UniversallyInjective g := by
     have : IsClosedImmersion g := hclosed
     infer_instance
   have hsurj : Surjective g := by
     refine ⟨fun p => ?_⟩
-    show ∃ q : PrimeSpectrum B, PrimeSpectrum.comap f q = p
+    change ∃ q : PrimeSpectrum B, PrimeSpectrum.comap f q = p
     have hrange : Set.range (PrimeSpectrum.comap f) =
       PrimeSpectrum.zeroLocus (RingHom.ker f) :=
       range_comap_of_surjective B f hf
     have hp : p ∈ PrimeSpectrum.zeroLocus (RingHom.ker f) := by
-      show RingHom.ker f ≤ p.asIdeal
+      change RingHom.ker f ≤ p.asIdeal
       have : p.asIdeal.IsPrime := p.isPrime
       exact le_trans hker (nilradical_le_prime p.asIdeal)
     exact Set.mem_range.mp (hrange ▸ hp)
@@ -382,7 +382,7 @@ private lemma image_property_iff
   have : IsClosedImmersion g := IsClosedImmersion.spec_of_surjective
     (CommRingCat.ofHom (algebraMap A C)) hsurj
   have hcomp : f ≫ g = Scheme.Spec.map (CommRingCat.ofHom (algebraMap A S)).op := by
-    show Spec.map _ ≫ Spec.map _ = Spec.map _
+    change Spec.map _ ≫ Spec.map _ = Spec.map _
     rw [← Spec.map_comp]
     rfl
   have hUH : UniversalHomeomorphism (f ≫ g) ↔
@@ -398,7 +398,7 @@ private lemma image_property_iff
     exact @isIso_comp_left_iff _ _ _ _ _
       (g.residueFieldMap (f x)) (f.residueFieldMap x)
       (isIso_residueFieldMap_of_isClosedImmersion g (f x))
-  show (_ ∧ (r → ∀ x, IsIso ((Scheme.Spec.map
+  change (_ ∧ (r → ∀ x, IsIso ((Scheme.Spec.map
     (CommRingCat.ofHom (algebraMap A S)).op).residueFieldMap x))) ↔ _
   rw [← hcomp, hUH]
   simp only [hres]
@@ -417,7 +417,7 @@ private lemma fin_prefix_range {S : Type*} {n : ℕ} (b : Fin n → S) (i : Fin 
 private lemma mem_adjoin_image_base_iff {A S : Type u} [CommRing A] [CommRing S]
     [Algebra A S] (s : Set S) (x : S) :
     x ∈ Algebra.adjoin (Algebra.ofId A S).range s ↔ x ∈ Algebra.adjoin A s := by
-  show x ∈ (Algebra.adjoin (Algebra.ofId A S).range s).restrictScalars A ↔ _
+  change x ∈ (Algebra.adjoin (Algebra.ofId A S).range s).restrictScalars A ↔ _
   exact SetLike.ext_iff.mp (IsScalarTower.adjoin_range_toAlgHom A A S s) x
 
 private def ElementaryRelation (A : Type u) [CommRing A] {S : Type u} [CommRing S]
@@ -520,7 +520,7 @@ private lemma map_mem_adjoin_range
     (f : S →ₐ[A] T) (b : K → S) {x : S}
     (hx : x ∈ Algebra.adjoin A (Set.range b)) :
     f x ∈ Algebra.adjoin A (Set.range fun k => f (b k)) := by
-  show f x ∈ Algebra.adjoin A (Set.range (f ∘ b))
+  change f x ∈ Algebra.adjoin A (Set.range (f ∘ b))
   rw [Set.range_comp, Algebra.adjoin_image]
   exact ⟨x, hx, rfl⟩
 

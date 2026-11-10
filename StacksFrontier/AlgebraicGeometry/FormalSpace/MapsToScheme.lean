@@ -55,8 +55,8 @@ bijection for that affine target identifies them.
 The statement is phrased as the *unique existence of an equivalence with a prescribed
 quotient-stage behaviour* rather than as bijectivity of a separately named restriction function.
 That is strictly more informative — it pins the equivalence, not just its existence — and it is
-how a dependent statement can use it without having to reconstruct which map is meant. Internally the
-equivalence is `Equiv.ofBijective` applied to
+how a dependent statement can use it without having to reconstruct which map is meant. Internally
+the equivalence is `Equiv.ofBijective` applied to
 `AlgebraicGeometry.FormalSpace.restrictToFormalSpectrum`, the same restriction that
 `StacksFrontier.AlgebraicGeometry.FormalSpace.MapsToAffine` states Stacks 0AQF about, so the
 uniqueness clause is what identifies the two.
@@ -399,7 +399,7 @@ private theorem formalMap_factors_through_affineOpen
     formalStageHom_scheme_compatible D Xo e
   obtain ⟨g, hg, hgg⟩ := compatible_quotient_maps_factor_through_affine_open
     hA I hI X f hf U (by
-      convert hx using 1 <;> rfl)
+      convert hx using 1)
   let target : BigAffineFppf B S hS := affineOpenOverObject B S hS hX xS U
   let targetObj : BigFppfOver B S hS :=
     (BigAffineFppf.inclusion B S hS).obj target

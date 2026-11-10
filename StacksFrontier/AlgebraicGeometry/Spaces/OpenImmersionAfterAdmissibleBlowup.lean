@@ -202,7 +202,7 @@ theorem exists_isBlowupAlong_isOpenImmersion_strictTransformSpaceToBlowUp
     exact hU₂dense
   have hcomp : j.hom ≫ strictTransformSpaceToBlowUp B S hS f (b₂ ≫ b₁)
       (Y.1.preimage (b₂ ≫ b₁).hom) = f₂ := by
-    show j.hom ≫ strictTransformSpaceι B S hS f (b₂ ≫ b₁) (Y.1.preimage (b₂ ≫ b₁).hom) ≫
+    change j.hom ≫ strictTransformSpaceι B S hS f (b₂ ≫ b₁) (Y.1.preimage (b₂ ≫ b₁).hom) ≫
         strictTransformPullbackToBlowUp B S hS f (b₂ ≫ b₁) =
       strictTransformSpaceι B S hS f₁ b₂ (Z₁.1.preimage b₂.hom) ≫
         strictTransformPullbackToBlowUp B S hS f₁ b₂
@@ -213,7 +213,7 @@ theorem exists_isBlowupAlong_isOpenImmersion_strictTransformSpaceToBlowUp
   rw [heq]
   have hjinv : IsIso j.inv.hom :=
     ⟨⟨j.hom.hom, by simp, by simp⟩⟩
-  show IsOpenImmersion B S hS (j.inv.hom ≫ f₂.hom)
+  change IsOpenImmersion B S hS (j.inv.hom ≫ f₂.hom)
   exact isOpenImmersion_comp B S hS _ _ (isOpenImmersion_of_isIso B S hS _) hf₂open
 
 end AlgebraicGeometry.Space

@@ -67,7 +67,7 @@ variable {X Y S : Scheme.{u}} (a : X ⟶ S) (b : Y ⟶ S)
 theorem preimage_affineChart_preimage_fst (U : X.Opens) :
     affineChart a b R A B u v w hu hv ⁻¹ᵁ (pullback.fst a b ⁻¹ᵁ U)
       = Spec.map (chartInclLeft R A B) ⁻¹ᵁ (u ⁻¹ᵁ U) := by
-  show (affineChart a b R A B u v w hu hv ≫ pullback.fst a b) ⁻¹ᵁ U = _
+  change (affineChart a b R A B u v w hu hv ≫ pullback.fst a b) ⁻¹ᵁ U = _
   rw [affineChart_fst]
   rfl
 
@@ -76,7 +76,7 @@ theorem preimage_affineChart_preimage_fst (U : X.Opens) :
 theorem preimage_affineChart_preimage_snd (V : Y.Opens) :
     affineChart a b R A B u v w hu hv ⁻¹ᵁ (pullback.snd a b ⁻¹ᵁ V)
       = Spec.map (chartInclRight R A B) ⁻¹ᵁ (v ⁻¹ᵁ V) := by
-  show (affineChart a b R A B u v w hu hv ≫ pullback.snd a b) ⁻¹ᵁ V = _
+  change (affineChart a b R A B u v w hu hv ≫ pullback.snd a b) ⁻¹ᵁ V = _
   rw [affineChart_snd]
   rfl
 
@@ -86,7 +86,7 @@ theorem preimage_affineChart_inf_eq_top (U : X.Opens) (V : Y.Opens)
     (hU : u ⁻¹ᵁ U = ⊤) (hV : v ⁻¹ᵁ V = ⊤) :
     affineChart a b R A B u v w hu hv ⁻¹ᵁ
         (pullback.fst a b ⁻¹ᵁ U ⊓ pullback.snd a b ⁻¹ᵁ V) = ⊤ := by
-  show affineChart a b R A B u v w hu hv ⁻¹ᵁ (pullback.fst a b ⁻¹ᵁ U) ⊓
+  change affineChart a b R A B u v w hu hv ⁻¹ᵁ (pullback.fst a b ⁻¹ᵁ U) ⊓
     affineChart a b R A B u v w hu hv ⁻¹ᵁ (pullback.snd a b ⁻¹ᵁ V) = ⊤
   rw [preimage_affineChart_preimage_fst, preimage_affineChart_preimage_snd, hU, hV]
   exact top_inf_eq _

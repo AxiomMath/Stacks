@@ -197,7 +197,7 @@ theorem IsRigSurjective.comp (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Cont
   have hR'weak : TopologicalRing.IsWeaklyAdmissible R' :=
     TopologicalRing.isWeaklyAdmissible_of_isAdic hR'adic hR'complete
   have hetaut : RingHom.IsTaut e.toRingHom := by
-    refine RingHom.isTaut_of_isAdic e.toRingHom e.continuous
+    refine RingHom.isTaut_of_isAdic e.toRingHom
       ⟨IsLocalRing.maximalIdeal R, hRadic, ?_⟩
     obtain ⟨hpos, hpow, -, -⟩ := IsDiscreteValuationRing.ramificationIndex_characterization R R'
     rw [he, hpow]

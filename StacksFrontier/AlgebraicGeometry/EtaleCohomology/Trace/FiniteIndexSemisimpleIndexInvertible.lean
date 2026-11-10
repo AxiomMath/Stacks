@@ -34,7 +34,7 @@ public theorem mul_projection_comm {W C : Submodule L V} (h : IsCompl W C) {f : 
     Submodule.projection_apply_of_mem_left h (hfW (Submodule.projection_apply_mem h v))
   have h₂ : π (f (v - π v)) = 0 :=
     Submodule.projection_apply_of_mem_right h (hfC (Submodule.sub_projection_mem h v))
-  show f (π v) = π (f v)
+  change f (π v) = π (f v)
   conv_rhs => rw [hsplit, map_add, map_add, h₁, h₂, add_zero]
 
 /-- Averaging the conjugates of an operator commuting with `ρ` on a normal subgroup `N` over
@@ -64,7 +64,7 @@ public theorem mul_sum_quotient_conj_comm (ρ : G →* Module.End L V) (N : Subg
           rw [e₂, mul_one]
           simp only [t, mul_assoc]
       _ = t (g * h) * ρ g := by simp only [t, _root_.mul_inv_rev, map_mul, mul_assoc]
-  show ρ g * ∑ q : G ⧸ N, t q.out = (∑ q : G ⧸ N, t q.out) * ρ g
+  change ρ g * ∑ q : G ⧸ N, t q.out = (∑ q : G ⧸ N, t q.out) * ρ g
   rw [Finset.mul_sum, Finset.sum_mul]
   have h₁ : ∀ q : G ⧸ N, ρ g * t q.out = t ((QuotientGroup.mk g : G ⧸ N) * q).out * ρ g := by
     intro q
@@ -83,7 +83,7 @@ public theorem exists_isCompl_of_equivariant_projection (ρ : G →* Module.End 
   have hv' : P v = 0 := congrArg Subtype.val (LinearMap.mem_ker.mp hv)
   rw [Submodule.mem_comap, LinearMap.mem_ker]
   apply Subtype.ext
-  show P (ρ g v) = 0
+  change P (ρ g v) = 0
   rw [← Module.End.mul_apply P, ← hcomm, Module.End.mul_apply, hv', map_zero]
 
 /-- **Averaging over a normal subgroup of index invertible in the field**: if the restriction
@@ -113,7 +113,7 @@ public theorem exists_isCompl_of_normal_index_ne_zero (ρ : G →* Module.End L 
     rw [hQ_def, LinearMap.sum_apply]
     have : ∀ q : G ⧸ N, (ρ q.out * π * ρ q.out⁻¹) w = w := by
       intro q
-      show ρ q.out (π (ρ q.out⁻¹ w)) = w
+      change ρ q.out (π (ρ q.out⁻¹ w)) = w
       rw [hπw _ (hW _ hw), map_apply_map_inv_apply]
     simp only [this, Finset.sum_const, Finset.card_univ]
   have hcard : (Fintype.card (G ⧸ N) : L) ≠ 0 := by

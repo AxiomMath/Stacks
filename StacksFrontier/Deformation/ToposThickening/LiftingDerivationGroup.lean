@@ -194,7 +194,7 @@ public theorem existsUnique_descendSection (U : Cᵒᵖ) (s : O.obj U) :
       (P := P.presheaf ⋙ forget AddCommGrpCat.{w}) (R := S.arrows)
       (fun V f hf => δ (op V) (x V f hf)) := by
     intro V₁ V₂ Z g₁ g₂ f₁ f₂ h₁ h₂ fac
-    show P.map g₁.op (δ (op V₁) (x V₁ f₁ h₁)) = P.map g₂.op (δ (op V₂) (x V₂ f₂ h₂))
+    change P.map g₁.op (δ (op V₁) (x V₁ f₁ h₁)) = P.map g₂.op (δ (op V₂) (x V₂ f₂ h₂))
     rw [← hnat g₁.op, ← hnat g₂.op]
     refine hwd _ _ _ ?_
     rw [NatTrans.naturality_apply red g₁.op, NatTrans.naturality_apply red g₂.op, hx, hx,
@@ -577,7 +577,7 @@ public theorem existsUnique_translateHom (p q : D.Lift) :
         rw [hdiff, q.base_app, p.base_app, sub_self, D.back.incl_zero] }
   have hδ : translate p δ = q := by
     refine Lift.ext (sheafHom_ext J fun U x => ?_)
-    show p.hom.hom.app U x + D.back.incl (diff U x) = q.hom.hom.app U x
+    change p.hom.hom.app U x + D.back.incl (diff U x) = q.hom.hom.app U x
     rw [hdiff]
     abel
   have huniq : ∀ ε : Derivation D.toSituation, translate p ε = q → ε = δ := fun ε hε => by
@@ -585,11 +585,11 @@ public theorem existsUnique_translateHom (p q : D.Lift) :
     refine D.back.incl_injective ?_
     have h : p.hom.hom.app U x + D.back.incl (ε.toFun U x) = q.hom.hom.app U x :=
       congrArg (fun r : Lift D => r.hom.hom.app U x) hε
-    show D.back.incl (ε.toFun U x) = D.back.incl (diff U x)
+    change D.back.incl (ε.toFun U x) = D.back.incl (diff U x)
     rw [hdiff, ← h]
     abel
   refine ⟨derivationEquivDifferentialsHom D δ, ?_, ?_⟩
-  · show translateHom D p (derivationEquivDifferentialsHom D δ) = q
+  · change translateHom D p (derivationEquivDifferentialsHom D δ) = q
     rw [translateHom_eq, AddEquiv.symm_apply_apply, hδ]
   · intro a ha
     rw [← huniq _ ha, AddEquiv.apply_symm_apply]

@@ -125,7 +125,7 @@ theorem isClosed_singleton_of_isFiniteTypePoint_pointsMap
       ((presheaf_yoneda_map_etale_iff B S hS r).2 hrEtale) hφetale hsq.w.symm
   -- The base change is étale over the spectrum of a field, hence discrete.
   have _ : Subsingleton ((BigFppfOver.toScheme B S hS).obj A) := by
-    show Subsingleton (Spec (CommRingCat.of p.carrier)); infer_instance
+    change Subsingleton (Spec (CommRingCat.of p.carrier)); infer_instance
   have _ : LocallyOfFiniteType ((BigFppfOver.toScheme B S hS).map r) :=
     (locallyQuasiFinite_of_etale ((BigFppfOver.toScheme B S hS).map r)).1
   have _ : DiscreteTopology ((BigFppfOver.toScheme B S hS).obj R) :=
@@ -139,7 +139,7 @@ theorem isClosed_singleton_of_isFiniteTypePoint_pointsMap
   -- A closed point of the base change has closed image in the Jacobson chart.
   rw [isClosed_singleton_iff_isClosed_singleton_pointsToScheme, ← hwu,
     pointsToScheme_pointsMap]
-  exact ((BigFppfOver.toScheme B S hS).map s).closePoints_subset_preimage_closedPoints
+  exact ((BigFppfOver.toScheme B S hS).map s).closedPoints_subset_preimage_closedPoints
     (isClosed_discrete _)
 
 /-- **Stacks 0BA5**, pointwise. Let `X` be a decent Jacobson algebraic space over `S`, the

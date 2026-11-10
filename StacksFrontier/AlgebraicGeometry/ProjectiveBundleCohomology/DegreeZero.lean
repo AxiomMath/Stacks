@@ -77,6 +77,7 @@ variable {S : Scheme.{u}} (E : S.Modules) [E.IsQuasicoherent]
   (hqc : Stacks.SymGraded.IsQuasicoherentPieces E)
   (D : TwistData (Stacks.SymGraded.schemeSheafGradedAlgebra E hqc))
 
+omit [E.IsQuasicoherent] in
 /-- The comparison of the chart over an affine open is bijective on global sections. -/
 public theorem bijective_mapSection {V : S.Opens} (hV : IsAffineOpen V) (d : ℤ) :
     Function.Bijective (D.chartData.mapSection V hV d ⊤) := by
@@ -122,7 +123,7 @@ public theorem isIso_psi {n : ℕ} (hn : 0 < n)
     (hfree : Scheme.Modules.IsFiniteLocallyFreeOfRank E (n + 1)) (k : ℕ) :
     IsIso (D.ψ k) :=
   isIso_of_bijective_app_basis _ (ProjectiveBundleVanishing.isBasis_trivializing E hfree)
-    fun V hV => bijective_psi_app E hqc D hn hV.1 hV.2.some k
+    fun V hV => bijective_psi_app E hqc D hn (V := V) hV.1 hV.2.some k
 
 /-- **`π_* 𝒪_{𝐏(E)}(d) = 0` for `d < 0`**, for `E` finite locally free of constant rank `n + 1`
 with `n ≥ 1`. -/

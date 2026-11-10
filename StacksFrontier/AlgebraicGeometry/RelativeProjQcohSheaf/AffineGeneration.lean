@@ -260,7 +260,7 @@ theorem eval_freeHomEquiv_preimage (ψ : Twisting f A d L) (a : (A.piece (1 * d)
       SheafOfModules.sectionsMap (ψ.app 1 ≫ (laurentOneIso L).hom)
         (((pullbackFunctor (ringedSpaceHom f)).obj (A.piece (1 * d))).unitHomEquiv
           (SheafOfModules.ιFree a ≫ pullbackGenHom f (A.piece (1 * d)))) := by
-    show L.unitHomEquiv (SheafOfModules.ιFree a ≫ ψ.freeHom) = _
+    change L.unitHomEquiv (SheafOfModules.ιFree a ≫ ψ.freeHom) = _
     rw [show SheafOfModules.ιFree a ≫ ψ.freeHom =
         (SheafOfModules.ιFree a ≫ pullbackGenHom f (A.piece (1 * d))) ≫
           (ψ.app 1 ≫ (laurentOneIso L).hom) from (Category.assoc _ _ _).symm]
@@ -409,7 +409,7 @@ theorem iSup_nonvanishingOpen_eq_top [IsAffine S]
     (generatingSections hqc P) t
   obtain ⟨b, hb⟩ := exists_eval_generatingSections_s hqc P a
   refine TopologicalSpace.Opens.mem_iSup.2 ⟨b, ?_⟩
-  show t ∈ Stacks.Ample.nonvanishingLocus P.L (P.twisting.degreeOneSectionHom b)
+  change t ∈ Stacks.Ample.nonvanishingLocus P.L (P.twisting.degreeOneSectionHom b)
   rw [← hb]
   exact (Stacks.NonvanishingSpelling.stalkNonvanishingLocus_eq T P.L
     ((generatingSections hqc P).s a)).le ha

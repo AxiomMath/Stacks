@@ -53,7 +53,7 @@ theorem exists_nonempty_open_surjective_baseChange
   obtain ⟨V₀, hV₀, hηV₀, -⟩ :=
     exists_isAffineOpen_mem_and_subset (X := Y) (x := η) (U := ⊤) (by simp)
   have hxV₀ : x ∈ f ⁻¹ᵁ V₀ := by
-    show f x ∈ (V₀ : Set Y)
+    change f x ∈ (V₀ : Set Y)
     rwa [hxη]
   obtain ⟨U₀, hU₀, hxU₀, hU₀V₀⟩ :=
     exists_isAffineOpen_mem_and_subset (X := X) (x := x) (U := f ⁻¹ᵁ V₀) hxV₀

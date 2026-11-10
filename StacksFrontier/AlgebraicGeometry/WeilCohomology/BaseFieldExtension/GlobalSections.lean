@@ -51,7 +51,7 @@ variable {k : Type u} [Field k] {k' : Type u} [Field k'] [Algebra k k']
 theorem specΓToBase_eq (X : (SmoothProjectiveScheme k).FullSubcategory) :
     specΓToBase X.obj.hom = (specGlobalSections X).obj.hom := by
   rw [specΓToBase, Scheme.isoSpec_Spec_inv]
-  show _ = Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ X.obj.hom.appTop)
+  change _ = Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ X.obj.hom.appTop)
   rw [Spec.map_comp]
 
 variable (k') in
@@ -95,7 +95,7 @@ theorem toSpecGlobalSections_comp_specGlobalSectionsBaseChangeIso_hom
   rw [CategoryTheory.Functor.map_comp]
   apply (isPullback_baseChangeProj (k' := k') (specGlobalSections X)).hom_ext
   · rw [Category.assoc, baseChangeProj_naturality]
-    show _ ≫ (isPullback_specGlobalSections k' X).isoPullback.hom ≫ pullback.fst _ _ = _
+    change _ ≫ (isPullback_specGlobalSections k' X).isoPullback.hom ≫ pullback.fst _ _ = _
     rw [IsPullback.isoPullback_hom_fst]
     exact (Scheme.toSpecΓ_naturality _).symm
   · rw [Category.assoc, w, w, w]
@@ -161,10 +161,7 @@ theorem globalSectionsAxiom (h : 𝔇'.GlobalSectionsAxiom) : 𝔇.GlobalSection
     exact (h X').comp (𝔇'.bijective_pull_grade_of_iso e 0)
   have hcomm : ∀ x, Φ.gradeEquiv X 0 (g.baseChange F' x) = g' (Φ.gradeEquiv S 0 x) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero =>
-      simp only [map_zero]
-      exact Subtype.ext (by simp [g'])
+    induction x using TensorProduct.inductionOn with
     | tmul c a =>
       refine Subtype.ext ?_
       rw [LinearMap.baseChange_tmul, coe_gradeEquiv_tmul]

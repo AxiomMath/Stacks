@@ -82,7 +82,8 @@ omit [CommRing Λ] [Algebra Λ k] in
 theorem heq_splitFunctions_specFunctions {T₁ T₂ : SchemesOver D.Y} (hT : T₁ = T₂)
     (e₁ : (BigFppfOver.toScheme B S hS).obj T₁.left = Spec (CommRingCat.of (TrivSqZeroExt k M)))
     (e₂ : (BigFppfOver.toScheme B S hS).obj T₂.left = Spec (CommRingCat.of (TrivSqZeroExt k M))) :
-    HEq (D.splitFunctions M (D.specFunctions T₁ e₁)) (D.splitFunctions M (D.specFunctions T₂ e₂)) := by
+    HEq (D.splitFunctions M (D.specFunctions T₁ e₁))
+      (D.splitFunctions M (D.specFunctions T₂ e₂)) := by
   subst hT
   rfl
 
@@ -195,6 +196,7 @@ theorem exists_iso_of_extensionClass_eq_of_eq (ρ : k ≃+* D.testRing x₀.T)
     reassoc_of% (D.compComparison_comp_idAppOf σ₁ e he F₂),
     eqToHom_trans_assoc, eqToHom_refl, Category.id_comp, hθ₀]
 
+omit [HasExt.{w'} (Modules.{u, u} B S hS (D.space x₀.T).1 (D.space x₀.T).2)] in
 /-- The trivial bases of two deformations over the same `k[M]` agree through the identification of
 their test schemes. -/
 theorem trivialBase_eq_eqToHom_comp (a b : DeformationObject iΛ D.cohQ x₀ hx₀)
@@ -238,8 +240,8 @@ theorem exists_morphism_of_extensionClass_eq (a b : DeformationObject iΛ D.cohQ
   have hβ : (D.homOf b.arrow).base ≫ eqToHom hT = (D.homOf a.arrow).base := by
     rw [D.homOf_arrow_base_eq iΛ x₀ hx₀ a b ha hb hT, Category.assoc, eqToHom_trans,
       eqToHom_refl, Category.comp_id]
-  haveI := D.isAffine_basePoint iΛ x₀ hx₀
-  haveI := D.isAffine_fiberPoint iΛ x₀ hx₀ M a ha
+  have := D.isAffine_basePoint iΛ x₀ hx₀
+  have := D.isAffine_fiberPoint iΛ x₀ hx₀ M a ha
   obtain ⟨θ, hθ⟩ := D.exists_iso_of_extensionClass_eq_of_eq x₀ (D.residueRingEquiv iΛ x₀ hx₀) hT
     (eqToHom hT) rfl (D.homOf b.arrow).base (D.homOf a.arrow).base hβ πb πa
     (D.trivialBase_eq_eqToHom_comp iΛ x₀ hx₀ a b ha hb πa hπa πb hπb hT) _ _

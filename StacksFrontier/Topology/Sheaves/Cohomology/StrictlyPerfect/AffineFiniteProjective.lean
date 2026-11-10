@@ -1,8 +1,7 @@
 module
 
 public import StacksFrontier.Homology.PseudoCoherentRelative.TildeFiniteFree
-public import
-  StacksFrontier.Topology.Sheaves.Cohomology.StrictlyPerfectRestriction.DirectImageAlongAnIsomorphism
+public import StacksFrontier.Topology.Sheaves.Cohomology.StrictlyPerfectRestriction.DirectImageAlongAnIsomorphism
 
 /-!
 # Strictly perfect complexes from complexes of finite projective modules

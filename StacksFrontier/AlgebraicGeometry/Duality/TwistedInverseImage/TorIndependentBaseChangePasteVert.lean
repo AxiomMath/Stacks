@@ -83,16 +83,16 @@ invertible when those of the two squares are**, the outer one being their vertic
 theorem isIso_twoSquare_of_pullbackComparison_vpaste
     (hpc : PullbackComparisonVPaste eg ef eh ek ego efo cL cL')
     (hR : CounitCompatible adjf adjh adjo cL cR) (hR' : CounitCompatible adjf' adjh' adjo' cL' cR')
-    [IsIso (twoSquare adjf adjf' eg ef).natTrans] [IsIso (twoSquare adjh adjh' eh ek).natTrans] :
-    IsIso (twoSquare adjo adjo' ego efo).natTrans := by
-  have : ∀ M, IsIso ((twoSquare adjo adjo' ego efo).natTrans.app M) := fun M => by
+    [IsIso (twoSquare adjf adjf' eg ef)] [IsIso (twoSquare adjh adjh' eh ek)] :
+    IsIso (twoSquare adjo adjo' ego efo) := by
+  have : ∀ M, IsIso ((twoSquare adjo adjo' ego efo).app M) := fun M => by
     change IsIso (map adjo adjo' ego efo M)
     rw [map_eq_of_pullbackComparison_vpaste adjf adjh adjo adjf' adjh' adjo' eg ef eh ek ego efo
       cL cL' cR cR' hpc hR hR' M]
     have : IsIso (map adjf adjf' eg ef (Rh.obj M)) :=
-      inferInstanceAs (IsIso ((twoSquare adjf adjf' eg ef).natTrans.app (Rh.obj M)))
+      inferInstanceAs (IsIso ((twoSquare adjf adjf' eg ef).app (Rh.obj M)))
     have : IsIso (map adjh adjh' eh ek M) :=
-      inferInstanceAs (IsIso ((twoSquare adjh adjh' eh ek).natTrans.app M))
+      inferInstanceAs (IsIso ((twoSquare adjh adjh' eh ek).app M))
     infer_instance
   exact NatIso.isIso_of_isIso_app _
 
@@ -119,7 +119,7 @@ theorem isIso_twoSquare_of_paste_vert (sqT : IsPullback k f' f l) (sqB : IsPullb
         (isQuasicoherent_homology_derivedPushforward_of_qcqs (f' ≫ g')))
       (quasiCoherentDerivedPullbackCompIso (f' ≫ g') m)
       (quasiCoherentDerivedPullbackCompIso k (f ≫ g) ≪≫
-        quasiCoherentDerivedPullbackCongr (sqT.paste_vert sqB).w)).natTrans := by
+        quasiCoherentDerivedPullbackCongr (sqT.paste_vert sqB).w)) := by
   have := isIso_twoSquare_of_torIndependent sqT hT
   have := isIso_twoSquare_of_torIndependent sqB hB
   exact Stacks.CategoryTheory.BaseChange.isIso_twoSquare_of_pullbackComparison_vpaste _ _ _ _ _ _
@@ -218,7 +218,7 @@ theorem twistedInverseImageBaseChangeMap_paste_vert_app (sqT : IsPullback k f' f
       (twistedInverseImageAdjunction (f ≫ g)
         (isQuasicoherent_homology_derivedPushforward_of_qcqs (f ≫ g)))
       (twistedInverseImageAdjunction (f' ≫ g')
-        (isQuasicoherent_homology_derivedPushforward_of_qcqs (f' ≫ g')))).natTrans :=
+        (isQuasicoherent_homology_derivedPushforward_of_qcqs (f' ≫ g')))) :=
     Stacks.CategoryTheory.BaseChange.isIso_rightAdjointSquare _ _ _ _ _ _ _ _
   simp only [torIndependentTwistedInverseImageBaseChange]
   rw [twistedInverseImageBaseChangeMap_eq_rightAdjointBaseChange (sqT.paste_vert sqB),

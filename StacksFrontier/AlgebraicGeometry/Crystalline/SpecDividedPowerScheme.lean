@@ -230,7 +230,7 @@ theorem dividedPowerStructureOfBasis_dividedPowers (k : ι) :
   apply DividedPowers.ext
   intro n x hx
   have hm := basisDpow_map X I B hB δ hδ (B k) n x hx k le_rfl
-  show basisDpow X I B hB δ hδ (B k) n x = (δ k).dpow n x
+  change basisDpow X I B hB δ hδ (B k) n x = (δ k).dpow n x
   have he (y : Γ(X, B k)) : X.presheaf.map (homOfLE le_rfl).op y = y := by
     rw [show (homOfLE (le_rfl : B k ≤ B k)).op = 𝟙 (op (B k)) from Subsingleton.elim _ _,
       X.presheaf.map_id]
@@ -410,7 +410,7 @@ theorem specDividedPowerIdeal_affine
       Crystalline.sectionIdeal (Spec (CommRingCat.of A)).sheaf
         (specDividedPowerIdeal A) (op U.1) := by
   ext x
-  show x ∈ A.ideal.map (specSectionHom A U.1) ↔
+  change x ∈ A.ideal.map (specSectionHom A U.1) ↔
     x ∈ (specDividedPowerIdeal A).obj (op U.1)
   rw [idealSheafAsSubmodule_obj_affine]
   simp only [Scheme.IdealSheafData.ofIdealTop_ideal, Ideal.map_map]
@@ -624,7 +624,7 @@ theorem specDividedPowerMap_comp {R T W : DividedPowerRing.{u}} (a : R ⟶ T) (b
   have hab : CommRingCat.ofHom (a ≫ b).toRingHom =
       CommRingCat.ofHom a.toRingHom ≫ CommRingCat.ofHom b.toRingHom :=
     CommRingCat.hom_ext (RingHom.ext fun _ ↦ rfl)
-  show Spec.map (CommRingCat.ofHom (a ≫ b).toRingHom) =
+  change Spec.map (CommRingCat.ofHom (a ≫ b).toRingHom) =
     Spec.map (CommRingCat.ofHom b.toRingHom) ≫ Spec.map (CommRingCat.ofHom a.toRingHom)
   rw [hab, Spec.map_comp]
 

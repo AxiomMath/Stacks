@@ -438,24 +438,24 @@ lemma reesSpanSet_mul_mem (d e : ℕ) (x y : R × Polynomial R')
       left; refine ⟨rfl, r * r', ?_⟩
       refine Prod.ext ?_ ?_
       · simp
-      · show Polynomial.C (algebraMap R R' r) * Polynomial.C (algebraMap R R' r') = _
+      · change Polynomial.C (algebraMap R R' r) * Polynomial.C (algebraMap R R' r') = _
         rw [← Polynomial.C_mul, ← map_mul]
     · right; refine ⟨by omega, algebraMap R R' r * c', ?_⟩
       refine Prod.ext ?_ ?_
       · simp
-      · show Polynomial.C (algebraMap R R' r) * (Polynomial.C c' * Polynomial.X ^ e) = _
+      · change Polynomial.C (algebraMap R R' r) * (Polynomial.C c' * Polynomial.X ^ e) = _
         rw [Polynomial.C_mul, zero_add]; ring
   · rcases hy with ⟨he0, r', rfl⟩ | ⟨he, c', rfl⟩
     · subst he0
       right; refine ⟨by omega, c * algebraMap R R' r', ?_⟩
       refine Prod.ext ?_ ?_
       · simp
-      · show (Polynomial.C c * Polynomial.X ^ d) * Polynomial.C (algebraMap R R' r') = _
+      · change (Polynomial.C c * Polynomial.X ^ d) * Polynomial.C (algebraMap R R' r') = _
         rw [Polynomial.C_mul, add_zero]; ring
     · right; refine ⟨by omega, c * c', ?_⟩
       refine Prod.ext ?_ ?_
       · simp
-      · show (Polynomial.C c * Polynomial.X ^ d) * (Polynomial.C c' * Polynomial.X ^ e) = _
+      · change (Polynomial.C c * Polynomial.X ^ d) * (Polynomial.C c' * Polynomial.X ^ e) = _
         rw [Polynomial.C_mul, pow_add]; ring
 
 /-- `1` lies in the degree-`0` spanning set. -/
@@ -473,7 +473,7 @@ lemma reesS_coeff_zero (gens : Finset R') (z : R × Polynomial R') (hz : z ∈ r
     · subst hx; unfold reesF; simp
     · unfold reesG; simp
   · intro r
-    show (Polynomial.C (algebraMap R R' r)).coeff 0 = algebraMap R R' r
+    change (Polynomial.C (algebraMap R R' r)).coeff 0 = algebraMap R R' r
     simp
   · intro a b ha hb iha ihb
     rw [Prod.snd_add, Prod.fst_add, Polynomial.coeff_add, iha, ihb, map_add]
@@ -490,10 +490,10 @@ lemma pcomp_lift_mem (gens : Finset R') (d : ℕ) (s : reesS R R' gens) :
   rcases Nat.eq_zero_or_pos d with hd | hd
   · subst hd
     left; refine ⟨rfl, s.val.fst, ?_⟩
-    show pcomp R R' 0 s.val = _
+    change pcomp R R' 0 s.val = _
     unfold pcomp; rw [ite_eq_left rfl, reesS_coeff_zero R R' gens s.val s.property]
   · right; refine ⟨by omega, s.val.snd.coeff d, ?_⟩
-    show pcomp R R' d s.val = _
+    change pcomp R R' d s.val = _
     unfold pcomp; rw [ite_eq_right (by omega)]
 
 /-- The product of the degree-`d` and degree-`e` spans lies in the degree-`(d + e)` span. -/
@@ -623,7 +623,7 @@ theorem reesFS_mem_grading_one
     (gens : Finset R') :
     reesFS R R' gens ∈ reesGrading R R' gens 1 := by
   refine ReesGrad.mem_reesGrading_of_eq R R' gens 1 one_ne_zero 1 _ ?_
-  show reesF R R' = (0, Polynomial.C 1 * Polynomial.X ^ 1)
+  change reesF R R' = (0, Polynomial.C 1 * Polynomial.X ^ 1)
   unfold reesF
   simp
 
@@ -634,7 +634,7 @@ theorem reesS_algebraMap_injective
     (gens : Finset R') :
     Function.Injective (algebraMap R (reesS R R' gens)) := by
   intro a b hab
-  show ((algebraMap R (reesS R R' gens) a : R × Polynomial R')).fst
+  change ((algebraMap R (reesS R R' gens) a : R × Polynomial R')).fst
       = ((algebraMap R (reesS R R' gens) b : R × Polynomial R')).fst
   rw [hab]
 
@@ -660,7 +660,7 @@ theorem reesS_algebraMap_range
       ReesGrad.reesS_coeff_zero R R' gens s.val s.property
     refine ⟨s.val.fst, ?_⟩
     apply Subtype.ext
-    show algebraMap R (R × Polynomial R') s.val.fst = s.val
+    change algebraMap R (R × Polynomial R') s.val.fst = s.val
     have : (s.val.fst, Polynomial.C (s.val.snd.coeff 0)) = s.val := by
       unfold pcomp at hself
       rw [ite_eq_left rfl] at hself
@@ -694,7 +694,7 @@ theorem reesS_property3
     · rw [Finset.mem_image] at hg
       obtain ⟨y, hy, rfl⟩ := hg
       refine ReesGrad.mem_reesGrading_of_eq R R' gens 1 one_ne_zero y.val _ ?_
-      show reesG R R' y.val = (0, Polynomial.C y.val * Polynomial.X ^ 1)
+      change reesG R R' y.val = (0, Polynomial.C y.val * Polynomial.X ^ 1)
       unfold reesG
       simp
   · have hcoe :
@@ -745,7 +745,7 @@ lemma snd_eq_of_mem_grading (gens : Finset R') (n : ℕ) (s : reesS R R' gens)
 lemma reesFS_pow_coe_snd (gens : Finset R') (n : ℕ) :
     ((reesFS R R' gens ^ n : reesS R R' gens) : R × Polynomial R').2 = Polynomial.X ^ n := by
   rw [SubmonoidClass.coe_pow]
-  show ((reesF R R') ^ n).snd = _
+  change ((reesF R R') ^ n).snd = _
   unfold reesF
   rw [Prod.pow_def]
 
@@ -795,11 +795,11 @@ lemma frac_eq_iff (gens : Finset R') (da db : ℕ) (a b : reesS R R' gens)
     apply Subtype.ext
     apply Prod.ext
     · simp only [Subalgebra.coe_mul, Prod.fst_mul]
-      show (reesF R R').fst * _ = (reesF R R').fst * _
+      change (reesF R R').fst * _ = (reesF R R').fst * _
       unfold reesF
       simp
     · simp only [Subalgebra.coe_mul, Prod.snd_mul]
-      show (reesF R R').snd * _ = (reesF R R').snd * _
+      change (reesF R R').snd * _ = (reesF R R').snd * _
       rw [reesFS_pow_coe_snd, reesFS_pow_coe_snd, hca, hcb, hcoeff]
       unfold reesF
       ring
@@ -880,7 +880,7 @@ lemma coeff_mul_homog (gens : Finset R') (nx ny : ℕ)
       = (ax : R × Polynomial R').2.coeff nx * (ay : R × Polynomial R').2.coeff ny := by
   have hx := snd_eq_of_mem_grading R R' gens nx ax hax
   have hy := snd_eq_of_mem_grading R R' gens ny ay hay
-  show (((ax : R × Polynomial R').snd) * ((ay : R × Polynomial R').snd)).coeff (nx + ny) = _
+  change (((ax : R × Polynomial R').snd) * ((ay : R × Polynomial R').snd)).coeff (nx + ny) = _
   conv_lhs => rw [hx, hy]
   rw [show Polynomial.C ((ax : R × Polynomial R').snd.coeff nx) * Polynomial.X ^ nx
         * (Polynomial.C ((ay : R × Polynomial R').snd.coeff ny) * Polynomial.X ^ ny)
@@ -895,7 +895,7 @@ lemma coeff_mul_reesFS_pow (gens : Finset R') (n m : ℕ) (a : reesS R R' gens)
     ((a * reesFS R R' gens ^ m : reesS R R' gens) : R × Polynomial R').2.coeff (n + m)
       = (a : R × Polynomial R').2.coeff n := by
   rw [Subalgebra.coe_mul]
-  show ((a : R × Polynomial R').snd * _).coeff (n + m) = _
+  change ((a : R × Polynomial R').snd * _).coeff (n + m) = _
   rw [reesFS_pow_coe_snd, snd_eq_of_mem_grading R R' gens n a ha]
   simp [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow]
 
@@ -929,8 +929,8 @@ lemma exists_homog_mem (gens : Finset R') (hgens : Algebra.adjoin R (gens : Set 
           : R × Polynomial R')
         = (0, Polynomial.C (algebraMap R R' r) * Polynomial.X ^ (0 + 1)) := by
       rw [Subalgebra.coe_mul]
-      show (algebraMap R (R × Polynomial R') r) * (reesF R R') = _
-      show ((r, Polynomial.C (algebraMap R R' r)) : R × Polynomial R') * (0, Polynomial.X) = _
+      change (algebraMap R (R × Polynomial R') r) * (reesF R R') = _
+      change ((r, Polynomial.C (algebraMap R R' r)) : R × Polynomial R') * (0, Polynomial.X) = _
       apply Prod.ext
       · simp
       · simp []
@@ -1004,7 +1004,7 @@ noncomputable def shiftEndo : Module.End R' (reesN R' M) :=
 /-- The degree-shift endomorphism sends `single e m` to `single (e + 1) m`. -/
 theorem shiftEndo_single (e : ℕ) (m : M) :
     (shiftEndo R' M) (Finsupp.single e m : reesN R' M) = Finsupp.single (e + 1) m := by
-  show Finsupp.lmapDomain M R' (· + 1) (Finsupp.single e m) = _
+  change Finsupp.lmapDomain M R' (· + 1) (Finsupp.single e m) = _
   simp [Finsupp.lmapDomain_apply]
 
 /-- Iterating the degree shift `d` times sends `single e m` to `single (e + d) m`. -/
@@ -1090,7 +1090,7 @@ theorem reesGrading_gradedSMul (gens : Finset R') :
     SetLike.GradedSMul (reesGrading R R' gens) (reesB R' M) := by
   constructor
   intro i j ai bj hai hbj
-  show ai • bj ∈ reesB R' M ((i : ℤ) + j)
+  change ai • bj ∈ reesB R' M ((i : ℤ) + j)
   rcases lt_or_ge j 0 with hj | hj
   · -- j < 0 case
     have hbot : reesB R' M j = ⊥ := by
@@ -1270,7 +1270,7 @@ omit [Module.Finite R' M] in
 theorem reesComp_single (n m : ℕ) (u : M) :
     reesComp R' M n (Finsupp.single m u : reesN R' M)
       = if m = n then (Finsupp.single m u : reesN R' M) else 0 := by
-  show Finsupp.single n ((Finsupp.applyAddHom n) (Finsupp.single m u : reesN R' M)) = _
+  change Finsupp.single n ((Finsupp.applyAddHom n) (Finsupp.single m u : reesN R' M)) = _
   rw [Finsupp.applyAddHom_apply]
   by_cases h : m = n
   · subst h; simp
@@ -1298,7 +1298,7 @@ open ReesGrad in
 theorem reesSpiece_snd (gens : Finset R') (d : ℕ) (s : reesS R R' gens) :
     ((reesSpiece R R' gens d s : reesS R R' gens) : R × Polynomial R').2
       = Polynomial.C ((s : R × Polynomial R').2.coeff d) * Polynomial.X ^ d := by
-  show (pcomp R R' d (s : R × Polynomial R')).snd = _
+  change (pcomp R R' d (s : R × Polynomial R')).snd = _
   unfold pcomp
   rcases Nat.eq_zero_or_pos d with hd | hd
   · subst hd; simp
@@ -1415,7 +1415,7 @@ omit [Module.Finite R' M] in
 /-- The `n`-th component of any element of `reesN R' M` is homogeneous of degree `n`. -/
 theorem reesComp_mem_reesB (n : ℕ) (x : reesN R' M) :
     reesComp R' M n x ∈ reesB R' M (n : ℤ) := by
-  show Finsupp.single n ((Finsupp.applyAddHom n) x) ∈ reesB R' M (n : ℤ)
+  change Finsupp.single n ((Finsupp.applyAddHom n) x) ∈ reesB R' M (n : ℤ)
   exact mem_reesB_of_single R' M n _
 
 /-- The inclusion `reesBfin k → reesB k` (an element of `N` lying in `reesBfin k` lies, as an
@@ -1627,7 +1627,7 @@ theorem reesERhom_bijective (gens : Finset R') (hgens : Algebra.adjoin R (gens :
     refine ⟨HomogeneousLocalization.Away.mk 𝒜 hf (d + 1)
       ⟨(0, Polynomial.C c * Polynomial.X ^ (d + 1)), hmem⟩ hmemA', ?_⟩
     rw [ReesGrad6.psi_mk]
-    show (Polynomial.C c * Polynomial.X ^ (d + 1)).coeff (d + 1) = c
+    change (Polynomial.C c * Polynomial.X ^ (d + 1)).coeff (d + 1) = c
     rw [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow, ite_eq_left rfl, mul_one]
 
 /-- **eR.** The ring isomorphism `R' ≃+* S_(f)` (PART A of the compatibility proof): the inverse of
@@ -1660,7 +1660,7 @@ theorem reesER_lift (gens : Finset R') (hgens : Algebra.adjoin R (gens : Set R')
   classical
   have hgr : GradedRing (reesGrading R R' gens) := inferInstance
   rw [eq_comm, ← RingEquiv.symm_apply_eq, reesER_symm_apply, ReesGrad6.psi_mk]
-  show (Polynomial.C c * Polynomial.X ^ (d + 1)).coeff (d + 1) = c
+  change (Polynomial.C c * Polynomial.X ^ (d + 1)).coeff (d + 1) = c
   rw [Polynomial.coeff_C_mul, Polynomial.coeff_X_pow, ite_eq_left rfl, mul_one]
 
 /-- **eR_compat.** `reesER` is compatible with the structure maps from `R` (first conjunct of
@@ -1775,7 +1775,7 @@ omit [Module.Finite R' M] in
 /-- The evaluation `reesValSum` forgets the degree: it sends `single n μ` to `μ`. -/
 theorem reesValSum_single (n : ℕ) (μ : M) :
     reesValSum R' M (Finsupp.single n μ : reesN R' M) = μ := by
-  show (Finsupp.liftAddHom (fun _ : ℕ => (AddMonoidHom.id M))) (Finsupp.single n μ) = μ
+  change (Finsupp.liftAddHom (fun _ : ℕ => (AddMonoidHom.id M))) (Finsupp.single n μ) = μ
   rw [Finsupp.liftAddHom_apply_single]; rfl
 
 omit [Module.Finite R' M] in
@@ -1787,18 +1787,18 @@ theorem reesValSum_f_smul (gens : Finset R') (y : reesN R' M) :
     have := ReesGrad6.reesFS_pow_coe_snd R R' gens 1
     rwa [pow_one, pow_one] at this
   rw [hf2]
-  show reesValSum R' M ((reesActHom R' M) Polynomial.X y) = reesValSum R' M y
+  change reesValSum R' M ((reesActHom R' M) Polynomial.X y) = reesValSum R' M y
   have hsh : (reesActHom R' M) Polynomial.X y = (shiftEndo R' M) y := by
-    show (Polynomial.aeval (shiftEndo R' M)) Polynomial.X y = _
+    change (Polynomial.aeval (shiftEndo R' M)) Polynomial.X y = _
     rw [Polynomial.aeval_X]
   rw [hsh]
-  show reesValSum R' M (Finsupp.lmapDomain M R' (· + 1) y) = reesValSum R' M y
+  change reesValSum R' M (Finsupp.lmapDomain M R' (· + 1) y) = reesValSum R' M y
   rw [Finsupp.lmapDomain_apply]
   show reesValSum R' M (Finsupp.mapDomain (· + 1) y) = reesValSum R' M y
-  show (Finsupp.liftAddHom (fun _ : ℕ => (AddMonoidHom.id M))) (Finsupp.mapDomain (· + 1) y)
+  change (Finsupp.liftAddHom (fun _ : ℕ => (AddMonoidHom.id M))) (Finsupp.mapDomain (· + 1) y)
       = (Finsupp.liftAddHom (fun _ : ℕ => (AddMonoidHom.id M))) y
   rw [Finsupp.liftAddHom_apply, Finsupp.liftAddHom_apply]
-  show (Finsupp.mapDomain (· + 1) y).sum (fun _ m => m) = y.sum (fun _ m => m)
+  change (Finsupp.mapDomain (· + 1) y).sum (fun _ m => m) = y.sum (fun _ m => m)
   rw [Finsupp.sum_mapDomain_index (by intro b; rfl) (by intro b m₁ m₂; rfl)]
 
 omit [Module.Finite R' M] in
@@ -1889,7 +1889,7 @@ theorem exists_eq_mk_single_of_mem_degZeroPart (gens : Finset R') :
     have hnum : (⟨Finsupp.single D (-μ), by rw [Finsupp.single_neg]; exact Submodule.neg_mem _ h⟩
           : N) = -(⟨Finsupp.single D μ, h⟩ : N) := by
       apply Subtype.ext
-      show (Finsupp.single D (-μ) : reesN R' M) = ((-(⟨Finsupp.single D μ, h⟩ : N)) : reesN R' M)
+      change (Finsupp.single D (-μ) : reesN R' M) = ((-(⟨Finsupp.single D μ, h⟩ : N)) : reesN R' M)
       rw [Finsupp.single_neg]
     rw [hnum]
     exact (LocalizedModule.mk_neg (m := (⟨Finsupp.single D μ, h⟩ : N))
@@ -1952,7 +1952,7 @@ theorem reesEMfwd_normal (gens : Finset R') [GradedAlgebra (reesGrading R R' gen
           ∈ degZeroPart (reesFS R R' gens) (reesNfin R R' M gens) (reesBfin R R' M gens)) :
     reesEMfwd R R' M gens ⟨_, hw⟩ = μ := by
   classical
-  show (Finsupp.liftAddHom (fun _ : ℕ => (AddMonoidHom.id M)))
+  change (Finsupp.liftAddHom (fun _ : ℕ => (AddMonoidHom.id M)))
     (Finsupp.single D μ : reesN R' M) = μ
   rw [Finsupp.liftAddHom_apply_single]
   rfl

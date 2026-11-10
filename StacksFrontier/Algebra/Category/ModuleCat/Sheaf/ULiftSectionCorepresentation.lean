@@ -75,10 +75,10 @@ theorem isIso_of_isCorepresentingSection {A B : _root_.SheafOfModules.{v} R} {V 
     IsIso φ := by
   obtain ⟨ψ, hψ⟩ := (hB A).2 a
   refine ⟨ψ, (hA A).1 ?_, (hB B).1 ?_⟩
-  · show (ψ.val.app (op V)).hom ((φ.val.app (op V)).hom a) = a
+  · change (ψ.val.app (op V)).hom ((φ.val.app (op V)).hom a) = a
     rw [hφ]
     exact hψ
-  · show (φ.val.app (op V)).hom ((ψ.val.app (op V)).hom b) = b
+  · change (φ.val.app (op V)).hom ((ψ.val.app (op V)).hom b) = b
     rw [show (ψ.val.app (op V)).hom b = a from hψ, hφ]
 
 /-- Corepresenting the sections over `V` is carried along an isomorphism. -/
@@ -174,7 +174,7 @@ theorem bijective_uliftBase_eval (V : C) (N : PresheafOfModules.{max t r} R₀) 
           c • ((extensionByZeroUnitPresheafBase R₀ V).uliftSections.{t}).restrictₛₗ a.op
             (uliftBaseGen.{r, t} R₀ V) := by
         refine congrArg ULift.up ?_
-        show Finsupp.single a c =
+        change Finsupp.single a c =
           c • extensionByZeroUnitBaseRestriction R₀ V a.op (Finsupp.single (𝟙 V) 1)
         rw [extensionByZeroUnitBaseRestriction_single, map_one, Finsupp.smul_single,
           smul_eq_mul, mul_one]
@@ -182,7 +182,7 @@ theorem bijective_uliftBase_eval (V : C) (N : PresheafOfModules.{max t r} R₀) 
       rw [h₁, map_smul]
       refine congrArg (c • ·) ?_
       exact (PresheafOfModules.naturality_apply ψ a.op _).symm
-  · show ((uliftBaseDesc.{r, t} R₀ V N s).app (op V)).hom
+  · change ((uliftBaseDesc.{r, t} R₀ V N s).app (op V)).hom
       (ULift.up (Finsupp.single (𝟙 V) 1)) = s
     rw [uliftBaseDesc_app_up_single]
     refine (one_smul _ _).trans ?_
@@ -230,7 +230,7 @@ theorem isCorepresentingSection_uliftForPresentation_freeSheafOfArrows (V : C) :
       (fun φ => (φ.app (op V)).hom (uliftBaseGen.{r, t} R.obj V)) ∘ (adj.homEquiv _ _) ∘
         (fun ψ => e.hom ≫ ψ) := by
     funext ψ
-    show _ = ((adj.homEquiv _ _ (e.hom ≫ ψ)).app (op V)).hom (uliftBaseGen.{r, t} R.obj V)
+    change _ = ((adj.homEquiv _ _ (e.hom ≫ ψ)).app (op V)).hom (uliftBaseGen.{r, t} R.obj V)
     rw [Adjunction.homEquiv_naturality_right, key]
     rfl
   rw [h]

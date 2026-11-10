@@ -146,7 +146,7 @@ private theorem symAlgMap_smul_eq_lift (c : k) (g : V →ₗ[k] V) :
     SymPow.symAlgMap (c • g) =
       SymmetricAlgebra.lift (c • ((SymmetricAlgebra.ι k V).comp g)) := by
   refine SymmetricAlgebra.algHom_ext (LinearMap.ext fun v => ?_)
-  show SymPow.symAlgMap (c • g) (SymmetricAlgebra.ι k V v) =
+  change SymPow.symAlgMap (c • g) (SymmetricAlgebra.ι k V v) =
     SymmetricAlgebra.lift (c • ((SymmetricAlgebra.ι k V).comp g)) (SymmetricAlgebra.ι k V v)
   rw [SymPow.symAlgMap_ι, SymmetricAlgebra.lift_ι_apply, LinearMap.smul_apply,
     LinearMap.smul_apply, LinearMap.comp_apply, map_smul]

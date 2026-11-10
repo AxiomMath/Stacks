@@ -307,7 +307,7 @@ theorem isIso_of_isIso_gluingToPair (hZ : Flat Z.hom) (hk : IsIso (gluingToPair 
             exact ((gluingFunctor i f hi).obj T).hom.flat_appLE hS hpre hSU)
       let fObj : Cobj ⟶ Dobj :=
         MorphismProperty.Under.homMk (k.left.appLE U (k.left ⁻¹ᵁ U) le_rfl) (by
-          show Z.hom.appLE S U hUS ≫ k.left.appLE U (k.left ⁻¹ᵁ U) le_rfl =
+          change Z.hom.appLE S U hUS ≫ k.left.appLE U (k.left ⁻¹ᵁ U) le_rfl =
             ((gluingFunctor i f hi).obj T).hom.appLE S (k.left ⁻¹ᵁ U) hSU
           have hSU' : k.left ⁻¹ᵁ U ≤ (k.left ≫ Z.hom) ⁻¹ᵁ S := by
             rw [hcomp]
@@ -336,7 +336,7 @@ theorem isIso_of_isIso_gluingToPair (hZ : Flat Z.hom) (hk : IsIso (gluingToPair 
     exact ⟨U, hxU, (isIso_morphismRestrict_iff_isIso_app k.left hU).2 hApp⟩
   have hkl : IsIso k.left := IsZariskiLocalAtTarget.of_forall_exists_morphismRestrict hLocal
   have : IsIso ((Over.forget (pushout i f)).map k) := by
-    show IsIso k.left
+    change IsIso k.left
     exact hkl
   exact isIso_of_reflects_iso k (Over.forget (pushout i f))
 
@@ -440,7 +440,7 @@ noncomputable def flatGluingAdjunction :
 theorem flatGluingAdjunction_unit_app_isIso (T : (flatGluingData i f).FullSubcategory) :
     IsIso ((flatGluingAdjunction i f hi).unit.app T) := by
   apply ((flatGluingData i f).isIso_hom_iff _).mp
-  show IsIso ((flatGluingData i f).ι.map ((flatGluingAdjunction i f hi).unit.app T))
+  change IsIso ((flatGluingData i f).ι.map ((flatGluingAdjunction i f hi).unit.app T))
   rw [flatGluingAdjunction, CategoryTheory.Adjunction.map_restrictFullyFaithful_unit_app]
   have : IsIso ((gluingAdjunction i f hi).unit.app ((flatGluingData i f).ι.obj T)) :=
     gluingAdjunction_unit_app_isIso i f hi T.obj
@@ -453,7 +453,7 @@ theorem flatGluingAdjunction_counit_app_isIso
     (W : (flatOverPushout i f).FullSubcategory) :
     IsIso ((flatGluingAdjunction i f hi).counit.app W) := by
   apply ((flatOverPushout i f).isIso_hom_iff _).mp
-  show IsIso ((flatOverPushout i f).ι.map
+  change IsIso ((flatOverPushout i f).ι.map
     ((flatGluingAdjunction i f hi).counit.app W))
   rw [flatGluingAdjunction, CategoryTheory.Adjunction.map_restrictFullyFaithful_counit_app]
   have : IsIso ((gluingAdjunction i f hi).counit.app

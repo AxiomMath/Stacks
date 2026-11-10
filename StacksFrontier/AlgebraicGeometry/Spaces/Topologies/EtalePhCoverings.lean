@@ -92,7 +92,7 @@ theorem exists_standardPHCovering_homOver_of_isAffine {T : Scheme.{u}} [IsAffine
   refine ⟨A₀.pushforward T.topIso.hom, hA₀.pushforward_iso T.topIso,
     ⟨H.s₀, fun j ↦ H.h₀ j ≫ pullback.fst (f (H.s₀ j)) (⊤ : T.Opens).ι, fun j ↦ ?_⟩⟩
   have key : H.h₀ j ≫ pullback.snd (f (H.s₀ j)) (⊤ : T.Opens).ι = A₀.f j := H.w₀ j
-  show (H.h₀ j ≫ pullback.fst (f (H.s₀ j)) (⊤ : T.Opens).ι) ≫ f (H.s₀ j) =
+  change (H.h₀ j ≫ pullback.fst (f (H.s₀ j)) (⊤ : T.Opens).ι) ≫ f (H.s₀ j) =
     (A₀.f j ≫ (⊤ : T.Opens).ι) ≫ 𝟙 T
   rw [Category.comp_id]
   exact (Category.assoc _ _ _).trans ((congrArg (H.h₀ j ≫ ·) pullback.condition).trans
@@ -230,7 +230,7 @@ theorem isPHCovering_of_isEtaleCovering {I : Type v}
   have hb (j : A.I₀) : ∃ b : Q.X j ⟶ V (H.s₀ j), toSch.map b = H.h₀ j := by
     refine ⟨Over.homMk (ObjectProperty.homMk (H.h₀ j)) ?_, rfl⟩
     apply ObjectProperty.hom_ext
-    show H.h₀ j ≫ (V (H.s₀ j)).hom.hom = A.f j ≫ U.hom.hom
+    change H.h₀ j ≫ (V (H.s₀ j)).hom.hom = A.f j ≫ U.hom.hom
     have hfac : toSch.map (v (H.s₀ j)) ≫ U.hom.hom = (V (H.s₀ j)).hom.hom :=
       congrArg (fun q ↦ q.hom) (v (H.s₀ j)).w
     rw [← hfac, ← Category.assoc, hw j]

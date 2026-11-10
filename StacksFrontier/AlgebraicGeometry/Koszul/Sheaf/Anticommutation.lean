@@ -104,7 +104,7 @@ theorem exteriorKoszulD_comp_exteriorKoszulD_comm
       -(exteriorKoszulD F φ (n + 1) ≫ exteriorKoszulD F ψ n) := by
   refine hom_ext fun X => ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
   refine exteriorAlgebraPieceVal_injective n F X ?_
-  show Koszul.contraction (φ.dual X) (Koszul.contraction (ψ.dual X)
+  change Koszul.contraction (φ.dual X) (Koszul.contraction (ψ.dual X)
       (exteriorAlgebraPieceVal (n + 1 + 1) F X x)) = _
   rw [Koszul.contraction_contraction_comm]
   rfl
@@ -149,7 +149,7 @@ theorem koszulD_comp_koszulD_comm {p q r : ℤ} (h : q + 1 = p) (h' : r + 1 = q)
         exteriorUnit J F r X (Hom.app (PresheafOfModules.exteriorKoszulDOf b h ≫
           PresheafOfModules.exteriorKoszulDOf a h') X s) := fun a b => by
     rw [koszulD_exteriorUnit, koszulD_exteriorUnit, ← PresheafOfModules.comp_app_apply]
-  show (koszulD J F φ h').val.app X ((koszulD J F ψ h).val.app X (exteriorUnit J F p X s)) =
+  change (koszulD J F φ h').val.app X ((koszulD J F ψ h).val.app X (exteriorUnit J F p X s)) =
     -((koszulD J F ψ h').val.app X ((koszulD J F φ h).val.app X (exteriorUnit J F p X s)))
   rw [key, key, PresheafOfModules.exteriorKoszulDOf_comp_exteriorKoszulDOf_comm φ ψ h h',
     show Hom.app (-(PresheafOfModules.exteriorKoszulDOf φ h ≫

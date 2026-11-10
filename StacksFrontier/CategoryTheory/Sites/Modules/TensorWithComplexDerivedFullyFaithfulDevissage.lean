@@ -13,9 +13,9 @@ import all StacksFrontier.CategoryTheory.Sites.Modules.TensorWithComplexDerivedF
 # Additions to `StacksFrontier.CategoryTheory.Sites.Modules.TensorWithComplexDerivedFullyFaithful`
 
 Declarations extending
-`StacksFrontier.CategoryTheory.Sites.Modules.TensorWithComplexDerivedFullyFaithful`, kept in their own
-module.
--/
+`StacksFrontier.CategoryTheory.Sites.Modules.TensorWithComplexDerivedFullyFaithful`, kept in their
+own
+module. -/
 
 @[expose] public noncomputable section
 

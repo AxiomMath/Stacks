@@ -152,7 +152,7 @@ theorem fiberMapOfIsLocalization_one_tmul
     fiberMapOfIsLocalization N p q hq ((1 : q.ResidueField) ⊗ₜ[T] s)
       = (1 : p.ResidueField) ⊗ₜ[R] (algebraMap S A s) := by
   subst hq
-  show fiberComapRingEquivOfIsLocalization N p
+  change fiberComapRingEquivOfIsLocalization N p
       (Algebra.TensorProduct.lTensor (p.comap (algebraMap T R)).ResidueField
         (IsScalarTower.toAlgHom T S A) ((1 : (p.comap (algebraMap T R)).ResidueField) ⊗ₜ[T] s))
     = _
@@ -354,7 +354,7 @@ theorem chartFiberBotToStalkFiberBot_one_tmul {X Y : Scheme.{u}} (f : X ⟶ Y) [
     IsScalarTower.of_algebraMap_eq' rfl
   have : IsScalarTower ↑Γ(Y, V) ↑Γ(X, U) ↑(X.presheaf.stalk x) :=
     IsScalarTower.of_algebraMap_eq' (by
-      show (((Y.presheaf.germ V (f x) (e hx)) ≫ f.stalkMap x)).hom =
+      change (((Y.presheaf.germ V (f x) (e hx)) ≫ f.stalkMap x)).hom =
         (X.presheaf.germ U x hx).hom.comp (f.appLE V U e).hom
       rw [germ_stalkMap_appLE]
       rfl)

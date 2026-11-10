@@ -207,11 +207,11 @@ theorem ayToLocalModule_pBaseToAY {g : PBase} (hg : g ∈ Ideal.span {omegaP}) (
       (algebraMap PBase (LocalModule g) : PBase →+* LocalModule g) := by
     refine AdjoinRoot.ringHom_ext ?_ ?_
     · refine RingHom.ext fun a => ?_
-      show ayToLocalModule hg (pBaseToAY (AdjoinRoot.of pPoly a)) = _
+      change ayToLocalModule hg (pBaseToAY (AdjoinRoot.of pPoly a)) = _
       rw [show AdjoinRoot.of pPoly a = algebraMap ABase PBase a from rfl,
         pBaseToAY_algebraMap, ayToLocalModule_algebraMap]
       exact algebraMap_ABase_LocalModule g a
-    · show ayToLocalModule hg (pBaseToAY (AdjoinRoot.root pPoly)) = _
+    · change ayToLocalModule hg (pBaseToAY (AdjoinRoot.root pPoly)) = _
       rw [pBaseToAY_root, map_mul, ayToLocalModule_algebraMap, betaAY, map_mul,
         ayToLocalModule_algebraMap]
       have hrel := omegaP_mul_root_eq g
@@ -248,7 +248,7 @@ theorem ayAwayToLocalModule_localModuleToAYAway {g : PBase} (hg : g ∈ Ideal.sp
         (Ideal.Quotient.mk (localIdeal g)) =
       (Ideal.Quotient.mk (localIdeal g) : PAway g →+* LocalModule g) := by
     refine IsLocalization.ringHom_ext (Submonoid.powers g) (RingHom.ext fun p => ?_)
-    show ayAwayToLocalModule hg (localModuleToAYAway g
+    change ayAwayToLocalModule hg (localModuleToAYAway g
       (Ideal.Quotient.mk (localIdeal g) (algebraMap PBase (PAway g) p))) = _
     rw [algebraMap_PAway_LocalModule, localModuleToAYAway_mk,
       ayAwayToLocalModule_algebraMap, ayToLocalModule_pBaseToAY hg p]
@@ -265,7 +265,7 @@ theorem localModuleToAYAway_ayAwayToLocalModule {g : PBase} (hg : g ∈ Ideal.sp
       RingHom.id (AYAway g) := by
     refine IsLocalization.ringHom_ext (Submonoid.powers (pBaseToAY g)) ?_
     refine IsLocalization.ringHom_ext (Submonoid.powers ayElt) (RingHom.ext fun a => ?_)
-    show localModuleToAYAway g (ayAwayToLocalModule hg
+    change localModuleToAYAway g (ayAwayToLocalModule hg
       (algebraMap AYBase (AYAway g) (algebraMap ABase AYBase a))) = _
     rw [ayAwayToLocalModule_algebraMap, ayToLocalModule_algebraMap,
       algebraMap_ABase_LocalModule, localModuleToAYAway_mk, pBaseToAY_algebraMap]

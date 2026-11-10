@@ -69,7 +69,7 @@ public def placeValue {B : Type u} [CommRing B] [IsDedekindDomain B] [Algebra B 
 public theorem placeValue_of_heightOneSpectrum {B : Type u} [CommRing B] [IsDedekindDomain B]
     [Algebra B K] [IsFractionRing B K] (d : Place K → 𝒜) (P : HeightOneSpectrum B) :
     placeValue d P.asIdeal = d (Place.ofHeightOneSpectrum P) := by
-  rw [placeValue, dif_pos ⟨P.isPrime, P.ne_bot⟩]
+  rw [placeValue, dite_eq_left ⟨P.isPrime, P.ne_bot⟩]
 
 variable {k : Type u} [Field k] [Finite k] [Algebra k K] [Algebra (RatFunc k) K]
   [IsScalarTower k (RatFunc k) K] [FunctionField k K]

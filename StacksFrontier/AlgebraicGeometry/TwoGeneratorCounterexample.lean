@@ -101,7 +101,7 @@ lemma moduleRestrictionMap_fraction {R : Type u} [CommRing R]
   let : IsScalarTower R (Localization.Away r)
       (LocalizedModule.Away (R := R) (r * s) M) :=
     IsScalarTower.of_algebraMap_smul fun a z => by
-      show φ (algebraMap R (Localization.Away r) a) • z = a • z
+      change φ (algebraMap R (Localization.Away r) a) • z = a • z
       rw [φ.commutes]
       exact IsScalarTower.algebraMap_smul (Localization.Away (r * s)) a z
   let F : LocalizedModule.Away (R := R) r M →ₗ[Localization.Away r]
@@ -136,7 +136,7 @@ lemma moduleRestrictionMap_fraction {R : Type u} [CommRing R]
       LocalizedModule.mk_smul_mk, one_mul]
     have hs : (⟨r * s, Submonoid.mem_powers (r * s)⟩ :
         Submonoid.powers (r * s)) • m = r • (s • m) := by
-      show (r * s) • m = r • (s • m)
+      change (r * s) • m = r • (s • m)
       rw [mul_smul]
     rw [← hs, LocalizedModule.mk_cancel]
   exact hlocal.smul_bijective.injective (hleft.trans hright.symm)
@@ -207,7 +207,7 @@ lemma liftedTwoGeneratorIdeal_eq (k : Type u) [Field k] :
     liftedIdeal.{u, u} (counterexampleRing k) (twoGeneratorIdeal k) =
       Ideal.span {(ULift.up (f k) : ULift.{u, u} (counterexampleRing k)),
         (ULift.up (g k) : ULift.{u, u} (counterexampleRing k))} := by
-  show (Ideal.span {f k, g k}).comap
+  change (Ideal.span {f k, g k}).comap
       (ULift.ringEquiv : ULift.{u, u} (counterexampleRing k) ≃+* counterexampleRing k) = _
   rw [← Ideal.map_symm (ULift.ringEquiv :
     ULift.{u, u} (counterexampleRing k) ≃+* counterexampleRing k), Ideal.map_span]
@@ -221,7 +221,7 @@ lemma complement_eq_basicOpen_sup (k : Type u) [Field k] :
       PrimeSpectrum.basicOpen (ULift.up (f k) : ULift.{u, u} (counterexampleRing k)) ⊔
     PrimeSpectrum.basicOpen (ULift.up (g k) : ULift.{u, u} (counterexampleRing k)) := by
   ext p
-  show ¬ (liftedIdeal.{u, u} (counterexampleRing k) (twoGeneratorIdeal k) : Ideal
+  change ¬ (liftedIdeal.{u, u} (counterexampleRing k) (twoGeneratorIdeal k) : Ideal
       (ULift.{u, u} (counterexampleRing k))) ≤ p.1 ↔
     (ULift.up (f k) : ULift.{u, u} (counterexampleRing k)) ∉ p.1 ∨
       (ULift.up (g k) : ULift.{u, u} (counterexampleRing k)) ∉ p.1
@@ -239,12 +239,12 @@ lemma complement_eq_basicOpen_sup (k : Type u) [Field k] :
 /-- The first defining relation of the counterexample ring: `f y = g x`. -/
 lemma f_mul_y_eq_g_mul_x (k : Type u) [Field k] :
     f k * y k = g k * x k := by
-  show Ideal.Quotient.mk (relationIdeal k)
+  change Ideal.Quotient.mk (relationIdeal k)
       (MvPolynomial.X (Sum.inl (0 : Fin 4)) * MvPolynomial.X (Sum.inl (3 : Fin 4))) =
     Ideal.Quotient.mk (relationIdeal k)
       (MvPolynomial.X (Sum.inl (1 : Fin 4)) * MvPolynomial.X (Sum.inl (2 : Fin 4)))
   apply Ideal.Quotient.eq.mpr
-  show _ - _ ∈ relationIdeal k
+  change _ - _ ∈ relationIdeal k
   rw [relationIdeal]
   apply Ideal.subset_span
   exact Set.mem_insert_iff.mpr (Or.inl rfl)
@@ -253,7 +253,7 @@ lemma f_mul_y_eq_g_mul_x (k : Type u) [Field k] :
 lemma relation_at_index (k : Type u) [Field k] (n : ℕ) :
     a k n * f k ^ (n + 1) + b k n * g k ^ (n + 1) = 0 := by
   apply Ideal.Quotient.eq_zero_iff_mem.mpr
-  show _ ∈ relationIdeal k
+  change _ ∈ relationIdeal k
   rw [relationIdeal]
   apply Ideal.subset_span
   right
@@ -279,10 +279,10 @@ private lemma obstruction_ne_zero (k : Type u) [Field k] (q : ℕ) :
     intro p hp
     rcases Set.mem_insert_iff.mp hp with hp | hp
     · subst p
-      show ev _ = 0
+      change ev _ = 0
       simp [ev, vars]
     · rcases hp with ⟨n, rfl⟩
-      show ev _ = 0
+      change ev _ = 0
       by_cases hn : n = q
       · subst n
         simp [ev, vars, ht]
@@ -577,7 +577,7 @@ lemma restrictToBasicOpen_toComplement_local (A : Type u) [CommRing A]
   let f' : B := ULift.up.{u, u} f
   let V := PrimeSpectrum.basicOpen f'
   have hf' : f' ∈ liftedIdeal A I := by
-    show ULift.ringEquiv f' ∈ I
+    change ULift.ringEquiv f' ∈ I
     simpa [ULift.ringEquiv] using hf
   have hUV : V ≤ U := Stacks.AlgebraicGeometry.IdealPowerSections.basicOpen_le_complementVanishing
     B (liftedIdeal A I) f' hf'
@@ -587,7 +587,7 @@ lemma restrictToBasicOpen_toComplement_local (A : Type u) [CommRing A]
   change ((modulesSpecToSheaf.obj (tilde M)).presheaf.map (homOfLE hUV).op)
       ((tilde.toOpen M U).hom (ULift.up.{u, u} m)) =
         (tilde.toOpen M V).hom (ULift.up.{u, u} m) at h
-  show ((modulesSpecToSheaf.obj (tilde M)).presheaf.map (homOfLE hUV).op)
+  change ((modulesSpecToSheaf.obj (tilde M)).presheaf.map (homOfLE hUV).op)
       ((tilde.toOpen M U).hom (ULift.up.{u, u} m)) =
         (tilde.toOpen M V).hom (ULift.up.{u, u} m)
   exact h

@@ -325,7 +325,7 @@ private theorem exists_addEquiv_sections_fromSpec_preimage_opensRange {X Y : Sch
       CommRingCat.hom_ofHom] using ConcreteCategory.congr_hom this a
   refine ⟨(asIso C).commRingCatIsoToRingEquiv.toAddEquiv, fun a x => ?_⟩
   rw [Algebra.smul_def]
-  show C.hom (@HMul.hMul (ToType Γ(Y, j ⁻¹ᵁ W)) _ _ _ ((j.app W).hom a)
+  change C.hom (@HMul.hMul (ToType Γ(Y, j ⁻¹ᵁ W)) _ _ _ ((j.app W).hom a)
       (show ToType Γ(Y, j ⁻¹ᵁ W) from x)) = _
   rw [map_mul, hkey]
   rfl

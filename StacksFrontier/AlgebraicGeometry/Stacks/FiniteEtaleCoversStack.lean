@@ -267,7 +267,7 @@ theorem finiteEtaleProjection_exists_glue {a b : FiniteEtaleCovers B S hS}
         (Sieve.pullback a.hom R).downward_closed hk g
       have hF := hFfac _ (k ≫ a.hom) g (Category.assoc g k a.hom) hgk hk'
       have hsec := finiteEtaleBaseChangeSection_comp_factor B S hS a k g
-      show finiteEtaleBaseChangeSection B S hS a (g ≫ k) ≫
+      change finiteEtaleBaseChangeSection B S hS a (g ≫ k) ≫
           (F (FiniteEtaleCovers.baseChangeHom B S hS a ((g ≫ k) ≫ a.hom)) hgk).left =
         g ≫ finiteEtaleBaseChangeSection B S hS a k ≫
           (F (FiniteEtaleCovers.baseChangeHom B S hS a (k ≫ a.hom)) hk').left
@@ -286,7 +286,7 @@ theorem finiteEtaleProjection_exists_glue {a b : FiniteEtaleCovers B S hS}
         (F (FiniteEtaleCovers.baseChangeHom B S hS a (k ≫ a.hom)) hk')).trans
       (congrArg (fun m => (FiniteEtaleCovers.baseChange B S hS a (k ≫ a.hom)).hom ≫ m)
         (hFbase (FiniteEtaleCovers.baseChangeHom B S hS a (k ≫ a.hom)) hk'))
-    show k ≫ Gl ≫ b.hom = k ≫ a.hom ≫ u
+    change k ≫ Gl ≫ b.hom = k ≫ a.hom ≫ u
     rw [← Category.assoc, hGl k hk', Category.assoc, hw, finiteEtaleBaseChange_hom,
       FiniteEtaleCovers.baseChangeHom_right, ← Category.assoc,
       finiteEtaleBaseChangeSection_comp_snd, Category.id_comp, Category.assoc]
@@ -300,7 +300,7 @@ theorem finiteEtaleProjection_exists_glue {a b : FiniteEtaleCovers B S hS}
     (MorphismProperty.Arrow.w Φ) hΦl hΦ
   have hF' := hFfac Φ Φ.right (𝟙 w.right) (Category.id_comp Φ.right).symm hΦ hΦ
   have hsec := finiteEtaleBaseChangeSection_comp_factor_left B S hS Φ
-  show Φ.left ≫ Gl = (F Φ hΦ).left
+  change Φ.left ≫ Gl = (F Φ hΦ).left
   rw [hGl Φ.left hΦl, hF, hF', MorphismProperty.Comma.comp_left,
     MorphismProperty.Comma.comp_left, ← Category.assoc, hsec]
 

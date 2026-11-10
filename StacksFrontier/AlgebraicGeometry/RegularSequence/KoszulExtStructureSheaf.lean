@@ -160,7 +160,7 @@ theorem isZero_sheafHomComplex_unit_X_of_notMem_Icc (K : KoszulChainData.{u, u, 
   refine IsZero.of_iso ?_ (RingedSite.homDegreeIsoSingle (ringedSite Rc) (cochain Rc K)
     (SheafOfModules.unit (toRingCat (Opens.grothendieckTopology ↥X) Rc)) n)
   refine RingedSite.internalHomSheaf_isZero_of_isZero (ringedSite Rc) ?_
-  show IsZero (K.chain.X (-(-n)))
+  change IsZero (K.chain.X (-(-n)))
   rw [neg_neg]
   rcases hn with hn | hn
   · exact K.isZero_chain_X_of_neg hn

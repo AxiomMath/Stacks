@@ -122,12 +122,12 @@ private theorem map_range_ofLE {X Y Z : AddCommGrpCat.{t}} (g : X ⟶ Y) (f : Y 
       ((imageSubobjectAddEquivRange f (m x) : AddMonoidHom.range f.hom) : Z) =
         (imageSubobject (g ≫ f)).arrow x := by
     intro x
-    show (imageSubobject f).arrow (m x) = _
+    change (imageSubobject f).arrow (m x) = _
     rw [← ConcreteCategory.comp_apply, hm, Subobject.ofLE_arrow]
   apply le_antisymm
   · rintro _ ⟨_, ⟨x, rfl⟩, rfl⟩
     rw [AddSubgroup.mem_addSubgroupOf]
-    show ((imageSubobjectAddEquivRange f (m x) : AddMonoidHom.range f.hom) : Z) ∈ _
+    change ((imageSubobjectAddEquivRange f (m x) : AddMonoidHom.range f.hom) : Z) ∈ _
     rw [key x, ← range_imageSubobject_arrow (g ≫ f)]
     exact ⟨x, rfl⟩
   · rintro a ha

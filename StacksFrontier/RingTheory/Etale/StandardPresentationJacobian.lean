@@ -12,8 +12,8 @@ Stacks 00U9 says that an étale algebra `S` over `R` is a quotient
 `Algebra.SubmersivePresentation` of relative dimension `0`; the invertible Jacobian is the
 field `Algebra.SubmersivePresentation.jacobian_isUnit` of that witness.
 
-`Algebra.Etale.exists_algEquiv_quotient_span_range` in
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/RecoveringMorphisms/StandardPresentationExists.lean`
+`Algebra.Etale.exists_algEquiv_quotient_span_range` in the module
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.RecoveringMorphisms.StandardPresentationExists`
 already extracts the presentation from that witness, but it discards the Jacobian: its
 conclusion is only the existence of an isomorphism
 `S ≃ₐ[R] R[x_1, …, x_n]/(g_1, …, g_n)`.  This file keeps the Jacobian, in the shape
@@ -87,7 +87,7 @@ theorem exists_isUnit_detJacobian_algEquiv_quotient_span_range (R S : Type u) [C
   let Q' : SubmersivePresentation R S (Fin n) (Fin n) := Q.reindex (fσ.trans β) fσ
   have hmap : ∀ i : Fin n, Q'.map i = i := by
     intro i
-    show fσ.symm (β.symm (β (fσ i))) = i
+    change fσ.symm (β.symm (β (fσ i))) = i
     simp
   have hdet : Q'.jacobiMatrix.det = detJacobian Q'.relation := by
     rw [detJacobian]
@@ -101,7 +101,7 @@ theorem exists_isUnit_detJacobian_algEquiv_quotient_span_range (R S : Type u) [C
       δ (Ideal.Quotient.mk (Ideal.span (Set.range Q'.relation)) p) =
         algebraMap Q'.Ring S p := by
     intro p
-    show Q'.toPresentation.quotientEquiv
+    change Q'.toPresentation.quotientEquiv
         (Ideal.quotientEquivAlgOfEq R Q'.toPresentation.span_range_relation_eq_ker
           (Ideal.Quotient.mk _ p)) = _
     rw [Ideal.quotientEquivAlgOfEq_mk]

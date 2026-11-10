@@ -86,7 +86,7 @@ theorem ann_extension_eq_ann_baseChange_elem [Module.Flat R S] (m : M) :
   have hexactS' : Function.Exact (LinearMap.baseChange S i) (LinearMap.baseChange S f) := by
     intro x
     have := hexactS x
-    simpa [LinearMap.baseChange_eq_ltensor] using this
+    simpa [LinearMap.baseChange_eq_lTensor] using this
   have hker : (LinearMap.baseChange S f).ker = (LinearMap.baseChange S i).range :=
     LinearMap.exact_iff.mp hexactS'
   -- Step A : torsionOf S (...) = map rid (ker (baseChange S f))

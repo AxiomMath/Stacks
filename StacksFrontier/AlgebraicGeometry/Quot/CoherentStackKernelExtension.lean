@@ -242,7 +242,6 @@ theorem kernel_isSplitThickeningBy (π : d.point.T ⟶ x₀.T)
   D.isSplitThickeningBy π _ (D.fiberSection_comp_trivialBase iΛ x₀ hx₀ M d hd π hπ) M
     (D.residueRingEquiv iΛ x₀ hx₀).toRingHom (D.fiberFunctions iΛ x₀ hx₀ M d hd)
     (D.isAffine_basePoint iΛ x₀ hx₀) (D.isAffine_fiberPoint iΛ x₀ hx₀ M d hd)
-    (D.siteΓ_fiberSection_fiberFunctions iΛ x₀ hx₀ M d hd)
     (D.ker_siteΓ_fiberSection iΛ x₀ hx₀ M d hd) (D.fiberFunctions_mul iΛ x₀ hx₀ M d hd)
     (fun c v => by
       change D.fiberRingEquiv iΛ x₀ hx₀ M d hd (TrivSqZeroExt.inr (c • v)) =

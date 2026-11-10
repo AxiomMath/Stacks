@@ -132,7 +132,7 @@ theorem surjective_pointsMapULift_of_relative_surjective
   let q₀ : Space.FieldValuedPointULift.{u + 1} B S hS (uliftYoneda.{u + 1}.obj A) :=
     ⟨pt.carrier, pt.contained, pt.toBase, ULift.up (𝟙 A)⟩
   have hsub : Subsingleton ((BigFppfOver.toScheme B S hS).obj A) := by
-    show Subsingleton (Spec (CommRingCat.of pt.carrier))
+    change Subsingleton (Spec (CommRingCat.of pt.carrier))
     infer_instance
   have hA : Space.pointsMapULift B S hS _ (uliftYoneda.{u + 1}.map (ha.rep.snd ξ)) pW
       = q₀.class B S hS _ :=
@@ -140,7 +140,7 @@ theorem surjective_pointsMapULift_of_relative_surjective
   have hξpt : Space.pointsMapULift B S hS (uliftYoneda.{u + 1}.obj A) ξ (q₀.class B S hS _)
       = pt.class B S hS F := by
     refine Quot.sound ⟨pt, ⟨𝟙 _, ?_⟩, ⟨𝟙 _, by simp⟩⟩
-    show F.map (𝟙 A).op (ξ.app (Opposite.op A) (ULift.up (𝟙 A))) = pt.value
+    change F.map (𝟙 A).op (ξ.app (Opposite.op A) (ULift.up (𝟙 A))) = pt.value
     simp [ξ]
   refine ⟨Space.pointsMapULift B S hS _ (ha.rep.fst ξ) pW, ?_⟩
   calc Space.pointsMapULift B S hS _ a
@@ -197,7 +197,7 @@ theorem isLocallySurjective_sigmaDesc_of_jointly_surjective_points
     intro i
     obtain ⟨hfi, he⟩ := hetale i
     exact relativelyRepresentable_of_isEtale_of_isAffineFormal B S hS (f i) (haffine i) hfi he
-  show Presheaf.IsLocallySurjective J (Sigma.desc f).hom
+  change Presheaf.IsLocallySurjective J (Sigma.desc f).hom
   refine ⟨?_⟩
   intro T y
   let c : Yo.obj T ⟶ X.obj := uliftYonedaEquiv.{u + 1}.symm y
@@ -234,7 +234,7 @@ theorem isLocallySurjective_sigmaDesc_of_jointly_surjective_points
   rintro Z a ⟨i⟩
   refine ⟨uliftYonedaEquiv.{u + 1} (ξ i ≫ (Sigma.ι Xi i).hom), ?_⟩
   have hid : (Sigma.ι Xi i).hom ≫ (Sigma.desc f).hom = (f i).hom :=
-    congrArg (fun k : Xi i ⟶ X => k.hom) (Sigma.ι_desc f i)
+    congrArg (fun k : Xi i ⟶ X => k.hom) (Sigma.ι_comp_desc f i)
   calc (Sigma.desc f).hom.app (Opposite.op (V i))
           (uliftYonedaEquiv.{u + 1} (ξ i ≫ (Sigma.ι Xi i).hom))
       = uliftYonedaEquiv.{u + 1}

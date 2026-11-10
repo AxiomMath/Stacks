@@ -55,6 +55,7 @@ variable {W : Scheme.{u}} [IsIntegral W] [IsLocallyNoetherian W] {K : Type u} [F
 abbrev OneDimPoint (W : Scheme.{u}) : Type u :=
   {z : W // ringKrullDim (W.presheaf.stalk z) = 1}
 
+omit [IsIntegral W] [IsLocallyNoetherian W] in
 /-- A point with one-dimensional local ring has coheight one. -/
 theorem coheight_eq_one_of_oneDimPoint (z : OneDimPoint W) : Order.coheight (z : W) = 1 := by
   have h : ((Order.coheight (z : W) : ℕ∞) : WithBot ℕ∞) = ((1 : ℕ∞) : WithBot ℕ∞) := by

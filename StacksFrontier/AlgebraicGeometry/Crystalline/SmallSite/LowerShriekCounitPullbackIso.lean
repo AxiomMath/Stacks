@@ -122,7 +122,7 @@ theorem exists_hom_ι_of_range_subset (B : Thickening S) [IsAffine B.thickening.
     (isNilpotent_prime_openSituation07Q9 S hW hVW) B'
   refine ⟨(smallExtend S V W hVW).obj ((wholeι _).obj (specWholeSpaceThickening _ T hT)), ?_,
     ⟨(extendLocalObjectIso S V W hVW B hB hX).inv ≫ (extend S V W hVW).map φ⟩⟩
-  show IsAffine (Spec _)
+  change IsAffine (Spec _)
   infer_instance
 
 section Counit
@@ -203,8 +203,7 @@ theorem bigTensorToLowerShriekTensor_tmul (t : ringAlong τ)
 theorem surjective_bigTensorToLowerShriekTensor :
     Function.Surjective (bigTensorToLowerShriekTensor N₀ τ) := by
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction z using TensorProduct.inductionOn with
   | tmul t s => exact ⟨ringAlongSection τ t ⊗ₜ s, rfl⟩
   | add z z' hz hz' =>
     obtain ⟨w, rfl⟩ := hz
@@ -220,8 +219,7 @@ theorem lowerShriekCounitULift_lowerShriekBaseChange
     (lowerShriekCounitULift N₀).val.app (op B) (lowerShriekBaseChange (restrictSheafOfModules N₀) τ
         (bigTensorToLowerShriekTensor N₀ τ w)) =
       ULift.up (extensionSectionsMapAlong N₀ τ w) := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp only [map_zero]; exact map_zero ((lowerShriekCounitULift N₀).val.app (op B)).hom
+  induction w using TensorProduct.inductionOn with
   | tmul t s =>
     exact (lowerShriekCounitULift_smul_restrict N₀ τ (siteRingAlong τ t) s).trans
       (congrArg ULift.up (extensionSectionsMapAlong_tmul N₀ τ t s).symm)
@@ -307,7 +305,7 @@ theorem exists_restrictOpen_hom_ι (a : Thickening S) (x : a.thickening.target.s
     by_cases hx : ∃ y, i.base y = x
     · obtain ⟨y, rfl⟩ := hx
       have hy : γ.base y ∈ sourceToBase S' ⁻¹ᵁ V' := by
-        show (γ ≫ sourceToBase S').base y ∈ V'
+        change (γ ≫ sourceToBase S').base y ∈ V'
         rw [← hover]
         exact hxV'
       obtain ⟨W', hW', hyW', hsub⟩ := exists_isAffineOpen_mem_and_subset hy

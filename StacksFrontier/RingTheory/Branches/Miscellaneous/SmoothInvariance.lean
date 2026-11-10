@@ -147,7 +147,7 @@ private theorem isDomain_of_isUnibranch_of_normal_tensorProduct
   have hdom : IsDomain (B ⊗[R] C) := (IsNormalRing.of_isLocalRing (hn C hCnormal)).1
   have hinjred : Function.Injective (algebraMap R Rred) := by
     rw [RingHom.injective_iff_ker_eq_bot]
-    show RingHom.ker (Ideal.Quotient.mk (nilradical R)) = ⊥
+    change RingHom.ker (Ideal.Quotient.mk (nilradical R)) = ⊥
     rw [Ideal.mk_ker, nilradical_eq_zero]
     rfl
   have hinjC : Function.Injective (algebraMap R C) := by
@@ -249,7 +249,7 @@ private theorem isPrime_map_of_normal_tensorProduct
       exact Or.inl (isGeometricallyUnibranch_of_isDomain_of_strictHenselianLocalRing Q)
     · refine Or.inr (isPurelyInseparable_of_commutative_square
         (ResidueField.map (algebraMap R B)) (ResidueField.map (algebraMap Q D)) eR eB ?_ h)
-      show (ResidueField.map (algebraMap Q D)).comp (ResidueField.map (algebraMap R Q)) =
+      change (ResidueField.map (algebraMap Q D)).comp (ResidueField.map (algebraMap R Q)) =
         (ResidueField.map (algebraMap B D)).comp (ResidueField.map (algebraMap R B))
       ext x
       obtain ⟨r, rfl⟩ := residue_surjective x
@@ -324,7 +324,7 @@ private theorem isNormalRing_tensorProduct_of_henselization_baseChange
   have : IsScalarTower N (N ⊗[R] U) (N ⊗[R] T) := by
     apply IsScalarTower.of_algebraMap_eq (R := N) (S := N ⊗[R] U) (A := N ⊗[R] T)
     intro n
-    show n ⊗ₜ[R] (1 : T) = F (n ⊗ₜ[R] (1 : U))
+    change n ⊗ₜ[R] (1 : T) = F (n ⊗ₜ[R] (1 : U))
     simp only [F, Algebra.TensorProduct.map_tmul, AlgHom.id_apply, map_one]
   have : IsLocalization
       (Q.primeCompl.map (Algebra.TensorProduct.includeRight (R := R) (A := N)))
@@ -333,7 +333,7 @@ private theorem isNormalRing_tensorProduct_of_henselization_baseChange
       (by
         apply RingHom.ext
         intro u
-        show F ((1 : N) ⊗ₜ[R] u) = (1 : N) ⊗ₜ[R] algebraMap U T u
+        change F ((1 : N) ⊗ₜ[R] u) = (1 : N) ⊗ₜ[R] algebraMap U T u
         dsimp only [F]
         rw [Algebra.TensorProduct.map_tmul]
         rfl)
@@ -457,7 +457,7 @@ theorem numberOfBranches_eq_of_isLocalization_smooth
     have hphi : phi.toRingHom.comp ((residue Ash).comp (algebraMap A Ash)) =
         (residue Bsh).comp (algebraMap A Bsh) := by
       ext x
-      show phi (residue Ash (algebraMap A Ash x)) = residue Bsh (algebraMap A Bsh x)
+      change phi (residue Ash (algebraMap A Ash x)) = residue Bsh (algebraMap A Bsh x)
       rw [← hresA x, phi.commutes]
       exact ResidueField.map_residue (algebraMap A Bsh) x
     obtain ⟨f, hf, _, _, Q, hQ, _, _, _, algTH, hTHlocal, algResT,
@@ -473,7 +473,7 @@ theorem numberOfBranches_eq_of_isLocalization_smooth
     let := hTHlocal
     let := algResT
     let := hHT
-    show (minimalPrimes Ash).encard = (minimalPrimes Bsh).encard
+    change (minimalPrimes Ash).encard = (minimalPrimes Bsh).encard
     exact encard_minimalPrimes_eq_of_henselization_baseChange
       (K := kAsep) (L := kBsep) (M := ResidueField Bsh) hsm Q hcomp (Or.inl inferInstance)
   · intro hpi
@@ -497,12 +497,12 @@ theorem numberOfBranches_eq_of_isLocalization_smooth
         (ResidueField.map (algebraMap Ah Bh)) eA eB _ hpi
       ext x
       obtain ⟨r, rfl⟩ := residue_surjective x
-      show ResidueField.map (algebraMap Ah Bh)
+      change ResidueField.map (algebraMap Ah Bh)
           (ResidueField.map (algebraMap A Ah) (residue A r)) =
         ResidueField.map (algebraMap B Bh) (ResidueField.map (algebraMap A B) (residue A r))
       simp only [ResidueField.map_residue]
       rw [← IsScalarTower.algebraMap_apply A Ah Bh, ← IsScalarTower.algebraMap_apply A B Bh]
-    show (minimalPrimes Ah).encard = (minimalPrimes Bh).encard
+    change (minimalPrimes Ah).encard = (minimalPrimes Bh).encard
     exact encard_minimalPrimes_eq_of_henselization_baseChange
       (K := ResidueField A) (L := ResidueField B)
       (M := ResidueField (Localization.AtPrime Q)) hsm Q hcomp (Or.inr hpi')

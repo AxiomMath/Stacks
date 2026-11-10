@@ -62,7 +62,7 @@ omit [IsSepClosure k ksep] in
 /-- The geometric base change of a quasi-compact scheme is quasi-compact. -/
 public theorem compactSpace_galoisActionOnBaseChange [CompactSpace X.left] :
     CompactSpace (galoisActionOnBaseChange k ksep X).V := by
-  show CompactSpace (SchemeOver.baseChange k ksep X)
+  change CompactSpace (SchemeOver.baseChange k ksep X)
   exact QuasiCompact.compactSpace_of_compactSpace (pullback.fst X.hom (spectrumMap k ksep))
 
 omit [IsSepClosure k ksep] in
@@ -76,20 +76,20 @@ public theorem galoisActionOnBaseChange_ρ_eq_of_fst_snd (g : MulOpposite (ksep 
         Spec.map (CommRingCat.ofHom g.unop.toRingEquiv.toRingHom)) :
     ((galoisActionOnBaseChange k ksep X).ρ g).asHom = a := by
   apply pullback.hom_ext
-  · show
+  · change
       (pullback.lift
         (pullback.fst X.hom (spectrumMap k ksep) ≫ 𝟙 X.left)
         (pullback.snd X.hom (spectrumMap k ksep) ≫ specMapAlgAut k ksep g.unop) _) ≫
           pullback.fst X.hom (spectrumMap k ksep) = _
     simp only [Category.comp_id, pullback.lift_fst]
     exact hfst.symm
-  · show
+  · change
       (pullback.lift
         (pullback.fst X.hom (spectrumMap k ksep) ≫ 𝟙 X.left)
         (pullback.snd X.hom (spectrumMap k ksep) ≫ specMapAlgAut k ksep g.unop) _) ≫
           pullback.snd X.hom (spectrumMap k ksep) = _
     simp only [Category.comp_id, pullback.lift_snd]
-    show pullback.snd X.hom (spectrumMap k ksep) ≫
+    change pullback.snd X.hom (spectrumMap k ksep) ≫
         Spec.map (CommRingCat.ofHom g.unop.toRingEquiv.toRingHom) = _
     exact hsnd.symm
 
@@ -128,7 +128,7 @@ public theorem continuous_galoisActionOnGeometricConnectedComponents
       (ConnectedComponents (galoisActionOnBaseChange k ksep X).V))
   let : MulAction G A.V := Action.instMulAction A
   have : DiscreteTopology A.V := ConnectedComponents.discreteTopology_iff.mpr hopen
-  show Continuous (fun p : G × A.V => p.1 • p.2)
+  change Continuous (fun p : G × A.V => p.1 • p.2)
   have := compactSpace_galoisActionOnBaseChange k ksep X
   have hcont : ContinuousSMul G A.V := by
     rw [continuousSMul_iff_stabilizer_isOpen]
@@ -153,12 +153,12 @@ public theorem continuous_galoisActionOnGeometricConnectedComponents
       exact mem_connectedComponent
     have hact :
         ConcreteCategory.hom (A.ρ g).asHom C = ConnectedComponents.mk (q.base x) := by
-      show ConcreteCategory.hom
+      change ConcreteCategory.hom
         ((galoisActionOnGeometricConnectedComponents k ksep X).ρ g).asHom
           (ConnectedComponents.mk x) = ConnectedComponents.mk (q.base x)
       rw [galoisActionOnGeometricConnectedComponents_ρ_apply_mk]
       rfl
-    show ConcreteCategory.hom (A.ρ g).asHom C = C
+    change ConcreteCategory.hom (A.ρ g).asHom C = C
     exact hact.trans (ConnectedComponents.coe_eq_coe'.2 hqxV)
   exact hcont.continuous_smul
 
@@ -178,9 +178,9 @@ public theorem isOpen_geometricConnectedComponent_of_finiteType
   have : CompactSpace Y := QuasiCompact.compactSpace_of_compactSpace Z.hom
   have : IsNoetherian Y := { }
   have : Finite (ConnectedComponents (galoisActionOnBaseChange k ksep X).V) := by
-    show Finite (ConnectedComponents (↥Y))
+    change Finite (ConnectedComponents (↥Y))
     exact TopologicalSpace.NoetherianSpace.finite_connectedComponents (↥Y)
-  show IsOpen (connectedComponent (x : ↥Y))
+  change IsOpen (connectedComponent (x : ↥Y))
   exact (TopologicalSpace.isClopen_connectedComponent_of_finite_connectedComponents (x : ↥Y)).2
 
 end AlgebraicGeometry

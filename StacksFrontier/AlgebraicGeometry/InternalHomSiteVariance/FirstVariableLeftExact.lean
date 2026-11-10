@@ -109,7 +109,7 @@ private theorem sheafInternalHomFunctor_preservesZeroMorphisms
     (G : _root_.SheafOfModules.{max u v} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
     (sheafInternalHomFunctor X.J X.O G).PreservesZeroMorphisms := by
   refine ⟨fun A B => ?_⟩
-  show (sheafInternalHomObjMapLeft X.J X.O (G := G) (0 : A ⟶ B)).op = 0
+  change (sheafInternalHomObjMapLeft X.J X.O (G := G) (0 : A ⟶ B)).op = 0
   apply Quiver.Hom.unop_inj
   apply _root_.SheafOfModules.hom_ext
   apply _root_.PresheafOfModules.hom_ext
@@ -124,7 +124,7 @@ private theorem sheafInternalHomFunctor_preservesZeroMorphisms
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro t
-  show ((restrFun X.O.obj U.unop).map (0 : A.val ⟶ B.val) ≫ t) = 0
+  change ((restrFun X.O.obj U.unop).map (0 : A.val ⟶ B.val) ≫ t) = 0
   exact (congrArg (fun φ => φ ≫ t) hrestr).trans zero_comp
 
 /-- **Stacks 0GMY, part (1).** Precomposition along an epimorphism is a monomorphism of
@@ -159,9 +159,9 @@ theorem ringedSite_sheafInternalHomObjMapLeft_exact_of_exact_epi
   have : H.PreservesZeroMorphisms := sheafInternalHomFunctor_preservesZeroMorphisms X G
   have : PreservesColimit (parallelPair S.f 0) H := inferInstance
   refine ⟨?_, ?_⟩
-  · show (S.map H).unop.f ≫ (S.map H).unop.g = 0
+  · change (S.map H).unop.f ≫ (S.map H).unop.g = 0
     exact (S.map H).unop.zero
-  · show (S.map H).unop.Exact
+  · change (S.map H).unop.Exact
     exact (hS.map_of_epi_of_preservesCokernel H inferInstance inferInstance).unop
 
 end Stacks.SheafOfModules.InternalHom

@@ -73,22 +73,22 @@ public theorem exists_isGradedUpper_irreducible_blocks :
     | succ s _ =>
       rw [hVsucc]
       by_cases h : V s ≠ ⊤
-      · simp only [next, dif_pos h]
+      · simp only [next, dite_eq_left h]
         exact (exists_minimal_stable_gt M h).choose_spec.1
-      · simp only [next, dif_neg h]
+      · simp only [next, dite_eq_right h]
         exact fun _ _ _ => Submodule.mem_top
   have hVlt : ∀ s, V s ≠ ⊤ → V s < V (s + 1) ∧ ∀ Z : Submodule K (Fin r → K),
       (∀ a, ∀ v ∈ Z, M a *ᵥ v ∈ Z) → V s < Z → ¬ Z < V (s + 1) := by
     intro s h
     rw [hVsucc]
-    simp only [next, dif_pos h]
+    simp only [next, dite_eq_left h]
     exact (exists_minimal_stable_gt M h).choose_spec.2
   have hVle : ∀ s, V s ≤ V (s + 1) := by
     intro s
     by_cases h : V s ≠ ⊤
     · exact (hVlt s h).1.le
     · rw [hVsucc]
-      simp only [next, dif_neg h]
+      simp only [next, dite_eq_right h]
       exact le_top
   have hVmono : Monotone V := monotone_nat_of_le_succ hVle
   have hVtop : V r = ⊤ := by
@@ -100,7 +100,7 @@ public theorem exists_isGradedUpper_irreducible_blocks :
         by_cases h : V s = ⊤
         · left
           rw [hVsucc]
-          simp only [next, h, ne_eq, not_true_eq_false, dif_neg, not_false_eq_true]
+          simp only [next, h, ne_eq, not_true_eq_false, dite_eq_right, not_false_eq_true]
         · right
           exact (ih.resolve_left h).trans_lt (Submodule.finrank_lt_finrank_of_lt (hVlt s h).1)
     rcases key r with h | h
@@ -170,7 +170,7 @@ public theorem exists_isGradedUpper_irreducible_blocks :
     have hr : ∀ i, b.repr (b.equivFun.symm c) i = c i := fun i => by
       rw [← Basis.equivFun_apply, LinearEquiv.apply_symm_apply]
     rw [hP, ← hBspan, hBimage s hs, Basis.mem_span_image, Finsupp.support_subset_iff]
-    simp only [Set.mem_setOf_eq, hr]
+    simp only [Set.mem_ofPred_eq, hr]
   set Tm : A → Matrix (Fin r) (Fin r) K := fun a =>
     ((P₀⁻¹ : (Matrix (Fin r) (Fin r) K)ˣ) : Matrix (Fin r) (Fin r) K) * M a *
       Pm with hTm_def
@@ -212,7 +212,7 @@ public theorem exists_isGradedUpper_irreducible_blocks :
       Pm *ᵥ c ∈ V (s₀ + 1) := by
     intro c hc
     refine (hΦ _ hs₀r c).mpr fun i hi => hc i ?_
-    show ¬ (dn i : ℤ) = t
+    change ¬ (dn i : ℤ) = t
     omega
   have hΦ₀ := hΦ s₀ (by omega)
   have hVs₀ne : V s₀ ≠ ⊤ := by
@@ -243,7 +243,7 @@ public theorem exists_isGradedUpper_irreducible_blocks :
     · by_cases hij : d i = d j
       · simp [gradedDiag, hij]
       · have hlt : d j < d i := by
-          show (dn j : ℤ) < dn i
+          change (dn j : ℤ) < dn i
           change (dn j : ℤ) = t at hj
           change ¬ (dn i : ℤ) = dn j at hij
           omega

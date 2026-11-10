@@ -165,7 +165,7 @@ public lemma faithful_finiteEtaleRestriction_of_components_meet
       (f := A'.hom) (g := f) w y hwy
     let z' := (asIso (G.map e)).inv.left z
     have hz' : (G.map e).left z' = z := by
-      show (asIso (G.map e)).hom.left ((asIso (G.map e)).inv.left z) = z
+      change (asIso (G.map e)).hom.left ((asIso (G.map e)).inv.left z) = z
       rw [← Scheme.Hom.comp_apply, ← Over.comp_left, Iso.inv_hom_id]; rfl
     have hfirst : e.left (Limits.pullback.fst E.hom f z') = w := by
       have := congrArg (fun q => Limits.pullback.fst A'.hom f q) hz'

@@ -117,7 +117,7 @@ private theorem exists_ringEquiv_quotient_of_isLocalization_tensorProduct
   have hmk : ∀ b : R, e₀ (Ideal.Quotient.mk (I.map (algebraMap D R)) b) =
       Algebra.TensorProduct.includeLeftRingHom b := by
     intro b
-    show (Algebra.TensorProduct.congr (AlgEquiv.refl (R := D) (A₁ := R)) eΛ)
+    change (Algebra.TensorProduct.congr (AlgEquiv.refl (R := D) (A₁ := R)) eΛ)
         (Algebra.TensorProduct.quotIdealMapEquivTensorQuot R I
           (Ideal.Quotient.mk (I.map (algebraMap D R)) b)) = _
     rw [show Algebra.TensorProduct.quotIdealMapEquivTensorQuot R I
@@ -195,7 +195,7 @@ theorem isLocalHom_algebraMap_stalk_of_eq_closedPoint (D : Type u) [CommRing D] 
   have hpt : (Spec.map (CommRingCat.ofHom (algebraMap D (Y.presheaf.stalk p))))
       (IsLocalRing.closedPoint (Y.presheaf.stalk p)) = IsLocalRing.closedPoint D := by
     rw [hspec]
-    show f (Y.fromSpecStalk p (IsLocalRing.closedPoint (Y.presheaf.stalk p))) = _
+    change f (Y.fromSpecStalk p (IsLocalRing.closedPoint (Y.presheaf.stalk p))) = _
     rw [Scheme.fromSpecStalk_closedPoint]
     exact hp
   exact hpt

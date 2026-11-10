@@ -27,8 +27,7 @@ universe u
 /-- The image of the multiplication map `B ⊗[R] N → B` lies in the ideal `N B`. -/
 theorem mulT0_mem {R : Type*} [CommRing R] (N : Ideal R) (B : Type*) [CommRing B] [Algebra R B]
     (z : B ⊗[R] N) : mulT0 N B z ∈ N.map (algebraMap R B) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul b n =>
     simp only [mulT0, TensorProduct.lift.tmul, LinearMap.restrictScalars_apply, mulN_apply,
       Algebra.smul_def]
@@ -42,8 +41,7 @@ theorem map_mulT0 {R : Type*} [CommRing R] (N : Ideal R) (hN : N ^ 2 = ⊥) {T X
     (γ : T →ₐ[R] X) (β : T →ₐ[R] B) (L : X →ₐ[R] B ⧸ N.map (algebraMap R B))
     (h : ∀ t, Ideal.Quotient.mk _ (β t) = L (γ t)) (z : T ⊗[R] N) :
     β (mulT0 N T z) = theta N hN L (γ.toLinearMap.rTensor N z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul t n =>
     simp only [mulT0, TensorProduct.lift.tmul, LinearMap.restrictScalars_apply, mulN_apply,
       map_smul, LinearMap.rTensor_tmul, AlgHom.toLinearMap_apply]
@@ -65,7 +63,7 @@ theorem mk_prV (u : {s : Finset (Fin k) // s.card = 1}) (t : TT N hN f S H e L h
   have h2 := ((mem_glued N hN f S H e L hL t.1).mp t.2).2.1 u
   rw [← (L u.1).qe_mk N] at h2
   simp only [lam, AlgHom.comp_apply, IsScalarTower.coe_toAlgHom']
-  show _ = ((L u.1).qe N).symm (algebraMap S (Sl f S u.1) t.1.1)
+  change _ = ((L u.1).qe N).symm (algebraMap S (Sl f S u.1) t.1.1)
   rw [← h2]
   exact (((L u.1).qe N).symm_apply_apply _).symm
 
@@ -99,13 +97,13 @@ theorem ker_prS [IsNoetherianRing S] (hNS : N.map (algebraMap R S) = ⊥)
       apply Prod.ext
       · funext u
         apply muH_injective N hN f S H e hflat u.1 (nonempty_of_card_eq u)
-        show muH N hN f S H e u.1 (LocalizedModule.mkLinearMap _ _ y -
+        change muH N hN f S H e u.1 (LocalizedModule.mkLinearMap _ _ y -
           LocalizedModule.map (cechSub (gS f S) u.1)
             ((TensorProduct.mk S (PS N S) (Sh f S)).flip 1) (xu u)) = muH N hN f S H e u.1 0
         rw [map_sub, muH_mk, muH_unit_eq_rho_muV N hN f S H e L hL u.1 (nonempty_of_card_eq u),
           hxu, h3, hy, sub_self, map_zero]
       · funext T
-        show -(glueingDifferential (gS f S) (PS N S) 1 xu T) = 0
+        change -(glueingDifferential (gS f S) (PS N S) 1 xu T) = 0
         rw [neg_eq_zero]
         apply muV_injective N hN f S L hL T.1 (nonempty_of_card_eq T)
         rw [muV_cechDiff N hN f S L hL 1 (by norm_num), map_zero]
@@ -126,21 +124,20 @@ theorem ker_prS [IsNoetherianRing S] (hNS : N.map (algebraMap R S) = ⊥)
     have hxeq : mulT0 N (TT N hN f S H e L hL) z' = x := by
       apply ext_glued
       · rw [hx0]
-        show prS N hN f S H e L hL (mulT0 N _ z') = 0
+        change prS N hN f S H e L hL (mulT0 N _ z') = 0
         rw [map_mulT0 N hN (prS N hN f S H e L hL) (prS N hN f S H e L hL)
           (Ideal.Quotient.mkₐ R (N.map (algebraMap R S))) (fun _ ↦ rfl)]
         induction ((prS N hN f S H e L hL).toLinearMap.rTensor N z') using
-          TensorProduct.induction_on with
-        | zero => simp
+          TensorProduct.inductionOn with
         | tmul a n =>
           rw [theta_tmul N hN _ a n a rfl, Algebra.smul_def]
           rw [hn0 n n.2, zero_mul]
         | add a b ha hb => rw [map_add, ha, hb, add_zero]
-      · show prH N hN f S H e L hL (mulT0 N _ z') = x.1.2.1
+      · change prH N hN f S H e L hL (mulT0 N _ z') = x.1.2.1
         rw [map_mulT0 N hN (prS N hN f S H e L hL) (prH N hN f S H e L hL) _
           (mk_prH N hN f S H e L hL), ← hy, ← hz1, muH0_tmul_one]
       · funext u
-        show prV N hN f S H e L hL u (mulT0 N _ z') = x.1.2.2 u
+        change prV N hN f S H e L hL u (mulT0 N _ z') = x.1.2.2 u
         rw [map_mulT0 N hN (prS N hN f S H e L hL) (prV N hN f S H e L hL u) _
           (mk_prV N hN f S H e L hL u), ← hxu, ← hz2, muV_mk]
     rw [← hxeq]

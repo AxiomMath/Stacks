@@ -202,7 +202,7 @@ private lemma canonicalCoproductComponentIso_proj (f : ∀ i, X i ⟶ S) (W : Ov
     Over.isoMk_hom_left, Category.assoc, IsPullback.isoPullback_hom_fst]
   simp only [← Category.assoc, ← Over.comp_left, Iso.inv_hom_id, Over.id_left]
   simp only [Category.assoc]
-  simp only [Over.mk_left, Category.id_comp, Sigma.ι_mapIso_hom_assoc, Sigma.ι_desc]
+  simp only [Over.mk_left, Category.id_comp, Sigma.ι_mapIso_hom_assoc, Sigma.ι_comp_desc]
   rfl
 
 /-- **The canonical descent datum corresponds to the canonical descent datum.** Under the

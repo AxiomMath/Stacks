@@ -115,7 +115,7 @@ theorem isAffineCartesian (hℬ : ℬ.IsQuasicoherent) (hN : N.IsQuasicoherentOn
       map_smul' := fun r m => (N.val.restrictₛₗ f.op).map_smulₛₗ r m }
   have hu : ∀ m' : N.val.obj (op V),
       m' ∈ Submodule.span (chartRing B S hS F hF V) (Set.range u) := fun m' => by
-    show m' ∈ Submodule.span (chartRing B S hS F hF V)
+    change m' ∈ Submodule.span (chartRing B S hS F hF V)
       (Set.range fun x : N.val.obj (op U) => chartRestrictLinear N f x)
     rw [hNs]
     exact Submodule.mem_top
@@ -186,11 +186,11 @@ theorem fg_sectionIdeal (hN : N.IsQuasicoherentOnSite)
           Set (ℬ.right.obj.obj (op U)))) ?_ ?_ ?_ ?_ hm
     · intro x hx
       exact Ideal.subset_span (Finset.mem_image_of_mem _ hx)
-    · show n.val.app (op U) 0 ∈ _
+    · change n.val.app (op U) 0 ∈ _
       rw [map_zero]
       exact zero_mem _
     · intro x y _ _ hx hy
-      show n.val.app (op U) (x + y) ∈ _
+      change n.val.app (op U) (x + y) ∈ _
       rw [map_add]
       exact add_mem hx hy
     · intro r x _ hx

@@ -223,7 +223,7 @@ private theorem powerSheaf_scalarFactor_comp_ι (I : Ideal A) (n : ℕ)
     ext U x
     rfl
   let e := asIso ((sheafificationAdjunction _ _).counit.app F)
-  show e.inv ≫ (presheafToSheaf _ _).map η ≫ powerSheafι I n F = _
+  change e.inv ≫ (presheafToSheaf _ _).map η ≫ powerSheafι I n F = _
   rw [show powerSheafι I n F = (presheafToSheaf _ _).map ι ≫ e.hom by
     dsimp [powerSheafι, ι, e]
     rw [Adjunction.homEquiv_counit]]
@@ -298,7 +298,7 @@ private theorem cohomology_linear (p : ℕ) :
     intro F a
     rfl
   let : Functor.Linear A sections := by
-    show Functor.Linear A
+    change Functor.Linear A
       (sheafToPresheaf _ _ ⋙ (evaluation _ _).obj (op ⊤))
     infer_instance
   exact Stacks.DerivedLinear.rightDerived_linear (R := A)
@@ -392,13 +392,13 @@ theorem powerSheafι_comp_eq_zero_iff
     rw [Adjunction.homEquiv_naturality_right]
     simp only [powerSheafι, Equiv.apply_symm_apply]
     ext U x
-    show (f.hom.app U).hom x.1 = 0
+    change (f.hom.app U).hom x.1 = 0
     have hh : (I ^ n • (⊤ : Submodule A (F.obj.obj U))) ≤
         LinearMap.ker (f.hom.app U).hom := by
       apply Submodule.smul_le.mpr
       intro a ha y hy
       have h := congrArg (fun g : F ⟶ G => (g.hom.app U).hom y) (hf a ha)
-      show (f.hom.app U).hom (a • y) = 0
+      change (f.hom.app U).hom (a • y) = 0
       rw [map_smul]
       exact h
     exact hh x.2
@@ -412,7 +412,7 @@ theorem powerSheafι_mono (I : Ideal A) (n : ℕ)
   have : Mono i := NatTrans.mono_of_mono_app i
   dsimp only [powerSheafι]
   rw [Adjunction.homEquiv_counit]
-  show Mono ((presheafToSheaf _ _).map i ≫ _)
+  change Mono ((presheafToSheaf _ _).map i ≫ _)
   infer_instance
 
 /-- The inclusions `IⁿF → F` are natural in `F`. -/
@@ -572,7 +572,7 @@ private theorem cohomologyTowerLimit_smul_coord
   have : Functor.Linear A H := cohomology_linear p
   have hz (z : cohomologyModule F p (k + n)) :
       (H.map g).hom ((H.map (F.map (homOfLE (Nat.le_add_left n k)).op)).hom z) = a.1 • z := by
-    show (H.map (F.map (homOfLE (Nat.le_add_left n k)).op) ≫ H.map g).hom z = _
+    change (H.map (F.map (homOfLE (Nat.le_add_left n k)).op) ≫ H.map g).hom z = _
     rw [← H.map_comp, hg, Functor.map_smul, H.map_id]
     rfl
   refine ⟨(H.map g).hom, hz, fun x => ?_⟩
@@ -596,7 +596,7 @@ private theorem cohomologyTransition_idealPower_le_ker
   have hzero : H.map ι ≫ H.map (F.map (homOfLE (Nat.le_succ n)).op) = 0 := by
     rw [← H.map_comp, quotientTower_transition_comp_powerSheafι_eq_zero I F hquotient n]
     simpa using H.map_smul (R := A) (0 : A) (0 : powerSheaf I (n + 1) (F.obj (op (n + 1))) ⟶ _)
-  show (H.map (F.map (homOfLE (Nat.le_succ n)).op)).hom (a • x) = 0
+  change (H.map (F.map (homOfLE (Nat.le_succ n)).op)).hom (a • x) = 0
   rw [← show (H.map ι).hom ((H.map g).hom x) = a • x by
     simpa using congrArg (fun q => q.hom x) hfactor]
   simpa using congrArg (fun q => q.hom ((H.map g).hom x)) hzero
@@ -632,14 +632,14 @@ private theorem iInf_induced_eq_adicModuleTopology
       · intro hy
         change f n y = f n x at hy
         refine ⟨y - x, ?_, ?_⟩
-        · show f n (y - x) = 0
+        · change f n (y - x) = 0
           simp [map_sub, hy]
         · simp
       · rintro ⟨z, hz, rfl⟩
         simp [LinearMap.mem_ker.mp hz]
     have hfilter : @nhds M T₁ x = ⨅ n, Filter.principal
         ((fun y : M => x + y) '' ((f n).ker : Set M)) := by
-      show @nhds M (⨅ n, TopologicalSpace.induced (fun y : M => f n y) ⊥) x = _
+      change @nhds M (⨅ n, TopologicalSpace.induced (fun y : M => f n y) ⊥) x = _
       rw [nhds_iInf]
       congr 1
       funext n
@@ -654,7 +654,7 @@ private theorem iInf_induced_eq_adicModuleTopology
       (fun n => (fun y : M => x + y) ''
         ((I ^ n • (⊤ : Submodule R M) : Submodule R M) : Set M)) := by
     have hb := B.toAddGroupFilterBasis.nhds_hasBasis x
-    show (@nhds M (I.adicModuleTopology M) x).HasBasis _ _
+    change (@nhds M (I.adicModuleTopology M) x).HasBasis _ _
     refine hb.to_hasBasis ?_ ?_
     · intro U hU
       change (∃ n, U = ((I ^ n • (⊤ : Submodule R M) : Submodule R M) : Set M)) at hU
@@ -662,7 +662,7 @@ private theorem iInf_induced_eq_adicModuleTopology
       exact ⟨n, trivial, Set.Subset.rfl⟩
     · intro n _
       refine ⟨((I ^ n • (⊤ : Submodule R M) : Submodule R M) : Set M), ?_, Set.Subset.rfl⟩
-      show ∃ m, ((I ^ n • (⊤ : Submodule R M) : Submodule R M) : Set M) =
+      change ∃ m, ((I ^ n • (⊤ : Submodule R M) : Submodule R M) : Set M) =
         ((I ^ m • (⊤ : Submodule R M) : Submodule R M) : Set M)
       exact ⟨n, rfl⟩
   refine TopologicalSpace.ext_nhds fun x =>
@@ -680,7 +680,7 @@ private theorem cohomologyTowerLimit_proj_ker_antitone
       LinearMap.ker (CohomologyTowerLimit.proj C f i) := by
   intro x hx
   change x.1 j = 0 at hx
-  show x.1 i = 0
+  change x.1 i = 0
   induction hij with
   | refl => exact hx
   | step _ ih => exact ih (by rw [← x.2, hx, map_zero])
@@ -694,7 +694,7 @@ private theorem cohomologyTowerLimit_ideal_power_le_proj_ker
     I ^ (n + 1) • (⊤ : Submodule R (CohomologyTowerLimit C f)) ≤
       LinearMap.ker (CohomologyTowerLimit.proj C f n) := by
   refine Submodule.smul_le.mpr fun a ha x _ => ?_
-  show a • x.1 n = 0
+  change a • x.1 n = 0
   rw [show x.1 n = f n (x.1 (n + 1)) from (x.2 n).symm, ← map_smul]
   apply LinearMap.mem_ker.mp
   exact (Submodule.smul_le.mp (hkill n) a ha (x.1 (n + 1)) (by simp))
@@ -740,7 +740,7 @@ private theorem cohomologyTowerLimit_exists_sum
   let s : ∀ j, C j := fun j => ∑ i ∈ Finset.range (j + 1), (a i).1 j
   refine ⟨⟨s, ?_⟩, fun _ => rfl⟩
   intro j
-  show f j (∑ i ∈ Finset.range (j + 1 + 1), (a i).1 (j + 1)) =
+  change f j (∑ i ∈ Finset.range (j + 1 + 1), (a i).1 (j + 1)) =
     ∑ i ∈ Finset.range (j + 1), (a i).1 j
   rw [map_sum]
   simp only [(a _).2 j]
@@ -787,7 +787,7 @@ private theorem cohomologyTowerLimit_exists_smul_sum
     induction j with
     | zero => simp [residual]
     | succ j ih =>
-      show (residual j).1 - ∑ i, a i • b j i = _
+      change (residual j).1 - ∑ i, a i • b j i = _
       rw [ih, Finset.sum_range_succ, sub_sub]
   have hs (i : ι) := cohomologyTowerLimit_exists_sum f (fun j => b j i)
     (fun j => cohomologyTowerLimit_proj_ker_antitone f j (n + j)
@@ -795,7 +795,7 @@ private theorem cohomologyTowerLimit_exists_smul_sum
   choose s hs using hs
   refine ⟨s, ?_, ?_⟩
   · intro i
-    show (s i).1 n = 0
+    change (s i).1 n = 0
     rw [hs]
     apply Finset.sum_eq_zero
     intro j hj
@@ -810,7 +810,7 @@ private theorem cohomologyTowerLimit_exists_smul_sum
     have hz' : x.1 j = ∑ k ∈ Finset.range (j + 1), ∑ i, a i • (b k i).1 j := by
       simpa only [Submodule.coe_sub, Submodule.coe_sum, Submodule.coe_smul,
         Pi.sub_apply, Finset.sum_apply, Pi.smul_apply, sub_eq_zero] using hz
-    show x.1 j = (∑ i, a i • s i).1 j
+    change x.1 j = (∑ i, a i • s i).1 j
     simp only [Submodule.coe_sum, Submodule.coe_smul, Finset.sum_apply, Pi.smul_apply]
     simp_rw [hs, Finset.smul_sum]
     rw [Finset.sum_comm]
@@ -907,10 +907,10 @@ private theorem canonicalStableImageAction_is_graded
   rw [stableImageSumι_apply] at hv
   simp only [DirectSum.of_eq_same] at hv
   rw [hz, stableImageSumι_eq_lmap]
-  show _ = DirectSum.lmap (fun j => (stableImage I F p j).subtype)
+  change _ = DirectSum.lmap (fun j => (stableImage I F p j).subtype)
     (DirectSum.lof A ℕ _ (k + n) (z (k + n)))
   rw [DirectSum.lmap_lof]
-  show _ = DirectSum.of (fun j =>
+  change _ = DirectSum.of (fun j =>
     ((cohomology p).obj (powerSheaf I j (F.obj (op j))))) (k + n) ((z (k + n)).1)
   rw [hv]
 
@@ -932,7 +932,7 @@ private theorem mem_range_of_exact_commutative_diagram
     exact ht
   have hsz : s - b z ∈ LinearMap.range f := by
     rw [hex]
-    show g (s - b z) = 0
+    change g (s - b z) = 0
     rw [map_sub, ← LinearMap.comp_apply, hg, LinearMap.comp_apply, hz, hs, sub_self]
   obtain ⟨a, ha⟩ := hsz
   refine ⟨f' a + z, ?_⟩
@@ -1101,7 +1101,7 @@ lemma singleTrianglePlus_distinguished
     {C : Type*} [Category C] [Abelian C] [HasDerivedCategory C]
     {S : ShortComplex C} (hS : S.ShortExact) :
     singleTrianglePlus hS ∈ distTriang (DerivedCategory.Plus C) := by
-  show DerivedCategory.Plus.ι.mapTriangle.obj (singleTrianglePlus hS) ∈
+  change DerivedCategory.Plus.ι.mapTriangle.obj (singleTrianglePlus hS) ∈
     distTriang (DerivedCategory C)
   rw [ι_mapTriangle_obj_singleTrianglePlus hS]
   exact hS.singleTriangle_distinguished
@@ -1240,7 +1240,7 @@ private theorem cohomologyTowerLimit_exists_stable_lift
   have hcomm : (((H.functor p).map (S (n + 1) le_rfl).f).hom).comp
         (((H.functor p).map φ.τ₁).hom) =
       (((H.functor p).map φ.τ₂).hom).comp (((H.functor p).map (S m hm).f).hom) := by
-    show ((H.functor p).map φ.τ₁ ≫ (H.functor p).map (S (n + 1) le_rfl).f).hom = _
+    change ((H.functor p).map φ.τ₁ ≫ (H.functor p).map (S (n + 1) le_rfl).f).hom = _
     rw [← Functor.map_comp, φ.comm₁₂, Functor.map_comp]
     rfl
   have hxmap : (((H.functor p).map φ.τ₂).hom) (x.1 m) =
@@ -1257,7 +1257,7 @@ private theorem cohomologyTowerLimit_exists_stable_lift
     refine ⟨z, ?_⟩
     apply (ModuleCat.mono_iff_injective ((H.functor 0).map
       (S (n + 1) le_rfl).f)).mp (H.mono_map_f (hS (n + 1) le_rfl))
-    show (((H.functor 0).map (S (n + 1) le_rfl).f).hom)
+    change (((H.functor 0).map (S (n + 1) le_rfl).f).hom)
       ((((H.functor 0).map φ.τ₁).hom) z) =
         (((H.functor 0).map (S (n + 1) le_rfl).f).hom) s
     rw [← LinearMap.comp_apply, hcomm, LinearMap.comp_apply, hz, hxmap]
@@ -1303,17 +1303,17 @@ private theorem canonicalStableImageAction_eval
   obtain ⟨g, hg, hgx⟩ := cohomologyTowerLimit_smul_coord I F p hquotient k n a
   have hcompat : (H.map (F.map (homOfLE (Nat.le_add_left n k)).op)).hom
       ((H.map (powerSheafι I n (F.obj (op (k + n))))).hom z) = x.1 n := by
-    show (H.map (powerSheafι I n (F.obj (op (k + n)))) ≫
+    change (H.map (powerSheafι I n (F.obj (op (k + n)))) ≫
       H.map (F.map (homOfLE (Nat.le_add_left n k)).op)).hom z = _
     rw [← H.map_comp, ← powerSheafMap_ι, H.map_comp]
-    show (H.map (powerSheafι I n (F.obj (op n)))).hom
+    change (H.map (powerSheafι I n (F.obj (op n)))).hom
       ((H.map (powerSheafMap I n (F.map (homOfLE (Nat.le_add_left n k)).op))).hom z) = _
     rw [hz, hs]
-  show (H.map (powerSheafι I (k + n) _)).hom t.1 = _
+  change (H.map (powerSheafι I (k + n) _)).hom t.1 = _
   rw [hval]
-  show (H.map (powerSheafSMul I k n a _) ≫ H.map (powerSheafι I (k + n) _)).hom z = _
+  change (H.map (powerSheafSMul I k n a _) ≫ H.map (powerSheafι I (k + n) _)).hom z = _
   rw [← H.map_comp, powerSheafSMul_ι, Functor.map_smul]
-  show a.1 • (H.map (powerSheafι I n _)).hom z = _
+  change a.1 • (H.map (powerSheafι I n _)).hom z = _
   rw [← hg, hcompat, hgx]
 
 private theorem canonicalStableImageAction_eval_component
@@ -1357,7 +1357,7 @@ private theorem cohomologyTowerLimit_exists_approx
     | n + 1 => (((π n).ker.map (π (n + 1))).comap (β (n + 1))).toAddSubgroup
   have hPmem (n : ℕ) (s : B (n + 1)) : s ∈ P (n + 1) ↔
       ∃ x : M, x.1 n = 0 ∧ β (n + 1) s = x.1 (n + 1) := by
-    show (∃ x : M, x ∈ (π n).ker ∧ π (n + 1) x = β (n + 1) s) ↔ _
+    change (∃ x : M, x ∈ (π n).ker ∧ π (n + 1) x = β (n + 1) s) ↔ _
     exact exists_congr fun x => and_congr_right fun _ => eq_comm
   have hgraded := fun k (a : ↥(I ^ k)) n (x : B n) =>
     canonicalStableImageAction_is_graded I F p hcanonical k n a x
@@ -1378,7 +1378,7 @@ private theorem cohomologyTowerLimit_exists_approx
       apply (hPmem (k + n) t).mpr
       refine ⟨a.1 • x, ?_, ?_⟩
       · obtain ⟨g, hg, hgx⟩ := cohomologyTowerLimit_smul_coord I F p hquotient k n a
-        show a.1 • x.1 (k + n) = 0
+        change a.1 • x.1 (k + n) = 0
         rw [← hgx, hx, map_zero]
       · exact canonicalStableImageAction_eval I F p hquotient hcanonical k (n + 1) a s t ht x hsx
   let E := AssociatedGraded.homogeneousSubmodule I P hP
@@ -1411,14 +1411,14 @@ private theorem cohomologyTowerLimit_exists_approx
     have hsum := congrArg ev htz
     rw [map_sum] at hsum
     have hevt : ev (DirectSum.of B (n + 1 + 1) t) = β (n + 2) t := by
-      show β (n + 2) (DirectSum.of B (n + 2) t (n + 2)) = _
+      change β (n + 2) (DirectSum.of B (n + 2) t (n + 2)) = _
       rw [DirectSum.of_eq_same]
     rw [hevt] at hsum
     simp only [Submodule.coe_sub, Submodule.coe_sum, Submodule.coe_smul,
       Pi.sub_apply, Finset.sum_apply, Pi.smul_apply]
     apply sub_eq_zero.mpr
     rw [← ht]
-    show β (n + 2) t = _
+    change β (n + 2) t = _
     rw [hsum]
     calc
       _ = ∑ i : s, (a i).1 • (y i).1 (n + 2) :=

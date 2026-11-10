@@ -142,9 +142,11 @@ def cohomologyCollapseIsoOfChartwise (f : X ⟶ Y)
     have := hasInjectiveResolutions_modules B S hS X.1 X.2
     have := enoughInjectives_modules B S hS Y.1 Y.2
     (((modulePushforward B S hS f ⋙ globalSectionsFunctor.{u + 1, u, u, u}
-          ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O))).rightDerived i).obj F ≅
+          ((Stacks.SheafOfModules.Tensor.ringSheaf
+            (smallEtaleRingedSite B S hS Y.1 Y.2).O))).rightDerived i).obj F ≅
       ((globalSectionsFunctor.{u + 1, u, u, u}
-          ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O))).rightDerived i).obj
+          ((Stacks.SheafOfModules.Tensor.ringSheaf
+            (smallEtaleRingedSite B S hS Y.1 Y.2).O))).rightDerived i).obj
         ((modulePushforward B S hS f).obj F)) :=
   have := hasInjectiveResolutions_modules B S hS X.1 X.2
   have := enoughInjectives_modules B S hS Y.1 Y.2
@@ -176,9 +178,11 @@ def cohomologyCollapseIsoOfIsAffineHom (f : X ⟶ Y) (hf : IsAffineHom B S hS f.
     have := hasInjectiveResolutions_modules B S hS X.1 X.2
     have := enoughInjectives_modules B S hS Y.1 Y.2
     (((modulePushforward B S hS f ⋙ globalSectionsFunctor.{u + 1, u, u, u}
-          ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O))).rightDerived i).obj F ≅
+          ((Stacks.SheafOfModules.Tensor.ringSheaf
+            (smallEtaleRingedSite B S hS Y.1 Y.2).O))).rightDerived i).obj F ≅
       ((globalSectionsFunctor.{u + 1, u, u, u}
-          ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O))).rightDerived i).obj
+          ((Stacks.SheafOfModules.Tensor.ringSheaf
+            (smallEtaleRingedSite B S hS Y.1 Y.2).O))).rightDerived i).obj
         ((modulePushforward B S hS f).obj F)) :=
   cohomologyCollapseIsoOfChartwise B S hS f (relativelyRepresentable_of_isAffineHom B S hS f hf)
     F h03DW h072Z i

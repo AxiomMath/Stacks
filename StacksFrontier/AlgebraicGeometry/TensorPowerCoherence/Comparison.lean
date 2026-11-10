@@ -343,6 +343,7 @@ noncomputable def assocVal
   tensorProductAssociator O hO M N P
 
 set_option maxHeartbeats 1000000 in
+-- the `IsIso` term for the sheafified whiskered unit is heavy to elaborate
 /-- The associativity constraint of the tensor product sheaf, in the form which avoids naming
 the inverse of the sheafified whiskered unit: it is the sheafified presheaf associator, read
 between the two sheafification comparisons. -/
@@ -354,7 +355,7 @@ theorem toSheafifyVal_whiskerRight_comp_assocVal
       (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map (α_ M.val N.val P.val).hom ≫
         (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
           (M.val ◁ toSheafifyVal O hO (N.val ⊗ P.val)) := by
-  haveI : IsIso ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
+  have : IsIso ((Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
       (toSheafifyVal O hO (M.val ⊗ N.val) ▷ P.val)) :=
     Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_whiskerRight O hO
       (Stacks.SheafOfModules.TensorSheafification.toSheafify O hO (M.val ⊗ N.val)) P.val
@@ -477,6 +478,7 @@ theorem tensorObjIso_assoc_lhs_eq_val
             (assocVal O hO M N P).hom := rfl
 
 set_option maxHeartbeats 1000000 in
+-- long `rw` chains over the sheafified tensor-product isomorphisms
 /-- **The associator of the monoidal structure on sheaves of modules is the associativity
 constraint of the tensor product sheaf**, read through `tensorObjIso`. -/
 theorem tensorObjIso_associativity

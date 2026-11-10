@@ -157,7 +157,7 @@ theorem sectionCompHom_eq_comp_sectionTranslation (δ₁ δ₂ : Section G) :
     sectionCompHom G δ₁ δ₂ = δ₂.1 ≫ sectionTranslation G δ₁ := by
   apply ObjectProperty.hom_ext
   ext T y
-  show (sectionCompHom G δ₁ δ₂).hom.app T y =
+  change (sectionCompHom G δ₁ δ₂).hom.app T y =
     (sectionTranslation G δ₁).hom.app T (δ₂.1.hom.app T y)
   rw [sectionCompHom_hom_app G δ₁ δ₂ T y (source_hom_app_section G δ₁ _ _),
     sectionTranslation_hom_app G δ₁ T _ (source_hom_app_section G δ₁ _ _)]
@@ -168,7 +168,7 @@ theorem identityArrow_comp_sectionTranslation (δ : Section G) :
     identityArrow G ≫ sectionTranslation G δ = δ.1 := by
   apply ObjectProperty.hom_ext
   ext T y
-  show (sectionTranslation G δ).hom.app T ((identityArrow G).hom.app T y) = δ.1.hom.app T y
+  change (sectionTranslation G δ).hom.app T ((identityArrow G).hom.app T y) = δ.1.hom.app T y
   have hide : (identityArrow G).hom.app T y = G.toGroupoidInFunctors.identity T y :=
     identityArrow_hom_app G T y
   have htgt : G.target.hom.app T ((identityArrow G).hom.app T y) = y := by
@@ -201,7 +201,7 @@ theorem subspaceInclusion_comp_sectionTranslation
       subspaceInclusion C S hS G.arrows (preimageSubspace C S hS G.source U₀) := by
   apply ObjectProperty.hom_ext
   ext T r
-  show (sectionTranslation G δ.1).hom.app T r.val = r.val
+  change (sectionTranslation G δ.1).hom.app T r.val = r.val
   have hmem : G.target.hom.app T r.val ∈ U₀.1.obj T := by
     have hr : r.val ∈ (U₀.1.preimage G.target.hom).obj T := by
       rw [hinv]
@@ -285,7 +285,7 @@ theorem infinitesimalSectionDiff_comp_eq (a b a' b' : InfinitesimalSections G U�
         (infinitesimalSectionLiftDifferenceData G U₀ hU₀ a b).toQuotientDerivation.d x +
           (infinitesimalSectionLiftDifferenceData G U₀ hU₀ b b).toQuotientDerivation.d x := by
     intro V x
-    show (infinitesimalSectionLiftDifferenceData G U₀ hU₀ a' b').diff x =
+    change (infinitesimalSectionLiftDifferenceData G U₀ hU₀ a' b').diff x =
       (infinitesimalSectionLiftDifferenceData G U₀ hU₀ a b).diff x +
         (infinitesimalSectionLiftDifferenceData G U₀ hU₀ b b).diff x
     rw [Stacks.Sites.LiftDifferenceData.diff_eq_zero_of_eq _

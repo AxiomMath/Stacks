@@ -94,7 +94,7 @@ theorem formalObjectNeighbourhoodIncl_app {k : ℕ} {T : BigFppfOver B S hS}
         ⟨ULift.up (l ≫ idealNeighbourhoodι _ k),
           (Space.completionSubfunctor B S hS _ (formalObjectZeroLocus hred A hA w)).map l.op
             (hasImageIn_formalObjectNeighbourhood hred A hA w k)⟩ := by
-  show (Space.completionSheaf B S hS _ _).obj.map l.op _ = _
+  change (Space.completionSheaf B S hS _ _).obj.map l.op _ = _
   exact (NatTrans.naturality_apply ((BigFppfOver.topology B S hS).toSheafify
     (Space.completionSubfunctor B S hS _ (formalObjectZeroLocus hred A hA w)).toFunctor) l.op
     (⟨ULift.up (idealNeighbourhoodι _ k), hasImageIn_formalObjectNeighbourhood hred A hA w k⟩ :
@@ -109,7 +109,7 @@ theorem formalObjectNeighbourhoodMap_comp :
   intro k
   have := A.noetherian
   apply (sheafToPresheaf _ _).map_injective
-  show uliftYonedaEquiv.symm _ ≫ (reductionNeighbourhoodι i k).hom =
+  change uliftYonedaEquiv.symm _ ≫ (reductionNeighbourhoodι i k).hom =
     uliftYonedaEquiv.symm _ ≫ (formalObjectCompletion hW hred A hA w hw).hom
   rw [uliftYonedaEquiv_symm_comp]
   refine Eq.trans ?_ (uliftYonedaEquiv_symm_comp _ _).symm
@@ -204,7 +204,7 @@ theorem isPullback_formalObjectCompletion (k : ℕ) :
   have e := congrArg (fun φ => φ.hom.app (op V) (ULift.up l)) hcomm
   change (reductionNeighbourhoodι i k).hom.app _ (fst.hom.app _ (ULift.up l)) =
     xh.hom.app _ (snd.hom.app _ (ULift.up l)) at e
-  show (reductionNeighbourhoodι i k).hom.app _ (fst.hom.app _ (ULift.up l)) =
+  change (reductionNeighbourhoodι i k).hom.app _ (fst.hom.app _ (ULift.up l)) =
     (reductionNeighbourhoodι i k).hom.app _ ((reductionNeighbourhoodSheaf i k).obj.map g.op x)
   rw [e, hsnd, hnat]
 

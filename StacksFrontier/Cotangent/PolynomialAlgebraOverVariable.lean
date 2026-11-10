@@ -96,7 +96,7 @@ theorem isPolynomialAlgebra_polynomial_of_X {A : Type u} [CommRing A] {ι : Type
   have hgC : ∀ a : A, g (MvPolynomial.C a) = MvPolynomial.C (Polynomial.C a) := fun a => by
     simp [g, g₀]
   refine AlgEquiv.ofAlgHom f g ?_ ?_
-  · refine AlgHom.coe_ringHom_injective (MvPolynomial.ringHom_ext ?_ ?_)
+  · refine AlgHom.toRingHom_injective (MvPolynomial.ringHom_ext ?_ ?_)
     · intro a
       change f (g (MvPolynomial.C a)) = MvPolynomial.C a
       rw [hgC, hfC]
@@ -109,10 +109,10 @@ theorem isPolynomialAlgebra_polynomial_of_X {A : Type u} [CommRing A] {ι : Type
         simp only [↓reduceDIte]
         rw [hfC]
         simp
-      · rw [dif_neg h, hfX]
+      · rw [dite_eq_right h, hfX]
   · refine MvPolynomial.algHom_ext fun j => ?_
     change g (f (MvPolynomial.X j)) = MvPolynomial.X j
-    rw [hfX, hgX, dif_neg j.2]
+    rw [hfX, hgX, dite_eq_right j.2]
 
 /-- **The same, for an algebra presented as a polynomial algebra by a chosen equivalence.** If
 `e : A[ι] ≃ₐ[A] P` and `i₀ : ι`, then `P` read over `A[x]` by `x ↦ e (X i₀)` is a polynomial

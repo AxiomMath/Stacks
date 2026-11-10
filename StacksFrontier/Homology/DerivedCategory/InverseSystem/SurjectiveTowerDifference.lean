@@ -26,7 +26,7 @@ public theorem surjective_pi_sub_shift
     (fun n z ↦ (ht n (z - y n)).choose) n
   refine ⟨x, funext fun n ↦ ?_⟩
   have hn : t n (x (n + 1)) = x n - y n := (ht n (x n - y n)).choose_spec
-  show x n - t n (x (n + 1)) = y n
+  change x n - t n (x (n + 1)) = y n
   rw [hn, sub_sub_cancel]
 
 end Stacks.InverseSystem

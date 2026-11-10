@@ -42,7 +42,8 @@ named below; it is not Stacks Tag 01Q3, and that is the point of this file.
 * `Stacks.AmplePullback.isBasisNonvanishing_of_isAmple`: **clause (1) implies clause (3) of Stacks
   Tag 01Q3**, on the premise `BasicOpenIsPowNonvanishing`. Three lines; the premise is the whole
   content.
-* `Stacks.AmplePullback.isAmple_modulePullback`: **Stacks Tag 0B3E in the shape of its statement**, on
+* `Stacks.AmplePullback.isAmple_modulePullback`: **Stacks Tag 0B3E in the shape of its statement**,
+on
   that one premise.
 * `Stacks.AmplePullback.amplePullbackGap_of_basicOpenIsPowNonvanishing` and
   `Stacks.AmplePullback.isRelativelyAmple_of_hasRelativeTwistImmersion`: the same narrowing carried
@@ -129,7 +130,8 @@ the nose once the carriers are, by `TopologicalSpace.Opens.ext`.
 ## What is not done
 
 **No Stacks attribute is attached.** The covering set of Tag 0B3E is the single assertion of the
-statement — the four-way disjunction — and the general case is still conditional, so by the covering-set
+statement — the four-way disjunction — and the general case is still conditional, so by the
+covering-set
 rule the tag is not earned by the unconditional special cases below.
 
 **Stacks Tag 01PW is not proved.** It is the only missing input, and

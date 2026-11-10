@@ -290,7 +290,7 @@ theorem injective_map_of_faithfullyFlat
     have : IsScalarTower (fibredSectionRing B S hS 𝒳.val.val.p y)
         (fibredSectionRing B S hS 𝒳.val.val.p y') (M.val.obj (op y')) :=
       IsScalarTower.of_algebraMap_smul fun _ _ => rfl
-    show LinearMap.liftBaseChange _ (fibredSectionsRestrict 𝒳.val.isFiberedInGroupoids M f)
+    change LinearMap.liftBaseChange _ (fibredSectionsRestrict 𝒳.val.isFiberedInGroupoids M f)
       ((1 : fibredSectionRing B S hS 𝒳.val.val.p y') ⊗ₜ m) = _
     rw [LinearMap.liftBaseChange_tmul, one_smul]
     rfl
@@ -388,7 +388,7 @@ theorem exists_dual_evaluation_epi (𝒳 : AlgebraicStacks.{u, w} B S hS)
     have hn := congrArg (fun φ ↦ φ (1 : fibredSectionRing B S hS p y))
       (congrArg ConcreteCategory.hom (c'.hom.val.naturality f.op))
     refine hn.symm.trans ?_
-    show c'.hom.val.app (op z)
+    change c'.hom.val.app (op z)
       ((FibredSite.ringStructureSheafCore B S hS p hp .fppf).obj.map f.op
         (1 : fibredSectionRing B S hS p y)) = _
     exact congrArg (fun x ↦ c'.hom.val.app (op z) x)
@@ -419,7 +419,7 @@ theorem exists_dual_evaluation_epi (𝒳 : AlgebraicStacks.{u, w} B S hS)
     have hcr : ((λ_ 𝓓).inv ≫ s ▷ 𝓓 ≫ ev).hom.val.app (op y') r =
         (1 : fibredSectionRing B S hS p y') := by
       rw [hc]
-      show AlgebraicStacks.fppfInternalHomEval 𝓕.obj O (op y') (c.val.app (op y') r) _ = _
+      change AlgebraicStacks.fppfInternalHomEval 𝓕.obj O (op y') (c.val.app (op y') r) _ = _
       rw [hr, hk]
       exact (congrArg ρ (hev hsi (op y') (1 : fibredSectionRing B S hS p y'))).trans hρ
     have key' : a.hom.val.app (op y') (1 : fibredSectionRing B S hS p y') =

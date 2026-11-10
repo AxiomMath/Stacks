@@ -94,7 +94,7 @@ corresponding map of degree-zero homogeneous localizations, is the morphism of t
 bundle. -/
 public theorem projMapData_hom_unique (ψ : 𝒜 →+*ᵍ ℬ)
     (h : (mapDomain 𝒜 ℬ ψ).toScheme ⟶ AlgebraicGeometry.Proj 𝒜)
-    (hopen : ∀ (f : A) (d : ℕ) (hf : f ∈ 𝒜 d) (hd : 0 < d),
+    (hopen : ∀ (f : A) (d : ℕ), f ∈ 𝒜 d → 0 < d →
       h ⁻¹ᵁ AlgebraicGeometry.Proj.basicOpen 𝒜 f =
         (mapDomain 𝒜 ℬ ψ).ι ⁻¹ᵁ AlgebraicGeometry.Proj.basicOpen ℬ (ψ f))
     (hlocal : ∀ (f : A) (d : ℕ) (hf : f ∈ 𝒜 d) (hd : 0 < d),

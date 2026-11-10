@@ -198,7 +198,7 @@ private theorem closedSubsetRestrictionPullbackSquareIso_hom_eq :
         eqToHom (congrArg modulePullback
           (closedSubsetRestriction_comp_closedSubsetInclusion f Z)) ≫
         (modulePullbackComp (closedSubsetInclusion X' (closedSubsetPreimage f Z)) f).hom := by
-  show (RelativeMayerVietoris.pullbackCompIso (closedSubsetRestriction f Z)
+  change (RelativeMayerVietoris.pullbackCompIso (closedSubsetRestriction f Z)
         (closedSubsetInclusion X Z)).inv ≫ _ ≫
       (RelativeMayerVietoris.pullbackCompIso
         (closedSubsetInclusion X' (closedSubsetPreimage f Z)) f).hom = _
@@ -217,11 +217,11 @@ theorem pullbackCompSquare_comp_closedSubsetRestrictionPullbackSquareIso
       closedSubsetInclusion X' (closedSubsetPreimage f Z) ≫ f) :
     (Stacks.Cohomology.pullbackCompSquare (closedSubsetInclusion X Z)
           (closedSubsetRestriction f Z) f
-          (closedSubsetInclusion X' (closedSubsetPreimage f Z)) w).natTrans ≫
+          (closedSubsetInclusion X' (closedSubsetPreimage f Z)) w) ≫
         (closedSubsetRestrictionPullbackSquareIso f Z).hom =
       𝟙 _ := by
   rw [closedSubsetRestrictionPullbackSquareIso_hom_eq]
-  show ((modulePullbackComp (closedSubsetInclusion X' (closedSubsetPreimage f Z)) f).inv ≫
+  change ((modulePullbackComp (closedSubsetInclusion X' (closedSubsetPreimage f Z)) f).inv ≫
       eqToHom (congrArg modulePullback w.symm) ≫
       (modulePullbackComp (closedSubsetRestriction f Z) (closedSubsetInclusion X Z)).hom) ≫ _ = _
   exact pullbackSquare_chase _ _ _ _ _ _ (Iso.hom_inv_id _)
@@ -234,7 +234,7 @@ theorem closedSubsetRestrictionPullbackSquareIso_comp_pullbackCompSquare
     (closedSubsetRestrictionPullbackSquareIso f Z).hom ≫
         (Stacks.Cohomology.pullbackCompSquare (closedSubsetInclusion X Z)
           (closedSubsetRestriction f Z) f
-          (closedSubsetInclusion X' (closedSubsetPreimage f Z)) w).natTrans =
+          (closedSubsetInclusion X' (closedSubsetPreimage f Z)) w) =
       𝟙 _ := by
   exact ((closedSubsetRestrictionPullbackSquareIso f Z).hom_comp_eq_id.2
     ((closedSubsetRestrictionPullbackSquareIso f Z).comp_hom_eq_id.1
@@ -416,7 +416,7 @@ theorem closedSubsetPushforwardPullbackNatIso_comp_map_eq
       (Stacks.Cohomology.pullbackCompSquare (closedSubsetInclusion X Z)
             (closedSubsetRestriction f Z) f
             (closedSubsetInclusion X' (closedSubsetPreimage f Z))
-            (isPullback_closedSubsetRestriction f Z).w).natTrans.app
+            (isPullback_closedSubsetRestriction f Z).w).app
           ((modulePushforward (closedSubsetInclusion X Z)).obj
             ((supportedSectionsOnClosedFunctor X Z hZ).obj ℱ)) ≫
         (modulePullback (closedSubsetRestriction f Z)).map
@@ -435,7 +435,7 @@ theorem closedSubsetPushforwardPullbackNatIso_comp_map_eq
       ((Stacks.Cohomology.pullbackCompSquare (closedSubsetInclusion X Z)
               (closedSubsetRestriction f Z) f
               (closedSubsetInclusion X' (closedSubsetPreimage f Z))
-              (isPullback_closedSubsetRestriction f Z).w).natTrans.app
+              (isPullback_closedSubsetRestriction f Z).w).app
             ((modulePushforward (closedSubsetInclusion X Z)).obj
               ((supportedSectionsOnClosedFunctor X Z hZ).obj ℱ)) ≫
           (modulePullback (closedSubsetRestriction f Z)).map
@@ -466,7 +466,7 @@ theorem closedSubsetPushforwardPullbackNatIso_comp_map_eq
   have hc : (Stacks.Cohomology.pullbackCompSquare (closedSubsetInclusion X Z)
             (closedSubsetRestriction f Z) f
             (closedSubsetInclusion X' (closedSubsetPreimage f Z))
-            (isPullback_closedSubsetRestriction f Z).w).natTrans.app
+            (isPullback_closedSubsetRestriction f Z).w).app
           ((modulePushforward (closedSubsetInclusion X Z)).obj
             ((supportedSectionsOnClosedFunctor X Z hZ).obj ℱ)) ≫
         (closedSubsetRestrictionPullbackSquareIso f Z).hom.app
@@ -549,7 +549,7 @@ theorem closedSubsetPushforwardPullbackNatIso_comp_counit_natTrans :
           (modulePullback f) ≫
         (modulePullback f).leftUnitor.hom := by
   refine NatTrans.ext (funext fun ℱ => ?_)
-  show _ ≫ _ ≫ _ ≫ 𝟙 _ = _ ≫ 𝟙 _
+  change _ ≫ _ ≫ _ ≫ 𝟙 _ = _ ≫ 𝟙 _
   rw [Category.comp_id, Category.comp_id]
   exact closedSubsetPushforwardPullbackNatIso_comp_counit f Z hZ hZ' ℱ
 

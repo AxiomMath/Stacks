@@ -284,7 +284,7 @@ theorem span_insert_one_range_X_eq_top :
         (⟨monomial m' (f.coeff m), monomial_mem_evenSubalgebra he' _⟩ :
           evenSubalgebra k σ) • X i := by
       rw [Algebra.smul_def]
-      show monomial m (f.coeff m) = monomial m' (f.coeff m) * X i
+      change monomial m (f.coeff m) = monomial m' (f.coeff m) * X i
       rw [show (X i : MvPolynomial σ k) = monomial (Finsupp.single i 1) 1 from
             by rw [← X_pow_eq_monomial, pow_one],
         monomial_mul_monomial, mul_one, hm', add_comm]
@@ -412,7 +412,7 @@ private theorem mem_vertexIdeal_of_coe_eq_monomial {a : evenSubalgebra k σ} {m 
     have hfac : a = (⟨X i * X j, X_mul_X_mem_evenSubalgebra i j⟩ : evenSubalgebra k σ) *
         ⟨monomial m' c, monomial_mem_evenSubalgebra he' c⟩ := by
       refine Subtype.ext ?_
-      show (a : MvPolynomial σ k) = (X i * X j) * monomial m' c
+      change (a : MvPolynomial σ k) = (X i * X j) * monomial m' c
       rw [h, X_mul_X_mul_monomial, ← hm']
     rw [hfac]
     exact Ideal.mul_mem_right _ _ (Ideal.subset_span ⟨(i, j), rfl⟩)
@@ -630,7 +630,7 @@ private noncomputable def vertexDerivation (i : σ) :
 
 private theorem vertexDerivation_X (i : σ) :
     vertexDerivation i (X i : MvPolynomial σ k) = (idealOfVars σ k).mkQ 1 := by
-  show (idealOfVars σ k).mkQ (pderiv i (X i : MvPolynomial σ k)) = _
+  change (idealOfVars σ k).mkQ (pderiv i (X i : MvPolynomial σ k)) = _
   rw [pderiv_X_self]
 
 /-- The morphism `𝐀ⁿ_k → Spec(k[tᵢtⱼ])` is ramified at the vertex `(t₁, …, tₙ)` of `𝐀ⁿ_k`, which
@@ -720,7 +720,7 @@ private theorem chainPrime_self (n : ℕ) : chainPrime k n n = vertexIdeal k (Fi
     rw [idealOfVars_eq_ker]
     ext f
     rw [RingHom.mem_ker, RingHom.mem_ker]
-    show truncAlgHom k n n f = 0 ↔ _
+    change truncAlgHom k n n f = 0 ↔ _
     rw [h0, aeval_zero, algebraMap_eq, C_eq_zero]
   rw [vertexIdeal_eq_under, Ideal.under_def, chainPrime, hker]
 

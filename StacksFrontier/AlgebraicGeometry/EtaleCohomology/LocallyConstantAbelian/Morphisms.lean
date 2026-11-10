@@ -65,7 +65,7 @@ lemma exists_hom_of_generatorImages {A B : Ab.{w}} (n : ℕ) (z : Fin n → A)
   have heq : ε.symm (z i) = Submodule.Quotient.mk (Finsupp.single i (1 : ℤ)) := by
     apply ε.injective
     simp [ε, p, Finsupp.linearCombination_single]
-  show ((LinearMap.ker p).liftQ q hpq) (ε.symm (z i)) = b i
+  change ((LinearMap.ker p).liftQ q hpq) (ε.symm (z i)) = b i
   rw [heq]
   calc ((LinearMap.ker p).liftQ q hpq) (Submodule.Quotient.mk (Finsupp.single i (1 : ℤ)))
       = q (Finsupp.single i 1) := DFunLike.congr_fun (Submodule.liftQ_mkQ (LinearMap.ker p) q hpq) _
@@ -116,7 +116,7 @@ lemma constantSheaf_hom_ext_of_generators {T : C} (hT : IsTerminal T) (A : Ab.{w
     have hc : (a'.app (op T)).hom.toIntLinearMap.comp (Finsupp.linearCombination ℤ z) =
         (b'.app (op T)).hom.toIntLinearMap.comp (Finsupp.linearCombination ℤ z) := by
       ext i
-      show a'.app (op T) (Finsupp.linearCombination ℤ z (Finsupp.single i 1)) =
+      change a'.app (op T) (Finsupp.linearCombination ℤ z (Finsupp.single i 1)) =
         b'.app (op T) (Finsupp.linearCombination ℤ z (Finsupp.single i 1))
       rw [Finsupp.linearCombination_single, one_smul]
       exact h i
@@ -148,7 +148,7 @@ abbrev IsConstantAbelianMapAt (F G : Sheaf J Ab.{w}) (φ : F ⟶ G) (V : C) : Pr
 /-- The object of `Over U` over which the constant sections of `Over V` are read. -/
 lemma overMap_op_obj_mkId {U V : C} (t : V ⟶ U) :
     (Over.map t).op.obj (op (Over.mk (𝟙 V))) = op (Over.mk t) := by
-  show op (Over.mk (𝟙 V ≫ t)) = _
+  change op (Over.mk (𝟙 V ≫ t)) = _
   rw [Category.id_comp]
 
 section OverMap
@@ -297,7 +297,7 @@ lemma exists_cover_isConstantAbelianMapAt (F G : Sheaf J Ab.{w}) (φ : F ⟶ G) 
             (ηA.app (op T) (z j))) =
         ((constantSheaf (J.over U) Ab.{w}).obj B).obj.map (k i).op
           (ψ.hom.app (op T) (ηA.app (op T) (z j))) at h2
-      show ηB.app (op (W i)) (b j) = ψ.hom.app (op (W i)) (ηA.app (op (W i)) (z j))
+      change ηB.app (op (W i)) (b j) = ψ.hom.app (op (W i)) (ηA.app (op (W i)) (z j))
       rw [h1, h2]
       exact (hb j).symm
     have hsec : ∀ j, ηBi.app (op (Over.mk (𝟙 (W i).left))) (b j) =
@@ -337,7 +337,7 @@ lemma exists_cover_isConstantAbelianMapAt (F G : Sheaf J Ab.{w}) (φ : F ⟶ G) 
           (overPullbackIsoOfMapAbelian J t G B eG).hom =
         (overPullbackIsoOfMapAbelian J t F A eF).hom ≫
           (J.overPullback Ab.{w} (W i).left).map φ := by
-      show constantAbelianMapRestrict J t A B ψ ≫ (constantSheafOverMapIso J Ab.{w} t B).hom ≫
+      change constantAbelianMapRestrict J t A B ψ ≫ (constantSheafOverMapIso J Ab.{w} t B).hom ≫
           (J.overMapPullback Ab.{w} t).map eG.hom =
         ((constantSheafOverMapIso J Ab.{w} t A).hom ≫
             (J.overMapPullback Ab.{w} t).map eF.hom) ≫

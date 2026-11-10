@@ -77,11 +77,11 @@ private theorem tensorProduct_ringEquiv_of_bases
     let e := (Algebra.TensorProduct.basis A bA).equiv bB (Equiv.refl I)
     have he : φ.toLinearMap = e.toLinearMap := by
       refine (Algebra.TensorProduct.basis A bA).ext fun i ↦ ?_
-      show φ ((Algebra.TensorProduct.basis A bA) i) =
+      change φ ((Algebra.TensorProduct.basis A bA) i) =
         e ((Algebra.TensorProduct.basis A bA) i)
       rw [Module.Basis.equiv_apply]
       exact hφ i
-    show Function.Bijective φ.toLinearMap
+    change Function.Bijective φ.toLinearMap
     rw [he]
     exact e.bijective
   exact ⟨RingEquiv.ofBijective φ.toRingHom hbij, fun _ _ => rfl⟩
@@ -251,7 +251,7 @@ private theorem basis_of_ring_pushout
   refine ⟨(Algebra.TensorProduct.basis C b).map e.toLinearEquiv, ?_⟩
   intro i
   rw [Module.Basis.map_apply, Algebra.TensorProduct.basis_apply]
-  show (Algebra.IsPushout.equiv A C B D) (1 ⊗ₜ[A] b i) = p (b i)
+  change (Algebra.IsPushout.equiv A C B D) (1 ⊗ₜ[A] b i) = p (b i)
   rw [Algebra.IsPushout.equiv_tmul]
   simp only [map_one, one_mul]
   rfl

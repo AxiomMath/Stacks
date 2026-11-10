@@ -254,6 +254,7 @@ theorem diagonalGysin_globalSmul (p q : ℕ) (a : A) :
 
 variable [IsClosedImmersion σ] [LocallyOfFinitePresentation σ]
 
+omit [IsProper f] in
 /-- **The Gysin map of `j = (σ ∘ f, id)` commutes with the de Rham differentials.** -/
 theorem sectionFstGysin_comm_deRham (p q : ℕ) :
     sectionFstGysin f n σ hσ p q ≫
@@ -266,6 +267,7 @@ theorem sectionFstGysin_comm_deRham (p q : ℕ) :
     (pullback.snd f f) (snd_comp_eq_prodStructure f) (sectionFst_koszul_and_conormalRank f n σ hσ).1
     (sectionFst_koszul_and_conormalRank f n σ hσ).2 p q
 
+omit [IsProper f] in
 /-- **The Gysin map of `j = (σ ∘ f, id)` is `A`-linear.** -/
 theorem sectionFstGysin_globalSmul (p q : ℕ) (a : A) :
     (Hfunctor X.ringCatSheaf ⊤ q).map
@@ -280,6 +282,7 @@ theorem sectionFstGysin_globalSmul (p q : ℕ) (a : A) :
     (pullback.snd f f) (snd_comp_eq_prodStructure f) (sectionFst_koszul_and_conormalRank f n σ hσ).1
     (sectionFst_koszul_and_conormalRank f n σ hσ).2 pullback.condition.symm p q a
 
+omit [IsProper f] in
 /-- **The Gysin map of `j' = (id, σ ∘ f)` commutes with the de Rham differentials.** -/
 theorem sectionSndGysin_comm_deRham (p q : ℕ) :
     sectionSndGysin f n σ hσ p q ≫
@@ -292,6 +295,7 @@ theorem sectionSndGysin_comm_deRham (p q : ℕ) :
     (pullback.fst f f) (fst_comp_eq_prodStructure f) (sectionSnd_koszul_and_conormalRank f n σ hσ).1
     (sectionSnd_koszul_and_conormalRank f n σ hσ).2 p q
 
+omit [IsProper f] in
 /-- **The Gysin map of `j' = (id, σ ∘ f)` is `A`-linear.** -/
 theorem sectionSndGysin_globalSmul (p q : ℕ) (a : A) :
     (Hfunctor X.ringCatSheaf ⊤ q).map

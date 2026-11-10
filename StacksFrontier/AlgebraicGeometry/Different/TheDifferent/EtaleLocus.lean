@@ -107,7 +107,7 @@ theorem cokerSpanIdeal_traceElement_eq_top_iff
   rw [hself, cokerSpanIdeal_eq_top_iff]
   have hsmul (c : C) : c • (Algebra.traceForm K C 1) = Algebra.traceForm K C c := by
     ext x
-    show Algebra.traceForm K C 1 (c * x) = Algebra.traceForm K C c x
+    change Algebra.traceForm K C 1 (c * x) = Algebra.traceForm K C c x
     simp [Algebra.traceForm_apply]
   have hspan : Submodule.span C {Algebra.traceForm K C 1} = ⊤ ↔
       Function.Surjective (Algebra.traceForm K C) := by
@@ -135,7 +135,7 @@ theorem zeroLocus_cokerSpanIdeal_traceElement_of_field
       (Algebra.unramifiedLocus K C)ᶜ := by
   ext q
   rw [PrimeSpectrum.mem_zeroLocus, Set.mem_compl_iff]
-  show (cokerSpanIdeal C (dualizingModule.traceElement F) : Set C) ⊆ q.asIdeal ↔
+  change (cokerSpanIdeal C (dualizingModule.traceElement F) : Set C) ⊆ q.asIdeal ↔
     ¬ Algebra.IsUnramifiedAt K q.asIdeal
   have key (g : C) : (cokerSpanIdeal C (dualizingModule.traceElement F)).map
       (algebraMap C (Localization.Away g)) = ⊤ ↔
@@ -246,9 +246,9 @@ theorem unramifiedAt_iff_mem_unramifiedLocus (f : X ⟶ S) [LocallyOfFiniteType 
     (R := Γ(S, V)) (hU.primeIdealOf ⟨x, hx⟩).asIdeal
   have hrle : X.basicOpen r ≤ f ⁻¹ᵁ V := (X.basicOpen_le r).trans hUV
   refine ⟨X.basicOpen r, hU.basicOpen r, ?_, V, hV, hrle, ?_⟩
-  · show (⟨x, hx⟩ : U).1 ∈ X.basicOpen r
+  · change (⟨x, hx⟩ : U).1 ∈ X.basicOpen r
     rw [← hU.fromSpec_primeIdealOf ⟨x, hx⟩]
-    show hU.primeIdealOf ⟨x, hx⟩ ∈ hU.fromSpec ⁻¹ᵁ X.basicOpen r
+    change hU.primeIdealOf ⟨x, hx⟩ ∈ hU.fromSpec ⁻¹ᵁ X.basicOpen r
     rw [hU.fromSpec_preimage_basicOpen]
     exact hr
   · let _ : Algebra Γ(S, V) Γ(X, X.basicOpen r) :=

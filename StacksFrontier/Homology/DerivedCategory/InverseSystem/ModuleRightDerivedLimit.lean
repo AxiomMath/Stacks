@@ -307,7 +307,7 @@ public lemma isDerivedLimit_of_fan
   · apply Fan.IsLimit.hom_ext hp
     intro n
     dsimp only [Triangle.mk_mor₂, Iso.symm_hom]
-    show (_ ≫ a.inv) ≫ p n = (a.inv ≫ g) ≫ p n
+    change (_ ≫ a.inv) ≫ p n = (a.inv ≫ g) ≫ p n
     rw [Category.assoc, hai, Pi.lift_comp_π, Category.assoc, hg,
       Preadditive.comp_sub, ← Category.assoc, hai, hai]
   · simp
@@ -327,7 +327,8 @@ public lemma restrictScalars_preservesHomology {R S : Type*} [Ring R] [Ring S]
     (f : R →+* S) : (ModuleCat.restrictScalars.{v} f).PreservesHomology := by
   apply ((Functor.exact_tfae (ModuleCat.restrictScalars.{v} f)).out 2 3).mp
   intro T hT
-  rwa [ShortComplex.ShortExact.moduleCat_exact_iff_function_exact] at hT ⊢
+  rw [ShortComplex.ShortExact.moduleCat_exact_iff_function_exact] at hT ⊢
+  assumption
 
 set_option backward.isDefEq.respectTransparency false in
 private lemma complexDiagramMap_quasiIso (A : ℕᵒᵖ ⥤ RingCat.{u})
@@ -336,7 +337,7 @@ private lemma complexDiagramMap_quasiIso (A : ℕᵒᵖ ⥤ RingCat.{u})
   have := restrictScalars_preservesHomology.{v} (limit.π A n).hom
   let E := PresheafOfModules.evaluation.{v} A n
   let R := ModuleCat.restrictScalars.{v} (limit.π A n).hom
-  show QuasiIso ((R.mapHomologicalComplex (ComplexShape.up ℤ)).map
+  change QuasiIso ((R.mapHomologicalComplex (ComplexShape.up ℤ)).map
     ((E.mapHomologicalComplex (ComplexShape.up ℤ)).map f))
   infer_instance
 
@@ -390,7 +391,7 @@ private lemma difference_comp_projection (A : ℕᵒᵖ ⥤ RingCat.{u})
   apply HomologicalComplex.Hom.ext
   funext p
   let X (k : ℕ) := (ModuleInverseLimit.moduleDiagram A (L.X p)).obj (Opposite.op k)
-  show (differenceNatTrans (ULift.{v} PUnit) A).app (L.X p) ≫ Pi.π X n =
+  change (differenceNatTrans (ULift.{v} PUnit) A).app (L.X p) ≫ Pi.π X n =
     Pi.π X n - Pi.π X (n + 1) ≫
       (ModuleInverseLimit.moduleDiagram A (L.X p)).map (homOfLE (Nat.le_succ n)).op
   simp only [X, Preadditive.sub_comp, Category.id_comp, Pi.lift_comp_π]
@@ -460,7 +461,7 @@ public theorem rightDerivedInverseLimit_isDerivedLimit
       Q.map ((complexDiagram A L).map (homOfLE (Nat.le_succ n)).op) := by
     simpa only [q, Functor.comp_map, Functor.map_sub, Functor.map_comp] using
       congrArg Q.map (difference_comp_projection A L n)
-  show Q.map S.g ≫ (q n ≫ e.inv.app (Opposite.op n)) =
+  change Q.map S.g ≫ (q n ≫ e.inv.app (Opposite.op n)) =
     (q n ≫ e.inv.app (Opposite.op n)) -
       (q (n + 1) ≫ e.inv.app (Opposite.op (n + 1))) ≫
         (derivedModuleDiagram A K).map (homOfLE (Nat.le_succ n)).op
@@ -707,7 +708,8 @@ public theorem inverseLimit_hasRightDerivedFunctor_and_homology_shortExact
   have heLim : eLim.hom ≫ kernel.ι (δH p) = Pi.lift fun n : ℕ => limit.π (MH p) (Opposite.op n) :=
     IsLimit.conePointUniqueUpToIso_hom_comp _ _ WalkingParallelPair.zero
   refine ⟨eH (p - 1), eH p, eP (p - 1), eP p, hP (p - 1), hP p,
-    hd (p - 1), hd p, eR1, eLim, hc, ha, fun n => by rw [← Category.assoc, heLim, Pi.lift_comp_π], ?_⟩
+    hd (p - 1), hd p, eR1, eLim, hc, ha,
+    fun n => by rw [← Category.assoc, heLim, Pi.lift_comp_π], ?_⟩
   let i := cokernel.desc (δH (p - 1)) ((eP (p - 1)).inv ≫ c) hc
   let q₀ := kernel.lift (δH p) ((H p).map a ≫ (eP p).hom) ha
   let q := q₀ ≫ eLim.inv

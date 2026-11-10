@@ -87,7 +87,7 @@ private lemma finiteType_exists_generators {R S : CommRingCat.{u}} (f : R ⟶ S)
   let _ := f.hom.toAlgebra
   obtain ⟨s, hs⟩ := hf.out
   refine ⟨s, ?_⟩
-  show Subring.closure (Set.range (algebraMap R S) ∪ (s : Set S)) = ⊤
+  change Subring.closure (Set.range (algebraMap R S) ∪ (s : Set S)) = ⊤
   rw [← Algebra.adjoin_eq_ring_closure, hs]
   rfl
 
@@ -154,7 +154,7 @@ private lemma generators_of_isPushout
     have hle : Subring.closure (Set.range a ∪ (s : Set S)) ≤ T.comap c.hom := by
       apply Subring.closure_le.mpr
       rintro x (⟨y, rfl⟩ | hx)
-      · show c (a y) ∈ T
+      · change c (a y) ∈ T
         rw [show c (a y) = d (b y) from congrArg (fun q : R ⟶ S' => q y) h.w]
         exact hd ⟨b y, rfl⟩
       · exact Subring.subset_closure (Or.inr ⟨x, hx, rfl⟩)
@@ -200,7 +200,7 @@ private lemma exists_closedImmersion_of_affine_diagrams
       s hs
   obtain ⟨j, e, hj⟩ := exists_surjective_of_generators A B φ ca cb hca hcb g.appTop
     (fun i => by
-      show (cP.π.app i.unop).appTop ≫ g.appTop =
+      change (cP.π.app i.unop).appTop ≫ g.appTop =
         (f.app i.unop).appTop ≫ (cW.π.app i.unop).appTop
       rw [← Scheme.Hom.comp_appTop, ← Scheme.Hom.comp_appTop, hg])
     (IsClosedImmersion.isAffine_surjective_of_isAffine g).2 (op i₀) s hgen
@@ -329,7 +329,7 @@ private lemma isClosedImmersion_pullbackMap_of_intersectionToProduct {X : Scheme
       (𝟙 _) (𝟙 _) (terminal.from X) (by simp) (by simp)) := by
   let f : pullback U.ι V.ι ⟶ pullback (U.ι ≫ terminal.from X) (V.ι ≫ terminal.from X) :=
     pullback.map _ _ _ _ (𝟙 _) (𝟙 _) (terminal.from X) (by simp) (by simp)
-  show IsClosedImmersion f
+  change IsClosedImmersion f
   let eP := prodIsoPullback U.toScheme V.toScheme
   let eC := pullback.congrHom (terminal.comp_from U.ι).symm
     (terminal.comp_from V.ι).symm
@@ -390,7 +390,7 @@ private lemma isSeparated_of_intersectionToProduct
   let e : Arrow.mk f ≅ Arrow.mk (cover.pullbackHom (pullback.diagonal (terminal.from X)) ij) :=
     Arrow.isoMk hp.isoPullback (Iso.refl _)
       (by
-        show hp.isoPullback.hom ≫
+        change hp.isoPullback.hom ≫
           pullback.snd (pullback.diagonal (terminal.from X)) (cover.f ij) = f ≫ 𝟙 _
         rw [Category.comp_id]
         exact hp.isoPullback_hom_snd)
@@ -414,11 +414,11 @@ private lemma opensDiagramMap_isPullback
     IsPullback ((opensDiagram D i U).map e) ((opensDiagramMap D i U V h).app j)
       ((opensDiagramMap D i U V h).app k) ((opensDiagram D i V).map e) := by
   have (j : Over i) : IsOpenImmersion ((opensDiagramMap D i U V h).app j) := by
-    show IsOpenImmersion ((D.obj j.left).homOfLE ((D.map j.hom).preimage_mono h))
+    change IsOpenImmersion ((D.obj j.left).homOfLE ((D.map j.hom).preimage_mono h))
     infer_instance
   refine IsOpenImmersion.isPullback _ _ _ _
     ((opensDiagramMap D i U V h).naturality e).symm ?_
-  show (D.map e.left).resLE (D.map k.hom ⁻¹ᵁ V) (D.map j.hom ⁻¹ᵁ V) _ ⁻¹ᵁ
+  change (D.map e.left).resLE (D.map k.hom ⁻¹ᵁ V) (D.map j.hom ⁻¹ᵁ V) _ ⁻¹ᵁ
       ((D.obj k.left).homOfLE ((D.map k.hom).preimage_mono h)).opensRange =
     ((D.obj j.left).homOfLE ((D.map j.hom).preimage_mono h)).opensRange
   rw [Scheme.opensRange_homOfLE, Scheme.opensRange_homOfLE, ← Scheme.Hom.comp_preimage,
@@ -491,7 +491,7 @@ private lemma exists_intersectionToProduct_closed_of_affine_intersection
     ext
     exact Subsingleton.elim _ _⟩
   have : LocallyOfFiniteType (a.app (Over.mk (𝟙 i))) := by
-    show LocallyOfFiniteType ((D.obj i).homOfLE
+    change LocallyOfFiniteType ((D.obj i).homOfLE
       ((D.map (Over.mk (𝟙 i)).hom).preimage_mono (inf_le_left : U ⊓ V ≤ U)))
     infer_instance
   obtain ⟨j, _, hj⟩ := exists_closedImmersion_of_affine_diagrams W A P a f r hfr cw cp
@@ -562,9 +562,9 @@ lemma exists_isSeparated_stage
   let q : k ⟶ i := (hk (Finset.mem_insert_self _ _)).some
   let r (p : cover.I₀ × cover.I₀) : k ⟶ j p := (hk (by simp)).some
   refine ⟨k, isSeparated_of_intersectionToProduct (fun x => D.map q ⁻¹ᵁ U x) ?_ ?_⟩
-  · show ⨆ x, D.map q ⁻¹ᵁ U x = ⊤
+  · change ⨆ x, D.map q ⁻¹ᵁ U x = ⊤
     rw [← Scheme.Hom.preimage_iSup]
-    show D.map q ⁻¹ᵁ (⨆ x, (cover.f x).opensRange) = ⊤
+    change D.map q ⁻¹ᵁ (⨆ x, (cover.f x).opensRange) = ⊤
     rw [cover.iSup_opensRange, Scheme.Hom.preimage_top]
   · intro x y
     have he : r (x, y) ≫ e (x, y) = q := Subsingleton.elim _ _

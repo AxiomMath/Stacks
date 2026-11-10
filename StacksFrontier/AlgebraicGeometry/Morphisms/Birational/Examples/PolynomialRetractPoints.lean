@@ -140,10 +140,10 @@ theorem exists_evaluationPrime_mem_and_projectionKernel_localization_ne_bot
   obtain ⟨pα, hpαV, hpαeq⟩ := hqαW
   have hHα : H (evaluationPrime k α) = qα := by
     apply PrimeSpectrum.ext
-    show Ideal.comap (inclusionMap k) (evaluationPrime k α).asIdeal = qα.asIdeal
+    change Ideal.comap (inclusionMap k) (evaluationPrime k α).asIdeal = qα.asIdeal
     apply Ideal.ext
     intro a
-    show inclusionMap k a ∈ RingHom.ker
+    change inclusionMap k a ∈ RingHom.ker
         ((MvPolynomial.eval (fun _ : Unit => α)).comp (retractionMap k)) ↔
       a ∈ RingHom.ker (MvPolynomial.eval (fun _ : Unit => α))
     have hc : (retractionMap k) (inclusionMap k a) = a :=
@@ -161,8 +161,8 @@ theorem exists_evaluationPrime_mem_and_projectionKernel_localization_ne_bot
   have hcompl : P.primeCompl ≤ Q.primeCompl.comap δ := by
     intro s hs
     change (s : extensionRing k) ∉ P at hs
-    show δ s ∉ Q
-    show (TrivSqZeroExt.fstHom k k k).toRingHom (δ s) ≠ 0
+    change δ s ∉ Q
+    change (TrivSqZeroExt.fstHom k k k).toRingHom (δ s) ≠ 0
     rw [hP, ← detectSquareZero_fst] at hs
     simpa [RingHom.mem_ker, RingHom.comp_apply] using hs
   let locMap : Localization.AtPrime P →+* Localization.AtPrime Q :=
@@ -170,7 +170,7 @@ theorem exists_evaluationPrime_mem_and_projectionKernel_localization_ne_bot
       (Localization.AtPrime Q) δ hcompl
   let y : extensionRing k := Ideal.Quotient.mk (relationIdeal k) (MvPolynomial.X (Sum.inr α))
   have hyP : y ∈ projectionKernel k := by
-    show retractionMap k y = 0
+    change retractionMap k y = 0
     simp [y, retractionMap]
   have hδy : δ y = TrivSqZeroExt.inr (1 : k) := by
     simp [y, δ, detectSquareZero]

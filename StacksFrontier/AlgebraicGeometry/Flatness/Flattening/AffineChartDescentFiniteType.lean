@@ -61,7 +61,7 @@ affine case is used, so nothing here carries it as a hypothesis.
   No tag: the whole of [Stacks, Tag 081R] — both clauses of its conclusion — is
 `AlgebraicGeometry.exists_isAdmissibleBlowup_flat_finitePresentation_strictTransform_of_affineCase`
   of
-`StacksFrontier/AlgebraicGeometry/Flatness/Flattening/StrictTransformFinitePresentationFromFlat.lean`,
+`StacksFrontier.AlgebraicGeometry.Flatness.Flattening.StrictTransformFinitePresentationFromFlat`,
   which is where that tag is registered.
 * `AlgebraicGeometry.morphismRestrict_resLE_of_morphismRestrict`: a morphism property local at
   the source and right-cancellable along monomorphisms passes from the restriction of `f` over
@@ -104,7 +104,7 @@ proved here is that tag's flatness assertion for the weaker hypothesis (2) of
 [Stacks, Tag 081R] in full is
 `AlgebraicGeometry.exists_isAdmissibleBlowup_flat_finitePresentation_strictTransform_of_affineCase`
 of
-`StacksFrontier/AlgebraicGeometry/Flatness/Flattening/StrictTransformFinitePresentationFromFlat.lean`.
+`StacksFrontier.AlgebraicGeometry.Flatness.Flattening.StrictTransformFinitePresentationFromFlat`.
 [Stacks, Tag 081R] itself needs, beyond this, the step that dominates finitely many
 blowups by one — the first paragraph of its proof — which is not treated here; what is treated is
 exactly what the affine-chart predicate asks for, the source of a chart being affine.
@@ -337,7 +337,7 @@ No tag is registered here: this is the flatness clause alone, and [Stacks, Tag 0
 finite presentation of the strict transform as well. The tag in full is
 `AlgebraicGeometry.exists_isAdmissibleBlowup_flat_finitePresentation_strictTransform_of_affineCase`
 of
-`StacksFrontier/AlgebraicGeometry/Flatness/Flattening/StrictTransformFinitePresentationFromFlat.lean`,
+`StacksFrontier.AlgebraicGeometry.Flatness.Flattening.StrictTransformFinitePresentationFromFlat`,
 which states both clauses under these same hypotheses.
 
 The chart predicate comes from

@@ -365,7 +365,7 @@ private lemma representative_refines_cokernel {A B : Rlim.InvSystemAb.{w}}
     rw [Category.assoc, delta_projection, Preadditive.comp_sub,
       Preadditive.sub_comp, second_projection, second_projection, en]
     simp only [H, projection, Pi.lift_comp_π, Pi.lift_comp_π_assoc]
-    show _ = _ - intervalSum A (s.index n) (s.index (n + 1)) ≫ InverseSequence.tr A hn ≫
+    change _ = _ - intervalSum A (s.index n) (s.index (n + 1)) ≫ InverseSequence.tr A hn ≫
       r.component n
     rw [Category.assoc, ← representative_naturality r (Nat.le_succ n)]
     simp only [← Category.assoc, ← Preadditive.sub_comp]
@@ -473,13 +473,13 @@ private lemma exists_common_refinement {A B : Rlim.InvSystemAb.{w}}
     component := fun n => InverseSequence.tr A (h₁ n) ≫ r.component n
     naturality := by
       intro i j h
-      show InverseSequence.tr A (hm.monotone h) ≫ (InverseSequence.tr A (h₁ i) ≫ r.component i) =
+      change InverseSequence.tr A (hm.monotone h) ≫ (InverseSequence.tr A (h₁ i) ≫ r.component i) =
         (InverseSequence.tr A (h₁ j) ≫ r.component j) ≫ InverseSequence.tr B h
       rw [← Category.assoc, tr_trans, Category.assoc,
         ← representative_naturality r h, ← Category.assoc, tr_trans] }
   refine ⟨t, fun n => ⟨h₁ n, rfl⟩, fun n => ⟨h₂ n, ?_⟩⟩
   have hh := congrArg (fun z => InverseSequence.tr A (hkm n) ≫ z) (he n)
-  show InverseSequence.tr A (h₁ n) ≫ r.component n = InverseSequence.tr A (h₂ n) ≫ s.component n
+  change InverseSequence.tr A (h₁ n) ≫ r.component n = InverseSequence.tr A (h₂ n) ≫ s.component n
   simpa only [← Category.assoc, tr_trans] using hh
 
 private def chosenRepresentative {A B : Rlim.InvSystemAb.{w}}
@@ -519,7 +519,7 @@ private lemma representative_comp_represents {A B C : Rlim.InvSystemAb.{w}}
     (φ : proYoneda B ⟶ proYoneda A) (ψ : proYoneda C ⟶ proYoneda B)
     (hr : r.Represents φ) (hs : s.Represents ψ) : (r.comp s).Represents (ψ ≫ φ) := by
   intro n
-  show φ.app _ (ψ.app _ (stageClass C (𝟙 _))) = _
+  change φ.app _ (ψ.app _ (stageClass C (𝟙 _))) = _
   have hs' : ψ.app _ (stageClass C (𝟙 _)) = stageClass B (s.component n) := hs n
   rw [hs']
   exact transformation_stage φ (r.component (s.index n)) (hr (s.index n)) (s.component n)
@@ -544,7 +544,7 @@ private lemma limAction_comp (A B C : Rlim.InvSystemAb.{w})
     (chosenRepresentative_represents φ) (chosenRepresentative_represents ψ))).1]
   apply limit.hom_ext
   rintro ⟨n⟩
-  show _ = (r.mapLim ≫ s.mapLim) ≫ _
+  change _ = (r.mapLim ≫ s.mapLim) ≫ _
   simp only [Category.assoc, mapLim_projection, SequentialRep.comp, Function.comp_apply]
   simp only [← Category.assoc, mapLim_projection]
 
@@ -604,7 +604,7 @@ private lemma stagesTransformation_apply {A B : Rlim.InvSystemAb.{w}} (m : ℕ �
     {X : Ab.{w}} {n : ℕ} (g : B.obj (op n) ⟶ X) :
     (stagesTransformation m hm f hf).app X (stageClass B g) =
       stageClass A (f n ≫ g) := by
-  show (((colimit.ι (B.op ⋙ coyoneda) (op (op n))) ≫
+  change (((colimit.ι (B.op ⋙ coyoneda) (op (op n))) ≫
     stagesTransformation m hm f hf).app X) g = _
   simp only [stagesTransformation, colimit.ι_desc]
   rfl
@@ -630,7 +630,7 @@ private lemma stagesTransformation_comp_eq_id {A B : Rlim.InvSystemAb.{w}} (m : 
     stagesTransformation m hm f hf ≫ stagesTransformation m' hm' f' hf' = 𝟙 _ := by
   apply transformation_ext
   intro n
-  show (stagesTransformation m' hm' f' hf').app _
+  change (stagesTransformation m' hm' f' hf').app _
     ((stagesTransformation m hm f hf).app _ (stageClass B (𝟙 _))) = stageClass B (𝟙 _)
   simp only [stagesTransformation_apply, Category.comp_id]
   rw [hc]
@@ -646,7 +646,7 @@ private lemma proIso_transformation {A B : Rlim.InvSystemAb.{w}} (a : InverseSeq
     (fun n => (a.βle n).trans (a.αle (a.β n))) a.ψφ
   refine ⟨φ, ?_, ⟨⟨ψ, hφψ, hψφ⟩⟩⟩
   intro n
-  show φ.app _ (stageClass B (𝟙 (B.obj (op n)))) = stageClass A (a.φ n)
+  change φ.app _ (stageClass B (𝟙 (B.obj (op n)))) = stageClass A (a.φ n)
   simpa only [φ, Category.comp_id] using
     stagesTransformation_apply a.α a.αmono a.φ a.φnat (𝟙 (B.obj (op n)))
 

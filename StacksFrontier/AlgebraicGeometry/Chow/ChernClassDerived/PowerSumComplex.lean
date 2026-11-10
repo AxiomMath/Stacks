@@ -81,7 +81,7 @@ theorem powerSumTotal_of_rank_zero (E : X.Modules)
           chernRing C sX) : TotalChowClass C sX) = ∑ j ∈ Finset.range (n + 1),
             ((chernSeq C sX E 0 (n - j) : TotalChowClass C sX) * chernSeq C sX E 0 j) from
           map_sum (chernRing C sX).subtype _ _]
-      show TotalChowClass.homComponent n (totalChern C sX E 0) = ∑ j ∈ Finset.range (n + 1),
+      change TotalChowClass.homComponent n (totalChern C sX E 0) = ∑ j ∈ Finset.range (n + 1),
         TotalChowClass.homComponent (n - j) (totalChern C sX E 0) *
           TotalChowClass.homComponent j (totalChern C sX E 0)
       rw [← TotalChowClass.homComponent_mul_sum, totalChern_of_rank_zero, one_mul]

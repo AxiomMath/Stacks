@@ -113,7 +113,7 @@ theorem isContinuous_elementPostcomp (s : G ⟶ F) :
           exact congrArg _ (hx h₁ h₂ hg₁ hg₂ hcomp) }
   · refine ⟨fun {U T} hT ↦ ?_⟩
     change T ∈ (CostructuredArrow.proj yoneda G.obj).restrictedTopology X.J U at hT
-    show _ ∈ (CostructuredArrow.proj yoneda F.obj).restrictedTopology X.J _
+    change _ ∈ (CostructuredArrow.proj yoneda F.obj).restrictedTopology X.J _
     rw [CategoryTheory.Stacks.Topos.Localized.restrictedTopology_eq_topology] at hT ⊢
     refine X.J.superset_covering ?_ hT
     rintro V g ⟨W, a, b, ha, rfl⟩
@@ -127,7 +127,7 @@ theorem isCocontinuous_elementPostcomp (s : G ⟶ F) :
     (CostructuredArrow.map s.hom).IsCocontinuous (elementTopology X G) (elementTopology X F) where
   cover_lift {U S} hS := by
     change S ∈ (CostructuredArrow.proj yoneda F.obj).restrictedTopology X.J _ at hS
-    show _ ∈ (CostructuredArrow.proj yoneda G.obj).restrictedTopology X.J U
+    change _ ∈ (CostructuredArrow.proj yoneda G.obj).restrictedTopology X.J U
     rw [CategoryTheory.Stacks.Topos.Localized.restrictedTopology_eq_topology] at hS ⊢
     refine X.J.superset_covering ?_ hS
     intro V g hg

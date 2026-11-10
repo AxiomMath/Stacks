@@ -176,8 +176,7 @@ variable {B C : Type*} [CommRing B] [CommRing C] [Algebra R B] [Algebra R C] [Al
 private lemma subsingleton_tensor_of_forall {N : Type*} [AddCommGroup N] [Module R N]
     (h : ∀ x : N, (1 : S) ⊗ₜ[R] x = 0) : Subsingleton (S ⊗[R] N) := by
   refine subsingleton_of_forall_eq 0 fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero => rfl
+  induction z using TensorProduct.inductionOn with
   | tmul s x =>
       simpa using congrArg (LinearMap.rTensor N (LinearMap.mulLeft R s)) (h x)
   | add a b ha hb => rw [ha, hb, add_zero]
@@ -200,26 +199,25 @@ lemma isPushout_tensorProduct
       (f := (Algebra.IsPushout.cancelBaseChangeAlg R S B (S ⊗[R] B) C).toRingEquiv) ?_) ?_
   · intro x
     apply (Algebra.IsPushout.cancelBaseChangeAlg R S B (S ⊗[R] B) C).symm.injective
-    simp only [AlgEquiv.coe_ringEquiv, AlgEquiv.symm_apply_apply, hmap]
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    simp only [AlgEquiv.coe_toRingEquiv, AlgEquiv.symm_apply_apply, hmap]
+    induction x using TensorProduct.inductionOn with
     | tmul s b =>
         have hstep : (Algebra.TensorProduct.map (AlgHom.id R S)
             (IsScalarTower.toAlgHom R B C)).toRingHom (s ⊗ₜ[R] b) =
             s ⊗ₜ[R] algebraMap B C b := rfl
         rw [hstep, Algebra.IsPushout.cancelBaseChangeAlg_symm_tmul,
           Algebra.algebraMap_eq_smul_one (R := B) (A := C) b, ← TensorProduct.smul_tmul]
-        show (s ⊗ₜ[R] b) ⊗ₜ[B] (1 : C) = _
+        change (s ⊗ₜ[R] b) ⊗ₜ[B] (1 : C) = _
         congr 1
         simp [Algebra.smul_def, Algebra.TensorProduct.right_algebraMap_apply,
           Algebra.TensorProduct.tmul_mul_tmul]
     | add x y hx hy => rw [map_add, map_add, map_add, hx, hy]
   · ext c
-    show (Algebra.IsPushout.cancelBaseChangeAlg R S B (S ⊗[R] B) C)
+    change (Algebra.IsPushout.cancelBaseChangeAlg R S B (S ⊗[R] B) C)
         (algebraMap C ((S ⊗[R] B) ⊗[B] C) c) = algebraMap C (S ⊗[R] C) c
     apply (Algebra.IsPushout.cancelBaseChangeAlg R S B (S ⊗[R] B) C).symm.injective
     rw [AlgEquiv.symm_apply_apply]
-    show _ = (Algebra.IsPushout.cancelBaseChangeAlg R S B (S ⊗[R] B) C).symm ((1 : S) ⊗ₜ[R] c)
+    change _ = (Algebra.IsPushout.cancelBaseChangeAlg R S B (S ⊗[R] B) C).symm ((1 : S) ⊗ₜ[R] c)
     rw [Algebra.IsPushout.cancelBaseChangeAlg_symm_tmul, map_one,
       Algebra.TensorProduct.right_algebraMap_apply, Algebra.TensorProduct.one_def]
 

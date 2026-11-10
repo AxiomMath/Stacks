@@ -568,7 +568,7 @@ theorem baseIso_inv_comp_invImage_map (f : RingedToposHom X B) (g : RingedToposH
     (baseIso f g).inv ≫ (invImage g).map f.fSharpInverseImage =
       (f.comp (toInverseImage g)).fSharpInverseImage := by
   rw [comp_fSharpInverseImage_eq, toInverseImage_fSharpInverseImage]
-  show _ = (baseIso f g).inv ≫ (invImage g).map f.fSharpInverseImage ≫ 𝟙 ((invImage g).obj X.O)
+  change _ = (baseIso f g).inv ≫ (invImage g).map f.fSharpInverseImage ≫ 𝟙 ((invImage g).obj X.O)
   rw [Category.comp_id]
 
 variable [HasWeakSheafify Y.J CommRingCat.{u}] [Y.J.WEqualsLocallyBijective CommRingCat.{u}]
@@ -663,7 +663,7 @@ theorem structureHom_comp_inducingHom_eq_iff
     have h2 : (QC.structureHom.comp (inducingHom g QC QD ψ)).fSharpInverseImage =
         QD.structureHom.fSharpInverseImage :=
       hinv.trans (((Iso.inv_comp_eq _).2 h).trans hD.symm)
-    show RingedToposHom.mk _ _ = RingedToposHom.mk _ _
+    change RingedToposHom.mk _ _ = RingedToposHom.mk _ _
     congr 1
     exact ((commRingImageAdjunction (f.comp g).toToposHom).homEquiv _ _).symm.injective h2
 

@@ -97,7 +97,7 @@ theorem invertibleQuotientClass_ext_of_chartRestrictClass (c c' : InvertibleQuot
             ((chartModuleRestriction B S hS X U).map Q.q)) :=
           epi_modulePullback_map B S hS (chartMap B S hS X f) _
             (epi_modulePullback_map B S hS (chartToSpace B S hS X U) Q.q hQ)
-        show (chartModuleInverseImage B S hS X f).map (α U).hom ≫
+        change (chartModuleInverseImage B S hS X f).map (α U).hom ≫
             (chartModuleRestrictionTransitions B S hS X Q'.L f).hom =
           (chartModuleRestrictionTransitions B S hS X Q.L f).hom ≫ (α V).hom
         rw [← cancel_epi ((chartModuleInverseImage B S hS X f).map
@@ -105,11 +105,11 @@ theorem invertibleQuotientClass_ext_of_chartRestrictClass (c c' : InvertibleQuot
           chartModuleRestrictionTransitions_naturality, reassoc_of%
           (chartModuleRestrictionTransitions_naturality B S hS X f Q.q), hα] }
   have : IsIso φ := ChartModuleGlueingData.isIso_of_isIso_app B S hS X φ fun U => by
-    show IsIso (α U).hom; infer_instance
+    change IsIso (α U).hom; infer_instance
   let e : Q.L ≅ Q'.L := (chartModuleGlueingFunctor B S hS X).preimageIso (asIso φ)
   refine Quotient.sound ⟨e, (chartModuleGlueingFunctor B S hS X).map_injective ?_⟩
   refine ChartModuleGlueingData.hom_ext B S hS X fun U => ?_
-  show (chartModuleRestriction B S hS X U).map (Q.q ≫ e.hom) =
+  change (chartModuleRestriction B S hS X U).map (Q.q ≫ e.hom) =
     (chartModuleRestriction B S hS X U).map Q'.q
   rw [Functor.map_comp, ← hα U]
   congr 1
@@ -225,7 +225,7 @@ theorem exists_chartRestrictClass_eq
   refine ⟨Quotient.mk _ ⟨L, hLinv, q, hqepi⟩, fun U => ?_⟩
   rw [← hQc U]
   refine Quotient.sound ⟨@asIso _ _ _ _ _ (hκ U), ?_⟩
-  show (𝟙 _ ≫ (chartModuleRestriction B S hS X U).map q) ≫ (eqv.counit.app D).app U = (Q U).q
+  change (𝟙 _ ≫ (chartModuleRestriction B S hS X U).map q) ≫ (eqv.counit.app D).app U = (Q U).q
   rw [Category.id_comp, hqU]
 
 end AlgebraicGeometry.Space

@@ -88,7 +88,7 @@ public theorem isIso_fppfToSmallEtaleMorphism_unit (X : B.Schemes) :
   have := isIso_bigEtaleToSmallEtaleMorphism_unit (associatedBigEtaleSite B) X.1 X.2
   refine @NatIso.isIso_of_isIso_app _ _ _ _ _ _ _ fun F ↦ ?_
   have := isIso_fppfToBigEtale_unit_app B X F
-  show IsIso (((bigEtaleToSmallEtaleMorphism (associatedBigEtaleSite B) X.1 X.2).adj.comp
+  change IsIso (((bigEtaleToSmallEtaleMorphism (associatedBigEtaleSite B) X.1 X.2).adj.comp
     (fppfToBigEtaleMorphism B X).adj).unit.app F)
   rw [Adjunction.comp_unit_app]
   infer_instance
@@ -411,7 +411,7 @@ public theorem fppfToSmallEtale_essImage_of_restriction {X Y : B.Schemes} (f : X
     rw [Functor.map_comp, Functor.map_comp, Functor.map_preimage, hp', hj']
     have hw := r.w₀ i.down.1
     have hc := hcomm i.down.1
-    show pullback.fst (g i.down.1) (A i).ι ≫ r.h₀ i.down.1 ≫ 𝒮.f (r.s₀ i.down.1) =
+    change pullback.fst (g i.down.1) (A i).ι ≫ r.h₀ i.down.1 ≫ 𝒮.f (r.s₀ i.down.1) =
       pullback.snd (g i.down.1) (A i).ι ≫ (A i).ι ≫ 𝒱.f (e i.down.1)
     rw [hw, ← hc, ← Category.assoc, pullback.condition, Category.assoc]
   have hV : ∀ i, (fppfToSmallEtaleMorphism B (V' i)).inverseImage.essImage
@@ -448,7 +448,7 @@ public theorem fppfToSmallEtale_essImage_of_restriction {X Y : B.Schemes} (f : X
     (U := (⊤ : (𝒱.X (e a)).Opens)) trivial
   refine ⟨ULift.up ⟨a, ⟨W, hW⟩⟩, ⟨v', hvW⟩, ?_⟩
   rw [hj']
-  show 𝒱.f (e a) (W.ι ⟨v', hvW⟩) = y
+  change 𝒱.f (e a) (W.ι ⟨v', hvW⟩) = y
   simpa using hv'
 
 /-- Let `f : X ⟶ Y` be a morphism of the big fppf site which is flat, locally of finite

@@ -177,7 +177,7 @@ lemma comp_unit_eq_of_app_eq {χ : M ⟶ N}
     χ ≫ (𝓡.adj (opensι B S hS V₀)).unit.app N = A := by
   refine 𝓡.hom_ext_push _ _ fun T hT => ?_
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-  show ((𝓡.adj (opensι B S hS V₀)).unit.app N).val.app (op T) (χ.val.app (op T) x) = _
+  change ((𝓡.adj (opensι B S hS V₀)).unit.app N).val.app (op T) (χ.val.app (op T) x) = _
   rw [hχ T hT]
   exact unit_app_liftLocalApp h𝓡 V₀ A T hT x
 

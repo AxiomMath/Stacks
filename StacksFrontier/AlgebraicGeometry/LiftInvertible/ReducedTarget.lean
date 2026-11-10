@@ -93,7 +93,7 @@ of a closed set has that set as its support. -/
 @[simp]
 theorem range_coverMap_false (i : Z ⟶ X) [NoetherianSpace X] :
     Set.range (coverMap i false).base = (complementaryClosed i : Set (X : Type u)) := by
-  show Set.range (vanishingIdeal (complementaryClosed i)).subschemeι = _
+  change Set.range (vanishingIdeal (complementaryClosed i)).subschemeι = _
   rw [Scheme.IdealSheafData.range_subschemeι]
   exact coe_support_vanishingIdeal _
 
@@ -119,7 +119,7 @@ theorem discreteTopology_range_coverMap_inter (i : Z ⟶ X) [IsClosedImmersion i
     DiscreteTopology
       ((Set.range (coverMap i b).base ∩ Set.range (coverMap i b').base : Set (X : Type u))) := by
   have hdisc := discreteTopology_range_inter_complementaryClosed i hdim
-  cases b <;> cases b' <;> first | exact absurd rfl hbb' | skip
+  cases b <;> cases b' <;> try exact absurd rfl hbb'
   · rw [range_coverMap_true, range_coverMap_false, Set.inter_comm]; exact hdisc
   · rw [range_coverMap_true, range_coverMap_false]; exact hdisc
 

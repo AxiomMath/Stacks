@@ -96,7 +96,7 @@ private theorem maximalMinorIdeal_eq_span_rows
     · have hzero : (A.submatrix r id).det = 0 := by
         obtain ⟨a, b, hab, he⟩ := Function.not_injective_iff.mp hr
         exact Matrix.det_zero_of_row_eq he (by ext j; exact congrArg (fun t => A t j) hab)
-      show (A.submatrix r id).det ∈ _
+      change (A.submatrix r id).det ∈ _
       rw [hzero]
       exact Ideal.zero_mem _
 
@@ -183,7 +183,7 @@ private theorem exists_retraction_of_maximalMinorIdeal_isPrincipal
   have hspan : Ideal.span (Set.range Δ) = Ideal.span {g} :=
     (maximalMinorIdeal_eq_span_rows A).symm.trans hIg
   have hgm : g ∈ Submodule.span R (Set.range Δ) := by
-    show g ∈ Ideal.span (Set.range Δ)
+    change g ∈ Ideal.span (Set.range Δ)
     rw [hspan]
     exact Ideal.mem_span_singleton_self g
   obtain ⟨c, hc⟩ := (Submodule.mem_span_range_iff_exists_fun R).mp hgm
@@ -192,7 +192,7 @@ private theorem exists_retraction_of_maximalMinorIdeal_isPrincipal
       (LinearMap.pi fun j => LinearMap.proj (r j))
   have hL (r : Fin n → ι) (x : Fin n → R) :
       L r (A.mulVecLin x) = Δ r • A.mulVecLin x := by
-    show (A * (A.submatrix r id).adjugate) *ᵥ ((A *ᵥ x) ∘ r) = _
+    change (A * (A.submatrix r id).adjugate) *ᵥ ((A *ᵥ x) ∘ r) = _
     have heq : (A *ᵥ x) ∘ r = (A.submatrix r id) *ᵥ x := by ext j; rfl
     rw [heq, Matrix.mulVec_mulVec, Matrix.mul_assoc, Matrix.adjugate_mul,
       Matrix.mul_smul, Matrix.mul_one, Matrix.smul_mulVec]
@@ -200,13 +200,13 @@ private theorem exists_retraction_of_maximalMinorIdeal_isPrincipal
   let H : (ι → R) →ₗ[R] (ι → R) := ∑ r, c r • L r
   apply exists_retraction_of_regular_smul K g hg H
   · intro x j
-    show (∑ r, c r • L r) x j ∈ _
+    change (∑ r, c r • L r) x j ∈ _
     simp only [LinearMap.sum_apply, Finset.sum_apply, LinearMap.smul_apply,
       Pi.smul_apply]
     apply Ideal.sum_mem
     intro r _
     apply Submodule.smul_mem
-    show ∑ k, (A * (A.submatrix r id).adjugate) j k * x (r k) ∈ _
+    change ∑ k, (A * (A.submatrix r id).adjugate) j k * x (r k) ∈ _
     apply Ideal.sum_mem
     intro k _
     apply Ideal.mul_mem_right
@@ -214,21 +214,21 @@ private theorem exists_retraction_of_maximalMinorIdeal_isPrincipal
     rw [← hspan]
     exact Ideal.subset_span ⟨Function.update r k j, rfl⟩
   · intro x
-    show (∑ r, c r • L r) x ∈ K
+    change (∑ r, c r • L r) x ∈ K
     simp only [LinearMap.sum_apply, LinearMap.smul_apply]
     apply Submodule.sum_mem
     intro r _
     apply Submodule.smul_mem
     apply hAK
     refine ⟨(A.submatrix r id).adjugate *ᵥ (x ∘ r), ?_⟩
-    show A *ᵥ ((A.submatrix r id).adjugate *ᵥ (x ∘ r)) = _
+    change A *ᵥ ((A.submatrix r id).adjugate *ᵥ (x ∘ r)) = _
     exact Matrix.mulVec_mulVec _ _ _
   · exact hsat g hg
   · intro x hx
     obtain ⟨y, hy⟩ := hKA x hx
     have hHx : H (f • x) = g • (f • x) := by
       rw [← hy]
-      show (∑ r, c r • L r) (A.mulVecLin y) = _
+      change (∑ r, c r • L r) (A.mulVecLin y) = _
       simp only [LinearMap.sum_apply, LinearMap.smul_apply, hL, ← mul_smul]
       rw [← Finset.sum_smul]
       have hc' : ∑ r, c r * Δ r = g := hc
@@ -333,7 +333,7 @@ private theorem mapMatrix_mulVecLin
   ext j
   cases j with
   | inl j =>
-    show ((f • (1 : Matrix (Fin m) (Fin m) A)) *ᵥ x) j = _
+    change ((f • (1 : Matrix (Fin m) (Fin m) A)) *ᵥ x) j = _
     rw [Matrix.smul_mulVec, Matrix.one_mulVec]
     rfl
   | inr j => rfl
@@ -345,7 +345,7 @@ private theorem pow_mem_maximalMinorIdeal_mapMatrix
   classical
   apply Ideal.subset_span
   refine ⟨Sum.inl, id, Sum.inl_injective, Function.injective_id, ?_⟩
-  show f ^ m = (f • (1 : Matrix (Fin m) (Fin m) A)).det
+  change f ^ m = (f • (1 : Matrix (Fin m) (Fin m) A)).det
   simp
 
 private theorem etaTerm_retraction_of_minorIdeal_isPrincipal
@@ -379,20 +379,20 @@ private theorem etaTerm_retraction_of_minorIdeal_isPrincipal
   let K := (LinearMap.ker B).comap eW.toLinearMap
   have hB (w : W) : B (eW w) =
       fpowMap f V i (d (w ∘ Sum.inl) - f • (w ∘ Sum.inr)) := by
-    show fLoc f d (fpowMap f U i (w ∘ Sum.inl)) -
+    change fLoc f d (fpowMap f U i (w ∘ Sum.inl)) -
       fpowMap f V (i + 1) (w ∘ Sum.inr) = _
     rw [fpowMap_add_one, map_sub]
     congr 1
     exact (fLoc_zpow_smul d i _).trans (congrArg _ (fLoc_toLoc d _))
   have hK (w : W) : w ∈ K ↔ d (w ∘ Sum.inl) = f • (w ∘ Sum.inr) := by
-    show B (eW w) = 0 ↔ _
+    change B (eW w) = 0 ↔ _
     rw [hB, (fpowMap_injective f i hV).eq_iff' (map_zero _), sub_eq_zero]
   obtain ⟨r, hr⟩ := exists_retraction_of_maximalMinorIdeal_isPrincipal
     (mapMatrix f D) K f hf hI (pow_mem_maximalMinorIdeal_mapMatrix f D)
     (by
       rintro _ ⟨x, rfl⟩
       rw [hK, mapMatrix_mulVecLin]
-      show d (f • x) = f • d x
+      change d (f • x) = f • d x
       exact map_smul d f x)
     (by
       intro w hw
@@ -415,7 +415,7 @@ private theorem etaTerm_retraction_of_minorIdeal_isPrincipal
   refine ⟨p, ?_⟩
   apply LinearMap.ext
   intro x
-  show eE.symm (r (eW.symm _)) = x
+  change eE.symm (r (eW.symm _)) = x
   have he : eW.symm
       (LinearMap.prod
         (LinearMap.codRestrict P E.subtype (fun x => x.2.1))
@@ -486,10 +486,10 @@ public theorem etaTerm_finite_projective_and_split_of_idealI_isPrincipal
     Subtype.ext (congrArg (fun z : P => (z : Loc f U)) h)
   have hmem (x : U) : fpowMap f U (i + 1) x ∈ E := by
     constructor
-    · show fpowMap f U (i + 1) x ∈ fpowSub f U i
+    · change fpowMap f U (i + 1) x ∈ fpowSub f U i
       rw [fpowMap_add_one, fpowSub_eq_range]
       exact ⟨f • x, rfl⟩
-    · show fLoc f d (fpowMap f U (i + 1) x) ∈ fpowSub f V (i + 1)
+    · change fLoc f d (fpowMap f U (i + 1) x) ∈ fpowSub f V (i + 1)
       rw [fpowMap_apply, fLoc_zpow_smul, fLoc_toLoc]
       exact mem_fpowSub.mpr ⟨d x, rfl⟩
   let lower : U →ₗ[A] E := LinearMap.codRestrict E (fpowMap f U (i + 1)) hmem
@@ -535,7 +535,7 @@ private lemma baseChange_ker_of_split
   let t : X →ₗ[A] LinearMap.ker h := (f • LinearMap.id - v.comp h).codRestrict
     (LinearMap.ker h) (by
       intro x
-      show h (f • x - v (h x)) = 0
+      change h (f • x - v (h x)) = 0
       rw [map_sub, map_smul, show h (v (h x)) = f • h x from LinearMap.congr_fun hv (h x)]
       exact sub_self _)
   have ht : j.comp t = f • LinearMap.id - v.comp h := rfl
@@ -545,7 +545,7 @@ private lemma baseChange_ker_of_split
     rw [← LinearMap.baseChange_comp]
     have hj : h.comp j = 0 := by ext x; exact x.2
     rw [hj, LinearMap.baseChange_zero]
-  show LinearMap.range (j.baseChange B) = _
+  change LinearMap.range (j.baseChange B) = _
   apply le_antisymm
   · rintro _ ⟨x, rfl⟩
     exact LinearMap.congr_fun hzero x
@@ -558,7 +558,7 @@ private lemma baseChange_ker_of_split
       have he' := LinearMap.congr_fun he x
       simpa [hx0, algebraMap_smul] using he'
     refine ⟨(r.baseChange B) x, hg ?_⟩
-    show (algebraMap A B f) • _ = (algebraMap A B f) • x
+    change (algebraMap A B f) • _ = (algebraMap A B f) • x
     rw [← map_smul, ← map_smul, ← htB]
     have he := LinearMap.congr_fun hsplit ((t.baseChange B) x)
     change (r.baseChange B) ((j.baseChange B) ((t.baseChange B) x)) = _ at he
@@ -581,7 +581,7 @@ private lemma graph_ker_split
   let p := (fpowEquiv f hM i).prodCongr (fpowEquiv f hN (i + 1))
   refine ⟨e.symm.toLinearMap.comp (r.comp p.toLinearMap), ?_⟩
   refine LinearMap.ext fun x => e.injective ?_
-  show e (e.symm (r (p x.1))) = e x
+  change e (e.symm (r (p x.1))) = e x
   rw [e.apply_symm_apply]
   have he : p x.1 =
       (⟨(e x : Loc f M), (e x).2.1⟩,
@@ -589,7 +589,7 @@ private lemma graph_ker_split
     apply Prod.ext
     · exact Subtype.ext rfl
     · apply Subtype.ext
-      show fpowMap f N (i + 1) x.1.2 = fLoc f d (fpowMap f M i x.1.1)
+      change fpowMap f N (i + 1) x.1.2 = fLoc f d (fpowMap f M i x.1.1)
       rw [fpowMap_succ]
       have hx : d x.1.1 = f • x.1.2 := sub_eq_zero.mp x.2
       simp only [fpowMap_apply, fLoc_zpow_smul, fLoc_toLoc, hx]
@@ -640,10 +640,10 @@ private lemma ambientMap_fpowMap
   simp only [LinearMap.comp_apply, LinearMap.baseChange_tmul, LinearEquiv.coe_coe]
   rw [ht, map_smul, ← Stacks.Eta.BaseChange.etaBCPsi_eq_psiEquiv,
     Stacks.Eta.BaseChange.etaBCPsi_fpowMap, map_smul]
-  show b • fLoc (algebraMap A B f) e
+  change b • fLoc (algebraMap A B f) e
     (fpowMap (algebraMap A B f) (B ⊗[A] M) i ((1 : B) ⊗ₜ[A] m)) = _
   rw [fpowMap_apply, fLoc_zpow_smul, fLoc_toLoc]
-  show b • fpowMap (algebraMap A B f) P i (e ((1 : B) ⊗ₜ[A] m)) = _
+  change b • fpowMap (algebraMap A B f) P i (e ((1 : B) ⊗ₜ[A] m)) = _
   rw [← map_smul, ← map_smul, TensorProduct.smul_tmul', smul_eq_mul, mul_one]
 
 /-- A split injection stays injective after base change. -/
@@ -729,7 +729,7 @@ public theorem eta_baseChange_of_idealI_isPrincipal
   let L : B ⊗[A] Loc f M →ₗ[B] Loc g P :=
     ((LocalizedModule.map (Submonoid.powers g) eM.toLinearMap).restrictScalars B).comp
       (Stacks.Eta.BaseChange.psiEquiv f M).toLinearMap
-  show (Submodule.baseChange B (fetaTerm f d i)).map L = fetaTerm g dB i
+  change (Submodule.baseChange B (fetaTerm f d i)).map L = fetaTerm g dB i
   have hM : IsSMulRegular M f := hf.isSMulRegular
   have hN : IsSMulRegular N f := hf.isSMulRegular
   have hQ : IsSMulRegular Q g := hg.isSMulRegular
@@ -755,7 +755,7 @@ public theorem eta_baseChange_of_idealI_isPrincipal
     congr 1
     apply LinearMap.ext
     intro x
-    show g • eN ((LinearMap.snd A M N).baseChange B x) =
+    change g • eN ((LinearMap.snd A M N).baseChange B x) =
       f • eN ((LinearMap.snd A M N).baseChange B x)
     exact algebraMap_smul B f _
   have hreg : IsSMulRegular (B ⊗[A] (M × N)) g :=
@@ -769,14 +769,14 @@ public theorem eta_baseChange_of_idealI_isPrincipal
     ext x
     constructor
     · rintro ⟨y, hy, rfl⟩
-      show graphMap g dB (e y) = 0
+      change graphMap g dB (e y) = 0
       have heq := LinearMap.congr_fun he_graph y
       change graphMap g dB (e y) = eN ((graphMap f d).baseChange B y) at heq
       rw [heq, show (graphMap f d).baseChange B y = 0 from hy, map_zero]
     · intro hx
       refine ⟨e.symm x, ?_, e.apply_symm_apply x⟩
       apply eN.injective
-      show eN ((graphMap f d).baseChange B (e.symm x)) = eN 0
+      change eN ((graphMap f d).baseChange B (e.symm x)) = eN 0
       have heq := LinearMap.congr_fun he_graph (e.symm x)
       change graphMap g dB (e (e.symm x)) =
         eN ((graphMap f d).baseChange B (e.symm x)) at heq
@@ -1199,9 +1199,9 @@ theorem isIso_pullbackComparison_extendScalars_mulVecLin (φ : A →+* B) (C : B
     rw [← hker] at hx0
     obtain ⟨w, hw'⟩ := hx0
     refine ⟨w, ?_, ?_⟩
-    · show (LinearMap.baseChange B ((LinearMap.fst A M N).comp K.subtype)) w = u
+    · change (LinearMap.baseChange B ((LinearMap.fst A M N).comp K.subtype)) w = u
       rw [LinearMap.baseChange_comp, LinearMap.comp_apply, hw', hxu]
-    · show (LinearMap.baseChange B ((LinearMap.snd A M N).comp K.subtype)) w = v
+    · change (LinearMap.baseChange B ((LinearMap.snd A M N).comp K.subtype)) w = v
       rw [LinearMap.baseChange_comp, LinearMap.comp_apply, hw', hxv]
 
 end Stacks.Eta.LocallyFreeTerms

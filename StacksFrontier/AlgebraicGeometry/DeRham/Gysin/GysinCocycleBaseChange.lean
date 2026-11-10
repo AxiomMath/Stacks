@@ -189,7 +189,7 @@ product of the direct images, so the comparison of the two specifications reduce
 comparison of the products. -/
 theorem restrictCplxIso_hom_f_succ (p : ℕ) :
     (restrictCplxIso g e F).hom.f (p + 1) = (restrictProdTermIso e g F p).hom := by
-  show ((Scheme.Modules.restrictFunctor g).map (Iso.refl (prodTerm e F p)).hom ≫
+  change ((Scheme.Modules.restrictFunctor g).map (Iso.refl (prodTerm e F p)).hom ≫
     (restrictProdTermIso e g F p).hom) ≫ (Iso.refl _).inv = _
   rw [Iso.refl_hom, (Scheme.Modules.restrictFunctor g).map_id, Category.id_comp,
     Iso.refl_inv, Category.comp_id]
@@ -302,6 +302,7 @@ private theorem assembleClass {V : Type*} [Category* V] {o₁ o₂ o₃ o₄ o�
   simp only [Category.assoc]
   rw [← Category.assoc, h₁, ← Category.assoc, h₂, ← Category.assoc, h₃, h₄]
 
+omit [SheafOfModules.IsQuasicoherent F] in
 /-- **Base change of the degree-`n` Čech cohomology class of a cocycle along an open immersion,
 in every degree.**  The restriction along `g` of the class of a cocycle `u` on the extended
 alternating Čech complex of [Stacks, Tag 0G7I], read across
@@ -377,6 +378,7 @@ theorem map_cocycleClass_comp_cechHomologyImmersionIso (n : ℕ) {M : X.Modules}
   rw [cechHomologyImmersionIso_hom, cechExtendHomologyImmersionIso_hom]
   exact assembleClass _ _ _ _ _ _ _ _ _ h₁ h₂ h₃ h₄
 
+omit [SheafOfModules.IsQuasicoherent F] in
 /-- **Base change of the degree-`(p+1)` Čech cohomology class of a cocycle along an open
 immersion.**  The restriction along `g` of the class of a cocycle `u` on the extended alternating
 Čech complex of [Stacks, Tag 0G7I], read across `Stacks.Gysin.cechHomologyRestrictIso`, is the

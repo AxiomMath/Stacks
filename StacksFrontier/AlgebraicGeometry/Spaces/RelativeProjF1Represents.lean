@@ -29,9 +29,9 @@ of `StacksFrontier.AlgebraicGeometry.Spaces.RelativeProjF1Generated`, which impl
 ## The proof
 
 The source's proof is "see Constructions, Lemma 01O4 for the case of schemes". By
-`StacksFrontier.AlgebraicGeometry.Spaces.RelativeProjF1Functor` the natural map `F₁ ⟶ P` is injective
-with no hypothesis; it remains to see that it is surjective at every test object `T`, that is,
-that every section over `T` of `Proj_T(f^*𝒜) = T ×_X P` lies in the degree-one open `U₁` of
+`StacksFrontier.AlgebraicGeometry.Spaces.RelativeProjF1Functor` the natural map `F₁ ⟶ P` is
+injective with no hypothesis; it remains to see that it is surjective at every test object `T`,
+that is, that every section over `T` of `Proj_T(f^*𝒜) = T ×_X P` lies in the degree-one open `U₁` of
 Tag 01NU, where the degree-one classifying morphism of Tag 01NZ is a bijection
 (`Stacks.AlgebraicGeometry.RelativeProjQcohSheaf.Fd.degreeOpenEquiv`). So the content is
 `U₁ = Proj_T(f^*𝒜)` for every scheme point `f : T → X`

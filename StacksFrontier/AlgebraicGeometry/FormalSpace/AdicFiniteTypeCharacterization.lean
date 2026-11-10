@@ -235,10 +235,10 @@ theorem hasPropertyOnAffineChartMap_adicStar_iff {U V : FppfSheaf B S hS} (t : U
   · intro h A R _ _ _ _ _ _ _ _ _ _ hA D E eU eV g hg
     have hAstar := hV A D eV
     have hRstar := hU R E eU
-    exact ((Rig.adicFiniteType_tfae g.toRingHom g.continuous hAstar.1 hRstar.1
+    exact ((Rig.adicFiniteType_tfae g.toRingHom hAstar.1 hRstar.1
       hAstar.2 hRstar.2).out 1 2).mp (h A R hAstar hRstar hA D E eU eV g hg)
   · intro h A R _ _ _ _ _ _ _ _ hAstar hRstar hA D E eU eV g hg
-    exact ((Rig.adicFiniteType_tfae g.toRingHom g.continuous hAstar.1 hRstar.1
+    exact ((Rig.adicFiniteType_tfae g.toRingHom hAstar.1 hRstar.1
       hAstar.2 hRstar.2).out 1 2).mpr
       (h A R (TopologicalRing.isCountablyWeaklyAdmissible_of_isAdicStar hAstar)
         (TopologicalRing.isCountablyWeaklyAdmissible_of_isAdicStar hRstar) hA D E eU eV g hg)

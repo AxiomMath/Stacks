@@ -74,7 +74,7 @@ instance epi_closedImmersionQuotient : Epi (closedImmersionQuotient φ) := by
     ClosedImmersionCoherentImage.epi_unitToPushforwardUnit φ
   have h : Sigma.ι (fun _ : Fin 1 => Stacks.Ample.unitModule (projectiveSpaceOverRing n (.of k)))
       0 ≫ closedImmersionQuotient φ = ClosedImmersionCoherentImage.unitToPushforwardUnit φ :=
-    Sigma.ι_desc _ _
+    Sigma.ι_comp_desc _ _
   exact epi_of_epi_fac h
 
 /-- For a closed immersion `φ : X ⟶ ℙⁿ_k`, the pushforward `φ_* 𝒪_X` is coherent. -/
@@ -105,7 +105,7 @@ theorem exists_isMRegular_kernel_closedImmersionQuotient (n : ℕ) (e c : ℤ) :
           (φ ≫ (projectiveSpaceOverRing n (.of k) ↘ Spec (.of k)))
           (SheafOfModules.unit X.ringCatSheaf) i) : ℤ) = c →
       ∀ d : ℤ, (m : ℤ) ≤ d → IsMRegular k n (kernel (closedImmersionQuotient φ)) d := by
-  obtain ⟨m₀, hm₀⟩ := exists_isMRegular_kernel_free_of_hilbertPolynomial n 1 le_rfl
+  obtain ⟨m₀, hm₀⟩ := exists_isMRegular_kernel_free_of_hilbertPolynomial n 1
     (Polynomial.C (e : ℚ) * Polynomial.X + Polynomial.C (c : ℚ))
   refine ⟨m₀.toNat, fun k _ X φ _ hdim he hc d hd => ?_⟩
   have hreg := hm₀ k ((Scheme.Modules.pushforward φ).obj (SheafOfModules.unit X.ringCatSheaf))

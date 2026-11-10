@@ -397,7 +397,7 @@ theorem cokernel_π_sectionsHom_app_map (M : Modules.{u, u} B S hS Y.1 Y.2)
     have hι := biproduct.ι_desc (fun i : I => (SheafOfModules.unitHomEquiv M).symm
       ((Stacks.SheafOfModules.FiniteTypeKernel.sectionsEquivOfTerminal M hT).symm i.1)) ⟨y, hy⟩
     rw [← hι, Category.assoc]
-    show _ ≫ sectionsHom B S hS hT M I ≫ _ = 0
+    change _ ≫ sectionsHom B S hS hT M I ≫ _ = 0
     rw [cokernel.condition, comp_zero]
   have h1 := congrArg (fun g => g.val.app (op A) (1 : (Stacks.SheafOfModules.Tensor.ringSheaf
     (smallEtaleRingedSite B S hS Y.1 Y.2).O).obj.obj (op A))) h0

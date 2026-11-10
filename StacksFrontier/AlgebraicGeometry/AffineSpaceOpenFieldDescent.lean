@@ -52,7 +52,7 @@ theorem exists_ne_zero_mem_of_isAlgebraic {n : Type u} (k K : Type u) [Field k] 
     ∃ h : MvPolynomial n k, h ≠ 0 ∧ MvPolynomial.map (algebraMap k K) h ∈ I := by
   have : Algebra.IsIntegral k K := Algebra.IsAlgebraic.isIntegral
   have hJ : I.comap (algebraMap (MvPolynomial n k) (MvPolynomial n K)) ≠ ⊥ :=
-    Ideal.IsIntegral.comap_ne_bot (MvPolynomial n k) hI
+    Ideal.IsIntegral.under_ne_bot (MvPolynomial n k) hI
   obtain ⟨h, hmem, hne⟩ := (Submodule.ne_bot_iff _).mp hJ
   exact ⟨h, hne, by simpa using hmem⟩
 
@@ -99,7 +99,7 @@ theorem exists_nonempty_preimage_map_le {n : Type u} (k K : Type u) [Field k] [F
   have hWne : (eK.inv ⁻¹ᵁ U).1.Nonempty := by
     obtain ⟨x, hx⟩ := hU
     refine ⟨eK.hom.base x, ?_⟩
-    show eK.inv.base (eK.hom.base x) ∈ U
+    change eK.inv.base (eK.hom.base x) ∈ U
     rw [hKid]
     exact hx
   obtain ⟨h, hh0, hsub⟩ :=

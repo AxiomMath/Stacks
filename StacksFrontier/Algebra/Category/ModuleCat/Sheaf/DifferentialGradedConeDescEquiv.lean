@@ -101,7 +101,7 @@ theorem xIso_d (S : ShiftPackage K) (n : ℤ) :
   dsimp only at hc ⊢
   subst hc
   simp only [xIso, eqToHom_refl, HomologicalComplex.id_f, Category.comp_id]
-  show (1 : ℤ).negOnePow • K.complex.d (n + 1) ((n + 1) + 1) = _
+  change (1 : ℤ).negOnePow • K.complex.d (n + 1) ((n + 1) + 1) = _
   rw [Int.negOnePow_one]
   simp
 

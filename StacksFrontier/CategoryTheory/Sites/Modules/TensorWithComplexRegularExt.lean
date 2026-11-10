@@ -75,7 +75,7 @@ theorem isIso_unit_app_of_injective_natural {C D : Type*} [Category C] [Category
   let δ : L.obj A ⟶ B := (adj.homEquiv A B).symm γ.hom
   have h₁ : adj.unit.app A ≫ R.map δ = γ.hom := (adj.homEquiv A B).apply_symm_apply γ.hom
   have hβδ : β ≫ δ = 𝟙 B := by
-    show θ (L.obj A) (adj.unit.app A) ≫ δ = 𝟙 B
+    change θ (L.obj A) (adj.unit.app A) ≫ δ = 𝟙 B
     rw [← hθ, h₁, hγ]
   have hu : adj.unit.app A = γ.hom ≫ R.map β := hinj (by
     rw [hθ, hγ, Category.id_comp])
@@ -83,7 +83,7 @@ theorem isIso_unit_app_of_injective_natural {C D : Type*} [Category C] [Category
     apply (adj.homEquiv A (L.obj A)).injective
     rw [Adjunction.homEquiv_id]
     apply hinj
-    show θ (L.obj A) (adj.unit.app A ≫ R.map (δ ≫ β)) = θ (L.obj A) (adj.unit.app A)
+    change θ (L.obj A) (adj.unit.app A ≫ R.map (δ ≫ β)) = θ (L.obj A) (adj.unit.app A)
     rw [Functor.map_comp, ← Category.assoc, h₁, hθ, hγ, Category.id_comp]
   have : IsIso β := ⟨⟨δ, hβδ, hδβ⟩⟩
   rw [hu]

@@ -140,7 +140,7 @@ noncomputable def sigmaProj (i : ι) : (∐ fun _ : ι => N) ⟶ N :=
 if `j = i` and zero otherwise. -/
 lemma ι_comp_sigmaProj (i j : ι) :
     Sigma.ι (fun _ : ι => N) j ≫ sigmaProj N i = if j = i then 𝟙 N else 0 :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The `i`-th coordinate projection is a retraction of the `i`-th coproduct inclusion. -/
 lemma ι_comp_sigmaProj_self (i : ι) :

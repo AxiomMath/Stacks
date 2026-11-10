@@ -172,7 +172,7 @@ theorem formsBasis_mem (s : Set.powersetCard (Fin m ⊕ Fin n) a) :
       rw [hs] at hmap
       rw [hmap]
       refine Finset.sum_congr rfl fun k _ => ?_
-      show (((Sum.elim (0 : Fin m → ℕ) 1 (v k) : ℕ)) : ℤ) = Sum.elim (0 : Fin m → ℤ) 1 (v k)
+      change (((Sum.elim (0 : Fin m → ℕ) 1 (v k) : ℕ)) : ℤ) = Sum.elim (0 : Fin m → ℤ) 1 (v k)
       rcases v k with x | x <;> simp)
   simpa [v] using h
 
@@ -385,6 +385,7 @@ theorem cechι_mem_posPart {s t : Finset (Fin n)} (h : s ⊆ t)
   | hadd z z' _ _ hz hz' => rw [map_add]; exact (posPart R m n a t).add_mem hz hz'
 
 set_option synthInstance.maxHeartbeats 80000 in
+-- instance synthesis through `DirectSum.decompose` on the graded localized pieces is expensive
 /-- An element of the positive part has no component of weight `≤ 0`. -/
 theorem decompose_eq_zero_of_mem_posPart {t : Finset (Fin n)}
     {z : cechMod (yVar R m n) (Forms R m n a) t} (hz : z ∈ posPart R m n a t) {e : ℤ}

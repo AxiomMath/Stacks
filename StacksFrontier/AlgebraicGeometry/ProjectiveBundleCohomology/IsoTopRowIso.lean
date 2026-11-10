@@ -39,7 +39,7 @@ public theorem topRowIso_hom_of_le {d : ℤ} (h : d ≤ -(n : ℤ) - 1) :
       ((bundlePushforward E hqc).rightDerivedPlus (n : ℤ)).map
           (twistPairingCurry E hqc D (-(n : ℤ) - 1 - d).toNat d (-(n : ℤ) - 1) (by omega)) ≫
         (higherDirectImageSheafHomIso E hqc D hn hfree _ d (by omega)).hom := by
-  rw [topRowIso, dif_pos h]
+  rw [topRowIso, dite_eq_left h]
   rfl
 
 end Unfold
@@ -75,7 +75,7 @@ public theorem higherDirectImagePullback_rightDerivedIso_of (q : ℕ) (M : X.Mod
         ((Scheme.Modules.pushforward p').rightDerived q).map x := by
   have h := ((Stacks.DerivedIndexing.rightDerivedIso (Scheme.Modules.pushforward p')
     q).inv.naturality x)
-  show (((Stacks.DerivedIndexing.rightDerivedIso _ q).app M).inv ≫ _ ≫
+  change (((Stacks.DerivedIndexing.rightDerivedIso _ q).app M).inv ≫ _ ≫
     ((Stacks.DerivedIndexing.rightDerivedIso _ q).app _).hom) ≫ _ = _
   simp only [Category.assoc]
   refine congrArg (_ ≫ _ ≫ ·) ((congrArg (_ ≫ ·) h).trans ?_)
@@ -181,6 +181,10 @@ variable (hn : 1 ≤ n) (k : ℕ) {d : ℤ} (hkd : (k : ℤ) = -(n : ℤ) - 1 - 
 
 
 include hkd in
+omit [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u}
+    (dualSheaf ((bundleAlgebra E hfree).piece (k : ℤ)))]
+  [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u}
+    (dualSheaf ((bundleAlgebra E' hfree').piece (k : ℤ)))] in
 /-- **The trace, the dual of the tensor product and the reindexing of the row `q = n` are
 compatible with `e`.** -/
 public theorem topRowDual_iso :
@@ -227,6 +231,10 @@ public theorem pullbackPullbackIso_trans_inv {X X' T : Scheme.{u}} (f : X' ⟶ X
       (Scheme.Modules.pullback p').map g.inv ≫ (pullbackPullbackIso f p p' hbase G).inv := by
   rw [Iso.trans_inv, Functor.mapIso_inv]
 
+omit [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u}
+    (dualSheaf ((bundleAlgebra E hfree).piece (k : ℤ)))]
+  [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u}
+    (dualSheaf ((bundleAlgebra E' hfree').piece (k : ℤ)))] in
 /-- **The curried multiplication pairing `𝒪(d) ⟶ 𝒪(-n-1) ⊗ π^*((Sym^k E)^∨)` corresponds under
 `e`**, `d + k = -n - 1`. -/
 public theorem twistPairingCurry_dual_iso (hd : d + k = -(n : ℤ) - 1) :
@@ -272,6 +280,10 @@ public theorem twistPairingCurry_dual_iso (hd : d + k = -(n : ℤ) - 1) :
     (twistPairing E hqE D k d (-(n : ℤ) - 1) hd) (twistPairing E' hqE' D' k d (-(n : ℤ) - 1) hd)
     (twistPairing_pullback hfree hfree' e D D' k d (-(n : ℤ) - 1) hd)
 
+omit [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u}
+    (dualSheaf ((bundleAlgebra E hfree).piece (k : ℤ)))]
+  [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u}
+    (dualSheaf ((bundleAlgebra E' hfree').piece (k : ℤ)))] in
 /-- The curried multiplication pairing of the row `q = n` under `e`, on `Rⁿ π'_*`. -/
 public theorem twistPairingCurry_dual_iso_map (hd : d + k = -(n : ℤ) - 1) :
     haveI := isQuasicoherent_of_isFiniteLocallyFreeOfRank E hfree
@@ -327,6 +339,10 @@ private theorem curryRow_chase {C : Type*} [Category C] {P Q W P' Q' W' Z T₁ T
     a₁ ≫ a₂ ≫ h₂ ≫ g = h₀ ≫ t ≫ c' ≫ ψ' := by
   rw [reassoc_of% N₂, reassoc_of% N₁, hA]
 
+omit [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u}
+    (dualSheaf ((bundleAlgebra E hfree).piece (k : ℤ)))]
+  [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u}
+    (dualSheaf ((bundleAlgebra E' hfree').piece (k : ℤ)))] in
 /-- **The curried pairing of the row `q = n` is compatible with `e`, on higher direct images.** -/
 public theorem topRowCurry_iso (hd : d + k = -(n : ℤ) - 1) :
     haveI := isQuasicoherent_of_isFiniteLocallyFreeOfRank E hfree
@@ -384,6 +400,10 @@ public theorem topRowCurry_iso (hd : d + k = -(n : ℤ) - 1) :
               hA).symm).hom)
     (twistPairingCurry_dual_iso_map hfree hfree' e D D' k hd)
 
+omit [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u}
+    (dualSheaf ((bundleAlgebra E hfree).piece (k : ℤ)))]
+  [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u}
+    (dualSheaf ((bundleAlgebra E' hfree').piece (k : ℤ)))] in
 /-- `topRowCurry_iso` with the isomorphism `SheafHom(π^* Sym^k E, 𝒪(-n-1)) ≅ 𝒪(-n-1) ⊗
 π^*((Sym^k E)^∨)` mapped as an isomorphism. -/
 public theorem topRowCurry_iso' (hd : d + k = -(n : ℤ) - 1) :
@@ -469,6 +489,7 @@ private theorem projTail_chase {C : Type*} [Category C] {P P' Q Q' U V V' Z' : C
     h ≫ g ≫ i' ≫ τ' = i ≫ pf ≫ a ≫ x' := by
   rw [hT', reassoc_of% hII]
 
+omit hA in
 /-- **The projection formula of the row `q = n` is compatible with `e`**, up to the isomorphism
 of the row after the comparison of the two indexings. -/
 public theorem topRowProjectionTail_iso :
@@ -551,6 +572,8 @@ private theorem dualTail_chase {C : Type*} [Category C] {P U V V' T₁ T₁' T�
   simp only [Category.assoc]
 
 include hkd in
+omit [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u}
+    (dualSheaf ((bundleAlgebra E' hfree').piece (k : ℤ)))] in
 /-- **The trace, the dual of the tensor product and the reindexing of the row `q = n` are
 compatible with `e`**, after the projection formula. -/
 public theorem topRowDualTail_iso :

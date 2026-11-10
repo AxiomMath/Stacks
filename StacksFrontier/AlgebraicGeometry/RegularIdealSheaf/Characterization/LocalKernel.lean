@@ -70,7 +70,7 @@ lemma symmetricMap_wordClass {R S : Type u} [CommRing R] [CommRing S]
     (n : ℕ) (a : Fin n → I) :
     symmetricMap I K φ h n (wordClass I n a) =
       wordClass K n (fun i => idealMap I K φ h (a i)) := by
-  show Submodule.Quotient.mk (wordsMap I K φ h n (word I a)) = _
+  change Submodule.Quotient.mk (wordsMap I K φ h n (word I a)) = _
   rw [wordsMap_word]
   rfl
 
@@ -86,7 +86,7 @@ private lemma monomialClass_tupleExponent {R : Type u} [CommRing R]
   classical
   let h : ∃ s : Fin n → Fin r, tupleExponent s = tupleExponent t := ⟨t, rfl⟩
   rw [monomialClass, dite_eq_left h]
-  show wordClass I n (f ∘ h.choose) = _
+  change wordClass I n (f ∘ h.choose) = _
   obtain ⟨σ, hσ⟩ := (tupleExponent_eq_iff h.choose t).mp h.choose_spec
   rw [← hσ]
   exact wordClass_perm I (f ∘ t) σ
@@ -265,7 +265,7 @@ lemma exists_local_mem_of_germ_mem_span (X : RingedSpace.{u})
   obtain ⟨W, hxW, iU, iV, a, ha⟩ :=
     exists_local_linearCombination_of_germ_mem_span X U V f s x hxU hxV hs
   refine ⟨W, hxW, iV, ?_⟩
-  show X.presheaf.map iV.op s ∈ sectionIdeal X J (op W)
+  change X.presheaf.map iV.op s ∈ sectionIdeal X J (op W)
   rw [← ha]
   exact Ideal.sum_mem _ (fun k _ => Ideal.mul_mem_left _ _
     (J.toSubmodule.map_mem iU.op (hf k)))
@@ -344,7 +344,7 @@ lemma span_le_comap_of_generators {R S : Type u} [CommRing R] [CommRing S]
     (h : ∀ k, φ (f k) = g k) : Jid f ≤ (Jid g).comap φ := by
   apply Ideal.span_le.mpr
   rintro _ ⟨k, rfl⟩
-  show φ (f k) ∈ Jid g
+  change φ (f k) ∈ Jid g
   rw [h]
   exact Ideal.subset_span (Set.mem_range_self k)
 
@@ -396,7 +396,7 @@ private lemma tuplePolynomial_coeff_mem_of_canonicalMap_eq_zero
       rw [he'']
       exact (IsScalarTower.algebraMap_smul (S ⧸ Jid g) (φ (c t)) _)
     rw [he']
-    show gradedPieceToTarget g n (Construction.canonicalMap (Jid g) n _) = 0
+    change gradedPieceToTarget g n (Construction.canonicalMap (Jid g) n _) = 0
     rw [hz, map_zero]
   have hp := hg (hzero.trans (map_zero _).symm)
   intro e
@@ -416,7 +416,7 @@ lemma germInRestriction_res (X : RingedSpace.{u}) (U : Opens X)
     (i : V ⟶ W) (s : X.presheaf.obj (op W)) :
     germInRestriction X U x hxU V hxV (X.presheaf.map i.op s) =
       germInRestriction X U x hxU W hxW s := by
-  show (X.toPresheafedSpace.restrictStalkIso U.isOpenEmbedding ⟨x, hxU⟩).inv
+  change (X.toPresheafedSpace.restrictStalkIso U.isOpenEmbedding ⟨x, hxU⟩).inv
       (X.presheaf.germ V x hxV (X.presheaf.map i.op s)) =
     (X.toPresheafedSpace.restrictStalkIso U.isOpenEmbedding ⟨x, hxU⟩).inv
       (X.presheaf.germ W x hxW s)
@@ -427,7 +427,7 @@ lemma germInRestriction_self (X : RingedSpace.{u}) (U : Opens X)
     germInRestriction X U x hxU U hxU s =
       (X.restrict U.isOpenEmbedding).presheaf.germ ⊤ ⟨x, hxU⟩ trivial
         (sectionOnRestriction X U s) := by
-  show (X.toPresheafedSpace.restrictStalkIso U.isOpenEmbedding ⟨x, hxU⟩).inv
+  change (X.toPresheafedSpace.restrictStalkIso U.isOpenEmbedding ⟨x, hxU⟩).inv
     (X.presheaf.germ U x hxU s) = _
   rw [← restrictStalkIso_germ_onRestriction X U ⟨x, hxU⟩ s]
   exact (X.toPresheafedSpace.restrictStalkIso U.isOpenEmbedding ⟨x, hxU⟩).hom_inv_id_apply _
@@ -498,7 +498,7 @@ lemma canonicalMap_local_kernel_of_quasiRegular_generators
       (leOfHom (i ≫ iW)) s hs x hxV
   have hfg : ∀ k, φ (fV k) = g k := by
     intro k
-    show germInRestriction X W x hxW V hxV
+    change germInRestriction X W x hxW V hxV
       (X.presheaf.map i.op (X.presheaf.map iW.op (f k))) = _
     rw [germInRestriction_res X W x hxW V T hxV ⟨hxU, hxW⟩ i,
       germInRestriction_res X W x hxW T W ⟨hxU, hxW⟩ hxW iW,
@@ -507,7 +507,7 @@ lemma canonicalMap_local_kernel_of_quasiRegular_generators
   have hzV : Construction.canonicalMap (sectionIdeal X J (op V)) n
       (∑ t, c t • Construction.wordClass (sectionIdeal X J (op V)) n (fV ∘ t)) = 0 := by
     rw [hc, Construction.canonicalMap_naturality]
-    show Construction.gradedMap _ _ _ _ n
+    change Construction.gradedMap _ _ _ _ n
       (Construction.canonicalMap _ n
         (Construction.symmetricMap _ _ _ _ n z)) = 0
     rw [Construction.canonicalMap_naturality, hz, map_zero, map_zero]
@@ -603,7 +603,7 @@ lemma isIso_freeHomEquiv_of_locallyBijective
     funext f i
     apply PresheafOfModules.sections_ext
     intro V
-    show f.val.app V ((M.freeHomEquiv (M.freeHomEquiv.symm s) i).val V) =
+    change f.val.app V ((M.freeHomEquiv (M.freeHomEquiv.symm s) i).val V) =
       f.val.app V ((freePresheafMap α M s).app V (ModuleCat.freeMk i))
     rw [Equiv.apply_symm_apply, freePresheafMap_freeMk]
   have hb : Function.Bijective (fun f : M ⟶ N =>

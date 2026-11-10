@@ -233,7 +233,7 @@ theorem isClosedImmersion_relativeSpectrumMapOfAlgebraHom {ι : Type*}
     ((universalAlgebraMap (s.withAlgebra B hB)).right.app (op (V a).1))).2 y
   obtain ⟨x, hx⟩ := hψ a z
   refine ⟨x, ?_⟩
-  show ((universalAlgebraMap (s.withAlgebra B hB)).right.app (op (V a).1))
+  change ((universalAlgebraMap (s.withAlgebra B hB)).right.app (op (V a).1))
       ((ψ.right.hom.app (op (V a).1)) x) = y
   rw [hx, hz]
 

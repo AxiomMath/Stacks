@@ -22,7 +22,7 @@ Let `f : X ⟶ Y` be a morphism of algebraic spaces over a scheme `S`.  Stacks 0
 
 **The tag is proved here, unconditionally and under the source's own hypothesis**, by the
 source's own route, as
-`AlgebraicGeometry.Space.isFinitePresentationOnSite_sheafOfDifferentials_of_isLocallyOfFinitePresentation`:
+`Space.isFinitePresentationOnSite_sheafOfDifferentials_of_isLocallyOfFinitePresentation`:
 the source reduces to the scheme case, Morphisms, Lemma 01V3 — which this repository proves, as
 `AlgebraicGeometry.Scheme.Hom.isFinitePresentation_relativeDifferentials` — by the étale
 localization of Stacks 04CU.  Both halves of that route are available.  The identification
@@ -97,7 +97,7 @@ datum is an input to the sectionwise route only.
 The tag is registered twice, as it is on the base: the two `@[stacks 05ZF]` suffixes sit on
 `AlgebraicGeometry.Space.isFinitePresentationOnSite_sheafOfDifferentials_of_chartData`, the
 sectionwise route from the chart datum, and on
-`AlgebraicGeometry.Space.isFinitePresentationOnSite_sheafOfDifferentials_of_isLocallyOfFinitePresentation_unconditional`,
+`isFinitePresentationOnSite_sheafOfDifferentials_of_isLocallyOfFinitePresentation_unconditional`,
 the source's statement with nothing assumed.
 
 ## Main definitions
@@ -122,7 +122,7 @@ the source's statement with nothing assumed.
 * `AlgebraicGeometry.Space.generates_universalDerivation_of_adjoin`,
   `AlgebraicGeometry.Space.hasFiniteGlobalPresentation_sheafOfDifferentials_over`,
   `AlgebraicGeometry.Space.isFinitePresentationOnSite_sheafOfDifferentials` and
-  `AlgebraicGeometry.Space.isFinitePresentationOnSite_sheafOfDifferentials_of_isLocallyOfFinitePresentation`:
+  `Space.isFinitePresentationOnSite_sheafOfDifferentials_of_isLocallyOfFinitePresentation`:
   the sectionwise route carrying `HasUnramifiedChartTransitions` as `hunram`, as it is carried on
   the base — the generators half, the presentation on one chart, the conclusion of Stacks 05ZF
   from the chart datum, and that conclusion at the source's hypothesis.
@@ -135,10 +135,10 @@ the source's statement with nothing assumed.
   the sense of Stacks 03DE(7).
 * `AlgebraicGeometry.Space.isFinitePresentationOnSite_sheafOfDifferentials_of_chartData`: the
   conclusion of Stacks 05ZF from the chart datum of the sectionwise route alone.
-* `AlgebraicGeometry.Space.isFinitePresentationOnSite_sheafOfDifferentials_of_isLocallyOfFinitePresentation_unconditional`:
+* `isFinitePresentationOnSite_sheafOfDifferentials_of_isLocallyOfFinitePresentation_unconditional`:
   **Stacks 05ZF**, under exactly the source's hypothesis and with nothing else assumed — if `f`
   is locally of finite presentation then `Ω_{X/Y}` is an `𝒪_X`-module of finite presentation.
-* `AlgebraicGeometry.Space.isQuasicoherentOnSite_sheafOfDifferentials_of_finitePresentationChartData`
+* `Space.isQuasicoherentOnSite_sheafOfDifferentials_of_finitePresentationChartData`
   and
   `AlgebraicGeometry.Space.isFiniteTypeOnSite_sheafOfDifferentials_of_finitePresentationChartData`:
   the two consequences the source draws from 05ZF, quasi-coherence of `Ω_{X/Y}` (the statement of
@@ -201,9 +201,9 @@ quasi-coherent route uses, and they are proved for this purpose:
 `AlgebraicGeometry.Space.isFinitePresentationOnSite_representedAssociatedModule` in
 `StacksFrontier/AlgebraicGeometry/Spaces/FinitePresentationAssociatedModule.lean` and
 `AlgebraicGeometry.Space.isFinitePresentationOnSite_iff_exists_etale_surjective` in
-`StacksFrontier/AlgebraicGeometry/Spaces/FinitePresentationEtaleMorphism.lean`, the latter resting on
-`SheafOfModules.isFinitePresentationOnSite_of_coversTop_hasFiniteGlobalPresentation`, which is the
-locality of `SheafOfModules.IsFinitePresentationOnSite` on a covering family — Stacks 03DN for
+`StacksFrontier/AlgebraicGeometry/Spaces/FinitePresentationEtaleMorphism.lean`, the latter resting
+on `SheafOfModules.isFinitePresentationOnSite_of_coversTop_hasFiniteGlobalPresentation`, which is
+the locality of `SheafOfModules.IsFinitePresentationOnSite` on a covering family — Stacks 03DN for
 clause (7).
 
 `PresheafOfModules.Generates` is the sectionwise form of generation by finitely many sections
@@ -372,7 +372,7 @@ the finiteness of the generating family of relations.
 
 This datum is an input to the sectionwise route only.  Stacks 05ZF itself is proved without it,
 by the source's route, in
-`AlgebraicGeometry.Space.isFinitePresentationOnSite_sheafOfDifferentials_of_isLocallyOfFinitePresentation`. -/
+`Space.isFinitePresentationOnSite_sheafOfDifferentials_of_isLocallyOfFinitePresentation`. -/
 def HasFinitePresentationChartData (f : X ⟶ Y) : Prop :=
   ∀ U : SmallEtale B S hS X.1, ∃ T : Sieve U, T ∈ (SmallEtale.topology B S hS X.1) U ∧
     ∀ ⦃V : SmallEtale B S hS X.1⦄ (g : V ⟶ U), T.arrows g →
@@ -725,7 +725,7 @@ affine members is what makes Algebra, Lemma 00UU applicable: the only transition
 differentiates are arrows between affine charts.
 
 The tag itself is
-`AlgebraicGeometry.Space.isFinitePresentationOnSite_sheafOfDifferentials_of_isLocallyOfFinitePresentation`
+`Space.isFinitePresentationOnSite_sheafOfDifferentials_of_isLocallyOfFinitePresentation`
 below, which takes the source's hypothesis on `f`; this is the sectionwise route to the same
 conclusion, kept because it reads the presentation off the construction of `Ω_{X/Y}` as a
 sheafification rather than off the scheme case. -/
@@ -765,7 +765,8 @@ finite presentation descends from a surjective étale chart by
 modules and étale restriction being matched by Equation 03LW. -/
 @[stacks 05ZF "finite presentation of Ω_{X/Y} for a morphism of algebraic spaces locally of
   finite presentation", sga "3 III 0.14" "more general", sga "7 VI 5.1" "partial"]
-theorem isFinitePresentationOnSite_sheafOfDifferentials_of_isLocallyOfFinitePresentation_unconditional
+theorem
+  isFinitePresentationOnSite_sheafOfDifferentials_of_isLocallyOfFinitePresentation_unconditional
     (f : X ⟶ Y) (hf : IsLocallyOfFinitePresentation B S hS f.hom) :
     (sheafOfDifferentials B S hS f).IsFinitePresentationOnSite := by
   obtain ⟨V, q, hqS, hqE⟩ := Y.property.exists_atlas
@@ -782,7 +783,7 @@ theorem isFinitePresentationOnSite_sheafOfDifferentials_of_isLocallyOfFinitePres
     exact hdiag
   have iso1 := sheafOfDifferentialsEtaleLocalizationIso B S hS f a ψ bb haE hbE hcomm
   obtain ⟨echart⟩ := sheafOfDifferentialsSchemeComparison B S hS U V α
-  letI hα : LocallyOfFinitePresentation ((BigFppfOver.toScheme B S hS).map α) :=
+  let hα : LocallyOfFinitePresentation ((BigFppfOver.toScheme B S hS).map α) :=
     hf U V p q α hpE hqE hdiag.symm
   have hfp : (sheafOfDifferentials B S hS ψ).IsFinitePresentationOnSite :=
     SheafOfModules.IsFinitePresentationOnSite.of_iso echart.symm

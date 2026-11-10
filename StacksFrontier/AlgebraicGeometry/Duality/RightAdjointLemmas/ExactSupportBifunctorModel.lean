@@ -1,7 +1,6 @@
 module
 
-public import
-  StacksFrontier.AlgebraicGeometry.Duality.RightAdjointLemmas.ExactSupportDerivedInternalHomBifunctor
+public import StacksFrontier.AlgebraicGeometry.Duality.RightAdjointLemmas.ExactSupportDerivedInternalHomBifunctor
 public import StacksFrontier.AlgebraicGeometry.Duality.RightAdjointLemmas.ExactSupportDerivedTrace
 public import
   StacksFrontier.AlgebraicGeometry.Duality.RightAdjointLemmas.ExactSupportHomComplexSingleSource
@@ -63,7 +62,7 @@ isomorphism of [Stacks, Tag 0A77] that
 ## Implementation notes
 
 The category of `𝒪_X`-modules carries two definitionally equal spellings here, as it does in
-`StacksFrontier.AlgebraicGeometry.Duality.RightAdjointLemmas.ExactSupportDerivedInternalHomBifunctor`:
+`RightAdjointLemmas.ExactSupportDerivedInternalHomBifunctor`:
 sheaf Hom with exact support and the derived adjunction of [Stacks, Tag 0A76] are stated over
 `structureSheafRing`, the internal Hom complex over
 `Stacks.SheafOfModules.StructureSheafModules`.  The two meet only once `sheafCompose` and
@@ -232,6 +231,7 @@ the other side. -/
 alias counit_app_eq_of_isKInjective :=
   derivedModulePushforwardSheafHomExactSupportAdjunction_counit_app_Q_of_isKInjective
 
+omit [I.IsKInjective] in
 /-- The degreewise trace identity of [Stacks, Tag 0A75], carried into the derived category. -/
 theorem Q_map_exactSupportHomComplexIso_comp
     (w : AlgebraicGeometry.RingedSite.structureSheafComplex (ringedSiteX S) ⟶

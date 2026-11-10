@@ -88,7 +88,7 @@ def pullbackMapOfComp : pullback f v' ⟶ pullback f v :=
 @[reassoc (attr := simp)]
 lemma pullbackMapOfComp_fst :
     pullbackMapOfComp f t ht ≫ pullback.fst f v = pullback.fst f v' := by
-  show pullback.lift (pullback.fst f v') (pullback.snd f v' ≫ t) _ ≫ _ = _
+  change pullback.lift (pullback.fst f v') (pullback.snd f v' ≫ t) _ ≫ _ = _
   exact pullback.lift_fst _ _ _
 
 /-- Composing `pullbackMapOfComp f t ht` with the projection to `V` is the projection to `V'`
@@ -96,7 +96,7 @@ followed by `t`. -/
 @[reassoc (attr := simp)]
 lemma pullbackMapOfComp_snd :
     pullbackMapOfComp f t ht ≫ pullback.snd f v = pullback.snd f v' ≫ t := by
-  show pullback.lift (pullback.fst f v') (pullback.snd f v' ≫ t) _ ≫ _ = _
+  change pullback.lift (pullback.fst f v') (pullback.snd f v' ≫ t) _ ≫ _ = _
   exact pullback.lift_snd _ _ _
 
 /-- **Base change along `f` of a morphism of schemes over `Y` is a fibre square.** The base
@@ -175,7 +175,7 @@ theorem nonempty_isColimit_cofanMk_pullback_sigma {ι : Type u} (W : ι → Sche
     simp only [TopologicalSpace.Opens.iSup_mk, TopologicalSpace.Opens.mem_mk, Set.mem_iUnion]
     exact ⟨i, mem_range_pullbackMapOfComp f _ (hw i) hx'⟩
   · intro i j hij
-    show Disjoint (pullbackMapOfComp f (Sigma.ι W i) (hw i)).opensRange
+    change Disjoint (pullbackMapOfComp f (Sigma.ι W i) (hw i)).opensRange
       (pullbackMapOfComp f (Sigma.ι W j) (hw j)).opensRange
     rw [opensRange_pullbackMapOfComp, opensRange_pullbackMapOfComp,
       ← TopologicalSpace.Opens.coe_disjoint]
@@ -189,7 +189,7 @@ theorem exists_surjective_sigmaDesc_of_forall_mem_range {U : Scheme.{u}} (g : U 
     (ha : ∀ i, a i ≫ g = pullback.fst f (wᵢ i)) (hcov : ∀ u, ∃ i, u ∈ Set.range (a i).base) :
     ∃ a' : pullback f (Sigma.desc wᵢ) ⟶ U,
       Surjective a' ∧ a' ≫ g = pullback.fst f (Sigma.desc wᵢ) := by
-  have hw : ∀ i, Sigma.ι W i ≫ Sigma.desc wᵢ = wᵢ i := fun i => Sigma.ι_desc _ _
+  have hw : ∀ i, Sigma.ι W i ≫ Sigma.desc wᵢ = wᵢ i := fun i => Sigma.ι_comp_desc _ _
   obtain ⟨hcolim⟩ := nonempty_isColimit_cofanMk_pullback_sigma f W wᵢ _ hw
   have hfac : ∀ i, pullbackMapOfComp f (Sigma.ι W i) (hw i) ≫ hcolim.desc (Cofan.mk U a) = a i :=
     fun i => hcolim.fac (Cofan.mk U a) ⟨i⟩
@@ -197,7 +197,7 @@ theorem exists_surjective_sigmaDesc_of_forall_mem_range {U : Scheme.{u}} (g : U 
   · obtain ⟨i, x, hx⟩ := hcov u
     refine ⟨(pullbackMapOfComp f (Sigma.ι W i) (hw i)).base x, ?_⟩
     rwa [← Scheme.Hom.comp_apply, hfac]
-  · show pullbackMapOfComp f (Sigma.ι W i) (hw i) ≫ hcolim.desc (Cofan.mk U a) ≫ g =
+  · change pullbackMapOfComp f (Sigma.ι W i) (hw i) ≫ hcolim.desc (Cofan.mk U a) ≫ g =
       pullbackMapOfComp f (Sigma.ι W i) (hw i) ≫ pullback.fst f (Sigma.desc wᵢ)
     rw [← Category.assoc, hfac, pullbackMapOfComp_fst, ha]
 

@@ -48,7 +48,7 @@ theorem exists_affine_etale_ofArrows (hp : p.IsFiberedInGroupoids) (W : 𝒳) :
     obtain ⟨e, -⟩ := hβ j
     exact @IsAffine.of_isIso _ _ e.hom e.isIso_hom (isAffine_Spec _)
   have hVet : IsEtaleCovering ⟨(p.obj W).left, V⟩ := by
-    show (V.map B.inclusion).presieve₀ ∈ Scheme.precoverage @Etale _
+    change (V.map B.inclusion).presieve₀ ∈ Scheme.precoverage @Etale _
     refine (Scheme.presieve₀_mem_precoverage_iff (V.map B.inclusion)).2 ⟨fun x => ?_, fun j => ?_⟩
     · obtain ⟨i, hi⟩ := U.exists_eq x
       obtain ⟨e, he⟩ := hα i
@@ -62,9 +62,9 @@ theorem exists_affine_etale_ofArrows (hp : p.IsFiberedInGroupoids) (W : 𝒳) :
   let vmap (j : V.I₀) : Vobj j ⟶ p.obj W := Over.homMk (V.f j)
   have hBcover : Sieve.ofArrows Vobj vmap ∈
       BigFppfOver.baseOverTopology B S hS .etale (p.obj W) := by
-    show Sieve.ofArrows Vobj vmap ∈ (B.etaleTopology.over (B.obj hS)) (p.obj W)
+    change Sieve.ofArrows Vobj vmap ∈ (B.etaleTopology.over (B.obj hS)) (p.obj W)
     rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
-    show Sieve.ofArrows V.X V.f ∈ B.etaleTopology (p.obj W).left
+    change Sieve.ofArrows V.X V.f ∈ B.etaleTopology (p.obj W).left
     have hpre : V.presieve₀ ∈ B.etalePrecoverage (p.obj W).left := ⟨V, rfl, hV, hVet⟩
     simpa [PreZeroHypercover.presieve₀] using Precoverage.generate_mem_toGrothendieck hpre
   choose y φ hφ using fun j => hp.exists_lift (vmap j) W rfl

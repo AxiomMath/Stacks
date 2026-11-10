@@ -252,7 +252,7 @@ lemma isZero_Q_mappingCocone_id (X : CochainComplex A ℤ) :
     IsZero (DerivedCategory.Q.obj (mappingCocone (𝟙 X))) := by
   refine Triangle.isZero₁_of_isIso₂ _
     (DerivedCategory.mappingCocone_triangle_distinguished (𝟙 X)) ?_
-  show IsIso (DerivedCategory.Q.map (𝟙 X))
+  change IsIso (DerivedCategory.Q.map (𝟙 X))
   rw [CategoryTheory.Functor.map_id]
   infer_instance
 

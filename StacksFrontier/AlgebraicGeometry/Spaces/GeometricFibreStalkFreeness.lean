@@ -219,11 +219,13 @@ Its two ingredients are
 `AlgebraicGeometry.Space.nonempty_over_restrictToChart_chartOpenNeighborhood` (above) and, in
 the namespace `AlgebraicGeometry`,
 `Space.isFiniteLocallyFreeOfRank_over_of_isFiniteLocallyFreeOfRank_chartSchemeModule` of
-`StacksFrontier/AlgebraicGeometry/Spaces/FiniteLocallyFreeRankChartScheme.lean`, Stacks 03DX (2) with
+`StacksFrontier/AlgebraicGeometry/Spaces/FiniteLocallyFreeRankChartScheme.lean`, Stacks 03DX (2)
+with
 a rank.  The first input, the base-change invariance of clause (1), is proved as well:
 `AlgebraicGeometry.Space.flat_geometricFibreModuleStalk_modulePullback_iff` of
 `StacksFrontier/AlgebraicGeometry/Spaces/GeometricFibreStalkBaseChange.lean`.  It does not depend
-on condition (2) of Stacks 05WY: the invariance follows directly, at the étale local rings, from the cartesian input of
+on condition (2) of Stacks 05WY: the invariance follows directly, at the étale local rings,
+from the cartesian input of
 Stacks 05VW (`AlgebraicGeometry.Space.cartesian_etaleStalk_tensor_flat`) — because at the
 *fibre* the comparison becomes a base change along a homomorphism out of a field, so the fibre
 local ring upstairs is faithfully flat over the one downstairs without any flatness of the base

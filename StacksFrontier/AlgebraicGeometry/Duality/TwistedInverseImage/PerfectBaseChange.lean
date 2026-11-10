@@ -100,7 +100,7 @@ theorem isIso_map_rightAdjointBaseChange_app_of_isAffineOpen_of_perfect
         (quasiCoherentDerivedPullbackCompIso g' f ≪≫ quasiCoherentDerivedPullbackCongr sq.w)
         (twistedInverseImageAdjunction f (isQuasicoherent_homology_derivedPushforward_of_qcqs f))
         (twistedInverseImageAdjunction f'
-          (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))).natTrans.app K)) := by
+          (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))).app K)) := by
   have : IsAffine V.toScheme := hV
   have : IsAffine V'.toScheme := hV'
   have : IsProper f' := MorphismProperty.of_isPullback sq inferInstance

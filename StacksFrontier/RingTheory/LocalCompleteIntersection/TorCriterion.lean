@@ -273,7 +273,7 @@ private theorem quotient_tor_isZero_iff
         intro r x
         change ResidueField R at x
         obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective r
-        show ResidueField.map qA (residue R r * x) =
+        change ResidueField.map qA (residue R r * x) =
           residue A (qA r) * ResidueField.map qA x
         rw [map_mul, ResidueField.map_residue] }
   have hl : Function.Bijective l := ⟨(ResidueField.map qA).injective, fun y => by
@@ -316,7 +316,7 @@ private theorem isCompleteIntersectionHom_iff_quotient_kernel
   have hL : L ≤ RingHom.ker qB := by
     rw [Ideal.map_le_iff_le_comap]
     intro r hr
-    show qB (algebraMap R S r) = 0
+    change qB (algebraMap R S r) = 0
     rw [← RingHom.comp_apply, ← hcomm, RingHom.comp_apply, RingHom.mem_ker.mp hr,
       map_zero]
   have hLtop : L ≠ ⊤ := ne_top_of_le_ne_top (RingHom.ker_ne_top qB) hL
@@ -333,7 +333,7 @@ private theorem isCompleteIntersectionHom_iff_quotient_kernel
     exact ⟨Ideal.Quotient.mk L s, rfl⟩
   have hba : b.comp qA = (Ideal.Quotient.mk L).comp (algebraMap R S) := by
     ext r
-    show a (e.symm (qA r)) = _
+    change a (e.symm (qA r)) = _
     have he : e.symm (qA r) = Ideal.Quotient.mk I r :=
       e.injective ((e.apply_symm_apply _).trans
         (RingHom.quotientKerEquivOfSurjective_apply_mk hqA r).symm)
@@ -343,7 +343,7 @@ private theorem isCompleteIntersectionHom_iff_quotient_kernel
     apply RingHom.ext
     intro x
     obtain ⟨r, rfl⟩ := hqA x
-    show c ((b.comp qA) r) = (f.comp qA) r
+    change c ((b.comp qA) r) = (f.comp qA) r
     rw [hba, hcomm]
     rfl
   have hflat : b.Flat := by
@@ -415,9 +415,9 @@ public theorem isCompleteIntersectionRing_and_eventually_tor_isZero_iff
   have hIJ : I.map (algebraMap R S) ≤ J := by
     refine Ideal.map_le_iff_le_comap.mpr ?_
     intro x hx
-    show (qB.comp g) x = 0
+    change (qB.comp g) x = 0
     rw [← hcomm]
-    show fhat (qA x) = 0
+    change fhat (qA x) = 0
     exact (congrArg fhat (RingHom.mem_ker.mp hx)).trans (map_zero fhat)
   have hTFAE := Stacks.CompleteIntersection.regularSequence_quotient_tfae_of_flat
     I J hI hIJ hfiber

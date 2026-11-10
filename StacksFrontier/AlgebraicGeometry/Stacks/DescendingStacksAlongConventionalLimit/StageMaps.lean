@@ -245,9 +245,9 @@ theorem exists_restrictHom_eq_of_limitHom_eq {b j : Iᵒᵖ} (e : j ⟶ b)
       Iso.hom_inv_id_app] at this
     exact (Category.comp_id _).symm.trans (this.trans (Category.comp_id _))
   obtain ⟨k, a, hk⟩ := Space.eventually_eq_of_baseChange_eq_of_siteContainsBaseChangeLimits
-    (B := B) (S := S) (hS := hS) (hZ := hZ) (D := C.diagram) (hD := C.stage_isAlgebraicSpace)
+    (B := B) (S := S) (hS := hS) (D := C.diagram) (hD := C.stage_isAlgebraicSpace)
     (hAffine := C.transition_affine) (hQc := C.stage_quasiCompact)
-    (hQs := C.stage_quasiSeparated) (hconv := C.convention) j _ _ (hY.pullback C e).1
+    (hconv := C.convention) j _ _ (hY.pullback C e).1
     (hZ'.pullback C e).1 (hY.pullback C e).2
     (hZ'.pullback C e).2 m m' h'
   exact ⟨k, a, by
@@ -592,7 +592,7 @@ theorem isPullback_limPairs :
     IsPullback (limFst G) (limSnd G) (limSource G) (limTarget G) :=
   IsPullback.of_map (Over.forget _)
     (Over.OverMorphism.ext (by
-      show pullback.fst G.source.hom G.target.hom ≫ G.source.hom =
+      change pullback.fst G.source.hom G.target.hom ≫ G.source.hom =
         pullback.snd G.source.hom G.target.hom ≫ G.target.hom
       exact pullback.condition))
     (IsPullback.of_hasPullback G.source.hom G.target.hom)

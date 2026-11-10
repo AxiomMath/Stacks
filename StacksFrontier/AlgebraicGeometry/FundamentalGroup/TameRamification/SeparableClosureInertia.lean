@@ -162,7 +162,7 @@ public theorem primeToChar_divides_tameRamificationIndex
     (Set.mem_singleton_iff.mpr rfl)⟩
   have hαFpow : (αF : F) ^ n = algebraMap A F π := by
     apply Subtype.ext
-    show α ^ n = algebraMap F L (algebraMap A F π)
+    change α ^ n = algebraMap F L (algebraMap A F π)
     rw [← IsScalarTower.algebraMap_apply A F L]
     exact hαpow
   have hαFint : IsIntegral A αF := by
@@ -186,7 +186,7 @@ public theorem primeToChar_divides_tameRamificationIndex
     ⟨fun x : integralClosure A L ↦
       (Algebra.IsIntegral.isIntegral (R := A) (A := integralClosure A L) x).tower_top⟩
   have hq : q.IsMaximal := by
-    show (Ideal.comap (algebraMap C (integralClosure A L)) P).IsMaximal
+    change (Ideal.comap (algebraMap C (integralClosure A L)) P).IsMaximal
     exact Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := C) P
   refine ⟨hq, ?_⟩
   let : IsDedekindDomain C := IsIntegralClosure.isDedekindDomain A K F C
@@ -253,7 +253,7 @@ private lemma reindexed_character_spec
     simp only [map_pow, h (lev n)]
   refine ⟨horder, hcompat, ?_, ?_, hequiv⟩
   · intro g
-    show (∃ σ : G, θ σ = g) ↔ _
+    change (∃ σ : G, θ σ = g) ↔ _
     constructor
     · rintro ⟨σ, rfl⟩
       exact ⟨horder σ, hcompat σ⟩
@@ -272,7 +272,7 @@ private lemma reindexed_character_spec
             have h := hcompatN n (asN (lev n)) (by rw [hasN (lev n)]; exact hlev n)
             rwa [hasN (lev n)] at h
   · ext σ
-    show (θ σ = 1) ↔ (θS σ = 1)
+    change (θ σ = 1) ↔ (θS σ = 1)
     constructor
     · intro h
       funext t

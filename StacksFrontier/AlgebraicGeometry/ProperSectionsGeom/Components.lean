@@ -60,9 +60,10 @@ Every geometric input is already in the tree and none of the clause is reproved 
   (`Stacks.RingTheory.IntegralOverField.isLocalRing_and_krullDimLE_zero`). Integrality here comes
   from finiteness of the factor over `k`, so clause (1) is used for both halves.
 
-`Stacks.AlgebraicGeometry.ProperSectionsGeom.isArtinianRing_and_isLocalRing_globalSections_of_connectedSpace`
-in `StacksFrontier.AlgebraicGeometry.ProperSectionsGeom.ConnectedLocal` is the one-component case of
-this clause: it is the statement below with `X` assumed connected, so that the product has a
+`isArtinianRing_and_isLocalRing_globalSections_of_connectedSpace` (in the namespace
+`Stacks.AlgebraicGeometry.ProperSectionsGeom`) in
+`StacksFrontier.AlgebraicGeometry.ProperSectionsGeom.ConnectedLocal` is the one-component case
+of this clause: it is the statement below with `X` assumed connected, so that the product has a
 single factor. It is kept, downstream files using it, but it no longer carries the tag.
 
 ## References

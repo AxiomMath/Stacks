@@ -113,7 +113,7 @@ theorem exists_arrowChart (h𝒳 : IsAlgebraicStack.{u, w} B S hS 𝒳.val)
     have hpt : (relPoints T' π).map (SmallAlg.homMk (sectionsMap m hmj).hom.hom) qQ =
         (relPoints T' π).map f r₀ := by
       apply Subtype.ext
-      show X.map (specOverMap (sectionsMap m hmj)).op (X.map (sectionsHom U₁ j₁).op ξ) =
+      change X.map (specOverMap (sectionsMap m hmj)).op (X.map (sectionsHom U₁ j₁).op ξ) =
         X.map (specOverMap f).op r₀.1
       rw [← Functor.map_comp_apply, ← op_comp, specOverMap_sectionsMap, op_comp,
         Functor.map_comp_apply, hm, ← Functor.map_comp_apply, ← op_comp, hf]

@@ -148,7 +148,7 @@ theorem C1573.isIso_chartAdicQuotientGenHom (n : ℕ) :
       (cokernel.π (idealPowerMultiple B S hS X.1 X.2 𝓘 (n + 1) F).ι).val.app
         (op (openChartOfComparison B S hS X A W)) x :=
     fun x => ConcreteCategory.congr_hom hcomp x
-  show Function.Bijective ((chartAdicQuotientGenHom B S hS A 𝓘 K hK F hF n).app W)
+  change Function.Bijective ((chartAdicQuotientGenHom B S hS A 𝓘 K hK F hF n).app W)
   refine ⟨(injective_iff_map_eq_zero _).2 fun y hy => ?_, fun z => ?_⟩
   · obtain ⟨x, rfl⟩ := hp y
     replace hy := (hx x).symm.trans hy

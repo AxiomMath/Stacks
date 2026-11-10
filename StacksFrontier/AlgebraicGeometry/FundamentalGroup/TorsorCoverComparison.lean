@@ -85,7 +85,7 @@ theorem eq_of_comp_torsorComparison_eq {Y T : FiniteEtaleOver X} (q : T ⟶ Y)
   have e := congrArg (· ≫ pullback.snd q.left q.left) h
   simp only [Category.assoc, pullback.lift_fst, pullback.lift_snd, Category.comp_id] at e₁ e
   subst e₁
-  have ht : t₀ ≫ T.hom = x.hom := by simpa only [Category.assoc, Sigma.ι_desc] using hg
+  have ht : t₀ ≫ T.hom = x.hom := by simpa only [Category.assoc, Sigma.ι_comp_desc] using hg
   obtain rfl : a = b := hfree ⟨t₀, ht⟩ a b (Subtype.ext e)
   rfl
 
@@ -107,11 +107,11 @@ theorem exists_comp_torsorComparison_eq {Y T : FiniteEtaleOver X} (q : T ⟶ Y)
     exact hg
   obtain ⟨a, ha⟩ := htrans ⟨g ≫ pullback.fst q.left q.left, (Category.assoc _ _ _).trans hg⟩
     ⟨g ≫ pullback.snd q.left q.left, h₂⟩ (Subtype.ext (by
-      show (g ≫ pullback.fst q.left q.left) ≫ q.left =
+      change (g ≫ pullback.fst q.left q.left) ≫ q.left =
         (g ≫ pullback.snd q.left q.left) ≫ q.left
       rw [Category.assoc, Category.assoc, pullback.condition]))
   refine ⟨g ≫ pullback.fst q.left q.left ≫ Sigma.ι (fun _ : ZMod n => T.left) a, ?_, ?_⟩
-  · simpa only [Category.assoc, Sigma.ι_desc] using hg
+  · simpa only [Category.assoc, Sigma.ι_comp_desc] using hg
   · simp only [Category.assoc, ι_torsorComparison]
     apply pullback.hom_ext
     · rw [Category.assoc, Category.assoc, pullback.lift_fst, Category.comp_id]
@@ -135,9 +135,9 @@ theorem isIso_torsorComparison_of_fiber {Y T : FiniteEtaleOver X} (q : T ⟶ Y)
     (MorphismProperty.comp_mem _ _ _ (MorphismProperty.pullback_fst _ _ hq) T.prop)
   have hw : Ψ ≫ B.hom = A.hom := by
     refine Sigma.hom_ext _ _ fun a => ?_
-    show Sigma.ι (fun _ : ZMod n => T.left) a ≫ Ψ ≫ pullback.fst q.left q.left ≫ T.hom =
+    change Sigma.ι (fun _ : ZMod n => T.left) a ≫ Ψ ≫ pullback.fst q.left q.left ≫ T.hom =
       Sigma.ι (fun _ : ZMod n => T.left) a ≫ Sigma.desc _
-    rw [Sigma.ι_desc, ← Category.assoc, ι_torsorComparison, pullback.lift_fst_assoc,
+    rw [Sigma.ι_comp_desc, ← Category.assoc, ι_torsorComparison, pullback.lift_fst_assoc,
       Category.id_comp]
   let Φ : A ⟶ B := MorphismProperty.Over.homMk Ψ hw
   have : IsIso Φ := by
@@ -150,10 +150,10 @@ theorem isIso_torsorComparison_of_fiber {Y T : FiniteEtaleOver X} (q : T ⟶ Y)
     obtain ⟨r, hr, e⟩ := exists_comp_torsorComparison_eq x q τ hτq htrans f.1 f.2
     exact ⟨⟨r, hr⟩, Subtype.ext e⟩
   refine ⟨(inv Φ).left, ?_, ?_⟩
-  · show Φ.left ≫ (inv Φ).left = 𝟙 A.left
+  · change Φ.left ≫ (inv Φ).left = 𝟙 A.left
     rw [← MorphismProperty.Comma.comp_left, IsIso.hom_inv_id]
     rfl
-  · show (inv Φ).left ≫ Φ.left = 𝟙 B.left
+  · change (inv Φ).left ≫ Φ.left = 𝟙 B.left
     rw [← MorphismProperty.Comma.comp_left, IsIso.inv_hom_id]
     rfl
 
@@ -232,7 +232,7 @@ omit [NeZero n] in
 theorem τ_add (a b : ZMod n) : D.τ (a + b) = D.τ a ≫ D.τ b := by
   refine finiteEtaleFiberFunctor_map_injective x fun t => D.eT.injective ?_
   rw [D.τ_apply, InducedTorsor.translate_add, CategoryTheory.Functor.map_comp]
-  show _ = D.eT ((finiteEtaleFiberFunctor x).map (D.τ b)
+  change _ = D.eT ((finiteEtaleFiberFunctor x).map (D.τ b)
     ((finiteEtaleFiberFunctor x).map (D.τ a) t))
   rw [D.τ_apply, D.τ_apply]
 
@@ -241,7 +241,7 @@ omit [NeZero n] in
 theorem τ_q (a : ZMod n) : D.τ a ≫ D.q = D.q := by
   refine finiteEtaleFiberFunctor_map_injective x fun t => eY.injective ?_
   rw [CategoryTheory.Functor.map_comp]
-  show eY ((finiteEtaleFiberFunctor x).map D.q ((finiteEtaleFiberFunctor x).map (D.τ a) t)) = _
+  change eY ((finiteEtaleFiberFunctor x).map D.q ((finiteEtaleFiberFunctor x).map (D.τ a) t)) = _
   rw [D.q_apply, D.q_apply, D.τ_apply, InducedTorsor.proj_translate]
 
 /-- The torsor cover `T` of a character is a `ℤ/n`-torsor scheme over `Y`: the map
@@ -267,7 +267,6 @@ theorem surjective_q [ConnectedSpace Y.left] : Function.Surjective D.q.left := b
 end CharacterTorsorData
 
 omit [NeZero n] in
-include hV in
 /-- The cover with fibre `π₁ ⧸ V` is connected. -/
 theorem connectedSpace_of_quotient_equiv (Y : FiniteEtaleOver X)
     (eY : (finiteEtaleFiberFunctor x).obj Y ≃ EtaleFundamentalGroup X x ⧸ V)

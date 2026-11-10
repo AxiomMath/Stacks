@@ -227,7 +227,8 @@ support of `ℱ` is proper over `Y`, then `ℱ` is universally pure above `y`.
 This is the general form above at the closed-immersion presentation of `ℱ` furnished by its
 scheme-theoretic support, Stacks 07U1, and the module on it of Stacks 07U0.
 
-The two arguments `hZ` and `hid` are not assumptions about the geometry but the closed-subspace data of the scheme-theoretic support, which
+The two arguments `hZ` and `hid` are not assumptions about the geometry but the closed-subspace
+data of the scheme-theoretic support, which
 `AlgebraicGeometry.Space.exists_isClosedSubspace_schemeTheoreticSupport` produces from
 quasi-coherence of the module together with its finite type in the sectionwise sense of
 Stacks 03DL(5); they are taken as arguments because every other hypothesis here, the
@@ -268,7 +269,8 @@ noncomputable def structurePrePureSituation {X Y : (BigFppfOver B S hS)ᵒᵖ �
   f := f
   finiteType := hft
   decent := hdec
-  F := SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X hX).O))
+  F := SheafOfModules.unit
+    ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X hX).O))
   moduleFiniteType := Stacks.SheafOfModules.isFiniteTypeOnSite_of_presheaf_isFiniteType _
     (PresheafOfModules.isFiniteType_unit _)
   moduleQuasicoherent := SheafOfModules.isQuasicoherentOnSite_unit _

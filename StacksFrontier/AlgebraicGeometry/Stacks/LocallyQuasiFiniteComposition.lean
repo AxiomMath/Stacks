@@ -368,7 +368,7 @@ theorem pointsMap_eq_of_specializes_of_isLocallyQuasiFinite
     have hz := Set.mem_range_self (f := ν) z
     rw [Scheme.range_fromSpecStalk] at hz
     exact hz)
-  haveI : Subsingleton ((BigFppfOver.toScheme B S hS).obj E) :=
+  have : Subsingleton ((BigFppfOver.toScheme B S hS).obj E) :=
     ⟨fun z₁ z₂ => ν.isEmbedding.injective ((hνη z₁).trans (hνη z₂).symm)⟩
   have hjflat : Flat ((BigFppfOver.toScheme B S hS).map j) := by
     rw [hj]
@@ -401,7 +401,7 @@ theorem pointsMap_eq_of_specializes_of_isLocallyQuasiFinite
   obtain ⟨qq, hq1, hq2⟩ := exists_point_of_isTwoFibreProduct B S hS Q hQ uS p hp1.symm
   obtain ⟨U'', c, hcSm, hcSurj⟩ := Stack.exists_smooth_surjective_schemeStack.{u, w} B S hS Q.pt
   obtain ⟨wS, hwS⟩ := hcSurj qq
-  haveI hgflat : Flat ((BigFppfOver.toScheme B S hS).map (Stack.siteMap B S hS (c ≫ Q.fst))) :=
+  have hgflat : Flat ((BigFppfOver.toScheme B S hS).map (Stack.siteMap B S hS (c ≫ Q.fst))) :=
     Stack.flat_siteMap_of_isFlat B S hS _
       (isFlat_comp B S hS c Q.fst (isFlat_of_isSmooth B S hS c hcSm) hQflat)
   have hgw : (BigFppfOver.toScheme B S hS).map (Stack.siteMap B S hS (c ≫ Q.fst))
@@ -463,10 +463,10 @@ theorem discreteTopology_points_of_isLocallyQuasiFinite_over_field
         (isLocallyOfFiniteType_of_isLocallyOfFinitePresentation B S hS
           (isLocallyOfFinitePresentation_of_isSmooth B S hS a haSm))
         (isLocallyOfFiniteType_comp B S hS h q hh.2.1 hq.2.1))
-  haveI : IsLocallyNoetherian ((BigFppfOver.toScheme B S hS).obj
+  have : IsLocallyNoetherian ((BigFppfOver.toScheme B S hS).obj
       (Over.mk (⟨toBase⟩ : B.obj hk ⟶ B.obj hS))) :=
     inferInstanceAs (IsLocallyNoetherian (Spec (.of k)))
-  haveI : IsLocallyNoetherian ((BigFppfOver.toScheme B S hS).obj U) :=
+  have : IsLocallyNoetherian ((BigFppfOver.toScheme B S hS).obj U) :=
     LocallyOfFiniteType.isLocallyNoetherian
       ((BigFppfOver.toScheme B S hS).map (Stack.siteMap B S hS (a ≫ h ≫ q)))
   have hopen : IsOpenMap π :=

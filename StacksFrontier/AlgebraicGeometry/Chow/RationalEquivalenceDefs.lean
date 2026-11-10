@@ -147,7 +147,7 @@ theorem cycleAssociatedToClosedSubscheme_apply (C : ChowSituation.{u}) {X Z : Sc
     (hξ : relativeDimension C.dimensionFunction f (i ξ.1) = k) :
     (cycleAssociatedToClosedSubscheme C f i k).1 (i ξ.1) = componentMultiplicity i ξ := by
   classical
-  show closedSubschemeCycleCoeff C f i k (i ξ.1) = componentMultiplicity i ξ
+  change closedSubschemeCycleCoeff C f i k (i ξ.1) = componentMultiplicity i ξ
   unfold closedSubschemeCycleCoeff
   have hExists : ∃ η : genericPoints Z,
       i η.1 = i ξ.1 ∧ relativeDimension C.dimensionFunction f (i ξ.1) = k := ⟨ξ, rfl, hξ⟩
@@ -184,7 +184,7 @@ theorem principalCycle_inv (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian 
   intro z
   have h := X.ord_mul (x := z) (inv_ne_zero hf) hf
   rw [inv_mul_cancel₀ hf, hone z] at h
-  show X.ord f⁻¹ z = -X.ord f z
+  change X.ord f⁻¹ z = -X.ord f z
   omega
 
 /-- The cycle on `X` obtained by pushing forward, along an integral closed subscheme `V ⊆ X`,
@@ -206,7 +206,7 @@ theorem algebraicCycle_map_neg {X Y : Scheme.{u}} (f : X ⟶ Y) [QuasiCompact f]
     AlgebraicCycle.map f wx wy (-c) = -AlgebraicCycle.map f wx wy c := by
   apply Function.locallyFinsuppWithin.ext
   intro y
-  show (AlgebraicCycle.map f wx wy (-c)) y = -((AlgebraicCycle.map f wx wy c) y)
+  change (AlgebraicCycle.map f wx wy (-c)) y = -((AlgebraicCycle.map f wx wy c) y)
   simp only [AlgebraicCycle.map, Function.locallyFinsupp.map_apply]
   rw [← finsum_set_coe_eq_finsum_mem, ← finsum_set_coe_eq_finsum_mem, ← finsum_neg_distrib]
   exact finsum_congr fun z ↦ by simp [neg_mul]
@@ -227,7 +227,7 @@ theorem principalDivisorPushforward_inv (C : ChowSituation.{u}) {X : Scheme.{u}}
     refine eq_inv_of_mul_eq_one_left ?_
     rw [← map_mul]
     simp
-  show AlgebraicCycle.map _ _ _ (principalCycle V.subscheme (e _)) = _
+  change AlgebraicCycle.map _ _ _ (principalCycle V.subscheme (e _)) = _
   rw [hinv, principalCycle_inv V.subscheme hg, algebraicCycle_map_neg]
   rfl
 
@@ -312,7 +312,7 @@ theorem principalDivisorFamilyCoefficient_sum (C : ChowSituation.{u}) {X : Schem
       (Function.support fun i ↦ principalDivisorPushforward C p (W i) (hW i) (g i) x).Finite :=
     fun W hW g hL ↦ finite_support_of_locallyFinite _ hL _
       (fun i ↦ support_principalDivisorPushforward_subset C p (W i) (hW i) (g i)) x
-  show (∑ᶠ s : J ⊕ K, _) = _
+  change (∑ᶠ s : J ⊕ K, _) = _
   rw [show (fun s : J ⊕ K ↦ principalDivisorPushforward C p (Sum.elim W V s)
         (match s with | .inl j => hW j | .inr l => hV l)
         (match s with | .inl j => g j | .inr l => h l) x) =
@@ -354,7 +354,7 @@ theorem rationallyEquivalentToZero_zero (C : ChowSituation.{u}) {X : Scheme.{u}}
     IsRationallyEquivalentToZero C p k 0 := by
   refine ⟨PEmpty.{u + 1}, (fun j ↦ nomatch j), (fun j ↦ nomatch j), (fun j ↦ nomatch j),
     fun _ ↦ ⟨Set.univ, Filter.univ_mem, Set.toFinite _⟩, (fun j ↦ nomatch j), fun x ↦ ?_⟩
-  show (0 : AlgebraicCycle X ℤ) x = _
+  change (0 : AlgebraicCycle X ℤ) x = _
   simp [principalDivisorFamilyCoefficient, finsum_of_isEmpty]
 
 /-- **Stacks 02RW.** The sum of two cycles rationally equivalent to zero is rationally
@@ -376,7 +376,7 @@ theorem rationallyEquivalentToZero_add (C : ChowSituation.{u}) {X : Scheme.{u}}
       funext fun s ↦ by cases s <;> rfl
     rw [hsets]
     exact locallyFinite_sum_elim _ _ hLocalW hLocalV
-  · show α.1 x + β.1 x = _
+  · change α.1 x + β.1 x = _
     rw [hg x, hh x]
     exact (principalDivisorFamilyCoefficient_sum C p W V hW hV g h hLocalW hLocalV x).symm
 
@@ -389,7 +389,7 @@ theorem rationallyEquivalentToZero_neg (C : ChowSituation.{u}) {X : Scheme.{u}}
     IsRationallyEquivalentToZero C p k (-α) := by
   obtain ⟨J, W, hW, hDim, hLocal, g, hg⟩ := hα
   refine ⟨J, W, hW, hDim, hLocal, fun j ↦ (g j)⁻¹, fun x ↦ ?_⟩
-  show -α.1 x = principalDivisorFamilyCoefficient C p W hW (fun j ↦ (g j)⁻¹) x
+  change -α.1 x = principalDivisorFamilyCoefficient C p W hW (fun j ↦ (g j)⁻¹) x
   rw [hg x]
   unfold principalDivisorFamilyCoefficient
   rw [← finsum_neg_distrib]

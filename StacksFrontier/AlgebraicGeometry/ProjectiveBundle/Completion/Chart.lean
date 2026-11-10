@@ -241,11 +241,11 @@ theorem symSectionsRingEquiv_ι [E.IsQuasicoherent] (m : Γ(E, U)) :
         ⟨SymmetricAlgebra.ι Γ(X, U) Γ(E, U) m, by
           rw [SymPow.symmetricPower, pow_one]; exact LinearMap.mem_range_self _ m⟩ :=
     DirectSum.decompose_of_mem _ _
-  show Stacks.RelativeSpec.totalSectionsRingEquiv X (Scheme.Modules.symmetricAlgebra X E)
+  change Stacks.RelativeSpec.totalSectionsRingEquiv X (Scheme.Modules.symmetricAlgebra X E)
       (Scheme.Modules.symmetricAlgebra_mul_comm X E) hU
       (Stacks.SymAlgSections.symPowersRingEquiv E hU (DirectSum.decompose _ _)) = _
   rw [hdec]
-  show Stacks.RelativeSpec.totalSectionsRingEquiv X (Scheme.Modules.symmetricAlgebra X E)
+  change Stacks.RelativeSpec.totalSectionsRingEquiv X (Scheme.Modules.symmetricAlgebra X E)
       (Scheme.Modules.symmetricAlgebra_mul_comm X E) hU
       (Stacks.SymAlgSections.ofSymPowers E hU (DirectSum.of _ 1 _)) = _
   rw [Stacks.SymAlgSections.ofSymPowers_of, Stacks.SymAlgSections.symPowerIncl_apply,
@@ -286,7 +286,7 @@ private theorem resRingHom_of_symmetricAlgebraGen (n : Γ(completionModule E, U'
 /-- **`T` is compatible with restriction.** -/
 theorem res_infinitySection :
     (completionAlgebra E).res h (infinitySection E U') = infinitySection E U := by
-  show (completionAlgebra E).resRingHom h (infinitySection E U') = _
+  change (completionAlgebra E).resRingHom h (infinitySection E U') = _
   rw [infinitySection, resRingHom_of_symmetricAlgebraGen, sectionsSplitting_t₀_restrict]
   rfl
 
@@ -311,7 +311,7 @@ theorem chartRingEquiv_symm_mk (n : ℕ) (x : (completionAlgebra E).sectionRing 
     (hx : x ∈ (completionAlgebra E).grading U (n • 1)) :
     (chartRingEquiv hU).symm (Away.mk _ (infinitySection_mem E U) n x hx) =
       sectionsDehomogenize hU x := by
-  show Stacks.SymAlgSections.symSectionsRingEquiv E hU
+  change Stacks.SymAlgSections.symSectionsRingEquiv E hU
       ((Stacks.SymmetricAway.lineChartEquiv (sectionsSplitting E U)
         ((completionAlgebra E).grading U) (sectionRingEquiv hU) (sectionRingEquiv_mem_iff hU)
         (infinitySection_mem E U) (sectionRingEquiv_infinitySection hU)).symm
@@ -438,7 +438,7 @@ theorem specMap_comp_chartToCompletion :
           (chartRingEquiv hU).symm.toRingHom := by
     ext x
     obtain ⟨n, a, ha, rfl⟩ := Away.mk_surjective _ (infinitySection_mem E U') x
-    show ((Scheme.Modules.symmetricAlgebraSheaf X E).right.obj.map (homOfLE h).op).hom
+    change ((Scheme.Modules.symmetricAlgebraSheaf X E).right.obj.map (homOfLE h).op).hom
         ((chartRingEquiv hU').symm (Away.mk _ (infinitySection_mem E U') n a ha)) =
       (chartRingEquiv hU).symm (HomogeneousLocalization.map ((completionAlgebra E).res h)
           (powers_le_comap_powers _ (res_infinitySection h))

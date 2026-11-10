@@ -180,7 +180,7 @@ theorem degreeComponent_naturality {n m : SimplexCategory} (β : n ⟶ m) :
   obtain ⟨n⟩ := n
   obtain ⟨m⟩ := m
   refine hom_ext_of_cartesian hM (vertexZero ⦋n⦌).op.op _ _ fun x => ?_
-  show degreeComponent hM g₀ ⦋m⦌ (M.map β.op.op (M.map (vertexZero ⦋n⦌).op.op x)) =
+  change degreeComponent hM g₀ ⦋m⦌ (M.map β.op.op (M.map (vertexZero ⦋n⦌).op.op x)) =
     N.map β.op.op (degreeComponent hM g₀ ⦋n⦌ (M.map (vertexZero ⦋n⦌).op.op x))
   rw [degreeComponent_map_vertexZero, ← PresheafOfModules.map_comp_apply,
     ← PresheafOfModules.map_comp_apply, ← op_comp, ← op_comp,

@@ -142,7 +142,7 @@ theorem exists_difference_solution_of_sections (objects : ℕ → C)
       ∀ N, solution N - solution (N + 1) ≫ transition N = legs N := by
   refine ⟨Nat.rec 0 (fun N previous => (previous - legs N) ≫ sections N), ?_⟩
   intro N
-  show _ - ((_ - legs N) ≫ sections N) ≫ transition N = legs N
+  change _ - ((_ - legs N) ≫ sections N) ≫ transition N = legs N
   rw [Category.assoc, hsections, Category.comp_id, sub_sub_cancel]
 
 /-- **An object sitting in the Milnor triangle of a tower of partial products of a family, whose
@@ -266,7 +266,7 @@ theorem isGE_of_isLimit_fan {I : Type*} (L : I → DerivedCategory A) (c : Fan L
   intro source morphism hsource
   apply hc.hom_ext
   rintro ⟨i⟩
-  show morphism ≫ c.proj i = 0 ≫ c.proj i
+  change morphism ≫ c.proj i = 0 ≫ c.proj i
   simpa using DerivedCategory.TStructure.t.zero_of_isLE_of_isGE
     (morphism ≫ c.proj i) (n - 1) n (by omega) hsource (hL i)
 
@@ -497,7 +497,7 @@ theorem isIso_piLift_sigmaPi_of_distTriang_truncation (family : ℕ → DerivedC
   have hsections (N : ℕ) : sections N ≫ transition N = 𝟙 _ := by
     apply (hlimit N).hom_ext
     rintro ⟨i⟩
-    show (sections N ≫ transition N) ≫ projection N i = 𝟙 _ ≫ projection N i
+    change (sections N ≫ transition N) ≫ projection N i = 𝟙 _ ≫ projection N i
     rw [Category.assoc, htransition]
     simpa [sections, fans, extended, i.property] using
       (hlimit (N + 1)).fac (extended N) ⟨⟨i.val, i.property.trans (Nat.le_succ N)⟩⟩

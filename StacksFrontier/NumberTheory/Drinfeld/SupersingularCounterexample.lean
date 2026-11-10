@@ -182,7 +182,7 @@ public theorem isFractionRing_CR : IsFractionRing (CommRingCat.of CR) K := by
     (a2 * b2) • (1 : CR) +
       (0 : (ZMod 2)[X]) • WeierstrassCurve.Affine.CoordinateRing.mk W₀.toAffine X,
     ?_⟩
-  show _ = coordHom _ / coordHom _
+  change _ = coordHom _ / coordHom _
   simp only [coordHom_smul_basis, map_div₀, ofR_algebraMap]
   rw [map_zero, zero_mul, add_zero, map_mul, map_mul, map_mul]
   field_simp

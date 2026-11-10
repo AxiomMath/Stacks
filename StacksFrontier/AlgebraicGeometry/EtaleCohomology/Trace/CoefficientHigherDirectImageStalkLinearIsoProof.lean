@@ -73,7 +73,7 @@ theorem injective_extendScalars_padic_map {M N : ModuleCat.{u + 1} ℤ_[ℓ]} (f
     Function.Injective
       ((ModuleCat.extendScalars.{0, 0, u + 1} (algebraMap ℤ_[ℓ] ℚ_[ℓ])).map f).hom := by
   have : Module.Flat ℤ_[ℓ] ℚ_[ℓ] := IsLocalization.flat ℚ_[ℓ] (nonZeroDivisors ℤ_[ℓ])
-  show Function.Injective (LinearMap.lTensor ℚ_[ℓ] f.hom)
+  change Function.Injective (LinearMap.lTensor ℚ_[ℓ] f.hom)
   exact Module.Flat.lTensor_preserves_injective_linearMap f.hom hf
 
 /-! ### The stalk inside the limit of `H⁰_c(Spec κ̄, i⁻¹ Mₙ)` -/
@@ -179,7 +179,10 @@ def LAdicSheaf.higherDirectImageStalkComparison :
         (LAdicSheaf.higherDirectImageShriek B ℓ g jg G r)) ≫
     (LAdicSheaf.higherDirectImageStalkChainIso B ℓ g jg w hB kbar G r hcond jgw jU Ψ).hom
 
-omit [IsAlgClosed kbar] in
+omit [IsAlgClosed kbar]
+    [LocallyOfFiniteType ((B.inclusion.map g).fiberToSpecResidueField w)]
+    [QuasiCompact ((B.inclusion.map g).fiberToSpecResidueField w)]
+    [IsSeparated ((B.inclusion.map g).fiberToSpecResidueField w)] in
 /-- **The comparison map `ℚ_ℓ ⊗ (Rʳ g_! G)_w̄ → Hʳ_c(U_{w,κ̄}, G|_{U_w} ⊗ ℚ_ℓ)` is injective.** -/
 theorem LAdicSheaf.injective_higherDirectImageStalkComparison :
     Function.Injective (LAdicSheaf.higherDirectImageStalkComparison B ℓ g jg w hB kbar p n hcard G r
@@ -189,7 +192,10 @@ theorem LAdicSheaf.injective_higherDirectImageStalkComparison :
     (injective_extendScalars_padic_map ℓ _ (LAdicSheaf.injective_residuePointLimitMap B ℓ w kbar p n
       hcard _))
 
-omit [IsAlgClosed kbar] in
+omit [IsAlgClosed kbar]
+    [LocallyOfFiniteType ((B.inclusion.map g).fiberToSpecResidueField w)]
+    [QuasiCompact ((B.inclusion.map g).fiberToSpecResidueField w)]
+    [IsSeparated ((B.inclusion.map g).fiberToSpecResidueField w)] in
 /-- **The comparison map carries the geometric Frobenius at `w` to the Frobenius of `κ(w)`**,
 given the Leray comparison `Ψ` with Frobenius. -/
 theorem LAdicSheaf.higherDirectImageStalkComparison_frobenius
@@ -216,7 +222,10 @@ theorem LAdicSheaf.higherDirectImageStalkComparison_frobenius
     (LAdicSheaf.higherDirectImageStalkChainIso_frobenius B ℓ g jg w hB kbar p n hcard G r hcond jgw
       jU Ψ hΨ)
 
-omit [IsAlgClosed kbar] in
+omit [IsAlgClosed kbar]
+    [LocallyOfFiniteType ((B.inclusion.map g).fiberToSpecResidueField w)]
+    [QuasiCompact ((B.inclusion.map g).fiberToSpecResidueField w)]
+    [IsSeparated ((B.inclusion.map g).fiberToSpecResidueField w)] in
 /-- **The comparison map is natural in `G`**: it carries the endomorphism of `Rʳ g_! G` induced by
 `φ : G ⟶ G` to the endomorphism of `G|_{U_w}` induced by `φ`. -/
 theorem LAdicSheaf.higherDirectImageStalkComparison_naturality (φ : G ⟶ G) :
@@ -235,7 +244,10 @@ theorem LAdicSheaf.higherDirectImageStalkComparison_naturality (φ : G ⟶ G) :
       (LAdicSheaf.stalkMap_comp_residuePointLimitMap B ℓ w kbar p n hcard _))
     (LAdicSheaf.higherDirectImageStalkChainIso_naturality B ℓ g jg w hB kbar G r hcond jgw jU Ψ φ)
 
-omit [IsAlgClosure (W.1.residueField w) kbar] in
+omit [IsAlgClosure (W.1.residueField w) kbar]
+    [LocallyOfFiniteType ((B.inclusion.map g).fiberToSpecResidueField w)]
+    [QuasiCompact ((B.inclusion.map g).fiberToSpecResidueField w)]
+    [IsSeparated ((B.inclusion.map g).fiberToSpecResidueField w)] in
 include hcard hcond Ψ in
 /-- **`Hʳ_c(U_{w,κ̄}, G|_{U_w} ⊗ ℚ_ℓ)` is finite dimensional**: through the proper base change
 chain it is `H⁰_c(Spec κ̄, i⁻¹ Rʳ g_! G ⊗ ℚ_ℓ)`, finite dimensional since `Spec κ` is finite étale
@@ -403,7 +415,7 @@ theorem LAdicSheaf.CoefficientSheaf.exists_higherDirectImageStalkLinearEquiv
         algebraMap O E o • e₀.symm v := by
     intro o v
     rw [LinearEquiv.symm_apply_eq]
-    show _ = e₀ ((F.higherDirectImageShriek B ℓ g jg r).rationalStalkRingHom s E
+    change _ = e₀ ((F.higherDirectImageShriek B ℓ g jg r).rationalStalkRingHom s E
       (algebraMap O E o) (e₀.symm v))
     rw [LAdicSheaf.CoefficientSheaf.rationalStalkRingHom_algebraMap_apply, hnat,
       LinearEquiv.apply_symm_apply]
@@ -412,7 +424,7 @@ theorem LAdicSheaf.CoefficientSheaf.exists_higherDirectImageStalkLinearEquiv
       (fibreStructureResidueField B g w) jU kbar r E e₀.symm.toLinearMap.toAddMonoidHom hT c
       v }, ?_⟩
   refine LinearMap.ext fun v => ?_
-  show e₀.symm ((LAdicSheaf.rationalGeometricCompactlySupportedFrobenius (k := W.1.residueField w)
+  change e₀.symm ((LAdicSheaf.rationalGeometricCompactlySupportedFrobenius (k := W.1.residueField w)
     B (fibreObj B g w hB) ℓ (fibreStructureResidueField B g w) jU kbar p n hcard F'.toLAdicSheaf
     r).hom v) =
     LAdicSheaf.rationalStalkEnd B W ℓ R (frobeniusPointHom W.1 (residuePointImage B w)) (e₀.symm v)
@@ -469,7 +481,7 @@ theorem coefficientHigherDirectImageStalkLinearIsoInput :
       (CompactificationOf.ofProper (𝟙 _)) kbar p n hcard)
   have hpb : IsPullback (B.inclusion.map (fibreι B g w.1 hB)) (fibreStructureResidueField B g w.1)
       (B.inclusion.map g) (W.1.fromSpecResidueField w.1) := by
-    show IsPullback _ ((B.inclusion.map g).fiberToSpecResidueField w.1 ≫ 𝟙 _) _ _
+    change IsPullback _ ((B.inclusion.map g).fiberToSpecResidueField w.1 ≫ 𝟙 _) _ _
     rw [Category.comp_id]
     exact sq
   refine hC (fibreObj B g w.1 hB) (fibreι B g w.1 hB) (fibreStructureResidueField B g w.1) hpb jU ?_

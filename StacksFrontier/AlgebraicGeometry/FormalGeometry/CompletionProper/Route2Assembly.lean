@@ -165,6 +165,7 @@ section IdealSheaf
 variable {X : Scheme.{u}} [IsLocallyNoetherian X] (J : X.IdealSheafData) {V : X.Opens}
   (hV : IsAffineOpen V)
 
+omit [IsLocallyNoetherian X] in
 /-- **The ideal sheaf `𝒥(V) 𝒪` of `Spec Γ(X, V)` is the inverse image of `𝒥|_V` along the
 inverse of `AlgebraicGeometry.IsAffineOpen.isoSpec`.** For an affine open `V ⊆ X`,
 
@@ -193,6 +194,7 @@ variable {X X₂ Y Y₂ : Scheme.{u}} [IsNoetherian X] [IsNoetherian X₂] [IsNo
 
 include w
 
+omit [AlgebraicGeometry.IsNoetherian X] in
 /-- **The comparison `ι` of the two completed direct images across a square whose horizontal
 morphisms are isomorphisms is itself an isomorphism.**
 `Stacks.Algebraization.isoSquareCompletedComparison` is by construction the completion of the
@@ -224,6 +226,8 @@ variable {X' X : Scheme.{u}} [IsNoetherian X'] [IsNoetherian X] (π : X' ⟶ X) 
   (β : (coherentAdicPullback π J).obj G ≅ (completionFunctor X' (J.comap π)).obj 𝓕)
   (V : X.affineOpens) [IsNoetherianRing ↥Γ(X, V.1)]
 
+omit [AlgebraicGeometry.IsNoetherian X'] [AlgebraicGeometry.IsNoetherian X]
+    [IsProper π] [IsNoetherianRing ↥Γ(X, V.1)] in
 /-- **The square of the affine open and its spectrum.** For `V ⊆ X` an affine open and
 `e = V.2.isoSpec : V ≅ Spec Γ(X, V)`,
 
@@ -374,8 +378,8 @@ No `stacks` attribute is attached: this is a hypothesis, not a statement of the 
 public def HasAdicBaseChangeUnitCondition : Prop :=
   ∀ {X' X : Scheme.{u}} [IsNoetherian X'] [IsNoetherian X] (π : X' ⟶ X) [IsProper π]
     (J K : X.IdealSheafData) (G : CoherentAdicSystems J)
-    (𝓕 : AlgebraicGeometry.SheafOfModules.CoherentModules X'.ringCatSheaf)
-    (β : (coherentAdicPullback π J).obj G ≅ (completionFunctor X' (J.comap π)).obj 𝓕),
+    (𝓕 : AlgebraicGeometry.SheafOfModules.CoherentModules X'.ringCatSheaf),
+    ((coherentAdicPullback π J).obj G ≅ (completionFunctor X' (J.comap π)).obj 𝓕) →
     IsIso (π ∣_ K.support.compl) → ∀ V : X.affineOpens,
       letI : IsNoetherianRing ↥Γ(X, V.1) := IsLocallyNoetherian.component_noetherian V
       ∀ 𝒜 : AlgebraicGeometry.SheafOfModules.CoherentModules

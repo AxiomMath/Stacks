@@ -166,7 +166,7 @@ theorem comparisonFunctor_map_baseChangeSpaceChartMap_comp (f : X ⟶ Y)
     (comparisonFunctor B S hS X).map (baseChangeSpaceChartMap B S hS f V g) ≫
         baseChangeSpaceChartHom B S hS f V c' = baseChangeSpaceChartHom B S hS f V c := by
   refine ObjectProperty.hom_ext _ (Over.OverMorphism.ext (ObjectProperty.hom_ext _ ?_))
-  show ((SpacesEtale.toSpaces B S hS X).map
+  change ((SpacesEtale.toSpaces B S hS X).map
       ((comparisonFunctor B S hS X).map (baseChangeSpaceChartMap B S hS f V g))).hom ≫
     c'.obj.hom = c.obj.hom
   rw [toSpaces_comparisonFunctor_map_hom B S hS X (baseChangeSpaceChartMap B S hS f V g),

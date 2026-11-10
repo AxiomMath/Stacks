@@ -75,7 +75,7 @@ theorem cechCyclesOneIsoKer_hom_coe (z : (Cech.cechComplex f (M : Type _)).cycle
       Submodule R (Cech.cechTerm f (M : Type _) 1)) =
       LinearMap.ker (Cech.cechD f (M : Type _) 1) :=
     congrArg (fun φ => LinearMap.ker (ModuleCat.Hom.hom φ)) (cechComplex_d_one_two f M)
-  show ((eqToHom (congrArg (fun S : Submodule R (Cech.cechTerm f (M : Type _) 1) =>
+  change ((eqToHom (congrArg (fun S : Submodule R (Cech.cechTerm f (M : Type _) 1) =>
         ModuleCat.of R ↥S) hker)
       ((HomologicalComplex.sc' (Cech.cechComplex f (M : Type _)) 0 1 2).moduleCatCyclesIso.hom
         (((Cech.cechComplex f (M : Type _)).cyclesIsoSc' 0 1 2 (by simp) (by simp)).hom z)) :
@@ -152,7 +152,7 @@ theorem cechComplementHomologyZeroIsoCycles_hom_naturality_apply (g : M ⟶ N)
     (HomologicalComplex.isZero_single_obj_X (ComplexShape.up ℤ) 0 M _ (by omega))
     (HomologicalComplex.isZero_single_obj_X (ComplexShape.up ℤ) 0 N _ (by omega))
     (HomologicalComplex.isZero_single_obj_X (ComplexShape.up ℤ) 0 N _ (by omega))
-  show (Stacks.MappingCone.homologyIsoCycles (extendedCechAugmentation f N) 0 _ _).hom
+  change (Stacks.MappingCone.homologyIsoCycles (extendedCechAugmentation f N) 0 _ _).hom
       ((DerivedCategory.homologyFunctorFactors (ModuleCat.{max u v} R) 0).hom.app
         (CochainComplex.mappingCone (extendedCechAugmentation f N))
         ((DerivedCategory.homologyFunctor (ModuleCat.{max u v} R) 0).map
@@ -178,7 +178,7 @@ theorem cechComplementHomologyZeroEquivKer_naturality (g : M ⟶ N)
         ((DerivedCategory.homologyFunctor (ModuleCat.{max u v} R) 0).map
           ((cechComplementFunctor.{v} f).map g) z) =
       kerCechDOneMap f g (cechComplementHomologyZeroEquivKer.{v} f M z) := by
-  show (cechCyclesOneIsoKer f N).hom ((extendedCechCyclesOneIso.{v} f N).hom
+  change (cechCyclesOneIsoKer f N).hom ((extendedCechCyclesOneIso.{v} f N).hom
       ((cechComplementHomologyZeroIsoCycles.{v} f N).hom
         ((DerivedCategory.homologyFunctor (ModuleCat.{max u v} R) 0).map
           ((cechComplementFunctor.{v} f).map g) z))) = _

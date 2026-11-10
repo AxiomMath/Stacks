@@ -78,8 +78,7 @@ lemma cancelBaseChange_one_tmul {A B R : Type u} [CommRing A] [CommRing B] [Comm
     (P : Type u) [AddCommGroup P] [Module A P] (y : B ⊗[A] P) :
     AlgebraTensorModule.cancelBaseChange A B R R P ((1 : R) ⊗ₜ[B] y)
       = LinearMap.rTensor P (IsScalarTower.toAlgHom A B R).toLinearMap y := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul β p => simp [Algebra.smul_def]
   | add y z hy hz => simp [TensorProduct.tmul_add, hy, hz]
 
@@ -101,7 +100,7 @@ lemma cancelIsoApp_hom_one_tmul (P : ModuleCat.{u} A)
   have hfeq : f.toLinearMap = (IsScalarTower.toAlgHom A B R).toLinearMap :=
     LinearMap.ext fun β => hf β
   rw [hfeq]
-  show AlgebraTensorModule.cancelBaseChange A B R R (↑P) ((1 : R) ⊗ₜ[B] y) = _
+  change AlgebraTensorModule.cancelBaseChange A B R R (↑P) ((1 : R) ⊗ₜ[B] y) = _
   exact cancelBaseChange_one_tmul (A := A) (B := B) (R := R) (↑P) y
 
 /-- A map between the base changes to `R` that is the base change along `b` of a map between the
@@ -125,7 +124,7 @@ lemma extendScalars_map_comp_cancelIsoApp (M N : ModuleCat.{u} A)
   let _ : Algebra A R := p.toAlgebra
   apply ModuleCat.ExtendScalars.hom_ext
   intro y
-  show (cancelIsoApp a b p hp N).hom ((ModuleCat.extendScalars b).map ul ((1 : R) ⊗ₜ[B,b] y))
+  change (cancelIsoApp a b p hp N).hom ((ModuleCat.extendScalars b).map ul ((1 : R) ⊗ₜ[B,b] y))
     = u ((cancelIsoApp a b p hp M).hom ((1 : R) ⊗ₜ[B,b] y))
   rw [ModuleCat.ExtendScalars.map_tmul]
   exact ((cancelIsoApp_hom_one_tmul a b p hp N f hf _).trans (hul y).symm).trans

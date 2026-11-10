@@ -183,10 +183,10 @@ theorem pointSchemeOver_app_eq (T : SchemesOver D.Y) {T' : BigFppfOver B S hS}
   unfold pointSchemeOver
   congr 1
   apply ObjectProperty.hom_ext
-  show yonedaEquiv.symm (T.hom.hom.app (op T') t) = yoneda.map t ≫ T.hom.hom
+  change yonedaEquiv.symm (T.hom.hom.app (op T') t) = yoneda.map t ≫ T.hom.hom
   apply yonedaEquiv.injective
   rw [Equiv.apply_symm_apply]
-  show _ = T.hom.hom.app (op T') (𝟙 T' ≫ t)
+  change _ = T.hom.hom.app (op T') (𝟙 T' ≫ t)
   rw [Category.id_comp]
 
 /-- **`F_n` over a quasi-finite test scheme is represented by a monomorphism of finite
@@ -214,7 +214,7 @@ theorem exists_isPullback_flatDimensionSubfunctor (hf : IsFinitePresentation B S
       (D.flatDimensionSubfunctor n).preimage T.hom.hom = Subfunctor.range (yoneda.map z) := by
     ext T' t
     obtain ⟨T'⟩ := T'
-    show D.IsFlatInDimensionsGEAfterBaseChange
+    change D.IsFlatInDimensionsGEAfterBaseChange
       (pointSchemeOver D.Y (T.hom.hom.app (op T') t)) n ↔ t ∈ Set.range ((yoneda.map z).app (op T'))
     rw [D.pointSchemeOver_app_eq T t]
     let β : (CostructuredArrow.mk ((schemeSpaceFunctor B S hS).map t ≫ T.hom) : SchemesOver D.Y) ⟶
@@ -224,11 +224,11 @@ theorem exists_isPullback_flatDimensionSubfunctor (hf : IsFinitePresentation B S
     · rintro ⟨k⟩
       refine ⟨Over.homMk (ObjectProperty.homMk k.left) ?_, ?_⟩
       · apply ObjectProperty.hom_ext
-        show k.left ≫ Z.hom ≫ T.left.hom.hom = T'.hom.hom
+        change k.left ≫ Z.hom ≫ T.left.hom.hom = T'.hom.hom
         rw [← Category.assoc, Over.w k]
         exact congrArg (fun m => m.hom) (Over.w t)
       · apply (BigFppfOver.toScheme B S hS).map_injective
-        show k.left ≫ Z.hom = (BigFppfOver.toScheme B S hS).map t
+        change k.left ≫ Z.hom = (BigFppfOver.toScheme B S hS).map t
         exact Over.w k
     · rintro ⟨k, rfl⟩
       exact ⟨Over.homMk ((BigFppfOver.toScheme B S hS).map k) rfl⟩
@@ -245,7 +245,7 @@ theorem exists_isPullback_flatDimensionSubfunctor (hf : IsFinitePresentation B S
   let eP : yoneda.obj Zs ≅ ((D.flatDimensionSubfunctor n).preimage T.hom.hom).toFunctor :=
     eR ≪≫ eqToIso (congrArg Subfunctor.toFunctor hpre.symm)
   have heP : eP.hom ≫ ((D.flatDimensionSubfunctor n).preimage T.hom.hom).ι = yoneda.map z := by
-    show (Subfunctor.toRange (yoneda.map z) ≫
+    change (Subfunctor.toRange (yoneda.map z) ≫
       eqToHom (congrArg Subfunctor.toFunctor hpre.symm)) ≫ _ = _
     exact (Category.assoc _ _ _).trans ((congrArg (Subfunctor.toRange (yoneda.map z) ≫ ·)
       (he _ _ hpre.symm)).trans (Subfunctor.toRange_ι _))

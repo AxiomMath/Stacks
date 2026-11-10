@@ -8,8 +8,8 @@ public import StacksFrontier.AlgebraicGeometry.Blowup.TwoGeneratorCoefficientBas
 Let `A` be a ring with two elements `f₁, f₂`, and let `B`, `B'` be two `A`-algebras with an
 `A`-algebra map `φ : B →ₐ[A] B'`.  Over each of `A`, `B`, `B'` there is the two-generator almost
 blowup square of [Stacks, Example 0EVH] at the images of `f₁, f₂`, and
-`StacksFrontier/AlgebraicGeometry/Blowup/TwoGeneratorCoefficientBaseChange.lean` exhibits each corner
-over `B` as the base change along `Spec B ⟶ Spec A` of the corresponding corner over `A`.
+`StacksFrontier/AlgebraicGeometry/Blowup/TwoGeneratorCoefficientBaseChange.lean` exhibits each
+corner over `B` as the base change along `Spec B ⟶ Spec A` of the corresponding corner over `A`.
 
 This file supplies the four morphisms from the corners over `B'` to the corners over `B` that
 `φ` induces, and the four side faces of the resulting cube.  The square over `B'` is the

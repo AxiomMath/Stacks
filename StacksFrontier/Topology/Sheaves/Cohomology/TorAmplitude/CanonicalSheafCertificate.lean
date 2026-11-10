@@ -146,7 +146,7 @@ theorem singleRightIsoMapBifunctor_naturality {K K' : CochainComplex C₁ ℤ} (
         mapBifunctorMap f (𝟙 ((CochainComplex.singleFunctor C₂ 0).obj N)) F
           (ComplexShape.up ℤ) := by
   ext i
-  show (F.map (f.f i)).app N ≫ (mapBifunctorSingleRightXIso F K' N i).inv =
+  change (F.map (f.f i)).app N ≫ (mapBifunctorSingleRightXIso F K' N i).inv =
     (mapBifunctorSingleRightXIso F K N i).inv ≫
       (mapBifunctorMap f (𝟙 ((CochainComplex.singleFunctor C₂ 0).obj N)) F
         (ComplexShape.up ℤ)).f i
@@ -265,7 +265,7 @@ variable {C : Type u} [SmallCategory.{u} C] {J : GrothendieckTopology C}
 /-- **The canonical map to the total tensor complex is invertible at a K-flat left factor**: it
 is then the left K-flat comparison isomorphism of the derived tensor product. -/
 theorem DerivedTensorProduct.isIso_toTensor_of_kFlatLeft (T : DerivedTensorProduct.{d, u} R)
-    (K L : CochainComplex (Modules R) ℤ) (hK : Stacks.SheafOfModules.KFlat.KFlat R K) :
+    (K L : CochainComplex (Modules R) ℤ) (hK : Stacks.SheafOfModules.KFlat R K) :
     IsIso (T.toTensor K L) := by
   rw [T.toTensor_eq_comparisonLeft K L hK]
   infer_instance

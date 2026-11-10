@@ -362,13 +362,13 @@ theorem rationallyEquivalent_properPushforward_extendCycleGroup_comp_of_componen
         a.1 x.1 • properPushforward C r r' w hw k
           (R₂.extendCycleGroup (R₁.cycle (integralComponentAt x.1) (hW x) (hDim x))) :=
       map_zsmul (properPushforwardHom C r r' w hw k) _ _
-    show (properPushforward C r r' w hw k (a.1 x.1 •
+    change (properPushforward C r r' w hw k (a.1 x.1 •
           R₂.extendCycleGroup (R₁.cycle (integralComponentAt x.1) (hW x) (hDim x)))).1 z -
         (a.1 x.1 •
           R₂'.extendCycleGroup (R₁'.cycle (integralComponentAt x.1) (hW x) (hDim x))).1 z =
       a.1 x.1 * _
     rw [hzs]
-    show a.1 x.1 * _ - a.1 x.1 * _ = a.1 x.1 * _
+    change a.1 x.1 * _ - a.1 x.1 * _ = a.1 x.1 * _
     rw [← mul_sub]
     rfl
   exact (mem_rationalEquivalences C r' k _).mpr
@@ -494,7 +494,7 @@ theorem iso_zeroSchemeInter_base
         ((zeroSchemeInter L' L s' s).subschemeι.base (e.hom.base z)) =
       (Stacks.Divisors.zeroScheme X L s).subschemeι.base
         ((zeroSchemeInter L L' s s').subschemeι.base z) := by
-  show ((zeroSchemeInter L' L s' s).subschemeι ≫
+  change ((zeroSchemeInter L' L s' s).subschemeι ≫
         (Stacks.Divisors.zeroScheme X L' s').subschemeι).base (e.hom.base z) =
       ((zeroSchemeInter L L' s s').subschemeι ≫
         (Stacks.Divisors.zeroScheme X L s).subschemeι).base z

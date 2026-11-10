@@ -149,7 +149,7 @@ private theorem smul_mem_iff_of_cyclic_factor
   have hann : Module.annihilator R Q = q :=
     he.some.annihilator_eq.trans Ideal.annihilator_quotient
   have hzero : a • z = 0 ↔ a • x ∈ U := by
-    show (U.submoduleOf V).mkQ (a • v) = 0 ↔ _
+    change (U.submoduleOf V).mkQ (a • v) = 0 ↔ _
     exact Submodule.Quotient.mk_eq_zero _
   rw [← hzero, ← scalar_mem_annihilator_iff_of_generator z hgen, hann]
 
@@ -168,7 +168,7 @@ private theorem cyclic_factor_equiv_of_smul_mem_iff
   have hg : Function.Surjective g := surjective_mkQ_comp_toSpanSingleton U x
   have hk : LinearMap.ker g = q := by
     ext r
-    show (U.submoduleOf V).mkQ (r • v) = 0 ↔ r ∈ q
+    change (U.submoduleOf V).mkQ (r • v) = 0 ↔ r ∈ q
     exact (Submodule.Quotient.mk_eq_zero _).trans (h r)
   exact ⟨(g.quotKerEquivOfSurjective hg).symm.trans (Submodule.quotEquivOfEq _ _ hk)⟩
 
@@ -222,7 +222,7 @@ private theorem prime_factors_update_add
   by_cases hji : j = i
   · subst j
     rw [Function.update_self, smul_add]
-    show r • x i + r • t ∈ spanBefore (R := R) x i ↔ r ∈ q
+    change r • x i + r • t ∈ spanBefore (R := R) x i ↔ r ∈ q
     rw [Submodule.add_mem_iff_left _ (Submodule.smul_mem _ r ht)]
     exact hx i r
   · rw [Function.update_of_ne hji]
@@ -289,8 +289,8 @@ private theorem prime_factors_map_iff
       r • x i ∈ spanBefore (R := R) x i := by
   rw [spanBefore_eq_spanPrefix, ← spanPrefix_map]
   rw [Function.comp_apply, ← map_smul]
-  show g (r • x i) ∈ (spanPrefix (R := R) x i.val).map g ↔ _
-  show r • x i ∈ ((spanPrefix (R := R) x i.val).map g).comap g ↔ _
+  change g (r • x i) ∈ (spanPrefix (R := R) x i.val).map g ↔ _
+  change r • x i ∈ ((spanPrefix (R := R) x i.val).map g).comap g ↔ _
   rw [Submodule.comap_map_eq_of_injective hg]
   rfl
 
@@ -339,9 +339,9 @@ private theorem prime_factors_quotient_tail
         spanBefore (R := R) (fun j : Fin l => (R ∙ x 0).mkQ (x j.succ)) i ↔ r ∈ q := by
   intro i r
   rw [spanBefore_eq_spanPrefix, ← spanPrefix_quotient_tail x i.val (by omega)]
-  show (R ∙ x 0).mkQ (r • x i.succ) ∈
+  change (R ∙ x 0).mkQ (r • x i.succ) ∈
     (spanPrefix (R := R) x (i.val + 1)).map (R ∙ x 0).mkQ ↔ r ∈ q
-  show r • x i.succ ∈ ((spanPrefix (R := R) x (i.val + 1)).map
+  change r • x i.succ ∈ ((spanPrefix (R := R) x (i.val + 1)).map
     (R ∙ x 0).mkQ).comap (R ∙ x 0).mkQ ↔ _
   rw [Submodule.comap_map_eq, Submodule.ker_mkQ,
     sup_eq_left.mpr (span_singleton_le_spanPrefix x (Nat.succ_pos _))]
@@ -390,9 +390,9 @@ public theorem admissible_localized
   have hle : q.map (algebraMap R S) ≤ J := by
     rw [Ideal.map_le_iff_le_comap]
     intro a ha
-    show algebraMap R S a • e i ∈ P
+    change algebraMap R S a • e i ∈ P
     rw [IsScalarTower.algebraMap_smul]
-    show a • f (x i) ∈ P
+    change a • f (x i) ∈ P
     rw [← map_smul]
     have hmem : a • x i ∈ spanBefore (R := R) x i := hx i a ha
     have hspan : (spanBefore (R := R) x i).localized' S q.primeCompl f = P := by
@@ -509,11 +509,11 @@ private theorem map_span_scale_suffix_le
   rw [Submodule.map_span]
   apply Submodule.span_le.mpr
   rintro _ ⟨_, ⟨j, rfl⟩, rfl⟩
-  show φ (if j.val < 1 then x j else a • x j) ∈ Submodule.span R (Set.range ys)
+  change φ (if j.val < 1 then x j else a • x j) ∈ Submodule.span R (Set.range ys)
   by_cases hj : j.val < 1
   · have hj0 : j = 0 := by
       apply Fin.ext
-      show j.val = 0
+      change j.val = 0
       omega
     subst j
     rw [ite_eq_left hj, hφx]
@@ -571,7 +571,7 @@ private theorem symbol_localized_swap_adjacent
       r • e.1 a' ∈ spanBefore (R := Localization.AtPrime q) e.1 b' := by
     intro r hr
     rw [he]
-    show r • LocalizedModule.mk (x a) 1 ∈ _
+    change r • LocalizedModule.mk (x a) 1 ∈ _
     rw [maximalIdeal_smul_localized_eq_zero q (x a) ha r hr]
     exact Submodule.zero_mem _
   have hs := symbol_swap_adjacent e a' b' hba' hha
@@ -579,7 +579,7 @@ private theorem symbol_localized_swap_adjacent
       AdmissibleSequence (Localization.AtPrime q) (LocalizedModule q.primeCompl M)) = e' := by
     apply Subtype.ext
     funext j
-    show e.1 (Equiv.swap a' b' j) = e'.1 j
+    change e.1 (Equiv.swap a' b' j) = e'.1 j
     rw [he, he', fin_cast_swap]
   rwa [heq] at hs
 
@@ -759,7 +759,7 @@ private theorem annihilator_first_span
     Module.annihilator R (R ∙ x 0) = q := by
   ext r
   rw [scalar_mem_annihilator_iff_of_generator _ (span_cyclic_submodule_generator (x 0))]
-  show (⟨r • x 0, _⟩ : R ∙ x 0) = 0 ↔ r ∈ q
+  change (⟨r • x 0, _⟩ : R ∙ x 0) = 0 ↔ r ∈ q
   rw [Subtype.ext_iff]
   have hb : spanBefore (R := R) x 0 = ⊥ := by
     rw [spanBefore_eq_spanPrefix]

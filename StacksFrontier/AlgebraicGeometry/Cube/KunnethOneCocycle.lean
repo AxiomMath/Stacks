@@ -366,8 +366,7 @@ theorem kunneth_map (hw : pX ≫ f = pY ≫ g) {U U' : X.Opens} {V V' : Y.Opens}
     (h : O' ≤ O) (z : Sec f U ⊗[K] Sec g V) :
     kunneth hw U' V' O' hO' (Algebra.TensorProduct.map (resA f hU) (resA g hV) z) =
       resA (pX ≫ f) h (kunneth hw U V O hO z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul s t =>
     rw [Algebra.TensorProduct.map_tmul, kunneth_tmul, kunneth_tmul, map_mul, pullA_resA _ _ _ _
@@ -406,8 +405,7 @@ theorem kunneth_bijective (hsq : IsPullback pX pY f g) {U : X.Opens} {V : Y.Open
   have heq : ⇑(kunneth hsq.w U V O hO.le) =
       ⇑(Algebra.IsPushout.equiv K (Sec f U) (Sec g V) (Sec (pX ≫ f) O)) := by
     funext z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul s t => rw [Algebra.IsPushout.equiv_tmul]; rfl
   rw [heq]
@@ -486,8 +484,7 @@ theorem pullA_faceX_kunneth (y : Spec (.of K) ⟶ Y) (hy : y ≫ g = 𝟙 _) {A 
     pullA (pX ≫ f) f (faceX hsq y hy) (faceX_pr hsq y hy) hA' (kunneth hsq.w A B O hO z) =
       resA f hA'A (TensorProduct.rid K _
         (LinearMap.lTensor _ (evalAt g y hy (top_le_preimage_of_range y hB)).toLinearMap z)) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => simp only [map_add, hz, hz']
   | tmul s t =>
     rw [kunneth_tmul, map_mul, pullA_pullA, pullA_pullA,
@@ -506,8 +503,7 @@ theorem pullA_faceY_kunneth (x : Spec (.of K) ⟶ X) (hx : x ≫ f = 𝟙 _) {A 
     pullA (pX ≫ f) g (faceY hsq x hx) (faceY_pr hsq x hx) hB' (kunneth hsq.w A B O hO z) =
       resA g hB'B (TensorProduct.lid K _
         (LinearMap.rTensor _ (evalAt f x hx (top_le_preimage_of_range x hA)).toLinearMap z)) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => simp only [map_add, hz, hz']
   | tmul s t =>
     rw [kunneth_tmul, map_mul, pullA_pullA, pullA_pullA,
@@ -538,11 +534,13 @@ theorem kunnethPi_apply (hw : pX ≫ f = pY ≫ g) {ι : Type*} (A : ι → X.Op
   rfl
 
 /-- **The family Künneth map is bijective** on a finite family of products of affine opens. -/
-theorem kunnethPi_bijective (hsq : IsPullback pX pY f g) {ι : Type*} [Fintype ι] [DecidableEq ι]
+theorem kunnethPi_bijective (hsq : IsPullback pX pY f g) {ι : Type*} [Finite ι]
     (A : ι → X.Opens)
     (B : Y.Opens) (O : ι → Q.Opens) (hA : ∀ i, IsAffineOpen (A i))
     (hB : IsAffineOpen B) (hO : ∀ i, O i = box pX pY (A i) B) :
     Function.Bijective (kunnethPi hsq.w A B O fun i => (hO i).le) := by
+  classical
+  have := Fintype.ofFinite ι
   let e : ∀ i, (Sec f (A i) ⊗[K] Sec g B) ≃ₗ[K] Sec (pX ≫ f) (O i) := fun i =>
     LinearEquiv.ofBijective (kunneth hsq.w (A i) B (O i) (hO i).le).toLinearMap
       (kunneth_bijective hsq (hA i) hB (O i) (hO i))
@@ -646,8 +644,7 @@ theorem rid_lTensor_apply {ι : Type*} {M : ι → Type*} [∀ i, AddCommGroup (
     TensorProduct.rid K _ (LinearMap.lTensor _ ev z) i =
       TensorProduct.rid K _
         (LinearMap.lTensor _ ev (LinearMap.rTensor _ (LinearMap.proj i) z)) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' => simp only [map_add, Pi.add_apply, hz, hz']
   | tmul m n => simp
 
@@ -684,7 +681,7 @@ macro "opens_eq" : tactic => `(tactic| (
 
 /-- Prove an inclusion of finite intersections of the opens `W` and boxes pointwise. -/
 macro "opens_le" : tactic => `(tactic| (
-  rw [SetLike.le_def]
+  rw [IsConcreteLE.le_iff]
   intro p hp
   simp only [W, box, Scheme.Hom.preimage_inf, TopologicalSpace.Opens.mem_inf] at hp ⊢
   tauto))
@@ -727,7 +724,7 @@ variable {f : X ⟶ Spec (.of K)} {g : Y ⟶ Spec (.of K)} {pX : Q ⟶ X} {pY : 
   (hsq : IsPullback pX pY f g) {I J : Type*} (U : I → X.Opens) (V : J → Y.Opens)
 
 /-- The Künneth components over `V b` of a Čech `1`-cocycle are killed by `cechD₁`. -/
-theorem rTensor_cechD₁_eq_zero [Fintype I] [DecidableEq I] [IsSeparated f]
+theorem rTensor_cechD₁_eq_zero [Finite I] [IsSeparated f]
     (hUa : ∀ a, IsAffineOpen (U a)) {b : J} (hVb : IsAffineOpen (V b))
     {c : ∀ s t : I × J, Sec (pX ≫ f) (W pX pY U V s ⊓ W pX pY U V t)}
     (hc : ∀ s t r,
@@ -753,7 +750,7 @@ theorem rTensor_cechD₁_eq_zero [Fintype I] [DecidableEq I] [IsSeparated f]
 
 /-- The Künneth components of a Čech `1`-cocycle over `V b`, `V b'` and `V b ∩ V b'` satisfy the
 mixed cocycle condition of the double complex. -/
-theorem lTensor_sub_lTensor_eq_rTensor_cechD₀ [Fintype I] [DecidableEq I] [IsSeparated f]
+theorem lTensor_sub_lTensor_eq_rTensor_cechD₀ [Finite I] [IsSeparated f]
     (hUa : ∀ a, IsAffineOpen (U a)) {b b' : J} (hVbb' : IsAffineOpen (V b ⊓ V b'))
     {c : ∀ s t : I × J, Sec (pX ≫ f) (W pX pY U V s ⊓ W pX pY U V t)}
     (hc : ∀ s t r,

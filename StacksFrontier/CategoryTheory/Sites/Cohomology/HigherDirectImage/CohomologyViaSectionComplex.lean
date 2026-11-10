@@ -94,7 +94,7 @@ lemma sectionHomologyIso_naturality (J : GrothendieckTopology C) [HasSheafify J 
   let m := (HomologicalComplex.homologyFunctor Ab.{max u v} (ComplexShape.up ℕ) n).map
     ((NatTrans.mapHomologicalComplex ((sheafSections J Ab.{max u v}).map f.op)
       (ComplexShape.up ℕ)).app I.cocomplex)
-  show (NatTrans.rightDerived ((sheafSections J Ab.{max u v}).map f.op) n).app F ≫
+  change (NatTrans.rightDerived ((sheafSections J Ab.{max u v}).map f.op) n).app F ≫
     (e₀U ≪≫ e₁U).hom = (e₀V ≪≫ e₁V).hom ≫ (K.homology n).map f.op
   calc
     _ = e₀V.hom ≫ m ≫ e₀U.inv ≫ (e₀U ≪≫ e₁U).hom := by

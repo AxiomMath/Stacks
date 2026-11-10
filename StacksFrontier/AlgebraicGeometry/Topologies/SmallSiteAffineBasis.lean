@@ -42,7 +42,7 @@ public theorem SmallEtale.sieve_generate_isAffine_mem_topology
       (Scheme.size_lt_of_isOpenImmersion (T.affineCover.f i.down) U.obj.left.property)
     f i := ObjectProperty.homMk (T.affineCover.f i.down) }
   have hE : IsEtaleCovering ⟨U.obj.left, E⟩ := by
-    show (E.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage T
+    change (E.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage T
     exact (Scheme.presieve₀_mem_precoverage_iff (P := @Etale.{u}) (E.map B.inclusion)).mpr
       ⟨fun x => ⟨ULift.up (T.affineCover.idx x), T.affineCover.covers x⟩,
         fun i => inferInstanceAs (Etale (T.affineCover.f i.down))⟩
@@ -60,7 +60,7 @@ public theorem SmallEtale.sieve_generate_isAffine_mem_topology
     exact inferInstanceAs (AlgebraicGeometry.IsAffine (T.affineCover.X (β i).down))
   let W (i : D.I₀) : SmallEtale B S hS :=
     ⟨Over.mk (D.f i ≫ U.obj.hom), by
-      show Etale (B.inclusion.map (D.f i ≫ U.obj.hom))
+      change Etale (B.inclusion.map (D.f i ≫ U.obj.hom))
       rw [B.inclusion.map_comp]
       have := hopen i
       infer_instance⟩
@@ -90,7 +90,7 @@ public theorem SmallZariski.sieve_generate_isAffine_mem_topology
       Scheme.size_lt_of_isOpenImmersion (T.affineCover.f i.down) U.obj.left.property⟩
     f i := ObjectProperty.homMk (T.affineCover.f i.down) }
   have hE : IsZariskiCovering ⟨U.obj.left, E⟩ := by
-    show (E.map B.inclusion).presieve₀ ∈ Scheme.zariskiPretopology T
+    change (E.map B.inclusion).presieve₀ ∈ Scheme.zariskiPretopology T
     exact (Scheme.presieve₀_mem_precoverage_iff (P := @IsOpenImmersion.{u})
       (E.map B.inclusion)).mpr
       ⟨fun x => ⟨ULift.up (T.affineCover.idx x), T.affineCover.covers x⟩,
@@ -109,7 +109,7 @@ public theorem SmallZariski.sieve_generate_isAffine_mem_topology
     exact inferInstanceAs (AlgebraicGeometry.IsAffine (T.affineCover.X (β i).down))
   let W (i : D.I₀) : SmallZariski B S hS :=
     ⟨Over.mk (D.f i ≫ U.obj.hom), by
-      show IsOpenImmersion (B.inclusion.map (D.f i ≫ U.obj.hom))
+      change IsOpenImmersion (B.inclusion.map (D.f i ≫ U.obj.hom))
       rw [B.inclusion.map_comp]
       have := hopen i
       infer_instance⟩

@@ -159,7 +159,7 @@ theorem pullbackAway_restrictCoord_coord (hgen : Algebra.adjoin (𝒜 0) ((𝒜 
     (hleg : W ≤ α ⁻¹ᵁ AlgebraicGeometry.Proj.basicOpen 𝒜 g)
     (hle : W ≤ α ⁻¹ᵁ AlgebraicGeometry.Proj.basicOpen 𝒜 ((y i : A))) (k : ι) :
     pullbackAway 𝒜 α hleg (Stacks.OverlapFraction.restrictCoord 𝒜 (y i).2 hg hdg hgq
-        (Away.mk 𝒜 (y i).2 1 ((y k : A)) (by simpa using (y k).2))) =
+        (Away.mk 𝒜 (y i).2 1 ((y k : A)) (by simp))) =
       resO (hle.trans (preimage_basicOpen_le_nvCover 𝒜 α hgen e y s hs i)) (ratio s i k) := by
   rw [pullbackAway_degreeZeroRingMap 𝒜 α ⟨1, Nat.one_pos, (y i).2⟩ ⟨dg, hdg, hg⟩ hgq hleg hle,
     resO_ratio_eq_pullbackAwayCoord_of_le_preimage 𝒜 α hgen e y s hs i k hle]

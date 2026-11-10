@@ -366,7 +366,7 @@ lemma legAlg_compat {ι : Type} [Preorder ι] {A : Type} [CommRing A] [Algebra �
         CommRingCat.ofHom (Subalgebra.inclusion (hK h.le)).toRingHom ≫ eqToHom (hFobj j).symm)
     (s : Cocone F) {i k : ι} (h : i ⟶ k) (x : ↥(K i)) :
     legAlg K F hFobj s i x = legAlg K F hFobj s k (Subalgebra.inclusion (hK h.le) x) := by
-  show (eqToHom (hFobj i).symm ≫ s.ι.app i).hom x
+  change (eqToHom (hFobj i).symm ≫ s.ι.app i).hom x
       = (eqToHom (hFobj k).symm ≫ s.ι.app k).hom (Subalgebra.inclusion (hK h.le) x)
   have hnat : F.map h ≫ s.ι.app k = s.ι.app i := by
     simpa only [Functor.const_obj_obj, Functor.const_obj_map, Category.comp_id] using
@@ -588,7 +588,7 @@ lemma fRingHom_finite (x : Idx R S) : RingHom.Finite (fRingHom x) := by
       -- Scalar tower `Rsub x → Ssub x → S`: `algebraMap (Rsub x) S` factors through `Ssub x`.
       have htowerS : IsScalarTower (Rsub x) (Ssub x) S :=
         IsScalarTower.of_algebraMap_eq (fun a => by
-          show algebraMap R S (a : R) = ((fRingHom x a : Ssub x) : S)
+          change algebraMap R S (a : R) = ((fRingHom x a : Ssub x) : S)
           rfl)
       -- Each element of `S` that lies in `Ssub x` is integral over `Rsub x`.
       have key : ∀ s ∈ Ssub x, IsIntegral (Rsub x) s := by
@@ -607,7 +607,7 @@ lemma fRingHom_finite (x : Idx R S) : RingHom.Finite (fRingHom x) := by
       exact ⟨fun y => IsIntegral.tower_bot Subtype.val_injective (key y.val y.property)⟩
     exact hAlgInt.isIntegral
   · -- FiniteType: Ssub x is finite type over Rsub x.
-    show Algebra.FiniteType (Rsub x) (Ssub x)
+    change Algebra.FiniteType (Rsub x) (Ssub x)
     have hZ : Algebra.FiniteType ℤ (Ssub x) :=
       Algebra.FiniteType.adjoin_of_finite (Set.Finite.union (x.F.finite_toSet)
         (Set.Finite.image _ (x.E.finite_toSet)))
@@ -700,6 +700,6 @@ theorem integral_isColimit_directed_finite_of_finiteType
     intro a
     -- `(D.f.app a).hom = fRingHom a` up to the `CommRingCat.ofHom`/`.hom` round-trip
     -- (`CommRingCat.hom_ofHom`); reduce to `SubalgebraSystem.fRingHom_finite`.
-    show RingHom.Finite (CommRingCat.ofHom (SubalgebraSystem.fRingHom a)).hom
+    change RingHom.Finite (CommRingCat.ofHom (SubalgebraSystem.fRingHom a)).hom
     rw [CommRingCat.hom_ofHom]
     exact SubalgebraSystem.fRingHom_finite a

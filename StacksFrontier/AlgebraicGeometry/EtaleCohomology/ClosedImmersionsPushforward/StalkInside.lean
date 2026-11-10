@@ -159,29 +159,29 @@ private theorem pullbackNeighborhoodFunctor_equalize
       (show B.inclusion.obj Osite ⟶ B.inclusion.obj U.1.obj.left from O.ι)
     let Unew : SmallEtale B X hX :=
       ⟨Over.mk (jSite ≫ U.1.obj.hom), by
-        show Etale (B.inclusion.map (jSite ≫ U.1.obj.hom))
+        change Etale (B.inclusion.map (jSite ≫ U.1.obj.hom))
         rw [Functor.map_comp, B.inclusion.map_preimage]
         infer_instance⟩
     have hqNew : qNew ≫ B.inclusion.map (Over.hom Unew.obj) = x.hom := by
-      show qNew ≫ B.inclusion.map (jSite ≫ U.1.obj.hom) = _
+      change qNew ≫ B.inclusion.map (jSite ≫ U.1.obj.hom) = _
       rw [Functor.map_comp, B.inclusion.map_preimage]
-      show qNew ≫ O.ι ≫ B.inclusion.map (Over.hom U.1.obj) = _
+      change qNew ≫ O.ι ≫ B.inclusion.map (Over.hom U.1.obj) = _
       rw [← Category.assoc, IsOpenImmersion.lift_fac]
       exact U.2.2
     let tSite : Unew ⟶ U.1 := ObjectProperty.homMk (Over.homMk jSite (by rfl))
     have hmap : (SmallEtale.toScheme B X hX).map tSite = O.ι := by
       dsimp [SmallEtale.toScheme, SmallEtale.inclusion,
         BigEtaleOver.toScheme, BigEtaleOver.forget, tSite]
-      show B.inclusion.map jSite = O.ι
+      change B.inclusion.map jSite = O.ι
       exact B.inclusion.map_preimage _
     refine ⟨Functor.elementsMk _ Unew ⟨qNew, hqNew⟩, ⟨tSite, Subtype.ext ?_⟩, ?_⟩
-    · show qNew ≫ (SmallEtale.toScheme B X hX).map tSite = U.2.1
+    · change qNew ≫ (SmallEtale.toScheme B X hX).map tSite = U.2.1
       rw [hmap]
       exact IsOpenImmersion.lift_fac O.ι U.2.1 hjRange
     · rintro _ ⟨z, rfl⟩
       have hz : O.ι.base z ∈ O.ι.opensRange := Scheme.Hom.mem_opensRange.2 ⟨z, rfl⟩
       rw [Scheme.Opens.opensRange_ι] at hz
-      show ((SmallEtale.toScheme B X hX).map tSite).base z ∈ O
+      change ((SmallEtale.toScheme B X hX).map tSite).base z ∈ O
       rwa [hmap]
   -- The closed immersion from the base change of a pointed étale neighbourhood `U` to `U` restricts
   -- every open containing the point to an open of `U` containing the image point.
@@ -239,7 +239,7 @@ private theorem pullbackNeighborhoodFunctor_equalize
     have hj : (SmallEtale.toScheme B S.1 S.property).map t = B.inclusion.map t.hom.left := rfl
     rw [hj, ← B.inclusion.map_comp, ← Category.assoc, hr]
     refine (B.inclusion.map_comp _ _).symm.trans (congrArg B.inclusion.map ?_)
-    simp [Over.pullback_map_left, pullback.lift_fst]
+    simp [Over.pullback_map_left]
   let H := pullbackNeighborhoodFunctor B i s
   let x := H.obj U
   let A := (SmallEtale.toScheme B T.1 T.property).obj x.1
@@ -268,14 +268,14 @@ private theorem pullbackNeighborhoodFunctor_equalize
       ((smallEtaleBaseChange B i).obj U'.1) ⟶ A :=
     (SmallEtale.toScheme B T.1 T.property).map
       ((smallEtaleBaseChange B i).map t.1)
-  show r ≫ f = r ≫ g
+  change r ≫ f = r ≫ g
   refine hW r ?_
   rw [← hO]
   rintro _ ⟨z, rfl⟩
   have hpoint : π.base (r.base z) = ((SmallEtale.toScheme B S.1 S.property).map t.1).base
       ((B.inclusion.map (pullback.fst U'.1.obj.hom i)).base z) :=
     congrArg (fun k : Scheme.Hom _ _ => k.base z) (smallEtaleBaseChange_map_comp_fst B i t.1)
-  show π.base (r.base z) ∈ O
+  change π.base (r.base z) ∈ O
   rw [hpoint]
   exact ht ⟨_, rfl⟩
 
@@ -304,7 +304,7 @@ private theorem exists_pullback_neighborhood_map
       (Scheme.size_le_of_locallyOfFiniteType (a₀ ≫ g)).trans_lt S.property
     refine ⟨⟨Over.mk (ObjectProperty.homMk (a₀ ≫ g) : B.obj (Spec R) hUsize ⟶ B.obj S.1 S.property),
       by
-        show Etale (a₀ ≫ g)
+        change Etale (a₀ ≫ g)
         infer_instance⟩, IsOpenImmersion.lift a₀ x hx, a₀, IsOpenImmersion.lift_fac _ _ _, rfl⟩
   -- A pointed étale neighbourhood of `s` receives a morphism from the base change of a pointed
   -- étale neighbourhood `U` of the image point as soon as the base change of `U` maps to it
@@ -319,7 +319,8 @@ private theorem exists_pullback_neighborhood_map
       (hm : m ≫ B.inclusion.map V.1.obj.hom =
         pullback.snd (B.inclusion.map U.obj.hom) (B.inclusion.map i))
       (hqm : pullback.lift qX s.hom hqX ≫ m = V.2.1) :
-      Nonempty ((pullbackNeighborhoodFunctor B i s).obj (Functor.elementsMk _ U ⟨qX, hqX⟩) ⟶ V) := by
+      Nonempty ((pullbackNeighborhoodFunctor B i s).obj
+        (Functor.elementsMk _ U ⟨qX, hqX⟩) ⟶ V) := by
     let fU := B.inclusion.map U.obj.hom
     let qP := geometricPointFiberBaseChangeEquiv B i s U ⟨qX, hqX⟩
     have hobj := smallEtaleBaseChange_toScheme_obj_eq B i U
@@ -350,13 +351,13 @@ private theorem exists_pullback_neighborhood_map
       refine ObjectProperty.homMk (Over.homMk (B.inclusion.preimage (β ≫ m)) ?_)
       apply B.inclusion.map_injective
       rw [B.inclusion.map_comp, B.inclusion.map_preimage]
-      show (β ≫ m) ≫ B.inclusion.map V.1.obj.hom = B.inclusion.map (pullback.snd U.obj.hom i)
+      change (β ≫ m) ≫ B.inclusion.map V.1.obj.hom = B.inclusion.map (pullback.snd U.obj.hom i)
       rw [Category.assoc, hm]
       exact pullback.lift_snd _ _ _
     refine ⟨⟨a, ?_⟩⟩
     apply Subtype.ext
     dsimp [a]
-    show qP.1 ≫ eqToHom hobj ≫ B.inclusion.map (B.inclusion.preimage (β ≫ m)) = V.2.1
+    change qP.1 ≫ eqToHom hobj ≫ B.inclusion.map (B.inclusion.preimage (β ≫ m)) = V.2.1
     rw [B.inclusion.map_preimage, reassoc_of% hqP, hqm]
   let p := B.inclusion.map V.1.obj.hom
   let q := V.2.1
@@ -375,8 +376,8 @@ private theorem exists_pullback_neighborhood_map
   obtain ⟨Usite, qX, a₀, hqa, hU⟩ := exists_smallEtale_lift_of_etale B s (f j)
     (qW ≫ e.hom ≫ pullback.fst (f j) (B.inclusion.map i))
   have hqX : qX ≫ B.inclusion.map Usite.obj.hom = (s.map (B.inclusion.map i)).hom := by
-    show _ = s.hom ≫ B.inclusion.map i
-    simp only [hU, reassoc_of% hqa, Category.assoc, pullback.condition]
+    change _ = s.hom ≫ B.inclusion.map i
+    simp only [hU, reassoc_of% hqa, pullback.condition]
     rw [reassoc_of% heT, reassoc_of% hqW, reassoc_of% hq]
   let fU := B.inclusion.map Usite.obj.hom
   let qPB : s.source ⟶ pullback fU (B.inclusion.map i) := pullback.lift qX s.hom hqX
@@ -402,8 +403,9 @@ private theorem exists_pullback_neighborhood_map
         _ = s.hom := pullback.lift_snd _ _ _
         _ = qW ≫ e.hom ≫ pullback.snd (f j) (B.inclusion.map i) := by
           rw [heT, reassoc_of% hqW, hq]
-  refine ⟨Functor.elementsMk _ Usite ⟨qX, hqX⟩, nonempty_pullbackNeighborhoodFunctor_obj_hom_of_lift B i s V Usite
-    qX hqX (k ≫ e.inv ≫ W.f j) ?_ ?_⟩
+  refine ⟨Functor.elementsMk _ Usite ⟨qX, hqX⟩,
+    nonempty_pullbackNeighborhoodFunctor_obj_hom_of_lift B i s V Usite
+      qX hqX (k ≫ e.inv ≫ W.f j) ?_ ?_⟩
   · rw [Category.assoc, Category.assoc, ← heT, Iso.inv_hom_id_assoc]
     exact pullback.lift_snd _ _ _
   · refine (reassoc_of% hk) (e.inv ≫ W.f j) |>.trans ?_
@@ -603,12 +605,12 @@ public theorem stalkPushforwardIso_germ (B : BigEtaleSite.{u})
     refine Functor.Elements.ext _ _ hbase ?_
     cases hbase
     dsimp [H, pullbackNeighborhoodFunctor]
-    show q = geometricPointFiberBaseChangeEquiv B i s N.1 N.2
+    change q = geometricPointFiberBaseChangeEquiv B i s N.1 N.2
     apply Subtype.ext
     apply ((IsPullback.of_hasPullback N.1.obj.hom i).map B.inclusion).hom_ext
     · exact hq.trans (geometricPointFiberBaseChangeEquiv_val_fst B i s N.1 N.2).symm
     · exact q.2.trans (geometricPointFiberBaseChangeEquiv_val_snd B i s N.1 N.2).symm
-  show (stalkPushforwardIsoAt B i s F).hom
+  change (stalkPushforwardIsoAt B i s F).hom
       ((colimit.ι D (Opposite.op N)).hom σ) =
     (colimit.ι G (Opposite.op (Functor.elementsMk JZ (P.obj N.1) q))).hom σ
   dsimp [stalkPushforwardIsoAt, P, H, G, D]
@@ -624,7 +626,7 @@ public theorem stalkPushforwardIso_germ (B : BigEtaleSite.{u})
     dsimp [δ, stalkPushforwardDiagramIso]
     cases hEq
     rfl
-  show (Functor.Final.colimitIso (pullbackNeighborhoodFunctor B i s).op G).hom
+  change (Functor.Final.colimitIso (pullbackNeighborhoodFunctor B i s).op G).hom
       ((colimit.ι ((pullbackNeighborhoodFunctor B i s).op ⋙ G)
         (Opposite.op N)).hom (δ σ)) =
     (colimit.ι G (Opposite.op (Functor.elementsMk JZ (P.obj N.1) q))).hom σ

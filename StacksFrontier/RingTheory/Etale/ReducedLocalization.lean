@@ -91,7 +91,7 @@ theorem isReduced_localizationAtPrime_iff_of_etale {A : Type u} {B : Type v} [Co
   let f := Localization.localRingHom p q (algebraMap A B) hq.symm
   let : Algebra (Localization.AtPrime p) (Localization.AtPrime q) := f.toAlgebra
   have : IsLocalHom (algebraMap (Localization.AtPrime p) (Localization.AtPrime q)) := by
-    show IsLocalHom f
+    change IsLocalHom f
     infer_instance
   have hf : f.Flat :=
     RingHom.Flat.localRingHom (RingHom.Etale.iff_flat_and_formallyUnramified.mp

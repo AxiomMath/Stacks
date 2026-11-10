@@ -124,7 +124,7 @@ public lemma weightSpace_one_iff_symmetricPower_large (A : Type u) (M : Type v) 
     (x : F.obj (Opposite.op (Opposite.op (CommAlgCat.of A (SymmetricAlgebra A M))))) :
     x ∈ LaurentLarge.weightSpace A (SymmetricAlgebra A M) F 𝒜 1 ↔
       x ∈ LaurentLarge.weightSpace A (SymmetricAlgebra A M) F (symmetricPower A M) 1 := by
-  show ((LaurentPolynomial.T 1 : LaurentPolynomial (SymmetricAlgebra A M)) •
+  change ((LaurentPolynomial.T 1 : LaurentPolynomial (SymmetricAlgebra A M)) •
       F.map ((CommAlgCat.ofHom (constantLaurentMapLarge A (SymmetricAlgebra A M))).op.op) x =
     F.map ((CommAlgCat.ofHom (gradedLaurentMapLarge A (SymmetricAlgebra A M) 𝒜)).op.op) x) ↔
     ((LaurentPolynomial.T 1 : LaurentPolynomial (SymmetricAlgebra A M)) •
@@ -155,7 +155,7 @@ public lemma weightSpace_map_iff_of_mono_large {A : Type u} [CommRing A] {B : Ty
   let Y := Opposite.op (Opposite.op (CommAlgCat.of A (LaurentPolynomial B)))
   have hinj : Function.Injective (η.app Y) :=
     (ModuleCat.mono_iff_injective (η.app Y)).mp inferInstance
-  show _ = _ ↔ _ = _
+  change _ = _ ↔ _ = _
   rw [← PresheafOfModules.naturality_apply, ← PresheafOfModules.naturality_apply]
   exact ⟨fun h => hinj ((app_smul_laurent_large η _ _).trans h),
     fun h => (app_smul_laurent_large η _ _).symm.trans (congrArg _ h)⟩
@@ -166,7 +166,7 @@ public lemma weightSpace_zero_mem_large {A : Type u} [CommRing A] {B : Type (max
     (𝒜 : ℕ → Submodule A B) [GradedAlgebra 𝒜] (k : ℤ) :
     (0 : F.obj (Opposite.op (Opposite.op (CommAlgCat.of A B)))) ∈
       LaurentLarge.weightSpace A B F 𝒜 k := by
-  show _ = _
+  change _ = _
   rw [(F.map _).hom.map_zero, (F.map _).hom.map_zero]
   exact smul_zero _
 
@@ -178,7 +178,7 @@ public lemma weightSpace_neg_mem_large {A : Type u} [CommRing A] {B : Type (max 
     (hx : x ∈ LaurentLarge.weightSpace A B F 𝒜 k) :
     -x ∈ LaurentLarge.weightSpace A B F 𝒜 k := by
   change _ = _ at hx
-  show _ = _
+  change _ = _
   rw [(F.map _).hom.map_neg, (F.map _).hom.map_neg, smul_neg]
   exact congrArg Neg.neg hx
 
@@ -191,7 +191,7 @@ public lemma weightSpace_sub_mem_large {A : Type u} [CommRing A] {B : Type (max 
     (hy : y ∈ LaurentLarge.weightSpace A B F 𝒜 k) :
     x - y ∈ LaurentLarge.weightSpace A B F 𝒜 k := by
   change _ = _ at hx hy
-  show _ = _
+  change _ = _
   rw [(F.map _).hom.map_sub, (F.map _).hom.map_sub, smul_sub]
   exact congrArg₂ (· - ·) hx hy
 
@@ -214,7 +214,7 @@ public lemma adequate_preservesFlatBaseChange_large {A : Type u} [CommRing A]
     (moduleValuedFunctorBaseChangeMap.{max u v w, v, u, max u v, max u v + 1} ι F g)
     (moduleValuedFunctorBaseChangeMap_bijective.{max u v w, v, u, max u v, max u v + 1}
       ι F hF g hflat), fun x => ?_⟩
-  show moduleValuedFunctorBaseChangeMap.{max u v w, v, u, max u v, max u v + 1} ι F g
+  change moduleValuedFunctorBaseChangeMap.{max u v w, v, u, max u v, max u v + 1} ι F g
     ((1 : ↑(ι.obj (CommAlgCat.of A C))) ⊗ₜ[↑(ι.obj (CommAlgCat.of A B))] x) =
       F.map g.op.op x
   simpa only [one_smul] using
@@ -266,8 +266,7 @@ public lemma tensor_symmetricAlgebra_map_degreeOne_large {A : Type u} {V W : Typ
       LinearMap.id z ∈ DirectSum.decomposeTensor (symmetricPower A W) N 1 := by
   rw [DirectSum.decomposeTensor_apply] at hz ⊢
   obtain ⟨c, rfl⟩ := hz
-  induction c using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction c using TensorProduct.inductionOn with
   | tmul x n =>
       obtain ⟨p, hp⟩ : (x : SymmetricAlgebra A V) ∈ LinearMap.range (SymmetricAlgebra.ι A V) := by
         simpa only [symmetricPower, pow_one] using x.property
@@ -297,13 +296,12 @@ public lemma tensor_symmetricAlgebra_factor_sum_large {A : Type u} {M : Type v} 
   intro p₁ p₂ q₁ q₂
   rw [DirectSum.decomposeTensor_apply] at hz
   obtain ⟨c, rfl⟩ := hz
-  induction c using TensorProduct.induction_on with
-  | zero => simp
+  induction c using TensorProduct.inductionOn with
   | tmul x n =>
       obtain ⟨m, hm⟩ : (x : SymmetricAlgebra A (M × M)) ∈
           LinearMap.range (SymmetricAlgebra.ι A (M × M)) := by
         simpa only [symmetricPower, pow_one] using x.property
-      show p₁ (q₁ (x : SymmetricAlgebra A (M × M))) ⊗ₜ[A] n +
+      change p₁ (q₁ (x : SymmetricAlgebra A (M × M))) ⊗ₜ[A] n +
           p₂ (q₂ (x : SymmetricAlgebra A (M × M))) ⊗ₜ[A] n =
         (x : SymmetricAlgebra A (M × M)) ⊗ₜ[A] n
       rw [← hm]
@@ -356,7 +354,7 @@ public lemma symmetricAlgebraZeroMapLarge_mem_weightSpace_zero (A : Type u) (M :
     (x : F.obj (Opposite.op (Opposite.op (CommAlgCat.of A (SymmetricAlgebra A M))))) :
     F.map ((CommAlgCat.ofHom (symmetricAlgebraZeroMapLarge A M)).op.op) x ∈
       LaurentLarge.weightSpace A (SymmetricAlgebra A M) F 𝒜 0 := by
-  show (LaurentPolynomial.T 0 : LaurentPolynomial (SymmetricAlgebra A M)) •
+  change (LaurentPolynomial.T 0 : LaurentPolynomial (SymmetricAlgebra A M)) •
       F.map ((CommAlgCat.ofHom (constantLaurentMapLarge A (SymmetricAlgebra A M))).op.op)
         (F.map ((CommAlgCat.ofHom (symmetricAlgebraZeroMapLarge A M)).op.op) x) =
     F.map ((CommAlgCat.ofHom (gradedLaurentMapLarge A (SymmetricAlgebra A M) 𝒜)).op.op)
@@ -412,7 +410,7 @@ public lemma weightOne_eq_add_images_large {A : Type u} {M : Type v} [CommRing A
     apply (ModuleCat.mono_iff_injective (η.app Y)).mp inferInstance
     refine Eq.trans ?_ (map_add (ConcreteCategory.hom (η.app Y))
       (F.map (CommAlgCat.ofHom p₁).op.op x) (F.map (CommAlgCat.ofHom p₂).op.op y)).symm
-    show η.app Y z = η.app Y (F.map (CommAlgCat.ofHom p₁).op.op x) +
+    change η.app Y z = η.app Y (F.map (CommAlgCat.ofHom p₁).op.op x) +
       η.app Y (F.map (CommAlgCat.ofHom p₂).op.op y)
     rw [PresheafOfModules.naturality_apply η (CommAlgCat.ofHom p₁).op.op x,
       PresheafOfModules.naturality_apply η (CommAlgCat.ofHom p₂).op.op y]
@@ -443,9 +441,7 @@ public lemma weightOne_images_disjoint_large {A : Type u} {M : Type v} [CommRing
     [AddCommGroup M] [Module A M] [Module.FinitePresentation A M]
     (F : ModuleValuedFunctor.{max u v w, v} A) (hF : IsAdequate (𝟭 _) F)
     (𝒜 : ℕ → Submodule A (SymmetricAlgebra A M)) [GradedAlgebra 𝒜]
-    (ℬ : ℕ → Submodule A (SymmetricAlgebra A (M × M))) [GradedAlgebra ℬ]
-    (h𝒜 : ∀ m, SymmetricAlgebra.ι A M m ∈ 𝒜 1)
-    (hℬ : ∀ m, SymmetricAlgebra.ι A (M × M) m ∈ ℬ 1) :
+    (ℬ : ℕ → Submodule A (SymmetricAlgebra A (M × M))) [GradedAlgebra ℬ] :
     let p₁ : SymmetricAlgebra A M →ₐ[A] SymmetricAlgebra A (M × M) :=
       SymmetricAlgebra.lift ((SymmetricAlgebra.ι A (M × M)).comp (LinearMap.inl A M M))
     let p₂ : SymmetricAlgebra A M →ₐ[A] SymmetricAlgebra A (M × M) :=
@@ -487,7 +483,7 @@ public lemma weightOne_images_disjoint_large {A : Type u} {M : Type v} [CommRing
   have hmap₁₁ : F.map ((CommAlgCat.ofHom q₁).op.op)
       (F.map ((CommAlgCat.ofHom p₁).op.op) x) = x := by
     rw [← F.map_comp_apply, hcat₁₁]
-    show F.presheaf.map (𝟙 _) x = x
+    change F.presheaf.map (𝟙 _) x = x
     exact F.presheaf.map_id_apply _ x
   have hmap₁₂ : F.map ((CommAlgCat.ofHom q₁).op.op)
       (F.map ((CommAlgCat.ofHom p₂).op.op) y) =
@@ -496,7 +492,7 @@ public lemma weightOne_images_disjoint_large {A : Type u} {M : Type v} [CommRing
   have hmap₂₂ : F.map ((CommAlgCat.ofHom q₂).op.op)
       (F.map ((CommAlgCat.ofHom p₂).op.op) y) = y := by
     rw [← F.map_comp_apply, hcat₂₂]
-    show F.presheaf.map (𝟙 _) y = y
+    change F.presheaf.map (𝟙 _) y = y
     exact F.presheaf.map_id_apply _ y
   have hmap₂₁ : F.map ((CommAlgCat.ofHom q₂).op.op)
       (F.map ((CommAlgCat.ofHom p₁).op.op) x) =
@@ -568,7 +564,7 @@ public lemma adequate_hasWeightOneCoproduct_large {A : Type u} [CommRing A]
       (weightOne_eq_add_images_large F hF 𝒜 ℬ hgenA hgenB z).mp hz
     refine ⟨(x, y), ⟨hx, hy, _, _, rfl, rfl, hsum⟩, ?_⟩
     rintro xy ⟨hx', hy', _, _, rfl, rfl, hsum'⟩
-    have hxy0 := weightOne_images_disjoint_large F hF 𝒜 ℬ hgenA hgenB
+    have hxy0 := weightOne_images_disjoint_large F hF 𝒜 ℬ
       (x - xy.1) (y - xy.2) _ _
       (weightSpace_sub_mem_large F 𝒜 1 hx hx') (weightSpace_sub_mem_large F 𝒜 1 hy hy') rfl rfl
       (by

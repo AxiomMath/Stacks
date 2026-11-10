@@ -84,11 +84,14 @@ def ringModuleMap :
       (fun V r m =>
         map_mul (((sheafCompose X.J (forget₂ CommRingCat RingCat)).map φ).hom.app V).hom r m)⟩
 
+omit [HasWeakSheafify X.J CommRingCat] [HasSheafify X.J AddCommGrpCat]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat] in
 /-- On sections over `V`, `ringModuleMap X φ` sends `r` to `φ(r)`. -/
 theorem ringModuleMap_val_app (V : X.Cᵒᵖ)
     (r : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj V) :
     (ringModuleMap X φ).val.app V r = (φ.hom.app V).hom r := rfl
 
+omit [HasWeakSheafify X.J CommRingCat] in
 /-- **`x ↦ x ⊗ 1` is the inverse unit constraint followed by `F ⊗ η`.** For a sheaf of
 `𝒪`-modules `F`, the composite `F ≅ F ⊗_𝒪 𝒪 ⟶ F ⊗_𝒪 𝒪'` of the inverse right unit constraint
 with `F ⊗ η` is the canonical map `Stacks.Sheaves.FlatNeighbourhood.tensorUnitMap`. -/
@@ -118,6 +121,7 @@ theorem inv_comp_map_ringModuleMap
     (map_one (φ.hom.app V).hom).symm]
   rfl
 
+omit [HasWeakSheafify X.J CommRingCat] in
 /-- **Degreewise, `K ⊗ η` is `x ↦ x ⊗ 1`.** The termwise complex `p ↦ K^p ⊗_𝒪 η` is the
 identification `p ↦ K^p ⊗_𝒪 𝒪 ≅ K` followed by the degreewise extension of scalars. -/
 theorem rowComplexMapRight_ringModuleMap

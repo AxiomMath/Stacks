@@ -97,22 +97,21 @@ theorem isTorsionBySet_torOne (n : SimplexCategoryᵒᵖ) :
   have key : ∀ s : J ⊗[(standardResolution A B).left.obj n] J,
       (j : (standardResolution A B).left.obj n) • s = (⟨j.1, j.2⟩ : J) ⊗ₜ μ s := by
     intro s
-    induction s using TensorProduct.induction_on with
-    | zero => simp
+    induction s using TensorProduct.inductionOn with
     | tmul x y =>
       rw [TensorProduct.smul_tmul']
-      show (⟨j.1 * x.1, _⟩ : J) ⊗ₜ y = _
+      change (⟨j.1 * x.1, _⟩ : J) ⊗ₜ y = _
       have hx : (⟨j.1 * x.1, J.mul_mem_left _ x.2⟩ : J) = x.1 • (⟨j.1, j.2⟩ : J) := by
         apply Subtype.ext
-        show j.1 * x.1 = x.1 * j.1
+        change j.1 * x.1 = x.1 * j.1
         ring
       rw [hx, TensorProduct.smul_tmul]
       congr 1
     | add s s' hs hs' => rw [smul_add, hs, hs', map_add, TensorProduct.tmul_add]
   have hμ : μ t.1 = 0 := by
-    show Submodule.inclusion Ideal.mul_le_left (Submodule.mulMap' J J t.1) = 0
+    change Submodule.inclusion Ideal.mul_le_left (Submodule.mulMap' J J t.1) = 0
     rw [LinearMap.mem_ker.1 t.2, map_zero]
-  show (j : (standardResolution A B).left.obj n) • t.1 = 0
+  change (j : (standardResolution A B).left.obj n) • t.1 = 0
   rw [key, hμ, TensorProduct.tmul_zero]
 
 /-- A simplicial operator of `𝒥 ⊗_𝒪 𝒥` preserves the kernel of the multiplication. -/
@@ -126,7 +125,7 @@ theorem map_mem_ker_mulMap' {n m : SimplexCategoryᵒᵖ} (f : n ⟶ m)
   have h := (idealMulHom.{u, v} A B).naturality f x
   change Submodule.mulMap' _ _ _ = _ at h
   rw [h]
-  show (augmentationIdealSqModule.{u, v} A B).map f (Submodule.mulMap' _ _ x) = 0
+  change (augmentationIdealSqModule.{u, v} A B).map f (Submodule.mulMap' _ _ x) = 0
   rw [hx, map_zero]
 
 /-- The term of `Tor₁^𝒪(𝒥, B̲)` in degree `n`, `ker(Jₙ ⊗_{Pₙ} Jₙ → Jₙ²)`, to be read as a
@@ -399,6 +398,7 @@ instance isIso_sqToTorOneδZero : IsIso (sqToTorOneδZero.{u, v} A B) :=
 
 attribute [local instance] Functor.preservesHomologyOfExact
 
+set_option linter.checkUnivs false in
 /-- Restriction of scalars commutes with the homology of Moore complexes. -/
 def restrictScalarsMooreHomologyIso {R S : Type (max u v)} [CommRing R] [CommRing S] (f : R →+* S)
     (X : SimplicialObject (ModuleCat.{max u v} S)) (n : ℕ) :
@@ -412,6 +412,7 @@ def restrictScalarsMooreHomologyIso {R S : Type (max u v)} [CommRing R] [CommRin
       ((alternatingFaceMapComplexCompMapHomologicalComplexIso
         (ModuleCat.restrictScalars.{max u v} f)).app X)
 
+set_option linter.checkUnivs false in
 /-- An isomorphism of modules after restriction of scalars along a surjective ring map is an
 isomorphism of modules. -/
 def isoOfRestrictScalarsIso {R S : Type (max u v)} [Ring R] [Ring S] (f : R →+* S)

@@ -91,7 +91,7 @@ theorem Coeffaceable.postcomp (H : HomologicalDeltaFunctor A B) [H.Coeffaceable]
   nonempty X n := by
     obtain ⟨e⟩ := Coeffaceable.nonempty (H := H) X n
     refine ⟨{ P := e.P, π := e.π, epi := e.epi, map_π := ?_ }⟩
-    show E.map ((H.functor (n + 1)).map e.π) = 0
+    change E.map ((H.functor (n + 1)).map e.π) = 0
     rw [e.map_π, E.map_zero]
 
 end HomologicalDeltaFunctor

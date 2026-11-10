@@ -184,7 +184,7 @@ def signedEvalAddHom (p n : ℤ) : Cochain K I n →+ (K.X (-p) ⟶ I.X (n - p))
 of that summand. -/
 lemma signedEvalAddHom_signedSingleAddHom (p n : ℤ) (φ : K.X (-p) ⟶ I.X (n - p)) :
     signedEvalAddHom K I p n (signedSingleAddHom K I p (n - p) n φ) = φ := by
-  show (sign p (n - p))⁻¹ • (sign p (n - p) • Cochain.single φ n).v (-p) (n - p) (by ring) = φ
+  change (sign p (n - p))⁻¹ • (sign p (n - p) • Cochain.single φ n).v (-p) (n - p) (by ring) = φ
   rw [Cochain.units_smul_v, Cochain.single_v, smul_smul, inv_mul_cancel, one_smul]
 
 /-- The signed projection to the `(s, n - s)` summand vanishes on the signed inclusion of the
@@ -192,7 +192,7 @@ lemma signedEvalAddHom_signedSingleAddHom (p n : ℤ) (φ : K.X (-p) ⟶ I.X (n 
 lemma signedEvalAddHom_signedSingleAddHom_of_ne (p s n : ℤ) (hps : s ≠ p)
     (φ : K.X (-p) ⟶ I.X (n - p)) :
     signedEvalAddHom K I s n (signedSingleAddHom K I p (n - p) n φ) = 0 := by
-  show (sign s (n - s))⁻¹ • (sign p (n - p) • Cochain.single φ n).v (-s) (n - s) (by ring) = 0
+  change (sign s (n - s))⁻¹ • (sign p (n - p) • Cochain.single φ n).v (-s) (n - s) (by ring) = 0
   rw [Cochain.units_smul_v,
     Cochain.single_v_eq_zero φ n (-s) (n - s) (by ring) (by omega), smul_zero, smul_zero]
 
@@ -201,7 +201,7 @@ cochain of its `(-p, n - p)` component. -/
 lemma signedSingleAddHom_signedEvalAddHom (p n : ℤ) (z : Cochain K I n) :
     signedSingleAddHom K I p (n - p) n (signedEvalAddHom K I p n z) =
       Cochain.single (z.v (-p) (n - p) (by ring)) n := by
-  show sign p (n - p) • Cochain.single ((sign p (n - p))⁻¹ • _) n = _
+  change sign p (n - p) • Cochain.single ((sign p (n - p))⁻¹ • _) n = _
   rw [single_units_smul, smul_smul, mul_inv_cancel, one_smul]
 
 /-- The `(a, b)` summand of the degreewise comparison map. -/
@@ -245,7 +245,7 @@ lemma signedSingleAddHom_comm (a b n : ℤ) (hab : a + b = n) (φ : K.X (-a) ⟶
 lemma finsetSum_apply {M N : AddCommGrpCat.{v}} {J : Type*} (s : Finset J) (f : J → (M ⟶ N))
     (x : M) : (∑ i ∈ s, f i) x = ∑ i ∈ s, f i x := by
   have h : (∑ i ∈ s, f i).hom = ∑ i ∈ s, (f i).hom := map_sum AddCommGrpCat.homAddEquiv f s
-  show (∑ i ∈ s, f i).hom x = _
+  change (∑ i ∈ s, f i).hom x = _
   rw [h, AddMonoidHom.finsetSum_apply]
 
 /-- A finite sum of cochains, evaluated at a pair of degrees. -/

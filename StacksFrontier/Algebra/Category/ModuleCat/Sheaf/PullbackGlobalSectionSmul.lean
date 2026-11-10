@@ -83,7 +83,7 @@ theorem moduleSheafFunctor_map_globalSectionToEnd_unit
     let c₂ : R.obj.obj X := s.hom.app X ((terminal.from (ringSheaf R)).hom.app X x')
     have hc : c₁ = c₂ := congrArg (s.hom.app X)
       (eq_terminalSheafSection ((terminal.from (ringSheaf R)).hom.app X x')).symm
-    show c₁ * y = c₂ * y
+    change c₁ * y = c₂ * y
     rw [hc]
 
 end CategoryTheory.Sheaf
@@ -117,6 +117,7 @@ def pullbackTerminalSection
   f.toToposHom.inverseImageTerminalIso.inv ≫ f.toToposHom.inverseImage.map s ≫
     (sheafCompose X.J (forget RingCat.{w})).map f.fSharpInverseImage
 
+omit [HasWeakSheafify Y.J AddCommGrpCat.{w'}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w'}] in
 /-- **The pullback of multiplication by a global section.** Under the identification
 `ν : f^*𝒪_𝒟 ≅ 𝒪_𝒞`, the pullback of multiplication by a global section `s` of `𝒪_𝒟` is
 multiplication by its image `f♯(s)`. -/
@@ -149,7 +150,7 @@ theorem pullbackModules_map_globalSectionToEnd_unit
   refine Sheaf.hom_ext_sections fun V y => ?_
   let P := f.toToposHom.inverseImage ⋙ Sheaf.sectionsFunctor X.J V
   let ψ := (f.fSharpInverseImage.hom.app V).hom
-  show ψ (P.map (prod.lift
+  change ψ (P.map (prod.lift
       (terminal.from (Sheaf.ringSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ≫ s) (𝟙 _) ≫
       Sheaf.ringMulHom (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) y) =
     (Sheaf.sectionsFunctor X.J V).map (prod.lift
@@ -180,18 +181,18 @@ theorem pullbackModules_map_globalSectionToEnd_unit
       (ψ a * (show (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj V from z) :
         (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj V) := by
     intro z
-    show (Sheaf.sectionsFunctor X.J V).map
+    change (Sheaf.sectionsFunctor X.J V).map
       (Sheaf.ringMulHom (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
       ((Sheaf.sectionsFunctor X.J V).map (prod.lift (terminal.from
         (Sheaf.ringSheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ≫
           pullbackTerminalSection f s) (𝟙 _)) z) = _
     rw [Functor.map_lift_apply, Sheaf.sectionsFunctor_map_ringMulHom]
     congr 1
-    show (Sheaf.sectionsFunctor X.J V).map (pullbackTerminalSection f s)
+    change (Sheaf.sectionsFunctor X.J V).map (pullbackTerminalSection f s)
       ((Sheaf.sectionsFunctor X.J V).map (terminal.from
         (Sheaf.ringSheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O))) z) = _
     rw [Functor.map_terminalFrom_apply]
-    show ψ (P.map s _) = ψ (P.map s default)
+    change ψ (P.map s _) = ψ (P.map s default)
     congr 1
     exact congrArg (P.map s) (Subsingleton.elim _ _)
   exact (congrArg ψ (hP.trans hmul)).trans ((map_mul ψ a b).trans (hX (ψ b)).symm)

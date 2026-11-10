@@ -7,7 +7,8 @@ public import StacksFrontier.RingTheory.GeometricallyIntegral.OpenLocus
 # A scheme-theoretically dense family of reduced standard opens makes the fibres reduced
 
 `StacksFrontier.RingTheory.GeometricallyIntegral.ReducedLocus` and
-`StacksFrontier.RingTheory.GeometricallyIntegral.GoodReduced` reduce the affine case of Stacks 0579 to
+`StacksFrontier.RingTheory.GeometricallyIntegral.GoodReduced` reduce the affine case of Stacks 0579
+to
 one statement, the *good half* of the generic-fibre dichotomy: over a Noetherian domain `D` with a
 finite type algebra `T` whose generic fibre is geometrically reduced, some nonempty basic open of
 `Spec D` lies inside `Algebra.geometricallyReducedFibreLocus D T`. That is the affine case of

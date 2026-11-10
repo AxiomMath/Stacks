@@ -20,7 +20,7 @@ The proof is the source's. The question is local on `Y`, so `Y` may be taken aff
 induction on `X` and the triangle of Stacks 0GKP, `X` may be taken affine; a closed immersion
 `X ⟶ 𝔸ⁿ_Y` and Stacks 0F7J for it reduce to `X = 𝔸ⁿ_Y`; and `𝔸ⁿ⁺¹_Y ⟶ 𝔸¹_Y ⟶ Y` with Stacks 0F7J
 and the dévissage of Stacks 015J reduce to Stacks 0GKZ over a Nagata base
-(`Stacks.EtaleCohomology.isConstructibleEtaleModule_homology_derivedLowerShriek_affineLine_of_isNagataScheme`).
+(`isConstructibleEtaleModule_homology_derivedLowerShriek_affineLine_of_isNagataScheme`).
 
 Stacks 0GKV enters as the hypothesis `h0GKV` until it lands.
 
@@ -30,7 +30,7 @@ Stacks 0GKV enters as the hypothesis `h0GKV` until it lands.
   `R^p f̄_*(j_! F) = H^p(Rf_! F)`.
 * `Stacks.EtaleCohomology.isConstructibleEtaleModule_homology_derivedLowerShriek_of_forall_sheaf`:
   the dévissage from sheaves to bounded below complexes.
-* `Stacks.EtaleCohomology.isConstructibleEtaleModule_homology_derivedLowerShriek_affineSpace_of_isNagataScheme`.
+* `isConstructibleEtaleModule_homology_derivedLowerShriek_affineSpace_of_isNagataScheme`.
 -/
 
 @[expose] public noncomputable section
@@ -67,7 +67,8 @@ theorem nonempty_rightDerived_iso_homology_derivedLowerShriek_singleFunctor {X Y
     Nonempty (((etaleModuleDirectImage.{u, 0} Λ j.toBase).rightDerived p).obj
         ((etaleModuleExtensionByZero.{u, 0} Λ j.immersion).obj F) ≅
       (DerivedCategory.Plus.homologyFunctor _ p).obj
-        ((derivedLowerShriek.{u, 0} f j Λ).obj ((DerivedCategory.Plus.singleFunctor _ 0).obj F))) := by
+        ((derivedLowerShriek.{u, 0} f j Λ).obj
+          ((DerivedCategory.Plus.singleFunctor _ 0).obj F))) := by
   let E := etaleModuleExtensionByZero.{u, 0} Λ j.immersion
   let e₁ : (etaleModuleDerivedExtensionByZero.{u, 0} Λ j.immersion).obj
         ((DerivedCategory.Plus.singleFunctor _ 0).obj F) ≅
@@ -87,7 +88,8 @@ theorem isConstructibleEtaleModule_homology_derivedLowerShriek_of_forall_sheaf
     (j : CompactificationOf (Over.mk f)) (Λ : Type) [CommRing Λ] [IsNoetherianRing Λ]
     (h : ∀ G : EtaleModules.{u, 0} Λ X.obj, IsBigSiteConstructibleEtaleModule B X Λ G →
       IsTorsionEtaleModule Λ X.obj G → ∀ p : ℕ,
-        IsBigSiteConstructibleEtaleModule B Y Λ ((DerivedCategory.Plus.homologyFunctor _ (p : ℤ)).obj
+        IsBigSiteConstructibleEtaleModule B Y Λ
+          ((DerivedCategory.Plus.homologyFunctor _ (p : ℤ)).obj
           ((derivedLowerShriek.{u, 0} f j Λ).obj ((DerivedCategory.Plus.singleFunctor _ 0).obj G))))
     (K : DerivedCategory.Plus (EtaleModules.{u, 0} Λ X.obj))
     (hK : ∀ q : ℤ, IsBigSiteConstructibleEtaleModule B X Λ
@@ -201,16 +203,19 @@ theorem isConstructibleEtaleModule_homology_derivedLowerShriek_affineSpace_of_is
     -- the outer step, Stacks 0GKZ over a Nagata base and the dévissage
     have hout : ∀ G : EtaleModules.{u, 0} Λ A1B.obj, IsBigSiteConstructibleEtaleModule B A1B Λ G →
         IsTorsionEtaleModule Λ A1B.obj G → ∀ p : ℕ,
-          IsBigSiteConstructibleEtaleModule B Y Λ ((DerivedCategory.Plus.homologyFunctor _ (p : ℤ)).obj
+          IsBigSiteConstructibleEtaleModule B Y Λ
+            ((DerivedCategory.Plus.homologyFunctor _ (p : ℤ)).obj
             ((derivedLowerShriek.{u, 0} b jb Λ).obj
               ((DerivedCategory.Plus.singleFunctor _ 0).obj G))) := fun G hG _ p =>
       isConstructibleEtaleModule_homology_derivedLowerShriek_of_eq B (Category.id_comp b) jb' jb Λ
         _ (isTorsionPlus_of_natCast_eq_zero hm hΛ) _
         (isConstructibleEtaleModule_homology_derivedLowerShriek_affineLine_of_isNagataScheme B Y hY
           A1B (𝟙 A1) jb' Λ m hm hΛ h0GKV G hG p)
-    let K := (derivedLowerShriek.{u, 0} f₁ j₁ Λ).obj ((DerivedCategory.Plus.singleFunctor _ 0).obj F)
+    let K := (derivedLowerShriek.{u, 0} f₁ j₁ Λ).obj
+      ((DerivedCategory.Plus.singleFunctor _ 0).obj F)
     have hK := isConstructibleEtaleModule_homology_derivedLowerShriek_of_forall_sheaf B (X := A1B)
-      (Y := Y) b jb Λ hout K (fun q => ⟨hin q, isTorsionEtaleModule_of_natCast_eq_zero Λ m hm hΛ _⟩) k
+      (Y := Y) b jb Λ hout K
+      (fun q => ⟨hin q, isTorsionEtaleModule_of_natCast_eq_zero Λ m hm hΛ _⟩) k
     -- Stacks 0F7J for `f₁ ≫ b`, then the change of compactification
     have hF0 : isTorsionPlus.{u, 0} Λ X.obj ((DerivedCategory.Plus.singleFunctor _ 0).obj F) :=
       isTorsionPlus_of_natCast_eq_zero hm hΛ
@@ -235,7 +240,8 @@ theorem isConstructibleEtaleModule_homology_derivedLowerShriek_of_isAffine_of_is
     (j : CompactificationOf (Over.mk g)) (G : EtaleModules.{u, 0} Λ U.obj)
     (hG : IsBigSiteConstructibleEtaleModule B U Λ G) (k : ℤ) :
     IsBigSiteConstructibleEtaleModule B Y Λ ((DerivedCategory.Plus.homologyFunctor _ k).obj
-      ((derivedLowerShriek.{u, 0} g j Λ).obj ((DerivedCategory.Plus.singleFunctor _ 0).obj G))) := by
+      ((derivedLowerShriek.{u, 0} g j Λ).obj
+        ((DerivedCategory.Plus.singleFunctor _ 0).obj G))) := by
   have : IsLocallyNoetherian Y.obj := IsNoetherian.toIsLocallyNoetherian
   have : LocallyOfFinitePresentation g := inferInstance
   obtain ⟨n, h, hh, hfac⟩ := exists_closedImmersion_affineSpace_of_lfp g
@@ -299,7 +305,8 @@ theorem isConstructibleEtaleModule_homology_derivedLowerShriek_of_isAffine_base_
     (j : CompactificationOf (Over.mk f)) (F : EtaleModules.{u, 0} Λ X.obj)
     (hF : IsBigSiteConstructibleEtaleModule B X Λ F) (k : ℤ) :
     IsBigSiteConstructibleEtaleModule B Y Λ ((DerivedCategory.Plus.homologyFunctor _ k).obj
-      ((derivedLowerShriek.{u, 0} f j Λ).obj ((DerivedCategory.Plus.singleFunctor _ 0).obj F))) := by
+      ((derivedLowerShriek.{u, 0} f j Λ).obj
+        ((DerivedCategory.Plus.singleFunctor _ 0).obj F))) := by
   have : IsLocallyNoetherian Y.obj := IsNoetherian.toIsLocallyNoetherian
   have : IsLocallyNoetherian X.obj := LocallyOfFiniteType.isLocallyNoetherian f
   have : CompactSpace X.obj := QuasiCompact.compactSpace_of_compactSpace f
@@ -392,7 +399,7 @@ theorem isConstructibleEtaleModule_homology_derivedLowerShriek_of_isAffine_base_
       ((DerivedCategory.Plus.homologyFunctor _ q).obj (Triangle.mk a b c).obj₃) := fun q =>
     isConstructibleEtaleModule_homology_of_iso B ((derivedLowerShriek.{u, 0} _ _ Λ).mapIso eZ.symm)
       (isConstructibleEtaleModule_homology_derivedLowerShriek_of_eq B
-        (by simp <;> rfl : B.inclusion.map (ciB ≫ i) ≫ f = ci ≫ i' ≫ f) jZ
+        (by simp; rfl : B.inclusion.map (ciB ≫ i) ≫ f = ci ≫ i' ≫ f) jZ
         (j.restrictClosed ci) Λ _ (isTorsionPlus_of_natCast_eq_zero hm hΛ) q
         (ih C' hC'C Z'B (ciB ≫ i) hci (fun _ hx => hx) jZ _ hGZ' q))
   exact prop_homology_obj₂_of_distTriang_plus (IsBigSiteConstructibleEtaleModule B Y Λ) _ hT h₁ h₃ k
@@ -402,9 +409,10 @@ theorem isConstructibleEtaleModule_homology_derivedLowerShriek_of_isAffine_base_
 Nagata scheme of `B`, `f : X ⟶ Y` separated of finite type, `j` a compactification of `f`, `Λ` a
 Noetherian ring with `m = 0` in `Λ` for some `m > 0`, and `F` a constructible sheaf of
 `Λ`-modules on `X`. Then every cohomology sheaf of `Rf_! F` is constructible. The question is
-local on `Y` (Noetherian induction, `Stacks.EtaleCohomology.isConstructibleEtaleModule_of_forall_isIntegral_isNormal`,
+local on `Y` (Noetherian induction,
+`Stacks.EtaleCohomology.isConstructibleEtaleModule_of_forall_isIntegral_isNormal`,
 and base change, Stacks 0F7L, to an affine open), which reduces it to
-`Stacks.EtaleCohomology.isConstructibleEtaleModule_homology_derivedLowerShriek_of_isAffine_base_of_isNagataScheme`.
+`isConstructibleEtaleModule_homology_derivedLowerShriek_of_isAffine_base_of_isNagataScheme`.
 `h0GKV` is Stacks 0GKV. -/
 theorem isConstructibleEtaleModule_homology_derivedLowerShriek_of_isNagataScheme
     (Y : B.Scheme) [IsNoetherian Y.obj] (hY : IsNagataScheme Y.obj) (X : B.Scheme)
@@ -417,7 +425,8 @@ theorem isConstructibleEtaleModule_homology_derivedLowerShriek_of_isNagataScheme
         IsBigSiteConstructibleEtaleModule B S (ZMod ℓ) (rightDerivedConstantUnit f q (ZMod ℓ)))
     (F : EtaleModules.{u, 0} Λ X.obj) (hF : IsBigSiteConstructibleEtaleModule B X Λ F) (k : ℤ) :
     IsBigSiteConstructibleEtaleModule B Y Λ ((DerivedCategory.Plus.homologyFunctor _ k).obj
-      ((derivedLowerShriek.{u, 0} f j Λ).obj ((DerivedCategory.Plus.singleFunctor _ 0).obj F))) := by
+      ((derivedLowerShriek.{u, 0} f j Λ).obj
+        ((DerivedCategory.Plus.singleFunctor _ 0).obj F))) := by
   refine isConstructibleEtaleModule_of_forall_isIntegral_isNormal B Λ Y hY _
     (fun T w hw hwq _ _ => ?_)
   let w' : T.obj ⟶ Y.obj := B.inclusion.map w
@@ -459,8 +468,9 @@ theorem isConstructibleEtaleModule_homology_derivedLowerShriek_of_isNagataScheme
   let XW : B.Scheme := B.obj (pullback f v) hXW
   let gB : XW ⟶ X := ObjectProperty.homMk (pullback.fst f v)
   have hFW := isConstructibleEtaleModule_inverseImage B Λ gB hF
-  have hc := isConstructibleEtaleModule_homology_derivedLowerShriek_of_isAffine_base_of_isNagataScheme
-    B Λ m hm hΛ h0GKV WB hWN XW fW (j.baseChange sq) _ hFW k
+  have hc :=
+    isConstructibleEtaleModule_homology_derivedLowerShriek_of_isAffine_base_of_isNagataScheme
+      B Λ m hm hΛ h0GKV WB hWN XW fW (j.baseChange sq) _ hFW k
   -- base change (Stacks 0F7L)
   let K := (DerivedCategory.Plus.singleFunctor (EtaleModules.{u, 0} Λ X.obj) 0).obj F
   have hKt : isTorsionPlus.{u, 0} Λ X.obj K := isTorsionPlus_of_natCast_eq_zero hm hΛ

@@ -38,78 +38,78 @@ universe u
 
 namespace AlgebraicGeometry.ProjectiveQuot
 
-variable {n r : ℕ} (hr : 1 ≤ r) {P : Polynomial ℚ}
+variable {n r : ℕ} {P : Polynomial ℚ}
 
 /-- The inclusion of `Z_P` in the flat locus is quasi-compact: it is an open immersion with closed
 image, hence a closed embedding. -/
 instance quasiCompact_hilbertLocus_ι :
-    QuasiCompact (hilbertLocus.{u} n r hr P).ι := by
-  have hcl : Topology.IsClosedEmbedding (hilbertLocus.{u} n r hr P).ι :=
-    ⟨(hilbertLocus.{u} n r hr P).ι.isOpenEmbedding.isEmbedding, by
+    QuasiCompact (hilbertLocus.{u} n r P).ι := by
+  have hcl : Topology.IsClosedEmbedding (hilbertLocus.{u} n r P).ι :=
+    ⟨(hilbertLocus.{u} n r P).ι.isOpenEmbedding.isEmbedding, by
       rw [Scheme.Opens.range_ι]
-      exact (isClopen_hilbertLocusSet.{u} n r hr P).isClosed⟩
+      exact (isClopen_hilbertLocusSet.{u} n r P).isClosed⟩
   exact ⟨fun _ _ hU => hcl.isCompact_preimage hU⟩
 
 /-- The morphism `Z_P ⟶ G` is quasi-compact. -/
-instance quasiCompact_hilbertLocusHom : QuasiCompact (hilbertLocusHom.{u} n r hr P) := by
-  have := (finitePresentation_flatLocus_hom.{u} n r hr P).2.1
+instance quasiCompact_hilbertLocusHom : QuasiCompact (hilbertLocusHom.{u} n r P) := by
+  have := (finitePresentation_flatLocus_hom.{u} n r P).2.1
   unfold hilbertLocusHom
   infer_instance
 
 /-- The morphism `Z_P ⟶ G` is locally of finite type. -/
 instance locallyOfFiniteType_hilbertLocusHom :
-    LocallyOfFiniteType (hilbertLocusHom.{u} n r hr P) := by
-  have : LocallyOfFinitePresentation (flatLocus.{u} n r hr P).hom :=
-    (finitePresentation_flatLocus_hom.{u} n r hr P).1
+    LocallyOfFiniteType (hilbertLocusHom.{u} n r P) := by
+  have : LocallyOfFinitePresentation (flatLocus.{u} n r P).hom :=
+    (finitePresentation_flatLocus_hom.{u} n r P).1
   unfold hilbertLocusHom
   infer_instance
 
 /-- **Valuative existence for `Z_P ⟶ G`.** -/
 theorem valuativeCriterionExistence_hilbertLocusHom
-    (hp : quotRank.{u} n r hr P ≤ freeRank.{u} n r (regularityIndex.{u} n r hr P)) :
-    ValuativeCriterion.Existence (hilbertLocusHom.{u} n r hr P) := by
+    (hp : quotRank.{u} n r P ≤ freeRank.{u} n r (regularityIndex.{u} n r P)) :
+    ValuativeCriterion.Existence (hilbertLocusHom.{u} n r P) := by
   intro S
   let ι := Spec.map (CommRingCat.ofHom (algebraMap S.R S.K))
-  let e := hilbertLocusEquiv hr hp
+  let e := hilbertLocusEquiv hp
   set K₀ := (e (Spec (.of S.K))).symm S.i₁
   obtain ⟨K₁, hK₁, hbc⟩ :=
     exists_baseChange_eq_of_valuationRing (n := n) (r := r) P S.R S.K K₀.1 K₀.2
-  have hK₀ : toGrassmannian hr hp K₀.2 = S.i₁ ≫ hilbertLocusHom.{u} n r hr P := by
+  have hK₀ : toGrassmannian hp K₀.2 = S.i₁ ≫ hilbertLocusHom.{u} n r P := by
     rw [← toHilbertLocus_comp]
-    exact congrArg (· ≫ hilbertLocusHom.{u} n r hr P) ((e (Spec (.of S.K))).apply_symm_apply S.i₁)
-  have hι : ι ≫ toGrassmannian hr hp hK₁ = toGrassmannian hr hp K₀.2 := by
+    exact congrArg (· ≫ hilbertLocusHom.{u} n r P) ((e (Spec (.of S.K))).apply_symm_apply S.i₁)
+  have hι : ι ≫ toGrassmannian hp hK₁ = toGrassmannian hp K₀.2 := by
     rw [comp_toGrassmannian]
     congr 1
-  have hbot : toGrassmannian hr hp hK₁ = S.i₂ := by
-    let s := terminal.from (quotGrassmannian.{u} n r hr P)
+  have hbot : toGrassmannian hp hK₁ = S.i₂ := by
+    let s := terminal.from (quotGrassmannian.{u} n r P)
     let S' : ValuativeCommSq s :=
-      { R := S.R, K := S.K, i₁ := S.i₁ ≫ hilbertLocusHom.{u} n r hr P,
+      { R := S.R, K := S.K, i₁ := S.i₁ ≫ hilbertLocusHom.{u} n r P,
         i₂ := S.i₂ ≫ s, commSq := ⟨by rw [← Category.assoc, S.commSq.w, Category.assoc]⟩ }
     have := IsSeparated.valuativeCriterion s S'
     let l₁ : S'.commSq.LiftStruct :=
-      { l := toGrassmannian hr hp hK₁, fac_left := hι.trans hK₀,
+      { l := toGrassmannian hp hK₁, fac_left := hι.trans hK₀,
         fac_right := terminal.hom_ext _ _ }
     let l₂ : S'.commSq.LiftStruct :=
       { l := S.i₂, fac_left := S.commSq.w.symm, fac_right := rfl }
     exact congrArg CommSq.LiftStruct.l (Subsingleton.elim l₁ l₂)
-  refine ⟨⟨{ l := toHilbertLocus hr hp hK₁, fac_left := ?_, fac_right := ?_ }⟩⟩
-  · apply (cancel_mono (hilbertLocusHom.{u} n r hr P)).1
+  refine ⟨⟨{ l := toHilbertLocus hp hK₁, fac_left := ?_, fac_right := ?_ }⟩⟩
+  · apply (cancel_mono (hilbertLocusHom.{u} n r P)).1
     rwa [Category.assoc, toHilbertLocus_comp, ← hK₀]
   · rw [toHilbertLocus_comp, hbot]
 
 /-- **`Z_P ⟶ G` is proper.** -/
 theorem isProper_hilbertLocusHom
-    (hp : quotRank.{u} n r hr P ≤ freeRank.{u} n r (regularityIndex.{u} n r hr P)) :
-    IsProper (hilbertLocusHom.{u} n r hr P) :=
+    (hp : quotRank.{u} n r P ≤ freeRank.{u} n r (regularityIndex.{u} n r P)) :
+    IsProper (hilbertLocusHom.{u} n r P) :=
   IsProper.of_valuativeCriterion _ (ValuativeCriterion.iff.2
-    ⟨valuativeCriterionExistence_hilbertLocusHom hr hp, IsSeparated.valuativeCriterion _⟩)
+    ⟨valuativeCriterionExistence_hilbertLocusHom hp, IsSeparated.valuativeCriterion _⟩)
 
 /-- **`Z_P` is proper over `Spec ℤ`.** -/
 theorem isProper_hilbertLocus_terminalFrom
-    (hp : quotRank.{u} n r hr P ≤ freeRank.{u} n r (regularityIndex.{u} n r hr P)) :
-    IsProper (terminal.from (hilbertLocus.{u} n r hr P).toScheme) := by
-  have := isProper_hilbertLocusHom hr hp
-  rw [← terminal.comp_from (hilbertLocusHom.{u} n r hr P)]
+    (hp : quotRank.{u} n r P ≤ freeRank.{u} n r (regularityIndex.{u} n r P)) :
+    IsProper (terminal.from (hilbertLocus.{u} n r P).toScheme) := by
+  have := isProper_hilbertLocusHom hp
+  rw [← terminal.comp_from (hilbertLocusHom.{u} n r P)]
   infer_instance
 
 end AlgebraicGeometry.ProjectiveQuot

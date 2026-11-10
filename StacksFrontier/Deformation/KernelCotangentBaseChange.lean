@@ -97,7 +97,7 @@ theorem kernelCotangentModule_smul (f : R' →+* R) (hf : Function.Surjective f)
     letI := kernelCotangentModule f hf
     f s • x = s • x := by
   let := kernelCotangentModule f hf
-  show (RingHom.quotientKerEquivOfSurjective hf).symm (f s) • x = s • x
+  change (RingHom.quotientKerEquivOfSurjective hf).symm (f s) • x = s • x
   rw [RingHom.quotientKerEquivOfSurjective_symm_apply hf s, ← Ideal.Quotient.algebraMap_eq]
   exact IsScalarTower.algebraMap_smul (R' ⧸ RingHom.ker f) s x
 
@@ -360,7 +360,7 @@ theorem kernelCotangentBaseChange_injective (f : R' →+* R) (hf : Function.Surj
     { toFun := fun a => 1 ⊗ₜ[R] (RingHom.ker f).toCotangent a
       map_add' := fun a b => by rw [map_add, TensorProduct.tmul_add]
       map_smul' := fun r a => by
-        show (1 : S) ⊗ₜ[R] (RingHom.ker f).toCotangent (r • a)
+        change (1 : S) ⊗ₜ[R] (RingHom.ker f).toCotangent (r • a)
           = g (g' r) • ((1 : S) ⊗ₜ[R] (RingHom.ker f).toCotangent a)
         rw [map_smul, ← kernelCotangentModule_smul f hf r, ← hσ r,
           ← TensorProduct.smul_tmul, TensorProduct.smul_tmul',
@@ -372,8 +372,7 @@ theorem kernelCotangentBaseChange_injective (f : R' →+* R) (hf : Function.Surj
       ((q w : S') : S') =
         TensorProduct.rid R' S' (LinearMap.lTensor S' (Submodule.subtype _) w) := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => simp [q]
+    induction w using TensorProduct.inductionOn with
     | tmul s a => simp [q, ψ, Algebra.smul_def, RingHom.algebraMap_toAlgebra, mul_comm]
     | add u v hu hv => simp only [map_add, Submodule.coe_add, hu, hv]
   have hqinj : Function.Injective q := by
@@ -386,13 +385,12 @@ theorem kernelCotangentBaseChange_injective (f : R' →+* R) (hf : Function.Surj
   -- `p` is surjective.
   have hpsurj : Function.Surjective p := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => exact ⟨0, map_zero _⟩
+    induction x using TensorProduct.inductionOn with
     | tmul s m =>
         obtain ⟨s', rfl⟩ := hg s
         obtain ⟨a, rfl⟩ := Ideal.toCotangent_surjective (RingHom.ker f) m
         refine ⟨s' ⊗ₜ[R'] a, ?_⟩
-        show g s' • ((1 : S) ⊗ₜ[R] (RingHom.ker f).toCotangent a) = _
+        change g s' • ((1 : S) ⊗ₜ[R] (RingHom.ker f).toCotangent a) = _
         rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
     | add u v hu hv =>
         obtain ⟨yu, rfl⟩ := hu
@@ -403,14 +401,13 @@ theorem kernelCotangentBaseChange_injective (f : R' →+* R) (hf : Function.Surj
       kernelCotangentBaseChange f hf g hg g' hcomm (p w) =
         (RingHom.ker g).toCotangent (q w) := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => simp [p, q]
+    induction w using TensorProduct.inductionOn with
     | tmul s a =>
-        show kernelCotangentBaseChange f hf g hg g' hcomm
+        change kernelCotangentBaseChange f hf g hg g' hcomm
             (g s • ((1 : S) ⊗ₜ[R] (RingHom.ker f).toCotangent a)) = _
         rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one, kernelCotangentBaseChange_tmul,
           kernelCotangentMap_toCotangent]
-        show _ = (RingHom.ker g).toCotangent (s • ψ a)
+        change _ = (RingHom.ker g).toCotangent (s • ψ a)
         rw [map_smul, ← kernelCotangentModule_smul g hg s]
         rfl
     | add u v hu hv => simp only [map_add, hu, hv]
@@ -426,7 +423,7 @@ theorem kernelCotangentBaseChange_injective (f : R' →+* R) (hf : Function.Surj
         obtain ⟨a, ha, rfl⟩ := hz
         have haI : a ∈ RingHom.ker f := (Ideal.pow_le_self two_ne_zero) ha
         refine ⟨1 ⊗ₜ[R'] ⟨a, haI⟩, by simp [q, ψ], ?_⟩
-        show (1 : S') • ((1 : S) ⊗ₜ[R] (RingHom.ker f).toCotangent ⟨a, haI⟩) = 0
+        change (1 : S') • ((1 : S) ⊗ₜ[R] (RingHom.ker f).toCotangent ⟨a, haI⟩) = 0
         rw [(Ideal.toCotangent_eq_zero _ _).mpr ha, TensorProduct.tmul_zero, smul_zero]
     | zero => exact ⟨0, by simp [q], map_zero _⟩
     | add u v _ _ ihu ihv =>

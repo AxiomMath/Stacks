@@ -118,7 +118,7 @@ theorem IsWeighting.add {X Y : Scheme.{u}} {f : X ⟶ Y} {w₁ w₂ : X → ℤ}
       separableDegreeWeightedFiberSum π (w₁ ∘ h) +
         separableDegreeWeightedFiberSum π (w₂ ∘ h) := by
     funext v
-    show separableDegreeWeightedFiberSum π ((w₁ + w₂) ∘ h) v =
+    change separableDegreeWeightedFiberSum π ((w₁ + w₂) ∘ h) v =
       separableDegreeWeightedFiberSum π (w₁ ∘ h) v +
         separableDegreeWeightedFiberSum π (w₂ ∘ h) v
     exact separableDegreeWeightedFiberSum_add π (w₁ ∘ h) (w₂ ∘ h) v

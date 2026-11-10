@@ -75,7 +75,7 @@ theorem Ideal.exists_ofList_eq_of_spanFinrank_le {A : Type*} [CommRing A] {I : I
   · apply le_antisymm
     · rw [Ideal.ofList, Ideal.span_le]
       intro x hx
-      simp only [Set.mem_setOf_eq, List.mem_append, Finset.mem_toList, List.mem_replicate] at hx
+      simp only [Set.mem_ofPred_eq, List.mem_append, Finset.mem_toList, List.mem_replicate] at hx
       rcases hx with hx | ⟨-, rfl⟩
       · rw [← hspan]
         exact Submodule.subset_span hx

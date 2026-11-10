@@ -115,8 +115,6 @@ end Stacks.RelativeSpec
 namespace Stacks.Conormal
 
 variable {Z X : Scheme.{u}} (i : Z ⟶ X) [IsImmersion i]
-  [Stacks.RelativeSpec.AlgebraSheaf.IsQuasicoherent (normalBundleAlgebra i)]
-  [hc : (conormalAlgebraSheaf i).IsQuasicoherent]
 
 /-- **The canonical map of algebra sheaves `Sym(𝒞_{Z/X}) ⟶ 𝒞_{Z/X,*}` is an isomorphism** when the
 canonical map of graded algebras of [Stacks, Tag 0632] is an isomorphism in every degree. This is
@@ -130,6 +128,8 @@ theorem isIso_conormalSymmetricAlgebraSheafHom
     (Scheme.Modules.symmetricAlgebra_mul_comm Z (conormalSheafDegreeOne i))
     (conormalAlgebra i).mul_comm_int
 
+variable [hc : (conormalAlgebraSheaf i).IsQuasicoherent]
+
 /-- **The canonical morphism `C_ZX ⟶ N_ZX` from the normal cone to the normal bundle is an
 isomorphism** when the canonical map of graded algebras `Sym*(𝒞_{Z/X}) ⟶ 𝒞_{Z/X,*}` of
 [Stacks, Tag 0632] is an isomorphism in every degree.
@@ -142,7 +142,7 @@ comparisons agree by
 `Stacks.RelativeSpec.relativeSpectrumMapOfAlgebraHom_eq_ofAlgebraIso`. -/
 theorem isIso_normalConeToNormalBundle (h : ∀ n, IsIso ((conormalSymmetricHom i).app n)) :
     IsIso (normalConeToNormalBundle i) := by
-  haveI := isIso_conormalSymmetricAlgebraSheafHom i h
+  have := isIso_conormalSymmetricAlgebraSheafHom i h
   have e : normalConeToNormalBundle i =
       Stacks.RelativeSpec.relativeSpectrumMapOfAlgebraIso (normalBundleSituation i)
         (conormalAlgebraSheaf i) hc (asIso (conormalSymmetricAlgebraSheafHom i)) :=

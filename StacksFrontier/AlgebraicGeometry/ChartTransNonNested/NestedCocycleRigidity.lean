@@ -37,7 +37,8 @@ it the identity.
   the chart (`Stacks.AlgebraicGeometry.TwistUnique.image_preimage_eq_self`), so the conjugation is
   undone over every such open and the discrepancy is the identity there.
 
-This is `StacksFrontier/AlgebraicGeometry/TwistExistence/Overlap.lean` followed step by step, with one
+This is `StacksFrontier/AlgebraicGeometry/TwistExistence/Overlap.lean` followed step by step, with
+one
 substitution: that file gets its identification
 `restrict (pushforward (chart W) M) (chart W) ≅ M` free from a `TwistData`'s `chartIso` field, and
 there is no `TwistData` here. The substitute is the counit of the restriction--pushforward

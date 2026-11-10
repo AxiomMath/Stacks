@@ -67,7 +67,7 @@ theorem exists_app_eq_smul_of_bijective {Z : Scheme.{u}} {L : Z.Modules} (φ : L
   obtain ⟨c, hc⟩ := (ha W le_rfl).2 (φ.app W (L.presheaf.map (homOfLE (le_refl W)).op a))
   refine ⟨c, fun V hV t => ?_⟩
   obtain ⟨d, rfl⟩ := (ha V hV).2 t
-  show φ.app V (d • L.presheaf.map (homOfLE hV).op a) =
+  change φ.app V (d • L.presheaf.map (homOfLE hV).op a) =
     Z.presheaf.map (homOfLE hV).op c • d • L.presheaf.map (homOfLE hV).op a
   have e₁ : L.presheaf.map (homOfLE hV).op a = L.presheaf.map (homOfLE hV).op
       (L.presheaf.map (homOfLE (le_refl W)).op a) := by

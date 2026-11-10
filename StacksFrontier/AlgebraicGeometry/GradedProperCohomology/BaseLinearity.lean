@@ -55,7 +55,7 @@ theorem baseRingToSections_top (B : Type u) [CommRing B] {Y : Scheme.{u}}
     AlgebraicGeometry.baseRingToSections B (Over.mk g) (op ⊤) b =
       specAlgebraRingHom B g b := by
   have h : (op (⊤ : Y.Opens)).unop.leTop.op = 𝟙 (op (⊤ : Y.Opens)) := rfl
-  show (Y.ringCatSheaf.obj.map (op (⊤ : Y.Opens)).unop.leTop.op).hom _ = _
+  change (Y.ringCatSheaf.obj.map (op (⊤ : Y.Opens)).unop.leTop.op).hom _ = _
   rw [h, Y.ringCatSheaf.obj.map_id]
   rfl
 
@@ -73,8 +73,8 @@ theorem map_smul_id_cohomologyOf (B : Type u) [CommRing B] {Y : Scheme.{u}}
       ((Stacks.Cohomology.AffineBase.moduleGlobalSections Y).rightDerived p) :=
     Stacks.Cohomology.AffineBase.linear_rightDerived_moduleGlobalSections B (Over.mk g) p
   rw [Functor.map_smul, CategoryTheory.Functor.map_id]
-  show (b • 𝟙 (cohomologyOf Y p N)).hom x = _
-  show algebraMap B Γ(Y, ⊤) b • x = _
+  change (b • 𝟙 (cohomologyOf Y p N)).hom x = _
+  change algebraMap B Γ(Y, ⊤) b • x = _
   exact congrArg (fun r : Γ(Y, ⊤) => r • x) (baseRingToSections_top B g b)
 
 end Stacks.AlgebraicGeometry.GradedProperCohomology

@@ -152,7 +152,7 @@ theorem smul_top_eq_bot_of_constantSheaf_iso (K : Ideal Λ)
     K • (⊤ : Submodule Λ (N : Type w)) = ⊥ := by
   obtain ⟨U, hU⟩ := hne
   have hLI : ∀ y, (e.inv.hom.app (op U)).hom ((e.hom.hom.app (op U)).hom y) = y := fun y => by
-    show ((e.hom ≫ e.inv).hom.app (op U)).hom y = y
+    change ((e.hom ≫ e.inv).hom.app (op U)).hom y = y
     rw [e.hom_inv_id]
     rfl
   have hinj : Function.Injective (e.hom.hom.app (op U)).hom :=

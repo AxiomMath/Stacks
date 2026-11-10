@@ -52,6 +52,7 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) (ℓ : ℕ) [Fact ℓ.Prime]
   [Field kbar] [Algebra k kbar] (p q : ℕ) [Fact p.Prime] [CharP k p]
   (hcard : Fintype.card k = p ^ q)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **`ψ_* ∘ π_X^*` on `Hⁱ_c(X_k̄, F) ⊗ ℚ_ℓ`, as the base change of the limit of the levels.** -/
 public theorem baseChange_limMap_pullback_comp_systemMap (F : LAdicSheaf B X ℓ) (ψ : F ⟶ F)
     (i : ℤ) :

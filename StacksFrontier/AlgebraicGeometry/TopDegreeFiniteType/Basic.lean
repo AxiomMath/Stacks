@@ -71,8 +71,8 @@ Noetherian base, [Stacks, Tag 02O6]**. That last input is the hard core: it is t
 [Stacks, Tag 02O5], it is proved by dévissage over Chow's lemma, and that proof is
 `AlgebraicGeometry.ProperCoherenceWitness.moduleFinite_cohomology`, which carries no hypothesis.
 Of the other inputs, [Stacks, Tag 0E7D] and [Stacks, Tag 0EX3] have their reductions
-formalized in `StacksDraft/AlgebraicGeometry/F3b/TopDegreeBaseChange/`, each with its own affine case
-carried as a hypothesis, and [Stacks, Tags 09ZR, 086M, 081F] are absent.
+formalized in `StacksDraft/AlgebraicGeometry/F3b/TopDegreeBaseChange/`, each with its own affine
+case carried as a hypothesis, and [Stacks, Tags 09ZR, 086M, 081F] are absent.
 
 **Why the sections criterion has no Noetherian hypothesis.** Condition (4) of
 [Stacks, Tag 01XZ] implies condition (2) by

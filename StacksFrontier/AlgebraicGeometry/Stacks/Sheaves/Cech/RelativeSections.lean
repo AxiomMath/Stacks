@@ -727,7 +727,7 @@ public theorem complexSectionsIso_naturality (p : X ⥤ C) (f : U ⥤ X)
         limMap (Functor.whiskerLeft ((Tuple.projection (Over.forget V)
           (TwoFibreProductOver.fst (Over.forget V) (f ⋙ p) p (c.sliceFunctor x) f) n) ⋙
             c.sliceFunctor x).op η) := by
-  show ((Tuple.projection p f n).op.ran.map
+  change ((Tuple.projection p f n).op.ran.map
       (Functor.whiskerLeft (Tuple.projection p f n).op η)).app (op x.1) ≫
       (termSectionsIso p f hp c x G n).hom =
     (termSectionsIso p f hp c x F n).hom ≫ _

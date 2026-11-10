@@ -145,7 +145,7 @@ theorem exists_flat_closedImmersion_factors_iff (U : BigFppfOver B S hS)
       ((BigFppfOver.toScheme B S hS).map h) (by rwa [hsupp])
     refine ⟨Over.homMk (ObjectProperty.homMk k₀) ?_, BigFppfOver.map_toScheme_injective B S hS hk₀⟩
     apply ObjectProperty.hom_ext
-    show k₀ ≫ I.subschemeι ≫ B.inclusion.map U.hom = B.inclusion.map W.hom
+    change k₀ ≫ I.subschemeι ≫ B.inclusion.map U.hom = B.inclusion.map W.hom
     rw [← Category.assoc, hk₀]
     exact congrArg B.inclusion.map (Over.w h)
 
@@ -204,7 +204,7 @@ theorem isPullback_ι_of_factors_iff {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type (m
   rw [Types.isPullback_iff]
   refine ⟨?_, ?_, ?_⟩
   · ext ⟨k⟩
-    show F.map k.op (F.map s.op x) = g.app W (ULift.up (k ≫ s))
+    change F.map k.op (F.map s.op x) = g.app W (ULift.up (k ≫ s))
     rw [hgapp, ← Functor.map_comp_apply]
     rfl
   · rintro ⟨a⟩ ⟨b⟩ ⟨-, hab⟩
@@ -213,7 +213,7 @@ theorem isPullback_ι_of_factors_iff {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type (m
     have hyh' : y = F.map h.op x := (hyh.trans (hgapp W h) :)
     obtain ⟨k, hk⟩ := (hs h).2 (hyh' ▸ hy)
     refine ⟨ULift.up k, Subtype.ext ?_, congrArg ULift.up hk⟩
-    show F.map k.op (F.map s.op x) = y
+    change F.map k.op (F.map s.op x) = y
     rw [hyh', ← hk, ← Functor.map_comp_apply]
     rfl
 

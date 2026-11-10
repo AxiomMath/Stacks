@@ -177,9 +177,9 @@ lemma extPow_baseChange_natEquiv (n : ℕ) :
       βMap (1 ⊗ₜ[R] (exteriorPower.ιMulti R n v))
         = exteriorPower.ιMulti S n (fun i => (fun j => algebraMap R S (v i j))) := by
     intro v
-    show (LinearMap.liftBaseChange S gNatMap) (1 ⊗ₜ[R] (exteriorPower.ιMulti R n v)) = _
+    change (LinearMap.liftBaseChange S gNatMap) (1 ⊗ₜ[R] (exteriorPower.ιMulti R n v)) = _
     rw [LinearMap.liftBaseChange_tmul, one_smul]
-    show exteriorPower.alternatingMapLinearEquiv
+    change exteriorPower.alternatingMapLinearEquiv
       (gAlt.compLinearMap (algebraMapPi (S := S) (r := r)))
       (exteriorPower.ιMulti R n v) = _
     rw [exteriorPower.alternatingMapLinearEquiv_apply_ιMulti]
@@ -190,13 +190,13 @@ lemma extPow_baseChange_natEquiv (n : ℕ) :
   let bRHS := Module.Basis.exteriorPower n bS
   have key : ∀ s, βMap (bLHS s) = bRHS s := by
     intro s
-    show βMap (((Module.Basis.exteriorPower n bR).baseChange S) s) = _
+    change βMap (((Module.Basis.exteriorPower n bR).baseChange S) s) = _
     rw [Module.Basis.baseChange_apply, exteriorPower.coe_basis]
     set σ := Set.powersetCard.ofFinEmbEquiv.symm s
     have hfam : exteriorPower.ιMulti_family R n (⇑bR) s
         = exteriorPower.ιMulti R n (fun i => bR (σ i)) := rfl
     rw [hfam, βMap_gen]
-    show _ = bRHS s
+    change _ = bRHS s
     rw [show bRHS s = exteriorPower.ιMulti_family S n (⇑bS) s from
       congrFun (exteriorPower.coe_basis S n bS) s]
     have hfam2 : exteriorPower.ιMulti_family S n (⇑bS) s
@@ -209,9 +209,9 @@ lemma extPow_baseChange_natEquiv (n : ℕ) :
   have hβ : (β : (S ⊗[R] (⋀[R]^n (Fin r → R))) →ₗ[S] (⋀[S]^n (Fin r → S))) = βMap := by
     apply bLHS.ext
     intro s
-    show β (bLHS s) = βMap (bLHS s)
+    change β (bLHS s) = βMap (bLHS s)
     rw [key]
-    show bLHS.equiv bRHS (Equiv.refl _) (bLHS s) = bRHS s
+    change bLHS.equiv bRHS (Equiv.refl _) (bLHS s) = bRHS s
     rw [Module.Basis.equiv_apply]
     rfl
   refine ⟨β, fun v => ?_⟩
@@ -364,7 +364,7 @@ lemma koszulComplex_baseChange_chainComm (f : Fin r → R) (M : Type*) [AddCommG
   have hePre : ∀ (k : ℕ) (z : ⋀[R]^k (Fin r → R)) (mm : M),
       (ePre k) (1 ⊗ₜ[R] (z ⊗ₜ[R] mm)) = (β k (1 ⊗ₜ[R] z)) ⊗ₜ[S] (1 ⊗ₜ[R] mm) := by
     intro k z mm
-    show (TensorProduct.congr (β k) (LinearEquiv.refl S (S ⊗[R] M)))
+    change (TensorProduct.congr (β k) (LinearEquiv.refl S (S ⊗[R] M)))
         ((TensorProduct.AlgebraTensorModule.distribBaseChange R S
           (⋀[R]^k (Fin r → R)) M) (1 ⊗ₜ[R] (z ⊗ₜ[R] mm))) = _
     rw [TensorProduct.AlgebraTensorModule.distribBaseChange_tmul, TensorProduct.congr_tmul,
@@ -387,11 +387,9 @@ lemma koszulComplex_baseChange_chainComm (f : Fin r → R) (M : Type*) [AddCommG
         rw [hePre, LinearMap.rTensor_tmul, LinearMap.baseChange_tmul, LinearMap.rTensor_tmul,
           hePre, d_baseChange_comm f β hβ m z]
       intro w
-      induction w using TensorProduct.induction_on with
-      | zero => simp only [LinearEquiv.map_zero, LinearMap.map_zero]
+      induction w using TensorProduct.inductionOn with
       | tmul s t =>
-        induction t using TensorProduct.induction_on with
-        | zero => simp only [TensorProduct.tmul_zero, LinearEquiv.map_zero, LinearMap.map_zero]
+        induction t using TensorProduct.inductionOn with
         | tmul z mm =>
           have hs : (s ⊗ₜ[R] (z ⊗ₜ[R] mm) : (koszulComplexBaseChange (S := S) f M).X (m + 1))
               = s • (1 ⊗ₜ[R] (z ⊗ₜ[R] mm)) := by
@@ -401,7 +399,7 @@ lemma koszulComplex_baseChange_chainComm (f : Fin r → R) (M : Type*) [AddCommG
           rw [TensorProduct.tmul_add, map_add, map_add, map_add, map_add, ht1, ht2]
       | add w1 w2 hw1 hw2 =>
         rw [map_add, map_add, map_add, map_add, hw1, hw2]
-    show (ePre m).symm _ = _
+    change (ePre m).symm _ = _
     apply (ePre m).injective
     rw [LinearEquiv.apply_symm_apply]
     simp only [seqComplexTensor, koszulComplexBaseChange, ChainComplex.of_d, ModuleCat.hom_ofHom]
@@ -444,7 +442,7 @@ private theorem exact_baseChange_of_flat [Module.Flat R S] {A B C : Type*}
     [AddCommGroup A] [AddCommGroup B] [AddCommGroup C] [Module R A] [Module R B] [Module R C]
     {f : A →ₗ[R] B} {g : B →ₗ[R] C} (h : Function.Exact f g) :
     Function.Exact (LinearMap.baseChange S f) (LinearMap.baseChange S g) := by
-  simp only [LinearMap.baseChange_eq_ltensor]
+  simp only [LinearMap.baseChange_eq_lTensor]
   exact Module.Flat.lTensor_exact S h
 
 /-- Let `S` be flat over `R`, let `f₁ : A → B` and `g₁ : B → C` be `R`-linear maps with
@@ -472,7 +470,7 @@ lemma flat_homology_baseChange_of_linearEquiv [Module.Flat R S] {A B C : Type*}
   set tc' := LinearMap.codRestrict (LinearMap.ker g') f' memg' with htc'
   set tc := LinearMap.codRestrict (LinearMap.ker g₁) f₁ memker with htc
   have hinj : Function.Injective (LinearMap.baseChange S (LinearMap.ker g₁).subtype) := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap _ Subtype.val_injective
   have hrange : LinearMap.range (LinearMap.baseChange S (LinearMap.ker g₁).subtype)
       = LinearMap.ker (LinearMap.baseChange S g₁) := by

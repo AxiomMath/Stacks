@@ -68,7 +68,9 @@ def IsStructureContraction {X Y : AlgebraicSpaces B S hS} (c : X ⟶ Y) : Prop :
 end StructureContraction
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the pullbacks `pullback f.hom h.hom` of the underlying presheaf morphisms
 set_option maxHeartbeats 800000 in
+-- elaboration of the pullbacks `pullback f.hom h.hom` of the underlying presheaf morphisms
 /-- **The base change of a morphism over `Z`.** For morphisms `f : X ⟶ Z`, `g : Y ⟶ Z` and
 `c : X ⟶ Y` with `c ≫ g = f`, the morphism `X ×_Z Z' ⟶ Y ×_Z Z'` induced by `c` on the fibre
 products along `h : Z' ⟶ Z`. -/
@@ -84,7 +86,9 @@ def structureContractionBaseChange {X Y Z Z' : AlgebraicSpaces B S hS} {f : X �
       exact (AlgebraicSpaces.isPullback_fiberProduct B S hS f h).w)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the pullbacks `pullback f.hom h.hom` of the underlying presheaf morphisms
 set_option maxHeartbeats 800000 in
+-- elaboration of the pullbacks `pullback f.hom h.hom` of the underlying presheaf morphisms
 /-- The base change of `c` followed by the projection to `Y` is the projection to `X` followed
 by `c`. -/
 @[reassoc (attr := simp)]
@@ -98,7 +102,9 @@ theorem structureContractionBaseChange_fst {X Y Z Z' : AlgebraicSpaces B S hS} {
   (AlgebraicSpaces.isPullback_fiberProduct B S hS g h).lift_fst _ _ _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the pullbacks `pullback f.hom h.hom` of the underlying presheaf morphisms
 set_option maxHeartbeats 800000 in
+-- elaboration of the pullbacks `pullback f.hom h.hom` of the underlying presheaf morphisms
 /-- The base change of `c` lies over `Z'`. -/
 @[reassoc (attr := simp)]
 theorem structureContractionBaseChange_snd {X Y Z Z' : AlgebraicSpaces B S hS} {f : X ⟶ Z}

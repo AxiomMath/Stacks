@@ -67,7 +67,7 @@ theorem mem_essentialImage_changeBigSite_of_isFiniteType {X : AlgebraicSpaces B 
   have hqE' : IsEtaleChart B S hS X.obj (CostructuredArrow.mk q) :=
     (isEtale_iff_presheaf_of_yoneda B S hS q).mp hqE
   let q' := (changeBigSiteChart B B' h S hS X (CostructuredArrow.mk q)).hom
-  letI : HasLimit (cospan q' p) := hasPullback_presheaf_ChangeOfBigSiteFiniteType q' p
+  let : HasLimit (cospan q' p) := hasPullback_presheaf_ChangeOfBigSiteFiniteType q' p
   have hq'S := presheaf_surjective_changeBigSiteChart B B' h S hS X hqS hqE'
   have hq'E : MorphismProperty.presheaf (MorphismProperty.inverseImage
       (@Etale.{u} : MorphismProperty Scheme.{u}) T') q' :=

@@ -53,10 +53,10 @@ theorem sectionsKer_antitone {k n : ℕ} (h : k ≤ n)
 theorem map_mem_sectionsKer {n : ℕ} {M N : Modules.{u, u} B (Spec (.of A)) hA X.1 X.2}
     (g : M ⟶ N) {s : (sectionsOverBase A B hA X.1 X.2).obj M} (hs : s ∈ sectionsKer A X 𝓘 n M) :
     (sectionsOverBase A B hA X.1 X.2).map g s ∈ sectionsKer A X 𝓘 n N := by
-  show ((sectionsOverBase A B hA X.1 X.2).map g ≫ (sectionsOverBase A B hA X.1 X.2).map
+  change ((sectionsOverBase A B hA X.1 X.2).map g ≫ (sectionsOverBase A B hA X.1 X.2).map
     (cokernel.π (idealPowerMultiple B (Spec (.of A)) hA X.1 X.2 𝓘 n N).ι)).hom s = 0
   rw [← Functor.map_comp, ← π_comp_idealPowerQuotientMapOfHom, Functor.map_comp]
-  show ((sectionsOverBase A B hA X.1 X.2).map _).hom
+  change ((sectionsOverBase A B hA X.1 X.2).map _).hom
     (((sectionsOverBase A B hA X.1 X.2).map _).hom s) = 0
   rw [show ((sectionsOverBase A B hA X.1 X.2).map
     (cokernel.π (idealPowerMultiple B (Spec (.of A)) hA X.1 X.2 𝓘 n M).ι)).hom s = 0 from hs,
@@ -187,7 +187,7 @@ theorem exists_sectionsKer_of_mono (hN : IsNoetherian B (Spec (.of A)) hA B.cont
       M.unitHomEquiv (0 : SheafOfModules.unit _ ⟶ M) = 0 := fun {_} => rfl
   let t' : T.sections := t
   have h := hc n (T.unitHomEquiv.symm t') (by
-    show T.unitHomEquiv.symm t' ≫ (f ≫ cokernel.π
+    change T.unitHomEquiv.symm t' ≫ (f ≫ cokernel.π
       (idealPowerMultiple B (Spec (.of A)) hA X.1 X.2 𝓘 (n + c + 1) Q).ι) = 0
     rw [SheafOfModules.unitHomEquiv_symm_comp]
     refine (Equiv.symm_apply_eq _).2 (Eq.trans ?_ h0.symm)

@@ -47,7 +47,7 @@ shift, is the induced map followed by `H⁰(G(Z[1])) = H¹(G Z)`. -/
 theorem shiftMap_mapδ_eq {Y Z : C} (f : Y ⟶ Z⟦(1 : ℤ)⟧) :
     (homologyFunctor B 0).shiftMap (Functor.mapδ G f) 0 1 (by omega) =
       (homologyFunctor B 0).map (G.map f) ≫ (shiftHomologyIsoU G Z 1 0 1 (by omega)).hom := by
-  show (homologyFunctor B 0).map (G.map f ≫ (G.commShiftIso (1 : ℤ)).hom.app Z) ≫ _ =
+  change (homologyFunctor B 0).map (G.map f ≫ (G.commShiftIso (1 : ℤ)).hom.app Z) ≫ _ =
     _ ≫ (homologyFunctor B 0).map ((G.commShiftIso (1 : ℤ)).hom.app Z) ≫ _
   rw [Functor.map_comp]
   exact Category.assoc _ _ _

@@ -78,6 +78,7 @@ variable (K : Type u) [Field K] [Algebra k K]
 abbrev fourierTwistModelMap : Spec (.of K[X]) ⟶ Spec (.of k[X]) :=
   Spec.map (CommRingCat.ofHom (mapRingHom (algebraMap k K)))
 
+omit [Fintype k] in
 /-- **`𝔸¹_K` is the base change of `𝔸¹_k` along `Spec K ⟶ Spec k`.** -/
 theorem isPullback_fourierTwistModel :
     IsPullback (fourierTwistModelMap k K) (Spec.map (CommRingCat.ofHom (C : K →+* K[X]))) 𝔸f
@@ -88,6 +89,7 @@ theorem isPullback_fourierTwistModel :
 
 variable {V : Scheme.{u}} (jV : V ⟶ Spec (.of k[X])) [IsOpenImmersion jV]
 
+omit [Fintype k] in
 /-- **The model `𝔸¹_K ×_{𝔸¹_k} V` is affine**: `V` is an open of `𝔸¹_k`, hence affine. -/
 theorem isAffine_fourierTwistModel : IsAffine (pullback (fourierTwistModelMap k K) jV) := by
   have := isAffine_of_isOpenImmersion_polynomial k jV
@@ -100,6 +102,7 @@ theorem isAffine_fourierTwistModel : IsAffine (pullback (fourierTwistModelMap k 
 abbrev fourierTwistModelRingHom : K[X] →+* Γ(pullback (fourierTwistModelMap k K) jV, ⊤) :=
   specHomRingHom (pullback.fst (fourierTwistModelMap k K) jV)
 
+omit [Fintype k] in
 /-- `Spec` of `K[x] → Γ(Y)` is the open immersion `Y ⟶ 𝔸¹_K`, read on `Spec Γ(Y) ≅ Y`. -/
 theorem specMap_fourierTwistModelRingHom :
     haveI := isAffine_fourierTwistModel k K jV
@@ -110,6 +113,7 @@ theorem specMap_fourierTwistModelRingHom :
   rw [Iso.eq_inv_comp, Scheme.isoSpec_hom]
   exact toSpecΓ_comp_specMap_specHomRingHom _
 
+omit [Fintype k] in
 /-- The ring map of `h ≫ μ`, for `h : Z ⟶ 𝔸¹ ×_k 𝔸¹`: `X ↦ h^* x · h^* t`. -/
 theorem specHomRingHom_comp_affineLineMul {Z : Scheme.{u}} (h : Z ⟶ pullback 𝔸f 𝔸f) :
     specHomRingHom (h ≫ affineLineMul k) = eval₂RingHom
@@ -123,6 +127,7 @@ theorem specHomRingHom_comp_affineLineMul {Z : Scheme.{u}} (h : Z ⟶ pullback �
   · simp only [RingHom.comp_apply, coe_eval₂RingHom, eval₂_X, map_mul, affineLineCoordinate]
     rw [specHomRingHom_comp_apply, specHomRingHom_comp_apply]
 
+omit [Fintype k] in
 /-- **`μ ∘ (x, s_σ) = σ x` on `𝔸¹_K`**: for the `K`-point `s_σ : t ↦ σ` of the `t`-line and an
 identification `e : X_{s_σ} ≅ 𝔸¹_K` of its fibre, the composite of `e⁻¹` with the inclusion of
 the fibre and `μ` is `Spec` of `x ↦ σ x`. -/

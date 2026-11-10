@@ -57,7 +57,8 @@ any definitional equality it must settle by reducing a component projection `α.
 structure of the functor category, because that forces weak-head reduction of the category
 instance of `DerivedCategory (SheafOfModules ..)` underneath; the same equalities stated one level
 up, between the transformations themselves, are settled by delta reduction alone and cost nothing.
-Stated at an object, each step fails in the kernel.  So every passage to a component here is a lemma application inside the abstract proof, and
+Stated at an object, each step fails in the kernel.  So every passage to a component here is a lemma
+application inside the abstract proof, and
 the only obligations left at the geometric statement are the delta unfoldings of
 `kunnethBaseChangeLeg` and of `derivedBaseChangeMap_eq`'s right-hand side.  This is the
 phenomenon the implementation notes of

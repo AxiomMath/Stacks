@@ -32,13 +32,13 @@ variable {X : TopCat.{u}} (U : Opens X)
 open Stacks.Cohomology.RestrictionCover in
 /-- The open `j(j⁻¹ W)` is contained in `W`. -/
 theorem openIntersection_obj_le (W : Opens X) : (openIntersection U).obj W ≤ W := by
-  show U.isOpenEmbedding.functor.obj ((Opens.map U.inclusion').obj W) ≤ W
+  change U.isOpenEmbedding.functor.obj ((Opens.map U.inclusion').obj W) ≤ W
   rw [Opens.functor_map_eq_inf]; exact inf_le_left
 
 open Stacks.Cohomology.RestrictionCover in
 /-- The open `j(j⁻¹ W)` is contained in `U`. -/
 theorem openIntersection_obj_le_right (W : Opens X) : (openIntersection U).obj W ≤ U := by
-  show U.isOpenEmbedding.functor.obj ((Opens.map U.inclusion').obj W) ≤ U
+  change U.isOpenEmbedding.functor.obj ((Opens.map U.inclusion').obj W) ≤ U
   rw [Opens.functor_map_eq_inf]; exact inf_le_right
 
 variable (A : Type w) [Category.{v} A]

@@ -110,6 +110,10 @@ noncomputable def localizationRestrictScalarsFullyFaithful :
     (localizationRestrictScalars X U).FullyFaithful :=
   restrictScalarsFullyFaithful (X.overInverseImageRingIso U).hom
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{max u v} RingCat.{max u v})] hcomm
+  [X.J.HasSheafCompose (forget AddCommGrpCat.{max u v})] hab
+  [HasWeakSheafify (X.J.over U) AddCommGrpCat.{max u v}]
+  [(X.J.over U).WEqualsLocallyBijective AddCommGrpCat.{max u v}] in
 /-- Restriction of scalars along the morphism of sheaves of commutative rings underlying the
 structure map of the localization at `U` is `localizationRestrictScalars`. -/
 theorem localizationRestrictScalars_eq :
@@ -134,6 +138,8 @@ noncomputable def localizationExtendRestrictAdjunction :
       (Stacks.SheafOfModules.Tensor.ringSheaf (ringedTopos (X.over U)).O).property)
     (eqToIso (localizationRestrictScalars_eq X U))
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{max u v} RingCat.{max u v})] hcomm
+  [X.J.HasSheafCompose (forget AddCommGrpCat.{max u v})] hab in
 /-- The counit of `localizationExtendRestrictAdjunction` is an isomorphism, its right adjoint
 being fully faithful. -/
 theorem isIso_localizationExtendRestrictAdjunction_counit :
@@ -190,6 +196,7 @@ noncomputable def localizationPullbackIsoRestriction :
       Functor.rightUnitor
         (SheafOfModules.overFunctor (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U)
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{max u v} RingCat.{max u v})] in
 /-- `AlgebraicGeometry.RingedSite.localizationPullbackIsoRestriction` written out as the
 composite of its four named factors. -/
 theorem localizationPullbackIsoRestriction_eq :

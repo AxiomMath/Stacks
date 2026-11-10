@@ -227,7 +227,7 @@ private theorem isImmersion_picardEqualizer_picardClassMap_zero
       refine ⟨ObjectProperty.homMk (yonedaEquiv.symm z), ?_⟩
       apply ObjectProperty.hom_ext
       apply yonedaEquiv.injective
-      show yonedaEquiv (yonedaEquiv.symm z ≫ j.hom) = yonedaEquiv (yoneda.map g)
+      change yonedaEquiv (yonedaEquiv.symm z ≫ j.hom) = yonedaEquiv (yoneda.map g)
       rwa [yonedaEquiv_comp, Equiv.apply_symm_apply, yonedaEquiv_yoneda_map]
   rw [heq]
   exact isImmersion_range_ι j.hom hj

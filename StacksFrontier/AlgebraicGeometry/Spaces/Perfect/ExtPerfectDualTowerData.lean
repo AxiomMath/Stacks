@@ -56,9 +56,9 @@ theorem exists_isOpenSubspace_isElementaryDistinguishedSquare_of_flatProperSuppo
     (G : CochainComplex (Modules.{u, u} B S hS X.1 X.2) ℤ)
     (hG : FlatProperSupportComplex B S hS f hf G) :
     ∃ (Z : Set (points B S hS X.1)) (hZ : IsClosed Z) (V : Subfunctor X.1)
-      (_ : IsOpenSubspace B S hS V)
-      (hsq : IsElementaryDistinguishedSquare B S hS X.2
-        (openSubspaceOfPoints B S hS X.1 Zᶜ) V.ι),
+      (_ : IsOpenSubspace B S hS V),
+      IsElementaryDistinguishedSquare B S hS X.2
+        (openSubspaceOfPoints B S hS X.1 Zᶜ) V.ι ∧
       IsProperOver B S hS X.2 Y.2 f.hom hf Z hZ ∧
       (∀ q : ℤ, supportOfSheaf B S hS X.1 ((SheafOfModules.toSheaf _).obj (G.X q)) ⊆ Z) ∧
       IsQuasiCompactSpace B S hS V.toFunctor ∧
@@ -465,8 +465,8 @@ theorem edsRestricted_delta (hN : ∀ F : Modules.{u, u} B S hS Y.1 Y.2, Cohomol
         (ringedToposStructureRingSheaf B S hS Y)) (ComplexShape.up ℤ) 0)).map
       (tensorPullbackComplex f G)).ShortExact)
     (hδ : ∀ (T : ShortComplex (Modules.{u, u} B S hS Y.1 Y.2)) (hT : T.ShortExact)
-        (h₁ : T.X₁.IsQuasicoherentOnSite) (h₂ : T.X₂.IsQuasicoherentOnSite)
-        (h₃ : T.X₃.IsQuasicoherentOnSite) (i : ℤ)
+        (h₁ : T.X₁.IsQuasicoherentOnSite), T.X₂.IsQuasicoherentOnSite →
+        ∀ (h₃ : T.X₃.IsQuasicoherentOnSite) (i : ℤ)
         (e : ShiftedHom Linf ((DerivedCategory.singleFunctor
           (Modules.{u, u} B S hS Y.1 Y.2) 0).obj T.X₃) i),
         Φ T.X₁ h₁ (i + 1) (e.comp hT.singleδ (add_comm 1 i)) =
@@ -554,8 +554,8 @@ theorem exists_extPerfectDualTower_data_of_tower (hTop : B.Contains (⊤_ Scheme
             ((HomologicalComplex.single (SheafOfModules.{u}
               (ringedToposStructureRingSheaf B S hS Y)) (ComplexShape.up ℤ) 0).map q)))⟦i⟧') ∧
       (∀ (T : ShortComplex (Modules.{u, u} B S hS Y.1 Y.2)) (hT : T.ShortExact)
-        (h₁ : T.X₁.IsQuasicoherentOnSite) (h₂ : T.X₂.IsQuasicoherentOnSite)
-        (h₃ : T.X₃.IsQuasicoherentOnSite) (i : ℤ)
+        (h₁ : T.X₁.IsQuasicoherentOnSite), T.X₂.IsQuasicoherentOnSite →
+        ∀ (h₃ : T.X₃.IsQuasicoherentOnSite) (i : ℤ)
         (e : ShiftedHom Linf ((DerivedCategory.singleFunctor
           (Modules.{u, u} B S hS Y.1 Y.2) 0).obj T.X₃) i),
         Φ T.X₁ h₁ (i + 1) (e.comp hT.singleδ (add_comm 1 i)) =
@@ -655,8 +655,8 @@ theorem exists_extPerfectDualTower_data (hTop : B.Contains (⊤_ Scheme.{u})) (f
             ((HomologicalComplex.single (SheafOfModules.{u}
               (ringedToposStructureRingSheaf B S hS Y)) (ComplexShape.up ℤ) 0).map q)))⟦i⟧') ∧
       (∀ (T : ShortComplex (Modules.{u, u} B S hS Y.1 Y.2)) (hT : T.ShortExact)
-        (h₁ : T.X₁.IsQuasicoherentOnSite) (h₂ : T.X₂.IsQuasicoherentOnSite)
-        (h₃ : T.X₃.IsQuasicoherentOnSite) (i : ℤ)
+        (h₁ : T.X₁.IsQuasicoherentOnSite), T.X₂.IsQuasicoherentOnSite →
+        ∀ (h₃ : T.X₃.IsQuasicoherentOnSite) (i : ℤ)
         (e : ShiftedHom Linf ((DerivedCategory.singleFunctor
           (Modules.{u, u} B S hS Y.1 Y.2) 0).obj T.X₃) i),
         Φ T.X₁ h₁ (i + 1) (e.comp hT.singleδ (add_comm 1 i)) =
@@ -726,8 +726,8 @@ theorem exists_isPseudoCoherent_extAddEquiv_tensorPullbackComplex (hTop : B.Cont
             ((HomologicalComplex.single (SheafOfModules.{u}
             (ringedToposStructureRingSheaf B S hS Y)) (ComplexShape.up ℤ) 0).map q)))⟦i⟧') ∧
       (∀ (T : ShortComplex (Modules.{u, u} B S hS Y.1 Y.2)) (hT : T.ShortExact)
-        (h₁ : T.X₁.IsQuasicoherentOnSite) (h₂ : T.X₂.IsQuasicoherentOnSite)
-        (h₃ : T.X₃.IsQuasicoherentOnSite) (i : ℤ)
+        (h₁ : T.X₁.IsQuasicoherentOnSite), T.X₂.IsQuasicoherentOnSite →
+        ∀ (h₃ : T.X₃.IsQuasicoherentOnSite) (i : ℤ)
         (e : ShiftedHom L ((DerivedCategory.singleFunctor
           (Modules.{u, u} B S hS Y.1 Y.2) 0).obj T.X₃) i),
         Φ T.X₁ h₁ (i + 1) (e.comp hT.singleδ (add_comm 1 i)) =

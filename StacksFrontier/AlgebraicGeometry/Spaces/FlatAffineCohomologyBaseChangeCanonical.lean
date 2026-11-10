@@ -329,6 +329,7 @@ theorem comp_symm_map_of_sheaf (P : PresheafOfModules (ringSheaf J O).obj)
   rw [Adjunction.homEquiv_unit, Functor.map_comp, ← Category.assoc,
     Adjunction.right_triangle_components, Category.id_comp]
 
+omit [J.HasSheafCompose (CategoryTheory.forget₂ CommRingCat.{w₂} RingCat.{w₂})] in
 /-- **`s ↦ s ⊗ m` followed by a glued comparison is computed on presheaves.**
 
 `Stacks.TensorByBaseModule.tensorByBaseModuleIsoOfHom` glues a locally bijective comparison `Φ`
@@ -358,7 +359,7 @@ theorem tensorOneSheafify (M : ModuleCat.{w₂} R) (m : M)
     (tensorByBaseModuleOfHom R J O 𝓕 θ).map (spanHom m) ≫
         (tensorByBaseModuleIsoOfHom R J O 𝓕 θ M G Φ).hom =
       (tensorByBaseModuleOfHomUnitIso R J O 𝓕 θ).hom ≫ ψ := by
-  show (PresheafOfModules.sheafification (𝟙 (ringSheaf J O).obj)).map
+  change (PresheafOfModules.sheafification (𝟙 (ringSheaf J O).obj)).map
           ((tensorByBaseModulePresheafOfHom R J O 𝓕 θ).map (spanHom m)) ≫
         (PresheafOfModules.sheafificationHomEquiv (𝟙 (ringSheaf J O).obj)).symm Φ =
       (PresheafOfModules.sheafification (𝟙 (ringSheaf J O).obj)).map
@@ -408,9 +409,6 @@ theorem affineCohomologyBaseChangeIso_hom (hZ : B.Contains (⊤_ Scheme.{u}))
     (hg : IsFlat B S hS D.g.hom) (hqc : IsQuasiCompact B S hS D.f.hom)
     (hqs : IsQuasiSeparated B S hS D.f.hom)
     [IsAffine (chartScheme V₀)] [IsAffine (chartScheme V₀')] (i : ℕ) :
-    have h1 := hasInjectiveResolutions_modules B S hS D.X.1 D.X.2
-    have h2 := hasInjectiveResolutions_modules B S hS D.X'.1 D.X'.2
-    have h3 := enoughInjectives_modules B S hS D.X.1 D.X.2
     letI hV₀ : IsTerminal V₀ := isTerminal_of_isIso_chart B S hS D.Y V₀
     letI hY : IsAffineSpace B S hS D.Y.1 := isAffineSpace_of_isIso_chart B S hS D.Y V₀
     letI hY' : IsAffineSpace B S hS D.Y'.1 := isAffineSpace_of_isIso_chart B S hS D.Y' V₀'
@@ -487,9 +485,6 @@ theorem spanHom_comp_affineCohomologyBaseChangeIso_hom (hZ : B.Contains (⊤_ Sc
     (hg : IsFlat B S hS D.g.hom) (hqc : IsQuasiCompact B S hS D.f.hom)
     (hqs : IsQuasiSeparated B S hS D.f.hom)
     [IsAffine (chartScheme V₀)] [IsAffine (chartScheme V₀')] (i : ℕ) :
-    have h1 := hasInjectiveResolutions_modules B S hS D.X.1 D.X.2
-    have h2 := hasInjectiveResolutions_modules B S hS D.X'.1 D.X'.2
-    have h3 := enoughInjectives_modules B S hS D.X.1 D.X.2
     letI hV₀ : IsTerminal V₀ := isTerminal_of_isIso_chart B S hS D.Y V₀
     letI hY : IsAffineSpace B S hS D.Y.1 := isAffineSpace_of_isIso_chart B S hS D.Y V₀
     letI hY' : IsAffineSpace B S hS D.Y'.1 := isAffineSpace_of_isIso_chart B S hS D.Y' V₀'

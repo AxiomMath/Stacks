@@ -298,7 +298,7 @@ theorem mul_gradedRightInv {a : GradedCapFamily G}
   rw [gradedCap_mul_apply, Finset.sum_range_succ, convolveTerm_of_le _ _ _ le_rfl,
     capTo_congr_index a (Nat.sub_self m), capTo_def, ha, gradedCap_one_apply_zero,
     gradedDegreeCast_gradedDegreeCast]
-  show _ + gradedRightInv a k m x = _
+  change _ + gradedRightInv a k m x = _
   rw [gradedRightInv_apply, AddMonoidHom.sub_apply, AddMonoidHom.finsetSum_apply,
     ← Fin.sum_univ_eq_sum_range (fun j => convolveTerm a (gradedRightInv a) k m j x) m]
   have hsum : ∑ j : Fin m, convolveTerm a (gradedRightInv a) k m j x =
@@ -471,8 +471,7 @@ theorem gradedSeries_add (f g : ℕ → GradedCapFamily G) :
 
 /-- **The product of two series of homogeneous elements** is computed coefficientwise:
 `(∑_i f_i) (∑_j g_j) = ∑_m ∑_{j ≤ m} f_{m-j} g_j`. -/
-theorem mul_gradedSeries {f g : ℕ → GradedCapFamily G} (hf : ∀ i, (f i).IsHomogeneous i)
-    (hg : ∀ j, (g j).IsHomogeneous j) :
+theorem mul_gradedSeries {f g : ℕ → GradedCapFamily G} (hg : ∀ j, (g j).IsHomogeneous j) :
     gradedSeries f * gradedSeries g =
       gradedSeries fun m => ∑ j ∈ range (m + 1), f (m - j) * g j := by
   funext k m
@@ -536,11 +535,11 @@ commute with the terms of the series. -/
 theorem commute_gradedSeries {f : ℕ → GradedCapFamily G} (hf : ∀ i, (f i).IsHomogeneous i)
     {v : GradedCapFamily G} (h : ∀ i j, Commute (homComponent i v) (f j)) :
     Commute (gradedSeries f) v := by
-  show gradedSeries f * v = v * gradedSeries f
+  change gradedSeries f * v = v * gradedSeries f
   conv_lhs => rw [← gradedSeries_homComponent v]
   conv_rhs => rw [← gradedSeries_homComponent v]
-  rw [mul_gradedSeries hf (fun i => isHomogeneous_homComponent i v),
-    mul_gradedSeries (fun i => isHomogeneous_homComponent i v) hf]
+  rw [mul_gradedSeries (fun i => isHomogeneous_homComponent i v),
+    mul_gradedSeries hf]
   congr 1
   funext m
   rw [← Finset.sum_range_reflect]
@@ -576,7 +575,7 @@ theorem binomialFamily_zero (x : GradedCapFamily G) : binomialFamily 0 x = 1 := 
 theorem binomialFamily_add (hx : x.IsHomogeneous 1) (n n' : ℤ) :
     binomialFamily (n + n') x = binomialFamily n x * binomialFamily n' x := by
   rw [binomialFamily, binomialFamily, binomialFamily,
-    mul_gradedSeries (isHomogeneous_binomialTerm hx n) (isHomogeneous_binomialTerm hx n')]
+    mul_gradedSeries (isHomogeneous_binomialTerm hx n')]
   congr 1
   funext m
   have hterm : ∀ j ∈ range (m + 1), (Ring.choose n (m - j) • x ^ (m - j)) *
@@ -635,7 +634,7 @@ theorem gradedTwist_of_isHomogeneous (hx : x.IsHomogeneous 1) (r : ℤ) {u : Gra
     {a : ℕ} (hu : u.IsHomogeneous a) : gradedTwist r x u = u * binomialFamily (r - a) x := by
   conv_rhs => rw [← gradedSeries_homComponent u]
   rw [gradedTwist_apply, binomialFamily,
-    mul_gradedSeries (fun i => isHomogeneous_homComponent i u) (isHomogeneous_binomialTerm hx _)]
+    mul_gradedSeries (isHomogeneous_binomialTerm hx _)]
   congr 1
   funext m
   refine Finset.sum_congr rfl fun j hj => ?_

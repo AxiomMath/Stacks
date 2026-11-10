@@ -74,7 +74,7 @@ def baseChangeHomologyModel (f : R →+* A) (g : R →+* R')
     Functor.isoWhiskerRight (Functor.isoWhiskerRight (restrictScalarsLargeIso f) (tensorRight F))
       (HomologicalComplex.homologyFunctor (ModuleCat.{u} R) (ComplexShape.up ℤ) n) ≪≫
     Functor.isoWhiskerRight (NatIso.ofComponents
-      (fun L => asIso (projectionMap f L F)) (fun {L L'} v => projectionMap_naturality f v F))
+      (fun L => asIso (projectionMap f L F)) (fun v => projectionMap_naturality f v F))
       (HomologicalComplex.homologyFunctor (ModuleCat.{u} R) (ComplexShape.up ℤ) n) ≪≫
     Functor.associator _ _ _ ≪≫
     Functor.isoWhiskerLeft (tensorRight ((mapCochainComplex f).obj F))
@@ -90,16 +90,19 @@ theorem isBaseChangeOfActions_derivedUnit [Module.Flat A A₁] (f : R →+* A) (
     IsBaseChangeOfActions
       (functorAction (A := A) ((ModuleCat.restrictScalars.{u} f).mapDerivedCategory ⋙
         baseChangeHomologyRestrict g n) K)
-      (functorAction (A := A₁) (((ModuleCat.restrictScalars.{u} (algebraMap A A₁)).mapDerivedCategory ⋙
+      (functorAction (A := A₁)
+          (((ModuleCat.restrictScalars.{u} (algebraMap A A₁)).mapDerivedCategory ⋙
           (ModuleCat.restrictScalars.{u} f).mapDerivedCategory) ⋙ baseChangeHomologyRestrict g n)
         ((dext (algebraMap A A₁)).obj K))
-      ((baseChangeHomologyRestrict g n).map ((ModuleCat.restrictScalars.{u} f).mapDerivedCategory.map
-        ((totalDerivedExtensionScalarsAdjunction (algebraMap A A₁)).unit.app K))).hom.toAddMonoidHom := by
+      ((baseChangeHomologyRestrict g n).map
+        ((ModuleCat.restrictScalars.{u} f).mapDerivedCategory.map
+          ((totalDerivedExtensionScalarsAdjunction (algebraMap A A₁)).unit.app
+            K))).hom.toAddMonoidHom := by
   let a := algebraMap A A₁
   obtain ⟨F, q, hF, -, hq, -⟩ := CochainComplex.KFlat.exists_kFlat_resolution.{u, u}
     ((CochainComplex.singleFunctor (ModuleCat.{u} R) 0).obj
       ((ModuleCat.restrictScalars.{u} g).obj (ModuleCat.of R' R')))
-  haveI := hq
+  have := hq
   let E := (mapCochainComplex f).obj F
   let Q := DerivedCategory.Q (C := ModuleCat.{u} A)
   let Q₁ := DerivedCategory.Q (C := ModuleCat.{u} A₁)
@@ -142,9 +145,9 @@ theorem isBaseChangeOfActions_derivedUnit [Module.Flat A A₁] (f : R →+* A) (
   -- transport from `Q P` to `K`
   let cmp : Q ⋙ D.functor ⟶ (ModuleCat.extendScalars.{u, u, u} a).mapHomologicalComplex
       (ComplexShape.up ℤ) ⋙ Q₁ := D.comparison
-  haveI : D.functor.IsLeftDerivedFunctor cmp
+  have : D.functor.IsLeftDerivedFunctor cmp
       (HomologicalComplex.quasiIso (ModuleCat.{u} A) (ComplexShape.up ℤ)) := D.isLeftDerived
-  haveI : IsIso cmp := StacksDraft.DerivedHom.HomModuleBaseChange.isIso_comparison_of_flat
+  have : IsIso cmp := StacksDraft.DerivedHom.HomModuleBaseChange.isIso_comparison_of_flat
     inferInstance D.functor cmp
   let e' : Q₁.obj extP ≅ (dext a).obj K := (asIso (cmp.app P)).symm ≪≫ (dext a).mapIso e
   refine (isBaseChangeOfActions_iff_of_iso (Rf ⋙ G₀) ((Ra ⋙ Rf) ⋙ G₀) e e' θ _ ?_).mp hQ

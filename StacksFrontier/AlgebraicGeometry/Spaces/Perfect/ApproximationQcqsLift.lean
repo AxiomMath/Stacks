@@ -254,7 +254,7 @@ theorem exists_isPerfect_lift (hsq : IsElementaryDistinguishedSquare B S hS W.2 
       exact (cancel_epi eZ.hom).1 (h3.trans comp_zero.symm)
     have h1 : y₁ = 0 := by
       rw [← (adjS.homEquiv _ _).apply_symm_apply y₁]
-      show adjS.homEquiv _ _ y₂ = 0
+      change adjS.homEquiv _ _ y₂ = 0
       rw [h2, Adjunction.homEquiv_unit, Functor.map_zero, comp_zero]
     have h0 : ιV.map y = 0 := (cancel_epi _).1 (h1.trans comp_zero.symm)
     exact ιV.map_injective (h0.trans (Functor.map_zero _ _ _).symm)

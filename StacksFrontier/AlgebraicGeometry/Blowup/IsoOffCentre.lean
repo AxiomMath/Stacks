@@ -113,7 +113,7 @@ private theorem directSumRingEquiv_of (e : ∀ i, D i ≃+ E i)
       e (i + j) (GradedMonoid.GMul.mul a b) = GradedMonoid.GMul.mul (e i a) (e j b))
     (i : ι) (a : D i) :
     directSumRingEquiv e hmul (DirectSum.of D i a) = DirectSum.of E i (e i a) := by
-  show DirectSum.map (fun k => (e k).toAddMonoidHom) (DirectSum.of D i a) = _
+  change DirectSum.map (fun k => (e k).toAddMonoidHom) (DirectSum.of D i a) = _
   simp
 
 end DirectSumBridge
@@ -133,7 +133,7 @@ private theorem irrelevant_le_map_of_comp_eq_id (f : 𝒟 →+*ᵍ ℰ) (g : ℰ
     HomogeneousIdeal.irrelevant ℰ ≤ (HomogeneousIdeal.irrelevant 𝒟).map f := by
   refine (HomogeneousIdeal.irrelevant_le _).2 fun n hn x hx => ?_
   have hxy : f (g x) = x := by
-    show (f.comp g) x = x
+    change (f.comp g) x = x
     rw [hfg]; rfl
   rw [← hxy]
   exact Ideal.mem_map_of_mem f
@@ -151,7 +151,7 @@ variable {A : Type u} [CommRing A]
 private theorem openProjIdeal_top : openProjIdeal (⊤ : (Spec (.of A)).Opens) = ⊤ := by
   ext a
   rw [openProjIdeal, PrimeSpectrum.mem_vanishingIdeal]
-  show (∀ x ∈ (Set.univ : Set (PrimeSpectrum A))ᶜ, a ∈ x.asIdeal) ↔ a ∈ (⊤ : Ideal A)
+  change (∀ x ∈ (Set.univ : Set (PrimeSpectrum A))ᶜ, a ∈ x.asIdeal) ↔ a ∈ (⊤ : Ideal A)
   simp
 
 /-- A function, as a homogeneous element of degree `n` of the graded ring of tag 0G5W attached
@@ -188,7 +188,7 @@ private theorem topProjMonomial_mul (n m : ℕ) (a b : A) :
     @GradedMonoid.GMul.mul ℕ (fun k => ↥(openProjGrading (A := A) ⊤ k)) inferInstance _ n m
       (topProjMonomial n a) (topProjMonomial m b) = topProjMonomial (n + m) (a * b) := by
   refine Subtype.ext (Subtype.ext ?_)
-  show MvPolynomial.monomial (Finsupp.single 0 n) a *
+  change MvPolynomial.monomial (Finsupp.single 0 n) a *
       MvPolynomial.monomial (Finsupp.single 0 m) b =
     MvPolynomial.monomial (Finsupp.single 0 (n + m)) (a * b)
   rw [MvPolynomial.monomial_mul_monomial, Finsupp.single_add]

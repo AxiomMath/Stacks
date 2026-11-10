@@ -53,7 +53,7 @@ private lemma isIntegral_of_power_map {R : Type*} [CommRing R] (p : ℕ)
   let : Algebra R R := f.toAlgebra
   intro x
   apply _root_.IsIntegral.of_pow hp
-  show f.IsIntegralElem (x ^ p)
+  change f.IsIntegralElem (x ^ p)
   simpa only [← hf x] using f.isIntegralElem_map
 
 /-- On stalks, the absolute Frobenius is again the `p`-th power map. -/
@@ -97,10 +97,10 @@ private theorem absoluteFrobenius_residueFieldMap_isPurelyInseparable_aux
     rw [← ringChar.eq_iff]
     exact ((Nat.dvd_prime Fact.out).mp (ringChar.dvd hp0)).resolve_left CharP.ringChar_ne_one
   let : Algebra (X.residueField x) (X.residueField x) := (f.residueFieldMap x).hom.toAlgebra
-  show _root_.IsPurelyInseparable (X.residueField x) (X.residueField x)
+  change _root_.IsPurelyInseparable (X.residueField x) (X.residueField x)
   refine (isPurelyInseparable_iff_pow_mem (X.residueField x) p).mpr fun a => ⟨1, ?_⟩
   simp only [pow_one]
-  show a ^ p ∈ (f.residueFieldMap x).hom.range
+  change a ^ p ∈ (f.residueFieldMap x).hom.range
   exact ⟨a, hf a⟩
 
 /-- The absolute Frobenius of a scheme in positive prime characteristic is a universal

@@ -74,8 +74,7 @@ add_to_ega "I 1.1.6" PrimeSpectrum.instNoetherianSpace
 -- `@[stacks 0052 "(2)"]`; the ring-theoretic form is the lemma named here.
 add_to_stacks 00FR minimalPrimes.finite_of_isNoetherianRing
 add_to_ega "0 1.1.1" "Minimal primes over (0)" minimalPrimes.finite_of_isNoetherianRing
-add_to_ega "0 2.2.5" "affine case" minimalPrimes.finite_of_isNoetherianRing
-add_to_ega "0 2.2.5" "ring-theoretic form"
+add_to_ega "0 2.2.5" "affine, ring-theoretic"
   minimalPrimes.finite_of_isNoetherianRing
 
 /-- If `R → R'` is of finite type and `S` is a Noetherian `R`-algebra, then

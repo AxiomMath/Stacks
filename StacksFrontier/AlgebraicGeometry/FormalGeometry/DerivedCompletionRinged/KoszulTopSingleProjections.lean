@@ -187,7 +187,8 @@ omit [HasSheafify X.J AddCommGrpCat.{u}]
   [∀ A, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj A).Additive]
   [∀ (K₁ K₂ : HomologicalComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
       (ComplexShape.up ℤ)),
-    K₁.HasMapBifunctor K₂ (Stacks.SheafOfModules.Tensor.sheafTensor X.O) (ComplexShape.up ℤ)] in
+    K₁.HasMapBifunctor K₂ (Stacks.SheafOfModules.Tensor.sheafTensor X.O) (ComplexShape.up ℤ)]
+  [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The comparison of the dual Koszul tower with the tower of its top cohomology sheaves is a
 pro-isomorphism on cohomology in every degree**, which is the hypothesis of [Stacks, Tag 0G3D].
 
@@ -256,7 +257,8 @@ omit [HasSheafify X.J AddCommGrpCat.{u}]
   [∀ A, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj A).Additive]
   [∀ (K₁ K₂ : HomologicalComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
       (ComplexShape.up ℤ)),
-    K₁.HasMapBifunctor K₂ (Stacks.SheafOfModules.Tensor.sheafTensor X.O) (ComplexShape.up ℤ)] in
+    K₁.HasMapBifunctor K₂ (Stacks.SheafOfModules.Tensor.sheafTensor X.O) (ComplexShape.up ℤ)]
+  [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **[Stacks, Tag 0G3D] on a ringed site**: the comparison of the dual Koszul tower with the
 tower of its top cohomology sheaves has eventual inverses in `D(𝒪)`, given the pro-vanishing of
 the Koszul cohomology sheaves below the top degree.
@@ -338,7 +340,8 @@ omit [HasSheafify X.J AddCommGrpCat.{u}]
   [∀ A, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj A).Additive]
   [∀ (K₁ K₂ : HomologicalComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))
       (ComplexShape.up ℤ)),
-    K₁.HasMapBifunctor K₂ (Stacks.SheafOfModules.Tensor.sheafTensor X.O) (ComplexShape.up ℤ)] in
+    K₁.HasMapBifunctor K₂ (Stacks.SheafOfModules.Tensor.sheafTensor X.O) (ComplexShape.up ℤ)]
+  [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The comparison across the shift has eventual inverses.** The two identifications of
 functors are isomorphisms, so they have eventual inverses at the same level; the comparison
 itself has them by `AlgebraicGeometry.RingedSite.hasEventualInverses_koszulToTopSingleDerived`,

@@ -183,9 +183,9 @@ theorem standardSmooth_presentation_with_prescribed_generators
         = (φ.symm.toAlgHom).comp mkg := by
       apply MvPolynomial.algHom_ext
       intro j
-      show aeval (v ∘ yemb) (X j) = φ.symm (mkg (X j))
+      change aeval (v ∘ yemb) (X j) = φ.symm (mkg (X j))
       rw [aeval_X]
-      show v (yemb j) = φ.symm (mkg (X j))
+      change v (yemb j) = φ.symm (mkg (X j))
       simp only [yemb, v, Fin.addCases_right]
     intro q
     have h1 : π (rename yemb q) = aeval (v ∘ yemb) q := by

@@ -58,6 +58,7 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) [ConnectedSpace X.1] (x : Geometr
   (h₂ : IsOpen (χ₂.ker : Set (EtaleFundamentalGroup X.1 x)))
   (h : IsOpen (χ.ker : Set (EtaleFundamentalGroup X.1 x)))
 
+omit [Finite Λ] in
 include h₁ h₂ h in
 /-- The multiplication is equivariant from `Λ_{χ₁} × Λ_{χ₂}` to `Λ_{χ₁χ₂}`. -/
 theorem characterMulBilinear_equivariant (hχ : χ = χ₁ * χ₂) (g : EtaleFundamentalGroup X.1 x)
@@ -65,10 +66,11 @@ theorem characterMulBilinear_equivariant (hχ : χ = χ₁ * χ₂) (g : EtaleFu
     (b : (characterContinuousModule Λ χ₂ h₂).obj.obj.obj.V) :
     characterMulBilinear Λ (((characterContinuousModule Λ χ₁ h₁).obj.obj.obj.ρ g).asHom.hom a)
         (((characterContinuousModule Λ χ₂ h₂).obj.obj.obj.ρ g).asHom.hom b) =
-      ((characterContinuousModule Λ χ h).obj.obj.obj.ρ g).asHom.hom (characterMulBilinear Λ a b) := by
+      ((characterContinuousModule Λ χ h).obj.obj.obj.ρ g).asHom.hom
+        (characterMulBilinear Λ a b) := by
   subst hχ
   refine ULift.ext ?_
-  show ((χ₁ g : Λ) * a.down) * ((χ₂ g : Λ) * b.down) = ((χ₁ * χ₂) g : Λ) * (a.down * b.down)
+  change ((χ₁ g : Λ) * a.down) * ((χ₂ g : Λ) * b.down) = ((χ₁ * χ₂) g : Λ) * (a.down * b.down)
   rw [MonoidHom.mul_apply, Units.val_mul]
   ring
 

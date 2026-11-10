@@ -146,7 +146,7 @@ private theorem smallEtaleToBigEtale_maps_precoverage
           Over.forget (B.obj T.obj T.property) := by
     dsimp [smallEtaleToBigEtaleFunctor]
     rw [Functor.assoc, Over.mapForget_eq]
-  show B.IsCovering ⟨
+  change B.IsCovering ⟨
     (smallEtaleToBigEtaleFunctor B T S f ⋙ Over.forget (B.obj S.obj S.property)).obj X,
     E.map (smallEtaleToBigEtaleFunctor B T S f ⋙
       Over.forget (B.obj S.obj S.property))⟩
@@ -190,7 +190,7 @@ public theorem smallEtaleToBigEtaleFunctor_obj_smallEtaleCoveringLift
   apply CostructuredArrow.obj_ext
     ((smallEtaleToBigEtaleFunctor B T S f).obj ((smallEtaleCoveringLift B T S f E hE).X i))
     (E.X i) rfl
-  show (E.X i).hom = ((E.f i).left ≫ X.obj.hom) ≫ f
+  change (E.X i).hom = ((E.f i).left ≫ X.obj.hom) ≫ f
   simpa [Category.assoc] using (Over.w (E.f i)).symm
 
 /-- The lift of a big étale covering family is a small étale covering family. -/
@@ -198,7 +198,7 @@ public theorem smallEtaleCoveringLift_isCovering {X : SmallEtale B T.obj T.prope
     (E : PreZeroHypercover.{u + 1} ((smallEtaleToBigEtaleFunctor B T S f).obj X))
     (hE : BigEtaleOver.IsCovering B S.obj S.property ⟨_, E⟩) :
     SmallEtale.IsCovering B T.obj T.property ⟨X, smallEtaleCoveringLift B T S f E hE⟩ := by
-  show B.IsCovering
+  change B.IsCovering
     ⟨(Over.forget (B.obj T.obj T.property)).obj X.obj,
       (smallEtaleCoveringLift B T S f E hE).map (SmallEtale.inclusion B T.obj T.property ⋙
         Over.forget (B.obj T.obj T.property))⟩

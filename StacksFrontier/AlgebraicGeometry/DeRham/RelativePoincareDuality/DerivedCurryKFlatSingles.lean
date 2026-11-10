@@ -92,7 +92,7 @@ comparison of `CochainComplex.KFlatBifunctor.derivedBifunctor` read through the 
 of that bifunctor with each of them. -/
 theorem derivedTensorObjIso_hom_comp_toTensor_of_kFlat
     (K L : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Z.O)) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat Z.O K) (hL : Stacks.SheafOfModules.KFlat.KFlat Z.O L) :
+    (hK : Stacks.SheafOfModules.KFlat Z.O K) (hL : Stacks.SheafOfModules.KFlat Z.O L) :
     (derivedTensorObjIso Z (DerivedCategory.Q.obj K) (DerivedCategory.Q.obj L)).hom ≫
         (Stacks.DerivedTensor.RingedSite.canonicalDerivedTensorProduct Z.O).toTensor K L =
       (Stacks.SheafOfModules.canonicalDerivedTensorProduct Z).toTensor K L := by
@@ -120,7 +120,7 @@ comparison `SheafHom(B, C) ⟶ RSheafHom(B, C)` of [Stacks, Tag 08DM] correspond
 transpose of `u` under the currying of [Stacks, Tag 0A90]. -/
 theorem homEquiv_Q_map_comp_strictlyPerfectHomComparison
     (A B C : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Z.O)) ℤ)
-    (hA : Stacks.SheafOfModules.KFlat.KFlat Z.O A) (hB : Stacks.SheafOfModules.KFlat.KFlat Z.O B)
+    (hA : Stacks.SheafOfModules.KFlat Z.O A) (hB : Stacks.SheafOfModules.KFlat Z.O B)
     (u : A ⟶ (sheafHomComplex Z B C).obj) :
     (Stacks.Cohomology.ProjectionFormulaInternalHomOnRingedTopoi.derivedTensorHomAdjunction
         Z).homEquiv _ _ _

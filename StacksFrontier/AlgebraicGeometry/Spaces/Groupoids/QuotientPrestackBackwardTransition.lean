@@ -259,8 +259,8 @@ which is a citation:
 
    The analogue one level down — for the presheaf of Stacks 03DS on the schemes over a fixed
    scheme — is `AlgebraicGeometry.quasiCoherentPresheaf_isSheaf_fppf` of
-   `StacksFrontier/AlgebraicGeometry/Descent/PullbackSectionsSheaf/Basic.lean`, which is Stacks 03DT.
-   That one carries the hypothesis `AlgebraicGeometry.FpqcDescentOfQuasicoherentHoms`, the
+   `StacksFrontier/AlgebraicGeometry/Descent/PullbackSectionsSheaf/Basic.lean`, which is Stacks
+   03DT. That one carries the hypothesis `AlgebraicGeometry.FpqcDescentOfQuasicoherentHoms`, the
    full-faithfulness half of Stacks 023T, and **the hypothesis is a theorem**:
    `AlgebraicGeometry.fpqcDescentOfQuasicoherentHoms` of
    `StacksFrontier/AlgebraicGeometry/Descent/FpqcHomSheafRefinement.lean`, unconditional, with the
@@ -362,9 +362,11 @@ namespace AlgebraicGeometry.Space
 universe u
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits of presheaves on the big fppf site times out otherwise
 /-- Discrete limits of presheaves on the big fppf site, given directly: instance search for
 them times out under Lean v4.35.0. -/
-local instance (priority := high) hasLimitsOfShape_discrete_presheaf_QuotientPrestackBackwardTransition
+local instance (priority := high)
+    hasLimitsOfShape_discrete_presheaf_QuotientPrestackBackwardTransition
     {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S} (J : Type) :
     Limits.HasLimitsOfShape (Discrete J) ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) :=
   inferInstance
@@ -1253,11 +1255,11 @@ representable algebraic space of `T`**, as an equation.
 This is what carries `AlgebraicGeometry.Space.groupoidPullbackTransitionAt_naturality` — the
 naturality in the groupoid module, which is where the compatibility field of
 `AlgebraicGeometry.Space.QuasicoherentModule.Hom` is consumed — to this transition.  The
-naturality square is *not* restated at this instance, and the obstruction is mechanical: forming the composite `≫` of two morphisms of
-`AlgebraicGeometry.Space.Modules` at the representable algebraic space of a test object exceeds
-the elaborator's recursion budget, every category instance in sight carrying
-`AlgebraicGeometry.isAlgebraicSpace_yoneda` inside a small étale ringed site.  That is why the
-naturality is proved at a variable test space, where nothing unfolds, and transported by this
+naturality square is *not* restated at this instance, and the obstruction is mechanical: forming the
+composite `≫` of two morphisms of `AlgebraicGeometry.Space.Modules` at the representable algebraic
+space of a test object exceeds the elaborator's recursion budget, every category instance in sight
+carrying `AlgebraicGeometry.isAlgebraicSpace_yoneda` inside a small étale ringed site.  That is why
+the naturality is proved at a variable test space, where nothing unfolds, and transported by this
 equation rather than restated. -/
 theorem prestackArrowTransition_eq (G : GroupoidInAlgebraicSpaces C S hS A)
     (M : Space.QuasicoherentModule C S hS G) (T : BigFppfOver C S hS)

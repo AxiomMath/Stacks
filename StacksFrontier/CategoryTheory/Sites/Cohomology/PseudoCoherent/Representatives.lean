@@ -381,7 +381,7 @@ private theorem exists_coveringSieve_strictlyPerfect_approximation (V : X.C)
   have hcmpIso : ∀ j : ℤ, IsIso (HomologicalComplex.homologyMap hcmp.hom j) := by
     intro j
     have : IsIso hcmp.hom := hcmp.isIso_hom
-    show IsIso ((HomologicalComplex.homologyFunctor _ (ComplexShape.up ℤ) j).map hcmp.hom)
+    change IsIso ((HomologicalComplex.homologyFunctor _ (ComplexShape.up ℤ) j).map hcmp.hom)
     infer_instance
   have hs' : ∀ j : ℤ, IsIso (HomologicalComplex.homologyMap
       ((restrictCochainAlong X g).map ((restrictTo X V).map s)) j) := by

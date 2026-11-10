@@ -95,6 +95,7 @@ theorem isZero_rightDerived_of_isZero (F : X.Modules) [F.IsQuasicoherent] (i : �
   have : Subsingleton (cohomologyOver f F i) := this
   exact (sectionsRightDerivedIsoCohomologyOver f F i).toLinearEquiv.toEquiv.subsingleton
 
+omit [QuasiCompact f] [QuasiSeparated f] in
 /-- The cohomology sheaves of `Rf_*(F[a])` vanish below degree `a`. -/
 theorem isZero_homology_derivedPushforward_single_of_lt (F : X.Modules) (a m : ℤ) (hm : m < a) :
     IsZero ((DerivedCategory.homologyFunctor (Spec R).Modules m).obj
@@ -193,7 +194,7 @@ instance uniqueNegativeLaurentMonomials :
 def negativeTwistPartTopEquiv :
     Stacks.ProjectiveSpace.Cohomology.negativeTwistPart A n (-(n : ℤ) - 1) ≃ₗ[A] A :=
   (Stacks.ProjectiveSpace.Cohomology.negativeTwistPartEquivFinsupp A n (-(n : ℤ) - 1)).trans
-    (Finsupp.LinearEquiv.finsuppUnique A A _)
+    (Finsupp.uniqueLinearEquiv A A default)
 
 /-- The structure morphism `P^n_A ⟶ Spec A`. -/
 abbrev projStructureMorphism :

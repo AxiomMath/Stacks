@@ -67,7 +67,7 @@ theorem quotientPointwiseMap_comp_eq_id {G H : GroupoidInAlgebraicSpaces C S hS 
   have hobj : ∀ x, ((quotientPointwiseMap φ).toFunctor ⋙
       (quotientPointwiseMap ψ).toFunctor).obj x = (𝟭 (pointwisePresentation G).obj).obj x := by
     intro x
-    show (quotientPointwiseMap ψ).toFunctor.obj ((quotientPointwiseMap φ).toFunctor.obj x) = x
+    change (quotientPointwiseMap ψ).toFunctor.obj ((quotientPointwiseMap φ).toFunctor.obj x) = x
     refine (congrArg (quotientPointwiseMap ψ).toFunctor.obj (quotientPointwiseMap_obj φ x)).trans ?_
     refine (quotientPointwiseMap_obj ψ _).trans ?_
     have h := congrArg (fun m => m.app (op x.base) x.fiber) ho
@@ -76,7 +76,7 @@ theorem quotientPointwiseMap_comp_eq_id {G H : GroupoidInAlgebraicSpaces C S hS 
   refine CategoryTheory.Functor.ext hobj ?_
   intro x y f
   refine presentationHom_ext G _ _ ?_ ?_
-  · show (pointwisePresentation G).p.map
+  · change (pointwisePresentation G).p.map
       ((quotientPointwiseMap ψ).toFunctor.map ((quotientPointwiseMap φ).toFunctor.map f)) =
       (pointwisePresentation G).p.map (eqToHom (hobj x) ≫ f ≫ eqToHom (hobj y).symm)
     rw [Functor.map_comp, Functor.map_comp, eqToHom_map, eqToHom_map]
@@ -87,13 +87,13 @@ theorem quotientPointwiseMap_comp_eq_id {G H : GroupoidInAlgebraicSpaces C S hS 
     rw [h1, h2]
     simp
   · refine Eq.trans ?_ (presentationArrow_transport G (hobj x) (hobj y).symm f).symm
-    show presentationArrow G ((quotientPointwiseMap ψ).toFunctor.map
+    change presentationArrow G ((quotientPointwiseMap ψ).toFunctor.map
       ((quotientPointwiseMap φ).toFunctor.map f)) = _
     rw [presentationArrow_quotientPointwiseMap_map, presentationArrow_quotientPointwiseMap_map]
     have h := congrArg (fun m => m.app (op x.base) (presentationArrow G f)) ha
     simp only [NatTrans.comp_app, types_comp_apply, NatTrans.id_app] at h
     refine h.trans ?_
-    show presentationArrow G f = G.toGroupoidInFunctors.arrows.map (eqToHom rfl)
+    change presentationArrow G f = G.toGroupoidInFunctors.arrows.map (eqToHom rfl)
       (presentationArrow G f)
     simp
 
@@ -109,7 +109,7 @@ noncomputable def quotientPrestackMap {G H : GroupoidInAlgebraicSpaces C S hS B}
 theorem quotientPrestackMap_comp {G H : GroupoidInAlgebraicSpaces C S hS B}
     (φ : GroupoidInAlgebraicSpaces.Hom G H) :
     quotientPrestackMap φ ⋙ (quotientPrestack H).p = (quotientPrestack G).p := by
-  show (quotientPrestackEquivalence G).inverse ⋙ (quotientPointwiseMap φ).toFunctor ⋙
+  change (quotientPrestackEquivalence G).inverse ⋙ (quotientPointwiseMap φ).toFunctor ⋙
     (presheafOfGroupoids (evaluationGroupoidFunctor H.toGroupoidInFunctors)).p = _
   rw [(quotientPointwiseMap φ).w]
   rfl
@@ -121,7 +121,7 @@ theorem quotientPrestackMap_comp_eq_id {G H : GroupoidInAlgebraicSpaces C S hS B
     (ho : φ.toGroupoidHom.mapObjects ≫ ψ.toGroupoidHom.mapObjects = 𝟙 G.objects.obj)
     (ha : φ.toGroupoidHom.mapArrows ≫ ψ.toGroupoidHom.mapArrows = 𝟙 G.arrows.obj) :
     quotientPrestackMap φ ⋙ quotientPrestackMap ψ = 𝟭 (quotientPrestack G).obj := by
-  show (quotientPrestackEquivalence G).inverse ⋙
+  change (quotientPrestackEquivalence G).inverse ⋙
       ((quotientPointwiseMap φ).toFunctor ⋙ (quotientPointwiseMap ψ).toFunctor) ⋙
         (quotientPrestackEquivalence G).functor = _
   rw [quotientPointwiseMap_comp_eq_id φ ψ ho ha]

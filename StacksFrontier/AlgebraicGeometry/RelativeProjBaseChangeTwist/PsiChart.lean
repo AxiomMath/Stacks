@@ -442,7 +442,7 @@ theorem preimage_le_baseChangeHom (V : baseChangeBasis g) :
       baseChangeHom A g ⁻¹ᵁ ((Stacks.AlgebraicGeometry.RelativeProj.relativeProj A).toBase ⁻¹ᵁ
         (baseOpen V).toOpens) := by
   intro x hx
-  show ((baseChangeHom A g ≫
+  change ((baseChangeHom A g ≫
     (Stacks.AlgebraicGeometry.RelativeProj.relativeProj A).toBase)) x ∈ (baseOpen V).toOpens
   rw [baseChangeHom_comp_toBase]
   exact le_baseOpen V hx

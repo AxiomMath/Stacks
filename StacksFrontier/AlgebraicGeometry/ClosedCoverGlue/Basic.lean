@@ -193,10 +193,10 @@ public theorem exists_open_meeting_closedDiscrete_only_at {α : Type u} [Topolog
       rw [← hBA] at hyA
       exact ⟨hyA, hyT⟩
   refine ⟨⟨Cᶜ, hC.isOpen_compl⟩, ?_, ?_⟩
-  · show x ∈ Cᶜ
+  · change x ∈ Cᶜ
     rw [hCT]
     simp
-  · show Cᶜ ∩ T = {x}
+  · change Cᶜ ∩ T = {x}
     ext y
     by_cases hy : y = x <;> simp [hCT, hy, hx]
 
@@ -295,13 +295,13 @@ public theorem exists_open_in_ambient_of_open_in_closed {Y X : Scheme.{u}} (f : 
   have hind := f.isClosedEmbedding.isEmbedding.isInducing
   obtain ⟨W, hW, hpre⟩ := hind.isOpen_iff.mp V.2
   refine ⟨⟨W, hW⟩, ?_, ?_⟩
-  · show f y ∈ W
-    show y ∈ f ⁻¹' W
+  · change f y ∈ W
+    change y ∈ f ⁻¹' W
     rw [hpre]
     exact hy
   · ext z
-    show f z ∈ W ↔ z ∈ V
-    show z ∈ f ⁻¹' W ↔ z ∈ V
+    change f z ∈ W ↔ z ∈ V
+    change z ∈ f ⁻¹' W ↔ z ∈ V
     rw [hpre]
     rfl
 
@@ -319,7 +319,7 @@ public theorem exists_open_shrinking_component_preimages {ι : Type v} [Finite �
     else ⟨(Set.range (f i))ᶜ, (f i).isClosedEmbedding.isClosed_range.isOpen_compl⟩
   let U : X.Opens := ⨅ i, W i
   refine ⟨U, ?_, ?_⟩
-  · show x ∈ (U : Set X)
+  · change x ∈ (U : Set X)
     simp only [U, Opens.coe_iInf, Set.mem_iInter]
     intro i
     by_cases hxi : ∃ z, f i z = x
@@ -402,13 +402,13 @@ public theorem exists_open_neighborhood_isIso_component_of_not_overlap
       by_cases hji : j = i
       · subst j
         have hzU : z ∈ f i ⁻¹ᵁ U := by
-          show f i z ∈ U
+          change f i z ∈ U
           rw [hz]
           exact y.2
         exact ⟨⟨z, hzU⟩, U.ι.isOpenEmbedding.injective
           ((morphismRestrict_base_coe (f i) U ⟨z, hzU⟩).trans hz)⟩
       · have hzU : z ∈ f j ⁻¹ᵁ U := by
-          show f j z ∈ U
+          change f j z ∈ U
           rw [hz]
           exact y.2
         have hzero : f j ⁻¹ᵁ U ≤ (⊥ : (Z j).Opens) := by
@@ -426,7 +426,7 @@ private theorem sigmaDesc_sigmaι_apply {ι : Type v} [Small.{u} ι] {X : Scheme
     (Z : ι → Scheme.{u}) (f : ∀ i, Z i ⟶ X) (i : ι) (z : Z i) :
     Limits.Sigma.desc f (Limits.Sigma.ι Z i z) = f i z := by
   change (Limits.Sigma.ι Z i ≫ Limits.Sigma.desc f) z = _
-  rw [Limits.Sigma.ι_desc]
+  rw [Limits.Sigma.ι_comp_desc]
 
 /-- A disjoint open cover of schemes with common target presents that target as their
 coproduct. -/
@@ -521,7 +521,7 @@ public theorem isIso_sigmaDesc_restrict_complement_overlap {ι : Type v} [Finite
   have hdisjoint : Pairwise
       (Function.onFun Disjoint (fun i => Set.range ⇑(f i ∣_ U))) := by
     intro i j hij
-    show Disjoint (Set.range ⇑(f i ∣_ U)) (Set.range ⇑(f j ∣_ U))
+    change Disjoint (Set.range ⇑(f i ∣_ U)) (Set.range ⇑(f j ∣_ U))
     rw [Set.disjoint_left]
     intro x hxi hxj
     obtain ⟨yi, hyi⟩ := hxi
@@ -558,7 +558,7 @@ public theorem exists_component_point_of_sigma {ι : Type v} [Finite ι] [Small.
   let E : (∐ Z') ≅ ∐ Z := Limits.Sigma.reindex e.symm Z
   have hι (i : Shrink.{u} ι) :
       Limits.Sigma.ι Z' i ≫ E.hom = Limits.Sigma.ι Z (e.symm i) := by
-    show Limits.Sigma.ι (Z ∘ e.symm) i ≫ (Limits.Sigma.reindex e.symm Z).hom = _
+    change Limits.Sigma.ι (Z ∘ e.symm) i ≫ (Limits.Sigma.reindex e.symm Z).hom = _
     exact Limits.Sigma.ι_reindex_hom e.symm Z i
   obtain ⟨p, hp⟩ := (sigmaMk Z').surjective (E.inv x)
   rcases p with ⟨i, z⟩
@@ -584,7 +584,7 @@ public theorem isIso_sigmaDesc_morphismRestrict_complement_overlap {ι : Type v}
     intro x hx
     obtain ⟨z, rfl⟩ := hx
     refine ⟨⟨Limits.Sigma.ι Z i ((f i ⁻¹ᵁ U).ι z), ?_⟩, rfl⟩
-    show Limits.Sigma.desc f (Limits.Sigma.ι Z i ((f i ⁻¹ᵁ U).ι z)) ∈ U
+    change Limits.Sigma.desc f (Limits.Sigma.ι Z i ((f i ⁻¹ᵁ U).ι z)) ∈ U
     rw [sigmaDesc_sigmaι_apply]
     exact z.2
   let kf : ∀ i, (f i ⁻¹ᵁ U).toScheme ⟶ W.toScheme := fun i =>
@@ -612,7 +612,7 @@ public theorem isIso_sigmaDesc_morphismRestrict_complement_overlap {ι : Type v}
     intro x
     obtain ⟨i, z, hpoint⟩ := exists_component_point_of_sigma Z (W.ι x)
     have hzU : z ∈ f i ⁻¹ᵁ U := by
-      show f i z ∈ U
+      change f i z ∈ U
       have hval : f i z = g (W.ι x) := by
         rw [← hpoint]
         exact (sigmaDesc_sigmaι_apply Z f i z).symm
@@ -624,7 +624,7 @@ public theorem isIso_sigmaDesc_morphismRestrict_complement_overlap {ι : Type v}
       _ = ((f i ⁻¹ᵁ U).ι ≫ Limits.Sigma.ι Z i) ⟨z, hzU⟩ :=
         congrArg (fun q => q ⟨z, hzU⟩) (hfac i)
       _ = Limits.Sigma.ι Z i z := by
-        show Limits.Sigma.ι Z i (((f i ⁻¹ᵁ U).ι ⟨z, hzU⟩)) = _
+        change Limits.Sigma.ι Z i (((f i ⁻¹ᵁ U).ι ⟨z, hzU⟩)) = _
         simp
       _ = W.ι x := hpoint
   have hopenComp (i : ι) : IsOpenImmersion
@@ -644,14 +644,14 @@ public theorem isIso_sigmaDesc_morphismRestrict_complement_overlap {ι : Type v}
       _ = ((f i ⁻¹ᵁ U).ι ≫ Limits.Sigma.ι Z i) ≫ g := by rw [hfac]
       _ = (f i ⁻¹ᵁ U).ι ≫ (Limits.Sigma.ι Z i ≫ g) := by rw [Category.assoc]
       _ = (f i ⁻¹ᵁ U).ι ≫ f i := by
-        show (f i ⁻¹ᵁ U).ι ≫ (Limits.Sigma.ι Z i ≫ Limits.Sigma.desc f) = _
-        rw [Limits.Sigma.ι_desc]
+        change (f i ⁻¹ᵁ U).ι ≫ (Limits.Sigma.ι Z i ≫ Limits.Sigma.desc f) = _
+        rw [Limits.Sigma.ι_comp_desc]
       _ = (f i ∣_ U) ≫ U.ι := (morphismRestrict_ι (f i) U).symm
   have hcomp : Limits.Sigma.desc kf ≫ g ∣_ U =
       Limits.Sigma.desc (fun i => f i ∣_ U) := by
     apply Limits.Sigma.hom_ext
     intro i
-    rw [← Category.assoc, Limits.Sigma.ι_desc, Limits.Sigma.ι_desc]
+    rw [← Category.assoc, Limits.Sigma.ι_comp_desc, Limits.Sigma.ι_comp_desc]
     exact hcomponent i
   have hresult : g ∣_ U = inv (Limits.Sigma.desc kf) ≫
       Limits.Sigma.desc (fun i => f i ∣_ U) := by
@@ -827,7 +827,7 @@ public theorem moduleOnSchemeSigma_exists_local_free
   let eU : N ≅ SheafOfModules.free (q.generators j).I :=
     eRound ≪≫ GG.mapIso eFiber ≪≫ eFreeInv.symm
   exact ⟨U, by
-    show x ∈ f '' V
+    change x ∈ f '' V
     exact ⟨y, hyV, hy⟩,
     (q.generators j).I, ⟨eU⟩, ⟨eI⟩⟩
 
@@ -881,7 +881,7 @@ public theorem exists_invertible_of_closed_cover_discrete_intersections
   refine ⟨M, hM, fun i ↦ ?_⟩
   have hdesc : Limits.Sigma.ι Z i ≫ g = f i := by
     dsimp [g]
-    rw [Limits.Sigma.ι_desc]
+    rw [Limits.Sigma.ι_comp_desc]
   let eEq : (Scheme.Modules.pullback (Limits.Sigma.ι Z i ≫ g)).obj M ≅
       (Scheme.Modules.pullback (f i)).obj M :=
     eqToIso (congrArg (fun q => (Scheme.Modules.pullback q).obj M) hdesc)

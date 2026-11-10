@@ -310,7 +310,8 @@ public theorem topologicalKrullDim_projectiveSpace_one (k : Type u) [Field k] :
 structure morphism is separated, locally of finite type and quasi-compact because it is proper
 (`AlgebraicGeometry.projectiveSpaceOver_isProper`), and its dimension is one.
 
-In this library exactly four declarations conclude `AlgebraicGeometry.IsCurve`. One is a producer whose input nothing exhibits
+In this library exactly four declarations conclude `AlgebraicGeometry.IsCurve`. One is a producer
+whose input nothing exhibits
 (`Stacks.AlgebraicGeometry.ComponentDegrees.isCurve_reducedComponentι_comp`), two are the affine
 line in its two presentations, and this is the only one on a scheme that is not affine — so it is
 the first object on which the projective alternative of [Stacks, Tag 0A27] can hold. The statement

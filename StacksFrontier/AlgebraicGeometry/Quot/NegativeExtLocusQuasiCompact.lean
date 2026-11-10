@@ -112,12 +112,12 @@ private theorem finrank_extendScalars_le_iff {A k : Type u} [CommRing A] [Field 
     Module.finrank k ((ModuleCat.extendScalars g).obj N) ≤ a ↔
       ¬ _root_.fittingIdeal (R := A) (M := N) (a : ℤ) ≤ RingHom.ker g := by
   let := g.toAlgebra
-  show Module.finrank k ((ModuleCat.extendScalars (algebraMap A k)).obj N) ≤ a ↔ _
+  change Module.finrank k ((ModuleCat.extendScalars (algebraMap A k)).obj N) ≤ a ↔ _
   rw [(ModuleCat.extendScalarsAlgebraEquiv N).finrank_eq,
     ← StacksDraft.MinorRank.fittingIdeal_eq_top_iff_finrank_le,
     (fittingIdeal_basic_properties.{u, u, u, u} (R := A) (M := N)).2.2.1 k a,
     ← Ideal.map_eq_bot_iff_le_ker]
-  show Ideal.map (algebraMap A k) _ = ⊤ ↔ ¬ Ideal.map (algebraMap A k) _ = ⊥
+  change Ideal.map (algebraMap A k) _ = ⊤ ↔ ¬ Ideal.map (algebraMap A k) _ = ⊥
   exact ⟨fun h h' => top_ne_bot (h.symm.trans h'), fun h => (Ideal.eq_bot_or_top _).resolve_left h⟩
 
 /-- The fibre `k ⊗_A F` of a finite free module has the rank of `F` as dimension. -/
@@ -126,7 +126,7 @@ private theorem finrank_extendScalars_eq {A k : Type u} [CommRing A] [Field k] (
     Module.finrank k ((ModuleCat.extendScalars g).obj F) = Module.finrank A F := by
   let := g.toAlgebra
   have : Nontrivial A := g.domain_nontrivial
-  show Module.finrank k ((ModuleCat.extendScalars (algebraMap A k)).obj F) = _
+  change Module.finrank k ((ModuleCat.extendScalars (algebraMap A k)).obj F) = _
   rw [(ModuleCat.extendScalarsAlgebraEquiv F).finrank_eq, Module.finrank_baseChange]
 
 /-- Extension of scalars commutes with cokernels: the dimension of the cokernel of `k ⊗_A f` is
@@ -185,12 +185,12 @@ private theorem isZero_homology_extendScalars_iff {A k : Type u} [CommRing A] [F
     rfl
   have hdd : ∀ x, (K.d j (j + 1)).hom ((K.d (j - 1) j).hom x) = 0 := fun x => by
     exact congrArg (fun φ => φ.hom x) (K.d_comp_d (j - 1) j (j + 1))
-  show IsZero (K.homology j) ↔ _
+  change IsZero (K.homology j) ↔ _
   rw [hex, ker_le_range_iff_finrank_quotient_add_le _ _ hdd]
   have e₁ := finrank_quotient_range_extendScalars_map g (P.d (j - 1) j)
   have e₂ := finrank_quotient_range_extendScalars_map g (P.d j (j + 1))
   have e₃ := finrank_extendScalars_eq g (P.X (j + 1))
-  show Module.finrank k ((ModuleCat.extendScalars g).obj (P.X j) ⧸
+  change Module.finrank k ((ModuleCat.extendScalars g).obj (P.X j) ⧸
         LinearMap.range ((ModuleCat.extendScalars g).map (P.d (j - 1) j)).hom) +
       Module.finrank k ((ModuleCat.extendScalars g).obj (P.X (j + 1)) ⧸
         LinearMap.range ((ModuleCat.extendScalars g).map (P.d j (j + 1))).hom) ≤
@@ -263,7 +263,7 @@ private theorem isCompact_isOpen_setOf_isZero_homology {A : Type u} [CommRing A]
         (algebraMap A p.asIdeal.ResidueField)).obj P).homology j)} =
       ⋃ a ∈ Finset.range (n + 1), (PrimeSpectrum.zeroLocus (I a : Set A))ᶜ := by
     ext p
-    simp only [Set.mem_setOf_eq, Set.mem_iUnion, Set.mem_compl_iff, PrimeSpectrum.mem_zeroLocus,
+    simp only [Set.mem_ofPred_eq, Set.mem_iUnion, Set.mem_compl_iff, PrimeSpectrum.mem_zeroLocus,
       SetLike.coe_subset_coe, Finset.mem_range, exists_prop]
     rw [isZero_homology_extendScalars_iff _ hP j, Ideal.ker_algebraMap_residueField]
     refine exists_congr fun a => ?_
@@ -305,7 +305,7 @@ theorem isCompact_setOf_forall_fibreBetti_eq_zero {A : Type u} [CommRing A]
     ext p
     have hβ := fun j => fibreBetti_eq_zero_iff_isZero_homology
       (algebraMap A p.asIdeal.ResidueField) hP p (Ideal.ker_algebraMap_residueField p.asIdeal) j
-    simp only [Set.mem_setOf_eq, Set.mem_iInter, Finset.mem_Ioc, hβ]
+    simp only [Set.mem_ofPred_eq, Set.mem_iInter, Finset.mem_Ioc, hβ]
     exact ⟨fun h j hj => h j hj.1, fun h j hj =>
       if hjb : j ≤ b then h j ⟨hj, hjb⟩ else hvan p j (by omega)⟩
   rw [heq]
@@ -468,7 +468,7 @@ theorem isQuasiCompact_ι_of_isNegativeExtLocus (f : X ⟶ Y)
     let h := pointsHomeomorphOfIso B S hS (yoneda.mapIso eV)
     have hφ : pointsMap B S hS _ φ.hom ⁻¹' Set.range (pointsMap B S hS W.1.toFunctor W.1.ι) =
         h ⁻¹' (pointsMap B S hS _ g ⁻¹' Set.range (pointsMap B S hS W.1.toFunctor W.1.ι)) := by
-      show pointsMap B S hS _ (yoneda.map eV.hom ≫ g) ⁻¹' _ = _
+      change pointsMap B S hS _ (yoneda.map eV.hom ≫ g) ⁻¹' _ = _
       rw [pointsMap_comp, Set.preimage_comp]
       rfl
     rw [hφ] at hc

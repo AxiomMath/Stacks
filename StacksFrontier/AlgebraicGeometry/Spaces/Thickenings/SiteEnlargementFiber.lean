@@ -210,7 +210,7 @@ theorem pushforwardSectionEquiv_restrict {V₁ V₂ : Space.SmallEtale B S hS Y.
   rw [pushforwardSectionEquiv_app, pushforwardSectionEquiv_app,
     GrothendieckTopology.yonedaEquiv_symm_map]
   refine Eq.trans ?_ (FMap.app_eq_app_id f F.obj _ ⟨U, V₁, g, hg⟩ j)
-  show ((fMapEquivPushforwardHom_ringUniverse B S hS f F
+  change ((fMapEquivPushforwardHom_ringUniverse B S hS f F
       ((Space.SmallEtale.topology B S hS Y.obj).yoneda.obj V₂)).symm
         ((Space.SmallEtale.topology B S hS Y.obj).yonedaEquiv.symm s)).app ⟨U, V₁, g, hg⟩
       (𝟙 V₁ ≫ j) = _

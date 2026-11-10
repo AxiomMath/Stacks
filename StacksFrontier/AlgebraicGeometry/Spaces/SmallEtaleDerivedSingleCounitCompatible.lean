@@ -46,6 +46,7 @@ theorem comp_comp_shape {C : Type*} [Category C] {X₁ X₂ Y₁ Y₂ Z : C} (sa
   subst hi hc
   simp [reassoc_of% h]
 
+omit [HasDerivedCategory A] in
 /-- `a[0] ≫ (w-single comparison)⁻¹` is the image of a map of complexes. -/
 @[reassoc]
 theorem singleFunctor_map_comp_mapSingleQhIso_inv (w : A ⥤ Bc) [w.Additive] {G : Bc} {M : A}
@@ -81,6 +82,7 @@ theorem exists_single_counit_shape {C D : Type*} [Category C] [Category D] {L : 
   simp only [Functor.map_comp, Category.assoc, CategoryTheory.Functor.map_id, Category.id_comp]
   rw [hc, reassoc_of% hLu, reassoc_of% hn, hD]
 
+omit [HasDerivedCategory A] [HasDerivedCategory Bc] in
 /-- The degreewise counit after `P(a[0])`, through the comparison of left adjoints. -/
 theorem complex_counit_comp (F : A ⥤ Bc) [F.Additive] (P mp : Bc ⥤ A) [P.Additive] [mp.Additive]
     (adjT : P ⊣ F) (adjM : mp ⊣ F) {G : Bc} {M : A} (a : G ⟶ F.obj M) :
@@ -234,7 +236,8 @@ affine `f : X ⟶ Y`, a quasi-coherent `𝒪_X`-module `M` and a map `a : G ⟶ 
 topoi (`AlgebraicGeometry.Space.smallEtaleDerivedPullbackQComparison`) followed by an
 isomorphism. Stated in the topos spelling; the inputs in the site spelling enter through
 `AlgebraicGeometry.Space.spaceToToposModules`, `AlgebraicGeometry.Space.spaceToToposDerived` and
-the identity isomorphisms of `StacksFrontier/AlgebraicGeometry/Spaces/ModulesSpellingBridge.lean`. -/
+the identity isomorphisms of
+`StacksFrontier/AlgebraicGeometry/Spaces/ModulesSpellingBridge.lean`. -/
 def SingleCounitCompatible (f : X ⟶ Y) (hf : IsAffineHom B S hS f.hom)
     (M : Modules.{u, u} B S hS X.1 X.2) (hM : M.IsQuasicoherentOnSite)
     {G : Modules.{u, u} B S hS Y.1 Y.2} (a : G ⟶ (modulePushforward B S hS f).obj M) : Prop :=

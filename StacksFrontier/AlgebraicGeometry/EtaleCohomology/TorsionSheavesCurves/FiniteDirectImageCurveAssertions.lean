@@ -162,7 +162,7 @@ private theorem restrictionLegTarget (hsq : j ≫ f = f' ≫ i)
           ((smallEtaleDirectImageAb f).obj F)) q
         (etaleCohomologyRestrictionMap.{u, v, w} (j ≫ f)
           ((smallEtaleDirectImageAb f).obj F) q x) := by
-  show etaleCohomologyRestrictionMap.{u, v, w} f'
+  change etaleCohomologyRestrictionMap.{u, v, w} f'
       ((etaleAbelianInverseImage.{u, v} i).obj ((smallEtaleDirectImageAb f).obj F)) q
       (etaleCohomologyRestrictionMap.{u, v, w} i
         ((smallEtaleDirectImageAb f).obj F) q x) = _

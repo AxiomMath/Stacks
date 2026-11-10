@@ -127,13 +127,13 @@ public theorem subsingleton_of_subsingleton_tensorProduct_of_surjective
           rw [hsmul, map_mul]
           exact congrArg (fun t => t * IsLocalRing.residue B b)
             (IsLocalRing.ResidueField.map_residue φ a).symm
-        show e.symm (IsLocalRing.residue B (a • b)) = a • e.symm (IsLocalRing.residue B b)
+        change e.symm (IsLocalRing.residue B (a • b)) = a • e.symm (IsLocalRing.residue B b)
         rw [h1, map_mul, e.symm_apply_apply, Algebra.smul_def]
         rfl }
   have hψ : Function.Surjective ψ := fun y => by
     obtain ⟨b, hb⟩ := IsLocalRing.residue_surjective (e y)
     refine ⟨b, ?_⟩
-    show e.symm (IsLocalRing.residue B b) = y
+    change e.symm (IsLocalRing.residue B b) = y
     rw [hb, e.symm_apply_apply]
   have hmap : Function.Surjective (TensorProduct.map ψ (LinearMap.id (R := A) (M := M))) :=
     TensorProduct.map_surjective hψ Function.surjective_id

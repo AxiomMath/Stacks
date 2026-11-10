@@ -46,7 +46,8 @@ and neither covers the support of a coherent module.
 contained in `Z₁ ∪ Z₂`, an exponent `n` with `supp (I_{Z₂} ^ n • F) ⊆ Z₁`. Taking `Z₁` to be the
 empty closed set makes the conclusion an empty support, and
 `Stacks.AlgebraicGeometry.DevissageNoetherian.isZero_of_supp_eq_empty` turns that into
-vanishing. The specialisation is worth recording because the two-set form is strictly more general and
+vanishing. The specialisation is worth recording because the two-set form is strictly more general
+and
 its absolute instance is easy to overlook.
 
 **No `@[stacks]` attribute is attached.** No declaration below reproduces the statement of any

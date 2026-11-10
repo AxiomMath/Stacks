@@ -182,7 +182,7 @@ theorem isLocalCompleteIntersectionMorphism_isLocalAtTarget_fpqc :
         have _ : IsImmersion j0 := by infer_instance
         have hjbar : jbar ≫ pullback.snd π c = fVk := by
           simp [jbar, e, fVk, fV, pullback.congrHom, pullback.map, Category.assoc,
-            pullbackRightPullbackFstIso_inv_snd_snd, pullback.lift_snd]
+            pullbackRightPullbackFstIso_inv_snd_snd]
         have hj0 : top.ι ≫ fVk = j0 ≫ pullback.snd π c := by
           simp [j0, Category.assoc, hjbar]
         have hkos : IsKoszulRegularImmersion j0 :=

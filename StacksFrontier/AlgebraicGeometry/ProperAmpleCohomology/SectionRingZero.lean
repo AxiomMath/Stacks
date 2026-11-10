@@ -120,14 +120,14 @@ theorem unitScalarAddEquiv_symm_mul (x y : Γ(X, ⊤)) :
     (unitScalarAddEquiv X).symm (x * y) =
       (unitScalarAddEquiv X).symm x ≫ (unitScalarAddEquiv X).symm y := by
   refine (unitScalarAddEquiv X).symm_apply_eq.mpr ?_
-  show x * y = unitScalar X (_ ≫ _)
+  change x * y = unitScalar X (_ ≫ _)
   rw [unitScalar_comp, unitScalar_unitScalarAddEquiv_symm, unitScalar_unitScalarAddEquiv_symm]
 
 /-- **The endomorphism named by `1` is the identity.** -/
 theorem unitScalarAddEquiv_symm_one :
     (unitScalarAddEquiv X).symm 1 = 𝟙 (𝟙_ X.Modules) := by
   refine (unitScalarAddEquiv X).symm_apply_eq.mpr ?_
-  show (1 : Γ(X, ⊤)) = unitScalar X (𝟙 (𝟙_ X.Modules))
+  change (1 : Γ(X, ⊤)) = unitScalar X (𝟙 (𝟙_ X.Modules))
   rw [unitScalar_id]
 
 end UnitScalar
@@ -298,7 +298,7 @@ theorem moduleFinite_unitHom (f : X ⟶ Spec (CommRingCat.of R)) [IsProper f] (N
   let : SMul R Γ(X, ⊤) := ⟨fun r a => specAlgebraRingHom R f r * a⟩
   have : IsScalarTower R Γ(X, ⊤) (cohomologyOf X 0 N) :=
     ⟨fun r a m => by
-      show (specAlgebraRingHom R f r * a) • m = specAlgebraRingHom R f r • a • m
+      change (specAlgebraRingHom R f r * a) • m = specAlgebraRingHom R f r • a • m
       rw [mul_smul]⟩
   have : Module.Finite Γ(X, ⊤) (cohomologyOf X 0 N) :=
     Module.Finite.of_restrictScalars_finite R Γ(X, ⊤) _

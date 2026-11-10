@@ -138,14 +138,14 @@ private theorem exists_filtered_representative_map (R : Type u) [Ring R]
   let X : (CochainComplex.FilteredDerivedCategory.Kminus (𝒜 := A)).FullSubcategory :=
     ⟨qP, CochainComplex.FilteredDerivedCategory.kminus_quotient_obj n⟩
   have hX : filteredProjectiveMinus A X := by
-    show (filteredProjectiveMinusC A).strictMap
+    change (filteredProjectiveMinusC A).strictMap
       (HomotopyCategory.quotient _ _) qP
     exact ObjectProperty.strictMap.mk _ ⟨⟨n, hn⟩, hproj⟩
   let Y : (filteredProjectiveMinus A).FullSubcategory := ⟨X, hX⟩
   let F := filteredProjectiveMinusToDerivedMinus A
   let : F.IsEquivalence := filteredProjectiveMinusToDerivedMinus_isEquivalence A
   let ψ : F.obj Y ⟶ F.obj Y := ObjectProperty.homMk (by
-    show (CochainComplex.FilteredDerivedCategory.Qh).obj qP ⟶
+    change (CochainComplex.FilteredDerivedCategory.Qh).obj qP ⟶
       (CochainComplex.FilteredDerivedCategory.Qh).obj qP
     exact φ)
   have hψ : (CochainComplex.FilteredDerivedCategory.minus A).ι.map ψ = φ := rfl
@@ -327,13 +327,13 @@ private lemma finprod_alt_eq_finprod_finprod_alt {M : Type*} [CommGroup M]
     intro i
     rw [h i]
     by_cases he : Even i
-    · simp only [he, if_true, t]
-    · simp only [he, if_false, t]
+    · simp only [he, ite_true, t]
+    · simp only [he, ite_false, t]
       exact (finprod_inv_distrib _).symm
   rw [finprod_congr hdeg, ← finprod_curry t htfin,
     ← finprod_comp_equiv (Equiv.prodComm ℤ ℤ) (f := t),
     finprod_curry (fun x : ℤ × ℤ => t (Equiv.prodComm ℤ ℤ x)) (by
-      show ((Equiv.prodComm ℤ ℤ) ⁻¹' Function.mulSupport t).Finite
+      change ((Equiv.prodComm ℤ ℤ) ⁻¹' Function.mulSupport t).Finite
       exact Set.Finite.preimage ((Equiv.prodComm ℤ ℤ).injective.injOn) htfin)]
   rfl
 

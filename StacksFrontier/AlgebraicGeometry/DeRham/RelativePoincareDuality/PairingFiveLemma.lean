@@ -97,6 +97,7 @@ section Five
 variable {C₁ C₂ D : Type*} [Category* C₁] [Category* C₂] [Category* D]
   [Preadditive C₁] [Preadditive C₂] [Preadditive D] (T : C₁ ⥤ C₂ ⥤ D)
 
+omit [Preadditive C₂] in
 /-- The map `v ↦ (v ⊗ 1) ≫ φ` commutes with subtraction. -/
 theorem pairingPrecomp_sub [∀ L, (T.flip.obj L).Additive] {K : C₁} {L : C₂} {M : D}
     (φ : (T.obj K).obj L ⟶ M) {Z : C₁} (v w : Z ⟶ K) :
@@ -105,6 +106,7 @@ theorem pairingPrecomp_sub [∀ L, (T.flip.obj L).Additive] {K : C₁} {L : C₂
   simp only [flip_obj_map] at h
   simp [pairingPrecomp, h, Preadditive.sub_comp]
 
+omit [Preadditive C₂] in
 /-- The map `v ↦ (v ⊗ 1) ≫ φ` commutes with addition. -/
 theorem pairingPrecomp_add [∀ L, (T.flip.obj L).Additive] {K : C₁} {L : C₂} {M : D}
     (φ : (T.obj K).obj L ⟶ M) {Z : C₁} (v w : Z ⟶ K) :
@@ -113,18 +115,21 @@ theorem pairingPrecomp_add [∀ L, (T.flip.obj L).Additive] {K : C₁} {L : C₂
   simp only [flip_obj_map] at h
   simp [pairingPrecomp, h, Preadditive.add_comp]
 
+omit [Preadditive C₂] in
 /-- The map `v ↦ (v ⊗ 1) ≫ φ` sends `0` to `0`. -/
 theorem pairingPrecomp_zero [∀ L, (T.flip.obj L).Additive] {K : C₁} {L : C₂} {M : D}
     (φ : (T.obj K).obj L ⟶ M) (Z : C₁) :
     T.pairingPrecomp φ Z 0 = 0 := by
   simpa using T.pairingPrecomp_sub φ (0 : Z ⟶ K) 0
 
+omit [Preadditive C₁] [Preadditive C₂] in
 /-- The map determined by the pairing `-φ` is the negative of the map determined by `φ`. -/
 theorem pairingPrecomp_neg_pairing {K : C₁} {L : C₂} {M : D} (φ : (T.obj K).obj L ⟶ M) (Z : C₁) :
     T.pairingPrecomp (-φ) Z = fun v => -T.pairingPrecomp φ Z v := by
   funext v
   simp [pairingPrecomp]
 
+omit [Preadditive C₁] [Preadditive C₂] in
 /-- A pairing is perfect at `Z` exactly when its negative is. -/
 theorem bijective_pairingPrecomp_neg_iff {K : C₁} {L : C₂} {M : D} (φ : (T.obj K).obj L ⟶ M)
     (Z : C₁) :
@@ -231,7 +236,7 @@ theorem pairingPrecomp_shiftedPairing {K : C₁} {L : C₂} {M : D} (φ : (T.obj
       (T.map v).app (L⟦m⟧) ≫ ((T.obj (K⟦n⟧)).commShiftIso m).hom.app L :=
     NatTrans.shift_app_comm (T.map v) m L
   simp only [pairingPrecomp, shiftedPairing, shiftRightIsoShiftLeft, Iso.trans_hom, Iso.app_hom,
-    Iso.symm_hom, Iso.app_inv, Functor.map_comp, NatTrans.comp_app, Category.assoc]
+    Iso.symm_hom, Functor.map_comp, NatTrans.comp_app, Category.assoc]
   rw [hG]
   simp only [Functor.comp_obj, Functor.flip_obj_obj] at hN ⊢
   simp only [Category.assoc, reassoc_of% hN, Iso.inv_hom_id_app_assoc, ← reassoc_of% hτ]
@@ -270,6 +275,7 @@ variable {C₁ C₂ D : Type*} [Category* C₁] [Category* C₂] [Category* D]
   {T : C₁ ⥤ C₂ ⥤ D} [T.CommShift₂Int] [∀ Z, (T.obj Z).Additive] [∀ Z, (T.obj Z).IsTriangulated]
   [∀ L, (T.flip.obj L).Additive]
 
+omit [∀ Z, (T.obj Z).Additive] in
 /-- **The five lemma for pairings along two distinguished triangles** ([Stacks, Tag 014A], as
 used in the proof of [Stacks, Tag 0G8K]). Let `K₁ ⟶ K₂ ⟶ K₃ ⟶ K₁[1]` and
 `L₃ ⟶ L₂ ⟶ L₁ ⟶ L₃[1]` be distinguished triangles and `φᵢ : Kᵢ ⊗ Lᵢ ⟶ M` pairings compatible
@@ -301,6 +307,7 @@ theorem bijective_pairingPrecomp_of_triangles' (S : Triangle C₁) (hS : S ∈ d
   obtain ⟨h, hh⟩ := Triangle.yoneda_exact₃ _ hS'Z g hg
   exact ⟨_, hh.trans (Category.assoc _ _ _)⟩
 
+omit [∀ Z, (T.obj Z).Additive] in
 /-- **The five lemma for pairings along two distinguished triangles**, with the connecting maps
 paired through the shifts of the outer pairings (`CategoryTheory.Functor.shiftedPairing`): if
 `φ₁` and `φ₃` are perfect at every `Z`, then so is `φ₂`. -/
@@ -334,6 +341,7 @@ variable {C : Type*} [Category* C] [HasZeroObject C] [Preadditive C] [HasShift C
   [∀ n : ℤ, (shiftFunctor C n).Additive] [Pretriangulated C]
   {T : C ⥤ C ⥤ C} {H : Cᵒᵖ ⥤ C ⥤ C} (DY : TensorHomAdjunction T H)
 
+omit [HasZeroObject C] [Pretriangulated C] in
 /-- **The shift of a perfect pairing is perfect.** -/
 theorem isIso_homEquiv_symm_shiftedPairing [T.CommShift₂Int] {K L M : C}
     (φ : (T.obj K).obj L ⟶ M) (hφ : IsIso ((DY.homEquiv K L M).symm φ)) (n m : ℤ)

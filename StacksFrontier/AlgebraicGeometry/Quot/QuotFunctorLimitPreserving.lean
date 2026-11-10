@@ -104,7 +104,7 @@ theorem exists_stage_lift_of_relativelyLimitPreserving
   let α := Functor.whiskerLeft D.op (Functor.whiskerRight a U)
   let yc : colimit (D.op ⋙ G') := colimit.ι (D.op ⋙ G') (op i) ⟨y⟩
   have hw : U.map (a.app (op c.pt)) ⟨x⟩ = colimit.desc (D.op ⋙ G') (G'.mapCocone c.op) yc := by
-    show ULift.up (a.app (op c.pt) x) = (colimit.ι (D.op ⋙ G') (op i) ≫
+    change ULift.up (a.app (op c.pt) x) = (colimit.ι (D.op ⋙ G') (op i) ≫
       colimit.desc (D.op ⋙ G') (G'.mapCocone c.op)) ⟨y⟩
     rw [colimit.ι_desc]
     exact congrArg ULift.up hxy
@@ -268,7 +268,7 @@ theorem isSurjectiveAt_stageMapTest_iff {T T' : SchemesOver D.Y}
   have hφ : φ.hom ≫ (D.stageMapSituation T hG v).baseChangeProjection (D.stageMapTest hG v g) =
       D.relativeMap g :=
     hpb₁.isoIsPullback_hom_fst _ _ hpb₂
-  show Epi ((modulePullback B S hS (Y := D.space T)
+  change Epi ((modulePullback B S hS (Y := D.space T)
       ((D.stageMapSituation T hG v).baseChangeProjection (D.stageMapTest hG v g))).map v) ↔ _
   exact (epi_modulePullback_map_iff_of_iso (X := D.space T)
     (M := D.baseChangeModule T) (N := G) φ hφ v).symm
@@ -376,6 +376,7 @@ theorem pullMapOf_stageMap {T₀ T₁ T : SchemesOver D.Y} (e : T₁ ⟶ T₀)
   (D.pullMapOf_eq _ _ _).trans (D.comp_map_stageMap e ψ πₗ πⱼ hh χ hψ)
 
 set_option synthInstance.maxHeartbeats 100000 in
+-- `Epi`/`IsIso` instance synthesis for maps of sheaves of modules over algebraic spaces
 /-- The pullback of a map along a morphism of test schemes, through an isomorphism, is surjective
 exactly when the inverse image of the map is. -/
 theorem epi_pullMapOf_iff {T' T : SchemesOver D.Y} (h : T' ⟶ T)
@@ -422,6 +423,7 @@ theorem kernelSubobject_pullMapOf_eq_quotientPullback {T' T : SchemesOver D.Y} (
   D.kernelSubobject_pullMapOf_of_epi h α inferInstance v inferInstance
 
 set_option synthInstance.maxHeartbeats 100000 in
+-- `HasKernel` instance synthesis for `kernelSubobject` in sheaves of modules over spaces
 /-- `AlgebraicGeometry.Space.QuotSituation.kernelSubobject_pullMapOf_eq_quotientPullback`, with
 the pullback of the map written out as a composite. -/
 theorem kernelSubobject_comp_map_of_epi {T' T : SchemesOver D.Y} (h : T' ⟶ T)
@@ -524,8 +526,9 @@ theorem exists_stage_epi_of_epi_limit {i : I}
     (fun m => (E.obj m.left).property) c.pt.property l U hU.2 hmem
   exact ⟨m, e, (hiff ((D.toCoherentSituation.stageTestSystem E g).map e)).2 hm⟩
 
-include hc in
 set_option synthInstance.maxHeartbeats 100000 in
+-- `Epi`/`IsIso` instance synthesis for maps of sheaves of modules over algebraic spaces
+include hc in
 /-- **A quotient over a limit of affine schemes, lying over a stage, comes from a later stage.**
 Let `F` be of finite presentation, let `T = lim T_k` be a cofiltered limit of affine schemes of the
 site, taken in schemes, `g : T_i ⟶ B` a morphism from a stage, and `K` a member of
@@ -698,14 +701,14 @@ theorem isLocallyOfFinitePresentation_toBase (N : QuotSitePresheafModel D)
     apply ObjectProperty.hom_ext
     apply yonedaEquiv.injective
     have h₁ : N.toBase.app (op c.pt) x = yonedaEquiv b.hom := by
-      show (D.quotSitePresheafToBase.app (op c.pt) (N.iso.hom.app (op c.pt) ⟨x⟩)).down = _
+      change (D.quotSitePresheafToBase.app (op c.pt) (N.iso.hom.app (op c.pt) ⟨x⟩)).down = _
       rw [hq]
       rfl
     rw [← h₁, hxy]
-    show (colimit.ι (Dg.op ⋙ D.Y.obj) (op i) ≫
+    change (colimit.ι (Dg.op ⋙ D.Y.obj) (op i) ≫
       colimit.desc (Dg.op ⋙ D.Y.obj) (D.Y.obj.mapCocone c.op)) yi = _
     rw [colimit.ι_desc]
-    show D.Y.1.map (c.π.app i).op yi = yonedaEquiv (yoneda.map (c.π.app i) ≫ yonedaEquiv.symm yi)
+    change D.Y.1.map (c.π.app i).op yi = yonedaEquiv (yoneda.map (c.π.app i) ≫ yonedaEquiv.symm yi)
     rw [← yonedaEquiv_naturality, Equiv.apply_symm_apply]
   subst hb
   obtain ⟨m, K', hK', hpull⟩ := D.exists_stage_quotientPullback_eq E cE hcE hF g K hK
@@ -714,16 +717,16 @@ theorem isLocallyOfFinitePresentation_toBase (N : QuotSitePresheafModel D)
   have hzm : zm.baseChange (c.π.app m.left) = ⟨_, K, hK⟩ := by
     refine (QuotSituation.quotFamily_eq_baseChange_of D (c.π.app m.left) ⟨_, K, hK⟩ zm ?_
       ((D.toCoherentSituation.stageTestCone E cE g).π.app m) rfl hpull.symm).symm
-    show (schemeSpaceFunctor B S hS).map (c.π.app i) ≫ g =
+    change (schemeSpaceFunctor B S hS).map (c.π.app i) ≫ g =
       (schemeSpaceFunctor B S hS).map (c.π.app m.left) ≫
         (schemeSpaceFunctor B S hS).map (Dg.map m.hom) ≫ g
     rw [← Functor.map_comp_assoc, c.w]
   refine ⟨colimit.ι (Dg.op ⋙ N.presheaf) (op m.left) (N.iso.inv.app (op (Dg.obj m.left)) zm).down,
     ?_, ?_⟩
-  · show (colimit.ι (Dg.op ⋙ N.presheaf) (op m.left) ≫
+  · change (colimit.ι (Dg.op ⋙ N.presheaf) (op m.left) ≫
       colimit.desc (Dg.op ⋙ N.presheaf) (N.presheaf.mapCocone c.op)) _ = x
     rw [colimit.ι_desc]
-    show N.presheaf.map (c.π.app m.left).op (N.iso.inv.app (op (Dg.obj m.left)) zm).down = x
+    change N.presheaf.map (c.π.app m.left).op (N.iso.inv.app (op (Dg.obj m.left)) zm).down = x
     have hnat := NatTrans.naturality_apply N.iso.inv (c.π.app m.left).op zm
     change N.iso.inv.app (op c.pt) (zm.baseChange (c.π.app m.left)) =
       ULift.up (N.presheaf.map (c.π.app m.left).op (N.iso.inv.app (op (Dg.obj m.left)) zm).down)
@@ -735,18 +738,18 @@ theorem isLocallyOfFinitePresentation_toBase (N : QuotSitePresheafModel D)
   · rw [colimit.ι_map_apply]
     have h₃ : N.toBase.app (op (Dg.obj m.left)) (N.iso.inv.app (op (Dg.obj m.left)) zm).down =
         yonedaEquiv zm.toBase.hom := by
-      show (D.quotSitePresheafToBase.app _ (N.iso.hom.app _
+      change (D.quotSitePresheafToBase.app _ (N.iso.hom.app _
         ⟨(N.iso.inv.app (op (Dg.obj m.left)) zm).down⟩)).down = _
       have h₅ : N.iso.hom.app (op (Dg.obj m.left)) (N.iso.inv.app (op (Dg.obj m.left)) zm) =
           zm := types_congr_hom (N.iso.inv_hom_id_app (op (Dg.obj m.left))) zm
-      show (D.quotSitePresheafToBase.app _ (N.iso.hom.app _
+      change (D.quotSitePresheafToBase.app _ (N.iso.hom.app _
         (N.iso.inv.app (op (Dg.obj m.left)) zm))).down = _
       rw [h₅]
       rfl
-    show colimit.ι (Dg.op ⋙ D.Y.obj) (op m.left)
+    change colimit.ι (Dg.op ⋙ D.Y.obj) (op m.left)
       (N.toBase.app (op (Dg.obj m.left)) (N.iso.inv.app (op (Dg.obj m.left)) zm).down) = _
     have h₆ : yonedaEquiv zm.toBase.hom = D.Y.1.map (Dg.map m.hom).op yi := by
-      show yonedaEquiv ((yoneda (C := BigFppfOver B S hS)).map (Dg.map m.hom) ≫
+      change yonedaEquiv ((yoneda (C := BigFppfOver B S hS)).map (Dg.map m.hom) ≫
         (yonedaEquiv (F := D.Y.1) (X := Dg.obj i)).symm yi) = _
       rw [← yonedaEquiv_naturality (F := D.Y.1), Equiv.apply_symm_apply]
     rw [h₃, h₆]

@@ -79,6 +79,7 @@ abbrev terminalObj {X : Scheme.{u}} (hX : B.Contains X) : BigFppfOver B (⊤_ Sc
   BigFppfOver.mk B _ hZ hX (terminal.from X)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is heavy
 /-- Pullbacks of presheaves on the big fppf site over the terminal scheme (instance search
 times out without this shortcut). -/
 private instance hasPullbacks_presheaf_AffineOfCartesianChart :
@@ -114,7 +115,7 @@ theorem exists_desc_chart : ∃ g : F ⟶ yoneda.obj SA, f ≫ g = yoneda.map a 
       (⟨yoneda.map t⟩ : (⟨yoneda.obj R, hRsh⟩ : Sheaf J (Type u)) ⟶ ⟨yoneda.obj U, hUsh⟩) ≫ k =
       (⟨yoneda.map s⟩ : (⟨yoneda.obj R, hRsh⟩ : Sheaf J (Type u)) ⟶ ⟨yoneda.obj U, hUsh⟩) ≫ k := by
     apply Sheaf.hom_ext
-    show yoneda.map t ≫ yoneda.map a = yoneda.map s ≫ yoneda.map a
+    change yoneda.map t ≫ yoneda.map a = yoneda.map s ≫ yoneda.map a
     rw [← Functor.map_comp, ← Functor.map_comp, hsa]
   exact ⟨(hcolim.desc (Cofork.ofπ k hk)).hom,
     congrArg (fun m => m.hom) (hcolim.fac (Cofork.ofπ k hk) WalkingParallelPair.one)⟩
@@ -201,11 +202,11 @@ theorem isPullback_chart_of_isIso_lift (g : F ⟶ yoneda.obj SA) (hg : f ≫ g =
       rw [IsIso.inv_comp_eq, hΘ, pullback.lift_snd]
     have hws : wR ≫ s = v := by
       apply BigFppfOver.map_toScheme_injective B _ hZ
-      show (ℓ ≫ inv Θ) ≫ G.map s = G.map v
+      change (ℓ ≫ inv Θ) ≫ G.map s = G.map v
       rw [Category.assoc, hinvfst, pullback.lift_fst]
     have hwtb : wR ≫ t ≫ b = y := by
       apply BigFppfOver.map_toScheme_injective B _ hZ
-      show (ℓ ≫ inv Θ) ≫ G.map (t ≫ b) = G.map y
+      change (ℓ ≫ inv Θ) ≫ G.map (t ≫ b) = G.map y
       rw [Functor.map_comp, Category.assoc, hinvsnd, pullback.lift_snd]
     refine ⟨wR ≫ t, ?_⟩
     have hmain : yoneda.map (wR ≫ t) ≫ c = yoneda.map h ≫ X := by

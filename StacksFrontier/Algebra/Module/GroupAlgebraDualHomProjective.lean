@@ -56,9 +56,9 @@ lemma ofMEquiv_symm_comp_smul (l : Λ)
   apply (ofMEquiv n ρ).injective
   rw [Equiv.apply_symm_apply]
   refine LinearMap.ext fun φ => ?_
-  show _ = ofM (l • (ofMEquiv n ρ).symm ψ) φ
+  change _ = ofM (l • (ofMEquiv n ρ).symm ψ) φ
   rw [ofM_smul]
-  show ψ _ = ofMEquiv n ρ ((ofMEquiv n ρ).symm ψ) _
+  change ψ _ = ofMEquiv n ρ ((ofMEquiv n ρ).symm ψ) _
   rw [Equiv.apply_symm_apply]
   rfl
 
@@ -75,13 +75,15 @@ private lemma ofMEquiv_symm_add (ψ χ :
 
 variable [Module.Finite Λ M] [Module.Projective Λ M]
 
-variable (n ρ) in
+omit [Fintype H] in
+variable (n ρ) [Finite H] in
 /-- **`Hom_{A[H]}(M^*, -)` preserves finite projective modules**, when `M` is finite projective
 over `Λ`. -/
 theorem preservesFiniteProjective_bimoduleHom :
     PreservesFiniteProjective.{0, u + 1}
       (ModuleCat.BimoduleHom.functor (MonoidAlgebra (ZMod n) H) Λ (Dual n ρ)) := by
   intro P _ _
+  let _ := Fintype.ofFinite H
   let R := MonoidAlgebra (ZMod n) H
   obtain ⟨k, s, hs⟩ := Module.Finite.exists_fin' R P
   obtain ⟨i, hi⟩ := Module.projective_lifting_property s LinearMap.id hs
@@ -90,18 +92,18 @@ theorem preservesFiniteProjective_bimoduleHom :
   let a : T →ₗ[Λ] (Fin k → M) :=
     { toFun := fun f j => (ofMEquiv n ρ).symm (LinearMap.proj j ∘ₗ i ∘ₗ toL f)
       map_add' := fun f g => funext fun j => by
-        show (ofMEquiv n ρ).symm (LinearMap.proj j ∘ₗ i ∘ₗ (toL f + toL g)) = _
+        change (ofMEquiv n ρ).symm (LinearMap.proj j ∘ₗ i ∘ₗ (toL f + toL g)) = _
         rw [LinearMap.comp_add, LinearMap.comp_add, ofMEquiv_symm_add]
         rfl
       map_smul' := fun l f => funext fun j => by
-        show (ofMEquiv n ρ).symm (LinearMap.proj j ∘ₗ i ∘ₗ (toL f ∘ₗ
+        change (ofMEquiv n ρ).symm (LinearMap.proj j ∘ₗ i ∘ₗ (toL f ∘ₗ
           DistribSMul.toLinearMap R (Dual n ρ) (MulOpposite.op l))) = _
         rw [← LinearMap.comp_assoc, ← LinearMap.comp_assoc, ofMEquiv_symm_comp_smul]
         rfl }
   let b : (Fin k → M) →ₗ[Λ] T :=
     { toFun := fun v => toL.symm (s ∘ₗ LinearMap.pi fun j => ofMEquiv n ρ (v j))
       map_add' := fun v w => toL.injective (by
-        show s ∘ₗ LinearMap.pi (fun j => ofM (v j + w j)) =
+        change s ∘ₗ LinearMap.pi (fun j => ofM (v j + w j)) =
           s ∘ₗ LinearMap.pi (fun j => ofM (v j)) + s ∘ₗ LinearMap.pi (fun j => ofM (w j))
         rw [← LinearMap.comp_add]
         congr 1
@@ -109,11 +111,11 @@ theorem preservesFiniteProjective_bimoduleHom :
         simp only [LinearMap.pi_apply, LinearMap.add_apply, Pi.add_apply, ofM_add])
       map_smul' := fun l v => toL.injective (by
         refine LinearMap.ext fun φ => ?_
-        show s (fun j => ofM (l • v j) φ) = s (fun j => ofM (v j) (MulOpposite.op l • φ))
+        change s (fun j => ofM (l • v j) φ) = s (fun j => ofM (v j) (MulOpposite.op l • φ))
         simp only [ofM_smul]) }
   have hba : b.comp a = LinearMap.id := by
     refine LinearMap.ext fun f => toL.injective (LinearMap.ext fun φ => ?_)
-    show s (fun j => ofMEquiv n ρ ((ofMEquiv n ρ).symm (LinearMap.proj j ∘ₗ i ∘ₗ toL f)) φ) =
+    change s (fun j => ofMEquiv n ρ ((ofMEquiv n ρ).symm (LinearMap.proj j ∘ₗ i ∘ₗ toL f)) φ) =
       toL f φ
     simp only [Equiv.apply_symm_apply]
     exact LinearMap.congr_fun hi (toL f φ)

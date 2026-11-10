@@ -48,7 +48,7 @@ functor of [Stacks, Tag 01E5]. -/
 public theorem schemeRestrictFunctor_eq_moduleRestriction (X : Scheme.{u}) (V : X.Opens) :
     Scheme.Modules.restrictFunctor V.ι =
       Stacks.Cohomology.HigherDirectImage.moduleRestriction X.toRingedSpace V := by
-  show Scheme.Modules.restrictFunctor V.ι =
+  change Scheme.Modules.restrictFunctor V.ι =
     restMod (Stacks.Cohomology.HigherDirectImage.asRingSheafedSpace X.toRingedSpace) V
   unfold Scheme.Modules.restrictFunctor restMod
   congr 1
@@ -65,15 +65,15 @@ public theorem ringedRestrictEq
   have hmono : Mono (Stacks.Cohomology.HigherDirectImage.openSubspaceInclusion
       Y.toRingedSpace V) := by
     apply (SheafedSpace.forgetToPresheafedSpace (C := CommRingCat)).mono_of_mono_map
-    show Mono ((Y.toRingedSpace.toPresheafedSpace).ofRestrict V.isOpenEmbedding)
+    change Mono ((Y.toRingedSpace.toPresheafedSpace).ofRestrict V.isOpenEmbedding)
     infer_instance
   apply (cancel_mono (Stacks.Cohomology.HigherDirectImage.openSubspaceInclusion
     Y.toRingedSpace V)).mp
-  show ((f ∣_ V) ≫ V.ι).toLRSHom.toShHom =
+  change ((f ∣_ V) ≫ V.ι).toLRSHom.toShHom =
     Stacks.Cohomology.HigherDirectImage.restrictedMorphism f.toLRSHom.toShHom V ≫
       Stacks.Cohomology.HigherDirectImage.openSubspaceInclusion Y.toRingedSpace V
   rw [morphismRestrict_ι]
-  show Stacks.Cohomology.HigherDirectImage.openSubspaceInclusion X.toRingedSpace
+  change Stacks.Cohomology.HigherDirectImage.openSubspaceInclusion X.toRingedSpace
       (Stacks.Cohomology.HigherDirectImage.preimageOpen f.toLRSHom.toShHom V) ≫
       f.toLRSHom.toShHom =
     Stacks.Cohomology.HigherDirectImage.restrictedMorphism f.toLRSHom.toShHom V ≫

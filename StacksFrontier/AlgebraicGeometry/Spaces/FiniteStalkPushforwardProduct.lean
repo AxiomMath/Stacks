@@ -214,7 +214,7 @@ theorem _root_.AlgebraicGeometry.exists_lift_preimage_of_comp_eq {T A Z : Scheme
   have hrange : Set.range P ⊆ Set.range (r ⁻¹ᵁ U).ι := by
     rintro _ ⟨p, rfl⟩
     refine ⟨⟨P p, ?_⟩, rfl⟩
-    show r (P p) ∈ U
+    change r (P p) ∈ U
     rw [← Scheme.Hom.comp_apply, h, Scheme.Hom.comp_apply]
     exact (n p).2
   refine ⟨IsOpenImmersion.lift _ P hrange, IsOpenImmersion.lift_fac _ _ _, ?_⟩
@@ -324,7 +324,7 @@ theorem exists_partition_smallBaseChange (hπ : IsFinite B S hS π.hom)
   refine ⟨V', t', g, Nc, n, c, b, ht', fun v => (hbcomm v).symm, hnc, fun v => ?_, ?_,
     fun v => ?_, fun i j hij T p p' hpp' => ?_⟩
   · refine Subtype.ext (H.map_injective ?_)
-    show H.map ((n v).1 ≫ O.map (b v)) = H.map (w v).1
+    change H.map ((n v).1 ≫ O.map (b v)) = H.map (w v).1
     rw [H.map_comp, hnH v, hbH v]
     exact hn'b v
   · refine smallEtale_sieve_of_pointwise_covering B S hS X.1 (uf.obj V') _ fun z => ?_

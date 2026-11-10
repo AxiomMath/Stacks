@@ -107,8 +107,9 @@ end Injective
 
 section Generic
 
-variable {A : Type u} [CommRing A] [IsDomain A] [IsLocalRing A]
+variable {A : Type u} [CommRing A] [IsLocalRing A]
 
+omit [IsLocalRing A] in
 /-- **The differential out of a rank-one degree-zero term vanishes once the generic fibre has
 degree-zero cohomology.** Let `F` be a complex of `A`-modules over a domain with `F⁰` free of
 rank one and `F¹` free. If `H⁰(F ⊗_A K) ≠ 0`, `K` the fraction field, then `F⁰ ⟶ F¹` is zero:
@@ -158,7 +159,7 @@ theorem exists_cycle_fibreElt_ne_zero_of_nontrivial_generic {K : Type u} [Field 
       have : (e₀.hom x).down 0 • (ULift.up fun _ : Fin 1 => (1 : A)) = e₀.hom x := by
         ext j
         obtain rfl : j = 0 := Subsingleton.elim j 0
-        show (e₀.hom x).down 0 * 1 = (e₀.hom x).down 0
+        change (e₀.hom x).down 0 * 1 = (e₀.hom x).down 0
         rw [mul_one]
       rw [this]
       exact (ConcreteCategory.congr_hom e₀.hom_inv_id x).symm

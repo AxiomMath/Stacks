@@ -283,14 +283,14 @@ theorem eulerCharComplex_eq_zero_of_acyclic (E : CochainComplex X.Modules ℤ)
     have hstep (i : ℤ) :
         (i.negOnePow : ℤ) • VectorBundleKZero.classOf X (E.X i) = g (i + 1) - g i := by
       rw [classOf_term_eq_classOf_cycles X E hE.2 hcyc hac i, smul_add]
-      show (i.negOnePow : ℤ) • z i + (i.negOnePow : ℤ) • z (i + 1) =
+      change (i.negOnePow : ℤ) • z i + (i.negOnePow : ℤ) • z (i + 1) =
         (((i + 1) - 1).negOnePow : ℤ) • z (i + 1) - ((i - 1).negOnePow : ℤ) • z i
       rw [show (i + 1) - 1 = i from by omega, hsign i, neg_smul, sub_neg_eq_add]
       abel
     refine sum_Icc_eq_zero_of_telescope _ g a b (by omega) hstep ?_ ?_
-    · show ((a - 1).negOnePow : ℤ) • VectorBundleKZero.classOf X (E.cycles a) = 0
+    · change ((a - 1).negOnePow : ℤ) • VectorBundleKZero.classOf X (E.cycles a) = 0
       rw [classOf_eq_zero_of_isZero X hlo, smul_zero]
-    · show (((b + 1) - 1).negOnePow : ℤ) •
+    · change (((b + 1) - 1).negOnePow : ℤ) •
         VectorBundleKZero.classOf X (E.cycles (b + 1)) = 0
       rw [classOf_eq_zero_of_isZero X hhi, smul_zero]
   · rw [Finset.Icc_eq_empty (by omega), Finset.sum_empty]

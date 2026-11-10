@@ -152,7 +152,7 @@ theorem relocalizeSubfunctor_preimage {Y : (BigFppfOver B T hT)ᵒᵖ ⥤ Type u
   refine Subfunctor.ext (funext fun W => ?_)
   ext x
   rw [mem_relocalizeSubfunctor_iff]
-  show _ ↔ ((OverShriek.relocalizePresheafFunctor g).map k).app W x ∈
+  change _ ↔ ((OverShriek.relocalizePresheafFunctor g).map k).app W x ∈
     (relocalizeSubfunctor B hT hS g Z).obj W
   rw [mem_relocalizeSubfunctor_iff]
   rfl
@@ -404,7 +404,7 @@ theorem exists_map_eq_of_comp_viewStructureMap
   obtain ⟨α, hα⟩ := (smallerBasePresheafEquivalence B T S hT hS g).functor.map_surjective
     (Over.homMk ((smallerBasePresheafForgetIso B T S hT hS g).hom.app X ≫ k ≫
       (smallerBasePresheafForgetIso B T S hT hS g).inv.app Y) hw)
-  haveI : Epi ((smallerBasePresheafForgetIso B T S hT hS g).hom.app X) :=
+  have : Epi ((smallerBasePresheafForgetIso B T S hT hS g).hom.app X) :=
     @IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_hom ((smallerBasePresheafForgetIso B T S hT hS g).app X))
   refine ⟨α, (cancel_epi ((smallerBasePresheafForgetIso B T S hT hS g).hom.app X)).1 ?_⟩
   have hnat := (smallerBasePresheafForgetIso B T S hT hS g).hom.naturality α

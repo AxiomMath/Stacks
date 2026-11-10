@@ -214,7 +214,7 @@ public theorem idelDiv_localIdele (v : Place K) {z : v.completion} (hz : z ≠ 0
   by_cases hw : w = v
   · subst hw
     rw [localIdele_apply_self, Finsupp.single_eq_same]
-  · rw [localIdele_apply_ne hw, ordC_one k, Finsupp.single_apply, if_neg (Ne.symm hw)]
+  · rw [localIdele_apply_ne hw, ordC_one k, Finsupp.single_apply, ite_eq_right (Ne.symm hw)]
 
 /-- A uniformizer `π` of `O_v` has `ord_v(π) = 1`. -/
 public theorem ordC_of_isUniformizer {v : Place K} {π : v.integers}
@@ -222,7 +222,7 @@ public theorem ordC_of_isUniformizer {v : Place K} {π : v.integers}
   ordC_eq_of_valued_eq (isDiscrete k v) (coe_ne_zero_of_isUniformizer k hπ) (by
     rw [valued_eq_unifVal_of_isUniformizer (isDiscrete k v) hπ, zpow_one])
 
-omit [Field k] [Finite k] [Algebra k K] [Algebra (RatFunc k) K] [IsScalarTower k (RatFunc k) K]
+omit k [Field k] [Finite k] [Algebra k K] [Algebra (RatFunc k) K] [IsScalarTower k (RatFunc k) K]
   [FunctionField k K] in
 /-- A unit of `O_v` has valuation `1`. -/
 public theorem valued_eq_one_of_isUnit {v : Place K} {l : v.integers} (hl : IsUnit l) :
@@ -237,7 +237,7 @@ public theorem ordC_neg_inv_mul_mul {v : Place K} {π : v.integers}
   have hl0 : (l : v.completion) ≠ 0 := by exact_mod_cast hl.ne_zero
   refine ordC_eq_of_valued_eq (isDiscrete k v)
     (neg_ne_zero.2 (mul_ne_zero (mul_ne_zero (inv_ne_zero hπ0) hl0) hl0)) ?_
-  rw [Valuation.map_neg, map_mul, map_mul, map_inv₀, valued_eq_one_of_isUnit k hl,
+  rw [Valuation.map_neg, map_mul, map_mul, map_inv₀, valued_eq_one_of_isUnit hl,
     valued_eq_unifVal_of_isUniformizer (isDiscrete k v) hπ, mul_one, mul_one, zpow_neg_one]
 
 end Valuations
@@ -554,10 +554,10 @@ public theorem IsEigenform.whittakerDiv_recursion [NeZero (ringChar k : Λ)] {t 
       whittakerDiv k K ψ f (D - Finsupp.single v 1) := by
     intro i hi
     have hu := hunit i (Finset.ne_of_mem_erase hi)
-    have hval := valued_eq_one_of_isUnit k hu
+    have hval := valued_eq_one_of_isUnit hu
     have hl0 : (lam i : v.completion) ≠ 0 := by exact_mod_cast hu.ne_zero
     have hlinv : (lam i : v.completion)⁻¹ ∈ v.integers := by
-      show Valued.v ((lam i : v.completion)⁻¹) ≤ 1
+      change Valued.v ((lam i : v.completion)⁻¹) ≤ 1
       rw [map_inv₀, hval, inv_one]
     obtain ⟨κ, hκ⟩ := exists_mapO_eq_localGL (swapGL (π : v.completion) hl0)
       (isIntMat_swapGL hl0 π.2 hlinv) (isIntMat_swapGL_inv hl0 π.2 (lam i).2)

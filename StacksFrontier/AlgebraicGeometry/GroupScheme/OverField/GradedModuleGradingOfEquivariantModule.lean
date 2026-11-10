@@ -247,11 +247,12 @@ open Stacks.AlgebraicGeometry.SectionsColimit in
 global section of the pullback of a quasi-coherent module is uniquely a combination of the
 canonical pullback sections with those coefficients. -/
 theorem bijective_sectionsCombination_specMap {R T : CommRingCat.{u}} (φ : R ⟶ T)
-    (F : (Spec R).Modules) [F.IsQuasicoherent] {Idx : Type w} [DecidableEq Idx]
+    (F : (Spec R).Modules) [F.IsQuasicoherent] {Idx : Type w}
     (eta : T ≃+ (Idx →₀ R)) (heta : ∀ (r : R) (x : T), eta (φ r * x) = r • eta x)
     (t : Idx → T) (ht : ∀ i, eta (t i) = Finsupp.single i 1) :
     Function.Bijective
       (sectionsCombination (Spec.map φ) F fun i => (Scheme.ΓSpecIso T).inv (t i)) := by
+  classical
   let etaL : ((ModuleCat.restrictScalars φ.hom).obj (ModuleCat.of T T)) ≃ₗ[R] (Idx →₀ R) :=
     @AddEquiv.toLinearEquiv R T (Idx →₀ R) _ _ _
       (((ModuleCat.restrictScalars φ.hom).obj (ModuleCat.of T T)).isModule) _ eta heta

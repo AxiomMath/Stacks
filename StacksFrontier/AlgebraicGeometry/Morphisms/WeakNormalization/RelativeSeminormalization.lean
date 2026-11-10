@@ -123,7 +123,7 @@ private lemma squareCubePrefix_append_right_subset {R B : Type u} [CommRing R]
       Fin.natAdd m (Fin.castLE i.isLt.le j) := by
     apply Fin.ext
     simp only [Fin.val_castLE, Fin.val_natAdd, j']
-  show Fin.append f g (Fin.castLE (Fin.natAdd m i).isLt.le j') =
+  change Fin.append f g (Fin.castLE (Fin.natAdd m i).isLt.le j') =
     g (Fin.castLE i.isLt.le j)
   rw [hidx, Fin.append_right]
 
@@ -221,7 +221,7 @@ private lemma residueFieldMap_isIso_of_stalkMap_surjective {X Y : Scheme.{u}}
   obtain ⟨z, rfl⟩ := IsLocalRing.residue_surjective (R := X.presheaf.stalk x) y
   obtain ⟨w, rfl⟩ := hsurj z
   refine ⟨IsLocalRing.residue (Y.presheaf.stalk (f x)) w, ?_⟩
-  show IsLocalRing.ResidueField.map (f.stalkMap x).hom _ = _
+  change IsLocalRing.ResidueField.map (f.stalkMap x).hom _ = _
   exact IsLocalRing.ResidueField.map_residue _ _
 
 /-- If the spectrum of the image subalgebra of `A` in `B` surjects onto that of `A`, it is
@@ -262,7 +262,7 @@ private lemma imageSubalgebra_properties (A B : Type u) [CommRing A] [CommRing B
   have : IsClosedImmersion q := IsClosedImmersion.spec_of_surjective _
     (AlgHom.rangeRestrict_surjective (Algebra.ofId A B))
   have hcomp : p ≫ q = Scheme.Spec.map (CommRingCat.ofHom (algebraMap A B)).op := by
-    show Scheme.Spec.map (CommRingCat.ofHom (algebraMap S B)).op ≫
+    change Scheme.Spec.map (CommRingCat.ofHom (algebraMap S B)).op ≫
         Scheme.Spec.map (CommRingCat.ofHom (algebraMap A S)).op = _
     rw [← Functor.map_comp]
     congr 1
@@ -386,7 +386,7 @@ private lemma relativeSeminormalization_map_properties
   have hImage := imageSubalgebra_properties A B hdom
   change UniversalHomeomorphism q ∧ (∀ x, IsIso (q.residueFieldMap x)) at hImage
   have hcomp : f ≫ q = g := by
-    show Scheme.Spec.map (CommRingCat.ofHom (algebraMap S C)).op ≫
+    change Scheme.Spec.map (CommRingCat.ofHom (algebraMap S C)).op ≫
         Scheme.Spec.map (CommRingCat.ofHom (algebraMap A S)).op = _
     rw [← Functor.map_comp]
     congr 1
@@ -425,7 +425,7 @@ private lemma image_inclusion_properties
   let q := Scheme.Spec.map (CommRingCat.ofHom (algebraMap A S)).op
   let k := Scheme.Spec.map (CommRingCat.ofHom (algebraMap A C)).op
   have hcomp : f ≫ q = k := by
-    show Scheme.Spec.map (CommRingCat.ofHom (algebraMap S C)).op ≫
+    change Scheme.Spec.map (CommRingCat.ofHom (algebraMap S C)).op ≫
         Scheme.Spec.map (CommRingCat.ofHom (algebraMap A S)).op = _
     rw [← Functor.map_comp]
     congr 1
@@ -436,7 +436,7 @@ private lemma image_inclusion_properties
     intro y
     obtain ⟨x, hx⟩ := hsurjK y
     refine ⟨f x, ?_⟩
-    show (f ≫ q) x = y
+    change (f ≫ q) x = y
     rw [hcomp]
     exact hx
   have hq : UniversalHomeomorphism q :=
@@ -529,10 +529,10 @@ public theorem map_mem_relativeSeminormalization
   let : Algebra T B := T.toAlgebra
   have hbase : ∀ s : S, algebraMap S B s ∈ T := by
     intro s
-    show g s.val ∈ T
+    change g s.val ∈ T
     obtain ⟨a, ha⟩ := s.property
     rw [← ha]
-    show g (algebraMap A C a) ∈ T
+    change g (algebraMap A C a) ∈ T
     rw [g.commutes]
     exact T.algebraMap_mem a
   intro c

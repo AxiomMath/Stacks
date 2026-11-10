@@ -101,8 +101,7 @@ theorem pow_smul_oneEquiv_symm_mem_pulledBackSpan {h : A} {N : ℕ}
   obtain ⟨y, hy⟩ := hx
   rw [← algebraMap_smul B (h ^ N), ← map_smul, algebraMap_smul, ← hy]
   clear hy
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul b ω =>
     rw [KaehlerDifferential.mapBaseChange_tmul, map_smul]
     refine Submodule.smul_mem _ b ?_
@@ -199,7 +198,7 @@ theorem IsFormsTrace.eq_of_isNiceElement {h : A} (hh : IsNiceElement A B h)
   funext p
   refine LinearMap.ext fun η => ?_
   refine ((hh.regular p).pow (N * p)) ?_
-  show h ^ (N * p) • Θ p η = h ^ (N * p) • Θ' p η
+  change h ^ (N * p) • Θ p η = h ^ (N * p) • Θ' p η
   rw [pow_mul, ← map_smul, ← map_smul]
   exact hΘ.apply_eq_of_mem_pulledBackSpan hΘ' (hN p η)
 
@@ -224,7 +223,7 @@ theorem IsFormsTrace.isWedgeLinear_of_isNiceElement {h : A} (hh : IsNiceElement 
   obtain ⟨N, hN⟩ := hh.exists_pow_smul_mem_pulledBackSpan
   intro q p ω η
   refine ((hh.regular (q + p)).pow (N * p)) ?_
-  show h ^ (N * p) • Θ (q + p) _ = h ^ (N * p) • _
+  change h ^ (N * p) • Θ (q + p) _ = h ^ (N * p) • _
   have h1 : exteriorPower.wedgeMul q p ω (h ^ (N * p) • Θ p η) =
       h ^ (N * p) • exteriorPower.wedgeMul q p ω (Θ p η) := map_smul _ _ _
   have h2 : exteriorPower.wedgeMul q p (formsMap A B q ω) (h ^ (N * p) • η) =

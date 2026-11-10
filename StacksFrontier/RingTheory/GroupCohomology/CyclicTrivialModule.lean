@@ -184,7 +184,7 @@ theorem mem_zpowers_ofAdd_up_one (x : Multiplicative (ULift.{u} (ZMod p))) :
   simp only [← ofAdd_zsmul]
   apply Multiplicative.toAdd.injective
   refine ULift.ext ?_
-  show ((Multiplicative.toAdd x).down.val : ℤ) • (1 : ZMod p) = (Multiplicative.toAdd x).down
+  change ((Multiplicative.toAdd x).down.val : ℤ) • (1 : ZMod p) = (Multiplicative.toAdd x).down
   simp [zsmul_eq_mul, ZMod.natCast_val, ZMod.cast_id]
 
 variable (k : Type u) [CommRing k] [CharP k p] (M : Type u) [AddCommGroup M] [Module k M]

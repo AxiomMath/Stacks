@@ -147,7 +147,7 @@ theorem exactAt_succ (c : Cone K)
       ⟨y₀, hy₀⟩ (fun n ih ↦ ⟨Z n ih.1 ih.2, hZ₁ n ih.1 ih.2⟩) n
   obtain ⟨x, hx⟩ := hlift p (fun n ↦ (Y n).1) (fun n ↦ hZ₂ n (Y n).1 (Y n).2)
   refine ⟨x, hinj (p + 1) _ _ fun n ↦ ?_⟩
-  show (c.π.app (op n)).f (p + 1) (c.pt.d p (p + 1) x) = zₙ n
+  change (c.π.app (op n)).f (p + 1) (c.pt.d p (p + 1) x) = zₙ n
   rw [π_d_apply, hx, (Y n).2]
 
 /-- The projections of a cone which is a limit cone in degree `p` are jointly injective. -/

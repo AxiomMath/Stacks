@@ -396,7 +396,7 @@ private theorem mapHomotopyCategoryPlus_unit_app (S : CohomologyComparison C) (X
   let εq := abelianComparisonPullback S.fineCoverage S.coarseCoverage X
   let εp := abelianComparisonPushforward S.fineCoverage S.coarseCoverage S.coarse_le_fine X
   let adj := abelianComparisonAdjunction S.fineCoverage S.coarseCoverage S.coarse_le_fine X
-  show (adj.mapHomotopyCategory (ComplexShape.up ℤ)).unit.app K.obj ≫ 𝟙 _ ≫ 𝟙 _ =
+  change (adj.mapHomotopyCategory (ComplexShape.up ℤ)).unit.app K.obj ≫ 𝟙 _ ≫ 𝟙 _ =
     (HomotopyCategory.quotient A (ComplexShape.up ℤ)).map
         ((Functor.mapHomologicalComplexIdIso A (ComplexShape.up ℤ)).inv.app K.obj.as) ≫
       (HomotopyCategory.quotient A (ComplexShape.up ℤ)).map
@@ -432,7 +432,7 @@ theorem derivedComparisonAdjunction_unit (S : CohomologyComparison C) (X : C) :
     (HomotopyCategory.Plus.quasiIso (AbelianSheaves S.coarseCoverage.toGrothendieck X))
     εq.mapDerivedCategoryPlusFactorsh.hom εp.rightDerivedFunctorPlusUnith K
   have hu := NatTrans.congr_app (derivedComparisonUnit_fac S X) K
-  show (derivedComparisonAdjunction S X).unit.app (DerivedCategory.Plus.Qh.obj K) =
+  change (derivedComparisonAdjunction S X).unit.app (DerivedCategory.Plus.Qh.obj K) =
     (derivedComparisonUnit S X).app (DerivedCategory.Plus.Qh.obj K)
   rw [← cancel_mono (εp.rightDerivedFunctorPlus.map (εq.mapDerivedCategoryPlusFactorsh.hom.app K))]
   refine hη.trans ?_

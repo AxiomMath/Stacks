@@ -298,7 +298,7 @@ public theorem exists_mem_incidenceVariety [IsAlgClosed k] [Module.Finite k V] [
   obtain ⟨c, hc⟩ : t ∈ Set.range (collinearSubschemeι k V).base :=
     (range_collinearSubschemeι k V).symm ▸ hcol
   have hcproj : (collinearProj k V).base c = f.base b := by
-    show (prFst k V).base ((collinearSubschemeι k V).base c) = f.base b
+    change (prFst k V).base ((collinearSubschemeι k V).base c) = f.base b
     rw [hc, hprFst]
   obtain ⟨τ, hτfst, hτsnd⟩ :=
     Scheme.Pullback.exists_preimage_pullback (f := collinearProj k V) (g := f) c b hcproj

@@ -91,7 +91,7 @@ theorem canonicalBivariantProperPushforward_closedCoverLocalizedClass
       κX := by
   refine BivariantClass.eq_of_idRule_eq C sX (gysinSystemOfInvertible C) _ _ fun g _ k α ↦ ?_
   rw [BivariantClass.idRule_apply]
-  show chowPush C _ _ _ _ _ (chowPush C _ _ _ _ _ _) = _
+  change chowPush C _ _ _ _ _ (chowPush C _ _ _ _ _ _) = _
   rw [chowPush_comp C _ _ _ _ _ _ (bivariantPushforwardBaseChange_snd i₂ (𝟙 X) g) _ _
       (pullbackSnd_comp_structureMorphism_eq C (i₂ ≫ sX) sX (i₂ ≫ 𝟙 X)
         (comp_comp_structureMorphism_eq rfl (Category.id_comp sX)) g),

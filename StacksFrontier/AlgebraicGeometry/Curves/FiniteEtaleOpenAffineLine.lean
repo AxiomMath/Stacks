@@ -17,7 +17,8 @@ there are nonzero `a ∈ A` and `g ∈ k[X]` and a finite étale morphism
 over `Spec k`, where `Spec A_a = D(a)` is the complement in `Spec A` of the finite set `V(a)`
 and `Spec k[X]_g = D(g)` is an open of the affine line `𝔸¹_k`. This is the scheme-theoretic
 form of `Stacks.GenericFiniteEtale.exists_finite_etale_away`; the reason points have to be
-removed is recorded in the docstring of `StacksFrontier.RingTheory.Etale.CurveFiniteEtaleAffineLine`.
+removed is recorded in the docstring of
+`StacksFrontier.RingTheory.Etale.CurveFiniteEtaleAffineLine`.
 It is the first step of the reduction of the weight bound of Weil II on curves (Deligne,
 Weil II 3.3) to opens of the affine line.
 

@@ -139,7 +139,7 @@ theorem surjective_appTop_fiberι_of_span_isIdempotentElem {B B' : Type u} [Comm
     subst hV
     refine ⟨a, ?_⟩
     rw [← ha]
-    show (f.fiberι y).app ⊤ a =
+    change (f.fiberι y).app ⊤ a =
       (f.fiberι y).appLE (f ⁻¹ᵁ ⊤) (f.fiberι y ⁻¹ᵁ (f ⁻¹ᵁ ⊤)) le_rfl a
     rw [Scheme.Hom.appLE_eq_app]
     rfl
@@ -178,7 +178,7 @@ open scoped Matrix
 
 variable {A : Type u} [CommRing A] [IsNoetherianRing A] {X : Scheme.{u}}
   {f : X ⟶ Spec (.of A)} [IsProper f] [Smooth f] (p : Ideal A) [p.IsPrime] {g : A}
-  {I : Type u} [Fintype I] (U : I → X.Opens) (hU : (⊤ : X.Opens) = ⨆ i, U i)
+  {I : Type u} [Finite I] (U : I → X.Opens) (hU : (⊤ : X.Opens) = ⨆ i, U i)
   (hUaff : ∀ i, IsAffineOpen (U i))
   (hflat : IsFlatOver f.toLRSHom.toShHom (Scheme.unitModule X))
   {P : CochainComplex (ModuleCat.{u} (Localization.Away g)) ℤ}
@@ -207,6 +207,7 @@ theorem matrix_map_eq_zero_of_surjective_appTop {B K : Type u} [CommRing B] [IsL
     (hsq'' : IsPullback (g'' ≫ g') f'' f
       (Spec.map (CommRingCat.ofHom ((π.comp ψ).comp (algebraMap A (Localization.Away g))))))
     (hsurj : Function.Surjective g''.appTop) : M.map ψ = 0 := by
+  have : Fintype I := Fintype.ofFinite I
   have hker : ∀ w : Fin r → K, w ∈ LinearMap.ker (M.map (π.comp ψ)).mulVecLin := fun w => by
     rw [ker_mulVecLin_map_eq_top M _ hMπ]
     trivial
@@ -225,7 +226,7 @@ theorem matrix_map_eq_zero_of_surjective_appTop {B K : Type u} [CommRing B] [IsL
     rw [← hnat, h2, ha]
   exact congrArg Subtype.val (θ'.injective h3)
 
-omit [Smooth f] in
+omit [IsNoetherianRing A] [Smooth f] in
 include hU hUaff hflat u b hP e₀ e₁ hM in
 /-- **Minimality of the model.** If `r` is the dimension of the degree-zero cohomology of the
 Čech complex base changed to `κ(p)`, then the matrix `M` of the first differential of the model
@@ -235,6 +236,7 @@ theorem matrix_map_residueField_eq_zero
       (baseAlternatingCechComplex f U hU (Scheme.unitModule X))).homology 0) = r)
     (hgκ : IsUnit (algebraMap A p.ResidueField g)) :
     M.map (IsLocalization.Away.lift g hgκ) = 0 := by
+  have : Fintype I := Fintype.ofFinite I
   let α := algebraMap A (Localization.Away g)
   let C := baseAlternatingCechComplex f U hU (Scheme.unitModule X)
   let χ : Localization.Away g →+* p.ResidueField := IsLocalization.Away.lift g hgκ
@@ -349,7 +351,7 @@ theorem exists_notMem_matrix_map_eq_zero (hg : g ∉ p)
       rw [← hΦ]
       ext x
       simp only [ι, inducedResidueMap, RingHom.comp_apply]
-      show jq (Φ.symm (Φ _)) = _
+      change jq (Φ.symm (Φ _)) = _
       rw [RingEquiv.symm_apply_apply]
     rwa [Polynomial.map_map, hj] at h
   -- the square exhibiting the fibre over `y` as a base change of the fibre over `p`
@@ -400,7 +402,7 @@ theorem exists_notMem_matrix_map_eq_zero (hg : g ∉ p)
       (fun V hV => (IsLocalRing.closedPoint_mem_iff (R := Bq) V).1 hV) fy hsqy.w hspanY
   -- Nakayama: every vector over `κ(y)` lifts to the kernel of `M ⊗ B`, so `M ⊗ B = 0`
   have hψyker : ∀ c, ψy c = 0 → c ∈ IsLocalRing.maximalIdeal Bq := fun c hc => by
-    show c ∈ y.asIdeal
+    change c ∈ y.asIdeal
     rw [← Ideal.algebraMap_residueField_eq_zero]
     exact (Scheme.Spec.residueFieldIso (.of Bq) y).commRingCatIsoToRingEquiv.symm.injective
       (hc.trans (map_zero _).symm)
@@ -412,6 +414,7 @@ theorem exists_notMem_matrix_map_eq_zero (hg : g ∉ p)
   -- clearing denominators: each entry of `M` is killed by an element outside `p`
   exact exists_notMem_matrix_map_eq_zero_of_map_atPrime p M q le_rfl ψB hψB hMB
 
+omit [IsNoetherianRing A] in
 include hU hUaff hflat u b hP e₀ e₁ hM in
 /-- **Once `M ⊗ B` vanishes, the global functions of the base change are finite étale.** For a
 ring map `ψ : A_g ⟶ B` with `M ⊗ B = 0` and a base change `X'` of `X` to `B`, the `B`-algebra
@@ -426,6 +429,7 @@ theorem etale_globalFunctions_of_matrix_map_eq_zero {B : Type u} [CommRing B]
     letI : Algebra B Γ(X', ⊤) :=
       ((Stacks.Cech.globalRingHom f').hom : B →+* Γ(X', ⊤)).toAlgebra
     Algebra.Etale B Γ(X', ⊤) ∧ Module.Finite B Γ(X', ⊤) := by
+  have : Fintype I := Fintype.ofFinite I
   let : Algebra B Γ(X', ⊤) :=
       ((Stacks.Cech.globalRingHom f').hom : B →+* Γ(X', ⊤)).toAlgebra
   let θ := freeFunctionsEquiv (algebraMap A (Localization.Away g)) U hU hUaff hflat u b hP e₀ e₁
@@ -454,7 +458,7 @@ theorem etale_globalFunctions_of_matrix_map_eq_zero {B : Type u} [CommRing B]
   exact Algebra.FormallyUnramified.of_equiv (AlgEquiv.ofBijective _ hbij).symm
 
 omit [IsNoetherianRing A] [Smooth f] in
-include hU hUaff hflat u b hP e₀ e₁ hM in
+include hU hUaff hflat u b e₀ e₁ hM in
 /-- **Once `M ⊗ B` vanishes, the derived global sections of the base change split off their
 degree-zero cohomology.** For a ring map `ψ : A_g ⟶ B` with `M ⊗ B = 0` and a base change `X'` of
 `X` to `B`,
@@ -465,7 +469,6 @@ in `D(B)`, where `K` is a bounded complex of finite free `B`-modules concentrate
 `[1, b]`: it is the brutal truncation `σ^{≥1}` of `P ⊗ B`, whose first differential `M ⊗ B`
 vanishes. -/
 theorem nonempty_derivedGlobalSectionsOver_iso_of_matrix_map_eq_zero [LinearOrder I]
-    (haff : ∀ (k : ℕ) (s : Fin (k + 1) → I), IsAffineOpen (⨅ j, U (s j)))
     [P.IsStrictlyGE 0]
     (hPX : ∀ n, ∃ k : ℕ, Nonempty (P.X n ≅
       ModuleCat.of (Localization.Away g) (Fin k → Localization.Away g)))
@@ -505,7 +508,7 @@ theorem nonempty_derivedGlobalSectionsOver_iso_of_matrix_map_eq_zero [LinearOrde
   have hPB0 : PB.d 0 1 = 0 := by
     ext x
     apply (termEquiv ψ e₁).injective
-    show termEquiv ψ e₁ ((ModuleCat.extendScalars.{u, u, u} ψ).map (P.d 0 1) x) = _
+    change termEquiv ψ e₁ ((ModuleCat.extendScalars.{u, u, u} ψ).map (P.d 0 1) x) = _
     rw [termEquiv_map ψ e₀ e₁ (P.d 0 1) M hM x, hψ, Matrix.zero_mulVec]
     simp
   have : PB.IsStrictlyGE 0 := (CochainComplex.isStrictlyGE_iff PB 0).2 fun i hi =>
@@ -645,8 +648,8 @@ theorem exists_away_globalFunctions_finiteEtale_and_split {A : Type u} [CommRing
     rwa [hψ]
   have hMψ : M.map ψ = 0 := hMt φ hgφ htφ
   exact ⟨etale_globalFunctions_of_matrix_map_eq_zero U hU hUaff hflat u b hP e₀ e₁ M hM ψ hMψ hsq',
-    nonempty_derivedGlobalSectionsOver_iso_of_matrix_map_eq_zero U hU hUaff hflat u b hP e₀ e₁
-      M hM haff hPX' ψ hMψ hsq'⟩
+    nonempty_derivedGlobalSectionsOver_iso_of_matrix_map_eq_zero U hU hUaff hflat u b e₀ e₁
+      M hM hPX' ψ hMψ hsq'⟩
 
 end Stacks.AlgebraicGeometry.ProperFlatGlobalSections
 

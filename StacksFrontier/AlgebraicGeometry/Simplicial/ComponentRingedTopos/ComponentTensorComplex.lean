@@ -209,10 +209,10 @@ K-flat complex of `O`-modules with flat terms is K-flat. -/
 @[stacks 0G7E "the K-flatness clause, for restriction to a simplicial component"]
 theorem kFlat_componentModulesRestrictionComplex
     (K : CochainComplex (S.totalRingedTopos O).Modules ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat (S.totalRingedTopos O).O K)
+    (hK : Stacks.SheafOfModules.KFlat (S.totalRingedTopos O).O K)
     (hflatK : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u}
       (O := (S.totalRingedTopos O).O) (K.X i)) :
-    Stacks.SheafOfModules.KFlat.KFlat (S.componentRingedTopos O n).O
+    Stacks.SheafOfModules.KFlat (S.componentRingedTopos O n).O
       ((S.componentModulesRestrictionComplex O n).obj K) :=
   CochainComplex.KFlatBifunctor.KFlat.of_iso _
     (Stacks.Sheaves.DerivedPullback.KFlatPullbackOfToposHom.kFlat_pullbackComplex

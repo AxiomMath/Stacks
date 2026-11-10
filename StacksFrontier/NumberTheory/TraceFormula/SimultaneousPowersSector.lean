@@ -44,7 +44,7 @@ namespace Stacks.TraceFormula
 
 open Complex Filter Metric
 
-variable {ι : Type*} [Fintype ι]
+variable {ι : Type*} [Finite ι]
 
 /-- Continuity of `arg` at `1`: complex numbers near `1` have argument of small absolute value. -/
 theorem exists_abs_arg_lt_of_dist_one_lt {ε : ℝ} (hε : 0 < ε) :
@@ -68,10 +68,9 @@ theorem exists_norm_eq_one_arg_pow_eq (z : ℂ) :
       rw [div_pow, Complex.ofReal_pow, mul_div_cancel₀ _ (pow_ne_zero k hzc)]
     rw [hpow, arg_real_mul _ (pow_pos hz k)]
 
-omit [Fintype ι] in
 /-- Simultaneous Dirichlet approximation: for finitely many complex numbers of modulus one there
 are arbitrarily large exponents `k` with every `u i ^ k` within `δ` of `1`. -/
-theorem exists_pow_dist_one_lt_of_norm_eq_one [Finite ι] {u : ι → ℂ} (hu : ∀ i, ‖u i‖ = 1)
+theorem exists_pow_dist_one_lt_of_norm_eq_one {u : ι → ℂ} (hu : ∀ i, ‖u i‖ = 1)
     {δ : ℝ} (hδ : 0 < δ) (N : ℕ) : ∃ k : ℕ, N + 1 ≤ k ∧ ∀ i, dist (u i ^ k) 1 < δ := by
   have := Fintype.ofFinite ι
   have hs : IsCompact (Set.univ.pi fun _ : ι => sphere (0 : ℂ) 1) :=
@@ -91,16 +90,15 @@ theorem exists_pow_dist_one_lt_of_norm_eq_one [Finite ι] {u : ι → ℂ} (hu :
   have hnorm : ‖u i ^ φ M‖ = 1 := by rw [norm_pow, hu i, one_pow]
   rwa [dist_eq_norm, hsplit, norm_mul, hnorm, one_mul, norm_sub_rev, ← dist_eq_norm] at hd
 
-omit [Fintype ι] in
 /-- For finitely many complex numbers `α i` and any `ε > 0` there are arbitrarily large exponents
 `k ≥ 1` carrying all the `α i ^ k` simultaneously into the sector `{z | |arg z| < ε}`. -/
-theorem exists_le_pow_mem_sector [Finite ι] (α : ι → ℂ) {ε : ℝ} (hε : 0 < ε) (N : ℕ) :
+theorem exists_le_pow_mem_sector (α : ι → ℂ) {ε : ℝ} (hε : 0 < ε) (N : ℕ) :
     ∃ k : ℕ, N + 1 ≤ k ∧ ∀ i, α i ^ k ∈ {z : ℂ | |z.arg| < ε} := by
   obtain ⟨δ, hδ, hδz⟩ := exists_abs_arg_lt_of_dist_one_lt hε
   choose u hu harg using fun i => exists_norm_eq_one_arg_pow_eq (α i)
   obtain ⟨k, hk, hball⟩ := exists_pow_dist_one_lt_of_norm_eq_one hu hδ N
   refine ⟨k, hk, fun i => ?_⟩
-  simp only [Set.mem_setOf_eq, harg i k (by omega)]
+  simp only [Set.mem_ofPred_eq, harg i k (by omega)]
   exact hδz _ (hball i)
 
 /-- **Exercise 03V9.** For complex numbers `α 1, …, α n` and a conic sector

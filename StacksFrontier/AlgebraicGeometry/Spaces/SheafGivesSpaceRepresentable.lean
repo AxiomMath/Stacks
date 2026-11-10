@@ -145,7 +145,7 @@ theorem yonedaCorepEquiv_yonedaIso_hom_comp (U : C) {H : Sheaf K (Type v)}
     (k : K.yoneda.obj (u.obj U) ⟶ H) :
     adj.yonedaCorepEquiv U H ((adj.yonedaIso U).hom ≫ k) = k := by
   rw [yonedaCorepEquiv_comp]
-  show (adj.yonedaCorepEquiv U _) ((adj.yonedaCorepEquiv U _).symm (𝟙 _)) ≫ k = k
+  change (adj.yonedaCorepEquiv U _) ((adj.yonedaCorepEquiv U _).symm (𝟙 _)) ≫ k = k
   rw [Equiv.apply_symm_apply, Category.id_comp]
 
 /-- The transpose of `CategoryTheory.Adjunction.yonedaIso` followed by a morphism `k` out of
@@ -184,6 +184,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site over `S` is deep
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_SheafGivesSpaceRepresentable :
@@ -340,7 +341,7 @@ theorem sheafPairsPresheafMap_id (G : spacesEtaleSheafCat B S hS Y) :
     sheafPairsPresheafMap B S hS (𝟙 G) = 𝟙 _ := by
   ext T : 2
   refine TypeCat.homEquiv.injective (funext fun p => ?_)
-  show (⟨p.1, p.2 ≫ (spacesEtaleInverseImage B S hS p.1).map (𝟙 G)⟩ :
+  change (⟨p.1, p.2 ≫ (spacesEtaleInverseImage B S hS p.1).map (𝟙 G)⟩ :
     (sheafPairsPresheaf B S hS G).obj T) = p
   rw [CategoryTheory.Functor.map_id, Category.comp_id]
   rfl
@@ -353,7 +354,7 @@ theorem sheafPairsPresheafMap_comp {G G' G'' : spacesEtaleSheafCat B S hS Y} (α
       sheafPairsPresheafMap B S hS α ≫ sheafPairsPresheafMap B S hS β := by
   ext T : 2
   refine TypeCat.homEquiv.injective (funext fun p => ?_)
-  show (⟨p.1, p.2 ≫ (spacesEtaleInverseImage B S hS p.1).map (α ≫ β)⟩ :
+  change (⟨p.1, p.2 ≫ (spacesEtaleInverseImage B S hS p.1).map (α ≫ β)⟩ :
     (sheafPairsPresheaf B S hS G'').obj T) =
       ⟨p.1, (p.2 ≫ (spacesEtaleInverseImage B S hS p.1).map α) ≫
         (spacesEtaleInverseImage B S hS p.1).map β⟩
@@ -434,7 +435,7 @@ theorem spacesEtaleInverseImage_comp_inv_app_comp_baseChangeYonedaIso_hom
   rw [Adjunction.homEquiv_naturality_left]
   apply (Adjunction.pushforwardYonedaEquiv V _).injective
   rw [← Adjunction.yonedaEquiv_yonedaCorepEquiv, Adjunction.yonedaCorepEquiv_yonedaIso_hom_comp]
-  show (spacesBaseChange_comp B S hS k y).hom.app V ≫
+  change (spacesBaseChange_comp B S hS k y).hom.app V ≫
       Adjunction.pushforwardYonedaEquiv (u := (spacesBaseChange B S hS (k ≫ y)).functor) V _
         ((spacesEtaleAdjunction B S hS (k ≫ y)).homEquiv _ _
           (baseChangeYonedaIso B S hS (k ≫ y) V).hom) =
@@ -533,7 +534,7 @@ theorem baseChangeSectionEquiv_comp {T' T : AlgebraicSpaces B S hS} (k : T' ⟶ 
   apply (baseChangeSectionEquiv B S hS W (k ≫ y)).symm.injective
   rw [Equiv.symm_apply_apply]
   refine Subtype.ext ?_
-  show ((isTerminal_spacesBaseChange_idObj B S hS k).from
+  change ((isTerminal_spacesBaseChange_idObj B S hS k).from
       (SpacesEtale.idObj B S hS T')).hom.left ≫
         ((spacesBaseChange B S hS k).functor.map
           (baseChangeSectionEquiv B S hS W y ⟨g, hg⟩)).hom.left ≫
@@ -573,7 +574,7 @@ theorem pullSection_representableSectionEquiv {T' T : AlgebraicSpaces B S hS} (k
     ← baseChangeSectionEquiv_comp B S hS W k y g hg]
   simp only [LocallyDiscrete.pullSection, Category.assoc, Iso.inv_hom_id, Category.comp_id]
   rw [spacesEtaleInverseImage_comp_inv_app_comp_baseChangeYonedaIso_hom]
-  simp only [CategoryTheory.Functor.map_comp, Category.assoc, Iso.map_inv_hom_id_assoc]
+  simp only [CategoryTheory.Functor.map_comp, Category.assoc, Iso.inv_hom_id_map_assoc]
   rw [Adjunction.map_yoneda_map_comp_yonedaIso_hom_assoc (spacesEtaleAdjunction B S hS k)]
   have hterm : (spacesEtaleInverseImage_isTerminal_obj B S hS k
       (terminalSpacesEtaleSheaf_isTerminal B S hS T)).from (terminalSpacesEtaleSheaf B S hS T') ≫
@@ -601,7 +602,7 @@ theorem representablePairsEquiv_naturality {T' T : AlgebraicSpaces B S hS} (k : 
     (sheafPairsPresheaf B S hS ((SpacesEtale.topology B S hS Y).yoneda.obj W)).map k.op
         (representablePairsEquiv B S hS W T g) =
       representablePairsEquiv B S hS W T' (k ≫ g) := by
-  show (⟨k ≫ g ≫ W.obj.hom, LocallyDiscrete.pullSection (spacesEtaleSheafCat B S hS)
+  change (⟨k ≫ g ≫ W.obj.hom, LocallyDiscrete.pullSection (spacesEtaleSheafCat B S hS)
         (fun {_ _} f => spacesEtaleInverseImage B S hS f)
         (fun X => terminalSpacesEtaleSheaf B S hS X)
         (fun X => terminalSpacesEtaleSheaf_isTerminal B S hS X)

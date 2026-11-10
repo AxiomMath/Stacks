@@ -181,7 +181,7 @@ theorem biproduct_total {C : Type*} [Category C] [Preadditive C]
     ∑ i, biproduct.π L i ≫ biproduct.ι L i = 𝟙 (⨁ L) := by
   classical
   refine biproduct.hom_ext' _ _ fun i => ?_
-  simp [Preadditive.comp_sum, biproduct.ι_π_assoc, dite_comp]
+  simp
 
 /-- `biproduct.lift f ≫ biproduct.desc g` is the sum of the composites `f i ≫ g i`. -/
 theorem biproduct_lift_desc {C : Type*} [Category C] [Preadditive C]
@@ -366,11 +366,11 @@ noncomputable def simplexCopowerExtraDegeneracy (A : D) (m : SimplexCategory) :
     (SSet.Augmented.StandardSimplex.shift φ)
   s'_comp_ε := by
     simp only [simplexCopowerAugmented]
-    exact Limits.Sigma.ι_desc _ _
+    exact Limits.Sigma.ι_comp_desc _ _
   s₀_comp_δ₁ := by
     refine Limits.Sigma.hom_ext _ _ fun φ => ?_
     simp only [simplexCopowerAugmented, SimplicialObject.δ, simplexCopower,
-      Limits.Sigma.ι_desc_assoc, Limits.Sigma.ι_desc, Category.id_comp]
+      Limits.Sigma.ι_comp_desc_assoc, Limits.Sigma.ι_comp_desc, Category.id_comp]
     congr 1
     apply SimplexCategory.Hom.ext
     ext j : 2
@@ -379,7 +379,7 @@ noncomputable def simplexCopowerExtraDegeneracy (A : D) (m : SimplexCategory) :
   s_comp_δ₀ n := by
     refine Limits.Sigma.hom_ext _ _ fun φ => ?_
     simp only [simplexCopowerAugmented, SimplicialObject.δ, simplexCopower,
-      Limits.Sigma.ι_desc_assoc, Limits.Sigma.ι_desc, Category.comp_id]
+      Limits.Sigma.ι_comp_desc_assoc, Limits.Sigma.ι_comp_desc, Category.comp_id]
     congr 1
     apply SimplexCategory.Hom.ext
     ext j : 2
@@ -387,7 +387,7 @@ noncomputable def simplexCopowerExtraDegeneracy (A : D) (m : SimplexCategory) :
   s_comp_δ n i := by
     refine Limits.Sigma.hom_ext _ _ fun φ => ?_
     simp only [simplexCopowerAugmented, SimplicialObject.δ, simplexCopower,
-      Limits.Sigma.ι_desc_assoc, Limits.Sigma.ι_desc]
+      Limits.Sigma.ι_comp_desc_assoc, Limits.Sigma.ι_comp_desc]
     congr 1
     apply SimplexCategory.Hom.ext
     ext j : 2
@@ -398,7 +398,7 @@ noncomputable def simplexCopowerExtraDegeneracy (A : D) (m : SimplexCategory) :
   s_comp_σ n i := by
     refine Limits.Sigma.hom_ext _ _ fun φ => ?_
     simp only [simplexCopowerAugmented, SimplicialObject.σ, simplexCopower,
-      Limits.Sigma.ι_desc_assoc, Limits.Sigma.ι_desc]
+      Limits.Sigma.ι_comp_desc_assoc, Limits.Sigma.ι_comp_desc]
     congr 1
     apply SimplexCategory.Hom.ext
     ext j : 2

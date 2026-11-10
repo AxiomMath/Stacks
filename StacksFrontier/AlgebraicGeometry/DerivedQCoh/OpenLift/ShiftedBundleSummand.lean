@@ -133,9 +133,9 @@ private lemma nonempty_biprod_iso_stupidTrunc [HasDerivedCategory.{u} C]
   let eK := DerivedCategory.Q.mapIso (asIso (ιStupidTrunc K (ComplexShape.embeddingUpIntGE n)))
   let T := DerivedCategory.triangleOfSES (stupidTruncGEShortComplex_shortExact K n)
   have hz : T.mor₂ = 0 := by
-    show DerivedCategory.Q.map (stupidTruncGEπ K n) = 0
+    change DerivedCategory.Q.map (stupidTruncGEπ K n) = 0
     have h : eK.inv ≫ DerivedCategory.Q.map (stupidTruncGEπ K n) = 0 := by
-      show (eK.inv ≫ DerivedCategory.Q.map (stupidTruncGEπ K n) :
+      change (eK.inv ≫ DerivedCategory.Q.map (stupidTruncGEπ K n) :
         DerivedCategory.Q.obj K ⟶ (DerivedCategory.singleFunctor C n).obj (K.X n)) = 0
       exact Subsingleton.elim _ _
     simpa using congrArg (fun f => eK.hom ≫ f) h
@@ -155,10 +155,10 @@ private lemma isIso_πTruncGE_f (K : CochainComplex C ℤ) (n i : ℤ) (hi : n <
   let e := ComplexShape.embeddingUpIntGE n
   have he : e.f (i - n).toNat = i := by change n + ((i - n).toNat : ℤ) = i; omega
   have hn : ¬ e.BoundaryGE (i - n).toNat := by
-    show ¬ (ComplexShape.embeddingUpIntGE n).BoundaryGE (i - n).toNat
+    change ¬ (ComplexShape.embeddingUpIntGE n).BoundaryGE (i - n).toNat
     rw [ComplexShape.boundaryGE_embeddingUpIntGE_iff]
     omega
-  show IsIso ((HomologicalComplex.πTruncGE K e).f i)
+  change IsIso ((HomologicalComplex.πTruncGE K e).f i)
   dsimp only [HomologicalComplex.πTruncGE]
   rw [e.liftExtend_f _ _ he]
   let _ := K.isIso_restrictionToTruncGE' e (i - n).toNat hn
@@ -209,7 +209,7 @@ private lemma nonempty_map_stupidTrunc_iso {D : Type*} [Category* D] [Abelian D]
   have h (i : ℤ) : IsIso (g.f i) := by
     by_cases hi : n ≤ i
     · have hfi : IsIso (f.f i) := by
-        show IsIso (F.map ((ιStupidTrunc K e).f i))
+        change IsIso (F.map ((ιStupidTrunc K e).f i))
         rw [ιStupidTruncGE_f K n i hi]
         infer_instance
       have hg : IsIso (g.f i ≫ (ιStupidTrunc (M.obj K) e).f i) := by
@@ -491,7 +491,7 @@ theorem exists_finiteLocallyFree_biprod_iso_restrict_of_isPerfect
     GY.truncGEXIsoOpcycles (r - 1) ≪≫
       (GY.opcyclesIsCokernel (r - 2) (r - 1) (by
         apply (ComplexShape.up ℤ).prev_eq'
-        show r - 2 + 1 = r - 1
+        change r - 2 + 1 = r - 1
         omega)).coconePointUniqueUpToIso (colimit.isColimit _)
   have hFL : AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.{u, u, u} (L.X (r - 1)) :=
     AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree.of_iso eF.symm (h := hFLF)
@@ -522,7 +522,7 @@ theorem exists_finiteLocallyFree_biprod_iso_restrict_of_isPerfect
     GY.truncGEXIsoOpcycles (a₀ - 1) ≪≫
       (GY.opcyclesIsCokernel (a₀ - 2) (a₀ - 1) (by
         apply (ComplexShape.up ℤ).prev_eq'
-        show a₀ - 2 + 1 = a₀ - 1
+        change a₀ - 2 + 1 = a₀ - 1
         omega)).coconePointUniqueUpToIso (colimit.isColimit _)
   have hL₀zeroLow (i : ℤ) (hi : i < a₀ - 1) : IsZero (L₀.X i) :=
     CochainComplex.isZero_of_isStrictlyGE _ (a₀ - 1) i hi

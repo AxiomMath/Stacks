@@ -243,7 +243,7 @@ theorem exists_lift_of_eq_smul_one_tmul {C D : ModuleCat.{u} R} (d : C ⟶ D) (e
   have hL : (bcUnit ρ C).hom (a • e0) = ρ a • w :=
     ((bcUnit ρ C).hom.map_smul a e0).trans (ModuleCat.restrictScalars.smul_def ρ a _)
   rw [hL, hz]
-  show ρ a • w = ρ t • (c • w)
+  change ρ a • w = ρ t • (c • w)
   rw [smul_smul, hat]
 
 include hUa hU e in
@@ -300,9 +300,9 @@ theorem exists_lift_of_nonempty_iso_unit
     (1 : 𝔭.ResidueField) ⊗ₜ[R] e0
   have hz0 : z = c' • w0 := by
     apply iso0.toLinearEquiv.injective
-    show iso0.hom.hom z = iso0.hom.hom (c' • w0)
+    change iso0.hom.hom z = iso0.hom.hom (c' • w0)
     rw [map_smul]
-    show iso0.hom.hom z = c' • iso0.hom.hom ((1 : 𝔭.ResidueField) ⊗ₜ[R] e0)
+    change iso0.hom.hom z = c' • iso0.hom.hom ((1 : 𝔭.ResidueField) ⊗ₜ[R] e0)
     rw [alternatingCechModuleObjBaseChangeIso_hom_one_tmul gp U U' (Equiv.refl ι) M
         (fun _ => rfl) ρ q fp hbase hsq hUa 0 e0,
       alternatingCochainBaseChangeₗ_sectionsToAlternatingₗ q U M hUW gp U'

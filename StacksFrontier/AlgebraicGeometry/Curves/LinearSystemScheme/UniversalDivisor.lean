@@ -179,7 +179,7 @@ theorem pieceDivisor_compat (i l : Fin (n + 1)) :
     𝟙 W ≫ a from (Category.id_comp _).symm, coordSection_comp]
   rw [show pullback.snd (chartMap k f i) (chartMap k f l) ≫ pullback.snd f (chartOver k l).hom =
     𝟙 W ≫ b from (Category.id_comp _).symm, coordSection_comp]
-  show zeroScheme W _ (coordSection _ (𝟙 W) L w A) = zeroScheme W _ (coordSection Pl (𝟙 W) L w B)
+  change zeroScheme W _ (coordSection _ (𝟙 W) L w A) = zeroScheme W _ (coordSection Pl (𝟙 W) L w B)
   rw [hprop, show (fun m => (↑hAl.unit⁻¹ : Γ(W, ⊤)) * A m) = (↑hAl.unit⁻¹ : Γ(W, ⊤)) • A from rfl,
     coordSection_smul, zeroScheme_unit_smul _ _ (by simp)]
   revert hP

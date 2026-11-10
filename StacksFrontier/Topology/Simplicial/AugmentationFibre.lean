@@ -87,7 +87,7 @@ private theorem augmentation_app_map_apply {n m : SimplexCategoryᵒᵖ} (φ : n
 /-- The simplicial structure maps of `X` carry `a_n⁻¹(V)` into `a_m⁻¹(V)`. -/
 theorem fibreSpace_mapsTo {n m : SimplexCategoryᵒᵖ} (φ : n ⟶ m)
     (x : ↥(fibreOpens X Y a V n)) : X.map φ x.1 ∈ fibreOpens X Y a V m := by
-  show a.app m (X.map φ x.1) ∈ V
+  change a.app m (X.map φ x.1) ∈ V
   rw [augmentation_app_map_apply X Y a φ]
   exact x.2
 
@@ -259,7 +259,7 @@ theorem le_fibreOpens_of_hom {U : SimplicialOpen X}
   intro x hx
   have h1 : X.map g.base x ∈ fibreOpens X Y a V W.degree :=
     imageOpens_le X Y a V W.toOpens (SimplicialOpen.Hom.le g hx)
-  show a.app U.degree x ∈ V
+  change a.app U.degree x ∈ V
   rw [← augmentation_app_map_apply X Y a g.base]
   exact h1
 

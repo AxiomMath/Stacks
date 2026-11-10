@@ -152,9 +152,9 @@ theorem C1573.range_toImage : Set.range (graphZ pV pD pZ ι hι p q hpq).toImage
   set c := graph pV pD p q hpq
   apply le_antisymm
   · rintro _ ⟨x, rfl⟩
-    show ((γ.toImage ≫ γ.imageι) ≫ pullback.snd pV pZ).base x ∈ Set.range ι.base
+    change ((γ.toImage ≫ γ.imageι) ≫ pullback.snd pV pZ).base x ∈ Set.range ι.base
     rw [Scheme.Hom.toImage_imageι]
-    show ((c ≫ m) ≫ pullback.snd pV pZ).base x ∈ _
+    change ((c ≫ m) ≫ pullback.snd pV pZ).base x ∈ _
     rw [Category.assoc, pullback.lift_snd, Scheme.Hom.comp_apply, Scheme.Hom.comp_apply]
     exact ⟨_, rfl⟩
   · intro w hw
@@ -171,7 +171,7 @@ theorem C1573.range_toImage : Set.range (graphZ pV pD pZ ι hι p q hpq).toImage
     have hy' : y ∈ Set.range c.base := by
       rw [← c.isClosedEmbedding.isClosed_range.closure_eq,
         m.isOpenEmbedding.isEmbedding.closure_eq_preimage_closure_image]
-      show m.base y ∈ closure (m.base '' Set.range c.base)
+      change m.base y ∈ closure (m.base '' Set.range c.base)
       rw [hy, ← range_graphZ_eq]
       exact hcl
     obtain ⟨x, rfl⟩ := hy'

@@ -73,7 +73,7 @@ theorem eq_zero_of_generates {M Z : _root_.SheafOfModules.{u} R} {T : C} (hT : I
       ∑ i, a i • M.val.restrictₛₗ (g ≫ hT.from W.unop).op (s i) := ha.symm
   have hi : ∀ i, (d.val.app (op Y)).hom (M.val.restrictₛₗ (g ≫ hT.from W.unop).op (s i)) = 0 :=
     fun i => by
-      show (d.val.app (op Y)).hom ((M.val.map (g ≫ hT.from W.unop).op).hom (s i)) = 0
+      change (d.val.app (op Y)).hom ((M.val.map (g ≫ hT.from W.unop).op).hom (s i)) = 0
       rw [PresheafOfModules.naturality_apply, hd i]
       exact map_zero _
   rw [hz, map_sum]

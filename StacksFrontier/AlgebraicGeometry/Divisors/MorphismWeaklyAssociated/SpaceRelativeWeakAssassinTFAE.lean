@@ -119,7 +119,7 @@ theorem isWeaklyAssociatedOnFibreEvery_of_mono (f : X ⟶ Y)
   obtain ⟨κ, hκ, -⟩ := FieldValuedPoint.existsUnique_factor_of_class_eq_of_mono B S hS Y.1 Y.2
     p₀ p (rep.trans hp.symm)
   have hκ' : yoneda.map κ ≫ fieldMorphism B S hS Y.1 p₀ = fieldMorphism B S hS Y.1 p := by
-    show yoneda.map κ ≫ yonedaEquiv.symm p₀.value = yonedaEquiv.symm p.value
+    change yoneda.map κ ≫ yonedaEquiv.symm p₀.value = yonedaEquiv.symm p.value
     rw [← hκ]
     exact yonedaEquiv_symm_naturality_left κ Y.1 p₀.value
   obtain ⟨π, hπ, sq⟩ := exists_fibreMap_isPullback_of_refines B S hS f κ hκ'
@@ -268,7 +268,7 @@ theorem mem_relativeWeaklyAssociatedPoints_etaleChartSquare_iff (f : X ⟶ Y)
       (isAlgebraicSpace_yoneda B S hS V) f.hom g hg)
   have hcomm : representedSpaceMap B S hS α ≫ gY = φ ≫ f := by
     apply ObjectProperty.hom_ext
-    show yoneda.map α ≫ g = (a ≫ pullback.fst f.hom g) ≫ f.hom
+    change yoneda.map α ≫ g = (a ≫ pullback.fst f.hom g) ≫ f.hom
     rw [← hα, Category.assoc, Category.assoc, pullback.condition]
   rw [← hwu, ← isRelativeWeaklyAssociatedPoint_iff_mem_relativeWeaklyAssociatedPoints B S hS α N
     hNqc w, ← isRelativeWeaklyAssociatedPoint_comp_iff_of_isEtale B S hS

@@ -184,7 +184,7 @@ lemma canonicalTwoCellUp_hom_app_ι (f : 𝒳 ⟶ 𝒴) (E : I ⥤ BigFppfOver B
               (AsSmall.up.{vX, max (u + 1) uX, max v w}.obj x)))) := by
   let : 𝒳.val.p.IsFibered := 𝒳.2.isFibered
   let : 𝒴.val.p.IsFibered := 𝒴.2.isFibered
-  show AsSmall.up.{vX, uX, max v w vX (u + 1) uX u}.map
+  change AsSmall.up.{vX, uX, max v w vX (u + 1) uX u}.map
       ((Functor.isoWhiskerLeft
           ((colimit.desc (Deformation.Artin.fiberDiagram 𝒳.val.p E)
             (Deformation.Artin.fiberCocone 𝒳.val.p E d)).toFunctor ⋙ AsSmall.down)
@@ -219,7 +219,7 @@ lemma canonicalTwoCellUp_inv_app_ι (f : 𝒳 ⟶ 𝒴) (E : I ⥤ BigFppfOver B
             (Deformation.Artin.colimitDesc_ι_down_obj 𝒳.val.p E d j x)).symm) := by
   let : 𝒳.val.p.IsFibered := 𝒳.2.isFibered
   let : 𝒴.val.p.IsFibered := 𝒴.2.isFibered
-  show AsSmall.up.{vX, uX, max v w vX (u + 1) uX u}.map
+  change AsSmall.up.{vX, uX, max v w vX (u + 1) uX u}.map
       ((Functor.isoWhiskerLeft
           ((colimit.desc (Deformation.Artin.fiberDiagram 𝒳.val.p E)
             (Deformation.Artin.fiberCocone 𝒳.val.p E d)).toFunctor ⋙ AsSmall.down)

@@ -91,11 +91,11 @@ theorem sectionGerm_eq_zero_iff {X : RingedSpace} (F : ModuleSheaf X)
       exact h
     obtain ⟨W, hxW, iU, _, e⟩ := F.abPresheaf.germ_eq x hx hx s 0 h0
     refine ⟨W, hxW, iU, ?_⟩
-    show F.abPresheaf.map iU.op s = 0
+    change F.abPresheaf.map iU.op s = 0
     rw [e, map_zero]
   · rintro ⟨W, hxW, j, hj⟩
     have h1 : F.abPresheaf.map j.op s = (0 : F.abPresheaf.obj (op W)) := hj
-    show F.abPresheaf.germ U x hx s = 0
+    change F.abPresheaf.germ U x hx s = 0
     rw [← F.abPresheaf.germ_res_apply j x hxW s, h1, map_zero]
 
 /-- Converse of `AlgebraicGeometry.RingedSpace.ModuleSheaf.suppSection_map_subset` for a
@@ -134,7 +134,7 @@ theorem sectionGerm_map_eq_zero_iff {X : RingedSpace}
       (F.sectionGerm_eq_zero_iff (unop V) x hx (F.toPresheaf.map i s)).mp h
     apply (F.sectionGerm_eq_zero_iff (unop U) x (i.unop.le hx) s).mpr
     refine ⟨W, hxW, j ≫ i.unop, ?_⟩
-    show F.toPresheaf.map (i ≫ j.op) s = 0
+    change F.toPresheaf.map (i ≫ j.op) s = 0
     rwa [F.toPresheaf.map_comp_apply]
   · intro h
     obtain ⟨W, hxW, j, hj⟩ :=

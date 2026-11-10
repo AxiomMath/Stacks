@@ -564,8 +564,8 @@ Coherence of a direct image is local on the target, and over an affine open of `
 subscheme becomes Noetherian and quasi-affine, which is what the induction needs.
 
 This is one direction of [Stacks, Tag 0BJZ]; the tag sits on the full equivalence
-`isCoherent_pushforward_iff_forall_isAssociatedPoint`, in
-`StacksFrontier.AlgebraicGeometry.LocalCohomology.CoherentPushforwardCriterion.CoherenceEquivalence`.
+`isCoherent_pushforward_iff_forall_isAssociatedPoint`, in the module `CoherenceEquivalence` of
+`StacksFrontier.AlgebraicGeometry.LocalCohomology.CoherentPushforwardCriterion`.
 -/
 @[stacks 0BJZ "(1) implies (2)"]
 theorem isCoherent_pushforward_of_forall_isAssociatedPoint' {U X : Scheme.{u}}

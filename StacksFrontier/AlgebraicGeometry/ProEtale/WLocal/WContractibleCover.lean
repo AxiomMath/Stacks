@@ -105,7 +105,7 @@ theorem exists_indZariski_wLocal_of_profinite_component_cover (C : Type u) [Comm
         {p : PrimeSpectrum C × T //
           S.componentMap.hom p.1 = S.toConnectedComponents.hom p.2} :=
     (Homeomorph.ulift.prodCongr Homeomorph.ulift).subtype (fun p => by
-      show (ULift.up (ConnectedComponents.mk p.1.down) = ULift.up (f p.2.down)) ↔
+      change (ULift.up (ConnectedComponents.mk p.1.down) = ULift.up (f p.2.down)) ↔
         ConnectedComponents.mk p.1.down = f p.2.down
       exact ULift.up_inj)
   let eD : PrimeSpectrum D ≃ₜ S.Y :=
@@ -115,14 +115,14 @@ theorem exists_indZariski_wLocal_of_profinite_component_cover (C : Type u) [Comm
           (TopCat.pullbackIsoProdSubtype S.componentMap S.toConnectedComponents)).symm))
   have heD (p : PrimeSpectrum D) :
       S.toX (eD p) = PrimeSpectrum.comap (algebraMap C D) p := by
-    show pullback.fst S.componentMap S.toConnectedComponents
+    change pullback.fst S.componentMap S.toConnectedComponents
       ((TopCat.pullbackIsoProdSubtype S.componentMap S.toConnectedComponents).inv
         (unlift ((TopCat.homeoOfIso (TopCat.pullbackIsoProdSubtype fLift gLift))
           ((TopCat.homeoOfIso hpb.isoPullback) p)))) = _
     rw [TopCat.pullbackIsoProdSubtype_inv_fst_apply]
     calc
       _ = (pullback.fst fLift gLift (hpb.isoPullback.hom p)).down := by
-        show ((TopCat.pullbackIsoProdSubtype fLift gLift).hom
+        change ((TopCat.pullbackIsoProdSubtype fLift gLift).hom
           (hpb.isoPullback.hom p)).1.1.down = _
         rw [TopCat.pullbackIsoProdSubtype_hom_apply]
       _ = PrimeSpectrum.comap (algebraMap C D) p := by

@@ -207,7 +207,7 @@ theorem eq_comp_pointedStalkMap_of_spec_eq {X Y : Scheme.{u}} {D : Type u} [Comm
   simp only [pointedStalkMap, eqToHom_refl, CommRingCat.hom_id, RingHom.comp_id]
   rw [← Scheme.SpecMap_stalkMap_fromSpecStalk g, ← Category.assoc, ← Spec.map_comp] at hcomm
   have : IsLocalHom (g.stalkMap x ≫ CommRingCat.ofHom phi).hom := by
-    show IsLocalHom (phi.comp (g.stalkMap x).hom)
+    change IsLocalHom (phi.comp (g.stalkMap x).hom)
     infer_instance
   exact congrArg CommRingCat.Hom.hom
     (eq_of_spec_fromSpecStalk_eq (Y := Y) (D := D) (y := g x)
@@ -253,7 +253,7 @@ theorem exists_pointed_extension_fibreProduct
   rw [← hfact₁] at e₁
   rw [← hfact₂] at e₂
   have hcomm : w₁ ≫ g₁ = w₂ ≫ g₂ := by
-    show (Spec.map (CommRingCat.ofHom tau₁) ≫ T₁.fromSpecStalk t₁) ≫ g₁ =
+    change (Spec.map (CommRingCat.ofHom tau₁) ≫ T₁.fromSpecStalk t₁) ≫ g₁ =
       (Spec.map (CommRingCat.ofHom tau₂) ≫ T₂.fromSpecStalk t₂) ≫ g₂
     rw [Category.assoc, Category.assoc, e₁, e₂]
   let q₁ : pullback g₁ g₂ ⟶ T₁ := pullback.fst g₁ g₂
@@ -347,7 +347,7 @@ theorem exists_pointed_extension_merge_family
       have := hfin₁
       have := hqc₁
       have hgt₃ : (q₁ ≫ g) t₃ = t := by
-        show g (q₁ t₃) = t
+        change g (q₁ t₃) = t
         rw [h₁, hgt]
       refine ⟨T₃, q₁ ≫ g, t₃, hgt₃, inferInstance, inferInstance, tau₃, htau₃, ?_, ?_⟩
       · rw [← pointedStalkMap_comp q₁ g h₁ hgt hgt₃, ← RingHom.comp_assoc, ← e₁, hfact]
@@ -356,7 +356,7 @@ theorem exists_pointed_extension_merge_family
         · intro j
           obtain ⟨q, hq, hqg, hqtau⟩ := hmaps j
           have hq₃ : (q₁ ≫ q) t₃ = tf j.castSucc := by
-            show q (q₁ t₃) = tf j.castSucc
+            change q (q₁ t₃) = tf j.castSucc
             rw [h₁, hq]
           refine ⟨q₁ ≫ q, hq₃, ?_, ?_⟩
           · rw [Category.assoc, hqg]
@@ -433,7 +433,7 @@ theorem exists_finiteType_pointed_extension_conormalAlgebra_iso_of_bound
   have := hfin
   have := hqc
   have hgft : (g ≫ f) t₁ = s := by
-    show f (g t₁) = s
+    change f (g t₁) = s
     rw [hgt, ht]
   have htau_base : tau.comp (pointedStalkMap (g ≫ f) hgft) =
       algebraMap (S.presheaf.stalk s) (completedStalk S s) := by
@@ -445,7 +445,7 @@ theorem exists_finiteType_pointed_extension_conormalAlgebra_iso_of_bound
   have := hfin₂
   have := hqc₂
   have hgt₂ : (g₂ ≫ g) t₂ = t := by
-    show g (g₂ t₂) = t
+    change g (g₂ t₂) = t
     rw [hg₂, hgt]
   have hfact₂' : tau = tau₂.comp (pointedStalkMap g₂ hg₂) := hfact₂
   refine ⟨T₂, g₂ ≫ g, t₂, hgt₂, inferInstance, inferInstance, tau₂, htau₂, ?_, ?_⟩

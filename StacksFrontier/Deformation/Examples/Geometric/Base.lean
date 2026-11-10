@@ -62,7 +62,7 @@ theorem residueFieldQuotientEquiv_residue (Λ : Type u) {R : Type w} [CommRing �
     [Algebra Λ R] (a : R) :
     residueFieldQuotientEquiv Λ R (IsLocalRing.residue R a) = a := by
   have hmax : IsLocalRing.maximalIdeal R = ⊥ := IsLocalRing.maximalIdeal_eq_bot
-  show ((Ideal.quotientEquivAlgOfEq Λ hmax).trans
+  change ((Ideal.quotientEquivAlgOfEq Λ hmax).trans
     (AlgEquiv.quotientBot Λ R)) (Ideal.Quotient.mk _ a) = a
   simp only [AlgEquiv.trans_apply, Ideal.quotientEquivAlgOfEq_mk, AlgEquiv.quotientBot_mk]
 

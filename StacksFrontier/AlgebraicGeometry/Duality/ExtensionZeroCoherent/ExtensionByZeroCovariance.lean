@@ -124,7 +124,7 @@ public lemma restrictionHomNatTrans_naturality {K K' : 𝒞} (φ : K ⟶ K') (L 
     (α : K' ⟶ jstar.obj L) :
     (restrictionHomNatTrans jstar jstar' istar e K).app L (φ ≫ α) =
       istar.map φ ≫ (restrictionHomNatTrans jstar jstar' istar e K').app L α := by
-  show istar.map (φ ≫ α) ≫ e.hom.app L = istar.map φ ≫ istar.map α ≫ e.hom.app L
+  change istar.map (φ ≫ α) ≫ e.hom.app L = istar.map φ ≫ istar.map α ≫ e.hom.app L
   rw [istar.map_comp, Category.assoc]
 
 variable (A : DeligneSystemAssignment jstar) (A' : DeligneSystemAssignment jstar')

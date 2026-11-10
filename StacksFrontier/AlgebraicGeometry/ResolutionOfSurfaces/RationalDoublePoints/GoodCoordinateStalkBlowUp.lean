@@ -54,7 +54,7 @@ theorem exists_ringEquiv_localizationAtPrime_chart
   have H : (Ideal.comap E.toRingHom pz).primeCompl.map E.toMonoidHom = pz.primeCompl := by
     ext r
     refine ⟨fun ⟨c, hc, h⟩ => h ▸ hc, fun hr => ⟨E.symm r, ?_, by simp⟩⟩
-    show E (E.symm r) ∉ pz
+    change E (E.symm r) ∉ pz
     simpa using hr
   refine ⟨(IsLocalization.ringEquivOfRingEquiv _ D E H).trans e, fun c => ?_⟩
   rw [RingEquiv.trans_apply, IsLocalization.ringEquivOfRingEquiv_eq]

@@ -202,8 +202,8 @@ theorem totalDerivedTranspose_comp_tau (f : R ⟶ A) (f' : R ⟶ A') (β : A ⟶
     ← cancel_mono (totalDerivedExtensionScalarsKFlatIso f' N hN).hom]
   simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id, Iso.hom_inv_id_app_assoc,
     Functor.map_comp]
-  rw [reassoc_of% (hc' P hP), hc' N hN, Iso.map_inv_hom_id_assoc]
-  simp only [Iso.map_hom_inv_id_assoc]
+  rw [reassoc_of% (hc' P hP), hc' N hN, Iso.inv_hom_id_map_assoc]
+  simp only [Iso.hom_inv_id_map_assoc]
   exact congrArg (_ ≫ ·) ((reassoc_of% hnat) _).symm
 
 end Stacks.LimitHomDescent.Affine

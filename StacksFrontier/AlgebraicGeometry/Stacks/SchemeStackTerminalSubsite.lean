@@ -59,7 +59,7 @@ theorem flatObject_schemeStack_id :
     flatObject B S hS (schemeStack.{u, w} B S hS U).val (Over.mk (𝟙 U)) := by
   have hsm : smoothObject.{u, w} B S hS (schemeStack.{u, w} B S hS U) (Over.mk (𝟙 U)) := by
     rw [smoothObject_schemeStack_iff]
-    show Smooth ((BigFppfOver.toScheme B S hS).map (𝟙 U))
+    change Smooth ((BigFppfOver.toScheme B S hS).map (𝟙 U))
     rw [CategoryTheory.Functor.map_id]
     infer_instance
   exact (AlgebraicStacks.isFlat_iff_hasPropertyOnSomeSmoothDiagram B S hS _).1
@@ -90,8 +90,7 @@ theorem isIso_derivedAbelianLowerShriekAdjunction_counit_constantSheaf_schemeSta
           ((constantSheaf (fppfTopology B S hS (schemeStack.{u, w} B S hS U))
             AddCommGrpCat.{u + 1}).obj (AddCommGrpCat.of (ULift.{u + 1} ℤ))))) :=
   isIso_derivedAbelianLowerShriekAdjunction_counit_constantSheaf_of_isTerminal B S hS
-    (schemeStack.{u, w} B S hS U) (isTerminalFlatObjectSchemeStackId.{u, w} B S hS U)
-    Over.mkIdTerminal
+    (schemeStack.{u, w} B S hS U)
 
 end Derived
 

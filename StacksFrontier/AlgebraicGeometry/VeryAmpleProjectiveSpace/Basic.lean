@@ -109,7 +109,7 @@ theorem isRelativelyVeryAmple_of_immersion [IsAffine S] (f : X ⟶ S) (L : X.Mod
       rw [← Stacks.SymGraded.projectiveBundleIsoProjectiveSpace_hom_comp_fst (X := S) n,
         ← hc, Iso.inv_hom_id_assoc]
     rw [Category.assoc]
-    show j ≫ c.inv ≫ (Stacks.SymGraded.freeProjectiveBundle (X := S) n).toBase = f
+    change j ≫ c.inv ≫ (Stacks.SymGraded.freeProjectiveBundle (X := S) n).toBase = f
     rw [hfac, hover]
   · exact e ≪≫ (Scheme.Modules.pullback j).mapIso tw ≪≫
       (Scheme.Modules.pullbackComp j c.inv).app _
@@ -144,7 +144,7 @@ theorem isRelativelyVeryAmple_of_immersion_over {X S' S : Scheme.{u}} [IsAffine 
     · rw [Category.assoc, AlgebraicGeometry.projectiveSpaceOverMap_fst, ← Category.assoc, hjj',
         Stacks.AmpleProjectiveImmersion.liftOver_fst, hover]
     · rw [Category.assoc]
-      show j' ≫ AlgebraicGeometry.projectiveSpaceOverMap n g ≫
+      change j' ≫ AlgebraicGeometry.projectiveSpaceOverMap n g ≫
         AlgebraicGeometry.projectiveSpaceOver.toIntegralAtUniverse n S = _
       rw [AlgebraicGeometry.projectiveSpaceOverMap_snd, hjj',
         Stacks.AmpleProjectiveImmersion.liftOver_snd]

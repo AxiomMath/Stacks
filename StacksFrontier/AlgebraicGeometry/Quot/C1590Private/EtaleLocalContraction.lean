@@ -259,7 +259,7 @@ theorem exists_etale_contraction_of_fibre (h0E6F : HasEtaleLocalSchemeCharts B h
   let ρ : CommRingCat.of P.carrier ⟶ CommRingCat.of P'.carrier := inv φK ≫ ψ
   let τ : T.obj P'.siteObject ⟶ T.obj P.siteObject := Spec.map ρ
   have hτ : τ ≫ T.map P.value = T.map ν ≫ T.map φ₁ := by
-    show Spec.map (inv φK ≫ ψ) ≫ T.map P.value = _
+    change Spec.map (inv φK ≫ ψ) ≫ T.map P.value = _
     rw [← hφK, Spec.map_comp, Category.assoc, ← Category.assoc (Spec.map (inv φK)),
       ← Spec.map_comp, IsIso.hom_inv_id, Spec.map_id, Category.id_comp, hψ]
   let τB : P'.siteObject ⟶ P.siteObject := homOfToScheme τ
@@ -372,7 +372,7 @@ theorem exists_etale_contraction_of_fibre (h0E6F : HasEtaleLocalSchemeCharts B h
     have := (isPullback_schemeSpaceMap sqXs).paste_horiz sqZ₁
     rwa [← schemeSpaceMap_comp] at this
   refine ⟨Yc, t, u, ht, hu, schemeSpace XUs, _, schemeSpaceMap fXUs, hA, schemeSpaceMap hs, ?_, ?_⟩
-  · show schemeSpaceMap hs ≫ schemeSpaceMap fYs = _
+  · change schemeSpaceMap hs ≫ schemeSpaceMap fYs = _
     rw [← schemeSpaceMap_comp, hhs]
     rfl
   -- the data of the scheme case, spelled through the objects of the site
@@ -417,7 +417,7 @@ theorem exists_etale_contraction_of_fibre (h0E6F : HasEtaleLocalSchemeCharts B h
   obtain ⟨α, hα⟩ := exists_comp_fromSpecResidueField (T.map Qv) u (hQ _)
   obtain ⟨β, hβ⟩ := exists_comp_fromSpecResidueField tUs u rfl
   have hu1 : T.map φs u = u₁ := by
-    show (tUs ≫ T.map φs) (IsLocalRing.closedPoint P'.carrier) = u₁
+    change (tUs ≫ T.map φs) (IsLocalRing.closedPoint P'.carrier) = u₁
     rw [htUs]
     exact Scheme.fromSpecResidueField_apply _ _
   let γ : CommRingCat.of ↑((T.obj U₁).residueField u₁) ⟶ CommRingCat.of P'.carrier := 𝟙 _

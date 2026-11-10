@@ -135,7 +135,7 @@ private theorem nonempty_etaleH_constantZMod_addEquiv_rootsOfUnity (g : X ⟶ Sp
       Sheaf.H (kummerSmallEtale B X hX n).X₁ q) :=
   ⟨sheafHAddEquivOfIso (SmallEtale.topology B X hX)
     (constantZModSheafIsoRootsOfUnitySheaf B k g hX n
-      (Nat.pos_of_ne_zero (ne_zero_of_isUnit_natCast k X g n hn)) hn) q⟩
+      (Nat.pos_of_ne_zero (ne_zero_of_isUnit_natCast k n hn)) hn) q⟩
 
 include f in
 /-- **`H²_ét(X, 𝐙/n𝐙) ≅ 𝐙/n𝐙`**, the `q = 2` clause of the noncanonical list of

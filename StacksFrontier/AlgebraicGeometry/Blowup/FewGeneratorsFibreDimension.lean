@@ -111,15 +111,15 @@ private theorem adjoin_range_spanFraction_succAbove {R : Type*} [CommRing R] {n 
         exact Subalgebra.one_mem _
       · exact Algebra.subset_adjoin ⟨j, rfl⟩
     | zero =>
-      show Localization.mk 0 _ ∈ _
+      change Localization.mk 0 _ ∈ _
       rw [Localization.mk_zero]
       exact Subalgebra.zero_mem _
     | add x y _ _ hx hy =>
-      show Localization.mk (x + y) _ ∈ _
+      change Localization.mk (x + y) _ ∈ _
       rw [← Localization.add_mk_self]
       exact Subalgebra.add_mem _ hx hy
     | smul r x _ hx =>
-      show Localization.mk (r • x) _ ∈ _
+      change Localization.mk (r • x) _ ∈ _
       rw [← Localization.smul_mk]
       exact Subalgebra.smul_mem _ hx r
 
@@ -144,7 +144,7 @@ private theorem topologicalKrullDim_fiber_le_of_iSup_opensRange {X S : Scheme.{u
   let r : W → (c i '' Q) := fun w => ⟨w.1.1, by
     obtain ⟨q, hq⟩ := w.2
     refine ⟨q, ?_, hq⟩
-    show (c i ≫ f) q ∈ ({y} : Set S)
+    change (c i ≫ f) q ∈ ({y} : Set S)
     rw [Scheme.Hom.comp_apply, hq]
     exact w.1.2⟩
   have hval : IsInducing (fun w : W => (w.1.1 : X)) :=

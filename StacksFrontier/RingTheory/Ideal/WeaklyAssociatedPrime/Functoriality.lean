@@ -137,7 +137,7 @@ theorem exists_separating_witness_of_finite (hfin : Module.Finite R S)
     intro q' hq'F hne hle
     have : q'.LiesOver p := hq'F.right
     have hlt : q < q' := lt_of_le_of_ne hle (Ne.symm hne)
-    have hcomaplt := Ideal.IsIntegral.comap_lt_comap (R := R) hlt
+    have hcomaplt := Ideal.IsIntegral.under_lt_under (R := R) hlt
     have e2 : Ideal.under R q' = p := (Ideal.LiesOver.over (P := q') (p := p)).symm
     rw [e2] at hcomaplt
     exact lt_irrefl _ hcomaplt
@@ -211,7 +211,7 @@ theorem exists_radical_of_separating_witness (hfin : Module.Finite R S)
       ⟨hQp, ⟨hQcomap.symm⟩⟩
     have hQne : Q ≠ q := fun hQeq => hy₀ (hQeq ▸ hQge hy₀Ann)
     exact hsep Q hQF hQne (hQp.mem_of_pow_mem t (hQge hxtAnn))
-  rw [SetLike.not_le_iff_exists] at hclaim
+  rw [IsConcreteLE.not_le_iff_exists] at hclaim
   obtain ⟨s', hs'Ann, hs'p⟩ := hclaim
   rw [Ideal.mem_comap] at hs'Ann hs'p
   refine ⟨s', hs'p, n₀, ?_⟩

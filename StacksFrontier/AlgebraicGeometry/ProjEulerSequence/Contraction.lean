@@ -212,7 +212,7 @@ private theorem map_mulLeft_eq {A : Type u} [CommRing A] {P : Submonoid A} (a : 
     LocalizedModule.map P (LinearMap.mulLeft A a) z = Localization.mk a 1 * z := by
   induction z using Localization.induction_on with
   | H y =>
-    show LocalizedModule.map P (LinearMap.mulLeft A a) (LocalizedModule.mk y.1 y.2) = _
+    change LocalizedModule.map P (LinearMap.mulLeft A a) (LocalizedModule.mk y.1 y.2) = _
     rw [LocalizedModule.map_mk, Localization.mk_mul]
     simp only [LinearMap.mulLeft_apply, one_mul]
     rfl
@@ -305,7 +305,7 @@ theorem contraction_app_invCoordSection (i : Fin (n + 1))
     (contraction R n i).val.app (op W) (invCoordSection R n i hW) = unitSection R n W := by
   refine Subtype.ext (funext fun x => ?_)
   rw [contraction_apply]
-  show Localization.mk (MvPolynomial.X i : MvPolynomial (Fin (n + 1)) R) 1 *
+  change Localization.mk (MvPolynomial.X i : MvPolynomial (Fin (n + 1)) R) 1 *
       Localization.mk 1 ⟨MvPolynomial.X i, hW x.2⟩ = Localization.mk 1 1
   exact (mk_mul_mk_one_self _ _).trans Localization.mk_one.symm
 
@@ -333,11 +333,11 @@ private theorem divFun_mem (i : Fin (n + 1))
     fun y => y.1.asHomogeneousIdeal.toIdeal.primeCompl.mul_mem (hW (ιV y).2) (hnin y),
     fun y => ?_⟩
   · have he : (((1 + k : ℕ) : ℤ) + (-1)) = ((k : ℤ) + 0) := by push_cast; ring
-    show m ∈ integerGrading (polyGrading R n) (((1 + k : ℕ) : ℤ) + (-1))
+    change m ∈ integerGrading (polyGrading R n) (((1 + k : ℕ) : ℤ) + (-1))
     rw [he]
     exact hm
   · have hy : s.1 (ιV y) = Localization.mk m ⟨v, hnin y⟩ := heq y
-    show Localization.mk 1 ⟨MvPolynomial.X i, hW (ιV y).2⟩ * s.1 (ιV y) = _
+    change Localization.mk 1 ⟨MvPolynomial.X i, hW (ιV y).2⟩ * s.1 (ιV y) = _
     rw [hy, Localization.mk_mul]
     exact Localization.mk_eq_mk_iff.mpr (Localization.r_of_eq (by simp))
 
@@ -350,7 +350,7 @@ theorem surjective_contraction_app (i : Fin (n + 1))
   intro s
   refine ⟨⟨divFun R n i hW s, divFun_mem R n i hW s⟩, Subtype.ext (funext fun x => ?_)⟩
   rw [contraction_apply]
-  show Localization.mk (MvPolynomial.X i : MvPolynomial (Fin (n + 1)) R) 1 *
+  change Localization.mk (MvPolynomial.X i : MvPolynomial (Fin (n + 1)) R) 1 *
       (Localization.mk 1 ⟨MvPolynomial.X i, hW x.2⟩ * s.1 x) = s.1 x
   rw [← mul_assoc, mk_mul_mk_one_self _ (hW x.2), one_mul]
 

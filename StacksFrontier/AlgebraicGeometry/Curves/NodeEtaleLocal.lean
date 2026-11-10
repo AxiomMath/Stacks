@@ -82,7 +82,7 @@ theorem isClosed_singleton_of_quasiFinite_preimage
     {X Y : Scheme.{u}} (g : Y ⟶ X) [Etale g] (y : Y)
     (hx : IsClosed ({g.base y} : Set X)) : IsClosed ({y} : Set Y) := by
   have hqf : g.QuasiFiniteAt y := by
-    show RingHom.QuasiFinite (g.stalkMap y).hom
+    change RingHom.QuasiFinite (g.stalkMap y).hom
     have hess := LocallyOfFiniteType.stalkMap g y
     have hform := FormallyUnramified.stalkMap g y
     algebraize [(g.stalkMap y).hom]
@@ -112,7 +112,7 @@ theorem isClosed_singleton_iff_of_etale
   have : JacobsonSpace X := LocallyOfFiniteType.jacobsonSpace f
   refine ⟨isClosed_singleton_of_quasiFinite_preimage g y, fun hy => ?_⟩
   have hy' : y ∈ closedPoints Y := by simpa [closedPoints] using hy
-  simpa [closedPoints] using g.closePoints_subset_preimage_closedPoints hy'
+  simpa [closedPoints] using g.closedPoints_subset_preimage_closedPoints hy'
 
 /-- **The stalk map of an étale morphism identifies the completed local rings**, compatibly with
 the two structure maps from the base field. The stalk map is flat and local, carries the maximal
@@ -142,7 +142,7 @@ theorem exists_stalkCompletionAlgEquiv_of_etale
   let _ : Algebra A B := (g.stalkMap y).hom.toAlgebra
   have hmap : algebraMap K B = (algebraMap A B).comp (algebraMap K A) := by
     ext r
-    show kB r = (g.stalkMap y).hom (kA r)
+    change kB r = (g.stalkMap y).hom (kA r)
     exact (congrArg (fun f : K →+* B => f r) hk).symm
   have : IsScalarTower K A B := IsScalarTower.of_algebraMap_eq' hmap
   have : Module.Flat A B := RingHom.flat_algebraMap_iff.mpr (Flat.stalkMap g y)
@@ -188,7 +188,7 @@ theorem isOrdinaryDoublePoint_iff_of_etale_over_field
     rw [← hcomp, Scheme.Hom.comp_appTop]
   have hk : (g.stalkMap y).hom.comp kA = kB := by
     ext r
-    show (g.stalkMap y).hom ((X.presheaf.germ ⊤ (g y) (by simp)).hom
+    change (g.stalkMap y).hom ((X.presheaf.germ ⊤ (g y) (by simp)).hom
         ((pX.appTop).hom ((Scheme.ΓSpecIso (.of K)).inv.hom r))) =
       (Y.presheaf.germ ⊤ y (by simp)).hom
         ((pY.appTop).hom ((Scheme.ΓSpecIso (.of K)).inv.hom r))
@@ -276,7 +276,7 @@ theorem isNode_iff_of_etale
   let _ : LocallyOfFiniteType pYbar := by dsimp [pYbar, Ybar]; infer_instance
   let _ : Etale q := by dsimp [q, e, xproj, Xbar, Ybar]; infer_instance
   have hclosed := isClosed_singleton_iff_of_etale f g y
-  show (IsClosed ({g.base y} : Set X) ∧
+  change (IsClosed ({g.base y} : Set X) ∧
       ∃ xb : Xbar, xproj.base xb = g.base y ∧ IsOrdinaryDoublePoint K Xbar xb) ↔
     (IsClosed ({y} : Set Y) ∧
       ∃ yb : Ybar, (pullback.fst (g ≫ f) s).base yb = y ∧ IsOrdinaryDoublePoint K Ybar yb)
@@ -292,7 +292,7 @@ theorem isNode_iff_of_etale
       (f := g) (g := xproj) y xb hxb.symm
     let yb : Ybar := e.hom z
     have hproj : (pullback.fst (g ≫ f) s).base yb = y := by
-      show (pullback.fst (g ≫ f) s) (e.hom z) = y
+      change (pullback.fst (g ≫ f) s) (e.hom z) = y
       rw [← Scheme.Hom.comp_apply, pullbackRightPullbackFstIso_hom_fst]
       exact hzy
     have hq : q.base yb = xb := by

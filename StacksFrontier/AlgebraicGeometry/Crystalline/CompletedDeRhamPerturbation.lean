@@ -25,8 +25,8 @@ induces a quasi-isomorphism on graded pieces, and concludes by the spectral sequ
 complex.  That machinery is not needed, because the filtration is **finite in each exterior
 degree**: a form of degree `n` has at most `n` coefficient differentials.  Write the differential
 of `M ⊗̂_D Ω^*_{D'}` as `D = D_rel + D_base` — the splitting of
-`StacksFrontier/AlgebraicGeometry/Crystalline/CompletedDeRhamSplitDifferential.lean` — and let `h` be
-the completed relative homotopy tensored with `M`.  Then
+`StacksFrontier/AlgebraicGeometry/Crystalline/CompletedDeRhamSplitDifferential.lean` — and let `h`
+be the completed relative homotopy tensored with `M`.  Then
 
 * `h` preserves the number of coefficient differentials and lowers the number of variable
   differentials by one;
@@ -402,8 +402,7 @@ public theorem completedLTensor_rawDifferential_eq_zero (proj : ∀ n _i, Om n �
     completedLTensor p D M (proj (n + 1) l)
         (rawDifferential p D Om wedge dbase M nabla hleibBase n
           (LinearMap.lTensor M (proj n i) y)) = 0 := by
-  induction y using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  induction y using TensorProduct.inductionOn with
   | tmul m ω =>
     rw [LinearMap.lTensor_tmul, rawDifferential_tmul, map_add]
     have hw : completedLTensor p D M (proj (n + 1) l)
@@ -537,8 +536,7 @@ public theorem rawDifferential_lTensor (i : ℕ) (y : M ⊗[D] Om i) :
         (LinearMap.lTensor M (psi i) y) =
       completedLTensor p D M (psi (i + 1))
         (rawDifferential p D Om wedge deRham M nabla hleib i y) := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction y using TensorProduct.inductionOn with
   | tmul m ω =>
     rw [LinearMap.lTensor_tmul, rawDifferential_tmul, rawDifferential_tmul, map_add,
       completedLTensor_of, hpsi_deRham i ω]

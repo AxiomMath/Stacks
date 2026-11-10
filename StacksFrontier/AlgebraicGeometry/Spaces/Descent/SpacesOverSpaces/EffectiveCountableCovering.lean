@@ -75,7 +75,7 @@ def sigmaDesc [Small.{u} ι] :
 presheaves. -/
 lemma ι_sigmaDesc_hom [Small.{u} ι] (i : ι) :
     (Sigma.ι (fun i ↦ spaceSheaf (X i) (hX i)) i).hom ≫ (sigmaDesc f hT hX).hom = f i := by
-  rw [← ObjectProperty.FullSubcategory.comp_hom, sigmaDesc, Sigma.ι_desc]
+  rw [← ObjectProperty.FullSubcategory.comp_hom, sigmaDesc, Sigma.ι_comp_desc]
   rfl
 
 variable [Countable ι] (hX) in
@@ -149,7 +149,7 @@ theorem isAlgebraicSpace_of_isPullback_of_isAlgebraicSpace_sigma [Small.{u} ι]
   have hcov' := isFppfCovering_sigmaDesc_of_isAlgebraicSpace (hT := hT) hY hcov
   let Fs : Sheaf J (Type u) := ⟨F, hF⟩
   let gG : Fs ⟶ spaceSheaf T hT := ObjectProperty.homMk π
-  haveI : HasPullback gG σ := HasLimitsOfShape.has_limit (C := Sheaf J (Type u)) _
+  have : HasPullback gG σ := HasLimitsOfShape.has_limit (C := Sheaf J (Type u)) _
   let A := pullback gG σ
   have hA : IsPullback (pullback.fst gG σ).hom (pullback.snd gG σ).hom π σ.hom :=
     (IsPullback.of_hasPullback gG σ).map (sheafToPresheaf J (Type u))
@@ -171,7 +171,7 @@ theorem isAlgebraicSpace_of_isPullback_of_isAlgebraicSpace_sigma [Small.{u} ι]
           ι_sigmaDesc_hom i
         rw [hfst, hι]
         exact hpb i
-      · show (p i ≫ pullback.snd gG σ).hom = (q i ≫ Sigma.ι Xs i).hom
+      · change (p i ≫ pullback.snd gG σ).hom = (q i ≫ Sigma.ι Xs i).hom
         rw [pullback.lift_snd]
   obtain ⟨hcolim⟩ := nonempty_isColimit_cofanMk_of_isPullback B S hS (Sigma.ι Xs)
     (coproductIsCoproduct Xs) (pullback.snd gG σ) p q hpb'

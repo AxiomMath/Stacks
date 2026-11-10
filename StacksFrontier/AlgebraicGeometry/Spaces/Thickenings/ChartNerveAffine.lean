@@ -106,22 +106,22 @@ theorem _root_.Module.Descent.IsNerveReduction.exists_tensor_equiv {R' B C D : T
     RingEquiv.ofBijective πC ⟨(RingHom.injective_iff_ker_eq_bot _).2 hkC, hsC⟩
   let : Algebra A₁ B := ((eB.symm : B₁ →+* B).comp (algebraMap A₁ B₁)).toAlgebra
   let eBA : B ≃ₐ[A₁] B₁ := AlgEquiv.ofRingEquiv (f := eB) fun a => by
-    show eB (eB.symm (algebraMap A₁ B₁ a)) = _
+    change eB (eB.symm (algebraMap A₁ B₁ a)) = _
     rw [RingEquiv.apply_symm_apply]
   have : Algebra.Etale A₁ B := Algebra.Etale.of_equiv eBA.symm
   have : Module.FaithfullyFlat A₁ B := Module.FaithfullyFlat.of_linearEquiv A₁ B₁ eBA.toLinearEquiv
   refine ⟨A₁, inferInstance, inferInstance, inferInstance, inferInstance,
     (Algebra.TensorProduct.congr eBA eBA).toRingEquiv.trans eC.symm, fun b => ?_, fun b => ?_⟩
   · rw [RingEquiv.trans_apply, RingEquiv.symm_apply_eq]
-    show _ = πC (p₁ b)
+    change _ = πC (p₁ b)
     rw [show πC (p₁ b) = πB b ⊗ₜ 1 from RingHom.congr_fun hC₁ b]
-    show (Algebra.TensorProduct.congr eBA eBA) (b ⊗ₜ 1) = _
+    change (Algebra.TensorProduct.congr eBA eBA) (b ⊗ₜ 1) = _
     rw [Algebra.TensorProduct.congr_apply, Algebra.TensorProduct.map_tmul, map_one]
     rfl
   · rw [RingEquiv.trans_apply, RingEquiv.symm_apply_eq]
-    show _ = πC (p₂ b)
+    change _ = πC (p₂ b)
     rw [show πC (p₂ b) = 1 ⊗ₜ πB b from RingHom.congr_fun hC₂ b]
-    show (Algebra.TensorProduct.congr eBA eBA) (1 ⊗ₜ b) = _
+    change (Algebra.TensorProduct.congr eBA eBA) (1 ⊗ₜ b) = _
     rw [Algebra.TensorProduct.congr_apply, Algebra.TensorProduct.map_tmul, map_one]
     rfl
 

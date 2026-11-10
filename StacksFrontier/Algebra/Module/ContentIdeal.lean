@@ -147,7 +147,7 @@ private lemma exists_residueField_linearMap_of_lt
   let gA : Qbar →ₗ[A] (A ⧸ maximalIdeal A) :=
     { __ := g
       map_smul' := fun r x => by
-        show g ((algebraMap A ((A ⧸ maximalIdeal A)) r) • x) =
+        change g ((algebraMap A ((A ⧸ maximalIdeal A)) r) • x) =
           (algebraMap A ((A ⧸ maximalIdeal A)) r) • g x
         exact g.map_smul _ _ }
   let χ : I →ₗ[A] (A ⧸ maximalIdeal A) := gA.comp (mQ.mkQ.comp L.mkQ)
@@ -158,12 +158,12 @@ private lemma exists_residueField_linearMap_of_lt
     intro q
     obtain ⟨y, rfl⟩ := Submodule.mkQ_surjective mQ q
     obtain ⟨z, rfl⟩ := Submodule.mkQ_surjective L y
-    show χ z = 0
+    change χ z = 0
     rw [hχ]
     rfl
   · intro z hz
     change (z : A) ∈ K at hz
-    show gA (mQ.mkQ (L.mkQ z)) = 0
+    change gA (mQ.mkQ (L.mkQ z)) = 0
     have hzL : z ∈ L := hz
     rw [show L.mkQ z = 0 from (Submodule.Quotient.mk_eq_zero L).2 hzL]
     simp
@@ -235,14 +235,12 @@ private lemma lTensor_residueField_injective
     inferInstanceAs (IsScalarTower A (A ⧸ maximalIdeal A) _)
   let : IsScalarTower A ((A ⧸ maximalIdeal A)) ((A ⧸ maximalIdeal A) ⊗[A] M) :=
     ⟨fun a b x => by
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul c m => simp [TensorProduct.smul_tmul', Algebra.smul_def, mul_assoc]
       | add x y hx hy => simp only [smul_add, hx, hy]⟩
   let : IsScalarTower A ((A ⧸ maximalIdeal A)) ((A ⧸ maximalIdeal A) ⊗[A] N) :=
     ⟨fun a b x => by
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul c n => simp [TensorProduct.smul_tmul', Algebra.smul_def, mul_assoc]
       | add x y hx hy => simp only [smul_add, hx, hy]⟩
   let eM : (A ⧸ maximalIdeal A) ⊗[A] M ≃ₗ[(A ⧸ maximalIdeal A)]
@@ -259,12 +257,11 @@ private lemma lTensor_residueField_injective
       (Submodule.smul_top_le_comap_smul_top (maximalIdeal A) u)
   have hcomm (a : (A ⧸ maximalIdeal A) ⊗[A] M) :
       qmap (eM a) = eN (LinearMap.lTensor ((A ⧸ maximalIdeal A)) u a) := by
-    induction a using TensorProduct.induction_on with
-    | zero => simp [eM, eN, qmap]
+    induction a using TensorProduct.inductionOn with
     | tmul r m =>
         obtain ⟨s, rfl⟩ := Ideal.Quotient.mk_surjective r
         simp only [eM, eN, LinearMap.lTensor_tmul]
-        show qmap (Submodule.Quotient.mk (s • m)) =
+        change qmap (Submodule.Quotient.mk (s • m)) =
           Submodule.Quotient.mk (s • u m)
         simp [qmap]
     | add a b ha hb => simpa only [map_add] using congrArg₂ (· + ·) ha hb
@@ -321,8 +318,7 @@ theorem isContentIdeal_map_of_injective_mapQ_maximalIdeal
         ((TensorProduct.lid A N).toLinearMap ∘ₗ LinearMap.rTensor N I.subtype)
             (LinearMap.lTensor I u z) =
           u (((TensorProduct.lid A M).toLinearMap ∘ₗ LinearMap.rTensor M I.subtype) z) := by
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul a m => simp [LinearMap.comp_apply]
       | add a b ha hb => simpa only [map_add] using congrArg₂ (· + ·) ha hb
     have hright (z : K ⊗[A] N) :
@@ -342,8 +338,7 @@ theorem isContentIdeal_map_of_injective_mapQ_maximalIdeal
   rw [hnatural' zI, hzEq]
   have hzeroK (z : K ⊗[A] N) :
       LinearMap.rTensor N χ (LinearMap.rTensor N kI z) = 0 := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a n =>
         rw [LinearMap.rTensor_tmul, LinearMap.rTensor_tmul,
           show χ (kI a) = 0 from hχK (kI a) a.2]
@@ -378,7 +373,7 @@ private lemma isMittagLeffler_ulift
     hM P ((ULift.moduleEquiv (R := A) (M := M)).toLinearMap.comp f)
   refine ⟨Q, hQa, hQm, hQfp, g, fun N _ _ ↦ ?_⟩
   rw [← hg N]
-  show LinearMap.ker (f.rTensor N) =
+  change LinearMap.ker (f.rTensor N) =
     LinearMap.ker (((ULift.moduleEquiv (R := A) (M := M)).toLinearMap.comp f).rTensor N)
   ext z
   simp only [LinearMap.mem_ker, LinearMap.rTensor_comp, LinearMap.comp_apply]
@@ -388,7 +383,7 @@ private lemma isMittagLeffler_ulift
   · intro hz
     apply (LinearEquiv.rTensor N
       (ULift.moduleEquiv (R := A) (M := M))).injective
-    show ((ULift.moduleEquiv (R := A) (M := M)).toLinearMap.rTensor N)
+    change ((ULift.moduleEquiv (R := A) (M := M)).toLinearMap.rTensor N)
       ((f.rTensor N) z) = 0
     exact hz
 
@@ -419,15 +414,14 @@ private lemma mem_comap_range_iff_mem_smul_top
   have hcomm (z : K ⊗[A] ULift.{u} M) :
       E (K.subtype.rTensor (ULift.{u} M) z) =
         J.subtype.rTensor M (EK z) := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a m => rfl
     | add z w hz hw => simp [hz, hw]
   rw [← Ideal.subtype_rTensor_range M J]
   constructor
   · rintro ⟨z, hz⟩
     refine ⟨EK z, ?_⟩
-    show (TensorProduct.lid A M) (J.subtype.rTensor M (EK z)) = x
+    change (TensorProduct.lid A M) (J.subtype.rTensor M (EK z)) = x
     rw [← hcomm z, hz]
     simp [E]
   · rintro ⟨z, hz⟩
@@ -461,7 +455,7 @@ theorem exists_isContentIdeal_of_flat_isMittagLeffler
       zero_mem' := F'.zero_mem
       add_mem' := fun ha hb ↦ F'.add_mem ha hb
       smul_mem' := fun a b hb ↦ by
-        show eA.symm (a • b) ∈ F'
+        change eA.symm (a • b) ∈ F'
         rw [eA.symm.map_smul]
         exact F'.smul_mem a hb }
   refine ⟨I, isContentIdeal_of_forall_le ?_ ?_⟩
@@ -512,11 +506,11 @@ theorem exists_isContentIdeal_of_projective {A : Type*} [CommRing A] {M : Type*}
       rintro c ⟨i, rfl⟩
       refine Submodule.smul_induction_on hx ?_ ?_
       · intro r hr y _
-        show (s (r • y)) i ∈ J
+        change (s (r • y)) i ∈ J
         rw [map_smul, Finsupp.smul_apply, smul_eq_mul]
         exact Ideal.mul_mem_right ((s y) i) J hr
       · intro y z hy hz
-        show (s (y + z)) i ∈ J
+        change (s (y + z)) i ∈ J
         rw [map_add, Finsupp.add_apply]
         exact J.add_mem hy hz
   exact ⟨_, hcontent.fg, hcontent⟩

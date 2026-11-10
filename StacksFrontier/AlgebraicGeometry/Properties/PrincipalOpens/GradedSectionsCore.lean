@@ -103,7 +103,9 @@ theorem map_restrict_eq_zero_of_restrict_eq_zero
 theorem tensorSectionsAt_restrict
     (A B : SheafOfModules.{u} (structureSheafRing X.toRingedSpace))
     {V W : (Opens X.toRingedSpace)ᵒᵖ} (f : V ⟶ W) (m : A.val.obj V) (n : B.val.obj V) :
-    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (A)).obj (B))).val.map f
+    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj (A)).obj (B))).val.map f
         (tensorSectionsAt (sectionSiteRing X) (sectionSiteSheaf X) V A B m n) =
       tensorSectionsAt (sectionSiteRing X) (sectionSiteSheaf X) W A B
         (A.val.map f m) (B.val.map f n) := by
@@ -170,7 +172,9 @@ theorem tensorGlobalSection_restrict_eq_zero_of_smul
     (U : Opens X.toRingedSpace) (r : (sectionSiteRing X).obj (op U)) (q : A.val.obj (op U))
     (ha : A.val.map (terminal.from U).op a = r • q)
     (hb : r • B.val.map (terminal.from U).op b = 0) :
-    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (A)).obj (B))).val.map
+    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj (A)).obj (B))).val.map
         (terminal.from U).op
         (tensorGlobalSection (sectionSiteRing X) (sectionSiteSheaf X) A B a b) = 0 := by
   refine Eq.trans (tensorSectionsAt_restrict X A B (terminal.from U).op a b) ?_
@@ -188,7 +192,9 @@ theorem tensorGlobalSection_restrict_eq_zero
     (b : B.val.obj (op (⊤_ (Opens X.toRingedSpace.toPresheafedSpace))))
     (U : Opens X.toRingedSpace)
     (hb : B.val.map (terminal.from U).op b = 0) :
-    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (A)).obj (B))).val.map
+    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj (A)).obj (B))).val.map
         (terminal.from U).op
         (tensorGlobalSection (sectionSiteRing X) (sectionSiteSheaf X) A B a b) = 0 :=
   tensorGlobalSection_restrict_eq_zero_of_smul X A B a b U 1
@@ -201,16 +207,25 @@ section is divisible by a function annihilating the restriction of the acted-on 
 theorem sectionModuleAction_restrict_eq_zero_of_smul (n : ℕ) (j : ℤ)
     (c : (TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ)).val.obj
       (op (⊤_ (Opens X.toRingedSpace.toPresheafedSpace))))
-    (t : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L j)))).val.obj
+    (t : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X)
+        (sectionSiteSheaf X) L j)))).val.obj
         (op (⊤_ (Opens X.toRingedSpace.toPresheafedSpace))))
     (U : Opens X.toRingedSpace) (r : (sectionSiteRing X).obj (op U))
     (q : (TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ)).val.obj
       (op U))
     (hc : (TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ)).val.map
       (terminal.from U).op c = r • q)
-    (ht : r • ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L j)))).val.map
+    (ht : r • ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X)
+        (sectionSiteSheaf X) L j)))).val.map
         (terminal.from U).op t = 0) :
-    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L
+    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X)
+        (sectionSiteSheaf X) L
         ((n : ℤ) + j))))).val.map (terminal.from U).op
       (sectionModuleAction (sectionSiteRing X) (sectionSiteSheaf X) L H n j c t) = 0 := by
   unfold sectionModuleAction
@@ -222,12 +237,21 @@ section restricts to zero. -/
 theorem sectionModuleAction_restrict_eq_zero (n : ℕ) (j : ℤ)
     (c : (TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ)).val.obj
       (op (⊤_ (Opens X.toRingedSpace.toPresheafedSpace))))
-    (t : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L j)))).val.obj
+    (t : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X)
+        (sectionSiteSheaf X) L j)))).val.obj
         (op (⊤_ (Opens X.toRingedSpace.toPresheafedSpace))))
     (U : Opens X.toRingedSpace)
-    (ht : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L j)))).val.map
+    (ht : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X)
+        (sectionSiteSheaf X) L j)))).val.map
         (terminal.from U).op t = 0) :
-    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L
+    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X)
+        (sectionSiteSheaf X) L
         ((n : ℤ) + j))))).val.map (terminal.from U).op
       (sectionModuleAction (sectionSiteRing X) (sectionSiteSheaf X) L H n j c t) = 0 := by
   exact sectionModuleAction_restrict_eq_zero_of_smul X L H n j c t U 1
@@ -238,7 +262,11 @@ theorem sectionModuleAction_restrict_eq_zero (n : ℕ) (j : ℤ)
 written as a cast of a sum of naturals. This is the isomorphism through which
 `Stacks.SheafOfModules.sectionRingMul` is defined. -/
 abbrev sectionRingMulIso (n m : ℕ) :
-    (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ)))).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L (m : ℤ)))) ≅
+    (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj ((TensorPower.tensorPower (sectionSiteRing X)
+        (sectionSiteSheaf X) L (n : ℤ)))).obj ((TensorPower.tensorPower (sectionSiteRing X)
+        (sectionSiteSheaf X) L (m : ℤ)))) ≅
       TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L ((n + m : ℕ) : ℤ) :=
   TensorPower.coherentMulIso (sectionSiteRing X) (sectionSiteSheaf X) L (n : ℤ) (m : ℤ) ≪≫
     TensorPower.tensorPowerReindex (sectionSiteRing X) (sectionSiteSheaf X) L
@@ -372,7 +400,10 @@ theorem sectionPower_restrict_dvd_smul (s : L.sections) (U : Opens X.toRingedSpa
 /-- Acting by `s ^ (e + k)` is acting by `s ^ k` after acting by `s ^ e`, read on the
 homogeneous elements of the section module. -/
 theorem sectionModuleAction_add (s : L.sections) (e k : ℕ) (j : ℤ)
-    (t : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L j)))).val.obj
+    (t : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X)
+        (sectionSiteSheaf X) L j)))).val.obj
         (op (⊤_ (Opens X.toRingedSpace.toPresheafedSpace)))) :
     (DirectSum.of _ (((e + k : ℕ) : ℤ) + j)
         (sectionModuleAction (sectionSiteRing X) (sectionSiteSheaf X) L H (e + k) j
@@ -409,35 +440,59 @@ theorem sectionModuleAction_add (s : L.sections) (e k : ℕ) (j : ℤ)
 /-- Two homogeneous elements of the section module placed in equal degrees by equal inclusions
 have the same restrictions, so one restricts to zero exactly when the other does. -/
 theorem restrict_eq_zero_of_of_eq {j j' : ℤ} (hjj : j = j')
-    (a : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L j)))).val.obj
+    (a : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X)
+        (sectionSiteSheaf X) L j)))).val.obj
         (op (⊤_ (Opens X.toRingedSpace.toPresheafedSpace))))
-    (b : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L j')))).val.obj
+    (b : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X)
+        (sectionSiteSheaf X) L j')))).val.obj
         (op (⊤_ (Opens X.toRingedSpace.toPresheafedSpace))))
     (hab : (DirectSum.of _ j a : sectionModule (sectionSiteRing X) (sectionSiteSheaf X) L H) =
       DirectSum.of _ j' b)
     (U : Opens X.toRingedSpace)
-    (hb : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L j')))).val.map
+    (hb : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X)
+        (sectionSiteSheaf X) L j')))).val.map
         (terminal.from U).op b = 0) :
-    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L j)))).val.map
+    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X)
+        (sectionSiteSheaf X) L j)))).val.map
         (terminal.from U).op a = 0 := by
   subst hjj
   have hc := congrArg
     (fun z : sectionModule (sectionSiteRing X) (sectionSiteSheaf X) L H => z j) hab
   simp only [DirectSum.of_eq_same] at hc
-  exact (congrArg (fun z => ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L j)))).val.map
+  exact (congrArg (fun z => ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+      Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+      ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X)
+      (sectionSiteSheaf X) L j)))).val.map
       (terminal.from U).op z) hc).trans hb
 
 /-- Raising the exponent preserves local vanishing of the twisted section. -/
 theorem sectionModuleAction_restrict_eq_zero_of_le (s : L.sections) (e N : ℕ)
     (hle : e ≤ N) (j : ℤ)
-    (t : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L j)))).val.obj
+    (t : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X)
+        (sectionSiteSheaf X) L j)))).val.obj
         (op (⊤_ (Opens X.toRingedSpace.toPresheafedSpace))))
     (U : Opens X.toRingedSpace)
-    (ht : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L
+    (ht : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X)
+        (sectionSiteSheaf X) L
         ((e : ℤ) + j))))).val.map (terminal.from U).op
       (sectionModuleAction (sectionSiteRing X) (sectionSiteSheaf X) L H e j
         (sectionPower X L s e) t) = 0) :
-    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L
+    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X)
+        (sectionSiteSheaf X) L
         ((N : ℤ) + j))))).val.map (terminal.from U).op
       (sectionModuleAction (sectionSiteRing X) (sectionSiteSheaf X) L H N j
         (sectionPower X L s N) t) = 0 := by
@@ -450,10 +505,16 @@ theorem sectionModuleAction_restrict_eq_zero_of_le (s : L.sections) (e N : ℕ)
 restriction of a twisted global section, then one power of `s` annihilates it globally. -/
 theorem exists_sectionModuleAction_eq_zero_of_locally [CompactSpace X] (s : L.sections)
     (j : ℤ)
-    (t : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L j)))).val.obj
+    (t : ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X)
+        (sectionSiteSheaf X) L j)))).val.obj
         (op (⊤_ (Opens X.toRingedSpace.toPresheafedSpace))))
     (hlocal : ∀ x : X, ∃ (e : ℕ) (U : Opens X.toRingedSpace), x ∈ U ∧
-      ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L
+      ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+          Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+          ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X)
+          (sectionSiteSheaf X) L
           ((e : ℤ) + j))))).val.map (terminal.from U).op
         (sectionModuleAction (sectionSiteRing X) (sectionSiteSheaf X) L H e j
           (sectionPower X L s e) t) = 0) :
@@ -466,9 +527,15 @@ theorem exists_sectionModuleAction_eq_zero_of_locally [CompactSpace X] (s : L.se
     (fun z _ => Set.mem_iUnion.2 ⟨z, hmem z⟩)
   refine ⟨σ.sup ee, ?_⟩
   refine TopCat.Sheaf.eq_of_locally_eq'
-    (⟨((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L
+    (⟨((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X)
+        (sectionSiteSheaf X) L
           (((σ.sup ee : ℕ) : ℤ) + j))))).val.presheaf,
-      ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X) (sectionSiteSheaf X) L
+      ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing X),
+          Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing X)) (forget₂ CommRingCat RingCat)
+          ((sectionSiteSheaf X))⟩).obj (H)).obj ((TensorPower.tensorPower (sectionSiteRing X)
+          (sectionSiteSheaf X) L
           (((σ.sup ee : ℕ) : ℤ) + j))))).isSheaf⟩ : TopCat.Sheaf Ab X)
     (fun i : (σ : Set X) => UU i.1) (⊤_ (Opens X.toRingedSpace.toPresheafedSpace))
     (fun i => terminal.from (UU i.1)) ?_ _ 0 ?_
@@ -505,7 +572,9 @@ noncomputable def tensorOverUnitIso
     {Y : Scheme.{u}} (A P : Y.Modules) (U : Y.Opens)
     (e : P.over U ≅ _root_.SheafOfModules.unit
       ((structureSheafRing Y.toRingedSpace).over U)) :
-    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing Y), Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing Y)) (forget₂ CommRingCat RingCat) ((sectionSiteSheaf Y))⟩).obj (A)).obj (P))).over U ≅
+    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨(sectionSiteRing Y),
+        Presheaf.isSheaf_of_isSheaf_comp _ ((sectionSiteRing Y)) (forget₂ CommRingCat RingCat)
+        ((sectionSiteSheaf Y))⟩).obj (A)).obj (P))).over U ≅
       A.over U :=
   _root_.AlgebraicGeometry.tensorRestrictionIso Y.toRingedSpace A P U ≪≫
     Invertible.tensorProductIso (Y.toRingedSpace.sheaf.over U).obj

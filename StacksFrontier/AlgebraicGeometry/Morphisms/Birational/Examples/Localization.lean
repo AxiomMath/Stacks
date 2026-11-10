@@ -63,14 +63,14 @@ theorem localization_isBirational (A : Type u) [CommRing A] [IsDomain A]
   have : IsDomain (Localization S) := IsLocalization.isDomain_localization hM
   let f : Spec (.of (Localization S)) ⟶ Spec (.of A) :=
     Scheme.Spec.map (CommRingCat.ofHom (algebraMap A (Localization S))).op
-  show Set.BijOn f (genericPoints _) (genericPoints _) ∧ _
-  refine ⟨?_, fun x _ => isIso_SpecMap_stakMap_localization (CommRingCat.of A) S x⟩
+  change Set.BijOn f (genericPoints _) (genericPoints _) ∧ _
+  refine ⟨?_, fun x _ => isIso_specMap_stalkMap_localization (CommRingCat.of A) S x⟩
   rw [genericPoints_eq_singleton, genericPoints_eq_singleton]
   apply Set.bijOn_singleton.mpr
   rw [genericPoint_eq_bot_of_affine, genericPoint_eq_bot_of_affine]
-  show PrimeSpectrum.comap (algebraMap A (Localization S)) ⊥ = ⊥
+  change PrimeSpectrum.comap (algebraMap A (Localization S)) ⊥ = ⊥
   ext a
-  show (algebraMap A (Localization S)) a = 0 ↔ a = 0
+  change (algebraMap A (Localization S)) a = 0 ↔ a = 0
   exact ⟨fun ha => IsLocalization.injective (Localization S) hM (by simpa using ha),
     fun ha => by simp [ha]⟩
 
@@ -124,7 +124,7 @@ theorem exists_nonzero_away_isUnit_of_isIso_restrict
       (Localization.Away (algebraMap A (Localization S) a))
       (algebraMap A (Localization S) s.1)) :=
     RingHom.isUnit_map _ (IsLocalization.map_units (Localization S) s)
-  show IsUnit (g (algebraMap A (Localization.Away a) s.1))
+  change IsUnit (g (algebraMap A (Localization.Away a) s.1))
   simpa [g, Localization.awayMap, IsLocalization.Away.map] using hs
 
 /-- The multiplicative submonoid of odd integers. -/

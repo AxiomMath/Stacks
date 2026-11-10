@@ -327,7 +327,7 @@ theorem laumonFourierLineAwayFibreVanishing_of_top
       (isLocallyConstantWith_inverseImage ℤ_[ℓ] _ (B.inclusion.map jU) hK₀)
   have hF1 : ℓ ^ 1 • 𝟙 F = 0 := by
     have hK : ℓ ^ (0 + 1) • 𝟙 K₀ = 0 := LAdicSheaf.pow_nsmul_id_padicTower_obj B ℓ _ 0
-    show ℓ ^ 1 • 𝟙 ((etaleModuleInverseImage.{u, 0} ℤ_[ℓ] u').obj
+    change ℓ ^ 1 • 𝟙 ((etaleModuleInverseImage.{u, 0} ℤ_[ℓ] u').obj
       ((etaleModuleInverseImage.{u, 0} ℤ_[ℓ] (B.inclusion.map jU)).obj K₀)) = 0
     rw [← CategoryTheory.Functor.map_id, ← CategoryTheory.Functor.map_nsmul,
       ← CategoryTheory.Functor.map_id, ← CategoryTheory.Functor.map_nsmul, hK,
@@ -336,7 +336,7 @@ theorem laumonFourierLineAwayFibreVanishing_of_top
     (etaleModuleInverseImage.{u, 0} ℤ_[ℓ] u') 0).app A
   refine IsZero.of_iso ?_ ((DerivedCategory.Plus.homologyFunctor _ q).mapIso
     ((derivedLowerShriek.{u, 0} f' j' ℤ_[ℓ]).mapIso eS))
-  show IsZero ((DerivedCategory.Plus.homologyFunctor _ q).obj
+  change IsZero ((DerivedCategory.Plus.homologyFunctor _ q).obj
     ((derivedLowerShriek.{u, 0} f' j' ℤ_[ℓ]).obj ((DerivedCategory.Plus.singleFunctor _ 0).obj F)))
   obtain ⟨hconn, hnp, hdim⟩ := laumonFamilyFibre_connectedSpace_not_isProper_dim hpb Ω s
   rcases lt_trichotomy q 0 with hq0 | rfl | hq0

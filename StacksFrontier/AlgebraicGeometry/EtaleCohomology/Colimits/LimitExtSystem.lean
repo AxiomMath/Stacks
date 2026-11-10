@@ -368,6 +368,7 @@ theorem trans_trans {i i' i'' : J} (h : i ≤ i') (h' : i' ≤ i'') :
   rw [← E.map_comp]
   exact congrArg E.map (Subsingleton.elim _ _)
 
+omit [IsDirected J (· ≤ ·)] in
 /-- The cone projection to the least stage factors through the projection to stage `i`. -/
 theorem cone_toBot (i : J) : c.π.app (op ⊥) = c.π.app (op i) ≫ toBot E i :=
   (c.w _).symm
@@ -401,6 +402,7 @@ theorem resK_trans_trans {i i' i'' : J} (h : i ≤ i') (h' : i' ≤ i'')
       resK (trans E (h.trans h')) (toBot E i) (toBot E i'') (toBot_eq E _) M G m x :=
   resK_resK _ _ _ (trans_trans E h h') _ _ _ _ _ _ _ _ _ _
 
+omit [IsDirected J (· ≤ ·)] in
 /-- Restriction along a transition map followed by restriction to the limit is restriction to
 the limit. -/
 theorem resK_cone_trans {i i' : J} (h : i ≤ i')
@@ -410,6 +412,7 @@ theorem resK_cone_trans {i i' : J} (h : i ≤ i')
       resK (c.π.app (op i)) (toBot E i) (c.π.app (op ⊥)) (cone_toBot E c i) M G m x :=
   resK_resK _ _ _ (cone_trans E c h) _ _ _ _ _ _ _ _ _ _
 
+omit [IsDirected J (· ≤ ·)] in
 /-- The comparison being an isomorphism for `M` implies the same for any `M'` isomorphic to `M`. -/
 theorem good_of_iso {M M' G : Sheaf (E.obj (op ⊥)).smallEtaleTopology AddCommGrpCat.{u + 1}}
     (e : M ≅ M') (h : Good E c M G) : Good E c M' G := by
@@ -422,7 +425,6 @@ theorem good_of_iso {M M' G : Sheaf (E.obj (op ⊥)).smallEtaleTopology AddCommG
     (PL := invLim E c) (G := G)
     (τ := fun h M m => resK (trans E h) _ _ (toBot_eq E h) M G m)
     (lm := fun i M m => resK (c.π.app (op i)) _ _ (cone_toBot E c i) M G m)
-    (fun hii' M m x => resK_cone_trans hii' M G m x)
     (fun {_ _} _ {_ _} v m x => resK_mk₀_comp _ _ _ _ v m x)
     (fun _ {_ _} v m x => resK_mk₀_comp _ _ _ _ v m x) e h
 

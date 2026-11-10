@@ -136,7 +136,7 @@ public theorem injective_torsorSectionsRestrictGenericPoint_trivialTorsor
   have hιleft : ((Over.post (X := B.obj hW) B.inclusion).map
         (genericPointToBase B W hW hK)).left =
       W.fromSpecStalk (genericPoint (W : Type u)) := by
-    show B.inclusion.map (genericPointToBase B W hW hK).left = _
+    change B.inclusion.map (genericPointToBase B W hW hK).left = _
     rw [hι]
     rfl
   have hd : IsDominant ((Over.post (X := B.obj hW) B.inclusion).map

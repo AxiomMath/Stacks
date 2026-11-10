@@ -44,7 +44,10 @@ for every open `V` of `S` and every degree `p`, and in particular, at `V = ⊤`,
 ## Implementation notes
 
 The shape of the argument is that of the two companion files
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/CechComparison/SmallEtaleQuasiCoherentCohomology.lean` and `StacksFrontier/AlgebraicGeometry/EtaleCohomology/CechComparison/BigSiteQuasiCoherentCohomology.lean` of
+`SmallEtaleQuasiCoherentCohomology.lean`
+and
+`BigSiteQuasiCoherentCohomology.lean`
+of
 `StacksFrontier/AlgebraicGeometry/EtaleCohomology/CechComparison/`, which carry the other halves of
 [Stacks, Tag 03DW]: the Leray collapse
 `Stacks.Cohomology.BiggerSite.sheafCohomologyPushforwardIso` along a continuous functor out of

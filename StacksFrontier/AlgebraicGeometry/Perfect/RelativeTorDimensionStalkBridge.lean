@@ -87,9 +87,11 @@ public biconditional on complexes and in the same way; it is a dedup target, and
 should be deleted in favour of this one.
 
 `Stacks.IdealTorsion.unitStalkAddEquiv` of
-`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.IdealTorsionFree` is reused rather than rebuilt, and
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.IdealTorsionFree` is reused rather than rebuilt,
+and
 is the reason that file is imported here; `Stacks.IdealTorsion.Eta.unitStalkAddEquiv` of
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/EtaSheaf.lean` is a second copy of it and is a dedup target.
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/EtaSheaf.lean` is a second copy of it and is a
+dedup target.
 
 ## References
 

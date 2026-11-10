@@ -56,7 +56,7 @@ Over a test scheme `g : T ⟶ X` the splitting morphism `π : P ⟶ T` of the mo
 (Stacks 02UL, `Stacks.Chow.exists_splittingMorphism_universal`) has injective flat pullback, and
 `(π ≫ g)^*ℰ_i ≅ π^*g^*ℰ_i` is filtered; so the hypothesis applies to `h = π ≫ g`, and
 `Stacks.Chow.TotalChowClass.eq_of_res_eq_of_flat` concludes. -/
-theorem eq_of_res_eq_of_hasInvertibleFiltration {I : Type} [Fintype I] (E : I → X.Modules)
+theorem eq_of_res_eq_of_hasInvertibleFiltration {I : Type} [Finite I] (E : I → X.Modules)
     (r : I → ℕ)
     (hE : ∀ i, AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u} (E i) (r i))
     {c d : TotalChowClass C sX}
@@ -65,6 +65,7 @@ theorem eq_of_res_eq_of_hasInvertibleFiltration {I : Type} [Fintype I] (E : I �
       (∀ i, Stacks.WeilCohomology.HasInvertibleFiltration T
         ((Scheme.Modules.pullback h).obj (E i)) (r i)) → res h hs c = res h hs d) :
     c = d := by
+  have := Fintype.ofFinite I
   refine eq_of_res_eq_of_flat fun {T} g _ ↦ ?_
   obtain ⟨S, -, hS⟩ := exists_splittingMorphism_universal C (g ≫ sX) I
     (fun i ↦ (Scheme.Modules.pullback g).obj (E i)) r

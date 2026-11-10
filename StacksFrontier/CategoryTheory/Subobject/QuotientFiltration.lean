@@ -225,14 +225,14 @@ include hS
 omit hS in
 /-- Below `a`, the concatenated filtration is the image of the corresponding step of `F₁`. -/
 lemma concatFiltration_of_lt {k : Fin (a + b + 1)} (hk : (k : ℕ) < a) :
-    concatFiltration F₁ F₃ k = (map S.f).obj (F₁ ⟨k, by omega⟩) := dif_pos hk
+    concatFiltration F₁ F₃ k = (map S.f).obj (F₁ ⟨k, by omega⟩) := dite_eq_left hk
 
 omit hS in
 /-- From `a` on, the concatenated filtration is the preimage of the corresponding step of
 `F₃`. -/
 lemma concatFiltration_of_le {k : Fin (a + b + 1)} (hk : a ≤ (k : ℕ)) :
     concatFiltration F₁ F₃ k = (Subobject.pullback S.g).obj (F₃ ⟨k - a, by omega⟩) :=
-  dif_neg (by omega)
+  dite_eq_right (by omega)
 
 include h₁a h₃0 in
 /-- The images of the steps of `F₁` and the preimages of the steps of `F₃` agree at the junction:

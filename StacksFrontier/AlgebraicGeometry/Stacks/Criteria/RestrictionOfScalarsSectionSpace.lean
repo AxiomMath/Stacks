@@ -171,10 +171,10 @@ noncomputable def prodIsoPullbackOfIsTerminal {C : Type u₁} [Category.{v} C] {
   inv := prod.lift (pullback.fst base g) (pullback.snd base g)
   hom_inv_id := by
     apply prod.hom_ext <;>
-      simp [pullback.lift_fst, pullback.lift_snd]
+      simp
   inv_hom_id := by
     apply pullback.hom_ext <;>
-      simp [pullback.lift_fst, pullback.lift_snd]
+      simp
 
 /-- **The comparison of a fibre product over a final object with the product is compatible with
 base change in the first factor.** This is the single computation behind the naturality of
@@ -188,7 +188,7 @@ theorem prodIsoPullbackOfIsTerminal_hom_comp_map {C : Type u₁} [Category.{v} C
         pullback.map (f ≫ base) g base g f (𝟙 Y) (𝟙 Q) eq₁ eq₂ =
       prod.map f (𝟙 Y) ≫ (prodIsoPullbackOfIsTerminal hQ base g).hom := by
   apply pullback.hom_ext <;>
-    simp [pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc]
+    simp
 
 /-! ### The restriction of scalars over the final algebraic space -/
 
@@ -306,7 +306,7 @@ noncomputable def restrictionPairEquivSectionsOver (T : BigFppfOver B U hU) :
           (toBase B U hU Z).hom).hom =
           (pullback.congrHom hbase rfl).hom := by
       apply pullback.hom_ext <;>
-        simp [pullback.lift_fst, pullback.lift_snd]
+        simp
     exact (Category.assoc _ _ _).symm.trans (congrArg (fun m => m ≫ p.lift) h)
   right_inv σ := Subtype.ext (Iso.hom_inv_id_assoc _ _)
 

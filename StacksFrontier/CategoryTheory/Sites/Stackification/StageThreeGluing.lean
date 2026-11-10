@@ -7,7 +7,8 @@ public import StacksFrontier.CategoryTheory.Sites.Stackification.StageThreeMorSh
 /-!
 # The morphism presheaves of the third stage are sheaves
 
-`StacksFrontier/CategoryTheory/Sites/Stackification/StageThreeMorSheaf.lean` proves the separatedness
+`StacksFrontier/CategoryTheory/Sites/Stackification/StageThreeMorSheaf.lean`
+proves the separatedness
 half of condition (2) of Stacks 026F for the third stage of the construction of the stackification
 and reduces the condition to the gluing half alone. This file proves that gluing half,
 `CategoryTheory.Functor.exists_amalgamation_descentPairProj`, and draws the conclusion.

@@ -241,10 +241,10 @@ theorem leftAction_apply (L : LeftModule A) (M : CochainComplex (ModuleCat.{u} R
           simpa only [add_comm] using
             L.smul_mem n p (a : A.A) (x : L.M) a.property x.property⟩ : L.grading (p + n)) := by
   unfold leftAction
-  show i.hom.f (p + n) (actionLinear A L n p (p + n) rfl a (i.inv.f p (i.hom.f p x))) =
+  change i.hom.f (p + n) (actionLinear A L n p (p + n) rfl a (i.inv.f p (i.hom.f p x))) =
     i.hom.f (p + n) ⟨(a : A.A) • (x : L.M), _⟩
   have hx : i.inv.f p (i.hom.f p x) = x := by
-    show (i.hom.f p ≫ i.inv.f p) x = x
+    change (i.hom.f p ≫ i.inv.f p) x = x
     exact congrArg (fun f => f x) (congrArg (fun f => f.f p) i.hom_inv_id)
   rw [hx]
   rfl

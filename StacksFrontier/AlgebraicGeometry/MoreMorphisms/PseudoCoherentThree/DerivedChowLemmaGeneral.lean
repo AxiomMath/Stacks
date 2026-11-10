@@ -391,7 +391,7 @@ theorem exists_derivedChowDatum {A : Type u} [CommRing A] {X : Scheme.{u}}
   have hzV : z ∈ (iZ ≫ pullback.snd f
       (projectiveSpaceOver m (Spec (.of A)) ↘ Spec (.of A))) ⁻¹ᵁ V := by
     rw [← hpreZ]
-    show (iZ ≫ pullback.fst f
+    change (iZ ≫ pullback.fst f
       (projectiveSpaceOver m (Spec (.of A)) ↘ Spec (.of A))).base z ∈ U
     rw [hz]
     exact hxU

@@ -110,7 +110,7 @@ theorem exists_isFractionRing_residueField_genericPoint :
       (X.residueField (genericPoint X))).comp e.symm.toRingHom).toAlgebra,
     (IsFractionRing.isFractionRing_iff_of_base_ringEquiv
       (S := X.residueField (genericPoint X)) e).mp hfr, fun a => ?_⟩
-  show algebraMap (Γ(X, U) ⧸ (hU.primeIdealOf ⟨genericPoint X, hx⟩).asIdeal)
+  change algebraMap (Γ(X, U) ⧸ (hU.primeIdealOf ⟨genericPoint X, hx⟩).asIdeal)
       (X.residueField (genericPoint X)) (e.symm (Ideal.Quotient.mk _ a)) = _
   rw [show e.symm (Ideal.Quotient.mk (nilradical Γ(X, U)) a) = Ideal.Quotient.mk _ a from rfl]
   exact hU.algebraMap_residueFieldQuotientAlgebra_mk (genericPoint X) hx a

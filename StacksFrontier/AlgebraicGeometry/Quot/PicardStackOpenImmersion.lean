@@ -455,7 +455,7 @@ theorem hasOpenLocus_picardToCoherent (D : CoherentSituation B S hS)
         isInvertibleModule_modulePullback_relativeMap_of_subset_fibrewiseEtaleRankOneFreeLocus D
           m.base A.F⟩
     rw [h₂]
-    show _ ↔ Set.range (pointsMap B S hS (yoneda.obj (CoherentObject.T (y.obj T)).left)
+    change _ ↔ Set.range (pointsMap B S hS (yoneda.obj (CoherentObject.T (y.obj T)).left)
       (yoneda.map m.base.left)) ⊆ Ω
     rw [range_pointsMap_yoneda_subset_iff B S hS m.base.left Ω]
     have h₃ := congrArg (fun k => (BigFppfOver.toScheme B S hS).map k) (Functor.congr_hom hy t)

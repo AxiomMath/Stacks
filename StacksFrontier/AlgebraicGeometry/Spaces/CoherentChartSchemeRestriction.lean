@@ -192,7 +192,7 @@ theorem bijective_reindexBackSharp_app (e : C' ≌ C)
     (R : CategoryTheory.Sheaf J RingCat.{w}) (A : C) :
     Function.Bijective ((reindexBackSharp (J' := J') e R).hom.app (Opposite.op A)).hom := by
   have : IsIso ((reindexBackSharp (J' := J') e R).hom.app (Opposite.op A)) := by
-    show IsIso (R.obj.map (e.counit.app A).op)
+    change IsIso (R.obj.map (e.counit.app A).op)
     infer_instance
   exact ConcreteCategory.bijective_of_isIso
     ((reindexBackSharp (J' := J') e R).hom.app (Opposite.op A))

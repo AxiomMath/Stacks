@@ -149,9 +149,9 @@ theorem FormalObject.isEffective_of_isAlgebraicStack (𝒳 : Stack.AlgebraicStac
   have hε : ∀ r : R, ε (algebraMap k l (algebraMap R k r)) =
       Ideal.Quotient.mk _ (algebraMap R R' r) := by
     intro r
-    show e₁ (e.symm (algebraMap k l (algebraMap R k r))) = _
+    change e₁ (e.symm (algebraMap k l (algebraMap R k r))) = _
     rw [AlgEquiv.commutes]
-    show e₁ (algebraMap k (ResidueField R') (residue R r)) = _
+    change e₁ (algebraMap k (ResidueField R') (residue R r)) = _
     rw [IsLocalRing.ResidueField.algebraMap_residue]
     rfl
   have key : Spec.map (CommRingCat.ofHom ε) ≫ Spec.map (CommRingCat.ofHom (algebraMap k l)) ≫
@@ -161,7 +161,7 @@ theorem FormalObject.isEffective_of_isAlgebraicStack (𝒳 : Stack.AlgebraicStac
     congr 2
     apply Ideal.Quotient.ringHom_ext
     ext r
-    show ε (algebraMap k l (ε₀ (Ideal.Quotient.mk _ r))) = _
+    change ε (algebraMap k l (ε₀ (Ideal.Quotient.mk _ r))) = _
     rw [show ε₀ (Ideal.Quotient.mk _ r) = algebraMap R k r from rfl, hε]
     rfl
   let jS : Spec (.of (R' ⧸ maximalIdeal R' ^ (0 + 1))) ⟶ X :=

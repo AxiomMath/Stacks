@@ -309,7 +309,7 @@ theorem stage_factor_helper (T : Type u) [CommRing T] [Algebra R T]
         (alg R p).app i ≫ (cocp R p).ι.app i := by
     intro i
     apply CommRingCat.hom_ext
-    show θ.comp (algebraMap R T) = (leg R p i).comp (algebraMap R (Localization.Away (i : R)))
+    change θ.comp (algebraMap R T) = (leg R p i).comp (algebraMap R (Localization.Away (i : R)))
     rw [hθ]
     exact (RingHom.ext (leg_algebraMap R p i)).symm
   obtain ⟨i, g', hfg, hgcomp⟩ :=
@@ -360,7 +360,7 @@ theorem exists_stage_factorization (R S : Type) [CommRing R] [CommRing S] [Algeb
       e (algebraMap R (Localization.AtPrime p) r) =
         algebraMap S (Localization.AtPrime q) (algebraMap R S r) :=
       Localization.localRingHom_to_map p q (algebraMap R S) hpq r
-    show e.symm (algebraMap S (Localization.AtPrime q) (algebraMap R S r)) = _
+    change e.symm (algebraMap S (Localization.AtPrime q) (algebraMap R S r)) = _
     rw [← hkey]
     show e.symm (e _) = _
     rw [RingEquiv.symm_apply_apply]

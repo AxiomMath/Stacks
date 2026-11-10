@@ -73,10 +73,12 @@ translation is needed to discharge them:
 
 The universes of the space, its structure sheaf and its modules coincide, as they already must for
 `StrictlyPerfect.OXMod` and for `Stacks.Cohomology.TorAmplitude.derTensor`; the derived category's
-hom universes stay independent (`d` for `X`, `d'` for its opens), matching
-`StacksFrontier/Topology/Sheaves/Cohomology/PerfectComplexes/PseudoCoherentAndFiniteTorDimension.lean`. The universe arguments of the
-scheme-level statement are written out, as in the sibling file `Triangulated.lean`: the level of
-the derived-category instance is a `max` which unification will not read off the value.
+hom universes stay independent (`d` for `X`, `d'` for its opens), matching the file
+`PseudoCoherentAndFiniteTorDimension.lean` in the directory
+`StacksFrontier/Topology/Sheaves/Cohomology/PerfectComplexes/`.
+The universe arguments of the scheme-level statement are written out, as in the sibling file
+`Triangulated.lean`: the level of the derived-category instance is a `max` which unification will
+not read off the value.
 
 ## References
 

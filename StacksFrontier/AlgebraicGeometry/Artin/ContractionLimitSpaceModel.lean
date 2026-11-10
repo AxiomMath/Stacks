@@ -92,10 +92,10 @@ theorem isEtaleEquivalenceRelation_relation_of_witnesses
         isLimit := hFP.isLimit
         t := F.map comp
         transitivity₁ := by
-          show F.map comp ≫ F.map sR = F.map (pullback.fst tR sR) ≫ F.map sR
+          change F.map comp ≫ F.map sR = F.map (pullback.fst tR sR) ≫ F.map sR
           rw [← F.map_comp, ← F.map_comp, hcomp₁]
         transitivity₂ := by
-          show F.map comp ≫ F.map tR = F.map (pullback.snd tR sR) ≫ F.map tR
+          change F.map comp ≫ F.map tR = F.map (pullback.snd tR sR) ≫ F.map tR
           rw [← F.map_comp, ← F.map_comp, hcomp₂] }
   · rw [hsource]
     exact htE

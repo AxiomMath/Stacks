@@ -195,10 +195,10 @@ theorem exists_isZero_rightDerived_twistPow
   have := modulePushforward_additive B S hS (representedSpaceMap B S hS ψ)
   have sq : IsPullback (representedSpaceMap B S hS π) (representedSpaceMap B S hS ψ) D.hom i := by
     refine IsPullback.of_map (ObjectProperty.ι _) (ObjectProperty.hom_ext _ ?_) ?_
-    · show yoneda.map π ≫ D.hom.hom = yoneda.map ψ ≫ f
+    · change yoneda.map π ≫ D.hom.hom = yoneda.map ψ ≫ f
       rw [hπ]
       exact hq.w V.1.hom
-    · show IsPullback (yoneda.map π) (yoneda.map ψ) D.hom.hom f
+    · change IsPullback (yoneda.map π) (yoneda.map ψ) D.hom.hom f
       rw [hπ]
       exact hq.isPullback V.1.hom
   -- the restriction of `(𝒪_Z ⊗ ℒ^{⊗ d})^a` to the chart is `(𝒪_W ⊗ (π^*ℒ)^{⊗ d})^a`
@@ -283,10 +283,10 @@ theorem isCoherent_modulePushforward_twistPow
   have sq : IsPullback (representedSpaceMap B S hS π) (representedSpaceMap B S hS ψ) D.hom
       (chartToSpace B S hS X V) := by
     refine IsPullback.of_map (ObjectProperty.ι _) (ObjectProperty.hom_ext _ ?_) ?_
-    · show yoneda.map π ≫ D.hom.hom = yoneda.map ψ ≫ V.1.hom
+    · change yoneda.map π ≫ D.hom.hom = yoneda.map ψ ≫ V.1.hom
       rw [hπ]
       exact hq.w V.1.hom
-    · show IsPullback (yoneda.map π) (yoneda.map ψ) D.hom.hom V.1.hom
+    · change IsPullback (yoneda.map π) (yoneda.map ψ) D.hom.hom V.1.hom
       rw [hπ]
       exact hq.isPullback V.1.hom
   have hφ : IsEtale B S hS (representedSpaceMap B S hS π).hom :=

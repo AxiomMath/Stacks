@@ -136,9 +136,9 @@ theorem zeroLocus_imageIdeal_subset_range (J : Ideal (MvPolynomial (Fin n) R))
     Ideal.quotientMap Jk Φ hJle with hψ
   have hcomp : ψ.comp (structMap J) = Ideal.Quotient.mk Jk := by
     ext r
-    show ψ (structMap J r) = Ideal.Quotient.mk Jk r
+    change ψ (structMap J r) = Ideal.Quotient.mk Jk r
     rw [structMap_apply, hψ, Ideal.quotientMap_mk]
-    show Ideal.Quotient.mk Jk (Φ (C r)) = Ideal.Quotient.mk Jk r
+    change Ideal.Quotient.mk Jk (Φ (C r)) = Ideal.Quotient.mk Jk r
     congr 1
     rw [hΦ]
     simp
@@ -188,7 +188,7 @@ theorem range_subset_iUnion_zeroLocus_imageIdeal (J : Ideal (MvPolynomial (Fin n
   choose k hk using exists_eq_of_factoredPoly_eq_zero (A := S ⧸ q.asIdeal) d α φ hkill
   refine ⟨k, ?_⟩
   rw [PrimeSpectrum.mem_zeroLocus]
-  show (imageIdeal d α k J : Ideal R) ≤ (PrimeSpectrum.comap (structMap J) q).asIdeal
+  change (imageIdeal d α k J : Ideal R) ≤ (PrimeSpectrum.comap (structMap J) q).asIdeal
   rw [PrimeSpectrum.comap_asIdeal, imageIdeal_def, Ideal.map_le_iff_le_comap]
   -- The two ring maps `mk q ∘ structMap J ∘ Φ_k` and `φ` agree on generators, hence
   -- are equal; so for any `g`, `mk q (structMap J (Φ_k g)) = φ g`.

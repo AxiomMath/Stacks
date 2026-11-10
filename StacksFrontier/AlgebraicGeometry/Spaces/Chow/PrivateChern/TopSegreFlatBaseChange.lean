@@ -312,7 +312,7 @@ theorem rationallyEquivalentOn_flatPullbackMap_topSegreCycle
         (flatPullbackMap D sQW hQW sW hW qW hqW d hqWf hqWd (k + r) (n + r) (by omega)
           (flatPullbackMap D sW hW sY hY g hg r hgf hgr k (k + r) rfl α)) := by
     refine Subtype.ext ?_
-    show (flatPullbackMap D sQW hQW sQ hQ g' hg' r hg'f hg'r (k + d) (k + d + r) rfl
+    change (flatPullbackMap D sQW hQW sQ hQ g' hg' r hg'f hg'r (k + d) (k + d + r) rfl
       (cycleGroupCast D sQ hkn.symm (flatPullbackMap D sQ hQ sY hY q hq d hqf hqd k n hkn α))).1 = _
     rw [flatPullbackMap_cycleGroupCast]
     exact flatPullbackMap_flatPullbackMap_coe_of_comm D sY hY sQ hQ sW hW sQW hQW sq.w hq hg hqW
@@ -326,7 +326,7 @@ theorem rationallyEquivalentOn_flatPullbackMap_topSegreCycle
     hpush)
   refine closure_minimal ?_ (hT.preimage (continuous_pointsMap D.site D.base D.base_mem g))
   rintro _ ⟨x, hx, rfl⟩
-  show pointsMap D.site D.base D.base_mem W g (pointsMap D.site D.base D.base_mem QW qW x) ∈ T
+  change pointsMap D.site D.base D.base_mem W g (pointsMap D.site D.base D.base_mem QW qW x) ∈ T
   have := congrArg (fun φ => pointsMap D.site D.base D.base_mem QW φ x) sq.w
   simp only [pointsMap_comp_apply] at this
   rw [← this]

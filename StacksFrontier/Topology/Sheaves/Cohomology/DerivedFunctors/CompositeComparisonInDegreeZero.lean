@@ -171,13 +171,13 @@ theorem toRightDerivedZero'_comp_mapCyclesIso_inv {M : A} (I : InjectiveResoluti
                   I.cocomplex) 0))).trans
           ((whisker_eq _
                 (ShortComplex.mapCyclesIso_inv_comp_iCycles_assoc _ G _)).trans
-            ((Category.assoc' _ _ _).trans
+            ((Category.assoc _ _ _).symm.trans
               ((eq_whisker (((G.map_comp _ _).symm).trans
                     (congrArg G.map (I.toRightDerivedZero'_comp_iCycles F))) _).trans
                 ((e.hom.naturality (I.ι.f 0)).trans
                   ((whisker_eq _
                       (I.toRightDerivedZero'_comp_iCycles H).symm).trans
-                    (Category.assoc' _ _ _)))))))))
+                    (Category.assoc _ _ _).symm))))))))
 
 omit [HasInjectiveResolutions A] in
 /-- The complex-level content of the degree-zero normalization of

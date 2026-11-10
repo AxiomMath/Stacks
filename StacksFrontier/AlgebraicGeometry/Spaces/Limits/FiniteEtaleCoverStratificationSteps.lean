@@ -208,7 +208,7 @@ theorem IsEtaleCoverOver.comp_homOfLe (hX : IsAlgebraicSpace B S hS X) {Z₁ Z�
     isFinite_and_isFinitePresentation_comp_homOfLe hX hZ₁ hZ₁fp hZ₂ hZ₂fp hle hf.1 hf.2.1
   refine ⟨hfin, hfp, fun y hy => ?_⟩
   rw [Category.assoc, Subfunctor.homOfLe_ι] at hy
-  refine IsEtaleAt.comp B S hS (isAlgebraicSpace_yoneda B S hS Y) hZ₁.1 (hf.2.2 y hy) ?_
+  refine IsEtaleAt.comp B S hS hZ₁.1 (hf.2.2 y hy) ?_
   refine isEtaleAt_homOfLe_of_inf_eq hX hZ₁.1 hZ₂.1 hle hO heq _ ?_
   rw [← pointsMap_comp_apply]
   exact hD hy
@@ -390,7 +390,7 @@ theorem IsCoverStratified.exists_cover (hX : IsAlgebraicSpace B S hS X) {W : Sub
     induction n, hn using Nat.le_induction with
     | base =>
       obtain ⟨Y, g, hg, hs⟩ := hpiece 0 ht
-      exact ⟨Y, g, hg, Set.diff_subset.trans hs⟩
+      exact ⟨Y, g, hg, Set.sdiff_subset.trans hs⟩
     | succ n hn ih =>
       obtain ⟨Y, g, hg, hs⟩ := ih (by omega)
       obtain ⟨Y', g', hg', hs'⟩ := hpiece n (by omega)
@@ -469,7 +469,7 @@ theorem isCoverStratified_of_isEtaleCoverOver (hX : IsAlgebraicSpace B S hS X)
     · refine ⟨Y', c, hc.mono ?_, hcs⟩
       rintro x ⟨hx₁, hx₂⟩
       refine ⟨hx₁, fun hx' => hx₂ ?_⟩
-      show x ∈ subspacePointSet B S hS X (Z 0)
+      change x ∈ subspacePointSet B S hS X (Z 0)
       rw [hpts, subspacePointSet_inf B S hS]
       exact ⟨hx', hx₁⟩
     · exact hstep i (by omega)

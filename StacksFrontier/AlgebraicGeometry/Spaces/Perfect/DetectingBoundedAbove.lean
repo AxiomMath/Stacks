@@ -227,7 +227,7 @@ theorem exists_isLE_of_highHomVanishing_of_eds (hZ : B.Contains (⊤_ Scheme.{u}
         ⟨fun a b => (hsubC n (by omega) a).trans (hsubC n (by omega) b).symm⟩).elim _ _
     have hy : y = 0 := by
       rw [← (adjS.homEquiv _ _).apply_symm_apply y]
-      show adjS.homEquiv _ _ z = 0
+      change adjS.homEquiv _ _ z = 0
       rw [hz, Adjunction.homEquiv_unit, Functor.map_zero, comp_zero]
     have hx : x = y ≫ φ.hom := by
       simp only [y, Category.assoc, Iso.inv_hom_id, Category.comp_id]

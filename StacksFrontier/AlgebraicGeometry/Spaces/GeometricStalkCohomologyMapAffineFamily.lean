@@ -78,8 +78,7 @@ theorem bijective_baseChangeTensorRingMap_of_isPushout {R A R' A' : Type u} [Com
   have h : ∀ z, baseChangeTensorRingMap (R := R) (A := A) (R' := R') (A' := A') z =
       Algebra.IsPushout.equiv R A R' A' z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a r =>
       rw [baseChangeTensorRingMap_tmul, Algebra.IsPushout.equiv_tmul]
     | add x y hx hy => rw [map_add, map_add, hx, hy]
@@ -175,7 +174,7 @@ theorem geometricBaseStalkMap_representedAffineStalkRingHom {U V V' U' : BigFppf
       representedAffineGlobalStalkRingHom B S hS V'
           (geometricPointMap (representedSpaceMap B S hS f₀').hom x)
         ((representedAffineCommRingCatHom B S hS g₀).hom a) := by
-  show (stalkStructureMap B S hS (representedSpaceMap B S hS g₀)
+  change (stalkStructureMap B S hS (representedSpaceMap B S hS g₀)
     (geometricPointMap (representedSpaceMap B S hS f₀').hom x)).hom
       ((eqToHom (congrArg (fun z => geometricStalkRing B S hS
         (X := ⟨yoneda.obj V, isAlgebraicSpace_yoneda B S hS V⟩) z)
@@ -195,7 +194,7 @@ open RingTheory.TorIndependence in
 is invertible at every geometric point of `U'` in every degree if and only if the composite
 `RΓ(U, K) ⊗ᴸ_{𝒪(V)} 𝒪(V') ⟶ RΓ(U', K')` of Stacks 065Z with the map induced by `φ` is an
 isomorphism. -/
-theorem forall_isIso_geometricStalkBaseChangeCohomologyMap_iff_isIso_representedAffineSectionsBaseChangeComp
+theorem forall_isIso_geometricStalkBaseChangeCohomologyMap_iff_isIso_affineSectionsBaseChangeComp
     {U V V' U' : BigFppfOver B S hS} [IsAffine ((BigFppfOver.toScheme B S hS).obj U)]
     [IsAffine ((BigFppfOver.toScheme B S hS).obj V)]
     [IsAffine ((BigFppfOver.toScheme B S hS).obj V')]

@@ -82,9 +82,11 @@ theorem pullbackFreeIso_inv_comp_map_comp_hom (I L : Type u)
 /-- **Inverse image along a morphism bijective on global functions is a bijection on morphisms
 of finite free modules.** -/
 theorem bijective_pullback_map_free (he : Function.Bijective e.appTop) (I L : Type u)
-    [Fintype L] [DecidableEq L] :
+    [Finite L] :
     Function.Bijective (fun g : SheafOfModules.free (R := Z.ringCatSheaf) I ⟶
         SheafOfModules.free (R := Z.ringCatSheaf) L => (Scheme.Modules.pullback e).map g) := by
+  have := Fintype.ofFinite L
+  classical
   have : (SheafOfModules.pushforward e.toRingCatSheafHom).IsRightAdjoint :=
     inferInstanceAs ((Scheme.Modules.pushforward e).IsRightAdjoint)
   have : (Opens.map e.base).Final := final_of_representablyFlat _
@@ -127,7 +129,7 @@ theorem bijective_pullback_map_free (he : Function.Bijective e.appTop) (I L : Ty
 /-- **Every automorphism of the inverse image of a module isomorphic to a finite free module is
 the inverse image of an automorphism**, along a morphism bijective on global functions. -/
 theorem exists_iso_pullback_map_eq_of_iso_free (he : Function.Bijective e.appTop) {M : Z.Modules}
-    {I : Type u} [Fintype I] [DecidableEq I] (ε : M ≅ SheafOfModules.free (R := Z.ringCatSheaf) I)
+    {I : Type u} [Finite I] (ε : M ≅ SheafOfModules.free (R := Z.ringCatSheaf) I)
     (δ : (Scheme.Modules.pullback e).obj M ≅ (Scheme.Modules.pullback e).obj M) :
     ∃ β : M ≅ M, (Scheme.Modules.pullback e).map β.hom = δ.hom :=
   CategoryTheory.Functor.exists_iso_map_eq_of_bijective_of_iso _ ε

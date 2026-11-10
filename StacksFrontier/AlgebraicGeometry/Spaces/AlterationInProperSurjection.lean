@@ -99,7 +99,7 @@ private instance (priority := high) hasPullback_presheaf_AlterationInProperSurje
     HasLimit (cospan f g) :=
   (hasPullbacks_presheaf_AlterationInProperSurjection B S hS).has_limit _
 
-variable {X Y: (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
+variable {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
 /-- The reduced closed subspace supported on the closure of a point `w` of the set-theoretic
 fibre of `f` over a generic point `η` of `|Y|` which is closed in that fibre is integral, and

@@ -90,7 +90,7 @@ private lemma exists_closed_fiber_specialization
   have hcomp : (algebraMap k (S ⧸ I)).comp (Ideal.Quotient.mk (IsLocalRing.maximalIdeal R)) =
       algebraMap R (S ⧸ I) := by
     ext r
-    show Ideal.quotientMap I (algebraMap R S) Ideal.le_comap_map
+    change Ideal.quotientMap I (algebraMap R S) Ideal.le_comap_map
         (Ideal.Quotient.mk (IsLocalRing.maximalIdeal R) r) =
       Ideal.Quotient.mk I ((algebraMap R S) r)
     rw [Ideal.quotientMap_mk]
@@ -112,9 +112,9 @@ private lemma exists_closed_fiber_specialization
       R S N q hq
   obtain ⟨M, hM, hqI⟩ := Ideal.exists_le_maximal (q.asIdeal + I) hproper
   refine ⟨⟨M, hM.isPrime⟩, ?_, ?_⟩
-  · show q.asIdeal ≤ M
+  · change q.asIdeal ≤ M
     exact le_trans le_sup_left hqI
-  · show I ≤ M
+  · change I ≤ M
     exact le_trans le_sup_right hqI
 
 private lemma prime_spectrum_point_over_closed_point
@@ -123,7 +123,7 @@ private lemma prime_spectrum_point_over_closed_point
     (hm : (IsLocalRing.maximalIdeal R).map (algebraMap R S) ≤ z.asIdeal) :
     PrimeSpectrum.comap (algebraMap R S) z = ⊤ := by
   apply PrimeSpectrum.ext
-  show Ideal.comap (algebraMap R S) z.asIdeal = IsLocalRing.maximalIdeal R
+  change Ideal.comap (algebraMap R S) z.asIdeal = IsLocalRing.maximalIdeal R
   exact ((IsLocalRing.maximalIdeal.isMaximal R).eq_of_le
     (Ideal.comap_ne_top _ z.2.ne_top) (Ideal.map_le_iff_le_comap.mp hm)).symm
 
@@ -148,7 +148,7 @@ private lemma associatedPrime_comap_of_scalarTower
   simp only [Submodule.mem_colon_span_singleton]
   rw [← hx]
   simp only [Submodule.mem_colon_span_singleton, Ideal.mem_comap]
-  show r • x = 0 ↔ (algebraMap R S r) • x = 0
+  change r • x = 0 ↔ (algebraMap R S r) • x = 0
   rw [IsScalarTower.algebraMap_smul]
 
 private lemma associatedPrime_of_linearEquiv
@@ -182,7 +182,7 @@ private lemma residueFieldEquivOfAffineOpen_evaluation
     hU.isLocalization_stalk ⟨y, hy⟩
   let e := IsLocalization.algEquiv p.primeCompl (Y.presheaf.stalk y)
       (Localization.AtPrime p)
-  show IsLocalRing.ResidueField.mapEquiv e.toRingEquiv
+  change IsLocalRing.ResidueField.mapEquiv e.toRingEquiv
       (IsLocalRing.residue _ ((Y.presheaf.germ U y hy).hom r)) = _
   rw [IsLocalRing.ResidueField.mapEquiv_apply, IsLocalRing.ResidueField.map_residue]
   rw [IsScalarTower.algebraMap_apply Γ(Y, U) (Localization.AtPrime p)
@@ -190,7 +190,7 @@ private lemma residueFieldEquivOfAffineOpen_evaluation
   rw [IsLocalRing.ResidueField.algebraMap_eq]
   rw [show (Y.presheaf.germ U y hy).hom r =
     algebraMap (Γ(Y, U)) (Y.presheaf.stalk y) r from rfl]
-  show IsLocalRing.residue (Localization.AtPrime p)
+  change IsLocalRing.residue (Localization.AtPrime p)
       (e (algebraMap (Γ(Y, U)) (Y.presheaf.stalk y) r) : Localization.AtPrime p) = _
   rw [e.commutes r]
 
@@ -224,8 +224,7 @@ private noncomputable def pushoutBaseChangeCommEquiv (R S A B : Type u) [CommRin
   let fwd : (B ⊗[A] M) → M ⊗[R] S := fun x => ecomm (hcancel x)
   let inv : M ⊗[R] S → (B ⊗[A] M) := fun z => hcancel.symm (ecomm.symm z)
   have hinv_smul (a : A) (z : M ⊗[R] S) : inv (a • z) = a • inv z := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp [inv]
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp [inv, hz, hw]
     | tmul m k =>
         simp only [inv, ecomm, TensorProduct.smul_tmul', TensorProduct.comm_symm_tmul]
@@ -257,7 +256,7 @@ private lemma eq_fromSpec_closedPoint {T : Scheme.{u}} [IsAffine T] [IsLocalRing
       ((isAffineOpen_top T).fromSpec (IsLocalRing.closedPoint Γ(T, ⊤))) =
       IsLocalRing.closedPoint A := by
     apply (Spec A).isoSpec.hom.homeomorph.injective
-    show (Spec A).isoSpec.hom (e.hom
+    change (Spec A).isoSpec.hom (e.hom
         ((isAffineOpen_top T).fromSpec (IsLocalRing.closedPoint Γ(T, ⊤)))) =
       (Spec A).isoSpec.hom (IsLocalRing.closedPoint A)
     have : IsLocalRing Γ(Spec A, ⊤) :=
@@ -279,7 +278,7 @@ private lemma eq_fromSpec_closedPoint {T : Scheme.{u}} [IsAffine T] [IsLocalRing
         ((isAffineOpen_top T).fromSpec (IsLocalRing.closedPoint Γ(T, ⊤))) =
         IsLocalRing.closedPoint Γ(T, ⊤) := by
       rw [IsAffineOpen.fromSpec_top (X := T)]
-      show (T.isoSpec.inv ≫ T.isoSpec.hom).base (IsLocalRing.closedPoint Γ(T, ⊤)) = _
+      change (T.isoSpec.inv ≫ T.isoSpec.hom).base (IsLocalRing.closedPoint Γ(T, ⊤)) = _
       rw [T.isoSpec.inv_hom_id]
       rfl
     rw [hpoint', hx, Spec_closedPoint, Scheme.isoSpec_Spec_hom]
@@ -287,13 +286,13 @@ private lemma eq_fromSpec_closedPoint {T : Scheme.{u}} [IsAffine T] [IsLocalRing
         Γ(Spec A, ⊤) →+* A) :=
       IsLocalHom.of_surjective _
         (Scheme.ΓSpecIso A).commRingCatIsoToRingEquiv.surjective
-    show IsLocalRing.closedPoint Γ(Spec A, ⊤) =
+    change IsLocalRing.closedPoint Γ(Spec A, ⊤) =
       PrimeSpectrum.comap ((Scheme.ΓSpecIso A).commRingCatIsoToRingEquiv :
         Γ(Spec A, ⊤) →+* A) (IsLocalRing.closedPoint A)
     exact (IsLocalRing.comap_closedPoint
       ((Scheme.ΓSpecIso A).commRingCatIsoToRingEquiv : Γ(Spec A, ⊤) →+* A)).symm
   apply e.hom.homeomorph.injective
-  show e.hom t = e.hom ((isAffineOpen_top T).fromSpec (IsLocalRing.closedPoint Γ(T, ⊤)))
+  change e.hom t = e.hom ((isAffineOpen_top T).fromSpec (IsLocalRing.closedPoint Γ(T, ⊤)))
   rw [ht, htopImage]
 
 /-- The map on global sections of a morphism is its `appLE` on the top opens. -/
@@ -338,7 +337,7 @@ private lemma locallyProjective_of_iso {Y : Scheme.{u}} {M N : Y.Modules}
       hom_inv_id := congrArg (fun g : M ⟶ M => g.val.app (Opposite.op U)) e.hom_inv_id,
       inv_hom_id := congrArg (fun g : N ⟶ N => g.val.app (Opposite.op U)) e.inv_hom_id }
   let eU : Γ(M, U) ≃ₗ[Γ(Y, U)] Γ(N, U) := eiso.toLinearEquiv
-  show Module.Projective Γ(Y, U) Γ(N, U)
+  change Module.Projective Γ(Y, U) Γ(N, U)
   exact Module.Projective.of_equiv' eU
 
 /-- Local projectivity of a direct image along an affine morphism is inherited by the direct
@@ -401,7 +400,7 @@ private lemma fromSpec_top_naturality {W T : Scheme.{u}} (π : W ⟶ T) [IsAffin
       (isAffineOpen_top T).fromSpec (PrimeSpectrum.comap π.appTop.hom z) := by
   have hqz : (isAffineOpen_top W).primeIdealOf
       ⟨(isAffineOpen_top W).fromSpec z, Set.mem_univ _⟩ = z := by
-    show (isAffineOpen_top W).isoSpec.hom.base ((isAffineOpen_top W).isoSpec.inv.base z) = z
+    change (isAffineOpen_top W).isoSpec.hom.base ((isAffineOpen_top W).isoSpec.inv.base z) = z
     exact congr($((isAffineOpen_top W).isoSpec.inv_hom_id).base z)
   have h := comap_appTop_primeIdealOf_top π ((isAffineOpen_top W).fromSpec z)
   rw [hqz] at h
@@ -457,11 +456,11 @@ private lemma residueFieldSectionsRingEquiv_appTop {T : Scheme.{u}} [IsAffine T]
         ((isAffineOpen_top T).primeIdealOf ⟨t, Set.mem_univ _⟩).asIdeal.ResidueField r := by
   have hgamma : (Scheme.ΓSpecIso (CommRingCat.of (T.residueField t))).commRingCatIsoToRingEquiv
       ((T.fromSpecResidueField t).appTop.hom r) = T.Γevaluation t r := by
-    show (Scheme.ΓSpecIso (CommRingCat.of (T.residueField t))).hom
+    change (Scheme.ΓSpecIso (CommRingCat.of (T.residueField t))).hom
       ((T.fromSpecResidueField t).appTop.hom r) = _
     exact congrArg (fun k : CommRingCat.Hom _ _ => k.hom r)
       (fromSpecResidueField_appTop_eval t)
-  show residueFieldEquivOfAffineOpen ⊤ (isAffineOpen_top T) t (Set.mem_univ _)
+  change residueFieldEquivOfAffineOpen ⊤ (isAffineOpen_top T) t (Set.mem_univ _)
       ((Scheme.ΓSpecIso (CommRingCat.of (T.residueField t))).commRingCatIsoToRingEquiv
         ((T.fromSpecResidueField t).appTop.hom r)) = _
   rw [hgamma]
@@ -485,7 +484,7 @@ private lemma isScalarTower_ΓSpec_tilde (R : CommRingCat.{u}) (N : ModuleCat.{u
   let : Algebra R Γ(Spec R, ⊤) := (Scheme.ΓSpecIso R).inv.hom.toAlgebra
   apply IsScalarTower.of_algebraMap_smul
   intro r y
-  show ((Scheme.ΓSpecIso R).inv r) • y = r • y
+  change ((Scheme.ΓSpecIso R).inv r) • y = r • y
   rw [Scheme.Modules.smul_Spec_def]
   have hmap : (Spec R).presheaf.map (TopologicalSpace.Opens.leTop ⊤).op = 𝟙 _ := by
     rw [show (TopologicalSpace.Opens.leTop ⊤).op = 𝟙 _ from Subsingleton.elim _ _]
@@ -649,18 +648,18 @@ private lemma exists_prime_comap_eq_top_of_fiber_associatedPoint {Y T : Scheme.{
   let : Algebra.FiniteType R S₀ :=
     (RingHom.finiteType_algebraMap).mp (π.finiteType_appLE hTtop hXtop htopLE)
   let : Module S₀ N₀ := by
-    show Module Γ(Y, ⊤) Γ(M, ⊤)
+    change Module Γ(Y, ⊤) Γ(M, ⊤)
     infer_instance
   let : Module R N₀ := by
-    show Module Γ(T, ⊤) Γ((Scheme.Modules.pushforward π).obj M, ⊤)
+    change Module Γ(T, ⊤) Γ((Scheme.Modules.pushforward π).obj M, ⊤)
     infer_instance
   let : IsScalarTower R S₀ N₀ :=
     IsScalarTower.of_algebraMap_smul fun r n => by
-      show ((π.appLE ⊤ ⊤ htopLE).hom) r • n = r • n
+      change ((π.appLE ⊤ ⊤ htopLE).hom) r • n = r • n
       rw [← hSapp]
       rfl
   have hprojN : Module.Projective R N₀ := by
-    show Module.Projective Γ(T, ⊤) Γ((Scheme.Modules.pushforward π).obj M, ⊤)
+    change Module.Projective Γ(T, ⊤) Γ((Scheme.Modules.pushforward π).obj M, ⊤)
     exact hloc ⊤ hTtop
   have hfiniteN : Module.Finite S₀ N₀ := moduleFinite_sections_on_affine M ⊤ hXtop
   have hPush : IsPushout (CommRingCat.ofHom (algebraMap R S₀))
@@ -753,7 +752,7 @@ private lemma not_isImpurity_of_eq_pullback {P : PrePureSituation.{u}} (D : Impu
     (((Scheme.Γ.mapIso e.op).commRingCatIsoToRingEquiv.symm).trans
       (Scheme.ΓSpecIso A).commRingCatIsoToRingEquiv).symm.isLocalRing
   refine not_isImpurity_of_isAffine_of_isLocalRing P D (eq_fromSpec_closedPoint e ?_) hloc
-  show (Limits.pullback.snd g g') ((eqToHom eT) D.t) = _
+  change (Limits.pullback.snd g g') ((eqToHom eT) D.t) = _
   rw [eqToHom_scheme_apply]
   exact ht
 
@@ -794,7 +793,7 @@ public theorem isUniversallyPureRelative_of_pushforward_isLocallyProjective
   intro s
   let P : PrePureSituation.{u} :=
     { S := S, X := X, f := f, F := F, s := s }
-  show ∀ D : ImpurityDiagram P, ¬ IsImpurity P D
+  change ∀ D : ImpurityDiagram P, ¬ IsImpurity P D
   intro D hD
   let : LocallyOfFiniteType D.toT :=
     locallyOfFiniteType_isStableUnderBaseChange.of_isPullback D.isPullback inferInstance
@@ -820,7 +819,7 @@ public theorem isUniversallyPureRelative_of_pushforward_isLocallyProjective
       mapsTo := Scheme.fromSpecStalk_closedPoint,
       flatAt := by
         let : Flat (D.T.fromSpecStalk D.t) := flat_fromSpecStalk D.T D.t
-        show ((D.T.fromSpecStalk D.t).stalkMap _).hom.Flat
+        change ((D.T.fromSpecStalk D.t).stalkMap _).hom.Flat
         exact Flat.stalkMap _ _ }
   obtain ⟨P₁, D₁, eS, eX, eT, hcomm, hF₁, hs₁, hg₁, himp₁,
       ht'₁, ht₁, hst₁, hxi₁⟩ :=

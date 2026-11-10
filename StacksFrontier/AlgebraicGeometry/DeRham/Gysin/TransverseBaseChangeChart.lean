@@ -82,7 +82,7 @@ theorem pullbackComp_inv_app_pullbackSection {X Y Z : Scheme.{u}} (f : X ⟶ Y) 
       pullbackSection f ((Scheme.Modules.pullback g).obj M) W V hf
         (pullbackSection g M U W hg a) := by
   rw [← Scheme.Modules.pullbackSection_comp f g M U W V hg hf h a]
-  show (((Scheme.Modules.pullbackComp f g).hom.app M ≫
+  change (((Scheme.Modules.pullbackComp f g).hom.app M ≫
     (Scheme.Modules.pullbackComp f g).inv.app M).val.app (op V)) _ = _
   rw [Iso.hom_inv_id_app]
   rfl
@@ -463,7 +463,6 @@ open Scheme.Modules (pullbackSection)
 
 variable {Z X S Z' X' S' : Scheme.{u}} (i : Z ⟶ X) (i' : Z' ⟶ X') (h : Z' ⟶ Z) (g : X' ⟶ X)
   (π : X ⟶ S) (π' : X' ⟶ S') (t : S' ⟶ S)
-  [IsClosedImmersion i] [LocallyOfFinitePresentation i] [IsClosedImmersion i']
 
 /-- The zero locus of the pulled-back chart equations is the part of `Z'` over the pulled-back
 chart. -/
@@ -474,6 +473,8 @@ theorem equationsClosedSet_restrict_pullback_range (hcart : IsPullback h i' i g)
       (g ⁻¹ᵁ W).ι ⁻¹' Set.range i'.base :=
   (equationsClosedSet_restrict_pullback g W _ fW hfW).trans
     (congrArg _ (range_base_eq_closedSubsetPreimage i i' h g hcart).symm)
+
+variable [IsClosedImmersion i] [LocallyOfFinitePresentation i] [IsClosedImmersion i']
 
 /-- **The chart class maps against the right vertical arrow of [Stacks, Tag 0G89]**: over the
 preimage of a chart, the right vertical arrow carries the class map of the chart's equations to

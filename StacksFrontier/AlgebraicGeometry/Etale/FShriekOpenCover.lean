@@ -417,8 +417,7 @@ private theorem baseChangeCompIso_inv_fst (B : BigEtaleSite.{u}) {T X Y : B.Sche
   have h := conjugateEquiv_counit (Over.mapPullbackAdj (j ≫ f))
     ((Over.mapPullbackAdj j).comp (Over.mapPullbackAdj f))
     (Over.mapComp j f).inv V.obj
-  simpa [Over.pullbackComp, Adjunction.comp_counit_app] using
-    congrArg (fun a => a.left) h
+  simp [Over.pullbackComp]
 
 /-- The canonical map from the proper-support direct image of a restriction to a smaller open
 subscheme factors through the one for a larger open subscheme, by transitivity of extension by

@@ -230,9 +230,10 @@ section Kronecker
 
 /-- An inclusion of fixed-vector spaces persists along a field embedding. -/
 public theorem mulVec_map_eq_self_of_forall_mulVec_eq_self {K L : Type*} [Field K] [Field L]
-    (ι : K →+* L) {n : Type*} [Fintype n] [DecidableEq n] {M M' : Matrix n n K}
+    (ι : K →+* L) {n : Type*} [Fintype n] {M M' : Matrix n n K}
     (h : ∀ v : n → K, M *ᵥ v = v → M' *ᵥ v = v) (w : n → L) (hw : M.map ι *ᵥ w = w) :
     M'.map ι *ᵥ w = w := by
+  classical
   have hK : ∀ v : n → K, (M - 1) *ᵥ v = 0 → (M' - 1) *ᵥ v = 0 := fun v hv => by
     rw [Matrix.sub_mulVec, Matrix.one_mulVec, sub_eq_zero] at hv ⊢
     exact h v hv

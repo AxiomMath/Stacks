@@ -100,9 +100,12 @@ module on the site, and that conjunct of part (3) is not available; see
 Every name here is prefixed `lc`, the file being written beside two other developments of the
 same square — the big sites of
 `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModulePullbackBigSites.lean` and the small étale
-site of `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleMorphismBaseChange.lean` — whose plain names are taken.
+site of
+`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleMorphismBaseChange.lean` —
+whose plain names are taken.
 The plain name `AlgebraicGeometry.SmallZariski.associatedModulePullbackIso` is taken too, by the
-identity reading in `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallZariskiMorphismPullback.lean`.
+identity reading in
+`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallZariskiMorphismPullback.lean`.
 
 The continuity instances are written with `Functor.IsContinuous.{u}`, pinning the universe of the
 sheaves of sets to that of the sections of the structure sheaves:
@@ -221,7 +224,7 @@ public theorem lcStructureIso_hom_app (X : Scheme.{u}) (hX : B.Contains X) (V : 
     (smallZariskiCommStructureIso B X hX).hom.app (op V) =
       (smallZariskiOpenImmersion B X hX ((opensToSmallZariski B X hX).obj V)).appLE V ⊤
         (lcTop_le_preimage B X hX V) := by
-  show X.presheaf.map _ ≫ (IsOpenImmersion.ΓIsoTop _).inv = _
+  change X.presheaf.map _ ≫ (IsOpenImmersion.ΓIsoTop _).inv = _
   refine Eq.trans (congrArg (fun k => X.presheaf.map
       ((smallZariskiSiteEquiv B X hX).op.counitIso.inv.app (op V)) ≫ k)
     (openImmersion_ΓIsoTop_inv (smallZariskiOpenImmersion B X hX

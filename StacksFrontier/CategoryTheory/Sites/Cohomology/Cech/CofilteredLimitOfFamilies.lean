@@ -84,7 +84,7 @@ theorem exactAt_of_forall_exists {ι : Type*} {c : ComplexShape ι}
     rw [← ConcreteCategory.comp_apply, ψ.comm, ConcreteCategory.comp_apply, hψy]
   obtain ⟨z, hz'⟩ := (ShortComplex.ab_exact_iff _).mp (((K' k).exactAt_iff i).mp (hK' k)) _ hz
   refine ⟨(φ k).f (c.prev i) z, ?_⟩
-  show K.d (c.prev i) i ((φ k).f (c.prev i) z) = (φ j).f i x'
+  change K.d (c.prev i) i ((φ k).f (c.prev i) z) = (φ j).f i x'
   change (K' k).d (c.prev i) i z = ψ.f i x' at hz'
   have h₁ := ConcreteCategory.congr_hom ((φ k).comm (c.prev i) i) z
   have h₂ := ConcreteCategory.congr_hom
@@ -157,7 +157,7 @@ theorem isPullback_map_cechProductMap {C : Type u} [Category.{v} C] {D : Type*} 
     (congrArg CommaMorphism.left (hE.fac _ ⟨a⟩)).trans rfl
   refine PullbackCone.IsLimit.mk _ lift (fun s ↦ ?_) (fun s ↦ ?_) (fun s m h₁ h₂ ↦ ?_)
   · refine Over.left_hom_ext_of_isLimit hG fun b ↦ ?_
-    show (lift s ≫ q.map (cechProductMap E G φ n i)) ≫
+    change (lift s ≫ q.map (cechProductMap E G φ n i)) ≫
         q.map (Pi.π (fun a ↦ Over.mk (G.f (φ.s₀ (i a)))) b).left =
       s.fst ≫ q.map (Pi.π (fun a ↦ Over.mk (G.f (φ.s₀ (i a)))) b).left
     rw [Category.assoc, ← q.map_comp, cechProductMap_comp_π_left_anyUniverses, q.map_comp,
@@ -167,7 +167,7 @@ theorem isPullback_map_cechProductMap {C : Type u} [Category.{v} C] {D : Type*} 
       (Over.homMk (ℓ s a) ((hφ a).lift_snd _ _ _) :
         Over.mk s.snd ⟶ (Over.post q).obj (Over.mk (E.f (i a))))))
   · refine Over.left_hom_ext_of_isLimit hE fun b ↦ ?_
-    show m ≫ q.map (Pi.π (fun a ↦ Over.mk (E.f (i a))) b).left =
+    change m ≫ q.map (Pi.π (fun a ↦ Over.mk (E.f (i a))) b).left =
       lift s ≫ q.map (Pi.π (fun a ↦ Over.mk (E.f (i a))) b).left
     rw [hlift s b]
     refine (hφ b).hom_ext ?_ ?_
@@ -480,7 +480,7 @@ lemma exists_cechComplexMap_stageFamilyHomOver_apply_eq_zero (n : ℕ) (j : Λ)
   refine (cechComplexMap_f_apply_π _ _ (stageFamilyHomOver E B M m (T hjO)) F n t y).trans
     (Eq.trans ?_ (map_zero (ConcreteCategory.hom
       (Pi.π (cochainFactor (stageFamily E B M m k) F n) t))).symm)
-  show ConcreteCategory.hom (F.map ((stageFibreProduct E B M m n t).map (T hjO)).op)
+  change ConcreteCategory.hom (F.map ((stageFibreProduct E B M m n t).map (T hjO)).op)
     (ConcreteCategory.hom (Pi.π (cochainFactor (stageFamily E B M m j) F n) t) y) = 0
   have e : (stageFibreProduct E B M m n t).map (T hjO) =
       (stageFibreProduct E B M m n t).map (T (hKO t)) ≫ (stageFibreProduct E B M m n t).map (g t) :=

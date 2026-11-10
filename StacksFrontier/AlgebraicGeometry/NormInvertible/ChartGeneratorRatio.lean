@@ -83,7 +83,7 @@ theorem generatorRatioUnit_chartGenerator (D : UnitTransitionCocycle X U)
         (generatorRestrict D.glue hi (D.chartGenerator hU i)) =
       D.transition i j V hi hj := by
   refine generatorRatioUnit_eq _ _ _ _ _ ?_
-  show (D.sectionsMap hi (D.chartSection i) : D.sectionsSubmodule V) =
+  change (D.sectionsMap hi (D.chartSection i) : D.sectionsSubmodule V) =
     (D.transition i j V hi hj).val • D.sectionsMap hj (D.chartSection j)
   refine Subtype.ext (funext fun k => ?_)
   rw [sectionsMap_val, sections_smul_val, sectionsMap_val]

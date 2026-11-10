@@ -83,14 +83,14 @@ theorem torFormulaCycleIntersectionProduct_mem_ratCycles_of_isOpenImmersion (r s
   -- the presentation of `α` by fibre differences (Tag 0AZI)
   obtain ⟨M, cc, δ, hδ, hαeq⟩ :=
     exists_fibreDifferences_sum (fieldChowSituation k) p k rfl (r : ℤ) α hα
-  simp only [fibreDifferences, Set.mem_setOf_eq] at hδ
+  simp only [fibreDifferences, Set.mem_ofPred_eq] at hδ
   choose W hWint hWdim hW0 hWinf hWeq using hδ
   have : ∀ i, IsIntegral (W i).subscheme := hWint
   have hα1 : α.1 = ∑ i, cc i • ((cycleAssociatedToClosedSubscheme (fieldChowSituation k) p
       (zeroFiber p (W i)).subschemeι r).1 -
       (cycleAssociatedToClosedSubscheme (fieldChowSituation k) p
         (infinityFiber p (W i)).subschemeι r).1) := by
-    rw [hαeq, AddSubgroup.val_finset_sum]
+    rw [hαeq, AddSubgroup.val_finsetSum]
     refine Finset.sum_congr rfl fun i _ => ?_
     rw [AddSubgroup.coe_zsmul, hWeq i, AddSubgroup.coe_sub]
   rw [hα1] at hαβ ⊢

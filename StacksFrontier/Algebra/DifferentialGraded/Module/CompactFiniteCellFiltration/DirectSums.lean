@@ -65,9 +65,9 @@ tested against the direct sums that `D(A, d)` has.
 *What of this file is public.* `gradedCoproductDesc`, `gradedCoproductDesc_ι`,
 `coproduct_linearMap_ext` and `finite_coproduct_shifts` are public because the corrected
 implication (1) ⟹ (2) of [Stacks, Tag 09RB] is proved from them in
-`StacksFrontier/Algebra/DifferentialGraded/Module/CompactFiniteFree.lean`; the lemmas consumed by the
-two later parts of the proof of Tag 09R2 and Tag 09R3 are public so that those parts can use them;
-everything else is private. `gradedCoproductDesc` carries `@[no_expose]`, since its body names
+`StacksFrontier/Algebra/DifferentialGraded/Module/CompactFiniteFree.lean`; the lemmas consumed by
+the two later parts of the proof of Tag 09R2 and Tag 09R3 are public so that those parts can use
+them; everything else is private. `gradedCoproductDesc` carries `@[no_expose]`, since its body names
 private plumbing of this file and nothing downstream unfolds it.
 
 ## References
@@ -158,9 +158,9 @@ lemma finiteCoproduct_inclusion_comp_complement {J : Type u} (G : J → D) (s : 
     Limits.Sigma.desc (fun j : s => Limits.Sigma.ι G j.1) ≫
         finiteComplementProjection G s = 0 := by
   refine Limits.Sigma.hom_ext _ _ fun j => ?_
-  rw [← Category.assoc, Limits.Sigma.ι_desc, comp_zero]
+  rw [← Category.assoc, Sigma.ι_comp_desc, comp_zero]
   dsimp [finiteComplementProjection]
-  rw [Limits.Sigma.ι_desc]
+  rw [Sigma.ι_comp_desc]
   simp [j.2]
 
 /-- The complementary projection has the inclusion of the complementary subsum as a section. -/
@@ -169,9 +169,9 @@ lemma finiteComplementProjection_has_section {J : Type u} (G : J → D) (s : Fin
       finiteComplementProjection G s = 𝟙 _ := by
   classical
   refine Sigma.hom_ext _ _ fun j => ?_
-  simp only [Sigma.map', ← Category.assoc, Sigma.ι_desc, Category.id_comp, Category.comp_id]
+  simp only [Sigma.map', ← Category.assoc, Sigma.ι_comp_desc, Category.id_comp, Category.comp_id]
   dsimp [finiteComplementProjection]
-  rw [Sigma.ι_desc, dite_eq_right j.property]
+  rw [Sigma.ι_comp_desc, dite_eq_right j.property]
 
 end Abstract
 
@@ -231,26 +231,26 @@ private lemma isAdmissibleShortExact_kernelι {M N : DifferentialGradedModule.{u
     IsAdmissibleShortExact (Hom.kernelι q) q := by
   let a : M.M →ₗ[R] M.M := LinearMap.id - s.toFun.comp q.toFun
   have ha (x : M.M) : a x ∈ (Hom.ker q).restrictScalars R := by
-    show q.toFun (x - s.toFun (q.toFun x)) = 0
+    change q.toFun (x - s.toFun (q.toFun x)) = 0
     simp [map_sub, hs]
   let r : GradedHom M (Hom.kernelObj q) :=
     { toFun := a.codRestrict ((Hom.ker q).restrictScalars R) ha
       map_smul := by
         intro x c
         apply Subtype.ext
-        show a ((MulOpposite.op c) • x) = (MulOpposite.op c) • a x
+        change a ((MulOpposite.op c) • x) = (MulOpposite.op c) • a x
         simp [a, q.map_smul, s.map_smul, smul_sub]
       map_grading := by
         intro n x hx
-        show x - s.toFun (q.toFun x) ∈ M.grading n
+        change x - s.toFun (q.toFun x) ∈ M.grading n
         exact Submodule.sub_mem _ hx (s.map_grading n (q.toFun x) (q.map_grading n x hx)) }
   refine ⟨fun x y hxy => Subtype.ext hxy, fun y => ⟨s.toFun y, hs y⟩, ?_, ⟨r, ?_⟩, ⟨s, hs⟩⟩
   · ext y
-    show (∃ x : (Hom.kernelObj q).M, (Hom.kernelι q).toFun x = y) ↔ q.toFun y = 0
+    change (∃ x : (Hom.kernelObj q).M, (Hom.kernelι q).toFun x = y) ↔ q.toFun y = 0
     exact ⟨fun ⟨x, hx⟩ => hx ▸ x.2, fun hy => ⟨⟨y, hy⟩, rfl⟩⟩
   · intro x
     apply Subtype.ext
-    show a x.val = x.val
+    change a x.val = x.val
     have hx : q.toFun x.val = 0 := x.2
     simp [a, hx]
 
@@ -329,7 +329,7 @@ private lemma isAdmissibleMono_of_isAdmissibleEpi_cokernelπ
   have hl (x : M.M) : l x ∈ LinearMap.range i.toFun := by
     have hmem : l x ∈ Hom.range i := by
       refine cokernelπ_eq_zero_mem_range i (l x) ?_
-      show q.toFun (x - s.toFun (q.toFun x)) = 0
+      change q.toFun (x - s.toFun (q.toFun x)) = 0
       simp only [map_sub, q, hs, sub_self]
     rwa [range_eq_linearMap_range] at hmem
   let e := LinearEquiv.ofInjective i.toFun hinj
@@ -342,7 +342,7 @@ private lemma isAdmissibleMono_of_isAdmissibleEpi_cokernelπ
         intro x a
         apply hinj
         rw [hit, i.map_smul, hit]
-        show MulOpposite.op a • x - s.toFun (q.toFun (MulOpposite.op a • x)) =
+        change MulOpposite.op a • x - s.toFun (q.toFun (MulOpposite.op a • x)) =
           MulOpposite.op a • (x - s.toFun (q.toFun x))
         rw [q.map_smul, s.map_smul, smul_sub]
       map_grading := by
@@ -351,11 +351,11 @@ private lemma isAdmissibleMono_of_isAdmissibleEpi_cokernelπ
         rw [hit]
         exact (M.grading n).sub_mem hx (s.map_grading n _ (q.map_grading n x hx)) }
   refine ⟨r, fun x => hinj ?_⟩
-  show i.toFun (t (i.toFun x)) = i.toFun x
+  change i.toFun (t (i.toFun x)) = i.toFun x
   rw [hit]
   have hqi : q.toFun (i.toFun x) = 0 :=
     congrArg (fun f : K ⟶ cokernel i => f.toFun x) (cokernel.condition i)
-  show i.toFun x - s.toFun (q.toFun (i.toFun x)) = i.toFun x
+  change i.toFun x - s.toFun (q.toFun (i.toFun x)) = i.toFun x
   rw [hqi, map_zero, sub_zero]
 
 /-! ### Generators and the differential of a graded map -/
@@ -389,7 +389,7 @@ private lemma generatorLinearMap_map_grading (M : DifferentialGradedModule.{u, u
     convert ha using 1
     congr 1
   have hs := M.smul_mem k (n - k) x a hx ha'
-  show MulOpposite.op a • x ∈ M.grading n
+  change MulOpposite.op a • x ∈ M.grading n
   convert hs using 1
   congr 1
   omega
@@ -452,7 +452,7 @@ private lemma coproduct_iSup_range_eq_top : (⨆ i, Hom.range (Sigma.ι G i)) = 
   have hb (i : I) : b i ≫ T.ι = Sigma.ι G i := by apply Hom.ext; rfl
   have hba : Sigma.desc b ≫ T.ι = 𝟙 M := by
     refine Sigma.hom_ext _ _ fun i => ?_
-    rw [← Category.assoc, Sigma.ι_desc, hb, Category.comp_id]
+    rw [← Category.assoc, Sigma.ι_comp_desc, hb, Category.comp_id]
   apply top_unique
   intro x _
   have hx := ((Sigma.desc b).toFun x).property
@@ -480,7 +480,7 @@ private lemma coproductLinearMap_component [DecidableEq I]
   | zero => simp
   | of j y =>
     rw [coproductLinearMap_of]
-    show (Sigma.ι G j ≫ Sigma.π G i).toFun y = _
+    change (Sigma.ι G j ≫ Sigma.π G i).toFun y = _
     by_cases h : j = i
     · subst j
       simp only [Sigma.ι_π_eq_id, DirectSum.of_apply, dite_true]
@@ -514,7 +514,7 @@ private noncomputable def coproductLinearEquiv :
 private lemma coproductLinearEquiv_symm_component [DecidableEq I] (y : (∐ G).M) (i : I) :
     (coproductLinearEquiv G).symm y i = (Sigma.π G i).toFun y := by
   rw [← coproductLinearMap_component G ((coproductLinearEquiv G).symm y) i]
-  show (Sigma.π G i).toFun ((coproductLinearEquiv G)
+  change (Sigma.π G i).toFun ((coproductLinearEquiv G)
     ((coproductLinearEquiv G).symm y)) = _
   rw [LinearEquiv.apply_symm_apply]
 
@@ -574,7 +574,7 @@ theorem gradedCoproductDesc_ι {N : DifferentialGradedModule.{u, u, u} A}
     apply (coproductLinearEquiv G).injective
     rw [LinearEquiv.apply_symm_apply]
     exact (coproductLinearMap_of G i x).symm
-  show DirectSum.toModule R I N.M (fun i => (f i).toFun)
+  change DirectSum.toModule R I N.M (fun i => (f i).toFun)
     ((coproductLinearEquiv G).symm ((Sigma.ι G i).toFun x)) = _
   rw [he]
   simp [← DirectSum.lof_eq_of R, DirectSum.toModule_lof]
@@ -614,7 +614,7 @@ lemma isAdmissibleEpi_of_epi_to_coproduct_shifts {I : Type u} (k : I → ℤ)
   let G := fun i => shift (regularModule A) (k i)
   have hgen (i : I) : (Sigma.ι G i).toFun (1 : A.A) ∈ (∐ G).grading (-k i) := by
     apply (Sigma.ι G i).map_grading
-    show (1 : A.A) ∈ A.grading (-k i + k i)
+    change (1 : A.A) ∈ A.grading (-k i + k i)
     simpa using SetLike.one_mem_graded A.grading
   choose x hx hqx using fun i => Hom.exists_mem_grading_of_surjective
     (Hom.surjective_of_epi A q) (hgen i)
@@ -626,7 +626,7 @@ lemma isAdmissibleEpi_of_epi_to_coproduct_shifts {I : Type u} (k : I → ℤ)
       map_grading := by
         intro n a ha
         refine generatorLinearMap_map_grading M (x i) (-k i) n (hx i) a ?_
-        show a ∈ A.grading (n + -(-k i))
+        change a ∈ A.grading (n + -(-k i))
         change a ∈ A.grading (n + k i) at ha
         simpa only [neg_neg] using ha }
   refine ⟨gradedCoproductDesc G s, ?_⟩
@@ -634,7 +634,7 @@ lemma isAdmissibleEpi_of_epi_to_coproduct_shifts {I : Type u} (k : I → ℤ)
     refine coproduct_linearMap_ext G fun i a => ?_
     simp only [LinearMap.comp_apply, LinearMap.id_apply, gradedCoproductDesc_ι]
     let b : A.A := a
-    show q.toFun (MulOpposite.op b • x i) = (Sigma.ι G i).toFun b
+    change q.toFun (MulOpposite.op b • x i) = (Sigma.ι G i).toFun b
     rw [q.map_smul, hqx, ← coproduct_shifts_ι_eq_smul k i b]
   intro y
   exact LinearMap.congr_fun hcomp y
@@ -715,7 +715,7 @@ lemma exists_finiteComplementProjection_toFun_eq_zero {I : Type u}
     have himem : i ∈ Finset.univ.biUnion s := Finset.mem_biUnion.mpr ⟨t, by simp, hi⟩
     have heq : Sigma.ι G i ≫ finiteComplementProjection G (Finset.univ.biUnion s) = 0 := by
       dsimp [finiteComplementProjection]
-      rw [Sigma.ι_desc, dite_eq_left himem]
+      rw [Sigma.ι_comp_desc, dite_eq_left himem]
     exact congrArg (fun q : G i ⟶ _ => q.toFun z) heq
   exact (iSup_le fun i => iSup_le fun hi' => hi i hi') (hs t)
 

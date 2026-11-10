@@ -41,7 +41,7 @@ theorem singleLeftIsoMapBifunctor_hom_naturality_single [(F.obj N).Additive] [(F
     Category.assoc, ι_mapBifunctorMap, id_f]
   rw [← NatTrans.comp_app_assoc, ← F.map_comp, ← NatTrans.comp_app_assoc, ← F.map_comp]
   congr 3
-  · simp [CochainComplex.singleFunctor, CochainComplex.singleFunctors, single_map_f_self]
+  · simp [CochainComplex.singleFunctor, single_map_f_self]
   · rw [CategoryTheory.Functor.map_id, Category.id_comp]
 
 end HomologicalComplex

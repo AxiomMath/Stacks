@@ -140,7 +140,7 @@ lemma freeYoneda_isTorsionFree {C : Type (u + 1)} [Category.{u} C] (J : Grothend
       (((Stacks.Cohomology.FreeYonedaUnivLE.freeYoneda.{u + 1} J).obj U).obj.obj V) :=
   ModuleSheafCohomology.isTorsionFree_sheafify J
     (uliftYoneda.{u + 1}.obj U ⋙ AddCommGrpCat.free) (fun W => by
-      show Module.IsTorsionFree ℤ (FreeAbelianGroup (ULift.{u + 1} (W.unop ⟶ U)))
+      change Module.IsTorsionFree ℤ (FreeAbelianGroup (ULift.{u + 1} (W.unop ⟶ U)))
       exact Module.Flat.isTorsionFree) V
 
 /-- **Stacks 0D6J on the big étale site of `S`, at the object `T ⟶ S`.** `RΓ(T, -)` computed on

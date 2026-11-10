@@ -133,7 +133,7 @@ theorem pullbackGlobalSections_local_frame_iff {X Y : Scheme.{u}} (f : Y ⟶ X) 
   refine Iff.trans (pullbackGlobalSections_eq_zero_iff_frame g (F.restrict U.ι) e
     (F.presheaf.map (homOfLE le_top).op s)) ?_
   refine forall_congr' fun i => ?_
-  show g.app ⊤ ((e.hom ≫ freeProj i).app ⊤ (F.presheaf.map (homOfLE le_top).op s)) = 0 ↔
+  change g.app ⊤ ((e.hom ≫ freeProj i).app ⊤ (F.presheaf.map (homOfLE le_top).op s)) = 0 ↔
     f.app (U.ι ''ᵁ ⊤) ((e.hom ≫ freeProj i).app ⊤ (F.presheaf.map (homOfLE le_top).op s)) = 0
   dsimp only [g]
   rw [morphismRestrict_app]

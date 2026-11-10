@@ -421,6 +421,10 @@ private lemma rhs_naturality_right
     (((derivedTensor Rc).map a).app (RingedSite.derivedStructureSheaf (ringedSite Rc))) a
     (derivedRightUnitorHom Rc A') m (derivedRightUnitorHom_naturality Rc a)
 
+omit [(Tensor.sheafTensor.{u, u, u, u, u} Rc).Additive]
+  [∀ A, ((Tensor.sheafTensor.{u, u, u, u, u} Rc).obj A).Additive]
+  [∀ (K₁ K₂ : CochainComplex (SheafOfModules.{u} (Tensor.ringSheaf.{u, u, u} Rc)) ℤ),
+    HomologicalComplex.HasMapBifunctor K₁ K₂ (Tensor.sheafTensor Rc) (ComplexShape.up ℤ)] in
 /-- **The collapse `RSheafHom(O_X, M) ≅ M`, read inside `RSheafHom(A, -)`, is natural** in `A`
 contravariantly and in `M` covariantly: this is `bifunctor_target_naturality` at the naturality
 of `AlgebraicGeometry.RingedSite.derivedStructureSheafHomIso`. -/
@@ -483,9 +487,9 @@ private lemma right_unit_law_of_models
       ((derivedSheafHom Rc).map (derivedRightUnitorHom Rc A).op).app M := by
   have hmap : ∀ {A A' B B' : DerivedCategory (StructureSheafModules Rc)} (a : A' ⟶ A) (b : B ⟶ B'),
       IsIso a → IsIso b → IsIso (derivedSheafHomMap Rc a b) := fun a b _ _ => by
-    show IsIso (((derivedSheafHom Rc).map a.op).app _ ≫ ((derivedSheafHom Rc).obj (op _)).map b)
+    change IsIso (((derivedSheafHom Rc).map a.op).app _ ≫ ((derivedSheafHom Rc).obj (op _)).map b)
     infer_instance
-  haveI := hmap (((derivedTensor Rc).map e.hom).app
+  have := hmap (((derivedTensor Rc).map e.hom).app
     (RingedSite.derivedStructureSheaf (ringedSite Rc))) f.inv inferInstance inferInstance
   refine (cancel_mono (derivedSheafHomMap Rc
     (((derivedTensor Rc).map e.hom).app

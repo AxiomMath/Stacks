@@ -71,8 +71,8 @@ the two objects agreeing only through semireducible definitions.
 
 **The general case needs no toolkit for varying `H`.** The `ModuleComparison` toolkit covers
 varying `G` (`rightDerivedCompIso_hom_app_natTrans`, `rightDerivedCompIso_congr`) but not varying
-`H`, and the case `e ≠ CategoryTheory.Iso.refl` does not need it: once both sides are read on the chosen
-injective resolution, the only thing left to know about
+`H`, and the case `e ≠ CategoryTheory.Iso.refl` does not need it: once both sides are read on the
+chosen injective resolution, the only thing left to know about
 `CategoryTheory.Functor.rightDerivedIsoOfNatIso e n` is that its component there is `e` applied
 termwise, which is Mathlib's `CategoryTheory.InjectiveResolution.rightDerived_app_eq`. The
 general case is then the identity case with one factor spliced in.

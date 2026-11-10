@@ -589,9 +589,9 @@ private theorem isLocalizedModule_basicOpen_of_hP1 {X : Scheme.{u}} (M : X.Modul
   -- `ρ (σ f) = f`, the crux coherence
   have hρf : ρ f_im = f := by
     have hcrux := fromSpec_image_top_section_coherence hU eT
-    show (X.presheaf.map (eqToHom eT.symm).op).hom f_im = f
+    change (X.presheaf.map (eqToHom eT.symm).op).hom f_im = f
     rw [hcrux, hf_im, CommRingCat.comp_apply]
-    show (Scheme.ΓSpecIso Γ(X, U)).hom.hom ((j.appIso ⊤).hom.hom
+    change (Scheme.ΓSpecIso Γ(X, U)).hom.hom ((j.appIso ⊤).hom.hom
         ((j.appIso ⊤).inv.hom ((Scheme.ΓSpecIso Γ(X, U)).inv.hom f))) = f
     rw [Iso.inv_hom_id_apply, Iso.inv_hom_id_apply]
   -- additive isos `e₁ : Γ(M, j ''ᵁ ⊤) ≃+ Γ(M, U)`, `e₂ : Γ(M, j ''ᵁ D(f)) ≃+ Γ(M, X.basicOpen f)`
@@ -609,14 +609,14 @@ private theorem isLocalizedModule_basicOpen_of_hP1 {X : Scheme.{u}} (M : X.Modul
       (x : ToType Γ(M, j ''ᵁ (PrimeSpectrum.basicOpen f))),
       e₂ (a • x) = ρ a • e₂ x := by
     intro a x
-    show (M.presheaf.map (eqToHom eB.symm).op).hom
+    change (M.presheaf.map (eqToHom eB.symm).op).hom
         ((X.presheaf.map ii.op).hom a • x) = ρ a • e₂ x
     rw [Scheme.Modules.map_smul M (eqToHom eB.symm) ((X.presheaf.map ii.op).hom a) x,
       ← algebraMap_smul Γ(X, X.basicOpen f) (ρ a) (e₂ x)]
     refine congrArg (· • (e₂ x)) ?_
-    show (X.presheaf.map (eqToHom eB.symm).op).hom ((X.presheaf.map ii.op).hom a)
+    change (X.presheaf.map (eqToHom eB.symm).op).hom ((X.presheaf.map ii.op).hom a)
       = (X.presheaf.map (homOfLE (X.basicOpen_le f)).op).hom (ρ a)
-    show ((X.presheaf.map ii.op) ≫ (X.presheaf.map (eqToHom eB.symm).op)).hom a
+    change ((X.presheaf.map ii.op) ≫ (X.presheaf.map (eqToHom eB.symm).op)).hom a
       = ((X.presheaf.map (eqToHom eT.symm).op) ≫
           (X.presheaf.map (homOfLE (X.basicOpen_le f)).op)).hom a
     rw [← X.presheaf.map_comp, ← X.presheaf.map_comp]
@@ -626,10 +626,10 @@ private theorem isLocalizedModule_basicOpen_of_hP1 {X : Scheme.{u}} (M : X.Modul
       = e₂ ((show Γ(M, j ''ᵁ (⊤ : (Spec Γ(X, U)).Opens)) →ₗ[Γ(X, j ''ᵁ (⊤ : (Spec Γ(X, U)).Opens))]
           Γ(M, j ''ᵁ (PrimeSpectrum.basicOpen f)) from restrictₗ M ii) x) := by
     intro x
-    show (M.presheaf.map (homOfLE (X.basicOpen_le f)).op).hom
+    change (M.presheaf.map (homOfLE (X.basicOpen_le f)).op).hom
         ((M.presheaf.map (eqToHom eT.symm).op).hom x)
       = (M.presheaf.map (eqToHom eB.symm).op).hom ((M.presheaf.map ii.op).hom x)
-    show ((M.presheaf.map (eqToHom eT.symm).op) ≫
+    change ((M.presheaf.map (eqToHom eT.symm).op) ≫
           (M.presheaf.map (homOfLE (X.basicOpen_le f)).op)).hom x
       = ((M.presheaf.map ii.op) ≫ (M.presheaf.map (eqToHom eB.symm).op)).hom x
     rw [← M.presheaf.map_comp, ← M.presheaf.map_comp]
@@ -790,7 +790,7 @@ private theorem coversTop_preimage {Y : Scheme.{u}} (g : Y ⟶ X)
   refine ⟨W' ⊓ (g ⁻¹ᵁ (q.X i)), homOfLE inf_le_left, ?_, hy, ?_⟩
   · rw [Sieve.mem_ofObjects_iff]
     exact ⟨i, ⟨homOfLE inf_le_right⟩⟩
-  · show g.base y ∈ q.X i
+  · change g.base y ∈ q.X i
     exact leOfHom hUi hgyU
 
 -- Heartbeat headroom for the slice-site `of_coversTop` `bind` synthesis.

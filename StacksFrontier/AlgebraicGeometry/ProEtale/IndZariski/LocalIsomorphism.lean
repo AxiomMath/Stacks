@@ -63,7 +63,7 @@ theorem exists_fin_localization_away
     (Algebra.IsLocalIso.span_isStandardOpenImmersion_eq_top A B)
   let g : Fin t.card → B := fun j => (t.equivFin.symm j).1
   have hspan' : Ideal.span (Set.range g) = ⊤ := by
-    show Ideal.span (Set.range ((Subtype.val : t → B) ∘ t.equivFin.symm)) = ⊤
+    change Ideal.span (Set.range ((Subtype.val : t → B) ∘ t.equivFin.symm)) = ⊤
     simpa [Set.range_comp] using hspan
   have hexists (j : Fin t.card) : ∃ f : A, IsLocalization.Away f (Localization.Away (g j)) := by
     let : Algebra.IsStandardOpenImmersion A (Localization.Away (g j)) := ht (by simp [g])

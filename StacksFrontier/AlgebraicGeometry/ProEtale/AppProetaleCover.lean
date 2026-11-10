@@ -171,7 +171,7 @@ public theorem hasAppCover_of_exists_faithfullyFlat_indEtale (S : Scheme.{u}) [I
   have htri : q ≫ V.hom = appOfIndEtaleAlgebraHom S BA := by
     refine ext_of_isAffine ?_
     rw [Scheme.Hom.comp_appTop, hq, appTop_appOfIndEtaleAlgebraHom]
-    show _ ≫ _ ≫ _ = CommRingCat.ofHom (algebraMap ↥Γ(S, ⊤) B') ≫ _
+    change _ ≫ _ ≫ _ = CommRingCat.ofHom (algebraMap ↥Γ(S, ⊤) B') ≫ _
     rw [← Category.assoc]
     congr 1
     exact CommRingCat.hom_ext (IsScalarTower.algebraMap_eq ↥Γ(S, ⊤) ↥Γ(V.left, ⊤) B').symm

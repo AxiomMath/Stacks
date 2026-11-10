@@ -1,8 +1,7 @@
 module
 
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.FourierDeligne.LevelDichotomyBasePoint
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.FourierDeligne.ContinuousModuleLevelDichotomyMatrix
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.FourierDeligne.ContinuousModuleLevelDichotomyMatrix
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.FourierDeligne.ArtinSchreierKernel
 
 /-!
@@ -77,7 +76,7 @@ theorem continuousModuleLevelDichotomy_lisseEtaleSheaf
 `S₀`-stable submodules of `Λ^ι` satisfy the dichotomy at `ℓ, N, c₀`, then the monodromy modules
 of `ℱ_P` satisfy it at every geometric point. -/
 theorem continuousModuleLevelDichotomy_lisseEtaleSheaf_of_matrix {O : Type*} [CommRing O]
-    [Algebra O Λ] {ι : Type*} [Fintype ι] [DecidableEq ι] (S₀ : Set (Matrix ι ι O))
+    [Algebra O Λ] {ι : Type*} [Fintype ι] (S₀ : Set (Matrix ι ι O))
     (P : FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ (EtaleFundamentalGroup X.1 x))
     (e : P.obj.obj.obj.V ≃ₗ[Λ] (ι → Λ))
     (hS₀ : ∀ a ∈ S₀, ∃ g : EtaleFundamentalGroup X.1 x, ∃ c : Λˣ, ∀ v,
@@ -89,9 +88,10 @@ theorem continuousModuleLevelDichotomy_lisseEtaleSheaf_of_matrix {O : Type*} [Co
       ((lisseEtaleSheaf B X x Λ).obj P)) :
     ContinuousModuleLevelDichotomy
       ((finiteTypeLocallyConstantModuleSheafEquivalenceEtaleSite B X x' Λ).functor.obj
-        ⟨(lisseEtaleSheaf B X x Λ).obj P, h⟩) ℓₙ N c₀ :=
-  continuousModuleLevelDichotomy_lisseEtaleSheaf B X x P
-    (continuousModuleLevelDichotomy_of_matrix S₀ e hS₀ ℓ ℓₙ hℓ N c₀ hD) x' h
+        ⟨(lisseEtaleSheaf B X x Λ).obj P, h⟩) ℓₙ N c₀ := by
+  classical
+  exact continuousModuleLevelDichotomy_lisseEtaleSheaf B X x P
+      (continuousModuleLevelDichotomy_of_matrix S₀ e hS₀ ℓ ℓₙ hℓ N c₀ hD) x' h
 
 end Stacks.EtaleCohomology
 

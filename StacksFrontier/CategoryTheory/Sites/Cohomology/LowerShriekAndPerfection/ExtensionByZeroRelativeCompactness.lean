@@ -107,7 +107,7 @@ public theorem evaluation_additive_of_ringedSite (X : RingedSite.{u, v, r}) (U :
       (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).Additive :=
     SheafOfModules.instAdditivePresheafOfModulesObjFunctorOppositeRingCatIsSheafForget
         (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-  show (SheafOfModules.forget.{max u v r m} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) ⋙
+  change (SheafOfModules.forget.{max u v r m} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) ⋙
     PresheafOfModules.evaluation (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj (op U)).Additive
   infer_instance
 
@@ -317,7 +317,7 @@ private theorem map_quasiIso_of_rightAcyclic_terms
       Category.comp_id]
   have : IsIso ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).map (q.map fp)) := by
     rw [heq]
-    show IsIso (α.app (q.obj KP) ≫
+    change IsIso (α.app (q.obj KP) ≫
       R.map (DerivedCategory.Plus.Qh.map (q.map fp)) ≫
         inv (α.app (q.obj LP)))
     infer_instance
@@ -336,7 +336,7 @@ private theorem isZero_map_mappingCone_triangleh_obj₃_of_quasiIso
     (CochainComplex.mappingCone.triangleh φ)).isZero₃_of_isIso₁
       ((F.mapHomotopyCategory (.up ℤ) ⋙ DerivedCategory.Qh).map_distinguished _
         (HomotopyCategory.mappingCone_triangleh_distinguished φ))
-  show IsIso (DerivedCategory.Qh.map
+  change IsIso (DerivedCategory.Qh.map
     ((F.mapHomotopyCategory (.up ℤ)).map ((HomotopyCategory.quotient A (.up ℤ)).map φ)))
   exact (isIso_Qh_map_mapHomotopyCategory_iff F φ).2 inferInstance
 
@@ -544,7 +544,7 @@ private theorem exists_sum_single
     simp only [ht]
     simp [hi]
   refine ⟨s, fun i => f ≫ p i, HomologicalComplex.from_single_hom_ext ?_⟩
-  show F.map (∑ i ∈ s, (f ≫ p i) ≫ Sigma.ι J i) = F.map f
+  change F.map (∑ i ∈ s, (f ≫ p i) ≫ Sigma.ι J i) = F.map f
   simp only [Functor.map_sum, Functor.map_comp]
   calc
     _ = ∑ i ∈ s, a i ≫ ι i := Finset.sum_congr rfl fun i hi => by rw [hp i hi]
@@ -562,7 +562,7 @@ private theorem exists_injective_complex_isStrictlyGE_iso
   have : J.obj.IsStrictlyGE n := hJ
   refine ⟨((InjectiveObject.ι A).mapCochainComplexPlus.obj J).obj, ?_,
     fun k => (J.obj.X k).property, ⟨DerivedCategory.Plus.ι.mapIso e⟩⟩
-  show CochainComplex.IsStrictlyGE
+  change CochainComplex.IsStrictlyGE
     (((InjectiveObject.ι A).mapHomologicalComplex (.up ℤ)).obj J.obj) n
   infer_instance
 
@@ -593,7 +593,7 @@ private theorem map_sigma_ι_comp_preservesCoproductIso_hom
       PreservesCoproduct.inv_hom, ι_comp_sigmaComparison]
   dsimp only [Iso.trans_hom]
   rw [← Category.assoc, hι]
-  show Sigma.ι (fun j => G.obj (L j)) i ≫ Limits.Sigma.map (fun j => (eL j).hom) ≫
+  change Sigma.ι (fun j => G.obj (L j)) i ≫ Limits.Sigma.map (fun j => (eL j).hom) ≫
     ((coproductIsCoproduct M).coconePointUniqueUpToIso hc).hom = _
   rw [Sigma.ι_map_assoc]
   exact congrArg (fun t => (eL i).hom ≫ t)

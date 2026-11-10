@@ -105,7 +105,7 @@ theorem negativeTwistSection_eq_mul {W : X.Opens} (h : W ≤ U)
 /-- The basis elements are compatible with restriction. -/
 theorem basisLE_res {W W' : X.Opens} (h : W ≤ U) (h' : W' ≤ W) :
     (negativeTwist I).val.map (homOfLE h').op (e.basisLE h) = e.basisLE (h'.trans h) := by
-  show (negativeTwist I).val.map (homOfLE h').op
+  change (negativeTwist I).val.map (homOfLE h').op
       ((negativeTwist I).val.map (homOfLE h).op e.basis) =
     (negativeTwist I).val.map (homOfLE (h'.trans h)).op e.basis
   rw [← PresheafOfModules.map_comp_apply]

@@ -147,7 +147,7 @@ theorem bijective_supportedPointsHom_app (g : (Over U)ᵒᵖ) :
     let b := e.inv.app (op (Over.mk t₀))
       (ULift.up (Over.homMk s.down.left rfl : Over.mk t₀ ⟶ Over.mk q))
     refine ⟨P.map ε.inv.op b, ?_⟩
-    show supportedPoint j q P e g.unop _ _ (P.map ε.inv.op b) = s
+    change supportedPoint j q P e g.unop _ _ (P.map ε.inv.op b) = s
     rw [supportedPoint_congr j q P e g.unop _ t₀ _ ht₀]
     have hb : P.map ε.hom.op (P.map ε.inv.op b) = b := (P.mapIso ε.op).inv_hom_id_apply b
     have hl : supportedLift j q P e g.unop t₀ ht₀ (P.map ε.inv.op b) =

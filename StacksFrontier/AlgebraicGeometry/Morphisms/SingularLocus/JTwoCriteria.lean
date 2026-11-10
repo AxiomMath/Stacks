@@ -65,7 +65,7 @@ private lemma regularLocus_Spec (R : Type u) [CommRing R] :
       {p : PrimeSpectrum R | IsRegularLocalRing (Localization.AtPrime p.asIdeal)} := by
   ext p
   let : p.asIdeal.IsPrime := p.2
-  show IsRegularLocalRing ((Spec (.of R)).presheaf.stalk p) ↔
+  change IsRegularLocalRing ((Spec (.of R)).presheaf.stalk p) ↔
     IsRegularLocalRing (Localization.AtPrime p.asIdeal)
   exact isRegularLocalRing_iff_of_ringEquiv (Spec.stalkIso (.of R) p).commRingCatIsoToRingEquiv
 
@@ -74,7 +74,7 @@ locus. -/
 private lemma preimage_regularLocus {S T : Scheme.{u}} (f : S ⟶ T) [IsOpenImmersion f] :
     f.base ⁻¹' regularLocus T = regularLocus S := by
   ext x
-  show IsRegularLocalRing (T.presheaf.stalk (f x)) ↔ IsRegularLocalRing (S.presheaf.stalk x)
+  change IsRegularLocalRing (T.presheaf.stalk (f x)) ↔ IsRegularLocalRing (S.presheaf.stalk x)
   have : IsIso (f.stalkMap x) := (IsOpenImmersion.iff_isIso_stalkMap.mp inferInstance).2 x
   exact isRegularLocalRing_iff_of_ringEquiv (asIso (f.stalkMap x)).commRingCatIsoToRingEquiv
 

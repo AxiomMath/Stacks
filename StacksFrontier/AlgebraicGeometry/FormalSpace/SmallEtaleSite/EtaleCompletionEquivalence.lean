@@ -171,7 +171,7 @@ theorem QuotientSystem.eq_of_continuousHom [IsTopologicalRing A] [IsLinearTopolo
   have hq : Ideal.quotientMap K.1 f.toRingHom hJ =
       Ideal.quotientMap K.1 f'.toRingHom hJ' := by
     refine Ideal.Quotient.ringHom_ext (RingHom.ext fun a ↦ ?_)
-    show Ideal.Quotient.mk K.1 (f.toRingHom a) = Ideal.Quotient.mk K.1 (f'.toRingHom a)
+    change Ideal.Quotient.mk K.1 (f.toRingHom a) = Ideal.Quotient.mk K.1 (f'.toRingHom a)
     rw [h]
   rw [← f.overS J K hJ, ← f'.overS J K hJ', hq]
 
@@ -350,7 +350,7 @@ theorem full_etaleCompletionCharts : (etaleCompletionCharts hR D hD).Full where
     set φ : Z.unop ⟶ Y.unop := ⟨g.toRingHom, g.continuous, hR'⟩
     have hchart : EtaleCompletion.chartHom hR D hD φ = g := continuousHom_ext' rfl
     refine ⟨Opposite.op φ, ObjectProperty.hom_ext _ (Over.OverMorphism.ext ?_)⟩
-    show formalSpectrumMap (Z.unop.isWeaklyAdmissible_completion hR)
+    change formalSpectrumMap (Z.unop.isWeaklyAdmissible_completion hR)
       (EtaleCompletion.chartHom hR D hD φ) = m.hom.left
     rwa [hchart]
 
@@ -377,7 +377,7 @@ theorem essSurj_etaleCompletionCharts : (etaleCompletionCharts hR D hD).EssSurj 
     refine ⟨Opposite.op Y, ⟨(IsAffineEtaleFormalChart B S hS
       (formalSpectrum D)).fullyFaithfulι.preimageIso (Over.isoMk ε.symm ?_)⟩⟩
     rw [Iso.symm_hom]
-    show ε.inv ≫ W.obj.hom = formalSpectrumMap hR (Y.structureHom hR D hD)
+    change ε.inv ≫ W.obj.hom = formalSpectrumMap hR (Y.structureHom hR D hD)
     rw [← hε, ← hcEq, Iso.inv_hom_id_assoc]
 
 /-- **Stacks 0AN8.** Let `S` be a scheme contained in a big fppf site `B` and let `R` be a

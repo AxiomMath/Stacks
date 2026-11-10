@@ -142,7 +142,7 @@ theorem range_pointsMap_offExceptional_ι :
         (offExceptional B S hS w c Z').ι) =
       (exceptionalPreimageSet B S hS w c (Z'.1.preimage c.hom))ᶜ := by
   rw [exceptionalPreimageSet_eq_preimage]
-  show Set.range (pointsMap B S hS _ ((offCentrePreimage B S hS c Z').preimage
+  change Set.range (pointsMap B S hS _ ((offCentrePreimage B S hS c Z').preimage
     (strictTransformPullbackToBlowUp B S hS w c).hom).ι) = _
   rw [range_pointsMap_preimage_ι, range_pointsMap_preimage_ι, range_pointsMap_preimage_ι]
   have hc0 : Set.range (pointsMap B S hS (openComplementOfClosedSubspace B S hS A' Z').1.toFunctor
@@ -315,7 +315,7 @@ theorem exists_iteratedSupportedQuotient_iso_aux
         (((modulePullback B S hS qq).obj N).val.map m.op s) = 0 :=
       (PresheafOfModules.naturality_apply ψ.val m.op s).trans hzero
     have := hisoψ
-    haveI hmonoψ : Mono ((SheafOfModules.forget _).map
+    have hmonoψ : Mono ((SheafOfModules.forget _).map
         ((etaleModulePullback B S hS jb hjb).map ψ)) :=
       @IsIso.mono_of_iso _ _ _ _ _ (Functor.map_isIso _ _)
     have hinj : Function.Injective
@@ -417,7 +417,7 @@ theorem exists_iteratedSupportedQuotient_iso
   have hg1E : IsEtale B S hS g1 :=
     isEtale_of_comp_mono B S hS g1 j₂.hom (by rw [hg1]; exact hjbE)
   have hjbq : IsEtale B S hS ((openOffSubspaceι B S hS Q _ hSbclosed) ≫ qq).hom := by
-    show IsEtale B S hS ((openOffSubspaceι B S hS Q _ hSbclosed).hom ≫ qq.hom)
+    change IsEtale B S hS ((openOffSubspaceι B S hS Q _ hSbclosed).hom ≫ qq.hom)
     rw [← hg1, Category.assoc]
     exact isEtale_comp B S hS hg1E hj₂q
   exact exists_iteratedSupportedQuotient_iso_aux B S hS qq T₁ hT₁ T₂ hT₂ j₂ hj₂ hj₂range hj₂q

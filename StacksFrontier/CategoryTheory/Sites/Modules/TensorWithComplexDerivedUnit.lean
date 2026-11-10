@@ -270,6 +270,7 @@ theorem tensorUnitDG_naturality
         (T.pure_heq.{u, v, w, t, s} X R _ U rfl rfl _ _ y y rfl HEq.rfl)))
   exact congrArg Subtype.val ((G.moduleHom _ (p + n)).injective key)
 
+set_option linter.checkUnivs false in
 /-- The image of a homogeneous map with a two-sided homogeneous inverse under a functor of
 differential graded categories is bijective. -/
 theorem DGFunctor_map_bijective_of_homogeneousIso {R' : Type*} [CommRing R'] {C : DGCategory R'}

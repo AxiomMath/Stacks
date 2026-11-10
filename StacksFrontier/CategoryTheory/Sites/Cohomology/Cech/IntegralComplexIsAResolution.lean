@@ -150,7 +150,7 @@ private theorem integralCechSimplicialObject_ι_map
         freeAbelianYoneda.{v, u, a}.obj
           ((∏ᶜ (fun k => Over.mk (E.f (j k)))).left))
         ((cechFormalCoproductMap E g.unop.toOrderHom.toFun).f i) := by
-  show Sigma.ι
+  change Sigma.ι
     ((Over.forget X ⋙ freeAbelianYoneda.{v, u, a}).obj ∘
       ((cechSimplicialObject E).obj s).obj) i ≫
       Sigma.desc (fun j =>
@@ -160,7 +160,7 @@ private theorem integralCechSimplicialObject_ι_map
           ((Over.forget X ⋙ freeAbelianYoneda.{v, u, a}).obj ∘
             ((cechSimplicialObject E).obj t).obj)
           (((cechSimplicialObject E).map g).f j)) = _
-  convert (Sigma.ι_desc (fun j =>
+  convert (Sigma.ι_comp_desc (fun j =>
     (Over.forget X ⋙ freeAbelianYoneda.{v, u, a}).map
       (((cechSimplicialObject E).map g).φ j) ≫
     Sigma.ι
@@ -177,7 +177,7 @@ private theorem rangeAugmentation_comp_of_base {A B : Type z}
   apply TypeCat.homEquiv.injective
   funext x
   apply Subtype.ext
-  show (rangeAugmentation f m (g x)).val = (rangeAugmentation f n x).val
+  change (rangeAugmentation f m (g x)).val = (rangeAugmentation f n x).val
   calc
     _ = WidePullback.base (fun _ : Fin (m.unop.len + 1) => f) (g x) := rfl
     _ = WidePullback.base (fun _ : Fin (n.unop.len + 1) => f) x :=
@@ -271,14 +271,14 @@ private noncomputable def cechNervePointEquiv {A B : Type z}
         (WidePullback.lift_base (fun _ : Fin (n + 1) => f)
           (TypeCat.ofHom (fun _ : PUnit => b))
           (fun k => TypeCat.ofHom (fun _ : PUnit => (p k).val)) wq) PUnit.unit
-      simpa [q] using h
+      simp [q]
     have hπ (k : Fin (n + 1)) :
         WidePullback.π (fun _ : Fin (n + 1) => f) k (q PUnit.unit) = (p k).val := by
       have h := types_congr_hom
         (WidePullback.lift_π (fun _ : Fin (n + 1) => f)
           (TypeCat.ofHom (fun _ : PUnit => b))
           (fun j => TypeCat.ofHom (fun _ : PUnit => (p j).val)) wq k) PUnit.unit
-      simpa [q] using h
+      simp [q]
     exact sigma_subtype_pi_ext hb hπ
 
 private theorem cechNervePointEquiv_map {A B : Type z} (f : A ⟶ B)
@@ -381,8 +381,7 @@ private noncomputable def rangeExtraDegeneracy {A B : Type z}
     apply WidePullback.hom_ext
     · intro j
       fin_cases j
-      simp [rangeAugmentedCechNerve, Arrow.cechNerve_map, rangeExtraDegeneracy_s,
-        WidePullback.lift_π]
+      simp [rangeAugmentedCechNerve, Arrow.cechNerve_map, rangeExtraDegeneracy_s]
     · simpa [rangeAugmentedCechNerve, Arrow.cechNerve_map, rangeExtraDegeneracy_s,
         WidePullback.lift_base]
         using (rangeAugmentedCechNerve_hom_app_comp f (Opposite.op ⦋0⦌)).symm
@@ -390,36 +389,30 @@ private noncomputable def rangeExtraDegeneracy {A B : Type z}
     dsimp [SimplicialObject.δ, SimplexCategory.δ]
     apply WidePullback.hom_ext
     · intro j
-      simp [rangeAugmentedCechNerve, Arrow.cechNerve_map, rangeExtraDegeneracy_s,
-        WidePullback.lift_π]
-    · simp [rangeAugmentedCechNerve, Arrow.cechNerve_map, rangeExtraDegeneracy_s,
-        WidePullback.lift_base]
+      simp [rangeAugmentedCechNerve, Arrow.cechNerve_map, rangeExtraDegeneracy_s]
+    · simp [rangeAugmentedCechNerve, Arrow.cechNerve_map, rangeExtraDegeneracy_s]
   s_comp_δ n i := by
     dsimp [SimplicialObject.δ, SimplexCategory.δ]
     apply WidePullback.hom_ext
     · intro j
       induction j using Fin.cases <;>
-        simp [rangeAugmentedCechNerve, Arrow.cechNerve_map, rangeExtraDegeneracy_s,
-        WidePullback.lift_π]
+        simp [rangeAugmentedCechNerve, Arrow.cechNerve_map, rangeExtraDegeneracy_s]
       all_goals
         simpa [rangeAugmentedCechNerve, SimplicialObject.δ, SimplexCategory.δ,
           Arrow.cechNerve_map, Category.assoc]
           using congrArg (fun h => h ≫ rangeSection f) (rangeAugmentation_δ f n i).symm
-    · simp [rangeAugmentedCechNerve, Arrow.cechNerve_map, rangeExtraDegeneracy_s,
-        WidePullback.lift_base]
+    · simp [rangeAugmentedCechNerve, Arrow.cechNerve_map, rangeExtraDegeneracy_s]
   s_comp_σ n i := by
     dsimp [SimplicialObject.σ, SimplexCategory.σ]
     apply WidePullback.hom_ext
     · intro j
       induction j using Fin.cases <;>
-        simp [rangeAugmentedCechNerve, Arrow.cechNerve_map, rangeExtraDegeneracy_s,
-        WidePullback.lift_π]
+        simp [rangeAugmentedCechNerve, Arrow.cechNerve_map, rangeExtraDegeneracy_s]
       all_goals
         simpa [rangeAugmentedCechNerve, SimplicialObject.σ, SimplexCategory.σ,
           Arrow.cechNerve_map, Category.assoc]
           using congrArg (fun h => h ≫ rangeSection f) (rangeAugmentation_σ f n i).symm
-    · simp [rangeAugmentedCechNerve, Arrow.cechNerve_map, rangeExtraDegeneracy_s,
-        WidePullback.lift_base]
+    · simp [rangeAugmentedCechNerve, Arrow.cechNerve_map, rangeExtraDegeneracy_s]
 
 @[sga "4 V 1.11" "partial"]
 private theorem freeAb_cechNerve_homology_isZero
@@ -462,7 +455,7 @@ private theorem freeYonedaUliftIso_inv_of (V U : C)
     (x : ULift.{w} (ULift.{a} (V ⟶ U))) :
     (freeYonedaUliftIso.{w, v, u, a} V U).inv (FreeAbelianGroup.of x) =
       ⟨FreeAbelianGroup.of x.down⟩ := by
-  show ULift.up ((FreeAbelianGroup.equivOfEquiv
+  change ULift.up ((FreeAbelianGroup.equivOfEquiv
     (Equiv.ulift : ULift.{w} (ULift.{a} (V ⟶ U)) ≃
       ULift.{a} (V ⟶ U))) (FreeAbelianGroup.of x)) = _
   simp [FreeAbelianGroup.equivOfEquiv]
@@ -474,7 +467,7 @@ private theorem freeAbelianYoneda_map_of (V U U' : C) (f : U ⟶ U')
     ((freeAbelianYoneda.{v, u, a}.map f).app (Opposite.op V))
       (FreeAbelianGroup.of x) =
       FreeAbelianGroup.of (⟨x.down ≫ f⟩ : ULift.{a} (V ⟶ U')) := by
-  show (AddCommGrpCat.free.map ((uliftYoneda.{a}.map f).app (Opposite.op V)))
+  change (AddCommGrpCat.free.map ((uliftYoneda.{a}.map f).app (Opposite.op V)))
     (FreeAbelianGroup.of x) = _
   simp only [AddCommGrpCat.free_map_coe, FreeAbelianGroup.map_of]
   rfl
@@ -485,7 +478,7 @@ private theorem freeYonedaUliftIso_hom_of (V U : C)
     (freeYonedaUliftIso.{w, v, u, a} V U).hom
       (⟨FreeAbelianGroup.of x⟩ : ULift.{w} (FreeAbelianGroup (ULift.{a} (V ⟶ U)))) =
       FreeAbelianGroup.of (⟨x⟩ : ULift.{w} (ULift.{a} (V ⟶ U))) := by
-  show ((FreeAbelianGroup.equivOfEquiv
+  change ((FreeAbelianGroup.equivOfEquiv
     (Equiv.ulift : ULift.{w} (ULift.{a} (V ⟶ U)) ≃
       ULift.{a} (V ⟶ U))).symm (FreeAbelianGroup.of x)) = _
   simp [FreeAbelianGroup.equivOfEquiv]
@@ -504,14 +497,14 @@ private theorem freeYonedaUliftIso_map (V U U' : C) (f : U ⟶ U') :
   apply AddCommGrpCat.hom_ext
   apply FreeAbelianGroup.lift_ext
   intro x
-  show (freeYonedaUliftIso V U').hom
+  change (freeYonedaUliftIso V U').hom
       (((AddCommGrpCat.uliftFunctor.{w, max v a}).map
         ((freeAbelianYoneda.{v, u, a}.map f).app (Opposite.op V)))
           ((freeYonedaUliftIso V U).inv (FreeAbelianGroup.of x))) =
     FreeAbelianGroup.of (⟨⟨x.down.down ≫ f⟩⟩ :
       ULift.{w} (ULift.{a} (V ⟶ U')))
   rw [freeYonedaUliftIso_inv_of]
-  show (freeYonedaUliftIso V U').hom
+  change (freeYonedaUliftIso V U').hom
       (⟨((freeAbelianYoneda.{v, u, a}.map f).app (Opposite.op V))
         (FreeAbelianGroup.of x.down)⟩) = _
   rw [freeAbelianYoneda_map_of]
@@ -725,7 +718,7 @@ private theorem cechSimplexNerveEquivHigh_map (V : C)
   simp only [cechSimplexNerveEquivHigh, Equiv.trans_apply,
     Equiv.apply_symm_apply]
   rw [Equiv.apply_symm_apply]
-  show (⟨((cechSimplexEquivHigh E V s.unop.len) ⟨i, x⟩).1,
+  change (⟨((cechSimplexEquivHigh E V s.unop.len) ⟨i, x⟩).1,
       fun k => ((cechSimplexEquivHigh E V s.unop.len) ⟨i, x⟩).2
         (g.unop.toOrderHom k)⟩ : _) =
       (cechSimplexEquivHigh E V t.unop.len) _
@@ -737,7 +730,7 @@ private theorem cechSimplexNerveEquivHigh_map (V : C)
         Over.mk (E.f ((q.f i) k))) :=
       (inferInstance : ∀ (n : ℕ) (j : Fin (n + 1) → E.I₀),
         HasProduct (fun k => Over.mk (E.f (j k)))) t.unop.len (q.f i)
-    show (⟨x.down ≫ (∏ᶜ (fun k => Over.mk (E.f (i k)))).hom⟩ :
+    change (⟨x.down ≫ (∏ᶜ (fun k => Over.mk (E.f (i k)))).hom⟩ :
       ULift.{max w a} (V ⟶ X)) =
       ⟨(x.down ≫ (q.φ i).left) ≫
         (∏ᶜ (fun k => Over.mk (E.f ((q.f i) k)))).hom⟩
@@ -760,11 +753,11 @@ private theorem cechSimplexNerveEquivHigh_map (V : C)
       (q.φ i).left ≫
         (Pi.π (fun k => Over.mk (E.f ((q.f i) k))) k).left =
       (Pi.π (fun k => Over.mk (E.f (i k))) (g.unop.toOrderHom k)).left := by
-    show (Pi.lift (fun k => Pi.π (fun j => Over.mk (E.f (i j)))
+    change (Pi.lift (fun k => Pi.π (fun j => Over.mk (E.f (i j)))
       (g.unop.toOrderHom k)) ≫
       Pi.π (fun k => Over.mk (E.f ((q.f i) k))) k).left = _
     exact congrArg Over.Hom.left (Pi.lift_comp_π ..)
-  show (⟨⟨i (g.unop.toOrderHom k),
+  change (⟨⟨i (g.unop.toOrderHom k),
       x.down ≫ (Pi.π (fun j => Over.mk (E.f (i j)))
         (g.unop.toOrderHom k)).left⟩⟩ :
       ULift.{a} (Σ j : E.I₀, V ⟶ E.X j)) =
@@ -774,7 +767,7 @@ private theorem cechSimplexNerveEquivHigh_map (V : C)
   apply congrArg ULift.up
   refine Sigma.ext rfl ?_
   apply heq_of_eq
-  show x.down ≫ (Pi.π (fun j => Over.mk (E.f (i j)))
+  change x.down ≫ (Pi.π (fun j => Over.mk (E.f (i j)))
       (g.unop.toOrderHom k)).left =
     (x.down ≫ (q.φ i).left) ≫
       (Pi.π (fun j => Over.mk (E.f ((q.f i) j))) k).left
@@ -880,7 +873,7 @@ private theorem integralCechTermCoproductIso_inv_ι (V : C) (n : ℕ)
       rfl)
   let : HasCoproduct (fun j => ev.obj (F j)) := hasColimit_of_iso e
   let T := AddCommGrpCat.uliftFunctor.{w, max v a}
-  show Sigma.ι (fun j => T.obj (ev.obj (F j))) i ≫
+  change Sigma.ι (fun j => T.obj (ev.obj (F j))) i ≫
       (T.mapIso (PreservesCoproduct.iso ev F) ≪≫
         PreservesCoproduct.iso T (fun j => ev.obj (F j))).inv =
       T.map (ev.map (Sigma.ι F i))
@@ -922,7 +915,7 @@ private theorem integralCechTermNerveIso_ι (V : C) (n : ℕ)
       (Σ j : Fin (n + 1) → E.I₀,
         ULift.{a} (V ⟶ (∏ᶜ (fun k => Over.mk (E.f (j k)))).left)) :=
     Equiv.sigmaCongrRight (fun _ => Equiv.ulift)
-  show (AddCommGrpCat.free.map (cechSimplexNerveEquivHigh E V n).toIso.hom)
+  change (AddCommGrpCat.free.map (cechSimplexNerveEquivHigh E V n).toIso.hom)
       ((AddCommGrpCat.free.map e.toIso.hom)
         ((freeCoproductIso S).hom
           ((Sigma.ι (fun j => AddCommGrpCat.free.obj (S j)) i)
@@ -1020,7 +1013,7 @@ public theorem integralCechComplex_homology_isZero (n : ℕ) (hn : 0 < n) :
   let ev := (evaluation Cᵒᵖ AddCommGrpCat.{max v a}).obj V
   let T := AddCommGrpCat.uliftFunctor.{w, max v a}
   let K := integralCechComplex.{w, v, u, a} E
-  show IsZero (((T.mapHomologicalComplex _).obj
+  change IsZero (((T.mapHomologicalComplex _).obj
     ((ev.mapHomologicalComplex _).obj K)).homology n)
   exact IsZero.of_iso
     (freeAb_cechLiftMapHigh_homology_isZero.{w, v, u, a} E V.unop n hn)

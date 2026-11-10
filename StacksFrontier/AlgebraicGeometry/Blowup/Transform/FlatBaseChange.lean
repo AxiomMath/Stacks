@@ -62,7 +62,7 @@ theorem exists_isPullback_blowUpToBase_comap {X₁ X₂ : Scheme.{u}} (g : X₁ 
   set b₂ := blowUpToBase I
   let o₁ : Stacks.Blowup.CartierOver (I.comap g) := ⟨Over.mk b₁, h₁⟩
   have h₁₂ : Stacks.Blowup.IsCartierOver I (Over.mk (b₁ ≫ g)) := by
-    show Stacks.Divisors.IsEffectiveCartierDivisor (I.comap (b₁ ≫ g))
+    change Stacks.Divisors.IsEffectiveCartierDivisor (I.comap (b₁ ≫ g))
     rwa [Scheme.IdealSheafData.comap_comp]
   let f : blowUp (I.comap g) ⟶ blowUp I := (t₂.from ⟨Over.mk (b₁ ≫ g), h₁₂⟩).hom.left
   have hf : f ≫ b₂ = b₁ ≫ g := Over.w (t₂.from ⟨Over.mk (b₁ ≫ g), h₁₂⟩).hom

@@ -163,10 +163,10 @@ theorem hasAgreementLoci_diagonalFibre
     · intro h'
       have e₁ := VertHom.restrict_fac hp hY₁ hY₂ h s₁
       have e₂ := VertHom.restrict_fac hp hY₁ hY₂ h s₂
-      show (Y₁' y).map h ≫ s₁.1 ≫ CategoryTheory.inv s₂.1 = (Y₁' y).map h
+      change (Y₁' y).map h ≫ s₁.1 ≫ CategoryTheory.inv s₂.1 = (Y₁' y).map h
       rw [← Category.assoc, ← e₁, h', e₂, Category.assoc, IsIso.hom_inv_id, Category.comp_id]
   refine ⟨Z, ι' ≫ pullback.fst fU fU', ι' ≫ pullback.snd fU fU', ⟨?_, ?_, ?_, ?_⟩, inferInstance⟩
-  · show (ι' ≫ pullback.fst fU fU') ≫ fU = (ι' ≫ pullback.snd fU fU') ≫ fU'
+  · change (ι' ≫ pullback.fst fU fU') ≫ fU = (ι' ≫ pullback.snd fU fU') ≫ fU'
     simp only [Category.assoc, pullback.condition]
   · intro T g g' h₁ h₂
     apply (cancel_mono ι').mp
@@ -180,7 +180,7 @@ theorem hasAgreementLoci_diagonalFibre
     have hcomm : VV.map d.a ≫ fU = VV.map d'.a ≫ fU' := e₁.trans e₂.symm
     let h : z.x ⟶ P := Over.homMk (ObjectProperty.homMk (pullback.lift _ _ hcomm)) (by
       apply ObjectProperty.hom_ext
-      show pullback.lift _ _ hcomm ≫ pullback.fst fU fU' ≫ fU = _
+      change pullback.lift _ _ hcomm ≫ pullback.fst fU fU' ≫ fU = _
       rw [pullback.lift_fst_assoc]
       exact e₁)
     have hh₁ : h ≫ pr₁ = d.a := by
@@ -192,7 +192,7 @@ theorem hasAgreementLoci_diagonalFibre
       apply ObjectProperty.hom_ext
       exact pullback.lift_snd _ _ _
     have hagree : VertHom.restrict hp hY₁ hY₂ h s₁ = VertHom.restrict hp hY₁ hY₂ h s₂ := by
-      show VertHom.restrict hp hY₁ hY₂ h
+      change VertHom.restrict hp hY₁ hY₂ h
           (VertHom.restrict hp hY₁ hY₂ pr₁ ⟨sectOf x, isHomLift_sectOf hy x⟩) =
         VertHom.restrict hp hY₁ hY₂ h
           (VertHom.restrict hp hY₁ hY₂ pr₂ ⟨sectOf ξ', isHomLift_sectOf hy ξ'⟩)
@@ -213,17 +213,17 @@ theorem hasAgreementLoci_diagonalFibre
     obtain ⟨g, hg⟩ := (key z.x h).mpr hagree
     refine ⟨g, ?_, ?_⟩
     · rw [← Category.assoc, hg]
-      show VV.map h ≫ VV.map pr₁ = _
+      change VV.map h ≫ VV.map pr₁ = _
       rw [← VV.map_comp, hh₁]
       rfl
     · rw [← Category.assoc, hg]
-      show VV.map h ≫ VV.map pr₂ = _
+      change VV.map h ≫ VV.map pr₂ = _
       rw [← VV.map_comp, hh₂]
       rfl
   · intro T g hg
     let h : T ⟶ P := Over.homMk (ObjectProperty.homMk (g ≫ ι')) (by
       apply ObjectProperty.hom_ext
-      show (g ≫ ι') ≫ pullback.fst fU fU' ≫ fU = _
+      change (g ≫ ι') ≫ pullback.fst fU fU' ≫ fU = _
       simp only [Category.assoc]
       exact hg)
     let m : VertHom 𝒳.val.p (Over.map V.hom) (Y₁' y) (Y₂' y) T :=
@@ -241,10 +241,10 @@ theorem hasAgreementLoci_diagonalFibre
     obtain ⟨d, hd⟩ := exists_hom_of_sectOf hp hy (A := zT) (B := x) (h ≫ pr₁) hz₁
     obtain ⟨d', hd'⟩ := exists_hom_of_sectOf hp hy (A := zT) (B := ξ') (h ≫ pr₂) hz₂
     refine ⟨zT, d, d', rfl, ?_, ?_⟩
-    · show 𝟙 _ ≫ VV.map d.a = _
+    · change 𝟙 _ ≫ VV.map d.a = _
       rw [hd, Category.id_comp]
       exact (VV.map_comp h pr₁).trans (Category.assoc _ _ _)
-    · show 𝟙 _ ≫ VV.map d'.a = _
+    · change 𝟙 _ ≫ VV.map d'.a = _
       rw [hd', Category.id_comp]
       exact (VV.map_comp h pr₂).trans (Category.assoc _ _ _)
 

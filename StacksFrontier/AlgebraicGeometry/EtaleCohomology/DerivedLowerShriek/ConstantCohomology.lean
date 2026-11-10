@@ -61,7 +61,7 @@ theorem prop_homology_obj₁_of_distTriang_plus (P : ObjectProperty C) [P.IsWeak
   have hT' : T' ∈ distTriang _ := DerivedCategory.Plus.ι.map_distinguished T hT
   have h₂' : ∀ i : ℤ, P ((DerivedCategory.homologyFunctor C i).obj T'.obj₂) := h₂
   have h₃' : ∀ i : ℤ, P ((DerivedCategory.homologyFunctor C i).obj T'.obj₃) := h₃
-  show P ((DerivedCategory.homologyFunctor C n).obj T'.obj₁)
+  change P ((DerivedCategory.homologyFunctor C n).obj T'.obj₁)
   exact ObjectProperty.prop_mid_of_exact₄
     (fun S hS a b c d => P.prop_obj₂_of_exact S hS a b c d)
     (f₀ := (DerivedCategory.homologyFunctor C (n - 1)).map T'.mor₂)

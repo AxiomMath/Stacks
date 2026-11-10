@@ -269,6 +269,7 @@ lemma sndPullbackProj_comp_fst_changePt {Z : Scheme.{u}} (ν : Z ⟶ D.over.left
       (pullback.fst Q.base.hom (pullback.snd w w)) ν m h h'
   rw [e1, changeComp_proj_comp_fst, ← Category.assoc, changePt_comp_changeCompNu]
 
+omit [Surjective f] [IsIntegralHom f] in
 /-- **The gluing isomorphism over the base moves the base coordinate.** This is the hypothesis
 of `AlgebraicGeometry.DescentDatum.Descended.baseDatumOfMovesBase`, discharged. -/
 theorem baseGluingMovesBase : BaseGluingMovesBase Q hff := by
@@ -308,6 +309,7 @@ discharged. -/
 def baseDescentDatum [IsSeparated Q.base.hom] : DescentDatum w :=
   baseDatumOfMovesBase Q hff (baseGluingMovesBase Q hff)
 
+omit [IsIntegralHom f] in
 /-- The underlying scheme over `W` of `baseDescentDatum Q hff` is `Q.base`. -/
 @[simp]
 lemma baseDescentDatum_over [IsSeparated Q.base.hom] :

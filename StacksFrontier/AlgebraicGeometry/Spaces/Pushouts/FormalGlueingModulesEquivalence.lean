@@ -127,11 +127,11 @@ theorem isIso_toCommaPullbackAdjunctionRestrict_counit_app [HasPullbacks E]
       (α := αIso.hom) hα hr hs hKnat).counit.app (iQ.obj t)) := by
     have hl : IsIso ((toCommaPullbackAdjunction adjF adjG adjL adjR adjN cF cG pFmid eN pG hpF
         hpG (α := αIso.hom) hα hr hs hKnat).counit.app (iQ.obj t)).left := by
-      show IsIso ((adjF.homEquiv _ _).symm (𝟙 _ ≫ κ₁.app (iQ.obj t)))
+      change IsIso ((adjF.homEquiv _ _).symm (𝟙 _ ≫ κ₁.app (iQ.obj t)))
       rwa [Category.id_comp]
     have hr' : IsIso ((toCommaPullbackAdjunction adjF adjG adjL adjR adjN cF cG pFmid eN pG hpF
         hpG (α := αIso.hom) hα hr hs hKnat).counit.app (iQ.obj t)).right := by
-      show IsIso ((adjG.homEquiv _ _).symm (𝟙 _ ≫ κ₂.app (iQ.obj t)))
+      change IsIso ((adjG.homEquiv _ _).symm (𝟙 _ ≫ κ₂.app (iQ.obj t)))
       rwa [Category.id_comp]
     exact Comma.isIso_of_isIso_left_right _
   have : IsIso (iQ.map ((toCommaPullbackAdjunctionRestrict adjF adjG adjL adjR adjN cF cG pFmid

@@ -159,7 +159,7 @@ theorem isZero_rightDerived_globalSections_represented_of_isZero (U : BigFppfOve
     h.of_iso (representedZariskiCohomologyIso B S hS U N hN q)
   exact isZero_rightDerived_globalSections_of_isTerminalChart B S hS (schemeSpace U)
     (isTerminalSelfOpensFunctorTop B S hS U) N q
-    (by rwa [ModuleCat.isZero_iff_subsingleton] at h1 ⊢)
+    (by rw [ModuleCat.isZero_iff_subsingleton] at h1 ⊢; assumption)
 
 end AlgebraicGeometry.Space
 

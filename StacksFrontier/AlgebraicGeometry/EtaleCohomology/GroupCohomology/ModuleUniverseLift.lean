@@ -70,12 +70,12 @@ theorem isLocallyConstant_ρ_apply (N : Stacks.Injectives.ContinuousModule.{t, u
   intro g hg
   refine ⟨(fun h : G ↦ g⁻¹ * h) ⁻¹' {k : G | (N.obj.obj.ρ k).asHom.hom z = z}, fun h hh ↦ ?_,
     (isOpen_stabilizer R G N z).preimage (by fun_prop), ?_⟩
-  · simp only [Set.mem_preimage, Set.mem_setOf_eq] at hh
+  · simp only [Set.mem_preimage, Set.mem_ofPred_eq] at hh
     have hmul : (N.obj.obj.ρ (g * (g⁻¹ * h))).asHom.hom z =
         (N.obj.obj.ρ g).asHom.hom ((N.obj.obj.ρ (g⁻¹ * h)).asHom.hom z) := by rw [map_mul]; rfl
     rw [mul_inv_cancel_left, hh] at hmul
     exact Set.mem_preimage.mpr (hmul ▸ hg)
-  · simp only [Set.mem_preimage, Set.mem_setOf_eq, inv_mul_cancel]
+  · simp only [Set.mem_preimage, Set.mem_ofPred_eq, inv_mul_cancel]
     rw [map_one]; rfl
 
 end Underlying

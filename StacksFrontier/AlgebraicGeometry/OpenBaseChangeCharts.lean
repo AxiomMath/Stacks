@@ -93,7 +93,7 @@ if `σ` and `σ'` lift the inclusions of `α ⁻¹ᵁ Ω` and `α ⁻¹ᵁ Ω'` 
 inclusion `α ⁻¹ᵁ Ω' ⟶ α ⁻¹ᵁ Ω` followed by `σ`. -/
 theorem chart_comp_homOfLE {Z : Scheme.{u}} {Uo : Z.Opens} {V A : Scheme.{u}}
     {f : V ⟶ Uo.toScheme} {α : A ⟶ Z} {ρ : V ⟶ A} (hρ : IsPullback ρ f α Uo.ι)
-    {Ω Ω' : Z.Opens} (h : Ω' ≤ Ω) (hΩ : Ω ≤ Uo)
+    {Ω Ω' : Z.Opens} (h : Ω' ≤ Ω)
     {σ : (α ⁻¹ᵁ Ω).toScheme ⟶ V} (hσ : σ ≫ ρ = (α ⁻¹ᵁ Ω).ι)
     {σ' : (α ⁻¹ᵁ Ω').toScheme ⟶ V} (hσ' : σ' ≫ ρ = (α ⁻¹ᵁ Ω').ι) :
     A.homOfLE (show α ⁻¹ᵁ Ω' ≤ α ⁻¹ᵁ Ω from fun _ hx ↦ h hx) ≫ σ = σ' := by

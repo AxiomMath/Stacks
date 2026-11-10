@@ -233,7 +233,7 @@ private theorem e8_weight_eq_of_minus_two_indices
   · subst h₆
     exact (T.intersection_symm _ _).trans h₆₇
   have h₆' : j.val ≠ 6 := fun h => h₆ (Fin.ext h)
-  have hz := hfzero (6 : Fin 7) j (Fin.lt_iff_val_lt_val.mpr (by omega))
+  have hz := hfzero (6 : Fin 7) j (Fin.lt_def.mpr (by omega))
     (by omega : ¬(6 = j.val + 1 ∧ j.val < 5)) (fun h => h₄ (Fin.ext h.2))
   have hz' : T.intersection (i 7) (i ⟨j.val, by omega⟩) = 0 := by
     simpa [vf, e8ForkEmbedding, e8ForkOrder, h₆'] using hz
@@ -278,7 +278,7 @@ private theorem e8_chain_edges (T : NumericalType) (hcard : 8 < T.componentCount
     (∀ j k : Fin 7, k.val = j.val + 1 → T.intersection (i j.castSucc) (i k.castSucc) = w) ∧
     (∀ j k : Fin 7, j.val + 1 < k.val → T.intersection (i j.castSucc) (i k.castSucc) = 0) := by
   let c : Fin 7 → Fin T.componentCount := fun j => i ⟨j.val, by omega⟩
-  show (∀ j k : Fin 7, k.val = j.val + 1 → T.intersection (c j) (c k) = w) ∧
+  change (∀ j k : Fin 7, k.val = j.val + 1 → T.intersection (c j) (c k) = w) ∧
     (∀ j k : Fin 7, j.val + 1 < k.val → T.intersection (c j) (c k) = 0)
   have hchain := classify_long_chain_of_minus_two_indices T c
     (by decide) (by omega) (by
@@ -345,16 +345,16 @@ public theorem e8_submatrix_of_minus_two_indices
   | last =>
     induction k using Fin.lastCases with
     | last =>
-      show T.intersection (i 7) (i 7) = e8IntersectionMatrix w 7 7
+      change T.intersection (i 7) (i 7) = e8IntersectionMatrix w 7 7
       simpa [e8IntersectionMatrix] using hdiag 7
     | cast k =>
-      show T.intersection (i 7) (i k.castSucc) = e8IntersectionMatrix w 7 k.castSucc
+      change T.intersection (i 7) (i k.castSucc) = e8IntersectionMatrix w 7 k.castSucc
       rw [hleaf]
       fin_cases k <;> simp [e8IntersectionMatrix]
   | cast j =>
     induction k using Fin.lastCases with
     | last =>
-      show T.intersection (i j.castSucc) (i 7) = e8IntersectionMatrix w j.castSucc 7
+      change T.intersection (i j.castSucc) (i 7) = e8IntersectionMatrix w j.castSucc 7
       rw [T.intersection_symm, hleaf]
       fin_cases j <;> simp [e8IntersectionMatrix]
     | cast k =>

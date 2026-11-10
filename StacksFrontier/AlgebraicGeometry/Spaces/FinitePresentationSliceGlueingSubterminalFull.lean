@@ -61,7 +61,7 @@ variable {C : Type u} [Category.{v} C]
 /-- **The representable presheaf of a subterminal object is subterminal**: two morphisms into
 it out of a presheaf `F` take a section of `F` to two morphisms into the object, which agree. -/
 theorem IsSubterminal.yonedaObj {Z : C} (hZ : IsSubterminal Z) :
-    IsSubterminal (yoneda.obj Z : Cᵒᵖ ⥤ Type v) := fun _ f g =>
+    IsSubterminal (yoneda.obj Z : Cᵒᵖ ⥤ Type v) := fun _ _ _ =>
   NatTrans.ext (funext fun _ => ConcreteCategory.hom_ext _ _ fun _ => hZ _ _)
 
 /-! ### Sections of a base change over a subterminal base -/

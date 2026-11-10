@@ -125,7 +125,7 @@ theorem exists_etaleChart_isPullback_of_presheafEtale (f : X ⟶ Y)
   refine ⟨⟨CostructuredArrow.mk (yoneda.map (U.2.rep.snd (t ≫ f.hom)) ≫ t),
       etale_comp_of_scheme B S hS (U.2.rep.snd (t ≫ f.hom)) t hcEtale ht⟩,
     U.2.rep.snd (t ≫ f.hom), U.2.rep.fst' (t ≫ f.hom), ?_, hpb⟩
-  show (yoneda.map (U.2.rep.snd (t ≫ f.hom)) ≫ t) ≫ f.hom =
+  change (yoneda.map (U.2.rep.snd (t ≫ f.hom)) ≫ t) ≫ f.hom =
     yoneda.map (U.2.rep.fst' (t ≫ f.hom)) ≫ U.1.hom
   rw [Category.assoc]
   exact hpb.w.symm

@@ -78,6 +78,8 @@ variable {C : Type*} [Category C] {C' : Type*} [Category C']
   {A : DifferentialGradedAlgebra.{u, m} (Stacks.SheafOfModules.Tensor.ringSheaf Osharp)}
   {A' : DifferentialGradedAlgebra.{u, m} (Stacks.SheafOfModules.Tensor.ringSheaf Osharp')}
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The composite of the homomorphisms of section algebras of two maps along functors of chaotic
 sites is the restriction homomorphism along `η_U` as soon as it is so degreewise on sections. -/
 theorem sectionHom_comp_eq_of_app {F₁ : C' ⥤ C} {F₂ : C ⥤ C'}
@@ -99,6 +101,8 @@ theorem sectionHom_comp_eq_of_app {F₁ : C' ⥤ C} {F₂ : C ⥤ C'}
     exact congrArg (DirectSum.of (A.toGradedAlgebra.sectionsPiece U) n) (h n p)
   exact DFunLike.congr_fun key b
 
+omit [(⊥ : GrothendieckTopology C).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [(⊥ : GrothendieckTopology C').HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- A map along a functor of chaotic sites precomposed with restriction along `τ_{U'}` has the
 homomorphism of section algebras of the composite as soon as it is so degreewise on sections. -/
 theorem sectionHom_restriction_eq_of_app {F F' : C' ⥤ C}
@@ -252,9 +256,11 @@ def refineQCPullbackIso (φ : SystemProHom A B) (F' : ι ⥤ ι) (τ : F'.op ⟶
     (φ.refine F' τ).qcPullback ≅ φ.qcPullback :=
   chaoticQCPullbackRefineIso.{u, u} (systemInverseImageHom φ.F φ.hom)
     (systemInverseImageHom F' (Functor.whiskerRight τ A ≫ φ.hom)) τ
-    (fun U' => SheafOfModules.DifferentialGradedAlgebra.InverseImageHom.sectionHom_restriction_eq_of_app
-      (systemInverseImageHom φ.F φ.hom) (systemInverseImageHom F' (Functor.whiskerRight τ A ≫ φ.hom))
-      U' (τ.app U') (fun n (x : ((systemComplex A).X n).val.obj (F'.op.obj U')) => rfl))
+    (fun U' =>
+      SheafOfModules.DifferentialGradedAlgebra.InverseImageHom.sectionHom_restriction_eq_of_app
+        (systemInverseImageHom φ.F φ.hom)
+        (systemInverseImageHom F' (Functor.whiskerRight τ A ≫ φ.hom))
+        U' (τ.app U') (by intros; rfl))
 
 end SystemProHom
 
@@ -306,10 +312,12 @@ def maxIdTransition (F : ι ⥤ ι) : (maxIdFunctor F).op ⟶ F.op where
   app U := (homOfLE (le_max_left (F.obj U.unop) U.unop)).op
   naturality _ _ _ := Subsingleton.elim _ _
 
+omit [LocallyFiniteOrderBot ι] in
 /-- Every index is bounded above by its image under `maxIdFunctor F`. -/
 theorem le_maxIdFunctor_obj (F : ι ⥤ ι) (i : ι) : i ≤ (maxIdFunctor F).obj i :=
   le_max_right _ _
 
+omit [LocallyFiniteOrderBot ι] in
 /-- Two composable maps of an inverse system indexed by `ι` compose to the transition map. -/
 theorem map_comp_map_eq {D : Type*} [Category D] (A : ιᵒᵖ ⥤ D) {a b c : ιᵒᵖ} (f : a ⟶ b)
     (g : b ⟶ c) (f' : a ⟶ c) : A.map f ≫ A.map g = A.map f' := by
@@ -350,6 +358,7 @@ def invTransition : (invFunctor φ ψ h).op ⟶ ψ.F.op where
   app U := (homOfLE ((le_max_left _ _).trans (le_invFunctor_obj φ ψ h U.unop))).op
   naturality _ _ _ := Subsingleton.elim _ _
 
+omit [LocallyFiniteOrderBot ι] in
 /-- Two composable pairs of maps of an inverse system indexed by `ι` with the same ends have the
 same composite. -/
 theorem map_comp_map_eq_map_comp_map {D : Type*} [Category D] (A : ιᵒᵖ ⥤ D) {a b b' c : ιᵒᵖ}
@@ -375,7 +384,7 @@ def toSystemProIso : SystemProIso A B where
     obtain ⟨h₁, h₂, he⟩ := (h.hom_inv i).choose_spec
     have hn := φ.hom.naturality ((invTransition φ ψ h).app (op i))
     dsimp only [Functor.comp_map, Functor.op_obj] at hn
-    show A.map ((maxIdTransition φ.F).app (op ((invFunctor φ ψ h).obj i))) ≫
+    change A.map ((maxIdTransition φ.F).app (op ((invFunctor φ ψ h).obj i))) ≫
         φ.hom.app (op ((invFunctor φ ψ h).obj i)) ≫
           B.map ((invTransition φ ψ h).app (op i)) ≫ ψ.hom.app (op i) = _
     rw [← Category.assoc (φ.hom.app _), ← hn, Category.assoc, ← Category.assoc (A.map _),
@@ -387,7 +396,7 @@ def toSystemProIso : SystemProIso A B where
     obtain ⟨h₁, h₂, he⟩ := (h.inv_hom i).choose_spec
     have hn := ψ.hom.naturality ((maxIdTransition φ.F).app (op i))
     dsimp only [Functor.comp_map, Functor.op_obj] at hn
-    show B.map ((invTransition φ ψ h).app (op ((maxIdFunctor φ.F).obj i))) ≫
+    change B.map ((invTransition φ ψ h).app (op ((maxIdFunctor φ.F).obj i))) ≫
         ψ.hom.app (op ((maxIdFunctor φ.F).obj i)) ≫
           A.map ((maxIdTransition φ.F).app (op i)) ≫ φ.hom.app (op i) = _
     rw [← Category.assoc (ψ.hom.app _), ← hn, Category.assoc, ← Category.assoc (B.map _),
@@ -414,9 +423,10 @@ whose composites with `φ` agree with the transition maps after restriction to a
 theorem isEquivalence_qcPullback (φ : SystemProHom A B) (hφ : φ.IsProIso) :
     φ.qcPullback.IsEquivalence := by
   obtain ⟨ψ, h⟩ := hφ
-  haveI : (φ.refine (maxIdFunctor φ.F) (maxIdTransition φ.F)).qcPullback.IsEquivalence :=
+  have : (φ.refine (maxIdFunctor φ.F) (maxIdTransition φ.F)).qcPullback.IsEquivalence :=
     (toSystemProIso φ ψ h).qcEquivalence.isEquivalence_functor
-  exact Functor.isEquivalence_of_iso (φ.refineQCPullbackIso (maxIdFunctor φ.F) (maxIdTransition φ.F))
+  exact Functor.isEquivalence_of_iso
+    (φ.refineQCPullbackIso (maxIdFunctor φ.F) (maxIdTransition φ.F))
 
 end SystemProHom
 

@@ -83,13 +83,13 @@ private lemma exists_essFiniteType_extension_into
     rw [RingHom.comp_apply,
       IsScalarTower.algebraMap_apply k' (k' ⊗[k] K ⧸ RingHom.ker g) M,
       IsFractionRing.lift_algebraMap]
-    show g (algebraMap k' (k' ⊗[k] K) a) = α a
+    change g (algebraMap k' (k' ⊗[k] K) a) = α a
     simp [g, αₐ, βₐ, Algebra.TensorProduct.algebraMap_apply]
   · refine RingHom.ext fun b ↦ ?_
     rw [RingHom.comp_apply,
       IsScalarTower.algebraMap_apply K (k' ⊗[k] K ⧸ RingHom.ker g) M,
       IsFractionRing.lift_algebraMap]
-    show g (1 ⊗ₜ b) = β b
+    change g (1 ⊗ₜ b) = β b
     simp [g, αₐ, βₐ]
 
 /-- The comparison morphism between two base changes along legs of one composite is compatible
@@ -132,7 +132,7 @@ private lemma isGeometricallyRegularAt_baseChange_of_isGeometricallyRegularAt'
     rw [← hx', ← hz]
     exact congrArg (fun g ↦ g.base.hom z) he
   have hzA : e.inv (e.hom z) = z := by
-    show (e.hom ≫ e.inv) z = z
+    change (e.hom ≫ e.inv) z = z
     rw [e.hom_inv_id]
     rfl
   have hregA : IsRegularLocalRing
@@ -172,7 +172,7 @@ private lemma isGeometricallyRegularAt_of_baseChange'
         Spec.map (ofHom (β.comp (algebraMap k K))) := by
       rw [CommRingCat.ofHom_comp, CommRingCat.ofHom_comp, Spec.map_comp, Spec.map_comp, hα, hβ,
         Category.assoc, Category.assoc]
-      show ω' ≫ pullback.snd f φ ≫ φ = ωK ≫ pullback.snd f ψ ≫ ψ
+      change ω' ≫ pullback.snd f φ ≫ φ = ωK ≫ pullback.snd f ψ ≫ ψ
       rw [← pullback.condition, ← pullback.condition, ← Category.assoc, hω, Category.assoc]
     exact congrArg CommRingCat.Hom.hom (Spec.map_injective hspec)
   -- A common extension `M` of `k'` and `K` inside `Ω`, finitely generated over `k'`.
@@ -201,11 +201,11 @@ private lemma isGeometricallyRegularAt_of_baseChange'
   let w : A := l s
   have hw : pullback.fst (pullback.snd f φ) χK w = x' := by
     rw [← hp₁]
-    show (l ≫ pullback.fst _ _) s = _
+    change (l ≫ pullback.fst _ _) s = _
     rw [pullback.lift_fst, Scheme.Hom.comp_apply, Scheme.fromSpecResidueField_apply]
   have hrw : r w = z := by
     rw [← hp₂]
-    show (l ≫ r) s = _
+    change (l ≫ r) s = _
     rw [hlr, Scheme.Hom.comp_apply, Scheme.fromSpecResidueField_apply]
   -- Regularity descends along the flat local map of stalks.
   have hregA : IsRegularLocalRing (A.presheaf.stalk w) := h M w hw

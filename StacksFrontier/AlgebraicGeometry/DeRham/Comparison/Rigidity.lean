@@ -148,7 +148,7 @@ theorem eq (hc : IsFunnyMapFamily ι δ c) (hc' : IsFunnyMapFamily ι δ c') (J 
   refine LinearMap.ext fun η ↦ ?_
   obtain ⟨k, ω, hω⟩ := exists_pow_smul_mem_range_map ι J hJ p η
   refine ((hreg p).pow k) ?_
-  show J ^ k • c p η = J ^ k • c' p η
+  change J ^ k • c p η = J ^ k • c' p η
   rw [← map_smul, ← map_smul, ← hω, hc.map_map_eq_tmul, hc'.map_map_eq_tmul]
 
 end IsFunnyMapFamily

@@ -80,7 +80,7 @@ private theorem mapFromTerminal_bijective_of_fullyFaithful
   refine ⟨fun f g h ↦ hF.map_injective ((cancel_epi e.hom).mp h), fun g ↦ ?_⟩
   obtain ⟨f, hf⟩ := hF.map_surjective (e.inv ≫ g)
   refine ⟨f, ?_⟩
-  show e.hom ≫ H.map f = g
+  change e.hom ≫ H.map f = g
   rw [hf, ← Category.assoc, e.hom_inv_id, Category.id_comp]
 
 private theorem reflectsIsomorphisms_of_fiberIso
@@ -203,7 +203,7 @@ private theorem open_overgroup_of_not_surjective
   let L : ClosedSubgroup K :=
     { toSubgroup := f.range
       isClosed' := by
-        show IsClosed (Set.range f.toContinuousMap)
+        change IsClosed (Set.range f.toContinuousMap)
         simpa only [Set.image_univ] using (isCompact_univ.image f.continuous).isClosed }
   have hEq := ProfiniteGrp.closedSubgroup_eq_sInf_open L
   have hkn : k ∉ L := hk
@@ -219,7 +219,7 @@ private theorem open_overgroup_of_not_surjective
   have hU : U ≠ ⊤ := by
     intro heq
     apply hknN
-    show k ∈ (U : Subgroup K)
+    change k ∈ (U : Subgroup K)
     rw [heq]
     trivial
   exact hnone ⟨U, hr, hU⟩
@@ -236,7 +236,7 @@ private theorem fixedPoint_to_morphism
       comm := by
         intro g
         ext y
-        show x = g • x
+        change x = g • x
         exact (hx g).symm }
   obtain ⟨f, hf⟩ := (PreGaloisCategory.functorToAction F).map_surjective p
   exact ⟨f⟩

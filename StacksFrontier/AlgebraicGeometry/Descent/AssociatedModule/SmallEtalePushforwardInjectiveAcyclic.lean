@@ -44,8 +44,8 @@ Everything happens on the underlying abelian sheaves, where inverse image is exa
    *small* categories, and the small étale sites have their objects in `Type (u + 1)`, so the
    argument is carried out on their `Type u` models
    (`AlgebraicGeometry.SmallEtale.smallModelEquiv`) and read back, exactly as
-   `StacksFrontier/AlgebraicGeometry/EtaleCohomology/PushforwardAcyclic/Injectivity.lean` does at the
-   coefficient universe `u + 1` with `CategoryTheory.ULiftHom`.
+   `StacksFrontier/AlgebraicGeometry/EtaleCohomology/PushforwardAcyclic/Injectivity.lean` does at
+   the coefficient universe `u + 1` with `CategoryTheory.ULiftHom`.
 2. The underlying abelian sheaf `I_ab` of an injective module has vanishing cohomology over every
    object, at the morphism universe of the site, so its higher direct images vanish
    ([Stacks, Tag 072W] for abelian sheaves):

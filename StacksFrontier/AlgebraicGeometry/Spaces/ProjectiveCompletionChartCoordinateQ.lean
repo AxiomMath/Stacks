@@ -65,7 +65,8 @@ theorem range_schemeHom_left_eq_range_toScheme_map {T T' : BigFppfOver B S hS} (
       Set.range ((BigFppfOver.toScheme B S hS).map g).base :=
   rfl
 
-omit [IsAffine (chartScheme V)] in
+omit [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree
+  (show SheafOfModules.{u} (structureRingSheaf B S hS X) from E)] [IsAffine (chartScheme V)] in
 /-- The open immersion `U ×_X V ⟶ 𝐏((ℰ ⊕ 𝒪)|_V)` lands in the complement of `𝐏(ℰ|_V)`. -/
 theorem range_chartBundleHomOfSite_affinePart_subset :
     Set.range (@chartBundleHomOfSite B S hS X (addUnit X.2 E) (isQuasicoherentOnSite_addUnit hr)
@@ -87,6 +88,8 @@ theorem range_chartBundleHomOfSite_affinePart_subset :
   ((range_schemeHom_left_eq_range_toScheme_map _).trans
     ((range_affinePartOverChartToChartBundle E hr m).trans (Scheme.Opens.range_ι _))).le
 
+omit [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree
+  (show SheafOfModules.{u} (structureRingSheaf B S hS X) from E)] [IsAffine (chartScheme V)] in
 /-- The chart diagram `U_V ⟶ V` over `u`, in the spelling of the quotient readings. -/
 theorem affinePartChartOverChart_comm_site :
     (affinePartChartOverChart E hr m).1.hom ≫
@@ -108,6 +111,8 @@ theorem affinePartChartOverChart_comm_site :
         (isFiniteLocallyFreeOnSite_addUnit hr)).siteToChart V)) ≫ V.1.hom :=
   affinePartChartOverChart_comm E hr m
 
+omit [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree
+  (show SheafOfModules.{u} (structureRingSheaf B S hS X) from E)] [IsAffine (chartScheme V)] in
 /-- The identification `u^*𝒪_X ≅ 𝒪_U` through `ι^*𝒪_P` sends the inverse image of `1` at the
 chart `U_V` to `1`. -/
 theorem modulePullbackUnitCompIso_inv_comp_unitIso_chartSection_one :
@@ -154,7 +159,8 @@ theorem modulePullbackUnitCompIso_inv_comp_unitIso_chartSection_one :
     (affinePartChartOverChart_hom_comp E hr m)
       (presentationChart_projectiveCompletion_hom_comp E hr)
 
-omit [IsAffine (chartScheme V)] in
+omit [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree
+  (show SheafOfModules.{u} (structureRingSheaf B S hS X) from E)] [IsAffine (chartScheme V)] in
 /-- The chart `U_V ⟶ V ⟶ X` is `U_V ⟶ U ⟶ X`, in the spelling of the quotient readings. -/
 theorem representedSpaceMap_affinePartChartToChartSite_comp :
     representedSpaceMap B S hS
@@ -240,7 +246,7 @@ theorem completionChartUnitSplitting_σ_eq :
         schemeReadingMap (chartToSpace B S hS X V)
           (addUnitInr X.2 E : (SheafOfModules.unit (structureRingSheaf B S hS X) :
             Modules.{u, u} B S hS X.1 X.2) ⟶ addUnit X.2 E) := by
-  show (chartUnitReadingIso (X := X) V).inv ≫ chartModuleMap (addUnitInr X.2 E) V = _
+  change (chartUnitReadingIso (X := X) V).inv ≫ chartModuleMap (addUnitInr X.2 E) V = _
   rw [chartUnitReadingIso_eq]
   rfl
 
@@ -252,6 +258,8 @@ theorem completionChartUnitSplitting_σ'_eq :
       schemeReadingMap (chartToSpace B S hS X V) (biprod.inl : E ⟶ addUnit X.2 E) :=
   rfl
 
+omit [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree
+  (show SheafOfModules.{u} (structureRingSheaf B S hS X) from E)] in
 /-- **The coordinates of `U ×_X V ⟶ 𝐏((ℰ ⊕ 𝒪)|_V)` are the values of `q`**, in the spelling of
 the quotient readings: for a trivialization `e` of `ℰ` over the affine chart `V`, the `j`-th
 coordinate `λ(σ'(k_j)) / λ(σ)` of the open immersion for the split datum of `(ℰ ⊕ 𝒪)|_V` is the

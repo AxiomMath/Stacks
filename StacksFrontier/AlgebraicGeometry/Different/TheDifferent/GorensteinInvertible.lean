@@ -169,7 +169,7 @@ section Schemes
 
 variable {X Y : Scheme.{u}} (f : Y ⟶ X)
   [IsNoetherian X] [IsNoetherian Y]
-  [LocallyOfFiniteType f] [QuasiCompact f] [LocallyQuasiFinite f]
+  [LocallyOfFiniteType f] [LocallyQuasiFinite f]
 
 /-- The fibre ring of a chart of `f` over a prime of the base is Gorenstein as soon as the
 scheme-theoretic fibre of `f` through that prime is a Gorenstein scheme. -/
@@ -349,7 +349,7 @@ section Different
 
 variable {X Y : Scheme.{u}} (f : Y ⟶ X)
   [IsNoetherian X] [IsNoetherian Y]
-  [LocallyOfFiniteType f] [QuasiCompact f] [LocallyQuasiFinite f]
+  [LocallyOfFiniteType f] [LocallyQuasiFinite f]
   (hGor : Scheme.Hom.IsGorenstein f (isLocallyNoetherian_fiber_of_locallyOfFiniteType f))
 
 /-- **[Stacks, Tag 0C17 (1)].** The different of a quasi-finite Gorenstein morphism of Noetherian
@@ -456,7 +456,7 @@ section BaseChangeGorenstein
 
 variable {X X' Y : Scheme.{u}} (f : Y ⟶ X) (g : X' ⟶ X)
   [IsNoetherian X] [IsNoetherian X'] [IsNoetherian Y]
-  [LocallyOfFiniteType f] [QuasiCompact f] [LocallyQuasiFinite f]
+  [LocallyOfFiniteType f] [LocallyQuasiFinite f]
   (hGor : Scheme.Hom.IsGorenstein f (isLocallyNoetherian_fiber_of_locallyOfFiniteType f))
 
 /-- **[Stacks, Tag 0C17 (4)].** Formation of the closed subscheme `R ⊆ Y` cut out by the

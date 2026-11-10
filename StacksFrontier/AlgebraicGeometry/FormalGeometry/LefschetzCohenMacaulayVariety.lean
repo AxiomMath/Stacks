@@ -107,7 +107,7 @@ lemma intCast_le_enatToEInt_add_krullDimToEInt_of_min_le {d : ℕ} {a c : WithBo
   induction e using ENat.recTopCoe with
   | top => exact le_top
   | coe e =>
-  show ((d : ℤ) : EInt) ≤ ((e : ℤ) : EInt) + ((c : ℤ) : EInt)
+  change ((d : ℤ) : EInt) ≤ ((e : ℤ) : EInt) + ((c : ℤ) : EInt)
   have hadd : ((e : ℤ) : EInt) + ((c : ℤ) : EInt) = (((e + c : ℕ) : ℤ) : EInt) := by
     push_cast
     rfl

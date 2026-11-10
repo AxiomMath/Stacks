@@ -50,7 +50,8 @@ isomorphism but no declaration relates them.
 
 Neither statement below needs a sheafification hypothesis on either site: the essential-image
 criterion of Stacks 08M3 does not, and the ideal product is an infimum of sheaf submodules rather
-than a sheafification. A direct transcription of the source would carry `HasWeakSheafify X.J AddCommGrpCat` and
+than a sheafification. A direct transcription of the source would carry
+`HasWeakSheafify X.J AddCommGrpCat` and
 `X.J.WEqualsLocallyBijective AddCommGrpCat` throughout its variable block, so `idealProductModule`
 here is stated at strictly greater generality than that transcription.
 
@@ -180,7 +181,7 @@ private lemma idealProductSubmodule_le_kernelAnnihilator (hi : FirstOrderThicken
   apply sInf_le
   intro U a m
   simp only [kernelAnnihilatorSubmodule]
-  show ∀ (V : Y.Cᵒᵖ) (f : U ⟶ V) (b : (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.obj V),
+  change ∀ (V : Y.Cᵒᵖ) (f : U ⟶ V) (b : (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.obj V),
       i.fSharp.hom.app V b = 0 →
         b • G'.val.map f ((show (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.obj U from
           hi.incl.val.app U a) • m) = 0
@@ -192,7 +193,7 @@ private lemma idealProductSubmodule_le_kernelAnnihilator (hi : FirstOrderThicken
       hi.incl.val.app V ((hi.I.val.map f) a)) • G'.val.map f m) := by
     rw [G'.val.map_smul]
     congr 1
-    show ((Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.map f).hom (hi.incl.val.app U a) =
+    change ((Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.map f).hom (hi.incl.val.app U a) =
       hi.incl.val.app V ((hi.I.val.map f) a)
     have hn := congrArg (fun q => q a) (hi.incl.val.naturality f)
     change (ConcreteCategory.hom (hi.incl.val.app V))

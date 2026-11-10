@@ -167,9 +167,7 @@ theorem mk_eq_sum_range_of_iso_sigma {A : Type*} [Category A] [Abelian A]
     (e : E.obj ≅ ∐ fun i : ℕ => (C i).obj) (hz : ∀ i, N ≤ i → IsZero ((C i).obj)) :
     KZero.mk B.FullSubcategory E =
       ∑ i ∈ Finset.range N, KZero.mk B.FullSubcategory (C i) := by
-  have hab := abelian_eq hA
-    (ObjectProperty.instAbelianFullSubcategoryOfContainsZeroOfIsClosedUnderKernelsOfIsClosedUnderCokernelsOfIsClosedUnderFiniteProducts
-      B)
+  have hab := abelian_eq hA (by clear hA; infer_instance)
   subst hA
   classical
   let : HasFiniteBiproducts A := Abelian.hasFiniteBiproducts
@@ -246,10 +244,10 @@ theorem alternating_sum_range {M : Type*} [AddCommGroup M] (g : ℕ → M) (N : 
   | zero => simp
   | succ N ih =>
     have hEven : ((((2 * N : ℕ) : ℤ).negOnePow : ℤ)) = 1 := by
-      show (((2 * (N : ℤ)).negOnePow : ℤ)) = 1
+      change (((2 * (N : ℤ)).negOnePow : ℤ)) = 1
       simp [Int.negOnePow_two_mul]
     have hOdd : ((((2 * N + 1 : ℕ) : ℤ).negOnePow : ℤ)) = -1 := by
-      show (((2 * (N : ℤ) + 1).negOnePow : ℤ)) = -1
+      change (((2 * (N : ℤ) + 1).negOnePow : ℤ)) = -1
       simp [Int.negOnePow_two_mul_add_one]
     have hL : (∑ n ∈ Finset.range (2 * (N + 1)), (((n : ℤ).negOnePow : ℤ) • g n)) =
         (∑ n ∈ Finset.range (2 * N), (((n : ℤ).negOnePow : ℤ) • g n)) +
@@ -364,16 +362,14 @@ theorem coherentZeroHomologyFunctor_isHomological [B.IsWeakSerreClass]
     [hA : Abelian B.FullSubcategory] [P.IsTriangulated]
     (hB : ∀ E : P.FullSubcategory, B ((DerivedCategory.homologyFunctor A 0).obj E.obj)) :
     (coherentZeroHomologyFunctor B P hB).IsHomological := by
-  have hab := abelian_eq hA
-    (ObjectProperty.instAbelianFullSubcategoryOfContainsZeroOfIsClosedUnderKernelsOfIsClosedUnderCokernelsOfIsClosedUnderFiniteProducts
-      B)
+  have hab := abelian_eq hA (by clear hA; infer_instance)
   subst hA
   classical
   let H := coherentZeroHomologyFunctor B P hB
   have : H.PreservesZeroMorphisms := by
     refine ⟨fun X Y => ?_⟩
     apply ObjectProperty.hom_ext
-    show (P.ι ⋙ DerivedCategory.homologyFunctor A 0).map (0 : X ⟶ Y) = 0
+    change (P.ι ⋙ DerivedCategory.homologyFunctor A 0).map (0 : X ⟶ Y) = 0
     simp
   have : PreservesFiniteLimits B.ι := B.preservesFiniteLimits_ι_of_isWeakSerreClass
   have : PreservesFiniteColimits B.ι := B.preservesFiniteColimits_ι_of_isWeakSerreClass
@@ -556,9 +552,10 @@ theorem derivedCategoryBBounded_derivedPushforward_single (f : X ⟶ Y) [IsLocal
       exact Stacks.AlgebraicGeometry.CoherentDevissage.isCoherent_of_iso (R := X.ringCatSheaf) e
     · exact Stacks.AlgebraicGeometry.CoherentDevissage.isCoherent_of_isZero
         (R := X.ringCatSheaf) (isZero_homologyFunctor_obj_singleFunctor_obj F j hj)
-  refine Stacks.AlgebraicGeometry.ProperSupportCoherent.derivedCategoryBBounded_derivedPushforward_of_properSupp
+  open Stacks.AlgebraicGeometry in
+  refine ProperSupportCoherent.derivedCategoryBBounded_derivedPushforward_of_properSupp
     f _ hcoh (fun j => ?_) 0 0 inferInstance inferInstance
-  show IsProper ((Scheme.IdealSheafData.vanishingIdeal _).subschemeι ≫ f)
+  change IsProper ((Scheme.IdealSheafData.vanishingIdeal _).subschemeι ≫ f)
   infer_instance
 
 /-- **[Stacks, Tag 08E2] for a coherent sheaf placed in degree zero**, at the spelling of

@@ -101,7 +101,7 @@ theorem extensionMap_generator {V : X.Etale} (p : (torsor i ε w).obj.obj (op V)
 /-- **`ε̃ [p] = 1`.** -/
 theorem augmentation_generator {V : X.Etale} (p : (torsor i ε w).obj.obj (op V)) :
     (augmentation i ε w).hom.app (op V) (generator i ε w p) = oneSection ℓ V := by
-  show ε.hom.app (op V) ((extensionMap i ε w).hom.app (op V) (generator i ε w p)) = _
+  change ε.hom.app (op V) ((extensionMap i ε w).hom.app (op V) (generator i ε w p)) = _
   rw [extensionMap_generator]
   exact torsor_spec i ε w p
 
@@ -120,7 +120,7 @@ theorem shift_generator {V : X.Etale} (p : (torsor i ε w).obj.obj (op V)) :
 theorem shift_comp_extensionMap :
     (shift hS).asHom ≫ extensionMap i ε w = augmentation i ε w ≫ i := by
   refine hom_ext_generator fun V p => ?_
-  show (extensionMap i ε w).hom.app (op V) ((shift hS).asHom.hom.app (op V) (generator i ε w p)) =
+  change (extensionMap i ε w).hom.app (op V) ((shift hS).asHom.hom.app (op V) (generator i ε w p)) =
     i.hom.app (op V) ((augmentation i ε w).hom.app (op V) (generator i ε w p))
   rw [shift_generator, map_sub, extensionMap_generator, extensionMap_generator,
     augmentation_generator, translation_app]
@@ -189,7 +189,7 @@ theorem finrank_sheafFiber_unitSheaf :
     Module.finrank (ZMod ℓ) ((Φ.sheafFiber (A := ModuleCat.{u + 1} (ZMod ℓ))).obj
       (unitSheaf ℓ)) = 1 := by
   refine ((fiberUnitIso (ℓ := ℓ) Φ).toLinearEquiv.finrank_eq).trans ?_
-  show Module.finrank (ZMod ℓ) (ULift (ZMod ℓ)) = 1
+  change Module.finrank (ZMod ℓ) (ULift (ZMod ℓ)) = 1
   rw [ULift.moduleEquiv.finrank_eq, Module.finrank_self]
 
 include hS in

@@ -172,7 +172,7 @@ theorem mono_fromPreimage_of_preimage_le_range_diagonal {P : (BigFppfOver B S hS
     rwa [yonedaEquiv_comp, yonedaEquiv_comp, yonedaEquiv_yoneda_map, yonedaEquiv_yoneda_map]
   let w := yonedaEquiv (pullback.lift s t hst)
   have hw : w ∈ (T.preimage (pullback.fst g g ≫ g)).obj Z := by
-    show (pullback.fst g g ≫ g).app Z w ∈ T.obj Z
+    change (pullback.fst g g ≫ g).app Z w ∈ T.obj Z
     rw [← yonedaEquiv_comp, pullback.lift_fst_assoc, yonedaEquiv_comp, yonedaEquiv_yoneda_map]
     exact x.2
   obtain ⟨v, hv⟩ := h Z hw
@@ -182,7 +182,7 @@ theorem mono_fromPreimage_of_preimage_le_range_diagonal {P : (BigFppfOver B S hS
     rw [← yonedaEquiv_comp, pullback.lift_snd, yonedaEquiv_yoneda_map]
   have h3 : (pullback.fst g g).app Z w = (pullback.snd g g).app Z w := by
     rw [← hv]
-    show (pullback.diagonal g ≫ pullback.fst g g).app Z v =
+    change (pullback.diagonal g ≫ pullback.fst g g).app Z v =
       (pullback.diagonal g ≫ pullback.snd g g).app Z v
     rw [pullback.diagonal_fst, pullback.diagonal_snd]
   exact Subtype.ext (h1.symm.trans (h3.trans h2))
@@ -253,7 +253,7 @@ theorem isRepresentable_of_isEtaleSectionClosed (P : AlgebraicSpaces B S hS) {n 
     obtain ⟨v, hv⟩ := (bijective_pointsMap_of_isIso B S hS
       (T.1.preimage (g j)).toFunctor.reprW.hom).2 w
     refine Set.mem_iUnion.2 ⟨ULift.up j, v, ?_⟩
-    show pointsMap B S hS _ (_ ≫ _) v = t
+    change pointsMap B S hS _ (_ ≫ _) v = t
     rw [pointsMap_comp_apply, hv, hw]
 
 /-- **A closed subspace with the two properties is a scheme, covered by open subschemes over
@@ -287,12 +287,12 @@ theorem exists_iso_yoneda_of_isEtaleSectionClosed (P : AlgebraicSpaces B S hS) {
     inv (Subfunctor.toRange m) ≫ (T.1.preimage (g j)).ι, ?_⟩
   · rw [range_pointsMap_ι_range]
     refine ⟨w, ?_⟩
-    show pointsMap B S hS _ (_ ≫ _) w = y
+    change pointsMap B S hS _ (_ ≫ _) w = y
     rw [pointsMap_comp_apply, hw, ← pointsMap_comp_apply, Iso.hom_inv_id, pointsMap_id, id_eq]
   · have hinv : inv (Subfunctor.toRange m) ≫ m = (Subfunctor.range m).ι :=
       (IsIso.inv_comp_eq _).2 (Subfunctor.toRange_ι m).symm
     rw [← hinv, Category.assoc, Category.assoc]
-    show inv (Subfunctor.toRange m) ≫ T.1.fromPreimage (g j) ≫ e.inv ≫ e.hom ≫ T.1.ι = _
+    change inv (Subfunctor.toRange m) ≫ T.1.fromPreimage (g j) ≫ e.inv ≫ e.hom ≫ T.1.ι = _
     rw [Iso.inv_hom_id_assoc, Subfunctor.fromPreimage_ι, Category.assoc]
 
 end AlgebraicGeometry.Space

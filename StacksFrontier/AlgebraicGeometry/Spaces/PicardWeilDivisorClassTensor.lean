@@ -35,7 +35,7 @@ available: it is the chartwise product
 over an affine covering
 (`AlgebraicGeometry.Space.meromorphicSectionTensor`), together with the reading of its
 coefficient at `ξ` against the generator chosen there
-(`AlgebraicGeometry.Space.PrimeDivisor.exists_isUnit_genericStalkCoefficient_meromorphicSectionTensor`).
+(`PrimeDivisor.exists_isUnit_genericStalkCoefficient_meromorphicSectionTensor`).
 That is `AlgebraicGeometry.Space.hasCanonicalTensorProductSection` below, which closes the last
 field of `AlgebraicGeometry.Space.canonicalPicardDivisorData`.
 
@@ -199,12 +199,14 @@ private theorem orderOfVanishingSection_canonicalLocalRatio_eq_add_aux
         Z.canonicalLocalRatio B S hS hX hdec N hNinv hInt hNoeth t)
     (Units.val_mul _ _)
 
+namespace PrimeDivisor
+
 include hInt hNoeth in
 /-- **The order of vanishing of a product section is the sum of the orders of vanishing.**  Let
 `p` be a regular meromorphic section of `ℒ ⊗ 𝒩` whose coefficient of Stacks 0EPR at the generic
 point `ξ` of a prime divisor is a unit of `𝒪_{U, u}` times the product of the coefficients of the
 chosen sections of `ℒ` and of `𝒩`.  Then `ord_{Z, ℒ⊗𝒩}(p) = ord_{Z, ℒ}(s_ℒ) + ord_{Z, 𝒩}(s_𝒩)`. -/
-theorem PrimeDivisor.orderOfVanishingSection_canonicalLocalRatio_mul_of_genericStalkCoefficient_eq_unit_mul
+theorem orderOfVanishingSection_canonicalLocalRatio_mul_of_genericStalkCoefficient_eq_unit_mul
     (Z : PrimeDivisor B S hS X)
     (p : MeromorphicSection.{u, u} B S hS X hX (picardTensorModule B S hS hX L N))
     (hp : IsRegularMeromorphicSection.{u, u} B S hS X hX
@@ -246,6 +248,8 @@ theorem PrimeDivisor.orderOfVanishingSection_canonicalLocalRatio_mul_of_genericS
     (isRegularMeromorphicSection_regularMeromorphicSection B S hS hX hInt hNoeth L hL)
     (isRegularMeromorphicSection_regularMeromorphicSection B S hS hX hInt hNoeth N hNinv)
     hp w hw hcoeff
+
+end PrimeDivisor
 
 /-- **The product section that Stacks 0EPV at the canonical choices still needs.**  For every
 pair of invertible `𝒪_X`-modules a regular meromorphic section `p` of `ℒ ⊗ 𝒩` whose coefficient
@@ -298,7 +302,7 @@ sections of `ℒ` and of `𝒩` differ coefficientwise by the divisor of an inve
 function on `X`.
 
 The orders of vanishing of `p` already add
-(`AlgebraicGeometry.Space.PrimeDivisor.orderOfVanishingSection_canonicalLocalRatio_mul_of_genericStalkCoefficient_eq_unit_mul`),
+(`orderOfVanishingSection_canonicalLocalRatio_mul_of_genericStalkCoefficient_eq_unit_mul`),
 and `p` and the chosen regular meromorphic section of `ℒ ⊗ 𝒩` are two regular meromorphic
 sections of one invertible module, so Stacks 0EPT in the form
 `AlgebraicGeometry.Space.exists_units_orderOfVanishingSection_canonicalLocalRatio_eq_add_ord`
@@ -387,7 +391,7 @@ theorem
 include hInt hNoeth in
 /-- **The field `exists_ord_sub_eq_tensorModule` of the canonical data, from the product
 sections.**  This is
-`AlgebraicGeometry.Space.exists_divisorCoefficients_canonicalLocalRatioFamily_sub_eq_ord_tensorModule_of_exists_product`
+`exists_divisorCoefficients_canonicalLocalRatioFamily_sub_eq_ord_tensorModule_of_exists_product`
 read at every pair of invertible `𝒪_X`-modules at once, which is exactly
 `AlgebraicGeometry.Space.CanonicalTensorDivisorIdentity`; with it and
 `AlgebraicGeometry.Space.CanonicalRatioIsUnitOnGeneratingChart` the data
@@ -420,7 +424,7 @@ The section is the global product `s_ℒ ⊗ s_𝒩` of
 `AlgebraicGeometry.Space.isRegularMeromorphicSection_meromorphicSectionTensor` and its coefficient
 of Stacks 0EPR at the generic point of a prime divisor is a unit times the product of the
 coefficients by
-`AlgebraicGeometry.Space.PrimeDivisor.exists_isUnit_genericStalkCoefficient_meromorphicSectionTensor`.
+`PrimeDivisor.exists_isUnit_genericStalkCoefficient_meromorphicSectionTensor`.
 
 The two hypotheses (a) and (b) of Stacks 0EN6 that the construction of the product needs are
 `X`'s own: (a) holds because an integral algebraic space is reduced, and (b) because a locally
@@ -457,6 +461,8 @@ theorem hasCanonicalTensorProductSection :
 
 /-! ### Stacks 0EPV in `Div(X)`, at arbitrary regular meromorphic sections -/
 
+namespace PrimeDivisor
+
 include hInt hNoeth in
 /-- **The order of vanishing of a product section is the sum of the orders of vanishing, at
 arbitrary regular meromorphic sections.**  Let `s` be a regular meromorphic section of `ℒ`, let
@@ -464,7 +470,7 @@ arbitrary regular meromorphic sections.**  Let `s` be a regular meromorphic sect
 point `ξ` of a prime divisor is a unit of `𝒪_{U, u}` times the product of the coefficients of
 `s` and of `t`.  Then `ord_{Z, ℒ⊗𝒩}(p) = ord_{Z, ℒ}(s) + ord_{Z, 𝒩}(t)`.
 
-`AlgebraicGeometry.Space.PrimeDivisor.orderOfVanishingSection_canonicalLocalRatio_mul_of_genericStalkCoefficient_eq_unit_mul`
+`orderOfVanishingSection_canonicalLocalRatio_mul_of_genericStalkCoefficient_eq_unit_mul`
 is this at the two sections the construction chooses, which is all that the field
 `exists_ord_sub_eq_tensorModule` of `AlgebraicGeometry.Space.PicardDivisorData` needs; the
 source of Stacks 0EPV quantifies over `s` and `t`, so the identity in `Div(X)` below needs this
@@ -473,7 +479,7 @@ and the order of vanishing read through two ratios differing by such a unit bein
 (`AlgebraicGeometry.Space.orderOfVanishingSection_unit_smul`), and what is left is the order of
 vanishing read through the *product* of the two ratios, which is the sum of the two orders
 (`AlgebraicGeometry.Space.orderOfVanishingSection_mul`). -/
-theorem PrimeDivisor.orderOfVanishingSection_canonicalLocalRatio_eq_add_of_genericStalkCoefficient_eq_unit_mul
+theorem orderOfVanishingSection_canonicalLocalRatio_eq_add_of_genericStalkCoefficient_eq_unit_mul
     (Z : PrimeDivisor B S hS X)
     (s : MeromorphicSection.{u, u} B S hS X hX L)
     (t : MeromorphicSection.{u, u} B S hS X hX N)
@@ -513,6 +519,8 @@ theorem PrimeDivisor.orderOfVanishingSection_canonicalLocalRatio_eq_add_of_gener
   exact orderOfVanishingSection_canonicalLocalRatio_eq_add_aux B S hS hX hdec L N hL hNinv hInt
     hNoeth Z s t p hs ht hp w hw hcoeff
 
+end PrimeDivisor
+
 include hInt hNoeth in
 /-- **The second set of Stacks 0EPS at the ratio family of Stacks 0EPR, for an arbitrary regular
 meromorphic section.**  On a decent, locally Noetherian, integral algebraic space the prime
@@ -527,7 +535,7 @@ This is what makes `div_ℳ(s)` an element of `Div(X)` at the canonical ratio fa
 `AlgebraicGeometry.Space.nonempty_generatingLocus_of_isRegularMeromorphicSection`); at the
 generic point of a prime divisor lying in a chart over which `s` generates `ℳ` the coefficient
 of Stacks 0EPR is a unit
-(`AlgebraicGeometry.Space.PrimeDivisor.exists_isUnit_eq_algebraMap_genericStalkCoefficient_of_generatesOnChart`),
+(`PrimeDivisor.exists_isUnit_eq_algebraMap_genericStalkCoefficient_of_generatesOnChart`),
 and the order of vanishing at a unit coefficient is zero
 (`AlgebraicGeometry.Space.orderOfVanishingSection_canonicalLocalRatio_eq_zero_of_coefficient`).
 
@@ -590,7 +598,7 @@ harmless: the generator chosen at `ξ` for `ℒ ⊗ 𝒩` and the product of the
 (`AlgebraicGeometry.Space.PrimeDivisor.exists_isUnit_smul_genericStalkGenerator`) whose order of
 vanishing is zero — the source's own computation `st/(s_ξ t_ξ) = (s/s_ξ)(t/t_ξ)` holds up to
 exactly that unit, and it is discarded by
-`AlgebraicGeometry.Space.PrimeDivisor.orderOfVanishingSection_canonicalLocalRatio_eq_add_of_genericStalkCoefficient_eq_unit_mul`.
+`orderOfVanishingSection_canonicalLocalRatio_eq_add_of_genericStalkCoefficient_eq_unit_mul`.
 
 The product section is the chartwise product
 `AlgebraicGeometry.Space.meromorphicSectionTensorMul` amalgamated over an affine covering,

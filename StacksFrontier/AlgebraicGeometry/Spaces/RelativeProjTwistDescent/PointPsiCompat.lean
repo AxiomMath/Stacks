@@ -317,7 +317,6 @@ theorem modulePullback_map_psiTwistHom_comp_eq_fibrePsiHom (n : ℕ)
   -- objects and categories they mention, checked by the kernel
   all_goals first
     | with_reducible rfl
-    | with_reducible exact HEq.rfl
     | (refine eq_of_heq ?_; heq_congr)
     | heq_congr
 

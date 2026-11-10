@@ -58,9 +58,9 @@ identification `H⁰(C, M ⊗^L_O K^∨) = Hom_{D(O)}(K, M)` read off the **cano
 what this file would need: that map is
 `AlgebraicGeometry.RingedSite.derivedTensorDualGlobalSectionsMap` (Stacks 08JD), the equivalence
 just named is built instead from the diagonal of Stacks 0BYS, and, as
-`StacksFrontier.CategoryTheory.Sites.Cohomology.Perfect.Duals` records, the two are nowhere compared,
-so no declaration in the library asserts that the canonical map is bijective. Neither is the
-commutation of `K^∨ ⊗^L_O -` with direct sums. Both tagged results below therefore carry, as
+`StacksFrontier.CategoryTheory.Sites.Cohomology.Perfect.Duals` records, the two are nowhere
+compared, so no declaration in the library asserts that the canonical map is bijective. Neither is
+the commutation of `K^∨ ⊗^L_O -` with direct sums. Both tagged results below therefore carry, as
 explicit hypotheses, a functor `T` and a natural additive bijection `(K ⟶ -) ≃+ (j_{X!}O_X ⟶ T(-))`
 with `T` preserving the relevant coproducts; this is the reduction "after reformulation as above"
 of the source's proof, and nothing else of Stacks 08JJ is used. Perfectness of `K` is retained as a

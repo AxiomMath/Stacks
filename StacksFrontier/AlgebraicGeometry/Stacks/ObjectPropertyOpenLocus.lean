@@ -165,7 +165,7 @@ theorem nonempty_morphismOver_of_range_obj_subset (p : A ⥤ C) (q : D ⥤ C)
       map_comp := by intro a b c f g; apply q.map_injective; simp }
   refine ⟨G, CategoryTheory.Functor.ext ho ?_⟩
   intro a b f
-  show q.map (q.preimage _) = _
+  change q.map (q.preimage _) = _
   simp
 
 /-- Two functors into the source of a fully faithful functor `p` whose composites with `p` agree
@@ -241,7 +241,7 @@ theorem range_obj_eq_and_full_of_equivalenceOver {p : A ⥤ C} {q : D ⥤ C}
   · rintro ⟨b, rfl⟩
     exact ⟨e.inv.functor.obj b, congrArg (fun G => G.obj b) e.inv.w⟩
   · have : e.inv.functor.Full := by
-      show e.toEquivalence.inverse.Full
+      change e.toEquivalence.inverse.Full
       infer_instance
     rw [← e.inv.w]
     infer_instance

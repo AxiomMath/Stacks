@@ -126,7 +126,7 @@ lemma reseatFunctorMonoidal_ε (F : C ⥤ D) [F.Monoidal] (e : curriedTensor C �
     @LaxMonoidal.ε C _ (reseat e ε) D _ (reseat e' ε') F
         (reseatFunctorMonoidal F e ε e' ε').toLaxMonoidal =
       ε'.inv ≫ LaxMonoidal.ε F ≫ F.map ε.hom := by
-  show (ε'.inv ≫ LaxMonoidal.ε F) ≫ F.map ε.hom = _
+  change (ε'.inv ≫ LaxMonoidal.ε F) ≫ F.map ε.hom = _
   rw [Category.assoc]
 
 end Functor

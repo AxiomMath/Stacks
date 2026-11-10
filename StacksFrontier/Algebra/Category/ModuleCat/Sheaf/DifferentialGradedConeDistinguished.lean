@@ -162,7 +162,7 @@ private theorem coneShiftHom_f_heq {K K' : DifferentialGradedModule.{u, v, w} A}
     (p : ℤ) :
     HEq ((coneShiftHom φ).toHomologicalComplex.f p) (φ.toHomologicalComplex.f (p + 1)) := by
   rw [ShiftPackage.map_f]
-  show HEq (((eqToHom (shiftPackage K).shifted_complex).f p) ≫
+  change HEq (((eqToHom (shiftPackage K).shifted_complex).f p) ≫
     φ.toHomologicalComplex.f (p + 1) ≫
     ((eqToHom (shiftPackage K').shifted_complex.symm).f p)) _
   rw [HomologicalComplex.eqToHom_f, HomologicalComplex.eqToHom_f]

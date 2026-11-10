@@ -348,7 +348,8 @@ theorem eq_zero_sheafH_unit_puncturedSpectrumQuotient_of_isZero_localCohomologyW
   have hB : IsZero (localCohomologyModule (A ⧸ Ideal.span {f}) ((maximalIdeal A).map q)
       (IsNoetherian.noetherian ((maximalIdeal A).map q))
       (ModuleCat.of (A ⧸ Ideal.span {f}) (A ⧸ Ideal.span {f})) ((n : ℤ) + 1)) := by
-    rwa [ModuleCat.isZero_iff_subsingleton] at hBres ⊢
+    rw [ModuleCat.isZero_iff_subsingleton] at hBres ⊢
+    exact hBres
   have hB2 : IsZero (localCohomologyModule (A ⧸ Ideal.span {f})
       (maximalIdeal (A ⧸ Ideal.span {f}))
       (IsNoetherian.noetherian (maximalIdeal (A ⧸ Ideal.span {f})))

@@ -98,7 +98,7 @@ generator `t`. -/
 theorem homSpanSingletonEquiv_apply {t : R} (ht : IsSMulRegular R t) (M : Type u)
     [AddCommGroup M] [Module R M] (φ : ↥(Ideal.span {t}) →ₗ[R] M) :
     homSpanSingletonEquiv ht M φ = φ ⟨t, Ideal.mem_span_singleton_self t⟩ := by
-  show φ ((spanSingletonSelfEquiv ht).symm 1) = _
+  change φ ((spanSingletonSelfEquiv ht).symm 1) = _
   refine congrArg φ (Subtype.ext ?_)
   simp [spanSingletonSelfEquiv, LinearMap.toSpanSingleton_apply]
 
@@ -118,13 +118,13 @@ theorem range_logPairMap (t : R) (p : ℕ) :
       (Submodule.mem_sup_left ⟨x.2, rfl⟩)
   · rintro _ ⟨η, rfl⟩
     refine ⟨(0, η), ?_⟩
-    show t • (0 : ⋀[R]^(p + 1) (Ω[R⁄A])) +
+    change t • (0 : ⋀[R]^(p + 1) (Ω[R⁄A])) +
       exteriorPower.wedgeLeft (KaehlerDifferential.D A R t) p η = _
     rw [smul_zero, zero_add]
   · refine Submodule.smul_le.mpr fun a ha ω _ ↦ ?_
     obtain ⟨c, rfl⟩ := Ideal.mem_span_singleton'.mp ha
     refine ⟨(c • ω, 0), ?_⟩
-    show t • (c • ω) + exteriorPower.wedgeLeft (KaehlerDifferential.D A R t) p 0 = _
+    change t • (c • ω) + exteriorPower.wedgeLeft (KaehlerDifferential.D A R t) p 0 = _
     rw [map_zero, add_zero, smul_smul, mul_comm]
 
 /-- **The image of multiplication by `t` on the log forms is the kernel of restriction to the
@@ -140,7 +140,7 @@ theorem range_logMulT (t : R) (p : ℕ) :
         exact Submodule.smul_mem_smul (Ideal.mem_span_singleton_self t) Submodule.mem_top
       · obtain ⟨c, rfl⟩ := Ideal.mem_span_singleton'.mp ha
         refine ⟨c • ω, ?_⟩
-        show t • (c • ω) = (c * t) • ω
+        change t • (c • ω) = (c * t) • ω
         rw [smul_smul, mul_comm]
   | succ q =>
       rw [← range_logPairMap (A := A) t q]

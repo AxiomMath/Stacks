@@ -186,7 +186,7 @@ public theorem isDiscreteValuationRing_integers (hv : v.IsDiscrete) :
   set π : v.integers := ⟨v.coeRingHom v.unif, Place.coeRingHom_unif_mem_integers hv⟩
   have hπ := Place.isUniformizer_unif hv
   have hπv : Valued.v (π : v.completion) = v.unifVal := by
-    show Valued.v (v.coeRingHom v.unif) = _
+    change Valued.v (v.coeRingHom v.unif) = _
     rw [Place.valued_coeRingHom]
     rfl
   have hπ0 : (π : v.completion) ≠ 0 := by
@@ -209,7 +209,7 @@ public theorem isDiscreteValuationRing_integers (hv : v.IsDiscrete) :
   have hunit : IsUnit (⟨_, hu⟩ : v.integers) :=
     (v.integers.valuation_eq_one_iff _).2 ((Place.integers_valuation_eq_one_iff _).2 hval)
   refine ⟨m, hunit.unit, Subtype.ext ?_⟩
-  show (π : v.completion) ^ m * ((x : v.completion) * ((π : v.completion) ^ m)⁻¹) = x
+  change (π : v.completion) ^ m * ((x : v.completion) * ((π : v.completion) ^ m)⁻¹) = x
   rw [mul_comm, mul_assoc, inv_mul_cancel₀ hpow0, mul_one]
 
 /-- **Every lattice is a translate of the standard lattice**: at a discrete place, every
@@ -238,11 +238,11 @@ public theorem exists_eq_translate_stdLattice (hv : v.IsDiscrete)
     refine ⟨fun j => (b.repr ⟨x, hx⟩ j : v.completion),
       mem_stdLattice.2 fun j => (b.repr ⟨x, hx⟩ j).2, ?_⟩
     simp only [LinearMap.coe_restrictScalars, Matrix.toLin'_apply]
-    show M *ᵥ _ = x
+    change M *ᵥ _ = x
     rw [key, b.sum_repr]
   · rintro ⟨y, hy, rfl⟩
     simp only [LinearMap.coe_restrictScalars, Matrix.toLin'_apply]
-    show M *ᵥ y ∈ Λ
+    change M *ᵥ y ∈ Λ
     have hy' : y = fun j => ((⟨y j, mem_stdLattice.1 hy j⟩ : v.integers) : v.completion) := rfl
     rw [hy', key]
     exact Subtype.coe_prop _

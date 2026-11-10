@@ -29,7 +29,8 @@ its family is existentially quantified, and which is not an instance at the `X.M
 `AlgebraicGeometry.Scheme.Modules.hasFiniteBiproducts` is therefore used as a local instance, and
 is public rather than private so that a consumer proving something new about the coproduct can do
 the same. Without it six declarations below fail with
-`failed to synthesize instance HasBiproduct …`. On the other hand, a consumer that only *states* the hypothesis does **not** need it, because `∐` asks for
+`failed to synthesize instance HasBiproduct …`. On the other hand, a consumer that only *states* the
+hypothesis does **not** need it, because `∐` asks for
 `CategoryTheory.Limits.HasCoproduct`, which instance search supplies on an abelian category.
 
 **The family is indexed by an arbitrary type.** Clause (1) indexes the twists by `ℤ`, while
@@ -91,8 +92,8 @@ finiteness of their cohomology is exactly the missing [Stacks, Tag 01XT]. What i
 that the set is consistent, and that it is satisfied wherever the conclusion is.
 
 **Which coherence predicate.** `SheafOfModules.IsCoherent` here is the root-level class declared
-in `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/CoherentFinitePresentation.lean`, which is the one
-`AlgebraicGeometry.forall_finiteDimensional_cohomologyOverField_of_exists_epi_of_le`,
+in `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/CoherentFinitePresentation.lean`, which is the
+one `AlgebraicGeometry.forall_finiteDimensional_cohomologyOverField_of_exists_epi_of_le`,
 `AlgebraicGeometry.SheafOfModules.isCoherent_biproduct` and
 `AlgebraicGeometry.exists_eulerPolynomial_twistedSheaf_of_finiteDimensional_cohomology` all use.
 `Stacks.SheafOfModules.IsCoherent` is a *different constant* with the same two fields; nothing
@@ -382,7 +383,8 @@ degree. The witnessing family is the family of *all* coherent modules, and the s
 is the single-summand coproduct `∐_{j : Fin 1} 𝒢 ⟶ 𝒢`, which is a split epimorphism.
 
 This is a check that no axiom check provides: a hypothesis set can be free of `sorry` and of
-nonstandard axioms and yet be satisfied by nothing at all. It does not discharge the hypotheses on projective space — there
+nonstandard axioms and yet be satisfied by nothing at all. It does not discharge the hypotheses on
+projective space — there
 the family is the twists and the finiteness of their cohomology is [Stacks, Tag 01XT], which is
 absent. It establishes that the set is consistent, and that it holds wherever the conclusion
 does. -/

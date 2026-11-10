@@ -114,7 +114,7 @@ theorem app_comp_apply {P Q R : TopCat.Presheaf AddCommGrpCat.{v} X} (φ : P ⟶
 /-- The zero morphism of presheaves, read on sections over a fixed open. -/
 theorem app_zero_apply {P Q : TopCat.Presheaf AddCommGrpCat.{v} X} (V : Opens X)
     (x : ToType (P.obj (op V))) : (0 : P ⟶ Q).app (op V) x = 0 := by
-  show ConcreteCategory.hom ((0 : P ⟶ Q).app (op V)) x = 0
+  change ConcreteCategory.hom ((0 : P ⟶ Q).app (op V)) x = 0
   simp
 
 /-- A morphism of presheaves commutes with the Čech differential. -/
@@ -400,7 +400,7 @@ theorem sheaf_comp_app_apply_eq_zero {A B C : TopCat.Sheaf AddCommGrpCat.{max uX
     (x : ToType (A.presheaf.obj (op V))) : g.hom.app (op V) (f.hom.app (op V) x) = 0 := by
   have h2 : ConcreteCategory.hom ((f ≫ g).hom.app (op V)) x = 0 := by
     rw [hfg]
-    show ConcreteCategory.hom ((0 : A.presheaf ⟶ C.presheaf).app (op V)) x = 0
+    change ConcreteCategory.hom ((0 : A.presheaf ⟶ C.presheaf).app (op V)) x = 0
     exact app_zero_apply V x
   exact (app_comp_apply f.hom g.hom V x).symm.trans h2
 

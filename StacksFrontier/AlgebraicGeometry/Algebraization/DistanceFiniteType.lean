@@ -94,7 +94,7 @@ private theorem universallyCatenary_of_locallyFiniteType {X Y : Scheme.{u}}
     [IsLocallyNoetherian Y] [IsLocallyNoetherian X]
     (hY : Scheme.IsUniversallyCatenary Y)
     (f : X ⟶ Y) [LocallyOfFiniteType f] : Scheme.IsUniversallyCatenary X := by
-  show ∀ (T : Scheme.{u}) (g : T ⟶ X) [LocallyOfFiniteType g],
+  change ∀ (T : Scheme.{u}) (g : T ⟶ X) [LocallyOfFiniteType g],
     IrreducibleClosedsCodim.IsCatenarySpace T
   intro T g hg
   let : LocallyOfFiniteType (g ≫ f) := locallyOfFiniteType_comp g f
@@ -277,7 +277,7 @@ private theorem topCodim_closedEmbedding {S Y : Type u}
     simpa only [SetLike.coe_subset_coe, e, IrreducibleCloseds.coe_map, hpre] using
       Set.preimage_mono (f := j) hab
   have htop : (e topS : Set Y) = (W : Set Y) := by
-    show closure (j '' (topS : Set S)) = (W : Set Y)
+    change closure (j '' (topS : Set S)) = (W : Set Y)
     rw [hTopS, Set.image_univ, hRange, W.isClosed.closure_eq]
   have htopIC : e topS = W := IrreducibleCloseds.ext htop
   have hsurj : ∀ Z : IrreducibleCloseds Y, Z ≤ e topS →
@@ -328,7 +328,7 @@ private theorem stratum_localDimension_eq_topCodim {Y : Scheme.{u}}
   let topS := irreducibleTop (X := I.subscheme)
   have hmax : ∀ A : IrreducibleCloseds I.subscheme, A ≤ topS := by
     intro A
-    show (A : Set I.subscheme) ⊆ Set.univ
+    change (A : Set I.subscheme) ⊆ Set.univ
     exact Set.subset_univ _
   have hcod := topCodim_closedEmbedding j.base j.isClosedEmbedding W
     (stratumIdeal_range W) topS rfl
@@ -457,7 +457,7 @@ private theorem residueTrdeg_eq_functionFieldTrdeg {X Y : Scheme.{u}}
         (eqToHom (congrArg Y.presheaf.stalk hgen.symm)).hom (eK z)
       have ha : Y.residue (f η) a = z := by
         apply (Y.residueFieldCongr hgen).commRingCatIsoToRingEquiv.injective
-        show (CommRingCat.Hom.hom (Y.residueFieldCongr hgen).hom)
+        change (CommRingCat.Hom.hom (Y.residueFieldCongr hgen).hom)
             ((Y.residue (f η)).hom a) =
           (CommRingCat.Hom.hom (Y.residueFieldCongr hgen).hom) z
         have hc := congrArg (fun m : CommRingCat.Hom _ _ => m.hom a)
@@ -472,7 +472,7 @@ private theorem residueTrdeg_eq_functionFieldTrdeg {X Y : Scheme.{u}}
           simpa only [CommRingCat.hom_comp, RingHom.coe_comp, Function.comp_apply,
             CommRingCat.hom_id, RingHom.id_apply] using hh
         rw [hcanEval]
-        show eY₀.symm (eY₀ ((Y.residueFieldCongr hgen).commRingCatIsoToRingEquiv z)) = _
+        change eY₀.symm (eY₀ ((Y.residueFieldCongr hgen).commRingCatIsoToRingEquiv z)) = _
         exact eY₀.symm_apply_apply _
       have hn := congrArg (fun m : CommRingCat.Hom _ _ => m.hom a)
         (Scheme.residue_residueFieldMap f η)
@@ -482,7 +482,7 @@ private theorem residueTrdeg_eq_functionFieldTrdeg {X Y : Scheme.{u}}
         (fun m : CommRingCat.Hom _ _ => (X.residue η).hom (m.hom (eK z)))
         (stalkMap_cast_eq f η (genericPoint Y) hgen)
       simp only [CommRingCat.hom_comp, RingHom.coe_comp, Function.comp_apply] at hcast
-      show (f.residueFieldMap η).hom z =
+      change (f.residueFieldMap η).hom z =
         (X.residue η).hom ((hgen ▸ f.stalkMap η).hom (eK z))
       exact hn.trans hcast
     rw [h]
@@ -528,7 +528,7 @@ private theorem residue_trdeg_eq_of_closed_immersion_factor
       ei ((f.residueFieldMap (i x)).hom z) =
         (g.residueFieldMap x).hom (ej z) := by
     have hv := congrArg (fun k : Y.residueField (f (i x)) →+* _ => k z) hmaps
-    show (i.residueFieldMap x).hom ((f.residueFieldMap (i x)).hom z) =
+    change (i.residueFieldMap x).hom ((f.residueFieldMap (i x)).hom z) =
       (g.residueFieldMap x).hom
         ((j.residueFieldMap (g x)).hom ((Y.residueFieldCongr hpoint).hom.hom z))
     simpa [ei, ej] using hv
@@ -1000,7 +1000,7 @@ private theorem sequence_weight_bound {k : ℕ}
     exact le_tsub_of_add_le_right hsum
   have hsup : Finset.univ.sup qT ≤ Finset.univ.sup qS + e - m (Fin.last k) :=
     Finset.sup_le fun i _ => hterm i
-  show k + Finset.univ.sup qT + m (Fin.last k) ≤ k + Finset.univ.sup qS + e
+  change k + Finset.univ.sup qT + m (Fin.last k) ≤ k + Finset.univ.sup qS + e
   omega
 
 private theorem mapDistanceSystem_weight_bound {X Y : Scheme.{u}}
@@ -1090,7 +1090,7 @@ public theorem distanceFunction_add_trdeg_le
       { toIsLocallyNoetherian := LocallyOfFiniteType.isLocallyNoetherian f
         toCompactSpace := QuasiCompact.compactSpace_of_compactSpace f }
     let := (f.residueFieldMap x).hom.toAlgebra
-    show distanceFunction Y I.support (f x) +
+    change distanceFunction Y I.support (f x) +
         Cardinal.toENat (Algebra.trdeg (Y.residueField (f x)) (X.residueField x)) ≤
       distanceFunction X (I.comap f).support x + (e : ℕ∞)
     by_cases hsource :

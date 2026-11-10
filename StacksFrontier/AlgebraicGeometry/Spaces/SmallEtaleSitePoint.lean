@@ -115,7 +115,7 @@ theorem geometricFiber_jointly_surjective
   let qhom : Spec (.of x.val.carrier) ⟶ Y := q
   let q' := qhom ≫ a
   have hq' : q' ≫ E'.f i = ψ := by
-    show qhom ≫ (a ≫ E'.f i) = ψ
+    change qhom ≫ (a ≫ E'.f i) = ψ
     rw [← hfac]
     exact hq
   let fOver := (SmallEtale.toOver B S hS F).map (E.f i)
@@ -228,7 +228,7 @@ private theorem exists_affine_refinement (x : GeometricPoint B S hS F)
   let V := affineChartOver B S hS F U.chart A
   let jOver : V ⟶ W.chart.obj.left := Over.homMk (ObjectProperty.homMk j) (by
     apply ObjectProperty.hom_ext
-    show j ≫ B.inclusion.map W.chart.obj.left.hom =
+    change j ≫ B.inclusion.map W.chart.obj.left.hom =
       (j ≫ T.map fw) ≫ B.inclusion.map U.chart.obj.left.hom
     rw [Category.assoc]
     congr 1
@@ -239,7 +239,7 @@ private theorem exists_affine_refinement (x : GeometricPoint B S hS F)
     rfl
   let g : (affineChartsToSmallEtale B S hS F U.chart).obj A ⟶ W.chart :=
     ObjectProperty.homMk (CostructuredArrow.homMk jOver (by
-      show yoneda.map jOver ≫ W.chart.obj.hom =
+      change yoneda.map jOver ≫ W.chart.obj.hom =
         yoneda.map (affineChartToBase B S hS F U.chart A) ≫ U.chart.obj.hom
       rw [← hjOver, Functor.map_comp, Category.assoc]
       exact congrArg (yoneda.map jOver ≫ ·) (CostructuredArrow.w f.hom.hom).symm))
@@ -247,7 +247,7 @@ private theorem exists_affine_refinement (x : GeometricPoint B S hS F)
   have hpoint : ((affineChartsToSmallEtale B S hS F U.chart).obj A).obj.hom.app
       (Opposite.op x.val.siteObject) qOver = x.val.value := by
     rw [← CostructuredArrow.w g.hom]
-    show W.chart.obj.hom.app (Opposite.op x.val.siteObject) (qOver ≫ jOver) = _
+    change W.chart.obj.hom.app (Opposite.op x.val.siteObject) (qOver ≫ jOver) = _
     rw [hqOver]
     exact W.point_comp
   exact ⟨A, ⟨qOver, hpoint⟩, g, Subtype.ext hqOver⟩
@@ -272,7 +272,7 @@ theorem initiallySmall_geometricFiber_elements (hF : IsAlgebraicSpace B S hS F)
   obtain ⟨W, f, g, -⟩ := IsCofilteredOrEmpty.cone_objs U V'
   obtain ⟨A, a, j, hj⟩ := exists_affine_refinement B S hS F x U W f
   refine ⟨_, ⟨Functor.elementsMk _ A a, ⟨Iso.refl _⟩⟩, ⟨⟨j ≫ g.hom, ?_⟩⟩⟩
-  show (geometricFiber B S hS F x).map g.hom
+  change (geometricFiber B S hS F x).map g.hom
     ((geometricFiber B S hS F x).map j a) = p
   rw [hj]
   exact Subtype.ext g.point_comp
@@ -304,7 +304,7 @@ noncomputable def etaleSitePointStalkIsoComponent (x : GeometricPoint B S hS F)
     ((etaleSitePoint B S hS F x hF).presheafFiber (A := Type (u + 1))).obj P ≅
       stalkSet x P :=
   Equiv.toIso ((Types.colimitEquivColimitType
-    ((CategoryOfElements.π (geometricFiber B S hS F x)).op ⋙ P)).trans
+    ((Functor.Elements.π (geometricFiber B S hS F x)).op ⋙ P)).trans
       (fiberColimitEquiv B S hS F x P))
 
 /-- The stalk comparison sends the germ at a lift of the geometric point of a section over
@@ -316,8 +316,8 @@ theorem etaleSitePointStalkIsoComponent_toPresheafFiber (x : GeometricPoint B S 
         ((etaleSitePoint B S hS F x hF).toPresheafFiber U p P a) =
       (SmallEtaleNeighborhood.sections (x := x) P).ιColimitType
         (Opposite.op ⟨U, p.1, p.2⟩) a := by
-  let D := (CategoryOfElements.π (geometricFiber B S hS F x)).op ⋙ P
-  show fiberColimitEquiv B S hS F x P
+  let D := (Functor.Elements.π (geometricFiber B S hS F x)).op ⋙ P
+  change fiberColimitEquiv B S hS F x P
     ((Types.colimitEquivColimitType D)
       (colimit.ι D (Opposite.op ((geometricFiber B S hS F x).elementsMk U p)) a)) = _
   exact (congrArg (fiberColimitEquiv B S hS F x P)

@@ -63,7 +63,7 @@ theorem smooth_le_finitePresentation :
 /-- A smooth algebra is a filtered colimit of smooth algebras. -/
 theorem indSmooth_of_smooth (h : Algebra.Smooth R Λ) : IndSmooth R Λ := by
   refine ObjectProperty.le_ind _ _ ?_
-  show (algebraMap R Λ).Smooth
+  change (algebraMap R Λ).Smooth
   exact RingHom.smooth_algebraMap.mpr h
 
 /-- **Ind-smoothness as a factorization property (Lemma `07C3`).** `Λ` is a filtered colimit of
@@ -83,7 +83,7 @@ theorem indSmooth_iff_exists_factorization :
   · let := alg
     let AU : Under (CommRingCat.of R) := Under.mk (CommRingCat.ofHom (algebraMap R A))
     have hAfp : AU.hom.hom.FinitePresentation := by
-      show (algebraMap R A).FinitePresentation
+      change (algebraMap R A).FinitePresentation
       exact RingHom.finitePresentation_algebraMap.mpr hfp
     let fU : AU ⟶ Under.mk (CommRingCat.ofHom (algebraMap R Λ)) :=
       Under.homMk (CommRingCat.ofHom φ.toRingHom) (by ext r; exact φ.commutes r)
@@ -109,7 +109,7 @@ theorem indSmooth_iff_exists_factorization :
       Under.homMk (CommRingCat.ofHom k.toRingHom) (by ext r; exact k.commutes r), ?_, ?_⟩
     · ext a
       exact congrArg (fun m ↦ m a) hgk
-    · show (algebraMap R B).Smooth
+    · change (algebraMap R B).Smooth
       exact RingHom.smooth_algebraMap.mpr hBs
 
 end Basic
@@ -136,12 +136,12 @@ theorem indSmooth_of_ringEquiv (R S A B : Type u) [CommRing R] [CommRing S]
         inv_hom_id := by ext x; simp }
     refine Under.isoMk eAi ?_
     ext x
-    show eA (algebraMap R A (eR.symm x)) = algebraMap S B x
+    change eA (algebraMap R A (eR.symm x)) = algebraMap S B x
     simpa using he (eR.symm x)
   obtain ⟨J, hJ, hFilt, pres, hF⟩ := h
   refine ⟨J, hJ, hFilt, (pres.map E.functor).ofIso hTarget, fun j ↦ ?_⟩
   have hX : ((pres.diag.obj j).hom.hom).Smooth := hF j
-  show ((baseIso.hom ≫ (pres.diag.obj j).hom).hom).Smooth
+  change ((baseIso.hom ≫ (pres.diag.obj j).hom).hom).Smooth
   have : RingHom.Smooth (((pres.diag.obj j).hom.hom).comp (eR.symm : S →+* R)) :=
     RingHom.Smooth.comp (RingHom.Smooth.of_bijective eR.symm.bijective) hX
   simpa [baseIso] using this

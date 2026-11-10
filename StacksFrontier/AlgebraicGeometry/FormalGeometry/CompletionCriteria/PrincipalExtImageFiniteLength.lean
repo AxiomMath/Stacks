@@ -152,9 +152,10 @@ open IsLocalRing
 open Stacks.RingTheory.PrincipalDivisorDepth
 
 /-- A factor of a finite product of modules has support inside the support of the product. -/
-theorem support_subset_support_pi {R : Type u} [CommRing R] {ι : Type*} [DecidableEq ι]
+theorem support_subset_support_pi {R : Type u} [CommRing R] {ι : Type*}
     (E : ι → Type v) [∀ j, AddCommGroup (E j)] [∀ j, Module R (E j)] (k : ι) :
     Module.support R (E k) ⊆ Module.support R (∀ j, E j) := by
+  classical
   intro p hp
   obtain ⟨m, hm⟩ := Module.mem_support_iff'.mp hp
   refine Module.mem_support_iff'.mpr ⟨Pi.single k m, fun r hr hzero => hm r hr ?_⟩
@@ -182,7 +183,7 @@ theorem one_le_ringKrullDim_quotient_of_ne_closedPoint {A : Type u} [CommRing A]
   have hle : q ≤ closedPoint A := le_maximalIdeal q.isPrime.ne_top
   have hnotmax : ¬ IsMax q := fun hmax => hqm (le_antisymm hle (hmax hle))
   rw [← coheight_eq_ringKrullDim_quotient]
-  exact_mod_cast ENat.one_le_iff_ne_zero.mpr (Order.coheight_ne_zero.mpr hnotmax)
+  exact_mod_cast Order.one_le_iff_ne_zero.mpr (Order.coheight_ne_zero.mpr hnotmax)
 
 /-- **Transporting a vanishing precomposition map along a shift of the target.**  Let `g : X ⟶ Y`
 and let `a + b = ab`.  If every map `Y ⟶ W⟦a⟧⟦b⟧` is killed by precomposition with `g`, then so is
@@ -265,7 +266,7 @@ theorem exists_pow_smul_moduleExtInto_eq_zero_of_depthDimOffDivisor {A : Type u}
       ringKrullDim (Localization.AtPrime (q.asIdeal.map (Ideal.Quotient.mk p.asIdeal))) := by
     rw [show P.asIdeal =
         p.asIdeal.map (algebraMap A (Localization.AtPrime q.asIdeal)) from
-      (IsLocalization.map_comap q.asIdeal.primeCompl _ P.asIdeal).symm,
+      (IsLocalization.map_under q.asIdeal.primeCompl _ P.asIdeal).symm,
       Stacks.AdicCompletionDimension.ringKrullDim_quotient_localizationAtPrime
         p.asIdeal q.asIdeal hpq]
     exact (IsLocalization.AtPrime.ringKrullDim_eq_height _ _).symm
@@ -385,7 +386,7 @@ theorem smul_ext_eq_zero_of_smul_eq_zero {A : Type u} [CommRing A] (M : ModuleCa
     a • x = 0 := by
   have hzero : (a • 𝟙 M) = 0 := by
     ext m
-    show a • m = 0
+    change a • m = 0
     exact ha m
   have hx : a • x = (DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).map (a • 𝟙 M) ≫ x := by
     rw [Functor.map_smul, CategoryTheory.Functor.map_id, Linear.smul_comp, Category.id_comp]
@@ -395,7 +396,7 @@ end Dualizing
 
 namespace Stacks.Algebraization
 
-open AlgebraicGeometry Dualizing IsLocalRing Opposite
+open _root_.Stacks.AlgebraicGeometry Dualizing IsLocalRing Opposite
 open Stacks.RingTheory.PrincipalDivisorDepth
 
 variable (S : AlgebraizationSituation.{u})

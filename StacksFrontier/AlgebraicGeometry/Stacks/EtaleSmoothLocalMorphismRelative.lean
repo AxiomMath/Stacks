@@ -179,7 +179,7 @@ theorem hasPropertyOnSomeEtaleSmoothDiagram_of_hasRelativeProperty
       (fibredCategory B S hS V) 𝒴.val 𝒳.val b₀ f.hom R' hR' hbsm.1 hbsm.2
   let sw := twoFibreProductSwapMap B S hS f.hom b₀
   have hswEquiv : Functor.IsEquivalence sw.hom.toFunctor := by
-    show Functor.IsEquivalence (TwoFibreProductOver.swap _ _ _ _ _)
+    change Functor.IsEquivalence (TwoFibreProductOver.swap _ _ _ _ _)
     infer_instance
   have he : ∀ (V : BigFppfOver B S hS)
       (y : BigFppfOver B V.left.1 V.left.2 ⥤ 𝒳.val.val.obj), y ⋙ 𝒳.val.val.p = Over.map V.hom →
@@ -261,7 +261,7 @@ theorem hasPropertyOnSomeEtaleSmoothDiagram_of_hasRelativeProperty
           Bicategory.id_whiskerRight a₀ f.hom
         simp [η, hid] }
   have haInvEquiv : Functor.IsEquivalence aInv.hom.toFunctor := by
-    show Functor.IsEquivalence eU.inv.functor
+    change Functor.IsEquivalence eU.inv.functor
     exact eU.toEquivalence.symm.isEquivalence_functor
   -- so the cone is itself a 2-fibre product
   have hdiag : Bicategory.IsTwoFibreProduct (diagramCone B S hS f.hom a₀ b₀ hTop η) :=

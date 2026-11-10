@@ -93,8 +93,9 @@ surjectivity of `𝓕 ↦ 𝓕^a`.  Two related facts:
   `AlgebraicGeometry.SmallEtale.isEquivalence_associatedModuleQcohOnSite'` are Descent,
   Proposition 03DX clause (2) at `τ = étale` **with no hypothesis**, registered against the tag
   by `add_to_stacks` at the end of that file.  The first of them is the genuine
-  clause (2), for the *small* étale site.  It is nevertheless not a route to the two inputs here: `𝓕 ↦ 𝓕^a` out of `QCoh(𝒪_S)` onto the quasi-coherent
-  modules of the big site `(Sch/S)_τ` is a different functor
+  clause (2), for the *small* étale site.  It is nevertheless not a route to the two inputs here:
+  `𝓕 ↦ 𝓕^a` out of `QCoh(𝒪_S)` onto the quasi-coherent modules of the big site `(Sch/S)_τ` is a
+  different functor
   (`AlgebraicGeometry.BigFppfOver.BaseQuasicoherentIsEssImageAssociatedModule`), and composing
   the two equivalences needs it, which is why
   `AlgebraicGeometry.smallEtaleBigSiteQuasicoherentEquivalence` carries both as hypotheses.

@@ -270,7 +270,7 @@ theorem affineLineConstantSection_appTop_affineCoordinate_zero :
       (Polynomial.evalRingHom (0 : ULift.{u} ℤ)))).appTop
       ((Scheme.ΓSpecIso (.of (Polynomial (ULift.{u} ℤ)))).inv Polynomial.X) = 0 := by
     rw [← CommRingCat.comp_apply, ← Scheme.ΓSpecIso_inv_naturality, CommRingCat.comp_apply]
-    show (Scheme.ΓSpecIso (.of (ULift.{u} ℤ))).inv
+    change (Scheme.ΓSpecIso (.of (ULift.{u} ℤ))).inv
       (Polynomial.evalRingHom (0 : ULift.{u} ℤ) Polynomial.X) = 0
     simp
   rw [hstep, integralAffineZeroSection, Scheme.Hom.comp_appTop, CommRingCat.comp_apply,

@@ -419,7 +419,7 @@ private lemma exists_cover_constant_map
       _ = ((J.overPullback (Type w) (Z j)).obj G).obj.map z.op
           (ξ.app (Opposite.op T) a) := NatTrans.naturality_apply ξ z.op a
       _ = _ := by
-        show G.obj.map (p l).op (ξ.app (Opposite.op T) a) = _
+        change G.obj.map (p l).op (ξ.app (Opposite.op T) a) = _
         change G.obj.map (p l).op (ξ.app (Opposite.op T) (e.symm (e a))) = _ at hb
         simpa only [Equiv.symm_apply_apply] using hb
   choose m hm' using hrep
@@ -490,7 +490,7 @@ private lemma exists_cover_constant_map
           Over.homMk (S.unop.hom ≫ h t) (by simp [q])
         let y : (Over.map r).obj S.unop ⟶ W l :=
           Over.homMk (S.unop.hom ≫ h t) (by simp [r])
-        show θ.app (Opposite.op ((Over.map r).obj S.unop)) (m l a) =
+        change θ.app (Opposite.op ((Over.map r).obj S.unop)) (m l a) =
           ξ.app (Opposite.op ((Over.map q).obj S.unop)) a
         have hleft := NatTrans.naturality_apply θ y.op (m l a)
         have hright := NatTrans.naturality_apply ξ z.op a

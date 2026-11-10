@@ -151,11 +151,11 @@ theorem isSheaf_discreteFunctions_comp_coyoneda (E : TopCommRingCat.{u + 1}) :
     have _ : Finite V.I₀ := hfin
     have hopen : ∀ i, {e : E | (xm (V.f i) (hVR i) e) = 0} ∈ 𝓝 (0 : E) :=
       fun i => ((xm _ _).2.isOpen_preimage {0} (isOpen_discrete _)).mem_nhds (by
-        show (xm _ _) 0 = 0
+        change (xm _ _) 0 = 0
         exact map_zero (xm _ _).1)
     filter_upwards [Filter.iInter_mem.mpr hopen] with e he
     rw [Set.mem_iInter] at he
-    show ULift.up (φ e) = 0
+    change ULift.up (φ e) = 0
     rw [hker e he]
     rfl
   let σ : E ⟶ (discreteFunctions B S hS).obj (op T) :=

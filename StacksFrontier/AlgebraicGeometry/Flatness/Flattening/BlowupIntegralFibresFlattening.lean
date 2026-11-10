@@ -186,7 +186,7 @@ theorem exists_opens_forall_free_surjective_of_isFlatOverAt_fibre_dense {B T : S
   · obtain ⟨t, hxt⟩ := Opens.mem_iSup.mp hx
     exact ⟨W t, n t, hxt, le_iSup W t, hfree t⟩
   · refine ⟨⟨b t, Opens.mem_iSup.mpr ⟨t, hbW t⟩⟩, ?_⟩
-    show g.base ((⨆ t : T, W t).ι.base ⟨b t, _⟩) = t
+    change g.base ((⨆ t : T, W t).ι.base ⟨b t, _⟩) = t
     exact hbt t
 
 /-! ### The input of the Raynaud-Gruson induction -/

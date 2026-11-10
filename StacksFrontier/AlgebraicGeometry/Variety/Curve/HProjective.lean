@@ -30,10 +30,8 @@ H-projectivity as H-quasi-projectivity together with properness, [Stacks, Tag 0B
 ## Main results
 
 * `AlgebraicGeometry.isProjectiveMorphism_of_topologicalKrullDim_le_one`: a proper scheme of
-  topological Krull dimension at most one over a field is H-projective over that field, stated
-  with the superfluous hypothesis
-  `Stacks.HQuasiProjectiveDimensionOne.AmpleOfNoetherianSeparatedDimLEOne` and kept for its
-  callers. [Stacks, Tag 0A26] itself is registered, with nothing carried, at
+  topological Krull dimension at most one over a field is H-projective over that field.
+  [Stacks, Tag 0A26] itself is registered at
 `Stacks.HQuasiProjectiveDimensionOne.isProjectiveMorphism_of_isProper_of_topologicalKrullDim_le_one`
   in `StacksFrontier/AlgebraicGeometry/HQuasiProjectiveDimensionOne/Basic.lean`.
 
@@ -46,10 +44,7 @@ a closed immersion into `ℙⁿ` over the base for some `n`. H-quasi-projectivit
 Dimension is the Krull dimension `topologicalKrullDim` of the underlying topological space,
 valued in `WithBot ℕ∞`.
 
-The hypothesis `h09NZ` is [Stacks, Tag 09NZ] — "a Noetherian separated scheme of dimension one
-has an ample invertible sheaf" — in the shape documented at
-`Stacks.HQuasiProjectiveDimensionOne.isHQuasiProjective_of_ampleOfNoetherianSeparatedDimLEOne`.
-It is not used: the proof is the unconditional Tag 0A26,
+The proof is the unconditional Tag 0A26,
 `Stacks.HQuasiProjectiveDimensionOne.isProjectiveMorphism_of_isProper_of_topologicalKrullDim_le_one`
 itself.
 
@@ -84,10 +79,8 @@ H-projective over `k`.
 
 This is [Stacks, Tag 0A26],
 `Stacks.HQuasiProjectiveDimensionOne.isProjectiveMorphism_of_isProper_of_topologicalKrullDim_le_one`
-stated with the extra hypothesis `h09NZ` ([Stacks, Tag 09NZ]), which is not used; it is kept for
-its callers. -/
+itself. -/
 public theorem isProjectiveMorphism_of_topologicalKrullDim_le_one
-    (h09NZ : Stacks.HQuasiProjectiveDimensionOne.AmpleOfNoetherianSeparatedDimLEOne.{u})
     {k : Type u} [Field k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) [IsProper f]
     (hdim : topologicalKrullDim (X : Type u) ≤ 1) :
     IsProjectiveMorphism f :=

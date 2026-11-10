@@ -93,7 +93,7 @@ public theorem smoothAt_locus_eq_regular_locus
       obtain ⟨s, hs, hsep⟩ :=
         exists_isTranscendenceBasis_and_isSeparable_of_perfectField Γ(Spec (.of k), U) L'
       exact ⟨(s : Set L'), hs, hsep⟩⟩
-  show InfinitesimalLifting.SmoothAt f x ↔ IsRegularLocalRing (X.presheaf.stalk x)
+  change InfinitesimalLifting.SmoothAt f x ↔ IsRegularLocalRing (X.presheaf.stalk x)
   rw [← Algebra.isSmoothAt_iff_isRegularLocalRing (k := Γ(Spec (.of k), U)) q (X.presheaf.stalk x)]
   exact (smoothAt_iff_formallySmooth_stalkMap k f x).trans
     (formallySmooth_stalkMap_iff U hU V hV hVU' hxV)

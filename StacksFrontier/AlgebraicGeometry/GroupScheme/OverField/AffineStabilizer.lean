@@ -124,7 +124,7 @@ theorem exists_closedSubgroupScheme_isAffine_locallyOfFinitePresentation (k : Ty
         (K {f}) p.left).2 (by
           rintro _ ⟨q, rfl⟩
           rw [← Scheme.IdealSheafData.range_subschemeι]
-          show G.X.left.fromSpecResidueField x q ∈ _
+          change G.X.left.fromSpecResidueField x q ∈ _
           rw [Scheme.fromSpecResidueField_apply]
           exact Set.mem_iInter.mp hx {f})
       have hle : K {f} ≤ p.left.ker := by

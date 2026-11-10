@@ -347,7 +347,7 @@ theorem principalDivisorCycle_eq_sub_lineFibreCycles (C : ChowSituation.{u}) {A 
   have h0ne : lineChartFunction q hη1 ≠ 0 := left_ne_zero_of_mul_eq_one hmul
   have hinfne : lineYChartFunction q hη2 ≠ 0 := right_ne_zero_of_mul_eq_one hmul
   refine Subtype.ext (Function.locallyFinsuppWithin.ext fun ξ => ?_)
-  show A.ord (lineChartFunction q hη1) ξ =
+  change A.ord (lineChartFunction q hη1) ξ =
     (cycleAssociatedToClosedSubscheme C sA
         ((lineZeroDivisor C.S).comap q).subschemeι (n - 1)).1 ξ -
       (cycleAssociatedToClosedSubscheme C sA

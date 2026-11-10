@@ -74,9 +74,9 @@ theorem condition_of_openCover {T : Scheme.{u}} (a : T ⟶ D.S) {K : Type u} (O 
       (freeAtPointOfRank_of_moduleIso (D.transitionModuleIso g).symm hy)
   · have hw := congrArg (fun k : _ ⟶ T ↦ k.base y) (D.transitionHom_comp_snd g)
     simp only [Scheme.Hom.comp_base, TopCat.comp_app] at hw
-    show (D.baseChangeMap (Over.mk a)).base (D.transitionHom g y) = t
+    change (D.baseChangeMap (Over.mk a)).base (D.transitionHom g y) = t
     rw [hw]
-    show (O k).ι.base ((D.baseChangeMap _).base y) = t
+    change (O k).ι.base ((D.baseChangeMap _).base y) = t
     rw [hyt]
     rfl
 

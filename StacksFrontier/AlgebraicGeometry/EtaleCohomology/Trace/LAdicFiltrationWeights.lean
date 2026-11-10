@@ -78,7 +78,7 @@ theorem isCharpolyNormMixedOfWeightLE_rationalLim_of_surjective {A B : ℕᵒᵖ
     exact h
   · refine (hex y).1 ?_
     have h0 : (rationalLim (ℓ := ℓ)).map (0 : B ⟶ B) = 0 := by
-      show (ModuleCat.extendScalars.{0, 0, v} (algebraMap ℤ_[ℓ] ℚ_[ℓ])).map (limMap 0) = 0
+      change (ModuleCat.extendScalars.{0, 0, v} (algebraMap ℤ_[ℓ] ℚ_[ℓ])).map (limMap 0) = 0
       rw [show (limMap (0 : B ⟶ B)) = 0 from limit.hom_ext (fun j => by simp), Functor.map_zero]
     rw [h0]
     rfl

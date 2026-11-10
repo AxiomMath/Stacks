@@ -57,6 +57,7 @@ def flatCovers (J : GrothendieckTopology C) (x : C) (V : Over x) :
   fun E => Finite E.1.I₀ ∧
     (E.1.map (Over.forget x ⋙ L)).presieve₀ ∈ Scheme.precoverage @Flat (L.obj V.left)
 
+set_option linter.checkUnivs false in
 /-- The reindexing of a `0`-hypercover along a universe lift of its index type. -/
 def PreZeroHypercover.uliftIndex {D : Type*} [Category D] {X : D}
     (E : PreZeroHypercover.{0} X) : PreZeroHypercover.{max t u v w} X where

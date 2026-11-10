@@ -108,10 +108,10 @@ theorem bijective_gradedPieceMap_pull_of_isIso_appTop (hA8 : 𝔇.GlobalSections
     Function.bijective_iff_has_inverse.mpr
       ⟨gradedPieceMap _ _ (𝔇.pull (inv e)) (𝔇.pull_grade (inv e)) 0,
         fun a => Subtype.ext (by
-          show 𝔇.pull (inv e) (𝔇.pull e a) = a
+          change 𝔇.pull (inv e) (𝔇.pull e a) = a
           rw [← AlgHom.comp_apply, ← 𝔇.pull_comp, IsIso.inv_hom_id, 𝔇.pull_id, AlgHom.id_apply]),
         fun a => Subtype.ext (by
-          show 𝔇.pull e (𝔇.pull (inv e) a) = a
+          change 𝔇.pull e (𝔇.pull (inv e) a) = a
           rw [← AlgHom.comp_apply, ← 𝔇.pull_comp, IsIso.hom_inv_id, 𝔇.pull_id, AlgHom.id_apply])⟩
   have hc : gradedPieceMap _ _ (𝔇.pull (toSpecGlobalSections X ≫ e))
       (𝔇.pull_grade (toSpecGlobalSections X ≫ e)) 0 =
@@ -119,7 +119,7 @@ theorem bijective_gradedPieceMap_pull_of_isIso_appTop (hA8 : 𝔇.GlobalSections
         (𝔇.pull_grade (toSpecGlobalSections X)) 0 ∘ₗ
         gradedPieceMap _ _ (𝔇.pull e) (𝔇.pull_grade e) 0 :=
     LinearMap.ext fun a => Subtype.ext (by
-      show 𝔇.pull (toSpecGlobalSections X ≫ e) a =
+      change 𝔇.pull (toSpecGlobalSections X ≫ e) a =
         𝔇.pull (toSpecGlobalSections X) (𝔇.pull e a)
       rw [𝔇.pull_comp, AlgHom.comp_apply])
   rw [hc, LinearMap.coe_comp]

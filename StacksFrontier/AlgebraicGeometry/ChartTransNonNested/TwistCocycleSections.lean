@@ -538,7 +538,7 @@ public theorem res_res (W W' U : S.Opens) (hWW' : W ≤ W') (hW'U : W' ≤ U) (h
         (A.grading W) k)
       = ⟨A.res hWU c, (A.res hWU).map_mem c.2⟩ := by
   refine Subtype.ext ?_
-  show A.resRingHom hWW' (A.resRingHom hW'U (c : A.sectionRing U)) = A.resRingHom hWU c
+  change A.resRingHom hWW' (A.resRingHom hW'U (c : A.sectionRing U)) = A.resRingHom hWU c
   rw [← RingHom.comp_apply, ← A.resRingHom_comp]
 
 /-- **The nested cocycle, on the homogeneous global sections.** For affine opens

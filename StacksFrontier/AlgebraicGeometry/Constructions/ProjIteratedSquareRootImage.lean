@@ -336,7 +336,7 @@ private lemma not_isClosed_primeSpectrum_basicOpen_t :
   have hgeneric : p₀ ∈
       (PrimeSpectrum.basicOpen (t : baseRing) : Set (PrimeSpectrum baseRing)) := by
     rw [SetLike.mem_coe, PrimeSpectrum.mem_basicOpen, hp₀]
-    simp [Ideal.mem_bot]
+    simp
   have hsubset := hclosed.closure_subset_iff.2 (Set.singleton_subset_iff.2 hgeneric)
   rw [PrimeSpectrum.closure_singleton, hp₀, PrimeSpectrum.zeroLocus_bot] at hsubset
   have hprime : (Ideal.span {(t : baseRing)}).IsPrime :=

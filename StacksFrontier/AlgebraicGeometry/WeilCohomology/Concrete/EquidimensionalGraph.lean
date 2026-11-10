@@ -44,6 +44,7 @@ variable (k : Type u) [Field k] {X Y : Scheme.{u}}
 
 attribute [local instance] isClosedImmersion_graphMorphism
 
+omit [IsSeparated sY] in
 /-- **The graph correspondence between equidimensional schemes is the class of the graph.** For
 `X`, `Y` of constant relative dimensions `d`, `e` and `f : Y ⟶ X` over `k`, the identification
 `Corr⁰(X, Y) = CH_e(X × Y) ⊗ ℚ` carries `[Γ_f]` to the class of `(f, 𝟙) : Y ⟶ X ×_k Y`. Only the

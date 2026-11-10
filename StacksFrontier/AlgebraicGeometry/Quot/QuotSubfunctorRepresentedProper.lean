@@ -138,7 +138,7 @@ theorem isRepresentedProper_hilbertPolynomialQuot_of_directImage
   let i := D.directImageHilbertPolynomialQuotIso hπ M P
   refine ⟨Z, e ≪≫ i.symm, q, Eq.trans ?_ he, hq⟩
   ext T z
-  show ULift.up (yonedaEquiv (i.hom.app T (i.inv.app T (e.hom.app T z))).1.toBase.hom) =
+  change ULift.up (yonedaEquiv (i.hom.app T (i.inv.app T (e.hom.app T z))).1.toBase.hom) =
     ULift.up (yonedaEquiv (e.hom.app T z).1.toBase.hom)
   exact congrArg (fun y => ULift.up.{u + 1} (yonedaEquiv y.1.toBase.hom))
     (types_congr_hom (i.inv_hom_id_app T) (e.hom.app T z))

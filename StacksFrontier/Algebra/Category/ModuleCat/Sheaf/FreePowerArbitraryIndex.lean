@@ -279,10 +279,10 @@ noncomputable def freeConstCoprodIso :
     rw [freeConstDesc_comp]
     refine Eq.trans (congrArg freeConstDesc (funext fun i => ?_))
       (freeConstDesc_freeConstSection γ)
-    rw [sectionsMap_unitHomEquiv, Sigma.ι_desc]
+    rw [sectionsMap_unitHomEquiv, Sigma.ι_comp_desc]
     exact (PresheafOfModules.unitHomEquiv (freeConst (R := R) γ)).apply_symm_apply _
   inv_hom_id := Sigma.hom_ext _ _ fun i => by
-    rw [Category.comp_id, ← Category.assoc, Sigma.ι_desc]
+    rw [Category.comp_id, ← Category.assoc, Sigma.ι_comp_desc]
     refine (PresheafOfModules.unitHomEquiv _).injective ?_
     rw [← sectionsMap_unitHomEquiv,
       (PresheafOfModules.unitHomEquiv (freeConst (R := R) γ)).apply_symm_apply]

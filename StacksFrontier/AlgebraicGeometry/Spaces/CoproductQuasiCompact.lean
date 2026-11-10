@@ -67,10 +67,10 @@ theorem BigFppfSite.hasFiniteCoproducts_schemes (B : BigFppfSite.{u}) :
           (IsColimit.precomposeHomEquiv (Discrete.natIsoFunctor (F := hX.diag)).symm
             hX.cocone).symm hX.isColimit
         let eX : X ≅ ∐ Y := hsumColim.coconePointUniqueUpToIso (coproductIsCoproduct Y)
-        show X.size < B.cutoff
+        change X.size < B.cutoff
         rw [Scheme.size_congr eX]
         exact hsum)
-  show HasFiniteCoproducts (schemeSizeBelow B.cutoff).FullSubcategory
+  change HasFiniteCoproducts (schemeSizeBelow B.cutoff).FullSubcategory
   infer_instance
 
 namespace Space
@@ -82,7 +82,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 /-- The big fppf category over `S` has finite coproducts, being a slice of a category with
 finite coproducts over an object. -/
 theorem hasFiniteCoproducts_bigFppfOver : HasFiniteCoproducts (BigFppfOver B S hS) := by
-  show HasFiniteCoproducts (Over (B.obj hS))
+  change HasFiniteCoproducts (Over (B.obj hS))
   have := B.hasFiniteCoproducts_schemes
   infer_instance
 
@@ -126,7 +126,7 @@ theorem isQuasiCompactSpace_finiteCoproduct {I : Type v} [Finite I]
   let ι' : ∀ j, (⟨F' j, (hF' j).isSheaf⟩ :
       Sheaf (BigFppfOver.topology B S hS) (Type u)) ⟶ G := fun j ↦ ι (e j)
   have hG' : IsColimit (Cofan.mk G ι') := by
-    show IsColimit (Cofan.mk G fun j ↦ ι (e j))
+    change IsColimit (Cofan.mk G fun j ↦ ι (e j))
     exact (Cofan.isColimitEquivOfEquiv e (Cofan.mk G ι)).toFun hG
   -- The ranges of the legs are open subspaces which cover the point space.
   let W : ULift.{u} (Fin (Fintype.card I)) → Subfunctor G.obj :=

@@ -335,7 +335,7 @@ theorem exists_lift_of_isFirstOrderThickening (hG : IsFirstOrderThickening B S h
       (tT.from ((thickeningChartBaseChange B S hS hG.1).obj V.unop)).op a
   have hs : ∀ {V V' : (SmallEtale B S hS X.1)ᵒᵖ} (f : V ⟶ V'), Sq.X₃.obj.map f (s V) = s V' := by
     intro V V' f
-    show ConcreteCategory.hom ((structureAddSheaf B S hS W).obj.map
+    change ConcreteCategory.hom ((structureAddSheaf B S hS W).obj.map
         ((thickeningChartBaseChange B S hS hG.1).map f.unop).op)
         (ConcreteCategory.hom ((structureAddSheaf B S hS W).obj.map
           (tT.from ((thickeningChartBaseChange B S hS hG.1).obj V.unop)).op) a) = s V'

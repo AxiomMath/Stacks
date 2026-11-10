@@ -81,7 +81,7 @@ theorem isLocallySurjective_of_representable_flat_locallyOfFinitePresentation_su
       (BigFppfOver.toScheme B S hS))) a.hom) :
     Sheaf.IsLocallySurjective a := by
   classical
-  show Presheaf.IsLocallySurjective (BigFppfOver.topology B S hS) a.hom
+  change Presheaf.IsLocallySurjective (BigFppfOver.topology B S hS) a.hom
   refine ⟨fun {U} s ↦ ?_⟩
   let g := yonedaEquiv.symm s
   let X := ha.rep.pullback g
@@ -92,7 +92,7 @@ theorem isLocallySurjective_of_representable_flat_locallyOfFinitePresentation_su
   let E : PreZeroHypercover.{u + 1} (B.inclusion.obj U.left) :=
     PreZeroHypercover.singleton (q.map p)
   have hE : E.presieve₀ ∈ Scheme.fppfPrecoverage (B.inclusion.obj U.left) := by
-    show E.presieve₀ ∈ Scheme.precoverage (@Flat ⊓ @LocallyOfFinitePresentation)
+    change E.presieve₀ ∈ Scheme.precoverage (@Flat ⊓ @LocallyOfFinitePresentation)
       (B.inclusion.obj U.left)
     rw [Scheme.presieve₀_mem_precoverage_iff]
     refine ⟨fun y ↦ ?_, fun i ↦ ⟨hp.1, hp.2.1⟩⟩

@@ -741,7 +741,8 @@ private def twistedModuleConsUpdateIso {d : ℕ} (M : Modules.{u, u} B S hS F hF
     [∀ j, Stacks.SheafOfModules.IsInvertible (structurePresheaf B S hS F)
       (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O).property (L' j)]
     [∀ j, Stacks.SheafOfModules.IsInvertible (structurePresheaf B S hS F)
-      (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O).property (L'' j)]
+      (Stacks.SheafOfModules.Tensor.ringSheaf
+        (smallEtaleRingedSite B S hS F hF).O).property (L'' j)]
     [Stacks.SheafOfModules.IsInvertible (structurePresheaf B S hS F)
       (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O).property A]
     (hagree : ∀ j, j ≠ i₀ → L' j = L'' j) (hA : L'' i₀ = A) (n : Fin d → ℤ) :
@@ -779,7 +780,8 @@ def intersectionNumber (d : ℕ) (f : X.1 ⟶ yoneda.obj (baseObject k B hk))
     (_hd : dimension B (Spec (.of k)) hk Z.1 Z.2 = d)
     (L : Fin d → Modules.{u, u} B (Spec (.of k)) hk X.1 X.2)
     [∀ j, Stacks.SheafOfModules.IsInvertible (structurePresheaf B (Spec (.of k)) hk X.1)
-      (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B (Spec (.of k)) hk X.1 X.2).O).property (L j)] :
+      (Stacks.SheafOfModules.Tensor.ringSheaf
+        (smallEtaleRingedSite B (Spec (.of k)) hk X.1 X.2).O).property (L j)] :
     ℤ :=
   letI : ∀ n : Fin d → ℤ, IsCoherent B (Spec (.of k)) hk X.1 X.2
       (twistedModuleUlift.{u, w} B (Spec (.of k)) hk X.1 X.2
@@ -797,7 +799,8 @@ theorem intersectionNumber_eq_sum (d : ℕ) (f : X.1 ⟶ yoneda.obj (baseObject 
     (hd : dimension B (Spec (.of k)) hk Z.1 Z.2 = d)
     (L : Fin d → Modules.{u, u} B (Spec (.of k)) hk X.1 X.2)
     [∀ j, Stacks.SheafOfModules.IsInvertible (structurePresheaf B (Spec (.of k)) hk X.1)
-      (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B (Spec (.of k)) hk X.1 X.2).O).property (L j)] :
+      (Stacks.SheafOfModules.Tensor.ringSheaf
+        (smallEtaleRingedSite B (Spec (.of k)) hk X.1 X.2).O).property (L j)] :
     intersectionNumber.{u, w} k B hk X Z d f hf i hi hd L =
       ∑ T : Finset (Fin d), (-1 : ℤ) ^ (d - T.card) *
         @eulerCharacteristic.{u, w} k _ B hk X.1 X.2 f hf
@@ -823,7 +826,8 @@ theorem intersectionNumber_eq_coeff (d : ℕ) (f : X.1 ⟶ yoneda.obj (baseObjec
     (hd : dimension B (Spec (.of k)) hk Z.1 Z.2 = d)
     (L : Fin d → Modules.{u, u} B (Spec (.of k)) hk X.1 X.2)
     [∀ j, Stacks.SheafOfModules.IsInvertible (structurePresheaf B (Spec (.of k)) hk X.1)
-      (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B (Spec (.of k)) hk X.1 X.2).O).property (L j)]
+      (Stacks.SheafOfModules.Tensor.ringSheaf
+        (smallEtaleRingedSite B (Spec (.of k)) hk X.1 X.2).O).property (L j)]
     (P : MvPolynomial (Fin d) ℚ)
     (hP : ∀ n : Fin d → ℤ, MvPolynomial.eval (fun j => (n j : ℚ)) P =
       ((@eulerCharacteristic.{u, w} k _ B hk X.1 X.2 f hf
@@ -871,7 +875,8 @@ theorem exists_intCast_eq_coeff_one (d : ℕ) (f : X.1 ⟶ yoneda.obj (baseObjec
     (hd : dimension B (Spec (.of k)) hk Z.1 Z.2 = d)
     (L : Fin d → Modules.{u, u} B (Spec (.of k)) hk X.1 X.2)
     [∀ j, Stacks.SheafOfModules.IsInvertible (structurePresheaf B (Spec (.of k)) hk X.1)
-      (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B (Spec (.of k)) hk X.1 X.2).O).property (L j)]
+      (Stacks.SheafOfModules.Tensor.ringSheaf
+        (smallEtaleRingedSite B (Spec (.of k)) hk X.1 X.2).O).property (L j)]
     (P : MvPolynomial (Fin d) ℚ)
     (hP : ∀ n : Fin d → ℤ, MvPolynomial.eval (fun j => (n j : ℚ)) P =
       ((@eulerCharacteristic.{u, w} k _ B hk X.1 X.2 f hf
@@ -894,7 +899,8 @@ def selfIntersectionNumber (d : ℕ) (f : X.1 ⟶ yoneda.obj (baseObject k B hk)
     (hd : dimension B (Spec (.of k)) hk Z.1 Z.2 = d)
     (L : Modules.{u, u} B (Spec (.of k)) hk X.1 X.2)
     [Stacks.SheafOfModules.IsInvertible (structurePresheaf B (Spec (.of k)) hk X.1)
-      (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B (Spec (.of k)) hk X.1 X.2).O).property L] :
+      (Stacks.SheafOfModules.Tensor.ringSheaf
+        (smallEtaleRingedSite B (Spec (.of k)) hk X.1 X.2).O).property L] :
     ℤ :=
   intersectionNumber.{u, w} k B hk X Z d f hf i hi hd fun _ => L
 
@@ -928,11 +934,14 @@ theorem intersectionNumber_eq_add_of_iso_tensorSheaf (d : ℕ)
     (hd : dimension B (Spec (.of k)) hk Z.1 Z.2 = d) (i₀ : Fin d)
     (L L' L'' : Fin d → Modules.{u, u} B (Spec (.of k)) hk X.1 X.2)
     [∀ j, Stacks.SheafOfModules.IsInvertible (structurePresheaf B (Spec (.of k)) hk X.1)
-      (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B (Spec (.of k)) hk X.1 X.2).O).property (L j)]
+      (Stacks.SheafOfModules.Tensor.ringSheaf
+        (smallEtaleRingedSite B (Spec (.of k)) hk X.1 X.2).O).property (L j)]
     [∀ j, Stacks.SheafOfModules.IsInvertible (structurePresheaf B (Spec (.of k)) hk X.1)
-      (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B (Spec (.of k)) hk X.1 X.2).O).property (L' j)]
+      (Stacks.SheafOfModules.Tensor.ringSheaf
+        (smallEtaleRingedSite B (Spec (.of k)) hk X.1 X.2).O).property (L' j)]
     [∀ j, Stacks.SheafOfModules.IsInvertible (structurePresheaf B (Spec (.of k)) hk X.1)
-      (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B (Spec (.of k)) hk X.1 X.2).O).property (L'' j)]
+      (Stacks.SheafOfModules.Tensor.ringSheaf
+        (smallEtaleRingedSite B (Spec (.of k)) hk X.1 X.2).O).property (L'' j)]
     [∀ n : Fin d → ℤ, IsCoherent B (Spec (.of k)) hk X.1 X.2
       (twistedModuleUlift.{u, w} B (Spec (.of k)) hk X.1 X.2
         (structureSheafPushforward B (Spec (.of k)) hk i) L n)]

@@ -159,7 +159,7 @@ theorem isFiniteTypeLocallyConstant_homology_derivedDirectImage_inverseImage_uni
   let P : ObjectProperty (EtaleModules.{u, 0} (ZMod ℓ) S) :=
     Stacks.ConstantSheaf.IsFiniteTypeLocallyConstantModuleSheaf.{u, u + 1, 0}
       S.smallEtaleTopology (ZMod ℓ)
-  show P _
+  change P _
   let e := (etaleModuleInverseImageConstantIso.{u, 0} (ZMod ℓ) f).app
     (ModuleCat.of (ZMod ℓ) (ULift.{u + 1} (ZMod ℓ)))
   refine P.prop_of_iso ((DerivedCategory.Plus.homologyFunctor _ p).mapIso

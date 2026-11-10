@@ -135,7 +135,7 @@ in which `i` is closed: the coborder of the image is preserved by homeomorphisms
 theorem coborderRange_eq_preimage_of_isIso :
     i'.coborderRange = Φ ⁻¹ᵁ i.coborderRange := by
   apply TopologicalSpace.Opens.ext
-  show coborder (Set.range i') = Φ.base ⁻¹' coborder (Set.range i)
+  change coborder (Set.range i') = Φ.base ⁻¹' coborder (Set.range i)
   rw [← Φ.isOpenEmbedding.coborder_preimage]
   congr 1
   ext x
@@ -145,7 +145,7 @@ theorem coborderRange_eq_preimage_of_isIso :
   · rintro ⟨y, hy⟩
     obtain ⟨z, rfl⟩ := (Scheme.homeoOfIso (asIso φ)).surjective y
     refine ⟨z, Φ.isOpenEmbedding.injective ?_⟩
-    show (i' ≫ Φ) z = _
+    change (i' ≫ Φ) z = _
     rw [h]
     exact hy
 
@@ -542,7 +542,7 @@ theorem properPushforward_pullbackMap_exteriorProduct (n m : ℤ) (α : CycleGro
   refine Subtype.ext (Function.locallyFinsuppWithin.ext fun w ↦ ?_)
   obtain ⟨z, rfl⟩ := (Scheme.homeoOfIso (asIso (pullback.map sA' sB' sA sB φ₁ φ₂ (𝟙 C.S)
     (by simp [h₁]) (by simp [h₂])))).surjective w
-  show (properPushforward C _ _ _ _ (n + m) (exteriorProduct C sA' sB' n m α β)).1
+  change (properPushforward C _ _ _ _ (n + m) (exteriorProduct C sA' sB' n m α β)).1
       ((pullback.map sA' sB' sA sB φ₁ φ₂ (𝟙 C.S) (by simp [h₁]) (by simp [h₂])).base z) =
     (exteriorProduct C sA sB n m _ _).1
       ((pullback.map sA' sB' sA sB φ₁ φ₂ (𝟙 C.S) (by simp [h₁]) (by simp [h₂])).base z)
@@ -566,7 +566,7 @@ theorem chowPushforwardOfIso_pullbackMap_chowExteriorProduct_tmul [Subsingleton 
   induction β using QuotientAddGroup.induction_on with | H b => ?_
   rw [chowExteriorProduct_tmul_mk]
   refine (chowPushforwardOfIso_mk C _ _ _ _ (n + m) (exteriorProduct C sA' sB' n m a b)).trans ?_
-  show _ = chowExteriorProduct C hδ sA sB n m
+  change _ = chowExteriorProduct C hδ sA sB n m
     (QuotientAddGroup.mk (properPushforward C sA' sA φ₁ h₁ n a) ⊗ₜ[ℤ]
       QuotientAddGroup.mk (properPushforward C sB' sB φ₂ h₂ m b))
   rw [chowExteriorProduct_tmul_mk]
@@ -615,7 +615,7 @@ theorem selfIntersectionProduct_eq (D : ℤ)
             (chowExteriorProduct C hδ (𝟙 W ≫ sW) (𝟙 W ≫ sW) n m
               (chowGroupCongr C (Category.id_comp sW).symm n x ⊗ₜ[ℤ]
                 chowGroupCongr C (Category.id_comp sW).symm m y)))) := by
-  show chowPushforwardOfIso C _ sW (pullback.fst (𝟙 W) (𝟙 W)) _ _
+  change chowPushforwardOfIso C _ sW (pullback.fst (𝟙 W) (𝟙 W)) _ _
     (properChowPushforward C _ _ _ _ _ (properPushforwardDescends C _ _ _ _ _) _) = _
   exact chowPushforwardOfIso_comp_apply C _ _ _ _ _ _ _ _ _
 

@@ -61,7 +61,7 @@ public theorem essentiallySmall_affineBelow (κ : Cardinal.{u}) :
   refine ⟨Q, inferInstance, ?_⟩
   rintro X ⟨R, hR, ⟨e⟩⟩
   obtain ⟨j⟩ : Nonempty (R ↪ κ.out) := by
-    show #R ≤ #κ.out
+    change #R ≤ #κ.out
     simpa using hR
   let f : A →+* R := MvPolynomial.eval₂Hom (Int.castRingHom R) (Function.invFun j)
   have hf : Function.Surjective f := fun r =>

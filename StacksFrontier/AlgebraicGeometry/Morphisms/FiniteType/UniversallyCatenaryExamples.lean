@@ -144,7 +144,7 @@ private theorem isCohenMacaulayLocalRingPropForm_of_isDomain_of_ringKrullDim_eq_
   have hupp : (Module.depthSup R (IsLocalRing.maximalIdeal R) R : WithBot ℕ∞) ≤ 1 := by
     have h := Module.depth_le_supportDim R (IsLocalRing.maximalIdeal R) R (smul_top_ne_top R)
     rwa [depth_self_eq_depthSup, Module.supportDim_self_eq_ringKrullDim, hR] at h
-  show (localRingDepth R : WithBot ℕ∞) = ringKrullDim R
+  change (localRingDepth R : WithBot ℕ∞) = ringKrullDim R
   rw [localRingDepth_eq_depthSup, le_antisymm hupp hlow, hR]
 
 @[ega "IV 6.11.9" "partial"]

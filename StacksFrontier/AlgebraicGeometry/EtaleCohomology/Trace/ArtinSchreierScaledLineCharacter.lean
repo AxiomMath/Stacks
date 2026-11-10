@@ -77,7 +77,7 @@ theorem connectedSpace_cover_scaledLine (a : Ω) (ha : a ≠ 0) :
   have : IsDomain (Ring k (C a * Polynomial.X : Polynomial Ω)) :=
     Function.Injective.isDomain (scaledLineRingEquiv k a ha).toRingHom
       (scaledLineRingEquiv k a ha).injective
-  show ConnectedSpace (Spec (.of (Ring k (C a * Polynomial.X : Polynomial Ω))))
+  change ConnectedSpace (Spec (.of (Ring k (C a * Polynomial.X : Polynomial Ω))))
   infer_instance
 
 /-- **The Artin–Schreier character of `a t`, `a ≠ 0`, is surjective**: the cover is connected, so

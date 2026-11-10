@@ -82,7 +82,7 @@ theorem toSpecΓ_app_top_ΓSpecIso_inv (a : Γ((BigFppfOver.toScheme B S hS).obj
     (((BigFppfOver.toScheme B S hS).obj U).isoSpec.hom.app ⊤).hom
       ((Scheme.ΓSpecIso Γ((BigFppfOver.toScheme B S hS).obj U, ⊤)).inv.hom a) = a := by
   rw [Scheme.isoSpec_hom]
-  show ((Scheme.ΓSpecIso _).inv ≫ Scheme.Hom.appTop _).hom a = a
+  change ((Scheme.ΓSpecIso _).inv ≫ Scheme.Hom.appTop _).hom a = a
   rw [Scheme.toSpecΓ_appTop, Iso.inv_hom_id]
   rfl
 
@@ -96,7 +96,7 @@ theorem structureMap_app_top_eq (a : Γ((BigFppfOver.toScheme B S hS).obj U, ⊤
       ((Scheme.ΓSpecIso Γ((BigFppfOver.toScheme B S hS).obj U, ⊤)).inv.hom a)) =
       representedAffineTopChartSection B S hS U a := by
   rw [toSpecΓ_app_top_ΓSpecIso_inv, SmallEtale.structureMap_hom_app]
-  show _ = ((⊤ : ((BigFppfOver.toScheme B S hS).obj U).Opens).ι.appTop).hom a
+  change _ = ((⊤ : ((BigFppfOver.toScheme B S hS).obj U).Opens).ι.appTop).hom a
   simp only [Scheme.Opens.topIso_inv, Scheme.Opens.ι_appTop]
   rfl
 

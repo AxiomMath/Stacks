@@ -228,7 +228,7 @@ public theorem underPost_map_mem_fiber (p : X ⥤ C) (q : Y ⥤ C) (F : X ⥤ Y)
     lift_map_isHomLift p q F hF a hx (underFiber_right_obj p hx a t) t.1.hom
       (underFiber_isHomLift p hx a t)
   refine StructuredArrow.obj_ext _ _ (IsHomLift.codomain_eq q a (F.map t.1.hom)) ?_
-  show q.map (F.map t.1.hom) ≫ eqToHom (IsHomLift.codomain_eq q a (F.map t.1.hom)) =
+  change q.map (F.map t.1.hom) ≫ eqToHom (IsHomLift.codomain_eq q a (F.map t.1.hom)) =
     eqToHom hFx ≫ a
   rw [IsHomLift.fac' q a (F.map t.1.hom)]
   simp
@@ -323,16 +323,16 @@ public theorem isLinearMap_of_natural_split (R : Type uR) [CommRing R]
     have e (i : E ⟶ E') (q : E' ⟶ E) (w : Fu.obj E) :
         (Fu.map q) ((Fu.map i) w) = (Fu.map (i ≫ q)) w := by simp
     have hF₁ : (Fu.map p₁) z = u := by
-      show (Fu.map p₁) ((Fu.map i₁) u + (Fu.map i₂) v) = u
+      change (Fu.map p₁) ((Fu.map i₁) u + (Fu.map i₂) v) = u
       rw [map_add, e, e, h₁₁, h₁₂]
       simp
     have hF₂ : (Fu.map p₂) z = v := by
-      show (Fu.map p₂) ((Fu.map i₁) u + (Fu.map i₂) v) = v
+      change (Fu.map p₂) ((Fu.map i₁) u + (Fu.map i₂) v) = v
       rw [map_add, e, e, h₂₁, h₂₂]
       simp
     have hFadd : (Fu.map (p₁ + p₂)) z = u + v := by
       rw [Fu.map_add]
-      show (Fu.map p₁) z + (Fu.map p₂) z = u + v
+      change (Fu.map p₁) z + (Fu.map p₂) z = u + v
       rw [hF₁, hF₂]
     have hGadd (b : Gu.obj E') : (Gu.map (p₁ + p₂)) b = (Gu.map p₁) b + (Gu.map p₂) b := by
       rw [Gu.map_add]
@@ -549,7 +549,7 @@ public theorem isPullbackOfSquareZeroLift_map (hq : q.IsFiberedInGroupoids)
     have h2 : q.IsStronglyCartesian (squareZeroOverMap A B S hS toS f) (F.map φ) :=
       hq.isStronglyCartesian_homLift _ _
     exact h2
-  · show F.map b'.1.hom ≫ F.map φ = F.map a'.1.hom
+  · change F.map b'.1.hom ≫ F.map φ = F.map a'.1.hom
     rw [← F.map_comp, hw]
 
 variable (T : TangentFunctorData A B S hS toS hA p x hx)

@@ -108,8 +108,7 @@ lemma exists_isOpen_dualTprod_eq (M N : Stacks.Injectives.ContinuousModule.{u, v
     ∃ U : Set G, IsOpen U ∧ g₀ ∈ U ∧ ∀ g ∈ U,
       ((rep R G M).dual.tprod (rep R G N)) g x
         = ((rep R G M).dual.tprod (rep R G N)) g₀ x := by
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨Set.univ, isOpen_univ, trivial, fun g _ => by simp⟩
+  induction x using TensorProduct.inductionOn with
   | tmul l y =>
     refine ⟨{g : G | rep R G M g = rep R G M g₀} ∩
       {g : G | rep R G N g y = rep R G N g₀ y},

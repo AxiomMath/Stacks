@@ -106,7 +106,7 @@ object. -/
 theorem bijective_comp_of_subsingleton [Preadditive C] [Preadditive D] {G M : C} {N : D}
     (c : M ⟶ a.obj N) [Subsingleton (G ⟶ M)] (hG : IsZero (F.obj G)) :
     Function.Bijective (fun s : G ⟶ M => s ≫ c) :=
-  ⟨fun _ _ _ => Subsingleton.elim _ _, fun t => ⟨0, (adj.homEquiv G N).symm.injective
+  ⟨fun _ _ _ => Subsingleton.elim _ _, fun _ => ⟨0, (adj.homEquiv G N).symm.injective
     (hG.eq_of_src _ _)⟩⟩
 
 end Transpose
@@ -195,7 +195,7 @@ theorem bijective_qcqsRestrictedDerivedPushforward_map_twistQCoh_zero (p : ℤ)
         (fun t => (derivedPushforward g).map e.hom ≫ t) ∘
           (fun t => (derivedPushforward g).map t) ∘ (fun s => e.inv ≫ s) := by
       funext s
-      show _ = (derivedPushforward g).map e.hom ≫ (derivedPushforward g).map (e.inv ≫ s)
+      change _ = (derivedPushforward g).map e.hom ≫ (derivedPushforward g).map (e.inv ≫ s)
       rw [← Functor.map_comp]
       exact congrArg (derivedPushforward g).map (e.hom_inv_id_assoc s).symm
     rw [h]

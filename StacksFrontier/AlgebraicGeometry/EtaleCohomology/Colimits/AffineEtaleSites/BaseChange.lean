@@ -276,14 +276,14 @@ private noncomputable def limitOpensCone {J : Type v} [Category.{v, v} J]
 private lemma limitOpensDiagramι_isOpenImmersion {J : Type v} [Category.{v, v} J]
     (E : J ⥤ Scheme.{u}) (i : J) (U : (E.obj i).Opens) (j : Over i) :
     IsOpenImmersion ((limitOpensDiagramι E i U).app j) := by
-  show IsOpenImmersion (Scheme.Opens.ι _)
+  change IsOpenImmersion (Scheme.Opens.ι _)
   infer_instance
 
 private lemma limitOpensDiagram_isAffineHom {J : Type v} [Category.{v, v} J]
     {E : J ⥤ Scheme.{u}} [∀ {i j : J} (f : i ⟶ j), IsAffineHom (E.map f)]
     {i : J} (U : (E.obj i).Opens) {j k : Over i} (f : j ⟶ k) :
     IsAffineHom ((limitOpensDiagram E i U).map f) := by
-  show IsAffineHom ((E.map f.left).resLE (E.map k.hom ⁻¹ᵁ U)
+  change IsAffineHom ((E.map f.left).resLE (E.map k.hom ⁻¹ᵁ U)
     (E.map j.hom ⁻¹ᵁ U) _)
   refine ⟨fun V hV => ?_⟩
   convert!
@@ -291,9 +291,9 @@ private lemma limitOpensDiagram_isAffineHom {J : Type v} [Category.{v, v} J]
           (E.map f.left)).preimage_of_isOpenImmersion
       (E.map j.hom ⁻¹ᵁ U).ι ?_
   · ext x
-    show _ ∈ V ↔ _
+    change _ ∈ V ↔ _
     refine ⟨fun h => ⟨⟨(E.map f.left).base x.1, ?_⟩, ?_, rfl⟩, ?_⟩
-    · show (E.map f.left ≫ E.map k.hom).base x.1 ∈ U
+    · change (E.map f.left ≫ E.map k.hom).base x.1 ∈ U
       rw [← E.map_comp, Over.w f]
       exact x.2
     · convert! h
@@ -369,7 +369,7 @@ private lemma bigSitePullbackSource_affine (B : AlgebraicGeometry.BigEtaleSite.{
   have : IsAffineHom (B.inclusion.map (pullback.fst A.hom f)) :=
     MorphismProperty.of_isPullback hpb.flip
       (show IsAffineHom (B.inclusion.map f) from inferInstance)
-  show IsAffine (B.inclusion.obj (pullback A.hom f))
+  change IsAffine (B.inclusion.obj (pullback A.hom f))
   exact AlgebraicGeometry.isAffine_of_isAffineHom
     (B.inclusion.map (pullback.fst A.hom f))
 
@@ -624,17 +624,17 @@ private lemma exists_affine_baseChange (hc : IsLimit c)
   let d := (Over.pullback A.hom ⋙ Over.forget A.left).mapCone (overStageCone D c i)
   have hd : IsLimit d := isLimitOfPreserves _ (isLimitOverStageCone D c hc i)
   have : IsAffine d.pt := by
-    show IsAffine (pullback (c.π.app i) A.hom)
+    change IsAffine (pullback (c.π.app i) A.hom)
     have : IsAffine (pullback A.hom (c.π.app i)) :=
       ‹IsAffine ((Over.pullback (c.π.app i)).obj A).left›
     exact IsAffine.of_isIso (pullbackSymmetry (c.π.app i) A.hom).hom
   have (j : Over i) : IsAffineHom (pullback.snd (D.map j.hom) A.hom) :=
     MorphismProperty.of_isPullback (IsPullback.of_hasPullback _ _) inferInstance
   have (j : Over i) : CompactSpace (F.obj j) := by
-    show CompactSpace ↥(pullback (D.map j.hom) A.hom)
+    change CompactSpace ↥(pullback (D.map j.hom) A.hom)
     infer_instance
   have (j : Over i) : QuasiSeparatedSpace (F.obj j) := by
-    show QuasiSeparatedSpace ↥(pullback (D.map j.hom) A.hom)
+    change QuasiSeparatedSpace ↥(pullback (D.map j.hom) A.hom)
     exact quasiSeparatedSpace_of_quasiSeparated (pullback.snd (D.map j.hom) A.hom)
   have {j k : Over i} (a : j ⟶ k) : IsAffineHom (F.map a) :=
     MorphismProperty.of_isPullback
@@ -647,7 +647,7 @@ private lemma exists_affine_baseChange (hc : IsLimit c)
     (AsSmall.equiv : Over i ≌ AsSmall.{max u v} (Over i)).isEquivalence_inverse
   have {j k : AsSmall.{max u v} (Over i)} (a : j ⟶ k) :
       IsAffineHom ((E ⋙ F).map a) := by
-    show IsAffineHom (F.map (E.map a))
+    change IsAffineHom (F.map (E.map a))
     infer_instance
   have (j : AsSmall.{max u v} (Over i)) : CompactSpace ((E ⋙ F).obj j) :=
     show CompactSpace (F.obj (E.obj j)) from inferInstance
@@ -677,7 +677,7 @@ private lemma exists_affine_model_of_locallyOfFinitePresentation (hc : IsLimit c
   obtain ⟨j, hj⟩ := exists_affine_baseChange D c hc (.op i) Aᵢ
   let Aⱼ := (Over.pullback (D.map j.hom)).obj Aᵢ
   refine ⟨j.left, Aⱼ, hj, ?_, ?_⟩
-  · show LocallyOfFinitePresentation (pullback.snd Aᵢ.hom (D.map j.hom))
+  · change LocallyOfFinitePresentation (pullback.snd Aᵢ.hom (D.map j.hom))
     infer_instance
   · exact ⟨e ≪≫ (eqToIso (congrArg (fun f => (Over.pullback f).obj Aᵢ)
       (c.w j.hom).symm)) ≪≫ (Over.pullbackComp (c.π.app j.left) (D.map j.hom)).app Aᵢ⟩
@@ -710,7 +710,7 @@ private lemma exists_etale_baseChange {J : Type u} [Category.{u} J] [IsCofiltere
   refine ⟨j, ?_⟩
   have := hj
   have : Etale ((Over.pullback (F.map j.hom)).obj T).hom := by
-    show Etale (pullback.snd T.hom (F.map j.hom))
+    change Etale (pullback.snd T.hom (F.map j.hom))
     infer_instance
   rw [← Over.w ((Over.pullback (F.map j.hom)).map f)]
   exact Etale.etale_comp _ _

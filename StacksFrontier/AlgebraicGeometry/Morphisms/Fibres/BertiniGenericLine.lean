@@ -103,7 +103,7 @@ theorem algebraicIndependent_lineCut {ι : Type*} {x : Fin 2 → Ω} (hx : Algeb
   have hrw : algebraMap L Ω t * x 0 - algebraMap L Ω s * x 1 =
       algebraMap S Ω a * algebraMap L Ω t + algebraMap S Ω b := by
     simp only [a, b, map_neg, map_mul]
-    show _ = x 0 * _ + -(algebraMap L Ω s * x 1)
+    change _ = x 0 * _ + -(algebraMap L Ω s * x 1)
     ring
   rw [hrw]
   exact transcendental_algebraMap_mul_add h2.2 (hx.ne_zero 0) b
@@ -471,7 +471,7 @@ theorem exists_isGeometricallyIrreducible_genericLine (k K : Type u) [Field k] [
       induction i using Fin.lastCases with
       | last =>
         simp only [p', newp, Fin.lastCases_last]
-        show _ * x 0 = ξ + x 1 * _
+        change _ * x 0 = ξ + x 1 * _
         rw [hξ, IsScalarTower.algebraMap_apply K L Ω, IsScalarTower.algebraMap_apply K L Ω s]
         ring
       | cast i =>

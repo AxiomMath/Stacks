@@ -209,7 +209,7 @@ theorem exists_isPullback_isFiniteTypeULift_formalSpectrumMap_of_factorsThroughS
   let F := Sheaf.sheafifiedYoneda (BigFppfOver.topology 𝔅 S hS)
   let _ : (BigFppfOver.topology 𝔅 S hS).Subcanonical := bigFppfOver_subcanonical 𝔅 S hS
   let _ : PreservesLimitsOfShape WalkingCospan F := by
-    show PreservesLimitsOfShape WalkingCospan
+    change PreservesLimitsOfShape WalkingCospan
       (uliftYoneda.{u + 1} (C := BigFppfOver 𝔅 S hS) ⋙
         presheafToSheaf (BigFppfOver.topology 𝔅 S hS) (Type (u + 1)))
     infer_instance
@@ -401,7 +401,7 @@ theorem isFiniteType_formalSpectrumMap_completionOver
   refine ⟨isRepresentableByAlgebraicSpacesULift_of_affine_pullback 𝔅 S hS
     (formalSpectrumMap hB g) hcpr, ?_⟩
   intro U ξ
-  show Space.IsFiniteTypeULift.{u + 1} 𝔅 S hS
+  change Space.IsFiniteTypeULift.{u + 1} 𝔅 S hS
     (pullback.fst ξ (formalSpectrumMap hB g).hom)
   refine ⟨isLocallyOfFiniteTypeULift_pullback_of_compact_pullback 𝔅 S hS
     (formalSpectrumMap hB g) hcpr U ξ, ?_⟩

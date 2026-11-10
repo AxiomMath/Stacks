@@ -139,7 +139,7 @@ lemma constantSheafUnitKernelModule_le_ker (S : Sheaf J (ModuleCat.{w} R))
   have hb' : ((constantSheafAdj J (ModuleCat.{w} R) hT).unit.app B) b = 0 := by
     rw [constantSheafAdjModule_unit_app J hT B]
     exact hb
-  show k b = 0
+  change k b = 0
   rw [ConcreteCategory.congr_hom hk b, ConcreteCategory.comp_apply, hb', map_zero]
 
 include hT in

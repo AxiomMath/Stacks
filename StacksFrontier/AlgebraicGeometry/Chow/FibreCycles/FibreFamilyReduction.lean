@@ -82,7 +82,7 @@ theorem support_fibreDifference_subset (W : (projectiveLineProduct f).IdealSheaf
     obtain ⟨h0, hinf⟩ := h
     rw [← Scheme.IdealSheafData.range_subschemeι] at h0 hinf
     refine hx ?_
-    show (cycleAssociatedToClosedSubscheme C f (zeroFiber f W).subschemeι k).1 x -
+    change (cycleAssociatedToClosedSubscheme C f (zeroFiber f W).subschemeι k).1 x -
       (cycleAssociatedToClosedSubscheme C f (infinityFiber f W).subschemeι k).1 x = 0
     rw [cycleAssociatedToClosedSubscheme_apply_eq_zero_of_notMem_range C f
         (zeroFiber f W).subschemeι k h0,

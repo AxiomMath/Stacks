@@ -53,7 +53,7 @@ theorem app_map_baseRingHom {Z W : Scheme.{u}} (g : Z ⟶ W) (π : W ⟶ S) (V :
       ((W.presheaf.map (homOfLE (le_top : V ≤ ⊤)).op).hom (baseRingHom ψ π x))) =
       (Z.presheaf.map (homOfLE (le_top : V' ≤ ⊤)).op).hom (baseRingHom ψ (g ≫ π) x) := by
   rw [map_baseRingHom, map_baseRingHom]
-  show (π.appLE ⊤ V (show V ≤ π ⁻¹ᵁ ⊤ from le_top) ≫ g.appLE V V' hV).hom (ψ x) = _
+  change (π.appLE ⊤ V (show V ≤ π ⁻¹ᵁ ⊤ from le_top) ≫ g.appLE V V' hV).hom (ψ x) = _
   rw [Scheme.Hom.appLE_comp_appLE]
 
 variable {X Y : Scheme.{u}} (a : X ⟶ S) (b : Y ⟶ S)

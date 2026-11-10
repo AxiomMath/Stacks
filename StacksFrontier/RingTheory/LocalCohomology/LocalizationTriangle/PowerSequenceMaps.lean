@@ -94,7 +94,7 @@ theorem powerSmulToSmulTop_comp_powerSmulTopLE {n p : ℕ} (h : n ≤ p) :
     (powerTorsionShortComplex f M p).g ≫ powerSmulTopLE f M h =
       ((f ^ (p - n)) • 𝟙 M) ≫ (powerTorsionShortComplex f M n).g :=
   ModuleCat.hom_ext (LinearMap.ext fun x ↦ Subtype.ext (by
-    show f ^ p • x = f ^ n • (f ^ (p - n) • x)
+    change f ^ p • x = f ^ n • (f ^ (p - n) • x)
     rw [smul_smul, ← pow_add, Nat.add_sub_cancel' h]))
 
 /-! ### The morphism of quotient sequences -/

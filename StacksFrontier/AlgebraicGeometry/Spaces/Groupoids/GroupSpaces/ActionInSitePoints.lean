@@ -108,7 +108,7 @@ on the nose: `CategoryTheory.Over.star` builds it as the first projection of the
 counit, which is the first projection only after `CategoryTheory.Limits.prod.lift_fst`. -/
 theorem overStar_obj_hom (Q : (BigFppfOver 𝒞 S hS)ᵒᵖ ⥤ Type u) :
     ((overStar 𝒞 S hS Bo).obj Q).hom = (prod.fst : Bo ⨯ Q ⟶ Bo) := by
-  show prod.lift prod.fst (𝟙 _) ≫ prod.fst = _
+  change prod.lift prod.fst (𝟙 _) ≫ prod.fst = _
   exact prod.lift_fst _ _
 
 /-! ### The lax monoidal comparison of `B ⨯ -` -/

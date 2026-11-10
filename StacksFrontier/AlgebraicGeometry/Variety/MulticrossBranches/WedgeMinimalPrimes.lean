@@ -129,9 +129,9 @@ private theorem exists_mem_wedgeProjectionKernel_not
     intro l
     simp [hfres]
   refine ⟨⟨f, hf⟩, ?_, ?_⟩
-  · show f j = 0
+  · change f j = 0
     simp [f, hij.symm]
-  · show f i ≠ 0
+  · change f i ≠ 0
     simpa [f] using ha0
 
 /-- **A wedge of `n + 1` discrete valuation rings has `n + 1` minimal primes.**  They are the

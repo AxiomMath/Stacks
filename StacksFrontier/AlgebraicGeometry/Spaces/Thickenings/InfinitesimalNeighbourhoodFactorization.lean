@@ -83,7 +83,7 @@ theorem Scheme.IdealSheafData.exists_pow_succ_eq_bot_of_isArtinianRing {T : Sche
     have := congrArg (Ideal.comap ρ) h
     rwa [Ideal.comap_map_of_bijective ρ ρ.bijective, Ideal.comap_top] at this
   refine ⟨N, Scheme.IdealSheafData.ext_of_isAffine ?_⟩
-  show I₀ ^ (N + 1) = ⊥
+  change I₀ ^ (N + 1) = ⊥
   refine (Ideal.map_eq_bot_iff_of_injective ρ.injective).mp ?_
   rw [Ideal.map_pow, eq_bot_iff]
   calc I₀.map ρ ^ (N + 1) ≤ IsLocalRing.maximalIdeal R ^ (N + 1) :=

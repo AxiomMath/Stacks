@@ -129,7 +129,7 @@ public theorem transfer_eq_prod_orbitRel_pow (D : Subgroup G)
     refine ⟨fun hx => ⟨?_, hx⟩, And.right⟩
     rw [← (Finset.mem_filter.1 hq).2, ← hx, hmk]
   · intro x hx
-    simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq] at hx ⊢
+    simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq] at hx ⊢
     rw [hmk, hx]
 
 end Stacks.Adeles.GlobalFunctionField

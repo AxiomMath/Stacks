@@ -79,7 +79,8 @@ beyond the diagram.
 ## The residue, and why no `@[stacks 0CNR]` attribute is attached here
 
 `EssentiallySmall.{u} I` is a hypothesis that the statement of Stacks 0CNR does not carry, and
-the tag is not attached to an assertion carrying a hypothesis the source does not. It is needed because the descent of morphisms out of a cofiltered limit is proved in
+the tag is not attached to an assertion carrying a hypothesis the source does not. It is needed
+because the descent of morphisms out of a cofiltered limit is proved in
 Mathlib only for an index category at the scheme universe, and freed from that only up to
 `CategoryTheory.InitiallySmall` — a genuine cofinality restriction, not an artifact (see
 `StacksFrontier/AlgebraicGeometry/LimitUniverse/AffineTransitionLimit.lean`). The same

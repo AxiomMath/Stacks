@@ -84,7 +84,7 @@ theorem holdsOnEveryEtaleChart_chartStrictTransform_ι_comp {P : MorphismPropert
   have h' : P ((BigFppfOver.toScheme B S hS).map (j ≫ blowUpChartSnd g K)) := by
     rw [Functor.map_comp]
     exact h
-  show HoldsOnEveryEtaleChart B S hS P
+  change HoldsOnEveryEtaleChart B S hS P
     ((Subfunctor.range (yoneda.map j)).ι ≫ yoneda.map (blowUpChartSnd g K))
   rw [hι, Category.assoc, ← Functor.map_comp]
   exact hcomp _ _ inferInstance (chartStrictTransform g K).2.1
@@ -125,7 +125,7 @@ theorem isFlat_and_isLocallyOfFinitePresentation_strictTransform_schemeSpaceMap
   have hti : IsIso (Zc.1.fromPreimage φ.inv) := hsqC.isIso_fst_of_isIso
   have hCeq : C.1.ι ≫ (strictTransformPullbackToBlowUp B S hS (schemeSpaceMap g) b).hom =
       Zc.1.fromPreimage φ.inv ≫ (Zc.1.ι ≫ yoneda.map (blowUpChartSnd g K)) := by
-    show (Zc.1.preimage φ.inv).ι ≫ pullback.snd (yoneda.map g) (yoneda.map (blowUpObjHom Q K)) = _
+    change (Zc.1.preimage φ.inv).ι ≫ pullback.snd (yoneda.map g) (yoneda.map (blowUpObjHom Q K)) = _
     rw [← hφs]
     simp only [← Category.assoc]
     rw [Subfunctor.fromPreimage_ι]
@@ -206,31 +206,31 @@ theorem isFlat_and_isLocallyOfFinitePresentation_strictTransform_schemeSpaceMap
           pointsMap B S hS _ (yoneda.map (blowUpChartSnd g K ≫ blowUpObjHom Q K)) x := by
         rw [← hm]
         simp only [pointsMap_comp, Function.comp_apply]
-      show pointsMap B S hS _ (yoneda.map (blowUpObjHom Q K))
+      change pointsMap B S hS _ (yoneda.map (blowUpObjHom Q K))
           (pointsMap B S hS _ (pullback.snd (yoneda.map g) (yoneda.map (blowUpObjHom Q K)))
             (pointsMap B S hS _ φ.hom x)) ∈
         subspacePointSet B S hS (yoneda.obj Q) (closedSubspaceOfIdeal Q K).1
       rw [key, subspacePointSet_closedSubspaceOfIdeal]
-      show pointsToScheme B S hS Q (pointsMap B S hS _
+      change pointsToScheme B S hS Q (pointsMap B S hS _
         (yoneda.map (blowUpChartSnd g K ≫ blowUpObjHom Q K)) x) ∈ (K.support : Set _)
       rw [pointsToScheme_pointsMap]
       exact h
     rw [Functor.map_comp] at hx2
-    show pointsToScheme B S hS _ x ∈ (O' : Set _)
+    change pointsToScheme B S hS _ x ∈ (O' : Set _)
     rw [hO'def]
     simp only [Stacks.StrictTransform.exceptionalComplement, Scheme.IdealSheafData.support_comap]
     exact hx2
   have hC : (exceptionalPreimageComplement B S hS (schemeSpaceMap g) b Z).1 ≤ C.1 := by
     intro T x hx
     refine h1 _ (h2 _ ?_)
-    show φ.hom.app T (φ.inv.app T x) ∈
+    change φ.hom.app T (φ.inv.app T x) ∈
       (exceptionalPreimageComplement B S hS (schemeSpaceMap g) b Z).1.obj T
     have hid : φ.hom.app T (φ.inv.app T x) = x :=
       congrFun (congrArg (fun α => α.app T) φ.inv_hom_id) x
     rw [hid]
     exact hx
   have hST := strictTransformSubfunctor_eq_of_isFlat B S hS (schemeSpaceMap g) b Z hb C hC hflatC
-  show IsFlat B S hS ((strictTransformSubfunctor B S hS (schemeSpaceMap g) b
+  change IsFlat B S hS ((strictTransformSubfunctor B S hS (schemeSpaceMap g) b
       (Z.1.preimage b.hom)).ι ≫
       (strictTransformPullbackToBlowUp B S hS (schemeSpaceMap g) b).hom) ∧
     IsLocallyOfFinitePresentation B S hS ((strictTransformSubfunctor B S hS (schemeSpaceMap g) b

@@ -175,7 +175,7 @@ theorem coversTop_hasAffineChartDiagramWith_of_isEtaleCovering (f' : X' ⟶ Y') 
       ⟨i, chartToSpace B S hS _ E.1 ≫ pullback.fst _ _, ?_⟩, t, ?_⟩
     · exact (Category.assoc _ _ _).trans ((whisker_eq _ pullback.condition).trans
         (Category.assoc _ _ _).symm)
-    · show pointsMap B S hS _ (E.1.1.hom ≫ (pullback.snd (gi i) g).hom) t = x
+    · change pointsMap B S hS _ (E.1.1.hom ≫ (pullback.snd (gi i) g).hom) t = x
       rw [pointsMap_comp_apply, ht, hp₂]
 
 end Cover

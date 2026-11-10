@@ -95,7 +95,7 @@ public instance isIso_presheaf_map_eqToHom {Z : Scheme.{u}} (M : Z.Modules) {U V
 public theorem bijective_app_of_isIso {Z : Scheme.{u}} {M N : Z.Modules} (φ : M ⟶ N) [IsIso φ]
     (W : Z.Opens) : Function.Bijective (φ.app W) := by
   have : IsIso (φ.app W) := by
-    show IsIso (((Scheme.Modules.toPresheaf Z).map φ).app (.op W))
+    change IsIso (((Scheme.Modules.toPresheaf Z).map φ).app (.op W))
     infer_instance
   exact (ConcreteCategory.isIso_iff_bijective _).1 this
 

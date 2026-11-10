@@ -133,7 +133,7 @@ private theorem exists_fromSpecResidueField_comp_eq (R K : Type u) [CommRing R] 
     apply congrArg Spec.map
     apply CommRingCat.hom_ext
     ext r
-    show IsLocalRing.residue ((Spec (.of R)).functionField)
+    change IsLocalRing.residue ((Spec (.of R)).functionField)
         ((fractionRingEquivSpecFunctionField R K).toRingHom (algebraMap R K r)) =
       IsLocalRing.residue ((Spec (.of R)).functionField)
         (algebraMap R ((Spec (.of R)).functionField) r)
@@ -170,7 +170,7 @@ private theorem finite_separable_residueFieldMap {Z V : Scheme.{u}} (φ : Z ⟶ 
       Algebra.IsSeparable (V.residueField (φ z)) (Z.residueField z) := by
   let := (φ.residueFieldMap z).hom.toAlgebra
   have hres : (φ.residueFieldMap z).hom.EssFiniteType := by
-    show (IsLocalRing.ResidueField.map (φ.stalkMap z).hom).EssFiniteType
+    change (IsLocalRing.ResidueField.map (φ.stalkMap z).hom).EssFiniteType
     exact RingHom.EssFiniteType.residueFieldMap (LocallyOfFiniteType.stalkMap φ z)
   have : Algebra.EssFiniteType (V.residueField (φ z)) (Z.residueField z) :=
     RingHom.essFiniteType_algebraMap.mp hres
@@ -211,7 +211,7 @@ private theorem exists_finite_separable_residueField_of_etale {K : Type u} [Fiel
       (Spec (.of K)).fromSpecResidueField (φ z) := by
     dsimp [e]
     rw [Spec.map_comp]
-    show Spec.map (Scheme.residueFieldCongr hz.symm).hom ≫
+    change Spec.map (Scheme.residueFieldCongr hz.symm).hom ≫
       Spec.map (CommRingCat.ofHom (specClosedResidueFieldEquiv K).toRingHom) = _
     exact (congrArg (fun t => Spec.map (Scheme.residueFieldCongr hz.symm).hom ≫ t)
       (SpecMap_specClosedResidueFieldEquiv K)).trans
@@ -221,7 +221,7 @@ private theorem exists_finite_separable_residueField_of_etale {K : Type u} [Fiel
   have hc : (algebraMap K (Z.residueField z)).comp e.symm.toRingHom =
       algebraMap ((Spec (.of K)).residueField (φ z)) (Z.residueField z) := by
     ext w
-    show (φ.residueFieldMap z).hom (e (e.symm w)) = _
+    change (φ.residueFieldMap z).hom (e (e.symm w)) = _
     rw [RingHom.algebraMap_toAlgebra]
     simp
   obtain ⟨hfin, hsep⟩ := finite_separable_residueFieldMap φ z
@@ -294,7 +294,7 @@ private noncomputable abbrev fracSiteHom (hS : B.Contains S) {R K : Type u} [Com
 /-- A morphism of the big fppf category over `S` is compatible with the structure morphisms. -/
 private theorem toScheme_map_comp_hom {A A' : BigFppfOver B S hS} (u : A ⟶ A') :
     (BigFppfOver.toScheme B S hS).map u ≫ B.inclusion.map A'.hom = B.inclusion.map A.hom := by
-  show B.inclusion.map u.left ≫ _ = _
+  change B.inclusion.map u.left ≫ _ = _
   rw [← B.inclusion.map_comp, Over.w]
 
 /-- A morphism of schemes compatible with the structure morphisms comes from the big fppf
@@ -315,13 +315,13 @@ private theorem ValuativeSquare.DominatingExtension.fracSiteHom_comp_specialOver
       e.genericOver ≫ fracSiteHom hS q.ring_mem q.field_mem q.base := by
   apply Over.OverMorphism.ext
   apply B.inclusion.map_injective
-  show B.inclusion.map
+  change B.inclusion.map
       (fracSiteHom hS e.square.ring_mem e.square.field_mem e.square.base).left ≫
       B.inclusion.map e.specialOver.left =
     B.inclusion.map e.genericOver.left ≫
       B.inclusion.map (fracSiteHom hS q.ring_mem q.field_mem q.base).left
   rw [e.specialOver_left, e.genericOver_left]
-  show Spec.map (CommRingCat.ofHom (algebraMap e.square.R e.square.K)) ≫
+  change Spec.map (CommRingCat.ofHom (algebraMap e.square.R e.square.K)) ≫
       Spec.map (CommRingCat.ofHom e.ringMap) =
     Spec.map (CommRingCat.ofHom e.fieldMap) ≫ Spec.map (CommRingCat.ofHom (algebraMap q.R q.K))
   rw [← Spec.map_comp, ← Spec.map_comp, ← CommRingCat.ofHom_comp, ← CommRingCat.ofHom_comp,
@@ -349,7 +349,7 @@ private theorem exists_hom_fracSiteHom_of_eq_genericPoint {R K : Type u} [CommRi
   obtain ⟨v, hv⟩ := exists_hom_of_comp_eq (A := V)
     (A' := siteObject B S hS hK (Spec.map (CommRingCat.ofHom (algebraMap R K)) ≫ base))
     (Spec.map (CommRingCat.ofHom k)) (by
-      show _ = (T.obj P).fromSpecResidueField p ≫ B.inclusion.map P.hom
+      change _ = (T.obj P).fromSpecResidueField p ≫ B.inclusion.map P.hom
       rw [← toScheme_map_comp_hom b, ← Category.assoc ((T.obj P).fromSpecResidueField p), hk']
       exact (Category.assoc _ _ _).symm)
   refine ⟨V, u, v, IsLocalRing.closedPoint _,
@@ -412,7 +412,7 @@ private theorem exists_specializes_of_lift (q : ValuativeSquare f) (e₀ : q.Dom
     change T.map (hηYrep.snd q.special) (T.map c p) =
       T.map e₀.specialOver (T.map (hηrep.snd x.map) p) at h
     rw [h, hp]
-    show B.inclusion.map e₀.specialOver.left (IsLocalRing.closedPoint e₀.square.R) = _
+    change B.inclusion.map e₀.specialOver.left (IsLocalRing.closedPoint e₀.square.R) = _
     rw [e₀.specialOver_left]
     exact (IsLocalRing.isLocalHom_iff_comap_closedPoint e₀.ringMap).mp e₀.isLocalHom
 

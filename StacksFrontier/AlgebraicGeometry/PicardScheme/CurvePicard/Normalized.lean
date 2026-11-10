@@ -166,7 +166,7 @@ theorem map_mem_normalizedSubfunctor_iff {T T' : BigFppfOver B (Spec (.of k)) hk
     (picardFunctor B hX hk f).map h.op ξ ∈
         (normalizedSubfunctor B hX hk f σ hσ hOiso).obj (op T') ↔
       ∀ t, B.inclusion.map h.left t ∈ normalizedLocus B hX hk f σ hσ hOiso hdim T ξ := by
-  show (∀ t, _ ∧ _) ↔ _
+  change (∀ t, _ ∧ _) ↔ _
   simp only [fibreRank_map]
   rfl
 
@@ -185,7 +185,7 @@ theorem map_mem_translateSubfunctor_iff (g : (picardFunctor B hX hk f).obj (op (
       ∀ t, B.inclusion.map h.left t ∈ normalizedLocus B hX hk f σ hσ hOiso hdim T
         ((translate B hX hk f g).hom.app (op T) ξ) := by
   rw [← map_mem_normalizedSubfunctor_iff B hX hk f σ hσ hOiso hdim h]
-  show (translate B hX hk f g).hom.app (op T') ((picardFunctor B hX hk f).map h.op ξ) ∈
+  change (translate B hX hk f g).hom.app (op T') ((picardFunctor B hX hk f).map h.op ξ) ∈
     (normalizedSubfunctor B hX hk f σ hσ hOiso).obj (op T') ↔ _
   rw [translate_hom_app, translate_hom_app, picardFunctor_map_add, map_restrictBase]
 

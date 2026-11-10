@@ -146,7 +146,7 @@ public theorem IsAbsolutelyIrreducible.of_smul (h : IsAbsolutelyIrreducible ρ) 
   have hg : (ρ g : Matrix (Fin 2) (Fin 2) E) =
       ((χ g)⁻¹ : Eˣ).val • (ρ' g : Matrix (Fin 2) (Fin 2) E) := by
     rw [hρ', smul_smul, ← Units.val_mul, inv_mul_cancel, Units.val_one, one_smul]
-  show (ρ g : Matrix (Fin 2) (Fin 2) E) ∈ Submodule.span E _
+  change (ρ g : Matrix (Fin 2) (Fin 2) E) ∈ Submodule.span E _
   rw [hg]
   exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨g, rfl⟩)
 
@@ -191,7 +191,7 @@ public theorem IsAbsolutelyIrreducible.eq_zero_of_forall_mulVec_eq
     intro g v hv n hn
     have hconj : g⁻¹ * n * g ∈ N := by
       simpa using Subgroup.Normal.conj_mem inferInstance n hn g⁻¹
-    show (ρ n : Matrix (Fin 2) (Fin 2) E) *ᵥ ((ρ g : Matrix (Fin 2) (Fin 2) E) *ᵥ v) =
+    change (ρ n : Matrix (Fin 2) (Fin 2) E) *ᵥ ((ρ g : Matrix (Fin 2) (Fin 2) E) *ᵥ v) =
       (ρ g : Matrix (Fin 2) (Fin 2) E) *ᵥ v
     rw [mulVec_mulVec_eq_of_mul_eq ρ (c := g) (d := g⁻¹ * n * g) (by group), hv _ hconj]
   rcases IsAbsolutelyIrreducible.eq_bot_or_eq_top h W hstab with hW | hW

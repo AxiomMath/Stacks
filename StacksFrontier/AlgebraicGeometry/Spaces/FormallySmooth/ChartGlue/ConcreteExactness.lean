@@ -56,13 +56,12 @@ lemma tmul_algebraMap {N : Type u} [AddCommGroup N] [Module A' N] (m : N) (a : A
 `A'` is `p₁ - p₂`. -/
 lemma e₂_amitsurDiff₀ (x : B' ⊗[A'] A') :
     e₂ A' B' (amitsurDiff₀ A' B' A' x) = p₁ A' B' (e₁ A' B' x) - p₂ A' B' (e₁ A' B' x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add, map_add]; abel
   | tmul b a =>
     rw [amitsurDiff₀_tmul, map_sub]
-    simp only [LinearEquiv.coe_coe, TensorProduct.congr_tmul, LinearEquiv.refl_apply,
-      TensorProduct.rid_tmul, AlgHom.coe_comp, Algebra.TensorProduct.includeLeft_apply,
+    simp only [TensorProduct.congr_tmul, LinearEquiv.refl_apply,
+      TensorProduct.rid_tmul, Algebra.TensorProduct.includeLeft_apply,
       Algebra.TensorProduct.includeRight_apply]
     rw [TensorProduct.tmul_smul, TensorProduct.smul_tmul']
 
@@ -71,18 +70,16 @@ lemma e₂_amitsurDiff₀ (x : B' ⊗[A'] A') :
 lemma e₃_amitsurDiff₁ (x : B' ⊗[A'] (B' ⊗[A'] A')) :
     e₃ A' B' (amitsurDiff₁ A' B' A' x) =
       q₂₃ A' B' (e₂ A' B' x) - q₁₃ A' B' (e₂ A' B' x) + q₁₂ A' B' (e₂ A' B' x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy =>
     rw [map_add, map_add, hx, hy, map_add, map_add, map_add, map_add]; abel
   | tmul b y =>
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | add y z hy hz =>
       rw [tmul_add, map_add, map_add, hy, hz, map_add, map_add, map_add, map_add]; abel
     | tmul c a =>
       rw [amitsurDiff₁_tmul, map_add, map_sub]
-      simp [Algebra.TensorProduct.tmul_mul_tmul, TensorProduct.smul_tmul', Algebra.smul_def,
+      simp [Algebra.smul_def,
         tmul_algebraMap A' B']
 
 /-- **Every Amitsur `1`-cocycle of `A' → B'` with values in `B' ⊗ B'` is a coboundary.** -/

@@ -197,7 +197,7 @@ theorem exists_notMem_eq_mul_jacobianMinorOn_of_smoothAt
   have hEntry (i k : Fin c) : relMatrix i k = algebraMap A T
       (MvPolynomial.aeval P'.toGenerators.val
         (pderiv (uFin k) (P'.relation (jFin i)))) := by
-    show bD.repr (d (bFin i)) (uFin k) = _
+    change bD.repr (d (bFin i)) (uFin k) = _
     rw [hbFin i]
     dsimp only [relClassT, d]
     rw [LinearMap.baseChange_tmul]

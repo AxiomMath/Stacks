@@ -60,7 +60,7 @@ lemma free_image_mem_span {C : Type v} [Category.{w} C]
   have hzero : E.map (M.freeHomEquiv.symm s) ≫ q = 0 := by
     apply (isColimitOfPreserves E (SheafOfModules.isColimitFreeCofan I)).hom_ext
     rintro ⟨i⟩
-    show E.map (SheafOfModules.ιFree i) ≫ (E.map (M.freeHomEquiv.symm s) ≫ q) = _
+    change E.map (SheafOfModules.ιFree i) ≫ (E.map (M.freeHomEquiv.symm s) ≫ q) = _
     rw [← Category.assoc, ← E.map_comp]
     have hgen : SheafOfModules.ιFree i ≫ M.freeHomEquiv.symm s =
         M.unitHomEquiv.symm (s i) := by
@@ -68,7 +68,7 @@ lemma free_image_mem_span {C : Type v} [Category.{w} C]
       exact congrArg M.unitHomEquiv.symm (congrFun (M.freeHomEquiv.apply_symm_apply s) i)
     rw [hgen]
     refine ModuleCat.hom_ext (LinearMap.ext fun r ↦ ?_)
-    show S.mkQ (@SMul.smul (R.obj.obj U) (M.val.obj U) _ r ((s i).val U)) = 0
+    change S.mkQ (@SMul.smul (R.obj.obj U) (M.val.obj U) _ r ((s i).val U)) = 0
     exact (Submodule.Quotient.mk_eq_zero S).mpr
       (S.smul_mem r (Submodule.subset_span ⟨i, rfl⟩))
   exact (Submodule.Quotient.mk_eq_zero S).mp (congrArg (fun f => f.hom a) hzero)
@@ -148,7 +148,7 @@ lemma span_germ_generators_eq_top {X : TopCat.{u}} (R : TopCat.Sheaf CommRingCat
   let s (j : gs.I) : ↑(TopCat.Presheaf.stalk F.val.presheaf x) :=
     TopCat.Presheaf.germ F.val.presheaf V x hxV ((gs.s j).val (op (Over.mk (𝟙 V))))
   let S := Submodule.span ↑(TopCat.Presheaf.stalk R.obj x) (Set.range s)
-  show S = ⊤
+  change S = ⊤
   refine top_unique fun m _ ↦ ?_
   obtain ⟨U, hUV, hxU, t, ht⟩ := TopCat.Presheaf.exists_le_germ_eq F.val.presheaf m hxV
   have := isLocallySurjective_toSheaf_of_epi gs.π

@@ -130,10 +130,10 @@ theorem exists_fibre_cocycle (hU : (⊤ : Z.Opens) = ⨆ i, U i)
       rw [Iso.inv_comp_eq, ← Category.assoc, hcomm, Category.assoc, Iso.hom_inv_id,
         Category.comp_id]
     have hh := congrArg (fun m => m.hom x0) hcomm'
-    show ((ModuleCat.extendScalars φ).map (Stacks.Cech.alternatingCechModuleDiff h U L 0)).hom
+    change ((ModuleCat.extendScalars φ).map (Stacks.Cech.alternatingCechModuleDiff h U L 0)).hom
         ((fibreIso φ h h' g hsq L U hUa 0).inv.hom x0) = 0
     refine hh.trans ?_
-    show (fibreIso φ h h' g hsq L U hUa 1).inv.hom
+    change (fibreIso φ h h' g hsq L U hUa 1).inv.hom
       ((Stacks.Cech.alternatingCechModuleDiff h' (fun i => g ⁻¹ᵁ U i)
         ((Scheme.Modules.pullback g).obj L) 0).hom x0) = 0
     rw [hdx0]

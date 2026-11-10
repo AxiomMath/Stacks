@@ -262,7 +262,7 @@ private theorem exists_finite_subalgebra_forall_isMaximal {A B : Type*} [CommRin
     rw [← hi] at hc
     calc C.val g ^ (i + j) * b = C.val g ^ i * (C.val g ^ j * b) := by ring
       _ = C.val g ^ i * C.val a := hc
-  show C.val g ^ (i + j) * b ∈ C
+  change C.val g ^ (i + j) * b ∈ C
   rw [hfinal]
   exact mul_mem (pow_mem g.2 i) a.2
 

@@ -373,12 +373,10 @@ public theorem isFiniteSupport_preimage {V V' : SmallEtale B Y.obj Y.property} (
         (Iso.refl _) (Iso.refl _) (Iso.refl _) ?_ ?_ (by simp) (by simp)
       · apply pullback.hom_ext
         · simp [Over.pullback_map_left, pullback.map, Category.assoc,
-            pullback.congrHom_inv, pullbackRightPullbackFstIso_inv_snd_fst,
-            pullback.lift_fst, pullback.lift_fst_assoc]
+            pullback.congrHom_inv, pullbackRightPullbackFstIso_inv_snd_fst]
         · simp [Over.pullback_map_left, pullback.map, Category.assoc,
-            pullback.congrHom_inv, pullbackRightPullbackFstIso_inv_snd_snd,
-            pullback.lift_snd]
-      · simp [Category.assoc, pullback.congrHom_inv, pullback.map, pullback.lift_fst]
+            pullback.congrHom_inv, pullbackRightPullbackFstIso_inv_snd_snd]
+      · simp [Category.assoc, pullback.congrHom_inv, pullback.map]
     have hk : k = B.inclusion.map ((Over.pullback f).map gOver).left := rfl
     rw [hk]
     exact houterB.map B.inclusion
@@ -563,7 +561,7 @@ public theorem finiteSupportBaseChange_sections_naturality
   apply AddMonoidHom.ext
   intro s
   apply Subtype.ext
-  show (d'.sectionsMap
+  change (d'.sectionsMap
       (supportedSectionsMap B X.obj X.property F (baseChange B f V)
         E.1 E'.1 (finiteSupport_isLocallyClosed B f V E)
         (finiteSupport_isLocallyClosed B f V E') h
@@ -686,7 +684,7 @@ public theorem finiteSupportBaseChange_support_comp
   have hcomp := toScheme_map_baseChange_comp B f g₁ g₂
   rw [d₂.support_eq, d.support_eq, d₁.support_eq]
   ext x
-  show ((SmallEtale.toScheme B X.obj X.property).map
+  change ((SmallEtale.toScheme B X.obj X.property).map
       ((smallEtaleBaseChange B f).map g₁)).base
       (((SmallEtale.toScheme B X.obj X.property).map
         ((smallEtaleBaseChange B f).map g₂)).base x) ∈ E.1 ↔ _
@@ -749,11 +747,11 @@ public theorem finiteSupportBaseChange_sections_comp
   have hopen_eq : a₂ ≫ a₁ = a :=
     eq_of_heq (finiteSupportBaseChange_arrow_comp B f F g₁ g₂ E d₁' d₂' d' rfl)
   apply heq_of_eq
-  show sm₂.comp sm₁ = sm
+  change sm₂.comp sm₁ = sm
   apply AddMonoidHom.ext
   intro x
   apply Subtype.ext
-  show (sm₂ (sm₁ x)).val = (sm x).val
+  change (sm₂ (sm₁ x)).val = (sm x).val
   rw [sap₂, sap₁, sap]
   rw [← ConcreteCategory.comp_apply, ← F.obj.map_comp]
   simp only [← op_comp]
@@ -801,11 +799,11 @@ public theorem finiteSupportBaseChange_sheaf_naturality
   apply AddMonoidHom.ext
   intro s
   apply Subtype.ext
-  show (dG.sectionsMap
+  change (dG.sectionsMap
     (supportedSectionsSheafMap B X.obj X.property φ (baseChange B f V) E.1
       (finiteSupport_isLocallyClosed B f V E) s)).val = _
   rw [dG.sectionsMap_apply, ho']
-  show G.obj.map dF.openMap.op (φ.hom.app _ s.val) =
+  change G.obj.map dF.openMap.op (φ.hom.app _ s.val) =
     φ.hom.app _ (dF.sectionsMap s).val
   rw [dF.sectionsMap_apply]
   exact (ConcreteCategory.congr_hom (φ.hom.naturality dF.openMap.op) s.val).symm
@@ -843,7 +841,7 @@ public theorem finiteSupportBaseChange_sections_id
   apply AddMonoidHom.ext
   intro x
   apply Subtype.ext
-  show (m x).val = x.val
+  change (m x).val = x.val
   rw [hm, ha']
   simp
 

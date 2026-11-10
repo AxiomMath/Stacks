@@ -90,6 +90,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site exceeds the default budget
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_UnramifiedIsomLifting :
@@ -134,7 +135,7 @@ theorem eq_of_isOpenImmersion_diagonal_of_forall_fieldValuedPoint
       let q : yoneda.obj p.siteObject ⟶ pullback τ (pullback.diagonal h) :=
         pullback.lift y (y ≫ σ₁) hy
       refine ⟨Quot.mk _ { p with value := yonedaEquiv q }, ?_⟩
-      show Quot.mk _ (FieldValuedPoint.map B S hS _ _ _) = Quot.mk _ p
+      change Quot.mk _ (FieldValuedPoint.map B S hS _ _ _) = Quot.mk _ p
       congr 1
       have hv : (pullback.fst τ (pullback.diagonal h)).app _ (yonedaEquiv q) = p.value := by
         rw [← yonedaEquiv_comp, pullback.lift_fst]
@@ -193,7 +194,7 @@ theorem eq_of_isUnramified_of_forall_fieldObject (T : BigFppfOver B S hS)
   have heq : σ₁ = σ₂ := by
     refine Space.eq_of_isOpenImmersion_diagonal_of_forall_fieldValuedPoint B T.left.1 T.left.2
       _ hΔ σ₁ σ₂ hσ fun p => ?_
-    show F.map p.value.op e₁ = F.map p.value.op e₂
+    change F.map p.value.op e₁ = F.map p.value.op e₂
     exact hpt _ ⟨p.carrier, p.field, ⟨Iso.refl _⟩⟩ p.value
   simpa [σ₁, σ₂] using congrArg yonedaEquiv heq
 
@@ -446,7 +447,7 @@ theorem eq_id_of_map_eq_id_of_isDM (f : 𝒳 ⟶ 𝒴) (hdm : IsDM B S hS f)
       ha := IsHomLift.id rfl
       hb := hav
       w := by
-        show F.map (𝟙 x) ≫ 𝟙 _ = 𝟙 _ ≫ F.map a
+        change F.map (𝟙 x) ≫ 𝟙 _ = 𝟙 _ ≫ F.map a
         rw [ha]
         simp [F] }
   have hφ : (twoFibreProduct B S hS 𝒴.val 𝒳.val 𝒳.val f.hom.hom f.hom.hom).val.p.IsHomLift
@@ -467,9 +468,9 @@ theorem eq_id_of_map_eq_id_of_isDM (f : 𝒳 ⟶ 𝒴) (hdm : IsDM B S hS f)
         eq_id_of_comp_eq_comp_of_isFieldObject B S hS f hauto hV (t := t) m₁ a ha a' ha'
       have _ : pX.IsHomLift (𝟙 V) δ := inferInstance
       refine ⟨δ, inferInstance, TwoFibreProductOver.Hom.ext' ?_ ?_⟩
-      · show δ ≫ m₂ = m₁ ≫ 𝟙 x
+      · change δ ≫ m₂ = m₁ ≫ 𝟙 x
         rw [hδ, Category.comp_id]
-      · show δ ≫ m₂ = m₁ ≫ a
+      · change δ ≫ m₂ = m₁ ≫ a
         rw [hδ, ← ha', ha'id, Category.id_comp])
   have h₁ : γ = 𝟙 x := congrArg TwoFibreProductOver.Hom.a hγ
   have h₂ : γ = a := congrArg TwoFibreProductOver.Hom.b hγ
@@ -563,7 +564,7 @@ theorem exists_map_eq_of_isUnramified_of_isRepresentable (f : 𝒳 ⟶ 𝒴)
   have _ : pX.IsHomLift (𝟙 V) δ := inferInstance
   refine ⟨(α' : Aut s₁').asIso.hom ≫ δ, ?_, ?_⟩
   · simpa using IsHomLift.comp pX (𝟙 V) (𝟙 V) (α' : Aut s₁').asIso.hom δ
-  · show F.map ((α' : Aut s₁').asIso.hom ≫ δ) ≫ F.map m₂ = F.map m₁ ≫ β
+  · change F.map ((α' : Aut s₁').asIso.hom ≫ δ) ≫ F.map m₂ = F.map m₁ ≫ β
     rw [F.map_comp, Category.assoc, ← F.map_comp, hδ, hFα, hβ']
 
 end AlgebraicStacks

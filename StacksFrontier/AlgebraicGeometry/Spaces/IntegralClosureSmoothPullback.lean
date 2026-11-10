@@ -231,8 +231,7 @@ theorem injective_and_range_eq_integralClosure_of_tensor {R T A A' C C' : Type*}
   have hcomp : ∀ z : TensorProduct R T A',
       j (eA' z) = eA (LinearMap.lTensor T i.toLinearMap z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
     | tmul t a' =>
       rw [LinearMap.lTensor_tmul, AlgHom.toLinearMap_apply, tmul_eq_smul_one_tmul t,

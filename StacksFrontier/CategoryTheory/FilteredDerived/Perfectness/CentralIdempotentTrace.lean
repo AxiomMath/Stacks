@@ -61,7 +61,7 @@ lemma centralMulQuotient_mk (x : S) :
 lemma nsmul_centralMulQuotient_eq_zero {N : ℕ} (hN : (N : S) * e = 0)
     (y : AdditiveCommutatorQuotient S) : N • centralMulQuotient e hc y = 0 := by
   obtain ⟨x, rfl⟩ := QuotientAddGroup.mk_surjective y
-  show N • additiveCommutatorQuotientMk S (e * x) = 0
+  change N • additiveCommutatorQuotientMk S (e * x) = 0
   rw [← map_nsmul, nsmul_eq_mul, ← mul_assoc, hN, zero_mul, map_zero]
 
 /-- **`μ_e` fixes the trace of an endomorphism of a finite projective module on which `e` acts as
@@ -77,7 +77,7 @@ lemma centralMulQuotient_projectiveModuleTrace {P : Type v} [AddCommGroup P] [Mo
     centralMulQuotient_mk, Finset.mul_sum]
   congr 1
   refine Finset.sum_congr rfl fun j _ => ?_
-  show e * i (f (p _)) j = i (f (p _)) j
+  change e * i (f (p _)) j = i (f (p _)) j
   conv_rhs => rw [← hP (f (p _)), map_smul]
   rfl
 

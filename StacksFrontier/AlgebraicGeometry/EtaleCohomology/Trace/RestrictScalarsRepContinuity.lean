@@ -73,7 +73,7 @@ public theorem continuous_restrictScalarsRep_kroneckerRepresentation {r s : ℕ}
   have hA := Units.continuous_val.comp hρ
   have hB := Units.continuous_val.comp hρ'
   simp only [kroneckerRepresentation_val]
-  show Continuous fun g => restrictScalarsMatrix b
+  change Continuous fun g => restrictScalarsMatrix b
     (kroneckerMonoidHom ((ρ g : GL (Fin r) E).val, (ρ' g : GL (Fin s) E).val)) p q
   simp only [restrictScalarsMatrix_kroneckerMonoidHom_apply]
   refine continuous_finsetSum _ fun t _ => ?_

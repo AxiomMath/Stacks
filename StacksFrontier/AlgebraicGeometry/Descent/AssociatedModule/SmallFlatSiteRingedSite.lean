@@ -113,7 +113,7 @@ instance final_opensToSmall : (opensToSmall B S hS κ).Final :=
 /-- The objects of the small `τ`-site are closed under isomorphism in the big site. -/
 instance isClosedUnderIsomorphisms :
     (BigFppfOver.IsSmallFlatSiteObj B S hS κ).IsClosedUnderIsomorphisms where
-  of_iso {X Y} e hX := BigFppfOver.isSmallFlatSiteObj_of_smallFlatSiteMorphisms B S hS κ e.inv
+  of_iso e hX := BigFppfOver.isSmallFlatSiteObj_of_smallFlatSiteMorphisms B S hS κ e.inv
     (κ.morphismProperty_of_isOpenImmersion _) hX
 
 /-- **The objects of the small `τ`-site are closed under binary products in the big site**: the

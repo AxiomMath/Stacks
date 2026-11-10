@@ -216,7 +216,7 @@ private theorem isClosedImmersion_of_genericDiscreteValuativeCriterion
   have hlrange : Set.range l.base ⊆ Set.range ι₀.base := by
     rintro _ ⟨x, rfl⟩
     rw [hι₀, Scheme.Opens.range_ι]
-    show p (l.base x) ∈ Wo
+    change p (l.base x) ∈ Wo
     have hkey : l ≫ p = m ≫ (ProjectiveSpace n Wo.toScheme ↘ Wo.toScheme) ≫ Wo.ι := by
       rw [hl₂, hi₂, hprW]
     have hpt := congrArg (fun k : Spec (.of B) ⟶ W => k.base x) hkey

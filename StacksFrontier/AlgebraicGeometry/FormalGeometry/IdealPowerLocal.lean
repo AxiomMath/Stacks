@@ -219,7 +219,7 @@ public theorem localIdealPowerSpan_eq (I : X.IdealSheafData) (k : ℕ) (M : X.Mo
       (idealPowerMultiple_le_iff I k M (idealPowerMultiple I k M)).mp le_rfl V
     exact ⟨V.1, homOfLE h, hgen hspan, hxV⟩
   · intro s hs
-    show ∀ x ∈ V.1, MemIdealPowerSpanNear I k M (W := V.1) s x
+    change ∀ x ∈ V.1, MemIdealPowerSpanNear I k M (W := V.1) s x
     intro x hx
     obtain ⟨_, ⟨V', hV', rfl⟩, hxV', hV'sub⟩ :=
       X.isBasis_affineOpens.exists_subset_of_mem_open hx V.1.2

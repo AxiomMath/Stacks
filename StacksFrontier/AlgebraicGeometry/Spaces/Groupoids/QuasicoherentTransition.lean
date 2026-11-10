@@ -208,7 +208,7 @@ theorem arrowInverse_comp_comp (G : GroupoidInAlgebraicSpaces 𝒞 S hS A) :
     rw [Category.id_comp, groupoidInverse_target]
   have h := groupoidCompose_inverseLeft G (𝟙 G.arrows.obj)
   rw [groupoidCompose_congr G _ w rfl (Category.id_comp _)] at h
-  show pullback.lift (𝟙 G.arrows.obj) (groupoidInverse G) w ≫ G.comp.hom = _
+  change pullback.lift (𝟙 G.arrows.obj) (groupoidInverse G) w ≫ G.comp.hom = _
   refine h.trans ?_
   simp only [identityAfterTarget, Category.id_comp,
     ObjectProperty.FullSubcategory.comp_hom]
@@ -221,7 +221,7 @@ theorem inverseArrowPair_comp_comp (G : GroupoidInAlgebraicSpaces 𝒞 S hS A) :
     rw [Category.id_comp, groupoidInverse_source]
   have h := groupoidCompose_inverseRight G (𝟙 G.arrows.obj)
   rw [groupoidCompose_congr G _ w (Category.id_comp _) rfl] at h
-  show pullback.lift (groupoidInverse G) (𝟙 G.arrows.obj) w ≫ G.comp.hom = _
+  change pullback.lift (groupoidInverse G) (𝟙 G.arrows.obj) w ≫ G.comp.hom = _
   refine h.trans ?_
   simp only [identityAfterSource, Category.id_comp,
     ObjectProperty.FullSubcategory.comp_hom]

@@ -169,8 +169,7 @@ ringed-space spelling.  The K-flat resolutions are an instance,
 `R : Sheaf J CommRingCat`; but `Z.sheaf` is a `TopCat.Sheaf`, which instance search does not
 unfold to that type, so it does not take `Z.sheaf` for `R`, and
 `Stacks.DerivedTensor.RingedSite.kFlatQ_isLocalization` is applied by name here. -/
-@[instance_reducible]
-def kFlatQOn_isLocalization :
+theorem kFlatQOn_isLocalization :
     (CochainComplex.KFlatBifunctor.kFlatQ (tensorOn Z)).IsLocalization
       (CochainComplex.KFlatBifunctor.kFlatQuasiIso (tensorOn Z)) :=
   Stacks.DerivedTensor.RingedSite.kFlatQ_isLocalization Z.sheaf
@@ -178,8 +177,7 @@ def kFlatQOn_isLocalization :
 /-- The mirror of `kFlatQOn_isLocalization` for the *left* K-flat objects, which is the
 localization `CochainComplex.KFlatBifunctor.derivedBifunctor` descends along in its first
 variable. -/
-@[instance_reducible]
-def kFlatQLeftOn_isLocalization :
+theorem kFlatQLeftOn_isLocalization :
     (CochainComplex.KFlatBifunctor.kFlatQLeft (tensorOn Z)).IsLocalization
       (CochainComplex.KFlatBifunctor.kFlatQuasiIsoLeft (tensorOn Z)) :=
   Stacks.DerivedTensor.RingedSite.kFlatQLeft_isLocalization Z.sheaf
@@ -794,10 +792,11 @@ help.  Instead:
 So the cost is that `rfl` at this file's concrete instantiation, whatever is or is not applied
 to it, and the cure is to state every identification as an all-variables lemma and apply it by
 name, the standing device of this chapter; a split of the cancellation that still asks for the
-crossing by `rfl` does not reach it.  The second leg's mirror crossing is handled the same way. The total complexes' existence instance
+crossing by `rfl` does not reach it.  The second leg's mirror crossing is handled the same way. The
+total complexes' existence instance
 `AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.hasMapBifunctor_sheafTensor` is stated with
-`HomologicalComplex.HasMapBifunctorReg`, so `thetaFirstLegTwo_app` cannot cancel it in
-place, and `chainFourLiftCompEq` cancels it together with the first leg's.
+`HomologicalComplex.HasMapBifunctorReg`, so `thetaFirstLegTwo_app` cannot cancel it in place, and
+`chainFourLiftCompEq` cancels it together with the first leg's.
 
 Four further formulations confirm that no reformulation of the *proof* along the direct route
 closes this:

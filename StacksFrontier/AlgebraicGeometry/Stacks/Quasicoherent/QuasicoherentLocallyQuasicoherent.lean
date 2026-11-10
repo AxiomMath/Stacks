@@ -76,8 +76,7 @@ theorem isIso_restrictionBaseChange_of_isQuasicoherentOnSite
       (R := (structureSheaf B S hS p hp .fppf).obj) M.val f.op)
   let F2 := LinearMap.liftBaseChange (objRing B S hS p y) (restrictionLinear M f)
   have h (z) : F1 z = F2 z := by
-    induction z using TensorProduct.induction_on with
-    | zero => exact (map_zero F1).trans (map_zero F2).symm
+    induction z using TensorProduct.inductionOn with
     | tmul a s => rfl
     | add z z' hz hz' =>
       exact (map_add F1 z z').trans ((congrArg₂ (· + ·) hz hz').trans (map_add F2 z z').symm)

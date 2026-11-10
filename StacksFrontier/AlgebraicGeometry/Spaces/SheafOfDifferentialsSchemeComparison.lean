@@ -73,8 +73,8 @@ is *not* a restatement of the statement here and does not follow from it.
   `AlgebraicGeometry.Space.sheafOfDifferentialsSchemeSiteComparison`
   (`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsSmoothFiniteLocallyFree.lean:199`)
   from the statement here together with Stacks 05VG for that clause at `τ = étale`,
-  `AlgebraicGeometry.SmallEtale.isFiniteLocallyFreeOnSite_associatedModule`
-  (`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleFiniteLocallyFree.lean:277`),
+  `AlgebraicGeometry.SmallEtale.isFiniteLocallyFreeOnSite_associatedModule` (
+  `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleFiniteLocallyFree.lean:277`),
   which holds for every finite locally free module and not merely for the free ones, and
   Stacks 03DM at the comparison equivalence of Stacks 03DX (2),
   `AlgebraicGeometry.Space.isFiniteLocallyFreeOnSite_representedSmallEtaleModule_iff`.

@@ -195,10 +195,10 @@ theorem unitalHom_homogeneousProd (φ : _root_.SheafOfModules.GradedAlgebra.Unit
       wedgeProd D U n fun i => (φ.app 1).val.app U (z i) := by
   induction n with
   | zero =>
-      show (φ.app 0).val.app U (B.one.eval U) = D.one.eval U
+      change (φ.app 0).val.app U (B.one.eval U) = D.one.eval U
       exact φ.map_one U
   | succ n ih =>
-      show (φ.app ((n : ℤ) + 1)).val.app U
+      change (φ.app ((n : ℤ) + 1)).val.app U
             ((B.mul (n : ℤ) 1).app U
               (wedgeProd B U n fun i => z i.castSucc)
               (z (Fin.last n))) =

@@ -554,7 +554,7 @@ lemma kernelSubmodule_le_comap {L₁ L₂ C₁ C₂ : X.Modules} (g₁ : L₁ �
   refine SheafOfModules.Submodule.le_iff.mpr
     (PresheafOfModules.Submodule.le_iff.mpr fun U s hs => ?_)
   rw [Stacks.Algebraization.kernelSubmodule_toSubmodule_obj, LinearMap.mem_ker] at hs
-  show ((t.val.app U).hom s) ∈ (Stacks.Algebraization.kernelSubmodule g₂).toSubmodule.obj U
+  change ((t.val.app U).hom s) ∈ (Stacks.Algebraization.kernelSubmodule g₂).toSubmodule.obj U
   rw [Stacks.Algebraization.kernelSubmodule_toSubmodule_obj, LinearMap.mem_ker]
   have h1 : ((t ≫ g₂).val.app U).hom s = (g₂.val.app U).hom ((t.val.app U).hom s) := rfl
   have h2 : ((g₁ ≫ t').val.app U).hom s = (t'.val.app U).hom ((g₁.val.app U).hom s) := rfl
@@ -577,7 +577,7 @@ lemma imageSubmodule_le_comap {A₁ A₂ L₁ L₂ : X.Modules} (a₁ : A₁ ⟶
     (PresheafOfModules.Submodule.le_iff.mpr fun U s hs => ?_)
   rw [imageSubmodule, Stacks.Algebraization.kernelSubmodule_toSubmodule_obj,
     LinearMap.mem_ker] at hs
-  show ((t.val.app U).hom s) ∈ (imageSubmodule a₂).toSubmodule.obj U
+  change ((t.val.app U).hom s) ∈ (imageSubmodule a₂).toSubmodule.obj U
   rw [imageSubmodule, Stacks.Algebraization.kernelSubmodule_toSubmodule_obj, LinearMap.mem_ker]
   have h1 : ((t ≫ cokernel.π (C := X.Modules) a₂).val.app U).hom s =
       ((cokernel.π (C := X.Modules) a₂).val.app U).hom ((t.val.app U).hom s) := rfl

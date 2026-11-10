@@ -93,7 +93,7 @@ include hS in
 of finite type and quasi-compact, over the base. -/
 theorem contains_projectiveSpaceOver : B.Contains (projectiveSpaceOver n S) := by
   let : _root_.AlgebraicGeometry.IsProper (projectiveSpaceOver n S ↘ S) := inferInstance
-  show (projectiveSpaceOver n S).size < B.cutoff
+  change (projectiveSpaceOver n S).size < B.cutoff
   exact Scheme.size_lt_of_locallyOfFiniteType_of_quasiCompact (projectiveSpaceOver n S ↘ S) hS
 
 /-- **Projective space over the base, as an object of the big fppf site over the base.** -/

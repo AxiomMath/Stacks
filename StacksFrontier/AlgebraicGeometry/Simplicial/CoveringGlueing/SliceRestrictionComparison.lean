@@ -24,7 +24,7 @@ def iteratedSliceForwardOverMapIso (V : Over X₀) {U : X.C} (a : V.left ⟶ U) 
     Over.forget V ≅ (Over.mk V.hom).iteratedSliceForward ⋙ Over.map a ⋙ Over.map f :=
   NatIso.ofComponents (fun W => Over.isoMk (Iso.refl _) (by
       simp only [Functor.comp_obj, Over.forget_obj, Over.map_obj_hom, Iso.refl_hom,
-        Category.id_comp, Category.assoc, w]
+        Category.assoc, w]
       exact (Category.id_comp _).trans (Over.w W.hom))) fun {W W'} k => by
     refine Over.OverMorphism.ext ?_
     exact (Category.comp_id _).trans (Category.id_comp _).symm
@@ -57,7 +57,8 @@ theorem sliceRestrictionOverMapModulesIso_hom_app_fixesSections (V : Over X₀) 
     (h₃ := inferInstanceAs ((Over.mk V.hom).iteratedSliceForward.IsContinuous
       ((X.J.over X₀).over (Over.mk V.hom)) (X.J.over (Over.mk V.hom).left)))
     (hG := inferInstanceAs ((Over.forget V).IsContinuous ((X.J.over X₀).over V) (X.J.over X₀)))
-    _ N (fun W x => Stacks.SheafOfModules.heq_presheaf_map_of_left_eq_id N.val.presheaf _ rfl x)
+    _ N (fun W x => Stacks.SheafOfModules.heq_presheaf_map_of_left_eq_id N.val.presheaf
+      ((X.iteratedSliceForwardOverMapIso V a f w).hom.app W.unop) rfl x)
 
 /-- The component at `N` of the inverse map of `sliceRestrictionOverMapModulesIso` fixes
 sections. -/

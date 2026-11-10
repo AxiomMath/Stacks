@@ -234,7 +234,7 @@ public theorem isIso_homologyMap_of_left_fac {C : Type u₁} [Category.{v₁} C]
     have := hf
     infer_instance
   refine (NatIso.isIso_map_iff (DerivedCategory.homologyFunctorFactors C j) γ).mp ?_
-  show IsIso ((DerivedCategory.homologyFunctor C j).map (DerivedCategory.Q.map γ))
+  change IsIso ((DerivedCategory.homologyFunctor C j).map (DerivedCategory.Q.map γ))
   rw [homologyFunctor_map_Q_map_eq_of_left_fac α γ f hf hfac j]
   infer_instance
 
@@ -251,7 +251,7 @@ public theorem epi_homologyMap_of_left_fac {C : Type u₁} [Category.{v₁} C] [
     have := hf
     infer_instance
   refine (NatIso.epi_map_iff (DerivedCategory.homologyFunctorFactors C j) γ).mp ?_
-  show Epi ((DerivedCategory.homologyFunctor C j).map (DerivedCategory.Q.map γ))
+  change Epi ((DerivedCategory.homologyFunctor C j).map (DerivedCategory.Q.map γ))
   rw [homologyFunctor_map_Q_map_eq_of_left_fac α γ f hf hfac j]
   have : Epi ((DerivedCategory.homologyFunctor C j).map (DerivedCategory.Q.map f)) :=
     IsIso.epi_of_iso _

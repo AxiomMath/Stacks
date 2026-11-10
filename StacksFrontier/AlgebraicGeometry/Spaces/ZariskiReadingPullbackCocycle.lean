@@ -294,7 +294,7 @@ theorem zariskiDirectImageNatTrans_whisker_comp_of_eq :
             ((BigFppfOver.toScheme B S hS).map τ₂) ((BigFppfOver.toScheme B S hS).map τ)
             (toScheme_map_comp_of_eq τ₁ τ₂ τ hτ)).hom := by
   subst hτ
-  show Functor.whiskerRight (pushforwardModulesCompAtOfEq (representedSpaceMap B S hS τ₁)
+  change Functor.whiskerRight (pushforwardModulesCompAtOfEq (representedSpaceMap B S hS τ₁)
         (representedSpaceMap B S hS τ₂)
         (representedSpaceMap B S hS τ₁ ≫ representedSpaceMap B S hS τ₂) rfl).hom
         (zariskiReadingFunctor T) ≫ zariskiDirectImageNatTrans (τ₁ ≫ τ₂) =

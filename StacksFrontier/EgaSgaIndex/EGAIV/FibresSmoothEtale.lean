@@ -464,8 +464,9 @@ add_to_ega "IV 17.1.4" "special case" RingHom.FormallyEtale.of_comp
 add_to_ega "IV 17.1.5" "special case" Algebra.FormallyEtale.comp
 add_to_ega "IV 17.1.5" "special case" Algebra.FormallyEtale.of_restrictScalars
 add_to_ega "IV 17.1.5" "special case" AlgebraicGeometry.Etale.instHasOfPostcompPropertyScheme
+open AlgebraicGeometry.Etale in
 add_to_ega "IV 17.1.5" "special case"
-  AlgebraicGeometry.Etale.instHasOfPostcompPropertySchemeMinMorphismPropertyLocallyOfFiniteTypeFormallyUnramified
+  instHasOfPostcompPropertySchemeMinMorphismPropertyLocallyOfFiniteTypeFormallyUnramified
 add_to_ega "IV 17.1.5" "special case" AlgebraicGeometry.Etale.of_comp
 add_to_ega "IV 17.1.5" "partial"
   AlgebraicGeometry.FormallyUnramified.instIsStableUnderCompositionScheme
@@ -520,12 +521,14 @@ add_to_ega "IV 17.3.3" "(iii), special case"
   RingHom.isStandardSmoothOfRelativeDimension_isStableUnderBaseChange
 add_to_ega "IV 17.3.3" "(iii), special case" RingHom.isStandardSmooth_isStableUnderBaseChange
 add_to_ega "IV 17.3.3" "(ii), special case" RingHom.isStandardSmooth_stableUnderComposition
+open AlgebraicGeometry.Etale in
 add_to_ega "IV 17.3.4" "more general"
-  AlgebraicGeometry.Etale.instHasOfPostcompPropertySchemeMinMorphismPropertyLocallyOfFiniteTypeFormallyUnramified
+  instHasOfPostcompPropertySchemeMinMorphismPropertyLocallyOfFiniteTypeFormallyUnramified
 add_to_ega "IV 17.3.4" "more general" AlgebraicGeometry.Etale.of_comp
 add_to_ega "IV 17.3.5" "étale clause" AlgebraicGeometry.Etale.instHasOfPostcompPropertyScheme
+open AlgebraicGeometry.Etale in
 add_to_ega "IV 17.3.5" "étale clause"
-  AlgebraicGeometry.Etale.instHasOfPostcompPropertySchemeMinMorphismPropertyLocallyOfFiniteTypeFormallyUnramified
+  instHasOfPostcompPropertySchemeMinMorphismPropertyLocallyOfFiniteTypeFormallyUnramified
 add_to_ega "IV 17.3.5" "étale clause" AlgebraicGeometry.Etale.of_comp
 add_to_ega "IV 17.3.5" "special case" RingHom.Etale.stableUnderComposition
 add_to_ega "IV 17.4.1" "partial" Algebra.FormallyUnramified.bijective_of_isAlgClosed_of_isLocalRing
@@ -547,8 +550,11 @@ add_to_ega "IV 17.4.1" "partial" Algebra.instIsSeparableResidueFieldOfFormallyUn
 add_to_ega "IV 17.4.1" "partial" Algebra.instIsSeparableResidueFieldOfIsUnramifiedAt
 add_to_ega "IV 17.4.1" "e ⇔ d'', affine case" Algebra.isUnramifiedAt_iff_map_eq
 add_to_ega "IV 17.4.1" "c ⇔ e, affine case" Algebra.unramifiedLocus_eq_compl_support
-add_to_ega "IV 17.4.1" "partial"
-  AlgebraicGeometry.FormallyUnramified.instIsSeparableCarrierResidueFieldCoeContinuousMapCarrierCarrierCommRingCatHomTopCatBaseOfLocallyOfFiniteType
+-- The instance's Mathlib name is longer than a line, so its identifier is assembled here.
+run_cmd Lean.Elab.Command.elabCommand <| ← `(add_to_ega "IV 17.4.1" "partial"
+  $(Lean.mkIdent <| `AlgebraicGeometry.FormallyUnramified ++ .mkSimple
+    ("instIsSeparableCarrierResidueFieldCoeContinuousMapCarrierCarrierCommRingCatHomTopCat" ++
+      "BaseOfLocallyOfFiniteType")))
 add_to_ega "IV 17.4.1" "b ⇒ a, global case"
   AlgebraicGeometry.FormallyUnramified.instOfIsOpenImmersionDiagonalScheme
 add_to_ega "IV 17.4.1" "a ⇒ b" AlgebraicGeometry.FormallyUnramified.isOpenImmersion_diagonal
@@ -637,8 +643,9 @@ add_to_ega "IV 17.7.1" "Clause (i), special case"
   Algebra.Unramified.of_unramified_tensorProduct_of_faithfullyFlat
 add_to_ega "IV 17.7.1" "(ii), special case"
   AlgebraicGeometry.instDescendsAlongSchemeEtaleMinMorphismPropertySurjectiveFlatQuasiCompact
+open AlgebraicGeometry in
 add_to_ega "IV 17.7.1" "Clause (i), special case"
-  AlgebraicGeometry.instDescendsAlongSchemeFormallyUnramifiedMinMorphismPropertySurjectiveFlatQuasiCompact
+  instDescendsAlongSchemeFormallyUnramifiedMinMorphismPropertySurjectiveFlatQuasiCompact
 add_to_ega "IV 17.7.1" "(ii), special case" RingHom.Smooth.codescendsAlong_faithfullyFlat
 add_to_ega "IV 17.7.2" Algebra.unramifiedLocus
 add_to_ega "IV 17.7.2" AlgebraicGeometry.Scheme.Hom.smoothLocus
@@ -653,8 +660,9 @@ add_to_ega "IV 17.7.3" "partial"
   AlgebraicGeometry.FormallyUnramified.instIsStableUnderBaseChangeScheme
 add_to_ega "IV 17.7.3" "(ii)"
   AlgebraicGeometry.instDescendsAlongSchemeEtaleMinMorphismPropertySurjectiveFlatQuasiCompact
+open AlgebraicGeometry in
 add_to_ega "IV 17.7.3" "(i), (ii)"
-  AlgebraicGeometry.instDescendsAlongSchemeFormallyUnramifiedMinMorphismPropertySurjectiveFlatQuasiCompact
+  instDescendsAlongSchemeFormallyUnramifiedMinMorphismPropertySurjectiveFlatQuasiCompact
 add_to_ega "IV 17.7.3" "(ii)"
   AlgebraicGeometry.instDescendsAlongSchemeSmoothMinMorphismPropertySurjectiveFlatQuasiCompact
 add_to_ega "IV 17.7.3" "(ii)" RingHom.Etale.codescendsAlong_faithfullyFlat

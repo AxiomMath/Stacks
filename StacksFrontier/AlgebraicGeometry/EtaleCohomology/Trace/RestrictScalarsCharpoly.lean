@@ -65,7 +65,7 @@ public theorem isRoot_charpoly_restrictScalars_map_iff [FiniteDimensional F E] (
     refine Polynomial.eq_of_infinite_eval_eq _ _ ?_
     refine Set.Infinite.mono (s := Set.range ι) ?_ (Set.infinite_range_of_injective ι.injective)
     rintro _ ⟨t, rfl⟩
-    simp only [Set.mem_setOf_eq, eval_map_apply, eval_prod, eval_charpoly_restrictScalars]
+    simp only [Set.mem_ofPred_eq, eval_map_apply, eval_prod, eval_charpoly_restrictScalars]
     rw [show ι (Algebra.norm F (f.charpoly.eval (algebraMap F E t))) =
         algebraMap F ℂ (Algebra.norm F (f.charpoly.eval (algebraMap F E t))) from rfl,
       Algebra.norm_eq_prod_embeddings]

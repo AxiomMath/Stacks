@@ -113,7 +113,7 @@ lemma rationalMapGenericData_point {k : Type u} [Field k]
     C.genericPointMapForRationalMaps.map_point q g hrep hbase (fun _ ↦ hmem) i
   have hopen : (⟨genericPoint X.toScheme, hmem⟩ : g.domain) = genericPoint g.domain :=
     Subtype.ext (genericPoint_eq_of_isOpenImmersion g.domain.ι).symm
-  show (C.genericPointMapForRationalMaps q i).point = genericPoint Y.toScheme
+  change (C.genericPointMapForRationalMaps q i).point = genericPoint Y.toScheme
   rw [hpoint, hopen]
   exact map_genericPoint_of_isDominant g.hom
 

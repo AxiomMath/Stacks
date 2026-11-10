@@ -98,7 +98,7 @@ theorem isScalarTower_stalkMap_comp (x : X) :
   let : Algebra (ToType (S.presheaf.stalk (q.base (f.base x))))
       (ToType (X.presheaf.stalk x)) := stalkMapAlgebra (f ≫ q) x
   refine IsScalarTower.of_algebraMap_eq' ?_
-  show ((f ≫ q).stalkMap x).hom = (f.stalkMap x).hom.comp (q.stalkMap (f.base x)).hom
+  change ((f ≫ q).stalkMap x).hom = (f.stalkMap x).hom.comp (q.stalkMap (f.base x)).hom
   rw [Scheme.Hom.stalkMap_comp]
   rfl
 
@@ -258,7 +258,7 @@ theorem tangentSpaceEquivCotangentSpace_tangentMap (h : f ≫ q = p) (x : X)
   | add z w _ _ hz hw => rw [map_add, map_add, map_add, map_add, hz, hw]
   | smul c z _ hz =>
     rw [map_smul, LinearMap.map_smulₛₗ, map_smul, hz]
-    show Y.residue (f.base x) c * _ =
+    change Y.residue (f.base x) c * _ =
       (inv (f.residueFieldMap x)).hom (X.residue x ((f.stalkMap x).hom c) * _)
     rw [map_mul, inv_residueFieldMap_residue]
 
@@ -307,8 +307,7 @@ noncomputable def differentialFiberMap (h : f ≫ q = p) (x : X) :
         TensorProduct.smul_tmul, LinearMap.map_smulₛₗ])
   map_add' := map_add _
   map_smul' := fun c t ↦ by
-    induction t using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero, smul_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul c' ω =>
       rw [TensorProduct.smul_tmul']
       change (f.residueFieldMap x).hom (c • c') ⊗ₜ relativeDifferentialStalkMap f p q h x ω =
@@ -407,8 +406,7 @@ theorem tangentSpaceEquivDualDifferentialFiber_tangentMap (h : f ≫ q = p) (x :
     tangentSpaceEquivDualDifferentialFiber q (f.base x) (tangentMap f p q h x θ) =
       differentialFiberMapDual f p q h x (tangentSpaceEquivDualDifferentialFiber p x θ) := by
   refine LinearMap.ext fun t ↦ ?_
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul c ω =>
     rw [differentialFiberMapDual_apply, differentialFiberMap_tmul,
       tangentSpaceEquivDualDifferentialFiber_tmul, tangentSpaceEquivDualDifferentialFiber_tmul,

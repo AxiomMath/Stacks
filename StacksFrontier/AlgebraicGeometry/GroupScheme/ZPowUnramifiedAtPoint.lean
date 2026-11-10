@@ -519,14 +519,14 @@ theorem unramifiedAt_zpow_id_left_of_isUnit {S : Scheme.{u}} (G : Over S) [GrpOb
       rw [GrpObj.comp_zpow, Category.comp_id]
     rw [e1, e2]
     apply Over.OverMorphism.ext
-    show ζ.val ≫ F = (dualNumberOver.rt _).left ≫ (TangentGroupObj.pt G x).left ≫ F
+    change ζ.val ≫ F = (dualNumberOver.rt _).left ≫ (TangentGroupObj.pt G x).left ≫ F
     rw [ζ.2.2]
-    show _ = dualNumberToBase (G.left.residueField x) ≫ G.left.fromSpecResidueField x ≫ F
+    change _ = dualNumberToBase (G.left.residueField x) ≫ G.left.fromSpecResidueField x ≫ F
     rw [← Scheme.Hom.SpecMap_residueFieldMap_fromSpecResidueField F x]
     rfl
   have hone : TangentGroupObj.toGroupHom G x (Multiplicative.ofAdd (n • ζ')) = 1 := by
     rw [ofAdd_nsmul, map_pow]
-    show (TangentGroupObj.toHom G x ζ' * w⁻¹) ^ n = 1
+    change (TangentGroupObj.toHom G x ζ' * w⁻¹) ^ n = 1
     rw [mul_pow, inv_pow, ← zpow_natCast, hpow, zpow_natCast, mul_inv_cancel]
   have hzero : n • ζ' = 0 := by
     have := TangentGroupObj.toGroupHom_injective G x (hone.trans (map_one _).symm)

@@ -230,10 +230,10 @@ theorem exists_isProper_pullback_snd {I : Type u} [Category.{u} I] [IsCofiltered
   have _ : IsProper ((Over.pullback (c.π.app i)).map f₀).left := by
     apply (MorphismProperty.cancel_right_of_respectsIso (@IsProper) _
       (pullback.snd (𝟙 (D.obj i)) (c.π.app i))).mp
-    show IsProper (((Over.pullback (c.π.app i)).map f₀).left ≫
+    change IsProper (((Over.pullback (c.π.app i)).map f₀).left ≫
       ((Over.pullback (c.π.app i)).obj Y₀).hom)
     rw [Over.w]
-    show IsProper (pullback.snd g (c.π.app i))
+    change IsProper (pullback.snd g (c.π.app i))
     infer_instance
   have _ : CompactSpace X₀.left := ‹CompactSpace T›
   have _ : QuasiSeparatedSpace X₀.left := ‹QuasiSeparatedSpace T›
@@ -299,7 +299,7 @@ theorem exists_isClosedImmersion_isProper_finitePresentation_fiber_dim_le
   let cD := Cone.mk X p
   let _ : ∀ i, IsProper (t.app i) := fun i => (ht i).1
   let _ : ∀ {i j : Iᵒᵖ} (e : i ⟶ j), IsAffineHom (B.map e) := fun _ => by
-    show IsAffineHom (𝟙 Y)
+    change IsAffineHom (𝟙 Y)
     infer_instance
   let _ : ∀ i : Iᵒᵖ, CompactSpace (B.obj i) := fun _ => ‹CompactSpace Y›
   let _ : ∀ i : Iᵒᵖ, QuasiSeparatedSpace (B.obj i) := fun _ => ‹QuasiSeparatedSpace Y›

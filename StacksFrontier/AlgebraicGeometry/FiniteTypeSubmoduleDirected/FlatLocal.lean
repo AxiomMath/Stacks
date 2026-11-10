@@ -74,17 +74,17 @@ theorem comp_eq_zero_of_ofHom_le {A B F G : T.Modules} (g : A ⟶ F) (h : B ⟶ 
   refine Scheme.Modules.hom_ext _ _ fun U => ?_
   rw [Scheme.Modules.Hom.zero_app]
   ext s
-  show c.app U (g.app U s) = 0
+  change c.app U (g.app U s) = 0
   have hle' := PresheafOfModules.Submodule.le_iff.1 (SheafOfModules.Submodule.le_iff.1 hle)
   have hmem : g.app U s ∈ (ofHom h).obj (op U) := hle' (op U) (le_obj_ofHom g U ⟨s, rfl⟩)
   choose V hVU hxV t ht using fun x : {x : T // x ∈ U} => (mem_ofHom_iff h _).1 hmem x.1 x.2
   have hcover : U ≤ iSup V := fun x hx => Opens.mem_iSup.mpr ⟨⟨x, hx⟩, hxV ⟨x, hx⟩⟩
   refine (Stacks.AlgebraicGeometry.CardinalGeneration.asSheaf G).eq_of_locally_eq' V U
     (fun i => homOfLE (hVU i)) hcover _ _ fun i => ?_
-  show G.presheaf.map (homOfLE (hVU i)).op (c.app U (g.app U s)) =
+  change G.presheaf.map (homOfLE (hVU i)).op (c.app U (g.app U s)) =
     G.presheaf.map (homOfLE (hVU i)).op 0
   rw [map_zero, ← Stacks.AlgebraicGeometry.CardinalGeneration.app_map, ← ht i]
-  show ((h ≫ c).app (V i)) (t i) = 0
+  change ((h ≫ c).app (V i)) (t i) = 0
   rw [hc]
   rfl
 

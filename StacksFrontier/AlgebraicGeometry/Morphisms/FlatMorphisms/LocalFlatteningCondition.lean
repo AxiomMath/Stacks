@@ -146,10 +146,8 @@ private lemma pullbackMap_comp_mono_isIso {A B W Z : Scheme.{u}}
         (pullback.condition : pullback.fst (a ≫ i) (b ≫ i) ≫ (a ≫ i) =
           pullback.snd (a ≫ i) (b ≫ i) ≫ (b ≫ i))))
   refine ⟨⟨k, ?_, ?_⟩⟩
-  · ext <;> simp [k, pullback.map, Category.assoc,
-      pullback.lift_fst, pullback.lift_snd]
-  · ext <;> simp [k, pullback.map, Category.assoc,
-      pullback.lift_fst, pullback.lift_snd]
+  · ext <;> simp [k, pullback.map, Category.assoc]
+  · ext <;> simp [k, pullback.map, Category.assoc]
 
 private lemma flat_stalkTensorToPullback
     {X S T : Scheme.{u}} (f : X ⟶ S) (g : T ⟶ S)
@@ -184,10 +182,8 @@ private lemma flat_stalkTensorToPullback
     dsimp [m₀]
     exact pullbackMap_comp_mono_isIso α β iS
   have hcomp : pullback.map α β f g iX iT iS hB hR = m₀ ≫ m₁ := by
-    ext <;> simp [m₀, m₁, pullback.map, Category.assoc,
-      pullback.lift_fst, pullback.lift_snd,
-      pullback.lift_fst_assoc, pullback.lift_snd_assoc]
-  show Flat ((pullbackSpecIso A B R).inv ≫
+    ext <;> simp [m₀, m₁, pullback.map, Category.assoc]
+  change Flat ((pullbackSpecIso A B R).inv ≫
       pullback.map α β f g iX iT iS hB hR)
   rw [hcomp]
   infer_instance
@@ -348,7 +344,7 @@ private lemma exists_tensorPrime_over_pullback_point
   let : IsLocalization q.primeCompl C :=
     isLocalization_primeCompl_of_comap_maximalIdeal N q rfl
   have hpoint : stalkTensorToPullback f g (pX y) (pT y) s hxs ht ⟨q, inferInstance⟩ = y := by
-    show (Spec.map (CommRingCat.ofHom φ) ≫ stalkTensorToPullback f g (pX y) (pT y) s hxs ht)
+    change (Spec.map (CommRingCat.ofHom φ) ≫ stalkTensorToPullback f g (pX y) (pT y) s hxs ht)
       (IsLocalRing.closedPoint C) = y
     rw [specMap_comp_stalkTensorToPullback f g y s hxs ht φ hleft hright]
     exact Scheme.fromSpecStalk_closedPoint
@@ -391,7 +387,7 @@ theorem condition_iff_forall_isFlatOverAt
     (pointedStalkMap f x s hxs).hom.toAlgebra
   let : Algebra (S.presheaf.stalk s) (T.presheaf.stalk t) :=
     (pointedStalkMap g t s ht).hom.toAlgebra
-  show (localFlatSituation f F x s hxs).ConditionOn (T.presheaf.stalk t) ↔ _
+  change (localFlatSituation f F x s hxs).ConditionOn (T.presheaf.stalk t) ↔ _
   rw [conditionOn_iff_forall_isFlatAtPrime]
   constructor
   · intro h y hyT hyX

@@ -159,7 +159,7 @@ theorem mapExt_bijective_of_retract [HasExt.{w} C] [HasExt.{w'} D] (X : C) {Y Y'
         (x.mapExactFunctor F).comp (Ext.mk₀ (F.map p)) (add_zero n) := by
       simp only [Ext.mapExactFunctor_comp, Ext.mapExactFunctor_mk₀]
     rw [F.mapExtAddHom_apply, hmap]
-    show (F.mapExtAddHom X Y n x).comp (Ext.mk₀ (F.map p)) (add_zero n) = y
+    change (F.mapExtAddHom X Y n x).comp (Ext.mk₀ (F.map p)) (add_zero n) = y
     rw [hx]
     exact comp_mk₀_comp_mk₀_of_comp_eq_id (F.map i) (F.map p)
       (by rw [← F.map_comp, hip, F.map_id]) y

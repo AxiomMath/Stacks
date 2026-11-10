@@ -294,7 +294,7 @@ theorem unit_app_eq_zero_of_hom {Z W : Scheme.{u}} (g : W ⟶ Z) {A B : Z.Module
     congrArg (fun ψ : A ⟶ _ => AlgebraicGeometry.Scheme.Modules.Hom.app ψ V y) hnat
   refine h1.trans ?_
   rw [AlgebraicGeometry.Scheme.Modules.Hom.comp_app]
-  show AlgebraicGeometry.Scheme.Modules.Hom.app
+  change AlgebraicGeometry.Scheme.Modules.Hom.app
     ((Scheme.Modules.pullback g ⋙ Scheme.Modules.pushforward g).map φ) V
       (AlgebraicGeometry.Scheme.Modules.Hom.app
         ((Scheme.Modules.pullbackPushforwardAdjunction g).unit.app A) V y) = 0

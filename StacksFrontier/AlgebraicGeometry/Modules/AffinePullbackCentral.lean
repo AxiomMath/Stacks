@@ -47,7 +47,7 @@ theorem natEndCentral_pullback_specMap {R S : CommRingCat.{u}} (f : R ⟶ S) :
       Scheme.Modules.pullback (Spec.map f)).NatEndCentral := by
   let P := SheafOfModules.isQuasicoherent (Spec R).ringCatSheaf
   have hP : ∀ M : ModuleCat.{u} R, P ((tilde.functor R).obj M) := fun M => by
-    show (SheafOfModules.isQuasicoherent (Spec R).ringCatSheaf) _
+    change (SheafOfModules.isQuasicoherent (Spec R).ringCatSheaf) _
     rw [← essImage_tilde]
     exact (tilde.functor R).obj_mem_essImage M
   let e : ModuleCat.{u} R ⥤ P.FullSubcategory := P.lift (tilde.functor R) hP

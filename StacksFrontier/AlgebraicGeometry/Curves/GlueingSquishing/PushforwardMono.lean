@@ -211,7 +211,7 @@ theorem injective_app_of_locally {X Y : Scheme.{u}} (f : X ⟶ Y)
     Function.Injective (f.app W).hom := by
   intro s t hst
   refine TopCat.Presheaf.section_ext Y.sheaf W s t fun y hy => ?_
-  show (Y.presheaf.germ W y hy).hom s = (Y.presheaf.germ W y hy).hom t
+  change (Y.presheaf.germ W y hy).hom s = (Y.presheaf.germ W y hy).hom t
   obtain ⟨V, hVW, hyV, hinj⟩ := h W y hy
   have hres : (Y.presheaf.map (homOfLE hVW).op).hom s
       = (Y.presheaf.map (homOfLE hVW).op).hom t := by

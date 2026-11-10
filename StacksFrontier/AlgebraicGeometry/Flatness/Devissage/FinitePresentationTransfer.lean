@@ -163,7 +163,7 @@ theorem of_etale_pullback {X Y : Scheme.{u}} (e : Y ⟶ X) [Etale e] (y : Y) (x 
   let g : B.toScheme ⟶ V.toScheme := IsOpenImmersion.lift V.ι eB hrange
   have hgi : g ≫ V.ι = eB := IsOpenImmersion.lift_fac V.ι eB hrange
   have hxV : x ∈ V := ⟨⟨y, hyB⟩, by
-    show e (B.ι ⟨y, hyB⟩) = x
+    change e (B.ι ⟨y, hyB⟩) = x
     rw [Scheme.Opens.ι_apply]
     exact hey⟩
   have : Etale (g ≫ V.ι) := by
@@ -177,14 +177,14 @@ theorem of_etale_pullback {X Y : Scheme.{u}} (e : Y ⟶ X) [Etale e] (y : Y) (x 
       (fun v ↦ by
         obtain ⟨b, hb⟩ := v.2
         refine ⟨(), b, Subtype.ext ?_⟩
-        show (g ≫ V.ι) b = v.1
+        change (g ≫ V.ι) b = v.1
         rw [hgi]
         exact hb)
       (fun _ ↦ inferInstance)
   have : QuasiCompactCover 𝒰₀.toPreZeroHypercover :=
     QuasiCompactCover.of_isOpenMap (𝒰 := 𝒰₀) (fun _ ↦ g.isOpenMap)
   let 𝒰 : (V : Scheme).Cover Scheme.fpqcPrecoverage := by
-    show (V : Scheme).Cover (Scheme.propQCPrecoverage @Flat)
+    change (V : Scheme).Cover (Scheme.propQCPrecoverage @Flat)
     exact 𝒰₀.ofQuasiCompactCover
   have hG : ((Scheme.Modules.pullback g).obj (F.restrict V.ι)).IsFinitePresentation :=
     (SheafOfModules.isFinitePresentation B.toScheme.ringCatSheaf).prop_of_iso

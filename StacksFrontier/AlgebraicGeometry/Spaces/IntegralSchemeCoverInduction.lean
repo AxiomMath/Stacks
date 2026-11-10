@@ -217,7 +217,7 @@ theorem existsIntegralSurjectiveSchemeCover_of_openSubspace_cover
         exists_points_of_isPullback B S hS (IsPullback.of_hasPullback ν j) y' uu hu.symm
       refine Set.mem_iUnion.2 ⟨⟨true⟩,
         pointsMap B S hS (pullback ν j) eP.inv w, ?_⟩
-      show pointsMap B S hS (yoneda.obj (pullback ν j).reprX) (eP.hom ≫ pullback.fst ν j)
+      change pointsMap B S hS (yoneda.obj (pullback ν j).reprX) (eP.hom ≫ pullback.fst ν j)
         (pointsMap B S hS (pullback ν j) eP.inv w) = y'
       rw [← pointsMap_comp_apply, eP.inv_hom_id_assoc]
       exact hw

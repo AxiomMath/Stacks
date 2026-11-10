@@ -70,8 +70,8 @@ with `p ∈ I`, `X^{(1)} = X ×_{S₀, F_{S₀}} S₀` and `F_{X/S₀}` the rela
 itself is registered on the statement of the whole lemma, in
 `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/AlphaPCoverRelativeFrobenius07QB.lean`.  The
 two statements of
-`StacksFrontier/AlgebraicGeometry/Crystalline/FrobeniusAlphaPCover.lean` it specialises ask only that
-the base be a scheme in characteristic `p`.
+`StacksFrontier/AlgebraicGeometry/Crystalline/FrobeniusAlphaPCover.lean` it specialises ask only
+that the base be a scheme in characteristic `p`.
 
 ## References
 
@@ -180,7 +180,7 @@ asks for, and it is the hypothesis `hf` of every statement about `f_cris` in
 theorem toClosedFiber_comp_closedFiberMap_id :
     T.toClosedFiber ≫ DividedPowerScheme.closedFiberMap (𝟙 T.S) =
       T.relativeFrobeniusToTwist hp ≫ (T.frobeniusTwistSituation hp).toClosedFiber := by
-  show _ = T.relativeFrobeniusToTwist hp ≫ (T.frobeniusTwistOver hp).hom
+  change _ = T.relativeFrobeniusToTwist hp ≫ (T.frobeniusTwistOver hp).hom
   rw [DividedPowerScheme.closedFiberMap_id, Category.comp_id,
     T.relativeFrobeniusToTwist_comp_toClosedFiber]
 

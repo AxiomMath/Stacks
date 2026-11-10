@@ -90,7 +90,7 @@ private theorem subsingleton_relativeDifferentialStalk_iff_formallyUnramified
       (f.stalkMap x).hom.FormallyUnramified := by
   classical
   let := Stacks.RelativeDifferentialStalkMap.algebraStalkMap f x
-  show Subsingleton (relativeDifferentialStalk f x) ↔
+  change Subsingleton (relativeDifferentialStalk f x) ↔
     Algebra.FormallyUnramified (ToType (S.presheaf.stalk (f x)))
       (ToType (X.sheaf.presheaf.stalk x))
   rw [Algebra.formallyUnramified_iff]
@@ -107,7 +107,7 @@ private theorem subsingleton_relativeDifferentialStalk_iff_relativeCotangentSpac
   let := relativeDifferentialStalkModule f x
   let : Algebra ↥(X.presheaf.stalk x) ↥(X.residueField x) := (X.residue x).hom.toAlgebra
   have hfin := Stacks.RelativeDifferentialStalkMap.finite_relativeDifferentialStalk f x
-  show _ ↔ Subsingleton (↥(X.residueField x) ⊗[↥(X.presheaf.stalk x)]
+  change _ ↔ Subsingleton (↥(X.residueField x) ⊗[↥(X.presheaf.stalk x)]
     relativeDifferentialStalk f x)
   exact (IsLocalRing.subsingleton_tensorProduct
     (R := ↥(X.presheaf.stalk x)) (M := relativeDifferentialStalk f x)).symm
@@ -177,7 +177,7 @@ private theorem formallyUnramified_stalkMap_iff_residueCriterion
         convert! hres.2
         exact key.symm
       exact hsep
-    · show (IsLocalRing.maximalIdeal A).map (algebraMap A B) = _
+    · change (IsLocalRing.maximalIdeal A).map (algebraMap A B) = _
       convert hmax using 1
 
 /-! ### The characterizations of unramifiedness at a point -/

@@ -158,13 +158,13 @@ private theorem cofan_desc_eq_sigma_desc
   calc
     Sigma.ι X i ≫ Cofan.IsColimit.desc (coproductIsCoproduct X) f = f i :=
       Cofan.IsColimit.fac (coproductIsCoproduct X) f i
-    _ = Sigma.ι X i ≫ Sigma.desc f := by rw [Sigma.ι_desc]
+    _ = Sigma.ι X i ≫ Sigma.desc f := by rw [Sigma.ι_comp_desc]
 
 private theorem schemeBelowClosedIso (site : AlgebraicGeometry.BigFppfSite.{u}) :
     (AlgebraicGeometry.schemeSizeBelow site.cutoff).IsClosedUnderIsomorphisms :=
   ⟨by
     intro X Y e h
-    show Y.size < site.cutoff
+    change Y.size < site.cutoff
     rwa [← Scheme.size_congr e]⟩
 
 attribute [local instance] schemeBelowClosedIso
@@ -173,7 +173,7 @@ private theorem schemeBelowClosedCospan (site : AlgebraicGeometry.BigFppfSite.{u
     (AlgebraicGeometry.schemeSizeBelow site.cutoff).IsClosedUnderLimitsOfShape WalkingCospan :=
   .mk' (by
     rintro _ ⟨F, hF⟩
-    show (limit F).size < site.cutoff
+    change (limit F).size < site.cutoff
     rw [Scheme.size_congr (HasLimit.isoOfNatIso (diagramIsoCospan F))]
     exact Scheme.size_pullback_lt _ _ (hF .left) (hF .right))
 
@@ -277,7 +277,7 @@ private theorem groupoid_arrows_mem_site
     j).mp hrel).1
   have hj : j.left ≫ (prod.snd : G.objects ⨯ G.objects ⟶ G.objects).left =
       G.source.left := by
-    show (j ≫ prod.snd).left = G.source.left
+    change (j ≫ prod.snd).left = G.source.left
     simp only [j, AlgebraicGeometry.groupoidPreRelation, prod.lift_snd]
   let : LocallyOfFiniteType (j.left ≫
       (prod.snd : G.objects ⨯ G.objects ⟶ G.objects).left) := hj.symm ▸ inferInstance
@@ -540,7 +540,7 @@ private theorem exists_locallyQuasiFinite_groupoid_quotientSheaf_iso_of_contains
   have hlfp := N.reach_locallyOfFinitePresentation
   -- the refined object scheme lies in the site
   have hgW : IsOpenImmersion gW.left := by
-    show IsOpenImmersion W.ι; infer_instance
+    change IsOpenImmersion W.ι; infer_instance
   have : MorphismProperty.RespectsIso (@Flat.{u} : MorphismProperty Scheme.{u}) :=
     MorphismProperty.IsStableUnderBaseChange.respectsIso
   have : MorphismProperty.RespectsIso (@Surjective.{u} : MorphismProperty Scheme.{u}) :=
@@ -702,7 +702,7 @@ private theorem property_source_of_fppf_fullyFaithful_groupoid
     apply MorphismProperty.IsLocalAtSource.of_forall_comp
       (P := P) a.left.singleton_mem_fppfPrecoverage
     rintro _ _ ⟨⟩
-    show P ((a ≫ pullback.snd H.source i.mapObjects).left)
+    change P ((a ≫ pullback.snd H.source i.mapObjects).left)
     simpa only [a, pullback.lift_snd] using hs
   apply MorphismProperty.IsLocalAtTarget.of_forall_pullbackSnd
     (P := P) i.mapObjects.left.singleton_mem_fppfPrecoverage
@@ -743,10 +743,10 @@ private theorem isPullback_identity_of_fullyFaithful_groupoid
     let r : H.EvaluationHom ((i.evaluation R).obj s) ((i.evaluation R).obj t) :=
       { arrow := (s ≫ i.mapObjects) ≫ H.identity
         source_eq := by
-          show (s ≫ i.mapObjects) ≫ H.identity ≫ H.source = s ≫ i.mapObjects
+          change (s ≫ i.mapObjects) ≫ H.identity ≫ H.source = s ≫ i.mapObjects
           simp only [H.source_identity, Category.comp_id]
         target_eq := by
-          show (s ≫ i.mapObjects) ≫ H.identity ≫ H.target = t ≫ i.mapObjects
+          change (s ≫ i.mapObjects) ≫ H.identity ≫ H.target = t ≫ i.mapObjects
           simpa only [H.target_identity, Category.comp_id] using hp.w.symm }
     let a := (hi R).some.preimage r
     have he : a.arrow = q := by
@@ -908,18 +908,18 @@ private theorem jointlyMono_of_flat_surjective_fullyFaithful_groupoid
   let a : H.EvaluationHom ((i.evaluation Z).obj x) ((i.evaluation Z).obj y) :=
     { arrow := c ≫ r₁
       source_eq := by
-        show (c ≫ r₁) ≫ H.source = x ≫ i.mapObjects
+        change (c ≫ r₁) ≫ H.source = x ≫ i.mapObjects
         simpa only [Category.assoc] using hx.symm
       target_eq := by
-        show (c ≫ r₁) ≫ H.target = y ≫ i.mapObjects
+        change (c ≫ r₁) ≫ H.target = y ≫ i.mapObjects
         simpa only [Category.assoc] using hy.symm }
   let b : H.EvaluationHom ((i.evaluation Z).obj x) ((i.evaluation Z).obj y) :=
     { arrow := c ≫ r₂
       source_eq := by
-        show (c ≫ r₂) ≫ H.source = x ≫ i.mapObjects
+        change (c ≫ r₂) ≫ H.source = x ≫ i.mapObjects
         rw [Category.assoc, ← hs, hx]
       target_eq := by
-        show (c ≫ r₂) ≫ H.target = y ≫ i.mapObjects
+        change (c ≫ r₂) ≫ H.target = y ≫ i.mapObjects
         rw [Category.assoc, ← ht, hy] }
   have he : (hi Z).some.preimage a = (hi Z).some.preimage b := by
     apply Stacks.Groupoids.GroupoidScheme.EvaluationHom.ext
@@ -1095,7 +1095,7 @@ private theorem locallySurjective_of_surjectiveEtale
     refine ⟨yonedaEquiv (yoneda.map (hrep.fst' g)), ?_⟩
     have h : yoneda.map (hrep.fst' g) ≫ f = yoneda.map q ≫ g := by
       simpa only [hrep.map_fst' g] using hrep.w g
-    show f.app (Opposite.op V) (yonedaEquiv (yoneda.map (hrep.fst' g))) =
+    change f.app (Opposite.op V) (yonedaEquiv (yoneda.map (hrep.fst' g))) =
       F.map q.op x
     rw [yonedaEquiv_yoneda_map]
     exact congrArg (fun k => k.app (Opposite.op V) (𝟙 V)) h
@@ -1318,7 +1318,7 @@ private theorem postPointsIso_hom_naturality
       (postPointsIso site S hS Y).hom =
       (postPointsIso site S hS X).hom ≫ yoneda.map f := by
   ext T g
-  show (Over.post site.inclusion).preimage (g ≫ (Over.post site.inclusion).map f) =
+  change (Over.post site.inclusion).preimage (g ≫ (Over.post site.inclusion).map f) =
     (Over.post site.inclusion).preimage g ≫ f
   rw [Functor.preimage_comp, Functor.preimage_map]
 
@@ -1381,7 +1381,7 @@ private theorem quotientPoint_locallySurjective
   have hsh : Presheaf.IsLocallySurjective J
       (toSheafify J (Stacks.Groupoids.quotientPresheaf F j)) :=
     toSheafify_isLocallySurjective J (Stacks.Groupoids.quotientPresheaf F j)
-  show Presheaf.IsLocallySurjective J
+  change Presheaf.IsLocallySurjective J
     (Stacks.Groupoids.toQuotientPresheaf F j ≫
       toSheafify J (Stacks.Groupoids.quotientPresheaf F j))
   exact Presheaf.isLocallySurjective_comp J _ _
@@ -1452,7 +1452,7 @@ private theorem singleton_mem_bigFppf_topology_flat
     exact ⟨Scheme.Hom.surjective g', hf, hl⟩
   let E : Covering B.Schemes := ⟨X, PreZeroHypercover.singleton g⟩
   have hE : AlgebraicGeometry.IsFppfCovering E := by
-    show (PreZeroHypercover.singleton g).presieve₀.map B.inclusion ∈
+    change (PreZeroHypercover.singleton g).presieve₀.map B.inclusion ∈
       Scheme.fppfPrecoverage (B.inclusion.obj X)
     simpa only [PreZeroHypercover.presieve₀_singleton, Presieve.map_singleton] using hFppf
   simpa [E, PreZeroHypercover.presieve₀_singleton] using
@@ -1495,7 +1495,7 @@ private theorem locallySurjective_of_surjectiveFlatLfp
     refine ⟨yonedaEquiv (yoneda.map (hrep.fst' g)), ?_⟩
     have h : yoneda.map (hrep.fst' g) ≫ f = yoneda.map q ≫ g := by
       simpa only [hrep.map_fst' g] using hrep.w g
-    show f.app (Opposite.op V) (yonedaEquiv (yoneda.map (hrep.fst' g))) =
+    change f.app (Opposite.op V) (yonedaEquiv (yoneda.map (hrep.fst' g))) =
       F.map q.op x
     rw [yonedaEquiv_yoneda_map]
     exact congrArg (fun k => k.app (Opposite.op V) (𝟙 V)) h
@@ -1518,7 +1518,7 @@ private theorem presheaf_of_property_yonedaMap
     refine ⟨?_⟩
     intro A B' B'' T a b a' b' hp hb
     change P ((AlgebraicGeometry.BigFppfOver.toScheme site S hS).map b) at hb
-    show P ((AlgebraicGeometry.BigFppfOver.toScheme site S hS).map b')
+    change P ((AlgebraicGeometry.BigFppfOver.toScheme site S hS).map b')
     exact MorphismProperty.IsStableUnderBaseChange.of_isPullback (P := P)
       (hp.map (AlgebraicGeometry.BigFppfOver.toScheme site S hS)) hb
   exact MorphismProperty.relative_map (F := yoneda) hf
@@ -1695,7 +1695,7 @@ private theorem exists_atlas_quotient_restrict_of_quotient
   let : IsIso q := Stacks.Groupoids.restrictQuotientSheafMap_isIso
     (AlgebraicGeometry.BigFppfOver.topology site S hS) (Over.post site.inclusion) j g hj hg
   let : IsIso q.hom := by
-    show IsIso
+    change IsIso
       ((sheafToPresheaf (AlgebraicGeometry.BigFppfOver.topology site S hS) (Type u)).map q)
     infer_instance
   refine ⟨a ≫ inv q.hom, isAlgebraicSpace_of_iso site S hS
@@ -1953,14 +1953,14 @@ private theorem exists_atlas_quotient_of_division
     Over.homMk (ObjectProperty.homMk D.descend.mapObjects.left)
       (by ext; exact D.descend.mapObjects.w)
   have hpgsurj : Surjective ((AlgebraicGeometry.BigFppfOver.toScheme site S hS).map pg) := by
-    show Surjective D.descend.mapObjects.left
+    change Surjective D.descend.mapObjects.left
     infer_instance
   have hpgflat : Flat ((AlgebraicGeometry.BigFppfOver.toScheme site S hS).map pg) := by
-    show Flat D.descend.mapObjects.left
+    change Flat D.descend.mapObjects.left
     infer_instance
   have hpglfp : LocallyOfFinitePresentation
       ((AlgebraicGeometry.BigFppfOver.toScheme site S hS).map pg) := by
-    show LocallyOfFinitePresentation D.descend.mapObjects.left
+    change LocallyOfFinitePresentation D.descend.mapObjects.left
     infer_instance
   have hg : Presheaf.IsLocallySurjective (AlgebraicGeometry.BigFppfOver.topology site S hS)
       ((Over.post site.inclusion).op.whiskerLeft
@@ -2352,6 +2352,7 @@ private theorem relativelyRepresentable_of_isAlgebraicSpace
   Functor.relativelyRepresentable.of_diag hF.diagonal_representable b
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search over presheaves on the big fppf site is deep
 /-- A property that is Zariski-local at the source may be checked on the members of an open
 cover of the source of a representable morphism of presheaves. -/
 private theorem presheaf_property_of_openCover
@@ -2444,7 +2445,7 @@ private lemma coproduct_locally_factors
     calc
       (Cofan.mk G ι).inj i ≫ d ≫ inc = f i ≫ inc := by
         have hd : (Cofan.mk G ι).inj i ≫ d = f i := by
-          show (Cofan.mk G ι).inj i ≫
+          change (Cofan.mk G ι).inj i ≫
             Cofan.IsColimit.desc hc (Cofan.mk Z f).inj = f i
           exact Cofan.IsColimit.fac hc (Cofan.mk Z f).inj i
         rw [← Category.assoc, hd]
@@ -2621,7 +2622,7 @@ private theorem exists_atlas_of_openSubfunctorCover
   let : (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
       (AlgebraicGeometry.BigFppfOver.toScheme B S hS)).IsStableUnderComposition := by
     refine ⟨fun {X Y Z} f g hf hg => ?_⟩
-    show Etale ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (f ≫ g))
+    change Etale ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (f ≫ g))
     rw [Functor.map_comp]
     have : Etale ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map f) := hf
     have : Etale ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map g) := hg
@@ -2653,6 +2654,7 @@ private theorem exists_atlas_of_openSubfunctorCover
     surjective_of_representable_locallySurjective B S hS bS.hom hrep hloc, hEt⟩
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search over presheaves on the big fppf site is deep
 /-- A covering family `gᵢ : Uᵢ ⟶ U` of the big fppf site induces a locally surjective map
 from the coproduct of the representable presheaves `yoneda.obj Uᵢ` to `yoneda.obj U`. -/
 private theorem isLocallySurjective_sigmaDesc_yoneda_of_mem
@@ -2678,14 +2680,14 @@ private theorem isLocallySurjective_sigmaDesc_yoneda_of_mem
     rw [← Category.assoc, Sigma.ι_mapIso_hom]
     calc
       _ = ((shrinkYonedaIsoYoneda.{u} (C := C)).app (Ui i)).hom ≫
-          yoneda.map (gi i) := by rw [Category.assoc, Sigma.ι_desc]
+          yoneda.map (gi i) := by rw [Category.assoc, Sigma.ι_comp_desc]
       _ = shrinkYoneda.{u}.map (gi i) ≫
           ((shrinkYonedaIsoYoneda.{u} (C := C)).app U).hom :=
         ((shrinkYonedaIsoYoneda.{u} (C := C)).hom.naturality (gi i)).symm
       _ = (Sigma.ι (fun i ↦ shrinkYoneda.{u}.obj (Ui i)) i ≫
           Sigma.desc (fun i ↦ shrinkYoneda.{u}.map (gi i))) ≫
           ((shrinkYonedaIsoYoneda.{u} (C := C)).app U).hom := by
-        rw [Sigma.ι_desc]
+        rw [Sigma.ι_comp_desc]
   let : Presheaf.IsLocallySurjective J
       (Sigma.desc (fun i ↦ shrinkYoneda.{u}.map (gi i))) := by
     rw [← cofan_desc_eq_sigma_desc]
@@ -2701,6 +2703,7 @@ private theorem isLocallySurjective_sigmaDesc_yoneda_of_mem
   exact Presheaf.isLocallySurjective_of_isLocallySurjective_fac J he
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search over presheaves on the big fppf site is deep
 /-- The cover-and-glue step of condition (2) of Tag 04S6.  If a pre-relation on an object
 scheme `U` of the site restricts, along a covering family of flat, locally finitely
 presented morphisms `gᵢ : Uᵢ ⟶ U`, to pre-relations whose quotient sheaves are algebraic
@@ -2766,10 +2769,10 @@ private theorem exists_atlas_quotient_of_siteCover
   let J := AlgebraicGeometry.BigFppfOver.topology site S hS
   let F : C ⥤ Over S := Over.post (X := site.obj hS) site.inclusion
   let : F.Full := by
-    show (Over.post (X := site.obj hS) site.inclusion).Full
+    change (Over.post (X := site.obj hS) site.inclusion).Full
     infer_instance
   let : F.Faithful := by
-    show (Over.post (X := site.obj hS) site.inclusion).Faithful
+    change (Over.post (X := site.obj hS) site.inclusion).Faithful
     infer_instance
   have hEquiv : IsEquivalenceRelation j.target j.source := inferInstance
   obtain ⟨er⟩ := hEquiv.nonempty_equivalenceRelation
@@ -2815,7 +2818,7 @@ private theorem exists_atlas_quotient_of_siteCover
     (CategoryTheory.Sheaf.sheafifyCocone (J := J) (D := Type u)
       (F := Fcop) Ecop).ι.app (Discrete.mk i)
   have hcG : IsColimit (Cofan.mk G ι) := by
-    show IsColimit (CategoryTheory.Sheaf.sheafifyCocone
+    change IsColimit (CategoryTheory.Sheaf.sheafifyCocone
       (J := J) (D := Type u) (F := Fcop) Ecop)
     exact CategoryTheory.Sheaf.isColimitSheafifyCocone (F := Fcop) Ecop
       (colimit.isColimit (Fcop ⋙ sheafToPresheaf J (Type u)))
@@ -2835,7 +2838,7 @@ private theorem exists_atlas_quotient_of_siteCover
         Functor.FullyFaithful.homEquiv, Functor.FullyFaithful.ofFullyFaithful,
         yonedaEquiv]
     have he : q = e.inv ≫ Stacks.Groupoids.toQuotientSheaf J F j := by
-      show (yonedaEquiv (F := Stacks.Groupoids.points F (F.obj U))).symm
+      change (yonedaEquiv (F := Stacks.Groupoids.points F (F.obj U))).symm
           (𝟙 (F.obj U)) ≫ Stacks.Groupoids.toQuotientSheaf J F j =
         e.inv ≫ Stacks.Groupoids.toQuotientSheaf J F j
       rw [he0]
@@ -2851,13 +2854,13 @@ private theorem exists_atlas_quotient_of_siteCover
     have hpoint := Stacks.Groupoids.toQuotientSheaf_comp_quotientSheafMap J F
       (ji i) j (pullback.snd (prod.map (F.map (gi i)) (F.map (gi i))) j)
       (F.map (gi i)) (by
-        show pullback.snd (prod.map (F.map (gi i)) (F.map (gi i))) j ≫
+        change pullback.snd (prod.map (F.map (gi i)) (F.map (gi i))) j ≫
             j ≫ prod.snd =
           pullback.fst (prod.map (F.map (gi i)) (F.map (gi i))) j ≫
             prod.snd ≫ F.map (gi i)
         rw [← Category.assoc, ← pullback.condition]
         rw [Category.assoc, prod.map_snd, ← Category.assoc]) (by
-        show pullback.snd (prod.map (F.map (gi i)) (F.map (gi i))) j ≫
+        change pullback.snd (prod.map (F.map (gi i)) (F.map (gi i))) j ≫
             j ≫ prod.fst =
           pullback.fst (prod.map (F.map (gi i)) (F.map (gi i))) j ≫
             prod.fst ≫ F.map (gi i)
@@ -2874,7 +2877,7 @@ private theorem exists_atlas_quotient_of_siteCover
         (Stacks.Groupoids.toQuotientSheaf J F j).app (Opposite.op (Ui i))
           (F.map (gi i)) := by
       dsimp [q]
-      show (Stacks.Groupoids.toQuotientSheaf J F j).app (Opposite.op (Ui i))
+      change (Stacks.Groupoids.toQuotientSheaf J F j).app (Opposite.op (Ui i))
         ((yonedaEquiv (F := Stacks.Groupoids.points F (F.obj U)).symm
           (𝟙 (F.obj U))).app (Opposite.op (Ui i)) (gi i)) = _
       rw [heval]
@@ -2899,11 +2902,11 @@ private theorem exists_atlas_quotient_of_siteCover
     calc
       (Sigma.ι (fun i ↦ yoneda.obj (Ui i)) i ≫
           Sigma.desc (fun i ↦ pUi i ≫ (ι i).hom)) ≫ g.hom =
-        (pUi i ≫ (ι i).hom) ≫ g.hom := by rw [Sigma.ι_desc]
+        (pUi i ≫ (ι i).hom) ≫ g.hom := by rw [Sigma.ι_comp_desc]
       _ = pUi i ≫ (ιF i).hom := by rw [Category.assoc, hι]
       _ = yoneda.map (gi i) ≫ q := hqfac i
       _ = (Sigma.ι (fun i ↦ yoneda.obj (Ui i)) i ≫
-          Sigma.desc (fun i ↦ yoneda.map (gi i))) ≫ q := by rw [Sigma.ι_desc]
+          Sigma.desc (fun i ↦ yoneda.map (gi i))) ≫ q := by rw [Sigma.ι_comp_desc]
   let : Presheaf.IsLocallySurjective J q := hq
   let : Presheaf.IsLocallySurjective J (Sigma.desc (fun i ↦ yoneda.map (gi i))) :=
     isLocallySurjective_sigmaDesc_yoneda_of_mem site S hS Ui gi hcov
@@ -3024,17 +3027,17 @@ private theorem exists_atlas_quotient_of_coveringAtlases
       (fun i ↦ site.inclusion.map (baseι i))
     let c : Cofan Y := Cofan.mk (∐ Y) (Sigma.ι Y)
     have he : d ≅ c := Cofan.ext (Iso.refl _) (fun i ↦ by
-      show site.inclusion.map (baseι i) = Sigma.ι Y i
+      change site.inclusion.map (baseι i) = Sigma.ι Y i
       simp only [baseι, site.inclusion.map_preimage])
     exact IsColimit.ofIsoColimit (coproductIsCoproduct Y) he.symm
   have hcV : IsColimit cV :=
     isColimitOfReflects (Over.forget (site.obj hS))
       ((Cofan.isColimitMapCoconeEquiv (Over.forget (site.obj hS)) _ cV).symm (by
-        show IsColimit cSite
+        change IsColimit cSite
         exact hcSite))
   have hjVmap (i : I) : (AlgebraicGeometry.BigFppfOver.toScheme site S hS).map (jV i) =
       Sigma.ι Y i := by
-    show site.inclusion.map (baseι i) = Sigma.ι Y i
+    change site.inclusion.map (baseι i) = Sigma.ι Y i
     simp only [baseι, site.inclusion.map_preimage]
   have hVopen (i : I) : IsOpenImmersion
       ((AlgebraicGeometry.BigFppfOver.toScheme site S hS).map (jV i)) := by
@@ -3404,12 +3407,12 @@ private theorem isAlgebraicSpace_quotient_locallyQuasiFinite
   let Ui (i : I) : C := Over.mk (fUi i ≫ U.hom)
   let gi (i : I) : Ui i ⟶ U := Over.homMk (fUi i) (by simp [Ui])
   have hgiOpen (i : I) : IsOpenImmersion (F.map (gi i)).left := by
-    show IsOpenImmersion (site.inclusion.map (fUi i))
+    change IsOpenImmersion (site.inclusion.map (fUi i))
     rw [site.inclusion.map_preimage]
     infer_instance
   have hUiAffine (i : I) : IsAffine
       ((AlgebraicGeometry.BigFppfOver.toScheme site S hS).obj (Ui i)) := by
-    show IsAffine (i.1 : Scheme.{u})
+    change IsAffine (i.1 : Scheme.{u})
     exact i.2
   have hgflat (i : I) : Flat (F.map (gi i)).left := by
     let := hgiOpen i
@@ -3470,14 +3473,14 @@ private theorem isAlgebraicSpace_quotient_locallyQuasiFinite
     obtain ⟨i, hxi⟩ := TopologicalSpace.Opens.mem_iSup.mp
       ((iSup_affineOpens_eq_top X).ge (Set.mem_univ x))
     refine ⟨i, ⟨x, hxi⟩, ?_⟩
-    show (site.inclusion.map (fUi i)) ⟨x, hxi⟩ = x
+    change (site.inclusion.map (fUi i)) ⟨x, hxi⟩ = x
     rw [site.inclusion.map_preimage _]
     rfl
   have hI : Cardinal.mk I ≤ X.size := Scheme.mk_affineOpens_le_size X
   have hsizeW' (i : I) : ((AlgebraicGeometry.BigFppfOver.toScheme site S hS).obj (Wi i)).size ≤
       X.size := by
     refine (hsizeW i).trans ?_
-    show ((i.1 : Scheme.{u})).size ≤ X.size
+    change ((i.1 : Scheme.{u})).size ≤ X.size
     exact Scheme.size_coe_opens_le X i.1
   obtain ⟨-, -, hres, -, -, -⟩ := exists_atlas_quotient_of_coveringAtlases site S hS j Ui gi
     hgflat hglfp hCoverI hFi Wi ai hasurj haetale hI hsizeW'
@@ -3719,6 +3722,7 @@ theorem mono_prodLift_pullback_of_jointlyMono {C : Type*} [Category* C] {X U R :
     · simpa only [Category.assoc] using h₂
 
 set_option maxHeartbeats 1600000 in
+-- long proof assembling condition (2) of 04S6 through an étale atlas
 set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 04S6, condition (1).** Let `j : R ⟶ U ×_Z U` be an equivalence relation of
 algebraic spaces over a presheaf `Z` on the big fppf site of `S`, whose target and source
@@ -3784,7 +3788,7 @@ theorem bootstrap04S6QuotientSheaf (site : BigFppfSite.{u}) (S : Scheme.{u})
   let d₂ : DO ⟶ chartInSlice U a := Over.homMk (pullback.snd s a) rfl
   let o₁ : PO ⟶ AO := Over.homMk p₁ rfl
   let o₂ : PO ⟶ DO := Over.homMk p₂ (by
-    show p₂ ≫ pullback.snd s a ≫ a ≫ U.hom = (p₁ ≫ pullback.fst a t) ≫ a ≫ U.hom
+    change p₂ ≫ pullback.snd s a ≫ a ≫ U.hom = (p₁ ≫ pullback.fst a t) ≫ a ≫ U.hom
     rw [← hDw, ← Category.assoc, ← pullback.condition, Category.assoc, hAw, Category.assoc])
   have ha' : IsPullback a₁ a₂ g j.target := IsPullback.of_map_of_faithful (Over.forget Z) hpA
   have hd' : IsPullback d₁ d₂ j.source g := IsPullback.of_map_of_faithful (Over.forget Z) hpD

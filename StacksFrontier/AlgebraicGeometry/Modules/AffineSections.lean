@@ -259,7 +259,7 @@ public theorem bijective_baseChange_sectionsLinearMap_of_isIso_pullback {T : Sch
       ((moduleSpecΓFunctor.map ψ).hom.baseChange q.asIdeal.ResidueField) := by
     have hl := (LinearMap.lTensor_bij_iff_rTensor_bij q.asIdeal.ResidueField
       (moduleSpecΓFunctor.map ψ).hom).2 h6
-    rwa [← LinearMap.baseChange_eq_ltensor] at hl
+    rwa [← LinearMap.baseChange_eq_lTensor] at hl
   exact LinearMap.bijective_baseChange_comp _ _ _ (specΓSectionsEquiv T M).symm
     (specΓSectionsEquiv T N) (specΓSectionsEquiv_naturality φ) h7
 

@@ -285,7 +285,7 @@ theorem AlgebraSheaf.isIntegrallyClosed_of_hasAffineChartDiagram (g : X ⟶ X')
         (IsIso.inv_hom_id (pullback.fst (integralClosureInclusion A).right A.hom))) U) y
     have h2 := ConcreteCategory.congr_hom (NatTrans.congr_app (congrArg (fun m => m.hom)
       (pullback.condition (f := (integralClosureInclusion A).right) (g := A.hom))) U) z
-    show (A.hom.hom.app U)
+    change (A.hom.hom.app U)
       ((pullback.snd (integralClosureInclusion A).right A.hom).hom.app U z) = _
     rw [← h1]
     exact h2.symm

@@ -65,7 +65,7 @@ lemma endoRaise_endoIter_map_self {C : Type u} [Category.{v} C] (F : C ⥤ C) {E
     (m : ℕ) : ∀ j : ℕ, endoRaise ((F.endoIter m).map g) j = (F.endoIter (m + j)).map g
   | 0 => rfl
   | j + 1 => by
-      show F.map (endoRaise ((F.endoIter m).map g) j) = _
+      change F.map (endoRaise ((F.endoIter m).map g) j) = _
       rw [endoRaise_endoIter_map_self F g m j]
       rfl
 

@@ -27,7 +27,8 @@ are now theorems of this library, the last one in the stronger form of Stacks 07
 * Stacks 07UQ is
   `AlgebraicGeometry.Space.exists_mono_modulePushforward_idealSum_of_schemeTheoreticSupport`,
   and `AlgebraicGeometry.Space.existsIdealInjectionDevissageStep_of_isNoetherian` (in
-  `StacksFrontier/AlgebraicGeometry/Spaces/CoherentDevissageUnconditional.lean`) puts it in the shape
+  `StacksFrontier/AlgebraicGeometry/Spaces/CoherentDevissageUnconditional.lean`) puts it in the
+  shape
   `AlgebraicGeometry.Space.ExistsIdealInjectionDevissageStep` that the step at a minimal subspace
   consumes.
 

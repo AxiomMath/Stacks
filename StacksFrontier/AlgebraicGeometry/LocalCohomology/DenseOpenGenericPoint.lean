@@ -83,7 +83,7 @@ theorem nonempty_preimage_fromSpecStalk {X : Scheme.{u}} [IsIntegral X] (z : X) 
     rw [Scheme.range_fromSpecStalk]
     exact genericPoint_specializes z
   refine ⟨⟨w, ?_⟩⟩
-  show X.fromSpecStalk z w ∈ U
+  change X.fromSpecStalk z w ∈ U
   exact hw ▸ genericPoint_mem_of_isOpen U.isOpen hU
 
 /-- **The preimage of an open missing `z` avoids the closed point**: if `z ∉ U`, then the
@@ -92,7 +92,7 @@ theorem preimage_fromSpecStalk_le_puncturedSpectrum {X : Scheme.{u}} (z : X) (U 
     (hz : z ∉ U) :
     X.fromSpecStalk z ⁻¹ᵁ U ≤ puncturedSpectrum (X.presheaf.stalk z) := by
   intro x hx
-  show x ≠ IsLocalRing.closedPoint (ToType (X.presheaf.stalk z))
+  change x ≠ IsLocalRing.closedPoint (ToType (X.presheaf.stalk z))
   intro hx0
   refine hz ?_
   have : X.fromSpecStalk z x ∈ U := hx
@@ -162,7 +162,7 @@ theorem preimage_puncturedSpectrum_of_map_maximalIdeal {R S : CommRingCat.{u}} [
   have hloc : IsLocalHom φ.hom :=
     ((IsLocalRing.local_hom_TFAE φ.hom).out 3 1).mp (le_of_eq hφ)
   refine TopologicalSpace.Opens.ext (Set.ext fun x => ?_)
-  show PrimeSpectrum.comap φ.hom x ≠ IsLocalRing.closedPoint (ToType R) ↔
+  change PrimeSpectrum.comap φ.hom x ≠ IsLocalRing.closedPoint (ToType R) ↔
     x ≠ IsLocalRing.closedPoint (ToType S)
   rw [not_iff_not]
   refine ⟨fun h => ?_, fun h => h ▸ IsLocalRing.comap_closedPoint φ.hom⟩

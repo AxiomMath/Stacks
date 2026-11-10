@@ -59,7 +59,8 @@ the subtype `{I : Ideal A // TopologicalRing.IsWeakIdealOfDefinition I}`: that s
 index of the diagram defining the formal spectrum, so this is what names the stage the
 thickening is about.
 
-Two private helpers here have counterparts elsewhere in the library that are not importable. That the transition
+Two private helpers here have counterparts elsewhere in the library that are not importable. That
+the transition
 morphism between two quotient stages is a thickening is proved inline, for the same diagram, in
 the proof of `AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_formalSpectrum`, and
 `StacksFrontier.Topology.Algebra.AdicTopology.PadicComplexInt` declares privately the converse of

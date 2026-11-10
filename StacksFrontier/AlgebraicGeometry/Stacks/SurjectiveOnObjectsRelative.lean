@@ -77,7 +77,7 @@ private theorem sliceSectionOfObject_comp
   let : 𝒴.val.p.IsFibered := 𝒴.isFiberedInGroupoids.isFibered
   let c := 𝒴.val.p.chosenPullbacks
   let y₀ : 𝒴.val.p.Fiber U := ⟨y, hy⟩
-  show (Over.iteratedSliceEquiv U).inverse ⋙ c.sliceFunctor y₀ ⋙ 𝒴.val.p = _
+  change (Over.iteratedSliceEquiv U).inverse ⋙ c.sliceFunctor y₀ ⋙ 𝒴.val.p = _
   calc
     _ = (Over.iteratedSliceEquiv U).inverse ⋙ Over.forget U := by
       rw [← Functor.assoc]
@@ -133,7 +133,7 @@ private theorem fieldPoint_of_isFieldObject
   obtain ⟨k, hk, ⟨e⟩⟩ := hU
   let : Field k := hk
   have hK : B.Contains (Spec (.of k)) := by
-    show (Spec (.of k)).size < B.cutoff
+    change (Spec (.of k)).size < B.cutoff
     rw [← Scheme.size_congr e]
     exact U.left.2
   let e' : B.obj hK ≅ U.left := B.inclusion.preimageIso e.symm
@@ -196,7 +196,7 @@ private theorem pointsMap_surjective_fiberSection
   let q := Space.FieldValuedPoint.map B S hS (yoneda.obj W) α q₀
   refine ⟨p, q, q₀, ?_, rfl⟩
   have hvalue : Fy.1.hom.app (Opposite.op p.siteObject) p.value = q.value := by
-    show Fy.1.hom.app (Opposite.op q₀.siteObject)
+    change Fy.1.hom.app (Opposite.op q₀.siteObject)
         (i.inv.app (Opposite.op q₀.siteObject) t) =
       α.app (Opposite.op q₀.siteObject) q₀.value
     have hcompat' :
@@ -209,7 +209,7 @@ private theorem pointsMap_surjective_fiberSection
     calc
       _ = Over.homMk V'.hom hhom := hcompat'
       _ = q.value := by
-        show Over.homMk V'.hom _ = q₀.value ≫ Over.homMk V.hom _
+        change Over.homMk V'.hom _ = q₀.value ≫ Over.homMk V.hom _
         apply Over.OverMorphism.ext
         rfl
   rw [Space.pointsMap_class]
@@ -300,7 +300,7 @@ private theorem sourceLift_of_relativeSection
   let W : BigFppfOver B S hS := (Over.forget U).obj V'
   let f : W ⟶ U := (Over.forget U).map a
   have hWbase : W = (Over.map U.hom).obj z.x := by
-    show (Over.forget U).obj ((Over.iteratedSliceEquiv U).inverse.obj z.x) = _
+    change (Over.forget U).obj ((Over.iteratedSliceEquiv U).inverse.obj z.x) = _
     exact congrArg (fun G => G.obj z.x) (Over.iteratedSliceBackward_forget U)
   have hzW : z.base = W := z.hx.symm.trans hWbase.symm
   have hx : 𝒳.val.p.obj z.y = W := z.hy.trans hzW
@@ -358,7 +358,7 @@ private theorem fiberProductObject_of_lift
   let b := y.map f
   let yM : BasedFunctor (BasedCategory.ofFunctor (Over.map U.hom)) 𝒴.val := ⟨y, hy⟩
   let : (BasedCategory.ofFunctor (Over.map U.hom)).p.IsHomLift fS f := by
-    show (Over.map U.hom).IsHomLift ((Over.map U.hom).map f) f
+    change (Over.map U.hom).IsHomLift ((Over.map U.hom).map f) f
     infer_instance
   have hb : 𝒴.val.p.IsHomLift fS b := BasedFunctor.preserves_isHomLift yM fS f
   let : 𝒴.val.p.IsHomLift fS α := hα
@@ -395,7 +395,7 @@ theorem isSurjectiveOnObjects_iff_isRelativelySurjective
   · intro h U y hy F hF hEquiv
     classical
     let Fy := (spacesOverSmallerBaseFunctor B U.left.1 S U.left.2 hS U.hom).obj ⟨F, hF⟩
-    show Function.Surjective (Space.pointsMap B S hS Fy.1.left Fy.1.hom)
+    change Function.Surjective (Space.pointsMap B S hS Fy.1.left Fy.1.hom)
     rw [pointsMap_surjective_iff_fieldPoint_lift]
     intro q
     let V : BigFppfOver B U.left.1 U.left.2 := Over.mk q.value.left
@@ -409,7 +409,7 @@ theorem isSurjectiveOnObjects_iff_isRelativelySurjective
     let f' : V' ⟶ V := Over.homMk f.left (by rfl)
     have hbaseV' : (Over.map U.hom).obj V' = W := by
       refine CostructuredArrow.obj_ext _ _ (by rfl) ?_
-      show W.hom = (f.left ≫ V.hom) ≫ U.hom
+      change W.hom = (f.left ≫ V.hom) ≫ U.hom
       calc
         W.hom = f.left ≫ ((Over.map U.hom).obj V).hom := (Over.w f).symm
         _ = (f.left ≫ V.hom) ≫ U.hom := by simp [Category.assoc]
@@ -453,7 +453,7 @@ theorem isSurjectiveOnObjects_iff_isRelativelySurjective
             _ = q₀.value.left ≫ (V'.hom ≫ U.hom) := by simp [V, V', Category.assoc]
             _ = q₀.siteObject.hom := hq₀base)
       refine ⟨g, ?_⟩
-      show (yoneda.obj (Over.mk U.hom)).map g.op q.value =
+      change (yoneda.obj (Over.mk U.hom)).map g.op q.value =
         (Space.FieldValuedPoint.map B S hS
           (yoneda.obj (Over.mk (V'.hom ≫ U.hom)))
           (yoneda.map (Over.homMk V'.hom (by rfl))) q₀).value

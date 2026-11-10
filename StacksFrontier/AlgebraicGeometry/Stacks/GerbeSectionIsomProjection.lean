@@ -271,7 +271,7 @@ theorem isomSpaceToRelationSpace_comp_relationSourceMap :
       isomSpaceOverSpaceProj B S hS Z hZ x x := by
   refine Functor.presheafHom_ext fun V s => ?_
   obtain ⟨V⟩ := V
-  show (SelfIntersection.relationSourceMap
+  change (SelfIntersection.relationSourceMap
         (algebraicSpaceStackTautologicalPresentation.{u, w} B S hS Z hZ) eR).app (op V)
       ((isomSpaceToRelationSpace B S hS Z hZ x eR).app (op V) s) =
     (isomSpaceOverSpaceProj B S hS Z hZ x x).app (op V) s

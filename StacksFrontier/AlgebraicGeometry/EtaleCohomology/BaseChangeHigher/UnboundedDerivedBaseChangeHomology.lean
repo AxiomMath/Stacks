@@ -252,7 +252,7 @@ theorem unboundedHigher_eq_boundedHigher (hbc : UnboundedFac F F' G G' τ RF uF 
     inv_eq_of_hom_comp (singleCompDerivedCompHomologyIsoRightDerived_hom_app_comp_rightDerivedIso
         F' RF' uF' hresC q (G'.obj X))
       (Iso.hom_inv_id_app (Stacks.DerivedIndexing.rightDerivedIso F' q) (G'.obj X))
-      (Iso.map_hom_inv_id (bdF'.app ((DerivedCategory.Plus.singleFunctor C 0).obj (G'.obj X))) H)
+      (Iso.hom_inv_id_map (bdF'.app ((DerivedCategory.Plus.singleFunctor C 0).obj (G'.obj X))) H)
   have e8 : H.map (DerivedCategory.Plus.ι.map (F'.rightDerivedFunctorPlus.map y)) ≫
       H.map (bdF'.hom.app ((DerivedCategory.Plus.singleFunctor C 0).obj (G'.obj X))) =
       H.map (bdF'.hom.app (G'.rightDerivedFunctorPlus.obj X0)) ≫
@@ -274,7 +274,7 @@ theorem unboundedHigher_eq_boundedHigher (hbc : UnboundedFac F F' G G' τ RF uF 
     have h := singleCompDerivedCompHomologyIsoRightDerived_hom_app_comp_rightDerivedIso
       F RF uF hresA q X
     exact map_comp_eq G (comp_eq_inv_of_hom_comp h (Iso.inv_hom_id_app _ X)
-      (Iso.map_inv_hom_id (bdF.app X0) (DerivedCategory.homologyFunctor B (q : ℤ))))
+      (Iso.inv_hom_id_map (bdF.app X0) (DerivedCategory.homologyFunctor B (q : ℤ))))
   have e3 : (Stacks.DerivedFunctor.derivedHomologyIso G (q : ℤ)).inv.app
         (RF.obj ((DerivedCategory.singleFunctor A 0).obj X)) =
       (G.mapDerivedCategoryHomologyIso (q : ℤ)).inv.app
@@ -455,11 +455,11 @@ theorem unboundedHigher_conj (q : ℕ) (X : A) :
     refine map_square H (map_square RF' ?_)
     exact inv_comp_eq_comp_inv
       (Functor.mapDerivedCategorySingleFunctor_isoOfNatIso_app G' P' ιx 0 X).symm
-      (Iso.map_hom_inv_id (ιx.app X) (DerivedCategory.singleFunctor C 0))
+      (Iso.hom_inv_id_map (ιx.app X) (DerivedCategory.singleFunctor C 0))
       (Iso.inv_hom_id_app _ _)
   have f4 := (Stacks.DerivedFunctor.singleCompDerivedCompHomologyIsoRightDerived F' RF' uF' hresC
     q).hom.naturality (ιx.inv.app X)
-  have f5 := Iso.map_inv_hom_id (ιx.app X) (F'.rightDerived q)
+  have f5 := Iso.inv_hom_id_map (ιx.app X) (F'.rightDerived q)
   have e0 : H.map ((conjBaseChange G G' P P' ιs ιx RF RF' bcP).app X0) =
       H.map (mIs.hom.app (RF.obj X0)) ≫ H.map (bcP.app X0) ≫ H.map (RF'.map (mIx.inv.app X0)) :=
     (map_comp_three_eq H rfl).symm

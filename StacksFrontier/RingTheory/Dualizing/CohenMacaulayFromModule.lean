@@ -85,7 +85,7 @@ module over itself. -/
 theorem isCohenMacaulayLocalRingPropForm_iff_isCohenMacaulayAtMaximalIdeal
     (R : Type*) [CommRing R] [IsNoetherianRing R] [IsLocalRing R] :
     IsCohenMacaulayLocalRingPropForm R ↔ Module.IsCohenMacaulayAtMaximalIdeal R R := by
-  show (localRingDepth R : WithBot ℕ∞) = ringKrullDim R ↔
+  change (localRingDepth R : WithBot ℕ∞) = ringKrullDim R ↔
     (Module.depth R (IsLocalRing.maximalIdeal R) R : WithBot ℕ∞) = Module.supportDim R R
   rw [Module.supportDim_self_eq_ringKrullDim, localRingDepth_eq_depth_self]
 
@@ -138,7 +138,7 @@ theorem isCohenMacaulayAtMaximalIdeal_self_of_homology_concentrated
   have hlift : Module.IsCohenMacaulayAtMaximalIdeal A (ULift.{v} A) :=
     ((isCohenMacaulay_iff_ext_concentrated.{u, v} (M := ULift.{v} A) (K⟦-m⟧) hm).out 2 1).mp
       fun i j hi hj => by rw [hunique i hi, hunique j hj]
-  show (Module.depth A (IsLocalRing.maximalIdeal A) A : WithBot ℕ∞) = Module.supportDim A A
+  change (Module.depth A (IsLocalRing.maximalIdeal A) A : WithBot ℕ∞) = Module.supportDim A A
   rw [← Module.depth_eq_depth_of_linearEquiv (IsLocalRing.maximalIdeal A)
       (ULift.moduleEquiv (R := A) (M := A)),
     ← Module.supportDim_eq_of_equiv (ULift.moduleEquiv (R := A) (M := A))]

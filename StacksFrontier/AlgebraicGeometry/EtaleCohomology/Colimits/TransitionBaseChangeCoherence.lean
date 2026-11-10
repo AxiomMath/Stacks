@@ -97,7 +97,7 @@ theorem smallEtaleBaseChange_factoredIdIso_hom_app_left {S : B.Scheme} (g : S �
       ((smallEtaleBaseChangeId B).hom.app Z) =
       (Over.pullbackId (X := S)).hom.app Z.obj := by
     rw [smallEtaleBaseChangeId, Functor.fullyFaithfulCancelRight_hom_app, Functor.map_preimage]
-    show (Over.pullbackId (X := S)).hom.app Z.obj ≫ 𝟙 _ ≫ 𝟙 _ =
+    change (Over.pullbackId (X := S)).hom.app Z.obj ≫ 𝟙 _ ≫ 𝟙 _ =
       (Over.pullbackId (X := S)).hom.app Z.obj
     rw [Category.id_comp, Category.comp_id]
   rw [h0]
@@ -249,7 +249,7 @@ theorem smallAffineEtaleBaseChange_factoredIdIso_hom_app_inclusion (g : S ⟶ S)
         ((SmallAffineEtale.inclusion B S.obj S.property).obj Y) := by
   rw [smallAffineEtaleBaseChange_factoredIdIso, Functor.fullyFaithfulCancelRight_hom_app,
     Functor.map_preimage]
-  show (smallEtaleBaseChange_factoredIdIso B g hg).hom.app
+  change (smallEtaleBaseChange_factoredIdIso B g hg).hom.app
       ((SmallAffineEtale.inclusion B S.obj S.property).obj Y) ≫ 𝟙 _ ≫ 𝟙 _ = _
   rw [Category.id_comp, Category.comp_id]
 
@@ -284,7 +284,7 @@ universe v u
 
 namespace Stacks.EtaleCohomology.TransitionBaseChange
 
-variable {I : Type v} [Preorder I] [Nonempty I] [IsDirected I (· ≤ ·)]
+variable {I : Type v} [Preorder I]
   {D : Iᵒᵖ ⥤ Scheme.{max u v}} {c : Cone D}
   {B : AlgebraicGeometry.BigEtaleSite.{max u v}}
   {hD : ∀ i, B.Contains (D.obj i)} {hX : B.Contains c.pt}
@@ -315,7 +315,7 @@ theorem transitionIso_id_hom_app (i : E.system.I) (Y : E.system.C i) :
       (levelEtale E i).map (eqToHom (Functor.congr_obj (E.system.id_map i) Y)) := by
   refine (AlgebraicGeometry.SmallEtale.inclusion B (D.obj (stage E i))
     (hD (stage E i))).map_injective (Over.OverMorphism.ext (B.inclusion.map_injective ?_))
-  show (toS E i).map ((transitionIso E (𝟙 i)).hom.app Y ≫
+  change (toS E i).map ((transitionIso E (𝟙 i)).hom.app Y ≫
       (stageIdIso E i).hom.app ((levelEtale E i).obj Y)) =
     (toS E i).map ((levelEtale E i).map (eqToHom (Functor.congr_obj (E.system.id_map i) Y)))
   rw [Functor.map_comp, toS_map_stageIdIso_hom_app, transitionIso_hom_app,

@@ -69,7 +69,8 @@ repeatedly. `homEquiv_map_comp_comp`, `comp_middle_comp` and `comp_homEquiv_comp
 stated at variables of abstract categories, where the reassociation costs nothing, and the unifier
 meets the concrete spelling only at the application. This is the technique
 `Stacks.Cohomology.DerivedBaseChange.derivedPushforwardComparison_fac` and its neighbours in
-`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/PushforwardComparisonAgreesWithOrdinary.lean` measure for the same shape of
+`PushforwardComparisonAgreesWithOrdinary.lean` (in
+`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/`) measure for the same shape of
 calculation one level up, in the derived category.
 
 *Why the two crossings transpose so cheaply.* The first factor of `γ⁺` is

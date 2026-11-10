@@ -713,7 +713,7 @@ theorem homToCoefficient_tmul
     have hq : q = -p := by omega
     subst hq
     refine CharacterModule.ext R fun r => ?_
-    show ((φ.f 0) (r • (tensorTmul N M).map p (-p) 0 h x y) :
+    change ((φ.f 0) (r • (tensorTmul N M).map p (-p) 0 h x y) :
         ULift.{u} (AddCircle (1 : ℚ))).down =
       ((φ.f 0) ((tensorTmul N M).map p (-p) 0 (add_neg_cancel p) x (r • y)) :
         ULift.{u} (AddCircle (1 : ℚ))).down
@@ -738,16 +738,16 @@ theorem tensorToCharacterBilinear_coefficientToHom (b : CharacterBilinear N M) :
   refine CharacterBilinear.ext fun p => ?_
   refine AddMonoidHom.ext fun x => ?_
   refine CharacterModule.ext (M.grading (-p)) fun y => ?_
-  show ((coefficientToHom (tensorComplex N M)
+  change ((coefficientToHom (tensorComplex N M)
       (tensorDesc N M (coefficientTarget R) (characterBilinearToCoefficient b))).f 0
       ((tensorTmul N M).map p (-p) 0 (add_neg_cancel p) x y) :
         ULift.{u} (AddCircle (1 : ℚ))).down = _
   rw [coefficientToHom_apply]
-  show coefficientValue (((tensorDesc N M (coefficientTarget R)
+  change coefficientValue (((tensorDesc N M (coefficientTarget R)
     (characterBilinearToCoefficient b)).f 0).hom
       ((tensorTmul N M).map p (-p) 0 (add_neg_cancel p) x y)) 1 = _
   rw [tensorDesc_apply]
-  show b.pairing p x ((1 : R) • gradingCast M.grading (rfl : -p = -p) y) = _
+  change b.pairing p x ((1 : R) • gradingCast M.grading (rfl : -p = -p) y) = _
   rw [one_smul]
   exact congrArg (fun z => b.pairing p x z) (Subtype.ext rfl)
 

@@ -166,7 +166,7 @@ theorem IntegralClosedSubspace.closureImage_eq_pushforward (hX : IsAlgebraicSpac
     IntegralClosedSubspace.closureImage B S hS hX hXdec i Z =
       IntegralClosedSubspace.pushforward B S hS hX hY hXdec hi Z := by
   refine injective_integralClosedSubspaceSupport B S hS hX (IrreducibleCloseds.ext ?_)
-  show subspacePointSet B S hS X
+  change subspacePointSet B S hS X
       (IntegralClosedSubspace.closureImage B S hS hX hXdec i Z).subspace =
     subspacePointSet B S hS X
       (IntegralClosedSubspace.pushforward B S hS hX hY hXdec hi Z).subspace

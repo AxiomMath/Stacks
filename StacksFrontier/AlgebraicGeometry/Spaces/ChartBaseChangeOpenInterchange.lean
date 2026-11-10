@@ -196,7 +196,7 @@ theorem openChartSmallBaseChangeHomOfLE_comp_projection (hO : O₁ ≤ O₂) :
       openChartSmallBaseChangeProjection B S hS f hf V O₁ ≫
         (openChartHomOfLE B S hS Y.1 V hO).hom.left := by
   refine Over.OverMorphism.ext (B.inclusion.map_injective ?_)
-  show (chartScheme ((smallBaseChange B S hS f hf).obj V)).homOfLE
+  change (chartScheme ((smallBaseChange B S hS f hf).obj V)).homOfLE
         (smallBaseChangeSchemeProjection_preimage_mono B S hS f hf V hO) ≫
       (smallBaseChangeSchemeProjection B S hS f hf V ∣_ O₂) =
     (smallBaseChangeSchemeProjection B S hS f hf V ∣_ O₁) ≫ (chartScheme V).homOfLE hO
@@ -221,7 +221,7 @@ theorem smallBaseChangeOpenChartIso_naturality (hO : O₁ ≤ O₂) :
           (smallBaseChangeSchemeProjection_preimage_mono B S hS f hf V hO)).hom)).symm
   · refine (yoneda.map_comp _ _).symm.trans
       ((congrArg yoneda.map ?_).trans (yoneda.map_comp _ _))
-    show (smallBaseChange B S hS f hf ⋙ SmallEtale.toOver B S hS X.1).map
+    change (smallBaseChange B S hS f hf ⋙ SmallEtale.toOver B S hS X.1).map
           (openChartHomOfLE B S hS Y.1 V hO) ≫
         (smallBaseChangeOpenChartLeftIso B S hS f hf V O₂).hom ≫
           openChartSmallBaseChangeProjection B S hS f hf V O₂ =

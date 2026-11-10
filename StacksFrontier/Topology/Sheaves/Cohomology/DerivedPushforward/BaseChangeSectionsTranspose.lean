@@ -146,7 +146,7 @@ change square, is the pair of composition isomorphisms.** This is
 `derivedBaseChangeSquare g' f' f g sq` itself, the square in which [Stacks, Tag 08IB] is stated. -/
 theorem mateEquiv_derivedBaseChangeSquare_natTrans_eq_compIso :
     (mateEquiv (derivedAdjunction g') (derivedAdjunction g)
-        (derivedBaseChangeSquare g' f' f g sq)).natTrans =
+        (derivedBaseChangeSquare g' f' f g sq)) =
       (derivedPushforwardCompIso g' f).hom ≫
         eqToHom (congrArg (fun k : X' ⟶ S => derivedPushforward k) sq) ≫
           (derivedPushforwardCompIso f' g).inv :=

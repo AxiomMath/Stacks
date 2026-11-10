@@ -119,8 +119,8 @@ theorem flat_quotient_res_basicOpen (f : X ⟶ S) {W : S.Opens} {V : X.Opens}
     ((Ideal.Quotient.mk (Ideal.span (Set.range fun i =>
           (X.presheaf.map (homOfLE (X.basicOpen_le t)).op).hom (a i)))).comp
         (f.appLE W (X.basicOpen t) hUW).hom).Flat := by
-  letI : Algebra Γ(S, W) Γ(X, V) := (f.appLE W V hVW).hom.toAlgebra
-  letI : Algebra Γ(S, W) Γ(X, X.basicOpen t) :=
+  let : Algebra Γ(S, W) Γ(X, V) := (f.appLE W V hVW).hom.toAlgebra
+  let : Algebra Γ(S, W) Γ(X, X.basicOpen t) :=
     (f.appLE W (X.basicOpen t) hUW).hom.toAlgebra
   have _ : IsLocalization.Away t Γ(X, X.basicOpen t) := hV.isLocalization_basicOpen t
   have halgV : algebraMap Γ(X, V) Γ(X, X.basicOpen t)
@@ -145,7 +145,7 @@ theorem flat_quotient_res_basicOpen (f : X ⟶ S) {W : S.Opens} {V : X.Opens}
 theorem asFiber_mem_support_comap (f : X ⟶ S) (T : X.IdealSheafData) (x : X)
     (hx : x ∈ T.support) : f.asFiber x ∈ (T.comap (f.fiberι (f x))).support := by
   rw [Scheme.IdealSheafData.support_comap]
-  show f.fiberι (f x) (f.asFiber x) ∈ T.support
+  change f.fiberι (f x) (f.asFiber x) ∈ T.support
   rw [f.fiberι_asFiber x]
   exact hx
 
@@ -175,7 +175,7 @@ theorem exists_mem_isRelativeQuasiRegularImmersion_of_dim_eq (f : X ⟶ S) [Flat
   have hxs : f.asFiber x ∈ (T.comap (f.fiberι (f x))).support :=
     asFiber_mem_support_comap f T x hx
   have hmemV : f.asFiber x ∈ f.fiberι (f x) ⁻¹ᵁ V := by
-    show f.fiberι (f x) (f.asFiber x) ∈ V
+    change f.fiberι (f x) (f.asFiber x) ∈ V
     rw [f.fiberι_asFiber x]
     exact hxV
   rw [Scheme.Hom.appLE_eq_app] at hfibeq
@@ -270,9 +270,9 @@ theorem exists_mem_isRelativeQuasiRegularImmersion_of_dim_eq (f : X ⟶ S) [Flat
   have hdetU : IsUnit (ρ b.det) := hρalg ▸ IsLocalization.Away.algebraMap_isUnit b.det
   have hmul : (fun i => ρ (a i)) = (ρ.mapMatrix b).mulVec fun j => ρ (gV j) := by
     funext i
-    show ρ (a i) = ∑ j, ρ (b i j) * ρ (gV j)
+    change ρ (a i) = ∑ j, ρ (b i j) * ρ (gV j)
     rw [congrFun hab i]
-    show ρ (∑ j, b i j * gV j) = _
+    change ρ (∑ j, b i j * gV j) = _
     rw [map_sum]
     exact Finset.sum_congr rfl fun j _ => map_mul ρ _ _
   have hspanU : Ideal.span (Set.range fun i => ρ (a i))

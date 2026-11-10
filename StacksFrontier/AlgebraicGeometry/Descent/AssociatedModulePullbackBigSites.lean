@@ -160,7 +160,7 @@ public theorem comparisonComp_baseOpensBaseChangeIso :
       SheafOfModules.comparisonComp f.toRingCatSheafHom (baseStructureMap B X hX τ) := by
   ext : 2
   funext V
-  show (structureMap B Y hY).hom.app V ≫
+  change (structureMap B Y hY).hom.app V ≫
       (Scheme.Γ ⋙ forget₂ CommRingCat RingCat.{u}).map
           (B.inclusion.map
             (pullback.fst (opensObj B Y hY V.unop).hom (siteHom B hX hY f))).op ≫
@@ -182,7 +182,7 @@ public theorem comparisonComp_baseOpensBaseChangeIso :
   refine Eq.trans (congrArg (fun k => (structureMap B Y hY).hom.app V ≫ k) hcomb) ?_
   have key := Scheme.Opens.topIso_inv_appTop_of_comp f V.unop (f ∣_ V.unop)
     (morphismRestrict_ι f V.unop)
-  show (forget₂ CommRingCat RingCat.{u}).map (Scheme.Opens.topIso (X := Y) V.unop).inv ≫
+  change (forget₂ CommRingCat RingCat.{u}).map (Scheme.Opens.topIso (X := Y) V.unop).inv ≫
       (forget₂ CommRingCat RingCat.{u}).map (f ∣_ V.unop).appTop =
     (forget₂ CommRingCat RingCat.{u}).map (f.app V.unop) ≫
       (forget₂ CommRingCat RingCat.{u}).map

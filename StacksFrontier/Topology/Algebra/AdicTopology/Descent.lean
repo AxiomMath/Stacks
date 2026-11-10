@@ -74,7 +74,7 @@ whose induced maps on quotients by open ideals are faithfully flat. -/
 public theorem isCountablyGenerated_nhds_zero_of_isTaut_of_faithfullyFlat_quotient
     {A : Type u} {B : Type v} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
     [IsLinearTopology A A] [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
-    [IsLinearTopology B B] (φ : A →+* B) (hφ : Continuous φ)
+    [IsLinearTopology B B] (φ : A →+* B)
     (hφ_taut : RingHom.IsTaut φ)
     (hφ_quotient : ∀ (I : Ideal A), IsOpen (I : Set A) →
       (Ideal.quotientMap (Ideal.closure (I.map φ)) φ
@@ -150,7 +150,7 @@ on quotients by open ideals and their closed extensions are faithfully flat. -/
 public theorem isPreAdmissible_of_isTaut_of_faithfullyFlat_quotient
     {A : Type u} {B : Type v} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
     [IsLinearTopology A A] [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
-    [IsLinearTopology B B] (φ : A →+* B) (hφ : Continuous φ) (hφ_taut : RingHom.IsTaut φ)
+    [IsLinearTopology B B] (φ : A →+* B) (hφ_taut : RingHom.IsTaut φ)
     (hφ_quotient : ∀ (I : Ideal A), IsOpen (I : Set A) →
       (Ideal.quotientMap (Ideal.closure (I.map φ)) φ
         (Ideal.map_le_iff_le_comap.mp (fun _ hx ↦ subset_closure hx))).FaithfullyFlat)
@@ -216,7 +216,7 @@ private theorem closure_comap_map {A : Type u} {B : Type v}
     J.closure = (Ideal.closure (J.map φ)).comap φ := by
   apply le_antisymm
   · intro x hx
-    show φ x ∈ closure (J.map φ : Set B)
+    change φ x ∈ closure (J.map φ : Set B)
     exact map_mem_closure hφ hx (fun _ hy ↦ Ideal.mem_map_of_mem φ hy)
   · intro x hx
     change φ x ∈ closure (J.map φ : Set B) at hx
@@ -244,7 +244,7 @@ private theorem closure_comap_map {A : Type u} {B : Type v}
         rw [Ideal.map_map, Ideal.map_map, Ideal.quotientMap_comp_mk]
       have hq : qA x ∈ J.map qA := by
         rw [← faithfullyFlat_comap_map_eq ψ (hquot L hL) (J.map qA)]
-        show ψ (qA x) ∈ (J.map qA).map ψ
+        change ψ (qA x) ∈ (J.map qA).map ψ
         rw [hmap, Ideal.quotientMap_mk]; exact hmq
       exact Ideal.mem_quotient_iff_mem_sup.mp hq
     exact mem_closure_of_forall_mem_sup hsup
@@ -376,7 +376,7 @@ private lemma exists_fg_subideal_whose_extension_contains
       ∃ t : Finset B, (t : Set B) ⊆ φ '' (I : Set A) ∧
         x.1 ∈ Submodule.span B (t : Set B) := by
     apply Submodule.mem_span_finite_of_mem_span
-    show x.1 ∈ Ideal.map φ I
+    change x.1 ∈ Ideal.map φ I
     apply hJ
     rw [← hs]
     exact Submodule.subset_span x.2
@@ -384,12 +384,12 @@ private lemma exists_fg_subideal_whose_extension_contains
     if hx : x ∈ s then Classical.choose (hspan ⟨x, hx⟩) else ∅
   have ht_subset (x : B) (hx : x ∈ s) : (t x : Set B) ⊆ φ '' (I : Set A) := by
     dsimp [t]
-    rw [dif_pos hx]
+    rw [dite_eq_left hx]
     exact (Classical.choose_spec (hspan ⟨x, hx⟩)).1
   have ht_span (x : B) (hx : x ∈ s) :
       x ∈ Submodule.span B (t x : Set B) := by
     dsimp [t]
-    rw [dif_pos hx]
+    rw [dite_eq_left hx]
     exact (Classical.choose_spec (hspan ⟨x, hx⟩)).2
   let U : Finset B := hsfin.toFinset.biUnion t
   have hpre (b : {b : B // b ∈ U}) : ∃ a : A, a ∈ I ∧ φ a = b.1 := by
@@ -628,7 +628,6 @@ public theorem exists_fg_ideal_of_definition_of_taut
     A A (inferInstance) I'.adicTopology (adic_topological_ring I')
     (Ideal.isLinearTopology I') (inferInstance) (inferInstance)
     (inferInstance) (inferInstance) (RingHom.id A)
-    (continuous_id_from_closure_cofinal I' hcofinal)
     (taut_id_from_closure_cofinal I' hIprimeOpen hcofinal)
     ⟨I', hI'fg, rfl⟩ (inferInstance) (inferInstance)
   exact ⟨K, hKadic, hKfg⟩

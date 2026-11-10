@@ -72,7 +72,7 @@ public def WeilDivisor (X : Scheme.{u}) : AddSubgroup (PrimeDivisor X → ℤ) w
     · have hEZ : E Z ≠ 0 := fun he ↦ hDE (by simp [hDZ, he])
       exact .inr ⟨p, by simpa [hEZ] using hpS, hpUV.2⟩
     · exact .inl ⟨p, by simpa [hDZ] using hpS, hpUV.1⟩
-  neg_mem' {D} hD := by simpa only [Set.mem_setOf_eq, Pi.neg_apply, neg_eq_zero] using hD
+  neg_mem' {D} hD := by simpa only [Set.mem_ofPred_eq, Pi.neg_apply, neg_eq_zero] using hD
 
 /-- A coefficient family is a Weil divisor exactly when its nonzero prime
 divisors form a locally finite family of underlying closed subsets. -/

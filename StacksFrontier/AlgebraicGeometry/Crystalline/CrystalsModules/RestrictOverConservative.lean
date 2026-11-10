@@ -127,8 +127,8 @@ noncomputable def isColimitCokernelCoforkOfForallRestrictOver
       (show SheafOfModules.{u + 1} ((crystallineStructureSheaf S).over B) ⥤
           SheafOfModules.{u + 1} Y.left.ringRestrictionSheaf from
         moduleRestrictionSheafOverFunctor.{u + 1} Y.hom) := fun Y ↦ by
-    haveI := preservesColimitsOfSize_moduleRestrictionSheafOverFunctor.{u} Y.hom
-    haveI : PreservesColimitsOfSize.{0, 0}
+    have := preservesColimitsOfSize_moduleRestrictionSheafOverFunctor.{u} Y.hom
+    have : PreservesColimitsOfSize.{0, 0}
         (show SheafOfModules.{u + 1} ((crystallineStructureSheaf S).over B) ⥤
             SheafOfModules.{u + 1} Y.left.ringRestrictionSheaf from
           moduleRestrictionSheafOverFunctor.{u + 1} Y.hom) :=

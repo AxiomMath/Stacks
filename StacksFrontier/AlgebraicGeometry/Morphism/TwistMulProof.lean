@@ -56,8 +56,8 @@ characterising property `relativeTwistMap_chart` turns it into the hypothesis of
 **One instantiation per declaration.** Each of `chartTwistIso_mul`, `legA_mul`, `legB_mul`,
 `midMul`, `mid_mul`, `chart_mul` and `pieceIncl_mul` is a single application of a lemma whose
 statement is at the level of variables, to arguments that are themselves named theorems. That is
-the discipline `StacksFrontier/AlgebraicGeometry/TwistMultCompat/Generic.lean` records, and the reason
-is the same: heartbeats are counted cumulatively over a declaration, and the elaborator's
+the discipline `StacksFrontier/AlgebraicGeometry/TwistMultCompat/Generic.lean` records, and the
+reason is the same: heartbeats are counted cumulatively over a declaration, and the elaborator's
 decomposition of one of these composites against the free morphisms of the generic lemma is a
 sizeable fraction of the budget on its own.
 
@@ -243,7 +243,8 @@ a lambda, and that is a budget matter. The factor left alone by each step is a c
 uncurried `Stacks.SheafOfModules.Tensor.sheafTensor`; `congrArg (fun k => that ≫ k) h` elaborates
 it a second time and hands the goal a beta-redex to reduce against it, which since
 `Stacks.SheafOfModules.Tensor.ringSheaf` became an ordinary `def` is a `whnf` across
-`sheafCompose`. That step alone exhausts the 200000-heartbeat budget, even in a declaration carrying one
+`sheafCompose`. That step alone exhausts the 200000-heartbeat budget, even in a declaration carrying
+one
 `congrArg` and nothing else. The
 whisker lemmas take the factor from the goal and build no redex. -/
 public theorem legA_mul (m n : ℤ) (U : S.affineOpens) :

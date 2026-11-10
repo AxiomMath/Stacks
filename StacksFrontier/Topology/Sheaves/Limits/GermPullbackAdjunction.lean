@@ -487,7 +487,7 @@ lemma appValue_add (hH : TopCat.Presheaf.IsSheaf H) {W : Opens Z}
     rw [presheafMap_add, hrA, hrB]
     exact ofSection_add_eq f (fun x ↦ hVA z (hjA z x)) (fun x ↦ hVB z (hjB z x)) _
       (sA z) (sB z)
-  show H.map (hiC z).op (appValue f φ hH (σ + τ)) =
+  change H.map (hiC z).op (appValue f φ hH (σ + τ)) =
     H.map (hiC z).op (appValue f φ hH σ + appValue f φ hH τ)
   have eA : H.map (hiC z).op (appValue f φ hH σ) =
       localValue f φ (fun x ↦ hVA z (hjA z x)) (sA z) :=

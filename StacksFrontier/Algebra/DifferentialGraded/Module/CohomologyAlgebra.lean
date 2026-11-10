@@ -294,7 +294,7 @@ theorem regularMulLeft_algebraMap (r : R) :
     regularMulLeft A (algebraMap R (A.Cocycle 0) r) = r • 𝟙 _ :=
   Hom.ext (LinearMap.ext fun x => by
     rw [regularMulLeft_toFun_apply, Cocycle.coe_algebraMap]
-    show algebraMap R A.A r * x = _
+    change algebraMap R A.A r * x = _
     rw [← Algebra.smul_def]
     rfl)
 
@@ -396,7 +396,7 @@ theorem regularEndAlgEquiv_cohomologyZeroAlgEquiv
       cohomologyZeroRegularEndAlgEquiv A x := by
   induction x using Quotient.ind with | _ a => ?_
   rw [cohomologyZeroRegularEndAlgEquiv_apply, cohomologyZeroEquivRegularEnd_mk]
-  show End.of ((toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).map
+  change End.of ((toHomotopyCategory A ⋙ (quasiIsomorphisms' A).Q).map
     (regularMulLeft A (degreeZeroCocycle A hA (a.1 : A.A)))) = _
   rw [show degreeZeroCocycle A hA (a.1 : A.A) = a from Subtype.ext (Subtype.ext rfl)]
 
@@ -475,7 +475,7 @@ def cocycleActionZero (a : A.Cocycle 0) : N.rightModule ⟶ N.rightModule :=
 /-- The action of a degree-zero cocycle is left multiplication by it. -/
 theorem cocycleActionZero_toFun_apply (a : A.Cocycle 0) (x : N.rightModule.M) :
     (N.cocycleActionZero a).toFun x = (N.leftMultiplication 0 a.1).1 x := by
-  show (shiftZeroHom B N.rightModule).toFun ((N.cocycleAction 0 a).toFun x) = _
+  change (shiftZeroHom B N.rightModule).toFun ((N.cocycleAction 0 a).toFun x) = _
   rw [N.cocycleAction_toFun 0 a]
   rfl
 
@@ -508,7 +508,7 @@ action records the action of the degree-`k` part by an `R`-linear family of coch
 theorem leftMultiplication_smul (k : ℤ) (r : R) (a : A.grading k) :
     N.leftMultiplication k (r • a) = r • N.leftMultiplication k a := by
   refine Subtype.ext (LinearMap.ext (N.linearMap_apply_eq_of_forall_homogeneous fun p x => ?_))
-  show (N.leftMultiplication k (r • a)).1 x = r • (N.leftMultiplication k a).1 x
+  change (N.leftMultiplication k (r • a)).1 x = r • (N.leftMultiplication k a).1 x
   simp only [leftMultiplication_apply, map_smul, Cochain.smul_v]
   rfl
 
@@ -575,7 +575,7 @@ of the action of that cocycle. -/
 theorem cohomologyZeroBimoduleEnd_mk (a : A.Cocycle 0) :
     N.cohomologyZeroBimoduleEnd (Quotient.mk _ a) =
       End.of ((toHomotopyCategory B ⋙ (quasiIsomorphisms' B).Q).map (N.cocycleActionZero a)) := by
-  show End.of (N.cohomologyEndomorphismComparison 0 (Quotient.mk _ a) ≫ _) = _
+  change End.of (N.cohomologyEndomorphismComparison 0 (Quotient.mk _ a) ≫ _) = _
   rw [cohomologyEndomorphismComparison_mk, cocycleActionZero, Functor.map_comp]
 
 /-- **The action of `H^0(A)` on the bimodule is bijective exactly when the degree-zero comparison

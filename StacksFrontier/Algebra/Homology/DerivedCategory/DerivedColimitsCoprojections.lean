@@ -63,7 +63,7 @@ theorem DerivedCategory.isHomotopyColimitWithCoprojections_Q_obj_colimit
   obtain ⟨p, q, hT, hp⟩ := DerivedCategory.isHomotopyColimitWith_Q_obj_colimit L
   obtain rfl : p = Sigma.desc (f := (L ⋙ DerivedCategory.Q).obj)
       fun n => DerivedCategory.Q.map (colimit.ι L n) :=
-    Sigma.hom_ext _ _ fun n => by rw [Sigma.ι_desc]; exact hp n
+    Sigma.hom_ext _ _ fun n => by rw [Sigma.ι_comp_desc]; exact hp n
   exact ⟨q, isHomotopyColimitWithCoprojections_of_distTriang _ _ hT⟩
 
 end

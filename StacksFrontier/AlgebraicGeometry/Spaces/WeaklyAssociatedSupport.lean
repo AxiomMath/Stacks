@@ -64,7 +64,7 @@ private noncomputable def fiberColimitEquivLarge
     {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
     {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (x : GeometricPoint B S hS F) (P : (SmallEtale B S hS F)ᵒᵖ ⥤ Type m) :
-    ((CategoryOfElements.π (geometricFiber B S hS F x)).op ⋙ P).ColimitType ≃
+    ((Functor.Elements.π (geometricFiber B S hS F x)).op ⋙ P).ColimitType ≃
       stalkSet x P where
   toFun := Quot.map
     (fun a => ⟨Opposite.op ((fiberElementsToNeighborhood B S hS F x).obj a.1.unop), a.2⟩)
@@ -120,13 +120,13 @@ private theorem moduleStalkLarge_subsingleton_of_stalkSet
   let J : D ⥤ p.fiber.Elementsᵒᵖ := FinallySmall.fromFilteredFinalModel _
   let P0 := F.val.presheaf
   let P := P0 ⋙ AddCommGrpCat.uliftFunctor.{u} ⋙ forget AddCommGrpCat
-  let G := (CategoryOfElements.π p.fiber).op ⋙ P0 ⋙ AddCommGrpCat.uliftFunctor.{u}
-  let GType := (CategoryOfElements.π p.fiber).op ⋙ P
+  let G := (Functor.Elements.π p.fiber).op ⋙ P0 ⋙ AddCommGrpCat.uliftFunctor.{u}
+  let GType := (Functor.Elements.π p.fiber).op ⋙ P
   let _ : HasColimit G := Functor.Final.hasColimit_of_comp J
   have hStalk : Subsingleton (stalkSet x P) :=
     (stalkSetAddCommGrpUliftEquiv x P0).subsingleton_congr.mpr h
   let e : GType.ColimitType ≃ stalkSet x P := by
-    change ((CategoryOfElements.π p.fiber).op ⋙ P).ColimitType ≃ _
+    change ((Functor.Elements.π p.fiber).op ⋙ P).ColimitType ≃ _
     rw [hp]
     exact fiberColimitEquivLarge (B := B) (S := S) (hS := hS) (F := X.1) x P
   let cG := colimit.cocone G

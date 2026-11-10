@@ -281,7 +281,7 @@ theorem isFiniteLength_tor_right_and_sum_length_eq_of_left (hc : ringKrullDim R 
       (P.derivedHomology (D := ModuleCat.{u} R) ((tensor coker coker).obj R) j) := fun j => by
     rw [← Module.length_ne_top_iff, (derivedHomologyTensorCokerIsoTor P j).toLinearEquiv.length_eq,
       hTc j, IsRegularLocalRing.length_tor_residueField_residueField hc j]
-    exact ENat.coe_ne_top _
+    exact ENat.natCast_ne_top _
   have fDT : ∀ j, IsFiniteLength R
       (P.derivedHomology (D := ModuleCat.{u} R) (relTensorSquare.obj R) j) := fun j =>
     h₄.isFiniteLength_derivedHomology₂ P (fy j) (fTc j)
@@ -454,7 +454,7 @@ theorem sum_length_tor_sub_two_mul_sum_length_homology_of_isFiniteLength
         ((Module.length R (homology Q i)).toNat : ℤ) =
       2 ^ c * ((Module.length R M).toNat : ℤ) :=
   (isFiniteLength_tor_and_sum_length_tor_sub_two_mul_sum_length_homology hc _
-    (ENat.coe_toNat (Module.length_ne_top_iff.2 hM)).symm Q).2
+    (ENat.natCast_toNat (Module.length_ne_top_iff.2 hM)).symm Q).2
 
 end Stacks.DerivedSquare
 

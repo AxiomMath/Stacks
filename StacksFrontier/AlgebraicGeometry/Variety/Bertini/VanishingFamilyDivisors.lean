@@ -44,9 +44,10 @@ the two predicates of [Stacks, Tag 0FD6] with the corresponding conclusion of
 
 `Stacks.Bertini.FamilyDivisors` has a mandatory `FiniteDimensional k V` field, and the finite
 dimensionality of `Γ(X, ℒ^{⊗ n})` for `X` proper over `k` is not proved in this repository (see
-the implementation notes of `StacksFrontier.AlgebraicGeometry.Variety.Bertini.VanishingLinearSystem`,
-where the dimension of the basis is likewise supplied by the caller). It is therefore taken as an
-instance argument of `Stacks.SectionsVanishingOnSubscheme.familyDivisors` rather than derived.
+the implementation notes of
+`StacksFrontier.AlgebraicGeometry.Variety.Bertini.VanishingLinearSystem`, where the dimension of the
+basis is likewise supplied by the caller). It is therefore taken as an instance argument of
+`Stacks.SectionsVanishingOnSubscheme.familyDivisors` rather than derived.
 
 The structure field `isInvertible` and the predicate `Stacks.Ample.IsInvertibleModule` are two
 spellings of invertibility differing in how the sheaf condition on the structure presheaf is

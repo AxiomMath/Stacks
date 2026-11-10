@@ -114,7 +114,7 @@ private lemma isContentIdeal_smul_of_localizedUnit
   let eB : M ≃ₗ[B] M := LinearEquiv.ofBijective g
     ((Module.End.isUnit_iff g).mp (IsLocalizedModule.map_units f s))
   have he : eB x = s • x := by
-    show eB x = (s : B) • x
+    change eB x = (s : B) • x
     simp [eB, g, Module.algebraMap_end_apply]
   exact ⟨fun hx ↦ he ▸ isContentIdeal_map_equiv (eB.restrictScalars A) hx,
     fun hx ↦ by simpa [← he] using isContentIdeal_map_equiv (eB.symm.restrictScalars A) hx⟩

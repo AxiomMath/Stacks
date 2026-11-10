@@ -13,8 +13,8 @@ separated scheme `X` of finite type over `A`, completion along `𝓘 = I · 𝒪
 
 This file records that when the structure morphism `f : X ⟶ Spec A` is itself **proper** both
 support conditions are vacuous: every closed subset of `X` is proper over `A`, because a closed
-immersion followed by a proper morphism is proper. Stacks 088E itself, at the source's hypotheses, is
-`Stacks.Algebraization.isEquivalence_completionFunctorProperOver_holds`.
+immersion followed by a proper morphism is proper. Stacks 088E itself, at the source's hypotheses,
+is `Stacks.Algebraization.isEquivalence_completionFunctorProperOver_holds`.
 
 ## Main results
 
@@ -54,7 +54,7 @@ followed by a proper morphism is proper. -/
 public theorem hasProperSupport_of_isProper {X S : Scheme.{u}} (f : X ⟶ S) [IsProper f]
     (M : X.Modules) [M.IsFiniteType] : HasProperSupport f M := by
   refine ⟨⟨_root_.SheafOfModules.supp M, _root_.SheafOfModules.isClosed_supp M⟩, rfl, ?_⟩
-  show IsProper ((Scheme.IdealSheafData.vanishingIdeal
+  change IsProper ((Scheme.IdealSheafData.vanishingIdeal
     (⟨_root_.SheafOfModules.supp M, _root_.SheafOfModules.isClosed_supp M⟩ :
       Closeds X)).subschemeι ≫ f)
   exact (IsProper.comp_iff (g := f)).2 inferInstance

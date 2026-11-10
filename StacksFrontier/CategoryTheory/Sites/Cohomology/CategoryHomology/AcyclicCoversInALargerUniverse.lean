@@ -86,7 +86,7 @@ lemma uliftReplacementGroupIso_summand (F : Cᵒᵖ ⥤ AddCommGrpCat.{u}) (p : 
         (replacementSummand (F ⋙ replacementUliftFunctor.{u, v}) p y (ULift.up t)) =
       ULift.up (replacementSummand F p y t) := by
   classical
-  show AddEquiv.ulift.symm (DFinsupp.mapRange.addEquiv (fun x : ComposableArrows C p =>
+  change AddEquiv.ulift.symm (DFinsupp.mapRange.addEquiv (fun x : ComposableArrows C p =>
       (AddEquiv.ulift : ULift.{v} (F.obj (op x.right)) ≃+ _))
       (DirectSum.of (fun z : ComposableArrows C p => ULift.{v} (F.obj (op z.right))) y
         (ULift.up t))) = _
@@ -208,7 +208,7 @@ lemma uliftFreeRepresentableHom_id {X : Cᵒᵖ ⥤ AddCommGrpCat.{max u v}} (U 
     (s : X.obj (op U)) :
     (uliftFreeRepresentableHom.{u, v} U s).app (op U)
         (ULift.up (FreeAbelianGroup.of (𝟙 U))) = s := by
-  show (FreeAbelianGroup.lift fun h : U ⟶ U => (X.map h.op) s) (FreeAbelianGroup.of (𝟙 U)) = s
+  change (FreeAbelianGroup.lift fun h : U ⟶ U => (X.map h.op) s) (FreeAbelianGroup.of (𝟙 U)) = s
   rw [FreeAbelianGroup.lift_apply_of, op_id, X.map_id]
   rfl
 

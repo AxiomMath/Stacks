@@ -81,7 +81,7 @@ theorem exists_injective_trace_zmodPow_of_curve {ℓ : ℕ} [Fact ℓ.Prime] (h�
   have hN0 : ℓ ^ n ≠ 0 := (pow_pos hp.pos n).ne'
   have hNk : IsUnit (((ℓ ^ n : ℕ)) : k) := by rw [Nat.cast_pow]; exact hℓ.pow n
   have : NeZero (((ℓ ^ n : ℕ)) : k) := ⟨hNk.ne_zero⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot k (ℓ ^ n)
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot k (ℓ ^ n)
   exact ⟨(Stacks.Kummer.smoothProperCurveTrace f hNk).toAddMonoidHom.comp
       (Stacks.Picard.extRootsOfUnityAddEquiv f hζ hN0 2).toAddMonoidHom,
     (Stacks.Kummer.smoothProperCurveTrace f hNk).injective.comp
@@ -476,7 +476,7 @@ theorem LAdicSheaf.exists_levelPairing_of_curve [IsAlgClosed kbar]
           ((padicCoefficientComplex B X ℓ).obj (LAdicSheaf.padicLevel B X ℓ F' n)) 1).hom y) =
         t n (constantExtRestriction (ZMod (ℓ ^ (n + 1))) πb 2
           (Stacks.ExtCup.cup.{u + 1, _, _} (μY n) (φ n x) (φ' n y) hji)) := by
-      show t n (Stacks.ExtCup.cup.{u + 1, _, _} (μY n) (φ n _) (φ' n _) hji) = _
+      change t n (Stacks.ExtCup.cup.{u + 1, _, _} (μY n) (φ n _) (φ' n _) hji) = _
       rw [← key]
       exact congrArg₂ (fun a b => t n (Stacks.ExtCup.cup.{u + 1, _, _} (μY n) a b hji))
         (hΦl n x) (hΦl' n y)

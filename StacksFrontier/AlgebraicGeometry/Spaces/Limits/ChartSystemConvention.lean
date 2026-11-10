@@ -124,7 +124,7 @@ noncomputable abbrev pullbackDiagramAlong [HasPullbacks C] (F : K ⥤ C) {T Y : 
   map_id k := by apply pullback.hom_ext <;> simp
   map_comp f g := by
     apply pullback.hom_ext <;>
-      simp [pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc]
+      simp
 
 /-- The transition maps of `pullbackDiagramAlong` commute with the first projections. -/
 theorem pullbackDiagramAlong_map_fst [HasPullbacks C] (F : K ⥤ C) {T Y : C}
@@ -229,7 +229,7 @@ theorem Scheme.isIso_of_mono_of_iSup_eq_top {X Y : Scheme.{u}} (f : X ⟶ Y) [Mo
   have hle : Set.range (s i) ⊆ Set.range (f ⁻¹ᵁ U i).ι := by
     rintro _ ⟨y, rfl⟩
     rw [Scheme.Opens.range_ι]
-    show f ((s i) y) ∈ U i
+    change f ((s i) y) ∈ U i
     rw [← Scheme.Hom.comp_apply, hs]
     exact y.2
   let t := IsOpenImmersion.lift (f ⁻¹ᵁ U i).ι (s i) hle
@@ -276,7 +276,7 @@ theorem BigFppfOver.contains_of_isPullback_of_limitInSite {J : Type u} [Category
   have ha : ∀ {k l : Over i₀} (f : k ⟶ l),
       (underlyingDiagram C.siteDiagram).map f ≫ a l = a k ≫ (Over.forget i₀ ⋙ D').map f := by
     intro k l f
-    show (BigFppfOver.toScheme B S hS).map (C.siteDiagram.map f) ≫ _ =
+    change (BigFppfOver.toScheme B S hS).map (C.siteDiagram.map f) ≫ _ =
       _ ≫ (BigFppfOver.toScheme B S hS).map (E.map f.left)
     simp only [a, ← Functor.map_comp]
     congr 1
@@ -286,7 +286,7 @@ theorem BigFppfOver.contains_of_isPullback_of_limitInSite {J : Type u} [Category
   have hb : ∀ {k l : Over i₀} (f : k ⟶ l),
       (underlyingDiagram C.siteDiagram).map f ≫ b l = b k := by
     intro k l f
-    show (BigFppfOver.toScheme B S hS).map (C.siteDiagram.map f) ≫ _ = _
+    change (BigFppfOver.toScheme B S hS).map (C.siteDiagram.map f) ≫ _ = _
     simp only [b, ← Functor.map_comp]
     congr 1
     apply yoneda.map_injective
@@ -469,7 +469,7 @@ theorem Space.AffineChartSystem.limitInSite_of_isPullback_pullbackDiagramAlong
   have lim₁ := isLimitConeOfIsPullbackStages (G := Q ⋙ T)
     (F := underlyingDiagram C.siteDiagram) (fun k => T.map (pullback.fst (wk k) p))
     (fun f => by
-      show T.map (Q.map f) ≫ _ = _ ≫ T.map (C.siteDiagram.map f)
+      change T.map (Q.map f) ≫ _ = _ ≫ T.map (C.siteDiagram.map f)
       rw [← T.map_comp, pullbackDiagramAlong_map_fst, T.map_comp])
     (fun k => T.map (wk k)) (T.map p) (fun k => T.map (pullback.snd (wk k) p)) hγ
     (fun k => (IsPullback.of_hasPullback (wk k) p).map T) e t₁ ht₁
@@ -477,7 +477,7 @@ theorem Space.AffineChartSystem.limitInSite_of_isPullback_pullbackDiagramAlong
   have lim₂ := isLimitConeOfIsPullbackStages (G := Q ⋙ T)
     (F := Over.forget i ⋙ V ⋙ T) (fun k => T.map (β k))
     (fun f => by
-      show T.map (Q.map f) ≫ _ = _ ≫ T.map (V.map f.left)
+      change T.map (Q.map f) ≫ _ = _ ≫ T.map (V.map f.left)
       rw [← T.map_comp, hβnat, T.map_comp])
     (fun k => T.map (V.map k.hom)) (T.map q) (fun k => T.map (pullback.snd (wk k) p)) hγ
     (fun k => (hβpb k).map T) (c.whisker (Over.forget i)) (c.π.app i) (fun k => c.w k.hom)
@@ -486,7 +486,7 @@ theorem Space.AffineChartSystem.limitInSite_of_isPullback_pullbackDiagramAlong
   have hsz := Scheme.size_congr (lim₁.conePointUniqueUpToIso lim₂)
   rw [coneOfIsPullbackStages_pt, coneOfIsPullbackStages_pt] at hsz
   have hsz₁ : B.Contains (pullback t₁ (T.map p)) := by
-    show Scheme.size _ < _
+    change Scheme.size _ < _
     rw [hsz]
     exact Scheme.size_pullback_lt _ _ hsize Z'.left.property
   exact Scheme.size_lt_of_flat_of_surjective_of_isStrongPrelimit B.cutoff_isStrongPrelimit

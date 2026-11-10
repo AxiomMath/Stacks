@@ -252,7 +252,7 @@ theorem subsingleton_ext_of_isFiniteTypeLocallyConstant {X : Scheme.{u}}
       have hsup : WS ↑(Finset.cons c S hc) = WS {c} ⊔ WS ↑S := by
         ext x
         rw [TopologicalSpace.Opens.coe_sup, Set.mem_union]
-        show ConnectedComponents.mk x ∈ (↑(Finset.cons c S hc) : Set _) ↔
+        change ConnectedComponents.mk x ∈ (↑(Finset.cons c S hc) : Set _) ↔
           ConnectedComponents.mk x ∈ ({c} : Set _) ∨ ConnectedComponents.mk x ∈ (↑S : Set _)
         simp only [Finset.coe_cons, Set.mem_insert_iff, Set.mem_singleton_iff, Finset.mem_coe]
       have hinf : ∀ x : X, x ∉ WS {c} ⊓ WS ↑S := by

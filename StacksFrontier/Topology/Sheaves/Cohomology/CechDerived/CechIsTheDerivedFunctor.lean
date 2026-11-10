@@ -276,7 +276,7 @@ def sectionsRes {V W : Opens Y} (hV : V ≤ 𝒰.U) (hW : W ≤ 𝒰.U) (h : W �
 theorem sectionsRes_refl {V : Opens Y} (hV hV' : V ≤ 𝒰.U) :
     sectionsRes R 𝒰 hV hV' le_rfl = 𝟙 _ := by
   ext M x
-  show M.map (𝟙 (op V)) x = x
+  change M.map (𝟙 (op V)) x = x
   rw [M.map_id]
   rfl
 

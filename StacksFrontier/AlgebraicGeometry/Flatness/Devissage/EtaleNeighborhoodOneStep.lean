@@ -216,7 +216,7 @@ private lemma supp_pushforward_subset_range {X Y : Scheme.{u}} (i : Y ⟶ X)
   by_contra hnot
   let Gsh : TopCat.Sheaf AddCommGrpCat.{u} Y.toTopCat := ⟨F.presheaf, F.isSheaf⟩
   have hz : IsTerminal (((Scheme.Modules.pushforward i).obj F).presheaf.stalk x) := by
-    show IsTerminal (TopCat.Presheaf.stalk
+    change IsTerminal (TopCat.Presheaf.stalk
       ((TopCat.Sheaf.pushforward AddCommGrpCat i.base).obj Gsh).1 x)
     exact ClosedImmersionSheaves.isTerminalStalkPushforwardOfNotMemRange
       i.base Gsh.property i.isClosedEmbedding x hnot
@@ -231,13 +231,20 @@ private re-proof of a public declaration of
 `StacksFrontier/AlgebraicGeometry/MoreMorphisms/NowhereDenseFibres/FibrePoints.lean`, which this
 module now imports. Those live in `AlgebraicGeometry.Scheme.Hom`:
 
-* `fiberMapComp` (StacksFrontier/AlgebraicGeometry/MoreMorphisms/NowhereDenseFibres/FibrePoints.lean:78) was byte-identical to `fiberCompMap`;
-* `fiberMapComp_fiberι` (StacksFrontier/AlgebraicGeometry/MoreMorphisms/NowhereDenseFibres/FibrePoints.lean:83) has the statement `fiberCompMap_fiberι` had, and
+* `fiberMapComp`
+  (StacksFrontier/AlgebraicGeometry/MoreMorphisms/NowhereDenseFibres/FibrePoints.lean:78) was
+  byte-identical to `fiberCompMap`;
+* `fiberMapComp_fiberι`
+  (StacksFrontier/AlgebraicGeometry/MoreMorphisms/NowhereDenseFibres/FibrePoints.lean:83) has the
+  statement `fiberCompMap_fiberι` had, and
   the same proof;
-* the instance `fiberMapComp_isClosedImmersion` (StacksFrontier/AlgebraicGeometry/MoreMorphisms/NowhereDenseFibres/FibrePoints.lean:113) subsumes
+* the instance `fiberMapComp_isClosedImmersion`
+  (StacksFrontier/AlgebraicGeometry/MoreMorphisms/NowhereDenseFibres/FibrePoints.lean:113) subsumes
   `fiberCompMap_isClosedImmersion`, and is global there, so it needs no local attribute here.
 
-Only the integrality lemma below has no public twin: `StacksFrontier/AlgebraicGeometry/MoreMorphisms/NowhereDenseFibres/FibrePoints.lean` carries the closed- and
+Only the integrality lemma below has no public twin:
+`StacksFrontier/AlgebraicGeometry/MoreMorphisms/NowhereDenseFibres/FibrePoints.lean` carries the
+closed- and
 open-immersion cases and no `IsIntegralHom` one. It is kept, restated for the canonical map. -/
 private lemma fiberMapComp_isIntegralHom {T X S : Scheme.{u}} (i : T ⟶ X) [IsFinite i]
     (f : X ⟶ S) (s : S) : IsIntegralHom (Scheme.Hom.fiberMapComp i f s) := by
@@ -342,7 +349,7 @@ theorem exists_etaleNeighborhood_oneStepDevissageAt {X S : Scheme.{u}} (f : X �
   have hpB : p ∈ B := by
     refine (mem_supp_fiber_iff_mem_supp D.toBase _ D.U.point).2 ?_
     rw [Stacks.Modules.supp_pullback]
-    show D.U.toBase D.U.point ∈ SheafOfModules.supp F
+    change D.U.toBase D.U.point ∈ SheafOfModules.supp F
     rw [D.U.map_point]
     exact hxF
   have hφpoint : φ p = f.asFiber x := by
@@ -402,7 +409,7 @@ theorem exists_etaleNeighborhood_oneStepDevissageAt {X S : Scheme.{u}} (f : X �
       have hzq : k z = q := by
         calc
           k z = D.toBase (D.i z) := by
-            show D.h (D.π z) = D.toBase (D.i z)
+            change D.h (D.π z) = D.toBase (D.i z)
             simpa only [Scheme.Hom.comp_apply] using
               (congrArg (fun m : D.Z ⟶ D.V.scheme => m z) D.commutes_closed).symm
           _ = D.toBase (D.toBase.fiberι q u) := by rw [hz]
@@ -491,11 +498,11 @@ theorem exists_etaleNeighborhood_oneStepDevissageAt {X S : Scheme.{u}} (f : X �
           (D.V.scheme.residueFieldCongr D.point_base).inv.hom.comp
             (D.V.scheme.residueFieldCongr hpoint).hom.hom =
           (D.V.scheme.residueFieldCongr (D.point_base.trans hpoint.symm)).inv.hom := by
-        show CommRingCat.Hom.hom ((D.V.scheme.residueFieldCongr hpoint).hom ≫
+        change CommRingCat.Hom.hom ((D.V.scheme.residueFieldCongr hpoint).hom ≫
           (D.V.scheme.residueFieldCongr D.point_base).inv) = _
         rw [hcong]
       have hmap : newMap = oldMap.comp e.toRingHom := by
-        show (D.h.residueFieldMap (D.π D.z)).hom.comp
+        change (D.h.residueFieldMap (D.π D.z)).hom.comp
             (D.V.scheme.residueFieldCongr (D.point_base.trans hpoint.symm)).inv.hom =
           ((D.h.residueFieldMap (D.π D.z)).hom.comp
             (D.V.scheme.residueFieldCongr D.point_base).inv.hom).comp

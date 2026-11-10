@@ -85,7 +85,7 @@ public lemma restrictTopIso_naturality {X : Scheme.{u}} {M N : X.Modules}
     (f : M ⟶ N) (W : X.Opens) :
     ((Scheme.Modules.restrictFunctor W.ι).map f).app ⊤ ≫ (restrictTopIso N W).hom =
       (restrictTopIso M W).hom ≫ f.app W := by
-  show f.app (W.ι ''ᵁ ⊤) ≫ N.presheaf.map _ = M.presheaf.map _ ≫ f.app W
+  change f.app (W.ι ''ᵁ ⊤) ≫ N.presheaf.map _ = M.presheaf.map _ ≫ f.app W
   exact (f.mapPresheaf.naturality _).symm
 
 /-- **A section over a quasi-compact open comes from a single finite type quasi-coherent
@@ -118,7 +118,7 @@ theorem exists_finiteTypeQuasicoherentSubobject_section {X : Scheme.{u}} (F : X.
     (fun U => Fw.val.map (homOfLE (show U.unop ≤ ⊤ from le_top)).op sTop)
     (by
       intro U V f
-      show Fw.val.presheaf.map f
+      change Fw.val.presheaf.map f
           (Fw.val.presheaf.map (homOfLE (show U.unop ≤ ⊤ from le_top)).op sTop) = _
       have hcomp : (homOfLE (show U.unop ≤ ⊤ from le_top)).op ≫ f =
           (homOfLE (show V.unop ≤ ⊤ from le_top)).op := Subsingleton.elim _ _
@@ -155,7 +155,7 @@ theorem exists_finiteTypeQuasicoherentSubobject_section {X : Scheme.{u}} (F : X.
       _ = Fw.unitHomEquiv f := congrArg Fw.unitHomEquiv hg
       _ = sLoc := Fw.unitHomEquiv.apply_symm_apply sLoc
   have hsLocTop : sLoc.val (op ⊤) = sTop := by
-    show Fw.presheaf.map (𝟙 _) sTop = sTop
+    change Fw.presheaf.map (𝟙 _) sTop = sTop
     exact ConcreteCategory.congr_hom (Fw.presheaf.map_id (op ⊤)) sTop
   have hzSrcTop :
       (((Scheme.Modules.restrictFunctor W.ι).map G.arrow).val.app (op ⊤))
@@ -170,7 +170,7 @@ theorem exists_finiteTypeQuasicoherentSubobject_section {X : Scheme.{u}} (F : X.
     exact ((ConcreteCategory.comp_apply _ _ _).symm.trans h).trans
       (ConcreteCategory.comp_apply _ _ _)
   rw [← hnat]
-  show (restrictTopIso F W).hom
+  change (restrictTopIso F W).hom
     ((((Scheme.Modules.restrictFunctor W.ι).map G.arrow).val.app (op ⊤))
       (zSrc.val (op ⊤))) = s
   rw [hzSrcTop]
@@ -182,7 +182,7 @@ private lemma exists_section_of_le {X : Scheme.{u}} {F : X.Modules} {A C : Subob
     (h : A ≤ C) (V : X.Opens) (u : Γ((A : X.Modules), V)) :
     ∃ v : Γ((C : X.Modules), V), C.arrow.app V v = A.arrow.app V u :=
   ⟨(Subobject.ofLE A C h).app V u, by
-    show ((Subobject.ofLE A C h ≫ C.arrow).app V) u = _
+    change ((Subobject.ofLE A C h ≫ C.arrow).app V) u = _
     rw [Subobject.ofLE_arrow]⟩
 
 /-- Finite type quasi-coherent subobjects cover a quasi-coherent module on a qcqs scheme. -/
@@ -353,9 +353,9 @@ theorem exists_finiteTypeQuasicoherentSubobject_le_sections {X : Scheme.{u}} {F 
     Stacks.SheafOfModules.isFiniteType_of_iso.{u} e.symm, fun j => ?_⟩
   obtain ⟨u, hu⟩ := hG j
   refine ⟨e.inv.app (W j) u, ?_⟩
-  show ((e.inv ≫ (Subobject.mk (G.arrow ≫ I.arrow)).arrow).app (W j)) u = _
+  change ((e.inv ≫ (Subobject.mk (G.arrow ≫ I.arrow)).arrow).app (W j)) u = _
   rw [Subobject.underlyingIso_arrow]
-  show I.arrow.app (W j) (G.arrow.app (W j) u) = _
+  change I.arrow.app (W j) (G.arrow.app (W j) u) = _
   rw [hu]
 
 end AlgebraicGeometry

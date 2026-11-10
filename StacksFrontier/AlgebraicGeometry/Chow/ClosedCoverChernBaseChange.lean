@@ -63,8 +63,8 @@ Stacks 0GUG itself, for the classes of Stacks 0F9H as constructed in
 `StacksFrontier.AlgebraicGeometry.Chow.BabyLocalizedChern.LocalizedChernClass`, is
 `Stacks.Chow.localizedChernClassOfClosedCover_baseChange` and
 `Stacks.Chow.localizedPowerSumOfClosedCover_baseChange` in
-`StacksFrontier.AlgebraicGeometry.Chow.BabyLocalizedChern.LocalizedChernBaseChange`; the results here
-are the form of its argument used by
+`StacksFrontier.AlgebraicGeometry.Chow.BabyLocalizedChern.LocalizedChernBaseChange`; the results
+here are the form of its argument used by
 `StacksFrontier.AlgebraicGeometry.Chow.LocalizedClassAtInfinity.Modification` (Stacks 0FAU).
 
 ## Implementation notes

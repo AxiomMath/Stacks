@@ -370,7 +370,7 @@ theorem pointsMap_mem_singleDegreeFreePoints {F : (BigFppfOver B S hS)ᵒᵖ ⥤
     representedSpaceMap B S hS N.point
   have hbm : bm ≫ chartToSpace B S hS X V = c := by
     refine InducedCategory.hom_ext (yonedaEquiv.injective ?_)
-    show yonedaEquiv (yoneda.map N.point ≫ V.obj.hom) = yonedaEquiv c.hom
+    change yonedaEquiv (yoneda.map N.point ≫ V.obj.hom) = yonedaEquiv c.hom
     rw [yonedaEquiv_comp, yonedaEquiv_yoneda_map]
     exact N.point_comp
   -- the pullback of the model to the point is free in degree `i`

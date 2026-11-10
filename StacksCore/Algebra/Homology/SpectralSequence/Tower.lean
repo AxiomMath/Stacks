@@ -54,7 +54,8 @@ at every position `pq : κ` inside `E_{r₀}^{pq} = (E.page r₀).X pq`; the onl
   restatements `Ungraded.Z_add_one_self`, `B_add_one_self`, `Z_add_one`, `B_add_one` spell the
   same facts with `Ungraded.d`: `rw [hd]` with `hd : E.d r = …` never fires on
   `(E.page r).d () ((ComplexShape.refl Unit).next ())`.
-* Relation to the edge maps of mathlib#25848 (`StacksCore.Algebra.Homology.SpectralSequence.EdgeStep`):
+* Relation to the edge maps of mathlib#25848
+  (`StacksCore.Algebra.Homology.SpectralSequence.EdgeStep`):
   `Z_add_one_of_hasEdgeEpiAt` (`d_r` out of `pq` vanishes, so `Z_{r+1} = Z_r`),
   `B_add_one_of_hasEdgeMonoAt` (`d_r` into `pq` vanishes, so `B_{r+1} = B_r`), and through
   `E_r ≅ Z_r/B_r` the edge maps are the maps induced on subquotients by `Z_{r+1} ⊆ Z_r`, resp.

@@ -103,7 +103,7 @@ theorem fibreRestriction_faithful_of_isPushout
   constructor
   intro W₁ W₂ φ ψ hφψ
   apply (R S').ι.map_injective
-  show φ.hom = ψ.hom
+  change φ.hom = ψ.hom
   apply Over.OverMorphism.ext
   have hS : ((Over.pullback (schemeSpaceMap h)).map φ.hom).left =
       ((Over.pullback (schemeSpaceMap h)).map ψ.hom).left :=
@@ -260,7 +260,7 @@ theorem pullbackIsoOfIsPullback_compat {V : Over (schemeSpace S)} {U' : Over (sc
         pullback.fst W.hom (schemeSpaceMap h) := by
     simpa only [overlapToT', Category.assoc] using overlapToT'_fst i f g h hc W
   apply Over.OverMorphism.ext
-  show A ≫ φ.left = Sl ≫ Bl
+  change A ≫ φ.left = Sl ≫ Bl
   apply pullback.hom_ext
   · apply hU.hom_ext
     · simp only [Category.assoc]

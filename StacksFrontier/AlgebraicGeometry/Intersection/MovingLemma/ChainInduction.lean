@@ -174,10 +174,11 @@ public theorem mem_linearSubspace_map_subtype_iff (W : Submodule k V) (P : Submo
     Submodule.map_le_iff_le_comap]
 
 /-- **The chosen centre being outside the image keeps the subvariety off the next vertex.** Let
-`X ⊆ 𝐏(V)` be disjoint from the linear subspace cut out by `W`, so that the projection `r_W` is
-defined on `X`, and let `p` be a closed point of `𝐏(W)` outside the image of `X` under `r_W`.
-Then `X` is disjoint from the linear subspace cut out by the image in `V` of the hyperplane of
-`p`, which is the vertex of the projection at the next stage of the chain.
+`X ⊆ 𝐏(V)` lift, through `j`, into the domain of definition of the projection `r_W` (as it does
+when `X` is disjoint from the linear subspace cut out by `W`), and let `p` be a closed point of
+`𝐏(W)` outside the image of `X` under `r_W`. Then `X` is disjoint from the linear subspace cut
+out by the image in `V` of the hyperplane of `p`, which is the vertex of the projection at the
+next stage of the chain.
 
 This is what keeps the chain going: by
 `AlgebraicGeometry.ProjectiveSpaceOfModule.exists_isFinite_projection_of_disjoint` the
@@ -186,7 +187,6 @@ and the finiteness of that projection, so neither has to be carried along separa
 public theorem disjoint_linearSubspace_map_subtype_pointSubmodule [IsAlgClosed k]
     [Module.Finite k V] (W : Submodule k V) {X : Scheme.{u}}
     (iX : X ⟶ projectiveSpaceOfModule k V)
-    (hdisj : Disjoint (Set.range iX.base) (linearSubspace k V W))
     (j : X ⟶ (projectionDomain k V W).toScheme)
     (hj : j ≫ (projectionDomain k V W).ι = iX)
     (p : projectiveSpaceOfModule k ↥W)
@@ -205,7 +205,7 @@ public theorem disjoint_linearSubspace_map_subtype_pointSubmodule [IsAlgClosed k
     hiff.mp hmem
   rw [linearSubspace_pointSubmodule k ↥W p hp] at hproj
   refine hpnot ⟨y, ?_⟩
-  show projection k V W (j.base y) = p
+  change projection k V W (j.base y) = p
   exact hproj
 
 /-! ### How the error term of condition (4) propagates along the chain -/
@@ -304,7 +304,7 @@ private theorem exists_closedPoint_forall_mem_isFinite_projection [IsAlgClosed k
   have hdom : p ∈ (linearSubspace k V (pointSubmodule k V p))ᶜ := by
     rw [← coe_mapDomain_subtype k V (pointSubmodule k V p), ← Scheme.Opens.range_ι]
     refine ⟨j.base y, ?_⟩
-    show (j ≫ (projectionDomain k V (pointSubmodule k V p)).ι).base y = p
+    change (j ≫ (projectionDomain k V (pointSubmodule k V p)).ι).base y = p
     rw [hj]
     exact hy
   exact hdom (by rw [linearSubspace_pointSubmodule k V p hpc]; rfl)
@@ -406,7 +406,7 @@ public theorem exists_closedPoint_isFinite_etaleAt_projection [IsAlgClosed k]
       (IsReduced (Scheme.IdealSheafData.vanishingIdeal (⟨ZS, hZScl⟩ : Closeds X)).subscheme)
   have hpt : ∀ s, ∃ z : I.subscheme, eZ.base z = b s := by
     intro s
-    show b s ∈ Set.range eZ.base
+    change b s ∈ Set.range eZ.base
     rw [hrange]
     exact hbZ s
   choose z hz using hpt
@@ -763,7 +763,7 @@ closed point `p` of `𝐏(W)` off the image `Y` of `X`, with `jY` lifting `Y` in
 of its projection, and that projection is `q ≫ jY ≫ r_p` up to the identification of the targets. -/
 private theorem exists_lift_projection_map_subtype [IsAlgClosed k] [FiniteDimensional k V]
     [Nontrivial V] (W : Submodule k V) {X Y : Scheme.{u}} (iX : X ⟶ projectiveSpaceOfModule k V)
-    [IsClosedImmersion iX] (hdisj : Disjoint (Set.range iX.base) (linearSubspace k V W))
+    [IsClosedImmersion iX]
     {j : X ⟶ (projectionDomain k V W).toScheme} (hj : j ≫ (projectionDomain k V W).ι = iX)
     {iY : Y ⟶ projectiveSpaceOfModule k ↥W} {q : X ⟶ Y} (hqiY : q ≫ iY = j ≫ projection k V W)
     (p : projectiveSpaceOfModule k ↥W) (hpc : IsClosed ({p} : Set (projectiveSpaceOfModule k ↥W)))
@@ -783,7 +783,7 @@ private theorem exists_lift_projection_map_subtype [IsAlgClosed k] [FiniteDimens
     refine hpnot ⟨q.base x, ?_⟩
     rw [← hx, ← hqiY]
     rfl
-  have hdisj' := disjoint_linearSubspace_map_subtype_pointSubmodule k V W iX hdisj j hj p hpc hpnot'
+  have hdisj' := disjoint_linearSubspace_map_subtype_pointSubmodule k V W iX j hj p hpc hpnot'
   obtain ⟨j', hj', hfin'⟩ := exists_isFinite_projection_of_disjoint iX _ hdisj'
   obtain ⟨jP, hjP, hjPeq⟩ := exists_comp_eq_projection_map_subtype k V W (pointSubmodule k ↥W p)
     j j' (by rw [hj', hj])
@@ -920,7 +920,6 @@ private theorem exists_next_submodule_family [IsAlgClosed k] [FiniteDimensional 
     {d' : ι → ℕ} (hd' : ∀ i, d' i < n)
     (hTd : ∀ i, topologicalKrullDim ↥(T i) ≤ (d' i : WithBot ℕ∞))
     (W : Submodule k V) (hWrank : Module.finrank k ↥W + s = N + 1) (hsN : n + s + 2 ≤ N)
-    (hdisj : Disjoint (Set.range iX.base) (linearSubspace k V W))
     (j : X ⟶ (projectionDomain k V W).toScheme) (hj : j ≫ (projectionDomain k V W).ι = iX)
     (hF : ∀ i, ∃ F : Set X, IsClosed F ∧
       topologicalKrullDim ↥F + ((n + 1 : ℕ) : WithBot ℕ∞) ≤ ((d + d' i + 1 : ℕ) : WithBot ℕ∞) ∧
@@ -982,7 +981,7 @@ private theorem exists_next_submodule_family [IsAlgClosed k] [FiniteDimensional 
       (fun i => (j ≫ projection k V W).base '' (T i)) (fun i => (himg (hTcl i)).1) hTZ
   have := hfinY
   obtain ⟨hdisj', j', hj', -, hcomp⟩ :=
-    exists_lift_projection_map_subtype k V W iX hdisj hj hqiY p hpc hpnot hjY
+    exists_lift_projection_map_subtype k V W iX hj hqiY p hpc hpnot hjY
   have hW'rank : Module.finrank k ↥((pointSubmodule k ↥W p).map W.subtype) = m := by
     rw [Submodule.finrank_map_subtype_eq]
     have := finrank_pointSubmodule_add_one k ↥W p hpc
@@ -1036,7 +1035,6 @@ private theorem exists_next_submodule [IsAlgClosed k] [FiniteDimensional k V] [N
     {ι : Type*} [Finite ι] (T : ι → Set X) (hTcl : ∀ i, IsClosed (T i))
     (hTd : ∀ i, topologicalKrullDim ↥(T i) ≤ (d' : WithBot ℕ∞))
     (W : Submodule k V) (hWrank : Module.finrank k ↥W + s = N + 1) (hsN : n + s + 2 ≤ N)
-    (hdisj : Disjoint (Set.range iX.base) (linearSubspace k V W))
     (j : X ⟶ (projectionDomain k V W).toScheme) (hj : j ≫ (projectionDomain k V W).ι = iX)
     (hF : ∀ i, ∃ F : Set X, IsClosed F ∧
       topologicalKrullDim ↥F + ((n + 1 : ℕ) : WithBot ℕ∞) ≤ ((d + d' + 1 : ℕ) : WithBot ℕ∞) ∧
@@ -1065,7 +1063,7 @@ private theorem exists_next_submodule [IsAlgClosed k] [FiniteDimensional k V] [N
           ∀ t, ∃ O : Set X, IsOpen O ∧ a t ∈ O ∧
             ∀ S : Set X, O ∩ q'.base ⁻¹' (q'.base '' S) ⊆ S :=
   exists_next_submodule_family k V iX hdim a hareg hd Z hZcl hZd T hTcl (fun _ => hd') hTd W hWrank
-    hsN hdisj j hj hF iY q hqiY hq hqsep
+    hsN j hj hF iY q hqiY hq hqsep
 
 /-- **The chain of projections of Stacks 0B0E, run through its non-final stages.** Let
 `X ⊆ 𝐏(V)` be a closed subvariety of dimension `n` of the projective space of a vector space of
@@ -1128,14 +1126,14 @@ public theorem exists_submodule_isFinite_surjective_etaleAt_image_family [IsAlgC
       T hTcl hd' hTd
   | succ s hs ih =>
     intro hsN
-    obtain ⟨W, hWrank, hdisj, j, hj, hFinv, Y, iY, q, hciY, hvY, hfq, hsq, hqiY, hqet, hqsep⟩ :=
+    obtain ⟨W, hWrank, -, j, hj, hFinv, Y, iY, q, hciY, hvY, hfq, hsq, hqiY, hqet, hqsep⟩ :=
       ih (by omega)
     have := hciY
     have := hvY
     have := hfq
     have := hsq
     exact exists_next_submodule_family k V iX hdim a hareg hd Z hZcl hZd T hTcl hd' hTd W hWrank
-      (by omega) hdisj j hj hFinv iY q hqiY hqet hqsep
+      (by omega) j hj hFinv iY q hqiY hqet hqsep
 
 /-- **The chain of projections of Stacks 0B0E, run through its non-final stages.** Let
 `X ⊆ 𝐏(V)` be a closed subvariety of dimension `n` of the projective space of a vector space of
@@ -1292,7 +1290,7 @@ public theorem exists_submodule_finrank_eq_isFinite_etaleAt_projection_family [I
     · obtain ⟨E, hEcl, hEsub, hEdim, hEeq⟩ := hE i
       exact errorTerm_first k V iX hj (hTcl i) Z hEcl (by omega) hEdim
         ((himg (hTcl i)).2.trans (hTd i)) ((himg hZcl).2.trans hZd) hEeq
-  · obtain ⟨W, hWrank, hdisj, j, hj, hFinv, Y, iY, q, hciY, hvY, hfq, hsq, hqiY, hqet, hqsep⟩ :=
+  · obtain ⟨W, hWrank, -, j, hj, hFinv, Y, iY, q, hciY, hvY, hfq, hsq, hqiY, hqet, hqsep⟩ :=
       exists_submodule_isFinite_surjective_etaleAt_image_family k V hV iX hdim (Sum.elim a b)
         habreg hd Z hZcl hZd T hTcl hd' hTd (N - n - 1) (by omega) (by omega)
     have := hciY
@@ -1352,7 +1350,7 @@ public theorem exists_submodule_finrank_eq_isFinite_etaleAt_projection_family [I
         (fun i => (himg (hTcl i)).1) hTZ (q.base '' Z) (hqimg hZcl).1 hZYirr hZYne
         (fun s => q.base (b s)) hbYZ hbYcl (fun s => hYreg (Sum.inr s))
     obtain ⟨hdisj', j', hj', hfin', hcomp⟩ :=
-      exists_lift_projection_map_subtype k V W iX hdisj hj hqiY p hpc hpnot hjY
+      exists_lift_projection_map_subtype k V W iX hj hqiY p hpc hpnot hjY
     have hcompet : ∀ t : α ⊕ β,
         EtaleAt (j' ≫ projection k V ((pointSubmodule k ↥W p).map W.subtype))
           (Sum.elim a b t) := by

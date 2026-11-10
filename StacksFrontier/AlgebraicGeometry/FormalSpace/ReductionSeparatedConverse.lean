@@ -80,8 +80,8 @@ surjective and `iu : U ⟶ U'`, `iv : V ⟶ V'` are surjective on global section
 `Γ(U', ⊤) ⊗_ℤ Γ(V', ⊤) ⟶ Γ(P, ⊤)` is surjective.
 
 Every element of `Γ(P, ⊤)` is the image of a tensor, and a pure tensor `x ⊗ y` is the image of
-any pair of preimages of `x` and `y`; the range of the second map is closed under addition and
-contains zero, so the induction over tensors goes through. -/
+any pair of preimages of `x` and `y`; the range of the second map is closed under addition, so
+the induction over tensors goes through. -/
 theorem surjective_globalSectionsTensorLift_comp {U V U' V' P : Scheme.{u}}
     (p : P ⟶ U) (q : P ⟶ V) (iu : U ⟶ U') (iv : V ⟶ V')
     (hsurj : Function.Surjective (globalSectionsTensorLift p q))
@@ -91,8 +91,7 @@ theorem surjective_globalSectionsTensorLift_comp {U V U' V' P : Scheme.{u}}
       globalSectionsTensorLift p q s ∈
         Set.range (globalSectionsTensorLift (p ≫ iu) (q ≫ iv)) := by
     intro s
-    induction s using TensorProduct.induction_on with
-    | zero => exact ⟨0, by simp⟩
+    induction s using TensorProduct.inductionOn with
     | tmul x y =>
         obtain ⟨x', hx'⟩ := hu x
         obtain ⟨y', hy'⟩ := hv y

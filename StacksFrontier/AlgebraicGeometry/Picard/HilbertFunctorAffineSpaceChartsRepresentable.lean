@@ -187,10 +187,10 @@ theorem eq_of_isChart_of_coords [IsAffine S] {T : Over S} [IsAffine T.left]
       obtain ⟨⟨c, b⟩, rfl⟩ := hx
       obtain ⟨P, rfl⟩ := polyFun_surjective S n b
       refine ⟨c • ChartAlgebra.coordMap v P, ?_, ?_⟩
-      · show Z.ideal.subschemeι.appTop (_ * _) = _
+      · change Z.ideal.subschemeι.appTop (_ * _) = _
         rw [map_mul, chartMap_smul, ← toAmbient_polyFun_eq_chartMap Z W hv]
         rfl
-      · show Z'.ideal.subschemeι.appTop (_ * _) = _
+      · change Z'.ideal.subschemeι.appTop (_ * _) = _
         rw [map_mul, chartMap_smul, ← toAmbient_polyFun_eq_chartMap Z' W hv']
         rfl
     | zero => exact ⟨0, by rw [map_zero, chartMap_zero], by rw [map_zero, chartMap_zero]⟩
@@ -206,7 +206,7 @@ theorem eq_of_isChart_of_coords [IsAffine S] {T : Over S} [IsAffine T.left]
   ext s
   obtain ⟨c, hc, hc'⟩ := key s
   rw [RingHom.mem_ker, RingHom.mem_ker]
-  show Z.ideal.subschemeι.appTop s = 0 ↔ Z'.ideal.subschemeι.appTop s = 0
+  change Z.ideal.subschemeι.appTop s = 0 ↔ Z'.ideal.subschemeι.appTop s = 0
   rw [hc, hc', ← chartMap_zero Z W, ← chartMap_zero Z' W, hZ.injective.eq_iff,
     hZ'.injective.eq_iff]
 
@@ -306,7 +306,7 @@ instance : IsAffine (chartScheme S n d W).left := inferInstanceAs (IsAffine (Spe
 theorem chartScheme_hom_appTop (r : Γ(S, ⊤)) :
     (chartScheme S n d W).hom.appTop r =
       (Scheme.ΓSpecIso (.of (UnivRing S n d W))).inv (algebraMap Γ(S, ⊤) _ r) := by
-  show (Spec.map (CommRingCat.ofHom (algebraMap Γ(S, ⊤) (UnivRing S n d W))) ≫
+  change (Spec.map (CommRingCat.ofHom (algebraMap Γ(S, ⊤) (UnivRing S n d W))) ≫
     S.isoSpec.inv).appTop r = _
   rw [Scheme.Hom.comp_appTop, CommRingCat.comp_apply, isoSpec_inv_appTop_apply]
   exact appTop_specMap_ΓSpecIso_inv _ _
@@ -572,7 +572,7 @@ def ofClassify {T : Over S} (φ : UnivRing S n d W →+* Γ(T.left, ⊤))
 theorem classify_ofClassify {T : Over S} (φ : UnivRing S n d W →+* Γ(T.left, ⊤))
     (hφ : ∀ r, φ (algebraMap Γ(S, ⊤) _ r) = T.hom.appTop r) (x : UnivRing S n d W) :
     classify (ofClassify φ hφ) x = φ x := by
-  show (T.left.toSpecΓ ≫ Spec.map _).appTop
+  change (T.left.toSpecΓ ≫ Spec.map _).appTop
     ((Scheme.ΓSpecIso (.of (UnivRing S n d W))).inv x) = _
   rw [Scheme.Hom.comp_appTop, CommRingCat.comp_apply, appTop_specMap_ΓSpecIso_inv,
     Scheme.toSpecΓ_appTop]
@@ -612,7 +612,7 @@ theorem exists_baseChange_univFamily_eq {T : Over S} [IsAffine T.left]
   rw [baseChange_univFamily_monomial]
   congr 1
   funext l
-  show classify f (univVec S n d W m l) = v m l
+  change classify f (univVec S n d W m l) = v m l
   rw [classify_ofClassify]
   exact ChartAlgebra.lift_univVec W v hdat m l
 
@@ -660,7 +660,7 @@ theorem exists_baseChange_univFamily_eq' {T : Over S}
     let P : Over S := Over.mk (pullback.fst (𝒰.f j) (𝒰.f k) ≫ 𝒰.f j ≫ T.hom)
     let p₁ : P ⟶ coverOver T j := Over.homMk (pullback.fst _ _) rfl
     let p₂ : P ⟶ coverOver T k := Over.homMk (pullback.snd _ _) (by
-      show pullback.snd (𝒰.f j) (𝒰.f k) ≫ 𝒰.f k ≫ T.hom =
+      change pullback.snd (𝒰.f j) (𝒰.f k) ≫ 𝒰.f k ≫ T.hom =
         pullback.fst (𝒰.f j) (𝒰.f k) ≫ 𝒰.f j ≫ T.hom
       rw [pullback.condition_assoc])
     have hp : p₁ ≫ coverHom T j = p₂ ≫ coverHom T k :=
@@ -668,7 +668,7 @@ theorem exists_baseChange_univFamily_eq' {T : Over S}
     exact congrArg CommaMorphism.left
       (eq_of_baseChange_univFamily_eq' (f := p₁ ≫ fj j) (f' := p₂ ≫ fj k) (by
         rw [baseChange_comp, baseChange_comp, hfj, hfj]
-        show baseChange _ p₁ (baseChange _ (coverHom T j) Z) =
+        change baseChange _ p₁ (baseChange _ (coverHom T j) Z) =
           baseChange _ p₂ (baseChange _ (coverHom T k) Z)
         rw [← baseChange_comp, ← baseChange_comp, hp]))
   let g : T.left ⟶ (chartScheme S n d W).left := 𝒰.glueMorphisms (fun j ↦ (fj j).left) hcompat

@@ -87,7 +87,7 @@ theorem FiniteOpenSubspace.isClosedSubspace (B : BigFppfSite.{u}) (S : Scheme.{u
     have hP : P.RespectsIso := by
       dsimp [P]
       infer_instance
-    show P (pullback.fst Z.toBase.hom f.hom)
+    change P (pullback.fst Z.toBase.hom f.hom)
     rw [← pullbackSymmetry_inv_comp_snd f.hom Z.toBase.hom]
     exact (MorphismProperty.cancel_left_of_respectsIso (P := P)
       (pullbackSymmetry f.hom Z.toBase.hom).inv

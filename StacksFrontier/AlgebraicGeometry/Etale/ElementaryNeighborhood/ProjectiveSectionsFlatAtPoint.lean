@@ -208,7 +208,7 @@ private theorem projective_sections_restrictBasicOpen {X S : Scheme.{u}} (f : X 
       (LocalizedModule (Submonoid.powers a)
         Γ((Scheme.Modules.pullback U.toBase).obj F, ⊤)) :=
     IsScalarTower.of_algebraMap_smul fun r m => by
-      show ε (algebraMap Γ(V.scheme, ⊤) Γ((V.scheme.basicOpen a).toScheme, ⊤) r) • m = r • m
+      change ε (algebraMap Γ(V.scheme, ⊤) Γ((V.scheme.basicOpen a).toScheme, ⊤) r) • m = r • m
       rw [show ε (algebraMap Γ(V.scheme, ⊤) Γ((V.scheme.basicOpen a).toScheme, ⊤) r) =
           algebraMap Γ(V.scheme, ⊤) (Localization.Away a) r from
         (IsLocalization.algEquiv (Submonoid.powers a)
@@ -291,7 +291,7 @@ theorem exists_elementaryEtaleNeighborhood_projective_sections_of_isFlatOverAt
   cases D with
   | empty hzero =>
     refine ⟨V, P.comp U₀, h, hVel, hPel.comp hU₀el, ?_, hpt, hU₀aff, hVaff, ?_⟩
-    · show h ≫ V.toBase = (U₀.toBase ≫ O.ι) ≫ f
+    · change h ≫ V.toBase = (U₀.toBase ≫ O.ι) ≫ f
       rw [Category.assoc]
       exact hsq
     · have hsub : Subsingleton Γ((Scheme.Modules.pullback U₀.toBase).obj F', ⊤) := hzero
@@ -330,7 +330,7 @@ theorem exists_elementaryEtaleNeighborhood_projective_sections_of_isFlatOverAt
     refine ⟨V.restrictOpen (V.scheme.basicOpen a) hbV,
       P.comp (U₀.restrictOpen (U₀.scheme.basicOpen (h.appTop.hom a)) hbU),
       restrictBasicOpenHom h a, hV'el, hPel.comp hU₀'el, ?_, hpt', hU₀'aff, hV'aff, ?_⟩
-    · show restrictBasicOpenHom h a ≫ (V.scheme.basicOpen a).ι ≫ V.toBase =
+    · change restrictBasicOpenHom h a ≫ (V.scheme.basicOpen a).ι ≫ V.toBase =
         (((U₀.scheme.basicOpen (h.appTop.hom a)).ι ≫ U₀.toBase) ≫ O.ι) ≫ f
       rw [Category.assoc]
       exact hsq'

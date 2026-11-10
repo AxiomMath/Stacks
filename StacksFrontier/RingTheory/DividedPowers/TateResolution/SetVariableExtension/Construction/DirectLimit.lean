@@ -474,7 +474,7 @@ private theorem setVariableStageInclusion_generator {R : Type u} [CommRing R]
     (setVariableStageInclusion A deg hdeg S).hom (finiteVariableGenerator A deg hdeg S j) =
       setVariableGenerator A deg hdeg j.val := by
   have h : {j.val} ⊆ S := Finset.singleton_subset_iff.mpr j.property
-  show (setVariableStageInclusion A deg hdeg S).hom (finiteVariableGenerator A deg hdeg S j) =
+  change (setVariableStageInclusion A deg hdeg S).hom (finiteVariableGenerator A deg hdeg S j) =
     (setVariableStageInclusion A deg hdeg {j.val}).hom
       (finiteVariableGenerator A deg hdeg {j.val} ⟨j.val, by simp⟩)
   rw [← setVariableStageInclusion_map A deg hdeg h, finiteVariableMap_generator]
@@ -553,11 +553,11 @@ private theorem setVariableAlgebra_existsUnique_lift {R : Type u} [CommRing R]
     (fun S T h x => congrArg (fun k => k.hom x) (hc S T h))
   refine ⟨F, ⟨?_, ?_⟩, ?_⟩
   · intro a
-    show F.hom ((setVariableStageInclusion A deg hdeg ∅).hom
+    change F.hom ((setVariableStageInclusion A deg hdeg ∅).hom
       ((finiteVariableCoefficient A deg hdeg (∅ : Finset J)).hom a)) = _
     rw [hF, (hg ∅).1.1]
   · intro j
-    show F.hom ((setVariableStageInclusion A deg hdeg {j}).hom
+    change F.hom ((setVariableStageInclusion A deg hdeg {j}).hom
       (finiteVariableGenerator A deg hdeg {j} ⟨j, by simp⟩)) = _
     rw [hF, (hg {j}).1.2]
   · intro k hk
@@ -682,7 +682,7 @@ private theorem setVariableStageInclusion_range {R : Type u} [CommRing R]
         rw [← setVariableStageInclusion_generator A deg hdeg S ⟨j,hj⟩, hr] at hp'
         refine ⟨(finiteVariableAlgebra A deg hdeg S).gamma.dpow n
           (finiteVariableGenerator A deg hdeg S ⟨j,hj⟩), ?_⟩
-        show (setVariableStageInclusion A deg hdeg S).hom
+        change (setVariableStageInclusion A deg hdeg S).hom
           ((finiteVariableAlgebra A deg hdeg S).gamma.dpow n
             (finiteVariableGenerator A deg hdeg S ⟨j,hj⟩)) = _
         rw [← (setVariableStageInclusion A deg hdeg S).map_dpow n _ hp',
@@ -763,22 +763,22 @@ private theorem finiteVariable_insert_inverse_lifts {R : Type u} [CommRing R]
     apply (hu (r.comp g) ?_).trans (hu (GradedDPHom.id E.algebra) ⟨fun _ => rfl,rfl⟩).symm
     constructor
     · intro x
-      show r.hom (g.hom (E.coefficient.hom x)) = E.coefficient.hom x
+      change r.hom (g.hom (E.coefficient.hom x)) = E.coefficient.hom x
       rw [hg.1]
       exact congrArg (fun f => f.hom x) hri
-    · show r.hom (g.hom E.generator) = E.generator
+    · change r.hom (g.hom E.generator) = E.generator
       rw [hg.2, hr.2]
       simp only [t, dite_eq_left rfl]
   have hgr : g.comp r = GradedDPHom.id F := by
     apply finiteVariableAlgebra_hom_ext A deg hdeg (insert j S)
     · intro a
-      show g.hom (r.hom ((finiteVariableCoefficient A deg hdeg (insert j S)).hom a)) = _
+      change g.hom (r.hom ((finiteVariableCoefficient A deg hdeg (insert j S)).hom a)) = _
       rw [hr.1]
-      show g.hom (E.coefficient.hom ((finiteVariableCoefficient A deg hdeg S).hom a)) = _
+      change g.hom (E.coefficient.hom ((finiteVariableCoefficient A deg hdeg S).hom a)) = _
       rw [hg.1, finiteVariableMap_coefficient]
       rfl
     · intro x
-      show g.hom (r.hom (finiteVariableGenerator A deg hdeg (insert j S) x)) = _
+      change g.hom (r.hom (finiteVariableGenerator A deg hdeg (insert j S) x)) = _
       rw [hr.2]
       dsimp only [t]
       split_ifs with hx

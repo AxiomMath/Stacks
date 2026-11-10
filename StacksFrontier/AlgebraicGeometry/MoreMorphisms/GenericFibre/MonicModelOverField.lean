@@ -128,7 +128,7 @@ theorem exists_monic_mvPolynomial_model_of_isDomain_tensor (A : Type u) [CommRin
       MvPolynomial (Fin r) K →ₐ[K] L).toRingHom.toAlgebra
   have : IsScalarTower K (MvPolynomial (Fin r) K) L :=
     IsScalarTower.of_algebraMap_eq fun c ↦ by
-      show algebraMap K L c = aeval (fun i : Fin r ↦ v i.castSucc) (C c)
+      change algebraMap K L c = aeval (fun i : Fin r ↦ v i.castSucc) (C c)
       simp
   have halg : ∀ p : MvPolynomial (Fin r) K,
       algebraMap (MvPolynomial (Fin r) K) L p = aeval (fun i : Fin r ↦ v i.castSucc) p :=

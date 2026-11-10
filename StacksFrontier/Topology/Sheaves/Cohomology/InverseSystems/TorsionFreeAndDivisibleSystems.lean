@@ -399,7 +399,7 @@ theorem stacks0H39_one_imp_two
     | zero => change Mono (𝟙 _); infer_instance
     | succ m ih =>
         have := ih; have := hmono m
-        show Mono (upComp obj ι m ≫ ι m); infer_instance
+        change Mono (upComp obj ι m ≫ ι m); infer_instance
   have hmonoJ : Mono (upComp obj ι (k + 1)) := hmonoUp (k + 1)
   have hex : ∀ m (c : Abelian.Pseudoelement (obj m)),
       pseudoApply (f.asHom.app (obj m)) c = 0 → ∃ a, pseudoApply (upComp obj ι m) a = c := by
@@ -438,7 +438,7 @@ theorem stacks0H39_one_imp_two
         rw [← hιmap k, Abelian.Pseudoelement.comp_apply, hc, hb]
       obtain ⟨a, ha⟩ := hex k c hfc
       refine ⟨a, ?_⟩
-      show pseudoApply (upComp obj ι (k + 1)) a = b
+      change pseudoApply (upComp obj ι (k + 1)) a = b
       rw [upComp, Abelian.Pseudoelement.comp_apply, ha, hc]
     · exact hmonoJ
     · exact hepimap
@@ -752,7 +752,7 @@ theorem iterUp_cleg (ι : ∀ n, obj n ⟶ obj (n + 1)) (n : ℕ) :
   induction r with
   | zero => simp [iterUp]
   | succ r ih =>
-    show iterUp ι n r ≫ ι (n + r) ≫ cleg ι ((n + r) + 1) = cleg ι n
+    change iterUp ι n r ≫ ι (n + r) ≫ cleg ι ((n + r) + 1) = cleg ι n
     rw [cleg_succ ι (n + r), ih]
 
 /-- `iterUp ι n r` is a mono (composite of the monos `ι`). -/
@@ -790,7 +790,7 @@ theorem lemmaP (hfι : ∀ n, map n ≫ ι n = f.asHom.app (obj (n + 1)))
     have hmap0 : Abelian.Pseudoelement.pseudoApply (map q) x = 0 := by
       apply Abelian.Pseudoelement.pseudo_injective_of_mono (ι q)
       rw [hx, Abelian.Pseudoelement.apply_zero]
-    show Abelian.Pseudoelement.pseudoApply (map q ≫ proj obj map q) x = 0
+    change Abelian.Pseudoelement.pseudoApply (map q ≫ proj obj map q) x = 0
     rw [Abelian.Pseudoelement.comp_apply, hmap0, Abelian.Pseudoelement.apply_zero]
   | succ k hk ih =>
     intro q hq x hx
@@ -808,7 +808,7 @@ theorem lemmaP (hfι : ∀ n, map n ≫ ι n = f.asHom.app (obj (n + 1)))
     have hQ : k ≤ Q + 1 := by omega
     have hproju : Abelian.Pseudoelement.pseudoApply (proj obj map (Q + 1)) u = 0 :=
       ih Q hQ u hfk0
-    show Abelian.Pseudoelement.pseudoApply (map (Q + 1) ≫ proj obj map (Q + 1)) x = 0
+    change Abelian.Pseudoelement.pseudoApply (map (Q + 1) ≫ proj obj map (Q + 1)) x = 0
     rw [Abelian.Pseudoelement.comp_apply, ← hu, hproju]
 
 /-- For every `N` and `r`, a pseudoelement `x : obj (N + r)` killed by `f^{N+1}` lies in the
@@ -825,7 +825,7 @@ theorem stabilization (hfι : ∀ n, map n ≫ ι n = f.asHom.app (obj (n + 1)))
   | zero =>
     intro x hx
     refine ⟨x, ?_⟩
-    show Abelian.Pseudoelement.pseudoApply (𝟙 (obj (N + 0))) x = x
+    change Abelian.Pseudoelement.pseudoApply (𝟙 (obj (N + 0))) x = x
     induction x using Quotient.inductionOn with
     | _ a =>
       rw [Abelian.Pseudoelement.pseudoApply_mk']
@@ -846,7 +846,7 @@ theorem stabilization (hfι : ∀ n, map n ≫ ι n = f.asHom.app (obj (n + 1)))
       exact hx
     obtain ⟨y, hy⟩ := ih x₀ hx₀kill
     refine ⟨y, ?_⟩
-    show Abelian.Pseudoelement.pseudoApply (iterUp ι N r ≫ ι (N + r)) y = x
+    change Abelian.Pseudoelement.pseudoApply (iterUp ι N r ≫ ι (N + r)) y = x
     rw [Abelian.Pseudoelement.comp_apply, hy, hx₀]
 
 /-- `iterUp ι n r` is a kernel of `(f^{n+1}).asHom.app (obj (n+r))`: the canonical lift
@@ -954,11 +954,11 @@ theorem isIso_colimit_ι_of_eventually_iso {A : Type*} [Category A] (F : ℕ ⥤
                rw [hℓeq j (max n j) (le_max_left n j) (le_max_right n j),
                    hℓeq i (max n j) (le_max_left n j) (by omega), ← Category.assoc]
                congr 1
-               show F.map φ ≫ F.map (homOfLE (le_max_right n j)) = _
+               change F.map φ ≫ F.map (homOfLE (le_max_right n j)) = _
                rw [show φ = homOfLE hij from rfl, seq_map_trans_comp] } }
   refine ⟨colimit.desc F coc, ?_, ?_⟩
   · rw [colimit.ι_desc]
-    show ℓ n = 𝟙 (F.obj n)
+    change ℓ n = 𝟙 (F.obj n)
     rw [hℓeq n n (le_refl n) (le_refl n)]
     have := htr n (le_refl n)
     rw [IsIso.hom_inv_id]
@@ -1052,14 +1052,14 @@ theorem colimKerLift_isIso (ι : ∀ n, obj n ⟶ obj (n + 1)) (n : ℕ)
     u 0 ≪≫ (eKer n).symm ≪≫ asIso (colimit.ι (kernel kerN) n)
   let Θ : obj n ≅ kernel (g.asHom.app (Gobj ι)) := Ψ ≪≫ Φ
   have hΘ : Θ.hom ≫ kernel.ι (g.asHom.app (Gobj ι)) = cleg ι n := by
-    show (Ψ.hom ≫ Φ.hom) ≫ kernel.ι (g.asHom.app (Gobj ι)) = cleg ι n
+    change (Ψ.hom ≫ Φ.hom) ≫ kernel.ι (g.asHom.app (Gobj ι)) = cleg ι n
     rw [Category.assoc, hΦι]
-    show ((u 0).hom ≫ (eKer n).inv ≫ colimit.ι (kernel kerN) n)
+    change ((u 0).hom ≫ (eKer n).inv ≫ colimit.ι (kernel kerN) n)
         ≫ (colim (J := ℕ)).map (kernel.ι kerN) = cleg ι n
     rw [Category.assoc, Category.assoc, colimit.ι_map]
-    show (u 0).hom ≫ (eKer n).inv ≫ (kernel.ι kerN).app n ≫ colimit.ι (seqF ι) n = cleg ι n
+    change (u 0).hom ≫ (eKer n).inv ≫ (kernel.ι kerN).app n ≫ colimit.ι (seqF ι) n = cleg ι n
     rw [← heKer n]
-    show (u 0).hom ≫ (eKer n).inv ≫ ((eKer n).hom ≫ kernel.ι (g.asHom.app (obj n)))
+    change (u 0).hom ≫ (eKer n).inv ≫ ((eKer n).hom ≫ kernel.ι (g.asHom.app (obj n)))
         ≫ colimit.ι (seqF ι) n = cleg ι n
     rw [Category.assoc, ← Category.assoc (eKer n).inv, Iso.inv_hom_id, Category.id_comp]
     have h0 : (u 0).hom ≫ kernel.ι (g.asHom.app (obj n)) = 𝟙 (obj n) := by
@@ -1119,7 +1119,7 @@ theorem kerIso_compat (hfι : ∀ n, map n ≫ ι n = f.asHom.app (obj (n + 1)))
         + 1)
       = map n ≫ (kerIso f map ι hfι hιmap hmono hf0 w hSES n).hom := by
   apply (cancel_mono (kernel.ι ((f ^ (n + 1)).asHom.app (Gobj ι)))).1
-  show kerLift f map ι hfι hιmap hf0 (n + 1) ≫ kernelToKernelMulF f (Gobj ι) (n + 1)
+  change kerLift f map ι hfι hιmap hf0 (n + 1) ≫ kernelToKernelMulF f (Gobj ι) (n + 1)
       ≫ kernel.ι ((f ^ (n + 1)).asHom.app (Gobj ι))
     = (map n ≫ kerLift f map ι hfι hιmap hf0 n) ≫ kernel.ι ((f ^ (n + 1)).asHom.app (Gobj ι))
   have hk : kernelToKernelMulF f (Gobj ι) (n + 1) ≫ kernel.ι ((f ^ (n + 1)).asHom.app (Gobj ι))
@@ -1228,7 +1228,7 @@ theorem indexIso_canmap (f : End (𝟭 (SheafOfModules.{max u v} R))) (M : Sheaf
       = quotientToQuotient f M (k + 1) := by
   apply (cancel_epi (cokernel.π ((f ^ (k + 2)).asHom.app M))).1
   rw [← Category.assoc, indexIso_hom_pi, CokSES.canmap_pi]
-  show _ = cokernel.π ((f ^ (k + 2)).asHom.app M) ≫ quotientToQuotient f M (k + 1)
+  change _ = cokernel.π ((f ^ (k + 2)).asHom.app M) ≫ quotientToQuotient f M (k + 1)
   rw [quotientToQuotient, cokernel.π_desc]
 
 /-- Transport of the iterated transition `proj` to the quotient side. -/
@@ -1351,7 +1351,7 @@ theorem indexIsoK_kjmap (f : End (𝟭 (SheafOfModules.{max u v} R))) (G : Sheaf
       = kernelToKernelMulF f G (k + 1) := by
   apply (cancel_mono (kernel.ι ((f ^ (k + 1)).asHom.app G))).1
   rw [Category.assoc, KerSES.ι_kjmap, ← Category.assoc, indexIsoK_hom_ι, kerToKer_ι f G (k + 1)]
-  show kernel.ι ((f ^ (k + 2)).asHom.app G) ≫ (f ^ 1).asHom.app G = _
+  change kernel.ι ((f ^ (k + 2)).asHom.app G) ≫ (f ^ 1).asHom.app G = _
   rw [pow_one]
 
 /-- The iterated `kernelToKernelMulF`: `G[f^{n+1}] → G[f]`. -/
@@ -1367,7 +1367,7 @@ theorem projKer_ι (f : End (𝟭 (SheafOfModules.{max u v} R))) (G : SheafOfMod
       = kernel.ι ((f ^ (n + 1)).asHom.app G) ≫ (f ^ n).asHom.app G
   | 0 => by
       rw [projKer]
-      show 𝟙 _ ≫ kernel.ι ((f ^ 1).asHom.app G) =
+      change 𝟙 _ ≫ kernel.ι ((f ^ 1).asHom.app G) =
         kernel.ι ((f ^ 1).asHom.app G) ≫ (f ^ 0).asHom.app G
       rw [Category.id_comp, pow_zero]; change _ = _ ≫ (𝟙 G); rw [Category.comp_id]
   | (n + 1) => by

@@ -244,7 +244,7 @@ private lemma partialNullHomotopy_le_of_reverse
     apply (cancel_mono a.S.arrow).1
     rw [hφ, hψ, Category.assoc, Subobject.ofLE_arrow, Subobject.ofLE_arrow, Category.id_comp]
   refine ⟨habS, ?_⟩
-  show (Cochain.ofHom φ.toHomologicalComplex).comp b.z (zero_add (-1)) = a.z
+  change (Cochain.ofHom φ.toHomologicalComplex).comp b.z (zero_add (-1)) = a.z
   have hbaz' : (Cochain.ofHom ψ.toHomologicalComplex).comp a.z (zero_add (-1)) = b.z := hbaz
   calc
     (Cochain.ofHom φ.toHomologicalComplex).comp b.z (zero_add (-1)) =
@@ -476,7 +476,7 @@ private lemma partialNullHomotopy_extend {Idx : Type max u v w}
     have : Epi E'.g := hseq'.epi_g
     have hzero : E'.g = 0 := by
       apply (cancel_epi j).mp
-      show j ≫ Subobject.pullbackπ (cokernel.π P.S.arrow) T = j ≫ 0
+      change j ≫ Subobject.pullbackπ (cokernel.π P.S.arrow) T = j ≫ 0
       rw [hjq, comp_zero]
     have hz : IsZero (T : DifferentialGradedModule.{u, v, max u v w} A) :=
       IsZero.of_epi_eq_zero _ hzero

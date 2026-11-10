@@ -218,9 +218,9 @@ theorem bcDiagram_compactSpace_and_quasiSeparatedSpace (k k' : Type u) [CommRing
   have : IsLocallyNoetherian (pullback g f) :=
     LocallyOfFiniteType.isLocallyNoetherian (pullback.snd g f)
   refine ⟨?_, ?_⟩
-  · show CompactSpace ↥(pullback g f)
+  · change CompactSpace ↥(pullback g f)
     infer_instance
-  · show QuasiSeparatedSpace ↥(pullback g f)
+  · change QuasiSeparatedSpace ↥(pullback g f)
     exact IsLocallyNoetherian.quasiSeparatedSpace
 
 /-- The transition morphisms of `AlgebraicGeometry.AdjoinFinset.bcDiagram` are affine: they are
@@ -228,9 +228,9 @@ base changes of morphisms of affine schemes. -/
 theorem bcDiagram_isAffineHom (k k' : Type u) [CommRing k] [CommRing k'] [Algebra k k']
     {X : Scheme.{u}} (f : X ⟶ Spec (.of k)) {i j : (Finset k')ᵒᵖ} (e : i ⟶ j) :
     IsAffineHom ((bcDiagram k k' f).map e) := by
-  show IsAffineHom (((Over.pullback f).map ((specOverDiagram k k').map e)).left)
+  change IsAffineHom (((Over.pullback f).map ((specOverDiagram k k').map e)).left)
   refine MorphismProperty.overPullbackMap f ((specOverDiagram k k').map e) ?_
-  show IsAffineHom ((specDiagram k k').map e)
+  change IsAffineHom ((specDiagram k k').map e)
   have (l : (Finset k')ᵒᵖ) : IsAffine ((specDiagram k k').obj l) := by
     dsimp [specDiagram, diagram]; infer_instance
   exact isAffineHom_of_isAffine _

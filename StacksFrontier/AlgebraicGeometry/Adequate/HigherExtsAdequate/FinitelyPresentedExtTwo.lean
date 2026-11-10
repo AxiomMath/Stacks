@@ -299,6 +299,7 @@ section Presentation
 
 variable {A : Type u} [CommRing A]
 
+set_option linter.checkUnivs false in
 /-- A finitely presented module is presented by a right exact sequence of finite free modules
 in the universe of the module. -/
 lemma exists_finiteFree_presentation_large (P : ModuleCat.{max u v w} A)
@@ -312,9 +313,9 @@ lemma exists_finiteFree_presentation_large (P : ModuleCat.{max u v w} A)
       (ULift.moduleEquiv.symm.toLinearMap ∘ₗ g ∘ₗ ULift.moduleEquiv.toLinearMap),
     ModuleCat.ofHom (f ∘ₗ ULift.moduleEquiv.toLinearMap), hf.comp ULift.moduleEquiv.surjective,
     fun y => ?_⟩
-  show f y.down = 0 ↔ _
+  change f y.down = 0 ↔ _
   refine (hfg y.down).trans ⟨fun ⟨x, hx⟩ => ⟨ULift.up x, ?_⟩, fun ⟨x, hx⟩ => ⟨x.down, ?_⟩⟩
-  · show ULift.up (g x) = y
+  · change ULift.up (g x) = y
     rw [hx]
     rfl
   · exact congrArg ULift.down hx
@@ -425,6 +426,7 @@ lemma linearMapOfTuple_apply {C : Type z} [AddCommGroup C] [Module A C] {n : ℕ
     linearMapOfTuple A C zs x = ∑ j, x j • zs j := by
   simp [linearMapOfTuple, LinearMap.sum_apply]
 
+set_option linter.checkUnivs false in
 /-- The tuple-to-section map of the module-valued functor of a finite free module.  This is
 the one place where the universe lift inside `AdequateFunctor.finiteFreeModule` is crossed. -/
 noncomputable def finiteFreeOf {m : ℕ} :
@@ -439,6 +441,7 @@ lemma finiteFreeOf_eq_sum_basis {m : ℕ} (x : Fin m → A) :
   rw [map_sum]
   exact Finset.sum_congr rfl fun i _ => map_smul _ _ _
 
+set_option linter.checkUnivs false in
 /-- The coordinates of a morphism between the module-valued functors of finite free modules. -/
 noncomputable def coords {m n : ℕ}
     (d : finiteFreeModule.{max v w} A m ⟶ finiteFreeModule.{max v w} A n) :
@@ -671,7 +674,7 @@ lemma exists_factor_of_vanishing_on_kernel {M : ModuleCat.{max u v w} A} {m n : 
   refine ⟨ModuleCat.ofHom ((linearMapOfTuple A (M : Type (max u v w)) z) ∘ₗ
     (ULift.moduleEquiv (R := A) (M := (Fin n → A))).toLinearMap),
     finiteFree_hom_ext.{v, u, w} _ _ fun t => ?_⟩
-  show (linearMapOfTuple A (M : Type (max u v w)) z)
+  change (linearMapOfTuple A (M : Type (max u v w)) z)
       ((ULift.moduleEquiv (R := A) (M := (Fin n → A)))
         (d.hom (finiteFreeOf.{v, u, w} t))) = f.hom (finiteFreeOf.{v, u, w} t)
   rw [hright t, hom_finiteFreeOf, ← hdd]

@@ -84,13 +84,13 @@ theorem etale_quotientMap_map_of_flat {A B : Type*} [CommRing A] [CommRing B]
     have := congrArg (fun φ => φ p) hg
     simp only [RingHom.comp_apply, RingHom.coe_coe] at this
     rw [this]
-    show mk (f p) = mk b
+    change mk (f p) = mk b
     rw [← hkp, map_add, show mk k = 0 from Ideal.Quotient.eq_zero_iff_mem.mpr hk, add_zero]
   have : Algebra.FinitePresentation (A ⧸ I) (B ⧸ I.map (algebraMap A B)) :=
     Algebra.FinitePresentation.of_finiteType.mp hfin
   have het : Algebra.Etale (A ⧸ I) (B ⧸ I.map (algebraMap A B)) :=
     Algebra.Etale.of_formallyUnramified_of_flat
-  show @Algebra.Etale _ _ _ _ (Ideal.quotientMap (I.map c) c Ideal.le_comap_map).toAlgebra
+  change @Algebra.Etale _ _ _ _ (Ideal.quotientMap (I.map c) c Ideal.le_comap_map).toAlgebra
   rw [hinst]
   exact het
 
@@ -210,7 +210,7 @@ theorem isRepresentableEtale_comp_of_isRigEtale_of_isRigSurjective_diagonal
       simp
     have := congrArg ContinuousHom.toRingHom
       (ContinuousHom.eq_of_formalSpectrumMap_eq B S hS hBuw hBuw hcomp)
-    show μ.toRingHom.comp (ε.toRingHom.comp ι) = _
+    change μ.toRingHom.comp (ε.toRingHom.comp ι) = _
     rwa [hει]
   have hl := hμε ρ₁ _ _ (pullback.diagonal_fst _) hρ₁ hε₁
   have hr := hμε ρ₂ _ _ (pullback.diagonal_snd _) hρ₂ hε₂
@@ -219,7 +219,7 @@ theorem isRepresentableEtale_comp_of_isRigEtale_of_isRigSurjective_diagonal
       rw [Ideal.map_symm]
       exact (RingHom.comap_ker μ.toRingHom ε.toRingHom).symm
     rw [hk]
-    show (RingHom.ker μ.toRingHom).map ε.symm * (RingHom.ker μ.toRingHom).map ε.symm = _
+    change (RingHom.ker μ.toRingHom).map ε.symm * (RingHom.ker μ.toRingHom).map ε.symm = _
     rw [← Ideal.map_mul, hidem.eq]
   -- every ideal of `Bu` is closed
   have hcl : ∀ J : Ideal Bu, Ideal.closure J = J := by

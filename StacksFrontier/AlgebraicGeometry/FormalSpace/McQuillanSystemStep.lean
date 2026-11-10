@@ -170,7 +170,7 @@ def ofFinsupp (aug : Λ →+* K) (w : U →₀ K) : AugSpan aug U := w
 /-- The function `Finsupp.single x b` is `b` times the vector attached to `x`. -/
 @[simp] theorem ofFinsupp_single (x : U) (b : K) :
     ofFinsupp aug (Finsupp.single x b) = b • single aug x := by
-  show (Finsupp.single x b : U →₀ K) = b • (Finsupp.single x 1 : U →₀ K)
+  change (Finsupp.single x b : U →₀ K) = b • (Finsupp.single x 1 : U →₀ K)
   rw [Finsupp.smul_single, smul_eq_mul, mul_one]
 
 /-- The `Λ`-action on the span is the `K`-action through the augmentation. -/
@@ -549,7 +549,7 @@ of systems. -/
 theorem trExt_mk (h : IsSystem aug unit J tr) {i j : I} (hji : j ≤ i) (m : M i) :
     trExt h hji (Paired.mk (pair h i) m 0) = Paired.mk (pair h j) (tr hji m) 0 := by
   refine Paired.ext rfl ?_
-  show AugSpan.ofKLinear (Finsupp.lmapDomain K K (coneIncl (tr := tr) hji)) 0 = 0
+  change AugSpan.ofKLinear (Finsupp.lmapDomain K K (coneIncl (tr := tr) hji)) 0 = 0
   rw [map_zero]
 
 /-- The map `Mᵢ → M'ᵢ` of the step is compatible with the scalars `K`. -/
@@ -591,14 +591,14 @@ theorem isSystem_ext (h : IsSystem aug unit J tr) :
   aug_unit c := by rw [augExt_apply, unitExt_apply, TrivSqZeroExt.fst_inl, h.aug_unit]
   tr_self {i} z := by
     refine Paired.ext (h.tr_self (Paired.fst z)) ?_
-    show AugSpan.ofKLinear (Finsupp.lmapDomain K K (coneIncl (tr := tr) (le_refl i)))
+    change AugSpan.ofKLinear (Finsupp.lmapDomain K K (coneIncl (tr := tr) (le_refl i)))
       (Paired.snd z) = Paired.snd z
     have hid : coneIncl (tr := tr) (le_refl i) = id := rfl
     rw [hid]
     exact Finsupp.mapDomain_id
   tr_tr {i j k} hji hkj z := by
     refine Paired.ext (h.tr_tr hji hkj (Paired.fst z)) ?_
-    show Finsupp.mapDomain (coneIncl (tr := tr) hkj)
+    change Finsupp.mapDomain (coneIncl (tr := tr) hkj)
         (Finsupp.mapDomain (coneIncl (tr := tr) hji) (AugSpan.toFinsupp (Paired.snd z)))
       = Finsupp.mapDomain (coneIncl (tr := tr) (hkj.trans hji))
         (AugSpan.toFinsupp (Paired.snd z))
@@ -618,7 +618,7 @@ theorem isSystem_ext (h : IsSystem aug unit J tr) :
     refine (Paired.map_eq_zero_iff _ _ _).mpr ⟨?_, ?_⟩
     · rw [Paired.fst_smul, map_add, pair_apply, h.smul_tr hji ha.1 (Paired.fst z), zero_add]
       exact tr_pairFun_eq_zero h hji.le _ _ ha.2
-    · show AugSpan.ofKLinear (Finsupp.lmapDomain K K (coneIncl (tr := tr) hji.le))
+    · change AugSpan.ofKLinear (Finsupp.lmapDomain K K (coneIncl (tr := tr) hji.le))
         (Paired.snd ((a : ExtRing aug tr) • z)) = 0
       rw [Paired.snd_smul, h.smul_span_eq_zero ha.1, map_zero]
   aug_ann {i j} hji {a} ha z hz := by

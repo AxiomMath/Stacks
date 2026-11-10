@@ -97,8 +97,7 @@ private lemma tensorProdProdEquiv_fst_fst
     (x : (B₁ × B₂) ⊗[A] (B₁ × B₂)) :
     Algebra.TensorProduct.map (AlgHom.fst A B₁ B₂) (AlgHom.fst A B₁ B₂) x =
       (tensorProdProdEquiv A B₁ B₂ x).1.1 := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul x y => simp [tensorProdProdEquiv_tmul]
   | add x y hx hy => simp_all
 
@@ -108,8 +107,7 @@ private lemma tensorProdProdEquiv_snd_snd
     (x : (B₁ × B₂) ⊗[A] (B₁ × B₂)) :
     Algebra.TensorProduct.map (AlgHom.snd A B₁ B₂) (AlgHom.snd A B₁ B₂) x =
       (tensorProdProdEquiv A B₁ B₂ x).2.2 := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul x y => simp [tensorProdProdEquiv_tmul]
   | add x y hx hy => simp_all
 
@@ -120,8 +118,7 @@ private lemma lmul_tensorProdProdEquiv
     Algebra.TensorProduct.lmul' A x =
       (Algebra.TensorProduct.lmul' A (tensorProdProdEquiv A B₁ B₂ x).1.1,
         Algebra.TensorProduct.lmul' A (tensorProdProdEquiv A B₁ B₂ x).2.2) := by
-  induction x using TensorProduct.induction_on with
-  | zero => apply Prod.ext <;> simp
+  induction x using TensorProduct.inductionOn with
   | tmul x y => apply Prod.ext <;> simp [tensorProdProdEquiv_tmul]
   | add x y hx hy => simp_all
 
@@ -143,41 +140,41 @@ private lemma mem_diagonalAnnihilator_iff
       intro w hw1 hw2
       have hz : e.symm w ∈ RingHom.ker (Algebra.TensorProduct.lmul' (R := A)
           (S := B₁ × B₂)).toRingHom := by
-        show Algebra.TensorProduct.lmul' A (e.symm w) = 0
+        change Algebra.TensorProduct.lmul' A (e.symm w) = 0
         simp [lmul_tensorProdProdEquiv, e, hw1, hw2]
       simpa [smul_eq_mul, e] using congrArg e (Submodule.mem_annihilator.mp hx _ hz)
     refine ⟨?_,
       by simpa using congrArg (fun q ↦ q.1.2) (annih ((0, 1), (0, 0)) (by simp) (by simp)),
       by simpa using congrArg (fun q ↦ q.2.1) (annih ((0, 0), (1, 0)) (by simp) (by simp)), ?_⟩
-    · show (e x).1.1 ∈
+    · change (e x).1.1 ∈
         (RingHom.ker (Algebra.TensorProduct.lmul' (R := A)
           (S := B₁)).toRingHom).annihilator
       rw [Submodule.mem_annihilator]
       intro z hz
       simpa using congrArg (fun q ↦ q.1.1) (annih ((z, 0), (0, 0)) hz (by simp))
-    · show (e x).2.2 ∈
+    · change (e x).2.2 ∈
         (RingHom.ker (Algebra.TensorProduct.lmul' (R := A)
           (S := B₂)).toRingHom).annihilator
       rw [Submodule.mem_annihilator]
       intro z hz
       simpa using congrArg (fun q ↦ q.2.2) (annih ((0, 0), (0, z)) (by simp) hz)
   · rintro ⟨h11, h12, h21, h22⟩
-    show x ∈ (RingHom.ker (Algebra.TensorProduct.lmul' (R := A)
+    change x ∈ (RingHom.ker (Algebra.TensorProduct.lmul' (R := A)
       (S := B₁ × B₂)).toRingHom).annihilator
     rw [Submodule.mem_annihilator]
     intro z hz
-    show x * z = 0
+    change x * z = 0
     apply e.injective
     simp only [map_mul, map_zero]
     refine Prod.ext (Prod.ext ?_ ?_) (Prod.ext ?_ ?_)
-    · show (e x).1.1 * (e z).1.1 = 0
+    · change (e x).1.1 * (e z).1.1 = 0
       simpa [smul_eq_mul] using Submodule.mem_annihilator.mp h11 _ (by
         simpa [RingHom.mem_ker, lmul_tensorProdProdEquiv] using congrArg Prod.fst hz)
-    · show (e x).1.2 * (e z).1.2 = 0
+    · change (e x).1.2 * (e z).1.2 = 0
       rw [show (e x).1.2 = 0 from h12, zero_mul]
-    · show (e x).2.1 * (e z).2.1 = 0
+    · change (e x).2.1 * (e z).2.1 = 0
       rw [show (e x).2.1 = 0 from h21, zero_mul]
-    · show (e x).2.2 * (e z).2.2 = 0
+    · change (e x).2.2 * (e z).2.2 = 0
       simpa [smul_eq_mul] using Submodule.mem_annihilator.mp h22 _ (by
         simpa [RingHom.mem_ker, lmul_tensorProdProdEquiv] using congrArg Prod.snd hz)
 
@@ -232,7 +229,7 @@ theorem noetherDifferent_prod
   let e := tensorProdProdEquiv A B₁ B₂
   apply Ideal.ext
   rintro ⟨b₁, b₂⟩
-  show (b₁, b₂) ∈ Ideal.map (Algebra.TensorProduct.lmul' A).toRingHom
+  change (b₁, b₂) ∈ Ideal.map (Algebra.TensorProduct.lmul' A).toRingHom
       (diagonalAnnihilator A (B₁ × B₂)) ↔
     b₁ ∈ Ideal.map (Algebra.TensorProduct.lmul' A).toRingHom
         (diagonalAnnihilator A B₁) ∧
@@ -251,7 +248,7 @@ theorem noetherDifferent_prod
     let x := e.symm ((x₁, 0), (0, x₂))
     refine ⟨x, (mem_diagonalAnnihilator_iff A B₁ B₂ x).mpr
       (by simpa [x, e] using And.intro hx₁ hx₂), ?_⟩
-    show Algebra.TensorProduct.lmul' A x = (b₁, b₂)
+    change Algebra.TensorProduct.lmul' A x = (b₁, b₂)
     rw [lmul_tensorProdProdEquiv]
     simpa [x, e] using congrArg₂ Prod.mk hxb₁ hxb₂
 

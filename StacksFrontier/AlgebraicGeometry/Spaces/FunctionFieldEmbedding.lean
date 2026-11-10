@@ -270,7 +270,7 @@ theorem coordinateSwap_appTop_ySection (S : Setup.{u}) :
 /-- The coordinate interchange fixes the sum of the two coordinates. -/
 theorem coordinateSwap_comp_coordinateSumMap (S : Setup.{u}) :
     coordinateSwap S ≫ (coordinateSumMap S).left = (coordinateSumMap S).left := by
-  show coordinateSwap S ≫ AffineSpace.homOfVector _ _ = AffineSpace.homOfVector _ _
+  change coordinateSwap S ≫ AffineSpace.homOfVector _ _ = AffineSpace.homOfVector _ _
   rw [AffineSpace.comp_homOfVector, coordinateSwap_comp_baseMap]
   refine congrArg _ ?_
   funext _

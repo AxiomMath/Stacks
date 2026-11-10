@@ -111,7 +111,7 @@ theorem mem_nonvanishingLocus_of_ne_zero_of_field (K : Type u) [Field K]
     (M : (Spec (.of K)).Modules) (t : Γ(M, ⊤)) (ht : t ≠ 0) (z : Spec (.of K)) :
     z ∈ Stacks.Ample.nonvanishingLocus M t := by
   have hbot : Stacks.ModuleStalk.maximalSmul M z = ⊥ := by
-    show IsLocalRing.maximalIdeal ((Spec (.of K)).presheaf.stalk z) • (⊤ : Submodule _ _) = ⊥
+    change IsLocalRing.maximalIdeal ((Spec (.of K)).presheaf.stalk z) • (⊤ : Submodule _ _) = ⊥
     rw [maximalIdeal_stalk_eq_bot_of_field, Submodule.bot_smul]
   intro hmem
   rw [hbot, Submodule.mem_bot] at hmem
@@ -257,7 +257,7 @@ theorem exists_fin_generatesStalks_of_surjectsOnDegreeTwo (p : X ⟶ Spec (.of k
   refine generatesStalks_of_forall_exists_mem_nonvanishingLocus L _ fun z => ?_
   obtain ⟨s, hsT, hz⟩ := Set.mem_iUnion₂.mp (hT (Set.mem_univ z))
   refine ⟨ULift.up (Fin.castSucc (T.equivFin ⟨s, hsT⟩)), ?_⟩
-  show z ∈ Stacks.Ample.nonvanishingLocus L
+  change z ∈ Stacks.Ample.nonvanishingLocus L
     (Fin.lastCases 0 (fun j => (T.equivFin.symm j : Γ(L, ⊤)))
       (Fin.castSucc (T.equivFin ⟨s, hsT⟩)))
   rw [Fin.lastCases_castSucc]

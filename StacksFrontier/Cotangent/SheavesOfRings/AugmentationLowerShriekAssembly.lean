@@ -88,7 +88,6 @@ universe u
 section Generic
 
 variable {C : Type u} [SmallCategory C] (J : GrothendieckTopology C)
-  [HasWeakSheafify J AddCommGrpCat.{u}]
   {A₁ A₂ : (SimplexCategory × C)ᵒᵖ ⥤ CommRingCat.{u}} (θ : A₁ ⟶ A₂)
 
 /-- Change of rings is additive, being a left adjoint. -/
@@ -186,6 +185,8 @@ variable {C : Type u} [SmallCategory C] (J : GrothendieckTopology C)
   {A : SimplicialObject (Sheaf J CommRingCat.{u})} {O : Sheaf J CommRingCat.{u}}
   (ε : A ⟶ (Functor.const SimplexCategoryᵒᵖ).obj O)
 
+omit [(projection C).IsCocontinuous (projectionTopology C J) J]
+  [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)] in
 /-- **The column and row steps at the augmentation.** For a complex `L` of standard covers bounded
 above by `0` and a quasi-isomorphism `p` from `L` to the underlying presheaf complex of `ε_* X`,
 the adjoint of the sheafified transpose of `p` induces a quasi-isomorphism of the total complexes
@@ -231,6 +232,8 @@ def augMooreAbDictionary :
           PresheafOfModules.restrictScalars (augTgtRingUnit J (O := O))) ⋙
         mooreSheafCochain J (projectionCommRing J O).obj)) (ComplexShape.up ℤ)).symm
 
+omit [(projection C).IsCocontinuous (projectionTopology C J) J]
+  [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)] in
 /-- **The abelian-coefficient conclusion of the column/row step, at module coefficients.** -/
 theorem quasiIso_total_map_mooreModBicomplex_of_augMooreTgtC
     {M X : CochainComplex (SheafOfModules.{u} (augTgtRing J (O := O))) ℤ}
@@ -276,6 +279,8 @@ def augmentationBaseChangeComplexIso :
       (augmentationCommRingMap J ε).hom (augSrcIsSheaf J (A := A)) (augTgtIsSheaf J (O := O)))
     (ComplexShape.up ℤ)
 
+omit [(projection C).IsCocontinuous (projectionTopology C J) J]
+  [Stacks.Sites.PreservesCoveringPullbacks (projectionTopology C J) (projection C)] in
 /-- **A flat resolution of `ε_* X`, with the column/row conclusion at module coefficients.** For a
 complex `X` bounded above by `0` there are a complex `M` of flat sheaves of `A_•`-modules bounded
 above by `0` and a quasi-isomorphism `w : M ⟶ ε_* X` whose adjoint induces a quasi-isomorphism of

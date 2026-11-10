@@ -55,7 +55,7 @@ theorem bijective_sectionsRestriction {t : C} (ht : IsTerminal t) (hFt : IsTermi
         exact (ConcreteCategory.congr_hom (M.presheaf.map_comp _ g) a).symm.trans
           (by rw [e]))
     refine ⟨s, sections_ext _ _ fun X => ?_⟩
-    show M.map (hFt.from (F.obj X.unop)).op a = σ.1 X
+    change M.map (hFt.from (F.obj X.unop)).op a = σ.1 X
     rw [show hFt.from (F.obj X.unop) = F.map (ht.from X.unop) from hFt.hom_ext _ _]
     exact sections_property σ (ht.from X.unop).op
 
@@ -79,7 +79,7 @@ theorem isIso_homEquiv_symm_unit {t : C} (ht : IsTerminal t) (hFt : IsTerminal (
   refine sections_ext _ _ fun X => ?_
   simp only [Function.comp_apply, Equiv.trans_apply]
   rw [adj.homEquiv_naturality_right, Equiv.apply_symm_apply]
-  show ((pushforward.{u} φ).map x).app X (ρ.app X (show (unit S).obj X from (1 : S.obj X))) =
+  change ((pushforward.{u} φ).map x).app X (ρ.app X (show (unit S).obj X from (1 : S.obj X))) =
     x.app (op (F.obj X.unop)) (show (unit R).obj (op (F.obj X.unop)) from
       (1 : R.obj (op (F.obj X.unop))))
   rw [hρ X]

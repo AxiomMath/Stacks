@@ -188,7 +188,7 @@ theorem primeIdealOf_eq_map_appLE_of_isGenericPoint {X Y : Scheme.{u}} (g : X �
     Ideal.map_le_iff_le_comap.mpr (le_of_eq (congrArg PrimeSpectrum.asIdeal hcomap).symm)
   have hPcomap : Spec.map (g.appLE V U hUV) P = hV.primeIdealOf ⟨y, hy⟩ := by
     refine PrimeSpectrum.ext ?_
-    show Ideal.comap (g.appLE V U hUV).hom P.asIdeal = _
+    change Ideal.comap (g.appLE V U hUV).hom P.asIdeal = _
     rw [← halg]
     exact Ideal.comap_map_of_geometricallyIrreducible Γ(Y, V) Γ(X, U) _
   have hgP : g.base (hU.fromSpec P) = y := by

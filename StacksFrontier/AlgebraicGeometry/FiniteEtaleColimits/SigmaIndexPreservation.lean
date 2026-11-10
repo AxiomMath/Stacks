@@ -109,7 +109,7 @@ by the coequalizer of the index maps, is the component at the class of `i`. -/
 theorem ι_comp_sigmaIndexCofork_π (i : ι) :
     Sigma.ι (fun _ : ι ↦ A) i ≫ Cofork.π (sigmaIndexCofork A σ τ) =
       Sigma.ι (fun _ : IndexCoeq σ τ ↦ A) (toIndexCoeq σ τ i) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The image of the index-coequalizer cofork under a functor is again a cofork. -/
 theorem map_sigmaIndexCofork_condition :

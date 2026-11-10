@@ -63,7 +63,7 @@ noncomputable abbrev ξ {C : SmallAlg (ringOf B S hS T') B.cutoff}
 theorem specOverMap_comp_pt {C D : SmallAlg (ringOf B S hS T') B.cutoff} (h : C ⟶ D)
     (u : P.obj →ₐ[ringOf B S hS T'] C.obj) :
     specOverMap h ≫ (pt ι u).hom = (pt ι (h.hom.hom.comp u)).hom := by
-  show specOverMap h ≫ specOverMap (SmallAlg.homMk u) ≫ ι =
+  change specOverMap h ≫ specOverMap (SmallAlg.homMk u) ≫ ι =
     specOverMap (SmallAlg.homMk u ≫ h) ≫ ι
   rw [specOverMap_comp, Category.assoc]
 
@@ -262,7 +262,7 @@ theorem Arr.map_inv {C D : SmallAlg (ringOf B S hS T') B.cutoff} (h : C ⟶ D)
     (g : Arr a ι C) : Arr.map a ι h g.inv = (Arr.map a ι h g).inv := by
   refine Arr.map_eq_mk h _ _ _ ?_
   have h₁ := Arr.map_hom_fac h g
-  show CategoryTheory.inv (Arr.map a ι h g).hom ≫ trans a ι h g.src =
+  change CategoryTheory.inv (Arr.map a ι h g).hom ≫ trans a ι h g.src =
     trans a ι h g.tgt ≫ CategoryTheory.inv g.hom
   refine (IsIso.inv_comp_eq _).2 ?_
   have e : trans a ι h g.src = trans a ι h g.src ≫ g.hom ≫ CategoryTheory.inv g.hom := by
@@ -275,7 +275,7 @@ theorem Arr.map_idt {C D : SmallAlg (ringOf B S hS T') B.cutoff} (h : C ⟶ D)
     (w : P.obj →ₐ[ringOf B S hS T'] C.obj) :
     Arr.map a ι h (Arr.idt w) = Arr.idt (h.hom.hom.comp w) := by
   refine Arr.map_eq_mk h _ _ _ ?_
-  show 𝟙 _ ≫ trans a ι h w = trans a ι h w ≫ 𝟙 _
+  change 𝟙 _ ≫ trans a ι h w = trans a ι h w ≫ 𝟙 _
   rw [Category.id_comp, Category.comp_id]
 
 end StackChart

@@ -71,7 +71,7 @@ private theorem bijective_map_of_natIso {C D : Type*} [Category C] [Category D] 
       (Iso.homCongr (e.app A).symm (e.app B).symm) ∘ G.map := by
     funext a
     simp only [Function.comp_apply, Iso.homCongr_apply, Iso.symm_inv, Iso.symm_hom]
-    show F.map a = e.hom.app A ≫ G.map a ≫ e.inv.app B
+    change F.map a = e.hom.app A ≫ G.map a ≫ e.inv.app B
     rw [← e.hom.naturality_assoc]
     simp
   rw [heq]
@@ -159,7 +159,7 @@ private theorem unitToPushforwardObjUnit_isIso {C D : Type*} [Category C] [Categ
   rw [← isIso_iff_of_reflects_iso _ (SheafOfModules.toSheaf _),
     ← isIso_iff_of_reflects_iso _ (sheafToPresheaf _ _), NatTrans.isIso_iff_isIso_app]
   intro V
-  show IsIso ((forget₂ RingCat AddCommGrpCat).map (φ.hom.app V))
+  change IsIso ((forget₂ RingCat AddCommGrpCat).map (φ.hom.app V))
   infer_instance
 
 /-- A left adjoint is bijective on homomorphisms into an object at which the unit is an
@@ -185,7 +185,7 @@ theorem bijective_modulePullback_map_unit {X Y : Scheme.{u}} (f : X ⟶ Y)
         (Scheme.Modules.pullback f).obj (SheafOfModules.unit Y.ringCatSheaf))) := by
   have hφ : IsIso (structureSheafHom f.toLRSHom.toShHom) := by
     rw [← isIso_iff_of_reflects_iso _ (sheafToPresheaf _ _)]
-    show IsIso (Functor.whiskerRight f.toLRSHom.toHom.c (forget₂ CommRingCat RingCat))
+    change IsIso (Functor.whiskerRight f.toLRSHom.toHom.c (forget₂ CommRingCat RingCat))
     infer_instance
   have hfin : (opensMap f.toLRSHom.toShHom).Final := CategoryTheory.final_of_representablyFlat _
   have hpuu : IsIso (SheafOfModules.pullbackObjUnitToUnit

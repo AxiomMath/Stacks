@@ -184,7 +184,7 @@ theorem evalConeComponent_zero :
 /-- In every degree other than `-1` and `0`, `evalConeComponent` vanishes. -/
 theorem evalConeComponent_eq_zero (i : ℤ) (h : i ≠ -1) (h' : i ≠ 0) :
     evalConeComponent A B E hom i = 0 := by
-  rw [evalConeComponent, dif_neg h, dif_neg h']
+  simp [evalConeComponent, h, h']
 
 /-- **The evaluation at `U` of the two-term complex**, as a map of complexes into the cone of
 `𝒥/𝒥² ⟶ Ω` on the standard resolution. In degree `-1` it is `J/J² ⟶ 𝒥₀/𝒥₀²` and in degree `0`

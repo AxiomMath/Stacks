@@ -99,7 +99,6 @@ variable {C : Type u} [SmallCategory.{u} C] [Limits.HasBinaryProducts C]
   (R : Sheaf J CommRingCat.{u}) (U : C)
   [HasWeakSheafify (J.over U) AddCommGrpCat.{u}]
   [(J.over U).WEqualsLocallyBijective AddCommGrpCat.{u}]
-  [(J.over U).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
 
 /-- Restriction of sheaves of `O`-modules to the site localized at `U`.  It is named here
 only so that the statements below can be read; its type is the one
@@ -129,8 +128,7 @@ noncomputable abbrev restrictionComplex
 
 omit [HasWeakSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
   [HasWeakSheafify (J.over U) AddCommGrpCat.{u}]
-  [(J.over U).WEqualsLocallyBijective AddCommGrpCat.{u}]
-  [(J.over U).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
+  [(J.over U).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- Restriction to the localized site preserves sequential colimits: it is a left adjoint, the
 localization `j_U^{-1}` of a morphism of topoi. -/
 theorem preservesColimitsOfShape_restriction :
@@ -158,8 +156,7 @@ theorem isFlat_restriction
 omit [Limits.HasBinaryProducts C] [HasWeakSheafify J AddCommGrpCat.{u}]
   [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
   [HasWeakSheafify (J.over U) AddCommGrpCat.{u}]
-  [(J.over U).WEqualsLocallyBijective AddCommGrpCat.{u}]
-  [(J.over U).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
+  [(J.over U).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- Restriction to the localized site preserves the bound of a strictly bounded above complex:
 it is additive, so it carries a zero object to a zero object. -/
 theorem isStrictlyLE_restriction
@@ -212,8 +209,7 @@ theorem kFlat_restriction_of_isColimit
   have := hb
   exact kFlat_restriction_of_isStrictlyLE R U (Dg.obj n) b (hflat n)
 
-omit [Limits.HasBinaryProducts C]
-  [(J.over U).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
+omit [Limits.HasBinaryProducts C] in
 /-- **Restriction to the localized site preserves sequential colimits, without assuming binary
 products on the site.** `preservesColimitsOfShape_restriction` obtains this from restriction
 being a left adjoint, and the instance supplying that is available only on a site with binary
@@ -295,8 +291,7 @@ theorem exists_kFlatResolution_restriction
       (Stacks.SheafOfModules.KFlatResolution.isFlat_colimit_X R D hflat i)⟩
 
 omit [Limits.HasBinaryProducts C] [HasWeakSheafify (J.over U) AddCommGrpCat.{u}]
-  [(J.over U).WEqualsLocallyBijective AddCommGrpCat.{u}]
-  [(J.over U).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
+  [(J.over U).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **One K-flat resolution whose restriction to *every* slice is K-flat.** The colimit
 presentation produced by Stacks 06YS does not mention the object the site is localized at, and
 the criterion `kFlat_restriction_of_isColimit_of_cocontinuous` reads K-flatness of the

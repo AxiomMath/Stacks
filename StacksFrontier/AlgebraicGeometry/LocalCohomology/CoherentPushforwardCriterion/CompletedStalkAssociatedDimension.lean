@@ -3,8 +3,7 @@ module
 public import Mathlib.RingTheory.Flat.Basic
 public import Mathlib.RingTheory.KrullDimension.NonZeroDivisors
 public import StacksCore.Tactic.StacksAttribute
-public import
-  StacksFrontier.AlgebraicGeometry.LocalCohomology.CodimensionOneObstruction.CompletedLocalBaseChange
+public import StacksFrontier.AlgebraicGeometry.LocalCohomology.CodimensionOneObstruction.CompletedLocalBaseChange
 
 /-!
 # Non-coherence of `j_* 𝒪_U` from an associated prime of dimension at most one

@@ -137,7 +137,7 @@ theorem toSlice_isCoverDense_of_generate_mem (V : BigFppfSpaceOver T X)
     · refine (e.inv_hom_id_assoc ((g.left ≫ W.hom.left) ≫ V.hom)).trans ?_
       exact (Category.assoc _ _ _).trans ((congrArg (g.left ≫ ·) (Over.w W.hom)).trans (Over.w g))
     · exact Over.OverMorphism.ext ((e.inv_hom_id_assoc _).trans (Over.comp_left ..).symm)
-    · show (e.hom ≫ g.left) ≫ W.left.hom = (e.hom ≫ g.left ≫ W.hom.left) ≫ V.hom
+    · change (e.hom ≫ g.left) ≫ W.left.hom = (e.hom ≫ g.left ≫ W.hom.left) ≫ V.hom
       simp only [Category.assoc, Over.w W.hom]
     · exact Over.OverMorphism.ext ((Over.comp_left ..).trans (Category.assoc _ _ _))
     · exact Over.OverMorphism.ext (Over.OverMorphism.ext (e.inv_hom_id_assoc g.left))
@@ -233,7 +233,7 @@ theorem exists_finite_fppf_ofArrows_le (W : AffineSchemesOver T V) (R : Sieve W)
   · rw [← (Sieve.fullyFaithfulFunctorGaloisCoinsertion (toSlice T V) W).u_l_eq R]
     exact (Sieve.overEquiv_iff _ _).1 ((Sieve.overEquiv_iff _ _).1 (hmem i))
   · rw [Functor.mem_inducedTopology_iff_of_isCoverDense]
-    show Sieve.overEquiv _ (Sieve.overEquiv _
+    change Sieve.overEquiv _ (Sieve.overEquiv _
       ((Sieve.ofArrows _ (fun i => homOfScheme W (haff i) (φ i))).functorPushforward
         (toSlice T V))) ∈ T.topology (F.obj W.obj.left)
     refine T.topology.superset_covering ?_ ((Functor.functorPushforward_mem_iff

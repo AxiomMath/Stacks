@@ -220,7 +220,7 @@ theorem singleMapHomologicalComplex_inv_comp {V W Z : Type*} [Category* V] [Cate
   simp only [Functor.mapHomologicalComplex_obj_X, Functor.comp_obj, HomologicalComplex.comp_f,
     HomologicalComplex.singleMapHomologicalComplex_inv_app_self,
     Functor.mapHomologicalComplex_map_f, Functor.map_comp, NatTrans.mapHomologicalComplex_app_f,
-    Category.assoc, Iso.map_inv_hom_id_assoc, HomologicalComplex.single_map_f_self,
+    Category.assoc, Iso.inv_hom_id_map_assoc, HomologicalComplex.single_map_f_self,
     Iso.inv_hom_id_assoc, Iso.cancel_iso_hom_left]
   exact τ.naturality (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 L).inv
 
@@ -296,6 +296,7 @@ theorem endo_transport_aux {C : Type*} [Category* C] {A A' B : C} (fA : A ⟶ A)
     rw [Iso.comp_inv_eq, Category.assoc, hg, Iso.inv_hom_id_assoc]
   rw [← Category.assoc, ← hx, Category.assoc, h₃, Category.assoc]
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The level isomorphisms carry `π_X^*` to the endomorphisms of the tower.** -/
 theorem LAdicSheaf.geometricLevelCohomologyIso_frobenius (F : LAdicSheaf B X ℓ)
     (hF : ∀ n, PowExact ℓ (n + 1) (LAdicSheaf.etaleLevel B X ℓ F n))
@@ -411,6 +412,7 @@ theorem compactSupportFrobeniusFunctor_map_restrictScalars_comp [Finite k]
 
 end Naturality
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The level isomorphisms are natural in `n`**: they carry the transitions of the inverse system
 `n ↦ Hⁱ_c(X_k̄, Fₙ)` to those of the cohomology of the tower. -/
 theorem LAdicSheaf.geometricLevelCohomologyIso_naturality (F : LAdicSheaf B X ℓ)
@@ -476,6 +478,7 @@ def LAdicSheaf.geometricLevelCohomologySystemIso (F : LAdicSheaf B X ℓ)
     (fun n => (LAdicSheaf.geometricLevelCohomologyIso B X ℓ f j kbar p q hcard F hF hP i n).hom)
     (LAdicSheaf.geometricLevelCohomologyIso_naturality B X ℓ f j kbar p q hcard F hF hP i))
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- The system isomorphism carries `π_X^*` to the endomorphisms of the tower. -/
 theorem LAdicSheaf.geometricLevelCohomologySystemIso_frobenius (F : LAdicSheaf B X ℓ)
     (hF : ∀ n, PowExact ℓ (n + 1) (LAdicSheaf.etaleLevel B X ℓ F n))
@@ -491,6 +494,7 @@ theorem LAdicSheaf.geometricLevelCohomologySystemIso_frobenius (F : LAdicSheaf B
   ext ⟨n⟩ : 2
   exact LAdicSheaf.geometricLevelCohomologyIso_frobenius B X ℓ f j kbar p q hcard F hF hP i n
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 include p q hcard in
 /-- **`Hⁱ_c(X_k̄, F ⊗ Q_ℓ)` is finite-dimensional** for an ℓ-adic sheaf with flat levels whose
 `RΓ_c(X_k̄, Fₙ)` are perfect. -/
@@ -506,6 +510,7 @@ theorem LAdicSheaf.finite_rationalGeometricCompactlySupportedCohomology_of_flat
   LAdicSheaf.finite_rationalGeometricCompactlySupportedCohomology_of_iso B X ℓ f j kbar F _ i
     (LAdicSheaf.geometricLevelCohomologySystemIso B X ℓ f j kbar p q hcard F hF hP i)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 include p q hcard in
 /-- **`Hⁱ_c(X_k̄, F ⊗ Q_ℓ)` vanishes in all but finitely many degrees** for an ℓ-adic sheaf with
 flat levels whose `RΓ_c(X_k̄, Fₙ)` are perfect. -/
@@ -520,6 +525,7 @@ theorem LAdicSheaf.finite_nontrivial_rationalGeometricCompactlySupportedCohomolo
     F _
     (fun i => LAdicSheaf.geometricLevelCohomologySystemIso B X ℓ f j kbar p q hcard F hF hP i)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The alternating trace of `π_X^*` on `Hⁱ_c(X_k̄, F ⊗ Q_ℓ)` is the ℓ-adic trace of the tower
 `Kₙ = RΓ_c(X_k̄, Fₙ)`**, for an ℓ-adic sheaf with flat levels whose `Kₙ` are perfect. -/
 theorem LAdicSheaf.alternating_trace_rationalGeometricCompactlySupportedFrobenius_of_flat

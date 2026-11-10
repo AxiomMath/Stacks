@@ -70,7 +70,7 @@ theorem cocone_ι_app_zero_app_top_one :
         (sectionIsomorphismOpen X F s).ι ⁻¹ᵁ (⊤ : X.Opens))) := by
   rw [reflexivePowerSystemPushforwardCocone_ι_app_eq_unit_comp,
     restrictReflexivePowerUnitIso_zero_hom]
-  show (Scheme.Modules.restrictUnitIso (sectionIsomorphismOpen X F s).ι).hom.app
+  change (Scheme.Modules.restrictUnitIso (sectionIsomorphismOpen X F s).ι).hom.app
       ((sectionIsomorphismOpen X F s).ι ⁻¹ᵁ (⊤ : X.Opens))
       ((X.presheaf.map
         (homOfLE ((sectionIsomorphismOpen X F s).ι.image_preimage_le ⊤)).op).hom

@@ -78,7 +78,7 @@ theorem relativeDimension_comp_add_of_trdeg
   let : Algebra L M := (p.residueFieldMap x).hom.toAlgebra
   let : Algebra K M := ((p ≫ q).residueFieldMap x).hom.toAlgebra
   let : IsScalarTower K L M := IsScalarTower.of_algebraMap_eq fun a => by
-    show ((p ≫ q).residueFieldMap x).hom a =
+    change ((p ≫ q).residueFieldMap x).hom a =
       (p.residueFieldMap x).hom ((q.residueFieldMap (p x)).hom a)
     rw [Scheme.residueFieldMap_comp p q x]
     rfl
@@ -88,7 +88,7 @@ theorem relativeDimension_comp_add_of_trdeg
     RingHom.EssFiniteType.residueFieldMap (LocallyOfFiniteType.stalkMap p x)
   unfold relativeDimension
   simp only [Scheme.Hom.comp_apply]
-  show δ (q (p x)) +
+  change δ (q (p x)) +
       (Cardinal.toNat (Algebra.trdeg K M) : ℤ) =
     δ (q (p x)) + (Cardinal.toNat (Algebra.trdeg K L) : ℤ) + (r : ℤ)
   rw [← trdeg_add_eq K L (A := M),
@@ -245,14 +245,14 @@ theorem fiber_trdeg_eq {X Y : Scheme.{u}} (f : X ⟶ Y) [LocallyOfFiniteType f] 
       residueFieldMap_fiberToSpecResidueField_comm f x hy
     refine trdeg_toNat_eq_of_comm jEq (q.residueFieldMap z).hom e (f.residueFieldMap x).hom
       fun a => ?_
-    show e ((q.residueFieldMap z).hom (j.hom a)) = (f.residueFieldMap x).hom a
+    change e ((q.residueFieldMap z).hom (j.hom a)) = (f.residueFieldMap x).hom a
     calc
       e ((q.residueFieldMap z).hom (j.hom a)) =
           e ((i.residueFieldMap z).hom
             ((X.residueFieldCongr hix).inv.hom ((f.residueFieldMap x).hom a))) :=
         congrArg (fun t : CommRingCat.Hom _ _ => e (t.hom a)) hmaps
       _ = (f.residueFieldMap x).hom a := by
-        show (X.residueFieldCongr hix).hom.hom
+        change (X.residueFieldCongr hix).hom.hom
           (e₀.symm ((i.residueFieldMap z).hom
             ((X.residueFieldCongr hix).inv.hom ((f.residueFieldMap x).hom a)))) = _
         have he₀ (b : X.residueField (i z)) :
@@ -279,7 +279,7 @@ private theorem fiber_trdeg_eq_of_cycle_coeff {X Y : Scheme.{u}}
   let z : F := f.asFiber x
   let q := f.fiberToSpecResidueField y
   have : LocallyOfFiniteType q := by
-    show LocallyOfFiniteType (pullback.snd f (Y.fromSpecResidueField y))
+    change LocallyOfFiniteType (pullback.snd f (Y.fromSpecResidueField y))
     infer_instance
   let C := fieldChowSituation (Y.residueField y)
   have hrel : relativeDimension C.dimensionFunction q z = (r : ℤ) :=
@@ -315,7 +315,7 @@ private theorem fiber_preimage_affine_isCompact {X Y : Scheme.{u}}
       have heq := congrArg (fun k : V.toScheme ⟶ Y => k (g.fiberι su t))
         (Scheme.Hom.resLE_comp_ι f hVU)
       change U.ι (g (g.fiberι su t)) = f (V.ι (g.fiberι su t)) at heq
-      show f (V.ι (g.fiberι su t)) = s
+      change f (V.ι (g.fiberι su t)) = s
       rw [← heq, hgs]
       rfl⟩
   have hφ : Continuous φ := by
@@ -328,7 +328,7 @@ private theorem fiber_preimage_affine_isCompact {X Y : Scheme.{u}}
     ext z
     refine ⟨?_, fun hz => ?_⟩
     · rintro ⟨t, rfl⟩
-      show f.fiberι s (φ t) ∈ V
+      change f.fiberι s (φ t) ∈ V
       rw [hφι]
       exact (g.fiberι su t).2
     · let v : V.toScheme := ⟨f.fiberι s z, hz⟩
@@ -336,7 +336,7 @@ private theorem fiber_preimage_affine_isCompact {X Y : Scheme.{u}}
         simpa [v] using ((f.range_fiberι s).le ⟨z, rfl⟩ : f (f.fiberι s z) = s)
       have hgs : g v = su := by
         apply Subtype.ext
-        show (f.resLE U V hVU v).1 = s
+        change (f.resLE U V hVU v).1 = s
         rwa [Scheme.Hom.coe_resLE_apply]
       let t : g.fiber su := (g.fiberHomeo su).symm ⟨v, hgs⟩
       refine ⟨t, ?_⟩

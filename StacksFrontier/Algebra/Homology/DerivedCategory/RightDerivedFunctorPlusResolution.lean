@@ -542,7 +542,7 @@ lemma quasiIso_mapHomologicalComplex_of_rightAcyclic (T : A ⥤ B) [T.Additive]
   have hQ : IsIso (DerivedCategory.Plus.Qh.map ψq) :=
     Localization.inverts DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A) _
       ((HomotopyCategory.quotient_map_mem_quasiIso_iff _).2 (by
-        show QuasiIso φ
+        change QuasiIso φ
         infer_instance))
   have hmap : IsIso ((T.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).map ψq) := by
     have hcomp : IsIso (((T.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).map ψq) ≫

@@ -40,7 +40,7 @@ public theorem hasTorAmplitude0DJF_single_of_canonical
       ((CochainComplex.singleFunctor (ModuleCat.{u} R) 0).obj M) a b := by
   let P := FaithfullyFlat.projResComplex M
   have hPle : P.IsStrictlyLE 0 := by
-    show CochainComplex.IsStrictlyLE
+    change CochainComplex.IsStrictlyLE
       ((CategoryTheory.ProjectiveResolution.of M).complex.extend
         ComplexShape.embeddingDownNat) 0; infer_instance
   have hPKF : P.KFlat := FaithfullyFlat.projResComplex_kFlat M
@@ -51,7 +51,7 @@ public theorem hasTorAmplitude0DJF_single_of_canonical
     (CategoryTheory.ProjectiveResolution.of M).π'
   have hq : QuasiIso q := by
     dsimp [q]
-    show QuasiIso
+    change QuasiIso
       (HomologicalComplex.extendMap (CategoryTheory.ProjectiveResolution.of M).π
         ComplexShape.embeddingDownNat ≫ _)
     have hπ' : QuasiIso (HomologicalComplex.extendMap

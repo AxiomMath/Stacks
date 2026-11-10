@@ -17,8 +17,8 @@ is why `AlgebraicGeometry.forall_moduleFinite_cohomology_ringBase_of_exists_epi`
 resolving modules abstractly rather than as a family of twists. This file supplies the `A`-linear
 identification and carries the ring level up to the same statements the field level has.
 
-**The construction is shorter than the field one, and the reason is an instance in the library.** The
-field development builds the splitting `Hⁿ(𝒜 ⊞ ℬ) ≅ Hⁿ(𝒜) × Hⁿ(ℬ)` out of the long exact
+**The construction is shorter than the field one, and the reason is an instance in the library.**
+The field development builds the splitting `Hⁿ(𝒜 ⊞ ℬ) ≅ Hⁿ(𝒜) × Hⁿ(ℬ)` out of the long exact
 sequence of a split short exact sequence, on the ground that a right derived functor is not known
 to be additive. That is true of Mathlib and **false of this repository**:
 `CategoryTheory.Functor.additive_rightDerived` of

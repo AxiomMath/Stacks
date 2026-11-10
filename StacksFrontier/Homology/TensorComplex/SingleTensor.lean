@@ -90,7 +90,7 @@ public lemma singleTensorTermIso_inv (N : C) (D : CochainComplex C ℤ) (i : ℤ
         (curriedTensor C) (ComplexShape.up ℤ) 0 i i (by simp) := by
   simp only [singleTensorTermIso, Iso.trans_inv, Iso.symm_inv, tensorIso_inv,
     Iso.refl_inv, tensorHom_id]
-  show (𝟙 N ▷ D.X i) ≫ _ = _
+  change (𝟙 N ▷ D.X i) ≫ _ = _
   simp
 
 /-- Tensoring on the left with `N[0]` is tensoring degreewise with `N`. -/
@@ -128,7 +128,7 @@ public lemma singleTensorIso_naturality (N : C)
       ((tensorLeft N).mapHomologicalComplex (ComplexShape.up ℤ)).map f ≫
         (singleTensorIso N D').inv := by
   ext i : 1
-  show (singleTensorTermIso N D i).inv ≫
+  change (singleTensorTermIso N D i).inv ≫
     (mapBifunctorMap (𝟙 _) f (curriedTensor C) (ComplexShape.up ℤ)).f i =
       (tensorLeft N).map (f.f i) ≫ (singleTensorTermIso N D' i).inv
   rw [singleTensorTermIso_inv, singleTensorTermIso_inv, ι_mapBifunctorMap]

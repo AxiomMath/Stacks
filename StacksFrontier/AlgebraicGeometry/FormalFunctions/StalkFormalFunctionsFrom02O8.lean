@@ -217,7 +217,7 @@ private def infinitesimalToQuotSections (n : ℕ) (t : Γ(infinitesimalNeighbour
 private theorem quotSectionsToInfinitesimal_infinitesimalToQuotSections (n : ℕ)
     (t : Γ(infinitesimalNeighbourhood f y n, ⊤)) :
     quotSectionsToInfinitesimal f y n (infinitesimalToQuotSections f y n t) = t := by
-  show ((infinitesimalNeighbourhoodIsoSubscheme f y n).inv.appTop).hom
+  change ((infinitesimalNeighbourhoodIsoSubscheme f y n).inv.appTop).hom
       ((idealPowerQuotientSubschemeIso (infinitesimalBaseIdealSheaf f y) n).hom.app ⊤
         ((idealPowerQuotientSubschemeIso (infinitesimalBaseIdealSheaf f y) n).inv.app ⊤
           (((infinitesimalNeighbourhoodIsoSubscheme f y n).hom.appTop).hom t))) = t
@@ -240,7 +240,7 @@ private theorem quotSectionsToInfinitesimal_π (n : ℕ) (s : Γ(stalkBaseChange
     (infinitesimalBaseIdealSheaf f y) n s
   have h2 := ConcreteCategory.congr_hom (subschemeι_appTop_eq f y n) s
   rw [CommRingCat.comp_apply] at h2
-  show ((infinitesimalNeighbourhoodIsoSubscheme f y n).inv.appTop).hom
+  change ((infinitesimalNeighbourhoodIsoSubscheme f y n).inv.appTop).hom
       ((idealPowerQuotientSubschemeIso (infinitesimalBaseIdealSheaf f y) n).hom.app ⊤
         ((baseQuotientπ f y n).app ⊤ s)) = _
   rw [h1, h2, subschemeIso_inv_hom]

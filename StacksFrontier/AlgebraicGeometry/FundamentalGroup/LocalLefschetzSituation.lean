@@ -138,7 +138,7 @@ point in `Spec(A / fA)`. -/
 public lemma U₀Open_eq_puncturedSpectrumOpen (S : LocalLefschetzSituation) :
     S.U₀Open = Stacks.Divisors.puncturedSpectrum S.quotientRing := by
   ext x
-  show PrimeSpectrum.comap (Ideal.Quotient.mk S.principalIdeal) x ≠
+  change PrimeSpectrum.comap (Ideal.Quotient.mk S.principalIdeal) x ≠
       IsLocalRing.closedPoint S.A ↔
     x ≠ IsLocalRing.closedPoint S.quotientRing
   rw [← IsLocalRing.comap_closedPoint (Ideal.Quotient.mk S.principalIdeal)]

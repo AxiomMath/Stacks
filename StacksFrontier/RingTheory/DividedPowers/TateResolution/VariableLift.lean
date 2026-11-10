@@ -251,13 +251,13 @@ public theorem existsUnique_oddVariableExtension_ringHom
       DividedPowerStructure.odd_mul_self_eq_zero htq, mul_zero]
   refine ⟨{ toFun := fun x => h x.fst + h (show B from x.snd) * t
             map_one' := by
-              show h (1 : B) + h (0 : B) * t = 1
+              change h (1 : B) + h (0 : B) * t = 1
               simp
             map_zero' := by
-              show h (0 : B) + h (0 : B) * t = 0
+              change h (0 : B) + h (0 : B) * t = 0
               simp
             map_add' := fun x y => by
-              show h (x.fst + y.fst) + h ((show B from x.snd) + (show B from y.snd)) * t =
+              change h (x.fst + y.fst) + h ((show B from x.snd) + (show B from y.snd)) * t =
                 (h x.fst + h (show B from x.snd) * t) + (h y.fst + h (show B from y.snd) * t)
               rw [map_add, map_add, add_mul]
               abel
@@ -276,20 +276,20 @@ public theorem existsUnique_oddVariableExtension_ringHom
                       h (show B from x.snd) * t * (h (show B from y.snd) * t) := by
                   noncomm_ring
                 rw [expand, e1, hkill, add_zero]
-              show h (x.fst * y.fst) +
+              change h (x.fst * y.fst) +
                   h (x.fst * (show B from y.snd) +
                     (show B from x.snd) * signRingEquiv ℬ d y.fst) * t = _
               rw [hR, map_add, map_mul, map_mul, map_mul]
               noncomm_ring }, ⟨?_, ?_, ?_⟩, ?_⟩
   · intro b
-    show h b + h (0 : B) * t = h b
+    change h b + h (0 : B) * t = h b
     simp
-  · show h (0 : B) + h (1 : B) * t = t
+  · change h (0 : B) + h (1 : B) * t = t
     simp
   · intro m x hx
     rw [mem_grade_iff] at hx
     obtain ⟨h1, h2⟩ := hx
-    show h x.fst + h (show B from x.snd) * t ∈ 𝒟 m
+    change h x.fst + h (show B from x.snd) * t ∈ 𝒟 m
     refine Submodule.add_mem _ (hgrade m _ h1) ?_
     split_ifs at h2 with hle
     · have hmul : h (show B from x.snd) * t ∈ 𝒟 (m - d + d) :=
@@ -414,11 +414,11 @@ public theorem existsUnique_evenVariableAlgebra_ringHom
     { toFun := fun x => x.coeff.sum fun n b => h b * δ.dpow n t
       map_zero' := by simp [Finsupp.sum]
       map_add' := fun x y => by
-        show (x.coeff + y.coeff).sum _ = x.coeff.sum _ + y.coeff.sum _
+        change (x.coeff + y.coeff).sum _ = x.coeff.sum _ + y.coeff.sum _
         exact Finsupp.sum_add_index' (by simp) (by intro a b₁ b₂; rw [map_add, add_mul]) }
   have hGmon : ∀ (n : ℕ) (b : B), G (monomial n b) = h b * δ.dpow n t := by
     intro n b
-    show (Finsupp.single n b).sum (fun n b => h b * δ.dpow n t) = _
+    change (Finsupp.single n b).sum (fun n b => h b * δ.dpow n t) = _
     rw [Finsupp.sum_single_index (by simp)]
   have hGcoeff : ∀ b : B, G (coeffEmbedding b) = h b := fun b => by
     rw [coeffEmbedding_apply, hGmon, δ.dpow_zero htpos, mul_one]
@@ -467,7 +467,7 @@ public theorem existsUnique_evenVariableAlgebra_ringHom
   · exact hGvar
   · intro m x hx
     rw [mem_grade_iff] at hx
-    show x.coeff.sum (fun n b => h b * δ.dpow n t) ∈ 𝒟 m
+    change x.coeff.sum (fun n b => h b * δ.dpow n t) ∈ 𝒟 m
     rw [Finsupp.sum]
     refine Submodule.sum_mem _ fun n hn => ?_
     rw [Finsupp.mem_support_iff] at hn
@@ -488,7 +488,7 @@ public theorem existsUnique_evenVariableAlgebra_ringHom
           rw [coeffEmbedding_apply, monomial_mul_monomial]
           simp
         rw [hsplit, map_mul, hg.1, hg.2.1]
-        show _ = G (coeffEmbedding a * monomial n (1 : B))
+        change _ = G (coeffEmbedding a * monomial n (1 : B))
         rw [hGmul, hGcoeff, hGvar]
 
 end EvenLift

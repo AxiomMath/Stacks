@@ -271,7 +271,7 @@ def extensionByZeroBaseChange {T T' U Z : AlgebraicSpaces B S hS} (u' : T' ⟶ T
         smallEtaleDerivedModulePullback B S hS t :=
   ((mateEquiv (etaleDerivedLowerShriekAdjunction B S hS u hu)
     (etaleDerivedLowerShriekAdjunction B S hS u' hu')).symm
-      (TwoSquare.mk _ _ _ _ (P.squareIso u' t t' u h).hom)).natTrans
+      (TwoSquare.mk _ _ _ _ (P.squareIso u' t t' u h).hom))
 
 /-- The component at `A` of the base change map for extension by zero is `u'_!` of `Lt'^*` of the
 unit `A ⟶ Lu^*(u_!A)` followed by the identification of the square, composed with the counit of

@@ -64,7 +64,7 @@ theorem exists_cechAugmentationPre_eq_pushCochain (hE : E.sieve₀ ∈ K U)
   have h0 : cechDifferential E S.X₃.obj 0 (pushCochain E S.g.hom 0 b) = 0 := by
     rw [cechDifferential_pushCochain, hb, pushCochain_comp]
     funext k
-    show (S.f ≫ S.g).hom.app _ _ = 0
+    change (S.f ≫ S.g).hom.app _ _ = 0
     rw [S.zero]
     rfl
   let y : (cechComplex E S.X₃.obj).X 0 :=
@@ -119,10 +119,8 @@ variable {C : Type u} [Category.{v} C] {K : GrothendieckTopology C} {U : C}
   [∀ (n : ℕ) (i : Fin (n + 1) → E.I₀), HasProduct (fun j ↦ Over.mk (E.f (i j)))]
   [HasSheafify K AddCommGrpCat.{max a u v w}]
   [HasSheafify (K.over U) AddCommGrpCat.{max a u v w}]
-  [HasExt.{h} (Sheaf K AddCommGrpCat.{max a u v w})]
 
-omit [HasSheafify K AddCommGrpCat.{max a u v w}]
-  [HasExt.{h} (Sheaf K AddCommGrpCat.{max a u v w})] in
+omit [HasSheafify K AddCommGrpCat.{max a u v w}] in
 /-- **The cokernel comparison carries the glued quotient section to the glued section of the
 quotient sheaf.** Over `U`, the cokernel comparison sends the glued quotient section to every
 section `q` of `S₃` whose Čech augmentation is the image of the cochain `b`. -/
@@ -156,21 +154,20 @@ theorem sliceCokernelComparison_app_glued (hE : E.sieve₀ ∈ K U)
   apply (productAddEquiv (cochainFactor E S.X₃.obj 0)).injective
   rw [hq]
   funext k
-  show Pi.π (cochainFactor E S.X₃.obj 0) k (cechAugmentationPre.{a} E S.X₃.obj r) =
+  change Pi.π (cochainFactor E S.X₃.obj 0) k (cechAugmentationPre.{a} E S.X₃.obj r) =
     S.g.hom.app _ (b k)
   rw [cechAugmentationPre_π_apply.{a, w, v, u}]
   have hfac : Over.mkIdTerminal.from (∏ᶜ fun j : Fin 1 ↦ Over.mk (E.f (k j))) =
       Pi.π (fun j : Fin 1 ↦ Over.mk (E.f (k j))) 0 ≫ memberToTerminal E (k 0) :=
     Over.mkIdTerminal.hom_ext _ _
   rw [hfac, Functor.map_comp, op_comp, Functor.map_comp_apply]
-  show S.X₃.obj.map (Pi.π (fun j : Fin 1 ↦ Over.mk (E.f (k j))) 0).left.op
+  change S.X₃.obj.map (Pi.π (fun j : Fin 1 ↦ Over.mk (E.f (k j))) 0).left.op
     (S.X₃.obj.map (E.f (k 0)).op r) = _
   rw [h1]
   conv_rhs => rw [← famCochain_cochainFam E S.X₂.obj b]
   exact (NatTrans.naturality_apply S.g.hom _ _).symm
 
-omit [HasSheafify K AddCommGrpCat.{max a u v w}]
-  [HasExt.{h} (Sheaf K AddCommGrpCat.{max a u v w})] in
+omit [HasSheafify K AddCommGrpCat.{max a u v w}] in
 /-- The glued quotient section, pushed along the cokernel comparison, is the section `q`, as a
 morphism out of the constant presheaf of integers. -/
 theorem quotGlobalSection_comp_sliceCokernelComparison (hE : E.sieve₀ ∈ K U)

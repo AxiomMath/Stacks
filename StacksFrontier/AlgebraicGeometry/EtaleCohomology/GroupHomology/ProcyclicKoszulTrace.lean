@@ -148,7 +148,7 @@ omit [SMulCommClass Γ Λ V] in
 public theorem completedConj_level (f : CompletedInduced Λ G V) {U' U : OpenNormalSubgroup G}
     (h : ∀ g ∈ U', (conjContinuousMulEquiv G γ : G →* G) g ∈ U) :
     (completedConj γ f).level U = levelConj γ h (f.level U') := by
-  show levelConj γ (conj_mem_of_mem_conjLevel γ U) (f.level (conjLevel γ U)) = _
+  change levelConj γ (conj_mem_of_mem_conjLevel γ U) (f.level (conjLevel γ U)) = _
   have hle : U' ⊓ conjLevel γ U ≤ U' := inf_le_left
   have hle' : U' ⊓ conjLevel γ U ≤ conjLevel γ U := inf_le_right
   rw [← CompletedInduced.mapDomain_level hle, ← CompletedInduced.mapDomain_level hle',
@@ -238,7 +238,7 @@ public theorem levelConj_levelShift (σ : G) {U' U : OpenNormalSubgroup G}
       rw [levelShift_single, levelConj_single, levelShift_single, ← QuotientGroup.mk_mul,
         levelConj_single, map_mul, QuotientGroup.mk_mul]
       congr 1
-      show γ • ((σ : Γ)⁻¹ • m) = ((γ * σ * γ⁻¹)⁻¹ : Γ) • γ • m
+      change γ • ((σ : Γ)⁻¹ • m) = ((γ * σ * γ⁻¹)⁻¹ : Γ) • γ • m
       rw [smul_smul, smul_smul]
       congr 1
       simp [mul_assoc]
@@ -298,7 +298,7 @@ public theorem levelEval_levelConj (γ : Γ) {U' U : OpenNormalSubgroup G}
     induction x using QuotientGroup.induction_on with
     | H g =>
       rw [levelConj_single, levelEval_single, levelEval_single]
-      show (γ * g * γ⁻¹ : Γ) • γ • m = γ • (g : Γ) • m
+      change (γ * g * γ⁻¹ : Γ) • γ • m = γ • (g : Γ) • m
       rw [smul_smul, smul_smul, inv_mul_cancel_right]
 
 omit [IsTopologicalGroup Γ] [G.Normal] in
@@ -396,7 +396,7 @@ omit [IsTopologicalGroup Γ] [G.Normal] [CompactSpace ↥G] in
 public theorem shiftKoszulComplex_d_one_zero :
     (shiftKoszulComplex Λ σ (V := V)).d 1 0 =
       ModuleCat.ofHom (completedShift σ - LinearMap.id) := by
-  show ChainComplex.of.d (shiftKoszulX G Λ V) (shiftKoszulD Λ σ) (0 + 1) 0 = _
+  change ChainComplex.of.d (shiftKoszulX G Λ V) (shiftKoszulD Λ σ) (0 + 1) 0 = _
   rw [ChainComplex.of_d]
   rfl
 
@@ -435,7 +435,7 @@ public theorem shiftKoszul_d_comp_augmentation :
     (shiftKoszulComplex Λ σ (V := V)).d 1 0 ≫ shiftKoszulAugmentation Λ σ hV = 0 := by
   rw [shiftKoszulComplex_d_one_zero]
   refine ModuleCat.hom_ext (LinearMap.ext fun (f : CompletedInduced Λ G V) => ?_)
-  show completedEval hV.choose hV.choose_spec (completedShift σ f - f) = 0
+  change completedEval hV.choose hV.choose_spec (completedShift σ f - f) = 0
   rw [map_sub, completedEval_completedShift, sub_self]
 
 /-- The evaluation, as a chain map to `V` in degree `0`. -/
@@ -471,13 +471,13 @@ public theorem shiftKoszulπ_quasiIso : QuasiIso (shiftKoszulπ Λ σ hV) where
             (show CompletedInduced Λ G V from x) = 0 at hx
           obtain ⟨y, hy⟩ := exists_completedShift_sub_eq hgen hV.choose_spec hn hpow hΛ hx
           refine ⟨y, ?_⟩
-          show ((shiftKoszulComplex Λ σ (V := V)).d 1 0).hom y = x
+          change ((shiftKoszulComplex Λ σ (V := V)).d 1 0).hom y = x
           rw [shiftKoszulComplex_d_one_zero]
           exact hy
         · rw [ModuleCat.epi_iff_surjective]
           intro x
           exact completedEval_surjective (Λ := Λ) hV.choose_spec (show V from x)
-      · show (shiftKoszulComplex Λ σ (V := V)).d 0 0 = 0
+      · change (shiftKoszulComplex Λ σ (V := V)).d 0 0 = 0
         exact (shiftKoszulComplex Λ σ).shape 0 0 (by simp)
     · rw [quasiIsoAt_iff_exactAt' _ _ (ChainComplex.exactAt_succ_single_obj _ _)]
       rcases m with _ | m
@@ -613,7 +613,7 @@ public theorem shiftKoszulLift_comm [Module.Finite Λ V] [Module.Projective Λ V
   apply HomologicalComplex.to_single_hom_ext
   rw [HomologicalComplex.comp_f, HomologicalComplex.comp_f]
   refine ModuleCat.hom_ext (LinearMap.ext fun (f : CompletedInduced Λ G V) => ?_)
-  show completedEval hV.choose hV.choose_spec (completedConj γ f) =
+  change completedEval hV.choose hV.choose_spec (completedConj γ f) =
     γ • (completedEval hV.choose hV.choose_spec f : V)
   exact completedEval_completedConj γ hV.choose_spec f
 
@@ -822,7 +822,7 @@ public theorem perfectDerivedTrace_derivedCoinvariantsAction
       (shiftKoszulCoinvariants_projective σ) (shiftKoszulCoinvariants_isZero σ), h0, h1,
       projectiveModuleTrace_finsetSum]
   · rw [Iso.symm_hom, Iso.symm_inv]
-    show _ = (derivedCoinvariantsIsoOfResolution K).inv ≫ derivedCoinvariantsTwistedMap
+    change _ = (derivedCoinvariantsIsoOfResolution K).inv ≫ derivedCoinvariantsTwistedMap
       (conjActionHom Λ hV γ) ≫ (derivedCoinvariantsIsoOfResolution K).hom
     rw [key, ← Functor.map_comp]
     congr 1

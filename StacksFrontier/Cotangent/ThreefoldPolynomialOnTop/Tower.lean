@@ -81,12 +81,12 @@ lemma towerVariablesAugmentation_eq_eqv_map (m : SimplexCategoryᵒᵖ)
         (MvPolynomial.mapAlgHom (CommAlgCat.Hom.hom (ε.app m)))) := by
     refine MvPolynomial.algHom_ext' ?_ ?_
     · refine AlgHom.ext fun q => ?_
-      show towerVariablesAugmentation ε eqv m (MvPolynomial.C q) =
+      change towerVariablesAugmentation ε eqv m (MvPolynomial.C q) =
         eqv (MvPolynomial.map (CommAlgCat.Hom.hom (ε.app m)).toRingHom (MvPolynomial.C q))
       rw [towerVariablesAugmentation_C, MvPolynomial.map_C]
       exact (eqv.commutes ((CommAlgCat.Hom.hom (ε.app m)) q)).symm
     · intro e
-      show towerVariablesAugmentation ε eqv m (MvPolynomial.X e) =
+      change towerVariablesAugmentation ε eqv m (MvPolynomial.X e) =
         eqv (MvPolynomial.map (CommAlgCat.Hom.hom (ε.app m)).toRingHom (MvPolynomial.X e))
       rw [towerVariablesAugmentation_X, MvPolynomial.map_X]
   exact AlgHom.congr_fun key p
@@ -101,7 +101,7 @@ lemma mvPolynomialMap_comp_towerVariablesAugmentation {m m' : SimplexCategoryᵒ
   apply CommAlgCat.hom_ext
   refine MvPolynomial.algHom_ext' ?_ ?_
   · refine AlgHom.ext fun q => ?_
-    show towerVariablesAugmentation ε eqv m'
+    change towerVariablesAugmentation ε eqv m'
         (MvPolynomial.map (CommAlgCat.Hom.hom (P.map f)).toRingHom
           (MvPolynomial.C q)) = towerVariablesAugmentation ε eqv m (MvPolynomial.C q)
     rw [MvPolynomial.map_C, towerVariablesAugmentation_C, towerVariablesAugmentation_C]
@@ -111,7 +111,7 @@ lemma mvPolynomialMap_comp_towerVariablesAugmentation {m m' : SimplexCategoryᵒ
       (towerBaseAlgebra A B)).map f = 𝟙 _ from rfl, Category.comp_id] at h
     exact ConcreteCategory.congr_hom h q
   · intro e
-    show towerVariablesAugmentation ε eqv m'
+    change towerVariablesAugmentation ε eqv m'
         (MvPolynomial.map (CommAlgCat.Hom.hom (P.map f)).toRingHom
           (MvPolynomial.X e)) = towerVariablesAugmentation ε eqv m (MvPolynomial.X e)
     rw [MvPolynomial.map_X, towerVariablesAugmentation_X, towerVariablesAugmentation_X]
@@ -170,7 +170,7 @@ lemma isPolynomialTower_towerCommaOfResolution (hP : ∀ m, IsPolynomialAlgebra 
   refine ⟨⟨E, ⟨AlgEquiv.ofRingEquiv (f := RingEquiv.refl _) fun _ => rfl⟩⟩, ?_⟩
   apply CommAlgCat.hom_ext
   refine AlgHom.ext fun q => ?_
-  show towerVariablesAugmentation ε eqv m (MvPolynomial.C q) = _
+  change towerVariablesAugmentation ε eqv m (MvPolynomial.C q) = _
   exact towerVariablesAugmentation_C ε eqv m q
 
 /-- The towers `(P_n → B, P_n[E] → C)` of a resolution, as a simplicial object of the category
@@ -245,7 +245,7 @@ lemma towerBaseChangeMvPolynomialEquiv_X (m : SimplexCategoryᵒᵖ) (e : E) :
     towerBaseChangeMvPolynomialEquiv ε eqv hP m (MvPolynomial.X e) =
       (1 : B) ⊗ₜ[↑(towerLeftAlgebra (towerCommaOfResolution ε eqv hP m))]
         (towerRightAlgebraEquivOfResolution ε eqv hP m (MvPolynomial.X e)) := by
-  show Algebra.TensorProduct.map (AlgHom.id B B)
+  change Algebra.TensorProduct.map (AlgHom.id B B)
       (towerRightAlgebraEquivOfResolution ε eqv hP m).toAlgHom
       ((MvPolynomial.algebraTensorAlgEquiv
         (↑(towerLeftAlgebra (towerCommaOfResolution ε eqv hP m)) : Type u) B).symm
@@ -262,7 +262,7 @@ lemma towerBaseChangeAugmentation_apply_equiv (m : SimplexCategoryᵒᵖ) (x : M
   have key : (towerBaseChangeAugmentation ((towerSimplicialOfResolution ε eqv hP).obj m)).comp
       (towerBaseChangeMvPolynomialEquiv ε eqv hP m).toAlgHom = eqv.toAlgHom := by
     refine MvPolynomial.algHom_ext fun e => ?_
-    show towerBaseChangeAugmentation ((towerSimplicialOfResolution ε eqv hP).obj m)
+    change towerBaseChangeAugmentation ((towerSimplicialOfResolution ε eqv hP).obj m)
       (towerBaseChangeMvPolynomialEquiv ε eqv hP m (MvPolynomial.X e)) = eqv (MvPolynomial.X e)
     rw [towerBaseChangeMvPolynomialEquiv_X]
     refine Eq.trans (towerBaseChangeAugmentation_tmul _ 1 _) ?_
@@ -277,7 +277,7 @@ lemma towerBaseChangeAugmentation_eq_algEquiv (m : SimplexCategoryᵒᵖ)
     towerBaseChangeAugmentation ((towerSimplicialOfResolution ε eqv hP).obj m) z =
       towerBaseChangeAlgEquiv ε eqv hP m z := by
   obtain ⟨x, rfl⟩ := (towerBaseChangeMvPolynomialEquiv ε eqv hP m).surjective z
-  show _ = eqv ((towerBaseChangeMvPolynomialEquiv ε eqv hP m).symm
+  change _ = eqv ((towerBaseChangeMvPolynomialEquiv ε eqv hP m).symm
     (towerBaseChangeMvPolynomialEquiv ε eqv hP m x))
   rw [AlgEquiv.symm_apply_apply]
   exact towerBaseChangeAugmentation_apply_equiv ε eqv hP m x

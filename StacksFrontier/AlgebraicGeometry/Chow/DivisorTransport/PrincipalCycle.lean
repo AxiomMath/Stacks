@@ -104,7 +104,7 @@ theorem residueDegree_eq_one_of_iso (φ : V ≅ W) (z : V) : φ.hom.residueDegre
   have hb : Function.Bijective (φ.hom.residueFieldMap z) :=
     ConcreteCategory.bijective_of_isIso (C := CommRingCat) (φ.hom.residueFieldMap z)
   let _ := (φ.hom.residueFieldMap z).hom.toAlgebra
-  show Module.finrank (W.residueField (φ.hom.base z)) (V.residueField z) = 1
+  change Module.finrank (W.residueField (φ.hom.base z)) (V.residueField z) = 1
   exact Module.finrank_of_bijective_algebraMap hb
 
 /-- The fibre of an isomorphism over a point is the single preimage point. -/
@@ -140,7 +140,7 @@ theorem map_principalCycle_of_iso (φ : V ≅ W) (wv : V → ℤ) (ww : W → �
   intro y
   have hweight : (AlgebraicCycle.mapCoeff φ.hom wv ww (φ.inv.base y) : ℤ) = 1 := by
     simp [AlgebraicCycle.mapCoeff, hw (φ.inv.base y), residueDegree_eq_one_of_iso]
-  show (∑ᶠ x ∈ φ.hom.base ⁻¹' {y}, principalCycle V f x *
+  change (∑ᶠ x ∈ φ.hom.base ⁻¹' {y}, principalCycle V f x *
     (AlgebraicCycle.mapCoeff φ.hom wv ww x : ℤ)) = _
   rw [preimage_singleton_of_iso, finsum_mem_singleton, hweight, mul_one,
     ← principalCycle_functionFieldRingEquivOfIso_apply φ f (φ.inv.base y),

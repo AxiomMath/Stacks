@@ -166,7 +166,7 @@ theorem sectionIdeal_le_ker_descSqZero (V : (Opens X.carrier)ᵒᵖ) :
     Stacks.Sites.sectionIdeal (graphIdealSubsheaf.{u} P.reduction (restrictAlong.{u} P.reduction G₂)
       (coeffPushoutData P ν)) V ≤ RingHom.ker ((descSqZero P hP₂ θ hred).hom.app V).hom := by
   rintro w ⟨y, rfl⟩
-  show θ.hom.app V (y : ↥(P.sheaf.obj.obj V)) +
+  change θ.hom.app V (y : ↥(P.sheaf.obj.obj V)) +
     P₂.idealIncl hP₂ V (-(ν.val.app V (P.ideal.app V y))) = 0
   have h1 : θ.hom.app V (y : ↥(P.sheaf.obj.obj V)) =
       P₂.idealIncl hP₂ V (ν.val.app V (P.ideal.app V y)) := by
@@ -195,11 +195,11 @@ theorem pushCoeffInl_comp_pushCoeffDesc :
     P.pushCoeffInl ν ≫ pushCoeffDesc P ν hP₂ θ hred hideal = θ := by
   refine Sheaf.hom_ext (NatTrans.ext (funext fun U => CommRingCat.hom_ext
     (RingHom.ext fun r => ?_)))
-  show (pushCoeffDesc P ν hP₂ θ hred hideal).hom.app U
+  change (pushCoeffDesc P ν hP₂ θ hred hideal).hom.app U
       ((pushoutMk.{u} P.reduction (restrictAlong.{u} P.reduction G₂)
         (coeffPushoutData P ν)).hom.app U (sqZeroExtMk r 0)) = θ.hom.app U r
   refine (pushCoeffDesc_app_pushoutMk P ν hP₂ θ hred hideal U _).trans ?_
-  show θ.hom.app U r + P₂.idealIncl hP₂ U 0 = θ.hom.app U r
+  change θ.hom.app U r + P₂.idealIncl hP₂ U 0 = θ.hom.app U r
   rw [P₂.idealIncl_zero hP₂, add_zero]
 
 /-- On the image of a section `n` of `𝒢₂`, `pushCoeffDesc` is the inclusion of `n` into the ideal
@@ -209,7 +209,7 @@ theorem pushCoeffDesc_pushoutInr (U : (Opens X.carrier)ᵒᵖ) (n : ↥(G₂.val
         (pushoutInr.{u} P.reduction (restrictAlong.{u} P.reduction G₂) (coeffPushoutData P ν) U n) =
       P₂.idealIncl hP₂ U n := by
   refine (pushCoeffDesc_app_pushoutMk P ν hP₂ θ hred hideal U _).trans ?_
-  show θ.hom.app U 0 + P₂.idealIncl hP₂ U n = _
+  change θ.hom.app U 0 + P₂.idealIncl hP₂ U n = _
   rw [map_zero, zero_add]
 
 /-- `pushCoeffDesc` is compatible with the reductions. -/
@@ -222,12 +222,12 @@ theorem pushCoeffDesc_comp_reduction :
   refine Eq.trans ?_ (pushoutMk_comp_pushoutProj.{u} _ _ _).symm
   refine Sheaf.hom_ext (NatTrans.ext (funext fun U => CommRingCat.hom_ext
     (RingHom.ext fun w => ?_)))
-  show (P₂.reduction.hom.app U).hom ((pushCoeffDesc P ν hP₂ θ hred hideal).hom.app U
+  change (P₂.reduction.hom.app U).hom ((pushCoeffDesc P ν hP₂ θ hred hideal).hom.app U
       ((pushoutMk.{u} P.reduction (restrictAlong.{u} P.reduction G₂)
         (coeffPushoutData P ν)).hom.app U w)) = (P.reduction.hom.app U).hom (fstR P U w)
   refine (congrArg (P₂.reduction.hom.app U).hom
     (pushCoeffDesc_app_pushoutMk P ν hP₂ θ hred hideal U w)).trans ?_
-  show (P₂.reduction.hom.app U).hom (θ.hom.app U (fstR P U w) +
+  change (P₂.reduction.hom.app U).hom (θ.hom.app U (fstR P U w) +
     P₂.idealIncl hP₂ U (sndG P U w)) = _
   rw [map_add, P₂.reduction_idealIncl hP₂, add_zero]
   exact congrArg (fun k => (k.hom.app U).hom (fstR P U w)) hred
@@ -321,7 +321,7 @@ theorem base_comp_pushCoeffDesc :
       ⟨P.idealIncl hP U n, P.idealIncl_mem hP U n⟩
     exact (Q₂.toAlgebraExtension.idealIncl_eq_of_ideal_eq hQ₂ U
       ⟨ψ.hom.app U (P.idealIncl hP U n), _⟩ n (h.trans (P.ideal_idealIncl hP U n))).symm
-  show ψ.hom.app _ (BaseChange.adj P V (BaseChange.fst V z) +
+  change ψ.hom.app _ (BaseChange.adj P V (BaseChange.fst V z) +
       P.idealIncl hP _ (BaseChange.diffValue c₂ V z)) =
     (Q₂.toAlgebraExtension.adjointBase.hom.app _).hom (BaseChange.snd V z)
   have hP_adj : BaseChange.adj P V (BaseChange.fst V z) =

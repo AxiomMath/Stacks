@@ -55,8 +55,8 @@ by `AlgebraicGeometry.CoherentAbelian.isCoherent_iff_stacksIsCoherent`.
 
 The named object property is load-bearing, not cosmetic. Writing the property as the lambda
 `fun M : X.Modules => M.IsCoherent` — the spelling that
-`StacksFrontier/AlgebraicGeometry/ProperSupportCoherent/BoundedBelowDerivedDirectImage.lean` uses for
-[Stacks, Tag 0D0B] — pins the ambient category to `AlgebraicGeometry.Scheme.Modules`, which is a
+`StacksFrontier/AlgebraicGeometry/ProperSupportCoherent/BoundedBelowDerivedDirectImage.lean` uses
+for [Stacks, Tag 0D0B] — pins the ambient category to `AlgebraicGeometry.Scheme.Modules`, which is a
 `def`; the object produced by `derivedSheafHomExactSupport` lives in the
 `structureSheafRing` spelling, and unifying the two across that `def` loses the
 `Abelian` instance. This is the same three-spellings hazard recorded in the implementation notes
@@ -82,7 +82,8 @@ half and the case they cover; they are not the tag's full content.
 
 The globalization does not need a restriction isomorphism for
 `RingedSpaceModuleAdjunction.ClosedQuotientMorphismOfRingedSpaces.derivedSheafHomExactSupport`
-along an open immersion: no such isomorphism is in the library, and none is needed. The globalization goes through `i_*` instead,
+along an open immersion: no such isomorphism is in the library, and none is needed. The
+globalization goes through `i_*` instead,
 which turns `R ℰom(𝒪_Z, K)` into the ordinary derived internal Hom `R𝓗om_{𝒪_X}(Ri_*𝒪_Z, K)` by
 [Stacks, Tag 0A77] and so reduces the question to [Stacks, Tag 0D0C] on `X`, where restriction to
 an open subscheme *is* available ([Stacks, Tag 08DL]).

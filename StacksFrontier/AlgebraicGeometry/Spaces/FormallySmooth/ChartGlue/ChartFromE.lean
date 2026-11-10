@@ -83,7 +83,7 @@ theorem chart_of_etale (hfa : FormallyEtale a) (hfs : FormallySmooth (a ≫ f))
   have hpair := pairFormallyEtale_of_formallyEtale eZ hε
   refine ⟨?_, ?_, ?_⟩
   · rw [chartPoint, f.naturality_apply, hyE, ← Functor.map_comp_apply, ← op_comp, hιT]
-  · have := relFormallyEtale_of_iso _ _ (relFormallyEtale_of_pair hfa hyE hpair) ι
+  · have := relFormallyEtale_of_iso _ _ (relFormallyEtale_of_pair hfa hpair) ι
     rw [hιT] at this
     exact this
   · refine formallySmooth_of_relLift B S hS T' _ (contains_specRingE B S hS) ?_

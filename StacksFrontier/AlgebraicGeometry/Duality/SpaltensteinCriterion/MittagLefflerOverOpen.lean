@@ -39,8 +39,8 @@ attribute is placed here.  Stacks 0D61 concludes injectivity on the *stalk* at a
 the map of cohomology sheaves `Hᵐ(L) ⟶ Hᵐ(K_{n₀})`, given the hypotheses below on a fundamental
 system of neighbourhoods of `x`; the statement over a single open, proved here, is the input to
 that passage.  The stalk statement, at a *free* `HasDerivedCategory` instance as here, is
-`Stacks.Cohomology.DerivedLimitStalk.cohomology_derivedLimit_projection_mono_on_stalk` in
-`StacksFrontier/Topology/Sheaves/Cohomology/MayerVietorisAndLimits/DerivedLimitStalkInjectivity.lean`,
+`Stacks.Cohomology.DerivedLimitStalk.cohomology_derivedLimit_projection_mono_on_stalk` in module
+`StacksFrontier.Topology.Sheaves.Cohomology.MayerVietorisAndLimits.DerivedLimitStalkInjectivity`,
 which carries `@[stacks 0D61]`.
 
 Passing from cohomology over the opens of a fundamental system to the stalk of the cohomology

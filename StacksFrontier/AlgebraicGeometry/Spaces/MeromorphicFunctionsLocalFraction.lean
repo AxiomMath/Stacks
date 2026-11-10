@@ -144,7 +144,7 @@ theorem isLocallyInjective_toMeromorphicFunctionSheaf :
     Presheaf.IsLocallyInjective (SmallEtale.topology B S hS F)
       (toMeromorphicFunctionSheaf B S hS F hF).hom := by
   have : (smallEtaleRingedSite B S hS F hF).J.WEqualsLocallyBijective CommRingCat.{u} := by
-    show (SmallEtale.topology B S hS F).WEqualsLocallyBijective CommRingCat.{u}
+    change (SmallEtale.topology B S hS F).WEqualsLocallyBijective CommRingCat.{u}
     infer_instance
   have : Presheaf.IsLocallyInjective (SmallEtale.topology B S hS F)
       (toSheafify (smallEtaleRingedSite B S hS F hF).J
@@ -189,7 +189,7 @@ theorem isRegularSection_of_injective_mul_toMeromorphicFunctionSheaf (U : SmallE
   refine isRegularSection_of_isRegularSectionOnSlice B S hS F U c ?_
   apply PresheafOfModules.mono_of_injective
   intro V
-  show Function.Injective fun r : (structurePresheaf B S hS F).obj (op V.unop.left) ↦
+  change Function.Injective fun r : (structurePresheaf B S hS F).obj (op V.unop.left) ↦
     r * (structurePresheaf B S hS F).map V.unop.hom.op c
   intro x y hxy
   have hmul : ∀ z : (structurePresheaf B S hS F).obj (op V.unop.left),

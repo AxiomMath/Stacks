@@ -194,7 +194,7 @@ theorem isIso_cechTensorToId_app (f : Fin r → A) (I : Ideal A) (hI : I.FG)
   have hm : IsIso (F.map (cechAugmentation A f)) :=
     isIso_map_cechAugmentation A F f fun p hp q =>
       cechTerm_derivedTensor_isZero T.toGeneral f X hX' p hp q
-  show IsIso (F.map (cechAugmentation A f) ≫ (derivedTensorLeftUnitor A).hom.app X)
+  change IsIso (F.map (cechAugmentation A f) ≫ (derivedTensorLeftUnitor A).hom.app X)
   exact IsIso.comp_isIso' hm ((derivedTensorLeftUnitor A).app X).isIso_hom
 
 /-- The Čech object of `f` has `(f)`-power-torsion cohomology. -/
@@ -314,7 +314,7 @@ theorem exists_localCohomologyCechIso (I : Ideal A) (hI : I.FG) (f : Fin r → A
   · rw [← hf]
     exact derivedPowerTorsion_cechTensor (A := A) t f X i
   · exact isIso_cechTensorToId_app A f I hI hf Y hY
-  · show IsIso (((canonicalDerivedTensorProductFunctor A).obj (cechRegularObject.{u, u} f)).map
+  · change IsIso (((canonicalDerivedTensorProductFunctor A).obj (cechRegularObject.{u, u} f)).map
       (((canonicalDerivedTensorProductFunctor A).map (cechAugmentation A f)).app X ≫
         (derivedTensorLeftUnitor A).hom.app X))
     rw [Functor.map_comp]

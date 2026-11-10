@@ -179,7 +179,7 @@ private theorem exists_isIdempotentElem_nonempty_algEquiv_quotient_of_finite {R 
   set E : (∀ x : p.primesOver S', AdicCompletion (maximalIdeal (Localization.AtPrime x.1))
       (Localization.AtPrime x.1)) := Pi.single x₀ 1 with hE
   have hEid : IsIdempotentElem E := by
-    show E * E = E
+    change E * E = E
     funext i
     by_cases h : i = x₀
     · rw [h]; simp [hE]
@@ -312,8 +312,7 @@ private theorem exists_isIdempotentElem_nonempty_algEquiv_quotient_of_exists_pow
     rw [Algebra.TensorProduct.algebraMap_apply]; simp
   have hfψ : ∀ z, f (ψ z) = f' z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a x =>
       rw [hψtmul, hf, Algebra.TensorProduct.lift_tmul, hμapply]
       have h1 : (a ⊗ₜ[R] x : S' ⊗[R] Λ) = algebraMap S' (S' ⊗[R] Λ) a * (1 ⊗ₜ[R] x) := by
@@ -358,8 +357,7 @@ private theorem exists_isIdempotentElem_nonempty_algEquiv_quotient_of_exists_pow
   have hαsurj : Function.Surjective α := by
     intro a
     obtain ⟨t, rfl⟩ := Ideal.Quotient.mk_surjective a
-    induction t using TensorProduct.induction_on with
-    | zero => exact ⟨0, by rw [map_zero α, map_zero (Ideal.Quotient.mk I)]⟩
+    induction t using TensorProduct.inductionOn with
     | tmul y x =>
       obtain ⟨n, hn⟩ := hmem y
       refine ⟨v ^ n * Ideal.Quotient.mk I' ((⟨(g : S) ^ n * y, hn⟩ : S') ⊗ₜ[R] x), ?_⟩

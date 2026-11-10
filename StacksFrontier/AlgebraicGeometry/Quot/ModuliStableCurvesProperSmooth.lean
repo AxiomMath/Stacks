@@ -147,7 +147,7 @@ theorem isQuasiCompactStack_curvesSmallOpenSubstack_isStableCurveFamilyOfGenus {
               ((isStableCurveFamilyOfFibreGenus_iff_isStableCurveFamilyOfGenus B hZ
                 g x.obj).1 x.property)
       w := by
-        show ShrinkHoms.inverse.{u} (moduliStableCurvesOfGenus B hZ g).val.obj ⋙
+        change ShrinkHoms.inverse.{u} (moduliStableCurvesOfGenus B hZ g).val.obj ⋙
             ObjectProperty.ι (IsStableCurveFamilyOfFibreGenus B hZ g) ⋙ E.functor ⋙
               (curvesAlgebraicStack B hZ h).val.val.p = _
         rw [curvesSmallEquivalence_functor_comp_p]
@@ -254,7 +254,7 @@ theorem moduliStableCurves_isDeligneMumford_proper_smooth_of_stableLocus (g : �
     obtain ⟨hsub, -, hdense⟩ :=
       curvesPointSet_moduliSmoothOfGenus_isOpen_dense_in_stableOfGenus B hZ g hg
     refine ⟨hsub, ?_⟩
-    show curvesPointSet B hZ (IsStableCurveFamilyOfGenus B hZ g) ⊆
+    change curvesPointSet B hZ (IsStableCurveFamilyOfGenus B hZ g) ⊆
       closure (curvesPointSet B hZ
         (fun F => IsSmoothH0Family B hZ F ∧ CurveFamily.HasGenus B hZ F g))
     exact fun x hx => closure_mono (Set.image_preimage_subset _ _)
@@ -281,7 +281,7 @@ theorem moduliStableCurves_isDeligneMumford_proper_smooth_of_stableLocus (g : �
                 (curvesSmallOpenSubstack B hZ h hP) hle))) := by
     intro Q hQ' e hopen'
     subst e
-    exact moduliStableCurves_isDeligneMumford_proper_smooth_of_stableReduction B hZ h g hg hP hQ'
+    exact moduliStableCurves_isDeligneMumford_proper_smooth_of_stableReduction B hZ h g hP hQ'
       hcurves hDM (isSmoothOverIntegers_stableOfGenus B hZ h hcurves.2 g hP) hopen' hsep
       (isQuasiCompactStack_curvesSmallOpenSubstack_isStableCurveFamilyOfGenus B hZ h hg hP)
       hchow hred

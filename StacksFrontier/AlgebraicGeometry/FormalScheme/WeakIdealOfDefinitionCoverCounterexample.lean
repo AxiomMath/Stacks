@@ -176,7 +176,7 @@ theorem not_isWeakIdealOfDefinitionOn_germVanishingAt_closedPoint {t ε : R}
   have : DiscreteTopology ((schemeToLTRSObj (Spec R)).presheaf.obj (op D)).α :=
     isPseudoDiscrete_pseudoDiscrete (Spec R).presheaf D hD.isCompact
   have h1 := (hI D hD).2 1 (by
-    show (1 : Γ(Spec R, D)) ∈ (Spec R).germVanishingAtIdeal _ D
+    change (1 : Γ(Spec R, D)) ∈ (Spec R).germVanishingAtIdeal _ D
     rw [Scheme.germVanishingAtIdeal_eq_top hcx]
     exact Submodule.mem_top)
   have h10 : (1 : ((schemeToLTRSObj (Spec R)).presheaf.obj (op D)).α) = 0 := by

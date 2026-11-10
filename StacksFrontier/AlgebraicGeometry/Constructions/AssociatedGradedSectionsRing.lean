@@ -249,7 +249,7 @@ def sectionsRingEquiv (hneg : ∀ n : ℤ, n < 0 → IsZero (A.piece n)) (hW : I
 theorem gradeZeroMk_eq_smul_one (r : R₀) :
     AssociatedGraded.gradeZeroMk J r =
       r • (GradedMonoid.GOne.one : AssociatedGraded.piece (M := R₀) J 0) := by
-  show AssociatedGraded.mk J 0 _ = r • AssociatedGraded.mk J 0 _
+  change AssociatedGraded.mk J 0 _ = r • AssociatedGraded.mk J 0 _
   rw [AssociatedGraded.mk, AssociatedGraded.mk, ← Submodule.Quotient.mk_smul]
   exact congrArg (Submodule.Quotient.mk (p := _)) (Subtype.ext (mul_one r).symm)
 

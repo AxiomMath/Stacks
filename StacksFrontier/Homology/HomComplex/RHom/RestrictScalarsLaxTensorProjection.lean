@@ -98,7 +98,7 @@ private theorem ι_tensorObj_tensorHom_f {T : Type u} [CommRing T]
     (i j n : ℤ) (h : i + j = n) :
     HomologicalComplex.ιTensorObj K₁ K₂ i j n h ≫ (f ⊗ₘ g).f n =
       (f.f i ⊗ₘ g.f j) ≫ HomologicalComplex.ιTensorObj M₁ M₂ i j n h := by
-  show HomologicalComplex.ιMapBifunctor K₁ K₂ (curriedTensor (ModuleCat.{u} T))
+  change HomologicalComplex.ιMapBifunctor K₁ K₂ (curriedTensor (ModuleCat.{u} T))
       (ComplexShape.up ℤ) i j n h ≫
     (HomologicalComplex.mapBifunctorMap f g (curriedTensor (ModuleCat.{u} T))
       (ComplexShape.up ℤ)).f n = _

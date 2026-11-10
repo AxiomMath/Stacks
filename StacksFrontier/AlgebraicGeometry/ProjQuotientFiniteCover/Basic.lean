@@ -97,8 +97,7 @@ the per-chart exponents of
 charts at once, and padding a chart function by a further power of `f` keeps it in the kernel
 because the kernel is an ideal. -/
 theorem exists_pow_mul_mem_idealOfClosedSubscheme_of_cover
-    (hgen : Algebra.adjoin (𝒮 0) ((𝒮 1 : Set S)) = ⊤)
-    {ι : Type*} [Fintype ι] (g : ι → S) (hg : ∀ j, g j ∈ 𝒮 1)
+    {ι : Type*} [Finite ι] (g : ι → S) (hg : ∀ j, g j ∈ 𝒮 1)
     (hcov : ⨆ j, Proj.basicOpen 𝒮 (g j) = ⊤)
     {f : S} (hf : f ∈ 𝒮 1) {Z : Scheme.{u}} (i : Z ⟶ Proj 𝒮) [IsClosedImmersion i]
     (n : ℕ) (b : 𝒮 (n • 1))
@@ -115,7 +114,7 @@ is the vanishing on `Z` of the twisted section of `f ^ j · a`, moved back to th
 `AlgebraicGeometry.ProjectiveSpectrum.Proj.chartFraction_eq_of_cross`. -/
 theorem app_awayMk_eq_zero_iff_of_cover
     (hgen : Algebra.adjoin (𝒮 0) ((𝒮 1 : Set S)) = ⊤)
-    {ι : Type*} [Fintype ι] (g : ι → S) (hg : ∀ j, g j ∈ 𝒮 1)
+    {ι : Type*} [Finite ι] (g : ι → S) (hg : ∀ j, g j ∈ 𝒮 1)
     (hcov : ⨆ j, Proj.basicOpen 𝒮 (g j) = ⊤)
     {f : S} (hf : f ∈ 𝒮 1) {Z : Scheme.{u}} (i : Z ⟶ Proj 𝒮) [IsClosedImmersion i]
     (n : ℕ) (a : S) (ha : a ∈ 𝒮 (n • 1)) :
@@ -123,7 +122,7 @@ theorem app_awayMk_eq_zero_iff_of_cover
         ((Proj.awayToSection 𝒮 f).hom (HomogeneousLocalization.Away.mk 𝒮 hf n a ha)) = 0 ↔
       ∃ j : ℕ, f ^ j * a ∈ idealOfClosedSubscheme 𝒮 i := by
   have inst := algebraicGeometry_isInvertible_twistingSheaf 𝒮 hgen
-  refine ⟨fun h => exists_pow_mul_mem_idealOfClosedSubscheme_of_cover 𝒮 hgen g hg hcov hf i n
+  refine ⟨fun h => exists_pow_mul_mem_idealOfClosedSubscheme_of_cover 𝒮 g hg hcov hf i n
     ⟨a, ha⟩ h, ?_⟩
   rintro ⟨j, hj⟩
   have hmem : f ^ j * a ∈ 𝒮 ((j + n) • 1) := by
@@ -152,7 +151,7 @@ This is `Stacks.ClosedSubschemeProjQuotient.saturationIdentification` with `[IsN
 traded for the finite cover. -/
 theorem saturationIdentification_of_cover
     (hgen : Algebra.adjoin (𝒮 0) ((𝒮 1 : Set S)) = ⊤)
-    {ι : Type*} [Fintype ι] (g : ι → S) (hg : ∀ j, g j ∈ 𝒮 1)
+    {ι : Type*} [Finite ι] (g : ι → S) (hg : ∀ j, g j ∈ 𝒮 1)
     (hcov : ⨆ j, Proj.basicOpen 𝒮 (g j) = ⊤)
     {Z : Scheme.{u}} (i : Z ⟶ Proj 𝒮) [IsClosedImmersion i] :
     SaturationIdentification 𝒮 i :=
@@ -163,7 +162,7 @@ theorem saturationIdentification_of_cover
 /-- `Z` and `Proj (𝒮 / I(Z))` cut out the same ideal sheaf of `Proj 𝒮`. -/
 theorem ker_eq_ker_ambientHom_of_cover
     (hgen : Algebra.adjoin (𝒮 0) ((𝒮 1 : Set S)) = ⊤)
-    {ι : Type*} [Fintype ι] (g : ι → S) (hg : ∀ j, g j ∈ 𝒮 1)
+    {ι : Type*} [Finite ι] (g : ι → S) (hg : ∀ j, g j ∈ 𝒮 1)
     (hcov : ⨆ j, Proj.basicOpen 𝒮 (g j) = ⊤)
     {Z : Scheme.{u}} (i : Z ⟶ Proj 𝒮) [IsClosedImmersion i] :
     i.ker = (ambientHom 𝒮 i).ker :=

@@ -87,11 +87,11 @@ private lemma eq_zero_of_mem_supportedSectionsSubmodule_of_pullback_ι {T : Sche
       ((restrictStalkNatIso U.ι x).hom.app A)).injective
       (Eq.trans ?_ (map_zero (ConcreteCategory.hom
         ((restrictStalkNatIso U.ι x).hom.app A))).symm)
-    show (ConcreteCategory.hom ((A.restrict U.ι).presheaf.germ ⊤ x hx ≫
+    change (ConcreteCategory.hom ((A.restrict U.ι).presheaf.germ ⊤ x hx ≫
       (restrictStalkNatIso U.ι x).hom.app A))
       ((A.restrictAppIso U.ι ⊤).inv (A.presheaf.map (eqToHom himg).op s)) = 0
     rw [ConcreteCategory.congr_hom (germ_restrictStalkNatIso_hom_app U.ι x A hx)]
-    show (ConcreteCategory.hom
+    change (ConcreteCategory.hom
         (A.presheaf.germ (U.ι ''ᵁ (⊤ : U.toScheme.Opens)) (U.ι.base x) ⟨x, hx, rfl⟩))
       (A.presheaf.map (eqToHom himg).op s) = 0
     exact (TopCat.Presheaf.germ_res_apply A.presheaf (eqToHom himg) (U.ι.base x) ⟨x, hx, rfl⟩
@@ -192,7 +192,7 @@ private lemma exists_pullback_sheaf_iso {X S S₁ S₂ : Scheme.{u}} (f : X ⟶ 
   obtain ⟨iso, -⟩ := exists_cokernelSupportedSectionsIso_of_compl_eq V hVc
     (α.inv ≫ (Scheme.Modules.pullback g.hom).map (π f b' E' F))
   refine ⟨iso.symm ≪≫ eqToIso ?_⟩
-  show cokernel (supportedSectionsSubmodule (exceptionalPreimage f b E ∪ W)
+  change cokernel (supportedSectionsSubmodule (exceptionalPreimage f b E ∪ W)
       ((Scheme.Modules.pullback (pullback.fst f b)).obj F)).ι =
     cokernel (supportedSectionsSubmodule (exceptionalPreimage f b E)
       ((Scheme.Modules.pullback (pullback.fst f b)).obj F)).ι

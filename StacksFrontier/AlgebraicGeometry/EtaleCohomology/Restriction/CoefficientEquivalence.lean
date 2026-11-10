@@ -93,7 +93,7 @@ public theorem hasWeakSheafify_of_coefficientEquivalence
     [HasWeakSheafify J A] : HasWeakSheafify J B := by
   let eJ := coefficientEquivalence J e
   apply (Functor.isRightAdjoint_comp_iff_right eJ.functor (sheafToPresheaf J B)).1
-  show (sheafToPresheaf J A ⋙ e.congrRight.functor).IsRightAdjoint
+  change (sheafToPresheaf J A ⋙ e.congrRight.functor).IsRightAdjoint
   infer_instance
 
 /-- The existence of the inverse image along a continuous functor of sites transports along a
@@ -112,7 +112,7 @@ public theorem isRightAdjoint_sheafPushforwardContinuous_of_coefficientEquivalen
   let eK := coefficientEquivalence K e
   apply (Functor.isRightAdjoint_comp_iff_right eK.functor
     (f.sheafPushforwardContinuous B J K)).1
-  show (f.sheafPushforwardContinuous A J K ⋙ eJ.functor).IsRightAdjoint
+  change (f.sheafPushforwardContinuous A J K ⋙ eJ.functor).IsRightAdjoint
   infer_instance
 
 /-- Inverse image along a continuous functor of sites commutes with a change of coefficients.

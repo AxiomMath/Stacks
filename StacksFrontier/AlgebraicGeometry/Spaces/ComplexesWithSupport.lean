@@ -503,7 +503,7 @@ theorem exists_geometricPoint_map_eq_of_mem_range (i : Z ⟶ X)
              value := yonedaEquiv (yoneda.map (inv (hi.rep.snd g)) ≫ hi.rep.fst g) },
     x.property⟩, ?_⟩
   refine Subtype.ext ?_
-  show FieldValuedPoint.map B S hS Z.1 i.hom _ = x.val
+  change FieldValuedPoint.map B S hS Z.1 i.hom _ = x.val
   have hval : i.hom.app (op x.val.siteObject)
       (yonedaEquiv (yoneda.map (inv (hi.rep.snd g)) ≫ hi.rep.fst g)) = x.val.value := by
     rw [← yonedaEquiv_comp, hzhom, hgval]

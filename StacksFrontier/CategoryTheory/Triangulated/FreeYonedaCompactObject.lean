@@ -84,7 +84,7 @@ theorem isCompactObject_freeYoneda [HasCoproducts.{w} D] (X : C) (P : D)
     (hP : IsCompactObject.{w} P) : IsCompactObject.{w} (freeYoneda X P) := by
   classical
   refine ⟨fun E _ ↦ ?_⟩
-  show Function.Bijective (cofanMap (freeYoneda X P) (Limits.Sigma.ι E))
+  change Function.Bijective (cofanMap (freeYoneda X P) (Limits.Sigma.ι E))
   have hc : IsColimit (Cofan.mk ((∐ E).obj (op X))
       (fun i ↦ (Limits.Sigma.ι E i).app (op X))) :=
     isColimitMapCoconeCofanMkEquiv ((evaluation Cᵒᵖ D).obj (op X)) E (Limits.Sigma.ι E)

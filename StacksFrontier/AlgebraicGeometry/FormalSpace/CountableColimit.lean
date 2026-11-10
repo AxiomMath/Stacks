@@ -143,7 +143,7 @@ private theorem coproduct_arrows_mem_bigFppfOverTopology (B : BigFppfSite.{u}) (
   let E' : PreZeroHypercover.{u + 1} c.pt :=
     PreZeroHypercover.mk (ULift.{u + 1, u} ι) (fun i ↦ V i.down) fun i ↦ c.inj i.down
   have hE : IsFppfCovering (⟨F.obj c.pt, E'.map F⟩ : Covering.{u + 1, u, u + 1} B.Schemes) := by
-    show ((E'.map F).presieve₀).map B.inclusion ∈ Scheme.fppfPrecoverage (H.obj c.pt)
+    change ((E'.map F).presieve₀).map B.inclusion ∈ Scheme.fppfPrecoverage (H.obj c.pt)
     have hpres : ((E'.map F).presieve₀).map B.inclusion =
         (PreZeroHypercover.mk ι Y cS.inj).presieve₀ := by
       simp only [PreZeroHypercover.presieve₀_map, PreZeroHypercover.presieve₀,

@@ -51,7 +51,7 @@ private lemma pullbackObjEquiv_fst {C : Type u} [Category.{v} C]
     {F G H : C ⥤ Type w} (f : F ⟶ H) (g : G ⟶ H) (T : C)
     (x : (pullback f g).obj T) :
     (pullbackObjEquiv f g T x).1.1 = (pullback.fst f g).app T x := by
-  show ((Types.pullbackIsoPullback (f.app T) (g.app T)).hom
+  change ((Types.pullbackIsoPullback (f.app T) (g.app T)).hom
     ((PreservesPullback.iso ((evaluation C (Type w)).obj T) f g).hom x)).1.1 = _
   rw [Types.pullbackIsoPullback_hom_fst]
   exact congrArg (fun h => h x)
@@ -60,7 +60,7 @@ private lemma pullbackObjEquiv_snd {C : Type u} [Category.{v} C]
     {F G H : C ⥤ Type w} (f : F ⟶ H) (g : G ⟶ H) (T : C)
     (x : (pullback f g).obj T) :
     (pullbackObjEquiv f g T x).1.2 = (pullback.snd f g).app T x := by
-  show ((Types.pullbackIsoPullback (f.app T) (g.app T)).hom
+  change ((Types.pullbackIsoPullback (f.app T) (g.app T)).hom
     ((PreservesPullback.iso ((evaluation C (Type w)).obj T) f g).hom x)).1.2 = _
   rw [Types.pullbackIsoPullback_hom_snd]
   exact congrArg (fun h => h x)
@@ -374,10 +374,10 @@ private lemma pairClassFiberEquiv_map
   let d := pairClassFiberToPairData p q G hG U y f t
   let d' := pairClassFiberToPairData p q G hG U y f' t'
   have hdclass : Functor.isoClassMk p d.1 = t.1 := by
-    show Functor.isoClassMk p (Quotient.out t.1) = t.1
+    change Functor.isoClassMk p (Quotient.out t.1) = t.1
     exact Quotient.out_eq t.1
   have hd'class : Functor.isoClassMk p d'.1 = t'.1 := by
-    show Functor.isoClassMk p (Quotient.out t'.1) = t'.1
+    change Functor.isoClassMk p (Quotient.out t'.1) = t'.1
     exact Quotient.out_eq t'.1
   obtain ⟨x₁, φ₁, hφ₁, χ, hχ, hsq⟩ :=
     PairIsoClass.exists_pair_of_hom G (Functor.chosenPullbacks q) y
@@ -406,7 +406,7 @@ private lemma pairClassFiberEquiv_map
       (PairIsoClass.presheaf G (Functor.chosenPullbacks q) y
         hp.isFiberedInGroupoids hq.isFiberedInGroupoids hG).map m.op
         (pairClassFiberEquiv p q G hG U y f t) := by
-    show PairIsoClass.mk G (Functor.chosenPullbacks q) y
+    change PairIsoClass.mk G (Functor.chosenPullbacks q) y
         hp.isFiberedInGroupoids hq.isFiberedInGroupoids hG
         d'.1 d'.2.1 d'.2.2.down =
       (PairIsoClass.presheaf G (Functor.chosenPullbacks q) y
@@ -530,7 +530,7 @@ theorem isRepresentableByAlgebraicSpace_of_representable
       hPsetoid.isFiberedInGroupoids hZsetoid.isFiberedInGroupoids
       (CatFiberedInGroupoids.homFunctor_comp_p r)
     let η := (Over.iteratedSliceEquiv U).unitIso
-    show relativeEquiv U z _ (Q.map (η.inv.app f').op
+    change relativeEquiv U z _ (Q.map (η.inv.app f').op
         (pairClassFiberEquiv 𝒲.val.p 𝒵.val.p
           (CatFiberedInGroupoids.homFunctor r)
           (CatFiberedInGroupoids.homFunctor_comp_p r)
@@ -544,7 +544,7 @@ theorem isRepresentableByAlgebraicSpace_of_representable
     rw [pairClassFiberEquiv_map]
     rw [← hrel]
     apply congrArg (relativeEquiv U z _)
-    show Q.map (η.inv.app f').op (Q.map m.op _) =
+    change Q.map (η.inv.app f').op (Q.map m.op _) =
       Q.map ((U.iteratedSliceForward ⋙ U.iteratedSliceBackward).map m).op
         (Q.map (η.inv.app f).op _)
     calc
@@ -610,7 +610,7 @@ theorem isRepresentableByAlgebraicSpace_of_representable
             apply congrArg (eZ (Opposite.op (localIdOver U).left))
             have hid : 𝒲.val.p.isoClassPresheaf.map
                 (localIdOver U).hom.op a = a := by
-              show 𝒲.val.p.isoClassPresheaf.map
+              change 𝒲.val.p.isoClassPresheaf.map
                 (𝟙 (Opposite.op U)) a = a
               exact Functor.map_id_apply _ _ _
             nth_rewrite 1 [← hid]
@@ -649,7 +649,7 @@ theorem isRepresentableByAlgebraicSpace_of_representable
           · cases hfirst'
             let e := fiberModelEquiv U'
               (eZ (Opposite.op U') (classMap.app (Opposite.op U') x))
-            show e ⟨x, _⟩ ≍ y
+            change e ⟨x, _⟩ ≍ y
             apply heq_of_eq
             calc
               _ = e (e.symm y) := by
@@ -685,7 +685,7 @@ theorem isRepresentableByAlgebraicSpace_of_representable
         _ = eZ V
             (𝒵.val.p.isoClassPresheaf.map f
               (classMap.app U b)) := by
-              show eZ V
+              change eZ V
                 (classMap.app V
                   (𝒲.val.p.isoClassPresheaf.map f b)) = _
               congr 1
@@ -693,7 +693,7 @@ theorem isRepresentableByAlgebraicSpace_of_representable
         _ = FZ.map f (eZ U (classMap.app U b)) :=
           hnatZ f (classMap.app U b)
         _ = FZ.map f x.1 := by
-          show FZ.map f ((classEquiv U.unop b).1) = _
+          change FZ.map f ((classEquiv U.unop b).1) = _
           exact congrArg (FZ.map f) hb
   }
   have ha : Space.IsRepresentableByAlgebraicSpaces B S hS a := by
@@ -804,25 +804,25 @@ theorem isRepresentableByAlgebraicSpace_of_representable
       let t := pullbackAtEquiv T.unop x
       let t' : Types.PullbackObj (ξ.app T') (a.app T') :=
         ⟨⟨k.unop ≫ t.1.1, F.map k t.1.2⟩, by
-          show ξ.app T' ((yoneda.obj U).map k t.1.1) =
+          change ξ.app T' ((yoneda.obj U).map k t.1.1) =
             a.app T' (F.map k t.1.2)
           rw [ξ.naturality_apply, a.naturality_apply, t.2]⟩
       have ht : pullbackAtEquiv T'.unop ((pullback ξ a).map k x) = t' := by
         apply Subtype.ext
         apply Prod.ext
-        · show (pullbackObjEquiv ξ a T' ((pullback ξ a).map k x)).1.1 =
+        · change (pullbackObjEquiv ξ a T' ((pullback ξ a).map k x)).1.1 =
             (yoneda.obj U).map k (pullbackObjEquiv ξ a T x).1.1
           rw [pullbackObjEquiv_fst, pullbackObjEquiv_fst]
           exact (pullback.fst ξ a).naturality_apply k x
-        · show (pullbackObjEquiv ξ a T' ((pullback ξ a).map k x)).1.2 =
+        · change (pullbackObjEquiv ξ a T' ((pullback ξ a).map k x)).1.2 =
             F.map k (pullbackObjEquiv ξ a T x).1.2
           rw [pullbackObjEquiv_snd, pullbackObjEquiv_snd]
           exact (pullback.snd ξ a).naturality_apply k x
-      show componentEquiv T'.unop ((pullback ξ a).map k x) =
+      change componentEquiv T'.unop ((pullback ξ a).map k x) =
         H'.map k (componentEquiv T.unop x)
       apply (relocalizedSectionEquiv T'.unop).injective
       apply Subtype.ext
-      show (toSection T'.unop
+      change (toSection T'.unop
           (pullbackAtEquiv T'.unop ((pullback ξ a).map k x))).1 =
         ⟨k.unop.left ≫ (toSection T.unop t).1.1,
           H.map (Over.homMk k.unop.left rfl :
@@ -849,7 +849,7 @@ theorem isRepresentableByAlgebraicSpace_of_representable
     let : 𝒲.val.p.IsFibered := hPsetoid.isFiberedInGroupoids.isFibered
     refine ⟨F, hFAlg, ⟨fun U => classEquiv U.unop, ?_⟩⟩
     intro U V q α
-    show classEquiv V.unop
+    change classEquiv V.unop
       (𝒲.val.p.isoClassPresheaf.map q α) =
         F.map q (classEquiv U.unop α)
     simp [F]

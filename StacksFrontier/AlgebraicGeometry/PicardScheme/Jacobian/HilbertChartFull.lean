@@ -37,7 +37,7 @@ theorem ext_functor {T : Over S} {z z' : (functor f σ hσ ⋙ forget GrpCat).ob
         Stacks.Picard.smallOfScheme (bc f T)) =
       smallEquiv _ ((Multiplicative.toAdd z' : group f σ hσ T) :
         Stacks.Picard.smallOfScheme (bc f T))) : z = z' := by
-  show Multiplicative.ofAdd (Multiplicative.toAdd z : group f σ hσ T) =
+  change Multiplicative.ofAdd (Multiplicative.toAdd z : group f σ hσ T) =
     Multiplicative.ofAdd (Multiplicative.toAdd z' : group f σ hσ T)
   exact congrArg _ (Subtype.ext ((smallEquiv (bc f T)).injective h))
 
@@ -82,7 +82,7 @@ theorem exists_representableBy_cohomologySubfunctor_spec
       smallEquiv_mkGroup f σ hσ _ (schemePullbackClass_bcSection_chartClass f σ hσ θ hH _)
   have hclsF : ∀ {T : Over S} (a : T ⟶ Over.mk (W.ι ≫ H.hom)), cls a ∈ F.obj (op T) := by
     intro T a
-    show IsCohomologyClass f θ T _
+    change IsCohomologyClass f θ T _
     rw [hcls, isCohomologyClass_chartClass_iff f σ hσ h0B91 hbc θ hH, hW]
     exact hmemW a
   let toF : ∀ {T : Over S}, (T ⟶ Over.mk (W.ι ≫ H.hom)) → F.toFunctor.obj (op T) := fun {T} a =>
@@ -123,11 +123,11 @@ theorem exists_representableBy_cohomologySubfunctor_spec
       exact x.2
     obtain ⟨a, ham⟩ : ∃ a : T ⟶ Over.mk (W.ι ≫ H.hom), a ≫ chartι W = m :=
       ⟨Over.homMk (IsOpenImmersion.lift W.ι m.left (by simpa using hmW)) (by
-          show IsOpenImmersion.lift W.ι m.left _ ≫ W.ι ≫ H.hom = T.hom
+          change IsOpenImmersion.lift W.ι m.left _ ≫ W.ι ≫ H.hom = T.hom
           rw [IsOpenImmersion.lift_fac_assoc, Over.w m]),
         Over.OverMorphism.ext (IsOpenImmersion.lift_fac _ _ _)⟩
     refine ⟨a, Subtype.ext ?_⟩
-    show cls a = x.1
+    change cls a = x.1
     refine ext_functor f σ hσ ?_
     rw [hcls a, ham, chartClass, hmZ, abelNormalized, hZ, add_sub_right_comm, add_sub_cancel_right,
       normalize_add_bcProj, normalize_eq_self f σ hσ T c
@@ -135,7 +135,7 @@ theorem exists_representableBy_cohomologySubfunctor_spec
   refine ⟨W, { homEquiv := Equiv.ofBijective toF ⟨hinj, hsurj⟩, homEquiv_comp := ?_ }, hcls⟩
   intro T T' b a
   apply Subtype.ext
-  show cls (b ≫ a) = (functor f σ hσ ⋙ forget GrpCat).map b.op (cls a)
+  change cls (b ≫ a) = (functor f σ hσ ⋙ forget GrpCat).map b.op (cls a)
   refine ext_functor f σ hσ ?_
   rw [functor_map_val, hcls, hcls, Category.assoc, chartClass_comp]
 

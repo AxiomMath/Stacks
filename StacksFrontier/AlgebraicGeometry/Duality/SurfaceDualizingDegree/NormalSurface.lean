@@ -120,7 +120,7 @@ theorem not_isZero_homology_neg_natDim_of_isNormal {X : Scheme.{u}} [IsNoetheria
     simpa only [WithBot.coe_zero] using
       congrArg (fun d : ℕ∞ => (d : WithBot ℕ∞))
         (Order.coheight_eq_zero.mpr (fun b _ => genericPoint_specializes b))
-  show topologicalKrullDim (closure ({genericPoint X} : Set X)) +
+  change topologicalKrullDim (closure ({genericPoint X} : Set X)) +
     ringKrullDim (X.presheaf.stalk (genericPoint X)) = (natDim X : WithBot ℕ∞)
   rw [hclosure, hstalk, add_zero]
 

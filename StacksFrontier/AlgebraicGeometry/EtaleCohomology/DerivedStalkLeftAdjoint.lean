@@ -96,23 +96,23 @@ section Pi
 variable {A : Type u'} [Category.{v'} A] [HasProducts.{w} A]
 
 /-- The functor taking an object of `A` to the product of copies of itself indexed by a fixed
-type `I`, that is, `CategoryTheory.Limits.piFunctor` evaluated at `I`, is the constant diagram on
+type `I`, that is, `CategoryTheory.Limits.piConst` evaluated at `I`, is the constant diagram on
 the discrete category of `I` followed by the limit functor. -/
 def piFunctorFlipObjIsoConstCompLim (I : Type w) :
-    (piFunctor.{w}.flip.obj (op I) : A ⥤ A) ≅ Functor.const (Discrete I) ⋙ lim := by
+    (piConst.{w}.flip.obj (op I) : A ⥤ A) ≅ Functor.const (Discrete I) ⋙ lim := by
   refine NatIso.ofComponents
     (fun M => HasLimit.isoOfNatIso (Discrete.natIso (fun _ => Iso.refl M))) ?_
   intro M N f
   apply limit.hom_ext
   intro j
   obtain ⟨j⟩ := j
-  simp [piFunctor]
+  simp [piConst]
 
 /-- The functor taking an object to the product of copies of itself indexed by a fixed type `I`
 is right exact as soon as `I`-indexed products are exact: it is a constant diagram functor, which
 is a left adjoint, followed by the limit functor. -/
 instance preservesFiniteColimits_piFunctor_flip_obj [AB4StarOfSize.{w} A] (I : Type w) :
-    PreservesFiniteColimits (piFunctor.{w}.flip.obj (op I) : A ⥤ A) :=
+    PreservesFiniteColimits (piConst.{w}.flip.obj (op I) : A ⥤ A) :=
   preservesFiniteColimits_of_natIso (piFunctorFlipObjIsoConstCompLim I).symm
 
 end Pi

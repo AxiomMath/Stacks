@@ -136,7 +136,7 @@ theorem exists_baseMap (hcov : Sieve.ofArrows (fun l => (Δ.P l).T.left) Δ.fP �
     rw [key l a, key m a', Δ.compatible_base l m a a' h])
   refine ⟨ObjectProperty.homMk (yonedaEquiv.symm t), fun l => ?_⟩
   refine ObjectProperty.hom_ext _ ?_
-  show yoneda.map (Δ.fP l) ≫ yonedaEquiv.symm t = (Δ.P l).T.hom.hom
+  change yoneda.map (Δ.fP l) ≫ yonedaEquiv.symm t = (Δ.P l).T.hom.hom
   rw [yonedaEquiv_symm_naturality_left, ht l]
   exact yonedaEquiv.symm_apply_apply _
 
@@ -281,11 +281,11 @@ theorem transition_cocycle (l m n : L) (W : AlgebraicSpaces B S hS)
   have τ₂₃ : τ ≫ D.relativeMap (Δ.b₂₃ l m n).base = vjk ≫ Δ.pairLift g hg m n :=
     (Δ.isPullback_triple l m n).lift_snd _ _ _
   have h₁ : τ ≫ D.relativeMap ((Δ.b₁₂ l m n).comp (Δ.c l m)).base = vi := by
-    show τ ≫ D.relativeMap ((Δ.b₁₂ l m n).base ≫ (Δ.c l m).base) = vi
+    change τ ≫ D.relativeMap ((Δ.b₁₂ l m n).base ≫ (Δ.c l m).base) = vi
     rw [CoherentSituation.relativeMap_comp, ← Category.assoc, τ₁₂, Category.assoc, pairLift_fst,
       hij₀]
   have h₃ : τ ≫ D.relativeMap ((Δ.b₂₃ l m n).comp (Δ.e m n)).base = vk := by
-    show τ ≫ D.relativeMap ((Δ.b₂₃ l m n).base ≫ (Δ.e m n).base) = vk
+    change τ ≫ D.relativeMap ((Δ.b₂₃ l m n).base ≫ (Δ.e m n).base) = vk
     rw [CoherentSituation.relativeMap_comp, ← Category.assoc, τ₂₃, Category.assoc, pairLift_snd,
       hjk₁]
   have τ₁₃ := Δ.triple_lift_outer g hg l m n τ vi vk vik hik₀ hik₁ h₁ h₃

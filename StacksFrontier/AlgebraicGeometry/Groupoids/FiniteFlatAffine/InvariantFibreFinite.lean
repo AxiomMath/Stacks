@@ -84,7 +84,7 @@ theorem finite_fibre_source (G : GroupoidScheme S) [IsAffine G.objects.left]
       (algebraMap Γ(G.objects.left, ⊤) Γ(G.arrows.left, ⊤)) ⁻¹'
       {G.objects.left.carrierEquivPrimeSpectrum u})
     (fun r => ⟨G.arrows.left.carrierEquivPrimeSpectrum r.1, ?_⟩) ?_
-  · show PrimeSpectrum.comap (algebraMap Γ(G.objects.left, ⊤) Γ(G.arrows.left, ⊤))
+  · change PrimeSpectrum.comap (algebraMap Γ(G.objects.left, ⊤) Γ(G.arrows.left, ⊤))
       (G.arrows.left.carrierEquivPrimeSpectrum r.1) =
         G.objects.left.carrierEquivPrimeSpectrum u
     rw [RingHom.algebraMap_toAlgebra,
@@ -109,7 +109,7 @@ theorem finite_fibre_objectsToInvariantSpectrum (G : GroupoidScheme S) [IsAffine
     intro r hr
     have h : (objectsToInvariantSpectrum G).base (G.target.left.base r) =
         (objectsToInvariantSpectrum G).base (G.source.left.base r) := by
-      show (G.target.left ≫ objectsToInvariantSpectrum G).base r =
+      change (G.target.left ≫ objectsToInvariantSpectrum G).base r =
         (G.source.left ≫ objectsToInvariantSpectrum G).base r
       rw [source_comp_objectsToInvariantSpectrum]
     rw [h, hr, hu₀]

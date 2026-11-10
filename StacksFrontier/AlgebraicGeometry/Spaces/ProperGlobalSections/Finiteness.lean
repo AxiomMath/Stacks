@@ -113,7 +113,7 @@ theorem Γ_map_algebraMap_siteObj {T T' : BigFppfOver B (Spec (.of A)) hA} (g : 
         @algebraMap A _ _ _ (siteObjSectionsAlgebra A T') a := by
   have hw : B.inclusion.map g.left ≫ B.inclusion.map T.hom = B.inclusion.map T'.hom := by
     simpa only [← Functor.map_comp] using congrArg B.inclusion.map (Over.w g)
-  show ((Scheme.ΓSpecIso (.of A)).inv ≫ (B.inclusion.map T.hom).appTop ≫
+  change ((Scheme.ΓSpecIso (.of A)).inv ≫ (B.inclusion.map T.hom).appTop ≫
       (B.inclusion.map g.left).appTop).hom a =
     ((Scheme.ΓSpecIso (.of A)).inv ≫ (B.inclusion.map T'.hom).appTop).hom a
   rw [← Scheme.Hom.comp_appTop, hw]
@@ -147,7 +147,7 @@ theorem globalSectionsRingHomSite_comp_baseRingHom {X Y : AlgebraicSpaces B (Spe
       (chart_preimage_etale B (Spec (.of A)) hA X U.unop.1.hom U.unop.2 (hrep.snd g) hsnd_et)
   let d : ChartDiagram B (Spec (.of A)) hA X.1 Y.1 f.hom :=
     ⟨PC, ⟨CostructuredArrow.mk q, hqet⟩, hrep.fst' g, by
-      show (yoneda.map (hrep.snd g) ≫ U.unop.1.hom) ≫ f.hom = yoneda.map (hrep.fst' g) ≫ q
+      change (yoneda.map (hrep.snd g) ≫ U.unop.1.hom) ≫ f.hom = yoneda.map (hrep.fst' g) ≫ q
       rw [Category.assoc]
       exact hpb.w.symm⟩
   let ι : PC ⟶ U.unop := ObjectProperty.homMk (CostructuredArrow.homMk (hrep.snd g) rfl)
@@ -202,7 +202,7 @@ theorem hasEtaleLocalProperty_isLocallyNoetherian_base [IsNoetherianRing A] :
   · rw [← CategoryTheory.Functor.map_id, presheaf_yoneda_map_iff B _ hA
       (P := @Etale) inferInstance, CategoryTheory.Functor.map_id]
     infer_instance
-  · show IsLocallyNoetherian (Spec (.of A))
+  · change IsLocallyNoetherian (Spec (.of A))
     infer_instance
 
 /-- An algebraic space proper over a Noetherian affine base is Noetherian. -/

@@ -96,7 +96,7 @@ public lemma deltaInvariant_ge_numberOfGeometricBranches_sub_one_of_strictlyHens
   have hcount : numberOfGeometricBranchesOfLocalRing A =
       Set.encard (Set.univ : Set (MaximalSpectrum B)) := by
     rw [numberOfGeometricBranchesOfLocalRing_eq_encard_minimalPrimes]
-    show (minimalPrimes Ash).encard = _
+    change (minimalPrimes Ash).encard = _
     exact hbranches
   let p : Type u := (m : MaximalSpectrum B) → B ⧸ m.asIdeal
   let f := Ring.normalizationResidueProductMap A
@@ -113,9 +113,9 @@ public lemma deltaInvariant_ge_numberOfGeometricBranches_sub_one_of_strictlyHens
     have hrm : algebraMap A B r ∈ m.asIdeal := by
       rw [← Ideal.mem_comap, ← hmax m]
       exact r.property
-    show (r : A) • x = 0
+    change (r : A) • x = 0
     rw [Algebra.smul_def]
-    show Ideal.Quotient.mk m.asIdeal (algebraMap A B r) * x = 0
+    change Ideal.Quotient.mk m.asIdeal (algebraMap A B r) * x = 0
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr hrm, zero_mul]
   let : ∀ m : MaximalSpectrum B, Module k (B ⧸ m.asIdeal) :=
     fun m => (hcomponent m).module
@@ -143,7 +143,7 @@ public lemma deltaInvariant_ge_numberOfGeometricBranches_sub_one_of_strictlyHens
       intro x
       rcases x.2 with ⟨a, ha⟩
       refine ⟨Ideal.Quotient.mk (maximalIdeal A) a, Subtype.ext ?_⟩
-      show Ideal.Quotient.mk (maximalIdeal A) a • (y : p) = (x : p)
+      change Ideal.Quotient.mk (maximalIdeal A) a • (y : p) = (x : p)
       rw [hmk]
       calc
         a • g 1 = g (a • (1 : A)) := (g.map_smul a (1 : A)).symm
@@ -167,7 +167,7 @@ public lemma deltaInvariant_ge_numberOfGeometricBranches_sub_one_of_strictlyHens
     rw [hcount, Set.encard_univ, hlenQ]
     exact tsub_le_iff_right.2 hdimQ
   let M := B ⧸ LinearMap.range (Algebra.linearMap A B)
-  show Module.length A M ≥ numberOfGeometricBranchesOfLocalRing A - 1
+  change Module.length A M ≥ numberOfGeometricBranchesOfLocalRing A - 1
   exact htarget.trans (Module.length_le_of_surjective
     (Ring.normalizationResidueQuotientMap A)
     (Ring.normalizationResidueQuotientMap_surjective A hA))
@@ -425,7 +425,7 @@ public theorem exists_isWedge_of_deltaInvariant_eq_numberOfGeometricBranches_sub
             IsLocalRing.residue (B i) (algebraMap A (B i) a) :=
           (IsScalarTower.algebraMap_apply A κ (ResidueField (B i)) a).symm.trans
             (IsLocalRing.ResidueField.algebraMap_residue a)
-        show IsLocalRing.residue (B i)
+        change IsLocalRing.residue (B i)
             (algebraMap A (B i) a * (e x) i) =
           algebraMap A (ResidueField (B i)) a * IsLocalRing.residue (B i) ((e x) i)
         rw [map_mul, ← hres] }
@@ -439,7 +439,7 @@ public theorem exists_isWedge_of_deltaInvariant_eq_numberOfGeometricBranches_sub
     apply LinearMap.ext
     intro a
     funext i
-    show IsLocalRing.residue (B i) (e (algebraMap A C a) i) = algebraMap A P a i
+    change IsLocalRing.residue (B i) (e (algebraMap A C a) i) = algebraMap A P a i
     rw [e.commutes, Pi.algebraMap_apply]
     rfl
   let Q : Type u := C ⧸ LinearMap.range (Algebra.linearMap A C)
@@ -470,7 +470,7 @@ public theorem exists_isWedge_of_deltaInvariant_eq_numberOfGeometricBranches_sub
     simpa using (ENat.card_congr maxEquiv)
   have hbranchCount : numberOfGeometricBranchesOfLocalRing A =
       (Set.univ : Set (MaximalSpectrum C)).encard := by
-    show numberOfGeometricBranches A Ksep Ash = _
+    change numberOfGeometricBranches A Ksep Ash = _
     exact hbranches
   have hdeltaN : Ring.deltaInvariant A = (n : ℕ∞) := by
     rw [hdelta, hbranchCount, hmaxCount]
@@ -486,13 +486,13 @@ public theorem exists_isWedge_of_deltaInvariant_eq_numberOfGeometricBranches_sub
   let resA : A →ₗ[A] κ := Algebra.linearMap A κ
   let fK : κ →ₗ[A] P := (Algebra.linearMap κ P).restrictScalars A
   have hresAsurj : Function.Surjective resA := by
-    show Function.Surjective (IsLocalRing.residue A)
+    change Function.Surjective (IsLocalRing.residue A)
     exact IsLocalRing.residue_surjective (R := A)
   have hfactor : rhoA = fK.comp resA := by
     apply LinearMap.ext
     intro a
     funext i
-    show algebraMap A P a i = algebraMap κ P (algebraMap A κ a) i
+    change algebraMap A P a i = algebraMap κ P (algebraMap A κ a) i
     rw [IsScalarTower.algebraMap_apply A κ P a, Pi.algebraMap_apply]
   have hfKinj : Function.Injective fK := by
     intro x y hxy
@@ -588,7 +588,7 @@ public theorem exists_isWedge_of_deltaInvariant_eq_numberOfGeometricBranches_sub
       (R := A) (S := B i.castSucc) a
     have hlast := IsLocalRing.ResidueField.algebraMap_residue
       (R := A) (S := B (Fin.last n)) a
-    show eW i (IsLocalRing.residue (B i.castSucc) (f a i.castSucc)) =
+    change eW i (IsLocalRing.residue (B i.castSucc) (f a i.castSucc)) =
       IsLocalRing.residue (B (Fin.last n)) (f a (Fin.last n))
     rw [show f a = algebraMap A (∀ i : Fin (n + 1), B i) a by
       ext j
@@ -600,7 +600,7 @@ public theorem exists_isWedge_of_deltaInvariant_eq_numberOfGeometricBranches_sub
           eW i (algebraMap κ (ResidueField (B i.castSucc)) (IsLocalRing.residue A a)) := by
         rw [hri]
       _ = algebraMap κ (ResidueField (B (Fin.last n))) (IsLocalRing.residue A a) := by
-        show (eRes (Fin.last n)) ((eRes i.castSucc).symm
+        change (eRes (Fin.last n)) ((eRes i.castSucc).symm
           ((eRes i.castSucc) (IsLocalRing.residue A a))) =
           (eRes (Fin.last n)) (IsLocalRing.residue A a)
         simp
@@ -635,9 +635,9 @@ public theorem exists_isWedge_of_deltaInvariant_eq_numberOfGeometricBranches_sub
             simpa using hbi
           _ = eRes i (IsLocalRing.residue A a₀) := by rw [ha₀]
           _ = IsLocalRing.residue (B i) (algebraMap A (B i) a₀) := by
-            show algebraMap κ (ResidueField (B i)) (IsLocalRing.residue A a₀) = _
+            change algebraMap κ (ResidueField (B i)) (IsLocalRing.residue A a₀) = _
             exact hres
-      show IsLocalRing.residue (B i) (e c i) = algebraMap A P a₀ i
+      change IsLocalRing.residue (B i) (e c i) = algebraMap A P a₀ i
       rw [show e c = b by simp [c], Pi.algebraMap_apply]
       exact hbi'
     have hmapA : rhoC (Algebra.linearMap A C a₀) = rhoA a₀ :=
@@ -650,7 +650,7 @@ public theorem exists_isWedge_of_deltaInvariant_eq_numberOfGeometricBranches_sub
       rw [map_add, ha₁, add_comm, sub_add_cancel]
     refine ⟨a₀ + a₁, ?_⟩
     apply Subtype.ext
-    show f (a₀ + a₁) = b
+    change f (a₀ + a₁) = b
     rw [show f (a₀ + a₁) = e (Algebra.linearMap A C (a₀ + a₁)) by rfl, hc]
     simp [c]
   exact ⟨n, B, hBcomm, fun _ => inferInstance, hBlocal, hDVR, fun _ => inferInstance,

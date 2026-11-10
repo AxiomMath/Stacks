@@ -620,7 +620,7 @@ for `i ≠ j`. -/
 theorem cornerComplexEndo_ortho (i j : ι) (hij : i ≠ j) :
     cornerComplexEndo.{v} J hc c i ≫ cornerComplexEndo.{v} J hc c j = 0 := by
   ext K n U m
-  show e j • e i • m = 0
+  change e j • e i • m = 0
   rw [smul_smul, he.ortho hij.symm, zero_smul]
 
 omit [DecidableEq ι] in
@@ -634,9 +634,9 @@ theorem cornerComplexEndo_sum :
     { toFun := fun t => (((t.app K).f n).hom.app U).hom m
       map_zero' := rfl
       map_add' := fun _ _ => rfl }
-  show φ (∑ i, cornerComplexEndo.{v} J hc c i) = m
+  change φ (∑ i, cornerComplexEndo.{v} J hc c i) = m
   rw [map_sum]
-  show ∑ i, e i • m = m
+  change ∑ i, e i • m = m
   rw [← Finset.sum_smul, he.complete, one_smul]
 
 /-- **A complete family of orthogonal central idempotents splits every complex.** For central

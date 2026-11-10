@@ -35,7 +35,8 @@ morphisms, transition morphisms and projections are `edsPreimageInterMap`s along
 are the nine fields of `AlgebraicGeometry.Space.edsPreimageInterLimitSystem`, term for term.
 
 The spelling matters.  `AlgebraicGeometry.Space.RelativeDescentSituation.edsInterSource`
-(`StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/RelativeDescentEdsPieces.lean`) already builds Situation 0DKU over the intersection of a square
+(`StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/RelativeDescentEdsPieces.lean`)
+already builds Situation 0DKU over the intersection of a square
 of `X₀`, but with the *iterated* preimage `edsPreimage (edsPreimage hsq p_b) k_j` at the stages,
 whose open member is `(U₀.preimage p_b).preimage k_j` and étale member
 `(V₀ ×_{W₀} W_b) ×_{W_b} T_j`.  Those are not the composite-preimage members
@@ -86,8 +87,9 @@ hypotheses of Stacks 09RI on the two objects, exactly one geometric hypothesis s
   quasi-separated, and `P_b` quasi-compact and quasi-separated as a space, neither of which the
   tree derives for an intersection, together with the étaleness — so discharging `hfp` would
   replace one hypothesis by four.  The caller is better placed to choose: in the induction of
-  `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/RelativelyPerfectEssSurjInduction.lean` the four are available and that is exactly how `hfpP`
-  is produced there.
+  `RelativelyPerfectEssSurjInduction.lean` (in
+  `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/`) the four are available
+  and that is exactly how `hfpP` is produced there.
 
 No limit property of the system of intersections is assumed: it comes from `D`, through
 `AlgebraicGeometry.Space.RelativeDescentSituation.isSchemeLimit_of_size`, which depends only on

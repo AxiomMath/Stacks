@@ -155,13 +155,13 @@ lemma stabilizerActionMap_apply {S : Scheme.{u}} (G : GroupoidScheme S)
     (Over.map G.objects.hom).map (lift g r)
   have ha : k ≫ a = stabilizerArrowHom G g := by
     apply Over.OverMorphism.ext
-    show (lift g r).left ≫ (fst (stabilizer G) (arrowsOverTarget G)).left ≫
+    change (lift g r).left ≫ (fst (stabilizer G) (arrowsOverTarget G)).left ≫
       stabilizerArrow G = g.left ≫ stabilizerArrow G
     have hf := congrArg Over.Hom.left (lift_fst g r)
     exact congrArg (fun z => z ≫ stabilizerArrow G) hf
   have hb : k ≫ b = arrowOverTargetHom G r := by
     apply Over.OverMorphism.ext
-    show (lift g r).left ≫ (snd (stabilizer G) (arrowsOverTarget G)).left = r.left
+    change (lift g r).left ≫ (snd (stabilizer G) (arrowsOverTarget G)).left = r.left
     exact congrArg Over.Hom.left (lift_snd g r)
   have hbase : arrowOverTargetHom G (stabilizerActionMap G) = G.compose a b w := by
     apply Over.OverMorphism.ext
@@ -178,7 +178,7 @@ lemma stabilizerOne_eq_unit {S : Scheme.{u}} (G : GroupoidScheme S) :
       (𝟙 (𝟙_ (Over G.objects.left)) ≫ stabilizerOne G) ≫ μ[stabilizer G] =
       𝟙 (𝟙_ (Over G.objects.left)) ≫ stabilizerOne G := by
     let _ : ModObj (stabilizer G) (stabilizer G) := ModObj.regular (stabilizer G)
-    show (1 : (𝟙_ (Over G.objects.left) ⟶ stabilizer G)) •
+    change (1 : (𝟙_ (Over G.objects.left) ⟶ stabilizer G)) •
       (𝟙 (𝟙_ (Over G.objects.left)) ≫ stabilizerOne G) = _
     exact one_smul (𝟙_ (Over G.objects.left) ⟶ stabilizer G)
       (𝟙 (𝟙_ (Over G.objects.left)) ≫ stabilizerOne G)

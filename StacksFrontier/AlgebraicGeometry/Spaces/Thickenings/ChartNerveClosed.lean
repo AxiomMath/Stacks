@@ -68,7 +68,7 @@ theorem surjective_and_ker_of_isPushout {A B C P : CommRingCat.{u}} {f : A ⟶ B
     exact Ideal.Quotient.eq_zero_iff_mem.1 h1.symm
   · rw [Ideal.map_le_iff_le_comap]
     intro a ha
-    show inl.hom (f.hom a) = 0
+    change inl.hom (f.hom a) = 0
     rw [hw a, RingHom.mem_ker.1 ha, map_zero]
 
 /-- **The tensor product of a pushout square is its corner.** If `fB : A → B`, `fC : A → C`,
@@ -82,8 +82,7 @@ theorem bijective_of_isPushout {A B C P : CommRingCat.{u}} [Algebra A B] [Algebr
     rw [hB, hC]; exact H
   let e := (isPushout_tensorProduct A B C).isoIsPushout _ _ H'
   have heq : ∀ x, φ x = e.hom x := fun x => by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul b c =>
       have h1 : e.hom (b ⊗ₜ 1) = u b :=
         congr($((isPushout_tensorProduct A B C).inl_isoIsPushout_hom _ _ H').hom b)
@@ -226,7 +225,7 @@ theorem isNerveReduction_bot_of_isPullback {T U₀ R₀ W₀ : Scheme.{u}} [IsAf
       (Module.Descent.tripleMap p₁' e₁₂' e₂₃' (AlgHom.id _ _)).toRingHom fun b c => by
         simp only [AlgHom.toRingHom_eq_coe, AlgHom.coe_toRingHom, Module.Descent.tripleMap_tmul,
           AlgHom.id_apply]
-        show e₁₂.appTop.hom (tQ.appTop.hom b) * _ = _
+        change e₁₂.appTop.hom (tQ.appTop.hom b) * _ = _
         rw [appTop_appTop]
         rfl
 

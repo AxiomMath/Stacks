@@ -311,7 +311,7 @@ theorem coherator_cannot_be_dropped (hZ : B.Contains (⊤_ Scheme.{u})) (t : Γ(
         traceTarget B S hS Rf),
       ¬ IsIso φ :=
   ⟨⟨isQuasiCompactSpace_yoneda_of_isAffine B S hS _
-      (BigFppfOver.isAffine_affineSpace B S hS 1 _ _),
+      (BigFppfOver.isAffine_affineSpace B S hS 1 _ (isAffine_affineBase B S hS)),
     isAbsolutelyQuasiSeparated_of_isAffineSpace B S hS hZ
       (isAffineSpace_affineLineAlgebraicSpace B S hS),
     isQuasiCompactSpace_yoneda_of_isAffine B S hS _ (isAffine_affineBase B S hS),

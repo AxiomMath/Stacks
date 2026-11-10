@@ -129,7 +129,7 @@ public theorem koszulPowerIdeal_le_of_le (f : Fin r → R) {n N : ℕ} (h : n �
     rw [← pow_add]
     congr 1
     omega
-  show f i ^ N ∈ koszulPowerIdeal f n
+  change f i ^ N ∈ koszulPowerIdeal f n
   rw [hpow]
   exact Ideal.mul_mem_left _ _ (pow_mem_koszulPowerIdeal f n i)
 
@@ -190,7 +190,7 @@ public theorem koszulPowerTransitionHom_exteriorGen (f : Fin r → R) (N n : ℕ
   rw [exteriorGen, koszulPowerTransitionHom_ι, ← LinearMap.map_smul (ExteriorAlgebra.ι R)]
   congr 1
   funext k
-  show f k ^ (N - n) * (Pi.single i 1 : Fin r → R) k =
+  change f k ^ (N - n) * (Pi.single i 1 : Fin r → R) k =
     f i ^ (N - n) * (Pi.single i 1 : Fin r → R) k
   by_cases hk : k = i
   · rw [hk]
@@ -240,7 +240,7 @@ public theorem koszulPowerTransitionHom_comp (f : Fin r → R) {N m n : ℕ} (hn
   have hcomp : (koszulPowerTransitionHom f m n).comp (koszulPowerTransitionHom f N m) =
       koszulPowerTransitionHom f N n := by
     refine ExteriorAlgebra.hom_ext (LinearMap.ext fun v => ?_)
-    show koszulPowerTransitionHom f m n (koszulPowerTransitionHom f N m (ExteriorAlgebra.ι R v)) =
+    change koszulPowerTransitionHom f m n (koszulPowerTransitionHom f N m (ExteriorAlgebra.ι R v)) =
       koszulPowerTransitionHom f N n (ExteriorAlgebra.ι R v)
     rw [koszulPowerTransitionHom_ι, koszulPowerTransitionHom_ι, koszulPowerTransitionHom_ι]
     congr 1
@@ -272,7 +272,7 @@ public theorem smul_mem_koszulBoundaries (f : Fin r → R) (n j : ℕ) {a : R}
           (exteriorGrade R (Fin r → R) (j + 1))) := by
     rw [koszulPowerIdeal, Ideal.span_le]
     rintro _ ⟨i, rfl⟩
-    show f i ^ n • z ∈ Submodule.map (koszulPowerDifferential f n)
+    change f i ^ n • z ∈ Submodule.map (koszulPowerDifferential f n)
       (exteriorGrade R (Fin r → R) (j + 1))
     rw [smul_cycle_eq_koszulPowerDifferential f n j i hz hdz]
     exact Submodule.mem_map_of_mem (exteriorGen_mul_mem_grade_succ i hz)
@@ -310,7 +310,7 @@ public theorem exists_pow_smul_cycle_mem_koszulBoundaries [IsNoetherianRing R] (
   have hJZ : koszulPowerIdeal f n • Z ≤ B := by
     refine Submodule.smul_le.2 fun a ha z hz => ?_
     refine Submodule.mem_comap.2 ?_
-    show a • (z : ExteriorAlgebra R (Fin r → R)) ∈
+    change a • (z : ExteriorAlgebra R (Fin r → R)) ∈
       Submodule.map (koszulPowerDifferential f n) (exteriorGrade R (Fin r → R) (j + 1))
     exact smul_mem_koszulBoundaries f n j ha z.2
       (LinearMap.mem_ker.1 (Submodule.mem_comap.1 hz))
@@ -990,7 +990,7 @@ public theorem exists_koszulTateBeta [IsNoetherianRing R] (f : Fin r → R) (n :
       IsDifferentialGradedAlgebra.d_grade_zero
         (self := isDifferentialGradedAlgebra_koszulPowerDifferential f (ee 1))
         (koszulPowerTransitionHom_mem f (ee 0) (ee 1) 0 (hbase a))
-    show koszulPowerTransitionHom f (ee 0) (ee 1) (G0.hom (finiteTateDifferential A₀ 0 a)) =
+    change koszulPowerTransitionHom f (ee 0) (ee 1) (G0.hom (finiteTateDifferential A₀ 0 a)) =
       koszulPowerDifferential f (ee 1) (koszulPowerTransitionHom f (ee 0) (ee 1) (G0.hom a))
     rw [show finiteTateDifferential A₀ 0 a = 0 from rfl, hR, _root_.map_zero G0.hom]
     exact _root_.map_zero (koszulPowerTransitionHom f (ee 0) (ee 1))
@@ -998,7 +998,7 @@ public theorem exists_koszulTateBeta [IsNoetherianRing R] (f : Fin r → R) (n :
       koszulPowerDifferential f (ee 1) (exteriorGen R r j.down) =
         ((koszulTransitionDPHom f (ee 0) (ee 1)).comp G0).hom (finiteTateCycle A₀ 0 j) := by
     intro j
-    show _ = koszulPowerTransitionHom f (ee 0) (ee 1) (G0.hom (f j.down ^ N))
+    change _ = koszulPowerTransitionHom f (ee 0) (ee 1) (G0.hom (f j.down ^ N))
     rw [hG0val, AlgHom.commutes, hee1, koszulPowerDifferential_exteriorGen]
   obtain ⟨G1, hG1res, hG1gen, hG1d⟩ :=
     finiteTateStep_exists_gradedDPHom_comm_differential A₀ 0 (koszulGradedDPAlgebra R r)
@@ -1024,7 +1024,7 @@ public theorem exists_koszulTateBeta [IsNoetherianRing R] (f : Fin r → R) (n :
           koszulPowerDifferential f (ee (k + 2))
             (((koszulTransitionDPHom f (ee (k + 1)) (ee (k + 2))).comp G).hom a) := by
       intro a
-      show koszulPowerTransitionHom f (ee (k + 1)) (ee (k + 2))
+      change koszulPowerTransitionHom f (ee (k + 1)) (ee (k + 2))
           (G.hom (finiteTateDifferential A₀ (k + 1) a)) =
         koszulPowerDifferential f (ee (k + 2))
           (koszulPowerTransitionHom f (ee (k + 1)) (ee (k + 2)) (G.hom a))
@@ -1083,7 +1083,7 @@ public theorem exists_koszulTateBeta [IsNoetherianRing R] (f : Fin r → R) (n :
   have hHstep : ∀ (k : ℕ) (x : (finiteTateAlgebra A₀ k).carrier),
       (H (k + 1)).hom ((finiteTateStep A₀ k).hom x) = (H k).hom x := by
     intro k x
-    show koszulPowerTransitionHom f (ee (k + 1)) n ((G (k + 1)).hom ((finiteTateStep A₀ k).hom x))
+    change koszulPowerTransitionHom f (ee (k + 1)) n ((G (k + 1)).hom ((finiteTateStep A₀ k).hom x))
       = koszulPowerTransitionHom f (ee k) n ((G k).hom x)
     rw [hGres k x]
     exact koszulPowerTransitionHom_comp f (heen (k + 1)) (heeanti k) ((G k).hom x)
@@ -1091,7 +1091,7 @@ public theorem exists_koszulTateBeta [IsNoetherianRing R] (f : Fin r → R) (n :
       (H k).hom (finiteTateDifferential A₀ k a) =
         koszulPowerDifferential f n ((H k).hom a) := by
     intro k a
-    show koszulPowerTransitionHom f (ee k) n ((G k).hom (finiteTateDifferential A₀ k a)) = _
+    change koszulPowerTransitionHom f (ee k) n ((G k).hom (finiteTateDifferential A₀ k a)) = _
     rw [hGd k a]
     exact koszulPowerTransitionHom_differential f (heen k) ((G k).hom a)
   obtain ⟨F, hFres, hFd⟩ := finiteTateColimit_exists_gradedDPHom_of_family A₀
@@ -1099,10 +1099,10 @@ public theorem exists_koszulTateBeta [IsNoetherianRing R] (f : Fin r → R) (n :
     (koszulPowerDifferential f n) H hHstep hHd
   refine ⟨F, hFd, fun p => ?_, fun i => ?_⟩
   · refine (hFres 0 p).trans ?_
-    show koszulPowerTransitionHom f (ee 0) n (G0.hom p) = _
+    change koszulPowerTransitionHom f (ee 0) n (G0.hom p) = _
     rw [hG0val, AlgHom.commutes]
   · rw [koszulTateVariable, finiteTateVariable, hFres 1 (finiteTateGenerator A₀ 0 (ULift.up i))]
-    show koszulPowerTransitionHom f (ee 1) n ((G 1).hom (finiteTateGenerator A₀ 0 (ULift.up i)))
+    change koszulPowerTransitionHom f (ee 1) n ((G 1).hom (finiteTateGenerator A₀ 0 (ULift.up i)))
       = _
     rw [show (G 1).hom (finiteTateGenerator A₀ 0 (ULift.up i)) = exteriorGen R r i from
       hG1gen (ULift.up i), hee1]

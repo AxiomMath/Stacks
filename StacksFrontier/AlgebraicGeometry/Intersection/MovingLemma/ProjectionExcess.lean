@@ -156,7 +156,7 @@ public theorem exists_isFinite_excess_clauses_of_le_of_isOpenImmersion [IsAlgClo
             (⟨z, hz⟩ : ↥(closure ({j₀.base ζ} : Set X))) ∈ _))
       have hlt2 := topologicalKrullDim_lt_of_isClosed_ne_univ
         (hW'cl.preimage continuous_subtype_val) hAne
-        (by rw [hZd]; exact WithBot.coe_lt_coe.mpr (ENat.coe_lt_top d))
+        (by rw [hZd]; exact WithBot.coe_lt_coe.mpr (ENat.natCast_lt_top d))
       rw [topologicalKrullDim_preimage_val _ W' hW'Z, hW'dim, hZd] at hlt2
       exact absurd hlt2 (lt_irrefl _)
 

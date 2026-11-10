@@ -481,8 +481,7 @@ theorem stepι_comp_restrictedLeftMulCochain_comp_cokernelπ (p : ℕ)
         ((Scheme.Hom.deRhamAlgebras (f ≫ g)).exteriorPower q).val).presheaf)
     (Presheaf.isLocallySurjective_toSheafify' (Opens.grothendieckTopology X) _) ?_
   intro W r
-  induction r using TensorProduct.induction_on with
-  | zero => exact (congrArg _ (map_zero _)).trans (map_zero _)
+  induction r using TensorProduct.inductionOn with
   | add a b ha hb => exact (congrArg _ (map_add _ a b)).trans ((map_add _ _ _).trans
       ((congrArg₂ (· + ·) ha hb).trans (add_zero 0)))
   | tmul x y =>

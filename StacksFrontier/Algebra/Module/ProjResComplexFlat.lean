@@ -42,7 +42,7 @@ variable {R : Type u} [CommRing R]
 `≤ 0`. -/
 public lemma projResComplex_isStrictlyLE (M : ModuleCat.{u} R) :
     (projResComplex M).IsStrictlyLE 0 := by
-  show CochainComplex.IsStrictlyLE
+  change CochainComplex.IsStrictlyLE
     ((CategoryTheory.ProjectiveResolution.of M).complex.extend
       ComplexShape.embeddingDownNat) 0
   infer_instance
@@ -50,7 +50,7 @@ public lemma projResComplex_isStrictlyLE (M : ModuleCat.{u} R) :
 /-- Every term of the chosen projective resolution is projective. -/
 public lemma projResComplex_projective (M : ModuleCat.{u} R) (i : ℤ) :
     Projective ((projResComplex M).X i) := by
-  show Projective
+  change Projective
     (((CategoryTheory.ProjectiveResolution.of M).complex.extend
       ComplexShape.embeddingDownNat).X i)
   infer_instance

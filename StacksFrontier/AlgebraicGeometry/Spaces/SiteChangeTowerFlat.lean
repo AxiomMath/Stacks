@@ -150,6 +150,7 @@ theorem adicFibreIso_hom_p :
   IsPullback.isoIsPullback_hom_snd _ _
     (𝒯.isPullback_relocalize_adicFibre n) (AlgebraicSpaces.isPullback_hom B S hS (𝒯.isPullback n))
 
+omit 𝒯 in
 /-- The inclusion of an adic fibre is representable. -/
 theorem relativelyRepresentable_adicFibreInclusion :
     yoneda.relativelyRepresentable
@@ -216,7 +217,7 @@ theorem isFlatOver_adicFibre (N : Modules.{u, u} B S hS X.1 X.2) (hN : N.IsQuasi
         (siteChangeSpace B X π).2).counitIso.app
           _).symm)).trans ?_
   exact ((relocalizeModulePullbackIso B hR hS h ι'
-    (𝒯.relativelyRepresentable_adicFibreInclusion n)).app _).symm
+    (relativelyRepresentable_adicFibreInclusion n)).app _).symm
 
 /-- **Flatness over `Spec R` from flatness on a tower of thickenings** (Stacks 08VP, 0CZG): a
 coherent `𝒪_X`-module with support proper over `Spec R`, for `R` Noetherian local and `I ⊆ 𝔪`,

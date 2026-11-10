@@ -93,7 +93,7 @@ def idealPowTransition (n : ℕ) :
 `M ⟶ M/IⁿM`. -/
 theorem π_idealPowTransition (n : ℕ) :
     idealPowTowerπ I M (n + 1) ≫ idealPowTransition I M n = idealPowTowerπ I M n := by
-  show cokernel.π _ ≫ (cokernelIsoOfEq (Stacks.SheafOfModules.Submodule.homOfLE_comp_ι
+  change cokernel.π _ ≫ (cokernelIsoOfEq (Stacks.SheafOfModules.Submodule.homOfLE_comp_ι
     (idealPowSubmodule_succ_le I n M))).inv ≫ Stacks.Abelian.cokernelCompπ _ _ = _
   rw [← Category.assoc, π_comp_cokernelIsoOfEq_inv, Stacks.Abelian.π_comp_cokernelCompπ]
 

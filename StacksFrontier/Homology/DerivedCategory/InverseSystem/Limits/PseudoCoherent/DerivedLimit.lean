@@ -150,7 +150,7 @@ private lemma exists_linearEquiv_pi_of_successor_coordinates
       rw [show (homOfLE (Nat.le_succ_of_le h)).op =
         (homOfLE (Nat.le_succ n)).op ≫ (homOfLE h).op from Subsingleton.elim _ _,
         M.map_comp, A.map_comp]
-      show (e m).inv (M.map (homOfLE h).op
+      change (e m).inv (M.map (homOfLE h).op
         (M.map (homOfLE (Nat.le_succ n)).op x)) i =
         (A.map (homOfLE h).op).hom
           ((A.map (homOfLE (Nat.le_succ n)).op).hom ((e (n + 1)).inv x i))
@@ -196,7 +196,7 @@ private lemma finiteFree_limit_and_baseChange
   intro M
   have hbM : (limit M).IsStrictlyLE b := isStrictlyLE_limit M b (fun n => by
     have := hb n.unop
-    show CochainComplex.IsStrictlyLE
+    change CochainComplex.IsStrictlyLE
       (((ModuleCat.restrictScalars (c.π.app n).hom).mapHomologicalComplex (.up ℤ)).obj
         (P n.unop)) b
     infer_instance)
@@ -225,7 +225,7 @@ private lemma finiteFree_limit_and_baseChange
       (M ⋙ F) (F.mapCone (limit.cone M)) (isLimitOfPreserves F (limit.isLimit M))
       (fun n => (ModuleCat.restrictScalars (c.π.app (op n)).hom).mapIso (e n).symm)
       (fun n x j => by
-        show (e n).hom ((M.map (homOfLE (Nat.le_succ n)).op).f i x) j = _
+        change (e n).hom ((M.map (homOfLE (Nat.le_succ n)).op).f i x) j = _
         rw [Functor.ofOpSequence_map_homOfLE_succ]
         exact (he n x j).symm)
     refine ⟨Module.Finite.equiv E.symm, Module.Free.of_equiv E.symm, fun n => ?_⟩
@@ -245,19 +245,18 @@ private lemma finiteFree_limit_and_baseChange
       (A.map (homOfLE (Nat.le_succ n)).op).hom) (.up ℤ)).homEquiv _ _).symm (g n)
     have ha : Function.Surjective (a.f i) := (ModuleCat.epi_iff_surjective _).mp inferInstance
     rw [Functor.ofOpSequence_map_homOfLE_succ]
-    show Function.Surjective ((g n).f i)
+    change Function.Surjective ((g n).f i)
     have hu : Function.Surjective ((ModuleCat.extendRestrictScalarsAdj.{max u v}
         (A.map (homOfLE (Nat.le_succ n)).op).hom).unit.app ((P (n + 1)).X i)) := by
       let := (A.map (homOfLE (Nat.le_succ n)).op).hom.toAlgebra
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero => exact ⟨0, map_zero _⟩
+      induction z using TensorProduct.inductionOn with
       | tmul s x =>
         obtain ⟨r, rfl⟩ := hf n s
         refine ⟨r • x, ?_⟩
-        show (1 : A.obj (op n)) ⊗ₜ[A.obj (op (n + 1))] (r • x) = _
+        change (1 : A.obj (op n)) ⊗ₜ[A.obj (op (n + 1))] (r • x) = _
         rw [TensorProduct.tmul_smul]
-        show (((A.map (homOfLE (Nat.le_succ n)).op).hom r * 1) ⊗ₜ[A.obj (op (n + 1))] x) = _
+        change (((A.map (homOfLE (Nat.le_succ n)).op).hom r * 1) ⊗ₜ[A.obj (op (n + 1))] x) = _
         rw [mul_one]
       | add x y hx hy =>
         obtain ⟨x, rfl⟩ := hx
@@ -347,14 +346,14 @@ lemma exists_distTriang_of_degreewise_surjective_of_iso
   refine ⟨E.inv ≫ δ, ?_⟩
   apply Pretriangulated.isomorphic_distinguished _ hδ
   refine Pretriangulated.Triangle.isoMk _ _ (Iso.refl _) E.symm E.symm ?_ ?_ ?_
-  · show (Pi.lift fun n => DerivedCategory.Q.map (limit.π M (op n)) ≫ (e n).hom) ≫ E.inv =
+  · change (Pi.lift fun n => DerivedCategory.Q.map (limit.π M (op n)) ≫ (e n).hom) ≫ E.inv =
       𝟙 _ ≫ (Pi.lift fun n => DerivedCategory.Q.map (limit.π M (op n)))
     apply Pi.hom_ext
     intro n
     simp only [Category.id_comp, Category.assoc, hEi, Pi.lift_comp_π_assoc]
     simp only [Iso.hom_inv_id, Category.comp_id]
     exact (Pi.lift_comp_π (fun n : ℕ => DerivedCategory.Q.map (limit.π M (op n))) n).symm
-  · show (Pi.lift fun n => Pi.π X n - Pi.π X (n + 1) ≫ t n) ≫ E.inv =
+  · change (Pi.lift fun n => Pi.π X n - Pi.π X (n + 1) ≫ t n) ≫ E.inv =
       E.inv ≫ (Pi.lift fun n => Pi.π Y n - Pi.π Y (n + 1) ≫
         DerivedCategory.Q.map (M.map (homOfLE (Nat.le_succ n)).op))
     rw [Iso.comp_inv_eq, Category.assoc, Iso.eq_inv_comp]
@@ -396,7 +395,7 @@ private lemma isIso_derivedBaseChangeComparison_of_complex_map
       adjD P E a).mpr (inferInstanceAs (QuasiIso a))
     change IsIso ((adjD.homEquiv _ _).symm (DerivedCategory.Q.map (adj.homEquiv _ _ a) ≫ _)) at h
     rwa [show (adj.homEquiv _ _) a = g from (adj.homEquiv _ _).apply_symm_apply g] at h
-  show IsIso ((adjD.homEquiv _ _).symm _)
+  change IsIso ((adjD.homEquiv _ _).symm _)
   rw [← Category.assoc, Adjunction.homEquiv_naturality_right_symm]
   infer_instance
 

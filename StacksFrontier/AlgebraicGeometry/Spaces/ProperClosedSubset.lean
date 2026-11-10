@@ -181,7 +181,7 @@ theorem isProperOver_of_subset (hX : IsAlgebraicSpace B S hS X)
   have hcomp := isProper_comp' B S hS (Subfunctor.homOfLe hle)
     ((reducedClosedSubspace B S hS X hX T hT).ι ≫ f)
     (isAlgebraicSpace_reducedClosedSubspace B S hS X hX T hT) hY hgp hproper
-  show IsProper B S hS _
+  change IsProper B S hS _
   simpa only [← Category.assoc, Subfunctor.homOfLe_ι] using hcomp
 
 end ProperOver

@@ -137,7 +137,7 @@ theorem ofSchemeAddEquivPicardFunctorOfCurve_symm_toPicardFunctorHom
         (toPicardFunctorHom B hX hk g (terminalTest B hk) c) =
       Stacks.Picard.schemePullbackClass (baseChangeTerminalIso B hX hk g).inv c := by
   rw [AddEquiv.symm_apply_eq]
-  show toPicardFunctorHom B hX hk g (terminalTest B hk) c =
+  change toPicardFunctorHom B hX hk g (terminalTest B hk) c =
     toPicardFunctorHom B hX hk g (terminalTest B hk)
       (Stacks.Picard.schemePullbackClass (baseChangeTerminalIso B hX hk g).hom
         (Stacks.Picard.schemePullbackClass (baseChangeTerminalIso B hX hk g).inv c))

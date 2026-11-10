@@ -90,8 +90,7 @@ theorem KaehlerDifferential.intEquivOfSurjective_mapBaseChange (R A B : Type*) [
         (KaehlerDifferential.intEquivOfSurjective R A h).toLinearMap := by
     refine Derivation.liftKaehlerDifferential_unique _ _ (Derivation.ext fun a => ?_)
     simp [KaehlerDifferential.intEquivOfSurjective_D]
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add t t' ht ht' => rw [map_add, map_add, ht, ht', map_add, map_add]
   | tmul b m =>
     rw [KaehlerDifferential.mapBaseChange_tmul, map_smul, LinearEquiv.baseChange_tmul,
@@ -135,7 +134,7 @@ def absoluteDifferentialsSectionsEquiv :
       map_smul' := fun c a => map_smul _ c a }
   let e₁ : Γ(Hom.relativeDifferentials Y.toSpecZ, V) ≃ₗ[Γ(Y, V)]
       Ω[Γ(Y, V)⁄Γ(Spec (.of (ULift.{u} ℤ)), ⊤)] :=
-    LinearEquiv.ofLinear φ ψ
+    LinearEquiv.ofLinearMap φ ψ
       (LinearMap.ext fun x => congrArg (fun g => g.hom x) e.hom_inv_id)
       (LinearMap.ext fun x => congrArg (fun g => g.hom x) e.inv_hom_id)
   let e₂ : Ω[Γ(Y, V)⁄Γ(Spec (.of (ULift.{u} ℤ)), ⊤)] ≃ₗ[Γ(Y, V)] Ω[Γ(Y, V)⁄ℤ] :=
@@ -147,7 +146,7 @@ theorem absoluteDifferentialsSectionsEquiv_symm_D (b : Γ(Y, V)) :
     (absoluteDifferentialsSectionsEquiv Y hV).symm (KaehlerDifferential.D ℤ Γ(Y, V) b) =
       (Hom.universalRelativeDerivation Y.toSpecZ).d b := by
   let := (Y.toSpecZ.appLE ⊤ V le_top).hom.toAlgebra
-  show (Stacks.AlgebraicGeometry.AffineDifferentials.kaehlerToSections Y.toSpecZ ⊤ V
+  change (Stacks.AlgebraicGeometry.AffineDifferentials.kaehlerToSections Y.toSpecZ ⊤ V
     le_top).hom (KaehlerDifferential.intEquivOfSurjective _ _ surjective_algebraMap_int_Γ_specZ
       (KaehlerDifferential.D ℤ Γ(Y, V) b)) = _
   rw [KaehlerDifferential.intEquivOfSurjective_D]
@@ -242,7 +241,7 @@ theorem pullbackDifferentialsSectionsEquiv_symm_one_tmul_D (a : Γ(X, U)) :
       (Hom.relativeDifferentials X.toSpecZ), V) :=
     IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   have h := (isBaseChange_pullbackSectionHom hV f hU e).choose_spec
-  show h.2.equiv ((1 : Γ(Y, V)) ⊗ₜ (absoluteDifferentialsSectionsEquiv X hU).symm
+  change h.2.equiv ((1 : Γ(Y, V)) ⊗ₜ (absoluteDifferentialsSectionsEquiv X hU).symm
     (KaehlerDifferential.D ℤ Γ(X, U) a)) = _
   rw [h.2.equiv_tmul, one_smul, h.1, absoluteDifferentialsSectionsEquiv_symm_D]
   rfl
@@ -295,14 +294,14 @@ theorem relativeDifferentialsMap_app_pullbackDifferentialsSectionsEquiv_symm
       (iA.baseChange Γ(X, U) Γ(Y, V) _ _).symm.toLinearMap)
     ((absoluteDifferentialsSectionsEquiv Y hV).symm.toLinearMap.comp iB.symm.toLinearMap)
     (fun a => by
-      show (pullbackDifferentialsSectionsEquiv hV f hU e).symm
+      change (pullbackDifferentialsSectionsEquiv hV f hU e).symm
         ((1 : Γ(Y, V)) ⊗ₜ iA.symm (KaehlerDifferential.D _ Γ(X, U) a)) = _
       rw [(LinearEquiv.symm_apply_eq iA).mpr
           (KaehlerDifferential.intEquivOfSurjective_D _ _ _ a).symm,
         pullbackDifferentialsSectionsEquiv_symm_one_tmul_D]
       rfl)
     (fun c => by
-      show (absoluteDifferentialsSectionsEquiv Y hV).symm
+      change (absoluteDifferentialsSectionsEquiv Y hV).symm
         (iB.symm (KaehlerDifferential.D _ Γ(Y, V) c)) = _
       rw [(LinearEquiv.symm_apply_eq iB).mpr
           (KaehlerDifferential.intEquivOfSurjective_D _ _ _ c).symm,
@@ -439,7 +438,7 @@ theorem GarelMaps.app_eq_of_isSMulRegular {δ : Γ(L, ⊤)} {c c' : f.GarelMaps 
     (c p).app V η = (c' p).app V η := by
   obtain ⟨k, ζ, hζ⟩ := exists_pow_smul_eq_absoluteFormsMap hV hU e J hJ p η
   refine (hreg p).pow k ?_
-  show J ^ k • (c p).app V η = J ^ k • (c' p).app V η
+  change J ^ k • (c p).app V η = J ^ k • (c' p).app V η
   rw [← Scheme.Modules.Hom.app_smul, ← Scheme.Modules.Hom.app_smul, ← hζ]
   exact (GarelMaps.app_absoluteFormsMap hn hm p V ζ).trans
     (GarelMaps.app_absoluteFormsMap hn' hm' p V ζ).symm
@@ -856,8 +855,7 @@ theorem _root_.KaehlerDifferential.span_range_one_tmul_D (A B : Type*) [CommRing
     Submodule.span B (Set.range fun a : A => (1 : B) ⊗ₜ[A] KaehlerDifferential.D ℤ A a) = ⊤ := by
   rw [eq_top_iff]
   rintro t -
-  induction t using TensorProduct.induction_on with
-  | zero => exact zero_mem _
+  induction t using TensorProduct.inductionOn with
   | add x y hx hy => exact add_mem hx hy
   | tmul b ω =>
     have hω : ω ∈ Submodule.span A (Set.range (KaehlerDifferential.D ℤ A)) := by
@@ -1043,7 +1041,7 @@ theorem homogeneousProd_map_of_map_mul {X₁ X₂ : Scheme.{u}}
   induction n with
   | zero => exact hone
   | succ n ih =>
-    show Φ ((n : ℤ) + 1) ((E₁.mul (n : ℤ) 1).app (op W₁)
+    change Φ ((n : ℤ) + 1) ((E₁.mul (n : ℤ) 1).app (op W₁)
       (E₁.toPresheafGradedAlgebra.homogeneousProd (op W₁) n fun i => z i.castSucc)
         (z (Fin.last n))) = _
     rw [hmul (n : ℤ) 1, ih fun i => z i.castSucc]
@@ -1270,7 +1268,7 @@ theorem pullbackFormsSectionsEquiv_pullbackFormsBaseChange (e' : W ≤ f' ⁻¹�
     have h4 := absoluteFormsPullback_homogeneousProd a ha q k
     have h5 := pullbackFormsIso_hom_app_pullbackSection_homogeneousProd f' e' q
       fun i => (Hom.universalRelativeDerivation X'.toSpecZ).d ((a.appLE U U₂ ha).hom (k i))
-    show Scheme.Modules.Hom.app c'.hom W (T₀ (Scheme.Modules.Hom.app c.inv V _)) = _
+    change Scheme.Modules.Hom.app c'.hom W (T₀ (Scheme.Modules.Hom.app c.inv V _)) = _
     have h1' := (congrArg (Scheme.Modules.Hom.app c.inv V) h1.symm).trans
       (Stacks.SheafOfModules.inv_val_app_hom_val_app c (op V) _)
     refine (congrArg (fun z => Scheme.Modules.Hom.app c'.hom W (T₀ z)) h1').trans ?_

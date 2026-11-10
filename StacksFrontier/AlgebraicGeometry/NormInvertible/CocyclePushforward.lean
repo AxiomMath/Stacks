@@ -106,7 +106,7 @@ theorem pullbackSections_mem (h : Intertwines f D D') (W : Y.Opens)
   have htr : (D'.transition i j (f ⁻¹ᵁ Z) (f.preimage_mono hZi) (f.preimage_mono hZj)).val =
       (f.app Z).hom (D.transition i j Z hZi hZj).val :=
     (congrArg Units.val (h i j Z hZi hZj)).symm
-  show (D'.transition i j (f ⁻¹ᵁ Z) (f.preimage_mono hZi) (f.preimage_mono hZj)).val *
+  change (D'.transition i j (f ⁻¹ᵁ Z) (f.preimage_mono hZi) (f.preimage_mono hZj)).val *
       (Y'.presheaf.map (homOfLE (f.preimage_mono (inf_le_left : Z ≤ W ⊓ U i))).op).hom
         ((f.app (W ⊓ U i)).hom (s.val i)) =
     (Y'.presheaf.map (homOfLE (f.preimage_mono (inf_le_right : Z ≤ W ⊓ U j))).op).hom
@@ -183,7 +183,7 @@ theorem chartLinearEquiv_glueHomOfIntertwines (h : Intertwines f D D') (i : ι) 
     D'.chartLinearEquiv i (f.preimage_mono hV)
         ((glueHomOfIntertwines h).val.app (op V) s) =
       (f.app V).hom (D.chartLinearEquiv i hV s) := by
-  show (Y'.presheaf.map (homOfLE (le_inf le_rfl (f.preimage_mono hV))).op).hom
+  change (Y'.presheaf.map (homOfLE (le_inf le_rfl (f.preimage_mono hV))).op).hom
       ((pullbackSections h V s).val i) =
     (f.app V).hom ((Y.presheaf.map (homOfLE (le_inf le_rfl hV)).op).hom (s.val i))
   exact app_presheafMap_apply f (le_inf le_rfl hV) (s.val i)

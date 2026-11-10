@@ -101,10 +101,16 @@ This is the shape of
 `Stacks.Cohomology.SupportedComplexes.localCohomologySheafPushforwardPullbackNatIso` in degree
 zero: four associators and two whiskerings, and no further mathematics. -/
 def foldZero : (w ⋙ P) ⋙ F ⟶ F ⋙ (w' ⋙ P') :=
-  (Functor.associator w P F).hom ≫ Functor.whiskerLeft w θ.natTrans ≫
+  (Functor.associator w P F).hom ≫ Functor.whiskerLeft w θ ≫
     (Functor.associator w G P').inv ≫ Functor.whiskerRight δ P' ≫
       (Functor.associator F w' P').hom
 
+omit [Abelian A] [EnoughInjectives A] [HasDerivedCategory A] [Abelian A'] [EnoughInjectives A']
+  [HasDerivedCategory A'] [Abelian C] [HasDerivedCategory C] [Abelian C'] [HasDerivedCategory C']
+  [w.Additive] [w'.Additive] [P.Additive] [PreservesFiniteLimits P] [PreservesFiniteColimits P]
+  [P'.Additive] [PreservesFiniteLimits P'] [PreservesFiniteColimits P'] [F.Additive]
+  [PreservesFiniteLimits F] [PreservesFiniteColimits F] [G.Additive] [PreservesFiniteLimits G]
+  [PreservesFiniteColimits G] in
 /-- The component of `foldZero` at `X` is `θ` at `w(X)` followed by `P'` applied to `δ` at `X`. -/
 theorem foldZero_app (X : A) :
     (foldZero (w := w) (w' := w') (P := P) (P' := P') (F := F) (G := G) δ θ).app X =
@@ -138,11 +144,12 @@ def foldDerived :
     (Rw ⋙ P.mapDerivedCategory) ⋙ F.mapDerivedCategory ⟶
       F.mapDerivedCategory ⋙ (Rw' ⋙ P'.mapDerivedCategory) :=
   (Functor.associator Rw P.mapDerivedCategory F.mapDerivedCategory).hom ≫
-    Functor.whiskerLeft Rw θ.mapDerivedCategory.natTrans ≫
+    Functor.whiskerLeft Rw θ.mapDerivedCategory ≫
       (Functor.associator Rw G.mapDerivedCategory P'.mapDerivedCategory).inv ≫
         Functor.whiskerRight Ψ P'.mapDerivedCategory ≫
           (Functor.associator F.mapDerivedCategory Rw' P'.mapDerivedCategory).hom
 
+omit [EnoughInjectives A] [EnoughInjectives A'] in
 /-- The component of `foldDerived` at `K` is `θ.mapDerivedCategory` at `Rw(K)` followed by
 `P'.mapDerivedCategory` applied to `Ψ` at `K`. -/
 theorem foldDerived_app (K : DerivedCategory A) :
@@ -150,6 +157,11 @@ theorem foldDerived_app (K : DerivedCategory A) :
       θ.mapDerivedCategory.app (Rw.obj K) ≫ P'.mapDerivedCategory.map (Ψ.app K) := by
   simp [foldDerived]
 
+omit [EnoughInjectives A] [HasDerivedCategory A] [EnoughInjectives A'] [HasDerivedCategory A']
+  [HasDerivedCategory C] [HasDerivedCategory C'] [PreservesFiniteLimits P]
+  [PreservesFiniteColimits P] [PreservesFiniteLimits P'] [PreservesFiniteColimits P']
+  [PreservesFiniteLimits F] [PreservesFiniteColimits F] [PreservesFiniteLimits G]
+  [PreservesFiniteColimits G] in
 /-- **The degree-zero fold-in, read on the homotopy category, splits.**  Applying
 `CategoryTheory.NatTrans.mapHomotopyCategory` to `foldZero` gives the degreewise base change at
 `w(K)` followed by `P'` applied to the degreewise `δ`.  Proved on a cochain complex, where it is
@@ -158,7 +170,7 @@ theorem foldZero_mapHomotopyCategory_app
     (K : HomotopyCategory A (ComplexShape.up ℤ)) :
     (NatTrans.mapHomotopyCategory (foldZero (w := w) (w' := w') (P := P) (P' := P') (F := F)
           (G := G) δ θ) (ComplexShape.up ℤ)).app K =
-      (NatTrans.mapHomotopyCategory θ.natTrans (ComplexShape.up ℤ)).app
+      (NatTrans.mapHomotopyCategory θ (ComplexShape.up ℤ)).app
           ((w.mapHomotopyCategory (ComplexShape.up ℤ)).obj K) ≫
         (P'.mapHomotopyCategory (ComplexShape.up ℤ)).map
           ((NatTrans.mapHomotopyCategory δ (ComplexShape.up ℤ)).app K) := by
@@ -166,17 +178,17 @@ theorem foldZero_mapHomotopyCategory_app
     ⟨K.as, rfl⟩
   have hc : (NatTrans.mapHomologicalComplex (foldZero (w := w) (w' := w') (P := P) (P' := P')
           (F := F) (G := G) δ θ) (ComplexShape.up ℤ)).app L =
-      (NatTrans.mapHomologicalComplex θ.natTrans (ComplexShape.up ℤ)).app
+      (NatTrans.mapHomologicalComplex θ (ComplexShape.up ℤ)).app
           ((w.mapHomologicalComplex (ComplexShape.up ℤ)).obj L) ≫
         (P'.mapHomologicalComplex (ComplexShape.up ℤ)).map
           ((NatTrans.mapHomologicalComplex δ (ComplexShape.up ℤ)).app L) := by
     ext i
     exact foldZero_app (w := w) (w' := w') (P := P) (P' := P') (F := F) (G := G) δ θ (L.X i)
-  show (HomotopyCategory.quotient A' (ComplexShape.up ℤ)).map
+  change (HomotopyCategory.quotient A' (ComplexShape.up ℤ)).map
         ((NatTrans.mapHomologicalComplex (foldZero (w := w) (w' := w') (P := P) (P' := P')
           (F := F) (G := G) δ θ) (ComplexShape.up ℤ)).app L) =
       (HomotopyCategory.quotient A' (ComplexShape.up ℤ)).map
-          ((NatTrans.mapHomologicalComplex θ.natTrans (ComplexShape.up ℤ)).app
+          ((NatTrans.mapHomologicalComplex θ (ComplexShape.up ℤ)).app
             ((w.mapHomologicalComplex (ComplexShape.up ℤ)).obj L)) ≫
         (P'.mapHomotopyCategory (ComplexShape.up ℤ)).map
           ((HomotopyCategory.quotient C' (ComplexShape.up ℤ)).map
@@ -200,7 +212,7 @@ private theorem fold_chase {D : Type*} [Category* D]
     (a1 ≫ a23) ≫ t ≫ u = fz ≫ (n2 ≫ m2) ≫ m3 := by
   subst h23
   simp only [Category.assoc, reassoc_of% hb, hc, reassoc_of% h21, reassoc_of% h12,
-    Category.id_comp, ha, reassoc_of% he, reassoc_of% hd]
+    ha, reassoc_of% he, reassoc_of% hd]
 
 /-- Three composable morphisms carried by a functor, with the bracketing the chase needs.
 Stated at arbitrary categories with the objects implicit and the morphisms explicit. -/
@@ -216,6 +228,7 @@ private theorem map_comp_eq {E D : Type*} [Category* E] [Category* D] (Φ : E �
     {a b c : E} (f : a ⟶ b) (g : b ⟶ c) (k : a ⟶ c) (hk : k = f ≫ g) :
     Φ.map f ≫ Φ.map g = Φ.map k := by rw [hk, Φ.map_comp]
 
+omit [EnoughInjectives A] [EnoughInjectives A'] in
 include hresA hresA' in
 /-- **The factorization transports to the fold-in.**  If `Ψ` factors the unit of
 `Rw ⋙ G.mapDerivedCategory` through the degreewise `δ` and the unit of
@@ -255,7 +268,7 @@ theorem foldDerived_fac
     rwa [NatTrans.comp_app, NatTrans.comp_app, postcomposeUnit_app,
       precomposeUnit_app, mapHomotopyCategoryCompQhNatTrans_app,
       Functor.whiskerLeft_app] at h
-  have hb := θ.mapDerivedCategory.natTrans.naturality (α.app K)
+  have hb := NatTrans.naturality θ.mapDerivedCategory (α.app K)
   have hc := CategoryTheory.TwoSquare.mapDerivedCategory_app_Qh P G F P' θ
     ((w.mapHomotopyCategory (ComplexShape.up ℤ)).obj K)
   have hd := foldZero_mapHomotopyCategory_app (w := w) (w' := w') (P := P) (P' := P')
@@ -275,6 +288,7 @@ theorem foldDerived_fac
     (F.mapDerivedCategoryFactorsh.inv_hom_id_app _) h21 hb hc ha' he.symm hd'
     (F.mapDerivedCategory.map_comp _ _)
 
+omit [EnoughInjectives A] [EnoughInjectives A'] in
 include hresA hresA' in
 /-- **The fold-in is the only comparison with that factorization.**  Both
 `(Rw ⋙ P.mapDerivedCategory) ⋙ F.mapDerivedCategory` and

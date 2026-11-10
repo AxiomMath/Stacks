@@ -135,7 +135,7 @@ theorem nonempty_iso_pullback_tensor_of_flat
             (DerivedPushforward.derivedStructureSheaf Y))) := by
   have := hq.source_noetherian
   have := hp.source_noetherian
-  have hf := isShriekable_of_isProper hp hq (f := f)
+  have hf := isShriekable_of_isProper hq (f := f)
   have := locallyOfFinitePresentation_left
     (ftsHomOf f hf.separatedFiniteType (isSeparatedFiniteType_id Y) (Category.comp_id f))
   have : Flat (ftsHomOf f hf.separatedFiniteType (isSeparatedFiniteType_id Y)

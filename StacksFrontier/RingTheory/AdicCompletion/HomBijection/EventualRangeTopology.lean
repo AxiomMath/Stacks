@@ -63,7 +63,7 @@ public theorem adicCompletionEquivTowerLimitOfEventualRange_apply (w : AdicCompl
     ((adicCompletionEquivTowerLimitOfEventualRange P T π I c hπ hker hker' hrange w :
       towerLimit P T) : ∀ k, P k) n = adicQuotientMap P π I hker n (w.val n) := by
   obtain ⟨m, hm⟩ := Submodule.Quotient.mk_surjective _ (w.val n)
-  show quotKerEmbed P π n (Submodule.factor (hker n) (w.val n)) = _
+  change quotKerEmbed P π n (Submodule.factor (hker n) (w.val n)) = _
   rw [← hm]
   rfl
 
@@ -131,10 +131,10 @@ public theorem continuous_limitTopology {X Y : Type*} {Q : ℕ → Type*} {R : �
     constructor
     · intro hx; exact ⟨x, hx, rfl⟩
     · rintro ⟨x₀, hx₀, he⟩
-      show f' (g x) n ∈ U
+      change f' (g x) n ∈ U
       rw [← hk x₀ x he]
       exact hx₀
-  show IsOpen ((fun x => f' (g x) n) ⁻¹' U)
+  change IsOpen ((fun x => f' (g x) n) ⁻¹' U)
   rw [e]
   exact isOpen_induced ((isOpen_discrete _).preimage (continuous_apply k))
 

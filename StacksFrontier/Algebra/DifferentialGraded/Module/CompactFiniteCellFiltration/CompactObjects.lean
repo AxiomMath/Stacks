@@ -215,7 +215,7 @@ private def cocycleHom {N : DifferentialGradedModule.{u, u, u} A} (k : ℤ) {y :
 private lemma cocycleHom_one {N : DifferentialGradedModule.{u, u, u} A} (k : ℤ) {y : N.M}
     (hy : y ∈ N.grading (-k)) (hdy : N.d y = 0) :
     (cocycleHom k hy hdy).toFun (1 : A.A) = y := by
-  show MulOpposite.op (1 : A.A) • y = y
+  change MulOpposite.op (1 : A.A) • y = y
   rw [MulOpposite.op_one, one_smul]
 
 /-- A homomorphism out of a shift of the regular module whose value at the unit is the coboundary
@@ -286,7 +286,7 @@ private lemma surjective_cofanMap_toHomotopyCategory_shift (k : ℤ) {I : Type u
     have hterm : ∀ i : I, (cocycleHom k (hygrad i) (hcoc i) ≫ directSumInj N i).toFun
         (1 : A.A) = DirectSum.of (fun i => (N i).M) i (y i) := by
       intro i
-      show (directSumInj N i).toFun ((cocycleHom k (hygrad i) (hcoc i)).toFun (1 : A.A)) = _
+      change (directSumInj N i).toFun ((cocycleHom k (hygrad i) (hcoc i)).toFun (1 : A.A)) = _
       rw [cocycleHom_one, directSumInj_toFun_apply, DirectSum.lof_eq_of]
     have hgoal : (∑ i ∈ DFinsupp.support y,
         (cocycleHom k (hygrad i) (hcoc i) ≫ directSumInj N i)).toFun (1 : A.A)
@@ -315,7 +315,7 @@ private lemma isCompactObject_toDerivedCategory_shift_regularModule (k : ℤ) :
   classical
   constructor
   intro I _ E _
-  show Function.Bijective (cofanMap _ (Limits.Sigma.ι E))
+  change Function.Bijective (cofanMap _ (Limits.Sigma.ι E))
   set L := (quasiIsomorphisms' A).Q
   set Q := toHomotopyCategory A ⋙ L
   choose P a ha hP using fun i : I =>
@@ -336,7 +336,7 @@ private lemma isCompactObject_toDerivedCategory_shift_regularModule (k : ℤ) :
   let d' : (∐ E) ⟶ Q.obj (directSumObj P) :=
     Limits.Sigma.desc fun i => (e i).inv ≫ Q.map (directSumInj P i)
   have hd' : ∀ i, Limits.Sigma.ι E i ≫ d' = (e i).inv ≫ Q.map (directSumInj P i) := fun i =>
-    Limits.Sigma.ι_desc _ _
+    Limits.Sigma.ι_comp_desc _ _
   have hdd' : d ≫ d' = 𝟙 _ := by
     refine Cofan.IsColimit.hom_ext hc _ _ fun i => ?_
     have h1 : Q.map (directSumInj P i) ≫ d ≫ d' = Q.map (directSumInj P i) := by
@@ -531,18 +531,18 @@ private noncomputable abbrev stageFiltration (n : ℕ) : Filtration (F.F n) ℕ 
 /-- The filtration of a stage starts at zero. -/
 private lemma isZero_stageFiltration_obj_zero (n : ℕ) :
     IsZero ((stageFiltration F n).obj 0) := by
-  show IsZero (0 : DifferentialGradedModule.{u, u, u} A)
+  change IsZero (0 : DifferentialGradedModule.{u, u, u} A)
   exact isZero_zero _
 
 /-- The filtration of the `n`-th stage is exhausted at `n + 1`. -/
 private lemma isIso_stageFiltration_ι_app (n : ℕ) :
     IsIso ((stageFiltration F n).ι.app (n + 1)) := by
-  show IsIso ((propertyPDiagram F).map (homOfLE (Nat.min_le_right n n)))
+  change IsIso ((propertyPDiagram F).map (homOfLE (Nat.min_le_right n n)))
   have h : ∀ (m : ℕ) (_ : m = n) (hm : m ≤ n),
       IsIso ((propertyPDiagram F).map (homOfLE hm)) := by
     intro m hmn hm
     subst hmn
-    show IsIso ((propertyPDiagram F).map (𝟙 m))
+    change IsIso ((propertyPDiagram F).map (𝟙 m))
     infer_instance
   exact h _ (min_self n) _
 
@@ -586,14 +586,14 @@ private lemma exists_stageFiltration_quotients (n : ℕ) :
   rintro ⟨i, hi⟩
   cases i with
   | zero =>
-    show cokernel (0 : (0 : DifferentialGradedModule.{u, u, u} A) ⟶ F.F (min 0 n)) ≅ _
-    show cokernel (0 : (0 : DifferentialGradedModule.{u, u, u} A) ⟶ F.F 0) ≅
+    change cokernel (0 : (0 : DifferentialGradedModule.{u, u, u} A) ⟶ F.F (min 0 n)) ≅ _
+    change cokernel (0 : (0 : DifferentialGradedModule.{u, u, u} A) ⟶ F.F 0) ≅
       ∐ fun j : F.bottomIndex => shift (regularModule A) (F.bottomShift j)
     exact cokernelZeroIsoTarget ≪≫ propertyPBottomIso F
   | succ i =>
     simp only [stageFiltration, Filtration.diagram, CategoryTheory.Functor.comp_map,
       Functor.ofSequence_map_homOfLE_succ]
-    show cokernel ((propertyPDiagram F).map
+    change cokernel ((propertyPDiagram F).map
       (homOfLE (min_le_min_right n (Nat.le_succ i)))) ≅ _
     have hi' : i + 1 ≤ n := by omega
     have hi'' : i ≤ n := by omega
@@ -604,7 +604,7 @@ private lemma exists_stageFiltration_quotients (n : ℕ) :
     have hf : F.incl i = (propertyPDiagram F).map (homOfLE (Nat.le_succ i)) :=
       (Functor.ofSequence_map_homOfLE_succ (X := F.F) F.incl i).symm
     rw [hf]
-    show (propertyPDiagram F).map (homOfLE (min_le_min_right n (Nat.le_succ i))) ≫
+    change (propertyPDiagram F).map (homOfLE (min_le_min_right n (Nat.le_succ i))) ≫
         (propertyPDiagram F).map (eqToHom (min_eq_left hi')) =
       (propertyPDiagram F).map (eqToHom (min_eq_left hi'')) ≫
         (propertyPDiagram F).map (homOfLE (Nat.le_succ i))
@@ -665,7 +665,7 @@ theorem isAdmissibleShortExact_cokernelπ {K M : DifferentialGradedModule.{u, u,
   · refine Submodule.ext fun y => ?_
     constructor
     · rintro ⟨x, rfl⟩
-      show (cokernel.π i).toFun (i.toFun x) = 0
+      change (cokernel.π i).toFun (i.toFun x) = 0
       rw [← Hom.comp_toFun_apply, cokernel.condition, Hom.hom_zero_toFun, LinearMap.zero_apply]
     · intro hy
       exact (Hom.mem_range i y).mp (cokernelπ_eq_zero_mem_range i y hy)

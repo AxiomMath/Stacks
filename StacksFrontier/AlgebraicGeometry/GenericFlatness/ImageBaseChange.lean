@@ -90,14 +90,14 @@ theorem overPullback_map_left_fst {T T' : Scheme.{u}} (g : T' ⟶ T)
     {X Y : Over T} (f : X ⟶ Y) :
     ((Over.pullback g).map f).left ≫ pullback.fst Y.hom g =
       pullback.fst X.hom g ≫ f.left := by
-  simp [Over.pullback_map_left, pullback.lift_fst]
+  simp [Over.pullback_map_left]
 
 /-- The second projection of a base changed morphism over `T`. -/
 @[reassoc]
 theorem overPullback_map_left_snd {T T' : Scheme.{u}} (g : T' ⟶ T)
     {X Y : Over T} (f : X ⟶ Y) :
     ((Over.pullback g).map f).left ≫ pullback.snd Y.hom g = pullback.snd X.hom g := by
-  simp [Over.pullback_map_left, pullback.lift_snd]
+  simp [Over.pullback_map_left]
 
 /-- Base changing twice, along `g` and then along `h`, agrees with base changing once along
 `h ≫ g`, through the canonical comparison isomorphism of iterated fibre products. -/
@@ -294,7 +294,7 @@ theorem imageCommutesWithBaseChange_of_isAffine_base {T : Scheme.{u}}
       exact ⟨t, ht⟩
     exact Set.mem_iUnion.mpr ⟨i, hmem⟩
   intro i
-  show fg.left.ker.comap (pullback.fst Yg.hom (T'.affineCover.f i)) = _
+  change fg.left.ker.comap (pullback.fst Yg.hom (T'.affineCover.f i)) = _
   rw [← ker_eq_comap_of_isPullback_of_isOpenImmersion fg.left
     ((Over.pullback (T'.affineCover.f i)).map fg).left
     (pullback.fst Xg.hom (T'.affineCover.f i))

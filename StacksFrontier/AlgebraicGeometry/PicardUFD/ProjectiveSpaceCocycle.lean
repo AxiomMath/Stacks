@@ -320,7 +320,7 @@ theorem exists_chartTransition_eq {i j : Fin (n + 1)} (hij : i ≠ j) :
   obtain ⟨r, hr, hra⟩ := exists_eq_sectionsChartEquiv_C_of_isUnit R n i a.isUnit
   refine ⟨e, hr.unit, hea.trans (congrArg (fun z => z * overlapRatioUnit R e i j) ?_)⟩
   refine Units.ext (Subtype.ext (funext fun x => ?_))
-  show a.val.1 ⟨x.1, x.2.1⟩ = constFun R n ((hr.unit : Rˣ) : R) x
+  change a.val.1 ⟨x.1, x.2.1⟩ = constFun R n ((hr.unit : Rˣ) : R) x
   rw [hra, hr.unit_spec]
   exact sectionsChartEquiv_C_apply R n i r _
 
@@ -346,7 +346,7 @@ theorem eq_of_C_mul_X_pow_two {i j : Fin (n + 1)} (hij : i ≠ j) {p₁ q₁ p�
     (h : (C r * (X i ^ p₁ * X j ^ q₁) : MvPolynomial (Fin (n + 1)) R) =
       C t * (X i ^ p₂ * X j ^ q₂)) :
     p₁ = p₂ ∧ q₁ = q₂ ∧ r = t := by
-  simp only [X_pow_eq_monomial, ← monomial_zero', monomial_mul_monomial, one_mul, mul_one,
+  simp only [X_pow_eq_monomial, ← monomial_zero', monomial_mul_monomial, mul_one,
     zero_add, monomial_eq_monomial_iff] at h
   rcases h with ⟨he, hrt⟩ | ⟨h0, -⟩
   · refine ⟨?_, ?_, hrt⟩
@@ -363,7 +363,7 @@ theorem eq_of_C_mul_X_pow_three {i j k : Fin (n + 1)} (hij : i ≠ j) (hjk : j �
     (h : (C r * (X i ^ p₁ * X j ^ q₁ * X k ^ s₁) : MvPolynomial (Fin (n + 1)) R) =
       C t * (X i ^ p₂ * X j ^ q₂ * X k ^ s₂)) :
     p₁ = p₂ ∧ q₁ = q₂ ∧ s₁ = s₂ ∧ r = t := by
-  simp only [X_pow_eq_monomial, ← monomial_zero', monomial_mul_monomial, one_mul, mul_one,
+  simp only [X_pow_eq_monomial, ← monomial_zero', monomial_mul_monomial, mul_one,
     zero_add, monomial_eq_monomial_iff] at h
   rcases h with ⟨he, hrt⟩ | ⟨h0, -⟩
   · refine ⟨?_, ?_, ?_, hrt⟩
@@ -398,6 +398,7 @@ variable (R : Type u) [CommRing R] (n : ℕ) [IsDomain R] [UniqueFactorizationMo
     (structureSheafRing (AlgebraicGeometry.Proj
       (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) R)).toRingedSpace).property L]
 
+omit [IsDomain R] [UniqueFactorizationMonoid R] in
 /-- The value at a point of a constant times the transition unit of a twist. -/
 theorem overlapConstUnit_mul_overlapRatioUnit_apply (r : Rˣ) (e : ℤ) (i j : Fin (n + 1))
     (x : ↥(Proj.basicOpen (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) R)
@@ -434,7 +435,7 @@ private theorem monomial_eq_of_chartTransition {i j k : Fin (n + 1)} {a b c : �
   obtain ⟨d, hd⟩ := hval
   have hd0 : (d : MvPolynomial (Fin (n + 1)) R) ≠ 0 := fun h0 =>
     d.2 (by rw [h0]; exact Ideal.zero_mem _)
-  simp only [Submonoid.coe_mul, SetLike.GradeZero.coe_one, one_mul, mul_one] at hd
+  simp only [Submonoid.coe_mul, SetLike.GradeZero.coe_one, one_mul] at hd
   exact mul_left_cancel₀ hd0 (by simp only [map_mul, pow_add]; linear_combination hd)
 
 /-- **The exponents of two opposite transitions agree and their constants are inverse.** -/
@@ -497,12 +498,12 @@ theorem exists_normalizing_data (hn : 0 < n) :
       · exact ((htrip i j 0 hij hj0 hi0).1).trans (hE0 j hj0)
   have hS : S i j = (if i = 0 then 1 else S i 0) * (if j = 0 then 1 else S j 0)⁻¹ := by
     rcases eq_or_ne j 0 with rfl | hj0
-    · rw [if_pos rfl, if_neg hij, inv_one, mul_one]
-    · rw [if_neg hj0]
+    · rw [ite_eq_left rfl, ite_eq_right hij, inv_one, mul_one]
+    · rw [ite_eq_right hj0]
       rcases eq_or_ne i 0 with rfl | hi0
-      · rw [if_pos rfl, one_mul, eq_inv_iff_mul_eq_one]
+      · rw [ite_eq_left rfl, one_mul, eq_inv_iff_mul_eq_one]
         exact (hpair 0 j hij).2
-      · rw [if_neg hi0, eq_mul_inv_iff_mul_eq]
+      · rw [ite_eq_right hi0, eq_mul_inv_iff_mul_eq]
         exact (htrip i j 0 hij hj0 hi0).2.2
   rw [hES i j hij, hE, hS]
 

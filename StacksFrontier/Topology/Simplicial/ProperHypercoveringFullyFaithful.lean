@@ -157,7 +157,7 @@ theorem isIso_counit_app_of_isCartesian
     (G : Sheaf (SimplicialOpen.grothendieckTopology Y) (Type u))
     (hG : ProperHypercovering.IsCartesian Y G) :
     IsIso ((augmentationMorphism Y X a).adj.counit.app G) := by
-  show IsIso (((systemAdjunction Y X a).comp
+  change IsIso (((systemAdjunction Y X a).comp
     (presentation Y).toEquivalence.symm.toAdjunction).counit.app G)
   rw [Adjunction.comp_counit_app]
   have : IsIso ((systemAdjunction Y X a).counit.app

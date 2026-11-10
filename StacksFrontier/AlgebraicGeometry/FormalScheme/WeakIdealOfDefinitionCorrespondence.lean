@@ -43,8 +43,8 @@ shows that this restriction is necessary.
 *The correction.* The source's ideal sheaves are arbitrary, and then the correspondence is false:
 on the spectrum of a local ring there is a weak ideal of definition with zero global sections which
 is non-zero on a basic open avoiding the closed point
-(`StacksFrontier.AlgebraicGeometry.FormalScheme.WeakIdealOfDefinitionNotCutOut`), while the kernel of
-a thickening is cut out by its sections over every affine formal open
+(`StacksFrontier.AlgebraicGeometry.FormalScheme.WeakIdealOfDefinitionNotCutOut`), while the kernel
+of a thickening is cut out by its sections over every affine formal open
 (`AlgebraicGeometry.LocallyTopologicallyRingedSpace.IdealSheaf.isCutOutOn_ker_of_isThickening`).
 The condition `IdealSheaf.IsCutOutOn` — over an affine formal open `𝔘 ≅ Spfw A`, `ℐ|_𝔘` is the
 kernel of the quotient point `Spec (A/ℐ(𝔘)) → 𝔘` — is the formal analogue of quasi-coherence and

@@ -118,9 +118,9 @@ theorem twistedTranslationEquiv_eq_eval₂RingHom (σ : R ≃+* R) :
       eval₂RingHom ((C : R →+* R[X]).comp σ.toRingHom) (X + C (1 : R)) := by
   apply ringHom_ext
   · intro a
-    show (twistedTranslationEquiv σ) (C a) = _
+    change (twistedTranslationEquiv σ) (C a) = _
     simp
-  · show (twistedTranslationEquiv σ) X = _
+  · change (twistedTranslationEquiv σ) X = _
     simp
 
 private theorem ringEquiv_zpow_apply_comm {A : Type*} [CommRing A] (e : A ≃+* A) (n : ℤ)

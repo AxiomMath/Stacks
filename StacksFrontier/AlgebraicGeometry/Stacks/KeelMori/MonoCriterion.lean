@@ -73,7 +73,7 @@ theorem mono_of_unramified_of_injective_geometricPoints {X Y : Scheme.{u}} (ρ :
       · simp
       · simpa [Category.assoc, pullback.diagonal_snd] using hlegs.symm
     refine ⟨(g ≫ pullback.fst ρ ρ) default, ?_⟩
-    show ((g ≫ pullback.fst ρ ρ) ≫ pullback.diagonal ρ) default = q
+    change ((g ≫ pullback.fst ρ ρ) ≫ pullback.diagonal ρ) default = q
     rw [← hg, Scheme.Hom.comp_apply]
     exact P.fromSpecResidueField_apply q _
   exact (pullback.isIso_diagonal_iff ρ).1

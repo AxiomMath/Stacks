@@ -111,7 +111,7 @@ theorem locAwayψ_ker {t s : Finset (Fin k)} (L : NilLift R N (Sl f S t)) (h : t
       IsLocalization.mk'_surjective (Submonoid.powers (algebraMap R L.carrier (rs f s))) y
     set r : Submonoid.powers (algebraMap R L.carrier (rs f s)) :=
       ⟨algebraMap R L.carrier (rs f s) ^ n, n, rfl⟩
-    show IsLocalization.mk' Lr v r ∈ _
+    change IsLocalization.mk' Lr v r ∈ _
     have hspec := IsLocalization.mk'_spec
       (M := Submonoid.powers (algebraMap R L.carrier (rs f s))) Lr v r
     have hy0 : locAwayψ N f S L h (IsLocalization.mk' Lr v r) = 0 := hy
@@ -120,7 +120,7 @@ theorem locAwayψ_ker {t s : Finset (Fin k)} (L : NilLift R N (Sl f S t)) (h : t
     obtain ⟨m, hm⟩ := exists_pow_smul_eq_zero_of_locS f S h _ hv0
     have hmem : rs f s ^ m • v ∈ N.map (algebraMap R L.carrier) := by
       rw [← L.ker, RingHom.mem_ker]
-      show L.ψ (rs f s ^ m • v) = 0
+      change L.ψ (rs f s ^ m • v) = 0
       rw [map_smul, hm]
     have hmem' : algebraMap L.carrier Lr (rs f s ^ m • v) ∈ N.map (algebraMap R Lr) := by
       have := Ideal.mem_map_of_mem (algebraMap L.carrier Lr) hmem
@@ -142,7 +142,7 @@ theorem locAwayψ_ker {t s : Finset (Fin k)} (L : NilLift R N (Sl f S t)) (h : t
   · rw [Ideal.map_le_iff_le_comap]
     intro n hn
     rw [Ideal.mem_comap, RingHom.mem_ker]
-    show locAwayψ N f S L h (algebraMap R _ n) = 0
+    change locAwayψ N f S L h (algebraMap R _ n) = 0
     have hn' : L.ψ (algebraMap R L.carrier n) = 0 := by
       have : algebraMap R L.carrier n ∈ RingHom.ker L.ψ.toRingHom := by
         rw [L.ker]
@@ -191,14 +191,13 @@ theorem exists_thetaE_eq (y : B) (hy : y ∈ N.map (algebraMap R B)) :
     ∃ z, thetaE N hN lam z = y := by
   obtain ⟨z, rfl⟩ := exists_multT_eq N hN B y hy
   refine ⟨(lam.toLinearEquiv.rTensor N).symm z, ?_⟩
-  show multT N hN B ((lam.toLinearEquiv.rTensor N) ((lam.toLinearEquiv.rTensor N).symm z)) = _
+  change multT N hN B ((lam.toLinearEquiv.rTensor N) ((lam.toLinearEquiv.rTensor N).symm z)) = _
   rw [LinearEquiv.apply_symm_apply]
 
 /-- `thetaE (x • z) = b * thetaE z` for any `b : B` reducing to `lam x`. -/
 theorem thetaE_smul_mul (x : X) (z : X ⊗[R] N) (b : B) (hb : Ideal.Quotient.mk _ b = lam x) :
     thetaE N hN lam (x • z) = b * thetaE N hN lam z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x' n =>
     rw [TensorProduct.smul_tmul', smul_eq_mul]
     exact theta_mul N hN lam.toAlgHom x x' n b hb
@@ -221,7 +220,7 @@ section Defect
 private theorem sub_mem_map_of_psi_eq {T : Type u} [CommRing T] [Algebra R T] (L : NilLift R N T)
     {w w' : L.carrier} (h : L.ψ w = L.ψ w') : w - w' ∈ N.map (algebraMap R L.carrier) := by
   rw [← L.ker, RingHom.mem_ker]
-  show L.ψ (w - w') = 0
+  change L.ψ (w - w') = 0
   rw [map_sub, h, sub_self]
 
 variable {X : Type u} [CommRing X] [Algebra R X] [Algebra S X] [IsScalarTower R S X]
@@ -505,11 +504,11 @@ theorem exists_defect_eq (a : L.carrier →ₐ[R] B)
     { toFun := fun w ↦ ⟨thetaE N hN lam (δ' (L.ψ w)), thetaE_mem N hN lam _⟩
       map_add' := fun w w' ↦ Subtype.ext (by simp only [map_add, Submodule.coe_add])
       map_smul' := fun c w ↦ Subtype.ext (by
-        show thetaE N hN lam (δ' (L.ψ (c • w))) = c • thetaE N hN lam (δ' (L.ψ w))
+        change thetaE N hN lam (δ' (L.ψ (c • w))) = c • thetaE N hN lam (δ' (L.ψ w))
         rw [map_smul, Derivation.map_smul, map_smul])
       map_one_eq_zero' := Subtype.ext (by simp)
       leibniz' := fun w w' ↦ Subtype.ext (by
-        show thetaE N hN lam (δ' (L.ψ (w * w'))) =
+        change thetaE N hN lam (δ' (L.ψ (w * w'))) =
           a w * thetaE N hN lam (δ' (L.ψ w')) + a w' * thetaE N hN lam (δ' (L.ψ w))
         rw [map_mul, Derivation.leibniz, map_add, hsmul, hsmul]) }
   refine ⟨liftOfDerivationToSquareZero I (map_sq_eq_bot N hN B) Δ, fun w ↦ ?_, ?_⟩
@@ -520,7 +519,7 @@ theorem exists_defect_eq (a : L.carrier →ₐ[R] B)
     obtain ⟨w, hw⟩ := L.surj (algebraMap S _ v)
     apply thetaE_injective N hN lam
     rw [thetaE_defect N hN f S lam L _ _ _ _ _ _ v w hw, liftOfDerivationToSquareZero_apply]
-    show thetaE N hN lam (δ' (L.ψ w)) + a w - a w = _
+    change thetaE N hN lam (δ' (L.ψ w)) + a w - a w = _
     rw [add_sub_cancel_right, hw, ← hδ']
     rfl
 
@@ -579,7 +578,7 @@ theorem lamXH_bijective (s : Finset (Fin k)) : Function.Bijective (lamXH N f S H
     refine LinearMap.ext fun y ↦ ?_
     simp only [LinearMap.coe_comp, Function.comp_apply, LinearEquiv.coe_coe]
     rw [IsLocalizedModule.linearEquiv_apply]
-    show lamXH N f S H e s (1 ⊗ₜ y) = _
+    change lamXH N f S H e s (1 ⊗ₜ y) = _
     rw [lamXH_tmul, map_one, one_mul]
     rfl
   rw [show ⇑(lamXH N f S H e s) = ⇑E from congrArg DFunLike.coe hE]

@@ -315,7 +315,7 @@ public theorem KoszulTateFactorization.proTransition_d (t : KoszulTateFactorizat
     (s : KoszulTateFactorization f m) (h : m' = s.topPower) (a : t.A.carrier) :
     t.proTransition s (t.d a) = s.d (t.proTransition s a) := by
   subst h
-  show s.up (t.down (t.d a)) = s.d (s.up (t.down a))
+  change s.up (t.down (t.d a)) = s.d (s.up (t.down a))
   rw [t.down_d, s.up_d]
 
 /-- The Tate transition map preserves divided powers. -/
@@ -323,7 +323,7 @@ public theorem KoszulTateFactorization.proTransition_dpow (t : KoszulTateFactori
     (s : KoszulTateFactorization f m) (k : ℕ) (a : t.A.carrier)
     (ha : a ∈ positiveEvenPart t.A.grade) :
     t.proTransition s (t.A.gamma.dpow k a) = s.A.gamma.dpow k (t.proTransition s a) := by
-  show s.up (t.down (t.A.gamma.dpow k a)) = s.A.gamma.dpow k (s.up (t.down a))
+  change s.up (t.down (t.A.gamma.dpow k a)) = s.A.gamma.dpow k (s.up (t.down a))
   rw [t.down_dpow k a ha,
     s.up_dpow k _ (algHom_mem_positiveEvenPart t.A.grade (exteriorGrade R (Fin r → R))
       t.down t.down_grade ha)]

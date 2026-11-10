@@ -98,7 +98,7 @@ private lemma aeval_update_eq_zero_of_infinite
   have hroot : {t : K | Q.IsRoot t}.Infinite := by
     apply hS.mono
     intro t ht
-    show Q.eval t = 0
+    change Q.eval t = 0
     simpa [hQ] using h t ht
   have hzero := Polynomial.eq_zero_of_infinite_isRoot Q hroot
   intro t; rw [← hQ, hzero, Polynomial.eval_zero]
@@ -380,11 +380,11 @@ private lemma isMaximal_of_integral_residue_coordinates
     simpa only [hg] using hP
   have hker : RingHom.ker g = q.asIdeal := by
     ext P
-    show g P = 0 ↔ P ∈ q.asIdeal
+    change g P = 0 ↔ P ∈ q.asIdeal
     constructor
     · intro hP
       apply Ideal.algebraMap_residueField_eq_zero.mp
-      show f P = 0
+      change f P = 0
       rw [← hg P, hP]
       rfl
     · intro hP
@@ -486,13 +486,13 @@ lemma eq_univ_or_finite_compl_of_invariant_coordinateShear
         PrimeSpectrum.comap (Ideal.Quotient.mk I) ⟨J, hJ⟩
       have hq : q ∈ Wᶜ := by
         rw [hzero]
-        show I ≤ J.comap (Ideal.Quotient.mk I)
+        change I ≤ J.comap (Ideal.Quotient.mk I)
         intro P hP
-        show (Ideal.Quotient.mk I) P ∈ J
+        change (Ideal.Quotient.mk I) P ∈ J
         rw [Ideal.Quotient.eq_zero_iff_mem.mpr hP]
         exact J.zero_mem
       have hqmax := hmax q hq
-      exact Ideal.isMaximal_of_isIntegral_of_isMaximal_comap'
+      exact Ideal.isMaximal_of_isIntegral_of_isMaximal_comap
         (Ideal.Quotient.mk I)
         ((Ideal.Quotient.mk I).isIntegral_of_surjective Ideal.Quotient.mk_surjective)
         J hqmax

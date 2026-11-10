@@ -18,7 +18,7 @@ attribute [local instance] HasDerivedCategory.standard
 namespace AlgebraicGeometry
 universe u
 
-private noncomputable instance sectionsOverObjectAdditive (X : Scheme.{u}) (U : X.Opens) :
+noncomputable instance sectionsOverObjectAdditive (X : Scheme.{u}) (U : X.Opens) :
     (Stacks.Cohomology.Localization.sectionsOverObject (schemeOpensRingedSite X) U).Additive := by
   dsimp [Stacks.Cohomology.Localization.sectionsOverObject, SheafOfModules.evaluation]
   infer_instance

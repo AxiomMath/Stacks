@@ -217,7 +217,7 @@ theorem module_finite_cohomology_of_nsmul_id_eq_zero {X : Scheme.{u}}
   have hS : S.ShortExact := { exact := S.exact_of_g_is_cokernel (cokernelIsCokernel _) }
   have hK : ℓ ^ a • 𝟙 (kernel f) = 0 := by
     have h : (ℓ ^ a • 𝟙 (kernel f)) ≫ kernel.ι f = kernel.ι f ≫ f := by
-      show _ = kernel.ι f ≫ (ℓ ^ a • 𝟙 F)
+      change _ = kernel.ι f ≫ (ℓ ^ a • 𝟙 F)
       rw [Preadditive.nsmul_comp, Category.id_comp, Preadditive.comp_nsmul, Category.comp_id]
     rw [← cancel_mono (kernel.ι f), h, kernel.condition, Limits.zero_comp]
   have hQ : m • 𝟙 (cokernel (kernel.ι f)) = 0 := by
@@ -227,7 +227,7 @@ theorem module_finite_cohomology_of_nsmul_id_eq_zero {X : Scheme.{u}}
     rw [← cancel_epi (cokernel.π (kernel.ι f)), h, Limits.comp_zero]
     have hfac : m • 𝟙 F = kernel.lift f (m • 𝟙 F) (by
         rw [Preadditive.nsmul_comp, Category.id_comp]
-        show m • (ℓ ^ a • 𝟙 F) = 0
+        change m • (ℓ ^ a • 𝟙 F) = 0
         rw [smul_smul, mul_comm, hnm, hnF]) ≫ kernel.ι f :=
       (kernel.lift_ι _ _ _).symm
     rw [hfac, Category.assoc, cokernel.condition, Limits.comp_zero]

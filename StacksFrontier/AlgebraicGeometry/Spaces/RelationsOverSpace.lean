@@ -359,7 +359,7 @@ theorem isEquivalenceRelation_iff_mono_and_isPreEquivalenceRelation
       let ym := mapTestPoint j.source r₁
       let zt := mapTestPoint j.source r₂
       have hmid : ym.1 = (mapTestPoint j.target r₂).1 := by
-        show x.1 ≫ c.fst.left ≫ j.source.left = x.1 ≫ c.snd.left ≫ j.target.left
+        change x.1 ≫ c.fst.left ≫ j.source.left = x.1 ≫ c.snd.left ≫ j.target.left
         simpa [Category.assoc] using congrArg (fun k ↦ x.1 ≫ k.left) c.condition
       have hrel₁ : j.Rel b xt ym := ⟨r₁, rfl, rfl⟩
       have hrel₂ : j.Rel b ym zt := ⟨r₂, hmid.symm, rfl⟩

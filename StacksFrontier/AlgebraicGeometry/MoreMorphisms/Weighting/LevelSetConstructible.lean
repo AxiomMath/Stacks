@@ -110,7 +110,7 @@ private theorem isLocallyConstant_of_isFinite_of_injective_of_finSepDegree_eq_on
       have hneq : f y ≠ f x := fun hEq => hy (hinj hEq)
       simp [hneq])]
     simp only [↓reduceIte]
-    show w x * ↑(@Field.finSepDegree K (X.residueField x)
+    change w x * ↑(@Field.finSepDegree K (X.residueField x)
       inferInstance inferInstance A) = w x
     rw [hdegree x]
     simp
@@ -191,7 +191,7 @@ private theorem exists_finitePresentation_comap_range
     exact Algebra.FinitePresentation.pi _
   let f : R →+* S := algebraMap R S
   refine ⟨S, inferInstance, f, RingHom.finitePresentation_algebraMap.mpr hfp, ?_⟩
-  show Set.range (PrimeSpectrum.comap (algebraMap R S)) = data.toSet
+  change Set.range (PrimeSpectrum.comap (algebraMap R S)) = data.toSet
   rw [← PrimeSpectrum.iUnion_range_comap_comp_evalRingHom,
     PrimeSpectrum.ConstructibleSetData.toSet]
   simp_rw [← Finset.mem_coe, Set.biUnion_eq_iUnion]
@@ -224,7 +224,7 @@ private theorem exists_affine_finitePresentation_range
   have : LocallyOfFinitePresentation (Spec.map (CommRingCat.ofHom φ)) :=
     (LocallyOfFinitePresentation.SpecMap_iff _).mpr hφ
   refine ⟨Spec (.of S), inferInstance, g, inferInstance, ?_⟩
-  show Set.range (e.inv ∘ (Spec.map (CommRingCat.ofHom φ))) = C
+  change Set.range (e.inv ∘ (Spec.map (CommRingCat.ofHom φ))) = C
   change Set.range (Spec.map (CommRingCat.ofHom φ)) = e.inv ⁻¹' C at hrange
   rw [Set.range_comp, hrange, Set.image_preimage_eq _ e.inv.surjective]
 
@@ -277,7 +277,7 @@ theorem finSepDegree_eq_one_of_isIso_residueFieldMap
   let : Algebra K L := (f.residueFieldMap x).hom.toAlgebra
   let e : L ≃+* K := (asIso (f.residueFieldMap x)).symm.commRingCatIsoToRingEquiv
   have hRing : e.toRingHom.comp (algebraMap K L) = RingHom.id K := by
-    show ((asIso (f.residueFieldMap x)).inv.hom).comp
+    change ((asIso (f.residueFieldMap x)).inv.hom).comp
       (f.residueFieldMap x).hom = RingHom.id K
     exact congrArg CommRingCat.Hom.hom (Iso.hom_inv_id (asIso (f.residueFieldMap x)))
   let ae : L ≃ₐ[K] K := AlgEquiv.ofRingEquiv (f := e) (fun a => DFunLike.congr_fun hRing a)
@@ -325,7 +325,7 @@ private theorem isLocallyConstant_of_isImmersion_of_isFinite_of_isHomeomorph
     · simp [q]
     · simp only [Scheme.Opens.opensRange_ι]
       ext z
-      show p z ∈ p '' (O : Set Z) ↔ z ∈ O
+      change p z ∈ p '' (O : Set Z) ↔ z ∈ O
       symm
       exact ⟨fun hz => ⟨z, hz, rfl⟩, fun ⟨z', hz', heq⟩ => hp.injective heq ▸ hz'⟩
   have : IsFinite q := MorphismProperty.of_isPullback hsq inferInstance
@@ -427,7 +427,7 @@ private theorem isLocallyConstant_of_clopen_sections
     have : IsClosedImmersion (O i).ι :=
       IsClosedImmersion.of_isPreimmersion _ (by
         rw [Scheme.Opens.range_ι]
-        show IsClosed (Set.range (s i))
+        change IsClosed (Set.range (s i))
         exact (hclopen i).isClosed)
     let q := (O i).ι ≫ p
     have hbij : Function.Bijective q := by
@@ -545,7 +545,7 @@ private theorem isClopen_range_sectionBaseChange
   have hcollision (i j : ι) (y : V) : t i y = t j y ↔ b (i, j) = true := by
     have hmem : t i y ∈ Set.range (t j) ↔ s i (g y) ∈ Set.range (s j) := by
       rw [htrange]
-      show pullback.fst p g (t i y) ∈ Set.range (s j) ↔ _
+      change pullback.fst p g (t i y) ∈ Set.range (s j) ↔ _
       rw [← Scheme.Hom.comp_apply, sectionBaseChange_fst]
       rfl
     rw [← hb y i j, ← hmem]

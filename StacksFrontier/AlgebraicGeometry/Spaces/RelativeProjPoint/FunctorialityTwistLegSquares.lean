@@ -109,7 +109,7 @@ theorem chartTwistHom_transport_of_iso (hk : e' ≫ k = j ≫ e)
         (pullback b').map ((pullback yQ).map c₂.inv) :=
     (pullbackComp j b ≪≫ pullbackCongr hjB ≪≫ (pullbackComp b' yQ).symm).hom.naturality c₂.inv
   rw [ha₁, ha₂]
-  simp only [Functor.map_comp, Category.assoc, Iso.map_inv_hom_id_assoc]
+  simp only [Functor.map_comp, Category.assoc, Iso.inv_hom_id_map_assoc]
   have hc : ∀ {Z : C'.Modules}
       (h : (pullback b').obj ((pullback yQ).obj ((pullback q).obj ((twistAlgebra B).piece n))) ⟶ Z),
       (pullback b').map ((pullback yQ).map c₂.inv) ≫ (pullback b').map ((pullback yQ).map c₂.hom) ≫

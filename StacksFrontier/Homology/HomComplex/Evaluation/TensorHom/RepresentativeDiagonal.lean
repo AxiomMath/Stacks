@@ -43,7 +43,6 @@ attribute [local instance] HasDerivedCategory.standard
 universe u v w w'
 
 set_option maxRecDepth 4096
-set_option synthInstance.maxHeartbeats 200000
 
 /-! ### Representative comparisons for the canonical tensor--Hom diagonal
 
@@ -132,7 +131,7 @@ lemma currying_inv_comparison
   simp only [Iso.inv_hom_id_assoc]
   simp only [← Category.assoc, ← Functor.map_comp, prod_comp, ← op_comp,
     Iso.inv_hom_id, Category.comp_id, op_id]
-  show (hom R).map (𝟙 _) ≫ _ = _
+  change (hom R).map (𝟙 _) ≫ _ = _
   exact (congrArg (· ≫ ((adjunction R).homIso (B ⊗ K) I).hom)
     ((hom R).map_id _)).trans (Category.id_comp _)
 
@@ -166,7 +165,7 @@ lemma composition_map_comparison_of_kFlat
   rw [← cancel_mono (DerivedCategory.Q.mapIso
     (Stacks.HomComplex.Currying.curryIso B K I)).hom]
   simp only [Category.assoc]
-  show _ = DerivedCategory.Q.map
+  change _ = DerivedCategory.Q.map
     (Stacks.HomComplex.TensorHomMap.Phi R (HomComplexR R L I) B ≫
       Stacks.HomComplex.TensorHomMap.postcomp R B (HomComplexR R L I ⊗ B) (HomComplexR R K I)
         ((𝟙 (HomComplexR R L I) ⊗ₘ f) ≫ compMor K L I)) ≫
@@ -211,7 +210,7 @@ private lemma composition_comparison
   let e := (tensor R).mapIso (((adjunction R).homIso L I).prod
     ((adjunction R).homIso K L))
   apply (cancel_epi e.inv).1
-  show e.inv ≫ _ = e.inv ≫ e.hom ≫ _
+  change e.inv ≫ _ = e.inv ≫ e.hom ≫ _
   rw [Iso.inv_hom_id_assoc]
   let e' := (hom R).mapIso ((asIso (DerivedCategory.Q.map f)).op.prod
     (Iso.refl (DerivedCategory.Q.obj I)))
@@ -255,9 +254,9 @@ private lemma diagonal_comparison
     ((adjunction R).tensorIso K L hL))
   apply (cancel_mono e.hom).1
   simp only [Category.assoc]
-  show diagonal _ _ _ ≫ e.hom = _ ≫ _ ≫ _ ≫ _ ≫ e.inv ≫ e.hom
+  change diagonal _ _ _ ≫ e.hom = _ ≫ _ ≫ _ ≫ _ ≫ e.inv ≫ e.hom
   simp only [Iso.inv_hom_id, Category.comp_id]
-  show diagonal (DerivedCategory.Q.obj K) (DerivedCategory.Q.obj L)
+  change diagonal (DerivedCategory.Q.obj K) (DerivedCategory.Q.obj L)
       (DerivedCategory.Q.obj M) ≫
     (hom R).map (show
       (Opposite.op (DerivedCategory.Q.obj M),
@@ -319,7 +318,7 @@ lemma tensorLeftIso_eq (K L : CochainComplex (ModuleCat R) ℤ)
   change _ ≫ ((adjunction R).tensorIso L K hK).hom = _ at hb
   rw [← Category.assoc, hb,
     Category.assoc, ← Functor.map_comp]
-  show _ ≫ DerivedCategory.Q.map ((β_ K L).hom ≫ (β_ L K).hom) = _
+  change _ ≫ DerivedCategory.Q.map ((β_ K L).hom ≫ (β_ L K).hom) = _
   simp
   rfl
 
@@ -344,7 +343,7 @@ lemma postcomp_comp (A B C D : CochainComplex (ModuleCat R) ℤ)
   intro z
   apply Cochain.ext
   intro p q hpq
-  show (((Stacks.HomComplex.TensorHomMap.postcomp R A C D g).f n).hom
+  change (((Stacks.HomComplex.TensorHomMap.postcomp R A C D g).f n).hom
     (((Stacks.HomComplex.TensorHomMap.postcomp R A B C f).f n).hom z)).v p q hpq = _
   simp only [postcomp_apply, HomologicalComplex.comp_f, Category.assoc]
 
@@ -362,7 +361,7 @@ lemma precomp_postcomp (A B C D : CochainComplex (ModuleCat R) ℤ)
   intro z
   apply Cochain.ext
   intro p q hpq
-  show (((Stacks.HomComplex.TensorHomMap.postcomp R A C D g).f n).hom
+  change (((Stacks.HomComplex.TensorHomMap.postcomp R A C D g).f n).hom
     (((Stacks.HomComplex.TensorHomMap.precomp R A B C f).f n).hom z)).v p q hpq =
     (((Stacks.HomComplex.TensorHomMap.precomp R A B D f).f n).hom
     (((Stacks.HomComplex.TensorHomMap.postcomp R B C D g).f n).hom z)).v p q hpq
@@ -419,7 +418,7 @@ lemma compMor_postcomp (M L J J' : CochainComplex (ModuleCat R) ℤ)
   apply ModuleCat.hom_ext
   apply TensorProduct.ext'
   intro a b
-  show (compMor M L J').f n
+  change (compMor M L J').f n
     ((Stacks.HomComplex.TensorHomMap.postcomp R L J J' g ⊗ₘ 𝟙 (HomComplexR R M L)).f n
       ((HomologicalComplex.ιTensorObj (HomComplexR R L J) (HomComplexR R M L)
         p q n hpq).hom (a ⊗ₜ[R] b))) =
@@ -530,7 +529,7 @@ private lemma homCxMap_id_left (M L L' : CochainComplex (ModuleCat R) ℤ)
   intro z
   apply Cochain.ext
   intro p q hpq
-  show (Stacks.HomComplex.TensorHomComparison.HomCxMapDeg M M L L' (𝟙 M) g n z).v p q hpq = _
+  change (Stacks.HomComplex.TensorHomComparison.HomCxMapDeg M M L L' (𝟙 M) g n z).v p q hpq = _
   rw [Stacks.HomComplex.TensorHomComparison.HomCxMapDeg_v, postcomp_apply]
   simp only [HomologicalComplex.id_f, Category.id_comp]
 
@@ -688,7 +687,7 @@ private lemma diagonal_projective_comparison
     (tensorLeftIso K L hK))
   apply (cancel_mono e.hom).1
   simp only [Category.assoc]
-  show diagonal _ _ _ ≫ e.hom =
+  change diagonal _ _ _ ≫ e.hom =
     (tensor R).map (𝟙 (DerivedCategory.Q.obj K), (E.iso M L d).hom) ≫
       (tensorLeftIso K (CochainComplex.HomComplexR R M L) hK).hom ≫
       DerivedCategory.Q.map (Stacks.HomComplex.TensorHomComparison.theta K L M) ≫

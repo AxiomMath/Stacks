@@ -93,7 +93,7 @@ theorem freeAtPointOfRank_strictTransformSheaf {X S : Scheme.{u}} (f : X ⟶ S) 
   have hZ : Stacks.StrictTransform.exceptionalPreimage g (blowUpToBase I) (exceptionalIdeal I) =
       j.base ⁻¹' Stacks.StrictTransform.exceptionalPreimage f (blowUpToBase I)
         (exceptionalIdeal I) := by
-    show (pullback.snd g (blowUpToBase I)).base ⁻¹' _ = j.base ⁻¹' ((pullback.snd f
+    change (pullback.snd g (blowUpToBase I)).base ⁻¹' _ = j.base ⁻¹' ((pullback.snd f
       (blowUpToBase I)).base ⁻¹' _)
     rw [← Set.preimage_comp, ← hsnd]
     rfl
@@ -134,7 +134,7 @@ theorem freeAtPointOfRank_strictTransformSheaf {X S : Scheme.{u}} (f : X ⟶ S) 
     · rw [Category.assoc, hfst, ← Category.assoc, hk, pullback.lift_fst, hmfac]
     · rw [Category.assoc, hsnd, hk, pullback.lift_snd]
   have hjz : j.base (k.base ⟨z, hzV₀⟩) = z := by
-    show j.base (k.base ⟨z, hzV₀⟩) = V₀.ι.base ⟨z, hzV₀⟩
+    change j.base (k.base ⟨z, hzV₀⟩) = V₀.ι.base ⟨z, hzV₀⟩
     rw [← hkj]
     rfl
   -- Transport freeness along the identification.

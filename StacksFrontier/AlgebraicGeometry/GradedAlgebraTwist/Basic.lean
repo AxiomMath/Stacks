@@ -107,21 +107,17 @@ theorem linearMap_ext6 {R : Type*} [CommRing R]
       φ (((a ⊗ₜ b) ⊗ₜ (d ⊗ₜ e)) ⊗ₜ (x ⊗ₜ y)) = ψ (((a ⊗ₜ b) ⊗ₜ (d ⊗ₜ e)) ⊗ₜ (x ⊗ₜ y))) :
     φ = ψ := by
   refine TensorProduct.ext' fun p z => ?_
-  induction p using TensorProduct.induction_on with
-  | zero => simp
+  induction p using TensorProduct.inductionOn with
   | add p₁ p₂ h₁ h₂ => simp only [TensorProduct.add_tmul, map_add, h₁, h₂]
   | tmul u v =>
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add z₁ z₂ h₁ h₂ => simp only [TensorProduct.tmul_add, map_add, h₁, h₂]
       | tmul x y =>
-          induction u using TensorProduct.induction_on with
-          | zero => simp
+          induction u using TensorProduct.inductionOn with
           | add u₁ u₂ h₁ h₂ =>
               simp only [TensorProduct.add_tmul, map_add, h₁, h₂]
           | tmul a b =>
-              induction v using TensorProduct.induction_on with
-              | zero => simp
+              induction v using TensorProduct.inductionOn with
               | add v₁ v₂ h₁ h₂ =>
                   simp only [TensorProduct.tmul_add, TensorProduct.add_tmul, map_add, h₁, h₂]
               | tmul d e => exact h a b d e x y
@@ -235,7 +231,7 @@ theorem interchange_pure (U : Cᵒᵖ) (A B D E : SheafOfModules.{w} (structureS
   let rightAssociate := tensorProductIso O hO (Iso.refl A) (tensorProductAssociator O hO D B E)
   let lastAssociate := tensorProductAssociator O hO A D
     ((sheafify O hO).obj (B.val ⊗ E.val))
-  show lastAssociate.inv.val.app U (rightAssociate.hom.val.app U
+  change lastAssociate.inv.val.app U (rightAssociate.hom.val.app U
     (middleSwap.hom.val.app U (leftAssociate.hom.val.app U
       ((tensorProductAssociator O hO A B ((sheafify O hO).obj (D.val ⊗ E.val))).hom.val.app U
           _)))) = _
@@ -292,7 +288,7 @@ theorem hom_ext_of_isIso_sheafify_map {M P : SheafOfModules.{w} (structureSheaf 
     (h : ∀ (U : Cᵒᵖ) (q : Q.obj U), f.val.app U (η.app U q) = g.val.app U (η.app U q)) :
     f = g := by
   have hcu : IsIso (sheafifyAdjunction O hO).counit := by
-    show IsIso (PresheafOfModules.sheafificationAdjunction
+    change IsIso (PresheafOfModules.sheafificationAdjunction
       (𝟙 (structureSheaf O hO).obj)).counit
     infer_instance
   let e : (sheafify O hO).obj Q ≅ M :=
@@ -300,14 +296,14 @@ theorem hom_ext_of_isIso_sheafify_map {M P : SheafOfModules.{w} (structureSheaf 
   have key : ∀ (U : Cᵒᵖ) (q : Q.obj U),
       e.hom.val.app U ((toSheafify O hO Q).app U q) = η.app U q := by
     intro U q
-    show ((sheafifyAdjunction O hO).counit.app M).val.app U
+    change ((sheafifyAdjunction O hO).counit.app M).val.app U
       (((sheafify O hO).map η).val.app U ((toSheafify O hO Q).app U q)) = _
     rw [toSheafify_app_map_obj O hO η U q]
     exact sheafifyCounit_toSheafify_app O hO M U (η.app U q)
   refine (cancel_epi e.hom).mp ?_
   apply ((sheafifyAdjunction O hO).homEquiv Q P).injective
   refine PresheafOfModules.hom_ext fun U => ModuleCat.hom_ext (LinearMap.ext fun q => ?_)
-  show f.val.app U (e.hom.val.app U ((toSheafify O hO Q).app U q)) =
+  change f.val.app U (e.hom.val.app U ((toSheafify O hO Q).app U q)) =
     g.val.app U (e.hom.val.app U ((toSheafify O hO Q).app U q))
   rw [key U q]
   exact h U q
@@ -771,7 +767,7 @@ def oneSec (U : Cᵒᵖ) : (piece O hO A L 0).val.obj U :=
 /-- The unit morphism of the twist on the unit section. -/
 theorem oneMor_app (U : Cᵒᵖ) :
     (oneMor O hO A L ε).val.app U (unitSection O hO U) = oneSec O hO A L ε U := by
-  show (tensorProductRightUnitor O hO (A 0)).inv.val.app U
+  change (tensorProductRightUnitor O hO (A 0)).inv.val.app U
     (ε.val.app U (unitSection O hO U)) = _
   rw [tensorSections_rightUnitorInvAt]
   rfl
@@ -798,7 +794,7 @@ def insertOneRight (i : ℤ) :
 theorem insertOneLeft_app (i : ℤ) (U : Cᵒᵖ) (m : (piece O hO A L i).val.obj U) :
     (insertOneLeft O hO A L ε i).val.app U m =
       tensorSectionsAt O hO U (piece O hO A L 0) (piece O hO A L i) (oneSec O hO A L ε U) m := by
-  show (tensorMap O hO (oneMor O hO A L ε) (𝟙 (piece O hO A L i))).val.app U
+  change (tensorMap O hO (oneMor O hO A L ε) (𝟙 (piece O hO A L i))).val.app U
     ((tensorProductLeftUnitor O hO (piece O hO A L i)).inv.val.app U m) = _
   rw [tensorSections_leftUnitorInvAt, tensorMap_app, id_app, oneMor_app]
 
@@ -806,7 +802,7 @@ theorem insertOneLeft_app (i : ℤ) (U : Cᵒᵖ) (m : (piece O hO A L i).val.ob
 theorem insertOneRight_app (i : ℤ) (U : Cᵒᵖ) (m : (piece O hO A L i).val.obj U) :
     (insertOneRight O hO A L ε i).val.app U m =
       tensorSectionsAt O hO U (piece O hO A L i) (piece O hO A L 0) m (oneSec O hO A L ε U) := by
-  show (tensorMap O hO (𝟙 (piece O hO A L i)) (oneMor O hO A L ε)).val.app U
+  change (tensorMap O hO (𝟙 (piece O hO A L i)) (oneMor O hO A L ε)).val.app U
     ((tensorProductRightUnitor O hO (piece O hO A L i)).inv.val.app U m) = _
   rw [tensorSections_rightUnitorInvAt, tensorMap_app, id_app, oneMor_app]
 
@@ -1033,7 +1029,7 @@ theorem mulSection_naturality (i j : ℤ) {U V : Cᵒᵖ} (f : U ⟶ V)
     (piece O hO A L (i + j)).val.map f (mulSection O hO A ν L i j U a b) =
       mulSection O hO A ν L i j V ((piece O hO A L i).val.map f a)
         ((piece O hO A L j).val.map f b) := by
-  show (piece O hO A L (i + j)).val.map f
+  change (piece O hO A L (i + j)).val.map f
       ((mulMor O hO A ν L i j).val.app U
         (tensorSectionsAt O hO U (piece O hO A L i) (piece O hO A L j) a b)) =
     (mulMor O hO A ν L i j).val.app V

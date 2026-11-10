@@ -61,8 +61,7 @@ theorem rTensor_injective_of_localizedModule_powers {R : Type u} [CommRing R]
   set e : Q ≃ₗ[R] Q := LinearEquiv.ofBijective _ ha
   have hsmul : ∀ x : M ⊗[R] Q, a • x = (e.lTensor M) x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul m q => simp [e, TensorProduct.tmul_smul]
     | add x y hx hy => rw [smul_add, map_add, hx, hy]
   have hinj : Function.Injective ιM := by
@@ -128,11 +127,9 @@ theorem universallyInjective_baseChange_of_isPushout {R A B C : Type u} [CommRin
     TensorProduct.comm B (B ⊗[R] N) Q ≪≫ₗ AlgebraTensorModule.cancelBaseChange R B B Q N
   have hsq₂ : ∀ z, (u.restrictScalars R).lTensor Q (fM z) = fN (v.rTensor Q z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul x q =>
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul b m => simp [fM, fN, v]
       | add x y hx hy => simp only [TensorProduct.add_tmul, map_add, hx, hy]
     | add x y hx hy => simp only [map_add, hx, hy]
@@ -146,7 +143,7 @@ theorem universallyInjective_baseChange_of_isPushout {R A B C : Type u} [CommRin
       have := congrArg (fun z ↦ (w⁻¹ : Bˣ).1 • z) hxy'
       simp only [smul_smul, Units.inv_mul, one_smul] at this
       exact this
-    · show (algebraMap R B a) • ((w⁻¹ : Bˣ).1 • y) = y
+    · change (algebraMap R B a) • ((w⁻¹ : Bˣ).1 • y) = y
       rw [← hw, smul_smul, Units.mul_inv, one_smul]
   have hlu : Function.Injective ((u.restrictScalars R).lTensor Q) :=
     (LinearMap.lTensor_inj_iff_rTensor_inj Q _).2 hu

@@ -92,7 +92,7 @@ end Support
 
 section Punctual
 
-variable (Λ : Type) [CommRing Λ] {k : Type u} [Field k] [Fintype k] {X Z V : Scheme.{u}}
+variable (Λ : Type) [CommRing Λ] {k : Type u} [Field k] [Finite k] {X Z V : Scheme.{u}}
   (f : X ⟶ Spec (.of k)) [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
   [IsAlgClosure k kbar] (iZ : Z ⟶ X) [IsClosedImmersion iZ] [IsReduced Z] [IsFinite (iZ ≫ f)]
@@ -109,6 +109,7 @@ theorem injective_sheafFiber_unit_of_isZero_compactSupportSheafCohomology
       ((Scheme.pointSmallEtale (Stacks.Frobenius.geometricPointAt X y).hom).sheafFiber
         (A := ModuleCat.{u + 1} Λ) |>.map
           ((etaleModuleInverseImageAdj.{u, 0} Λ jV).unit.app T)).hom := by
+  have := Fintype.ofFinite k
   obtain ⟨p, _⟩ := CharP.exists k
   obtain ⟨n, hpr, hn⟩ := FiniteField.card k p
   have : Fact p.Prime := ⟨hpr⟩

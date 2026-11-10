@@ -77,12 +77,12 @@ theorem coeff_idealInclusion_mem {E : X.Cᵒᵖ ⥤ Type u}
       kernelIdeal (Stacks.SheafOfModules.presentation X.J
         ((inverseImageCommRingFunctor S.f.toToposHom).obj S.baseExtension) X.O
           S.squareZeroProblem.f.fSharpInverseImage E α).hom U := by
-  show ((freeAlgebraSheafCoefficientMap X.J _ E) ≫ Stacks.SheafOfModules.presentation X.J
+  change ((freeAlgebraSheafCoefficientMap X.J _ E) ≫ Stacks.SheafOfModules.presentation X.J
     _ X.O S.squareZeroProblem.f.fSharpInverseImage E α).hom.app U _ = 0
   rw [freeAlgebraSheafCoefficientMap_comp_desc]
-  show S.toThickenedBase.fSharpInverseImage.hom.app U _ = 0
+  change S.toThickenedBase.fSharpInverseImage.hom.app U _ = 0
   rw [S.toThickenedBase_fSharpInverseImage]
-  show S.f.fSharpInverseImage.hom.app U (((inverseImageCommRingFunctor S.f.toToposHom).map
+  change S.f.fSharpInverseImage.hom.app U (((inverseImageCommRingFunctor S.f.toToposHom).map
     S.baseReduction).hom.app U (S.idealInclusion.val.app U a)) = 0
   rw [S.idealZero U a, map_zero]
 
@@ -100,15 +100,15 @@ theorem idealObstruction_trivialSolution (U : X.Cᵒᵖ) (a : S.I.val.obj U) :
   have h0 : (S.squareZeroProblem.trivialSolution
       S.isIso_squareZeroProblem_baseReduction).baseMap.hom.app U
         (S.idealInclusion.val.app U a) = 0 := by
-    show (Stacks.Sheaves.Differentials.sqZeroExtSheafInl X.O S.G).hom.app U
+    change (Stacks.Sheaves.Differentials.sqZeroExtSheafInl X.O S.G).hom.app U
       (S.squareZeroProblem.f.fSharpInverseImage.hom.app U
         (((inverseImageCommRingFunctor S.f.toToposHom).map (𝟙 S.baseExtension)).hom.app U
           (S.idealInclusion.val.app U a))) = 0
     rw [CategoryTheory.Functor.map_id]
-    show (Stacks.Sheaves.Differentials.sqZeroExtSheafInl X.O S.G).hom.app U
+    change (Stacks.Sheaves.Differentials.sqZeroExtSheafInl X.O S.G).hom.app U
       (S.toThickenedBase.fSharpInverseImage.hom.app U (S.idealInclusion.val.app U a)) = 0
     rw [S.toThickenedBase_fSharpInverseImage]
-    show (Stacks.Sheaves.Differentials.sqZeroExtSheafInl X.O S.G).hom.app U
+    change (Stacks.Sheaves.Differentials.sqZeroExtSheafInl X.O S.G).hom.app U
       (S.f.fSharpInverseImage.hom.app U (((inverseImageCommRingFunctor S.f.toToposHom).map
         S.baseReduction).hom.app U (S.idealInclusion.val.app U a))) = 0
     rw [S.idealZero U a, map_zero, map_zero]
@@ -144,21 +144,22 @@ variable (Q : S.squareZeroProblem.CompatibleFirstOrderThickening)
 local notation "E''" => Q.liftedGenerators (twistGeneratorsMap (S := S.squareZeroProblem) ξ)
 local notation "β''" => Q.liftedGeneratorsLift (twistGeneratorsMap (S := S.squareZeroProblem) ξ)
 
+omit [X.J.WEqualsLocallyBijective CommRingCat] in
 /-- A section of the base ideal, as a coefficient of `f⁻¹O_{B'}[E''] ⟶ O`, lies in its kernel. -/
 theorem coeff_idealInclusion_mem_thickened (U : X.Cᵒᵖ) (a : S.I.val.obj U) :
     (freeAlgebraSheafCoefficientMap X.J S.squareZeroProblem.thickenedBaseInverseImage E'').hom.app
         U (S.idealInclusion.val.app U a) ∈
       kernelIdeal (Q.thickenedPresentation E'' β'').hom U := by
-  show ((freeAlgebraSheafCoefficientMap X.J _ E'' ≫
+  change ((freeAlgebraSheafCoefficientMap X.J _ E'' ≫
     baseChange X.J S.squareZeroProblem.baseReductionInverseImage E'') ≫
       Q.reducedPresentation E'' β'').hom.app U _ = 0
   rw [freeAlgebraSheafCoefficientMap_comp_baseChange, Category.assoc,
     freeAlgebraSheafCoefficientMap_comp_desc]
-  show S.toThickenedBase.fSharpInverseImage.hom.app U
+  change S.toThickenedBase.fSharpInverseImage.hom.app U
     (((inverseImageCommRingFunctor S.f.toToposHom).map (𝟙 S.baseExtension)).hom.app U
       (S.idealInclusion.val.app U a)) = 0
   rw [CategoryTheory.Functor.map_id, S.toThickenedBase_fSharpInverseImage]
-  show S.f.fSharpInverseImage.hom.app U (((inverseImageCommRingFunctor S.f.toToposHom).map
+  change S.f.fSharpInverseImage.hom.app U (((inverseImageCommRingFunctor S.f.toToposHom).map
     S.baseReduction).hom.app U (S.idealInclusion.val.app U a)) = 0
   rw [S.idealZero U a, map_zero]
 
@@ -188,7 +189,7 @@ theorem idealObstruction_twist (U : X.Cᵒᵖ) (a : S.I.val.obj U) :
       (freeAlgebraSheafCoefficientMap_comp_baseChange X.J
         S.squareZeroProblem.baseReductionInverseImage E'')
     refine h.trans ?_
-    show (freeAlgebraSheafCoefficientMap X.J _ E'').hom.app U
+    change (freeAlgebraSheafCoefficientMap X.J _ E'').hom.app U
       (((inverseImageCommRingFunctor S.f.toToposHom).map (𝟙 S.baseExtension)).hom.app U
         (S.idealInclusion.val.app U a)) = _
     rw [CategoryTheory.Functor.map_id]
@@ -208,7 +209,7 @@ theorem idealObstruction_twist (U : X.Cᵒᵖ) (a : S.I.val.obj U) :
         (Q.reducedPresentation E'' β'') U
         ⟨(baseChange X.J S.squareZeroProblem.baseReductionInverseImage E'').hom.app U p, p.2⟩) =
       idealRestrictionOfExt ξ U a := by
-    show (twistFunctional (S := S.squareZeroProblem) ξ).val.app U
+    change (twistFunctional (S := S.squareZeroProblem) ξ).val.app U
       ((Stacks.SheafOfModules.presentationConormalMap.{u, u, u, u} X.J _ _ _
         (Q.liftedGeneratorsFst (twistGeneratorsMap (S := S.squareZeroProblem) ξ)) X.O
         S.squareZeroProblem.f.fSharpInverseImage _ _
@@ -226,7 +227,7 @@ theorem idealObstruction_twist (U : X.Cᵒᵖ) (a : S.I.val.obj U) :
         (Q.pushoutRestriction E'' β'' (Q.twistLiftedFunctional ξ)).app U p) -
       (show S.G.val.obj U from S.c.val.app U a) =
       S.idealObstruction Q U a + idealRestrictionOfExt ξ U a := by
-    show ((Q.liftRestriction E'' β'').app U p + _) - _ = _
+    change ((Q.liftRestriction E'' β'').app U p + _) - _ = _
     rw [hQ, hδ']
     exact add_sub_right_comm _ _ _
   refine S.kincl_injective (Q.twist ξ) U ?_
@@ -258,7 +259,7 @@ theorem isomorphic_twist_trivialSolution (Q : S.squareZeroProblem.CompatibleFirs
   have h := T.o_add (O.twist (pairObstruction O Q)) O Q
   have h₁ : T.o (O.twist (pairObstruction O Q)) O = -pairObstruction O Q :=
     (T.o_swap _ _).trans (congrArg Neg.neg (pairObstruction_twist O (pairObstruction O Q)))
-  show T.o _ _ = 0
+  change T.o _ _ = 0
   rw [← h, h₁]
   exact neg_add_cancel _
 

@@ -170,7 +170,7 @@ theorem boxOp_slice (e : Chart a b) (s₀ : Γ(pullback a b, c.ι.opensRange))
     (((e.boxOp F F' G k D hD).1 (Over.mk (𝟙 _))).comp
       ((externalTensorProduct a b F G).presheaf.map (homOfLE hle).op).hom)
     (fun s t ↦ ?_) x
-  show (c.boxOp F F' G k D hD).1 (Over.mk (homOfLE hle))
+  change (c.boxOp F F' G k D hD).1 (Over.mk (homOfLE hle))
         ((externalTensorProduct a b F G).presheaf.map (homOfLE hle).op
           (externalTensorSection a b F G s t c.ι.opensRange c.opensRange_le_fst_left
             c.opensRange_le_snd_right)) =

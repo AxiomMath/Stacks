@@ -108,7 +108,7 @@ public theorem ChosenPushforwardsAt.ofComp_map {U V : Under ((Φ ⋙ q).obj x₀
     (P.map_isHomLift g)
   refine Functor.IsStronglyCocartesian.ext q U.hom ((P.ofComp Φ hq).inclusion U) g.right ?_
   rw [ChosenPushforwardsAt.inclusion_map]
-  show Φ.map (P.inclusion V) = Φ.map (P.inclusion U) ≫ Φ.map (P.map g)
+  change Φ.map (P.inclusion V) = Φ.map (P.inclusion U) ≫ Φ.map (P.map g)
   rw [← Φ.map_comp, P.inclusion_map]
 
 /-- For the pushforwards obtained by applying `Φ`, the comparison of pushforwards is the
@@ -477,7 +477,7 @@ theorem exists_schemeMorphismInfinitesimalPair'_eq_iff
     let x := (localizedTangentEquivKernel (schemeMorphismTrivialPushforwards f pX pY hf)).symm
       ⟨_, hmem⟩
     have hx : schemeMorphismInfinitesimalAutCross f pX pY hf x = y := by
-      show (schemeMorphismTrivialPushforwards f pX pY hf).transportAut _
+      change (schemeMorphismTrivialPushforwards f pX pY hf).transportAut _
         (localizedTangentEquivKernel _ ((localizedTangentEquivKernel _).symm ⟨_, hmem⟩)).1 = y
       rw [Equiv.apply_symm_apply]
       exact ChosenPushforwardsAt.transportAut_hom_transportAut_inv _ _ y

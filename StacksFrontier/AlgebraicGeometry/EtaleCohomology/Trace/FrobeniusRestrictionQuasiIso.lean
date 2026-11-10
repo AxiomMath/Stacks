@@ -57,7 +57,7 @@ theorem isIso_fieldBaseChangeRestrictionFunctor_map (Y : Over (Spec (.of k)))
       (fieldBaseChangeProj Y kbar)).mapHomologicalComplex (ComplexShape.up ℤ)).map φ.hom))
   have : IsIso (DerivedCategory.Plus.ι.map (DerivedCategory.Plus.Q.map ψ)) :=
     (DerivedCategory.isIso_Q_map_iff_quasiIso _ ψ.hom).2 ‹_›
-  show IsIso (DerivedCategory.Plus.Q.map ψ)
+  change IsIso (DerivedCategory.Plus.Q.map ψ)
   exact isIso_of_fully_faithful DerivedCategory.Plus.ι _
 
 omit [IsAlgClosed kbar] [CharP kbar p] in

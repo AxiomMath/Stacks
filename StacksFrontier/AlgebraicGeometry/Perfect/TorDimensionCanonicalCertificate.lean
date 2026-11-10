@@ -396,7 +396,7 @@ theorem isLeftDerivedFunctor_sheafTensorComparison (F : Modules R) :
       (sheafTensorComparison R T F)
       (HomologicalComplex.quasiIso (Modules R) (ComplexShape.up ℤ)) :=
   isLeftDerivedFunctor_of_isIso_on_resolutions_Q
-    (fun K => Stacks.SheafOfModules.KFlat.KFlat R K)
+    (fun K => Stacks.SheafOfModules.IsKFlat R K)
     (fun K => by
       obtain ⟨P, p, hP, hp⟩ := exists_kFlat_quasiIso R K
       exact ⟨P, hP, p, hp⟩)

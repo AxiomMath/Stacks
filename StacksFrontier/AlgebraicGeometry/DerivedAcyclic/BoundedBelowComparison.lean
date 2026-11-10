@@ -82,7 +82,7 @@ lemma isLE_stupidTruncLE {A : Type*} [Category* A] [Abelian A]
     [HasDerivedCategory A] (K : CochainComplex A ℤ) (a : ℤ) :
     (DerivedCategory.Q.obj
       (K.stupidTrunc (ComplexShape.embeddingUpIntLE a))).IsLE a := by
-  show DerivedCategory.TStructure.t.IsLE _ a
+  change DerivedCategory.TStructure.t.IsLE _ a
   refine ⟨K.stupidTrunc (ComplexShape.embeddingUpIntLE a), Iso.refl _, ?_⟩
   rw [CochainComplex.isStrictlyLE_iff]
   intro i hi
@@ -206,19 +206,19 @@ lemma isIso_homologyMap_map_ιStupidTrunc
         (K.ιStupidTrunc (ComplexShape.embeddingUpIntGE a))) q) := by
   let g := (F.mapHomologicalComplex (ComplexShape.up ℤ)).map
     (K.ιStupidTrunc (ComplexShape.embeddingUpIntGE a))
-  show IsIso (ShortComplex.homologyMap
+  change IsIso (ShortComplex.homologyMap
     ((HomologicalComplex.shortComplexFunctor B (ComplexShape.up ℤ) q).map g))
   have key (i : ℤ) (hi : a ≤ i) : IsIso (g.f i) := by
     have := isIso_ιStupidTrunc_f K a i hi
     dsimp [g]
     infer_instance
   apply ShortComplex.isIso_homologyMap_of_epi_of_isIso_of_mono'
-  · show Epi (g.f ((ComplexShape.up ℤ).prev q))
+  · change Epi (g.f ((ComplexShape.up ℤ).prev q))
     rw [CochainComplex.prev]
     have := key (q - 1) (by omega)
     infer_instance
   · exact key q (by omega)
-  · show Mono (g.f ((ComplexShape.up ℤ).next q))
+  · change Mono (g.f ((ComplexShape.up ℤ).next q))
     rw [CochainComplex.next]
     have := key (q + 1) (by omega)
     infer_instance
@@ -365,7 +365,7 @@ theorem isIso_app_of_plus_of_rightAcyclic
     dsimp
     infer_instance
   have hβQ : IsIso (β.app Q) := by
-    show IsIso (e₁.hom.app Q ≫
+    change IsIso (e₁.hom.app Q ≫
       (Functor.whiskerLeft (HomotopyCategory.Plus.ι A) α).app Q ≫ e₂.inv.app Q)
     have : Ip.obj.IsKInjective := isKInjective_of_injective_of_plus Ip.property
     have h : IsIso (α.app ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).obj Ip.obj)) := by

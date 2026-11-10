@@ -169,7 +169,7 @@ structure morphism is affine. -/
 theorem isAffineHom_coordinateBlowupToAmbient_zero (R : Type u) [CommRing R] (m : ℕ) :
     IsAffineHom (coordinateBlowupToAmbient R m 0) := by
   have : IsEmpty (coordinateBlowup R m 0) := by
-    show IsEmpty (blowUp (Stacks.MoreMorphisms.coordinateIdeal R m 0))
+    change IsEmpty (blowUp (Stacks.MoreMorphisms.coordinateIdeal R m 0))
     rw [Stacks.MoreMorphisms.coordinateIdeal_zero]
     exact isEmpty_blowUp_bot' _
   exact isAffineHom_of_isEmpty _

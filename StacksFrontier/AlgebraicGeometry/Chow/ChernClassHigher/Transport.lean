@@ -165,7 +165,7 @@ theorem properChowPushforward_id (k : ℤ)
       AddMonoidHom.id (chowGroup C sA k) := by
   refine (eq_properChowPushforward C sA sA (𝟙 A) (Category.id_comp sA) k hfac
     (AddMonoidHom.id (chowGroup C sA k)) (AddMonoidHom.ext fun α ↦ ?_)).symm
-  show QuotientAddGroup.mk' (rationalEquivalences C sA k) α =
+  change QuotientAddGroup.mk' (rationalEquivalences C sA k) α =
     QuotientAddGroup.mk' (rationalEquivalences C sA k)
       (properPushforwardHom C sA sA (𝟙 A) (Category.id_comp sA) k α)
   rw [properPushforwardHom_apply, properPushforward_id]

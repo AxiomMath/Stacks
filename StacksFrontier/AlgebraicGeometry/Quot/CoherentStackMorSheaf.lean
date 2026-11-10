@@ -211,7 +211,7 @@ theorem exists_amalgamation {A A' : CoherentObject D} (u : A.T.left ⟶ A'.T.lef
   refine CoherentHom.eq_of_comp_eq (fun j => D.restrictHom W (g j))
     (D.isFpqcCovering_restrictHom W g hgfpqc) _ _ ?_ fun j => ?_
   · refine CostructuredArrow.hom_ext _ _ ?_
-    show Φ'.base.left ≫ G.base.left = (F Φ' hΦ').base.left
+    change Φ'.base.left ≫ G.base.left = (F Φ' hΦ').base.left
     rw [hFbase Φ' hΦ', hGu]
   · obtain ⟨l, a, ha⟩ := Functor.exists_factorization_of_ofArrows (hgS j)
     let χ := D.restrictHom W (g j)

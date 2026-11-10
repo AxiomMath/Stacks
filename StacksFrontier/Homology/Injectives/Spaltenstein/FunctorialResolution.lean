@@ -215,7 +215,7 @@ private theorem iterateCompositeFunctor_term_injective
         (fun Z => composeFunctorialInclusions_mono M N ηM ηN hM
           (fun Z => functorialInjectiveStepInclusion_mono_complex C NR Z) Z)
         κ i j f Base
-    show Mono ((HomologicalComplex.eval C (ComplexShape.up ℤ) n).map
+    change Mono ((HomologicalComplex.eval C (ComplexShape.up ℤ) n).map
       (((S.iterationFunctor κ.ord.ToType).map f).app Base))
     exact (HomologicalComplex.eval C (ComplexShape.up ℤ) n).map_mono _
   let : ∀ (i j : κ.ord.ToType) (f : i ⟶ j), Mono (F.map f) := htransition
@@ -224,7 +224,7 @@ private theorem iterateCompositeFunctor_term_injective
       ((hasCardinalLT_iff_cardinal_mk_lt _ _).2 hGcard)
   have hgen : (IsGrothendieckAbelian.generatingMonomorphisms G).rlp
       (0 : (((iterateCompositeFunctor M N ηM ηN κ).obj Base).X n) ⟶ 0) := by
-    show ∀ ⦃A B : C⦄ (i : A ⟶ B),
+    change ∀ ⦃A B : C⦄ (i : A ⟶ B),
       IsGrothendieckAbelian.generatingMonomorphisms G i →
         HasLiftingProperty i (0 : (((iterateCompositeFunctor M N ηM ηN κ).obj Base).X n) ⟶ 0)
     intro A B i hi

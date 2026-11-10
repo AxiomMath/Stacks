@@ -107,7 +107,7 @@ private lemma RingMap.toHom_id (R : AffineDeformation A B S hS toS hA)
 private lemma map_id (R : AffineDeformation A B S hS toS hA) (hp : p.IsFiberedInGroupoids)
     (D : BasedRing A B S hS toS hA R) (z : classes p x hx D) :
     map p x hx hp (RingMap.id R D) z = z := by
-  show AffineDeformation.map p x hx hp _ z = z
+  change AffineDeformation.map p x hx hp _ z = z
   rw [RingMap.toHom_id, AffineDeformation.map_id]
 
 private def RingMap.inverse (R : AffineDeformation A B S hS toS hA)
@@ -131,7 +131,7 @@ private lemma RingMap.inverse_comp (R : AffineDeformation A B S hS toS hA)
     (he : f.hom = e.toRingHom) : (f.inverse R e he).comp f = RingMap.id R D := by
   apply RingMap.ext
   ext r
-  show e.symm (f.hom r) = r
+  change e.symm (f.hom r) = r
   rw [he]
   exact e.symm_apply_apply r
 
@@ -140,7 +140,7 @@ private lemma RingMap.comp_inverse (R : AffineDeformation A B S hS toS hA)
     (he : f.hom = e.toRingHom) : f.comp (f.inverse R e he) = RingMap.id R E := by
   apply RingMap.ext
   ext r
-  show f.hom (e.symm r) = r
+  change f.hom (e.symm r) = r
   rw [he]
   exact e.apply_symm_apply r
 
@@ -350,18 +350,18 @@ private lemma delta_triple (R : AffineDeformation A B S hS toS hA)
   apply TrivSqZeroExt.ext
   · refine (TrivSqZeroExt.fst_map _ ((squareZeroPair R ((delta R hq hsq).comp (triple12 R))
       ((delta R hq hsq).comp (triple23 R))).hom y)).trans ?_
-    show ((delta R hq hsq).hom ((triple12 R).hom y)).fst =
+    change ((delta R hq hsq).hom ((triple12 R).hom y)).fst =
       ((delta R hq hsq).hom ((triple13 R).hom y)).fst
     rw [delta_apply, delta_apply]
     rfl
   · refine (TrivSqZeroExt.snd_map _ ((squareZeroPair R ((delta R hq hsq).comp (triple12 R))
       ((delta R hq hsq).comp (triple23 R))).hom y)).trans ?_
-    show ((delta R hq hsq).hom ((triple12 R).hom y)).snd +
+    change ((delta R hq hsq).hom ((triple12 R).hom y)).snd +
       ((delta R hq hsq).hom ((triple23 R).hom y)).snd =
         ((delta R hq hsq).hom ((triple13 R).hom y)).snd
     rw [delta_apply, delta_apply, delta_apply]
     apply Subtype.ext
-    show (y.1.1.1.2 - y.1.1.1.1) + (y.1.2 - y.1.1.1.2) = y.1.2 - y.1.1.1.1
+    change (y.1.1.1.2 - y.1.1.1.1) + (y.1.2 - y.1.1.1.2) = y.1.2 - y.1.1.1.1
     abel
 
 end BasedRing
@@ -423,7 +423,7 @@ private theorem nonempty_actionOnLiftsData
   let f := E.trans (eQ.trans (Equiv.prodCongr (Equiv.refl _) TE.symm))
   have hf : ∀ z, (f z).1 = (eP z).1 := by
     intro z
-    show BasedRing.map p x hx hp (D := Q) (E := O) (BasedRing.fst O W)
+    change BasedRing.map p x hx hp (D := Q) (E := O) (BasedRing.fst O W)
       (BasedRing.map p x hx hp (D := P) (E := Q) (BasedRing.differenceMap R hq hsq) z) =
         BasedRing.map p x hx hp (D := P) (E := O) (BasedRing.fst O O) z
     rw [← BasedRing.map_comp, BasedRing.differenceMap_fst]
@@ -432,9 +432,9 @@ private theorem nonempty_actionOnLiftsData
       d (BasedRing.map p x hx hp (D := P) (E := O) (BasedRing.snd O O) z)
         (BasedRing.map p x hx hp (D := P) (E := O) (BasedRing.fst O O) z) =
       TE.symm (BasedRing.map p x hx hp (D := P) (E := W) (BasedRing.delta R hq hsq) z) := by
-    show (f (eP.symm (eP z))).2 = _
+    change (f (eP.symm (eP z))).2 = _
     rw [eP.symm_apply_apply]
-    show TE.symm (BasedRing.map p x hx hp (D := Q) (E := W) (BasedRing.snd O W)
+    change TE.symm (BasedRing.map p x hx hp (D := Q) (E := W) (BasedRing.snd O W)
       (BasedRing.map p x hx hp (D := P) (E := Q) (BasedRing.differenceMap R hq hsq) z)) = _
     rw [← BasedRing.map_comp]
     rfl
@@ -526,8 +526,8 @@ private theorem nonempty_actionOnLiftsData
   · exact ht₂.symm.trans
       ((congrArg (AffineDeformation.map p x hx hp (BasedRing.fst O O).toHom) hv).trans
         (congrArg Prod.fst (eP.apply_symm_apply (z₂, z₁))))
-  · show Quotient.mk _ t = TE (d z₁ z₂)
-    show Quotient.mk _ t = TE (TE.symm
+  · change Quotient.mk _ t = TE (d z₁ z₂)
+    change Quotient.mk _ t = TE (TE.symm
       (BasedRing.map p x hx hp (D := Q) (E := W) (BasedRing.snd O W)
         (BasedRing.map p x hx hp (D := P) (E := Q) (BasedRing.differenceMap R hq hsq) zP)))
     rw [TE.apply_symm_apply, ← hv]
@@ -636,7 +636,7 @@ private lemma delta_comp_diag (R : AffineDeformation A B S hS toS hA)
   apply RingMap.ext
   apply RingHom.ext
   intro a
-  show (delta R hq hsq).hom ((diag R).hom a) = _
+  change (delta R hq hsq).hom ((diag R).hom a) = _
   rw [delta_apply]
   exact TrivSqZeroExt.ext rfl (Subtype.ext (sub_self a))
 

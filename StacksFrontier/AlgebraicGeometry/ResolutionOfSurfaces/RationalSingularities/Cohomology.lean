@@ -33,7 +33,8 @@ hypotheses the situation still owes.
 ## Implementation notes
 
 Cohomology is `Hⁱ(X, ℱ) = ((moduleGlobalSections X).rightDerivedPlus i).obj ℱ`, as in
-`StacksFrontier/AlgebraicGeometry/TopDegreeBaseChange/OneDimensionalFibres.lean`; "globally generated" is Mathlib's
+`StacksFrontier/AlgebraicGeometry/TopDegreeBaseChange/OneDimensionalFibres.lean`; "globally
+generated" is Mathlib's
 `SheafOfModules.GeneratingSections`.
 
 Situation [Stacks, Tag 0B4W] is carried by

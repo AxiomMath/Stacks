@@ -234,7 +234,7 @@ theorem underTensorCocone_ι_comp (hI : I.FG) (π : P ⟶ sectionsComplex K X.pa
       (underAlpha π).app Y ≫ (underSectionsComplexCocone hI K X).ι.app Y := by
   refine HomologicalComplex.hom_ext _ _ fun n ↦ ?_
   refine hom_ext_tmulBase (V := P.X n) (underHom Y) fun s p ↦ ?_
-  show ((germAdjointHom hI π).f n).hom
+  change ((germAdjointHom hI π).f n).hom
       ((((underTensorCocone hI X P).ι.app Y).f n).hom (tmulBase (underHom Y) (P.X n) s p)) =
     germAt hI (K.X n) Y.right (((underAdjointHom π Y).f n).hom
       (tmulBase (underHom Y) (P.X n) s p))

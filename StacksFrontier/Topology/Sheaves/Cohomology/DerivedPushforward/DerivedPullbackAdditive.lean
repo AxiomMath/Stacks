@@ -30,7 +30,7 @@ every combination, including with `structureSheafRing` unraised and with
 So the additivity is proved here, in the instance regime of
 `…DerivedPullback.Triangulated` itself — the same seating
 `…DerivedPullback.PullbackTensorCommShiftTwo` performs for the same reason — and a consumer
-offers the resulting `def` as a local instance instead of re-synthesizing it.  Its first consumer
+offers the resulting theorem as a local instance instead of re-synthesizing it.  Its first consumer
 is `…DerivedPushforward.InternalHomPullbackFiniteFree`.
 
 ## Main results
@@ -64,8 +64,7 @@ additivity from exactness, and the exactness of `Lh^*` is Tag 06YJ,
 Proved here rather than synthesized at the point of use: see the implementation notes of this
 file for the reducibility regime in which it stops being findable, which is the regime every
 statement about the canonical map of Tag 08I3 lives in. -/
-@[instance_reducible]
-def derivedPullbackAdditive {X Y : RingedSpace.{u, u}} (h : X ⟶ Y) :
+theorem derivedPullbackAdditive {X Y : RingedSpace.{u, u}} (h : X ⟶ Y) :
     (Stacks.Cohomology.DerivedAdjunctionOnRingedSpaces.derivedPullback h).Additive :=
   inferInstance
 

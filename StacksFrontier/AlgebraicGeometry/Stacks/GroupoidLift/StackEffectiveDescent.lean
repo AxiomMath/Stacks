@@ -83,7 +83,7 @@ theorem Functor.isRestrictionOf_of_fac {𝒞 : Type*} {𝒮 : Type*} [Category �
     (hmx : mx ≫ xr.hom = xrW.hom) (my : yrW.pt ⟶ yr.pt) (hly : p.IsHomLift g my)
     (hmy : my ≫ yr.hom = yrW.hom) (h : β ≫ my = mx ≫ α) :
     Functor.IsRestrictionOf p g hfx hfy xr yr xrW yrW α β := by
-  show β ≫ Functor.Restriction.compTo p g fy hfy yr yrW =
+  change β ≫ Functor.Restriction.compTo p g fy hfy yr yrW =
     Functor.Restriction.compTo p g fx hfx xr xrW ≫ α
   rw [Functor.Restriction.compTo_eq' p g fy hfy yr yrW my hly hmy,
     Functor.Restriction.compTo_eq' p g fx hfx xr xrW mx hlx hmx, h]
@@ -132,7 +132,7 @@ theorem isPushout_nerve_two :
   · ext a
     exact (AlgHom.commutes (v₀ A' C' 1) a).symm
   · ext c
-    show ((1 : C' ⊗[A'] C') ⊗ₜ[A'] c : (C' ⊗[A'] C') ⊗[A'] C') =
+    change ((1 : C' ⊗[A'] C') ⊗ₜ[A'] c : (C' ⊗[A'] C') ⊗[A'] C') =
       face A' C' 1 2 ((1 : C') ⊗ₜ[A'] c)
     rw [show (2 : Fin 3) = Fin.succ 1 from rfl, face_succ_tmul]
     rfl
@@ -195,7 +195,7 @@ theorem Arr.hom_eq_of_eq {C : SmallAlg (ringOf B S hS T') B.cutoff} {g g' : Arr 
 theorem fibreHom_of_isHomLift {W : BigFppfOver B S hS} {x y : 𝒳.val.obj}
     (hx : 𝒳.val.p.obj x = W) (hy : 𝒳.val.p.obj y = W) (φ : x ⟶ y)
     [𝒳.val.p.IsHomLift (𝟙 W) φ] : Functor.FibreHom 𝒳.val.p x y hx hy φ := by
-  show 𝒳.val.p.IsHomLift (eqToHom hx ≫ eqToHom hy.symm) φ
+  change 𝒳.val.p.IsHomLift (eqToHom hx ≫ eqToHom hy.symm) φ
   rw [← Category.id_comp (eqToHom hy.symm)]
   infer_instance
 

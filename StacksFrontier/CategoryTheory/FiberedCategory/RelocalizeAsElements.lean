@@ -144,7 +144,7 @@ lemma elementsToRelocalize_comp_eq :
   · intro P Q u
     refine over_hom_eq_conj (over_mk_eq P.base (OverShriek.relocalizeFactors a H P.fiber.as))
       (over_mk_eq Q.base (OverShriek.relocalizeFactors a H Q.fiber.as)) rfl rfl _ _ ?_
-    show u.base.left = eqToHom rfl ≫ u.base.left ≫ eqToHom rfl
+    change u.base.left = eqToHom rfl ≫ u.base.left ≫ eqToHom rfl
     simp
 
 /-- The identity of the underlying object of `C`, read as an isomorphism between the base of an

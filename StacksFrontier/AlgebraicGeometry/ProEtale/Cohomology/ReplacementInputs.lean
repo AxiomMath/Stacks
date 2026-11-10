@@ -130,13 +130,13 @@ lemma isDenseSubsite_mapMapIso_inverse (e : X ≅ Y) :
   refine ⟨fun h x hx => ?_, fun h y hy => ?_⟩
   · rw [Opens.mem_grothendieckTopology] at h
     have hy : e.hom x ∈ (Opens.mapMapIso e).inverse.obj U := by
-      show e.inv (e.hom x) ∈ U
+      change e.inv (e.hom x) ∈ U
       simpa using hx
     obtain ⟨V, g, hg, hV⟩ := h (e.hom x) hy
     refine ⟨(Opens.mapMapIso e).functor.obj V,
       (Opens.mapMapIso e).functor.map g ≫ (Opens.mapMapIso e).counit.app U, ?_, ?_⟩
     · simpa only [Sieve.mem_functorPushforward_inverse] using hg
-    · show x ∈ e.hom ⁻¹' (V : Set Y)
+    · change x ∈ e.hom ⁻¹' (V : Set Y)
       simpa using hV
   · rw [Opens.mem_grothendieckTopology] at h
     change e.inv y ∈ U at hy
@@ -164,7 +164,7 @@ lemma globalSectionsPullback_bijective_of_iso (e : X ≅ Y)
     (Functor.isoWhiskerRight (adj.leftAdjointUniq C.toAdjunction)
       ((Opens.map e.hom).sheafPushforwardContinuous (Type (max (u + 1) v)) J K) ≪≫
         C.unitIso.symm)
-  show Function.Bijective ((adj.unit.app F).hom.app (Opposite.op ⊤))
+  change Function.Bijective ((adj.unit.app F).hom.app (Opposite.op ⊤))
   exact (ConcreteCategory.isIso_iff_bijective _).mp inferInstance
 
 end GlobalSections

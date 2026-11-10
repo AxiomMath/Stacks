@@ -162,6 +162,7 @@ open Stacks.Modules
 variable {k : Type u} [Field k] [Fintype k] {p f : ℕ} [Fact p.Prime] [CharP k p]
   {hcard : Fintype.card k = p ^ f} {X S S' N : Over (Spec (.of k))} {r : ℕ}
 
+omit [Fintype k] in
 /-- `i × id` commutes with base change: `(i × id_{S'}) ≫ (id_X × g) = (id_N × g) ≫ (i × id_S)`. -/
 theorem leftMap_comp_productMap (i : N ⟶ X) (g : S' ⟶ S) :
     leftMap (S := S') i ≫ productMap g = productMap g ≫ leftMap (S := S) i := by

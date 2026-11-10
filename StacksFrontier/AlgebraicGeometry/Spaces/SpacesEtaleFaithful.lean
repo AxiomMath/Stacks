@@ -46,6 +46,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 private instance hasPullbacks_presheaf_spacesEtaleFaithful :
@@ -57,6 +58,7 @@ private instance (priority := high) hasPullback_presheaf_spacesEtaleFaithful
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is deep
 /-- Discrete limits of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 private instance (priority := high) hasLimitsOfShape_discrete_presheaf_spacesEtaleFaithful
@@ -108,7 +110,7 @@ theorem eq_of_isSurjective_of_isEtale (h𝒴 : IsAlgebraicSpace B S hS 𝒴)
       (isOpenImmersion_diagonal_of_isUnramified B S hS h𝒱 h𝒴 v
         (isUnramified_of_isEtale B S hS hv))
   have hfactor : (p ≫ α) ≫ pullback.diagonal v = p ≫ pullback.lift α β hv' :=
-    pullback.hom_ext (by simp [pullback.lift_fst]) (by simpa [pullback.lift_snd] using hpαβ)
+    pullback.hom_ext (by simp) (by simpa [pullback.lift_snd] using hpαβ)
   have hsurj : IsSurjective B S hS
       (pullback.snd (pullback.diagonal v) (pullback.lift α β hv')) := by
     intro x

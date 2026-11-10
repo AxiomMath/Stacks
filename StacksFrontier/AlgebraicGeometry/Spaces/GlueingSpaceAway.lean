@@ -92,7 +92,7 @@ theorem glueingChartAwayOpen_set :
       (Set.range (pushoutInr (glueingChartSituation B S hS f hf hy c.u)))ᶜ := by
   let := isIntegralHom_glueingChartSourceHom B S hS f hf c.u
   let := isClosedImmersion_glueingChartFibreHom B S hS hy c.u
-  show ⇑(glueingChartPushoutToBase B S hS f hf hy c.u) ⁻¹'
+  change ⇑(glueingChartPushoutToBase B S hS f hf hy c.u) ⁻¹'
       (Set.range ⇑((BigFppfOver.toScheme B S hS).map
         (glueingChartFibreHom B S hS hy c.u)))ᶜ = _
   rw [Set.preimage_compl]
@@ -210,7 +210,7 @@ theorem isPullback_glueingAwayRestrict :
   have := reflectsPullbacks_bigFppfOverToScheme B S hS
   refine IsPullback.of_map (BigFppfOver.toScheme B S hS) ?_ ?_
   · apply BigFppfOver.map_toScheme_injective B S hS
-    show (BigFppfOver.toScheme B S hS).map
+    change (BigFppfOver.toScheme B S hS).map
         (glueingAwaySourceHom B S hS f hf hy c ≫ glueingChartSiteInl B S hS f hf hy c.u) =
       (BigFppfOver.toScheme B S hS).map
         (glueingAwayRestrict B S hS f hf hy c ≫ glueingAwaySiteHom B S hS f hf hy c)
@@ -581,7 +581,7 @@ theorem exists_glueingSpace_factorization {X Y : AlgebraicSpaces B S hS} (f : X 
     ⟨glueingSpacePoint B S hS f hf hy c, _, isClosedImmersion_glueingSpacePoint B S hS f hf hy c,
       glueingSpacePoint_comp_toBase B S hS f hf hy c, hfib.trans hrange, hrange⟩, ?_⟩
   · exact ObjectProperty.hom_ext _ (glueingSpaceFromSource_comp_toBase B S hS f hf hy c)
-  · show IsIso (openComplementRestriction B S hS (glueingSpaceFromSource B S hS f hf hy c)
+  · change IsIso (openComplementRestriction B S hS (glueingSpaceFromSource B S hS f hf hy c)
       (pointsMap B S hS _ (glueingSpaceToBase B S hS f hf hy c) ⁻¹'
         Set.range (pointsMap B S hS (yoneda.obj (BigFppfOver.mk B S hS hk σ)) y)))
     rw [hfib]

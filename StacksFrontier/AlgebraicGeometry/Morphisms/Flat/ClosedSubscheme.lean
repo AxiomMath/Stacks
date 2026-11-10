@@ -258,7 +258,7 @@ public theorem support_bijOn_flat_closedImmersions (X : Scheme.{u}) :
   classical
   refine ⟨?_, ?_, ?_⟩
   · intro I (hI : Flat I.subschemeι)
-    show StableUnderGeneralization (I.support : Set X)
+    change StableUnderGeneralization (I.support : Set X)
     rw [← I.range_subschemeι]
     exact (Flat.generalizingMap I.subschemeι).stableUnderGeneralization_range
   · intro I (hI : Flat I.subschemeι) J (hJ : Flat J.subschemeι) hsup

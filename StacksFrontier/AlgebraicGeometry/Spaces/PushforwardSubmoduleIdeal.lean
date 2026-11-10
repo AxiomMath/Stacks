@@ -199,20 +199,20 @@ theorem submoduleIdeal_eq_ker_cokernel :
   set P := submoduleIdeal B S hS f hf M
   set adj := SheafOfModules.pullbackPushforwardAdjunction.{u} (smallBaseChangeSharp B S hS f hf)
   refine le_antisymm (submoduleIdeal_le B S hS f hf M fun Q a ha => ?_) ?_
-  · show _ = (0 : (cokernel θ).val.obj _)
+  · change _ = (0 : (cokernel θ).val.obj _)
     have h : M.ι.val.app Q ⟨a, ha⟩ = a := rfl
     rw [submodule_ι_eq] at h
     rw [← h]
-    show (θ ≫ cokernel.π θ).val.app _ _ = 0
+    change (θ ≫ cokernel.π θ).val.app _ _ = 0
     rw [cokernel.condition]
     rfl
   · have hc : θ ≫ cokernel.π P.ι = 0 := by
       have h0 : M.ι ≫ (SheafOfModules.pushforward.{u} (smallBaseChangeSharp B S hS f hf)).map
             (cokernel.π P.ι) = 0 := by
         ext Q a
-        show (cokernel.π P.ι).val.app _ (P.ι.val.app _
+        change (cokernel.π P.ι).val.app _ (P.ι.val.app _
           ⟨a.1, le_pushforwardSubmodule_submoduleIdeal B S hS f hf M Q a.2⟩) = 0
-        show (P.ι ≫ cokernel.π P.ι).val.app _ _ = 0
+        change (P.ι ≫ cokernel.π P.ι).val.app _ _ = 0
         rw [cokernel.condition]
         rfl
       have h1 := Adjunction.homEquiv_naturality_right_symm adj M.ι (cokernel.π P.ι)
@@ -224,7 +224,7 @@ theorem submoduleIdeal_eq_ker_cokernel :
       have e : cokernel.π P.ι = cokernel.π θ ≫ cokernel.desc θ (cokernel.π P.ι) hc :=
         (cokernel.π_desc _ _ _).symm
       rw [e]
-      show (cokernel.desc θ (cokernel.π P.ι) hc).val.app W
+      change (cokernel.desc θ (cokernel.π P.ι) hc).val.app W
         ((cokernel.π θ).val.app W x) = 0
       rw [(SheafOfModules.Submodule.mem_ker _ W x).1 hx]
       exact map_zero _
@@ -234,7 +234,7 @@ theorem submoduleIdeal_eq_ker_cokernel :
       k.ι (SheafOfModules.Submodule.ker_ι_comp _)
     have hxk : x ∈ k.obj W := hx'
     have hxl : P.ι.val.app W (l.val.app W ⟨x, hxk⟩) = x := by
-      show (l ≫ P.ι).val.app W ⟨x, hxk⟩ = x
+      change (l ≫ P.ι).val.app W ⟨x, hxk⟩ = x
       rw [show l ≫ P.ι = k.ι from hl]
       rfl
     rw [← hxl]
@@ -452,7 +452,7 @@ private theorem submoduleIdealPresheaf_le_map
       chartSectionsRestrict B S hS Y (smallBaseChangeProdLift B S hS f hf v w)
         (chartSectionsRestrict B S hS Y
           ((smallBaseChange B S hS f hf).map (SmallEtale.prodSnd B S hS X.1 Q Q')) m) := by
-    show chartSectionsRestrict B S hS Y w m = _
+    change chartSectionsRestrict B S hS Y w m = _
     rw [← chartSectionsRestrict_comp_apply, smallBaseChangeProdLift_snd]
   rw [hgen]
   have hmem := restrict_mem_map B S hS f hf hMc
@@ -505,7 +505,7 @@ theorem pushforwardSubmodule_submoduleIdeal_le (haff : IsAffineHom B S hS f.hom)
         M.obj (op (Zc j)) :=
     mem_of_mem_submoduleIdeal_of_isAffine B S hS f hf hmul hMc haff (Zc j) (hZaff j)
       ((submoduleIdeal B S hS f hf M).map_mem ((smallBaseChange B S hS f hf).map (c j)).op hx)
-  show ((smallBaseChangeModulePushforward.{u, u} B S hS f hf).obj
+  change ((smallBaseChangeModulePushforward.{u, u} B S hS f hf).obj
       (SheafOfModules.unit (smallEtaleRingSheaf B S hS Y.1 Y.2))).val.map
         ((c j).op ≫ h.op) x ∈ M.obj (op Z)
   rw [PresheafOfModules.map_comp_apply]

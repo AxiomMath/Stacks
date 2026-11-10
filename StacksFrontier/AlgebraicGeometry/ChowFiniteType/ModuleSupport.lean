@@ -153,7 +153,7 @@ private theorem comapPullbackIso_hom_comp :
       Scheme.IdealSheafData.comapIso_hom_fst_assoc]
   apply pullback.hom_ext
   · rw [Category.assoc, overPullback_map_left_fst, Category.assoc, overPullback_map_left_fst]
-    show (comapPullbackIso p I).hom ≫
+    change (comapPullbackIso p I).hom ≫
         pullback.fst (I.subschemeι ≫ X₀.hom) p ≫ I.subschemeι ≫ f₀.left = _
     rw [← Category.assoc (pullback.fst (I.subschemeι ≫ X₀.hom) p), ← Category.assoc, hfst,
       Category.assoc]
@@ -267,7 +267,7 @@ theorem exists_isProper_schemeTheoreticSupport_baseChange_of_isLimit
       (Scheme.Modules.schemeTheoreticSupport F₀).subschemeι
   have : LocallyOfFiniteType
       (closedHom f₀ (Scheme.Modules.schemeTheoreticSupport F₀)).left := by
-    show LocallyOfFiniteType
+    change LocallyOfFiniteType
       ((Scheme.Modules.schemeTheoreticSupport F₀).subschemeι ≫ f₀.left)
     infer_instance
   have : IsProper ((Over.pullback (c.π.app i₀)).map

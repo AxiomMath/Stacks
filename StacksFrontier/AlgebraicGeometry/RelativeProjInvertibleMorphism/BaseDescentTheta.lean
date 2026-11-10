@@ -226,7 +226,7 @@ theorem descentTwistIso_hom_pullbackSection_psiU (d : ℕ) (V : Z.Opens) (a : Γ
     (relativeProj A).toBase (relativeProj A₁).toBase q (descentProj q Φ hΦ)
     (descentProj_comp_toBase q Φ hΦ) ((twD A).ψ d) V (q ⁻¹ᵁ V) le_rfl h' a
   refine Eq.trans ?_ H
-  show _ = Scheme.Modules.Hom.app ((descentTwistIso q Φ hΦ).hom.app (d : ℤ))
+  change _ = Scheme.Modules.Hom.app ((descentTwistIso q Φ hΦ).hom.app (d : ℤ))
     ((relativeProj A₁).toBase ⁻¹ᵁ (q ⁻¹ᵁ V))
     ((Stacks.AlgebraicGeometry.RelativeProjBaseChangeTwist.basePsi (relativeProj A).toBase
       (relativeProj A₁).toBase q (descentProj q Φ hΦ) (descentProj_comp_toBase q Φ hΦ)
@@ -578,7 +578,7 @@ theorem thetaDescentSourceIso_inv_app_pullbackSection (d : ℕ) (V : Z.Opens)
       ((relativeProj A).toBase ⁻¹ᵁ V) ((relativeProj A₁).toBase ⁻¹ᵁ (q ⁻¹ᵁ V))
           (toBase_preimage_le_descentProj_preimage q Φ hΦ V) x)
   rw [thetaDescentSourceIso_inv_app]
-  show ((Scheme.Modules.pullback (descentIncl q Φ hΦ ψ χ hχ)).map
+  change ((Scheme.Modules.pullback (descentIncl q Φ hΦ ψ χ hχ)).map
       ((Scheme.Modules.pullback ((toGradedPowerMap (χ)).globalMorphism (relativeProj A₁))).map
       (descentTwistPieceHom q Φ hΦ (d : ℤ)))).val.app
           (op (((toGradedPowerMap ψ).globalMorphism (relativeProj A)) ⁻¹ᵁ

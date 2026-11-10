@@ -135,7 +135,7 @@ public lemma sectionTensorMap_surjective_of_isClosed_inf
   let : IsAffine U.toScheme := hU
   let : IsAffine W.toScheme := hW
   have hgclosed : IsClosed (Set.range g) := by
-    show IsClosed (g.opensRange : Set U.toScheme)
+    change IsClosed (g.opensRange : Set U.toScheme)
     rwa [Scheme.opensRange_homOfLE]
   let : IsClosedImmersion g := IsClosedImmersion.of_isPreimmersion g hgclosed
   have hgsurj : Function.Surjective g.appTop :=
@@ -177,7 +177,7 @@ private lemma t2Space_of_isAffineOpen_of_topologicalKrullDim_eq_zero (X : Scheme
     rw [← IsHomeomorph.topologicalKrullDim_eq _ hU.isoSpec.hom.homeomorph.isHomeomorph]
     exact (topologicalKrullDim_subspace_le X (U : Set X)).trans hX.le
   have hle : Order.krullDim (PrimeSpectrum Γ(X, U)) ≤ 0 := by
-    show ringKrullDim Γ(X, U) ≤ 0
+    change ringKrullDim Γ(X, U) ≤ 0
     rw [← PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim]
     exact hdimSpec
   have hmax : ∀ p : PrimeSpectrum Γ(X, U), IsMax p :=
@@ -328,7 +328,7 @@ private lemma isAffineOpen_of_isCompact_of_eq_biSup (X : Scheme.{u}) [QuasiSepar
         refine hK.of_isClosed_subset ?_ ?_
         · simpa [V] using hs.isClosed_biUnion fun i _ ↦
           isClosed_of_isAffineOpen_of_topologicalKrullDim_eq_zero X hX i.2
-        · show V ≤ K
+        · change V ≤ K
           rw [hKs]
           exact iSup_le fun i ↦ iSup_le fun hi ↦
             le_iSup_of_le i (le_iSup_of_le (Set.mem_insert_of_mem A hi) le_rfl)

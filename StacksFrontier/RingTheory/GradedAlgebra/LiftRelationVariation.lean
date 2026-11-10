@@ -156,8 +156,7 @@ theorem map_lTensor_mulRight (θ : (↥I) ⊗[k] P →+ Q)
     (hθ : ∀ (b : ↥I) (y : Q), θ (b ⊗ₜ π y) = (b : A) • y)
     (hπsurj : Function.Surjective π) (y : Q) (ξ : (↥I) ⊗[k] P) :
     θ (LinearMap.lTensor (↥I) (LinearMap.mulRight k (π y)) ξ) = θ ξ * y := by
-  induction ξ using TensorProduct.induction_on with
-  | zero => simp
+  induction ξ using TensorProduct.inductionOn with
   | tmul b m =>
       obtain ⟨w, rfl⟩ := hπsurj m
       rw [LinearMap.lTensor_tmul]

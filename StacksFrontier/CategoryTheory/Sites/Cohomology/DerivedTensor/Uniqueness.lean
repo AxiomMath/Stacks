@@ -232,7 +232,7 @@ tensor products compute the total tensor complex there, and the comparison is th
 the one with the inverse of the other. -/
 theorem tensorIso_hom_app_app (T T' : DerivedTensorProduct R)
     (K L : CochainComplex (Modules R) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat R K) (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+    (hK : Stacks.SheafOfModules.KFlat R K) (hL : Stacks.SheafOfModules.KFlat R L) :
     ((tensorIso R T T').hom.app (DerivedCategory.Q.obj K)).app (DerivedCategory.Q.obj L) =
       (T.comparison K L hK hL).hom ≫ (T'.comparison K L hK hL).inv := by
   have hL' : CochainComplex.KFlatBifunctor.KFlat (curriedTensor (Mod R)) L := hL
@@ -251,7 +251,7 @@ theorem tensorIso_hom_app_app (T T' : DerivedTensorProduct R)
       (CochainComplex.KFlatBifunctor.comparisonRight (curriedTensor (Mod R)) K L hL').hom ≫
         (T'.comparison K L hK hL).inv :=
     derivedBifunctorTensorIso_hom_app_app R T' K L hK hL
-  show ((derivedBifunctorTensorIso R T).inv.app (DerivedCategory.Q.obj K)).app
+  change ((derivedBifunctorTensorIso R T).inv.app (DerivedCategory.Q.obj K)).app
         (DerivedCategory.Q.obj L) ≫
       ((derivedBifunctorTensorIso R T').hom.app (DerivedCategory.Q.obj K)).app
         (DerivedCategory.Q.obj L) = _
@@ -262,7 +262,7 @@ theorem tensorIso_hom_app_app (T T' : DerivedTensorProduct R)
 other.** -/
 theorem tensorIso_hom_app_app_comp_comparison (T T' : DerivedTensorProduct R)
     (K L : CochainComplex (Modules R) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat R K) (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+    (hK : Stacks.SheafOfModules.KFlat R K) (hL : Stacks.SheafOfModules.KFlat R L) :
     ((tensorIso R T T').hom.app (DerivedCategory.Q.obj K)).app (DerivedCategory.Q.obj L) ≫
         (T'.comparison K L hK hL).hom = (T.comparison K L hK hL).hom := by
   rw [tensorIso_hom_app_app, Category.assoc, Iso.inv_hom_id, Category.comp_id]
@@ -272,7 +272,7 @@ other.**  This is the form in which the comparison is pushed *out* of a composit
 what the commutativity constraint needs. -/
 theorem comparison_inv_comp_tensorIso_hom_app_app (T T' : DerivedTensorProduct R)
     (K L : CochainComplex (Modules R) ℤ)
-    (hK : Stacks.SheafOfModules.KFlat.KFlat R K) (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+    (hK : Stacks.SheafOfModules.KFlat R K) (hL : Stacks.SheafOfModules.KFlat R L) :
     (T.comparison K L hK hL).inv ≫
         ((tensorIso R T T').hom.app (DerivedCategory.Q.obj K)).app (DerivedCategory.Q.obj L) =
       (T'.comparison K L hK hL).inv := by
@@ -291,8 +291,8 @@ resolutions `P ⟶ K`, `N ⟶ L`, which exist by Stacks 06YS. -/
 theorem comp_toTensor_of_comp_comparison (T T' : DerivedTensorProduct R)
     (α : T.tensor ≅ T'.tensor)
     (hα : ∀ (K L : CochainComplex (Modules R) ℤ)
-        (hK : Stacks.SheafOfModules.KFlat.KFlat R K)
-        (hL : Stacks.SheafOfModules.KFlat.KFlat R L),
+        (hK : Stacks.SheafOfModules.KFlat R K)
+        (hL : Stacks.SheafOfModules.KFlat R L),
       (α.hom.app (DerivedCategory.Q.obj K)).app (DerivedCategory.Q.obj L) ≫
         (T'.comparison K L hK hL).hom = (T.comparison K L hK hL).hom)
     (K L : CochainComplex (Modules R) ℤ) :
@@ -300,8 +300,8 @@ theorem comp_toTensor_of_comp_comparison (T T' : DerivedTensorProduct R)
       T.toTensor K L := by
   obtain ⟨P, p, hP₀, hp⟩ := exists_kFlat_quasiIso R K
   obtain ⟨N, q, hN₀, hq⟩ := exists_kFlat_quasiIso R L
-  have hP : Stacks.SheafOfModules.KFlat.KFlat R P := hP₀
-  have hN : Stacks.SheafOfModules.KFlat.KFlat R N := hN₀
+  have hP : Stacks.SheafOfModules.KFlat R P := hP₀
+  have hN : Stacks.SheafOfModules.KFlat R N := hN₀
   have : IsIso (DerivedCategory.Q.map p) := (DerivedCategory.isIso_Q_map_iff_quasiIso _ p).2 hp
   have : IsIso (DerivedCategory.Q.map q) := (DerivedCategory.isIso_Q_map_iff_quasiIso _ q).2 hq
   have hPN : (α.hom.app (DerivedCategory.Q.obj P)).app (DerivedCategory.Q.obj N) ≫
@@ -328,7 +328,7 @@ theorem tensorIso_hom_app_app_comp_toTensor (T T' : DerivedTensorProduct R)
 /-- **The comparison is compatible with the right one-sided K-flat comparisons**: no flatness is
 assumed of the left factor. -/
 theorem tensorIso_hom_app_app_comp_comparisonRight (T T' : DerivedTensorProduct R)
-    (K L : CochainComplex (Modules R) ℤ) (hL : Stacks.SheafOfModules.KFlat.KFlat R L) :
+    (K L : CochainComplex (Modules R) ℤ) (hL : Stacks.SheafOfModules.KFlat R L) :
     ((tensorIso R T T').hom.app (DerivedCategory.Q.obj K)).app (DerivedCategory.Q.obj L) ≫
         (T'.comparisonRight K L hL).hom = (T.comparisonRight K L hL).hom := by
   rw [← T.toTensor_eq_comparisonRight K L hL, ← T'.toTensor_eq_comparisonRight K L hL]
@@ -337,7 +337,7 @@ theorem tensorIso_hom_app_app_comp_comparisonRight (T T' : DerivedTensorProduct 
 /-- **The comparison is compatible with the left one-sided K-flat comparisons**: no flatness is
 assumed of the right factor. -/
 theorem tensorIso_hom_app_app_comp_comparisonLeft (T T' : DerivedTensorProduct R)
-    (K L : CochainComplex (Modules R) ℤ) (hK : Stacks.SheafOfModules.KFlat.KFlat R K) :
+    (K L : CochainComplex (Modules R) ℤ) (hK : Stacks.SheafOfModules.KFlat R K) :
     ((tensorIso R T T').hom.app (DerivedCategory.Q.obj K)).app (DerivedCategory.Q.obj L) ≫
         (T'.comparisonLeft K L hK).hom = (T.comparisonLeft K L hK).hom := by
   rw [← T.toTensor_eq_comparisonLeft K L hK, ← T'.toTensor_eq_comparisonLeft K L hK]

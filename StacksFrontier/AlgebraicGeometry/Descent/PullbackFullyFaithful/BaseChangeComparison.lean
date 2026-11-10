@@ -49,14 +49,14 @@ variable {X X' : Scheme.{u}} (f : X' ⟶ X)
 lemma pullbackMap_left_fst {V W : Over X} (v : V ⟶ W) :
     ((Over.pullback f).map v).left ≫ pullback.fst W.hom f =
       pullback.fst V.hom f ≫ v.left := by
-  simp [Over.pullback_map_left, pullback.lift_fst]
+  simp [Over.pullback_map_left]
 
 /-- For `v : V ⟶ W` over `X`, the base change `f^* v` commutes with the second projections
 of `f^* V` and `f^* W` to `X'`. -/
 @[reassoc]
 lemma pullbackMap_left_snd {V W : Over X} (v : V ⟶ W) :
     ((Over.pullback f).map v).left ≫ pullback.snd W.hom f = pullback.snd V.hom f := by
-  simp [Over.pullback_map_left, pullback.lift_snd]
+  simp [Over.pullback_map_left]
 
 end PullbackMap
 

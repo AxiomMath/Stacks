@@ -462,7 +462,7 @@ public theorem ModuleCompletionSequence.unit_projection
         DerivedCategory.Q.map (principalCompletionUnit A f (moduleComplex A M)) :=
       c.unit_iso (moduleComplex A M)
     rw [← Category.assoc, hη]
-    show DerivedCategory.Q.map (principalCompletionUnit A f (moduleComplex A M)) ≫
+    change DerivedCategory.Q.map (principalCompletionUnit A f (moduleComplex A M)) ≫
       DerivedCategory.Q.map (CochainComplex.mappingCocone.fst _) ≫
         DerivedCategory.Q.map _ = DerivedCategory.Q.map _
     rw [← Functor.map_comp, ← Functor.map_comp, ← Category.assoc,
@@ -536,7 +536,7 @@ private lemma moduleDerivedLimit_isDerivedLimit
         DerivedCategory.Q.map ((CochainComplex.singleFunctor (ModuleCat.{v} A) 0).map
           (E.map (homOfLE (Nat.le_succ n)).op))
   have hd : T.mor₂ ≫ c = c ≫ d := by
-    show DerivedCategory.Q.map (complexDifference A
+    change DerivedCategory.Q.map (complexDifference A
       (E ⋙ CochainComplex.singleFunctor (ModuleCat.{v} A) 0)) ≫ c = c ≫ d
     apply Pi.hom_ext
     intro n
@@ -553,7 +553,7 @@ private lemma moduleDerivedLimit_isDerivedLimit
     (by change T.mor₁ ≫ c = 𝟙 _ ≫ (T.mor₁ ≫ c); simp) (by exact hd)
     (by
       dsimp [T', ec]
-      show (milnorTriangle A (E ⋙ CochainComplex.singleFunctor
+      change (milnorTriangle A (E ⋙ CochainComplex.singleFunctor
         (ModuleCat.{v} A) 0)).mor₃ ≫ (shiftFunctor _ 1).map (𝟙 _) =
         c ≫ inv c ≫ (milnorTriangle A (E ⋙ CochainComplex.singleFunctor
           (ModuleCat.{v} A) 0)).mor₃

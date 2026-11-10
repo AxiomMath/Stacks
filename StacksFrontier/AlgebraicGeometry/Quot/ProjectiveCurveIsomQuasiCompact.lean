@@ -347,7 +347,7 @@ theorem isQuasiCompact_isomSubfunctor (q₁ : Z₁ ⟶ U) (q₂ : Z₂ ⟶ U)
     ProjectivePairProductEmbedding.exists_isClosedImmersion_twist ((𝒯).map q₁) ((𝒯).map q₂)
       hq₁ hq₂
   have hi'c : IsClosedImmersion ((𝒯).map (siteEmbedding i)) := by
-    show IsClosedImmersion ((PreservesPullback.iso (𝒯) q₁ q₂).hom ≫ i)
+    change IsClosedImmersion ((PreservesPullback.iso (𝒯) q₁ q₂).hom ≫ i)
     infer_instance
   have hsep : Space.IsSeparated B integerBase B.contains_integerBase (yoneda.map q₂) :=
     (Space.isSeparated_yoneda_map_iff B integerBase B.contains_integerBase q₂).2 inferInstance
@@ -371,7 +371,7 @@ theorem isQuasiCompact_isomSubfunctor (q₁ : Z₁ ⟶ U) (q₂ : Z₂ ⟶ U)
     hfin.toFinset fun p => ?_
   have hsub : Subsingleton ((𝒯).obj (Over.mk (⟨p.toBase⟩ : B.obj p.contained ⟶
       B.obj B.contains_integerBase))) := by
-    show Subsingleton (Spec (.of p.carrier))
+    change Subsingleton (Spec (.of p.carrier))
     infer_instance
   exact ⟨_, hfin.mem_toFinset.2 ⟨_, rfl⟩, mem_hilbertModelSubfunctor_graph i hi hi'c A B' e eL
     hfp₁ hfp₂ hsep hfp hflat hproper (Iso.refl _) p.value (hdim _ hsub)

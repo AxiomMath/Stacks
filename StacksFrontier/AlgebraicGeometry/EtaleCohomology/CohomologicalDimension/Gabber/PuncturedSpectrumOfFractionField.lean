@@ -101,9 +101,9 @@ theorem exists_height_coheight_of_ne_closedPoint {d : ℕ} (hd : ringKrullDim A 
   rw [hd, ← WithBot.coe_add] at h
   have h' : Order.height y + Order.coheight y ≤ (d : ℕ∞) := by exact_mod_cast h
   obtain ⟨a, ha⟩ := ENat.ne_top_iff_exists.1
-    (ne_top_of_le_ne_top (ENat.coe_ne_top d) (le_trans le_self_add h'))
+    (ne_top_of_le_ne_top (ENat.natCast_ne_top d) (le_trans le_self_add h'))
   obtain ⟨b, hb⟩ := ENat.ne_top_iff_exists.1
-    (ne_top_of_le_ne_top (ENat.coe_ne_top d) (le_trans le_add_self h'))
+    (ne_top_of_le_ne_top (ENat.natCast_ne_top d) (le_trans le_add_self h'))
   refine ⟨a, b, ha.symm, hb.symm, ?_, ?_⟩
   · rw [← ha, ← hb] at h'
     exact_mod_cast h'

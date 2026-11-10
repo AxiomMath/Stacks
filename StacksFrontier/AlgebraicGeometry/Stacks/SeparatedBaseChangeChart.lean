@@ -108,7 +108,7 @@ theorem exists_iso_comp_representingMap_fst_of_isTwoFibreProduct
         representingMap B S hS P₂.pt P₂.pt T₂ T₂ e₂ e₂ (𝟙 _) :=
       representingMap_congr_twoIso B S hS T₂ T₂ e₂ e₂ θ
     rw [← representingMap_comp B S hS T₂ T₁ T₂ e₂ e₁ e₂, key, representingMap_id]
-  · show representingMap B S hS P₁.pt P₂.pt T₁ T₂ e₁ e₂ A.hom ≫ _ = _
+  · change representingMap B S hS P₁.pt P₂.pt T₁ T₂ e₁ e₂ A.hom ≫ _ = _
     rw [← representingMap_comp B S hS T₁ T₂ F e₁ e₂ eF,
       ← representingMap_congr_twoIso B S hS T₁ F e₁ eF A.isoFst]
 
@@ -288,7 +288,7 @@ theorem isSeparated_baseChange_iff_isProper
         hΔ' (localEssSurj_twoFibreProductSquare_snd B S hS g₀ Dc.fst hg₀) h⟩
   refine hsep.trans ((hasRelativeProperty_iff_prop_representingMap.{u, u} B S hS
     (fun _ _ k => Space.IsProper B S hS k.hom) Q'.fst hQ'fst T' E hT' hE eT' eE).trans ?_)
-  show Space.IsProper B S hS (representingMap B S hS Q'.pt C.pt T' E eT' eE Q'.fst) ↔ _
+  change Space.IsProper B S hS (representingMap B S hS Q'.pt C.pt T' E eT' eE Q'.fst) ↔ _
   -- the base change of `m₀` along `Y' ×_{Y₀} V₀ ⟶ V₀`
   have hA : IsPullback (pullback.snd q (diagonalCoverBaseChangeMap B S hS f₀ g₀ V₀ eV₀ T₀ eT₀ ≫
       diagonalCoverStructureMap B S hS f₀ g₀ V₀ eV₀)) φ
@@ -306,9 +306,11 @@ theorem isSeparated_baseChange_iff_isProper
       (representingMap B S hS R.pt Q₀.pt TR T₀ eTR eT₀ R.snd)
       (pullback.snd q (diagonalCoverStructureMap B S hS f₀ g₀ V₀ eV₀))
       (diagonalCoverBaseChangeMap B S hS f₀ g₀ V₀ eV₀ T₀ eT₀) :=
-    hI.of_iso (Iso.refl _) j (Iso.refl _) (Iso.refl _) (by simp only [Iso.refl_hom, Category.id_comp, Category.comp_id] <;> rfl)
-      (by simp only [Iso.refl_hom, Category.id_comp, Category.comp_id] <;> rfl)
-      (by simp only [Iso.refl_hom, Category.id_comp, Category.comp_id, hj] <;> rfl) (by simp only [Iso.refl_hom, Category.id_comp, Category.comp_id] <;> rfl)
+    hI.of_iso (Iso.refl _) j (Iso.refl _) (Iso.refl _)
+      (by simp only [Iso.refl_hom, Category.id_comp]; rfl)
+      (by simp only [Iso.refl_hom, Category.id_comp, Category.comp_id]; rfl)
+      (by simp only [Iso.refl_hom, Category.comp_id, hj])
+      (by simp only [Iso.refl_hom, Category.id_comp, Category.comp_id]; rfl)
   let k := hI'.isoIsPullback _ _ hA.flip
   have hk : k.hom ≫ φ = representingMap B S hS R.pt C.pt TR E eTR eE R.fst ≫ j.hom :=
     hI'.isoIsPullback_hom_fst _ _ hA.flip

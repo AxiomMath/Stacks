@@ -151,7 +151,7 @@ public lemma reesToBase_degreeOne {X : Scheme.{u}} (I : X.IdealSheafData)
   rw [reesToBase, DirectSum.liftRingHom_apply]
   dsimp only [reesDegreeOne]
   simp only [DirectSum.toSemiring_of]
-  show ((reesAlgebraData I).pieceEquiv 1 (by omega) U
+  change ((reesAlgebraData I).pieceEquiv 1 (by omega) U
     (((reesAlgebraData I).pieceEquiv 1 (by omega) U).symm
       ⟨(a : X.presheaf.obj (.op U.1)), by simp⟩) :
         X.presheaf.obj (.op U.1)) = (a : X.presheaf.obj (.op U.1))
@@ -277,7 +277,7 @@ public lemma reesToLocalization_mk {X : Scheme.{u}}
   have hφ : φ (reesDegreeOne I U a).1 =
       algebraMap (X.presheaf.obj (.op U.1))
         (Localization.Away (a : X.presheaf.obj (.op U.1))) a := by
-    show algebraMap _ _ (reesToBase I U (reesDegreeOne I U a).1) = _
+    change algebraMap _ _ (reesToBase I U (reesDegreeOne I U a).1) = _
     rw [reesToBase_degreeOne]
   have hmul : algebraMap (X.presheaf.obj (.op U.1))
       (Localization.Away (a : X.presheaf.obj (.op U.1))) a *
@@ -287,7 +287,7 @@ public lemma reesToLocalization_mk {X : Scheme.{u}}
   have hunit : IsUnit (φ (reesDegreeOne I U a).1) := isUnit_iff_exists_inv.mpr
     ⟨IsLocalization.Away.invSelf (a : X.presheaf.obj (.op U.1)), by rw [hφ]; exact hmul⟩
   unfold reesToLocalization
-  show Localization.awayLift φ (reesDegreeOne I U a).1 hunit
+  change Localization.awayLift φ (reesDegreeOne I U a).1 hunit
       (Localization.mk x ⟨(reesDegreeOne I U a).1 ^ n, n, rfl⟩) = _
   rw [Localization.awayLift_mk φ (reesDegreeOne I U a).1 x
     (IsLocalization.Away.invSelf (a : X.presheaf.obj (.op U.1)))
@@ -402,7 +402,7 @@ public lemma reesToAffineBlowup_injective {X : Scheme.{u}}
   have hprod : f ^ k * (f ^ m * x - f ^ n * y) = 0 :=
     reesToBase_injective_on_grade I U (k + (m + n)) _ ht hzero
   apply HomogeneousLocalization.val_injective (Submonoid.powers f)
-  show (Localization.mk x (⟨f ^ n, ⟨n, rfl⟩⟩ : Submonoid.powers f) :
+  change (Localization.mk x (⟨f ^ n, ⟨n, rfl⟩⟩ : Submonoid.powers f) :
       Localization.Away f) =
     Localization.mk y (⟨f ^ m, ⟨m, rfl⟩⟩ : Submonoid.powers f)
   rw [Localization.mk_eq_mk_iff, Localization.r_iff_exists]
@@ -430,7 +430,7 @@ public lemma reesToAffineBlowup_surjective {X : Scheme.{u}}
   refine ⟨HomogeneousLocalization.Away.mk (s.sectionRingGrading U.1)
     (reesDegreeOne I U a).2 n r hr', ?_⟩
   apply Subtype.ext
-  show reesToLocalization I U a
+  change reesToLocalization I U a
     (HomogeneousLocalization.Away.mk (s.sectionRingGrading U.1)
       (reesDegreeOne I U a).2 n r hr') = _
   rw [reesToLocalization_mk, hrx]
@@ -462,7 +462,7 @@ public lemma relativeProj_sectionRingBaseMap_apply
       (r • s.algebra.one.eval (Opposite.op U)) := by
   let data := Stacks.RelativeProj.Situation.sectionRingStructure s
   let := data.gradedRing U
-  show data.baseMap U r = _
+  change data.baseMap U r = _
   exact data.baseMap_apply U r
 
 /-- The map to the affine blowup algebra carries the degree-zero part of the structure-sheaf map to
@@ -488,7 +488,7 @@ private lemma reesToAffineBlowup_baseMap {X : Scheme.{u}}
   let := s.sectionRingGradingGradedRing U.1
   let e := s.sectionRingBaseMap U.1 r
   have he : e ∈ s.sectionRingGrading U.1 0 := by
-    show (reesSituation I).sectionRingBaseMap U.1 r ∈
+    change (reesSituation I).sectionRingBaseMap U.1 r ∈
       Set.range (DirectSum.of ((reesSituation I).sectionPieces U.1) 0)
     rw [relativeProj_sectionRingBaseMap_apply
       (reesSituation I) U.1 r]
@@ -501,7 +501,7 @@ private lemma reesToAffineBlowup_baseMap {X : Scheme.{u}}
       (GradedRing.projZeroRingHom'_apply_coe (s.sectionRingGrading U.1) e0)
   apply Subtype.ext
   rw [reesToAffineBlowup_val]
-  show reesToLocalization I U a
+  change reesToLocalization I U a
       (HomogeneousLocalization.fromZeroRingHom
         (s.sectionRingGrading U.1)
         (Submonoid.powers (reesDegreeOne I U a).1)
@@ -515,7 +515,7 @@ private lemma reesToAffineBlowup_baseMap {X : Scheme.{u}}
   rw [hfrom, reesToLocalization_mk I U a 0 e he0']
   let r' : X.ringCatSheaf.obj.obj (Opposite.op U.1) := r
   have hbase : reesToBase I U e = r := by
-    show reesToBase I U
+    change reesToBase I U
       ((reesSituation I).sectionRingBaseMap U.1 r') = r
     let P := (reesAlgebraData I).algebra.piece 0
     let M := P.val.obj (Opposite.op U.1)
@@ -523,7 +523,7 @@ private lemma reesToAffineBlowup_baseMap {X : Scheme.{u}}
       (Opposite.op U.1)) M := M.isModule
     rw [relativeProj_sectionRingBaseMap_apply
       (reesSituation I) U.1 r', reesToBase_of]
-    show ((reesAlgebraData I).pieceEquiv (0 : ℤ) (by omega) U
+    change ((reesAlgebraData I).pieceEquiv (0 : ℤ) (by omega) U
       (r' • (reesAlgebraData I).algebra.one.eval (Opposite.op U.1)) :
       X.presheaf.obj (.op U.1)) = r
     rw [(reesAlgebraData I).pieceEquiv_smul,
@@ -606,7 +606,7 @@ public theorem affineBlowupStandardOpenIso_fraction {X : Scheme.{u}}
   let := (reesSituation I).sectionRingGradingGradedRing U.1
   simp only [affineBlowupStandardOpenIso, Iso.trans_hom, Category.assoc,
     Functor.mapIso_hom, Iso.op_hom, Iso.symm_hom, Iso.inv_hom_id, Category.comp_id]
-  show (((Spec.preimage (Spec.map
+  change (((Spec.preimage (Spec.map
       (reesToAffineBlowupEquiv I U a).toCommRingCatIso.hom)).hom
         (HomogeneousLocalization.Away.mk
           ((reesSituation I).sectionRingGrading U.1)
@@ -617,7 +617,7 @@ public theorem affineBlowupStandardOpenIso_fraction {X : Scheme.{u}}
       Localization.Away (a : X.presheaf.obj (.op U.1))) = _
   simp only [Spec.preimage_map, RingEquiv.toCommRingCatIso_hom, CommRingCat.hom_ofHom]
   delta reesToAffineBlowupEquiv
-  show ((reesToAffineBlowup I U a
+  change ((reesToAffineBlowup I U a
       (HomogeneousLocalization.Away.mk
         ((reesSituation I).sectionRingGrading U.1)
         (reesDegreeOne I U a).2 1 (reesDegreeOne I U b).1
@@ -627,7 +627,7 @@ public theorem affineBlowupStandardOpenIso_fraction {X : Scheme.{u}}
       Localization.Away (a : X.presheaf.obj (.op U.1))) = _
   delta reesToAffineBlowup
   simp only [RingHom.codRestrict_apply]
-  show reesToLocalization I U a
+  change reesToLocalization I U a
       (HomogeneousLocalization.Away.mk
         ((reesSituation I).sectionRingGrading U.1)
         (reesDegreeOne I U a).2 1 (reesDegreeOne I U b).1
@@ -715,7 +715,7 @@ public theorem blownUpAffine_chart_cover {X : Scheme.{u}} (I : X.IdealSheafData)
     have he := congrArg (fun f => f ((Proj.basicOpen
       ((reesSituation I).sectionRingGrading U.1)
       (reesDegreeOne I U a).1).ι y)) hp.w
-    show blowUpToBase I
+    change blowUpToBase I
       (Stacks.RelativeProj.Situation.relativeProjChart (reesSituation I) U
         ((Proj.basicOpen ((reesSituation I).sectionRingGrading U.1)
           (reesDegreeOne I U a).1).ι y)) ∈ U.1

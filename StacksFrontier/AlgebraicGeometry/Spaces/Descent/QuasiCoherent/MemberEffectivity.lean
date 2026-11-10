@@ -164,8 +164,8 @@ Faithfulness and fullness need nothing beyond the covering; essential surjectivi
 theorem isEquivalence_etaleCanonicalDescentFunctorOfIsZariskiCovering
     (hcov : IsZariskiCovering B S hS I (fun i => (Yi i).1) (fun i => (f i).hom))
     (heff : ∀ D : DescentDatum B S hS Yi f,
-      ∃ (M : Modules.{u, u} B S hS X.1 X.2) (hM : M.IsQuasicoherentOnSite)
-        (τ : ∀ i, (etaleModulePullback.{u, u} B S hS (f i) (hf i)).obj M ≅ D.F i),
+      ∃ (M : Modules.{u, u} B S hS X.1 X.2), M.IsQuasicoherentOnSite ∧
+        ∃ (τ : ∀ i, (etaleModulePullback.{u, u} B S hS (f i) (hf i)).obj M ≅ D.F i),
         ∀ (i j : I) (Z : SmallEtale B S hS (pair B S hS Yi f i j).1)
           (σ : M.val.obj (.op ((smallEtalePostcomp B S hS (f i) (hf i)).obj
             ((smallEtalePostcomp B S hS (pairFst B S hS Yi f i j)

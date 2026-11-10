@@ -70,7 +70,8 @@ stated in a section carrying the hypotheses that `P` and `Q` preserve the **righ
 the second functor is sections over an affine open, so the identity is taken from
 `natTransApp` directly here.  The companion statement under exactness of both functors is
 `CategoryTheory.ShortComplex.mapHomologyIso_hom_natTrans`
-(`StacksFrontier/CategoryTheory/Sites/Hypercovering/SpectralSequenceSecondPage.lean`), read on `hom`.
+(`StacksFrontier/CategoryTheory/Sites/Hypercovering/SpectralSequenceSecondPage.lean`), read on
+`hom`.
 -/
 
 @[expose] public section

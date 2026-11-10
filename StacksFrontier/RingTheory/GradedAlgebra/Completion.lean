@@ -2,7 +2,7 @@ module
 
 public import Mathlib.Algebra.Colimit.TensorProduct
 public import Mathlib.Algebra.Lie.OfAssociative
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 public import Mathlib.LinearAlgebra.TensorProduct.Quotient
 public import Mathlib.RingTheory.GradedAlgebra.Homogeneous.Ideal
 public import StacksCore.Tactic.StacksAttribute
@@ -316,7 +316,7 @@ lemma limGdIncl_phiD (D : GradedCompletionData) (d : ℤ) (m : D.ℳ d) :
     D.limGdIncl d (D.phiD d m)
       = D.φ (TensorProduct.tmul D.A (1 : D.A') (m : D.M)) := by
   apply Subtype.ext; funext n
-  show ((D.phiD d m : ∀ n, D.𝒢 n d) n : D.G n)
+  change ((D.phiD d m : ∀ n, D.𝒢 n d) n : D.G n)
       = (D.φ (TensorProduct.tmul D.A (1 : D.A') (m : D.M)) : ∀ n, D.G n) n
   rw [D.φ_spec (m : D.M) n]
   rfl
@@ -434,13 +434,13 @@ lemma exists_fg_mem_Ipow_smul (D : GradedCompletionData) (z : D.M)
       map_add' := by intro a b; simp [map_add]
       map_smul' := by
         intro c a'
-        show invLimProj D.I.toIdeal n (c • a') = c • invLimProj D.I.toIdeal n a'
+        change invLimProj D.I.toIdeal n (c • a') = c • invLimProj D.I.toIdeal n a'
         have hsm : (c • a' : D.A') = (toInvLimRing D.I.toIdeal c) * a' := rfl
         rw [hsm, map_mul]
         have hcoord : invLimProj D.I.toIdeal n (toInvLimRing D.I.toIdeal c)
             = Ideal.Quotient.mk In c := rfl
         rw [hcoord]
-        show Ideal.Quotient.mk In c * _ = c • _
+        change Ideal.Quotient.mk In c * _ = c • _
         rw [Algebra.smul_def]
         rfl } with hprojLin
   -- Push `1 ⊗ ⟨z⟩ = 0` along `projLin ⊗ id` to `(A/Iⁿ) ⊗ N'`.
@@ -448,7 +448,7 @@ lemma exists_fg_mem_Ipow_smul (D : GradedCompletionData) (z : D.M)
     have hcalc := congrArg (LinearMap.rTensor (N' : Submodule D.A D.M) projLin) hzero''
     rw [map_zero, LinearMap.rTensor_tmul] at hcalc
     have hp1 : projLin 1 = Ideal.Quotient.mk In 1 := by
-      show invLimProj D.I.toIdeal n 1 = Ideal.Quotient.mk In 1
+      change invLimProj D.I.toIdeal n 1 = Ideal.Quotient.mk In 1
       rw [map_one, map_one]
     rw [hp1] at hcalc
     exact hcalc
@@ -650,7 +650,7 @@ lemma phi_tmul_coord (D : GradedCompletionData) (a' : D.A') (m : D.M) (n : ℕ) 
     rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
   rw [htm, map_smul]
   -- The `n`-th component of `a' • y` (for `y : lim Gₙ`) is `invLimProj n a' • yₙ`.
-  show invLimProj D.I.toIdeal n a' • (D.φ (TensorProduct.tmul D.A (1 : D.A') m) : ∀ n, D.G n) n
+  change invLimProj D.I.toIdeal n a' • (D.φ (TensorProduct.tmul D.A (1 : D.A') m) : ∀ n, D.G n) n
       = invLimProj D.I.toIdeal n a' • D.φn n m
   rw [D.φ_spec m n]
 
@@ -889,7 +889,7 @@ lemma surj_tmul (D : GradedCompletionData) (d : ℤ) (a' : D.A') (x : D.M) :
   refine ⟨⟨∑ e ∈ s, w e, AddSubgroup.sum_mem _ (fun e _ => hwmem e)⟩, ?_⟩
   intro n
   -- LHS
-  show D.φn n (∑ e ∈ s, w e) = _
+  change D.φn n (∑ e ∈ s, w e) = _
   rw [map_sum]
   -- RHS
   have hpx : D.φn n x = ∑ e ∈ s, D.φn n (DirectSum.decompose D.ℳ x e : D.M) := by
@@ -923,14 +923,7 @@ lemma baseChange_degree_surjective_coord (D : GradedCompletionData)
       D.φn n (m : D.M)
         = (DirectSum.decompose (D.𝒢 n) ((D.φ t : ∀ n, D.G n) n) d : D.G n) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero =>
-      refine ⟨0, ?_⟩
-      intro n
-      show D.φn n (0 : D.M) = (DirectSum.decompose (D.𝒢 n) ((D.φ 0 : ∀ n, D.G n) n) d : D.G n)
-      have h0 : (D.φ 0 : ∀ n, D.G n) n = 0 := by rw [map_zero]; rfl
-      rw [map_zero, h0]
-      simp
+    induction t using TensorProduct.inductionOn with
     | tmul a' x =>
       obtain ⟨m, hm⟩ := D.surj_tmul d a' x
       refine ⟨m, ?_⟩

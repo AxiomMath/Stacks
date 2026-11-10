@@ -30,7 +30,7 @@ This is the identification recorded as missing by the section *What this leaves 
 `StacksFrontier/AlgebraicGeometry/Spaces/RepresentedClosedSubspace.lean` — "nor is the
 identification of the space-level universal first-order thickening of a morphism of
 representable spaces with the scheme-level one in the tree; clause (2) needs that too" — and by
-item 2 of the carry note of `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/LocalCompleteIntersection/ConormalShortExact.lean` under
+item 2 of the carry note of `ConormalShortExact.lean`, in the directory
 `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/LocalCompleteIntersection/`.
 
 ## Main results
@@ -60,7 +60,8 @@ item 2 of the carry note of `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/P
 
 **Why the ambient space is representable at all.**  Stacks 05ZR, which would make a thickening of
 a scheme a scheme, is not available in this development; the implementation notes of the module
-`StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.PseudoCoherent.LocalCompleteIntersection.Conormal`
+`Conormal` (in
+`StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.PseudoCoherent.LocalCompleteIntersection`)
 record that, and it is why the étale chart used there is taken on the ambient space of the
 thickening and pulled back rather than extended across it.  The route here does not need 05ZR:
 the scheme-level universal first-order thickening of the underlying morphism of schemes exists by
@@ -286,8 +287,8 @@ theorem exists_schemeThickening_of_universalFirstOrderThickening
   -- Formal unramifiedness of `g` passes to the morphism of schemes, Stacks 049T.
   have hFUy : FormallyUnramified (yoneda.map q) := by
     rw [hq]
-    haveI : Mono eV.hom := IsIso.mono_of_iso _
-    haveI : Mono eU.inv := IsIso.mono_of_iso _
+    have : Mono eV.hom := IsIso.mono_of_iso _
+    have : Mono eU.inv := IsIso.mono_of_iso _
     exact formallyUnramified_comp _ _ (formallyUnramified_of_mono eV.hom)
       (formallyUnramified_comp _ _ s.formallyUnramified
         (formallyUnramified_of_mono eU.inv))

@@ -1,8 +1,7 @@
 module
 
 public import StacksFrontier.AlgebraicGeometry.Chow.ChangeBaseScheme.AlgebraicFieldExtensionTorsion
-public import
-  StacksFrontier.AlgebraicGeometry.Chow.ChangeBaseScheme.AlgebraicFieldExtensionFiniteStageDivisibility
+public import StacksFrontier.AlgebraicGeometry.Chow.ChangeBaseScheme.AlgebraicFieldExtensionFiniteStageDivisibility
 public import StacksFrontier.AlgebraicGeometry.Chow.ProperPushforwardChow.Functoriality
 
 /-!
@@ -159,7 +158,7 @@ theorem exists_finrank_zsmul_eq_zsmul_of_baseChangeChowPullbackOfIsPullback_eq_z
       (π ≫ f) f π d rfl i hcast z]
     apply Subtype.ext
     rw [val_cycleGroup_cast]
-    show AlgebraicCycle.map π _ _ P.1 = AlgebraicCycle.map π _ _ _
+    change AlgebraicCycle.map π _ _ P.1 = AlgebraicCycle.map π _ _ _
     rw [val_cycleGroup_cast]
   refine ⟨QuotientAddGroup.mk' _ (properPushforward (fieldChowSituation k) (π ≫ f) f π rfl i W),
     ?_⟩

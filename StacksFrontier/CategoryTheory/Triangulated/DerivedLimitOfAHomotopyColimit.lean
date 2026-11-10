@@ -180,7 +180,7 @@ theorem exists_distTriang_pi_lift_map_coprojections (H : Dᵒᵖ ⥤ D') [H.Addi
     refine Pi.hom_ext _ _ fun n ↦ ?_
     rw [Category.assoc, he, ← H.map_comp, ← op_comp]
     dsimp only [d]
-    rw [Sigma.ι_desc, op_sub, op_comp, H.map_sub, H.map_comp]
+    rw [Sigma.ι_comp_desc, op_sub, op_comp, H.map_sub, H.map_comp]
     simp only [b, Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, he]
     rw [← Category.assoc, he]
     rfl
@@ -188,7 +188,7 @@ theorem exists_distTriang_pi_lift_map_coprojections (H : Dᵒᵖ ⥤ D') [H.Addi
         H.obj (op K) ⟶ ∏ᶜ fun n : ℕ ↦ (F.op ⋙ H).obj (op n)) =
       H.map (Sigma.desc i).op ≫ e.hom := by
     refine Pi.hom_ext _ _ fun n ↦ ?_
-    rw [Pi.lift_comp_π, Category.assoc, he n, ← H.map_comp, ← op_comp, Sigma.ι_desc]
+    rw [Pi.lift_comp_π, Category.assoc, he n, ← H.map_comp, ← op_comp, Sigma.ι_comp_desc]
   refine ⟨e.inv ≫ δ, ?_⟩
   rw [hkey]
   exact mk_comp_hom_mem_distTriang e hb hδ

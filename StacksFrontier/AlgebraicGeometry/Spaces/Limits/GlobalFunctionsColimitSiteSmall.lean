@@ -111,7 +111,7 @@ theorem exists_transition_eq_of_projection_eq_of_siteContainsBaseChangeLimits
   apply CategoryTheory.ObjectProperty.hom_ext
   have hmap : D.system.map a = D.system.map (homOfLE (leOfHom a.unop)).op :=
     congrArg D.system.map (Subsingleton.elim _ _)
-  show D.system.map (homOfLE (leOfHom a.unop)).op ≫
+  change D.system.map (homOfLE (leOfHom a.unop)).op ≫
         (globalFunctionsHomEquiv B S hS (D.stage i) s).hom
       = D.system.map (homOfLE (leOfHom a.unop)).op ≫
         (globalFunctionsHomEquiv B S hS (D.stage i) s').hom

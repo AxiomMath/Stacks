@@ -151,7 +151,7 @@ private theorem flat_quotient_of_flat_ringEquiv {R A C A' C' : Type*} [CommRing 
       rw [Module.IsTorsionBySet.mk_smul]
       rfl
     rw [hmk]
-    show eC (Ideal.Quotient.mk (I.map (algebraMap R C)) (a • c))
+    change eC (Ideal.Quotient.mk (I.map (algebraMap R C)) (a • c))
       = _ • eC (Ideal.Quotient.mk (I.map (algebraMap R C)) c)
     rw [Algebra.smul_def a c, map_mul, map_mul, hcomm a, Algebra.smul_def]
 
@@ -177,7 +177,7 @@ private theorem flat_quotient_of_flat_fiberHom {X Y S : Scheme.{u}} (f : X ⟶ Y
   have : IsScalarTower (S.presheaf.stalk (g (f x))) (Y.presheaf.stalk (f x))
       (X.presheaf.stalk x) :=
     IsScalarTower.of_algebraMap_eq' (by
-      show ((f ≫ g).stalkMap x).hom = (f.stalkMap x).hom.comp (g.stalkMap (f x)).hom
+      change ((f ≫ g).stalkMap x).hom = (f.stalkMap x).hom.comp (g.stalkMap (f x)).hom
       rw [Scheme.Hom.stalkMap_comp]
       rfl)
   let _ : Algebra ((g.fiber ((f ≫ g) x)).presheaf.stalk

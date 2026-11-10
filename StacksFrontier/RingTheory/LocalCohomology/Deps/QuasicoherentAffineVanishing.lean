@@ -209,7 +209,8 @@ def standardOpenCover (U : X.Opens) (hU : IsAffineOpen U) {n : â„•} (g : Fin n â
       (hU.iSup_basicOpen_eq_self_iff (s := Set.range g)).mpr hspan
 
 -- Stacks 01XB is `Stacks.Cohomology.Cech.isZero_hgroup_of_isAffineOpen`
--- (StacksFrontier/AlgebraicGeometry/Cohomology/Cech/AffineVanishing.lean:304).  This is an alias spelling of that
+-- (StacksFrontier/AlgebraicGeometry/Cohomology/Cech/AffineVanishing.lean:304).  This is an alias
+-- spelling of that
 -- declaration, not a second copy of it.
 export Stacks.Cohomology.Cech (isZero_hgroup_of_isAffineOpen)
 

@@ -143,7 +143,7 @@ lemma not_X_zero_dvd_X_one : ¬ (X 0 : MvPolynomial (Fin 2) k) ∣ X 1 := by
 lemma algebraMap_puncturedPlane_bijective :
     Function.Bijective (algebraMap (MvPolynomial (Fin 2) k)
       ((Spec.structureSheaf (MvPolynomial (Fin 2) k)).obj.obj (op (puncturedPlane k)))) := by
-  let := UniqueFactorizationMonoid.normalizationMonoid (α := MvPolynomial (Fin 2) k)
+  let := UniqueFactorizationMonoid.strongNormalizationMonoid (α := MvPolynomial (Fin 2) k)
   refine Stacks.PicardUFD.algebraMap_bijective_two_basicOpens _ (X 0) (X 1)
     (X_ne_zero (R := k) (σ := Fin 2) 0) (X_ne_zero (R := k) (σ := Fin 2) 1) ?_
   intro p hp hp'

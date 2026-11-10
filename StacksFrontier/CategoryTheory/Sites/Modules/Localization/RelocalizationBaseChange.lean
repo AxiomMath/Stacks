@@ -195,7 +195,7 @@ lemma OverPresheafAux.overArrowsPullbackEquiv_map₁ (α : H ⟶ K) {S T : Over 
   simp only [overArrowsPullbackEquiv_val, OverArrows.map₁_val]
   have h : ((Over.pullback α).map f).left ≫ pullback.fst T.hom α
       = pullback.fst S.hom α ≫ f.left := pullback.lift_fst _ _ _
-  show (((Over.pullback α).map f).left ≫ pullback.fst T.hom α).app (op s.left) x.val
+  change (((Over.pullback α).map f).left ≫ pullback.fst T.hom α).app (op s.left) x.val
       = (pullback.fst S.hom α ≫ f.left).app (op s.left) x.val
   rw [h]
 
@@ -328,7 +328,7 @@ theorem fst_app_val_fibrePullbackComparison (a : H ⟶ K) (S : Over K)
     ((OverPresheafAux.overArrowsPullbackEquiv ((sheafToPresheaf X.J (Type v)).map a)
       ((Over.post (X := K) (sheafToPresheaf X.J (Type v))).obj S) Z).symm q)
   rw [Equiv.apply_symm_apply] at h
-  show (pullback.fst S.hom a).hom.app (op Z.left)
+  change (pullback.fst S.hom a).hom.app (op Z.left)
       ((PreservesPullback.iso (sheafToPresheaf X.J (Type v)) S.hom a).inv.app (op Z.left)
         ((OverPresheafAux.overArrowsPullbackEquiv ((sheafToPresheaf X.J (Type v)).map a)
           ((Over.post (X := K) (sheafToPresheaf X.J (Type v))).obj S) Z).symm q).val) = q.val
@@ -441,7 +441,7 @@ private theorem key_relocalizationFibre (a : H ⟶ K) (G : X.Topos) :
                 (X.localizationShriekAdjunction K).counit.app G) =
       𝟙 ((X.localizationMorphism H).toToposHom.inverseImage.obj G) := by
   refine Sheaf.homEquiv.injective ?_
-  show _ ≫ (sheafToPresheaf (elementTopology X H) (Type v)).map
+  change _ ≫ (sheafToPresheaf (elementTopology X H) (Type v)).map
       ((X.relocalizationFibreIso a).hom.app _) ≫ _ = _
   rw [X.relocalizationFibreIso_hom_app_map a]
   ext Z y

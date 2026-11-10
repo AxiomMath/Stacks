@@ -95,7 +95,7 @@ theorem flatOver_iff_of_isPullback (hN : IsOpenSubspace B S hS N)
     (by rwa [Category.id_comp]), fun h => ?_⟩
   have sqN : IsPullback (N.preimage f.hom).ι (N.fromPreimage f.hom) f.hom N.ι :=
     (Subfunctor.isPullback_preimage f.hom N).flip
-  show IsFlat B S hS (N.fromPreimage f.hom) ∧
+  change IsFlat B S hS (N.fromPreimage f.hom) ∧
     IsLocallyOfFinitePresentation B S hS (N.fromPreimage f.hom)
   rw [← sqN.isoIsPullback_hom_snd _ _ hsq]
   exact ⟨isFlat_comp B S hS hP hR hN.1 _ _ (isFlat_of_isEtale B S hS (isEtale_of_isIso B S hS _))
@@ -153,7 +153,7 @@ theorem FlatOver.of_cover (hN : IsOpenSubspace B S hS N) {N₁ N₂ : Subfunctor
       rcases hcov ⟨x, rfl⟩ with hx | hx
       exacts [⟨false, hx⟩, ⟨true, hx⟩]
     refine Set.mem_iUnion.mpr ⟨j, ?_⟩
-    show x ∈ Set.range (pointsMap B S hS ((Ni j).preimage N.ι).toFunctor
+    change x ∈ Set.range (pointsMap B S hS ((Ni j).preimage N.ι).toFunctor
       ((Ni j).preimage N.ι).ι)
     rwa [range_pointsMap_preimage_ι]
   refine isFlat_and_isLocallyOfFinitePresentation_of_boolCovering

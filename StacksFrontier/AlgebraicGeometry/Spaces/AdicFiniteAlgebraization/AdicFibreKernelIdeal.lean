@@ -83,11 +83,11 @@ theorem definingIdealAt_adicThickeningSubspace_selfChart (n : ℕ) :
         inferInstanceAs (IsIso (𝟙 (yoneda.obj (baseObject A B hA))))
       exact IsPullback.of_horiz_isIso ⟨by simp [selfChart]⟩)
   refine h.trans ?_
-  show RingHom.ker (adicThickeningι A I n).appTop.hom = _
+  change RingHom.ker (adicThickeningι A I n).appTop.hom = _
   rw [adicThickeningι, Stacks.Smooth.ker_specMap_appTop]
   simp only [CommRingCat.hom_ofHom, Ideal.mk_ker]
   let e := (Scheme.ΓSpecIso (CommRingCat.of A)).commRingCatIsoToRingEquiv
-  show Ideal.comap e (I ^ (n + 1)) = Ideal.map (Scheme.ΓSpecIso (.of A)).inv.hom I ^ (n + 1)
+  change Ideal.comap e (I ^ (n + 1)) = Ideal.map (Scheme.ΓSpecIso (.of A)).inv.hom I ^ (n + 1)
   rw [← Ideal.map_pow, ← Ideal.map_symm e]
   rfl
 

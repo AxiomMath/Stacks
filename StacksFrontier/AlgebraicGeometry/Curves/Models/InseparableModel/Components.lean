@@ -61,14 +61,14 @@ theorem algebraMap_Rk_tR : algebraMap R k tR = t := by
 
 /-- The ideal `J` lies in the kernel of `evC₁`. -/
 theorem J_le_ker_evC₁ : J.toIdeal ≤ RingHom.ker evC₁ := by
-  show Ideal.span gens ≤ _
+  change Ideal.span gens ≤ _
   rw [Ideal.span_le]
   rintro q (rfl | rfl | rfl) <;>
     simp [evC₁, q₀, q₁, q₂, algebraMap_Rk_π, algebraMap_Rk_tR]
 
 /-- The ideal `J` lies in the kernel of `evE`. -/
 theorem J_le_ker_evE : J.toIdeal ≤ RingHom.ker evE := by
-  show Ideal.span gens ≤ _
+  change Ideal.span gens ≤ _
   rw [Ideal.span_le]
   rintro q (rfl | rfl | rfl)
   · simp only [SetLike.mem_coe, RingHom.mem_ker, evE, q₀]
@@ -287,7 +287,7 @@ theorem monomial_mem_rangeE {m : Fin (1 + 1) →₀ ℕ} (hm : m ≠ 0) (c : κ)
     intro n
     rw [MvPolynomial.monomial_eq, map_one, one_mul]
     exact Subring.prod_mem _ fun j _ => pow_mem (X_mem_rangeE j) _
-  rw [hm', ← mul_one c, ← MvPolynomial.monomial_mul, ← MvPolynomial.C_mul_X_eq_monomial]
+  rw [hm', ← mul_one c, ← MvPolynomial.monomial_mul_monomial, ← MvPolynomial.C_mul_X_eq_monomial]
   exact mul_mem (C_mul_X_mem_rangeE c i) (hprod _)
 
 /-- Every homogeneous polynomial of degree `d ≥ 1` in `κ[a, b]` lies in the range of `φE`. -/
@@ -307,7 +307,7 @@ theorem surjectiveInLargeDegrees_φE : Stacks.Proj.SurjectiveInLargeDegrees φE 
     ((MvPolynomial.mem_homogeneousSubmodule _ _).1 hb) hd
   refine ⟨DirectSum.decompose grading x d, Subtype.prop _, ?_⟩
   rw [φE.map_directSumDecompose]
-  show (DirectSum.decompose (lineGrading κ) ((φE : A →+* _) x) d :
+  change (DirectSum.decompose (lineGrading κ) ((φE : A →+* _) x) d :
     MvPolynomial (Fin (1 + 1)) κ) = b
   rw [hx, DirectSum.decompose_of_mem_same _ hb]
 

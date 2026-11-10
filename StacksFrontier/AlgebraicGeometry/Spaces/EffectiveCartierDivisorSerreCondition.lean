@@ -153,7 +153,7 @@ private lemma isPullback_of_range_eq_preimage {C : Type u} [Category.{v} C]
   · intro x y hxy
     have hy : y ∈ (Subfunctor.range f).obj V := by
       rw [hr]
-      show a.app V y ∈ H.obj V
+      change a.app V y ∈ H.obj V
       exact hxy ▸ x.property
     obtain ⟨d, hd⟩ := hy
     refine ⟨d, ?_, hd⟩

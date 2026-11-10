@@ -271,7 +271,7 @@ public theorem galoisActionOnGeometricIrreducibleComponents_equivariant
     ((galoisActionOnGeometricIrreducibleComponents k ksep' (Over.mk f)).ρ
       (MulOpposite.op (AlgEquiv.restrictScalars k σ.unop))).asHom Z)
   rw [hleft, galoisActionOnGeometricIrreducibleComponents_ρ_apply_coe, hrightAction]
-  show (baseChangeComparison k ksep ksep' X f).base ''
+  change (baseChangeComparison k ksep ksep' X f).base ''
       ((fun x => Scheme.forget.map
         ((galoisActionOnBaseChange k ksep' (Over.mk f)).ρ
           (MulOpposite.op (AlgEquiv.restrictScalars k σ.unop))).asHom x) '' Z.1) = _

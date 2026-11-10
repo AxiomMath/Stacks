@@ -231,7 +231,7 @@ theorem squareLiftFunctor_over : squareLiftFunctor P hlift T O ⋙ P.pt.p = T.pt
     exact (P.fst.w_obj _).symm.trans (IsHomLift.domain_eq X.p (𝟙 _) (O a).fstIso.hom)
   refine CategoryTheory.Functor.ext hobj (fun a b j => ?_)
   have hs : X.p.IsHomLift (T.pt.p.map j) (P.fst.map ((squareLiftFunctor P hlift T O).map j)) := by
-    show X.p.IsHomLift (T.pt.p.map j) (P.fst.map (squareLiftMap P hlift
+    change X.p.IsHomLift (T.pt.p.map j) (P.fst.map (squareLiftMap P hlift
       (liftFstHom P T O j) (liftSndHom P T O j) (T.pt.p.map j)
       (liftFstHom_isHomLift P T O j) (liftSndHom_isHomLift P T O j)))
     rw [squareLiftMap_fst]

@@ -94,6 +94,7 @@ universe u w
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site needs a larger budget
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_ChartSlicingLiftedFibre :
@@ -104,7 +105,7 @@ local instance (priority := high) hasPullback_presheaf_ChartSlicingLiftedFibre
     HasLimit (cospan f g) :=
   HasLimitsOfShape.has_limit _
 
-variable (𝒳: AlgebraicStacks.{u, w} B S hS)
+variable (𝒳 : AlgebraicStacks.{u, w} B S hS)
   (U : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (hU : IsAlgebraicSpace B S hS U)
   (k : Type u) [Field k] (hk : B.Contains (Spec (.of k))) (toBase : Spec (.of k) ⟶ S)
   (f : algebraicSpaceStack.{u, w} B S hS U hU ⟶ 𝒳)

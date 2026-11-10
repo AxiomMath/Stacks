@@ -34,8 +34,6 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hX : IsAlgebraicSpace B S hS X)
   {W : BigFppfOver B S hS} (w : yoneda.obj W ⟶ X)
-  (hws : (MorphismProperty.presheaf (MorphismProperty.inverseImage
-      (@Surjective.{u} : MorphismProperty Scheme.{u}) (BigFppfOver.toScheme B S hS))) w)
   (hwe : (MorphismProperty.presheaf (MorphismProperty.inverseImage
       (@Etale.{u} : MorphismProperty Scheme.{u}) (BigFppfOver.toScheme B S hS))) w)
   {Y Y' : BigFppfOver B S hS} (φ : X ⟶ yoneda.obj Y) (ψ : Y' ⟶ Y)
@@ -54,6 +52,7 @@ local instance (priority := high) hasPullback_presheaf_chartIsoAlongThinChart
 /-- The morphism `O₀ ⟶ Y` underlying `x₀ ≫ φ`. -/
 def thinBase : O₀ ⟶ Y := yoneda.preimage (x₀ ≫ φ)
 
+omit [Etale ((BigFppfOver.toScheme B S hS).map ψ)] in
 include hβ hsq₀ in
 /-- The square formed by `c₀`, `thinBase`, `ι₀ ≫ β` and `ψ` commutes. -/
 theorem thin_condition : c₀ ≫ thinBase B S hS φ x₀ = (ι₀ ≫ β) ≫ ψ := by
@@ -65,7 +64,7 @@ theorem thin_condition : c₀ ≫ thinBase B S hS φ x₀ = (ι₀ ≫ β) ≫ �
 def thinComparison : W₀ ⟶ pullback (thinBase B S hS φ x₀) ψ :=
   pullback.lift c₀ (ι₀ ≫ β) (thin_condition B S hS w φ ψ β hβ x₀ ι₀ c₀ hsq₀)
 
-include hws hwe hX in
+include hwe hX in
 /-- If `x₀` is surjective and `thinComparison` is an isomorphism, then the morphism
 `h_W ⟶ X ×_Y Y'` with components `w` and `β` is an isomorphism. -/
 theorem isIso_lift_of_isIso_thin (hx₀ : IsSurjective B S hS x₀)
@@ -137,14 +136,14 @@ theorem isIso_lift_of_isIso_thin (hx₀ : IsSurjective B S hS x₀)
   exact isIso_of_isEtale_of_isIso_pullback_of_isSurjective B S hS hA hA₀
     (isAlgebraicSpace_yoneda B S hS W) hsq this hp hfe
 
-include hws hwe hX in
+include hwe hX in
 /-- If `W` is affine, `x₀` is surjective and `thinComparison` is an isomorphism, then the
 algebraic space `X ×_Y Y'` is affine. -/
 theorem isAffineSpace_pullback_of_isIso_thin
     [IsAffine ((BigFppfOver.toScheme B S hS).obj W)] (hx₀ : IsSurjective B S hS x₀)
     (hiso : IsIso (thinComparison B S hS w φ ψ β hβ x₀ ι₀ c₀ hsq₀)) :
     IsAffineSpace B S hS (pullback φ (yoneda.map ψ)) := by
-  have := isIso_lift_of_isIso_thin B S hS hX w hws hwe φ ψ β hβ x₀ ι₀ c₀ hsq₀ hx₀ hiso
+  have := isIso_lift_of_isIso_thin B S hS hX w hwe φ ψ β hβ x₀ ι₀ c₀ hsq₀ hx₀ hiso
   exact (isAffineSpace_yoneda B S hS W inferInstance).of_iso (@asIso _ _ _ _ _ this)
 
 end AlgebraicGeometry.Space

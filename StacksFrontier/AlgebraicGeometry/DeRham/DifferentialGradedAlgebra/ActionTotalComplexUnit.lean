@@ -68,7 +68,7 @@ theorem dgAction_regular_unit :
     have hR := AlgebraicGeometry.RingedSite.leftUnitor_hom_f_val_app
       (Stacks.SheafOfModules.opensRingedSite A) 𝒜.complex q U.unop x y
     refine Eq.trans ?_ hR.symm
-    show (𝒜.complex.XIsoOfEq hpq).hom.val.app U ((dgActionComponent R 0 q).val.app U
+    change (𝒜.complex.XIsoOfEq hpq).hom.val.app U ((dgActionComponent R 0 q).val.app U
         ((((sheafTensor A).map ((dgUnitComplexHom 𝒜).f 0)).app (𝒜.complex.X q)).val.app U _)) = _
     rw [tensorFunctor_map_unit_apply (A := A)]
     refine (congrArg (fun z => (𝒜.complex.XIsoOfEq hpq).hom.val.app U z)

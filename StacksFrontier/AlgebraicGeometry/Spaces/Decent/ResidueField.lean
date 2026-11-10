@@ -101,7 +101,7 @@ theorem residueFieldRepresentative_unique (hX : IsAlgebraicSpace B S hS X)
   obtain ⟨e, he⟩ := iso_of_mono_of_point_eq B S hS X hX p q
     ((residueFieldRepresentative B S hS X hDecent x).2.1.trans hq.symm)
   have hrel : yoneda.map e.hom ≫ fieldMorphism B S hS X q = fieldMorphism B S hS X p := by
-    show yoneda.map e.hom ≫ yonedaEquiv.symm q.value = yonedaEquiv.symm p.value
+    change yoneda.map e.hom ≫ yonedaEquiv.symm q.value = yonedaEquiv.symm p.value
     rw [yonedaEquiv_symm_naturality_left e.hom X q.value, he]
   refine ⟨yoneda.mapIso e, hrel, fun e' he' ↦ ?_⟩
   exact Iso.ext ((cancel_mono (fieldMorphism B S hS X q)).1 (he'.trans hrel.symm))
@@ -148,7 +148,7 @@ theorem existsUnique_isInducedResidueFieldHom (hY : IsAlgebraicSpace B S hS Y)
   have hg' : Y.map g.op py.value = f.app (Opposite.op (px.siteObject B S hS X)) px.value := hg
   have hsquare : yoneda.map g ≫ fieldMorphism B S hS Y py =
       fieldMorphism B S hS X px ≫ f := by
-    show yoneda.map g ≫ yonedaEquiv.symm py.value = yonedaEquiv.symm px.value ≫ f
+    change yoneda.map g ≫ yonedaEquiv.symm py.value = yonedaEquiv.symm px.value ≫ f
     rw [yonedaEquiv_symm_naturality_left g Y py.value, hg']
     exact (yonedaEquiv_symm_naturality_right (px.siteObject B S hS X) f px.value).symm
   refine ⟨φ, ⟨g, hspec, hsquare⟩, ?_⟩
@@ -210,7 +210,7 @@ theorem isIso_residueFieldHom_iff_mono (hY : IsAlgebraicSpace B S hS Y)
   change ∃ g : _, _ ∧ _ at hspec
   obtain ⟨g, hgSpec, hgComm⟩ := hspec
   have hmapSquare : fieldMorphism B S hS Y q = fieldMorphism B S hS X pX ≫ f := by
-    show yonedaEquiv.symm q.value = yonedaEquiv.symm pX.value ≫ f
+    change yonedaEquiv.symm q.value = yonedaEquiv.symm pX.value ≫ f
     exact (yonedaEquiv_symm_naturality_right _ f pX.value).symm
   have hpyMono : Mono (fieldMorphism B S hS Y pY) :=
     (residueFieldRepresentative B S hS Y hDecentY (pointsMap B S hS X f x)).2.2
@@ -227,7 +227,7 @@ theorem isIso_residueFieldHom_iff_mono (hY : IsAlgebraicSpace B S hS Y)
       refine FieldValuedPoint.class_eq_class_of_hasCommonExtension B S hS Y ⟨q, ?_, ?_⟩
       · exact ⟨𝟙 (q.siteObject B S hS Y), by simp⟩
       · refine ⟨𝟙 (q.siteObject B S hS Y), ?_⟩
-        show Y.map (𝟙 (q.siteObject B S hS Y)).op q.value = q.value
+        change Y.map (𝟙 (q.siteObject B S hS Y)).op q.value = q.value
         simp
     have hclass : q.class B S hS Y = pointsMap B S hS X f x := by
       rw [hqClass, ← pointsMap_class, (residueFieldRepresentative B S hS X hDecentX x).2.1]
@@ -240,7 +240,7 @@ theorem isIso_residueFieldHom_iff_mono (hY : IsAlgebraicSpace B S hS Y)
     have : IsIso (yoneda.map g) := by rw [(Iso.comp_hom_eq_id e).1 hge]; infer_instance
     have : IsIso g := isIso_of_reflects_iso g yoneda
     have : IsIso g.left := by
-      show IsIso ((Over.forget (B.obj hS)).map g)
+      change IsIso ((Over.forget (B.obj hS)).map g)
       infer_instance
     have hleftIso : IsIso (B.inclusion.map g.left) := inferInstance
     rw [hgSpec] at hleftIso

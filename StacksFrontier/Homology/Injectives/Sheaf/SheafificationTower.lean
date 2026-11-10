@@ -155,11 +155,11 @@ theorem main_theorem_01dm
     simp only [asIso_hom]
     exact (adj.counit_naturality φ).symm
   have key : ι ≫ g₀ = f ≫ cmap J Jemb Jemb_emb (S.diag.obj α) := by
-    show ι ≫ ((asIso (adj.counit.app G₂)).inv ≫ sh.map k)
+    change ι ≫ ((asIso (adj.counit.app G₂)).inv ≫ sh.map k)
         = f ≫ cmap J Jemb Jemb_emb (S.diag.obj α)
     simp only [cmap]
     rw [← Category.assoc, nat ι, Category.assoc, ← sh.map_comp, hk]
-    show (asIso (adj.counit.app G₁)).inv ≫
+    change (asIso (adj.counit.app G₁)).inv ≫
         sh.map (i.map f ≫ Jemb_emb.app (i.obj (S.diag.obj α)))
         = f ≫ (asIso (adj.counit.app (S.diag.obj α))).inv ≫
             sh.map (Jemb_emb.app (i.obj (S.diag.obj α)))

@@ -124,7 +124,7 @@ theorem existsUnique_linearMap_comp_pullbackD [IsAffine T] (M : T.Modules) (hV :
     intro θ₁ θ₂ h₁ h₂
     have hc : θ₁ ∘ₗ E.toLinearMap = θ₂ ∘ₗ E.toLinearMap := by
       refine tensorKaehlerDifferential_linearMap_ext _ _ fun b ↦ ?_
-      show θ₁ (E (1 ⊗ₜ KaehlerDifferential.D Γ(S, V) Γ(X, W) b))
+      change θ₁ (E (1 ⊗ₜ KaehlerDifferential.D Γ(S, V) Γ(X, W) b))
         = θ₂ (E (1 ⊗ₜ KaehlerDifferential.D Γ(S, V) Γ(X, W) b))
       rw [hE2 b, h₁ b, h₂ b]
     refine LinearMap.ext fun y ↦ ?_
@@ -133,7 +133,7 @@ theorem existsUnique_linearMap_comp_pullbackD [IsAffine T] (M : T.Modules) (hV :
     rwa [E.apply_symm_apply] at h
   refine ⟨(δ.liftKaehlerDifferential.liftBaseChange Γ(T, ⊤)) ∘ₗ E.symm.toLinearMap,
     fun b ↦ ?_, fun θ hθ ↦ huniq θ _ hθ fun b ↦ ?_⟩ <;>
-  · show (δ.liftKaehlerDifferential.liftBaseChange Γ(T, ⊤))
+  · change (δ.liftKaehlerDifferential.liftBaseChange Γ(T, ⊤))
       (E.symm (pullbackD f a W hUW b)) = δ b
     rw [hE1, LinearMap.liftBaseChange_one_tmul, Derivation.liftKaehlerDifferential_comp_D]
 

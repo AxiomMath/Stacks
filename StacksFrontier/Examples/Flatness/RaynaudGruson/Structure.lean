@@ -184,7 +184,7 @@ private lemma idealQ_le_annihilator_xi (n : PNat) :
   have key : ∀ a : ringC k, a * zCIndex k n = 0 →
       a ∈ (Ideal.span ({xi k n} : Set (ringC k))).annihilator := fun a ha => by
     rw [Submodule.mem_annihilator_span_singleton]
-    show a * xi k n = 0
+    change a * xi k n = 0
     rw [xi, mul_left_comm, ha, mul_zero]
   rw [idealQ]
   apply sup_le
@@ -291,7 +291,7 @@ private lemma ker_evalA0_eq_idealI : RingHom.ker (evalA0 k) = idealI k := by
   · rw [idealI]
     apply Ideal.span_le.mpr
     rintro _ ⟨n, rfl⟩
-    show evalZero k (MvPolynomial.X n) = 0
+    change evalZero k (MvPolynomial.X n) = 0
     simp [evalZero]
 
 private noncomputable def ringA_quotient_idealI_equiv_base :
@@ -363,7 +363,7 @@ private lemma baseRing_isLocal : IsLocalRing (baseRing k) := by
   let : p.IsPrime := (RingHom.ker_isMaximal_of_surjective ev hev).isPrime
   have hsub : originSubmonoid k = p.primeCompl := by
     ext f
-    show ev f ∈ nonZeroDivisors k ↔ f ∉ p
+    change ev f ∈ nonZeroDivisors k ↔ f ∉ p
     rw [mem_nonZeroDivisors_iff, RingHom.mem_ker]
     constructor
     · rintro ⟨_, hright⟩ hzero
@@ -372,7 +372,7 @@ private lemma baseRing_isLocal : IsLocalRing (baseRing k) := by
       have hne : ev f ≠ 0 := by simpa [p] using hf
       exact ⟨fun x hx => (mul_eq_zero.mp hx).resolve_left hne,
         fun x hx => (mul_eq_zero.mp hx).resolve_right hne⟩
-  show IsLocalRing (Localization (originSubmonoid k))
+  change IsLocalRing (Localization (originSubmonoid k))
   rw [hsub]
   exact Localization.AtPrime.isLocalRing p
 
@@ -440,7 +440,7 @@ private lemma residueBase_ker_eq_map_originIdeal :
   · apply Ideal.map_le_iff_le_comap.mpr
     apply Ideal.span_le.mpr
     rintro _ ⟨i, rfl⟩
-    show (residueBase k).comp
+    change (residueBase k).comp
       (algebraMap (PlanePolynomial k) (baseRing k)) (MvPolynomial.X i) = 0
     rw [residueBase_comp]
     simp [residueEval]
@@ -617,13 +617,13 @@ private lemma residueCQuot_zero_image_mem_idealQC (c : cQuotient k)
   have hdiff' : φ (p - MvPolynomial.C (evalCQuotZero k p)) ∈ idealQC k := hpoly
     (Ideal.mem_map_of_mem φ hdiff)
   have hconst : φ (MvPolynomial.C (evalCQuotZero k p)) ∈ idealQC k := by
-    show aToC k (evalCQuotZero k p) ∈ idealQC k
+    change aToC k (evalCQuotZero k p) ∈ idealQC k
     apply idealMaxA_map_aToC_le_idealQC k
     exact Ideal.mem_map_of_mem (aToC k) hcoeff'
   have hsum := (idealQC k).add_mem hdiff' hconst
   have heq : φ p = φ (p - MvPolynomial.C (evalCQuotZero k p)) +
       φ (MvPolynomial.C (evalCQuotZero k p)) := by simp
-  show φ p ∈ idealQC k
+  change φ p ∈ idealQC k
   rw [heq]
   exact hsum
 
@@ -643,7 +643,7 @@ private lemma residueC_algebraMap (c : cQuotient k) :
 
 private lemma residueC_aToC (a : ringA k) :
     residueC k (aToC k a) = residueA k a := by
-  show residueC k (algebraMap (cQuotient k) (ringC k)
+  change residueC k (algebraMap (cQuotient k) (ringC k)
     (Ideal.Quotient.mk (cRelationIdeal k) (MvPolynomial.C a))) = residueA k a
   rw [residueC_algebraMap, residueCQuot, Ideal.Quotient.lift_mk]
   simp [evalCQuot]
@@ -654,7 +654,7 @@ private lemma cDenominator_sub_one_mem_idealQC :
     (algebraMap (cQuotient k) (ringC k)).comp (Ideal.Quotient.mk (cRelationIdeal k))
   have heq : algebraMap (cQuotient k) (ringC k) (cDenominator k) =
       2 * xC k * zC k + 1 := by
-    show φ (2 * MvPolynomial.C (xA k) * MvPolynomial.X () + 1) =
+    change φ (2 * MvPolynomial.C (xA k) * MvPolynomial.X () + 1) =
       2 * φ (MvPolynomial.C (xA k)) * φ (MvPolynomial.X ()) + 1
     simp only [map_add, map_mul, map_one]
     have htwo : φ (2 : MvPolynomial Unit (ringA k)) = (2 : ringC k) := map_ofNat φ 2
@@ -785,7 +785,7 @@ private lemma xi_mem_ker_cToB (n : PNat) : xi k n ∈ RingHom.ker (cToB k) := by
   have hz' : localizationMap k (xi k n) * localizationMap k h =
       0 * localizationMap k h := by simpa using hz
   have hloc : localizationMap k (xi k n) = 0 := hu.mul_right_cancel hz'
-  show xi k n ∈ RingHom.ker ((localizationMap k).rangeRestrict)
+  change xi k n ∈ RingHom.ker ((localizationMap k).rangeRestrict)
   rw [RingHom.ker_rangeRestrict]
   exact RingHom.mem_ker.mpr hloc
 
@@ -856,7 +856,7 @@ private lemma idealMaxA_eq_maximalIdeal :
 private lemma idealQC_comap_aToC_eq_ker_residueA :
     (idealQC k).comap (aToC k) = RingHom.ker (residueA k) := by
   ext a
-  show aToC k a ∈ idealQC k ↔ residueA k a = 0
+  change aToC k a ∈ idealQC k ↔ residueA k a = 0
   rw [← ker_residueC_eq_idealQC k, RingHom.mem_ker, residueC_aToC]
 
 private lemma idealQB_comap_cToB :
@@ -886,7 +886,7 @@ private lemma bToCAtQC_units (s : awayFromQB k) : IsUnit (bToCAtQC k s) := by
       apply hb
       rw [idealQB]
       exact Ideal.mem_map_of_mem (cToB k) hc
-    show IsUnit (localizationMap k c)
+    change IsUnit (localizationMap k c)
     exact IsLocalization.map_units (M := awayFromQC k) (S := cAtQC k)
       ⟨c, Submonoid.subset_closure hc⟩
   · simp [bToCAtQC]
@@ -936,7 +936,7 @@ private lemma mapBAtQBToCAtQC_comp_mapCAtQCToBAtQB :
   simp only [RingHom.comp_apply, RingHom.id_apply,
     mapCAtQCToBAtQB_algebraMap, mapBAtQBToCAtQC_algebraMap,
     bToCAtQC]
-  show (ringB k).subtype ((cToB k) c) = algebraMap (ringC k) (cAtQC k) c
+  change (ringB k).subtype ((cToB k) c) = algebraMap (ringC k) (cAtQC k) c
   rfl
 
 private lemma mapCAtQCToBAtQB_comp_mapBAtQBToCAtQC :
@@ -946,7 +946,7 @@ private lemma mapCAtQCToBAtQB_comp_mapBAtQBToCAtQC :
   obtain ⟨c, rfl⟩ := RingHom.rangeRestrict_surjective (localizationMap k) b
   simp only [RingHom.comp_apply, RingHom.id_apply,
     mapBAtQBToCAtQC_algebraMap, bToCAtQC]
-  show mapCAtQCToBAtQB k (algebraMap (ringC k) (cAtQC k) c) =
+  change mapCAtQCToBAtQB k (algebraMap (ringC k) (cAtQC k) c) =
     algebraMap (ringB k) (bAtQB k) (cToB k c)
   exact mapCAtQCToBAtQB_algebraMap k c
 
@@ -991,7 +991,7 @@ private lemma prove_aToB_finiteType : (aToB k).FiniteType := by
   have haway : RingHom.FiniteType (algebraMap (cQuotient k) (ringC k)) :=
     RingHom.finiteType_algebraMap.mpr (by infer_instance)
   have htoC : (aToC k).FiniteType := by
-    show RingHom.FiniteType ((algebraMap (cQuotient k) (ringC k)).comp
+    change RingHom.FiniteType ((algebraMap (cQuotient k) (ringC k)).comp
       ((Ideal.Quotient.mk (cRelationIdeal k)).comp (MvPolynomial.C :
         ringA k →+* MvPolynomial Unit (ringA k))))
     exact haway.comp hpre
@@ -1019,7 +1019,7 @@ private lemma prove_aToC_etale : (aToC k).Etale := by
   let Q : Algebra.SubmersivePresentation (cQuotient k) (ringC k) Unit Unit :=
     Algebra.SubmersivePresentation.localizationAway (ringC k) (cDenominator k)
   have hPjac : P.jacobian = cDenominator k := by
-    show (P0.ofAlgEquiv e).jacobian = cDenominator k
+    change (P0.ofAlgEquiv e).jacobian = cDenominator k
     rw [Algebra.PreSubmersivePresentation.jacobian_ofAlgEquiv]
     have h0 : P0.jacobian =
         Ideal.Quotient.mk (Ideal.span (Set.range f))
@@ -1035,14 +1035,14 @@ private lemma prove_aToC_etale : (aToC k).Etale := by
       have hdet : Matrix.det (fun _ _ : Unit => (f ()).pderiv ()) =
           (f ()).pderiv () := Matrix.det_unique _
       rw [hdet]
-      show Ideal.Quotient.mk (Ideal.span (Set.range f)) ((f ()).pderiv ()) =
+      change Ideal.Quotient.mk (Ideal.span (Set.range f)) ((f ()).pderiv ()) =
         Ideal.Quotient.mk (Ideal.span (Set.range f))
           (2 * MvPolynomial.C (xA k) * MvPolynomial.X () + 1)
       simp [f, cRelation]
       congr 1
       ring
     rw [h0]
-    show (Ideal.quotientEquivAlgOfEq (ringA k) hI).symm
+    change (Ideal.quotientEquivAlgOfEq (ringA k) hI).symm
         (Ideal.Quotient.mk (Ideal.span (Set.range f))
           (2 * MvPolynomial.C (xA k) * MvPolynomial.X () + 1)) = cDenominator k
     rw [Ideal.quotientEquivAlgOfEq_symm, Ideal.quotientEquivAlgOfEq_mk]
@@ -1055,14 +1055,14 @@ private lemma prove_aToC_etale : (aToC k).Etale := by
         (Unit ⊕ Unit) (Unit ⊕ Unit) := {
       toPreSubmersivePresentation := Pcomp
       jacobian_isUnit := by
-        show IsUnit (Q.toPreSubmersivePresentation.comp P).jacobian
+        change IsUnit (Q.toPreSubmersivePresentation.comp P).jacobian
         rw [Algebra.PreSubmersivePresentation.comp_jacobian_eq_jacobian_smul_jacobian,
           Algebra.smul_def]
         have hPunit : IsUnit (algebraMap (cQuotient k) (ringC k) P.jacobian) := by
           rw [hPjac]
           have hQjac : Q.jacobian =
               algebraMap (cQuotient k) (ringC k) (cDenominator k) := by
-            show (Algebra.PreSubmersivePresentation.localizationAway
+            change (Algebra.PreSubmersivePresentation.localizationAway
               (ringC k) (cDenominator k)).jacobian = _
             rw [Algebra.PreSubmersivePresentation.localizationAway_jacobian]
           rw [← hQjac]
@@ -1097,7 +1097,7 @@ private lemma mem_idealP_iff (n : PNat) (a : ringA k) :
         exact Ideal.comap_mono bot_le
       · rw [Ideal.span_le]
         rintro _ rfl
-        show evalA0 k (baseToA k (f k n)) ∈ Ideal.span ({f k n} : Set (baseRing k))
+        change evalA0 k (baseToA k (f k n)) ∈ Ideal.span ({f k n} : Set (baseRing k))
         rw [evalA0_base]
         exact Ideal.subset_span (Set.mem_singleton _)
     exact h ha
@@ -1128,7 +1128,7 @@ private lemma coefficientPolynomial_relation (n : PNat) :
   classical
   apply Ideal.span_le.mpr
   rintro _ (⟨⟨i, j⟩, rfl⟩ | ⟨i, rfl⟩)
-  · show coefficientPolynomial k n (MvPolynomial.X i * MvPolynomial.X j) = 0
+  · change coefficientPolynomial k n (MvPolynomial.X i * MvPolynomial.X j) = 0
     by_cases hi : i = n <;> by_cases hj : j = n <;>
       simp [coefficientPolynomial, hi, hj]
   · simp only [coefficientPolynomial]
@@ -1156,7 +1156,7 @@ private lemma coefficientA_fst (n : PNat) (a : ringA k) :
       Ideal.Quotient.mk (Ideal.span ({f k n} : Set (baseRing k))) (evalA0 k a) := by
   classical
   obtain ⟨p, rfl⟩ := Ideal.Quotient.mk_surjective a
-  show (coefficientPolynomial k n p).fst = Ideal.Quotient.mk _ (evalZero k p)
+  change (coefficientPolynomial k n p).fst = Ideal.Quotient.mk _ (evalZero k p)
   have h : ((TrivSqZeroExt.fstHom (coefficientQuotient k n) (coefficientQuotient k n)
         (coefficientQuotient k n)).toRingHom).comp (coefficientPolynomial k n) =
       (Ideal.Quotient.mk (Ideal.span ({f k n} : Set (baseRing k)))).comp (evalZero k) := by
@@ -1171,7 +1171,7 @@ private lemma annihilator_zA (n : PNat) :
     (Ideal.span ({zA k n} : Set (ringA k))).annihilator = idealP k n := by
   ext a
   rw [Submodule.mem_annihilator_span_singleton]
-  show a * zA k n = 0 ↔ _
+  change a * zA k n = 0 ↔ _
   constructor
   · intro h
     have he := congrArg (fun b => (coefficientA k n b).snd) h
@@ -1209,7 +1209,7 @@ private lemma iSupIndep_map_of_flat {R S ι : Type*} [CommRing R] [CommRing S]
     iSupIndep (fun i => (I i).map (algebraMap R S)) := by
   intro i
   rw [disjoint_iff]
-  show (I i).map (algebraMap R S) ⊓
+  change (I i).map (algebraMap R S) ⊓
     (⨆ j, ⨆ (_ : j ≠ i), (I j).map (algebraMap R S)) = ⊥
   simp_rw [← Ideal.map_iSup]
   rw [← map_inf_of_flat, (h i).eq_bot, Ideal.map_bot]
@@ -1247,7 +1247,7 @@ private lemma iSupIndep_span_zA :
       Ideal.span ({zA k j} : Set (ringA k))) ≤ RingHom.ker (coefficientA k n) := by
     refine iSup_le fun j => iSup_le fun hj => Ideal.span_le.mpr ?_
     rintro _ rfl
-    show coefficientA k n (zA k j) = 0
+    change coefficientA k n (zA k j) = 0
     rw [coefficientA_zA, ite_eq_right hj]
   have ha0 : coefficientA k n a = 0 := hker hb
   obtain ⟨b, rfl⟩ := Ideal.mem_span_singleton.mp ha
@@ -1388,7 +1388,7 @@ private lemma liftCQuotient_mk {T : Type*} [CommRing T] (φ : ringA k →+* T) (
 private lemma liftCQuotient_cDenominator {T : Type*} [CommRing T] (φ : ringA k →+* T) (t : T)
     (ht : φ (xA k) * t ^ 2 + t + φ (yA k) = 0) :
     liftCQuotient k φ t ht (cDenominator k) = 2 * φ (xA k) * t + 1 := by
-  show liftCQuotient k φ t ht (Ideal.Quotient.mk (cRelationIdeal k)
+  change liftCQuotient k φ t ht (Ideal.Quotient.mk (cRelationIdeal k)
     (2 * MvPolynomial.C (xA k) * MvPolynomial.X () + 1)) = _
   rw [liftCQuotient_mk]
   simp
@@ -1437,7 +1437,7 @@ private lemma isUnit_one_add_two_pow (n : PNat) :
     IsUnit (2 * xA k ^ ((n : ℕ) + 1) + 1) := by
   let p : PlanePolynomial k := 2 * MvPolynomial.X 0 ^ ((n : ℕ) + 1) + 1
   have hp : p ∈ originSubmonoid k := by
-    show MvPolynomial.eval (0 : Fin 2 → k) p ∈ nonZeroDivisors k
+    change MvPolynomial.eval (0 : Fin 2 → k) p ∈ nonZeroDivisors k
     simp [p]
   have hu := (IsLocalization.map_units (baseRing k) ⟨p, hp⟩).map (baseToA k)
   have ht : algebraMap (PlanePolynomial k) (baseRing k) (2 : PlanePolynomial k) = 2 :=
@@ -1465,12 +1465,12 @@ private lemma quotient_idealR_equiv_quotientP_A (n : PNat) :
     apply sup_le
     · apply Ideal.map_le_iff_le_comap.mpr
       intro a ha
-      show F (aToC k a) = 0
+      change F (aToC k a) = 0
       rw [liftC_aToC]
       exact Ideal.Quotient.eq_zero_iff_mem.mpr ha
     · apply Ideal.span_le.mpr
       rintro _ rfl
-      show F (zC k - xC k ^ (n : ℕ)) = 0
+      change F (zC k - xC k ^ (n : ℕ)) = 0
       simp only [map_sub, map_pow, F, liftC_zC, xC, liftC_aToC, sub_self]
   let F' := Ideal.Quotient.lift (idealR k n) F (fun _ h => hF h)
   let qR := Ideal.Quotient.mk (idealR k n)
@@ -1485,12 +1485,12 @@ private lemma quotient_idealR_equiv_quotientP_A (n : PNat) :
     apply ringC_hom_ext k
     · apply RingHom.ext
       intro a
-      show G (F (aToC k a)) = qR (aToC k a)
+      change G (F (aToC k a)) = qR (aToC k a)
       rw [liftC_aToC]
       rfl
-    · show G (F (zC k)) = qR (zC k)
+    · change G (F (zC k)) = qR (zC k)
       rw [liftC_zC, map_pow]
-      show qR (xC k) ^ (n : ℕ) = qR (zC k)
+      change qR (xC k) ^ (n : ℕ) = qR (zC k)
       have hz : qR (zC k - xC k ^ (n : ℕ)) = 0 :=
         Ideal.Quotient.eq_zero_iff_mem.mpr (zC_sub_pow_mem_idealR k n)
       exact (sub_eq_zero.mp (by simpa only [map_sub, map_pow] using hz)).symm
@@ -1572,11 +1572,11 @@ private lemma coefficientQuotient_equiv_lineAtOrigin (n : PNat) :
     apply IsLocalization.ringHom_ext
       (Submonoid.comap (Polynomial.evalRingHom (0 : k)) (nonZeroDivisors k))
     ext c
-    · show curveBase k n (lineLocalBase k
+    · change curveBase k n (lineLocalBase k
         (algebraMap (Polynomial k) (lineAtOrigin k) (Polynomial.C c))) = _
       rw [lineLocalBase_algebraMap, curveBase_algebraMap]
       simp [lineToPlane, curveEval]
-    · show curveBase k n (lineLocalBase k
+    · change curveBase k n (lineLocalBase k
         (algebraMap (Polynomial k) (lineAtOrigin k) Polynomial.X)) = _
       rw [lineLocalBase_algebraMap, curveBase_algebraMap]
       simp [lineToPlane, curveEval]
@@ -1585,26 +1585,26 @@ private lemma coefficientQuotient_equiv_lineAtOrigin (n : PNat) :
     apply IsLocalization.ringHom_ext (originSubmonoid k)
     apply MvPolynomial.ringHom_ext
     · intro c
-      show q (lineLocalBase k (curveBase k n
+      change q (lineLocalBase k (curveBase k n
         (algebraMap (PlanePolynomial k) (baseRing k) (MvPolynomial.C c)))) = _
       rw [curveBase_algebraMap, lineLocalBase_algebraMap]
       simp [lineToPlane, curveEval, q]
     · intro i
       fin_cases i
-      · show q (lineLocalBase k (curveBase k n
+      · change q (lineLocalBase k (curveBase k n
           (algebraMap (PlanePolynomial k) (baseRing k) (MvPolynomial.X 0)))) = _
         rw [curveBase_algebraMap, lineLocalBase_algebraMap]
         simp [lineToPlane, curveEval, q]
       · have hf : q (f k n) = 0 :=
           Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.subset_span rfl)
         simp only [f, map_add, map_pow] at hf
-        show q (lineLocalBase k (curveBase k n
+        change q (lineLocalBase k (curveBase k n
           (algebraMap (PlanePolynomial k) (baseRing k) (MvPolynomial.X 1)))) = _
         rw [curveBase_algebraMap, lineLocalBase_algebraMap]
         simp only [curveEval, MvPolynomial.coe_eval₂Hom, MvPolynomial.eval₂_X,
           Matrix.cons_val_one, Matrix.cons_val_zero, lineToPlane,
           Polynomial.coe_eval₂RingHom, Polynomial.eval₂_X, map_sub, map_neg, map_pow]
-        show -q (x0 k) ^ (n : ℕ) - q (x0 k) ^ (2 * (n : ℕ) + 1) = q (y0 k)
+        change -q (x0 k) ^ (n : ℕ) - q (x0 k) ^ (2 * (n : ℕ) + 1) = q (y0 k)
         linear_combination -hf
   exact ⟨.ofRingHom F G hFG hGF⟩
 
@@ -1692,12 +1692,12 @@ private lemma ker_cToB_eq_span_xi_of_le_idealI
   rw [← hc]
   apply Submodule.sum_mem
   intro i hi
-  show c i * zCIndex k i ∈ _
+  change c i * zCIndex k i ∈ _
   apply mul_zCIndex_mem_span_xi k i (c i)
   have hprod : (s : ringC k) * c i ∈ (idealP k i).map (aToC k) := by
     rw [← prove_annihilator_zCIndex]
     rw [Submodule.mem_annihilator_span_singleton]
-    show ((s : ringC k) * c i) * zCIndex k i = 0
+    change ((s : ringC k) * c i) * zCIndex k i = 0
     simpa only [mul_assoc] using hind i hi
   have hR : (s : ringC k) * c i ∈ idealR k i :=
     (show (idealP k i).map (aToC k) ≤ idealR k i from le_sup_left) hprod
@@ -1748,7 +1748,7 @@ private lemma polynomialToQuotientQ_isUnit (n : PNat) (p : Polynomial k) (hp : p
     simpa only [Polynomial.C_0, sub_zero, Polynomial.X_dvd_iff,
       Polynomial.coeff_zero_eq_eval_zero] using hng
   have hmem : lineToPlane k g ∈ originSubmonoid k := by
-    show MvPolynomial.eval (0 : Fin 2 → k) (lineToPlane k g) ∈ nonZeroDivisors k
+    change MvPolynomial.eval (0 : Fin 2 → k) (lineToPlane k g) ∈ nonZeroDivisors k
     rw [lineToPlane_eval_zero, mem_nonZeroDivisors_iff_ne_zero]
     exact hg0
   have hgu : IsUnit (polynomialToQuotientQ k n g) :=
@@ -1869,16 +1869,16 @@ lemma idealQ_le_ker_rationalCurveC (n : PNat) :
     apply sup_le
     · apply Ideal.span_le.mpr
       rintro _ ⟨i, rfl⟩
-      show rationalCurveC k n (aToC k (zA k i)) = 0
+      change rationalCurveC k n (aToC k (zA k i)) = 0
       rw [rationalCurveC_aToC]
       simp [rationalCurveA, evalA0, zA, evalZero]
     · apply Ideal.span_le.mpr
       rintro _ rfl
-      show rationalCurveC k n (aToC k (fA k n)) = 0
+      change rationalCurveC k n (aToC k (fA k n)) = 0
       rw [rationalCurveC_aToC, rationalCurveA_f]
   · apply Ideal.span_le.mpr
     rintro _ rfl
-    show rationalCurveC k n (xC k * zC k + xC k ^ ((n : ℕ) + 1) + 1) = 0
+    change rationalCurveC k n (xC k * zC k + xC k ^ ((n : ℕ) + 1) + 1) = 0
     simp only [map_add, map_mul, map_pow, map_one, xC, rationalCurveC_aToC,
       rationalCurveC_zC]
     linear_combination -(mul_inv_cancel₀ (rationalCurveA_x_ne_zero k n))
@@ -1926,17 +1926,17 @@ private lemma prove_quotientQ (n : PNat) :
               polynomialToQuotientQ, lineToPlane, q]
           · simp only [RingHom.comp_apply, curveBase_algebraMap,
               lineToFractionRing_algebraMap, F, fractionRingToQuotientQ_algebraMap]
-            show polynomialToQuotientQ k n (curveEval k n (MvPolynomial.X 1)) = q (yC k)
+            change polynomialToQuotientQ k n (curveEval k n (MvPolynomial.X 1)) = q (yC k)
             simp only [curveEval, Fin.isValue, MvPolynomial.eval₂Hom_X',
               Matrix.cons_val_one, Matrix.cons_val_fin_one, map_sub, map_neg, map_pow,
               polynomialToQuotientQ_X]
-            show -q (xC k) ^ (n : ℕ) - q (xC k) ^ (2 * (n : ℕ) + 1) = q (yC k)
+            change -q (xC k) ^ (n : ℕ) - q (xC k) ^ (2 * (n : ℕ) + 1) = q (yC k)
             linear_combination -hf'
-      show F (rationalCurveA k n (baseToA k a)) = q (aToC k (baseToA k a))
+      change F (rationalCurveA k n (baseToA k a)) = q (aToC k (baseToA k a))
       simpa only [rationalCurveA, RingHom.comp_apply, evalA0_base] using
         RingHom.congr_fun hb a
     · intro i
-      show F (rationalCurveA k n (zA k i)) = q (zCIndex k i)
+      change F (rationalCurveA k n (zA k i)) = q (zCIndex k i)
       have hi : q (zCIndex k i) = 0 := Ideal.Quotient.eq_zero_iff_mem.mpr
         ((show (idealP k n).map (aToC k) ≤ idealQ k n from le_sup_left)
           (Ideal.mem_map_of_mem _ ((show idealI k ≤ idealP k n from le_sup_left)
@@ -1958,7 +1958,7 @@ private lemma prove_quotientQ (n : PNat) :
     apply ringC_hom_ext k
     · apply RingHom.ext
       intro a
-      show F (rationalCurveC k n (aToC k a)) = q (aToC k a)
+      change F (rationalCurveC k n (aToC k a)) = q (aToC k a)
       rw [rationalCurveC_aToC]
       exact RingHom.congr_fun ha a
     · exact hz
@@ -2003,7 +2003,7 @@ private lemma idealI_map_isPrime : ((idealI k).map (aToC k)).IsPrime := by
           MvPolynomial.bind₁_X_right, Matrix.cons_val_one, Matrix.cons_val_fin_one,
           MvPolynomial.eval₂_sub, MvPolynomial.eval₂_neg, MvPolynomial.eval₂_mul,
           MvPolynomial.eval₂_X, Matrix.cons_val_zero, MvPolynomial.eval₂_pow, π, ψ]
-        show -(q (xC k) * q (zC k) ^ 2) - q (zC k) = q (yC k)
+        change -(q (xC k) * q (zC k) ^ 2) - q (zC k) = q (yC k)
         linear_combination -hr
   let S : Submonoid (PlanePolynomial k) := (IsUnit.submonoid Q).comap π
   let D := Localization S
@@ -2017,7 +2017,7 @@ private lemma idealI_map_isPrime : ((idealI k).map (aToC k)).IsPrime := by
   let d : PlanePolynomial k →+* D := algebraMap (PlanePolynomial k) D
   have hψunit (s : originSubmonoid k) : IsUnit (d (ψ s)) :=
     IsLocalization.map_units (M := S) D ⟨ψ s, by
-      show IsUnit (π (ψ s))
+      change IsUnit (π (ψ s))
       rw [← RingHom.comp_apply, hψ]
       exact (IsLocalization.map_units (baseRing k) s).map b⟩
   let B : baseRing k →+* D := IsLocalization.lift (M := originSubmonoid k)
@@ -2039,7 +2039,7 @@ private lemma idealI_map_isPrime : ((idealI k).map (aToC k)).IsPrime := by
     rw [hx]
     have hu : IsUnit (d (2 * MvPolynomial.X 0 * MvPolynomial.X 1 + 1)) :=
       IsLocalization.map_units (M := S) D ⟨_, by
-        show IsUnit (π (2 * MvPolynomial.X 0 * MvPolynomial.X 1 + 1))
+        change IsUnit (π (2 * MvPolynomial.X 0 * MvPolynomial.X 1 + 1))
         simpa [π, map_ofNat] using (cDerivative_isUnit k).map q⟩
     simpa only [map_add, map_mul, map_ofNat, map_one] using hu
   let F := liftC k A (d (MvPolynomial.X 1)) ht hd
@@ -2047,7 +2047,7 @@ private lemma idealI_map_isPrime : ((idealI k).map (aToC k)).IsPrime := by
     apply Ideal.map_le_iff_le_comap.mpr
     apply Ideal.span_le.mpr
     rintro _ ⟨n, rfl⟩
-    show F (aToC k (zA k n)) = 0
+    change F (aToC k (zA k n)) = 0
     rw [liftC_aToC]
     simp [A, evalA0, zA, evalZero]
   let F' : Q →+* D := Ideal.Quotient.lift I F (fun _ h => hF h)
@@ -2057,7 +2057,7 @@ private lemma idealI_map_isPrime : ((idealI k).map (aToC k)).IsPrime := by
     apply IsLocalization.ringHom_ext (originSubmonoid k)
     apply RingHom.ext
     intro p
-    show G (B (algebraMap (PlanePolynomial k) (baseRing k) p)) = b₀ p
+    change G (B (algebraMap (PlanePolynomial k) (baseRing k) p)) = b₀ p
     rw [hB, hG]
     exact RingHom.congr_fun hψ p
   have hGF : G.comp F' = RingHom.id Q := by
@@ -2065,16 +2065,16 @@ private lemma idealI_map_isPrime : ((idealI k).map (aToC k)).IsPrime := by
     apply ringC_hom_ext k
     · apply RingHom.ext
       intro a
-      show G (F (aToC k a)) = q (aToC k a)
+      change G (F (aToC k a)) = q (aToC k a)
       rw [liftC_aToC]
-      show G (B (evalA0 k a)) = q (aToC k a)
+      change G (B (evalA0 k a)) = q (aToC k a)
       rw [show G (B (evalA0 k a)) = b (evalA0 k a) from RingHom.congr_fun hGB _]
       have he : q (aToC k (a - baseToA k (evalA0 k a))) = 0 :=
         Ideal.Quotient.eq_zero_iff_mem.mpr
           (Ideal.mem_map_of_mem _ (sub_base_evalA0_mem k a))
-      show q (aToC k (baseToA k (evalA0 k a))) = q (aToC k a)
+      change q (aToC k (baseToA k (evalA0 k a))) = q (aToC k a)
       exact (sub_eq_zero.mp (by simpa only [map_sub] using he)).symm
-    · show G (F (zC k)) = q (zC k)
+    · change G (F (zC k)) = q (zC k)
       rw [liftC_zC, hG]
       simp [π]
   have hinj : Function.Injective F' := by
@@ -2083,7 +2083,7 @@ private lemma idealI_map_isPrime : ((idealI k).map (aToC k)).IsPrime := by
   have hker : RingHom.ker F = I := by
     have he : F = F'.comp q := rfl
     rw [he, RingHom.ker_comp_of_injective _ hinj, Ideal.mk_ker]
-  show I.IsPrime
+  change I.IsPrime
   rw [← hker]
   exact RingHom.ker_isPrime F
 
@@ -2108,7 +2108,7 @@ private theorem results : Results k := by
     awayKernel := ?_
     awayIndependent := fun g _ => prove_awayIndependent k g }
   · intro c
-    show mapBAtQBToCAtQC k
+    change mapBAtQBToCAtQC k
       (algebraMap (ringB k) (bAtQB k) (cToB k c)) = _
     rw [mapBAtQBToCAtQC_algebraMap]
     rfl

@@ -5,7 +5,7 @@ public import Mathlib.Algebra.Homology.DerivedCategory.FullyFaithful
 public import Mathlib.Algebra.Homology.HomotopyCategory.Plus
 public import Mathlib.CategoryTheory.Functor.Derived.PointwiseRightDerived
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 import StacksCore.Tactic.EgaSgaAttribute
 
 @[expose] public section
@@ -285,7 +285,7 @@ lemma functorPlus_isInvertedBy :
     rw [← DerivedCategory.isIso_Qh_map_iff]
     exact mapHomotopyCategory_inverts_quasiIso F _ hs
   have h2 : HomotopyCategory.Plus.quasiIso B ((mapPlus F).map s) := by
-    show HomotopyCategory.quasiIso B shape ((HomotopyCategory.Plus.ι B).map ((mapPlus F).map s))
+    change HomotopyCategory.quasiIso B shape ((HomotopyCategory.Plus.ι B).map ((mapPlus F).map s))
     exact h1
   exact Localization.inverts (QPlus B) (HomotopyCategory.Plus.quasiIso B) _ h2
 
@@ -516,7 +516,7 @@ theorem higherDerived_eq_zero (i : ℤ) (hi : i ≠ 0) :
   -- Functor.isZero).
   apply Functor.isZero
   intro X
-  show IsZero ((DerivedCategory.homologyFunctor B i).obj
+  change IsZero ((DerivedCategory.homologyFunctor B i).obj
     ((RF F).obj ((DerivedCategory.singleFunctor A 0).obj X)))
   refine IsZero.of_iso ?_
     ((DerivedCategory.homologyFunctor B i).mapIso

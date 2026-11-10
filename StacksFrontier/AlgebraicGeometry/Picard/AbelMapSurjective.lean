@@ -137,7 +137,7 @@ private theorem invertibleCurveDegree_eq_of_fibreCohomology {K : Type u} [Field 
     (isZero_cohomologyOverField_of_two_le' K fZ hdim _),
     finrank_cohomologyOverField_unit_zero_eq_one fZ,
     ← genus_eq_finrank_cohomologyOverField_unit_one' K fZ]
-  show (Module.finrank K (cohomologyOverField K fZ L 0) : ℤ) -
+  change (Module.finrank K (cohomologyOverField K fZ L 0) : ℤ) -
     Module.finrank K (cohomologyOverField K fZ L 1) - _ = _
   rw [hχ']
   ring

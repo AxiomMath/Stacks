@@ -26,6 +26,7 @@ attribute [local instance]
   AlgebraicGeometry.Space.preservesLimitsOfShape_walkingCospan_toScheme
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `inferInstance` for `HasPullbacks` of presheaves on the big fppf site is a deep search
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_ComponentGlueing
@@ -183,19 +184,19 @@ private theorem exists_disjoint_union_openImmersion
   let ι : ∀ c, A c ⟶ W := fun c => Over.homMk
     (ObjectProperty.homMk (Sigma.ι F c)) (by
       apply ObjectProperty.hom_ext
-      exact Sigma.ι_desc (fun c => (A c).hom.hom) c)
+      exact Sigma.ι_comp_desc (fun c => (A c).hom.hom) c)
   let g : W ⟶ T := Over.homMk (ObjectProperty.homMk (Sigma.desc fun c => G.map (k c))) (by
     apply ObjectProperty.hom_ext
-    show (Sigma.desc fun c => G.map (k c)) ≫ T.hom.hom =
+    change (Sigma.desc fun c => G.map (k c)) ≫ T.hom.hom =
       Sigma.desc (fun c => (A c).hom.hom)
     apply Sigma.hom_ext
     intro c
-    simp only [Sigma.ι_desc_assoc, Sigma.ι_desc]
+    simp only [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc]
     exact congrArg (fun f => f.hom) (k c).w)
   have hg : AlgebraicGeometry.Space.IsOpenImmersion B S hS (yoneda.map g) := by
     let Q := MorphismProperty.inverseImage (@AlgebraicGeometry.IsOpenImmersion.{u}) G
     apply MorphismProperty.relative_map (P := Q)
-    show _root_.AlgebraicGeometry.IsOpenImmersion (Sigma.desc fun c => G.map (k c))
+    change _root_.AlgebraicGeometry.IsOpenImmersion (Sigma.desc fun c => G.map (k c))
     let (c : I) : _root_.AlgebraicGeometry.IsOpenImmersion (G.map (k c)) := hk c
     apply isOpenImmersion_sigmaDesc
     intro c d hcd
@@ -204,7 +205,7 @@ private theorem exists_disjoint_union_openImmersion
   have hι (c : I) : ι c ≫ g = k c := by
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    exact Sigma.ι_desc (fun c => G.map (k c)) c
+    exact Sigma.ι_comp_desc (fun c => G.map (k c)) c
   refine ⟨W, yoneda.map g ≫ t, ι, openImmersion_comp B S hS _ _ hg ht, ?_, ?_⟩
   · intro c
     rw [← Category.assoc, ← yoneda.map_comp, hι, hkt]
@@ -245,9 +246,9 @@ private theorem exists_immersion_sigma_affineSpace
     apply IsZariskiLocalAtSource.of_openCover (P := @LocallyOfFiniteType) (sigmaOpenCover E)
     intro c
     change I at c
-    show LocallyOfFiniteType (Sigma.ι E c ≫ p)
+    change LocallyOfFiniteType (Sigma.ι E c ≫ p)
     dsimp only [p]
-    rw [Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc]
     exact affineSpace_over_locallyOfFiniteType (n c) Z
   obtain ⟨m, i, hi, hip₀⟩ := AlgebraicGeometry.exists_immersion_affineSpace p
   have hip : i ≫ (AffineSpace.over (ULift.{u} (Fin m)) Z).hom = p := hip₀
@@ -261,7 +262,7 @@ private theorem exists_immersion_sigma_affineSpace
     have hdesc {T : Scheme.{u}} (k : ∀ c, D c ⟶ T) :
         Cofan.IsColimit.desc (coproductIsCoproduct D) k = Sigma.desc k :=
       Sigma.hom_ext _ _ fun c =>
-        (Cofan.IsColimit.fac (coproductIsCoproduct D) k c).trans (Sigma.ι_desc k c).symm
+        (Cofan.IsColimit.fac (coproductIsCoproduct D) k c).trans (Sigma.ι_comp_desc k c).symm
     simpa only [hdesc, Cofan.mk_pt, Cofan.mk_ι_app, Cofan.inj, a, q] using h
   have hA : IsPullback (AffineSpace.map (ULift.{u} (Fin m)) f)
       (AffineSpace.over (ULift.{u} (Fin m)) S).hom
@@ -440,10 +441,10 @@ public theorem exists_denseOpen_isImmersion_affineSpaceOver
   have hr : r ≫ qD = W.hom.hom := by
     apply Cofan.IsColimit.hom_ext hc
     intro c
-    show G.map (ι c) ≫ (r ≫ qD) = G.map (ι c) ≫ W.hom.hom
+    change G.map (ι c) ≫ (r ≫ qD) = G.map (ι c) ≫ W.hom.hom
     have hrc : G.map (ι c) ≫ r = v c ≫ Sigma.ι D c :=
       Cofan.IsColimit.fac hc (fun c => v c ≫ Sigma.ι D c) c
-    rw [← Category.assoc, hrc, Category.assoc, Sigma.ι_desc, hv]
+    rw [← Category.assoc, hrc, Category.assoc, Sigma.ι_comp_desc, hv]
     exact (congrArg (fun g => g.hom) (ι c).w).symm
   let ESigma : AlgebraicGeometry.BigFppfOver B S hS :=
     Over.mk (ObjectProperty.homMk (X := B.obj hD) (Y := B.obj hS) qD)
@@ -453,7 +454,7 @@ public theorem exists_denseOpen_isImmersion_affineSpaceOver
   let ιD (c : I) : Esite c ⟶ ESigma := Over.homMk
     (ObjectProperty.homMk (Sigma.ι D c)) (by
       apply ObjectProperty.hom_ext
-      exact Sigma.ι_desc (fun c =>
+      exact Sigma.ι_comp_desc (fun c =>
         (AffineSpace.over (ULift.{u} (Fin (n c))) S).hom) c)
   have hrcomp (c : I) : ι c ≫ rSite = vSite c ≫ ιD c := by
     apply Over.OverMorphism.ext
@@ -505,7 +506,7 @@ public theorem exists_denseOpen_isImmersion_affineSpaceOver
       AlgebraicGeometry.Space.IsOpenImmersion B S hS (yoneda.map (ιD c)) := by
     let Q := MorphismProperty.inverseImage (@_root_.AlgebraicGeometry.IsOpenImmersion.{u}) G
     apply MorphismProperty.relative_map (P := Q)
-    show _root_.AlgebraicGeometry.IsOpenImmersion (Sigma.ι D c)
+    change _root_.AlgebraicGeometry.IsOpenImmersion (Sigma.ι D c)
     infer_instance
   have hkSigmaOpen (c : I) : AlgebraicGeometry.Space.IsOpenImmersion B S hS (kSigma c) :=
     presheaf_prodMap_id B S hS (@_root_.AlgebraicGeometry.IsOpenImmersion.{u}) X
@@ -520,7 +521,7 @@ public theorem exists_denseOpen_isImmersion_affineSpaceOver
         (fun c : ULift.{u + 1} I => G.obj (Esite c.down))
         (fun c => G.map (ιD c.down)) ∈
         Scheme.zariskiPrecoverage (G.obj ESigma) := by
-      show Presieve.ofArrows (fun c : ULift.{u + 1} I => D c.down)
+      change Presieve.ofArrows (fun c : ULift.{u + 1} I => D c.down)
         (fun c => Sigma.ι D c.down) ∈ Scheme.zariskiPrecoverage (∐ D)
       rw [Scheme.ofArrows_mem_precoverage_iff (P := @_root_.AlgebraicGeometry.IsOpenImmersion.{u})]
       refine ⟨?_, ?_⟩
@@ -544,8 +545,8 @@ public theorem exists_denseOpen_isImmersion_affineSpaceOver
     rcases hd with ⟨c⟩
     refine ⟨(Sigma.ι (fun c : ULift.{u + 1} I => yoneda.obj (Esite c.down)) c).app
       (Opposite.op V) b, ?_⟩
-    rw [← types_comp_apply, ← NatTrans.comp_app, Sigma.ι_desc]
-    show b ≫ ιD c.down = a ≫ t
+    rw [← types_comp_apply, ← NatTrans.comp_app, Sigma.ι_comp_desc]
+    change b ≫ ιD c.down = a ≫ t
     exact h
   have hcoverProduct : Presheaf.IsLocallySurjective
       (AlgebraicGeometry.BigFppfOver.topology B S hS)
@@ -566,7 +567,7 @@ public theorem exists_denseOpen_isImmersion_affineSpaceOver
         (prod.snd : X ⨯ yoneda.obj ESigma ⟶ yoneda.obj ESigma).app
           (Opposite.op V) yV := by
       simpa only [yV, ← NatTrans.naturality_apply, ← types_comp_apply,
-        ← NatTrans.comp_app, Sigma.ι_desc] using hs
+        ← NatTrans.comp_app, Sigma.ι_comp_desc] using hs
     let k : yoneda.obj V ⟶ X ⨯ yoneda.obj (Esite c.down) :=
       prod.lift (yonedaEquiv.symm
         ((prod.fst : X ⨯ yoneda.obj ESigma ⟶ X).app (Opposite.op V) yV))
@@ -575,8 +576,8 @@ public theorem exists_denseOpen_isImmersion_affineSpaceOver
       yonedaEquiv k
     refine ⟨(Sigma.ι (fun c : ULift.{u + 1} I => X ⨯ yoneda.obj (Esite c.down)) c).app
       (Opposite.op V) w, ?_⟩
-    rw [← types_comp_apply, ← NatTrans.comp_app, Sigma.ι_desc]
-    show (kSigma c.down).app (Opposite.op V) w = yV
+    rw [← types_comp_apply, ← NatTrans.comp_app, Sigma.ι_comp_desc]
+    change (kSigma c.down).app (Opposite.op V) w = yV
     apply yonedaEquiv.symm.injective
     rw [← yonedaEquiv_symm_naturality_right, Equiv.symm_apply_apply]
     apply prod.hom_ext
@@ -617,11 +618,11 @@ public theorem exists_denseOpen_isImmersion_affineSpaceOver
     let w : (U t).toFunctor.obj (Opposite.op V) :=
       (Subfunctor.toRange (K t)).app (Opposite.op V) z'
     refine ⟨(Sigma.ι (fun t : C => (U t).toFunctor) t).app (Opposite.op V) w, ?_⟩
-    rw [← types_comp_apply, ← NatTrans.comp_app, Sigma.ι_desc]
-    show ((Subfunctor.toRange (K t) ≫ (U t).ι).app (Opposite.op V)) z' = _
+    rw [← types_comp_apply, ← NatTrans.comp_app, Sigma.ι_comp_desc]
+    change ((Subfunctor.toRange (K t) ≫ (U t).ι).app (Opposite.op V)) z' = _
     rw [Subfunctor.toRange_ι]
-    rw [← types_comp_apply, ← NatTrans.comp_app, Sigma.ι_desc] at hs
-    show (kSigma (d t)).app (Opposite.op V) z' = _
+    rw [← types_comp_apply, ← NatTrans.comp_app, Sigma.ι_comp_desc] at hs
+    change (kSigma (d t)).app (Opposite.op V) z' = _
     have transport {i j : I} (h : i = j)
         (x : (X ⨯ yoneda.obj (Esite j)).obj (Opposite.op V))
         (hx : (kSigma j).app (Opposite.op V) x =
@@ -670,7 +671,7 @@ public theorem exists_denseOpen_isImmersion_affineSpaceOver
           (Subfunctor.toRange_ι (K t)).symm
     let Q := MorphismProperty.inverseImage (@_root_.AlgebraicGeometry.IsImmersion.{u}) G
     let : Q.presheaf.RespectsIso := inferInstance
-    show Q.presheaf (pullback.snd jSigma (U t).ι)
+    change Q.presheaf (pullback.snd jSigma (U t).ι)
     rw [← MorphismProperty.cancel_left_of_respectsIso
       (P := Q.presheaf) hpbrange.isoPullback.hom]
     rw [hpbrange.isoPullback_hom_snd]
@@ -719,7 +720,7 @@ public theorem exists_denseOpen_isImmersion_affineSpaceOver
         rw [Category.assoc, prod.map_fst, Category.comp_id, prod.lift_fst]
         simp only [prod.lift_fst]
       · simp only [iW, prod.lift_snd]
-        show aW = (jSigma ≫ prod.map (𝟙 X) aD) ≫ prod.snd
+        change aW = (jSigma ≫ prod.map (𝟙 X) aD) ≫ prod.snd
         calc
           aW = yoneda.map rSite ≫ aD := rfl
           _ = (jSigma ≫ prod.snd) ≫ aD := by simp only [jSigma, prod.lift_snd]
@@ -741,7 +742,7 @@ public theorem exists_denseOpen_isImmersion_affineSpaceOver
     rintro _ ⟨p, rfl⟩
     refine ⟨AlgebraicGeometry.Space.pointsMap B S hS (yoneda.obj W) e.hom p, ?_⟩
     rw [← pointsMap_comp_point]
-    show AlgebraicGeometry.Space.pointsMap B S hS (yoneda.obj W)
+    change AlgebraicGeometry.Space.pointsMap B S hS (yoneda.obj W)
       (Subfunctor.toRange q ≫ V.ι) p = _
     rw [Subfunctor.toRange_ι]
   · simp only [iW, Category.assoc, prod.lift_fst, he]

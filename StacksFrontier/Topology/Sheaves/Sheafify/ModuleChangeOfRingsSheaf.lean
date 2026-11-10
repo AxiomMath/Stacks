@@ -100,7 +100,7 @@ theorem tensorMap_tmul {U V : (TopologicalSpace.Opens X)ᵒᵖ} (i : U ⟶ V)
       = (O'.map i).hom s ⊗ₜ[O.obj V] (F.restrictₛₗ i m) := by
   let := (α.app U).hom.toAlgebra
   let := (α.app V).hom.toAlgebra
-  show (TensorProduct.map (o'Semilin O O' α U V i) (fSemilin O F U V i)) (s ⊗ₜ m) = _
+  change (TensorProduct.map (o'Semilin O O' α U V i) (fSemilin O F U V i)) (s ⊗ₜ m) = _
   rw [TensorProduct.map_tmul]
   rfl
 
@@ -129,8 +129,7 @@ theorem liftLin_naturality (g : F ⟶ restrictPresheaf O O' α M)
   let : Module (O'.obj V) (ToType ((restrictPresheaf O O' α M).obj V)) :=
     inferInstanceAs (Module (O'.obj V) (ToType (M.obj V)))
   intro t
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul s m =>
       rw [tensorSemilin_tmul, liftLin_tmul, liftLin_tmul]
       have h1 : (restrictPresheaf O O' α M).restrictₛₗ i (s • ((g.app U).hom m))

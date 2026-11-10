@@ -196,6 +196,8 @@ variable {R K R' K' : Type u} [CommRing R] [IsDomain R] [IsDiscreteValuationRing
   [IsFractionRing R' K'] [Algebra R R'] [IsDiscreteValuationRing.IsExtension R R']
   [Algebra K K'] [Algebra R K'] [IsScalarTower R K K'] [IsScalarTower R R' K']
 
+omit [IsDomain R] [IsDiscreteValuationRing R] [IsFractionRing R K] [IsDomain R']
+  [IsDiscreteValuationRing R'] [IsFractionRing R' K'] [IsDiscreteValuationRing.IsExtension R R'] in
 variable (R K R' K') in
 /-- The square of spectra of the extension `R ⊆ R'` and of its fraction fields commutes. -/
 theorem genericPointInclusion_comp_specMap :
@@ -216,6 +218,8 @@ def baseChangeGenericFiberHom {V X : Scheme.{u}} {v : V ⟶ Spec (CommRingCat.of
       rw [Category.assoc, Category.assoc, pullback.condition, reassoc_of% hv,
         pullback.condition_assoc, Category.assoc, genericPointInclusion_comp_specMap R K R' K'])
 
+omit [IsDomain R] [IsDiscreteValuationRing R] [IsFractionRing R K] [IsDomain R']
+  [IsDiscreteValuationRing R'] [IsFractionRing R' K'] [IsDiscreteValuationRing.IsExtension R R'] in
 /-- `V' = V ×_{Spec K} Spec K'` is the generic fibre of the base change `X ×_{Spec R} Spec R'` of
 a model of `V`. -/
 theorem isPullback_baseChangeGenericFiberHom {V X : Scheme.{u}}
@@ -248,6 +252,8 @@ def baseChangeGenericFiberIso {V X : Scheme.{u}} {v : V ⟶ Spec (CommRingCat.of
         (genericPointInclusion R' K') :=
   (isPullback_baseChangeGenericFiberHom p e hv).isoPullback
 
+omit [IsDomain R] [IsDiscreteValuationRing R] [IsFractionRing R K] [IsDomain R']
+  [IsDiscreteValuationRing R'] [IsFractionRing R' K'] [IsDiscreteValuationRing.IsExtension R R'] in
 /-- The identification `baseChangeGenericFiberIso` lies over `Spec K'`. -/
 @[simp]
 theorem baseChangeGenericFiberIso_hom_snd {V X : Scheme.{u}} {v : V ⟶ Spec (CommRingCat.of K)}
@@ -258,6 +264,8 @@ theorem baseChangeGenericFiberIso_hom_snd {V X : Scheme.{u}} {v : V ⟶ Spec (Co
       pullback.snd v (Spec.map (CommRingCat.ofHom (algebraMap K K'))) :=
   IsPullback.isoPullback_hom_snd _
 
+omit [IsDomain R] [IsDiscreteValuationRing R] [IsFractionRing R K] [IsDomain R']
+  [IsDiscreteValuationRing R'] [IsFractionRing R' K'] [IsDiscreteValuationRing.IsExtension R R'] in
 /-- The identification `baseChangeGenericFiberIso` followed by the projection to the base change
 is `baseChangeGenericFiberHom`. -/
 @[simp]
@@ -269,6 +277,8 @@ theorem baseChangeGenericFiberIso_hom_fst {V X : Scheme.{u}} {v : V ⟶ Spec (Co
       baseChangeGenericFiberHom (R' := R') (K' := K') p e hv :=
   IsPullback.isoPullback_hom_fst _
 
+omit [IsDomain R] [IsDiscreteValuationRing R] [IsFractionRing R K] [IsDomain R']
+  [IsDiscreteValuationRing R'] [IsFractionRing R' K'] [IsDiscreteValuationRing.IsExtension R R'] in
 /-- **Base change of a model** (Section 0C2R). Let `R ⊆ R'` be an extension of discrete
 valuation rings with induced extension `K'/K` of fraction fields. If `X` is a model of the
 `K`-scheme `V` over `R`, then `X ×_{Spec R} Spec R'` is a model of `V' = V ×_{Spec K} Spec K'`
@@ -298,6 +308,8 @@ abbrev baseChangeMap {X X' : Scheme.{u}} (p : X ⟶ Spec (CommRingCat.of R))
       pullback p' (Spec.map (CommRingCat.ofHom (algebraMap R R'))) :=
   pullback.map _ _ _ _ φ (𝟙 _) (𝟙 _) (by simp [h]) (by simp)
 
+omit [IsDomain R] [IsDiscreteValuationRing R] [IsFractionRing R K] [IsDomain R']
+  [IsDiscreteValuationRing R'] [IsFractionRing R' K'] [IsDiscreteValuationRing.IsExtension R R'] in
 /-- **Base change of a morphism of models** (Section 0C2R): the base change of a morphism of
 models of `V` over `R` is a morphism of models of `V'` over `R'`. -/
 @[stacks 0C2R "base change sends morphisms of models of V over R to morphisms of models of V' \

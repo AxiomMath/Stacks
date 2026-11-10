@@ -174,7 +174,7 @@ theorem inverseImageRingHom_naturality_apply (phi : O₁ ⟶ O₂) (U : (Opens X
   replace h := congrArg (fun m : O₁ ⟶ (TopCat.Sheaf.pushforward CommRingCat.{u} f).obj
       ((TopCat.Sheaf.pullback CommRingCat.{u} f).obj O₂) => (m.hom.app U).hom a) h
   simp only [Functor.id_map, Functor.comp_map] at h
-  show (((TopCat.Sheaf.pullbackPushforwardAdjunction CommRingCat.{u} f).unit.app O₂).hom.app
+  change (((TopCat.Sheaf.pullbackPushforwardAdjunction CommRingCat.{u} f).unit.app O₂).hom.app
       U).hom ((phi.hom.app U).hom a) = _
   exact h
 
@@ -420,7 +420,7 @@ theorem isInverseImageDerivationComparison (phi : O₁ ⟶ O₂) :
       refine (A.homEquiv O₂ O').injective ?_
       rw [Adjunction.homEquiv_naturality_right, hst, hid]
       refine sheaf_hom_ext_apply fun U b ↦ ?_
-      show ((sqZeroProj O' N).hom.app ((opensMap f).op.obj U)).hom
+      change ((sqZeroProj O' N).hom.app ((opensMap f).op.obj U)).hom
             ((pushforwardSqZeroApp f N phi D U).hom b)
           = inverseImageRingUnitApp f O₂ U b
       exact pushforwardSqZeroApp_apply_fst f N phi D U b
@@ -430,7 +430,7 @@ theorem isInverseImageDerivationComparison (phi : O₁ ⟶ O₂) :
       rw [Adjunction.homEquiv_naturality_left, Adjunction.homEquiv_naturality_left, hst,
         Adjunction.homEquiv_unit]
       refine sheaf_hom_ext_apply fun U a ↦ ?_
-      show (pushforwardSqZeroApp f N phi D U).hom ((phi.hom.app U).hom a)
+      change (pushforwardSqZeroApp f N phi D U).hom ((phi.hom.app U).hom a)
           = ((sqZeroInl O' N).hom.app ((opensMap f).op.obj U)).hom
               (inverseImageRingUnitApp f O₂ U ((phi.hom.app U).hom a))
       refine TrivSqZeroExt.ext ?_ ?_

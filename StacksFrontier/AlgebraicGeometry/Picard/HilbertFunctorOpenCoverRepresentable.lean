@@ -305,7 +305,7 @@ theorem exists_representsHilbertFunctorOfRank_of_isOpenHilbertSubfunctor
         (V (idx y)).ι := by
       refine ⟨(Sigma.ι (fun i ↦ yoneda.obj (H i).left) (idx y)).app _
         (classifyingMap (R (idx y)) (hV (idx y))).left, ?_⟩
-      rw [← ConcreteCategory.comp_apply, ← NatTrans.comp_app, Sigma.ι_desc]
+      rw [← ConcreteCategory.comp_apply, ← NatTrans.comp_app, Sigma.ι_comp_desc]
       exact yonedaToTotal_app_classifyingMap (R (idx y)) (hV (idx y))
     let 𝒰 : T.OpenCover := Scheme.Cover.mkOfCovers T (fun y ↦ (V (idx y)).toScheme)
       (fun y ↦ (V (idx y)).ι) fun y ↦ ⟨y, ⟨y, hidx y⟩, rfl⟩

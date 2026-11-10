@@ -107,7 +107,8 @@ worked around here rather than suppressed — raising the limit is not available
 In particular the cost is in the proof and not in elaborating the *statement*: the statement of
 `exists_restrict_appTwistShift_eq_smul` costs no measurable time, as the conclusion of a
 declaration and not merely as a hypothesis — a file holding it with the proof replaced by a
-single cheap tactic checks as fast as an empty one. Neither of the following is a difficulty. `PresheafOfModules.map` has its target
+single cheap tactic checks as fast as an empty one. Neither of the following is a difficulty.
+`PresheafOfModules.map` has its target
 wrapped in `ModuleCat.restrictScalars`, so `map_eq_smul_of_pointwise` does compare an element of
 that wrapper with a plain section, and a single `Subtype.ext` discharges it; `M.val.presheaf.map`
 is not needed anywhere. The subtype constructor `⟨y.1, hVU y.2⟩` under an existentially bound

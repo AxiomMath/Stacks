@@ -90,7 +90,7 @@ public theorem injective_of_linearEquiv {R : Type u} [Ring R]
   obtain ⟨h, hh⟩ := Module.Injective.out (R := R) (Q := M) f hf (e.symm.toLinearMap.comp g)
   refine ⟨e.toLinearMap.comp h, ?_⟩
   intro x
-  show e (h (f x)) = g x
+  change e (h (f x)) = g x
   rw [hh x]
   exact e.apply_symm_apply _
 
@@ -100,7 +100,7 @@ lemma essential_congr_subobject_eq {C : Type*} [Category C]
     {A B D : C} (f : A ⟶ D) (g : B ⟶ D) [Mono f] [Mono g]
     (h : Subobject.mk f = Subobject.mk g) :
     IsEssentialMono f ↔ IsEssentialMono g := by
-  show (∀ B' : Subobject D, B' ≠ ⊥ → B' ⊓ Subobject.mk f ≠ ⊥) ↔ _
+  change (∀ B' : Subobject D, B' ≠ ⊥ → B' ⊓ Subobject.mk f ≠ ⊥) ↔ _
   rw [h]
 
 /-- An isomorphism is an essential monomorphism. -/
@@ -133,7 +133,7 @@ private lemma essential_inclusion_iff_elementwise {R : Type u} [Ring R]
   have hmk : Subobject.mk (ModuleCat.ofHom (Submodule.inclusion h)) =
       Subobject.mk g := Subobject.mk_eq_mk_of_comm _ _ e.toModuleIso heq.symm
   rw [essential_congr_subobject_eq (ModuleCat.ofHom (Submodule.inclusion h)) g hmk]
-  show IsEssentialMono (ModuleCat.ofHom F.subtype) ↔ _
+  change IsEssentialMono (ModuleCat.ofHom F.subtype) ↔ _
   rw [isEssentialMono_subtype_iff (R := R) (N := ModuleCat.of R E) F]
   constructor
   · intro hx x hx0
@@ -273,12 +273,12 @@ theorem isInjectiveHull_fractionRing
     obtain ⟨a, ha⟩ := IsLocalization.surj (nonZeroDivisors R) x
     refine ⟨a.2, ?_, ?_⟩
     · rw [Algebra.smul_def]
-      show algebraMap R K a.2 * x ∈ (Algebra.linearMap R K).range
+      change algebraMap R K a.2 * x ∈ (Algebra.linearMap R K).range
       refine ⟨a.1, ?_⟩
-      show algebraMap R K a.1 = algebraMap R K a.2 * x
+      change algebraMap R K a.1 = algebraMap R K a.2 * x
       exact ha.symm.trans (mul_comm _ _)
     · rw [Algebra.smul_def]
-      show algebraMap R K a.2 * x ≠ 0
+      change algebraMap R K a.2 * x ≠ 0
       exact mul_ne_zero
         ((map_ne_zero_iff _ (IsFractionRing.injective R K)).2
           (mem_nonZeroDivisors_iff_ne_zero.mp a.2.2)) hx
@@ -323,7 +323,7 @@ theorem exists_isInjectiveHull_residueField_of_quotient
     have hscalar : r • (x - y) = phi (ULift.up a) := by
       apply ULift.down_injective
       dsimp [phi]; simp only [Algebra.smul_def]
-      show algebraMap R p.ResidueField r * (x - y).down =
+      change algebraMap R p.ResidueField r * (x - y).down =
         algebraMap (R ⧸ p) p.ResidueField a
       rw [← hab, ← Ideal.algebraMap_quotient_residueField_mk (I := p) r,
         div_eq_mul_inv, mul_comm
@@ -333,7 +333,7 @@ theorem exists_isInjectiveHull_residueField_of_quotient
       apply (ModuleCat.mono_iff_injective i).mp inferInstance
       have : j (phi (ULift.up a)) = 0 := by rw [← hscalar, map_smul, hx, smul_zero]
       rw [← hij]
-      show j (phi (ULift.up a)) = j (phi 0)
+      change j (phi (ULift.up a)) = j (phi 0)
       simpa using this
     apply sub_eq_zero.mp
     apply ULift.down_injective
@@ -395,7 +395,7 @@ lemma isEssentialMono_iff_range
     rfl
   have hm := Subobject.mk_eq_mk_of_comm i
     (ModuleCat.ofHom (LinearMap.range i.hom).subtype) e he
-  show (∀ B' : Subobject B, B' ≠ ⊥ → B' ⊓ Subobject.mk i ≠ ⊥) ↔ _
+  change (∀ B' : Subobject B, B' ≠ ⊥ → B' ⊓ Subobject.mk i ≠ ⊥) ↔ _
   rw [hm]
 
 /-- Any monomorphism of modules becomes essential after dividing the target by a submodule
@@ -443,7 +443,7 @@ private lemma exists_essential_quotient {R : Type u} [Ring R]
   · refine ⟨z, ?_⟩
     apply (Submodule.Quotient.eq C).2
     have : i z - a • b = c := by rw [hz, ← hcd]; abel
-    show i z - a • b ∈ C
+    change i z - a • b ∈ C
     rw [this]
     exact hc
   · intro ha
@@ -496,8 +496,8 @@ private lemma injective_of_all_essential_monos_are_isos
   have hrel : g ≫ qM = f ≫ ModuleCat.ofHom j := by
     ext x
     apply (Submodule.Quotient.eq C).2
-    show (g.hom x, 0) - (0, f.hom x) ∈ C
-    show F ((g.hom x, 0) - (0, f.hom x)) = 0
+    change (g.hom x, 0) - (0, f.hom x) ∈ C
+    change F ((g.hom x, 0) - (0, f.hom x)) = 0
     simpa [F, LinearMap.coprod_apply, sub_eq_add_neg] using
       sub_eq_zero.mpr (LinearMap.congr_fun hψ x).symm
   obtain ⟨P', q₀, hmono, hess⟩ := exists_essential_quotient qM
@@ -509,7 +509,7 @@ private lemma injective_of_all_essential_monos_are_isos
   have hqr : qM ≫ r = 𝟙 (ModuleCat.of R Q) := by
     dsimp [r]
     rw [← Category.assoc]
-    show eIso.hom ≫ eIso.inv = 𝟙 _
+    change eIso.hom ≫ eIso.inv = 𝟙 _
     exact Iso.hom_inv_id _
   rw [← Category.assoc, ← hrel, Category.assoc, hqr, Category.comp_id]
 
@@ -561,7 +561,7 @@ private lemma all_essential_monos_are_isos_of_no_proper_extension
     obtain ⟨r, hrE, hr0⟩ :=
       (isEssentialMono_subtype_iff (R := R) (N := P) (LinearMap.range i.hom)).1 hiRange b hb0
     refine ⟨r, ?_, ?_⟩
-    · show F.subtype (r • x) ∈ E
+    · change F.subtype (r • x) ∈ E
       obtain ⟨a, ha⟩ := hrE
       have hmap : ψ.hom (i.hom a) = E.subtype a := hψ₀ a
       have heq : F.subtype (r • x) = E.subtype a := by
@@ -586,7 +586,7 @@ private lemma all_essential_monos_are_isos_of_no_proper_extension
   have hkess : IsEssentialMono k := by
     rw [isEssentialMono_iff_range k]
     have hrange : LinearMap.range k.hom = EF := by
-      show LinearMap.range (Submodule.inclusion hEF) = EF
+      change LinearMap.range (Submodule.inclusion hEF) = EF
       rw [Submodule.range_inclusion]
     rw [hrange]
     exact hessRange

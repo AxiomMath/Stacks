@@ -369,13 +369,7 @@ theorem exists_isAffineOpen_isChart (p : X) :
         IsUnit ((X.presheaf.germ V p hpV).hom
           ((D.laurentAlgebra.mul 1 (-1)).app (op V) a b : Γ(X, V))) := by
     intro t'
-    induction t' using TensorProduct.induction_on with
-    | zero =>
-      intro h
-      change IsUnit (F (0 : (PresheafOfModules.tensorObj (D.laurentAlgebra.piece 1).val
-        (D.laurentAlgebra.piece (-1)).val).obj (op V))) at h
-      rw [map_zero] at h
-      exact absurd h not_isUnit_zero
+    induction t' using TensorProduct.inductionOn with
     | tmul a b => exact fun h => ⟨a, b, h⟩
     | add x y hx hy =>
       intro h

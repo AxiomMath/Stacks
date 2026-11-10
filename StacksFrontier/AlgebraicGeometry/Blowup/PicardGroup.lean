@@ -113,7 +113,8 @@ private theorem schemePullbackClass_picardClass (hE : D.IsExceptionalCurveOfFirs
         (structureIsSheaf (projectiveLineProj k).toRingedSpace)
         (ProjectiveSpectrum.Proj.twistingSheaf
           (MvPolynomial.homogeneousSubmodule (Fin 2) k) (-1))
-        (AlgebraicGeometry.Scheme.IdealSheafData.isInvertible_twistingSheaf_projectiveLine k (-1)) :=
+        (AlgebraicGeometry.Scheme.IdealSheafData.isInvertible_twistingSheaf_projectiveLine
+          k (-1)) :=
   (congrArg (Stacks.Picard.schemePullbackClass e.hom)
       (Stacks.Picard.pullbackClass_classOf D.subschemeι.toLRSHom.toShHom _
         (Stacks.Divisors.isInvertible_invertibleSheaf_picard D))).trans

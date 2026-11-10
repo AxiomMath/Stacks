@@ -214,11 +214,11 @@ theorem addMonoidHom_ext_of_pointClosureCycle (Φ Ψ : CycleGroup C f n →+ ℤ
   have hval : ∀ x : X, a ∈ closure ({x} : Set X) → (α - αF).1 x = 0 := by
     intro x hax
     have heval : (αF).1 x = ∑ x' ∈ F, α.1 x' * (pointClosureCycle C f n x').1 x := by
-      show cycleEval C f n x αF = _
+      change cycleEval C f n x αF = _
       rw [hαF, map_sum]
       refine Finset.sum_congr rfl fun x' _ ↦ ?_
       rw [map_zsmul, cycleEval_apply, smul_eq_mul]
-    show α.1 x - (αF).1 x = 0
+    change α.1 x - (αF).1 x = 0
     rw [heval]
     by_cases hx : x ∈ F
     · rw [Finset.sum_eq_single x (fun x' _ hx' ↦ by
@@ -341,7 +341,7 @@ theorem finsum_exteriorProductDedekindTerm_cycleAssociatedToClosedSubscheme_of_d
         ((Scheme.IdealSheafData.vanishingIdeal (Closeds.closure ({x} : Set X))).comap
             (pullback.fst f g) ⊔ P.comap (pullback.snd f g)).subschemeι (n + k - 1) v := by
   classical
-  simp_rw [exteriorProductDedekindTerm_pointClosureCycle C f g n x hx, if_pos (Or.inl hdom),
+  simp_rw [exteriorProductDedekindTerm_pointClosureCycle C f g n x hx, ite_eq_left (Or.inl hdom),
     closedSubschemeCycleCoeff_exteriorProductIdeal]
   set I := Scheme.IdealSheafData.vanishingIdeal (Closeds.closure ({x} : Set X)) with hI
   obtain ⟨hflat, r, hrel, hn⟩ :=
@@ -364,7 +364,7 @@ theorem finsum_exteriorProductDedekindTerm_cycleAssociatedToClosedSubscheme_of_d
       have h0 := cycleAssociatedToClosedSubscheme_integralComponentAt_of_ne C g k t
         (Ne.symm ht)
       change closedSubschemeCycleCoeff C g (integralComponentAt t).subschemeι k y₀ = 0 at h0
-      show _ * (closedSubschemeCycleCoeff C g (integralComponentAt t).subschemeι k y₀ * _) = 0
+      change _ * (closedSubschemeCycleCoeff C g (integralComponentAt t).subschemeι k y₀ * _) = 0
       rw [h0, zero_mul, mul_zero]
   · have hR : closedSubschemeCycleCoeff C (pullback.fst f g ≫ f)
         (I.comap (pullback.fst f g) ⊔ P.comap (pullback.snd f g)).subschemeι ((r : ℤ) + k) v =
@@ -440,7 +440,7 @@ theorem schemeDeltaDimension_comap_le_of_isEffectiveCartierDivisor {T : Scheme.{
   rw [ht'] at hle
   have hne : relativeDimension C.dimensionFunction p t ≠ k + 1 := fun h ↦
     not_mem_support_of_top_dimension_of_effectiveCartier C p k Z D hZ hDZ t htZ h htD
-  show relativeDimension C.dimensionFunction p t ≤ k
+  change relativeDimension C.dimensionFunction p t ≤ k
   omega
 
 /-- **The sum over the second factor at a point over a closed point.** Let `x` be a point of
@@ -504,7 +504,7 @@ theorem finsum_exteriorProductDedekindTerm_cycleAssociatedToClosedSubscheme_of_n
   · obtain ⟨v', rfl⟩ := hv
     rw [properPushforward_apply_image_of_isClosedImmersion, val_cycleGroup_cast,
       flatPullback_apply, pointClosureCycle_apply_self C f n hx, one_smul, hgys]
-    show closedSubschemeCycleCoeff C (D.subschemeι ≫ g) (P.comap D.subschemeι).subschemeι
+    change closedSubschemeCycleCoeff C (D.subschemeι ≫ g) (P.comap D.subschemeι).subschemeι
       (k - 1) (w.base v') * _ = _
     rw [← closedSubschemeCycleCoeff_comap C (K.subschemeι ≫ (pullback.fst f g ≫ f))
       (D.subschemeι ≫ g) w hbase r hwrel (P.comap D.subschemeι) (k - 1) hJ v', hdeg,
@@ -677,12 +677,12 @@ theorem exteriorProductDedekindCycles_pointClosureCycle_left_eq_zero (hC : IsDed
   obtain ⟨hflat, r, hr, hrx⟩ := exists_relativeDimension_dedekindPointFibre C f g hC x hdom
   rw [hC.2.1 _ hcl, zero_add, hx] at hrx
   refine Subtype.ext (Function.locallyFinsuppWithin.ext fun v ↦ ?_)
-  show (exteriorProductDedekindCycles C f g n k (pointClosureCycle C f n x) β).1 v = 0
+  change (exteriorProductDedekindCycles C f g n k (pointClosureCycle C f n x) β).1 v = 0
   rw [exteriorProductDedekindCycles_pointClosureCycle_left_apply]
   by_cases hv : v ∈ Set.range (dedekindPointFibre f g x).subschemeι.base
   · obtain ⟨w, rfl⟩ := hv
     rw [finsum_exteriorProductDedekindTerm_of_flat C f g n k _ β x hdom r hr w,
-      if_neg (by omega)]
+      ite_eq_right (by omega)]
   · exact finsum_eq_zero_of_forall_eq_zero fun t ↦
       exteriorProductDedekindTerm_eq_zero_of_notMem_range C f g n k _ β x t hv
 
@@ -694,7 +694,7 @@ theorem exteriorProductDedekindCycles_pointClosureCycle_right_eq_zero (hC : IsDe
     (α : CycleGroup C f k) :
     exteriorProductDedekindCycles C f g k m α (pointClosureCycle C g m y) = 0 := by
   refine Subtype.ext (Function.locallyFinsuppWithin.ext fun u ↦ ?_)
-  show (exteriorProductDedekindCycles C f g k m α (pointClosureCycle C g m y)).1 u = 0
+  change (exteriorProductDedekindCycles C f g k m α (pointClosureCycle C g m y)).1 u = 0
   rw [← pullbackSymmetry_inv_hom_apply C f g u, exteriorProductDedekindCycles_pullbackSymmetry,
     exteriorProductDedekindCycles_pointClosureCycle_left_eq_zero C g f m hC y hy hdom hcl α]
   rfl
@@ -712,7 +712,7 @@ theorem exteriorProductDedekindCycles_pointClosureCycle_pointClosureCycle (x : X
       else 0 := by
   classical
   refine Subtype.ext (Function.locallyFinsuppWithin.ext fun w ↦ ?_)
-  show (exteriorProductDedekindCycles C f g n m _ _).1 w = (if _ then _ else _ :
+  change (exteriorProductDedekindCycles C f g n m _ _).1 w = (if _ then _ else _ :
     CycleGroup C (pullback.fst f g ≫ f) (n + m - 1)).1 w
   rw [exteriorProductDedekindCycles_pointClosureCycle_left_apply,
     finsum_eq_single _ y fun t ht ↦ exteriorProductDedekindTerm_eq_zero_of_right C f g n m _ _ w
@@ -801,7 +801,7 @@ theorem exteriorProductDedekindCycles_apply_eq_zero_of_not_dominates (α : Cycle
   · exact exteriorProductDedekindTerm_eq_zero_of_right C f g n m α β w p ht
   obtain ⟨h1, h2⟩ := h p.1 p.2 hs ht
   unfold exteriorProductDedekindTerm
-  rw [if_neg (by tauto)]
+  rw [ite_eq_right (by tauto)]
 
 /-- The points carrying a coefficient of the cycle of a product of two point closures one of which
 does not dominate a component of the base do not dominate a component either. -/
@@ -860,7 +860,7 @@ theorem exteriorProductDedekindCycles_pointClosureCycle_assoc_left_apply
       tripleProductWeightLeft C f g h (n + m + l - 2) x y z u := by
   classical
   rw [exteriorProductDedekindCycles_pointClosureCycle_pointClosureCycle C f g n m x y hx hy,
-    if_pos hxy]
+    ite_eq_left hxy]
   have hP := schemeDeltaDimension_exteriorProductIdeal_le C f g n m hC x y hx hy (by tauto)
   have hcond := dominates_not_closed_or_flat_exteriorProductIdeal C f hC g h z x y hbz hxyz
   rw [exteriorProductDedekindCycles_closedSubscheme_pointClosureCycle_apply C
@@ -889,7 +889,7 @@ theorem exteriorProductDedekindCycles_pointClosureCycle_assoc_right_apply
       tripleProductWeightRight C f g h (n + m + l - 2) x y z v := by
   classical
   rw [exteriorProductDedekindCycles_pointClosureCycle_pointClosureCycle C g h m l y z hy hz,
-    if_pos hyz]
+    ite_eq_left hyz]
   have hP := schemeDeltaDimension_exteriorProductIdeal_le C g h m l hC y z hy hz (by tauto)
   have hcond := dominates_not_closed_or_flat_exteriorProductIdeal C g hC h f x y z hbx hxyz
   rw [exteriorProductDedekindCycles_pointClosureCycle_closedSubscheme_apply C f
@@ -1055,7 +1055,7 @@ theorem isExteriorProductDedekindAssociative (hC : IsDedekindChowBase C) :
     IsExteriorProductDedekindAssociative C f g h n m l := by
   intro α β γ
   refine Function.locallyFinsuppWithin.ext fun v ↦ ?_
-  show (properPushforward C _ _ _ _ _ _).1 v = _
+  change (properPushforward C _ _ _ _ _ _).1 v = _
   rw [properPushforward_tripleFibreProductAssoc_apply]
   set u := (tripleFibreProductAssoc f g h).inv.base v with hu
   set x₀ := (pullback.fst f (pullback.fst g h ≫ g)).base v with hx₀

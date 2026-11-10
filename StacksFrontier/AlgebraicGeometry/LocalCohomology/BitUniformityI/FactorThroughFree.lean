@@ -224,7 +224,7 @@ private theorem torBoundary_naturality
         have h := congrArg (fun α ↦ NatTrans.mapHomologicalComplex α (ComplexShape.down ℕ))
           ψT.comm₁₂
         have h' := congrArg (fun α ↦ α.app P.complex) h
-        show (NatTrans.mapHomologicalComplex ψT.τ₁ (ComplexShape.down ℕ)).app P.complex ≫
+        change (NatTrans.mapHomologicalComplex ψT.τ₁ (ComplexShape.down ℕ)).app P.complex ≫
             (NatTrans.mapHomologicalComplex T'.f (ComplexShape.down ℕ)).app P.complex =
           (NatTrans.mapHomologicalComplex T.f (ComplexShape.down ℕ)).app P.complex ≫
             (NatTrans.mapHomologicalComplex ψT.τ₂ (ComplexShape.down ℕ)).app P.complex
@@ -233,7 +233,7 @@ private theorem torBoundary_naturality
         have h := congrArg (fun α ↦ NatTrans.mapHomologicalComplex α (ComplexShape.down ℕ))
           ψT.comm₂₃
         have h' := congrArg (fun α ↦ α.app P.complex) h
-        show (NatTrans.mapHomologicalComplex ψT.τ₂ (ComplexShape.down ℕ)).app P.complex ≫
+        change (NatTrans.mapHomologicalComplex ψT.τ₂ (ComplexShape.down ℕ)).app P.complex ≫
             (NatTrans.mapHomologicalComplex T'.g (ComplexShape.down ℕ)).app P.complex =
           (NatTrans.mapHomologicalComplex T.g (ComplexShape.down ℕ)).app P.complex ≫
             (NatTrans.mapHomologicalComplex ψT.τ₃ (ComplexShape.down ℕ)).app P.complex
@@ -270,7 +270,7 @@ private theorem torBoundary_naturality
       eqToHom h1.symm ≫
         (HomologicalComplex.homologyFunctor (ModuleCat.{u} R) (ComplexShape.down ℕ) 0).map
           ψ.τ₁ at hcast1
-  show (NatTrans.leftDerived ψT.τ₃ 1).app N ≫ (P.isoLeftDerivedObj T'.X₃ 1).hom ≫
+  change (NatTrans.leftDerived ψT.τ₃ 1).app N ≫ (P.isoLeftDerivedObj T'.X₃ 1).hom ≫
       eqToHom h3' ≫ hU'.δ 1 0 hrel ≫ eqToHom h1'.symm ≫ (homologyZeroIso T'.X₁ P).hom =
     (P.isoLeftDerivedObj T.X₃ 1).hom ≫ eqToHom h3 ≫ hU.δ 1 0 hrel ≫
       eqToHom h1.symm ≫ (homologyZeroIso T.X₁ P).hom ≫ ψT.τ₁.app N
@@ -308,7 +308,7 @@ lemma factor_through_free_of_tor_one_map_eq_zero
   let F : Type u := M' →₀ R
   let ε : F →ₗ[R] M' := Finsupp.linearCombination R id
   have hε : Function.Surjective ε := fun x ↦ ⟨Finsupp.single x 1, by
-    show (Finsupp.linearCombination R id) (Finsupp.single x 1) = x
+    change (Finsupp.linearCombination R id) (Finsupp.single x 1) = x
     simp⟩
   obtain ⟨n, m, p, r, hp, hpr⟩ := Module.FinitePresentation.exists_fin' R M
   obtain ⟨l, hl⟩ := Module.projective_lifting_property ε (f.hom.comp p) hε
@@ -338,12 +338,12 @@ lemma factor_through_free_of_tor_one_map_eq_zero
       τ₃ := ModuleCat.ofHom f.hom
       comm₁₂ := by
         simp only [Category.id_comp]
-        show T.f = i' ≫ u
+        change T.f = i' ≫ u
         exact hiu.symm
       comm₂₃ := by
         apply hPO.hom_ext
         · rw [← Category.assoc, hju, ← Category.assoc, hjq]
-          show ModuleCat.ofHom l ≫ ModuleCat.ofHom ε =
+          change ModuleCat.ofHom l ≫ ModuleCat.ofHom ε =
             S.g ≫ ModuleCat.ofHom f.hom
           apply ModuleCat.hom_ext
           simpa [S] using hl
@@ -367,7 +367,7 @@ lemma factor_through_free_of_tor_one_map_eq_zero
   have hTensorInjective (N : C) : Function.Injective (LinearMap.rTensor N i'.hom) := by
     have hmono : Mono (((tensoringLeft C).map (ShortComplex.mk i' q hi'q).f).app N) :=
       ((torBoundary_exact hE N).exact 2 (by norm_num)).mono_g (hboundary N)
-    show Function.Injective (LinearMap.rTensor N i'.hom)
+    change Function.Injective (LinearMap.rTensor N i'.hom)
     exact (ModuleCat.mono_iff_injective _).mp hmono
   have hExact : Function.Exact (i'.hom) q.hom :=
     (ShortComplex.ShortExact.moduleCat_exact_iff_function_exact _).mp hE.exact
@@ -379,7 +379,7 @@ lemma factor_through_free_of_tor_one_map_eq_zero
     (Function.Exact.split_iff_forall_rTensor_injective hExact hi' hq).2 (by
       intro Q instQ modQ
       let N : C := ModuleCat.of R Q
-      show Function.Injective (LinearMap.rTensor (↑N) i'.hom)
+      change Function.Injective (LinearMap.rTensor (↑N) i'.hom)
       exact hTensorInjective N)
   have hfactor : f.hom = ε.comp (u.hom.comp s) := by
     have hdiag : ε.comp u.hom = f.hom.comp q.hom := ModuleCat.hom_ext_iff.mp φ.comm₂₃

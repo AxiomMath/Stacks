@@ -76,7 +76,6 @@ variable {J : Type w} [Category.{w'} J] (A : PullbackSystem.{w, w', v₁, u₁} 
   [∀ {j k : J} (e : j ⟶ k), PreservesColimitsOfShape WalkingParallelPair (A.pb e)]
   [∀ j, (A.pbL j).PreservesZeroMorphisms]
   [∀ j, PreservesColimitsOfShape WalkingParallelPair (A.pbL j)]
-  [IsCofiltered J]
 
 /-- **Descent of an exact sequence along the system.**  Let `E`, `M`, `N` be objects of `P` at a
 stage `k`, `c : M ⟶ N`, and `g : E_L ⟶ M_L` a morphism over the limit with which the epimorphism
@@ -126,6 +125,8 @@ theorem exists_stage_exact_of_pbL (hF : A.Faithfulness) (hFu : A.Fullness)
     ShortComplex.exact_of_g_is_cokernel _ hG
   obtain ⟨w, hwex⟩ := exact_of_kernelSubobject_eq (G.map φ') (G.map ψ) (G.map ψ') _ hGex hk
   exact ⟨j, e, j₁, e₁, j₂, e₂, j₃, e₃, j₄, e₄, G.map φ', w, hwex⟩
+
+variable [IsCofiltered J]
 
 /-- **Descent of an exact sequence along the system, from two stages.**  Let `M`, `N` be objects
 of `P` at a stage `i₀` and `c : M ⟶ N`, let `E` be an object of `P` at a stage `j` with

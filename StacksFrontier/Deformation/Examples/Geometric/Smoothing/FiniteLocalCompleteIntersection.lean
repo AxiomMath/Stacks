@@ -167,7 +167,7 @@ private theorem finite_residueField_fiber_of_finite_specialFiber {k : Type u} [F
     (algebraMap (PowerSeries k) C)
   have hJ : J = Ideal.span
       ({algebraMap (PowerSeries k) C PowerSeries.X} : Set C) := by
-    show (IsLocalRing.maximalIdeal (PowerSeries k)).map (algebraMap (PowerSeries k) C) = _
+    change (IsLocalRing.maximalIdeal (PowerSeries k)).map (algebraMap (PowerSeries k) C) = _
     rw [PowerSeries.maximalIdeal_eq_span_X, Ideal.map_span]
     simp only [Set.image_singleton]
   let eTen : TensorProduct (PowerSeries k)
@@ -198,12 +198,12 @@ private theorem finite_residueField_fiber_of_finite_specialFiber {k : Type u} [F
       ≃ₐ[PowerSeries k] (C ⧸ J) :=
     AlgEquiv.ofRingEquiv (f := eQuotLidRing) (by
       intro x
-      show eQuotLidRing (Ideal.Quotient.mk Iprod
+      change eQuotLidRing (Ideal.Quotient.mk Iprod
         (algebraMap (PowerSeries k) (TensorProduct (PowerSeries k) (PowerSeries k) C) x)) =
         Ideal.Quotient.mk J (algebraMap (PowerSeries k) C x)
-      show Ideal.quotientEquiv Iprod J eLid.toRingEquiv hIprod.symm _ = _
+      change Ideal.quotientEquiv Iprod J eLid.toRingEquiv hIprod.symm _ = _
       rw [Ideal.quotientEquiv_mk]
-      show Ideal.Quotient.mk J (x • (1 : C)) =
+      change Ideal.Quotient.mk J (x • (1 : C)) =
         Ideal.Quotient.mk J (algebraMap (PowerSeries k) C x)
       congr 1
       simp [Algebra.smul_def])
@@ -245,7 +245,7 @@ private theorem exists_finite_flat_smoothing_of_isGlobalCompleteIntersection
   let q : Ideal C := Ideal.comap (Ideal.Quotient.mk I) (IsLocalRing.maximalIdeal E)
   let : q.IsPrime := Ideal.comap_isPrime _ _
   have hMapX : algebraMap (PowerSeries k) E PowerSeries.X = 0 := by
-    show Ideal.Quotient.mk I (algebraMap (PowerSeries k) C PowerSeries.X) = 0
+    change Ideal.Quotient.mk I (algebraMap (PowerSeries k) C PowerSeries.X) = 0
     rw [Ideal.Quotient.eq_zero_iff_mem]
     exact Ideal.subset_span (Set.mem_singleton _)
   have hMaxMap : (IsLocalRing.maximalIdeal (PowerSeries k)).map
@@ -269,7 +269,7 @@ private theorem exists_finite_flat_smoothing_of_isGlobalCompleteIntersection
         Ideal.mem_map_of_mem _ hx
       rw [hMaxMap] at hxMap
       have hxZero : algebraMap (PowerSeries k) E x = 0 := Ideal.mem_bot.mp hxMap
-      show algebraMap (PowerSeries k) E x ∈ IsLocalRing.maximalIdeal E
+      change algebraMap (PowerSeries k) E x ∈ IsLocalRing.maximalIdeal E
       rw [hxZero]
       exact (IsLocalRing.maximalIdeal E).zero_mem
   let : q.LiesOver (IsLocalRing.maximalIdeal (PowerSeries k)) := ⟨hqOver.symm⟩

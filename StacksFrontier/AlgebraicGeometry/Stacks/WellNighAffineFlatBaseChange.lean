@@ -231,7 +231,7 @@ theorem flat_of_isFlat {Y' : AlgebraicSpaces B S hS} {T : BigFppfOver B S hS}
       Space.presheaf_etale_of_isEtale B S hS (Space.isEtale_of_isIso B S hS (𝟙 K.moduliSpace.obj))⟩
   have h := Space.isFlat_yoneda_map_of_comp_eq B S hS a ha (V := V) (W := W) a₀
     (by
-      show yoneda.map a₀ ≫ 𝟙 _ = e.inv ≫ a.hom
+      change yoneda.map a₀ ≫ 𝟙 _ = e.inv ≫ a.hom
       rw [Category.comp_id, ha₀])
   exact (Space.holdsOnEveryEtaleChart_yoneda_map_iff B S hS Flat.isEtaleLocalOnSourceAndTarget
     a₀).1 h

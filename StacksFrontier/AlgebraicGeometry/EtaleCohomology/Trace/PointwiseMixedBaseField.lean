@@ -49,7 +49,7 @@ theorem residueDegree_comp_specMap {k k' : Type u} [Field k] [Field k'] [Finite 
   let : Algebra k (X.residueField x) :=
     (fieldToResidue (f' ≫ Spec.map (CommRingCat.ofHom (algebraMap k k'))) x).hom.toAlgebra
   have : IsScalarTower k k' (X.residueField x) := IsScalarTower.of_algebraMap_eq fun c => by
-    show (fieldToResidue (f' ≫ Spec.map (CommRingCat.ofHom (algebraMap k k'))) x).hom c =
+    change (fieldToResidue (f' ≫ Spec.map (CommRingCat.ofHom (algebraMap k k'))) x).hom c =
       (fieldToResidue f' x).hom (algebraMap k k' c)
     rw [fieldToResidue_comp_specMap]
     rfl

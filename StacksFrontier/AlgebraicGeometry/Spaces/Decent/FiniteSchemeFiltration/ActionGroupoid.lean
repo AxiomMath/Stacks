@@ -24,6 +24,7 @@ universe u v u₁ v₁
 namespace AlgebraicGeometry.Space
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_actionGroupoid
@@ -289,7 +290,7 @@ private theorem property_fiberPower
   induction n with
   | zero => exact hP
   | succ n ih =>
-      show P.presheaf (hf.fst (fiberPower f hf n).2 ≫ f)
+      change P.presheaf (hf.fst (fiberPower f hf n).2 ≫ f)
       rw [hf.w]
       exact P.presheaf.comp_mem _ _
         (P.presheaf.of_isPullback (hf.isPullback (fiberPower f hf n).2) hP) ih
@@ -433,7 +434,7 @@ theorem residueFieldFaithful_of_siteFree
   have hsite : g ≫ (a σ).asIso.hom = g := by
     apply Over.OverMorphism.ext
     apply B.inclusion.map_injective
-    show B.inclusion.map (z ≫ (a σ).asIso.hom.left) = B.inclusion.map z
+    change B.inclusion.map (z ≫ (a σ).asIso.hom.left) = B.inclusion.map z
     rw [Functor.map_comp]
     have hz : B.inclusion.map z = Y.fromSpecResidueField x := by
       dsimp only [z]
@@ -441,12 +442,12 @@ theorem residueFieldFaithful_of_siteFree
     rw [hz]
     exact hfixed
   have hT : Nonempty (q.obj T).left := by
-    show Nonempty (Spec (Y.residueField x))
+    change Nonempty (Spec (Y.residueField x))
     infer_instance
   apply hσ
   apply hfree T g hT
   simp only [map_one]
-  show g ≫ (a σ).asIso.hom = g ≫ 𝟙 U
+  change g ≫ (a σ).asIso.hom = g ≫ 𝟙 U
   simpa only [Category.comp_id] using hsite
 
 private theorem actionRelationSource_desc
@@ -457,7 +458,7 @@ private theorem actionRelationSource_desc
   apply Sigma.hom_ext
   intro g
   rw [← Category.assoc, actionRelationUnderlyingIso_inv_ι]
-  show (Sigma.ι (fun _ : G ↦ U) g ≫
+  change (Sigma.ι (fun _ : G ↦ U) g ≫
     AlgebraicGeometry.Space.actionRelationSource U G).left = _
   simp [AlgebraicGeometry.Space.actionRelationSource]
 
@@ -470,7 +471,7 @@ private theorem actionRelationTarget_desc
   apply Sigma.hom_ext
   intro g
   rw [← Category.assoc, actionRelationUnderlyingIso_inv_ι]
-  show (Sigma.ι (fun _ : G ↦ U) g ≫
+  change (Sigma.ι (fun _ : G ↦ U) g ≫
     AlgebraicGeometry.Space.actionRelationTarget U G a).left = _
   simp [AlgebraicGeometry.Space.actionRelationTarget]
 
@@ -553,7 +554,7 @@ private theorem source_target_iff_of_extendsRelation
   subst objects
   subst arrows
   simp only [eqToHom_refl, Category.id_comp, Category.comp_id] at hs' ht'
-  show Q source target ↔ _
+  change Q source target ↔ _
   rw [hs', ht']
 
 theorem finiteLocallyFree_of_extendsRelation

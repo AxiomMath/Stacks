@@ -249,7 +249,7 @@ lemma exists_hom_of_tripSection_eq {T : 𝒞} (τ τ' : Trip p f₀ P T)
           Over.mk τ'.2.1 ⟶ Over.mk τ.2.1) := by
   obtain ⟨φ, hφ⟩ := PresheafOfCategories.exists_hom_of_sectionOfObj_map e (z := τ.obj)
     (z' := τ'.obj) (W := T) (W' := T) rfl rfl (𝟙 T) (by
-      show tripSection e τ' = F.map (𝟙 T).op (tripSection e τ)
+      change tripSection e τ' = F.map (𝟙 T).op (tripSection e τ)
       rw [hs, op_id, F.map_id]
       rfl)
   have hb : φ.hbase = 𝟙 T :=

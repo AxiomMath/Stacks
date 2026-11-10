@@ -209,7 +209,7 @@ theorem range_graphPartMorphism_comp_partProductι (sX : X ⟶ Spec (.of k))
       rw [← hw, ← Scheme.Hom.comp_apply, partProductι_fst]
       rfl
     have hyV : y ∈ (f ⁻¹ᵁ U : Y.Opens) := by
-      show f.base y ∈ U
+      change f.base y ∈ U
       rw [← h1, h2]
       exact ((pullback.fst (U.ι ≫ sX) sY).base w).2
     refine ⟨(⟨y, hyV⟩ : (f ⁻¹ᵁ U).toScheme), ?_⟩
@@ -360,7 +360,7 @@ private theorem eq_of_natCast_add_eq {m d : ℕ} {c : ℕ∞}
       push_cast at h ⊢
       exact h
     exact_mod_cast h2
-  exact (WithTop.add_left_cancel (ENat.coe_ne_top m) h1).symm
+  exact (WithTop.add_left_cancel (ENat.natCast_ne_top m) h1).symm
 
 /-- **Stacks 0FG1: the intersection `Γ_f ∩ (X_d × Y)` has pure codimension `d`.**
 
@@ -469,7 +469,7 @@ theorem cycleAssociatedToClosedSubscheme_graphMorphism_eq_zero (e : ℤ)
     cycleAssociatedToClosedSubscheme (fieldChowSituation k) (pullback.fst sX sY ≫ sX)
       (graphMorphism sX sY f hf) m = 0 := by
   refine Subtype.ext (Function.locallyFinsuppWithin.ext fun x ↦ ?_)
-  show (cycleAssociatedToClosedSubscheme (fieldChowSituation k) (pullback.fst sX sY ≫ sX)
+  change (cycleAssociatedToClosedSubscheme (fieldChowSituation k) (pullback.fst sX sY ≫ sX)
     (graphMorphism sX sY f hf) m).1 x = 0
   refine cycleAssociatedToClosedSubscheme_apply_eq_zero _ _ _ _ x ?_
   rintro ⟨ξ, hξ, hdim⟩

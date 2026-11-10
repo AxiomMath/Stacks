@@ -216,7 +216,7 @@ theorem openDualMap_smul (a : k) {A B : BoundedCoherentDerived U} (f : A ⟶ B) 
   let _ := HasDerivedCategory.standard U.Modules
   let : Linear k U.Modules := modulesLinear k (Over.mk p)
   ext
-  show (schemeDerivedDualFunctor ω).map (a • f.hom).op =
+  change (schemeDerivedDualFunctor ω).map (a • f.hom).op =
     a • (schemeDerivedDualFunctor ω).map f.hom.op
   rw [show a • f.hom = (a • 𝟙 A.obj) ≫ f.hom by rw [Linear.smul_comp, Category.id_comp],
     op_comp, Functor.map_comp, schemeDerivedDualFunctor_map_smul_id p A.obj ω a,
@@ -290,7 +290,7 @@ theorem openDualityCohomologyShiftIso_hom_naturality {K K' : BoundedCoherentDeri
     rw [← H.map_comp, ← H.map_comp, ← H.map_comp, ← H.map_comp,
       ← Category.assoc (R.map (P.ι.map (α⟦i⟧'))), ← R.map_comp, h1, R.map_comp,
       Category.assoc, h2]
-  show H.map (R.map (P.ι.map (α⟦i⟧'))) ≫ (H.map (R.map ((P.ι.commShiftIso i).hom.app K') ≫
+  change H.map (R.map (P.ι.map (α⟦i⟧'))) ≫ (H.map (R.map ((P.ι.commShiftIso i).hom.app K') ≫
       (R.commShiftIso i).hom.app K'.obj) ≫
         (H.shiftIso i 0 i (add_zero i)).hom.app (R.obj K'.obj)) =
     (H.map (R.map ((P.ι.commShiftIso i).hom.app K) ≫ (R.commShiftIso i).hom.app K.obj) ≫
@@ -336,7 +336,7 @@ theorem structureSheafHomLinearEquiv_symm_naturality
   let _ := HasDerivedCategory.standard U.Modules
   let _ := HasDerivedCategory.standard (ModuleCat.{u} k)
   rw [LinearEquiv.symm_apply_eq]
-  show _ = structureSheafHomAddEquiv p E' ((structureSheafHomLinearEquiv p E).symm y ≫ φ)
+  change _ = structureSheafHomAddEquiv p E' ((structureSheafHomLinearEquiv p E).symm y ≫ φ)
   rw [structureSheafHomAddEquiv_comp]
   exact congrArg _ (LinearEquiv.apply_symm_apply (structureSheafHomLinearEquiv p E) y).symm
 

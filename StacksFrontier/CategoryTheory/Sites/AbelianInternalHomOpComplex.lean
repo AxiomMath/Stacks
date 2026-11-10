@@ -63,7 +63,7 @@ lemma homOpMapLeft_comp {G₁ G₂ G₃ : Sheaf K (ModuleCat.{max u v} Λ)} (φ 
     (F : Sheaf K AddCommGrpCat.{max u v}) :
     homOpMapLeft K ψ F ≫ homOpMapLeft K φ F = homOpMapLeft K (φ ≫ ψ) F := by
   refine homOp_hom_ext K ?_
-  show (internalHomFunctor K F).map _ ≫ (internalHomFunctor K F).map _ =
+  change (internalHomFunctor K F).map _ ≫ (internalHomFunctor K F).map _ =
     (internalHomFunctor K F).map _
   rw [← Functor.map_comp, ← op_comp, ← Functor.map_comp]
 
@@ -71,7 +71,7 @@ lemma homOpMapLeft_comp {G₁ G₂ G₃ : Sheaf K (ModuleCat.{max u v} Λ)} (φ 
 lemma homOpMapLeft_id (F : Sheaf K AddCommGrpCat.{max u v}) :
     homOpMapLeft K (𝟙 G) F = 𝟙 _ := by
   refine homOp_hom_ext K ?_
-  show (internalHomFunctor K F).map _ = 𝟙 _
+  change (internalHomFunctor K F).map _ = 𝟙 _
   rw [CategoryTheory.Functor.map_id, op_id, CategoryTheory.Functor.map_id]
 
 /-- Precomposition with the zero morphism is zero. -/
@@ -231,7 +231,7 @@ lemma homOpComplexPrecomp_f {L' : CochainComplex (Sheaf K (ModuleCat.{max u v} �
 /-- Precomposition with the identity of `L` is the identity of `ℋom^•_ℤ(L, M)`. -/
 lemma homOpComplexPrecomp_id : homOpComplexPrecomp (M := M) (𝟙 L) = 𝟙 _ := by
   refine HomologicalComplex.hom_ext _ _ fun n => homOpComplexX_hom_ext K L M _ fun x => ?_
-  show homOpComplexPrecompX (M := M) (𝟙 L) n ≫ homOpComplexπ K L M n x =
+  change homOpComplexPrecompX (M := M) (𝟙 L) n ≫ homOpComplexπ K L M n x =
     𝟙 (homOpComplexX K L M n) ≫ homOpComplexπ K L M n x
   simp only [homOpComplexPrecompX_π, HomologicalComplex.id_f,
     homOpMapLeft_id, Category.comp_id, Category.id_comp]
@@ -243,7 +243,7 @@ lemma homOpComplexPrecomp_comp {L' L'' : CochainComplex (Sheaf K (ModuleCat.{max
     homOpComplexPrecomp (M := M) f ≫ homOpComplexPrecomp (M := M) g =
       homOpComplexPrecomp (M := M) (g ≫ f) := by
   refine HomologicalComplex.hom_ext _ _ fun n => homOpComplexX_hom_ext K L'' M _ fun x => ?_
-  show (homOpComplexPrecompX (M := M) f n ≫ homOpComplexPrecompX (M := M) g n) ≫
+  change (homOpComplexPrecompX (M := M) f n ≫ homOpComplexPrecompX (M := M) g n) ≫
       homOpComplexπ K L'' M n x =
         homOpComplexPrecompX (M := M) (g ≫ f) n ≫ homOpComplexπ K L'' M n x
   simp only [Category.assoc, homOpComplexPrecompX_π, homOpComplexPrecompX_π_assoc,
@@ -255,7 +255,7 @@ lemma homOpComplexPrecomp_add {L' : CochainComplex (Sheaf K (ModuleCat.{max u v}
     homOpComplexPrecomp (M := M) (f + g) =
       homOpComplexPrecomp (M := M) f + homOpComplexPrecomp (M := M) g := by
   refine HomologicalComplex.hom_ext _ _ fun n => homOpComplexX_hom_ext K L' M _ fun x => ?_
-  show homOpComplexPrecompX (M := M) (f + g) n ≫ homOpComplexπ K L' M n x =
+  change homOpComplexPrecompX (M := M) (f + g) n ≫ homOpComplexπ K L' M n x =
     (homOpComplexPrecompX (M := M) f n + homOpComplexPrecompX (M := M) g n) ≫
       homOpComplexπ K L' M n x
   simp only [HomologicalComplex.add_f_apply, Preadditive.add_comp,
@@ -265,7 +265,7 @@ lemma homOpComplexPrecomp_add {L' : CochainComplex (Sheaf K (ModuleCat.{max u v}
 lemma homOpComplexPrecomp_zero {L' : CochainComplex (Sheaf K (ModuleCat.{max u v} Λ)) ℤ} :
     homOpComplexPrecomp (M := M) (0 : L' ⟶ L) = 0 := by
   refine HomologicalComplex.hom_ext _ _ fun n => homOpComplexX_hom_ext K L' M _ fun x => ?_
-  show homOpComplexPrecompX (M := M) (0 : L' ⟶ L) n ≫ homOpComplexπ K L' M n x =
+  change homOpComplexPrecompX (M := M) (0 : L' ⟶ L) n ≫ homOpComplexπ K L' M n x =
     (0 : homOpComplexX K L M n ⟶ homOpComplexX K L' M n) ≫ homOpComplexπ K L' M n x
   simp only [HomologicalComplex.zero_f, zero_comp, homOpComplexPrecompX_π, homOpMapLeft_zero,
     comp_zero]
@@ -301,21 +301,21 @@ theorem homOpComplexPrecompShortComplex_splitting
     f_r := ?_
     s_g := ?_
     id := ?_ }⟩
-  · show homOpComplexPrecompX (M := M) S.g n ≫ (homOpComplexLift K S.X₃ M n fun x =>
+  · change homOpComplexPrecompX (M := M) S.g n ≫ (homOpComplexLift K S.X₃ M n fun x =>
       homOpComplexπ K S.X₂ M n x ≫ homOpMapLeft K (σ x.1.1).s (M.X x.1.2)) =
         𝟙 (homOpComplexX K S.X₃ M n)
     refine homOpComplexX_hom_ext K S.X₃ M n fun x => ?_
     simp only [Category.assoc, homOpComplexLift_π, homOpComplexPrecompX_π_assoc,
       homOpMapLeft_comp, Category.id_comp, hsg]
     exact Category.comp_id _
-  · show (homOpComplexLift K S.X₂ M n fun x =>
+  · change (homOpComplexLift K S.X₂ M n fun x =>
       homOpComplexπ K S.X₁ M n x ≫ homOpMapLeft K (σ x.1.1).r (M.X x.1.2)) ≫
         homOpComplexPrecompX (M := M) S.f n = 𝟙 (homOpComplexX K S.X₁ M n)
     refine homOpComplexX_hom_ext K S.X₁ M n fun x => ?_
     simp only [Category.assoc, homOpComplexPrecompX_π,
       homOpComplexLift_π_assoc, homOpMapLeft_comp, Category.id_comp, hfr, homOpMapLeft_id]
     exact Category.comp_id _
-  · show (homOpComplexLift K S.X₃ M n fun x =>
+  · change (homOpComplexLift K S.X₃ M n fun x =>
       homOpComplexπ K S.X₂ M n x ≫ homOpMapLeft K (σ x.1.1).s (M.X x.1.2)) ≫
         homOpComplexPrecompX (M := M) S.g n + homOpComplexPrecompX (M := M) S.f n ≫
           (homOpComplexLift K S.X₂ M n fun x =>

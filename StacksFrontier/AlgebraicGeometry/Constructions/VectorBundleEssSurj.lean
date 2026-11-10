@@ -216,7 +216,7 @@ theorem degreeZero_mul_apply (U : (Opens ↥X)ᵒᵖ) (a b : (A.piece 0).val.obj
     eq_of_heq (A.mul_one 0 U (A.one.eval U))
   rw [← ha, ← hb, (A.mul 0 0).map_smul_left, (A.mul 0 0).map_smul_right, hone, map_smul,
     map_smul, hpz]
-  show r * (s * (1 : X.ringCatSheaf.obj.obj U)) = r * s
+  change r * (s * (1 : X.ringCatSheaf.obj.obj U)) = r * s
   rw [_root_.mul_one]
 
 /-- The sum of a finitely supported family of homogeneous local sections inside `π_* 𝒪`, as the
@@ -268,7 +268,7 @@ theorem decomposition_locally (U : X.Opens)
         (op V) s =
       (A.ungradedSheaf.obj.map f.op).hom (((ringIso X A hc).hom.hom.app (op U)).hom a) := hs
   refine Eq.trans (DFunLike.congr_fun (pushforwardHomogeneousSum_eq X A hc V) s) ?_
-  show ((ringIso X A hc).inv.hom.app (op V)).hom
+  change ((ringIso X A hc).inv.hom.app (op V)).hom
       (A.toPresheafGradedAlgebra.totalUnit (Opens.grothendieckTopology (X : TopCat)) (op V) s) = _
   rw [key]
   refine Eq.trans (NatTrans.naturality_apply (ringIso X A hc).inv.hom f.op _) ?_

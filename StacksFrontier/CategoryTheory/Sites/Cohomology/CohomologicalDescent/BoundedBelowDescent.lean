@@ -103,7 +103,8 @@ section Exact
 
 variable [PreservesFiniteLimits f.pullbackTopos] [PreservesFiniteColimits f.pullbackTopos]
   [(pullbackOnHomotopy f).HasLeftDerivedFunctor
-    (HomotopyCategory.quasiIso (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) (ComplexShape.up ℤ))]
+    (HomotopyCategory.quasiIso (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))
+      (ComplexShape.up ℤ))]
 
 omit [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [Y.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in

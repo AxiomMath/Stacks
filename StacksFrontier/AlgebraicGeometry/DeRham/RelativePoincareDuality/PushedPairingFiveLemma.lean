@@ -299,7 +299,7 @@ theorem pushedPairing_neg [R.Additive] (P : PairingPushData T T' R) {K : C₁} {
 theorem pushedPairing_shift (P : PairingPushData T T' R) (a b : ℤ) (h : a + b = 0) {K : C₁}
     {L : C₂} {M : C} {N : D} (τ : R.obj M ⟶ N) (β : (T.obj K).obj L ⟶ M) :
     (P.shift a b h).pushedPairing τ β = P.pushedPairing τ (T.shiftedPairing β a b h) := by
-  show (P.μ (K⟦a⟧) (L⟦b⟧) ≫ R.map (T.shiftedPairing (𝟙 _) a b h)) ≫ R.map β ≫ τ =
+  change (P.μ (K⟦a⟧) (L⟦b⟧) ≫ R.map (T.shiftedPairing (𝟙 _) a b h)) ≫ R.map β ≫ τ =
     P.μ (K⟦a⟧) (L⟦b⟧) ≫ R.map (T.shiftedPairing β a b h) ≫ τ
   rw [Category.assoc, shiftedPairing_eq_comp T β a b h, R.map_comp, Category.assoc]
 

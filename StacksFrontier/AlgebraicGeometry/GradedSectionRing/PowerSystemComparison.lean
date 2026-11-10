@@ -98,7 +98,7 @@ theorem veronese_mulIso (S : PowerSystem C) (a p : ℕ) : ∀ q : ℕ,
           ≫ eqToHom (congrArg S.obj (mul_add a p q).symm)
   | 0 => by simp [mulIso_zero]
   | q + 1 => by
-      show ((S.veronese a).mulIso p (q + 1)).hom
+      change ((S.veronese a).mulIso p (q + 1)).hom
           = (S.mulIso (a * p) (a * q + a)).hom
               ≫ eqToHom (congrArg S.obj (mul_add a p (q + 1)).symm)
       rw [mulIso_succ]
@@ -247,7 +247,7 @@ theorem compare_veronese_veronese (S T : PowerSystem C) {a a' : ℕ} (β : S.obj
       simp only [Nat.mul_zero, eqToHom_refl, Category.id_comp, Category.comp_id, compare_zero,
         Iso.trans_hom, Iso.symm_hom]
   | m + 1 => by
-      show (compare (S.veronese (a * k)) (T.veronese (a' * k))
+      change (compare (S.veronese (a * k)) (T.veronese (a' * k))
           (compare (S.veronese a) (T.veronese a') β k) (m + 1)).hom
         = eqToHom (congrArg S.obj (mul_assoc a k (m + 1))) ≫
             (compare (S.veronese a) (T.veronese a') β (k * m + k)).hom ≫

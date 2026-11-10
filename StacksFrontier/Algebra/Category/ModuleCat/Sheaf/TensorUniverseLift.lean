@@ -123,10 +123,7 @@ theorem tensorLiftEquiv_naturality (X : AlgebraicGeometry.RingedSite.{u, v, w})
         ((PresheafOfModules.tensorObj (liftModule.{u, v, w} X F).val
           (liftModule.{u, v, w} X G).val).map f a) =
       (PresheafOfModules.tensorObj F.val G.val).map f (tensorLiftEquiv X F G V a) := by
-  induction a using TensorProduct.induction_on with
-  | zero =>
-    simp only [map_zero]
-    exact map_zero _
+  induction a using TensorProduct.inductionOn with
   | tmul x y => rfl
   | add x y hx hy =>
     simp only [map_add]

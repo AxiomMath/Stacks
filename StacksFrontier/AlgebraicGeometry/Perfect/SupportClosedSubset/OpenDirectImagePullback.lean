@@ -177,11 +177,11 @@ public theorem isIso_cplxBaseChange (F : X.Modules) [F.IsQuasicoherent] :
     intro n
     cases n with
     | zero =>
-      show IsIso (cplxBaseChangeF g f F 0)
+      change IsIso (cplxBaseChangeF g f F 0)
       dsimp only [cplxBaseChangeF]
       exact IsIso.id _
     | succ p =>
-      show IsIso (cplxBaseChangeF g f F (p + 1))
+      change IsIso (cplxBaseChangeF g f F (p + 1))
       dsimp only [cplxBaseChangeF]
       exact isIso_prodTermBaseChange g f F p
   exact HomologicalComplex.Hom.isIso_of_components _

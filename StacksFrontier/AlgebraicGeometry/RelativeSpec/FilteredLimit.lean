@@ -115,7 +115,7 @@ theorem exists_isLimit_leftOp_of_isColimit (P : Cᵒᵖ ⥤ A) (K : J ⥤ Cᵒ�
     intro i j g
     refine (hK L j.unop).1 ?_
     have hmg : P.map (K.leftOp.map g).op = (K ⋙ P).map g.unop := rfl
-    show P.map (leg i.unop ≫ K.leftOp.map g).op = P.map (leg j.unop).op
+    change P.map (leg i.unop ≫ K.leftOp.map g).op = P.map (leg j.unop).op
     rw [op_comp, P.map_comp, hmg, hleg, hleg, ← Category.assoc, e.hom.naturality g.unop,
       Category.assoc, htn g.unop]
   refine ⟨{ app := fun i ↦ leg i.unop
@@ -136,11 +136,11 @@ theorem exists_isLimit_leftOp_of_isColimit (P : Cᵒᵖ ⥤ A) (K : J ⥤ Cᵒ�
   beta_reduce at hm
   refine ⟨m, fun i ↦ ?_, fun y hy ↦ ?_⟩
   · refine (hK s.pt i.unop).1 ?_
-    show P.map (m ≫ leg i.unop).op = P.map (s.π.app i).op
+    change P.map (m ≫ leg i.unop).op = P.map (s.π.app i).op
     rw [op_comp, P.map_comp, hleg, hm, Category.assoc, ht.fac _ i.unop,
       Iso.hom_inv_id_app_assoc]
   · refine (hL s.pt).1 ?_
-    show P.map y.op = P.map m.op
+    change P.map y.op = P.map m.op
     rw [hm]
     refine ht.uniq (Cocone.mk (P.obj (op s.pt)) ν) (P.map y.op) fun j ↦ ?_
     change t.app j ≫ P.map y.op = e.inv.app j ≫ P.map (s.π.app (op j)).op

@@ -96,7 +96,7 @@ theorem C1573.exists_isPushout_toScheme_of_isThickening {Z Z' W : BigFppfOver B 
     (Stacks.Pushout.C1573.size_le_of_isPushout hk hpo).trans_lt
       (max_lt Z'.left.property W.left.property)
   have hw : Φ.map k ≫ B.inclusion.map Z'.hom = Φ.map g ≫ B.inclusion.map W.hom := by
-    show B.inclusion.map k.left ≫ B.inclusion.map Z'.hom =
+    change B.inclusion.map k.left ≫ B.inclusion.map Z'.hom =
       B.inclusion.map g.left ≫ B.inclusion.map W.hom
     rw [← Functor.map_comp, ← Functor.map_comp, Over.w k, Over.w g]
   let σ := pushout.desc (B.inclusion.map Z'.hom) (B.inclusion.map W.hom) hw

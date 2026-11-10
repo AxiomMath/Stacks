@@ -433,7 +433,7 @@ theorem surjective_logResidue_f_succ {t : R}
   intro ζ
   obtain ⟨η, hη⟩ := surjective_mapExteriorPower_quotient (A := A) (Ideal.span {t}) p ζ
   refine ⟨Submodule.Quotient.mk (p := Submodule.restrictScalars A (logRel A t p)) (0, η), ?_⟩
-  show (logResidueF ht hsplit (p + 1)).hom
+  change (logResidueF ht hsplit (p + 1)).hom
       (Submodule.Quotient.mk (p := Submodule.restrictScalars A (logRel A t p)) (0, η)) = ζ
   rw [logResidueF_succ_apply]
   exact hη
@@ -488,7 +488,7 @@ theorem shortExact_map_eval_logShortComplex {t : R}
         obtain ⟨y, hy⟩ :=
           exists_smul_wedgeLeft_D_of_mapExteriorPower_eq_zero (A := A) t q hres
         refine ⟨x.1 + y, ?_⟩
-        show Submodule.Quotient.mk (p := Submodule.restrictScalars A (logRel A t q))
+        change Submodule.Quotient.mk (p := Submodule.restrictScalars A (logRel A t q))
             (x.1 + y, 0) = Submodule.Quotient.mk x
         rw [Submodule.Quotient.eq, Submodule.restrictScalars_mem, mem_logRel_iff]
         simp only [Prod.fst_sub, Prod.snd_sub, add_sub_cancel_left, zero_sub, map_neg, hy]

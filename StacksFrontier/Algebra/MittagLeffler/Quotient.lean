@@ -115,11 +115,9 @@ private theorem rTensor_baseChange_comm_cancelBaseChange {R : Type u} {S : Type 
         (TensorProduct.comm S (S ⊗[R] Y) N ((h.baseChange S).rTensor N z)))
       = h.rTensor N ((TensorProduct.comm R N X) (AlgebraTensorModule.cancelBaseChange R S S N X
         (TensorProduct.comm S (S ⊗[R] X) N z))) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul a n =>
-      induction a using TensorProduct.induction_on with
-      | zero => simp
+      induction a using TensorProduct.inductionOn with
       | tmul s x => simp
       | add a b ha hb => simp only [add_tmul, map_add, ha, hb]
   | add a b ha hb => simp [ha, hb]

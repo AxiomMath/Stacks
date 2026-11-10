@@ -164,7 +164,7 @@ private lemma shortComplexHomology_preservesFilteredColimits
           |>.mapHomologyIso (colim (J := J) (C := ModuleCat.{max u v} R))).symm) ?_)
   intro j
   simp only [Functor.mapCocone_ι_app, colimit.cocone_ι, Iso.trans_hom,
-    HasColimit.isoOfNatIso_ι_hom_assoc]
+    HasColimit.ι_isoOfNatIso_hom_assoc]
   simp only [shortComplexHomologyFunctorIso, NatIso.ofComponents_hom_app]
   set S := (ShortComplex.functorEquivalence J (ModuleCat.{max u v} R)).inverse.obj K with hS
   let α : ((evaluation J (ModuleCat.{max u v} R)).obj j) ⟶
@@ -271,12 +271,12 @@ private lemma differentialSpan_d_mem
     (M : HomologicalComplex (ModuleCat.{v} R) c) (s : ∀ i, Set (M.X i))
     (i j : ι) (x : M.X i) (hx : x ∈ differentialSpan M s i) :
     (M.d i j) x ∈ differentialSpan M s j := by
-  show x ∈ (differentialSpan M s j).comap (M.d i j).hom
+  change x ∈ (differentialSpan M s j).comap (M.d i j).hom
   apply (Submodule.span_le.mpr ?_) hx
   rintro y (hy | hy)
   · exact Submodule.subset_span (Or.inr (Set.mem_iUnion.mpr ⟨i, y, hy, rfl⟩))
   · rcases Set.mem_iUnion.mp hy with ⟨k, z, hz, rfl⟩
-    show (M.d i j) ((M.d k i) z) ∈ differentialSpan M s j
+    change (M.d i j) ((M.d k i) z) ∈ differentialSpan M s j
     have he : (M.d i j) ((M.d k i) z) = 0 :=
       congrArg (fun f : M.X k ⟶ M.X j => f z) (M.d_comp_d k i j)
     rw [he]
@@ -424,7 +424,7 @@ public lemma comparison_square
     (h : F.map m ≫ b = b₁ ≫ n) :
     T.map m ≫ (α.app M ≫ Q.map b) = (α.app M₁ ≫ Q.map b₁) ≫ Q.map n := by
   rw [← Category.assoc, α.naturality]
-  show (α.app M₁ ≫ Q.map (F.map m)) ≫ Q.map b = _
+  change (α.app M₁ ≫ Q.map (F.map m)) ≫ Q.map b = _
   rw [Category.assoc, ← Q.map_comp, h, Q.map_comp, ← Category.assoc]
 
 /-- Pure tensors additively generate the tensor product, giving its infinite cardinal bound. -/
@@ -438,8 +438,7 @@ private lemma mk_tensorProduct_le_of_le
     fun l => (l.map (fun p => TensorProduct.tmul R p.1 p.2)).sum
   have hg : Function.Surjective g := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => exact ⟨[], rfl⟩
+    induction x using TensorProduct.inductionOn with
     | tmul m n => exact ⟨[(m, n)], by simp [g]⟩
     | add x y hx hy =>
       obtain ⟨l, rfl⟩ := hx
@@ -455,9 +454,9 @@ private lemma mk_extendScalars_obj_le
     (P : ModuleCat.{max u v w} A) {κ : Cardinal.{max u v w}}
     (hκ : ℵ₀ ≤ κ) (hB : lift.{max u w} #B ≤ κ) (hP : #P ≤ κ) :
     #((ModuleCat.extendScalars f).obj P) ≤ κ := by
-  show #(TensorProduct A ((ModuleCat.restrictScalars f).obj (ModuleCat.of B B)) P) ≤ κ
+  change #(TensorProduct A ((ModuleCat.restrictScalars f).obj (ModuleCat.of B B)) P) ≤ κ
   apply mk_tensorProduct_le_of_le hκ
-  · show lift.{max u v w} #B ≤ κ
+  · change lift.{max u v w} #B ≤ κ
     rwa [lift_umax.{v, max u w}]
   · rwa [lift_id'.{v, max u w}]
 
@@ -602,7 +601,7 @@ lemma mk_tensorRight_term_le
     {κ : Cardinal.{u}} (hκ : ℵ₀ ≤ κ)
     (hK : ∀ i, #(K.X i) ≤ κ) (hP : ∀ i, #(P.X i) ≤ κ) (i : ℤ) :
     #(((CategoryTheory.MonoidalCategory.tensorRight P).obj K).X i) ≤ κ := by
-  show #(∐ (fun p : {p : ℤ × ℤ // p.1 + p.2 = i} =>
+  change #(∐ (fun p : {p : ℤ × ℤ // p.1 + p.2 = i} =>
     ModuleCat.of R (TensorProduct R (K.X p.1.1) (P.X p.1.2))) : ModuleCat.{u} R) ≤ κ
   exact mk_countable_coproduct_le _ hκ fun p =>
     mk_tensorProduct_le_of_le hκ (by simpa using hK p.1.1) (by simpa using hP p.1.2)

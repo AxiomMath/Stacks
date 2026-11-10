@@ -186,12 +186,13 @@ theorem stalkMapL_koszulAug (ξ : space 𝒞) (a : ↑(TopCat.Presheaf.stalk (sp
 
 /-- For a functional `ψ` and a basis `e` with `ψ (e j) = g j`, the image of `ψ` is the ideal
 spanned by the `g j`. -/
-theorem exists_apply_eq_iff_mem_span_of_basis {R M ι : Type*} [Fintype ι] [CommRing R]
+theorem exists_apply_eq_iff_mem_span_of_basis {R M ι : Type*} [Finite ι] [CommRing R]
     [AddCommGroup M] [Module R M] (ψ : M →ₗ[R] R) (e : Module.Basis ι R M) {g : ι → R}
     (he : ∀ j, ψ (e j) = g j) (f : R) : (∃ k, ψ k = f) ↔ f ∈ Ideal.span (Set.range g) := by
   refine ⟨?_, fun hg => (Ideal.span_le (I := LinearMap.range ψ)).2
     (Set.range_subset_iff.2 fun j => ⟨e j, he j⟩) hg⟩
   rintro ⟨k, rfl⟩
+  have := Fintype.ofFinite ι
   rw [← e.sum_repr k, map_sum]
   refine Ideal.sum_mem _ fun j _ => ?_
   rw [map_smul, he j]

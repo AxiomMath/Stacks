@@ -71,7 +71,7 @@ theorem nonempty_linearEquiv_of_natCard_eq (k : Type r) [Field k] [Finite k]
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, h]
   have h2 : 2 ≤ Fintype.card k := Fintype.one_lt_card
   refine Nat.pow_right_injective h2 ?_
-  show Fintype.card k ^ finrank k V = Fintype.card k ^ finrank k W
+  change Fintype.card k ^ finrank k V = Fintype.card k ^ finrank k W
   rw [← hV, ← hW, hcard]
 
 end Module

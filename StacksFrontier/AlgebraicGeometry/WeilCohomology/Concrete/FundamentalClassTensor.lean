@@ -150,7 +150,7 @@ theorem diagUnitEmbedding_comp_map (X Y : (SmoothProjectiveScheme k).FullSubcate
     IsIso.inv_eq_of_hom_inv_id (inv_hom_left_comp_hom_hom_left (ρ_ X))
   apply pullback.hom_ext
   · rw [Category.assoc, pullback.lift_fst, Category.comp_id]
-    show diagUnitEmbedding X Y ≫ pullback.fst (prodBase X.obj.hom Y.obj.hom)
+    change diagUnitEmbedding X Y ≫ pullback.fst (prodBase X.obj.hom Y.obj.hom)
       (prodBase X.obj.hom 𝐏.obj.hom) = projEmbedding X Y ≫ pullback.fst _ _
     rw [projEmbedding_fst]
     apply pullback.hom_ext
@@ -159,7 +159,7 @@ theorem diagUnitEmbedding_comp_map (X Y : (SmoothProjectiveScheme k).FullSubcate
     · rw [Category.assoc, diagUnitEmbedding, tensorEmbedding_fst_snd, pullback.lift_fst,
         Category.comp_id, Category.id_comp]
   · rw [Category.assoc, pullback.lift_snd, hinv]
-    show diagUnitEmbedding X Y ≫ pullback.snd (prodBase X.obj.hom Y.obj.hom)
+    change diagUnitEmbedding X Y ≫ pullback.snd (prodBase X.obj.hom Y.obj.hom)
       (prodBase X.obj.hom 𝐏.obj.hom) ≫ pullback.fst X.obj.hom 𝐏.obj.hom =
         projEmbedding X Y ≫ pullback.snd (prodBase X.obj.hom Y.obj.hom) X.obj.hom
     rw [projEmbedding_snd, diagUnitEmbedding, tensorEmbedding_snd_fst, graphMorphism_snd,

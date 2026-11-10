@@ -75,7 +75,7 @@ theorem isHomeomorph_toT_closedPointPreimage
       ⟨⟨x₀.1, t⟩, hx₀⟩
     let y : S.Y := e.inv p
     refine ⟨⟨y, ?_⟩, TopCat.pullbackIsoProdSubtype_inv_snd_apply _ _ p⟩
-    show S.toX y ∈ closedPoints S.X
+    change S.toX y ∈ closedPoints S.X
     rw [TopCat.pullbackIsoProdSubtype_inv_fst_apply S.componentMap S.toConnectedComponents p]
     exact x₀.2
 
@@ -120,7 +120,7 @@ theorem closedPoints_pullback (S : ProfiniteBaseChangeOfComponentMap.{u})
       (isPreconnected_singleton.closure).subset_connectedComponent
         (subset_closure (by simp)) hspecMem
     have hccomp : S.componentMap c = S.toConnectedComponents t := by
-      show ConnectedComponents.mk c = S.toConnectedComponents t
+      change ConnectedComponents.mk c = S.toConnectedComponents t
       rw [← ConnectedComponents.coe_eq_coe.mpr (connectedComponent_eq hccompX)]
       exact z.2
     let b : {x : S.X // S.componentMap x = S.toConnectedComponents t} := ⟨c, hccomp⟩
@@ -129,7 +129,7 @@ theorem closedPoints_pullback (S : ProfiniteBaseChangeOfComponentMap.{u})
       simpa [b] using hspecMem
     have hcx : c = z.1 := congrArg Subtype.val (a₁ := b) (a₂ := z) <| by
       simpa using hzfiber.closure_subset (specializes_iff_mem_closure.mp hspecSub)
-    show S.toX y ∈ closedPoints S.X
+    change S.toX y ∈ closedPoints S.X
     rw [← hzval, ← hcx]
     exact hc.1.1
   · intro hy

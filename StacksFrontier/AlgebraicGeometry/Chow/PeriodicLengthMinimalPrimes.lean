@@ -308,7 +308,7 @@ theorem periodicDeterminantOrder_eq_of_bijective [IsNoetherianRing R]
     intro α α' hα x
     induction x using LocalizedModule.induction_on with
     | h a s =>
-        show LocalizedModule.map p.asIdeal.primeCompl u
+        change LocalizedModule.map p.asIdeal.primeCompl u
             (LocalizedModule.map p.asIdeal.primeCompl α (LocalizedModule.mk a s)) =
           LocalizedModule.map p.asIdeal.primeCompl α'
             (LocalizedModule.map p.asIdeal.primeCompl u (LocalizedModule.mk a s))

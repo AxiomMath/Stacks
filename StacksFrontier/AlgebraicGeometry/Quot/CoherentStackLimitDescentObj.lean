@@ -146,7 +146,7 @@ theorem exists_stage_structureMap [IsCofiltered I]
   apply ObjectProperty.hom_ext
   apply yonedaEquiv.injective
   simp only [eqToHom_refl, Category.id_comp, ObjectProperty.FullSubcategory.comp_hom]
-  show _ = yonedaEquiv (yoneda.map ((BigAffineFppf.inclusion B S hS).map (c.π.app i)) ≫
+  change _ = yonedaEquiv (yoneda.map ((BigAffineFppf.inclusion B S hS).map (c.π.app i)) ≫
     yonedaEquiv.symm y)
   rw [yonedaEquiv_symm_naturality_left, Equiv.apply_symm_apply, ← hy]
   rfl
@@ -176,7 +176,7 @@ theorem exists_stage_structureMap_eq [IsCofiltered I]
     yonedaEquiv (F := D.Y.1) (X := (BigAffineFppf.inclusion B S hS).obj (E.obj i)) g'.hom
   have hx : (D.Y.1.mapCocone ((BigAffineFppf.inclusion B S hS).mapCone c).op).ι.app (op i) x =
       (D.Y.1.mapCocone ((BigAffineFppf.inclusion B S hS).mapCone c).op).ι.app (op i) x' := by
-    show D.Y.1.map ((BigAffineFppf.inclusion B S hS).map (c.π.app i)).op x =
+    change D.Y.1.map ((BigAffineFppf.inclusion B S hS).map (c.π.app i)).op x =
       D.Y.1.map ((BigAffineFppf.inclusion B S hS).map (c.π.app i)).op x'
     rw [← hyo, ← hyo, h]
   obtain ⟨k, f, hf⟩ := (Types.FilteredColimit.isColimit_eq_iff' hcol _ _).1 hx
@@ -248,7 +248,7 @@ theorem descentObj_coherent (hY : IsLocallyOfFinitePresentation B S hS (terminal
   change A₀.T.left = (incl.mapCone c).pt at hA₀
   obtain ⟨i, g, hg⟩ := D.exists_stage_structureMap E c hc hY hA₀ A₀.T.hom
   let v : A₀.T ≅ (D.stageTestCone E c g).pt := CostructuredArrow.isoMk (eqToIso hA₀) (by
-    show (schemeSpaceFunctor B S hS).map (eqToHom hA₀) ≫
+    change (schemeSpaceFunctor B S hS).map (eqToHom hA₀) ≫
       ((schemeSpaceFunctor B S hS).map (incl.map (c.π.app i)) ≫ g) = A₀.T.hom
     rw [hg, Functor.map_comp, Category.assoc])
   let cT := (D.stageTestCone E c g).extend v.hom
@@ -280,7 +280,7 @@ theorem descentObj_coherent (hY : IsLocallyOfFinitePresentation B S hS (terminal
       isIso_fibre := inferInstance }
   refine ⟨j.left, ⟨xi, rfl⟩, δ, ?_⟩
   refine IsHomLift.of_fac' p _ _ hA₀ rfl ?_
-  show (cT.π.app j).left = _
+  change (cT.π.app j).left = _
   rfl
 
 end Descent

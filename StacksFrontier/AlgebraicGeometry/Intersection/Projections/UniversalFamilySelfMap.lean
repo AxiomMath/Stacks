@@ -103,6 +103,7 @@ instance isInvertible_twistStructureSheaf_param :
       (twistStructureSheaf k (dualEndSpace k V) ((1 : ℕ) : ℤ)) :=
   isInvertible_tautologicalModule k (dualEndSpace k V)
 
+omit [Module.Finite k V] in
 /-- **The source of Tag 0B2W's universal family is the product `𝐏 × 𝐏(V)`.** The twisted total
 space `𝐏(V ⊗ 𝒪_𝐏(1))` is the untwisted one `𝐏(V ⊗ 𝒪_𝐏)` by Tag 02NC over a base scheme in its
 projective-bundle form, and that one is the product by the base change of Tag 01O3. This is the
@@ -120,7 +121,7 @@ theorem exists_iso_pullback_universalEndSource :
     (twistStructureSheaf k (dualEndSpace k V) ((1 : ℕ) : ℤ))
   obtain ⟨e₀, he₀⟩ := exists_iso_pullback_universalEndTarget k V
   refine ⟨f ≪≫ e₀, ?_⟩
-  show (f.hom ≫ e₀.hom) ≫ universalProductToParam k V = _
+  change (f.hom ≫ e₀.hom) ≫ universalProductToParam k V = _
   rw [Category.assoc, he₀]
   exact hf
 

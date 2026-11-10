@@ -35,7 +35,7 @@ theorem isIso_of_bijective_of_mem {F G : Sheaf J (Type w)} (f : F ⟶ G) (P : Ob
   refine (isLocallyBijective_iff_isIso f).1 ⟨?_, ?_⟩
   · refine ⟨fun {U} x y h ↦ J.superset_covering ?_ (hP U.unop)⟩
     rintro V g ⟨W, a, b, hW, rfl⟩
-    show F.obj.map (a ≫ b).op x = F.obj.map (a ≫ b).op y
+    change F.obj.map (a ≫ b).op x = F.obj.map (a ≫ b).op y
     rw [op_comp, Functor.map_comp_apply, Functor.map_comp_apply]
     congr 1
     apply (hf W hW).1

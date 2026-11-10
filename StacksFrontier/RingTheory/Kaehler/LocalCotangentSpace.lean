@@ -108,14 +108,14 @@ public theorem comap_le_ker_maximalIdealToTensorKaehler :
     intro r hr
     refine ⟨⟨algebraMap R A r, hJm.ge (IsLocalRing.map_maximalIdeal_le (algebraMap R A)
       (Ideal.mem_map_of_mem _ hr))⟩, ?_, rfl⟩
-    show d _ = 0
+    change d _ = 0
     rw [hd]
     simp
   have hJP : maximalIdeal A ^ 2 ≤ (LinearMap.ker d).map J.subtype := by
     intro a ha
     have haj : a ∈ J := hJm.ge (Ideal.pow_le_self two_ne_zero ha)
     refine ⟨⟨a, haj⟩, ?_, rfl⟩
-    show d ⟨a, haj⟩ = 0
+    change d ⟨a, haj⟩ = 0
     rw [show d ⟨a, haj⟩ =
       kerCotangentToTensor R A (ResidueField A) (J.toCotangent ⟨a, haj⟩) from rfl,
       (J.toCotangent_eq_zero _).2 (hJsq ▸ ha), map_zero]
@@ -124,7 +124,7 @@ public theorem comap_le_ker_maximalIdealToTensorKaehler :
     (show (maximalIdeal R).map (algebraMap R A) + maximalIdeal A ^ 2 ≤
       (LinearMap.ker d).map J.subtype from sup_le hIP hJP) ha
   have hab : (⟨(b : A), hJm.le b.2⟩ : maximalIdeal A) = a := Subtype.ext hba
-  show maximalIdealToTensorKaehler R A a = 0
+  change maximalIdealToTensorKaehler R A a = 0
   rw [← hab, maximalIdealToTensorKaehler_apply, ← hd b]
   exact hb
 
@@ -237,7 +237,7 @@ public theorem bijective_relativeCotangentSpaceToTensorKaehler :
     intro z hz
     obtain ⟨a, rfl⟩ := P.mkQ_surjective z
     refine (Submodule.Quotient.mk_eq_zero P).2 ?_
-    show (a : A) ∈ (maximalIdeal R).map (algebraMap R A) + maximalIdeal A ^ 2
+    change (a : A) ∈ (maximalIdeal R).map (algebraMap R A) + maximalIdeal A ^ 2
     exact mem_map_maximalIdeal_add_sq_of_tmul_D_eq_zero R A a.2
       (relativeCotangentSpaceToTensorKaehler_mk R A a ▸ hz)
   · have : Algebra.FormallyUnramified R (ResidueField R) :=

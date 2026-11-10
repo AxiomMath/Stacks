@@ -45,7 +45,7 @@ theorem forgetFSharp_inverse_comp_counit_ringedToposEquivalenceTwoIso (f : Ringe
     [f.toToposHom.pushforward.IsEquivalence] [IsIso f.fSharp] :
     forgetFSharp (inverse f) ≫ f.toToposHom.inverseImage.map (forgetFSharp f) ≫
       f.toToposHom.adj.counit.app (X.forgetRing.obj X.O) = 𝟙 _ := by
-  show X.forgetRing.map (inv f.fSharpInverseImage) ≫ _ = _
+  change X.forgetRing.map (inv f.fSharpInverseImage) ≫ _ = _
   rw [Functor.map_inv]
   exact (congrArg (inv (X.forgetRing.map f.fSharpInverseImage) ≫ ·)
     (fSharpInverseImage_forget f).symm).trans (IsIso.inv_hom_id _)

@@ -78,7 +78,7 @@ theorem assocHom_comp_prodBase {S A₁ A₂ A₃ : Scheme.{u}} (sA₁ : A₁ ⟶
     (h₁ : φ ≫ Limits.pullback.fst _ _ =
       Limits.pullback.fst _ _ ≫ Limits.pullback.fst _ _) :
     φ ≫ prodBase sA₁ (prodBase sA₂ sA₃) = prodBase (prodBase sA₁ sA₂) sA₃ := by
-  show φ ≫ (Limits.pullback.fst _ _ ≫ sA₁) =
+  change φ ≫ (Limits.pullback.fst _ _ ≫ sA₁) =
     Limits.pullback.fst _ _ ≫ (Limits.pullback.fst _ _ ≫ sA₁)
   rw [← Category.assoc, h₁, Category.assoc]
 
@@ -123,17 +123,17 @@ def TensorIntAssoc : Prop :=
     (hB₂ : RelativeDimension sB₂ e₂) (hB₃ : RelativeDimension sB₃ e₃)
     (φA : Limits.pullback (prodBase sA₁ sA₂) sA₃ ⟶ Limits.pullback sA₁ (prodBase sA₂ sA₃))
     [IsIso φA]
-    (hφA₁ : φA ≫ Limits.pullback.fst _ _ = Limits.pullback.fst _ _ ≫ Limits.pullback.fst _ _)
-    (hφA₂ : φA ≫ Limits.pullback.snd _ _ ≫ Limits.pullback.fst _ _ =
-      Limits.pullback.fst _ _ ≫ Limits.pullback.snd _ _)
-    (hφA₃ : φA ≫ Limits.pullback.snd _ _ ≫ Limits.pullback.snd _ _ = Limits.pullback.snd _ _)
-    (φB : Limits.pullback (prodBase sB₁ sB₂) sB₃ ⟶ Limits.pullback sB₁ (prodBase sB₂ sB₃))
+    (hφA₁ : φA ≫ Limits.pullback.fst _ _ = Limits.pullback.fst _ _ ≫ Limits.pullback.fst _ _),
+    φA ≫ Limits.pullback.snd _ _ ≫ Limits.pullback.fst _ _ =
+      Limits.pullback.fst _ _ ≫ Limits.pullback.snd _ _ →
+    φA ≫ Limits.pullback.snd _ _ ≫ Limits.pullback.snd _ _ = Limits.pullback.snd _ _ →
+    ∀ (φB : Limits.pullback (prodBase sB₁ sB₂) sB₃ ⟶ Limits.pullback sB₁ (prodBase sB₂ sB₃))
     [IsIso φB]
-    (hφB₁ : φB ≫ Limits.pullback.fst _ _ = Limits.pullback.fst _ _ ≫ Limits.pullback.fst _ _)
-    (hφB₂ : φB ≫ Limits.pullback.snd _ _ ≫ Limits.pullback.fst _ _ =
-      Limits.pullback.fst _ _ ≫ Limits.pullback.snd _ _)
-    (hφB₃ : φB ≫ Limits.pullback.snd _ _ ≫ Limits.pullback.snd _ _ = Limits.pullback.snd _ _)
-    (r₁ r₂ r₃ : ℤ)
+    (hφB₁ : φB ≫ Limits.pullback.fst _ _ = Limits.pullback.fst _ _ ≫ Limits.pullback.fst _ _),
+    φB ≫ Limits.pullback.snd _ _ ≫ Limits.pullback.fst _ _ =
+      Limits.pullback.fst _ _ ≫ Limits.pullback.snd _ _ →
+    φB ≫ Limits.pullback.snd _ _ ≫ Limits.pullback.snd _ _ = Limits.pullback.snd _ _ →
+    ∀ (r₁ r₂ r₃ : ℤ)
     (x₁ : chowGroup (fieldChowSituation k) (prodBase sA₁ sB₁) ((e₁ : ℤ) - r₁))
     (x₂ : chowGroup (fieldChowSituation k) (prodBase sA₂ sB₂) ((e₂ : ℤ) - r₂))
     (x₃ : chowGroup (fieldChowSituation k) (prodBase sA₃ sB₃) ((e₃ : ℤ) - r₃)),
@@ -319,6 +319,7 @@ theorem tensorSwap_tensorPr₁₃ :
     tensorSwap k sA sA' sB sB' ≫ tensorPr₁₃ sA' sA sB' sB = tensorPr₂₄ sA sA' sB sB' := by
   apply Limits.pullback.hom_ext <;> simp [tensorSwap]
 
+omit [IsSeparated sA] [IsSeparated sA'] [IsSeparated sB] [IsSeparated sB'] in
 /-- **Commutativity of the tensor product of correspondences** up to the factor switches. -/
 theorem tensorInt_symm : TensorIntSymm k sA sA' sB sB' := by
   intro d d' e e' hA hA' hB hB' r r' x x'
@@ -592,7 +593,6 @@ abbrev tensorAssocHom :
     (prodBase (prodBase sA₁ sA₂) sA₃) (prodBase (prodBase sB₁ sB₂) sB₃) φA φB
     (assocHom_comp_prodBase sA₁ sA₂ sA₃ φA hφA₁) (assocHom_comp_prodBase sB₁ sB₂ sB₃ φB hφB₁)
 
-include hφA₂ hφA₃ hφB₂ hφB₃ in
 /-- Under `φA × φB`, the projection to `A₁ × B₁` of `A₁ × (A₂ × A₃)` and `B₁ × (B₂ × B₃)` agrees
 with the projection to `A₁ × B₁` of `(A₁ × A₂) × A₃` and `(B₁ × B₂) × B₃`. -/
 theorem tensorAssocHom_pr₁ :
@@ -603,7 +603,7 @@ theorem tensorAssocHom_pr₁ :
   · simp [tensorAssocHom, hφA₁]
   · simp [tensorAssocHom, hφB₁]
 
-include hφA₂ hφA₃ hφB₂ hφB₃ in
+include hφA₂ hφB₂ in
 /-- Under `φA × φB`, the projection to `A₂ × B₂` of `A₁ × (A₂ × A₃)` and `B₁ × (B₂ × B₃)` agrees
 with the projection to `A₂ × B₂` of `(A₁ × A₂) × A₃` and `(B₁ × B₂) × B₃`. -/
 theorem tensorAssocHom_pr₂ :
@@ -614,7 +614,7 @@ theorem tensorAssocHom_pr₂ :
   · simp [tensorAssocHom, hφA₂]
   · simp [tensorAssocHom, hφB₂]
 
-include hφA₂ hφA₃ hφB₂ hφB₃ in
+include hφA₃ hφB₃ in
 /-- Under `φA × φB`, the projection to `A₃ × B₃` of `A₁ × (A₂ × A₃)` and `B₁ × (B₂ × B₃)` agrees
 with the projection to `A₃ × B₃` of `(A₁ × A₂) × A₃` and `(B₁ × B₂) × B₃`. -/
 theorem tensorAssocHom_pr₃ :
@@ -889,7 +889,7 @@ theorem chowPushforwardOfIso_tensorAssocHom_heq (r₁ r₂ r₃ : ℤ)
     (tensorAssocHom k sA₁ sA₂ sA₃ sB₁ sB₂ sB₃ φA φB hφA₁ hφB₁) hΨ _
     (tensorPr₁₃ sA₁ (prodBase sA₂ sA₃) sB₁ (prodBase sB₂ sB₃)) (assoc_hp₁ k sA₁ sA₂ sA₃ sB₁ sB₂ sB₃)
     (tensorPr₁₃_comp_prodBase _ _ _ _)
-    (tensorAssocHom_pr₁ k sA₁ sA₂ sA₃ sB₁ sB₂ sB₃ φA φB hφA₁ hφA₂ hφA₃ hφB₁ hφB₂ hφB₃)
+    (tensorAssocHom_pr₁ k sA₁ sA₂ sA₃ sB₁ sB₂ sB₃ φA φB hφA₁ hφB₁)
     (by omega) (RelativeDimension.comp_of_flat _ _
       (relativeDimension_tensorPr₁₃ k (prodBase sA₁ sA₂) sA₃ (prodBase sB₁ sB₂) sB₃ hA₃ hB₃)
       (relativeDimension_tensorPr₁₃ k sA₁ sA₂ sB₁ sB₂ hA₂ hB₂))
@@ -899,7 +899,7 @@ theorem chowPushforwardOfIso_tensorAssocHom_heq (r₁ r₂ r₃ : ℤ)
   have hQ₂ := chowPushforwardOfIso_flatPullbackChow_heq k _ _ _
     (tensorAssocHom k sA₁ sA₂ sA₃ sB₁ sB₂ sB₃ φA φB hφA₁ hφB₁) hΨ _ _
     (assoc_hp₂ k sA₁ sA₂ sA₃ sB₁ sB₂ sB₃) (assoc_hq₂ k sA₁ sA₂ sA₃ sB₁ sB₂ sB₃)
-    (tensorAssocHom_pr₂ k sA₁ sA₂ sA₃ sB₁ sB₂ sB₃ φA φB hφA₁ hφA₂ hφA₃ hφB₁ hφB₂ hφB₃)
+    (tensorAssocHom_pr₂ k sA₁ sA₂ sA₃ sB₁ sB₂ sB₃ φA φB hφA₁ hφA₂ hφB₁ hφB₂)
     (by omega) (RelativeDimension.comp_of_flat _ _
       (relativeDimension_tensorPr₁₃ k (prodBase sA₁ sA₂) sA₃ (prodBase sB₁ sB₂) sB₃ hA₃ hB₃)
       (relativeDimension_tensorPr₂₄ k sA₁ sA₂ sB₁ sB₂ hA₁ hB₁))
@@ -909,7 +909,7 @@ theorem chowPushforwardOfIso_tensorAssocHom_heq (r₁ r₂ r₃ : ℤ)
   have hQ₃ := chowPushforwardOfIso_flatPullbackChow_heq k _ _ _
     (tensorAssocHom k sA₁ sA₂ sA₃ sB₁ sB₂ sB₃ φA φB hφA₁ hφB₁) hΨ _ _
     (tensorPr₂₄_comp_prodBase _ _ _ _) (assoc_hq₃ k sA₁ sA₂ sA₃ sB₁ sB₂ sB₃)
-    (tensorAssocHom_pr₃ k sA₁ sA₂ sA₃ sB₁ sB₂ sB₃ φA φB hφA₁ hφA₂ hφA₃ hφB₁ hφB₂ hφB₃)
+    (tensorAssocHom_pr₃ k sA₁ sA₂ sA₃ sB₁ sB₂ sB₃ φA φB hφA₁ hφA₃ hφB₁ hφB₃)
     (by omega) (relativeDimension_tensorPr₂₄ k (prodBase sA₁ sA₂) sA₃ (prodBase sB₁ sB₂) sB₃
       (relativeDimension_prodBase_add k sA₁ sA₂ hA₁ hA₂)
       (relativeDimension_prodBase_add k sB₁ sB₂ hB₁ hB₂))

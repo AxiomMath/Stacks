@@ -70,7 +70,7 @@ theorem isZero_hypercohomology_singlePlus_of_lt (F : SheafOfModules.{u} (ringShe
 theorem isZero_hypercohomology_singlePlus_of_isZero {F : SheafOfModules.{u} (ringSheaf O)}
     (hF : IsZero F) (p n : ℤ) : IsZero (hypercohomology O (singlePlus O F p) n) :=
   isZero_hypercohomology_of_isZero_X O _ (fun q => by
-    show IsZero (((HomologicalComplex.single _ (up ℤ) p).obj F).X q)
+    change IsZero (((HomologicalComplex.single _ (up ℤ) p).obj F).X q)
     by_cases hq : q = p
     · subst hq
       exact hF.of_iso (HomologicalComplex.singleObjXSelf (up ℤ) q F)
@@ -89,7 +89,7 @@ variable (L : CochainComplex (SheafOfModules.{u} (ringSheaf O)) ℤ)
 /-- The brutal truncation `σ^{≥p}L` has zero terms as soon as `L` vanishes in degrees `≥ p`. -/
 theorem isZero_truncPlus_X {p : ℤ} (h : ∀ q, p ≤ q → IsZero (L.X q)) (q : ℤ) :
     IsZero ((truncPlus O L p).obj.X q) := by
-  show IsZero ((L.stupidTrunc (embeddingUpIntGE p)).X q)
+  change IsZero ((L.stupidTrunc (embeddingUpIntGE p)).X q)
   by_cases hq : p ≤ q
   · exact (h q hq).of_iso (stupidTruncGEXIso L p q hq)
   · exact CochainComplex.isZero_of_isStrictlyGE (L.stupidTrunc (embeddingUpIntGE p)) p q

@@ -302,7 +302,7 @@ public theorem lengthIndex_add_of_ladder
       have h := (LinearEquiv.ofInjective s hs).apply_symm_apply (b.restrict hbW x)
       have h2 := congrArg (Subtype.val (p := fun n => n ∈ LinearMap.range s)) h
       simpa only [LinearEquiv.ofInjective_apply, LinearMap.coe_restrict_apply,
-        LinearMap.comp_apply, LinearMap.coe_coe, LinearEquiv.coe_coe] using h2⟩
+        LinearMap.comp_apply, LinearMap.coe_ofClass, LinearEquiv.coe_coe] using h2⟩
   have hvW : ∀ x : M₂, x ∈ W → v x ∈ LinearMap.ker c := fun _ hx => hx
   set w : W →ₗ[A] LinearMap.ker c := v.restrict hvW with hwdef
   have hwval : ∀ x : W, (w x : M₃) = v (x : M₂) := fun _ => rfl
@@ -332,10 +332,10 @@ public theorem lengthIndex_add_of_ladder
     · rintro x ⟨x₀, hx₀, rfl⟩
       have hz : β x₀ = 0 := hx₀
       refine LinearMap.mem_ker.mpr ?_
-      show b (x₀ : M₂) = 0
+      change b (x₀ : M₂) = 0
       rw [← hβ x₀, hz, map_zero]
     · refine ⟨⟨x, hkerble hx⟩, ?_, rfl⟩
-      show β ⟨x, hkerble hx⟩ = 0
+      change β ⟨x, hkerble hx⟩ = 0
       exact hs (by rw [hβ ⟨x, hkerble hx⟩, map_zero]; exact LinearMap.mem_ker.mp hx)
   have eKer : (LinearMap.ker β) ≃ₗ[A] (LinearMap.ker b) :=
     (Submodule.equivMapOfInjective W.subtype (Submodule.injective_subtype W)
@@ -362,9 +362,9 @@ public theorem lengthIndex_add_of_ladder
       exact ⟨⟨y, hya⟩, Subtype.ext hy⟩
     · obtain ⟨y, rfl⟩ := hx
       refine LinearMap.mem_ker.mpr (Subtype.ext ?_)
-      show (w ((ι.restrict hk₁mem) y : W) : M₃) = ((0 : LinearMap.ker c) : M₃)
+      change (w ((ι.restrict hk₁mem) y : W) : M₃) = ((0 : LinearMap.ker c) : M₃)
       rw [hwval, ZeroMemClass.coe_zero]
-      show v (ι (y : M₁) : M₂) = 0
+      change v (ι (y : M₁) : M₂) = 0
       rw [hιval, huv.apply_apply_eq_zero]
   have hkb : IsFiniteLength A (LinearMap.ker b) := eKer.isFiniteLength hkβ
   have hrange : LinearMap.range a ≤ LinearMap.range β := by

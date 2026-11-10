@@ -17,8 +17,9 @@ becomes `m`-pseudo-coherent. This file proves that the condition holds if and on
 `AlgebraicGeometry.relativeStructureSheafComparison_of_affinePair` splits the hypothesis of
 `AlgebraicGeometry.pseudoCoherent_tfae_of_relativeComparison`.
 
-The proof has no mathematical content beyond what is already in the library; it is the dictionary between
-the geometric and the algebraic side of one pair. Both sides of the equivalence are read at *one*
+The proof has no mathematical content beyond what is already in the library; it is the dictionary
+between the geometric and the algebraic side of one pair. Both sides of the equivalence are read at
+*one*
 closed immersion at a time, and the passage from one immersion to every immersion is Stacks 065H
 (`PseudoCoherence.isPseudoCoherentFrom_polynomialPresentation_independent`) rather than
 Stacks 09VC: the module-level predicate

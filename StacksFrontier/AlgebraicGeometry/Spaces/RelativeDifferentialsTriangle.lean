@@ -288,7 +288,7 @@ private theorem toRelativeDifferentials_comp_app_d (f : X ⟶ Y) (g : Y ⟶ Z)
     ((toRelativeDifferentials B S hS f g ≫ ψ).val.app U).hom
         ((universalDerivation B S hS (f ≫ g)).d t) =
       (ψ.val.app U).hom ((universalDerivation B S hS f).d t) := by
-  show (ψ.val.app U).hom (((toRelativeDifferentials B S hS f g).val.app U).hom
+  change (ψ.val.app U).hom (((toRelativeDifferentials B S hS f g).val.app U).hom
     ((universalDerivation B S hS (f ≫ g)).d t)) = _
   rw [toRelativeDifferentials_app_d]
 
@@ -508,7 +508,7 @@ theorem triangleDifferentials_exact (f : X ⟶ Y) (g : Y ⟶ Z) :
       (ShortComplex.mk _ _ h).Exact :=
   ⟨pullbackDifferentialsMap_comp_toRelativeDifferentials B S hS f g, by
     have : HasSheafify (smallEtaleRingedSite B S hS X.1 X.2).J AddCommGrpCat.{u} := by
-      show HasSheafify (SmallEtale.topology B S hS X.1) AddCommGrpCat.{u}
+      change HasSheafify (SmallEtale.topology B S hS X.1) AddCommGrpCat.{u}
       infer_instance
     exact ShortComplex.exact_of_g_is_cokernel _
       (isColimitCokernelCoforkToRelativeDifferentials B S hS f g)⟩

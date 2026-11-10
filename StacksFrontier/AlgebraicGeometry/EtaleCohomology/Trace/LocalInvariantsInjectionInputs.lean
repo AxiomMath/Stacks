@@ -106,10 +106,9 @@ public def CurvePointInertiaStalkInput : Prop :=
     [IsNoetherian V.1] [Fact ℓ.Prime] [ConnectedSpace V.1] [IrreducibleSpace V.1] [IsAffine V.1]
     (k : Type u) [Field k] [Fintype k] (f : V.1 ⟶ Spec (.of k))
     [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] [SmoothOfRelativeDimension 1 f]
-    (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
-    [IsAlgClosure k kbar]
+    (kbar : Type u) [Field kbar] [Algebra k kbar] [IsAlgClosure k kbar]
     [ConnectedSpace ↥(Limits.pullback f (Spec.map (CommRingCat.ofHom (algebraMap k kbar))))]
-    (p n : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ n) (_ : ℓ ≠ p)
+    (p : ℕ) [Fact p.Prime] [CharP k p] (_ : ℓ ≠ p)
     -- the curve `W ⊇ V` and the missing point `y`
     (W : B.Scheme) (fW : W.1 ⟶ Spec (.of k)) [LocallyOfFiniteType fW] [QuasiCompact fW]
     [IsSeparated fW] [SmoothOfRelativeDimension 1 fW]
@@ -135,10 +134,6 @@ public def CurvePointInertiaStalkInput : Prop :=
       (curveLocalRingToFunctionField jW hy).hom (eA a))
     (P : Ideal (integralClosure A L)) [P.IsMaximal]
     (Fr : Gal(L / V.1.residueField (genericPoint V.1)))
-    (hFrD :
-      letI := IsIntegralClosure.MulSemiringAction A (V.1.residueField (genericPoint V.1)) L
-        (integralClosure A L)
-      Fr ∈ MulAction.stabilizer Gal(L / V.1.residueField (genericPoint V.1)) P)
     (_ :
       letI := IsIntegralClosure.MulSemiringAction A (V.1.residueField (genericPoint V.1)) L
         (integralClosure A L)

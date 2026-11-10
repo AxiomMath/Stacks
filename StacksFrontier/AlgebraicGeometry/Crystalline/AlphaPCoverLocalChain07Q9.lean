@@ -201,7 +201,7 @@ theorem exists_alphaPAlgebra_iso_of_isAlphaPCover {p : ℕ} {Y X : Scheme.{u}} {
     have h' := congrArg Scheme.Hom.appTop h
     simp only [Scheme.Hom.comp_appTop] at h'
     unfold alphaPCoverMap at h'
-    show ((Scheme.ΓSpecIso _).inv ≫ i.hom.appTop) ≫ a.appTop =
+    change ((Scheme.ΓSpecIso _).inv ≫ i.hom.appTop) ≫ a.appTop =
       ψ₀ ≫ ((Scheme.ΓSpecIso _).inv ≫ j.hom.appTop)
     rw [Category.assoc, h', ← Category.assoc, ← Scheme.ΓSpecIso_inv_naturality, Category.assoc]
   have key : a.appTop ≫ β.inv = α.inv ≫ ψ₀ := by
@@ -221,7 +221,7 @@ theorem exists_alphaPAlgebra_iso_of_isAlphaPCover {p : ℕ} {Y X : Scheme.{u}} {
     ext r
     exact hτr r
   refine ⟨c, β.symm ≪≫ τ'.toCommRingCatIso, ?_⟩
-  show a.appTop ≫ β.inv ≫ CommRingCat.ofHom τ'.toRingHom = _
+  change a.appTop ≫ β.inv ≫ CommRingCat.ofHom τ'.toRingHom = _
   rw [← Category.assoc, key, Category.assoc, hτ]
   simp [σ]
 
@@ -251,7 +251,7 @@ theorem HasAlphaPChainNormalForm.comp_isAlphaPCover {p : ℕ} {W X' X : Scheme.{
   obtain ⟨c, ψ, hψ⟩ := exists_alphaPAlgebra_iso_of_isAlphaPCover ha C φ
   obtain ⟨n, rest, E, hE⟩ := hu _ ψ
   refine ⟨n + 1, .cons c rest, E, ?_⟩
-  show a.appTop ≫ u.appTop ≫ (E.hom : Γ(W, ⊤) ⟶ rest.top) =
+  change a.appTop ≫ u.appTop ≫ (E.hom : Γ(W, ⊤) ⟶ rest.top) =
     φ.hom ≫ CommRingCat.ofHom (algebraMap C (alphaPAlgebra p C c)) ≫ rest.toTop
   rw [hE, ← Category.assoc, hψ, Category.assoc]
 
@@ -415,7 +415,7 @@ theorem hasFiniteBasis_morphismRestrict_of_app {X' X : Scheme.{u}} (f : X' ⟶ X
   apply hasFiniteBasis_of_iso _ _ U.topIso.commRingCatIsoToRingEquiv
     (f ⁻¹ᵁ U).topIso.commRingCatIsoToRingEquiv ?_ n h
   apply CommRingCat.hom_ext_iff.mp
-  show (f ∣_ U).appTop ≫ (f ⁻¹ᵁ U).topIso.hom = U.topIso.hom ≫ f.app U
+  change (f ∣_ U).appTop ≫ (f ⁻¹ᵁ U).topIso.hom = U.topIso.hom ≫ f.app U
   rw [← cancel_epi U.topIso.inv, ← Category.assoc, ← app_comp_topIso_inv, Category.assoc,
     Iso.inv_hom_id, Category.comp_id, Iso.inv_hom_id_assoc]
 

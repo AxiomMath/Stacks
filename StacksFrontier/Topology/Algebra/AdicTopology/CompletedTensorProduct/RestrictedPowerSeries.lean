@@ -143,7 +143,7 @@ private theorem restrictedTensorInclusion_X (I : Ideal A) (σ : Type v) (i : σ)
 private theorem restrictedTensorInclusion_C (I : Ideal A) (σ : Type v) (b : B) :
     restrictedTensorInclusion I σ (MvPolynomial.C b) =
       b ⊗ₜ[A] (1 : RestrictedPowerSeries I σ) := by
-  show restrictedTensorInclusion I σ
+  change restrictedTensorInclusion I σ
     (algebraMap B (MvPolynomial σ B) b) = _
   rw [AlgHom.commutes]
   rfl
@@ -160,16 +160,16 @@ private theorem restrictedTensorInclusion_map (I : Ideal A) (σ : Type v)
           RestrictedPowerSeries I σ →ₐ[A] B ⊗[A] RestrictedPowerSeries I σ).toRingHom.comp
         (RestrictedPowerSeries.polynomialRingHom I σ)) := by
     refine MvPolynomial.ringHom_ext (fun a => ?_) (fun i => ?_)
-    · show restrictedTensorInclusion I σ
+    · change restrictedTensorInclusion I σ
         (MvPolynomial.map (algebraMap A B) (MvPolynomial.C a)) = _
       rw [MvPolynomial.map_C, restrictedTensorInclusion_C]
-      show algebraMap A B a ⊗ₜ[A] (1 : RestrictedPowerSeries I σ) =
+      change algebraMap A B a ⊗ₜ[A] (1 : RestrictedPowerSeries I σ) =
         (1 : B) ⊗ₜ[A] RestrictedPowerSeries.polynomialRingHom I σ (MvPolynomial.C a)
       rw [show RestrictedPowerSeries.polynomialRingHom I σ (MvPolynomial.C a) =
         algebraMap A (RestrictedPowerSeries I σ) a from rfl]
       rw [Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one,
         TensorProduct.smul_tmul]
-    · show restrictedTensorInclusion I σ
+    · change restrictedTensorInclusion I σ
         (MvPolynomial.map (algebraMap A B) (MvPolynomial.X i)) = _
       rw [MvPolynomial.map_X, restrictedTensorInclusion_X]
       rfl
@@ -182,11 +182,11 @@ public theorem restrictedTensorProjection_comp_inclusion (I : Ideal A) (σ : Typ
         (restrictedTensorInclusion I σ).toRingHom =
       MvPolynomial.map (Ideal.Quotient.mk ((I.map (algebraMap A B)) ^ n)) := by
   refine MvPolynomial.ringHom_ext (fun b => ?_) (fun i => ?_)
-  · show restrictedTensorProjection I σ n
+  · change restrictedTensorProjection I σ n
       (restrictedTensorInclusion I σ (MvPolynomial.C b)) = _
     rw [restrictedTensorInclusion_C, restrictedTensorProjection_tmul, MvPolynomial.map_C,
       map_one, map_one, mul_one, algebraMap_mvPolynomial_quotient]
-  · show restrictedTensorProjection I σ n
+  · change restrictedTensorProjection I σ n
       (restrictedTensorInclusion I σ (MvPolynomial.X i)) = _
     rw [restrictedTensorInclusion_X, restrictedTensorProjection_tmul, MvPolynomial.map_X]
     rw [RestrictedPowerSeries.coefficientProjection_polynomialRingHom]
@@ -243,11 +243,11 @@ private theorem restrictedTensorIdeal_pow_le_ker (I : Ideal A) (σ : Type v) (n 
   rw [← map_left_eq_restrictedTensorIdeal_pow I σ n, Ideal.map_le_iff_le_comap]
   intro b hb
   simp only [Ideal.mem_comap, RingHom.mem_ker]
-  show restrictedTensorProjection I σ n
+  change restrictedTensorProjection I σ n
     (algebraMap B (B ⊗[A] RestrictedPowerSeries I σ) b) = 0
   have hb0 : Ideal.Quotient.mk ((I.map (algebraMap A B)) ^ n) b = 0 :=
     Ideal.Quotient.eq_zero_iff_mem.mpr hb
-  show restrictedTensorProjection I σ n (b ⊗ₜ[A] (1 : RestrictedPowerSeries I σ)) = 0
+  change restrictedTensorProjection I σ n (b ⊗ₜ[A] (1 : RestrictedPowerSeries I σ)) = 0
   rw [restrictedTensorProjection_tmul, map_one, map_one, mul_one,
     algebraMap_mvPolynomial_quotient, hb0, map_zero]
 
@@ -257,8 +257,7 @@ private theorem exists_inclusion_sub_mem (I : Ideal A) (hI : I.FG) (σ : Type v)
     (t : B ⊗[A] RestrictedPowerSeries I σ) :
     ∃ q : MvPolynomial σ B,
       t - restrictedTensorInclusion I σ q ∈ (restrictedTensorIdeal (B := B) I σ) ^ n := by
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction t using TensorProduct.inductionOn with
   | tmul b f =>
     obtain ⟨p, hp⟩ := MvPolynomial.map_surjective (Ideal.Quotient.mk (I ^ n))
       Ideal.Quotient.mk_surjective (RestrictedPowerSeries.coefficientProjection I σ n f)
@@ -325,7 +324,7 @@ public theorem ker_restrictedTensorProjection (I : Ideal A) (hI : I.FG) (σ : Ty
         (MvPolynomial.C : B →+* MvPolynomial σ B) =
         algebraMap B (B ⊗[A] RestrictedPowerSeries I σ) := by
       refine RingHom.ext fun b => ?_
-      show restrictedTensorInclusion I σ (MvPolynomial.C b) = _
+      change restrictedTensorInclusion I σ (MvPolynomial.C b) = _
       rw [restrictedTensorInclusion_C]
       rfl
     have := Ideal.mem_map_of_mem (restrictedTensorInclusion I σ).toRingHom hqmem
@@ -361,8 +360,7 @@ private theorem restrictedTensorQuotientEquiv_transition (I : Ideal A) (hI : I.F
           (restrictedTensorProjection I σ n t) =
         restrictedTensorProjection I σ m t := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul b f =>
       rw [restrictedTensorProjection_tmul, restrictedTensorProjection_tmul]
       have hcoeff : RestrictedPowerSeries.coefficientProjection I σ m f =
@@ -393,7 +391,7 @@ private theorem restrictedTensorQuotientEquiv_transition (I : Ideal A) (hI : I.F
           factor_comp_coefficientQuotientMap I (Ideal.pow_le_pow_right hmn)
             (Ideal.pow_le_pow_right hmn)]
     | add t₁ t₂ h₁ h₂ => rw [map_add, map_add, map_add, h₁, h₂]
-  show RestrictedPowerSeries.coefficientTransition (I.map (algebraMap A B)) σ hmn
+  change RestrictedPowerSeries.coefficientTransition (I.map (algebraMap A B)) σ hmn
       (restrictedTensorProjection I σ n t) = _
   rw [hgen t]
   rfl
@@ -440,7 +438,7 @@ public theorem factorPow_comp_restrictedTensorQuotientEquiv_symm (I : Ideal A) (
       (restrictedTensorQuotientEquiv I hI σ m).symm.toRingHom.comp
         (RestrictedPowerSeries.coefficientProjection (I.map (algebraMap A B)) σ m) := by
   refine RingHom.ext fun f => ?_
-  show Ideal.Quotient.factorPow (restrictedTensorIdeal (B := B) I σ) hmn
+  change Ideal.Quotient.factorPow (restrictedTensorIdeal (B := B) I σ) hmn
       ((restrictedTensorQuotientEquiv I hI σ n).symm
         (RestrictedPowerSeries.coefficientProjection (I.map (algebraMap A B)) σ n f)) =
     (restrictedTensorQuotientEquiv I hI σ m).symm
@@ -519,7 +517,7 @@ public theorem coefficientProjection_adicCompletionRestrictedTensorEquiv (I : Id
           (AdicCompletion.of (restrictedTensorIdeal (B := B) I σ)
             (B ⊗[A] RestrictedPowerSeries I σ) t)) =
       restrictedTensorProjection I σ n t := by
-  show restrictedTensorQuotientEquiv I hI σ n
+  change restrictedTensorQuotientEquiv I hI σ n
     (AdicCompletion.evalₐ (restrictedTensorIdeal (B := B) I σ) n
       (AdicCompletion.of (restrictedTensorIdeal (B := B) I σ)
         (B ⊗[A] RestrictedPowerSeries I σ) t)) = _
@@ -642,7 +640,7 @@ public theorem coefficientProjection_completedTensorProductRestrictedEquiv (I : 
     tensorProduct_isTopologicalRing (R := A) (A := B) (B := RestrictedPowerSeries I σ)
   let _ : IsUniformAddGroup (B ⊗[A] RestrictedPowerSeries I σ) :=
     tensorProduct_isUniformAddGroup (R := A) (M := B) (N := RestrictedPowerSeries I σ)
-  show RestrictedPowerSeries.coefficientProjection (I.map (algebraMap A B)) σ n
+  change RestrictedPowerSeries.coefficientProjection (I.map (algebraMap A B)) σ n
     (adicCompletionRestrictedTensorEquiv I hI σ
       (AdicCompletionBridge.adicCompletionRingEquiv (restrictedTensorIdeal (B := B) I σ)
         (isAdic_restrictedTensorIdeal I hI σ hJ) (t : CompletedTensorProduct

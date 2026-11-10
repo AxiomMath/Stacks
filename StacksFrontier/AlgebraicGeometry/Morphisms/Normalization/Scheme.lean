@@ -77,7 +77,7 @@ theorem quasiCompactFromGenericPointResidueFields (X : Scheme.{u})
     simp only [Set.mem_preimage, Set.mem_sigma_iff, Set.mem_ofPred_eq, Set.mem_univ, and_true]
     rw [show e ⟨η, z⟩ =
       Sigma.ι (fun η : genericPoints X ↦ Spec (.of (X.residueField η.1))) η z by simp [e],
-      ← Scheme.Hom.comp_apply, Sigma.ι_desc, X.fromSpecResidueField_apply]
+      ← Scheme.Hom.comp_apply, Sigma.ι_comp_desc, X.fromSpecResidueField_apply]
     rfl
   · intro η _
     infer_instance

@@ -111,7 +111,7 @@ noncomputable def unitSec (L : X.Modules) : powSections L 0 := 𝟙 (𝟙_ X.Mod
 theorem nvOpen_unitSec : nvOpen L (unitSec L) = ⊤ := by
   refine TopologicalSpace.Opens.ext (Set.eq_univ_of_forall fun x => ?_)
   rw [Stacks.AmpleFiniteAvoidance.coe_nvOpen]
-  show x ∈ Stacks.Ample.nonvanishingLocus (natTensorPow L 0) _
+  change x ∈ Stacks.Ample.nonvanishingLocus (natTensorPow L 0) _
   rw [Stacks.Ample.mem_nonvanishingLocus_iff]
   exact Stacks.NonvanishingOpen.notMem_maximalSmul_germ_basis (unitTrivialization X) trivial
 
@@ -122,14 +122,14 @@ theorem le_nvOpen_unitSec {V : X.Opens} : V ≤ nvOpen L (unitSec L) :=
 omit [Stacks.Ample.IsInvertibleModule X L] in
 /-- Restricting a global section to `⊤` changes nothing. -/
 theorem resTop_top {M : X.Modules} (u : Γ(M, ⊤)) : resTop M u ⊤ = u := by
-  show M.presheaf.map _ u = u
+  change M.presheaf.map _ u = u
   rw [Subsingleton.elim (homOfLE (le_top : (⊤ : X.Opens) ≤ ⊤)) (𝟙 _)]
   simp
 
 omit [Stacks.Ample.IsInvertibleModule X L] in
 /-- The unit section is idempotent for the product of the section ring. -/
 theorem mul_unitSec : Stacks.GradedSections.mul (unitSec L) (unitSec L) = unitSec L := by
-  show unitSec L ≫ Stacks.GradedSections.mulMap (unitSec L) 0 = unitSec L
+  change unitSec L ≫ Stacks.GradedSections.mulMap (unitSec L) 0 = unitSec L
   rw [Stacks.GradedSections.mulMap_zero]
   exact Category.comp_id _
 
@@ -137,14 +137,14 @@ omit [Stacks.Ample.IsInvertibleModule X L] in
 /-- The unit section is a right unit for the product of the section ring. -/
 theorem mul_unitSec_right {d : ℕ} (a : powSections L d) :
     Stacks.GradedSections.mul a (unitSec L) = a := by
-  show unitSec L ≫ Stacks.GradedSections.mulMap a 0 = a
+  change unitSec L ≫ Stacks.GradedSections.mulMap a 0 = a
   rw [Stacks.GradedSections.mulMap_zero]
   exact Category.id_comp _
 
 omit [Stacks.Ample.IsInvertibleModule X L] in
 /-- The unit section names the unit of the section ring. -/
 theorem of_unitSec : DirectSum.of (powSections L) 0 (unitSec L) = 1 := by
-  show _ = DirectSum.of (powSections L) 0 GradedMonoid.GOne.one
+  change _ = DirectSum.of (powSections L) 0 GradedMonoid.GOne.one
   rw [Stacks.GradedSections.gOne_def]
   rfl
 
@@ -175,9 +175,9 @@ theorem bijective_degZeroRingHom : Function.Bijective (degZeroRingHom L) := by
         (globalSection X (natTensorPow L 0)) ∘
         ⇑(Stacks.ExternalGrading.summandEquiv (powSections L) 0).symm := by
     funext c
-    show ratioR L (unitSec L) (le_nvOpen_unitSec L) (c : sectionRing L) = _
+    change ratioR L (unitSec L) (le_nvOpen_unitSec L) (c : sectionRing L) = _
     rw [ratioR_apply]
-    show (trivEquiv _ _ _).symm (resTop _ (globalSection X _ ((c : sectionRing L) 0)) ⊤) = _
+    change (trivEquiv _ _ _).symm (resTop _ (globalSection X _ ((c : sectionRing L) 0)) ⊤) = _
     rw [resTop_top]
     rfl
   rw [key]
@@ -213,7 +213,7 @@ theorem chartRingMap_fromZero {d : ℕ} (a : powSections L d) (c : grading L 0) 
           (Stacks.ExternalGrading.of_mem_summand d a) 0 (c : sectionRing L) h0 := by
     apply HomogeneousLocalization.val_injective
     rw [HomogeneousLocalization.Away.val_mk]
-    show Localization.mk (c : sectionRing L) 1 = _
+    change Localization.mk (c : sectionRing L) 1 = _
     congr 1
   rw [hmk, chartRingMap_mk, chartFamily_apply, numMapR_def]
   have hof : DirectSum.of (powSections L) (d * 1) (powSec L a 1)
@@ -243,7 +243,7 @@ theorem projHomOfIsAmple_toSpecZero (hL : Stacks.Ample.IsAmple X L) :
   refine (X.openCoverOfIsOpenCover (fun c : PosSection L => nvOpen L c.val)
       (nvUnion_eq_top_of_isAmple L hL)).hom_ext _ _ fun c => ?_
   obtain ⟨d, hd, a⟩ := c
-  show (nvOpen L a).ι ≫ _ = (nvOpen L a).ι ≫ _
+  change (nvOpen L a).ι ≫ _ = (nvOpen L a).ι ≫ _
   rw [← Category.assoc, Stacks.SectionRingProjImmersion.ι_comp_projHomOfIsAmple L hL a hd,
     ← Stacks.SectionRingChartOpen.chartHomOn_self L a hd,
     Stacks.SectionRingChartOpen.chartHomOn_val L a hd (le_refl _), Category.assoc,

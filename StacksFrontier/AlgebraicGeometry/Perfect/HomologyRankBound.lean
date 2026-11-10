@@ -110,7 +110,7 @@ theorem rank_eq_zero_of_isZero_of_isFiniteLocallyFreeOfRank {Y : Scheme.{u}} [No
         (0 : SheafOfModules.unit R ⟶ SheafOfModules.unit R).val.app (op ⊤) c := by
       rw [hunit.eq_of_src (𝟙 _) 0]
     have h0 : (0 : SheafOfModules.unit R ⟶ SheafOfModules.unit R).val.app (op ⊤) c = 0 := by
-      show (0 : (SheafOfModules.unit R).val ⟶ (SheafOfModules.unit R).val).app (op ⊤) c = 0
+      change (0 : (SheafOfModules.unit R).val ⟶ (SheafOfModules.unit R).val).app (op ⊤) c = 0
       simp
     simpa [h0] using h
   have : Subsingleton Γ((V : Scheme.{u}), ⊤) := ⟨fun a b => (key a).trans (key b).symm⟩

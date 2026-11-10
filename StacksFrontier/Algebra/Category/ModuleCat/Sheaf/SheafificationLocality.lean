@@ -66,7 +66,7 @@ theorem isIso_sheafification_map_of_isIso_evaluation
     fun _ hU => (hbij hU).1
   have := Presheaf.isLocallySurjective_of_hasEnoughObjects_surjective J φ hB
     fun _ hU => (hbij hU).2
-  show ((MorphismProperty.isomorphisms _).inverseImage (sheafification (𝟙 R.obj))) f
+  change ((MorphismProperty.isomorphisms _).inverseImage (sheafification (𝟙 R.obj))) f
   rw [← inverseImage_W_toPresheaf_eq_inverseImage_isomorphisms]
   exact J.W_of_isLocallyBijective φ
 

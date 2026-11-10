@@ -222,7 +222,7 @@ theorem openU_eq_iSup_sigma :
   · obtain ⟨k, rfl⟩ : ∃ k, e = k + 1 := ⟨e - 1, by omega⟩
     exact le_iSup (fun i : (k : ℕ) × ↥(𝒜 (k + 1)) =>
       ProjAndSpec.specBasicOpen ((i.2 : A))) ⟨k, a⟩
-  · show ProjAndSpec.specBasicOpen ((i.2 : A)) ≤
+  · change ProjAndSpec.specBasicOpen ((i.2 : A)) ≤
       ⨆ (e : ℕ) (_ : 0 < e) (a : 𝒜 e), ProjAndSpec.specBasicOpen ((a : A))
     exact le_iSup_of_le (i.1 + 1) (le_iSup_of_le (Nat.succ_pos i.1)
       (le_iSup (fun a : 𝒜 (i.1 + 1) => ProjAndSpec.specBasicOpen ((a : A))) i.2))

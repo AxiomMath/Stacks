@@ -188,7 +188,7 @@ theorem ShiftAxiomB.onK_shiftFunctor_add {A : DGCategory.{v, u} R} (S : ShiftAxi
   refine Functor.hext ho (fun x y f => ?_)
   refine Quotient.inductionOn f (fun f => ?_)
   refine homotopyClass_heq _ (ho _) (ho _) ?_
-  show HEq ((S.shiftFunctor (a + b)).map f.1)
+  change HEq ((S.shiftFunctor (a + b)).map f.1)
     ((S.shiftFunctor b).map ((S.shiftFunctor a).map f.1))
   rw [add_comm a b]
   exact S.add_map b a f.1

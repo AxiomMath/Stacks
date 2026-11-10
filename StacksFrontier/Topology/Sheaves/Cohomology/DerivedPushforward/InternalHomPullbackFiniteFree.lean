@@ -218,8 +218,7 @@ variable {X Y : RingedSpace.{u, u}} (h : X ⟶ Y)
 additive: it is `R𝓗om_{𝒪_Y}(-, M)` — additive by
 `AlgebraicGeometry.RingedSite.additive_derivedSheafHom_flip_obj` — followed by the derived
 pullback. -/
-@[instance_reducible]
-def additive_comparisonSourceFunctor
+theorem additive_comparisonSourceFunctor
     (M : DerivedCategory (AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.Modules Y)) :
     (Transpose.comparisonSourceFunctor (derivedPullbackFunctor h)
       (Stacks.SheafOfModules.derivedSheafHom Y.sheaf) M).Additive :=
@@ -234,8 +233,7 @@ def additive_comparisonSourceFunctor
 /-- The right-hand side of the comparison of Tag 08I3, read as a functor of its first argument, is
 additive: it is the opposite of the derived pullback — additive by Mathlib's
 `CategoryTheory.Functor.op_additive` — followed by `R𝓗om_{𝒪_X}(-, Lh^*M)`. -/
-@[instance_reducible]
-def additive_comparisonTargetFunctor
+theorem additive_comparisonTargetFunctor
     (M : DerivedCategory (AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.Modules Y)) :
     (Transpose.comparisonTargetFunctor (derivedPullbackFunctor h)
       (Stacks.SheafOfModules.derivedSheafHom X.sheaf) M).Additive :=

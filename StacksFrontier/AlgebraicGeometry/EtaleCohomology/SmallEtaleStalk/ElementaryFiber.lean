@@ -254,7 +254,7 @@ image. -/
 public theorem fiberOfElementaryEtaleNeighborhood_apply (N : ElementaryEtaleNeighborhood X x) :
     elementaryEtaleFiberHom (fiberOfElementaryEtaleNeighborhood N)
       (default : Spec (X.residueField x)) = N.obj.point := by
-  show fiberHomOfElementaryEtaleNeighborhood N (default : Spec (X.residueField x)) =
+  change fiberHomOfElementaryEtaleNeighborhood N (default : Spec (X.residueField x)) =
     N.obj.point
   simp [fiberHomOfElementaryEtaleNeighborhood]
 

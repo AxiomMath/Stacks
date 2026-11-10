@@ -24,7 +24,8 @@ a pointwise colimit over a costructured-arrow category, that category is pseudof
 abelian groups is exact, and sheafification is exact.
 
 In particular the set-valued exactness is not the only input available: the abelian version
-gives that `f_{cris, *}` preserves injective abelian sheaves.  The abelian version needs neither `coversTop_ι` nor any new
+gives that `f_{cris, *}` preserves injective abelian sheaves.  The abelian version needs neither
+`coversTop_ι` nor any new
 geometry, only the hypotheses of [Stacks, Tag 00X6] on `Cris(X/S)`, which instance search
 supplies from the closure instance
 `Crystalline.GlobalCrystallineSituation.Thickening.isClosedUnderFiniteLimits_isCrystalline`; see

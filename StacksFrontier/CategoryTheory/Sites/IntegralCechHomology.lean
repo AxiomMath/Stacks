@@ -122,8 +122,8 @@ lemma desc_comp_sigmaComparison {U U' : FormalCoproduct.{w} C} (k : U ⟶ U')
         G.map (Sigma.desc fun i : U.I ↦ F.map (k.φ i) ≫
           Sigma.ι (fun j : U'.I ↦ F.obj (U'.obj j)) (k.f i)) := by
   refine Sigma.hom_ext _ _ (fun i ↦ ?_)
-  rw [Sigma.ι_desc_assoc, Category.assoc, ι_comp_sigmaComparison,
-    ι_comp_sigmaComparison_assoc, ← G.map_comp, ← G.map_comp, Sigma.ι_desc]
+  rw [Sigma.ι_comp_desc_assoc, Category.assoc, ι_comp_sigmaComparison,
+    ι_comp_sigmaComparison_assoc, ← G.map_comp, ← G.map_comp, Sigma.ι_comp_desc]
 
 /-- A functor preserving `w`-indexed coproducts commutes with the extension of a functor to
 the category of formal coproducts. -/
@@ -224,7 +224,7 @@ lemma desc_comp_typeRealizationIsoApp_hom {U U' : FormalCoproduct.{w} (Over X)} 
         (typeRealizationIsoApp.{w, v, u, a} U').hom =
       (typeRealizationIsoApp.{w, v, u, a} U).hom ≫ typeRealization.{w, v, u, a}.map k := by
   refine Sigma.hom_ext _ _ (fun i ↦ ?_)
-  rw [Sigma.ι_desc_assoc, Category.assoc, ι_comp_typeRealizationIsoApp_hom,
+  rw [Sigma.ι_comp_desc_assoc, Category.assoc, ι_comp_typeRealizationIsoApp_hom,
     ι_comp_typeRealizationIsoApp_hom_assoc]
   exact (sigmaPresheafInj_comp_typeRealization_map k i).symm
 

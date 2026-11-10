@@ -187,7 +187,7 @@ theorem restrictedWeilDivisorAt_eq_zero_of_isStalkBasis_germ {U : X.Opens}
     pullbackStalkAt_germ (integralComponentAt x).subschemeι M
       (genericPoint (integralComponentAt x).subscheme)
       (genericPointOf_integralComponentAt x) U (hU' _) t
-  show weilDivisorOfMeromorphicSection
+  change weilDivisorOfMeromorphicSection
       (isTrivializedNear_restrictModule (integralComponentAt x) M)
       (restrictStalk (integralComponentAt x) M (genericPointOf_integralComponentAt x)
         (M.presheaf.germ U x (hU x) t)) = 0

@@ -72,7 +72,7 @@ theorem schlessingerConditionS2_isomorphismClasses_objectsOverFunctor
     (hS2 : SchlessingerConditionS2 p)
     (x : p.Fiber (residueFieldObject.{u, v, w} Λ k)) :
     SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses
+      (Functor.Elements.π (isomorphismClasses
         (BasedCategory.ofFunctor (objectsOverFunctor p x.1))
         (isPredeformationCategory_objectsOverFunctor p hp x).cofibered)) :=
   schlessingerConditionS2_of_isIsomorphismClasses
@@ -137,24 +137,24 @@ theorem mapIsomorphismClasses_isLinearMap_artinianDualNumbers
     (h𝓕 : IsPredeformationCategory.{u, v, w} 𝓕.p)
     (h𝓖 : IsPredeformationCategory.{u, v, w} 𝓖.p)
     (hS2𝓕 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered)))
     (hS2𝓖 : SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered)))
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered)))
     (φ : BasedFunctor 𝓕 𝓖) :
     letI : Fact (IsPredeformationCategory.{u, v, w} 𝓕.p) := ⟨h𝓕⟩
     letI : Fact (IsPredeformationCategory.{u, v, w} 𝓖.p) := ⟨h𝓖⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2𝓕⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2𝓕⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2𝓖⟩
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2𝓖⟩
     IsLinearMap k (mapIsomorphismClasses h𝓕.cofibered h𝓖.cofibered φ
       (artinianDualNumbers.{u, w, v} Λ k)) := by
   let : Fact (IsPredeformationCategory.{u, v, w} 𝓕.p) := ⟨h𝓕⟩
   let : Fact (IsPredeformationCategory.{u, v, w} 𝓖.p) := ⟨h𝓖⟩
   let : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2𝓕⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕.cofibered))) := ⟨hS2𝓕⟩
   let : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2𝓖⟩
+      (Functor.Elements.π (isomorphismClasses 𝓖 h𝓖.cofibered))) := ⟨hS2𝓖⟩
   let S := squareZeroExtensionArtinian.{u, w, max v w} Λ k
   let UF := S ⋙ isomorphismClasses 𝓕 h𝓕.cofibered
   let UG := S ⋙ isomorphismClasses 𝓖 h𝓖.cofibered

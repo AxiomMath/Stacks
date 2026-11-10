@@ -45,6 +45,7 @@ namespace AlgebraicGeometry
 variable (B : BigFppfSite.{u}) (hZ : B.Contains integerBase)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullbacks` for presheaves on the big fppf site is found by a deep instance search
 /-- Pullbacks of presheaves on the big fppf site over `integerBase` (instance search times out
 without this shortcut). -/
 local instance hasPullbacks_presheaf_curvesGeometricallyReducedSupplement :
@@ -64,7 +65,7 @@ private theorem surjective_presheaf_hom_of_iso
     {F G : (BigFppfOver B integerBase hZ)ᵒᵖ ⥤ Type u} (e : F ≅ G) :
     (MorphismProperty.inverseImage (@Surjective.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme B integerBase hZ)).presheaf e.hom := by
-  show yoneda.relativelyRepresentable e.hom ∧
+  change yoneda.relativelyRepresentable e.hom ∧
     (∀ ⦃A C⦄ (g : yoneda.obj A ⟶ G) (fst : yoneda.obj C ⟶ F) (snd : C ⟶ A),
       IsPullback fst (yoneda.map snd) e.hom g →
         Surjective ((BigFppfOver.toScheme B integerBase hZ).map snd))

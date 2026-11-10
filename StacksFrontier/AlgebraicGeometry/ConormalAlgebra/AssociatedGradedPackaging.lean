@@ -78,7 +78,7 @@ theorem grZPiece_natCast (k : ℕ) : grZPiece I (k : ℤ) = grPiece I k := rfl
 theorem grZPiece_negative_isZero (n : ℤ) (hn : n < 0) : IsZero (grZPiece I n) := by
   match n, hn with
   | Int.negSucc k, _ =>
-    show IsZero (SheafOfModules.free (R := X.ringCatSheaf) PEmpty)
+    change IsZero (SheafOfModules.free (R := X.ringCatSheaf) PEmpty)
     rw [IsZero.iff_id_eq_zero]
     exact Sigma.hom_ext _ _ fun i ↦ i.elim
 

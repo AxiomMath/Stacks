@@ -82,9 +82,9 @@ theorem exists_isStableContraction_residueField {g : ℕ} {X : CurveFamily B hZ}
   let e : κ ⟶ CommRingCat.of P.carrier := 𝟙 κ
   have : IsIso e := inferInstanceAs (IsIso (𝟙 κ))
   refine ⟨P, e, inferInstance, ?_, V, W₀, v, q, hq, w₀, m₀, hm₀, hc, hdim.le, hH0⟩
-  show Spec.map (𝟙 κ) ≫ _ = _
+  change Spec.map (𝟙 κ) ≫ _ = _
   rw [Spec.map_id, Category.id_comp]
-  show _ = T.map (Space.residueFieldMap B integerBase hZ X.base s _ ≫ 𝟙 X.base)
+  change _ = T.map (Space.residueFieldMap B integerBase hZ X.base s _ ≫ 𝟙 X.base)
   rw [Functor.map_comp, CategoryTheory.Functor.map_id, Category.comp_id]
   rfl
 

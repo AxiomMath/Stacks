@@ -156,8 +156,8 @@ attribute [local instance] HasDerivedCategory.standard
 
 /-- **[Stacks, Tag 01E5] for schemes, `ℤ`-indexed.** The same isomorphism for the bounded-below
 right derived functor `Functor.rightDerivedPlus`, in a degree that is a natural number. This is
-the indexing in which the statements of [Stacks, Tag 02O4] and [Stacks, Tag 02O5] state higher direct
-images, so it is the form a coherence argument on the base consumes.
+the indexing in which the statements of [Stacks, Tag 02O4] and [Stacks, Tag 02O5] state higher
+direct images, so it is the form a coherence argument on the base consumes.
 
 The comparison of the two indexings is `Stacks.DerivedIndexing.rightDerivedIso`. -/
 noncomputable def higherDirectImageRestrictPlusIso (f : X ⟶ S) (V : S.Opens) (p : ℕ) :

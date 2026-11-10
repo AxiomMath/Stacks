@@ -364,7 +364,7 @@ section Helpers
 private lemma localizationDifference_restrictionPair_zero
     (S : PuncturedAffinePlane.{u}) (s : Γ(S.puncturedScheme, ⊤)) :
     localizationDifference S (restrictionPair S s) = 0 := by
-  show localizeXToXY S (restrictToX S s) - localizeYToXY S (restrictToY S s) = 0
+  change localizeXToXY S (restrictToX S s) - localizeYToXY S (restrictToY S s) = 0
   refine sub_eq_zero.mpr (xySections_injective S ?_)
   rw [xySections_localizeXToXY, xySections_localizeYToXY, xSections_restrictToX,
     ySections_restrictToY, restrict_top_xyOpen, restrict_top_xyOpen]
@@ -417,7 +417,7 @@ private theorem exists_restrictionPair_eq_of_localizeXToXY_eq (S : PuncturedAffi
   have hsy : (S.puncturedScheme.presheaf.map
       (homOfLE (x := S.yOpen) le_top).op).hom s = sy := hs true
   refine ⟨s, ?_⟩
-  show (restrictToX S s, restrictToY S s) = (a, b)
+  change (restrictToX S s, restrictToY S s) = (a, b)
   exact Prod.ext
     (xSections_injective S ((xSections_restrictToX S s).trans (hsx.trans hsxdef.symm)))
     (ySections_injective S ((ySections_restrictToY S s).trans (hsy.trans hsydef.symm)))
@@ -544,7 +544,7 @@ private lemma restrictToCoordinate_coordinateMap (S : PuncturedAffinePlane.{u}) 
   let _ : Algebra (CommRingCat.of S.R) Γ(Spec (CommRingCat.of S.R), V) :=
     inferInstanceAs (Algebra (CommRingCat.of S.R)
       ((Spec.structureSheaf (CommRingCat.of S.R)).presheaf.obj (Opposite.op V)))
-  show (IsLocalization.algEquiv (Submonoid.powers ((MvPolynomial.X j : S.R)))
+  change (IsLocalization.algEquiv (Submonoid.powers ((MvPolynomial.X j : S.R)))
       (Localization.Away ((MvPolynomial.X j : S.R)))
       ((Spec.structureSheaf (CommRingCat.of S.R)).obj.obj
         (Opposite.op (PrimeSpectrum.basicOpen ((MvPolynomial.X j : S.R)))))).symm.toRingHom.comp
@@ -584,9 +584,9 @@ theorem isIso_coordinateRingToGlobalSections (S : PuncturedAffinePlane.{u}) :
     refine ⟨r, ?_⟩
     apply restrictionPair_injective S
     apply Prod.ext
-    · show restrictToX S (φ r) = restrictToX S t
+    · change restrictToX S (φ r) = restrictToX S t
       rw [← RingHom.comp_apply, hX, hrx]
-    · show restrictToY S (φ r) = restrictToY S t
+    · change restrictToY S (φ r) = restrictToY S t
       rw [← RingHom.comp_apply, hY, hry]
 
 end AlgebraicGeometry

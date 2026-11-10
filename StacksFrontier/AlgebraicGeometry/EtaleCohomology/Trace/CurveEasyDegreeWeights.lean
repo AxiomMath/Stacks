@@ -50,7 +50,7 @@ variable (B : BigEtaleSite.{u}) (U : B.Scheme) (ℓ : ℕ)
     (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
   [IsNoetherian U.1] [Fact ℓ.Prime] [ConnectedSpace U.1] [CompactSpace U.1]
   {k : Type u} [Field k] [Fintype k] (f : U.1 ⟶ Spec (.of k))
-  [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
+  [LocallyOfFiniteType f] [QuasiCompact f]
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
 
 omit [CompactSpace U.1] in

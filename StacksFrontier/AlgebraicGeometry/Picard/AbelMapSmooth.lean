@@ -69,7 +69,8 @@ abbrev universalSectionClass : Stacks.Picard.ofScheme (B.inclusion.obj H.left) :
   Stacks.Picard.schemePullbackClass (baseChangeSection B hX hk f σ hσ H)
     (hH.family (𝟙 _)).picardClass
 
-omit [IsProjectiveVariety k (B.inclusion.map f)] in
+omit [GeometricallyIrreducible (B.inclusion.map f)] [IsProper (B.inclusion.map f)]
+  [IsProjectiveVariety k (B.inclusion.map f)] in
 /-- **The pullback along the section of the class of a family that a point of `H` classifies** is
 the pullback of `universalSectionClass` along that point. -/
 theorem schemePullbackClass_baseChangeSection_family {T : BigFppfOver B (Spec (.of k)) hk}
@@ -211,7 +212,7 @@ private theorem exists_hom_of_hilbertFamily_lift {T T' : BigFppfOver B (Spec (.o
     apply R.homEquiv.injective
     rw [homEquiv_comp_abelMap, htest, Equiv.apply_symm_apply]
     apply Subtype.ext
-    show (toPicardFunctor B hX hk f).app (op T') D.picardClass = (R.homEquiv h).1
+    change (toPicardFunctor B hX hk f).app (op T') D.picardClass = (R.homEquiv h).1
     rw [← hLh, Stacks.PicardFunctor.toPicardFunctorHom_apply,
       Stacks.Hilbert.HilbertFamily.picardClass_eq D hD]
     congr 1
@@ -275,11 +276,11 @@ private theorem exists_lift_abelMap [LocallyOfFiniteType (B.inclusion.map Pd.hom
   have hvh : v ≫ abelMap B hX hk f hP H hH R = ι ≫ h := by
     ext1
     apply B.inclusion.map_injective
-    show hV.fromSpec ≫ γ = Spec.map φ ≫ Spec.map α ≫ hU.fromSpec
+    change hV.fromSpec ≫ γ = Spec.map φ ≫ Spec.map α ≫ hU.fromSpec
     rw [← IsAffineOpen.SpecMap_appLE_fromSpec γ hU hV e, ← hαφ, Spec.map_comp_assoc]
   obtain ⟨Ln, hLn, hχ, hLh, hres⟩ :=
     exists_isInvertible_picardMap_eq B hX hk f σ hσ hP H hH R ι v h hvh (by
-      show Stacks.Picard.schemePullbackClass (hV.isoSpec.inv ≫ V.ι)
+      change Stacks.Picard.schemePullbackClass (hV.isoSpec.inv ≫ V.ι)
         (universalSectionClass B hX hk f σ hσ H hH) = 0
       rw [← Stacks.Picard.schemePullbackClass_comp, hWV]
       exact map_zero (Stacks.Picard.schemePullbackClassHom _))

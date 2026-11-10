@@ -114,19 +114,19 @@ def thirdVariableEquiv : MvPolynomial (Fin 3) ℚ ≃ₐ[ℚ] Polynomial (MvPoly
 
 /-- `thirdVariableEquiv` sends `x₀` to the constant `x₁`. -/
 theorem thirdVariableEquiv_X_zero : thirdVariableEquiv (X 0) = Polynomial.C (X 1) := by
-  show finSuccEquiv ℚ 2 (rename (Equiv.swap (0 : Fin 3) 2) (X 0)) = _
+  change finSuccEquiv ℚ 2 (rename (Equiv.swap (0 : Fin 3) 2) (X 0)) = _
   rw [rename_X, Equiv.swap_apply_left]
   exact finSuccEquiv_X_succ (j := (1 : Fin 2))
 
 /-- `thirdVariableEquiv` sends `x₁` to the constant `x₀`. -/
 theorem thirdVariableEquiv_X_one : thirdVariableEquiv (X 1) = Polynomial.C (X 0) := by
-  show finSuccEquiv ℚ 2 (rename (Equiv.swap (0 : Fin 3) 2) (X 1)) = _
+  change finSuccEquiv ℚ 2 (rename (Equiv.swap (0 : Fin 3) 2) (X 1)) = _
   rw [rename_X, Equiv.swap_apply_of_ne_of_ne (by decide) (by decide)]
   exact finSuccEquiv_X_succ (j := (0 : Fin 2))
 
 /-- `thirdVariableEquiv` sends `x₂` to the polynomial variable. -/
 theorem thirdVariableEquiv_X_two : thirdVariableEquiv (X 2) = Polynomial.X := by
-  show finSuccEquiv ℚ 2 (rename (Equiv.swap (0 : Fin 3) 2) (X 2)) = _
+  change finSuccEquiv ℚ 2 (rename (Equiv.swap (0 : Fin 3) 2) (X 2)) = _
   rw [rename_X, Equiv.swap_apply_right]
   exact finSuccEquiv_X_zero
 
@@ -297,7 +297,7 @@ theorem topologicalKrullDim_surfaceChart (c : Fin 3 → Fin 2) :
   rw [(isAffineOpen_surfaceChart ℚ cyclicTriquadricCoefficients c).topologicalKrullDim_eq,
     ← ringKrullDim_eq_of_ringEquiv (surfaceChartEquiv ℚ cyclicTriquadricCoefficients c)]
   exact Stacks.MvPolynomial.ringKrullDim_quotient_span_singleton ℚ (Fin 3) (by simp) _
-    (prime_chartPolynomial c).ne_zero (prime_chartPolynomial c).not_unit
+    (prime_chartPolynomial c).ne_zero (prime_chartPolynomial c).not_isUnit
 
 /-- The cyclically symmetric triquadratic surface is reduced. -/
 instance isReduced_cyclicTriquadric : IsReduced cyclicTriquadric := by

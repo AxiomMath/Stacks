@@ -267,7 +267,7 @@ theorem isIso_globalSectionsToCechDerived_of_injective
     (hL : ∀ n : ℤ, Injective (L.1.X n)) :
     IsIso ((globalSectionsToCechDerived X R U).app L) := by
   have := quasiIso_globalSectionsToCech_of_injective X U hU L.1 L.2 hL
-  show IsIso (DerivedCategory.Q.map
+  change IsIso (DerivedCategory.Q.map
     ((globalSectionsToCech X U).app ((underlyingPresheafComplexFunctor X R).obj L.1)))
   infer_instance
 
@@ -369,7 +369,7 @@ theorem isIso_globalSectionsToCechDerived_injectiveResolution
     IsIso ((globalSectionsToCechDerived X R U).app
       ((injectiveResolutionFunctor X R).obj K)) := by
   refine isIso_globalSectionsToCechDerived_of_injective X R U hU _ fun n => ?_
-  show Injective ((InjectiveObject.ι (SheafOfModules.{u} R)).obj _)
+  change Injective ((InjectiveObject.ι (SheafOfModules.{u} R)).obj _)
   infer_instance
 
 /-- On the functorial injective resolution, the Čech augmentation is an isomorphism. -/
@@ -468,7 +468,7 @@ theorem globalSectionsToCechDerived_comp_cechToDerivedComparison
     ((globalSectionsToCechDerived X R U).naturality η).symm
   have hβ : (globalSectionsToCechDerived X R U).app K' ≫ β.inv.app K = 𝟙 _ :=
     β.hom_inv_id_app K
-  show (globalSectionsToCechDerived X R U).app K ≫
+  change (globalSectionsToCechDerived X R U).app K ≫
     (Functor.leftUnitor F).inv.app K ≫ (𝟭 _ ⋙ F).map η ≫
       β.inv.app K ≫ (globalSectionsToDerivedNat X R).app K' ≫
         ρ.inv.app K = _

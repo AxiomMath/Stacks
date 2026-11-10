@@ -109,10 +109,11 @@ noncomputable abbrev spfwQuotientPoint (J : WeakIdealsOfDefinition A) :
     schemeToLTRSObj (Spec (spfQuotientOn A J)) ⟶ spfwLTRS A hA.1 :=
   spfQuotientPointOn A (weaklyPreAdmissibleSpfIndex A hA.1) J
 
+omit [IsLinearTopology A A] in
 /-- The ring homomorphism `A → Γ(T, 𝒪_T)` of a point precomposed with a morphism of schemes is the
 composite with the map that morphism induces on global sections. -/
-theorem spfPointGammaHomOn_schemeToLTRS_map_comp {T T' : Scheme.{u}} (h : T' ⟶ T)
-    (g : schemeToLTRSObj T ⟶ spfwLTRS A hA.1) :
+theorem spfPointGammaHomOn_schemeToLTRS_map_comp (hA : IsWeaklyPreAdmissible A) {T T' : Scheme.{u}}
+    (h : T' ⟶ T) (g : schemeToLTRSObj T ⟶ spfwLTRS A hA) :
     spfPointGammaHomOn A (schemeToLTRS.map h ≫ g) = spfPointGammaHomOn A g ≫ h.appTop :=
   rfl
 
@@ -153,7 +154,7 @@ theorem spfPointGammaHomOn_comp_spfwQuotientPoint_apply (J : WeakIdealsOfDefinit
     {T : Scheme.{u}} (b : T ⟶ Spec (spfQuotientOn A J)) {a : A} (ha : a ∈ J.1) :
     (spfPointGammaHomOn A (schemeToLTRS.map b ≫ spfwQuotientPoint A hA J)).hom a = 0 := by
   refine (congrArg (fun φ => φ.hom a) (spfPointGammaHomOn_comp_spfwQuotientPoint A hA J b)).trans ?_
-  show b.appTop.hom ((Scheme.ΓSpecIso _).inv.hom (Ideal.Quotient.mk J.1 a)) = 0
+  change b.appTop.hom ((Scheme.ΓSpecIso _).inv.hom (Ideal.Quotient.mk J.1 a)) = 0
   rw [Ideal.Quotient.eq_zero_iff_mem.mpr ha, map_zero, map_zero]
 
 /-- The quotient point of `J` is a monomorphism on points over schemes: two morphisms
@@ -189,12 +190,13 @@ theorem existsUnique_spfwQuotientPoint_factor (J : WeakIdealsOfDefinition A) {T 
     exact CommRingCat.hom_ext (Ideal.Quotient.lift_comp_mk J.1 _ hg)
   exact ⟨_, key, fun b' hb' => spfwQuotientPoint_cancel A hA J (hb'.trans key.symm)⟩
 
+omit [IsLinearTopology A A] in
 /-- **Over a quasi-compact scheme a point of `Spfw A` kills a weak ideal of definition.** The
 global sections of the pseudo-discretised structure sheaf of a quasi-compact scheme are discrete,
 so the continuous homomorphism `A → Γ(T, 𝒪_T)` has open kernel, and its meet with a weak ideal of
 definition is one. -/
-theorem exists_weakIdeal_kill_of_compactSpace {T : Scheme.{u}} [CompactSpace T]
-    (g : schemeToLTRSObj T ⟶ spfwLTRS A hA.1) :
+theorem exists_weakIdeal_kill_of_compactSpace (hA : IsWeaklyPreAdmissible A) {T : Scheme.{u}}
+    [CompactSpace T] (g : schemeToLTRSObj T ⟶ spfwLTRS A hA) :
     ∃ J : WeakIdealsOfDefinition A, ∀ a ∈ J.1, (spfPointGammaHomOn A g).hom a = 0 := by
   set χ : TopCommRingCat.of A ⟶ (schemeToLTRSObj T).presheaf.obj (op ⊤) :=
     spfGammaHomOn A IsWeakIdealOfDefinition ≫ ltrsGlobalSectionsMap g with hχ
@@ -205,7 +207,7 @@ theorem exists_weakIdeal_kill_of_compactSpace {T : Scheme.{u}} [CompactSpace T]
       ext x; exact RingHom.mem_ker
     rw [hset]
     exact (isOpen_discrete _).preimage χ.2
-  exact ⟨spfIndexMeetOpen A (weaklyPreAdmissibleSpfIndex A hA.1) hker,
+  exact ⟨spfIndexMeetOpen A (weaklyPreAdmissibleSpfIndex A hA) hker,
     fun _ hx => RingHom.mem_ker.1 hx.2⟩
 
 end Spfw
@@ -263,7 +265,7 @@ everything. -/
 theorem preimage_weakChartEmbedding :
     (Opens.map (weakChartEmbedding A hA χ).toHom.base).obj U = ⊤ :=
   eq_top_iff.mpr fun y _ => by
-    show (weakChartEmbedding A hA χ).toHom.base y ∈ (U : Set X)
+    change (weakChartEmbedding A hA χ).toHom.base y ∈ (U : Set X)
     rw [← range_weakChartEmbedding A hA χ]
     exact Set.mem_range_self y
 
@@ -307,7 +309,7 @@ theorem weakChartEmbedding_comp_c_app_weakChartSections {T : Scheme.{u}}
       spfGammaHomOn A IsWeakIdealOfDefinition ≫
         (spfwLTRS A hA.1).presheaf.map (homOfLE le_top : (Opens.map
           ψ.toHom.base).obj U ⟶ ⊤).op := by
-    show _ ≫ (_ ≫ inv (ψ.toHom.c.app (op U))) ≫ ψ.toHom.c.app (op U) = _
+    change _ ≫ (_ ≫ inv (ψ.toHom.c.app (op U))) ≫ ψ.toHom.c.app (op U) = _
     rw [Category.assoc, IsIso.inv_hom_id, Category.comp_id]
     rfl
   have h1 := congrArg (fun φ : TopCommRingCat.of A ⟶ _ => φ.1 a) hinv
@@ -317,7 +319,7 @@ theorem weakChartEmbedding_comp_c_app_weakChartSections {T : Scheme.{u}}
       ψ.toHom.c.app (op U) ≫ g.toHom.c.app (op ((Opens.map ψ.toHom.base).obj U)) :=
     PresheafedSpace.comp_c_app g.toHom ψ.toHom (op U)
   rw [hcomp]
-  show (g.toHom.c.app _).1 ((weakChartSections A hA χ ≫ ψ.toHom.c.app (op U)).1 a) = _
+  change (g.toHom.c.app _).1 ((weakChartSections A hA χ ≫ ψ.toHom.c.app (op U)).1 a) = _
   exact (congrArg (g.toHom.c.app _).1 h1).trans hnat
 
 /-- A point of `X` landing in the open of a weak affine formal chart, lifted to `Spfw A`. -/
@@ -435,7 +437,7 @@ theorem weakChartPoint_c_app_weakChartSections_eq_zero_iff (J : WeakIdealsOfDefi
       (spfPointGammaHomOn_comp_spfwQuotientPoint A hA J (𝟙 _)))
   simp only [Scheme.Hom.id_appTop, Category.comp_id] at hγ
   rw [hγ]
-  show (Scheme.ΓSpecIso (spfQuotientOn A J)).inv.hom (Ideal.Quotient.mk J.1 a) = 0 ↔ _
+  change (Scheme.ΓSpecIso (spfQuotientOn A J)).inv.hom (Ideal.Quotient.mk J.1 a) = 0 ↔ _
   rw [← Ideal.Quotient.eq_zero_iff_mem]
   refine ⟨fun h => ?_, fun h => by rw [h, map_zero]⟩
   exact (Scheme.ΓSpecIso (spfQuotientOn A J)).commRingCatIsoToRingEquiv.symm.injective
@@ -447,7 +449,7 @@ theorem exists_weakIdeal_kill_weakChartSections {T : Scheme.{u}} [CompactSpace T
     (f : schemeToLTRSObj T ⟶ X) (hf : Set.range f.toHom.base ⊆ (U : Set X)) :
     ∃ J : WeakIdealsOfDefinition A,
       ∀ a ∈ J.1, (f.toHom.c.app (op U)).1 ((weakChartSections A hA χ).1 a) = 0 := by
-  obtain ⟨J, hJ⟩ := exists_weakIdeal_kill_of_compactSpace A hA (weakChartLift A hA χ f hf)
+  obtain ⟨J, hJ⟩ := exists_weakIdeal_kill_of_compactSpace A hA.1 (weakChartLift A hA χ f hf)
   exact ⟨J, fun a ha => (c_app_weakChartSections_eq_zero_iff_of_comp A hA χ _ f
     (weakChartLift_comp A hA χ f hf) a).mpr (hJ a ha)⟩
 

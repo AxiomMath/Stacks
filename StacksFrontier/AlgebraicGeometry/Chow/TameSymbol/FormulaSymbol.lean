@@ -215,14 +215,14 @@ theorem symbolValue_eq_symbolValue_of_refinement
     [∀ s : MaximalSpectrum C, Ring.KrullDimLE 1 (Localization.AtPrime s.asIdeal)]
     [Algebra B C] [IsScalarTower A B C] [Module.Finite B C]
     [∀ q : MaximalSpectrum B,
-      Fintype (MaximalSpectrum
+      Finite (MaximalSpectrum
         (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl)))]
     [∀ (q : MaximalSpectrum B)
         (v : MaximalSpectrum (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl))),
       Algebra (Localization.AtPrime q.asIdeal) (Localization.AtPrime (v.asIdeal.under C))]
     [∀ (q : MaximalSpectrum B)
         (v : MaximalSpectrum (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl))),
-      Localization.AtPrime.IsLiesOverAlgebra q.asIdeal (v.asIdeal.under C)]
+      IsScalarTower B (Localization.AtPrime q.asIdeal) (Localization.AtPrime (v.asIdeal.under C))]
     (hC : ¬ IsAssociatedPrime (maximalIdeal A) C)
     (hfibre : ∀ q : MaximalSpectrum B,
       ¬ IsAssociatedPrime (maximalIdeal (Localization.AtPrime q.asIdeal))

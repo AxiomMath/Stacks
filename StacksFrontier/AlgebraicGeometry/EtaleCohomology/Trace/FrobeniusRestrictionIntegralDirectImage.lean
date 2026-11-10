@@ -121,7 +121,7 @@ attribute [local instance] HasDerivedCategory.standard
 
 section Integral
 
-variable (Λ : Type) [CommRing Λ] {k : Type u} [Field k] [Fintype k] {Z Y : Over (Spec (.of k))}
+variable (Λ : Type) [CommRing Λ] {k : Type u} [Field k] {Z Y : Over (Spec (.of k))}
   (i : Z ⟶ Y) [IsIntegralHom i.left] (kbar : Type u) [Field kbar] [Algebra k kbar]
 
 /-- The base change map `(i_* M)|_{Y_k̄} ≅ (i_k̄)_*(M|_{Z_k̄})` of an integral morphism over `k`,
@@ -153,7 +153,6 @@ lemma integralFieldBaseChangeComplexIso_hom_naturality
   have := isIso_etaleModuleBaseChange_fieldBaseChangeMap_of_isIntegralHom Λ i kbar
   exact Functor.baseChangePlusIso_hom_naturality _ _ _ _ _ φ
 
-omit [Fintype k] in
 /-- The base change to `k̄` of an integral morphism over `k` is integral. -/
 lemma isIntegralHom_fieldBaseChangeMap : IsIntegralHom (fieldBaseChangeMap i kbar) :=
   MorphismProperty.of_isPullback (isPullback_fieldBaseChangeMap i kbar).flip ‹_›
@@ -238,7 +237,7 @@ theorem frobeniusRestrictionDirectImageIso_hom_naturality
   rw [Category.assoc]
   refine (Iso.eq_inv_comp _).2 ?_
   symm
-  show (etaleModuleDerivedGlobalSections.{u, 0} Λ (Spec (.of kbar))).map _ ≫
+  change (etaleModuleDerivedGlobalSections.{u, 0} Λ (Spec (.of kbar))).map _ ≫
       (etaleModuleDerivedGlobalSections.{u, 0} Λ (Spec (.of kbar))).map _ =
     (etaleModuleDerivedGlobalSections.{u, 0} Λ (Spec (.of kbar))).map _ ≫
       (etaleModuleDerivedGlobalSections.{u, 0} Λ (Spec (.of kbar))).map _
@@ -248,7 +247,7 @@ theorem frobeniusRestrictionDirectImageIso_hom_naturality
   dsimp only [fieldBaseChangeRestrictionFunctor, Functor.comp_map]
   rw [← Functor.map_comp, hB]
 
-variable (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
+variable [Fintype k] (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
 
 /-- The identification `(π̄_Z)_* ⋙ (i_k̄)_* ≅ (i_k̄)_* ⋙ (π̄_Y)_*` of the direct images along the
 two sides of `π̄_Z ≫ i_k̄ = i_k̄ ≫ π̄_Y`. -/
@@ -341,7 +340,7 @@ end Integral
 
 section Closed
 
-variable (Λ : Type) [CommRing Λ] {k : Type u} [Field k] [Fintype k] {X : Scheme.{u}}
+variable (Λ : Type) [CommRing Λ] {k : Type u} [Field k] {X : Scheme.{u}}
   (f : X ⟶ Spec (.of k)) [QuasiCompact f] (j : CompactificationOf (Over.mk f)) {Z : Scheme.{u}}
   (i : Z ⟶ X) [IsClosedImmersion i] (kbar : Type u) [Field kbar] [Algebra k kbar]
 
@@ -411,7 +410,7 @@ theorem compactSupportFrobeniusCohomologyRestrictClosedIso_hom_naturality
   simp only [Functor.map_comp] at h₃
   exact comp_comp_eq_comp_comp_of_squares _ _ _ _ _ _ _ h₁ h₃
 
-variable (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
+variable [Fintype k] (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
 
 /-- **The identification `RΓ_c(Z_k̄, K) ≅ RΓ_c(X_k̄, i_* K)` commutes with the canonical geometric
 Frobenius.** -/

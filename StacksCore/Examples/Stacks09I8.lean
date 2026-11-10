@@ -103,7 +103,7 @@ theorem transcendental_pi : Transcendental ℚ π := by
     exact .mul (.pow (by simpa using isIntegral_algebraMap (R := ℤ) (A := L) (x := d)) _)
       (by simpa [aeval_subalgebra_coe, mem_integralClosure_iff] using
         (aeval (⟨_, h1⟩ : integralClosure ℤ L) (g.scaleRoots d)).2)
-  obtain ⟨z, hz⟩ := hint.exists_int_iff_exists_rat.mp ⟨d ^ D * r, by simp [Z, ← hr]⟩
+  obtain ⟨z, hz⟩ := hint.mem_range_ratCast_iff.mp ⟨d ^ D * r, by simp [Z, ← hr]⟩
   have hzC : (z : ℂ) = (d : ℂ) ^ D * ∑ t ∈ Z, aeval ((∑ i ∈ t, i : L) : ℂ) g := by
     have := congrArg (algebraMap L ℂ) hz
     rw [map_mul, map_pow, map_intCast, map_sum] at this

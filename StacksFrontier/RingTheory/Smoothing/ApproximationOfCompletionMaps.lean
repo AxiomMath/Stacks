@@ -90,7 +90,7 @@ private theorem _root_.AdicCompletion.evalₐ_eq_mk_of_sub_mem {R : Type*} [Comm
       RingHom.ker (AdicCompletion.evalₐ I N).toRingHom := by
     rw [Ideal.map_le_iff_le_comap]
     intro z hz
-    show AdicCompletion.evalₐ I N (AdicCompletion.of I R z) = 0
+    change AdicCompletion.evalₐ I N (AdicCompletion.of I R z) = 0
     rw [AdicCompletion.evalₐ_of]
     exact Ideal.Quotient.eq_zero_iff_mem.mpr hz
   have hdiff := RingHom.mem_ker.mp (hker h)
@@ -106,7 +106,7 @@ private theorem exists_algHom_comp_eq_aeval {A B H : Type*} [CommRing A] [CommRi
     ∃ φ : B →ₐ[A] H, φ.comp q = MvPolynomial.aeval c := by
   refine ⟨(Ideal.Quotient.liftₐ _ (MvPolynomial.aeval c) hc).comp
     (Ideal.quotientKerAlgEquivOfSurjective hq).symm.toAlgHom, AlgHom.ext fun p => ?_⟩
-  show Ideal.Quotient.liftₐ _ (MvPolynomial.aeval c) hc
+  change Ideal.Quotient.liftₐ _ (MvPolynomial.aeval c) hc
     ((Ideal.quotientKerAlgEquivOfSurjective hq).symm (q p)) = MvPolynomial.aeval c p
   rw [Ideal.quotientKerAlgEquivOfSurjective_symm_apply hq p]
   rfl
@@ -153,7 +153,7 @@ private theorem exists_algHom_evalₐ_comp_eq_of_isGRing {A B H : Type*} [CommRi
   refine ⟨φ, (AlgHom.cancel_right hq).mp (MvPolynomial.algHom_ext fun i => ?_)⟩
   have hφgen := DFunLike.congr_fun hφ (MvPolynomial.X i)
   change φ (q (MvPolynomial.X i)) = MvPolynomial.aeval c (MvPolynomial.X i) at hφgen
-  show AdicCompletion.evalₐ J N (θ (q (MvPolynomial.X i))) =
+  change AdicCompletion.evalₐ J N (θ (q (MvPolynomial.X i))) =
     Ideal.Quotient.mk (J ^ N) (φ (q (MvPolynomial.X i)))
   rw [hφgen]
   simpa using AdicCompletion.evalₐ_eq_mk_of_sub_mem J N (happrox i)
@@ -269,7 +269,7 @@ public theorem exists_etale_neighbourhood_algHom_approximation
       (e.restrictScalars A).toAlgHom.comp f) hfactor
     apply AlgHom.ext
     intro b
-    show e (k (φ b)) = φH₀ b
+    change e (k (φ b)) = φH₀ b
     have hb := congrArg (fun f : B →ₐ[A] H₀ => f b) h
     simpa [φH] using hb
   let : CommRing Cp := hCpRing
@@ -283,7 +283,7 @@ public theorem exists_etale_neighbourhood_algHom_approximation
     apply (Ideal.map_le_iff_le_comap (f := k0.toRingHom)).mp
     have hkcomp : k0.toRingHom.comp (algebraMap C Cp) = algebraMap C H₀ :=
       RingHom.ext k0.commutes
-    show (((J ^ N).map (algebraMap C Cp)).map k0.toRingHom) ≤ JH ^ N
+    change (((J ^ N).map (algebraMap C Cp)).map k0.toRingHom) ≤ JH ^ N
     rw [Ideal.map_map, hkcomp, Ideal.map_pow]
   let qH : Cp ⧸ JpN →ₐ[A] H₀ ⧸ JH ^ N :=
     Ideal.quotientMapₐ (JH ^ N) (k0.restrictScalars A) hleJpN
@@ -301,7 +301,7 @@ public theorem exists_etale_neighbourhood_algHom_approximation
     have hqH' : Function.Injective (Ideal.quotientMap (JH ^ N) ι hleι) :=
       quotientMap_map_pow_injective (algebraMap C H₀) J N (hpowH.2 N).injective hleι
     refine Function.Injective.of_comp_right ?_ (hpowCp.2 N).surjective
-    show Function.Injective ((Ideal.quotientMap (JH ^ N) k0.toRingHom hleJpN).comp
+    change Function.Injective ((Ideal.quotientMap (JH ^ N) k0.toRingHom hleJpN).comp
       (Ideal.quotientMap JpN (algebraMap C Cp) Ideal.le_comap_map))
     rw [hquotcomp]
     exact hqH'
@@ -313,7 +313,7 @@ public theorem exists_etale_neighbourhood_algHom_approximation
         (AdicCompletion.evalₐ J N (ψ (algebraMap B _ b)))) =
       (Ideal.quotientMap (JH ^ N) ι hleι)
         (AdicCompletion.evalₐ J N (ψ (algebraMap B _ b))) := by
-          show (((Ideal.quotientMap (JH ^ N) k0.toRingHom hleJpN).comp
+          change (((Ideal.quotientMap (JH ^ N) k0.toRingHom hleJpN).comp
             (Ideal.quotientMap JpN (algebraMap C Cp) Ideal.le_comap_map)) _) = _
           rw [hquotcomp]
     _ = Ideal.Quotient.mk (JH ^ N) (k0 (φ b)) := by

@@ -33,7 +33,7 @@ isomorphisms is an isomorphism.
   is an isomorphism; this is Stacks 0959 read on the stage.
 * **Stacks 0EYP** itself is
   `AlgebraicGeometry.isIso_smallEtaleBaseChangeNatTrans_of_isIntegralHom_univ`, proved in
-  `StacksFrontier.AlgebraicGeometry.EtaleCohomology.IntegralPushforwardBaseChangeLimitUnconditional`.
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.IntegralPushforwardBaseChangeLimitUnconditional`.
 
 ## Implementation notes
 

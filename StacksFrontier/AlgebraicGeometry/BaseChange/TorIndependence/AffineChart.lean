@@ -154,13 +154,13 @@ public theorem isOpenImmersion_incU' (sq : IsPullback g' f' f g)
   have he : ch.incU' = inner.isoPullback.hom ≫ q ≫ sq.isoPullback.inv := by
     apply sq.hom_ext
     · simp only [Category.assoc, sq.isoPullback_inv_fst]
-      show ch.incU' ≫ g' = inner.isoPullback.hom ≫
+      change ch.incU' ≫ g' = inner.isoPullback.hom ≫
         (pullback.map _ _ _ _ _ _ _ _ _ ≫ pullback.fst f g)
       dsimp only [pullback.map]
       rw [pullback.lift_fst, ← Category.assoc, inner.isoPullback_hom_fst]
       exact ch.wU'U
     · simp only [Category.assoc, sq.isoPullback_inv_snd]
-      show ch.incU' ≫ f' = inner.isoPullback.hom ≫
+      change ch.incU' ≫ f' = inner.isoPullback.hom ≫
         (pullback.map _ _ _ _ _ _ _ _ _ ≫ pullback.snd f g)
       dsimp only [pullback.map]
       rw [pullback.lift_snd, ← Category.assoc, inner.isoPullback_hom_snd]
@@ -246,7 +246,7 @@ public theorem exists_baseChangeChart_covering {X X' S S' : Scheme.{u}} {f : X �
   have hsq : f (g' x') = g (f' x') := by
     simpa only [Scheme.Hom.comp_apply] using congrArg (fun k : X' ⟶ S => k x') sq.w
   have hs'V : f' x' ∈ g ⁻¹ᵁ V := by
-    show g (f' x') ∈ V
+    change g (f' x') ∈ V
     rw [← hsq]
     exact hsV
   obtain ⟨V', hV', hs'V', hV'V⟩ := exists_isAffineOpen_mem_and_subset
@@ -284,17 +284,17 @@ public theorem exists_baseChangeChart_covering {X X' S S' : Scheme.{u}} {f : X �
   have : IsOpenImmersion ch.incV' := ch.isOpenImmersion_incV'
   let z := sq.isoPullback.hom x'
   have hz1 : pullback.fst f g z ∈ Set.range ch.incU := by
-    show pullback.fst f g (sq.isoPullback.hom x') ∈ Set.range ch.incU
+    change pullback.fst f g (sq.isoPullback.hom x') ∈ Set.range ch.incU
     rw [← Scheme.Hom.comp_apply, sq.isoPullback_hom_fst]
     rw [← Scheme.Hom.coe_opensRange]
-    show g' x' ∈ ↑(hU.fromSpec.opensRange)
+    change g' x' ∈ ↑(hU.fromSpec.opensRange)
     rw [hU.opensRange_fromSpec]
     exact hxU
   have hz2 : pullback.snd f g z ∈ Set.range ch.incV' := by
-    show pullback.snd f g (sq.isoPullback.hom x') ∈ Set.range ch.incV'
+    change pullback.snd f g (sq.isoPullback.hom x') ∈ Set.range ch.incV'
     rw [← Scheme.Hom.comp_apply, sq.isoPullback_hom_snd]
     rw [← Scheme.Hom.coe_opensRange]
-    show f' x' ∈ ↑(hV'.fromSpec.opensRange)
+    change f' x' ∈ ↑(hV'.fromSpec.opensRange)
     rw [hV'.opensRange_fromSpec]
     exact hs'V'
   have hz : z ∈ Set.range q := by
@@ -305,7 +305,7 @@ public theorem exists_baseChangeChart_covering {X X' S S' : Scheme.{u}} {f : X �
     exact ⟨hz1, hz2⟩
   obtain ⟨w, hw⟩ := hz
   refine ⟨ch, e.hom w, ?_⟩
-  show sq.isoPullback.inv (q (e.inv (e.hom w))) = x'
+  change sq.isoPullback.inv (q (e.inv (e.hom w))) = x'
   have he : e.inv (e.hom w) = w := by
     have h := congrArg (fun k => k w) e.hom_inv_id
     rw [Scheme.Hom.comp_apply] at h

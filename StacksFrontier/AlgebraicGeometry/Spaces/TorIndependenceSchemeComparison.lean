@@ -140,14 +140,14 @@ theorem torIndependent_of_flat_lifts
     { (Algebra.TensorProduct.lift fA (IsScalarTower.toAlgHom R R' A')
         fun _ _ => Commute.all _ _) with
       commutes' := fun r => by
-        show Algebra.TensorProduct.lift _ _ _ (1 ⊗ₜ[R] r) = _
+        change Algebra.TensorProduct.lift _ _ _ (1 ⊗ₜ[R] r) = _
         rw [Algebra.TensorProduct.lift_tmul]
         simp }
   let gB : (B ⊗[R] R') →ₐ[R'] B' :=
     { (Algebra.TensorProduct.lift fB (IsScalarTower.toAlgHom R R' B')
         fun _ _ => Commute.all _ _) with
       commutes' := fun r => by
-        show Algebra.TensorProduct.lift _ _ _ (1 ⊗ₜ[R] r) = _
+        change Algebra.TensorProduct.lift _ _ _ (1 ⊗ₜ[R] r) = _
         rw [Algebra.TensorProduct.lift_tmul]
         simp }
   rw [torIndependent_iff_subsingleton_tor] at h1 ⊢
@@ -240,8 +240,7 @@ theorem flat_tensorProduct_lift_atPrime
       (Algebra.TensorProduct.lift f (IsScalarTower.toAlgHom R S Ssh)
           fun _ _ => Commute.all _ _).toRingHom.comp c := by
     refine RingHom.ext fun z => ?_
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a r =>
       have hca : c (a ⊗ₜ[R] r) = r ⊗ₜ[R] a := rfl
       simp only [RingHom.comp_apply, hca, AlgHom.toRingHom_eq_coe, RingHom.coe_coe,
@@ -494,7 +493,7 @@ theorem torIndependent_yoneda_of_torIndependent_scheme
         (etaleLocalRingMap_comp_chartLocalRingToEtaleLocalRing_yoneda B S hS gV vbar)
         ((eqToHom h₁).hom x)
       simp only [RingHom.comp_apply] at hcg hsqV
-      show chartLocalRingToEtaleLocalRing B S hS (yoneda.obj V₀)
+      change chartLocalRingToEtaleLocalRing B S hS (yoneda.obj V₀)
           (isAlgebraicSpace_yoneda B S hS V₀) (yonedaIdentityNeighborhood V₀ vbar)
           ((((BigFppfOver.toScheme B S hS).map gV).stalkMap
             (chartPoint B S hS (yoneda.obj V₀)

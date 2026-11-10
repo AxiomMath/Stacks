@@ -50,7 +50,8 @@ this file.
 The two-term structure `P`, the coefficient module `G` and the difference homomorphism `ξ` are
 parameters, as they are at every call site of **Stacks 08U8** in the library
 (`StacksFrontier/Deformation/RingedSpaceThickening/DerivedExtensionClassCriterion.lean` and
-`StacksFrontier/Deformation/RingedSpaceThickening/ExtensionClassComparison.lean` both carry their own `δ` and `e`). Keeping them general is what
+`StacksFrontier/Deformation/RingedSpaceThickening/ExtensionClassComparison.lean` both carry their
+own `δ` and `e`). Keeping them general is what
 makes the single real input visible: `κ`. For the sequence of [Stacks Project, Tag 0E3V] the
 intended instance is
 `P = AlgebraicGeometry.RingedSpaceThickening.derivedPullbackNaiveCotangentTwoTerm` on

@@ -292,7 +292,7 @@ theorem exists_chart_isUnit_eq_algebraMap_of_isUnit
         (op (openChart B S hS X W₁ O)) ↦
       w * (↑hdu.unit⁻¹ : (structureSheaf B S hS X hX).obj.obj
         (op (openChart B S hS X W₁ O)))) hdu.unit_spec.symm).trans hdu.unit.mul_inv
-  show ((Stacks.SheafOfModules.Tensor.ringSheaf
+  change ((Stacks.SheafOfModules.Tensor.ringSheaf
       (meromorphicRingedSite B S hS X hX).O).obj.map (k' ≫ k₁).op).hom c =
       ((toMeromorphicFunctionSheaf B S hS X hX).hom.app
           (op (openChart B S hS X W₁ O))).hom
@@ -375,7 +375,7 @@ theorem exists_generatesOnChart_of_isRegularMeromorphicSection
     exists_chart_isUnit_eq_algebraMap_of_isUnit B S hS hX hred W c hcunit xW
   refine ⟨W', hW'ne, fun Z j ↦ chartRestrict (hF := hX) j y • e Z (j ≫ k), ?_, ?_, ?_⟩
   · intro Z Z' j g
-    show (L.val.map g.op).hom (chartRestrict (hF := hX) j y • e Z (j ≫ k)) =
+    change (L.val.map g.op).hom (chartRestrict (hF := hX) j y • e Z (j ≫ k)) =
       chartRestrict (hF := hX) (g ≫ j) y • e Z' ((g ≫ j) ≫ k)
     refine Eq.trans
       (L.val.map_smul g.op (chartRestrict (hF := hX) j y) (e Z (j ≫ k))) ?_
@@ -383,13 +383,13 @@ theorem exists_generatesOnChart_of_isRegularMeromorphicSection
     exact congrArg (fun v : chartRing B S hS X hX Z' ↦ v • e Z' (g ≫ j ≫ k))
       (DFunLike.congr_fun (chartRestrict_comp (hF := hX) j g) y).symm
   · intro Z j
-    show Function.Bijective fun r : chartRing B S hS X hX Z ↦
+    change Function.Bijective fun r : chartRing B S hS X hX Z ↦
       r • (chartRestrict (hF := hX) j y • e Z (j ≫ k))
     have huZ : IsUnit (chartRestrict (hF := hX) j y) := hyu.map (chartRestrict (hF := hX) j)
     have hmul : Function.Bijective
         fun r : chartRing B S hS X hX Z ↦ r * chartRestrict (hF := hX) j y := by
       refine ⟨huZ.mul_left_injective, fun w ↦ ⟨w * ↑huZ.unit⁻¹, ?_⟩⟩
-      show w * ↑huZ.unit⁻¹ * chartRestrict (hF := hX) j y = w
+      change w * ↑huZ.unit⁻¹ * chartRestrict (hF := hX) j y = w
       have hinv : (↑huZ.unit⁻¹ : chartRing B S hS X hX Z) *
           chartRestrict (hF := hX) j y = 1 :=
         (congrArg (fun v : chartRing B S hS X hX Z ↦
@@ -403,7 +403,7 @@ theorem exists_generatesOnChart_of_isRegularMeromorphicSection
       funext fun r ↦ smul_smul r (chartRestrict (hF := hX) j y) (e Z (j ≫ k))
     rw [heq]
     exact (hebij Z (j ≫ k)).comp hmul
-  · show s.eval (op W') = toMeromorphicSectionSheaf B S hS X hX L W'
+  · change s.eval (op W') = toMeromorphicSectionSheaf B S hS X hX L W'
       ((1 : (Stacks.SheafOfModules.Tensor.ringSheaf
           (meromorphicRingedSite B S hS X hX).O).obj.obj (op W')) ⊗ₜ[
         chartRing B S hS X hX W'] (chartRestrict (hF := hX) (𝟙 W') y • e W' (𝟙 W' ≫ k)) :

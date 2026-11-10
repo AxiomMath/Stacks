@@ -136,7 +136,7 @@ public theorem Stacks.Morphisms.isFiniteLocallyFreeOfRank_specMap_iff {R A : Typ
   have hmap : ∀ c : R, algebraMap R ↑Γ(Spec (CommRingCat.of A), ⊤) c
       = (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom (algebraMap R A c) := by
     intro c
-    show ((Scheme.ΓSpecIso (CommRingCat.of R)).inv ≫ f.appTop).hom c
+    change ((Scheme.ΓSpecIso (CommRingCat.of R)).inv ≫ f.appTop).hom c
       = (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom (algebraMap R A c)
     rw [hnat]
     rfl
@@ -146,7 +146,7 @@ public theorem Stacks.Morphisms.isFiniteLocallyFreeOfRank_specMap_iff {R A : Typ
     { ψ.toAddEquiv with
       map_smul' := by
         intro c a
-        show ψ (c • a) = c • ψ a
+        change ψ (c • a) = c • ψ a
         rw [Algebra.smul_def, Algebra.smul_def, map_mul, hmap c]
         rfl }
   exact ⟨Module.IsFiniteLocallyFreeOfRank.of_linearEquiv e.symm,

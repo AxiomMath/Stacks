@@ -112,7 +112,7 @@ private lemma exists_isCovering_presieve₀_le (B : AlgebraicGeometry.BigFppfSit
       refine ⟨EF, hEF, ?_⟩
       rw [Presieve.ofArrows_le_iff]
       rintro ⟨i, j⟩
-      show Q ((F i).f j ≫ E.f i)
+      change Q ((F i).f j ≫ E.f i)
       exact hFle i _ _ ⟨j⟩
 
 /-! ### The stack of finite-type quasi-coherent modules -/
@@ -262,7 +262,7 @@ public theorem isStack_finiteTypeProjection
       have hdom : p.obj y = Ui i := IsHomLift.domain_eq p (fi i) m
       have hybase : p.obj y = y.base := d.projection_obj y
       have hqbase : p.map m = eqToHom hybase ≫ q.1 ≫ eqToHom hbase.symm := by
-        show p.map m = eqToHom hybase ≫
+        change p.map m = eqToHom hybase ≫
           ((Equiv.cast (d.hom_type y xObj)) m).1 ≫ eqToHom hbase.symm
         exact d.projection_map m
       have hmap : p.map m = eqToHom hdom ≫ fi i ≫

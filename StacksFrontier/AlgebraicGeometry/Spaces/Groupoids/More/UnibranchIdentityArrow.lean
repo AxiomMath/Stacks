@@ -119,7 +119,7 @@ theorem identityArrow_comp_translationByArrow (H : GroupoidInAlgebraicSpaces C S
     ((r ≫ H.source) ≫ identityArrow H) ≫ translationByArrow H r = r := by
   apply ObjectProperty.hom_ext
   ext T x
-  show (translationByArrow H r).hom.app T
+  change (translationByArrow H r).hom.app T
       ((identityArrow H).hom.app T ((r ≫ H.source).hom.app T x)) = r.hom.app T x
   rw [identityArrow_hom_app]
   exact translationByArrow_identity H r T x

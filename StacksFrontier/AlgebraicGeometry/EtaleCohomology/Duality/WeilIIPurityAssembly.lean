@@ -124,6 +124,7 @@ theorem constantExtRestriction_geometricFrobeniusBaseChange_top_of_topCohomology
       (KummerFlag.kummerPointClassLevelReduction_of_reductionSquare _ _
         (KummerFlag.kummerPointClassReductionSquare _ _)))
 
+omit [LocallyOfFiniteType f] [IsSeparated f] in
 /-- **Purity of weight `i` on `Hⁱ(X_k̄, F ⊗ ℚ_ℓ)` for `X` smooth and proper with a rational
 point**, given Poincaré duality on `X_k̄`. Let `X` be proper over the finite field `k` with
 `p ^ q` elements and a `k`-rational point, `k̄` algebraically closed, `Y = X_k̄` connected and

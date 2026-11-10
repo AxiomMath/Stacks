@@ -61,7 +61,7 @@ theorem finiteTypeAdicAlgebraForEveryIdeal_ringEquiv (hA : TopologicalRing.IsAdi
     ⟨⟨I, hI, TopologicalRing.isAdic_map_of_ringEquiv e he he' hIadic⟩,
       ⟨I, hI, RingHom.FiniteType.of_surjective _
         (Ideal.quotientMap_surjective (fun c ↦ ⟨e.symm c, by simp⟩))⟩⟩
-  exact ((Rig.adicFiniteType_tfae (e : A →+* C) he hA hC
+  exact ((Rig.adicFiniteType_tfae (e : A →+* C) hA hC
     (Rig.exists_idealOfDefinition_fg hA inferInstance)
     (Rig.exists_idealOfDefinition_fg hC inferInstance)).out 3 6).mp h3
 

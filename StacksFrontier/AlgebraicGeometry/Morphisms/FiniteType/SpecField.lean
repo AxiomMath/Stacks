@@ -61,7 +61,7 @@ private lemma exists_finite_localization {R k : Type*} [CommRing R] [Field k]
   obtain ⟨r, hr⟩ := φ.rangeRestrict_surjective a
   subst a
   have hunit : IsUnit (φ r) := by
-    show IsUnit (algebraMap φ.range k (φ.rangeRestrict r))
+    change IsUnit (algebraMap φ.range k (φ.rangeRestrict r))
     rw [IsScalarTower.algebraMap_apply φ.range (Localization.Away (φ.rangeRestrict r)) k]
     exact (IsLocalization.Away.algebraMap_isUnit (φ.rangeRestrict r)).map _
   refine ⟨r, hunit.ne_zero, fun B _ _ _ ψ hψ => ?_⟩
@@ -100,7 +100,7 @@ private lemma finite_iff_closed_and_finite_residue {k : Type u} [Field k]
   let y := (Scheme.SpecToEquivOfField k S f).1
   let e := (Scheme.SpecToEquivOfField k S f).2
   have hy : i (g (IsLocalRing.closedPoint k)) = y := by
-    show (g ≫ i) (IsLocalRing.closedPoint k) = f (IsLocalRing.closedPoint k)
+    change (g ≫ i) (IsLocalRing.closedPoint k) = f (IsLocalRing.closedPoint k)
     rw [hgf]
   have hr : Set.range (S.fromSpecResidueField y) ⊆ Set.range i := by
     rw [S.range_fromSpecResidueField]
@@ -114,7 +114,7 @@ private lemma finite_iff_closed_and_finite_residue {k : Type u} [Field k]
   have hrd : Set.range d = {g (IsLocalRing.closedPoint k)} := by
     rw [Set.range_unique, Set.singleton_eq_singleton_iff]
     apply i.isOpenEmbedding.injective
-    show (d ≫ i) _ = _; rw [hd, Scheme.fromSpecResidueField_apply, hy]
+    change (d ≫ i) _ = _; rw [hd, Scheme.fromSpecResidueField_apply, hy]
   constructor
   · intro hg
     refine ⟨?_, ?_⟩
@@ -168,17 +168,17 @@ theorem finiteType_specField_tfae {k : Type u} [Field k] {S : Scheme.{u}}
     have hbasic : (⊤ : (Spec (.of k)).Opens) ≤ f ⁻¹ᵁ S.basicOpen r := by
       intro x _; change f x ∈ S.basicOpen r
       rw [← specMap_appLE_fromSpec f V htop]
-      show Spec.map φ x ∈ hU.fromSpec ⁻¹ᵁ S.basicOpen r
+      change Spec.map φ x ∈ hU.fromSpec ⁻¹ᵁ S.basicOpen r
       rw [hU.fromSpec_preimage_basicOpen]
-      show φ.hom r ∉ x.asIdeal
+      change φ.hom r ∉ x.asIdeal
       rw [Subsingleton.elim x (IsLocalRing.closedPoint k)]
-      show φ.hom r ∉ IsLocalRing.maximalIdeal k
+      change φ.hom r ∉ IsLocalRing.maximalIdeal k
       simpa only [IsLocalRing.mem_maximalIdeal, mem_nonunits_iff,
         isUnit_iff_ne_zero, not_not] using hr
     refine ⟨⟨S.basicOpen r, hU.basicOpen r⟩, hbasic, ?_⟩
     have := hU.isLocalization_basicOpen r
     apply hfin Γ(S, S.basicOpen r)
-    show (S.presheaf.map (homOfLE (S.basicOpen_le r)).op ≫
+    change (S.presheaf.map (homOfLE (S.basicOpen_le r)).op ≫
       (f.appLE (S.basicOpen r) ⊤ hbasic ≫ (Scheme.ΓSpecIso (.of k)).hom)).hom = φ.hom
     rw [f.map_appLE_assoc]
   tfae_have 3 → 2 := by
@@ -210,7 +210,7 @@ theorem finiteType_specField_tfae {k : Type u} [Field k] {S : Scheme.{u}}
         exact specMap_appLE_fromSpec f U hU
       have hpoint : g (IsLocalRing.closedPoint k) = x := by
         apply Subtype.ext
-        show (g ≫ U.1.ι) (IsLocalRing.closedPoint k) = x.1
+        change (g ≫ U.1.ι) (IsLocalRing.closedPoint k) = x.1
         rw [hgf, hx]; rfl
       have hg : IsFinite g :=
         (finite_iff_closed_and_finite_residue f g U.1.ι hgf).mpr ⟨hpoint.symm ▸ hc, he⟩

@@ -75,7 +75,8 @@ def exceptionalIdealModuleIsoTwistSheaf : exceptionalIdealModule A ≅ twistShea
 
 /-- `𝒪_X(a) ⊗ 𝒪_X(b) ≅ 𝒪_X(a + b)`, the addition law for the twists of the blowup. -/
 def twistSheafAddIso (a b : ℤ) :
-    Stacks.RelativeVeryAmple.tensorModules (blowUpScheme A) (twistSheaf A a) (twistSheaf A b) ≅ twistSheaf A (a + b) :=
+    Stacks.RelativeVeryAmple.tensorModules (blowUpScheme A) (twistSheaf A a) (twistSheaf A b) ≅
+      twistSheaf A (a + b) :=
   tensorPowModuleAddIso (blowUpScheme A) (twistNegOne A) (-a) (-b) ≪≫
     tensorPowModuleCongr (blowUpScheme A) (twistNegOne A)
       (show -a + -b = -(a + b) by ring)
@@ -127,7 +128,8 @@ def exceptionalIdealPowIsoTwistSheaf : (n : ℕ) →
       have hfac : Stacks.RelativeVeryAmple.tensorModules (blowUpScheme A)
             (Stacks.Divisors.idealSheafOfModules (exceptionalIdeal (centre A) ^ n))
             (Stacks.Divisors.idealSheafOfModules (exceptionalIdeal (centre A))) ≅
-          Stacks.RelativeVeryAmple.tensorModules (blowUpScheme A) (twistSheaf A (n : ℤ)) (twistSheaf A 1) :=
+          Stacks.RelativeVeryAmple.tensorModules (blowUpScheme A) (twistSheaf A (n : ℤ))
+            (twistSheaf A 1) :=
         tensorModulesMapIso (blowUpScheme A) (exceptionalIdealPowIsoTwistSheaf n)
           (exceptionalIdealModuleIsoTwistSheaf A)
       hpow ≪≫ hmul.symm ≪≫ hfac ≪≫ twistSheafAddIso A (n : ℤ) 1 ≪≫

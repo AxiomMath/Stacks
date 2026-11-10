@@ -743,8 +743,7 @@ private theorem sectionsCounit_naturality
     apply LinearMap.ext
     change ∀ t : S ⊗[R] C.sections.obj X, _
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero _).symm
+    induction t using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul s m =>
       change s • g.generic m.1.1 = g.generic (s • m.1.1)
@@ -784,8 +783,7 @@ private theorem canonicalSectionsUnit_baseChange_bijective
     ((construction.{u, v, w} (S := S) f).canonicalSectionsUnit.app M).hom
   have hp : Function.Bijective p := sectionsGeneric_baseChange_bijective f hquot hglue X
   have he' (x : S ⊗[R] M) : (show S ⊗[R] M from p (t x)) = x := by
-    induction x using TensorProduct.induction_on with
-    | zero => exact (congrArg p (map_zero t)).trans (map_zero p)
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy =>
       exact (congrArg p (map_add t x y)).trans
         ((map_add p _ _).trans (congrArg₂ (· + ·) hx hy))
@@ -1034,8 +1032,7 @@ private theorem tensor_beauvilleLaszlo_exact
         toTensorBaseChanges (S := S) N f
           (TensorProduct.rid R N z) = E (LinearMap.lTensor N d z) := by
       intro z'
-      induction z' using TensorProduct.induction_on with
-      | zero => simp
+      induction z' using TensorProduct.inductionOn with
       | tmul m r =>
           simp only [TensorProduct.rid_tmul, toTensorBaseChanges_apply,
             LinearMap.lTensor_tmul, d]
@@ -1180,16 +1177,14 @@ public theorem canonicalToSections_surjective
         c (baseChangeToAway N f x) =
           baseChangeToAway Mbar f (sMap x) := by
       intro x
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul n s => rfl
       | add x y hx hy => simp only [map_add, hx, hy]
     have hlocalNat : ∀ x : TensorProduct R N (Localization.Away f),
         c (localizedBaseChangeToAway N f x) =
           localizedBaseChangeToAway Mbar f (lMap x) := by
       intro x
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul n t => rfl
       | add x y hx hy => simp only [map_add, hx, hy]
     apply surjective_of_exact_of_bijective iN dN iB dB u b c

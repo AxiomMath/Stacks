@@ -119,7 +119,7 @@ private theorem surjective_hom_residueFieldAlgebra_base
   have htarget (a : k) :
       (residueFieldAlgebra (Λ := Λ) (k := k) P).base.residueEquiv
         (IsLocalRing.residue k a) = a := by
-    show AlgEquiv.quotientBot Λ k
+    change AlgEquiv.quotientBot Λ k
       (Ideal.quotientEquivAlgOfEq Λ (IsLocalRing.maximalIdeal_eq_bot (R := k))
         (Ideal.Quotient.mk (IsLocalRing.maximalIdeal k) a)) = a
     simp only [Ideal.quotientEquivAlgOfEq_mk, AlgEquiv.quotientBot_mk]
@@ -197,14 +197,14 @@ private theorem syntomic_of_isPushout_of_isLocalCompleteIntersection
   have : IsScalarTower R K P := IsScalarTower.of_algebraMap_eq fun r => (eP.commutes r).symm
   have : IsScalarTower R F P := IsScalarTower.of_algebraMap_eq fun r => (eF.commutes r).symm
   have : IsScalarTower K F P := IsScalarTower.of_algebraMap_eq fun a => by
-    show algebraMap k P (e a) = eF (algebraMap K F a)
+    change algebraMap k P (e a) = eF (algebraMap K F a)
     rw [Algebra.TensorProduct.algebraMap_apply]
-    show algebraMap k P (e a) = eF (a ⊗ₜ[R] (1 : S))
+    change algebraMap k P (e a) = eF (a ⊗ₜ[R] (1 : S))
     dsimp [eF]
     rw [Algebra.TensorProduct.lift_tmul]
     simp [eP]
   have : IsScalarTower S F P := IsScalarTower.of_algebraMap_eq fun a => by
-    show algebraMap S P a = eF (algebraMap S F a)
+    change algebraMap S P a = eF (algebraMap S F a)
     rw [Algebra.TensorProduct.right_algebraMap_apply]
     dsimp [eF]
     rw [Algebra.TensorProduct.lift_tmul]
@@ -236,7 +236,7 @@ private theorem isPushout_of_ringEquiv_quotient_map_ker
   have : Algebra.IsPushout B A (B ⧸ I) Q := (isPushout_quotientMap B A I).symm
   let : Algebra R Q := Algebra.compHom Q eB.symm.toRingHom
   have : IsScalarTower B R Q := IsScalarTower.of_algebraMap_eq fun b => by
-    show Ideal.Quotient.mk J (algebraMap B A b) =
+    change Ideal.Quotient.mk J (algebraMap B A b) =
       algebraMap (B ⧸ I) Q (eB.symm (algebraMap B R b))
     rw [eB.symm.commutes]
     rfl
@@ -258,12 +258,12 @@ private theorem isPushout_of_ringEquiv_quotient_map_ker
       Algebra.TensorProduct.congr_apply, AlgEquiv.refl_toAlgHom, Algebra.TensorProduct.map_tmul,
       AlgEquiv.coe_toAlgHom, Algebra.IsPushout.equiv_tmul, map_one, one_mul, eBase, eComm,
       eTotal, eTensor, eB, ePO, eAQ]
-    show e (e.symm (algebraMap (B ⧸ I) Q (eB.symm r))) = algebraMap R Q r
+    change e (e.symm (algebraMap (B ⧸ I) Q (eB.symm r))) = algebraMap R Q r
     rw [e.apply_symm_apply]
     rfl
   refine ⟨IsBaseChange.of_equiv eBaseAlg.toLinearEquiv fun a => ?_⟩
   apply e.injective
-  show e (eBaseAlg (1 ⊗ₜ[B] a)) = e (algebraMap A S a)
+  change e (eBaseAlg (1 ⊗ₜ[B] a)) = e (algebraMap A S a)
   rw [heA]
   simp only [AlgEquiv.symm_toRingEquiv, RingEquiv.symm_mk, AlgEquiv.toEquiv_eq_coe,
     AlgEquiv.ofRingEquiv_toEquiv, AlgEquiv.ofRingEquiv_apply, RingEquiv.coe_trans, RingEquiv.coe_mk,
@@ -271,7 +271,7 @@ private theorem isPushout_of_ringEquiv_quotient_map_ker
     Algebra.TensorProduct.congr_apply, AlgEquiv.refl_toAlgHom, Algebra.TensorProduct.map_tmul,
     AlgHom.coe_id, id_eq, map_one, Algebra.IsPushout.equiv_tmul, mul_one,
     eBaseAlg, eBase, eComm, eTotal, eTensor, eB, ePO, eAQ]
-  show e (e.symm (algebraMap A Q a)) = algebraMap A Q a
+  change e (e.symm (algebraMap A Q a)) = algebraMap A Q a
   exact e.apply_symm_apply _
 
 /-- **Stacks 0DZH.** In the setting of Stacks 0DY1, the deformation category of a local

@@ -135,7 +135,7 @@ private theorem unique_minimalPrimes_of_isGeometricallyUnibranch_of_normal_tenso
   have hIprime : I.IsPrime :=
     (Ideal.Quotient.isDomain_iff_prime (I := I)).mp hD
   have hIle : I ≤ nilradical S := by
-    show Ideal.map (algebraMap R S) (Ideal.radical ⊥) ≤ Ideal.radical ⊥
+    change Ideal.map (algebraMap R S) (Ideal.radical ⊥) ≤ Ideal.radical ⊥
     simpa only [Ideal.map_bot] using
       (Ideal.map_radical_le (algebraMap R S) (I := (⊥ : Ideal R)))
   have hIeq : I = nilradical S := le_antisymm hIle (nilradical_le_prime I)
@@ -157,7 +157,7 @@ private theorem isConnected_puncturedSpectrum_of_unique_minimalPrime
       rw [hpu q hq]
       exact hx
   have hn : nilradical R = p := by
-    show (⊥ : Ideal R).radical = p
+    change (⊥ : Ideal R).radical = p
     rw [← Ideal.sInf_minimalPrimes]
     exact hs
   have hi : IrreducibleSpace (PrimeSpectrum R) :=
@@ -266,7 +266,7 @@ private theorem unique_minimalPrime_below_of_unique_localization
       (Localization.AtPrime q) hr.isPrime
       (Set.disjoint_left.mpr fun x hx hxr => hx (hrq hxr))
     refine ⟨?_, he⟩
-    show _ ∈ (⊥ : Ideal (Localization.AtPrime q)).minimalPrimes
+    change _ ∈ (⊥ : Ideal (Localization.AtPrime q)).minimalPrimes
     rw [← Ideal.map_bot (f := algebraMap R (Localization.AtPrime q)),
       IsLocalization.minimalPrimes_map q.primeCompl (Localization.AtPrime q),
       Set.mem_preimage, he]
@@ -359,7 +359,7 @@ private theorem exists_isLocalHom_to_localizationAtPrime
       rw [Ideal.map_map, ← IsScalarTower.algebraMap_eq R B Q,
         Ideal.map_le_iff_le_comap, IsScalarTower.algebraMap_eq R H Q,
         ← Ideal.comap_comap]
-      show r ≤ ((maximalIdeal Q).under H).under R
+      change r ≤ ((maximalIdeal Q).under H).under R
       rw [IsLocalization.AtPrime.under_maximalIdeal Q q.asIdeal]
     exact hle (Ideal.mem_map_of_mem _ hb)
   exact ⟨f.toRingHom, fun x => f.commutes x, hlocal⟩
@@ -438,7 +438,7 @@ theorem isGeometricallyUnibranch_iff_isConnected_puncturedSpectrum
     let R : Type u := Γ(X, U)
     let : IsNoetherianRing R := IsLocallyNoetherian.component_noetherian ⟨U, hU⟩
     have hmemU (p : PrimeSpectrum R) : hU.fromSpec p ∈ U := by
-      show hU.fromSpec p ∈ (U : Set X)
+      change hU.fromSpec p ∈ (U : Set X)
       rw [← hU.range_fromSpec]
       exact ⟨p, rfl⟩
     have hgoal : ∀ p : PrimeSpectrum R,

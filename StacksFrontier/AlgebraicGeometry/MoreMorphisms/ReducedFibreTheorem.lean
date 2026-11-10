@@ -117,7 +117,7 @@ theorem exists_ringEquiv_integralClosure_of_isIntegral (R B L : Type u) [CommRin
   refine ⟨(Subalgebra.equivOfEq _ _
     (integralClosure_eq_restrictScalars_of_isIntegral R B L)).toRingEquiv, ?_⟩
   ext a
-  show ((algebraMap R ↥(integralClosure R L)) a : L) = _
+  change ((algebraMap R ↥(integralClosure R L)) a : L) = _
   simp [← IsScalarTower.algebraMap_apply R B L]
 
 namespace AlgebraicGeometry

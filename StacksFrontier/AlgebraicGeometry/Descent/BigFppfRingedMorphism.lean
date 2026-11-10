@@ -68,8 +68,9 @@ rings: its component is literally the map on global functions along the projecti
 
 This file supplies the pair `(f_big, f_big^♯)` of Stacks Definition 03AD, and no more.  The
 pullback functor on sheaves of modules along it is available downstream, in
-`StacksFrontier.AlgebraicGeometry.Descent.AssociatedModulePullbackBigFppf`: `SheafOfModules.pullback`
-needs the pushforward of presheaves of modules to have a left adjoint, and neither Mathlib's
+`StacksFrontier.AlgebraicGeometry.Descent.AssociatedModulePullbackBigFppf`:
+`SheafOfModules.pullback` needs the pushforward of presheaves of modules to have a left adjoint,
+and neither Mathlib's
 instance nor the generalization `Stacks.ModulePullback.isRightAdjoint_pushforward` provides it —
 both require the *source* category to be small, which a big fppf category is not — but
 `SheafOfModules.pushforward_isRightAdjoint_of_essentiallySmall` asks only for essential

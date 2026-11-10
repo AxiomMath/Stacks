@@ -264,7 +264,7 @@ public theorem exists_isRegularLocalRing_stalk_point_of_pointBlowupSequence (A :
   have hker : Spec.map (CommRingCat.ofHom f) (genericPoint (Spec (.of R))) =
       (⟨RingHom.ker f, inferInstance⟩ : PrimeSpectrum A) := by
     apply PrimeSpectrum.ext
-    show (PrimeSpectrum.comap f (genericPoint (Spec (.of R)))).asIdeal = RingHom.ker f
+    change (PrimeSpectrum.comap f (genericPoint (Spec (.of R)))).asIdeal = RingHom.ker f
     rw [genericPoint_eq_bot_of_affine]
     ext z
     rfl

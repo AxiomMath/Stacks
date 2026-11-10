@@ -87,21 +87,21 @@ theorem exists_isCovering_isGoodChart (X : SmallEtale B S hS) :
       let : Etale (B.inclusion.map X.obj.hom) := X.property
       have := hEt i
       exact ⟨Over.mk (V.f i ≫ X.obj.hom), by
-        show Etale (B.inclusion.map (V.f i) ≫ B.inclusion.map X.obj.hom)
+        change Etale (B.inclusion.map (V.f i) ≫ B.inclusion.map X.obj.hom)
         exact Etale.etale_comp (B.inclusion.map (V.f i)) (B.inclusion.map X.obj.hom)⟩
     f i := ObjectProperty.homMk (Over.homMk (V.f i) (by simp)) }
   have hmap : E.map (SmallEtale.inclusion B S hS ⋙ BigEtaleOver.forget B S hS) = V := by
     ext <;> rfl
   have hE : SmallEtale.IsCovering B S hS ⟨X, E⟩ := by
-    show B.IsCovering ⟨X.obj.left, E.map
+    change B.IsCovering ⟨X.obj.left, E.map
       (SmallEtale.inclusion B S hS ⋙ BigEtaleOver.forget B S hS)⟩
     rwa [hmap]
   refine ⟨E, hE, fun i ↦ ⟨?_, Vx (β i).down, ?_⟩⟩
-  · show AlgebraicGeometry.IsAffine ((V.map B.inclusion).X i)
+  · change AlgebraicGeometry.IsAffine ((V.map B.inclusion).X i)
     exact IsAffine.of_isIso (e i).hom
   rw [nonempty_hom_opensToBoundedEtale_iff]
   rintro _ ⟨z, rfl⟩
-  show pX (B.inclusion.map (V.f i) z) ∈ (Vx (β i).down : S.Opens)
+  change pX (B.inclusion.map (V.f i) z) ∈ (Vx (β i).down : S.Opens)
   rw [← hfac i]
   refine hWV (β i).down ?_
   rw [← SetLike.mem_coe, ← Scheme.Opens.range_ι]
@@ -116,7 +116,7 @@ theorem goodChartInclusion_isCoverDense :
     rw [SmallEtale.mem_precoverage_iff]
     exact ⟨E, rfl, hE⟩
   have hgen : Sieve.generate E.presieve₀ ∈ SmallEtale.topology B S hS X := by
-    show Sieve.generate E.presieve₀ ∈ (SmallEtale.precoverage B S hS).toGrothendieck X
+    change Sieve.generate E.presieve₀ ∈ (SmallEtale.precoverage B S hS).toGrothendieck X
     rw [Precoverage.mem_toGrothendieck_iff]
     exact Precoverage.Saturate.of X E.presieve₀ hpre
   refine (SmallEtale.topology B S hS).superset_covering ?_ hgen

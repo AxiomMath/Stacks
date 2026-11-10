@@ -67,7 +67,7 @@ private theorem Scheme.top_le_pullback_fst_preimage_preimage {X Z T : Scheme.{u}
     (g : Z ⟶ T) {U : T.Opens} (h : Set.range g ⊆ U) :
     (⊤ : (pullback f g).Opens) ≤ pullback.fst f g ⁻¹ᵁ f ⁻¹ᵁ U := by
   intro y _
-  show f (pullback.fst f g y) ∈ U
+  change f (pullback.fst f g y) ∈ U
   rw [← Scheme.Hom.comp_apply, pullback.condition, Scheme.Hom.comp_apply]
   exact h (Set.mem_range_self _)
 
@@ -173,15 +173,15 @@ theorem exists_etale_isClopen_extension_of_isProper {X T : Scheme.{u}} (ψ : X �
     have hker : RingHom.ker (χ.comp (Algebra.TensorProduct.includeLeftRingHom (R := R))) = p' := by
       ext s
       rw [RingHom.mem_ker, ← not_iff_not, ← ne_eq]
-      show χ (s ⊗ₜ 1) ≠ 0 ↔ s ∉ p'
+      change χ (s ⊗ₜ 1) ≠ 0 ↔ s ∉ p'
       rw [hχeval, hΘ, map_one, mul_one]
-      show z ∈ P.basicOpen ((pullback.snd ψ τ).app ⊤ |>.hom
+      change z ∈ P.basicOpen ((pullback.snd ψ τ).app ⊤ |>.hom
         ((Scheme.ΓSpecIso (CommRingCat.of R')).inv.hom s)) ↔ _
       rw [← Scheme.Hom.preimage_basicOpen, Scheme.Hom.mem_preimage, hz, basicOpen_eq_of_affine]
       exact PrimeSpectrum.mem_basicOpen s v'
-    show z ∈ P.basicOpen (Θ ε) ↔ _
+    change z ∈ P.basicOpen (Θ ε) ↔ _
     rw [← hχeval, hdet χ hker, ← not_iff_not, ← ne_eq, hχeval, hΘ, map_one, one_mul]
-    show z ∈ P.basicOpen ((μ.app ⊤).hom (a - 1)) ↔ _
+    change z ∈ P.basicOpen ((μ.app ⊤).hom (a - 1)) ↔ _
     have hfz : ψ (pullback.fst ψ τ z) = v := by
       rw [← Scheme.Hom.comp_apply, pullback.condition, Scheme.Hom.comp_apply, hz, hτv]
     obtain ⟨c, hc⟩ : pullback.fst ψ τ z ∈ Set.range (ψ.fiberι v) := by

@@ -557,7 +557,7 @@ theorem affinePullbackComparisonComp_app (Y : DerivedCategory (ModuleCat.{u} R))
           ((totalDerivedExtensionScalars.{u, u, u} f.hom).functor.obj Y) ≫
         (tilde.functor T).mapDerivedCategory.map
           ((totalDerivedExtensionScalarsComp.{u, u} f.hom g.hom).hom.app Y) := by
-  show (StandardModel.specDerivedPullbackComp R S T f g).inv.app
+  change (StandardModel.specDerivedPullbackComp R S T f g).inv.app
         ((tilde.functor R).mapDerivedCategory.obj Y) ≫
       𝟙 _ ≫
       (StandardModel.specDerivedPullback g).map

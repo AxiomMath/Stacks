@@ -61,7 +61,7 @@ private theorem genericFiberSection_mem_preimage {S X : Scheme.{u}} [IsIntegral 
     (σ : S ⟶ X) (hσ : σ ≫ f = 𝟙 S) {O : X.Opens} (hO : Set.range σ ⊆ O)
     (y : Spec (S.residueField (genericPoint S))) :
     genericFiberSection f σ hσ y ∈ f.fiberι (genericPoint S) ⁻¹ᵁ O := by
-  show f.fiberι _ (genericFiberSection f σ hσ y) ∈ O
+  change f.fiberι _ (genericFiberSection f σ hσ y) ∈ O
   rw [← Scheme.Hom.comp_apply, genericFiberSection_fiberι, Scheme.Hom.comp_apply]
   exact hO ⟨_, rfl⟩
 
@@ -83,7 +83,7 @@ theorem geometricallyConnected_ι_comp {S X : Scheme.{u}} (f : X ⟶ S) [Smooth 
     pullback.lift (x ≫ σ) (𝟙 _) (by rw [Category.assoc, hσ, Category.comp_id, Category.id_comp])
   obtain ⟨pt⟩ : Nonempty (Spec (.of K)) := inferInstance
   have : Nonempty (p ⁻¹ᵁ O) := ⟨⟨t pt, by
-    show p (t pt) ∈ O
+    change p (t pt) ∈ O
     rw [← Scheme.Hom.comp_apply, pullback.lift_fst, Scheme.Hom.comp_apply]
     exact hO ⟨_, rfl⟩⟩⟩
   exact (pullbackSymmetry O.ι p ≪≫
@@ -152,7 +152,7 @@ theorem nonempty_iso_of_iso_finiteEtaleBaseChange_fiberι {S T : Scheme.{u}} [Is
   have : QuasiSeparatedSpace (Over.mk ((finiteEtaleBaseChange (D.map e₁)).obj B₀).hom).left :=
     quasiSeparatedSpace_of_quasiSeparated ((finiteEtaleBaseChange (D.map e₁)).obj B₀).hom
   have : LocallyOfFinitePresentation χ'.left := by
-    show LocallyOfFinitePresentation χ.left
+    change LocallyOfFinitePresentation χ.left
     have : Etale (χ.left ≫ ((finiteEtaleBaseChange (D.map e₁)).obj B₀).hom) := by
       rw [MorphismProperty.Over.w χ]
       exact hA₂
@@ -436,9 +436,9 @@ theorem exists_finiteEtaleGaloisCover_extending_genericFiber_of_quasiCompact_cas
     let j : W i ⟶ X := Sigma.ι W i ≫ e.inv ≫ V.1.ι
     have := hint i
     refine ⟨Set.range j, j.isOpenEmbedding.isOpen_range, ⟨w, ?_⟩, ?_⟩
-    · show V.1.ι (e.inv (Sigma.ι W i w)) = x
+    · change V.1.ι (e.inv (Sigma.ι W i w)) = x
       rw [hw]
-      show (e.hom ≫ e.inv ≫ V.1.ι) ⟨x, hxV⟩ = x
+      change (e.hom ≫ e.inv ≫ V.1.ι) ⟨x, hxV⟩ = x
       rw [e.hom_inv_id_assoc]
       rfl
     · rw [← Set.image_univ]

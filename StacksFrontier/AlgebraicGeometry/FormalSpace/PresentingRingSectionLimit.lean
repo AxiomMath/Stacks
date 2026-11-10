@@ -225,7 +225,7 @@ theorem sectionLimitHom_surjective (hA : TopologicalRing.IsWeaklyAdmissible A) :
     intro K i h
     obtain ⟨m, him, hi₀m⟩ := directed_of (· ≤ ·) i (idxOf K)
     obtain ⟨a, ha⟩ := Ideal.Quotient.mk_surjective ((χ m).inv (s.val (op m)))
-    show Ideal.Quotient.factor (hle K) ((χ (idxOf K)).inv (s.val (op (idxOf K)))) = _
+    change Ideal.Quotient.factor (hle K) ((χ (idxOf K)).inv (s.val (op (idxOf K)))) = _
     rw [sectionLimit_rep_le B S hS A I D J χ hcompat i m (homOfLE him) a s ha.symm,
       sectionLimit_rep_le B S hS A I D J χ hcompat (idxOf K) m (homOfLE hi₀m) a s ha.symm,
       Ideal.Quotient.factor_mk, Ideal.Quotient.factor_mk]
@@ -236,7 +236,7 @@ theorem sectionLimitHom_surjective (hA : TopologicalRing.IsWeaklyAdmissible A) :
     exact Ideal.Quotient.factor_comp_apply (hle K) h _
   obtain ⟨a, ha⟩ := exists_lift_compatible_weak_quotients' hA b hb
   refine ⟨a, Subtype.ext (funext fun k ↦ ?_)⟩
-  show (χ k.unop).hom (Ideal.Quotient.mk (J k.unop).1 a) = s.val k
+  change (χ k.unop).hom (Ideal.Quotient.mk (J k.unop).1 a) = s.val k
   have h1 : Ideal.Quotient.mk (J k.unop).1 a = b (OrderDual.ofDual (J k.unop)) :=
     ha (OrderDual.ofDual (J k.unop))
   have h2 : b (OrderDual.ofDual (J k.unop)) =
@@ -281,13 +281,13 @@ theorem continuous_sectionLimitRingEquiv (hA : TopologicalRing.IsWeaklyAdmissibl
   refine continuous_induced_rng.mpr (continuous_pi fun k ↦ ?_)
   let q : A →+* (sectionDiagram B S hS D ⋙ forget CommRingCat.{u}).obj k :=
     ((χ k.unop).hom).hom.comp (Ideal.Quotient.mk (J k.unop).1)
-  show Continuous fun a : A ↦ q a
+  change Continuous fun a : A ↦ q a
   apply continuous_of_continuousAt_zero q.toAddMonoidHom
   rw [ContinuousAt, nhds_discrete ((sectionDiagram B S hS D ⋙ forget CommRingCat.{u}).obj k),
     Filter.tendsto_pure]
   have hsub : (J k.unop).1 ≤ RingHom.ker q := by
     intro x hx
-    show ((χ k.unop).hom).hom (Ideal.Quotient.mk (J k.unop).1 x) = 0
+    change ((χ k.unop).hom).hom (Ideal.Quotient.mk (J k.unop).1 x) = 0
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr hx, map_zero]
   filter_upwards [(Ideal.isOpen_of_isOpen_subideal hsub (J k.unop).2.1).mem_nhds
     (Ideal.zero_mem _)] with x hx

@@ -219,7 +219,7 @@ placed in degree `n + 1`. -/
 theorem endDifferential_of (n : ℤ) (f : A.Hom x x n) :
     endDifferential A x (DirectSum.of (endFamily A x) n f) =
       DirectSum.of (endFamily A x) (n + 1) (A.d f) := by
-  show DirectSum.toModule R ℤ (endTotal A x)
+  change DirectSum.toModule R ℤ (endTotal A x)
       (fun i => (DirectSum.lof R ℤ (endFamily A x) (i + 1)).comp (endDifferentialComponent A x i))
       (DirectSum.lof R ℤ (endFamily A x) n f) = _
   rw [DirectSum.toModule_lof]

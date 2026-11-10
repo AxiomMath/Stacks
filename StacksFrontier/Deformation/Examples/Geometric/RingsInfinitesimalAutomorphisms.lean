@@ -527,8 +527,7 @@ public theorem exists_infinitesimalAutomorphismGroupMulEquivDerivation
       x₀.1.left.fiber xε.1.left.fiber).symm y)).fst = qfiber y
     obtain ⟨z, rfl⟩ := (Algebra.IsPushout.equiv x₀.1.left.base
       xε.1.left.base x₀.1.left.fiber xε.1.left.fiber).surjective y
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' => simp only [map_add, TrivSqZeroExt.fst_add, hz, hz']
     | tmul s x =>
         rw [(Algebra.IsPushout.equiv x₀.1.left.base xε.1.left.base

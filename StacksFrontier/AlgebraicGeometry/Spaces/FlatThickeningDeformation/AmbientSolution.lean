@@ -48,6 +48,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   (hZ : IsFirstOrderThickening B S hS Y' Z.1) {X : AlgebraicSpaces B S hS}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `PreservesFiniteProducts` of the étale sheaf pushforward is heavy
 /-- Restriction of sheaves of sets along an étale morphism preserves finite products; found
 directly, as instance search times out on it under Lean v4.35.0. -/
 local instance (priority := high) preservesFiniteProducts_smallEtalePostcomp_AmbientSolution

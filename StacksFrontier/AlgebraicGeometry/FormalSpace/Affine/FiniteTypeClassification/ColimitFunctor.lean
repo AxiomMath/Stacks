@@ -218,7 +218,7 @@ private theorem systemDiagramHomPreimage_map
   apply NatTrans.ext
   funext i
   apply (AlgebraicGeometry.BigAffineFppf.toScheme B S hS).map_injective
-  show Scheme.Spec.map (Scheme.Spec.preimage _) = _
+  change Scheme.Spec.map (Scheme.Spec.preimage _) = _
   exact Scheme.Spec.map_preimage _
 
 private theorem systemOverDiagramFunctor_full
@@ -293,7 +293,7 @@ theorem systemColimitFunctor_full
   have : T.Full := by dsimp only [T]; infer_instance
   have : (T ⋙ Over.post colim).Full := by
     exact overColimit_comp_full _ (systemColimit_isPullback B S hS A J Q)
-  show ((T ⋙ Over.post colim) ⋙ Over.map (basisColimitIso B S hS A J Q).hom).Full
+  change ((T ⋙ Over.post colim) ⋙ Over.map (basisColimitIso B S hS A J Q).hom).Full
   infer_instance
 
 theorem systemColimitFunctor_faithful
@@ -314,7 +314,7 @@ theorem systemColimitFunctor_faithful
   have : T.Faithful := by dsimp only [T]; infer_instance
   have : (T ⋙ Over.post colim).Faithful := by
     exact overColimit_comp_faithful _ (systemColimit_isPullback B S hS A J Q)
-  show ((T ⋙ Over.post colim) ⋙ Over.map (basisColimitIso B S hS A J Q).hom).Faithful
+  change ((T ⋙ Over.post colim) ⋙ Over.map (basisColimitIso B S hS A J Q).hom).Faithful
   infer_instance
 
 private theorem systemColimitFunctor_obj_hom
@@ -340,7 +340,7 @@ private theorem etale_relative_identity
     Etale.etale_isStableUnderBaseChange.of_isPullback (h.map T) hg⟩
   rw [← L.map_id]
   apply MorphismProperty.relative_map (P := E)
-  show Etale (T.map (𝟙 U))
+  change Etale (T.map (𝟙 U))
   infer_instance
 
 private theorem locallyFiniteType_of_formal_pullback
@@ -418,7 +418,7 @@ private theorem exists_algebraSystem_of_affineDiagram
   let K := systemDiagram B S hS A P Q
   have hs (i : I) : T.map ((systemDiagramToBase B S hS A P Q).app i) =
       (Ds.obj i).isoSpec.inv ≫ T.map (ψ.app i) := by
-    show Spec.map (CommRingCat.ofHom (P.algebraMap i)) ≫
+    change Spec.map (CommRingCat.ofHom (P.algebraMap i)) ≫
       (Q.quotientIso (idealBasisIndex J i)).inv = _
     rw [hb]
     exact (Iso.comp_inv_eq _).mpr (Category.assoc _ _ _).symm
@@ -426,7 +426,7 @@ private theorem exists_algebraSystem_of_affineDiagram
     ObjectProperty.isoMk _ (Over.isoMk
       (ObjectProperty.isoMk _ (Ds.obj i).isoSpec.symm) (by
         apply ObjectProperty.hom_ext
-        show (Ds.obj i).isoSpec.inv ≫ (D.obj i).obj.hom.hom = _
+        change (Ds.obj i).isoSpec.inv ≫ (D.obj i).obj.hom.hom = _
         have hw := congrArg (fun k => k.hom) (Over.w (ψ.app i).hom)
         change T.map (ψ.app i) ≫ (Q.diagram.obj (idealBasisIndex J i)).obj.hom.hom =
           (D.obj i).obj.hom.hom at hw
@@ -437,14 +437,14 @@ private theorem exists_algebraSystem_of_affineDiagram
   let eD : K ≅ D := NatIso.ofComponents e (by
     intro i j g
     apply T.map_injective
-    show Spec.map (Ds.map g).appTop ≫ (Ds.obj j).isoSpec.inv =
+    change Spec.map (Ds.map g).appTop ≫ (Ds.obj j).isoSpec.inv =
       (Ds.obj i).isoSpec.inv ≫ Ds.map g
     exact Scheme.isoSpec_inv_naturality (Ds.map g))
   refine ⟨P, ⟨Over.isoMk eD ?_⟩⟩
   apply NatTrans.ext
   funext i
   apply T.map_injective
-  show (Ds.obj i).isoSpec.inv ≫ T.map (ψ.app i) =
+  change (Ds.obj i).isoSpec.inv ≫ T.map (ψ.app i) =
     T.map ((systemDiagramToBase B S hS A P Q).app i)
   exact (hs i).symm
 
@@ -468,12 +468,12 @@ theorem systemColimitFunctor_essImage
   let c : Cocone (H ⋙ K) := (colimit.cocone (H ⋙ K)).extend
     (basisColimitIso B S hS A J Q).hom
   have hc : IsColimit c := (colimit.isColimit (H ⋙ K)).extendIso _
-  haveI : HasLimitsOfShape WalkingCospan
+  have : HasLimitsOfShape WalkingCospan
       (Sheaf (AlgebraicGeometry.BigFppfOver.topology B S hS) (Type (u + 1))) := inferInstance
-  haveI : HasLimitsOfShape WalkingCospan
+  have : HasLimitsOfShape WalkingCospan
       (I ⥤ Sheaf (AlgebraicGeometry.BigFppfOver.topology B S hS) (Type (u + 1))) :=
     functorCategoryHasLimitsOfShape
-  haveI hpb : HasPullback (c.ι : H ⋙ K ⟶ (Functor.const I).obj X)
+  have hpb : HasPullback (c.ι : H ⋙ K ⟶ (Functor.const I).obj X)
       ((Functor.const I).map f) := HasLimitsOfShape.has_limit _
   let F := pullback c.ι ((Functor.const I).map f)
   let α : F ⟶ H ⋙ K := pullback.fst _ _
@@ -494,7 +494,7 @@ theorem systemColimitFunctor_essImage
   let ψ : D ⟶ H := W.preimage (e.hom ≫ α)
   have hψ : W.map ψ = e.hom ≫ α := W.map_preimage _
   have hψcart : (Functor.whiskerRight ψ K).Equifibered := by
-    show (W.map ψ).Equifibered
+    change (W.map ψ).Equifibered
     rw [hψ]
     exact (NatTrans.Equifibered.of_isIso e.hom).comp hα
   have hψscheme : (Functor.whiskerRight ψ (V ⋙ T)).Equifibered := by
@@ -527,7 +527,7 @@ theorem systemColimitFunctor_essImage
     rw [reassoc_of% (hec i), ← (hp i).w]
     have hi := NatTrans.congr_app hψ i
     change K.map (ψ.app i) = (e.app i).hom ≫ α.app i at hi
-    show e.hom.app i ≫ α.app i ≫ c.ι.app i =
+    change e.hom.app i ≫ α.app i ≫ c.ι.app i =
       K.map (ψ.app i) ≫ colimit.ι (H ⋙ K) i ≫ (basisColimitIso B S hS A J Q).hom
     rw [hi]
     simp [c, Category.assoc]

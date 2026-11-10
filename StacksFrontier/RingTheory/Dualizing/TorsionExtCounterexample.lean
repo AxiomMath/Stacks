@@ -154,7 +154,7 @@ theorem isIPowerTorsion_ker :
   obtain ⟨c, rfl⟩ := ha
   have hm : f * (m : A) = 0 := congrArg Subtype.val m.2
   apply Subtype.ext
-  show (f * c) * (m : A) = 0
+  change (f * c) * (m : A) = 0
   rw [mul_comm f c, mul_assoc, hm, mul_zero]
 
 /-- `M = A/(f)`, as an object of the category of `(f)`-power-torsion modules. -/

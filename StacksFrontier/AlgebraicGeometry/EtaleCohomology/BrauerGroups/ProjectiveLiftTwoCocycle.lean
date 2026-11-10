@@ -98,7 +98,7 @@ theorem scalar_centerScalar (i : n) (M : GL n R) (hM : M ∈ Subgroup.center (GL
   obtain ⟨u, hu⟩ := Matrix.GeneralLinearGroup.center_eq_range_scalar.le hM
   have hval : centerScalar i M hM = u := by
     apply Units.ext
-    show (M : Matrix n n R) i i = (u : R)
+    change (M : Matrix n n R) i i = (u : R)
     rw [← hu]
     simp [Matrix.scalar_apply, Matrix.diagonal_apply_eq]
   rw [hval, hu]

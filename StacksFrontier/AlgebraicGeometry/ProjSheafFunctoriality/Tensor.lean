@@ -129,7 +129,7 @@ theorem tensorLocalizationEquiv_mk (P : Submonoid S)
     simp
   have hnum : e (LocalizedModule.mk m 1 ⊗ₜ[S] LocalizedModule.mk n 1) =
       LocalizedModule.mk (m ⊗ₜ[S] n) 1 := by
-    show IsLocalizedModule.linearEquiv P
+    change IsLocalizedModule.linearEquiv P
       (TensorProduct.map (LocalizedModule.mkLinearMap P M)
         (LocalizedModule.mkLinearMap P N))
       (LocalizedModule.mkLinearMap P (M ⊗[S] N))
@@ -259,15 +259,15 @@ theorem tensorGradingPairValue_homogeneous (i j : ℤ) (m : 𝒨 i) (n : 𝒩 j)
       DirectSum.of (fun j : ℤ => 𝒩 j) j n :=
     DirectSum.decompose_coe 𝒩 n
   rw [hm, hn]
-  show tensorGradingPairCollapse (S := S) 𝒨 𝒩
+  change tensorGradingPairCollapse (S := S) 𝒨 𝒩
     (TensorProduct.directSum ℤ ℤ (fun i => 𝒨 i) (fun j => 𝒩 j)
       (DirectSum.lof ℤ ℤ (fun i => 𝒨 i) i m ⊗ₜ[ℤ]
         DirectSum.lof ℤ ℤ (fun j => 𝒩 j) j n)) = _
   rw [TensorProduct.directSum_lof_tmul_lof]
-  show tensorGradingPairCollapse (S := S) 𝒨 𝒩
+  change tensorGradingPairCollapse (S := S) 𝒨 𝒩
     (DirectSum.of (fun p : ℤ × ℤ => (𝒨 p.1) ⊗[ℤ] (𝒩 p.2)) (i, j) (m ⊗ₜ[ℤ] n)) = _
   simp only [tensorGradingPairCollapse, DirectSum.toAddMonoid_of, AddMonoidHom.comp_apply]
-  show (DirectSum.of (fun k : ℤ => tensorGrading (S := S) 𝒨 𝒩 k) (i + j))
+  change (DirectSum.of (fun k : ℤ => tensorGrading (S := S) 𝒨 𝒩 k) (i + j))
       (tensorGradingPairMap 𝒨 𝒩 i j (m ⊗ₜ[ℤ] n)) = _
   rw [tensorGradingPairMap, TensorProduct.liftAddHom_tmul]
   rfl
@@ -296,7 +296,7 @@ theorem tensorGradingPairValue_balanced_homogeneous
     intro z
     rw [hdeg]
   apply (Subtype.heq_iff_coe_eq hp).2
-  show ((s : S) • (m : M)) ⊗ₜ[S] (n : N) = (m : M) ⊗ₜ[S] ((s : S) • (n : N))
+  change ((s : S) • (m : M)) ⊗ₜ[S] (n : N) = (m : M) ⊗ₜ[S] ((s : S) • (n : N))
   rw [TensorProduct.smul_tmul]
 
 /-- The candidate decomposition is `S`-balanced. -/
@@ -329,7 +329,7 @@ theorem tensorGradingPairValue_balanced (𝒮 : ℕ → σ) [GradedRing 𝒮]
 theorem tensorGradingPairValue_coe (m : M) (n : N) :
     DirectSum.coeAddMonoidHom (tensorGrading (S := S) 𝒨 𝒩)
         (tensorGradingPairValue (S := S) 𝒨 𝒩 m n) = m ⊗ₜ[S] n := by
-  show DirectSum.coeAddMonoidHom (tensorGrading (S := S) 𝒨 𝒩)
+  change DirectSum.coeAddMonoidHom (tensorGrading (S := S) 𝒨 𝒩)
       (tensorGradingPairBilin (S := S) 𝒨 𝒩 m n) = _
   induction m using DirectSum.Decomposition.inductionOn (ℳ := 𝒨) with
   | zero => simp
@@ -337,7 +337,7 @@ theorem tensorGradingPairValue_coe (m : M) (n : N) :
     induction n using DirectSum.Decomposition.inductionOn (ℳ := 𝒩) with
     | zero => simp
     | homogeneous n =>
-      show DirectSum.coeAddMonoidHom (tensorGrading (S := S) 𝒨 𝒩)
+      change DirectSum.coeAddMonoidHom (tensorGrading (S := S) 𝒨 𝒩)
         (tensorGradingPairValue (S := S) 𝒨 𝒩 (m : M) (n : N)) = _
       rw [tensorGradingPairValue_homogeneous (S := S) 𝒨 𝒩 _ _ m n]
       simp
@@ -373,7 +373,7 @@ theorem tensorGradingDecomposeAddHom_of_mem (𝒮' : ℕ → σ) [GradedRing �
     obtain ⟨i, j, hij, m, hm, n, hn, rfl⟩ := hz
     subst k
     rw [tensorGradingDecomposeAddHom_tmul (S := S) 𝒨 𝒩 𝒮' m n]
-    show tensorGradingPairValue (S := S) 𝒨 𝒩 m n = _
+    change tensorGradingPairValue (S := S) 𝒨 𝒩 m n = _
     rw [tensorGradingPairValue_homogeneous (S := S) 𝒨 𝒩 i j ⟨m, hm⟩ ⟨n, hn⟩]
   | zero =>
     have hz : (⟨0, (tensorGrading (S := S) 𝒨 𝒩 k).zero_mem⟩ :
@@ -411,8 +411,7 @@ def tensorGrading_decomposition
   let d := tensorGradingDecomposeAddHom (S := S) 𝒨 𝒩 𝒮
   refine DirectSum.Decomposition.ofAddHom _ d ?_ ?_
   · refine AddMonoidHom.ext fun z ↦ ?_
-    induction z using TensorProduct.induction_on with
-    | zero => simp [d]
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy =>
       have hx' : DirectSum.coeAddMonoidHom (tensorGrading (S := S) 𝒨 𝒩) (d x) = x := by
         simpa only [AddMonoidHom.comp_apply, AddMonoidHom.id_apply] using hx
@@ -590,8 +589,7 @@ def tensorModuleSectionsNat :
   naturality U V f := by
     apply AddCommGrpCat.hom_ext
     ext z
-    induction z using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero _).symm
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy =>
       refine (map_add _ x y).trans (Eq.trans ?_ (map_add _ x y).symm)
       exact congrArg₂ (· + ·) hx hy
@@ -721,7 +719,7 @@ theorem associatedModuleSheafStandardOpenEquiv_symm_fraction_apply
         (ProjectiveSpectrum.Proj.degreeZeroFraction 𝒮 𝒨 hf n m hm))).1 x =
       LocalizedModule.mk m ⟨f ^ n, x.1.asHomogeneousIdeal.toIdeal.primeCompl.pow_mem
         ((ProjectiveSpectrum.mem_basicOpen 𝒮 f x.1).mp x.2) n⟩ := by
-  show (ProjectiveSpectrum.Proj.degreeZeroToSection 𝒮 𝒨 f
+  change (ProjectiveSpectrum.Proj.degreeZeroToSection 𝒮 𝒨 f
     (ProjectiveSpectrum.Proj.degreeZeroFraction 𝒮 𝒨 hf n m hm)).1 x = _
   exact ProjectiveSpectrum.Proj.degreeZeroToSection_fraction 𝒮 𝒨 hf n m hm x
 
@@ -756,7 +754,7 @@ theorem associatedModuleSheafTensorMap_standardOpen
   let _ := tensorGrading_gradedSMul (S := S) 𝒮 𝒨 𝒩
   dsimp
   refine .trans (associatedModuleSheafTensorMap_app_toTensorSheafSection 𝒮 𝒨 𝒩 _ _) ?_
-  show tensorModuleSectionsAddHom (S := S) (𝒮 := 𝒮) (𝒨 := 𝒨) (𝒩 := 𝒩)
+  change tensorModuleSectionsAddHom (S := S) (𝒮 := 𝒮) (𝒨 := 𝒨) (𝒩 := 𝒩)
       (ProjectiveSpectrum.basicOpen 𝒮 f)
       (((ProjectiveSpectrum.Proj.associatedModuleSheafStandardOpenEquiv 𝒮 𝒨 hf hd).symm
         (ProjectiveSpectrum.Proj.degreeZeroFraction 𝒮 𝒨 hf p m hm)) ⊗ₜ[
@@ -767,7 +765,7 @@ theorem associatedModuleSheafTensorMap_standardOpen
   refine .trans (tensorModuleSectionsAddHom_tmul 𝒮 𝒨 𝒩 _ _ _) ?_
   apply Subtype.ext
   funext x
-  show tensorLocalizationEquivOverLocalization
+  change tensorLocalizationEquivOverLocalization
       (S := S) (M := M) (N := N) x.1.asHomogeneousIdeal.toIdeal.primeCompl
       ((ProjectiveSpectrum.Proj.associatedModuleSheafSectionsEquiv 𝒮 𝒨
           (ProjectiveSpectrum.basicOpen 𝒮 f)
@@ -858,7 +856,7 @@ theorem associatedModuleSheafTensorMap_stalk
           tN)) :=
     (Stacks.SheafOfModules.TensorStalkRingedSpace.tensorStalkIso X x F G).symm_apply_eq.mpr
       (Stacks.SheafOfModules.TensorStalkRingedSpace.tensorStalkIso_germ X x F G U hx tM tN).symm
-  show Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X
+  change Stacks.SheafOfModules.TensorStalkRingedSpace.stalkMapL X
     ((((Stacks.SheafOfModules.Tensor.sheafTensor (X).sheaf).obj (F)).obj (G))).val T.val
       (associatedModuleSheafTensorMap 𝒮 𝒨 𝒩).val x
       ((Stacks.SheafOfModules.TensorStalkRingedSpace.tensorStalkIso X x F G).symm

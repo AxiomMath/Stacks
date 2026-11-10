@@ -125,7 +125,7 @@ theorem exists_incl_eq_param_mul (k : ℤ) (W : i.coborderRange.toScheme.affineO
   refine Eq.trans ?_ (Stacks.GradedAlgebra.incl_mul_incl _ _ _ _ _).symm
   refine Stacks.GradedAlgebra.incl_eq_incl_of_heq _ (by ring) ?_
   refine extRees_heq (coborderIdeal i) (by ring) W.1 _ _ ?_
-  show extReesAmbient (coborderIdeal i) k W.1 t =
+  change extReesAmbient (coborderIdeal i) k W.1 t =
     extReesAmbient (coborderIdeal i) ((k + 1) + -1) W.1
       ((extReesMul (coborderIdeal i) (k + 1) (-1)).app (op W.1) y
         (paramPiece (coborderIdeal i) W.1))
@@ -190,7 +190,7 @@ theorem ungradedTotal_eq_unit_toConormalTotal (W : i.coborderRange.toScheme.Open
       DirectSum.map_of _ _ _
     rw [hmap]
     refine (ungradedTotal_incl _ _ _ k (op W) x).trans ?_
-    show toConormalExtAdd i k (op W) x = _
+    change toConormalExtAdd i k (op W) x = _
     rcases lt_or_ge k 0 with hk | hk
     · rw [toConormalExtAdd_of_neg i hk, toConormalPieceAdd_of_neg i hk]
       exact ((congrArg F (Stacks.GradedAlgebra.incl_zero _ _)).trans (map_zero _)).symm

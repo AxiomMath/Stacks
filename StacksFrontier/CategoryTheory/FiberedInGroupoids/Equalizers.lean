@@ -122,7 +122,7 @@ theorem comp_equivalence {D : Type u₂} [Category.{v₂} D] (e : C ≌ D) {P : 
   intro X s t
   obtain ⟨M, m, hm, H⟩ := h s t
   refine ⟨e.inverse.obj M, e.inverse.map m ≫ e.unitInv.app X, mono_comp _ _, fun Y g => ?_⟩
-  show P.map (e.functor.map g).op s = P.map (e.functor.map g).op t ↔ _
+  change P.map (e.functor.map g).op s = P.map (e.functor.map g).op t ↔ _
   rw [H]
   constructor
   · rintro ⟨k, hk⟩
@@ -253,7 +253,7 @@ theorem exists_locus_of_morPresheaf {U : 𝒞} (x : p.Fiber U)
     have hchain : pullbackFiberMap p x hV ≫ χ ≫ π₁ = πV ≫ i.1 := by
       rw [hχ, ← Category.assoc]
       exact congrArg (· ≫ i.1) (pullbackFiberMap_fac p x hV)
-    show morRestrict p x x hV s₁ = morRestrict p x x hV s₂ ↔ _
+    change morRestrict p x x hV s₁ = morRestrict p x x hV s₂ ↔ _
     rw [show s₁ = 𝟙 _ from rfl, morRestrict_id_hom]
     constructor
     · intro h

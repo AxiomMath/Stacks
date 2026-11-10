@@ -86,7 +86,7 @@ private theorem injective_directImageComparison_app (i : Z ⟶ Z')
         (SmallEtale.topology B S hS Z'.1) (structureRingSheaf B S hS Z)
         (smallEtaleDirectImageRanIso B S hS i).inv)) := by
     rw [ringSheafMap_pullbackRingSheafMapOfNatTrans]
-    show Mono (((smallEtaleDirectImageRanIso B S hS i).app
+    change Mono (((smallEtaleDirectImageRanIso B S hS i).app
       (structureRingSheaf B S hS Z).ringSheaf).symm.hom)
     infer_instance
   have hmono : Mono (pullbackRingSheafMapOfNatTrans (SmallEtale.topology B S hS Z'.1)

@@ -201,7 +201,7 @@ theorem isSplitMono_adicQuotientReduction_single
         ((Stacks.SheafOfModules.canonicalDerivedTensorProduct X).unitIso _).hom)
       (adicQuotientReduction X I ((DerivedCategory.singleFunctor _ 0).obj M) n)
       (tensorShortExactδ X _ hS)).mor₁ ≫ 𝟙 _ = 0 := by
-    show (_ ≫ _) ≫ 𝟙 _ = 0
+    change (_ ≫ _) ≫ 𝟙 _ = 0
     rw [tensor_single_map_single_eq_zero X M _ hord, zero_comp, zero_comp]
   obtain ⟨r, hr⟩ := Triangle.yoneda_exact₂ _
     (tensorShortExact_distinguished X ((DerivedCategory.singleFunctor _ 0).obj M) hS) (𝟙 _) hmor
@@ -248,7 +248,8 @@ theorem adicQuotientReduction_comp_eq_zero
     exact congrArg _ (Category.comp_id _).symm
   have hsingle : (DerivedCategory.singleFunctor
       (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) 0).map
-      (c.asHom.app (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)))) = c • 𝟙 U :=
+      (c.asHom.app (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)))) =
+        c • 𝟙 U :=
     hc _
   have hlin : F.map (c • 𝟙 U) = c • 𝟙 (F.obj U) :=
     Stacks.SheafOfModules.Tensor.derivedTensor_map_globalSectionToEnd X

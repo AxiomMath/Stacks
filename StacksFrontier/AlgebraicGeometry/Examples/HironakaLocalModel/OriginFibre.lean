@@ -230,7 +230,7 @@ theorem isEffectiveCartierDivisor_comap_firstFibreι :
         Spec.map (CommRingCat.ofHom (lineX k : Ring3 k →+* Polynomial k)) ≫ chartι k 1 from
         pullback.lift_fst _ _ _, comap_lineX_chartι_strictCurve]
     exact isEffectiveCartierDivisor_idealSheafSpec_span_singleton _
-      Polynomial.X_mem_nonzeroDivisors
+      Polynomial.X_mem_nonZeroDivisors
 
 /-- The inclusion `(B₁)_O ⟶ B₁` lifts to the second blow-up. -/
 theorem exists_strictLift :
@@ -281,7 +281,7 @@ theorem sb3b_firstFibreChart_comp_strictLift :
     ?_ _ _ ?_ ?_
   · rw [Stacks.Blowup.preimage_compl_support, comap_lineX_chartι_strictCurve]
     exact Stacks.Divisors.isSchemeTheoreticallyDense_compl_of_isEffectiveCartierDivisor _
-      (isEffectiveCartierDivisor_idealSheafSpec_span_singleton _ Polynomial.X_mem_nonzeroDivisors)
+      (isEffectiveCartierDivisor_idealSheafSpec_span_singleton _ Polynomial.X_mem_nonZeroDivisors)
   · rw [Category.assoc, strictLift_comp, firstFibreChart, pullback.lift_fst]
   · rw [Category.assoc, towerChartOne_comp_blowUpToBase, ← Category.assoc, ← Spec.map_comp,
       ← CommRingCat.ofHom_comp, sb3b_lineX_comp_chartOneMap_comp_shiftHom]

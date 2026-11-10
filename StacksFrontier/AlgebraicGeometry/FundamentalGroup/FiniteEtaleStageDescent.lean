@@ -164,7 +164,7 @@ theorem exists_stage_hom_of_baseChange [CompactSpace Y] [QuasiSeparatedSpace Y] 
     refine Stacks.AlgebraicGeometry.RelativeProjInvertibleMorphism.map_eq_of_iso
       (finiteEtaleBaseChangeComp (D.map m) (D.map (e' a)) (D.map fS)
         (by rw [hm, D.map_comp])).symm ?_
-    show (finiteEtaleBaseChange (D.map m)).map ((finiteEtaleBaseChange (D.map (e' a))).map _) =
+    change (finiteEtaleBaseChange (D.map m)).map ((finiteEtaleBaseChange (D.map (e' a))).map _) =
       (finiteEtaleBaseChange (D.map m)).map ((finiteEtaleBaseChange (D.map (e' a))).map _)
     rw [he' a]
   -- step 5: back to a base change of the covers of `Y`

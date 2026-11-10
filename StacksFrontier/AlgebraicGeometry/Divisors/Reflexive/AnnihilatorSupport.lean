@@ -145,7 +145,7 @@ theorem supp_eq_annihilatorIdeal_support (F : X.Modules) [F.IsQuasicoherent] [F.
   have hsec : U'.2.primeIdealOf ⟨x, hxU⟩ ∈ Module.support Γ(X, U'.1) Γ(F, U'.1) ↔
       x ∈ SheafOfModules.supp F :=
     (Scheme.Modules.mem_support_sections_iff_mem_supp F U' x hxU).trans (hSupp ▸ Iff.rfl)
-  show (x ∈ SheafOfModules.supp F) ↔ x ∈ (annihilatorIdeal' F).support
+  change (x ∈ SheafOfModules.supp F) ↔ x ∈ (annihilatorIdeal' F).support
   rw [(annihilatorIdeal' F).mem_support_iff_of_mem (U := U') hxU, annihilatorIdeal_ideal F U']
   exact hsec.symm.trans (zeroLocus_annihilator_iff_moduleSupport F U' hxU).symm
 

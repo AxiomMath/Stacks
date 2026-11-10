@@ -114,14 +114,14 @@ theorem Space.isAffineHom_of_isAffineHom_relocalizeMap {F G : (BigFppfOver B W h
   have hL : IsPullback (L.map σ) (L.map (yoneda.map qV)) (L.map f) (L.map g) := by
     refine hpb.of_iso (yoneda.mapIso (asIso ι) ≪≫ ρV.symm) (Iso.refl _) ρZ.symm (Iso.refl _)
       ?_ ?_ ?_ ?_
-    · show p' ≫ 𝟙 _ = (yoneda.map ι ≫ ρV.inv) ≫ L.map σ
+    · change p' ≫ 𝟙 _ = (yoneda.map ι ≫ ρV.inv) ≫ L.map σ
       rw [Category.comp_id, hσ, Category.assoc]
       rfl
-    · show yoneda.map q' ≫ ρZ.inv = (yoneda.map ι ≫ ρV.inv) ≫ L.map (yoneda.map qV)
+    · change yoneda.map q' ≫ ρZ.inv = (yoneda.map ι ≫ ρV.inv) ≫ L.map (yoneda.map qV)
       rw [Category.assoc, hnat, ← Category.assoc, ← yoneda.map_comp, h2]
     · simp only [Iso.refl_hom, Category.comp_id, Category.id_comp]
       rfl
-    · show relocalizeChart B W S hW hS h g ≫ 𝟙 _ = ρZ.inv ≫ L.map g
+    · change relocalizeChart B W S hW hS h g ≫ 𝟙 _ = ρZ.inv ≫ L.map g
       rw [Category.comp_id]
       rfl
   refine ⟨⟨V, W'.property⟩, σ, qV, IsPullback.of_map L (L.map_injective ?_) hL⟩
@@ -218,11 +218,11 @@ theorem exists_finitePresentation_system_of_hasSmallNoetherianApproximation
   let t' : ∀ x : I'ᵒᵖ, E.obj x ⟶ YZ := fun x => A.diagram.map (toK x) ≫ t₀
   have ht'nat : ∀ {x y : I'ᵒᵖ} (f : x ⟶ y), E.map f ≫ t' y = t' x := by
     intro x y f
-    show A.diagram.map (ι.map f) ≫ A.diagram.map (toK y) ≫ t₀ = A.diagram.map (toK x) ≫ t₀
+    change A.diagram.map (ι.map f) ≫ A.diagram.map (toK y) ≫ t₀ = A.diagram.map (toK x) ≫ t₀
     rw [← Category.assoc, ← A.diagram.map_comp, Subsingleton.elim (ι.map f ≫ toK y) (toK x)]
   have hcompat : ∀ x : I'ᵒᵖ, c'.π.app x ≫ t' x = sX := by
     intro x
-    show A.π.app (ι.obj x) ≫ A.diagram.map (toK x) ≫ A.diagram.map a ≫ t = sX
+    change A.π.app (ι.obj x) ≫ A.diagram.map (toK x) ≫ A.diagram.map a ≫ t = sX
     have hπ := A.π.naturality (toK x)
     simp only [Functor.const_obj_obj, Functor.const_obj_map, Category.id_comp] at hπ
     rwa [← Category.assoc, ← hπ]

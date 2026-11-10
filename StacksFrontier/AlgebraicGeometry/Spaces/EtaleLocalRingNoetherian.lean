@@ -139,7 +139,7 @@ theorem isNoetherianRing_etaleLocalRing (B : BigFppfSite.{u}) (S : Scheme.{u})
   obtain ⟨U, f, hSurj, hEtale, hUloc⟩ := hNoetherian.2.2
   obtain ⟨⟨V, hVU⟩⟩ := exists_pointed_smallEtaleNeighborhood B S hS F hF x f hSurj hEtale
   have hVnoeth : IsLocallyNoetherian (chartScheme V.chart) := by
-    show IsLocallyNoetherian ((BigFppfOver.toScheme B S hS).obj V.chart.obj.left)
+    change IsLocallyNoetherian ((BigFppfOver.toScheme B S hS).obj V.chart.obj.left)
     rw [hVU]
     exact hUloc
   let R := (chartScheme V.chart).presheaf.stalk

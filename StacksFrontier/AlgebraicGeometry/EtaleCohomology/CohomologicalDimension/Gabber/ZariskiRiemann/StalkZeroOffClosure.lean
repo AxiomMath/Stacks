@@ -113,7 +113,8 @@ end ProperModel
 `AlgebraicGeometry.Scheme.ZariskiRiemann.StalkZeroOffClosure`. The stalk at a geometric point
 `s` with a separably closed field is the stalk at `s` composed with the algebraic closure, which
 vanishes by
-`AlgebraicGeometry.Scheme.ZariskiRiemann.ProperModel.isZero_stalk_rightDerived_of_not_mem_closure`. -/
+`AlgebraicGeometry.Scheme.ZariskiRiemann.ProperModel.isZero_stalk_rightDerived_of_not_mem_closure`.
+-/
 theorem stalkZeroOffClosure : StalkZeroOffClosure.{u} := by
   intro B _ _ M F q Ω _ _ s hs
   let π : Spec (.of (AlgebraicClosure Ω)) ⟶ Spec (.of Ω) :=

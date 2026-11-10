@@ -151,7 +151,7 @@ theorem isIso_desc (hcov : m₁.opensRange ⊔ m₂.opensRange = ⊤)
   refine IsZariskiLocalAtTarget.of_iSup_eq_top (P := MorphismProperty.isomorphisms Scheme.{u})
     (fun b : Bool => cond b m₂.opensRange m₁.opensRange) ?_ fun b => ?_
   · rw [iSup_bool_eq]
-    show m₂.opensRange ⊔ m₁.opensRange = ⊤
+    change m₂.opensRange ⊔ m₁.opensRange = ⊤
     rw [sup_comm]
     exact hcov
   · match b with

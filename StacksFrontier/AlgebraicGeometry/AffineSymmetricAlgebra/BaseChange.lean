@@ -74,7 +74,7 @@ theorem algebraMap_restrict {U V : (Spec R).Opens} (i : V ⟶ U) (r : R) :
     (Spec R).presheaf.map i.op (algebraMap R Γ(Spec R, U) r) =
       algebraMap R Γ(Spec R, V) r := by
   rw [IsAffineOpen.algebraMap_Spec_obj, IsAffineOpen.algebraMap_Spec_obj]
-  show ((Scheme.ΓSpecIso R).inv ≫ (Spec R).presheaf.map (homOfLE le_top).op ≫
+  change ((Scheme.ΓSpecIso R).inv ≫ (Spec R).presheaf.map (homOfLE le_top).op ≫
     (Spec R).presheaf.map i.op).hom r = _
   rw [← (Spec R).presheaf.map_comp]
   rfl
@@ -123,14 +123,12 @@ def presheafAb : ((Spec R).Opens)ᵒᵖ ⥤ Ab.{u} where
     (LinearMap.rTensor N (specRestrictₗ (R := R) i.unop)).toAddMonoidHom
   map_id U := by
     refine AddCommGrpCat.hom_ext (AddMonoidHom.ext fun x => ?_)
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a n => exact congrArg (fun b => b ⊗ₜ[R] n) (specRestrictₗ_id (R := R) U.unop a)
     | add x y hx hy => simp only [map_add, hx, hy]
   map_comp {_ _ _} i j := by
     refine AddCommGrpCat.hom_ext (AddMonoidHom.ext fun x => ?_)
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a n => exact congrArg (fun b => b ⊗ₜ[R] n) (specRestrictₗ_comp i.unop j.unop a)
     | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -147,8 +145,7 @@ theorem rTensor_smul {U V : (Spec R).Opens} (i : V ⟶ U) (a : Γ(Spec R, U))
     LinearMap.rTensor (N : Type u) (specRestrictₗ (R := R) i) (a • y) =
       specRestrictₗ (R := R) i a •
         LinearMap.rTensor (N : Type u) (specRestrictₗ (R := R) i) y := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul b n =>
       rw [TensorProduct.smul_tmul', LinearMap.rTensor_tmul, LinearMap.rTensor_tmul,
         TensorProduct.smul_tmul']
@@ -199,8 +196,7 @@ def tildeRestrict {U V : (Spec R).Opens} (i : V ⟶ U) : Γ(tilde N, U) →+ Γ(
 theorem toTildeₗ_naturality {U V : (Spec R).Opens} (i : V ⟶ U) (x : Γ(Spec R, U) ⊗[R] N) :
     tildeRestrict N i (toTildeₗ N U x) =
       toTildeₗ N V (LinearMap.rTensor (N : Type u) (specRestrictₗ (R := R) i) x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul a n =>
       rw [toTildeₗ_tmul, LinearMap.rTensor_tmul, toTildeₗ_tmul]
       exact ((tilde N).val.map_smul i.op a (toOpenₗ N U n)).trans rfl
@@ -249,8 +245,7 @@ presheaves. -/
 theorem presheafMapₗ_naturality {U V : (Spec R).Opens} (i : V ⟶ U) (x : Γ(Spec R, U) ⊗[R] N) :
     LinearMap.rTensor (N' : Type u) (specRestrictₗ (R := R) i) (presheafMapₗ f U x) =
       presheafMapₗ f V (LinearMap.rTensor (N : Type u) (specRestrictₗ (R := R) i) x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a n => simp
   | add x y hx hy => rw [map_add, map_add, map_add, map_add, hx, hy]
 
@@ -279,8 +274,7 @@ theorem tildeMapₗ_toOpenₗ (U : (Spec R).Opens) (n : N) :
 /-- **The comparison is natural in the module.** -/
 theorem toTildeₗ_map (U : (Spec R).Opens) (x : Γ(Spec R, U) ⊗[R] N) :
     tildeMapₗ f U (toTildeₗ N U x) = toTildeₗ N' U (presheafMapₗ f U x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a n =>
       rw [presheafMapₗ_tmul, toTildeₗ_tmul, toTildeₗ_tmul, map_smul, tildeMapₗ_toOpenₗ]
   | add x y hx hy =>

@@ -110,13 +110,13 @@ abbrev toAmbient (U : X.Opens) : X'.Opens := (Opens.map (invBase i)).obj U
 /-- The preimage under `i` of `toAmbient i U` is `U`. -/
 theorem preimage_toAmbient (U : X.Opens) : i ⁻¹ᵁ toAmbient i U = U := by
   ext x
-  show (invBase i) (i.base x) ∈ U ↔ x ∈ U
+  change (invBase i) (i.base x) ∈ U ↔ x ∈ U
   rw [← ConcreteCategory.comp_apply, comp_invBase, TopCat.id_app]
 
 /-- `toAmbient i` sends the preimage under `i` of an open `V` of `X'` back to `V`. -/
 theorem toAmbient_preimage (V : X'.Opens) : toAmbient i (i ⁻¹ᵁ V) = V := by
   ext x
-  show i.base ((invBase i) x) ∈ V ↔ x ∈ V
+  change i.base ((invBase i) x) ∈ V ↔ x ∈ V
   rw [← ConcreteCategory.comp_apply, invBase_comp, TopCat.id_app]
 
 /-- `toAmbient i` is monotone. -/
@@ -252,7 +252,7 @@ theorem kernelSection_map {U V : X.Opens} (h : V ≤ U) (m : Γ(M, U)) :
     (homOfLE (i.preimage_mono (toAmbient_mono i h))).op) ((M.presheaf.map
       (eqToHom (preimage_toAmbient i U)).op).hom m))
   refine Eq.trans ?_ hn
-  show _ = (e.hom.app _).hom ((M.presheaf.map _).hom ((M.presheaf.map _).hom m))
+  change _ = (e.hom.app _).hom ((M.presheaf.map _).hom ((M.presheaf.map _).hom m))
   have hle : i ⁻¹ᵁ toAmbient i V ≤ U := by rw [preimage_toAmbient]; exact h
   exact congrArg (e.hom.app _).hom ((modules_map_map M _ _ (homOfLE hle).op m).trans
     (modules_map_map M _ _ _ m).symm)
@@ -314,7 +314,7 @@ theorem exists_kernelSection_eq (U : X.Opens) (a : (transported i).presheaf.obj 
   have h2 : (e.hom.app (i ⁻¹ᵁ toAmbient i U)).hom ((e.inv.app _).hom
       (Stacks.Conormal.conormalClass i (toAmbient i U) (le_refl _) a ha)) =
       Stacks.Conormal.conormalClass i (toAmbient i U) (le_refl _) a ha := by
-    show ((e.inv ≫ e.hom).app _).hom _ = _
+    change ((e.inv ≫ e.hom).app _).hom _ = _
     rw [e.inv_hom_id]
     rfl
   refine (congrArg (conormalSection hi (toAmbient i U))
@@ -437,7 +437,7 @@ omit [IsClosedImmersion i] [IsClosedImmersion i₂] in
 /-- If `i₂ ≫ ψ = i`, the preimage under `ψ` of `toAmbient i U` is `toAmbient i₂ U`. -/
 theorem preimage_toAmbient_map (U : X.Opens) : ψ ⁻¹ᵁ toAmbient i U = toAmbient i₂ U := by
   ext x
-  show (invBase i) (ψ.base x) ∈ U ↔ (invBase i₂) x ∈ U
+  change (invBase i) (ψ.base x) ∈ U ↔ (invBase i₂) x ∈ U
   rw [← ConcreteCategory.comp_apply, base_comp_invBase i i₂ hψ]
 
 /-- **The morphism `transported i ⟶ transported i₂` induced by a morphism `ψ : X'₂ ⟶ X'` with
@@ -468,7 +468,7 @@ theorem transportedMap_comp_reduction :
     transportedMap i i₂ hψ ≫ transportedReduction i₂ = transportedReduction i := by
   refine Sheaf.hom_ext (NatTrans.ext (funext fun U =>
     CommRingCat.hom_ext (RingHom.ext fun a => ?_)))
-  show (transportedReduction i₂).hom.app (op U.unop) ((transportedMap i i₂ hψ).hom.app U a) =
+  change (transportedReduction i₂).hom.app (op U.unop) ((transportedMap i i₂ hψ).hom.app U a) =
     (transportedReduction i).hom.app (op U.unop) a
   refine (transportedReduction_app i₂ U.unop _).trans ?_
   refine Eq.trans ?_ (transportedReduction_app i U.unop _).symm
@@ -516,7 +516,7 @@ theorem transportedMap_comp {X'₃ : Scheme.{u}} (i₃ : X ⟶ X'₃) [IsIso i�
       transportedMap i i₃ (show i₃ ≫ ψ' ≫ ψ = i by rw [← Category.assoc, hψ', hψ]) := by
   refine Sheaf.hom_ext (NatTrans.ext (funext fun U =>
     CommRingCat.hom_ext (RingHom.ext fun a => ?_)))
-  show (transportedMap i₂ i₃ hψ').hom.app (op U.unop) ((transportedMap i i₂ hψ).hom.app
+  change (transportedMap i₂ i₃ hψ').hom.app (op U.unop) ((transportedMap i i₂ hψ).hom.app
     (op U.unop) a) = (transportedMap i i₃ _).hom.app (op U.unop) a
   refine (transportedMap_app i₂ i₃ hψ' _ _).trans ?_
   refine Eq.trans ?_ (transportedMap_app i i₃ _ _ _).symm
@@ -525,7 +525,7 @@ theorem transportedMap_comp {X'₃ : Scheme.{u}} (i₃ : X ⟶ X'₃) [IsIso i�
     (eqToHom (preimage_toAmbient_map i i₂ hψ U.unop).symm).op) ((ψ.app _).hom a)
   change (ψ'.app _).hom ((X'₂.presheaf.map _) _) = (X'₃.presheaf.map _) ((ψ'.app _).hom _) at hn
   refine (congrArg _ hn).trans ((scheme_map_comp_apply _ _ _).trans ?_)
-  show _ = (X'₃.presheaf.map _) (((ψ' ≫ ψ).app _).hom a)
+  change _ = (X'₃.presheaf.map _) (((ψ' ≫ ψ).app _).hom a)
   exact congrArg (fun g => (X'₃.presheaf.map g).hom _) (Subsingleton.elim _ _)
 
 omit hψf in
@@ -536,9 +536,9 @@ omit [IsClosedImmersion i] in
 theorem transportedMap_id : transportedMap i i (Category.comp_id i) = 𝟙 _ := by
   refine Sheaf.hom_ext (NatTrans.ext (funext fun U =>
     CommRingCat.hom_ext (RingHom.ext fun a => ?_)))
-  show (transportedMap i i (Category.comp_id i)).hom.app (op U.unop) a = a
+  change (transportedMap i i (Category.comp_id i)).hom.app (op U.unop) a = a
   refine (transportedMap_app i i _ _ _).trans ?_
-  show (X'.presheaf.map _) ((Scheme.Hom.app (𝟙 X') _).hom a) = a
+  change (X'.presheaf.map _) ((Scheme.Hom.app (𝟙 X') _).hom a) = a
   exact scheme_map_self _ _
 
 end Map

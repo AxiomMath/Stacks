@@ -127,7 +127,7 @@ theorem cechComplexIsoOfComponentsDegree_comm (n : ℕ) :
         (cechComplex (PreZeroHypercover.mk I Z' g') Q).d n (n + 1) =
       (cechComplex (PreZeroHypercover.mk I Z g) P).d n (n + 1) ≫
         (cechComplexIsoOfComponentsDegree Z g Z' g' P Q e (n + 1)).hom := by
-  show (cechComplexIsoOfComponentsDegree Z g Z' g' P Q e n).hom ≫
+  change (cechComplexIsoOfComponentsDegree Z g Z' g' P Q e n).hom ≫
       (AlgebraicTopology.AlternatingCofaceMapComplex.obj
         ((FormalCoproduct.cosimplicialObjectFunctor.{w}
             (cechSimplicialObject (PreZeroHypercover.mk I Z' g'))).obj

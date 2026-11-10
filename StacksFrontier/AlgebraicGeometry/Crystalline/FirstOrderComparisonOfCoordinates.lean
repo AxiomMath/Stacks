@@ -43,10 +43,11 @@ def coordinateComparisonFun (x : M) : firstOrderExtension D Omega ⊗[D] M :=
     (θ x).sum fun c y ↦ (TrivSqZeroExt.inr (dx c) : firstOrderExtension D Omega) ⊗ₜ y
 
 /-- The map, as a sum over any finite set of indices containing the support. -/
-theorem coordinateComparisonFun_eq [DecidableEq ι] (x : M) (T : Finset ι)
+theorem coordinateComparisonFun_eq (x : M) (T : Finset ι)
     (hT : (θ x).support ⊆ T) :
     coordinateComparisonFun D Omega dx θ x = (1 : firstOrderExtension D Omega) ⊗ₜ x -
       ∑ c ∈ T, (TrivSqZeroExt.inr (dx c) : firstOrderExtension D Omega) ⊗ₜ θ x c := by
+  classical
   rw [coordinateComparisonFun, Finsupp.sum_of_support_subset _ hT _
     (fun c _ ↦ TensorProduct.tmul_zero _ _)]
 
@@ -81,7 +82,7 @@ theorem firstOrderP₁_smul_one_tmul_coord (a : D) (x : M) :
       (1 : firstOrderExtension D Omega) ⊗ₜ (a • x) +
         (TrivSqZeroExt.inr (d a) : firstOrderExtension D Omega) ⊗ₜ x := by
   rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
-  show (TrivSqZeroExt.inl a + TrivSqZeroExt.inr (d a) : firstOrderExtension D Omega) ⊗ₜ[D] x = _
+  change (TrivSqZeroExt.inl a + TrivSqZeroExt.inr (d a) : firstOrderExtension D Omega) ⊗ₜ[D] x = _
   rw [TensorProduct.add_tmul, ← TensorProduct.smul_tmul]
   congr 2
   ext <;> simp

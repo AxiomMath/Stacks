@@ -108,7 +108,7 @@ def sigmaModulesTrans (M : ∀ i, (Z i).Modules) (i j : I)
 theorem sigmaModulesTrans_self (M : ∀ i, (Z i).Modules) (i : I)
     {V : (∐ Z : Scheme.{u}).Opens} (hi hj : V ≤ (Sigma.ι Z i).opensRange) :
     sigmaModulesTrans Z M i i hi hj = LinearEquiv.refl _ _ := by
-  rw [sigmaModulesTrans, dif_pos rfl]
+  rw [sigmaModulesTrans, dite_eq_left rfl]
   rfl
 
 /-- The gluing datum on the summand charts of `∐ Z` given by a family of sheaves of modules on

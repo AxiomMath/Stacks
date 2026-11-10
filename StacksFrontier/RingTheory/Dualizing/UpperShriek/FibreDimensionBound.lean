@@ -114,7 +114,7 @@ theorem isCohenMacaulayAtMaximalIdeal_quotient
     [IsLocalRing (S ⧸ J)]
     (h : Module.IsMaximalCohenMacaulay (S ⧸ J) (S ⧸ J)) :
     Module.IsCohenMacaulayAtMaximalIdeal S (S ⧸ J) := by
-  show (Module.depth S (IsLocalRing.maximalIdeal S) (S ⧸ J) : WithBot ℕ∞) = _
+  change (Module.depth S (IsLocalRing.maximalIdeal S) (S ⧸ J) : WithBot ℕ∞) = _
   rw [Module.supportDim_quotient_eq_ringKrullDim,
     Module.depth_eq_depth_map_algebraMap (B := S ⧸ J) Ideal.Quotient.mk_surjective]
   have hmap : (IsLocalRing.maximalIdeal S).map (algebraMap S (S ⧸ J)) =
@@ -174,7 +174,7 @@ private theorem support_restrictScalars_iff
   have hann : Module.annihilator R M = Ideal.comap f (Module.annihilator A M) := by
     ext r
     simp only [Module.mem_annihilator, Ideal.mem_comap]
-    show (∀ m, r • m = 0) ↔ ∀ m, f r • m = 0
+    change (∀ m, r • m = 0) ↔ ∀ m, f r • m = 0
     have heq (m : M) : r • m = f r • m := by
       calc
         r • m = r • ((1 : A) • m) := by simp
@@ -183,7 +183,7 @@ private theorem support_restrictScalars_iff
     simp only [heq]
   rw [Module.support_eq_zeroLocus, Module.support_eq_zeroLocus, hann,
     PrimeSpectrum.mem_zeroLocus, PrimeSpectrum.mem_zeroLocus]
-  show Module.annihilator A M ≤ q.asIdeal ↔
+  change Module.annihilator A M ≤ q.asIdeal ↔
     Ideal.comap f (Module.annihilator A M) ≤ q.asIdeal.comap f
   constructor
   · intro h x hx
@@ -250,7 +250,7 @@ public theorem isPseudoCoherent_single_of_finite
     StacksDraft.PseudoCoherence.IsPseudoCoherent
       ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj M) := by
   let K := (DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj M
-  show StacksDraft.PseudoCoherence.IsPseudoCoherent K
+  change StacksDraft.PseudoCoherence.IsPseudoCoherent K
   refine (StacksDraft.PseudoCoherence.pseudoCoherent_iff_boundedAbove_finite_homology
     K 0 (M : Type u)).2.1.mpr ⟨⟨0, ?_⟩, ?_⟩
   · exact fun i hi => DerivedCategory.isZero_of_isLE K 0 i hi
@@ -282,7 +282,7 @@ public theorem finite_restrictScalars_ulift
       map_add' := fun x y => congrArg ULift.up (map_add p.toRingHom x y),
       map_smul' := by
         intro x y
-        show ULift.up (p.toRingHom (x * y)) = ULift.up (p.toRingHom x * p.toRingHom y)
+        change ULift.up (p.toRingHom (x * y)) = ULift.up (p.toRingHom x * p.toRingHom y)
         simp }
   refine Module.Finite.of_surjective g ?_
   intro x
@@ -465,7 +465,7 @@ theorem upperShriekFunctor_neg_relativeDimensionAt_le_of_nontrivial_localizedHom
     fFiber.comp ePoly.symm.toAlgHom
   have hgFiberSurj : Function.Surjective gFiber := hFiberSurj.comp ePoly.symm.surjective
   have hrUnder : r.asIdeal.under R = pBase := by
-    show Ideal.comap (MvPolynomial.C : R →+* P) (Ideal.comap p.toRingHom q.asIdeal) = _
+    change Ideal.comap (MvPolynomial.C : R →+* P) (Ideal.comap p.toRingHom q.asIdeal) = _
     rw [Ideal.comap_comap, p.commutes]
   obtain ⟨QA, hQA, hQAcomp⟩ :=
     Ideal.Fiber.exists_comap_includeRight_eq q.asIdeal pBase rfl
@@ -475,7 +475,7 @@ theorem upperShriekFunctor_neg_relativeDimensionAt_le_of_nontrivial_localizedHom
   have hcompFiber : fFiberRing.comp
       (Algebra.TensorProduct.includeRight : P →ₐ[R] FpP).toRingHom =
       (Algebra.TensorProduct.includeRight : A →ₐ[R] FpA).toRingHom.comp p.toRingHom := by
-    show ((AlgHom.restrictScalars R
+    change ((AlgHom.restrictScalars R
       (Algebra.TensorProduct.map (AlgHom.id K K) fPA)).toRingHom.comp
         (Algebra.TensorProduct.includeRight : P →ₐ[R] FpP).toRingHom) =
       (Algebra.TensorProduct.includeRight : A →ₐ[R] FpA).toRingHom.comp p.toRingHom
@@ -488,7 +488,7 @@ theorem upperShriekFunctor_neg_relativeDimensionAt_le_of_nontrivial_localizedHom
   have h00P2 := PrimeSpectrum.localKrullDim_add_height_comap_eq_natCard_add_height
     K gFiber hgFiberSurj qA
   have hheight : (Ideal.comap gFiber.toRingHom QA).height = Qp.height := by
-    show (Ideal.comap ePoly.symm.toRingHom Qp).height = Qp.height
+    change (Ideal.comap ePoly.symm.toRingHom Qp).height = Qp.height
     exact RingEquiv.height_comap ePoly.symm.toRingEquiv Qp
   have hdimFiber : (d : WithBot ℕ∞) + Qp.height =
       (p.variableCount : WithBot ℕ∞) + QA.height := by
@@ -502,7 +502,7 @@ theorem upperShriekFunctor_neg_relativeDimensionAt_le_of_nontrivial_localizedHom
   let rA : Ideal A := Ideal.comap
     (Algebra.TensorProduct.includeRight : A →ₐ[R] FpA).toRingHom QA
   have hrPA : rP = Ideal.comap p.toRingHom rA := by
-    show Ideal.comap (fFiberRing.comp
+    change Ideal.comap (fFiberRing.comp
       (Algebra.TensorProduct.includeRight : P →ₐ[R] FpP).toRingHom) QA = _
     rw [hcompFiber, ← Ideal.comap_comap]
   have hQpcomp : rP = r.asIdeal := hrPA.trans (congrArg (Ideal.comap p.toRingHom) hQAcomp)
@@ -542,7 +542,7 @@ theorem upperShriekFunctor_neg_relativeDimensionAt_le_of_nontrivial_localizedHom
   let J₀ : Ideal S₀ := (IsLocalRing.maximalIdeal R₀).map (algebraMap R₀ S₀)
   let J₀' : Ideal S₀ := pBase.map (algebraMap R S₀)
   have hJ₀ : J₀ = J₀' := by
-    show (IsLocalRing.maximalIdeal R₀).map (algebraMap R₀ S₀) = pBase.map (algebraMap R S₀)
+    change (IsLocalRing.maximalIdeal R₀).map (algebraMap R₀ S₀) = pBase.map (algebraMap R S₀)
     rw [← Localization.AtPrime.map_eq_maximalIdeal,
       Ideal.map_map, ← IsScalarTower.algebraMap_eq R R₀ S₀]
   let : Algebra R₀ (Localization.AtPrime
@@ -567,7 +567,7 @@ theorem upperShriekFunctor_neg_relativeDimensionAt_le_of_nontrivial_localizedHom
     exact ringKrullDim_eq_height_of_ringEquiv Qp eFiberP.toRingEquiv
   have hcompR : fLocal.comp (algebraMap R S₀) = algebraMap R T₀ := by
     ext x
-    show fLocal (algebraMap R S₀ x) = algebraMap R T₀ x
+    change fLocal (algebraMap R S₀ x) = algebraMap R T₀ x
     rw [IsScalarTower.algebraMap_apply R P S₀, Localization.localRingHom_to_map]
     have hpC : p.toRingHom (algebraMap R P x) = algebraMap R A x :=
       congrArg (fun g : R →+* A => g x) p.commutes
@@ -575,12 +575,12 @@ theorem upperShriekFunctor_neg_relativeDimensionAt_le_of_nontrivial_localizedHom
   let JA : Ideal T₀ := pBase.map (algebraMap R T₀)
   have hmapJ : J₀.map fLocal = JA := by
     rw [hJ₀]
-    show (pBase.map (algebraMap R S₀)).map fLocal = _
+    change (pBase.map (algebraMap R S₀)).map fLocal = _
     rw [Ideal.map_map, hcompR]
   let g : S₀ →+* T₀ ⧸ JA := (Ideal.Quotient.mk JA).comp fLocal
   have hg : Function.Surjective g := Ideal.Quotient.mk_surjective.comp hfLocal
   have hker : RingHom.ker g = J₀ ⊔ I₀ := by
-    show Ideal.comap fLocal (RingHom.ker (Ideal.Quotient.mk JA)) = _
+    change Ideal.comap fLocal (RingHom.ker (Ideal.Quotient.mk JA)) = _
     rw [Ideal.mk_ker, ← hmapJ, Ideal.comap_map_of_surjective _ hfLocal,
       ← RingHom.ker_eq_comap_bot]
   let eQuot := (Ideal.quotEquivOfEq hker.symm).trans (g.quotientKerEquivOfSurjective hg)
@@ -605,7 +605,7 @@ theorem upperShriekFunctor_neg_relativeDimensionAt_le_of_nontrivial_localizedHom
     · intro ha
       obtain ⟨x, rfl⟩ := p.surjective a
       refine ⟨x, ?_, rfl⟩
-      show x ∉ rP
+      change x ∉ rP
       rw [hrPA]
       exact ha
   have hIMap : I₀ = (RingHom.ker p.toRingHom).map (algebraMap P S₀) :=
@@ -614,16 +614,16 @@ theorem upperShriekFunctor_neg_relativeDimensionAt_le_of_nontrivial_localizedHom
   have hNann : I₀ ≤ Module.annihilator S₀ N := by
     rw [hIMap, Ideal.map_le_iff_le_comap]
     intro x hx
-    show algebraMap P S₀ x ∈ Module.annihilator S₀ N
+    change algebraMap P S₀ x ∈ Module.annihilator S₀ N
     rw [Module.mem_annihilator]
     intro y
-    show algebraMap P S₀ x • y = 0
+    change algebraMap P S₀ x • y = 0
     rw [algebraMap_smul]
     induction y using LocalizedModule.induction_on with
     | h a t =>
       rw [LocalizedModule.smul'_mk]
       have hxa : x • a = 0 := by
-        show ULift.up (p.toRingHom x * a.down) = ULift.up 0
+        change ULift.up (p.toRingHom x * a.down) = ULift.up 0
         rw [RingHom.mem_ker.mp hx, zero_mul]
       rw [hxa, LocalizedModule.zero_mk]
   have hrLocal' : Nontrivial (DerivedCategory.Ext

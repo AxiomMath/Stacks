@@ -124,10 +124,10 @@ lemma homologyMap_map_eq_zero {K L : HomologicalComplex C c} (φ : K ⟶ L)
     (hφ : HomologicalComplex.homologyMap φ j = 0) :
     HomologicalComplex.homologyMap ((G.mapHomologicalComplex c).map φ) j = 0 := by
   have hz : (HomologicalComplex.homologyFunctor C c j ⋙ G).map φ = 0 := by
-    show G.map (HomologicalComplex.homologyMap φ j) = 0
+    change G.map (HomologicalComplex.homologyMap φ j) = 0
     rw [hφ, G.map_zero]
   refine eq_zero_of_comp_iso ((mapHomologicalComplexHomologyFunctorIso G c j).app L) ?_
-  show (G.mapHomologicalComplex c ⋙ HomologicalComplex.homologyFunctor D c j).map φ ≫
+  change (G.mapHomologicalComplex c ⋙ HomologicalComplex.homologyFunctor D c j).map φ ≫
     (mapHomologicalComplexHomologyFunctorIso G c j).hom.app L = 0
   rw [(mapHomologicalComplexHomologyFunctorIso G c j).hom.naturality φ, hz, comp_zero]
 

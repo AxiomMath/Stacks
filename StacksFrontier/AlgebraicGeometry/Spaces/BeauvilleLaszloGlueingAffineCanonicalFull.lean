@@ -169,7 +169,7 @@ private theorem contains_spec_tensorProduct (B : BigFppfSite.{u}) (R A S : Type 
     [CommRing A] [CommRing S] [Algebra R A] [Algebra R S]
     (hA : B.Contains (Spec (.of A))) (hS : B.Contains (Spec (.of S))) :
     B.Contains (Spec (.of (A ⊗[R] S))) := by
-  show (Spec (.of (A ⊗[R] S))).size < B.cutoff
+  change (Spec (.of (A ⊗[R] S))).size < B.cutoff
   rw [← Scheme.size_congr (pullbackSpecIso R A S)]
   exact Scheme.size_pullback_lt _ _ hA hS
 
@@ -193,8 +193,7 @@ variable (A : Type u) [CommRing A] [Algebra R A]
 private theorem map_awayAlgHom_eq (z : A ⊗[R] Localization.Away f) :
     Algebra.TensorProduct.map (AlgHom.id R A) (awayAlgHom (R' := R') f) z =
       BeauvilleLaszlo.localizedBaseChangeToAway (S := R') A f z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul a x =>
       rw [Algebra.TensorProduct.map_tmul, BeauvilleLaszlo.localizedBaseChangeToAway_tmul]
       rfl
@@ -206,8 +205,7 @@ private theorem map_toAlgHom_eq (z : A ⊗[R] R') :
     Algebra.TensorProduct.map (AlgHom.id R A)
         (IsScalarTower.toAlgHom R R' (Localization.Away (algebraMap R R' f))) z =
       BeauvilleLaszlo.baseChangeToAway (S := R') A f z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul a x =>
       rw [Algebra.TensorProduct.map_tmul, BeauvilleLaszlo.baseChangeToAway_tmul]
       rfl
@@ -316,7 +314,7 @@ private theorem relocalizeRestrictSpecOverIso_inv_app_id (ψ : A ⟶ As)
           (BigFppfOver.specOver B hX hA φ)).hom.app
         (op (BigFppfOver.specOver B hS hAs φs))
         (BigFppfOver.pullbackSpecOverIso B hX hA hS hAs φ ρ φs ψ hpo).inv := by
-    show (OverShriek.restrictYonedaIso
+    change (OverShriek.restrictYonedaIso
         (ObjectProperty.homMk (Spec.map ρ) : B.obj hS ⟶ B.obj hX)
         (BigFppfOver.specOver B hX hA φ)).hom.app
           (op (BigFppfOver.specOver B hS hAs φs))
@@ -324,7 +322,7 @@ private theorem relocalizeRestrictSpecOverIso_inv_app_id (ψ : A ⟶ As)
             (BigFppfOver.pullbackSpecOverIso B hX hA hS hAs φ ρ φs ψ hpo).inv) = _
     rw [Category.id_comp]
   rw [h1]
-  show ((OverShriek.restrictYonedaIso
+  change ((OverShriek.restrictYonedaIso
       (ObjectProperty.homMk (Spec.map ρ) : B.obj hS ⟶ B.obj hX)
       (BigFppfOver.specOver B hX hA φ)).hom.app
         (op (BigFppfOver.specOver B hS hAs φs))
@@ -346,7 +344,7 @@ private theorem hom_ext_baseChangeSection (ψ : A ⟶ As) (hpo : IsPushout φ ρ
           (baseChangeSection B hX hA hS hAs φ ρ φs ψ hpo.w)) : α = β := by
   rw [← (BigFppfOver.relocalizeRestrictSpecOverIso B hX hA hS hAs φ ρ φs ψ hpo).cancel_iso_inv_left]
   apply yonedaEquiv.injective
-  show α.app (op (BigFppfOver.specOver B hS hAs φs))
+  change α.app (op (BigFppfOver.specOver B hS hAs φs))
       ((BigFppfOver.relocalizeRestrictSpecOverIso B hX hA hS hAs φ ρ φs ψ hpo).inv.app
         (op (BigFppfOver.specOver B hS hAs φs))
         (𝟙 (BigFppfOver.specOver B hS hAs φs))) =
@@ -449,7 +447,7 @@ private theorem sectLeft_relocalizeRestrict_map (hpoA : IsPushout φ ρ ψA φs)
       ((Over.map (ObjectProperty.homMk (Spec.map w) : B.obj hT ⟶ B.obj hS)).obj
         (BigFppfOver.specOver B hT hAt φt)).hom := by
     apply ObjectProperty.hom_ext
-    show Spec.map Ψ ≫ Spec.map φs = Spec.map φt ≫ Spec.map w
+    change Spec.map Ψ ≫ Spec.map φs = Spec.map φt ≫ Spec.map w
     rw [← Spec.map_comp, ← Spec.map_comp, hΨ₂]
   set κ : (Over.map (ObjectProperty.homMk (Spec.map w) : B.obj hT ⟶ B.obj hS)).obj
       (BigFppfOver.specOver B hT hAt φt) ⟶ BigFppfOver.specOver B hS hAs φs :=
@@ -943,7 +941,7 @@ theorem canonicalAffineGlueableRestriction_full
   have iC : Z.obj ≅ schemeSpace (BigFppfOver.specOver B hX hC ν) :=
     ObjectProperty.isoMk _ (eC ≪≫ yoneda.mapIso eC')
   have : IsIso iA.inv.hom := by
-    show IsIso ((ObjectProperty.ι (IsAlgebraicSpace B (Spec (.of R)) hX)).map iA.inv)
+    change IsIso ((ObjectProperty.ι (IsAlgebraicSpace B (Spec (.of R)) hX)).map iA.inv)
     infer_instance
   have hAgs : AlgebraicGeometry.Space.IsGlueableGlobalSections g f B hX
       (BigFppfOver.specOver B hX hA φ) :=

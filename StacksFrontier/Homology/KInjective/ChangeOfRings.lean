@@ -6,7 +6,7 @@ public import Mathlib.Algebra.Category.ModuleCat.ChangeOfRings
 public import Mathlib.Algebra.Category.ModuleCat.ChangeOfRingsExact
 public import Mathlib.Algebra.Homology.HomotopyCategory.KInjective
 public import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 public import Mathlib.RingTheory.RingHom.Flat
 public import StacksFrontier.Algebra.Homology.DerivedCategory.KInjective
 public import StacksFrontier.Algebra.Homology.KFlat

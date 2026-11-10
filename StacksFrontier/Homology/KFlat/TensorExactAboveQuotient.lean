@@ -101,7 +101,7 @@ theorem kFlat_of_rTensor_quotient_exact (C : CochainComplex (ModuleCat.{u} R) �
     C.KFlat := by
   have hseq : ∀ k : ℕ, ((truncLEFromSequence C (m + 1)).obj k).KFlat := by
     intro k
-    show (C.truncLE (m + 1 + k)).KFlat
+    change (C.truncLE (m + 1 + k)).KFlat
     have := flat_cycles_of_rTensor_quotient_exact C (m + 1 + k)
       (fun I => hC I (m + 1 + k) (by omega))
     have : ∀ i, Module.Flat R ((C.truncLE (m + 1 + k)).X i) :=

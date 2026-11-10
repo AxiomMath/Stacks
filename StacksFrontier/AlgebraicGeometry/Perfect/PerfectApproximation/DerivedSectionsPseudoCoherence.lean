@@ -48,8 +48,9 @@ dévissage stands for any scheme satisfying it. It is discharged in the second r
 `X` ([Stacks, Tag 08EQ]), and for a quasi-compact quasi-separated `X` by [Stacks, Tag 08ES],
 `AlgebraicGeometry.PerfectApproximation.hasApproximationByPerfectComplexes`; [Stacks, Tag 0CSH]
 itself, with the functor `RΓ(X, - ⊗^𝐋 K)` made concrete, is
-`AlgebraicGeometry.isPseudoCoherent_derivedGlobalSectionsOver_tensor_of_isPseudoCoherent` in
-`StacksFrontier.AlgebraicGeometry.Perfect.PerfectApproximation.DerivedSectionsTensorPseudoCoherence`.
+`AlgebraicGeometry.isPseudoCoherent_derivedGlobalSectionsOver_tensor_of_isPseudoCoherent`
+in the module `DerivedSectionsTensorPseudoCoherence` of
+`StacksFrontier.AlgebraicGeometry.Perfect.PerfectApproximation`.
 
 The functor is abstract rather than spelled as `RΓ(X, - ⊗^𝐋_{𝒪_X} K)` for two reasons. The
 derived tensor product of `D(𝒪_X)` and the perfectness predicate each occur in this library under

@@ -520,7 +520,7 @@ public theorem exists_koszulTateFullBeta (f : Fin r → R)
       koszulPowerDifferential f (ee 1) (exteriorGen R r j.down) =
         ((koszulTransitionDPHom f (ee 0) (ee 1)).comp G0).hom (tateCycle A₀ 0 j) := by
     intro j
-    show _ = koszulPowerTransitionHom f (ee 0) (ee 1) (G0.hom (f j.down ^ N))
+    change _ = koszulPowerTransitionHom f (ee 0) (ee 1) (G0.hom (f j.down ^ N))
     rw [hG0val, AlgHom.commutes, hee1, koszulPowerDifferential_exteriorGen]
   obtain ⟨G1, hG1res, hG1gen, hG1d⟩ :=
     tateStep_exists_gradedDPHom_comm_differential A₀ 0 (koszulGradedDPAlgebra R r)
@@ -603,10 +603,10 @@ public theorem exists_koszulTateFullBeta (f : Fin r → R)
     (koszulPowerDifferential f n) H hHstep hHd
   refine ⟨F, hFd, fun p => ?_, fun i => ?_⟩
   · refine (hFres 0 p).trans ?_
-    show koszulPowerTransitionHom f (ee 0) n (G0.hom p) = _
+    change koszulPowerTransitionHom f (ee 0) n (G0.hom p) = _
     rw [hG0val, AlgHom.commutes]
   · rw [koszulTateFullVariable, tateVariable, hFres 1 (tateGenerator A₀ 0 (ULift.up i))]
-    show koszulPowerTransitionHom f (ee 1) n ((G 1).hom (tateGenerator A₀ 0 (ULift.up i)))
+    change koszulPowerTransitionHom f (ee 1) n ((G 1).hom (tateGenerator A₀ 0 (ULift.up i)))
       = _
     rw [show (G 1).hom (tateGenerator A₀ 0 (ULift.up i)) = exteriorGen R r i from
       hG1gen (ULift.up i), hee1]
@@ -693,7 +693,7 @@ public theorem exists_tateResolution_koszulPowers_of_killsKoszulHomology (f : Fi
     exact ⟨koszulTateFullCoefficient f N c, (koszulTateFullAugmentation_coefficient f N c).trans hc⟩
   · have hcomp : (koszulTateFullAugmentation f N).hom.comp α = koszulPowerAugmentation f N := by
       refine ExteriorAlgebra.hom_ext (LinearMap.ext fun p => ?_)
-      show (koszulTateFullAugmentation f N).hom (α (ExteriorAlgebra.ι R p)) =
+      change (koszulTateFullAugmentation f N).hom (α (ExteriorAlgebra.ι R p)) =
         koszulPowerAugmentation f N (ExteriorAlgebra.ι R p)
       rw [koszulPowerAugmentation_ι, ι_eq_sum_exteriorGen, map_sum, map_sum]
       refine Finset.sum_eq_zero fun i _ => ?_
@@ -702,7 +702,7 @@ public theorem exists_tateResolution_koszulPowers_of_killsKoszulHomology (f : Fi
     exact AlgHom.congr_fun hcomp
   · have hcomp : β.hom.comp α = koszulPowerTransitionHom f N n := by
       refine ExteriorAlgebra.hom_ext (LinearMap.ext fun p => ?_)
-      show β.hom (α (ExteriorAlgebra.ι R p)) =
+      change β.hom (α (ExteriorAlgebra.ι R p)) =
         koszulPowerTransitionHom f N n (ExteriorAlgebra.ι R p)
       rw [ι_eq_sum_exteriorGen, map_sum, map_sum, map_sum]
       refine Finset.sum_congr rfl fun i _ => ?_

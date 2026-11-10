@@ -398,7 +398,7 @@ private lemma IsLocalization.algHom_ext' {R R' S E : Type*} [CommSemiring R] [Co
     [CommSemiring S] [CommSemiring E] [Algebra R R'] (T : Submonoid R) [IsLocalization T R']
     [Algebra S R'] [Algebra S E] {y z : R' →ₐ[S] E}
     (h : ∀ x : R, y (algebraMap R R' x) = z (algebraMap R R' x)) : y = z :=
-  AlgHom.coe_ringHom_injective (IsLocalization.ringHom_ext T (RingHom.ext h))
+  AlgHom.toRingHom_injective (IsLocalization.ringHom_ext T (RingHom.ext h))
 
 /-- Let `algebraMap R S` be surjective, let `N ⊆ S` be a submonoid, let `Rₙ` be a localization of
 `R` at `N.comap (algebraMap R S)` and `Sₙ` a localization of `S` at `N`, and let `h : Rₙ → Sₙ` be
@@ -876,8 +876,7 @@ private lemma character_apply_eq_zero (hP : P.IsUniversalFirstOrderThickening)
       ((((TensorProduct.mk P.Ring B Ω[P.Ring⁄R] 1).restrictScalars A).comp
         (KaehlerDifferential.map R R A P.Ring)).liftBaseChange B t) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul b ω =>
         have hb : (b ⊗ₜ[A] ω : B ⊗[A] Ω[A⁄R]) = b • (1 ⊗ₜ[A] ω) := by
           rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
@@ -915,12 +914,10 @@ private lemma surjective_map (hP : P.IsUniversalFirstOrderThickening) :
   have hmbc : Function.Surjective (KaehlerDifferential.mapBaseChange R A P.Ring) := fun ω =>
     (KaehlerDifferential.exact_mapBaseChange_map R A P.Ring ω).1 (Subsingleton.elim _ _)
   intro t
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction t using TensorProduct.inductionOn with
   | tmul b ω =>
       obtain ⟨y, rfl⟩ := hmbc ω
-      induction y using TensorProduct.induction_on with
-      | zero => exact ⟨0, by simp⟩
+      induction y using TensorProduct.inductionOn with
       | tmul p ω₀ =>
           refine ⟨(algebraMap P.Ring B p * b) ⊗ₜ[A] ω₀, ?_⟩
           simp only [LinearMap.liftBaseChange_tmul, KaehlerDifferential.mapBaseChange_tmul,

@@ -66,7 +66,7 @@ theorem isScalarTower_globalSections_intersection {k : Type u} [Field k] {X : Sc
       Scheme.IdealSheafData.inclusion
         (le_sup_left : J ≤ intersectionWithComplementaryCurveIdeal J) ≫ (J.subschemeι ≫ f) := by
     rw [← Category.assoc, Scheme.IdealSheafData.inclusion_subschemeι]
-  show ((Scheme.ΓSpecIso (.of k)).inv ≫
+  change ((Scheme.ΓSpecIso (.of k)).inv ≫
     ((intersectionWithComplementaryCurveIdeal J).subschemeι ≫ f).appTop).hom x = _
   rw [hfac, Scheme.Hom.comp_appTop]
   rfl
@@ -187,7 +187,7 @@ theorem finrank_sup_complementaryCurveIdeal_component_eq_two [IsSepClosed k]
       (vanishingIdeal (Closeds.closure Z) ⊔
         (Λ.erase Z).inf fun W : Set X => vanishingIdeal (Closeds.closure W))
       (by
-        show vanishingIdeal (Closeds.closure Z) ⊔
+        change vanishingIdeal (Closeds.closure Z) ⊔
           complementaryCurveIdeal (vanishingIdeal (Closeds.closure Z)) ≤ _
         refine sup_le_sup_left (Finset.le_inf fun W hW => ?_) _
         refine (complementaryCurveIdeal_vanishingIdeal_eq_inf hX_nodal I Λ hΛ hZ).le.trans ?_

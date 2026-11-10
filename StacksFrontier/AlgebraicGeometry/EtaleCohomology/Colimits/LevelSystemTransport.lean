@@ -48,15 +48,18 @@ abbrev stageMor {i j : E.system.I} (a : i ⟶ j) : D.obj (stage E i) ⟶ D.obj (
 /-- The leg of the cocone `d` at the stage of a level. -/
 abbrev stageProj (i : E.system.I) : D.obj (stage E i) ⟶ d.pt := d.ι.app (stage E i)
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- The leg at a level factors as the transition to a later level followed by the leg there. -/
 theorem stageProj_eq {i j : E.system.I} (a : i ⟶ j) :
     stageProj E d i = stageMor E a ≫ stageProj E d j :=
   (d.w _).symm
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- The transition morphism of an identity arrow is the identity. -/
 theorem stageMor_id (i : E.system.I) : stageMor E (𝟙 i) = 𝟙 _ := by
   simp [stageMor]
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- The transition morphism of a composite arrow is the composite of the transition morphisms. -/
 theorem stageMor_comp {i j k : E.system.I} (a : i ⟶ j) (b : j ⟶ k) :
     stageMor E (a ≫ b) = stageMor E a ≫ stageMor E b := by
@@ -76,6 +79,7 @@ def stagePushId (i : E.system.I) :
     (Functor.sheafPushforwardContinuousIso
       (smallEtaleBaseChangeIdOf (stageMor E (𝟙 i)) (stageMor_id E i)) Ab.{max u v + 1} _ _).symm
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- The components of `stagePushId` are restrictions along the identification of the base change
 along the identity transition with the identity. -/
 theorem stagePushId_hom_app_hom_app (i : E.system.I)
@@ -102,6 +106,7 @@ def transitionFlat (𝓜 : Sheaf (smallEtaleTopology d.pt) Ab.{max u v + 1}) {i 
     (P := fun {i j : E.system.I} (a : i ⟶ j) => smallEtalePushforwardAb (stageMor E a))
     (fun i => smallEtaleAdjunctionAb (stageProj E d i)) (fun a => projPushComp E d a) 𝓜 a
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- At an identity arrow, the inverse of `projPushComp` is the direct image of `stagePushId`. -/
 theorem projPushComp_id_inv_app (i : E.system.I)
     (Z : Sheaf (smallEtaleTopology (D.obj (stage E i))) Ab.{max u v + 1}) :
@@ -119,6 +124,7 @@ theorem projPushComp_id_inv_app (i : E.system.I)
   congr 3
   exact Iso.ext hu
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- The inverse of `projPushComp` at a composite arrow is the composite of its inverses at the
 factors, followed by the direct image of `stagePushComp`. -/
 theorem projPushComp_comp_inv_app {i j k : E.system.I} (a : i ⟶ j) (b : j ⟶ k)
@@ -136,6 +142,7 @@ theorem projPushComp_comp_inv_app {i j k : E.system.I} (a : i ⟶ j) (b : j ⟶ 
   rw [← reassoc_of% h, ← Functor.map_comp, Iso.inv_hom_id_app, CategoryTheory.Functor.map_id,
     Category.comp_id]
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- The transition of `transitionFlat` at an identity arrow is given by `stagePushId`. -/
 theorem transitionFlat_id (𝓜 : Sheaf (smallEtaleTopology d.pt) Ab.{max u v + 1})
     (i : E.system.I) :
@@ -145,6 +152,7 @@ theorem transitionFlat_id (𝓜 : Sheaf (smallEtaleTopology d.pt) Ab.{max u v + 
     (fun i => smallEtaleAdjunctionAb (stageProj E d i)) (fun i => stagePushId E i)
     (fun a => projPushComp E d a) (projPushComp_id_inv_app E d) 𝓜 i
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- The transition of `transitionFlat` at a composite arrow is the composite of the transitions
 at the factors, followed by `stagePushComp`. -/
 theorem transitionFlat_comp (𝓜 : Sheaf (smallEtaleTopology d.pt) Ab.{max u v + 1})
@@ -166,6 +174,7 @@ variable
 
 attribute [local instance] isContinuous_transition
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- `levelMathlib` is continuous. -/
 theorem isContinuous_levelMathlib (i : E.system.I) :
     (levelMathlib E i).IsContinuous (E.system.J i) (smallEtaleTopology (D.obj (stage E i))) :=
@@ -175,12 +184,14 @@ theorem isContinuous_levelMathlib (i : E.system.I) :
 
 attribute [local instance] isContinuous_levelMathlib
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- The composite of the transition functor of the levels with `levelMathlib` is continuous. -/
 theorem isContinuous_transition_comp_levelMathlib {i j : E.system.I} (a : i ⟶ j) :
     (E.system.u a ⋙ levelMathlib E i).IsContinuous (E.system.J j)
       (smallEtaleTopology (D.obj (stage E i))) :=
   Functor.isContinuous_comp _ _ _ (E.system.J i) _
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- The composite of `levelMathlib` with base change along a transition morphism is continuous. -/
 theorem isContinuous_levelMathlib_comp_baseChange {i j : E.system.I} (a : i ⟶ j) :
     (levelMathlib E j ⋙ smallEtaleBaseChange (stageMor E a)).IsContinuous (E.system.J j)
@@ -207,6 +218,7 @@ def levelMathlibSquare {i j : E.system.I} (a : i ⟶ j) :
     (levelMathlibIso E a (stageMor E a) (inclusion_map_stageMap E a)) Ab.{max u v + 1}
     (E.system.J j) (smallEtaleTopology (D.obj (stage E i)))
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- The components of the inverse of `levelMathlibSquare` are restrictions along
 `levelMathlibIso`. -/
 theorem levelMathlibSquare_inv_app_hom_app {i j : E.system.I} (a : i ⟶ j)
@@ -226,6 +238,7 @@ def levelTransitionFlat (𝓜 : Sheaf (smallEtaleTopology d.pt) Ab.{max u v + 1}
   (levelMathlibRestrict E j).map (transitionFlat E d 𝓜 a) ≫
     (levelMathlibSquare E a).inv.app _
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- The transition of `levelTransitionFlat` at an identity arrow is the identification of the
 direct image along the identity with the identity. -/
 theorem levelTransitionFlat_id (𝓜 : Sheaf (smallEtaleTopology d.pt) Ab.{max u v + 1})
@@ -247,6 +260,7 @@ theorem levelTransitionFlat_id (𝓜 : Sheaf (smallEtaleTopology d.pt) Ab.{max u
     ((levelMathlib E i).op.map (eqToHom _))
   simp only [eqToHom_map, eqToHom_op]
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- **The composition law of `levelMathlibSquare`.** -/
 theorem levelMathlibSquare_comp_inv_app {i j k : E.system.I} (a : i ⟶ j) (b : j ⟶ k)
     (M : Sheaf (smallEtaleTopology (D.obj (stage E i))) Ab.{max u v + 1}) :
@@ -291,6 +305,7 @@ theorem levelMathlibSquare_comp_inv_app {i j k : E.system.I} (a : i ⟶ j) (b : 
   congr 2
   simp only [eqToHom_map, eqToHom_op]
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- The transition of `levelTransitionFlat` at a composite arrow is the composite of the
 transitions at the factors, followed by the comparison of direct images along a composite. -/
 theorem levelTransitionFlat_comp (𝓜 : Sheaf (smallEtaleTopology d.pt) Ab.{max u v + 1})

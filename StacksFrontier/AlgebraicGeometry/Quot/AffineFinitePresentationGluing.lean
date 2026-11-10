@@ -189,7 +189,7 @@ theorem exists_isPullback_totalProj (R : (SchemesOver Y)ᵒᵖ ⥤ Type u) (V : 
   let e : totalPresheaf (restrictTestScheme R V) ≅ H.1 :=
     (totalPresheafIso c').symm ≪≫ totalPresheafSpacePointsOverIso p
   have he : e.hom ≫ p.hom = totalProj (restrictTestScheme R V) := by
-    show totalPresheafMap c'.inv ≫ (totalPresheafSpacePointsOverIso p).hom ≫ p.hom = _
+    change totalPresheafMap c'.inv ≫ (totalPresheafSpacePointsOverIso p).hom ≫ p.hom = _
     rw [totalPresheafSpacePointsOverIso_hom_comp, totalPresheafMap_totalProj]
   have h₀ : IsPullback e.inv p.hom (totalProj (restrictTestScheme R V)) (𝟙 _) :=
     IsPullback.of_horiz_isIso ⟨by rw [← he, Iso.inv_hom_id_assoc, Category.comp_id]⟩

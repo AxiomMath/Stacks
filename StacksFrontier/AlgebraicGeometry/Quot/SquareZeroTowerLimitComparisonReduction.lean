@@ -56,11 +56,11 @@ theorem exists_mem_sections_of_surjective_map {F : ℕᵒᵖ ⥤ Type v}
     F.map (homOfLE (Nat.le_add_left (unop j) n)).op (b (unop j))
   refine ⟨s, fun {j j'} g ↦ ?_, ?_⟩
   · have hle : unop j' ≤ unop j := leOfHom g.unop
-    show F.map g (F.map (homOfLE (Nat.le_add_left (unop j) n)).op (b (unop j))) =
+    change F.map g (F.map (homOfLE (Nat.le_add_left (unop j) n)).op (b (unop j))) =
       F.map (homOfLE (Nat.le_add_left (unop j') n)).op (b (unop j'))
     rw [← Functor.map_comp_apply, ← hchain _ _ hle, ← Functor.map_comp_apply]
     rfl
-  · show F.map (homOfLE (Nat.le_add_left n n)).op (b n) = b 0
+  · change F.map (homOfLE (Nat.le_add_left n n)).op (b n) = b 0
     rw [← hchain 0 n (Nat.zero_le n)]
 
 end CategoryTheory.Limits.Types

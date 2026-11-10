@@ -71,7 +71,7 @@ lemma stupidTruncMap_stupidTruncGEπ (p : ℤ) :
       stupidTruncGEπ K p ≫ (single C (.up ℤ) p).map (φ.f p) := by
   apply to_single_hom_ext
   have hp : (embeddingUpIntGE p).f (p - p).toNat = p := by
-    show p + (((p - p).toNat : ℤ)) = p; omega
+    change p + (((p - p).toNat : ℤ)) = p; omega
   have hnat := stupidTruncMap_stupidTruncXIso_hom φ (embeddingUpIntGE p) hp
   simp only [HomologicalComplex.comp_f, stupidTruncGEπ_f, single_map_f_self, Category.assoc,
     Iso.inv_hom_id_assoc]

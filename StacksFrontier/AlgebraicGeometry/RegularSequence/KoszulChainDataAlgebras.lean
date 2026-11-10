@@ -10,7 +10,8 @@ public import StacksFrontier.AlgebraicGeometry.RegularSequence.StalkTests
 Let `O♯` be a sheaf of commutative rings on a topological space `X`, let `F = (O♯)ʳ` be the finite
 free sheaf of `O♯`-modules on `r` generators and let `φ : F ⟶ O♯` be a morphism of sheaves of
 modules. `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/KoszulSheafDifferential.lean` and
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/KoszulStalkComplexIso.lean` compute the stalks of the Koszul complex of `φ` from a hypothesis,
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/KoszulStalkComplexIso.lean` compute the stalks of
+the Koszul complex of `φ` from a hypothesis,
 `Stacks.RegularSequence.KoszulChainData`: the degree-lowering morphisms of the exterior algebra,
 the graded Leibniz rule, the value on a degree-one generator, and the associated `ℤ`-indexed chain
 complex.

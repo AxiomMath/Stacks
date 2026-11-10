@@ -376,7 +376,7 @@ theorem derivedExternalTensorHomModelEquiv_derivedExternalTensorMapStd
     derivedExternalTensorHomModelEquiv f g K K' L L' (derivedExternalTensorMapStd f g u v) =
       derivedExternalTensorMap f g ((schemeModulesComparison X).functor.map u)
         ((schemeModulesComparison Y).functor.map v) := by
-  show (derivedExternalTensorModelIso f g K L).inv ≫ _ ≫ _ = _
+  change (derivedExternalTensorModelIso f g K L).inv ≫ _ ≫ _ = _
   rw [Iso.inv_comp_eq]
   exact derivedExternalTensorModelIso_naturality f g u v
 
@@ -463,6 +463,7 @@ def transformedImagePairingStd (i j : ℕ) :
       ((@DerivedCategory.singleFunctor X.Modules _ _ (HasDerivedCategory.standard _) 0).map p.1)
       p.2
 
+omit [Linear k X.Modules] [Linear k Y.Modules] in
 /-- The pairing `transformedImagePairingStd` sends a single pair `(a, c)` to `single(a) ⊠ c`. -/
 @[simp]
 theorem transformedImagePairingStd_of {i j : ℕ} (p : R.ImagePairStd F i j) :
@@ -480,6 +481,7 @@ def secondFactorImageHomLinearEquiv (i j : ℕ) :
       (R.secondFactorImageStd F i ⟶ R.secondFactorImageStd F j) :=
   InducedCategory.homLinearEquiv (R := k) ≪≫ₗ modelHomLinearEquiv Y k _ _
 
+omit [Linear k X.Modules] in
 /-- The equivalence `secondFactorImageHomLinearEquiv` sends a morphism `c` to the preimage, under
 the comparison functor, of its underlying morphism. -/
 theorem secondFactorImageHomLinearEquiv_apply {i j : ℕ}
@@ -499,6 +501,7 @@ def transformedTermHomModelEquiv (i j : ℕ) :
   derivedExternalTensorHomModelEquiv f g (R.firstFactorStd i) (R.firstFactorStd j)
     (R.secondFactorImageStd F i) (R.secondFactorImageStd F j)
 
+omit [Linear k X.Modules] in
 /-- **The two identifications match the two pairings on generators**: the pure map
 `single(a) ⊠ c` at the standard model goes to the pure map `single(a) ⊠ c` at the locally small
 model. -/

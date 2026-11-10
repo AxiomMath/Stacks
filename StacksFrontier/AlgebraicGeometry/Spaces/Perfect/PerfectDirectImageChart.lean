@@ -240,7 +240,7 @@ theorem isGrothendieckAbelian_inverseImageModules {X Y : AlgebraicSpaces B S hS}
     IsGrothendieckAbelian.{u}
       (RingedSite.Modules.{u + 1, u, u} (inverseImageRingedSite B S hS f)) :=
   have : EssentiallySmall.{u} (inverseImageRingedSite B S hS f).C := by
-    show EssentiallySmall.{u} (SmallEtale B S hS X.1)
+    change EssentiallySmall.{u} (SmallEtale B S hS X.1)
     infer_instance
   SheafOfModules.isGrothendieckAbelian_of_essentiallySmall _
 

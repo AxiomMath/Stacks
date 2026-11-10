@@ -405,7 +405,7 @@ theorem derivedPullbackIsoOfTwoIso_pasteVertical_symm_hom_app
         (derivedPullbackIsoOfTwoIso (RingedToposHom.TwoIso.associator f' l g)).hom.app N ≫
         (derivedPullbackIsoOfTwoIso (sb.symm.whiskerLeft f')).hom.app N ≫
         (derivedPullbackIsoOfTwoIso (RingedToposHom.TwoIso.associator f' g' m)).inv.app N := by
-  show (derivedPullbackIsoOfTwoIso
+  change (derivedPullbackIsoOfTwoIso
     (RingedToposHom.TwoIso.pasteHorizontal sb.symm st.symm)).hom.app N = _
   rw [RingedToposHom.TwoIso.pasteHorizontal,
     derivedPullbackIsoOfTwoIso_trans, derivedPullbackIsoOfTwoIso_trans,

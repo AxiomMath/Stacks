@@ -230,6 +230,7 @@ theorem ker_stageQuotientRingMap_stageQuotientToStage (K : WeakIdeals A) (𝔠 :
       (ker_hom_ΓSpecIso_inv_comp_appTop_specMap_quotientMk
         (Ideal.map (Ideal.Quotient.mk K.1) 𝔠))
 
+omit [IsTopologicalRing A] [IsLinearTopology A A] in
 /-- **The ideal of `A` cut out by the double quotient of a stage ring** is `𝔠 ⊔ K`: the kernel of
 the double quotient map is the image of `𝔠` in `A ⧸ K`, whose inverse image in `A` is `𝔠 ⊔ K`. -/
 theorem stageIdeal_stageQuotientPoint (K : WeakIdeals A) (𝔠 : Ideal A) :
@@ -245,6 +246,7 @@ theorem stageIdeal_stageQuotientPoint (K : WeakIdeals A) (𝔠 : Ideal A) :
 
 /-! ### The points of the double quotient of a stage ring lie in the closed set -/
 
+omit [IsTopologicalRing A] [IsLinearTopology A A] in
 /-- **The points of the double quotient of a stage ring at `𝔞 ^ n` lie in `T`**, for `𝔞` an ideal
 cutting out `T` at every stage and `n ≠ 0`. The image of the double quotient in `Spec (A ⧸ K)`
 lies in the zero locus of the image of `𝔞`

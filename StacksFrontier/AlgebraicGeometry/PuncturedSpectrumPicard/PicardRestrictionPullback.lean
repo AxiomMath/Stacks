@@ -180,7 +180,7 @@ theorem surjective_picardRestriction_iff_unitsToSubCohomology (i : X ⟶ X')
   refine surjective_iff_of_conjugate _ _ (unitsCohomologyPicardEquiv X').toEquiv
     (((unitsCohomologyEquiv i hi 1).symm.trans (unitsCohomologyPicardEquiv X)).toEquiv)
     fun x => ?_
-  show unitsCohomologyPicardEquiv X ((unitsCohomologyEquiv i hi 1).symm
+  change unitsCohomologyPicardEquiv X ((unitsCohomologyEquiv i hi 1).symm
       (unitsToSubCohomology i 1 ((unitsCohomologyPicardEquiv X').symm
         (unitsCohomologyPicardEquiv X' x)))) =
     unitsCohomologyPicardEquiv X ((unitsCohomologyEquiv i hi 1).symm

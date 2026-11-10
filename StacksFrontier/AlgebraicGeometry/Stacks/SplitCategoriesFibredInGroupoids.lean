@@ -117,12 +117,12 @@ composites with the two projections are the 1-morphisms induced by the projectio
 theorem exists_elementsOp_equivalence_of_isPullback {α : F ⟶ H} {β : G ⟶ H} {pF : P ⟶ F}
     {pG : P ⟶ G} (h : IsPullback pF pG α β) :
     ∃ e : P.Elementsᵒᵖ ≌
-        TwoFibreProductOver (CategoryOfElements.π F).leftOp (CategoryOfElements.π G).leftOp
-          (CategoryOfElements.π H).leftOp (CategoryOfElements.map α).op
-          (CategoryOfElements.map β).op,
-      e.functor ⋙ structureFunctor _ _ _ _ _ = (CategoryOfElements.π P).leftOp ∧
-      e.functor ⋙ fst _ _ _ _ _ = (CategoryOfElements.map pF).op ∧
-      e.functor ⋙ snd _ _ _ _ _ = (CategoryOfElements.map pG).op :=
+        TwoFibreProductOver (Functor.Elements.π F).leftOp (Functor.Elements.π G).leftOp
+          (Functor.Elements.π H).leftOp (NatTrans.mapElements α).op
+          (NatTrans.mapElements β).op,
+      e.functor ⋙ structureFunctor _ _ _ _ _ = (Functor.Elements.π P).leftOp ∧
+      e.functor ⋙ fst _ _ _ _ _ = (NatTrans.mapElements pF).op ∧
+      e.functor ⋙ snd _ _ _ _ _ = (NatTrans.mapElements pG).op :=
   ⟨(elementsPullback h).asEquivalence, elementsPullback_comp_structureFunctor h,
     elementsPullback_comp_fst h, elementsPullback_comp_snd h⟩
 
@@ -135,11 +135,11 @@ whose composites with the two projections are the 1-morphisms induced by the pro
 theorem exists_elementsOp_equivalence_of_isLimit_binaryFan {pF : P ⟶ F} {pG : P ⟶ G}
     (h : IsLimit (BinaryFan.mk pF pG)) :
     ∃ e : P.Elementsᵒᵖ ≌
-        TwoFibreProductOver (CategoryOfElements.π F).leftOp (CategoryOfElements.π G).leftOp
-          (𝟭 C) (CategoryOfElements.π F).leftOp (CategoryOfElements.π G).leftOp,
-      e.functor ⋙ structureFunctor _ _ _ _ _ = (CategoryOfElements.π P).leftOp ∧
-      e.functor ⋙ fst _ _ _ _ _ = (CategoryOfElements.map pF).op ∧
-      e.functor ⋙ snd _ _ _ _ _ = (CategoryOfElements.map pG).op :=
+        TwoFibreProductOver (Functor.Elements.π F).leftOp (Functor.Elements.π G).leftOp
+          (𝟭 C) (Functor.Elements.π F).leftOp (Functor.Elements.π G).leftOp,
+      e.functor ⋙ structureFunctor _ _ _ _ _ = (Functor.Elements.π P).leftOp ∧
+      e.functor ⋙ fst _ _ _ _ _ = (NatTrans.mapElements pF).op ∧
+      e.functor ⋙ snd _ _ _ _ _ = (NatTrans.mapElements pG).op :=
   have := isEquivalence_elementsProd h
   ⟨(elementsProd pF pG).asEquivalence, elementsProd_comp_structureFunctor,
     elementsProd_comp_fst, elementsProd_comp_snd⟩

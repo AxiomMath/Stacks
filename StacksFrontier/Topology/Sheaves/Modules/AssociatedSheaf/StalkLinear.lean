@@ -244,8 +244,7 @@ theorem stalkMap_associatedSheafStalkLinearEquiv_symm (N : ModuleCat.{u} A) (φ 
       (associatedSheafStalkLinearEquiv X α N x).symm
         (LinearMap.baseChange (X.presheaf.stalk x) φ.hom z) := by
   let := stalkAlgebra X α x
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | add a b ha hb => rw [map_add, map_add, map_add, map_add, ha, hb]
   | tmul r m =>
     obtain ⟨U, hx, s, rfl⟩ := TopCat.Presheaf.exists_germ_eq X.presheaf r

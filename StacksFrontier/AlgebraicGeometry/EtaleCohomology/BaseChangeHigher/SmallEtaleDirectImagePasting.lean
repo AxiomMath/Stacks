@@ -251,7 +251,7 @@ private theorem pullbackComparison_vComp
                 (smallEtalePullbackAbCompIso' e' π P₂ hP₂e').inv)))
           (smallEtalePullbackAbCompIso' π g G hG).hom)
         (smallEtalePullbackAbCompIso' π' h H hH).inv := by
-  refine TwoSquare.ext _ _ fun M => ?_
+  refine NatTrans.ext <| funext fun M => ?_
   have hA1 := congr_app (congrArg Iso.hom
     (smallEtalePullbackAbCompIso'_assoc f' h π' P₁ hP₁h H hH P hPH hPπ')) M
   have hA2 := congr_app (congrArg Iso.hom
@@ -347,9 +347,9 @@ public theorem smallEtaleBaseChangeAb_pasteDirectImage_app
               ((smallEtaleBaseChangeAb e π π' e' w').app F) ≫
             (smallEtalePushforwardAbCompIso' π' h H hH).hom.app
               ((smallEtalePullbackAb e').obj F) := by
-  have hpaste := congr_app (congrArg TwoSquare.natTrans
-    (smallEtaleBaseChangeAb_pasteDirectImage f' g h e π π' e' w w' G hG H hH wo)) F
-  simpa [TwoSquare.hComp, TwoSquare.whiskerTop, TwoSquare.whiskerBottom, TwoSquare.natTrans,
+  have hpaste := congr_app
+    (smallEtaleBaseChangeAb_pasteDirectImage f' g h e π π' e' w w' G hG H hH wo) F
+  simpa [TwoSquare.hComp, TwoSquare.whiskerTop, TwoSquare.whiskerBottom,
     Category.assoc] using hpaste
 
 /-- **The pasting law along the direct image legs, with the two composite legs written out.**

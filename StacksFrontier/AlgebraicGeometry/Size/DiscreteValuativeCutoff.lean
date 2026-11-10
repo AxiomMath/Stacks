@@ -65,7 +65,7 @@ theorem Spec_map_algebraMap_genericPoint (A K : Type u) [CommRing A] [IsDomain A
       genericPoint (Spec (.of A)) := by
   apply PrimeSpectrum.ext
   rw [genericPoint_eq_bot_of_affine (.of K)]
-  show Ideal.comap (algebraMap A K) (⊥ : Ideal K) = (genericPoint (Spec (.of A))).asIdeal
+  change Ideal.comap (algebraMap A K) (⊥ : Ideal K) = (genericPoint (Spec (.of A))).asIdeal
   rw [genericPoint_eq_bot_of_affine (.of A)]
   ext a
   simp
@@ -94,7 +94,7 @@ theorem Spec_map_algebraMap_fractionRing (A : Type u) [CommRing A] [IsDomain A] 
   rw [Spec.map_inj]
   ext a
   simp only [Iso.trans_hom, ConcreteCategory.comp_apply, Iso.inv_hom_id_apply]
-  show algebraMap A (FractionRing A) a = genericPointResidueFieldEquiv A (algebraMap A _ a)
+  change algebraMap A (FractionRing A) a = genericPointResidueFieldEquiv A (algebraMap A _ a)
   rw [genericPointResidueFieldEquiv, ← Ideal.algebraMap_quotient_residueField_mk,
     IsFractionRing.ringEquivOfRingEquiv_algebraMap]
   simp
@@ -122,7 +122,7 @@ theorem exists_spec_fractionRing_comp_eq {X Y : Scheme.{u}} (f : X ⟶ Y) (x' : 
         (Y.residueFieldCongr hη.symm).hom ≫ q.residueFieldMap η ≫ eSpecIso.hom := by
     apply CommRingCat.hom_ext
     ext a
-    show α.symm ((f.residueFieldMap x').hom a) =
+    change α.symm ((f.residueFieldMap x').hom a) =
       eSpec (q.residueFieldMap η ((Y.residueFieldCongr hη.symm).hom a))
     rw [← he a]
     simp [α, η]
@@ -151,7 +151,7 @@ theorem exists_spec_fractionRing_comp_eq {X Y : Scheme.{u}} (f : X ⟶ Y) (x' : 
       _ = _ := by
         rw [← Category.assoc]
         exact congrArg (· ≫ q) (Spec_map_algebraMap_fractionRing A).symm
-  · show X.fromSpecResidueField x'
+  · change X.fromSpecResidueField x'
       ((Spec.map (CommRingCat.ofHom α.symm.toRingHom))
         (genericPoint (Spec (.of (FractionRing A))))) = x'
     simp
@@ -192,7 +192,7 @@ private theorem specializingMap_of_contained_discreteValuativeCriterion
       (genericPointResidueFieldEquiv A).toCommRingCatIso).commRingCatIsoToRingEquiv).symm.trans e
   have hK' : B.Contains (Spec (.of (FractionRing A))) := by
     have hKsite := B.residueField_spec_contains hX x'
-    show (Spec (.of (FractionRing A))).size < B.cutoff
+    change (Spec (.of (FractionRing A))).size < B.cutoff
     change (Spec (.of (X.residueField x'))).size < B.cutoff at hKsite
     rw [Scheme.size_Spec] at hKsite ⊢
     simpa only [Cardinal.mk_congr α.toEquiv] using hKsite
@@ -207,7 +207,7 @@ private theorem specializingMap_of_contained_discreteValuativeCriterion
   · have hgen : l (genericPoint (Spec (.of A))) = x' := by
       simpa only [Scheme.Hom.comp_apply, Spec_map_algebraMap_genericPoint, hsource] using
         congrArg (fun k : Spec (.of (FractionRing A)) ⟶ X => k (genericPoint _)) hl₁
-    show x' ⤳ l pA
+    change x' ⤳ l pA
     rw [← hgen]
     exact (IsLocalRing.specializes_closedPoint (R := A) _).map l.continuous
   · have hp : f (l pA) = q pA := by

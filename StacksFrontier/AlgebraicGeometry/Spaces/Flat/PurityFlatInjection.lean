@@ -173,8 +173,8 @@ deduction is carried out below in
 besides Stacks 0CW2 it uses the stability under base change of local finite type (Stacks 03XH),
 of flatness of `g` (Stacks 03MO), of quasi-coherence (Stacks 03GA) and finite type
 (Stacks 03DL(5)) of the module, and of flatness of the module over the target (Stacks 05VW).
-All six are in the library; the base changes are presented by cartesian squares, `X_Z` as `X ×_Y Z` and
-`X'_Z` as `X_Z ×_X X'`, as the source's proof presents them.
+All six are in the library; the base changes are presented by cartesian squares, `X_Z` as `X ×_Y Z`
+and `X'_Z` as `X_Z ×_X X'`, as the source's proof presents them.
 
 ## References
 

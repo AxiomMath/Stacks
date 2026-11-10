@@ -121,7 +121,7 @@ theorem exists_isAdmissibleBlowup_isOpenImmersion_strictTransform {X S : Scheme.
       K hKfp hKdisj
   obtain ⟨g, -, hg⟩ := Stacks.StrictTransform.strictTransform_comp_blowUp f J M K hMsupp e
   have hiso : IsIso e.hom.left := by
-    show IsIso ((Over.forget S).map e.hom)
+    change IsIso ((Over.forget S).map e.hom)
     infer_instance
   have hg' : g.hom ≫ strictTransformToBlowUp f M =
       strictTransformToBlowUp (strictTransformToBlowUp f J) K ≫ e.hom.left := by

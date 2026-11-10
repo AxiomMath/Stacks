@@ -219,14 +219,14 @@ theorem isPullback_of_isElementaryDistinguishedSquare :
   have hg₁ : ∀ b : Bool, g b ≫ yoneda.map (tgt w hw ι) = cov b ≫ k₁ := by
     intro b
     cases b
-    · show yoneda.map (inlV w hw ι) ≫ yoneda.map (tgt w hw ι) = pullback.diagonal f ≫ k₁
+    · change yoneda.map (inlV w hw ι) ≫ yoneda.map (tgt w hw ι) = pullback.diagonal f ≫ k₁
       rw [← CategoryTheory.Functor.map_comp, inlV_tgt, CategoryTheory.Functor.map_id,
         pullback.diagonal_fst]
     · exact liftQ_tgt w hw ι hWV
   have hg₂ : ∀ b : Bool, g b ≫ yoneda.map (src w hw ι) = cov b ≫ k₂ := by
     intro b
     cases b
-    · show yoneda.map (inlV w hw ι) ≫ yoneda.map (src w hw ι) = pullback.diagonal f ≫ k₂
+    · change yoneda.map (inlV w hw ι) ≫ yoneda.map (src w hw ι) = pullback.diagonal f ≫ k₂
       rw [← CategoryTheory.Functor.map_comp, inlV_src, CategoryTheory.Functor.map_id,
         pullback.diagonal_snd]
     · exact liftQ_src w hw ι hWV

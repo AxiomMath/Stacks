@@ -344,15 +344,7 @@ theorem bijective_tensorDualHomPresheaf_app_of_finiteDualBasis {U : C} {I : Type
       (∑ i, sheafHomEval 𝒪 h𝒪 (((tensorDualHomPresheaf 𝒪 h𝒪 E F).app (op U)).hom t) (b.e i)
         ⊗ₜ[(TensorSheafification.structureSheaf 𝒪 h𝒪).obj.obj (op U)] b.lam i) = t := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero =>
-      refine Eq.trans (Finset.sum_congr rfl fun i _ => ?_) Finset.sum_const_zero
-      refine Eq.trans (congrArg
-        (· ⊗ₜ[(TensorSheafification.structureSheaf 𝒪 h𝒪).obj.obj (op U)] b.lam i)
-        ((congrArg (fun z => sheafHomEval 𝒪 h𝒪 z (b.e i))
-            (map_zero ((tensorDualHomPresheaf 𝒪 h𝒪 E F).app (op U)).hom)).trans
-          (sheafHomEval_zero 𝒪 h𝒪 (b.e i)))) ?_
-      exact TensorProduct.zero_tmul _ _
+    induction t using TensorProduct.inductionOn with
     | tmul f l =>
       have hev : ∀ i, sheafHomEval 𝒪 h𝒪 (((tensorDualHomPresheaf 𝒪 h𝒪 E F).app (op U)).hom
           (f ⊗ₜ[(TensorSheafification.structureRingPresheaf 𝒪).obj (op U)] l)) (b.e i) =
@@ -405,7 +397,7 @@ theorem isLocallyInjective_tensorDualHomPresheaf {K : Type*} {X : K → C} (hX :
     PresheafOfModules.naturality_apply (tensorDualHomPresheaf 𝒪 h𝒪 E F) p.op
   apply (bijective_tensorDualHomPresheaf_app_of_finiteDualBasis 𝒪 h𝒪
     ((b k).restrict 𝒪 h𝒪 q) F).injective
-  show ((tensorDualHomPresheaf 𝒪 h𝒪 E F).app (op W)).hom
+  change ((tensorDualHomPresheaf 𝒪 h𝒪 E F).app (op W)).hom
       (((F.val ⊗ (dualSheaf 𝒪 h𝒪 E).val).map p.op).hom x)
     = ((tensorDualHomPresheaf 𝒪 h𝒪 E F).app (op W)).hom
       (((F.val ⊗ (dualSheaf 𝒪 h𝒪 E).val).map p.op).hom y)

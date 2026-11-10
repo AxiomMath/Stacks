@@ -131,7 +131,7 @@ theorem detSheafPairing_wedge [Epi π]
       rw [← hpi]
       exact congrArg (fun m : A₀.exterior.piece 0 ⟶ A₀.exterior.piece 0 =>
         m.val.app V (wedgeSec A₀ V 0 l)) (IsIso.hom_inv_id ((extHom A₀ AF π).app 0))
-    show (((Stacks.SheafOfModules.Tensor.sheafTensor Osharp).obj
+    change (((Stacks.SheafOfModules.Tensor.sheafTensor Osharp).obj
           (A₁.exteriorPower r₁)).map (inv ((extHom A₀ AF π).app 0)) ≫
         wedgeHom A₁ A₀ α r₁ 0).val.app V _ = _
     refine Eq.trans (_root_.SheafOfModules.comp_val_app_apply _ _ V _) ?_

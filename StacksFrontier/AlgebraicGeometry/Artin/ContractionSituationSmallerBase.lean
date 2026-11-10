@@ -60,9 +60,9 @@ theorem relocalizeToYoneda_smallerBaseInverse
   have hψ0 := OverShriek.relocalizeFactors g _ y
   have h1 := NatTrans.naturality_apply X.hom (smallerBaseFactorHom B V S hV hS g hψ0).op y.1.2.1
   have h2 : (X.hom.app _ y.1.2.1).left = y.1.1 := congrArg Over.Hom.left y.1.2.2
-  show y.1.1 = (X.hom.app T (X.left.map (smallerBaseFactorHom B V S hV hS g hψ0).op y.1.2.1)).left
+  change y.1.1 = (X.hom.app T (X.left.map (smallerBaseFactorHom B V S hV hS g hψ0).op y.1.2.1)).left
   rw [h1]
-  show y.1.1 = (smallerBaseFactorHom B V S hV hS g hψ0 ≫ X.hom.app _ y.1.2.1).left
+  change y.1.1 = (smallerBaseFactorHom B V S hV hS g hψ0 ≫ X.hom.app _ y.1.2.1).left
   rw [Over.comp_left]
   exact ((congrArg (_ ≫ ·) h2).trans (Category.id_comp _)).symm
 

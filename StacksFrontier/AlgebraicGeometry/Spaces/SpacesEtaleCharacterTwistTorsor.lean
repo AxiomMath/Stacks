@@ -68,7 +68,7 @@ theorem W_presheafTensorMap_id {C : Type u₁} [Category.{v₁} C] [UnivLE.{max 
     J.W (presheafTensorMap (𝟙 F) g) := by
   let : MonoidalCategory AddCommGrpCat.{u + 1} := monoidalCategory.{u + 1}
   let : (uliftIntEquivalence.{u + 1}).inverse.Monoidal := by
-    show (Monoidal.equivalenceTransported (uliftIntEquivalence.{u + 1})).inverse.Monoidal
+    change (Monoidal.equivalenceTransported (uliftIntEquivalence.{u + 1})).inverse.Monoidal
     infer_instance
   let : MonoidalClosed AddCommGrpCat.{u + 1} :=
     MonoidalClosed.ofEquiv (uliftIntEquivalence.{u + 1}).inverse
@@ -76,7 +76,7 @@ theorem W_presheafTensorMap_id {C : Type u₁} [Category.{v₁} C] [UnivLE.{max 
   let : HasLimitsOfSize.{max u₁ v₁, max u₁ v₁} AddCommGrpCat.{u + 1} :=
     AddCommGrpCat.hasLimitsOfSize
   let : BraidedCategory AddCommGrpCat.{u + 1} := by
-    show BraidedCategory (Monoidal.Transported (uliftIntEquivalence.{u + 1}))
+    change BraidedCategory (Monoidal.Transported (uliftIntEquivalence.{u + 1}))
     infer_instance
   let : EnrichedOrdinaryCategory AddCommGrpCat.{u + 1} AddCommGrpCat.{u + 1} := inferInstance
   let : ∀ F₁ F₂ : Cᵒᵖ ⥤ AddCommGrpCat.{u + 1}, HasFunctorEnrichedHom AddCommGrpCat.{u + 1} F₁ F₂ :=
@@ -89,7 +89,7 @@ theorem W_presheafTensorMap_id {C : Type u₁} [Category.{v₁} C] [UnivLE.{max 
   have hw : J.W (F ◁ g) := hg.whiskerLeft F
   refine (J.W.arrow_mk_iso_iff (Arrow.isoMk (presheafTensorIso F G₁) (presheafTensorIso F G₂)
     ?_)).2 hw
-  show (presheafTensorIso F G₁).hom ≫ (F ◁ g) =
+  change (presheafTensorIso F G₁).hom ≫ (F ◁ g) =
     presheafTensorMap (𝟙 F) g ≫ (presheafTensorIso F G₂).hom
   rw [presheafTensorMap, Category.assoc, Category.assoc, Iso.inv_hom_id, Category.comp_id,
     MonoidalCategory.id_tensorHom]
@@ -314,7 +314,7 @@ theorem eq_zero_of_toSheafify_tensorGen_eq_zero {V : C} (p : V ⟶ W) (t : F.obj
   by_cases hbot : (⊥ : Sieve V') ∈ J V'
   · exact F.isSeparated V' ⊥ hbot _ 0 (fun _ _ hg => hg.elim)
   · refine h.injective_tmul_twistedGenerator χ (f ≫ p) hbot ?_
-    show characterTwistTensorGen act χ (F.obj.map f.op t) (twistedGenerator W act χ (f ≫ p)) =
+    change characterTwistTensorGen act χ (F.obj.map f.op t) (twistedGenerator W act χ (f ≫ p)) =
       characterTwistTensorGen act χ 0 (twistedGenerator W act χ (f ≫ p))
     rw [hf', characterTwistTensorGen]
     exact (TensorProduct.zero_tmul _ _).symm
@@ -335,7 +335,7 @@ variable {T : C} (hT : IsTerminal T)
 
 include hT
 
-omit [J.WEqualsLocallyBijective AddCommGrpCat.{u + 1}] in
+omit [J.WEqualsLocallyBijective AddCommGrpCat.{u + 1}] hT in
 /-- The covering of the final object by the torsor is a sheaf covering for `F ⊗_ℤ ℤ(χ)`. -/
 theorem isSheafFor_splittingSieve :
     Presieve.IsSheafFor ((characterTwistTensor F.obj act χ J).obj ⋙ forget AddCommGrpCat.{u + 1})
@@ -352,13 +352,13 @@ def twistTensorFamily (s : characterSections W act χ F.obj) :
       ((splittingSieve W T : Sieve T) : Presieve T) :=
   fun _ _ hk => twistTensorLocalSection (J := J) act χ s.1 (Classical.choice hk)
 
-omit [J.WEqualsLocallyBijective AddCommGrpCat.{u + 1}] in
+omit [J.WEqualsLocallyBijective AddCommGrpCat.{u + 1}] hT in
 /-- The family of local sections attached to a section transforming according to `χ` is
 compatible. -/
 theorem twistTensorFamily_compatible (s : characterSections W act χ F.obj) :
     (twistTensorFamily (J := J) (T := T) χ s).Compatible := by
   intro V₁ V₂ Z g₁ g₂ k₁ k₂ hk₁ hk₂ _
-  show (characterTwistTensor F.obj act χ J).obj.map g₁.op
+  change (characterTwistTensor F.obj act χ J).obj.map g₁.op
       (twistTensorLocalSection (J := J) act χ s.1 (Classical.choice hk₁)) =
     (characterTwistTensor F.obj act χ J).obj.map g₂.op
       (twistTensorLocalSection (J := J) act χ s.1 (Classical.choice hk₂))
@@ -369,7 +369,7 @@ theorem twistTensorFamily_compatible (s : characterSections W act χ F.obj) :
 transforms according to `χ`**, obtained by glueing the local sections. -/
 def twistTensorGlobalSection (s : characterSections W act χ F.obj) :
     (characterTwistTensor F.obj act χ J).obj.obj (op T) :=
-  (h.isSheafFor_splittingSieve χ hT).amalgamate _ (h.twistTensorFamily_compatible χ hT s)
+  (h.isSheafFor_splittingSieve χ).amalgamate _ (h.twistTensorFamily_compatible χ s)
 
 omit [J.WEqualsLocallyBijective AddCommGrpCat.{u + 1}] in
 /-- The global section restricts, over an object carrying a morphism `φ` to the torsor, to the
@@ -377,11 +377,11 @@ local section attached to `φ`. -/
 theorem twistTensorGlobalSection_map (s : characterSections W act χ F.obj) {V : C}
     (φ : V ⟶ W) :
     (characterTwistTensor F.obj act χ J).obj.map (hT.from V).op
-        (h.twistTensorGlobalSection χ hT s) =
+        (h.twistTensorGlobalSection (T := T) χ s) =
       twistTensorLocalSection (J := J) act χ s.1 φ := by
   have hk : (splittingSieve W T : Sieve T).arrows (hT.from V) := ⟨φ⟩
-  have hglue := (h.isSheafFor_splittingSieve χ hT).valid_glue
-    (h.twistTensorFamily_compatible χ hT s) (hT.from V) hk
+  have hglue := (h.isSheafFor_splittingSieve χ).valid_glue
+    (h.twistTensorFamily_compatible χ s) (hT.from V) hk
   refine hglue.trans ?_
   exact h.twistTensorLocalSection_eq χ s _ _
 
@@ -389,8 +389,8 @@ omit [J.WEqualsLocallyBijective AddCommGrpCat.{u + 1}] in
 /-- **The global section is additive in the section over the torsor.** -/
 theorem twistTensorGlobalSection_add {F : Sheaf J AddCommGrpCat.{u + 1}}
     (s s' : characterSections W act χ F.obj) :
-    h.twistTensorGlobalSection χ hT (s + s') =
-      h.twistTensorGlobalSection χ hT s + h.twistTensorGlobalSection χ hT s' := by
+    h.twistTensorGlobalSection (T := T) χ (s + s') =
+      h.twistTensorGlobalSection (T := T) χ s + h.twistTensorGlobalSection (T := T) χ s' := by
   refine (characterTwistTensor F.obj act χ J).isSeparated T _ (h.splittingSieve_mem T) _ _ ?_
   rintro V k ⟨φ⟩
   obtain rfl : k = hT.from V := hT.hom_ext k _
@@ -401,7 +401,7 @@ theorem twistTensorGlobalSection_add {F : Sheaf J AddCommGrpCat.{u + 1}}
 /-- **A section over the torsor is recovered from its global section.** -/
 theorem twistTensorGlobalSection_injective (F : Sheaf J AddCommGrpCat.{u + 1}) :
     Function.Injective fun s : characterSections W act χ F.obj =>
-      h.twistTensorGlobalSection χ hT s := by
+      h.twistTensorGlobalSection (T := T) χ s := by
   intro s s' hss
   have hW := (h.twistTensorGlobalSection_map χ hT s (𝟙 W)).symm.trans
     ((congrArg (fun z => (characterTwistTensor F.obj act χ J).obj.map (hT.from W).op z) hss).trans
@@ -410,6 +410,7 @@ theorem twistTensorGlobalSection_injective (F : Sheaf J AddCommGrpCat.{u + 1}) :
     ConcreteCategory.id_apply] at hW
   exact Subtype.ext (h.eq_of_twistTensorGenSection_eq χ (𝟙 W) hW)
 
+omit hT in
 /-- **The section of `F` built from a section of `F ⊗_ℤ ℤ(χ)` is unique.** -/
 theorem twistTensorGenSection_injective {V : C} (f : V ⟶ W) :
     Function.Injective fun t : F.obj.obj (op V) => twistTensorGenSection (J := J) act χ t f := by
@@ -417,7 +418,7 @@ theorem twistTensorGenSection_injective {V : C} (f : V ⟶ W) :
   exact h.eq_of_twistTensorGenSection_eq χ f htt
 
 omit [UnivLE.{max u₁ (u + 1), u + 1}] [HasSheafify J AddCommGrpCat.{u + 1}]
-  [J.WEqualsLocallyBijective AddCommGrpCat.{u + 1}] in
+  [J.WEqualsLocallyBijective AddCommGrpCat.{u + 1}] hT in
 /-- **Locally on an object lying over `W`, every section of the presheaf underlying
 `F ⊗_ℤ ℤ(χ)` is a section of `F` tensored with the class of the structure morphism.** -/
 theorem exists_sieve_twistTensorGen {V : C} (p : V ⟶ W)
@@ -425,11 +426,7 @@ theorem exists_sieve_twistTensorGen {V : C} (p : V ⟶ W)
     ∃ S : Sieve V, S ∈ J V ∧ ∀ ⦃V' : C⦄ (f : V' ⟶ V), S f →
       ∃ t : F.obj.obj (op V'), (characterTwistTensorPresheaf F.obj act χ).map f.op y =
         characterTwistTensorGen act χ t (twistedGenerator W act χ (f ≫ p)) := by
-  induction y using TensorProduct.induction_on with
-  | zero =>
-    refine ⟨⊤, J.top_mem V, fun V' f _ => ⟨0, ?_⟩⟩
-    rw [characterTwistTensorGen_zero_left]
-    exact map_zero _
+  induction y using TensorProduct.inductionOn with
   | tmul a x =>
     obtain ⟨S, hS, hfam⟩ := h.exists_sieve_twistedGenerator_zsmul χ p x
     refine ⟨S, hS, fun V' f hf => ?_⟩
@@ -458,7 +455,7 @@ theorem exists_sieve_twistTensorGen {V : C} (p : V ⟶ W)
 transforming according to `χ`.** -/
 theorem twistTensorGlobalSection_surjective (F : Sheaf J AddCommGrpCat.{u + 1}) :
     Function.Surjective fun s : characterSections W act χ F.obj =>
-      h.twistTensorGlobalSection χ hT s := by
+      h.twistTensorGlobalSection (T := T) χ s := by
   intro τ
   have hres : ∀ {V V' : C} (k : V' ⟶ V),
       (characterTwistTensor F.obj act χ J).obj.map k.op
@@ -482,7 +479,7 @@ theorem twistTensorGlobalSection_surjective (F : Sheaf J AddCommGrpCat.{u + 1}) 
       (toSheafify J (characterTwistTensorPresheaf F.obj act χ))
       ((characterTwistTensor F.obj act χ J).obj.map (hT.from W).op τ)) S ?_
     rintro V f ⟨y, hy⟩
-    obtain ⟨S', hS', hfam⟩ := h.exists_sieve_twistTensorGen χ hT f y
+    obtain ⟨S', hS', hfam⟩ := h.exists_sieve_twistTensorGen χ f y
     refine J.superset_covering ?_ hS'
     intro V' k hk
     obtain ⟨t, ht⟩ := hfam k hk
@@ -503,7 +500,7 @@ theorem twistTensorGlobalSection_surjective (F : Sheaf J AddCommGrpCat.{u + 1}) 
     fun _ _ hf => hf.choose_spec
   have hcompat : fam.Compatible := by
     intro V₁ V₂ Z g₁ g₂ f₁ f₂ hf₁ hf₂ heq
-    refine h.twistTensorGenSection_injective χ hT (g₁ ≫ f₁) ?_
+    refine h.twistTensorGenSection_injective χ (g₁ ≫ f₁) ?_
     have e : ∀ {Y Y' : C} (g : Y ⟶ Y') (f : Y' ⟶ W) (hf : (S : Sieve W).arrows f),
         twistTensorGenSection (J := J) act χ (F.obj.map g.op (fam f hf)) (g ≫ f) =
           (characterTwistTensor F.obj act χ J).obj.map (hT.from Y).op τ := by
@@ -532,7 +529,7 @@ theorem twistTensorGlobalSection_surjective (F : Sheaf J AddCommGrpCat.{u + 1}) 
       rw [twistTensorGenSection, twistedGenerator_act, characterTwistTensorGen_smul_smul,
         Int.units_coe_mul_self, one_smul]
       exact ht
-    have key := h.twistTensorGenSection_injective χ hT (f ≫ (act g).asIso.hom)
+    have key := h.twistTensorGenSection_injective χ (f ≫ (act g).asIso.hom)
       ((hgen (f ≫ (act g).asIso.hom) ⟨_, hfgwit⟩).trans hfgwit.symm)
     rw [map_zsmul, ← key, op_comp, F.obj.map_comp, ConcreteCategory.comp_apply]
   refine ⟨⟨s, hchar⟩, ?_⟩
@@ -555,7 +552,7 @@ the global sections of `F ⊗_ℤ ℤ(χ)`, where `ℤ(χ)` is the twisted free 
 def twistTensorSectionsEquiv (F : Sheaf J AddCommGrpCat.{u + 1}) :
     characterSections W act χ F.obj ≃+ (characterTwistTensor F.obj act χ J).obj.obj (op T) :=
   { Equiv.ofBijective (fun s : characterSections W act χ F.obj =>
-      h.twistTensorGlobalSection χ hT s)
+      h.twistTensorGlobalSection (T := T) χ s)
       ⟨h.twistTensorGlobalSection_injective χ hT F,
         h.twistTensorGlobalSection_surjective χ hT F⟩ with
     map_add' := h.twistTensorGlobalSection_add χ hT }
@@ -564,7 +561,7 @@ def twistTensorSectionsEquiv (F : Sheaf J AddCommGrpCat.{u + 1}) :
 @[simp]
 theorem twistTensorSectionsEquiv_apply (F : Sheaf J AddCommGrpCat.{u + 1})
     (s : characterSections W act χ F.obj) :
-    h.twistTensorSectionsEquiv χ hT F s = h.twistTensorGlobalSection χ hT s :=
+    h.twistTensorSectionsEquiv χ hT F s = h.twistTensorGlobalSection (T := T) χ s :=
   rfl
 
 end Global

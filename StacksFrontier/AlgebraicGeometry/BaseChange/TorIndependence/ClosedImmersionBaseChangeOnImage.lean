@@ -213,7 +213,7 @@ hypothesis `ModuleCat.restrictScalarsId'` and
 theorem stalkCongr_self_hom_hom {a : Y} (h : a = a) :
     (Y.presheaf.stalkCongr (Inseparable.of_eq h)).hom.hom
       = RingHom.id (ToType (Y.presheaf.stalk a)) := by
-  simpa using congrArg CommRingCat.Hom.hom (stalkCongr_hom_eq_eqToHom h)
+  simp
 
 /-- **`modulesStalkFunctorCongr` at a self-equality of points, unfolded.**  Its definition
 substitutes one point for the other, so at an equality of a point with itself the substitution

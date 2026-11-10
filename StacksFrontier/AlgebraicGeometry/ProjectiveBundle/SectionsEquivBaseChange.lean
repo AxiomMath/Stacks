@@ -57,7 +57,7 @@ theorem sectionsMap_eq_of_univ_comp (D D' : TautologicalDatum X F) (φ : D.twist
     (h : D.univ ≫ φ.hom = D'.univ) : D.sectionsMap = D'.sectionsMap := by
   funext σ
   refine Quotient.sound ⟨(Scheme.Modules.pullback σ.1).mapIso φ, ?_⟩
-  show (D.pullbackQuotientMap σ.1 σ.2) ≫ (Scheme.Modules.pullback σ.1).map φ.hom =
+  change (D.pullbackQuotientMap σ.1 σ.2) ≫ (Scheme.Modules.pullback σ.1).map φ.hom =
     D'.pullbackQuotientMap σ.1 σ.2
   simp only [pullbackQuotientMap, Category.assoc, ← Functor.map_comp, h]
 

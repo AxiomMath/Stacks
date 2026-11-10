@@ -99,7 +99,7 @@ public noncomputable def nFoldRelativeFrobenius (S : Scheme.{u}) (p : ℕ) [Fact
     induction m with
     | zero => simp [absoluteFrobeniusPow]
     | succ m ih =>
-        simp only [absoluteFrobeniusPow, pow_succ, End.mul_def]
+        simp only [absoluteFrobeniusPow, pow_succ, End.mul_asHom]
         change (absoluteFrobenius X.left p hX ≫
             absoluteFrobeniusPow X.left p hX m) ≫ X.hom =
           X.hom ≫ (absoluteFrobenius S p hS ≫ absoluteFrobeniusPow S p hS m)
@@ -160,7 +160,7 @@ private theorem pullbackComp_hom_fst_fst_app {A B C : Scheme.{u}} (f : A ⟶ B)
   have hh := CategoryTheory.conjugateEquiv_counit
     (Over.mapPullbackAdj (f ≫ g)) ((Over.mapPullbackAdj f).comp (Over.mapPullbackAdj g))
     ((Over.mapComp f g).symm).hom Y
-  simpa [Over.pullbackComp, Category.assoc] using congrArg Over.Hom.left hh
+  simp [Over.pullbackComp, Category.assoc]
 
 private theorem pullbackComp_inv_fst_fst_app {A B C : Scheme.{u}} (f : A ⟶ B)
     (g : B ⟶ C) (Y : Over C) :
@@ -228,11 +228,9 @@ private theorem nFoldRelativeFrobenius_one_eq_successive (S : Scheme.{u}) (p : �
   ext
   apply pullback.hom_ext
   · simp [successiveRelativeFrobenius, nFoldRelativeFrobenius,
-      eqToHom_pullback_fst X.hom hpowS.symm, relativeFrobenius_fst, hpowX,
-      pullback.lift_fst]
+      eqToHom_pullback_fst X.hom hpowS.symm, relativeFrobenius_fst, hpowX]
   · simp [successiveRelativeFrobenius, nFoldRelativeFrobenius,
-      eqToHom_pullback_snd X.hom hpowS.symm, relativeFrobenius_snd,
-      pullback.lift_snd]
+      eqToHom_pullback_snd X.hom hpowS.symm, relativeFrobenius_snd]
 
 /-- The first component of the `(n + 2)`-fold relative Frobenius is that of the `(n + 1)`-fold
 relative Frobenius followed by relative Frobenius of the `(n + 1)`-fold twist and the
@@ -294,7 +292,7 @@ private theorem nFoldRelativeFrobenius_succ_left_snd (S : Scheme.{u}) (p : ℕ)
       nFoldRelativeFrobenius_snd S p hS (n + 1 + 1) X
     _ = _ := by
       rw [successiveTwistIso_left_snd S p hS (n + 1) X]
-      show X.hom =
+      change X.hom =
         (nFoldRelativeFrobenius S p hS (n + 1) X).left ≫
           (relativeFrobenius S p hS
             (nFoldFrobeniusTwist S p hS (n + 1) X)).left ≫
@@ -302,7 +300,7 @@ private theorem nFoldRelativeFrobenius_succ_left_snd (S : Scheme.{u}) (p : ℕ)
             (nFoldFrobeniusTwist S p hS (n + 1) X).hom
             (absoluteFrobenius S p hS)
       rw [relativeFrobenius_snd S p hS (nFoldFrobeniusTwist S p hS (n + 1) X)]
-      show X.hom =
+      change X.hom =
         (nFoldRelativeFrobenius S p hS (n + 1) X).left ≫
           pullback.snd X.hom (absoluteFrobeniusPow S p hS (n + 1))
       exact (nFoldRelativeFrobenius_snd S p hS (n + 1) X).symm
@@ -364,7 +362,7 @@ public theorem relativeFrobenius_nFoldFrobeniusTwist (S : Scheme.{u}) (p : ℕ)
   let f := absoluteFrobenius S p hS
   let fm := absoluteFrobeniusPow S p hS m
   have hcomm : fm ≫ f = f ≫ fm := by
-    show ((End.of f) * (End.of f) ^ m).asHom =
+    change ((End.of f) * (End.of f) ^ m).asHom =
       ((End.of f) ^ m * (End.of f)).asHom
     congr 1
     rw [← pow_succ', ← pow_succ]
@@ -372,7 +370,7 @@ public theorem relativeFrobenius_nFoldFrobeniusTwist (S : Scheme.{u}) (p : ℕ)
   let g : Z ⟶ (frobeniusTwist S p hS).obj Z :=
     (Over.pullback fm).map (relativeFrobenius S p hS X) ≫
       (frobeniusTwistCommIso S p hS m X).hom
-  show g = relativeFrobenius S p hS Z
+  change g = relativeFrobenius S p hS Z
   apply eq_relativeFrobenius S p hS Z g
   · apply pullback.hom_ext
     · dsimp [g]
@@ -393,7 +391,7 @@ public theorem relativeFrobenius_nFoldFrobeniusTwist (S : Scheme.{u}) (p : ℕ)
           _ = pullback.snd X.hom fm ≫ fm := pullback.condition
       calc
         _ = h ≫ pullback.fst X.hom f := by
-                show (pullback.lift h k hw ≫
+                change (pullback.lift h k hw ≫
                   pullback.fst (pullback.snd X.hom f) fm) ≫
                   pullback.fst X.hom f = _
                 rw [pullback.lift_fst]
@@ -408,7 +406,7 @@ public theorem relativeFrobenius_nFoldFrobeniusTwist (S : Scheme.{u}) (p : ℕ)
             (isInCharacteristic_of_hom (pullback.snd X.hom fm) p hS)
             (isInCharacteristic_of_hom X.hom p hS)).symm
     · have hZ : IsInCharacteristic Z.left p := isInCharacteristic_of_hom Z.hom p hS
-      show (g.left ≫ pullback.fst Z.hom f) ≫ Z.hom =
+      change (g.left ≫ pullback.fst Z.hom f) ≫ Z.hom =
         absoluteFrobenius Z.left p hZ ≫ Z.hom
       calc
         (g.left ≫ pullback.fst Z.hom f) ≫ Z.hom =

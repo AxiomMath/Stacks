@@ -130,7 +130,7 @@ lemma Hom.ker_toImage {X Y : Scheme.{u}} (f : X ⟶ Y) [QuasiCompact f] :
     simp
   · intro V
     rw [Scheme.Hom.ker_apply, Scheme.IdealSheafData.ideal_bot]
-    show RingHom.ker _ = ⊥
+    change RingHom.ker _ = ⊥
     rw [← RingHom.injective_iff_ker_eq_bot]
     exact f.toImage_app_injective V
 
@@ -646,10 +646,10 @@ include h hf hh₁ hh₂ in
 theorem nonempty_morphismAt_of_hom_model [QuasiCompact pX] :
     Nonempty (MorphismAt D f GX GY i₀ hX hY) := by
   refine ⟨systemMorphismAux hf hh₁ hh₂, fun j ↦ ?_, fun j ↦ ?_⟩
-  · show stageMorphismAux hf hh₁ hh₂ j ≫ _ ≫ _ = _
+  · change stageMorphismAux hf hh₁ hh₂ j ≫ _ ≫ _ = _
     rw [stageMorphismAux_imageι_assoc, stageHomAux_fst]
   · refine (cancel_mono (stageMap GY ((Over.map ((homOfLE hY).op)).obj j)).imageι).mp ?_
-    show ((stageMap GX ((Over.map ((homOfLE hX).op)).obj j)).toImage ≫
+    change ((stageMap GX ((Over.map ((homOfLE hX).op)).obj j)).toImage ≫
         stageMorphismAux hf hh₁ hh₂ j) ≫ _ =
       (f ≫ (stageMap GY ((Over.map ((homOfLE hY).op)).obj j)).toImage) ≫ _
     rw [Category.assoc, stageMorphismAux_imageι, Category.assoc, Scheme.Hom.toImage_imageι]
@@ -703,7 +703,7 @@ lemma toImage_comp_snd (M : MorphismAt D f GX GY i₀ hX hY) (j : Over (op i₀)
         (stageMap GY ((Over.map ((homOfLE hY).op)).obj j)).imageι ≫ pullback.snd _ _ =
       f ≫ GY.toModel := by
   rw [reassoc_of% (M.induces j)]
-  show f ≫ (stageMap GY ((Over.map ((homOfLE hY).op)).obj j)).toImage ≫
+  change f ≫ (stageMap GY ((Over.map ((homOfLE hY).op)).obj j)).toImage ≫
     (stageMap GY ((Over.map ((homOfLE hY).op)).obj j)).imageι ≫ pullback.snd _ _ = _
   rw [Scheme.Hom.toImage_imageι_assoc, stageMap_snd]
 
@@ -745,7 +745,7 @@ theorem exists_morphismAt_of_isLimit (D : LimitNoetherianSituation.{v, u} I)
       (GX.isLimitImageConeWhisker hGX h₁')
       (f ≫ GY.toModel) (by
         ext j
-        show (stageMap GX ((Over.map ((homOfLE h₁').op)).obj j)).toImage ≫
+        change (stageMap GX ((Over.map ((homOfLE h₁').op)).obj j)).toImage ≫
             (stageMap GX ((Over.map ((homOfLE h₁').op)).obj j)).imageι ≫
               pullback.fst _ _ ≫ D.system.map (j.hom ≫ (homOfLE h₂').op) =
           (f ≫ GY.toModel) ≫ GY.modelMap
@@ -805,7 +805,7 @@ theorem eventually_eq_morphismAt_of_isLimit
           pullback.snd _ _)
       (G.comp_modelMap _).symm
       (by
-        show (stageMap GX ((Over.map ((homOfLE hX).op)).obj (Over.mk (𝟙 (op i₀))))).toImage ≫
+        change (stageMap GX ((Over.map ((homOfLE hX).op)).obj (Over.mk (𝟙 (op i₀))))).toImage ≫
             _ = (stageMap GX ((Over.map ((homOfLE hX).op)).obj (Over.mk (𝟙 (op i₀))))).toImage ≫ _
         rw [F.toImage_comp_snd, G.toImage_comp_snd])
   refine ⟨unop k.left, leOfHom k.hom.unop, fun j hj ↦ ?_⟩

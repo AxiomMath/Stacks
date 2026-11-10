@@ -272,8 +272,7 @@ theorem _root_.Function.Bijective.of_liftBaseChange {R S M N P T : Type*} [CommR
     (h : Function.Bijective (τ.liftBaseChange S)) : Function.Bijective f := by
   have hcomp : (fun x => f (ι (Φ x))) = τ.liftBaseChange S := by
     funext x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a s =>
       have ha : (a ⊗ₜ[R] s : TensorProduct R S M) = a • (1 ⊗ₜ s) := by
         rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
@@ -421,7 +420,7 @@ theorem isIso_affineOverBaseChangeAlgebraHom_of_chart (g : Y ⟶ X) (Z : AffineO
     { toFun := γ d
       map_add' := map_add (γ d)
       map_smul' := fun r s => by
-        show γ d ((pushforwardAlgebra B S hS Z.obj).algebraMap (op d.V) r *
+        change γ d ((pushforwardAlgebra B S hS Z.obj).algebraMap (op d.V) r *
             (show (pushforwardAlgebra B S hS Z.obj).right.obj.obj (op d.V) from s)) =
           (pushforwardAlgebra B S hS (affineOverBaseChange B S hS g Z).obj).algebraMap (op d.U)
             (chartDiagramRestrict B S hS g d r) * γ d s

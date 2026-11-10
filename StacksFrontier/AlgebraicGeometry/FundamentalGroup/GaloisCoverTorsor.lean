@@ -61,7 +61,8 @@ lemma isPullback_translateSection (σ : G) :
       hm ▸ (IsPullback.of_hasPullback (s ≫ π) π).flip
     exact (IsPullback.of_right hbig hm' (IsPullback.of_hasPullback π π).flip).flip
   have hw : translateSection π a s σ ≫ m =
-      s ≫ pullback.lift (𝟙 P) (a (.op σ)).asIso.hom.left (by rw [Category.id_comp, twist_comp_eq]) := by
+      s ≫ pullback.lift (𝟙 P) (a (.op σ)).asIso.hom.left
+        (by rw [Category.id_comp, twist_comp_eq]) := by
     apply pullback.hom_ext
     · simp only [translateSection, m, pullback.map, Category.assoc, pullback.lift_fst,
         pullback.lift_fst_assoc, Category.id_comp, Category.comp_id]
@@ -98,7 +99,7 @@ private theorem sigmaDesc_translateSection_fst :
       Limits.Sigma.desc (fun _ : G ↦ 𝟙 W) := by
   apply Sigma.hom_ext
   intro σ
-  simp only [Sigma.ι_desc_assoc, translateSection, pullback.lift_fst, Limits.Sigma.ι_desc]
+  simp only [Sigma.ι_comp_desc_assoc, translateSection, pullback.lift_fst, Sigma.ι_comp_desc]
 
 /-- **The fibre of a torsor at a point that lifts is a disjoint union of copies of the point.**
 If `π` is a `G`-torsor over `T`, `i : T ⟶ X` is a monomorphism and `w : W ⟶ X` lifts to `P`,
@@ -163,7 +164,7 @@ theorem existsUnique_comp_twist [IsIso (Stacks.Descent.galoisCoverComparison π 
     have h1 : u = u' ≫ E.hom := by simp [u']
     rw [h1, ← hl, hl1, Category.id_comp]
     simp only [E, asIso_hom]
-    exact Limits.Sigma.ι_desc _ _
+    exact Sigma.ι_comp_desc _ _
   refine ⟨σ, ?_, fun τ hτ ↦ ?_⟩
   · have := congrArg (· ≫ pullback.snd (s ≫ π) π) hu
     simp only [u, translateSection, pullback.lift_snd] at this
@@ -174,7 +175,7 @@ theorem existsUnique_comp_twist [IsIso (Stacks.Descent.galoisCoverComparison π 
       · simp only [translateSection, u, pullback.lift_snd, hτ]
     have hιE : Sigma.ι (fun _ : G ↦ W) τ ≫ E.hom = Sigma.ι (fun _ : G ↦ W) σ ≫ E.hom := by
       simp only [E, asIso_hom]
-      rw [Limits.Sigma.ι_desc, Limits.Sigma.ι_desc, hτu, hu]
+      rw [Sigma.ι_comp_desc, Sigma.ι_comp_desc, hτu, hu]
     have hι := (cancel_mono E.hom).mp hιE
     have := congrArg (fun g ↦ g w0) hι
     simp only at this

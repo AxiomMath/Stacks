@@ -68,9 +68,9 @@ through `cohomologyPushforwardIso`, which is natural by construction, avoids tha
 The natural isomorphism whiskered here is
 `Stacks.AffineCohomologyPushforward.cohomologyPushforwardIso`. The library has a *second*
 isomorphism of exactly that type, `Stacks.AffineCohomologyResolution.cohomologyPushforwardIso`,
-built from a comparison of injective resolutions and carrying the two normalizations the statement of
-Tag 089W asks for — its value against any augmentation-preserving comparison of resolutions, and its
-degree-zero component. No lemma identifies the two, so a consumer that needs a normalization as
+built from a comparison of injective resolutions and carrying the two normalizations the statement
+of Tag 089W asks for — its value against any augmentation-preserving comparison of resolutions, and
+its degree-zero component. No lemma identifies the two, so a consumer that needs a normalization as
 well as naturality should whisker the resolution-built one instead; the construction below is
 the same three lines either way.
 

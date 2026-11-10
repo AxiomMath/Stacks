@@ -126,8 +126,7 @@ public lemma tensorDualLarge_bijective (A : Type u) (V : Type uV) (B : Type uB) 
     intro t
     apply LinearMap.ext
     intro l
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul b v =>
       simp only [LinearMap.restrictScalars_apply, tensorDualLarge_tmul, e,
         LinearEquiv.trans_apply, LinearEquiv.coe_coe, TensorProduct.congr_tmul,
@@ -136,7 +135,7 @@ public lemma tensorDualLarge_bijective (A : Type u) (V : Type uV) (B : Type uB) 
         Module.evalEquiv_apply, Module.Dual.eval_apply, Algebra.smul_def]
       exact mul_comm _ _
     | add t t' ht ht' => simpa only [map_add, LinearMap.add_apply] using congrArg₂ (· + ·) ht ht'
-  show Function.Bijective ((tensorDualLarge A V B).restrictScalars A)
+  change Function.Bijective ((tensorDualLarge A V B).restrictScalars A)
   rw [he]
   exact e.bijective
 
@@ -146,8 +145,7 @@ public lemma tensorDualLarge_baseChange {A : Type u} {V : Type uV} {W : Type uW}
     [CommRing B] [Algebra A B] (f : V →ₗ[A] W) (t : B ⊗[A] V)
     (l : Module.Dual A W) :
     tensorDualLarge A W B (f.baseChange B t) l = tensorDualLarge A V B t (l.comp f) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul b v => simp only [LinearMap.baseChange_tmul, tensorDualLarge_tmul, LinearMap.comp_apply]
   | add t t' ht ht' => simpa only [map_add, LinearMap.add_apply] using congrArg₂ (· + ·) ht ht'
 
@@ -158,8 +156,7 @@ public lemma tensorDualLarge_naturality {A : Type u} {V : Type uV} {B : Type uB}
     (l : Module.Dual A V) :
     tensorDualLarge A V C (TensorProduct.map f.toLinearMap LinearMap.id t) l =
       f (tensorDualLarge A V B t l) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul b v => simp only [TensorProduct.map_tmul, LinearMap.id_apply,
       AlgHom.toLinearMap_apply, tensorDualLarge_tmul, map_mul, AlgHom.commutes]
   | add t t' ht ht' => simpa only [map_add, LinearMap.add_apply] using congrArg₂ (· + ·) ht ht'
@@ -296,7 +293,7 @@ public lemma exists_linearRepresentation_large {A : Type u} [CommRing A]
       (kernelTensorDualLarge_bijective f.hom))
   refine ⟨M, inferInstance, inferInstance, hM, r, fun B C g x => LinearMap.ext fun z => ?_⟩
   obtain ⟨l, rfl⟩ := Q.mkQ_surjective z
-  show tensorDualLarge A V (C : Type (max u v))
+  change tensorDualLarge A V (C : Type (max u v))
       (eB C (algebraMapValueLarge L g.hom x)).val l =
     g.hom (tensorDualLarge A V (B : Type (max u v)) (eB B x).val l)
   rw [heB, heB, algebraMapValueLarge_naturality η g.hom x]

@@ -75,7 +75,7 @@ theorem decompose_map {H' : Type*} [Ring H'] [Algebra F H'] (𝒜' : ℤ → Sub
     (decompose 𝒜' (g y) n : H') = g (decompose 𝒜 y n) := by
   classical
   conv_lhs => rw [← sum_support_decompose 𝒜 y, map_sum]
-  rw [decompose_sum, DFinsupp.finset_sum_apply, Submodule.coe_sum]
+  rw [decompose_sum, DFinsupp.finsetSum_apply, Submodule.coe_sum]
   rw [Finset.sum_eq_single n]
   · exact decompose_of_mem_same 𝒜' (hg n _ (decompose 𝒜 y n).2)
   · intro m _ hmn
@@ -227,8 +227,8 @@ theorem isInternal_evenGrade : DirectSum.IsInternal (evenGrade 𝒜) := by
     have h0 := congrArg (fun x : evenPart 𝒜 =>
       (decompose 𝒜 (x : H) (2 * (j : ℤ)) : H)) hsum
     simp only [ZeroMemClass.coe_zero, decompose_zero, DFinsupp.coe_zero, Pi.zero_apply] at h0
-    rw [DFinsupp.sum, AddSubmonoidClass.coe_finset_sum, decompose_sum,
-      DFinsupp.finset_sum_apply, Submodule.coe_sum, Finset.sum_eq_single j] at h0
+    rw [DFinsupp.sum, AddSubmonoidClass.coe_finsetSum, decompose_sum,
+      DFinsupp.finsetSum_apply, Submodule.coe_sum, Finset.sum_eq_single j] at h0
     · rw [decompose_of_mem_same 𝒜 hfj] at h0
       exact h0.symm
     · intro i _ hij

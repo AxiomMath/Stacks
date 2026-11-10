@@ -116,7 +116,7 @@ private theorem additiveHomothety_quasiIso_iff {R : Type w} [CommRing R]
     (homothety I) ?_
   apply HomologicalComplex.from_single_hom_ext
   ext a
-  show ULift.up (a.down • CochainComplex.HomComplex.Cochain.ofHom (𝟙 I)) =
+  change ULift.up (a.down • CochainComplex.HomComplex.Cochain.ofHom (𝟙 I)) =
     ULift.up (a.down • CochainComplex.HomComplex.Cochain.ofHom (𝟙 I))
   rfl
 
@@ -192,7 +192,7 @@ private theorem moduleHomothety_eq_Phi {R : Type w} [CommRing R]
       p p p (by omega) (by omega),
     CochainComplex.HomComplex.Cochain.ofHom_v,
     Stacks.HomComplex.TensorHomMap.Phiv_v]
-  show ((singleObjXSelf (ComplexShape.up ℤ) 0 (ModuleCat.of R R)).hom.hom a) • x =
+  change ((singleObjXSelf (ComplexShape.up ℤ) 0 (ModuleCat.of R R)).hom.hom a) • x =
     ((λ_ I).hom.f p).hom
       ((ιTensorObj _ I 0 p p (zero_add p)).hom (a ⊗ₜ[R] x))
   rw [unitTensor_apply]
@@ -211,7 +211,7 @@ private theorem moduleHomothety_precomp {R : Type w} [CommRing R]
   -- Name both sides as honest composites of cochains before touching their components: the
   -- carrier of `(HomComplexR R P I).X 0` is only definitionally `Cochain P I 0`, and the
   -- component lemmas below cannot match through that.
-  show (CochainComplex.HomComplex.Cochain.ofHom f).comp
+  change (CochainComplex.HomComplex.Cochain.ofHom f).comp
       (((singleObjXSelf (ComplexShape.up ℤ) 0 (ModuleCat.of R R)).hom.hom a) •
         CochainComplex.HomComplex.Cochain.ofHom (𝟙 I)) (zero_add 0) =
     (Stacks.HomComplex.TensorHomMap.Phiv R (𝟙_ (CochainComplex (ModuleCat.{w} R) ℤ)) P 0 a).comp
@@ -349,7 +349,7 @@ private theorem isIso_homZeroEquiv_symm_id_iff {R : Type w} [CommRing R]
       (𝟙 (DerivedCategory.Q.obj I)) = derivedHomothetyAt I := by
     apply (D.homZeroEquiv (DerivedCategory.Q.obj I) (DerivedCategory.Q.obj I)).injective
     simpa using (derivedHomothetyAt_homZeroEquiv I).symm
-  show IsIso ((D.homZeroEquiv (DerivedCategory.Q.obj I)
+  change IsIso ((D.homZeroEquiv (DerivedCategory.Q.obj I)
     (DerivedCategory.Q.obj I)).symm (𝟙 (DerivedCategory.Q.obj I))) ↔
       QuasiIso (homothety I)
   rw [h]
@@ -413,7 +413,7 @@ private theorem homothety_restrictScalars_general
   simp only [HomologicalComplex.comp_f, AddCommGrpCat.comp_apply]
   rw [homothety_f_zero_apply_source I a]
   rw [homothety_f_zero_apply_source J]
-  show (((a.down • CochainComplex.HomComplex.Cochain.ofHom (𝟙 I)).map F).v
+  change (((a.down • CochainComplex.HomComplex.Cochain.ofHom (𝟙 I)).map F).v
       n n (add_zero n)).hom y =
     (((e.symm a.down) • CochainComplex.HomComplex.Cochain.ofHom (𝟙 J)).v
       n n (add_zero n)).hom y
@@ -423,7 +423,7 @@ private theorem homothety_restrictScalars_general
     CochainComplex.HomComplex.Cochain.ofHom_v,
     CochainComplex.HomComplex.Cochain.ofHom_v]
   let yR : I.X n := y
-  show a.down • yR = e (e.symm a.down) • yR
+  change a.down • yR = e (e.symm a.down) • yR
   rw [e.apply_symm_apply]
 
 private theorem homothetyQuasiIso_restrictScalars_general_iff
@@ -522,7 +522,7 @@ private theorem homothetyQuasiIso_ulift_change
   have hJ : QuasiIso (additiveHomothety J) := by
     rw [← additiveHomothety_ulift_change I]
     infer_instance
-  show QuasiIso (homothety J)
+  change QuasiIso (homothety J)
   exact (additiveHomothety_quasiIso_iff J).1 hJ
 
 /-- A functor preserving injective objects and zero morphisms maps a bounded below complex of
@@ -565,7 +565,7 @@ private theorem isIso_canonicalHomothety_ulift_change
   have hI : QuasiIso (homothety I) :=
     hK.homothetyQuasiIso I ⟨eI.symm⟩ hinj ⟨a, b, hge, hle⟩
   have hJ : QuasiIso (homothety J) := by
-    show QuasiIso (homothety
+    change QuasiIso (homothety
       ((C.mapHomologicalComplex (ComplexShape.up ℤ)).obj
         ((U.mapHomologicalComplex (ComplexShape.up ℤ)).obj I)))
     exact homothetyQuasiIso_ulift_change I hI

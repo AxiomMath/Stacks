@@ -92,11 +92,11 @@ private lemma finite_hom_of_scalarLift
     { homModule := fun X Y => Module.compHom (X ⟶ Y) ρ
       smul_comp := by
         intro X Y Z r f g
-        show (ρ r • f) ≫ g = ρ r • (f ≫ g)
+        change (ρ r • f) ≫ g = ρ r • (f ≫ g)
         exact Linear.smul_comp _ _ _ _ _ _
       comp_smul := by
         intro X Y Z f r g
-        show f ≫ (ρ r • g) = ρ r • (f ≫ g)
+        change f ≫ (ρ r • g) = ρ r • (f ≫ g)
         exact Linear.comp_smul _ _ _ _ _ _ }
   let F₀ := StacksDraft.TorAmplitude.scalarLift.{u, v} (R := P)
   let : F₀.Linear P := by
@@ -121,7 +121,7 @@ private lemma finite_hom_of_scalarLift
         map_add' := by intro x y; rfl
         map_smul' := by
           intro r x
-          show r • x = ρ (σ r) • x
+          change r • x = ρ (σ r) • x
           simp [ρ, σ] }
     exact Module.Finite.of_surjective (R := ULift.{v} P) (M := H) (P := H)
       (σ := σ) f (fun x => ⟨x, rfl⟩)
@@ -256,7 +256,7 @@ private lemma homologyMap_smul_id
       ((HomologicalComplex.homologyFunctor (ModuleCat.{u} R) (ComplexShape.up ℤ) i).obj C) := by
   let F := HomologicalComplex.homologyFunctor (ModuleCat.{u} R) (ComplexShape.up ℤ) i
   let : F.Linear R := homologyFunctor_linear i
-  show F.map (r • 𝟙 C) = r • 𝟙 (F.obj C)
+  change F.map (r • 𝟙 C) = r • 𝟙 (F.obj C)
   rw [Functor.Linear.map_smul (F := F) (𝟙 C) r, F.map_id]
 
 /-- The homology functors on the derived category send a scalar multiple of the identity to the

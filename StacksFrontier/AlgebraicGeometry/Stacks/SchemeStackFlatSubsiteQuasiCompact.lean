@@ -76,7 +76,7 @@ theorem isQuasiCompactObject_of_isCocontinuous (hG : CoverPreserving J K G)
     rintro Y f ⟨W, h, g, ⟨i⟩, hcomp⟩
     obtain ⟨h', rfl⟩ := G.map_surjective h
     exact ⟨_, h', _, Presieve.ofArrows.mk i, G.map_injective (by rwa [G.map_comp])⟩
-  · show (Set.range (Subtype.val : T → 𝒰.I₀)).Finite
+  · change (Set.range (Subtype.val : T → 𝒰.I₀)).Finite
     rwa [Subtype.range_coe]
 
 end CategoryTheory.Functor
@@ -108,7 +108,7 @@ theorem isQuasiCompactObject_schemeStack_id
     (topology B S hS (schemeStack.{u, w} B S hS U))
     (associatedTopology B S hS (schemeStack.{u, w} B S hS U).val.val.p B.topology)
     (CoverPreserving.of_isContinuous _ _ _) _ ?_
-  show (associatedTopology B S hS (schemeStack.{u, w} B S hS U).val.val.p
+  change (associatedTopology B S hS (schemeStack.{u, w} B S hS U).val.val.p
     B.topology).IsQuasiCompactObject (Over.mk (𝟙 U))
   rw [associatedTopology_schemeStack]
   exact GrothendieckTopology.isQuasiCompactObject_over _ (Over.mk (𝟙 U))
@@ -136,7 +136,7 @@ theorem generate_isAffine_mem_topology_schemeStack
       from inferInstance) x.property
   have hR' : Sieve.ofArrows W w ∈ ((BigFppfOver.topology B S hS).over U) x' := by
     rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
-    show Sieve.ofArrows Vi ui ∈ B.topology.over (B.obj hS) x'.left
+    change Sieve.ofArrows Vi ui ∈ B.topology.over (B.obj hS) x'.left
     rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
     apply Precoverage.generate_mem_toGrothendieck
     rw [bigFppfPrecoverage_eq_comap, Precoverage.mem_comap_iff, Presieve.map_ofArrows]
@@ -148,7 +148,7 @@ theorem generate_isAffine_mem_topology_schemeStack
     rw [← iSup_affineOpens_eq_top] at hy
     obtain ⟨V, hV⟩ := TopologicalSpace.Opens.mem_iSup.1 hy
     refine ⟨V, ?_⟩
-    show y ∈ Set.range ((BigFppfOver.toScheme B S hS).map (ui V))
+    change y ∈ Set.range ((BigFppfOver.toScheme B S hS).map (ui V))
     rwa [hrange V]
   have hR : (Sieve.ofArrows W w : Sieve x.obj) ∈ associatedTopology B S hS
       (schemeStack.{u, w} B S hS U).val.val.p B.topology x.obj := by
@@ -175,7 +175,7 @@ theorem flat_structureSheaf_map_schemeStack
   have hleft : ((isTerminalFlatObjectSchemeStackId.{u, w} B S hS U).from Z).hom.left =
       Z.obj.hom := by
     simpa using Over.w ((isTerminalFlatObjectSchemeStackId.{u, w} B S hS U).from Z).hom
-  show (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
+  change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map
     ((isTerminalFlatObjectSchemeStackId.{u, w} B S hS U).from Z).hom.left).op).hom.Flat
   rw [hleft, Scheme.Γ_map_op]
   have := hU

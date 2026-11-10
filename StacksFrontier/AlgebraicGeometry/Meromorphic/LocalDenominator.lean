@@ -113,8 +113,7 @@ theorem exists_tmul_eq_of_surjective_smul {R : Type*} [CommRing R] {S : Type*} [
     [Algebra R S] {M : Type*} [AddCommGroup M] [Module R M] (a : M)
     (hsurj : Function.Surjective (fun c : R => c • a)) (z : TensorProduct R S M) :
     ∃ u : S, z = u ⊗ₜ[R] a := by
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, (TensorProduct.zero_tmul _ _).symm⟩
+  induction z using TensorProduct.inductionOn with
   | tmul s m =>
     obtain ⟨c, hc⟩ := hsurj m
     exact ⟨c • s, by rw [← hc]; exact (TensorProduct.smul_tmul _ _ _).symm⟩
@@ -129,7 +128,7 @@ theorem surjective_smul_of_linearEquiv {R : Type*} [CommRing R] {M : Type*} [Add
     [Module R M] (e : M ≃ₗ[R] R) : Function.Surjective (fun c : R => c • e.symm 1) := by
   intro m
   refine ⟨e m, ?_⟩
-  show (e m) • e.symm 1 = m
+  change (e m) • e.symm 1 = m
   rw [← LinearEquiv.map_smul e.symm, smul_eq_mul, mul_one, e.symm_apply_apply]
 
 /-- A scalar from `R` moves across the tensor product: `algebraMap R S c ⊗ₜ a = 1 ⊗ₜ (c • a)`. -/
@@ -346,7 +345,7 @@ theorem exists_nhds_toSheafifyMeromorphicTensor_app_eq
       ((toSheafifyMeromorphicTensor X L).app (op W)).hom z = s.eval (op W) := by
   have hLS : Presheaf.IsLocallySurjective (Opens.grothendieckTopology X)
       ((PresheafOfModules.toPresheaf _).map (toSheafifyMeromorphicTensor X L)) := by
-    show Presheaf.IsLocallySurjective (Opens.grothendieckTopology X)
+    change Presheaf.IsLocallySurjective (Opens.grothendieckTopology X)
       (CategoryTheory.toSheafify (Opens.grothendieckTopology X)
         (meromorphicTensorPresheaf X L).presheaf)
     infer_instance

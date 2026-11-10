@@ -163,10 +163,10 @@ theorem bijective_val_app_of_ofObjects_mem {G H : Modules.{u, u} B S hS F hF} (q
     have hres : ∀ i, chartRestrictLinear G (φ i) x = 0 := fun i => by
       apply (hz i).1
       have e := PresheafOfModules.naturality_apply q.val (φ i).op x
-      show q.val.app (op (z i)) (G.val.map (φ i).op x) = q.val.app (op (z i)) 0
+      change q.val.app (op (z i)) (G.val.map (φ i).op x) = q.val.app (op (z i)) 0
       rw [map_zero]
       refine e.trans ?_
-      show H.val.map (φ i).op ((q.val.app (op W)).hom x) = 0
+      change H.val.map (φ i).op ((q.val.app (op W)).hom x) = 0
       rw [hx]
       exact (H.val.map (φ i).op).hom.map_zero
     have hmem := mem_span_of_forall_restrict_mem_span G hG hW φ hzaff hff

@@ -109,7 +109,8 @@ invertibility of its stalks — that reduction is
 `AlgebraicGeometry.Space.isIso_tensorPushforwardMap_of_isIso_geometricModuleStalk`.
 
 The identification of the stalk of a tensor product of sheaves of modules on a small étale site
-is available too, as `AlgebraicGeometry.Space.geometricModuleStalkTensorIso`. The `[Category.{u} C]` on
+is available too, as `AlgebraicGeometry.Space.geometricModuleStalkTensorIso`.
+The `[Category.{u} C]` on
 `Stacks.SheafOfModules.SitePointStalkSheafify.tensorSheafifyIso` was not an obstruction but
 only how that statement happens to be written: both of its inputs — part (3) of Stacks 04EQ
 (`Stacks.isIso_moduleFiberSheafificationComparison`) and the presheaf-level comparison
@@ -203,8 +204,10 @@ noncomputable def tensorPushforwardMap (i : Z ⟶ X)
     {ℬ : Sheaf (SmallEtale.topology B S hS Z.1) CommRingCat.{u}}
     (φ : 𝒜 ⟶ (pushforwardCommRingFunctor.{u, u, u, u + 1, u, u + 1}
       (smallToposMorphismTypeU B S hS i)).obj ℬ)
-    (𝓕 : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedToposOfRings B S hS X 𝒜).O))
-    (𝓖 : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedToposOfRings B S hS Z ℬ).O)) :
+    (𝓕 : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf
+      (smallEtaleRingedToposOfRings B S hS X 𝒜).O))
+    (𝓖 : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf
+      (smallEtaleRingedToposOfRings B S hS Z ℬ).O)) :
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{u + 1, u, u, u, u} 𝒜).obj 𝓕).obj
       ((pushforwardModules (smallEtaleRingedToposHomOfSharp B S hS i φ)).obj 𝓖) ⟶
       (pushforwardModules (smallEtaleRingedToposHomOfSharp B S hS i φ)).obj
@@ -221,8 +224,10 @@ theorem isIso_tensorPushforwardMap (i : Z ⟶ X)
     {ℬ : Sheaf (SmallEtale.topology B S hS Z.1) CommRingCat.{u}}
     (φ : 𝒜 ⟶ (pushforwardCommRingFunctor.{u, u, u, u + 1, u, u + 1}
       (smallToposMorphismTypeU B S hS i)).obj ℬ)
-    (𝓕 : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedToposOfRings B S hS X 𝒜).O))
-    (𝓖 : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedToposOfRings B S hS Z ℬ).O))
+    (𝓕 : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf
+      (smallEtaleRingedToposOfRings B S hS X 𝒜).O))
+    (𝓖 : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf
+      (smallEtaleRingedToposOfRings B S hS Z ℬ).O))
     (hε : IsIso ((pullbackAdjPushforwardModules
       (smallEtaleRingedToposHomOfSharp B S hS i φ)).counit.app 𝓖))
     (hη : IsIso ((pullbackAdjPushforwardModules
@@ -280,7 +285,8 @@ theorem isIso_counit_of_isClosedImmersion (i : Z ⟶ X)
     (φ : 𝒜 ⟶ (pushforwardCommRingFunctor.{u, u, u, u + 1, u, u + 1}
       (smallToposMorphismTypeU B S hS i)).obj ℬ)
     (hφ : Sheaf.IsLocallySurjective φ)
-    (𝓖 : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedToposOfRings B S hS Z ℬ).O)) :
+    (𝓖 : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf
+      (smallEtaleRingedToposOfRings B S hS Z ℬ).O)) :
     IsIso ((Stacks.Sheaves.RingedToposModules.pullbackAdjPushforwardModules
       (smallEtaleRingedToposHomOfSharp B S hS i φ)).counit.app 𝓖) :=
   have hff := fullyFaithfulPushforwardModulesOfSharp B S hS i hi φ hφ

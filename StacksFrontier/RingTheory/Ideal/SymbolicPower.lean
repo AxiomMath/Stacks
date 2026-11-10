@@ -145,7 +145,7 @@ theorem comap_map_eq_of_flat_isPrime {R S : Type*} [CommRing R] [CommRing S] (φ
   apply hinj
   rw [map_zero]
   show algebraMap (R ⧸ p) (S ⧸ Ideal.map (algebraMap R S) p) (Ideal.Quotient.mk p x) = 0
-  show Ideal.Quotient.mk (Ideal.map (algebraMap R S) p) (φ x) = 0
+  change Ideal.Quotient.mk (Ideal.map (algebraMap R S) p) (φ x) = 0
   exact (Ideal.Quotient.eq_zero_iff_mem).mpr hx
 
 /-- Along a flat ring map with `p S` prime, the extension of the symbolic power is contained in
@@ -405,7 +405,7 @@ lemma sqCoreNatMap_injective (A B : Type*) [CommRing A] [CommRing B] [Algebra A 
     [Module.Flat A B] (p : Submodule A A) : Function.Injective (sqCoreNatMap A B p) := by
   rw [sqCoreNatMap, LinearMap.coe_comp]
   apply Function.Injective.comp (TensorProduct.AlgebraTensorModule.rid A B B).injective
-  rw [LinearMap.baseChange_eq_ltensor]
+  rw [LinearMap.baseChange_eq_lTensor]
   exact Module.Flat.lTensor_preserves_injective_linearMap _ (Subtype.coe_injective)
 
 open scoped TensorProduct in
@@ -529,7 +529,7 @@ theorem sq_core_cancel {A B : Type*} [CommRing A] [CommRing B] [Algebra A B]
         (LinearMap.ker q).subtype) (g := q) (by rw [LinearMap.exact_iff, Submodule.range_subtype])
     rw [Function.Exact] at h ⊢
     intro y
-    rw [hincl, hBq, LinearMap.baseChange_eq_ltensor, LinearMap.baseChange_eq_ltensor]
+    rw [hincl, hBq, LinearMap.baseChange_eq_lTensor, LinearMap.baseChange_eq_lTensor]
     exact h y
   have hmapS :
     Submodule.map Φ (LinearMap.range incl) = ((J ^ (i + 1) : Ideal B) : Submodule B B) := by
@@ -544,7 +544,7 @@ theorem sq_core_cancel {A B : Type*} [CommRing A] [CommRing B] [Algebra A B]
         rw [hJ, ← Ideal.map_pow]
         apply Ideal.mem_map_of_mem
         have hy : ((y : ↥Mi) : ↥Mi) ∈ 𝔪 • (⊤ : Submodule A ↥Mi) := hkerq ▸ y.property
-        show ((y : ↥Mi) : A) ∈ (𝔪 ^ (i + 1) : Ideal A)
+        change ((y : ↥Mi) : A) ∈ (𝔪 ^ (i + 1) : Ideal A)
         refine Submodule.smul_induction_on hy ?_ ?_
         · intro a ha z _
           have hz : ((a • z : ↥Mi) : A) = a * (z : A) := rfl

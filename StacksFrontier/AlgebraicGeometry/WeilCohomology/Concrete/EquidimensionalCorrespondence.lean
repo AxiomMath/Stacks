@@ -91,7 +91,7 @@ section Equidimensional
 
 variable (k : Type u) [Field k] {X Y : Scheme.{u}}
   (sX : X ⟶ (fieldChowSituation k).S) (sY : Y ⟶ (fieldChowSituation k).S)
-  [Smooth sX] [IsSeparated sX] [Smooth sY] [IsSeparated sY] {d e : ℕ}
+  [Smooth sX] [Smooth sY] {d e : ℕ}
 
 /-- The summands of `Corrʳ(X, Y)` other than the one of index `(d, e)` vanish for `X` of constant
 relative dimension `d`: their source part is empty. -/
@@ -117,7 +117,7 @@ def corrEquivCorrespondence (hX : RelativeDimension sX d) (hY : RelativeDimensio
   haveI := isIso_dimPart_self_ι sY hY
   (directSumEquivSummand d fun _ hd' ↦ subsingleton_corr_summand_of_ne k sX sY hX r hd') ≪≫ₗ
     (directSumEquivSummand e fun e' he' ↦ by
-      haveI := isEmpty_dimPart_of_ne sY hY he'
+      have := isEmpty_dimPart_of_ne sY hY he'
       exact subsingleton_correspondence_of_isEmpty_right _ _ _ _ _) ≪≫ₗ
     correspondenceEquivOfIso (fieldChowSituation k) sX sY (partBase sX d) (partBase sY e)
       (dimPart sX d).ι (dimPart sY e).ι rfl rfl e r

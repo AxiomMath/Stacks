@@ -328,7 +328,7 @@ theorem generates_kerSectionOfRelation (hs : Generates J M.val s)
         = ∑ i, R.obj.map h.op (ρ'.val i) • M.val.map h'.op (s i) := by
     intro Y h h' hh ρ'
     subst hh
-    show M.val.map h.op (∑ i, ρ'.val i • M.val.map Z.hom.op (s i)) = _
+    change M.val.map h.op (∑ i, ρ'.val i • M.val.map Z.hom.op (s i)) = _
     refine (map_sum_smul h.op (fun i => ρ'.val i)
       (fun i => M.val.map Z.hom.op (s i))).trans ?_
     exact Finset.sum_congr rfl (fun i (_ : i ∈ Finset.univ) =>

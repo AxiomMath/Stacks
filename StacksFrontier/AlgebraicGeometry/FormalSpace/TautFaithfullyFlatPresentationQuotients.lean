@@ -130,7 +130,6 @@ ideals of `A` are faithfully flat. -/
 theorem exists_taut_faithfullyFlatQuotients_of_surjective_flat
     {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hY : IsAffineFormalAlgebraicSpace B S hS Y)
-    (hf : Space.IsRepresentableByAlgebraicSpacesULift.{u + 1} B S hS f.hom)
     (hsurj : IsSurjective B S hS f)
     (hflat : ∃ hf : Space.IsRepresentableByAlgebraicSpacesULift.{u + 1} B S hS f.hom,
       Space.HasPropertyULift.{u + 1} B S hS (Space.flatPropertyULift.{u + 1} B S hS) f.hom hf)

@@ -93,10 +93,10 @@ theorem dTo_dTo (p : ℤ) (x : MX gR n p) :
   funext i ⟨b, hb⟩
   rcases b with _ | _ | c
   · rfl
-  · show ((-1 : ℤ) ^ n i) • ((ringDeRhamComplex gR).d 0 1).hom
+  · change ((-1 : ℤ) ^ n i) • ((ringDeRhamComplex gR).d 0 1).hom
       (0 : (ringDeRhamComplex gR).X 0) = 0
     rw [map_zero, smul_zero]
-  · show ((-1 : ℤ) ^ n i) • ((ringDeRhamComplex gR).d (c + 1) (c + 1 + 1)).hom
+  · change ((-1 : ℤ) ^ n i) • ((ringDeRhamComplex gR).d (c + 1) (c + 1 + 1)).hom
       (((-1 : ℤ) ^ n i) • ((ringDeRhamComplex gR).d c (c + 1)).hom (x i ⟨c, _⟩)) = 0
     rw [map_zsmul, ← LinearMap.comp_apply, ← ModuleCat.hom_comp,
       (ringDeRhamComplex gR).d_comp_d]
@@ -120,7 +120,7 @@ abbrev complex : CochainComplex (ModuleCat.{u} R) ℤ where
 /-- The differential of `complex` from degree `p` to degree `p + 1` is `dTo`. -/
 theorem complex_d_apply {p q : ℤ} (h : p + 1 = q) (x : MX gR n p) :
     ((complex gR n).d p q).hom x = dTo gR n p q h x := by
-  show (diff gR n p q).hom x = _
+  change (diff gR n p q).hom x = _
   rw [diff, dite_eq_left h]
   rfl
 
@@ -149,7 +149,7 @@ theorem dTo_mem_step {k : ℕ} {p q : ℤ} (h : p + 1 = q) {x : MX gR n p} (hx :
   rcases b with _ | c
   · rfl
   · have hc : (n i : ℤ) + c = p := by push_cast at hb; omega
-    show ((-1 : ℤ) ^ n i) • ((ringDeRhamComplex gR).d c (c + 1)).hom (x i ⟨c, hc⟩) = 0
+    change ((-1 : ℤ) ^ n i) • ((ringDeRhamComplex gR).d c (c + 1)).hom (x i ⟨c, hc⟩) = 0
     rw [hx i ⟨c, hc⟩ (by change c + 1 < k + 1 at hbk; change c < k; omega), map_zero, smul_zero]
 
 /-- The filtration is decreasing: `step (k + 1) ≤ step k`. -/
@@ -223,10 +223,10 @@ theorem gradedXEquiv_mk (k : ℕ) (p : ℤ) (x : (filtration gR n).step k p) :
 theorem graded_d_eq_zero (k : ℕ) (p q : ℤ) : ((filtration gR n).graded k).d p q = 0 := by
   by_cases h : p + 1 = q
   · refine ModuleCat.hom_ext (Submodule.linearMap_qext _ (LinearMap.ext fun x => ?_))
-    show Submodule.Quotient.mk (⟨((complex gR n).d p q).hom
+    change Submodule.Quotient.mk (⟨((complex gR n).d p q).hom
       (Subtype.val (x : (filtration gR n).step k p)), _⟩ : (filtration gR n).step k q) = 0
     refine (Submodule.Quotient.mk_eq_zero _).2 ?_
-    show ((complex gR n).d p q).hom (Subtype.val (x : (filtration gR n).step k p)) ∈
+    change ((complex gR n).d p q).hom (Subtype.val (x : (filtration gR n).step k p)) ∈
       step gR n (k + 1) q
     rw [complex_d_apply gR n h]
     exact dTo_mem_step gR n h x.2
@@ -337,9 +337,10 @@ def gradedIso (k : ℕ) :
         rw [MonoidalPreadditive.whiskerLeft_zero, Functor.map_zero]
       rw [h1, h2, Limits.comp_zero, Limits.zero_comp])
 
-omit [DecidableEq I] in
+omit [Fintype I] [DecidableEq I] in
 /-- **The complex `⨁_i A[-n_i]` is K-flat**: it is bounded and its terms are free. -/
-theorem kFlat_unitComplex : CochainComplex.KFlat.{u, u} (unitComplex A n) := by
+theorem kFlat_unitComplex [Finite I] : CochainComplex.KFlat.{u, u} (unitComplex A n) := by
+  have := Fintype.ofFinite I
   have : (unitComplex A n).IsStrictlyLE ((Finset.univ.sup n : ℕ) : ℤ) := by
     rw [CochainComplex.isStrictlyLE_iff]
     intro q hq
@@ -349,7 +350,7 @@ theorem kFlat_unitComplex : CochainComplex.KFlat.{u, u} (unitComplex A n) := by
       omega⟩
     exact ModuleCat.isZero_of_subsingleton _
   have : ∀ q : ℤ, Module.Flat A ((unitComplex A n).X q) := fun q => by
-    show Module.Flat A (∀ (_ : {i : I // (n i : ℤ) = q}), A)
+    change Module.Flat A (∀ (_ : {i : I // (n i : ℤ) = q}), A)
     infer_instance
   exact CochainComplex.KFlat.kFlat_of_flat (unitComplex A n) ((Finset.univ.sup n : ℕ) : ℤ)
 

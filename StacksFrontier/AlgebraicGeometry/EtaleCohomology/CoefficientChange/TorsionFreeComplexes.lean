@@ -65,7 +65,7 @@ theorem isTorsionFree_biprod (F G : EtaleAbelianSheaves.{u, r} X)
     have (W : X.Etaleᵒᵖ) : Mono (((sheafToPresheaf _ _).map (n • 𝟙 H)).app W) := by
       have := hH W
       rw [AddCommGrpCat.mono_iff_injective]
-      show Function.Injective (fun y : H.obj.obj W => n • y)
+      change Function.Injective (fun y : H.obj.obj W => n • y)
       exact IsSMulRegular.of_ne_zero hn
     exact NatTrans.mono_of_mono_app _
   have := mono_smul F hF
@@ -109,7 +109,7 @@ theorem acyclic_map_etaleAbelianSheafExtend_of_isTorsionFree
   let f' : (((T.mapHomologicalComplex (.up ℤ)).obj K).sc' i (i + 1) (i + 1 + 1)) ⟶ S' :=
     { τ₁ := T.map (K.toCycles i (i + 1)), τ₂ := 𝟙 _, τ₃ := 𝟙 _
       comm₁₂ := by
-        show T.map (K.toCycles i (i + 1)) ≫ T.map (K.iCycles (i + 1)) =
+        change T.map (K.toCycles i (i + 1)) ≫ T.map (K.iCycles (i + 1)) =
           T.map (K.d i (i + 1)) ≫ 𝟙 _
         rw [← T.map_comp, K.toCycles_i, Category.comp_id] }
   have : Epi f'.τ₁ := he

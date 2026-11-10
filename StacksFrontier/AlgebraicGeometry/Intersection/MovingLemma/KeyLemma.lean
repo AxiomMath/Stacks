@@ -180,7 +180,7 @@ public theorem topologicalKrullDim_closure_eq_of_relativeDimension_eq (k : Type 
 private theorem natCast_ne_top (q : ℕ) : ((q : ℕ) : WithBot ℕ∞) ≠ ⊤ := by
   intro h
   rw [← WithBot.coe_top] at h
-  exact (ENat.coe_ne_top q) (by exact_mod_cast h)
+  exact (ENat.natCast_ne_top q) (by exact_mod_cast h)
 
 /-- A natural number is not `⊥` in `WithBot ℕ∞`. -/
 private theorem natCast_ne_bot (q : ℕ) : ((q : ℕ) : WithBot ℕ∞) ≠ ⊥ := by
@@ -515,7 +515,7 @@ private theorem intersectProperly_torFormulaCycleIntersectionProduct_eq_single_o
     exact IrreducibleCloseds.ext hWeq ▸ hW
   subst hSempty
   refine ⟨?_, by rw [heq, Finset.sum_empty, add_zero]⟩
-  show topologicalKrullDim ↥((ZC : Set (projectiveSpaceOfModule k V)) ∩
+  change topologicalKrullDim ↥((ZC : Set (projectiveSpaceOfModule k V)) ∩
       (XC : Set (projectiveSpaceOfModule k V))) +
     topologicalKrullDim (projectiveSpaceOfModule k V) ≤
     topologicalKrullDim (ZC : Set (projectiveSpaceOfModule k V)) +
@@ -670,7 +670,9 @@ public theorem exists_isFinite_projection_excess_clauses_of_isOpenImmersion
     rw [← add_assoc] at h
     exact Stacks.RegularSequence.FibrewiseLocus.le_of_add_le_add_right_of_ne_bot_of_ne_top
       (by norm_num)
-      (by intro h1; rw [← WithBot.coe_top] at h1; exact (ENat.coe_ne_top 1) (by exact_mod_cast h1))
+      (by
+        intro h1; rw [← WithBot.coe_top] at h1
+        exact (ENat.natCast_ne_top 1) (by exact_mod_cast h1))
       h
   -- inside `U`, `W' ∩ T i` lies in `(W' ∩ T i ∩ Z) ∪ F i`
   set A' : Set Y := j₀.base ⁻¹' W' ∩ j₀.base ⁻¹' T i with hA'def
@@ -854,7 +856,7 @@ public theorem exists_intersectProperly_cycleComap_torFormulaCycleIntersectionPr
     Z.isIrreducible.closure_genericPoint Z.isClosed
   have hZbgen : hZbirr.genericPoint = j₀.base ζU := by
     refine (hZbirr.isGenericPoint_genericPoint hZbcl).eq ?_
-    show closure ({j₀.base ζU} : Set X) = Zb
+    change closure ({j₀.base ζU} : Set X) = Zb
     rw [hZbdef, ← hζUcl, closure_image_closure j₀.continuous, Set.image_singleton]
   -- `Y` has the dimension `n` of `X`
   obtain ⟨z₀, -⟩ := Z.isIrreducible.nonempty
@@ -892,21 +894,21 @@ public theorem exists_intersectProperly_cycleComap_torFormulaCycleIntersectionPr
         iX.isClosedEmbedding.isClosedMap _ hZbcl⟩
     have hdimZC : topologicalKrullDim (ZC : Set (projectiveSpaceOfModule k V)) =
         (d : WithBot ℕ∞) := by
-      show topologicalKrullDim ↥(iX.base '' Zb) = (d : WithBot ℕ∞)
+      change topologicalKrullDim ↥(iX.base '' Zb) = (d : WithBot ℕ∞)
       rw [hdimimg, hZbd]
     obtain ⟨hprop, hprodeq⟩ :=
       intersectProperly_torFormulaCycleIntersectionProduct_eq_single_of_eq k V hV ZC XC hdimZC
         hdimXC
     have hZCgen : ZC.isIrreducible.genericPoint = iX.base (j₀.base ζU) := by
       refine (ZC.isIrreducible.isGenericPoint_genericPoint ZC.isClosed').eq ?_
-      show closure ({iX.base (j₀.base ζU)} : Set (projectiveSpaceOfModule k V)) = iX.base '' Zb
+      change closure ({iX.base (j₀.base ζU)} : Set (projectiveSpaceOfModule k V)) = iX.base '' Zb
       rw [← hZbgen, ← Set.image_singleton, iX.isClosedEmbedding.closure_image_eq,
         hZbirr.closure_genericPoint hZbcl]
     refine ⟨ZC, ∅, 0, AlgebraicCycle.intersectProperly_single_genericPoint hprop, ?_,
       fun p hp => ?_, by simp, by simp, by simp, by simp, by simp⟩
     swap
     · rw [hprodeq, Function.locallyFinsuppWithin.single_apply] at hp
-      have hpeq : p = ZC.isIrreducible.genericPoint := by by_contra h; exact hp (if_neg h)
+      have hpeq : p = ZC.isIrreducible.genericPoint := by by_contra h; exact hp (ite_eq_right h)
       rw [hpeq]
       refine ⟨(ZC.isIrreducible.isGenericPoint_genericPoint ZC.isClosed').mem, ?_⟩
       rw [hXC, hZCgen]
@@ -916,8 +918,8 @@ public theorem exists_intersectProperly_cycleComap_torFormulaCycleIntersectionPr
     rw [cycleComap_apply, cycleComap_apply, Function.locallyFinsuppWithin.single_apply,
       Function.locallyFinsuppWithin.single_apply, hZCgen]
     by_cases hu : u = ζU
-    · rw [if_pos hu, if_pos (by rw [hu])]
-    · rw [if_neg hu, if_neg fun h => hu (hinjU (hinj h))]
+    · rw [ite_eq_left hu, ite_eq_left (by rw [hu])]
+    · rw [ite_eq_right hu, ite_eq_right fun h => hu (hinjU (hinj h))]
   -- `n < N`: a projection finite on `X`, étale at the generic point of `Zb`, along which every
   -- other closed subvariety of `π^{-1}(π(Zb))` of dimension `d` has the excess bounds in `U`
   obtain ⟨W, hWrank, j, hj, hfin, het, hexcess⟩ :=
@@ -1105,7 +1107,7 @@ public theorem exists_intersectProperly_torFormulaCycleIntersectionProduct_eq
       AC.isIrreducible.genericPoint = iX.base A.isIrreducible.genericPoint := by
     intro A AC hAC
     refine (AC.isIrreducible.isGenericPoint_genericPoint AC.isClosed').eq ?_
-    show closure ({iX.base A.isIrreducible.genericPoint} :
+    change closure ({iX.base A.isIrreducible.genericPoint} :
       Set (projectiveSpaceOfModule k V)) = AC
     rw [hclosure, hAC]
   have hZCgen := hgen Z' ZC hZC
@@ -1135,8 +1137,8 @@ public theorem exists_intersectProperly_torFormulaCycleIntersectionProduct_eq
       (Function.locallyFinsuppWithin.single C.isIrreducible.genericPoint (1 : ℤ))
       (Function.locallyFinsuppWithin.single XC.isIrreducible.genericPoint (1 : ℤ))
       ZC.isIrreducible.genericPoint = 1 := by
-    rw [hZCgen, heval, if_pos rfl, Finset.sum_eq_zero fun W hW => by
-      rw [if_neg]
+    rw [hZCgen, heval, ite_eq_left rfl, Finset.sum_eq_zero fun W hW => by
+      rw [ite_eq_right]
       intro h
       exact hZS (hgpinj W Z' h.symm ▸ hW), add_zero]
   obtain ⟨SP, mP, heqP, hZSP, hmP, hsuppP⟩ :=
@@ -1157,9 +1159,9 @@ public theorem exists_intersectProperly_torFormulaCycleIntersectionProduct_eq
         rw [← AlgebraicCycle.closureSingleton_genericPoint W',
           ← AlgebraicCycle.closureSingleton_genericPoint ZC, hZCgen, ← hu, hu']
       exact hW'Z ▸ hW'
-    · rw [if_neg hu', zero_add] at hp
+    · rw [ite_eq_right hu', zero_add] at hp
       obtain ⟨W, hW, hWne⟩ := Finset.exists_ne_zero_of_sum_ne_zero hp
-      have huW : u = W.isIrreducible.genericPoint := by by_contra h; exact hWne (if_neg h)
+      have huW : u = W.isIrreducible.genericPoint := by by_contra h; exact hWne (ite_eq_right h)
       refine ⟨W, hW, ?_⟩
       rw [← W'.isIrreducible.closure_genericPoint W'.isClosed', ← hu, huW, hclosure]
   have hinter : ∀ (A : IrreducibleCloseds X) (i : ι),

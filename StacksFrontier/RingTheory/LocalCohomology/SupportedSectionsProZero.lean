@@ -59,7 +59,7 @@ theorem annihilator_span_singleton_eq_torsionOf {M : Type v} [AddCommGroup M] [M
   · obtain ⟨m, hm⟩ := m
     obtain ⟨b, rfl⟩ := Submodule.mem_span_singleton.mp hm
     apply Subtype.ext
-    show a • b • x = 0
+    change a • b • x = 0
     rw [smul_comm, h, smul_zero]
 
 /-- **A minimal prime over the annihilator of an element is an associated prime.** -/

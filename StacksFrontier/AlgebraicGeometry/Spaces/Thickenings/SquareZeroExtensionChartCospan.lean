@@ -30,8 +30,8 @@ This is the square with `𝒜` at **all four** corners, indexed by a **cospan**,
 `CategoryTheory.IsEquivalenceRelation` field of
 `Stacks.Groupoids.IsEtaleEquivalenceRelation` asks of the charts of the extension — see the
 module documentation of
-`StacksFrontier.AlgebraicGeometry.Spaces.Thickenings.SquareZeroExtensionChartRelation`, where the gap
-it fills is described.  It is **not**
+`StacksFrontier.AlgebraicGeometry.Spaces.Thickenings.SquareZeroExtensionChartRelation`, where the
+gap it fills is described.  It is **not**
 `AlgebraicGeometry.Space.SquareZeroExtension.isPullback_reductionChartSpec_app_of_isAffine`, which
 has `𝒪_X` at two of its four corners and is indexed by a single arrow of the site.
 
@@ -77,9 +77,9 @@ bijective, hence an isomorphism, and the pushout square of the span transports a
 **All three given charts are required to be affine, and `P` is not.**  Affineness of `P` is
 automatic: the square of underlying schemes is a fibre product square, and a fibre product of
 affine schemes over an affine scheme is affine.  Affineness of `T`, `R` and `R'` is a genuine
-restriction, as it is for every fact about the chart diagram proved in this library: the sections of `𝒜` over a
-non-affine chart do not determine it.  **Nothing here covers a non-affine chart by affines and
-glues**, so for the relation chart `R₀ = U₀ ×_X U₀` of an étale equivalence relation the square
+restriction, as it is for every fact about the chart diagram proved in this library: the sections of
+`𝒜` over a non-affine chart do not determine it. **Nothing here covers a non-affine chart by affines
+and glues**, so for the relation chart `R₀ = U₀ ×_X U₀` of an étale equivalence relation the square
 below applies only when `R₀` is affine — which, as the implementation notes of
 `StacksFrontier.AlgebraicGeometry.Spaces.Thickenings.SquareZeroExtensionChartRelation` record, is a
 condition on the diagonal of `X` and not on the extension.

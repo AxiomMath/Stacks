@@ -313,7 +313,7 @@ private theorem torsorPairing_transitionCocycle {X : TopCat.{u}}
             Multiplicative.ofAdd (zF.val i)
           let b : (underlyingPresheafOfGroups X H).obj W :=
             Multiplicative.ofAdd (zG.val i)
-          show K.action.act (a * b) _ = _
+          change K.action.act (a * b) _ = _
           calc
             K.action.act (a * b)
                 (p.app W (F.F.res h₀ (s (i 0))) (G.F.res h₀ (t (i 0)))) =
@@ -400,7 +400,7 @@ private lemma exists_affine_map {X : TopCat.{u}}
   obtain ⟨g, hg⟩ := exists_presheafHom_of_cover F.F.toPresheafOfSets
     (abelianSheafOfSets A) Ui hUi f (by
       intro i V W hV hWV t
-      show A.presheaf.map (homOfLE hWV).op (f i V hV t) = _
+      change A.presheaf.map (homOfLE hWV).op (f i V hV t) = _
       dsimp only [f]
       rw [map_add, abelianSheafHom_naturality, abelianSheaf_res_comp,
         ← torsorDifference_res, F.F.res_comp]) (by
@@ -567,14 +567,14 @@ private lemma affine_map_fiber {X : TopCat.{u}}
       intro i j W hi hj
       apply hinj W
       rw [g.naturality, g.naturality]
-      show A.presheaf.map (homOfLE hi).op (g.app _ (t i)) =
+      change A.presheaf.map (homOfLE hi).op (g.app _ (t i)) =
         A.presheaf.map (homOfLE hj).op (g.app _ (t j))
       rw [ht, ht, abelianSheaf_res_comp, abelianSheaf_res_comp]⟩
     obtain ⟨t', ht'⟩ := (F.F.isSheaf V X (fun i => V ⊓ Ui i)
       (fun _ => inf_le_left) (eq_iSup_inf_of_top_eq hUi V)).2 sf
     refine ⟨t', abelianSheaf_eq_of_cover A Ui hUi V _ _ ?_⟩
     intro i
-    show (abelianSheafOfSets A).res inf_le_left (g.app V t') = _
+    change (abelianSheafOfSets A).res inf_le_left (g.app V t') = _
     rw [← g.naturality]
     have hi := congrFun (congrArg Subtype.val ht') i
     change F.F.res inf_le_left t' = t i at hi

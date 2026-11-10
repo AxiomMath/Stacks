@@ -160,7 +160,7 @@ theorem freeSectionsMap_restrict (I : Type u) {U V : SmallEtale B S hS F} (f : V
         (Finsupp.mapRange.addMonoidHom (chartRestrict (hF := hF) f).toAddMonoidHom) := by
     refine Finsupp.addHom_ext ?_
     intro i r
-    show (SheafOfModules.free
+    change (SheafOfModules.free
           (R := (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O))
           I).val.map f.op
         ((Stacks.Sites.freeSectionsMap
@@ -189,7 +189,7 @@ theorem smul_mapRange_eq_finsuppScalarRight {R A : Type u} [CommRing R] [CommRin
   let _ := φ.toAlgebra
   refine Finsupp.ext fun i => ?_
   rw [TensorProduct.finsuppScalarRight_apply_tmul_apply]
-  show b * φ (p i) = p i • b
+  change b * φ (p i) = p i • b
   exact mul_comm b (φ (p i))
 
 /-! ### Free modules are cartesian on affine charts -/
@@ -222,7 +222,6 @@ theorem bijective_sectionsBaseChange_of_finsuppEquiv {M : Modules.{u, m} B S hS 
     (TensorProduct.finsuppScalarRight (chartRing B S hS F hF U) (chartRing B S hS F hF V)
       (chartRing B S hS F hF V) I).bijective.comp
       ((LinearEquiv.lTensor (chartRing B S hS F hF V) θU).bijective)
-  have hGzero : G 0 = 0 := by simp only [hG, map_zero]
   have hGadd : ∀ z w, G (z + w) = G z + G w := by intro z w; simp only [hG, map_add]
   have hrestrict : ∀ x : M.val.obj (op U),
       θV (chartRestrictLinear M f x)
@@ -230,8 +229,7 @@ theorem bijective_sectionsBaseChange_of_finsuppEquiv {M : Modules.{u, m} B S hS 
     fun x => Finsupp.ext fun i => (hnat x i).trans (Finsupp.mapRange_apply ..).symm
   have key : ∀ z, θV (sectionsBaseChange M f z) = G z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, hGzero]
+    induction z using TensorProduct.inductionOn with
     | tmul b y =>
       rw [hG]
       rw [chartBaseChange_tmul M f b y, map_smul, hrestrict y]

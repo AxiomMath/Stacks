@@ -3,8 +3,8 @@ module
 public import Mathlib.Algebra.Lie.OfAssociative
 public import Mathlib.Algebra.Module.StablyFree.Basic
 public import Mathlib.Algebra.Order.Ring.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Analysis.Normed.Ring.Lemmas
-public import Mathlib.Data.Int.Star
 public import Mathlib.Order.CompletePartialOrder
 public import Mathlib.RingTheory.MvPolynomial.IrreducibleQuadratic
 public import Mathlib.RingTheory.PicardGroup
@@ -210,7 +210,7 @@ lemma gradedPiece_finite_of_finite
     refine ⟨fun i => ⟨(DirectSum.decompose (weightedHomogeneousSubmodule R w) (c i) (d - deg i) :
         MvPolynomial (Fin n) R), SetLike.coe_mem _⟩, Subtype.ext ?_⟩
     rw [LinearMap.codRestrict_apply, hF]
-    show (∑ i : Fin r, (DirectSum.decompose (weightedHomogeneousSubmodule R w) (c i) (d - deg i) :
+    change (∑ i : Fin r, (DirectSum.decompose (weightedHomogeneousSubmodule R w) (c i) (d - deg i) :
         MvPolynomial (Fin n) R) • m i) = x
     rw [← DirectSum.decompose_of_mem_same 𝓜 hx, ← hc, coe_decompose_sum_apply]
     exact Finset.sum_congr rfl fun i _ =>

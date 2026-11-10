@@ -490,7 +490,7 @@ theorem Situation.gradedWedge_pullD_mem_span (p : ℕ) (n : ℤ) (hWU : W.1 ≤ 
   induction hg using Submodule.span_induction with
   | mem g hg =>
       obtain ⟨-, ⟨a, rfl⟩, rfl⟩ := hg
-      show D.gradedWedge p W.1 ζ
+      change D.gradedWedge p W.1 ζ
           ((D.gradedAmbient 1).presheaf.map (homOfLE hWU).op
             (D.gradedD U.1 (D.laurentPullbackFunction U.1 a))) ∈ _
       rw [D.laurentPullbackFunction_eq U a]

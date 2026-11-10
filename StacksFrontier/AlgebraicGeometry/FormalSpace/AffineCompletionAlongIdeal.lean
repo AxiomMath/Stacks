@@ -128,7 +128,7 @@ private theorem evalₐ_eq_zero_iff (I : Ideal A) (n : ℕ) (x : AdicCompletion 
     AdicCompletion.evalₐ I n x = 0 ↔ x.val n = 0 := by
   let e := Ideal.quotientEquivAlgOfEq A
     (show (I ^ n • (⊤ : Ideal A)) = I ^ n by ext a; simp)
-  show e (x.val n) = 0 ↔ x.val n = 0
+  change e (x.val n) = 0 ↔ x.val n = 0
   exact map_eq_zero_iff e e.injective
 
 private theorem continuous_val_apply (I : Ideal A) (n : ℕ) :
@@ -326,7 +326,7 @@ public theorem map_pow_le_adicCompletionKernel (I : Ideal A) (n : ℕ) :
   rw [← Ideal.map_pow]
   refine Ideal.map_le_iff_le_comap.mpr fun a ha ↦ ?_
   rw [Ideal.mem_comap, adicCompletionKernel, RingHom.mem_ker]
-  show AdicCompletion.evalₐ I n (AdicCompletion.of I A a) = 0
+  change AdicCompletion.evalₐ I n (AdicCompletion.of I A a) = 0
   rw [AdicCompletion.evalₐ_of]
   exact Ideal.Quotient.eq_zero_iff_mem.mpr ha
 
@@ -365,7 +365,7 @@ public theorem adicCompletionKernel_eq_closure_pow (A : Type u) [CommRing A] (I 
       exact Ideal.mem_map_of_mem (algebraMap A (AdicCompletion I A)) haI
     · have hym : (AdicCompletion.of I A a).val (max n (hs.toFinset.sup id)) =
           x.val (max n (hs.toFinset.sup id)) := by
-        show (AdicCompletion.eval I A (max n (hs.toFinset.sup id)) ∘ₗ
+        change (AdicCompletion.eval I A (max n (hs.toFinset.sup id)) ∘ₗ
           AdicCompletion.of I A) a = _
         rw [AdicCompletion.eval_comp_of]
         simpa using ha
@@ -511,7 +511,7 @@ public theorem quotientOverTransition_id (B : BigFppfSite.{u}) (S : Scheme.{u})
   apply ObjectProperty.hom_ext
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor h)) = 𝟙 _
+  change Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor h)) = 𝟙 _
   simp [Ideal.Quotient.factor_eq]
 
 /-- The transitions attached to a chain `J ≤ K ≤ L` of ideals compose to the one attached to
@@ -524,7 +524,7 @@ public theorem quotientOverTransition_comp (B : BigFppfSite.{u}) (S : Scheme.{u}
   apply ObjectProperty.hom_ext
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor h₂)) ≫
+  change Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor h₂)) ≫
       Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor h₁)) =
     Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor (h₁.trans h₂)))
   rw [← Spec.map_comp, ← CommRingCat.ofHom_comp, Ideal.Quotient.factor_comp h₁ h₂]
@@ -568,15 +568,15 @@ private theorem isThickening_infinitesimalNeighbourhood_map (B : BigFppfSite.{u}
       (by simpa [← pow_mul] using Ideal.pow_mem_pow hx (m.down + 1))
   have hqSurj : Function.Surjective q := Ideal.Quotient.factor_surjective hle
   have hsurj : Function.Surjective (Spec.map (CommRingCat.ofHom q)).base := by
-    show Function.Surjective (PrimeSpectrum.comap q)
+    change Function.Surjective (PrimeSpectrum.comap q)
     intro p
     refine ⟨⟨p.asIdeal.map q, Ideal.map_isPrime_of_surjective hqSurj
       (hker.trans (nilradical_le_prime p.asIdeal))⟩, ?_⟩
     apply PrimeSpectrum.ext
-    show (p.asIdeal.map q).comap q = p.asIdeal
+    change (p.asIdeal.map q).comap q = p.asIdeal
     rw [Ideal.comap_map_of_surjective q hqSurj p.asIdeal, ← RingHom.ker_eq_comap_bot,
       sup_eq_left.mpr (hker.trans (nilradical_le_prime p.asIdeal))]
-  show Stacks.Thickenings.IsThickening (Spec.map (CommRingCat.ofHom q))
+  change Stacks.Thickenings.IsThickening (Spec.map (CommRingCat.ofHom q))
   exact ⟨IsClosedImmersion.spec_of_surjective (CommRingCat.ofHom q) hqSurj, hsurj⟩
 
 /-- The completion of `Spec A` along the closed subscheme of an ideal satisfies the
@@ -645,7 +645,7 @@ private theorem adicCompletionQuotientEquiv_comp_mk_comp_algebraMap (I : Ideal A
         (Ideal.Quotient.mk (adicCompletionKernel I n))).comp
       (algebraMap A (AdicCompletion I A)) = Ideal.Quotient.mk (I ^ n) := by
   refine RingHom.ext fun a ↦ ?_
-  show adicCompletionQuotientEquiv I n
+  change adicCompletionQuotientEquiv I n
     (Ideal.Quotient.mk _ (algebraMap A (AdicCompletion I A) a)) = _
   rw [adicCompletionQuotientEquiv_mk]
   exact AdicCompletion.evalₐ_of I n a
@@ -759,7 +759,7 @@ public theorem kernelStageIso_naturality (B : BigFppfSite.{u}) (S : Scheme.{u})
   apply ObjectProperty.hom_ext
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor hle)) ≫
+  change Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor hle)) ≫
       Spec.map (CommRingCat.ofHom
         (adicCompletionQuotientEquiv I (m.down + 1)).toRingHom) =
     Spec.map (CommRingCat.ofHom
@@ -770,7 +770,7 @@ public theorem kernelStageIso_naturality (B : BigFppfSite.{u}) (S : Scheme.{u})
   apply CommRingCat.hom_ext
   refine RingHom.ext fun y ↦ ?_
   obtain ⟨c, rfl⟩ := Ideal.Quotient.mk_surjective y
-  show Ideal.Quotient.factor hle (adicCompletionQuotientEquiv I (m.down + 1)
+  change Ideal.Quotient.factor hle (adicCompletionQuotientEquiv I (m.down + 1)
       (Ideal.Quotient.mk _ c)) =
     adicCompletionQuotientEquiv I (n.down + 1)
       (Ideal.Quotient.factor hK (Ideal.Quotient.mk _ c))

@@ -152,7 +152,7 @@ public theorem supportSheaf_eq_iUnion_image_supportSection :
       (B.inclusion.map U.obj.hom), ?_,
       (not_isZero_etaleStalk_iff_exists_mem_supportSection B S hS F _).2
         ⟨U, ⟨_, rfl⟩, a, by rwa [hp]⟩⟩
-    show ((GeometricPoint.ofPoint ((SmallEtale.toScheme B S hS).obj U) y).hom ≫
+    change ((GeometricPoint.ofPoint ((SmallEtale.toScheme B S hS).obj U) y).hom ≫
       B.inclusion.map U.obj.hom) default = x
     rwa [Scheme.Hom.comp_apply, hp]
 
@@ -175,7 +175,7 @@ public theorem supportSheaf_subset_of_isLocallySurjective (φ : F ⟶ G)
     hb ((etaleGerm_ulift_eq_zero_iff_mem_zeroOpen B S hS G t W q b).1 h)
   have hGa : q'.1.base default ∈ supportSection B S hS G Y (φ.hom.app (op Y) a) := by
     rw [hab]
-    show q'.1.base default ∉
+    change q'.1.base default ∉
       (zeroOpen B S hS G Y (G.obj.map f.op b) :
         Set ((SmallEtale.toScheme B S hS).obj Y))
     intro hmem
@@ -197,7 +197,7 @@ public theorem supportSheaf_subset_of_injective (φ : F ⟶ G)
     intro U a
     apply sSup_le
     rintro W ⟨V, f, hf, hW, hs⟩
-    show (W : Set ((SmallEtale.toScheme B S hS).obj U)) ⊆
+    change (W : Set ((SmallEtale.toScheme B S hS).obj U)) ⊆
       (zeroOpen B S hS F U a : Set _)
     rw [hW]
     refine (@map_eq_zero_iff_le_zeroOpen B S hS F U a V f hf).mp (hφ (op V) ?_)

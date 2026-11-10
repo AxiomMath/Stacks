@@ -66,7 +66,7 @@ theorem isUnit_fromGenericPointResidueFields_app (U : (Opens X)ᵒᵖ)
     IsUnit ((fromGenericPointResidueFields X).app U.unop y.1) := by
   refine (genericPointResidueSpectrum X).toRingedSpace.isUnit_of_isUnit_germ _ _
     fun s hs ↦ ?_
-  show IsUnit ((genericPointResidueSpectrum X).presheaf.germ _ s hs _)
+  change IsUnit ((genericPointResidueSpectrum X).presheaf.germ _ s hs _)
   rw [← Scheme.Hom.germ_stalkMap_apply (fromGenericPointResidueFields X) U.unop s hs]
   exact .map _ <| isUnit_of_mem_nonZeroDivisors_stalk
     (mem_genericPoints_fromGenericPointResidueFields X s) (Submonoid.mem_iInf.mp y.2 ⟨_, hs⟩)
@@ -130,7 +130,7 @@ theorem isIso_totalQuotientToGenericPointPushforward_app [IsReduced X]
   have he : (totalQuotientToGenericPointPushforward X).app (op U) =
       CommRingCat.ofHom e.toRingEquiv.toRingHom := by
     refine hom_ext_totalQuotient X fun r ↦ ?_
-    show totalQuotientToGenericPointPushforwardApp X (op U)
+    change totalQuotientToGenericPointPushforwardApp X (op U)
       (X.presheaf.toTotalQuotientPresheaf.app (op U) r) = _
     rw [totalQuotientToGenericPointPushforwardApp_apply]
     exact (e.commutes r).symm

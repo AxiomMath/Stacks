@@ -194,7 +194,7 @@ theorem isIso_restrict_twistSheafMultiplicationMap_basicOpen
       (((Scheme.Modules.restrictFunctor
         (AlgebraicGeometry.Proj.basicOpen 𝒮 g).ι).mapIso (Iso.refl F)).isIso_hom)
       (isIso_restrict_twistMultiplicationMap_basicOpen 𝒮 hg n m)
-  show IsIso ((Scheme.Modules.restrictFunctor
+  change IsIso ((Scheme.Modules.restrictFunctor
     (AlgebraicGeometry.Proj.basicOpen 𝒮 g).ι).map (_ ≫ _ ≫ _ ≫ _))
   exact isIso_map_comp₄ _ _ _ _ _ h1 h2 h3 h4
 

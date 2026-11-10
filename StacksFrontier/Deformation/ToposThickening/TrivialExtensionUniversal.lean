@@ -273,8 +273,7 @@ theorem idealSection_smul_descKernel (g : F ⟶ (splitRestriction i hi π).obj N
       (p.app (Opposite.op V)).hom.toAddMonoidHom)
   change hi.I.val.obj (Opposite.op V) ⊗[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj
     (Opposite.op V)] F.val.obj (Opposite.op V) at x
-  induction x using TensorProduct.induction_on with
-  | zero => exact map_zero φ
+  induction x using TensorProduct.inductionOn with
   | tmul a m =>
     refine (congrArg μ ((trivialExtensionDescKernel hi π F g).2 (Opposite.op V) a m)).trans ?_
     change r • ((show (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.obj (Opposite.op V) from

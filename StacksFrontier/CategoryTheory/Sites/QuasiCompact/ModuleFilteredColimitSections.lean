@@ -248,7 +248,7 @@ lemma generatesLocally_restrict {M : PresheafOfModules.{t} R} {U U' : C} (h : U'
   refine ⟨a, ?_⟩
   rw [← ha]
   refine Finset.sum_congr rfl fun i _ => congrArg (a i • ·) ?_
-  show M.map (g ≫ f).op (M.map h.op (s i)) = M.map (g ≫ f ≫ h).op (s i)
+  change M.map (g ≫ f).op (M.map h.op (s i)) = M.map (g ≫ f ≫ h).op (s i)
   rw [← M.map_comp_apply, ← op_comp]
   exact M.congr_map_apply (by rw [Category.assoc]) _
 

@@ -243,7 +243,7 @@ theorem exists_eq_sum_mul_of_isZero_Hgroup {I : Type u} [Fintype I] (N k : ℤ)
   have hb := congrArg (fun φ => φ.val.app (op ⊤) b) (coherentMulIso X.presheaf
     (Stacks.AlgebraicGeometry.CoherentMulSections.hStruct X) L N k).inv_hom_id
   refine hb.symm.trans ?_
-  show (coherentMulIso X.presheaf (Stacks.AlgebraicGeometry.CoherentMulSections.hStruct X)
+  change (coherentMulIso X.presheaf (Stacks.AlgebraicGeometry.CoherentMulSections.hStruct X)
     L N k).hom.val.app (op ⊤) ((coherentMulIso X.presheaf
       (Stacks.AlgebraicGeometry.CoherentMulSections.hStruct X) L N k).inv.val.app (op ⊤) b) = _
   rw [← hc, hy, map_sum, map_sum]

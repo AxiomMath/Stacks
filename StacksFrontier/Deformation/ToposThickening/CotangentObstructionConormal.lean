@@ -116,9 +116,8 @@ theorem isZero_tensorDifferentialsSheaf_self :
   refine Functor.map_isZero _ (Functor.map_isZero _ ?_)
   refine (IsZero.iff_id_eq_zero _).2 ?_
   ext X t
-  show t = 0
-  induction t using TensorProduct.induction_on with
-  | zero => rfl
+  change t = 0
+  induction t using TensorProduct.inductionOn with
   | tmul b ω =>
     have hω : ω = 0 :=
       @Subsingleton.elim _ (KaehlerDifferential.subsingleton_of_surjective _ _
@@ -356,7 +355,7 @@ theorem naiveCotangentHomologyNegOneIsoConormal_hom_conormalSheafMapOfFac
     e.hom hψ he).trans (conormalSheafMapOfFac_congr.{v, u, w, z} _ _ hc _ _)
 
 omit [J.WEqualsLocallyBijective CommRingCat.{w}] [Presheaf.IsLocallySurjective J a.hom]
-  [HasSheafify J AddCommGrpCat.{max w u v z}]
+  [J.HasSheafCompose (forget₂ CommRingCat RingCat)] [HasSheafify J AddCommGrpCat.{max w u v z}]
   [J.WEqualsLocallyBijective AddCommGrpCat.{max w u v z}] in
 /-- **The comparison of Stacks 08TY in degree `-1`** is the map of conormal sheaves induced by the
 morphism of presentations `A[E] ⟶ A[B]`, read in the conormal sheaf of the canonical
@@ -427,7 +426,7 @@ theorem conormalSheafMapOfFac_comp_conormalSheafMapOfSquare :
       conormalSheafMapOfSquare.{v, u, w, z} J A₀ A₂ B₁ B₂ φ₀ φ₂ (χ₀ ≫ ψ) β
         (by rw [Category.assoc, hsq, ← Category.assoc, hχ₀]) := by
   refine conormal_hom_ext.{v, u, w, z} (J := J) φ₀ _ fun X x => ?_
-  show ((conormalSheafMapOfSquare.{v, u, w, z} J A₁ A₂ B₁ B₂ φ₁ φ₂ ψ β hsq).val.app X)
+  change ((conormalSheafMapOfSquare.{v, u, w, z} J A₁ A₂ B₁ B₂ φ₁ φ₂ ψ β hsq).val.app X)
       (((conormalSheafMapOfFac.{v, u, w, z} J B₁ A₀ A₁ φ₀ φ₁ χ₀ hχ₀).val.app X)
         (conormalClass.{v, u, w, z} J A₀ A₀ B₁ (𝟙 A₀) φ₀ X x)) =
     ((conormalSheafMapOfSquare.{v, u, w, z} J A₀ A₂ B₁ B₂ φ₀ φ₂ (χ₀ ≫ ψ) β _).val.app X)
@@ -446,7 +445,7 @@ theorem conormalSheafMapOfSquare_comp_map_conormalSheafMapOfFac :
       conormalSheafMapOfSquare.{v, u, w, z} J A₁ A₃ B₁ B₂ φ₁ φ₃ (ψ ≫ χ) β
         (by rw [Category.assoc, hχ, hsq]) := by
   refine conormal_hom_ext.{v, u, w, z} (J := J) φ₁ _ fun X x => ?_
-  show ((conormalSheafMapOfFac.{v, u, w, z} J B₂ A₂ A₃ φ₂ φ₃ χ hχ).val.app X)
+  change ((conormalSheafMapOfFac.{v, u, w, z} J B₂ A₂ A₃ φ₂ φ₃ χ hχ).val.app X)
       (((conormalSheafMapOfSquare.{v, u, w, z} J A₁ A₂ B₁ B₂ φ₁ φ₂ ψ β hsq).val.app X)
         (conormalClass.{v, u, w, z} J A₁ A₁ B₁ (𝟙 A₁) φ₁ X x)) =
     ((conormalSheafMapOfSquare.{v, u, w, z} J A₁ A₃ B₁ B₂ φ₁ φ₃ (ψ ≫ χ) β _).val.app X)
@@ -523,7 +522,8 @@ theorem coeff_mem_kernelIdeal_presentation (U : Cᵒᵖ) (r : kernelIdeal a.hom 
       kernelIdeal (presentation J A B a E α).hom U :=
   coeff_mem_kernelIdeal_of_comp_eq a _ _ (freeAlgebraSheafCoefficientMap_comp_desc J A B E a α) U r
 
-omit [J.WEqualsLocallyBijective CommRingCat.{max w u v}] [Presheaf.IsLocallySurjective J a.hom] in
+omit [J.WEqualsLocallyBijective CommRingCat.{max w u v}] [Presheaf.IsLocallySurjective J a.hom]
+  [J.HasSheafCompose (forget₂ CommRingCat.{max w u v} RingCat.{max w u v})] in
 /-- **The map on `H^{-1}` of a first Ext class of `NL_{B/A}` given by a conormal functional.**
 If `ζ`, read on a presentation by `E`, is the class of `δ : I_E/I_E² ⟶ G`, then the map `ζ`
 induces on `H^{-1}(NL_{B/A})` sends a section whose image in the conormal sheaf of the canonical
@@ -565,7 +565,7 @@ theorem negOneHomologyMap_app_eq_of_homologyToX
   have hcyc : (presentationConormalSequence.{v, u, max w u v, w} J A B a E α).f.val.app U s =
       0 := by
     rw [hs_def, conormalSequence_f_class]
-    show toAssociatedModule.{v, u, max w u v, w} J (freeAlgebraSheaf J A E) B
+    change toAssociatedModule.{v, u, max w u v, w} J (freeAlgebraSheaf J A E) B
       (presentation J A B a E α) (tensorPresheaf (presentation J A B a E α).hom
         (freeAlgebraSheafCoefficientMap J A E).hom) U
       ((1 : _) ⊗ₜ CommRingCat.KaehlerDifferential.d
@@ -584,17 +584,17 @@ theorem negOneHomologyMap_app_eq_of_homologyToX
     (presentationNaiveCotangentComplex.{v, u, max w u v, w} J A B a E α) (-1) hdE U
     ((eqToHom hX.symm).val.app U s) (by
       rw [hn]
-      show (eqToHom hX.symm ≫
+      change (eqToHom hX.symm ≫
         (presentationNaiveCotangentComplex.{v, u, max w u v, w} J A B a E α).d (-1) 0).val.app
           U s = 0
       rw [hd, eqToHom_trans_assoc, eqToHom_refl, Category.id_comp]
       exact (congrArg (fun t => (eqToHom h0.symm).val.app U t) hcyc).trans (map_zero _))
   have h3 : ((presentationNaiveCotangentComplex.{v, u, max w u v, w} J A B a E α).homologyToX
       (-1) hdE ≫ eqToHom hX).val.app U e = s := by
-    show (eqToHom hX).val.app U (((presentationNaiveCotangentComplex.{v, u, max w u v, w}
+    change (eqToHom hX).val.app U (((presentationNaiveCotangentComplex.{v, u, max w u v, w}
       J A B a E α).homologyToX (-1) hdE).val.app U e) = s
     rw [he]
-    show (eqToHom hX.symm ≫ eqToHom hX).val.app U s = s
+    change (eqToHom hX.symm ≫ eqToHom hX).val.app U s = s
     rw [eqToHom_trans, eqToHom_refl]
     rfl
   have hdC := naiveCotangentComplex_d_prev_negOne.{v, u, max w u v, w} J A B a

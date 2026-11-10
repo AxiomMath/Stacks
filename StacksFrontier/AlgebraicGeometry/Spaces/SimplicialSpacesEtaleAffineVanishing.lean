@@ -152,6 +152,7 @@ local instance additive_degreeRestrictModules : (degreeRestrictModules (U := U) 
   map_add := by intros; rfl
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limit preservation through the module restriction functor is deep
 /-- Restriction of modules to degree `n` is left exact: it is a right adjoint. -/
 local instance preservesFiniteLimits_degreeRestrictModules :
     PreservesFiniteLimits (degreeRestrictModules (U := U) n) :=

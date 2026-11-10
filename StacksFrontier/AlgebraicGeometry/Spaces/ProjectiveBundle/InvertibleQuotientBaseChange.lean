@@ -50,6 +50,7 @@ namespace InvertibleQuotient
 variable {X : AlgebraicSpaces B S hS} {E E' : Modules.{u, u} B S hS X.1 X.2}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search in the category of sheaves of modules on an algebraic space (the `Epi` field)
 /-- An invertible quotient of `ℰ`, read as an invertible quotient of `ℰ'` along `ℰ' ≅ ℰ`. -/
 def transport (e : E' ≅ E) (Q : InvertibleQuotient X E) : InvertibleQuotient X E' where
   L := Q.L

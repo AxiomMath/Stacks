@@ -123,7 +123,7 @@ lemma sheafTensorUnitIsoRight_hom_tmul_one
     (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).counit.app M).val.app U y)
     (sheafification_map_unit_apply X (ρ_ M.val).hom U _)) ?_
   refine Eq.trans (counit_unit_apply₅ X M U _) ?_
-  show (ConcreteCategory.hom (ρ_ (M.val.obj U)).hom)
+  change (ConcreteCategory.hom (ρ_ (M.val.obj U)).hom)
     (t ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U]
       (1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj U)) = t
   rw [ModuleCat.MonoidalCategory.rightUnitor_hom_apply]

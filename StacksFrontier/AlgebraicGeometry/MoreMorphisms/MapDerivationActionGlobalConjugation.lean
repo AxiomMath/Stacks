@@ -141,7 +141,7 @@ theorem derivationActionGlobal_comp_targetSelfMap [IsClosedImmersion i] [IsClose
           (((derivationActionGlobal hsqj v comm_j).appLE W W le_rfl).hom g) :=
     congrArg (fun z : Γ(Y', W) ⟶ Γ(X', V) => z.hom g)
       (Scheme.Hom.appLE_comp_appLE a' (derivationActionGlobal hsqj v comm_j) W W V le_rfl hAa).symm
-  show ((derivationActionGlobal hsq θ comm_a ≫
+  change ((derivationActionGlobal hsq θ comm_a ≫
         derivationActionGlobal hsqj v comm_j).appLE W V hAa).hom g
       = ((a' ≫ derivationActionGlobal hsqj v comm_j).appLE W V hAa).hom g
         + derivationSection hsq θ W V (preimage_le_of_comm comm_a hAa) g
@@ -206,7 +206,7 @@ theorem sourceSelfMap_comp_derivationActionGlobal [IsClosedImmersion i]
     congrArg (fun z : Γ(Y', W) ⟶ Γ(X', V) => z.hom g)
       (Scheme.Hom.appLE_comp_appLE (derivationActionGlobal hsq u comm_i) a' W V V
         hAa le_rfl).symm
-  show ((derivationActionGlobal hsq u comm_i ≫
+  change ((derivationActionGlobal hsq u comm_i ≫
         derivationActionGlobal hsq θ comm_a).appLE W V hAa).hom g
       = ((derivationActionGlobal hsq u comm_i ≫ a').appLE W V hAa).hom g
         + derivationSection hsq θ W V (preimage_le_of_comm comm_a hAa) g

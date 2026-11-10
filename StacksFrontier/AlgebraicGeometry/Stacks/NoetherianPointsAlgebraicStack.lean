@@ -55,9 +55,9 @@ Stacks 04Z8 part (2) itself and are imported here. The transport is also what mo
 conclusion about the scheme `U` across `AlgebraicGeometry.Stack.pointsHomeomorphScheme`.
 
 `AlgebraicGeometry.Stack.AlgebraicStacks.isFlat_of_isSmooth` is the mirror at flatness of the
-statement tagged `@[stacks 0DNP]`, which is the same statement at local finite presentation. Stacks 075U and
-Stacks 06PW are the existential smooth-diagram test of Stacks 06FM at smoothness and at flatness
-respectively — the second recorded by the `Iff.rfl`
+statement tagged `@[stacks 0DNP]`, which is the same statement at local finite presentation. Stacks
+075U and Stacks 06PW are the existential smooth-diagram test of Stacks 06FM at smoothness and at
+flatness respectively — the second recorded by the `Iff.rfl`
 `AlgebraicGeometry.Stack.AlgebraicStacks.isFlat_iff_hasPropertyOnSomeSmoothDiagram` — so the
 implication is monotonicity of that test (Stacks 06PS) at the implication Stacks 04TA for
 morphisms of algebraic spaces. It carries no `@[stacks]` attribute: the Stacks Project does not
@@ -108,7 +108,8 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 the existential smooth-diagram test of Stacks 06FM at smoothness and at flatness of morphisms of
 algebraic spaces, so this is monotonicity of that test (Stacks 06PS) at Stacks 04TA.
 
-The mirror of this statement at local finite presentation is the statement tagged `@[stacks 0DNP]`. -/
+The mirror of this statement at local finite presentation is the statement tagged
+`@[stacks 0DNP]`. -/
 theorem isFlat_of_isSmooth {𝒳 𝒴 : Stack.AlgebraicStacks.{u, w} B S hS} (f : 𝒳 ⟶ 𝒴)
     (hf : IsSmooth B S hS f) : IsFlat B S hS f :=
   (isFlat_iff_hasPropertyOnSomeSmoothDiagram B S hS f).2

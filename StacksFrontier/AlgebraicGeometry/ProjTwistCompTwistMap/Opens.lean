@@ -34,7 +34,7 @@ universe u
 public theorem iso_image_preimage {X Y : Scheme.{u}} (e : X ≅ Y) (W : Y.Opens) :
     e.hom ''ᵁ (e.hom ⁻¹ᵁ W) = W := by
   rw [← Scheme.Hom.inv_preimage e (e.hom ⁻¹ᵁ W)]
-  show (e.inv ≫ e.hom) ⁻¹ᵁ W = W
+  change (e.inv ≫ e.hom) ⁻¹ᵁ W = W
   rw [e.inv_hom_id]
   rfl
 

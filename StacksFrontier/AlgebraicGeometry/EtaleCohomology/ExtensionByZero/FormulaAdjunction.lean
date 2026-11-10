@@ -159,8 +159,8 @@ theorem ι_comp_extensionByZeroDirectSumPresheaf_map (F : (U.Etale)ᵒᵖ ⥤ A)
   have hι : ∀ {Y : X.Etale} (ψ : Y ⟶ smallEtaleSource j),
       Sigma.ι (fun χ : Y ⟶ smallEtaleSource j => F.obj (op (sourceDescend j χ))) ψ ≫
         (extensionByZeroPresheafSectionIso j F Y).hom = extensionByZeroSummandInclusion j F ψ :=
-    fun ψ => Sigma.ι_desc (fun χ => extensionByZeroSummandInclusion j F χ) ψ
-  show _ ≫ ((extensionByZeroPresheafSectionIso j F V).hom ≫
+    fun ψ => Sigma.ι_comp_desc (fun χ => extensionByZeroSummandInclusion j F χ) ψ
+  change _ ≫ ((extensionByZeroPresheafSectionIso j F V).hom ≫
     (extensionByZeroPresheaf j F).map g.op ≫
     (extensionByZeroPresheafSectionIso j F W).inv) = _
   rw [← Category.assoc, hι, ← Category.assoc,

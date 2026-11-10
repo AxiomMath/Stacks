@@ -488,18 +488,18 @@ public theorem exists_limitIso_of_hasProLadder
     have hc := congrArg (limit.π A (op k) ≫ ·) hk
     simp only [← Category.assoc, hwA] at hc
     rw [Category.assoc, limit.lift_π, Category.id_comp]
-    show hD.lift cB ≫ D.π.app (op (q j.unop)) ≫ g j.unop = limit.π A j
+    change hD.lift cB ≫ D.π.app (op (q j.unop)) ≫ g j.unop = limit.π A j
     rw [← Category.assoc, hD.fac cB (op (q j.unop))]
-    show (limit.π A (op (p (q j.unop))) ≫ f (q j.unop)) ≫ g j.unop = limit.π A j
+    change (limit.π A (op (p (q j.unop))) ≫ f (q j.unop)) ≫ g j.unop = limit.π A j
     exact hc
   · refine hD.hom_ext fun j => ?_
     obtain ⟨k, h₁, h₂, hk⟩ := hgf j.unop
     have hc := congrArg (D.π.app (op k) ≫ ·) hk
     simp only [← Category.assoc, hwB] at hc
     rw [Category.assoc, hD.fac cB j, Category.id_comp]
-    show limit.lift A cA ≫ limit.π A (op (p j.unop)) ≫ f j.unop = D.π.app j
+    change limit.lift A cA ≫ limit.π A (op (p j.unop)) ≫ f j.unop = D.π.app j
     rw [← Category.assoc, limit.lift_π cA (op (p j.unop))]
-    show (D.π.app (op (q (p j.unop))) ≫ g (p j.unop)) ≫ f j.unop = D.π.app j
+    change (D.π.app (op (q (p j.unop))) ≫ g (p j.unop)) ≫ f j.unop = D.π.app j
     exact hc
   · intro n
     refine ⟨p n, fun x hx => ?_⟩

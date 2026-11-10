@@ -21,7 +21,7 @@ algebra over the even part `A₊` of `A` with the one-variable divided power pol
 `DividedPowerAlgebra A₊ (Unit →₀ A₊)`, by comparing the two monomial bases, equips it with the
 canonical divided powers of Tag 07H5, and identifies it with the even part of `A⟨T⟩`, matching
 the positive even parts. It also describes membership in the even and positive even parts of
-`A⟨T⟩` coefficientwise. All declarations here are private auxiliaries for
+`A⟨T⟩` coefficientwise. The declarations here are auxiliaries for
 `StacksFrontier.RingTheory.DividedPowers.TateResolution.EvenVariableDividedPowers.Structure`.
 
 ## References
@@ -45,7 +45,7 @@ variable {𝒜 : ℕ → Submodule R A} [GradedAlgebra 𝒜] [IsStrictlyGradedCo
 
 open EvenVariableAlgebra
 
-private def coefficientLinearEquiv (B : Type*) [CommRing B] :
+def coefficientLinearEquiv (B : Type*) [CommRing B] :
     EvenVariableAlgebra B ≃ₗ[B] (ℕ →₀ B) where
   toFun := EvenVariableAlgebra.coeff
   invFun := EvenVariableAlgebra.mk
@@ -54,7 +54,7 @@ private def coefficientLinearEquiv (B : Type*) [CommRing B] :
   map_add' := EvenVariableAlgebra.coeff_add
   map_smul' := EvenVariableAlgebra.coeff_smul
 
-private noncomputable def singletonExponentEquiv : ℕ ≃ (Unit →₀ ℕ) where
+noncomputable def singletonExponentEquiv : ℕ ≃ (Unit →₀ ℕ) where
   toFun n := Finsupp.single () n
   invFun f := f ()
   left_inv _ := by simp
@@ -64,25 +64,25 @@ private noncomputable def singletonExponentEquiv : ℕ ≃ (Unit →₀ ℕ) whe
     cases i
     simp [Finsupp.single]
 
-private noncomputable def evenPolynomialBasis (B : Type*) [CommRing B] :
+noncomputable def evenPolynomialBasis (B : Type*) [CommRing B] :
     Module.Basis ℕ B (EvenVariableAlgebra B) :=
   (Finsupp.basisSingleOne : Module.Basis ℕ B (ℕ →₀ B)).map
     (coefficientLinearEquiv B).symm
 
-private noncomputable def dividedPowerPolynomialBasis (B : Type*) [CommRing B] :
+noncomputable def dividedPowerPolynomialBasis (B : Type*) [CommRing B] :
     Module.Basis ℕ B (DividedPowerAlgebra B (Unit →₀ B)) :=
   (_root_.DividedPowers.dividedPowerPolynomialMonomialBasis B
     Unit).reindex singletonExponentEquiv.symm
 
-private noncomputable def evenPolynomialDPAEquiv (B : Type*) [CommRing B] :
+noncomputable def evenPolynomialDPAEquiv (B : Type*) [CommRing B] :
     EvenVariableAlgebra B ≃ₗ[B] DividedPowerAlgebra B (Unit →₀ B) :=
   (evenPolynomialBasis B).equiv (dividedPowerPolynomialBasis B) (Equiv.refl ℕ)
 
-private theorem evenPolynomialBasis_apply (B : Type*) [CommRing B] (n : ℕ) :
+theorem evenPolynomialBasis_apply (B : Type*) [CommRing B] (n : ℕ) :
     evenPolynomialBasis B n = EvenVariableAlgebra.monomial n (1 : B) := by
   rfl
 
-private theorem dividedPowerPolynomialBasis_apply (B : Type*) [CommRing B] (n : ℕ) :
+theorem dividedPowerPolynomialBasis_apply (B : Type*) [CommRing B] (n : ℕ) :
     dividedPowerPolynomialBasis B n =
       DividedPowerAlgebra.dp B n (Finsupp.single () (1 : B)) := by
   rw [dividedPowerPolynomialBasis, Module.Basis.reindex_apply]
@@ -90,12 +90,12 @@ private theorem dividedPowerPolynomialBasis_apply (B : Type*) [CommRing B] (n : 
     _root_.DividedPowers.dividedPowerPolynomialMonomial]
   cases n with
   | zero =>
-      show (Finsupp.single () 0).prod
+      change (Finsupp.single () 0).prod
         (fun i k ↦ DividedPowerAlgebra.dp B k (Finsupp.single i (1 : B))) = _
       rw [Finsupp.prod]
       simp [DividedPowerAlgebra.dp_zero]
   | succ n =>
-      show (Finsupp.single () (n + 1)).prod
+      change (Finsupp.single () (n + 1)).prod
         (fun i k ↦ DividedPowerAlgebra.dp B k (Finsupp.single i (1 : B))) = _
       have hsupport : (Finsupp.single () (n + 1) : Unit →₀ ℕ).support = {()} :=
         Finsupp.support_single () (by omega)
@@ -103,14 +103,14 @@ private theorem dividedPowerPolynomialBasis_apply (B : Type*) [CommRing B] (n : 
       rw [hsupport]
       simp
 
-private theorem evenPolynomialDPAEquiv_basis (B : Type*) [CommRing B] (n : ℕ) :
+theorem evenPolynomialDPAEquiv_basis (B : Type*) [CommRing B] (n : ℕ) :
     evenPolynomialDPAEquiv B (EvenVariableAlgebra.monomial n (1 : B)) =
       DividedPowerAlgebra.dp B n (Finsupp.single () (1 : B)) := by
   rw [← evenPolynomialBasis_apply, evenPolynomialDPAEquiv]
   rw [Module.Basis.equiv_apply]
   exact dividedPowerPolynomialBasis_apply B n
 
-private theorem evenPolynomialDPAEquiv_monomial (B : Type*) [CommRing B]
+theorem evenPolynomialDPAEquiv_monomial (B : Type*) [CommRing B]
     (n : ℕ) (a : B) :
     evenPolynomialDPAEquiv B (EvenVariableAlgebra.monomial n a) =
       algebraMap B (DividedPowerAlgebra B (Unit →₀ B)) a *
@@ -121,7 +121,7 @@ private theorem evenPolynomialDPAEquiv_monomial (B : Type*) [CommRing B]
   rw [hmono, map_smul, evenPolynomialDPAEquiv_basis]
   simp [Algebra.smul_def]
 
-private theorem dividedPowerPolynomialAugmentation_dp_single
+theorem dividedPowerPolynomialAugmentation_dp_single
     (B : Type*) [CommRing B] (n : ℕ) :
     dividedPowerPolynomialAugmentation B Unit
       (DividedPowerAlgebra.dp B n (Finsupp.single () (1 : B))) =
@@ -130,7 +130,7 @@ private theorem dividedPowerPolynomialAugmentation_dp_single
       = DividedPowerAlgebra.augmentation B (Unit →₀ B) := rfl
   rw [h, DividedPowerAlgebra.augmentation_dp]
 
-private theorem dividedPowerPolynomialAugmentation_evenPolynomialDPAEquiv
+theorem dividedPowerPolynomialAugmentation_evenPolynomialDPAEquiv
     (B : Type*) [CommRing B] (x : EvenVariableAlgebra B) :
     dividedPowerPolynomialAugmentation B Unit
       (evenPolynomialDPAEquiv B x) = x.coeff 0 := by
@@ -142,7 +142,7 @@ private theorem dividedPowerPolynomialAugmentation_evenPolynomialDPAEquiv
         map_mul, dividedPowerPolynomialAugmentation_dp_single]
       simp [EvenVariableAlgebra.coeff_add, Finsupp.single_apply]
 
-private theorem dividedPowerPolynomialIdeal_mem_iff_augmentation_mem
+theorem dividedPowerPolynomialIdeal_mem_iff_augmentation_mem
     (B : Type*) [CommRing B] (I : Ideal B)
     (y : DividedPowerAlgebra B (Unit →₀ B)) :
     y ∈ dividedPowerPolynomialIdeal I Unit ↔
@@ -152,13 +152,13 @@ private theorem dividedPowerPolynomialIdeal_mem_iff_augmentation_mem
   have hmap : Ideal.map f I ≤ Ideal.comap ε I := by
     rw [Ideal.map_le_iff_le_comap]
     intro b hb
-    show ε (f b) ∈ I
-    show dividedPowerPolynomialAugmentation B Unit
+    change ε (f b) ∈ I
+    change dividedPowerPolynomialAugmentation B Unit
       (algebraMap B (DividedPowerAlgebra B (Unit →₀ B)) b) ∈ I
     simpa [dividedPowerPolynomialAugmentation] using hb
   have hker : RingHom.ker ε ≤ Ideal.comap ε I := by
     intro z hz
-    show ε z ∈ I
+    change ε z ∈ I
     simp [RingHom.mem_ker.mp hz]
   have hle : dividedPowerPolynomialIdeal I Unit ≤ Ideal.comap ε I := by
     rw [dividedPowerPolynomialIdeal]
@@ -182,7 +182,7 @@ private theorem dividedPowerPolynomialIdeal_mem_iff_augmentation_mem
 
 /-- Two-variable induction over `EvenVariableAlgebra`: a binary predicate that is additive in each
 variable and holds on pairs of monomials holds everywhere. -/
-private theorem evenVariable_induction_two {B : Type*} [Ring B]
+theorem evenVariable_induction_two {B : Type*} [Ring B]
     {P : EvenVariableAlgebra B → EvenVariableAlgebra B → Prop}
     (zero_left : ∀ y, P 0 y) (zero_right : ∀ x, P x 0)
     (add_left : ∀ x x' y, P x y → P x' y → P (x + x') y)
@@ -198,7 +198,7 @@ private theorem evenVariable_induction_two {B : Type*} [Ring B]
       | zero => exact zero_right _
       | add m b y hy => exact add_right _ _ _ (monomial n a m b) hy
 
-private theorem evenPolynomialDPAEquiv_map_monomial_mul (B : Type*) [CommRing B]
+theorem evenPolynomialDPAEquiv_map_monomial_mul (B : Type*) [CommRing B]
     (n m : ℕ) (a b : B) :
     evenPolynomialDPAEquiv B
         (EvenVariableAlgebra.monomial n a * EvenVariableAlgebra.monomial m b) =
@@ -226,7 +226,7 @@ private theorem evenPolynomialDPAEquiv_map_monomial_mul (B : Type*) [CommRing B]
     _ = algebraMap B D a * DividedPowerAlgebra.dp B n t *
           (algebraMap B D b * DividedPowerAlgebra.dp B m t) := by ring
 
-private theorem evenPolynomialDPAEquiv_map_mul (B : Type*) [CommRing B]
+theorem evenPolynomialDPAEquiv_map_mul (B : Type*) [CommRing B]
     (x y : EvenVariableAlgebra B) :
     evenPolynomialDPAEquiv B (x * y) = evenPolynomialDPAEquiv B x *
       evenPolynomialDPAEquiv B y := by
@@ -237,7 +237,7 @@ private theorem evenPolynomialDPAEquiv_map_mul (B : Type*) [CommRing B]
   | add_right x y y' hy hy' => simp [mul_add, hy, hy']
   | monomial n a m b => exact evenPolynomialDPAEquiv_map_monomial_mul B n m a b
 
-private noncomputable def evenPolynomialDPARingEquiv (B : Type*) [CommRing B] :
+noncomputable def evenPolynomialDPARingEquiv (B : Type*) [CommRing B] :
     EvenVariableAlgebra B ≃+* DividedPowerAlgebra B (Unit →₀ B) where
   toFun := evenPolynomialDPAEquiv B
   invFun := (evenPolynomialDPAEquiv B).symm
@@ -246,7 +246,7 @@ private noncomputable def evenPolynomialDPARingEquiv (B : Type*) [CommRing B] :
   map_mul' := evenPolynomialDPAEquiv_map_mul B
   map_add' := map_add (evenPolynomialDPAEquiv B)
 
-private theorem evenPolynomial_mul_comm (B : Type*) [CommRing B]
+theorem evenPolynomial_mul_comm (B : Type*) [CommRing B]
     (x y : EvenVariableAlgebra B) : x * y = y * x := by
   induction x, y using evenVariable_induction_two with
   | zero_left y => simp
@@ -258,7 +258,7 @@ private theorem evenPolynomial_mul_comm (B : Type*) [CommRing B]
         EvenVariableAlgebra.monomial_mul_monomial, Nat.add_comm m n, Nat.choose_symm_add]
       simp [mul_comm]
 
-private noncomputable instance evenPolynomialCommRing (B : Type*) [CommRing B] :
+noncomputable instance evenPolynomialCommRing (B : Type*) [CommRing B] :
     CommRing (EvenVariableAlgebra B) :=
   { (inferInstance : Ring (EvenVariableAlgebra B)) with
     mul_comm := evenPolynomial_mul_comm B }
@@ -591,7 +591,7 @@ private theorem evenDPAToExtension_coeff_zero_augmentation (d : ℕ)
   have haug := dividedPowerPolynomialAugmentation_evenPolynomialDPAEquiv
     (evenSubalgebra 𝒜) p
   rw [hp] at haug
-  show (((evenPolynomialToEvenSubalgebra d p :
+  change (((evenPolynomialToEvenSubalgebra d p :
     evenSubalgebra (EvenVariableAlgebra.grade 𝒜 d)) :
     EvenVariableAlgebra A).coeff 0) = _
   rw [evenPolynomialToEvenSubalgebra_coeff]
@@ -610,7 +610,7 @@ private theorem evenDPAToExtension_ideal_mem_iff (d : ℕ)
         EvenVariableAlgebra A).coeff i ∈ evenPart 𝒜 := by
     exact evenPart_coeff_mem d _
       (evenDPAToExtensionEquiv (𝒜 := 𝒜) d y).property i
-  show ((evenDPAToExtensionEquiv (𝒜 := 𝒜) d y :
+  change ((evenDPAToExtensionEquiv (𝒜 := 𝒜) d y :
       evenSubalgebra (EvenVariableAlgebra.grade 𝒜 d)) :
       EvenVariableAlgebra A) ∈
         positiveEvenPart (EvenVariableAlgebra.grade 𝒜 d) ↔

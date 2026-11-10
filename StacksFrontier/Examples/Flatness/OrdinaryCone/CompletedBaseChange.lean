@@ -58,8 +58,7 @@ noncomputable def segreToPolyTensor :
 /-- The map `segreToPolyTensor` is surjective. -/
 theorem segreToPolyTensor_surjective : Function.Surjective (segreToPolyTensor k₀ k) := by
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy =>
     obtain ⟨a, rfl⟩ := hx
     obtain ⟨b, rfl⟩ := hy

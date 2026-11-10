@@ -93,7 +93,7 @@ theorem canonicalDivisorCycle_sectionsMap_of_iso
       canonicalDivisorCycle D sX hX hint L hL s hs hn := by
   obtain ⟨_, _, _⟩ := generic_henselian_local_rings D sX hX hint
   refine Subtype.ext (funext fun Z => ?_)
-  show divisorCycleCoefficients D sX hX _ L' _ _ Z = divisorCycleCoefficients D sX hX _ L s _ Z
+  change divisorCycleCoefficients D sX hX _ L' _ _ Z = divisorCycleCoefficients D sX hX _ L s _ Z
   unfold divisorCycleCoefficients
   split_ifs with h
   · exact PrimeDivisor.orderOfVanishingSection_canonicalLocalRatio_sectionsMap_of_iso

@@ -136,7 +136,7 @@ theorem chartFraction_pow_mul_left (hf : f ∈ 𝒮 d) (N n : ℕ) (b : 𝒮 (n 
   refine congrArg (Proj.awayToSection 𝒮 f).hom (HomogeneousLocalization.val_injective _ ?_)
   rw [HomogeneousLocalization.Away.val_mk, HomogeneousLocalization.Away.val_mk, hc]
   refine Localization.mk_eq_mk_iff.mpr (Localization.r_of_eq ?_)
-  show f ^ n * (f ^ N * (b : S)) = f ^ (N + n) * (b : S)
+  change f ^ n * (f ^ N * (b : S)) = f ^ (N + n) * (b : S)
   rw [pow_add]
   ring
 

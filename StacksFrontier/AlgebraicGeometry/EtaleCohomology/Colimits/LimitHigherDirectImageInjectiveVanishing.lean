@@ -118,7 +118,7 @@ theorem exists_smallEtaleBaseChange_mem_qcqsOverStageObjects (U : cS.pt.Etale) (
   let U' : cS.pt.Etale := Scheme.Etale.mk (U''.ι ≫ U.hom)
   let f : U' ⟶ U := MorphismProperty.Over.homMk U''.ι rfl trivial
   refine ⟨U', f, ?_, smallEtaleBaseChange_mem_qcqsOverStageObjects_of_isPullback γ hcX hcS hθ⟩
-  show x ∈ Set.range U''.ι
+  change x ∈ Set.range U''.ι
   rwa [Scheme.Opens.range_ι]
 
 include hcX in

@@ -91,7 +91,7 @@ theorem prodGraphBaseChangedIso_naturality :
   simp only [Functor.comp_map] at hnat
   simp only [HomologicalComplex.comp_f, Functor.mapHomologicalComplex_map_f,
     baseChangedCotangentBaseMap_f, prodGraphBaseChangedIso_hom_f, Functor.map_comp,
-    Category.assoc, Iso.map_inv_hom_id_assoc, Iso.inv_hom_id_assoc, reassoc_of% hnat]
+    Category.assoc, Iso.inv_hom_id_map_assoc, Iso.inv_hom_id_assoc, reassoc_of% hnat]
 
 /-- **The first-vertex identifications of the product-graph reduction are compatible with change
 of base**: `TowerProdFirstVertexNatural J k g h` holds. -/

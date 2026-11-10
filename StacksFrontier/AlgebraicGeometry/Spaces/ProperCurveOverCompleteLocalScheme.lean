@@ -12,7 +12,8 @@ over `A`.
 
 This is
 `AlgebraicGeometry.Space.C1605.exists_iso_isProjective_of_isProper_of_dimension_adicFibre_le_one`
-(`StacksFrontier/AlgebraicGeometry/Spaces/ModificationCompleteLocalProjective.lean`), registered here:
+(`StacksFrontier/AlgebraicGeometry/Spaces/ModificationCompleteLocalProjective.lean`), registered
+here:
 there are a scheme `Y` of the site, a projective (indeed H-projective) morphism `Y ⟶ Spec A` and an
 isomorphism of `X` with the algebraic space `Y` over `Spec A`. The fibre `X_κ` is the adic fibre of
 index `0` along `𝔪`.

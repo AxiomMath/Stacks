@@ -142,9 +142,9 @@ private theorem indEtale_ofEquivAux {A B : Type u} {A' B' : Type v}
     { toRingHom := eB.symm.toRingHom.comp (f.toRingHom.comp eC.toRingEquiv.toRingHom)
       commutes' := by
         intro a
-        show eB.symm (f (eC (algebraMap A (Shrink C) a))) = _
+        change eB.symm (f (eC (algebraMap A (Shrink C) a))) = _
         rw [eC.commutes]
-        show eB.symm (f (algebraMap A' C (eA a))) = _
+        change eB.symm (f (algebraMap A' C (eA a))) = _
         rw [f.commutes, ← he, eB.symm_apply_apply] }
   let : Algebra.FinitePresentation A (Shrink.{u} C) :=
     Algebra.FinitePresentation.equiv eC.symm
@@ -166,18 +166,18 @@ private theorem indEtale_ofEquivAux {A B : Type u} {A' B' : Type v}
     have hc : algebraMap A' C a = algebraMap A C (eA.symm a) :=
       (congrArg (algebraMap A' C) (eA.apply_symm_apply a)).symm
     apply eE.injective
-    show eE (eE.symm (g (eC.symm (algebraMap A' C a)))) = _
+    change eE (eE.symm (g (eC.symm (algebraMap A' C a)))) = _
     rw [eE.apply_symm_apply, eE.commutes, hc, eC.symm.commutes, g.commutes]
     rfl
   · intro a
-    show eB (h (eE (algebraMap A' (Shrink E) a))) = _
+    change eB (h (eE (algebraMap A' (Shrink E) a))) = _
     rw [eE.commutes]
-    show eB (h (algebraMap A E (eA.symm a))) = _
+    change eB (h (algebraMap A E (eA.symm a))) = _
     rw [h.commutes, he, eA.apply_symm_apply]
   · ext c
-    show eB (h (eE (eE.symm (g (eC.symm c))))) = f c
+    change eB (h (eE (eE.symm (g (eC.symm c))))) = f c
     rw [eE.apply_symm_apply, ← AlgHom.comp_apply, hgh]
-    show eB (eB.symm (f (eC (eC.symm c)))) = f c
+    change eB (eB.symm (f (eC (eC.symm c)))) = f c
     rw [eC.apply_symm_apply, eB.apply_symm_apply]
 
 /-- Restriction of scalars along a ring equivalence, on categories of commutative algebras. -/
@@ -237,7 +237,7 @@ private theorem ind_etale_changeScalars {A : Type u} {B : Type v} {T : Type w}
     { toRingEquiv := RingEquiv.refl T
       commutes' := by
         intro b
-        show algebraMap A T (e.symm b) = algebraMap B T b
+        change algebraMap A T (e.symm b) = algebraMap B T b
         rw [he, e.apply_symm_apply] }
 
 /-- **Ind-étaleness with the base and the algebra in independent universes.** For `A : Type u` and

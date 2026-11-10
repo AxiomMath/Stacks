@@ -73,7 +73,6 @@ theorem finiteTypeAdicAlgebraForEveryIdeal_adicCompletionMap (φ : A →+* A') (
     isAdic_adicModuleTopology I hI
   have hA'adic : TopologicalRing.IsAdic (AdicCompletion (I.map φ) A') :=
     isAdic_adicModuleTopology (I.map φ) hI'
-  have hcont : Continuous g := continuous_adicCompletionMap φ I (I.map φ) le_rfl
   have hf2 : (Ideal.quotientMap ((I.map α).map g) g Ideal.le_comap_map).FiniteType := by
     let : Algebra (AdicCompletion I A) (AdicCompletion (I.map φ) A') := g.toAlgebra
     have h := RingHom.finiteType_algebraMap.mpr hf
@@ -84,7 +83,7 @@ theorem finiteTypeAdicAlgebraForEveryIdeal_adicCompletionMap (φ : A →+* A') (
     rw [heq]
     exact h
   have h5 : Rig.FiniteTypeAdicAlgebraForSomeIdeal g := ⟨I.map α, hdef, hadic, hc, hf2⟩
-  exact ((Rig.adicFiniteType_tfae g hcont hAadic hA'adic
+  exact ((Rig.adicFiniteType_tfae g hAadic hA'adic
     (Rig.exists_idealOfDefinition_fg hAadic inferInstance)
     (Rig.exists_idealOfDefinition_fg hA'adic inferInstance)).out 5 6).mp h5
 

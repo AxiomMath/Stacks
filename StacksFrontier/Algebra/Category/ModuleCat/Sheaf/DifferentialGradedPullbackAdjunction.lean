@@ -88,7 +88,8 @@ condition "the module universe dominates the site's".
   morphism must lie in one `PresheafOfModules.{·}`, which is the *level equation*
   `m = max u v m`, solved only by writing `m` as a `max`.
 
-The two cannot be met at once here, and the obstruction is a cost. Spelling this file's module universe `max u w` — the general solution of
+The two cannot be met at once here, and the obstruction is a cost. Spelling this file's module
+universe `max u w` — the general solution of
 `m = max u m` at a small site, so what `dgTensorRight` can be applied at — makes
 `pushforwardAlgebra_mul_app` and `pushforwardAlgebra_one_eval` of
 `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/DifferentialGradedPullbackUnit.lean` report a

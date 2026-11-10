@@ -103,7 +103,7 @@ theorem etaleStalkSmul_pullback_finiteLocallyConstant (g : B.obj (Spec (.of K)) 
       (pullbackFiniteLocallyConstantStalkIso B X x K hK g t p G).hom ≫
         (((canonicalFiniteLocallyConstantSetsEquivalence B X x).functor.obj G).obj.obj.obj.ρ
           (etaleFundamentalGroupMulEquiv p s)).asHom := by
-    show _ ≫ (etaleStalkSmallEtalePullObjIso B g t (Type (u + 1)) G.obj).hom ≫
+    change _ ≫ (etaleStalkSmallEtalePullObjIso B g t (Type (u + 1)) G.obj).hom ≫
         (finiteLocallyConstantStalkForgetIso B X p).hom.app G = _
     refine (Category.assoc _ _ _).symm.trans ?_
     refine (congrArg (· ≫ (finiteLocallyConstantStalkForgetIso B X p).hom.app G) h2).trans ?_

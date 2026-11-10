@@ -260,13 +260,13 @@ theorem universalChange_map_changeRingHom {R : Type u} [CommRing R]
       MvPolynomial.eval₂Hom ((Int.castRingHom R).comp ULift.ringEquiv.toRingHom)
         ![(C.u : R), C.s, C.r, C.t] p := fun p => IsLocalization.Away.lift_eq _ _ p
   ext
-  · show changeRingHom C (algebraMap _ coordinateChangeRing.{u} (X 0)) = C.u
+  · change changeRingHom C (algebraMap _ coordinateChangeRing.{u} (X 0)) = C.u
     rw [h]; simp
-  · show changeRingHom C (algebraMap _ coordinateChangeRing.{u} (X 2)) = C.r
+  · change changeRingHom C (algebraMap _ coordinateChangeRing.{u} (X 2)) = C.r
     rw [h]; simp
-  · show changeRingHom C (algebraMap _ coordinateChangeRing.{u} (X 1)) = C.s
+  · change changeRingHom C (algebraMap _ coordinateChangeRing.{u} (X 1)) = C.s
     rw [h]; simp
-  · show changeRingHom C (algebraMap _ coordinateChangeRing.{u} (X 3)) = C.t
+  · change changeRingHom C (algebraMap _ coordinateChangeRing.{u} (X 3)) = C.t
     rw [h]; simp
 
 /-- A ring homomorphism `φ : ℤ[u, s, r, t, 1/u] → R` pushing the universal coordinate change

@@ -401,7 +401,7 @@ private lemma coproductTriangle_distinguished {I : Type w} (T : I → Triangle C
   have hψ₃ : (Limits.Sigma.desc fun i =>
       (T i).mor₃ ≫ (Sigma.ι (fun i => (T i).obj₁) i)⟦(1 : ℤ)⟧') = ψ ≫ f₃ := by
     refine Sigma.hom_ext _ _ fun i => ?_
-    rw [Sigma.ι_desc, ← Category.assoc, hι, hcomm₃]
+    rw [Sigma.ι_comp_desc, ← Category.assoc, hι, hcomm₃]
   set S : Triangle C := Triangle.mk (Limits.Sigma.map fun i => (T i).mor₁)
     (Limits.Sigma.map fun i => (T i).mor₂)
     (Limits.Sigma.desc fun i =>
@@ -455,7 +455,7 @@ private lemma coproductTriangle_distinguished {I : Type w} (T : I → Triangle C
     have hsub : a - ψ ≫ a' = (Limits.Sigma.desc fun i =>
         (T i).mor₃ ≫ (Sigma.ι (fun i => (T i).obj₁) i)⟦(1 : ℤ)⟧') ≫ e := by
       refine Sigma.hom_ext _ _ fun i => ?_
-      rw [← Category.assoc, Sigma.ι_desc, Category.assoc, he i]
+      rw [← Category.assoc, Sigma.ι_comp_desc, Category.assoc, he i]
       exact hb i
     change ψ ≫ (a' + f₃ ≫ e) = a
     rw [Preadditive.comp_add, ← Category.assoc, ← hψ₃, ← hsub]

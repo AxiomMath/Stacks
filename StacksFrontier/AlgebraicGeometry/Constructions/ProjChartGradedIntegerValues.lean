@@ -324,7 +324,7 @@ theorem exists_int_rep (hd : 0 < d) (n : ℤ)
       rwa [AlgebraicGeometry.ProjectiveSpectrum.Proj.integerGrading_neg _ _ hk,
         Submodule.mem_bot] at hx₀
     have hd1 : (1 : ℤ) ≤ (d : ℤ) := by exact_mod_cast hd
-    have ht : (0 : ℤ) ≤ (((-n).toNat : ℕ) : ℤ) := Int.ofNat_nonneg _
+    have ht : (0 : ℤ) ≤ (((-n).toNat : ℕ) : ℤ) := Int.natCast_nonneg _
     have hn : -n ≤ (((-n).toNat : ℕ) : ℤ) := Int.self_le_toNat _
     have hmul : (((-n).toNat : ℕ) : ℤ) * 1 ≤ (((-n).toNat : ℕ) : ℤ) * (d : ℤ) :=
       mul_le_mul_of_nonneg_left hd1 ht

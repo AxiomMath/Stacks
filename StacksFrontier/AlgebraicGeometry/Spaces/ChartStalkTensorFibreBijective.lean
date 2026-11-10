@@ -248,11 +248,7 @@ theorem chartStalkTensorFibre_leftInverse {x : GeometricPoint B S hS X}
     (z : ↥(chartZariskiFibreTensor B S hS hX V F)) :
     chartStalkTensorFibreInverse B S hS hX V F W hw hW
         (chartStalkTensorFibreComparison B S hS hX V F z) = z := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-    exact Eq.trans (congrArg (chartStalkTensorFibreInverse B S hS hX V F W hw hW)
-        (map_zero (chartStalkTensorFibreComparison B S hS hX V F).hom))
-      (map_zero (chartStalkTensorFibreInverse B S hS hX V F W hw hW))
+  induction z using TensorProduct.inductionOn with
   | add y y' hy hy' =>
     refine Eq.trans (congrArg (chartStalkTensorFibreInverse B S hS hX V F W hw hW)
       (map_add (chartStalkTensorFibreComparison B S hS hX V F).hom y y')) ?_

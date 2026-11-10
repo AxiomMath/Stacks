@@ -71,7 +71,7 @@ theorem continuousGModuleCounitAddEquiv_rho {G : Type u} [Group G] [TopologicalS
 /-- **The Galois action on the module of Tag 04JQ is the map of Tag 04FN on the abelian stalk**:
 if `τ` extends `σ` and `a` is the automorphism `Spec τ` of the geometric point. -/
 theorem etaleGaloisModuleAddEquivStalk_rho (σ : GeometricPoint.absoluteGaloisGroup sbar)
-    (τ : Gal(sbar.residueField / (Spec (.of K)).residueField (sbar.hom default)))
+    (τ : Gal(sbar.residueField/(Spec (.of K)).residueField (sbar.hom default)))
     (hτ : ∀ a : GeometricPoint.separableClosure sbar,
       (σ a : sbar.residueField) = τ (a : sbar.residueField))
     (a : GeometricPoint.Hom sbar sbar) (ha : a.hom = Spec.map (CommRingCat.ofHom τ.toRingHom))
@@ -84,7 +84,7 @@ theorem etaleGaloisModuleAddEquivStalk_rho (σ : GeometricPoint.absoluteGaloisGr
   have hfib : PreservesColimitsOfShape (geometricPointFiber B (Spec (.of K)) hK sbar).Elementsᵒᵖ
       (CategoryTheory.forget AddCommGrpCat.{u + 1}) :=
     forget_preservesFiberColimits.{u, u + 1} B (Spec (.of K)) hK sbar
-  show ConcreteCategory.hom ((abelianEtaleStalkForgetIso.{u, u + 1} B (Spec (.of K)) hK
+  change ConcreteCategory.hom ((abelianEtaleStalkForgetIso.{u, u + 1} B (Spec (.of K)) hK
       sbar).hom.app F) (ConcreteCategory.hom (etaleStalkSmul.{u, u + 1} B K hK sbar
         (abelianEtaleSheafOfSets.{u, u + 1} B K hK F) σ) w) =
     ConcreteCategory.hom ((geometricPointStalkMap B (Spec (.of K)) hK a
@@ -95,7 +95,7 @@ theorem etaleGaloisModuleAddEquivStalk_rho (σ : GeometricPoint.absoluteGaloisGr
   have hpre := geometricPointStalkMap_preservesColimitIso B (Spec (.of K)) hK
     (CategoryTheory.forget AddCommGrpCat.{u + 1}) a F.obj
   let P := preservesColimitIso (CategoryTheory.forget AddCommGrpCat.{u + 1})
-    ((CategoryOfElements.π (geometricPointFiber B (Spec (.of K)) hK sbar)).op ⋙ F.obj)
+    ((Functor.Elements.π (geometricPointFiber B (Spec (.of K)) hK sbar)).op ⋙ F.obj)
   let g := (geometricPointStalkMap B (Spec (.of K)) hK a AddCommGrpCat.{u + 1}).app F.obj
   let g' := (geometricPointStalkMap B (Spec (.of K)) hK a (Type (u + 1))).app
     (F.obj ⋙ CategoryTheory.forget AddCommGrpCat.{u + 1})
@@ -109,7 +109,7 @@ theorem etaleGaloisModuleAddEquivStalk_rho (σ : GeometricPoint.absoluteGaloisGr
     fun z => ConcreteCategory.congr_hom P.hom_inv_id z
   have h2 := h1 (ConcreteCategory.hom P.inv w)
   rw [h3] at h2
-  show ConcreteCategory.hom P.inv (ConcreteCategory.hom g' w) =
+  change ConcreteCategory.hom P.inv (ConcreteCategory.hom g' w) =
     ConcreteCategory.hom ((CategoryTheory.forget AddCommGrpCat.{u + 1}).map g)
       (ConcreteCategory.hom P.inv w)
   rw [← h2]
@@ -174,7 +174,7 @@ theorem sheafEquivFunctorSheafFiberIsoAb_inv_naturality {x y : GeometricPoint S}
     ((Category.assoc _ _ _).trans (congrArg (_ ≫ ·) h2)))
   have hr := (Category.assoc _ _ _).symm.trans
     ((congrArg (· ≫ (sheafEquivFunctorSheafFiberIsoAb B S hS x).inv.app F)
-      (colimit.ι_pre ((CategoryOfElements.π (geometricPointFiber B S hS x)).op ⋙
+      (colimit.ι_pre ((Functor.Elements.π (geometricPointFiber B S hS x)).op ⋙
         F.obj) (neighborhoodFunctor B S hS a).op
         (op ((geometricPointFiber B S hS y).elementsMk U z)))).trans
     (toPresheafFiber_sheafEquivFunctorSheafFiberIsoAb_inv B S hS x F U _))
@@ -245,7 +245,7 @@ theorem smallEtalePointHom_sheafFiber_comp_smallEtaleStalkPullbackAbIso_inv
       (smallEtalePointHom X (a.map g)).sheafFiber.app F =
         (Scheme.pointSmallEtale (s.hom ≫ g)).toPresheafFiber W
           ((smallEtalePointHom X (a.map g)).hom.app W v) F.obj := by
-    show _ ≫ Point.presheafFiberDesc (A := AddCommGrpCat.{u + 1}) _ _ _ = _
+    change _ ≫ Point.presheafFiberDesc (A := AddCommGrpCat.{u + 1}) _ _ _ = _
     exact Point.toPresheafFiber_presheafFiberDesc _ _ _ _ _
   have h₂ := toPresheafFiber_comp_smallEtaleStalkPullbackAbIso_inv g s.hom F W
     ((smallEtalePointHom X (a.map g)).hom.app W v)
@@ -258,7 +258,7 @@ theorem smallEtalePointHom_sheafFiber_comp_smallEtaleStalkPullbackAbIso_inv
         ((smallEtalePointHom X' a).hom.app ((smallEtaleBaseChange g).obj W)
           ((pointSmallEtaleComapFiberIso g t.hom).hom.app W v))
         ((smallEtalePullbackAb g).obj F).obj := by
-    show _ ≫ Point.presheafFiberDesc (A := AddCommGrpCat.{u + 1}) _ _ _ = _
+    change _ ≫ Point.presheafFiberDesc (A := AddCommGrpCat.{u + 1}) _ _ _ = _
     exact Point.toPresheafFiber_presheafFiberDesc _ _ _ _ _
   rw [pointSmallEtaleComapFiberIso_hom_app_smallEtalePointHom] at h₂
   exact ((reassoc_of% h₁) _).trans (h₂.trans (by
@@ -304,7 +304,7 @@ theorem sheafFiber_app_sheafFiberCompIso_forget₂ {Φ Ψ : (smallEtaleTopology 
     (forget₂ (ModuleCat.{u + 1} Λ) AddCommGrpCat.{u + 1}) X (f.hom.app X x) G.obj
   have h4 := Ψ.toPresheafFiber_presheafFiberCompIso_hom_app
     (forget₂ (ModuleCat.{u + 1} Λ) AddCommGrpCat.{u + 1}) X x G.obj
-  show Ψ.toPresheafFiber X x _ ≫ f.presheafFiber.app _ ≫
+  change Ψ.toPresheafFiber X x _ ≫ f.presheafFiber.app _ ≫
       ((Φ.presheafFiberCompIso (forget₂ (ModuleCat.{u + 1} Λ) AddCommGrpCat.{u + 1})).hom.app
         G.obj ≫ 𝟙 _) =
     Ψ.toPresheafFiber X x _ ≫ ((Ψ.presheafFiberCompIso

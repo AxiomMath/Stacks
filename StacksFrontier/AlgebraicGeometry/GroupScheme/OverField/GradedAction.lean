@@ -127,7 +127,7 @@ noncomputable def gradedCoaction (𝒜 : ℤ → σ) [GradedRing 𝒜] :
 theorem gradedCoaction_of_mem (𝒜 : ℤ → σ) [GradedRing 𝒜] {n : ℤ} {a : A} (ha : a ∈ 𝒜 n) :
     gradedCoaction 𝒜 a = a ⊗ₜ[ℤ] LaurentPolynomial.T n := by
   rw [gradedCoaction, RingHom.comp_apply]
-  show DirectSum.toSemiring _ _ _ (DirectSum.decompose 𝒜 a) = _
+  change DirectSum.toSemiring _ _ _ (DirectSum.decompose 𝒜 a) = _
   rw [DirectSum.decompose_of_mem 𝒜 ha, DirectSum.toSemiring_of]
   rfl
 
@@ -162,7 +162,7 @@ theorem gradedCoactionAlgHom_counit (𝒜 : ℤ → σ) [GradedRing 𝒜] :
     Function.comp_apply, gradedCoactionAlgHom_of_mem 𝒜 a.property,
     Algebra.TensorProduct.map_tmul, Bialgebra.counitAlgHom_apply, LaurentPolynomial.counit_T,
     AlgHom.coe_id, id_eq, CommAlgCat.coe_tensorObj, CommAlgCat.coe_tensorUnit]
-  show (1 : ULift.{u} ℤ) ⊗ₜ[ULift.{u} ℤ] (a : A) =
+  change (1 : ULift.{u} ℤ) ⊗ₜ[ULift.{u} ℤ] (a : A) =
     (Algebra.TensorProduct.lid (ULift.{u} ℤ) A).symm a
   apply (Algebra.TensorProduct.lid (ULift.{u} ℤ) A).injective
   simp

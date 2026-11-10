@@ -293,7 +293,7 @@ theorem subsheafStalkSubmodule_stalkSpanSubsheaf (x : X)
   let a : F.val.obj (op V) := a₀
   have ha : germSection (F := F) V x hxV a = t := ha₀
   refine ⟨V, hxV, a, ?_, ha⟩
-  show a ∈ stalkSpanSubmodule V x P
+  change a ∈ stalkSpanSubmodule V x P
   rwa [mem_stalkSpanSubmodule_iff hxV, ha]
 
 /-- **Every submodule of a stalk is the stalk of a subsheaf.** For an `R_x`-submodule `P` of
@@ -338,7 +338,7 @@ theorem generated_subsheaf_stalk_eq_span {ι : Type*}
       mem_stalkSpanSubmodule_of P fun hxi => Submodule.subset_span ⟨i, hxi, rfl⟩
     exact (le_stalkSpanSubsheaf_iff G x P).1 (hminimal H hsH) ⟨V, hxV, a, ha, rfl⟩
   · intro ht
-    show t ∈ subsheafStalkSubmodule G x
+    change t ∈ subsheafStalkSubmodule G x
     refine Submodule.span_le.mpr ?_ ht
     rintro y ⟨i, hxi, rfl⟩
     exact ⟨unop (U i), hxi, s i, hcontains i, rfl⟩

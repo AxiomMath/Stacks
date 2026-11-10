@@ -142,11 +142,11 @@ public theorem constantToSmallEtaleLocallyConstantMapsModule_isLocallySurjective
   refine (Presheaf.imageSieve
     (constantToSmallEtaleLocallyConstantMapsModule.{u, v} R X M) s).downward_closed ?_ g
   refine ⟨s₀ (r i), ?_⟩
-  show LocallyConstant.const (W i).left (s₀ (r i)) =
+  change LocallyConstant.const (W i).left (s₀ (r i)) =
     LocallyConstant.comapₗ R
       ((Scheme.Etale.forget X ⋙ Over.forget X).map (a i)).base.hom s₀
   refine LocallyConstant.ext fun y => ?_
-  show s₀ (r i) = s₀ ((Scheme.Etale.forget X ⋙ Over.forget X).map (a i) y)
+  change s₀ (r i) = s₀ ((Scheme.Etale.forget X ⋙ Over.forget X).map (a i) y)
   exact (hconst (r i) _ (hmaps i y)).symm
 
 /-- The comparison from the constant sheaf of modules to the sheaf of locally constant maps: the

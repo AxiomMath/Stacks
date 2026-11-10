@@ -30,7 +30,8 @@ The two declarations are general statements about `Deformation.PointwiseGroupoid
 `Deformation.GroupoidInFunctors`, so their mathematical home is
 `StacksFrontier/Deformation/Groupoid/Basic.lean`, beside the notions themselves. They are stated
 here, alongside `Deformation.PointwiseGroupoid.ofIndexing` in
-`StacksFrontier/AlgebraicGeometry/Spaces/Groupoids/GroupoidInSpacesOfComposable.lean`, which is in the
+`StacksFrontier/AlgebraicGeometry/Spaces/Groupoids/GroupoidInSpacesOfComposable.lean`, which is in
+the
 same situation.
 
 In `isPullback_comp_fst` the midpoint of the categorical composite is taken to be the source of
@@ -132,10 +133,10 @@ theorem map_identity {C : Type u} [Category.{v} C] (D : GroupoidInFunctors.{u, v
   have haS : D.source.app X a = x := (D.evaluationArrowEquiv X x x (𝟙 x)).2.1
   have haT : D.target.app X a = x := (D.evaluationArrowEquiv X x x (𝟙 x)).2.2
   have hbS : D.source.app Y b = y := by
-    show D.source.app Y (D.arrows.map f a) = D.objects.map f x
+    change D.source.app Y (D.arrows.map f a) = D.objects.map f x
     rw [NatTrans.naturality_apply D.source f a, haS]
   have hbT : D.target.app Y b = y := by
-    show D.target.app Y (D.arrows.map f a) = D.objects.map f x
+    change D.target.app Y (D.arrows.map f a) = D.objects.map f x
     rw [NatTrans.naturality_apply D.target f a, haT]
   have hmulA : D.compose X a a (haS.trans haT.symm) = a := by
     simpa only [a, identity, Category.id_comp] using

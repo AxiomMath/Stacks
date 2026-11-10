@@ -128,7 +128,7 @@ theorem exists_level_zero_iso_of_level_one_iso
   let gs : X.base.truncation 0 ⟶ Y.base.truncation 0 :=
     Spec.map (CommRingCat.ofHom γ₀.toRingHom)
   have : IsIso gs := by
-    show IsIso (Spec.map γ₀.toCommRingCatIso.hom)
+    change IsIso (Spec.map γ₀.toCommRingCatIso.hom)
     infer_instance
   have hγ' : (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map β₁ =
       Spec.map (CommRingCat.ofHom γ.toRingHom) := hγ.symm
@@ -224,7 +224,7 @@ theorem exists_algEquiv_of_fieldPoint_iso
         Spec.map (CommRingCat.ofHom (ε.toRingHom : κ →+* k)) := by
   classical
   have : IsIso (((p ⋙ Over.post B.inclusion).map ρ).left) := by
-    show IsIso ((Over.forget S).map ((p ⋙ Over.post B.inclusion).map ρ))
+    change IsIso ((Over.forget S).map ((p ⋙ Over.post B.inclusion).map ρ))
     infer_instance
   let w : Spec (.of k) ⟶ Spec (.of κ) :=
     eqToHom (congrArg Over.left hx₀).symm ≫
@@ -257,7 +257,7 @@ theorem exists_algEquiv_of_fieldPoint_iso
     exact congrArg (fun m : CommRingCat.of Λ ⟶ CommRingCat.of k => m.hom) h2
   refine ⟨AlgEquiv.ofRingEquiv (f := ε₀) (fun r => ?_), ?_⟩
   · exact congrArg (fun m : Λ →+* k => m r) hring
-  · show w = _
+  · change w = _
     exact hε₀'.symm
 
 /-- A ring isomorphism of local rings induces one on every adic quotient. -/
@@ -289,7 +289,7 @@ theorem adicThickeningι_comp_specMap
       (quotientPowRingEquivOfRingEquiv e (n + 1)).toRingHom.comp
         (Ideal.Quotient.mk (maximalIdeal R ^ (n + 1))) :=
     RingHom.ext fun r => (quotientPowRingEquivOfRingEquiv_mk e (n + 1) r).symm
-  show Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (maximalIdeal T ^ (n + 1)))) ≫
+  change Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (maximalIdeal T ^ (n + 1)))) ≫
         Spec.map (CommRingCat.ofHom (e.toRingHom : R →+* T)) =
       Spec.map (CommRingCat.ofHom
           (quotientPowRingEquivOfRingEquiv e (n + 1)).toRingHom) ≫
@@ -401,7 +401,7 @@ private theorem adicTruncation_map_formalBaseQuotient_natural
   intro x
   have hL := adicTruncation_functor_map_formalBaseQuotient_apply R n x
   have hR := adicTruncation_functor_map_formalBaseQuotient_apply T n (w.hom x)
-  show ((Deformation.AdicTruncation.functor n).map (Deformation.artinianToComplete.map w)).hom
+  change ((Deformation.AdicTruncation.functor n).map (Deformation.artinianToComplete.map w)).hom
       (((Deformation.AdicTruncation.functor n).map (formalBaseQuotient R n)).hom x) =
     ((Deformation.AdicTruncation.functor n).map (formalBaseQuotient T n)).hom (w.hom x)
   rw [hL, hR]
@@ -665,7 +665,7 @@ public theorem exists_completeLocalObject_of_isFiniteTypePoint
   · -- Both sides are rewritten in the spelling `er` carries, which is the one the chosen
     -- base is stated in; `change` performs that identification once and for all, so that no
     -- later rewrite has to see through the two names of the completion.
-    show ((eqToHom (Deformation.Artin.chosenBase_eq B S hS p xCR.obj).symm ≫
+    change ((eqToHom (Deformation.Artin.chosenBase_eq B S hS p xCR.obj).symm ≫
         p.map rC).left.hom ≫ eqToHom hUL) =
       Spec.map (CommRingCat.ofHom er.toRingHom) ≫ g
     have hrC' : p.map rC = eqToHom hxC ≫ iC ≫ eqToHom (rfl : p.obj x = p.obj x).symm :=
@@ -694,7 +694,7 @@ public theorem exists_completeLocalObject_of_isFiniteTypePoint
       (Deformation.Artin.chosenBase_eq B S hS p xCF).symm.trans hxC
     have hbbpost := congrArg ((Over.post B.inclusion).obj) hbb
     have hmap : (eqToHom hbb).left.hom = eqToHom (congrArg Over.left hbbpost) := by
-      show (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (eqToHom hbb) = _
+      change (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map (eqToHom hbb) = _
       simp only [eqToHom_map]
     have her' : Spec.map (CommRingCat.ofHom er.toRingHom) =
         eqToHom (congrArg Over.left hbbpost) := by

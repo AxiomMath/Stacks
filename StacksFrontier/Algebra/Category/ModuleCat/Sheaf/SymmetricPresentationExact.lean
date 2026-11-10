@@ -16,8 +16,8 @@ that in every degree `n ≥ 1` the sequence
 is exact, and the proof the source gives is a single citation to the module-level Tag 00DO. The
 surjectivity clause is already on this branch
 (`SheafOfModules.SymPresentation.epi_symDesc_app`, in
-`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.SymmetricPowerPresentation`). **This file proves the
-exactness clause**, and with it the symmetric half of Tag 01CJ in full.
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.SymmetricPowerPresentation`). **This file proves
+the exactness clause**, and with it the symmetric half of Tag 01CJ in full.
 
 What was left to do, and is done here, is the identification of the stalk of the *first* map of
 the sequence. Everything it rests on was already available:
@@ -216,7 +216,7 @@ theorem homogeneousProd_succ {C : Type u} [Category.{v} C] {O : Cᵒᵖ ⥤ Comm
       Stacks.degCast (F := fun l : ℤ => ((Pc l).obj Y : Type (max w a))) hk
         ((A.mul 1 (k : ℤ)).app Y (z 0) (A.homogeneousProd Y k fun i => z i.succ)) := by
   refine Eq.trans (A.homogeneousProdLeft_eq_homogeneousProd Y (k + 1) z).symm ?_
-  show Stacks.degCast (F := fun l : ℤ => ((Pc l).obj Y : Type (max w a))) hk
+  change Stacks.degCast (F := fun l : ℤ => ((Pc l).obj Y : Type (max w a))) hk
       ((A.mul 1 (k : ℤ)).app Y (z 0) (A.homogeneousProdLeft Y k fun i => z i.succ)) = _
   exact congrArg
     (fun y => Stacks.degCast (F := fun l : ℤ => ((Pc l).obj Y : Type (max w a))) hk

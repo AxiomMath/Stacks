@@ -62,8 +62,7 @@ theorem exists_sum_of_isPushout {A B C P : CommRingCat.{u}} {f : A ⟶ B} {g : A
     obtain ⟨n, b, c, hbc⟩ := H (e.inv.hom x)
     exact ⟨n, b, c, (Iso.inv_hom_id_apply e x).symm.trans hbc⟩
   intro t
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨0, Fin.elim0, Fin.elim0, by simp⟩
+  induction t using TensorProduct.inductionOn with
   | tmul b c =>
     refine ⟨1, fun _ => b, fun _ => c, ?_⟩
     rw [show (b ⊗ₜ[A] c : TensorProduct A B C) = Algebra.TensorProduct.includeLeftRingHom b *

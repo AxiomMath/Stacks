@@ -52,8 +52,7 @@ additive in the element of the tensor product. -/
 theorem apply_lTensor_of_tmul_comm {f : M₀ ⊗[R] M →+ M₁} {g : M₀ ⊗[R] N →+ N₁} {e : M ≃ₗ[R] N}
     {e₁ : M₁ ≃+ N₁} (h : ∀ (t : M₀) (s : M), g (t ⊗ₜ[R] e s) = e₁ (f (t ⊗ₜ[R] s)))
     (z : M₀ ⊗[R] M) : g (e.lTensor M₀ z) = e₁ (f z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul t s => rw [LinearEquiv.lTensor_tmul, h]
   | add x y hx hy => rw [map_add, map_add, map_add, map_add, hx, hy]
 

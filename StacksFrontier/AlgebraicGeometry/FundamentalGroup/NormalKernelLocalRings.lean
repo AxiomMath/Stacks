@@ -492,7 +492,8 @@ local instance isScalarTower_sections_tower (U : X.Opens) [Nonempty U] (E' : Typ
     [IsScalarTower (X.residueField (genericPoint X)) E E'] :
     IsScalarTower Γ(X, U) E E' :=
   .of_algebraMap_eq fun x =>
-    IsScalarTower.algebraMap_apply (X.residueField (genericPoint X)) E E' _
+    IsScalarTower.algebraMap_apply (X.residueField (genericPoint X)) E E'
+      (algebraMap Γ(X, U) (X.residueField (genericPoint X)) x)
 
 /-- **The residue field at the generic point is a fraction field of the sections on a nonempty
 affine open.** This is the fraction-field property of the function field, read through the
@@ -569,12 +570,14 @@ def inertiaGenerators : Set Gal(L / X.residueField (genericPoint X)) :=
   ⋃ (U : X.Opens) (hU : IsAffineOpen U) (hne : Nonempty U),
     inertiaOverAffineOpen X L U hU hne
 
+omit [IsNormal X] in
 /-- The inertia groups at the points of `X^sep` over a nonempty affine open `U` are contained in
 `inertiaGenerators X L`. -/
 theorem inertiaOverAffineOpen_subset_inertiaGenerators (U : X.Opens) (hU : IsAffineOpen U)
     (hne : Nonempty U) :
-    inertiaOverAffineOpen X L U hU hne ⊆ inertiaGenerators X L := fun σ hσ =>
-  Set.mem_iUnion.2 ⟨U, Set.mem_iUnion.2 ⟨hU, Set.mem_iUnion.2 ⟨hne, hσ⟩⟩⟩
+    inertiaOverAffineOpen X L U hU hne ⊆ inertiaGenerators X L :=
+  Set.subset_iUnion_of_subset U <| Set.subset_iUnion_of_subset hU <|
+    Set.subset_iUnion (fun hne => inertiaOverAffineOpen X L U hU hne) hne
 
 /-- **Subgroup (2) of Stacks Tag 0BTD.** The smallest closed normal subgroup of
 `Gal(K^sep/K) = π₁(Spec K)` containing the inertia group `I_y` for every point `y` of the
@@ -590,12 +593,14 @@ def inertiaClosedNormalSubgroup : Subgroup Gal(L / X.residueField (genericPoint 
 instance : (inertiaClosedNormalSubgroup X L).Normal :=
   Subgroup.is_normal_topologicalClosure _
 
+omit [IsNormal X] in
 /-- `inertiaClosedNormalSubgroup X L` is closed in `Gal(K^sep/K)`. -/
 theorem isClosed_inertiaClosedNormalSubgroup :
     IsClosed ((inertiaClosedNormalSubgroup X L : Subgroup _) :
       Set Gal(L / X.residueField (genericPoint X))) :=
   Subgroup.isClosed_topologicalClosure _
 
+omit [IsNormal X] in
 /-- Every inertia group `I_y` is contained in `inertiaClosedNormalSubgroup X L`. -/
 theorem inertiaGenerators_subset_inertiaClosedNormalSubgroup :
     inertiaGenerators X L ⊆
@@ -603,10 +608,11 @@ theorem inertiaGenerators_subset_inertiaClosedNormalSubgroup :
         Set Gal(L / X.residueField (genericPoint X))) :=
   Stacks.FundamentalGroup.subset_normalClosure_topologicalClosure _
 
+omit [IsNormal X] in
 /-- Subgroup (2) is contained in a closed normal subgroup exactly when every inertia group is. -/
 theorem inertiaClosedNormalSubgroup_le_iff
-    {N : Subgroup Gal(L / X.residueField (genericPoint X))} [N.Normal]
-    (hN : IsClosed (N : Set Gal(L / X.residueField (genericPoint X)))) :
+    {N : Subgroup Gal(L/X.residueField (genericPoint X))} [N.Normal]
+    (hN : IsClosed (N : Set Gal(L/X.residueField (genericPoint X)))) :
     inertiaClosedNormalSubgroup X L ≤ N ↔
       inertiaGenerators X L ⊆ (N : Set Gal(L / X.residueField (genericPoint X))) :=
   Stacks.FundamentalGroup.normalClosure_topologicalClosure_le_iff hN
@@ -653,6 +659,7 @@ def functionFieldEquivGenericResidueField :
   have := isIso_residue_genericPoint X
   (asIso (X.residue (genericPoint X))).commRingCatIsoToRingEquiv
 
+omit [IsNormal X] in
 /-- `functionFieldEquivGenericResidueField X` is the residue map at the generic point. -/
 theorem functionFieldEquivGenericResidueField_apply (a : X.functionField) :
     functionFieldEquivGenericResidueField X a = X.residue (genericPoint X) a := rfl
@@ -665,6 +672,7 @@ local instance finiteDimensional_functionField_genericResidueField :
     (Algebra.linearMap X.functionField (X.residueField (genericPoint X)))
     (functionFieldEquivGenericResidueField X).surjective
 
+omit [IsNormal X] in
 /-- A finite extension of the residue field at the generic point is finite over the function
 field. -/
 theorem finiteDimensional_functionField
@@ -672,6 +680,7 @@ theorem finiteDimensional_functionField
     FiniteDimensional X.functionField E :=
   .trans X.functionField (X.residueField (genericPoint X)) E
 
+omit [IsNormal X] in
 /-- A Galois extension of the residue field at the generic point is Galois over the function
 field. -/
 theorem isGalois_functionField [IsGalois (X.residueField (genericPoint X)) E] :
@@ -683,6 +692,7 @@ theorem isGalois_functionField [IsGalois (X.residueField (genericPoint X)) E] :
       exact congrArg (algebraMap (X.residueField (genericPoint X)) E)
         ((functionFieldEquivGenericResidueField X).apply_symm_apply a))
 
+omit [IsNormal X] in
 /-- The generic-point morphism of an extension of the function field, written through the
 function field rather than through the residue field at the generic point. -/
 theorem specMap_algebraMap_fromSpecResidueField_eq :
@@ -715,7 +725,7 @@ theorem isFinite_etale_fromNormalization_of_inertiaGenerators_subset
     [FiniteDimensional (X.residueField (genericPoint X)) F]
     [IsGalois (X.residueField (genericPoint X)) F]
     (hF : inertiaGenerators X L ⊆
-      (F.fixingSubgroup : Set Gal(L / X.residueField (genericPoint X)))) :
+      (F.fixingSubgroup : Set Gal(L/X.residueField (genericPoint X)))) :
     let f : Spec (.of (F : Type u)) ⟶ X :=
       Spec.map (CommRingCat.ofHom
         (algebraMap (X.residueField (genericPoint X)) (F : Type u))) ≫
@@ -799,7 +809,7 @@ theorem isFinite_etale_fromNormalization_of_inertiaGenerators_subset
         rw [algebraMap_galRestrict_apply Γ(X, U) σK y,
           algebraMap_galRestrict_apply Γ(X, U) σ y]
         rfl
-      show galRestrict Γ(X, U) (X.residueField (genericPoint X)) (F : Type u)
+      change galRestrict Γ(X, U) (X.residueField (genericPoint X)) (F : Type u)
         (integralClosure Γ(X, U) (F : Type u)) σK y - y ∈ q
       rw [heq]
       exact hy
@@ -921,7 +931,7 @@ theorem isClosed_stalkKerClosedNormalSubgroup :
 /-- Membership in subgroup (3) is being carried into the closed normal subgroup generated by the
 kernels of `π₁(Spec K) → π₁(Spec 𝒪_{X,x})`. -/
 theorem mem_stalkKerClosedNormalSubgroup_iff
-    (σ : Gal(L / X.residueField (genericPoint X))) :
+    (σ : Gal(L/X.residueField (genericPoint X))) :
     σ ∈ stalkKerClosedNormalSubgroup X L Ω ↔
       galoisEquivEtaleFundamentalGroup (X.residueField (genericPoint X)) L Ω σ ∈
         (Subgroup.normalClosure (⋃ x : X,
@@ -995,14 +1005,14 @@ theorem inertiaClosedNormalSubgroup_le_stalkKerClosedNormalSubgroup :
   have hcomp : X.presheaf.germ U (hU.fromSpec ⟨r.under Γ(X, U), inferInstance⟩) hx ≫
       stalkToGenericResidueField X (hU.fromSpec ⟨r.under Γ(X, U), inferInstance⟩) =
       X.germToFunctionField U ≫ X.residue (genericPoint X) := by
-    show X.presheaf.germ U _ hx ≫
+    change X.presheaf.germ U _ hx ≫
       (X.presheaf.stalkSpecializes _ ≫ X.residue (genericPoint X)) = _
     rw [← Category.assoc, X.presheaf.germ_stalkSpecializes]
   have htowerK : IsScalarTower Γ(X, U)
       (X.presheaf.stalk (hU.fromSpec ⟨r.under Γ(X, U), inferInstance⟩))
       (X.residueField (genericPoint X)) := by
     refine IsScalarTower.of_algebraMap_eq' ?_
-    show _ = RingHom.comp (CommRingCat.Hom.hom
+    change _ = RingHom.comp (CommRingCat.Hom.hom
         (stalkToGenericResidueField X (hU.fromSpec ⟨r.under Γ(X, U), inferInstance⟩)))
       (CommRingCat.Hom.hom
         (X.presheaf.germ U (hU.fromSpec ⟨r.under Γ(X, U), inferInstance⟩) hx))

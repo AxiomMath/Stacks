@@ -10,7 +10,8 @@ public import StacksCore.Tactic.StacksAttribute
 
 Let `X = (Sh(C), O)` be a ringed topos, let `s : G ⟶ F` be a morphism of sheaves of sets on its
 site, and let `Sh(C/F) ⟶ Sh(C)` and `Sh(C/G) ⟶ Sh(C/F)` be the localization and relocalization
-morphisms of topoi (`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/RelocalizationRingedTopos.lean`).
+morphisms of topoi
+(`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/RelocalizationRingedTopos.lean`).
 [Stacks, Tag 04J4](https://stacks.math.columbia.edu/tag/04J4) asserts that, once the two
 localizations are identified with the slice topoi `Sh(C)/F` and `Sh(C)/G`, the inverse image of
 the relocalization morphism *is* base change along `s`, and that the comparison is pinned down by

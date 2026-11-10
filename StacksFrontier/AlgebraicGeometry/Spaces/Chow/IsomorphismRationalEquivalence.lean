@@ -99,7 +99,7 @@ theorem isRationallyEquivalentToZero_of_cycleGroupRestrict
     ⟨fun y => (Set.mem_empty_iff_false _).1 (hYpt ▸ Set.mem_range_self y)⟩
   obtain ⟨γ, hγ⟩ := exists_rationallyEquivalent_add_cycleGroupClosedPushforward_of_restrict.{v}
     D sX hX (Y.ι ≫ sX) hYgood sU hU hY.2 rfl hj hjc hcompl k α 0 (by
-      show IsRationallyEquivalentToZero.{v} D sU hU k (_ - _)
+      change IsRationallyEquivalentToZero.{v} D sU hU k (_ - _)
       rwa [map_zero, sub_zero])
   rw [CycleGroup.eq_zero_of_isEmpty_points D (Y.ι ≫ sX) hYempty γ, map_zero, add_zero] at hγ
   change IsRationallyEquivalentToZero.{v} D sX hX k (α - 0) at hγ

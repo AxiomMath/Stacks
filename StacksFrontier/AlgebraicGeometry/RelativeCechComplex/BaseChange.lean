@@ -130,7 +130,7 @@ public theorem opensRange_inverseImageAffineOpenCover_f (g' : X' ⟶ X) [IsAffin
       (pullback (T.f i) g').isoSpec.symm)).surjective
   refine TopologicalSpace.Opens.ext ?_
   have h := AlgebraicGeometry.IsOpenImmersion.range_pullbackSnd (T.f i) g'
-  show Set.range ((pullback (T.f i) g').isoSpec.inv ≫ pullback.snd (T.f i) g').base = _
+  change Set.range ((pullback (T.f i) g').isoSpec.inv ≫ pullback.snd (T.f i) g').base = _
   rw [Scheme.Hom.comp_base, TopCat.coe_comp, Set.range_comp, hsurj.range_eq, Set.image_univ]
   exact h
 

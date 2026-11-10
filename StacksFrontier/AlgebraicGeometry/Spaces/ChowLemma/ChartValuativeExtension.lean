@@ -43,7 +43,7 @@ theorem spec_mem_of_injective
     (B : AlgebraicGeometry.BigFppfSite.{u}) {R T : Type u} [CommRing R] [CommRing T]
     (hT : B.Contains (Spec (.of T))) (i : R → T) (hi : Function.Injective i) :
     B.Contains (Spec (.of R)) := by
-  show (Spec (.of R)).size < B.cutoff
+  change (Spec (.of R)).size < B.cutoff
   change (Spec (.of T)).size < B.cutoff at hT
   rw [Scheme.size_Spec] at hT ⊢
   exact lt_of_le_of_lt (max_le_max_left _ (Cardinal.mk_le_of_injective hi)) hT
@@ -61,7 +61,7 @@ theorem spec_fractionRing_mem
     (B : AlgebraicGeometry.BigFppfSite.{u}) {R K : Type u}
     [CommRing R] [CommRing K] [Algebra R K] [IsFractionRing R K]
     (hR : B.Contains (Spec (.of R))) : B.Contains (Spec (.of K)) := by
-  show (Spec (.of K)).size < B.cutoff
+  change (Spec (.of K)).size < B.cutoff
   change (Spec (.of R)).size < B.cutoff at hR
   simpa only [Scheme.size_Spec, IsFractionRing.cardinalMk R K] using hR
 
@@ -172,7 +172,7 @@ theorem exists_dominatingExtension_lift_of_isFlat_of_isSurjective
       (by exact IsLocalRing.comap_closedPoint (IsLocalRing.residue q.R))
       (hcs _)
   have hA : B.Contains (Spec (.of A)) := by
-    show (Spec (.of A)).size < B.cutoff
+    change (Spec (.of A)).size < B.cutoff
     rw [← Scheme.size_congr eV]
     exact V.left.2
   let L := FractionRing A
@@ -188,7 +188,7 @@ theorem exists_dominatingExtension_lift_of_isFlat_of_isSurjective
     rw [(Category.comp_id _).symm.trans hj]
     simp
   have hb : eV.inv ≫ B.inclusion.map V.hom = e.square.base := by
-    show eV.inv ≫ B.inclusion.map V.hom = Spec.map (CommRingCat.ofHom i) ≫ q.base
+    change eV.inv ≫ B.inclusion.map V.hom = Spec.map (CommRingCat.ofHom i) ≫ q.base
     rw [← hinv, Category.assoc]
     exact congrArg (eV.inv ≫ ·) (congrArg B.inclusion.map j.w).symm
   let v : siteObject B S hS e.square.ring_mem e.square.base ⟶ V :=

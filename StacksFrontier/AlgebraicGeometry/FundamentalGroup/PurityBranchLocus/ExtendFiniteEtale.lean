@@ -250,7 +250,7 @@ private lemma finiteEtale_glueingDataNearPoint_of_purity
     (purity_extends_cover_on_stalkOpen U x hOpen hPurity _)
 
 private lemma neighborhood_model_of_gluingData
-    (S : Scheme.{u}) (U : S.Opens) (x : S) (hx : x ∉ U) (hU : IsRetrocompact (U : Set S))
+    (S : Scheme.{u}) (U : S.Opens) (x : S) (hU : IsRetrocompact (U : Set S))
     (D : GlueingNearPoint.glueingDataNearPoint S U x) :
     ∃ M : GlueingNearPoint.FinitePresentationNeighborhoodModel S U x,
       Nonempty ((Over.pullback U.ι).obj
@@ -262,7 +262,7 @@ private lemma neighborhood_model_of_gluingData
   classical
   let W := GlueingNearPoint.FinitePresentationNeighborhoodModel.restrictionMorphisms
     (S := S) (U := U) (s := x)
-  obtain ⟨e, a, b, _hc⟩ := GlueingNearPoint.glueingEquivalenceNearPoint S U x hx hU
+  obtain ⟨e, a, b, -⟩ := GlueingNearPoint.glueingEquivalenceNearPoint S U x hU
   obtain ⟨M, ⟨i⟩⟩ := (Localization.essSurj W.Q W).mem_essImage (e.inverse.obj D)
   let ec : e.functor.obj (W.Q.obj M) ≅ D := e.functor.mapIso i ≪≫ e.counitIso.app D
   exact ⟨M, ⟨(a.app M).symm ≪≫ (GlueingNearPoint.openComponent S U x).mapIso ec⟩,
@@ -288,7 +288,7 @@ public theorem exists_finiteEtale_extension_neighborhood_of_extends
     ∃ (V : S.Opens) (hUV : U ≤ V) (_hxV : x ∈ V) (F : FiniteEtaleOver V.toScheme),
       Nonempty ((finiteEtaleBaseChange (S.homOfLE hUV)).obj F ≅ E) := by
   obtain ⟨L, D, hDopen, hDlocal⟩ := finiteEtale_glueingDataNearPoint_of_extends U x E hE
-  obtain ⟨M, ⟨iU⟩, ⟨iR⟩⟩ := neighborhood_model_of_gluingData S U x hx hU D
+  obtain ⟨M, ⟨iU⟩, ⟨iR⟩⟩ := neighborhood_model_of_gluingData S U x hU D
   let ambient := (GlueingNearPoint.neighborhoodModelToAmbient S U x).obj M
   let fpU := finitePresentationFunctorOfFiniteEtale (T := U.toScheme)
   let P_U : ObjectProperty (Over U.toScheme) := fun Y ↦ FinitePresentation Y.hom

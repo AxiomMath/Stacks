@@ -530,7 +530,7 @@ theorem awayMap_bijective_of_basicOpen_subset_range {A B : Type*} [CommRing A] [
     rw [hφ]
     unfold Localization.awayMap IsLocalization.Away.map
     exact IsLocalization.map_injective_of_injective _ _ _ hf
-  show Function.Bijective (Algebra.linearMap A' B')
+  change Function.Bijective (Algebra.linearMap A' B')
   apply bijective_of_localized_maximal
   intro J hJ
   refine ⟨LocalizedModule.map_injective J.primeCompl _ hφ_inj,
@@ -547,7 +547,7 @@ theorem awayMap_bijective_of_basicOpen_subset_range {A B : Type*} [CommRing A] [
   obtain ⟨y, K, M, hy⟩ := exists_pow_mul_eq_of_awayMap_surjective f g' hg'bij.surjective x
   refine ⟨algA g' ^ M * algA y,
     ⟨algA g' ^ K * algA g ^ n, J.primeCompl.mul_mem (pow_mem hg'J K) (pow_mem hgJ n)⟩, ?_⟩
-  show φ (algA g' ^ K * algA g ^ n) * b = φ (algA g' ^ M * algA y)
+  change φ (algA g' ^ K * algA g ^ n) * b = φ (algA g' ^ M * algA y)
   have hy' := congrArg (algebraMap B B') hy
   simp only [map_mul, map_pow, hcompat] at hy' ⊢
   linear_combination algebraMap B B' (f g') ^ K * hbeq + hy'

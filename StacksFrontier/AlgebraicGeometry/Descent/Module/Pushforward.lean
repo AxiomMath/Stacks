@@ -48,10 +48,10 @@ def invariantSubmodule (D : DescentData.{u, v, w} R A) :
     (1 : A) ⊗ₜ[R] m}
   zero_mem' := by simp
   add_mem' {x y} hx hy := by
-    simp only [Set.mem_setOf_eq] at hx hy ⊢
+    simp only [Set.mem_ofPred_eq] at hx hy ⊢
     rw [add_tmul, map_add, tmul_add, hx, hy]
   smul_mem' r x hx := by
-    simp only [Set.mem_setOf_eq] at hx ⊢
+    simp only [Set.mem_ofPred_eq] at hx ⊢
     rw [← smul_tmul', map_smul, hx, tmul_smul]
 
 /-- A morphism of descent data restricts to a map on invariant sections. -/

@@ -72,7 +72,7 @@ its range. -/
 theorem ofList_ofFn_eq_span_range {r : ℕ} (y : Fin r → B) :
     Ideal.ofList (List.ofFn y) = Ideal.span (Set.range y) := by
   refine congrArg Ideal.span (Set.ext fun x => ?_)
-  simp only [Set.mem_setOf_eq, List.mem_ofFn, Set.mem_range]
+  simp only [Set.mem_ofPred_eq, List.mem_ofFn, Set.mem_range]
 
 omit [IsLocalRing B] in
 /-- **A finite subfamily of a generating set of a finitely generated ideal already generates

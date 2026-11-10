@@ -317,7 +317,7 @@ public theorem polynomialBidegreeFormsFreeEquiv_tmul_basis [LinearOrder W] (i j 
       (polynomialVariableFormsBasis B W j I) =
       Finsupp.single I (1 : setIndexedDividedPowerPolynomialAlgebra B W) :=
     (polynomialVariableFormsBasis B W j).repr_self I
-  show TensorProduct.finsuppScalarRight _ _ _ _
+  change TensorProduct.finsuppScalarRight _ _ _ _
     (TensorProduct.congr (polynomialCoefficientFormsBaseChangeEquiv A B W i).symm
       (polynomialVariableFormsBasis B W j).repr
       (c ⊗ₜ[setIndexedDividedPowerPolynomialAlgebra B W]
@@ -355,7 +355,7 @@ public theorem polynomialCoefficientMonomialEquiv_monomial_tmul (i : ℕ) (L : W
       Finsupp.single L (1 : (B : Type uB)) := by
     rw [← dividedPowerPolynomialMonomialBasis_apply (B : Type uB) L]
     exact (dividedPowerPolynomialMonomialBasis (B : Type uB) W).repr_self L
-  show TensorProduct.finsuppScalarLeft _ _ _
+  change TensorProduct.finsuppScalarLeft _ _ _
     (TensorProduct.congr (dividedPowerPolynomialMonomialBasis (B : Type uB) W).repr
       (LinearEquiv.refl _ _)
       (dividedPowerPolynomialMonomial (B : Type uB) L ⊗ₜ[(B : Type uB)] omega)) = _

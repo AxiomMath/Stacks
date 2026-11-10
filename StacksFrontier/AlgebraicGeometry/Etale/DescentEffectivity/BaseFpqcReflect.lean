@@ -289,6 +289,7 @@ lemma actPullback_comp_of_proj_invariant {B : Scheme.{u}} (ρ : Q.base.left ⟶ 
   simp only [Category.assoc]
   rw [hρ, pullback.lift_fst_assoc]
 
+omit [Surjective f] [IsIntegralHom f] in
 /-- **The composite projection to the scheme over `S` does not see the base coordinate.** -/
 lemma changePt_comp_proj_comp {B : Scheme.{u}} (ρ : Q.base.left ⟶ B)
     (hρ : (baseGluingPullbackIso Q hff).hom ≫ pullback.snd w (Q.base.hom ≫ w) ≫ ρ =
@@ -309,6 +310,7 @@ lemma changePt_comp_proj_comp {B : Scheme.{u}} (ρ : Q.base.left ⟶ B)
     _ = (D.changePt w ν u₂ h₂ ≫ Q.proj) ≫ ρ := by rw [hmv]
     _ = D.changePt w ν u₂ h₂ ≫ Q.proj ≫ ρ := Category.assoc _ _ _
 
+omit [IsIntegralHom f] in
 /-- The gluing isomorphism over the base read off the datum relative to `w`. -/
 lemma baseDescentDatum_transitionPullbackIso_hom [IsSeparated Q.base.hom] :
     (baseDescentDatum Q hff).transitionPullbackIso.hom =
@@ -317,6 +319,7 @@ lemma baseDescentDatum_transitionPullbackIso_hom [IsSeparated Q.base.hom] :
     (baseGluingPullbackIso_hom_fst Q hff) (baseGluingPullbackIso_hom_snd Q hff)
     (actPullbackLaw_baseGluingPullbackIso Q hff (baseGluingMovesBase Q hff))
 
+omit [IsIntegralHom f] in
 /-- The invariance of the projection of a scheme descending the datum relative to `w`, read on
 the gluing isomorphism over the base. -/
 lemma baseDescended_proj_invariant [IsSeparated Q.base.hom]
@@ -327,6 +330,7 @@ lemma baseDescended_proj_invariant [IsSeparated Q.base.hom]
   rw [← baseDescentDatum_transitionPullbackIso_hom Q hff]
   exact R.proj_invariant
 
+omit [Surjective f] [IsIntegralHom f] in
 /-- **The projection of the datum relative to the composite `X ×_S W ⟶ S` is invariant under
 that datum's gluing action**, at a point named by its coordinates, for any `ρ` invariant for the
 gluing isomorphism over the base. -/
@@ -391,6 +395,7 @@ def changeBaseDescended [IsSeparated Q.base.hom] (R : (baseDescentDatum Q hff).D
         (changeBase_act_comp_proj_comp Q hff (R.proj : Q.base.left ⟶ R.base.left)
           (baseDescended_proj_invariant Q hff R) _ _ pullback.condition))
 
+omit [IsIntegralHom f] in
 /-- The base of `changeBaseDescended Q hff R` is the base of `R`. -/
 @[simp]
 lemma changeBaseDescended_base [IsSeparated Q.base.hom]

@@ -154,7 +154,7 @@ private lemma ringHomDesc_of_typeColimit
         (hsurj (c.ι.app i element)).choose_spec.choose_spec
     change (F.map left) (hsurj (c.ι.app i element)).choose_spec.choose =
       (F.map right) element at heq
-    show maps _ _ = _
+    change maps _ _ = _
     rw [← RingHom.congr_fun (hmap left), RingHom.comp_apply,
       heq, ← RingHom.comp_apply, hmap right]
   have hjoint (first second : c.pt) :
@@ -198,7 +198,7 @@ private lemma colimit_torsionFree_local
       algebraMap R c.pt := by
     obtain ⟨j, left, right, _⟩ := IsFilteredOrEmpty.cocone_objs i stage
     ext scalar
-    show (c.ι.app i) (algebraMap R (F.obj i) scalar) =
+    change (c.ι.app i) (algebraMap R (F.obj i) scalar) =
       (c.ι.app stage) (algebraMap R (F.obj stage) scalar)
     have hleft := ConcreteCategory.congr_hom (c.ι.naturality left)
       (algebraMap R (F.obj i) scalar)
@@ -273,7 +273,7 @@ private lemma exists_torsionFree_local_cocone
     Function.Injective.moduleIsTorsionFree (M := ULift (F.obj (AsSmall.down.obj i)))
       ULift.down ULift.down_injective fun _ _ ↦ rfl
   have : ∀ i, IsLocalHom (algebraMap R (G.obj i)) := fun i ↦ by
-    show IsLocalHom (algebraMap R (ULift (F.obj (AsSmall.down.obj i))))
+    change IsLocalHom (algebraMap R (ULift (F.obj (AsSmall.down.obj i))))
     constructor
     intro scalar hunit
     apply isUnit_of_map_unit (algebraMap R (F.obj (AsSmall.down.obj i)))
@@ -367,7 +367,7 @@ private lemma exists_faithfullyFlat_algebra_of_colimit
   have : ∀ i, Module.IsTorsionFree V (G.obj i) := fun i ↦
     torsionIdeal_quotient_isTorsionFree V _
   have : ∀ i, IsLocalHom (algebraMap V (G.obj i)) := fun i ↦ by
-    show IsLocalHom (algebraMap V
+    change IsLocalHom (algebraMap V
       ((V ⊗[R] F.obj i) ⧸ torsionIdeal V (V ⊗[R] F.obj i)))
     infer_instance
   obtain ⟨A, hA, algebraA, htfA, hlocalA, maps, hmaps⟩ :=
@@ -379,10 +379,10 @@ private lemma exists_faithfullyFlat_algebra_of_colimit
   let : Algebra R A := Algebra.restrictScalars R V A
   let : IsScalarTower R V A := IsScalarTower.of_algebraMap_eq' rfl
   let (i : J) : Algebra R (G.obj i) := by
-    show Algebra R ((V ⊗[R] F.obj i) ⧸ torsionIdeal V (V ⊗[R] F.obj i))
+    change Algebra R ((V ⊗[R] F.obj i) ⧸ torsionIdeal V (V ⊗[R] F.obj i))
     infer_instance
   let (i : J) : IsScalarTower R V (G.obj i) := by
-    show IsScalarTower R V ((V ⊗[R] F.obj i) ⧸ torsionIdeal V (V ⊗[R] F.obj i))
+    change IsScalarTower R V ((V ⊗[R] F.obj i) ⧸ torsionIdeal V (V ⊗[R] F.obj i))
     infer_instance
   let stageMaps (i : J) : F.obj i →ₐ[R] A :=
     ((maps i).restrictScalars R).comp
@@ -408,14 +408,14 @@ private lemma exists_faithfullyFlat_algebra_of_colimit
     { Ideal.Quotient.lift _ product.toRingHom (fun _ helement ↦ helement) with
       commutes' := by
         intro scalar
-        show product (algebraMap V (V ⊗[R] c.pt) scalar) = algebraMap V A scalar
+        change product (algebraMap V (V ⊗[R] c.pt) scalar) = algebraMap V A scalar
         exact product.commutes scalar }
   have hinjective : Function.Injective inclusion := by
     intro first second heq
     obtain ⟨first, rfl⟩ := Ideal.Quotient.mk_surjective first
     obtain ⟨second, rfl⟩ := Ideal.Quotient.mk_surjective second
     apply Ideal.Quotient.eq.mpr
-    show product (first - second) = 0
+    change product (first - second) = 0
     change product first = product second at heq
     rw [map_sub, heq, sub_self]
   have : Module.IsTorsionFree V Q :=
@@ -433,7 +433,7 @@ private lemma exists_faithfullyFlat_algebra_of_colimit
     (Ideal.Quotient.mkₐ V (RingHom.ker product.toRingHom)).toRingHom.comp
       Algebra.TensorProduct.includeRight.toRingHom, ?_⟩
   ext scalar
-  show Ideal.Quotient.mk _ (1 ⊗ₜ[R] algebraMap R c.pt scalar) =
+  change Ideal.Quotient.mk _ (1 ⊗ₜ[R] algebraMap R c.pt scalar) =
     Ideal.Quotient.mk _ (algebraMap R V scalar ⊗ₜ[R] 1)
   rw [← Algebra.TensorProduct.algebraMap_apply']
   rfl
@@ -545,13 +545,13 @@ public lemma isStandardVCovering_limit_iff
           intro i
           apply CommAlgCat.hom_ext
           ext element
-          show (D.map (𝟙 i.unop)).appTop element = element
+          change (D.map (𝟙 i.unop)).appTop element = element
           simp
         map_comp := by
           intro i j k first second
           apply CommAlgCat.hom_ext
           ext element
-          show (D.map (second.unop ≫ first.unop)).appTop element =
+          change (D.map (second.unop ≫ first.unop)).appTop element =
             (D.map second.unop).appTop ((D.map first.unop).appTop element)
           rw [D.map_comp, Scheme.Hom.comp_appTop]
           rfl }
@@ -561,14 +561,14 @@ public lemma isStandardVCovering_limit_iff
                naturality := by
                  intro i j arrow
                  have heq := congrArg Scheme.Hom.appTop (c.w arrow.unop)
-                 show (D.map arrow.unop).appTop ≫ (c.π.app j.unop).appTop =
+                 change (D.map arrow.unop).appTop ≫ (c.π.app j.unop).appTop =
                    (c.π.app i.unop).appTop ≫ 𝟙 _
                  simpa only [Scheme.Hom.comp_appTop, Category.comp_id] using heq } }
     have hringCone : IsColimit ((forget CommRingCat).mapCocone ringCone) := hΓ
     have hbase (i : Iᵒᵖ) : (ringCone.ι.app i).hom.comp
         (algebraMap R (F.obj i)) = algebraMap R ringCone.pt := by
       ext scalar
-      show (c.π.app i.unop).appTop ((t.app i.unop).appTop scalar) = f.appTop scalar
+      change (c.π.app i.unop).appTop ((t.app i.unop).appTop scalar) = f.appTop scalar
       have heq := congrArg Scheme.Hom.appTop (hfi i.unop)
       rw [Scheme.Hom.comp_appTop] at heq
       exact ConcreteCategory.congr_hom heq scalar
@@ -635,7 +635,7 @@ public lemma isStandardVCovering_limit_iff'
          AlgebraicGeometry.IsStandardVCovering (fun _ : Unit ↦ D.obj i)
            (fun _ ↦ t.app i)) :=
   have : ∀ i, IsAffine (D.op.obj i).unop := fun i ↦ by
-    show IsAffine (D.obj i.unop)
+    change IsAffine (D.obj i.unop)
     infer_instance
   isStandardVCovering_limit_iff D t c hc
     (isColimitOfPreserves (Scheme.Γ ⋙ forget CommRingCat) hc.op) f hf

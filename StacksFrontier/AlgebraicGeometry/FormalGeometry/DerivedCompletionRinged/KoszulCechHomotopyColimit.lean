@@ -184,7 +184,6 @@ variable (X : RingedSite.{u, u, u})
   [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
   [∀ V : X.C, HasSheafify (X.J.over V) AddCommGrpCat.{u}]
   [∀ V : X.C, (X.J.over V).WEqualsLocallyBijective AddCommGrpCat.{u}]
-  [∀ V : X.C, (X.J.over V).HasSheafCompose (forget₂ RingCat.{u} AddCommGrpCat.{u})]
   [∀ V : X.C, (X.J.over V).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u} X.O).Additive]
   [∀ A, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u} X.O).obj A).Additive]

@@ -126,12 +126,12 @@ public theorem dividedPowerStructureOnHomology_of_surjective
     have h1 : dB (1 : B) = 0 :=
       IsDifferentialGradedAlgebra.d_grade_zero (𝒜 := ℬ) (d := dB)
         SetLike.GradedOne.one_mem
-    show Submodule.mkQ (boundaries (𝒜 := ℬ) dB) (⟨1, h1⟩ : cycles dB) ∈
+    change Submodule.mkQ (boundaries (𝒜 := ℬ) dB) (⟨1, h1⟩ : cycles dB) ∈
         Submodule.map (Submodule.mkQ (boundaries (𝒜 := ℬ) dB))
           (cyclesGrading ℬ dB 0)
     rw [Submodule.mem_map]
     refine ⟨⟨1, h1⟩, ?_, rfl⟩
-    show (1 : B) ∈ ℬ 0
+    change (1 : B) ∈ ℬ 0
     exact SetLike.GradedOne.one_mem
   have mkQ_mul (x y : cycles dB) :
       Submodule.mkQ (boundaries (𝒜 := ℬ) dB) (x * y) =
@@ -193,9 +193,9 @@ public theorem dividedPowerStructureOnHomology_of_surjective
         differential_mul_of_cycles ℬ dB x'.property y'.property
       have hmem : (⟨(x' : B) * (y' : B), hxyc⟩ : cycles dB) ∈
           cyclesGrading ℬ dB (i + j) := by
-        show ((x' : B) * (y' : B)) ∈ ℬ (i + j)
+        change ((x' : B) * (y' : B)) ∈ ℬ (i + j)
         exact SetLike.GradedMul.mul_mem hx' hy'
-      show Submodule.mkQ (boundaries (𝒜 := ℬ) dB)
+      change Submodule.mkQ (boundaries (𝒜 := ℬ) dB)
           (⟨(x' : B) * (y' : B), hxyc⟩ : cycles dB) ∈
             Submodule.map (Submodule.mkQ (boundaries (𝒜 := ℬ) dB))
               (cyclesGrading ℬ dB (i + j))
@@ -219,7 +219,7 @@ public theorem dividedPowerStructureOnHomology_of_surjective
     · intro i j x y hx hy
       obtain ⟨x', hx', rfl⟩ := hQmem hx
       obtain ⟨y', hy', rfl⟩ := hQmem hy
-      show Submodule.mkQ (boundaries (𝒜 := ℬ) dB) x' *
+      change Submodule.mkQ (boundaries (𝒜 := ℬ) dB) x' *
           Submodule.mkQ (boundaries (𝒜 := ℬ) dB) y' = _
       have hcomm : x' * y' = (-1 : R) ^ (i * j) • (y' * x') :=
         Subtype.ext (IsStrictlyGradedComm.graded_comm hx' hy')
@@ -425,13 +425,13 @@ public theorem dividedPowerStructureOnHomology_of_surjective
             ⟨γB.dpow n (y : B), LinearMap.mem_ker.mpr hdpowcycle⟩
           have hout :
               ydpow ∈ cyclesGrading ℬ dB (2 * n * d) := by
-            show γB.dpow n (y : B) ∈ ℬ (2 * n * d)
+            change γB.dpow n (y : B) ∈ ℬ (2 * n * d)
             exact hdpowgrade
           have houtQ : Submodule.mkQ (boundaries (𝒜 := ℬ) dB)
               ydpow ∈ Q (2 * n * d) :=
             Submodule.mem_map_of_mem hout
           rw [dpowH_eq_rep x hx y hypos hrep n]
-          show Submodule.mkQ (boundaries (𝒜 := ℬ) dB) ydpow ∈ ℋ (2 * n * d)
+          change Submodule.mkQ (boundaries (𝒜 := ℬ) dB) ydpow ∈ ℋ (2 * n * d)
           exact (hℋQ _).symm ▸ houtQ
       dpow_mul := by
         intro m n x hx
@@ -488,7 +488,7 @@ public theorem dividedPowerStructureOnHomology_of_surjective
               dpowH_eq_rep y hy y₀ hyB (liftPEP_mk y hy) n]
       dpow_mul_odd := by
         intro n d e x y hn hx hy
-        show dpowH n (x * y) = 0
+        change dpowH n (x * y) = 0
         obtain ⟨x₀, hx₀, rfl⟩ := hQmem (hℋQ _ ▸ hx)
         obtain ⟨y₀, hy₀, rfl⟩ := hQmem (hℋQ _ ▸ hy)
         let z : cycles dB := x₀ * y₀
@@ -504,7 +504,7 @@ public theorem dividedPowerStructureOnHomology_of_surjective
                 Submodule.mkQ (boundaries (𝒜 := ℬ) dB) y₀ :=
           mkQ_mul x₀ y₀
         have hzB : (z : B) ∈ positiveEvenPart ℬ := by
-          show (x₀ : B) * (y₀ : B) ∈ positiveEvenPart ℬ
+          change (x₀ : B) * (y₀ : B) ∈ positiveEvenPart ℬ
           exact mem_positiveEvenPart_of_mem_grade ℬ (d := d + e + 1) (by omega) hgrade'
         have hzH := quotientPositiveEven z (cyclePositiveEven z hzB)
         rw [← hclass]
@@ -515,7 +515,7 @@ public theorem dividedPowerStructureOnHomology_of_surjective
         have hzero' :
             (⟨γB.dpow n ((x₀ : B) * (y₀ : B)), hzcycle⟩ : cycles dB) = 0 :=
           Subtype.ext hzero
-        show Submodule.mkQ (boundaries (𝒜 := ℬ) dB)
+        change Submodule.mkQ (boundaries (𝒜 := ℬ) dB)
           ⟨γB.dpow n ((x₀ : B) * (y₀ : B)), hzcycle⟩ = 0
         rw [hzero']
         simp
@@ -546,7 +546,7 @@ public theorem dividedPowerStructureOnHomology_of_surjective
                     (dpow_cycle_of_cycle (x := (y₀ : B)) ℬ dB γB hyB
                       (liftPEP y hy).property ij.2)⟩ : cycles dB) := by
           apply Subtype.ext
-          show γB.dpow n ((x₀ : B) + (y₀ : B)) =
+          change γB.dpow n ((x₀ : B) + (y₀ : B)) =
             ↑(∑ ij ∈ Finset.antidiagonal n,
               (⟨γB.dpow ij.1 (x₀ : B) * γB.dpow ij.2 (y₀ : B),
                 differential_mul_of_cycles ℬ dB
@@ -646,10 +646,10 @@ public theorem dividedPowerStructureOnHomology_of_surjective
         have hsource : outer = natCycle coeff * last := by
           apply Subtype.ext
           have hinnerCoerce : (inner : B) = γB.dpow m (x₀ : B) := rfl
-          show γB.dpow n (inner : B) =
+          change γB.dpow n (inner : B) =
             ((natCycle coeff : cycles dB) : B) * (last : B)
           rw [hinnerCoerce]
-          show γB.dpow n (γB.dpow m (x₀ : B)) =
+          change γB.dpow n (γB.dpow m (x₀ : B)) =
             (coeff : B) * γB.dpow (n * m) (x₀ : B)
           exact γB.dpow_dpow hm hn hxB
         have houterRep : dpowH n (dpowH m x) =
@@ -683,7 +683,7 @@ public theorem dividedPowerStructureOnHomology_of_surjective
   refine ⟨dpow_cycle_of_cycle ℬ dB γB hx (by simpa [y] using hd) n, ?_⟩
   have hrepr := dpowH_eq_rep
     (Submodule.mkQ (boundaries (𝒜 := ℬ) dB) y) hxH y hx rfl n
-  show dpowH n (Submodule.mkQ (boundaries (𝒜 := ℬ) dB) y) =
+  change dpowH n (Submodule.mkQ (boundaries (𝒜 := ℬ) dB) y) =
     Submodule.mkQ (boundaries (𝒜 := ℬ) dB)
       ⟨γB.dpow n x, dpow_cycle_of_cycle ℬ dB γB hx hd n⟩
   exact hrepr

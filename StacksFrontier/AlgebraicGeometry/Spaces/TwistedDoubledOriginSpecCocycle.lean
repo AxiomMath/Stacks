@@ -373,7 +373,7 @@ theorem exists_descentDatum_not_isEffective_of_semilinear
     · rw [Category.assoc, prod.map_snd, prod.map_snd, Category.comp_id]
       exact h2
   have hxw : (p ≫ s) ≫ (Over.mk g).hom = ((Over.map g).obj (Over.mk p)).hom := by
-    show (p ≫ s) ≫ g = p ≫ g
+    change (p ≫ s) ≫ g = p ≫ g
     rw [Category.assoc, hsg]
   -- at the generalized point given by the identity and the twisted structure morphism, the
   -- action is `τ`

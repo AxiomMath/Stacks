@@ -29,7 +29,7 @@ universe u
 namespace Stacks.BombieriStepanov
 
 /-- **The twisted Bombieri–Stepanov bound for a Dedekind ring with a rational point.** -/
-theorem exists_ncard_twisted_le {F : Type u} [Field F] [Fintype F] (pr : ℕ) [Fact pr.Prime]
+theorem exists_ncard_twisted_le {F : Type u} [Field F] [Finite F] (pr : ℕ) [Fact pr.Prime]
     [CharP F pr] {L : Type u} [Field L] [Algebra F L] [Algebra.EssFiniteType F L]
     (htr : Algebra.trdeg F L = 1) {A : Type u} [CommRing A] [IsDedekindDomain A] [Algebra F A]
     [Algebra.FiniteType F A] [Algebra A L] [IsScalarTower F A L] [IsFractionRing A L]
@@ -41,6 +41,7 @@ theorem exists_ncard_twisted_le {F : Type u} [Field F] [Fintype F] (pr : ℕ) [F
       {φ : PointsOver A ι | ∀ a, φ.1 (σ a) = φ.1 a ^ (pr ^ e * pr ^ e)}.Finite ∧
       {φ : PointsOver A ι | ∀ a, φ.1 (σ a) = φ.1 a ^ (pr ^ e * pr ^ e)}.ncard ≤
         pr ^ e * pr ^ e + (2 * γ + 1) * pr ^ e := by
+  have := Fintype.ofFinite F
   obtain ⟨M, p, _, _, _, _, hdvr, eL, heL⟩ := exists_curve_model F L htr
   let : Algebra A M.functionField := (eL.toRingHom.comp (algebraMap A L)).toAlgebra
   have : IsFractionRing A M.functionField :=
@@ -49,7 +50,7 @@ theorem exists_ncard_twisted_le {F : Type u} [Field F] [Fintype F] (pr : ℕ) [F
   have hFA : ∀ c : F, algebraMap A M.functionField (algebraMap F A c) =
       (fieldToStalk p (genericPoint M)).hom c := by
     intro c
-    show eL (algebraMap A L (algebraMap F A c)) = _
+    change eL (algebraMap A L (algebraMap F A c)) = _
     rw [← IsScalarTower.algebraMap_apply, heL]
   have hF : ∀ c : F, ∃ a : A, algebraMap A M.functionField a =
       (fieldToStalk p (genericPoint M)).hom c := fun c => ⟨_, hFA c⟩

@@ -119,7 +119,7 @@ private theorem precomp_comp_precomp {P P' : Type u} [AddCommGroup P] [Module C 
     [IsScalarTower R C M] {p : P →ₗ[C] P'} {s : P' →ₗ[C] P} (hs : p.comp s = LinearMap.id) :
     (precomp R C M s).comp (precomp R C M p) = LinearMap.id := by
   ext h x
-  show h (p (s x)) = h x
+  change h (p (s x)) = h x
   rw [← LinearMap.comp_apply p s, hs, LinearMap.id_apply]
 
 variable (N) in
@@ -138,7 +138,7 @@ theorem homTensor_bijective_pi (n : ℕ) :
     simp only [LinearMap.coe_comp, LinearEquiv.coe_coe, Function.comp_apply,
       LinearMap.rTensor_tmul, LinearEquiv.apply_symm_apply]
     rw [LinearEquiv.piRing_apply, homTensor_tmul_apply]
-    show _ = e₃ (e₁ f ⊗ₜ b) i
+    change _ = e₃ (e₁ f ⊗ₜ b) i
     simp only [e₃, TensorProduct.piLeft, LinearEquiv.trans_apply, TensorProduct.comm_tmul,
       TensorProduct.piRight_apply, TensorProduct.piRightHom_tmul, LinearEquiv.piCongrRight_apply]
     rw [LinearEquiv.piRing_apply]
@@ -185,12 +185,11 @@ abbrev redπ (E : Type u) [CommRing E] [Algebra R E] : E →ₐ[R] A ⊗[R] E :=
 theorem redπ_surjective (hA : Function.Surjective (algebraMap R A)) (E : Type u) [CommRing E]
     [Algebra R E] : Function.Surjective (redπ R A E) := by
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction x using TensorProduct.inductionOn with
   | tmul a e =>
     obtain ⟨r, rfl⟩ := hA a
     refine ⟨r • e, ?_⟩
-    show (1 : A) ⊗ₜ[R] (r • e) = _
+    change (1 : A) ⊗ₜ[R] (r • e) = _
     rw [← TensorProduct.smul_tmul, Algebra.smul_def, mul_one]
   | add x y hx hy =>
     obtain ⟨e, rfl⟩ := hx
@@ -212,7 +211,7 @@ theorem redπ_eq_zero_iff (hA : Function.Surjective (algebraMap R A)) {E : Type 
   · intro he
     refine Submodule.span_induction ?_ ?_ ?_ ?_ he
     · rintro _ ⟨r, hr, rfl⟩
-      show (1 : A) ⊗ₜ[R] (algebraMap R E r) = 0
+      change (1 : A) ⊗ₜ[R] (algebraMap R E r) = 0
       rw [Algebra.algebraMap_eq_smul_one, ← TensorProduct.smul_tmul, Algebra.smul_def, mul_one,
         RingHom.mem_ker.1 hr, TensorProduct.zero_tmul]
     · exact map_zero _
@@ -294,7 +293,7 @@ theorem tmul_mem_extendedIdeal {e : E} (he : e ∈ extendedIdeal R A E) (b : B')
   have hle : extendedIdeal R A E ≤ (extendedIdeal R A (E ⊗[R] B')).comap (incl R E B') := by
     rw [Ideal.map_le_iff_le_comap]
     intro a ha
-    show incl R E B' (algebraMap R E a) ∈ extendedIdeal R A (E ⊗[R] B')
+    change incl R E B' (algebraMap R E a) ∈ extendedIdeal R A (E ⊗[R] B')
     rw [AlgHom.commutes]
     exact Ideal.mem_map_of_mem _ ha
   exact hle he
@@ -361,7 +360,7 @@ theorem liftModule_isScalarTower (q : C →ₐ[R] E) :
     IsScalarTower R C (extendedIdeal R A E) := by
   let := liftModule A q
   refine ⟨fun r c n => Subtype.ext ?_⟩
-  show q (r • c) * n = r • (q c * (n : E))
+  change q (r • c) * n = r • (q c * (n : E))
   rw [map_smul, smul_mul_assoc]
 
 /-- **The differences of lifts are the derivations into `I E`.** -/
@@ -424,11 +423,11 @@ omit [Module.Flat R B'] in
 theorem range_idealTensor :
     LinearMap.range (idealTensor R A E B') =
       (extendedIdeal R A (E ⊗[R] B')).restrictScalars R := by
-  show LinearMap.range
+  change LinearMap.range
     (LinearMap.rTensor B' ((extendedIdeal R A E).restrictScalars R).subtype) = _
   rw [← Ideal.map_includeLeft_eq]
   congr 1
-  show Ideal.map ((Algebra.TensorProduct.includeLeft : E →ₐ[R] E ⊗[R] B') : E →+* E ⊗[R] B')
+  change Ideal.map ((Algebra.TensorProduct.includeLeft : E →ₐ[R] E ⊗[R] B') : E →+* E ⊗[R] B')
     (Ideal.map (algebraMap R E) _) = _
   rw [Ideal.map_map]
   rfl
@@ -442,11 +441,10 @@ theorem idealTensor_smul (q : C →ₐ[R] E) (c : C) (x : extendedIdeal R A E �
     idealTensor R A E B' (c • x) = (incl R E B' (q c)) * idealTensor R A E B' x := by
   let := liftModule A q
   have := liftModule_isScalarTower A q
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul n b =>
     rw [smul_tmul']
-    show ((c • n : extendedIdeal R A E) : E) ⊗ₜ[R] b = (q c ⊗ₜ[R] (1 : B')) * ((n : E) ⊗ₜ[R] b)
+    change ((c • n : extendedIdeal R A E) : E) ⊗ₜ[R] b = (q c ⊗ₜ[R] (1 : B')) * ((n : E) ⊗ₜ[R] b)
     rw [Algebra.TensorProduct.tmul_mul_tmul, one_mul]
     rfl
   | add x y hx hy => rw [smul_add, map_add, map_add, hx, hy, mul_add]
@@ -483,9 +481,9 @@ theorem diffBaseChange_bijective (hA : Function.Surjective (algebraMap R A))
       (diff (redπ R A (E ⊗[R] B')) ((redMap A (incl R E B')).comp ζ)).subtype.restrictScalars R ∘ₗ
         diffBaseChange ζ hA hI = Ψ ∘ₗ Φ ∘ₗ χ.rTensor B' := by
     refine TensorProduct.ext' fun D b => LinearMap.ext fun c => ?_
-    show D.1 c ⊗ₜ b = idealTensor R A E B' (Φ (χ D ⊗ₜ b) (KaehlerDifferential.D R C c))
+    change D.1 c ⊗ₜ b = idealTensor R A E B' (Φ (χ D ⊗ₜ b) (KaehlerDifferential.D R C c))
     rw [homTensor_tmul_apply]
-    show D.1 c ⊗ₜ b = idealTensor R A E B'
+    change D.1 c ⊗ₜ b = idealTensor R A E B'
       (((diffToDerivation ζ hA hq D).liftKaehlerDifferential (KaehlerDifferential.D R C c)) ⊗ₜ b)
     rw [Derivation.liftKaehlerDifferential_comp_D]
     rfl
@@ -506,11 +504,11 @@ theorem diffBaseChange_bijective (hA : Function.Surjective (algebraMap R A))
     let d : Derivation R C (N ⊗[R] B') :=
       { toLinearMap := D''
         map_one_eq_zero' := idealTensor_injective R A E B' (by
-          show idealTensor R A E B' (D' 1) = idealTensor R A E B' 0
+          change idealTensor R A E B' (D' 1) = idealTensor R A E B' 0
           rw [hD', map_zero]
           exact map_one_of_mem_diff D.2 hqB)
         leibniz' := fun a b => idealTensor_injective R A E B' (by
-          show idealTensor R A E B' (D' (a * b)) = idealTensor R A E B' (a • D' b + b • D' a)
+          change idealTensor R A E B' (D' (a * b)) = idealTensor R A E B' (a • D' b + b • D' a)
           rw [hD', map_add, idealTensor_smul (A := A) (B' := B') q,
             idealTensor_smul (A := A) (B' := B') q, hD', hD']
           exact leibniz_of_mem_diff D.2 hqB a b) }
@@ -521,7 +519,7 @@ theorem diffBaseChange_bijective (hA : Function.Surjective (algebraMap R A))
     change (Ψ ∘ₗ Φ ∘ₗ χ.rTensor B') y = Ψ d.liftKaehlerDifferential at h
     rw [← hcomp] at h
     refine h.trans (LinearMap.ext fun c => ?_)
-    show idealTensor R A E B' (d.liftKaehlerDifferential (KaehlerDifferential.D R C c)) = D.1 c
+    change idealTensor R A E B' (d.liftKaehlerDifferential (KaehlerDifferential.D R C c)) = D.1 c
     rw [Derivation.liftKaehlerDifferential_comp_D]
     exact hD' c
 

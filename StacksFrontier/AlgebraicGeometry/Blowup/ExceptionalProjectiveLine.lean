@@ -377,7 +377,7 @@ theorem includeRight_comp_reesPresentation (x : Fin c → R) (hx : ∀ i, x i �
     fun n a ha y z hy hz => by
       rw [hz, grToTensor_classOfPow]
       exact congrArg _ (Subtype.ext (by simp [hy]))
-  refine GradedRingHom.coe_ringHom_injective
+  refine GradedRingHom.toRingHom_injective
     (MvPolynomial.ringHom_ext (fun a => ?_) (fun i => ?_))
   · refine key 0 a (by simp) _ _ (by simp [reesPresentation]) ?_
     exact (congrArg (AssociatedGraded.polyGradedHom I x hx) (MvPolynomial.map_C _ _)).trans

@@ -183,7 +183,7 @@ public theorem injective_inducedHom_iff_exists_epi_mono
       comm := by
         intro g
         ext y
-        show quotientMapToAction (W : Subgroup (Aut F')) x hWstab
+        change quotientMapToAction (W : Subgroup (Aut F')) x hWstab
             (eW (((Y.obj.ρ g).asHom).hom y)) =
           g • quotientMapToAction (W : Subgroup (Aut F')) x hWstab (eW y)
         rw [hnat]
@@ -202,19 +202,19 @@ public theorem injective_inducedHom_iff_exists_epi_mono
       comm := by
         intro g
         ext y
-        show castR (eV.symm (qmap (eW (((Y.obj.ρ g).asHom).hom y)))) =
+        change castR (eV.symm (qmap (eW (((Y.obj.ρ g).asHom).hom y)))) =
           ((R.obj.ρ g).asHom).hom (castR (eV.symm (qmap (eW y))))
         have htarget : (R.obj.ρ g).asHom =
             FintypeCat.uSwitch.map ((QV.ρ (d.hom g)).asHom) := rfl
         rw [hnat]
-        show castR (eV.symm (qmap (g • eW y))) =
+        change castR (eV.symm (qmap (g • eW y))) =
           ((R.obj.ρ g).asHom).hom (castR (eV.symm (qmap (eW y))))
         have hq : qmap (g • eW y) = d.hom g • qmap (eW y) := by
           exact quotientMapOfComap_smul d.hom.toMonoidHom (V : Subgroup (Aut F))
             (W : Subgroup (Aut F')) hcomap g (eW y)
         rw [hq]
         rw [htarget]
-        show eV.symm (ConcreteCategory.hom ((QV.ρ (d.hom g)).asHom) (qmap (eW y))) =
+        change eV.symm (ConcreteCategory.hom ((QV.ρ (d.hom g)).asHom) (qmap (eW y))) =
           ConcreteCategory.hom (FintypeCat.uSwitch.map ((QV.ρ (d.hom g)).asHom))
             (eV.symm (qmap (eW y)))
         convert (FintypeCat.uSwitchEquiv_symm_naturality
@@ -231,25 +231,25 @@ public theorem injective_inducedHom_iff_exists_epi_mono
     obtain ⟨p, hp⟩ := B.map_surjective pMap
     obtain ⟨i, hi⟩ := B.map_surjective iMap
     have hp0surj : Function.Surjective (ConcreteCategory.hom p0.hom.hom) := by
-      show Function.Surjective (fun y => quotientMapToAction
+      change Function.Surjective (fun y => quotientMapToAction
         (W : Subgroup (Aut F')) x hWstab (eW y))
       intro z
       obtain ⟨q, hq⟩ := quotientMapToAction_surjective
         (W : Subgroup (Aut F')) x hWstab z
       refine ⟨eW.symm q, ?_⟩
-      show quotientMapToAction (W : Subgroup (Aut F')) x hWstab (eW (eW.symm q)) = z
+      change quotientMapToAction (W : Subgroup (Aut F')) x hWstab (eW (eW.symm q)) = z
       rw [eW.apply_symm_apply]
       exact hq
     have heYsurj : Function.Surjective (ConcreteCategory.hom (eY.hom.hom).hom) := by
       let forgetY := CategoryTheory.forget₂ (ContAction FintypeCat (Aut F')) FintypeCat
       have hIso : IsIso (forgetY.map eY.hom) := by infer_instance
-      show Function.Surjective (ConcreteCategory.hom (forgetY.map eY.hom))
+      change Function.Surjective (ConcreteCategory.hom (forgetY.map eY.hom))
       exact ((ConcreteCategory.isIso_iff_bijective _).mp hIso).2
     have hpFiber : Function.Surjective
         ((setValuedFiberFunctor F').map p) := by
-      show Function.Surjective (ConcreteCategory.hom ((B.map p).hom).hom)
+      change Function.Surjective (ConcreteCategory.hom ((B.map p).hom).hom)
       rw [hp]
-      show Function.Surjective
+      change Function.Surjective
         ((ConcreteCategory.hom p0.hom.hom) ∘ (ConcreteCategory.hom (eY.hom.hom).hom))
       exact Function.Surjective.comp hp0surj heYsurj
     have hiMono : Mono i := by
@@ -261,12 +261,12 @@ public theorem injective_inducedHom_iff_exists_epi_mono
         intro a b hab
         simpa [castR] using hab
       have hiHomFun : Function.Injective (ConcreteCategory.hom iHom.hom) := by
-        show Function.Injective (fun y => castR (eV.symm (qmap (eW y))))
+        change Function.Injective (fun y => castR (eV.symm (qmap (eW y))))
         exact hcastRinj.comp (eV.symm.injective.comp (hqinj.comp eW.injective))
       have hiHom : Mono iHom := ConcreteCategory.mono_of_injective iHom hiHomFun
       have hi0 : Mono i0 := by
         apply (ObjectProperty.ι _).mono_of_mono_map
-        show Mono iHom
+        change Mono iHom
         exact hiHom
       let : Mono i0 := hi0
       have hi1 : Mono i1 := by
@@ -315,7 +315,7 @@ public theorem injective_inducedHom_iff_exists_epi_mono
       have hcomm : (S.obj.ρ g).asHom ≫ α.hom.hom = α.hom.hom ≫ (T.obj.ρ g).asHom :=
         α.hom.comm g
       have hsource : (S.obj.ρ g).asHom = 𝟙 S.obj.V := by
-        show ((A.obj X).obj.ρ (d.hom g)).asHom = 𝟙 _
+        change ((A.obj X).obj.ρ (d.hom g)).asHom = 𝟙 _
         rw [hg]
         simp
       have : IsIso α := inferInstance
@@ -333,7 +333,7 @@ public theorem injective_inducedHom_iff_exists_epi_mono
           _ = α.hom.hom := by rw [hsource]; simp
           _ = α.hom.hom ≫ 𝟙 T.obj.V := (Category.comp_id _).symm
       intro x
-      show ConcreteCategory.hom ((T.obj.ρ g).asHom) x = x
+      change ConcreteCategory.hom ((T.obj.ρ g).asHom) x = x
       rw [htarget]
       rfl
     have hfixConnected (g : Aut F') (hg : d.hom g = 1) (X : C')
@@ -346,10 +346,10 @@ public theorem injective_inducedHom_iff_exists_epi_mono
       have hiFiber := (IsGaloisCategory.mono_iff_injective
         (setValuedFiberFunctor F') i).1 hi
       have hpB : Function.Surjective (ConcreteCategory.hom (B.map p).hom.hom) := by
-        show Function.Surjective (ConcreteCategory.hom (F'.map p))
+        change Function.Surjective (ConcreteCategory.hom (F'.map p))
         exact hpFiber
       have hiB : Function.Injective (ConcreteCategory.hom (B.map i).hom.hom) := by
-        show Function.Injective (ConcreteCategory.hom (F'.map i))
+        change Function.Injective (ConcreteCategory.hom (F'.map i))
         exact hiFiber
       have hfixY : ∀ y : (B.obj Y).obj.V,
           ConcreteCategory.hom (((B.obj Y).obj.ρ g).asHom) y = y := by
@@ -377,7 +377,7 @@ public theorem injective_inducedHom_iff_exists_epi_mono
       intro x
       obtain ⟨j, y, hy⟩ := Cofan.inj_jointly_surjective_of_isColimit hcG x
       have hmap : ConcreteCategory.hom (B.map (f j)).hom.hom y = x := by
-        show (G.map (f j)) y = x
+        change (G.map (f j)) y = x
         exact hy
       exact hfix_map g (f j) (hfixConnected g hg (A₀ j) (hconn j)) x y hmap
     intro g₁ g₂ h12

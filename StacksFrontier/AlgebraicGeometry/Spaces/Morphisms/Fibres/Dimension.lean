@@ -79,7 +79,7 @@ theorem topologicalKrullDimAt_fiber_eq_of_field {k : Type u} [Field k]
   have hp : e (f.asFiber x) = x := by
     dsimp [e, e₂]
     rw [hfi]
-    show ((Homeomorph.setCongr hs) (⟨x, hxs⟩ : s) : Set.univ) = x
+    change ((Homeomorph.setCongr hs) (⟨x, hxs⟩ : s) : Set.univ) = x
     rfl
   exact (topologicalKrullDimAt_eq_of_homeomorph e (f.asFiber x)).trans
     (congrArg (topologicalKrullDimAt U) hp)
@@ -139,7 +139,7 @@ theorem points_yoneda_eq_fieldPoint {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
         (yoneda.obj (p.siteObject B S hS F)) := by
   apply FieldValuedPoint.class_eq_class_of_hasCommonExtension
   refine ⟨q, FieldValuedPoint.dominates_refl B S hS _ q, q.value, ?_⟩
-  show (yoneda.obj (p.siteObject B S hS F)).map
+  change (yoneda.obj (p.siteObject B S hS F)).map
     q.value.op (𝟙 (p.siteObject B S hS F)) = q.value
   simp
 

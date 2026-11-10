@@ -54,7 +54,7 @@ private theorem topologicalKrullDim_lt_of_ssubset {C S : Set X} (hC : IsIrreduci
   obtain ⟨h1, hle⟩ := topologicalKrullDim_inter_le_pred_of_not_subset hC hScl hnot
     (by rwa [hinter]) hn.le
   rw [hinter] at hle
-  exact hle.trans_lt (WithBot.coe_lt_coe.2 (ENat.coe_lt_coe.2 (by lia)))
+  exact hle.trans_lt (WithBot.coe_lt_coe.2 (ENat.natCast_lt_natCast.2 (by lia)))
 
 /-- An irreducible subset of `T` containing a component of `T` is that component. -/
 theorem eq_image_of_image_subset_of_mem_irreducibleComponents {C : Set T}
@@ -88,7 +88,7 @@ theorem preimage_mem_irreducibleComponents_of_isGenericPoint_mem {C : Set T}
   have heq := eq_image_of_image_subset_of_mem_irreducibleComponents hC hYirr hYT
     fun x hx => ⟨⟨x, hCS hx⟩, hle hx, rfl⟩
   intro y hy
-  show y.1 ∈ Subtype.val '' C
+  change y.1 ∈ Subtype.val '' C
   rw [← heq]
   exact ⟨y, hy, rfl⟩
 

@@ -45,6 +45,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (P : MorphismProperty Scheme.{u})
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site over `S`
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 private instance hasPullbacks_presheaf_etaleChartCriteria :
@@ -56,6 +57,7 @@ private instance (priority := high) hasPullback_presheaf_etaleChartCriteria
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site over `S`
 /-- Small products of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 private instance (priority := high) hasLimitsOfShape_discrete_etaleChartCriteria (J : Type) :
@@ -152,7 +154,7 @@ private theorem exists_surjectiveEtaleChart_of_affine_baseChange
   let vi : Zi ⟶ V := Over.homMk (ObjectProperty.homMk ((T.obj V).affineCover.f i))
   have hvi : T.map vi = (T.obj V).affineCover.f i := rfl
   have hZiAff : IsAffine (T.obj Zi) := by
-    show IsAffine ((T.obj V).affineCover.X i)
+    change IsAffine ((T.obj V).affineCover.X i)
     infer_instance
   have hZi := isAlgebraicSpace_yoneda B S hS Zi
   have hPBi : HoldsOnEveryEtaleChart B S hS P (pullback.snd f (yoneda.map vi ≫ g)) :=
@@ -205,6 +207,7 @@ private theorem exists_surjectiveEtaleChart_of_affine_baseChange
     (Iso.refl ((T.obj Zi))) heStd)).mp hPrZ
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site over `S`
 /-- **Eight étale-chart criteria for a property with no cancellation.** Let `P` be a property
 of morphisms of schemes which is étale local on the source and target, stable under base
 change and Zariski local at the target. Then, for a morphism `f` of algebraic spaces over `S`,

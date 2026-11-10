@@ -104,7 +104,7 @@ theorem levelFunctor_isContinuous (X : SimplicialObject TopCat.{u})
   let K := SimplicialOpen.precoverage X
   have hmem : J ≤ K.comap F := by
     intro U R hR
-    show SimplicialOpen.IsCovering (F.obj U) (R.map F)
+    change SimplicialOpen.IsCovering (F.obj U) (R.map F)
     constructor
     · intro V g hg
       cases hg with
@@ -116,7 +116,7 @@ theorem levelFunctor_isContinuous (X : SimplicialObject TopCat.{u})
         (Opens.mem_grothendieckTopology (X.obj n)).mp hR x hx
       obtain ⟨W, h, g, hg, hcomp⟩ := hf
       refine ⟨F.obj W, F.map g, Presieve.map.of hg, x, h.le hxV, ?_⟩
-      show (X.map (𝟙 n)).hom x = x
+      change (X.map (𝟙 n)).hom x = x
       simp
   have htop : J.toGrothendieck = Opens.grothendieckTopology (X.obj n) := by
     apply le_antisymm
@@ -176,12 +176,12 @@ theorem levelFunctor_isContinuous (X : SimplicialObject TopCat.{u})
         · intro s
           apply SimplicialOpen.Hom.ext
           apply Quiver.Hom.unop_inj
-          show (𝟙 (Opposite.unop ((F.obj V).degree)) ≫ s.fst.base.unop) = s.fst.base.unop
+          change (𝟙 (Opposite.unop ((F.obj V).degree)) ≫ s.fst.base.unop) = s.fst.base.unop
           exact CategoryTheory.Category.id_comp _
         · intro s
           apply SimplicialOpen.Hom.ext
           apply Quiver.Hom.unop_inj
-          show (𝟙 (Opposite.unop ((F.obj V).degree)) ≫ s.fst.base.unop) = s.snd.base.unop
+          change (𝟙 (Opposite.unop ((F.obj V).degree)) ≫ s.fst.base.unop) = s.snd.base.unop
           rw [CategoryTheory.Category.id_comp]
           exact congrArg Quiver.Hom.unop (base_eq s)
         · intro s m hm
@@ -193,7 +193,7 @@ theorem levelFunctor_isContinuous (X : SimplicialObject TopCat.{u})
             change (𝟙 (Opposite.unop ((F.obj c.pt).degree)) ≫ m.base.unop) = s.fst.base.unop at h
             simpa only [CategoryTheory.Category.id_comp] using h
           rw [hb']
-          show s.fst.base.unop = (𝟙 (Opposite.unop ((F.obj V).degree)) ≫ s.fst.base.unop)
+          change s.fst.base.unop = (𝟙 (Opposite.unop ((F.obj V).degree)) ≫ s.fst.base.unop)
           exact (CategoryTheory.Category.id_comp _).symm
       exact (IsLimit.postcomposeHomEquiv (cospanCompIso F f g) (F.mapCone c)) hlim'
     exact ⟨hlim⟩
@@ -232,7 +232,7 @@ theorem levelFunctor_isCocontinuous (X : SimplicialObject TopCat.{u})
       change Vopen ≤ (Opens.map (X.map f.base)).obj U at hh
       simpa [hbase'] using hh
     refine ⟨Vopen, homOfLE hle, ?_, ?_⟩
-    · show S ((levelFunctor X n).map (homOfLE hle))
+    · change S ((levelFunctor X n).map (homOfLE hle))
       apply hRS
       have hf : f = (levelFunctor X n).map (homOfLE hle) := SimplicialOpen.Hom.ext _ _ hbase'
       simpa [hf, levelFunctor] using hRf
@@ -264,7 +264,7 @@ private theorem levelFunctor_intersection_isPullback
       apply SimplicialOpen.Hom.ext
       rfl)
   have hc : IsLimit c := by
-    show IsLimit (PullbackCone.mk c.fst c.snd c.condition)
+    change IsLimit (PullbackCone.mk c.fst c.snd c.condition)
     refine PullbackCone.IsLimit.mk c.condition (fun s => ?_) ?_ ?_ ?_
     · let fstBase : s.pt.degree ⟶ n := s.fst.base
       let sndBase : s.pt.degree ⟶ n := s.snd.base
@@ -275,12 +275,12 @@ private theorem levelFunctor_intersection_isPullback
       change x ∈ (Opens.map (X.map fstBase)).obj U at h₁
       change x ∈ (Opens.map (X.map sndBase)).obj V at h₂
       rw [← hbase] at h₂
-      show x ∈ (Opens.map (X.map fstBase)).obj (U ⊓ V)
+      change x ∈ (Opens.map (X.map fstBase)).obj (U ⊓ V)
       exact ⟨by simpa [Opens.map_def] using h₁, by simpa [Opens.map_def] using h₂⟩
     · intro s
       dsimp [F, levelFunctor] at s
       apply SimplicialOpen.Hom.ext
-      show s.fst.base ≫ 𝟙 n = s.fst.base
+      change s.fst.base ≫ 𝟙 n = s.fst.base
       exact Category.comp_id _
     · intro s
       dsimp [F, levelFunctor] at s
@@ -295,7 +295,7 @@ private theorem levelFunctor_intersection_isPullback
       dsimp [F, levelFunctor] at h
       change m.base ≫ 𝟙 n = s.fst.base at h
       exact (Category.comp_id m.base).symm.trans h
-  show IsPullback c.fst c.snd (F.map f) (F.map g)
+  change IsPullback c.fst c.snd (F.map f) (F.map g)
   exact IsPullback.of_isLimit hc
 
 /-- The inclusion of a simplicial degree preserves fibre products. -/
@@ -307,7 +307,7 @@ private theorem levelFunctor_intersection_isPullback
   let c : PullbackCone f g := PullbackCone.mk (homOfLE inf_le_left) (homOfLE inf_le_right)
     (Subsingleton.elim _ _)
   have hcLim : IsLimit c := by
-    show IsLimit (PullbackCone.mk c.fst c.snd c.condition)
+    change IsLimit (PullbackCone.mk c.fst c.snd c.condition)
     exact PullbackCone.IsLimit.mk c.condition
       (fun s => homOfLE (le_inf (leOfHom s.fst) (leOfHom s.snd)))
       (fun _ => Subsingleton.elim _ _) (fun _ => Subsingleton.elim _ _)

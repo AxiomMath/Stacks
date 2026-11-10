@@ -255,14 +255,12 @@ public theorem sum_length_stalk_quotient_lt (A : Type u) [CommRing A] [IsRegular
     (hdim : ringKrullDim A = 2) {x y : A}
     (hspan : Ideal.span ({x, y} : Set A) = IsLocalRing.maximalIdeal A)
     (L : Ideal A) (n : ℕ) (hmn : IsLocalRing.maximalIdeal A ^ n ≤ L)
-    (hLm : L ≤ IsLocalRing.maximalIdeal A)
     {d : ℕ} (hd : 0 < d) {J' : (Stacks.Blowup.blowUp (centre A)).IdealSheafData}
     (hfac : Stacks.Blowup.exceptionalIdeal (centre A) ^ d * J' =
       (idealSheafOf A L).comap (Stacks.Blowup.blowUpToBase (centre A)))
     (hmax : ¬ ((idealSheafOf A L).comap (Stacks.Blowup.blowUpToBase (centre A)) ≤
       Stacks.Blowup.exceptionalIdeal (centre A) ^ (d + 1)))
-    (T : Finset (Stacks.Blowup.blowUp (centre A)))
-    (hT : (J'.support : Set (Stacks.Blowup.blowUp (centre A))) ⊆ (T : Set _)) :
+    (T : Finset (Stacks.Blowup.blowUp (centre A))) :
     ∑ z ∈ T, Module.length ((Stacks.Blowup.blowUp (centre A)).presheaf.stalk z)
         ((Stacks.Blowup.blowUp (centre A)).presheaf.stalk z ⧸
           AlgebraicGeometry.IdealSheafData.stalk J' z) <

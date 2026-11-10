@@ -93,7 +93,7 @@ theorem exists_isIntegral_opens (hS : IsDedekindChowBase C) (s : C.S) :
 /-- The generic point of an integral open of the base specializes to every point of it. -/
 theorem genericPoint_specializes_of_isIntegral (U : C.S.Opens) [IsIntegral (U : Scheme.{u})]
     {x : C.S} (hx : x ∈ U) : U.ι.base (genericPoint (U : Scheme.{u})) ⤳ x := by
-  show _ ⤳ U.ι.base ⟨x, hx⟩
+  change _ ⤳ U.ι.base ⟨x, hx⟩
   exact ((genericPoint_spec (U : Scheme.{u})).specializes (Set.mem_univ _)).map U.ι.continuous
 
 /-- A closed point of a base as in section 42.63 with no proper generalization is the whole of an
@@ -377,7 +377,7 @@ theorem chowGroupRestrict_bivariantCapBaseFundamentalClass_eq_zero (hS : IsDedek
   obtain ⟨y, hy⟩ : ((sX ⁻¹ᵁ zeroDimensionalLocus C).ι ≫ e').base z ∈
       Set.range (pullback.fst (pullback.snd sX (𝟙 C.S)) (zeroDimensionalLocus C).ι).base := by
     rw [IsOpenImmersion.range_pullbackFst]
-    show (pullback.snd sX (𝟙 C.S)).base (((sX ⁻¹ᵁ zeroDimensionalLocus C).ι ≫ e').base z) ∈
+    change (pullback.snd sX (𝟙 C.S)).base (((sX ⁻¹ᵁ zeroDimensionalLocus C).ι ≫ e').base z) ∈
       (zeroDimensionalLocus C).ι.opensRange
     rw [← Scheme.Hom.comp_apply, Category.assoc, he', pullback.lift_snd,
       Scheme.Opens.opensRange_ι, Scheme.Hom.comp_apply]
@@ -459,27 +459,30 @@ theorem mem_of_forall_cycle_generators_of_partition (K : AddSubgroup (chowGroup 
     (fun y hlf hδ hQ ↦ h₃ y hlf hδ hQ) fun i ↦ (-a.1 i).toNat
   have hsub : a = P₁ - N₁ + (P₂ - N₂) + (P₃ - N₃) := by
     refine Subtype.ext (Function.locallyFinsuppWithin.ext fun x ↦ ?_)
-    show a.1 x = P₁.1 x - N₁.1 x + (P₂.1 x - N₂.1 x) + (P₃.1 x - N₃.1 x)
+    change a.1 x = P₁.1 x - N₁.1 x + (P₂.1 x - N₂.1 x) + (P₃.1 x - N₃.1 x)
     rw [hP₁y, hN₁y, hP₂y, hN₂y, hP₃y, hN₃y]
     by_cases hx : x ∈ Function.support (a.1 : X → ℤ)
     · rcases hQ x with ⟨h1, h2, h3⟩ | ⟨h1, h2, h3⟩ | ⟨h1, h2, h3⟩
-      · rw [dif_pos ⟨hx, h1⟩, dif_pos ⟨hx, h1⟩, dif_neg (fun h ↦ h2 h.2),
-          dif_neg (fun h ↦ h2 h.2), dif_neg (fun h ↦ h3 h.2), dif_neg (fun h ↦ h3 h.2)]
+      · rw [dite_eq_left ⟨hx, h1⟩, dite_eq_left ⟨hx, h1⟩, dite_eq_right (fun h ↦ h2 h.2),
+          dite_eq_right (fun h ↦ h2 h.2), dite_eq_right (fun h ↦ h3 h.2),
+          dite_eq_right (fun h ↦ h3 h.2)]
         simp only
         omega
-      · rw [dif_neg (fun h ↦ h1 h.2), dif_neg (fun h ↦ h1 h.2), dif_pos ⟨hx, h2⟩,
-          dif_pos ⟨hx, h2⟩, dif_neg (fun h ↦ h3 h.2), dif_neg (fun h ↦ h3 h.2)]
+      · rw [dite_eq_right (fun h ↦ h1 h.2), dite_eq_right (fun h ↦ h1 h.2), dite_eq_left ⟨hx, h2⟩,
+          dite_eq_left ⟨hx, h2⟩, dite_eq_right (fun h ↦ h3 h.2), dite_eq_right (fun h ↦ h3 h.2)]
         simp only
         omega
-      · rw [dif_neg (fun h ↦ h1 h.2), dif_neg (fun h ↦ h1 h.2), dif_neg (fun h ↦ h2 h.2),
-          dif_neg (fun h ↦ h2 h.2), dif_pos ⟨hx, h3⟩, dif_pos ⟨hx, h3⟩]
+      · rw [dite_eq_right (fun h ↦ h1 h.2), dite_eq_right (fun h ↦ h1 h.2),
+          dite_eq_right (fun h ↦ h2 h.2), dite_eq_right (fun h ↦ h2 h.2), dite_eq_left ⟨hx, h3⟩,
+          dite_eq_left ⟨hx, h3⟩]
         simp only
         omega
-    · rw [dif_neg (fun h ↦ hx h.1), dif_neg (fun h ↦ hx h.1), dif_neg (fun h ↦ hx h.1),
-        dif_neg (fun h ↦ hx h.1), dif_neg (fun h ↦ hx h.1), dif_neg (fun h ↦ hx h.1)]
+    · rw [dite_eq_right (fun h ↦ hx h.1), dite_eq_right (fun h ↦ hx h.1),
+        dite_eq_right (fun h ↦ hx h.1), dite_eq_right (fun h ↦ hx h.1),
+        dite_eq_right (fun h ↦ hx h.1), dite_eq_right (fun h ↦ hx h.1)]
       simpa using hx
   rw [hsub]
-  show QuotientAddGroup.mk' (rationalEquivalences C sX (1 - p))
+  change QuotientAddGroup.mk' (rationalEquivalences C sX (1 - p))
     (P₁ - N₁ + (P₂ - N₂) + (P₃ - N₃)) ∈ K
   rw [map_add, map_add, map_sub, map_sub, map_sub]
   exact add_mem (add_mem (sub_mem hP₁ hN₁) (sub_mem hP₂ hN₂)) (sub_mem hP₃ hN₃)
@@ -589,14 +592,14 @@ theorem exists_cycle_mem_bivariantCapZeroDimensionalLocus_of_sigma (hS : IsDedek
   have hιj : ∀ j, Sigma.ι Zs j ≫ g ≫ sX =
       v j ≫ (pullback.fst sX (zeroDimensionalLocus C).ι ≫ sX) := by
     intro j
-    rw [hg, Category.assoc, Sigma.ι_desc_assoc]
+    rw [hg, Category.assoc, Sigma.ι_comp_desc_assoc]
   have hflat : ∀ j, Flat (v j ≫ (pullback.fst sX (zeroDimensionalLocus C).ι ≫ sX)) := fun j ↦ by
     refine hS.flat_of_mem_genericPoints _ ?_
     rw [Scheme.Hom.comp_apply, subschemeι_genericPoint_integralComponentAt]
     exact hgen j
   have hdesc : g ≫ sX = Sigma.desc fun j ↦
       v j ≫ (pullback.fst sX (zeroDimensionalLocus C).ι ≫ sX) :=
-    Sigma.hom_ext _ _ fun j ↦ by rw [hιj, Sigma.ι_desc]
+    Sigma.hom_ext _ _ fun j ↦ by rw [hιj, Sigma.ι_comp_desc]
   have _ : Flat (g ≫ sX) := by
     have := hflat
     rw [hdesc]
@@ -638,7 +641,7 @@ theorem exists_cycle_mem_bivariantCapZeroDimensionalLocus_of_sigma (hS : IsDedek
       rw [schemeDeltaDimension_eq_genericPoint, relativeDimension_comp_closedImmersion, hιj]
       have h := relativeDimension_sigmaι_genericPoint C
         (pullback.fst sX (zeroDimensionalLocus C).ι ≫ sX) Zs v y hπ _ hδ j
-      rw [← Category.assoc, Sigma.ι_desc] at h
+      rw [← Category.assoc, Sigma.ι_comp_desc] at h
       simp [h]
     have h1 := relativeDimension_le_of_schemeDeltaDimension_le C _ (𝟙 (Zs j)) hZ z
     rw [relativeDimension_comp_isOpenImmersion] at h1
@@ -731,11 +734,11 @@ theorem exists_mem_centralOverBaseSubgroup_bivariantCapZeroDimensionalLocus_eq
     refine ⟨P, hP, fun x ↦ ?_⟩
     rw [hPy]
     by_cases hx : x ∈ Function.support (a.1 : _ → ℤ)
-    · rw [dif_pos hx]
+    · rw [dite_eq_left hx]
       exact (finsum_mem_preimage_sigma_fst_one
         (fun i : ↥(Function.support (a.1 : _ → ℤ)) ↦ i.1) Subtype.val_injective
         ⟨x, hx⟩).trans (by simp)
-    · rw [dif_neg hx]
+    · rw [dite_eq_right hx]
       refine (finsum_mem_congr (Set.eq_empty_of_forall_notMem fun j hj ↦ hx ?_)
         fun _ _ ↦ rfl).trans finsum_mem_empty
       exact (show j.1.1 = x from hj) ▸ j.1.2
@@ -743,14 +746,14 @@ theorem exists_mem_centralOverBaseSubgroup_bivariantCapZeroDimensionalLocus_eq
   obtain ⟨N, hN, hNy⟩ := hgen fun i ↦ (-a.1 i).toNat
   have hsub : a = P - N := by
     refine Subtype.ext (Function.locallyFinsuppWithin.ext fun x ↦ ?_)
-    show a.1 x = P.1 x - N.1 x
+    change a.1 x = P.1 x - N.1 x
     rw [hPy, hNy]
     split_ifs with h
     · simp only
       omega
     · simpa using h
   rw [hsub]
-  show QuotientAddGroup.mk' _ (P - N) ∈ _
+  change QuotientAddGroup.mk' _ (P - N) ∈ _
   rw [map_sub]
   exact sub_mem hP hN
 

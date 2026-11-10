@@ -149,7 +149,7 @@ theorem exists_normalizedBlowUpChain_isRegular
         have h := D.stageRep_of_iso k e he (hrep k)
         simpa [Finset.mem_insert, hk] using h
   obtain ⟨A, g, hgood, -, hrep⟩ := claim Finset.univ
-  simp only [Finset.mem_univ, if_true] at hrep
+  simp only [Finset.mem_univ, ite_true] at hrep
   refine ⟨A, g ≫ ν, hgood.1, ?_⟩
   refine (hasEtaleLocalProperty_isRegular_iff_forall_isRegularAt B S hS A.property hgood.2.2.1).mpr
     fun a => ?_

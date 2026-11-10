@@ -30,7 +30,7 @@ namespace Stacks.EtaleCohomology
 
 attribute [local instance] moduleCat_hasLimitsOfSize
 
-variable (B : BigEtaleSite.{u}) (X : B.Scheme) (Λ : Type) [CommRing Λ] [Finite Λ]
+variable (B : BigEtaleSite.{u}) (X : B.Scheme) (Λ : Type) [CommRing Λ]
   [HasColimitsOfSize.{u, u} (ModuleCat.{u + 1} Λ)] [HasLimitsOfSize.{u, u} (ModuleCat.{u + 1} Λ)]
   [∀ (S T : B.Scheme) (g : T ⟶ S),
     ((AlgebraicGeometry.smallEtaleBaseChange B g).sheafPushforwardContinuous

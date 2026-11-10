@@ -295,7 +295,7 @@ def pullbackTwistFinFreeEquiv (i : ℕ) (t : ℤ) (r : ℕ) :
         blowupTwistInt I t) ≃ₗ[A]
       (Fin r → blowupHmod I i ((thickeningPullback I n).obj
         (ModuleCat.of (A ⧸ I ^ n) (A ⧸ I ^ n)) ⊗ blowupTwistInt I t)) :=
-  LinearEquiv.ofLinear
+  LinearEquiv.ofLinearMap
     (LinearMap.pi fun j => pullbackTwistMap I n i t (finFreeProj (A ⧸ I ^ n) r j))
     (∑ j : Fin r, pullbackTwistMap I n i t (finFreeIncl (A ⧸ I ^ n) r j) ∘ₗ LinearMap.proj j)
     (LinearMap.ext fun w => funext fun k => by
@@ -306,10 +306,10 @@ def pullbackTwistFinFreeEquiv (i : ℕ) (t : ℤ) (r : ℕ) :
       refine (Finset.sum_eq_single k (fun j _ hjk => ?_)
         (fun h => absurd (Finset.mem_univ k) h)).trans ?_
       · change pullbackTwistMap I n i t _ (pullbackTwistMap I n i t _ (w j)) = 0
-        rw [← pullbackTwistMap_comp, finFreeIncl_comp_finFreeProj, if_neg hjk,
+        rw [← pullbackTwistMap_comp, finFreeIncl_comp_finFreeProj, ite_eq_right hjk,
           pullbackTwistMap_zero]
       · change pullbackTwistMap I n i t _ (pullbackTwistMap I n i t _ (w k)) = w k
-        rw [← pullbackTwistMap_comp, finFreeIncl_comp_finFreeProj, if_pos rfl,
+        rw [← pullbackTwistMap_comp, finFreeIncl_comp_finFreeProj, ite_eq_left rfl,
           pullbackTwistMap_id])
     (LinearMap.ext fun y => by
       change (∑ j : Fin r, pullbackTwistMap I n i t (finFreeIncl (A ⧸ I ^ n) r j) ∘ₗ
@@ -325,7 +325,7 @@ theorem pullbackTwistFinFreeEquiv_symm_apply (i : ℕ) (t : ℤ) (r : ℕ)
       (ModuleCat.of (A ⧸ I ^ n) (A ⧸ I ^ n)) ⊗ blowupTwistInt I t)) :
     (pullbackTwistFinFreeEquiv I n i t r).symm w =
       ∑ j, pullbackTwistMap I n i t (finFreeIncl (A ⧸ I ^ n) r j) (w j) := by
-  show (∑ j : Fin r, pullbackTwistMap I n i t (finFreeIncl (A ⧸ I ^ n) r j) ∘ₗ
+  change (∑ j : Fin r, pullbackTwistMap I n i t (finFreeIncl (A ⧸ I ^ n) r j) ∘ₗ
     LinearMap.proj j) w = _
   rw [LinearMap.sum_apply]
   rfl
@@ -579,7 +579,7 @@ theorem finFreeIncl_comp_presProj {M : ANCModule I n c} (p : ANCPresentation I n
     (j : Fin p.rank) :
     finFreeIncl (A ⧸ I ^ n) p.rank j ≫ presProj p = quotPointMap I n M.1 (p.proj (Pi.single j 1)) :=
   ModuleCat.hom_ext (LinearMap.ext_ring (by
-    show p.proj (Pi.single j 1) = (1 : A ⧸ I ^ n) • p.proj (Pi.single j 1)
+    change p.proj (Pi.single j 1) = (1 : A ⧸ I ^ n) • p.proj (Pi.single j 1)
     rw [one_smul]))
 
 /-- The canonical map `I^q/I^{q+n} → H⁰(X, 𝒪_{Yₙ}(q))` of the Situation (zero for `n = 0`, where
@@ -682,7 +682,7 @@ theorem quotPointMap_comp_dualEvalAt {n : ℕ} (N : ModuleCat.{u} (A ⧸ I ^ n))
     quotPointMap I n (ModuleCat.of (A ⧸ I ^ n) (Module.Dual (A ⧸ I ^ n) N)) lam ≫
         dualEvalAt I N z = (show Module.Dual (A ⧸ I ^ n) N from lam) z • 𝟙 _ :=
   ModuleCat.hom_ext (LinearMap.ext_ring (by
-    show ((1 : A ⧸ I ^ n) • (show Module.Dual (A ⧸ I ^ n) N from lam)) z =
+    change ((1 : A ⧸ I ^ n) • (show Module.Dual (A ⧸ I ^ n) N from lam)) z =
       (show Module.Dual (A ⧸ I ^ n) N from lam) z • (1 : A ⧸ I ^ n)
     rw [one_smul, smul_eq_mul, mul_one]))
 
@@ -721,7 +721,7 @@ theorem blowupDualEv_blowupSecM (m : ℕ) {q₀ : ℕ} (h : IsBaseThreshold I q�
   rw [← hb, pullbackTwistMap_zero_smul, pullbackTwistMap_id, map_smul,
     LinearEquiv.apply_symm_apply, map_smul]
   refine (congrArg (b • ·) (LinearEquiv.ofBijective_symm_apply_apply _ x)).trans ?_
-  show b • x = powQuotScalar I (m + 1) q x ((show Module.Dual (A ⧸ I ^ (m + 1)) N from lam) z)
+  change b • x = powQuotScalar I (m + 1) q x ((show Module.Dual (A ⧸ I ^ (m + 1)) N from lam) z)
   rw [← hb, powQuotScalar_apply_mk]
 
 /-- **The `DualSituation` of Tag 0GAC on the blowup**, for `n = m + 1` and any threshold `q₀`

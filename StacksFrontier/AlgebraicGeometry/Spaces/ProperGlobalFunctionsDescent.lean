@@ -151,7 +151,7 @@ theorem connectedSpace_points_of_isGeometricallyConnected
   have hid : fieldExtensionMap B k k hS hS = 𝟙 (B.obj hS) := by
     apply B.inclusion.map_injective
     rw [map_fieldExtensionMap, CategoryTheory.Functor.map_id]
-    show Spec.map (CommRingCat.ofHom (algebraMap k k)) = 𝟙 _
+    change Spec.map (CommRingCat.ofHom (algebraMap k k)) = 𝟙 _
     simp
   have h := hconn k hS
   rw [hid] at h

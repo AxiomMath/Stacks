@@ -438,12 +438,12 @@ private theorem chainComplex_exists_freeComplex
   subst i
   apply ModuleCat.hom_ext
   ext x
-  show (M.d (j + 1) j).hom ((b (j + 1)).equivFun.symm x.down) =
+  change (M.d (j + 1) j).hom ((b (j + 1)).equivFun.symm x.down) =
     (b j).equivFun.symm ((C.toComplex.d (j + 1) j).hom x.down)
   rw [FreeComplex.toComplex_d_succ]
   apply (b j).equivFun.injective
   simp only [LinearEquiv.apply_symm_apply]
-  show (b j).equivFun ((M.d (j + 1) j).hom ((b (j + 1)).equivFun.symm x.down)) =
+  change (b j).equivFun ((M.d (j + 1) j).hom ((b (j + 1)).equivFun.symm x.down)) =
     (C.d j).mulVec x.down
   have h := LinearMap.toMatrix_mulVec_repr (b (j + 1)) (b j)
     (M.d (j + 1) j).hom ((b (j + 1)).equivFun.symm x.down)
@@ -493,7 +493,7 @@ private theorem chainComplex_exists_iso_biprod_elementary
   obtain ⟨e⟩ := exists_iso_biprod_product_map U eD
   exact ⟨D, n, degree, fun i => (hle i).trans_eq (hC i), hmin, ⟨eC.symm ≪≫ e⟩⟩
 
-private abbrev liftChainComplexFunctor (R : Type u) [CommRing R] :=
+abbrev liftChainComplexFunctor (R : Type u) [CommRing R] :=
   ((ModuleCat.uliftFunctor.{v} R).mapHomologicalComplex (ComplexShape.down ℤ)) ⋙
     (ChainComplex.cochainComplexEquivalence (ModuleCat.{max v u} R)).functor
 
@@ -516,7 +516,7 @@ private theorem cochainComplex_exists_iso_biprod_elementary
   let := ha
   let := hb
   have hs (i : ℤ) (hi : i ∉ Finset.Icc (-b) (-a)) : IsZero ((E.inverse.obj M).X i) := by
-    show IsZero (M.X (-i))
+    change IsZero (M.X (-i))
     simp only [Finset.mem_Icc, not_and_or, not_le] at hi
     rcases hi with hi | hi
     · exact M.isZero_of_isStrictlyLE b (-i) (by omega)
@@ -525,7 +525,7 @@ private theorem cochainComplex_exists_iso_biprod_elementary
     chainComplex_exists_iso_biprod_elementary (E.inverse.obj M)
       (fun i => hfin (-i)) (fun i => hfree (-i)) (Finset.Icc (-b) (-a)) hs
   let : E.functor.Additive := by
-    show (ComplexShape.embeddingUpIntDownInt.restrictionFunctor _).Additive
+    change (ComplexShape.embeddingUpIntDownInt.restrictionFunctor _).Additive
     infer_instance
   let : PreservesFiniteBiproducts E.functor := inferInstance
   obtain ⟨e'⟩ := exists_iso_biprod_product_map E.functor e
@@ -583,7 +583,7 @@ private theorem elementaryComplex_isIso_d
     IsIso ((FreeComplex.elementaryComplex R i).toComplex.d i t) := by
   subst i
   rw [ConcreteCategory.isIso_iff_bijective]
-  show Function.Bijective
+  change Function.Bijective
     ((FreeComplex.elementaryComplex R (t + 1)).toComplex.d (t + 1) t).hom
   have hd : ((FreeComplex.elementaryComplex R (t + 1)).toComplex.d (t + 1) t).hom =
       Matrix.toLin' ((FreeComplex.elementaryComplex R (t + 1)).d t) := by
@@ -592,7 +592,7 @@ private theorem elementaryComplex_isIso_d
   rw [hd]
   have hr₀ : FreeComplex.elemRank (t + 1) t = 1 := by simp [FreeComplex.elemRank]
   have hr₁ : FreeComplex.elemRank (t + 1) (t + 1) = 1 := by simp [FreeComplex.elemRank]
-  show Function.Bijective (Matrix.toLin'
+  change Function.Bijective (Matrix.toLin'
     (if t = t + 1 - 1 then
       (Matrix.of fun (_ : Fin (FreeComplex.elemRank (t + 1) t))
         (_ : Fin (FreeComplex.elemRank (t + 1) (t + 1))) => (1 : R)) else 0))
@@ -609,7 +609,7 @@ private theorem elementaryCochain_isZero_X
   have hr : FreeComplex.elemRank i (-k) = 0 := by
     simp only [FreeComplex.elemRank]
     rw [ite_eq_right (by omega)]
-  show IsZero (ModuleCat.of R (ULift.{v} (Fin (FreeComplex.elemRank i (-k)) → R)))
+  change IsZero (ModuleCat.of R (ULift.{v} (Fin (FreeComplex.elemRank i (-k)) → R)))
   rw [hr]
   exact ModuleCat.isZero_of_subsingleton _
 
@@ -617,7 +617,7 @@ private theorem elementaryCochain_isIso_d
     (R : Type u) [CommRing R] (i : ℤ) :
     IsIso (((liftChainComplexFunctor.{u, v} R).obj
       (FreeComplex.elementaryComplex R i).toComplex).d (-i) (1 - i)) := by
-  show IsIso ((ModuleCat.uliftFunctor.{v} R).map
+  change IsIso ((ModuleCat.uliftFunctor.{v} R).map
     ((FreeComplex.elementaryComplex R i).toComplex.d (- -i) (-(1 - i))))
   have hh : ∀ a b, a = i → b = i - 1 →
       IsIso ((FreeComplex.elementaryComplex R i).toComplex.d a b) := by
@@ -655,7 +655,7 @@ private theorem elementaryCochain_iso_mappingCone_single
     cochainComplex_isIso_d_of_contractible_two_term N (-i) (1 - i) (by omega)
       hN (CochainComplex.mappingCone.homotopyToZeroOfId S)
   have eM : Nonempty (M.X (-i) ≅ ModuleCat.of R (ULift.{v} R)) := by
-    show Nonempty (ModuleCat.of R (ULift.{v} (Fin (FreeComplex.elemRank i (- -i)) → R)) ≅ _)
+    change Nonempty (ModuleCat.of R (ULift.{v} (Fin (FreeComplex.elemRank i (- -i)) → R)) ≅ _)
     have hr : FreeComplex.elemRank i (- -i) = 1 := by simp [FreeComplex.elemRank]
     rw [hr]
     exact ⟨(ULift.moduleEquiv.trans ((LinearEquiv.funUnique (Fin 1) R R).trans
@@ -721,7 +721,7 @@ private theorem homotopyEquiv_biprod_of_contractible
   have h' := (Homotopy.refl (biprod.fst ≫ biprod.inl)).add h
   simpa using h'.symm
 
-private theorem cochainComplex_exists_iso_biprod_mappingCone_single
+theorem cochainComplex_exists_iso_biprod_mappingCone_single
     {R : Type u} [CommRing R] [IsLocalRing R]
     (M : CochainComplex (ModuleCat.{max v u} R) ℤ)
     (hfin : ∀ i, Module.Finite R (M.X i))

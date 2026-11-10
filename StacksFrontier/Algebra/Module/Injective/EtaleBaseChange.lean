@@ -63,7 +63,7 @@ theorem tensorProduct_of_flat [IsNoetherianRing A] [Module.Flat A C]
     obtain ⟨f', hf'⟩ := hI 𝔞 f
     refine ⟨f'.baseChange C, ?_⟩
     have hcomp : f' ∘ₗ 𝔞.subtype = f := LinearMap.ext fun x => hf' x x.2
-    show (f'.baseChange C) ∘ₗ (𝔞.subtype.baseChange C) = f.baseChange C
+    change (f'.baseChange C) ∘ₗ (𝔞.subtype.baseChange C) = f.baseChange C
     rw [← LinearMap.baseChange_comp, hcomp]
   obtain ⟨H, hH⟩ := hG
   refine ⟨(H.restrictScalars A) ∘ₗ TensorProduct.mk A C A 1, fun x hx => ?_⟩
@@ -79,10 +79,10 @@ structure of `L` on the right factor, read as an `A`-linear map `L → C ⊗[A] 
 def tensorAct : C ⊗[A] C →ₗ[A] L →ₗ[A] C ⊗[A] L :=
   TensorProduct.lift (LinearMap.mk₂ A (fun x y =>
       (TensorProduct.mk A C L x) ∘ₗ ((LinearMap.lsmul C L y).restrictScalars A))
-    (fun x x' y => by ext l; simp [TensorProduct.add_tmul])
+    (fun x x' y => by ext l; simp)
     (fun a x y => by ext l; simp [TensorProduct.smul_tmul'])
-    (fun x y y' => by ext l; simp [add_smul, TensorProduct.tmul_add])
-    (fun a x y => by ext l; simp [smul_assoc, TensorProduct.tmul_smul]))
+    (fun x y y' => by ext l; simp [TensorProduct.tmul_add])
+    (fun a x y => by ext l; simp))
 
 variable {C L}
 
@@ -93,13 +93,13 @@ theorem tensorAct_tmul (x y : C) (l : L) : tensorAct C L (x ⊗ₜ[A] y) l = x �
 /-- Multiplying by `1 ⊗ₜ c` on the right acts on `L` by `c` before applying `tensorAct`. -/
 theorem tensorAct_mul_one_tmul (w : C ⊗[A] C) (c : C) (l : L) :
     tensorAct C L (w * ((1 : C) ⊗ₜ[A] c)) l = tensorAct C L w (c • l) := by
-  induction w using TensorProduct.induction_on <;>
+  induction w using TensorProduct.inductionOn <;>
     simp_all [tensorAct_tmul, mul_smul, add_mul]
 
 /-- Multiplying by `c ⊗ₜ 1` on the right acts on `C ⊗[A] L` by `c` after applying `tensorAct`. -/
 theorem tensorAct_mul_tmul_one (w : C ⊗[A] C) (c : C) (l : L) :
     tensorAct C L (w * (c ⊗ₜ[A] (1 : C))) l = c • tensorAct C L w l := by
-  induction w using TensorProduct.induction_on <;>
+  induction w using TensorProduct.inductionOn <;>
     simp_all [tensorAct_tmul, TensorProduct.smul_tmul', mul_comm, add_mul]
 
 /-- Composing `tensorAct C L w` with the counit `C ⊗[A] L → L` of the `C`-module structure is
@@ -107,14 +107,14 @@ the action of the image of `w` under the multiplication `C ⊗[A] C → C`. -/
 theorem liftBaseChange_tensorAct (w : C ⊗[A] C) (l : L) :
     LinearMap.liftBaseChange C ((LinearMap.id : L →ₗ[C] L).restrictScalars A)
       (tensorAct C L w l) = Algebra.TensorProduct.lmul' A w • l := by
-  induction w using TensorProduct.induction_on <;>
+  induction w using TensorProduct.inductionOn <;>
     simp_all [tensorAct_tmul, mul_smul, add_smul]
 
 /-- `tensorAct` is natural in `L` with respect to `C`-linear maps `f : L → L'`. -/
 theorem tensorAct_naturality {L' : Type u} [AddCommGroup L'] [Module C L'] [Module A L']
     [IsScalarTower A C L'] (f : L →ₗ[C] L') (w : C ⊗[A] C) (l : L) :
     tensorAct C L' w (f l) = (f.restrictScalars A).lTensor C (tensorAct C L w l) := by
-  induction w using TensorProduct.induction_on <;> simp_all [tensorAct_tmul]
+  induction w using TensorProduct.inductionOn <;> simp_all [tensorAct_tmul]
 
 variable (C L) in
 /-- The section `L → C ⊗[A] L` of the multiplication map attached to an element `t` of
@@ -153,14 +153,13 @@ theorem tensorProduct_of_formallyUnramified
     obtain ⟨h₀, hh₀⟩ := Module.Injective.out (R := A) (Q := C ⊗[A] I) (f.restrictScalars A) hf
       (g.restrictScalars A)
     refine ⟨(LinearMap.liftBaseChange C h₀) ∘ₗ tensorSection C Y t ht, fun x => ?_⟩
-    show LinearMap.liftBaseChange C h₀ (tensorAct C Y t (f x)) = g x
+    change LinearMap.liftBaseChange C h₀ (tensorAct C Y t (f x)) = g x
     rw [tensorAct_naturality f t x]
     have key : ∀ w : C ⊗[A] X, LinearMap.liftBaseChange C h₀
         ((f.restrictScalars A).lTensor C w) =
         g (LinearMap.liftBaseChange C ((LinearMap.id : X →ₗ[C] X).restrictScalars A) w) := by
       intro w
-      induction w using TensorProduct.induction_on with
-      | zero => simp
+      induction w using TensorProduct.inductionOn with
       | tmul c x' =>
         simp only [LinearMap.lTensor_tmul, LinearMap.liftBaseChange_tmul,
           LinearMap.restrictScalars_apply, LinearMap.id_apply, map_smul]

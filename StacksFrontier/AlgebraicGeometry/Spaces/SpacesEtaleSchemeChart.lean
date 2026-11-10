@@ -73,7 +73,7 @@ theorem exists_scheme_chart_self_intersection {U : SpacesEtale B S hS X}
   let b : yoneda.obj T ⟶ X.1 := V.1.hom
   let u : Uover.left.1 ⟶ X.1 := Uover.hom.hom
   have hcompat : a ≫ u = b := by
-    show fOver.left.hom ≫ Uover.hom.hom = Vover.hom.hom
+    change fOver.left.hom ≫ Uover.hom.hom = Vover.hom.hom
     exact congrArg (fun g : Vover.left ⟶ X => g.hom) fOver.w
   have hb : IsEtale B S hS b := isEtale_of_presheaf_etale B S hS V.property
   have ha : IsEtale B S hS a :=
@@ -103,7 +103,7 @@ theorem exists_scheme_chart_self_intersection {U : SpacesEtale B S hS X}
   let pOver : Wover ⟶ Vover := Over.homMk psp (ObjectProperty.hom_ext _ rfl)
   let qOver : Wover ⟶ Vover := Over.homMk qsp (by
     apply ObjectProperty.hom_ext
-    show yoneda.map q' ≫ b = b'
+    change yoneda.map q' ≫ b = b'
     dsimp [b']
     rw [← hcompat, ← Category.assoc, ← Category.assoc, ← hpullback.w])
   let toComparison (r : Wover ⟶ Vover) :

@@ -60,7 +60,7 @@ theorem primePointClosure_strictMono {A : Type u} [CommRing A] (T : Set (PrimeSp
       ((subtype_specializes_iff _ _).mp (specializes_iff_mem_closure.mpr h))
   apply Monotone.strictMono_of_injective
   · intro x y hxy
-    show closure {OrderDual.ofDual x} ⊆ closure {OrderDual.ofDual y}
+    change closure {OrderDual.ofDual x} ⊆ closure {OrderDual.ofDual y}
     have hle : (OrderDual.ofDual y : ↥T) ≤ OrderDual.ofDual x := hxy
     have hx : (OrderDual.ofDual x : ↥T) ∈ closure {OrderDual.ofDual y} :=
       specializes_iff_mem_closure.mp
@@ -81,7 +81,7 @@ supremum of lengths of chains of primes of `T`, is at most the topological Krull
 theorem krullDim_orderDual_le_topologicalKrullDim {A : Type u} [CommRing A]
     (T : Set (PrimeSpectrum A)) :
     Order.krullDim (OrderDual (↥T)) ≤ topologicalKrullDim (↥T) := by
-  show Order.krullDim (OrderDual (↥T)) ≤
+  change Order.krullDim (OrderDual (↥T)) ≤
     Order.krullDim (TopologicalSpace.IrreducibleCloseds (↥T))
   exact Order.krullDim_le_of_strictMono _ (primePointClosure_strictMono T)
 
@@ -131,7 +131,7 @@ theorem krullDim_orderDual_nonminimalPrimes_lt {A : Type u} [CommRing A] [IsNoet
     have hlast : pT.last = incl p.last := by simp [pT]
     have hsnoc : pT.last < qT := by
       rw [hlast]
-      show q < (OrderDual.ofDual p.last).1
+      change q < (OrderDual.ofDual p.last).1
       exact hqp
     have hD : ((p.length + 1 : ℕ) : WithBot ℕ∞) ≤ Order.krullDim (OrderDual (↥T)) := by
       simpa [pT] using Order.LTSeries.length_le_krullDim (pT.snoc qT hsnoc)

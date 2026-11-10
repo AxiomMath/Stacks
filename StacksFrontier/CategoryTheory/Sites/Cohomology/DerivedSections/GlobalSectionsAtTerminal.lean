@@ -185,6 +185,7 @@ def homotopyGlobalSectionsNatIsoSectionsAtTerminal :
     (mapHomotopyCategoryNatIso (ΓNatIsoSectionsAtTerminal J A hT) (ComplexShape.up ℤ))
     DerivedCategory.Qh
 
+omit [HasDerivedCategory.{w₁} (Sheaf J A)] in
 /-- If unbounded derived global sections exist, so do unbounded derived sections over a terminal
 object: the two functors being derived are isomorphic. -/
 theorem hasRightDerivedFunctor_sectionsAtTerminal_of_globalSections
@@ -197,6 +198,7 @@ theorem hasRightDerivedFunctor_sectionsAtTerminal_of_globalSections
   (Functor.hasRightDerivedFunctor_iff_of_iso
     (homotopyGlobalSectionsNatIsoSectionsAtTerminal J A hT) _).1 inferInstance
 
+omit [HasDerivedCategory.{w₁} (Sheaf J A)] in
 /-- If unbounded derived sections over a terminal object exist, so do unbounded derived global
 sections: the two functors being derived are isomorphic. -/
 theorem hasRightDerivedFunctor_globalSections_of_sectionsAtTerminal

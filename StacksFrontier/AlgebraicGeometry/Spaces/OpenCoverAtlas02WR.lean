@@ -205,7 +205,7 @@ theorem isAlgebraicSpace_of_openCover
       intro X Y f hf
       have _ : _root_.AlgebraicGeometry.IsOpenImmersion
         ((BigFppfOver.toScheme B S hS).map f) := hf
-      show _root_.AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map f)
+      change _root_.AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map f)
       infer_instance
     refine presheaf_inverseImage_of_isZariskiLocalAtSource B S hS
       (@_root_.AlgebraicGeometry.Etale.{u}) hrep (fun i => (hoj i).rep.snd a)

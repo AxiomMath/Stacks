@@ -63,7 +63,7 @@ theorem isScalarTower_tensorProduct_of_isLocalizationAway
   refine IsScalarTower.of_algebraMap_eq' ?_
   refine IsLocalization.ringHom_ext (Submonoid.powers f) ?_
   ext a
-  show (algebraMap A Af a) ⊗ₜ[A] (1 : B) =
+  change (algebraMap A Af a) ⊗ₜ[A] (1 : B) =
     (1 : Af) ⊗ₜ[A] algebraMap Af B (algebraMap A Af a)
   rw [← IsScalarTower.algebraMap_apply A Af B a]
   exact Algebra.TensorProduct.tmul_one_eq_one_tmul a
@@ -246,7 +246,7 @@ theorem isTraceElement_of_isLocalization_away
   have hfTensor : IsUnit (algebraMap S (S ⊗[R] B) q) := by
     have h : algebraMap S (S ⊗[R] B) q =
         Algebra.TensorProduct.includeRight (R := R) (A := S) (B := B) (algebraMap R B f) := by
-      show q ⊗ₜ[R] (1 : B) = (1 : S) ⊗ₜ[R] algebraMap R B f
+      change q ⊗ₜ[R] (1 : B) = (1 : S) ⊗ₜ[R] algebraMap R B f
       exact Algebra.TensorProduct.tmul_one_eq_one_tmul f
     rw [h]
     exact hfB.map _
@@ -308,15 +308,15 @@ theorem isTraceElement_of_isLocalization_away
   let algTensor : Algebra (S ⊗[R] FR.middle) (Sf ⊗[R] FR.middle) := jM.toAlgebra
   have : IsScalarTower S (S ⊗[R] FR.middle) (Sf ⊗[R] FR.middle) :=
     IsScalarTower.of_algebraMap_eq fun a => by
-      show (algebraMap S Sf a) ⊗ₜ[R] (1 : FR.middle) = jM (a ⊗ₜ[R] (1 : FR.middle))
+      change (algebraMap S Sf a) ⊗ₜ[R] (1 : FR.middle) = jM (a ⊗ₜ[R] (1 : FR.middle))
       rw [hjM]
   have hawayMf : IsLocalization.Away (algebraMap S (S ⊗[R] FR.middle) q)
       (Sf ⊗[R] FR.middle) := by
-    show IsLocalization (Submonoid.powers (algebraMap S (S ⊗[R] FR.middle) q)) _
+    change IsLocalization (Submonoid.powers (algebraMap S (S ⊗[R] FR.middle) q)) _
     rw [← Submonoid.map_powers (algebraMap S (S ⊗[R] FR.middle)) q]
     exact IsLocalization.tensorProduct_tensorProduct R FR.middle (Submonoid.powers q) Sf (by
       ext m
-      show jM ((1 : S) ⊗ₜ[R] m) = (1 : Sf) ⊗ₜ[R] m
+      change jM ((1 : S) ⊗ₜ[R] m) = (1 : Sf) ⊗ₜ[R] m
       rw [hjM, map_one])
   let eMiddle : FA0sf.middle ≃ₐ[Sf] (Sf ⊗[R] FR.middle) :=
     Algebra.TensorProduct.cancelBaseChange R A Sf Sf FR.middle
@@ -331,19 +331,14 @@ theorem isTraceElement_of_isLocalization_away
   have halg (a : S) (m : FR.middle) :
       algebraMap FRs.middle FA0sf.middle (a ⊗ₜ[R] m) =
         (algebraMap S Sf a) ⊗ₜ[A] ((1 : A) ⊗ₜ[R] m) := by
-    show eMiddle.symm (jM (a ⊗ₜ[R] m)) = _
+    change eMiddle.symm (jM (a ⊗ₜ[R] m)) = _
     rw [hjM]
     exact Algebra.TensorProduct.cancelBaseChange_symm_tmul R A Sf Sf FR.middle
       (algebraMap S Sf a) m
   have htargetN (m : S ⊗[R] FR.middle) :
       e' (algebraMap FA0sf.middle (Sf ⊗[A] B) (algebraMap FRs.middle FA0sf.middle m)) =
         e (algebraMap FRs.middle (S ⊗[R] B) m) := by
-    induction m using TensorProduct.induction_on with
-    | zero =>
-      have hz : algebraMap FRs.middle FA0sf.middle (0 : S ⊗[R] FR.middle) = 0 := map_zero _
-      have hz' : algebraMap FRs.middle (S ⊗[R] B) (0 : S ⊗[R] FR.middle) = 0 := map_zero _
-      rw [hz, hz']
-      simp
+    induction m using TensorProduct.inductionOn with
     | add m₁ m₂ h₁ h₂ =>
       have ha : algebraMap FRs.middle FA0sf.middle ((m₁ + m₂ : S ⊗[R] FR.middle)) =
           algebraMap FRs.middle FA0sf.middle m₁ +
@@ -381,7 +376,7 @@ theorem isTraceElement_of_isLocalization_away
           exact congrArg e (h3.trans h5).symm
   have : IsScalarTower FRs.middle FA0sf.middle C :=
     IsScalarTower.of_algebraMap_eq fun m => by
-      show (e (algebraMap FRs.middle (S ⊗[R] B) m)).1 =
+      change (e (algebraMap FRs.middle (S ⊗[R] B) m)).1 =
         (e' (algebraMap FA0sf.middle (Sf ⊗[A] B)
           (algebraMap FRs.middle FA0sf.middle m))).1
       exact (congrArg Prod.fst (htargetN m)).symm
@@ -397,8 +392,7 @@ theorem isTraceElement_of_isLocalization_away
     refine dualizingModule.induction_on FR (motive := fun ω =>
       algebraMap S Sf (restrS.1 (dualizingModule.baseChange FR S ω) c) =
         restrSf.1 (dualizingModule.baseChange FA0 Sf
-          (dualizingModule_equiv_of_isLocalization_away f FR FA0 ω)) c) ω ?_ ?_ ?_
-    · simp
+          (dualizingModule_equiv_of_isLocalization_away f FR FA0 ω)) c) ω ?_ ?_
     · intro φ b
       let : Algebra FR.middle (A ⊗[R] FR.middle) := Algebra.TensorProduct.rightAlgebra
       let r : FR.middle →ₐ[R] (A ⊗[R] FR.middle) := Algebra.TensorProduct.includeRight
@@ -406,7 +400,7 @@ theorem isTraceElement_of_isLocalization_away
       have hrloc : let : Algebra FR.middle FA0.middle := r.toRingHom.toAlgebra
           IsLocalization.Away (algebraMap R FR.middle f) FA0.middle := by
         let : Algebra FR.middle FA0.middle := r.toRingHom.toAlgebra
-        show IsLocalization.Away (algebraMap R FR.middle f) (A ⊗[R] FR.middle)
+        change IsLocalization.Away (algebraMap R FR.middle f) (A ⊗[R] FR.middle)
         infer_instance
       have hψ (m : FR.middle) :
           ψ (((1 : A) ⊗ₜ[R] m : A ⊗[R] FR.middle)) = algebraMap R A (φ m) :=
@@ -414,12 +408,7 @@ theorem isTraceElement_of_isLocalization_away
       have hdual (m : S ⊗[R] FR.middle) :
           algebraMap S Sf ((Module.Dual.baseChange S φ) m) =
             (Module.Dual.baseChange Sf ψ) (algebraMap FRs.middle FA0sf.middle m) := by
-        induction m using TensorProduct.induction_on with
-        | zero =>
-          have hz : algebraMap FRs.middle FA0sf.middle (0 : S ⊗[R] FR.middle) =
-              (0 : Sf ⊗[A] (A ⊗[R] FR.middle)) := map_zero _
-          rw [hz]
-          simp
+        induction m using TensorProduct.inductionOn with
         | add m₁ m₂ h₁ h₂ =>
           have ha : algebraMap FRs.middle FA0sf.middle ((m₁ + m₂ : S ⊗[R] FR.middle)) =
               (algebraMap FRs.middle FA0sf.middle m₁ +

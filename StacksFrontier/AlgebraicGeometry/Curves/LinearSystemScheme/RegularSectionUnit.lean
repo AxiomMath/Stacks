@@ -68,7 +68,7 @@ theorem exists_local_unit {s s' : Γ(M, ⊤)} (hZ : zeroScheme X M s = zeroSchem
   refine ⟨V.1, r, hxg, IsUnit.of_mul_eq_one r' hrr, ?_⟩
   apply e.injective
   rw [map_smul, smul_eq_mul]
-  show a' = r * a
+  change a' = r * a
   rw [hr, mul_comm]
 
 /-- **Two sections of an invertible module with the same effective Cartier zero scheme differ by a
@@ -107,7 +107,7 @@ theorem exists_isUnit_smul_eq_of_zeroScheme_eq {s s' : Γ(M, ⊤)}
     exact this.2
   · refine TopCat.Sheaf.eq_of_locally_eq' (F := ⟨M.presheaf, M.isSheaf⟩) V ⊤
       (fun x => homOfLE le_top) hcov _ _ fun x => ?_
-    show M.presheaf.map (homOfLE (le_top : V x ≤ ⊤)).op s' =
+    change M.presheaf.map (homOfLE (le_top : V x ≤ ⊤)).op s' =
       M.presheaf.map (homOfLE (le_top : V x ≤ ⊤)).op (u' • s)
     rw [hV x, Scheme.Modules.map_smul, hu' x]
 

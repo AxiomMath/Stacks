@@ -200,7 +200,7 @@ private lemma isZero_preimageHypercohomologyPresheaf_of_isFlasque
       IsZero.of_iso (isZero_sectionsDerivedPlus_of_isFlasque F U i hi)
         ((preimageHypercohomologyPresheaf_evaluation_iso f V.unop i).app K)
     have hgroups' : IsZero (G.obj (P.obj V)) := by
-      show IsZero (((PresheafOfModules.toPresheaf
+      change IsZero (((PresheafOfModules.toPresheaf
         (structureSheafRing Y).obj).obj
           ((DerivedCategory.Plus.homologyFunctor
             (PresheafOfModules (structureSheafRing Y).obj) i).obj

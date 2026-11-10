@@ -81,7 +81,8 @@ The dense-subsite property of the *inverse* of that identification, which
 hypotheses are the one a dense subsite inclusion already has and, for the inverse, cover
 preservation of the functor read through the adjunction
 `CategoryTheory.Adjunction.isCocontinuous_iff_coverPreserving`.  That is the route
-`StacksFrontier.AlgebraicGeometry.Spaces.ChartRestrictionQuasicoherent` takes for [Stacks, Tag 04M0].
+`StacksFrontier.AlgebraicGeometry.Spaces.ChartRestrictionQuasicoherent` takes for [Stacks, Tag
+04M0].
 
 Sheafification of `AddCommGrpCat.{u}`-valued presheaves on the slice is transported along that
 same identification by `CategoryTheory.Equivalence.hasSheafify`; the `Ext`-groups are the

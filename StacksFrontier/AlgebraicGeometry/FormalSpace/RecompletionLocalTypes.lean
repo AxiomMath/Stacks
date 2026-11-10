@@ -200,7 +200,7 @@ theorem hasAffineEtaleAtlasWithProperty_completionSheafULift {X : FppfSheaf B S 
           Space.completionSheafMapULift B S hS (g k) (Ti k) T (hsub k)) =
         t ≫ Sigma.desc fun k ↦ pullback.snd (g k) φ := by
       refine Sigma.hom_ext _ _ fun k ↦ ?_
-      simp only [t, Sigma.ι_desc_assoc, Sigma.ι_desc, Category.assoc]
+      simp only [t, Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc, Category.assoc]
       exact ((hsq k).isoPullback_hom_snd).symm
     rw [hfac, Sheaf.isLocallySurjective_iff_epi]
     have _ : Epi t := hts.epi
@@ -305,7 +305,7 @@ theorem _root_.AlgebraicGeometry.Space.range_pointsMapULift_completionSubfunctor
         have h := Space.class_restrict_eq_of_hasCommonExtension B S hS X U p.value
           (p := r) (q := e)
           ⟨r, Space.FieldValuedPoint.dominates_refl B S hS _ r, ⟨r.value, by
-            show r.value ≫ 𝟙 U = r.value
+            change r.value ≫ 𝟙 U = r.value
             exact Category.comp_id _⟩⟩
         rw [h]
         have hval : X.map (𝟙 U).op p.value = p.value := by simp
@@ -496,23 +496,16 @@ theorem isLocallyCountablyIndexed_completionAlong' {X Xred : FppfSheaf B S hS}
   isLocallyCountablyIndexed_completionAlong_of_complementCompactOnCharts B S hS hX hi T hT
     (complementCompactOnCharts_of_isQuasiCompactULift B S hS hi T hqc)
 
-/-- **Clause (1) of Stacks 0GVW**, with the quasi-compactness hypothesis read on the charts
-and with further inputs which are all proved.
+/-- **Clause (1) of Stacks 0GVW**, with the quasi-compactness hypothesis read on the charts.
 
 `isLocallyCountablyIndexed_completionAlong'` is the source's statement: there `hqc` is
-quasi-compactness of `|X_red| \ T ⟶ |X_red|`, and `hTX`, `haff`, `hspf` and `hset` are
-discharged. -/
+quasi-compactness of `|X_red| \ T ⟶ |X_red|`. -/
 theorem isLocallyCountablyIndexed_completionAlong {X Xred : FppfSheaf B S hS}
     (hX : IsLocallyCountablyIndexed B S hS X) {i : Xred ⟶ X}
     (hi : IsReduction B S hS X Xred i)
     (T : Set (Space.pointsULift.{u + 1} B S hS Xred.obj))
     (hT : @IsClosed _ (Space.pointTopologyULift.{u + 1} B S hS Xred.obj) T)
-    (hTX : @IsClosed _ (Space.pointTopologyULift.{u + 1} B S hS X.obj)
-      (Space.pointsMapULift.{u + 1} B S hS Xred.obj i.hom '' T))
-    (hqc : ComplementCompactOnCharts B S hS hi T)
-    (haff : CompletionOfAffineIsAffine B S hS)
-    (hspf : CompletionOfCountablyIndexedIsCountableSpf B S hS)
-    (hset : SatisfiesSetTheoreticCondition B S hS (completionAlong i T)) :
+    (hqc : ComplementCompactOnCharts B S hS hi T) :
     IsLocallyCountablyIndexed B S hS (completionAlong i T) :=
   isLocallyCountablyIndexed_completionAlong_of_complementCompactOnCharts B S hS hX hi T hT hqc
 
@@ -560,24 +553,16 @@ theorem isLocallyAdicStar_completionAlong' {X Xred : FppfSheaf B S hS}
   isLocallyAdicStar_completionAlong_of_complementCompactOnCharts B S hS hX hi T hT
     (complementCompactOnCharts_of_isQuasiCompactULift B S hS hi T hqc)
 
-/-- **Clause (2) of Stacks 0GVW**, with the quasi-compactness hypothesis read on the charts
-and with further inputs which are all proved.
+/-- **Clause (2) of Stacks 0GVW**, with the quasi-compactness hypothesis read on the charts.
 
 `isLocallyAdicStar_completionAlong'` is the source's statement: there `hqc` is
-quasi-compactness of `|X_red| \ T ⟶ |X_red|`, and `hTX`, `haff`, `hideal` and `hsetAll` are
-discharged. -/
+quasi-compactness of `|X_red| \ T ⟶ |X_red|`. -/
 theorem isLocallyAdicStar_completionAlong {X Xred : FppfSheaf B S hS}
     (hX : IsLocallyAdicStar B S hS X) {i : Xred ⟶ X}
     (hi : IsReduction B S hS X Xred i)
     (T : Set (Space.pointsULift.{u + 1} B S hS Xred.obj))
     (hT : @IsClosed _ (Space.pointTopologyULift.{u + 1} B S hS Xred.obj) T)
-    (hTX : @IsClosed _ (Space.pointTopologyULift.{u + 1} B S hS X.obj)
-      (Space.pointsMapULift.{u + 1} B S hS Xred.obj i.hom '' T))
-    (hqc : ComplementCompactOnCharts B S hS hi T)
-    (haff : CompletionOfAffineIsAffine B S hS)
-    (hideal : CompletionOfAdicStarIsCompletionAlongFGIdeal B S hS)
-    (hsetAll : ∀ (Y : FppfSheaf B S hS) (W : Set (Space.pointsULift.{u + 1} B S hS Y.obj)),
-      SatisfiesSetTheoreticCondition B S hS (Space.completionSheafULift B S hS Y W)) :
+    (hqc : ComplementCompactOnCharts B S hS hi T) :
     IsLocallyAdicStar B S hS (completionAlong i T) :=
   isLocallyAdicStar_completionAlong_of_complementCompactOnCharts B S hS hX hi T hT hqc
 
@@ -610,21 +595,13 @@ theorem isLocallyNoetherian_completionAlong' {X Xred : FppfSheaf B S hS}
     fun Y f hf hYaff hYP Yred j hj ↦ isNoetherian_completionAlong' B S hS hYP hj _
       (isClosed_preimage_pointsMapULift (reductionMap hj hi f) T hT)
 
-/-- **Clause (3) of Stacks 0GVW**, with further inputs which are all proved.
-
-`isLocallyNoetherian_completionAlong'` is the source's statement, with `hTX`, `haff`, `hideal`
-and `hsetAll` discharged. -/
+/-- **Clause (3) of Stacks 0GVW**, the same statement as
+`isLocallyNoetherian_completionAlong'`, which is the source's. -/
 theorem isLocallyNoetherian_completionAlong {X Xred : FppfSheaf B S hS}
     (hX : IsLocallyNoetherian B S hS X) {i : Xred ⟶ X}
     (hi : IsReduction B S hS X Xred i)
     (T : Set (Space.pointsULift.{u + 1} B S hS Xred.obj))
-    (hT : @IsClosed _ (Space.pointTopologyULift.{u + 1} B S hS Xred.obj) T)
-    (hTX : @IsClosed _ (Space.pointTopologyULift.{u + 1} B S hS X.obj)
-      (Space.pointsMapULift.{u + 1} B S hS Xred.obj i.hom '' T))
-    (haff : CompletionOfAffineIsAffine B S hS)
-    (hideal : CompletionOfNoetherianIsCompletionAlongNoetherianIdeal B S hS)
-    (hsetAll : ∀ (Y : FppfSheaf B S hS) (W : Set (Space.pointsULift.{u + 1} B S hS Y.obj)),
-      SatisfiesSetTheoreticCondition B S hS (Space.completionSheafULift B S hS Y W)) :
+    (hT : @IsClosed _ (Space.pointTopologyULift.{u + 1} B S hS Xred.obj) T) :
     IsLocallyNoetherian B S hS (completionAlong i T) :=
   isLocallyNoetherian_completionAlong' B S hS hX hi T hT
 

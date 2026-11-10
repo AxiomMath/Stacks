@@ -370,7 +370,7 @@ public theorem etaleStalkPresheafFunctor_map_etaleGerm (B : BigEtaleSite.{u}) (S
         (SmallEtale.etaleGerm B S hS t P W p σ) =
       SmallEtale.etaleGerm B S hS t Q W p (φ.app (op W) σ) := by
   have h := ConcreteCategory.congr_hom
-    (colimit.ι_map (Functor.whiskerLeft (CategoryOfElements.π (geometricPointFiber B S hS t)).op φ)
+    (colimit.ι_map (Functor.whiskerLeft (Functor.Elements.π (geometricPointFiber B S hS t)).op φ)
       (op ((geometricPointFiber B S hS t).elementsMk W p))) σ
   exact h
 

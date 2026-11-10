@@ -105,7 +105,7 @@ should become one declaration when that file and this one are brought into a com
 theorem numExp_zero_toNat {n : ℕ} (s : Finset (Fin (n + 1))) (e : Fin (n + 1) → ℤ) :
     numExp s e 0 = Finsupp.equivFunOnFinite.symm fun i => (e i).toNat := by
   refine Finsupp.ext fun i => ?_
-  show (e i + (if i ∈ s then ((0 : ℕ) : ℤ) else 0)).toNat = (e i).toNat
+  change (e i + (if i ∈ s then ((0 : ℕ) : ℤ) else 0)).toNat = (e i).toNat
   simp
 
 /-! ### A polynomial chart element as a fraction with denominator one -/
@@ -148,7 +148,7 @@ theorem exists_homogeneous_mk_eq (R : Type u) [CommRing R] (n d : ℕ)
       have hnonneg : ∀ i, 0 ≤ e i := fun i => he.2 i (by simp)
       have hdeg : (Finsupp.equivFunOnFinite.symm fun i => (e i).toNat).degree = d := by
         rw [Finsupp.degree_eq_sum]
-        show (∑ i, (e i).toNat) = d
+        change (∑ i, (e i).toNat) = d
         have key : ((∑ i, (e i).toNat : ℕ) : ℤ) = (d : ℤ) := by
           rw [Nat.cast_sum]
           exact Eq.trans
@@ -231,7 +231,7 @@ theorem chartSectionsAddEquiv_eq (R : Type u) [CommRing R] (n : ℕ) (d : ℤ)
     (s : Finset (Fin (n + 1))) (hs : s.Nonempty) (x : chartSheafSections R n d s) :
     chartSectionsAddEquiv R n d s hs x
       = twistChartEquivTwistSections R n d s (chartSectionsAddEquivTwistChart R n d s hs x) := by
-  show chartSectionsAddEquiv R n d s hs x
+  change chartSectionsAddEquiv R n d s hs x
       = twistChartEquivTwistSections R n d s
           ((twistChartEquivTwistSections R n d s).symm (chartSectionsAddEquiv R n d s hs x))
   exact ((twistChartEquivTwistSections R n d s).apply_symm_apply _).symm

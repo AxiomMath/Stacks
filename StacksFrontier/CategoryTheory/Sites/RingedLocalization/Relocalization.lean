@@ -302,7 +302,7 @@ theorem overMap_inverseImage_iteratedSlice :
   have : (Over.iteratedSliceForward (Over.mk f) ⋙ Over.map f).IsContinuous
       ((X.J.over U).over (Over.mk f)) (X.J.over U) := by
     rw [hfe]; infer_instance
-  show (Over.iteratedSliceForward (Over.mk f) ⋙ Over.map f).sheafPushforwardContinuous
+  change (Over.iteratedSliceForward (Over.mk f) ⋙ Over.map f).sheafPushforwardContinuous
       (Type (max u v w)) ((X.J.over U).over (Over.mk f)) (X.J.over U) = _
   congr 1
 

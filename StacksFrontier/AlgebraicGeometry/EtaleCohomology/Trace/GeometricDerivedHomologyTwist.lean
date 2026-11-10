@@ -83,11 +83,12 @@ instance isAddCyclic_cyclotomicIntContinuousModule (n : ℕ) [NeZero n] :
     (AddEquiv.ulift.{u, u + 1} (α := Additive (_root_.rootsOfUnity n kbar))).symm.toAddMonoidHom
     (AddEquiv.ulift.{u, u + 1} (α := Additive (_root_.rootsOfUnity n kbar))).symm.surjective
 
+omit [Smooth f] in
 /-- `#μ_n(k̄) = n` for `n` invertible in `k̄`. -/
 theorem natCard_cyclotomicIntContinuousModule (n : ℕ) [NeZero n] (hn : IsUnit (n : kbar)) :
     Nat.card (cyclotomicIntContinuousModule B X f kbar y n).obj.obj.V = n := by
   obtain ⟨ζ, hζ⟩ := Stacks.EtaleCohomology.exists_isPrimitiveRoot_of_isUnit hn
-  show Nat.card (ULift.{u + 1} (Additive (_root_.rootsOfUnity n kbar))) = n
+  change Nat.card (ULift.{u + 1} (Additive (_root_.rootsOfUnity n kbar))) = n
   rw [Nat.card_ulift]
   exact hζ.card_rootsOfUnity
 

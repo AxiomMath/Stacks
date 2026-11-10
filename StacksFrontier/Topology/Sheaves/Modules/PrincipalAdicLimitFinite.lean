@@ -47,7 +47,7 @@ lemma finite_limitGlobalSections (S : PrincipalAdicInverseSystem.{u, w}) :
       Submodule.ideal_span_singleton_smul, Submodule.mem_smul_pointwise_iff_exists,
       Submodule.mem_top, true_and] at hx
     refine Concrete.limit_ext S.globalSectionsSystem x 0 fun n ↦ ?_
-    show (limit.π S.globalSectionsSystem n).hom x = (limit.π S.globalSectionsSystem n).hom 0
+    change (limit.π S.globalSectionsSystem n).hom x = (limit.π S.globalSectionsSystem n).hom 0
     rw [map_zero]
     obtain ⟨y, hy⟩ := hx (n.unop + 1)
     apply LinearMap.mem_ker.mp

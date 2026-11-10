@@ -604,7 +604,8 @@ private theorem localKrullDim_le_ringKrullDim_fiber_bot {R S : Type*} [CommRing 
     have hge : (m : WithBot ℕ∞)
         ≤ ringKrullDim ((IsLocalRing.maximalIdeal R).Fiber (Localization.Away g)) := by
       rw [← hm]
-      exact Stacks.RelativeDimension.Semicontinuity.relativeDimensionAt_le_ringKrullDim_fiber g (Localization.Away g) (z : PrimeSpectrum S)
+      exact Stacks.RelativeDimension.Semicontinuity.relativeDimensionAt_le_ringKrullDim_fiber g
+        (Localization.Away g) (z : PrimeSpectrum S)
         ⟨IsLocalRing.maximalIdeal R, inferInstance⟩ hz (PrimeSpectrum.mem_basicOpen g _ |>.mpr hg)
     rw [Nat.card_eq_fintype_card, Fintype.card_fin] at hlt
     exact absurd (lt_of_le_of_lt hge hlt) (lt_irrefl _)

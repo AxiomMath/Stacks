@@ -129,7 +129,7 @@ theorem reesPieceLower_comp (I : X.IdealSheafData) {n m k : ℕ} (h₁ : n ≤ m
     (reesPieceLower I (h₁.trans h₂)).val.app W z =
       (reesPieceLower I h₁).val.app W ((reesPieceLower I h₂).val.app W z) := by
   refine reesPieceAmbient_injective I (n : ℤ) (Int.natCast_nonneg n) W.unop ?_
-  show idealPowerKernelAmbient I n W.unop _ = idealPowerKernelAmbient I n W.unop _
+  change idealPowerKernelAmbient I n W.unop _ = idealPowerKernelAmbient I n W.unop _
   rw [reesPieceAmbient_reesPieceLower, reesPieceAmbient_reesPieceLower,
     reesPieceAmbient_reesPieceLower]
 

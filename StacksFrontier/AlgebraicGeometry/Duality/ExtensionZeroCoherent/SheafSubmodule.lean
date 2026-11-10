@@ -158,8 +158,8 @@ public lemma sheafSubmodule_eq_top_of_affine {X : Scheme.{u}} {M : X.Modules}
         ⟨(A : X.Opens), 𝟙 _, homOfLE hAU, ⟨⟨A, hA⟩, rfl, hAU⟩, by simp⟩, hxA⟩
     have hR : R ≤ (P.toSubmodule.toSubfunctor).sieveOfSection s := by
       rintro V i ⟨A, rfl, -⟩
-      show M.val.map i.op s ∈ P.toSubmodule.obj (op (A : X.Opens))
-      exact (SetLike.le_def.mp (hP A)) (x := M.val.map i.op s) Submodule.mem_top
+      change M.val.map i.op s ∈ P.toSubmodule.obj (op (A : X.Opens))
+      exact (IsConcreteLE.le_iff.mp (hP A)) (x := M.val.map i.op s) Submodule.mem_top
     exact P.isSheaf s ((Opens.grothendieckTopology X).superset_covering
       ((Sieve.generate_le_iff R _).2 hR) hcov)
   simp [htop]

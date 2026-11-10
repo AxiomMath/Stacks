@@ -96,7 +96,7 @@ theorem exists_prime_adicCompletion (p : Ideal R) [p.IsPrime] (hp : I ≤ p) :
   refine ⟨(p.map (Ideal.Quotient.mk (I ^ 1))).comap e, Ideal.comap_isPrime _ _, ?_, ?_⟩
   · have he : e.comp (algebraMap R (AdicCompletion I R)) = Ideal.Quotient.mk (I ^ 1) := by
       ext x
-      show AdicCompletion.evalₐ I 1 (algebraMap R (AdicCompletion I R) x) = _
+      change AdicCompletion.evalₐ I 1 (algebraMap R (AdicCompletion I R) x) = _
       rw [AdicCompletion.algebraMap_apply, AdicCompletion.evalₐ_of]
       rfl
     rw [Ideal.comap_comap, he, Ideal.comap_map_of_surjective _ Ideal.Quotient.mk_surjective,
@@ -115,7 +115,7 @@ theorem exists_prime_adicCompletion (p : Ideal R) [p.IsPrime] (hp : I ≤ p) :
           ← AdicCompletion.pow_smul_top_eq_ker_eval I.fg_of_isNoetherianRing]
       have h2 := AdicCompletion.factor_evalₐ_eq_eval I (t ^ m) (n := 1) (by simp)
       rw [h1] at h2
-      show AdicCompletion.evalₐ I 1 (t ^ m) = 0
+      change AdicCompletion.evalₐ I 1 (t ^ m) = 0
       obtain ⟨a, ha⟩ := Ideal.Quotient.mk_surjective (AdicCompletion.evalₐ I 1 (t ^ m))
       rw [← ha] at h2 ⊢
       rw [Ideal.Quotient.factor_mk, Ideal.Quotient.eq_zero_iff_mem] at h2
@@ -157,7 +157,7 @@ theorem specMap_quotient_map_eq {K : Ideal (AdicCompletion I R)} (q : Ideal (Adi
     Spec.map (CommRingCat.ofHom ((Ideal.Quotient.mk K).comp (algebraMap R (AdicCompletion I R))))
       (⟨q.map (Ideal.Quotient.mk K), hq'⟩ : PrimeSpectrum _) = v := by
   apply PrimeSpectrum.ext
-  show Ideal.comap ((Ideal.Quotient.mk K).comp (algebraMap R (AdicCompletion I R)))
+  change Ideal.comap ((Ideal.Quotient.mk K).comp (algebraMap R (AdicCompletion I R)))
     (q.map (Ideal.Quotient.mk K)) = _
   rw [← Ideal.comap_comap, Ideal.comap_map_of_surjective _ Ideal.Quotient.mk_surjective,
     ← RingHom.ker_eq_comap_bot, Ideal.mk_ker, sup_eq_left.mpr hK, hqv]
@@ -184,7 +184,7 @@ private theorem map_le_comap_of_pow_succ {A C : Type*} [CommRing A] [CommRing C]
     Ideal.comap_isPrime _ _
   intro y hy
   refine this.mem_of_pow_mem (n + 1) ?_
-  show Ideal.Quotient.mk _ (y ^ (n + 1)) ∈ x.asIdeal
+  change Ideal.Quotient.mk _ (y ^ (n + 1)) ∈ x.asIdeal
   rw [Ideal.Quotient.eq_zero_iff_mem.mpr (show y ^ (n + 1) ∈ (b ^ (n + 1)).map g by
     rw [Ideal.map_pow]
     exact Ideal.pow_mem_pow hy _)]
@@ -372,12 +372,12 @@ theorem le_asIdeal_comap_of_isOpen (K : Ideal (AdicCompletion I R))
       (AdicCompletion I R))).toAddGroupFilterBasis.nhds_zero_hasBasis.mem_iff.mp
       (hK.mem_nhds K.zero_mem)
   intro i hi
-  show Ideal.Quotient.mk K (algebraMap R (AdicCompletion I R) i) ∈ x.asIdeal
+  change Ideal.Quotient.mk K (algebraMap R (AdicCompletion I R) i) ∈ x.asIdeal
   apply x.isPrime.mem_of_pow_mem n
   rw [← map_pow, ← map_pow, Ideal.Quotient.eq_zero_iff_mem.mpr]
   · exact zero_mem _
   · apply hn
-    show algebraMap R (AdicCompletion I R) (i ^ n) ∈
+    change algebraMap R (AdicCompletion I R) (i ^ n) ∈
       I ^ n • (⊤ : Submodule R (AdicCompletion I R))
     rw [Algebra.algebraMap_eq_smul_one]
     exact Submodule.smul_mem_smul (Ideal.pow_mem_pow hi n) Submodule.mem_top
@@ -439,7 +439,7 @@ private theorem preimage_zeroLocusPoints_affineOverHom {R' : Type u} [CommRing R
       zeroLocusPoints B S hS hR' _ (I.map (algebraMap R R')) := by
   rw [zeroLocusPoints_eq_preimage_pointsToScheme, zeroLocusPoints_eq_preimage_pointsToScheme]
   ext x
-  show Space.pointsToScheme B S hS (affineOver B S hS hR s)
+  change Space.pointsToScheme B S hS (affineOver B S hS hR s)
       (Space.pointsMap B S hS
         (yoneda.obj (affineOver B S hS hR' (Spec.map (CommRingCat.ofHom (algebraMap R R')) ≫ s)))
         (yoneda.map (affineOverHom B S hS hR' (Spec.map (CommRingCat.ofHom (algebraMap R R')) ≫ s)
@@ -449,7 +449,7 @@ private theorem preimage_zeroLocusPoints_affineOverHom {R' : Type u} [CommRing R
         (affineOver B S hS hR' (Spec.map (CommRingCat.ofHom (algebraMap R R')) ≫ s)) x ∈
       PrimeSpectrum.zeroLocus (I.map (algebraMap R R') : Set R')
   rw [Space.pointsToScheme_pointsMap]
-  show I ≤ Ideal.comap (algebraMap R R') _ ↔ I.map (algebraMap R R') ≤ _
+  change I ≤ Ideal.comap (algebraMap R R') _ ↔ I.map (algebraMap R R') ≤ _
   exact Ideal.map_le_iff_le_comap.symm
 
 /-- **Smoothness near a point of the lifting property (affine case).** Let

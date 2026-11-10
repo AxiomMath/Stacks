@@ -115,6 +115,7 @@ public theorem lineProductConstant_univ :
     lineProductConstant k V W (Set.univ : Set (projectiveSpaceOfModule k V)) = Set.univ :=
   Set.preimage_univ
 
+omit [FiniteDimensional k V] [Nontrivial V] in
 /-- **The fibre of the constant family over any closed point of `𝐏(W)` is `X` itself.** -/
 public theorem lineProductFibre_lineProductConstant [IsAlgClosed k]
     (lam : projectiveSpaceOfModule k W) (hlam : IsClosed ({lam} : Set _)) :
@@ -123,6 +124,7 @@ public theorem lineProductFibre_lineProductConstant [IsAlgClosed k]
   rw [mem_lineProductFibre_iff, lineProductConstant, Set.mem_preimage,
     lineProductPoint_lineProductSection]
 
+omit [FiniteDimensional k V] [Nontrivial V] in
 /-- The fibre of an intersection with the constant family is the intersection of the fibre with
 `X`. -/
 public theorem lineProductFibre_inter_lineProductConstant [IsAlgClosed k]
@@ -216,12 +218,14 @@ public theorem isClosed_constantFamily (hXc : IsClosed X) :
     IsClosed (constantFamily k V L X) :=
   isClosed_lineProductConstant k V (lineSpace k V L) X hXc
 
+omit [Nontrivial V] in
 /-- **The fibre of the constant family over any closed point of the line is `X` itself.** -/
 public theorem movingFibre_constantFamily [IsAlgClosed k] (lam : movingLine k V L)
     (hlam : IsClosed ({lam} : Set _)) :
     movingFibre k V L lam hlam (constantFamily k V L X) = X :=
   lineProductFibre_lineProductConstant k V (lineSpace k V L) X lam hlam
 
+omit [Nontrivial V] in
 /-- The fibre of an intersection with the constant family is the intersection of the fibre with
 `X`. -/
 public theorem movingFibre_inter_constantFamily [IsAlgClosed k] (lam : movingLine k V L)

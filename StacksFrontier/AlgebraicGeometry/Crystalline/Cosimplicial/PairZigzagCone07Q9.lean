@@ -96,7 +96,7 @@ theorem smul_id_homology_carrierMooreMap_of_degreeDeRhamMap (q : ℤ)
       ((alternatingCofaceMapComplex AddCommGrpCat.{max v w}).mapIso
         W'.toCosimplicialCompletedModule.columnZeroIso).symm ?_)
     (F.smul_id_homology_columnZeroMooreMap_of_degreeDeRhamMap q hcol hrow hcol' hrow' h) j
-  show ((alternatingCofaceMapComplex AddCommGrpCat.{max v w}).mapIso
+  change ((alternatingCofaceMapComplex AddCommGrpCat.{max v w}).mapIso
       W.toCosimplicialCompletedModule.columnZeroIso).inv ≫ F.columnZeroMooreMap =
     (alternatingCofaceMapComplex AddCommGrpCat.{max v w}).map F.carrierMap07Q9 ≫
       ((alternatingCofaceMapComplex AddCommGrpCat.{max v w}).mapIso

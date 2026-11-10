@@ -135,7 +135,7 @@ private theorem surjOn_minimalPrimes_of_flat_injective {R S : Type*} [CommRing R
 public theorem isHenselization_self (R : Type u) [CommRing R]
     [HenselianLocalRing R] : IsHenselization R (ResidueField R) R := by
   have het : (CommAlgCat.etale.{u} R) (CommAlgCat.of R R) := by
-    show Algebra.Etale R R
+    change Algebra.Etale R R
     infer_instance
   exact IsHenselization.of_ind_etale.{u, u, u} inferInstance
     (CategoryTheory.ObjectProperty.le_ind (CommAlgCat.etale.{u} R) (CommAlgCat.of R R) het)
@@ -157,8 +157,8 @@ public theorem henselianLocalRing_adicCompletion
 /-- Noetherianness descends along a faithfully flat algebra. -/
 private theorem isNoetherianRing_of_faithfullyFlat (R S : Type*) [CommRing R] [CommRing S]
     [Algebra R S] [Module.FaithfullyFlat R S] [IsNoetherianRing S] : IsNoetherianRing R := by
-  have hS : WellFoundedGT (Submodule S S) := isNoetherian_iff'.mp (isNoetherianRing_iff.mp ‹_›)
-  rw [isNoetherianRing_iff, isNoetherian_iff', wellFoundedGT_iff_monotone_chain_condition]
+  have hS : WellFoundedGT (Submodule S S) := isNoetherian_iff.mp (isNoetherianRing_iff.mp ‹_›)
+  rw [isNoetherianRing_iff, isNoetherian_iff, wellFoundedGT_iff_monotone_chain_condition]
   intro a
   obtain ⟨n, hn⟩ := (wellFoundedGT_iff_monotone_chain_condition (α := Ideal S)).mp hS
     ⟨fun m => Ideal.map (algebraMap R S) (a m), fun i j hij => Ideal.map_mono (a.monotone hij)⟩
@@ -249,7 +249,7 @@ public theorem exists_ringEquiv_adicCompletion_of_isHenselization
   have huv : ∀ y : AdicCompletion (maximalIdeal Ah) Ah, u (v y) = y := by
     have hw : ({ (u.comp v).toRingHom with
         commutes' := fun x => by
-          show u (v (algebraMap Ah (AdicCompletion (maximalIdeal Ah) Ah) x)) = _
+          change u (v (algebraMap Ah (AdicCompletion (maximalIdeal Ah) Ah) x)) = _
           rw [hv x]
           exact congrArg (fun k : Ah →ₐ[A] AdicCompletion (maximalIdeal Ah) Ah => k x) h_uf } :
         AdicCompletion (maximalIdeal Ah) Ah →ₐ[Ah] AdicCompletion (maximalIdeal Ah) Ah) =
@@ -259,7 +259,7 @@ public theorem exists_ringEquiv_adicCompletion_of_isHenselization
     exact congrArg (fun k : AdicCompletion (maximalIdeal Ah) Ah →ₐ[Ah]
       AdicCompletion (maximalIdeal Ah) Ah => k y) hw
   refine ⟨(AlgEquiv.ofAlgHom u v (AlgHom.ext huv) hvu).toRingEquiv, fun x => ?_⟩
-  show u (algebraMap A (AdicCompletion (maximalIdeal A) A) x) = _
+  change u (algebraMap A (AdicCompletion (maximalIdeal A) A) x) = _
   rw [hu x]
   exact IsScalarTower.algebraMap_apply A Ah (AdicCompletion (maximalIdeal Ah) Ah) x
 
@@ -354,7 +354,7 @@ private theorem isHenselization_of_isSepClosure
     obtain ⟨e, he⟩ := IsHenselization.exists_residueFieldEquiv (R := R) (L := L) (Rh := Rh)
     refine ⟨(IsSepClosure.equiv (ResidueField R) M L).toRingEquiv.trans e, fun x => ?_⟩
     rw [RingEquiv.trans_apply]
-    show e ((IsSepClosure.equiv (ResidueField R) M L)
+    change e ((IsSepClosure.equiv (ResidueField R) M L)
       (algebraMap (ResidueField R) M (residue R x))) = _
     rw [AlgEquiv.commutes]
     exact he x
@@ -384,7 +384,7 @@ private theorem isHenselization_of_algEquiv {R : Type u} [CommRing R] [IsLocalRi
     obtain ⟨eS, heS⟩ := IsHenselization.exists_residueFieldEquiv (R := R) (L := L) (Rh := S)
     refine ⟨eS.trans e', fun x => ?_⟩
     rw [RingEquiv.trans_apply, heS x]
-    show ResidueField.map e.toRingEquiv.toRingHom (residue S (algebraMap R S x)) = _
+    change ResidueField.map e.toRingEquiv.toRingHom (residue S (algebraMap R S x)) = _
     rw [ResidueField.map_residue]
     exact congrArg (residue T) (e.commutes x)
 
@@ -405,7 +405,7 @@ private theorem exists_algebra_residueField_adicCompletion
   let alg : Algebra (ResidueField B) κsep :=
     ((algebraMap (ResidueField A) κsep).comp eB.symm.toRingHom).toAlgebra
   refine ⟨alg, fun x => ?_, ?_⟩
-  · show algebraMap (ResidueField A) κsep (eB.symm (eB x)) = _
+  · change algebraMap (ResidueField A) κsep (eB.symm (eB x)) = _
     rw [eB.symm_apply_apply]
   · let : Algebra (ResidueField B) (ResidueField A) := eB.symm.toRingHom.toAlgebra
     let eBase : ResidueField B ≃ₐ[ResidueField B] ResidueField A :=
@@ -510,7 +510,7 @@ theorem numberOfBranches_le_and_numberOfGeometricBranches_le_completion
   have : IsScalarTower Ah (AdicCompletion (maximalIdeal A) A) Bsh :=
     IsScalarTower.of_algebraMap_eq' rfl
   have : IsScalarTower A Ah Bsh := IsScalarTower.of_algebraMap_eq fun x => by
-    show algebraMap (AdicCompletion (maximalIdeal A) A) Bsh
+    change algebraMap (AdicCompletion (maximalIdeal A) A) Bsh
         (algebraMap A (AdicCompletion (maximalIdeal A) A) x) = _
     rw [IsScalarTower.algebraMap_apply A Ah (AdicCompletion (maximalIdeal A) A) x]
     rfl
@@ -661,7 +661,7 @@ private theorem encard_minimalPrimes_eq_completion
     have : p.IsPrime := hp.isPrime
     have hcp : q.comap f = p := by
       rw [hpq, Ideal.comap_radical]
-      show (Ideal.comap (algebraMap R S) (Ideal.map (algebraMap R S) p)).radical = p
+      change (Ideal.comap (algebraMap R S) (Ideal.map (algebraMap R S) p)).radical = p
       rw [Ideal.comap_map_eq_self_of_faithfullyFlat, hp.isPrime.radical]
     rw [hcp, hpq]
   have hflat : f.Flat := inferInstanceAs (Module.Flat R S)
@@ -729,7 +729,7 @@ theorem numberOfBranches_and_numberOfGeometricBranches_eq_adicCompletion_of_dime
   obtain ⟨eH⟩ := exists_algEquiv_of_isHenselization Ahat Ahat AhatH
     (ResidueField Ahat) (ResidueField Ahat) AlgEquiv.refl
   constructor
-  · show (minimalPrimes Ah).encard = (minimalPrimes AhatH).encard
+  · change (minimalPrimes Ah).encard = (minimalPrimes AhatH).encard
     exact (encard_minimalPrimes_eq_completion Ah hdimAh).trans
       ((encard_minimalPrimes_eq_of_ringEquiv e.symm).trans
         (encard_minimalPrimes_eq_of_ringEquiv eH.toRingEquiv))
@@ -751,7 +751,7 @@ theorem numberOfBranches_and_numberOfGeometricBranches_eq_adicCompletion_of_dime
         Ahat Ahat T ksep).2.symm.trans hdimAhat
     obtain ⟨eT⟩ := exists_algEquiv_of_isHenselization Ahat T AhatSh ksep khatsep
       (IsSepClosure.equiv (ResidueField Ahat) ksep khatsep)
-    show (minimalPrimes Ash).encard = (minimalPrimes AhatSh).encard
+    change (minimalPrimes Ash).encard = (minimalPrimes AhatSh).encard
     exact (encard_minimalPrimes_eq_completion Ash hdimAsh).trans
       ((encard_minimalPrimes_eq_of_ringEquiv ef.symm).trans
         ((encard_minimalPrimes_eq_completion T hdimT).symm.trans

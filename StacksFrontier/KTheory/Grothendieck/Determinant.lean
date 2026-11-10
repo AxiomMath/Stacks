@@ -104,7 +104,7 @@ private lemma detClass_directSum {R : Type u} [CommRing R] (M N : FGProj R) :
   let := ProjectiveDeterminant.invertible (R := R) (M := M.carrier)
   let := ProjectiveDeterminant.invertible (R := R) (M := N.carrier)
   let := ProjectiveDeterminant.invertible (R := R) (M := (M.directSum N).carrier)
-  show CommRing.Pic.mk R (module (R := R) (M := (M.directSum N).carrier)) =
+  change CommRing.Pic.mk R (module (R := R) (M := (M.directSum N).carrier)) =
     CommRing.Pic.mk R (module (R := R) (M := M.carrier)) *
       CommRing.Pic.mk R (module (R := R) (M := N.carrier))
   rw [← CommRing.Pic.mk_tensor]

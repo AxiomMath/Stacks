@@ -322,7 +322,7 @@ public lemma complexHomologyIso_app
   refine (Category.id_comp _).trans ?_
   refine (Category.id_comp _).trans ?_
   refine (congrArg (fun z ↦ z ≫ _) ((ShortComplex.homologyFunctor E).map_id _)).trans ?_
-  show 𝟙 ((K.sc i).map T).homology ≫ 𝟙 _ ≫ ((K.sc i).mapHomologyIso T).hom ≫ 𝟙 _ ≫
+  change 𝟙 ((K.sc i).map T).homology ≫ 𝟙 _ ≫ ((K.sc i).mapHomologyIso T).hom ≫ 𝟙 _ ≫
       T.map (𝟙 (K.sc i).homology) = ((K.sc i).mapHomologyIso T).hom
   simp
 

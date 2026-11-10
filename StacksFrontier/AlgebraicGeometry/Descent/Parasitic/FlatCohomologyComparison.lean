@@ -64,8 +64,8 @@ asserted here. **Both of the inputs they need exist in this development**:
 
 * Stacks 03DW, clause (1), in *every* degree and for all five topologies at once, is
   `AlgebraicGeometry.bigOverQuasiCoherentGlobalCohomologyIso`
-  (`StacksFrontier.AlgebraicGeometry.EtaleCohomology.CechComparison.BigSiteQuasiCoherentCohomology`),
-  which carries `@[stacks 03DW]` alongside `@[stacks 03P2]`; its form over an arbitrary open of
+  (`StacksFrontier.AlgebraicGeometry.EtaleCohomology.CechComparison.BigSiteQuasiCoherentCohomology`
+  ), which carries `@[stacks 03DW]` alongside `@[stacks 03P2]`; its form over an arbitrary open of
   the base is `AlgebraicGeometry.bigOverQuasiCoherentCohomologyIso` in the same file, and the
   `q = 0` carrier is `AlgebraicGeometry.BigFppfOver.hZeroBaseAssociatedModuleAddEquiv` in
   `StacksFrontier.AlgebraicGeometry.Descent.AssociatedModuleCohomologyDegreeZero`.
@@ -226,13 +226,13 @@ public theorem shortExact_coimage_cokernel {F G : Sheaf J AddCommGrpCat.{v}} (φ
         comm₁₂ := by simp
         comm₂₃ := by simp }
     let _ : Epi ψ.τ₁ := by
-      show Epi (Abelian.coimage.π φ)
+      change Epi (Abelian.coimage.π φ)
       infer_instance
     let _ : IsIso ψ.τ₂ := by
-      show IsIso (𝟙 G)
+      change IsIso (𝟙 G)
       infer_instance
     let _ : Mono ψ.τ₃ := by
-      show Mono (𝟙 (cokernel φ))
+      change Mono (𝟙 (cokernel φ))
       infer_instance
     exact (ShortComplex.exact_iff_of_epi_of_isIso_of_mono ψ).mp (ShortComplex.exact_cokernel φ)
   mono_f := inferInstance
@@ -259,7 +259,7 @@ public theorem bijective_map_of_subsingleton_kernel_cokernel
   have hcomp : (map.{w} φ n U : Sheaf.H'.{w} F n U → Sheaf.H'.{w} G n U) =
       (map.{w} (Abelian.factorThruCoimage φ) n U) ∘ (map.{w} (Abelian.coimage.π φ) n U) := by
     funext x
-    show x.comp (Ext.mk₀ φ) (add_zero n) =
+    change x.comp (Ext.mk₀ φ) (add_zero n) =
       (x.comp (Ext.mk₀ (Abelian.coimage.π φ)) (add_zero n)).comp
         (Ext.mk₀ (Abelian.factorThruCoimage φ)) (add_zero n)
     calc x.comp (Ext.mk₀ φ) (add_zero n)

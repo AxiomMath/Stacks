@@ -105,8 +105,11 @@ from;  `0897(1) → 02O8 → 02OA → 02OB → 02OC` is joined in
 sheaf is `Stacks.FormalFunctions.isFormalFunctionsStalk_of_isProper`, reached by identifying the
 infinitesimal neighbourhoods of the fibre with the ideal-power subschemes of
 `X ×_Y Spec 𝒪_{Y,y}` (`StacksFrontier/AlgebraicGeometry/FormalFunctions/InfinitesimalBaseIdeal.lean`
-and `StacksFrontier/AlgebraicGeometry/FormalFunctions/InfinitesimalBaseIdealSections.lean`) and by degree-zero flat base change along
-`Spec 𝒪_{Y,y} ⟶ Y` (`StacksFrontier/AlgebraicGeometry/FormalFunctions/StalkBaseChangeComparison.lean`);  and the general case follows from the
+and `StacksFrontier/AlgebraicGeometry/FormalFunctions/InfinitesimalBaseIdealSections.lean`) and by
+degree-zero flat base change along
+`Spec 𝒪_{Y,y} ⟶ Y`
+(`StacksFrontier/AlgebraicGeometry/FormalFunctions/StalkBaseChangeComparison.lean`);
+and the general case follows from the
 locally Noetherian one by the [Stacks, Tag 0A0P] limit argument of
 `StacksFrontier/AlgebraicGeometry/Fibres/IdempotentExtensionApproximation.lean`.
 

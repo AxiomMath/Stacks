@@ -72,7 +72,7 @@ theorem homogeneousProd_snoc (n : ℕ) (V : Opens ↥X) (s : Fin n → M.val.obj
       (A.mul (n : ℤ) 1).app (op V)
         (A.toPresheafGradedAlgebra.homogeneousProd (op V) n fun i => gen.val.app (op V) (s i))
         (gen.val.app (op V) e) := by
-  show (A.mul (n : ℤ) 1).app (op V)
+  change (A.mul (n : ℤ) 1).app (op V)
       (A.toPresheafGradedAlgebra.homogeneousProd (op V) n
         fun i => gen.val.app (op V) ((Fin.snoc s e : Fin (n + 1) → M.val.obj (op V)) i.castSucc))
       (gen.val.app (op V) ((Fin.snoc s e : Fin (n + 1) → M.val.obj (op V)) (Fin.last n))) = _

@@ -123,7 +123,7 @@ theorem injective_lift_lsmul_of_rTensor_injective {R : Type*} [CommRing R] {M : 
         TensorProduct.congr_symm, LinearEquiv.refl_symm, LinearEquiv.symm_symm,
         TensorProduct.congr_tmul, LinearEquiv.refl_apply]
     rw [hΘsymm]
-    show (TensorProduct.lid S N) (LinearMap.rTensor N J.subtype (j ⊗ₜ[S] qN (1 ⊗ₜ[R] m)))
+    change (TensorProduct.lid S N) (LinearMap.rTensor N J.subtype (j ⊗ₜ[S] qN (1 ⊗ₜ[R] m)))
         = qN ((LinearMap.rTensor M ιR) (j ⊗ₜ[R] m))
     rw [LinearMap.rTensor_tmul, TensorProduct.lid_tmul, LinearMap.rTensor_tmul, ← map_smul qN]
     congr 1
@@ -229,7 +229,7 @@ private lemma mem_ideal_smul_top_of_forall_mem (I : Ideal R) {l : ι →₀ R} (
     l ∈ I • (⊤ : Submodule R (ι →₀ R)) := by
   classical
   rw [← Finsupp.sum_single l]
-  show (∑ i ∈ l.support, Finsupp.single i (l i)) ∈ I • (⊤ : Submodule R (ι →₀ R))
+  change (∑ i ∈ l.support, Finsupp.single i (l i)) ∈ I • (⊤ : Submodule R (ι →₀ R))
   refine Submodule.sum_mem _ fun i _ => ?_
   rw [← Finsupp.smul_single_one i (l i)]
   exact Submodule.smul_mem_smul (h i) Submodule.mem_top
@@ -442,16 +442,16 @@ public theorem bijective_quotientMap_of_le_of_bijective {A : Type*} {B : Type*}
     | _ x =>
       induction x using Quotient.inductionOn with
       | _ a =>
-        show eB ((Ideal.quotEquivOfEq hIB)
+        change eB ((Ideal.quotEquivOfEq hIB)
           (Ideal.Quotient.mk IB (fI (Ideal.Quotient.mk I a)))) =
           (Ideal.quotientMap JB f Ideal.le_comap_map)
             (eA (DoubleQuot.quotQuotMk I J a))
         rw [show fI (Ideal.Quotient.mk I a) = Ideal.Quotient.mk (I.map f) (f a) from rfl,
           Ideal.quotEquivOfEq_mk, DoubleQuot.quotQuotEquivQuotOfLE_quotQuotMk]
-        show eB (DoubleQuot.quotQuotMk (I.map f) JB (f a)) =
+        change eB (DoubleQuot.quotQuotMk (I.map f) JB (f a)) =
           Ideal.Quotient.mk JB (f a)
         exact DoubleQuot.quotQuotEquivQuotOfLE_quotQuotMk _ _
-  show Function.Bijective (Ideal.quotientMap IB fI Ideal.le_comap_map)
+  change Function.Bijective (Ideal.quotientMap IB fI Ideal.le_comap_map)
   exact bijective_of_equiv_comp_eq eA.toEquiv eB'.toEquiv hJ hcomm
 
 /-- For a flat algebra, an isomorphism modulo an ideal induces isomorphisms modulo

@@ -153,7 +153,7 @@ private theorem smallEtaleOpenObject_range (B : BigEtaleSite.{u})
     (S : Scheme.{u}) (hS : B.Contains S) (W : S.Opens) :
     Set.range (smallEtaleMap B S hS (smallEtaleOpenObject B S hS W)).base =
       (W : Set S) := by
-  show Set.range W.ι.base = (W : Set S)
+  change Set.range W.ι.base = (W : Set S)
   simp only [Scheme.Opens.range_ι]
 
 private noncomputable abbrev supportBaseObject (B : BigEtaleSite.{u})
@@ -208,7 +208,7 @@ private theorem supportSchemeCoverFamily_etale (B : BigEtaleSite.{u})
     (F : smallEtaleTopos.{u, max (u + 1) v} B S hS) :
     (supportSchemeCoverFamily B S hS F).presieve₀ ∈
       Scheme.etalePrecoverage (supportOpen B S hS F) := by
-  show Presieve.ofArrows _ _ ∈
+  change Presieve.ofArrows _ _ ∈
     Scheme.precoverage (@Etale : MorphismProperty Scheme) (supportOpen B S hS F)
   refine (Scheme.ofArrows_mem_precoverage_iff
     (@Etale : MorphismProperty Scheme)).2 ⟨fun x => ?_, fun i => ?_⟩
@@ -251,7 +251,7 @@ private theorem supportCoverFamily_etale (B : BigEtaleSite.{u})
     (F : smallEtaleTopos.{u, max (u + 1) v} B S hS) :
     IsEtaleCovering
       ⟨supportBaseObject B S hS F, supportCoverFamily B S hS F⟩ := by
-  show ((supportCoverFamily B S hS F).map B.inclusion).presieve₀ ∈
+  change ((supportCoverFamily B S hS F).map B.inclusion).presieve₀ ∈
     Scheme.etalePrecoverage _
   exact supportSchemeCoverFamily_etale B S hS F
 
@@ -361,13 +361,13 @@ private theorem supportRepSmallFamily_isCovering (B : BigEtaleSite.{u})
     (F : smallEtaleTopos.{u, max (u + 1) v} B S hS) :
     SmallEtale.IsCovering B S hS
       ⟨supportRepSmallTarget B S hS F, supportRepSmallFamily B S hS F⟩ := by
-  show B.IsCovering
+  change B.IsCovering
     ⟨(Over.forget (B.obj S hS)).obj
         ((SmallEtale.inclusion B S hS).obj
           (supportRepSmallTarget B S hS F)),
       (supportRepSmallFamily B S hS F).map
         (SmallEtale.inclusion B S hS ⋙ Over.forget (B.obj S hS))⟩
-  show B.IsCovering (supportCoveringRep B S hS F)
+  change B.IsCovering (supportCoveringRep B S hS F)
   exact supportCoveringRep_isCovering B S hS F
 
 private noncomputable def preZeroIndexTransportEquiv {C : Type w} [Category.{w'} C]
@@ -416,7 +416,7 @@ private theorem supportFamilyMap_fac (B : BigEtaleSite.{u})
   apply B.inclusion.map_injective
   let s := Classical.choice i.2
   have hfac := Over.w (supportSectionArrow B S hS F i.1 s)
-  show B.inclusion.map (supportFamilyMap B S hS F i) ≫
+  change B.inclusion.map (supportFamilyMap B S hS F i) ≫
       B.inclusion.map ((supportObject B S hS F).obj.hom) = _
   simpa [supportFamilyMap, supportObject, smallEtaleMap, Functor.map_comp] using hfac
 
@@ -581,7 +581,7 @@ private theorem representableArrow_map (B : BigEtaleSite.{u})
       B.inclusion.obj (supportObject B S hS F).obj.left := eqToHom hobj.symm
   apply ObjectProperty.hom_ext
   apply Over.OverMorphism.ext
-  show B.inclusion.preimage (X := V.obj.left)
+  change B.inclusion.preimage (X := V.obj.left)
       (Y := supportBaseObject B S hS F)
       (B.inclusion.map (Over.Hom.left f.unop.hom) ≫
         (Over.Hom.left x.down ≫ cast)) =
@@ -648,7 +648,7 @@ private theorem supportRepresentable_sections_subsingleton
     (F : smallEtaleTopos.{u, max (u + 1) v} B S hS)
     (U : SmallEtale B S hS) :
     Subsingleton ((supportRepresentable B S hS F).obj (op U)) := by
-  show Subsingleton (ULift
+  change Subsingleton (ULift
     (Over.mk (smallEtaleMap B S hS U) ⟶ Over.mk (supportOpen B S hS F).ι))
   refine ⟨fun x y => ?_⟩
   apply ULift.ext
@@ -679,7 +679,7 @@ private theorem openRepresentable_range_subset
   change x.down.left ≫ W.ι = smallEtaleMap B S hS U at hcomm
   have hpt : W.ι (x.down.left z) = (smallEtaleMap B S hS U) z := by
     simpa only [Scheme.Hom.comp_apply] using congrArg (fun f => f z) hcomm
-  show (smallEtaleMap B S hS U).base z ∈ W
+  change (smallEtaleMap B S hS U).base z ∈ W
   rw [← hpt]
   exact (x.down.left z).property
 

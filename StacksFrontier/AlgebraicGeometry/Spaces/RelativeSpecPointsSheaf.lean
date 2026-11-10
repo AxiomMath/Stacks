@@ -164,7 +164,7 @@ theorem generate_chartPresieve_pointOver_mem (hR : R ∈ BigFppfOver.topology B 
   let hQ := relativelyRepresentable_sieveFamily B S hS x R i
   have hcond : 𝟙 (yoneda.obj W) ≫ (sieveFamily B S hS x R i).hom.hom =
       yoneda.map (h ≫ hP.snd V.obj.hom) ≫ V.obj.hom := by
-    show 𝟙 (yoneda.obj W) ≫ yonedaEquiv.symm (X.1.map (h ≫ fst').op x) = _
+    change 𝟙 (yoneda.obj W) ≫ yonedaEquiv.symm (X.1.map (h ≫ fst').op x) = _
     rw [Category.id_comp, yonedaEquiv_symm_map, Quiver.Hom.unop_op, Functor.map_comp,
       Functor.map_comp, Category.assoc, Category.assoc, hfst]
     exact congrArg (yoneda.map h ≫ ·) (hP.w V.obj.hom)
@@ -176,7 +176,7 @@ theorem generate_chartPresieve_pointOver_mem (hR : R ∈ BigFppfOver.topology B 
   refine hP.hom_ext ?_ ?_
   · rw [Functor.map_comp, Category.assoc, yoneda_map_smallBaseChangeOverMap_fst,
       ← Category.assoc, hl₁]
-    show 𝟙 (yoneda.obj W) ≫ yoneda.map (h ≫ fst') = _
+    change 𝟙 (yoneda.obj W) ≫ yoneda.map (h ≫ fst') = _
     rw [Category.id_comp, Functor.map_comp, hfst]
   · rw [Category.assoc, smallBaseChangeOverMap_snd, hl₂]
 
@@ -299,7 +299,7 @@ theorem eq_mk_of_map_eq (hR : R ∈ BigFppfOver.topology B S hS T)
       q.map B S hS f = relativeSpecPointsEquiv B S hS A Z (p f hf)) :
     q = ⟨x, α⟩ := by
   refine RelativeSpecPoint.ext_of_comp B S hS (p' := ⟨x, α⟩) hqx ?_
-  show compPushforwardAlgebraMap B S hS q.hom (specPointOverEq B S hS hqx) = α
+  change compPushforwardAlgebraMap B S hS q.hom (specPointOverEq B S hS hqx) = α
   refine specPointOver_hom_ext B S hS x R hR fun i => ?_
   rw [← compPushforwardAlgebraMap_def, ← compPushforwardAlgebraMap_def, hα i]
   have h₁ : X.1.map i.2.1.op x = (q.map B S hS i.2.1).pt := by
@@ -307,9 +307,9 @@ theorem eq_mk_of_map_eq (hR : R ∈ BigFppfOver.topology B S hS T)
   refine (compPushforwardAlgebraMap_comp_of_left B S hS _ (specPointOverEq B S hS hqx)
     (sieveFamilyHom B S hS x R i)
     (specPointOverEq B S hS h₁ ≫ specPointOverMap B S hS i.2.1 q.pt) ?_).trans ?_
-  · show (specPointOverMap B S hS i.2.1 x).left ≫ 𝟙 _ =
+  · change (specPointOverMap B S hS i.2.1 x).left ≫ 𝟙 _ =
       (specPointOverEq B S hS h₁ ≫ specPointOverMap B S hS i.2.1 q.pt).left
-    show (ObjectProperty.homMk (yoneda.map i.2.1) :
+    change (ObjectProperty.homMk (yoneda.map i.2.1) :
         yonedaSpace B S hS i.1 ⟶ yonedaSpace B S hS T) ≫ 𝟙 _ =
       𝟙 _ ≫ (ObjectProperty.homMk (yoneda.map i.2.1) :
         yonedaSpace B S hS i.1 ⟶ yonedaSpace B S hS T)

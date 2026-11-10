@@ -311,7 +311,7 @@ public theorem globalSmul_comp_supportedFractionSource {d : ℕ} (f : Fin (d + 1
     (hTf : equationsClosedSet f ⊆ T) (j : Fin (d + 1)) :
     globalSmul (f j) F ≫ supportedFractionSource f F hT hTf = 0 := by
   have hι : Sigma.ι (fun _ : Fin (d + 1) => F) j ≫ equationsMultiplication f F =
-      globalSmul (f j) F := Sigma.ι_desc _ _
+      globalSmul (f j) F := Sigma.ι_comp_desc _ _
   have h0 : globalSmul (f j) F ≫ cokernel.π (equationsMultiplication f F) = 0 := by
     rw [← hι, Category.assoc, cokernel.condition, comp_zero]
   rw [supportedFractionSource, ← Category.assoc, h0, zero_comp]
@@ -433,7 +433,7 @@ public def equationsQuotientFunctor {c : ℕ} (f : Fin c → Γ(X, ⊤)) : X.Mod
         ext V z
         simp [globalSmul_app]
       have hι : Sigma.ι (fun _ : Fin c => G) i ≫ equationsMultiplication f G =
-          globalSmul (f i) G := Sigma.ι_desc _ _
+          globalSmul (f i) G := Sigma.ι_comp_desc _ _
       have h0 : globalSmul (f i) G ≫ cokernel.π (equationsMultiplication f G) = 0 := by
         rw [← hι, Category.assoc, cokernel.condition, comp_zero]
       rw [← Category.assoc, hnat, Category.assoc, h0, comp_zero])

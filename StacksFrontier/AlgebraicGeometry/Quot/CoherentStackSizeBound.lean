@@ -347,12 +347,12 @@ theorem exists_size_ge {B : BigFppfSite.{u}} (hZ : B.Contains (⊤_ Scheme.{u}))
   have hK : B.Contains (Spec (CommRingCat.of (ULift.{u} ℤ))) := by
     refine lt_of_le_of_lt (le_of_eq (Scheme.size_Spec _)) ?_
     refine lt_of_le_of_lt (max_le le_rfl ?_) B.aleph0_lt_cutoff
-    show #(ULift.{u} ℤ) ≤ ℵ₀
+    change #(ULift.{u} ℤ) ≤ ℵ₀
     simp
   have hI : #κ.out < B.cutoff := by rwa [Cardinal.mk_out]
   have hT := contains_Spec_mvPolynomial B (I := κ.out) hK hI
   refine ⟨Over.mk (ObjectProperty.homMk (terminal.from _) : B.obj hT ⟶ B.obj hZ), ?_⟩
-  show κ ≤ (Spec (CommRingCat.of (MvPolynomial κ.out (ULift.{u} ℤ)))).size
+  change κ ≤ (Spec (CommRingCat.of (MvPolynomial κ.out (ULift.{u} ℤ)))).size
   rw [Scheme.size_Spec]
   refine le_trans ?_ (le_max_right _ _)
   calc κ = #κ.out := (Cardinal.mk_out κ).symm

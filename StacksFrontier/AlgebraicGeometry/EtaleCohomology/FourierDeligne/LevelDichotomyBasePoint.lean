@@ -81,7 +81,8 @@ def finiteTypeContinuousModuleOfStableι (P : FiniteTypeContinuousModule.{0, v, 
 /-- The inclusion `Stacks.EtaleCohomology.finiteTypeContinuousModuleOfStableι` sends an element of
 `W` to itself. -/
 theorem finiteTypeContinuousModuleOfStableι_apply (P : FiniteTypeContinuousModule.{0, v, w} Λ H)
-    (W : Submodule Λ P.obj.obj.obj.V) (hW : ∀ h, ∀ x ∈ W, (P.obj.obj.obj.ρ h).asHom.hom x ∈ W) (x : W) :
+    (W : Submodule Λ P.obj.obj.obj.V) (hW : ∀ h, ∀ x ∈ W, (P.obj.obj.obj.ρ h).asHom.hom x ∈ W)
+    (x : W) :
     (finiteTypeContinuousModuleOfStableι P W hW).hom.hom.hom.hom.hom x = x.1 := rfl
 
 /-- The inclusion `Stacks.EtaleCohomology.finiteTypeContinuousModuleOfStableι` is a
@@ -200,7 +201,7 @@ theorem continuousModuleLevelDichotomy_of_basePoint (B : BigEtaleSite.{u}) (X : 
   let κ : E.inverse.obj MW ⟶ FX := E.inverse.map ι ≫ E.unitInv.app FX
   have : Mono κ := mono_comp _ _
   have hθ : E.functor.map κ = E.counit.app MW ≫ ι := by
-    show E.functor.map (E.inverse.map ι ≫ E.unitInv.app FX) = _
+    change E.functor.map (E.inverse.map ι ≫ E.unitInv.app FX) = _
     rw [Functor.map_comp, Equivalence.fun_inv_map, Category.assoc, Category.assoc,
       E.counitInv_functor_comp FX, Category.comp_id]
   have hMW : ℓ ^ N • 𝟙 MW ≠ 0 := nsmul_id_finiteTypeContinuousModuleOfStable_ne_zero _ W hW hne

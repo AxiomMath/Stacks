@@ -114,7 +114,7 @@ theorem isHomLift_fiberPointCompMap :
       (fiberPointCompMap x ε γ) :=
   CategoryTheory.IsHomLift.of_fac'
     (finiteCoverProjection (B := B) (S := S) (hS := hS) (d := d)) γ _ rfl rfl (by
-      show γ = eqToHom rfl ≫ γ ≫ eqToHom rfl
+      change γ = eqToHom rfl ≫ γ ≫ eqToHom rfl
       simp)
 
 /-- **The comparison carries the projection of the base change along `ε` to the projection of the
@@ -124,7 +124,7 @@ theorem fiberPointCompMap_comp_fiberPointHom :
     fiberPointCompMap x ε γ ≫ fiberPointHom x (Over.mk ε) =
       fiberPointHom x (Over.mk (γ ≫ ε)) := by
   refine FiniteCover.Hom.ext ?_ ?_
-  · show γ ≫ ε ≫ eqToHom x.2.symm = (γ ≫ ε) ≫ eqToHom x.2.symm
+  · change γ ≫ ε ≫ eqToHom x.2.symm = (γ ≫ ε) ≫ eqToHom x.2.symm
     exact (Category.assoc _ _ _).symm
   · exact fiberPointCompMap_g_comp_fst x ε γ
 

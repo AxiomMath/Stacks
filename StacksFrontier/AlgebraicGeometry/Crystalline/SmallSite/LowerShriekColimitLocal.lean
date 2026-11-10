@@ -149,7 +149,7 @@ theorem exists_restrictOpen_affine_lift (B : Thickening S)
       W.ι.isOpenEmbedding.injective
         ((congrArg (fun k : W'.toScheme ⟶ B.thickening.target.scheme ↦ k.base z)
           (Scheme.homOfLE_ι B.thickening.target.scheme h)).trans hyz.symm)
-    show σ.targetHom.hom.base ((B.thickening.target.scheme.homOfLE h).base z) ∈ V₂
+    change σ.targetHom.hom.base ((B.thickening.target.scheme.homOfLE h).base z) ∈ V₂
     rwa [hz]
   exact ⟨W', h, ⟨p', hq, rfl⟩, V₂, hV₂, Thickening.liftRestrictOpen _ V₂ hr,
     Thickening.liftRestrictOpen_comp _ V₂ hr⟩
@@ -236,8 +236,7 @@ lemma transitionInvAux_smul (c : ringAlong k.hom)
     (z : ringAlong k.hom ⊗[crysSheafRing S A₀.obj] F.val.obj (op A₀)) :
     transitionInvAux F k h₀ h₁ e (c • z) =
       ringIdx h₁ (siteRingAlong k.hom c) • transitionInvAux F k h₀ h₁ e z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul t s =>
       rw [TensorProduct.smul_tmul', transitionInvAux_tmul, transitionInvAux_tmul, smul_eq_mul,
         smul_tmul]
@@ -249,8 +248,7 @@ lemma transitionInvAux_smul (c : ringAlong k.hom)
 lemma crisBaseChangeAlong_smul (c : ringAlong k.hom)
     (z : ringAlong k.hom ⊗[crysSheafRing S A₀.obj] F.val.obj (op A₀)) :
     crisBaseChangeAlong F k (c • z) = siteRingAlong k.hom c • crisBaseChangeAlong F k z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [smul_zero, map_zero, smul_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul t s =>
       rw [TensorProduct.smul_tmul', crisBaseChangeAlong_tmul, crisBaseChangeAlong_tmul,
         smul_smul]
@@ -313,7 +311,7 @@ def transitionInvLin : (ulModel F).obj (op A₁) ⟶
 lemma transitionInvLin_restrict (s : F.val.obj (op A₀)) :
     transitionInvLin F k h₀ h₁ e hF hcrys ((ulModel F).restrictₛₗ k.op (upSection F s)) =
       tmul ((crisCommRing S).map h₀).hom 1 (upSection F s) := by
-  show transitionInvAux F k h₀ h₁ e
+  change transitionInvAux F k h₀ h₁ e
       ((crisBaseChangeAlongEquiv F k hF hcrys).symm (crysSiteRestrict F k s)) = _
   rw [crisBaseChangeAlongEquiv_symm_restrict, transitionInvAux_tmul,
     show siteRingAlong k.hom (1 : ringAlong k.hom) = 1 from rfl, map_one]
@@ -342,19 +340,13 @@ abbrev transitionHom : CostructuredArrow.mk h₀ ⟶ CostructuredArrow.mk h₁ :
   CostructuredArrow.homMk (f := CostructuredArrow.mk h₀) (f' := CostructuredArrow.mk h₁) k.op e
 
 omit [IsAffine A₀.obj.thickening.target.scheme] [IsAffine A₁.obj.thickening.target.scheme] in
-include hF hcrys in
 /-- The transition along `k` undoes `transitionInvAux`, up to the base change of sections. -/
 lemma diagramMap_transitionInvAux
     (z : ringAlong k.hom ⊗[crysSheafRing S A₀.obj] F.val.obj (op A₀)) :
     diagramMap (CrystallineThickening.ι S) (crisCommRing S) (ulModel F) (transitionHom k h₀ h₁ e)
         (transitionInvAux F k h₀ h₁ e z) =
       tmul ((crisCommRing S).map h₁).hom 1 (upSection F (crisBaseChangeAlong F k z)) := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      rw [map_zero, map_zero, map_zero]
-      exact (map_zero (ModuleCat.Hom.hom
-        ((ModuleCat.extendRestrictScalarsAdj.{u + 1, u, u}
-          ((crisCommRing S).map h₁).hom).unit.app _))).symm
+  induction z using TensorProduct.inductionOn with
   | tmul t s =>
       rw [transitionInvAux_tmul, crisBaseChangeAlong_tmul]
       exact (tmul_one_smul ((crisCommRing S).map h₁).hom
@@ -384,10 +376,10 @@ theorem bijective_diagramMap_transitionHom :
       have h2 : transitionInv F k h₀ h₁ e hF hcrys (tmul ((crisCommRing S).map h₁).hom 1 m) =
           transitionInvAux F k h₀ h₁ e ((crisBaseChangeAlongEquiv F k hF hcrys).symm m.down) :=
         homEquiv_symm_apply_tmul _ (transitionInvLin F k h₀ h₁ e hF hcrys) m
-      show diagramMap (CrystallineThickening.ι S) (crisCommRing S) (ulModel F)
+      change diagramMap (CrystallineThickening.ι S) (crisCommRing S) (ulModel F)
           (transitionHom k h₀ h₁ e) (transitionInv F k h₀ h₁ e hF hcrys
             (tmul ((crisCommRing S).map h₁).hom 1 m)) = tmul ((crisCommRing S).map h₁).hom 1 m
-      rw [h2, diagramMap_transitionInvAux F k h₀ h₁ e hF hcrys, ← crisBaseChangeAlongEquiv_apply F k
+      rw [h2, diagramMap_transitionInvAux F k h₀ h₁ e, ← crisBaseChangeAlongEquiv_apply F k
         hF hcrys, AddEquiv.apply_symm_apply]
       rfl
     exact ConcreteCategory.congr_hom h y
@@ -452,7 +444,7 @@ private lemma map_restrictOpenHom_comp_op_comp_eq_tauIdx {W W' : B.thickening.ta
     (g : A' ⟶ A) (hg : b ≫ (CrystallineThickening.ι S).map g = B.restrictOpenHom W ≫ τ) :
     (CrystallineThickening.ι S).op.map (A'.restrictOpenHom V₂ ≫ g).op ≫ σ'.op = tauIdx τ W' := by
   apply Quiver.Hom.unop_inj
-  show σ' ≫ (CrystallineThickening.ι S).map (A'.restrictOpenHom V₂ ≫ g) =
+  change σ' ≫ (CrystallineThickening.ι S).map (A'.restrictOpenHom V₂ ≫ g) =
     B.restrictOpenHom W' ≫ τ
   rw [Functor.map_comp, reassoc_of% hσ', hg, Thickening.restrictOpenLE_restrictOpenHom_assoc]
 
@@ -483,7 +475,7 @@ theorem exists_restrictOpenLE_eq_ι_tauIdx (W : B.thickening.target.scheme.Opens
   let k : (A₁ ⨯ A).restrictOpen V₂ ⟶ A := (A₁ ⨯ A).restrictOpenHom V₂ ≫ prod.snd
   have hj : (CrystallineThickening.ι S).op.map j.op ≫ σ'.op = h₁ ≫ (B.restrictOpenLE h).op := by
     apply Quiver.Hom.unop_inj
-    show σ' ≫ (CrystallineThickening.ι S).map j = B.restrictOpenLE h ≫ h₁.unop
+    change σ' ≫ (CrystallineThickening.ι S).map j = B.restrictOpenLE h ≫ h₁.unop
     rw [Functor.map_comp, reassoc_of% hσ', prodLiftι_fst]
   have hk : (CrystallineThickening.ι S).op.map k.op ≫ σ'.op = tauIdx τ W' :=
     map_restrictOpenHom_comp_op_comp_eq_tauIdx τ h V₂ _ σ' hσ' _ (prodLiftι_snd _ _)
@@ -544,10 +536,9 @@ theorem exists_restrictOpenLE_tauRestrict_eq_zero (W : B.thickening.target.schem
   let Ψ :=
     (diagramMap (CrystallineThickening.ι S) (crisCommRing S) (ulModel F) ψ).hom.toAddMonoidHom
   have hcomm : ∀ z, D (R₁ z) = J (R₂ (Ψ z)) := fun z ↦ by
-    induction z using TensorProduct.induction_on with
-    | zero => exact (map_zero (D.comp R₁)).trans (map_zero (J.comp (R₂.comp Ψ))).symm
+    induction z using TensorProduct.inductionOn with
     | tmul r m =>
-        show tmul _ (((crisCommRing S).map (B.restrictOpenLE h).op).hom r)
+        change tmul _ (((crisCommRing S).map (B.restrictOpenLE h).op).hom r)
             ((ulModel F).restrictₛₗ k.op m) =
           tmul _ (((crisCommRing S).map (B.restrictOpenLE h).op).hom r)
             ((ulModel F).restrictₛₗ (P.restrictOpenHom V₂).op
@@ -558,7 +549,7 @@ theorem exists_restrictOpenLE_tauRestrict_eq_zero (W : B.thickening.target.schem
         exact (map_add (D.comp R₁) z z').trans ((congrArg₂ (· + ·) hz hz').trans
           (map_add (J.comp (R₂.comp Ψ)) z z').symm)
   refine ⟨W', h, hpW', (bijective_diagramMap_transitionHom F k _ σ'.op hk hF hcrys).1 ?_⟩
-  show D (R₁ y) = D 0
+  change D (R₁ y) = D 0
   rw [hcomm, show Ψ y = 0 from hψ, map_zero, map_zero]
   exact map_zero J
 

@@ -452,14 +452,14 @@ public theorem perturbedProjection_eq (hq : ∀ (i : ℕ) (y : C i), q i y = iot
     (x : C (n + 1)) :
     perturbedProjection q S T n x =
       perturbedInclusion iota T (n + 1) (perturbedRetraction pi S n x) := by
-  show T (n + 1) (q (n + 1) (S n x)) = T (n + 1) (iota (n + 1) (pi (n + 1) (S n x)))
+  change T (n + 1) (q (n + 1) (S n x)) = T (n + 1) (iota (n + 1) (pi (n + 1) (S n x)))
   rw [hq]
 
 /-- `Q = ι' ∘ π` in degree `0`, where `π' = π`. -/
 public theorem perturbedProjectionZero_eq (hq : ∀ (i : ℕ) (y : C i), q i y = iota i (pi i y))
     (x : C 0) :
     perturbedProjectionZero q T x = perturbedInclusion iota T 0 (pi 0 x) := by
-  show T 0 (q 0 x) = T 0 (iota 0 (pi 0 x))
+  change T 0 (q 0 x) = T 0 (iota 0 (pi 0 x))
   rw [hq]
 
 /-- **`π' ∘ ι' = 1` in degree `0`**: the perturbed projection is still a retraction of the
@@ -584,7 +584,7 @@ public theorem perturbedRetractionFull_perturbedHomotopy_eq_zero
   | succ n =>
     have hfix : S n (h (n + 1) (S (n + 1) y)) = h (n + 1) (S (n + 1) y) :=
       perturbedInverse_eq_self_of_homotopy_eq_zero t h S T hS hT' n _ (hhh n (S (n + 1) y))
-    show pi (n + 1) (S n (h (n + 1) (S (n + 1) y))) = 0
+    change pi (n + 1) (S n (h (n + 1) (S (n + 1) y))) = 0
     rw [hfix]
     exact hpih (n + 1) (S (n + 1) y)
 
@@ -676,7 +676,7 @@ public theorem retraction_differential
     (hpiiota : ∀ (i : ℕ) (x : L i), pi i (iota i x) = x)
     (hpiH : ∀ (i : ℕ) (y : C (i + 1)), pi i (H i y) = 0) (i : ℕ) (z : C i) :
     pi (i + 1) (d i z) = retractDifferential d iota pi i (pi i z) := by
-  show pi (i + 1) (d i z) = pi (i + 1) (d i (iota i (pi i z)))
+  change pi (i + 1) (d i z) = pi (i + 1) (d i (iota i (pi i z)))
   cases i with
   | zero =>
     have hstep : pi 1 (d 0 (H 0 (d 0 z))) = 0 :=

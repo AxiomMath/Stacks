@@ -185,6 +185,7 @@ theorem nonempty_restrictPush_obj_iso {Y W : AlgebraicSpaces B S hS} (j : Y ⟶ 
   exact ⟨R.mapIso e.symm ≪≫ e₁ ≪≫ e₂ ≪≫ Rj.mapIso e₃⟩
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_DerivedCoherator :

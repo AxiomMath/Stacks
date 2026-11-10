@@ -155,7 +155,7 @@ theorem tensorShiftRegularIsoComp_naturality {N N' : Bimodule A B} (f : N ⟶ N'
         (((tensorDGFunctor N).pure
           (DifferentialGradedModule.shift (regularModule A) k)).toLinearMap x y) =
       leftActionTotal A B N'.rightModule N'.leftAction.1 x (f.rightHom.toFun y) := by
-    show (tensorShiftRegularIsoComp N' k).hom.toFun
+    change (tensorShiftRegularIsoComp N' k).hom.toFun
       ((tensorHomOfBimoduleHom f (DifferentialGradedModule.shift (regularModule A) k)).toFun _) = _
     rw [tensorHomOfBimoduleHom_pure, tensorShiftRegularIsoComp_hom_pure]
   have hR : ((tensorShiftRegularIsoComp N k).hom ≫
@@ -163,7 +163,7 @@ theorem tensorShiftRegularIsoComp_naturality {N N' : Bimodule A B} (f : N ⟶ N'
         (((tensorDGFunctor N).pure
           (DifferentialGradedModule.shift (regularModule A) k)).toLinearMap x y) =
       f.rightHom.toFun (leftActionTotal A B N.rightModule N.leftAction.1 x y) := by
-    show ((DifferentialGradedModule.shiftFunctor B k).map f.rightHom).toFun
+    change ((DifferentialGradedModule.shiftFunctor B k).map f.rightHom).toFun
       ((tensorShiftRegularIsoComp N k).hom.toFun _) = _
     rw [tensorShiftRegularIsoComp_hom_pure, DifferentialGradedModule.shiftFunctor_map_toFun]
   exact hL.trans ((Hom.map_leftActionTotal' f x y).symm.trans hR.symm)

@@ -387,10 +387,10 @@ theorem elementsIsoClassEquiv_naturality {p : 𝒮 ⥤ C} [p.IsFibered]
   let _ : p.IsPreFibered := hp.isFibered.toIsPreFibered
   induction c using Quotient.ind with
   | _ x =>
-    show elementsIsoClassEquiv F e V
+    change elementsIsoClassEquiv F e V
       (p.isoClassPresheaf.map f.op (Functor.isoClassMk p x)) = _
     rw [Functor.isoClassPresheaf_map_isoClassMk]
-    show elementsFiberEquiv F V
+    change elementsFiberEquiv F V
       ((fiberFunctorOfComp e.hom.w V).obj (p.pullbackFiber x f)) =
         F.map f.op (elementsFiberEquiv F U ((fiberFunctorOfComp e.hom.w U).obj x))
     exact elementsFiberEquiv_map_of_isHomLift F f

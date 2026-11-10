@@ -168,11 +168,11 @@ needs three things, all of them theorems of this library.
   Stacks 0EVQ consumes `AlgebraicGeometry.Scheme.IsLimitPreserving`, which tests every cofiltered
   inverse system — the systems Stacks 0EVP produces being presented as cofiltered categories.
   `AlgebraicGeometry.Scheme.isLimitPreserving_of_preservesAffineLimits` in
-  `StacksFrontier/AlgebraicGeometry/Topologies/ExtendingFunctorsCofilteredLimits.lean` identifies the
-  two, by the cofinality theorem of Stacks 0032: a cofiltered category receives an initial functor
-  from the opposite of a nonempty directed poset, restriction along it preserves and reflects
-  limit cones, and the corresponding functor into the opposite category is final, so the colimit
-  over the restricted system computes the colimit over the original one.
+  `StacksFrontier/AlgebraicGeometry/Topologies/ExtendingFunctorsCofilteredLimits.lean` identifies
+  the two, by the cofinality theorem of Stacks 0032: a cofiltered category receives an initial
+  functor from the opposite of a nonempty directed poset, restriction along it preserves and
+  reflects limit cones, and the corresponding functor into the opposite category is final, so the
+  colimit over the restricted system computes the colimit over the original one.
 * The two readings of an h covering agree.  Stacks 0ETS defines an h covering to be a family of
   morphisms locally of finite presentation satisfying either of the two equivalent conditions of
   Stacks 0ETR, being a ph covering or being a V covering.

@@ -146,12 +146,12 @@ theorem isAlgebraic_of_indEtale (R K B : Type u) [CommRing R] [IsDomain R] [Fiel
     refine (isCardinalPresentable_iff_of_isEquivalence P Cardinal.aleph0
       (commAlgCatEquivUnder (CommRingCat.of R)).functor).mp ?_
     apply CommRingCat.isFinitelyPresentable_under
-    show (algebraMap R (Polynomial R)).FinitePresentation
+    change (algebraMap R (Polynomial R)).FinitePresentation
     rw [RingHom.finitePresentation_algebraMap]
     infer_instance
   obtain ⟨j, ψ, hψ⟩ := IsFinitelyPresentable.exists_hom_of_isColimit pres.isColimit a
   have hb : (pres.ι.app j).hom (ψ.hom Polynomial.X) = b := by
-    show (CommAlgCat.Hom.hom (ψ ≫ pres.ι.app j)) Polynomial.X = b
+    change (CommAlgCat.Hom.hom (ψ ≫ pres.ι.app j)) Polynomial.X = b
     rw [hψ]
     exact Polynomial.aeval_X b
   have : Algebra.Etale R (pres.diag.obj j) := hstage j
@@ -240,7 +240,7 @@ def isColimit_cofanMk_splitFiniteEtaleOverSpec (n : ℕ) :
   have hdesc : Sigma.desc p = sigmaSpec (fun _ : ULift.{u} (Fin n) ↦ CommRingCat.of R) := by
     apply Sigma.hom_ext
     intro i
-    rw [Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc]
     change Spec.map (CommRingCat.ofHom (Pi.evalRingHom (fun _ : ULift.{u} (Fin n) ↦ R) i)) =
       Sigma.ι (fun _ : ULift.{u} (Fin n) ↦ Spec (.of R)) i ≫
         sigmaSpec (fun _ : ULift.{u} (Fin n) ↦ CommRingCat.of R)
@@ -279,7 +279,7 @@ theorem specIsoOfAlgEquiv_hom_comp {S T : Type u} [CommRing S] [CommRing T] [Alg
     [Algebra R T] (e : S ≃ₐ[R] T) :
     (specIsoOfAlgEquiv R e).hom ≫ Spec.map (CommRingCat.ofHom (algebraMap R T)) =
       Spec.map (CommRingCat.ofHom (algebraMap R S)) := by
-  show Spec.map (CommRingCat.ofHom e.symm.toRingHom) ≫ _ = _
+  change Spec.map (CommRingCat.ofHom e.symm.toRingHom) ≫ _ = _
   rw [← Spec.map_comp]
   apply Spec.map_inj.mpr
   apply CommRingCat.hom_ext
@@ -321,7 +321,7 @@ theorem exists_algEquiv_pi_sections_of_isFiniteCoproductOfTerminal
     refine Cofan.IsColimit.mk _ (fun s ↦ hc₀.desc
       (Cofan.mk s.pt (fun i ↦ (e i).hom ≫ s.inj i))) ?_ ?_
     · intro s i
-      show (e i).inv ≫ f₀ i ≫ hc₀.desc (Cofan.mk s.pt (fun j ↦ (e j).hom ≫ s.inj j)) = s.inj i
+      change (e i).inv ≫ f₀ i ≫ hc₀.desc (Cofan.mk s.pt (fun j ↦ (e j).hom ≫ s.inj j)) = s.inj i
       rw [hfac s i, Iso.inv_hom_id_assoc]
     · intro s m hm
       apply Cofan.IsColimit.hom_ext hc₀
@@ -345,10 +345,10 @@ theorem exists_algEquiv_pi_sections_of_isFiniteCoproductOfTerminal
     have hbase : eScheme.hom ≫ (splitFiniteEtaleOverSpec R n).hom = Y.hom := eY.hom.w
     have h1 : eSpec.hom ≫ (splitFiniteEtaleOverSpec R n).hom =
         Y.left.isoSpec.inv ≫ Y.hom := by
-      show (Y.left.isoSpec.inv ≫ eScheme.hom) ≫ (splitFiniteEtaleOverSpec R n).hom = _
+      change (Y.left.isoSpec.inv ≫ eScheme.hom) ≫ (splitFiniteEtaleOverSpec R n).hom = _
       rw [← hbase]
       exact Category.assoc _ _ _
-    show eSpec.hom ≫ (splitFiniteEtaleOverSpec R n).hom = _
+    change eSpec.hom ≫ (splitFiniteEtaleOverSpec R n).hom = _
     rw [h1, ← Spec.map_preimage (Y.left.isoSpec.inv ≫ Y.hom)]
     apply Spec.map_inj.mpr
     apply CommRingCat.hom_ext
@@ -371,7 +371,7 @@ theorem exists_algEquiv_pi_of_isFiniteCoproductOfTerminal (S : Type u) [CommRing
   let eΓ := Y.left.isoSpec.symm ≪≫ e
   have hΓ : eΓ.hom ≫ Spec.map (CommRingCat.ofHom (algebraMap R S)) =
       Spec.map (CommRingCat.ofHom (algebraMap R Γ(Y.left, ⊤))) := by
-    show (Y.left.isoSpec.inv ≫ e.hom) ≫ _ = _
+    change (Y.left.isoSpec.inv ≫ e.hom) ≫ _ = _
     rw [Category.assoc, he]
     exact (Spec.map_preimage _).symm
   exact ⟨n, ⟨(algEquivOfSpecIso R Γ(Y.left, ⊤) S eΓ hΓ).trans e'⟩⟩
@@ -489,7 +489,7 @@ theorem isFiniteCoproductOfTerminal_finiteEtaleBaseChange_fractionField_of_isHen
   let i := Spec.map (CommRingCat.ofHom (algebraMap Ash Ksh))
   let j := Spec.map (CommRingCat.ofHom (algebraMap A Ash))
   have heq : f ≫ g = i ≫ j := by
-    show Spec.map _ ≫ Spec.map _ = Spec.map _ ≫ Spec.map _
+    change Spec.map _ ≫ Spec.map _ = Spec.map _ ≫ Spec.map _
     rw [← Spec.map_comp, ← Spec.map_comp]
     apply Spec.map_inj.mpr
     apply CommRingCat.hom_ext
@@ -644,7 +644,7 @@ theorem isLocalization_integralClosure_fractionField (R F L : Type u) [CommRing 
   have : Algebra.IsAlgebraic R L := Algebra.IsAlgebraic.trans R F L
   refine (isLocalization_iff _ _).mpr ⟨?_, ?_, ?_⟩
   · rintro ⟨s, r, hr, rfl⟩
-    show IsUnit (algebraMap R L r)
+    change IsUnit (algebraMap R L r)
     rw [IsScalarTower.algebraMap_apply R F L]
     exact (IsLocalization.map_units F (⟨r, hr⟩ : nonZeroDivisors R)).map _
   · intro z
@@ -652,7 +652,7 @@ theorem isLocalization_integralClosure_fractionField (R F L : Type u) [CommRing 
       (Algebra.IsAlgebraic.isAlgebraic (R := R) z).exists_smul_eq (integralClosure R L)
     refine ⟨(s, ⟨algebraMap R (integralClosure R L) r,
       ⟨r, mem_nonZeroDivisors_iff_ne_zero.mpr hr, rfl⟩⟩), ?_⟩
-    show z * algebraMap R L r = (s : L)
+    change z * algebraMap R L r = (s : L)
     simpa [Algebra.smul_def, mul_comm, Subalgebra.algebraMap_eq] using hs
   · intro x y hxy
     obtain rfl : x = y := Subtype.ext hxy
@@ -677,7 +677,7 @@ private theorem essImage_finiteEtaleBaseChange_fractionField_of_isFiniteCoproduc
     module_finite_and_etale_sections_of_finiteEtaleOver K V
   let V' := finiteEtaleOverSpec K L
   let eV : V ≅ V' := MorphismProperty.Over.isoMk V.left.isoSpec (by
-    show V.left.isoSpec.hom ≫ Spec.map φ = V.hom
+    change V.left.isoSpec.hom ≫ Spec.map φ = V.hom
     rw [Spec.map_preimage]
     simp)
   have hS : IsFiniteCoproductOfTerminal (finiteEtaleOverSpec Ksh (Ksh ⊗[K] L)) :=

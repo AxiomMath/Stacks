@@ -222,7 +222,7 @@ theorem HilbertFamily.baseChangeMap_comp_subschemeι {S : Scheme.{u}} {X : Over 
     {T' T : Over S} {d : ℕ} (g : T' ⟶ T) (Z : HilbertFamily X T d) :
     (baseChange X g Z).ideal.subschemeι ≫ familyBaseChangeMap X g =
       Z.baseChangeMap g ≫ Z.ideal.subschemeι := by
-  show (Z.ideal.comap (familyBaseChangeMap X g)).subschemeι ≫ familyBaseChangeMap X g =
+  change (Z.ideal.comap (familyBaseChangeMap X g)).subschemeι ≫ familyBaseChangeMap X g =
     ((Z.ideal.comapIso (familyBaseChangeMap X g)).hom ≫
       pullback.snd (familyBaseChangeMap X g) Z.ideal.subschemeι) ≫ Z.ideal.subschemeι
   rw [← Scheme.IdealSheafData.comapIso_hom_fst Z.ideal (familyBaseChangeMap X g),

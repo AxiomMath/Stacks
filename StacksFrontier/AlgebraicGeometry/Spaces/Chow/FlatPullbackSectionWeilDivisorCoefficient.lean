@@ -356,7 +356,7 @@ theorem componentDivisorSum_apply_eq_ordTotalFracInt
         chartSchemeToPoints D.site D.base D.base_mem X d.U
           ((chartScheme d.U).fromSpecStalk u ⟨p, p.2.1.1⟩) := by
       refine (j.1.1.isGenericPoint_ambientGenericPoint D.site D.base D.base_mem hX.1).eq ?_
-      show closure _ = _
+      change closure _ = _
       rw [hjW, hWp]
     rw [minimalPrimeLength_eq_toNat_geometricLength D.site D.base D.base_mem hX.1 d.U u p
       (canonicalGeometricPoint D.site D.base D.base_mem X
@@ -384,7 +384,7 @@ theorem flatPullbackMap_sectionWeilDivisor_apply_eq_ordTotalFracInt
     (Z : IntegralClosedSubspace D.site D.base D.base_mem X)
     (hZ : deltaDimension D sX Z = n + r - 1)
     (d : ChartDiagram D.site D.base D.base_mem X Y f)
-    (hU : IsAffine (chartScheme d.U)) (hV : IsAffine (chartScheme d.V))
+    (hV : IsAffine (chartScheme d.V))
     (e : (W : SmallEtale D.site D.base D.base_mem Y) → (W ⟶ d.V) → L.val.obj (op W))
     (hecompat : ∀ (W W' : SmallEtale D.site D.base D.base_mem Y) (k : W ⟶ d.V) (g : W' ⟶ W),
       (L.val.map g.op).hom (e W k) = e W' (g ≫ k))
@@ -450,7 +450,7 @@ theorem flatPullbackMap_sectionWeilDivisor_apply_eq_ordTotalFracInt
     apply hW'
     refine injective_integralClosedSubspaceSupport D.site D.base D.base_mem hY.1
       (IrreducibleCloseds.ext ?_)
-    show subspacePointSet D.site D.base D.base_mem Y W'.subspace =
+    change subspacePointSet D.site D.base D.base_mem Y W'.subspace =
       subspacePointSet D.site D.base D.base_mem Y Zy.subspace
     rw [hZypts, ← hgen, (W'.isGenericPoint_ambientGenericPoint D.site D.base D.base_mem hY.1).def]
   rw [finsum_eq_single _ Zy hsingle]
@@ -529,13 +529,13 @@ theorem flatPullbackMap_sectionWeilDivisor_apply_eq_ordTotalFracInt
     have hpre := isClosedSubspace_preimage_integralClosedSubspace D sX hX sY hY f Zy
     have hsubZ : subspacePointSet D.site D.base D.base_mem X Z.subspace ⊆
         Set.range (pointsMap D.site D.base D.base_mem _ (Zy.subspace.preimage f).ι) := by
-      show _ ⊆ subspacePointSet D.site D.base D.base_mem X (Zy.subspace.preimage f)
+      change _ ⊆ subspacePointSet D.site D.base D.base_mem X (Zy.subspace.preimage f)
       rw [subspacePointSet_preimage]
       refine ((Z.isGenericPoint_ambientGenericPoint D.site D.base D.base_mem
         hX.1).mem_closed_set_iff
         ((isClosed_range_pointsMap_integralClosedSubspace D.site D.base D.base_mem hY.1
           Zy).preimage (continuous_pointsMap D.site D.base D.base_mem f))).mp ?_
-      show y ∈ subspacePointSet D.site D.base D.base_mem Y Zy.subspace
+      change y ∈ subspacePointSet D.site D.base D.base_mem Y Zy.subspace
       rw [hZypts]
       exact subset_closure rfl
     obtain ⟨Vs, hVs⟩ := IntegralClosedSubspace.exists_pushforward_eq D.site D.base D.base_mem
@@ -548,7 +548,7 @@ theorem flatPullbackMap_sectionWeilDivisor_apply_eq_ordTotalFracInt
         hpre.1 (D.isDecentSpace_of_isGood sX hX) hpre.2 Vs, hVs]
     have hmult := flatPullbackMult_eq_toNat_length_chartStalk D sX hX sY hY f hbase r hflat hr Zy
       Vs (by
-        show deltaDimension D sX (IntegralClosedSubspace.pushforward D.site D.base D.base_mem
+        change deltaDimension D sX (IntegralClosedSubspace.pushforward D.site D.base D.base_mem
           hX.1 hpre.1 (D.isDecentSpace_of_isGood sX hX) hpre.2 Vs) = _
         rw [hVs, hZ, hZyd, hyd]
         ring)

@@ -301,7 +301,7 @@ theorem smallBaseChangeChartRelativeSpecIso_naturality (k : W ⟶ W₂) :
             W W₂ hW hW₂ k).hom)).symm
   · refine (yoneda.map_comp _ _).symm.trans
       ((congrArg yoneda.map ?_).trans (yoneda.map_comp _ _))
-    show (smallBaseChange B S hS
+    change (smallBaseChange B S hS
               (chartRelativeSpecQuotientHom B S hS X A hA pr₁ pr₂ hsq hV' hV₂ hV'')
               (relativelyRepresentable_chartRelativeSpecQuotientHom B S hS X A hA pr₁ pr₂ hsq
                 hsurj hV' hV₂ hV'') ⋙ SmallEtale.toOver B S hS

@@ -66,7 +66,7 @@ theorem isZero_iff_weaklyAssociatedPoints_eq_empty {X : Scheme.{u}} (F : X.Modul
           have hpy : (hV.primeIdealOf y).asIdeal = p := by
             have hi : hV.isoSpec.hom (hV.isoSpec.inv ⟨p, hp.isPrime⟩) =
                 (⟨p, hp.isPrime⟩ : PrimeSpectrum Γ(X, V)) := by
-              show (hV.isoSpec.inv ≫ hV.isoSpec.hom) ⟨p, hp.isPrime⟩ = _
+              change (hV.isoSpec.inv ≫ hV.isoSpec.hom) ⟨p, hp.isPrime⟩ = _
               rw [hV.isoSpec.inv_hom_id]
               rfl
             simpa [IsAffineOpen.primeIdealOf, y] using congrArg (fun q => q.asIdeal) hi

@@ -113,10 +113,7 @@ theorem chartKernelPresheafHom_mem_span {n : ℕ} (h : Fin n → chartH1 B S hS 
       Submodule.span ((Stacks.SheafOfModules.Tensor.ringSheaf
           (smallEtaleRingedTopos B S hS X).O).obj.obj (op W.left))
         (Set.range fun i => chartKernelSectionRestrict B S hS f d W.hom (h i)) := by
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    rw [map_zero]
-    exact Submodule.zero_mem _
+  induction t using TensorProduct.inductionOn with
   | tmul a m =>
     have e1 : chartKernelPresheafHomApp B S hS f d W (a ⊗ₜ m) =
         (show (Stacks.SheafOfModules.Tensor.ringSheaf

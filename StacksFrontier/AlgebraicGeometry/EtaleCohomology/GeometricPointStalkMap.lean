@@ -131,7 +131,7 @@ private theorem descResidueField_stalkClosedPointTo_residueFieldMap
       apply CommRingCat.hom_ext
       apply RingHom.ext
       intro x
-      show (Scheme.residueFieldCongr hc).hom
+      change (Scheme.residueFieldCongr hc).hom
           ((Scheme.Spec.residueFieldIso (.of K) c).inv
             (c.asIdeal.algEquivResidueFieldOfField x)) = _
       rfl
@@ -227,20 +227,20 @@ private theorem factor_residueFieldMap
   let φ : E →ₐ[F] A := {
     toRingHom := α
     commutes' := fun r => by
-      show α (algebraMap F E r) = algebraMap F A r
-      show α (m r) = (γ.comp β) r
+      change α (algebraMap F E r) = algebraMap F A r
+      change α (m r) = (γ.comp β) r
       exact congrArg (fun g : F →+* A => g r) hcomp }
   obtain ⟨ψ₀, hψ₀⟩ := algHom_factor_through_algClosed
     (F := F) (E := E) (L := L) (A := A) φ
   let ψ : E →+* (Spec (.of k')).residueField default := e.hom.hom.comp ψ₀.toRingHom
   refine ⟨ψ, ?_, ?_⟩
   · exact RingHom.ext fun r => by
-      show e.hom.hom (ψ₀ (algebraMap F E r)) = _
+      change e.hom.hom (ψ₀ (algebraMap F E r)) = _
       rw [ψ₀.commutes]
       rfl
   · apply RingHom.ext
     intro r
-    show a.residueFieldMap default (e.inv.hom (e.hom.hom (ψ₀ r))) = α r
+    change a.residueFieldMap default (e.inv.hom (e.hom.hom (ψ₀ r))) = α r
     have heval : e.inv.hom (e.hom.hom (ψ₀ r)) = ψ₀ r := by
       simp
     rw [heval]
@@ -287,7 +287,7 @@ private theorem factor_etale_point
     have hc : (default : Spec (.of k)) = c := Subsingleton.elim _ _
     exact congrArg p hc
   have hqpoint : q c' = p default := by
-    show q (IsLocalRing.closedPoint k') = p default
+    change q (IsLocalRing.closedPoint k') = p default
     exact congrArg Sigma.fst hq
   have hqdesc' : Scheme.descResidueField (Scheme.stalkClosedPointTo q) =
       (X.residueFieldCongr hqpoint).hom ≫ ψobj :=
@@ -296,7 +296,7 @@ private theorem factor_etale_point
     apply CommRingCat.hom_ext
     apply RingHom.ext
     intro x
-    show e.toRingHom (e.symm.toRingHom (ψ x)) = ψ x
+    change e.toRingHom (e.symm.toRingHom (ψ x)) = ψ x
     simp
   let hqa : q c' = q default := congrArg q (Subsingleton.elim _ _)
   let hqd : q default = p default := hqa.symm.trans hqpoint
@@ -330,7 +330,7 @@ private theorem factor_etale_point
     · exact hbase
     · dsimp only [Scheme.SpecToEquivOfField]
       have hfactor := Scheme.descResidueField_stalkClosedPointTo_comp (f := q) (g := a)
-      show Scheme.descResidueField (Scheme.stalkClosedPointTo (a ≫ q)) =
+      change Scheme.descResidueField (Scheme.stalkClosedPointTo (a ≫ q)) =
         (X.residueFieldCongr _).hom ≫ Scheme.descResidueField (Scheme.stalkClosedPointTo p)
       refine hfactor.trans ?_
       let : Mono (CommRingCat.ofHom (specResidueFieldRingEquiv k).toRingHom) :=
@@ -353,7 +353,7 @@ private theorem factor_etale_point
         Scheme.isLocalHom_stalkClosedPointTo' a
       let : IsLocalHom (Scheme.stalkClosedPointTo p).hom :=
         Scheme.isLocalHom_stalkClosedPointTo' p
-      show q.residueFieldMap (a c) ≫
+      change q.residueFieldMap (a c) ≫
           Scheme.descResidueField (Scheme.stalkClosedPointTo a) ≫
             CommRingCat.ofHom (specResidueFieldRingEquiv k).toRingHom =
         ((X.residueFieldCongr hbase).hom ≫
@@ -370,7 +370,7 @@ private theorem factor_etale_point
                 a.residueFieldMap default) = p.residueFieldMap default := by
         rw [hψe]
         exact CommRingCat.hom_ext hψa
-      show q.residueFieldMap (a (IsLocalRing.closedPoint k)) ≫
+      change q.residueFieldMap (a (IsLocalRing.closedPoint k)) ≫
           ((Spec (.of k')).residueFieldCongr hqa).hom ≫ a.residueFieldMap default =
         (X.residueFieldCongr _).hom ≫ (X.residueFieldCongr _).hom ≫
           p.residueFieldMap default
@@ -456,8 +456,8 @@ public def geometricPointFiberMap (a : GeometricPoint.Hom s t) :
 natural isomorphism. -/
 private theorem categoryOfElements_map_isEquivalence
     {C : Type v} [Category.{w} C] {F G : C ⥤ Type u}
-    (α : F ⟶ G) (hα : IsIso α) : (CategoryOfElements.map α).IsEquivalence := by
-  let E := CategoryOfElements.map α
+    (α : F ⟶ G) (hα : IsIso α) : (NatTrans.mapElements α).IsEquivalence := by
+  let E := NatTrans.mapElements α
   have hbij (X : C) : Function.Bijective (α.app X) :=
     (isIso_iff_bijective _).mp ((NatTrans.isIso_iff_isIso_app α).mp hα X)
   refine {
@@ -509,13 +509,13 @@ public theorem geometricPointFiberMap_isIso :
 public def neighborhoodFunctor (a : GeometricPoint.Hom s t) :
     (geometricPointFiber B S hS t).Elements ⥤
       (geometricPointFiber B S hS s).Elements :=
-  CategoryOfElements.map (geometricPointFiberMap B S hS a)
+  NatTrans.mapElements (geometricPointFiberMap B S hS a)
 
 /-- Restriction along `a` is an equivalence of étale-neighborhood categories. -/
 @[stacks 04FN "equivalence of neighborhoods"]
 public theorem neighborhoodFunctor_isEquivalence :
     (neighborhoodFunctor B S hS a).IsEquivalence := by
-  show (CategoryOfElements.map (geometricPointFiberMap B S hS a)).IsEquivalence
+  change (NatTrans.mapElements (geometricPointFiberMap B S hS a)).IsEquivalence
   exact @categoryOfElements_map_isEquivalence
     (SmallEtale B S hS) inferInstance
     (geometricPointFiber B S hS t)
@@ -532,13 +532,13 @@ public def geometricPointStalkMap (A : Type v) [Category.{w} A]
     etaleStalkPresheafFunctor B S hS t A ⟶
       etaleStalkPresheafFunctor B S hS s A where
   app F := colimit.pre
-    ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ F)
+    ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ F)
     (neighborhoodFunctor B S hS a).op
   naturality := by
     intro F G α
     exact (colimit.pre_map
       (Functor.whiskerLeft
-        (CategoryOfElements.π (geometricPointFiber B S hS s)).op α)
+        (Functor.Elements.π (geometricPointFiber B S hS s)).op α)
       (neighborhoodFunctor B S hS a).op).symm
 
 /-- The canonical map takes the germ of `(U, u', σ)` to the germ of
@@ -551,11 +551,11 @@ public theorem geometricPointStalkMap_germ
     (σ : F.obj (Opposite.op U.unop.1)) :
     (geometricPointStalkMap B S hS a (Type u)).app F
         ((colimit.ι
-          ((CategoryOfElements.π (geometricPointFiber B S hS t)).op ⋙ F) U) σ) =
+          ((Functor.Elements.π (geometricPointFiber B S hS t)).op ⋙ F) U) σ) =
       (colimit.ι
-        ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ F)
+        ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ F)
         ((neighborhoodFunctor B S hS a).op.obj U)) σ := by
-  let G := (CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ F
+  let G := (Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ F
   let E := (neighborhoodFunctor B S hS a).op
   exact congrArg (fun f : G.obj (E.obj U) ⟶ colimit G => f σ)
     (colimit.ι_pre G E U)
@@ -576,7 +576,7 @@ public theorem geometricPointStalkMap_isIso (A : Type v) [Category.{w} A]
     Functor.final_of_isRightAdjoint _
   rw [NatTrans.isIso_iff_isIso_app]
   intro F
-  let G := (CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ F
+  let G := (Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ F
   let E := (neighborhoodFunctor B S hS a).op
   dsimp [geometricPointStalkMap]
   exact Functor.Final.colimit_pre_isIso E
@@ -620,10 +620,10 @@ public theorem smallEtalePointHom_isIso : IsIso (smallEtalePointHom S a) := by
     ⟨(asIso f.hom).inv⟩
   refine ⟨g, ?_, ?_⟩
   · apply CategoryTheory.GrothendieckTopology.Point.hom_ext
-    show (asIso f.hom).inv ≫ f.hom = 𝟙 _
+    change (asIso f.hom).inv ≫ f.hom = 𝟙 _
     exact (asIso f.hom).inv_hom_id
   · apply CategoryTheory.GrothendieckTopology.Point.hom_ext
-    show f.hom ≫ (asIso f.hom).inv = 𝟙 _
+    change f.hom ≫ (asIso f.hom).inv = 𝟙 _
     exact (asIso f.hom).hom_inv_id
 end AlgebraicGeometry
 

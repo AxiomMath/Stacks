@@ -1,11 +1,8 @@
 module
 
-public import
-  StacksFrontier.AlgebraicGeometry.FundamentalGroup.LocalConnectedness.PuncturedSpectrumDescent.Olivier
-public import
-  StacksFrontier.AlgebraicGeometry.FundamentalGroup.LocalConnectedness.PuncturedSpectrumDescent.Gluing
-public import
-  StacksFrontier.AlgebraicGeometry.FundamentalGroup.LocalConnectedness.PuncturedSpectrumDescent.Cocycle
+public import StacksFrontier.AlgebraicGeometry.FundamentalGroup.LocalConnectedness.PuncturedSpectrumDescent.Olivier
+public import StacksFrontier.AlgebraicGeometry.FundamentalGroup.LocalConnectedness.PuncturedSpectrumDescent.Gluing
+public import StacksFrontier.AlgebraicGeometry.FundamentalGroup.LocalConnectedness.PuncturedSpectrumDescent.Cocycle
 public import StacksFrontier.AlgebraicGeometry.Descent.AffineFpqcEffectivity
 public import StacksFrontier.AlgebraicGeometry.Descent.CanonicalDatumRealizations
 public import StacksFrontier.AlgebraicGeometry.Descent.EtaleFpqcLocalAtTarget

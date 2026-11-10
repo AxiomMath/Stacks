@@ -154,14 +154,14 @@ public theorem exists_differential_setVariableExtension
     have h1 : (oddExtFst 𝒞).comp g = AlgHom.id R C := by
       refine (hu _ ?_).trans (hu _ ?_).symm
       · refine ⟨fun a => ?_, fun j => ?_, fun m x hx => ?_, fun n x hx => ?_⟩
-        · show (OddVariableExtension.coefficients 𝒞 1 (g (ι a))).1 = ι a
+        · change (OddVariableExtension.coefficients 𝒞 1 (g (ι a))).1 = ι a
           rw [hgι a, hf a, coefficients_oddExtPair]
-        · show (OddVariableExtension.coefficients 𝒞 1 (g (T j))).1 = T j
+        · change (OddVariableExtension.coefficients 𝒞 1 (g (T j))).1 = T j
           rw [hgT j, coefficients_oddExtPair]
-        · show (OddVariableExtension.coefficients 𝒞 1 (g x)).1 ∈ 𝒞 m
+        · change (OddVariableExtension.coefficients 𝒞 1 (g x)).1 ∈ 𝒞 m
           exact ((OddVariableExtension.mem_grade_coefficients_iff 𝒞 1 m (g x)).mp
             (hggrade m x hx)).1
-        · show δ.dpow n (OddVariableExtension.coefficients 𝒞 1 (g x)).1 =
+        · change δ.dpow n (OddVariableExtension.coefficients 𝒞 1 (g x)).1 =
             (OddVariableExtension.coefficients 𝒞 1 (g (δ.dpow n x))).1
           rw [← hgdpow n x hx]
           exact (oddExtFst_dpow 𝒞 δ n

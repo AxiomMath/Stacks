@@ -77,7 +77,8 @@ obtained by taking the corresponding coequalizer of coproducts of the `G_V` in `
   neither `f_*`, nor the adjunction `f⁻¹ ⊣ f_*`, nor the left exactness of `f⁻¹` is used, the
   argument being that corepresentability of `Mor(H, finv -)` in `H` passes to colimits and that
   the `h_V^#` with `V ∈ E` generate `Sh(D)` under colimits. Instantiating `finv` with
-  `MorphismOfTopoi.inverseImage f` (`StacksFrontier.CategoryTheory.Sites.Topos.MorphismOfTopoi`, this
+  `MorphismOfTopoi.inverseImage f` (`StacksFrontier.CategoryTheory.Sites.Topos.MorphismOfTopoi`,
+  this
   repository's notion of a morphism of topoi, Stacks 00XA) gives the source's statement verbatim.
 * `IsRightAdjoint` is Mathlib's "has a left adjoint", so the conclusion is the source's
   conclusion; the left adjoint is not pinned to a construction because it is unique up to unique
@@ -173,7 +174,7 @@ private noncomputable def presentationπ (F : Sheaf K (Type max u v)) :
 /-- The `(V, s)` summand of the presentation map is the Yoneda transpose of `s`. -/
 private lemma ι_comp_presentationπ (F : Sheaf K (Type max u v)) (i : presentationIndex E F) :
     Sigma.ι (presentationFamily E F) i ≫ presentationπ E F = uliftYonedaEquiv.{u}.symm i.2 :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The inclusion of the `(V, s)` summand is a preimage of `s` under the presentation map: `s` is
 recovered from it by the Yoneda transpose. -/

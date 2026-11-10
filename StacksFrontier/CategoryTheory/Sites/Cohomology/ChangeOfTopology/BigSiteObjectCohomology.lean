@@ -190,7 +190,7 @@ theorem freeYonedaSheafPullbackHomEquiv_comp (U : C) {F F' : Sheaf K Ab.{a}}
       (freeYonedaSheaf J U) ⟶ F) (f : F ⟶ F') :
     freeYonedaSheafPullbackHomEquiv J K G U F' (g ≫ f) =
       f.hom.app (op (G.obj U)) (freeYonedaSheafPullbackHomEquiv J K G U F g) := by
-  show freeYonedaSheafHomEquiv J U _
+  change freeYonedaSheafHomEquiv J U _
     ((Functor.sheafPullbackConstruction.sheafAdjunctionContinuous G Ab.{a} J K).homEquiv
       (freeYonedaSheaf J U) F' (g ≫ f)) = _
   rw [Adjunction.homEquiv_naturality_right]
@@ -238,7 +238,7 @@ theorem extChgUnivAddEquiv_extFunctorObj_map [extA : HasExt.{w} A] [extA' : HasE
     SimplicialComponent.extChgUnivAddEquiv.{w, w'} ((extFunctorObj.{w} X p).map f x) =
       (extFunctorObj.{w'} X p).map f
         (SimplicialComponent.extChgUnivAddEquiv.{w, w'} x) := by
-  show Ext.chgUniv.{w'} (x.comp (Ext.mk₀ f) (add_zero p)) =
+  change Ext.chgUniv.{w'} (x.comp (Ext.mk₀ f) (add_zero p)) =
     (Ext.chgUniv.{w'} x).comp (Ext.mk₀ f) (add_zero p)
   rw [extChgUniv_comp, extChgUniv_mk₀]
 

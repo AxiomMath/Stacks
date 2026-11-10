@@ -70,9 +70,9 @@ theorem finite_fibrePoints_of_isFiniteType_of_isQuasiFiniteAt
     D.Z_isAlgebraicSpace D.q
     ((isFiniteType_isStableUnderBaseChange B S hS).of_isPullback hsq hf) z).subset
     fun w hw ↦ ⟨hw.2, ?_⟩
-  show w ∈ {w' : points B S hS W.1 | IsQuasiFiniteAt B S hS q.hom w'}
+  change w ∈ {w' : points B S hS W.1 | IsQuasiFiniteAt B S hS q.hom w'}
   rw [setOf_isQuasiFiniteAt_eq_preimage_of_isPullback B S hS hsq hf.1]
-  show IsQuasiFiniteAt B S hS D.f (pointsMap B S hS D.W D.p w)
+  change IsQuasiFiniteAt B S hS D.f (pointsMap B S hS D.W D.p w)
   rw [hw.1]
   exact hx
 

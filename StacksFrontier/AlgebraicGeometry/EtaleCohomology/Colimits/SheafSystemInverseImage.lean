@@ -217,7 +217,7 @@ theorem smallEtaleSheafPullbackCompApp_naturality_comp {i j k : Iᵒᵖ} (a : i 
   rw [← cancel_mono (App A (e.app i) (DT.map (a ≫ b)) (DY.map (a ≫ b) ≫ e.app k)
     (e.naturality (a ≫ b)) M).hom]
   simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id]
-  rw [← A₁, Iso.inv_hom_id_assoc, A₂, Iso.map_inv_hom_id_assoc, ← A₃, Iso.inv_hom_id_assoc]
+  rw [← A₁, Iso.inv_hom_id_assoc, A₂, Iso.inv_hom_id_map_assoc, ← A₃, Iso.inv_hom_id_assoc]
 
 variable (F : EtaleSheafSystem DT A)
 
@@ -329,7 +329,7 @@ private theorem sheafPullbackDiagram_comparison {i j : Iᵒᵖ} (a : i ⟶ j) :
     (App A (X := cY.pt) (cY.π.app i) (DY.map a ≫ e.app j) (cY.π.app j ≫ e.app j) hW₂
       (F.obj j)).hom)]
   simp only [Category.assoc]
-  rw [Iso.map_inv_hom_id_assoc, ← A₁, Iso.inv_hom_id_assoc, A₂, Iso.map_inv_hom_id_assoc, ← A₃,
+  rw [Iso.inv_hom_id_map_assoc, ← A₁, Iso.inv_hom_id_assoc, A₂, Iso.inv_hom_id_map_assoc, ← A₃,
     Iso.inv_hom_id_assoc, Iso.inv_hom_id, Category.comp_id]
 
 /-- **The maps of the two diagrams correspond.** The inverse image along `e` of the maps of the

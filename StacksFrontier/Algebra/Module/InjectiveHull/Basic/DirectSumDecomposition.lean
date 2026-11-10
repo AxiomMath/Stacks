@@ -129,7 +129,7 @@ private theorem moduleOfInvertibleScalars_tower
     IsLocalizedModule.linearEquiv S (LinearMap.id : M →ₗ[R] M)
       (LocalizedModule.mkLinearMap S M)
   apply e.injective
-  show e (e.symm (algebraMap R T r • e x)) = e (r • x)
+  change e (e.symm (algebraMap R T r • e x)) = e (r • x)
   simp only [e.apply_symm_apply, e.map_smul]
   rw [Algebra.algebraMap_eq_smul_one (R := R) (A := T) r]
   simpa only [one_smul] using IsScalarTower.smul_assoc r (1 : T) (e x)
@@ -139,7 +139,7 @@ private theorem moduleSubobjectMk
     {R : Type u} [Ring R] {M N : ModuleCat.{u} R}
     (f : M ⟶ N) [Mono f] :
     ModuleCat.subobjectModule N (Subobject.mk f) = LinearMap.range f.hom := by
-  show LinearMap.range (Subobject.mk f).arrow.hom = LinearMap.range f.hom
+  change LinearMap.range (Subobject.mk f).arrow.hom = LinearMap.range f.hom
   let e := Subobject.underlyingIso f
   have hcomp : (Subobject.mk f).arrow.hom.comp e.inv.hom = f.hom :=
     congrArg ModuleCat.Hom.hom (Subobject.underlyingIso_arrow f)
@@ -206,7 +206,7 @@ private theorem scalar_isUnit_of_isInjectiveHull
     rcases Submodule.mem_inf.mp hx with ⟨hxker, hxrange⟩
     obtain ⟨m, rfl⟩ := hxrange
     have hφinv : φ ((algebraMap R K r)⁻¹ * m) = m := by
-      show algebraMap R K r * ((algebraMap R K r)⁻¹ * m) = m
+      change algebraMap R K r * ((algebraMap R K r)⁻¹ * m) = m
       simp [hr]
     have hcompApply (y : K) : ψ (i.hom y) = i.hom (φ y) := by
       have hh := congrArg (fun f : ModuleCat.of R K ⟶ ModuleCat.of R E => f y) hcomm
@@ -264,10 +264,10 @@ private theorem injective_over_localization
   have hcomp' := congrArg (fun q : F.obj X ⟶ ModuleCat.of R E => q y) hcomp
   change hR.hom (f y) = eE.hom (g y) at hcomp'
   have he (x : E) : eE.hom (show F.obj (ModuleCat.of T E) from x) = x := by
-    show ModuleCat.restrictScalarsAlgebraMapEquiv (R := R)
+    change ModuleCat.restrictScalarsAlgebraMapEquiv (R := R)
       (M := ModuleCat.of T E) (show F.obj (ModuleCat.of T E) from x) = x
     exact ModuleCat.restrictScalarsAlgebraMapEquiv_apply _ _
-  show hR.hom (eY.symm (f y)) = g y
+  change hR.hom (eY.symm (f y)) = g y
   rw [ModuleCat.restrictScalarsAlgebraMapEquiv_symm_apply]
   exact hcomp'.trans (he (g y))
 
@@ -333,7 +333,7 @@ theorem exists_isInjectiveHull_residueField_localization
     have hb' : algebraMap (R ⧸ p) p.ResidueField (Ideal.Quotient.mk p r) ≠ 0 :=
       IsFractionRing.to_map_ne_zero_of_mem_nonZeroDivisors hb
     have hscalar : r • (x - y) = φ.hom a := by
-      show r • (x - y) = algebraMap (R ⧸ p) p.ResidueField a
+      change r • (x - y) = algebraMap (R ⧸ p) p.ResidueField a
       rw [Algebra.smul_def]
       rw [← hab, div_eq_mul_inv]
       rw [← Ideal.algebraMap_quotient_residueField_mk p r]
@@ -390,7 +390,7 @@ theorem exists_isInjectiveHull_residueField_localization
         ((LinearMap.restrictScalars R jT.hom).comp
           (LinearMap.restrictScalars R
             (Algebra.linearMap (R ⧸ p) p.ResidueField))) = i := by
-    show φ ≫ jR = i
+    change φ ≫ jR = i
     exact hφj
   have hInjectiveT : CategoryTheory.Injective (ModuleCat.of T E) :=
     injective_over_localization S hi.1
@@ -535,13 +535,13 @@ private theorem injective_ker_of_retraction {R : Type u} [Ring R] {M : Type v} [
   let q : M →ₗ[R] C := P.codRestrict C (by
     intro x
     apply LinearMap.mem_ker.mpr
-    show r (P x) = 0
+    change r (P x) = 0
     simp [P, hr])
   have hq (x : C) : q x = x := by
     apply Subtype.ext
-    show P (x : M) = x
+    change P (x : M) = x
     have hx : r (x : M) = 0 := LinearMap.mem_ker.mp x.property
-    show (x : M) - S.subtype (r (x : M)) = (x : M)
+    change (x : M) - S.subtype (r (x : M)) = (x : M)
     rw [hx]
     simp
   refine ⟨?_⟩
@@ -549,7 +549,7 @@ private theorem injective_ker_of_retraction {R : Type u} [Ring R] {M : Type v} [
   obtain ⟨h, hh⟩ := Module.Injective.out (R := R) (Q := M) f hf (C.subtype.comp g)
   refine ⟨q.comp h, ?_⟩
   intro x
-  show q (h (f x)) = g x
+  change q (h (f x)) = g x
   rw [hh x]
   exact hq (g x)
 
@@ -701,7 +701,7 @@ theorem exists_iso_directSum_of_injective
       let P : I →ₗ[R] I := LinearMap.id - j.comp r
       have hmem : P x ∈ C := by
         apply LinearMap.mem_ker.mpr
-        show r (P x) = 0
+        change r (P x) = 0
         simp [P, hr]
       have hz : P x = 0 := by
         rw [hC] at hmem
@@ -726,7 +726,7 @@ theorem exists_iso_directSum_of_injective
       · exact hsFacts A hAs
     exact hKnot (hmax ⟨hTind, hTfacts⟩ (Set.subset_insert _ _) (Set.mem_insert _ _))
   let eI : (⨁ i : s, (i.1 : Submodule R I)) ≃ₗ[R] I := hind.linearEquiv (by
-    show (⨆ i : s, (i.1 : Submodule R I)) = ⊤
+    change (⨆ i : s, (i.1 : Submodule R I)) = ⊤
     change sSup s = ⊤ at hStop
     rw [sSup_eq_iSup] at hStop
     simpa only [iSup_subtype] using hStop)

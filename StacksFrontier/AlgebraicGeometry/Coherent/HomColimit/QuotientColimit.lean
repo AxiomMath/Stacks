@@ -230,7 +230,7 @@ theorem canonicalMapToSectionsQuotient_injective [CompactSpace X] :
         congrArg
           (ConcreteCategory.hom (Limits.colimit.ι (idealPowHomQuotientSystem I F) (n + N)))
           (show (idealPowHomQuotientSystem I F).map (homOfLE (Nat.le_add_right n N)) φ = 0 by
-            show idealPowMap I (Nat.le_add_right n N) ≫ φ ≫
+            change idealPowMap I (Nat.le_add_right n N) ≫ φ ≫
               quotientMap I F (Nat.le_add_right n N) = 0
             rw [← Category.assoc, hN, Limits.zero_comp])
     _ = 0 := map_zero _

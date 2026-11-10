@@ -183,7 +183,7 @@ theorem chartLocalization_inducedTopology (X : SmallEtale B S hS F) :
     obtain ⟨E, rfl, hE⟩ := (mem_precoverage_iff B S hS (yoneda.obj U)).mp hR
     rw [← Sieve.generate_map_eq_functorPushforward]
     refine Precoverage.generate_mem_toGrothendieck ?_
-    show Presieve.map (Over.forget X) (Presieve.map Φ E.presieve₀) ∈
+    change Presieve.map (Over.forget X) (Presieve.map Φ E.presieve₀) ∈
       PF ((Over.forget X).obj (Φ.obj A))
     refine (mem_precoverage_iff B S hS F).2 ⟨E.map (Φ ⋙ Over.forget X), ?_, ?_⟩
     · simp [PreZeroHypercover.presieve₀_map]

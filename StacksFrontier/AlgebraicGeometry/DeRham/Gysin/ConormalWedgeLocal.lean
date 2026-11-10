@@ -86,7 +86,7 @@ def localSections (V : X.Opens) (M : X.Modules) (s : Γ(M, V)) :
   PresheafOfModules.sectionsMk
     (fun U => M.presheaf.map (homOfLE (Scheme.Opens.ι_image_le V U.unop)).op s)
     (fun {U W} h => by
-      show M.presheaf.map _ (M.presheaf.map _ s) = M.presheaf.map _ s
+      change M.presheaf.map _ (M.presheaf.map _ s) = M.presheaf.map _ s
       rw [← ConcreteCategory.comp_apply, ← M.presheaf.map_comp]
       exact congrArg (fun u : op V ⟶ op (V.ι ''ᵁ W.unop) => M.presheaf.map u s)
         (Subsingleton.elim _ _))
@@ -150,7 +150,7 @@ theorem restrictFunctor_map_openUnit_comp (V : X.Opens) {M N : X.Modules}
       (Scheme.Modules.restrictAdjunction V.ι).counit.app
         ((Scheme.Modules.restrictFunctor V.ι).obj M) ≫ ψ :=
     (Scheme.Modules.restrictAdjunction V.ι).counit.naturality ψ
-  haveI : Mono ((Scheme.Modules.restrictAdjunction V.ι).counit.app
+  have : Mono ((Scheme.Modules.restrictAdjunction V.ι).counit.app
       ((Scheme.Modules.restrictFunctor V.ι).obj N)) :=
     @IsIso.mono_of_iso _ _ _ _ _ (NatIso.isIso_app_of_isIso _ _)
   refine (cancel_mono ((Scheme.Modules.restrictAdjunction V.ι).counit.app

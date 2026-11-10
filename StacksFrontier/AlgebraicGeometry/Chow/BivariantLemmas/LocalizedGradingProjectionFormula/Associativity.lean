@@ -100,7 +100,7 @@ theorem localizedGradingMulAssocTerm_of_le (p q s r : ℕ) (hpqs : p + q + s ≤
             (localizedGradingComponentOnAmbient C G sX f hRG hgysP hgysc q b j)
             (localizedGradingComponentOnAmbient C G sX f hRG hgysP hgysc s c l))) := by
   unfold localizedGradingMulAssocTerm
-  rw [dif_pos hm]
+  rw [dite_eq_left hm]
 
 /-- The term of a triple product whose factor from `a` is below the cutoff of `a` and whose factor
 from `b` reaches the cutoff of `b`. -/
@@ -115,7 +115,7 @@ theorem localizedGradingMulAssocTerm_of_lt_of_le (p q s r : ℕ) (hpqs : p + q +
           (localizedMulBivariantChow C G sX f hgys hgysc j l (b.2 ⟨j, hj⟩)
             (localizedGradingComponentOnAmbient C G sX f hRG hgysP hgysc s c l))) := by
   unfold localizedGradingMulAssocTerm
-  rw [dif_neg (not_le.2 hm), dif_pos hj]
+  rw [dite_eq_right (not_le.2 hm), dite_eq_left hj]
 
 /-- The term of a triple product whose factors from `a` and from `b` are both below the cutoff:
 the factor from `c` then reaches the cutoff of `c` of itself. -/
@@ -130,7 +130,7 @@ theorem localizedGradingMulAssocTerm_of_lt_of_lt (p q s r : ℕ) (hpqs : p + q +
           (localizedMulChowBivariant C G sX f hgys hgysc j l (b.1 ⟨j, hj⟩)
             (c.2 ⟨l, by omega⟩))) := by
   unfold localizedGradingMulAssocTerm
-  rw [dif_neg (not_le.2 hm), dif_neg (not_le.2 hj)]
+  rw [dite_eq_right (not_le.2 hm), dite_eq_right (not_le.2 hj)]
 
 /-! ### The grouping that multiplies the last two factors first -/
 
@@ -361,7 +361,7 @@ read in `A^*(X)` by `Stacks.Chow.localizedBivariantGradingMul_isAmbientConvoluti
 bracketing is moved by the associativity of the multiplication of `A^*(X)`,
 `Stacks.Chow.chowCohomologyComposite_assoc`. -/
 theorem localizedBivariantGradingMul_fst_left (p q s r₁ r : ℕ) (h₁ : p + q ≤ r₁ + 1)
-    (h₂ : r₁ + s ≤ r + 1) (a : localizedBivariantGrading C G (f ≫ sX) sX f rfl p)
+    (a : localizedBivariantGrading C G (f ≫ sX) sX f rfl p)
     (b : localizedBivariantGrading C G (f ≫ sX) sX f rfl q)
     (c : localizedBivariantGrading C G (f ≫ sX) sX f rfl s) (n : ℤ) (hn : n < (r : ℤ)) :
     (localizedBivariantGradingMul C G sX f hRG hgysP hgys hgysc r₁ s r
@@ -385,7 +385,7 @@ theorem localizedBivariantGradingMul_fst_left (p q s r₁ r : ℕ) (h₁ : p + q
 /-- **The degree `n` component of `a · (b · c)`, for `n` below the cutoff of the target, is the
 same double convolution in `A^*(X)`**, in the decomposition the other grouping produces. -/
 theorem localizedBivariantGradingMul_fst_right (p q s r₂ r : ℕ) (h₃ : q + s ≤ r₂ + 1)
-    (h₄ : p + r₂ ≤ r + 1) (a : localizedBivariantGrading C G (f ≫ sX) sX f rfl p)
+    (a : localizedBivariantGrading C G (f ≫ sX) sX f rfl p)
     (b : localizedBivariantGrading C G (f ≫ sX) sX f rfl q)
     (c : localizedBivariantGrading C G (f ≫ sX) sX f rfl s) (n : ℤ) (hn : n < (r : ℤ)) :
     (localizedBivariantGradingMul C G sX f hRG hgysP hgys hgysc p r₂ r a
@@ -486,9 +486,9 @@ theorem localizedBivariantGradingMul_assoc (p q s r₁ r₂ r : ℕ) (h₁ : p +
       localizedBivariantGradingMul C G sX f hRG hgysP hgys hgysc p r₂ r a
         (localizedBivariantGradingMul C G sX f hRG hgysP hgys hgysc q s r₂ b c) := by
   refine Prod.ext (funext fun n ↦ ?_) (funext fun n ↦ ?_)
-  · rw [localizedBivariantGradingMul_fst_left C G sX f hRG hgysP hgys hgysc p q s r₁ r h₁ h₂ a b c
+  · rw [localizedBivariantGradingMul_fst_left C G sX f hRG hgysP hgys hgysc p q s r₁ r h₁ a b c
       n.1 n.2, localizedBivariantGradingMul_fst_right C G sX f hRG hgysP hgys hgysc p q s r₂ r h₃
-      h₄ a b c n.1 n.2]
+      a b c n.1 n.2]
     refine Eq.trans ?_ (sum_Icc_diag_flip n.1 fun m j ↦
       localizedGradingMulAssocAmbientTerm C G sX f hRG hgysP hgys hgysc p q s a b c n.1 m j
         (n.1 - m - j) (by ring))

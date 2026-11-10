@@ -139,7 +139,7 @@ theorem exists_directedOrder_affine_limit_presentation
         rw [map_sub]
         exact sub_eq_zero.mpr hxy)
       refine ⟨j, homOfLE hij, ?_⟩
-      show φ i j hij x = φ i j hij y
+      change φ i j hij x = φ i j hij y
       exact sub_eq_zero.mp (by simpa only [map_sub] using hj)
   let D : Λᵒᵖ ⥤ Scheme.{u} := F.op ⋙ Scheme.Spec
   let c : Cone D := Scheme.Spec.mapCone cR.op
@@ -166,7 +166,7 @@ theorem exists_directedOrder_affine_limit_presentation
       CommRingCat.ofHom (σ i.unop).toRingHom = g.appTop := by
     ext x
     exact (σ i.unop).commutes x
-  show g = T.isoSpec.hom ≫ Spec.map (CommRingCat.ofHom (σ i.unop).toRingHom) ≫
+  change g = T.isoSpec.hom ≫ Spec.map (CommRingCat.ofHom (σ i.unop).toRingHom) ≫
     Spec.map (CommRingCat.ofHom (algebraMap R (G i.unop))) ≫ S.isoSpec.inv
   rw [← Spec.map_comp_assoc, hring, ← Category.assoc,
     Scheme.isoSpec_hom_naturality]

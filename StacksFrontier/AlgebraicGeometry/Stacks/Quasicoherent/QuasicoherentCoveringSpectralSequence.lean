@@ -143,8 +143,10 @@ attribute [local instance] FlatFppf.hasSheafify_fppf_addCommGrpCat
   AlgebraicStacks.hasSheafify_fppfAssociatedTopology
   AlgebraicStacks.wEqualsLocallyBijective_fppfAssociatedTopology
 
-set_option maxHeartbeats 1000000 in
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance synthesis on the fppf module categories' functor composites exceeds the default
+set_option maxHeartbeats 1000000 in
+-- the proof elaborates many instance-carrying functor composites on fppf module categories
 /-- **The spectral sequence of Stacks 0785, granted `hdir`**: the higher direct images along the
 quasi-compact and quasi-separated 1-morphisms into `𝒴` preserve `LQCoh^fbc` (**Stacks 0771**
 part (4)(b)). -/

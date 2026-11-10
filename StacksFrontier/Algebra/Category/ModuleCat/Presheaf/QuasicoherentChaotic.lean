@@ -376,7 +376,7 @@ theorem slicePres_comp_zero (V : C) :
   rw [single_eq_smul_freeMk, map_smul, map_smul]
   congr 1
   rw [PresheafOfModules.zero_app]
-  show (slicePres_b O F V).app X ((slicePres_a O F V).app X (ModuleCat.freeMk j)) = 0
+  change (slicePres_b O F V).app X ((slicePres_a O F V).app X (ModuleCat.freeMk j)) = 0
   -- Let `W₀` be the terminal slice object `Over.mk (𝟙 V)`, and `φ₀ : W₀ ⟶ X` the
   -- canonical slice morphism induced by `X.unop.hom`.
   set W₀ : (Over V)ᵒᵖ := Opposite.op (Over.mk (𝟙 V)) with hW₀
@@ -406,7 +406,7 @@ theorem slicePres_comp_zero (V : C) :
       rw [single_eq_smul_freeMk, map_smul, map_smul]
       congr 1
       erw [ModuleCat.freeDesc_apply]
-      show F.map ((Over.mk (𝟙 V)).hom).op ((slicePres_P O F V).var g)
+      change F.map ((Over.mk (𝟙 V)).hom).op ((slicePres_P O F V).var g)
         = (slicePres_P O F V).toSolution.π (Finsupp.single g 1)
       rw [Module.Relations.Solution.π_single]
       show F.map ((Over.mk (𝟙 V)).hom).op ((slicePres_P O F V).var g)
@@ -626,7 +626,7 @@ private theorem slicePres_objectwise_exact_and_epi
         -- `c_g.symm (r • F(g₀)(var i)) = r ⊗ₜ var i`, via `canonicalMap_tmul`.
         rw [LinearEquiv.symm_apply_eq]
         -- `(asIso c_g).toLinearEquiv (r ⊗ₜ var i) = c_g.hom (r ⊗ₜ var i) = r • F(g₀)(var i)`.
-        show r • (show (F.obj (Opposite.op Y) : Type r) from
+        change r • (show (F.obj (Opposite.op Y) : Type r) from
             F.map (X.unop.hom).op (P.var i))
           = (canonicalMap O F g₀).hom (r ⊗ₜ[(O.obj (Opposite.op V) : Type r)] (P.var i))
         rw [canonicalMap_tmul]

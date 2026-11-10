@@ -404,7 +404,8 @@ public noncomputable def etaleAssociatedDerivation :
 /-- Two derivations with the same values on every section are equal. -/
 private theorem derivation_ext_of_d_eq {C : Type*} [Category C] {S R : Cᵒᵖ ⥤ CommRingCat.{u}}
     {M : PresheafOfModules (R ⋙ forget₂ CommRingCat RingCat)} {φ : S ⟶ R}
-    {d d' : PresheafOfModulesOfCommRing.Derivation' M φ} (h : ∀ {V : Cᵒᵖ} (a : R.obj V), d.d a = d'.d a) : d = d' :=
+    {d d' : PresheafOfModulesOfCommRing.Derivation' M φ}
+    (h : ∀ {V : Cᵒᵖ} (a : R.obj V), d.d a = d'.d a) : d = d' :=
   PresheafOfModulesOfCommRing.Derivation.ext (funext fun _ => AddMonoidHom.ext h)
 
 /-- **`(Ω_{X/Y})^a` with `d^a` corepresents the `Y_étale`-derivations of `𝒪_{X_étale}`.**
@@ -423,7 +424,8 @@ public theorem existsUnique_postcomp_etaleAssociatedDerivation
       ((etaleAssociatedDerivation B f).postcomp g.val = D ↔
         (associatedDerivation B X.property (schemeHom B f)).postcomp g.val =
           ofEtaleDerivation B f D) := by
-    exact fun g => ⟨fun h => derivation_ext_of_d_eq (PresheafOfModulesOfCommRing.Derivation.congr_d h),
+    exact fun g => ⟨fun h =>
+        derivation_ext_of_d_eq (PresheafOfModulesOfCommRing.Derivation.congr_d h),
       fun h => derivation_ext_of_d_eq (PresheafOfModulesOfCommRing.Derivation.congr_d h)⟩
   obtain ⟨g, hg, hu⟩ := existsUnique_postcomp_associatedDerivation B X.property (schemeHom B f)
     (ofEtaleDerivation B f D)

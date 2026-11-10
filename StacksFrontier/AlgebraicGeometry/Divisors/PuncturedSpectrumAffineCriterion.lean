@@ -270,7 +270,7 @@ private lemma preimage_puncturedSpectrum (I : Ideal A) [IsLocalRing (A ⧸ I)] :
     Ideal.Quotient.mk_surjective
   apply TopologicalSpace.Opens.ext
   ext q
-  show ¬PrimeSpectrum.comap (Ideal.Quotient.mk I) q = closedPoint A ↔ ¬q = closedPoint (A ⧸ I)
+  change ¬PrimeSpectrum.comap (Ideal.Quotient.mk I) q = closedPoint A ↔ ¬q = closedPoint (A ⧸ I)
   exact not_congr ⟨fun he => hinj (he.trans hcp.symm), fun he => he ▸ hcp⟩
 
 /-- **Affineness of the punctured spectrum passes to a quotient.**  The punctured spectrum of
@@ -390,7 +390,7 @@ private lemma fromSpecStalk_preimage_eq_puncturedSpectrum (U : X.Opens)
   have hfclosed : f (closedPoint A) = (ξ : X) := Scheme.fromSpecStalk_closedPoint
   apply Opens.ext
   ext p
-  show f p ∈ U ↔ p ∈ ({closedPoint A} : Set (PrimeSpectrum A))ᶜ
+  change f p ∈ U ↔ p ∈ ({closedPoint A} : Set (PrimeSpectrum A))ᶜ
   constructor
   · intro hpU hp
     subst p

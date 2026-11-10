@@ -78,7 +78,7 @@ theorem isConstructibleModuleSheaf'_proetaleModuleInverseImage [IsNoetherianRing
       have heq : (V.1.ι.base ⁻¹' Set.range (m i).base) =
           e ⁻¹' (W.1.ι.base ⁻¹' Set.range (s.inclusion i).base) := by
         ext y
-        show (V.1.ι.base y ∈ Set.range (m i).base) ↔
+        change (V.1.ι.base y ∈ Set.range (m i).base) ↔
           W.1.ι.base (e y) ∈ Set.range (s.inclusion i).base
         exact ⟨fun ⟨z, hz⟩ => ⟨z, (hiff i z _).mp hz⟩, fun ⟨z, hz⟩ => ⟨z, (hiff i z _).mpr hz⟩⟩
       rw [heq]
@@ -102,7 +102,7 @@ theorem isConstructibleModuleSheaf'_proetaleModuleInverseImage [IsNoetherianRing
   refine ⟨s', fun i => ?_⟩
   refine ObjectProperty.prop_of_iso _
     ((proetaleModuleInverseImageCompIso.{u, v, w} Λ (m i) f).app F).symm ?_
-  show IsFiniteTypeLocallyConstantModuleSheaf _ _
+  change IsFiniteTypeLocallyConstantModuleSheaf _ _
     ((proetaleModuleInverseImage.{u, v, w} (m i ≫ f) Λ).obj F)
   rw [hm i]
   exact hs i

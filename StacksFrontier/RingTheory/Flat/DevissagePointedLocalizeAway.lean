@@ -73,7 +73,7 @@ variable {R C : Type*} [CommRing R] [CommRing C] [Algebra R C] (a : R)
 /-- If `C'` is the localization of the `R`-algebra `C` at the image of the powers of `a : R`, then
 `C'` is the localization of `C` away from `algebraMap R C a`. -/
 public theorem isLocalizationAway_algebraMap : IsLocalization.Away (algebraMap R C a) C' := by
-  show IsLocalization (Submonoid.powers (algebraMap R C a)) C'
+  change IsLocalization (Submonoid.powers (algebraMap R C a)) C'
   rw [← Algebra.algebraMapSubmonoid_powers]
   infer_instance
 
@@ -225,7 +225,7 @@ public theorem fiberSupport_away_eq_preimage (hr : r'.comap (algebraMap R Ra) = 
   rw [Module.fiberSupport, Module.fiberSupport, hsupp, hfib, ← Set.preimage_inter]
 
 omit [Algebra R Ra] [IsLocalization.Away a Ra] in
-include a hsupp in
+include hsupp in
 /-- Assume the support of `M'` is the inverse image of the support of `M` (`hsupp`), and let `p'`
 be a prime of `C_a` over `r'` contracting to the prime `p` of `C` over `r`. If the point of the
 fibre over `r` given by `p` lies in the support of the fibre module of `M`, then the point of the
@@ -380,7 +380,7 @@ public theorem purelyTranscendental_residueField_away (r : Ideal R) [r.IsPrime] 
     (RingEquiv.ofBijective _ (bijective_residueField_map_away a p p' hp)) ?_
   refine IsLocalization.ringHom_ext (nonZeroDivisors (R ⧸ r)) (RingHom.ext fun y => ?_)
   obtain ⟨y, rfl⟩ := Ideal.Quotient.mk_surjective y
-  show Ideal.ResidueField.map r' p' (algebraMap Ra C') hrp'
+  change Ideal.ResidueField.map r' p' (algebraMap Ra C') hrp'
         (Ideal.ResidueField.map r r' (algebraMap R Ra) hr (algebraMap R r.ResidueField y))
       = Ideal.ResidueField.map p p' (algebraMap C C') hp
         (Ideal.ResidueField.map r p (algebraMap R C) hrp (algebraMap R r.ResidueField y))
@@ -611,7 +611,7 @@ public noncomputable def locAwayPointed
     have hsupp := Stacks.Flatness.support_away_eq_preimage a (D.locAwayB a i) (D.locAwayMk a i)
     have : (show Ideal (D.B i) from P.lowerPrime).IsPrime := P.lowerPrime_isPrime
     have : (D.locAwayLowerPrime a i P).IsPrime := D.locAwayLowerPrime_isPrime a ha i P
-    exact Stacks.Flatness.mem_support_fiber_away a (Localization.Away a) (D.locAwayB a i)
+    exact Stacks.Flatness.mem_support_fiber_away (Localization.Away a) (D.locAwayB a i)
       hsupp r (Ideal.map (algebraMap R (Localization.Away a)) r)
       (show Ideal (D.B i) from P.lowerPrime) (D.locAwayLowerPrime a i P)
       hp P.lowerPrime_liesOver
@@ -637,7 +637,7 @@ public noncomputable def locAwayPointed
     have hover' : (D.locAwayLowerPrime a i P).LiesOver
         (Ideal.map (algebraMap R (Localization.Away a)) r) :=
       ⟨(D.locAwayLowerPrime_under a ha i P).symm⟩
-    have hmem' := Stacks.Flatness.mem_support_fiber_away a (Localization.Away a)
+    have hmem' := Stacks.Flatness.mem_support_fiber_away (Localization.Away a)
       (D.locAwayB a i) hsupp r (Ideal.map (algebraMap R (Localization.Away a)) r)
       (show Ideal (D.B i) from P.lowerPrime) (D.locAwayLowerPrime a i P)
       hp P.lowerPrime_liesOver hover' P.lowerPrime_mem_fiberSupport

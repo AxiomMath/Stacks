@@ -82,7 +82,7 @@ theorem RingHom.isPurelyInseparable_of_ringEquiv {A B C D : Type*}
   intro x
   obtain ⟨n, y, hy⟩ := IsPurelyInseparable.pow_mem A q (e'.symm x)
   refine ⟨n, e y, ?_⟩
-  show g (e y) = x ^ q ^ n
+  change g (e y) = x ^ q ^ n
   rw [show g (e y) = e' (f y) from DFunLike.congr_fun h y, ← RingHom.algebraMap_toAlgebra f, hy,
     map_pow, e'.apply_symm_apply]
 
@@ -246,7 +246,7 @@ theorem existsUnique_nat_existsUnique_iso_nFoldFrobeniusTwist
   let G : ∀ i, C i ⟶ C (i + 1) := fun i =>
     if hi : i < n then (key i hi).choose
     else eqToHom (congrArg (fun j : Fin (n + 1) => (Z j).obj) (hidxstab i hi))
-  have hG : ∀ i, (hi : i < n) → G i = (key i hi).choose := fun i hi => dif_pos hi
+  have hG : ∀ i, (hi : i < n) → G i = (key i hi).choose := fun i hi => dite_eq_left hi
   -- the two ends of the chain
   have hGspec : ∀ i, (hi : i < n) → G i ≫ W (i + 1) = W i ∧ (Set.range (G i).left).Nontrivial ∧
       (G i).left.residueDegree (genericPoint (C i).left) = p ∧

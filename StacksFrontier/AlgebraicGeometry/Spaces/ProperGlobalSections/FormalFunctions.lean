@@ -195,7 +195,7 @@ theorem formalFunctionsMap_naturality
       formalTowerLimitMap A X I g (formalFunctionsMap A X I M x) := by
   refine Subtype.ext (funext fun n => ?_)
   obtain ⟨a, ha⟩ := Submodule.Quotient.mk_surjective _ (x.val (n + 1))
-  show formalFunctionsComp A X I N _ n =
+  change formalFunctionsComp A X I N _ n =
     formalTowerHom A X I g n (formalFunctionsComp A X I M x n)
   rw [formalFunctionsComp_mk A X I M x n a ha.symm,
     formalFunctionsComp_mk A X I N _ n (((sectionsOverBase A B hA X.1 X.2).map g).hom a) (by
@@ -219,13 +219,13 @@ theorem formalTowerMapOfLE_apply_towerLimit (M : Modules.{u, u} B (Spec (.of A))
     formalTowerMapOfLE A X I M h (y.1 n) = y.1 m := by
   induction n, h using Nat.le_induction with
   | base =>
-    show ((sectionsOverBase A B hA X.1 X.2).map (idealPowerQuotientMapOfLE B (Spec (.of A)) hA X.1
+    change ((sectionsOverBase A B hA X.1 X.2).map (idealPowerQuotientMapOfLE B (Spec (.of A)) hA X.1
       X.2 (baseIdealSheaf A X I) le_rfl M)).hom (y.1 m) = y.1 m
     rw [idealPowerQuotientMapOfLE_refl, CategoryTheory.Functor.map_id]
     rfl
   | succ k hk ih =>
     rw [← ih, ← y.2 k]
-    show ((sectionsOverBase A B hA X.1 X.2).map _).hom (y.1 (k + 1)) =
+    change ((sectionsOverBase A B hA X.1 X.2).map _).hom (y.1 (k + 1)) =
       ((sectionsOverBase A B hA X.1 X.2).map _ ≫ (sectionsOverBase A B hA X.1 X.2).map _).hom
         (y.1 (k + 1))
     rw [← Functor.map_comp, idealPowerQuotientMapOfLE_comp]
@@ -256,7 +256,7 @@ theorem exists_formalTowerMapOfLE_eq_zero_of_mono
   let α := (SheafOfModules.unitHomEquiv _).symm z'
   have hα : α ≫ ((completionFunctor B (Spec (.of A)) hA X.1 X.2 (baseIdealSheaf A X I) hI).map
       f').hom.app (op (n + c)) = 0 := by
-    show α ≫ idealPowerQuotientMapOfHom B (Spec (.of A)) hA X.1 X.2 (baseIdealSheaf A X I)
+    change α ≫ idealPowerQuotientMapOfHom B (Spec (.of A)) hA X.1 X.2 (baseIdealSheaf A X I)
       (n + c + 1) f = 0
     rw [SheafOfModules.unitHomEquiv_symm_comp]
     exact (Equiv.symm_apply_eq _).2 hz

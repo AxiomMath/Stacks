@@ -155,10 +155,10 @@ private theorem exists_directedOn_flat_essFiniteType_of_coefficientSectionData
     have hfg : (G₁ ⊔ G₂).FG := IntermediateField.fg_sup hG₁fg hG₂fg
     obtain ⟨A₃, -, -, hA₃, -⟩ := hstage _ hle hfg
     refine ⟨A₃, ⟨_, hle, hfg, hA₃⟩, fun y hy => ?_, fun y hy => ?_⟩
-    · show y ∈ A₃.toSubring
+    · change y ∈ A₃.toSubring
       rw [hA₃]
       exact coefficientStage_mono C.σ C.gen le_sup_left (by rw [← hA₁]; exact hy)
-    · show y ∈ A₃.toSubring
+    · change y ∈ A₃.toSubring
       rw [hA₃]
       exact coefficientStage_mono C.σ C.gen le_sup_right (by rw [← hA₂]; exact hy)
   · -- the family covers `Λ`, since every element needs only finitely many coefficients

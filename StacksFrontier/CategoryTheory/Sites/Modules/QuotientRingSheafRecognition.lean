@@ -103,6 +103,7 @@ def quotientRingSheafDesc (hI : ∀ V : Cᵒᵖ, sectionIdeal I V ≤ RingHom.ke
     quotientRingSheaf I ⟶ R :=
   ⟨sheafifyLift J (quotientPresheafDesc α I hI) R.property⟩
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The comparison carries the quotient map `O ⟶ O/I` to `α`**, so it identifies the quotient
 *maps* and not merely the two objects. -/
 @[reassoc (attr := simp)]
@@ -110,12 +111,13 @@ theorem toQuotientRingSheaf_comp_quotientRingSheafDesc
     (hI : ∀ V : Cᵒᵖ, sectionIdeal I V ≤ RingHom.ker (α.hom.app V).hom) :
     toQuotientRingSheaf I ≫ quotientRingSheafDesc α I hI = α := by
   apply Sheaf.hom_ext
-  show (toQuotientPresheaf I ≫ toSheafify J (quotientPresheaf I)) ≫
+  change (toQuotientPresheaf I ≫ toSheafify J (quotientPresheaf I)) ≫
     sheafifyLift J (quotientPresheafDesc α I hI) R.property = α.hom
   rw [Category.assoc, toSheafify_sheafifyLift]
   ext V a
   rfl
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The comparison composed with the quotient map is `α`, read on a section. -/
 theorem quotientRingSheafDesc_app_apply
     (hI : ∀ V : Cᵒᵖ, sectionIdeal I V ≤ RingHom.ker (α.hom.app V).hom) (V : Cᵒᵖ)
@@ -164,7 +166,7 @@ theorem isLocallyInjective_quotientRingSheafDesc
         ((quotientRingSheafDesc α I hI).hom.naturality g.op) z
     have hab : a - b ∈ RingHom.ker (α.hom.app (op W)).hom := by
       rw [RingHom.mem_ker, map_sub, sub_eq_zero, key a x ha, key b y hb, h]
-    show (quotientRingSheaf I).obj.map g.op x = (quotientRingSheaf I).obj.map g.op y
+    change (quotientRingSheaf I).obj.map g.op x = (quotientRingSheaf I).obj.map g.op y
     rw [← ha, ← hb, ← sub_eq_zero, ← map_sub]
     exact app_mem_ker_of_mem I (op W) (hI' (op W) hab)
 

@@ -155,8 +155,7 @@ theorem assoc_symm_smul (x c b : B) (u : B ⊗[R] ModuleCat.restrictModule R B N
         (x ⊗ₜ[R] ((c ⊗ₜ[R] b) • u)) =
       cocycleActHom R B N c b
         ((TensorProduct.assoc R B B (ModuleCat.restrictModule R B N)).symm (x ⊗ₜ[R] u)) := by
-  induction u using TensorProduct.induction_on with
-  | zero => simp
+  induction u using TensorProduct.inductionOn with
   | tmul y n =>
     rw [ModuleCat.targetTensor_smul_tmul, TensorProduct.assoc_symm_tmul,
       TensorProduct.assoc_symm_tmul, cocycleActHom_tmul]
@@ -174,8 +173,7 @@ private theorem transport_of_tmul
         cocycleActHom R B N c b (Φ ((x ⊗ₜ[R] n) ⊗ₜ[R] (1 : B))))
     (w : B ⊗[R] ModuleCat.restrictModule R B N) :
     Φ ((((1 : B) ⊗ₜ[R] s) • w) ⊗ₜ[R] t) = cocycleActHom R B N c b (Φ (w ⊗ₜ[R] (1 : B))) := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul x n => exact h x n
   | add w w' hw hw' =>
     rw [smul_add, TensorProduct.add_tmul, map_add, hw, hw', TensorProduct.add_tmul,
@@ -209,8 +207,7 @@ theorem cocycle_of_oneTmul
     (ModuleCat.transition12 R B N e).comp (ModuleCat.transition01 R B N e) =
       ModuleCat.transition02 R B N e := by
   refine TensorProduct.ext' fun y b ↦ ?_
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul n c =>
     have hL : ModuleCat.transition12 R B N e
         (ModuleCat.transition01 R B N e ((n ⊗ₜ[R] c) ⊗ₜ[R] b)) =
@@ -282,11 +279,9 @@ theorem invTripleAddHom_apply (b₀ b₁ b₂ : B) (n : N) :
 theorem invTripleAddHom_balanced (b : B) (t : B ⊗[R] (B ⊗[R] B)) (n : N) :
     invTripleAddHom R B N ((tensorIncl₂ R B).hom b * t) n =
       invTripleAddHom R B N t (b • n) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul b₀ y =>
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul b₁ b₂ =>
       rw [show ((tensorIncl₂ R B).hom b : B ⊗[R] (B ⊗[R] B)) =
             (1 : B) ⊗ₜ[R] ((1 : B) ⊗ₜ[R] b) from rfl,
@@ -316,7 +311,7 @@ theorem invTripleCocycleMap_extendScalarsTmul (t : B ⊗[R] (B ⊗[R] B)) (n : N
 /-- `Stacks.Descent.tensorMap₀₁` on a pure tensor, as a pure tensor. -/
 theorem tensorMap₀₁_tmul' (b₀ b₁ : B) :
     (tensorMap₀₁ R B).hom (b₀ ⊗ₜ[R] b₁) = b₀ ⊗ₜ[R] (b₁ ⊗ₜ[R] (1 : B)) := by
-  show Algebra.TensorProduct.map _ _ (b₀ ⊗ₜ[R] b₁) = _
+  change Algebra.TensorProduct.map _ _ (b₀ ⊗ₜ[R] b₁) = _
   simp
 
 /-- `Stacks.Descent.invTripleCocycleMap` is a left inverse of
@@ -324,11 +319,9 @@ theorem tensorMap₀₁_tmul' (b₀ b₁ : B) :
 theorem invTripleCocycleMap_tripleCocycleMap
     (z : (B ⊗[R] B) ⊗[R] ModuleCat.restrictModule R B N) :
     invTripleCocycleMap R B N (tripleCocycleMap R B N z) = z := by
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul x n =>
-    induction x using TensorProduct.induction_on with
-    | zero => rw [TensorProduct.zero_tmul, map_zero, map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul b₀ b₁ =>
       rw [smulOneTmulMap_tmul, smulOneTmul, smul_oneTmul,
         invTripleCocycleMap_extendScalarsTmul, tensorMap₀₁_tmul', invTripleAddHom_apply,
@@ -401,7 +394,7 @@ theorem extendScalarsTransitionOfEquiv_hom_oneTmul
       (ModuleCat.ExtendScalars.oneTmul (tensorInl R B).hom (show (N : Type u) from n)) =
       n ⊗ₜ[R] (1 : B) :=
     (sourceModelHom_tensorInlElt R B N 1 n).trans (one_smul _ _)
-  show targetModelInvAdd R B N (e (sourceModelHom R B N
+  change targetModelInvAdd R B N (e (sourceModelHom R B N
     (ModuleCat.ExtendScalars.oneTmul (tensorInl R B).hom (show (N : Type u) from n)))) = _
   rw [h]
 
@@ -458,8 +451,7 @@ theorem extendScalarsTripleTransitionOf₁₂_tripleMap₀₁
         (tensorMap₁₂ R B).hom (tensorMap₁₂_comp_tensorInl R B) (tensorMap₁₂_comp_tensorInr R B)
         (tripleMap₀₁ R B N y) =
       tripleCocycleMap R B N (ModuleCat.transition12 R B N e (y ⊗ₜ[R] (1 : B))) := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp only [TensorProduct.zero_tmul, map_zero]
+  induction y using TensorProduct.inductionOn with
   | tmul c n =>
     rw [transition12_tmul, tripleCocycleMap_assoc_symm, smulOneTmulMap_tmul, smulOneTmul, map_smul,
       extendScalarsTripleTransitionOf_oneTmul R B N e (tensorMap₁₂ R B).hom

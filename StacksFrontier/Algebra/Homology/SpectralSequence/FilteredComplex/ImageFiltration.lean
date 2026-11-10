@@ -106,12 +106,12 @@ public def filtrationStep (k : ℤ) : Subobject X :=
 
 /-- In non-positive degrees the step is the whole complex. -/
 public theorem filtrationStep_of_nonpos {k : ℤ} (hk : k ≤ 0) : S.filtrationStep k = ⊤ := by
-  simp only [filtrationStep, if_pos hk]
+  simp only [filtrationStep, ite_eq_left hk]
 
 /-- In positive degrees the step is the image of the corresponding morphism. -/
 public theorem filtrationStep_of_pos {k : ℤ} (hk : 0 < k) :
     S.filtrationStep k = imageSubobject (S.hom k.toNat) := by
-  simp only [filtrationStep, if_neg (not_le.2 hk)]
+  simp only [filtrationStep, ite_eq_right (not_le.2 hk)]
 
 /-- **The filtration by images is decreasing.**  This is the content of the factorisations:
 `φ_{k'}` factors through `φ_k` for `k ≤ k'`, so its image is smaller. -/

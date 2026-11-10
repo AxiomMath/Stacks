@@ -70,7 +70,7 @@ theorem hasGlobalPresentation_of_restriction
     have : IsIso ((sheafToPresheaf K AddCommGrpCat.{r}).map
         ((_root_.SheafOfModules.toSheaf S).map
           (_root_.SheafOfModules.unitToPushforwardObjUnit φ))) := by
-      show IsIso (Functor.whiskerRight φ.hom (forget₂ RingCat.{r} AddCommGrpCat.{r}))
+      change IsIso (Functor.whiskerRight φ.hom (forget₂ RingCat.{r} AddCommGrpCat.{r}))
       infer_instance
     have : IsIso ((_root_.SheafOfModules.toSheaf S).map
         (_root_.SheafOfModules.unitToPushforwardObjUnit φ)) :=
@@ -131,7 +131,7 @@ theorem hasGlobalPresentation_of_restriction
       (CokernelCofork.ofπ (θP.inv ≫ F.map s.π) (hkey _ s.π (hcond s))))) ?_ ?_
   · intro s
     apply F.map_injective
-    show F.map (b ≫ _) = F.map s.π
+    change F.map (b ≫ _) = F.map s.π
     rw [F.map_comp, hFb, F.map_preimage, Category.assoc, Category.assoc,
       Iso.inv_hom_id_assoc, hdesc s, Iso.hom_inv_id_assoc]
   · intro s n hn
@@ -142,7 +142,7 @@ theorem hasGlobalPresentation_of_restriction
     have hunique : ηM.inv ≫ F.map n = hc'.desc
         (CokernelCofork.ofπ (θP.inv ≫ F.map s.π) (hkey _ s.π (hcond s))) :=
       Cofork.IsColimit.hom_ext hc' (by
-        show b' ≫ (ηM.inv ≫ F.map n) = b' ≫ _
+        change b' ≫ (ηM.inv ≫ F.map n) = b' ≫ _
         rw [hζ, hdesc s])
     rw [F.map_preimage, ← hunique, Iso.hom_inv_id_assoc]
 
@@ -188,7 +188,7 @@ theorem isQuasicoherentOnSite_of_restriction [v.Full] [v.Faithful]
   refine J.superset_covering ?_ (J.pullback_stable lift hY)
   rintro W g ⟨W₀, p, q, hp, hgq⟩
   obtain ⟨i, e, he⟩ := (Sieve.mem_ofArrows_iff (Vv Y) (ff Y) p).mp hp
-  show Sieve.ofArrows _ _ (g ≫ h)
+  change Sieve.ofArrows _ _ (g ≫ h)
   have heq : g ≫ h = (q ≫ v.map e) ≫ (v.map (ff Y i) ≫ map) := by
     rw [← hfac, ← Category.assoc, hgq, he]
     simp

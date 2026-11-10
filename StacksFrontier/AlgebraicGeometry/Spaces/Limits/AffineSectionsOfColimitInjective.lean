@@ -113,7 +113,7 @@ theorem exists_map_eq_zero_of_isColimit {K : Type u} [SmallCategory K] [IsFilter
     SheafOfModules.Submodule.ker (D.map p.2)
   have hle : ∀ (p : Σ l : K, k ⟶ l) {m : K} (h : p.1 ⟶ m), N p ≤ N ⟨m, p.2 ≫ h⟩ := by
     intro p m h X x hx
-    show (D.map (p.2 ≫ h)).val.app X x = 0
+    change (D.map (p.2 ≫ h)).val.app X x = 0
     change (D.map p.2).val.app X x = 0 at hx
     rw [D.map_comp, SheafOfModules.comp_val, PresheafOfModules.comp_app,
       ConcreteCategory.comp_apply, hx, map_zero]

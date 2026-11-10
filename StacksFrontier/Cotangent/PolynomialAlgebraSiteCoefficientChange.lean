@@ -264,11 +264,11 @@ lemma freeSummandι_naturality {X Y : Cᵒᵖ} (f : X ⟶ Y) (s : F.obj X) :
       freeSummandι R F X s ≫
         ((PresheafOfModules.toPresheaf R).obj ((PresheafOfModules.free R).obj F)).map f := by
   ext (r : R.obj X)
-  show Finsupp.single ((F.map f) s) ((R.map f) r) =
+  change Finsupp.single ((F.map f) s) ((R.map f) r) =
     ((PresheafOfModules.free R).obj F).map f (Finsupp.single s r)
   have h1 : (Finsupp.single s r : ((PresheafOfModules.free R).obj F).obj X) =
       r • ModuleCat.freeMk (R := R.obj X) s := by
-    show (Finsupp.single s r : F.obj X →₀ R.obj X) = r • Finsupp.single s (1 : R.obj X)
+    change (Finsupp.single s r : F.obj X →₀ R.obj X) = r • Finsupp.single s (1 : R.obj X)
     rw [Finsupp.smul_single, smul_eq_mul, mul_one]
   have h2 : ((PresheafOfModules.free R).obj F).map f (ModuleCat.freeMk (R := R.obj X) s) =
       ModuleCat.freeMk (R := R.obj Y) ((F.map f) s) := ModuleCat.freeDesc_apply _ _
@@ -277,7 +277,7 @@ lemma freeSummandι_naturality {X Y : Cᵒᵖ} (f : X ⟶ Y) (s : F.obj X) :
   rw [h2] at h3
   have h4 : (R.map f) r • ModuleCat.freeMk (R := R.obj Y) ((F.map f) s) =
       Finsupp.single ((F.map f) s) ((R.map f) r) := by
-    show (R.map f) r • Finsupp.single ((F.map f) s) (1 : R.obj Y) = _
+    change (R.map f) r • Finsupp.single ((F.map f) s) (1 : R.obj Y) = _
     rw [Finsupp.smul_single, smul_eq_mul, mul_one]
   rw [h1]
   exact (h3.trans h4).symm
@@ -360,7 +360,7 @@ lemma freeExtendScalarsUnit_single (F : Cᵒᵖ ⥤ Type u) (X : Cᵒᵖ) (s : F
       Finsupp.single s ((a.app X).hom r) := by
   have h1 : (Finsupp.single s r : ((PresheafOfModules.free.{u} O).obj F).obj X) =
       r • ModuleCat.freeMk (R := O.obj X) s := by
-    show (Finsupp.single s r : F.obj X →₀ O.obj X) = r • Finsupp.single s (1 : O.obj X)
+    change (Finsupp.single s r : F.obj X →₀ O.obj X) = r • Finsupp.single s (1 : O.obj X)
     rw [Finsupp.smul_single, smul_eq_mul, mul_one]
   have hsm : (freeExtendScalarsUnit a F).app X
         (r • (ModuleCat.freeMk s : ((PresheafOfModules.free.{u} O).obj F).obj X)) =
@@ -368,7 +368,7 @@ lemma freeExtendScalarsUnit_single (F : Cᵒᵖ ⥤ Type u) (X : Cᵒᵖ) (s : F
         (ModuleCat.freeMk s : ((PresheafOfModules.free.{u} O).obj F).obj X) :=
     map_smul _ r _
   rw [h1, hsm, freeExtendScalarsUnit_freeMk]
-  show (a.app X).hom r • Finsupp.single s (1 : O'.obj X) = _
+  change (a.app X).hom r • Finsupp.single s (1 : O'.obj X) = _
   rw [Finsupp.smul_single, smul_eq_mul, mul_one]
 
 /-- **The change-of-coefficients unit at a free presheaf of modules is the copower of the

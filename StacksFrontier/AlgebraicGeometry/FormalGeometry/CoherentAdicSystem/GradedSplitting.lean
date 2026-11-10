@@ -50,7 +50,8 @@ determines `Φ_F` completely.
 Only the uniqueness half of [Stacks, Tag 0EH6] is carried here, and the two tag attributes below
 say so. The *existence* of `Φ_F` — with the enlargement of `c` it requires, and the identity that
 `Φ_F` followed by `T_j ↦ f_j` is the inclusion `⨁ I ^ (n d) F ⟶ ⨁ I ^ n F` — is proved in
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/CoherentAdicSystem/GradedSplittingCharts.lean`. There
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/CoherentAdicSystem/GradedSplittingCharts.lean`.
+There
 `Stacks.Coherent.exists_gradedSplitting` builds the map, and
 `Stacks.Coherent.existsUnique_gradedSplitting` states the tag without restriction, combining that
 existence with `gradedSplitting_unique` below.

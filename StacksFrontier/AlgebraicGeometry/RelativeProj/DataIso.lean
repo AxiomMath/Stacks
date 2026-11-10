@@ -82,7 +82,7 @@ public theorem irrelevant_le_map_of_comp_eq_id {A B σ τ : Type u} [CommRing A]
   have hy' := apply_apply_of_comp_eq_id hfg y
   have hmem : (g y : A) ∈ 𝒜₊.toIdeal :=
     HomogeneousIdeal.mem_irrelevant_of_mem _ hi (map_mem g (show y ∈ ℬ i from hy))
-  show y ∈ (𝒜₊.map f).toIdeal
+  change y ∈ (𝒜₊.map f).toIdeal
   rw [HomogeneousIdeal.toIdeal_map]
   exact hy' ▸ Ideal.mem_map_of_mem _ hmem
 
@@ -163,7 +163,7 @@ public def projIso (U : S.affineOpens) : Proj (𝒜 U) ≅ Proj (ℬ U) where
 /-- **The chart isomorphism is a morphism over the base.** -/
 public theorem projIso_hom_chartToOpen (U : S.affineOpens) :
     (i.projIso U).hom ≫ chartToOpen ℬ U (e.base U) = chartToOpen 𝒜 U (d.base U) := by
-  show Proj.map (i.inv U) (i.irrelevant_le_inv U) ≫ chartToOpen ℬ U (e.base U) = _
+  change Proj.map (i.inv U) (i.irrelevant_le_inv U) ≫ chartToOpen ℬ U (e.base U) = _
   rw [chartToOpen, chartToOpen, Proj.map_toSpecZero_assoc, ← Spec.map_comp_assoc,
     i.base_comp_inv U]
 
@@ -171,7 +171,7 @@ public theorem projIso_hom_chartToOpen (U : S.affineOpens) :
 chart isomorphisms commute with the restriction maps `d.map` and `e.map`. -/
 public theorem map_projIso_hom {U V : S.affineOpens} (h : U ≤ V) :
     d.map h ≫ (i.projIso V).hom = (i.projIso U).hom ≫ e.map h := by
-  show Proj.map (d.restrict h) (d.irrelevant_le h) ≫
+  change Proj.map (d.restrict h) (d.irrelevant_le h) ≫
       Proj.map (i.inv V) (i.irrelevant_le_inv V) =
     Proj.map (i.inv U) (i.irrelevant_le_inv U) ≫
       Proj.map (e.restrict h) (e.irrelevant_le h)
@@ -195,7 +195,7 @@ public def relativeProjIso : d.relativeProj ≅ e.relativeProj := HasColimit.iso
 /-- The isomorphism of relative `Proj`s is compatible with the charts. -/
 public theorem chartι_relativeProjIso_hom (U : S.affineOpens) :
     d.chartι U ≫ i.relativeProjIso.hom = (i.projIso U).hom ≫ e.chartι U :=
-  HasColimit.isoOfNatIso_ι_hom i.natIso U
+  HasColimit.ι_isoOfNatIso_hom i.natIso U
 
 /-- Over an affine open of the base, the chart isomorphism identifies the two structure
 morphisms. -/

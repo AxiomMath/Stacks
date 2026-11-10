@@ -193,7 +193,7 @@ theorem isFractionRing_of_span_eq_top {S : Type*} [CommRing S] [IsDomain S] {K :
         (⊤ : Submodule K L) ≤ D)
       Submodule.mem_top
   refine ⟨⟨_, hmem⟩, ⟨algebraMap S L a, B.algebraMap_mem a⟩, ?_⟩
-  show z = (algebraMap S L a * z) / algebraMap S L a
+  change z = (algebraMap S L a * z) / algebraMap S L a
   rw [mul_comm, mul_div_assoc, div_self (hinj a ha), mul_one]
 
 /-- N-1 for `S` is finiteness of the integral closure of `S` in *any* of its fraction fields: the

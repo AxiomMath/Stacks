@@ -68,7 +68,7 @@ theorem existsUnique_seminormalization_lift {X' X : Scheme.{u}}
     let lift := pullback.lift g f' (by simpa [Category.assoc] using hg)
     let n : initial (SeminormalizationCategory X') ⟶ target :=
       ObjectProperty.homMk (Over.homMk lift (by
-        show lift ≫ pullback.snd f h = f'
+        change lift ≫ pullback.snd f h = f'
         rw [pullback.lift_snd]))
     have hn := congrArg
       (fun q : initial (SeminormalizationCategory X') ⟶

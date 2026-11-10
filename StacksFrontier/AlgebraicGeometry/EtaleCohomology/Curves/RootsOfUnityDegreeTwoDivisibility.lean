@@ -128,7 +128,7 @@ attribute [local instance] AlgebraicGeometry.SmallEtale.zariskiPicardAddCommGrou
 
 section Curve
 
-variable (k : Type u) [Field k] [IsAlgClosed k] (X : Scheme.{u}) (f : X ⟶ Spec (.of k))
+variable (k : Type u) [Field k] (X : Scheme.{u}) (f : X ⟶ Spec (.of k))
   [IsCurve k f] [IsProjectiveVariety k f] (B : BigEtaleSite.{u}) (hX : B.Contains X) (n : ℕ)
 
 include f in
@@ -143,7 +143,7 @@ theorem nsmul_le_ker_picardDegreeZMod (x : schemePicard X) (hx : ∃ y, x = n �
   obtain ⟨y, rfl⟩ := hx
   have hdeg : curvePicardDegree k X f (n • y) = (n : ℤ) * curvePicardDegree k X f y := by
     rw [map_nsmul, nsmul_eq_mul]
-  show ((curvePicardDegree k X f (n • y) : ℤ) : ZMod n) = 0
+  change ((curvePicardDegree k X f (n • y) : ℤ) : ZMod n) = 0
   rw [hdeg, ZMod.intCast_zmod_eq_zero_iff_dvd]
   exact Dvd.intro _ rfl
 
@@ -180,7 +180,7 @@ theorem exists_nsmul_eq_of_ker_picardDegreeZMod_le (hn : IsUnit (n : k))
     exact hx
   have hker : x ∈ (picardDegreeZMod k X f n).ker := by
     rw [AddMonoidHom.mem_ker]
-    show ((curvePicardDegree k X f x : ℤ) : ZMod n) = 0
+    change ((curvePicardDegree k X f x : ℤ) : ZMod n) = 0
     rw [h0, Int.cast_zero]
   obtain ⟨y, hy⟩ := (etaleH2RootsOfUnityFromPicard_eq_zero_iff k X f B hX n hn x).1
     (AddMonoidHom.mem_ker.1 (hle hker))

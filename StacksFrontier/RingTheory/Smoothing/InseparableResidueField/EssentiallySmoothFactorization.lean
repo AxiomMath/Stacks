@@ -479,7 +479,7 @@ theorem flat_of_free_of_map_maximalIdeal_ne_top {R A B : Type*} [CommRing R] [Co
     have h1 : (1 : B) ∈ Ideal.map (algebraMap A B) (maximalIdeal A) := by
       rw [← b.linearCombination_repr 1, Finsupp.linearCombination_apply]
       refine Submodule.sum_mem _ fun j _ => ?_
-      show (b.repr 1) j • b j ∈ _
+      change (b.repr 1) j • b j ∈ _
       rw [Algebra.smul_def]
       exact Ideal.mul_mem_right _ _
         (Ideal.mem_map_of_mem _ ((mem_maximalIdeal _).mpr (mem_nonunits_iff.mpr (hcon j))))
@@ -487,13 +487,13 @@ theorem flat_of_free_of_map_maximalIdeal_ne_top {R A B : Type*} [CommRing R] [Co
   set ρ : B →ₗ[A] A := (↑hi.unit⁻¹ : A) • b.coord i with hρdef
   have hρ1 : ρ 1 = 1 := by
     rw [hρdef]
-    show (↑hi.unit⁻¹ : A) * b.coord i 1 = 1
+    change (↑hi.unit⁻¹ : A) * b.coord i 1 = 1
     rw [Module.Basis.coord_apply]
     exact hi.val_inv_mul
   have hretr : (ρ.restrictScalars R).comp
       ((Algebra.linearMap A B).restrictScalars R) = LinearMap.id := by
     refine LinearMap.ext fun a => ?_
-    show ρ (algebraMap A B a) = a
+    change ρ (algebraMap A B a) = a
     rw [show algebraMap A B a = a • (1 : B) by rw [Algebra.smul_def, mul_one], map_smul, hρ1,
       smul_eq_mul, mul_one]
   exact Module.Flat.of_retract _ _ hretr

@@ -51,7 +51,7 @@ theorem isOpenImmersion_id (B : BigFppfSite.{u}) (S : Scheme.{u})
   have hIso : IsIso f' :=
     Functor.FullyFaithful.isIso_of_isIso_map Yoneda.fullyFaithful f'
   let : IsIso f' := hIso
-  show AlgebraicGeometry.IsOpenImmersion ((BigFppfOver.toScheme B S hS).map f')
+  change AlgebraicGeometry.IsOpenImmersion ((BigFppfOver.toScheme B S hS).map f')
   infer_instance
 
 /-- Every open set of points of an algebraic space is the point set of an open subspace. -/
@@ -539,7 +539,7 @@ theorem enlargement_step
         (Set.range (pointsMap B S hS W.toFunctor W.ι) ∩
           Set.range (pointsMap B S hS Wp gW)))
     (D : Subfunctor X) (hDopen : IsOpenSubspace B S hS D)
-    (hDqc : IsQuasiCompactSpace B S hS D.toFunctor) (hWD : W ≤ D)
+    (hDqc : IsQuasiCompactSpace B S hS D.toFunctor)
     (hDrange : Set.range (pointsMap B S hS D.toFunctor D.ι) =
       Set.range (pointsMap B S hS W.toFunctor W.ι) ∪
         Set.range (pointsMap B S hS Wp gW)) :

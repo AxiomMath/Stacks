@@ -96,7 +96,7 @@ theorem image_pullbackSwapMor_le_fst {V' : Y.Opens} (W : (pullback a b).Opens)
     (hW₂ : W ≤ pullback.snd a b ⁻¹ᵁ V') :
     pullbackSwapMor a b ''ᵁ W ≤ pullback.fst b a ⁻¹ᵁ V' := by
   refine Set.image_subset_iff.2 ?_
-  show W ≤ (pullbackSwapMor a b ≫ pullback.fst b a) ⁻¹ᵁ V'
+  change W ≤ (pullbackSwapMor a b ≫ pullback.fst b a) ⁻¹ᵁ V'
   rw [pullback.lift_fst]
   exact hW₂
 
@@ -106,7 +106,7 @@ theorem image_pullbackSwapMor_le_snd {U' : X.Opens} (W : (pullback a b).Opens)
     (hW₁ : W ≤ pullback.fst a b ⁻¹ᵁ U') :
     pullbackSwapMor a b ''ᵁ W ≤ pullback.snd b a ⁻¹ᵁ U' := by
   refine Set.image_subset_iff.2 ?_
-  show W ≤ (pullbackSwapMor a b ≫ pullback.snd b a) ⁻¹ᵁ U'
+  change W ≤ (pullbackSwapMor a b ≫ pullback.snd b a) ⁻¹ᵁ U'
   rw [pullback.lift_snd]
   exact hW₁
 
@@ -249,7 +249,7 @@ theorem boxOpRight_apply (W : (pullback a b).Opens)
               (((Scheme.Modules.restrictFunctorIsoPullback (pullbackSwapMor a b)).app
                 (externalTensorProduct b a G F)).inv) W
               (Scheme.Modules.Hom.app (externalTensorProductSwapIso a b F G).hom W x)))) := by
-  show Scheme.Modules.Hom.app (externalTensorProductSwapIso a b F G').inv W
+  change Scheme.Modules.Hom.app (externalTensorProductSwapIso a b F G').inv W
       ((globalDiffOpEquivRestrictPullback (pullbackSwapMor a b) (pullback.fst b a ≫ b)
         (externalTensorProduct b a G F) (externalTensorProduct b a G' F) l
       (globalDiffOpEquivOfIso (pullbackSwapMor a b) (pullback.fst b a ≫ b)
@@ -258,7 +258,7 @@ theorem boxOpRight_apply (W : (pullback a b).Opens)
           isGlobalDiffOpOfOrder_boxOpLeft_base b a G G' F l E hE⟩)).1 (op W)
         (Scheme.Modules.Hom.app (externalTensorProductSwapIso a b F G).hom W x)) = _
   congr 1
-  show Scheme.Modules.Hom.app
+  change Scheme.Modules.Hom.app
           (((Scheme.Modules.restrictFunctorIsoPullback (pullbackSwapMor a b)).app
             (externalTensorProduct b a G' F)).hom) W
           ((globalDiffOpEquivOfIso (pullbackSwapMor a b) (pullback.fst b a ≫ b)

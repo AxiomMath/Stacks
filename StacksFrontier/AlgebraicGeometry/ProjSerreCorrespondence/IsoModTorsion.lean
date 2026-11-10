@@ -95,7 +95,7 @@ theorem isIrrelevant_cokernel_of_mem_range {M N : FiniteGradedModules.{u, u, w} 
   have ht' : (cokernel.π φ).hom.toLinearMap.toAddMonoidHom t = c := ht
   have hti : (cokernel.π φ).hom.toLinearMap
       ((DirectSum.decompose N.obj.grade t i : N.obj.carrier)) = c := by
-    show (cokernel.π φ).hom.toLinearMap.toAddMonoidHom _ = c
+    change (cokernel.π φ).hom.toLinearMap.toAddMonoidHom _ = c
     rw [← hd, ht']
     exact DirectSum.decompose_of_mem_same (cokernel φ).obj.grade hc
   obtain ⟨P, hP⟩ := hcoker i _ (DirectSum.decompose N.obj.grade t i).2

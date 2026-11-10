@@ -128,7 +128,7 @@ theorem isRightDerivedFunctor_derivedSupportedSectionsOnClosed_comp (hZ : IsClos
     (Stacks.Cohomology.sheaf_exists_kInjective_resolution X) _ _ _ (fun I hI => ?_)
   have := hI
   have := isIso_derivedSupportedSectionsOnClosedUnit_app Z hZ I
-  show IsIso ((modulePullback (closedSubsetRestriction f Z)).mapDerivedCategory.map
+  change IsIso ((modulePullback (closedSubsetRestriction f Z)).mapDerivedCategory.map
     ((derivedSupportedSectionsOnClosedUnit X Z hZ).app
       ((HomotopyCategory.quotient _ _).obj I)))
   infer_instance

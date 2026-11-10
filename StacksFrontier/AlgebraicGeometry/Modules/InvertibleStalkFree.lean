@@ -186,7 +186,7 @@ def tensorStalkRightEquiv (hm : IsStalkBasis L x m) :
 theorem tensorStalkRightEquiv_tensorStalkTmul' (hm : IsStalkBasis L x m)
     (n : F.presheaf.stalk x) (p : L.presheaf.stalk x) :
     tensorStalkRightEquiv F hm (tensorStalkTmul F L x n p) = hm.coord p • n := by
-  show (TensorProduct.rid ↑(X.presheaf.stalk x) ↑(F.presheaf.stalk x))
+  change (TensorProduct.rid ↑(X.presheaf.stalk x) ↑(F.presheaf.stalk x))
       (TensorProduct.congr (LinearEquiv.refl ↑(X.presheaf.stalk x) ↑(F.presheaf.stalk x))
         hm.coord (tensorStalkEquiv F L x (tensorStalkTmul F L x n p))) = _
   rw [tensorStalkEquiv_tensorStalkTmul, TensorProduct.congr_tmul, TensorProduct.rid_tmul]
@@ -219,7 +219,7 @@ def tensorStalkLeftEquiv (hm : IsStalkBasis L x m) :
 theorem tensorStalkLeftEquiv_tensorStalkTmul (hm : IsStalkBasis L x m)
     (n : F.presheaf.stalk x) :
     tensorStalkLeftEquiv F hm (tensorStalkTmul L F x m n) = n := by
-  show (TensorProduct.lid ↑(X.presheaf.stalk x) ↑(F.presheaf.stalk x))
+  change (TensorProduct.lid ↑(X.presheaf.stalk x) ↑(F.presheaf.stalk x))
       (TensorProduct.congr hm.coord
         (LinearEquiv.refl ↑(X.presheaf.stalk x) ↑(F.presheaf.stalk x))
         (tensorStalkEquiv L F x (tensorStalkTmul L F x m n))) = _

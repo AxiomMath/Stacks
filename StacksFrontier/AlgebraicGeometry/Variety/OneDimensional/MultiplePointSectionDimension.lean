@@ -279,7 +279,7 @@ theorem succ_le_finrank_cohomologyOverField_multiplePoint (k : Type u) [Field k]
   have hmem : y ∈ Set.range
       (Scheme.IdealSheafData.vanishingIdeal (⟨{y}, hy⟩ : Closeds Y)).subschemeι.base := by
     rw [Scheme.IdealSheafData.range_subschemeι]
-    show y ∈ (Scheme.IdealSheafData.vanishingIdeal (⟨{y}, hy⟩ : Closeds Y)).supportSet
+    change y ∈ (Scheme.IdealSheafData.vanishingIdeal (⟨{y}, hy⟩ : Closeds Y)).supportSet
     rw [supportSet_vanishingIdeal_singleton hy]
     rfl
   obtain ⟨z, -⟩ := hmem

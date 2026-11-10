@@ -65,7 +65,7 @@ theorem mk_mem_quotientGrading {n : ℕ} {p : P} (hp : p ∈ 𝒜 n) :
 /-- The component of degree `i₀` of a sum of elements of distinct degrees. -/
 theorem decompose_sum_of_mem (s : Finset ℕ) (p : ℕ → P) (hp : ∀ i ∈ s, p i ∈ 𝒜 i) {i₀ : ℕ}
     (hi₀ : i₀ ∈ s) : (decompose 𝒜 (∑ i ∈ s, p i) i₀ : P) = p i₀ := by
-  rw [decompose_sum, DFinsupp.finsetSum_apply, AddSubmonoidClass.coe_finset_sum,
+  rw [decompose_sum, DFinsupp.finsetSum_apply, AddSubmonoidClass.coe_finsetSum,
     Finset.sum_eq_single_of_mem i₀ hi₀]
   · exact decompose_of_mem_same 𝒜 (hp i₀ hi₀)
   · exact fun i hi hne => decompose_of_mem_ne 𝒜 (hp i hi) hne
@@ -83,14 +83,14 @@ theorem isInternal_quotientGrading (hJ : J.IsHomogeneous 𝒜) :
       simpa [← hpy _ (Finset.mem_coe.1 _)] using
         (Finset.sum_congr rfl fun i hi => hpy i hi).trans hsum
     rw [← hpy i₀ hi₀]
-    show Ideal.Quotient.mk J (p i₀) = 0
+    change Ideal.Quotient.mk J (p i₀) = 0
     rw [Ideal.Quotient.eq_zero_iff_mem, ← decompose_sum_of_mem s p hp hi₀]
     exact (hJ.mem_iff.1 hmem) i₀
   · intro x
     obtain ⟨q, rfl⟩ := Ideal.Quotient.mk_surjective x
     refine ⟨(decompose 𝒜 q).support, fun i => Ideal.Quotient.mk J (decompose 𝒜 q i : P),
       fun i => mk_mem_quotientGrading (decompose 𝒜 q i).2, fun i hi => ?_, ?_⟩
-    · show Ideal.Quotient.mk J _ = 0
+    · change Ideal.Quotient.mk J _ = 0
       rw [DFinsupp.notMem_support_iff.1 hi, ZeroMemClass.coe_zero, map_zero]
     · rw [← map_sum, sum_support_decompose 𝒜 q]
 
@@ -181,7 +181,7 @@ theorem truncationIdeal_le_ker (hN : m ^ N = ⊥) :
 /-- A polynomial of degree zero is the constant given by its constant coefficient. -/
 private theorem eq_C_coeff_zero_of_mem_degreeZero {p : MvPolynomial (Fin d) R}
     (hp : p ∈ homogeneousSubmodule (Fin d) R 0) : p = C (p.coeff 0) := by
-  rw [← homogeneousComponent_zero, homogeneousComponent_of_mem hp, if_pos rfl]
+  rw [← homogeneousComponent_zero, homogeneousComponent_of_mem hp, ite_eq_left rfl]
 
 /-- **The truncation ideal has no weight-zero elements**: a constant in
 `((y) + 𝔪 R[y])^N` vanishes once `𝔪^N = 0`. -/
@@ -219,7 +219,7 @@ def truncatedEval (hN : m ^ N = ⊥) : TruncatedAlgebra (R := R) m d N →ₐ[R]
 /-- Evaluation at `y = 0` sends the class of `p` to its constant coefficient. -/
 theorem truncatedEval_mk (hN : m ^ N = ⊥) (p : MvPolynomial (Fin d) R) :
     truncatedEval hN (Ideal.Quotient.mk _ p) = p.coeff 0 := by
-  show aeval (0 : Fin d → R) p = p.coeff 0
+  change aeval (0 : Fin d → R) p = p.coeff 0
   rw [aeval_zero, Algebra.algebraMap_self, RingHom.id_apply, constantCoeff_eq]
 
 /-- **The truncated Poincaré lemma**: over a `ℚ`-algebra `A` with `𝔪^N = 0`, the restriction of
@@ -231,7 +231,7 @@ theorem quasiIso_deRhamComplexMap_truncatedAlgebra [Algebra ℚ A] (hN : m ^ N =
   let : Algebra (TruncatedAlgebra (R := R) m d N) R := (truncatedEval hN).toAlgebra
   have : IsScalarTower A (TruncatedAlgebra (R := R) m d N) R :=
     IsScalarTower.of_algebraMap_eq fun a => by
-      show algebraMap A R a = truncatedEval hN (algebraMap A _ a)
+      change algebraMap A R a = truncatedEval hN (algebraMap A _ a)
       rw [IsScalarTower.algebraMap_apply A R (TruncatedAlgebra (R := R) m d N), AlgHom.commutes,
         Algebra.algebraMap_self, RingHom.id_apply]
   let : Algebra ℚ (TruncatedAlgebra (R := R) m d N) :=
@@ -243,7 +243,7 @@ theorem quasiIso_deRhamComplexMap_truncatedAlgebra [Algebra ℚ A] (hN : m ^ N =
     conv_rhs => rw [eq_C_coeff_zero_of_mem_degreeZero hp]
     rfl
   · rintro n hn _ ⟨p, hp, rfl⟩
-    show truncatedEval hN (Ideal.Quotient.mk _ p) = 0
+    change truncatedEval hN (Ideal.Quotient.mk _ p) = 0
     rw [truncatedEval_mk]
     exact (mem_homogeneousSubmodule n p).1 hp |>.coeff_eq_zero (by simpa using hn.ne)
 
@@ -443,7 +443,7 @@ theorem reduction_isScalarTower :
     IsScalarTower A (MvPolynomial (Fin d) A) R₀ :=
   let := reductionAlgebra (d := d) π'
   IsScalarTower.of_algebraMap_eq fun a => by
-    show algebraMap A R₀ a = π' (algebraMap _ R' (algebraMap A _ a))
+    change algebraMap A R₀ a = π' (algebraMap _ R' (algebraMap A _ a))
     rw [← IsScalarTower.algebraMap_apply, π'.commutes]
 
 /-- **The étale lift** `R' → R[y]/J`: the unique map over the coordinates `x'_i ↦ x_i + y_i`
@@ -544,7 +544,7 @@ theorem truncatedToGraph_mk_X (hm : ∀ a ∈ m, algebraMap A R₀ a = 0)
     (hx : ∀ i, π (x i) = π' (coord (A := A) i)) (i : Fin d) :
     truncatedToGraph (N := N) hm hx (Ideal.Quotient.mk _ (X i)) =
       Ideal.Quotient.mk _ ((1 : R) ⊗ₜ[A] coord (A := A) (R' := R') i - x i ⊗ₜ[A] (1 : R')) := by
-  show (aeval fun i => Ideal.Quotient.mk (graphIdeal π π' ^ N)
+  change (aeval fun i => Ideal.Quotient.mk (graphIdeal π π' ^ N)
     ((1 : R) ⊗ₜ[A] coord (A := A) (R' := R') i - x i ⊗ₜ[A] (1 : R'))) (X i) = _
   rw [aeval_X]
 
@@ -640,7 +640,7 @@ theorem truncatedToGraph_comp_graphToTruncated (h : GraphHyp π π' m N x) :
     refine Algebra.FormallyUnramified.ext' (graphNeighbourhoodMult h.pos).toRingHom
       ⟨N, by rw [Ideal.zero_eq_bot]; exact ker_graphNeighbourhoodMult_pow h.pos⟩ g₁ g₂
       fun r' => ?_
-    show graphNeighbourhoodMult h.pos ((truncatedToGraph (N := N)
+    change graphNeighbourhoodMult h.pos ((truncatedToGraph (N := N)
       (fun _ ha => h.algebraMap_eq_zero ha) h.coord) (coordLift h r')) =
       graphNeighbourhoodMult h.pos (q ((1 : R) ⊗ₜ r'))
     rw [graphNeighbourhoodMult_truncatedToGraph h, truncatedReduction_coordLift]

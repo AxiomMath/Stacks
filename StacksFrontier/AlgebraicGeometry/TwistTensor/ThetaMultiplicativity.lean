@@ -106,7 +106,8 @@ comparison isomorphism; the conjugating factors cancel in pairs, and what is lef
 re-proved.
 
 **The unitors are the structural morphisms the two localizations do not share** — they are where
-the choice of unit object enters — so `str_leftUnitor` is not the end of the matter: it expresses the strict left unitor through the
+the choice of unit object enters — so `str_leftUnitor` is not the end of the matter: it expresses
+the strict left unitor through the
 left unitor of `Stacks.SheafOfModules.monoidalCategory`, and
 `AlgebraicGeometry.leftUnitor_sheafOfModulesMonoidal_hom` is then what carries that to the left
 unitor of `Stacks.SheafInternalHom.monoidalCategory`, the one
@@ -378,11 +379,16 @@ abbrev strStruct : MonoidalCategoryStruct (SheafOfModules.{u} (structureSheaf �
 
 attribute [local instance] Stacks.SheafOfModules.monoidalCategory
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The tensor product of the strict structure is the tensor product sheaf of Stacks Tag 01CA. -/
 theorem strStruct_tensorObj (A B : SheafOfModules.{u} (structureSheaf 𝒪 h𝒪)) :
-    MonoidalCategoryStruct.tensorObj (self := strStruct 𝒪 h𝒪) A B = (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ (𝒪) (forget₂ CommRingCat RingCat) (h𝒪)⟩).obj (A)).obj (B)) :=
+    MonoidalCategoryStruct.tensorObj (self := strStruct 𝒪 h𝒪) A B =
+      (((Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ (𝒪) (forget₂ CommRingCat RingCat) (h𝒪)⟩).obj
+          (A)).obj (B)) :=
   rfl
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **Right whiskering in the strict structure is right whiskering in the localized one**,
 conjugated by the comparison isomorphism. This is
 `Stacks.SheafOfModules.Strict.whiskerRight_eq`, read with the other localized structure in
@@ -394,6 +400,7 @@ theorem str_whiskerRight {A A' : SheafOfModules.{u} (structureSheaf 𝒪 h𝒪)}
         (Stacks.SheafOfModules.tensorObjIso 𝒪 h𝒪 A' Z).hom :=
   rfl
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **Left whiskering in the strict structure is left whiskering in the localized one**,
 conjugated by the comparison isomorphism. -/
 theorem str_whiskerLeft (A : SheafOfModules.{u} (structureSheaf 𝒪 h𝒪))
@@ -403,17 +410,25 @@ theorem str_whiskerLeft (A : SheafOfModules.{u} (structureSheaf 𝒪 h𝒪))
         (Stacks.SheafOfModules.tensorObjIso 𝒪 h𝒪 A B').hom :=
   rfl
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The associator of the strict structure is the localized associator**, conjugated by the
 comparison isomorphism on both sides. -/
 theorem str_associator (A B E : SheafOfModules.{u} (structureSheaf 𝒪 h𝒪)) :
     (MonoidalCategoryStruct.associator (self := strStruct 𝒪 h𝒪) A B E).hom =
-      ((Stacks.SheafOfModules.tensorObjIso 𝒪 h𝒪 ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ (𝒪) (forget₂ CommRingCat RingCat) (h𝒪)⟩).obj (A)).obj (B))) E).inv ≫
+      ((Stacks.SheafOfModules.tensorObjIso 𝒪 h𝒪
+          ((((Stacks.SheafOfModules.Tensor.sheafTensor
+            ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ (𝒪) (forget₂ CommRingCat RingCat) (h𝒪)⟩).obj
+              (A)).obj (B))) E).inv ≫
           ((Stacks.SheafOfModules.tensorObjIso 𝒪 h𝒪 A B).inv ⊗ₘ 𝟙 E)) ≫
         ((α_ A B E).hom ≫
           ((𝟙 A ⊗ₘ (Stacks.SheafOfModules.tensorObjIso 𝒪 h𝒪 B E).hom) ≫
-            (Stacks.SheafOfModules.tensorObjIso 𝒪 h𝒪 A ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ (𝒪) (forget₂ CommRingCat RingCat) (h𝒪)⟩).obj (B)).obj (E)))).hom)) :=
+            (Stacks.SheafOfModules.tensorObjIso 𝒪 h𝒪 A
+              ((((Stacks.SheafOfModules.Tensor.sheafTensor
+                ⟨𝒪, Presheaf.isSheaf_of_isSheaf_comp _ (𝒪) (forget₂ CommRingCat RingCat)
+                  (h𝒪)⟩).obj (B)).obj (E)))).hom)) :=
   rfl
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **The left unitor of the strict structure is the localized left unitor**, precomposed with the
 comparison isomorphism. Unlike the associator and the two whiskerings, this is *not* the left
 unitor of `Stacks.SheafInternalHom.monoidalCategory`: the unit objects of the two localizations
@@ -425,6 +440,7 @@ theorem str_leftUnitor (A : SheafOfModules.{u} (structureSheaf 𝒪 h𝒪)) :
           (_root_.SheafOfModules.unit (structureSheaf 𝒪 h𝒪)) A).inv ≫ (λ_ A).hom :=
   rfl
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **Right whiskering a morphism into the unit object, followed by the left unitor of the strict
 structure**: the two inner comparison isomorphisms cancel, so only the outer one survives. The
 objects are variables here, which is what lets the cancellation be done by `rw` at all. -/
@@ -447,6 +463,7 @@ theorem str_rightUnitor (A : SheafOfModules.{u} (structureSheaf 𝒪 h𝒪)) :
           (_root_.SheafOfModules.unit (structureSheaf 𝒪 h𝒪))).inv ≫ (ρ_ A).hom :=
   rfl
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **Whiskering a morphism into the unit object on the left, followed by the right unitor of the
 strict structure**: as in `str_whiskerRight_leftUnitor` the two inner comparison isomorphisms
 cancel, so only the outer one survives. -/
@@ -483,6 +500,7 @@ theorem addIsoSheaf_hom (n m : ℤ) :
   congrArg (fun φ => φ ≫ (addIsoLoc 𝒪 h𝒪 L n m).hom)
     (congrArg Iso.inv (tensorIso_eq 𝒪 h𝒪 (tensorPow 𝒪 h𝒪 L n) (tensorPow 𝒪 h𝒪 L m)))
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The associativity constraint of the addition law at the localized structure, read at the
 retyping `addIsoLoc`. -/
 theorem loc_addIso_assoc (a b c : ℕ) :
@@ -514,6 +532,7 @@ theorem addIsoSheaf_assoc (a b c : ℕ) :
   exact assoc_conj_square (str_whiskerRight 𝒪 h𝒪 _ _) (str_associator 𝒪 h𝒪 _ _ _)
     (str_whiskerLeft 𝒪 h𝒪 _ _) (loc_addIso_assoc 𝒪 h𝒪 L a b c)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- The identification of the zeroth tensor power with the structure sheaf is the comparison of
 the two unit objects: `tensorPowZeroIso` is `AlgebraicGeometry.SheafOfModules.unitIso` by
 definition, so the two cancel. -/

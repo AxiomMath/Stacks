@@ -91,7 +91,7 @@ theorem exists_affineChart_hasFreeSectionsAlongFibre_chartFibre {X Y : Algebraic
       (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
         (BigFppfOver.toScheme B S hS)) m := by
     intro A C m _
-    show Etale ((BigFppfOver.toScheme B S hS).map m)
+    change Etale ((BigFppfOver.toScheme B S hS).map m)
     infer_instance
   have hcP : (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme B S hS)).presheaf c := by
@@ -116,7 +116,7 @@ theorem exists_affineChart_hasFreeSectionsAlongFibre_chartFibre {X Y : Algebraic
   have hĝmap : yoneda.map ĝ = c ≫ pullback.fst q f.hom := yoneda.map_preimage _
   have hsq : yoneda.map ĝ ≫ q = U.obj.hom ≫ f.hom := by
     rw [hĝmap]
-    show (c ≫ pullback.fst q f.hom) ≫ q = (c ≫ pullback.snd q f.hom) ≫ f.hom
+    change (c ≫ pullback.fst q f.hom) ≫ q = (c ≫ pullback.snd q f.hom) ≫ f.hom
     rw [Category.assoc, Category.assoc, pullback.condition]
   set V : SmallEtale B S hS Y.1 := ⟨CostructuredArrow.mk q, hqet⟩ with hV
   set d : ChartDiagram B S hS X.1 Y.1 f.hom := { U := U, V := V, g := ĝ, comm := hsq.symm }
@@ -124,7 +124,7 @@ theorem exists_affineChart_hasFreeSectionsAlongFibre_chartFibre {X Y : Algebraic
   set τ := (BigFppfOver.toScheme B S hS).map ĝ with hτ
   set w₀ := pointsToScheme B S hS Y₁ w with hw₀def
   have hw₀ : pointOfEtaleChart B S hS V w₀ = y := by
-    show pointsMap B S hS (yoneda.obj Y₁) q
+    change pointsMap B S hS (yoneda.obj Y₁) q
       ((pointsEquivScheme B S hS Y₁).symm w₀) = y
     rw [show (pointsEquivScheme B S hS Y₁).symm w₀ = w from
       (pointsEquivScheme B S hS Y₁).symm_apply_apply w]
@@ -133,7 +133,7 @@ theorem exists_affineChart_hasFreeSectionsAlongFibre_chartFibre {X Y : Algebraic
       pointsMap B S hS X.1 f.hom (pointOfEtaleChart B S hS U u) =
         pointOfEtaleChart B S hS V (τ u) := by
     intro u
-    show pointsMap B S hS X.1 f.hom (pointsMap B S hS (yoneda.obj U.obj.left) U.obj.hom
+    change pointsMap B S hS X.1 f.hom (pointsMap B S hS (yoneda.obj U.obj.left) U.obj.hom
       ((pointsEquivScheme B S hS U.obj.left).symm u)) = _
     rw [← pointsMap_comp_apply, ← hsq, pointsMap_comp_apply,
       pointsMap_yoneda_map_symm B S hS ĝ u]
@@ -159,17 +159,17 @@ theorem exists_affineChart_hasFreeSectionsAlongFibre_chartFibre {X Y : Algebraic
         obtain ⟨uu, huu⟩ := (surjective_iff_surjective_pointsMap B S hS
           (pullback q f.hom) hPalg X' c).mp hcsurj z
         refine ⟨pointsEquivScheme B S hS X' uu, ?_, ?_⟩
-        · show τ (pointsEquivScheme B S hS X' uu) ∈ ({w₀} : Set _)
+        · change τ (pointsEquivScheme B S hS X' uu) ∈ ({w₀} : Set _)
           have h : pointsToScheme B S hS Y₁
               (pointsMap B S hS (yoneda.obj X') (yoneda.map ĝ) uu) =
               τ (pointsToScheme B S hS X' uu) :=
             pointsToScheme_pointsMap_yoneda B S hS ĝ uu
           rw [hĝmap, pointsMap_comp_apply, huu, hz₁] at h
           exact h.symm
-        · show pointsMap B S hS (yoneda.obj U.obj.left) U.obj.hom
+        · change pointsMap B S hS (yoneda.obj U.obj.left) U.obj.hom
             ((pointsEquivScheme B S hS X').symm (pointsEquivScheme B S hS X' uu)) = x
           rw [(pointsEquivScheme B S hS X').symm_apply_apply]
-          show pointsMap B S hS (yoneda.obj X') (c ≫ pullback.snd q f.hom) uu = x
+          change pointsMap B S hS (yoneda.obj X') (c ≫ pullback.snd q f.hom) uu = x
           rw [pointsMap_comp_apply, huu, hz₂]
       · rintro x ⟨u, hu, rfl⟩
         exact hfibU u hu

@@ -219,7 +219,7 @@ theorem sectionEquiv_d (V : C') (n m : ℤ)
       (restrictComplex X J (e.functor.obj V)) n
         (AddCommGrpCat.Hom.hom (((sheafHomComplex X P J).sectionsIso
           (e.functor.obj V)).hom.f n) s)).down)
-  show AddCommGrpCat.Hom.hom (((sheafHomComplex (pull X J' e) ((pushC X J' e).obj P)
+  change AddCommGrpCat.Hom.hom (((sheafHomComplex (pull X J' e) ((pushC X J' e).obj P)
       ((pushC X J' e).obj J)).sectionsIso V).inv.f m)
       (cochainEquiv (sliceEquiv X J' e V).functor (restrictComplex X P (e.functor.obj V))
         (restrictComplex X J (e.functor.obj V)) m
@@ -299,7 +299,7 @@ theorem preservesFiniteLimits_moduleULift {C : Type*} [Category C] {K : Grothend
     PreservesFiniteLimits (Stacks.SheafOfModules.moduleULift.{c, u} R) := by
   let G := _root_.SheafOfModules.forget.{max u c} R ⋙ PresheafOfModules.toPresheaf R.obj
   have hG : PreservesFiniteLimits (Stacks.SheafOfModules.moduleULift.{c, u} R ⋙ G) := by
-    show PreservesFiniteLimits
+    change PreservesFiniteLimits
       ((_root_.SheafOfModules.forget.{u} R ⋙ PresheafOfModules.toPresheaf R.obj) ⋙
         (Functor.whiskeringRight Cᵒᵖ AddCommGrpCat.{u} AddCommGrpCat.{max u c}).obj
           AddCommGrpCat.uliftFunctor.{c, u})

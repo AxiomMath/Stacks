@@ -118,7 +118,7 @@ theorem frobeniusMap_comp_gaUnit {p : ℕ} (hp : p.Prime) (hX : (p : Γ(X, ⊤))
       gaUnit g ≫ (etalePush g).map (frobeniusMap.{u, u + 1} Y hp hY) := by
   ext T x
   obtain ⟨x, rfl⟩ := ofSection_surjective.{u, u + 1} (U := T.unop) x
-  show ULift.up ((counitLeft g T.unop).appTop (x ^ p)) =
+  change ULift.up ((counitLeft g T.unop).appTop (x ^ p)) =
     ULift.up (((counitLeft g T.unop).appTop x) ^ p)
   exact congrArg ULift.up (map_pow _ _ _)
 
@@ -140,7 +140,7 @@ theorem gaScalar_comp_gaUnit (r : Γ(X, ⊤)) :
     gaScalar r ≫ gaUnit g = gaUnit g ≫ (etalePush g).map (gaScalar (g.appTop r)) := by
   ext T x
   obtain ⟨x, rfl⟩ := ofSection_surjective.{u, u + 1} (U := T.unop) x
-  show (gaUnit g).hom.app T ((gaScalar r).hom.app (op T.unop) (ofSection.{u, u + 1} x)) =
+  change (gaUnit g).hom.app T ((gaScalar r).hom.app (op T.unop) (ofSection.{u, u + 1} x)) =
     (gaScalar (g.appTop r)).hom.app (op ((smallEtaleBaseChange g).obj T.unop))
       ((gaUnit g).hom.app (op T.unop) (ofSection.{u, u + 1} x))
   rw [gaScalar_app_ofSection, gaUnit_app_ofSection, gaUnit_app_ofSection, map_mul,
@@ -204,7 +204,7 @@ theorem unitEtaleIso_comp_gaUnit :
   obtain ⟨s⟩ := s
   let A := (baseChangeOver g).obj T.unop
   let c := (baseChangeCounit g).app T.unop
-  show ofSection.{u, u + 1} ((counitLeft g T.unop).appTop
+  change ofSection.{u, u + 1} ((counitLeft g T.unop).appTop
       ((Scheme.Modules.pullbackUnitIso T.unop.hom).hom.app ⊤ s)) =
     ofSection.{u, u + 1} ((Scheme.Modules.pullbackUnitIso A.hom).hom.app ⊤
       (((Scheme.Modules.pullback A.hom).map (Scheme.Modules.pullbackUnitIso g).hom).app ⊤
@@ -230,7 +230,7 @@ theorem etaleScalar_comp_pullbackUnitEtaleIso (r : Γ(Y, ⊤)) :
     etaleScalar ((Scheme.Modules.pullback g).obj (Scheme.unitModule X)) r ≫
         (pullbackUnitEtaleIso g).hom =
       (pullbackUnitEtaleIso g).hom ≫ gaScalar r := by
-  show _ ≫ etaleMap (Scheme.Modules.pullbackUnitIso g).hom ≫ (unitEtaleIso Y).hom =
+  change _ ≫ etaleMap (Scheme.Modules.pullbackUnitIso g).hom ≫ (unitEtaleIso Y).hom =
     (etaleMap (Scheme.Modules.pullbackUnitIso g).hom ≫ (unitEtaleIso Y).hom) ≫ gaScalar r
   rw [← Category.assoc, etaleScalar_comp_etaleMap, Category.assoc,
     etaleScalar_comp_unitEtaleIso, Category.assoc]
@@ -242,7 +242,7 @@ theorem gaComparison_unitEtaleIso :
   apply ((etaleAdj g).homEquiv _ _).injective
   rw [(etaleAdj g).homEquiv_naturality_left, (etaleAdj g).homEquiv_naturality_right,
     gaComparison, Equiv.apply_symm_apply]
-  show _ = (etaleAdj g).homEquiv _ _ (((etaleAdj g).homEquiv _ _).symm
+  change _ = (etaleAdj g).homEquiv _ _ (((etaleAdj g).homEquiv _ _).symm
       (unit g (Scheme.unitModule X))) ≫ _
   rw [Equiv.apply_symm_apply, unitEtaleIso_comp_gaUnit]
 
@@ -277,7 +277,7 @@ private theorem gaRestriction_map_comp_eq
     gaRestriction g q (Sheaf.H.map a q x) =
       Sheaf.H.map b q
         ((etaleCohomologyRestrictionMap.{u, u + 1, w} g A q x).comp (Ext.mk₀ c) (add_zero q)) := by
-  show (etaleCohomologyRestrictionMap.{u, u + 1, w} g _ q (x.comp (Ext.mk₀ a) (add_zero q))).comp
+  change (etaleCohomologyRestrictionMap.{u, u + 1, w} g _ q (x.comp (Ext.mk₀ a) (add_zero q))).comp
       (Ext.mk₀ (gaComparison g)) (add_zero q) =
     ((etaleCohomologyRestrictionMap.{u, u + 1, w} g _ q x).comp (Ext.mk₀ c)
       (add_zero q)).comp (Ext.mk₀ b) (add_zero q)

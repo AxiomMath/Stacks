@@ -116,34 +116,38 @@ def pointBaseSquare (a : A₁ ⟶ A₂) (hsq : f₁ ≫ 𝟙 D = a ≫ f₂) :
     exact congrArg (fun k : A₁ ⟶ D => ((Φ.presheafFiber (A := CommRingCat)).map k.hom).hom z)
       ((Category.comp_id f₁).symm.trans hsq)
 
+omit [LocallySmall.{max u v w} C] in
 /-- The square of stalk maps of `(a, 𝟙 D)` is the base square. -/
 theorem pointStalkSquare_eq_pointBaseSquare (a : A₁ ⟶ A₂) (hsq : f₁ ≫ 𝟙 D = a ≫ f₂) :
     pointStalkSquare J Φ f₁ a (𝟙 D) hsq = pointBaseSquare J Φ a hsq := by
   refine (CommAlgCat.AlgebraSquare.mk.injEq _ _ _ _ _ _).mpr ⟨rfl, ?_⟩
-  show ((Φ.presheafFiber (A := CommRingCat)).map (𝟙 D.obj)).hom = RingHom.id _
+  change ((Φ.presheafFiber (A := CommRingCat)).map (𝟙 D.obj)).hom = RingHom.id _
   rw [Functor.map_id]
   rfl
 
+omit [LocallySmall.{max u v w} C] in
 /-- The base squares compose. -/
 theorem pointBaseSquare_comp (a : A₁ ⟶ A₂) (hsq : f₁ ≫ 𝟙 D = a ≫ f₂) (a' : A₂ ⟶ A₃)
     (hsq' : f₂ ≫ 𝟙 D = a' ≫ f₃) (hsq'' : f₁ ≫ 𝟙 D = (a ≫ a') ≫ f₃) :
     (pointBaseSquare J Φ a hsq).comp (pointBaseSquare J Φ a' hsq') =
       pointBaseSquare J Φ (a ≫ a') hsq'' := by
   refine (CommAlgCat.AlgebraSquare.mk.injEq _ _ _ _ _ _).mpr ⟨?_, rfl⟩
-  show ((Φ.presheafFiber (A := CommRingCat)).map a.hom ≫
+  change ((Φ.presheafFiber (A := CommRingCat)).map a.hom ≫
     (Φ.presheafFiber (A := CommRingCat)).map a'.hom).hom =
       ((Φ.presheafFiber (A := CommRingCat)).map (a ≫ a').hom).hom
   rw [← Functor.map_comp]
   rfl
 
+omit [LocallySmall.{max u v w} C] in
 /-- The base square of the identity is the identity square. -/
 theorem pointBaseSquare_id (hsq : f₁ ≫ 𝟙 D = 𝟙 A₁ ≫ f₁) :
     pointBaseSquare J Φ (𝟙 A₁) hsq = CommAlgCat.AlgebraSquare.id _ (pointStalkAlgebra J Φ f₁) := by
   refine (CommAlgCat.AlgebraSquare.mk.injEq _ _ _ _ _ _).mpr ⟨?_, rfl⟩
-  show ((Φ.presheafFiber (A := CommRingCat)).map (𝟙 A₁.obj)).hom = RingHom.id _
+  change ((Φ.presheafFiber (A := CommRingCat)).map (𝟙 A₁.obj)).hom = RingHom.id _
   rw [Functor.map_id]
   rfl
 
+omit [LocallySmall.{max u v w} C] in
 /-- The map of cotangent complexes of the base square is the identity for the identity. -/
 theorem squareCotangentComplexMap_pointBaseSquare_id_apply (hsq : f₁ ≫ 𝟙 D = 𝟙 A₁ ≫ f₁) (n : ℤ)
     (x : (CommAlgCat.cotangentComplex.{max u v w, max u v w} _ (pointStalkAlgebra J Φ f₁)).X n) :
@@ -244,6 +248,7 @@ theorem IsPointStalkBaseMap.inverse {a : A₁ ⟶ A₂} [IsIso a] {hsq : f₁ �
     IsPointStalkBaseMap J Φ (CategoryTheory.inv a) hsq' (CategoryTheory.inv φ) :=
   isPointStalkBaseMap_of_comp_eq_id J Φ (IsIso.hom_inv_id a) (IsIso.inv_hom_id φ) h
 
+omit [LocallySmall.{max u v w} C] in
 /-- The isomorphism of cotangent complexes of an isomorphism of base rings `a`, followed by the
 identification of restriction of scalars along the identity with the identity, is the map of
 cotangent complexes of the square `(a, 𝟙 D)`. -/

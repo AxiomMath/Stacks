@@ -175,7 +175,7 @@ theorem smulEnd_comp_toRestrictExtend_eq_sum {n : ℕ} (b e : Fin n → Γ(Y, �
   have hVW : V ≤ W.unop := Opens.openIntersection_obj_le U W.unop
   have hVU : V ≤ U := Opens.openIntersection_obj_le_right U W.unop
   let s : Γ(Y, π ⁻¹ᵁ W.unop) := s₀
-  show Y.presheaf.map (homOfLE (preimage_openIntersection_le π U W.unop)).op
+  change Y.presheaf.map (homOfLE (preimage_openIntersection_le π U W.unop)).op
       (π.app W.unop (resTop X W.unop d) * s) =
     ∑ i, π.app V (thetaApp U θ hθ V hVU (X.presheaf.map (homOfLE hVW).op
       (frobeniusApp π p hpow W.unop (resTop Y (π ⁻¹ᵁ W.unop) (b i) * s)))) *

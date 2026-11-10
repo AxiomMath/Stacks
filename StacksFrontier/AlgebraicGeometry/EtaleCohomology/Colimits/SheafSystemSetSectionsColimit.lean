@@ -377,7 +377,7 @@ theorem exists_pushforwardLeg_apply_eq {i₀ : Iᵒᵖ} (V₀ : (D.obj i₀).Eta
     fun m _ _ g z => congrArg (fun φ => φ z) ((ι m).hom.naturality g.op)
   let c3 : (smallEtaleBaseChange (c.π.app (op j))).obj W ⟶ O2 := C3.hom.app W
   have hy₃ : Gj.obj.map ε.hom.op y₃ = y₂ := by
-    show Gj.obj.map ε.hom.op (Gj.obj.map ε.inv.op y₂) = y₂
+    change Gj.obj.map ε.hom.op (Gj.obj.map ε.inv.op y₂) = y₂
     rw [presheaf_map_map_apply_types, Iso.hom_inv_id, op_id, CategoryTheory.Functor.map_id,
       ConcreteCategory.id_apply]
   calc _ = 𝓖.obj.map (C.hom.app V₀).op ((ι k).hom.app _ (Gk.obj.map M.op
@@ -396,6 +396,7 @@ theorem exists_pushforwardLeg_apply_eq {i₀ : Iᵒᵖ} (V₀ : (D.obj i₀).Eta
     _ = s :=
         (hιn _ ε.hom y₃).symm.trans ((congrArg ((ι (op j)).hom.app (op V)) hy₃).trans hy₂)
 
+omit [IsDirected I (· ≤ ·)] [Nonempty I] [∀ {i j : Iᵒᵖ} (f : i ⟶ j), IsAffineHom (D.map f)] in
 include hι in
 /-- The legs `f_{k i₀,*}F_k ⟶ f_{i₀,*}𝓖` are compatible with the transition maps. -/
 lemma pushforwardTransition_comp_pushforwardLeg {l k i₀ : Iᵒᵖ} (b : l ⟶ k)

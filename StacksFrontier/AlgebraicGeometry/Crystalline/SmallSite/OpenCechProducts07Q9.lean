@@ -206,7 +206,7 @@ theorem exists_openSystem07Q9_desc (B : CrystallineThickening S)
   refine ⟨e', hee', ε.inv ≫ (smallExtend S V W hVW).map k₀, fun i ↦ ?_⟩
   have h := congrArg (smallExtend S V W hVW).map (hk₀ i)
   rw [Functor.map_comp, Functor.map_comp, Functor.map_preimage] at h
-  show (ε.inv ≫ (smallExtend S V W hVW).map k₀) ≫ (smallExtend S V W hVW).map
+  change (ε.inv ≫ (smallExtend S V W hVW).map k₀) ≫ (smallExtend S V W hVW).map
       (((openLocalSystem07Q9 S hV hW hVW g hg).map (SimplexCategory.const ⦋0⦌ ⦋n⦌ i).op).app e') =
     q i ≫ (smallExtend S V W hVW).map
       (((openLocalSystem07Q9 S hV hW hVW g hg).obj (op ⦋0⦌)).map (homOfLE hee'))

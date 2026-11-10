@@ -103,8 +103,7 @@ lemma modulePullback_stalkMap_bijective
     map_add' := te.map_add
     map_smul' := by
       intro s z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add z w hz hw => simp [hz, hw]
       | tmul r m =>
           simp [te, TensorProduct.smul_tmul']
@@ -155,18 +154,17 @@ lemma modulePullback_stalkMap_bijective
       exact TopCat.Presheaf.stalkFunctor_map_germ_apply' V (f.hom.base x) hxV
         ((PresheafOfModules.toPresheaf
           (Y.presheaf ⋙ forget₂ CommRingCat.{u} RingCat.{u})).map φ.val) s
-    show E' (b (E.symm (1 ⊗ₜ[R] m))) = teS (1 ⊗ₜ[R] m)
+    change E' (b (E.symm (1 ⊗ₜ[R] m))) = teS (1 ⊗ₜ[R] m)
     rw [hz, hmap, hsec]
-    show E' zH = teS (1 ⊗ₜ[R] m)
+    change E' zH = teS (1 ⊗ₜ[R] m)
     have hte : teS (1 ⊗ₜ[R] m) = (1 : S) ⊗ₜ[R] a m := by
-      show (1 : S) ⊗ₜ[R] (LinearEquiv.ofBijective a hφ m) =
+      change (1 : S) ⊗ₜ[R] (LinearEquiv.ofBijective a hφ m) =
         (1 : S) ⊗ₜ[R] a m
       rfl
     rw [hunitH, hte, hφgerm]
   have hmaps : ∀ z : TensorProduct R S M, lhs z = teS z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw => simp [hz, hw]
     | tmul s m =>
         rw [TensorProduct.tmul_eq_smul_one_tmul, map_smul, map_smul, hgen]
@@ -250,7 +248,7 @@ public theorem isDepthOneQuotient_pullback
         (TensorProduct R S M) := by
       rw [hformula]
       exact le_trans hdepth (le_add_of_nonneg_right (by positivity))
-    show 1 ≤ Module.depth S (IsLocalRing.maximalIdeal S) N
+    change 1 ≤ Module.depth S (IsLocalRing.maximalIdeal S) N
     rwa [hdepthEq]
 
 end AlgebraicGeometry

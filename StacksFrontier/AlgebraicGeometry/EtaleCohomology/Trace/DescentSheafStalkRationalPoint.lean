@@ -124,7 +124,7 @@ public theorem spec_algEquiv_pow {k L : Type u} [Field k] [Field L] [Algebra k L
     calc End.asHom (End.of (Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom)) ^ (n + 1))
         = Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫
             End.asHom (End.of (Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom)) ^ n) := by
-          rw [pow_succ, End.mul_def]
+          rw [pow_succ, End.mul_asHom]
       _ = Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫
             Spec.map (CommRingCat.ofHom (σ ^ n).toAlgHom.toRingHom) := by rw [ih]
       _ = Spec.map (CommRingCat.ofHom (σ ^ (n + 1)).toAlgHom.toRingHom) := by
@@ -159,11 +159,11 @@ public theorem galoisPointHom_comp_rationalPointHom (hcard : Fintype.card K = p 
     intro z
     rw [arithmeticFrobenius_apply, ← map_pow, hn, ← hG n, inv_pow, ← AlgEquiv.mul_apply,
       inv_mul_cancel, AlgEquiv.one_apply]
-  show Spec.map _ ≫ Spec.map _ = Spec.map _ ≫ _
+  change Spec.map _ ≫ Spec.map _ = Spec.map _ ≫ _
   rw [frobeniusPointHom_hom, spec_algEquiv_pow F n, ← Spec.map_comp, ← Spec.map_comp]
   congr 1
   ext z
-  show A.symm (ι z) = ι ((F ^ n) z)
+  change A.symm (ι z) = ι ((F ^ n) z)
   rw [← hpt z, AlgEquiv.symm_apply_apply]
 
 variable (Λ : Type r) [Ring Λ] (N : Type (max (u + 1) v)) [AddCommGroup N] [Module Λ N]
@@ -266,7 +266,7 @@ public theorem exists_stalk_inverseImage_geometricFrobenius (hcard : Fintype.car
   refine ⟨ι.toLinearEquiv.trans (C.stalkLinearEquivOfIso Λ N ρ e
     ((rationalPointHom (y' ≫ g) Ω).hom ≫ a) (C.rationalPointHom_comp_cover_hom (y' ≫ g) Ω a ha)),
     fun m => ?_⟩
-  show C.stalkLinearEquivOfIso Λ N ρ e _ _ (ι.hom.hom
+  change C.stalkLinearEquivOfIso Λ N ρ e _ _ (ι.hom.hom
       (((geometricFrobeniusStalkFunctor (ModuleCat.{max (u + 1) r} Λ) Ω p f hcard y').app
         ((etaleModuleInverseImage.{u, r} Λ g).obj F)).hom m)) = _
   exact (congrArg (C.stalkLinearEquivOfIso Λ N ρ e ((rationalPointHom (y' ≫ g) Ω).hom ≫ a)

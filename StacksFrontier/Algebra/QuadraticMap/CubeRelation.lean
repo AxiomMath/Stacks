@@ -88,6 +88,7 @@ def cubeBilinLeft (y : M) : M →+ G :=
 /-- `cubeBilinLeft hQ y x = B x y`. -/
 theorem cubeBilinLeft_apply (y x : M) : cubeBilinLeft hQ y x = cubeBilin Q x y := rfl
 
+omit hQ in
 /-- The map `B` is symmetric. -/
 theorem cubeBilin_comm (x y : M) : cubeBilin Q x y = cubeBilin Q y x := by
   unfold cubeBilin
@@ -97,14 +98,14 @@ theorem cubeBilin_comm (x y : M) : cubeBilin Q x y = cubeBilin Q y x := by
 /-- The map `B` is additive in its second argument. -/
 theorem cubeBilin_add_right (x y z : M) :
     cubeBilin Q x (y + z) = cubeBilin Q x y + cubeBilin Q x z := by
-  rw [cubeBilin_comm hQ, cubeBilin_add_left hQ, cubeBilin_comm hQ y, cubeBilin_comm hQ z]
+  rw [cubeBilin_comm, cubeBilin_add_left hQ, cubeBilin_comm y, cubeBilin_comm z]
 
 /-- `B (m • x) (n • y) = (m * n) • B x y`. -/
 theorem cubeBilin_zsmul (m n : ℤ) (x y : M) :
     cubeBilin Q (m • x) (n • y) = (m * n) • cubeBilin Q x y := by
   have h1 : ∀ (a : ℤ) (u w : M), cubeBilin Q (a • u) w = a • cubeBilin Q u w := fun a u w =>
     (cubeBilinLeft hQ w).map_zsmul a u
-  rw [h1, cubeBilin_comm hQ x, h1, cubeBilin_comm hQ y, mul_smul]
+  rw [h1, cubeBilin_comm x, h1, cubeBilin_comm y, mul_smul]
 
 /-- The one-step recursion along a line:
 `Q ((n + 1) • v) = Q (n • v) + Q v + n • (Q v + Q (-v))`. -/
@@ -158,12 +159,12 @@ theorem map_sum_of_cube {ι : Type*} [LinearOrder ι] (x : ι → M) (s : Finset
     have hrow : ∀ j ∈ s, (∑ k ∈ insert a s, if j < k then cubeBilin Q (x j) (x k) else 0) =
         (∑ k ∈ s, if j < k then cubeBilin Q (x j) (x k) else 0) + cubeBilin Q (x j) (x a) := by
       intro j hj
-      rw [sum_insert has, if_pos (ha j hj), add_comm]
+      rw [sum_insert has, ite_eq_left (ha j hj), add_comm]
     have hcol : (∑ k ∈ insert a s, if a < k then cubeBilin Q (x a) (x k) else 0) = 0 := by
       refine sum_eq_zero fun k hk => ?_
       rcases mem_insert.mp hk with rfl | hk
       · simp
-      · rw [if_neg (not_lt.mpr (ha k hk).le)]
+      · rw [ite_eq_right (not_lt.mpr (ha k hk).le)]
     rw [hQs, ih, hB, sum_insert has, sum_insert has, hcol, zero_add, sum_congr rfl hrow,
       sum_add_distrib]
     abel
@@ -244,9 +245,9 @@ theorem exists_mvPolynomial_multilinear_eq {ι : Type*} [LinearOrder ι] [Fintyp
   refine ⟨MvPolynomial.C ((1 : ℚ) / 2 ^ d) *
     ∑ σ : Fin d → T, MvPolynomial.C ((I fun i => w (σ i) : ℤ) : ℚ) * ∏ i, A (σ i), ?_, ?_⟩
   · refine (hCm _ _).trans ?_
-    refine (MvPolynomial.totalDegree_finset_sum _ _).trans (Finset.sup_le fun σ _ => ?_)
+    refine (MvPolynomial.totalDegree_finsetSum _ _).trans (Finset.sup_le fun σ _ => ?_)
     refine (hCm _ _).trans ?_
-    refine (MvPolynomial.totalDegree_finset_prod _ _).trans ?_
+    refine (MvPolynomial.totalDegree_finsetProd _ _).trans ?_
     calc ∑ i, (A (σ i)).totalDegree ≤ ∑ _i : Fin d, 2 := sum_le_sum fun i _ => hA (σ i)
       _ = 2 * d := by simp [mul_comm]
   · intro c

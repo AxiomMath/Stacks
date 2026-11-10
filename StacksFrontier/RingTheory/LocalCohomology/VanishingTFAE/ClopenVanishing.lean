@@ -46,8 +46,8 @@ No Stacks tag attribute is placed here. The statement of Stacks 0DX7 is a three-
 the `d = 0` branch of one of its implications is not the covering set of that tag, and the
 geometric condition of its third clause in positive degrees — vanishing of sheaf cohomology on
 `Spec A ∖ V(I)` — is not reached by this file at all. The branch at `d = -1` is
-`StacksFrontier/RingTheory/LocalCohomology/VanishingTFAE/ZeroLocusGeometry.lean`, and the equivalence
-of the first two clauses is
+`StacksFrontier/RingTheory/LocalCohomology/VanishingTFAE/ZeroLocusGeometry.lean`, and the
+equivalence of the first two clauses is
 `StacksFrontier/RingTheory/LocalCohomology/LongExactSequence/AllModules.lean`.
 
 `Stacks.LocalCohomology.cohomologicalDimension_le_zero_of_zeroLocus_eq_univ` of
@@ -147,7 +147,7 @@ theorem surjective_cechD_zero_singleton_of_isIdempotentElem {t : A} (ht : IsIdem
     Function.Surjective (Cech.cechD (fun _ : Fin 1 => t) M 0) := by
   set f : Fin 1 → A := fun _ => t with hf
   have hsub : Cech.cechSub f {0} = Submonoid.powers t := by
-    show Submonoid.powers (∏ i ∈ ({0} : Finset (Fin 1)), f i) = Submonoid.powers t
+    change Submonoid.powers (∏ i ∈ ({0} : Finset (Fin 1)), f i) = Submonoid.powers t
     rw [Finset.prod_singleton]
   have hsurj : Function.Surjective (LocalizedModule.mkLinearMap (Cech.cechSub f {0}) M) := by
     rw [hsub]
@@ -188,7 +188,7 @@ theorem isZero_homology_cechComplex_singleton_one_of_isIdempotentElem {t : A}
   rw [← HomologicalComplex.exactAt_iff_isZero_homology,
     HomologicalComplex.exactAt_iff' _ 0 1 2 (by simp) (by simp)]
   refine (ShortComplex.exact_iff_epi _ (hX₃.eq_of_tgt _ _)).2 ?_
-  show Epi ((Cech.cechComplex f M).d 0 1)
+  change Epi ((Cech.cechComplex f M).d 0 1)
   rw [hd]
   exact (ModuleCat.epi_iff_surjective _).2
     (surjective_cechD_zero_singleton_of_isIdempotentElem ht M)

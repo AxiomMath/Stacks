@@ -50,9 +50,10 @@ universe u v
 
 namespace HomologicalComplex
 
-variable {V : Type u} [Category.{v} V] [Abelian V] {ι : Type*} [DecidableEq ι]
+variable {V : Type u} [Category.{v} V] [Abelian V] {ι : Type*}
   {c : ComplexShape ι}
 
+variable [DecidableEq ι] in
 /-- The inverse of the isomorphism `homology_j ≅ A` of a single complex, through the cocycles. -/
 theorem singleObjHomologySelfIso_inv (A : V) (r : ι) :
     (singleObjHomologySelfIso c r A).inv =
@@ -84,11 +85,13 @@ theorem d_comp_topToHomology (i : ι) : K.d i r ≫ topToHomology K hrj hz = 0 :
         K.toCycles_i]]
   exact K.toCycles_comp_homologyπ i r
 
+variable [DecidableEq ι] in
 /-- **The comparison of a complex with the single complex on its cohomology in a degree out of
 which the differential vanishes.** -/
 def toSingleTopCohomology : K ⟶ (single V c r).obj (K.homology r) :=
   mkHomToSingle (topToHomology K hrj hz) (fun i _ => d_comp_topToHomology K hrj hz i)
 
+variable [DecidableEq ι] in
 /-- In degree `r`, the comparison map is the canonical map `K.X r ⟶ K.homology r` followed by the
 identification of the degree-`r` term of the single complex with `K.homology r`. -/
 @[simp]
@@ -108,6 +111,7 @@ theorem topToHomology_naturality {K L : HomologicalComplex V c} (φ : K ⟶ L) {
   rw [← cancel_mono (L.iCycles r), Category.assoc, liftCycles_i, Category.comp_id,
     Category.assoc, cyclesMap_i, ← Category.assoc, liftCycles_i, Category.id_comp]
 
+variable [DecidableEq ι] in
 /-- **The comparison is natural in the complex**: a map of complexes `φ : K ⟶ L` commutes with the
 comparisons and with the map induced by `φ` on cohomology in degree `r`. -/
 theorem toSingleTopCohomology_naturality {K L : HomologicalComplex V c} (φ : K ⟶ L) {r j : ι}
@@ -121,6 +125,7 @@ theorem toSingleTopCohomology_naturality {K L : HomologicalComplex V c} (φ : K 
   congr 1
   exact topToHomology_naturality φ hrj hzK hzL
 
+variable [DecidableEq ι] in
 /-- **The comparison induces on cohomology in degree `r` the inverse of Mathlib's
 identification of the cohomology of a single complex with its value.** -/
 theorem homologyMap_toSingleTopCohomology :
@@ -140,6 +145,7 @@ theorem homologyMap_toSingleTopCohomology :
           Category.comp_id],
     ← Category.assoc, iCycles_comp_liftCycles_id K hrj hz, Category.id_comp]
 
+variable [DecidableEq ι] in
 /-- **The comparison is an isomorphism on cohomology in degree `r`.** -/
 instance isIso_homologyMap_toSingleTopCohomology :
     IsIso (homologyMap (toSingleTopCohomology K hrj hz) r) := by
@@ -208,6 +214,7 @@ degree `r`. -/
 theorem d_comp_topToHomology_comp (i : ι) : K.d i r ≫ topToHomology K hrj hz ≫ g = 0 := by
   rw [← Category.assoc, d_comp_topToHomology, zero_comp]
 
+variable [DecidableEq ι] in
 /-- **The comparison of a complex with the single complex on any object receiving its top
 cohomology** factors through the comparison with the single complex on the cohomology itself. -/
 theorem mkHomToSingle_topToHomology_comp :
@@ -219,6 +226,7 @@ theorem mkHomToSingle_topToHomology_comp :
   simp only [Category.assoc]
   rw [Iso.inv_hom_id_assoc]
 
+variable [DecidableEq ι] in
 /-- **The comparison with the single complex on an object isomorphic to the top cohomology is an
 isomorphism on cohomology in degree `r`.** -/
 theorem isIso_homologyMap_mkHomToSingle [IsIso g] :

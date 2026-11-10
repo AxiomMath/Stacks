@@ -87,7 +87,7 @@ theorem specMap_infinityChartSectionsIso_infinityChartOver :
       (infinityChartAffineOpen U).2.fromSpec := by
   have h := SpecMap_appIso_ΓSpecIso_fromSpec (infinityChartOver U)
   refine (congrArg (Spec.map (infinityChartSectionsIso U).hom ≫ ·) h.symm).trans ?_
-  show Spec.map (infinityChartSectionsIso U).hom ≫ (Spec.map (infinityChartSectionsIso U).inv ≫
+  change Spec.map (infinityChartSectionsIso U).hom ≫ (Spec.map (infinityChartSectionsIso U).inv ≫
     (infinityChartAffineOpen U).2.fromSpec) = _
   rw [← Category.assoc, ← Spec.map_comp, Iso.inv_hom_id, Spec.map_id, Category.id_comp]
 
@@ -162,7 +162,7 @@ theorem map_infinityCentreIdeal_le :
   rw [ideal_infinityCentreIdeal_eq_map, Ideal.map_le_iff_le_comap]
   intro y hy
   obtain ⟨x, hx, rfl⟩ := (Ideal.mem_map_of_equiv _ y).1 hy
-  show (infinityChartSectionsEquiv U).symm (infinityChartSectionsEquiv U x) ∈
+  change (infinityChartSectionsEquiv U).symm (infinityChartSectionsEquiv U x) ∈
     infinityChartIdeal (Stacks.Conormal.chartIdeal i U)
   rwa [RingEquiv.symm_apply_apply]
 
@@ -284,7 +284,7 @@ theorem centreChartToGraded_algebraMap (r : Γ(X, U.1)) :
     rw [centreChartRingHom_infinityChartSectionsEquiv, Polynomial.eval_C]
   rw [Algebra.TensorProduct.algebraMap_apply, Algebra.algebraMap_self, RingHom.id_apply,
     centreChartToGraded, Stacks.Blowup.baseChangeReesToGraded_tmul, map_one, map_one, mul_one, hr]
-  show centreGradedTransport i U (Stacks.Blowup.quotientToGraded _ _ _
+  change centreGradedTransport i U (Stacks.Blowup.quotientToGraded _ _ _
     (algebraMap _ Γ(Z, i ⁻¹ᵁ U.1) _)) = _
   rw [Stacks.Blowup.quotientToGraded_algebraMap, centreGradedTransport_gradeZero]
 
@@ -392,7 +392,7 @@ theorem conormalAlgebraSheafSectionsEquiv_conormalSymmetricSectionsEquiv_ι
   have := isIso_symmetricAlgebraSheafMap_conormalDegreeOneSurjection i hi
   have := isIso_conormalSymmetricAlgebraSheafHom_of_isRegularImmersion i hi
   set φ := (VirtualNormalBundle.ofIsRegularImmersion i hi).conormalDegreeOneSurjection
-  show Stacks.Conormal.conormalAlgebraSheafSectionsEquiv i U inferInstance
+  change Stacks.Conormal.conormalAlgebraSheafSectionsEquiv i U inferInstance
     ((Stacks.Conormal.conormalAlgebraSheafSectionsEquiv i U inferInstance).symm
     ((algebraSheafAppEquiv (Stacks.Conormal.conormalSymmetricAlgebraSheafHom i)
         (op (i ⁻¹ᵁ U.1)))
@@ -470,7 +470,7 @@ theorem conormalSymmetricSectionsEquiv_algebraMap (r : Γ(X, U.1)) :
   have := isIso_symmetricAlgebraSheafMap_conormalDegreeOneSurjection i hi
   have := isIso_conormalSymmetricAlgebraSheafHom_of_isRegularImmersion i hi
   set φ := (VirtualNormalBundle.ofIsRegularImmersion i hi).conormalDegreeOneSurjection
-  show (Stacks.Conormal.conormalAlgebraSheafSectionsEquiv i U inferInstance).symm
+  change (Stacks.Conormal.conormalAlgebraSheafSectionsEquiv i U inferInstance).symm
     ((algebraSheafAppEquiv (Stacks.Conormal.conormalSymmetricAlgebraSheafHom i)
         (op (i ⁻¹ᵁ U.1)))
       ((algebraSheafAppEquiv (Scheme.Modules.symmetricAlgebraSheafMap Z φ) (op (i ⁻¹ᵁ U.1)))
@@ -500,7 +500,7 @@ theorem le_ker_algebraMap_centreChart :
   intro r hr
   obtain ⟨p, hp, rfl⟩ := (Ideal.mem_map_of_equiv _ r).1 hr
   rw [RingHom.mem_ker]
-  show (centreChartRingHom i U).hom (infinityChartSectionsEquiv U p) = 0
+  change (centreChartRingHom i U).hom (infinityChartSectionsEquiv U p) = 0
   rw [centreChartRingHom_infinityChartSectionsEquiv, ← Polynomial.coeff_zero_eq_eval_zero]
   have h := coeff_mem_pow_sub _ (show p ∈ infinityChartIdeal (Stacks.Conormal.chartIdeal i U) ^ 1
     by rwa [pow_one]) 0
@@ -793,7 +793,7 @@ theorem exceptionalChartRingEquiv_strHom (s : Γ(Z, i ⁻¹ᵁ U.1)) :
     (Stacks.SymTwistChart.symSectionRingEquiv_symm_algebraMap _ _
       (isAffineOpen_centrePreimage i U) s).symm
   rw [h1]
-  show exceptionalChartSymEquiv i U hi
+  change exceptionalChartSymEquiv i U hi
     ((Stacks.ProjectiveCompletion.sectionRingEquiv (isAffineOpen_centrePreimage i U))
       ((Stacks.ProjectiveCompletion.sectionRingEquiv (isAffineOpen_centrePreimage i U)).symm
         (algebraMap _ _ s))) = _
@@ -857,7 +857,7 @@ theorem centreChartRestrict_tmul_reesDegOne {V : X.affineOpens} (h : V.1 ≤ U.1
     (hjj : (lineChartRestrict h).hom j = j') :
     centreChartRestrict i h ((1 : Γ(Z, i ⁻¹ᵁ U.1)) ⊗ₜ Stacks.Blowup.reesDegOne _ hj) =
       (1 : Γ(Z, i ⁻¹ᵁ V.1)) ⊗ₜ Stacks.Blowup.reesDegOne _ hj' := by
-  show centreChartRestrictRingHom i h _ = _
+  change centreChartRestrictRingHom i h _ = _
   rw [centreChartRestrictRingHom_tmul, map_one]
   congr 1
   refine Subtype.ext ?_
@@ -999,7 +999,7 @@ theorem centreChartRestrict_comp_exceptionalChartGradedHom {V : X.affineOpens} (
   have hk := RingHom.congr_fun key
     (Stacks.ProjectiveCompletion.sectionRingEquiv (isAffineOpen_centrePreimage i U) y)
   refine hk.trans ?_
-  show (exceptionalChartRingEquiv i V hi) ((completionAlgebra (dualSheaf
+  change (exceptionalChartRingEquiv i V hi) ((completionAlgebra (dualSheaf
     (VirtualNormalBundle.ofIsRegularImmersion i hi).bundle)).resRingHom
       (i.preimage_mono h) ((Stacks.ProjectiveCompletion.sectionRingEquiv
         (isAffineOpen_centrePreimage i U)).symm (Stacks.ProjectiveCompletion.sectionRingEquiv

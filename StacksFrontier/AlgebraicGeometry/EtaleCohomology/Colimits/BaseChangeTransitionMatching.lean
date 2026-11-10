@@ -5,8 +5,7 @@ public import StacksFrontier.CategoryTheory.Sites.InverseSystem.CohomologyMapIsT
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.HigherDirectImage.ExtComparisonVersusEdge
 public import StacksFrontier.CategoryTheory.Sites.GlobalSections.DerivedSectionsVersusSiteCohomology
 import StacksCore.Tactic.StacksAttribute
-public import
-  StacksFrontier.CategoryTheory.Sites.Cohomology.HigherDirectImage.BiggerSiteGlobalCohomologySupplement
+public import StacksFrontier.CategoryTheory.Sites.Cohomology.HigherDirectImage.BiggerSiteGlobalCohomologySupplement
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.HigherDirectImage.DenseSubsiteGlobalCohomologySupplement
 
 /-!
@@ -35,7 +34,8 @@ This file joins the two, so that the naturality is stated about the diagram's ow
   comparison of derived global sections with the cohomology of the site, followed by the
   `Ext`-to-derived-`Hom` bridge, is `NatTrans.rightDerived` of the corepresentation of global
   sections by the constant sheaf.** This is the compatibility every `Ext`-side comparison of this
-  library must be read through to meet the Leray edge morphism. Two things make it possible: the cast of
+  library must be read through to meet the Leray edge morphism. Two things make it possible: the
+  cast of
   `Stacks.Cohomology.GlobalSections.functorH_eq_extFunctorObj`, and
   `Stacks.Cohomology.GlobalSections.rightDerivedΓIsoExtFunctorObj`, the body of
   `rightDerivedΓIsoFunctorH` named at the `Abelian.extFunctorObj` spelling of its target.
@@ -169,8 +169,9 @@ degree zero the two `ModuleSheafCohomology.extZeroIsoCoyoneda` factors are, afte
 remains is `ModuleSheafCohomology.toRightDerivedZero_naturality_functor`.
 
 The statement is not the compatibility that three module docs in this library record as
-unproved, as `extFunctorObjIsoRightDerived_naturality` itself shows: the naturality of the comparison in its
-corepresenting object is *already proved*, with both degree halves, and it is consumed by
+unproved, as `extFunctorObjIsoRightDerived_naturality` itself shows: the naturality of the
+comparison in its corepresenting object is *already proved*, with both degree halves, and it is
+consumed by
 `ModuleSheafCohomology.selfDerivedDeltaFunctorRestriction` and
 `ModuleSheafCohomology.derivedDeltaFunctorRestriction`. What those module docs disclaim is
 narrower — a compatibility between the degree-zero and positive-degree *branches* of
@@ -342,7 +343,7 @@ theorem functorHIsoRightDerivedCoyoneda_inv (p : ℕ) :
     (functorHIsoRightDerivedCoyoneda J p).inv =
       NatTrans.rightDerived (globalSectionsCorepresentation J).inv p ≫
         (rightDerivedΓIsoFunctorH J p).hom := by
-  show (eqToIso (functorH_eq_extFunctorObj J p) ≪≫
+  change (eqToIso (functorH_eq_extFunctorObj J p) ≪≫
     extFunctorObjIsoRightDerivedCoyoneda ((constantSheaf J AddCommGrpCat.{max u w}).obj
       (AddCommGrpCat.of (ULift.{max u w} ℤ))) p).inv = _
   rw [Iso.trans_inv, extFunctorObjIsoRightDerivedCoyoneda_inv_eq, eqToIso.inv]
@@ -563,7 +564,7 @@ theorem constantSheafΓAdj_unit_comp_constantSheafRestrictionIso
   have hcsri : (constantSheafRestrictionIso J K G AddCommGrpCat.{w}).inv.app M =
       (G.pushforwardContinuousSheafificationCompatibility AddCommGrpCat.{w} J K).hom.app
         ((Functor.const Dᵒᵖ).obj M) := by
-    show ((Functor.associator _ _ _ ≪≫
+    change ((Functor.associator _ _ _ ≪≫
         Functor.isoWhiskerLeft (Functor.const Dᵒᵖ)
           (G.pushforwardContinuousSheafificationCompatibility AddCommGrpCat.{w} J K).symm ≪≫
         (Functor.associator _ _ _).symm ≪≫
@@ -669,7 +670,7 @@ attribute [local instance] hasSheafify_smallEtale enoughInjectives_smallEtale ha
 
 universe v u
 
-variable {I : Type v} [Preorder I] [Nonempty I] [IsDirected I (· ≤ ·)]
+variable {I : Type v} [Preorder I]
   {D : Iᵒᵖ ⥤ Scheme.{max u v}} {c : Cone D}
   {B : AlgebraicGeometry.BigEtaleSite.{max u v}}
   {hD : ∀ i, B.Contains (D.obj i)} {hX : B.Contains c.pt}

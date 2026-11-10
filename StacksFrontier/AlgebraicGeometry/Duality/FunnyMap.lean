@@ -1138,8 +1138,7 @@ theorem funnyMap_wedge (n q p : ℕ)
       exteriorPower.wedgeMul_apply_coe, mul_assoc]
   rw [topWedgeProjection_wedge r π hr (comp_eq_zero_of_exact hexact) bz hπ hexact ω ζ _ hξ]
   generalize topWedgeProjection p n r π ζ = y
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul a c => simp
   | add a c ha hc => simp only [map_add, TensorProduct.add_tmul, ha, hc]
 

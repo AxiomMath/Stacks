@@ -41,7 +41,7 @@ theorem isLocallySurjective_of_surjective_app_of_generate_mem {F₁ F₂ : Cᵒ�
     obtain ⟨x, hx⟩ := hsurj Z hZ (F₂.map g.op s)
     refine ⟨F₁.map h.op x, ?_⟩
     rw [NatTrans.naturality_apply, hx]
-    show F₂.map h.op (F₂.map g.op s) = F₂.map (h ≫ g).op s
+    change F₂.map h.op (F₂.map g.op s) = F₂.map (h ≫ g).op s
     rw [op_comp, F₂.map_comp, ConcreteCategory.comp_apply]
 
 variable {D : Type u₂} [Category.{v₂} D] {J' : GrothendieckTopology D}

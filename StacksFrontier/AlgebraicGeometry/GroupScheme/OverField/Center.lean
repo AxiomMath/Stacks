@@ -186,7 +186,7 @@ lemma exists_closed_intersection {X : Scheme.{u}} {J : Type*}
   have hZ : IsClosedImmersion Z.hom := inferInstanceAs (IsClosedImmersion I.subschemeι)
   refine ⟨Z, hZ, fun T ↦ ?_⟩
   rw [nonempty_over_hom_iff_ker_le Z T]
-  show I.subschemeι.ker ≤ T.hom.ker ↔ _
+  change I.subschemeι.ker ≤ T.hom.ker ↔ _
   rw [Scheme.IdealSheafData.ker_subschemeι, iSup_le_iff]
   exact forall_congr' fun j ↦ (nonempty_over_hom_iff_ker_le (W j) T).symm
 
@@ -212,7 +212,7 @@ lemma isCentralPoint_iff_affineCover {S : Scheme.{u}} (G : Grp (Over S)) (T : Ov
   let p : V ⟶ U := Over.homMk (Limits.pullback.fst x.left (G.X.left.affineCover.f j))
   let q : V ⟶ Over.mk (G.X.left.affineCover.f j ≫ G.X.hom) :=
     Over.homMk (Limits.pullback.snd x.left (G.X.left.affineCover.f j)) (by
-      show Limits.pullback.snd x.left (G.X.left.affineCover.f j) ≫
+      change Limits.pullback.snd x.left (G.X.left.affineCover.f j) ≫
         G.X.left.affineCover.f j ≫ G.X.hom =
           Limits.pullback.fst x.left (G.X.left.affineCover.f j) ≫ U.hom
       rw [← Category.assoc, ← Limits.pullback.condition, Category.assoc, Over.w x])
@@ -351,10 +351,10 @@ private lemma exists_closed_universal_equalizer {k : Type u} [Field k]
   constructor
   · intro hh U x t
     obtain ⟨c, hc⟩ := hh U.left t.left (lift x (t ≫ h)).left (by
-      show (lift x (t ≫ h)).left ≫ (snd A B).left = t.left ≫ h.left
+      change (lift x (t ≫ h)).left ≫ (snd A B).left = t.left ≫ h.left
       simp only [← Over.comp_left, lift_snd])
     apply Over.OverMorphism.ext
-    show (lift x (t ≫ h)).left ≫ a.left = (lift x (t ≫ h)).left ≫ b.left
+    change (lift x (t ≫ h)).left ≫ a.left = (lift x (t ≫ h)).left ≫ b.left
     rw [← hc, Category.assoc, Category.assoc]
     exact congrArg (fun m ↦ c ≫ m.left) (Limits.equalizer.condition a b)
   · intro hh U t c hc
@@ -362,7 +362,7 @@ private lemma exists_closed_universal_equalizer {k : Type u} [Field k]
     let U' : Over (Spec (.of k)) := Over.mk (t ≫ T.hom)
     let t' : U' ⟶ T := Over.homMk t
     let c' : U' ⟶ A ⊗ B := Over.homMk c (by
-      show c ≫ (A ⊗ B).hom = t ≫ T.hom
+      change c ≫ (A ⊗ B).hom = t ≫ T.hom
       rw [← Over.w (snd A B), ← Category.assoc, hc, Category.assoc, Over.w h])
     have hc' : c' ≫ snd A B = t' ≫ h := Over.OverMorphism.ext hc
     have hab := hh U' (c' ≫ fst A B) t'
@@ -429,7 +429,7 @@ theorem exists_closedSubgroupScheme_center {k : Type u} [Field k]
       exact ⟨Over.homMk z.left (congrArg Over.Hom.left hz)⟩
     · rintro ⟨z⟩
       refine ⟨Over.homMk z.left ?_, Over.OverMorphism.ext z.w⟩
-      show z.left ≫ Z.hom ≫ G.X.hom = T.hom
+      change z.left ≫ Z.hom ≫ G.X.hom = T.hom
       rw [← Category.assoc, z.w]
       exact h.w
   rw [he, hZ, isCentralPoint_iff_affineCover]

@@ -339,7 +339,7 @@ theorem properCycleDegree_integralClosedSubspaceUniv
     rw [closureImage_integralClosedSubspaceUniv D sX hX sY hY hXInt hYInt f hdom,
       deltaDimension_integralClosedSubspaceUniv D sY hY hYInt hnY,
       deltaDimension_integralClosedSubspaceUniv D sX hX hXInt hnX]
-  show (if deltaDimension D sY (IntegralClosedSubspace.closureImage D.site D.base D.base_mem
+  change (if deltaDimension D sY (IntegralClosedSubspace.closureImage D.site D.base D.base_mem
       hY.1 (D.isDecentSpace_of_isGood sY hY) f (integralClosedSubspaceUniv D sX hX hXInt)) =
         deltaDimension D sX (integralClosedSubspaceUniv D sX hX hXInt) then
     ((functionFieldDegree D sX hX sY hY f (integralClosedSubspaceUniv D sX hX hXInt) : ℤ))
@@ -387,7 +387,7 @@ theorem properPushforward_integralCycle_integralClosedSubspaceUniv
   have hmult : properCycleMult D sX hX sY hY f (integralClosedSubspaceUniv D sX hX hXInt) Z' =
       if integralClosedSubspaceUniv D sY hY hYInt = Z' then
         (functionFieldDegreeAtGenericPoint D sX hX sY hY hXInt f : ℤ) else 0 := by
-    show (if IntegralClosedSubspace.closureImage D.site D.base D.base_mem hY.1
+    change (if IntegralClosedSubspace.closureImage D.site D.base D.base_mem hY.1
         (D.isDecentSpace_of_isGood sY hY) f (integralClosedSubspaceUniv D sX hX hXInt) = Z' then
       properCycleDegree D sX hX sY hY f (integralClosedSubspaceUniv D sX hX hXInt) else 0) = _
     rw [closureImage_integralClosedSubspaceUniv D sX hX sY hY hXInt hYInt f hdom,

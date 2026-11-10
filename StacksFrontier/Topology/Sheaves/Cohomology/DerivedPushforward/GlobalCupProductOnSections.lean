@@ -186,7 +186,7 @@ theorem lerayUnit_app_quotient (X : CochainComplex (SheafOfModules.{u} (structur
       (pushforwardPreimageSectionsIso (toCoeffPoint S) ⊤) (ComplexShape.up ℤ)).inv.app
         ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj X)) = 𝟙 _ :=
     DerivedCategory.Qh.map_id _
-  show DerivedCategory.Qh.map _ ≫ _ ≫ _ = _
+  change DerivedCategory.Qh.map _ ≫ _ ≫ _ = _
   rw [hid]
   exact Category.id_comp _
 
@@ -222,7 +222,7 @@ theorem mapDerivedCategorySourceIso_hom_app_quotient
         ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj X)) = 𝟙 _ :=
     DerivedCategory.Qh.map_id _
   rw [hid₁] at hh
-  show _ ≫ _ ≫ (coeffRestrict S).mapDerivedCategoryFactorsh.hom.app _ ≫
+  change _ ≫ _ ≫ (coeffRestrict S).mapDerivedCategoryFactorsh.hom.app _ ≫
     DerivedCategory.Qh.map _ = _
   exact bridge_cancel _ ((DerivedCategory.quotientCompQhIso _).app _)
     ((coeffRestrict S).mapDerivedCategoryFactors.app _) _ _ _ hid₂ hh

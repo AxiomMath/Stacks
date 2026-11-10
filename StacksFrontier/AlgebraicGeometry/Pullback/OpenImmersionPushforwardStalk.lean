@@ -117,7 +117,7 @@ lemma preimage_fromSpecStalk_eq_top (x : X) {W : X.Opens} (hx : x ∈ W) :
   refine eq_top_iff.mpr fun p _ ↦ ?_
   have h : X.fromSpecStalk x p ∈ Set.range (X.fromSpecStalk x) := ⟨p, rfl⟩
   rw [Scheme.range_fromSpecStalk] at h
-  show X.fromSpecStalk x p ∈ W
+  change X.fromSpecStalk x p ∈ W
   exact Specializes.mem_open h W.2 hx
 
 /-- An open of `X` meeting an open neighbourhood of `x` has the same inverse image under
@@ -262,7 +262,7 @@ private theorem Scheme.Opens.map_eqToHom_ι_app_apply (U W : X.Opens)
   have hbridge : U.ι.app W ≫ X.presheaf.map (eqToHom h).op =
       X.presheaf.map (homOfLE (inf_le_right : U ⊓ W ≤ W)).op := by
     rw [Scheme.Opens.ι_app]
-    show X.presheaf.map _ ≫ X.presheaf.map _ = _
+    change X.presheaf.map _ ≫ X.presheaf.map _ = _
     rw [← Functor.map_comp]
     exact Scheme.presheaf_map_eq_homOfLE _ inf_le_right
   rw [← hbridge]

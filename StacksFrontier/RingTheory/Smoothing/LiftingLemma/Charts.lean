@@ -244,7 +244,7 @@ private lemma chart_relation_mem_pi (π : R)
     γ.comp (β.toRingHom.comp liftX.toRingHom)
   have hδapply (b : MvPolynomial (Fin n) R) : δ b = γ (β (liftX b)) := rfl
   have hπ : γ (β (MvPolynomial.C π)) = 0 := by
-    show γ (algebraMap R U π) = 0
+    change γ (algebraMap R U π) = 0
     exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.subset_span (Set.mem_singleton _))
   have hGδ (l : Fin m) : δ (G l) = 0 := by
     have hh := congrArg γ (hvanish l)
@@ -275,7 +275,7 @@ private lemma chart_relation_mem_pi (π : R)
       δ (aP i) * γ (β (zz l)) =
       ∑ t : V i, δ (Hc i l t) * γ (β (zz t.1)) := by
     have hp : β (crel (i, l)) = 0 := by
-      show algebraMap (MvPolynomial (Fin n ⊕ Fin m) R ⧸ Jc) U
+      change algebraMap (MvPolynomial (Fin n ⊕ Fin m) R ⧸ Jc) U
         (Ideal.Quotient.mk Jc (crel (i, l))) = 0
       rw [Ideal.Quotient.eq_zero_iff_mem.mpr
         (crel_mem_chartIdeal V rel crel i hl), map_zero]
@@ -288,7 +288,7 @@ private lemma chart_relation_mem_pi (π : R)
     (fun l => γ (β (zz l))) (δ (aP i))
     (fun l t => δ (Hc i l t)) (haβ.map γ) hdet (hd i) hz
   apply Ideal.Quotient.eq_zero_iff_mem.mp
-  show γ (β (crel ij)) = 0
+  change γ (β (crel ij)) = 0
   by_cases hij : ij.2 ∈ V ij.1
   · rw [hcrel0 ij hij, map_zero, map_zero]
   have hh := relation_of_coordinates
@@ -344,7 +344,7 @@ private lemma chart_isSmoothAt (π : R)
         (Ideal.quotientEquivAlgOfEq R hspan)
   have hPchartVal (j : Fin n ⊕ Fin m) :
       Pchart.val j = Ideal.Quotient.mk Jc (MvPolynomial.X j) := by
-    show (Ideal.quotientEquivAlgOfEq R hspan)
+    change (Ideal.quotientEquivAlgOfEq R hspan)
       ((Algebra.Presentation.naive (v := Sum.elim (fun j : V i => rel j.1)
         (fun l : {l : Fin m // l ∉ V i} => crel (i, l.1)))).val j) = _
     exact Ideal.quotientEquivAlgOfEq_mk R hspan (MvPolynomial.X j)
@@ -363,10 +363,10 @@ private lemma chart_isSmoothAt (π : R)
       MvPolynomial.rename Sum.inl (Qc i l.1 ab) *
         (MvPolynomial.X (Sum.inr ab.1) * MvPolynomial.X (Sum.inr ab.2)))
   · intro j
-    show rel j.1 = _
+    change rel j.1 = _
     simp only [hrel, hliftX, hzz]
   · intro l
-    show crel (i, l.1) = _
+    change crel (i, l.1) = _
     rw [hcrel (i, l.1) l.2]
     simp only [hliftX, hzz, rest, Function.Embedding.coeFn_mk]
   · exact hπq
@@ -446,7 +446,7 @@ lemma isSmoothAt_of_chart (π : R)
       (RingHom.ker β.toRingHom : Set (MvPolynomial (Fin n ⊕ Fin m) R)) := by
     rintro _ (⟨j, rfl⟩ | ⟨ij, rfl⟩)
     · exact hvanish j
-    · show β (crel ij) = 0
+    · change β (crel ij) = 0
       apply eq_zero_of_mul_pi_eq_zero_of_mem_pi (S := U) π hR (β (crel ij))
       · exact chart_relation_mem_pi π G V aP Hc Qc Ec liftX zz rel hrel crel hcrel0
           hcrel selCols jacL hjac hDeriv hJ i q hvanish haq hjq ij
@@ -545,11 +545,11 @@ lemma isSmoothAt_reduction_of_chart (π : R)
     have hh : hS.comp liftX.toRingHom = MvPolynomial.C.comp δ := by
       apply MvPolynomial.ringHom_ext
       · intro b
-        show hS (liftX (MvPolynomial.C b)) = MvPolynomial.C (δ (MvPolynomial.C b))
+        change hS (liftX (MvPolynomial.C b)) = MvPolynomial.C (δ (MvPolynomial.C b))
         rw [show liftX (MvPolynomial.C b) = MvPolynomial.C b from liftX.commutes b]
         exact hSC b
       · intro l
-        show hS (liftX (MvPolynomial.X l)) = MvPolynomial.C (δ (MvPolynomial.X l))
+        change hS (liftX (MvPolynomial.X l)) = MvPolynomial.C (δ (MvPolynomial.X l))
         rw [hliftX, MvPolynomial.rename_X]
         exact hSXi l
     exact RingHom.congr_fun hh b
@@ -570,10 +570,10 @@ lemma isSmoothAt_reduction_of_chart (π : R)
     rw [hJ]
     apply Ideal.span_le.mpr
     rintro _ (⟨l, rfl⟩ | ⟨ij, rfl⟩)
-    · show hS (rel l) = 0
+    · change hS (rel l) = 0
       rw [hrel l]
       simp only [map_sub, map_mul, hSX, hSπ, hδG, map_zero, zero_mul, sub_self]
-    · show hS (crel ij) = 0
+    · change hS (crel ij) = 0
       by_cases hij : ij.2 ∈ V ij.1
       · rw [hcrel0 ij hij, map_zero]
       · rw [hcrel ij hij]
@@ -587,13 +587,13 @@ lemma isSmoothAt_reduction_of_chart (π : R)
     obtain ⟨t, rfl⟩ := Ideal.mem_span_singleton.mp hb
     rw [map_mul]
     have hπD : hDm (algebraMap R D π) = 0 := by
-      show h₀ (e.symm (algebraMap R D π)) = 0
+      change h₀ (e.symm (algebraMap R D π)) = 0
       rw [e.symm.commutes π]
-      show hS (MvPolynomial.C π) = 0
+      change hS (MvPolynomial.C π) = 0
       exact hSπ
     rw [hπD, zero_mul])
   have hBρ (s : MvPolynomial (Fin n ⊕ Fin m) R) : hB (ρ s) = hS s := by
-    show h₀ (e.symm (e (Ideal.Quotient.mk J s))) = hS s
+    change h₀ (e.symm (e (Ideal.Quotient.mk J s))) = hS s
     rw [e.symm_apply_apply]
     rfl
   let hAlg : Bred →ₐ[A] Pfree :=
@@ -641,9 +641,9 @@ lemma isSmoothAt_reduction_of_chart (π : R)
         rw [hJ]
         exact Ideal.subset_span (Or.inr ⟨(i, l), rfl⟩)
       have hρ0 : ρ (crel (i, l)) = 0 := by
-        show Ideal.Quotient.mk _ (e (Ideal.Quotient.mk J (crel (i, l)))) = 0
+        change Ideal.Quotient.mk _ (e (Ideal.Quotient.mk J (crel (i, l)))) = 0
         rw [Ideal.Quotient.eq_zero_iff_mem.mpr hmem, map_zero, map_zero]
-      show κ (ρ (crel (i, l))) = 0
+      change κ (ρ (crel (i, l))) = 0
       rw [hρ0, map_zero]
     rw [hcrel (i, l) hl] at hh
     simpa only [map_sub, map_mul, map_sum, map_add, ← hβδ, hβπ,
@@ -656,7 +656,7 @@ lemma isSmoothAt_reduction_of_chart (π : R)
   have hfS : ffree.toRingHom.comp hS = β := by
     apply MvPolynomial.ringHom_ext
     · intro b
-      show ffree (hS (MvPolynomial.C b)) = β (MvPolynomial.C b)
+      change ffree (hS (MvPolynomial.C b)) = β (MvPolynomial.C b)
       rw [hSC, MvPolynomial.aeval_C]
       have hh := hβδ (MvPolynomial.C b)
       rw [show liftX (MvPolynomial.C b) = MvPolynomial.C b from liftX.commutes b] at hh
@@ -664,13 +664,13 @@ lemma isSmoothAt_reduction_of_chart (π : R)
     · intro j
       cases j with
       | inl l =>
-        show ffree (hS (MvPolynomial.X (Sum.inl l))) = β (MvPolynomial.X (Sum.inl l))
+        change ffree (hS (MvPolynomial.X (Sum.inl l))) = β (MvPolynomial.X (Sum.inl l))
         rw [hSXi, MvPolynomial.aeval_C]
         have hh := hβδ (MvPolynomial.X l)
         rw [hliftX, MvPolynomial.rename_X] at hh
         exact hh
       | inr l =>
-        show ffree (hS (MvPolynomial.X (Sum.inr l))) =
+        change ffree (hS (MvPolynomial.X (Sum.inr l))) =
           β (MvPolynomial.X (Sum.inr l))
         rw [← hzz l, hSz]
         calc
@@ -688,7 +688,7 @@ lemma isSmoothAt_reduction_of_chart (π : R)
   obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective b
   obtain ⟨b, rfl⟩ := e.surjective b
   obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective b
-  show ffree (hB (ρ b)) = κ (ρ b)
+  change ffree (hB (ρ b)) = κ (ρ b)
   rw [hBρ b]
   exact RingHom.congr_fun hfS b
 

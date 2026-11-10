@@ -86,7 +86,7 @@ public theorem awayMk_zero_eq_algebraMap (c : ℬ 0) (hc : (c : B) ∈ ℬ (0 �
     Away.mk ℬ hf 0 (c : B) hc = algebraMap (ℬ 0) (Away ℬ f) c := by
   apply HomogeneousLocalization.val_injective
   rw [Away.val_mk, HomogeneousLocalization.algebraMap_eq]
-  show _ = Localization.mk (c : B) 1
+  change _ = Localization.mk (c : B) 1
   congr 1
   exact Subtype.ext (pow_zero f)
 
@@ -213,8 +213,7 @@ public theorem num_tmul (i : ℕ) (s : grading 𝒜 S 0) (x : piece₀ 𝒜 i) :
 /-- The numerator map lands in the degree-`i` piece of the base-changed grading. -/
 public theorem num_mem (i : ℕ) (u : (grading 𝒜 S 0) ⊗[𝒜 0] (piece₀ 𝒜 i)) :
     num 𝒜 S i u ∈ grading 𝒜 S i := by
-  induction u using TensorProduct.induction_on with
-  | zero => simp [zero_mem (grading 𝒜 S i)]
+  induction u using TensorProduct.inductionOn with
   | tmul s x =>
       rw [num_tmul]
       exact mul_mem_of_mem_zero (grading 𝒜 S) s.2 (one_tmul_mem_grading 𝒜 S i x)
@@ -270,8 +269,7 @@ public theorem numInv_tmul (i : ℕ) (s : S) (y : 𝒜 i) :
 /-- The numerator map composed with `numInv` is the comparison map `(𝒜 i).toBaseChange S`. -/
 public theorem num_numInv (i : ℕ) (w : S ⊗[R] (𝒜 i)) :
     num 𝒜 S i (numInv 𝒜 S i w) = ((𝒜 i).toBaseChange S w : S ⊗[R] A) := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul s y =>
       rw [numInv_tmul, num_tmul, Submodule.coe_toBaseChange_tmul]
       simp [tmulOne, Algebra.TensorProduct.tmul_mul_tmul]
@@ -281,8 +279,7 @@ public theorem num_numInv (i : ℕ) (w : S ⊗[R] (𝒜 i)) :
 `Stacks.AlgebraicGeometry.ProjChartBaseChange.numInv`. -/
 public theorem exists_numInv_eq_tmul (i : ℕ) (σ : S ⊗[R] (𝒜 0)) (x : piece₀ 𝒜 i) :
     ∃ w, numInv 𝒜 S i w = ((𝒜 0).toBaseChange S σ) ⊗ₜ[𝒜 0] x := by
-  induction σ using TensorProduct.induction_on with
-  | zero => exact ⟨0, by rw [map_zero, map_zero, TensorProduct.zero_tmul]⟩
+  induction σ using TensorProduct.inductionOn with
   | tmul s c =>
       have hcx : (c : A) * (x : A) ∈ 𝒜 i := by
         exact mul_mem_of_mem_zero 𝒜 c.2 ((mem_piece₀ 𝒜 i _).mp x.2)
@@ -301,8 +298,7 @@ public theorem exists_numInv_eq_tmul (i : ℕ) (σ : S ⊗[R] (𝒜 0)) (x : pie
 /-- The map `Stacks.AlgebraicGeometry.ProjChartBaseChange.numInv` is surjective. -/
 public theorem numInv_surjective (i : ℕ) : Function.Surjective (numInv 𝒜 S i) := by
   intro u
-  induction u using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction u using TensorProduct.inductionOn with
   | tmul s x =>
       obtain ⟨σ, hσ⟩ := (𝒜 0).toBaseChange_surjective' S s.2
       obtain ⟨w, hw⟩ := exists_numInv_eq_tmul 𝒜 S i σ x
@@ -380,12 +376,7 @@ public theorem chartMap_lTensor_mkLin (ha : a ∈ 𝒜 d) (n : ℕ)
     (hv : num 𝒜 S (n • d) v ∈ grading 𝒜 S (n • d)) :
     chartMap 𝒜 S ha (LinearMap.lTensor (grading 𝒜 S 0) (mkLin 𝒜 ha n) v) =
       Away.mk (grading 𝒜 S) (tmul_one_mem 𝒜 S ha) n (num 𝒜 S (n • d) v) hv := by
-  induction v using TensorProduct.induction_on with
-  | zero =>
-      rw [map_zero, map_zero]
-      exact ((awayMk_congr (grading 𝒜 S) (tmul_one_mem 𝒜 S ha) n hv (zero_mem _)
-        (map_zero (num 𝒜 S (n • d)))).trans
-        (awayMk_zero (grading 𝒜 S) (tmul_one_mem 𝒜 S ha) n)).symm
+  induction v using TensorProduct.inductionOn with
   | tmul s x =>
       have hx := one_tmul_mem_grading 𝒜 S (n • d) x
       rw [LinearMap.lTensor_tmul, chartMap_tmul, mkLin_apply,
@@ -405,8 +396,7 @@ public theorem num_lTensor_mulPowTo (ha : a ∈ 𝒜 d) (n m k : ℕ) (hk : n + 
     (v : (grading 𝒜 S 0) ⊗[𝒜 0] (piece₀ 𝒜 (n • d))) :
     num 𝒜 S (m • d) (LinearMap.lTensor (grading 𝒜 S 0) (mulPowTo 𝒜 ha n m k hk) v) =
       ((1 : S) ⊗ₜ[R] a) ^ k * num 𝒜 S (n • d) v := by
-  induction v using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, mul_zero]
+  induction v using TensorProduct.inductionOn with
   | tmul s x =>
       rw [LinearMap.lTensor_tmul, num_tmul, num_tmul, mulPowTo_coe,
         show ((1 : S) ⊗ₜ[R] (a ^ k * (x : A))) =

@@ -63,7 +63,7 @@ theorem ringKrullDim_stalk_eq_two_of_isModification (A : Type u) [CommRing A] [I
   have hdimX : topologicalKrullDim X = 2 := by
     have : IsLocallyNoetherian (Spec (.of A)) := isLocallyNoetherian_Spec.mpr inferInstance
     rw [IsBirational.topologicalKrullDim_eq_of_isClosedMap hmod.1 f.isClosedMap]
-    show topologicalKrullDim (PrimeSpectrum A) = 2
+    change topologicalKrullDim (PrimeSpectrum A) = 2
     rw [PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim, hdim]
   have hle : ringKrullDim (X.presheaf.stalk x) ≤ 2 := by
     rw [← hdimX, topologicalKrullDim_eq_iSup_krullDimOfRing_stalk]

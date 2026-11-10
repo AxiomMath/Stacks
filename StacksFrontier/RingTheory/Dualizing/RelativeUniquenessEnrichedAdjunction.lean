@@ -88,7 +88,8 @@ concentration via [stacks 068V] — are `Dualizing.tensorResidueIso`,
 `Dualizing.finite_homology_derivedFibre_and_exists_isLE`, and
 `Dualizing.isPerfect_of_fibre_concentrated` of
 `StacksFrontier.RingTheory.Dualizing.RelativeUniquenessLocalComputation`, where the computation
-itself is assembled as well.  **One of those hypotheses is not a theorem**: the fixed object is asked to be bounded *below* as well as above, and a dualizing
+itself is assembled as well.  **One of those hypotheses is not a theorem**: the fixed object is
+asked to be bounded *below* as well as above, and a dualizing
 complex has no finite Tor dimension, so at the witness `A = k[x, y]/(x, y)²` the object
 `ω ⊗ᴸ_A κ` is unbounded below.  That module's documentation records what the bound is worth and
 what a one-sided computation would need instead.
@@ -204,7 +205,7 @@ lemma enrichedEquiv_naturality {Z Z' : DerivedCategory (ModuleCat.{v₀} A)} (f 
       dA.tensor.map (show ((Z', M) : _ × _) ⟶ (Z, M) from (f, 𝟙 M)) ≫
         (dA.tensorSwap Z M).hom :=
     (dA.tensorSwap_naturality f (𝟙 M)).symm
-  show (dA.homEquiv Z' M (G.obj Y)).symm
+  change (dA.homEquiv Z' M (G.obj Y)).symm
       ((dA.tensorSwap Z' M).hom ≫ adjF.homEquiv (dA.tensor.obj (M, Z')) Y
         ((ξ.app Z').hom ≫ (dB.tensorSwap (F.obj M) (Φ.obj Z')).hom ≫
           dB.homEquiv (Φ.obj Z') (F.obj M) Y

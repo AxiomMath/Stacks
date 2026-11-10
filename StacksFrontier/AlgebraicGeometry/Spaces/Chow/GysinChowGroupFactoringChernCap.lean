@@ -69,8 +69,8 @@ the whole of `V` — does not suffice, and that is the reason Stacks 0ER9 exists
   **the descent of a rational equivalence together with its carrier.**  If `i_*β` is rationally
   equivalent to zero at the canonical embeddings within a subset `S` of `|Y|`, then `β` is
   rationally equivalent to zero at the canonical embeddings within `i^{-1}(S)`.  This
-  refines the descent of
-  `StacksFrontier.AlgebraicGeometry.Spaces.Chow.ClosedPushforwardRationalEquivalenceDescentCanonical`,
+  refines the descent of `StacksFrontier.AlgebraicGeometry.`
+  `Spaces.Chow.ClosedPushforwardRationalEquivalenceDescentCanonical`,
   which is the case `S = |Y|` with the carrier of the conclusion forgotten.
 * `AlgebraicGeometry.Space.gysinCycleMapFactorsThroughRationalEquivalenceCanonical_of_within`:
   the reduction of Stacks 0ERA to one member, with the member's obligation stated as
@@ -199,14 +199,14 @@ theorem isRationallyEquivalentToZeroWithinCanonical_image_cycleGroupClosedPushfo
       (cycleGroupClosedPushforward_integralClosedSubspacePushforward D sX hX Y hY k (W n) (hm n)
         (c n) _ (hcc n))
     rw [← finsum_congr hterm]
-    show cycleClosedPushforward D hX.1 hY.1 (D.isDecentSpace_of_isGood sX hX) hY.2
+    change cycleClosedPushforward D hX.1 hY.1 (D.isDecentSpace_of_isGood sX hX) hY.2
         (cycleFamilySum D (Y.ι ≫ sX) hYgood W hWfin k c).1 T₀ = _
     by_cases hT : ∃ T1, IntegralClosedSubspace.pushforward D.site D.base D.base_mem hX.1 hY.1
         (D.isDecentSpace_of_isGood sX hX) hY.2 T1 = T₀
     · obtain ⟨T1, rfl⟩ := hT
       rw [cycleClosedPushforward_apply_pushforward, cycleFamilySum_apply]
       refine finsum_congr fun n => ?_
-      show _ = cycleClosedPushforward D hX.1 hY.1 _ hY.2 _ _
+      change _ = cycleClosedPushforward D hX.1 hY.1 _ hY.2 _ _
       rw [cycleClosedPushforward_apply_pushforward]
     · rw [cycleClosedPushforward_apply_of_forall_ne D hX.1 hY.1 _ hY.2 _ T₀
         fun T1 hT1 => hT ⟨T1, hT1⟩]
@@ -278,7 +278,7 @@ theorem isRationallyEquivalentToZeroWithinCanonical_preimage_of_closedPushforwar
         (integralClosedSubspacePushforward D (Y.ι ≫ sX) hYgood (V j) k (c' j)).1 T := fun j =>
     (congrFun (hpush j) T).symm
   rw [finsum_congr hterm]
-  show _ = cycleClosedPushforward D hX.1 hY.1 (D.isDecentSpace_of_isGood sX hX) hY.2
+  change _ = cycleClosedPushforward D hX.1 hY.1 (D.isDecentSpace_of_isGood sX hX) hY.2
     (cycleFamilySum D (Y.ι ≫ sX) hYgood V hVfin k c').1 T
   by_cases hT : ∃ T0, IntegralClosedSubspace.pushforward D.site D.base D.base_mem hX.1 hY.1
       (D.isDecentSpace_of_isGood sX hX) hY.2 T0 = T

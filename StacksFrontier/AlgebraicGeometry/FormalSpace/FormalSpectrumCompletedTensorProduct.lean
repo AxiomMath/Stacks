@@ -70,7 +70,7 @@ theorem hasBasis_nhds_zero_isWeakIdealOfDefinition {A : Type u} [CommRing A] [To
   refine IsLinearTopology.hasBasis_open_ideal.to_hasBasis
     (fun J hJ ↦ ⟨⟨I₀ ⊓ J, ⟨?_, fun x hx ↦ hI₀.2 x (Ideal.mem_inf.mp hx).1⟩⟩, trivial,
       fun x hx ↦ (Ideal.mem_inf.mp hx).2⟩) (fun I _ ↦ ⟨I.1, I.2.1, subset_rfl⟩)
-  show IsOpen ((I₀ : Set A) ∩ J)
+  change IsOpen ((I₀ : Set A) ∩ J)
   exact hI₀.1.inter hJ
 
 /-- `Spec` reverses the order of a commutative square of ring homomorphisms. -/
@@ -112,7 +112,7 @@ omit [TopologicalSpace A₀] [IsTopologicalRing A₀] [IsLinearTopology A₀ A�
 theorem continuous_completedTensorLeft : Continuous (completedTensorLeft A₀ A₁ A₂) := by
   let := TopologicalRing.tensorProductTopology (R := A₀) (M := A₁) (N := A₂)
   let := TopologicalRing.tensorProductUniformSpace (R := A₀) (M := A₁) (N := A₂)
-  show Continuous fun a : A₁ ↦
+  change Continuous fun a : A₁ ↦
     ((a ⊗ₜ[A₀] (1 : A₂) : A₁ ⊗[A₀] A₂) :
       TopologicalRing.CompletedTensorProduct (R := A₀) (M := A₁) (N := A₂))
   exact (UniformSpace.Completion.continuous_coe (A₁ ⊗[A₀] A₂)).comp
@@ -123,7 +123,7 @@ omit [TopologicalSpace A₀] [IsTopologicalRing A₀] [IsLinearTopology A₀ A�
 theorem continuous_completedTensorRight : Continuous (completedTensorRight A₀ A₁ A₂) := by
   let := TopologicalRing.tensorProductTopology (R := A₀) (M := A₁) (N := A₂)
   let := TopologicalRing.tensorProductUniformSpace (R := A₀) (M := A₁) (N := A₂)
-  show Continuous fun c : A₂ ↦
+  change Continuous fun c : A₂ ↦
     ((((1 : A₁) ⊗ₜ[A₀] c) : A₁ ⊗[A₀] A₂) :
       TopologicalRing.CompletedTensorProduct (R := A₀) (M := A₁) (N := A₂))
   exact (UniformSpace.Completion.continuous_coe (A₁ ⊗[A₀] A₂)).comp
@@ -205,8 +205,7 @@ theorem surjective_completedTensorStageRingHom :
     Function.Surjective (completedTensorStageRingHom A₀ hA₁ hA₂ I J) := by
   let := TopologicalRing.tensorProductUniformSpace (R := A₀) (M := A₁) (N := A₂)
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction x using TensorProduct.inductionOn with
   | tmul p q =>
     obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective p
     obtain ⟨c, rfl⟩ := Ideal.Quotient.mk_surjective q
@@ -256,7 +255,7 @@ theorem exists_isWeakIdealOfDefinition_le_comap_of_isOpen
   refine ⟨⟨K₀ ⊓ L₁.comap f₁ ⊓ L₂.comap f₂, ⟨?_, fun x hx ↦
     hK₀.2 x (Ideal.mem_inf.mp (Ideal.mem_inf.mp hx).1).1⟩⟩,
     inf_le_left.trans inf_le_right, inf_le_right⟩
-  show IsOpen (((K₀ : Set A₀) ∩ f₁ ⁻¹' L₁) ∩ f₂ ⁻¹' L₂)
+  change IsOpen (((K₀ : Set A₀) ∩ f₁ ⁻¹' L₁) ∩ f₂ ⁻¹' L₂)
   exact (hK₀.1.inter (h₁.preimage hf₁)).inter (h₂.preimage hf₂)
 
 section QuotientSystem
@@ -576,7 +575,7 @@ theorem isPullback_completedTensorStage
   have : ReflectsLimitsOfShape WalkingCospan (BigFppfOver.toScheme B S hS) :=
     reflectsLimitsOfShape_of_reflectsIsomorphisms
   refine IsPullback.of_map_of_faithful (BigFppfOver.toScheme B S hS) ?_
-  show IsPullback
+  change IsPullback
     (Spec.map (CommRingCat.ofHom (Algebra.TensorProduct.includeLeftRingHom :
       A₁ ⧸ I.1 →+* (A₁ ⧸ I.1) ⊗[A₀] (A₂ ⧸ J.1))))
     (Spec.map (CommRingCat.ofHom (Algebra.TensorProduct.includeRight :
@@ -665,7 +664,7 @@ theorem completedTensorLeft_mul_completedTensorRight (a : A₁) (c : A₂) :
       ((a ⊗ₜ[A₀] c : A₁ ⊗[A₀] A₂) :
         TopologicalRing.CompletedTensorProduct (R := A₀) (M := A₁) (N := A₂)) := by
   let := TopologicalRing.tensorProductUniformSpace (R := A₀) (M := A₁) (N := A₂)
-  show (UniformSpace.Completion.coeRingHom :
+  change (UniformSpace.Completion.coeRingHom :
       (A₁ ⊗[A₀] A₂) →+* TopologicalRing.CompletedTensorProduct (R := A₀) (M := A₁) (N := A₂))
         (a ⊗ₜ[A₀] (1 : A₂)) * UniformSpace.Completion.coeRingHom ((1 : A₁) ⊗ₜ[A₀] c) = _
   rw [← map_mul, Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
@@ -719,13 +718,13 @@ theorem completedTensorStageToQuotient_overS :
   let I' := completedTensorLeftIdeal A₀ hA₁ L
   let M : { I : Ideal A₁ // TopologicalRing.IsWeakIdealOfDefinition I } :=
     ⟨I.1 ⊓ I'.1, TopologicalRing.isWeakIdealOfDefinition_inf_of_isOpen_right I.2 I'.2.1⟩
-  show _ ≫ Spec.map (CommRingCat.ofHom (Ideal.quotientMap L.1 (completedTensorLeft A₀ A₁ A₂)
+  change _ ≫ Spec.map (CommRingCat.ofHom (Ideal.quotientMap L.1 (completedTensorLeft A₀ A₁ A₂)
       (completedTensorLeftIdeal_le A₀ hA₁ L))) ≫ D₁.overS I' = _
   rw [← D₁.compatible M I inf_le_left, ← D₁.compatible M I' inf_le_right]
   simp only [← Category.assoc, ← Spec.map_comp, ← CommRingCat.ofHom_comp]
   congr 3
   refine Ideal.Quotient.ringHom_ext (RingHom.ext fun a ↦ ?_)
-  show completedTensorStageQuotientMap A₀ hA₁ hA₂ I J
+  change completedTensorStageQuotientMap A₀ hA₁ hA₂ I J
     (Ideal.Quotient.mk _ (completedTensorLeft A₀ A₁ A₂ a)) = _
   rw [completedTensorStageQuotientMap_mk, completedTensorStageRingHom_left]
   rfl
@@ -982,7 +981,7 @@ theorem completedTensorQuotientToStage_fst
       (BigAffineFppf.inclusion B S hS).map ((completedTensorLeftHom A₀ hA₁ hA₂ D₁ D₂).stageMap
         (completedTensorLeftIdeal A₀ hA₁ L) L (completedTensorLeftIdeal_le A₀ hA₁ L)) := by
   refine comp_eq_of_toScheme_map ?_
-  show Spec.map _ ≫ Spec.map _ = Spec.map _
+  change Spec.map _ ≫ Spec.map _ = Spec.map _
   rw [← Spec.map_comp, ← CommRingCat.ofHom_comp, completedTensorQuotientRingHom_comp_includeLeft]
   rfl
 
@@ -997,7 +996,7 @@ theorem completedTensorQuotientToStage_snd
         ((completedTensorRightHom A₀ hA₁ hA₂ D₁ D₂ hA₀ φ₁ φ₂ hφ₁ hφ₂).stageMap
           (completedTensorRightIdeal A₀ hA₂ L) L (completedTensorRightIdeal_le A₀ hA₂ L)) := by
   refine comp_eq_of_toScheme_map ?_
-  show Spec.map _ ≫ Spec.map _ = Spec.map _
+  change Spec.map _ ≫ Spec.map _ = Spec.map _
   rw [← Spec.map_comp, ← CommRingCat.ofHom_comp, completedTensorQuotientRingHom_comp_includeRight]
   rfl
 
@@ -1014,7 +1013,7 @@ theorem completedTensorQuotientToStage_toQuotient
       (BigAffineFppf.inclusion B S hS).map
         ((completedTensorQuotientSystem A₀ hA₁ hA₂ D₁ D₂).transition h) := by
   refine comp_eq_of_toScheme_map ?_
-  show Spec.map _ ≫ Spec.map _ = Spec.map _
+  change Spec.map _ ≫ Spec.map _ = Spec.map _
   rw [← Spec.map_comp, ← CommRingCat.ofHom_comp]
   congr 2
   refine Ideal.Quotient.ringHom_ext (RingHom.ext fun x ↦ ?_)
@@ -1152,7 +1151,7 @@ theorem completedTensorLeg_fst
         (BigAffineFppf.inclusion B S hS).map (D₁.transition (inf_le_left : M.1 ≤ I.1)) := by
     refine comp_eq_comp_of_toScheme_map (spec_map_comp_eq _ _ _ _
       (Ideal.Quotient.ringHom_ext (RingHom.ext fun a ↦ ?_)))
-    show completedTensorStageQuotientMap A₀ hA₁ hA₂ I J
+    change completedTensorStageQuotientMap A₀ hA₁ hA₂ I J
       (Ideal.Quotient.mk _ (completedTensorLeft A₀ A₁ A₂ a)) = _
     rw [completedTensorStageQuotientMap_mk, completedTensorStageRingHom_left]
     rfl
@@ -1187,7 +1186,7 @@ theorem completedTensorLeg_snd
         (BigAffineFppf.inclusion B S hS).map (D₂.transition (inf_le_left : M.1 ≤ J.1)) := by
     refine comp_eq_comp_of_toScheme_map (spec_map_comp_eq _ _ _ _
       (Ideal.Quotient.ringHom_ext (RingHom.ext fun c ↦ ?_)))
-    show completedTensorStageQuotientMap A₀ hA₁ hA₂ I J
+    change completedTensorStageQuotientMap A₀ hA₁ hA₂ I J
       (Ideal.Quotient.mk _ (completedTensorRight A₀ A₁ A₂ c)) = _
     rw [completedTensorStageQuotientMap_mk, completedTensorStageRingHom_right]
     rfl

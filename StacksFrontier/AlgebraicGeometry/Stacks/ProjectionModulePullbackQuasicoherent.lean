@@ -124,7 +124,7 @@ theorem pushforwardTopos_projectionRingedSiteHom_eq_moduleRestriction :
   let := restrictionFunctor_isContinuous B S hS X.1 p hp e
   let := ((projectionRingedSiteHomGeneral B S hS X.1 p hp X.2 e).toRingedToposSiteHom
     ).isContinuous
-  show SheafOfModules.pushforward.{u}
+  change SheafOfModules.pushforward.{u}
       ((projectionRingedSiteHomGeneral B S hS X.1 p hp X.2 e).toRingedToposSiteHom).fSharpRing =
     SheafOfModules.pushforward.{u} (restrictionStructureHom B S hS X p hp e)
   rw [fSharpRing_projectionRingedSiteHom_eq_restrictionStructureHom]

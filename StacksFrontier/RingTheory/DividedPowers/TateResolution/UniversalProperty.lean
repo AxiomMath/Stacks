@@ -277,7 +277,7 @@ omit [IsStrictlyGradedComm Aᵢ] [GradedAlgebra Dᵢ] in
 @[simp] public theorem oddLift_inclusion (d : ℕ) (hd : Odd d) (g : A →+* D)
     (hg : ∀ (m : ℕ) (a : A), a ∈ Aᵢ m → g a ∈ Dᵢ m) (τ : D) (hτ : τ ∈ Dᵢ d) (a : A) :
     oddLift Aᵢ Dᵢ d hd g hg τ hτ (inclusion Aᵢ d a) = g a := by
-  show g (inclusion Aᵢ d a).fst
+  change g (inclusion Aᵢ d a).fst
     + g (show A from (inclusion Aᵢ d a).snd) * τ = g a
   rw [show (inclusion Aᵢ d a).fst = a from rfl,
     show (show A from (inclusion Aᵢ d a).snd) = 0 from rfl]
@@ -288,7 +288,7 @@ omit [IsStrictlyGradedComm Aᵢ] [GradedAlgebra Dᵢ] in
 @[simp] public theorem oddLift_generator (d : ℕ) (hd : Odd d) (g : A →+* D)
     (hg : ∀ (m : ℕ) (a : A), a ∈ Aᵢ m → g a ∈ Dᵢ m) (τ : D) (hτ : τ ∈ Dᵢ d) :
     oddLift Aᵢ Dᵢ d hd g hg τ hτ (generator Aᵢ d) = τ := by
-  show g (generator Aᵢ d).fst
+  change g (generator Aᵢ d).fst
     + g (show A from (generator Aᵢ d).snd) * τ = τ
   rw [show (generator Aᵢ d).fst = 0 from rfl,
     show (show A from (generator Aᵢ d).snd) = 1 from rfl]

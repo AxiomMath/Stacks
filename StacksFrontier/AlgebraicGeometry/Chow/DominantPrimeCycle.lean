@@ -53,7 +53,7 @@ private theorem homeomorph_fiber_apply {X Y : Scheme.{u}} (f : X ⟶ Y) (y : Y) 
       f.asFiber (f.fiberι y z) := by
   apply (f.fiberι (f.base (f.fiberι y z))).isEmbedding.injective
   rw [Scheme.Hom.fiberι_asFiber]
-  show f.fiberι _ ((f.fiberHomeo _).symm _) = _
+  change f.fiberι _ ((f.fiberHomeo _).symm _) = _
   rw [Scheme.Hom.fiberι_fiberHomeo_symm]
   rfl
 
@@ -171,7 +171,7 @@ theorem exists_properPushforward_eq_nsmul_fundamentalCycle (C : ChowSituation.{u
     exact Module.finrank_pos
   refine ⟨integralComponentAt x, hW, f.residueDegree x, hdegpos.ne', Subtype.ext ?_⟩
   rw [properPushforward_single C sX sY f hf k x _ hαsingle, hxη, ite_eq_left hk]
-  show _ = f.residueDegree x • (cycleAssociatedToClosedSubscheme C sY (𝟙 Y) k).1
+  change _ = f.residueDegree x • (cycleAssociatedToClosedSubscheme C sY (𝟙 Y) k).1
   rw [hβsingle]
   refine Function.locallyFinsuppWithin.ext fun y ↦ ?_
   by_cases hy : y = genericPoint Y <;> simp [hy]

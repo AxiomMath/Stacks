@@ -48,7 +48,7 @@ private theorem zeroLocus_maximalIdeal_eq_singleton_closedPoint (B : Type*) [Com
     PrimeSpectrum.zeroLocus (IsLocalRing.maximalIdeal B : Set B) =
       {IsLocalRing.closedPoint B} := by
   ext q
-  show IsLocalRing.maximalIdeal B ≤ q.asIdeal ↔ q = IsLocalRing.closedPoint B
+  change IsLocalRing.maximalIdeal B ≤ q.asIdeal ↔ q = IsLocalRing.closedPoint B
   exact ⟨fun hq ↦ PrimeSpectrum.ext
       (le_antisymm (IsLocalRing.le_maximalIdeal Ideal.IsPrime.ne_top') hq),
     fun hq ↦ hq ▸ le_rfl⟩

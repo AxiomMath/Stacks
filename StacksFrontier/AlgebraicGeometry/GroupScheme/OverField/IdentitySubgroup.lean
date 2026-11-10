@@ -54,7 +54,7 @@ private theorem flat_ker_subschemeι {X Y : Scheme.{u}} (f : X ⟶ Y)
   let A : MorphismProperty.Over @IsClosedImmersion ⊤ Y :=
     MorphismProperty.Over.mk ⊤ f hClosed
   let : Category (MorphismProperty.Over @IsClosedImmersion ⊤ Y) := by
-    show Category (MorphismProperty.Comma (Functor.id Scheme)
+    change Category (MorphismProperty.Comma (Functor.id Scheme)
       (Functor.fromPUnit.{0} Y) @IsClosedImmersion ⊤ ⊤)
     exact @MorphismProperty.Comma.instCategory Scheme inferInstance
       (Discrete PUnit.{1}) inferInstance Scheme inferInstance (Functor.id Scheme)
@@ -66,7 +66,7 @@ private theorem flat_ker_subschemeι {X Y : Scheme.{u}} (f : X ⟶ Y)
   let eOver := (MorphismProperty.Over.forget @IsClosedImmersion ⊤ Y).mapIso e
   let eScheme := (Over.forget Y).mapIso eOver
   have hfac : eScheme.hom ≫ f = f.ker.subschemeι := by
-    show eOver.hom.left ≫ f = f.ker.subschemeι
+    change eOver.hom.left ≫ f = f.ker.subschemeι
     exact Over.w eOver.hom
   rw [← hfac]
   exact @Flat.comp _ _ _ eScheme.hom f inferInstance hFlat
@@ -169,10 +169,10 @@ private theorem exists_identityUnit_factor (k : Type u) [Field k]
   have hrange : Set.range (η[G.X]).left ⊆ I.support := by
     rw [hSupport]
     rintro _ ⟨s, rfl⟩
-    show (η[G.X]).left s ∈ connectedComponent
+    change (η[G.X]).left s ∈ connectedComponent
       (identityPoint k G)
     have : Subsingleton (↥((𝟙_ (Over (Spec (.of k)))).left)) := by
-      show Subsingleton (PrimeSpectrum k)
+      change Subsingleton (PrimeSpectrum k)
       exact Ring.KrullDimLE.subsingleton_primeSpectrum k
     obtain rfl : s = (default : Spec (.of k)) := Subsingleton.elim _ _
     exact mem_connectedComponent
@@ -236,7 +236,7 @@ private theorem exists_identityInverse_factor (k : Type u) [Field k]
   have hrange : Set.range (j ≫ ι[G.X]).left ⊆ I.support := by
     rw [hSupport]
     rintro _ ⟨x, rfl⟩
-    show (ι[G.X]).left (I.subschemeι x) ∈
+    change (ι[G.X]).left (I.subschemeι x) ∈
       connectedComponent (identityPoint k G)
     have hxI : I.subschemeι x ∈ (I.support : Set G.X.left) := by
       rw [← I.range_subschemeι]
@@ -302,7 +302,7 @@ theorem exists_identityComponent_subgroup (k : Type u) [Field k]
   let H : Over (Spec (.of k)) := Over.mk (I.subschemeι ≫ G.X.hom)
   let j : H ⟶ G.X := Over.homMk I.subschemeι
   let : IsClosedImmersion j.left := by
-    show IsClosedImmersion I.subschemeι
+    change IsClosedImmersion I.subschemeι
     infer_instance
   obtain ⟨e, he⟩ := exists_identityUnit_factor k G I hFlat hSupport
   have hm := exists_identityMul_factor k G I hFlat hSupport e he
@@ -335,7 +335,7 @@ theorem exists_identityComponent_subgroup (k : Type u) [Field k]
       simpa only [Over.comp_left, Scheme.Hom.comp_apply] using h.symm
   have hrangeJ : Set.range j.left = connectedComponent
       (identityPoint k G) := by
-    show Set.range I.subschemeι = _
+    change Set.range I.subschemeι = _
     rw [I.range_subschemeι, hSupport]
     rfl
   let : IsIso eK.inv.left := ⟨⟨eK.hom.left,
@@ -422,7 +422,7 @@ theorem identityComponent_geometricallyIrreducible (k : Type u) [Field k]
   intro K inst y
   let H := (identityComponent k G).carrier.X
   let : GrpObj (Over.mk H.hom) := by
-    show GrpObj H
+    change GrpObj H
     exact (identityComponent k G).carrier.grp
   let : GeometricallyConnected H.hom := identityComponent_geometricallyConnected k G
   let T := Limits.pullback H.hom y
@@ -502,13 +502,13 @@ theorem identityComponent_unique (k : Type u) [Field k]
       apply Grp.hom_ext
       rw [Grp.comp_hom_hom, hφ, hψ, Grp.id_hom_hom]
       apply Over.OverMorphism.ext
-      show fS ≫ fInvS = 𝟙 _
+      change fS ≫ fInvS = 𝟙 _
       exact IsIso.hom_inv_id fS
     inv_hom_id := by
       apply Grp.hom_ext
       rw [Grp.comp_hom_hom, hψ, hφ, Grp.id_hom_hom]
       apply Over.OverMorphism.ext
-      show fInvS ≫ fS = 𝟙 _
+      change fInvS ≫ fS = 𝟙 _
       exact IsIso.inv_hom_id fS
   }
   refine ⟨e, hφfac, fun e' he' => ?_⟩

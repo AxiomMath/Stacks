@@ -112,12 +112,12 @@ theorem lift_isFiberedInGroupoids.{vX, uX, w}
     | up x =>
       obtain ⟨y, φ, hφ⟩ := hp.exists_lift f x hx
       have hdom : (down ⋙ p).obj (up.obj y) = V := by
-        show p.obj (down.obj (up.obj y)) = V
+        change p.obj (down.obj (up.obj y)) = V
         simpa [down, commonDown, up, commonUp] using IsHomLift.domain_eq p f φ
       have hcod : (down ⋙ p).obj (up.obj x) = U := hx
       refine ⟨up.obj y, up.map φ, ?_⟩
       apply IsHomLift.of_fac' (down ⋙ p) f (up.map φ) hdom hcod ?_
-      show p.map (down.map (up.map φ)) = _
+      change p.map (down.map (up.map φ)) = _
       simpa [down, commonDown, up, commonUp] using IsHomLift.fac' p f φ
   · intro x y z φ ψ f hf
     cases x
@@ -130,7 +130,7 @@ theorem lift_isFiberedInGroupoids.{vX, uX, w}
     let χ' := up.map χ
     refine ⟨χ', ?_, ?_⟩
     · constructor
-      · show p.map (down.map (up.map χ)) = f
+      · change p.map (down.map (up.map χ)) = f
         simpa [down, commonDown, up, commonUp] using hχ.1
       · apply Functor.map_injective (F := down)
         exact hχ.2
@@ -152,7 +152,7 @@ theorem commonLift_comp_eq.{w} (hF : F ⋙ p𝒴 = p𝒳) :
   · cases x with
     | up x =>
         have hobj := congrArg (fun H : 𝒳 ⥤ 𝒞 => H.obj x) hF
-        show p𝒴.obj ((commonDown.{v₄, u₄, w} 𝒴).obj
+        change p𝒴.obj ((commonDown.{v₄, u₄, w} 𝒴).obj
           ((commonUp.{v₄, u₄, w} 𝒴).obj
             (F.obj ((commonDown.{v₂, u₂, w} 𝒳).obj
               ((commonUp.{v₂, u₂, w} 𝒳).obj x))))) =
@@ -415,7 +415,7 @@ theorem hasEqualizers
     have hcone : e ≫ f = e ≫ g := by
       apply TwoFibreProductOver.Hom.ext'
       · exact equalizer.condition f.a g.a
-      · show (k ≫ ez) ≫ f.b = (k ≫ ez) ≫ g.b
+      · change (k ≫ ez) ≫ f.b = (k ≫ ez) ≫ g.b
         calc
           (k ≫ ez) ≫ f.b = k ≫ (ez ≫ f.b) := Category.assoc _ _ _
           _ = k ≫ (ez ≫ g.b) := congrArg (fun t => k ≫ t) (equalizer.condition f.b g.b)

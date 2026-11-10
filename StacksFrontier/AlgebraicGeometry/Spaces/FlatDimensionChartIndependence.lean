@@ -14,8 +14,8 @@ In Situation 0CWU, let `T` be a test scheme over `Y` and `U` a surjective étale
 change `X_T`. The chart presents the restriction of `F_n` to the schemes over `T` as the functor
 of the scheme-level situation of Stacks 05MT on `U ⟶ T`,
 `AlgebraicGeometry.Space.FlatDimensionSituation.stageSituation`. That identification is made in
-`StacksFrontier/AlgebraicGeometry/Spaces/FlatDimensionStagePresentation.lean` for test schemes of the
-site only. This file shows that the scheme-level functor itself, on *all* schemes over `T`, does
+`StacksFrontier/AlgebraicGeometry/Spaces/FlatDimensionStagePresentation.lean` for test schemes of
+the site only. This file shows that the scheme-level functor itself, on *all* schemes over `T`, does
 not depend on the surjective chart chosen.
 
 ## Main definitions

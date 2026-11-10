@@ -628,7 +628,7 @@ theorem app_app_eq_zero_of_comm (comm_a : i ≫ a' = a ≫ j) {W : Y'.Opens} {x 
     le_of_eq (congrArg (fun f : X ⟶ Y' => f ⁻¹ᵁ W) comm_a)
   have h := resOpen_app_congr comm_a hg hg' x
   have h0 : ((a ≫ j).app W).hom x = 0 := by
-    show (a.app (j ⁻¹ᵁ W)).hom ((j.app W).hom x) = 0
+    change (a.app (j ⁻¹ᵁ W)).hom ((j.app W).hom x) = 0
     rw [hx, map_zero]
   rw [h0, resOpen_zero, resOpen_self] at h
   exact h

@@ -149,7 +149,7 @@ lemma zero_mapMayerVietorisCochain :
         (-((NatTrans.mapHomologicalComplex (Functor.whiskerRight dV G)
           (ComplexShape.up ℤ)).app K)) = 0 := by
   ext n
-  show (evAt (C := C) n).map (_ ≫ _) = 0
+  change (evAt (C := C) n).map (_ ≫ _) = 0
   rw [(evAt (C := C) n).map_comp, map_biprod_lift_eq_comp_inv, assoc,
     biprodIsoOfAdditive_inv_comp_map_desc]
   exact zero_map_mayerVietoris ηU ηV dU dV hzero G (K.X n)
@@ -247,7 +247,7 @@ theorem mem_distTriang_mapMayerVietorisTriangle (K : CochainComplex A ℤ)
       (id_comp _).symm :)
   · exact ((comp_id _).trans
       (biprodIsoOfAdditive_inv_comp_map_desc (DerivedCategory.Q (C := C)) _ _).symm :)
-  · show DerivedCategory.triangleOfSESδ hS ≫
+  · change DerivedCategory.triangleOfSESδ hS ≫
         (shiftFunctor (DerivedCategory C) (1 : ℤ)).map
           (𝟙 (DerivedCategory.Q.obj
             ((G.mapHomologicalComplex (ComplexShape.up ℤ)).obj K))) =

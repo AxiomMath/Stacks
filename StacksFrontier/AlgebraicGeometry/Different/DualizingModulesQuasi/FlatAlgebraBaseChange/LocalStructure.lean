@@ -64,7 +64,7 @@ theorem baseChangeLinearMap_one_tmul
   let : Algebra B B₁ := Algebra.TensorProduct.rightAlgebra
   let : Module B (dualizingModule F₁) := Module.compHom _ (algebraMap B B₁)
   let : IsScalarTower B B₁ (dualizingModule F₁) := IsScalarTower.of_compHom B B₁ _
-  show (((LinearMap.lsmul B₁ (dualizingModule F₁) (1 : B₁)).restrictScalars B).comp
+  change (((LinearMap.lsmul B₁ (dualizingModule F₁) (1 : B₁)).restrictScalars B).comp
       (dualizingModule.baseChange F A₁)) m = _
   simp
 
@@ -77,7 +77,6 @@ private theorem baseChangeLinearMap_comp_one_tmul
     (m : dualizingModule F) :
     let F₁ := FiniteOpenFactorization.baseChange F A₁
     let F₁₂ := FiniteOpenFactorization.baseChange F₁ A₂
-    let F₂ := FiniteOpenFactorization.baseChange F A₂
     letI : Algebra B (A₁ ⊗[A] B) := Algebra.TensorProduct.rightAlgebra
     letI : Algebra B (A₂ ⊗[A] B) := Algebra.TensorProduct.rightAlgebra
     letI : Algebra (A₁ ⊗[A] B) (A₂ ⊗[A₁] (A₁ ⊗[A] B)) :=
@@ -96,7 +95,6 @@ private theorem baseChangeLinearMap_comp_one_tmul
       baseChangeLinearMap F A₂ (1 ⊗ₜ[B] m) := by
   let F₁ := FiniteOpenFactorization.baseChange F A₁
   let F₁₂ := FiniteOpenFactorization.baseChange F₁ A₂
-  let F₂ := FiniteOpenFactorization.baseChange F A₂
   let : Algebra B (A₁ ⊗[A] B) := Algebra.TensorProduct.rightAlgebra
   let : Algebra B (A₂ ⊗[A] B) := Algebra.TensorProduct.rightAlgebra
   let : Algebra (A₁ ⊗[A] B) (A₂ ⊗[A₁] (A₁ ⊗[A] B)) :=
@@ -114,7 +112,7 @@ private theorem baseChangeLinearMap_comp_one_tmul
     (dualizingModule.baseChange F A₁ m)
   have hdirect := baseChangeLinearMap_one_tmul F A₂ m
   rw [← hinner] at houter
-  show (dualizingModule.baseChangeTowerEquiv F A₁ A₂).1
+  change (dualizingModule.baseChangeTowerEquiv F A₁ A₂).1
       (baseChangeLinearMap F₁ A₂
         (1 ⊗ₜ[A₁ ⊗[A] B]
           baseChangeLinearMap F A₁ (1 ⊗ₜ[B] m))) =
@@ -163,15 +161,14 @@ private theorem baseChangeLinearMap_congr
   let r := (baseChangeLinearMap G A₁).comp (e.toLinearMap.baseChange B₁)
   apply LinearMap.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' =>
       calc
         l (z + z') = l z + l z' := map_add l _ _
         _ = r z + r z' := congrArg₂ (· + ·) hz hz'
         _ = r (z + z') := (map_add r _ _).symm
   | tmul s m =>
-      show e₁ (baseChangeLinearMap F A₁ (s ⊗ₜ[B] m)) =
+      change e₁ (baseChangeLinearMap F A₁ (s ⊗ₜ[B] m)) =
         baseChangeLinearMap G A₁ ((e.toLinearMap.baseChange B₁) (s ⊗ₜ[B] m))
       calc
         _ = e₁ (s • baseChangeLinearMap F A₁ (1 ⊗ₜ[B] m)) := by
@@ -301,10 +298,9 @@ theorem localizedMap_bijective_of_lTensor
   have hcomm : eN.toLinearMap.comp fLocT = fT.comp eM.toLinearMap := by
     apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' =>
-      simp only [LinearMap.comp_apply, map_add, hz, hz', fT.map_add, fLocT.map_add]
+      simp only [LinearMap.comp_apply, map_add, hz, hz']
     | tmul t x =>
       induction x using LocalizedModule.induction_on with
       | h m s =>
@@ -316,7 +312,7 @@ theorem localizedMap_bijective_of_lTensor
       (eN.toLinearMap.comp fLocT) := by
     rw [hcomm]
     have hfT : Function.Bijective fT := by
-      show Function.Bijective (LinearMap.lTensor T f)
+      change Function.Bijective (LinearMap.lTensor T f)
       exact h
     exact hfT.comp eM.bijective
   have hlocalTensor : Function.Bijective
@@ -329,7 +325,7 @@ theorem localizedMap_bijective_of_lTensor
         apply eN.injective
         exact hx⟩
   exact bijective_of_faithfullyFlat_lTensor (LocalizedModule.map S f) (by
-    show Function.Bijective (LinearMap.lTensor T (LocalizedModule.map S f))
+    change Function.Bijective (LinearMap.lTensor T (LocalizedModule.map S f))
     exact hlocalTensor)
 
 theorem atPrime_localRingHom_faithfullyFlat
@@ -346,10 +342,10 @@ theorem atPrime_localRingHom_faithfullyFlat
   have : Module.Flat (Localization.AtPrime I) (Localization.AtPrime J) :=
     (RingHom.flat_algebraMap_iff (R := Localization.AtPrime I)
       (S := Localization.AtPrime J)).mp (by
-        show RingHom.Flat g
+        change RingHom.Flat g
         exact hg)
   have : IsLocalHom (algebraMap (Localization.AtPrime I) (Localization.AtPrime J)) := by
-    show IsLocalHom g
+    change IsLocalHom g
     exact hglocal
   exact Module.FaithfullyFlat.of_flat_of_isLocalHom
 
@@ -557,7 +553,7 @@ private lemma exists_prime_lift_avoiding_of_residueField_equiv
   apply hb
   have hmem' : b ∈ Q.comap
       (Algebra.TensorProduct.includeRight : R →ₐ[A] A' ⊗[A] R).toRingHom := by
-    show Algebra.TensorProduct.includeRight b ∈ Q
+    change Algebra.TensorProduct.includeRight b ∈ Q
     exact hmem
   rw [hQq] at hmem'
   exact hmem'
@@ -592,7 +588,7 @@ lemma exists_prime_lift_avoiding_after_baseChange
   have hφψ : φ.toRingHom = ψ.toRingHom := by
     apply Algebra.TensorProduct.ringHom_ext
     · ext a
-      simp [φ, ψ, Algebra.TensorProduct.map_tmul]
+      simp [φ, ψ]
     · ext b
       simp [φ, ψ, j', Algebra.TensorProduct.map_tmul]
   have hQ'φ : (Q'.comap φ.toRingHom).comap
@@ -601,7 +597,7 @@ lemma exists_prime_lift_avoiding_after_baseChange
     have hleft : φ.toRingHom.comp (algebraMap A' (A' ⊗[A] B)) =
         algebraMap A' (A' ⊗[A] R) := by
       ext a
-      show φ ((Algebra.TensorProduct.includeLeft :
+      change φ ((Algebra.TensorProduct.includeLeft :
         A' →ₐ[A] A' ⊗[A] B) a) =
         algebraMap A' (A' ⊗[A] R) a
       simp [φ]
@@ -616,15 +612,15 @@ lemma exists_prime_lift_avoiding_after_baseChange
           j.toRingHom) := by
       ext b
       simp [φ, j']
-    show Q'.comap (φ.toRingHom.comp
+    change Q'.comap (φ.toRingHom.comp
         (Algebra.TensorProduct.includeRight : B →ₐ[A] A' ⊗[A] B).toRingHom) =
       Q.comap (Algebra.TensorProduct.includeRight.toRingHom)
     rw [hright]
-    show (Q'.comap (Algebra.TensorProduct.includeRight.toRingHom)).comap j.toRingHom =
+    change (Q'.comap (Algebra.TensorProduct.includeRight.toRingHom)).comap j.toRingHom =
       Q.comap (Algebra.TensorProduct.includeRight.toRingHom)
     rw [hQ'r, hrq, hQq]
   refine ⟨Q', hQ', hQ'p', hQ'r, ?_⟩
-  show ψ e ∉ Q'
+  change ψ e ∉ Q'
   intro he'
   apply he
   rw [← hQ'Q]

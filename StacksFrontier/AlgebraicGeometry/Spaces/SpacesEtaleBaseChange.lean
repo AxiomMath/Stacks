@@ -83,11 +83,11 @@ theorem isPullback_overPullback_map {C : Type*} [Category* C] {X Y : C} (f : X �
     [HasPullbacksAlong f] {A V : Over Y} (a : A ⟶ V) :
     IsPullback (((Over.pullback f).map a).left) (pullback.fst A.hom f)
       (pullback.fst V.hom f) a.left := by
-  refine IsPullback.of_right ?_ (by simpa using pullback.lift_fst _ _ _)
+  refine IsPullback.of_right ?_ (by simp)
     (IsPullback.of_hasPullback V.hom f).flip
   have hA : A.hom = a.left ≫ V.hom := (Over.w a).symm
   have hsnd : ((Over.pullback f).map a).left ≫ pullback.snd V.hom f =
-      pullback.snd A.hom f := by simpa using pullback.lift_snd _ _ _
+      pullback.snd A.hom f := by simp
   rw [hsnd, ← hA]
   exact (IsPullback.of_hasPullback A.hom f).flip
 
@@ -155,7 +155,7 @@ noncomputable def spacesBaseChange {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y) 
     (fun V ↦ isEtaleOver_overPullback B S hS f _ V.property)
   projection :=
     { app := fun V ↦ pullback.fst V.1.hom f
-      naturality := fun _ _ _ ↦ by simpa using pullback.lift_fst _ _ _ }
+      naturality := fun _ _ _ ↦ by simp }
   isPullback V := IsPullback.of_hasPullback V.1.hom f
 
 /-! ### Base change is a morphism of sites -/
@@ -253,10 +253,9 @@ theorem spacesBaseChange_comp_projection {X Y Z : AlgebraicSpaces B S hS} (f : X
     ((Over.mapPullbackAdj f).comp (Over.mapPullbackAdj g))
     (Over.mapPullbackAdj (f ≫ g)) (Over.mapComp f g).hom V.1
   refine ObjectProperty.hom_ext _ ?_
-  simpa [spacesBaseChange_comp, spacesBaseChange, SpacesEtale.toSpaces,
-    SpacesEtale.inclusion, IsEtaleOver, Over.pullbackComp,
-    Over.mapPullbackAdj_counit_app, ObjectProperty.homMk_hom] using
-      congrArg (fun q => q.hom) (congrArg Over.Hom.left h)
+  simp [spacesBaseChange_comp, spacesBaseChange, SpacesEtale.toSpaces,
+    SpacesEtale.inclusion, Over.pullbackComp,
+    Over.mapPullbackAdj_counit_app, ObjectProperty.homMk_hom]
 
 end AlgebraicGeometry.Space
 

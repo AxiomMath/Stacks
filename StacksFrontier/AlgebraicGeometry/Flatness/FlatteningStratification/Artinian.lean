@@ -132,7 +132,7 @@ public theorem exists_flatteningIdeal_of_isArtinianRing (R : CommRingCat.{u}) [I
   refine (isFlatOver_baseChange_iff_openCover f (Spec.map φ) F 𝒰.openCover).trans
     (Iff.trans (forall_congr' fun i ↦ ?_) (hI φ.hom))
   have hα : Spec.map (α i) = 𝒰.f i ≫ f := Spec.map_preimage _
-  show IsFlatOver (pullback.snd (𝒰.f i ≫ f) (Spec.map φ)).toLRSHom.toShHom
+  change IsFlatOver (pullback.snd (𝒰.f i ≫ f) (Spec.map φ)).toLRSHom.toShHom
     ((Scheme.Modules.pullback (pullback.fst (𝒰.f i ≫ f) (Spec.map φ))).obj
       ((Scheme.Modules.pullback (𝒰.f i)).obj F)) ↔ _
   rw [← hα]
@@ -167,7 +167,7 @@ public theorem le_ker_appTop_of_forall_affineOpenCover {R : Type u} [CommRing R]
     I ≤ RingHom.ker (((Scheme.ΓSpecIso (.of R)).inv ≫ g.appTop).hom) := by
   let ψ : CommRingCat.of R ⟶ Γ(T, ⊤) := (Scheme.ΓSpecIso (.of R)).inv ≫ g.appTop
   intro r hr
-  show ψ r = 0
+  change ψ r = 0
   refine T.affineOpenCover.openCover.ext_elem _ _ fun i ↦ ?_
   let k := T.affineOpenCover.f i
   let α : CommRingCat.of R ⟶ T.affineOpenCover.X i := Spec.preimage (k ≫ g)
@@ -177,7 +177,7 @@ public theorem le_ker_appTop_of_forall_affineOpenCover {R : Type u} [CommRing R]
     rw [Scheme.ΓSpecIso_inv_naturality, hα, Scheme.Hom.comp_appTop]
     rfl
   have he := ConcreteCategory.congr_hom hn r
-  show k.appTop (ψ r) = k.appTop 0
+  change k.appTop (ψ r) = k.appTop 0
   change (Scheme.ΓSpecIso _).inv (α r) = k.appTop (ψ r) at he
   simpa only [hrzero, map_zero] using he.symm
 
@@ -218,12 +218,12 @@ public theorem hasFlatteningStratification_of_isClosedImmersion {D : FlatnessSit
   · intro i j
     simp
   · intro i
-    show Set.range (J.subschemeι ∘ U.ι) = _
+    change Set.range (J.subschemeι ∘ U.ι) = _
     rw [Set.range_comp, (Scheme.Hom.surjective U.ι).range_eq, Set.image_univ,
       J.range_subschemeι]
     simp
-  · show W.hom = a.hom ≫ (coproductUniqueIso Y).inv ≫ Sigma.desc g
-    rw [coproductUniqueIso_inv, Sigma.ι_desc]
+  · change W.hom = a.hom ≫ (coproductUniqueIso Y).inv ≫ Sigma.desc g
+    rw [coproductUniqueIso_inv, Sigma.ι_comp_desc]
     dsimp only [a, g]
     rw [Iso.trans_hom, asIso_hom, Iso.symm_hom, asIso_inv, Category.assoc,
       IsIso.inv_hom_id_assoc]
@@ -243,7 +243,7 @@ public theorem exists_closedUniversalFlattening_of_isArtinianRing {R : Type u} [
   dsimp only at hS
   subst S
   let D : FlatnessSituation.{u} := { S := Spec (.of R), X := X, f := f, F := F }
-  show ∃ W : Over D.S, _
+  change ∃ W : Over D.S, _
   obtain ⟨I, hI⟩ := exists_flatteningIdeal_of_isArtinianRing (.of R) f F
   let q : CommRingCat.of R ⟶ .of (R ⧸ I) := CommRingCat.ofHom (Ideal.Quotient.mk I)
   let W : Over D.S := Over.mk (Spec.map q)

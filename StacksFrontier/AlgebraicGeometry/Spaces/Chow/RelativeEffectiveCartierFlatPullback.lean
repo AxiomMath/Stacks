@@ -324,7 +324,7 @@ theorem finsum_flatPullbackMult_mul_gysinComponentCycle_sectionGysinRule (k : �
   have hm : ∀ W', flatPullbackMult D sX hX sY hY p hbase (r + 1) hflat hr W W' =
       (closedSubspaceCycle D sX hX Zc.1 Zc.2 (k + r + 1 + 1) hdim).1 W' := by
     intro W'
-    show cycleCoeffOfClosedSubspace D sX hX (W.subspace.preimage p) _
+    change cycleCoeffOfClosedSubspace D sX hX (W.subspace.preimage p) _
         (deltaDimension D sY W + ((r + 1 : ℕ) : ℤ)) _ W' =
       cycleCoeffOfClosedSubspace D sX hX (W.subspace.preimage p) _ (k + r + 1 + 1) _ W'
     rw [hW, heq]
@@ -338,7 +338,7 @@ theorem finsum_flatPullbackMult_mul_gysinComponentCycle_sectionGysinRule (k : �
         (isClosedSubspace_preimage D.site D.base D.base_mem _ Zc.1 hX.1 hEg.1 Zc.2)
         (k + r + 1) (canonicalGeometricPoint D.site D.base D.base_mem _) T' := by
     intro T'
-    show cycleCoeffOfClosedSubspace D ((vanishingLocus D sX hX L s).1.ι ≫ sX) hEg
+    change cycleCoeffOfClosedSubspace D ((vanishingLocus D sX hX L s).1.ι ≫ sX) hEg
         (W.subspace.preimage ((vanishingLocus D sX hX L s).1.ι ≫ p)) _
         (deltaDimension D sY W + (r : ℤ)) _ T' = _
     rw [hW, heq']
@@ -406,7 +406,7 @@ theorem finsum_flatPullbackMult_mul_gysinComponentCycle_sectionGysinRule (k : �
     have hW'd : deltaDimension D sX (closedSubspaceComponentImage D sX hX Zc.1 Zc.2 V) =
         k + r + 1 + 1 := (closedSubspaceCycle D sX hX Zc.1 Zc.2 (k + r + 1 + 1) hdim).2.2 _ hV
     rw [gysinComponentCycle_of_not_le D sX (vanishingLocus D sX hX L s) hEg (k + r + 1) _ hW'd hWE]
-    show (closedSubspaceCyclePushforward D sX hX (vanishingLocus D sX hX L s) (k + r + 1)
+    change (closedSubspaceCyclePushforward D sX hX (vanishingLocus D sX hX L s) (k + r + 1)
       (gysinIntersectionCycle D sX hX (vanishingLocus D sX hX L s) hEg (k + r + 1) _ hW'd
         hWE)).1 = _
     rw [← integralClosedSubspacePushforward_closedSubspaceCycle_preimage_eq_gysinIntersectionCycle
@@ -423,10 +423,10 @@ theorem finsum_flatPullbackMult_mul_gysinComponentCycle_sectionGysinRule (k : �
       congrArg (fun m => m.hom)
         (closedSubspaceComponentImageHom_comp_closedSubspaceHom D sX hX Zc V)
     refine Eq.trans ?_ h1.symm
-    show _ = (vanishingLocus D (Zc.1.ι ≫ sX) hZg (closedSubspaceModuleRestrict D sX hX L Zc)
+    change _ = (vanishingLocus D (Zc.1.ι ≫ sX) hZg (closedSubspaceModuleRestrict D sX hX L Zc)
       sZ).1.preimage (closedSubspaceComponentImageHom D sX hX Zc V).hom
     rw [hZ0]
-    show _ = ((vanishingLocus D sX hX L s).1.preimage Zc.1.ι).preimage
+    change _ = ((vanishingLocus D sX hX L s).1.preimage Zc.1.ι).preimage
         (closedSubspaceComponentImageHom D sX hX Zc V).hom
     rw [← Subfunctor.preimage_comp, hι]
 

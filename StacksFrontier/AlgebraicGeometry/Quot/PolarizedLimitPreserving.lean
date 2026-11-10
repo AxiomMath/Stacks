@@ -168,7 +168,7 @@ theorem sliceAtTerminal_map_left (p : 𝒮 ⥤ C) (hT : IsTerminal T) {x y : �
 object of `V`: two morphisms to a terminal object agree. -/
 theorem sliceAtTerminal_obj_eq (p : 𝒮 ⥤ C) (hT : IsTerminal T) {x : 𝒮} {V : Over T}
     (h : p.obj x = V.left) : (p.sliceAtTerminal hT).obj x = V := by
-  show Over.mk (hT.from (p.obj x)) = V
+  change Over.mk (hT.from (p.obj x)) = V
   rw [h]
   exact congrArg Over.mk (hT.hom_ext _ _)
 

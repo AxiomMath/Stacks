@@ -67,7 +67,7 @@ theorem rangeConormalBaseModuleIso_hom_unit
   have ht := congrArg (fun k => k.hom (g.hom c)) (adj.right_triangle_components
     (RingHom.squareZeroKer _ hψ hsq))
   dsimp only at hn ht
-  show (show RingHom.ker _ from (adj.counit.app _).hom
+  change (show RingHom.ker _ from (adj.counit.app _).hom
     (((ModuleCat.extendScalars.{u, u, u} _).map g).hom ((adj.unit.app _).hom c))).1 = c.1
   refine (congrArg (fun z => (show RingHom.ker
     (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map j).op).hom from

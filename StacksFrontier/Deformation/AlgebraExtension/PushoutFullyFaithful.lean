@@ -201,7 +201,7 @@ theorem faithful
       rw [presentationConormalSequence_f_comp_eq_sub hθ, GeneratorLift.conormalHom_comp,
         GeneratorLift.conormalHom_comp, sub_self]
     have h2 : (β.comp k₂).comp (hF.ι P') = (β.comp k₁).comp (hF.ι P') := by
-      show β.comp (MapAlong.comp k₂ (hF.ι P') (Category.id_comp φ)) =
+      change β.comp (MapAlong.comp k₂ (hF.ι P') (Category.id_comp φ)) =
         β.comp (MapAlong.comp k₁ (hF.ι P') (Category.id_comp φ))
       rw [hF.comp_ι, hF.comp_ι, hk]
     have hφ : θ ≫ tensorMap φ = 0 := by
@@ -250,7 +250,7 @@ theorem full
       (GeneratorLift.restriction_eq_of_conormalHom_eq hc)
     refine ⟨k, ?_⟩
     have hkj : MapAlong.comp k (hF.ι P') (Category.id_comp φ) = h := MapAlong.ext_of_comp β (by
-      show (β.comp k).comp (hF.ι P') = β.comp h
+      change (β.comp k).comp (hF.ι P') = β.comp h
       rw [hk, GeneratorLift.shift_comp, hθ₁]
       congr 1
       rw [Preadditive.add_comp, hθ₃φ]

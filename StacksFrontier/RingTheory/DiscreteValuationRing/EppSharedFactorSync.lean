@@ -157,13 +157,13 @@ absorption of the deep roots into a finite étale base change
 nowhere in the tree.  Mixed characteristic and the removal of henselianness by completion descent
 remain separate and also open.
 
-`StacksFrontier.RingTheory.DiscreteValuationRing.EppSharedFamilySupport` supplies the step that comes
-*before* it: one finite Galois residue extension covering the coefficient supports of **every**
-factor at a prescribed Frobenius depth, obtained by unioning the minimal polynomials across the
-whole family in the polynomial ring over the base residue field — the only place the union can
-happen, since the factors' residue fields are pairwise different types.  Together with this file,
-the route is complete at both ends and open in the middle: what is missing is a per-factor
-degree-`p` endgame run against a **prescribed** `K₂`.  Every endgame in the tree instead
+`StacksFrontier.RingTheory.DiscreteValuationRing.EppSharedFamilySupport` supplies the step that
+comes *before* it: one finite Galois residue extension covering the coefficient supports of
+**every** factor at a prescribed Frobenius depth, obtained by unioning the minimal polynomials
+across the whole family in the polynomial ring over the base residue field — the only place the
+union can happen, since the factors' residue fields are pairwise different types.  Together with
+this file, the route is complete at both ends and open in the middle: what is missing is a
+per-factor degree-`p` endgame run against a **prescribed** `K₂`.  Every endgame in the tree instead
 *produces* its own extension, and weak solutions are not stable under finite enlargement, so this
 has to be a re-derivation rather than a transport.
 

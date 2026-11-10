@@ -147,6 +147,7 @@ noncomputable def derivedPullbackPushforwardAdjunctionOfComparison
   derivedPullbackPushforwardAdjunction f _ hasResolutions_isKFlat
     (pullbackInvertsQuasiIso_isKFlat_of_isIso_derivedPullbackComparison f h)
 
+omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The unit of `derivedPullbackPushforwardAdjunctionOfComparison` agrees with the ordinary
 pullback--pushforward unit after applying the canonical comparison maps. -/
 theorem derivedPullbackPushforwardAdjunctionOfComparison_unit_fac
@@ -164,6 +165,7 @@ theorem derivedPullbackPushforwardAdjunctionOfComparison_unit_fac
   derivedPullbackPushforwardAdjunction_unit_fac f _ hasResolutions_isKFlat
     (pullbackInvertsQuasiIso_isKFlat_of_isIso_derivedPullbackComparison f h) M
 
+omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The counit of `derivedPullbackPushforwardAdjunctionOfComparison` agrees with the ordinary
 pullback--pushforward counit after applying the canonical comparison maps. -/
 theorem derivedPullbackPushforwardAdjunctionOfComparison_counit_fac

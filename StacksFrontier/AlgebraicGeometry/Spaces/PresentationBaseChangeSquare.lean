@@ -127,7 +127,7 @@ theorem presentationBaseChangeHom_comp_presentationStructureHom (φ : R →+* A)
     (presentationBaseChangeHom φ g).comp (presentationStructureHom g)
       = (presentationStructureHom (fun k => MvPolynomial.map φ (g k))).comp φ := by
   refine RingHom.ext fun a => ?_
-  show Ideal.Quotient.mk (Ideal.span (Set.range fun k => MvPolynomial.map φ (g k)))
+  change Ideal.Quotient.mk (Ideal.span (Set.range fun k => MvPolynomial.map φ (g k)))
       (MvPolynomial.map φ (MvPolynomial.C a)) = _
   rw [MvPolynomial.map_C]
   rfl
@@ -190,7 +190,7 @@ theorem presentationBaseChangeDesc_comp_presentationBaseChangeHom :
   obtain ⟨p, rfl⟩ := Ideal.Quotient.mk_surjective x
   rw [RingHom.comp_apply, presentationBaseChangeHom_mk,
     apply_quotientMk_eq_eval₂Hom g (α.comp φ) β hβ]
-  show MvPolynomial.eval₂Hom α
+  change MvPolynomial.eval₂Hom α
       (fun ν => β (Ideal.Quotient.mk (Ideal.span (Set.range g)) (MvPolynomial.X ν)))
       (MvPolynomial.map φ p) = _
   rw [MvPolynomial.eval₂Hom_map_hom]

@@ -61,7 +61,7 @@ theorem comp_cubicHomOfSections_eq_zeroOf (hrel : SatisfiesCubic C π s)
     rw [hring]; exact map_irrelevant_eq_top_of C
   rw [← hσ₁, Category.assoc, ι_cubicHomOfSections, cubicChartHom]
   refine (comp_fromOfGlobalSections (gradingOf C) σ₁ _ _ hirr).trans ?_
-  show Proj.fromOfGlobalSections _ _ hirr = Proj.fromOfGlobalSections _ _ _
+  change Proj.fromOfGlobalSections _ _ hirr = Proj.fromOfGlobalSections _ _ _
   congr 1
 
 end AlgebraicGeometry.ModuliEllipticCurves.Weierstrass

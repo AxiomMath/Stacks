@@ -161,7 +161,7 @@ theorem isFiniteLocallyFreeOfRank_comap_fiberι (t : T) (d : ℕ)
       (isZero_cohomologyOverField_of_two_le' K fZ hdim _),
       finrank_cohomologyOverField_unit_zero_eq_one fZ,
       ← genus_eq_finrank_cohomologyOverField_unit_one' K fZ, genus_baseChange k K _ fZ f hZ]
-    show (Module.finrank (T.residueField t) (fibreCohomology fT L t 0) : ℤ) -
+    change (Module.finrank (T.residueField t) (fibreCohomology fT L t 0) : ℤ) -
       Module.finrank (T.residueField t) (fibreCohomology fT L t 1) - _ = _
     rw [hχ]
     ring

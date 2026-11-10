@@ -154,7 +154,7 @@ lemma cyclesMap_mapι_zero :
   apply (cancel_mono ((mapCocomplex G I).iCycles 0)).1
   simp only [HomologicalComplex.cyclesMap_i,
     HomologicalComplex.singleObjCyclesSelfIso_hom, Category.assoc]
-  show _ = _ ≫ _ ≫ I.toRightDerivedZero' G ≫ (mapCocomplex G I).iCycles 0
+  change _ = _ ≫ _ ≫ I.toRightDerivedZero' G ≫ (mapCocomplex G I).iCycles 0
   rw [I.toRightDerivedZero'_comp_iCycles G]
   simp [mapι, CochainComplex.fromSingle₀Equiv, HomologicalComplex.singleObjXSelf]
 

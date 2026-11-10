@@ -115,7 +115,7 @@ elaborator exhausts `maxRecDepth`, so the two-binder form is load-bearing, not s
 public theorem extendScalars_map_one_tmul_one_tmul_of_eq {R S T : Type u} [CommRing R]
     [CommRing S] [CommRing T] (f : R →+* S) (g : S →+* T) {M : ModuleCat.{u} R}
     {P : ModuleCat.{u} S} (w : (ModuleCat.extendScalars.{u, u, u} f).obj M ⟶ P)
-    (m : M) (a : P) (h : w.hom ((1 : S) ⊗ₜ[R, f] m) = a) :
+    (m : M) (a : P) (h : w.hom ((1 : S) ⊗ₜ[R,f] m) = a) :
     ((ModuleCat.extendScalars.{u, u, u} g).map w).hom
         ((1 : T) ⊗ₜ[S, g] ((1 : S) ⊗ₜ[R, f] m)) = (1 : T) ⊗ₜ[S, g] a := by
   rw [← h]; rfl

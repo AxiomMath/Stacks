@@ -173,7 +173,7 @@ theorem exists_affineOpen_regularImmersion_of_isRegular_fiber (h063I : Statement
     rintro _ ⟨z, rfl⟩
     obtain ⟨w, hw, hwz⟩ := hVW z.property
     refine ⟨⟨w, hw⟩, U.1.ι.isOpenEmbedding.injective ?_⟩
-    show w.val = (jv z).val
+    change w.val = (jv z).val
     rwa [show (jv z).val = z.val from X.homOfLE_apply hVU z]
   let kv := IsOpenImmersion.lift O.ι jv hjvO
   have hkO : kv ≫ O.ι = jv := IsOpenImmersion.lift_fac _ _ _
@@ -207,7 +207,7 @@ theorem exists_affineOpen_regularImmersion_of_isRegular_fiber (h063I : Statement
     germ_comp_of_lift_of_eq U.1.ι jv Va.1.ι hjι ⟨x, hxV⟩ hjz rfl (h t) (a t) (ha t)
   have hsupp : (⟨x, hxV⟩ : Va.1.toScheme) ∈ I.support := by
     rw [← hTj, Scheme.IdealSheafData.support_comap]
-    show jv (⟨x, hxV⟩ : Va.1.toScheme) ∈ T.support
+    change jv (⟨x, hxV⟩ : Va.1.toScheme) ∈ T.support
     rwa [hjz]
   have hbc (S' : Scheme.{u}) (g : S' ⟶ S) :
       IsRegularImmersion (pullback.snd I.subschemeι (pullback.fst (Va.1.ι ≫ f) g)) :=

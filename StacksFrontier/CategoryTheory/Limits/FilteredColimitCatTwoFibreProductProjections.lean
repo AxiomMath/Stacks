@@ -73,7 +73,6 @@ lemma twoFibreProductDiagramSnd_app (j : J) :
       CategoricalPullback.π₂ (α.app j).toFunctor (γ.app j).toFunctor := rfl
 
 variable [HasColimit X] [HasColimit Y] [HasColimit Z]
-  [HasColimit (twoFibreProductDiagram α γ)]
 
 /-- The stagewise comparison followed by the first projection is the first projection followed by
 a colimit inclusion. -/
@@ -90,6 +89,8 @@ lemma twoFibreProductStage_comp_π₂ (j : J) :
         CategoricalPullback.π₂ (colimMap α).toFunctor (colimMap γ).toFunctor =
       CategoricalPullback.π₂ (α.app j).toFunctor (γ.app j).toFunctor ⋙
         (colimit.ι Z j).toFunctor := rfl
+
+variable [HasColimit (twoFibreProductDiagram α γ)]
 
 /-- A functor between colimits of diagrams of categories is the colimit of a morphism of diagrams
 as soon as it agrees with it after precomposing with each colimit inclusion. -/

@@ -78,8 +78,8 @@ file sits beneath.  The existence therefore appears here only as an instance hyp
 `Crystalline.GlobalCrystallineSituation.Thickening.isClosedUnderFiniteLimits_isCrystalline` and
 Mathlib's instances for full subcategories, gives `HasLimitsOfShape J (CrystallineThickening S)`
 and `PreservesLimitsOfShape J (ι S)`; and
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/SmallNonemptyFiniteLimits.lean`, downstream of
-both, supplies it and states the first assertion of [Stacks, Tag 07IJ] for every nonempty finite
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/SmallNonemptyFiniteLimits.lean`, downstream
+of both, supplies it and states the first assertion of [Stacks, Tag 07IJ] for every nonempty finite
 shape with nothing assumed; that is where the assertion is registered.  For the empty shape the
 hypothesis is unsatisfiable in general, `CRIS(X/S)` having no final object, which is why the source
 restricts to nonempty shapes.
@@ -396,7 +396,7 @@ def smallCoverage (S : GlobalCrystallineSituation.{u}) : Coverage (CrystallineTh
 of Zariski covering families.** -/
 theorem smallTopology_eq_coverage_toGrothendieck (S : GlobalCrystallineSituation.{u}) :
     smallTopology S = (smallCoverage S).toGrothendieck := by
-  show (smallCoverage S).toPrecoverage.toGrothendieck = (smallCoverage S).toGrothendieck
+  change (smallCoverage S).toPrecoverage.toGrothendieck = (smallCoverage S).toGrothendieck
   exact Coverage.toGrothendieck_toPrecoverage (smallCoverage S)
 
 /-- **A commuting square in `CRIS(X/S)` over an object of `Cris(X/S)` whose two legs belong to a

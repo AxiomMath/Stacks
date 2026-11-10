@@ -156,7 +156,7 @@ private theorem smallQcqsEtale_isCovering_deduplicateFamily
   classical
   let F := qcqsEtaleToBigScheme B S hS
   have he : AlgebraicGeometry.IsEtaleCovering ⟨F.obj X, E.map F⟩ := by
-    show (E.map (F ⋙ B.inclusion)).presieve₀ ∈ Scheme.etalePrecoverage _
+    change (E.map (F ⋙ B.inclusion)).presieve₀ ∈ Scheme.etalePrecoverage _
     rw [PreZeroHypercover.presieve₀_map]
     exact hcov
   obtain ⟨⟨T, Q⟩, hQ, ht, hcomb⟩ := B.exists_covering_rep ⟨F.obj X, E.map F⟩ he
@@ -170,7 +170,7 @@ private theorem smallQcqsEtale_isCovering_deduplicateFamily
     (qcqsEtaleToBigScheme_arrow_injective B S hS X (congrArg Subtype.val hz))
   refine ⟨⟨?_, (Cardinal.mk_le_of_injective hm).trans
     ((deduplicateFamily_card_le hcomb).trans hQ.2)⟩, deduplicateFamily_finite E⟩
-  show ((deduplicateFamily E).map (F ⋙ B.inclusion)).presieve₀ ∈ Scheme.etalePrecoverage _
+  change ((deduplicateFamily E).map (F ⋙ B.inclusion)).presieve₀ ∈ Scheme.etalePrecoverage _
   rw [PreZeroHypercover.presieve₀_map, deduplicateFamily_presieve₀]
   exact hcov
 
@@ -209,7 +209,7 @@ private theorem smallQcqsEtale_mem_topology_of_jointlySurjective
         ((SmallQcqsEtale.inclusion B S hS).map (g i.down.1))
   have hgen : Sieve.generate (deduplicateFamily E).presieve₀ ∈
       SmallQcqsEtale.topology B S hS X := by
-    show Sieve.generate _ ∈ (SmallQcqsEtale.precoverage B S hS).toGrothendieck X
+    change Sieve.generate _ ∈ (SmallQcqsEtale.precoverage B S hS).toGrothendieck X
     rw [Precoverage.mem_toGrothendieck_iff]
     exact Precoverage.Saturate.of X _
       ⟨deduplicateFamily E, rfl, smallQcqsEtale_isCovering_deduplicateFamily B S hS E hcovE⟩

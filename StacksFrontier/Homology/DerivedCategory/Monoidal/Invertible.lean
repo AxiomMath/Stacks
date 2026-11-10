@@ -681,7 +681,7 @@ private theorem exists_completeOrthogonalIdempotents_of_clopen_partition
       IsIdempotentElem.zero
     apply TopologicalSpace.Opens.ext
     rw [PrimeSpectrum.basicOpen_mul]
-    show (PrimeSpectrum.basicOpen (e i) : Set (PrimeSpectrum R)) ∩
+    change (PrimeSpectrum.basicOpen (e i) : Set (PrimeSpectrum R)) ∩
       (PrimeSpectrum.basicOpen (e j) : Set (PrimeSpectrum R)) = _
     rw [← hUe i, ← hUe j, Set.disjoint_iff_inter_eq_empty.mp (hdisj hij)]
     simp
@@ -690,7 +690,7 @@ private theorem exists_completeOrthogonalIdempotents_of_clopen_partition
     IsIdempotentElem.one
   apply TopologicalSpace.Opens.ext
   ext p
-  show (∑ i, e i) ∉ p.asIdeal ↔ (1 : R) ∉ p.asIdeal
+  change (∑ i, e i) ∉ p.asIdeal ↔ (1 : R) ∉ p.asIdeal
   simp only [Ideal.one_notMem, not_false_eq_true, iff_true]
   obtain ⟨i, hi⟩ := hcover p
   have hei : e i ∉ p.asIdeal := by

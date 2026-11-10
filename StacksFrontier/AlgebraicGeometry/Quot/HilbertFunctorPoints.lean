@@ -552,7 +552,7 @@ theorem hilbertMorMem_iff {V : BigFppfOver B S hS} (t : T.obj.obj (op V))
     · rw [hilbertChartMap_app_fst, presheafPullbackSection_fst, hq₁]
     · rw [hilbertChartMap_app_snd, presheafPullbackSection_snd, hq₂]
       simp
-  show presheafPullbackSection f.hom (α.app W (ULift.up (T.obj.map s.op t))).toBase x
+  change presheafPullbackSection f.hom (α.app W (ULift.up (T.obj.map s.op t))).toBase x
       (𝟙 W.unop) h ∈ (α.app W (ULift.up (T.obj.map s.op t))).family.Z.obj W ↔ _
   rw [hilbertMor_family_Z_map α t s]
   simp only [Subfunctor.preimage_obj, Set.mem_preimage, hpt]
@@ -710,7 +710,7 @@ theorem hilbertMorBase_toMor (x : SpaceHilbertFamily f T) : hilbertMorBase x.toM
   refine hom_ext_yoneda fun V p ↦ ?_
   apply yonedaEquiv.injective
   rw [yonedaEquiv_comp, yonedaEquiv_comp, hilbertMorBase_hom_app]
-  show yonedaEquiv (yonedaEquiv.symm (yonedaEquiv p) ≫ x.hom.hom) = _
+  change yonedaEquiv (yonedaEquiv.symm (yonedaEquiv p) ≫ x.hom.hom) = _
   rw [yonedaEquiv_comp, Equiv.apply_symm_apply]
 
 /-- **The pair recovered from the transformation of a pair is that pair.** The morphisms to `Y`

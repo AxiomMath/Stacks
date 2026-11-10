@@ -244,7 +244,8 @@ induces from proper pushforward of cycles is
 theorem chowDescend_properCyclePushforward (k : ℤ) :
     chowDescend.{u, v} D sX hX sY hY (properCyclePushforward D sX hX sY hY hpB hp.2.1.2 k) =
       chowGroupProperPushforward.{v} D sX hX sY hY hpB hp k := by
-  rw [chowDescend, dif_pos (respectsRationalEquivalence_properCyclePushforward.{v, u} D sX hX sY
+  rw [chowDescend, dite_eq_left
+    (respectsRationalEquivalence_properCyclePushforward.{v, u} D sX hX sY
     hY hpB hp k)]
   rfl
 

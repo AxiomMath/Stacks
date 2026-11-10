@@ -121,7 +121,7 @@ theorem isClosedImmersion_sigmaMap {I : Type v} [Finite I] {X Y : I → Scheme.{
     IsClosedImmersion (Limits.Sigma.map f) := by
   refine IsZariskiLocalAtTarget.of_openCover (P := @IsClosedImmersion) (sigmaOpenCover Y)
     fun i ↦ ?_
-  show IsClosedImmersion (pullback.snd (Limits.Sigma.map f) (Sigma.ι Y i))
+  change IsClosedImmersion (pullback.snd (Limits.Sigma.map f) (Sigma.ι Y i))
   rw [← MorphismProperty.cancel_left_of_respectsIso @IsClosedImmersion
       (isPullback_sigmaMap f i).isoPullback.hom,
     (isPullback_sigmaMap f i).isoPullback_hom_snd]
@@ -159,7 +159,7 @@ theorem isProjectiveMorphism_sigmaMap {I : Type v} [Finite I] {X Y : I → Schem
       (fun i ↦ IsPullback.of_hasPullback _ _) (coproductIsCoproduct _)
   have : IsClosedImmersion (Limits.Sigma.map c) := isClosedImmersion_sigmaMap c hc
   refine ⟨N, Limits.Sigma.map c ≫ hpb.isoPullback.hom, inferInstance, ?_⟩
-  show (Limits.Sigma.map c ≫ hpb.isoPullback.hom) ≫ pullback.fst _ _ = _
+  change (Limits.Sigma.map c ≫ hpb.isoPullback.hom) ≫ pullback.fst _ _ = _
   rw [Category.assoc, hpb.isoPullback_hom_fst]
   refine Sigma.hom_ext _ _ fun i ↦ ?_
   simp only [Sigma.ι_map_assoc, Sigma.ι_map]

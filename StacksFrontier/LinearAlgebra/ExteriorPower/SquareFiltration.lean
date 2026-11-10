@@ -145,7 +145,7 @@ theorem filtration_eq_span (u : P' →ₗ[A] P) :
   rw [filtration, LinearMap.range_eq_map, ← TensorProduct.span_tmul_eq_top, Submodule.map_span]
   congr 1
   ext y
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_range, Prod.exists]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_range, Prod.exists]
   constructor
   · rintro ⟨_, ⟨a, b, rfl⟩, rfl⟩
     exact ⟨a, b, (wedgeLeft_tmul u a b).symm⟩

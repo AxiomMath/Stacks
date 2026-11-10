@@ -93,7 +93,7 @@ lemma isUnit_mk {T : Type u} [CommRing T] {a : T} (ha : IsUnit a) (x : T) :
   have key : Ext.mk (zeroDatum T) a x * Ext.mk (zeroDatum T) b (-(b * b) * x) = 1 := by
     ext
     · simpa using hb
-    · show a • (-(b * b) * x) + b • x = (0 : T)
+    · change a • (-(b * b) * x) + b • x = (0 : T)
       simp only [smul_eq_mul]
       linear_combination (-(b * x)) * hb
   exact ⟨⟨_, _, key, by rw [mul_comm]; exact key⟩, rfl⟩
@@ -273,7 +273,7 @@ instance isIntegralHom_specMap_algebraMap (R : CommRingCat.{u}) :
 theorem surjective_specMap_algebraMap (R : CommRingCat.{u}) :
     Surjective (Spec.map (CommRingCat.ofHom (algebraMap R (Sq R)))) := by
   rw [surjective_iff]
-  show Function.Surjective (PrimeSpectrum.comap (algebraMap (R : Type u) (Sq R)))
+  change Function.Surjective (PrimeSpectrum.comap (algebraMap (R : Type u) (Sq R)))
   intro P
   obtain ⟨Q, hQ, hQ'⟩ :=
     Ext.exists_isPrime_comap_eq (d := zeroDatum (R : Type u)) P.asIdeal

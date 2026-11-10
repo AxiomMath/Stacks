@@ -91,6 +91,7 @@ instance universallyOpen_isLocalAtTarget_fppf (B : BigFppfSite.{u}) (S : Scheme.
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `HasPullbacks` instance search on presheaves over the big fppf site
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_UniversallyOpenTransfer :

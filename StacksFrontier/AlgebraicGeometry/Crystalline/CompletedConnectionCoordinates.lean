@@ -140,15 +140,14 @@ theorem coordOp_add (j : ι) (m m' : M) :
     coordOp p b hM nabla j (m + m') = coordOp p b hM nabla j m + coordOp p b hM nabla j m' := by
   simp only [coordOp, nabla.map_add, map_add]
 
+omit [Fintype ι] in
 /-- The `j`-th coordinate of `m ⊗ ω` is `(b.repr ω j) • m`. -/
 theorem tensorCoordinate_tmul (j : ι) (m : M) (omega : Omega) :
     tensorCoordinate b j (m ⊗ₜ[D] omega) = b.repr omega j • m := by
-  conv_lhs => rw [← b.sum_repr omega, TensorProduct.tmul_sum]
-  rw [map_sum, Finset.sum_eq_single j]
-  · rw [TensorProduct.tmul_smul, map_smul, tensorCoordinate_tmul_basis_self]
-  · intro i _ hij
-    rw [TensorProduct.tmul_smul, map_smul, tensorCoordinate_tmul_basis_of_ne b hij, smul_zero]
-  · intro h; exact absurd (Finset.mem_univ j) h
+  rw [tensorCoordinate]
+  simp only [LinearMap.comp_apply, LinearEquiv.coe_coe,
+    TensorProduct.equivFinsuppOfBasisRight_apply_tmul, Finsupp.lapply_apply,
+    Finsupp.mapRange_apply]
 
 /-- **The Leibniz rule for the coordinate operators**: `θ_j(a m) = a θ_j(m) + ∂_j(a) m`, with
 `∂_j a` the `j`-th coordinate of `d a`. -/
@@ -185,8 +184,7 @@ theorem coordOp_map (φ : M →ₗ[D] N)
   simp only [coordOp]
   rw [h1, ← completedTensorEquivOfBasis_apply p b hN, LinearEquiv.symm_apply_apply]
   generalize (completedTensorEquivOfBasis p b hM).symm (nabla m) = z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x omega => simp [tensorCoordinate_tmul]
   | add z w hz hw => simp only [map_add, hz, hw]
 

@@ -118,11 +118,11 @@ theorem exists_forall_eq_zero_of_inclusion_eq_zero_of_isEssentiallyConstantWith 
     (localCohomologyMap.{u, v} A T i
         (idealPowerShortComplexMap.{u, v} I M (hmc.trans hck)).τ₁).hom
       ((localCohomologyδ.{u, v} T hSk (i - 1) i hi).hom z) at h1
-  show (localCohomologyMap.{u, v} A T i
+  change (localCohomologyMap.{u, v} A T i
       (idealPowerShortComplexMap.{u, v} I M (hmc.trans hck)).τ₁).hom
     ((localCohomologyδ.{u, v} T hSk (i - 1) i hi).hom z) = 0
   rw [← h1]
-  show (localCohomologyδ.{u, v} T hSm (i - 1) i hi).hom
+  change (localCohomologyδ.{u, v} T hSm (i - 1) i hi).hom
       (((localCohomologyAdicTower.{u, v} A T I (i - 1) M).map
         (homOfLE (hmc.trans hck)).op).hom z) = 0
   rw [← hw]

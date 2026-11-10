@@ -142,9 +142,9 @@ theorem hasFiniteLocalSections_of_forall_integral_surjective_extension
   have : IsOpenImmersion d := hdopen
   refine ⟨A, a, haint, hasurj, fun α hα => ?_⟩
   have hαmem : α ∈ d.opensRange := by
-    show α ∈ Set.range d.base
+    change α ∈ Set.range d.base
     rw [hdrange]
-    show a.base α ∈ Ω
+    change a.base α ∈ Ω
     rw [hα]
     exact hy
   refine ⟨d.opensRange, isAffineOpen_opensRange d, hαmem, d.isoOpensRange.inv, ?_⟩
@@ -260,7 +260,7 @@ theorem hasFiniteLocalSections_of_dense (H : HasFiniteLocalSectionsOfDense.{u}) 
   obtain ⟨y', hy'⟩ : y ∈ Set.range ιY.base := by
     rw [hY'range]; exact subset_closure hy
   have hy'mem : y' ∈ (ιY ⁻¹ᵁ Ω : Y'.Opens) := by
-    show ιY.base y' ∈ Ω
+    change ιY.base y' ∈ Ω
     rw [hy']; exact hy
   have hΩ'aff : IsAffineOpen (ιY ⁻¹ᵁ Ω : Y'.Opens) := hΩ.preimage ιY
   -- The base change of the given morphism to `Ω'`.

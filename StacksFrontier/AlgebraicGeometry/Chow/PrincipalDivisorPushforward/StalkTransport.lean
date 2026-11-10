@@ -180,23 +180,23 @@ theorem dominantFunctionFieldMap_comp {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y 
                     f.stalkMap (genericPoint X)) := by simp only [Category.assoc]
   have hcastMapF (a : Y.functionField) : dominantFunctionFieldMap f a = φf a := by
     rw [hφf]
-    show (hf ▸ f.stalkMap (genericPoint X)).hom a = _
+    change (hf ▸ f.stalkMap (genericPoint X)).hom a = _
     rw [stalkMap_cast_target f (genericPoint X) hf, eqToHom_stalkCongr Y.presheaf hf.symm,
       stalkCongr_inv_hom Y.presheaf hf]
   have hcastMapG (a : Z.functionField) : dominantFunctionFieldMap g a = φg a := by
     rw [hφg]
-    show (hg ▸ g.stalkMap (genericPoint Y)).hom a = _
+    change (hg ▸ g.stalkMap (genericPoint Y)).hom a = _
     rw [stalkMap_cast_target g (genericPoint Y) hg, eqToHom_stalkCongr Z.presheaf hg.symm,
       stalkCongr_inv_hom Z.presheaf hg]
   have hcastMapFG (a : Z.functionField) : dominantFunctionFieldMap (f ≫ g) a = φfg a := by
     rw [hφfg]
-    show (hfg ▸ (f ≫ g).stalkMap (genericPoint X)).hom a = _
+    change (hfg ▸ (f ≫ g).stalkMap (genericPoint X)).hom a = _
     rw [stalkMap_cast_target (f ≫ g) (genericPoint X) hfg, stalkCongr_eq_eqToHom hfg.symm]
   ext a
   calc dominantFunctionFieldMap (f ≫ g) a = φfg a := hcastMapFG a
     _ = (φf.comp φg) a := DFunLike.congr_fun hφ a
     _ = (dominantFunctionFieldMap f).comp (dominantFunctionFieldMap g) a := by
-        show φf (φg a) = dominantFunctionFieldMap f (dominantFunctionFieldMap g a)
+        change φf (φg a) = dominantFunctionFieldMap f (dominantFunctionFieldMap g a)
         rw [← hcastMapG a, ← hcastMapF (dominantFunctionFieldMap g a)]
 
 /-! ### Morphisms that are isomorphisms on local rings -/
@@ -250,9 +250,9 @@ theorem residueDegree_comp_of_bijective_residueFieldMap {X Y Z : Scheme.{u}} (f 
   refine (Algebra.finrank_eq_of_equiv_equiv e₁.symm (RingEquiv.refl (X.residueField x)) ?_).symm
   have hcomp := congrArg CommRingCat.Hom.hom (Scheme.residueFieldMap_comp f j x)
   ext a
-  show ((f ≫ j).residueFieldMap x).hom (e₁.symm a) = (f.residueFieldMap x).hom a
+  change ((f ≫ j).residueFieldMap x).hom (e₁.symm a) = (f.residueFieldMap x).hom a
   rw [hcomp]
-  show (f.residueFieldMap x).hom ((j.residueFieldMap (f.base x)).hom (e₁.symm a)) =
+  change (f.residueFieldMap x).hom ((j.residueFieldMap (f.base x)).hom (e₁.symm a)) =
     (f.residueFieldMap x).hom a
   congr 1
   exact e₁.apply_symm_apply a
@@ -278,7 +278,7 @@ theorem residueDegree_of_bijective_residueFieldMap_comp {X' X Y : Scheme.{u}} (i
     (RingEquiv.refl (Y.residueField (f.base (i.base x)))) e ?_).symm
   have hcomp := congrArg CommRingCat.Hom.hom (Scheme.residueFieldMap_comp i f x)
   ext a
-  show ((i ≫ f).residueFieldMap x).hom a = e ((f.residueFieldMap (i.base x)).hom a)
+  change ((i ≫ f).residueFieldMap x).hom a = e ((f.residueFieldMap (i.base x)).hom a)
   rw [hcomp]
   rfl
 
@@ -309,7 +309,7 @@ theorem ord_congr {R S : Type u} [CommRing R] [IsDomain R] [CommRing S] [IsDomai
   rw [Ring.ord, Ring.ord, Module.length_quotient, Module.length_quotient]
   have he : E (Ideal.span {e x}) = Ideal.span {x} := by
     ext a
-    show e a ∈ Ideal.span {e x} ↔ a ∈ Ideal.span {x}
+    change e a ∈ Ideal.span {e x} ↔ a ∈ Ideal.span {x}
     rw [Ideal.mem_span_singleton, Ideal.mem_span_singleton]
     refine ⟨fun ⟨b, hb⟩ ↦ ⟨e.symm b, e.injective (by simpa using hb)⟩, ?_⟩
     rintro ⟨b, rfl⟩
@@ -373,7 +373,7 @@ theorem ord_dominantFunctionFieldMap_of_isIso_stalkMap {X Y : Scheme.{u}} (i : Y
   have hη : i.base (genericPoint Y) = genericPoint X :=
     ((tfae_isDominant_of_isIntegral i).out 1 2).mp (inferInstance : IsDominant i)
   set E := functionFieldEquiv_of_isIso_stalkMap i hgeniso
-  show Y.ord (E f) y = X.ord f (i.base y)
+  change Y.ord (E f) y = X.ord f (i.base y)
   set e : X.presheaf.stalk (i.base y) ≃+* Y.presheaf.stalk y :=
     (asIso (i.stalkMap y)).commRingCatIsoToRingEquiv
   have hgen := (genericPoint_spec Y).specializes (Set.mem_univ y)
@@ -384,14 +384,14 @@ theorem ord_dominantFunctionFieldMap_of_isIso_stalkMap {X Y : Scheme.{u}} (i : Y
       dominantFunctionFieldMap i a =
         (i.stalkMap (genericPoint Y)).hom
           ((eqToHom (congrArg X.presheaf.stalk hη.symm)).hom a) := by
-    show (hη ▸ i.stalkMap (genericPoint Y)).hom a = _
+    change (hη ▸ i.stalkMap (genericPoint Y)).hom a = _
     rw [stalkMap_cast_target i (genericPoint Y) hη, eqToHom_stalkCongr X.presheaf hη.symm,
       stalkCongr_inv_hom X.presheaf hη]
     rfl
   have hfield (a : X.presheaf.stalk (i.base y)) :
       E (algebraMap (X.presheaf.stalk (i.base y)) X.functionField a) =
         algebraMap (Y.presheaf.stalk y) Y.functionField (e a) := by
-    show dominantFunctionFieldMap i ((X.presheaf.stalkSpecializes hgenX).hom a) =
+    change dominantFunctionFieldMap i ((X.presheaf.stalkSpecializes hgenX).hom a) =
       (Y.presheaf.stalkSpecializes hgen).hom ((i.stalkMap y).hom a)
     have hmap := i.base.hom.map_specializes hgen
     have hstalkHom :

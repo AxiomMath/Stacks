@@ -243,7 +243,6 @@ inclusion of `P` and once to its composite with `pr_X`, transports the vanishing
 @[stacks 0867 "part (2), with no assumed inputs"]
 theorem strictTransformSheaf_preimage_sumClosedSubspaces
     (Z D : ClosedSubspaces B S hS 𝔅.1)
-    (hD : IsEffectiveCartierDivisor B S hS 𝔅 D)
     {b : B' ⟶ 𝔅} (hb : IsBlowupAlong B S hS Z b) (f : X ⟶ 𝔅)
     (F : Modules.{u, u} B S hS X.1 X.2)
     (hF : HasNoSectionsSupportedIn B S hS X

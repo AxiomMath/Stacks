@@ -52,20 +52,20 @@ public def uliftCompEtaleStalkPresheafFunctorIso :
         etaleStalkPresheafFunctor B S hS s (Type max u w) ≅
       etaleStalkPresheafFunctor B S hS s (Type u) ⋙ uliftFunctor.{w} :=
   Functor.isoWhiskerLeft ((Functor.whiskeringLeft _ _ _).obj
-    (CategoryOfElements.π (geometricPointFiber B S hS s)).op)
+    (Functor.Elements.π (geometricPointFiber B S hS s)).op)
     (preservesColimitNatIso uliftFunctor.{w}).symm
 
 /-- The comparison on germs: the germ of `⟨σ⟩` goes to `⟨germ of σ⟩`. -/
 @[reassoc]
 public theorem ι_uliftCompEtaleStalkPresheafFunctorIso_hom
     (P : (SmallEtale B S hS)ᵒᵖ ⥤ Type u) (U : (geometricPointFiber B S hS s).Elementsᵒᵖ) :
-    colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+    colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
           P ⋙ uliftFunctor.{w}) U ≫
         (uliftCompEtaleStalkPresheafFunctorIso.{w} B S hS s).hom.app P =
       uliftFunctor.{w}.map
-        (colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ P) U) :=
+        (colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ P) U) :=
   ι_preservesColimitIso_inv uliftFunctor.{w}
-    ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ P) U
+    ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ P) U
 
 end ULift
 
@@ -83,7 +83,7 @@ public theorem geometricPointStalkMap_uliftCompEtaleStalkPresheafFunctorIso
         uliftFunctor.{w}.map ((geometricPointStalkMap B S hS a (Type u)).app P) := by
   refine colimit.hom_ext fun U => ?_
   dsimp only [geometricPointStalkMap]
-  refine (colimit.ι_pre_assoc ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+  refine (colimit.ι_pre_assoc ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
     P ⋙ uliftFunctor.{w}) (neighborhoodFunctor B S hS a).op U _).trans ?_
   refine (ι_uliftCompEtaleStalkPresheafFunctorIso_hom.{w} B S hS s P _).trans ?_
   refine Eq.trans ?_ (Category.assoc _ _ _)
@@ -102,7 +102,7 @@ public theorem geometricPointStalkMap_yonedaCompEtaleStalkPresheafFunctorIso
         (geometricPointFiberMap B S hS a).app X := by
   refine colimit.hom_ext fun U => ?_
   dsimp only [geometricPointStalkMap]
-  refine (colimit.ι_pre_assoc ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+  refine (colimit.ι_pre_assoc ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
     yoneda.obj X) (neighborhoodFunctor B S hS a).op U _).trans ?_
   refine (colimit_ι_comp_yonedaCompEtaleStalkPresheafFunctorIso_hom B S hS s X _).trans ?_
   refine Eq.trans ?_ (congrArg (· ≫ (geometricPointFiberMap B S hS a).app X)
@@ -141,7 +141,7 @@ public theorem geometricPointStalkMap_sheafifiedYonedaStalkIso (a : GeometricPoi
   have h3 := congrArg uliftFunctor.{u + 1}.map
     (geometricPointStalkMap_yonedaCompEtaleStalkPresheafFunctorIso B S hS a X)
   simp only [Functor.map_comp] at h3
-  show _ ≫ (A s ≫ (uliftCompEtaleStalkPresheafFunctorIso.{u + 1} B S hS s).hom.app
+  change _ ≫ (A s ≫ (uliftCompEtaleStalkPresheafFunctorIso.{u + 1} B S hS s).hom.app
       (yoneda.obj X) ≫ uliftFunctor.{u + 1}.map
         ((yonedaCompEtaleStalkPresheafFunctorIso B S hS s).hom.app X)) =
     (A t ≫ (uliftCompEtaleStalkPresheafFunctorIso.{u + 1} B S hS t).hom.app
@@ -190,9 +190,9 @@ public theorem map_pre_preservesColimitIso_hom {J K : Type*} [Category* J] [Cate
 public theorem geometricPointStalkMap_preservesColimitIso (a : GeometricPoint.Hom s t)
     (P : (SmallEtale B S hS)ᵒᵖ ⥤ A) :
     R.map ((geometricPointStalkMap B S hS a A).app P) ≫
-        (preservesColimitIso R ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+        (preservesColimitIso R ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
           P)).hom =
-      (preservesColimitIso R ((CategoryOfElements.π (geometricPointFiber B S hS t)).op ⋙
+      (preservesColimitIso R ((Functor.Elements.π (geometricPointFiber B S hS t)).op ⋙
           P)).hom ≫ (geometricPointStalkMap B S hS a A').app (P ⋙ R) :=
   map_pre_preservesColimitIso_hom R _ (neighborhoodFunctor B S hS a).op
 
@@ -252,7 +252,7 @@ public theorem geometricPointStalkMap_finiteEtaleStalkIso {s t : GeometricPoint 
         uliftFunctor.{u + 1}.map ((finiteEtaleFiberMap a).app Y) := by
   have h := geometricPointStalkMap_sheafifiedYonedaStalkIso B X.1 X.2 a
     ((finiteEtaleSiteEquivalence B X).inverse.obj Y).1
-  show _ ≫ ((sheafifiedYonedaStalkIso B X.1 X.2 s).hom.app _ ≫ 𝟙 _ ≫
+  change _ ≫ ((sheafifiedYonedaStalkIso B X.1 X.2 s).hom.app _ ≫ 𝟙 _ ≫
       uliftFunctor.{u + 1}.map ((finiteEtaleFiberFunctor s).map
         ((finiteEtaleSiteEquivalence B X).counitIso.hom.app Y))) =
     ((sheafifiedYonedaStalkIso B X.1 X.2 t).hom.app _ ≫ 𝟙 _ ≫
@@ -292,7 +292,7 @@ public theorem geometricPointStalkMap_finiteLocallyConstantStalkIso {s t : Geome
     ((finiteLocallyConstantFiniteEtaleEquivalence B X).functor.obj G)
   have hn := (geometricPointStalkMap B X.1 X.2 a (Type (u + 1))).naturality
     ((finiteLocallyConstantFiniteEtaleEquivalence B X).unitIso.hom.app G).hom.hom
-  show _ ≫ (etaleStalkPresheafFunctor B X.1 X.2 s (Type (u + 1))).map
+  change _ ≫ (etaleStalkPresheafFunctor B X.1 X.2 s (Type (u + 1))).map
       ((finiteLocallyConstantFiniteEtaleEquivalence B X).unitIso.hom.app G).hom.hom ≫ _ =
     ((etaleStalkPresheafFunctor B X.1 X.2 t (Type (u + 1))).map
       ((finiteLocallyConstantFiniteEtaleEquivalence B X).unitIso.hom.app G).hom.hom ≫ _) ≫ _

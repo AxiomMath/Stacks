@@ -228,7 +228,7 @@ theorem unitToPushforwardUnit_sectionScalar_one (r : Γ(Y₂, ⊤)) :
           (1 : ↑(Y₁.presheaf.obj (op ⊤)))) =
       (show Γ((Scheme.Modules.pushforward a).obj (Scheme.unitModule Y₂), ⊤) from
           (Y₂.presheaf.map (a ⁻¹ᵁ ⊤).leTop.op).hom r) := by
-  show (Y₂.presheaf.map (a ⁻¹ᵁ ⊤).leTop.op).hom r * (a.app ⊤).hom 1 = _
+  change (Y₂.presheaf.map (a ⁻¹ᵁ ⊤).leTop.op).hom r * (a.app ⊤).hom 1 = _
   rw [map_one, mul_one]
 
 /-- **Tensoring with the pullback of a global function, followed by the projection formula, is
@@ -313,14 +313,14 @@ theorem rightDerivedPlus_pushforward_map_sectionScalar_appTop {X Y : Scheme.{u}}
 /-- Multiplication by a global function, on global sections. -/
 theorem sectionScalar_app_top {X : Scheme.{u}} (r : Γ(X, ⊤)) (M : X.Modules) (x : Γ(M, ⊤)) :
     Scheme.Modules.Hom.app (sectionScalar X r M) ⊤ x = r • x := by
-  show (X.presheaf.map (⊤ : X.Opens).leTop.op).hom r • x = r • x
+  change (X.presheaf.map (⊤ : X.Opens).leTop.op).hom r • x = r • x
   rw [show (⊤ : X.Opens).leTop = 𝟙 _ from rfl, op_id, CategoryTheory.Functor.map_id]
   rfl
 
 /-- Restricting a global section to the top open does nothing. -/
 theorem globalRestrict_top {X : Scheme.{u}} (G : X.Modules) (s : Γ(G, ⊤)) :
     globalRestrict G s ⊤ = s := by
-  show G.presheaf.map (homOfLE le_top).op s = s
+  change G.presheaf.map (homOfLE le_top).op s = s
   rw [show (homOfLE le_top : (⊤ : X.Opens) ⟶ ⊤) = 𝟙 _ from rfl, op_id,
     CategoryTheory.Functor.map_id]
   rfl

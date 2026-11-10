@@ -74,7 +74,7 @@ theorem CategoryTheory.Over.isIso_forgetAdjStar_unit_of_subsingleton {C : Type*}
   have : IsIso ((Over.forget U).map ((Over.forgetAdjStar U).unit.app W)) := by
     rw [Over.forget_map, Over.forgetAdjStar_unit_app_left]
     refine ⟨(prod.snd : U ⨯ W.left ⟶ W.left), prod.lift_snd _ _, ?_⟩
-    show prod.snd ≫ prod.lift W.hom (𝟙 W.left) = 𝟙 (U ⨯ W.left)
+    change prod.snd ≫ prod.lift W.hom (𝟙 W.left) = 𝟙 (U ⨯ W.left)
     exact prod.hom_ext (Subsingleton.elim _ _) (by simp)
   exact isIso_of_reflects_iso _ (Over.forget U)
 

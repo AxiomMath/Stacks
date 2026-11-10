@@ -233,6 +233,7 @@ def directImageTwist (G : EtaleModules.{u, 0} Λ V)
   (etaleModuleDirectImage.{u, 0} Λ f).map ε ≫
     (etaleModuleDirectImageComp.{u, 0} Λ a f f ha.symm).hom.app G
 
+omit [Mono j'] in
 /-- **`Stacks.EtaleCohomology.restrictionTwist` is natural** in the pair `(G₀, ε₀)`. -/
 lemma restrictionTwist_naturality {G₀ G₀' : EtaleModules.{u, 0} Λ Vb}
     (ε₀ : G₀ ⟶ (etaleModuleDirectImage.{u, 0} Λ σ).obj G₀)

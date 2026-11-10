@@ -61,7 +61,7 @@ theorem homEquiv_baseChangeIdealMapOnBase_comp (h' : S₂ ⟶ S₁) (comm : t₂
   simp only [baseChangeIdealMapOnBase, eqToHom_refl, Category.id_comp, Category.assoc,
     modulePushforwardComp_hom_app]
   refine l2.symm.trans ?_
-  show (modulePullbackPushforwardAdjunction h').homEquiv _ _
+  change (modulePullbackPushforwardAdjunction h').homEquiv _ _
     ((modulePullbackPushforwardAdjunction t₂).homEquiv _ _
       ((modulePullback t₂).map (baseIdealSheafMap h' rfl) ≫ φ)) = _
   rw [Adjunction.homEquiv_naturality_left, Adjunction.homEquiv_naturality_right]
@@ -120,7 +120,7 @@ theorem coordIdealSheafIso_hom_app_top
     ((kernelComparison f F).hom x)
   have h2 := congrArg (fun m => m.hom x) (kernelComparison_comp_ι f F)
   simp only [ModuleCat.hom_comp, LinearMap.coe_comp] at h2
-  show (kerTopLinearEquiv V) ((ModuleCat.kernelIsoKer (F.map f)).hom.hom
+  change (kerTopLinearEquiv V) ((ModuleCat.kernelIsoKer (F.map f)).hom.hom
     ((kernelComparison f F).hom x)) = _
   exact congrArg (fun y => (tilde.toOpen (R := CommRingCat.of k) V.obj ⊤).hom (TrivSqZeroExt.snd
     ((Scheme.ΓSpecIso (CommRingCat.of (coordBase (Λ := Λ) V))).hom.hom y))) (h1.trans h2)
@@ -203,7 +203,7 @@ theorem baseChangeIdealMap_coordPulledIdealIso (X : Over (Spec (CommRingCat.of k
         (coordPulledIdealIso (Λ := Λ) W X).hom =
       (coordPulledIdealIso (Λ := Λ) V X).hom ≫ (coefficientSheafFunctor X.hom).map g := by
   have e2 := (Stacks.ProjectiveBundleQuotients.pullbackIso X.hom).inv.naturality (tildeCoeffMap g)
-  show (modulePullback X.hom.toLRSHom.toShHom).map (baseChangeIdealMapOnBase _
+  change (modulePullback X.hom.toLRSHom.toShHom).map (baseChangeIdealMapOnBase _
       (residueSpecMap_toShHom_comp_baseSpecMap
         ((squareZeroExtensionArtinian.{u, u, u} Λ k).map g))) ≫
       (modulePullback X.hom.toLRSHom.toShHom).map (coordConormalIso (Λ := Λ) W).hom ≫

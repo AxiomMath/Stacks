@@ -61,8 +61,7 @@ private lemma smulOfTensor_tmul (i : I) (x : X) : smulOfTensor I (i ⊗ₜ x) = 
 private lemma range_smulOfTensor : LinearMap.range (smulOfTensor I (X := X)) = I • ⊤ := by
   apply le_antisymm
   · rintro _ ⟨y, rfl⟩
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul i x => exact smulOfTensor_tmul I i x ▸ Submodule.smul_mem_smul i.2 Submodule.mem_top
     | add a b ha hb => simpa using Submodule.add_mem _ ha hb
   · rw [Submodule.smul_le]
@@ -80,8 +79,7 @@ private lemma injective_smulOfTensor [Module.Flat R X] :
 /-- The action map is natural in the module. -/
 private lemma smulOfTensor_lTensor (f : X →ₗ[R] Y) (y : I ⊗[R] X) :
     smulOfTensor I (LinearMap.lTensor (↥I) f y) = f (smulOfTensor I y) := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul i x => simp [smulOfTensor_tmul]
   | add a b ha hb => simp [ha, hb]
 

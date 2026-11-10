@@ -69,7 +69,7 @@ theorem toSheafify_comp_sheafEquivSheafificationCompatibility_hom_app (P : Dᵒ�
     have := IsDenseSubsite.isCoverDense J K G
     rw [← Adjunction.homEquiv_id, sheafifyAdjunctionOfIsEquivalence,
       Adjunction.mkOfHomEquiv_homEquiv]
-    show Functor.whiskerLeft G.op (IsCoverDense.restrictHomEquivHom
+    change Functor.whiskerLeft G.op (IsCoverDense.restrictHomEquivHom
       (((sheafificationAdjunction J A).homEquiv _ _)
         (((G.sheafPushforwardContinuous A J K).asEquivalence.symm.toAdjunction.homEquiv _ _)
           (𝟙 _)))) = _
@@ -110,7 +110,7 @@ theorem toSheafify_comp_constantSheafCompSheafPushforwardContinuousIso_inv_app (
       ((presheafToSheaf J A).map n ≫ 𝟙 _) ≫
         (sheafEquivSheafificationCompatibility J K G A).hom.app ((Functor.const Dᵒᵖ).obj M) := rfl
   rw [hι, Category.comp_id]
-  show toSheafify J _ ≫ sheafifyMap J n ≫ _ = _
+  change toSheafify J _ ≫ sheafifyMap J n ≫ _ = _
   refine ((Category.assoc _ _ _).symm.trans
     (congrArg (· ≫ _) (toSheafify_naturality J n).symm)).trans ?_
   refine (Category.assoc _ _ _).trans ((congrArg (n ≫ ·)
@@ -191,7 +191,7 @@ theorem toSheafify_comp_constantSheafGlobalSectionsAdj_homEquiv_symm_app
     have hx : x = ((sheafificationAdjunction (SpacesEtale.topology B S hS Z)
         CommRingCat.{u}).homEquiv _ _).symm (((constantPresheafAdj CommRingCat.{u}
           (SpacesEtale.isTerminal_idObj B S hS Z)).homEquiv _ _).symm g) := by
-      show ((((constantPresheafAdj CommRingCat.{u} (SpacesEtale.isTerminal_idObj B S hS Z)).comp
+      change ((((constantPresheafAdj CommRingCat.{u} (SpacesEtale.isTerminal_idObj B S hS Z)).comp
         (sheafificationAdjunction (SpacesEtale.topology B S hS Z) CommRingCat.{u})).homEquiv
           _ _).symm g) = _
       rw [Adjunction.comp_homEquiv]
@@ -471,7 +471,7 @@ theorem globalStructureMap_comp_res (U : SmallEtale B (Spec (CommRingCat.of Λ))
   refine (congrArg Q (ConcreteCategory.congr_hom hN (specGlobalStructureMap Λ B hS a))).trans ?_
   refine (congrArg (fun y => Q (p.fSharp.hom.app (op d.V) y))
     (ConcreteCategory.congr_hom hA a)).trans (hC.trans ?_)
-  show Scheme.Γ.map ((BigFppfOver.toScheme B (Spec (CommRingCat.of Λ)) hS).map d.g).op
+  change Scheme.Γ.map ((BigFppfOver.toScheme B (Spec (CommRingCat.of Λ)) hS).map d.g).op
     (Scheme.Γ.map (openPartToBase Λ B hS (specSpace Λ B hS).1 d.V).op
       ((Scheme.ΓSpecIso (CommRingCat.of Λ)).inv a)) =
     Scheme.Γ.map (openPartToBase Λ B hS X.1 U).op ((Scheme.ΓSpecIso (CommRingCat.of Λ)).inv a)

@@ -722,7 +722,8 @@ theorem mem_smul_liftedGrading_of_reduction_eq_zero
   have hcoeff : ∀ m, (u - ∑ j, ĝ j * R j).coeff m ∈
       RingHom.ker (algebraMap A k) := by
     intro m
-    rw [RingHom.mem_ker, ← MvPolynomial.coeff_map, hdiff, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
+    rw [RingHom.mem_ker, ← MvPolynomial.coeff_map, hdiff, AddMonoidAlgebra.coeff_zero,
+      Finsupp.zero_apply]
   have hsmall : u - ∑ j, ĝ j * R j ∈
       RingHom.ker (algebraMap A k) • (⊤ : Submodule A (MvPolynomial ι A)) :=
     MvPolynomial.mem_smul_top_of_coeff_mem _ hcoeff
@@ -930,8 +931,7 @@ theorem exists_mem_smul_aeval_eq_pair
         MvPolynomial.weightedHomogeneousSubmodule A pres.varDegree d,
       aeval yl c = kerElement hret hsq hbc d ζ ∧
         aeval yl' c = kerElement hret hsq hbc' d ζ := by
-  induction ζ using TensorProduct.induction_on with
-  | zero => exact ⟨0, zero_mem _, by simp, by simp⟩
+  induction ζ using TensorProduct.inductionOn with
   | tmul a p =>
       obtain ⟨v, hvhom, hv⟩ := exists_isWeightedHomogeneous_reduction_aeval_eq pres hsmul
         hret hy p.2

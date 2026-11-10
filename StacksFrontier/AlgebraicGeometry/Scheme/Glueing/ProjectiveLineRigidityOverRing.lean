@@ -146,7 +146,7 @@ theorem range_affineLineOriginHom :
   have h := range_comap_of_surjective (S := R) (Polynomial.evalRingHom (0 : R))
     (fun r ↦ ⟨C r, by simp⟩)
   rw [Polynomial.ker_evalRingHom, map_zero, sub_zero] at h
-  show Set.range (PrimeSpectrum.comap (Polynomial.evalRingHom (0 : R))) = _
+  change Set.range (PrimeSpectrum.comap (Polynomial.evalRingHom (0 : R))) = _
   rw [h, PrimeSpectrum.zeroLocus_span]
   ext y
   simp [PrimeSpectrum.mem_zeroLocus]
@@ -192,7 +192,7 @@ theorem range_projectiveLineXChart_eq_compl :
     rcases i with ⟨_ | _⟩
     · exact ⟨y, rfl⟩
     · let y' : Spec (.of R[X]) := y
-      show (projectiveLineYChart R).base y' ∈ _
+      change (projectiveLineYChart R).base y' ∈ _
       rw [projectiveLineYChart_mem_range_XChart_iff]
       intro hX
       obtain ⟨s, hs⟩ := (range_affineLineOriginHom R).ge hX
@@ -220,7 +220,7 @@ theorem range_projectiveLineYChart_eq_compl :
     obtain ⟨i, y, rfl⟩ := (projectiveLineGluingData R).ι_jointly_surjective z
     rcases i with ⟨_ | _⟩
     · let y' : Spec (.of R[X]) := y
-      show (projectiveLineXChart R).base y' ∈ _
+      change (projectiveLineXChart R).base y' ∈ _
       rw [projectiveLineXChart_mem_range_YChart_iff]
       intro hX
       obtain ⟨s, hs⟩ := (range_affineLineOriginHom R).ge hX

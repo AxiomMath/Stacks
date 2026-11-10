@@ -80,7 +80,8 @@ reading from the same ingredients rather than deriving it.
 recorded in `StacksFrontier.AlgebraicGeometry.Stacks.SeparatedDiagonalTFAE`: it reads a relative
 diagonal as a base change along the absolute diagonal of a product, which is a different cospan.
 The square used is the relative one of
-`StacksFrontier.AlgebraicGeometry.Stacks.DiagonalBaseChangeSquare`, with the order of its two factors
+`StacksFrontier.AlgebraicGeometry.Stacks.DiagonalBaseChangeSquare`, with the order of its two
+factors
 corrected by the swap.
 
 **Parts (1), (3) and (4) of Stacks 04Z0 are not proved here and their keys are not claimed.**

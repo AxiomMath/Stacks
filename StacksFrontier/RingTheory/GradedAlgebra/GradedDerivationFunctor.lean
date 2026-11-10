@@ -236,14 +236,12 @@ theorem trivSqZeroExtTensorSnd_mul (q q' : TrivSqZeroExt k V ⊗[k] P) :
     trivSqZeroExtTensorSnd k P V (q * q') =
       trivSqZeroExtTensorFst k P V q • trivSqZeroExtTensorSnd k P V q' +
         trivSqZeroExtTensorFst k P V q' • trivSqZeroExtTensorSnd k P V q := by
-  induction q using TensorProduct.induction_on with
-  | zero => simp
+  induction q using TensorProduct.inductionOn with
   | add a b ha hb =>
     simp only [add_mul, map_add, ha, hb, add_smul, smul_add]
     abel
   | tmul r p =>
-    induction q' using TensorProduct.induction_on with
-    | zero => simp
+    induction q' using TensorProduct.inductionOn with
     | add a b ha hb =>
       simp only [mul_add, map_add, ha, hb, add_smul, smul_add]
       abel
@@ -260,8 +258,7 @@ theorem trivSqZeroExtTensor_eq_add (q : TrivSqZeroExt k V ⊗[k] P) :
     (1 : TrivSqZeroExt k V) ⊗ₜ trivSqZeroExtTensorFst k P V q +
         TensorProduct.map (TrivSqZeroExt.inrHom k V) (LinearMap.id : P →ₗ[k] P)
           (TensorProduct.comm k P V (trivSqZeroExtTensorSnd k P V q)) = q := by
-  induction q using TensorProduct.induction_on with
-  | zero => simp
+  induction q using TensorProduct.inductionOn with
   | add a b ha hb =>
     rw [map_add, map_add, map_add, map_add, tmul_add, add_add_add_comm, ha, hb]
   | tmul r p =>
@@ -285,8 +282,7 @@ theorem trivSqZeroExtTensorSnd_mem_range (d : ℕ) {q : TrivSqZeroExt k V ⊗[k]
     trivSqZeroExtTensorSnd k P V q ∈
       LinearMap.range (TensorProduct.map (grading d).subtype (LinearMap.id : V →ₗ[k] V)) := by
   obtain ⟨z, rfl⟩ := hq
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul r x => exact ⟨x ⊗ₜ r.snd, rfl⟩
   | add a b ha hb =>
     rw [map_add, map_add]
@@ -310,8 +306,7 @@ theorem trivSqZeroExtTensorSnd_trivSqZeroExtTensorMap (f : V →ₗ[k] W)
     (q : TrivSqZeroExt k V ⊗[k] P) :
     trivSqZeroExtTensorSnd k P W (trivSqZeroExtTensorMap P f q) =
       f.lTensor P (trivSqZeroExtTensorSnd k P V q) := by
-  induction q using TensorProduct.induction_on with
-  | zero => simp
+  induction q using TensorProduct.inductionOn with
   | tmul r p => simp
   | add a b ha hb => simp only [map_add, ha, hb]
 

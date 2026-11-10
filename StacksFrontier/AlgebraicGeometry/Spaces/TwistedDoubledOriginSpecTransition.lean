@@ -137,7 +137,7 @@ variable [FiniteDimensional k K] [IsGalois k K]
 theorem specGaloisAction_involutive (hdegree : Module.finrank k K = 2) (σ : K ≃ₐ[k] K) :
     specGaloisAction k K σ ≫ specGaloisAction k K σ = 𝟙 (Spec (.of K)) := by
   have hσsq : σ.trans σ = 1 := by
-    show σ * σ = 1
+    change σ * σ = 1
     simpa only [IsGalois.card_aut_eq_finrank, hdegree, pow_two] using
       (pow_card_eq_one' (x := σ))
   have hσring : (σ : K →+* K).comp (σ : K →+* K) = RingHom.id K :=

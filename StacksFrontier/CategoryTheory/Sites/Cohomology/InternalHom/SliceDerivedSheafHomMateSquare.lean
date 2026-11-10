@@ -208,7 +208,8 @@ that comparison tensored with `L|_U`, followed by the evaluation morphism formed
 This is
 `Stacks.Cohomology.SliceDerivedSheafHom.derivedSheafHomRestrictionTranspose_eq_iso_iff` with the
 tensor–internal-hom bijection of Stacks 08J8 eliminated from the right-hand side: the same
-assertion, with nothing in it but constructed morphisms of `D(O|_U)` and composition. Neither side is
+assertion, with nothing in it but constructed morphisms of `D(O|_U)` and composition. Neither side
+is
 proved — the square is exactly the 2-cell identity missing from this development, and nothing
 here asserts it. -/
 theorem derivedSheafHomRestrictionTranspose_eq_iso_iff_square :

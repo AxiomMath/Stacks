@@ -96,7 +96,7 @@ theorem finrank_globalSections_eq_finrank_eval_of_isInitial {A : Type*} [Field A
         sectionsEquivEvalOfIsInitial O M X hX) with
       map_add' := fun _ _ => rfl
       map_smul' := fun a s => by
-        show (ρ a • s).eval X = σ a • s.eval X
+        change (ρ a • s).eval X = σ a • s.eval X
         rw [← hρσ]
         rfl }
   exact e.finrank_eq
@@ -264,7 +264,7 @@ theorem h0FibreAlgebraMap_val (c : p.carrier) :
       (idEtaleChart B S hS p.siteObject)).hom =
       ((SmallEtale.inclusion B S hS (h0Fibre B S hS f p).obj).obj W.unop).hom ≫
         (h0FibreProj B S hS f p).hom := by
-    show yoneda.map ψ ≫ 𝟙 _ = _
+    change yoneda.map ψ ≫ 𝟙 _ = _
     rw [Category.comp_id]
     exact Functor.FullyFaithful.map_preimage _ _
   have hs : ((globalFunctionsYonedaRingEquiv B S hS p.siteObject).symm a).val
@@ -288,7 +288,7 @@ theorem h0FibreAlgebraMap_eq_pullbackToGlobalFunctions :
       yoneda.map_injective ((Functor.FullyFaithful.map_preimage _ _).trans
         (Functor.map_preimage _ _).symm)
     refine Eq.trans ?_ (pullbackToGlobalFunctions_apply_chart B S hS _ _ _ W.unop _).symm
-    show (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (chartToScheme B S hS
+    change (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (chartToScheme B S hS
       (h0Fibre B S hS f p).obj (pullback.snd f.hom (schemeSpaceMap p.value).hom) W.unop)).op).hom
         _ = _
     rw [hc]
@@ -323,7 +323,7 @@ theorem moduleFinite_h0Fibre (hf : IsProper B S hS f.hom) :
   have : IsScalarTower p.carrier Γ((BigFppfOver.toScheme B S hS).obj p.siteObject, ⊤)
       (globalFunctions' B S hS (h0Fibre B S hS f p).obj) := by
     refine ⟨fun c r m => ?_⟩
-    show pullbackToGlobalFunctions B S hS (h0Fibre B S hS f p) p.siteObject
+    change pullbackToGlobalFunctions B S hS (h0Fibre B S hS f p) p.siteObject
         (h0FibreProj B S hS f p) (ψ c * r) * m =
       h0FibreAlgebraMap B S hS f p c * (pullbackToGlobalFunctions B S hS (h0Fibre B S hS f p)
         p.siteObject (h0FibreProj B S hS f p) r * m)
@@ -369,7 +369,7 @@ theorem h0FibreRank_eq_derivedFibreBettiAt (hf : IsProper B S hS f.hom)
       globalFunctions' B S hS (h0Fibre B S hS f p).obj :=
     { τ.toAddEquiv with
       map_smul' := fun c x => by
-        show τ (ρ c * x) = h0FibreAlgebraMap B S hS f p c * τ x
+        change τ (ρ c * x) = h0FibreAlgebraMap B S hS f p c * τ x
         rw [map_mul, hτ] }
   exact L.finrank_eq.symm
 
@@ -399,10 +399,10 @@ theorem exists_upperSemicontinuous_h0FibreRank (hf : IsProper B S hS f.hom)
     exact lt_of_le_of_lt (Nat.cast_le.mpr (Nat.lt_succ_iff.mp hy')) hn
   · have hq : e.symm (schemePoint B S hS U q) = q.class B S hS (yoneda.obj U) :=
       e.symm_apply_eq.2 (pointsToScheme_class B S hS U q).symm
-    show _ = ((β (e.symm (schemePoint B S hS U q)) : ℕ) : ℕ∞)
+    change _ = ((β (e.symm (schemePoint B S hS U q)) : ℕ) : ℕ∞)
     rw [hq, h0FibreRank_eq_derivedFibreBettiAt f q hf hfl hfp]
     congr 1
-    show _ = geometricFibreBettiFunction B S hS E 0 (q.class B S hS (schemeSpace U).1)
+    change _ = geometricFibreBettiFunction B S hS E 0 (q.class B S hS (schemeSpace U).1)
     rw [geometricFibreBettiFunction_eq_derivedFibreBetti B S hS E hEpc 0]
     exact (derivedFibreBetti_class B S hS (schemeSpace U) E
       (derivedCategoryB_of_isPerfect B S hS _ E hE) 0 q).symm

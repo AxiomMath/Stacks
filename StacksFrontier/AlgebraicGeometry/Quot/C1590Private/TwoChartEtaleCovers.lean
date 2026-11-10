@@ -85,7 +85,7 @@ theorem exists_powSections_pullback {Y Z : Scheme.{u}} (i : Y ⟶ Z) (L : Z.Modu
     Stacks.Ample.nonvanishingLocus_congr (eqToIso hF) _
   refine ⟨(Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv Y _).symm s''', ?_⟩
   refine Opens.ext ?_
-  show Stacks.Ample.nonvanishingLocus _
+  change Stacks.Ample.nonvanishingLocus _
       (Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv Y _
         ((Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv Y _).symm s''')) =
     i.base ⁻¹' Stacks.Ample.nonvanishingLocus _ (Stacks.SectionProduct.globalSection Z _ σ)
@@ -185,7 +185,7 @@ theorem hasTwoChartEtaleCovers : HasTwoChartEtaleCovers B hZ := by
   have hrangeg : (T.map g₂).opensRange = (T.map q₁) ⁻¹ᵁ (T.obj T₁).basicOpen f := by
     refine Opens.ext (Set.ext fun z => ⟨?_, fun hz => ?_⟩)
     · rintro ⟨y, rfl⟩
-      show (T.map g₂ ≫ T.map q₁) y ∈ ((T.obj T₁).basicOpen f : Set (T.obj T₁))
+      change (T.map g₂ ≫ T.map q₁) y ∈ ((T.obj T₁).basicOpen f : Set (T.obj T₁))
       rw [hsq₂.w, Scheme.Hom.comp_apply, ← hrange₂]
       exact ⟨_, rfl⟩
     · obtain ⟨w, rfl⟩ : z ∈ Set.range (pullback.fst (T.map q₁) (T.map π₂)) := by

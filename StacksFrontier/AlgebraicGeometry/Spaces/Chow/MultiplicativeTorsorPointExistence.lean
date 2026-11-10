@@ -314,13 +314,13 @@ theorem exists_hom_of_sieve {Tsp : AlgebraicSpaces D.site D.base D.base_mem}
   have hfam : fam.Compatible := by
     rw [Presieve.compatible_iff_sieveCompatible]
     intro Y Y' f g hf
-    show yonedaEquiv (tf (g ≫ f) _).hom = Tsp.1.map g.op (yonedaEquiv (tf f hf).hom)
+    change yonedaEquiv (tf (g ≫ f) _).hom = Tsp.1.map g.op (yonedaEquiv (tf f hf).hom)
     rw [yonedaEquiv_naturality, hc f hf g]
     rfl
   obtain ⟨s, hs, -⟩ := (isSheaf_iff_isSheaf_of_type _ _).1 Tsp.property.isSheaf S hS fam hfam
   refine ⟨ObjectProperty.homMk (yonedaEquiv.symm s), fun Y f hf => ?_⟩
   refine ObjectProperty.hom_ext _ (yonedaEquiv.injective ?_)
-  show yonedaEquiv (yoneda.map f ≫ yonedaEquiv.symm s) = yonedaEquiv (tf f hf).hom
+  change yonedaEquiv (yoneda.map f ≫ yonedaEquiv.symm s) = yonedaEquiv (tf f hf).hom
   rw [← yonedaEquiv_naturality, Equiv.apply_symm_apply]
   exact hs f hf
 
@@ -523,7 +523,7 @@ theorem exists_torsorLift {Z : AlgebraicSpaces D.site D.base D.base_mem}
       { app := fun U => TypeCat.ofHom fun z => yonedaEquiv (tz U.unop z).hom
         naturality := fun U U' g => by
           ext z
-          show yonedaEquiv (tz U'.unop (Z.1.map g.unop.op z)).hom =
+          change yonedaEquiv (tz U'.unop (Z.1.map g.unop.op z)).hom =
             (torsorOfInvertibleSpace D p hp L hL).1.map g.unop.op (yonedaEquiv (tz U.unop z).hom)
           rw [hnat U.unop U'.unop g.unop z, yonedaEquiv_naturality]
           rfl }, fun U z => ?_⟩

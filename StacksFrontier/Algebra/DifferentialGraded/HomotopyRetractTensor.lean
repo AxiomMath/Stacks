@@ -125,7 +125,7 @@ theorem tensorHomLeft_tmul (ε : A.Hom B) (C : DifferentialGradedAlgebra R)
     (a : A.A) (c : C.A) :
     (tensorHomLeft ε C).toAlgebraHom (a ᵍ⊗ₜ[R] c : A.grading ᵍ⊗[R] C.grading) =
       (ε.toAlgebraHom a ᵍ⊗ₜ[R] c : B.grading ᵍ⊗[R] C.grading) := by
-  show (tensorInclLeft B C).toAlgebraHom (ε.toAlgebraHom a) *
+  change (tensorInclLeft B C).toAlgebraHom (ε.toAlgebraHom a) *
     (tensorInclRight B C).toAlgebraHom c = _
   exact GradedTensorProduct.tmul_one_mul_one_tmul _ _ _ _
 
@@ -134,7 +134,7 @@ theorem tensorHomRight_tmul (C : DifferentialGradedAlgebra R) (ε : A.Hom B)
     (c : C.A) (a : A.A) :
     (tensorHomRight C ε).toAlgebraHom (c ᵍ⊗ₜ[R] a : C.grading ᵍ⊗[R] A.grading) =
       (c ᵍ⊗ₜ[R] ε.toAlgebraHom a : C.grading ᵍ⊗[R] B.grading) := by
-  show (tensorInclLeft C B).toAlgebraHom c *
+  change (tensorInclLeft C B).toAlgebraHom c *
     (tensorInclRight C B).toAlgebraHom (ε.toAlgebraHom a) = _
   exact GradedTensorProduct.tmul_one_mul_one_tmul _ _ _ _
 
@@ -145,7 +145,7 @@ section LinearMaps
 /-- An integer multiple can be moved out of the left factor of a pure tensor. -/
 theorem zsmul_tmul_left_eq (C D : DifferentialGradedAlgebra R) (m : ℤ) (c : C.A) (x : D.A) :
     ((m • c) ᵍ⊗ₜ[R] x : C.grading ᵍ⊗[R] D.grading) = m • (c ᵍ⊗ₜ[R] x) := by
-  show (GradedTensorProduct.of R C.grading D.grading) ((m • c) ⊗ₜ[R] x) =
+  change (GradedTensorProduct.of R C.grading D.grading) ((m • c) ⊗ₜ[R] x) =
     m • (GradedTensorProduct.of R C.grading D.grading) (c ⊗ₜ[R] x)
   rw [← Int.cast_smul_eq_zsmul R, ← Int.cast_smul_eq_zsmul R, ← TensorProduct.smul_tmul',
     LinearEquiv.map_smul]
@@ -271,8 +271,7 @@ private theorem tensorProduct_induction {X Y : DifferentialGradedAlgebra R}
       P (((a : X.A) ᵍ⊗ₜ[R] c : X.grading ᵍ⊗[R] Y.grading)))
     (x : (tensorProduct X Y).A) : P x := by
   obtain ⟨y, rfl⟩ := (GradedTensorProduct.of R X.grading Y.grading).surjective x
-  induction y using TensorProduct.induction_on with
-  | zero => simpa using zero
+  induction y using TensorProduct.inductionOn with
   | add p q hp hq =>
       rw [map_add]
       exact add _ _ hp hq
@@ -378,8 +377,7 @@ def HomotopyRetract.tensorLeft (ρ : HomotopyRetract ε) (C : DifferentialGraded
   sec_d b := tensorLinearLeft_map_d ρ.sec (fun m x hx => ρ.sec_mem m x hx) ρ.sec_d C b
   hom_sec b := by
     obtain ⟨y, rfl⟩ := (GradedTensorProduct.of R B.grading C.grading).surjective b
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | add p q hp hq => simp only [map_add, hp, hq]
     | tmul b c =>
         rw [tensorLinearLeft_tmul, tensorHomLeft_tmul, ρ.hom_sec]
@@ -454,8 +452,7 @@ def HomotopyRetract.tensorRight (C : DifferentialGradedAlgebra R) (ρ : Homotopy
   sec_d b := tensorLinearRight_map_d C ρ.sec ρ.sec_d b
   hom_sec b := by
     obtain ⟨y, rfl⟩ := (GradedTensorProduct.of R C.grading B.grading).surjective b
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | add p q hp hq => simp only [map_add, hp, hq]
     | tmul c b =>
         rw [tensorLinearRight_tmul, tensorHomRight_tmul, ρ.hom_sec]

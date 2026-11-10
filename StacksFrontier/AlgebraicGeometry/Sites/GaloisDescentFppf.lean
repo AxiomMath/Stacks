@@ -163,7 +163,7 @@ lemma ι_galoisSigmaIso_hom (σ : G) :
   rw [← cancel_mono (pullbackSpecIso R A A).hom, specGraph_comp_pullbackSpecIso]
   simp only [galoisSigmaIso, Iso.trans_hom, asIso_hom, Functor.mapIso_hom, Iso.op_hom,
     Iso.symm_hom, Category.assoc, Iso.inv_hom_id, Category.comp_id, ι_sigmaSpec_assoc]
-  show Spec.map _ ≫ Spec.map _ = _
+  change Spec.map _ ≫ Spec.map _ = _
   rw [← Spec.map_comp]
   rfl
 
@@ -290,9 +290,9 @@ theorem galoisGraph_mem_topology [Finite G] (h : Function.Bijective (galoisTenso
   · obtain ⟨σ, y, hy⟩ := exists_specGraph_eq ρ h (e.hom x)
     refine ⟨σ, y, ?_⟩
     rw [hj]
-    show e.inv (specGraph ρ σ y) = x
+    change e.inv (specGraph ρ σ y) = x
     rw [hy]
-    show (e.hom ≫ e.inv) x = x
+    change (e.hom ≫ e.inv) x = x
     rw [Iso.hom_inv_id]
     rfl
   · have hoi : IsOpenImmersion ((BigFppfOver.toScheme B S hS).map

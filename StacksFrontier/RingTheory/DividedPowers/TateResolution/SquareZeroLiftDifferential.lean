@@ -10,8 +10,8 @@ public import StacksFrontier.RingTheory.DividedPowers.TateResolution.TwistedDeri
 Let `q : R' → R` be a surjection of commutative rings and let `(A, 𝒜, γ, d)` be a graded divided
 power polynomial algebra over `R` with a compatible differential. The algebra `B` lifting `A`
 along `q`, together with the comparison morphism `π : B → A`, is built in
-`StacksFrontier/RingTheory/DividedPowers/TateResolution/SquareZeroLiftData.lean` as the colimit of an
-`ω`-tower. This file equips `B` with the operator `D` lifting `d`.
+`StacksFrontier/RingTheory/DividedPowers/TateResolution/SquareZeroLiftData.lean` as the colimit of
+an `ω`-tower. This file equips `B` with the operator `D` lifting `d`.
 
 The operator is built one stage of the tower at a time. On the base of the tower there is nothing
 to do: the base is concentrated in degree zero, so the zero map is a graded derivation there, and
@@ -328,7 +328,7 @@ public theorem exists_liftDerivation (hq : Function.Surjective q) :
       (DS n).toAddMonoidHom)
     (by
       intro n x
-      show (liftTowerInclusion (R' := R') hpoly (n + 1)).hom
+      change (liftTowerInclusion (R' := R') hpoly (n + 1)).hom
           (DS (n + 1) ((liftTowerStep (R' := R') hpoly n).hom x)) =
         (liftTowerInclusion (R' := R') hpoly n).hom (DS n x)
       rw [hDSstep n x]

@@ -304,12 +304,12 @@ theorem exists_etale_refinement (hp : p.IsFiberedInGroupoids) {U : AffineCategor
   · refine (Scheme.presieve₀_mem_precoverage_iff _).mpr ⟨fun x ↦ ?_, fun i ↦ ?_⟩
     · obtain ⟨i, y, hy⟩ := hmsurj x
       refine ⟨i, ?_⟩
-      show x ∈ Set.range ((toScheme B S hS p).map (φ i ≫ g i))
+      change x ∈ Set.range ((toScheme B S hS p).map (φ i ≫ g i))
       rw [hL i]
       refine ⟨(eqToHom (congrArg Tf.obj (hdom i)).symm) y, ?_⟩
       rwa [← Scheme.Hom.comp_apply, ← Category.assoc, eqToHom_trans, eqToHom_refl,
         Category.id_comp]
-    · show Etale ((toScheme B S hS p).map (φ i ≫ g i))
+    · change Etale ((toScheme B S hS p).map (φ i ≫ g i))
       rw [hL i]
       have := hmet i
       infer_instance

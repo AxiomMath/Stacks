@@ -84,6 +84,7 @@ theorem pow_nsmul_id_cokernel_counit (F : EtaleModules.{u, 0} (ZMod (p ^ m)) X) 
     Category.comp_id, ← Category.id_comp (cokernel.π _), ← Preadditive.nsmul_comp, ← hs,
     Category.assoc, cokernel.condition, comp_zero]
 
+omit [Fact p.Prime] in
 /-- Dévissage induction: a property `Q` holding for sheaves killed by `1` and passing from
 `F / F[p]` to `F` holds for every member `F` of a class `P` stable under `F ↦ F / F[p]`. -/
 private theorem induction_of_cokernel_torsionCounit

@@ -151,7 +151,8 @@ branches.**
 
 This is where the dimension hypothesis enters.  The equivalence of conditions (2) and (6) of
 Tag 0C4D requires `topologicalKrullDim X = 1`, which `topologicalKrullDim_nodalPlaneScheme`
-supplies for the witness; with it, the known nodality of the stalk yields both numerical invariants of the node outright. -/
+supplies for the witness; with it, the known nodality of the stalk yields both numerical invariants
+of the node outright. -/
 @[sga "7 X 2.24" "partial"]
 theorem deltaInvariant_eq_one_and_numberOfGeometricBranches_eq_two_nodalPlaneScheme
     [IsAlgClosed k] :

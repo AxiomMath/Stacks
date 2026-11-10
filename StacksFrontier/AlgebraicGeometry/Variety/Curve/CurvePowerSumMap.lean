@@ -146,11 +146,11 @@ theorem prod_perm_succ_succ_eq_prod_erase {N : ℕ} {M : Type*} [CommMonoid M]
     ∏ s : Fin N, f (σ s.succ.succ) = ∏ t ∈ (univ.erase (σ 0)).erase (σ 1), f t := by
   classical
   set g : Fin (N + 2) → M := fun t => if t = σ 0 ∨ t = σ 1 then 1 else f t
-  have e0 : g (σ 0) = 1 := if_pos (Or.inl rfl)
-  have e1 : g (σ 1) = 1 := if_pos (Or.inr rfl)
+  have e0 : g (σ 0) = 1 := ite_eq_left (Or.inl rfl)
+  have e1 : g (σ 1) = 1 := ite_eq_left (Or.inr rfl)
   have hg : ∀ s : Fin N, g (σ s.succ.succ) = f (σ s.succ.succ) := by
     intro s
-    refine if_neg ?_
+    refine ite_eq_right ?_
     rintro (h | h)
     · exact Fin.succ_ne_zero _ (σ.injective h)
     · have := σ.injective h
@@ -165,7 +165,7 @@ theorem prod_perm_succ_succ_eq_prod_erase {N : ℕ} {M : Type*} [CommMonoid M]
     ← Finset.mul_prod_erase _ g (mem_erase.2 ⟨h01, mem_univ _⟩), e1, one_mul]
   refine prod_congr rfl fun t ht => ?_
   rw [mem_erase, mem_erase] at ht
-  exact if_neg (by rintro (h | h) <;> [exact ht.2.1 h; exact ht.1 h])
+  exact ite_eq_right (by rintro (h | h) <;> [exact ht.2.1 h; exact ht.1 h])
 
 end Algebra
 
@@ -333,7 +333,7 @@ theorem sum_erase_eq_two_mul_sum_lt {N : ℕ} {M : Type*} [AddCommGroup M] (f : 
       (∑ l, if j < l then f j l else 0) + ∑ l, if l < j then f j l else 0 := by
     intro j
     rw [← sum_add_distrib, ← Finset.sum_erase_add _ _ (mem_univ j)]
-    simp only [lt_self_iff_false, if_false, add_zero]
+    simp only [lt_self_iff_false, ite_false, add_zero]
     refine sum_congr rfl fun l hl => ?_
     rcases lt_trichotomy j l with h | h | h
     · simp [h, not_lt.2 h.le]
@@ -396,7 +396,7 @@ theorem classX_sumMap_eq (m : ℕ) (w : Fin m → ℤ) :
       Stacks.QuadraticMap.cubeBilin (classQ J N hN) (x j) (x l) else 0) + ∑ j, ∑ l, if j < l then
       Stacks.QuadraticMap.cubeBilin (classQ J N hN) (x j) (x l) else 0) by
     simp only [classX, sum_add_distrib]; abel]
-  rw [← sum_erase_eq_two_mul_sum_lt _ (fun j l => Stacks.QuadraticMap.cubeBilin_comm hQ _ _)]
+  rw [← sum_erase_eq_two_mul_sum_lt _ (fun j l => Stacks.QuadraticMap.cubeBilin_comm _ _)]
   congr 1
   · exact sum_congr rfl fun i _ => hsingle i
   · exact sum_congr rfl fun j _ => sum_congr rfl fun l _ => hBpair j l
@@ -593,7 +593,7 @@ theorem powerForm_sumMapTuple_eq (haj : c₀ ≫ aj = 1) (c S b : ℤ)
   | 0, w => by
     have hw : Additive.ofMul (sumMap C J aj 1 w) = w 0 • Additive.ofMul (coord C 1 0 ≫ aj) := by
       rw [ofMul_sumMap, Fin.sum_univ_one]
-    show curveDeg C hC (Y (power C 1) (Additive.ofMul (sumMap C J aj 1 w))) = _
+    change curveDeg C hC (Y (power C 1) (Additive.ofMul (sumMap C J aj 1 w))) = _
     rw [hw, hb, Fin.prod_univ_one]
     simp
   | m + 1, w => by

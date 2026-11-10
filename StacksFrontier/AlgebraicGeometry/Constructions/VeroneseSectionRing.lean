@@ -199,7 +199,7 @@ def sectionRingVeronese (d : ℕ) :
       rw [Stacks.GradedSections.ofPowPow_mul]
       congr 1
       rw [Stacks.GradedSections.mul_def, hab₀eq]
-      simp only [Category.assoc, Stacks.GradedSections.powCongr_comp_mulMap,
+      simp only [Category.assoc,
         Stacks.GradedSections.powCongr_comp_mulMap_assoc,
         Stacks.GradedSections.mulMap_comp_powCongr, Stacks.GradedSections.mul_def, eqToHom_trans]
     rw [veroneseToFun_apply, veroneseToFun_apply, veroneseToFun_apply,

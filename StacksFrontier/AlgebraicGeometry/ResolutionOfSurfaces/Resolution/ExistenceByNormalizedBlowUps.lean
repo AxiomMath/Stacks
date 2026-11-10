@@ -3,8 +3,7 @@ module
 public import StacksFrontier.AlgebraicGeometry.F6Rank89.IdealSheafStalk
 public import StacksFrontier.AlgebraicGeometry.FormalGeometry.Completion.RegularBaseChange
 public import StacksFrontier.AlgebraicGeometry.Normalization.NormalizedBlowUpDescent
-public import
-  StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.RationalSingularities.NormalizedBlowUpReduction
+public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.RationalSingularities.NormalizedBlowUpReduction
 
 /-!
 # Resolutions by normalized blowups from sequences of normalized blowups
@@ -89,7 +88,7 @@ theorem exists_normalizedBlowUpScheme_iso_of_iso {Z W : Scheme.{u}} (e : Z ≅ W
     (Stacks.Blowup.finite_irreducibleComponents_blowUp _ hZ)
     (Stacks.Blowup.finite_irreducibleComponents_blowUp _ hW)
   refine ⟨m, ?_⟩
-  show m.hom ≫ Scheme.normalization (blowUp J)
+  change m.hom ≫ Scheme.normalization (blowUp J)
       (Stacks.Blowup.finite_irreducibleComponents_blowUp J hW) ≫ blowUpToBase J =
     (Scheme.normalization (blowUp (Scheme.IdealSheafData.vanishingIdeal
           (⟨{z}, hz⟩ : Closeds Z)))

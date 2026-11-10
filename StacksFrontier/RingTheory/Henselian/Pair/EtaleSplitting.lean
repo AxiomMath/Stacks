@@ -92,7 +92,7 @@ theorem Algebra.Etale.exists_algEquiv_prod_of_algHom {A A' : Type u} [CommRing A
     (Ideal.quotientEquivAlgOfEq A hker).trans (Ideal.quotientKerAlgEquivOfSurjective hτ)
   refine ⟨A' ⧸ Ideal.span {1 - g}, inferInstance, inferInstance,
     e₁.trans (e₂.prodCongr AlgEquiv.refl), fun x => ?_⟩
-  show Ideal.quotientKerAlgEquivOfSurjective hτ
+  change Ideal.quotientKerAlgEquivOfSurjective hτ
       (Ideal.quotientEquivAlgOfEq A hker (Ideal.Quotient.mk (Ideal.span {g}) x)) = τ x
   rw [Ideal.quotientEquivAlgOfEq_mk, Ideal.quotientKerAlgEquivOfSurjective_mk]
 

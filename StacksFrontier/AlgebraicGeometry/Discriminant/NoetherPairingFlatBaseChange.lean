@@ -59,8 +59,7 @@ private theorem tensorContract_envelopingBaseChange
     (f : Module.Dual A C) (z : C ⊗[A] C) :
     tensorContract A₁ (A₁ ⊗[A] C) (f.baseChange A₁) (envelopingBaseChange A C A₁ z) =
       Algebra.TensorProduct.includeRight (tensorContract A C f z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul c d =>
       rw [envelopingBaseChange_tmul]
       simp [tensorContract, Module.Dual.baseChange_apply_tmul,
@@ -84,8 +83,7 @@ private lemma envelopingBaseChange_naturality (A : Type u) (C : Type v) (B : Typ
       Algebra.TensorProduct.map (IsScalarTower.toAlgHom A₁ (A₁ ⊗[A] C) (A₁ ⊗[A] B))
         (IsScalarTower.toAlgHom A₁ (A₁ ⊗[A] C) (A₁ ⊗[A] B))
         (envelopingBaseChange A C A₁ z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul c d =>
       rw [Algebra.TensorProduct.map_tmul, envelopingBaseChange_tmul,
         envelopingBaseChange_tmul, Algebra.TensorProduct.map_tmul]
@@ -135,7 +133,7 @@ theorem noetherPairing_baseChange
       (↑(diagonalAnnihilator A B)) :=
     φ.codRestrict ((diagonalAnnihilator A B).restrictScalars B) (by
       intro z
-      show φ z ∈ (diagonalAnnihilator A B).restrictScalars B
+      change φ z ∈ (diagonalAnnihilator A B).restrictScalars B
       rw [← hRange]
       exact ⟨z, rfl⟩)
   have hφJ : Function.Surjective φJ := by
@@ -145,7 +143,7 @@ theorem noetherPairing_baseChange
   have hcompat (c : F.middle) :
       algebraMap (A₁ ⊗[A] F.middle) (A₁ ⊗[A] B) ((1 : A₁) ⊗ₜ[A] c) =
         (1 : A₁) ⊗ₜ[A] algebraMap F.middle B c := by
-    show Algebra.TensorProduct.map (AlgHom.id A A₁)
+    change Algebra.TensorProduct.map (AlgHom.id A A₁)
         (IsScalarTower.toAlgHom A F.middle B) ((1 : A₁) ⊗ₜ[A] c) = _
     simp [Algebra.TensorProduct.map_tmul]
   have hdiag (x y : diagonalAnnihilator A B) :
@@ -153,13 +151,8 @@ theorem noetherPairing_baseChange
         diagonalAnnihilatorFlatBaseChange A B A₁ x +
           diagonalAnnihilatorFlatBaseChange A B A₁ y :=
     Subtype.ext (by simp [diagonalAnnihilatorFlatBaseChange])
-  have hdiag0 : diagonalAnnihilatorFlatBaseChange A B A₁ (0 : diagonalAnnihilator A B) = 0 := by
-    simpa using hdiag 0 0
   have hinc (x : B) : (1 : A₁) ⊗ₜ[A] x = algebraMap B (A₁ ⊗[A] B) x := rfl
   induction ω using dualizingModule.induction_on with
-  | zero =>
-      rw [map_zero (dualizingModule.baseChange F A₁)]
-      simp
   | tmul f b =>
       obtain ⟨z, rfl⟩ := hφJ j
       have hGen (z : B ⊗[F.middle] (↑(diagonalAnnihilator A F.middle))) :
@@ -168,9 +161,7 @@ theorem noetherPairing_baseChange
               (diagonalAnnihilatorFlatBaseChange A B A₁ (φJ z)) =
             algebraMap B (A₁ ⊗[A] B)
               (noetherPairing F (dualizingModule.tmul F f b) (φJ z)) := by
-        induction z using TensorProduct.induction_on with
-        | zero =>
-            simp [hdiag0]
+        induction z using TensorProduct.inductionOn with
         | tmul y jc =>
             let jc₁ := diagonalAnnihilatorFlatBaseChange A F.middle A₁ jc
             let jb := φJ (y ⊗ₜ[F.middle] jc)
@@ -178,7 +169,7 @@ theorem noetherPairing_baseChange
             have hjb₁ : jb₁.1 =
                 diagonalAnnihilatorBaseChange A₁ (A₁ ⊗[A] F.middle) (A₁ ⊗[A] B)
                   (((1 : A₁) ⊗ₜ[A] y) ⊗ₜ[A₁ ⊗[A] F.middle] jc₁) := by
-              show envelopingBaseChange A B A₁
+              change envelopingBaseChange A B A₁
                   (diagonalAnnihilatorBaseChange A F.middle B (y ⊗ₜ[F.middle] jc)) = _
               rw [diagonalAnnihilatorBaseChange_tmul_eq, map_mul,
                 envelopingBaseChange_naturality A F.middle B A₁ hcompat,

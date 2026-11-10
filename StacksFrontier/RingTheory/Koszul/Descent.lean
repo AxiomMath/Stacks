@@ -174,7 +174,7 @@ private lemma free_tensorProduct_of_free_localizedModule
   let e := IsLocalization.algEquiv (Submonoid.powers s) T L
   let : Module T N := Module.compHom N e.toRingHom
   have : IsScalarTower R T N := IsScalarTower.of_algebraMap_smul fun r m => by
-    show e (algebraMap R T r) • m = r • m
+    change e (algebraMap R T r) • m = r • m
     rw [e.commutes, IsScalarTower.algebraMap_smul L]
   let eN : LinearEquiv (e.symm.toRingEquiv : L →+* T)
       (σ' := (e.toRingEquiv : T →+* L)) N N :=
@@ -184,7 +184,7 @@ private lemma free_tensorProduct_of_free_localizedModule
       right_inv := fun _ => rfl
       map_add' := fun _ _ => rfl
       map_smul' := fun r m => by
-        show r • m = e (e.symm r) • m
+        change r • m = e (e.symm r) • m
         rw [e.apply_symm_apply] }
   have : Module.Free T N := Module.Free.of_equiv eN
   let b := IsLocalizedModule.isBaseChange (Submonoid.powers s) T
@@ -209,7 +209,7 @@ private lemma exists_notMem_free_cotangent_map
   refine ⟨g, hg, ?_⟩
   let T := (Localization.Away g) ⧸ I.map (algebraMap R (Localization.Away g))
   have : IsLocalization.Away (Ideal.Quotient.mk I g) T := by
-    show IsLocalization (Submonoid.powers (algebraMap R (R ⧸ I) g))
+    change IsLocalization (Submonoid.powers (algebraMap R (R ⧸ I) g))
       ((Localization.Away g) ⧸ I.map (algebraMap R (Localization.Away g)))
     simpa only [Algebra.algebraMapSubmonoid_powers] using
       (IsLocalization.instQuotientIdealAlgebraMapSubmonoidMapRingHomAlgebraMap
@@ -246,12 +246,12 @@ private lemma le_span_sup_sq_of_span_cotangent_eq_top
   apply Submodule.mem_sup.mpr
   refine ⟨y, ?_, x - y, ?_, by simp⟩
   · have : (y : R) ∈ K.map I.subtype := ⟨y, hy, rfl⟩
-    show (y : R) ∈ Submodule.span R (Set.range fun i => (v i : R))
+    change (y : R) ∈ Submodule.span R (Set.range fun i => (v i : R))
     convert this using 1
     simp only [K, Submodule.map_span, ← Set.range_comp, Function.comp_def,
       Submodule.subtype_apply]
   · rw [← Ideal.toCotangent_eq_zero I ⟨x - y, I.sub_mem hx y.2⟩]
-    show I.toCotangent (⟨x, hx⟩ - y) = 0
+    change I.toCotangent (⟨x, hx⟩ - y) = 0
     rw [map_sub, hxy, sub_self]
 
 /-- The extension of the ideal spanned by `f` along `φ` is spanned by the images of `f`. -/
@@ -305,7 +305,7 @@ private theorem isMQuasiregularSeq_iff_bijective_canonicalMap
     intro d m
     simp only [LinearMap.comp_apply, LinearMap.restrictScalars_apply,
       LinearEquiv.coe_coe, Finsupp.lsum_single]
-    show phiMonoR f d m = quasiRegularCanonicalMap f (e.symm (Finsupp.single d m))
+    change phiMonoR f d m = quasiRegularCanonicalMap f (e.symm (Finsupp.single d m))
     simp only [e, TensorProduct.equivFinsuppOfBasisLeft_symm_apply, Finsupp.sum_single_index,
       TensorProduct.tmul_zero]
     obtain ⟨m, rfl⟩ := Submodule.mkQ_surjective (Jid f • (⊤ : Submodule R M)) m
@@ -319,7 +319,7 @@ private theorem isMQuasiregularSeq_iff_bijective_canonicalMap
     apply Finsupp.lhom_ext
     intro d m
     obtain ⟨m, rfl⟩ := Submodule.mkQ_surjective _ m
-    show Quasiregular.qregPhi f (Finsupp.single d (Submodule.Quotient.mk m)) =
+    change Quasiregular.qregPhi f (Finsupp.single d (Submodule.Quotient.mk m)) =
       (Finsupp.lsum R fun d => phiMonoR f d)
         (qf (Finsupp.single d (Submodule.Quotient.mk m)))
     have hq : qf (Finsupp.single d (Submodule.Quotient.mk m)) =
@@ -327,7 +327,7 @@ private theorem isMQuasiregularSeq_iff_bijective_canonicalMap
       simp [qf, Finsupp.mapRange.linearEquiv_apply, q]
     rw [hq]
     simp only [Quasiregular.qregPhi, Finsupp.lsum_single, LinearMap.comp_apply]
-    show DirectSum.lof R ℕ (fun n => Tcomp M f n) (d.sum fun _ k => k)
+    change DirectSum.lof R ℕ (fun n => Tcomp M f n) (d.sum fun _ k => k)
       (Submodule.Quotient.mk ⟨(∏ i, f i ^ d i) • m, _⟩) = imgTargetLin f d m
     have hd : d.sum (fun _ k => k) = qrMdeg d := by
       simp [Finsupp.sum_fintype, qrMdeg]
@@ -340,7 +340,7 @@ private theorem isMQuasiregularSeq_iff_bijective_canonicalMap
       subst n
       rfl
     exact hl _ _ hd
-  show Function.Bijective (Quasiregular.qregPhi (M := M) f) ↔ _
+  change Function.Bijective (Quasiregular.qregPhi (M := M) f) ↔ _
   rw [hphi, hmap]
   exact (qf.bijective.of_comp_iff _).trans (e.symm.bijective.of_comp_iff _)
 
@@ -353,7 +353,7 @@ variable {R : Type*} (S : Type*) [CommRing R] [CommRing S] [Algebra R S] {M N : 
 private lemma srcFinsuppEquiv_srcMap (x : Source M f) :
     srcFinsuppEquiv N (fun i => algebraMap R S (f i)) (srcMap S f bc x) =
       Finsupp.mapRange.linearMap (barMap S f bc) (srcFinsuppEquiv M f x) := by
-  show srcFinsuppEquiv N (fun i => algebraMap R S (f i))
+  change srcFinsuppEquiv N (fun i => algebraMap R S (f i))
     ((srcFinsuppEquiv N (fun i => algebraMap R S (f i))).symm _) = _
   exact LinearEquiv.apply_symm_apply _ _
 
@@ -411,7 +411,7 @@ private lemma isQuasiregularSeq_iff_isQuasiRegular
   rw [Quasiregular.IsQuasiregularSeq, isMQuasiregularSeq_iff_bijective_canonicalMap]
   let P := fun s : Σ n, Fin n → R =>
     Function.Bijective (quasiRegularCanonicalMap (M := R) s.2)
-  show P ⟨r, f⟩ ↔ P (List.equivSigmaTuple (List.equivSigmaTuple.symm ⟨r, f⟩))
+  change P ⟨r, f⟩ ↔ P (List.equivSigmaTuple (List.equivSigmaTuple.symm ⟨r, f⟩))
   rw [Equiv.apply_symm_apply]
 
 private lemma mem_of_forall_prime_exists_notMem_mul_mem
@@ -449,7 +449,7 @@ private lemma bijective_canonicalMap_of_localizations
   refine ⟨(injective_iff_map_eq_zero _).mpr ?_, quasiRegularCanonicalMap_surjective f⟩
   intro x hx
   apply (srcFinsuppEquiv R f).injective
-  show srcFinsuppEquiv R f x = (srcFinsuppEquiv R f).toLinearMap 0
+  change srcFinsuppEquiv R f x = (srcFinsuppEquiv R f).toLinearMap 0
   rw [LinearMap.map_zero]
   ext d
   obtain ⟨a, ha⟩ := Submodule.mkQ_surjective (Jid f • (⊤ : Submodule R R))
@@ -474,7 +474,7 @@ private lemma bijective_canonicalMap_of_localizations
     simpa only [← ha, Submodule.mkQ_apply] using hd
   rw [barMap_mk, Submodule.Quotient.mk_eq_zero] at hb
   refine ⟨g, hg, ?_⟩
-  show algebraMap R S a ∈ (Jid f).map (algebraMap R S)
+  change algebraMap R S a ∈ (Jid f).map (algebraMap R S)
   simpa only [Ideal.smul_eq_mul, Ideal.mul_top, Jid, map_span_range,
     Algebra.linearMap_apply] using hb
 
@@ -649,7 +649,7 @@ private lemma flat_awayMap
   algebraize [φ, IsLocalization.Away.map (Localization.Away g) (Localization.Away (φ g)) φ g]
   have : IsScalarTower R (Localization.Away g) (Localization.Away (φ g)) :=
     IsScalarTower.of_algebraMap_eq fun x => by
-      show algebraMap S (Localization.Away (φ g)) (φ x) =
+      change algebraMap S (Localization.Away (φ g)) (φ x) =
         IsLocalization.Away.map (Localization.Away g) (Localization.Away (φ g)) φ g
           (algebraMap R (Localization.Away g) x)
       exact (IsLocalization.map_eq (M := Submonoid.powers g)
@@ -680,7 +680,7 @@ private lemma locally_generated_map
     ext x
     exact IsLocalization.map_eq (M := Submonoid.powers g)
       (T := Submonoid.powers (φ g)) (by rintro _ ⟨n, rfl⟩; exact ⟨n, (φ.map_pow g n).symm⟩) x
-  show (I.map φ).map (algebraMap S (Localization.Away (φ g))) =
+  change (I.map φ).map (algebraMap S (Localization.Away (φ g))) =
     Ideal.span (Set.range (ψ ∘ f))
   rw [Set.range_comp, ← Ideal.map_span, ← hspan, Ideal.map_map, Ideal.map_map, hcomm]
 
@@ -780,9 +780,9 @@ private lemma exists_local_generators_basis_cotangent
   refine ⟨g * a, fun hga => (p.isPrime.mem_or_mem hga).elim hg ha, r,
     fun i => algebraMap T U (algebraMap S T (v i)), ?_, ?_⟩
   · rw [← hmap]
-    show _ = (J.map (algebraMap S T)).map (algebraMap T U)
+    change _ = (J.map (algebraMap S T)).map (algebraMap T U)
     rw [hgen, map_span_range]
-  · show Nonempty (Module.Basis (Fin r) (U ⧸ I.map (algebraMap R U))
+  · change Nonempty (Module.Basis (Fin r) (U ⧸ I.map (algebraMap R U))
       (I.map (algebraMap R U)).Cotangent)
     rw [← hmap]
     exact ⟨bU⟩
@@ -815,7 +815,7 @@ private lemma regularity_of_local_conormal_basis
       ← IsScalarTower.algebraMap_eq]
   let bS := (b.baseChange (S ⧸ K)).map (Ideal.quotientTensorCotangentEquivMap (B := S) J)
   have hgen : Ideal.span (Set.range fun i => algebraMap R S (t i)) = K := by
-    show _ = (I.map (algebraMap A R)).map (algebraMap R S)
+    change _ = (I.map (algebraMap A R)).map (algebraMap R S)
     rw [← ht, map_span_range]
   obtain ⟨hk, hh, hq⟩ := regularity_of_basis_cotangent K _ hgen bS
   obtain ⟨hak, hah, haq⟩ := regularIdeals_map_flat (algebraMap B S) hflat (I.map (algebraMap A B))
@@ -877,7 +877,7 @@ private theorem faithfullyFlat_of_retraction {R S : Type*} [CommRing R] [CommRin
   intro p
   refine ⟨PrimeSpectrum.comap e.toRingHom p, ?_⟩
   ext x
-  show e (algebraMap R S x) ∈ p.asIdeal ↔ x ∈ p.asIdeal
+  change e (algebraMap R S x) ∈ p.asIdeal ↔ x ∈ p.asIdeal
   simp
 
 private theorem span_mulVec_le {R ι κ : Type*} [CommRing R] [Fintype κ]
@@ -906,7 +906,7 @@ private theorem faithfullyFlat_away_prod_X {R σ ι : Type*} [CommRing R]
   have : Module.Flat R S := Module.Flat.trans R P S
   let e : P →ₐ[R] R := MvPolynomial.aeval (fun _ ↦ 1)
   have hd : e d = 1 := by
-    show e (∏ i, MvPolynomial.X (v i)) = 1
+    change e (∏ i, MvPolynomial.X (v i)) = 1
     rw [map_prod]
     exact Finset.prod_eq_one fun i _ => MvPolynomial.aeval_X (R := R) (fun _ : σ ↦ (1 : R)) (v i)
   exact faithfullyFlat_of_retraction
@@ -954,7 +954,7 @@ private theorem span_upperTriangular_of_isLocalization
       (fun i ↦ ∑ j : Fin n, if hij : i ≤ j then
         algebraMap P S (MvPolynomial.X ⟨(i, j), hij⟩) * algebraMap R S (f j) else 0) := by
     funext i
-    show (∑ j, A i j * algebraMap R S (f j)) = _
+    change (∑ j, A i j * algebraMap R S (f j)) = _
     apply Finset.sum_congr rfl
     intro j _
     dsimp only [A]
@@ -976,9 +976,9 @@ public theorem annihilator_eq_zero_of_isKoszulRegular {R : Type*} [CommRing R]
   have hd (w : ⋀[R]^(n + 1) (Fin (n + 1) → R)) :
       Koszul.d (Koszul.seqDual f) n (x • w) = 0 := by
     apply Subtype.ext
-    show Koszul.contraction (Koszul.seqDual f) (x • (w : ExteriorAlgebra R _)) = 0
+    change Koszul.contraction (Koszul.seqDual f) (x • (w : ExteriorAlgebra R _)) = 0
     rw [map_smul]
-    show (x • (CliffordAlgebra.contractLeft (Koszul.seqDual f))) (w : ExteriorAlgebra R _) = 0
+    change (x • (CliffordAlgebra.contractLeft (Koszul.seqDual f))) (w : ExteriorAlgebra R _) = 0
     rw [← map_smul, hφ, map_zero, LinearMap.zero_apply]
   have he := (HomologicalComplex.exactAt_iff_isZero_homology _ _).mpr (hf (n + 1) (by omega))
   rw [HomologicalComplex.exactAt_iff' _ (n + 2) (n + 1) n (by simp) (by simp),
@@ -1052,7 +1052,7 @@ private theorem span_cons_sum_of_isUnit {R : Type*} [CommRing R] {n : ℕ}
         exact ((Ideal.span (Set.range g)).add_mem_iff_left htail).mp hsum
       obtain ⟨u, hu⟩ := hc
       rw [← hu] at hmul
-      show f 0 ∈ Ideal.span (Set.range g)
+      change f 0 ∈ Ideal.span (Set.range g)
       simpa [mul_assoc] using Ideal.mul_mem_left (Ideal.span (Set.range g)) (↑u⁻¹ : R) hmul
     · exact Ideal.subset_span ⟨j.succ, rfl⟩
 
@@ -1109,7 +1109,7 @@ private theorem firstRow_regular_and_tail_koszul
     rw [Stacks.GenericLinearForm.linearForm, map_sum]
     refine Finset.sum_congr rfl fun i _ => ?_
     rw [map_mul]
-    show c i * F i = algebraMap P S (algebraMap R P (f i)) * c i
+    change c i * F i = algebraMap P S (algebraMap R P (f i)) * c i
     rw [← IsScalarTower.algebraMap_apply R P S]
     exact mul_comm _ _
   have hreg : IsSMulRegular S (∑ i, c i * F i) := by
@@ -1146,7 +1146,7 @@ private theorem exists_quotient_localization_equiv
     exact (IsScalarTower.algebraMap_apply R (MvPolynomial σ R) S x).symm
   refine ⟨(Ideal.quotEquivOfEq hker.symm).trans (RingHom.quotientKerEquivOfSurjective hq), ?_⟩
   intro p
-  show (RingHom.quotientKerEquivOfSurjective hq)
+  change (RingHom.quotientKerEquivOfSurjective hq)
     ((Ideal.quotEquivOfEq hker.symm) (Ideal.Quotient.mk _ (algebraMap (MvPolynomial σ R) S p))) = _
   rw [Ideal.quotEquivOfEq_mk]
   exact IsLocalization.map_eq (M := M) (T := M.map m) (Submonoid.le_comap_map M) p
@@ -1242,7 +1242,7 @@ private theorem exists_upperTriangularRing_succ_equiv
     have h := MvPolynomial.isLocalization (σ := UpperTriangularIndex n) (Submonoid.powers x) U
     simpa only [Submonoid.map_powers] using h
   have hz : algebraMap Q₀ Q z = upperTriangularDiagonal U n := by
-    show (algebraMap Q₀ Q) (∏ i : Fin n, MvPolynomial.X ⟨(i, i), le_rfl⟩) = _
+    change (algebraMap Q₀ Q) (∏ i : Fin n, MvPolynomial.X ⟨(i, i), le_rfl⟩) = _
     rw [map_prod]
     refine Finset.prod_congr rfl fun i _ => ?_
     exact congrArg (fun m : Q₀ →+* Q ↦ m (MvPolynomial.X ⟨(i, i), le_rfl⟩))
@@ -1283,7 +1283,7 @@ private theorem mvPolynomial_isScalarTower
   apply IsScalarTower.of_algebraMap_eq'
   apply RingHom.ext
   intro a
-  show MvPolynomial.C (algebraMap A C a) =
+  change MvPolynomial.C (algebraMap A C a) =
     (algebraMap (MvPolynomial σ B) (MvPolynomial σ C)) (MvPolynomial.C (algebraMap A B a))
   rw [MvPolynomial.algebraMap_def, MvPolynomial.map_C, ← IsScalarTower.algebraMap_apply A B C]
 
@@ -1453,7 +1453,7 @@ private theorem isWeaklyRegular_upperTriangular_of_isKoszulRegular
     rw [List.map_ofFn]
     have heq : (fun i ↦ e (upperTriangularSequence f i)) =
         Fin.cons (α := fun _ ↦ V) (algebraMap U V a) (upperTriangularSequence F) := funext he
-    show RingTheory.Sequence.IsWeaklyRegular V
+    change RingTheory.Sequence.IsWeaklyRegular V
       (List.ofFn (fun i ↦ e (upperTriangularSequence f i)))
     rw [heq, List.ofFn_succ]
     simpa only [Fin.cons_zero, Fin.cons_succ] using hcons
@@ -1480,7 +1480,7 @@ public theorem isRegular_upperTriangular_of_isKoszulRegular
         Ideal.map (algebraMap R S) (Ideal.span (Set.range f)) =
           Ideal.span (Set.range g) := by
   classical
-  show Module.FaithfullyFlat R (UpperTriangularRing R n) ∧
+  change Module.FaithfullyFlat R (UpperTriangularRing R n) ∧
     Algebra.Smooth R (UpperTriangularRing R n) ∧
       RingTheory.Sequence.IsRegular (UpperTriangularRing R n)
         (List.ofFn (upperTriangularSequence f)) ∧

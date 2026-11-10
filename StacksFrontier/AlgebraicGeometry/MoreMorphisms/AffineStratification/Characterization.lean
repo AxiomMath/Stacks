@@ -51,11 +51,11 @@ private def padStrata {X : Scheme.{u}} {m : ℕ} (s : AffineStratification X (Fi
 
 private lemma padStrata_of_lt {X : Scheme.{u}} {m : ℕ} (s : AffineStratification X (Fin (m + 1)))
     (d : ℕ) {k : Fin (d + 1)} (hk : (k : ℕ) < m + 1) :
-    padStrata s d k = s.strata ⟨k, hk⟩ := dif_pos hk
+    padStrata s d k = s.strata ⟨k, hk⟩ := dite_eq_left hk
 
 private lemma padStrata_of_not_lt {X : Scheme.{u}} {m : ℕ}
     (s : AffineStratification X (Fin (m + 1))) (d : ℕ) {k : Fin (d + 1)}
-    (hk : ¬ (k : ℕ) < m + 1) : padStrata s d k = ∅ := dif_neg hk
+    (hk : ¬ (k : ℕ) < m + 1) : padStrata s d k = ∅ := dite_eq_right hk
 
 private lemma padStrata_castLE {X : Scheme.{u}} {m d : ℕ}
     (s : AffineStratification X (Fin (m + 1))) (hmd : m + 1 ≤ d + 1) (i : Fin (m + 1)) :

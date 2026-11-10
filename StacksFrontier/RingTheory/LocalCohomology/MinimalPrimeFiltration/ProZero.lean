@@ -123,7 +123,7 @@ private theorem changeOfSupport_naturality
         changeOfSupport.{u, v} A h L i := by
   let H := DerivedCategory.homologyFunctor (ModuleCat.{max u v} A) i
   let η := derivedSectionsWithSupportInInclusion.{u, v} A h
-  show H.map (η.app K) ≫ H.map ((derivedSectionsWithSupportIn.{u, v} A T).map f) =
+  change H.map (η.app K) ≫ H.map ((derivedSectionsWithSupportIn.{u, v} A T).map f) =
     H.map ((derivedSectionsWithSupportIn.{u, v} A S).map f) ≫ H.map (η.app L)
   rw [← H.map_comp, ← H.map_comp]
   exact (congrArg H.map (η.naturality f)).symm
@@ -180,7 +180,7 @@ theorem localized_support_of_minimal_prime_eq_closedPoint
   · intro hq
     have hq' : q = IsLocalRing.closedPoint B := hq
     subst hq'
-    show comap f (IsLocalRing.closedPoint B) ∈ T
+    change comap f (IsLocalRing.closedPoint B) ∈ T
     rw [hclosed]
     exact hp.1
 
@@ -320,7 +320,7 @@ private theorem localized_localCohomology_map_eq_zero
     (LocalizedModule.mkLinearMap S (H.obj N)) (H.map f).hom
       (LocalizedModule.mkLinearMap S (H.obj M) x) = 0 at hx
   rw [IsLocalizedModule.map_apply] at hx
-  show (Shrink.linearEquiv A (LocalizedModule S (H.obj N))).symm
+  change (Shrink.linearEquiv A (LocalizedModule S (H.obj N))).symm
     (LocalizedModule.mkLinearMap S (H.obj N) ((H.map f).hom x)) = 0
   rw [hx, map_zero]
 
@@ -384,7 +384,7 @@ theorem localCohomologyWithSupportIn_map_eq_zero_of_local_of_dimension_le
         exact isZero_localCohomologyWithSupportIn_empty.{u, v} A _ (i : ℤ)
       have hy0 : y = 0 :=
         @Subsingleton.elim _ (ModuleCat.isZero_iff_subsingleton.mp hsrc) y 0
-      show ((localCohomologyWithSupportInModuleFunctor.{u, v} A T (i : ℤ)).map
+      change ((localCohomologyWithSupportInModuleFunctor.{u, v} A T (i : ℤ)).map
         (F.map (homOfLE ((hm' m).trans hbound)).op)).hom x = 0
       rw [← hy, hy0]
       exact map_zero _
@@ -434,7 +434,7 @@ theorem localCohomologyWithSupportIn_map_eq_zero_of_local_of_dimension_le
           (((localCohomologyWithSupportInModuleFunctor.{u, v} A T' (i : ℤ)).map
             (F.map (homOfLE hmq).op)).hom y) at hcomm
       rw [← map_comp_map_homOfLE_op F hmq hqkle, Functor.map_comp]
-      show ((localCohomologyWithSupportInModuleFunctor.{u, v} A T (i : ℤ)).map
+      change ((localCohomologyWithSupportInModuleFunctor.{u, v} A T (i : ℤ)).map
         (F.map (homOfLE hmq).op)).hom
         (((localCohomologyWithSupportInModuleFunctor.{u, v} A T (i : ℤ)).map
           (F.map (homOfLE hqkle).op)).hom x) = 0

@@ -61,7 +61,7 @@ theorem sieveOfSection_jointRange_pullback {ι : Type (u + 1)} {G : ι → FppfS
     ((Sheaf.jointRange c).sieveOfSection s).pullback f =
       (Sheaf.jointRange c).sieveOfSection (F.obj.map f.op s) := by
   ext Y g
-  show F.obj.map (g ≫ f).op s ∈ _ ↔ F.obj.map g.op (F.obj.map f.op s) ∈ _
+  change F.obj.map (g ≫ f).op s ∈ _ ↔ F.obj.map g.op (F.obj.map f.op s) ∈ _
   rw [op_comp, Functor.map_comp_apply]
 
 
@@ -110,7 +110,7 @@ theorem sieveOfSection_jointRange_mem_of_isAffine
     have hw' := colimit.w (formalSpectrumDiagram D)
       (homOfLE (show OrderDual.toDual J₁ ≤ OrderDual.toDual (adicStage hIadic m) from hm))
     refine Eq.trans ?_ hp₁
-    show Y.map (p₁ ≫ (BigAffineFppf.inclusion B S hS).map (D.transition hm)) ≫ incl m = _
+    change Y.map (p₁ ≫ (BigAffineFppf.inclusion B S hS).map (D.transition hm)) ≫ incl m = _
     rw [Functor.map_comp, Category.assoc]
     exact congrArg (fun c => Y.map p₁ ≫ c) hw'
   -- the stage base change of `φ`, and an atlas of it
@@ -151,7 +151,7 @@ theorem sieveOfSection_jointRange_mem_of_isAffine
     refine Jt.superset_covering ?_ hcov
     rw [Sieve.generate_le_iff]
     rintro _ _ ⟨j⟩
-    show E.obj.map (πj j).op ζ ∈ (Sheaf.jointRange w).obj (op (Uj j))
+    change E.obj.map (πj j).op ζ ∈ (Sheaf.jointRange w).obj (op (Uj j))
     rw [Sheaf.mem_jointRange_obj_iff]
     have het' : Etale (G.map (πj j ≫ pU)) := by
       have := hπj j
@@ -162,7 +162,7 @@ theorem sieveOfSection_jointRange_mem_of_isAffine
         apply (Sheaf.sectionEquiv Jt).injective
         have hζ : φ.hom.app (op U) ζ = (formalSpectrum D).obj.map pU.op
             (Sheaf.sectionEquiv Jt (incl m)) := by
-          show uliftYonedaEquiv ((a ≫ pullback.snd ξ φ.hom) ≫ φ.hom) = _
+          change uliftYonedaEquiv ((a ≫ pullback.snd ξ φ.hom) ≫ φ.hom) = _
           rw [Category.assoc, ← pullback.condition, ← Category.assoc, ← hpU]
           exact (congrArg uliftYonedaEquiv (uliftYonedaEquiv_symm_map pU.op _).symm).trans
             (Equiv.apply_symm_apply _ _)

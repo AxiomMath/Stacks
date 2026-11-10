@@ -20,7 +20,8 @@ Betti numbers of [stacks 0BDI]: a point at which
 `β_j(x) = 0` for `j ≠ i`, and `β_i(x) = r`
 
 lies in `U`. Together with the forward half of
-`StacksFrontier/AlgebraicGeometry/Perfect/SingleDegreeRankOpenBetti.lean` this pins the points of `U`.
+`StacksFrontier/AlgebraicGeometry/Perfect/SingleDegreeRankOpenBetti.lean` this pins the points of
+`U`.
 
 This is the half of the pointwise description which uses perfectness of `E`, and it is the step
 the proof of [stacks 0BDK] takes when it quotes the local structure theorem for perfect complexes

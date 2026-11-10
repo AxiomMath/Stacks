@@ -289,7 +289,7 @@ theorem FiniteCover.exists_descended_of_diagram
       prodMapLastTwo (φ j k).hom = prodMapFirstThird (φ i k).hom := by
     let uT := (c₁₂ i j k).f ≫ (a i j).f ≫ f i
     have h23 : (c₂₃ i j k).f ≫ ((a j k).f ≫ f j) = uT := by
-      show (c₂₃ i j k).f ≫ ((a j k).f ≫ f j) = (c₁₂ i j k).f ≫ (a i j).f ≫ f i
+      change (c₂₃ i j k).f ≫ ((a j k).f ≫ f j) = (c₁₂ i j k).f ≫ (a i j).f ≫ f i
       rw [← Category.assoc, ← show (c₁₂ i j k).f ≫ (b i j).f =
         (c₂₃ i j k).f ≫ (a j k).f from congrArg FiniteCover.Hom.f (h₂ i j k),
         Category.assoc, (sq i j).w]
@@ -318,28 +318,28 @@ theorem FiniteCover.exists_descended_of_diagram
     have hn3 : m₁₃ ≫ sourceOverMap (b i k) (sq i k).w.symm = z₃ :=
       sourceOverMap_comp_ext (h₃ i j k).symm _ _ _ _
     have ht1 : t.hom ≫ prod.fst = m₁₂ ≫ (l i j).hom := by
-      show (t₀.hom ≫ prod.map (l i j).hom (𝟙 (X k))) ≫ prod.fst = _
+      change (t₀.hom ≫ prod.map (l i j).hom (𝟙 (X k))) ≫ prod.fst = _
       rw [Category.assoc, prod.map_fst, ← Category.assoc, ht₁]
     have ht2 : t.hom ≫ prod.snd = p₃ := by
-      show (t₀.hom ≫ prod.map (l i j).hom (𝟙 (X k))) ≫ prod.snd = _
+      change (t₀.hom ≫ prod.map (l i j).hom (𝟙 (X k))) ≫ prod.snd = _
       rw [Category.assoc, prod.map_snd, Category.comp_id, ht₂]
     have htphi : t.hom ≫ prod.fst ≫ (φ i j).hom = m₁₂ ≫ (r i j).hom := by
       rw [← Category.assoc, ht1]
       simp only [φ, Iso.trans_hom, Iso.symm_hom, Category.assoc, Iso.hom_inv_id_assoc]
     apply productTransition_cocycle (qY i) (qY j) (φ i j).hom (φ j k).hom (φ i k).hom
       (hφ₁ i j) (hφ₂ i j) (hφ₁ j k) (hφ₁ i k) t m n
-    · show (m₂₃ ≫ (l j k).hom) ≫ prod.fst = _
+    · change (m₂₃ ≫ (l j k).hom) ≫ prod.fst = _
       rw [Category.assoc, hl, ← Category.assoc _ _ prod.snd, ← Category.assoc t.hom, htphi,
         Category.assoc, hr]
       exact hm23.symm
-    · show (m₂₃ ≫ (l j k).hom) ≫ prod.snd = _
+    · change (m₂₃ ≫ (l j k).hom) ≫ prod.snd = _
       rw [Category.assoc, hp₂, ← Category.assoc (r j k).hom, hr, ← Category.assoc, ht2]
-    · show (m₁₃ ≫ (l i k).hom) ≫ prod.fst = _
+    · change (m₁₃ ≫ (l i k).hom) ≫ prod.fst = _
       rw [Category.assoc, hl, ← Category.assoc _ _ prod.fst, ht1, Category.assoc, hl]
       exact hm12.symm
-    · show (m₁₃ ≫ (l i k).hom) ≫ prod.snd = _
+    · change (m₁₃ ≫ (l i k).hom) ≫ prod.snd = _
       rw [Category.assoc, hp₂, ← Category.assoc (r i k).hom, hr, ← Category.assoc, hn3, ht2]
-    · show (m₂₃ ≫ (l j k).hom) ≫ (φ j k).hom ≫ prod.snd =
+    · change (m₂₃ ≫ (l j k).hom) ≫ (φ j k).hom ≫ prod.snd =
         (m₁₃ ≫ (l i k).hom) ≫ (φ i k).hom ≫ prod.snd
       simp only [φ, Iso.trans_hom, Iso.symm_hom, Category.assoc, Iso.hom_inv_id_assoc]
       rw [hr, hr]
@@ -347,7 +347,7 @@ theorem FiniteCover.exists_descended_of_diagram
   let E : DescentData (fun i => H.map (f i)) := {
     obj i := Over.mk (H.map (P i).q)
     gluing i j := Over.isoMk (φ i j) (by
-      show (φ i j).hom ≫ prod.map (𝟙 (X i)) (qY j) = prod.map (qY i) (𝟙 (X j))
+      change (φ i j).hom ≫ prod.map (𝟙 (X i)) (qY j) = prod.map (qY i) (𝟙 (X j))
       apply prod.hom_ext
       · simpa only [Category.assoc, prod.map_fst, prod.map_fst_assoc, Category.comp_id]
           using hφ₁ i j

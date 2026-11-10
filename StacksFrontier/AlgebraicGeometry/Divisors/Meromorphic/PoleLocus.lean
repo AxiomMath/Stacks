@@ -203,7 +203,7 @@ theorem locallyFinite_primeDivisors_orderOfVanishingMeromorphic_ne_zero :
   have hL : Stacks.SheafOfModules.IsInvertible X.presheaf
       (structureSheafRing X.toRingedSpace).property L :=
     (Stacks.SheafOfModules.isInvertible_iff_algebraicGeometry _ _ L).2 ‹_›
-  show (fun Z => orderOfVanishingMeromorphic X L s hs Z) ∈ WeilDivisor X
+  change (fun Z => orderOfVanishingMeromorphic X L s hs Z) ∈ WeilDivisor X
   refine mem_weilDivisor_of_forall_exists_open fun x => ?_
   obtain ⟨W, hxW, t, ht⟩ :=
     Stacks.SheafOfModules.exists_bijective_smul_of_isInvertible (X := X.toRingedSpace) L x

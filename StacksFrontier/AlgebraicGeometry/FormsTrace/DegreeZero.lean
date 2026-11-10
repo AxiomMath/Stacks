@@ -58,7 +58,7 @@ theorem IsTrace.comp_relativeDifferentialFormsZeroIso {Θ : FormsTraceRule.{u}} 
   have := AlgebraicGeometry.locallyOfFinitePresentation hf
   refine Scheme.Modules.hom_ext _ _ fun U => ?_
   ext x
-  show (Scheme.Hom.relativeDifferentialFormsZeroIso X.toSpecZ).hom.val.app (op U)
+  change (Scheme.Hom.relativeDifferentialFormsZeroIso X.toSpecZ).hom.val.app (op U)
       ((Θ f hf 0).app U x) =
     f.finiteTrace.app U
       ((Scheme.Hom.relativeDifferentialFormsZeroIso Y.toSpecZ).hom.val.app (op (f ⁻¹ᵁ U)) x)

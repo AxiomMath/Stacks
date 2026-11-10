@@ -83,7 +83,7 @@ theorem pullback₁Section_comp_f {i₀ : E.I₀} (h : W ⟶ E.X i₀) (hh : h �
   pullback.lift_fst _ _ _
 
 variable {A : Type u'} [Category.{v'} A] [HasProducts.{w} A] [Abelian A]
-  [HasFiniteProducts C] [HasFiniteProducts (Over W)]
+  [HasFiniteProducts (Over W)]
 
 /-- **The Čech complex of a base-changed family is exact in positive degrees**, provided the
 morphism `g : W ⟶ X` one base-changes along lifts, as `h` with `h ≫ E.f i₀ = g`, to the `i₀`-th

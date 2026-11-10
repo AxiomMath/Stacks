@@ -80,7 +80,7 @@ private theorem toENat_trdeg_residueField_le_comp {U V W : Scheme.{u}}
   let _ : IsScalarTower (W.residueField (q (p u))) (V.residueField (p u))
       (U.residueField u) :=
     IsScalarTower.of_algebraMap_eq fun z ↦ by
-      show ((p ≫ q).residueFieldMap u).hom z =
+      change ((p ≫ q).residueFieldMap u).hom z =
         (p.residueFieldMap u).hom ((q.residueFieldMap (p u)).hom z)
       rw [Scheme.residueFieldMap_comp]
       rfl
@@ -119,7 +119,7 @@ theorem hasTranscendenceDegreeAt_le_of_comp
       ((BigFppfOver.toScheme B S hS).map α u) =
       pointsMap B S hS (yoneda.obj U) (yoneda.map α) ξ := by
     refine (pointsEquivScheme B S hS V).symm_apply_eq.2 ?_
-    show (BigFppfOver.toScheme B S hS).map α u =
+    change (BigFppfOver.toScheme B S hS).map α u =
       pointsToScheme B S hS V (pointsMap B S hS (yoneda.obj U) (yoneda.map α) ξ)
     rw [pointsToScheme_pointsMap_yoneda, huξ]
   have hx : x = pointsMap B S hS (yoneda.obj U) a ((pointsEquivScheme B S hS U).symm u) := by

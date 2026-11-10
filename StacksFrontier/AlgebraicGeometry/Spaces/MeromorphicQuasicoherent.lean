@@ -141,7 +141,7 @@ theorem isIso_restrictionBaseChange_algModule {X Y : Cᵒᵖ} (f : X ⟶ Y) (T :
     refine LinearMap.ext fun b => ?_
     have key := restrictionBaseChange_tmul (algModule R A α) f b (1 : A.obj X)
     refine key.trans ?_
-    show (α.app Y).hom b * ((A.map f).hom (1 : A.obj X)) = _
+    change (α.app Y).hom b * ((A.map f).hom (1 : A.obj X)) = _
     rw [map_one, mul_one]
     rfl
   have : IsLocalizedModule T' (e ∘ₗ h₁) := by rw [hcomp]; infer_instance
@@ -180,8 +180,7 @@ theorem isIso_restrictionBaseChange_uliftSections
     (restrictionBaseChange.{u, v, r, m} M f).hom ∘ₗ e.toLinearMap
   have key : L₁ = L₂ := by
     refine LinearMap.ext fun z => ?_
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => rw [map_add, map_add, hx, hy]
     | tmul b x =>
       refine Eq.trans ?_ (restrictionBaseChange_tmul.{u, v, r, m} M f b (ULift.down x)).symm
@@ -214,10 +213,10 @@ of sectionwise localizations followed by the sheafification unit. -/
 theorem toLocalizationSheaf_app (U : Y.Cᵒᵖ) :
     M.toLocalizationSheaf.hom.app U =
       M.toLocalizationPresheaf.app U ≫ (toSheafify Y.J M.localizationPresheaf).app U := by
-  show (sheafificationIso Y.O).hom.hom.app U ≫
+  change (sheafificationIso Y.O).hom.hom.app U ≫
     ((presheafToSheaf Y.J CommRingCat.{r}).map M.toLocalizationPresheaf).hom.app U = _
   rw [show (sheafificationIso Y.O).hom.hom = toSheafify Y.J Y.O.obj by simp]
-  show (toSheafify Y.J Y.O.obj ≫ sheafifyMap Y.J M.toLocalizationPresheaf).app U = _
+  change (toSheafify Y.J Y.O.obj ≫ sheafifyMap Y.J M.toLocalizationPresheaf).app U = _
   rw [← toSheafify_naturality]
   rfl
 

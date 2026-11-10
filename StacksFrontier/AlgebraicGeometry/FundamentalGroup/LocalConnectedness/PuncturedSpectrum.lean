@@ -86,7 +86,7 @@ private theorem isDominant_preimage_puncturedSpectrum_of_flat
   by_cases hq : f q = closedPoint R
   · obtain ⟨q', hspec, hmap⟩ := Flat.generalizingMap f (hq ▸ specializes_closedPoint p)
     have hmem : q' ∈ (f ⁻¹ᵁ puncturedSpectrum R : Set T) := by
-      show f q' ≠ closedPoint R
+      change f q' ≠ closedPoint R
       rw [hmap]
       exact hp
     exact (closure_mono (Set.singleton_subset_iff.mpr hmem)) hspec.mem_closure
@@ -100,7 +100,7 @@ private theorem comap_ne_closedPoint
     (p : PrimeSpectrum B) (hp : p ≠ closedPoint B) :
     PrimeSpectrum.comap f p ≠ closedPoint A := by
   refine fun h ↦ hp (PrimeSpectrum.ext (le_antisymm (IsLocalRing.le_maximalIdeal p.2.1) ?_))
-  show maximalIdeal B ≤ p.asIdeal
+  change maximalIdeal B ≤ p.asIdeal
   rw [← hmax, Ideal.map_le_iff_le_comap]
   exact le_of_eq (congrArg PrimeSpectrum.asIdeal h).symm
 
@@ -135,7 +135,7 @@ private theorem preimage_puncturedSpectrum
     (hmax : Ideal.map f (maximalIdeal A) = maximalIdeal B) :
     (Spec.map (CommRingCat.ofHom f)) ⁻¹ᵁ (puncturedSpectrum A) = puncturedSpectrum B := by
   ext p
-  show PrimeSpectrum.comap f p ≠ closedPoint A ↔ p ≠ closedPoint B
+  change PrimeSpectrum.comap f p ≠ closedPoint A ↔ p ≠ closedPoint B
   exact comap_ne_closedPoint_iff f hmax p
 
 /-- Let `R` be a henselian local ring with separably closed residue field and let
@@ -323,7 +323,7 @@ theorem fullyFaithful_finiteEtaleBaseChange_to_puncturedSpectrum
     let P := Yo ⨯ B
     let θ : P.left ⟶ pullback Y.hom U.ι := (Over.prodLeftIsoPullback Yo B).hom
     have hθiso : IsIso θ := by
-      show IsIso (Over.prodLeftIsoPullback Yo B).hom
+      change IsIso (Over.prodLeftIsoPullback Yo B).hom
       infer_instance
     have hθfst : θ ≫ pullback.fst Y.hom U.ι = (prod.fst (Y := B)).left :=
       Over.prodLeftIsoPullback_hom_fst Yo B
@@ -366,13 +366,13 @@ theorem fullyFaithful_finiteEtaleBaseChange_to_puncturedSpectrum
         (prod.fst (Y := B)).left ≫ c.left = P.hom := (prod.fst (Y := B)).w
         _ = (prod.snd (X := Yo)).left ≫ i.left := (prod.snd (X := Yo)).w.symm
     have hmapη : mapi = (prod.fst (Y := B) : P ⟶ Yo) ≫ η := by
-      show prod.map (𝟙 Yo) i = (prod.fst (Y := B) : P ⟶ Yo) ≫ η
+      change prod.map (𝟙 Yo) i = (prod.fst (Y := B) : P ⟶ Yo) ≫ η
       apply prod.hom_ext
       · simp only [prod.map_fst, Category.comp_id, η, prod.comp_lift, prod.lift_fst]
       · simp only [prod.map_snd, η, prod.comp_lift, prod.lift_snd]
         exact hci.symm
     have hmg : (prod.fst (Y := B) : P ⟶ Yo) ≫ g = mU := by
-      show (prod.fst (Y := B) : P ⟶ Yo) ≫ η ≫ mT = mU
+      change (prod.fst (Y := B) : P ⟶ Yo) ≫ η ≫ mT = mU
       rw [← Category.assoc, ← hmapη, hm]
     have hmgLeft : (prod.fst (Y := B)).left ≫ k.left = mU.left :=
       congrArg (fun q : P ⟶ Zo => q.left) hmg
@@ -382,14 +382,14 @@ theorem fullyFaithful_finiteEtaleBaseChange_to_puncturedSpectrum
     refine ⟨k, ?_⟩
     apply MorphismProperty.Over.Hom.ext
     apply pullback.hom_ext
-    · show ((finiteEtaleBaseChange (puncturedSpectrum A).ι).map k).left
+    · change ((finiteEtaleBaseChange (puncturedSpectrum A).ι).map k).left
           ≫ pullback.fst Z.hom U.ι = hl ≫ pullback.fst Z.hom U.ι
       rw [finiteEtaleBaseChange_map_left_fst]
       exact hπ
     · have hwk : ((finiteEtaleBaseChange (puncturedSpectrum A).ι).map k).left
           ≫ pullback.snd Z.hom U.ι = pullback.snd Y.hom U.ι :=
         MorphismProperty.Over.w ((finiteEtaleBaseChange (puncturedSpectrum A).ι).map k)
-      show ((finiteEtaleBaseChange (puncturedSpectrum A).ι).map k).left
+      change ((finiteEtaleBaseChange (puncturedSpectrum A).ι).map k).left
           ≫ pullback.snd Z.hom U.ι = hl ≫ pullback.snd Z.hom U.ι
       rw [hwk, hh]
   have : F.Full := hfull

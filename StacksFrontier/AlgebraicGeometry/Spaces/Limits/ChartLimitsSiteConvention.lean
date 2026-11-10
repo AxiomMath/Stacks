@@ -56,7 +56,7 @@ theorem HasContainedChartLimits.siteContainsBaseChangeLimits {I : Type u} [Categ
   obtain ⟨c', ⟨hc'⟩, hcont⟩ := h i ((BigAffineFppf.inclusion B S hS).obj Z) g
     (W ⋙ BigAffineFppf.inclusion B S hS) π b
     (fun k => (W.obj k).property) hpb
-  show c.pt.size < B.cutoff
+  change c.pt.size < B.cutoff
   rwa [show c.pt.size = c'.pt.size from Scheme.size_congr (hc.conePointUniqueUpToIso hc')]
 
 end AlgebraicGeometry.Space

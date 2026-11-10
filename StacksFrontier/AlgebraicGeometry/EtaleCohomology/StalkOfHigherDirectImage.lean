@@ -626,8 +626,7 @@ theorem isIso_pushforwardStalkToStrictHenselizationSectionsAb_app :
         hx1)
     have hx3 := (AddEquiv.map_eq_zero_iff _).1 hx2
     obtain ⟨b, m, hm⟩ := IsSystemColimit.exists_eq_zero
-      (fun a b => IsOfCoconeCohomologyColimit.transition_comp
-        (hg := strictHenselizationBaseChangeDirectedCone_π_app_ι B hS g s) a b)
+      (fun a b => IsOfCoconeCohomologyColimit.transition_comp a b)
       (fun a => IsOfCoconeCohomologyColimit.transition_comp_leg a) hcoh
       (strictHenselizationStageClass B hS g s F a σa) hx3
     have hm1 : strictHenselizationStageClass B hS g s F b

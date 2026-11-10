@@ -96,7 +96,7 @@ private theorem localBasePointMap_over {S : Scheme.{u}} {s : S}
     (U : AlgebraicGeometry.EtaleNeighborhood S s) (hU : U.IsElementary) :
   localBasePointMap U hU ≫ U.scheme.fromSpecStalk U.point ≫ U.toBase =
       S.fromSpecResidueField s := by
-  show Spec.map ((asIso U.residueFieldMap).inv) ≫
+  change Spec.map ((asIso U.residueFieldMap).inv) ≫
       U.scheme.fromSpecResidueField U.point ≫ U.toBase = _
   exact pointOfElementary_over U hU
 
@@ -104,7 +104,7 @@ private theorem localBasePointMap_closedPoint {S : Scheme.{u}} {s : S}
     (U : AlgebraicGeometry.EtaleNeighborhood S s) (hU : U.IsElementary) :
     localBasePointMap U hU (IsLocalRing.closedPoint (S.residueField s)) =
       IsLocalRing.closedPoint (U.scheme.presheaf.stalk U.point) := by
-  show Spec.map (U.scheme.residue U.point)
+  change Spec.map (U.scheme.residue U.point)
       (Spec.map ((asIso U.residueFieldMap).inv)
         (IsLocalRing.closedPoint (S.residueField s))) = _
   have : IsLocalHom ((asIso U.residueFieldMap).inv).hom := by infer_instance
@@ -178,7 +178,7 @@ private theorem fiberToLocalPullback_fst {X S : Scheme.{u}} (f : X ⟶ S)
     (y : f.fiber s) :
     pullback.fst f (U.scheme.fromSpecStalk U.point ≫ U.toBase)
         (fiberToLocalPullback f s U hU y) = f.fiberι s y := by
-  show ((pullback.lift _ _ _ ≫
+  change ((pullback.lift _ _ _ ≫
     pullback.fst f (U.scheme.fromSpecStalk U.point ≫ U.toBase)) y) = _
   rw [pullback.lift_fst]
 
@@ -198,7 +198,7 @@ private theorem fiberToLocalPullback_snd_closedPoint {X S : Scheme.{u}}
     pullback.snd f (U.scheme.fromSpecStalk U.point ≫ U.toBase)
         (fiberToLocalPullback f s U hU y) =
       IsLocalRing.closedPoint (U.scheme.presheaf.stalk U.point) := by
-  show ((pullback.lift (f.fiberι s)
+  change ((pullback.lift (f.fiberι s)
       (f.fiberToSpecResidueField s ≫ localBasePointMap U hU) _ ≫
       pullback.snd f (U.scheme.fromSpecStalk U.point ≫ U.toBase)) y) = _
   rw [pullback.lift_snd]
@@ -400,7 +400,7 @@ private theorem refinementPullbackMap_fst {X S : Scheme.{u}} (f : X ⟶ S)
     refinementPullbackMap f φ ≫ pullback.fst f
       (U.obj.scheme.fromSpecStalk U.obj.point ≫ U.obj.toBase) =
       pullback.fst f (W.obj.scheme.fromSpecStalk W.obj.point ≫ W.obj.toBase) := by
-  show (pullback.lift _ _ _ ≫ _) = _
+  change (pullback.lift _ _ _ ≫ _) = _
   rw [pullback.lift_fst]
 
 private theorem refinementPullbackMap_snd {X S : Scheme.{u}} (f : X ⟶ S)
@@ -409,7 +409,7 @@ private theorem refinementPullbackMap_snd {X S : Scheme.{u}} (f : X ⟶ S)
       (U.obj.scheme.fromSpecStalk U.obj.point ≫ U.obj.toBase) =
       pullback.snd f (W.obj.scheme.fromSpecStalk W.obj.point ≫ W.obj.toBase) ≫
         localTransition φ := by
-  show (pullback.lift _ _ _ ≫ _) = _
+  change (pullback.lift _ _ _ ≫ _) = _
   rw [pullback.lift_snd]
 
 private theorem localTransition_closedPoint {S : Scheme.{u}} {s : S}
@@ -504,7 +504,7 @@ private theorem flatOnRefinementPreimage {X S : Scheme.{u}} (f : X ⟶ S)
   let p := (V.ι : V.toScheme ⟶ P_U) ≫ pullback.fst f qU
   let M := (Scheme.Modules.pullback p).obj F
   have hMq : M.IsQuasicoherent := by
-    show ((modulePullback p.toLRSHom.toShHom).obj F).IsQuasicoherent
+    change ((modulePullback p.toLRSHom.toShHom).obj F).IsQuasicoherent
     exact @AlgebraicGeometry.SheafOfModules.modulePullback_isQuasicoherent _ _
       (p.toLRSHom.toShHom) F (‹F.IsQuasicoherent›)
   have hbc := @AlgebraicGeometry.modulePullback_isFlatOver
@@ -563,7 +563,7 @@ theorem exists_elementaryEtaleNeighborhood_open_flat_along_fibre
       (fiberToLocalPullback f s (U y) (hU y)) ⁻¹ᵁ (V y)
     have hcover : ∀ y : T, y ∈ O y := by
       intro y
-      show fiberToLocalPullback f s (U y) (hU y) y ∈ V y
+      change fiberToLocalPullback f s (U y) (hU y) y ∈ V y
       exact hmem y
     let : CompactSpace T := inferInstance
     obtain ⟨I, hI⟩ := (isCompact_univ : IsCompact (Set.univ : Set T)).elim_finite_subcover
@@ -599,7 +599,7 @@ theorem exists_elementaryEtaleNeighborhood_open_flat_along_fibre
       let iI : {y : T // y ∈ I} := ⟨i, hi⟩
       apply TopologicalSpace.Opens.mem_iSup.mpr
       refine ⟨iI, ?_⟩
-      show refinementPullbackMap f (φ iI)
+      change refinementPullbackMap f (φ iI)
         (fiberToLocalPullback f s W.obj W.property y) ∈ V i
       rw [refinementPullbackMap_fiberToLocalPullback]
       exact hyO
@@ -613,7 +613,7 @@ theorem exists_elementaryEtaleNeighborhood_open_flat_along_fibre
       let k : Vi.toScheme ⟶ Vunion.toScheme := P.homOfLE (le_iSup Vref i)
       let wi : Vi.toScheme := ⟨z.1, hzi⟩
       have hkw : k wi = z := by
-        show (P.homOfLE (le_iSup Vref i)) ⟨z.1, hzi⟩ = z
+        change (P.homOfLE (le_iSup Vref i)) ⟨z.1, hzi⟩ = z
         exact Scheme.homOfLE_apply' (le_iSup Vref i) z.1 hzi
       have : IsOpenImmersion k := by infer_instance
       have hkflat : AlgebraicGeometry.IsFlatAt k.toLRSHom.toShHom wi := by
@@ -628,7 +628,7 @@ theorem exists_elementaryEtaleNeighborhood_open_flat_along_fibre
       let NV := (Scheme.Modules.pullback pV).obj F
       let Ni := (Scheme.Modules.pullback pi).obj F
       have hki : k ≫ j = ji := by
-        show P.homOfLE (le_iSup Vref i) ≫ Vunion.ι = Vi.ι
+        change P.homOfLE (le_iSup Vref i) ≫ Vunion.ι = Vi.ι
         exact Scheme.homOfLE_ι P (le_iSup Vref i)
       have hq : k ≫ qV = qi := by
         simp [qV, qi, ← Category.assoc, hki]

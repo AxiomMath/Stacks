@@ -204,7 +204,7 @@ theorem exists_smooth_retract_isRelativeGlobalCompleteIntersection
           rintro x ⟨n, rfl⟩
           exact ⟨n, by simp⟩)
       rw [IsScalarTower.algebraMap_eq A C C₁]
-      show ((algebraMap C C₁).comp (algebraMap A C)) a =
+      change ((algebraMap C C₁).comp (algebraMap A C)) a =
         ((Localization.awayMap (algebraMap A C) (1 : A)).comp (algebraMap A R₁)) a
       exact (DFunLike.congr_fun hmap a).symm)
   have hAtOne := hImproved.1 1 (by
@@ -239,7 +239,7 @@ theorem exists_smooth_retract_isRelativeGlobalCompleteIntersection
     Algebra.IsRelativeGlobalCompleteIntersection.of_algEquiv
       ((IsLocalization.atOne C C₁).restrictScalars R).symm
   refine ⟨C, hC, hRC, hAC, hTower, hSmooth, hSyntomic.flat, ρ.toRingHom, ?_, hGci⟩
-  show (ρ.comp (IsScalarTower.toAlgHom R A C)).toRingHom = _
+  change (ρ.comp (IsScalarTower.toAlgHom R A C)).toRingHom = _
   exact congrArg AlgHom.toRingHom hρ
 
 end Stacks.Smoothing

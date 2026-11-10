@@ -47,6 +47,7 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) [ConnectedSpace X.1] (x : Geometr
   (p n : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ n)
 
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **Weights of `Res_b Y` by dévissage along the grading, block by block.**  Let `Pb` be a
 property of families of square matrices over `E` which holds for the families of `0 × 0`
 matrices. Suppose the bound `q, ι, w` holds on `Hⁱ_c(X_k̄, ℱ_{Res_b Y'} ⊗ ℚ_ℓ)` for every `Y'`
@@ -72,8 +73,8 @@ public theorem isCharpolyNormMixedOfWeightLE_restrictScalarsRep_of_isGradedUpper
       IsCharpolyNormMixedOfWeightLE q ι w
         (LAdicSheaf.rationalGeometricCompactlySupportedFrobenius B X ℓ f j kbar p n hcard
           (LAdicSheaf.representationSheaf B X x (restrictScalarsRep b Y') hY') i).hom) :
-    ∀ (m : ℕ) (Y : EtaleFundamentalGroup X.1 x →* GL (Fin m) E) (δ : Fin m → ℤ)
-      (hup : ∀ g, IsGradedUpper δ (Y g).val) (hY : Continuous (restrictScalarsRep b Y))
+    ∀ (m : ℕ) (Y : EtaleFundamentalGroup X.1 x →* GL (Fin m) E) (δ : Fin m → ℤ),
+      (∀ g, IsGradedUpper δ (Y g).val) → ∀ (hY : Continuous (restrictScalarsRep b Y))
       (_ : ∀ (t : ℤ) (a : ℕ) (e : Fin a → Fin m), Function.Injective e →
         (∀ i, δ i = t ↔ ∃ j, e j = i) → Pb a fun g => (Y g).val.submatrix e e),
       ∃ _ : FiniteDimensional ℚ_[ℓ] (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B X ℓ

@@ -99,7 +99,7 @@ the summand of the restriction of `m` labelled by the restriction of `e`. -/
     AddCommGrpCat.Hom.hom (copowerRestriction E G f) (Finsupp.single e m) =
       Finsupp.single (ConcreteCategory.hom (E.map f) e)
         (AddCommGrpCat.Hom.hom (G.map f) m) := by
-  show Finsupp.mapDomain (ConcreteCategory.hom (E.map f))
+  change Finsupp.mapDomain (ConcreteCategory.hom (E.map f))
       (Finsupp.mapRange (AddCommGrpCat.Hom.hom (G.map f)) (map_zero _) (Finsupp.single e m)) = _
   rw [Finsupp.mapRange_single, Finsupp.mapDomain_single]
 
@@ -169,7 +169,7 @@ def copowerPresheafMap {G H : Cᵒᵖ ⥤ AddCommGrpCat.{u}} (α : G ⟶ H) :
     (X : Cᵒᵖ) (e : E.obj X) (m : (G.obj X : Type u)) :
     AddCommGrpCat.Hom.hom ((copowerPresheafMap E α).app X) (Finsupp.single e m) =
       Finsupp.single e (AddCommGrpCat.Hom.hom (α.app X) m) := by
-  show Finsupp.mapRange (AddCommGrpCat.Hom.hom (α.app X)) (map_zero _) (Finsupp.single e m) = _
+  change Finsupp.mapRange (AddCommGrpCat.Hom.hom (α.app X)) (map_zero _) (Finsupp.single e m) = _
   rw [Finsupp.mapRange_single]
 
 /-- The copower by a presheaf of types, as a functor of the presheaf of abelian groups. -/
@@ -236,7 +236,7 @@ theorem freeTensorCopowerIsoApp_hom_freeMk_tmul (X : Cᵒᵖ) (e : E.obj X)
     AddCommGrpCat.Hom.hom (freeTensorCopowerIsoApp E R N X).hom
         (ModuleCat.freeMk (R := (R.obj X : Type u)) e ⊗ₜ[(R.obj X : Type u)] m) =
       Finsupp.single e m := by
-  show (TensorProduct.finsuppScalarLeft (R.obj X : Type u) (N.obj X : Type u) (E.obj X))
+  change (TensorProduct.finsuppScalarLeft (R.obj X : Type u) (N.obj X : Type u) (E.obj X))
       (Finsupp.single e 1 ⊗ₜ[(R.obj X : Type u)] m) = _
   rw [TensorProduct.finsuppScalarLeft_apply_tmul,
     Finsupp.sum_single_index (by rw [zero_smul, Finsupp.single_zero]), one_smul]
@@ -316,7 +316,7 @@ def finsuppCoproductIso (I : Type u) (A : AddCommGrpCat.{u}) :
         (AddCommGrpCat.Hom.hom
           (Sigma.ι (fun _ : I => A) i ≫
             Sigma.desc fun j => AddCommGrpCat.ofHom (Finsupp.singleAddHom j)) a) = _
-    rw [Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc]
     change Finsupp.liftAddHom
         (fun j => AddCommGrpCat.Hom.hom (Sigma.ι (fun _ : I => A) j))
         (Finsupp.single i a) = _
@@ -332,7 +332,8 @@ def finsuppCoproductIso (I : Type u) (A : AddCommGrpCat.{u}) :
           (fun j => AddCommGrpCat.Hom.hom (Sigma.ι (fun _ : I => A) j)) (Finsupp.single i a)) = _
     rw [Finsupp.liftAddHom_apply_single]
     have h := congrArg (fun k => AddCommGrpCat.Hom.hom k a)
-      (Sigma.ι_desc (fun j => AddCommGrpCat.ofHom (Finsupp.singleAddHom (M := (A : Type u)) j)) i)
+      (Sigma.ι_comp_desc
+        (fun j => AddCommGrpCat.ofHom (Finsupp.singleAddHom (M := (A : Type u)) j)) i)
     rw [AddCommGrpCat.hom_comp] at h
     exact h
 
@@ -341,7 +342,7 @@ def finsuppCoproductIso (I : Type u) (A : AddCommGrpCat.{u}) :
     (i : I) :
     Sigma.ι (fun _ : I => A) i ≫ (finsuppCoproductIso I A).hom =
       AddCommGrpCat.ofHom (Finsupp.singleAddHom i) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 end FinsuppCoproduct
 

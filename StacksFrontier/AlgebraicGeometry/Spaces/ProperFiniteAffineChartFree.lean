@@ -48,7 +48,7 @@ theorem chartSchemeToPoints_openChart {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u
       g := openSubHom _ O
       comm := Category.comp_id _ }
   have hx : ((BigFppfOver.toScheme B S hS).map d'.g).base x = O.ι.base x := by
-    show ((BigFppfOver.toScheme B S hS).map (openSubHom _ O)).base x = _
+    change ((BigFppfOver.toScheme B S hS).map (openSubHom _ O)).base x = _
     rw [toScheme_map_openSubHom]
     rfl
   rw [← hx, chartSchemeToPoints_map_chartDiagram B S hS d' x, pointsMap_id]
@@ -69,7 +69,7 @@ theorem mono_fieldMorphism_openChart {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
       g := openSubHom _ O
       comm := Category.comp_id _ }
   have hx : ((BigFppfOver.toScheme B S hS).map d'.g).base x = O.ι.base x := by
-    show ((BigFppfOver.toScheme B S hS).map (openSubHom _ O)).base x = _
+    change ((BigFppfOver.toScheme B S hS).map (openSubHom _ O)).base x = _
     rw [toScheme_map_openSubHom]
     rfl
   obtain ⟨k, hk, -, hk₂⟩ := exists_siteHom_chartSchemeFieldValuedPoint B S hS d' x
@@ -79,11 +79,11 @@ theorem mono_fieldMorphism_openChart {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     exact hmono
   have hkmono : Mono k := by
     have : Mono ((BigFppfOver.toScheme B S hS).map k) := by
-      show Mono (B.inclusion.map k.left)
+      change Mono (B.inclusion.map k.left)
       rw [hk]
       have : _root_.AlgebraicGeometry.IsOpenImmersion
           ((BigFppfOver.toScheme B S hS).map d'.g) := by
-        show _root_.AlgebraicGeometry.IsOpenImmersion
+        change _root_.AlgebraicGeometry.IsOpenImmersion
           ((BigFppfOver.toScheme B S hS).map (openSubHom _ O))
         rw [toScheme_map_openSubHom]
         exact Scheme.Opens.instIsOpenImmersionι _
@@ -124,7 +124,7 @@ theorem exists_finite_affine_chartDiagram_free {Z Y : AlgebraicSpaces B S hS}
       V := openChart B S hS Y.1 d₀.V O
       g := openSubHomOfRestrict d₀.g O
       comm := by
-        show (yoneda.map (openSubHom _ O') ≫ d₀.U.1.hom) ≫ g.hom =
+        change (yoneda.map (openSubHom _ O') ≫ d₀.U.1.hom) ≫ g.hom =
           yoneda.map (openSubHomOfRestrict d₀.g O) ≫ (yoneda.map (openSubHom _ O) ≫ d₀.V.1.hom)
         rw [Category.assoc, d₀.comm, ← Category.assoc, ← Functor.map_comp, hsq.w,
           Functor.map_comp, Category.assoc] }
@@ -139,7 +139,7 @@ theorem exists_finite_affine_chartDiagram_free {Z Y : AlgebraicSpaces B S hS}
   · have hO' : O' = (chartScheme d₀.U).basicOpen
         (((BigFppfOver.toScheme B S hS).map d₀.g).appTop h) := Scheme.preimage_basicOpen _ _
     exact (show IsAffineOpen O' from hO' ▸ (isAffineOpen_top _).basicOpen _)
-  · show _root_.AlgebraicGeometry.IsFinite (B.inclusion.map (openSubSchemeHomOfRestrict d₀.g O))
+  · change _root_.AlgebraicGeometry.IsFinite (B.inclusion.map (openSubSchemeHomOfRestrict d₀.g O))
     rw [inclusion_map_openSubSchemeHomOfRestrict]
     have key : ∀ {X' Y' : Scheme.{u}} (f : X' ⟶ Y') [_root_.AlgebraicGeometry.IsFinite f]
         (U : Y'.Opens), _root_.AlgebraicGeometry.IsFinite (f ∣_ U) := fun _ _ => inferInstance

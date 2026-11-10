@@ -381,8 +381,7 @@ private def convolutionBaseChangeIso {S X Y S₁ X₁ Y₁ : Scheme.{u}} {f : X 
   have h23 : prodMap (isPullback_prodMap_base hX hY) hX ≫ fourierMukaiPr23 f g f =
       fourierMukaiPr23 f₁ g₁ f₁ ≫ prodMap hY hX := by
     apply pullback.hom_ext <;>
-      simp [fourierMukaiPr23, pullback.lift_fst, pullback.lift_snd,
-        pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+      simp [fourierMukaiPr23]
   have hiso : IsIso (Stacks.Cohomology.DerivedBaseChange.derivedBaseChangeMap
       (prodMap (isPullback_prodMap_base hX hY) hX).toLRSHom.toShHom
       (fourierMukaiPr13 f₁ g₁ f₁).toLRSHom.toShHom (fourierMukaiPr13 f g f).toLRSHom.toShHom

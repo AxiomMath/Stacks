@@ -99,7 +99,7 @@ theorem shortExact_internalHomComplexPrecomp
     refine ⟨of (Cochain.mk fun p q hpq => (hp p).exact.desc _ (hz' p q hpq)), ?_⟩
     apply InternalHomCochain.ext
     refine Cochain.ext _ _ fun p q hpq => ?_
-    show ((Cochain.ofHom (((forgetAb R Q).mapHomologicalComplex _).map S.g)).comp
+    change ((Cochain.ofHom (((forgetAb R Q).mapHomologicalComplex _).map S.g)).comp
       (Cochain.mk fun p q hpq => (hp p).exact.desc _ (hz' p q hpq)) (zero_add n)).v p q hpq = _
     rw [Cochain.zero_cochain_comp_v, Cochain.ofHom_v, Cochain.mk_v]
     exact (hp p).exact.g_desc _ (hz' p q hpq)
@@ -120,7 +120,7 @@ theorem shortExact_internalHomComplexPrecomp
       ((toCochain (R := R) (V := S.X₁) (W := G) z).v p q hpq) ((forgetAb R Q).map (S.f.f p))), ?_⟩
     apply InternalHomCochain.ext
     refine Cochain.ext _ _ fun p q hpq => ?_
-    show ((Cochain.ofHom (((forgetAb R Q).mapHomologicalComplex _).map S.f)).comp
+    change ((Cochain.ofHom (((forgetAb R Q).mapHomologicalComplex _).map S.f)).comp
       (Cochain.mk fun p q hpq => Injective.factorThru
         ((toCochain (R := R) (V := S.X₁) (W := G) z).v p q hpq)
           ((forgetAb R Q).map (S.f.f p))) (zero_add n)).v p q hpq = _

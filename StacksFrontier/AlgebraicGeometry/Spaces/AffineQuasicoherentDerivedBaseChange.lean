@@ -161,12 +161,14 @@ private theorem hom_apply_eq_mul_hom_one (f : ModuleCat.of A' A' ⟶ ModuleCat.o
   exact f.hom.map_smul x 1
 
 /-- Multiplication by a unit of `A'`, as an automorphism of extension of scalars `A' ⊗_A -`. -/
-def extendScalarsUnitIso (c : A'ˣ) : ModuleCat.extendScalars.{u, u, u} φ ≅ ModuleCat.extendScalars φ :=
+def extendScalarsUnitIso (c : A'ˣ) :
+    ModuleCat.extendScalars.{u, u, u} φ ≅ ModuleCat.extendScalars φ :=
   NatIso.ofComponents (fun M =>
     { hom := (c : A') • 𝟙 _
       inv := ((c⁻¹ : A'ˣ) : A') • 𝟙 _
       hom_inv_id := by rw [Linear.smul_comp, Category.id_comp, smul_smul, Units.mul_inv, one_smul]
-      inv_hom_id := by rw [Linear.smul_comp, Category.id_comp, smul_smul, Units.inv_mul, one_smul] })
+      inv_hom_id := by
+        rw [Linear.smul_comp, Category.id_comp, smul_smul, Units.inv_mul, one_smul] })
     (fun f => by
       dsimp only
       rw [Linear.comp_smul, Linear.smul_comp, Category.comp_id, Category.id_comp])
@@ -254,7 +256,8 @@ abbrev representedAffineCommRingCatHom :
 module of the ring and the identification of the inverse image of the structure sheaf
 (Stacks 03LU). -/
 def representedAffinePullbackUnitIso :
-    (Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules (X := smallEtaleRingedTopos B S hS _)
+    (Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules
+        (X := smallEtaleRingedTopos B S hS _)
         (Y := smallEtaleRingedTopos B S hS _)
         (smallEtaleRingedToposHom B S hS (representedSpaceMap B S hS g)).toModulesHom).obj
       ((representedAffineAssociated B S hS U).obj
@@ -263,7 +266,8 @@ def representedAffinePullbackUnitIso :
       (representedAffineAssociated B S hS U').obj
         (ModuleCat.of Γ((BigFppfOver.toScheme B S hS).obj U', ⊤)
           Γ((BigFppfOver.toScheme B S hS).obj U', ⊤)) :=
-  (Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules (X := smallEtaleRingedTopos B S hS _)
+  (Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules
+      (X := smallEtaleRingedTopos B S hS _)
       (Y := smallEtaleRingedTopos B S hS _)
       (smallEtaleRingedToposHom B S hS (representedSpaceMap B S hS g)).toModulesHom).mapIso
       (representedAffineAssociatedObjUnitIso B S hS U) ≪≫
@@ -278,13 +282,15 @@ at `M = R` it is `AlgebraicGeometry.Space.representedAffinePullbackUnitIso` thro
 `R' ⊗_R R = R'` (`AlgebraicGeometry.Space.representedAffineAssociatedPullbackIso_hom_app_self`). -/
 def representedAffineAssociatedPullbackIso :
     representedAffineAssociated B S hS U ⋙
-        Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules (X := smallEtaleRingedTopos B S hS _)
+        Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules
+          (X := smallEtaleRingedTopos B S hS _)
           (Y := smallEtaleRingedTopos B S hS _)
           (smallEtaleRingedToposHom B S hS (representedSpaceMap B S hS g)).toModulesHom ≅
       ModuleCat.extendScalars (representedAffineCommRingCatHom B S hS g).hom ⋙
         representedAffineAssociated B S hS U' :=
   normalizedIso (representedAffineCommRingCatHom B S hS g).hom
-    (representedAffineAssociatedFullyFaithful B S hS U') (  Functor.isoWhiskerLeft (representedAffineAssociated B S hS U)
+    (representedAffineAssociatedFullyFaithful B S hS U')
+    (  Functor.isoWhiskerLeft (representedAffineAssociated B S hS U)
       (pullbackModulesIsoModulePullback B S hS (representedSpaceMap B S hS g)) ≪≫
     (Functor.associator (Stacks.AlgebraicGeometry.AffineTilde.tildeOf _)
       (_root_.AlgebraicGeometry.SmallEtale.associatedModule (associatedBigEtaleSite B)
@@ -319,7 +325,8 @@ attribute [local instance] hasProductsOfShape_nat_modules_ringUniverse
 /-- Extension of scalars is additive, being a left adjoint. -/
 local instance additive_extendScalars_representedAffineRingHom :
     (ModuleCat.extendScalars.{u, u, u} (representedAffineCommRingCatHom B S hS g).hom).Additive :=
-  (ModuleCat.extendRestrictScalarsAdj (representedAffineCommRingCatHom B S hS g).hom).left_adjoint_additive
+  (ModuleCat.extendRestrictScalarsAdj
+    (representedAffineCommRingCatHom B S hS g).hom).left_adjoint_additive
 
 /-- The associated-module functor is additive, at the spelling used below. -/
 local instance additive_representedAffineAssociated' (V : BigFppfOver B S hS)
@@ -329,7 +336,8 @@ local instance additive_representedAffineAssociated' (V : BigFppfOver B S hS)
 
 /-- Pullback of modules along `g` is additive, at the spelling used below. -/
 local instance additive_pullbackModules_representedSpaceMap :
-    (Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules (X := smallEtaleRingedTopos B S hS _)
+    (Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules
+      (X := smallEtaleRingedTopos B S hS _)
       (Y := smallEtaleRingedTopos B S hS _)
       (smallEtaleRingedToposHom B S hS (representedSpaceMap B S hS g)).toModulesHom).Additive :=
   pullbackModules_smallEtale_additive _
@@ -369,10 +377,13 @@ def representedAffineDerivedAssociatedFactors (V : BigFppfOver B S hS)
 the degreewise extension of scalars, on cochain complexes. -/
 def representedAffineComplexPullbackIso :
     (representedAffineAssociated B S hS U).mapHomologicalComplex (ComplexShape.up ℤ) ⋙
-        (Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules (X := smallEtaleRingedTopos B S hS _)
+        (Stacks.Sheaves.RingedToposModules.RingedToposHom.pullbackModules
+          (X := smallEtaleRingedTopos B S hS _)
           (Y := smallEtaleRingedTopos B S hS _) (smallEtaleRingedToposHom B S hS
-            (representedSpaceMap B S hS g)).toModulesHom).mapHomologicalComplex (ComplexShape.up ℤ) ≅
-      (ModuleCat.extendScalars.{u, u, u} (representedAffineCommRingCatHom B S hS g).hom).mapHomologicalComplex
+            (representedSpaceMap B S hS g)).toModulesHom).mapHomologicalComplex
+            (ComplexShape.up ℤ) ≅
+      (ModuleCat.extendScalars.{u, u, u}
+          (representedAffineCommRingCatHom B S hS g).hom).mapHomologicalComplex
           (ComplexShape.up ℤ) ⋙
         (representedAffineAssociated B S hS U').mapHomologicalComplex (ComplexShape.up ℤ) :=
   @Functor.mapHomologicalComplexCompIso _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -392,12 +403,13 @@ the degreewise extension of scalars, in the homotopy category, by
 def representedAffineHomotopyPullbackIso :
     representedAffineHomotopyAssociated B S hS U ⋙
         smallEtalePullbackMapHomotopy B S hS (representedSpaceMap B S hS g) ≅
-      (ModuleCat.extendScalars.{u, u, u} (representedAffineCommRingCatHom B S hS g).hom).mapHomologicalComplex
+      (ModuleCat.extendScalars.{u, u, u}
+          (representedAffineCommRingCatHom B S hS g).hom).mapHomologicalComplex
           (ComplexShape.up ℤ) ⋙ representedAffineHomotopyAssociated B S hS U' :=
   NatIso.ofComponents (fun K => (HomotopyCategory.quotient
       (Modules.{u, u} B S hS (yoneda.obj U') (isAlgebraicSpace_yoneda B S hS U'))
       (ComplexShape.up ℤ)).mapIso ((representedAffineComplexPullbackIso B S hS g).app K))
-    (fun {K L} φ => ((HomotopyCategory.quotient _ _).map_comp _ _).symm.trans
+    (fun φ =>((HomotopyCategory.quotient _ _).map_comp _ _).symm.trans
       ((congrArg (HomotopyCategory.quotient
         (Modules.{u, u} B S hS (yoneda.obj U') (isAlgebraicSpace_yoneda B S hS U'))
         (ComplexShape.up ℤ)).map
@@ -418,7 +430,8 @@ theorem representedAffineHomotopyPullbackIso_hom_app
 def representedAffineBaseChangeComparison :
     DerivedCategory.Q ⋙ (representedAffineDerivedAssociated B S hS U ⋙
         smallEtaleDerivedModulePullback B S hS (representedSpaceMap B S hS g)) ⟶
-      ((ModuleCat.extendScalars.{u, u, u} (representedAffineCommRingCatHom B S hS g).hom).mapHomologicalComplex
+      ((ModuleCat.extendScalars.{u, u, u}
+          (representedAffineCommRingCatHom B S hS g).hom).mapHomologicalComplex
           (ComplexShape.up ℤ) ⋙ DerivedCategory.Q) ⋙
         representedAffineDerivedAssociated B S hS U' :=
   Stacks.CategoryTheory.BaseChange.edgeComparison
@@ -515,7 +528,8 @@ theorem isIso_representedAffineDerivedBaseChangeHom_app_Q_single (q : ℤ) :
     have := (representedAffineDerivedExtension B S hS g).comparison_isIso_of_projective X q
     dsimp
     infer_instance
-  have hle : CochainComplex.IsStrictlyLE (((representedAffineAssociated B S hS U).mapHomologicalComplex
+  have hle : CochainComplex.IsStrictlyLE
+      (((representedAffineAssociated B S hS U).mapHomologicalComplex
       (ComplexShape.up ℤ)).obj X) q :=
     (CochainComplex.isStrictlyLE_iff _ q).2 fun i hi =>
       Functor.map_isZero (representedAffineAssociated B S hS U)
@@ -523,7 +537,8 @@ theorem isIso_representedAffineDerivedBaseChangeHom_app_Q_single (q : ℤ) :
   have h₂ : IsIso ((representedAffineBaseChangeComparison B S hS g).app X) := by
     have := @isIso_smallEtaleDerivedModulePullbackComparison_app B S hS _ _
       (representedSpaceMap B S hS g) _
-      (@smallEtaleModuleKFlat_of_isStrictlyLE B S hS ⟨yoneda.obj U, isAlgebraicSpace_yoneda B S hS U⟩
+      (@smallEtaleModuleKFlat_of_isStrictlyLE B S hS
+        ⟨yoneda.obj U, isAlgebraicSpace_yoneda B S hS U⟩
         (((representedAffineAssociated B S hS U).mapHomologicalComplex
           (ComplexShape.up ℤ)).obj X) q hle
         (isFlat_representedAffineAssociated_mapHomologicalComplex_single_X B S hS q))

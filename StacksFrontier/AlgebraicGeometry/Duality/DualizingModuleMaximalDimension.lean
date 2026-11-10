@@ -89,7 +89,7 @@ theorem isZero_of_forall_isZero_modulesStalkFunctor {X : Scheme.{u}} (F : X.Modu
       X.ringCatSheaf _).mpr fun x => ?_
     have h1 : IsZero ((AlgebraicGeometry.SheafOfModules.stalkFunctor X.ringCatSheaf x).obj F) := by
       have := h x
-      rwa [ModuleCat.isZero_iff_subsingleton] at this ⊢
+      rw [ModuleCat.isZero_iff_subsingleton] at this ⊢; assumption
     exact isIso_of_source_target_iso_zero _ (Functor.map_isZero _ (isZero_zero _)).isoZero
       h1.isoZero
   exact (isZero_zero X.Modules).of_iso (asIso (0 : (0 : X.Modules) ⟶ F)).symm

@@ -216,7 +216,8 @@ applying those two lemmas with `exact` — which needs no motive — avoids that
   reconciliations at the isomorphism absorb them.
 
   **`unfold` works, and is the right first move.**
-  `unfold AlgebraicGeometry.Space.conormalEtaleRestrictionTwoStep` is instant.  It is what makes the above possible, because it exposes the body while leaving
+  `unfold AlgebraicGeometry.Space.conormalEtaleRestrictionTwoStep` is instant.  It is what makes the
+  above possible, because it exposes the body while leaving
   the goal's own type in place — so the identification of the type pinned to `(ψ ≫ φ)⁻¹Z` with
   the `q ≫ p` spelling that `modulePullbackCompIso q p` carries is never demanded.  Demanding it
   instead, by `show` or by `Eq.trans` against the composite read as an isomorphism, **does not
@@ -433,7 +434,8 @@ applying those two lemmas with `exact` — which needs no motive — avoids that
   `rw [conormalModuleEtaleRestrictionIso_hom, Functor.map_comp]` is **rejected by the kernel** —
   `(kernel) deterministic timeout` — while the same statement proved by `congrArg` and `Eq.trans`
   is accepted in two seconds, because the kernel re-checks `rw`'s `Eq.mpr` motive without the
-  elaborator's caches.  `unfold` has the same problem and is not the escape it looks like: it is instant
+  elaborator's caches.  `unfold` has the same problem and is not the escape it looks like: it is
+  instant
   for the elaborator, and the declaration whose proof begins with it is rejected by the kernel.
 
   *A named factor cannot be opened.*  Each of the two named factors against **its own body**, with
@@ -462,14 +464,16 @@ applying those two lemmas with `exact` — which needs no motive — avoids that
   there too; `refine` with the conclusion unified first reaches the same wall at the first
   hypothesis.
 
-  **What is cheap, one declaration each in about two seconds**: `(F ⋙ G).obj M` against `G.obj (F.obj M)`; the same with
+  **What is cheap, one declaration each in about two seconds**: `(F ⋙ G).obj M` against
+  `G.obj (F.obj M)`; the same with
   `conormalModule X Z` written for `i_Z^*𝓘_Z` inside it; `i_{ψ⁻¹Z'}^*𝓘_{ψ⁻¹Z'}` against
   `conormalModule V (ψ⁻¹Z')`; transporting an equation of morphisms across any of those; a
   composition written by hand against the library's `CategoryTheory.Functor.map_comp`; and the
   three-factor splitting of the pasting law, **provided its type is inferred and not declared** —
   as a term with no ascription it costs 2.9 s, and the same equation with its type written out
   does not elaborate.  So the cost of the expanded statement in
-  `StacksFrontier/AlgebraicGeometry/Spaces/ConormalModuleCompositionSections.lean` does not come from
+  `StacksFrontier/AlgebraicGeometry/Spaces/ConormalModuleCompositionSections.lean` does not come
+  from
   mixing the two spellings of one object inside a single composite: the mixing is free, and what
   is not free is declaring the type.
 
@@ -521,13 +525,15 @@ applying those two lemmas with `exact` — which needs no motive — avoids that
   identification of `AlgebraicGeometry.Space.conormalMap` with the isomorphism constructed here,
   which is not proved; that law alone does not give this clause.
 
-  Proving the clause here adds `ConormalModuleCompositionSections` to this file's import closure, for
+  Proving the clause here adds `ConormalModuleCompositionSections` to this file's import closure,
+  for
   the pasting, and `Thickenings/BaseChange`, for the composition law of the projections; the two
   together take the closure to 2359 modules, and there is no cycle.
 
   **The route through Stacks 04CP reaches the clause, and this file cannot host it.**  With
   `AlgebraicGeometry.Space.conormalMap_eq_conormalModuleEtaleRestrictionIso_hom` of
-  `StacksFrontier/AlgebraicGeometry/Spaces/ConormalModuleBaseChangeFlat.lean` proved unconditionally,
+  `StacksFrontier/AlgebraicGeometry/Spaces/ConormalModuleBaseChangeFlat.lean` proved
+  unconditionally,
   the route the bullet below describes is available in principle: read both sides through that
   identification and the clause becomes part (3) of Stacks 04G2,
   `AlgebraicGeometry.Space.conormalMap_comp`, at the two stacked étale restriction squares.  It is
@@ -572,7 +578,8 @@ applying those two lemmas with `exact` — which needs no motive — avoids that
 
   * `delta AlgebraicGeometry.Space.conormalEtaleRestrictionTwoStep` is instant and leaves the two
     sides printing identically.  Unlike `unfold` it changes the goal's type instead of rewriting
-    through an `Eq.mpr`, so it is not the kernel problem recorded above — it is the right way to open
+    through an `Eq.mpr`, so it is not the kernel problem recorded above — it is the right way to
+    open
     the composite, and it still does not close the goal;
   * `with_reducible rfl` on the opened goal **fails**: the iota sits under
     `CategoryTheory.Functor.map`, which does not cross it;
@@ -630,7 +637,8 @@ applying those two lemmas with `exact` — which needs no motive — avoids that
     `CategoryTheory.NatTrans.app`.  That is the `obj`-versus-`app` law recorded above, now with a
     cause, and it is why naming a factor of such a body buys nothing.
   * *So the definition is a dead end, and not only here.*  In a module that imports
-    `StacksFrontier/AlgebraicGeometry/Spaces/Groupoids/More/SectionsConormalAction.lean`, the literal
+    `StacksFrontier/AlgebraicGeometry/Spaces/Groupoids/More/SectionsConormalAction.lean`, the
+    literal
     equation with `AlgebraicGeometry.Space.conormalEtaleRestrictionTwoStep` on the left does not
     close either: `exact` of the proved clause exhausts the budget at `whnf`, `delta` followed by
     `exact` at `isDefEq`, and `(conormalEtaleRestrictionTwoStep.eq_def …).trans` of the proved
@@ -666,11 +674,13 @@ applying those two lemmas with `exact` — which needs no motive — avoids that
   by comparing the transposes along Stacks 03CZ on underlying sheaves of sets.  What remains for
   this bullet is the passage from the structure sheaf to the defining ideal sheaf inside it.
 
-  This identification gives a second route to the functoriality clause above, since the canonical map of Stacks 04CP has a composition law for a pasted square —
+  This identification gives a second route to the functoriality clause above, since the canonical
+  map of Stacks 04CP has a composition law for a pasted square —
   `AlgebraicGeometry.Space.conormalMap_comp` of
   `StacksFrontier/AlgebraicGeometry/Spaces/ConormalModuleComposition.lean`, part (3) of
   Stacks 04G2 — which would supply the functoriality without the pasting of square comparisons.
-  As recorded in the bullet above, the identification is proved and the route does reach the clause, and it reaches it in a
+  As recorded in the bullet above, the identification is proved and the route does reach the clause,
+  and it reaches it in a
   module that imports both this file's identification and the composition law — which, the
   identification being downstream of this file, no module this file may import can be.
 

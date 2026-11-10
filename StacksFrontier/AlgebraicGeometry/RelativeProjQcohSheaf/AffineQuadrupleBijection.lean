@@ -148,7 +148,7 @@ theorem AffineTripleSections.toFun_zero_eq_of_sectionsEquiv {L L' : T.Modules}
     (a : B.grading (⊤ : S.Opens) (0 * k)) : χ.toFun 0 a = χ'.toFun 0 a := by
   obtain ⟨β, hβ⟩ := h
   refine Eq.trans ?_ (hβ 0 a)
-  show χ.toFun 0 a = (Iso.refl (natTensorPow L 0)).hom.app ⊤ (χ.toFun 0 a)
+  change χ.toFun 0 a = (Iso.refl (natTensorPow L 0)).hom.app ⊤ (χ.toFun 0 a)
   rw [Iso.refl_hom, Scheme.Modules.Hom.id_app, CategoryTheory.id_apply]
 
 /-- **The morphism `T ⟶ S` a triple determines over an affine base depends only on the triple's
@@ -169,12 +169,12 @@ theorem AffineTripleSections.structureHom_eq_of_toFun_zero_eq [IsAffine S] {L L'
     AffineTripleSections.structureHom B χ hgen
       = AffineTripleSections.structureHom B χ' hgen' := by
   refine (Stacks.RelativeSpec.affineHomEquiv S T).injective ?_
-  show (AffineTripleSections.structureHom B χ hgen).appTop
+  change (AffineTripleSections.structureHom B χ hgen).appTop
       = (AffineTripleSections.structureHom B χ' hgen').appTop
   rw [AffineTripleSections.structureHom_appTop, AffineTripleSections.structureHom_appTop]
   refine congrArg (fun θ : (B.grading (⊤ : S.Opens) 0) →+* Γ(T, ⊤) =>
     AffineTripleSections.structureRingHom B ≫ CommRingCat.ofHom θ) (RingHom.ext fun z => ?_)
-  show divUnit (χ.toFun 0 (zeroVeronese (B.grading (⊤ : S.Opens)) k z))
+  change divUnit (χ.toFun 0 (zeroVeronese (B.grading (⊤ : S.Opens)) k z))
       = divUnit (χ'.toFun 0 (zeroVeronese (B.grading (⊤ : S.Opens)) k z))
   exact congrArg (fun x : Γ(natTensorPow L 0, ⊤) => divUnit x) (h0 _)
 

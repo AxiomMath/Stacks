@@ -37,7 +37,7 @@ private theorem residueKernel_eq_comap_maximal
     RingHom.ker (algebraMap Λ k) =
       (maximalIdeal R).comap (algebraMap Λ R) := by
   ext a
-  show algebraMap Λ k a = 0 ↔ algebraMap Λ R a ∈ maximalIdeal R
+  change algebraMap Λ k a = 0 ↔ algebraMap Λ R a ∈ maximalIdeal R
   rw [← IsLocalRing.residue_eq_zero_iff]
   constructor
   · intro h
@@ -150,7 +150,7 @@ private theorem formallySmoothNAdic_of_isFormallySmooth_adic.{u₁}
     have heq := congrArg (fun f : A →+* E ⧸ J => f x) hcomm
     change ψ (φ x) = Ideal.Quotient.mk J (f x) at heq
     rw [hz] at heq
-    show f x ∈ J
+    change f x ∈ J
     exact (Ideal.Quotient.eq_zero_iff_mem).mp heq.symm
   have hmapf2 : Ideal.map f (maximalIdeal A ^ (2 * n)) = ⊥ := by
     refine le_antisymm ?_ bot_le
@@ -183,7 +183,7 @@ private theorem geometricallyRegular_iff_formallySmoothNAdic
   let : TopologicalSpace C := (maximalIdeal C).adicTopology
   let : IsTopologicalRing C := (maximalIdeal C).ringFilterBasis.isTopologicalRing
   let : IsLinearTopology C C := (maximalIdeal C).isLinearTopology
-  show Algebra.IsGeometricallyRegular K C ↔
+  change Algebra.IsGeometricallyRegular K C ↔
     RingHom.FormallySmoothNAdic.{max u v} (algebraMap K C) (maximalIdeal C)
   obtain hchar | ⟨p, hp, hchar⟩ := CharP.exists' K
   · let : CharZero K := hchar
@@ -295,7 +295,7 @@ private theorem specialFibre_includeLeft_surjective
     Ideal.Quotient.mk_surjective (e x)
   refine ⟨r, ?_⟩
   apply e.injective
-  show (1 : Λ ⧸ p) ⊗ₜ[Λ] r = e x
+  change (1 : Λ ⧸ p) ⊗ₜ[Λ] r = e x
   exact hr
 
 private theorem specialFibre_geometricallyRegular_iff_formallySmooth
@@ -316,7 +316,7 @@ private theorem specialFibre_geometricallyRegular_iff_formallySmooth
   let : Nontrivial Bbar := htriv
   let : IsLocalRing Bbar := hlocal
   let : IsNoetherianRing Bbar := hnoeth
-  show Algebra.IsGeometricallyRegular (Λ ⧸ p) Bbar ↔
+  change Algebra.IsGeometricallyRegular (Λ ⧸ p) Bbar ↔
     RingHom.FormallySmoothNAdic.{max u v}
       (algebraMap (Λ ⧸ p) Bbar)
       (Ideal.map (Algebra.TensorProduct.includeLeftRingHom : R →+* Bbar)
@@ -378,7 +378,7 @@ private theorem formallySmoothNAdic_iff_comp_codomainRingEquiv
         (Ideal.Quotient.mk J).comp f := by
       apply RingHom.ext
       intro x
-      show ψ (e.symm (e (φ x))) = _
+      change ψ (e.symm (e (φ x))) = _
       rw [e.symm_apply_apply]
       exact RingHom.congr_fun hcomm x
     have hpowC : n ^ k ≤ RingHom.ker ψC := fun x hx => by
@@ -396,7 +396,7 @@ public def restrictedCoyonedaProjection
     (R : CompleteLocalAlgCat.{u, v, w} Λ k) :
     BasedFunctor (restrictedRepresentable R)
       (BasedCategory.ofFunctor (𝟭 (ArtinianLocalAlgCat.{u, v, w} Λ k))) where
-  toFunctor := CategoryOfElements.π (restrictedCoyoneda R)
+  toFunctor := Functor.Elements.π (restrictedCoyoneda R)
   w := rfl
 
 variable [IsNoetherianRing Λ] [Module.Finite Λ k]
@@ -481,7 +481,7 @@ private theorem localizedSpecialFibre_ideal_eq
       Ideal.map (algebraMap Λ R) p := by
   let T := Localization.AtPrime p
   let : Algebra T R := (localizedStructureMap R hp).toAlgebra
-  show Ideal.map (localizedStructureMap R hp) (maximalIdeal T) =
+  change Ideal.map (localizedStructureMap R hp) (maximalIdeal T) =
     Ideal.map (algebraMap Λ R) p
   rw [← IsLocalization.AtPrime.map_eq_maximalIdeal p T, Ideal.map_map,
     localizedStructureMap_comp]
@@ -542,7 +542,7 @@ private noncomputable def localizedSpecialFibre_algEquiv
     simp only [RingEquiv.coe_mk, AlgEquiv.toEquiv_eq_coe, EquivLike.coe_coe,
       Algebra.TensorProduct.congr_apply, AlgEquiv.refl_toAlgHom, Ideal.quotientEquiv_apply,
       AlgEquiv.toRingEquiv_toRingHom, RingHom.toMonoidHom_eq_coe, OneHom.toFun_eq_coe,
-      MonoidHom.toOneHom_coe, MonoidHom.coe_coe, Ideal.Quotient.mk_algebraMap]
+      MonoidHom.toOneHom_coe, MonoidHom.coe_ofClass, Ideal.Quotient.mk_algebraMap]
     change (Ideal.quotientMap _ _ _)
       (Algebra.TensorProduct.quotientTensorEquiv (R := T) (S := T) (T := R)
         (A := T) (maximalIdeal T)

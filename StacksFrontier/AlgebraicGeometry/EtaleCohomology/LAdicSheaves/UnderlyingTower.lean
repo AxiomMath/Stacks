@@ -69,7 +69,7 @@ public theorem subobjectFunctorMap_mk
     (F : C ⥤ D) [F.PreservesMonomorphisms] {P Q : C} (i : Q ⟶ P) [Mono i] :
     subobjectFunctorMap F P (Subobject.mk i) = Subobject.mk (F.map i) := by
   apply Subobject.mk_eq_mk_of_comm _ _ (F.mapIso (Subobject.underlyingIso i))
-  show F.map (Subobject.underlyingIso i).hom ≫ F.map i = _
+  change F.map (Subobject.underlyingIso i).hom ≫ F.map i = _
   rw [← Functor.map_comp]
   exact F.congr_map (Subobject.underlyingIso_hom_comp_eq_mk i)
 
@@ -87,7 +87,7 @@ public theorem noetherian_of_full_subobject_lift
   have he : Function.Surjective e := fun S ↦ by
     obtain ⟨Q, i, hi, a, ha⟩ := hlift S
     refine ⟨Subobject.mk i, ?_⟩
-    show subobjectFunctorMap F P (Subobject.mk i) = S
+    change subobjectFunctorMap F P (Subobject.mk i) = S
     rw [subobjectFunctorMap_mk]
     exact Subobject.mk_eq_of_comm _ a ha
   let e' := OrderIso.ofSurjective e he
@@ -108,7 +108,7 @@ public theorem abelianSheaf_nsmul_app
     {P Q : Sheaf J AddCommGrpCat.{u₂}}
     (f : P ⟶ Q) (r : ℕ) (U : Cᵒᵖ) (x : P.obj.obj U) :
     ((r • f).hom.app U).hom x = r • (f.hom.app U).hom x := by
-  show ((((sheafToPresheaf J AddCommGrpCat).map (r • f)).app U).hom x) = _
+  change ((((sheafToPresheaf J AddCommGrpCat).map (r • f)).app U).hom x) = _
   rw [Functor.map_nsmul]
   rfl
 
@@ -157,7 +157,7 @@ public theorem zmodSheaf_subobject_annihilated
       (forget₂ (ModuleCat.{max u₁ v₁ u₂} (ZMod n)) AddCommGrpCat)).obj P)) = 0 := by
     ext U x
     rw [abelianSheaf_nsmul_app]
-    show n • (x : P.obj.obj U) = 0
+    change n • (x : P.obj.obj U) = 0
     exact ZModModule.char_nsmul_eq_zero n (show P.obj.obj U from x)
   have hs : n • (𝟙 S) = 0 := by
     apply (cancel_mono i).1
@@ -215,7 +215,7 @@ public theorem underlyingLevelFunctor_additive (n : ℕ) :
     (underlyingLevelFunctor B X ℓ n).Additive := by
   let I := sheafToPresheaf (SmallEtale.topology B X.1 X.property) AddCommGrpCat.{u + 1}
   have : (underlyingLevelFunctor B X ℓ n ⋙ I).Additive := by
-    show (sheafToPresheaf _ (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1)))) ⋙
+    change (sheafToPresheaf _ (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1)))) ⋙
       (Functor.whiskeringRight _ _ _).obj
         (forget₂ (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1)))) AddCommGrpCat)).Additive
     infer_instance
@@ -236,7 +236,7 @@ public theorem underlyingLevelFunctor_preservesMonomorphisms (n : ℕ) :
     (underlyingLevelFunctor B X ℓ n).PreservesMonomorphisms := by
   let I := sheafToPresheaf (SmallEtale.topology B X.1 X.property) AddCommGrpCat.{u + 1}
   have : (underlyingLevelFunctor B X ℓ n ⋙ I).PreservesMonomorphisms := by
-    show (sheafToPresheaf _ (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1)))) ⋙
+    change (sheafToPresheaf _ (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1)))) ⋙
       (Functor.whiskeringRight _ _ _).obj
         (forget₂ (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1)))) AddCommGrpCat)).PreservesMonomorphisms
     infer_instance
@@ -258,7 +258,7 @@ omit [∀ (n : ℕ) (S T : B.Scheme) (f : T ⟶ S),
 public theorem underlyingLevelFunctor_isLeftAdjoint (n : ℕ) :
     (underlyingLevelFunctor B X ℓ n).IsLeftAdjoint := by
   have : (forget₂ (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1)))) AddCommGrpCat).IsLeftAdjoint := by
-    show (ModuleCat.restrictScalars (Int.castRingHom (ZMod (ℓ ^ (n + 1)))) ⋙
+    change (ModuleCat.restrictScalars (Int.castRingHom (ZMod (ℓ ^ (n + 1)))) ⋙
       forget₂ (ModuleCat ℤ) AddCommGrpCat).IsLeftAdjoint
     infer_instance
   exact sheafCompose_isLeftAdjoint _ _
@@ -279,7 +279,7 @@ public theorem underlyingLevelFunctor_preservesKernels (n : ℕ) :
   let I := sheafToPresheaf (SmallEtale.topology B X.1 X.property) AddCommGrpCat.{u + 1}
   have : PreservesLimitsOfShape WalkingParallelPair
       (underlyingLevelFunctor B X ℓ n ⋙ I) := by
-    show PreservesLimitsOfShape WalkingParallelPair
+    change PreservesLimitsOfShape WalkingParallelPair
       (sheafToPresheaf (SmallEtale.topology B X.1 X.property)
           (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1)))) ⋙
         (Functor.whiskeringRight _ _ _).obj

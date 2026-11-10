@@ -121,7 +121,7 @@ theorem exists_affineEtaleCoverings_le {x : 𝒳} (hx : IsAffine (schemeOf B S h
   have hEtk' : ∀ k, Etale (L.map (E.f k)) := hEtk
   have hEtE' : ∀ i : ULift (Fin n), Etale ((p ⋙ L).map (E'.f i)) := by
     intro i
-    show Etale (L.map (p.map (φ (e.symm i.down) ≫ g (e.symm i.down))))
+    change Etale (L.map (p.map (φ (e.symm i.down) ≫ g (e.symm i.down))))
     rw [hmap, L.map_comp]
     have := hEtk' (e.symm i.down)
     infer_instance
@@ -129,7 +129,7 @@ theorem exists_affineEtaleCoverings_le {x : 𝒳} (hx : IsAffine (schemeOf B S h
     apply (Functor.mem_inheritedTopology_iff_functorPushforward p _ hp _).mpr
     have hEcov : Sieve.generate E.presieve₀ ∈ (etaleTopology B).over (B.obj hS) (p.obj x) := by
       rw [GrothendieckTopology.mem_over_iff]
-      show Sieve.overEquiv _ (Sieve.ofArrows E.X E.f) ∈ _
+      change Sieve.overEquiv _ (Sieve.ofArrows E.X E.f) ∈ _
       rw [Sieve.overEquiv_ofArrows]
       have hpre : (E.map (BigFppfOver.forget B S hS)).presieve₀ ∈
           etalePrecoverage B ((BigFppfOver.forget B S hS).obj (p.obj x)) := ⟨_, rfl, hEt⟩
@@ -146,7 +146,7 @@ theorem exists_affineEtaleCoverings_le {x : 𝒳} (hx : IsAffine (schemeOf B S h
     rw [hmap k]
     simp
   refine ⟨⟨E', hcovE'⟩, ⟨hx, inferInstance, fun i => ?_, ?_, hEtE'⟩, ?_⟩
-  · show IsAffine (L.obj (p.obj (z (e.symm i.down))))
+  · change IsAffine (L.obj (p.obj (z (e.symm i.down))))
     rw [hdom]
     exact haff _
   · have hEf : Presieve.ofArrows (fun k => L.obj (E.X k)) (fun k => L.map (E.f k)) ∈
@@ -161,7 +161,7 @@ theorem exists_affineEtaleCoverings_le {x : 𝒳} (hx : IsAffine (schemeOf B S h
     have hEf'' := Scheme.mem_fppfPrecoverage_of_equiv (Equiv.ulift (α := Fin n)) hEf'
     refine Scheme.mem_fppfPrecoverage_of_forall_eq_comp
       (fun i => L.mapIso (eqToIso (hdom (e.symm i.down)))) (fun i => ?_) hEf''
-    show L.map (p.map (φ (e.symm i.down) ≫ g (e.symm i.down))) = _
+    change L.map (p.map (φ (e.symm i.down) ≫ g (e.symm i.down))) = _
     rw [hmap, L.map_comp]
     rfl
   · rintro _ _ ⟨_, a, _, ⟨i⟩, rfl⟩

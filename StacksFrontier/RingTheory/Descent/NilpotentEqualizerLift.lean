@@ -102,8 +102,7 @@ theorem bijective_idealBaseChangeMap [Module.Flat R S] (I : Ideal R) :
     have key : ∀ w : S ⊗[R] I, (idealBaseChangeMap I w : S) =
         ((TensorProduct.rid R S).toLinearMap ∘ₗ LinearMap.lTensor S I.subtype) w := by
       intro w
-      induction w using TensorProduct.induction_on with
-      | zero => simp
+      induction w using TensorProduct.inductionOn with
       | tmul s x =>
         simp [Algebra.smul_def, mul_comm]
       | add w w' hw hw' => simp only [map_add, Submodule.coe_add, hw, hw']
@@ -203,8 +202,7 @@ theorem bijective_pushoutTensorMap (j : B →+* E)
   have hΦmul : ∀ (z : B ⊗[A] B₂) (x : B₂) (k : K),
       Φ ((1 ⊗ₜ x) * z) k = Φ z (x • k) := by
     intro z x k
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul b x' => rw [Algebra.TensorProduct.tmul_mul_tmul, one_mul, hΦ, hΦ, mul_comm, mul_smul]
     | add z z' hz hz' => rw [mul_add, map_add, map_add, AddMonoidHom.add_apply,
         AddMonoidHom.add_apply, hz, hz']
@@ -219,15 +217,13 @@ theorem bijective_pushoutTensorMap (j : B →+* E)
   have hχ : ∀ (y : E) (k : K), χ (y ⊗ₜ k) = Φ (e' y) k := fun _ _ => rfl
   have hleft : ∀ w, χ (pushoutTensorMap j hj K w) = w := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | tmul b k =>
       rw [pushoutTensorMap_tmul, hχ, ← hel, he'e, hΦ, one_smul]
     | add w w' hw hw' => rw [map_add, map_add, hw, hw']
   have htw : ∀ (z : B ⊗[A] B₂) (k : K), pushoutTensorMap j hj K (Φ z k) = e z ⊗ₜ k := by
     intro z k
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul b x =>
       rw [hΦ, pushoutTensorMap_tmul, he, TensorProduct.tmul_smul, TensorProduct.smul_tmul',
         Algebra.smul_def, mul_comm]
@@ -235,8 +231,7 @@ theorem bijective_pushoutTensorMap (j : B →+* E)
         TensorProduct.add_tmul]
   have hright : ∀ w, pushoutTensorMap j hj K (χ w) = w := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | tmul y k => rw [hχ, htw, hee']
     | add w w' hw hw' => rw [map_add, map_add, hw, hw']
   exact ⟨Function.LeftInverse.injective hleft, Function.RightInverse.surjective hright⟩
@@ -293,7 +288,7 @@ noncomputable abbrev grPiece.module {π : R' →+* R} (hπ : Function.Surjective
 lemma grPiece.module_smul {π : R' →+* R} (hπ : Function.Surjective π) (k : ℕ) (r : R')
     (x : grPiece π k) :
     (grPiece.module hπ k).toSMul.smul (π r) x = r • x := by
-  show (RingHom.quotientKerEquivOfSurjective hπ).symm (π r) • x = r • x
+  change (RingHom.quotientKerEquivOfSurjective hπ).symm (π r) • x = r • x
   rw [RingHom.quotientKerEquivOfSurjective_symm_apply hπ r]
   exact Module.IsTorsionBySet.mk_smul _ r x
 
@@ -402,8 +397,7 @@ theorem bijective_tensor_grMap {R' R S' S : Type u} [CommRing R'] [CommRing R] [
       π₀ (s ⊗ₜ x) = π' s ⊗ₜ (Submodule.Quotient.mk x : grPiece π k) := fun _ _ => rfl
   have hπ₀surj : Function.Surjective π₀ := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => exact ⟨0, map_zero _⟩
+    induction y using TensorProduct.inductionOn with
     | tmul s n =>
       obtain ⟨s', rfl⟩ := hπ' s
       obtain ⟨x, rfl⟩ := Submodule.Quotient.mk_surjective _ n
@@ -414,11 +408,10 @@ theorem bijective_tensor_grMap {R' R S' S : Type u} [CommRing R'] [CommRing R] [
       exact ⟨Y + Z, map_add _ _ _⟩
   have hkey : ∀ Y, Φ₀ (π₀ Y) = Submodule.Quotient.mk (E k Y) := by
     intro Y
-    induction Y using TensorProduct.induction_on with
-    | zero => simp
+    induction Y using TensorProduct.inductionOn with
     | tmul s x =>
       rw [hπ₀]
-      show (RingHom.id S (π' s)) • grMap φ h k (Submodule.Quotient.mk x) = _
+      change (RingHom.id S (π' s)) • grMap φ h k (Submodule.Quotient.mk x) = _
       rw [RingHom.id_apply, grMap_mk, hS, ← Submodule.Quotient.mk_smul]
       congr 1
     | add Y Z hY hZ => simp only [map_add, hY, hZ, Submodule.Quotient.mk_add]
@@ -426,8 +419,7 @@ theorem bijective_tensor_grMap {R' R S' S : Type u} [CommRing R'] [CommRing R] [
     Submodule.inclusion (Ideal.pow_le_pow_right (Nat.le_succ k))
   have hπ₀incl : ∀ Z, π₀ (LinearMap.lTensor S' incl Z) = 0 := by
     intro Z
-    induction Z using TensorProduct.induction_on with
-    | zero => simp
+    induction Z using TensorProduct.inductionOn with
     | tmul s x =>
       rw [LinearMap.lTensor_tmul, hπ₀, (grPiece_mk_eq_zero_iff k _).2 x.2,
         TensorProduct.tmul_zero]
@@ -436,8 +428,7 @@ theorem bijective_tensor_grMap {R' R S' S : Type u} [CommRing R'] [CommRing R] [
       ((E (k + 1) Z : ↥(RingHom.ker π' ^ (k + 1))) : S') := by
     intro Z
     simp only [hEval]
-    induction Z using TensorProduct.induction_on with
-    | zero => simp
+    induction Z using TensorProduct.inductionOn with
     | tmul s x =>
       rw [LinearMap.lTensor_tmul, idealBaseChangeEquiv_tmul, idealBaseChangeEquiv_tmul]
       rfl
@@ -471,7 +462,7 @@ noncomputable def descendHom {π : R' →+* R} (hπ : Function.Surjective π) (f
 lemma descendHom_comp {π : R' →+* R} (hπ : Function.Surjective π) (f : R' →+* S)
     (h : RingHom.ker π ≤ RingHom.ker f) : (descendHom hπ f h).comp π = f := by
   ext r
-  show Ideal.Quotient.lift _ f h ((RingHom.quotientKerEquivOfSurjective hπ).symm (π r)) = f r
+  change Ideal.Quotient.lift _ f h ((RingHom.quotientKerEquivOfSurjective hπ).symm (π r)) = f r
   rw [RingHom.quotientKerEquivOfSurjective_symm_apply hπ r]
   rfl
 
@@ -605,14 +596,14 @@ theorem exists_grMap_sub_grMap_eq [Module.FaithfullyFlat A B]
   have hΔ₁ : ∀ k, Δ (α₁ k) = k := by
     intro k
     obtain ⟨x, rfl⟩ := Submodule.Quotient.mk_surjective _ k
-    show grMap μ hμ m (grMap s hs m (Submodule.Quotient.mk x)) = Submodule.Quotient.mk x
+    change grMap μ hμ m (grMap s hs m (Submodule.Quotient.mk x)) = Submodule.Quotient.mk x
     simp only [grMap_mk]
     congr 2
     exact congrArg (fun φ : B' →+* B' => φ x) hμs
   have hΔ₂ : ∀ k, Δ (α₂ k) = k := by
     intro k
     obtain ⟨x, rfl⟩ := Submodule.Quotient.mk_surjective _ k
-    show grMap μ hμ m (grMap t ht m (Submodule.Quotient.mk x)) = Submodule.Quotient.mk x
+    change grMap μ hμ m (grMap t ht m (Submodule.Quotient.mk x)) = Submodule.Quotient.mk x
     simp only [grMap_mk]
     congr 2
     exact congrArg (fun φ : B' →+* B' => φ x) hμt
@@ -629,8 +620,7 @@ theorem exists_grMap_sub_grMap_eq [Module.FaithfullyFlat A B]
     have h1 := bijective_pushoutTensorMap (A := A) (B₂ := B) i₁ hA P1 (grPiece πB m)
     convert h0.comp h1 using 1
     ext y
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul b k => rfl
     | add y z hy hz =>
       simp only [map_add, Function.comp_apply] at hy hz ⊢
@@ -655,8 +645,7 @@ theorem exists_grMap_sub_grMap_eq [Module.FaithfullyFlat A B]
       (comp_apply_of_isPushout P2) P2 (grPiece πC m)
     convert (h0.comp (h1.comp (eθ.lTensor B).bijective)).1 using 1
     ext y
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul b k => rfl
     | add y z hy hz =>
       simp only [map_add, Function.comp_apply] at hy hz ⊢

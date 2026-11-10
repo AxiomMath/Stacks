@@ -143,7 +143,7 @@ theorem quasiCompactMorphismProperty_pullback_snd_iff {X Y Z : AlgebraicSpaces B
     (AlgebraicSpaces.isPullback_fiberProduct B S hS f g)
   have _ : IsIso e.hom.hom := (ObjectProperty.ι _).map_isIso e.hom
   refine ⟨fun h ↦ isQuasiCompact_of_isIso_comp B S hS e.hom.hom (he ▸ h), fun h ↦ ?_⟩
-  show IsQuasiCompact B S hS (pullback.snd f g).hom
+  change IsQuasiCompact B S hS (pullback.snd f g).hom
   rw [← he]
   exact isQuasiCompact_isIso_comp B S hS e.hom.hom h
 

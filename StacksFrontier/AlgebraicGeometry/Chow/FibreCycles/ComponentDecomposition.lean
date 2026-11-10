@@ -170,7 +170,7 @@ theorem relativeDimension_componentFamily (j : componentIndex C f k Z)
     (ξ : genericPoints (componentFamily C f k Z j).subscheme) :
     relativeDimension C.dimensionFunction (familyBase f (componentFamily C f k Z j)) ξ.1
       = k + 1 := by
-  show relativeDimension C.dimensionFunction
+  change relativeDimension C.dimensionFunction
     ((componentFamily C f k Z j).subschemeι ≫
       pullback.fst f (relativeProjectiveLine C.S ↘ C.S) ≫ f) ξ.1 = k + 1
   have h : relativeDimension C.dimensionFunction
@@ -320,11 +320,12 @@ theorem locallyFinite_support_componentFamily :
   have hj' : (((componentFamily C f k Z j).support : Set (projectiveLineProduct f)) ∩ U).Nonempty :=
     hj
   refine Set.mem_iUnion₂.mpr ⟨j.1, ?_, j.2, rfl⟩
-  show (closure {Z.subschemeι j.1.1.1} ∩ U).Nonempty
+  change (closure {Z.subschemeι j.1.1.1} ∩ U).Nonempty
   rwa [← coe_support_componentFamily C f k Z j]
 
 /-! ### Pointwise dimension bounds for a single component -/
 
+omit [LocallyOfFiniteType f] in
 /-- The support of the integral closed subscheme attached to a point of the support of `Z` is
 contained in the support of `Z`. -/
 theorem coe_support_integralComponentAt_subset
@@ -391,7 +392,7 @@ theorem finsum_sigma_fin_eq_finsum_mul {ι : Type u} {n : ι → ℕ} (c : ι �
   rw [finsum_eq_sum_of_support_subset _ hsub, Finset.sum_sigma,
     finsum_eq_sum_of_support_subset _ hc.coe_toFinset.ge]
   refine Finset.sum_congr rfl fun i _ => ?_
-  show ∑ _s : Fin (n i), c i = (n i : ℤ) * c i
+  change ∑ _s : Fin (n i), c i = (n i : ℤ) * c i
   rw [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul]
 
 /-! ### The local identity, in integers -/

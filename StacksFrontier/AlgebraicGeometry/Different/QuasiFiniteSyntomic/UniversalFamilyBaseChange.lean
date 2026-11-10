@@ -211,7 +211,7 @@ theorem exists_isPullback_Spec_universalAmbientMorphism (n d : ℕ) [NeZero n] [
         (A := R) (B := universalQuotientRing n d)).toRingHom)
   have htower := IsScalarTower.of_algebraMap_eq (R := universalCoefficientRing n d)
       (S := universalQuotientRing n d) (A := S) fun a ↦ by
-    show algebraMap (universalCoefficientRing n d) S a
+    change algebraMap (universalCoefficientRing n d) S a
         = e ((1 : R) ⊗ₜ[universalCoefficientRing n d]
             algebraMap (universalCoefficientRing n d) (universalQuotientRing n d) a)
     exact (e.commutes (algebraMap (universalCoefficientRing n d) R a)).symm.trans

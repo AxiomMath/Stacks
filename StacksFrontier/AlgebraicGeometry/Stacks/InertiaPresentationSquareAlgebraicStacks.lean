@@ -126,13 +126,13 @@ theorem isEquivalence_functoriality (p : S ⥤ C) (p' : S' ⥤ C) (F : S ⥤ S')
     let α : Aut x := .of (ff.preimageIso (e ≪≫ Bq.auto.asIso ≪≫ e.symm))
     have hmap : F.map α.asIso.hom = e.hom ≫ Bq.auto.asIso.hom ≫ e.inv := ff.map_preimage _
     refine ⟨⟨x, α, ?_⟩, ⟨?_⟩⟩
-    · show p'.map (F.map α.asIso.hom) = 𝟙 _
+    · change p'.map (F.map α.asIso.hom) = 𝟙 _
       rw [hmap]
       simp [← p'.map_comp, Bq.cond]
     · refine ⟨⟨e.hom, ?_⟩, ⟨e.inv, ?_⟩, ?_, ?_⟩
-      · show e.hom ≫ Bq.auto.asIso.hom = F.map α.asIso.hom ≫ e.hom
+      · change e.hom ≫ Bq.auto.asIso.hom = F.map α.asIso.hom ≫ e.hom
         simp [hmap]
-      · show e.inv ≫ F.map α.asIso.hom = Bq.auto.asIso.hom ≫ e.inv
+      · change e.inv ≫ F.map α.asIso.hom = Bq.auto.asIso.hom ≫ e.inv
         simp [hmap]
       · exact RelativeInertiaHom.ext e.hom_inv_id
       · exact RelativeInertiaHom.ext e.inv_hom_id

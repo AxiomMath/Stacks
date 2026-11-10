@@ -97,7 +97,7 @@ theorem isIso_extendScalars_of_isLocallyBijective_pullbackComparison
         (fun g : G ⟶ (PresheafOfModules.pushforward.{max t r} ρ).obj Q => g.app (Opposite.op X))
           ∘ e₂ ∘ e₁ := by
       funext g
-      show d.app (Opposite.op X) ≫ _ = (adj.homEquiv G Q ((adj.homEquiv G H).symm d ≫ g)).app _
+      change d.app (Opposite.op X) ≫ _ = (adj.homEquiv G Q ((adj.homEquiv G H).symm d ≫ g)).app _
       rw [Adjunction.homEquiv_naturality_right, Equiv.apply_symm_apply]
       rfl
     have hκ : Function.Bijective κ := by
@@ -109,7 +109,7 @@ theorem isIso_extendScalars_of_isLocallyBijective_pullbackComparison
           ((ModuleCat.extendRestrictScalarsAdj (ρ.app (Opposite.op X)).hom).homEquiv _ _).symm
           ∘ κ := by
       funext ψ
-      show δ ≫ ψ = ((ModuleCat.extendRestrictScalarsAdj _).homEquiv _ _).symm
+      change δ ≫ ψ = ((ModuleCat.extendRestrictScalarsAdj _).homEquiv _ _).symm
         (d.app (Opposite.op X) ≫ (ModuleCat.restrictScalars _).map ψ)
       rw [hδ]
       exact (Adjunction.homEquiv_naturality_right_symm

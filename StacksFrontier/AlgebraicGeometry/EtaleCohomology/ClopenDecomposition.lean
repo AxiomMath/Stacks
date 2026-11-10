@@ -61,10 +61,10 @@ abbrev clopenSumDesc (F : Sheaf Z.smallEtaleTopology AddCommGrpCat.{u + 1}) :
     clopenSum j F ⟶ F :=
   biproduct.desc fun a => (extensionByZeroAdj.{u, 0} (j a)).counit.app F
 
-omit [DecidableEq ι] in
+omit [Fintype ι] [DecidableEq ι] in
 /-- In a finite biproduct whose other summands vanish, the inclusion of one summand is an
 isomorphism. -/
-theorem isIso_biproduct_ι_of_isZero {C : Type*} [Category C] [Preadditive C]
+theorem isIso_biproduct_ι_of_isZero [Finite ι] {C : Type*} [Category C] [Preadditive C]
     [HasFiniteBiproducts C] (f : ι → C) (b : ι) (h : ∀ a, a ≠ b → IsZero (f a)) :
     IsIso (biproduct.ι f b) := by
   refine ⟨⟨biproduct.π f b, biproduct.ι_π_self f b, ?_⟩⟩
@@ -159,16 +159,17 @@ theorem etaleCohomologyPullback_eq_restriction {V X : Scheme.{u}} (i : V ⟶ X) 
 variable (hdisj : Pairwise fun a b => Disjoint (Set.range (j a).base) (Set.range (j b).base))
   (hcov : ⋃ a, Set.range (j a).base = Set.univ)
 
-omit [DecidableEq ι] in
+omit [Fintype ι] [DecidableEq ι] in
 include hdisj hcov in
 /-- **Étale cohomology of a finite disjoint union of open subschemes is the product of their
 étale cohomologies**: restriction to the members is a bijection
 `H^q(Z, G) → ∏_a H^q(U_a, j_a⁻¹ G)`. -/
-theorem bijective_etaleCohomologyPullback_pi (G : Sheaf Z.smallEtaleTopology Ab.{u + 1})
+theorem bijective_etaleCohomologyPullback_pi [Finite ι] (G : Sheaf Z.smallEtaleTopology Ab.{u + 1})
     (q : ℕ) :
     Function.Bijective (fun x : Sheaf.H.{u + 1} G q => fun a =>
       etaleCohomologyPullback (j a) (𝟙 _) q x) := by
   classical
+  have := Fintype.ofFinite ι
   set ZZ := (constantSheaf (smallEtaleTopology Z) Ab.{u + 1}).obj (AddCommGrpCat.of (ULift ℤ))
   set L := fun a => extensionByZero.{u, 0} (j a)
   set R := fun a => etaleRestriction.{u, 0} (j a)

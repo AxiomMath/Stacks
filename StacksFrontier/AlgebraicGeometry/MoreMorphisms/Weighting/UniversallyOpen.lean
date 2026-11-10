@@ -65,8 +65,8 @@ private theorem isOpen_range_of_positive_weighting {X Y : Scheme.{u}} (f : X ⟶
     simp only [Category.assoc, pullback.condition]
   have hlift : pullback.lift h π hcomm = V.ι := by
     apply pullback.hom_ext
-    · simpa [h] using pullback.lift_fst h π hcomm
-    · simpa [π] using pullback.lift_snd h π hcomm
+    · simp [h]
+    · simp [π]
   have hopen : IsOpenImmersion (pullback.lift h π hcomm) := by
     rw [hlift]
     infer_instance

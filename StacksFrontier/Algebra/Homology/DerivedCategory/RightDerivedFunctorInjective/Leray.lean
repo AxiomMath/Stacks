@@ -86,7 +86,7 @@ private lemma ι_mapTriangle_obj_singleTrianglePlus (hS : S.ShortExact) :
 set_option backward.isDefEq.respectTransparency false in
 private lemma singleTrianglePlus_distinguished (hS : S.ShortExact) :
     singleTrianglePlus hS ∈ distTriang (DerivedCategory.Plus C) := by
-  show Plus.ι.mapTriangle.obj (singleTrianglePlus hS) ∈ distTriang (DerivedCategory C)
+  change Plus.ι.mapTriangle.obj (singleTrianglePlus hS) ∈ distTriang (DerivedCategory C)
   rw [ι_mapTriangle_obj_singleTrianglePlus hS]
   exact hS.singleTriangle_distinguished
 
@@ -923,7 +923,7 @@ lemma isGE_rightDerivedFunctorPlus_obj (Y : DerivedCategory.Plus C) (a : ℤ) [Y
   obtain ⟨L, hL, ⟨e⟩⟩ := DerivedCategory.Plus.exists_injective_nonempty_iso Y a
   have hN : (F.mapCochainComplexPlus.obj
       ((InjectiveObject.ι C).mapCochainComplexPlus.obj L)).obj.IsStrictlyGE a := by
-    show CochainComplex.IsStrictlyGE ((F.mapHomologicalComplex _).obj
+    change CochainComplex.IsStrictlyGE ((F.mapHomologicalComplex _).obj
       (((InjectiveObject.ι C).mapHomologicalComplex _).obj L.obj)) a
     infer_instance
   have hiso : IsIso (F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient C).obj

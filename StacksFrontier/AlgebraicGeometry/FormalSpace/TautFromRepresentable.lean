@@ -93,11 +93,11 @@ closure of the extension of every weak ideal of definition of the source is open
 ideals of definition of the source are cofinal among the preimages of the open ideals of the
 target, so the basis condition is automatic. -/
 private theorem isTaut_iff_isOpen_closure_map_weakIdeal (φ : A →+* C) (hφ : Continuous φ)
-    (hA : TopologicalRing.IsWeaklyAdmissible A) (hC : TopologicalRing.IsWeaklyAdmissible C) :
+    (hA : TopologicalRing.IsWeaklyAdmissible A) :
     RingHom.IsTaut φ ↔ ∀ I : Ideal A, TopologicalRing.IsWeakIdealOfDefinition I →
       IsOpen (Ideal.closure (I.map φ) : Set C) := by
   refine ⟨fun h I hI ↦ h.1 I hI.1, fun h ↦ ?_⟩
-  refine (RingHom.isTaut_iff_hasBasis_isWeakIdealOfDefinition φ hφ hA hC).2 ⟨fun I hI ↦
+  refine (RingHom.isTaut_iff_hasBasis_isWeakIdealOfDefinition φ hφ hA).2 ⟨fun I hI ↦
     isWeakIdealOfDefinition_of_isOpen_of_le_topologicalNilradical (h I hI)
       (TopologicalRing.closure_map_le_topologicalNilradical φ hφ I
         (TopologicalRing.le_topologicalNilradical_of_isWeakIdealOfDefinition hI)), ?_⟩
@@ -197,7 +197,7 @@ private theorem isTaut_of_isPullback_formalSpectrumInclusion
         IsPullback p ((Sheaf.sheafifiedYoneda (BigFppfOver.topology B S hS)).map q)
           (formalSpectrumMap hA f) (formalSpectrumInclusion D I)) :
     RingHom.IsTaut f.toRingHom := by
-  refine (isTaut_iff_isOpen_closure_map_weakIdeal f.toRingHom f.continuous hA hC).2 fun I hI ↦ ?_
+  refine (isTaut_iff_isOpen_closure_map_weakIdeal f.toRingHom f.continuous hA).2 fun I hI ↦ ?_
   let F := Sheaf.sheafifiedYoneda (BigFppfOver.topology B S hS)
   let T := BigAffineFppf.inclusion B S hS
   let i : { I : Ideal A // TopologicalRing.IsWeakIdealOfDefinition I } := ⟨I, hI⟩

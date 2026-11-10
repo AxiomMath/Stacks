@@ -157,7 +157,7 @@ theorem spfMapC_comp_spfProjection (J : IdealsOfDefinition B) :
       (TopCat.Presheaf.pushforward TopCommRingCat.{u} (spfMapBase A B hφ)) :=
     whiskeringLeft_preservesLimitsOfShape (IdealsOfDefinition B)
       (Opens.map (spfMapBase A B hφ)).op
-  show (spfLimitMap A B hφ I₀ hA
+  change (spfLimitMap A B hφ I₀ hA
         ≫ (preservesLimitIso
             (TopCat.Presheaf.pushforward TopCommRingCat.{u} (spfMapBase A B hφ))
             (spfDiagram B ⋙ pseudoDiscreteFunctor)).inv)

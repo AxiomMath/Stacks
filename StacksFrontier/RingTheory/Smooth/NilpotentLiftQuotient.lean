@@ -65,7 +65,7 @@ theorem cotangentBasisMap_single {r : ℕ} (f : Fin r → P) (i : Fin r) :
   simp only [LinearMap.comp_apply, LinearMap.proj_apply]
   rw [Finset.sum_eq_single i]
   · simp only [Pi.single_eq_same]
-    show (Ideal.span (Set.range f)).liftQ _ _ (Submodule.Quotient.mk 1) = _
+    change (Ideal.span (Set.range f)).liftQ _ _ (Submodule.Quotient.mk 1) = _
     rw [Submodule.liftQ_apply, LinearMap.toSpanSingleton_apply, one_smul]
   · intro j _ hji
     rw [Pi.single_eq_of_ne hji, map_zero]
@@ -110,7 +110,7 @@ theorem quotient_span_of_retraction [FormallySmooth R P] {r : ℕ} (f : Fin r �
     Ideal.Quotient.mk_surjective]
   refine ⟨cotangentBasisMap f ∘ₗ l.restrictScalars P, ?_⟩
   refine LinearMap.ext_on_range (span_range_toCotangent_eq_top f) fun i => ?_
-  show cotangentBasisMap f (l (1 ⊗ₜ D R P (f i))) = _
+  change cotangentBasisMap f (l (1 ⊗ₜ D R P (f i))) = _
   rw [hl i, cotangentBasisMap_single]
   rfl
 
@@ -194,7 +194,7 @@ theorem exists_derivation_of_quotient_span {R₀ P₀ : Type*} [CommRing R₀] [
       (RingHom.ker (algebraMap P₀ S₀)).toCotangent ⟨f i, mem_ker_quotient_span f i⟩ :=
     LinearMap.congr_fun hL
       ((RingHom.ker (algebraMap P₀ S₀)).toCotangent ⟨f i, mem_ker_quotient_span f i⟩)
-  show e.symm (L (1 ⊗ₜ D R₀ P₀ (f i))) = _
+  change e.symm (L (1 ⊗ₜ D R₀ P₀ (f i))) = _
   rw [h1, LinearEquiv.symm_apply_eq]
   exact (cotangentBasisMap_single f i).symm
 
@@ -251,7 +251,7 @@ theorem quotient_span_of_derivation_reduction [FormallySmooth R P] (J : Ideal R)
   · exact Ideal.map_le_iff_le_comap.2 fun x hx =>
       mem_nilradical.2 ((mem_nilradical.1 (hJ hx)).map (algebraMap R S))
   · ext j
-    show φ (δ₀ (Ideal.Quotient.mk (J.map (algebraMap R P)) (f i)) j) = _
+    change φ (δ₀ (Ideal.Quotient.mk (J.map (algebraMap R P)) (f i)) j) = _
     rw [hδ₀ i]
     exact map_pi_single_one_apply φ i j
 

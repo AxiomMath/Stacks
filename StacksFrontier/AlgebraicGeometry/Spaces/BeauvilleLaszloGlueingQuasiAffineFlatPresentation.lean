@@ -67,16 +67,14 @@ projection of the explicit product. -/
 @[simp]
 theorem productIsoProd_hom_comp_fst (F G : AlgebraicSpaces B S hS) :
     (productIsoProd B S hS F G).hom ≫ Limits.prod.fst = productProjFst B S hS F G := by
-  simpa using (isLimitBinaryFanProduct B S hS F G).conePointUniqueUpToIso_hom_comp
-    (limit.isLimit (pair F G)) ⟨WalkingPair.left⟩
+  simp
 
 /-- The comparison `productIsoProd` followed by the second categorical projection is the second
 projection of the explicit product. -/
 @[simp]
 theorem productIsoProd_hom_comp_snd (F G : AlgebraicSpaces B S hS) :
     (productIsoProd B S hS F G).hom ≫ Limits.prod.snd = productProjSnd B S hS F G := by
-  simpa using (isLimitBinaryFanProduct B S hS F G).conePointUniqueUpToIso_hom_comp
-    (limit.isLimit (pair F G)) ⟨WalkingPair.right⟩
+  simp
 
 /-- The inverse of `productIsoProd` followed by the first projection of the explicit product is
 the first categorical projection. -/

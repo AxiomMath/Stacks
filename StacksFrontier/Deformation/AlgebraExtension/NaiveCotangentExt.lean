@@ -54,7 +54,7 @@ theorem injective_postcomp_of_iso {𝒟 : Type*} [Category 𝒟] {X Y M N : 𝒟
     (g : M ⟶ N) (h : Function.Injective (fun ξ : Y ⟶ M => ξ ≫ g)) :
     Function.Injective (fun ξ : X ⟶ M => ξ ≫ g) := fun ξ ξ' hξ => by
   have : e.inv ≫ ξ = e.inv ≫ ξ' := h (by
-    show (e.inv ≫ ξ) ≫ g = (e.inv ≫ ξ') ≫ g
+    change (e.inv ≫ ξ) ≫ g = (e.inv ≫ ξ') ≫ g
     rw [Category.assoc, Category.assoc]
     exact congrArg (e.inv ≫ ·) hξ)
   simpa using congrArg (e.hom ≫ ·) this
@@ -65,7 +65,7 @@ theorem surjective_postcomp_of_iso {𝒟 : Type*} [Category 𝒟] {X Y M N : �
     Function.Surjective (fun ξ : X ⟶ M => ξ ≫ g) := fun ξ' => by
   obtain ⟨ξ, hξ⟩ := h (e.inv ≫ ξ')
   refine ⟨e.hom ≫ ξ, ?_⟩
-  show (e.hom ≫ ξ) ≫ g = ξ'
+  change (e.hom ≫ ξ) ≫ g = ξ'
   rw [Category.assoc]
   exact (congrArg (e.hom ≫ ·) hξ).trans (e.hom_inv_id_assoc ξ')
 
@@ -97,7 +97,7 @@ theorem ofDoubleNegOne_incl_cancel {G : 𝒞}
   rw [← sub_eq_zero]
   obtain ⟨g, hg⟩ := Triangle.yoneda_exact₃ _ (NaiveCotangentTwoTerm.ofDoubleNegOne d).distinguished
     (ξ - ξ') (by
-      show (NaiveCotangentTwoTerm.ofDoubleNegOne d).incl ≫ (ξ - ξ') = 0
+      change (NaiveCotangentTwoTerm.ofDoubleNegOne d).incl ≫ (ξ - ξ') = 0
       rw [Preadditive.comp_sub, h, sub_self])
   rw [hg, singleFunctor_shift_hom_eq_zero X₀ G g]
   exact comp_zero
@@ -112,7 +112,7 @@ theorem ofDoubleNegOne_exists_incl_comp {G : 𝒞} (θ : X₁ ⟶ G) (hθ : d �
   obtain ⟨ξ, hξ⟩ := Triangle.yoneda_exact₂ _
     (NaiveCotangentTwoTerm.ofDoubleNegOne d).distinguished
     ((DerivedCategory.singleFunctor 𝒞 0).map θ) (by
-      show (DerivedCategory.singleFunctor 𝒞 0).map d ≫
+      change (DerivedCategory.singleFunctor 𝒞 0).map d ≫
         (DerivedCategory.singleFunctor 𝒞 0).map θ = 0
       rw [← Functor.map_comp, hθ, Functor.map_zero])
   exact ⟨ξ, hξ.symm⟩
@@ -130,7 +130,7 @@ theorem twoTerm_eq_zero_of_injective
   have h' := injective_postcomp_of_iso e _ h
   obtain ⟨ξ, hξ⟩ := ofDoubleNegOne_exists_incl_comp d θ hθ
   have hz : ξ = 0 := h' (by
-    show ξ ≫ _ = 0 ≫ _
+    change ξ ≫ _ = 0 ≫ _
     rw [zero_comp]
     refine ofDoubleNegOne_incl_cancel d ?_
     refine (Category.assoc _ _ _).symm.trans ?_
@@ -174,7 +174,7 @@ theorem twoTerm_exists_d_comp_eq_of_injective
   have hz := ((NaiveCotangentTwoTerm.ofDoubleNegOne d).conormalExtClass_eq_zero_iff _
     (δ ≫ φ)).2 hδ
   refine ((NaiveCotangentTwoTerm.ofDoubleNegOne d).conormalExtClass_eq_zero_iff _ δ).1 (h' ?_)
-  show (NaiveCotangentTwoTerm.ofDoubleNegOne d).conormalExtClass _ δ ≫ _ = 0 ≫ _
+  change (NaiveCotangentTwoTerm.ofDoubleNegOne d).conormalExtClass _ δ ≫ _ = 0 ≫ _
   rw [zero_comp, ← hz]
   exact (Category.assoc _ _ _).trans (congrArg ((NaiveCotangentTwoTerm.ofDoubleNegOne d).proj ≫ ·)
     (((shiftFunctor (DerivedCategory 𝒞) (1 : ℤ)).map_comp _ _).symm.trans

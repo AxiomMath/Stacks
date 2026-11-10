@@ -177,7 +177,7 @@ theorem Etale.existsUnique_lift_site_of_isThickening (hf : (MorphismProperty.inv
   -- A section of a morphism of the site is itself a morphism of the site.
   have hQ : (BigFppfOver.toScheme B S hS).map (hf.rep.snd b) ≫ B.inclusion.map U.hom =
       B.inclusion.map (hf.rep.pullback b).hom := by
-    show B.inclusion.map (hf.rep.snd b).left ≫ B.inclusion.map U.hom = _
+    change B.inclusion.map (hf.rep.snd b).left ≫ B.inclusion.map U.hom = _
     rw [← B.inclusion.map_comp, Over.w]
   have hcomp : σ ≫ B.inclusion.map (hf.rep.pullback b).hom = B.inclusion.map U.hom := by
     rw [← hQ, ← Category.assoc, hσ₁, Category.id_comp]

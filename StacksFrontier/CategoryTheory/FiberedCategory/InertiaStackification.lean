@@ -575,7 +575,7 @@ private lemma morPresheafMap_comp {𝒜 : Type u₆} [Category.{v} 𝒜] {ℬ : 
           ((Functor.fiberFunctorOfCompEq hF.comp_eq U).obj b) =
       (hF.comp hH).morPresheafMap a b := by
   ext g m
-  show (hH.morPresheafMap ((Functor.fiberFunctorOfCompEq hF.comp_eq U).obj a)
+  change (hH.morPresheafMap ((Functor.fiberFunctorOfCompEq hF.comp_eq U).obj a)
       ((Functor.fiberFunctorOfCompEq hF.comp_eq U).obj b)).app g
       ((hF.morPresheafMap a b).app g m) = ((hF.comp hH).morPresheafMap a b).app g m
   simp [Functor.IsFibredOneMorphism.morPresheafMap_app,
@@ -1302,7 +1302,7 @@ private lemma exists_covering_functoriality (hG : p.IsFibredOneMorphism p' G)
         map_eq_id_of_isHomLift_id (p := p) W'
           (Functor.Fiber.fiberInclusion.map (Functor.morRestrict p ŷ ŷ k a₁))⟩,
       ⟨G.map (Functor.IsPreFibered.pullbackMap ŷ.2 (h ≫ g)) ≫ φ₀, ?_⟩, ?_⟩
-    · show (G.map (Functor.IsPreFibered.pullbackMap ŷ.2 (h ≫ g)) ≫ φ₀) ≫ A'.auto.asIso.hom =
+    · change (G.map (Functor.IsPreFibered.pullbackMap ŷ.2 (h ≫ g)) ≫ φ₀) ≫ A'.auto.asIso.hom =
         G.map (Functor.Fiber.fiberInclusion.map (Functor.morRestrict p ŷ ŷ k a₁)) ≫
           G.map (Functor.IsPreFibered.pullbackMap ŷ.2 (h ≫ g)) ≫ φ₀
       rw [← Category.assoc, hrel, Category.assoc, Category.assoc, hβfac]

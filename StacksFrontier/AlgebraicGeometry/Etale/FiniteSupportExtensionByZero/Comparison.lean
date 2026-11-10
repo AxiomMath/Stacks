@@ -241,7 +241,7 @@ public theorem etaleGraphFiniteSupport_baseChange :
   have hcoe : ∀ V : SmallEtale B U.obj.left.1 U.obj.left.property,
       (etaleGraphFiniteSupport B X hX U V).1 = Set.range (graphHom B X hX U V).base :=
     fun _ => rfl
-  show (etaleGraphFiniteSupport B X hX U W').1 =
+  change (etaleGraphFiniteSupport B X hX U W').1 =
     (graphBaseChange B X hX U g).base ⁻¹' (etaleGraphFiniteSupport B X hX U W).1
   rw [hcoe, hcoe]
   refine Set.Subset.antisymm ?_ ?_

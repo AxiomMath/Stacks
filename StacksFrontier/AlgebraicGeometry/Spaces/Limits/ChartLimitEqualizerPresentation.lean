@@ -107,7 +107,7 @@ theorem yoneda_map_inducedMap_comp_limitChartToSpace (hτ : τ ≫ f₀ = g₀) 
     yoneda.map (AffineChartSystem.LimitBridge.inducedMap LC LE hτ) ≫ A.limitChartToSpace C LC
       = A.limitChartToSpace E LE := by
   rw [AffineChartSystem.LimitBridge.yoneda_map_inducedMap]
-  show AffineChartSystem.LimitBridge.inducedPresheafMap LC LE hτ ≫ LC.toLimit ≫ A.limitIso.hom
+  change AffineChartSystem.LimitBridge.inducedPresheafMap LC LE hτ ≫ LC.toLimit ≫ A.limitIso.hom
       = LE.toLimit ≫ A.limitIso.hom
   rw [← Category.assoc, AffineChartSystem.LimitBridge.inducedPresheafMap_comp_toLimit]
 

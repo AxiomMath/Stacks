@@ -73,7 +73,7 @@ public def ofHomEquivSeqHomColim (F G : ℕᵒᵖ ⥤ 𝒟) :
 /-- The identity of a pro-object is the identity transformation of its functor of points. -/
 public lemma ofHomEquivSeqHomColim_id (F : ℕᵒᵖ ⥤ 𝒟) :
     ofHomEquivSeqHomColim F F (𝟙 (of F)) = 𝟙 _ := by
-  show (Pro.seqHomColimIso F).inv ≫ 𝟙 _ ≫ (Pro.seqHomColimIso F).hom = 𝟙 _
+  change (Pro.seqHomColimIso F).inv ≫ 𝟙 _ ≫ (Pro.seqHomColimIso F).hom = 𝟙 _
   simp
 
 /-- Composition of morphisms of pro-objects is composition of the transformations of functors of
@@ -127,7 +127,7 @@ public lemma homIsoOfRestrictIso_hom_app_seqStage (D : DeligneSystem j)
     {N : BoundedCoherentDerived X} {n : ℕ} (g : D.system.obj (op n) ⟶ N) :
     (D.homIsoOfRestrictIso e).hom.app N (Pro.seqStage D.system g) =
       e.inv.app (op n) ≫ (restrictBoundedCoherent j).map g := by
-  show (proHomComparison D.system (restrictBoundedCoherent j)
+  change (proHomComparison D.system (restrictBoundedCoherent j)
     (coneOfNatIso e ⟨K, 𝟙 _⟩)).app N (Pro.seqStage D.system g) = _
   rw [proHomComparison_stage]
   simp [coneOfNatIso]
@@ -281,7 +281,7 @@ public lemma restrictProHom_comp (ξ : D.proObject ⟶ E.proObject)
   have hc : proHomComponent (ξ ≫ ζ) 0 = Pro.seqStage D.system (h ≫ g) := by
     unfold proHomComponent
     rw [ProSeq.ofHomEquivSeqHomColim_comp]
-    show (ProSeq.ofHomEquivSeqHomColim D.system E.system ξ).app _
+    change (ProSeq.ofHomEquivSeqHomColim D.system E.system ξ).app _
       (proHomComponent ζ 0) = _
     rw [hg]
     exact Pro.transformation_seqStage _ h hh g

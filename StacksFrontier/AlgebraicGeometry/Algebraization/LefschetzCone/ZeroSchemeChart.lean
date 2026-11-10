@@ -78,6 +78,7 @@ def degreeOneSection (s : Γ(L, ⊤)) : powSections L 1 :=
   (Stacks.SectionRingGeometric.schemeGlobalSectionsAddEquiv X (natTensorPow L 1)).symm
     ((oneIso L).inv.app ⊤ s)
 
+omit [Stacks.Ample.IsInvertibleModule X L] in
 /-- The global section of `L^{⊗ 1}` underlying `degreeOneSection L s` is the image of `s` under
 the inverse of the left unitor `L^{⊗ 1} ≅ L`. -/
 theorem globalSection_degreeOneSection (s : Γ(L, ⊤)) :

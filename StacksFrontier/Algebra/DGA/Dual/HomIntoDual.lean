@@ -130,7 +130,7 @@ theorem forwardDual_mem_cocyclesₛ (k : ℤ)
   apply RDual.ext
   intro x
   rw [RightModule.dDual_apply]
-  show _ = (show M.carrier (-(k + 1)) →+ QZ from (0 : M.dualSpace (k + 1))) x
+  change _ = (show M.carrier (-(k + 1)) →+ QZ from (0 : M.dualSpace (k + 1))) x
   rw [RDual.zero_apply]
   rw [RightModule.dDownshift_apply]
   suffices hinner : (show M.carrier (-k) →+ QZ from M.forwardDual k f)
@@ -262,7 +262,7 @@ theorem invHom_map_d_aux (k : ℤ) (g : M.dualSpace k) (hg : g ∈ M.cocyclesₛ
   rw [dualPiece_degCastLin_apply]
   set b' : A.carrier (-((n + k) + 1)) :=
     degCast (V := fun j => A.carrier (-j)) (show (n + 1) + k = (n + k) + 1 by ring) b with hb'
-  show (show M.carrier (-k) →+ QZ from g) ((degCastLin R (show (n + 1) + -(n + 1 + k) = -k by
+  change (show M.carrier (-k) →+ QZ from g) ((degCastLin R (show (n + 1) + -(n + 1 + k) = -k by
       ring))
       (((M.smul (n + 1) (-(n + 1 + k))) ((M.d n) x)) b))
     = (show A.carrier (-((n + k) + 1)) →+ QZ from
@@ -438,7 +438,7 @@ theorem Phi_naturality (k : ℤ) {M' M : RightModule A} (φ : RightModuleHom M' 
   apply Subtype.ext
   apply RDual.ext
   intro x
-  show (show M'.carrier (-k) →+ QZ from (M'.forwardDual k (precomp φ ((dualModule A).shift k)
+  change (show M'.carrier (-k) →+ QZ from (M'.forwardDual k (precomp φ ((dualModule A).shift k)
       f))) x
       = (show M'.carrier (-k) →+ QZ from (dualMap φ k (M.forwardDual k f))) x
   rw [dualMap, RDual.precompₗ_apply, RightModule.forwardDual_apply, RightModule.forwardDual_apply]
@@ -707,7 +707,7 @@ theorem Psi_naturality (k : ℤ) {M' M : RightModule A} (φ : RightModuleHom M' 
       = cohomologyMap φ k (M.Psi k ξ) := by
   induction ξ using QuotientAddGroup.induction_on with
   | _ f =>
-    show M'.PsiFwd k (homotopyPrecomp φ ((dualModule A).shift k) (QuotientAddGroup.mk f))
+    change M'.PsiFwd k (homotopyPrecomp φ ((dualModule A).shift k) (QuotientAddGroup.mk f))
       = cohomologyMap φ k (M.PsiFwd k (QuotientAddGroup.mk f))
     simp only [homotopyPrecomp, RightModule.PsiFwd]
     exact congrArg _ (Phi_naturality A k φ f)

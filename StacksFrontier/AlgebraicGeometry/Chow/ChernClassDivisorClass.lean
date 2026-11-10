@@ -281,6 +281,7 @@ private theorem firstChernClassCap_fundamentalCycle_eq_cast {d : ℤ} (hd : d = 
 
 /-! ### Stacks 02U2 -/
 
+omit [IsIntegral X] in
 /-- Stacks 02TI for `L` in every degree: the cap product with the first Chern class of `L`
 factors through rational equivalence (`Stacks.Chow.firstChernCapFactorsEverywhere`). -/
 theorem firstChernClassCap_factors :

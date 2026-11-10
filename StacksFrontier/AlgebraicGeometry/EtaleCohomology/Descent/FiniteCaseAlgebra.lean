@@ -117,8 +117,8 @@ covering that property (B) asks for.
 ## Implementation notes
 
 The scalar towers between residue fields are threaded through the algebra instances
-`Localization.AtPrime.algebraOfLiesOver` and the predicate
-`Localization.AtPrime.IsLiesOverAlgebra`, taken as instance arguments rather than installed with
+`Localization.AtPrime.algebraOfLiesOver` and the `IsScalarTower` instances between the
+localizations, taken as instance arguments rather than installed with
 `letI` in the statements. This is Mathlib's own convention for such statements (see
 `Algebra.isUnramifiedAt_iff_map_eq`) and it is what lets the three residue fields `κ(p)`, `κ(t)`
 and `κ(s)` be recognised as a tower by instance search.
@@ -160,11 +160,11 @@ variable [Algebra A R] [Algebra A S] [Algebra R S] [IsScalarTower A R S]
   (p : Ideal A) [p.IsPrime] (t : Ideal R) [t.IsPrime] [t.LiesOver p]
   (s : Ideal S) [s.IsPrime] [s.LiesOver t] [s.LiesOver p]
   [Algebra (Localization.AtPrime p) (Localization.AtPrime t)]
-  [Localization.AtPrime.IsLiesOverAlgebra p t]
+  [IsScalarTower A (Localization.AtPrime p) (Localization.AtPrime t)]
   [Algebra (Localization.AtPrime t) (Localization.AtPrime s)]
-  [Localization.AtPrime.IsLiesOverAlgebra t s]
+  [IsScalarTower R (Localization.AtPrime t) (Localization.AtPrime s)]
   [Algebra (Localization.AtPrime p) (Localization.AtPrime s)]
-  [Localization.AtPrime.IsLiesOverAlgebra p s]
+  [IsScalarTower A (Localization.AtPrime p) (Localization.AtPrime s)]
 
 /-- If `S` is unramified over `R` at a prime `s`, and the residue field extension `κ(s)/κ(p)` is
 purely inseparable for some prime `p` of a base ring `A` below `s`, then the residue field
@@ -196,7 +196,7 @@ theorem exists_notMem_algebraMap_eq_zero_of_forall_not_liesOver
   · obtain ⟨Q, -, hQ, hQ'⟩ := Ideal.exists_ideal_over_prime_of_isIntegral p (⊥ : Ideal T)
       (by simpa [← RingHom.ker_eq_comap_bot] using hker)
     exact absurd ((Ideal.liesOver_iff Q p).mpr hQ'.symm) (h Q hQ)
-  · obtain ⟨a, ha, hap⟩ := SetLike.not_le_iff_exists.mp hker
+  · obtain ⟨a, ha, hap⟩ := IsConcreteLE.not_le_iff_exists.mp hker
     exact ⟨a, hap, ha⟩
 
 /-- **Swapping the two factors of a product of algebras.** The ring isomorphism
@@ -391,7 +391,7 @@ the form the hypothesis takes in practice, because it is what
 theorem exists_notMem_bijective_awayMap
     {t : Ideal R} [t.IsPrime] {s : Ideal S} [s.IsPrime] [s.LiesOver t]
     [Algebra (Localization.AtPrime t) (Localization.AtPrime s)]
-    [Localization.AtPrime.IsLiesOverAlgebra t s]
+    [IsScalarTower R (Localization.AtPrime t) (Localization.AtPrime s)]
     [Module.Finite R S] [Module.Flat R S] [Algebra.IsUnramifiedAt R s]
     (hs : t.primesOver S = {s})
     (hsurj : Function.Surjective (PrimeSpectrum.comap (algebraMap R S)))
@@ -414,11 +414,11 @@ theorem exists_notMem_bijective_awayMap_of_isPurelyInseparable
     (p : Ideal A) [p.IsPrime] (t : Ideal R) [t.IsPrime] [t.LiesOver p]
     (s : Ideal S) [s.IsPrime] [s.LiesOver t] [s.LiesOver p]
     [Algebra (Localization.AtPrime p) (Localization.AtPrime t)]
-    [Localization.AtPrime.IsLiesOverAlgebra p t]
+    [IsScalarTower A (Localization.AtPrime p) (Localization.AtPrime t)]
     [Algebra (Localization.AtPrime t) (Localization.AtPrime s)]
-    [Localization.AtPrime.IsLiesOverAlgebra t s]
+    [IsScalarTower R (Localization.AtPrime t) (Localization.AtPrime s)]
     [Algebra (Localization.AtPrime p) (Localization.AtPrime s)]
-    [Localization.AtPrime.IsLiesOverAlgebra p s]
+    [IsScalarTower A (Localization.AtPrime p) (Localization.AtPrime s)]
     [Module.Finite R S] [Module.Flat R S] [Algebra.IsUnramifiedAt R s]
     (hs : t.primesOver S = {s})
     (hsurj : Function.Surjective (PrimeSpectrum.comap (algebraMap R S)))
@@ -451,7 +451,7 @@ theorem liesOver_comap {A R S : Type*} [CommRing A] [CommRing R] [CommRing S]
     (q.comap f.toRingHom).LiesOver p := by
   refine ⟨?_⟩
   rw [Ideal.under_def, Ideal.comap_comap]
-  show p = Ideal.comap ((f : R →+* S).comp (algebraMap A R)) q
+  change p = Ideal.comap ((f : R →+* S).comp (algebraMap A R)) q
   rw [AlgHom.comp_algebraMap]
   exact q.over_def p
 
@@ -1193,7 +1193,7 @@ noncomputable def awayAlgEquiv :
       (k := algebraMap (Localization.Away a) (Localization.Away (algebraMap R S a)))
       (RingHom.ext fun y => ?_)) x
     simp only [RingHom.coe_comp, Function.comp_apply, RingEquiv.toRingHom_eq_coe,
-      AlgEquiv.coe_ringEquiv, RingHom.coe_coe]
+      AlgEquiv.coe_toRingEquiv, RingHom.coe_coe]
     rw [← IsScalarTower.algebraMap_apply R (Localization.Away a)
         (Localization (Algebra.algebraMapSubmonoid S (Submonoid.powers a))),
       ← IsScalarTower.algebraMap_apply R (Localization.Away a)

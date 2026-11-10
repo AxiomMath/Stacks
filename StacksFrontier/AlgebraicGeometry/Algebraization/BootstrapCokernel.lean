@@ -131,7 +131,7 @@ noncomputable def linearEquivPiOfDecomposition {R : Type*} [CommRing R] {Z W : T
     [DecidableEq ι] (s : ι → W →ₗ[R] Z) (p : ι → Z →ₗ[R] W)
     (hps : ∀ i k, p i ∘ₗ s k = if i = k then LinearMap.id else 0)
     (hsum : ∑ i, s i ∘ₗ p i = LinearMap.id) : Z ≃ₗ[R] (ι → W) :=
-  LinearEquiv.ofLinear (LinearMap.pi p) (∑ i, s i ∘ₗ LinearMap.proj i)
+  LinearEquiv.ofLinearMap (LinearMap.pi p) (∑ i, s i ∘ₗ LinearMap.proj i)
     (by
       refine LinearMap.ext fun w => funext fun k => ?_
       change p k ((∑ i, s i ∘ₗ LinearMap.proj i) w) = w k

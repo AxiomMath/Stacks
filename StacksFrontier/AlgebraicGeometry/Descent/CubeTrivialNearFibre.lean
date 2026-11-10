@@ -199,7 +199,7 @@ theorem exists_basicOpen_nonvanishing (H : IsPullback r q fX fY)
   obtain ⟨_, ⟨t, rfl⟩, hst, htZ⟩ :=
     PrimeSpectrum.isTopologicalBasis_basic_opens.exists_subset_of_mem_open hs₀ hZc.isOpen_compl
   refine ⟨t, fun htp => hst ?_, s, fun x hx => ?_⟩
-  · show t ∈ Ideal.comap χ ξ.asIdeal
+  · change t ∈ Ideal.comap χ ξ.asIdeal
     rw [Ideal.mem_comap, Ideal.algebraMap_residueField_eq_zero.mpr htp]
     exact Ideal.zero_mem _
   · by_contra hxN

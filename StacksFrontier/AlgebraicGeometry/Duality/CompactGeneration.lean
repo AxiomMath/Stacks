@@ -61,8 +61,8 @@ No `@[stacks]` attribute is attached. Tag 09IS is a statement about `D_QCoh(𝒪
 quasi-compact, quasi-separated scheme `X`; what is proved here is its algebraic counterpart over
 `D(R)`. The affine case of 09IS itself is
 `Stacks.Duality.Affine.isWeakTriangulatedGenerator_structureSheaf` of
-`StacksFrontier/AlgebraicGeometry/Duality/CompactGeneration/AffineGenerator.lean`, which goes through
-the equivalence `D(R) ≌ D_QCoh(𝒪_{Spec R})` of [Stacks, Tag 06Z0] — the repository has that
+`StacksFrontier/AlgebraicGeometry/Duality/CompactGeneration/AffineGenerator.lean`, which goes
+through the equivalence `D(R) ≌ D_QCoh(𝒪_{Spec R})` of [Stacks, Tag 06Z0] — the repository has that
 equivalence, as the adjunction `AlgebraicGeometry.derivedTildeQuasicoherentAdjunction` between
 `AlgebraicGeometry.derivedTilde` and `AlgebraicGeometry.derivedGlobalSectionsQuasicoherent`
 together with the invertibility of its unit and counit. 09IS itself needs in addition the

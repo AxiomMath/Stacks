@@ -85,7 +85,7 @@ private theorem h1Regular_of_ringEquiv {R S : Type u} [CommRing R] [CommRing S] 
 homology. -/
 private theorem h1Regular_of_jid_eq_top {R : Type*} [CommRing R] {r : ℕ} (f : Fin r → R)
     (h : Jid f = ⊤) : Koszul.IsH1Regular f := by
-  show IsZero ((Koszul.seqComplex f).homology 1)
+  change IsZero ((Koszul.seqComplex f).homology 1)
   refine ModuleCat.isZero_iff_subsingleton.mpr ?_
   refine (Module.annihilator_eq_top_iff (R := R)).mp ?_
   exact top_unique (h ▸ (Koszul.koszulSeq_smul_nullHomotopic_and_span_le_annihilator f).2 1)
@@ -396,7 +396,7 @@ private theorem isH1RegularImmersion_of_forall_exists_generators (i : Z ⟶ Y) [
   · obtain ⟨z, rfl⟩ := hrange
     obtain ⟨T, hyT, m, tail, hK, hgen⟩ := h z
     have hxO : i.liftCoborder z ∈ i.coborderRange.ι ⁻¹ᵁ T := by
-      show i.coborderRange.ι (i.liftCoborder z) ∈ T
+      change i.coborderRange.ι (i.liftCoborder z) ∈ T
       rwa [← Scheme.Hom.comp_apply, i.liftCoborder_ι]
     have hgenO := isGeneratedByOn_restriction i.coborderRange.ι (definingIdealOfHom i) T tail hgen
     rw [idealRestriction_coborderRange_definingIdealOfHom i] at hgenO

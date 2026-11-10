@@ -102,7 +102,7 @@ theorem ringHom_imageSubmodule_idealMultipleι_obj_of_isAffine (M : Modules.{u, 
     Submodule.map_span]
   refine le_antisymm (Submodule.span_le.2 ?_) ?_
   · rintro _ ⟨_, ⟨a, ha, s, rfl⟩, rfl⟩
-    show (ι.val.app (op U)) ((idealMultipleFactor _ M J ha).val.app (op U) s) ∈ _
+    change (ι.val.app (op U)) ((idealMultipleFactor _ M J ha).val.app (op U) s) ∈ _
     rw [ringHomIdealMultipleFactor_ι_app]
     exact Submodule.smul_mem_smul (Ideal.mem_map_of_mem _ ha) Submodule.mem_top
   · refine Submodule.smul_le.2 fun b hb s _ => ?_
@@ -124,7 +124,7 @@ theorem map_le_ringHomIdealSheaf_obj (I : Ideal A) (U : SmallEtale B S hS X) :
     (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf
       (smallEtaleRingedSite B S hS X hX).O)) I ha U
     (1 : chartRing B S hS X hX U)
-  show ringHomChartHom X hX φ U a ∈ (ringHomIdealSheaf X hX φ I).obj (op U)
+  change ringHomChartHom X hX φ U a ∈ (ringHomIdealSheaf X hX φ I).obj (op U)
   have h1 : ringHomChartHom X hX φ U a • (1 : chartRing B S hS X hX U) =
       ringHomChartHom X hX φ U a := mul_one _
   exact (h2.trans h1) ▸ h
@@ -139,7 +139,7 @@ theorem ringHomIdealSheaf_obj_of_isAffine (I : Ideal A) (U : SmallEtale B S hS X
     (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf
       (smallEtaleRingedSite B S hS X hX).O))
     (SheafOfModules.isQuasicoherentOnSite_unit _) I U hU
-  show (ringHomIdealSheaf X hX φ I).obj (op U) = _
+  change (ringHomIdealSheaf X hX φ I).obj (op U) = _
   refine h.trans ?_
   exact (Ideal.smul_eq_mul _ _).trans (Ideal.mul_top _)
 

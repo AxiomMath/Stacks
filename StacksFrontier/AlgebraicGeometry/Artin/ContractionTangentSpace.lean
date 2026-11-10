@@ -385,7 +385,7 @@ theorem siteMap_canonicalSite
     siteMap c o'.arrow ≫ canonicalSite o o' hA hA' = siteMap c o.arrow := by
   apply (BigFppfOver.forget B S hS).map_injective
   apply B.inclusion.map_injective
-  show B.inclusion.map ((siteMap c o'.arrow).left ≫ (canonicalSite o o' hA hA').left) =
+  change B.inclusion.map ((siteMap c o'.arrow).left ≫ (canonicalSite o o' hA hA').left) =
     B.inclusion.map (siteMap c o.arrow).left
   rw [Functor.map_comp, toScheme_canonicalSite, canonEq_j o' hA', canonEq_j o hA]
   simp only [Category.assoc]
@@ -427,7 +427,7 @@ def deformationMorphismOfEq
     o'.point.unop.1.unop ⟶ o.point.unop.1.unop).op, ht⟩
   triangle := by
     apply Quiver.Hom.unop_inj
-    apply CategoryOfElements.ext
+    apply Functor.Elements.hom_ext
     apply Quiver.Hom.unop_inj
     apply ObjectProperty.hom_ext
     exact siteMap_canonicalSite o o' hA hA'
@@ -455,10 +455,10 @@ theorem finiteDimensional_of_pointRead [IsNoetherianRing Λ] [IsOpenImmersion i�
       (LocallyNoetherianOver.elementsToOver B S hS (contractionFunctor c)) x₀ hx₀
     letI : Category D.carrier := D.category
     ∀ (h : IsPredeformationCategory (BasedCategory.ofFunctor D.projection).p)
-      (hS2 : SchlessingerConditionS2 (CategoryOfElements.π
+      (hS2 : SchlessingerConditionS2 (Functor.Elements.π
         (isomorphismClasses (BasedCategory.ofFunctor D.projection) h.cofibered))),
       letI : Fact (IsPredeformationCategory (BasedCategory.ofFunctor D.projection).p) := ⟨h⟩
-      letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+      letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
         (isomorphismClasses (BasedCategory.ofFunctor D.projection) h.cofibered))) := ⟨hS2⟩
       FiniteDimensional k (artinianTangentSpace Λ k
         (isomorphismClasses (BasedCategory.ofFunctor D.projection) h.cofibered)) := by
@@ -486,7 +486,7 @@ theorem finiteDimensional_of_pointRead [IsNoetherianRing Λ] [IsOpenImmersion i�
     let φ := canonicalMap o o' hA hA'
     have hp' : R.P.obj.map (defTestDatum o' hA').j.op
         (R.P.obj.map φ.m.op (pointOf R o hA)) = pointOf₀ (hx₀ := hx₀) R := by
-      show R.P.obj.map (siteMap c o'.arrow).op
+      change R.P.obj.map (siteMap c o'.arrow).op
         (R.P.obj.map (canonicalSite o o' hA hA').op (pointOf R o hA)) = _
       rw [← types_comp_apply (R.P.obj.map _) (R.P.obj.map _), ← Functor.map_comp, ← op_comp,
         siteMap_canonicalSite]
@@ -496,7 +496,7 @@ theorem finiteDimensional_of_pointRead [IsNoetherianRing Λ] [IsOpenImmersion i�
         value V₀ (defTestDatum o hA) (pointOf R o hA) (pointOf_j R o hA) := by
       ext r
       rw [RingHom.congr_fun h1 r]
-      show (Algebra.TensorProduct.map (TrivSqZeroExt.map (LinearMap.id : V₀ →ₗ[k] V₀))
+      change (Algebra.TensorProduct.map (TrivSqZeroExt.map (LinearMap.id : V₀ →ₗ[k] V₀))
         (AlgHom.id k l)) _ = _
       rw [TrivSqZeroExt.map_id, Algebra.TensorProduct.map_id]
       rfl
@@ -512,7 +512,7 @@ theorem finiteDimensional_of_pointRead [IsNoetherianRing Λ] [IsOpenImmersion i�
     let ψ : (show 𝓕.obj from o) ⟶ (show 𝓕.obj from o') := m
     have hψ : 𝓕.p.IsHomLift (𝟙 (F.obj V₀)) ψ := by
       apply IsHomLift.of_fac 𝓕.p _ ψ hA hA'
-      show 𝟙 (F.obj V₀) = eqToHom _ ≫ eqToHom (hA.trans hA'.symm) ≫ eqToHom _
+      change 𝟙 (F.obj V₀) = eqToHom _ ≫ eqToHom (hA.trans hA'.symm) ≫ eqToHom _
       have key : ∀ {X Y Z : ArtinianLocalAlgCat.{u, u, u} Λ k} (h₁ : X = Y) (h₂ : Y = Z)
           (h₃ : Z = X), 𝟙 X = eqToHom h₁ ≫ eqToHom h₂ ≫ eqToHom h₃ := by
         intro X Y Z h₁ h₂ h₃
@@ -520,7 +520,7 @@ theorem finiteDimensional_of_pointRead [IsNoetherianRing Λ] [IsOpenImmersion i�
         simp
       exact key _ _ _
     have : IsIso (𝓕.p.map ψ) := by
-      show IsIso (eqToHom (hA.trans hA'.symm))
+      change IsIso (eqToHom (hA.trans hA'.symm))
       infer_instance
     have : IsIso ψ := Deformation.isIso_of_isIso_map h.cofibered ψ
     apply classOf_eq_of_isIsomorphic
@@ -608,7 +608,7 @@ theorem uPoint_mapTriple {V₂ V₁ : BigFppfOver B S hS} (φ : V₂ ⟶ V₁) (
   have he : e₂ = G.toFunctor.map φ.op e₁ :=
     Subtype.ext (ULift.ext (Triple.uValue_mapTriple φ t h
       (Triple.mapTriple_Z_eq_empty c φ t h)))
-  show (J.toSheafify G.toFunctor).app (op V₂) e₂ =
+  change (J.toSheafify G.toFunctor).app (op V₂) e₂ =
     (J.sheafify G.toFunctor).map φ.op ((J.toSheafify G.toFunctor).app (op V₁) e₁)
   rw [he]
   exact NatTrans.naturality_apply (J.toSheafify G.toFunctor) φ.op e₁

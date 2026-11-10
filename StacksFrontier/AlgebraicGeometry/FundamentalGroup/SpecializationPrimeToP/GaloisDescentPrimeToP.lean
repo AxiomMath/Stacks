@@ -94,7 +94,7 @@ theorem exists_open_normal_comap_eq_of_ker_le {G H : Type*} [Group G] [Topologic
     Topology.IsQuotientMap.of_surjective_continuous hφ φ.continuous
   refine ⟨N.map φ.toMonoidHom, hnorm.map _ hφ, ?_, hcm⟩
   rw [← hq.isOpen_preimage]
-  show IsOpen (φ.toMonoidHom ⁻¹' (N.map φ.toMonoidHom : Set H))
+  change IsOpen (φ.toMonoidHom ⁻¹' (N.map φ.toMonoidHom : Set H))
   rwa [← Subgroup.coe_comap, hcm]
 
 end Stacks.FundamentalGroup
@@ -196,7 +196,7 @@ theorem forall_lift_primeToP_of_isSpecializationMap_of_essImage_isGalois {X S : 
           (pullback.fst f _) (pullback.fst f s'.hom)
           (pullback.lift_fst _ _ _).symm).app C).symm ≪≫ e⟩⟩
     rw [← hstab, MulAction.mem_stabilizer_iff]
-    show ConcreteCategory.hom (γ.asIso.hom.app Y) y = y
+    change ConcreteCategory.hom (γ.asIso.hom.app Y) y = y
     rw [h2]
     rfl
   exact exists_open_normal_comap_eq_of_ker_le sp hsurj hnorm hopen hker
@@ -223,9 +223,8 @@ the input here is restricted to the covers of degree prime to `p` — which is t
 between the two tags, and the reason Tag 0C0R holds in residue characteristic `p` while the
 unrestricted descent does not.
 
-The residue characteristic `hchar` is not used: the reduction is uniform in `p`. It is carried so
-that the statement is the one Tag 0C0R makes, the descent hypothesis being plausible only for the
-residue characteristic.
+No hypothesis ties `p` to the residue characteristic: the reduction is uniform in `p`. The
+descent hypothesis is plausible only when `p` is the residue characteristic, as in Tag 0C0R.
 
 **No `@[stacks 0C0R]` attribute is attached**: `Hgal` is an input, not a theorem. -/
 theorem surjective_and_exists_continuousMulEquiv_primeToP_of_essImage_isGalois {X S : Scheme.{u}}
@@ -235,7 +234,6 @@ theorem surjective_and_exists_continuousMulEquiv_primeToP_of_essImage_isGalois {
     (sp : EtaleFundamentalGroup (fiberOverGeometricPoint f s') x' →ₜ*
       EtaleFundamentalGroup (fiberOverGeometricPoint f s) x)
     (hsp : IsSpecializationMap f s' s x' x sp)
-    (hchar : ringChar (S.residueField (s.hom default)) = p)
     (hgal : ∀ A : FiniteEtaleOver (fiberOverGeometricPoint f s'), IsGalois A →
       ¬ p ∣ Nat.card (Aut A) →
       ∃ B : FiniteEtaleOver X,

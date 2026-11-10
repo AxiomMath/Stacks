@@ -66,7 +66,7 @@ def milnorKSymbol (k : Type u) [Field k] (u : kˣ) : MilnorKRing k :=
 theorem milnorKSymbol_mem_milnorKGrading (u : kˣ) :
     milnorKSymbol k u ∈ milnorKGrading k 1 := by
   refine ⟨TensorAlgebra.ι ℤ (Additive.ofMul u), ?_, rfl⟩
-  show TensorAlgebra.ι ℤ (Additive.ofMul u) ∈
+  change TensorAlgebra.ι ℤ (Additive.ofMul u) ∈
     ((LinearMap.range
       (TensorAlgebra.ι ℤ : Additive kˣ →ₗ[ℤ] MilnorKTensorAlgebra k)) ^ 1).toAddSubgroup
   simpa only [pow_one, Submodule.mem_toAddSubgroup] using

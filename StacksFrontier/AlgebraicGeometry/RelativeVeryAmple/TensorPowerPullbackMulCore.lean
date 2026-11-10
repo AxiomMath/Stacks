@@ -151,7 +151,7 @@ theorem natTensorPowComparison_powAdd (n : ℕ) :
       have hρ : δ F (natTensorPow L n) (𝟙_ C) ≫ (F.obj (natTensorPow L n) ◁ η F) =
           F.map (ρ_ (natTensorPow L n)).hom ≫ (ρ_ (F.obj (natTensorPow L n))).inv := by
         rw [Functor.OplaxMonoidal.oplax_right_unitality F (natTensorPow L n),
-          Iso.map_hom_inv_id_assoc]
+          Iso.hom_inv_id_map_assoc]
       have hgoal : F.map (ρ_ (natTensorPow L n)).hom ≫ natTensorPowComparison F L n =
           δ F (natTensorPow L n) (𝟙_ C) ≫
             (natTensorPowComparison F L n ⊗ₘ η F) ≫ (ρ_ (natTensorPow (F.obj L) n)).hom := by
@@ -176,7 +176,7 @@ theorem natTensorPowComparison_powAdd (n : ℕ) :
           ← coherence_whiskerLeft_associator_inv_assoc (natTensorPowComparison F L n)
             (natTensorPowComparison F L m) (δ F (natTensorPow L m) L)]
         rw [F.map_comp]
-        simp only [Category.assoc, Iso.map_hom_inv_id_assoc]
+        simp only [Category.assoc, Iso.hom_inv_id_map_assoc]
         rw [← Functor.OplaxMonoidal.δ_natural_left_assoc F (powAdd L n m) L,
           ← comp_whiskerRight, ih]
         simp only [comp_whiskerRight]

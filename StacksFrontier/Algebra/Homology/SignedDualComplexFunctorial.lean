@@ -95,6 +95,7 @@ variable (K : CochainComplex C ℤ) (D : ℤ → C)
   (q' : ∀ i j : ℤ, i + j = 0 → ExactPairing (K'.X i) (D' j))
   (φ : K ⟶ K')
 
+omit [MonoidalPreadditive C] in
 /-- `CochainComplex.signedTransposeAt` with the two pairings named rather than packaged as
 `CategoryTheory.HasRightDual` instances. -/
 theorem signedTransposeAt_eq_mate (n : ℤ) :
@@ -147,6 +148,7 @@ theorem dualMate_comp_signedTransposeAt (n : ℤ) :
   rw [Linear.comp_units_smul, Linear.units_smul_comp]
   exact congrArg _ (h1.symm.trans ((congrArg _ (φ.comm n (n + 1)).symm).trans h2))
 
+omit [MonoidalPreadditive C] in
 /-- **The induced degreewise maps commute with the differentials of the dual complexes.** -/
 theorem dualComplexMapX_comp_dualD (n i j : ℤ) (hi : n + 1 + i = 0) (hj : n + j = 0) :
     dualComplexMapX K D q K' D' q' φ i ≫ dualD K D q i j =

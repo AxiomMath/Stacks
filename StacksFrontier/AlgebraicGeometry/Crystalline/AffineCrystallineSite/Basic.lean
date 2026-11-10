@@ -124,7 +124,7 @@ private theorem envelope_lift
   let T := DividedPowerRing.of (Shrink.{max u v} S) K δ'
   let down : T →+* B := S.subtype.comp e.toRingHom
   have hdown_mem (y : T) : y ∈ K ↔ down y ∈ B.ideal := by
-    show y ∈ I.map e.symm.toRingHom ↔ e y ∈ I
+    change y ∈ I.map e.symm.toRingHom ↔ e y ∈ I
     rw [Ideal.mem_map_iff_of_surjective e.symm.toRingHom e.symm.surjective]
     refine ⟨?_, fun hy => ⟨e y, hy, e.symm_apply_apply y⟩⟩
     rintro ⟨z, hz, rfl⟩
@@ -135,7 +135,7 @@ private theorem envelope_lift
     simp only [δ', DividedPowers.ofRingEquiv, down, RingHom.comp_apply,
       RingEquiv.symm_symm, RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom,
       RingEquiv.apply_symm_apply]
-    show ((DividedPowerRing.restrictDividedPowers B.ideal B.dividedPowers S _).dpow n
+    change ((DividedPowerRing.restrictDividedPowers B.ideal B.dividedPowers S _).dpow n
       (e y)).val = _
     dsimp only [DividedPowerRing.restrictDividedPowers]
     rw [dite_eq_left hmem]
@@ -152,16 +152,16 @@ private theorem envelope_lift
     rw [← RingHom.comp_assoc, hdf, hfa]
   have hmemA (y : A) (hy : y ∈ A.ideal) : (fT.comp a) y ∈ K := by
     apply (hdown_mem _).mpr
-    show (down.comp (fT.comp a)) y ∈ B.ideal
+    change (down.comp (fT.comp a)) y ∈ B.ideal
     rw [hdfA]
     exact b.ideal_comp (Ideal.mem_map_of_mem _ hy)
   let bT : DividedPowers.DPMorphism A.dividedPowers T.dividedPowers :=
     ⟨fT.comp a, Ideal.map_le_iff_le_comap.mpr hmemA, by
       intro n y hy
       apply (S.subtype_injective.comp e.injective)
-      show down (δ'.dpow n ((fT.comp a) y)) = down ((fT.comp a) (A.dividedPowers.dpow n y))
+      change down (δ'.dpow n ((fT.comp a) y)) = down ((fT.comp a) (A.dividedPowers.dpow n y))
       rw [hdown_dp _ _ (hmemA y hy)]
-      show B.dividedPowers.dpow n ((down.comp (fT.comp a)) y) =
+      change B.dividedPowers.dpow n ((down.comp (fT.comp a)) y) =
         (down.comp (fT.comp a)) (A.dividedPowers.dpow n y)
       rw [hdfA]
       exact b.dpow_comp y hy⟩
@@ -169,7 +169,7 @@ private theorem envelope_lift
     ⟨fT, Ideal.map_le_iff_le_comap.mpr (by
       intro y hy
       apply (hdown_mem _).mpr
-      show (down.comp fT) y ∈ B.ideal
+      change (down.comp fT) y ∈ B.ideal
       rw [hdf]
       exact hf (Ideal.mem_map_of_mem _ hy))⟩
   have hover : IdealPair.Hom.comp pair
@@ -187,7 +187,7 @@ private theorem envelope_lift
     have hval := congrArg Subtype.val ((E.homEquiv T bT).apply_symm_apply ⟨pair, hover⟩)
     have hring := congrArg IdealPair.Hom.toRingHom (hval.symm.trans hg)
     change fT = g.1.toRingHom.comp E.algebraMap.toRingHom at hring
-    show down.comp (g.1.toRingHom.comp E.algebraMap.toRingHom) = f
+    change down.comp (g.1.toRingHom.comp E.algebraMap.toRingHom) = f
     rw [← hring, hdf]
 
 private noncomputable def dpMapToBot
@@ -287,7 +287,7 @@ private theorem polynomialEnvelopeQuotient
       qEDP.comp env.structureMap := by
     apply DividedPowers.DPMorphism.ext
     funext a
-    show ψ (q.toRingHom (env.structureMap.toRingHom a)) =
+    change ψ (q.toRingHom (env.structureMap.toRingHom a)) =
       qE (env.structureMap.toRingHom a)
     have hstruct : env.algebraMap.toRingHom (algebraMap s.A P a) =
         env.structureMap.toRingHom a := (RingHom.ext_iff.mp env.algebraMap_comp) a
@@ -314,7 +314,7 @@ private theorem polynomialEnvelopeQuotient
   refine ⟨pToC.symm.trans ψEquiv, ?_⟩
   apply RingHom.ext
   intro x
-  show ψ (pToC.symm (f x)) = qE (env.algebraMap.toRingHom x)
+  change ψ (pToC.symm (f x)) = qE (env.algebraMap.toRingHom x)
   have hx : pToC.symm (f x) = qP x := pToC.injective <| (pToC.apply_symm_apply (f x)).trans
     (RingHom.quotientKerEquivOfSurjective_apply_mk (f := f.toRingHom) hf x).symm
   rw [hx]
@@ -326,7 +326,7 @@ private theorem completionToQuotient_algebraMap
     DividedPowers.completionToQuotient I p hp
       (algebraMap R (AdicCompletion (DividedPowers.pAdicIdeal p) R) x) =
       Ideal.Quotient.mk I x := by
-  show (Ideal.Quotient.factor (DividedPowers.pAdicIdeal_pow_nilpotencyExponent_le I p hp))
+  change (Ideal.Quotient.factor (DividedPowers.pAdicIdeal_pow_nilpotencyExponent_le I p hp))
     (AdicCompletion.evalₐ (DividedPowers.pAdicIdeal p)
       (DividedPowers.nilpotencyExponent I p hp) (AdicCompletion.of _ R x)) = _
   simp
@@ -435,7 +435,7 @@ private theorem quotientMapToCompletedThickening_comp_base
     (quotientMapToCompletedThickening s B).comp B.fromBase.toRingHom =
       algebraMap s.A s.C := by
   ext a
-  show (quotientEquivOfCompletedThickening s B).symm
+  change (quotientEquivOfCompletedThickening s B).symm
       (Ideal.Quotient.mk B.ring.ideal (B.fromBase a)) = _
   have hc : Ideal.Quotient.mk B.ring.ideal (B.fromBase a) =
       B.toQuotient (algebraMap s.A s.C a) := (RingHom.ext_iff.mp B.commutes) a
@@ -495,7 +495,7 @@ private theorem quotientMapToCompletedThickening_polynomialLift
   classical
   apply MvPolynomial.algHom_ext
   intro i
-  show quotientMapToCompletedThickening s B
+  change quotientMapToCompletedThickening s B
     (MvPolynomial.aeval
       (fun i => Classical.choose
         (quotientMapToCompletedThickening_surjective s B
@@ -570,7 +570,7 @@ private theorem completion_lift
         (pAdicQuotientMap f.toRingHom p m).comp (Ideal.Quotient.factorPow PR h) := by
       ext z
       rfl
-    show (Ideal.Quotient.factorPow PS h)
+    change (Ideal.Quotient.factorPow PS h)
       (pAdicQuotientMap f.toRingHom p n (AdicCompletion.evalₐ PR n z)) = _
     rw [← RingHom.comp_apply, hh, RingHom.comp_apply]
     exact congrArg (pAdicQuotientMap f.toRingHom p m) (factor_eval PR h z)
@@ -618,10 +618,10 @@ private theorem completion_lift
   apply (AdicCompletion.ofAlgEquiv PS).injective
   apply AdicCompletion.ext_evalₐ
   intro n
-  show AdicCompletion.evalₐ PS n (AdicCompletion.of PS S (g (algebraMap R _ z))) =
+  change AdicCompletion.evalₐ PS n (AdicCompletion.of PS S (g (algebraMap R _ z))) =
     AdicCompletion.evalₐ PS n (AdicCompletion.of PS S (f z))
   rw [AdicCompletion.evalₐ_of, AdicCompletion.evalₐ_of, hg]
-  show pAdicQuotientMap f.toRingHom p n (AdicCompletion.evalₐ PR n (AdicCompletion.of PR R z)) = _
+  change pAdicQuotientMap f.toRingHom p n (AdicCompletion.evalₐ PR n (AdicCompletion.of PR R z)) = _
   rw [AdicCompletion.evalₐ_of]
   rfl
 
@@ -658,7 +658,7 @@ private theorem polynomialEnvelopeMapToCompletedThickening
   exact envelope_lift s.A (algebraMap s.A P) J hAP env B.ring B.fromBase
     qPoly.toRingHom hJ (by
       ext a
-      show qPoly (algebraMap s.A P a) = B.fromBase a
+      change qPoly (algebraMap s.A P a) = B.fromBase a
       rw [qPoly.commutes, hA]
       rfl)
 
@@ -685,7 +685,7 @@ public theorem exists_hom_from_completedPolynomialEnvelope
       Ideal.Quotient.mk B.ring.ideal
         (polynomialLiftToCompletedThickening s B f z) = B.toQuotient (f z) := by
     apply (quotientEquivOfCompletedThickening s B).symm.injective
-    show quotientMapToCompletedThickening s B
+    change quotientMapToCompletedThickening s B
       (polynomialLiftToCompletedThickening s B f z) =
         (quotientEquivOfCompletedThickening s B).symm
           (quotientEquivOfCompletedThickening s B (f z))
@@ -712,7 +712,7 @@ public theorem exists_hom_from_completedPolynomialEnvelope
   refine ⟨g, ?_, ?_⟩
   · apply DividedPowers.DPMorphism.ext
     funext a
-    show g (b a) = B.fromBase a
+    change g (b a) = B.fromBase a
     have hba := (RingHom.ext_iff.mp (eq_of_heq hb)) a
     change b a = algebraMap E _ (env.structureMap a) at hba
     rw [hba]
@@ -721,10 +721,10 @@ public theorem exists_hom_from_completedPolynomialEnvelope
     have hqz := (RingHom.ext_iff.mp (eq_of_heq hq)) z
     change tq (f z) = Ideal.Quotient.mk (completionIdeal E.ideal s.p hp)
       (algebraMap E _ (env.algebraMap.toRingHom z)) at hqz
-    show Ideal.quotientMap B.ring.ideal g.toRingHom
+    change Ideal.quotientMap B.ring.ideal g.toRingHom
       (Ideal.map_le_iff_le_comap.mp g.ideal_comp) (tq (f z)) = B.toQuotient (f z)
     rw [hqz]
-    show Ideal.Quotient.mk B.ring.ideal
+    change Ideal.Quotient.mk B.ring.ideal
       (g (algebraMap E _ (env.algebraMap.toRingHom z))) = B.toQuotient (f z)
     exact (congrArg (Ideal.Quotient.mk B.ring.ideal)
       (((RingHom.ext_iff.mp hg) (env.algebraMap.toRingHom z)).trans

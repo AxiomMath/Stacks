@@ -115,7 +115,7 @@ abbrev totalProjection {S S' X' : Scheme.{u}} (t : S ⟶ S')
 /-- Consecutive base-level inclusions commute with their maps to the ambient scheme. -/
 lemma baseStep_comp_inclusion {S S' : Scheme.{u}} (t : S ⟶ S') (i : ℕ) :
     baseStep t i ≫ baseInclusion t (i + 1) = baseInclusion t i := by
-  show Scheme.IdealSheafData.inclusion _ ≫ _ = _
+  change Scheme.IdealSheafData.inclusion _ ≫ _ = _
   exact Scheme.IdealSheafData.inclusion_subschemeι _
 
 /-- The canonical map between consecutive base-changed levels. -/
@@ -166,7 +166,7 @@ private lemma glueDataObjHom_ker_sq {X : Scheme.{u}} (I J : X.IdealSheafData)
   have hker : RingHom.ker f.appTop.hom = Ideal.comap eI.toRingHom (RingHom.ker q) := by
     ext x
     have hh : eJ (f.appTop.hom x) = q (eI x) := RingHom.congr_fun hmap x
-    show f.appTop.hom x = 0 ↔ eI x ∈ RingHom.ker q
+    change f.appTop.hom x = 0 ↔ eI x ∈ RingHom.ker q
     exact ⟨fun hx => RingHom.mem_ker.mpr (by rw [← hh, hx, map_zero]),
       fun hx => eJ.injective (by rw [hh, RingHom.mem_ker.mp hx, map_zero])⟩
   have hfac : (RingHom.ker q) ^ 2 = ⊥ := by
@@ -177,7 +177,7 @@ private lemma glueDataObjHom_ker_sq {X : Scheme.{u}} (I J : X.IdealSheafData)
         (hf := Ideal.Quotient.mk_surjective)).mp hx
     exact Ideal.Quotient.eq_zero_iff_mem.mpr (hsq U (by simpa [pow_two] using hy))
   apply Scheme.IdealSheafData.ext_of_isAffine
-  show (f.ker.ideal Wtop) ^ 2 = ⊥
+  change (f.ker.ideal Wtop) ^ 2 = ⊥
   have hkerApply : f.ker.ideal Wtop = RingHom.ker f.appTop.hom := Scheme.Hom.ker_apply f Wtop
   rw [hkerApply, hker]
   exact (comap_pow_two_eq_bot_iff _ eI.bijective _).mpr hfac
@@ -236,18 +236,18 @@ private lemma idealSheafInclusion_ker_sq {X : Scheme.{u}} (I J : X.IdealSheafDat
 lemma baseStep_firstOrder {S S' : Scheme.{u}} (t : S ⟶ S') (i : ℕ) :
     IsFirstOrderThickening (baseStep t i) := by
   refine ⟨?_, ?_⟩
-  · show IsClosedImmersion (Scheme.IdealSheafData.inclusion _)
+  · change IsClosedImmersion (Scheme.IdealSheafData.inclusion _)
     infer_instance
   · let J := t.ker ^ (i + 1)
     let I := t.ker ^ (i + 2)
     have hIJ : I ≤ J := fun _ => Ideal.pow_le_pow_right (Nat.le_succ (i + 1))
     have hsq : J * J ≤ I := by
       intro U
-      show J.ideal U * J.ideal U ≤ I.ideal U
+      change J.ideal U * J.ideal U ≤ I.ideal U
       dsimp [J, I]
       rw [← Submodule.pow_add _ (by omega)]
       exact Ideal.pow_le_pow_right (by omega)
-    show (Scheme.IdealSheafData.inclusion hIJ).ker ^ 2 = ⊥
+    change (Scheme.IdealSheafData.inclusion hIJ).ker ^ 2 = ⊥
     exact idealSheafInclusion_ker_sq I J hIJ hsq
 
 /-- Each step of the base-changed filtration is the base change of the corresponding base
@@ -300,7 +300,7 @@ lemma baseInitialMap_comp_inclusion {S S' : Scheme.{u}} (t : S ⟶ S') :
 base scheme. -/
 lemma baseInclusion_isIso {S S' : Scheme.{u}} (t : S ⟶ S')
     {n : ℕ} (hn : t.ker ^ (n + 1) = ⊥) : IsIso (baseInclusion t n) := by
-  show IsIso ((t.ker ^ (n + 1)).subschemeι)
+  change IsIso ((t.ker ^ (n + 1)).subschemeι)
   rwa [Scheme.isIso_subschemeι_iff_eq_bot]
 
 /-- The initial level of the base-changed filtration is canonically the given cartesian base

@@ -136,7 +136,7 @@ theorem canonical_eq_of_further_step {L Zk Zj Zi : Scheme.{u}} (πk : L ⟶ Zk) 
   have coc := canHom_comp πk m g πj mg πi hm hmg hg hki
   simp only [canStep, Functor.map_comp, Category.assoc, canIso_hom]
   rw [coc, canHom_naturality_assoc, h, ← reassoc_of% (coc F), ← canIso_hom m g mg hmg F,
-    Iso.map_inv_hom_id_assoc]
+    Iso.inv_hom_id_map_assoc]
 
 end Stacks.AlgebraicGeometry.ModuleLimits
 

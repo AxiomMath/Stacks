@@ -118,7 +118,7 @@ theorem equidimensionalPushforward_comp {X Y Z : (SmoothProjectiveScheme k).Full
       (((dimPart X.obj.hom d).ι ≫ f.hom.left) ≫ inv (dimPart Y.obj.hom e).ι)
       ((dimPart Y.obj.hom e).ι ≫ g.hom.left) ((dimPart X.obj.hom d).ι ≫ (f ≫ g).hom.left)
       (by simp) _ _ _ _ _ _ _ _).symm
-  · simp only [equidimensionalPushforward, AddMonoidHom.pi_apply, dif_neg hc,
+  · simp only [equidimensionalPushforward, AddMonoidHom.pi_apply, dite_eq_right hc,
       AddMonoidHom.zero_apply]
 
 /-! ### Surjectivity -/

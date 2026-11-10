@@ -355,7 +355,7 @@ theorem isStandardEtale_F4_F4pow4 :
     (adjoin_singleton_eq_top_of_injective e.injective)
   funext j
   rw [Polynomial.aeval_pi_apply₂]
-  show (aeval (x j)) f = 0
+  change (aeval (x j)) f = 0
   rw [hf, map_prod]
   exact Finset.prod_eq_zero (Finset.mem_univ j) (by simp [hx])
 

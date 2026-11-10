@@ -118,7 +118,7 @@ theorem hasTorAmplitude_biproduct {ι : Type}
   intro F i hi
   let G := T.tensorModule F ⋙
     DerivedCategory.homologyFunctor (RingedSite.Modules.{u, v, w} X) i
-  show IsZero (G.obj (⨁ f))
+  change IsZero (G.obj (⨁ f))
   rw [IsZero.iff_id_eq_zero, ← G.map_id, ← biproduct.total, G.map_sum]
   refine Finset.sum_eq_zero fun j _ => ?_
   rw [G.map_comp, (hf j F i hi).eq_of_tgt (G.map (biproduct.π f j)) 0, zero_comp]

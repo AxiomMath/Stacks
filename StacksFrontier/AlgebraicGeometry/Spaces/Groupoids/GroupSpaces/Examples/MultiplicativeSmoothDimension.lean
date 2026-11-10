@@ -55,7 +55,8 @@ theorem isScalarTower_polynomial (R : Type*) [CommRing R] :
 theorem smooth (R : Type u) [CommRing R] : Algebra.Smooth R (LaurentPolynomial R) := by
   have : Algebra.Smooth R (MvPolynomial PUnit.{u + 1} R) :=
     AlgebraicGeometry.smooth_mvPolynomial R PUnit.{u + 1}
-  have : Algebra.Smooth R R[X] := Algebra.Smooth.of_equiv (MvPolynomial.pUnitAlgEquiv.{u, u} R)
+  have : Algebra.Smooth R R[X] :=
+    Algebra.Smooth.of_equiv (MvPolynomial.uniqueAlgEquiv.{u, u} R PUnit.{u + 1})
   have : Algebra.Smooth R[X] (LaurentPolynomial R) := Algebra.Smooth.of_isLocalization_Away X
   have := isScalarTower_polynomial R
   exact Algebra.Smooth.comp R R[X] (LaurentPolynomial R)
@@ -174,7 +175,7 @@ theorem isSmooth_multiplicativeGroupSpace {B : (BigFppfOver 𝒞 S hS)ᵒᵖ ⥤
   have hcomp : e.hom ≫ (prod.fst : B ⨯ yoneda.obj a ⟶ B) = (prod.fst : B ⨯ P ⟶ B) := by
     simp [e]
   rw [multiplicativeGroupSpace_obj_X]
-  show IsSmooth 𝒞 S hS (prod.fst : B ⨯ P ⟶ B)
+  change IsSmooth 𝒞 S hS (prod.fst : B ⨯ P ⟶ B)
   rw [← hcomp]
   exact isSmooth_comp 𝒞 S hS hsrc hprod hB _ _ (isSmooth_of_isIso 𝒞 S hS hsrc hprod _)
     (isSmooth_prod_fst_yoneda_obj a hB (smooth_toScheme_map_multiplicativeGroupSiteObject 𝒞 S hS))

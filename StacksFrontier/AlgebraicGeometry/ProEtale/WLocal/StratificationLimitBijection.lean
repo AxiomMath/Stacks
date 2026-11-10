@@ -120,7 +120,7 @@ theorem stratificationLimit_closedScheme_bijective (L : StratificationLimit A) :
           TypeCat.Hom.hom g (ULift.up ())) (hlim.fac t (Opposite.op E))
     refine ⟨y, ?_⟩
     rw [hstageValue y (∅ : Finset A), hycoord]
-    show (closedStrataToBase (∅ : Finset A)).base
+    change (closedStrataToBase (∅ : Finset A)).base
       ((L.closedStage (∅ : Finset A)).hom.base
         ((L.closedStage (∅ : Finset A)).inv.base (yStage p ∅))) = _
     rw [schemeIso_hom_inv_base_apply]

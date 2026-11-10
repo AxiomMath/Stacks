@@ -556,8 +556,8 @@ public theorem lineSubmodule_le_pointSubmodule_of_mem_collinearLocus {x : prodTh
     (h21 : ¬ pointSubmodule k V ((pr₂ k V).base x) ≤ pointSubmodule k V ((pr₁ k V).base x)) :
     lineSubmodule k V ((pr₁ k V).base x) ((pr₂ k V).base x) ≤
       pointSubmodule k V ((pr₃ k V).base x) := by
-  obtain ⟨b, hb₁, hb₂⟩ := SetLike.not_le_iff_exists.mp h12
-  obtain ⟨a, ha₂, ha₁⟩ := SetLike.not_le_iff_exists.mp h21
+  obtain ⟨b, hb₁, hb₂⟩ := IsConcreteLE.not_le_iff_exists.mp h12
+  obtain ⟨a, ha₂, ha₁⟩ := IsConcreteLE.not_le_iff_exists.mp h21
   obtain ⟨u, hmem⟩ := exists_mem_chartOpen k V x
   have h₁ := chartOpen_le_pr₁ k V u
   have h₂ := chartOpen_le_pr₂ k V u

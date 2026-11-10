@@ -114,7 +114,7 @@ theorem bundleFormulaEquiv_symm_coeff_cycleClassSeries_last
     apply (𝔚.bundleFormulaEquiv X E r 𝔚.projectiveBundle).injective
     rwa [bundleFormulaEquiv_apply, bundleFormulaEquiv_apply, bundleFormulaLin_apply,
       bundleFormulaLin_apply]
-  · show ∑ i : Fin (r + 1), 𝔚.bundleClassU X E r ^ (i : ℕ) * 𝔚.pull (bundleProj X E r) _ = _
+  · change ∑ i : Fin (r + 1), 𝔚.bundleClassU X E r ^ (i : ℕ) * 𝔚.pull (bundleProj X E r) _ = _
     rw [← bundleFormulaLin_apply, ← bundleFormulaEquiv_apply _ _ _ _ 𝔚.projectiveBundle,
       LinearEquiv.apply_symm_apply]
     rfl
@@ -239,8 +239,8 @@ theorem traceContract_bundleTraceTw :
     (h.coe_coeff_cycleClassSeries _ _ _).symm
   set Ψ := 𝔚.prodBundleFormulaEquiv X E r 𝔚.kunneth 𝔚.projectiveBundle
   have hw := 𝔚.prodBundleFormulaEquiv_symm_coeff_cycleClassSeries_last X E r x (d + r)
-  rw [← hG, if_pos (Nat.le_add_left r d), Nat.add_sub_cancel] at hw
-  show tensorContractRight _ ((𝔚.kunnethEquiv 𝔚.kunneth _ _).symm G) = 1
+  rw [← hG, ite_eq_left (Nat.le_add_left r d), Nat.add_sub_cancel] at hw
+  change tensorContractRight _ ((𝔚.kunnethEquiv 𝔚.kunneth _ _).symm G) = 1
   rw [← Ψ.apply_symm_apply G, tensorContractRight_bundleTrace_prodBundleFormulaEquiv, hw]
   have hPP : IsNonemptyEquidimensional (prod (bundle X E r) (bundle X E r)) (2 * (d + r)) := by
     rw [two_mul]
@@ -341,7 +341,7 @@ theorem cycleClass_equidimensionalPushforward_bundleProj {d e : ℕ}
     have hy : y = 𝔚.bundleFormulaLin X E r
         ((𝔚.bundleFormulaEquiv X E r 𝔚.projectiveBundle).symm y) := by
       rw [← bundleFormulaEquiv_apply _ _ _ _ 𝔚.projectiveBundle, LinearEquiv.apply_symm_apply]
-    show _ = 𝔚.bundleTrace X E r 𝔚.projectiveBundle _
+    change _ = 𝔚.bundleTrace X E r 𝔚.projectiveBundle _
       (𝔚.pull (bundleProj X E r) ((W.twCoord X _ _ c : W.grade X _) : W.H X) * y)
     rw [hy]
     refine Eq.trans ?_ (bundleTrace_pull_mul 𝔚.toFirstChernClassData X E r 𝔚.projectiveBundle

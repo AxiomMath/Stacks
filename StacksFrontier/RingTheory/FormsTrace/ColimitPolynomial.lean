@@ -105,8 +105,7 @@ scoped instance stageIsPushout (F : Finset σ) :
   refine Algebra.IsPushout.symm ⟨IsBaseChange.of_equiv
     (TensorProduct.AlgebraTensorModule.cancelBaseChange N (MvPolynomial F N) (MvPolynomial σ N)
       (MvPolynomial σ N) BN) fun x => ?_⟩
-  induction x using TensorProduct.induction_on with
-  | zero => rw [TensorProduct.tmul_zero, map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul a b =>
     rw [TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul]
     change _ = Algebra.TensorProduct.map (rename (R := N) (Subtype.val : F → σ)) (AlgHom.id N BN)
@@ -125,7 +124,7 @@ theorem retraction_rename (F : Finset σ) (x : MvPolynomial F N) :
     retraction N F (rename Subtype.val x) = x := by
   have : (retraction N F).comp (rename Subtype.val) = AlgHom.id N (MvPolynomial F N) := by
     refine MvPolynomial.algHom_ext fun t => ?_
-    rw [AlgHom.comp_apply, rename_X, retraction, aeval_X, dif_pos t.2, AlgHom.id_apply]
+    rw [AlgHom.comp_apply, rename_X, retraction, aeval_X, dite_eq_left t.2, AlgHom.id_apply]
   exact AlgHom.congr_fun this x
 
 /-- **The pull-back of forms from a stage is injective**: `Ω^p_{B_F} → Ω^p_B` is split by the
@@ -136,10 +135,9 @@ theorem formsMap_injective (F : Finset σ) (p : ℕ) :
   let ρ : MvPolynomial σ N ⊗[N] BN →ₐ[N] MvPolynomial F N ⊗[N] BN :=
     Algebra.TensorProduct.map (retraction N F) (AlgHom.id N BN)
   refine formsMap_injective_of_leftInverse ρ.toRingHom (fun x => ?_) p
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul a b =>
-    show ρ (algebraMap (MvPolynomial F N ⊗[N] BN) (MvPolynomial σ N ⊗[N] BN) (a ⊗ₜ b)) = a ⊗ₜ b
+    change ρ (algebraMap (MvPolynomial F N ⊗[N] BN) (MvPolynomial σ N ⊗[N] BN) (a ⊗ₜ b)) = a ⊗ₜ b
     rw [stageAlgebraTensor_algebraMap_apply, Algebra.TensorProduct.map_tmul,
       Algebra.TensorProduct.map_tmul, retraction_rename, AlgHom.id_apply, AlgHom.id_apply]
   | add x y hx hy => rw [map_add, map_add, hx, hy]
@@ -181,10 +179,9 @@ theorem transition_isScalarTower_tensor {F F' : Finset σ} (h : F ⊆ F') :
       (MvPolynomial σ N ⊗[N] BN) :=
   let := transitionAlgebraTensor N BN h
   IsScalarTower.of_algebraMap_eq fun x => by
-    induction x using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul a b =>
-      show Algebra.TensorProduct.map (rename (R := N) (Subtype.val : F → σ)) (AlgHom.id N BN)
+      change Algebra.TensorProduct.map (rename (R := N) (Subtype.val : F → σ)) (AlgHom.id N BN)
           (a ⊗ₜ b) = Algebra.TensorProduct.map (rename (R := N) (Subtype.val : F' → σ))
           (AlgHom.id N BN) (Algebra.TensorProduct.map (rename (R := N) (inclusion h))
             (AlgHom.id N BN) (a ⊗ₜ b))
@@ -206,8 +203,7 @@ theorem eventually_mem_range_algebraMap (r : MvPolynomial σ N) :
 theorem eventually_mem_range_algebraMap_tensor (b : MvPolynomial σ N ⊗[N] BN) :
     ∀ᶠ F : Finset σ in Filter.atTop,
       b ∈ Set.range (algebraMap (MvPolynomial F N ⊗[N] BN) (MvPolynomial σ N ⊗[N] BN)) := by
-  induction b using TensorProduct.induction_on with
-  | zero => exact Filter.Eventually.of_forall fun F => ⟨0, map_zero _⟩
+  induction b using TensorProduct.inductionOn with
   | tmul r b =>
     refine (eventually_mem_range_algebraMap N r).mono fun F ⟨q, hq⟩ => ⟨q ⊗ₜ b, ?_⟩
     rw [stageAlgebraTensor_algebraMap_apply, Algebra.TensorProduct.map_tmul, AlgHom.id_apply]
@@ -310,7 +306,7 @@ theorem transition_comm_of_nice [Module.Finite N BN] [Module.Projective N BN] (h
   have : IsScalarTower (MvPolynomial F N) (MvPolynomial F N ⊗[N] BN)
       (MvPolynomial F' N ⊗[N] BN) :=
     IsScalarTower.of_algebraMap_eq fun x => by
-      show _ = Algebra.TensorProduct.map (rename (R := N) (inclusion h)) (AlgHom.id N BN)
+      change _ = Algebra.TensorProduct.map (rename (R := N) (inclusion h)) (AlgHom.id N BN)
         (x ⊗ₜ 1)
       rw [Algebra.TensorProduct.map_tmul, map_one, Algebra.TensorProduct.algebraMap_apply]
       rfl
@@ -319,7 +315,7 @@ theorem transition_comm_of_nice [Module.Finite N BN] [Module.Projective N BN] (h
     refine Algebra.IsPushout.symm
       (Algebra.IsPushout.tensorProduct_tensorProduct N BN (MvPolynomial F N) (MvPolynomial F' N)
         (RingHom.ext fun b => ?_))
-    show Algebra.TensorProduct.map (rename (R := N) (inclusion h)) (AlgHom.id N BN)
+    change Algebra.TensorProduct.map (rename (R := N) (inclusion h)) (AlgHom.id N BN)
       (1 ⊗ₜ b) = 1 ⊗ₜ b
     rw [Algebra.TensorProduct.map_tmul, map_one, AlgHom.id_apply]
   obtain ⟨n, hn⟩ := hN F

@@ -124,6 +124,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` in presheaves on the big fppf site
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_IntegralGenericallyFiniteTfae :
@@ -136,6 +137,7 @@ local instance (priority := high) hasPullback_presheaf_IntegralGenericallyFinite
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits in presheaves on the big fppf site
 /-- Small products of presheaves on the big fppf site (instance search times out without
 this shortcut). -/
 local instance hasLimitsOfShape_discrete_presheaf_IntegralGenericallyFiniteTfae (J : Type) :
@@ -392,7 +394,7 @@ private theorem exists_ringEquiv_residueFieldHom_chart
           ((BigFppfOver.toScheme B S hS).obj CX).fromSpecResidueField u ≫
             (BigFppfOver.toScheme B S hS).map h :=
       Scheme.Hom.SpecMap_residueFieldMap_fromSpecResidueField _ u
-    show (BigFppfOver.toScheme B S hS).map gh = _
+    change (BigFppfOver.toScheme B S hS).map gh = _
     exact (cancel_mono
       (((BigFppfOver.toScheme B S hS).obj CY).fromSpecResidueField v)).1
       (hcan.trans hsqScheme.symm)
@@ -616,7 +618,7 @@ private theorem existsAffineOpenFiniteRestriction_of_chart (f : X ⟶ Y)
     toScheme_map_siteHomOfSchemeHom B S hS _ _ _ hw
   have hgjV : g ≫ jV = jU ≫ h := by
     refine BigFppfOver.map_toScheme_injective B S hS ?_
-    show (BigFppfOver.toScheme B S hS).map (g ≫ jV) =
+    change (BigFppfOver.toScheme B S hS).map (g ≫ jV) =
       (BigFppfOver.toScheme B S hS).map (jU ≫ h)
     rw [Functor.map_comp, Functor.map_comp, hmg, hmjU, hmjV]
     exact Scheme.Hom.resLE_comp_ι ..

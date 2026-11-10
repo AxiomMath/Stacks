@@ -576,7 +576,7 @@ theorem comp_eq_chart_of_structureSharpThroughThickeningAt_eq
     intro V a ha
     have hw : yoneda.map ((SmallEtale.toOver B S hS X.1).map a) ≫ U.1.hom = V.1.hom :=
       CostructuredArrow.w a.hom
-    show W.1.map ((SmallEtale.toOver B S hS X.1).map a).op
+    change W.1.map ((SmallEtale.toOver B S hS X.1).map a).op
         (yonedaEquiv (U.1.hom ≫ c.hom)) =
       W.1.map ((SmallEtale.toOver B S hS X.1).map a).op
         (yonedaEquiv (U.1.hom ≫ c'.hom))

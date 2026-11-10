@@ -255,7 +255,7 @@ theorem mem_iInf_of_forall_exists_pow_smul_mem (hJ : J ≤ maximalIdeal B)
       exact h'
     · intro h
       apply Subtype.ext
-      show a • (w : N) = 0
+      change a • (w : N) = 0
       rw [← hy₁w, ← map_smul, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
       exact h
   -- the fibre condition `V(𝔓) ∩ V(J C) = {𝔪 C}`, by Artin–Rees
@@ -396,9 +396,9 @@ theorem exists_forall_pow_smul_mem_imp_mem (hJ : J ≤ maximalIdeal B)
       intro v a
       obtain ⟨x, rfl⟩ := Submodule.Quotient.mk_surjective _ v
       obtain ⟨a, ha⟩ := a
-      show a • Submodule.Quotient.mk x = 0
+      change a • Submodule.Quotient.mk x = 0
       rw [← Submodule.Quotient.mk_smul, Submodule.Quotient.mk_eq_zero, Submodule.mem_comap]
-      show a • (x : P) ∈ Λ j
+      change a • (x : P) ∈ Λ j
       induction ha using Submodule.span_induction with
       | mem b hb =>
         obtain ⟨b, hb, rfl⟩ := hb
@@ -443,7 +443,7 @@ theorem exists_forall_pow_smul_mem_imp_mem (hJ : J ≤ maximalIdeal B)
     let g : ℕ →o (Submodule C V)ᵒᵈ :=
       ⟨fun n => OrderDual.toDual (img (W (j + n) ⊔ Λc j)), by
         intro n n' hnn'
-        show img (W (j + n') ⊔ Λc j) ≤ img (W (j + n) ⊔ Λc j)
+        change img (W (j + n') ⊔ Λc j) ≤ img (W (j + n) ⊔ Λc j)
         exact Submodule.map_mono (Submodule.comap_mono
           (sup_le_sup_right (hWanti (by omega)) _))⟩
     obtain ⟨n, hn⟩ := IsArtinian.monotone_stabilizes g
@@ -479,7 +479,8 @@ theorem exists_forall_pow_smul_mem_imp_mem (hJ : J ≤ maximalIdeal B)
     obtain ⟨z, hz, hpz⟩ := exists_limit J (fun i => (S (j + i)).restrictScalars B) j
       (fun i => by
         have := hML (j + i)
-        rwa [show j + i + 1 = j + (i + 1) by omega] at this ⊢) (p := p) (by simpa using hp)
+        rw [show j + i + 1 = j + (i + 1) by omega] at this ⊢; assumption)
+      (p := p) (by simpa using hp)
     have hzL : ∀ k, ∃ e, ∀ a ∈ maximalIdeal B ^ e, a • z ∈ Λ k := by
       intro k
       obtain ⟨x, hx, hzx⟩ := hz k

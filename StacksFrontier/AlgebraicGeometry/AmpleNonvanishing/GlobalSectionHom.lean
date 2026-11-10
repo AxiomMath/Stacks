@@ -88,7 +88,7 @@ theorem unitHomOfGlobalSection_val_app_one
         (1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf).obj.obj
           (op (⊤ : X.Opens))) = ρ := by
   rw [← _root_.SheafOfModules.unitHomEquiv_apply_coe M (unitHomOfGlobalSection M ρ) (op ⊤)]
-  show (M.unitHomEquiv (M.unitHomEquiv.symm
+  change (M.unitHomEquiv (M.unitHomEquiv.symm
       ((Stacks.SectionRingGeometric.sectionsEquivObj
         (isTerminalTop (α := X.Opens)) M.val).symm ρ))).val (op ⊤) = ρ
   rw [Equiv.apply_symm_apply]

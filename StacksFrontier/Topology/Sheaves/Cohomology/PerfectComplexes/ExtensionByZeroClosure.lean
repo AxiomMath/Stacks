@@ -10,8 +10,6 @@ universe u
 
 namespace Stacks.Cohomology.LeftDualPerfect
 
-open Classical
-
 variable {T : TopCat.{u}} (O : Sheaf (Opens.grothendieckTopology T) RingCat.{u})
   (P : CochainComplex (SheafOfModules.{u} O) ℤ) {I : ℤ → Type u} (U : ∀ n, I n → Opens T)
   (ιP : ∀ n α, extUnit O (U n α) ⟶ P.X n)
@@ -28,12 +26,14 @@ omit O P U ιP in
 theorem mem_fib {S : Finset (Σ n, I n)} {n : ℤ} {α : I n} : α ∈ fib S n ↔ ⟨n, α⟩ ∈ S :=
   Finset.mem_preimage
 
+open Classical in
 omit O P U ιP in
 /-- The degree-`n` indices of `S` are among the degree-`n` indices of `S ∪ S'`. -/
 theorem fib_subset_union_left (S S' : Finset (Σ n, I n)) (n : ℤ) :
     fib S n ⊆ fib (S ∪ S') n := fun _ hα =>
   mem_fib.2 (Finset.mem_union_left _ (mem_fib.1 hα))
 
+open Classical in
 omit O P U ιP in
 /-- A finite set `S'` of indices of degree `n` is contained in the degree-`n` indices of `S`
 with `S'` adjoined in degree `n`. -/
@@ -41,6 +41,7 @@ theorem subset_fib_union_map (S : Finset (Σ n, I n)) (n : ℤ) (S' : Finset (I 
     S' ⊆ fib (S ∪ S'.map ⟨Sigma.mk n, sigma_mk_injective⟩) n := fun _ hα =>
   mem_fib.2 (Finset.mem_union_right _ (Finset.mem_map_of_mem _ hα))
 
+open Classical in
 omit O P U ιP in
 /-- Adjoining indices of degree `m` to `S` does not change its indices of a degree `n ≠ m`. -/
 theorem mem_fib_union_map {S : Finset (Σ n, I n)} {n m : ℤ} (hnm : n ≠ m) {S' : Finset (I m)}
@@ -68,6 +69,7 @@ def ClosureInv (L m : ℤ) {V : Opens T} (y : T) {ι : Type*} (deg : ι → ℤ)
       InSpan O (U (n + 1)) (cofanP O P U ιP (n + 1)) Z (fib S (n + 1))
         ((P.d n (n + 1)).val.app (op Z) (elemSecD O (U n) (cofanP O P U ιP n) α Z))
 
+open Classical in
 /-- If every index of `S` has image containing `Z` and every index of `S'`, of degree `m`, has
 image containing `Z' ≤ Z`, then every index of `S` with `S'` adjoined in degree `m` has image
 containing `Z'`. -/
@@ -88,8 +90,10 @@ theorem fib_le {Z : Opens T} {S : Finset (Σ n, I n)} (hS : ∀ x ∈ S, Z ≤ i
 /-- Finitely many sections of the terms of `P` in degrees `≥ L` over `V ∋ y` satisfy `ClosureInv`
 with `m = L - 1`, in which the condition on differentials is vacuous. -/
 theorem closureInv_base (hc : ∀ n, IsColimit (cofanP O P U ιP n)) (L : ℤ) {V : Opens T} (y : T)
-    (hy : y ∈ V) {ι : Type*} [Fintype ι] (deg : ι → ℤ) (s : ∀ i, (P.X (deg i)).val.obj (op V))
+    (hy : y ∈ V) {ι : Type*} [Finite ι] (deg : ι → ℤ) (s : ∀ i, (P.X (deg i)).val.obj (op V))
     (hL : ∀ i, L ≤ deg i) : ClosureInv O P U ιP L (L - 1) y deg s := by
+  classical
+  have := Fintype.ofFinite ι
   have key : ∀ A : Finset ι, ∃ (Z : Opens T) (hZ : Z ≤ V), y ∈ Z ∧ ∃ S : Finset (Σ n, I n),
       (∀ x ∈ S, Z ≤ imTop (U x.1 x.2)) ∧ (∀ x ∈ S, L ≤ x.1) ∧
       ∀ i ∈ A, InSpan O (U (deg i)) (cofanP O P U ιP (deg i)) Z (fib S (deg i))
@@ -120,6 +124,7 @@ theorem closureInv_base (hc : ∀ n, IsColimit (cofanP O P U ιP n)) (L : ℤ) {
 theorem closureInv_succ (hc : ∀ n, IsColimit (cofanP O P U ιP n)) (L m : ℤ) (hm : L - 1 ≤ m)
     {V : Opens T} {y : T} {ι : Type*} {deg : ι → ℤ} {s : ∀ i, (P.X (deg i)).val.obj (op V)}
     (h : ClosureInv O P U ιP L m y deg s) : ClosureInv O P U ιP L (m + 1) y deg s := by
+  classical
   obtain ⟨Z, hZ, hyZ, S, hS, hSL, hfam, hd⟩ := h
   obtain ⟨Z', hZ', hyZ', S', hS'Z, hS'⟩ := exists_nhd_inSpan_finset O (U (m + 1 + 1))
     (cofanP O P U ιP (m + 1 + 1)) (hc _) (fib S (m + 1))
@@ -159,7 +164,7 @@ given sections and such that the differential of each generator lies in the span
 generators of the next degree. -/
 theorem exists_closed_span (hc : ∀ n, IsColimit (cofanP O P U ιP n)) (b L : ℤ)
     (hb : ∀ n, b < n → IsZero (P.X n)) {V : Opens T} (y : T) (hy : y ∈ V) {ι : Type*}
-    [Fintype ι] (deg : ι → ℤ) (s : ∀ i, (P.X (deg i)).val.obj (op V)) (hL : ∀ i, L ≤ deg i) :
+    [Finite ι] (deg : ι → ℤ) (s : ∀ i, (P.X (deg i)).val.obj (op V)) (hL : ∀ i, L ≤ deg i) :
     ∃ (Z : Opens T) (hZ : Z ≤ V), y ∈ Z ∧ ∃ S : Finset (Σ n, I n),
       (∀ x ∈ S, Z ≤ imTop (U x.1 x.2)) ∧ (∀ x ∈ S, L ≤ x.1) ∧
       (∀ i, InSpan O (U (deg i)) (cofanP O P U ιP (deg i)) Z (fib S (deg i)) (resS _ hZ (s i))) ∧

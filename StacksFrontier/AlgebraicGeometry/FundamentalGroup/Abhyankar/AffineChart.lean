@@ -47,7 +47,7 @@ lemma opensRange_SpecMap_away {A : Type u} [CommRing A] (a : A) :
   TopologicalSpace.Opens.ext (PrimeSpectrum.localization_away_comap_range _ a)
 
 variable {X : Scheme.{u}} (U : X.Opens) {R : CommRingCat.{u}} (ψ : Spec R ⟶ X)
-  [IsOpenImmersion ψ] (φ : R) (hψU : ψ ⁻¹ᵁ U = PrimeSpectrum.basicOpen φ)
+  (φ : R) (hψU : ψ ⁻¹ᵁ U = PrimeSpectrum.basicOpen φ)
 
 include hψU in
 /-- The range of `Spec R_φ ⟶ Spec R ⟶ X` is contained in `U`. -/
@@ -56,7 +56,7 @@ lemma range_SpecMap_away_comp_subset :
       Set.range U.ι := by
   rintro _ ⟨y, rfl⟩
   rw [Scheme.Opens.range_ι]
-  show (Spec.map (CommRingCat.ofHom (algebraMap R (Localization.Away φ)))) y ∈ ψ ⁻¹ᵁ U
+  change (Spec.map (CommRingCat.ofHom (algebraMap R (Localization.Away φ)))) y ∈ ψ ⁻¹ᵁ U
   rw [hψU, ← opensRange_SpecMap_away]
   exact ⟨y, rfl⟩
 
@@ -89,12 +89,12 @@ lemma isPullback_SpecMap_away :
   · rw [← Spec.map_comp, ← Spec.map_comp]
     congr 1
     ext r
-    show algebraMap T _ (algebraMap R T r) =
+    change algebraMap T _ (algebraMap R T r) =
       Localization.awayMap (algebraMap R T) φ (algebraMap R _ r)
     exact (IsLocalization.map_eq _ _).symm
   · rw [opensRange_SpecMap_away, opensRange_SpecMap_away]
     ext y
-    show φ ∉ (Ideal.comap (algebraMap R T) y.asIdeal) ↔ algebraMap R T φ ∉ y.asIdeal
+    change φ ∉ (Ideal.comap (algebraMap R T) y.asIdeal) ↔ algebraMap R T φ ∉ y.asIdeal
     rw [Ideal.mem_comap]
 
 /-- **The first square.** For an `R`-algebra `T`, `Spec T_φ ⟶ U` is the base change of `U ⊆ X`

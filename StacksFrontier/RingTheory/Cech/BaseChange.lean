@@ -188,7 +188,7 @@ theorem isUnit_algebraMapS_tensor (s : Finset (Fin r)) (x : cechSub (gfun f S) s
     simp only [AlgebraTensorModule.curry_apply, curry_apply, LinearMap.coe_restrictScalars,
       Module.algebraMap_end_apply, LinearMap.baseChange_tmul]
     rw [TensorProduct.smul_tmul', ← TensorProduct.smul_tmul, algebraMap_smul]
-  show IsUnit ((algebraMap S (Module.End S (TensorProduct R S (cechMod f M s))))
+  change IsUnit ((algebraMap S (Module.End S (TensorProduct R S (cechMod f M s))))
     ((∏ i ∈ s, gfun f S i) ^ n))
   rw [gfun_prod, map_pow, key]
   exact (isUnit_baseChange S (isUnit_algebraMap_prod f M s)).pow n
@@ -393,8 +393,7 @@ theorem termBaseChangeS_comm_d (p : ℕ) :
       = (cechD (gfun f S) (TensorProduct R S M) p).comp (termBaseChangeS f M S p) := by
   apply LinearMap.ext
   intro w
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul c z =>
     simp only [LinearMap.comp_apply, LinearMap.baseChange_tmul, termBaseChangeS_tmul, map_smul]
     congr 1

@@ -85,7 +85,7 @@ theorem isGeneratorOver_of_iso
   refine ⟨r, ?_⟩
   have hx : x = e.inv.val.app (op Y) (show O.obj (op W) from r * 1) := by
     rw [mul_one]
-    show x = (e.hom ≫ e.inv).val.app (op Y) x
+    change x = (e.hom ≫ e.inv).val.app (op Y) x
     rw [e.hom_inv_id]
     rfl
   have h1 : (show O.obj (op W) from 1) =
@@ -145,8 +145,7 @@ theorem exists_eq_smul_tmul_of_isGeneratorOver
     (y : M.val.obj (op W) ⊗[O.obj (op W)] N.val.obj (op W)) :
     ∃ r : O.obj (op W),
       y = r • (sectionMap O hO M f s ⊗ₜ[O.obj (op W)] sectionMap O hO N f t) := by
-  induction y using TensorProduct.induction_on with
-  | zero => exact ⟨0, (zero_smul _ _).symm⟩
+  induction y using TensorProduct.inductionOn with
   | tmul a b =>
     obtain ⟨r₁, rfl⟩ := hs f a
     obtain ⟨r₂, rfl⟩ := ht f b
@@ -197,7 +196,7 @@ theorem exists_mem_isUnit_map_tensorSectionsAt
       μ.hom.val.app (op W) (sectionMap O hO T f x) = O.map f.op (μ.hom.val.app (op U) x) :=
     PresheafOfModules.naturality_apply μ.hom.val f.op
   have hz1 : μ.hom.val.app (op U) z = (1 : O.obj (op U)) := by
-    show (μ.inv ≫ μ.hom).val.app (op U) (1 : O.obj (op U)) = _
+    change (μ.inv ≫ μ.hom).val.app (op U) (1 : O.obj (op U)) = _
     rw [μ.inv_hom_id]
     rfl
   have hsmul : μ.hom.val.app (op W) (r • sectionMap O hO T f c) =

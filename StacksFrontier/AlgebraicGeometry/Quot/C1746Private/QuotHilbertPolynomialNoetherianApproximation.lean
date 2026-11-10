@@ -154,7 +154,7 @@ private theorem isRepresentedSeparatedFinitePresentation_hilbertPolynomialQuot_o
     isFinitePresentation_yoneda_map B integerBase ℤS qk (hqk ▸ hfk)
   have : _root_.AlgebraicGeometry.IsImmersion ((𝒯).map ik) := himm
   have hsep : _root_.AlgebraicGeometry.IsSeparated ((𝒯).map qk) := by
-    show _root_.AlgebraicGeometry.IsSeparated
+    change _root_.AlgebraicGeometry.IsSeparated
       (jk ≫ (projectiveSpaceOver n ((𝒯).obj Wk) ↘ (𝒯).obj Wk))
     have := isProper_projectiveSpaceOver n ((𝒯).obj Wk)
     have : _root_.AlgebraicGeometry.IsImmersion jk := himm

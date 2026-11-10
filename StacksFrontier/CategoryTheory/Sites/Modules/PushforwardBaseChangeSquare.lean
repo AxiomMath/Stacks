@@ -69,7 +69,7 @@ variable {C : Type u₅} [Category.{v₅} C] {D : Type u₆} [Category.{v₆} D]
 /-- The base-change morphism `R ⋙ rC ⟶ rD ⋙ R'` attached to a natural transformation
 `gD ⋙ R ⟶ R' ⋙ gC` of composite right adjoints: its mate across `rD ⊣ gD` and `rC ⊣ gC`. -/
 def squareBaseChange (θ : gD ⋙ R ⟶ R' ⋙ gC) : R ⋙ rC ⟶ rD ⋙ R' :=
-  ((mateEquiv aD aC).symm (TwoSquare.mk _ _ _ _ θ)).natTrans
+  ((mateEquiv aD aC).symm (TwoSquare.mk _ _ _ _ θ))
 
 /-- The conjugate `rC ⋙ L' ⟶ L ⋙ rD` of a natural transformation `gD ⋙ R ⟶ R' ⋙ gC` of
 composite right adjoints, across the composite adjunctions. -/
@@ -89,7 +89,7 @@ theorem unit_comp_map_conjugate (θ : gD ⋙ R ⟶ R' ⋙ gC) (G : C) :
   simp only [Functor.map_comp, Category.assoc] at h'
   simp only [Functor.id_obj, Adjunction.counit_naturality, Adjunction.counit_naturality_assoc,
     Adjunction.left_triangle_components_assoc] at h'
-  show _ ≫ R'.map (((conjugateEquiv (adj.comp aD) (aC.comp adj')).symm θ).app G) = _
+  change _ ≫ R'.map (((conjugateEquiv (adj.comp aD) (aC.comp adj')).symm θ).app G) = _
   rw [← h']
   simp [squareBaseChange]
 
@@ -149,7 +149,7 @@ variable {CX : Type u₁} [Category.{v₁} CX] {CY : Type u₂} [Category.{v₂}
 /-- The Beck–Chevalley transformation `b ⋙ uV ⟶ u ⋙ bY` of the square of sites: the mate of
 `c⁻¹` across `p ⊣ b` and `pY ⊣ bY`. -/
 def baseChangeTransformation : b ⋙ uV ⟶ u ⋙ bY :=
-  (mateEquiv adjX adjY (TwoSquare.mk _ _ _ _ c.inv)).natTrans
+  (mateEquiv adjX adjY (TwoSquare.mk _ _ _ _ c.inv))
 
 /-- The defining property of the Beck–Chevalley transformation, on components. -/
 theorem map_baseChangeTransformation_app_comp_counit (W : CX) :
@@ -360,11 +360,11 @@ theorem baseChangeMap_app_val_app (N : SheafOfModules.{w} O) (V : CVᵒᵖ) (x) 
       N.val.map (c.inv.app V.unop).op x := by
   have h := baseChangeTransformation_triangle adjX adjY c V.unop
   simp only [baseChangeMap, Adjunction.squareBaseChange, mateEquiv_symm_apply,
-    TwoSquare.natTrans, NatTrans.comp_app, Functor.whiskerRight_app, Functor.whiskerLeft_app,
+    NatTrans.comp_app, Functor.whiskerRight_app, Functor.whiskerLeft_app,
     Functor.associator_hom_app, Functor.associator_inv_app, Functor.leftUnitor_inv_app,
     Functor.rightUnitor_hom_app, Category.id_comp, Functor.comp_map, SheafOfModules.comp_val,
     PresheafOfModules.comp_app, ConcreteCategory.comp_apply]
-  show (N.val.presheaf.map (adjY.counit.app (u.obj (p.obj V.unop))).op ≫
+  change (N.val.presheaf.map (adjY.counit.app (u.obj (p.obj V.unop))).op ≫
       N.val.presheaf.map (pY.map ((baseChangeTransformation adjX adjY c).app (p.obj V.unop))).op ≫
       N.val.presheaf.map (pY.map (uV.map (adjX.unit.app V.unop))).op) x =
     N.val.presheaf.map (c.inv.app V.unop).op x

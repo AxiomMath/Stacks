@@ -105,7 +105,7 @@ theorem toResidueAlgHom_germAlgHom {η x : Y} (h : η ⤳ x) (V : Y.Opens) (hx :
     letI := stalkAlgebra f x
     letI := residueAlgebra f η
     toResidueAlgHom f h (germAlgHom f V x hx a) = Y.evaluation V η (h.mem_open V.isOpen hx) a := by
-  show (Y.presheaf.stalkSpecializes h ≫ Y.residue η).hom ((Y.presheaf.germ V x hx).hom a) = _
+  change (Y.presheaf.stalkSpecializes h ≫ Y.residue η).hom ((Y.presheaf.germ V x hx).hom a) = _
   rw [← CommRingCat.comp_apply, ← Category.assoc, TopCat.Presheaf.germ_stalkSpecializes]
   rfl
 
@@ -114,7 +114,7 @@ finitely generated `k`-algebra. -/
 theorem finiteType_sections [LocallyOfFiniteType f] {V : Y.Opens} (hV : IsAffineOpen V) :
     letI := sectionsAlgebra f V
     Algebra.FiniteType k Γ(Y, V) := by
-  show RingHom.FiniteType _
+  change RingHom.FiniteType _
   have hcomp : ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫
       Y.presheaf.map (homOfLE le_top).op).hom =
       (f.appLE ⊤ V (by simp)).hom.comp ((Scheme.ΓSpecIso (.of k)).inv).hom := rfl
@@ -233,7 +233,7 @@ theorem exists_specializes_specializes [LocallyOfFiniteType f] (W : IrreducibleC
           ⟨RingHom.ker ρr, hkerP⟩ := by
       refine PrimeSpectrum.ext ?_
       ext x
-      show Y.presheaf.stalkSpecializes (hηx hrW) x ∈ maximalIdeal _ ↔ ρr x = 0
+      change Y.presheaf.stalkSpecializes (hηx hrW) x ∈ maximalIdeal _ ↔ ρr x = 0
       rw [← residue_eq_zero_iff]
       rfl
     calc Y.fromSpecStalk r ⟨RingHom.ker ρr, hkerP⟩
@@ -269,7 +269,7 @@ theorem exists_specializes_specializes [LocallyOfFiniteType f] (W : IrreducibleC
         (maximalIdeal (Y.presheaf.stalk x)).comap (Y.presheaf.germ V x hxV).hom → t ⤳ x := by
     intro V hV hrV x hxV hQx
     have hle : PrimeSpectrum.comap (Y.presheaf.germ V r hrV).hom P ≤ hV.primeIdealOf ⟨x, hxV⟩ := by
-      show Q.comap _ ≤ (hV.primeIdealOf ⟨x, hxV⟩).asIdeal
+      change Q.comap _ ≤ (hV.primeIdealOf ⟨x, hxV⟩).asIdeal
       rw [primeIdealOf_asIdeal hV hxV]
       exact hQx
     have h := ((PrimeSpectrum.le_iff_specializes _ _).mp hle).map hV.fromSpec.continuous
@@ -321,7 +321,7 @@ theorem exists_dim_one_of_mem [LocallyOfFiniteType f] [QuasiCompact f] (W : Irre
     rw [h] at h1
     exact h2 (top_le_iff.mp h1)
   obtain ⟨N, hN⟩ : ∃ N : ℕ, Order.height W ≤ N := ⟨(Order.height W).toNat,
-    (ENat.coe_toNat hfin).ge⟩
+    (ENat.natCast_toNat hfin).ge⟩
   induction N generalizing W with
   | zero =>
     exfalso

@@ -35,7 +35,7 @@ theorem closure_mem_componentSets_of_cycle_ne_zero (C : ChowSituation.{u}) {X : 
       (Homeomorph.setCongr (Scheme.IdealSheafData.range_subschemeι D))
   refine ⟨e '' closure {ξ.1}, image_mem_irreducibleComponents_of_homeomorph e ξ.2, ?_⟩
   rw [Set.image_image]
-  show (D.subschemeι.base) '' closure {ξ.1} = _
+  change (D.subschemeι.base) '' closure {ξ.1} = _
   rw [← D.subschemeι.isClosedEmbedding.closure_image_eq, Set.image_singleton, hξ]
 
 variable (k : Type u) [Field k] {X : Scheme.{u}} (p : X ⟶ Spec (.of k)) [IsVariety k p]
@@ -74,7 +74,7 @@ theorem intersectProperly_closure_iff {x y : X} {n r s : ℕ}
       topologicalKrullDim ↥(closure ({x} : Set X) ∩ closure ({y} : Set X)) +
           (n : WithBot ℕ∞) ≤ ((r + s : ℕ) : WithBot ℕ∞) := by
   rw [AlgebraicGeometry.intersectProperly_iff]
-  show topologicalKrullDim ↥(closure ({x} : Set X) ∩ closure ({y} : Set X)) +
+  change topologicalKrullDim ↥(closure ({x} : Set X) ∩ closure ({y} : Set X)) +
       topologicalKrullDim X ≤ topologicalKrullDim ↥(closure ({x} : Set X)) +
         topologicalKrullDim ↥(closure ({y} : Set X)) ↔ _
   rw [hn, hx, hy, Nat.cast_add]

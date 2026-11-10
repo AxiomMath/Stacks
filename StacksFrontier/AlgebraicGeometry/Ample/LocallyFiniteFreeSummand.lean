@@ -680,6 +680,7 @@ lemma tensorRightUnitor_inv_apply
     hq).symm.trans (inv_app_hom_apply (tensorRightUnitor X L) (Opposite.op W) q)
 
 set_option maxHeartbeats 2000000 in
+-- elaborating the composite of sheafified tensor-product isomorphisms is heavy
 /-- Associativity of the tensor product of sheaves of modules, in the form needed here:
 `(L ⊗ M) ⊗ N ≅ L ⊗ (M ⊗ N)`. -/
 noncomputable def tensorAssoc
@@ -715,6 +716,7 @@ noncomputable def tensorAssoc
     @asIso _ _ _ _ (S.map (L.val ◁ η (M.val ⊗ N.val))) h2
 
 set_option maxHeartbeats 2000000 in
+-- the statement and the `rfl` steps unfold nested sheafified tensor products
 /-- The associativity isomorphism sends `(l ⊗ m) ⊗ n` to `l ⊗ (m ⊗ n)`. -/
 lemma tensorAssoc_hom_pure
     (X : RingedSpace.{u, w})

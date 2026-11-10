@@ -102,7 +102,7 @@ theorem unitTmulOne_smul_left (s : S) (n : N) (m : M) :
 restriction of the `S`-action along the structure map. -/
 theorem unitTmulOne_smul_right (r : R) (n : N) (m : M) :
     unitTmulOne R S N M n (r • m) = (algebraMap R S r) • unitTmulOne R S N M n m := by
-  show n ⊗ₜ[S] ((1 : S) ⊗ₜ[R] (r • m)) = (algebraMap R S r) • (n ⊗ₜ[S] ((1 : S) ⊗ₜ[R] m))
+  change n ⊗ₜ[S] ((1 : S) ⊗ₜ[R] (r • m)) = (algebraMap R S r) • (n ⊗ₜ[S] ((1 : S) ⊗ₜ[R] m))
   rw [← TensorProduct.tmul_smul]
   refine congrArg (fun z ↦ n ⊗ₜ[S] z) ?_
   rw [← TensorProduct.smul_tmul, Algebra.smul_def, mul_one,
@@ -140,8 +140,7 @@ theorem eq_cancelSymmAdd (g : TensorProduct R N M →+ TensorProduct S N (Tensor
     (hg : ∀ (n : N) (m : M), g (n ⊗ₜ[R] m) = unitTmulOne R S N M n m) :
     ∀ t, g t = cancelSymmAdd R S N M t := by
   intro t
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul n m => rw [hg, cancelSymmAdd_tmul]
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 

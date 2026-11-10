@@ -188,13 +188,13 @@ theorem exists_bimodule_derivedTensorEquivalence_of_derivedEquivalence [Module.F
   let G : derivedCategory' (degreeZero R A) ≌ derivedCategory' (degreeZero R B) :=
     EA.trans (E.trans EB.symm)
   have : G.functor.Additive := by
-    show (EA.functor ⋙ E.functor ⋙ EB.inverse).Additive
+    change (EA.functor ⋙ E.functor ⋙ EB.inverse).Additive
     infer_instance
   have : G.functor.Linear R := by
-    show (EA.functor ⋙ E.functor ⋙ EB.inverse).Linear R
+    change (EA.functor ⋙ E.functor ⋙ EB.inverse).Linear R
     infer_instance
   have : G.functor.CommShift ℤ := by
-    show (EA.functor ⋙ E.functor ⋙ EB.inverse).CommShift ℤ
+    change (EA.functor ⋙ E.functor ⋙ EB.inverse).CommShift ℤ
     infer_instance
   obtain ⟨N, -, -, -, hN, -⟩ :=
     exists_bimodule_of_derivedEquivalence (degreeZero R A) (degreeZero R B)

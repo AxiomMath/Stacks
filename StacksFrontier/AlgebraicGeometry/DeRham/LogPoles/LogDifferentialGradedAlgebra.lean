@@ -127,7 +127,7 @@ theorem exists_heq_deRhamPiece (i : ℤ) (hi : 0 ≤ i) (U : X.Opensᵒᵖ)
 `Ω^p_{X/S}(log Y)`, read as a sheaf of `f⁻¹𝒪_S`-modules. -/
 theorem deRhamComplexLogPolesInt_X_natCast (p : ℕ) :
     (deRhamComplexLogPolesInt f I hI hlog).X (p : ℤ) = logPolesFormsBase f I p := by
-  show HomologicalComplex.extend.X (deRhamComplexLogPoles f I hI hlog)
+  change HomologicalComplex.extend.X (deRhamComplexLogPoles f I hI hlog)
       (embeddingUpNat.r (embeddingUpNat.f p)) =
     HomologicalComplex.extend.X (deRhamComplexLogPoles f I hI hlog) (some p)
   exact congrArg (HomologicalComplex.extend.X (deRhamComplexLogPoles f I hI hlog))
@@ -145,7 +145,7 @@ with logarithmic poles. -/
 theorem deRhamComplexLogPolesInt_d_heq (p q : ℕ) :
     HEq ((deRhamComplexLogPolesInt f I hI hlog).d (p : ℤ) (q : ℤ))
       ((deRhamComplexLogPoles f I hI hlog).d p q) := by
-  show HEq (HomologicalComplex.extend.d (deRhamComplexLogPoles f I hI hlog)
+  change HEq (HomologicalComplex.extend.d (deRhamComplexLogPoles f I hI hlog)
     (embeddingUpNat.r (embeddingUpNat.f p)) (embeddingUpNat.r (embeddingUpNat.f q))) _
   rw [embeddingUpNat.r_f p, embeddingUpNat.r_f q]
   rfl
@@ -252,7 +252,7 @@ relative de Rham complex. -/
 theorem deRhamComplexInt_X_natCast (p : ℕ) :
     (deRhamComplexInt (deRhamAlgebras f) (deRhamDifferential (deRhamAlgebras f))).X (p : ℤ) =
       (Scheme.Hom.deRhamComplex f).X p := by
-  show HomologicalComplex.extend.X (Scheme.Hom.deRhamComplex f)
+  change HomologicalComplex.extend.X (Scheme.Hom.deRhamComplex f)
       (embeddingUpNat.r (embeddingUpNat.f p)) =
     HomologicalComplex.extend.X (Scheme.Hom.deRhamComplex f) (some p)
   exact congrArg (HomologicalComplex.extend.X (Scheme.Hom.deRhamComplex f)) (embeddingUpNat.r_f p)
@@ -262,7 +262,7 @@ pole. -/
 theorem deRhamComplexLogPolesIntInclusion_f_heq (p : ℕ) :
     HEq ((deRhamComplexLogPolesIntInclusion f I hI hlog).f (p : ℤ))
       ((deRhamComplexLogPolesInclusion f I hI hlog).f p) := by
-  show HEq (HomologicalComplex.extend.mapX (deRhamComplexLogPolesInclusion f I hI hlog)
+  change HEq (HomologicalComplex.extend.mapX (deRhamComplexLogPolesInclusion f I hI hlog)
     (embeddingUpNat.r (embeddingUpNat.f p))) _
   rw [embeddingUpNat.r_f p]
   rfl

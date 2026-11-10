@@ -101,7 +101,7 @@ inclusion of the top summand. -/
 theorem secondOrderThickeningTensorTopInr_comp_top :
     secondOrderThickeningTensorTopInr T Y f M ≫ secondOrderThickeningTensorTop T Y f M =
       𝟙 (secondOrderThickeningTensorSecondExterior T Y f M) := by
-  show (tensorLeft M).map (secondOrderThickeningTopInrSheaf T Y f) ≫
+  change (tensorLeft M).map (secondOrderThickeningTopInrSheaf T Y f) ≫
     (tensorLeft M).map (secondOrderThickeningTopSheaf T Y f) = _
   rw [← (tensorLeft M).map_comp, secondOrderThickeningTopInrSheaf_comp_topSheaf]
   exact (tensorLeft M).map_id _

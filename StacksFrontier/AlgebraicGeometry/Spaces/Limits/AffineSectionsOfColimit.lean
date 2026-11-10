@@ -95,6 +95,8 @@ noncomputable local instance (priority := high) abelianModules :
     Abelian (Modules.{u, u} B S hS F hF) :=
   SheafOfModules.instAbelian _
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- `epi_comp` in the proof needs a longer instance search for its `Epi` arguments
 /-- **The quasi-coherent case.**  If a quasi-coherent module `M` is a filtered colimit of
 quasi-coherent modules, a section of `M` over an affine chart comes from a single member. -/
 theorem exists_eq_of_isColimit_of_isQuasicoherentOnSite {K : Type w} [Category.{v} K]
@@ -114,7 +116,7 @@ theorem exists_eq_of_isColimit_of_isQuasicoherentOnSite {K : Type w} [Category.{
       have : φ.app k = D.map g ≫ φ.app k' := by
         rw [φ.naturality]
         exact (Category.comp_id _).symm
-      show imageSubobject (φ.app k) ≤ imageSubobject (φ.app k')
+      change imageSubobject (φ.app k) ≤ imageSubobject (φ.app k')
       rw [this]
       exact imageSubobject_comp_le _ _
     refine ⟨(Subobject.ofLE _ _ hI).val.app X z, ?_⟩
@@ -135,7 +137,6 @@ theorem exists_eq_of_isColimit_of_isQuasicoherentOnSite {K : Type w} [Category.{
       (isClosedUnderCokernels_quasicoherentSheaves B S hS F hF) (φ.app k) (hD k) hM
   have hepi : Epi (factorThruImageSubobject (φ.app k)) := by
     dsimp [factorThruImageSubobject]
-    set_option synthInstance.maxHeartbeats 200000 in
     apply epi_comp
   obtain ⟨y, hy⟩ := surjective_val_app_of_epi_of_isQuasicoherentOnSite
     (factorThruImageSubobject (φ.app k)) hepi (hD k) hIq U hU z

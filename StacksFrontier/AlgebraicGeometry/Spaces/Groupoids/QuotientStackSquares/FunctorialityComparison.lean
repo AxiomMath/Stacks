@@ -4,7 +4,7 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.FunctorialityAux
 public import
   StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.QuotientStackSquares.FunctorialityProjectionCell
 public import
-  StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.QuotientStackSquares.FunctorialityTwoFibreProduct
+StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.QuotientStackSquares.FunctorialityTwoFibreProduct
 
 /-!
 # The square of Stacks 04ZN and its comparison 1-morphism

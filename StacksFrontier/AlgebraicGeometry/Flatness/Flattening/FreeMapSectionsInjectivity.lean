@@ -460,7 +460,7 @@ private theorem bijective_rTensor_of_isIso_pullback_tilde
       ((ModuleCat.extendScalars (CommRingCat.ofHom f).hom).map g)).mpr h3
   rw [ConcreteCategory.isIso_iff_bijective] at h2
   change Function.Bijective (LinearMap.baseChange K g.hom) at h2
-  rw [LinearMap.baseChange_eq_ltensor] at h2
+  rw [LinearMap.baseChange_eq_lTensor] at h2
   exact (LinearMap.lTensor_bij_iff_rTensor_bij K g.hom).1 h2
 
 
@@ -513,7 +513,7 @@ private theorem bijective_rTensor_residueField_of_isIso_on_open
       ((Spec Γ(X, U)).fromSpecResidueField x ≫ hU.fromSpec)).map α) := by
     refine isIso_pullback_map_of_range_le α W hαW _ ?_
     rintro _ ⟨y, rfl⟩
-    show hU.fromSpec (((Spec Γ(X, U)).fromSpecResidueField x) y) ∈ W
+    change hU.fromSpec (((Spec Γ(X, U)).fromSpecResidueField x) y) ∈ W
     rw [Scheme.fromSpecResidueField_apply]
     exact hpW
   have h2 : IsIso ((Scheme.Modules.pullback

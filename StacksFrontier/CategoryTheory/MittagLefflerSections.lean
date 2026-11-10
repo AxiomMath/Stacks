@@ -69,7 +69,7 @@ theorem IsMittagLeffler.comp_type {J : Type*} [Category J] {F : J ⥤ Type u}
       ConcreteCategory.hom_ext _ _ fun x => (hf g ⟨x, rfl⟩).choose_spec⟩
   rintro y ⟨x, rfl⟩
   refine ⟨Φ.map s x, ?_⟩
-  show Φ.map (F.map g) (Φ.map s x) = Φ.map (F.map f) x
+  change Φ.map (F.map g) (Φ.map s x) = Φ.map (F.map f) x
   rw [← Functor.map_comp_apply, hs]
 
 /-- **A pointwise surjective image of a Mittag-Leffler system of sets is Mittag-Leffler.** An
@@ -221,11 +221,11 @@ theorem nonempty_natIso_of_isMittagLeffler_isoTower (A B : ℕᵒᵖ ⥤ C)
       DescendsIsos.unique hepi f (hAB f (u ≪≫ α)).choose_spec (by
         have hu := (hAA f u).choose_spec
         have hα := (hAB f α).choose_spec
-        show A.map f ≫ ((hAA f u).choose ≪≫ (hAB f α).choose).hom = (u ≪≫ α).hom ≫ B.map f
+        change A.map f ≫ ((hAA f u).choose ≪≫ (hAB f α).choose).hom = (u ≪≫ α).hom ≫ B.map f
         rw [Iso.trans_hom, ← Category.assoc, hu, Category.assoc, hα, Iso.trans_hom,
           Category.assoc]))
     (fun n (α α' : A.obj n ≅ B.obj n) => ⟨α' ≪≫ α.symm, by
-      show (α' ≪≫ α.symm) ≪≫ α = α'
+      change (α' ≪≫ α.symm) ≪≫ α = α'
       rw [Iso.trans_assoc, Iso.symm_self_id, Iso.trans_refl]⟩)
     hne hML
   refine ⟨NatIso.ofComponents (fun n => (s.val n : A.obj n ≅ B.obj n)) (fun {m n} f => ?_)⟩

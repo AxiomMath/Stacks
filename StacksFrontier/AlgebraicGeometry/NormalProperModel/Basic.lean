@@ -29,7 +29,8 @@ the ambient proper variety is itself normal.
   subscheme of `Xbar` is an open subscheme of the normalization of `Xbar`, compatibly with `ν`.
 * `AlgebraicGeometry.isJapaneseScheme_of_isNagataScheme`: an integral Nagata scheme is Japanese.
 * `AlgebraicGeometry.Scheme.isIntegral_normalizationScheme` (stated in
-  `StacksFrontier.AlgebraicGeometry.Morphisms.Normalization.Scheme`): the normalization of an integral
+  `StacksFrontier.AlgebraicGeometry.Morphisms.Normalization.Scheme`): the normalization of an
+  integral
   scheme is integral.
 * `AlgebraicGeometry.exists_normal_properVariety_model`: a normal open subscheme of a proper
   variety is an open subscheme of a *normal* proper variety, compatibly with the structure

@@ -190,7 +190,7 @@ public lemma doubleDualStalkEquiv_stalkMapOfHom (F : X.Modules) [F.IsFinitePrese
     doubleDualStalkEquiv F x (stalkMapOfHom (toDoubleDual F) x m) =
       Module.Dual.eval (X.presheaf.stalk x) (F.presheaf.stalk x) m := by
   refine LinearMap.ext fun lam => ?_
-  show (dualStalkEquiv F x).symm.dualMap
+  change (dualStalkEquiv F x).symm.dualMap
       (dualStalkEquiv (dualSheaf F) x (stalkMapOfHom (toDoubleDual F) x m)) lam = _
   rw [LinearEquiv.dualMap_apply]
   have h := dualStalkEquiv_eq_dualStalkEquiv_toDoubleDual F x m ((dualStalkEquiv F x).symm lam)

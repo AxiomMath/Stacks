@@ -63,7 +63,7 @@ theorem exists_flat_powerSeries_chart_of_section {X S : Scheme.{u}} (f : X ⟶ S
       (algebraMap Γ(X, V) (AdicCompletion (RingHom.ker sectionHom) Γ(X, V))) ≫
         eAdic.toRingEquiv.toCommRingCatIso.hom = CommRingCat.ofHom MvPowerSeries.C := by
     refine CommRingCat.hom_ext (RingHom.ext fun a => ?_)
-    show eAdic (algebraMap Γ(S, U) (AdicCompletion (RingHom.ker sectionHom) Γ(X, V)) a) = _
+    change eAdic (algebraMap Γ(S, U) (AdicCompletion (RingHom.ker sectionHom) Γ(X, V)) a) = _
     rw [AlgEquiv.commutes, MvPowerSeries.algebraMap_apply, Algebra.algebraMap_self,
       RingHom.id_apply]
     rfl
@@ -72,7 +72,7 @@ theorem exists_flat_powerSeries_chart_of_section {X S : Scheme.{u}} (f : X ⟶ S
         eAdic.toRingEquiv.toCommRingCatIso.hom ≫
           CommRingCat.ofHom MvPowerSeries.constantCoeff = σ.appLE V U hUV := by
     refine CommRingCat.hom_ext (RingHom.ext fun b => ?_)
-    show MvPowerSeries.constantCoeff
+    change MvPowerSeries.constantCoeff
       (eAdic (algebraMap Γ(X, V) (AdicCompletion (RingHom.ker sectionHom) Γ(X, V)) b)) = _
     rw [AdicCompletion.algebraMap_apply, Algebra.algebraMap_self, RingHom.id_apply, heAdic,
       ← hsec]

@@ -86,11 +86,11 @@ private lemma deltaInvariant_eq_of_integralClosure_baseChange
   have hcompat : e.toLinearEquiv.toLinearMap.comp lf = fB.comp rid.toLinearMap := by
     apply TensorProduct.AlgebraTensorModule.ext
     intro b a
-    show e (b ⊗ₜ[A] algebraMap A C a) =
+    change e (b ⊗ₜ[A] algebraMap A C a) =
       algebraMap B D (a • b)
     have ht : (b ⊗ₜ[A] algebraMap A C a) =
         algebraMap B (B ⊗[A] C) (a • b) := by
-      show (b ⊗ₜ[A] algebraMap A C a) = (a • b) ⊗ₜ[A] (1 : C)
+      change (b ⊗ₜ[A] algebraMap A C a) = (a • b) ⊗ₜ[A] (1 : C)
       simpa only [Algebra.smul_def, mul_one] using
         (TensorProduct.smul_tmul a b (1 : C)).symm
     rw [ht, e.commutes]
@@ -110,7 +110,7 @@ private lemma deltaInvariant_eq_of_integralClosure_baseChange
       LinearMap.range (TensorProduct.map (LinearMap.id : B →ₗ[A] B)
         (Submodule.subtype (LinearMap.range fA)))
     have hPbase : Pbase = P.restrictScalars A := by
-      show LinearMap.range (LinearMap.lTensor B
+      change LinearMap.range (LinearMap.lTensor B
         (Submodule.subtype (LinearMap.range fA))) = LinearMap.range (LinearMap.lTensor B fA)
       exact (LinearMap.lTensor_range (Q := B) (g := fA)).symm
     let qP : ((B ⊗[A] C) ⧸ Pbase) ≃ₗ[A]
@@ -125,8 +125,7 @@ private lemma deltaInvariant_eq_of_integralClosure_baseChange
         map_add' := etA.map_add
         map_smul' := by
           intro b x
-          induction x using TensorProduct.induction_on with
-          | zero => simp [etA]
+          induction x using TensorProduct.inductionOn with
           | add x y hx hy => simp [hx, hy]
           | tmul x y =>
             obtain ⟨y, rfl⟩ := Submodule.Quotient.mk_surjective _ y
@@ -135,7 +134,7 @@ private lemma deltaInvariant_eq_of_integralClosure_baseChange
                 qR (qP (et0 (z ⊗ₜ[A] Submodule.Quotient.mk c))) =
                   Submodule.Quotient.mk (z ⊗ₜ[A] c) := by
               simp [qP, qR, et0, TensorProduct.tensorQuotientEquiv_apply_mk_tmul]
-            show qR (qP (et0 ((b * x) ⊗ₜ[A] Submodule.Quotient.mk y))) =
+            change qR (qP (et0 ((b * x) ⊗ₜ[A] Submodule.Quotient.mk y))) =
               b • qR (qP (et0 (x ⊗ₜ[A] Submodule.Quotient.mk y)))
             rw [hmk (b * x) y, hmk x y, ← Submodule.Quotient.mk_smul]
             congr 1 }
@@ -168,11 +167,11 @@ private theorem isFractionRing_of_injective_map
       (IsLocalization.map_units (FractionRing B) ⟨s, hs⟩).mul_left_eq_zero.mp
         (by simpa [mul_comm] using hz)
     apply hfQinj
-    show fQ c = fQ 0
+    change fQ c = fQ 0
     simpa using hc
   let : Algebra C (FractionRing B) := fQ.toAlgebra
   let : IsScalarTower B C (FractionRing B) := IsScalarTower.of_algebraMap_eq fun b => by
-    show algebraMap B (FractionRing B) b = fQ (algebraMap B C b)
+    change algebraMap B (FractionRing B) b = fQ (algebraMap B C b)
     exact (hfQB b).symm
   refine ⟨?_, ?_, ?_⟩
   · intro c
@@ -218,7 +217,7 @@ private theorem isFractionRing_of_injective_map
   · intro z
     obtain ⟨⟨b, s⟩, hbs⟩ := IsLocalization.surj (nonZeroDivisors B) z
     refine ⟨⟨algebraMap B C b, ⟨algebraMap B C (s : B), hreg s s.2⟩⟩, ?_⟩
-    show z * fQ (algebraMap B C s) = fQ (algebraMap B C b)
+    change z * fQ (algebraMap B C s) = fQ (algebraMap B C b)
     rw [hfQB, hfQB]
     exact hbs
   · intro x y hxy
@@ -278,14 +277,13 @@ private noncomputable def integralClosureTensorProductEquivOfIsNormal
     rfl
   have hαinj : Function.Injective α := by
     change Function.Injective α.toLinearMap
-    rw [hα, LinearMap.baseChange_eq_ltensor]
+    rw [hα, LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap ι hιinj
   let g : C →ₐ[B] FractionRing B := FA.comp α
   have hginj : Function.Injective g := hFinj.comp hαinj
   have hgmem : ∀ z : C, g z ∈ NB := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp [g]
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw =>
       rw [map_add]
       exact NB.add_mem hz hw
@@ -337,7 +335,7 @@ private lemma ringKrullDim_quotient_map_maximalIdeal_eq_zero
   have hfiber := WithTop.add_left_cancel (x := (maximalIdeal A).height)
     Ideal.height_ne_top_of_isPrime
     (hheight.symm.trans (add_zero _).symm)
-  show ringKrullDim (B ⧸ (maximalIdeal A).map (algebraMap A B)) = 0
+  change ringKrullDim (B ⧸ (maximalIdeal A).map (algebraMap A B)) = 0
   rw [IsLocalRing.ringKrullDim_quotient_eq_height_map_maximalIdeal
     (IsLocalRing.map_maximalIdeal_lt_top (algebraMap A B)).ne, hfiber]
   norm_num
@@ -364,9 +362,9 @@ private lemma length_fiber_eq_one_of_isReduced
   have hImax : I.IsMaximal := by
     simpa using RingHom.ker_isMaximal_of_surjective (Ideal.Quotient.mk I)
       Ideal.Quotient.mk_surjective
-  show Module.length B (B ⧸ I) = 1
+  change Module.length B (B ⧸ I) = 1
   rw [IsLocalRing.eq_maximalIdeal hImax]
-  show Module.length B (IsLocalRing.ResidueField B) = 1
+  change Module.length B (IsLocalRing.ResidueField B) = 1
   rw [Module.length_eq_of_surjective (M := IsLocalRing.ResidueField B)
     (IsLocalRing.residue_surjective (R := B))]
   simp
@@ -529,11 +527,11 @@ private lemma exists_isLocalization_tensorProduct_stalk
     (stalkMap_spec_comp_algebraMap b (g.base a) hh).symm
   let z₀ : PrimeSpectrum k := g.base a
   have locR : IsLocalization.AtPrime R z₀.asIdeal := by
-    show IsLocalization.AtPrime ((structurePresheafInCommRingCat k).stalk z₀)
+    change IsLocalization.AtPrime ((structurePresheafInCommRingCat k).stalk z₀)
       z₀.asIdeal
     infer_instance
   have locB : IsLocalization.AtPrime B b.asIdeal := by
-    show IsLocalization.AtPrime ((structurePresheafInCommRingCat K).stalk b) b.asIdeal
+    change IsLocalization.AtPrime ((structurePresheafInCommRingCat K).stalk b) b.asIdeal
     infer_instance
   have hr : Function.Bijective (algebraMap k R) :=
     Field.localization_map_bijective (M := z₀.asIdeal.primeCompl) (by simp)
@@ -594,11 +592,11 @@ private lemma stalkResidue_algebraMap (k : Type u) [Field k]
     (X.residue x).hom.comp ((f.stalkMap x).hom.comp
       (algebraMap k ((Spec (.of k)).presheaf.stalk (f x)))) =
     ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫ X.Γevaluation x).hom := by
-  show ((Scheme.ΓSpecIso (.of k)).inv ≫
+  change ((Scheme.ΓSpecIso (.of k)).inv ≫
     (Spec (.of k)).presheaf.germ ⊤ (f x) trivial ≫ f.stalkMap x ≫ X.residue x).hom = _
   rw [← Scheme.residue_residueFieldMap f x, ← Category.assoc
     ((Spec (.of k)).presheaf.germ ⊤ (f x) trivial)]
-  show ((Scheme.ΓSpecIso (.of k)).inv ≫
+  change ((Scheme.ΓSpecIso (.of k)).inv ≫
     (Spec (.of k)).Γevaluation (f x) ≫ f.residueFieldMap x).hom = _
   rw [Scheme.Γevaluation_naturality]
 
@@ -636,7 +634,7 @@ private lemma residueField_geometricallyReduced_of_separable_above
           rw [show algebraMap k (X.residueField (ν z)) =
             ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫ X.Γevaluation (ν z)).hom
             from hc]
-          show ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫
+          change ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫
             X.Γevaluation (ν z) ≫ ν.residueFieldMap z).hom = _
           rw [hn]
           rfl
@@ -790,7 +788,7 @@ public lemma deltaInvariant_stalk_baseChange
   have hSpecMap :
       Spec.map (CommRingCat.ofHom (algebraMap A B)) ≫ X.fromSpecStalk (p y) =
         (pullback f g : Scheme.{u}).fromSpecStalk y ≫ p := by
-    show Spec.map (p.stalkMap y) ≫ X.fromSpecStalk (p.base y) = _
+    change Spec.map (p.stalkMap y) ≫ X.fromSpecStalk (p.base y) = _
     exact Scheme.SpecMap_stalkMap_fromSpecStalk (f := p) (x := y)
   let eMap := pullback.congrHom
     (rfl : Scheme.normalization X hX = Scheme.normalization X hX) hSpecMap
@@ -822,7 +820,7 @@ public lemma deltaInvariant_stalk_baseChange
     let b : PrimeSpectrum B := pullback.snd ν j zP
     have hb : b.asIdeal = q.asIdeal.comap (algebraMap B C) := by
       have he : eActual.hom.left zP = q := by
-        show eActual.hom.left (eActual.inv.left q) = q
+        change eActual.hom.left (eActual.inv.left q) = q
         exact congrArg (fun h => h.left q) eActual.inv_hom_id
       have hOver := congrArg (fun t => t zP) eActual.hom.w
       have hOver' : Spec.map (CommRingCat.ofHom (algebraMap B C))
@@ -858,10 +856,10 @@ public lemma deltaInvariant_stalk_baseChange
         pullbackLeftPullbackSndIso_inv_fst ν p r
       calc
         x' = pullback.fst ν p (t zP) := by
-          show (pullback.fst (ν ≫ f) g) (aIso.hom zQ) = _
+          change (pullback.fst (ν ≫ f) g) (aIso.hom zQ) = _
           rw [← Scheme.Hom.comp_apply, ha]
         _ = pullback.fst ν j zP := by
-          show (tIso.inv ≫ pullback.fst (pullback.snd ν p) r ≫
+          change (tIso.inv ≫ pullback.fst (pullback.snd ν p) r ≫
             pullback.fst ν p) zP = _
           exact congrArg (fun h => h zP) ht
     have hx' : ν x' = p y := by
@@ -871,7 +869,7 @@ public lemma deltaInvariant_stalk_baseChange
       have hcond' : ν (pullback.fst ν j zP) = j b := by
         simpa [b] using hcond
       rw [hcond']
-      show p (r b) = p y
+      change p (r b) = p y
       rw [hrb]
     have hnormalG : IsNormalRing
         ((pullback (ν ≫ f) (Spec.map (CommRingCat.ofHom (algebraMap k K))) :
@@ -896,7 +894,7 @@ public lemma deltaInvariant_stalk_baseChange
     let eA := (asIso (aIso.hom.stalkMap zQ')).commRingCatIsoToRingEquiv
     let ePiso := (Over.forget (Spec (.of B))).mapIso eActual
     have hq : ePiso.hom zP = q := by
-      show eActual.hom.left zP = q
+      change eActual.hom.left zP = q
       exact congrArg (fun h => h.left q) eActual.inv_hom_id
     have ePst : (Spec (.of C)).presheaf.stalk q ≃+*
         localPullback.presheaf.stalk zP := by
@@ -922,7 +920,7 @@ public lemma deltaInvariant_stalk_baseChange
   have hnormalStd : IsNormalRing ((↑B) ⊗[↑A] NA) :=
     IsNormalRing.congr eC.toRingEquiv hnormalC
   let : IsLocalHom (algebraMap (↑A) (↑B)) := by
-    show IsLocalHom (p.stalkMap y).hom
+    change IsLocalHom (p.stalkMap y).hom
     exact p.toLRSHom.prop y
   let : Flat g := (Flat.SpecMap_iff).2
     (RingHom.Flat.of_isField (Field.toIsField k) (algebraMap k K))

@@ -496,8 +496,7 @@ theorem pullback_graphCorr [IsProper sX] [IsProper sY] (m : ℤ) :
     (fun d ⟨y, hy⟩ ↦ (mem_nonemptyDimParts k sX).2 ⟨_, hy⟩)
     (fun e he ↦ (mem_nonemptyDimParts k sY).2 he)]
   refine LinearMap.ext fun x ↦ ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy]
   | tmul q β =>
     simp only [map_sum, LinearMap.sum_apply, pullback_lof_lof_graphBlock_tmul,
@@ -572,6 +571,7 @@ theorem properChowPushforward_chowGroupRestrict_graphPieceι_of_relativeDimensio
     have := isEmpty_graphPieceOpen_of_left sX sY f e' (hXd d (Or.inl hd))
     exact properChowPushforward_chowGroupRestrict_graphPieceι_of_isEmpty sX sY f d e' m β
 
+omit [IsSeparated sX] [IsSeparated sY] in
 /-- The first projection of the graph piece is the restriction `f_{e,d} : Y_{e,d} ⟶ X_d` of `f` to
 the piece `Y_{e,d} = Y_e ∩ f⁻¹(X_d)` on which the Gysin map of `f` is formed. -/
 theorem graphPiece_fst_eq_dimPartPieceHom (d e : ℕ) :
@@ -647,8 +647,7 @@ theorem rationalCodimensionToCodimChow_bijective [CompactSpace X] (i : ℤ) :
     Function.Bijective (rationalCodimensionToCodimChow k sX i) := by
   refine Function.bijective_iff_has_inverse.2 ⟨codimChowToRationalCodimension k sX i, ?_, ?_⟩
   · intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => rw [map_add, map_add, hx, hy]
     | tmul q α =>
       rw [rationalCodimensionToCodimChow_tmul, map_smul, codimensionToCodimChow,
@@ -662,8 +661,7 @@ theorem rationalCodimensionToCodimChow_bijective [CompactSpace X] (i : ℤ) :
     | zero => simp
     | add x y hx hy => rw [map_add, map_add, hx, hy]
     | of d y =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | add y z hy hz => rw [map_add, map_add, map_add, hy, hz]
       | tmul q a =>
         rw [← DirectSum.lof_eq_of ℚ]
@@ -750,6 +748,7 @@ theorem correspondencePushforward_graphBlock_tmul [IsProper sX] [IsProper sY] {f
   exact (dimPartPieceGysin_chowCohomologyCapFundamentalClass sY sX hf e d i c).symm
 
 
+omit [IsSeparated sY] in
 /-- Pushforward by the graph of a class concentrated on the part `X_d`: only the blocks `(d, e)`
 contribute. -/
 theorem pushforward_graphCorr_lof [IsProper sX] [IsProper sY] {f : Y ⟶ X} (hf : f ≫ sX = sY)
@@ -854,6 +853,7 @@ def corrTranspose (d e : ℕ) (r : ℤ) : Corr k sX sY r →ₗ[ℚ] Corr k sY s
         DirectSum.component ℚ ℕ (fun d' ↦ DirectSum ℕ fun e' ↦ Correspondence
           (fieldChowSituation k) (partBase sX d') (partBase sY e') e' r) d)
 
+omit [IsSeparated sY] in
 /-- The `(d, e)` component of the graph correspondence is its `(d, e)` block. -/
 theorem component_component_graphCorr [QuasiCompact sY] {f : Y ⟶ X} (hf : f ≫ sX = sY)
     (d e : ℕ) :
@@ -879,6 +879,7 @@ def transposeGraphCorr [QuasiCompact sY] (f : Y ⟶ X) (hf : f ≫ sX = sY) (d e
     Corr k sY sX ((d : ℤ) - e) :=
   corrCongr k sY sX (add_zero _) (corrTranspose k sX sY d e 0 (graphCorr k sX sY f hf))
 
+omit [IsSeparated sY] in
 /-- The transposed graph is the class of the transposed graph piece `Γ_fᵗ ∩ (Y_e × X_d)`, in the
 summand `(e, d)`. -/
 theorem transposeGraphCorr_eq [QuasiCompact sY] {f : Y ⟶ X} (hf : f ≫ sX = sY) (d e : ℕ) :
@@ -935,8 +936,7 @@ theorem pullback_transposeGraphCorr [IsProper sX] [IsProper sY] {f : Y ⟶ X} (h
       (graphPieceOpen sX sY f d e).ι ≫ partBase sY e := by
     simpa [graphPieceι, partBase, hf, Category.assoc] using congrArg (· ≫ sX) hγsnd
   refine LinearMap.ext fun x ↦ ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy]
   | tmul q β =>
     obtain ⟨p, rfl⟩ : ∃ p, m = (d : ℤ) - p := ⟨d - m, by ring⟩
@@ -981,7 +981,7 @@ theorem pullback_transposeGraphCorr [IsProper sX] [IsProper sY] {f : Y ⟶ X} (h
 and `e`, pushforward by the transposed graph `[Γ_f]ᵗ ∈ Corr^{d-e}(Y, X)` of `1 ⊗ a`,
 `a ∈ CH_{e-i}(Y_e)`, is `1 ⊗ (f_*a)|_{X_d}`. -/
 theorem pushforward_transposeGraphCorr_lof [IsProper sX] [IsProper sY] {f : Y ⟶ X}
-    (hf : f ≫ sX = sY) {d e : ℕ} (hX : RelativeDimension sX d) (hY : RelativeDimension sY e)
+    (hf : f ≫ sX = sY) {d e : ℕ}
     (i : ℤ) (a : chowGroup (fieldChowSituation k) (partBase sY e) ((e : ℤ) - i)) :
     haveI := isProper_of_comp_eq sX sY hf
     haveI := (isClopenDecomposition_dimPart sY).isProper_ι e
@@ -1118,7 +1118,7 @@ theorem equidimensionalPushforward_apply_self {d e : ℕ} (i q : ℤ) (h : q = i
             ((dimPart Y.obj.hom e).ι ≫ f.hom.left) (by rw [Category.assoc, Over.w f.hom])
             ((e : ℤ) - i) (properPushforwardDescends _ _ _ _ _ _) (α e))) := by
   simp only [equidimensionalPushforward, AddMonoidHom.pi_apply]
-  rw [dif_pos trivial]
+  rw [dite_eq_left trivial]
   rfl
 
 /-- **Stacks 0FG5 (3)(a), on integral classes**: for `X` and `Y` equidimensional of dimensions
@@ -1139,7 +1139,7 @@ theorem pushforward_transposeGraphCorrespondenceSP_codimensionToCodimChow {d e :
   rw [codimensionToCodimChow_of_relativeDimension Y.obj.hom hY,
     codimensionToCodimChow_of_relativeDimension X.obj.hom hX, transposeGraphCorrespondenceSP,
     LinearEquiv.apply_symm_apply, pushforward_transposeGraphCorr_lof X.obj.hom Y.obj.hom
-      (Over.w f.hom) hX hY, equidimensionalPushforward_apply_self]
+      (Over.w f.hom) (d := d) (e := e), equidimensionalPushforward_apply_self]
 
 /-- **Stacks Project, Tag 0FG5 (3)(a).** Let `f : Y ⟶ X` be a morphism of smooth projective
 schemes over `k`, with `X` and `Y` equidimensional of dimensions `d` and `e`. Pushforward of

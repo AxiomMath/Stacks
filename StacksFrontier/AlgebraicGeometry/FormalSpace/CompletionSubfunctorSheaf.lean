@@ -105,7 +105,7 @@ theorem isSheaf_completionSubfunctorULift (X : FormalSpace.FppfSheaf B S hS)
   rw [isSheaf_iff_isSheaf_of_type,
     Subfunctor.isSheaf_iff (completionSubfunctorULift B S hS X.obj T) hX]
   intro U s hs
-  show HasImageInULift B S hS X.obj T U.unop s
+  change HasImageInULift B S hS X.obj T U.unop s
   intro p
   obtain ⟨y, hy⟩ := surjective_pointsMap_of_isLocallySurjective B S hS
     ((completionSubfunctorULift B S hS X.obj T).sieveOfSection s).functorInclusion

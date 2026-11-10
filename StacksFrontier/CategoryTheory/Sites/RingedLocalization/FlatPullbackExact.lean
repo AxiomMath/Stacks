@@ -123,7 +123,7 @@ private lemma sheafCompose_preservesFiniteLimits
   have : PreservesFiniteLimits ((Functor.whiskeringRight Cᵒᵖ A B).obj F) :=
     ⟨fun _ _ _ => inferInstance⟩
   have : PreservesFiniteLimits (sheafCompose J F ⋙ sheafToPresheaf J B) := by
-    show PreservesFiniteLimits (sheafToPresheaf J A ⋙ (Functor.whiskeringRight _ _ _).obj F)
+    change PreservesFiniteLimits (sheafToPresheaf J A ⋙ (Functor.whiskeringRight _ _ _).obj F)
     exact comp_preservesFiniteLimits _ _
   exact preservesFiniteLimits_of_reflects_of_preserves _ (sheafToPresheaf J B)
 
@@ -170,6 +170,7 @@ private noncomputable def moduleULift (O : Sheaf J CommRingCat.{w}) :
     naturality {U V} f := ModuleCat.hom_ext <| DFunLike.ext _ _ fun x =>
       congrArg ULift.up (PresheafOfModules.naturality_apply φ.val f x.down) }⟩
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- Lifting sheaves of modules preserves finite limits: after passing to underlying abelian
 sheaves it is composition with the universe lift of abelian groups, and the
 underlying-abelian-sheaf functor reflects finite limits. -/
@@ -180,7 +181,7 @@ private lemma moduleULift_preservesFiniteLimits (O : Sheaf J CommRingCat.{w}) :
   have : PreservesFiniteLimits (sheafCompose J AddCommGrpCat.uliftFunctor.{max u v, w}) :=
     sheafCompose_preservesFiniteLimits _ _
   have : PreservesFiniteLimits (moduleULift O ⋙ V) := by
-    show PreservesFiniteLimits
+    change PreservesFiniteLimits
       (SheafOfModules.toSheaf.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O) ⋙
         sheafCompose J AddCommGrpCat.uliftFunctor.{max u v, w})
     exact comp_preservesFiniteLimits _ _
@@ -248,8 +249,7 @@ private noncomputable def tensorPresheafIso :
     ext x
     obtain ⟨x⟩ := x
     let : Algebra (O₁.obj.obj U) (O₂.obj.obj U) := (θ.hom.app U).hom.toAlgebra
-    induction x using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero _).symm
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy =>
       exact ((map_add _ (ULift.up x) (ULift.up y)).trans (congrArg₂ (· + ·) hx hy)).trans
         (map_add _ _ _).symm
@@ -263,8 +263,7 @@ private noncomputable def tensorPresheafIso :
     ext U x
     obtain ⟨x⟩ := x
     let : Algebra (O₁.obj.obj U) (O₂.obj.obj U) := (θ.hom.app U).hom.toAlgebra
-    induction x using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero _).symm
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy =>
       exact ((map_add _ (ULift.up x) (ULift.up y)).trans (congrArg₂ (· + ·) hx hy)).trans
         (map_add _ _ _).symm
@@ -284,6 +283,7 @@ variable {C : Type u} [Category.{v} C] (J : GrothendieckTopology C)
   [HasWeakSheafify J AddCommGrpCat.{w}]
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- Extension of scalars along a *flat* morphism of sheaves of commutative rings is left exact.
 This is the substantive half of Stacks 04JC: after passing to underlying abelian sheaves,
 extension of scalars becomes the lift of modules followed by tensoring with the lifted target

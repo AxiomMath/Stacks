@@ -19,7 +19,8 @@ invertible; this file proves it under the source's hypothesis,
 local isomorphism, equivalently the comparison map of sheaves is an isomorphism.
 
 The proof is the one of the presheaf-level version, with the identification of sections of
-`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/LiftedSectionsSheafified.lean` and its cocycle
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/LiftedSectionsSheafified.lean` and its
+cocycle
 condition of
 `StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/LiftedSectionsCocycleSheafified.lean`.
 

@@ -112,8 +112,7 @@ theorem injective_app_relativeProjChart {V : s.relativeProj.Opens}
 /-- **`chartSectionsIso` commutes with the restriction maps.** Restricting a section of the
 relative `Proj` and then reading it on the chart is the same as reading it on the chart and then
 restricting. -/
-theorem map_chartSectionsIso_hom {V V' : s.relativeProj.Opens}
-    (hV : V ≤ (relativeProjChart s W).opensRange) (hV'V : V' ≤ V)
+theorem map_chartSectionsIso_hom {V V' : s.relativeProj.Opens} (hV'V : V' ≤ V)
     (x : Γ(relativeProj s, V)) :
     ((relativeProjChart s W).app V').hom
         ((s.relativeProj.presheaf.map (homOfLE hV'V).op).hom x)
@@ -139,7 +138,7 @@ theorem chartSectionsIso_inv_map {V V' : s.relativeProj.Opens}
           ((chartSectionsIso s W hV).inv.hom z) := by
   refine injective_app_relativeProjChart s W (hV'V.trans hV) ?_
   refine (chartSectionsIso_hom_inv_apply s W (hV'V.trans hV) _).trans ?_
-  refine Eq.symm ((map_chartSectionsIso_hom s W hV hV'V _).trans ?_)
+  refine Eq.symm ((map_chartSectionsIso_hom s W hV'V _).trans ?_)
   exact congrArg (((AlgebraicGeometry.Proj (s.sectionRingGrading W.1)).presheaf.map
       (homOfLE (Scheme.Hom.preimage_mono (relativeProjChart s W) hV'V)).op).hom)
     (chartSectionsIso_hom_inv_apply s W hV z)

@@ -50,7 +50,7 @@ where `x` is another root of unity. -/
 def rootIdempotent (n : ℕ) (ρ : k) : R :=
   aeval x (Lagrange.basis (nthRootsFinset n (1 : k)) id ρ)
 
-include hζ hn in
+include hn in
 /-- The Lagrange idempotents of `x` at the `n`-th roots of unity sum to `1`. -/
 theorem sum_rootIdempotent :
     ∑ ρ ∈ nthRootsFinset n (1 : k), rootIdempotent x n ρ = 1 := by
@@ -125,7 +125,7 @@ theorem rootHom_intCast (U : X.Etale) (z : ℤ) :
 /-- In the additive notation of the sections of `𝐆_m`, `z • x` is the unit `x ^ z`. -/
 theorem zsmul_ofUnit (U : X.Etale) (z : ℤ) (x : (Γ(U.left, ⊤))ˣ) :
     z • ofUnit.{u, 0} x = ofUnit.{u, 0} (x ^ z) := by
-  show ULift.up (z • Additive.ofMul x) = ULift.up (Additive.ofMul (x ^ z))
+  change ULift.up (z • Additive.ofMul x) = ULift.up (Additive.ofMul (x ^ z))
   rw [ofMul_zpow]
 
 /-- On a nonempty étale `X`-scheme, `ζ^m = 1` if and only if `m = 0` in `ℤ/n`. -/
@@ -171,7 +171,7 @@ theorem toSheafify_rootSheafHom :
 theorem rootPresheafHom_comp_powMap :
     rootPresheafHom f hζ hn ≫ (powMap.{u, 0} X n).hom = 0 := by
   ext U m
-  show (powMap.{u, 0} X n).hom.app U (rootHom f hζ hn U.unop m.down) = 0
+  change (powMap.{u, 0} X n).hom.app U (rootHom f hζ hn U.unop m.down) = 0
   obtain ⟨z, hz⟩ := ZMod.intCast_surjective m.down
   rw [← hz, rootHom_intCast, zsmul_ofUnit, powMap_app_ofUnit, ← zpow_natCast, ← zpow_mul,
     mul_comm, zpow_mul, zpow_natCast, rootOn_pow, one_zpow]
@@ -181,7 +181,7 @@ theorem rootPresheafHom_comp_powMap :
 theorem rootSheafHom_comp_powMap : rootSheafHom f hζ hn ≫ powMap.{u, 0} X n = 0 := by
   ext : 1
   refine sheafify_hom_ext _ _ _ (multiplicativeSheaf.{u, 0} X).property ?_
-  show toSheafify X.smallEtaleTopology _ ≫ (rootSheafHom f hζ hn).hom ≫
+  change toSheafify X.smallEtaleTopology _ ≫ (rootSheafHom f hζ hn).hom ≫
     (powMap.{u, 0} X n).hom = toSheafify X.smallEtaleTopology _ ≫ 0
   exact (toSheafify_rootSheafHom_assoc f hζ hn _).trans
     ((rootPresheafHom_comp_powMap f hζ hn).trans comp_zero.symm)
@@ -303,7 +303,7 @@ theorem imageSieve_rootsOfUnityConstantHom_mem (U : X.Etale)
   have hcov : Sieve.ofArrows Z g ∈ X.smallEtaleTopology U := by
     rw [Scheme.ofArrows_mem_smallEtaleTopology_iff]
     have hspan : Ideal.span (Set.range e) = ⊤ := by
-      rw [Ideal.eq_top_iff_one, ← sum_rootIdempotent hζ hn (x : Γ(U.left, ⊤)),
+      rw [Ideal.eq_top_iff_one, ← sum_rootIdempotent (k := k) hn (x : Γ(U.left, ⊤)),
         ← Finset.sum_coe_sort]
       exact Ideal.sum_mem _ fun ρ _ => Ideal.subset_span ⟨ρ, rfl⟩
     have h := AlgebraicGeometry.iSup_basicOpen_of_span_eq_top (X := U.left) ⊤ _ hspan
@@ -312,7 +312,7 @@ theorem imageSieve_rootsOfUnityConstantHom_mem (U : X.Etale)
     simp only [TopologicalSpace.Opens.mem_iSup, Set.mem_range, exists_prop] at hp
     obtain ⟨_, ⟨ρ, rfl⟩, hρ⟩ := hp
     exact Set.mem_iUnion.2 ⟨ρ, by
-      show p ∈ Set.range (U.left.basicOpen (e ρ)).ι
+      change p ∈ Set.range (U.left.basicOpen (e ρ)).ι
       rw [Scheme.Opens.range_ι]
       exact hρ⟩
   refine X.smallEtaleTopology.superset_covering ?_ hcov
@@ -321,11 +321,11 @@ theorem imageSieve_rootsOfUnityConstantHom_mem (U : X.Etale)
   obtain ⟨i, -, hi⟩ := hζ.eq_pow_of_pow_eq_one
     ((Polynomial.mem_nthRootsFinset (Nat.pos_of_ne_zero hn) (1 : k)).1 ρ.2)
   refine ⟨ULift.up (i : ZMod n), rootsOfUnityι_app_op_injective (op (Z ρ)) ?_⟩
-  show _ = (rootsOfUnityι.{u, 0} X n).hom.app (op (Z ρ))
+  change _ = (rootsOfUnityι.{u, 0} X n).hom.app (op (Z ρ))
     ((rootsOfUnitySheaf.{u, 0} X n).obj.map (g ρ).op s)
   refine (ι_rootsOfUnityConstantHom_toSheafify_apply f hζ hn (op (Z ρ)) _).trans ?_
   rw [NatTrans.naturality_apply, ← hx, map_ofUnit]
-  show rootHom f hζ hn (Z ρ) (i : ZMod n) = _
+  change rootHom f hζ hn (Z ρ) (i : ZMod n) = _
   rw [← Int.cast_natCast, rootHom_intCast, zsmul_ofUnit]
   congr 1
   have hunit := isUnit_ι_appTop_basicOpen U.left (e ρ)
@@ -336,7 +336,7 @@ theorem imageSieve_rootsOfUnityConstantHom_mem (U : X.Etale)
   apply Units.ext
   rw [Units.coe_map, zpow_natCast, Units.val_pow_eq_pow_val, rootOn, Units.coe_map,
     Units.val_mk0]
-  show (structMap f (Z ρ) ζ) ^ i = _
+  change (structMap f (Z ρ) ζ) ^ i = _
   rw [← map_pow, hi, ← structMap_comp f (g ρ)]
   exact hxρ.symm
 
@@ -370,7 +370,7 @@ theorem nonempty_rootsOfUnity_iso_constant [IsSepClosed k] (hnk : (n : k) ≠ 0)
     Nonempty (Stacks.EtaleCohomology.etaleConstantSheaf X (ZMod n) ≅
       rootsOfUnitySheaf.{u, 0} X n) := by
   have : NeZero (n : k) := ⟨hnk⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot k n
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot k n
   exact ⟨rootsOfUnityConstantIso f hζ hn⟩
 
 end Stacks.Kummer

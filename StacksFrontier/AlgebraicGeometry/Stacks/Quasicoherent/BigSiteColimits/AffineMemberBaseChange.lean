@@ -570,7 +570,7 @@ theorem bijective_liftBaseChange_of_hasGlobalPresentation_over
   let eW' : W ⟶ (Over.mk (cW.left ≫ V.hom) : Over x) := Over.homMk (𝟙 W.left) (by simp)
   let gh : (Over.mk (cW.left ≫ V.hom) : Over x) ⟶ (Over.mk (cT.left ≫ V.hom) : Over x) :=
     Over.homMk h.left (by
-      show h.left ≫ cT.left ≫ V.hom = cW.left ≫ V.hom
+      change h.left ≫ cT.left ≫ V.hom = cW.left ≫ V.hom
       rw [← Category.assoc, hcl])
   have hTT : eT' ≫ eT = 𝟙 T := by ext; simp [eT, eT']
   have hTT' : eT ≫ eT' = 𝟙 (Over.mk (cT.left ≫ V.hom) : Over x) := by ext; simp [eT, eT']
@@ -638,7 +638,7 @@ theorem bijective_liftBaseChange_of_hasGlobalPresentation_over
       left_inv := hLW
       right_inv := hRW }
     (fun n => ?_) hbij0
-  show N.val.restrictₛₗ eW.op (r n) = N.val.restrictₛₗ gh.op (N.val.restrictₛₗ eT.op n)
+  change N.val.restrictₛₗ eW.op (r n) = N.val.restrictₛₗ gh.op (N.val.restrictₛₗ eT.op n)
   rw [hr n, N.val.restrictₛₗ_restrictₛₗ_op, N.val.restrictₛₗ_restrictₛₗ_op, hsq]
 
 include hp in

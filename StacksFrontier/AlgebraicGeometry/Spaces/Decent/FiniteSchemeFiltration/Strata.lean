@@ -353,7 +353,7 @@ public theorem exists_schemeStratification_quasiCompactPoint_mem_stratum
       rw [heq]
       exact hfind
   refine ⟨k, ?_⟩
-  show x ∈ Set.range (AlgebraicGeometry.Space.pointsMap B S hS (T k).toFunctor
+  change x ∈ Set.range (AlgebraicGeometry.Space.pointsMap B S hS (T k).toFunctor
     ((T k).ι ≫ (D k).ι))
   rw [(hT k).2.1]
   exact ⟨hk, hk'⟩

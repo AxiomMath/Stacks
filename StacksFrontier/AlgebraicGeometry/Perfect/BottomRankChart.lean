@@ -49,9 +49,9 @@ theorem isGE_derivedPullback_of_hasTorAmplitude (E : DerivedCategory X.Modules) 
     ((derivedPullback f.toLRSHom.toShHom).obj E).IsGE a := by
   have hE' : Stacks.Cohomology.TorAmplitude.HasTorAmplitude X.toRingedSpace E a (max a b) :=
     fun F i hi => hE F i fun h => hi ⟨h.1, h.2.trans (le_max_right _ _)⟩
+  open Stacks.Cohomology.TorAmplitude.BoundedFlatRepresentative in
   obtain ⟨K, hflat, hzero, ⟨e⟩⟩ :=
-    Stacks.Cohomology.TorAmplitude.BoundedFlatRepresentative.exists_flat_representative_of_hasTorAmplitude
-      E a (max a b) (le_max_left _ _) hE'
+    exists_flat_representative_of_hasTorAmplitude E a (max a b) (le_max_left _ _) hE'
   have hK : RingedSpace.KFlatDerivedPullback.KFlat X.toRingedSpace K :=
     RingedSpace.KFlatDerivedPullback.kFlat_of_boundedAbove_of_flat _ K
       ⟨max a b, (CochainComplex.isStrictlyLE_iff K _).2 fun i hi =>

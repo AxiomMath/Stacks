@@ -161,7 +161,7 @@ public theorem LAdicSheaf.map_adicLFunction_padic (F : LAdicSheaf B X ℓ)
   rw [FrobeniusMatrices.localFactor, FrobeniusMatrices.localFactor, localEulerFactor,
     localEulerFactor, LAdicSheaf.localCharSeries_frobeniusMatrices]
   congr 1
-  show localCharSeries (((LAdicSheaf.adicFrobeniusMatrices B X ℓ F hF f).matrix x).map
+  change localCharSeries (((LAdicSheaf.adicFrobeniusMatrices B X ℓ F hF f).matrix x).map
     (algebraMap ℤ_[ℓ] ℚ_[ℓ])) _ =
       charPowerSeries ((LAdicSheaf.stalkEnd B X ℓ F (frobeniusPointHom X.1 x.1)).baseChange
         ℚ_[ℓ]) _
@@ -186,7 +186,7 @@ public theorem LAdicSheaf.conj_finiteLevelStalkEnd (F : LAdicSheaf B X ℓ)
   let A := LinearMap.toMatrix' (e.conj (LAdicSheaf.stalkEnd B X ℓ F a))
   let b := LAdicSheaf.flatLevelBasis F s
     (fun n => LAdicSheaf.isPowExact_finiteLevelStalk F s n (hF n)) n
-  show b.equivFun.conj (finiteLevelStalkEnd B X ℓ F a n).hom =
+  change b.equivFun.conj (finiteLevelStalkEnd B X ℓ F a n).hom =
     Matrix.toLin' (A.map (PadicInt.toZModPow (n + 1)))
   apply LinearMap.ext
   intro w
@@ -195,12 +195,12 @@ public theorem LAdicSheaf.conj_finiteLevelStalkEnd (F : LAdicSheaf B X ℓ)
   have hv : b.equivFun (v.1 n) = w := by
     rw [← hw']
     funext i
-    show T.equiv n (v.1 n) i = _
+    change T.equiv n (v.1 n) i = _
     rw [← LAdicSheaf.LevelTrivialization.toZModPow_stalkEquiv T v n i]
     simp only [v, e, LinearEquiv.apply_symm_apply, Function.comp_apply]
   rw [LinearEquiv.conj_apply_apply, ← hv, LinearEquiv.symm_apply_apply, Matrix.toLin'_apply]
   funext i
-  show T.equiv n ((LAdicSheaf.stalkEnd B X ℓ F a v).1 n) i = _
+  change T.equiv n ((LAdicSheaf.stalkEnd B X ℓ F a v).1 n) i = _
   rw [← LAdicSheaf.LevelTrivialization.toZModPow_stalkEquiv,
     show e (LAdicSheaf.stalkEnd B X ℓ F a v) = Matrix.toLin' A (e v) by
       rw [Matrix.toLin'_toMatrix', LinearEquiv.conj_apply_apply, LinearEquiv.symm_apply_apply],

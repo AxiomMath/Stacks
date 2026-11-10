@@ -68,7 +68,7 @@ public theorem continuous_restrictScalarsRep_characterTwist_artinSchreierCharact
         restrictScalarsMatrix b (Matrix.scalar (Fin m) (ψ (-Multiplicative.toAdd a))))
           ((Stacks.ArtinSchreier.torsorCover k A g).character x p₀ γ) := by
     funext γ
-    show restrictScalarsMatrix b ((σ γ).val * Matrix.scalar (Fin m)
+    change restrictScalarsMatrix b ((σ γ).val * Matrix.scalar (Fin m)
       ((Stacks.ArtinSchreier.artinSchreierCharacter k A g ψ x p₀ γ : Eˣ) : E)) = _
     rw [restrictScalarsMatrix_mul, Stacks.ArtinSchreier.artinSchreierCharacter_apply]
   rw [h]

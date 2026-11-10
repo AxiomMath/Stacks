@@ -29,8 +29,8 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.ModulePullbackSectionChart
 /-!
 # The Gysin cap along composites: axioms (1) and (2) of Stacks 0ERJ
 
-A part of `StacksFrontier.AlgebraicGeometry.Spaces.Chow.GysinBivariantClass`: the component cycles of
-the pulled-back section, the pulled-back triple along a composite, and the naturality of
+A part of `StacksFrontier.AlgebraicGeometry.Spaces.Chow.GysinBivariantClass`: the component cycles
+of the pulled-back section, the pulled-back triple along a composite, and the naturality of
 `AlgebraicGeometry.Space.gysinBivariantCap` for proper pushforward (Stacks 0ER5) and for flat
 pullback (Stacks 0ER6).
 -/

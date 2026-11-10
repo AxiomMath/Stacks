@@ -30,7 +30,8 @@ It is the **underived** form of the first arrow of [Stacks, Tag 07N5], the compo
 parameter is carried and nothing is quantified over.  The module documentation of
 `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/FrobeniusSemilinearAction.lean` records that
 the library has no such bookkeeping for the Frobenius, because the small-site constructions of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/BaseChangeMap.lean` all assume `g` is an open
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/BaseChangeMap.lean` all assume `g` is an
+open
 immersion and the absolute Frobenius is not one; the construction here assumes nothing about `g`,
 being carried out on the big site where change of base is an endofunctor.
 

@@ -100,7 +100,7 @@ theorem imageSieve_totalPresheafMap_mem (f : UnitalHom A B)
       have hx' : PresheafOfModules.Hom.app (f.app i) (op V) x' =
           sectionRestrict (Q i) g.op y := hx
       refine ⟨A.incl i x', ?_⟩
-      show (totalPresheafMap f).app (op V) (A.incl i x') =
+      change (totalPresheafMap f).app (op V) (A.incl i x') =
         B.totalRestrict g.op (B.incl i y)
       rw [totalPresheafMap_app_incl, B.totalRestrict_incl]
       exact congrArg (B.incl i) hx'
@@ -108,7 +108,7 @@ theorem imageSieve_totalPresheafMap_mem (f : UnitalHom A B)
       refine J.superset_covering ?_ (J.intersection_covering hs hs')
       rintro V g ⟨⟨t, ht⟩, ⟨t', ht'⟩⟩
       refine ⟨t + t', ?_⟩
-      show (totalPresheafMap f).app (op V) (t + t') =
+      change (totalPresheafMap f).app (op V) (t + t') =
         B.totalRestrict g.op (s + s')
       rw [map_add, map_add]
       exact congrArg₂ (· + ·) ht ht'

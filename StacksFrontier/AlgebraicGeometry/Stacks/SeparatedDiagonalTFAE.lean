@@ -578,9 +578,9 @@ theorem exists_schemePoint_relativeDiagonal_baseChange
             refine TwoFibreProductOver.Hom.ext' ?_ ?_ <;> exact Category.comp_id _ })
       (fun k => by
         refine TwoFibreProductOver.Hom.ext' ?_ ?_
-        · show (z.map k).a ≫ 𝟙 _ = 𝟙 _ ≫ (z.map k).a
+        · change (z.map k).a ≫ 𝟙 _ = 𝟙 _ ≫ (z.map k).a
           simp
-        · show (z.map k).b ≫ 𝟙 _ = 𝟙 _ ≫ (z.map k).b
+        · change (z.map k).b ≫ 𝟙 _ = 𝟙 _ ≫ (z.map k).b
           simp)
   have hzhatp : zhat ⋙ (twoFibreProduct B S hS (schemeSliceStack.{u, w} B S hS W).val Q.val
       Q.val f'.hom.hom f'.hom.hom).val.p = Over.map W.hom :=

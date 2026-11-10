@@ -49,7 +49,7 @@ theorem isOpenImmersion_pi_hom {α : Type} [Finite α] (V : α → Over X)
   let e : ∏ᶜ V ≅ (openImmersionFan V).pt :=
     limit.isoLimitCone ⟨_, isLimitOpenImmersionFan V⟩
   rw [← Over.w e.hom]
-  show IsOpenImmersion (e.hom.left ≫ (commonOpen V).ι)
+  change IsOpenImmersion (e.hom.left ≫ (commonOpen V).ι)
   have : IsIso e.hom.left := inferInstanceAs (IsIso ((Over.forget X).map e.hom))
   exact @IsOpenImmersion.comp _ _ _ e.hom.left (commonOpen V).ι
     (IsOpenImmersion.of_isIso _) (Scheme.Opens.instIsOpenImmersionι _)
@@ -172,8 +172,10 @@ variable (f : X ⟶ S) (T : X.AffineOpenCover.{u, u}) [Fintype T.I₀]
   [IsAffineHom (pullback.diagonal (terminal.from S))]
   (F : (SheafOfModules.isQuasicoherent X.ringCatSheaf).FullSubcategory)
 
+omit [Fintype T.I₀] in
 /-- Every term of the `ℕ`-indexed relative Čech complex of a module flat over the base is flat. -/
-theorem isFlat_cechComplex_X (hF : IsFlatOver f.toLRSHom.toShHom F.obj) (p : ℕ) :
+theorem isFlat_cechComplex_X [Finite T.I₀] (hF : IsFlatOver f.toLRSHom.toShHom F.obj)
+    (p : ℕ) :
     AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := S.sheaf)
       (((cechComplexFunctor fun i ↦ (Over.mk (T.f i) : Over X)).obj
         ((relativeCechPresheaf f).obj F)).X p) := by
@@ -184,10 +186,12 @@ theorem isFlat_cechComplex_X (hF : IsFlatOver f.toLRSHom.toShHom F.obj) (p : ℕ
 
 attribute [local instance 10000] HasDerivedCategory.standard
 
+omit [Fintype T.I₀] [IsAffineHom (pullback.diagonal (terminal.from X))] in
 /-- **The derived pullback of the Čech complex of an affine open cover, with coefficients in a
 presheaf of flat modules, is computed termwise.** Signed sorting is homotopic to the identity of
 the Čech complex and vanishes in degrees at least the number of members of the cover. -/
-theorem isIso_derivedPullbackComparison_cechComplex {Y Y' : Scheme.{u}} (g : Y' ⟶ Y)
+theorem isIso_derivedPullbackComparison_cechComplex [Finite T.I₀] {Y Y' : Scheme.{u}}
+    (g : Y' ⟶ Y)
     (P : (Over X)ᵒᵖ ⥤ Y.Modules)
     (hP : ∀ (p : ℕ) (x : Fin (p + 1) → T.I₀),
       AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := Y.sheaf)
@@ -197,6 +201,7 @@ theorem isIso_derivedPullbackComparison_cechComplex {Y Y' : Scheme.{u}} (g : Y' 
         (((cechComplexFunctor fun i ↦ (Over.mk (T.f i) : Over X)).obj P).extend
           ComplexShape.embeddingUpNat))) := by
   classical
+  have := Fintype.ofFinite T.I₀
   let : LinearOrder T.I₀ := linearOrderOfSTO WellOrderingRel
   have hU : ∀ i, IsSubterminal (Over.mk (T.f i) : Over X) :=
     isSubterminal_overMk_affineOpenCover T

@@ -141,7 +141,7 @@ theorem exists_isAffine_etaleNeighborhood_square {X Y : Scheme.{u}} {x : X} {y :
   have hV' : V'.IsElementary :=
     hV.comp (EtaleNeighborhood.isElementary_ofEtale_of_isOpenImmersion W.ι _)
   have hqmem : U.point ∈ h ⁻¹ᵁ W := by
-    show h U.point ∈ W
+    change h U.point ∈ W
     rwa [hpt]
   obtain ⟨P, hPaff, hPmem, -⟩ :=
     exists_isAffineOpen_mem_and_subset (X := (h ⁻¹ᵁ W).toScheme)
@@ -154,14 +154,14 @@ theorem exists_isAffine_etaleNeighborhood_square {X Y : Scheme.{u}} {x : X} {y :
       (P.ι ≫ (h ⁻¹ᵁ W).ι) _)
   refine ⟨U', V', P.ι ≫ (h ∣_ W), hU', hV', ?_, ?_, hPaff, hWaff,
     ⟨⟨P.ι ≫ (h ⁻¹ᵁ W).ι, rfl, rfl⟩⟩⟩
-  · show ((P.ι ≫ (h ⁻¹ᵁ W).ι) ≫ U.toBase) ≫ f = _ ≫ W.ι ≫ V.toBase
+  · change ((P.ι ≫ (h ⁻¹ᵁ W).ι) ≫ U.toBase) ≫ f = _ ≫ W.ι ≫ V.toBase
     rw [Category.assoc, hsq]
     calc (P.ι ≫ (h ⁻¹ᵁ W).ι) ≫ h ≫ V.toBase
         = P.ι ≫ ((h ⁻¹ᵁ W).ι ≫ h) ≫ V.toBase := by simp
       _ = P.ι ≫ ((h ∣_ W) ≫ W.ι) ≫ V.toBase := by rw [morphismRestrict_ι]
       _ = (P.ι ≫ (h ∣_ W)) ≫ W.ι ≫ V.toBase := by simp
   · apply W.ι.isOpenEmbedding.injective
-    show ((P.ι ≫ (h ∣_ W)) ≫ W.ι) U'.point = W.ι V'.point
+    change ((P.ι ≫ (h ∣_ W)) ≫ W.ι) U'.point = W.ι V'.point
     rwa [Category.assoc, morphismRestrict_ι]
 
 /-- A nonempty complete dévissage forces its source and its base to be affine: the one-step
@@ -395,7 +395,7 @@ theorem exists_elementaryEtaleLocalization_completeDevissageAt (R S M : Type u) 
       (pullbackTildeIso (.of S) (.of E.S') b).app N
   -- Transport the dévissage to the spectra and read it algebraically.
   have hxpt : eX.hom q' = U.point := by
-    show (U.scheme.isoSpec.hom ≫ U.scheme.isoSpec.inv) U.point = U.point
+    change (U.scheme.isoSpec.hom ≫ U.scheme.isoSpec.inv) U.point = U.point
     rw [U.scheme.isoSpec.hom_inv_id]
     rfl
   exact geometricCompleteDevissageAtGivesAlgebraic E.R' E.S' (TensorProduct S E.S' M) q'

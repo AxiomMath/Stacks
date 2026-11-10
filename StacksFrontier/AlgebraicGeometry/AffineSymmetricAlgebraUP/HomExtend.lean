@@ -66,7 +66,7 @@ theorem app_eq_of_isLocallyInjective [PresheafOfModules.IsLocallyInjective J w] 
     Hom.app φ X x = Hom.app φ X x' := by
   refine hS _ _ (Presheaf.equalizerSieve_mem J ((toPresheaf _).map w) x x' hx) _ _ ?_
   intro Y f hf
-  show S.map f.op _ = S.map f.op _
+  change S.map f.op _ = S.map f.op _
   rw [← naturality_apply φ f.op, ← naturality_apply φ f.op]
   exact congrArg (Hom.app φ (op Y)) (show F.map f.op x = F.map f.op x' from hf)
 
@@ -94,7 +94,7 @@ theorem existsUnique_extendVal {X : Cᵒᵖ} (t : T.obj X) :
       (P := S.presheaf ⋙ forget AddCommGrpCat.{a}) (R := Sv.arrows)
       (fun Y f hf => Hom.app φ (op Y) (x Y f hf)) := by
     intro Y₁ Y₂ Z g₁ g₂ f₁ f₂ h₁ h₂ fac
-    show S.map g₁.op (Hom.app φ (op Y₁) (x Y₁ f₁ h₁)) =
+    change S.map g₁.op (Hom.app φ (op Y₁) (x Y₁ f₁ h₁)) =
       S.map g₂.op (Hom.app φ (op Y₂) (x Y₂ f₂ h₂))
     rw [← naturality_apply φ g₁.op, ← naturality_apply φ g₂.op]
     refine app_eq_of_isLocallyInjective hS.isSeparated w φ _ _ ?_

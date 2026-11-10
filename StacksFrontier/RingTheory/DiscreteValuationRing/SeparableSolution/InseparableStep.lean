@@ -213,7 +213,7 @@ theorem exists_isSeparable_solution_of_isPurelyInseparable_finrank_eq_prime
   let : Algebra (AdjoinRoot Q) Kalg :=
     (AdjoinRoot.map (algebraMap D₁.A₁ K₁) Q (Q.map (algebraMap D₁.A₁ K₁)) dvd_rfl).toAlgebra
   have : IsScalarTower A (AdjoinRoot Q) Kalg := IsScalarTower.of_algebraMap_eq fun x => by
-    show AdjoinRoot.of _ (algebraMap A K₁ x) =
+    change AdjoinRoot.of _ (algebraMap A K₁ x) =
       AdjoinRoot.map (algebraMap D₁.A₁ K₁) Q _ dvd_rfl (AdjoinRoot.of Q (algebraMap A D₁.A₁ x))
     rw [AdjoinRoot.map_of, ← IsScalarTower.algebraMap_apply]
   have : IsLocalization.Away (algebraMap A D₁.A₁ (π ^ 2)) K₁ :=
@@ -222,7 +222,7 @@ theorem exists_isSeparable_solution_of_isPurelyInseparable_finrank_eq_prime
     rw [← map_pow]
     exact isLocalization_away_adjoinRoot_map D₁.A₁ K₁ (algebraMap A D₁.A₁ (π ^ 2)) Q
   have hqπsq : algebraMap (AdjoinRoot Q) A₃ (AdjoinRoot.of Q r) = algebraMap A A₃ π ^ 2 := by
-    show algebraMap (AdjoinRoot Q) A₃ (algebraMap A (AdjoinRoot Q) (π ^ 2)) = _
+    change algebraMap (AdjoinRoot Q) A₃ (algebraMap A (AdjoinRoot Q) (π ^ 2)) = _
     rw [← IsScalarTower.algebraMap_apply, map_pow]
   let eASquare := eA₃.trans (Ideal.quotientEquivAlgOfEq A₃
     (congrArg (fun x : A₃ => Ideal.span {x}) hqπsq)).toRingEquiv
@@ -230,7 +230,7 @@ theorem exists_isSeparable_solution_of_isPurelyInseparable_finrank_eq_prime
   obtain ⟨aKalg, hAtower, hAtowerA, hAloc, hAcl, hADVR⟩ :=
     exists_isIntegralClosure_of_localizationEq_of_quotient_equiv (T := Kalg) π hπmem hiA₃
       (by
-        show LocalizationEq (AdjoinRoot Q) A₃ (algebraMap A (AdjoinRoot Q) π ^ 2)
+        change LocalizationEq (AdjoinRoot Q) A₃ (algebraMap A (AdjoinRoot Q) π ^ 2)
         rw [← map_pow (algebraMap A (AdjoinRoot Q)) π 2]
         exact hlocA₃)
       (by rw [← hqπsq]; exact hregA₃) _ eASquare
@@ -265,7 +265,7 @@ theorem exists_isSeparable_solution_of_isPurelyInseparable_finrank_eq_prime
   let e₁ := integralClosureBaseChangeRightEquiv A B K L K₁ D₁ hred₁
   let i : D₁.B₁ →+* L ⊗[K] K₁ := (integralClosure B (L ⊗[K] K₁)).val.toRingHom.comp e₁.toRingHom
   have hic (y : D₁.A₁) : i (φ y) = 1 ⊗ₜ[K] algebraMap D₁.A₁ K₁ y := by
-    show (e₁ (algebraMap D₁.A₁ D₁.B₁ y) : L ⊗[K] K₁) = _
+    change (e₁ (algebraMap D₁.A₁ D₁.B₁ y) : L ⊗[K] K₁) = _
     rw [integralClosureBaseChangeRightEquiv_apply, D₁.ringSquare,
       integralClosureBaseChangeTensorEquiv_right]
     rfl
@@ -283,12 +283,12 @@ theorem exists_isSeparable_solution_of_isPurelyInseparable_finrank_eq_prime
   let ψ : L ⊗[K] K₁ →ₐ[B] L ⊗[K] Kalg :=
     (Algebra.TensorProduct.map (AlgHom.id L L) (IsScalarTower.toAlgHom K K₁ Kalg)).restrictScalars B
   have hiBcoeff (x : B) : i (algebraMap B D₁.B₁ x) = algebraMap B (L ⊗[K] K₁) x := by
-    show (e₁ (algebraMap B D₁.B₁ x) : L ⊗[K] K₁) = _
+    change (e₁ (algebraMap B D₁.B₁ x) : L ⊗[K] K₁) = _
     rw [e₁.commutes]
     rfl
   have : IsScalarTower B (AdjoinRoot (Q.map φ)) (L ⊗[K] Kalg) :=
     IsScalarTower.of_algebraMap_eq fun x => by
-      show algebraMap B (L ⊗[K] Kalg) x = jB (AdjoinRoot.of _ (algebraMap B D₁.B₁ x))
+      change algebraMap B (L ⊗[K] Kalg) x = jB (AdjoinRoot.of _ (algebraMap B D₁.B₁ x))
       rw [hjBcoeff, hiBcoeff]
       exact (ψ.commutes x).symm
   have hbg : AdjoinRoot.map φ Q (Q.map φ) dvd_rfl (AdjoinRoot.of Q r) =
@@ -296,7 +296,7 @@ theorem exists_isSeparable_solution_of_isPurelyInseparable_finrank_eq_prime
     rw [AdjoinRoot.map_of]
     calc
       AdjoinRoot.of (Q.map φ) (φ r) = algebraMap A (AdjoinRoot (Q.map φ)) (π ^ 2) := by
-        show algebraMap D₁.B₁ (AdjoinRoot (Q.map φ))
+        change algebraMap D₁.B₁ (AdjoinRoot (Q.map φ))
           (algebraMap D₁.A₁ D₁.B₁ (algebraMap A D₁.A₁ (π ^ 2))) = _
         rw [← IsScalarTower.algebraMap_apply A D₁.A₁ D₁.B₁,
           ← IsScalarTower.algebraMap_apply A D₁.B₁ (AdjoinRoot (Q.map φ))]
@@ -331,13 +331,13 @@ theorem exists_isSeparable_solution_of_isPurelyInseparable_finrank_eq_prime
   let : Algebra A₃ B₃ := b₃.toAlgebra
   have : IsScalarTower A B B₃ := IsScalarTower.of_algebraMap_eq fun _ => rfl
   have : IsScalarTower A A₃ B₃ := IsScalarTower.of_algebraMap_eq fun x => by
-    show algebraMap B B₃ (algebraMap A B x) =
+    change algebraMap B B₃ (algebraMap A B x) =
       b₃ (algebraMap (AdjoinRoot Q) A₃ (algebraMap A (AdjoinRoot Q) x))
     rw [hb₃ (algebraMap A (AdjoinRoot Q) x)]
-    show _ = algebraMap (AdjoinRoot (Q.map φ)) B₃
+    change _ = algebraMap (AdjoinRoot (Q.map φ)) B₃
       (AdjoinRoot.map φ Q (Q.map φ) dvd_rfl (AdjoinRoot.of Q (algebraMap A D₁.A₁ x)))
     rw [AdjoinRoot.map_of]
-    show _ = algebraMap (AdjoinRoot (Q.map φ)) B₃
+    change _ = algebraMap (AdjoinRoot (Q.map φ)) B₃
       (algebraMap D₁.B₁ (AdjoinRoot (Q.map φ))
         (algebraMap D₁.A₁ D₁.B₁ (algebraMap A D₁.A₁ x)))
     rw [← IsScalarTower.algebraMap_apply A D₁.A₁ D₁.B₁,
@@ -350,13 +350,13 @@ theorem exists_isSeparable_solution_of_isPurelyInseparable_finrank_eq_prime
       Kalg)
   have hfE (z : AdjoinRoot Q) : fE (algebraMap (AdjoinRoot Q) A₃ z) =
       jB (AdjoinRoot.map φ Q (Q.map φ) dvd_rfl z) := by
-    show algebraMap B₃ (L ⊗[K] Kalg) (b₃ (algebraMap (AdjoinRoot Q) A₃ z)) = _
+    change algebraMap B₃ (L ⊗[K] Kalg) (b₃ (algebraMap (AdjoinRoot Q) A₃ z)) = _
     rw [hb₃ z, ← IsScalarTower.algebraMap_apply]
     rfl
   have hgE (z : AdjoinRoot Q) : gE (algebraMap (AdjoinRoot Q) A₃ z) =
       (Algebra.TensorProduct.includeRight : Kalg →ₐ[K] L ⊗[K] Kalg)
         (AdjoinRoot.map (algebraMap D₁.A₁ K₁) Q _ dvd_rfl z) := by
-    show (Algebra.TensorProduct.includeRight : Kalg →ₐ[K] L ⊗[K] Kalg)
+    change (Algebra.TensorProduct.includeRight : Kalg →ₐ[K] L ⊗[K] Kalg)
       (algebraMap A₃ Kalg (algebraMap (AdjoinRoot Q) A₃ z)) = _
     rw [← IsScalarTower.algebraMap_apply]
     rfl
@@ -365,11 +365,11 @@ theorem exists_isSeparable_solution_of_isPurelyInseparable_finrank_eq_prime
     apply AdjoinRoot.ringHom_ext
     · apply RingHom.ext
       intro y
-      show fE (algebraMap (AdjoinRoot Q) A₃ (AdjoinRoot.of Q y)) =
+      change fE (algebraMap (AdjoinRoot Q) A₃ (AdjoinRoot.of Q y)) =
         gE (algebraMap (AdjoinRoot Q) A₃ (AdjoinRoot.of Q y))
       rw [hfE, hgE, AdjoinRoot.map_of, AdjoinRoot.map_of, hjBcoeff, hic]
       rfl
-    · show fE (algebraMap (AdjoinRoot Q) A₃ (AdjoinRoot.root Q)) =
+    · change fE (algebraMap (AdjoinRoot Q) A₃ (AdjoinRoot.root Q)) =
         gE (algebraMap (AdjoinRoot Q) A₃ (AdjoinRoot.root Q))
       rw [hfE, hgE, AdjoinRoot.map_root, AdjoinRoot.map_root, hjBroot]
       rfl
@@ -380,7 +380,7 @@ theorem exists_isSeparable_solution_of_isPurelyInseparable_finrank_eq_prime
     rw [he, hgE, AdjoinRoot.map_of]
     have hu : IsUnit (algebraMap D₁.A₁ K₁ r) := by
       apply isUnit_iff_ne_zero.mpr
-      show algebraMap D₁.A₁ K₁ (algebraMap A D₁.A₁ (π ^ 2)) ≠ 0
+      change algebraMap D₁.A₁ K₁ (algebraMap A D₁.A₁ (π ^ 2)) ≠ 0
       rw [← IsScalarTower.algebraMap_apply, map_pow]
       exact pow_ne_zero 2 hπK₁
     exact ((hu.map (AdjoinRoot.of _)).map
@@ -445,7 +445,7 @@ theorem exists_isSeparable_solution_of_isPurelyInseparable_finrank_eq_prime
   have hIJ₂ : I₂ ≤ J₂.comap (algebraMap D₂.A₁ D₂.B₁) := by
     apply Ideal.span_le.mpr
     rintro _ rfl
-    show algebraMap D₂.A₁ D₂.B₁ (a₂ (AdjoinRoot.of P r)) ∈ J₂
+    change algebraMap D₂.A₁ D₂.B₁ (a₂ (AdjoinRoot.of P r)) ∈ J₂
     have hc : algebraMap D₂.A₁ D₂.B₁ (a₂ (AdjoinRoot.of P r)) =
         b₂ (AdjoinRoot.map φ P (P.map φ) dvd_rfl (AdjoinRoot.of P r)) :=
       DFunLike.congr_fun hcomm (AdjoinRoot.of P r)
@@ -454,7 +454,7 @@ theorem exists_isSeparable_solution_of_isPurelyInseparable_finrank_eq_prime
   have hIJ₃ : I₃ ≤ J₃.comap b₃ := by
     apply Ideal.span_le.mpr
     rintro _ rfl
-    show b₃ (algebraMap (AdjoinRoot Q) A₃ (AdjoinRoot.of Q r)) ∈ J₃
+    change b₃ (algebraMap (AdjoinRoot Q) A₃ (AdjoinRoot.of Q r)) ∈ J₃
     rw [hb₃]
     exact Ideal.subset_span rfl
   let f₂ := Ideal.quotientMap J₂ (algebraMap D₂.A₁ D₂.B₁) hIJ₂
@@ -466,7 +466,7 @@ theorem exists_isSeparable_solution_of_isPurelyInseparable_finrank_eq_prime
     rfl
   have hs₂ : b.comp (algebraMap D₂.A₁ D₂.B₁) = f₃.comp a := by
     ext x
-    show eB₃ (f₂ (Ideal.Quotient.mk I₂ x)) = f₃ (eA₃ (Ideal.Quotient.mk I₂ x))
+    change eB₃ (f₂ (Ideal.Quotient.mk I₂ x)) = f₃ (eA₃ (Ideal.Quotient.mk I₂ x))
     exact DFunLike.congr_fun hsquare (Ideal.Quotient.mk I₂ x)
   have hk₂ (q : Ideal D₂.B₁) [q.IsMaximal] : RingHom.ker b ≤ q ^ 2 := by
     rw [RingHom.ker_comp_of_injective _ eB₃.injective, Ideal.mk_ker]
@@ -545,20 +545,20 @@ theorem exists_isSeparable_solution_of_isPurelyInseparable_finrank_eq_prime
     intro x
     apply eBt.injective
     apply Subtype.ext
-    show (eBt (eBt.symm (qL.mapIntegralClosure (eBr (b₃ x)))) : L ⊗[K] K₃) =
+    change (eBt (eBt.symm (qL.mapIntegralClosure (eBr (b₃ x)))) : L ⊗[K] K₃) =
       (eBt (algebraMap D₃.A₁ D₃.B₁ (eAt.symm (qA.mapIntegralClosure (eAr x)))) : L ⊗[K] K₃)
     rw [eBt.apply_symm_apply, hBt, eAt.apply_symm_apply]
-    show qL (eBr (b₃ x) : L ⊗[K] Kalg) = 1 ⊗ₜ[K] qA (eAr x : Kalg)
+    change qL (eBr (b₃ x) : L ⊗[K] Kalg) = 1 ⊗ₜ[K] qA (eAr x : Kalg)
     rw [hBr, hAr]
     exact congrArg qL (DFunLike.congr_fun hE x)
   have : IsSemisimpleRing (L ⊗[K] Kalg) := IsArtinianRing.isSemisimpleRing_of_isReduced _
   obtain ⟨ε, hε, hkε⟩ := IsSemisimpleRing.ideal_eq_span_idempotent (RingHom.ker qL)
   obtain ⟨εB, hεB, hkεB⟩ := ker_mapIntegralClosure_eq_span_idempotent qL hε hkε
   have hkC : RingHom.ker bC = Ideal.span {eBr.symm εB} := by
-    show RingHom.ker (eBt.symm.toRingHom.comp
+    change RingHom.ker (eBt.symm.toRingHom.comp
       (qL.mapIntegralClosure.toRingHom.comp eBr.toRingHom)) = _
     rw [RingHom.ker_comp_of_injective _ eBt.symm.injective]
-    show (RingHom.ker qL.mapIntegralClosure).comap eBr.toRingHom = _
+    change (RingHom.ker qL.mapIntegralClosure).comap eBr.toRingHom = _
     rw [hkεB]
     calc
       _ = (Ideal.span {εB}).map eBr.symm.toRingEquiv :=
@@ -589,7 +589,7 @@ theorem exists_isSeparable_solution_of_isPurelyInseparable_finrank_eq_prime
     let p := q.comap b₃
     have hp : p.IsMaximal := hmax₃ q
     have hpa : p = p'.comap aC.toRingHom := by
-      show (q'.comap bC.toRingHom).comap b₃ =
+      change (q'.comap bC.toRingHom).comap b₃ =
         (q'.comap (algebraMap D₃.A₁ D₃.B₁)).comap aC.toRingHom
       rw [Ideal.comap_comap, Ideal.comap_comap, hsC]
     obtain ⟨hdp, hvp⟩ := hADVR p
@@ -603,7 +603,7 @@ theorem exists_isSeparable_solution_of_isPurelyInseparable_finrank_eq_prime
         (by simpa only [← IsScalarTower.algebraMap_apply] using hregπBD₃)
     have hkq : RingHom.ker bC ≤ q := by
       intro x hx
-      show bC x ∈ q'
+      change bC x ∈ q'
       rw [show bC x = 0 from hx]
       exact q'.zero_mem
     have hkq₂ : RingHom.ker bC ≤ q ^ 2 := by
@@ -713,7 +713,7 @@ private theorem exists_isSeparableSolution_aux
       let S : IntermediateField K K₂ := separableClosure K K₂
       have : Module.Finite S K₂ := Module.Finite.of_restrictScalars_finite K S K₂
       have : IsPurelyInseparable S K₂ := by
-        show IsPurelyInseparable (separableClosure K K₂) K₂
+        change IsPurelyInseparable (separableClosure K K₂) K₂
         infer_instance
       let : CharP S p := charP_of_injective_algebraMap (algebraMap K S).injective p
       have : ExpChar S p := ExpChar.prime hp
@@ -721,7 +721,7 @@ private theorem exists_isSeparableSolution_aux
         intro hbot
         have : Algebra.IsSeparable K K₂ := by
           rw [← separableClosure.eq_top_iff]
-          show S = ⊤
+          change S = ⊤
           ext x
           simp only [IntermediateField.mem_top, iff_true]
           have hx : x ∈ (⊥ : IntermediateField S K₂) := by
@@ -742,7 +742,7 @@ private theorem exists_isSeparableSolution_aux
         rfl)
       have hpi : IsPurelyInseparable K₁ K₂ :=
         by
-          show IsPurelyInseparable T K₂
+          change IsPurelyInseparable T K₂
           exact IsPurelyInseparable.tower_top S T K₂
       let : IsPurelyInseparable K₁ K₂ := hpi
       have hdegree : Module.finrank K₁ K₂ = p := hT

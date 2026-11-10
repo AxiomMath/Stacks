@@ -176,6 +176,7 @@ public def LaumonFamilyNoPunctualSectionsInput : Prop :=
         (geometricPointAt _ y) n).hom w = 0 → (ℓ ^ M) • w = 0
 
 set_option maxHeartbeats 400000 in
+-- the statement has many sheaf, Galois and instance arguments to elaborate
 /-- **The specialization injection at the origin of Laumon's degeneration** (piece P5 of
 `Stacks.EtaleCohomology.LaumonDegenerationFamilyInput`,
 [Tag 03VH](https://stacks.math.columbia.edu/tag/03VH)).

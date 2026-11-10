@@ -152,8 +152,8 @@ theorem Φ_chase {𝒟₀ 𝒟 𝒞 : Type*} [Category* 𝒟₀] [Category* 𝒟
   rw [← cancel_epi θX.hom, ← cancel_mono c'.hom]
   simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id, Iso.hom_inv_id_assoc]
   rw [reassoc_of% hP, hN]
-  simp only [Functor.map_comp, Category.assoc, Iso.map_hom_inv_id_assoc,
-    Iso.map_inv_hom_id_assoc]
+  simp only [Functor.map_comp, Category.assoc, Iso.hom_inv_id_map_assoc,
+    Iso.inv_hom_id_map_assoc]
   rw [reassoc_of% hnat]
 
 /-- **The identification `Φ` carries post-composition with the base-change map to the map of

@@ -83,11 +83,11 @@ public theorem mulVec_blockExtend {X : Matrix (Fin r) (Fin r) L}
     Finset.sum_eq_zero fun j _ => by simp [blockExtend, j.2]
   rw [h2, add_zero]
   by_cases hi : d i = t
-  · simp only [blockExtend, LinearMap.coe_mk, AddHom.coe_mk, dif_pos hi, Matrix.mulVec,
+  · simp only [blockExtend, LinearMap.coe_mk, AddHom.coe_mk, dite_eq_left hi, Matrix.mulVec,
       dotProduct, Matrix.toSquareBlock_def, Matrix.of_apply]
     refine Finset.sum_congr rfl fun j _ => ?_
-    rw [dif_pos j.2]
-  · simp only [blockExtend, LinearMap.coe_mk, AddHom.coe_mk, dif_neg hi]
+    rw [dite_eq_left j.2]
+  · simp only [blockExtend, LinearMap.coe_mk, AddHom.coe_mk, dite_eq_right hi]
     refine Finset.sum_eq_zero fun j _ => ?_
     rw [hX i j (fun e => hi (e.trans j.2)), zero_mul]
 
@@ -228,7 +228,7 @@ public theorem exists_finiteDimensional_isGradedUpper_absolutelyIrreducible
     with hTb
   have hT : ∀ a, (TE a).map (algebraMap E K) = (Tb a).map (algebraMap Fb K) := by
     intro a
-    show (QE * (M a).map (algebraMap k E) * PE).map (algebraMap E K) = _
+    change (QE * (M a).map (algebraMap k E) * PE).map (algebraMap E K) = _
     rw [Matrix.map_mul, Matrix.map_mul, hQE, hPE, hTb, Matrix.map_mul, Matrix.map_mul,
       Matrix.map_map, Matrix.map_map, ← RingHom.coe_comp, ← RingHom.coe_comp,
       ← IsScalarTower.algebraMap_eq, ← IsScalarTower.algebraMap_eq]

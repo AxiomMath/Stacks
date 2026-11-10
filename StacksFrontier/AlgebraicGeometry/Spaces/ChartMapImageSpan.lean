@@ -114,7 +114,7 @@ theorem range_val_app_eq_span_range_chartRestrictLinear {M N : Modules.{u, m} B 
     exact val_app_mem_span_range_chartRestrictLinear hM u hU hV φ x
   · rintro y ⟨z, rfl⟩
     refine ⟨chartRestrictLinear M φ z, ?_⟩
-    show u.val.app (op V) (chartRestrictLinear M φ z) =
+    change u.val.app (op V) (chartRestrictLinear M φ z) =
       chartRestrictLinear N φ (u.val.app (op U) z)
     exact chartRestrictLinear_val_app u φ z
 

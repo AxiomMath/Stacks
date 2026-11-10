@@ -208,8 +208,7 @@ private theorem semilinear_eq_of_eq_on_image
   have hgen : ∀ q : TensorProduct X.base Y.base X.carrier,
       l₁ (e q) = l₂ (e q) := by
     intro q
-    induction q using TensorProduct.induction_on with
-    | zero => rw [e.map_zero, l₁.map_zero, l₂.map_zero]
+    induction q using TensorProduct.inductionOn with
     | add q r hq hr =>
         rw [e.map_add, l₁.map_add, l₂.map_add, hq, hr]
     | tmul c m =>

@@ -88,7 +88,7 @@ morphisms already in the library:
   the evaluation morphism of [Stacks, Tag 08J8] with the evaluation morphism assembled from
   [Stacks, Tag 079W] and [Stacks, Tag 0A76]; the units need not be compared separately, and a
   note of
-  `StacksFrontier/AlgebraicGeometry/Duality/RightAdjointLemmas/ExactSupportSiteTensorHomDiagonal.lean`
+`StacksFrontier/AlgebraicGeometry/Duality/RightAdjointLemmas/ExactSupportSiteTensorHomDiagonal.lean`
   that put the comparison at the units is corrected there.
 
 ## Implementation notes

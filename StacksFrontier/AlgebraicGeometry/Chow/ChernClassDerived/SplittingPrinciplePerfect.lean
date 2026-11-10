@@ -562,7 +562,7 @@ theorem eq_of_forall_splitChart_res_eq (H : EnvelopePresentation E)
           exact _root_.ConnectedComponents.coe_eq_coe.mpr he))
       iSup_eq_top := top_le_iff.mp fun z _ ↦ TopologicalSpace.Opens.mem_iSup.mpr
         ⟨(z : _root_.ConnectedComponents H.Y), by
-          show z ∈ connectedComponent (rep z)
+          change z ∈ connectedComponent (rep z)
           rw [_root_.ConnectedComponents.coe_eq_coe.mp (hrep z)]
           exact mem_connectedComponent⟩ }
   refine TotalChowClass.res_injective_of_isEnvelope H.f H.envelope rfl ?_
@@ -678,14 +678,14 @@ theorem res_perfectPowerSum_eq_sum (hE : HasDefinedChernClasses E) (p : ℕ) :
         fun i : ℕ+ ↦ TotalChowClass.homComponent (i : ℕ) (χ.res (perfectChernClass C sX hE)) :=
       funext fun i ↦ TotalChowClass.res_homComponent _ _ _ _
     rw [hc]
-    show TotalChowClass.newtonComponents (χ.res (perfectChernClass C sX hE)) (p + 1) = _
+    change TotalChowClass.newtonComponents (χ.res (perfectChernClass C sX hE)) (p + 1) = _
     rw [χ.res_perfectChernClass_eq_complexChernBounded,
       TotalChowClass.newtonComponents_complexChernBounded_eq_sum]
     refine Finset.sum_congr rfl fun n _ ↦ ?_
     congr 1
     let := χ.isInvertible n
     let := χ.isFiniteLocallyFreeOfRank_pullback n
-    show TotalChowClass.newtonComponents (totalChern C χ.T.sP ((Scheme.Modules.pullback χ.T.π).obj
+    change TotalChowClass.newtonComponents (totalChern C χ.T.sP ((Scheme.Modules.pullback χ.T.π).obj
       ((pullbackComplex (H.componentOpens sX y).ι H.P).X n)) (complexRank H.locallyBounded y n))
       (p + 1) = _
     rw [totalChern_eq_prod_of_hasQuotients C χ.T.sP _ _ (χ.L n) (χ.hasQuotients n)]

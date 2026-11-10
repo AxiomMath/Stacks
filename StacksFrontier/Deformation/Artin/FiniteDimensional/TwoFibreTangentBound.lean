@@ -161,7 +161,7 @@ theorem finiteDimensional_tangentModuleAt_twoFibreProduct_of_fibre
       (FGModuleCat.of k k))) := by
     let : Fact (IsPredeformationCategory (BasedCategory.ofFunctor (predeformationCategory iΛ
         (p𝒵 ⋙ Over.post B.inclusion) z₀ hz₀).projection).p) := ⟨hDZ.predeformation⟩
-    let : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+    let : Fact (SchlessingerConditionS2 (Functor.Elements.π
         (isomorphismClasses (BasedCategory.ofFunctor (predeformationCategory iΛ
           (p𝒵 ⋙ Over.post B.inclusion) z₀ hz₀).projection)
           hDZ.predeformation.cofibered))) := ⟨tangentConditionS2 hDZ⟩

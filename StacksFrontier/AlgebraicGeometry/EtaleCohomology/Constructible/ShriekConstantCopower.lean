@@ -67,8 +67,8 @@ analogues of the `ModuleCat.free` ones, and are already universe polymorphic.
 
 The constructibility statements built on this file are the ones that carry the tag:
 `AlgebraicGeometry.isConstructibleModuleSheaf_moduleShriekConstant` in
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.ShriekGeneratorConstructible` and its
-flat refinement in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.ShriekGeneratorConstructible` and
+its flat refinement in
 `StacksFrontier.AlgebraicGeometry.EtaleCohomology.ConstructibleComplexes.ConstructibleFlatShriek`.
 
 Universes are supplied explicitly at several applications. They have to be: the module universe

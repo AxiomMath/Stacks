@@ -65,9 +65,9 @@ private theorem liftSourceArrow
   let y : G.objects.Elements := G.objects.elementsMk A (G.source.app A a)
   let g : xU ⟶ φ.toFunctor.obj xR :=
     Functor.Elements.homMk (x := xU) (y := y) f (by
-      show G.objects.map f x = G.source.app A a; exact ha.symm)
+      change G.objects.map f x = G.source.app A a; exact ha.symm)
   have hg : (BasedCategory.ofFunctor pU).p.IsHomLift f g := by
-    show pU.IsHomLift (pU.map g) g
+    change pU.IsHomLift (pU.map g) g
     simpa [pU, Functor.Elements.π] using (IsHomLift.map (p := pU) g)
   obtain ⟨x', h, c, hh, hc, _⟩ := hG.1 f hf xU xR g hg
   rcases x' with @⟨B', a'⟩
@@ -181,7 +181,7 @@ public theorem quotient_satisfiesRS
   let q₁ : U₁ ⟶ U := Functor.Elements.homMk (x := U₁) (y := U) f₁.base rfl
   let q₂ : U₂ ⟶ U := Functor.Elements.homMk (x := U₂) (y := U) f₂.base htarget₂'
   have hf₂' : Function.Surjective ((Functor.Elements.π G.objects).map q₂).hom := by
-    show Function.Surjective f₂.base.hom
+    change Function.Surjective f₂.base.hom
     exact hf₂
   obtain ⟨cU, hcU⟩ := hU.2 q₁ q₂ hf₂'
   rcases hcU with ⟨⟨hlimU⟩, ⟨hlimBaseU⟩⟩
@@ -257,9 +257,9 @@ public theorem quotient_satisfiesRS
   have hcbase : c.map (Grothendieck.forget (evaluationFunctor G)) ≅
       cU.map (Functor.Elements.π G.objects) := by
     refine PullbackCone.ext (Iso.refl _) ?_ ?_
-    · show v₁.hom = 𝟙 P ≫ v₁.hom
+    · change v₁.hom = 𝟙 P ≫ v₁.hom
       rw [Category.id_comp]
-    · show v₂.hom = 𝟙 P ≫ v₂.hom
+    · change v₂.hom = 𝟙 P ≫ v₂.hom
       rw [Category.id_comp]
   have hcbaseLim : IsLimit
       (c.map (Grothendieck.forget (evaluationFunctor G))) :=
@@ -363,7 +363,7 @@ public theorem quotient_satisfiesRS
         G.arrows.map f₁.base a₁B =
             (G.evaluationArrowEquiv A src₁
               ((evaluationMap G f₁.base).obj x₁) φ₁).1 := by
-                show G.arrows.map f₁.base a₁B =
+                change G.arrows.map f₁.base a₁B =
                   (G.evaluationArrowEquiv A
                     ((evaluationMap G f₁.base).obj
                       ((evaluationMap G s.fst.base).obj z))
@@ -382,7 +382,7 @@ public theorem quotient_satisfiesRS
             ((evaluationMap G f₂.base).obj (G.target.app A₂ a₂'))
             (((evaluationFunctor G).map f₂.base).toFunctor.map θ₂)).1 := hv₂
         _ = G.arrows.map f₂.base a₂B := by
-              show (G.evaluationArrowEquiv A
+              change (G.evaluationArrowEquiv A
                   ((evaluationMap G f₂.base).obj
                     ((evaluationMap G s.snd.base).obj z))
                   ((evaluationMap G f₂.base).obj (G.target.app A₂ a₂'))

@@ -66,7 +66,6 @@ variable (S : GlobalCrystallineSituation.{u}) {V : S.S.scheme.Opens} {W : S.X.Op
   (hg₂ : Function.Surjective g₂)
   (r : MvPolynomial ι (openAffineSituation07Q9 S hW hVW).A →+*
     MvPolynomial κ (openAffineSituation₂07Q9 S hVW f hW₂).A)
-  (hrC : ∀ b, r (MvPolynomial.C b) = MvPolynomial.C b)
   (hr : g₂.toRingHom.comp r = (restrictMap07Q9 S hVW f).appTop.hom.comp g.toRingHom)
 
 section QuotientRetraction
@@ -171,16 +170,16 @@ theorem tauRing_openSystemMap07Q9_apply (n e : ℕ)
     (x : (levelObj07Q9 S hW hVW g hg n (e + openSystemShift07Q9 S hVW f hW₂)).obj.ring) :
     haveI := isAffine_restrictX07Q9 S hW hVW
     haveI := isAffine_restrictS07Q9 S hV hVW
-    tauRing (openSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e)
+    tauRing (openSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e)
         (((wholeSiteEquivLittleAffine
           (isNilpotent_prime_openSituation07Q9 S hW hVW)).counitIso.inv.app
           (levelObj07Q9 S hW hVW g hg n (e + openSystemShift07Q9 S hVW f hW₂))).hom.hom x) =
       (levelCounit₂07Q9 S hV hVW f hW₂ g₂ hg₂ n e).hom
-        (levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e x) := by
+        (levelRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr n e x) := by
   have := isAffine_restrictX07Q9 S hW hVW
   have := isAffine_restrictS07Q9 S hV hVW
   exact congrArg (fun φ => φ.hom x)
-    (levelBridge_localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr n e)
+    (levelBridge_localSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr n e)
 
 /-- **The per-level hypothesis of `mono_zariskiDirectImage_map_of_cechSystemHom` for the morphism
 of Čech systems attached to a morphism of presentations**, given a `D(0)`-linear retraction of
@@ -191,18 +190,18 @@ theorem forall_exists_restrict_eq_zero_openCechSystemHom07Q9
     (F : SheafOfModules.{u} (structureSheaf S)) (hF : IsQuasiCoherentCrystal S F)
     (ρ : (tensorPowerEnvelopeThickening _ g₂ hg₂ 0).thickening.ring →+
       (tensorPowerEnvelopeThickening _ g hg 0).thickening.ring)
-    (hρ : ∀ a x, ρ ((envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr 0).toRingHom a * x) =
+    (hρ : ∀ a x, ρ ((envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr 0).toRingHom a * x) =
       a * ρ x) (hρ1 : ρ 1 = 1) (l : ℕ) :
-    ∃ (e : ℕ) (hle : l ≤ e + (openCechSystemHom07Q9 S hV hW hVW g hg f hW₂ g₂ hg₂ r hrC hr).k),
+    ∃ (e : ℕ) (hle : l ≤ e + (openCechSystemHom07Q9 S hV hW hVW g hg f hW₂ g₂ hg₂ r hr).k),
       ∀ y : ((toAbelianSheaf S).obj ((moduleULift S).obj F)).obj.obj
           (op (((openSystem07Q9 S hV hW hVW g hg).obj (op ⦋0⦌)).obj
-            (e + (openCechSystemHom07Q9 S hV hW hVW g hg f hW₂ g₂ hg₂ r hrC hr).k))),
+            (e + (openCechSystemHom07Q9 S hV hW hVW g hg f hW₂ g₂ hg₂ r hr).k))),
         ((crisModuleUnit (overSituation S f) S (𝟙 S.S) f (overSituation_compat S f)
             ((moduleULift S).obj F)).hom.app
             (op (((openSystem07Q9 S hV hW hVW g hg).obj (op ⦋0⦌)).obj
-              (e + (openCechSystemHom07Q9 S hV hW hVW g hg f hW₂ g₂ hg₂ r hrC hr).k))) ≫
+              (e + (openCechSystemHom07Q9 S hV hW hVW g hg f hW₂ g₂ hg₂ r hr).k))) ≫
           crisDirectImageEval (overSituation S f) S (𝟙 S.S) f (overSituation_compat S f)
-            ((openCechSystemHom07Q9 S hV hW hVW g hg f hW₂ g₂ hg₂ r hrC hr).τ ⦋0⦌ e)
+            ((openCechSystemHom07Q9 S hV hW hVW g hg f hW₂ g₂ hg₂ r hr).τ ⦋0⦌ e)
             ((toAbelianSheaf (overSituation S f)).obj
               ((crisModuleInverseImage (S := overSituation S f) (S' := S) (𝟙 S.S) f
                 (overSituation_compat S f)).obj
@@ -236,16 +235,16 @@ theorem forall_exists_restrict_eq_zero_openCechSystemHom07Q9
     wholeSiteInverseSectionsRingEquiv (isNilpotent_prime_openSituation07Q9
       (overSituation S f) hW₂ (preimage_le_overSituation07Q9 S hVW f))
       (levelObj₂07Q9 S hVW f hW₂ g₂ hg₂ 0 (N + l))
-  have hτ : ∀ d, φA' ((tauRing (openSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr 0
+  have hτ : ∀ d, φA' ((tauRing (openSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr 0
       (N + l))).hom (φA.symm (Ideal.Quotient.mk _ d))) =
       Ideal.Quotient.mk _
-        ((envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr 0).toRingHom d) :=
-    fun d => (congrArg φA' (tauRing_openSystemMap07Q9_apply S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr
+        ((envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr 0).toRingHom d) :=
+    fun d => (congrArg φA' (tauRing_openSystemMap07Q9_apply S hV hW hVW f hW₂ g hg g₂ hg₂ r hr
       0 (N + l) (Ideal.Quotient.mk _ d))).trans (φA'.apply_symm_apply _)
   obtain ⟨J, rr, hJ, hrr, hrr1⟩ := exists_retraction_of_level
-    (envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hrC hr 0).toRingHom ρ hρ
+    (envelopeRingMap07Q9 S hW hVW f hW₂ g hg g₂ hg₂ r hr 0).toRingHom ρ hρ
     pp (N + (N + l + N')) (N' + (N + l)) (by omega) φA φA'
-    (tauRing (openSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hrC hr 0 (N + l))).hom hτ hρ1
+    (tauRing (openSystemMap07Q9 S hV hW hVW f hW₂ g hg g₂ hg₂ r hr 0 (N + l))).hom hτ hρ1
   have hJ' : ∀ a ∈ J, (crisCommRing S).map ((CrystallineThickening.ι S).map
       (((openSystem07Q9 S hV hW hVW g hg).obj (op ⦋0⦌)).map (homOfLE hle'))).op a = 0 := by
     intro a ha
@@ -270,11 +269,11 @@ theorem forall_exists_restrict_eq_zero_openCechSystemHom07Q9
     rw [Ideal.Quotient.eq_zero_iff_mem]
     exact Ideal.pow_le_pow_right (by omega) hd
   have := isAffine_target_openSystem07Q9 S hV hW hVW g hg 0
-    (N + l + (openCechSystemHom07Q9 S hV hW hVW g hg f hW₂ g₂ hg₂ r hrC hr).k)
+    (N + l + (openCechSystemHom07Q9 S hV hW hVW g hg f hW₂ g₂ hg₂ r hr).k)
   exact restrict_eq_zero_of_crisModuleUnit_eval_eq_zero (S := overSituation S f) (S' := S)
     (𝟙 S.S) f (overSituation_compat S f) F
     (isLocallyQuasiCoherent_of_isQuasicoherentOnSite F hF.1) hF.2 _
-    ((openCechSystemHom07Q9 S hV hW hVW g hg f hW₂ g₂ hg₂ r hrC hr).τ ⦋0⦌ (N + l)) J hJ' rr
+    ((openCechSystemHom07Q9 S hV hW hVW g hg f hW₂ g₂ hg₂ r hr).τ ⦋0⦌ (N + l)) J hJ' rr
     hrr hrr1 y hy
 
 section Assembly
@@ -290,7 +289,7 @@ completed envelopes of the canonical presentation of `Γ(W)` and of the chain pr
 theorem mono_zariskiDirectImage_map_crisModuleUnit_of_retraction
     (hf : IsIteratedAlphaPCover T.p f) (F : SheafOfModules.{u} (structureSheaf T))
     (hF : IsQuasiCoherentCrystal T F)
-    (hρ : ∀ {V : T.S.scheme.Opens} {W : T.X.Opens} (hV : IsAffineOpen V) (hW : IsAffineOpen W)
+    (hρ : ∀ {V : T.S.scheme.Opens} {W : T.X.Opens}, IsAffineOpen V → ∀ (hW : IsAffineOpen W)
       (hVW : W ≤ sourceToBase T ⁻¹ᵁ V) (hW₂ : IsAffineOpen (f ⁻¹ᵁ W)) {n : ℕ}
       (ch : AlphaPChain T.p Γ(T.X, W) n) (e : Γ(X', f ⁻¹ᵁ W) ≅ ch.top)
       (he : f.app W ≫ e.hom = ch.toTop),
@@ -302,7 +301,6 @@ theorem mono_zariskiDirectImage_map_crisModuleUnit_of_retraction
         (∀ a x, ρ ((envelopeRingMap07Q9 T hW hVW f hW₂ _ (canonicalPresentation_surjective _) _
           (surjective_chainPresentation07Q9 T hW hVW f hW₂ ch e he)
           (chainPresentationRename07Q9 T hW hVW f hW₂)
-          (chainPresentationRename07Q9_C T hW hVW f hW₂)
           (chainPresentation07Q9_comp_rename T hW hVW f hW₂ ch e) 0).toRingHom a * x) = a * ρ x) ∧
         ρ 1 = 1) :
     Mono ((zariskiDirectImage T).map (crisModuleUnit (overSituation T f) T (𝟙 T.S) f
@@ -326,7 +324,7 @@ theorem mono_zariskiDirectImage_map_crisModuleUnit_of_retraction
       forall_exists_restrict_eq_zero_openCechSystemHom07Q9 T hV hW hVW f hW₂ _
         (canonicalPresentation_surjective _) _
         (surjective_chainPresentation07Q9 T hW hVW f hW₂ ch e he)
-        (chainPresentationRename07Q9 T hW hVW f hW₂) (chainPresentationRename07Q9_C T hW hVW f hW₂)
+        (chainPresentationRename07Q9 T hW hVW f hW₂)
         (chainPresentation07Q9_comp_rename T hW hVW f hW₂ ch e) F hF ρ hρm hρ1⟩
 
 /-- **`u_{X/S, *}` of the module unit of an iterated `α_p`-cover is a monomorphism.**  For

@@ -80,12 +80,12 @@ public lemma comp_idealPowerQuotient_eq_zero {X : Scheme.{u}} (J : X.IdealSheafD
   ext x
   have hx : α.val.app (op U.1) x ∈ N.toSubmodule.obj (op U.1) := by
     refine (idealPowerMultiple_le_iff J n _ N).mp le_rfl U ?_
-    show α.val.app (op U.1) x ∈
+    change α.val.app (op U.1) x ∈
       (J.ideal U ^ n) • (⊤ : Submodule (X.presheaf.obj (op U.1)) (X.presheaf.obj (op U.1)))
     rw [Ideal.smul_top_eq_map, Algebra.algebraMap_self, Ideal.map_id]
     exact h U x
   let y : N.toSheafOfModules.val.obj (op U.1) := ⟨α.val.app (op U.1) x, hx⟩
-  show (N.ι ≫ cokernel.π N.ι).val.app (op U.1) y = 0
+  change (N.ι ≫ cokernel.π N.ι).val.app (op U.1) y = 0
   simp only [cokernel.condition]
   rfl
 

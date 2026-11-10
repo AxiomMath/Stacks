@@ -105,7 +105,7 @@ theorem isSheaf_subfunctor :
   refine (Subfunctor.isSheaf_iff _ (isSheaf_forget A)).2 fun U t ht => ?_
   refine ((isSheaf_forget B) _ ht).isSeparatedFor.ext fun V f hf => ?_
   have hf' : g.hom.app (op V) (A.obj.map f.op t) = restr hT s V := hf
-  show B.obj.map f.op (g.hom.app U t) = B.obj.map f.op (restr hT s U.unop)
+  change B.obj.map f.op (g.hom.app U t) = B.obj.map f.op (restr hT s U.unop)
   rw [← NatTrans.naturality_apply, hf', restr_map]
 
 /-- **The fibre sheaf.** The sheaf of sets of sections `t` of `A` with `g(t) = s`. -/
@@ -149,7 +149,7 @@ theorem translate_add (a b : A.obj.obj (op T)) (ha : g.hom.app (op T) a = 0)
       translate g hT s a ha ≫ translate g hT s b hb := by
   ext U t
   refine Subtype.ext ?_
-  show toSec t.1 + restr hT (a + b) U.unop =
+  change toSec t.1 + restr hT (a + b) U.unop =
     toSec t.1 + restr hT a U.unop + restr hT b U.unop
   rw [restr, map_add, add_assoc]
 
@@ -157,7 +157,7 @@ theorem translate_add (a b : A.obj.obj (op T)) (ha : g.hom.app (op T) a = 0)
 theorem translate_zero : translate g hT s 0 (map_zero _) = 𝟙 _ := by
   ext U t
   refine Subtype.ext ?_
-  show toSec t.1 + restr hT 0 U.unop = t.1
+  change toSec t.1 + restr hT 0 U.unop = t.1
   rw [restr, map_zero, add_zero]
 
 /-- Translation by a global section of the kernel, as an automorphism of the fibre sheaf. -/
@@ -178,7 +178,7 @@ theorem exists_covering_nonempty [Sheaf.IsLocallySurjective g] (U : C) :
   refine J.superset_covering ?_ (Presheaf.imageSieve_mem J g.hom (restr hT s U))
   intro V f ⟨t, ht⟩
   have hmem : t ∈ (subfunctor g hT s).obj (op V) := by
-    show g.hom.app (op V) t = restr hT s V
+    change g.hom.app (op V) t = restr hT s V
     rw [ht, restr_map]
   exact Sieve.ofArrows_mk (fun i : (Σ V : C, {f : V ⟶ U // Nonempty ((fibreSheaf g hT s).obj.obj
     (op V))}) => i.1) (fun i => i.2.1) ⟨V, ⟨f, ⟨⟨t, hmem⟩⟩⟩⟩
@@ -215,7 +215,7 @@ theorem addKernel_map {U U' : Cᵒᵖ} (h : U ⟶ U') (t : (fibreSheaf g hT s).o
       addKernel g hT s φ hcomp ((fibreSheaf g hT s).obj.map h t) (K.obj.map h y) := by
   refine Subtype.ext ?_
   have hn := NatTrans.naturality_apply φ.hom h y
-  show A.obj.map h (toSec t.1 + φ.hom.app U y) =
+  change A.obj.map h (toSec t.1 + φ.hom.app U y) =
     A.obj.map h (toSec t.1) + φ.hom.app U' (K.obj.map h y)
   rw [map_add, hn]
 
@@ -231,7 +231,7 @@ theorem addKernel_bijective {U : Cᵒᵖ} (t : (fibreSheaf g hT s).obj.obj U) :
       u.2
     obtain ⟨y, hy⟩ := hker U (toSec t'.1 - toSec t.1) (by rw [map_sub, key, key, sub_self])
     refine ⟨y, Subtype.ext ?_⟩
-    show toSec t.1 + φ.hom.app U y = toSec t'.1
+    change toSec t.1 + φ.hom.app U y = toSec t'.1
     rw [hy, add_sub_cancel]
 
 /-- **The local trivialization of the fibre.** Over an object `V` on which the fibre has a

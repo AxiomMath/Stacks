@@ -118,6 +118,7 @@ public theorem adequate_isClosedUnderColimitsOfShape
     fun j => affineLocalAdequacy.{u, u} B (K.obj j) (hK j) A f hA
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for `Abelian` on the full subcategory of adequate modules is deep
 /-- **[Stacks, Tag 06VQ] (1).** The adequate `𝒪`-modules on the chosen big `τ`-site over `S`
 form an abelian category: they contain the zero sheaf and are closed under kernels, cokernels
 and finite products inside the abelian category of all sheaves of modules on the site. -/
@@ -134,6 +135,7 @@ public noncomputable def abelian_adequate : Abelian (adequate.{u, u} B).FullSubc
   inferInstance
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for preservation of finite limits and colimits by the inclusion is deep
 /-- **[Stacks, Tag 06VQ] (2).** The inclusion of the adequate `𝒪`-modules into all `𝒪`-modules
 on the chosen big `τ`-site over `S` is exact: it preserves finite limits and finite colimits,
 kernels and cokernels of adequate modules being adequate. -/

@@ -105,7 +105,7 @@ private theorem denseRange_ofTarget_discreteQuotients (g : A →+* A') :
   refine ⟨ofTarget g a, ?_, ⟨a, rfl⟩⟩
   rw [← hVU]
   refine hsub fun K hK ↦ ?_
-  show Ideal.Quotient.mk (extendedIdeal g K) a ∈ W K
+  change Ideal.Quotient.mk (extendedIdeal g K) a ∈ W K
   rw [ha K hK]
   exact (hW K hK).2
 
@@ -131,7 +131,7 @@ public theorem isTopologicallyOfFiniteType_canonicalMap_of_etale
   have hsC (a : A) : s (MvPolynomial.C a) = g a := s.commutes a
   refine ⟨n, (CompletionOver.ofTarget g).comp s.toRingHom, ?_, ?_⟩
   · refine RingHom.ext fun a ↦ ?_
-    show CompletionOver.ofTarget g (s (MvPolynomial.C a)) = _
+    change CompletionOver.ofTarget g (s (MvPolynomial.C a)) = _
     rw [hsC a]
     exact DFunLike.congr_fun (CompletionOver.ofTarget_comp g) a
   · refine Dense.mono ?_ (CompletionOver.denseRange_ofTarget_discreteQuotients g)

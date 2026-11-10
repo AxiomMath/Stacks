@@ -59,7 +59,7 @@ variable {R hT₀}
 is flat over `T₀`. -/
 lemma isFlatOver_of_flat {Y Y' : C} (f : Y' ⟶ Y) (hf : (R.map f.op).hom.Flat)
     (hY : IsFlatOver R hT₀ Y) : IsFlatOver R hT₀ Y' := by
-  show (R.map (hT₀.from Y').op).hom.Flat
+  change (R.map (hT₀.from Y').op).hom.Flat
   rw [show hT₀.from Y' = f ≫ hT₀.from Y from hT₀.hom_ext _ _, op_comp, R.map_comp,
     CommRingCat.hom_comp]
   exact RingHom.Flat.comp hY hf
@@ -68,7 +68,7 @@ variable (R hT₀)
 
 /-- The terminal object `T₀` is flat over itself. -/
 lemma isFlatOver_self : IsFlatOver R hT₀ T₀ := by
-  show (R.map (hT₀.from T₀).op).hom.Flat
+  change (R.map (hT₀.from T₀).op).hom.Flat
   rw [show hT₀.from T₀ = 𝟙 T₀ from hT₀.hom_ext _ _, op_id, R.map_id]
   exact RingHom.Flat.id _
 

@@ -91,7 +91,7 @@ theorem associatedPoints_subset_of_mono {X : Scheme.{u}} {F₁ F₂ : X.Modules}
       let M₂ : SheafOfModules X.ringCatSheaf := F₂
       let ff : M₁ ⟶ M₂ := f
       have : Mono ff := ‹Mono f›
-      show Mono ((SheafOfModules.forget X.ringCatSheaf).map ff)
+      change Mono ((SheafOfModules.forget X.ringCatSheaf).map ff)
       exact Functor.map_mono _ ff
     exact Functor.map_mono _ f.val
   change IsAssociatedPrimeStacks _ (OXModule.stalk F₁ x) _ at hx
@@ -117,7 +117,7 @@ private lemma associatedPrimeStacks_maximal_subset_union_of_shortExact {R M₁ M
       rw [← hm] at hr
       apply Submodule.mem_colon_span_singleton.mpr
       have hrm : r • m = 0 := by simpa using (Submodule.mem_colon_span_singleton.mp hr)
-      show r • g m = 0
+      change r • g m = 0
       rw [← map_smul, hrm, map_zero]
     have hJne : J ≠ ⊤ := by
       intro htop

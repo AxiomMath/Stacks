@@ -78,7 +78,7 @@ private theorem isRegularRingHom_algebraMap_of_atPrime
       e.toRingEquiv.toRingHom.comp (algebraMap (Localization.AtPrime p) Λ) := by
     refine IsLocalization.ringHom_ext p.primeCompl (RingHom.ext fun x => ?_)
     rw [RingHom.comp_apply, RingHom.comp_apply, Localization.localRingHom_to_map]
-    show _ = e (algebraMap (Localization.AtPrime p) Λ (algebraMap R (Localization.AtPrime p) x))
+    change _ = e (algebraMap (Localization.AtPrime p) Λ (algebraMap R (Localization.AtPrime p) x))
     rw [← IsScalarTower.algebraMap_apply R (Localization.AtPrime p) Λ]
     exact (e.commutes _).symm
   rw [hfactor]

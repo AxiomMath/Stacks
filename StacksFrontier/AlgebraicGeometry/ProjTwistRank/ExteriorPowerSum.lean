@@ -167,9 +167,9 @@ def coproductIsoBinaryOfIsZero {I : Type*} [DecidableEq I] (g : I → C) (i₀ i
     else if h' : i = i₁ then eqToHom (congrArg g h') ≫ biprod.inr else 0
   hom_inv_id := by
     refine biprod.hom_ext' _ _ ?_ ?_
-    · rw [biprod.inl_desc_assoc, Sigma.ι_desc, dite_eq_left_of_eq_true (eq_true rfl),
+    · rw [biprod.inl_desc_assoc, Sigma.ι_comp_desc, dite_eq_left_of_eq_true (eq_true rfl),
         eqToHom_refl, Category.id_comp, Category.comp_id]
-    · rw [biprod.inr_desc_assoc, Sigma.ι_desc,
+    · rw [biprod.inr_desc_assoc, Sigma.ι_comp_desc,
         dite_eq_right_of_eq_false (eq_false (Ne.symm hne)),
         dite_eq_left_of_eq_true (eq_true rfl), eqToHom_refl, Category.id_comp,
         Category.comp_id]
@@ -177,14 +177,14 @@ def coproductIsoBinaryOfIsZero {I : Type*} [DecidableEq I] (g : I → C) (i₀ i
     refine Sigma.hom_ext _ _ fun i => ?_
     by_cases h : i = i₀
     · subst h
-      rw [Sigma.ι_desc_assoc, Category.comp_id, dite_eq_left_of_eq_true (eq_true rfl),
+      rw [Sigma.ι_comp_desc_assoc, Category.comp_id, dite_eq_left_of_eq_true (eq_true rfl),
         Category.assoc, biprod.inl_desc, eqToHom_refl, Category.id_comp]
     · by_cases h' : i = i₁
       · subst h'
-        rw [Sigma.ι_desc_assoc, Category.comp_id, dite_eq_right_of_eq_false (eq_false h),
+        rw [Sigma.ι_comp_desc_assoc, Category.comp_id, dite_eq_right_of_eq_false (eq_false h),
           dite_eq_left_of_eq_true (eq_true rfl), Category.assoc, biprod.inr_desc, eqToHom_refl,
           Category.id_comp]
-      · rw [Sigma.ι_desc_assoc, Category.comp_id, dite_eq_right_of_eq_false (eq_false h),
+      · rw [Sigma.ι_comp_desc_assoc, Category.comp_id, dite_eq_right_of_eq_false (eq_false h),
           dite_eq_right_of_eq_false (eq_false h'), zero_comp]
         exact ((hz i h h').eq_of_src _ _).symm
 

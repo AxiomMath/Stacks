@@ -77,7 +77,7 @@ theorem exists_fibre {V : BigFppfOver B integerBase hZ} (F : CurveFamily B hZ)
   have e_snd : (curveFamilyOfScheme X B hZ hK hdim).toBaseYoneda ≫ yoneda.map βi.hom =
       yoneda.map (integerSiteMap B hZ hX hK X'.hom) := by
     refine (yoneda.map_comp _ _).symm.trans (congrArg yoneda.map ?_)
-    show integerSiteMap B hZ hX hK X.hom ≫ βi.hom = integerSiteMap B hZ hX hK (X.hom ≫ β)
+    change integerSiteMap B hZ hX hK X.hom ≫ βi.hom = integerSiteMap B hZ hX hK (X.hom ≫ β)
     rw [← integerSiteMap_comp]
     exact congrArg _ (integerSiteMap_toScheme_map βi.hom).symm
   have e_bot : (yoneda.mapIso βi).symm.hom ≫ yoneda.map βi.hom ≫

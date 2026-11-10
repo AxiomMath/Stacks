@@ -66,17 +66,17 @@ abbrev cofanExtend {J : Type*} (f : J → C) (S : Set J) [DecidablePred (· ∈ 
 def isColimitCofanExtend {J : Type*} (f : J → C) (S : Set J) [DecidablePred (· ∈ S)]
     (hz : ∀ j ∉ S, IsZero (f j)) {c : Cofan fun s : S => f s} (hc : IsColimit c) :
     IsColimit (cofanExtend f S c) :=
-  mkCofanColimit _ (fun s => Cofan.IsColimit.desc hc fun x => s.inj x.1)
+  Cofan.IsColimit.mk _ (fun s => Cofan.IsColimit.desc hc fun x => s.inj x.1)
     (fun s j => by
       by_cases h : j ∈ S
-      · simp only [cofanExtend, cofan_mk_inj, dif_pos h]
+      · simp only [cofanExtend, cofan_mk_inj, dite_eq_left h]
         exact Cofan.IsColimit.fac hc _ ⟨j, h⟩
-      · simp only [cofanExtend, cofan_mk_inj, dif_neg h, zero_comp]
+      · simp only [cofanExtend, cofan_mk_inj, dite_eq_right h, zero_comp]
         exact (hz j h).eq_of_src _ _)
     (fun s m hm => Cofan.IsColimit.hom_ext hc _ _ fun x => by
       rw [Cofan.IsColimit.fac]
       have := hm x.1
-      simp only [cofanExtend, cofan_mk_inj, dif_pos x.2] at this
+      simp only [cofanExtend, cofan_mk_inj, dite_eq_left x.2] at this
       exact this)
 
 variable {D : Type*} [Category D] [HasZeroMorphisms D]
@@ -185,7 +185,7 @@ lemma isIso_totalMapf_of_preservesColimit (n : I₁₂)
     rw [Category.comp_id, ι_totalMapf_assoc]
     exact hψ ⟨(i₁, i₂), h⟩
   · refine Cofan.IsColimit.hom_ext hc _ _ (fun i => ?_)
-    show Φ.map (K.ιTotal c₁₂ i.1.1 i.1.2 n i.2) ≫ ψ ≫ totalMapf Φ K n =
+    change Φ.map (K.ιTotal c₁₂ i.1.1 i.1.2 n i.2) ≫ ψ ≫ totalMapf Φ K n =
       Φ.map (K.ιTotal c₁₂ i.1.1 i.1.2 n i.2) ≫ 𝟙 _
     rw [← Category.assoc, hψ i, Category.comp_id]
     exact ι_totalMapf Φ K n _ _ i.2
@@ -271,7 +271,7 @@ lemma preservesColimit_matrixAction (K : CochainComplex C ℤ)
     exact Subtype.ext (Prod.ext (by omega) hij')
   have : Finite S := hS.to_subtype
   exact preservesColimit_discrete_of_isZero _ S (fun i hi => isZero_matrixAction_X_X A K Q a b
-    _ _ (by simp only [S, Set.mem_setOf_eq, not_and_or, not_le] at hi; omega)) G
+    _ _ (by simp only [S, Set.mem_ofPred_eq, not_and_or, not_le] at hi; omega)) G
 
 omit [∀ (K : CochainComplex C ℤ) (Q : CochainComplex (Mat_ (SingleObj A)) ℤ),
     HomologicalComplex.HasMapBifunctor K Q (matrixAction A (C := C)) (ComplexShape.up ℤ)]

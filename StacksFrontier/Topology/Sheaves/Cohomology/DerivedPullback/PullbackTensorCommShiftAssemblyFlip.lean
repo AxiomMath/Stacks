@@ -178,12 +178,12 @@ theorem derivedToTensorPinnedFlipAppTail_commShift (h : DerivedToTensorCommShift
     letI := curryComplexesDerivedTensor_commShift₂Int Z
     NatTrans.CommShift ((Functor.curry.map (derivedToTensorNatTrans Z)).flipApp L ≫
       ((Functor.CommShift₂.flipIso (curryComplexesTotalIso Z)).app L).inv) ℤ) := by
-  letI := curriedComplexesTotal_commShift₂Int Z
-  letI := curryComplexesDerivedTensor_commShift₂Int Z
-  letI := curryComplexesTotal_commShift₂Int Z
-  letI := Functor.CommShift.ofIso_compatibility
+  let := curriedComplexesTotal_commShift₂Int Z
+  let := curryComplexesDerivedTensor_commShift₂Int Z
+  let := curryComplexesTotal_commShift₂Int Z
+  let := Functor.CommShift.ofIso_compatibility
     ((Functor.CommShift₂.flipIso (curryComplexesTotalIso Z)).app L) ℤ
-  letI := (h : NatTrans.CommShift₂Int
+  let := (h : NatTrans.CommShift₂Int
     (Functor.curry.map (derivedToTensorNatTrans Z))).commShift_flipApp L
   infer_instance
 
@@ -194,12 +194,12 @@ theorem derivedToTensorPinnedFlipApp_commShift (h : DerivedToTensorCommShift₂ 
     (letI := curriedComplexesDerivedTensor_commShift₂Int Z
     letI := curriedComplexesTotal_commShift₂Int Z
     NatTrans.CommShift (derivedToTensorPinnedFlipApp Z L) ℤ) := by
-  letI := curriedComplexesDerivedTensor_commShift₂Int Z
-  letI := curriedComplexesTotal_commShift₂Int Z
-  letI := curryComplexesDerivedTensor_commShift₂Int Z
-  letI := Functor.CommShift.ofIso_compatibility
+  let := curriedComplexesDerivedTensor_commShift₂Int Z
+  let := curriedComplexesTotal_commShift₂Int Z
+  let := curryComplexesDerivedTensor_commShift₂Int Z
+  let := Functor.CommShift.ofIso_compatibility
     ((Functor.CommShift₂.flipIso (curryComplexesDerivedTensorIso Z)).app L) ℤ
-  letI := derivedToTensorPinnedFlipAppTail_commShift Z L h
+  let := derivedToTensorPinnedFlipAppTail_commShift Z L h
   unfold derivedToTensorPinnedFlipApp
   infer_instance
 
@@ -248,14 +248,14 @@ theorem leftComparisonPinnedFlipApp_commShift (h : DerivedToTensorCommShift₂ Y
     (letI := curriedComplexesPullbackOfTensor_commShift₂Int f
     letI := curriedComplexesTotalPullback_commShift₂Int f
     NatTrans.CommShift (leftComparisonPinnedFlipApp f L) ℤ) := by
-  letI := derivedPullback_commShift f
-  letI : ((Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor Y.sheaf).flip.obj
+  let := derivedPullback_commShift f
+  let : ((Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor Y.sheaf).flip.obj
       (DerivedCategory.Q.obj L)).CommShift ℤ :=
     (derivedTensorCommShift₂Int Y).commShiftFlipObj _
-  letI : ((tensorComplexBifunctor (Y := Y)).flip.obj L).CommShift ℤ :=
+  let : ((tensorComplexBifunctor (Y := Y)).flip.obj L).CommShift ℤ :=
     (inferInstance : (tensorComplexBifunctor (Y := Y)).CommShift₂Int).commShiftFlipObj L
-  letI := curriedComplexesDerivedTensor_commShift₂Int Y
-  letI := curriedComplexesTotal_commShift₂Int Y
+  let := curriedComplexesDerivedTensor_commShift₂Int Y
+  let := curriedComplexesTotal_commShift₂Int Y
   exact NatTrans.commShift_assocChain DerivedCategory.Q
     ((Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor Y.sheaf).flip.obj
       (DerivedCategory.Q.obj L)) (derivedPullback f)
@@ -298,15 +298,15 @@ theorem leftComparisonCurryFlipApp_commShift (h : DerivedToTensorCommShift₂ Y)
     (letI := curryComplexesPullbackOfTensor_commShift₂Int f
     letI := curryComplexesTotalPullback_commShift₂Int f
     NatTrans.CommShift ((Functor.curry.map (leftComparison f)).flipApp L) ℤ) := by
-  letI := curryComplexesPullbackOfTensor_commShift₂Int f
-  letI := curryComplexesTotalPullback_commShift₂Int f
-  letI := curriedComplexesPullbackOfTensor_commShift₂Int f
-  letI := curriedComplexesTotalPullback_commShift₂Int f
-  letI := Functor.CommShift.ofIso_compatibility
+  let := curryComplexesPullbackOfTensor_commShift₂Int f
+  let := curryComplexesTotalPullback_commShift₂Int f
+  let := curriedComplexesPullbackOfTensor_commShift₂Int f
+  let := curriedComplexesTotalPullback_commShift₂Int f
+  let := Functor.CommShift.ofIso_compatibility
     ((Functor.CommShift₂.flipIso (curryComplexesPullbackOfTensorIso f)).app L) ℤ
-  letI := Functor.CommShift.ofIso_compatibility
+  let := Functor.CommShift.ofIso_compatibility
     ((Functor.CommShift₂.flipIso (curryComplexesTotalPullbackIso f)).app L) ℤ
-  letI := leftComparisonPinnedFlipApp_commShift f L h
+  let := leftComparisonPinnedFlipApp_commShift f L h
   exact NatTrans.commShift_of_eq
     (eq_inv_comp_comp_hom
       ((Functor.CommShift₂.flipIso (curryComplexesPullbackOfTensorIso f)).app L)

@@ -142,6 +142,7 @@ private theorem comp_comp_eq_of_comm_of_comm {D : Type*} [Category D] {A₀ A₁
     a ≫ e₁ ≫ b₁ = (e₀ ≫ b₀) ≫ c := by
   rw [reassoc_of% h₁, h₂, Category.assoc]
 
+omit [Fintype k] in
 /-- **The identification `RΓ_c(V_k̄, K) ≅ RΓ_c(U_k̄, φ_* K)` is natural in `K`.** -/
 theorem compactSupportFrobeniusCohomologyIntegralIso_hom_naturality
     {K K' : CochainComplex.Plus (EtaleModules.{u, 0} Λ V)} (x : K ⟶ K') :
@@ -200,6 +201,8 @@ variable {k : Type u} [Field k] [PerfectField k] {U Ub V : Scheme.{u}} {pU : U �
   [IsOpenImmersion jU] {f : V ⟶ U} [IsFinite f] [Etale f] [ConnectedSpace V]
   (C : CoverCompactification k pUb jU f)
 
+omit [PerfectField k] [IsCurve k pU] [Smooth pU] [IsProper pUb] [IsOpenImmersion jU] [IsFinite f]
+  [Etale f] [ConnectedSpace V] in
 include C in
 /-- `j ≫ q = f ≫ p_U`, from `j ≫ f̄ = f ≫ j_U` and `j_U ≫ p_Ū = p_U`. -/
 lemma j_comp_q_of_eq (hjU : jU ≫ pUb = pU) : C.j ≫ C.q = f ≫ pU := by
@@ -212,15 +215,21 @@ def compactification (hjU : jU ≫ pUb = pU) : CompactificationOf (Over.mk (f �
       (Over.homMk (U := Over.mk (f ≫ pU)) (V := Over.mk C.q) C.j (C.j_comp_q_of_eq hjU)),
     ⟨C.isOpenImmersion, C.isProper⟩⟩
 
+omit [PerfectField k] [IsCurve k pU] [Smooth pU] [IsProper pUb] [IsOpenImmersion jU] [IsFinite f]
+  [Etale f] [ConnectedSpace V] in
 /-- The space of `C.compactification hjU` is `C.Vb`. -/
 @[simp]
 lemma compactification_space (hjU : jU ≫ pUb = pU) : (C.compactification hjU).space = C.Vb := rfl
 
+omit [PerfectField k] [IsCurve k pU] [Smooth pU] [IsProper pUb] [IsOpenImmersion jU] [IsFinite f]
+  [Etale f] [ConnectedSpace V] in
 /-- The open immersion of `C.compactification hjU` is `C.j`. -/
 @[simp]
 lemma compactification_immersion (hjU : jU ≫ pUb = pU) :
     (C.compactification hjU).immersion = C.j := rfl
 
+omit [PerfectField k] [IsCurve k pU] [Smooth pU] [IsProper pUb] [IsOpenImmersion jU] [IsFinite f]
+  [Etale f] [ConnectedSpace V] in
 /-- The structure morphism of `C.compactification hjU` to `Spec k` is `C.q`. -/
 @[simp]
 lemma compactification_toBase (hjU : jU ≫ pUb = pU) :

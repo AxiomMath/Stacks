@@ -381,7 +381,7 @@ private theorem ordAt_tameSymbolAtCoheightOne_isUnit_left {ξ : X} (hξ1 : cohei
   have hsym : tameSymbolAtCoheightOne hξ1 U G =
       Units.map (IsLocalRing.residue (X.presheaf.stalk ξ)).toMonoidHom hu.unit ^ m *
         (Units.map (IsLocalRing.residue (X.presheaf.stalk ξ)).toMonoidHom hu.unit ^ k)⁻¹ := by
-    show (regularTameSymbolOfKrullDimOne hdim1).extend X.functionField U G = _
+    change (regularTameSymbolOfKrullDimOne hdim1).extend X.functionField U G = _
     rw [RegularTameSymbol.extend_eq _ X.functionField ⟨u, hu.mem_nonZeroDivisors⟩ 1
         ⟨b, hbmem⟩ ⟨c, hcmem⟩ hUpres hGpres,
       RegularTameSymbol.one_left, RegularTameSymbol.one_left, inv_one, mul_one, mul_one,
@@ -522,7 +522,7 @@ private theorem mk0_eq_mk0_mul_unit {ξ : X} {s w : L.presheaf.stalk ξ}
   have hinv := isInvertible_presheaf L
   have hval : r = a * algebraMap (X.presheaf.stalk ξ) X.functionField u := by
     refine (hs.toGenericStalk (isTrivializedNear_of_isInvertible L ξ)).injective ?_
-    show r • toGenericStalk L ξ s = _
+    change r • toGenericStalk L ξ s = _
     rw [hr, ha, hw, toGenericStalk_smul, mul_smul]
   exact Units.ext (by rw [Units.val_mul, Units.val_mk0, Units.val_mk0, hU, hval])
 
@@ -536,7 +536,7 @@ private theorem tameSymbol_eq_mul {i : ℱ.Index} (hξ1 : coheight (ℱ.componen
     ℱ.tameSymbol i =
       tameSymbolAtCoheightOne hξ1 A B * tameSymbolAtCoheightOne hξ1 A V *
         (tameSymbolAtCoheightOne hξ1 U B * tameSymbolAtCoheightOne hξ1 U V) := by
-  show tameSymbolAtCoheightOne hξ1 (Units.mk0 (ℱ.ratioL i) (ℱ.ratioL_ne_zero i))
+  change tameSymbolAtCoheightOne hξ1 (Units.mk0 (ℱ.ratioL i) (ℱ.ratioL_ne_zero i))
     (Units.mk0 (ℱ.ratioN i) (ℱ.ratioN_ne_zero i)) = _
   rw [hL, hN, (tameSymbolAtCoheightOne hξ1).map_mul_left,
     (tameSymbolAtCoheightOne hξ1).map_mul_right, (tameSymbolAtCoheightOne hξ1).map_mul_right]

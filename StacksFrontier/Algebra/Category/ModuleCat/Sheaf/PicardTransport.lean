@@ -67,7 +67,8 @@ needs the tensor comparison alone.
 `((Stacks.SheafOfModules.Tensor.sheafTensor O).obj L).obj N` and
 `(Stacks.SheafOfModules.tensorLeftFunctor O hO L).obj N` are the same sheaf of modules by `rfl`, as
 recorded in the implementation notes of
-`StacksFrontier/AlgebraicGeometry/Ample/AmpleCriteria.lean`, so the statement of Tag 0B8K is consumed
+`StacksFrontier/AlgebraicGeometry/Ample/AmpleCriteria.lean`, so the statement of Tag 0B8K is
+consumed
 at the `sheafTensor` spelling with no comparison morphism.
 
 `map` is built with `AddMonoidHom.mk'`, so only additivity has to be proved; the Picard group is a
@@ -314,7 +315,7 @@ theorem map_classOf (hunit : UnitIso O₁ hO₁ O₂ hO₂ F) (hten : TensorIso 
     (L : SheafOfModules.{w} (structureSheaf O₁ hO₁)) (hL : IsInvertible O₁ hO₁ L) :
     map O₁ hO₁ O₂ hO₂ F hunit hten (classOf O₁ hO₁ L hL) =
       classOf O₂ hO₂ (F.obj L) (isInvertible_map_obj O₁ hO₁ O₂ hO₂ F hunit hten L hL) := by
-  show skeletonEquiv O₂ hO₂ (mapSkeleton O₁ hO₁ O₂ hO₂ F hunit hten
+  change skeletonEquiv O₂ hO₂ (mapSkeleton O₁ hO₁ O₂ hO₂ F hunit hten
       ((skeletonEquiv O₁ hO₁).symm
         (skeletonEquiv O₁ hO₁ (toSkeleton (C := InvertibleModules O₁ hO₁) ⟨L, hL⟩)))) = _
   rw [Equiv.symm_apply_apply, mapSkeleton_toSkeleton]

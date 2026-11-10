@@ -178,7 +178,7 @@ theorem imgTargetLin_vanish {c : ℕ} (f : Fin c → R) (e : Fin c →₀ ℕ) :
       (fun m => fpow_smul_mem f e m) (r • m)) ∈ Tsub M f (qrMdeg e) := by
     simp only [Tsub, Submodule.mem_comap, LinearMap.codRestrict_apply, Submodule.coe_subtype,
       LinearMap.smul_apply, LinearMap.id_coe, id_eq]
-    show fpow f e • (r • m) ∈ JpowM M f (qrMdeg e + 1)
+    change fpow f e • (r • m) ∈ JpowM M f (qrMdeg e + 1)
     rw [smul_comm]
     exact smul_mem_JpowM_succ hr (fpow_smul_mem f e m)
   rw [(Tsub M f (qrMdeg e)).mkQ_apply, (Submodule.Quotient.mk_eq_zero _).mpr hmem, map_zero]
@@ -387,7 +387,7 @@ theorem canonicalMap_graded {c : ℕ} (f : Fin c → R) (n : ℕ) (s : Source M 
 `tgtMul f i`, multiplication by the class `f̄_i ∈ J/J^2`. -/
 theorem tgtMul_eq_X_smul {c : ℕ} (f : Fin c → R) (i : Fin c) (t : Target M f) :
     (MvPolynomial.X i : MvPolynomial (Fin c) (qrRbar f)) • t = tgtMul f i t := by
-  show tgtActionRingHom f (MvPolynomial.X i) t = tgtMul f i t
+  change tgtActionRingHom f (MvPolynomial.X i) t = tgtMul f i t
   simp only [tgtActionRingHom, tgtAeval, RingHom.comp_apply, AlgHom.toRingHom_eq_coe,
     AlgHom.coe_toRingHom, MvPolynomial.aeval_X, tgtGen, Subalgebra.coe_val]
 
@@ -443,11 +443,10 @@ theorem canonicalMap_X_smul {c : ℕ} (f : Fin c → R) (i : Fin c) (s : Source 
       congr 1
       exact congrArg Submodule.Quotient.mk (Subtype.ext hab)
     apply transport _ _ (qrMdeg_add_single_aux e i)
-    show fpow f (e + Finsupp.single i 1) • m = (f i) • (fpow f e • m)
+    change fpow f (e + Finsupp.single i 1) • m = (f i) • (fpow f e • m)
     rw [fpow_add_single_aux, mul_smul]
   rw [TensorProduct.AlgebraTensorModule.smul_eq_lsmul_rTensor]
-  induction s using TensorProduct.induction_on with
-  | zero => simp
+  induction s using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, map_add, map_add, hx, hy]
   | tmul p mbar =>
     induction mbar using Submodule.Quotient.induction_on with
@@ -571,7 +570,7 @@ theorem Jid_pow_eq_span {c : ℕ} (f : Fin c → R) (n : ℕ) :
       · have := qrMdeg_addSingle (e - Finsupp.single i 1) i
         rw [← he'] at this
         omega
-      · show f i * fpow f (e - Finsupp.single i 1) = fpow f e
+      · change f i * fpow f (e - Finsupp.single i 1) = fpow f e
         rw [← fpow_add_single, ← he']
 
 /-- For each `n`, the submodule `J^n M` is spanned, as an `R`-module, by the elements `f^e · m`

@@ -65,7 +65,7 @@ public theorem exists_ringEquiv_adicCompletion_localization_chartOrigin_of_isAdi
   let ε : AdicCompletion (maximalIdeal A) A ≃+* A :=
     (AdicCompletion.ofAlgEquiv (maximalIdeal A)).symm.toRingEquiv
   have hε : ∀ a : A, ε (algebraMap A (AdicCompletion (maximalIdeal A) A) a) = a := fun a => by
-    show (AdicCompletion.ofAlgEquiv (maximalIdeal A)).symm
+    change (AdicCompletion.ofAlgEquiv (maximalIdeal A)).symm
       (algebraMap A (AdicCompletion (maximalIdeal A) A) a) = a
     rw [← (AdicCompletion.ofAlgEquiv (maximalIdeal A)).commutes a,
       AlgEquiv.symm_apply_apply]
@@ -78,7 +78,7 @@ public theorem exists_ringEquiv_adicCompletion_localization_chartOrigin_of_isAdi
       (by rw [← MvPowerSeries.map_comp]
           simp only [RingEquiv.toRingHom_eq_coe, ε.symm_comp, MvPowerSeries.map_id])
   have hFC : ∀ c, F (MvPowerSeries.C c) = MvPowerSeries.C (ε c) := fun c => by
-    show MvPowerSeries.map ε.toRingHom (MvPowerSeries.C c) = _
+    change MvPowerSeries.map ε.toRingHom (MvPowerSeries.C c) = _
     rw [MvPowerSeries.map_C]
     rfl
   have hgen : (F : MvPowerSeries (Fin 2) (AdicCompletion (maximalIdeal A) A) →+*
@@ -95,7 +95,7 @@ public theorem exists_ringEquiv_adicCompletion_localization_chartOrigin_of_isAdi
     rw [nodalSeriesIdeal, Ideal.map_span, Set.image_singleton, hgen]
   refine ⟨E₀.trans (Ideal.quotientEquiv (nodalSeriesIdeal A h) _ F hI), fun a => ?_⟩
   rw [RingEquiv.trans_apply, hE₀]
-  show (Ideal.quotientEquiv (nodalSeriesIdeal A h) _ F hI)
+  change (Ideal.quotientEquiv (nodalSeriesIdeal A h) _ F hI)
     (algebraMap A (MvPowerSeries (Fin 2) (AdicCompletion (maximalIdeal A) A) ⧸
       nodalSeriesIdeal A h) a) = _
   rw [show algebraMap A (MvPowerSeries (Fin 2) (AdicCompletion (maximalIdeal A) A) ⧸

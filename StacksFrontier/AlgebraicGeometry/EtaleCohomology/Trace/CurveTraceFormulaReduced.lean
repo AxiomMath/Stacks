@@ -114,7 +114,7 @@ public theorem exists_disjoint_irreducible_opens_of_topologicalKrullDim_le_one {
       (T := closure ({x} : Set X)) isClosed_closure (fun C hC hCx => ?_)
       (subset_closure (mem_singleton x)))
     have hxgen : x ∈ genericPoints X := by
-      show closure {x} ∈ irreducibleComponents X
+      change closure {x} ∈ irreducibleComponents X
       rw [subset_antisymm (hC.2 isIrreducible_singleton.closure hCx) hCx]
       exact hC
     exact hx (mem_iUnion.2 ⟨⟨x, hxgen, hxc⟩, hηV ⟨x, hxgen, hxc⟩⟩)
@@ -272,7 +272,7 @@ theorem cohomologicalTraceFormula_extensionByZero_of_curveTraceCore_of_dense_of_
   have hU : (⋃ i, (Z i : Set X)) = ⋃ i, Zs i := by simp only [hZs]
   exact cohomologicalTraceFormula_extensionByZero_of_curveTraceCore_of_bounded Λ kbar p q hcard
     hcore f J K hFs a N hlo hhi Z (fun i j hij => by
-      show Disjoint (Z i) (Z j)
+      change Disjoint (Z i) (Z j)
       rw [disjoint_iff, ← SetLike.coe_set_eq, TopologicalSpace.Opens.coe_inf,
         TopologicalSpace.Opens.coe_bot, hZs, hZs, ← Set.disjoint_iff_inter_eq_empty]
       exact hdisj hij) hdimZ hrat hloc (hU ▸ hTfin) (hU ▸ hTcl)

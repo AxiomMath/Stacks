@@ -683,7 +683,7 @@ theorem height_span_image_X_le [IsDomain K] [IsNoetherianRing (MvPolynomial σ K
       (Ideal.span (X '' (s : Set σ) : Set (MvPolynomial σ K))).minimalPrimes := by
     rw [Ideal.minimalPrimes_eq_subsingleton_self]
     exact rfl
-  have h := Ideal.height_le_card_of_mem_minimalPrimes_span
+  have h := Ideal.height_le_ncard_of_mem_minimalPrimes_span
     ((s : Set σ).toFinite.image _) hmem
   rwa [Set.ncard_image_of_injective _ MvPolynomial.X_injective,
     Set.ncard_coe_finset] at h
@@ -839,7 +839,7 @@ theorem isAssociatedPoint_cexSheaf_iff (x : PrimeSpectrum (MvPolynomial (Fin 3) 
     associatedPrimes_prod_quotient_eq hI _
   rw [Stacks.LocalCohomology.isAssociatedPoint_tilde_iff,
     Stacks.Depth.isAssociatedPrimeStacks_iff_mem_associatedPrimes]
-  show x.asIdeal ∈ associatedPrimes (MvPolynomial (Fin 3) k)
+  change x.asIdeal ∈ associatedPrimes (MvPolynomial (Fin 3) k)
     (↥(varPrime k {0, 1}).asIdeal × (MvPolynomial (Fin 3) k ⧸ (varPrime k {0, 2}).asIdeal)) ↔ _
   rw [hass]
   exact Iff.rfl
@@ -986,10 +986,10 @@ theorem isLocalizedModule_comp_fst {R A B N : Type*} [CommRing R] [AddCommGroup 
     have hB₂ : ∀ z : B, ((c : R) * t₁ * t₂) • z = ((c : R) * t₁) • ((t₂ : R) • z) := fun z => by
       rw [← mul_smul]
     refine ⟨c * t₁ * t₂, Prod.ext_iff.mpr ⟨?_, ?_⟩⟩
-    · show ((c * t₁ * t₂ : T) : R) • x.1 = ((c * t₁ * t₂ : T) : R) • y.1
+    · change ((c * t₁ * t₂ : T) : R) • x.1 = ((c * t₁ * t₂ : T) : R) • y.1
       push_cast
       rw [hA, hA, hc']
-    · show ((c * t₁ * t₂ : T) : R) • x.2 = ((c * t₁ * t₂ : T) : R) • y.2
+    · change ((c * t₁ * t₂ : T) : R) • x.2 = ((c * t₁ * t₂ : T) : R) • y.2
       push_cast
       rw [hB₁ x.2, ht₁, smul_zero, hB₂ y.2, ht₂, smul_zero]
 

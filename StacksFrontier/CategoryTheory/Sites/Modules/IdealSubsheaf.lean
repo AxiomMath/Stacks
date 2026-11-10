@@ -167,7 +167,6 @@ namespace Stacks.Sites
 
 
 variable {C : Type u₁} [Category.{v₁} C] {J : GrothendieckTopology C}
-  [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
 
 /-- A *sheaf of ideals* of a sheaf of commutative rings `O` on a site is a submodule of the
 free rank-one sheaf of `O`-modules whose membership is local. Its sections over an object of

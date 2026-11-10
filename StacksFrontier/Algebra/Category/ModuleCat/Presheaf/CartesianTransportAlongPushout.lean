@@ -63,7 +63,7 @@ theorem bijective_restrictionBaseChange_of_pushout_transport
   let modA : Module (R.obj (op w₂)) (M.obj (op x₂)) := Module.compHom _ α₂.hom
   let : IsScalarTower (R.obj (op w₂)) (R'.obj (op x₂)) (R'.obj (op x₁)) := by
     refine IsScalarTower.of_algebraMap_eq (fun c => ?_)
-    show (R.map φ.op ≫ α₁).hom c = (α₂ ≫ R'.map ψ.op).hom c
+    change (R.map φ.op ≫ α₁).hom c = (α₂ ≫ R'.map ψ.op).hom c
     rw [hpo.w]
   let : IsScalarTower (R.obj (op w₂)) (R'.obj (op x₂)) (M.obj (op x₂)) :=
     ⟨fun c a z => mul_smul _ _ _⟩
@@ -74,7 +74,7 @@ theorem bijective_restrictionBaseChange_of_pushout_transport
       e (a ⊗ₜ b) = algebraMap (R'.obj (op x₂)) (R'.obj (op x₁)) a *
         algebraMap (R.obj (op w₁)) (R'.obj (op x₁)) b := by
     intro a b
-    show CommRingCat.pushoutTensorLinearEquiv _ _ _ _ (R.map φ.op) α₂ α₁ (R'.map ψ.op) hpo
+    change CommRingCat.pushoutTensorLinearEquiv _ _ _ _ (R.map φ.op) α₂ α₁ (R'.map ψ.op) hpo
       (b ⊗ₜ a) = _
     rw [CommRingCat.pushoutTensorLinearEquiv_tmul]
     exact mul_comm _ _

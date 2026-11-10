@@ -62,8 +62,9 @@ All of the following live in the namespace `AlgebraicGeometry.ProperCoherenceFro
 assert their conclusions outright, and every statement below either carries the integral-ideal
 case as a hypothesis or is an equivalence between two unproved `Prop`s. The remaining obligation
 is exactly the integral-ideal case, and in the source it is where Chow's lemma
-([Stacks, Tag 0200], formalized as `AlgebraicGeometry.hasDenseChowModification`) meets the projective
-case ([Stacks, Tag 02O4], formalized as `AlgebraicGeometry.LocallyProjectiveCoherentImage`
+([Stacks, Tag 0200], formalized as `AlgebraicGeometry.hasDenseChowModification`) meets the
+projective case ([Stacks, Tag 02O4], formalized as
+`AlgebraicGeometry.LocallyProjectiveCoherentImage`
 `.isCoherent_rightDerived_of_isLocallyProjective`) and the relative-ample vanishing of
 [Stacks, Tag 02O1]; the last of these is available only granted
 `Stacks.AlgebraicGeometry.RelativeAmpleTwistVanishing.VanishingOverAffineBase`, which no

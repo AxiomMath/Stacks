@@ -182,8 +182,8 @@ public theorem pderiv_coordinate (k j : Fin T.r) :
   rw [T.pderiv_algebraMap]
   by_cases h : j = k
   · subst h
-    rw [MvPolynomial.pderiv_X_self, if_pos rfl, map_one]
-  · rw [MvPolynomial.pderiv_X_of_ne h, if_neg h, map_zero]
+    rw [MvPolynomial.pderiv_X_self, ite_eq_left rfl, map_one]
+  · rw [MvPolynomial.pderiv_X_of_ne h, ite_eq_right h, map_zero]
 
 end AffineSpaceCrystallineSetup
 

@@ -70,7 +70,7 @@ private lemma toPseudofunctor_comp_mapComp' {X₀ X₁ X₂ : C} (f : X₁ ⟶ X
   apply Iso.ext
   -- The two structure 2-morphisms of `G.op.toPseudofunctor` are `eqToHom`s of the locally discrete
   -- bicategory `LocallyDiscrete Dᵒᵖ`, where any two parallel 2-morphisms agree.
-  show F.map₂ (eqToHom h₁) ≫ F.map₂ (eqToHom h₂) ≫
+  change F.map₂ (eqToHom h₁) ≫ F.map₂ (eqToHom h₂) ≫
       (F.mapComp (G.map f).op.toLoc (G.map g).op.toLoc).hom =
     F.map₂ (eqToHom hB) ≫ (F.mapComp (G.map f).op.toLoc (G.map g).op.toLoc).hom
   rw [F.map₂_eqToHom, F.map₂_eqToHom, F.map₂_eqToHom, ← Category.assoc, eqToHom_trans]
@@ -89,7 +89,7 @@ private lemma toPseudofunctor_comp_pullHom
       Pseudofunctor.LocallyDiscreteOpToCat.pullHom (F := F) (M₁ := M₁) (M₂ := M₂) φ
         (G.map g) (G.map gf₁) (G.map gf₂)
         (by rw [← G.map_comp, h₁]) (by rw [← G.map_comp, h₂]) := by
-  show ((G.op.toPseudofunctor.comp F).mapComp' f₁.op.toLoc g.op.toLoc gf₁.op.toLoc
+  change ((G.op.toPseudofunctor.comp F).mapComp' f₁.op.toLoc g.op.toLoc gf₁.op.toLoc
         (by rw [← Quiver.Hom.comp_toLoc, ← op_comp, h₁])).hom.toNatTrans.app M₁ ≫
       (F.map (G.map g).op.toLoc).toFunctor.map φ ≫
       ((G.op.toPseudofunctor.comp F).mapComp' f₂.op.toLoc g.op.toLoc gf₂.op.toLoc
@@ -382,9 +382,9 @@ private noncomputable def rawProjection :
 
 /-- `rawProjection` is `Stacks.QCoh.projection`.
 
-(`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/Fibred.lean` carries a private functor of the
-same name and description for its own argument; the two files do not import one another's private
-declarations, and the one here is stated over `AlgebraicGeometry.QCohObject`.) -/
+(`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/Fibred.lean` carries a private functor of
+the same name and description for its own argument; the two files do not import one another's
+private declarations, and the one here is stated over `AlgebraicGeometry.QCohObject`.) -/
 private lemma rawProjection_eq_projection :
     rawProjection = projection (B := B) (S := S) (hS := hS) := by
   symm
@@ -438,7 +438,7 @@ private lemma ofModuleMap_id {U : AlgebraicGeometry.BigFppfOver B S hS} (M : mod
     ofModuleMap (𝟙 M) = 𝟙 (ofModule M) := by
   apply ofModule_hom_ext
   rw [rawHom_ofModuleMap]
-  show _ = Equiv.cast (catData.hom_type _ _) (𝟙 _)
+  change _ = Equiv.cast (catData.hom_type _ _) (𝟙 _)
   rw [catData.identity]
   exact Sigma.ext rfl (heq_of_eq (Category.id_comp _))
 
@@ -454,9 +454,9 @@ private lemma ofModuleMap_comp {U : AlgebraicGeometry.BigFppfOver B S hS}
     ofModuleMap (ψ ≫ φ) = ofModuleMap φ ≫ ofModuleMap ψ := by
   apply ofModule_hom_ext
   rw [rawHom_ofModuleMap]
-  show _ = Equiv.cast (catData.hom_type _ _) (_ ≫ _)
+  change _ = Equiv.cast (catData.hom_type _ _) (_ ≫ _)
   rw [catData.composition]
-  show _ = FMap.comp (rawHom _ _ (ofModuleMap φ).val) (rawHom _ _ (ofModuleMap ψ).val)
+  change _ = FMap.comp (rawHom _ _ (ofModuleMap φ).val) (rawHom _ _ (ofModuleMap ψ).val)
   rw [rawHom_ofModuleMap φ, rawHom_ofModuleMap ψ]
   refine Sigma.ext (Category.id_comp _).symm (heq_of_eq ?_)
   dsimp only [FMap.comp, FMap.id]
@@ -492,7 +492,7 @@ private lemma ofModuleMap_bijective {U : AlgebraicGeometry.BigFppfOver B S hS}
     apply ofModule_hom_ext
     rw [rawHom_ofModuleMap, he]
     congr 1
-    show (k ≫ (identityIso M).inv) ≫ (identityIso M).hom = k
+    change (k ≫ (identityIso M).inv) ≫ (identityIso M).hom = k
     simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id]
 
 /-- **Stacks 04U3** in the form needed here: the comparison of the opposite of the category of
@@ -556,13 +556,13 @@ private lemma moduleCartesianMap_isStronglyCartesian
     rw [AlgebraicGeometry.qcohHom_isStronglyCartesian_iff]
     have hm : AlgebraicGeometry.qcohHomEquivPullbackHom _ _ m =
         ⟨f, 𝟙 ((Scheme.Modules.pullback (schemeFunctor.map f)).obj M.obj)⟩ := by
-      show (Equiv.sigmaCongrRight (fun g : V ⟶ U =>
+      change (Equiv.sigmaCongrRight (fun g : V ⟶ U =>
         (Scheme.Modules.pullbackPushforwardAdjunction (schemeFunctor.map g)).homEquiv
           M.obj ((modulePullback f).obj M).obj |>.symm)
         (rawHom (ofModule ((modulePullback f).obj M)).val (ofModule M).val m)) = _
       dsimp only [m, moduleCartesianMap]
       rw [Equiv.apply_symm_apply]
-      show (⟨f, (Scheme.Modules.pullbackPushforwardAdjunction (schemeFunctor.map f)).homEquiv _ _
+      change (⟨f, (Scheme.Modules.pullbackPushforwardAdjunction (schemeFunctor.map f)).homEquiv _ _
         |>.symm
           ((Scheme.Modules.pullbackPushforwardAdjunction (schemeFunctor.map f)).unit.app M.obj)⟩ :
         Σ g : V ⟶ U, (Scheme.Modules.pullback (schemeFunctor.map g)).obj M.obj ⟶ _) = _

@@ -27,11 +27,11 @@ theorem ker_evalₐ {R : Type*} [CommRing R] (I : Ideal R) (hI : I.FG) (n : ℕ)
       (I.map (algebraMap R (AdicCompletion I R))) ^ n := by
   ext x
   have he : AdicCompletion.evalₐ I n x = 0 ↔ AdicCompletion.eval I R n x = 0 := by
-    show (Ideal.quotientEquivAlgOfEq R (show (I ^ n • ⊤ : Ideal R) = I ^ n by simp))
+    change (Ideal.quotientEquivAlgOfEq R (show (I ^ n • ⊤ : Ideal R) = I ^ n by simp))
       (AdicCompletion.eval I R n x) = 0 ↔ _
     exact map_eq_zero_iff _ (AlgEquiv.injective _)
   rw [RingHom.mem_ker]
-  show AdicCompletion.evalₐ I n x = 0 ↔ _
+  change AdicCompletion.evalₐ I n x = 0 ↔ _
   rw [he, ← LinearMap.mem_ker,
     ← AdicCompletion.pow_smul_top_eq_ker_eval hI, ← Ideal.map_pow,
     Ideal.smul_top_eq_map]

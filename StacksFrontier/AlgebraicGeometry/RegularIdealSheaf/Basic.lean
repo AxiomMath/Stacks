@@ -72,7 +72,7 @@ noncomputable def generatedIdealOn (X : RingedSpace.{u}) (U : Opens X) {r : ℕ}
 theorem mem_generatedIdealOn (X : RingedSpace.{u}) (U : Opens X) {r : ℕ}
     (f : Fin r → X.presheaf.obj (op U)) (i : Fin r) :
     f i ∈ (generatedIdealOn X U f).obj (op U) := by
-  show (show (structureSheafModule X).val.obj (op U) from f i) ∈
+  change (show (structureSheafModule X).val.obj (op U) from f i) ∈
     (generatedIdealOn X U f).toSubmodule.obj (op U)
   simp only [generatedIdealOn, SheafOfModules.Submodule.toSubmodule_sInf,
     PresheafOfModules.Submodule.sInf_obj]
@@ -239,7 +239,7 @@ theorem mem_of_germ_mem (I : (structureSheafModule X).Submodule)
     rw [← res_res (inf_le_left (a := V) (b := V₀)) hWW₀ s, hdW]
     refine Finset.sum_congr rfl fun i _ => ?_
     rw [map_mul, res_res, res_res]
-  show X.presheaf.map _ s ∈ _
+  change X.presheaf.map _ s ∈ _
   rw [hrel]
   exact Submodule.sum_mem _ fun i _ =>
     Submodule.smul_mem _ _ (I.toSubmodule.map_mem (homOfLE (le_trans hWW₀ hinfU)).op (hI i))

@@ -209,7 +209,8 @@ identification `i^*ℱ' ≅ ℱ`. This is the data whose existence is
 structure FlatLift (i : RingedToposHom X X') (f' : RingedToposHom X' S')
     (hi : FirstOrderThickening i)
     (F : SheafOfModules.{w}
-      (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O))) where
+      (Stacks.SheafOfModules.Tensor.ringSheaf
+        ((pushforwardCommRingFunctor i.toToposHom).obj X.O))) where
   /-- The lifted module, an `O'`-module. -/
   module' : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X'.O)
   /-- The map to `i_*ℱ` identifying `i^*ℱ'` with `ℱ`. -/
@@ -237,7 +238,8 @@ lifts is nonempty. -/
 theorem hasFlatLift_iff_nonempty_flatLift (i : RingedToposHom X X')
     (f' : RingedToposHom X' S') (hi : FirstOrderThickening i)
     (F : SheafOfModules.{w}
-      (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O))) :
+      (Stacks.SheafOfModules.Tensor.ringSheaf
+        ((pushforwardCommRingFunctor i.toToposHom).obj X.O))) :
     HasFlatLift i f' hi F ↔ Nonempty (FlatLift i f' hi F) := by
   constructor
   · rintro ⟨M, q, hq, hflat, hse⟩
@@ -258,7 +260,8 @@ def FlatLift.IsIsomorphic {i : RingedToposHom X X'} {f' : RingedToposHom X' S'}
 def flatLiftSetoid (i : RingedToposHom X X') (f' : RingedToposHom X' S')
     (hi : FirstOrderThickening i)
     (F : SheafOfModules.{w}
-      (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O))) :
+      (Stacks.SheafOfModules.Tensor.ringSheaf
+        ((pushforwardCommRingFunctor i.toToposHom).obj X.O))) :
     Setoid (FlatLift i f' hi F) where
   r := FlatLift.IsIsomorphic
   iseqv :=
@@ -271,7 +274,8 @@ def flatLiftSetoid (i : RingedToposHom X X') (f' : RingedToposHom X' S')
 abbrev FlatLiftClass (i : RingedToposHom X X') (f' : RingedToposHom X' S')
     (hi : FirstOrderThickening i)
     (F : SheafOfModules.{w}
-      (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O))) :
+      (Stacks.SheafOfModules.Tensor.ringSheaf
+        ((pushforwardCommRingFunctor i.toToposHom).obj X.O))) :
     Type _ :=
   Quotient (flatLiftSetoid i f' hi F)
 
@@ -363,7 +367,8 @@ variable [HasWeakSheafify X.J AddCommGrpCat.{w}]
 annihilated by itself, hence comes from the `O_ℬ`-module `t^*J`, and that module is pulled back
 along `f`. -/
 noncomputable def basePullbackIdeal (t : RingedToposHom S S') (f : RingedToposHom X S)
-    (ht : FirstOrderThickening t) : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) :=
+    (ht : FirstOrderThickening t) :
+    SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) :=
   (f.toRingedToposModulesHom.pullbackModules).obj
     ((t.toRingedToposModulesHom.pullbackModules).obj ht.idealOfThickening.I)
 

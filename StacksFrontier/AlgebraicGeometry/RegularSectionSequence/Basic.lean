@@ -82,8 +82,8 @@ three of its parts:
   (`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/PushforwardEssentialImageDirect/Criterion.lean`)
   — "an `𝒪'`-module is in the essential image exactly when the kernel ideal annihilates it",
   which is `hiso`'s content;
-* exactness
-  (`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/PushforwardEssentialImageDirect/Exactness.lean`).
+* exactness (
+  `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/PushforwardEssentialImageDirect/Exactness.lean`).
 
 So what is missing between `hiso` and a theorem is a **comparison**: a
 `CategoryTheory.ClosedRingedImmersion` built from a scheme-theoretic closed immersion — its

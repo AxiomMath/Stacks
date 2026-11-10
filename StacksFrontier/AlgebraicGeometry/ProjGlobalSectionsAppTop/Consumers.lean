@@ -107,7 +107,7 @@ theorem toBasicOpenOfGlobalSections_eq_of_projAwayHom (f₁ f₂ : A →+* Γ(X,
 theorem topIso_inv_resLE_appTop {Y Z : Scheme.{u}} (g : Y ⟶ Z) {U : Z.Opens} {V : Y.Opens}
     (e : V ≤ g ⁻¹ᵁ U) :
     U.topIso.inv ≫ (g.resLE U V e).appTop = g.appLE U V e ≫ V.topIso.inv := by
-  show U.topIso.inv ≫ (g.resLE U V e).app ⊤ = _
+  change U.topIso.inv ≫ (g.resLE U V e).app ⊤ = _
   rw [Scheme.Hom.resLE_app_top]
   exact Iso.inv_hom_id_assoc _ _
 

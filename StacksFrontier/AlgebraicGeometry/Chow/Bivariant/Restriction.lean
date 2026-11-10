@@ -1333,7 +1333,7 @@ theorem iteratedRestrictionIso_hom_comp {T : Scheme.{u}} (g : T ⟶ Y'') :
         (pullback.fst (pullback.snd f (h' ≫ h)) g ≫ (pullback.fst f (h' ≫ h) ≫ sX)) =
       pullback.fst (pullback.snd (pullback.snd f h) h') g ≫
         (pullback.fst (pullback.snd f h) h' ≫ (pullback.fst f h ≫ sX)) := by
-  simp [iteratedRestrictionIso, pullback.lift_fst_assoc]
+  simp [iteratedRestrictionIso]
 
 /-- **Stacks 0F9Z.** Restriction of a bivariant class is compatible with composition of base
 changes: if `c'` is the restriction of `c` along `h`, then the restriction of `c'` along `h'` caps
@@ -1365,7 +1365,7 @@ theorem bivariantRestrictionCap_comp (c : BivariantClass C G sX sY f hf p)
         (pullbackLeftPullbackSndIso (pullback.snd f h) h' g).inv)
       (iteratedRestrictionIso f h h' g).hom,
     ← chowPushforwardOfIso_congrHom_cap C G sX sY f hf p c (Category.assoc g h' h)
-      (by simp [pullback.lift_fst_assoc]) k α (by simp) (by simp),
+      (by simp) k α (by simp) (by simp),
     chowPushforwardOfIso_comp_apply C _ _ _
       (pullback.congrHom (rfl : f = f) (Category.assoc g h' h)).hom
       (pullbackLeftPullbackSndIso f (h' ≫ h) g).inv]

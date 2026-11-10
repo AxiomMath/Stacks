@@ -140,7 +140,7 @@ theorem ker_stalkMap_eq_maximalIdeal [IsIntegral W] (i : W ⟶ X) [IsClosedImmer
     rw [← maximalIdeal_eq_bot_at_genericPoint ξ hξ]
     exact IsLocalRing.maximalIdeal.isMaximal _
   refine IsLocalRing.eq_maximalIdeal ?_
-  show (Ideal.comap (i.stalkMap ξ).hom (⊥ : Ideal (W.presheaf.stalk ξ))).IsMaximal
+  change (Ideal.comap (i.stalkMap ξ).hom (⊥ : Ideal (W.presheaf.stalk ξ))).IsMaximal
   exact Ideal.comap_isMaximal_of_surjective _ hf (K := ⊥) (H := hbot)
 
 /-- **Every element of the maximal ideal at the image of a generic point is the germ of a section
@@ -320,9 +320,9 @@ theorem hasKilledIdealGenericIsoSub_of_hasGenericStalkIdealCoproductSub
   Tag01YGOnTag01YE.hasKilledIdealGenericIsoSub_of_hasKilledIdealGenericIsoSubIn
     (hasKilledIdealGenericIsoSubIn_of_hasGenericStalkIdealCoproductSub X h)
 
-/-- **The statement of Tag 01YG verbatim, with the conclusion of [Stacks, Tag 01YE] itself as its one
-added hypothesis** — no containment condition, no affine-local annihilation, nothing strengthened
-in any respect.
+/-- **The statement of Tag 01YG verbatim, with the conclusion of [Stacks, Tag 01YE] itself as its
+one added hypothesis** — no containment condition, no affine-local annihilation, nothing
+strengthened in any respect.
 
 `Stacks.AlgebraicGeometry.Tag01YGOnTag01YE.property_of_hasKilledIdealGenericIsoSub` had already
 reduced Tag 01YG to `HasKilledIdealGenericIsoSub`, which asks for 01YE's conclusion only at

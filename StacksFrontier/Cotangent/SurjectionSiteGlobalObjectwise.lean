@@ -177,7 +177,7 @@ private lemma evaluation_lift_commutes (U : Cᵒᵖ) :
           (ProjectiveResolution.of M)).π ≫
         (ChainComplex.single₀ (ModuleCat.{u} (O.obj U))).map
           ((PresheafOfModules.evaluation.{u} O U).map f) := by
-  show ((PresheafOfModules.evaluation.{u} O U).mapHomologicalComplex (ComplexShape.down ℕ)).map
+  change ((PresheafOfModules.evaluation.{u} O U).mapHomologicalComplex (ComplexShape.down ℕ)).map
         (ProjectiveResolution.lift f (ProjectiveResolution.of M) (ProjectiveResolution.of N)) ≫
         (((PresheafOfModules.evaluation.{u} O U).mapHomologicalComplex
             (ComplexShape.down ℕ)).map (ProjectiveResolution.of N).π ≫
@@ -262,7 +262,7 @@ theorem homologyMap_map_hom'_eq_zero_of_objectwise (j : ℕ) (P : Cᵒᵖ → Pr
     HomologicalComplex.homologyMap
       (((extendScalars a ⋙ PresheafOfModules.toPresheaf.{u} O').mapHomologicalComplex
         (ComplexShape.up ℤ)).map (homOfLift f).hom') (-(j : ℤ)) = 0 := by
-  show HomologicalComplex.homologyMap
+  change HomologicalComplex.homologyMap
     (((extendScalars a ⋙ PresheafOfModules.toPresheaf.{u} O').mapHomologicalComplex
       (ComplexShape.up ℤ)).map (HomologicalComplex.extendMap
         (ProjectiveResolution.lift f (ProjectiveResolution.of M) (ProjectiveResolution.of N))

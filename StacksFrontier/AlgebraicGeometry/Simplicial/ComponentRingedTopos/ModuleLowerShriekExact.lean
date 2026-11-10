@@ -106,9 +106,9 @@ two cases of Situation 09WE in
 That file also carries the reduction of Tag 0D74 and the Homology 015Z step at the formula, as
 `exactFunctor_componentModuleLowerShriek'` and `injective_componentModuleRestriction'`, and the
 statements here are those. The detection step, the transition pullback and the additivity of
-restriction are proved in
-`StacksFrontier/AlgebraicGeometry/Simplicial/ComponentRingedTopos/ModuleLowerShriekExactUnconditional.lean`,
-below the proof of the formula.
+restriction are proved in `ModuleLowerShriekExactUnconditional.lean`, in the same directory
+`StacksFrontier/AlgebraicGeometry/Simplicial/ComponentRingedTopos/` as this file, below the proof
+of the formula.
 
 ## References
 
@@ -139,7 +139,8 @@ variable (O : Sheaf S.totalTopology RingCat.{u}) (n : SimplexCategory)
 /-- A functor into sheaves of `O`-modules on the total site preserves finite limits as soon as
 its composite with restriction to each simplicial degree does: every object of the total category
 lies in a component, and the underlying-abelian-sheaf functor reflects finite limits. This is
-`CategoryTheory.SimplicialSiteSituation.preservesFiniteLimits_of_forall_componentModuleRestriction`. -/
+`CategoryTheory.SimplicialSiteSituation.preservesFiniteLimits_of_forall_componentModuleRestriction`.
+-/
 alias preservesFiniteLimits_of_componentModuleRestriction :=
   preservesFiniteLimits_of_forall_componentModuleRestriction
 
@@ -173,8 +174,10 @@ rings. -/
 theorem exactFunctor_transitionPullbackModules {n m : SimplexCategory} (φ : n ⟶ m)
     (hφ : (S.transitionRingedToposHom P φ).IsFlat) :
     exactFunctor
-      (SheafOfModules.{u} (S.componentRingSheaf ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) P) n))
-      (SheafOfModules.{u} (S.componentRingSheaf ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) P) m))
+      (SheafOfModules.{u} (S.componentRingSheaf
+        ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) P) n))
+      (SheafOfModules.{u} (S.componentRingSheaf
+        ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) P) m))
       (S.transitionPullbackModules P φ) :=
   pullbackModules_exact_of_isFlatMap (S.transitionRingedToposHom P φ) hφ
 
@@ -194,26 +197,32 @@ pullbacks, hence as their product, and each of those is left exact by Stacks 04J
 theorem exactFunctor_componentModuleLowerShriek
     (hflat : ∀ (m : SimplexCategory) (φ : n ⟶ m), (S.transitionRingedToposHom P φ).IsFlat) :
     exactFunctor
-      (SheafOfModules.{u} (S.componentRingSheaf ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) P) n))
+      (SheafOfModules.{u} (S.componentRingSheaf
+        ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) P) n))
       (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) P))
-      (S.componentModuleLowerShriek ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) P) n) :=
+      (S.componentModuleLowerShriek
+        ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) P) n) :=
   S.exactFunctor_componentModuleLowerShriek' P n hflat
 
 /-- Restriction of sheaves of modules to a simplicial component is additive: it reindexes
 components and restricts scalars along the identity, neither of which changes the underlying
 additive maps. -/
 local instance additive_componentModuleRestriction (m : SimplexCategory) :
-    (S.componentModuleRestriction ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) P) m).Additive :=
+    (S.componentModuleRestriction
+      ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) P) m).Additive :=
   S.additive_componentModuleRestriction_ringSheaf P m
 
 /-- Restriction `g_n^*` of sheaves of modules to the degree-`n` simplicial component preserves
 injective objects when every structure-sheaf transition `f_φ⁻¹O_n ⟶ O_m` out of degree `n` is
 flat: it is right adjoint to `g_{n!}`, which is exact by Stacks 0D74, and Homology 015Z applies.
-This is `CategoryTheory.SimplicialSiteSituation.preservesInjectiveObjects_componentModuleRestriction'`. -/
+This is
+`CategoryTheory.SimplicialSiteSituation.preservesInjectiveObjects_componentModuleRestriction'`.
+-/
 theorem preservesInjectiveObjects_componentModuleRestriction
     (hflat : ∀ (m : SimplexCategory) (φ : n ⟶ m), (S.transitionRingedToposHom P φ).IsFlat) :
     (S.componentModuleRestriction
-      ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) P) n).PreservesInjectiveObjects :=
+      ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) P)
+        n).PreservesInjectiveObjects :=
   S.preservesInjectiveObjects_componentModuleRestriction' P n hflat
 
 /-- **Stacks 0D75.** Let `O` be a sheaf of rings on the total site whose structure-sheaf
@@ -226,8 +235,10 @@ applies; the componentwise direct-sum formula of Tag 0D72 that Stacks 0D74 start
 @[stacks 0D75 "with the componentwise direct-sum formula of Tag 0D72 proved in either case of 09WE"]
 theorem injective_componentModuleRestriction
     (hflat : ∀ (m : SimplexCategory) (φ : n ⟶ m), (S.transitionRingedToposHom P φ).IsFlat)
-    (I : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) P)) [Injective I] :
-    Injective ((S.componentModuleRestriction ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) P) n).obj I) :=
+    (I : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) P))
+    [Injective I] :
+    Injective ((S.componentModuleRestriction
+      ((Stacks.SheafOfModules.Tensor.ringSheaf (J := S.totalTopology)) P) n).obj I) :=
   S.injective_componentModuleRestriction' P n hflat I
 
 end CategoryTheory.SimplicialSiteSituation

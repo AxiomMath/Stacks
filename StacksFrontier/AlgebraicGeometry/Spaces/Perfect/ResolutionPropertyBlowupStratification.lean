@@ -220,7 +220,7 @@ theorem IsResolutionBlowupStratified.prepend {X : AlgebraicSpaces B S hS}
   · cases i with
     | zero =>
       refine ⟨U, Y, f, ?_, hf, hres⟩
-      show Set.range (pointsMap B S hS U.1.toFunctor (U.1.ι ≫ D.ι)) =
+      change Set.range (pointsMap B S hS U.1.toFunctor (U.1.ι ≫ D.ι)) =
         subspacePointSet B S hS X.1 D \ subspacePointSet B S hS X.1 (Z 0)
       rw [hUpts, hZ₀pts]
     | succ j => exact hstep j (Nat.lt_of_succ_lt_succ hi)

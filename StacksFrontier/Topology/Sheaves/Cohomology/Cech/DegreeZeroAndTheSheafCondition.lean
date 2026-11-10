@@ -240,7 +240,7 @@ private lemma cech_d01 {ι : Type u} (F : TopCat.Presheaf AddCommGrpCat.{u} X) (
         (CategoryTheory.Limits.FormalCoproduct.mk _ U).cech).obj F).δ 0 -
       ((CategoryTheory.Limits.FormalCoproduct.cosimplicialObjectFunctor
         (CategoryTheory.Limits.FormalCoproduct.mk _ U).cech).obj F).δ 1 := by
-  show AlgebraicTopology.AlternatingCofaceMapComplex.objD
+  change AlgebraicTopology.AlternatingCofaceMapComplex.objD
     ((CategoryTheory.Limits.FormalCoproduct.cosimplicialObjectFunctor
       (CategoryTheory.Limits.FormalCoproduct.mk _ U).cech).obj F) 0 = _
   simp [AlgebraicTopology.AlternatingCofaceMapComplex.objD, Fin.sum_univ_two]

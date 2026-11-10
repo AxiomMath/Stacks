@@ -288,7 +288,7 @@ private theorem exists_opens_factorization_of_isOpenImmersion {X Y Z W : Scheme.
   have hRangeVG : Set.range (V.ι ≫ g) ⊆ Set.range i := by
     rintro z ⟨v, rfl⟩
     refine ⟨i.isoOpensRange.inv ⟨g v.1, hVU v.2⟩, ?_⟩
-    show i (i.isoOpensRange.inv ⟨g v.1, hVU v.2⟩) = O.ι ⟨g v.1, hVU v.2⟩
+    change i (i.isoOpensRange.inv ⟨g v.1, hVU v.2⟩) = O.ι ⟨g v.1, hVU v.2⟩
     exact congrArg (fun q => q ⟨g v.1, hVU v.2⟩) i.isoOpensRange_inv_comp
   let gV : V.toScheme ⟶ W := IsOpenImmersion.lift i (V.ι ≫ g) hRangeVG
   have hgfac : V.ι ≫ g = gV ≫ i := (IsOpenImmersion.lift_fac i (V.ι ≫ g) hRangeVG).symm

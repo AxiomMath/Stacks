@@ -214,7 +214,7 @@ private theorem faithfullyFlat_quotientMap {R R' : Type u} [CommRing R] [IsDomai
     exact (mul_eq_zero.mp hab).imp_left fun h ↦
       FaithfulSMul.algebraMap_injective R R' (by simpa using h)
   have : Module.FaithfullyFlat R R' := Module.FaithfullyFlat.of_flat_of_isLocalHom
-  show RingHom.FaithfullyFlat (algebraMap (R ⧸ J) (R' ⧸ J.map (algebraMap R R')))
+  change RingHom.FaithfullyFlat (algebraMap (R ⧸ J) (R' ⧸ J.map (algebraMap R R')))
   exact RingHom.faithfullyFlat_algebraMap_iff.mpr <|
     Module.FaithfullyFlat.of_linearEquiv (R ⧸ J) ((R ⧸ J) ⊗[R] R')
       (Algebra.TensorProduct.quotIdealMapEquivQuotTensor R' J).toLinearEquiv
@@ -271,7 +271,7 @@ theorem isRigSurjective_of_factorsAdicCompleteDvrPoints {X Y : FppfSheaf B S hS}
           refine RingHom.ext fun z ↦ ?_
           obtain ⟨z, rfl⟩ := Ideal.Quotient.mk_surjective z
           simp [Ideal.quotientMap_mk]
-        show Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1 (RingHom.id R) h)) ≫
+        change Spec.map (CommRingCat.ofHom (Ideal.quotientMap K.1 (RingHom.id R) h)) ≫
           D.overS J = D.overS K
         rw [hq]
         exact D.compatible J K hJK }
@@ -326,7 +326,7 @@ theorem factorsAdicCompleteDvrPoints_of_isRigSurjective {X Y : FppfSheaf B S hS}
         (Ideal.quotientMap (K J).1 e.toRingHom (hIdeal J)) := by
       rw [hqmap]; exact faithfullyFlat_quotientMap J.1
     obtain ⟨_, _⟩ := (flat_and_surjective_SpecMap_iff q).2 hff
-    show Presieve.singleton (Spec.map q) ∈ Scheme.fpqcPrecoverage (Spec (.of (R ⧸ J.1)))
+    change Presieve.singleton (Spec.map q) ∈ Scheme.fpqcPrecoverage (Spec (.of (R ⧸ J.1)))
     exact (Spec.map q).singleton_mem_fpqcPrecoverage
   let Jsite := BigFppfOver.topology B S hS
   let yStage : ∀ J : JIndex, (Sheaf.sheafifiedYoneda Jsite).obj (U J) ⟶ Y := fun J ↦
@@ -363,7 +363,7 @@ theorem factorsAdicCompleteDvrPoints_of_isRigSurjective {X Y : FppfSheaf B S hS}
             let J : JIndex := OrderDual.ofDual j
             let L : JIndex := OrderDual.ofDual k
             have hLJ : L.1 ≤ J.1 := leOfHom h
-            show (BigAffineFppf.inclusion B S hS ⋙ Sheaf.sheafifiedYoneda Jsite).map
+            change (BigAffineFppf.inclusion B S hS ⋙ Sheaf.sheafifiedYoneda Jsite).map
               (D.transition hLJ) ≫ xMap L = xMap J
             apply (cancel_mono f).1
             rw [Category.assoc, hmapFactor L, hmapFactor J]

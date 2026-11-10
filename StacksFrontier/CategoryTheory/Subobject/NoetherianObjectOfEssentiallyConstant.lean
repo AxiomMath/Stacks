@@ -75,7 +75,7 @@ public theorem mono_monoOverColimitMap [HasFilteredColimitsOfSize.{0, 0} C]
   exact colim.map_mono' α (colimit.isColimit G) (isColimitConstCocone ℕ X)
     (monoOverColimitMap F) (by
       intro n
-      show colimit.ι G n ≫ colimit.desc G (monoOverCocone F) = (F.obj n).arrow ≫ 𝟙 X
+      change colimit.ι G n ≫ colimit.desc G (monoOverCocone F) = (F.obj n).arrow ≫ 𝟙 X
       rw [colimit.ι_desc]
       simp [monoOverCocone])
 

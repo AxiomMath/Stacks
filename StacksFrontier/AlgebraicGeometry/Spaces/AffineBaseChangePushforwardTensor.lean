@@ -89,8 +89,7 @@ private theorem tensorProduct_addMonoidHom_ext {R M N P : Type*} [CommSemiring R
     [AddCommMonoid M] [AddCommMonoid N] [AddCommMonoid P] [Module R M] [Module R N]
     {f g : M ⊗[R] N →+ P} (h : ∀ x y, f (x ⊗ₜ[R] y) = g (x ⊗ₜ[R] y)) (z : M ⊗[R] N) :
     f z = g z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul x y => exact h x y
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -243,11 +242,7 @@ theorem sectionsTensorToPushforwardPullbackApp_naturality {U₁ U₂ : SmallEtal
             g.op).hom z) =
       ((modulePullback B S hS pr).obj F).val.map ((smallBaseChange B S hS pr hrep).map g).op
         (sectionsTensorToPushforwardPullbackApp B S hS p q pr' sq hrep F U₂ z) := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-    rw [map_zero, map_zero, map_zero]
-    exact (((modulePullback B S hS pr).obj F).val.map
-      ((smallBaseChange B S hS pr hrep).map g).op).hom.map_zero.symm
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy =>
     rw [map_add, map_add, hx, hy, map_add]
     exact (((modulePullback B S hS pr).obj F).val.map
@@ -377,8 +372,7 @@ theorem rid_lTensor_toSpanSingleton {R : Type*} [CommRing R] (M : Type*) [AddCom
     [Module R M] (a : R) (z : M ⊗[R] R) :
     TensorProduct.rid R M (LinearMap.lTensor M (LinearMap.toSpanSingleton R R a) z) =
       a • TensorProduct.rid R M z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero, smul_zero]
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy, smul_add]
   | tmul x b =>
     simp only [LinearMap.lTensor_tmul, LinearMap.toSpanSingleton_apply, TensorProduct.rid_tmul,

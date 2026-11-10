@@ -168,7 +168,7 @@ public theorem toStalkA_a :
   have hcomp := DFunLike.congr_fun (ch.stalkCompR_stalkMap_f y)
     ((ch.stalkCompRIso y).inv.hom (specGermRingHom ch.R (Spec.map ch.a (Spec.map ch.c y)) r))
   simp only [RingHom.comp_apply] at hgerm hcomp
-  show (ch.stalkCompAIso y).hom.hom ((ch.stalkCompAIso y).inv.hom
+  change (ch.stalkCompAIso y).hom.hom ((ch.stalkCompAIso y).inv.hom
       (specGermRingHom ch.A (Spec.map ch.c y) (ch.a.hom r))) =
     (ch.stalkCompAIso y).hom.hom ((f.stalkMap (g' (ch.incU' y))).hom
       ((ch.stalkCompRIso y).inv.hom
@@ -191,7 +191,7 @@ public theorem toStalkA'_c (h₁ : ∀ x, ε' ((ch.incU'.stalkMap y).hom x) = x)
   have hcomp := DFunLike.congr_fun (ch.stalkCompA_stalkMap_g' y)
     ((ch.stalkCompAIso y).inv.hom (specGermRingHom ch.A (Spec.map ch.c y) a))
   simp only [RingHom.comp_apply] at hgerm hcomp
-  show (ch.incU'.stalkMap y).hom ((g'.stalkMap (ch.incU' y)).hom
+  change (ch.incU'.stalkMap y).hom ((g'.stalkMap (ch.incU' y)).hom
       ((ch.stalkCompAIso y).inv.hom (specGermRingHom ch.A (Spec.map ch.c y) a))) =
     (ch.incU'.stalkMap y).hom (ε' (specGermRingHom ch.A' y (ch.c.hom a)))
   refine Eq.trans hcomp ?_
@@ -212,7 +212,7 @@ public theorem toStalkA'_d (h₁ : ∀ x, ε' ((ch.incU'.stalkMap y).hom x) = x)
   have hcomp := DFunLike.congr_fun (ch.stalkCompR'_stalkMap_f' y)
     ((ch.stalkCompR'Iso y).inv.hom (specGermRingHom ch.R' (Spec.map ch.d y) r))
   simp only [RingHom.comp_apply] at hgerm hcomp
-  show (ch.incU'.stalkMap y).hom (ε' (specGermRingHom ch.A' y (ch.d.hom r))) =
+  change (ch.incU'.stalkMap y).hom (ε' (specGermRingHom ch.A' y (ch.d.hom r))) =
     (ch.incU'.stalkMap y).hom ((f'.stalkMap (ch.incU' y)).hom
       ((ch.stalkCompR'Iso y).inv.hom (specGermRingHom ch.R' (Spec.map ch.d y) r)))
   refine Eq.trans (h₂ (specGermRingHom ch.A' y (ch.d.hom r))) ?_
@@ -237,7 +237,7 @@ public theorem toStalkR'_b (w : g' ≫ f = f' ≫ g) :
     ((ch.stalkCompRIso y).inv.hom
       (specGermRingHom ch.R (Spec.map ch.a (Spec.map ch.c y)) r))
   simp only [RingHom.comp_apply] at hgerm hcongr hcomp
-  show (ch.stalkCompR'Iso y).hom.hom ((baseStalkMap f g f' g' w (ch.incU' y))
+  change (ch.stalkCompR'Iso y).hom.hom ((baseStalkMap f g f' g' w (ch.incU' y))
       ((ch.stalkCompRIso y).inv.hom
         (specGermRingHom ch.R (Spec.map ch.a (Spec.map ch.c y)) r))) =
     (ch.stalkCompR'Iso y).hom.hom ((ch.stalkCompR'Iso y).inv.hom

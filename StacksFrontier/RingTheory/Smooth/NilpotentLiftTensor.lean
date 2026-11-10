@@ -115,7 +115,7 @@ theorem isSmoothAt_tensor_quotient_span (hJ : J ≤ nilradical B')
   let JT : Ideal (M ⊗[B'] C) := J.map (algebraMap B' (M ⊗[B'] C))
   let tT : B' →+* M ⊗[B'] C := (Algebra.TensorProduct.includeRight.toRingHom).comp t
   have hJl : JM.map inclL = JT := by
-    show Ideal.map inclL.toRingHom (Ideal.map (algebraMap B' M) J) =
+    change Ideal.map inclL.toRingHom (Ideal.map (algebraMap B' M) J) =
       Ideal.map (algebraMap B' (M ⊗[B'] C)) J
     rw [Ideal.map_map]
     congr 1
@@ -132,13 +132,13 @@ theorem isSmoothAt_tensor_quotient_span (hJ : J ≤ nilradical B')
       show RingHom.ker (Ideal.Quotient.mkₐ B' JM) = JM from Ideal.Quotient.mkₐ_ker B' JM, hJl, hJt]
   have hkerX : RingHom.ker mkX = JM ⊔ F' := by
     have hJS : JS = JM.map mk₁ := by
-      show Ideal.map (algebraMap B' (M ⧸ F')) J =
+      change Ideal.map (algebraMap B' (M ⧸ F')) J =
         Ideal.map mk₁.toRingHom (Ideal.map (algebraMap B' M) J)
       rw [Ideal.map_map]
       congr 1
-    show RingHom.ker ((Ideal.Quotient.mk JS).comp (Ideal.Quotient.mk F')) = _
+    change RingHom.ker ((Ideal.Quotient.mk JS).comp (Ideal.Quotient.mk F')) = _
     rw [← RingHom.comap_ker, Ideal.mk_ker, hJS]
-    show Ideal.comap (Ideal.Quotient.mk F') (JM.map (Ideal.Quotient.mk F')) = _
+    change Ideal.comap (Ideal.Quotient.mk F') (JM.map (Ideal.Quotient.mk F')) = _
     rw [Ideal.comap_map_of_surjective _ Ideal.Quotient.mk_surjective, ← RingHom.ker_eq_comap_bot,
       Ideal.mk_ker]
   have hker₂ : RingHom.ker Θ₂ = J.map tT ⊔ Ideal.span (Set.range f) := by
@@ -189,14 +189,14 @@ theorem isSmoothAt_tensor_quotient_span (hJ : J ≤ nilradical B')
     obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective x
     apply e₂.injective
     rw [RingEquiv.apply_symm_apply]
-    show _ = e₂ (Ideal.Quotient.mk _ (Ideal.Quotient.mk _ (tT b)))
+    change _ = e₂ (Ideal.Quotient.mk _ (Ideal.Quotient.mk _ (tT b)))
     rw [he₂]
     rfl
   let φ : Q →+* (M ⊗[B'] C) ⧸ J.map (algebraMap B' (M ⊗[B'] C)) := ψ.comp φ₀
   have hφ : φ.Flat := RingHom.Flat.comp hφ₀ hψflat
   have hf₀' : ∀ i, φ (f₀ i) = Ideal.Quotient.mk _ (f i) := by
     intro i
-    show ψ (φ₀ (f₀ i)) = _
+    change ψ (φ₀ (f₀ i)) = _
     rw [hf₀]
     rfl
   let 𝔷' : Ideal ((M ⊗[B'] C) ⧸ Ideal.span (Set.range f)) := 𝔷.comap (e₁ : _ →+* _)
@@ -207,10 +207,10 @@ theorem isSmoothAt_tensor_quotient_span (hJ : J ≤ nilradical B')
     obtain ⟨m, hm, hma⟩ := (Ideal.mem_map_iff_of_surjective _ Ideal.Quotient.mk_surjective).1
       (hq₀ ha)
     rw [Ideal.mem_comap]
-    show ψ (φ₀ a) ∈ _
+    change ψ (φ₀ a) ∈ _
     rw [← hma]
     refine Ideal.mem_map_of_mem _ ?_
-    show e₁ (Ideal.Quotient.mk _ (inclL m)) ∈ 𝔷
+    change e₁ (Ideal.Quotient.mk _ (inclL m)) ∈ 𝔷
     rw [he₁]
     exact hm
   have hsm := Algebra.isSmoothAt_quotient_span_of_reduction J hJ f φ hφ f₀ hf₀' q₀ hrel 𝔷' hq₀'
@@ -222,7 +222,7 @@ theorem isSmoothAt_tensor_quotient_span (hJ : J ≤ nilradical B')
   have H : Submonoid.map E₁ 𝔷'.primeCompl = 𝔷.primeCompl := by
     ext x
     refine ⟨by rintro ⟨y, hy, rfl⟩; exact hy, fun hx => ⟨E₁.symm x, ?_, by simp⟩⟩
-    show E₁ (E₁.symm x) ∉ 𝔷
+    change E₁ (E₁.symm x) ∉ 𝔷
     simpa using hx
   exact FormallySmooth.of_equiv (IsLocalization.algEquivOfAlgEquiv
     (Localization.AtPrime 𝔷') (Localization.AtPrime 𝔷) (h := E₁) H)

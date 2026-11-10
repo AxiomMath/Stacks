@@ -78,8 +78,8 @@ theorems — that equation, by
 `StacksFrontier/AlgebraicGeometry/DeRham/Gysin/GysinExcisionAbelianAgreement.lean`, and the
 chart-local naturality of the class map of [Stacks, Tag 0G7Q], by
 `Stacks.Gysin.chartFractionCommutesWithDeRham` of
-`StacksFrontier/AlgebraicGeometry/DeRham/Gysin/GysinChartFractionDeRham.lean` — and the tag itself is
-registered on `Stacks.Gysin.gysinHom_comm_deRham_of_conormalRank` of
+`StacksFrontier/AlgebraicGeometry/DeRham/Gysin/GysinChartFractionDeRham.lean` — and the tag itself
+is registered on `Stacks.Gysin.gysinHom_comm_deRham_of_conormalRank` of
 `StacksFrontier/AlgebraicGeometry/DeRham/Gysin/GysinDeRhamConormalRank.lean`.
 
 ## References

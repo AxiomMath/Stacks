@@ -86,7 +86,7 @@ theorem exists_ringEquiv_tensorProduct_of_ker_eq_map {R S C T : Type*} [CommRing
   let ePsi : C ⧸ I.map (algebraMap R C) ≃+* T :=
     (Ideal.quotEquivOfEq hker'.symm).trans (RingHom.quotientKerEquivOfSurjective hψ)
   have hePsi_mk (c : C) : ePsi (Ideal.Quotient.mk (I.map (algebraMap R C)) c) = ψ c := by
-    show (RingHom.quotientKerEquivOfSurjective hψ)
+    change (RingHom.quotientKerEquivOfSurjective hψ)
         ((Ideal.quotEquivOfEq hker'.symm) (Ideal.Quotient.mk (I.map (algebraMap R C)) c)) = ψ c
     rw [Ideal.quotEquivOfEq_mk hker'.symm, RingHom.quotientKerEquivOfSurjective_apply_mk]
     rfl
@@ -101,12 +101,12 @@ theorem exists_ringEquiv_tensorProduct_of_ker_eq_map {R S C T : Type*} [CommRing
       Ideal.Quotient.mk (I.map (algebraMap R C)) (algebraMap R C r) := by
     apply eQuot.toRingEquiv.injective
     rw [RingEquiv.apply_symm_apply]
-    show (Ideal.Quotient.mk I r ⊗ₜ[R] (1 : C)) =
+    change (Ideal.Quotient.mk I r ⊗ₜ[R] (1 : C)) =
       eQuot (Ideal.Quotient.mk (I.map (algebraMap R C)) (algebraMap R C r))
     rw [Algebra.TensorProduct.quotIdealMapEquivQuotTensor_mk]
     simpa only [Ideal.Quotient.algebraMap_eq] using
       (Algebra.TensorProduct.tmul_one_eq_one_tmul (R := R) (A := R ⧸ I) (B := C) r)
-  show (eTen.toRingEquiv.trans (eQuot.toRingEquiv.symm.trans ePsi))
+  change (eTen.toRingEquiv.trans (eQuot.toRingEquiv.symm.trans ePsi))
       ((Algebra.TensorProduct.includeLeft : S →ₐ[R] S ⊗[R] C) (algebraMap R S r)) =
     algebraMap S T (algebraMap R S r)
   rw [RingEquiv.trans_apply, ht, RingEquiv.trans_apply, hquot, hePsi_mk, AlgHom.commutes]

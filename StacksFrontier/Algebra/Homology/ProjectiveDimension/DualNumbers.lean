@@ -78,7 +78,7 @@ private abbrev epsMul (k : Type u) [Field k] :
 private lemma ofHom_epsMul_comp (k : Type u) [Field k] :
     ModuleCat.ofHom (epsMul k) ≫ ModuleCat.ofHom (epsMul k) = 0 := by
   apply ModuleCat.hom_ext
-  show (epsMul k).comp (epsMul k) = 0
+  change (epsMul k).comp (epsMul k) = 0
   apply LinearMap.ext
   intro x
   apply TrivSqZeroExt.ext <;>
@@ -234,19 +234,19 @@ private noncomputable def periodicShortComplex (k : Type u) [Field k] :
 private lemma periodicShortComplex_shortExact (k : Type u) [Field k] :
     (periodicShortComplex k).ShortExact := by
   apply ModuleCat.shortComplex_shortExact
-  · show Function.Exact (residueToDual k)
+  · change Function.Exact (residueToDual k)
       (Ideal.span {(DualNumber.eps : DualNumber k)}).mkQ
     rw [LinearMap.exact_iff, Submodule.ker_mkQ, residueToDual,
       Submodule.range_liftQ, LinearMap.range_toSpanSingleton]
-  · show Function.Injective (residueToDual k)
+  · change Function.Injective (residueToDual k)
     intro x y h
     obtain ⟨r, rfl⟩ := Submodule.Quotient.mk_surjective _ x
     obtain ⟨s, rfl⟩ := Submodule.Quotient.mk_surjective _ y
     simp only [residueToDual_mk] at h
-    show Submodule.Quotient.mk r = Submodule.Quotient.mk s
+    change Submodule.Quotient.mk r = Submodule.Quotient.mk s
     rw [Submodule.Quotient.eq, ← mul_eps_eq_zero_iff k]
     simpa [sub_mul] using sub_eq_zero.mpr h
-  · show Function.Surjective
+  · change Function.Surjective
       (Ideal.span {(DualNumber.eps : DualNumber k)}).mkQ
     exact Submodule.Quotient.mk_surjective _
 

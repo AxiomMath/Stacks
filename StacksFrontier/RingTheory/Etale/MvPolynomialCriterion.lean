@@ -211,7 +211,7 @@ private theorem formallySmooth_iff_forall_isSmoothAt {k A : Type*} [CommRing k] 
   rw [← Algebra.smoothLocus_eq_univ_iff]
   constructor
   · intro h m _
-    show (⟨m, ‹m.IsMaximal›.isPrime⟩ : PrimeSpectrum A) ∈ Algebra.smoothLocus k A
+    change (⟨m, ‹m.IsMaximal›.isPrime⟩ : PrimeSpectrum A) ∈ Algebra.smoothLocus k A
     rw [h]
     trivial
   · intro h
@@ -345,10 +345,10 @@ public theorem solution
     (aeval a : MvPolynomial (Fin n) k →ₐ[k] A).toRingHom.toAlgebra
   have : IsScalarTower k (MvPolynomial (Fin n) k) A := by
     refine IsScalarTower.of_algebraMap_eq fun c => ?_
-    show _ = (aeval a : MvPolynomial (Fin n) k →ₐ[k] A) _
+    change _ = (aeval a : MvPolynomial (Fin n) k →ₐ[k] A) _
     simp
   refine etale_iff_height_eq_and_span_eq_top k A a fun i => ?_
-  show (aeval a : MvPolynomial (Fin n) k →ₐ[k] A) (X i) = a i
+  change (aeval a : MvPolynomial (Fin n) k →ₐ[k] A) (X i) = a i
   simp
 
 end Stacks.Etale.PolynomialRingCriterion

@@ -138,7 +138,7 @@ theorem smallEtaleBaseChangeAb_eq_etaleAbelianBaseChange_zero :
       ((etaleAbelianDirectImageCompIso'.{u, 0} e g (e ≫ g) rfl).hom ≫
         (etaleAbelianDirectImageCompIso'.{u, 0} h f' (e ≫ g) w.symm).inv))
   refine (smallEtaleBaseChangeAb_eq_mateEquiv_symm_pushforwardCompIso f' g h e w (e ≫ g) rfl
-    w.symm).trans ((congrArg TwoSquare.natTrans hmate).trans ?_)
+    w.symm).trans (hmate.trans ?_)
   refine (Category.assoc _ _ _).trans ?_
   refine Eq.trans ?_ (congrArg
     (fun t => Functor.whiskerLeft (etaleAbelianDirectImage.{u, 0} g)

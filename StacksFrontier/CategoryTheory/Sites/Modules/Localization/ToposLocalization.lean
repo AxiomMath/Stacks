@@ -196,7 +196,7 @@ inverse image of `O` with its restriction to the site of elements. -/
 theorem localization_fSharp_inverseImage :
     (localizationMorphism X F).fSharpInverseImage =
       (localizationInverseImageCommRingIso X F).hom := by
-  show ((commRingImageAdjunction (localizationToposMorphism X F)).homEquiv _ _).symm
+  change ((commRingImageAdjunction (localizationToposMorphism X F)).homEquiv _ _).symm
       ((commRingImageAdjunction (localizationToposMorphism X F)).homEquiv _ _
         (localizationInverseImageCommRingIso X F).hom) = _
   rw [Equiv.symm_apply_apply]

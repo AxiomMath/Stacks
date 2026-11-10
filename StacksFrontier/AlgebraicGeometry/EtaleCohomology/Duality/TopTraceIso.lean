@@ -4,8 +4,7 @@ public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Duality.TopTraceB
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.ProperBaseChangeTheoremUnconditional
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.BaseChangeShortExact
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.UnboundedDerivedFunctor.SingleObject
-public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.BaseChangeGeometricPointReduction
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.BaseChangeGeometricPointReduction
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.BaseChangeHigher.IntegralSurjectiveCover
 
 /-!

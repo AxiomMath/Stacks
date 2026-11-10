@@ -114,7 +114,7 @@ theorem eq_zero_of_map_le_top_eq_zero_of_isIntegral (s : Γ(L, ⊤)) {U : X.Open
       (genericPoint_mem (V.1 ⊓ U : X.Opens)), Scheme.Modules.map_map_le_top L s hWV, hW,
       map_zero]
   rw [map_zero]
-  show (L.presheaf.germ ⊤ x hx) s = 0
+  change (L.presheaf.germ ⊤ x hx) s = 0
   rw [← L.presheaf.germ_res_apply (homOfLE (show V.1 ≤ ⊤ from le_top)) x hxV,
     eq_zero_of_germ_genericPoint_eq_zero L V e hgerm, map_zero]
 
@@ -173,12 +173,12 @@ theorem isEffectiveCartierDivisor_zeroScheme_of_ne_zero (s : Γ(L, ⊤)) (hs : s
   let t : L.sections := L.val.sectionsMk
     (fun U => L.val.map (homOfLE (show U.unop ≤ ⊤ from le_top)).op s) (by
       intro U V f
-      show L.presheaf.map f (L.presheaf.map (homOfLE le_top).op s) =
+      change L.presheaf.map f (L.presheaf.map (homOfLE le_top).op s) =
         L.presheaf.map (homOfLE le_top).op s
       rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
       rfl)
   have heval : t.eval (op ⊤) = s := by
-    show L.presheaf.map (𝟙 (op ⊤)) s = s
+    change L.presheaf.map (𝟙 (op ⊤)) s = s
     simp
   exact heval ▸ (isEffectiveCartierDivisor_zeroScheme_iff_isRegularSection X L t).mpr
     (isRegularSection_of_eval_top_ne_zero L t (by rwa [heval]))

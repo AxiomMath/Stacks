@@ -48,7 +48,7 @@ omit [Fact (Nat.Prime p)] [Algebra (IntegersAtPrime p) A] in
 /-- **Two algebra maps out of `B̂₁` into a `p`-adic completion agreeing on `B₁` are equal.** -/
 theorem completedAlgHom_ext {φ ψ : B̂₁ →ₐ[A] B̂₂}
     (h : ∀ b, φ (AdicCompletion.of _ B₁ b) = ψ (AdicCompletion.of _ B₁ b)) : φ = ψ :=
-  AlgHom.coe_ringHom_injective (completedRingHom_ext p (φ := φ.toRingHom) (ψ := ψ.toRingHom) h)
+  AlgHom.toRingHom_injective (completedRingHom_ext p (φ := φ.toRingHom) (ψ := ψ.toRingHom) h)
 
 /-- **A divided power `A`-algebra map `B₁ → B̂₂` extends to `B̂₁`.** -/
 theorem exists_completedDPAlgHom (f : B₁ →ₐ[A] B̂₂)
@@ -67,7 +67,7 @@ theorem exists_completedDPAlgHom (f : B₁ →ₐ[A] B̂₂)
     have := congrArg (fun r : B₁ →+* B̂₂ ↦ r b) hg
     simpa [AdicCompletion.algebraMap_apply] using this
   refine ⟨{ g.toRingHom with commutes' := fun c ↦ ?_ }, g.isDPMorphism, hgof⟩
-  show g (algebraMap A B̂₁ c) = algebraMap A B̂₂ c
+  change g (algebraMap A B̂₁ c) = algebraMap A B̂₂ c
   rw [AdicCompletion.algebraMap_apply, hgof, f.commutes]
 
 /-- **The completion of a divided power `A`-algebra map `B₁ → B₂`**, as a divided power

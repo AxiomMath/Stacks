@@ -62,6 +62,7 @@ attribute [local instance] pointTopology
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is heavy
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_ExcisionPushforwardGluing :
@@ -82,7 +83,7 @@ variable
   {Q : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (κ : Q ⟶ pullback f f)
   (hQ : IsAlgebraicSpace B S hS Q)
 
-include hV hW hf hsep hT hcompl in
+include hT hcompl in
 /-- On the complementary piece of the fibre square the composite to `V` lands in the locus over
 which `h` is invertible. -/
 theorem range_offDiagPreimage_snd_le :
@@ -94,7 +95,7 @@ theorem range_offDiagPreimage_snd_le :
     simp only [Category.assoc]
     rw [pullback.condition]
   rw [hc]
-  exact (range_offDiagPreimage_le_openComplement B S hS f hV hW hf hsep κ T hT).trans hcompl
+  exact (range_offDiagPreimage_le_openComplement B S hS f κ T hT).trans hcompl
 
 /-- The two projections of the fibre square of a monomorphism agree. -/
 private theorem fst_eq_snd_of_mono {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (p : F ⟶ G)
@@ -114,7 +115,7 @@ theorem excisionGlue_ext (m₁ m₂ : Q ⟶ Y)
   · simpa only [diagPair_false] using hdiag
   · simp only [diagPair_true]
     refine lift_unique_of_range_le B S hS h (W₀.preimage f) hiso _
-      (range_offDiagPreimage_snd_le B S hS f hV hW T W₀ hT hcompl hf hsep κ) ?_ ?_
+      (range_offDiagPreimage_snd_le B S hS f T W₀ hT hcompl κ) ?_ ?_
     · simp only [Category.assoc, hm₁]
     · simp only [Category.assoc, hm₂]
 
@@ -128,7 +129,7 @@ theorem excisionGlue_exists
   classical
   obtain ⟨bC, hbC⟩ := (existsUnique_lift_of_range_le B S hS h (W₀.preimage f) hiso
     (((offDiagOpen B S hS f).preimage κ).ι ≫ κ ≫ pullback.snd f f)
-    (range_offDiagPreimage_snd_le B S hS f hV hW T W₀ hT hcompl hf hsep κ)).exists
+    (range_offDiagPreimage_snd_le B S hS f T W₀ hT hcompl κ)).exists
   set g : ∀ b : Bool, ((diagPair B S hS f b).preimage κ).toFunctor ⟶ Y :=
     fun b => Bool.rec bE bC b with hg
   have hcov := isFppfCovering_diagPair_preimage B S hS f hV hW hf hsep κ hQ
@@ -138,7 +139,7 @@ theorem excisionGlue_exists
       ((diagPair B S hS f true).preimage κ).ι ≫ κ ≫ pullback.snd f f := hbC
   have hrangeC : Subfunctor.range
       (((diagPair B S hS f true).preimage κ).ι ≫ κ ≫ pullback.snd f f) ≤ W₀.preimage f :=
-    range_offDiagPreimage_snd_le B S hS f hV hW T W₀ hT hcompl hf hsep κ
+    range_offDiagPreimage_snd_le B S hS f T W₀ hT hcompl κ
   have mixed : ∀ {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
       (a : X ⟶ ((diagPair B S hS f false).preimage κ).toFunctor)
       (c : X ⟶ ((diagPair B S hS f true).preimage κ).toFunctor),

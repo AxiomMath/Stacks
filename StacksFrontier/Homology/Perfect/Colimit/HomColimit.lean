@@ -166,8 +166,7 @@ private lemma tensorUliftEquiv_natural {A : Type uR} [CommRing A]
       (((ModuleCat.uliftFunctor.{uI} A).map f).hom.rTensor
         ((ModuleCat.uliftFunctor.{uI} A).obj T) z) =
       f.hom.rTensor T (tensorUliftEquiv M T z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul a b => rfl
   | add a b ha hb => simp only [map_add, ha, hb]
 
@@ -341,7 +340,7 @@ private lemma homotopyAdj_symm_map
 private theorem scalarExtend_additive {A B : Type uR} [CommRing A] [CommRing B]
     (f : A →+* B) : (ModuleCat.extendScalars.{uR, uR, uR} f).Additive :=
   CategoryTheory.rightExactFunctor_le_additiveFunctor _ _ _ (by
-    show PreservesFiniteColimits (ModuleCat.extendScalars.{uR, uR, uR} f)
+    change PreservesFiniteColimits (ModuleCat.extendScalars.{uR, uR, uR} f)
     infer_instance)
 attribute [local instance] scalarExtend_additive
 
@@ -389,7 +388,7 @@ private lemma scalarAdjoint_one_tmul {A : CommRingCat.{uR}}
     (scalarAdjoint P L B x).f q ((1 : B) ⊗ₜ p) = (x.f q).hom p := by
   dsimp only [scalarAdjoint]
   rw [Adjunction.homEquiv_symm_apply]
-  show (((ModuleCat.extendScalars B.hom.hom).map
+  change (((ModuleCat.extendScalars B.hom.hom).map
     ((x ≫ (scalarExtensionRestrictionIso L B).hom).f q) ≫
       (ModuleCat.extendRestrictScalarsAdj B.hom.hom).counit.app _).hom
       ((1 : B) ⊗ₜ p)) = _
@@ -426,20 +425,15 @@ private lemma scalarTower_transfer {A : CommRingCat.{uR}}
   let : Algebra A B.right := B.hom.hom.toAlgebra
   let : Algebra B.right C.right := w.right.hom.toAlgebra
   let : Algebra A C.right := C.hom.hom.toAlgebra
-  induction x using TensorProduct.induction_on with
-  | zero =>
-    show (((scalarTower B.hom.hom w.right.hom
-      (congrArg CommRingCat.Hom.hom w.w)).hom.app L).f q).hom
-      ((((scalarExtensionDiagram L).map w).f q).hom 0) = _
-    simp only [map_zero, TensorProduct.tmul_zero]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, TensorProduct.tmul_add, hx, hy]
   | tmul b l =>
     have ht : ((scalarExtensionDiagram L).map w).f q (b ⊗ₜ l) =
         w.right.hom b • ((1 : C.right) ⊗ₜ[↑A,C.hom.hom] l) := by
-      show w.right.hom b ⊗ₜ[↑A] l = _
+      change w.right.hom b ⊗ₜ[↑A] l = _
       rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
     rw [ht, map_smul, scalarTower_one_tmul]
-    show w.right.hom b • ((1 : C.right) ⊗ₜ[B.right,w.right.hom]
+    change w.right.hom b • ((1 : C.right) ⊗ₜ[B.right,w.right.hom]
       ((1 : B.right) ⊗ₜ[↑A,B.hom.hom] l)) = _
     rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
     have he := (TensorProduct.tmul_smul (R := B.right) (show B.right from b) (1 : C.right)
@@ -466,7 +460,7 @@ private lemma scalarAdjoint_naturality {A : CommRingCat.{uR}}
   simp only [HomologicalComplex.comp_f, ModuleCat.comp_apply]
   erw [scalarTower_one_tmul B.hom.hom w.right.hom
     (congrArg CommRingCat.Hom.hom w.w) P q p]
-  show (ModuleCat.extendScalars w.right.hom).map ((scalarAdjoint P L B x).f q)
+  change (ModuleCat.extendScalars w.right.hom).map ((scalarAdjoint P L B x).f q)
       ((1 : C.right) ⊗ₜ[B.right,w.right.hom] ((1 : B.right) ⊗ₜ p)) = _
   erw [ModuleCat.ExtendScalars.map_tmul, scalarAdjoint_one_tmul,
     scalarAdjoint_one_tmul]
@@ -492,7 +486,7 @@ private lemma projectiveQHomEquiv_map {A : Type uR} [CommRing A]
     [P.IsStrictlyLE b] [∀ q, Module.Projective A (P.X q)] (x : P ⟶ L) :
     projectiveQHomEquiv P L b ((HomotopyCategory.quotient _ _).map x) =
       DerivedCategory.Q.map x := by
-  show (DerivedCategory.quotientCompQhIso (ModuleCat.{uR} A)).inv.app P ≫
+  change (DerivedCategory.quotientCompQhIso (ModuleCat.{uR} A)).inv.app P ≫
     DerivedCategory.Qh.map ((HomotopyCategory.quotient _ _).map x) ≫
       (DerivedCategory.quotientCompQhIso (ModuleCat.{uR} A)).hom.app L = _
   rw [DerivedCategory.quotientCompQhIso_hom_naturality, Iso.inv_hom_id_app_assoc]
@@ -539,7 +533,7 @@ private lemma derivedScalarHomEquiv_map {A : CommRingCat.{uR}} (E : DerivedExten
   have : IsIso (D.comparison.app L) := hE B.hom.hom L hL
   simp only [derivedScalarHomEquiv, Equiv.trans_apply, homotopyScalarEquiv_map,
     projectiveQHomEquiv_map]
-  show (D.comparison.app P ≫ DerivedCategory.Q.map (scalarAdjoint P L B x) ≫
+  change (D.comparison.app P ≫ DerivedCategory.Q.map (scalarAdjoint P L B x) ≫
     inv (D.comparison.app L)) ≫ D.comparison.app L = _
   simp only [Category.assoc, IsIso.inv_hom_id, Category.comp_id]
   rfl

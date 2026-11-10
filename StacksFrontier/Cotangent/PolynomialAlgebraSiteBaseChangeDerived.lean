@@ -77,8 +77,8 @@ the cotangent complex of `B'` read over `B`, is already a morphism
 is not the identity — it is `B ⊗_B -` — which is why the one comparison below is needed.
 
 **The degreewise statement is not reproved from this.** It could be: cohomology of the two sides
-of an isomorphism in `D(B)` agrees. But the degreewise isomorphism already in the library is built from
-the two resolutions directly and does not go through Tag 08QQ, so the two statements rest on
+of an isomorphism in `D(B)` agrees. But the degreewise isomorphism already in the library is built
+from the two resolutions directly and does not go through Tag 08QQ, so the two statements rest on
 different parts of the library and are left side by side.
 
 ## References

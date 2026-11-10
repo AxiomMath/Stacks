@@ -187,7 +187,7 @@ private theorem puncturedClosedFibreScalars_self (A : Type u) [CommRing A] [IsLo
   have h2 : (closedImmersion A f).appTop ((Scheme.ΓSpecIso (CommRingCat.of A)).inv f) = 0 := by
     rw [← closedFibreScalars_eq A f f,
       Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_span_singleton_self f), map_zero]
-  show (puncturedClosedFibre A f).ι.appTop
+  change (puncturedClosedFibre A f).ι.appTop
       ((closedImmersion A f).appTop ((Scheme.ΓSpecIso (CommRingCat.of A)).inv f)) = 0
   rw [h2, map_zero]
 
@@ -274,7 +274,7 @@ public theorem ker_globalSectionsMap (A : Type u) [CommRing A] [IsLocalRing A]
       obtain ⟨s, hs⟩ := (bijective_pullbackGlobalSections_of_isIso_unit
         (Stacks.Divisors.puncturedSpectrum A).ι P.F').surjective (P.alpha'.inv.app ⊤ y)
       refine ⟨s, ?_⟩
-      show P.alpha'.hom.app ⊤
+      change P.alpha'.hom.app ⊤
         (pullbackGlobalSections (Stacks.Divisors.puncturedSpectrum A).ι P.F' s) = y
       rw [hs]
       exact AlgebraicGeometry.SectionsEqualizer.moduleIso_hom_inv_app P.alpha' y
@@ -321,7 +321,7 @@ public theorem ker_globalSectionsMap (A : Type u) [CommRing A] [IsLocalRing A]
     intro x hx
     refine (Submodule.Quotient.mk_eq_zero _).mp (hbar ?_)
     rw [map_zero]
-    show E (ρ x) = 0
+    change E (ρ x) = 0
     rw [LinearMap.mem_ker.mp hx, map_zero]
   -- the comparison of the two routes on global sections
   have hkey : ∀ s : ((moduleSpecΓFunctor (R := CommRingCat.of A)).obj P.F' : Type u),
@@ -350,7 +350,7 @@ public theorem ker_globalSectionsMap (A : Type u) [CommRing A] [IsLocalRing A]
     have h4 := Submodule.mem_map_of_mem (f := Φ.toLinearMap) h3
     rwa [Submodule.map_pointwise_smul, Submodule.map_top, LinearEquiv.range] at h4
   · refine smul_top_le_ker_of_smul_eq_zero f _ fun y => ?_
-    show puncturedClosedFibreScalars A f f • globalSectionsMap A f T y = 0
+    change puncturedClosedFibreScalars A f f • globalSectionsMap A f T y = 0
     rw [puncturedClosedFibreScalars_self, zero_smul]
 
 end Stacks.Algebraization

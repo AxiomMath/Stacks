@@ -51,17 +51,17 @@ the germ. -/
 public theorem germ_finiteLevelStalkTransition {Z : B.Scheme} [IsNoetherian Z.obj]
     (F : LAdicSheaf B Z ℓ) (s : GeometricPoint Z.obj) (n : ℕ)
     (V : (geometricPointFiber B Z.obj Z.property s).Elements) :
-    colimit.ι ((CategoryOfElements.π (geometricPointFiber B Z.obj Z.property s)).op ⋙
+    colimit.ι ((Functor.Elements.π (geometricPointFiber B Z.obj Z.property s)).op ⋙
         (F.level (n + 1)).obj) (op V) ≫ finiteLevelStalkTransition B Z ℓ F s n =
       (F.transition n).hom.app (op V.1) ≫ (ModuleCat.restrictScalars (finiteLevelRingHom ℓ n)).map
-        (colimit.ι ((CategoryOfElements.π (geometricPointFiber B Z.obj Z.property s)).op ⋙
+        (colimit.ι ((Functor.Elements.π (geometricPointFiber B Z.obj Z.property s)).op ⋙
           (F.level n).obj) (op V)) := by
-  have h1 := ι_colimMap_assoc ((CategoryOfElements.π (geometricPointFiber B Z.obj Z.property
+  have h1 := ι_colimMap_assoc ((Functor.Elements.π (geometricPointFiber B Z.obj Z.property
     s)).op.whiskerLeft (F.transition n).hom) (op V)
     (preservesColimitIso (ModuleCat.restrictScalars (finiteLevelRingHom ℓ n))
-      ((CategoryOfElements.π (geometricPointFiber B Z.obj Z.property s)).op ⋙ (F.level n).obj)).inv
+      ((Functor.Elements.π (geometricPointFiber B Z.obj Z.property s)).op ⋙ (F.level n).obj)).inv
   have h2 := ι_preservesColimitIso_inv (ModuleCat.restrictScalars (finiteLevelRingHom ℓ n))
-    ((CategoryOfElements.π (geometricPointFiber B Z.obj Z.property s)).op ⋙ (F.level n).obj) (op V)
+    ((Functor.Elements.π (geometricPointFiber B Z.obj Z.property s)).op ⋙ (F.level n).obj) (op V)
   exact h1.trans (congrArg (fun g => (F.transition n).hom.app (op V.1) ≫ g) h2)
 
 /-- **The finite-level stalks of `f⁻¹F` at `x̄` are those of `F` at `f(x̄)`** (Tag 03Q1). -/
@@ -78,11 +78,11 @@ public def inverseImageFiniteLevelStalkIso (F : LAdicSheaf B Y ℓ) (x : Geometr
 public theorem germ_inverseImageFiniteLevelStalkIso_inv (F : LAdicSheaf B Y ℓ)
     (x : GeometricPoint X.obj) (n : ℕ)
     (V : (geometricPointFiber B Y.obj Y.property (x.map (B.inclusion.map f))).Elements) :
-    colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y.obj Y.property
+    colimit.ι ((Functor.Elements.π (geometricPointFiber B Y.obj Y.property
         (x.map (B.inclusion.map f)))).op ⋙ (F.level n).obj) (op V) ≫
         (inverseImageFiniteLevelStalkIso B f F x n).inv =
       ((LAdicSheaf.levelAdjunction f n).unit.app (F.level n)).hom.app (op V.1) ≫
-        colimit.ι ((CategoryOfElements.π (geometricPointFiber B X.obj X.property x)).op ⋙
+        colimit.ι ((Functor.Elements.π (geometricPointFiber B X.obj X.property x)).op ⋙
           ((LAdicSheaf.levelPullback f n).obj (F.level n)).obj)
           (op (Functor.elementsMk _ ((smallEtaleBaseChange B f).obj V.1)
             (geometricPointFiberBaseChangeEquiv B f x V.1 V.2))) := by

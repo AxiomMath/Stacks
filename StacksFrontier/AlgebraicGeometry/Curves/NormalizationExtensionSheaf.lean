@@ -314,7 +314,7 @@ public theorem existsUnique_extend_normalization_of_hasAtWorstNodalSingularities
     obtain ⟨V, hVU, hqV⟩ := exists_affineOpen_le_mem_preimage hfin hq
     have hle := normalization_preimage_le hfin hVU
     refine ⟨Scheme.normalization X hfin ⁻¹ᵁ (V : X.Opens), hle, hqV, ?_⟩
-    show ((Scheme.normalizationScheme X hfin).presheaf.map (homOfLE hle).op).hom
+    change ((Scheme.normalizationScheme X hfin).presheaf.map (homOfLE hle).op).hom
           (D₁.onSections (((Scheme.normalization X hfin).app U).hom s))
         = ((Scheme.normalizationScheme X hfin).presheaf.map (homOfLE hle).op).hom
           (((Scheme.normalization X hfin).app U).hom (D.onSections s))

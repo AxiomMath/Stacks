@@ -64,7 +64,7 @@ private lemma finite_residueField_of_finite_over_field
   let : Algebra k (Z.residueField z) :=
     ((Scheme.ΓSpecIso (.of k)).inv ≫ p.appTop ≫ Z.Γevaluation z).hom.toAlgebra
   let : Algebra.FiniteType k (Z.residueField z) := by
-    show RingHom.FiniteType (algebraMap k (Z.residueField z))
+    change RingHom.FiniteType (algebraMap k (Z.residueField z))
     convert hcomp using 1
     simp only [RingHom.algebraMap_toAlgebra]
     rw [← Scheme.Γevaluation_naturality]

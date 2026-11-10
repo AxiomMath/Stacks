@@ -126,14 +126,14 @@ public theorem relativelyRepresentable_diagonal
         dsimp [liftHom, t]
         rw [pullback.lift_snd]
         simp
-      show qW.app X (liftHom s z) = s.fst z
+      change qW.app X (liftHom s z) = s.fst z
       rw [hq₁]
-      show α.app X (liftHom s z ≫ t) = s.fst z
+      change α.app X (liftHom s z ≫ t) = s.fst z
       rw [ht]
       exact (point _ (pullback.diagonal_fst a) s z).symm
     · intro s
       refine ConcreteCategory.hom_ext (lift s ≫ c.snd) s.snd fun z => ?_
-      show liftHom s z ≫ t = s.snd z
+      change liftHom s z ≫ t = s.snd z
       dsimp [liftHom, t]
       rw [pullback.lift_snd]
       simp
@@ -147,13 +147,13 @@ public theorem relativelyRepresentable_diagonal
           mX ≫ pullback.fst d p = (mX ≫ t) ≫ e₁ := by simpa [v] using hv
           _ = s.snd z ≫ e₁ := by rw [hz]
           _ = liftHom s z ≫ pullback.fst d p := by
-            simp [liftHom, pullback.lift_fst]
-      · show mX ≫ pullback.snd d p = liftHom s z ≫ pullback.snd d p
+            simp [liftHom]
+      · change mX ≫ pullback.snd d p = liftHom s z ≫ pullback.snd d p
         calc
           mX ≫ pullback.snd d p = s.snd z := by simpa [t] using hz
           _ = liftHom s z ≫ pullback.snd d p := by
             symm
-            simp [liftHom, pullback.lift_snd]
+            simp [liftHom]
   exact Functor.IsRepresentable.mk'
     (hsq.isoIsPullback F (yoneda.obj U) (IsPullback.of_hasPullback (pullback.diagonal a) η) ≪≫
       pullbackSymmetry (pullback.diagonal a) η)

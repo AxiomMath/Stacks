@@ -56,7 +56,7 @@ theorem inertia_apply_eq_of_isIntegral {k K L A : Type*} [Field k] [Finite k] [F
   let z' : integralClosure A L := ⟨z, hzA⟩
   let v : integralClosure A L := σ • z' - z'
   have hv : (v : L) = σ z - z := by
-    show algebraMap (integralClosure A L) L
+    change algebraMap (integralClosure A L) L
       (galRestrict A K L (integralClosure A L) σ z' - z') = _
     rw [map_sub, algebraMap_galRestrict_apply]
     rfl
@@ -96,7 +96,7 @@ theorem spec_comp_eq_of_forall_isIntegral {k K L : Type u} [Field k] [Field K] [
     infer_instance
   let ψ : CommRingCat.of k ⟶ Γ(Y.left, ⊤) := (Scheme.ΓSpecIso (.of k)).inv ≫ Y.hom.appTop
   have hψ : ψ.hom.Finite := by
-    show (Y.hom.appTop.hom.comp (Scheme.ΓSpecIso (.of k)).inv.hom).Finite
+    change (Y.hom.appTop.hom.comp (Scheme.ΓSpecIso (.of k)).inv.hom).Finite
     exact hfin.comp (RingHom.Finite.of_surjective _
       (Scheme.ΓSpecIso (.of k)).symm.commRingCatIsoToRingEquiv.surjective)
   -- the composite `k → Γ(Y) → Γ(Spec L) ≅ L` is the structure map
@@ -105,7 +105,7 @@ theorem spec_comp_eq_of_forall_isIntegral {k K L : Type u} [Field k] [Field K] [
       CommRingCat.ofHom (algebraMap K L))).appTop := by
     rw [Spec.map_comp, ← hg, Scheme.Hom.comp_appTop]
   have hθ : ψ ≫ θ = CommRingCat.ofHom (algebraMap k L) := by
-    show (Scheme.ΓSpecIso (.of k)).inv ≫ Y.hom.appTop ≫ g.appTop ≫
+    change (Scheme.ΓSpecIso (.of k)).inv ≫ Y.hom.appTop ≫ g.appTop ≫
       (Scheme.ΓSpecIso (.of L)).hom = _
     rw [← Category.assoc Y.hom.appTop g.appTop, h1, Scheme.ΓSpecIso_naturality,
       Iso.inv_hom_id_assoc]
@@ -115,10 +115,10 @@ theorem spec_comp_eq_of_forall_isIntegral {k K L : Type u} [Field k] [Field K] [
   rw [Scheme.Hom.comp_appTop]
   ext b
   apply (Scheme.ΓSpecIso (.of L)).commRingCatIsoToRingEquiv.injective
-  show ((Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom)).appTop ≫
+  change ((Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom)).appTop ≫
     (Scheme.ΓSpecIso (.of L)).hom).hom (g.appTop.hom b) = θ.hom b
   rw [Scheme.ΓSpecIso_naturality]
-  show σ (θ.hom b) = θ.hom b
+  change σ (θ.hom b) = θ.hom b
   apply hσ
   obtain ⟨q, hq, hq0⟩ := hψ.to_isIntegral b
   refine ⟨q, hq, ?_⟩

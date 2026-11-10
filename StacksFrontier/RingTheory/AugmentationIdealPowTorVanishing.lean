@@ -144,7 +144,7 @@ private lemma tor_map_eq_zero_iff (R : Type w) [CommRing R] (M N N' : ModuleCat.
           ((NatTrans.mapHomologicalComplex ((tensoringRight (ModuleCat.{w} R)).map f)
             (ComplexShape.down ℕ)).app Q.complex) ≫
         (Q.isoLeftDerivedObj ((tensoringRight (ModuleCat.{w} R)).obj N') i).inv := by
-    show (NatTrans.leftDerived ((tensoringRight (ModuleCat.{w} R)).map f) i).app M = _
+    change (NatTrans.leftDerived ((tensoringRight (ModuleCat.{w} R)).map f) i).app M = _
     exact ProjectiveResolution.leftDerived_app_eq _ Q i
   rw [hflip, key]
   refine ⟨eq_zero_of_isoConj _ _ _, fun h => ?_⟩
@@ -168,7 +168,7 @@ private lemma homologyMap_restrictScalars_eq_zero (ε : R ≃+* S)
       ((HomologicalComplex.shortComplexFunctor (ModuleCat.{w} S)
         (ComplexShape.down ℕ) i).map ψ) = 0 := h
   rw [hz, F.map_zero, comp_zero] at key
-  show ShortComplex.homologyMap (F.mapShortComplex.map
+  change ShortComplex.homologyMap (F.mapShortComplex.map
     ((HomologicalComplex.shortComplexFunctor (ModuleCat.{w} S)
       (ComplexShape.down ℕ) i).map ψ)) = 0
   rw [← cancel_mono ((((HomologicalComplex.shortComplexFunctor (ModuleCat.{w} S)
@@ -221,7 +221,7 @@ private lemma tor_map_restrictScalars_eq_zero (ε : R ≃+* S) (M N N' : ModuleC
   have : IsIso ((HomologicalComplex.homologyFunctor (ModuleCat.{w} R)
       (ComplexShape.down ℕ) i).map (restrictTensorComplexIso ε Q.complex N').hom) :=
     inferInstance
-  show (HomologicalComplex.homologyFunctor (ModuleCat.{w} R) (ComplexShape.down ℕ) i).map
+  change (HomologicalComplex.homologyFunctor (ModuleCat.{w} R) (ComplexShape.down ℕ) i).map
       ((NatTrans.mapHomologicalComplex
           ((tensoringRight (ModuleCat.{w} R)).map
             ((ModuleCat.restrictScalars ε.toRingHom).map f)) (ComplexShape.down ℕ)).app
@@ -279,10 +279,10 @@ private lemma eval₂Hom_translate (g : σ → B) (p : MvPolynomial σ B) :
       eval₂Hom (RingHom.id B) (0 : σ → B) := by
     apply ringHom_ext
     · intro a
-      show eval₂Hom (RingHom.id B) g (translate g (C a)) = _
+      change eval₂Hom (RingHom.id B) g (translate g (C a)) = _
       simp [translate_apply]
     · intro s
-      show eval₂Hom (RingHom.id B) g (translate g (X s)) = _
+      change eval₂Hom (RingHom.id B) g (translate g (X s)) = _
       simp
   exact DFunLike.congr_fun h p
 
@@ -375,12 +375,12 @@ theorem tor_map_augmentationIdeal_pow_succ_eq_zero
     (ModuleCat.restrictScalars (translateRingEquiv g).toRingHom).obj M
   have hmem : ∀ (m : ℕ) (x : MvPolynomial σ B), x ∈ I₀ ^ m → translate g x ∈ Kg ^ m := by
     intro m x hx
-    show translate g x ∈ RingHom.ker (eval₂Hom (RingHom.id B) g) ^ m
+    change translate g x ∈ RingHom.ker (eval₂Hom (RingHom.id B) g) ^ m
     rw [← map_translate_span_range_X_pow g m]
     exact Ideal.mem_map_of_mem _ hx
   have hmem' : ∀ (m : ℕ) (y : MvPolynomial σ B), y ∈ Kg ^ m → (translate g).symm y ∈ I₀ ^ m := by
     intro m y hy
-    show (translate g).symm y ∈ Ideal.span (Set.range (X : σ → MvPolynomial σ B)) ^ m
+    change (translate g).symm y ∈ Ideal.span (Set.range (X : σ → MvPolynomial σ B)) ^ m
     rw [← map_translate_symm_ker_pow g m]
     exact Ideal.mem_map_of_mem _ hy
   have hM₀ : ∀ r ∈ I₀, ∀ m : M₀, r • m = 0 := by
@@ -404,28 +404,28 @@ theorem tor_map_augmentationIdeal_pow_succ_eq_zero
     { hom := ModuleCat.homEquiv.symm
         { toFun := fun x => ⟨translate g x.val, hmem m x.val x.2⟩
           map_add' := fun x y => Subtype.ext (by
-            show translate g (x.val + y.val) = translate g x.val + translate g y.val
+            change translate g (x.val + y.val) = translate g x.val + translate g y.val
             exact map_add _ _ _)
           map_smul' := fun t x => Subtype.ext (by
-            show translate g ((translate g).symm t * x.val) = t * translate g x.val
+            change translate g ((translate g).symm t * x.val) = t * translate g x.val
             rw [map_mul, AlgEquiv.apply_symm_apply]) }
       inv := ModuleCat.homEquiv.symm
         { toFun := fun y => ⟨(translate g).symm y.val, hmem' m y.val y.2⟩
           map_add' := fun x y => Subtype.ext (by
-            show (translate g).symm (x.val + y.val)
+            change (translate g).symm (x.val + y.val)
               = (translate g).symm x.val + (translate g).symm y.val
             exact map_add _ _ _)
           map_smul' := fun t y => Subtype.ext (by
-            show (translate g).symm (t * y.val)
+            change (translate g).symm (t * y.val)
               = (translate g).symm t * (translate g).symm y.val
             exact map_mul _ _ _) }
       hom_inv_id := by
         refine ModuleCat.hom_ext (LinearMap.ext fun x => Subtype.ext ?_)
-        show (translate g).symm (translate g x.val) = x.val
+        change (translate g).symm (translate g x.val) = x.val
         rw [AlgEquiv.symm_apply_apply]
       inv_hom_id := by
         refine ModuleCat.hom_ext (LinearMap.ext fun y => Subtype.ext ?_)
-        show translate g ((translate g).symm y.val) = y.val
+        change translate g ((translate g).symm y.val) = y.val
         rw [AlgEquiv.apply_symm_apply] }
   let isoM : F.obj M₀ ≅ M :=
     ((ModuleCat.restrictScalarsEquivalenceOfRingEquiv
@@ -436,7 +436,7 @@ theorem tor_map_augmentationIdeal_pow_succ_eq_zero
         (Ideal.pow_le_pow_right (Nat.le_succ n) : Kg ^ (n + 1) ≤ Kg ^ n)) := by
     refine ModuleCat.hom_ext (LinearMap.ext fun y => ?_)
     refine Subtype.ext ?_
-    show translate g ((translate g).symm y.val) = y.val
+    change translate g ((translate g).symm y.val) = y.val
     simp
   have hiso := StacksDraft.AugmentationTor.tor_map_eq_zero_of_iso (MvPolynomial σ B) isoM
     (isoK (n + 1)).symm (isoK n) (F.map (ModuleCat.ofHom (Submodule.inclusion

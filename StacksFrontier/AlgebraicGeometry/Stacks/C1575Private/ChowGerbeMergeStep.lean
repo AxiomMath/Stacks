@@ -73,7 +73,7 @@ theorem isIso_fromPreimage_of_isAdmissibleBlowup {X X' : AlgebraicSpaces B S hS}
   have hle : U.1 ≤ (Space.openComplementOfClosedSubspace B S hS X Z).1 := by
     refine Space.le_of_range_pointsMap_ι_subset B S hS
       (Space.openComplementOfClosedSubspace B S hS X Z).2 ?_
-    show Space.subspacePointSet B S hS X.1 U.1 ⊆
+    change Space.subspacePointSet B S hS X.1 U.1 ⊆
       Space.subspacePointSet B S hS X.1 (Space.openComplementOfClosedSubspace B S hS X Z).1
     rw [Space.subspacePointSet_openComplement]
     exact hdisj.subset_compl_right
@@ -316,11 +316,11 @@ theorem MergeData.nonempty_merge (hf : IsSeparated B S hS f) {n : ℕ}
     refine (BigFppfOver.topology B S hS).superset_covering (fun V g hg => ?_) hz'
     have hg' : D.Y'.1.map g.op (b.hom.app T z) ∈
         (⨆ k : Fin (n + 1 + 1), (D.Wi k).1).obj (op V) := hg
-    show Y''.1.map g.op z ∈ (⨆ k : Fin (n + 1), (_ : Subfunctor Y''.1)).obj (op V)
+    change Y''.1.map g.op z ∈ (⨆ k : Fin (n + 1), (_ : Subfunctor Y''.1)).obj (op V)
     rw [Subfunctor.iSup_obj, Set.mem_iUnion] at hg' ⊢
     obtain ⟨⟨k, hk⟩, hk'⟩ := hg'
     have hk'' : Y''.1.map g.op z ∈ (A k).obj (op V) := by
-      show b.hom.app (op V) (Y''.1.map g.op z) ∈ (D.Wi k).1.obj (op V)
+      change b.hom.app (op V) (Y''.1.map g.op z) ∈ (D.Wi k).1.obj (op V)
       rw [NatTrans.naturality_apply]
       exact hk'
     rcases k with _ | _ | k

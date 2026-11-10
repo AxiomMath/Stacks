@@ -23,7 +23,8 @@ theorem span_range_eq_top {R S M N : Type*} [CommRing R] [CommRing S] [Algebra R
     [IsScalarTower R S N] {f : M →ₗ[R] N} (hf : IsBaseChange S f) :
     Submodule.span S (Set.range f) = ⊤ :=
   eq_top_iff.2 fun n _ =>
-    hf.inductionOn (motive := (· ∈ Submodule.span S (Set.range f))) n (fun m => Submodule.subset_span ⟨m, rfl⟩)
+    hf.inductionOn (motive := (· ∈ Submodule.span S (Set.range f))) n
+      (fun m => Submodule.subset_span ⟨m, rfl⟩)
       (fun s _ hn => Submodule.smul_mem _ s hn) (fun _ _ => Submodule.add_mem _)
 
 end IsBaseChange

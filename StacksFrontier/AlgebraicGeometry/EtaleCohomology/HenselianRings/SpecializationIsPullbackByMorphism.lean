@@ -117,7 +117,7 @@ public theorem natTrans_comp_eq_exactDerivedDesc
   refine Functor.rightDerived_ext F.mapDerivedCategory F.mapDerivedCategoryFactorsh.inv
     (HomotopyCategory.quasiIso A₁ (ComplexShape.up ℤ)) _ _ _
     (NatTrans.ext (funext fun J => ?_))
-  show F.mapDerivedCategoryFactorsh.inv.app J ≫
+  change F.mapDerivedCategoryFactorsh.inv.app J ≫
       (σD ≫ exactDerivedDesc F' G H RH η τ).app (DerivedCategory.Qh.obj J) =
     F.mapDerivedCategoryFactorsh.inv.app J ≫
       (exactDerivedDesc F G H RH η (σ ≫ τ)).app (DerivedCategory.Qh.obj J)

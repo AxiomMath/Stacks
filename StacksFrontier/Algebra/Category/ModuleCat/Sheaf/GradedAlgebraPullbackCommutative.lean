@@ -90,11 +90,9 @@ public lemma baseChange₂_comm {R : Type*} [CommRing R] {S : Type*} [CommRing S
     {M P : Type*} [AddCommGroup M] [Module R M] [AddCommGroup P] [Module R P]
     (b : M →ₗ[R] M →ₗ[R] P) (hb : ∀ m n : M, b m n = b n m) (x y : S ⊗[R] M) :
     baseChange₂ (S := S) b x y = baseChange₂ (S := S) b y x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a m =>
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul c n => rw [baseChange₂_tmul, baseChange₂_tmul, mul_comm, hb]
     | add y₁ y₂ h₁ h₂ =>
       rw [map_add (baseChange₂ (S := S) b) y₁ y₂, LinearMap.add_apply, ← h₁, ← h₂,
@@ -208,7 +206,7 @@ public theorem transportMulApp_comm (i : ℤ)
     (X : Cᵒᵖ) (x y : (transportSections J Φ X).obj (pieceSheaf A i)) :
     transportMulApp J Φ A i i X x y = transportMulApp J Φ A i i X y x := by
   have hm := mulSheafHom_comm A i hc
-  show (transportSections J Φ X).map (mulSheafHom A i i) (Functor.prodObjMk x y) =
+  change (transportSections J Φ X).map (mulSheafHom A i i) (Functor.prodObjMk x y) =
     (transportSections J Φ X).map (mulSheafHom A i i) (Functor.prodObjMk y x)
   conv_lhs => rw [← hm]
   rw [Functor.map_comp_apply, Functor.map_lift_apply, Functor.map_snd_prodObjMk,

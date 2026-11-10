@@ -72,7 +72,7 @@ private lemma pullbackFreeIso_mapComp' {S T Y : Scheme.{u}}
       (Scheme.Modules.pullback g).map (pullbackFreeIso f n).hom ≫
         (pullbackFreeIso g n).hom = (pullbackFreeIso a n).hom := by
   subst a
-  show (Scheme.Modules.pullbackComp g f).inv.app _ ≫
+  change (Scheme.Modules.pullbackComp g f).inv.app _ ≫
     (Scheme.Modules.pullback g).map (pullbackFreeIso f n).hom ≫
       (pullbackFreeIso g n).hom = _
   rw [← pullbackFreeIso_comp]
@@ -434,7 +434,7 @@ private lemma quotientPresentation_isomorphic_of_local {S : Scheme.{u}} {k n : �
   have hg : p ≫ eg.hom = p' := by
     apply ff.map_injective
     rw [Functor.map_comp]
-    show Φ.map p ≫ Φ.map (ff.preimage ed'.hom) = Φ.map p'
+    change Φ.map p ≫ Φ.map (ff.preimage ed'.hom) = Φ.map p'
     rw [ff.map_preimage]
     apply ObjectProperty.hom_ext
     apply Pseudofunctor.DescentData.hom_ext
@@ -530,7 +530,7 @@ private lemma rank_of_free_pullback {S : Scheme.{u}} (M : S.Modules) (r : ℕ)
   refine ⟨q, ?_, ?_⟩
   · constructor
     intro x
-    show IsIso (((SheafOfModules.free.generatingSections (ULift.{u} (Fin r))).ofEpi
+    change IsIso (((SheafOfModules.free.generatingSections (ULift.{u} (Fin r))).ofEpi
       (eOver x).hom).π)
     rw [SheafOfModules.GeneratingSections.ofEpi_π]
     have h1 : IsIso (SheafOfModules.free.generatingSections
@@ -617,7 +617,7 @@ private lemma epi_of_overFunctor_openCover {X : TopCat.{u}}
       (homOfLE hWV).op s
     dsimp [sW] at hlocal
     rw [← hgNat, hlocal, hkNat]
-  show (TopCat.Presheaf.germ Z.val.presheaf V.unop x hx).hom
+  change (TopCat.Presheaf.germ Z.val.presheaf V.unop x hx).hom
       ((ConcreteCategory.hom (g.val.app (op V.unop))) s) =
       (TopCat.Presheaf.germ Z.val.presheaf V.unop x hx).hom
       ((ConcreteCategory.hom (k.val.app (op V.unop))) s)
@@ -757,7 +757,7 @@ private lemma functor_isSheafFor_openCover (k n : ℕ) {S : Scheme.{u}}
       (points_map_of_isPullback (𝒰.f i) Q (q i) (hQ i)).symm
 
 /-- `G(k, n)` is a sheaf for the Zariski topology. -/
-private lemma functor_isSheaf (k n : ℕ) :
+lemma functor_isSheaf (k n : ℕ) :
     Presheaf.IsSheaf Scheme.zariskiTopology (functor.{u} k n) := by
   rw [isSheaf_iff_isSheaf_of_type]
   apply (Precoverage.isSheaf_toGrothendieck_iff_of_isStableUnderBaseChange _).mpr

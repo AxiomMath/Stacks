@@ -150,7 +150,7 @@ theorem exists_uniform_stable_image_of_stableImages
       exact exists_lift_preserving_image hF p c hc i n hn z
   apply (ModuleCat.subobjectModule
     ((F ⋙ globalModuleCohomology.{u, v, r, w} O p).obj (op i))).injective
-  show ModuleCat.subobjectModule _ (imageSubobject _) =
+  change ModuleCat.subobjectModule _ (imageSubobject _) =
     ModuleCat.subobjectModule _ (imageSubobject _)
   rw [subobjectModule_image, subobjectModule_image]
   induction k, h using Nat.le_induction with
@@ -261,7 +261,7 @@ theorem map_actTo_mem_liftingSubgroup (hF : IsAdicQuotientSystem O I F) (p k n :
     · exact map_actTo_mem_stableImage O I F hF p k (n + 1) (k + (n + 1)) (by omega) a s hsStable
     · have hzero : a.1 • xl.1 (n + k) = 0 := by
         rw [← map_mulLift_coord O I F hF p k n a xl, hxl, map_zero]
-      show a.1 • xl.1 (k + n) = 0
+      change a.1 • xl.1 (k + n) = 0
       rw [Nat.add_comm k n]
       exact hzero
     · exact ι_map_actTo_eq_smul_coord O I F hF p k (n + 1) (k + (n + 1)) (by omega) a s
@@ -352,7 +352,7 @@ theorem exists_approx_of_stableImages (hF : IsAdicQuotientSystem O I F) (p : ℕ
       Finset.sum_apply, Pi.smul_apply]
     refine sub_eq_zero.mpr ?_
     rw [← ht]
-    show gradedIncl O I F p (n + 2) tt = _
+    change gradedIncl O I F p (n + 2) tt = _
     rw [hsum]
     calc ∑ i : sg, ev (AssociatedGraded.classOfPow I 1 (ag i) •
             DirectSum.of (stableCohomology O I F p) (n + 1) (z i))

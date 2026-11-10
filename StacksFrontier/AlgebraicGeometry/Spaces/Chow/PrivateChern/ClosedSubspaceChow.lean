@@ -86,7 +86,7 @@ theorem firstChernCapChow_closedSubspacePushforwardChow
           (closedSubspaceModuleRestrict D sX hX N Y)
           (modulePullbackInvertible (closedSubspaceHom D.site D.base D.base_mem hX.1 Y.1 Y.2)
             N hN) β) := by
-  show ((firstChernCapChow.{u, u + 1} D sX hX N hN).comp
+  change ((firstChernCapChow.{u, u + 1} D sX hX N hN).comp
       (closedSubspacePushforwardChow D sX hX Y)) β =
     ((closedSubspacePushforwardChow D sX hX Y).comp
       (firstChernCapChow.{u, u + 1} D (Y.1.ι ≫ sX) (isGood_closedSubspace D sX hX Y)

@@ -337,7 +337,7 @@ theorem mem_of_bot_mem_topology {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     ((isSheaf_iff_isSheaf_of_type _ _).1 hF.isSheaf)
     ((isSheaf_iff_isSheaf_of_type _ _).1 hG.isSheaf)
   refine hle _ ?_
-  show (⊥ : Subfunctor F).sieveOfSection x ∈ BigFppfOver.topology B S hS Y
+  change (⊥ : Subfunctor F).sieveOfSection x ∈ BigFppfOver.topology B S hS Y
   have : (⊥ : Subfunctor F).sieveOfSection x = ⊥ := le_antisymm (fun _ _ h => h) bot_le
   rwa [this]
 
@@ -395,7 +395,7 @@ theorem exists_isBlowupAlong_isFlat_of_isElementaryDistinguishedSquare
   obtain ⟨V₃, bV, ZB, hZBfp, hZBdisj, hbV, hstV⟩ := hV ⟨ΩV, hΩV⟩ hΩVqc fV hftV hqsV hfoV
   have hUΩ : subspacePointSet B S hS V₂.1 (U₂.preimage φ₂.hom) ⊆
       subspacePointSet B S hS V₂.1 ΩV := by
-    show Set.range (pointsMap B S hS _ (U₂.preimage φ₂.hom).ι) ⊆
+    change Set.range (pointsMap B S hS _ (U₂.preimage φ₂.hom).ι) ⊆
       Set.range (pointsMap B S hS _ (N.preimage φ₂.hom).ι)
     rw [range_pointsMap_preimage_ι, range_pointsMap_preimage_ι]
     refine Set.preimage_mono ?_
@@ -431,7 +431,7 @@ theorem exists_isBlowupAlong_isFlat_of_isElementaryDistinguishedSquare
     have hKeq := eq_sheafify_bot_of_range_pointsMap_ι_eq_empty B S hS ZB.1.toFunctor ZB.2.1
       hKo hKpts
     have hvK : (⟨v, hv⟩ : ZB.1.toFunctor.obj (Opposite.op Y)) ∈ K.obj (Opposite.op Y) := by
-      show φ₂.hom.app (Opposite.op Y) v ∈ U₂.obj (Opposite.op Y)
+      change φ₂.hom.app (Opposite.op Y) v ∈ U₂.obj (Opposite.op Y)
       rw [← hav]
       exact a.2
     rw [hKeq] at hvK
@@ -452,10 +452,10 @@ theorem exists_isBlowupAlong_isFlat_of_isElementaryDistinguishedSquare
         rw [range_pointsMap_preimage_ι, Set.mem_preimage, ht]; exact ⟨z, rfl⟩
       rwa [hZ'U, range_pointsMap_ι_sheafify_bot] at this
     · have hvZ : v ∈ subspacePointSet B S hS V₂.1 ZB.1 := by
-        show v ∈ Set.range (pointsMap B S hS ZB.1.toFunctor ZB.1.ι)
+        change v ∈ Set.range (pointsMap B S hS ZB.1.toFunctor ZB.1.ι)
         rw [← hZ'V, range_pointsMap_preimage_ι, Set.mem_preimage, hv]; exact ⟨z, rfl⟩
       have hvN : v ∈ subspacePointSet B S hS V₂.1 ΩV := by
-        show v ∈ Set.range (pointsMap B S hS (N.preimage φ₂.hom).toFunctor _)
+        change v ∈ Set.range (pointsMap B S hS (N.preimage φ₂.hom).toFunctor _)
         rw [range_pointsMap_preimage_ι, Set.mem_preimage, hv]; exact hyN
       exact Set.disjoint_left.1 hZBdisj hvN hvZ
   obtain ⟨Y₃, b₂, hb₂⟩ := exists_isBlowupAlong_of_isFinitePresentation (⟨Z', hZ'c⟩ :
@@ -515,7 +515,7 @@ theorem isFlat_strictTransformSpaceToBlowUp_comp {A A' A'' X : AlgebraicSpaces B
       (strictTransformSpaceToBlowUp B S hS f b (Z.1.preimage b.hom)) c (Z'.1.preimage c.hom) =
       strictTransformSpaceToBlowUp B S hS f (c ≫ b) (Y.1.preimage (c ≫ b).hom) := by
     rw [Iso.inv_comp_eq]
-    show _ = j.hom ≫ (strictTransformSpaceι B S hS f (c ≫ b) (Y.1.preimage (c ≫ b).hom) ≫
+    change _ = j.hom ≫ (strictTransformSpaceι B S hS f (c ≫ b) (Y.1.preimage (c ≫ b).hom) ≫
       strictTransformPullbackToBlowUp B S hS f (c ≫ b))
     rw [← Category.assoc, hj, Category.assoc, iteratedStrictTransformSpaceMap_toBlowUp]
   rw [← he]
@@ -598,10 +598,10 @@ theorem flattensOverBlowups_of_isElementaryDistinguishedSquare (hZ : B.Contains 
   rcases hxY with hx | ⟨z, hz, rfl⟩
   · exact Set.disjoint_left.1 hZ₁disj hxΩ hx
   · have hzΩ : z ∈ subspacePointSet B S hS Y₂.1 (Ω.1.preimage b₁.hom) := by
-      show z ∈ Set.range (pointsMap B S hS _ (Ω.1.preimage b₁.hom).ι)
+      change z ∈ Set.range (pointsMap B S hS _ (Ω.1.preimage b₁.hom).ι)
       rwa [range_pointsMap_preimage_ι]
     have hzN : z ∈ subspacePointSet B S hS Y₂.1 N := by
-      show z ∈ Set.range (pointsMap B S hS N.toFunctor N.ι)
+      change z ∈ Set.range (pointsMap B S hS N.toFunctor N.ι)
       rw [hNpts]
       exact Or.inl hzΩ
     exact Set.disjoint_left.1 hZ'disj hzN hz

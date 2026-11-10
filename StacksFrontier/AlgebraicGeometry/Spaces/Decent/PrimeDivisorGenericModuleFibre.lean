@@ -167,8 +167,7 @@ theorem PrimeDivisor.span_genericFibreReduction_eq_top (L : Modules.{u, u} B S h
     Submodule.span (IsLocalRing.ResidueField R)
         {Z.genericFibreReduction B S hS hX hdec R hR L t} = ⊤ := by
   refine Submodule.eq_top_iff'.mpr fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => exact Submodule.zero_mem _
+  induction x using TensorProduct.inductionOn with
   | tmul a m =>
       obtain ⟨r, hr⟩ := Submodule.mem_span_singleton.mp
         (hspan.ge (Submodule.mem_top :

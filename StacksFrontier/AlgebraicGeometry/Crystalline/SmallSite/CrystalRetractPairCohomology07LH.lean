@@ -76,7 +76,7 @@ theorem CompletedConnection.eq_of_baseChangeInclusion (p : ℕ) {D D' : Type u} 
       map_zero' := by
         have h₁ : nabla₁ 0 = 0 := by simpa using nabla₁.map_add 0 0
         have h₂ : nabla₂ 0 = 0 := by simpa using nabla₂.map_add 0 0
-        show nabla₁ 0 - nabla₂ 0 = 0
+        change nabla₁ 0 - nabla₂ 0 = 0
         rw [h₁, h₂, sub_zero]
       map_add' := fun x y ↦ by rw [nabla₁.map_add, nabla₂.map_add]; abel }
   have hN : IsHausdorff (pAdicIdeal (A := D') p)
@@ -84,11 +84,11 @@ theorem CompletedConnection.eq_of_baseChangeInclusion (p : ℕ) {D D' : Type u} 
     (AdicCompletion.isAdicComplete (CompletedConnection.pAdicIdeal_fg p D')).toIsHausdorff
   have key := CompletedConnection.baseChangeCarrier_ext p D D' M (RingHom.id D') hN (ψ := ψ)
     (ψ' := 0) (fun c x ↦ by
-      show nabla₁ (c • x) - nabla₂ (c • x) = c • (nabla₁ x - nabla₂ x)
+      change nabla₁ (c • x) - nabla₂ (c • x) = c • (nabla₁ x - nabla₂ x)
       rw [nabla₁.leibniz, nabla₂.leibniz, smul_sub]
       abel)
     (fun c x ↦ by simp) (fun m ↦ by
-      show nabla₁ _ - nabla₂ _ = 0
+      change nabla₁ _ - nabla₂ _ = 0
       rw [h, sub_self])
   refine CompletedConnection.ext fun x ↦ ?_
   have hx := DFunLike.congr_fun key x
@@ -120,8 +120,7 @@ theorem CompletedConnection.baseChangeValues_completedTensorFormsMap_comm (p : �
       ((CompletedConnection.baseChangeValues p D D' M Ω₂ Ω₂' ψ₂).toAddMonoidHom.comp
         (CompletedConnection.completedTensorFormsMap (M := M) e₂).toAddMonoidHom)
   have hFG : F = G := adicCompletion_addMonoidHom_ext_of_of p fun y ↦ by
-    induction y using TensorProduct.induction_on with
-    | zero => rw [_root_.map_zero, _root_.map_zero, _root_.map_zero]
+    induction y using TensorProduct.inductionOn with
     | add y y' hy hy' => rw [_root_.map_add, _root_.map_add, _root_.map_add, hy, hy']
     | tmul m ω =>
       simp only [F, G, AddMonoidHom.coe_comp, Function.comp_apply, LinearMap.toAddMonoidHom_coe,
@@ -164,7 +163,8 @@ def crystalRetractAlgHom :
   toRingHom := a.toRingHom
   commutes' := ha
 
-omit [IsAffine S.X] [IsAffine S.S.scheme] in
+omit [IsAffine S.X] [IsAffine S.S.scheme] [Fintype (wholeSpaceIndex S hp)]
+  [DecidableEq (wholeSpaceIndex S hp)] in
 /-- `...SmallSite.crystalRetractAlgHom` is a divided power morphism of the completed envelopes. -/
 theorem isDPMorphism_crystalRetractAlgHom :
     IsDPMorphism (completionDividedPowers (affineSituation S hp).p

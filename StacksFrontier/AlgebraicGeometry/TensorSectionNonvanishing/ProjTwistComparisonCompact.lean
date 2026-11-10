@@ -272,7 +272,7 @@ omitted injectivity and surjectivity arguments serve both. -/
 private theorem bijective_integerChartLift_of_cover (D : TwistedGlobalSectionsModule 𝒮 F)
     (hqc : SheafOfModules.IsQuasicoherent
       (R := (_root_.AlgebraicGeometry.Proj 𝒮).ringCatSheaf) F)
-    {ι : Type u} [Fintype ι] {g : ι → S}
+    {ι : Type u} [Finite ι] {g : ι → S}
     (hf : f ∈ 𝒮 d) (hd : 0 < d) (hg : ∀ i, g i ∈ 𝒮 d)
     (hsup : (⨆ i, ProjectiveSpectrum.basicOpen 𝒮 (g i)) =
       (⊤ : Opens (ProjectiveSpectrum.top 𝒮))) :
@@ -465,11 +465,11 @@ private theorem twistScalarSheafMap_trivializingSection_int {ee : ℕ} (hg : g �
         (trivializingSection 𝒮 hg n hW) = trivializingSection 𝒮 hg (a : ℤ) hW := by
   apply Subtype.ext
   funext x
-  show LocalizedModule.map x.1.asHomogeneousIdeal.toIdeal.primeCompl
+  change LocalizedModule.map x.1.asHomogeneousIdeal.toIdeal.primeCompl
       (LinearMap.mul S S (g ^ b)) (trivializingFun 𝒮 n hW x) =
     trivializingFun 𝒮 (a : ℤ) hW x
   rw [trivializingFun, trivializingFun]
-  show LocalizedModule.map x.1.asHomogeneousIdeal.toIdeal.primeCompl
+  change LocalizedModule.map x.1.asHomogeneousIdeal.toIdeal.primeCompl
       (LinearMap.mul S S (g ^ b)) (LocalizedModule.mk _ _) = _
   rw [LocalizedModule.map_mk]
   refine LocalizedModule.mk_eq.mpr ⟨1, ?_⟩

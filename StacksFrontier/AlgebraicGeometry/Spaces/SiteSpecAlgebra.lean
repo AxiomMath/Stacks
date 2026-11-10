@@ -161,7 +161,7 @@ theorem isPushout_away_quotient :
       algebraMap (S₁ ⧸ (RingHom.ker π.hom).map (algebraMap B' S₁)) _
         (Ideal.Quotient.mk ((RingHom.ker π.hom).map (algebraMap B' S₁)) s) :=
     fun s => by
-      show IsLocalization.Away.map _ _ _ h _ = _
+      change IsLocalization.Away.map _ _ _ h _ = _
       exact IsLocalization.map_eq _ _
   have hw : ringHomOf (algebraMap B' (Localization.Away h)) ≫
       CommRingCat.ofHom (awayQuotientAlgHom π S₁ h).toRingHom =

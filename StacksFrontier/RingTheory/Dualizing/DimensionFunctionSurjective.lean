@@ -163,12 +163,7 @@ def extendSmulEquiv (M : ModuleCat.{max v u} A) :
   right_inv _ := rfl
   map_add' _ _ := rfl
   map_smul' a t := by
-    induction t using TensorProduct.induction_on with
-    | zero =>
-      have h1 : a • (0 : TensorProduct A ↑(restrictSelf A B) ↑M) = 0 := smul_zero a
-      have h2 : a • (0 : ↑((ModuleCat.restrictScalars (algebraMap A B)).obj
-          ((ModuleCat.extendScalars (algebraMap A B)).obj M))) = 0 := smul_zero a
-      exact h1.trans h2.symm
+    induction t using TensorProduct.inductionOn with
     | tmul x m => rfl
     | add x y hx hy =>
       have h1 : a • (x + y) = a • x + a • y := smul_add a x y
@@ -367,8 +362,7 @@ theorem extendCarrierEquiv_baseChange {M M' : ModuleCat.{max v u} A} (ξ : M ⟶
     (s : TensorProduct A Ap ↑M) :
     (ModuleCat.extendScalars (algebraMap A Ap)).map ξ (extendCarrierEquiv M s)
       = extendCarrierEquiv M' (LinearMap.baseChange Ap ξ.hom s) := by
-  induction s using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
+  induction s using TensorProduct.inductionOn with
   | tmul p m => rfl
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
 
@@ -385,7 +379,7 @@ theorem zEquiv_symm_coextendMap {M M' : ModuleCat.{max v u} A} (ξ : M ⟶ M')
     (ModuleCat.CoextendScalars.equiv (algebraMap Ap Bq)
       ((ModuleCat.extendScalars (algebraMap A Ap)).obj M) χ (restrictSelfEquiv Ap Bq y)))
   rw [LinearEquiv.apply_symm_apply] at hkey
-  show (extendCarrierEquiv M').symm ((ModuleCat.extendScalars (algebraMap A Ap)).map ξ
+  change (extendCarrierEquiv M').symm ((ModuleCat.extendScalars (algebraMap A Ap)).map ξ
     (ModuleCat.CoextendScalars.equiv (algebraMap Ap Bq) _ χ (restrictSelfEquiv Ap Bq y))) = _
   rw [hkey, LinearEquiv.symm_apply_apply]
   exact rfl
@@ -687,7 +681,7 @@ theorem comparison_isIso_of_isLocalization
       (W := HomologicalComplex.quasiIso (ModuleCat.{max v u} A) (ComplexShape.up ℤ))
     intro X Y g hg
     have : QuasiIso g := hg
-    show IsIso (DerivedCategory.Q.map
+    change IsIso (DerivedCategory.Q.map
       ((F.mapHomologicalComplex (ComplexShape.up ℤ)).map g))
     infer_instance
   infer_instance

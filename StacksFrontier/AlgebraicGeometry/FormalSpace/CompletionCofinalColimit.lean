@@ -72,7 +72,7 @@ theorem kerProjectionIdeal_mono {J K : TopologicalRing.WeakIdealOfDefinitionInde
     (h : J.1 ≤ K.1) : (kerProjectionIdeal f J).1 ≤ (kerProjectionIdeal f K).1 := by
   intro x hx
   change x.1 J = 0 at hx
-  show x.1 K = 0
+  change x.1 K = 0
   rw [← x.2 J K h, hx]
   simp
 

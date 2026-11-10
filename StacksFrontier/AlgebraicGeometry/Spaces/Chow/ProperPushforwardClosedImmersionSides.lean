@@ -163,7 +163,7 @@ theorem functionFieldDegree_pushforward_of_comp_eq
     mul_one] at h₁
   rw [residueDegree_eq_one_of_isClosedImmersion D.site D.base D.base_mem hY.1 hYdec hT'dec hi',
     one_mul, hsq, h₁] at h₂
-  show residueDegree D.site D.base D.base_mem X Y hY.1 hXdec hYdec p
+  change residueDegree D.site D.base D.base_mem X Y hY.1 hXdec hYdec p
       ((IntegralClosedSubspace.pushforward D.site D.base D.base_mem hX.1 hT.1 hXdec hi
         V).ambientGenericPoint D.site D.base D.base_mem) =
     residueDegree D.site D.base D.base_mem T T' hT'.1 hTdec hT'dec g
@@ -214,7 +214,7 @@ theorem properCycleMult_pushforward_pushforward_of_comp_eq
   · rw [ite_eq_right fun h' => h (IntegralClosedSubspace.injective_pushforward D.site D.base
       D.base_mem hY.1 hT'.1 (D.isDecentSpace_of_isGood sY hY) hi' h'), ite_eq_right h]
 
-include hi' hsq hiB hi'B in
+include hi' hsq in
 /-- An integral closed subspace of `Y` which is not the image of one of `T'` has multiplicity
 zero in the pushforward along `p` of the image `i(V) ⊆ X`: the closure of that image lies in the
 image of `i'`. -/
@@ -255,7 +255,7 @@ theorem properCyclePushforward_cycleGroupClosedPushforward_of_comp_eq (hpB : p �
   have hXdec := D.isDecentSpace_of_isGood sX hX
   have hYdec := D.isDecentSpace_of_isGood sY hY
   refine Subtype.ext (funext fun Z' => ?_)
-  show (∑ᶠ Z, cycleClosedPushforward D hX.1 hT.1 hXdec hi c.1 Z *
+  change (∑ᶠ Z, cycleClosedPushforward D hX.1 hT.1 hXdec hi c.1 Z *
       properCycleMult D sX hX sY hY p Z Z') =
     cycleClosedPushforward D hY.1 hT'.1 hYdec hi' (properCyclePushforward D sT hT sT' hT' hgB hg k
       c).1 Z'
@@ -265,7 +265,7 @@ theorem properCyclePushforward_cycleGroupClosedPushforward_of_comp_eq (hpB : p �
     fun Z hZ => by
       by_contra hne
       refine hZ ?_
-      show cycleClosedPushforward D hX.1 hT.1 hXdec hi c.1 Z * _ = 0
+      change cycleClosedPushforward D hX.1 hT.1 hXdec hi c.1 Z * _ = 0
       rw [cycleClosedPushforward_apply_of_forall_ne D hX.1 hT.1 hXdec hi _ Z
         fun V hV => hne ⟨V, hV⟩, zero_mul]
   rw [← finsum_mem_univ, ← finsum_mem_inter_support_eq _ (Set.range
@@ -283,7 +283,7 @@ theorem properCyclePushforward_cycleGroupClosedPushforward_of_comp_eq (hpB : p �
   · rw [cycleClosedPushforward_apply_of_forall_ne D hY.1 hT'.1 hYdec hi' _ Z'
       fun V' hV' => hZ' ⟨V', hV'⟩]
     refine finsum_eq_zero_of_forall_eq_zero fun V => ?_
-    rw [properCycleMult_pushforward_of_comp_eq_of_forall_ne D hX hY hT hT' hi hiB hi' hi'B hsq V
+    rw [properCycleMult_pushforward_of_comp_eq_of_forall_ne D hX hY hT hT' hi hi' hsq V
       Z' fun V' hV' => hZ' ⟨V', hV'⟩, mul_zero]
 
 end Square

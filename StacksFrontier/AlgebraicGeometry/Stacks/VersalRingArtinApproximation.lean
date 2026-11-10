@@ -107,7 +107,7 @@ theorem completeLocalAlgFormalBase_toS_closedPoint
         Spec.map (CommRingCat.ofHom (algebraMap Λ k)) ≫ iΛ := by
     rw [← Category.assoc, ← Spec.map_comp, ← CommRingCat.ofHom_comp,
       completeResidueMap_comp_algebraMap]
-  show (Spec.map (CommRingCat.ofHom (algebraMap Λ A)) ≫ iΛ) (closedPoint A) = _
+  change (Spec.map (CommRingCat.ofHom (algebraMap Λ A)) ≫ iΛ) (closedPoint A) = _
   rw [← hpt]
   exact (Scheme.Hom.comp_apply _ _ _).symm.trans (congrArg (fun g => g (closedPoint k)) heq)
 
@@ -150,7 +150,7 @@ theorem schemeMap_closedPointArrow_realization
   have hbase0 : eqToHom (congrArg Over.left hb0).symm ≫
       ((p ⋙ Over.post B.inclusion).map (R.r 0)).left ≫ eqToHom (congrArg Over.left qY) =
       Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (AdicTruncation.ideal ξ.base 0))) := by
-    show eqToHom _ ≫ (p.map (R.r 0)).left.hom ≫ eqToHom _ = _
+    change eqToHom _ ≫ (p.map (R.r 0)).left.hom ≫ eqToHom _ = _
     rw [R.map_eq 0, bigFppfOver_left_hom_eqToHom]
     exact eqToHom_comp_comp_eqToHom_of_heq _ _ _ _ _ _
       (adicThickeningι_heq_specMap_truncation ξ.base 0)
@@ -564,6 +564,7 @@ private theorem exists_isVersalAt_hom_schemeMap_eq_of_realization (D : VersalSit
     exact Eq.trans (Category.comp_id _).symm hrbase
   -- the realizing object is isomorphic to the complete local object of the approximation
   obtain ⟨I⟩ := Ry.nonempty_approximationIso hp
+  obtain ⟨e⟩ := e
   have hff := Deformation.Artin.fullyFaithful_approximationFunctor_of_isAlgebraicStack
     D.𝒳.val D.𝒳.property
   have := hff.1

@@ -130,12 +130,14 @@ public lemma isFinitePresentation_dualSheaf [IsLocallyNoetherian X] (F : X.Modul
   have finitePresentation : F.IsFinitePresentation := isFinitePresentation_of_isCoherent F
   have coherentUnit : _root_.SheafOfModules.IsCoherent
       (_root_.SheafOfModules.unit
-        (Stacks.SheafOfModules.Tensor.ringSheaf (Stacks.SheafOfModules.InternalHom.spaceRingedSite X.sheaf).O)) :=
+        (Stacks.SheafOfModules.Tensor.ringSheaf
+          (Stacks.SheafOfModules.InternalHom.spaceRingedSite X.sheaf).O)) :=
     Stacks.AlgebraicGeometry.CoherentOfFiniteType.isCoherent_unit
   @Stacks.SheafOfModules.InternalHom.isFinitePresentation_sheafInternalHom.{u}
     X inferInstance X.sheaf F
     (_root_.SheafOfModules.unit
-      (Stacks.SheafOfModules.Tensor.ringSheaf (Stacks.SheafOfModules.InternalHom.spaceRingedSite X.sheaf).O))
+      (Stacks.SheafOfModules.Tensor.ringSheaf
+        (Stacks.SheafOfModules.InternalHom.spaceRingedSite X.sheaf).O))
     finitePresentation coherentUnit
 
 /-- Depth at least one (resp. two) of the structure sheaf at `x` passes to a coherent reflexive

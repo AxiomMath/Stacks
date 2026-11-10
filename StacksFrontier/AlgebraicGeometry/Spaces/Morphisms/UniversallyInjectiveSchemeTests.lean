@@ -272,7 +272,7 @@ private theorem universallyInjective_of_affine_scheme_tests
   intro K _ hK s x y hxy
   have hcomp := yonedaEquiv_symm_comp_eq_of_app_eq f hxy
   have hA : IsAffine ((BigFppfOver.toScheme B S hS).obj (fieldObject (hS := hS) K hK s)) := by
-    show IsAffine (Spec (.of K))
+    change IsAffine (Spec (.of K))
     infer_instance
   refine yonedaEquiv.symm.injective (eq_of_universallyInjective_pullback_snd B S hS hX hY
     (isAlgebraicSpace_yoneda B S hS (fieldObject (hS := hS) K hK s)) f

@@ -323,7 +323,7 @@ theorem exists_closedFiltration_admissibleBlowups_resolutionProperty
     have hbij := pointsRelocalize_bijective B S (⊤_ Scheme.{u}) hS B.contains_terminal g X.1
     refine hbij.1.image_injective ?_
     simp only [subspacePointSet] at hrange' ⊢
-    rw [Set.image_diff hbij.1,
+    rw [Set.image_sdiff hbij.1,
       ← range_pointsMap_relocalizeSubfunctor_ι B hS B.contains_terminal g (Z i),
       ← range_pointsMap_relocalizeSubfunctor_ι B hS B.contains_terminal g (Z (i + 1)),
       ← hrange',

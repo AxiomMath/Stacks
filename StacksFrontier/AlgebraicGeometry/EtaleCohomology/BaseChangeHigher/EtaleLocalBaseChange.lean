@@ -107,8 +107,8 @@ theorem twoSquare_cube_of_app {A B C D E F G H : Type*}
     (hyp : ∀ P, s.app (Rq.obj P) ≫ Rf.map (t.app P) ≫ r₂.hom.app (hi.obj P) =
       g.map (r₁.hom.app P) ≫ t'.app (Ri.obj P) ≫ Rv.map (s'.app P)) :
     (t.hComp s).whiskerBottom r₂.hom = (s'.hComp t').whiskerTop r₁.hom := by
-  apply TwoSquare.ext
-  intro P
+  apply NatTrans.ext
+  funext P
   simpa [TwoSquare.hComp, TwoSquare.whiskerBottom, TwoSquare.whiskerTop] using hyp P
 
 /-- **Three of the four mates of a cube are invertible, hence so is the image of the fourth**,

@@ -40,8 +40,9 @@ restrictions are sheaves because `u` is continuous, so `isSheaf_fiber` applies.
 This is where the previous obstruction was: `CompatiblePreserving` for `Over.post u` asks that a
 `W` over `U` mapping into `u'Y₁` and `u'Y₂` be liftable to an object of `C/V`, which bare
 continuity does not provide; the module docstring of
-`StacksFrontier/CategoryTheory/Sites/SlicePost/Continuous.lean` records that, and concluded that bare
-continuity was "not known to suffice".  The conclusion does not follow: `CompatiblePreserving` is
+`StacksFrontier/CategoryTheory/Sites/SlicePost/Continuous.lean` records that, and concluded that
+bare continuity was "not known to suffice".  The conclusion does not follow:
+`CompatiblePreserving` is
 only one sufficient condition for `IsContinuous`, and the fibre description bypasses it.
 
 ## Exactness of `u'_s`

@@ -105,7 +105,7 @@ public lemma specMap_surjective_of_integral_of_ker_le_nilradical
       (Scheme.Spec.map (CommRingCat.ofHom (algebraMap A C)).op) := by
   have : Algebra.IsIntegral A C := algebraMap_isIntegral_iff.mp <|
     IsIntegralHom.SpecMap_iff.mp hi
-  show Function.Surjective (PrimeSpectrum.comap (algebraMap A C))
+  change Function.Surjective (PrimeSpectrum.comap (algebraMap A C))
   intro p
   have : p.asIdeal.IsPrime := p.2
   obtain ⟨q, hq, hqprime, hqp⟩ :=
@@ -207,13 +207,13 @@ private lemma universalHomeomorphism_sSup
       simpa [φC, ψC, inc, U] using congrArg (fun q : i.1 →+* K => q ⟨y, hy⟩)
         (ringHom_eq_of_universalHomeomorphism _ (hS i.1 i.2) φC ψC hA)
     · intro x y hx hy hfx hfy
-      show φ ((⟨x, hx⟩ : U) + ⟨y, hy⟩) = ψ ((⟨x, hx⟩ : U) + ⟨y, hy⟩)
+      change φ ((⟨x, hx⟩ : U) + ⟨y, hy⟩) = ψ ((⟨x, hx⟩ : U) + ⟨y, hy⟩)
       rw [map_add, map_add, hfx, hfy]
     · intro x y hx hy hfx hfy
-      show φ ((⟨x, hx⟩ : U) * ⟨y, hy⟩) = ψ ((⟨x, hx⟩ : U) * ⟨y, hy⟩)
+      change φ ((⟨x, hx⟩ : U) * ⟨y, hy⟩) = ψ ((⟨x, hx⟩ : U) * ⟨y, hy⟩)
       rw [map_mul, map_mul, hfx, hfy]
     · intro a
-      show φ (algebraMap A U a) = ψ (algebraMap A U a)
+      change φ (algebraMap A U a) = ψ (algebraMap A U a)
       exact congrArg (fun q : A →+* K => q a) hcomp
   rw [← hEq]
   exact universalHomeomorphism_of_isIntegral_of_unique U hUnique hkerB

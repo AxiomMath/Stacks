@@ -40,7 +40,7 @@ private abbrev singleR (n : ℤ) : CochainComplex (ModuleCat.{u} R) ℤ :=
   (CochainComplex.singleFunctor (ModuleCat.{u} R) n).obj (ModuleCat.of R R)
 
 private instance projective_self : Projective (ModuleCat.of R R) := by
-  haveI : Module.Projective R (ModuleCat.of R R) := inferInstanceAs (Module.Projective R R)
+  have : Module.Projective R (ModuleCat.of R R) := inferInstanceAs (Module.Projective R R)
   exact ModuleCat.projective_of_categoryTheory_projective _
 
 private theorem kFlat_singleR (n : ℤ) : (singleR (R := R) n).KFlat := by
@@ -55,7 +55,7 @@ private theorem kFlat_singleR (n : ℤ) : (singleR (R := R) n).KFlat := by
   exact CochainComplex.KFlat.kFlat_of_flat (singleR n) n
 
 private instance isKProjective_singleR (n : ℤ) : (singleR (R := R) n).IsKProjective := by
-  haveI : ∀ m : ℤ, Projective ((singleR (R := R) n).X m) := by
+  have : ∀ m : ℤ, Projective ((singleR (R := R) n).X m) := by
     intro m
     by_cases hm : m = n
     · exact Projective.of_iso

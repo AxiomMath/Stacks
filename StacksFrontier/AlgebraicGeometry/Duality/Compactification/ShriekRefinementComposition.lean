@@ -514,7 +514,7 @@ theorem twistedInverseImageBaseChangeMap_comp :
   rw [twistedInverseImageCompIso_id_comp_eq_rightUnitor_symm (𝟙 Xs) hid hid]
   refine NatTrans.ext (funext fun Z => ?_)
   refine (Stacks.CategoryTheory.whiskerBottom_whiskerTop_hComp_app _ _ _ _ Z).trans ?_
-  simp only [TwoSquare.mk, TwoSquare.natTrans, NatTrans.comp_app,
+  simp only [TwoSquare.mk, NatTrans.comp_app,
     Functor.isoWhiskerLeft_hom, Functor.whiskerLeft_app,
     Functor.whiskerRight_app, Functor.associator_hom_app, Functor.associator_inv_app,
     Functor.rightUnitor_hom_app, Iso.trans_hom, Iso.symm_inv, Category.id_comp]

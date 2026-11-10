@@ -100,7 +100,7 @@ theorem one_mapCommGrp_pullCommGrp (X : C) [GrpObj (F.obj X)] [IsCommMonObj (F.o
     MonObj.one (X := (F.mapCommGrp.obj (Sites.AbelianSheaf.pullCommGrp hF X)).X) =
       MonObj.one (X := F.obj X) := by
   let : GrpObj X := hF.grpObj X
-  show Functor.LaxMonoidal.ε F ≫ F.map
+  change Functor.LaxMonoidal.ε F ≫ F.map
       (hF.preimage (Functor.OplaxMonoidal.η F ≫ MonObj.one (X := F.obj X))) =
     MonObj.one (X := F.obj X)
   rw [hF.map_preimage, ← Category.assoc, Functor.Monoidal.ε_η, Category.id_comp]

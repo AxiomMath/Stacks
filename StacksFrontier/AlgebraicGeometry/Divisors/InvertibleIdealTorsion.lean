@@ -155,7 +155,7 @@ theorem hom_pushforward_eq_zero_of_isInvertible [IsEffectiveCartierDivisor D]
     (φ : (Scheme.Modules.pushforward D.subschemeι).obj G ⟶ L) : φ = 0 := by
   refine Scheme.Modules.hom_ext _ _ fun U => ?_
   ext m
-  show φ.app U m = 0
+  change φ.app U m = 0
   refine eq_zero_of_isInvertible_of_smul_eq_zero D L (φ.app U m) ?_
   intro V hVU g hg
   have hnat : L.presheaf.map (homOfLE hVU).op (φ.app U m) =
@@ -164,7 +164,7 @@ theorem hom_pushforward_eq_zero_of_isInvertible [IsEffectiveCartierDivisor D]
     (PresheafOfModules.naturality_apply φ.val (homOfLE hVU).op m).symm
   have hz : g • (((Scheme.Modules.pushforward D.subschemeι).obj G).presheaf.map
       (homOfLE hVU).op m) = 0 := by
-    show (D.subschemeι.app V g) • (show Γ(G, D.subschemeι ⁻¹ᵁ V) from _) = 0
+    change (D.subschemeι.app V g) • (show Γ(G, D.subschemeι ⁻¹ᵁ V) from _) = 0
     rw [hg, zero_smul]
   rw [hnat, ← Scheme.Modules.Hom.app_smul, hz, map_zero]
 

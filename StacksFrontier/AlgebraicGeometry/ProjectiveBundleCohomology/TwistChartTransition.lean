@@ -294,7 +294,7 @@ public theorem chartTrans_mem (V : (relativeProj A).scheme.Opens)
 
 /-- **The chart comparisons of twist data along a chart transition, pointwise.** -/
 public theorem chartPush_apply_of_le (n : ℤ) (V : (relativeProj A).scheme.Opens)
-    (hV : V ≤ (relativeProj A).toBase ⁻¹ᵁ W) (x : (D.algebra.piece n).val.obj (op V))
+    (x : (D.algebra.piece n).val.obj (op V))
     (z : ((relativeProj A).chart W hW ⁻¹ᵁ V : (AlgebraicGeometry.Proj (A.grading W)).Opens)) :
     ((TwistExistence.chartPush D W hW n).val.app (op V) x).1 z =
       Stacks.ProjTwistComparison.fibreMap (A.res h) (irrelevant_le_res A h hW hU) z.1

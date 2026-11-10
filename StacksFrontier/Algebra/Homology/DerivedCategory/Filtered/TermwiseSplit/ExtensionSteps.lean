@@ -176,14 +176,14 @@ out of `J^n` which kills the previous map extends along `d_J^n`, because it fact
 /-- Two consecutive differentials of a filtered complex compose to zero. -/
 private lemma evalD_comp_evalD_hom (K : FilteredObject (CochainComplex 𝒜 ℤ) ℤᵒᵖ) (n : ℤ) :
     (evalD K n ≫ evalD K (n + 1)).hom = 0 := by
-  show K.X.d n (n + 1) ≫ K.X.d (n + 1) (n + 1 + 1) = 0
+  change K.X.d n (n + 1) ≫ K.X.d (n + 1) (n + 1 + 1) = 0
   exact K.X.d_comp_d n (n + 1) (n + 1 + 1)
 
 /-- A morphism into a filtered complex followed by two consecutive differentials vanishes. -/
 lemma comp_evalD_comp_evalD_hom {X : FilteredObject 𝒜 ℤᵒᵖ}
     (K : FilteredObject (CochainComplex 𝒜 ℤ) ℤᵒᵖ) (n : ℤ) (f : X ⟶ evalFil K n) :
     (f ≫ evalD K n ≫ evalD K (n + 1)).hom = 0 := by
-  show f.hom ≫ (evalD K n ≫ evalD K (n + 1)).hom = 0
+  change f.hom ≫ (evalD K n ≫ evalD K (n + 1)).hom = 0
   rw [evalD_comp_evalD_hom, comp_zero]
 
 /-! ### The filtration steps of a short exact sequence of `Fil^f(𝒜)`
@@ -409,7 +409,7 @@ theorem existsUnique_comp_eq_of_shortExact_gradedPiece
     (hg : ((evalFunctor n).map α ≫ g).hom = 0) :
     ∃! h : evalFil C n ⟶ X, (evalFunctor n).map β ≫ h = g := by
   have hfg : ((evalFunctor n).map α).hom ≫ ((evalFunctor n).map β).hom = 0 := by
-    show α.hom.f n ≫ β.hom.f n = 0
+    change α.hom.f n ≫ β.hom.f n = 0
     rw [← HomologicalComplex.comp_f, hcomp]
     simp
   have hgrmap : ∀ (p : ℤ) (w : grMap ((evalFunctor n).map α) p ≫
@@ -470,7 +470,7 @@ theorem existsUnique_comp_eq_of_shortExact_gradedPiece
     FilteredObject.hom_ext hφ, fun y hy => FilteredObject.hom_ext ?_⟩
   have hy' : ((evalFunctor n).map β).hom ≫ y.hom = g.hom :=
     congrArg FilteredObject.Hom.hom hy
-  show y.hom = φ
+  change y.hom = φ
   rw [← cancel_epi ((evalFunctor n).map β).hom, hy', hφ]
 
 /-- **Homology, Lemma 05S1.** A filtered quasi-isomorphism from a filtered complex concentrated in
@@ -747,7 +747,7 @@ theorem exists_comp_evalD_eq_of_map_comp_eq_zero
   obtain ⟨pJ, -, hpJ, -⟩ := hJfin 0
   refine exists_comp_eq_of_comp_eq_zero ((evalFunctor 0).map c) (evalD J 0) ?_
     (fun q _ => exact_grMap_zero_of_filteredQuasiIso c hc q) (r := pJ) hpJ hXfin hXinj φ hφ
-  show c.hom.f 0 ≫ J.X.d 0 (0 + 1) = 0
+  change c.hom.f 0 ≫ J.X.d 0 (0 + 1) = 0
   rw [c.hom.comm 0 (0 + 1),
     (C.X.isZero_of_isStrictlyLE 0 (0 + 1) (by norm_num)).eq_of_tgt (C.X.d 0 (0 + 1)) 0, zero_comp]
 

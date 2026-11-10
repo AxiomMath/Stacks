@@ -236,7 +236,7 @@ site.** -/
 theorem etale_map_siteSource :
     Etale ((BigFppfOver.toScheme B S hS).map (siteSource B S hS U j)) := by
   have h : IsEtaleEquivalenceRelation j := inferInstance
-  show Etale ((Over.post B.inclusion).map (siteSource B S hS U j)).left
+  change Etale ((Over.post B.inclusion).map (siteSource B S hS U j)).left
   rw [map_siteSource]
   exact h.etale_source
 
@@ -245,7 +245,7 @@ site.** -/
 theorem etale_map_siteTarget :
     Etale ((BigFppfOver.toScheme B S hS).map (siteTarget B S hS U j)) := by
   have h : IsEtaleEquivalenceRelation j := inferInstance
-  show Etale ((Over.post B.inclusion).map (siteTarget B S hS U j)).left
+  change Etale ((Over.post B.inclusion).map (siteTarget B S hS U j)).left
   rw [map_siteTarget]
   exact h.etale_target
 
@@ -253,7 +253,7 @@ theorem etale_map_siteTarget :
 fppf site.** -/
 theorem surjective_map_siteSource :
     Surjective ((BigFppfOver.toScheme B S hS).map (siteSource B S hS U j)) := by
-  show Surjective ((Over.post B.inclusion).map (siteSource B S hS U j)).left
+  change Surjective ((Over.post B.inclusion).map (siteSource B S hS U j)).left
   rw [map_siteSource]
   exact surjective_source_left j
 
@@ -261,7 +261,7 @@ theorem surjective_map_siteSource :
 fppf site.** -/
 theorem surjective_map_siteTarget :
     Surjective ((BigFppfOver.toScheme B S hS).map (siteTarget B S hS U j)) := by
-  show Surjective ((Over.post B.inclusion).map (siteTarget B S hS U j)).left
+  change Surjective ((Over.post B.inclusion).map (siteTarget B S hS U j)).left
   rw [map_siteTarget]
   exact surjective_target_left j
 

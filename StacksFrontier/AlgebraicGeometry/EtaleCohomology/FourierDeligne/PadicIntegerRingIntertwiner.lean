@@ -64,9 +64,11 @@ theorem exists_natCast_pow_mul_eq_padicIntegerRing (e : E) :
   field_simp
 
 /-- **Every matrix over `E` has an `ℓ`-power multiple with entries in `O_E`.** -/
-theorem exists_map_eq_pow_smul_padicIntegerRing {ι κ : Type*} [Fintype ι] [Fintype κ]
+theorem exists_map_eq_pow_smul_padicIntegerRing {ι κ : Type*} [Finite ι] [Finite κ]
     (M : Matrix ι κ E) :
     ∃ (k : ℕ) (N : Matrix ι κ 𝒪), N.map (algebraMap 𝒪 E) = ((ℓ : E) ^ k) • M := by
+  have := Fintype.ofFinite ι
+  have := Fintype.ofFinite κ
   choose k o ho using fun i j => exists_natCast_pow_mul_eq_padicIntegerRing (ℓ := ℓ) (M i j)
   refine ⟨∑ i, ∑ j, k i j, Matrix.of fun i j => (ℓ : 𝒪) ^ (∑ i, ∑ j, k i j - k i j) * o i j, ?_⟩
   ext i j
@@ -80,8 +82,9 @@ theorem exists_map_eq_pow_smul_padicIntegerRing {ι κ : Type*} [Fintype ι] [Fi
 omit [FiniteDimensional ℚ_[ℓ] E] in
 /-- The values of an additive character of a finite group are integral over `ℤ_ℓ`: they are
 roots of unity. -/
-theorem isIntegral_addChar {k : Type*} [AddCommGroup k] [Fintype k] (ψ : AddChar k E) (x : k) :
+theorem isIntegral_addChar {k : Type*} [AddCommGroup k] [Finite k] (ψ : AddChar k E) (x : k) :
     IsIntegral ℤ_[ℓ] (ψ x) := by
+  have := Fintype.ofFinite k
   have h : ψ x ^ Fintype.card k = 1 := by
     rw [← AddChar.map_nsmul_eq_pow, card_nsmul_eq_zero, AddChar.map_zero_eq_one]
   refine IsIntegral.of_pow (Fintype.card_pos_iff.2 ⟨(0 : k)⟩) ?_

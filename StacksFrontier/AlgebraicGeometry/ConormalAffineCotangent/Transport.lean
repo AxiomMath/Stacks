@@ -80,8 +80,8 @@ name as absent from the library are both **now present**, in
 What still separates `Stacks.Conormal.AffineModel.exists_idealSheafΓIsoCotangent` from
 Tag 01R3's `affineConormalIsoCotangentWithQuotient` is therefore **not** the source slot but the
 generator formula: `Stacks.Conormal.CotangentAppIso.conormalAffineSectionsIsoCotangent` inhabits
-the type of part (2) of Tag 01R3, and the tagged declaration itself is the projection of a subtype whose
-second component is the generator identity, which nothing yet proves.
+the type of part (2) of Tag 01R3, and the tagged declaration itself is the projection of a subtype
+whose second component is the generator identity, which nothing yet proves.
 
 ## Vocabulary
 

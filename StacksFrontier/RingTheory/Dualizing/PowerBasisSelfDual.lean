@@ -94,7 +94,7 @@ theorem powerBasis_bijective_mul_topCoord (b : PowerBasis R B) (hd : 0 < b.dim) 
       l, Basis.repr_reindex, b.basis_eq_pow, ← pow_add]
   have hcoeff {k : ℕ} (hk : k < b.dim) : l (b.gen ^ k) =
       if k = b.dim - 1 then 1 else 0 := by
-    show b.basis.repr (b.gen ^ k) last = _
+    change b.basis.repr (b.gen ^ k) last = _
     rw [← b.basis_eq_pow ⟨k, hk⟩, Basis.repr_self]
     simp only [Finsupp.single_apply, last, Fin.mk.injEq]
   have hentry' (i j : Fin b.dim) (hji : j ≤ i) : M i j = if j = i then 1 else 0 := by

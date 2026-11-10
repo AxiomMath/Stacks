@@ -120,21 +120,21 @@ theorem pi_isLinearTopology {ι : Type*} {A : ι → Type*}
 private theorem adic_iff_taut_of_local_context
     {A B : Type u} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
     [IsLinearTopology A A] [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
-    [IsLinearTopology B B] (φ : A →+* B) (hφ : Continuous φ)
+    [IsLinearTopology B B] (φ : A →+* B)
     (hA : ∃ I : Ideal A, I.FG ∧ _root_.IsAdic I)
     (hBcomplete : @CompleteSpace B (IsTopologicalAddGroup.rightUniformSpace B))
     (hBT2 : T2Space B) : RingHom.IsAdic φ ↔ RingHom.IsTaut φ := by
   let : UniformSpace B := IsTopologicalAddGroup.rightUniformSpace B
   let : CompleteSpace B := hBcomplete
   let : T2Space B := hBT2
-  exact RingHom.isAdic_iff_isTaut φ hφ hA
+  exact RingHom.isAdic_iff_isTaut φ hA
 
 private theorem isAdic_propertyIsLocalNoetherian :
     TopologicalRing.PropertyIsLocalNoetherian.{u}
       (fun {A B : Type u} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
         [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
         (φ : A →+* B) => RingHom.IsAdic φ) := by
-  show TopologicalRing.PropertyIsLocal
+  change TopologicalRing.PropertyIsLocal
     (fun {A B : Type u} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
       [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
       (φ : A →+* B) => RingHom.IsAdic φ)
@@ -161,7 +161,7 @@ private theorem isAdic_propertyIsLocalNoetherian :
     let : IsNoetherianRing B := hB.2
     have hBfg : ∃ I : Ideal B, I.FG ∧ _root_.IsAdic I :=
       ⟨I, Ideal.fg_of_isNoetherianRing I, hIadic⟩
-    have hInput := (adic_iff_taut_of_local_context D.map D.continuousMap hBfg
+    have hInput := (adic_iff_taut_of_local_context D.map hBfg
       hAweak.1.2.1 hAweak.1.2.2).mp hMap
     have hOutput := TopologicalRing.isTaut_localizationPreserves
       D hAweak hBweak hA'weak hB'weak hInput
@@ -169,7 +169,7 @@ private theorem isAdic_propertyIsLocalNoetherian :
     let : IsNoetherianRing (TopologicalRing.CompletionOver D.toB') := hB'.2
     have hB'fg : ∃ I : Ideal (TopologicalRing.CompletionOver D.toB'),
         I.FG ∧ _root_.IsAdic I := ⟨IB', Ideal.fg_of_isNoetherianRing IB', hIB'adic⟩
-    exact (adic_iff_taut_of_local_context D.completedMap D.continuousCompletedMap hB'fg
+    exact (adic_iff_taut_of_local_context D.completedMap hB'fg
       hA'weak.1.2.1 hA'weak.1.2.2).mpr hOutput
   · intro A B A' B' _ _ _ _ _ _ _ _ _ _ D hA hB hA' hB' hFF hCompleted
     let hAweak : TopologicalRing.IsCountablyWeaklyAdmissible A :=
@@ -197,10 +197,10 @@ private theorem isAdic_propertyIsLocalNoetherian :
     have hB'fg : ∃ I : Ideal (TopologicalRing.CompletionOver D.toB'),
         I.FG ∧ _root_.IsAdic I := ⟨IB', Ideal.fg_of_isNoetherianRing IB', hIB'adic⟩
     have hInput := (adic_iff_taut_of_local_context D.completedMap
-      D.continuousCompletedMap hB'fg hA'weak.1.2.1 hA'weak.1.2.2).mp hCompleted
+      hB'fg hA'weak.1.2.1 hA'weak.1.2.2).mp hCompleted
     have hOutput := TopologicalRing.isTaut_faithfullyFlatDescent
       D hAweak hBweak hA'weak hB'weak hFF hInput
-    exact (adic_iff_taut_of_local_context D.map D.continuousMap hBfg
+    exact (adic_iff_taut_of_local_context D.map hBfg
       hAweak.1.2.1 hAweak.1.2.2).mpr hOutput
   · intro B _ _ _ _ hB hBcount ι _ A _ _ _ _ hAweak hAcount f hf hBprop hAprop hMaps
     obtain ⟨I, hIdef, hIadic⟩ := hBprop.1.1
@@ -211,7 +211,7 @@ private theorem isAdic_propertyIsLocalNoetherian :
     let hAcountableWeak : ∀ i, TopologicalRing.IsCountablyWeaklyAdmissible (A i) :=
       fun i => ⟨hAweak i, hAcount i⟩
     have hTaut : ∀ i, RingHom.IsTaut (f i) := fun i =>
-      (adic_iff_taut_of_local_context (f i) (hf i) hBfg
+      (adic_iff_taut_of_local_context (f i) hBfg
         (hAweak i).2.1 (hAweak i).2.2).mp (hMaps i)
     have hProdTaut := TopologicalRing.isTaut_finiteProductPreserves
       hB hBcount A hAweak hAcount f hf hBcountableWeak hAcountableWeak hTaut
@@ -234,7 +234,7 @@ private theorem isAdic_propertyIsLocalNoetherian :
       IsTopologicalAddGroup.rightUniformSpace (∀ i, A i)
     let : CompleteSpace (∀ i, A i) := hPiComplete
     let : T2Space (∀ i, A i) := inferInstance
-    exact (adic_iff_taut_of_local_context (RingHom.pi f) (continuous_pi hf)
+    exact (adic_iff_taut_of_local_context (RingHom.pi f)
       hBfg (inferInstance : @CompleteSpace (∀ i, A i)
         (IsTopologicalAddGroup.rightUniformSpace (∀ i, A i))) inferInstance).mpr hProdTaut
 
@@ -293,7 +293,7 @@ private theorem completedTensorProduct_rightMap_isTaut
   let right : C →+* T := (UniformSpace.Completion.coeRingHom : S →+* T).comp
     (Algebra.TensorProduct.includeRight : C →ₐ[B] S).toRingHom
   have hleft : Continuous left := by
-    show Continuous (fun a : A => (↑(a ⊗ₜ[B] (1 : C)) : T))
+    change Continuous (fun a : A => (↑(a ⊗ₜ[B] (1 : C)) : T))
     exact (UniformSpace.Completion.continuous_coe S).comp
       (TopologicalRing.continuous_tmul_const (R := B) (1 : C))
   let OA := {I : Ideal A // IsOpen (I : Set A)}
@@ -320,20 +320,20 @@ private theorem completedTensorProduct_rightMap_isTaut
     let Q : Ideal T := Ideal.closure (J.map right)
     have hQclosed : IsClosed (Q : Set T) := isClosed_closure
     have hpreclosed : IsClosed ((Q.comap left : Ideal A) : Set A) := by
-      show IsClosed (left ⁻¹' (Q : Set T))
+      change IsClosed (left ⁻¹' (Q : Set T))
       exact hQclosed.preimage hleft
     have hKmap : K.map (algebraMap B A) ≤ Q.comap left := by
       apply Ideal.map_le_iff_le_comap.mpr
       intro b hb
-      show left ((algebraMap B A) b) ∈ Q
+      change left ((algebraMap B A) b) ∈ Q
       have hcompat : left (algebraMap B A b) = right (algebraMap B C b) := by
         simpa only [RingHom.comp_apply] using
           congrArg (fun f : B →+* T => f b) hleft_comp_right
       rw [hcompat]
-      show right (algebraMap B C b) ∈ closure (J.map right : Set T)
+      change right (algebraMap B C b) ∈ closure (J.map right : Set T)
       exact subset_closure (Ideal.mem_map_of_mem right (hKJ hb))
     have hU : Ideal.closure (K.map (algebraMap B A)) ≤ Q.comap left := by
-      show closure (K.map (algebraMap B A) : Set A) ⊆ (Q.comap left : Set A)
+      change closure (K.map (algebraMap B A) : Set A) ⊆ (Q.comap left : Set A)
       exact closure_minimal (fun a ha => hKmap ha) hpreclosed
     exact Ideal.map_le_iff_le_comap.mpr hU
   have hKernel (J : Ideal C) (hJ : IsOpen (J : Set C)) :
@@ -364,7 +364,7 @@ private theorem completedTensorProduct_rightMap_isTaut
         closure_mono (SetLike.coe_subset_coe.mpr le_sup_right)
       exact Set.Subset.antisymm hfirst hsecond
     exact ⟨⟨U, hU⟩, hkernel⟩
-  show RingHom.IsTaut right
+  change RingHom.IsTaut right
   constructor
   · intro J hJ
     obtain ⟨U, hkernel⟩ := hKernel J hJ
@@ -375,7 +375,7 @@ private theorem completedTensorProduct_rightMap_isTaut
     · intro ij _
       refine ⟨ij.2.1, ij.2.2, ?_⟩
       rw [TopologicalRing.projectionKernel_eq_closure]
-      show closure ((Ideal.map right ij.2.1 : Ideal T) : Set T) ⊆
+      change closure ((Ideal.map right ij.2.1 : Ideal T) : Set T) ⊆
         closure ((Ideal.map left ij.1.1 + Ideal.map right ij.2.1 : Ideal T) : Set T)
       exact closure_mono (SetLike.coe_subset_coe.mpr le_sup_right)
     · intro J hJ
@@ -452,6 +452,7 @@ private theorem continuous_tensorProduct_congr_left
   exact hsub x hx
 
 set_option synthInstance.maxHeartbeats 80000 in
+-- instance synthesis over the completed tensor product's ring and topology instances is heavy
 /-- The common core of the completed base change statements: the completed tensor product
 `A ⊗̂_B C` is adic Noetherian, and `C → A ⊗̂_B C` is a finite type adic algebra, whose rig
 property `P` is transported from the base change of `adicFiniteTypeAlgebra` along any
@@ -498,10 +499,10 @@ private theorem completedTensorProduct_baseChange_core
   have hBW : TopologicalRing.IsWeaklyPreAdmissible B :=
     ⟨IB, hIBdef.1, fun _ hx => isTopologicallyNilpotent_of_mem_isIdealOfDefinition hIBdef hx⟩
   have hTFAE := Rig.adicFiniteType_tfae
-    (algebraMap B A) hBA hB hA hBfg hAfg
+    (algebraMap B A) hB hA hBfg hAfg
   have hTautAndFT := (hTFAE.out 6 1).mp hft
   have hTaut := RingHom.isTaut_of_isAdic
-    (algebraMap B A) hBA hTautAndFT.1
+    (algebraMap B A) hTautAndFT.1
   have hRed := Rig.isFiniteTypeOnReductions_of_isTaut_of_isTopologicallyOfFiniteType
     (algebraMap B A) hBA hBW hTaut hTautAndFT.2
   have hFinite : ∃ h : topologicalNilradical B ≤
@@ -510,7 +511,7 @@ private theorem completedTensorProduct_baseChange_core
     ⟨_, hRed⟩
   let : IsNoetherianRing T :=
     TopologicalRing.completedTensorProduct_isNoetherianRing
-      hBA hBC hA.1 hC.1 hFinite
+      hA.1 hC.1 hFinite
   let I₂ : Ideal C := I.map (algebraMap B C)
   have hmap : (I ^ 1).map (algebraMap B C) ≤ I₂ := by
     simp [I₂]
@@ -535,10 +536,10 @@ private theorem completedTensorProduct_baseChange_core
   let : TopologicalSpace B₁.carrier := hcarrier.symm ▸
     (inferInstance : TopologicalSpace A)
   have heAcont : Continuous eA := by
-    show Continuous (fun x : A => x)
+    change Continuous (fun x : A => x)
     exact continuous_id
   have heABsymmcont : Continuous eAB.symm := by
-    show Continuous (fun x : B₁.carrier => eA.symm x)
+    change Continuous (fun x : B₁.carrier => eA.symm x)
     exact continuous_id
   let eS : (A ⊗[B] C) ≃ₐ[B] (B₁.carrier ⊗[B] C) :=
     Algebra.TensorProduct.congr eAB (AlgEquiv.refl : C ≃ₐ[B] C)
@@ -551,10 +552,10 @@ private theorem completedTensorProduct_baseChange_core
   let : TopologicalSpace (B₁.carrier ⊗[B] C) :=
     (inferInstance : UniformSpace (B₁.carrier ⊗[B] C)).toTopologicalSpace
   let : IsTopologicalRing B₁.carrier := by
-    show IsTopologicalRing A
+    change IsTopologicalRing A
     exact inferInstance
   let : IsLinearTopology B₁.carrier B₁.carrier := by
-    show IsLinearTopology A A
+    change IsLinearTopology A A
     exact inferInstance
   let : IsUniformAddGroup (A ⊗[B] C) := TopologicalRing.tensorProduct_isUniformAddGroup
   let : IsUniformAddGroup (B₁.carrier ⊗[B] C) := TopologicalRing.tensorProduct_isUniformAddGroup
@@ -591,7 +592,7 @@ private theorem completedTensorProduct_baseChange_core
     Ideal.map (Algebra.TensorProduct.includeLeft : B₁.carrier →ₐ[B]
       B₁.carrier ⊗[B] C).toRingHom (I.map (algebraMap B B₁.carrier)) + J₁
   have hK₁eq : K₁ = J₁ := by
-    show Ideal.map (Algebra.TensorProduct.includeLeft : B₁.carrier →ₐ[B]
+    change Ideal.map (Algebra.TensorProduct.includeLeft : B₁.carrier →ₐ[B]
       B₁.carrier ⊗[B] C).toRingHom (I.map (algebraMap B B₁.carrier)) + J₁ = J₁
     rw [hleft]
     simp
@@ -615,12 +616,12 @@ private theorem completedTensorProduct_baseChange_core
       intro c
       apply (BC.completedTensorProductEquiv B₁).injective
       rw [BC.algebraMap_completedTensorProductEquiv]
-      show eAdic (eComp ((Algebra.TensorProduct.includeRight c : A ⊗[B] C) : T)) = _
+      change eAdic (eComp ((Algebra.TensorProduct.includeRight c : A ⊗[B] C) : T)) = _
       have hcomp :
           eComp ((Algebra.TensorProduct.includeRight c : A ⊗[B] C) : T) =
             ((Algebra.TensorProduct.includeRight c : B₁.carrier ⊗[B] C) :
               TopologicalRing.CompletedTensorProduct (R := B) (M := B₁.carrier) (N := C)) := by
-        show UniformSpace.Completion.map eS.toRingEquiv
+        change UniformSpace.Completion.map eS.toRingEquiv
           (↑(Algebra.TensorProduct.includeRight c : A ⊗[B] C)) = _
         rw [UniformSpace.Completion.map_coe
           (uniformContinuous_addMonoidHom_of_continuous heSringcont)]
@@ -640,7 +641,7 @@ private theorem completedTensorProduct_baseChange_core
             ext c
             exact (eAlg.commutes c).symm
       _ = J_T.map eT := by
-        show I₂.map ((eT : T →+* (BC.functor.obj B₁).carrier).comp
+        change I₂.map ((eT : T →+* (BC.functor.obj B₁).carrier).comp
           (algebraMap C T)) = (I₂.map (algebraMap C T)).map eT
         rw [← Ideal.map_map]
         rfl
@@ -655,7 +656,7 @@ private theorem completedTensorProduct_baseChange_core
       commutes' := by
         intro c
         obtain ⟨c, rfl⟩ := Ideal.Quotient.mk_surjective c
-        show Ideal.Quotient.mk J_BC (eT (algebraMap C T c)) =
+        change Ideal.Quotient.mk J_BC (eT (algebraMap C T c)) =
           Ideal.Quotient.mk J_BC (algebraMap C (BC.functor.obj B₁).carrier c)
         exact congrArg (Ideal.Quotient.mk J_BC) (eAlg.commutes c) }
     exact Algebra.FiniteType.equiv (BC.functor.obj B₁).property.2 eQuot.symm
@@ -663,23 +664,23 @@ private theorem completedTensorProduct_baseChange_core
   have hTfg : ∃ J : Ideal T, TopologicalRing.IsIdealOfDefinition J ∧ J.FG :=
     ⟨I_T, hI_Tdef, Ideal.fg_of_isNoetherianRing I_T⟩
   have hCT : Continuous (algebraMap C T) := by
-    show Continuous ((UniformSpace.Completion.coeRingHom :
+    change Continuous ((UniformSpace.Completion.coeRingHom :
       (A ⊗[B] C) →+* T).comp
         (Algebra.TensorProduct.includeRight : C →ₐ[B] A ⊗[B] C).toRingHom)
     apply (UniformSpace.Completion.continuous_coe (A ⊗[B] C)).comp
-    show Continuous (fun c : C => (1 : A) ⊗ₜ[B] c)
+    change Continuous (fun c : C => (1 : A) ⊗ₜ[B] c)
     exact TopologicalRing.continuous_const_tmul (R := B) (M := A) (N := C) 1
   have hCTtaut : RingHom.IsTaut (algebraMap C T) :=
     completedTensorProduct_rightMap_isTaut hTaut hBC
   let : T2Space T := hTadic.2.1
   let : @CompleteSpace T (IsTopologicalAddGroup.rightUniformSpace T) := hTadic.2.2
   have hCTadic : RingHom.IsAdic (algebraMap C T) :=
-    RingHom.isAdic_of_isTaut (algebraMap C T) hCT hCTtaut
+    RingHom.isAdic_of_isTaut (algebraMap C T) hCTtaut
       ⟨IC, Ideal.fg_of_isNoetherianRing IC, hICadic⟩
   have hI₂mapadic : _root_.IsAdic (I₂.map (algebraMap C T)) :=
     isAdic_map_of_idealOfDefinition hI₂def hCTadic
   have hTFAE_C := Rig.adicFiniteType_tfae
-    (algebraMap C T) hCT hC hTadic hCfg hTfg
+    (algebraMap C T) hC hTadic hCfg hTfg
   have hSome : Rig.FiniteTypeAdicAlgebraForSomeIdeal
       (algebraMap C T) := by
     refine ⟨I₂, hI₂def, hI₂mapadic, ?_⟩
@@ -729,26 +730,26 @@ private theorem completedTensorProduct_baseChange_core
       have hnat (y : (Fnew.obj Z).carrier) :
           (objAlgEquiv W) ((AdicFiniteTypeAlgebra.hom (Fnew.map f)) y) =
             (AdicFiniteTypeAlgebra.hom (BC.functor.map f)) ((objAlgEquiv Z) y) := by
-        show (CategoryTheory.ConcreteCategory.hom (objIso W).hom.hom)
+        change (CategoryTheory.ConcreteCategory.hom (objIso W).hom.hom)
             ((AdicFiniteTypeAlgebra.hom (Fnew.map f)) y) =
           (AdicFiniteTypeAlgebra.hom (BC.functor.map f))
             ((CategoryTheory.ConcreteCategory.hom (objIso Z).hom.hom) y)
         rw [← CategoryTheory.ConcreteCategory.comp_apply,
           ← CategoryTheory.ConcreteCategory.comp_apply]
         exact congrArg (fun g => (AdicFiniteTypeAlgebra.hom g) y) hnatCat.symm
-      show ((objAlgEquiv W).toRingEquiv.trans (BC.completedTensorProductEquiv W))
+      change ((objAlgEquiv W).toRingEquiv.trans (BC.completedTensorProductEquiv W))
         ((AdicFiniteTypeAlgebra.hom (Fnew.map f))
           (((objAlgEquiv Z).toRingEquiv.trans (BC.completedTensorProductEquiv Z)).symm
             (AdicCompletion.of (Rig.baseChangedIdeal Z)
               (Rig.baseChangedAlgebra Z) x))) = _
       rw [RingEquiv.trans_apply]
-      show (BC.completedTensorProductEquiv W)
+      change (BC.completedTensorProductEquiv W)
         ((objAlgEquiv W) ((AdicFiniteTypeAlgebra.hom (Fnew.map f))
           (((objAlgEquiv Z).toRingEquiv.trans (BC.completedTensorProductEquiv Z)).symm
             (AdicCompletion.of (Rig.baseChangedIdeal Z)
               (Rig.baseChangedAlgebra Z) x)))) = _
       rw [hnat, RingEquiv.symm_trans_apply]
-      show (BC.completedTensorProductEquiv W)
+      change (BC.completedTensorProductEquiv W)
         ((AdicFiniteTypeAlgebra.hom (BC.functor.map f))
           ((objAlgEquiv Z).toRingEquiv
             ((objAlgEquiv Z).toRingEquiv.symm

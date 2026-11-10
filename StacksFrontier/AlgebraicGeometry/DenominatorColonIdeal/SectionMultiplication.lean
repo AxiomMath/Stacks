@@ -146,7 +146,7 @@ theorem exists_denominatorIdealMul_app_eq_smul_iff
     have hsk : (sectionMap X L s).val.app (op V) u =
         (toK X L).val.app (op V) (y • oTrivBasis X L θ) := by
       refine injective_smul_kAsOModule X L hV b hb ?_
-      show @HSMul.hSMul (oScalar X V) _ _ _ b ((sectionMap X L s).val.app (op V) u) =
+      change @HSMul.hSMul (oScalar X V) _ _ _ b ((sectionMap X L s).val.app (op V) u) =
         @HSMul.hSMul (oScalar X V) _ _ _ b
           ((toK X L).val.app (op V) (y • oTrivBasis X L θ))
       rw [hc, ← toK_app_smul X L V b, smul_smul, smul_smul, hgu]

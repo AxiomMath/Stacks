@@ -130,7 +130,7 @@ theorem isZero_homology_of_isZero_homology_totalDerivedExtensionScalars_of_field
     IsZero ((DerivedCategory.homologyFunctor (ModuleCat.{u} k) n).obj M) := by
   have hflat : ψ.Flat := by
     let := ψ.toAlgebra
-    show Module.Flat k L
+    change Module.Flat k L
     infer_instance
   obtain ⟨e⟩ :=
     nonempty_homology_totalDerivedExtensionScalars_iso_of_flat_of_kFlatRepresentative ψ hflat M n
@@ -658,7 +658,7 @@ theorem compl_range_reducedComplementIdeal_subschemeι :
       (S.reducedComplementIdeal U).subschemeι.isClosedEmbedding.isClosed_range.isOpen_compl⟩ :
         S.X.Opens) = U := by
   ext x
-  show x ∈ (Set.range (S.reducedComplementIdeal U).subschemeι)ᶜ ↔ _
+  change x ∈ (Set.range (S.reducedComplementIdeal U).subschemeι)ᶜ ↔ _
   rw [range_reducedComplementIdeal_subschemeι, compl_compl]
 
 /-- **The situation of Stacks 0GUJ for the reduced complement of an open.** For an open `U ⊆ X`

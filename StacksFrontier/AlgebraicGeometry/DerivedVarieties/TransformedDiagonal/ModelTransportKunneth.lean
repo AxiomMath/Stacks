@@ -10,7 +10,8 @@ public import StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.Kunn
 are the derived external tensor product and its pure maps with every derived category taken at
 `HasDerivedCategory.standard`. The Künneth formula for Ext of [Stacks, Tag 0FXZ],
 `Stacks.Cohomology.DerivedKunnethExt.isIso_kunnethExtMap_fibreProduct`, is stated at that model
-in the vocabulary of `StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.KunnethMapForExt`:
+in the vocabulary of
+`StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.KunnethMapForExt`:
 the exterior product `Stacks.Cohomology.DerivedKunnethExt.boxProd` and the tensor product of
 morphisms `Stacks.Cohomology.DerivedKunnethExt.tensorMap` at the fibre product, with the derived
 pullbacks `Stacks.Cohomology.DerivedKunnethExt.derivedPullbackFunctor` along the two projections.
@@ -83,7 +84,6 @@ namespace DiagonalResolution
 attribute [local instance] CategoryTheory.Linear.fullSubcategory
 
 variable {k : Type u} [CommRing k] {X Y : Scheme.{u}} {f : X ⟶ Spec (.of k)}
-  [Linear k X.Modules] [Linear k Y.Modules]
   (R : DiagonalResolution f) (g : Y ⟶ Spec (.of k)) (F : perfectDerived X ⥤ perfectDerived Y)
 
 /-- The standard-model pairing of Tag 0G0A on a generator `(a, c)`, in the vocabulary of the

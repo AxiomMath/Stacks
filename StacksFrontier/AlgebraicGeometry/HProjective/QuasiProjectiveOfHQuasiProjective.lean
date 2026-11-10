@@ -340,7 +340,7 @@ theorem exists_openCover_isHQuasiProjective_of_isLocallyQuasiProjective {X S : S
     ?_ (isHQuasiProjective_pullbackSnd_of_isQuasiProjective (𝒰.pullbackHom f j.1)
       ((modulesIsQuasiProjective_iff_isQuasiProjective _).mp (h j.1))
       ((𝒰.X j.1).affineCover.f j.2))
-  show (𝒰.pullbackCoverAffineRefinementObjIso f j).inv ≫
+  change (𝒰.pullbackCoverAffineRefinementObjIso f j).inv ≫
       𝒰.affineRefinement.openCover.pullbackHom f j =
     (𝒰.X j.1).affineCover.pullbackHom (𝒰.pullbackHom f j.1) j.2 ≫ 𝟙 _
   rw [Category.comp_id]

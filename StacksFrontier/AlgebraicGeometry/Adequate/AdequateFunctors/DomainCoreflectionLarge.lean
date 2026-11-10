@@ -107,7 +107,7 @@ public theorem isSeparating_ofLinearPresentationSite_large
   have key := hfg (ofLinearPresentationSite_large.{u, m} A κ d) (ObjectProperty.ofObj_apply _ d) h₀
   have key' : (e.inv ≫ Sigma.ι L i ≫ cover') ≫ f.hom =
       (e.inv ≫ Sigma.ι L i ≫ cover') ≫ g.hom := congrArg InducedCategory.Hom.hom key
-  show Sigma.ι L i ≫ cover' ≫ f.hom = Sigma.ι L i ≫ cover' ≫ g.hom
+  change Sigma.ι L i ≫ cover' ≫ f.hom = Sigma.ι L i ≫ cover' ≫ g.hom
   rw [← cancel_epi e.inv]
   simpa using key'
 

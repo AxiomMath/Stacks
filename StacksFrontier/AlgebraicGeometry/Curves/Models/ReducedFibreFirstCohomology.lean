@@ -165,7 +165,7 @@ theorem inclusion_comp_fibreSubschemeToSpec {T T' : S.X.IdealSheafData}
     (hT : S.specialFiberIdeal ≤ T) (hT' : S.specialFiberIdeal ≤ T') (h : T ≤ T') :
     Scheme.IdealSheafData.inclusion h ≫ S.fibreSubschemeToSpec T hT =
       S.fibreSubschemeToSpec T' hT' := by
-  show Scheme.IdealSheafData.inclusion h ≫ S.fibreSubschemeι T hT ≫ S.specialFiberToSpec =
+  change Scheme.IdealSheafData.inclusion h ≫ S.fibreSubschemeι T hT ≫ S.specialFiberToSpec =
     S.fibreSubschemeι T' hT' ≫ S.specialFiberToSpec
   rw [← Category.assoc, S.inclusion_comp_fibreSubschemeι hT hT' h]
 
@@ -200,7 +200,7 @@ theorem finrank_globalSections_eq_one_of_le_radical (T : S.X.IdealSheafData)
   let f : Γ(T.subscheme, ⊤) →ₐ[S.k] Γ(R.subscheme, ⊤) :=
     { (Scheme.IdealSheafData.inclusion hTR).appTop.hom with
       commutes' := fun c => by
-        show _ = ((Scheme.ΓSpecIso (.of S.k)).inv ≫
+        change _ = ((Scheme.ΓSpecIso (.of S.k)).inv ≫
           (S.fibreSubschemeToSpec R hR).appTop).hom c
         rw [← hcomp, Scheme.Hom.comp_appTop]
         rfl }

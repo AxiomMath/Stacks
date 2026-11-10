@@ -173,7 +173,7 @@ theorem isZero_of_forall_isZero_abPullback_residueFieldHom
     { residueField := x.residueField
       hom := Spec.map (S.obj.descResidueField (Scheme.stalkClosedPointTo x.hom)) }
   have hx : t.map (B.inclusion.map (residueFieldHom B s)) = x := by
-    show GeometricPoint.mk x.residueField
+    change GeometricPoint.mk x.residueField
       (Spec.map (S.obj.descResidueField (Scheme.stalkClosedPointTo x.hom)) ≫
         S.obj.fromSpecResidueField s) = x
     rw [Scheme.descResidueField_stalkClosedPointTo_fromSpecResidueField]

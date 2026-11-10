@@ -99,7 +99,7 @@ theorem firstChernComponentClass_eq_zero_of_isTrivial (W : V.IdealSheafData)
     chernComponentCycle_mapStalkLinearMap C (W.subschemeι ≫ sV) hDim _ _ f hU _ s0]
   have hz : chernComponentCycle C (W.subschemeι ≫ sV) hDim hU s0 = 0 := by
     refine Subtype.ext ?_
-    show weilDivisorAlgebraicCycle (Stacks.Divisors.weilDivisorOfMeromorphicSection hU s0) = 0
+    change weilDivisorAlgebraicCycle (Stacks.Divisors.weilDivisorOfMeromorphicSection hU s0) = 0
     rw [weilDivisorOfMeromorphicSection_eq_zero_of_isStalkBasis_germ hU (U := ⊤) (fun _ ↦ trivial)
       (fun y hy ↦ isStalkBasis_germ_one ⊤ y hy)]
     ext x
@@ -208,12 +208,12 @@ private theorem genericPoint_mem_preimage_of_notMem_comap (W : V.IdealSheafData)
     (hc : (Set.range c.base)ᶜ = (D.support : Set _))
     (hg : genericPoint W.subscheme ∉ Set.range (D.comap (W.subschemeι ≫ q)).subschemeι.base) :
     genericPoint W.subscheme ∈ (W.subschemeι ≫ q) ⁻¹ᵁ (c ''ᵁ ⊤) := by
-  show (W.subschemeι ≫ q).base (genericPoint W.subscheme) ∈ (c ''ᵁ ⊤ : Set _)
+  change (W.subschemeι ≫ q).base (genericPoint W.subscheme) ∈ (c ''ᵁ ⊤ : Set _)
   rw [Scheme.Hom.image_top_eq_opensRange, Scheme.Hom.coe_opensRange]
   by_contra hcon
   refine hg ?_
   rw [Scheme.IdealSheafData.range_subschemeι, Scheme.IdealSheafData.support_comap]
-  show (W.subschemeι ≫ q).base (genericPoint W.subscheme) ∈ (D.support : Set _)
+  change (W.subschemeι ≫ q).base (genericPoint W.subscheme) ∈ (D.support : Set _)
   rw [← hc]
   exact hcon
 

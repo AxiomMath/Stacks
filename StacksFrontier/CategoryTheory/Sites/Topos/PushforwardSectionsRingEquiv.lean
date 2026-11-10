@@ -68,7 +68,6 @@ namespace MorphismOfTopoi
 variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   {D : Type u'} [Category.{w} D] {K : GrothendieckTopology D}
   [J.HasSheafCompose (forget RingCat.{w})] [K.HasSheafCompose (forget RingCat.{w})]
-  [J.HasSheafCompose (forget AddCommGrpCat.{w})] [K.HasSheafCompose (forget AddCommGrpCat.{w})]
   [K.Subcanonical]
   (f : MorphismOfTopoi (Sheaf J (Type w)) (Sheaf K (Type w)))
   (R : Sheaf J RingCat.{w}) (V : D)

@@ -11,8 +11,8 @@ public import Mathlib.CategoryTheory.EffectiveEpi.Comp
 public import Mathlib.CategoryTheory.ExtremalEpi
 public import Mathlib.CategoryTheory.Limits.FunctorCategory.EpiMono
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Mathlib.Data.Int.Star
-public import Mathlib.Data.Int.SuccPred
+public import Mathlib.Algebra.Order.Star.Int
+public import Mathlib.Order.SuccPred.Int
 public import Mathlib.Tactic.LinearCombination
 public import StacksCore.LinearAlgebra.Matrix.CommSemiring
 public import StacksFrontier.Homology.TwoTermComplex.Ext.DerivedHom
@@ -202,7 +202,7 @@ private lemma exists_comp_eq_of_hom_projRes (P : ProjRes M)
   refine ⟨{ f := gmf, comm' := hcomm' }, ?_⟩
   -- `p ≫ gm = gF` degreewise.
   refine HomologicalComplex.hom_ext _ _ (fun i => ?_)
-  show HomologicalComplex.Hom.f P.p i ≫ gmf i = HomologicalComplex.Hom.f gF i
+  change HomologicalComplex.Hom.f P.p i ≫ gmf i = HomologicalComplex.Hom.f gF i
   by_cases hi0 : i = 0
   · subst hi0
     rw [hgmf0, hp0, hgm0def, ← Category.assoc]
@@ -421,11 +421,11 @@ theorem toHomD_bijective
   set g : HomD M K → HomD P.F K := fun α => DerivedCategory.Q.map P.p ≫ α
   refine ⟨fun a b hab => ?_, fun c => ?_⟩
   · apply hcomp.injective
-    show g (toHomD a) = g (toHomD b)
+    change g (toHomD a) = g (toHomD b)
     exact congrArg g hab
   · obtain ⟨a, ha⟩ := hcomp.surjective (g c)
     refine ⟨a, hpre.injective ?_⟩
-    show g (toHomD a) = g c
+    change g (toHomD a) = g c
     exact ha
 
 /-- `toHomD` is bijective with target `N[1]`, which is concentrated in degree `-1`. -/
@@ -591,7 +591,7 @@ theorem exists_nullHomotopy_of_Q_map_comp_eq_zero
   -- by toHomD_bijective (M, T) INJECTIVITY of toHomD, the class `Qq.map (a ≫ κchain)` is 0.
   have hclzero : Qq.map (a ≫ κchain) = 0 := by
     apply (toHomD_shiftSingle_bijective M N hM_pos hM0).injective
-    show toHomD (Qq.map (a ≫ κchain)) = toHomD (0 : HomK M (shiftSingle N 1))
+    change toHomD (Qq.map (a ≫ κchain)) = toHomD (0 : HomK M (shiftSingle N 1))
     rw [hzero, toHomD_zero]
   -- hence `a ≫ κchain` is null-homotopic.
   have hnull : Nonempty (Homotopy (a ≫ κchain) 0) := by

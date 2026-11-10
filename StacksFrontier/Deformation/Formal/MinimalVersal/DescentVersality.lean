@@ -72,7 +72,6 @@ public theorem isVersal_smallestDescent
     essSurj_restrictedRepresentableMap_of_retraction d.inclusion.base r hr
   obtain ⟨τ, _⟩ := associatedMorphism_map hp d.inclusion pushforwards
   exact isSmooth_of_essSurj_comp
-    (categoryOfElements_projection_isCofibered (restrictedCoyoneda ξ.base))
     φ (associatedMorphism hp d.object pushforwards).toBasedFunctor
     (isSmooth_of_iso τ (hξ pushforwards))
 

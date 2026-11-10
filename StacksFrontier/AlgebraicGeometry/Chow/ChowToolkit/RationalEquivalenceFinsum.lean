@@ -11,10 +11,10 @@ public import StacksFrontier.AlgebraicGeometry.Chow.ProperPushforwardChow.Functo
 
 Let `X` be a scheme locally of finite type over the base scheme of chapter 42 of the Stacks
 Project. Stacks 02RZ, proved in
-`StacksFrontier.AlgebraicGeometry.Chow.ChowToolkit.ClosedImmersionCarrier`, sums rational equivalences
-over a locally finite family of **closed subschemes** of `X`. This file extends it to a locally
-finite family of **arbitrary closed immersions** `j i : Z i ⟶ X`, and applies the result to close
-the one gap in the decomposition of the Chow groups along a decomposition
+`StacksFrontier.AlgebraicGeometry.Chow.ChowToolkit.ClosedImmersionCarrier`, sums rational
+equivalences over a locally finite family of **closed subschemes** of `X`. This file extends it to a
+locally finite family of **arbitrary closed immersions** `j i : Z i ⟶ X`, and applies the result to
+close the one gap in the decomposition of the Chow groups along a decomposition
 `X = \coprod_i X_i` into open and closed subschemes.
 
 The extension is free. A closed immersion factors through its scheme-theoretic image

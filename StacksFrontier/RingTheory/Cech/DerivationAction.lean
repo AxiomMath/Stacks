@@ -322,7 +322,7 @@ theorem cechTermRestrict_action (θ : Derivation ℤ A A) (p : ℕ) (x : cechTer
     cechTermRestrict f A g e he p (cechTermAction g θ p x) =
       cechTermAction f θ p (cechTermRestrict f A g e he p x) := by
   refine DirectSum.ext_component A fun S => ?_
-  show (cechTermRestrict f A g e he p (cechTermAction g θ p x)) S =
+  change (cechTermRestrict f A g e he p (cechTermAction g θ p x)) S =
     (cechTermAction f θ p (cechTermRestrict f A g e he p x)) S
   simp only [cechTermRestrict_apply, cechTermAction, DirectSum.map_apply]
   exact reindexLoc_action f g e he θ S.1 (x (reindexIdx e S))

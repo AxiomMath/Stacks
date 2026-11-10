@@ -149,14 +149,9 @@ lemma tensorSheaf_hom_ext {F G K : SheafOfModules.{u} (structureSheafRing X)}
     (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val) K).injective
   apply PresheafOfModules.Hom.ext
   ext U t
-  show (ModuleCat.Hom.hom (α.val.app U)) (toTensorSheafSection X F G U t)
+  change (ModuleCat.Hom.hom (α.val.app U)) (toTensorSheafSection X F G U t)
       = (ModuleCat.Hom.hom (β.val.app U)) (toTensorSheafSection X F G U t)
-  induction t using TensorProduct.induction_on with
-  | zero =>
-      rw [show toTensorSheafSection X F G U 0 = 0 from
-        map_zero ((sheafifyUnit X
-          (PresheafOfModules.tensorObj (O := X.presheaf) F.val G.val)).app U).hom,
-        map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul m n => exact h U m n
   | add a b ha hb =>
       rw [toTensorSheafSection_add X F G U a b, map_add, map_add, ha, hb]
@@ -279,12 +274,7 @@ lemma gammaTensorMap_naturality {F F' G G' : (Spec R).Modules} (φ : F ⟶ F') (
       ⟨((Spec R).toRingedSpace).presheaf, ((Spec R).toRingedSpace).IsSheaf⟩)).map
         ((φ, ψ) : (_, _) ⟶ (_, _))) (gammaTensorMap F G x)
       = gammaTensorMap F' G' (TensorProduct.map (gammaMap φ) (gammaMap ψ) x) := by
-  induction x using TensorProduct.induction_on with
-  | zero =>
-      exact (congrArg _ (map_zero (gammaTensorMap F G))).trans
-        ((map_zero _).trans
-          ((congrArg _ (map_zero (TensorProduct.map (gammaMap φ) (gammaMap ψ)))).trans
-            (map_zero (gammaTensorMap F' G'))).symm)
+  induction x using TensorProduct.inductionOn with
   | tmul leftSection rightSection =>
       exact tensorSheafMap_app_toTensorSheafSection (Spec R).toRingedSpace
         (modSheaf F) (modSheaf G) (modSheaf F') (modSheaf G') φ ψ ⊤ leftSection rightSection

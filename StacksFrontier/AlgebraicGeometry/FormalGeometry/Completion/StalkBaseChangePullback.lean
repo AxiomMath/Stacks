@@ -55,7 +55,7 @@ theorem exists_adicCompletion_ringEquiv_of_ringEquiv {R S : Type*} [CommRing R] 
         algebraMap S (AdicCompletion (IsLocalRing.maximalIdeal S) S) (e r) := by
   refine ⟨Rig.adicCompletionCongr e _ _ (map_maximalIdeal_of_ringEquiv e), fun r => ?_⟩
   refine AdicCompletion.ext_evalₐ fun n => ?_
-  show AdicCompletion.evalₐ (IsLocalRing.maximalIdeal S) n
+  change AdicCompletion.evalₐ (IsLocalRing.maximalIdeal S) n
       (adicCompletionMap e.toRingHom _ _ (map_maximalIdeal_of_ringEquiv e).le
         (algebraMap R (AdicCompletion (IsLocalRing.maximalIdeal R) R) r)) = _
   rw [adicCompletionMap_evalₐ, AdicCompletion.algebraMap_apply, AdicCompletion.algebraMap_apply,
@@ -125,7 +125,7 @@ theorem exists_adicCompletion_ringEquiv_stalkMap_of_isPullback
     have hcongr : (X.presheaf.stalkCongr (Inseparable.of_eq hx.symm)).hom ≫
         (X.presheaf.stalkCongr (Inseparable.of_eq hq.symm)).hom =
         (X.presheaf.stalkCongr (Inseparable.of_eq hqx.symm)).hom := by
-      show X.presheaf.stalkSpecializes (Inseparable.of_eq hx.symm).ge ≫
+      change X.presheaf.stalkSpecializes (Inseparable.of_eq hx.symm).ge ≫
           X.presheaf.stalkSpecializes (Inseparable.of_eq hq.symm).ge =
         X.presheaf.stalkSpecializes (Inseparable.of_eq hqx.symm).ge
       exact TopCat.Presheaf.stalkSpecializes_comp X.presheaf _ _
@@ -135,7 +135,7 @@ theorem exists_adicCompletion_ringEquiv_stalkMap_of_isPullback
   refine ⟨E₁.trans (e₀.trans E₃), ?_⟩
   rw [← hmor]
   refine RingHom.ext fun r => ?_
-  show E₃ (e₀ (E₁ (algebraMap _ _ r))) = _
+  change E₃ (e₀ (E₁ (algebraMap _ _ r))) = _
   rw [hE₁, he₀', hE₃]
   rfl
 

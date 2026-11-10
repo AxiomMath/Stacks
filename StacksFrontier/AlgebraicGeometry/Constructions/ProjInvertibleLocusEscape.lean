@@ -146,7 +146,7 @@ private theorem aeval_isHomogeneous_of_mem_weightedHomogeneousSubmodule
     (hf : f ∈ MvPolynomial.weightedHomogeneousSubmodule E.k m n) :
     (MvPolynomial.aeval g f).IsHomogeneous n := by
   classical
-  show MvPolynomial.aeval g f ∈ MvPolynomial.homogeneousSubmodule (Fin 3) E.k n
+  change MvPolynomial.aeval g f ∈ MvPolynomial.homogeneousSubmodule (Fin 3) E.k n
   rw [MvPolynomial.as_sum f, map_sum]
   refine Submodule.sum_mem _ fun d hd => ?_
   have hw : Finsupp.weight m d = n := hf (MvPolynomial.mem_support_iff.mp hd)
@@ -209,7 +209,7 @@ degree-`i` component of an element to the degree-`i` component of its image. -/
 public theorem isHomogeneous_ker_collapseHom :
     (RingHom.ker (collapseHom E : E.S →+* E.S)).IsHomogeneous (projectiveGrading E) := by
   intro i r hr
-  show collapseHom E ((DirectSum.decompose (projectiveGrading E) r i : E.S)) = 0
+  change collapseHom E ((DirectSum.decompose (projectiveGrading E) r i : E.S)) = 0
   rw [(collapseHom E).map_directSumDecompose (x := r) (i := i),
     show collapseHom E r = 0 from hr]
   simp

@@ -72,7 +72,7 @@ theorem exists_finite_extension_isWeakSolution_of_constant_laurent_of_charP
     [Module.Finite L M] [IsGalois L M]
     (hweak : IsDiscreteValuationRing.IsWeaklyUnramified A B)
     (hepp : EppCondition A B p)
-    (pi : A) (hpi : Irreducible pi) (N : ℕ) (hN : 0 < N)
+    (pi : A) (hpi : Irreducible pi) (N : ℕ)
     (xi : L) (z : M)
     (lift : ResidueField B → B)
     (hlift : ∀ x, residue B (lift x) = x)
@@ -207,14 +207,14 @@ theorem exists_finite_extension_isWeakSolution_of_constant_laurent_of_charP
         eH' (Ideal.Quotient.mk _
           ((Algebra.TensorProduct.includeRight : K₁ →ₐ[K] L ⊗[K] K₁) x)) j =
             algebraMap K₁ (H j) x := by
-      show eH' (algebraMap K₁ (ReducedTensorTower.Reduction (L ⊗[K] K₁)) x) j = _
+      change eH' (algebraMap K₁ (ReducedTensorTower.Reduction (L ⊗[K] K₁)) x) j = _
       rw [eH'.commutes]
       rfl
     let : ∀ j, IsScalarTower K L (H j) := fun j =>
       IsScalarTower.of_algebraMap_eq fun x => by
         have ht : (algebraMap K L x) ⊗ₜ[K] (1 : K₁) =
             (1 : L) ⊗ₜ[K] algebraMap K K₁ x := by
-          show (Algebra.TensorProduct.includeLeft : L →ₐ[K] _) (algebraMap K L x) =
+          change (Algebra.TensorProduct.includeLeft : L →ₐ[K] _) (algebraMap K L x) =
             (Algebra.TensorProduct.includeRight : K₁ →ₐ[K] _) (algebraMap K K₁ x)
           rw [AlgHom.commutes, AlgHom.commutes]
         have hx := congrArg (fun t => eH' (Ideal.Quotient.mk _ t) j) ht
@@ -236,7 +236,7 @@ theorem exists_finite_extension_isWeakSolution_of_constant_laurent_of_charP
       rw [show x ⊗ₜ[K] y = (x ⊗ₜ[K] (1 : K₁)) * ((1 : M) ⊗ₜ[K] y) by
         simp only [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul],
         map_mul]
-      show decomp (Ideal.Quotient.mk _
+      change decomp (Ideal.Quotient.mk _
         ((Algebra.TensorProduct.includeLeft : M →ₐ[K] M ⊗[K] K₁) x)) i *
           decomp (Ideal.Quotient.mk _
             ((Algebra.TensorProduct.includeRight : K₁ →ₐ[K] M ⊗[K] K₁) y)) i = _
@@ -284,7 +284,7 @@ theorem exists_finite_extension_isWeakSolution_of_constant_laurent_of_charP
       ((algebraMap K₁ E).comp (algebraMap R K₁)).toAlgebra
     let : IsScalarTower R K₁ E := IsScalarTower.of_algebraMap_eq' rfl
     let : IsScalarTower A K₁ E := IsScalarTower.of_algebraMap_eq fun a => by
-      show algebraMap B E (algebraMap A B a) =
+      change algebraMap B E (algebraMap A B a) =
         algebraMap K₁ E (algebraMap A K₁ a)
       exact algebraMap_reducedFactor_base_eq_of_tower A B K L K₁ H
         (eH'.restrictScalars K) heHleft heHright (j i) a
@@ -306,7 +306,7 @@ theorem exists_finite_extension_isWeakSolution_of_constant_laurent_of_charP
       Subtype.ext (IsScalarTower.algebraMap_apply A B E a)
     let : IsScalarTower A R S := IsScalarTower.of_algebraMap_eq fun a => by
       apply Subtype.ext
-      show algebraMap B E (algebraMap A B a) =
+      change algebraMap B E (algebraMap A B a) =
         algebraMap K₁ E (algebraMap R K₁ (algebraMap A R a))
       rw [← IsScalarTower.algebraMap_apply A B E,
         ← IsScalarTower.algebraMap_apply A R K₁,
@@ -335,7 +335,7 @@ theorem exists_finite_extension_isWeakSolution_of_constant_laurent_of_charP
         IsScalarTower.algebraMap_apply R K₁ E,
         IsScalarTower.algebraMap_apply K₁ E FF]
     let hRSFFTower : IsScalarTower R S FF := IsScalarTower.of_algebraMap_eq fun r => by
-      show algebraMap K₁ FF (algebraMap R K₁ r) =
+      change algebraMap K₁ FF (algebraMap R K₁ r) =
         algebraMap E FF (algebraMap S E (algebraMap R S r))
       rw [IsScalarTower.algebraMap_apply K₁ E FF,
         ← IsScalarTower.algebraMap_apply R K₁ E,
@@ -344,7 +344,7 @@ theorem exists_finite_extension_isWeakSolution_of_constant_laurent_of_charP
     let algST : Algebra S T := (mapIntegralClosureOfTower B C E FF).toRingHom.toAlgebra
     let : Algebra S T := algST
     let hSTFFTower : IsScalarTower S T FF := IsScalarTower.of_algebraMap_eq fun x => by
-      show algebraMap E FF x.1 = algebraMap E FF x.1
+      change algebraMap E FF x.1 = algebraMap E FF x.1
       rfl
     let : IsScalarTower S T FF := hSTFFTower
     let : IsScalarTower R S T := IsScalarTower.of_algebraMap_eq fun r => by
@@ -404,7 +404,7 @@ theorem exists_finite_extension_isWeakSolution_of_constant_laurent_of_charP
         (algST := algST) (hSTF := hSTFFTower) (hSEF := hSEFFTower)
         p A B R S T K₁ L E FF hweakAR hweakRS
         (fun x => by
-          show algebraMap L E (algebraMap B L x) = algebraMap S E (algebraMap B S x)
+          change algebraMap L E (algebraMap B L x) = algebraMap S E (algebraMap B S x)
           rw [← IsScalarTower.algebraMap_apply B L E,
             ← IsScalarTower.algebraMap_apply B S E])
         pi hpi N lift hlift liftMod hliftMod coeff rootCoeff hrootCoeff rootBase hrootBase
@@ -457,10 +457,10 @@ theorem exists_finite_extension_isWeakSolution_of_wild_charP
         A B C K L M p hp hdegree hweak hram with hsol | hconstant
     · exact hsol
     · rcases hconstant with
-        ⟨pi, N, xi, z, lift, liftMod, coeff, b, hpi, hN, hz, hgen,
-          hlift, hliftMod, hexp, _hminimal, hperfect⟩
+        ⟨pi, N, xi, z, lift, liftMod, coeff, b, hpi, -, hz, hgen,
+          hlift, hliftMod, hexp, -, hperfect⟩
       exact exists_finite_extension_isWeakSolution_of_constant_laurent_of_charP
-        p hp A B C K L M hweak hepp pi hpi N hN xi z lift hlift liftMod
+        p hp A B C K L M hweak hepp pi hpi N xi z lift hlift liftMod
         hliftMod coeff b hz hgen hexp hperfect
   · push Not at hram
     obtain ⟨xi, z, hz, hgen, hxi⟩ := hram

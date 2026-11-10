@@ -145,7 +145,7 @@ public theorem pushforwardStructureSheafPseudoCoherentOver_affineSpace_of_relati
     (((AffineSpace.over (ULift.{u} (Fin n)) V).hom ≫ q).appTop).hom.toAlgebra
   have htow : IsScalarTower Γ(W, ⊤) Γ(V, ⊤) Γ(AffineSpace (ULift.{u} (Fin n)) V, ⊤) := by
     refine IsScalarTower.of_algebraMap_eq' ?_
-    show (((AffineSpace.over (ULift.{u} (Fin n)) V).hom ≫ q).appTop).hom = _
+    change (((AffineSpace.over (ULift.{u} (Fin n)) V).hom ≫ q).appTop).hom = _
     rw [Scheme.Hom.comp_appTop, halg]
     rfl
   have hFTP : Algebra.FiniteType Γ(W, ⊤) (MvPolynomial (Fin n) Γ(V, ⊤)) :=
@@ -161,8 +161,8 @@ public theorem pushforwardStructureSheafPseudoCoherentOver_affineSpace_of_relati
 /-- **The side condition of Stacks 09VA at an affine space over an arbitrary affine open of an
 affine base, with nothing assumed.** This is the hypothesis `hOS` of
 `AlgebraicGeometry.Scheme.Modules.exists_isPseudoCoherentFromAfterPushforward_of_affineOpen_over`,
-which `StacksFrontier/AlgebraicGeometry/PseudoCoherent/StandardOpenSideCondition.lean` discharges only
-for `V` a standard open of `S`.
+which `StacksFrontier/AlgebraicGeometry/PseudoCoherent/StandardOpenSideCondition.lean` discharges
+only for `V` a standard open of `S`.
 
 The open immersion `V ⟶ S` is pseudo-coherent, so its map on sections `Γ(S, ⊤) ⟶ Γ(V, ⊤)` is a
 pseudo-coherent ring map by `AlgebraicGeometry.HasRingHomProperty.appTop`, which is exactly the

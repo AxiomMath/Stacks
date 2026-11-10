@@ -271,7 +271,7 @@ theorem exists_sections_of_generatesOnChart_coversTop
   refine ⟨m, fun i W k ↦ ?_⟩
   have hmW : PresheafOfModules.sections.eval m (op W) = e i W k := by
     have hsec : (L.val.map k.op).hom (m.1 (op (Y i))) = m.1 (op W) := m.2 k.op
-    show m.1 (op W) = e i W k
+    change m.1 (op W) = e i W k
     rw [← hsec, hm i, hc i (Y i) W (𝟙 (Y i)) k, Category.comp_id]
   rw [hmW]
   exact ⟨hb i W k, eval_eq_toMeromorphicSectionSheaf_one_tmul_of_hom B S hS hX L t (Y i)

@@ -68,10 +68,11 @@ The first is geometric, and is the substantial one:
 
 the identification of the twisted pullback of the `n`-th thickened structure ring with the twist
 of the structure sheaf of the `n`-th thickening `Yₙ` of the exceptional divisor. It is not a
-restatement of anything already in the library: `Stacks.LocalCohomology.UniformityIII.thickeningSheaf` is defined
-in `BitUniformityIII/BlowupTwists.lean` as the direct image of the structure sheaf of the closed
-subscheme cut out by `Stacks.LocalCohomology.UniformityIII.thickeningIdeal`, the `n`-th power of
-the inverse image of `I`.
+restatement of anything already in the library:
+`Stacks.LocalCohomology.UniformityIII.thickeningSheaf` is defined in
+`BitUniformityIII/BlowupTwists.lean` as the direct image of the structure sheaf of the closed
+subscheme cut out by `Stacks.LocalCohomology.UniformityIII.thickeningIdeal`, the `n`-th power of the
+inverse image of `I`.
 
 Its *ideal-sheaf* half is `thickeningIdeal_eq_comap`: the thickening is cut
 out by the scheme-theoretic inverse image of the ideal sheaf of `Iⁿ`, so `Yₙ` is `p⁻¹(V(Iⁿ))`

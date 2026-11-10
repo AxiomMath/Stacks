@@ -95,7 +95,7 @@ crossing rather than asserted head-on.
 
 The derived-category model of the `𝒪_X|_U`-modules on the slice at the chart is the `local
 instance` of
-`StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/RelativeAbsoluteSiteAssembly.lean`,
+`StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.PseudoCoherent.RelativeAbsoluteSiteAssembly`,
 re-enabled here rather than restated: its declaration is public and its `instance` attribute is
 file-local, and restating it collides with it by name.
 
@@ -302,7 +302,7 @@ public def derivedChartSliceIsoTotalRightDerived (X : AlgebraicSpaces B S hS)
 localization `X_étale/U` is `m`-pseudo-coherent there.
 
 This discharges the one hypothesis of
-`StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/RelativeAbsoluteSiteAssembly.lean`.
+`StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.PseudoCoherent.RelativeAbsoluteSiteAssembly`.
 See "How the dictionary is discharged" in the module documentation. -/
 public theorem chartPseudoCoherenceDictionaryFrom_holds
     (E : QuasicoherentDerivedCategory.{u, u} B S hS X.1 X.2) (m : ℤ) :

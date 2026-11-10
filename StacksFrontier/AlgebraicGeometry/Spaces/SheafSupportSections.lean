@@ -101,7 +101,7 @@ theorem neighborhoodPoint_image {p : GeometricPoint B S hS X}
         N.chart.obj.hom (neighborhoodPoint B S hS X N).image = p.image := by
   rw [pointsMap_class]
   congr 1
-  show (⟨p.val.carrier, p.val.contained, p.val.toBase,
+  change (⟨p.val.carrier, p.val.contained, p.val.toBase,
     N.chart.obj.hom.app (op p.val.siteObject) N.point⟩ : FieldValuedPoint B S hS X) = p.val
   rw [N.point_comp]
 
@@ -115,7 +115,7 @@ theorem neighborhoodPoint_image_map {p : GeometricPoint B S hS X}
       (neighborhoodPoint B S hS X N).image := by
   rw [pointsMap_class]
   congr 1
-  show (⟨p.val.carrier, p.val.contained, p.val.toBase,
+  change (⟨p.val.carrier, p.val.contained, p.val.toBase,
       M.point ≫ (SmallEtale.toOver B S hS X).map f.hom⟩ :
     FieldValuedPoint B S hS (yoneda.obj ((SmallEtale.toOver B S hS X).obj N.chart))) = _
   rw [f.point_comp]
@@ -167,18 +167,18 @@ theorem exists_neighborhood_imageInOpen {p : GeometricPoint B S hS X}
   let g : C ⟶ N.chart := ObjectProperty.homMk (CostructuredArrow.homMk jOver rfl)
   let qOver : p.val.siteObject ⟶ V := Over.homMk (ObjectProperty.homMk q) (by
     apply ObjectProperty.hom_ext
-    show q ≫ B.inclusion.map V.hom = B.inclusion.map p.val.siteObject.hom
+    change q ≫ B.inclusion.map V.hom = B.inclusion.map p.val.siteObject.hom
     rw [show B.inclusion.map V.hom = j ≫ B.inclusion.map A.hom from rfl, ← Category.assoc, hq]
     exact congrArg B.inclusion.map N.point.w)
   have hqOver : qOver ≫ jOver = N.point := Over.OverMorphism.ext (ObjectProperty.hom_ext _ hq)
   let M : SmallEtaleNeighborhood p :=
     ⟨C, qOver, by
-      show N.chart.obj.hom.app (op p.val.siteObject) (qOver ≫ jOver) = _
+      change N.chart.obj.hom.app (op p.val.siteObject) (qOver ≫ jOver) = _
       rw [hqOver]
       exact N.point_comp⟩
   refine ⟨M, ⟨g, hqOver⟩, fun z ↦ (hmem _).2 ?_⟩
   rw [pointsToScheme_pointsMap_yoneda B S hS ((SmallEtale.toOver B S hS X).map g) z]
-  show T.map jOver (pointsToScheme B S hS V z) ∈ O
+  change T.map jOver (pointsToScheme B S hS V z) ∈ O
   exact hsubset ⟨pointsToScheme B S hS V z, rfl⟩
 
 /-! ### Vanishing of a germ -/
@@ -239,7 +239,7 @@ theorem subsingleton_stalkSet_iff
   rw [h0 N σ, h0 M τ]
   obtain ⟨L, f, g, -⟩ := IsFilteredOrEmpty.cocone_objs N M
   refine (D.ιColimitType_eq_iff_of_isFiltered _ _).mpr ⟨L, f, g, ?_⟩
-  show F.obj.map f.unop.hom.op 0 = F.obj.map g.unop.hom.op 0
+  change F.obj.map f.unop.hom.op 0 = F.obj.map g.unop.hom.op 0
   simp
 
 /-! ### The support of a sheaf through its sections -/
@@ -278,7 +278,7 @@ theorem supportOfSheaf_eq_iUnion_image_supportOfSection
       ⟨FieldValuedPoint.map B S hS _ U.obj.hom r.val, r.property⟩
     let N : SmallEtaleNeighborhood p := ⟨U, r.val.value, rfl⟩
     refine ⟨p, ?_, ?_⟩
-    · show (FieldValuedPoint.map B S hS _ U.obj.hom r.val).class B S hS X =
+    · change (FieldValuedPoint.map B S hS _ U.obj.hom r.val).class B S hS X =
         pointsMap B S hS _ U.obj.hom y
       rw [← hr]
       exact (pointsMap_class B S hS _ U.obj.hom r.val).symm

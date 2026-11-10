@@ -103,7 +103,7 @@ theorem IsNegativeExtLocus.exists_lift_of_hasNoNegativeFibreExtOver {f : X ⟶ Y
   refine ⟨ObjectProperty.homMk (yonedaEquiv.symm ⟨testPoint T, hmem⟩), ?_⟩
   apply ObjectProperty.hom_ext
   apply yonedaEquiv.injective
-  show yonedaEquiv (yonedaEquiv.symm
+  change yonedaEquiv (yonedaEquiv.symm
     (⟨testPoint T, hmem⟩ : W.1.toFunctor.obj (op T.left)) ≫ W.1.ι) = testPoint T
   rw [yonedaEquiv_comp]
   exact congrArg (fun x => W.1.ι.app (op T.left) x) (yonedaEquiv.apply_symm_apply _)

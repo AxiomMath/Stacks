@@ -55,8 +55,6 @@ variable {C : Type u} [Category.{v} C] {D : Type u'} [Category.{v'} D]
   [J.HasSheafCompose (forget RingCat.{w})] [K.HasSheafCompose (forget RingCat.{w'})]
   [L.HasSheafCompose (forget RingCat.{w''})]
   [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
-  [K.HasSheafCompose (forget₂ CommRingCat.{w'} RingCat.{w'})]
-  [L.HasSheafCompose (forget₂ CommRingCat.{w''} RingCat.{w''})]
   (Φ : Sheaf K (Type w') ⥤ Sheaf J (Type w)) [PreservesFiniteProducts Φ]
   (Ψ : Sheaf L (Type w'') ⥤ Sheaf K (Type w')) [PreservesFiniteProducts Ψ]
   (O : Sheaf L CommRingCat.{w''})

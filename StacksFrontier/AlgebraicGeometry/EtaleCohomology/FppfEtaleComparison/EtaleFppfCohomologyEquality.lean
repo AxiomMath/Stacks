@@ -1,8 +1,7 @@
 module
 
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.FppfEtaleComparison.CohomologyComparison
-public import
- StacksFrontier.AlgebraicGeometry.EtaleCohomology.FppfEtaleComparison.CohomologicalDescentUnconditional
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.FppfEtaleComparison.CohomologicalDescentUnconditional
 
 /-!
 # Étale cohomology equals fppf cohomology of the inverse image

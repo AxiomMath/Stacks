@@ -233,7 +233,7 @@ public theorem twistedSectionsMapComponent_id (n : ℤ) :
     twistedSectionsMapComponent 𝒮 (𝟙 E) n =
       AddMonoidHom.id (twistedSectionsComponent 𝒮 E n) := by
   refine AddMonoidHom.ext fun s => ?_
-  show ((twistSheafMap 𝒮 (𝟙 E) n).val.app (op ⊤)).hom s = s
+  change ((twistSheafMap 𝒮 (𝟙 E) n).val.app (op ⊤)).hom s = s
   rw [twistSheafMap_id]
   rfl
 
@@ -242,7 +242,7 @@ public theorem twistedSectionsMapComponent_comp (φ : E ⟶ F) (ψ : F ⟶ G) (n
     twistedSectionsMapComponent 𝒮 (φ ≫ ψ) n =
       (twistedSectionsMapComponent 𝒮 ψ n).comp (twistedSectionsMapComponent 𝒮 φ n) := by
   refine AddMonoidHom.ext fun s => ?_
-  show ((twistSheafMap 𝒮 (φ ≫ ψ) n).val.app (op ⊤)).hom s = _
+  change ((twistSheafMap 𝒮 (φ ≫ ψ) n).val.app (op ⊤)).hom s = _
   rw [twistSheafMap_comp]
   rfl
 
@@ -251,7 +251,7 @@ public theorem twistedSectionsMapComponent_add (φ ψ : E ⟶ F) (n : ℤ)
     (s : twistedSectionsComponent 𝒮 E n) :
     twistedSectionsMapComponent 𝒮 (φ + ψ) n s =
       twistedSectionsMapComponent 𝒮 φ n s + twistedSectionsMapComponent 𝒮 ψ n s := by
-  show ((twistSheafMap 𝒮 (φ + ψ) n).val.app (op ⊤)).hom s = _
+  change ((twistSheafMap 𝒮 (φ + ψ) n).val.app (op ⊤)).hom s = _
   rw [twistSheafMap_add]
   rfl
 
@@ -259,7 +259,7 @@ public theorem twistedSectionsMapComponent_add (φ ψ : E ⟶ F) (n : ℤ)
 public theorem twistedSectionsMapComponent_zero (n : ℤ)
     (s : twistedSectionsComponent 𝒮 E n) :
     twistedSectionsMapComponent 𝒮 (0 : E ⟶ F) n s = 0 := by
-  show ((twistSheafMap 𝒮 (0 : E ⟶ F) n).val.app (op ⊤)).hom s = 0
+  change ((twistSheafMap 𝒮 (0 : E ⟶ F) n).val.app (op ⊤)).hom s = 0
   rw [twistSheafMap_zero]
   rfl
 
@@ -385,7 +385,7 @@ public theorem twistedSectionsMap_smul_homogeneous
   have key : (twistedSectionsMap 𝒮 φ).comp (DistribSMul.toAddMonoidHom _ (a : S)) =
       (DistribSMul.toAddMonoidHom _ (a : S)).comp (twistedSectionsMap 𝒮 φ) := by
     refine DirectSum.addHom_ext fun n s => ?_
-    show twistedSectionsMap 𝒮 φ ((a : S) •
+    change twistedSectionsMap 𝒮 φ ((a : S) •
         (DirectSum.of (fun m : ℤ => twistedSectionsComponent 𝒮 E m) n s)) =
       (a : S) • twistedSectionsMap 𝒮 φ
         (DirectSum.of (fun m : ℤ => twistedSectionsComponent 𝒮 E m) n s)

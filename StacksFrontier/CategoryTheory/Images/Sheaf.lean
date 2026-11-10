@@ -54,8 +54,8 @@ it.  That is why Mathlib restates limits for `TopCat.Sheaf` in `Mathlib.Topology
 rather than inheriting them.  The transfer is a `show ... from`, since the two types and the two
 category instances are definitionally equal even though they are not syntactically equal.
 
-Images are *not* the only thing missing for the join at sheaf level: with `hasImagesTopCatSheaf` in place, `CategoryTheory.Limits.HasImages`
-for `CategoryTheory.Under A` is synthesized, but
+Images are *not* the only thing missing for the join at sheaf level: with `hasImagesTopCatSheaf` in
+place, `CategoryTheory.Limits.HasImages` for `CategoryTheory.Under A` is synthesized, but
 `CategoryTheory.Limits.HasBinaryCoproducts (CategoryTheory.Under A)` still is not, because
 `Stacks.UnderCoproducts.hasBinaryCoproducts` wants pushouts of sheaves and
 `Mathlib.Topology.Sheaves.Limits` restates only *limits* for `TopCat.Sheaf`.  That is the whole

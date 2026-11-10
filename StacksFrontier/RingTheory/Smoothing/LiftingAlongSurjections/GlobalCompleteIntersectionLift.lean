@@ -92,7 +92,7 @@ private theorem presentation_model_isPushout
   obtain ⟨y, rfl⟩ := Ideal.Quotient.mk_surjective x
   rw [show (IsScalarTower.toAlgHom R (P.ModelOfHasCoeffs R) S).toLinearMap
       (Ideal.Quotient.mk _ y) = MvPolynomial.aeval P.val y from halg y]
-  show P.tensorModelOfHasCoeffsEquiv R (1 ⊗ₜ[R] (Ideal.Quotient.mk _ y)) = _
+  change P.tensorModelOfHasCoeffsEquiv R (1 ⊗ₜ[R] (Ideal.Quotient.mk _ y)) = _
   rw [P.tensorModelOfHasCoeffsEquiv_tmul, map_one, one_mul]
 
 /-- The canonical `toAlgebra` structure is the one whose algebra map was given. -/
@@ -132,7 +132,7 @@ private theorem isLocalCompleteIntersection_away_one
   let q : MvPolynomial (Fin n) R →ₐ[R] T := {
     toRingHom := (algebraMap S T).comp p.toRingHom
     commutes' := fun r => by
-      show algebraMap S T (p (algebraMap R (MvPolynomial (Fin n) R) r)) = g r
+      change algebraMap S T (p (algebraMap R (MvPolynomial (Fin n) R) r)) = g r
       rw [p.commutes]
       rfl
   }
@@ -148,7 +148,7 @@ private theorem isLocalCompleteIntersection_away_one
   have hker : RingHom.ker q.toRingHom = RingHom.ker p.toRingHom := by
     ext x
     rw [RingHom.mem_ker, RingHom.mem_ker]
-    show (algebraMap S T) (p x) = 0 ↔ p x = 0
+    change (algebraMap S T) (p x) = 0 ↔ p x = 0
     constructor
     · intro hx
       exact hinj (by simpa using hx)
@@ -398,7 +398,7 @@ theorem exists_relativeGlobalCompleteIntersection_lift
     have hcq : PrimeSpectrum.comap (algebraMap B S)
         ⟨q.map (algebraMap B S), hq''⟩ = ⟨q, ‹_›⟩ :=
       PrimeSpectrum.ext (by
-        show (q.map (algebraMap B S)).comap (algebraMap B S) = q
+        change (q.map (algebraMap B S)).comap (algebraMap B S) = q
         rw [Ideal.comap_map_of_surjective _ hsurj, sup_eq_left,
           ← RingHom.ker_eq_comap_bot]
         exact hkq)
@@ -444,7 +444,7 @@ theorem exists_relativeGlobalCompleteIntersection_lift
     have hmem := hIa hh1
     rwa [RingHom.mem_ker, map_sub, map_one, sub_eq_zero] at hmem
   have hu : IsUnit ((IsScalarTower.toAlgHom R B S).toRingHom a) := by
-    show IsUnit (algebraMap B S a)
+    change IsUnit (algebraMap B S a)
     rw [ha]
     exact isUnit_one
   obtain ⟨e, he⟩ := exists_ringEquiv_localizationAway_quotient I (IsScalarTower.toAlgHom R B S)

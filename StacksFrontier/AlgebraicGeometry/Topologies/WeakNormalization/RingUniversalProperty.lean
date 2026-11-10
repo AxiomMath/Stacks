@@ -96,7 +96,7 @@ lemma stageToAbsoluteWeakNormalization_natural {C E : CommAlgCat.{u} A}
   have hn := congrArg (ObjectProperty.ι Q).map (e.unitIso.hom.naturality f')
   change f'.hom ≫ (ObjectProperty.ι Q).map (e.unitIso.hom.app d) =
       (ObjectProperty.ι Q).map (e.unitIso.hom.app c) ≫ D.map (e.functor.map f') at hn
-  show f'.hom ≫ ((ObjectProperty.ι Q).map (e.unitIso.hom.app d) ≫
+  change f'.hom ≫ ((ObjectProperty.ι Q).map (e.unitIso.hom.app d) ≫
     colimit.ι D (e.functor.obj d)) = (ObjectProperty.ι Q).map
       (e.unitIso.hom.app c) ≫ colimit.ι D (e.functor.obj c)
   rw [← Category.assoc, hn, Category.assoc, colimit.w]
@@ -117,10 +117,10 @@ lemma stageToAbsoluteWeakNormalization_diagram (i : AbsoluteWeakNormalizationInd
   let q : c.obj ⟶ D.obj (e.functor.obj c) :=
     (ObjectProperty.ι Q).map (e.unitIso.hom.app c)
   have htriangle : q ≫ D.map α = 𝟙 c.obj := by
-    show (ObjectProperty.ι Q).map (e.unitIso.hom.app c ≫ e.inverse.map α) =
+    change (ObjectProperty.ι Q).map (e.unitIso.hom.app c ≫ e.inverse.map α) =
       (ObjectProperty.ι Q).map (𝟙 c)
     exact congrArg (ObjectProperty.ι Q).map (by simp [c, α])
-  show q ≫ colimit.ι D (e.functor.obj c) = colimit.ι D i
+  change q ≫ colimit.ι D (e.functor.obj c) = colimit.ι D i
   rw [← colimit.w D α, ← Category.assoc, htriangle, Category.id_comp]
 
 /-- A finitely presented `A`-algebra which is a universal homeomorphism over `A` has exactly
@@ -181,7 +181,7 @@ lemma ind_absoluteWeakNormalizationObject (C : CommAlgCat.{u} A)
   have hStage' : ∀ j, absoluteWeakNormalizationObject A (pres'.diag.obj j) := fun j => by
     let Xj := pres.diag.obj j
     let _ : Algebra A Xj.right := Xj.hom.hom.toAlgebra
-    show Algebra.FinitePresentation A Xj.right ∧
+    change Algebra.FinitePresentation A Xj.right ∧
       UniversalHomeomorphism (Scheme.Spec.map (CommRingCat.ofHom (algebraMap A Xj.right)).op)
     exact ⟨RingHom.finitePresentation_algebraMap.mp
       (show (algebraMap A Xj.right).FinitePresentation from (hStages j).1), (hStages j).2⟩

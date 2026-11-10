@@ -621,48 +621,49 @@ theorem openComparison_cechRestr {U W : X.left.Opens} (hU : IsAffineOpen U)
       (openComparison R X Y F hF hU ((openKernelSystem R X Y F hF).chartKernelIso hU)).hom.app
           ((qcohRestrict U.ι).obj G) ≫
         (quasicoherentIntegralTransform R X Y (openKernelSystem R X Y F hF).glued).map
-          ((cechRestr (X := X.left) (V := U) (W := W) h).app G) := by
+          ((cechRestr (X := X.left) (V := U) (W := W) h).app G) :=
   letI : IsAffine (openSubOver R X U).left := hU
   letI : IsAffine (openSubOver R X W).left := hW
-  let : QuasiCompact (X.left.homOfLE h) :=
-    inferInstanceAs (QuasiCompact (openSubInclusionOver R X h).left)
-  let : QuasiSeparated (X.left.homOfLE h) :=
-    inferInstanceAs (QuasiSeparated (openSubInclusionOver R X h).left)
-  have hD := cechRestr_app_eq R X hU hW h G
-  have hK := kernelComparison_comp_app' R X Y F (openKernelSystem R X Y F hF).glued
-    (openSubOverHom R X U) (openSubInclusionOver R X h) (openSubInclusionOver_comp R X h)
-    (affineSourceKernelIso R X Y F hF (openSubOverHom R X U))
-    (affineSourceKernelIso R X Y F hF (openSubOverHom R X W))
-    ((openKernelSystem R X Y F hF).restrictIso hU hW h)
-    (sourceChangeIso_hom_comp_map_affineSourceKernelRestrictIso R X Y F hF
-      (openSubOverHom R X U) (openSubInclusionOver R X h) (openSubInclusionOver_comp R X h))
-    ((openKernelSystem R X Y F hF).chartKernelIso hU)
-    ((openKernelSystem R X Y F hF).chartKernelRestrictIso hU hW h)
-    ((openKernelSystem R X Y F hF).chartKernelRestrictIso_hom hU hW h)
-    ((qcohRestrict (X.left.homOfLE h)).obj ((qcohRestrict U.ι).obj G))
-  have hK' : (openComparison R X Y F hF hW
-        ((openKernelSystem R X Y F hF).chartKernelRestrictIso hU hW h)).hom.app
-          ((qcohRestrict (X.left.homOfLE h)).obj ((qcohRestrict U.ι).obj G)) =
-      F.map ((eqToIso (quasicoherentPushforward_eq_comp (openSubOverHom R X U)
-          (openSubInclusionOver R X h) (openSubInclusionOver_comp R X h))).hom.app
-            ((qcohRestrict (X.left.homOfLE h)).obj ((qcohRestrict U.ι).obj G))) ≫
-        (openComparison R X Y F hF hU ((openKernelSystem R X Y F hF).chartKernelIso hU)).hom.app
-          ((quasicoherentPushforward (openSubInclusionOver R X h).left).obj
-            ((qcohRestrict (X.left.homOfLE h)).obj ((qcohRestrict U.ι).obj G))) ≫
-        (quasicoherentIntegralTransform R X Y (openKernelSystem R X Y F hF).glued).map
-          ((eqToIso (quasicoherentPushforward_eq_comp (openSubOverHom R X U)
-          (openSubInclusionOver R X h) (openSubInclusionOver_comp R X h))).inv.app
-            ((qcohRestrict (X.left.homOfLE h)).obj ((qcohRestrict U.ι).obj G))) := hK
-  have nW := (openComparison R X Y F hF hW
-    ((openKernelSystem R X Y F hF).chartKernelRestrictIso hU hW h)).hom.naturality
-      (qcohRestrictComp R X h G).hom
-  have nU := (openComparison R X Y F hF hU
-    ((openKernelSystem R X Y F hF).chartKernelIso hU)).hom.naturality
-      ((qcohRestrictAdjunction (X.left.homOfLE h)).unit.app ((qcohRestrict U.ι).obj G))
-  simp only [Functor.comp_map] at nW nU
-  exact cechRestr_comparison_chase F
-    (quasicoherentIntegralTransform R X Y (openKernelSystem R X Y F hF).glued) _ _ _ _ hD _
-    (Iso.inv_hom_id_app _ _) _ _ _ _ nW hK' nU
+  by
+    let : QuasiCompact (X.left.homOfLE h) :=
+      inferInstanceAs (QuasiCompact (openSubInclusionOver R X h).left)
+    let : QuasiSeparated (X.left.homOfLE h) :=
+      inferInstanceAs (QuasiSeparated (openSubInclusionOver R X h).left)
+    have hD := cechRestr_app_eq R X hU hW h G
+    have hK := kernelComparison_comp_app' R X Y F (openKernelSystem R X Y F hF).glued
+      (openSubOverHom R X U) (openSubInclusionOver R X h) (openSubInclusionOver_comp R X h)
+      (affineSourceKernelIso R X Y F hF (openSubOverHom R X U))
+      (affineSourceKernelIso R X Y F hF (openSubOverHom R X W))
+      ((openKernelSystem R X Y F hF).restrictIso hU hW h)
+      (sourceChangeIso_hom_comp_map_affineSourceKernelRestrictIso R X Y F hF
+        (openSubOverHom R X U) (openSubInclusionOver R X h) (openSubInclusionOver_comp R X h))
+      ((openKernelSystem R X Y F hF).chartKernelIso hU)
+      ((openKernelSystem R X Y F hF).chartKernelRestrictIso hU hW h)
+      ((openKernelSystem R X Y F hF).chartKernelRestrictIso_hom hU hW h)
+      ((qcohRestrict (X.left.homOfLE h)).obj ((qcohRestrict U.ι).obj G))
+    have hK' : (openComparison R X Y F hF hW
+          ((openKernelSystem R X Y F hF).chartKernelRestrictIso hU hW h)).hom.app
+            ((qcohRestrict (X.left.homOfLE h)).obj ((qcohRestrict U.ι).obj G)) =
+        F.map ((eqToIso (quasicoherentPushforward_eq_comp (openSubOverHom R X U)
+            (openSubInclusionOver R X h) (openSubInclusionOver_comp R X h))).hom.app
+              ((qcohRestrict (X.left.homOfLE h)).obj ((qcohRestrict U.ι).obj G))) ≫
+          (openComparison R X Y F hF hU ((openKernelSystem R X Y F hF).chartKernelIso hU)).hom.app
+            ((quasicoherentPushforward (openSubInclusionOver R X h).left).obj
+              ((qcohRestrict (X.left.homOfLE h)).obj ((qcohRestrict U.ι).obj G))) ≫
+          (quasicoherentIntegralTransform R X Y (openKernelSystem R X Y F hF).glued).map
+            ((eqToIso (quasicoherentPushforward_eq_comp (openSubOverHom R X U)
+            (openSubInclusionOver R X h) (openSubInclusionOver_comp R X h))).inv.app
+              ((qcohRestrict (X.left.homOfLE h)).obj ((qcohRestrict U.ι).obj G))) := hK
+    have nW := (openComparison R X Y F hF hW
+      ((openKernelSystem R X Y F hF).chartKernelRestrictIso hU hW h)).hom.naturality
+        (qcohRestrictComp R X h G).hom
+    have nU := (openComparison R X Y F hF hU
+      ((openKernelSystem R X Y F hF).chartKernelIso hU)).hom.naturality
+        ((qcohRestrictAdjunction (X.left.homOfLE h)).unit.app ((qcohRestrict U.ι).obj G))
+    simp only [Functor.comp_map] at nW nU
+    exact cechRestr_comparison_chase F
+      (quasicoherentIntegralTransform R X Y (openKernelSystem R X Y F hF).glued) _ _ _ _ hD _
+      (Iso.inv_hom_id_app _ _) _ _ _ _ nW hK' nU
 
 /-! ### The transformation `t : F ⟶ F_K` -/
 

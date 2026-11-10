@@ -803,7 +803,7 @@ attribute [local instance] Stacks.DerivedGlueing.preservesFiniteLimitsOverMap
 is `Stacks.DerivedGlueing.sliceRestrict_source_eq` with the composite `j_{W!} ⋙ j_T^*` in place of
 `Stacks.DerivedGlueing.openModuleRestriction`: the spelling in which the identification is carried
 below, so that no statement mixes the two names for restriction in two steps. -/
-theorem slice_jShriek_jStar_source_eq {T W : Opens X.carrier} (hTW : T ≤ W)
+theorem slice_jShriek_jStar_source_eq {T W : Opens X.carrier}
     (N : SheafOfModules.{u} (underlyingRingSheaf X)) :
     (sliceToSubspace (underlyingRingSheaf X) W ⋙
         jShriek W (underlyingRingSheaf X) ⋙ jStar T (underlyingRingSheaf X)).obj
@@ -841,7 +841,7 @@ theorem whiskerLeft_sliceRestrictOverIso {T W : Opens X.carrier} (hTW : T ≤ W)
       eqToHom ((Functor.congr_obj
             (slice_comp_jShriek_jStar_eq (underlyingRingSheaf X) hTW).symm
             ((SheafOfModules.overFunctor.{u} (underlyingRingSheaf X) W).obj N)).symm.trans
-          (slice_jShriek_jStar_source_eq hTW N)) ≫
+          (slice_jShriek_jStar_source_eq (T := T) (W := W) N)) ≫
         (jStar T (underlyingRingSheaf X)).map
             ((jShriekAdjunction W (underlyingRingSheaf X)).counit.app N) ≫
           eqToHom (jStar_obj_eq_overMap_obj hTW N) := by
@@ -852,7 +852,7 @@ theorem whiskerLeft_sliceRestrictOverIso {T W : Opens X.carrier} (hTW : T ≤ W)
     (slice_comp_jShriek_jStar_eq (underlyingRingSheaf X) hTW).symm
     (sliceRestrictOverIso (underlyingRingSheaf X) hTW)
     ((SheafOfModules.overFunctor.{u} (underlyingRingSheaf X) W).obj N) hβ
-    (slice_jShriek_jStar_source_eq hTW N)
+    (slice_jShriek_jStar_source_eq (T := T) (W := W) N)
   simp only [NatTrans.comp_app, Functor.whiskerRight_app, Functor.whiskerLeft_app,
     eqToIso_inv_app, eqToHom_map]
   rw [key, show (sliceToSubspace (underlyingRingSheaf X) T).map

@@ -373,7 +373,7 @@ theorem zeroScheme_eq_of_iso (L L' : Modules.{u, u} B S hS X.1 X.2) (s : L.secti
       sectionEvaluationIdealAt B S hS X L s U = sectionEvaluationIdealAt B S hS X L' s' U :=
     sectionEvaluationIdealAt_eq_of_iso B S hS X L L' s s' i hval
   refine Subtype.ext ?_
-  show zeroSchemeSubfunctor B S hS X L s = zeroSchemeSubfunctor B S hS X L' s'
+  change zeroSchemeSubfunctor B S hS X L s = zeroSchemeSubfunctor B S hS X L' s'
   rw [zeroSchemeSubfunctor_eq_sInf, zeroSchemeSubfunctor_eq_sInf]
   refine congrArg sInf (Set.ext fun Z => ?_)
   constructor

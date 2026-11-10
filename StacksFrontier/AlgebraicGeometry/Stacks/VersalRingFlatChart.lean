@@ -91,9 +91,7 @@ theorem exists_realization_closedFibre_hom
     (hξ : ξ = (Deformation.Artin.approximationFunctor D.B D.S D.hS D.𝒳.val.val.p
       D.𝒳.val.property).obj xR)
     (Λ : Type u) [CommRing Λ] [Algebra Λ ξ.base.R] (iΛ : Spec (.of Λ) ⟶ D.S)
-    (hΛ : Spec.map (CommRingCat.ofHom (algebraMap Λ ξ.base.R)) ≫ iΛ = ξ.base.toS)
-    (hversal : Deformation.Artin.FormalObject.IsVersal D.B D.S D.hS D.𝒳.val.val.p
-      D.𝒳.val.property ξ Λ iΛ hΛ) :
+    (hΛ : Spec.map (CommRingCat.ofHom (algebraMap Λ ξ.base.R)) ≫ iΛ = ξ.base.toS) :
     ∃ (hA : D.B.Contains (Spec (.of (ξ.predeformationFormalObject Λ iΛ hΛ).base)))
       (y : D.𝒳.val.val.obj)
       (hy : D.𝒳.val.val.p.obj y = Deformation.Artin.baseOver D.B D.S D.hS
@@ -120,7 +118,7 @@ theorem exists_realization_closedFibre_hom
   obtain ⟨-, hbase, -⟩ := (Deformation.Artin.approximationFunctorData D.B D.S D.hS
     D.𝒳.val.val.p hp).2
   have hA : D.B.Contains (Spec (.of ζ.base.R)) := by
-    show D.B.Contains (Spec (.of ξ.base.R))
+    change D.B.Contains (Spec (.of ξ.base.R))
     rw [hξ, hbase xR]
     exact Deformation.Artin.chosenContains D.B D.S D.hS D.𝒳.val.val.p xR.obj
   obtain ⟨y, hy, ⟨Ry⟩⟩ := Deformation.Artin.FormalObject.exists_realization_of_isEffective
@@ -139,7 +137,7 @@ theorem exists_realization_closedFibre_hom
     have h₂ : IsIso ((Over.forget _).map (D.𝒳.val.val.p.map m)) := inferInstance
     have : IsIso (D.B.inclusion.map ((Over.forget _).map (D.𝒳.val.val.p.map m))) :=
       inferInstance
-    show Flat (D.B.inclusion.map ((Over.forget _).map (D.𝒳.val.val.p.map m)))
+    change Flat (D.B.inclusion.map ((Over.forget _).map (D.𝒳.val.val.p.map m)))
     infer_instance
   exact ⟨hA, y, hy, ⟨Ry⟩, m, hmflat⟩
 
@@ -161,9 +159,7 @@ theorem exists_flat_realization_closedFibre
     (hξ : ξ = (Deformation.Artin.approximationFunctor D.B D.S D.hS D.𝒳.val.val.p
       D.𝒳.val.property).obj xR)
     (Λ : Type u) [CommRing Λ] [Algebra Λ ξ.base.R] (iΛ : Spec (.of Λ) ⟶ D.S)
-    (hΛ : Spec.map (CommRingCat.ofHom (algebraMap Λ ξ.base.R)) ≫ iΛ = ξ.base.toS)
-    (hversal : Deformation.Artin.FormalObject.IsVersal D.B D.S D.hS D.𝒳.val.val.p
-      D.𝒳.val.property ξ Λ iΛ hΛ) :
+    (hΛ : Spec.map (CommRingCat.ofHom (algebraMap Λ ξ.base.R)) ≫ iΛ = ξ.base.toS) :
     ∃ (hA : D.B.Contains (Spec (.of (ξ.predeformationFormalObject Λ iΛ hΛ).base)))
       (y : D.𝒳.val.val.obj)
       (hy : D.𝒳.val.val.p.obj y = Deformation.Artin.baseOver D.B D.S D.hS
@@ -175,7 +171,7 @@ theorem exists_flat_realization_closedFibre
         (locallyOfFiniteType_and_quasiCompact_residueField_formalBase D ξ Λ iΛ hΛ)
         (ξ.predeformationFormalObject Λ iΛ hΛ)).Realization hA y hy) ∧
       flatObject D.B D.S D.hS D.𝒳.val y := by
-  obtain ⟨hA, y, hy, Ry, m, hm⟩ := exists_realization_closedFibre_hom D xR ξ hξ Λ iΛ hΛ hversal
+  obtain ⟨hA, y, hy, Ry, m, hm⟩ := exists_realization_closedFibre_hom D xR ξ hξ Λ iΛ hΛ
   exact ⟨hA, y, hy, Ry, flatObject_of_flat D.B D.S D.hS D.𝒳 m hm hxR⟩
 
 /-- **Stacks 0DR2 at the closed fibre of a versal approximation of a flat complete local
@@ -199,7 +195,7 @@ theorem realizationsFlatAt_closedFibre
       D.𝒳.val.property ξ Λ iΛ hΛ) :
     RealizationsFlatAt D (ξ.level 0) (ResidueField ξ.base.R) := by
   obtain ⟨_, _, _, ⟨Ry⟩, hflat⟩ :=
-    exists_flat_realization_closedFibre D xR hxR ξ hξ Λ iΛ hΛ hversal
+    exists_flat_realization_closedFibre D xR hxR ξ hξ Λ iΛ hΛ
   exact realizationsFlatAt_of_flatObject D (ξ.level 0) iΛ hiΛ (ξ.basePoint Λ iΛ hΛ) _
     _ hversal Ry hflat
 

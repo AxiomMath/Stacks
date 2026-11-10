@@ -38,9 +38,9 @@ base-change map is formed with.
 
 * `RingTheory.TorIndependence.isIso_ringBaseChangeCohomologyMap_iff`: for a cartesian square the
   base-change map is invertible exactly when `cohomologyComparisonMap` is.
-* `RingTheory.TorIndependence.isIso_ringBaseChangeCohomologyMap_iff_isBaseChange_compHom`: for any square
-  the base-change map is invertible exactly when `cohomologyComparisonLinearMap` is a base change
-  along `A ⊗_R R' → A'`.
+* `RingTheory.TorIndependence.isIso_ringBaseChangeCohomologyMap_iff_isBaseChange_compHom`: for any
+  square the base-change map is invertible exactly when `cohomologyComparisonLinearMap` is a base
+  change along `A ⊗_R R' → A'`.
 * `RingTheory.TorIndependence.isBaseChange_of_comp_eq`: base changes transport along a commuting
   square of base changes; this is how invertibility passes from one square to another.
 
@@ -120,12 +120,12 @@ theorem isIso_ringBaseChangeCohomologyMap_iff_isBaseChange_compHom
         (show baseChangeCohomologyCat (R := R) (R' := R') K n →ₗ[A ⊗[R] R']
             (DerivedCategory.homologyFunctor (ModuleCat.{u} A') n).obj K' from
           (cohomologyComparisonLinearMap (R := R) (R' := R') K K' φ n).hom) := by
-  letI : Algebra (A ⊗[R] R') A' :=
+  let : Algebra (A ⊗[R] R') A' :=
     (baseChangeTensorRingMap (R := R) (A := A) (R' := R') (A' := A')).toAlgebra
-  letI := baseChangeCohomologyModule (R := R) (R' := R') K n
-  letI : Module (A ⊗[R] R') ((DerivedCategory.homologyFunctor (ModuleCat.{u} A') n).obj K') :=
+  let := baseChangeCohomologyModule (R := R) (R' := R') K n
+  let : Module (A ⊗[R] R') ((DerivedCategory.homologyFunctor (ModuleCat.{u} A') n).obj K') :=
     Module.compHom _ (baseChangeTensorRingMap (R := R) (A := A) (R' := R') (A' := A'))
-  letI : IsScalarTower (A ⊗[R] R') A'
+  let : IsScalarTower (A ⊗[R] R') A'
       ((DerivedCategory.homologyFunctor (ModuleCat.{u} A') n).obj K') :=
     IsScalarTower.of_compHom _ _ _
   let C := A ⊗[R] R'
@@ -151,8 +151,7 @@ theorem isIso_ringBaseChangeCohomologyMap_iff_isBaseChange_compHom
   · intro h
     have heq : (Ψ : A' ⊗[C] H → H') = h.equiv := by
       funext x
-      induction x using TensorProduct.induction_on with
-      | zero => rw [map_zero, map_zero]
+      induction x using TensorProduct.inductionOn with
       | add x y hx hy => rw [map_add, map_add, hx, hy]
       | tmul t m => rw [hΨ, IsBaseChange.equiv_tmul]
     rw [heq]
@@ -317,8 +316,7 @@ theorem derivedUnitHomologyMap_comp_homologyIso (hf : Module.Flat S T)
   have hα : ∀ Y, α.app Y = derivedUnitHomologyMap (T := T) Y n ≫ res.map (eH.hom.app Y) := by
     intro Y
     simp only [α, NatTrans.comp_app, Functor.whiskerRight_app, Functor.whiskerLeft_app,
-      Functor.associator_hom_app, Functor.associator_inv_app, Category.id_comp,
-      Category.comp_id]
+      Functor.associator_hom_app, Functor.associator_inv_app]
     rfl
   suffices h : α = β by
     have := congrArg (fun τ => τ.app Y) h
@@ -330,11 +328,11 @@ theorem derivedUnitHomologyMap_comp_homologyIso (hf : Module.Flat S T)
   let Q := DerivedCategory.Q (C := ModuleCat.{u} S)
   let QT := DerivedCategory.Q (C := ModuleCat.{u} T)
   let hf' : f.Flat := RingHom.flat_algebraMap_iff.mpr hf
-  letI : PreservesFiniteLimits ext := ModuleCat.extendScalars_preservesFiniteLimits_of_flat _ hf'
-  letI : PreservesFiniteColimits ext := ModuleCat.extendScalars_preservesFiniteColimits _
+  let : PreservesFiniteLimits ext := ModuleCat.extendScalars_preservesFiniteLimits_of_flat _ hf'
+  let : PreservesFiniteColimits ext := ModuleCat.extendScalars_preservesFiniteColimits _
   let cmp : Q ⋙ D.functor ⟶ ext.mapHomologicalComplex (ComplexShape.up ℤ) ⋙
       DerivedCategory.Q := D.comparison
-  haveI : D.functor.IsLeftDerivedFunctor cmp
+  have : D.functor.IsLeftDerivedFunctor cmp
       (HomologicalComplex.quasiIso (ModuleCat.{u} S) (ComplexShape.up ℤ)) := D.isLeftDerived
   let hS := DerivedCategory.homologyFunctorFactors (ModuleCat.{u} S) n
   let hT := DerivedCategory.homologyFunctorFactors (ModuleCat.{u} T) n
@@ -343,7 +341,8 @@ theorem derivedUnitHomologyMap_comp_homologyIso (hf : Module.Flat S T)
     (NatTrans.mapHomologicalComplex adj.unit (ComplexShape.up ℤ)).app K
   -- the four ingredients
   have hA : eH.hom.app (Q.obj K) = HT.map (cmp.app K) ≫ hT.hom.app eK ≫
-      (ext.mapHomologicalComplexHomologyIso (ComplexShape.up ℤ) n).hom.app K ≫ ext.map (hS.inv.app K) :=
+      (ext.mapHomologicalComplexHomologyIso (ComplexShape.up ℤ) n).hom.app K ≫
+        ext.map (hS.inv.app K) :=
     CochainComplex.DerivedExtensionScalars.homologyNatIso_hom_app_Q.{u, u, u} f hf' K n
   have hB : mH.hom.app (D.functor.obj (Q.obj K)) ≫ res.map (HT.map (cmp.app K)) =
       HS.map (res.mapDerivedCategory.map (cmp.app K)) ≫ mH.hom.app (QT.obj eK) :=
@@ -359,7 +358,8 @@ theorem derivedUnitHomologyMap_comp_homologyIso (hf : Module.Flat S T)
         res.map (hT.inv.app eK) := by
     rw [Functor.mapDerivedCategoryHomologyIso_hom_app_Q res n eK,
       ← Category.assoc, ← HS.map_comp, Iso.inv_hom_id_app, HS.map_id, Category.id_comp]
-  have hE : HS.map (Q.map uK) ≫ hS.hom.app ((res.mapHomologicalComplex (ComplexShape.up ℤ)).obj eK) =
+  have hE : HS.map (Q.map uK) ≫
+      hS.hom.app ((res.mapHomologicalComplex (ComplexShape.up ℤ)).obj eK) =
       hS.hom.app K ≫
         (HomologicalComplex.homologyFunctor (ModuleCat.{u} S) (ComplexShape.up ℤ) n).map uK :=
     hS.hom.naturality uK
@@ -368,8 +368,9 @@ theorem derivedUnitHomologyMap_comp_homologyIso (hf : Module.Flat S T)
         res.map ((ext.mapHomologicalComplexHomologyIso (ComplexShape.up ℤ) n).hom.app K) =
       adj.unit.app
         ((HomologicalComplex.homologyFunctor (ModuleCat.{u} S) (ComplexShape.up ℤ) n).obj K) := by
-    refine (Stacks.ModulesOnACategory.TopCohomology.mapHomologicalComplexHomologyIso_hom_app_mapNatTrans
-      (𝟭 (ModuleCat.{u} S)) ext res adj.unit (ComplexShape.up ℤ) n K).trans ?_
+    refine
+      (Stacks.ModulesOnACategory.TopCohomology.mapHomologicalComplexHomologyIso_hom_app_mapNatTrans
+        (𝟭 (ModuleCat.{u} S)) ext res adj.unit (ComplexShape.up ℤ) n K).trans ?_
     refine (congrArg (fun t => t ≫ adj.unit.app (K.homology n))
       (CategoryTheory.ShortComplex.mapHomologyIso_id_hom (K.sc n))).trans (Category.id_comp _)
   have hG : adj.unit.app (HS.obj (Q.obj K)) =
@@ -381,13 +382,14 @@ theorem derivedUnitHomologyMap_comp_homologyIso (hf : Module.Flat S T)
       res.map (eH.hom.app (Q.obj K)) = adj.unit.app (HS.obj (Q.obj K))
   rw [hA]
   refine Eq.trans ?_ hG.symm
-  simp only [Functor.map_comp, Category.assoc]
+  simp only [Functor.map_comp]
   rw [reassoc_of% hB, reassoc_of% hC, reassoc_of% hD]
   rw [← res.map_comp_assoc, Iso.inv_hom_id_app, res.map_id, Category.id_comp,
     reassoc_of% hE]
   have hF' : (HomologicalComplex.homologyFunctor (ModuleCat.{u} S) (ComplexShape.up ℤ) n).map uK ≫
       (res.mapHomologicalComplexHomologyIso (ComplexShape.up ℤ) n).hom.app eK ≫
-        res.map ((ext.mapHomologicalComplexHomologyIso (ComplexShape.up ℤ) n).hom.app K ≫ ext.map (hS.inv.app K)) =
+        res.map ((ext.mapHomologicalComplexHomologyIso (ComplexShape.up ℤ) n).hom.app K ≫
+          ext.map (hS.inv.app K)) =
       adj.unit.app
           ((HomologicalComplex.homologyFunctor (ModuleCat.{u} S) (ComplexShape.up ℤ) n).obj K) ≫
         res.map (ext.map (hS.inv.app K)) := by
@@ -415,8 +417,8 @@ theorem isBaseChange_derivedUnitHomologyMap (hf : Module.Flat S T)
   let M := (DerivedCategory.homologyFunctor (ModuleCat.{u} T) n).obj
     ((CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u}
       (algebraMap S T)).functor.obj Y)
-  letI : Module S M := Module.compHom _ (algebraMap S T)
-  letI : IsScalarTower S T M := IsScalarTower.of_compHom _ _ _
+  let : Module S M := Module.compHom _ (algebraMap S T)
+  let : IsScalarTower S T M := IsScalarTower.of_compHom _ _ _
   let N := (DerivedCategory.homologyFunctor (ModuleCat.{u} S) n).obj Y
   let eH := (CochainComplex.DerivedTensor.derivedExtensionScalarsHomologyIso.{u, u, u}
     (algebraMap S T) (RingHom.flat_algebraMap_iff.mpr hf) n).app Y
@@ -532,15 +534,15 @@ theorem ringHomSquareComparison_paste (f : R →+* A) (g : R →+* R') (h₀ : A
         simp only [Category.assoc]; rfl }
   have hψ : ψ.app K = τ₀.app K ≫ D₀.map (adj.unit.app (T₀.functor.obj K)) ≫
       E.hom.app _ ≫ Di.map (Cmp.hom.app K) := rfl
-  haveI : (ModuleCat.extendScalars.{u, u, u} g).IsLeftAdjoint :=
+  have : (ModuleCat.extendScalars.{u, u, u} g).IsLeftAdjoint :=
     (ModuleCat.extendRestrictScalarsAdj.{u} g).isLeftAdjoint
-  haveI : (ModuleCat.extendScalars.{u, u, u} (σ.comp h₀)).IsLeftAdjoint :=
+  have : (ModuleCat.extendScalars.{u, u, u} (σ.comp h₀)).IsLeftAdjoint :=
     (ModuleCat.extendRestrictScalarsAdj.{u} (σ.comp h₀)).isLeftAdjoint
-  haveI := Tg.isLeftDerived
-  haveI := Th.isLeftDerived
+  have := Tg.isLeftDerived
+  have := Th.isLeftDerived
   have key : ψ = ringHomSquareComparison f g (σ.comp h₀) (σ.comp i₀) sq := by
     refine @derivedBaseChangeComparison_snd_eq.{u, u, u, u, u} R A R' A' _ _ _ _ _ _ _ _
-      f g (σ.comp h₀) (σ.comp i₀) _ _ sq Tg.functor Th.functor Tg.comparison Th.comparison
+      f g (σ.comp h₀) (σ.comp i₀) sq Tg.functor Th.functor Tg.comparison Th.comparison
       Tg.isLeftDerived Th.isLeftDerived ψ fun L _ => ?_
     let c := ComplexShape.up ℤ
     let eL := ((ModuleCat.extendScalars.{u, u, u} h₀).mapHomologicalComplex c).obj L
@@ -561,10 +563,10 @@ theorem ringHomSquareComparison_paste (f : R →+* A) (g : R →+* R') (h₀ : A
       @CochainComplex.DerivedExtensionScalars.derivedExtensionScalarsAdjunction_unit_app.{u, u, u}
         P A' _ _ σ _ _ Tσ.functor Tσ.comparison Tσ.isLeftDerived eL
     -- the counit equation of the first square
-    haveI : (ModuleCat.extendScalars.{u, u, u} h₀).IsLeftAdjoint :=
+    have : (ModuleCat.extendScalars.{u, u, u} h₀).IsLeftAdjoint :=
       (ModuleCat.extendRestrictScalarsAdj.{u} h₀).isLeftAdjoint
     have h5 := @derivedBaseChangeComparison_snd_app_comp_counit.{u, u, u, u, u} R A R' P
-      _ _ _ _ _ _ _ _ f g h₀ i₀ _ _ sq₀ Tg.functor T₀.functor Tg.comparison T₀.comparison
+      _ _ _ _ _ _ _ _ f g h₀ i₀ sq₀ Tg.functor T₀.functor Tg.comparison T₀.comparison
       Tg.isLeftDerived T₀.isLeftDerived L
     let e2L := ((ModuleCat.extendScalars.{u, u, u} σ).mapHomologicalComplex c).obj eL
     let ehL := ((ModuleCat.extendScalars.{u, u, u} (σ.comp h₀)).mapHomologicalComplex c).obj L
@@ -703,9 +705,9 @@ theorem isIso_ringHomSquareComparison_tensor [Module.Flat R A] :
   let ch : DerivedCategory.Q ⋙ Th.functor ⟶
       (ModuleCat.extendScalars.{u, u, u} (algebraMap A (A ⊗[R] R'))).mapHomologicalComplex
         (ComplexShape.up ℤ) ⋙ DerivedCategory.Q := Th.comparison
-  haveI : Tg.functor.IsLeftDerivedFunctor cg
+  have : Tg.functor.IsLeftDerivedFunctor cg
       (HomologicalComplex.quasiIso (ModuleCat.{u} R) (ComplexShape.up ℤ)) := Tg.isLeftDerived
-  haveI : Th.functor.IsLeftDerivedFunctor ch
+  have : Th.functor.IsLeftDerivedFunctor ch
       (HomologicalComplex.quasiIso (ModuleCat.{u} A) (ComplexShape.up ℤ)) := Th.isLeftDerived
   exact derivedBaseChangeComparison_isIso_of_torIndependent.{u, u, u, u, u}
     (PseudoCoherence.torIndependent_of_flat (R := R) (A := A) (B := R')) Tg.functor Th.functor
@@ -773,8 +775,9 @@ theorem homology_derivedRestrictScalarsComp (ρ : X →+* Y) (σ : Y →+* W)
         HX.map (rρ.mapDerivedCategory.map (fσ.hom.app L)) ≫ ιρ.app (DerivedCategory.Q.obj Lσ) ≫
           rρ.map (HY.map (fσ.inv.app L)) :=
       app_eq_map_hom_comp_app_comp_map_inv ιρ (fσ.app L)
-    have hτ := Stacks.ModulesOnACategory.TopCohomology.mapHomologicalComplexHomologyIso_hom_app_mapNatTrans
-      rc rσ rρ τ c n L
+    have hτ :=
+      Stacks.ModulesOnACategory.TopCohomology.mapHomologicalComplexHomologyIso_hom_app_mapNatTrans
+        rc rσ rρ τ c n L
     have hτid : ∀ M : ModuleCat.{u} W, τ.app M = 𝟙 (rc.obj M) := fun M => rfl
     have hinv : (HomologicalComplex.homologyFunctor (ModuleCat.{u} X) c n).map
           ((NatTrans.mapHomologicalComplex (ModuleCat.restrictScalarsComp ρ σ).inv c).app L) ≫
@@ -785,15 +788,15 @@ theorem homology_derivedRestrictScalarsComp (ρ : X →+* Y) (σ : Y →+* W)
       exact (HomologicalComplex.homologyFunctor (ModuleCat.{u} X) c n).map_id _
     have hτ' := congrArg (fun t => (HomologicalComplex.homologyFunctor (ModuleCat.{u} X) c n).map
       ((NatTrans.mapHomologicalComplex (ModuleCat.restrictScalarsComp ρ σ).inv c).app L) ≫ t) hτ
-    simp only [reassoc_of% hinv, hτid, Category.comp_id] at hτ'
+    simp only [reassoc_of% hinv, hτid] at hτ'
     change HX.map (E.hom.app _) ≫ (rc.mapDerivedCategoryHomologyIso n).hom.app _ =
       (rρ.mapDerivedCategoryHomologyIso n).hom.app _ ≫
         rρ.map ((rσ.mapDerivedCategoryHomologyIso n).hom.app _)
     rw [hE, hc, hρn, hρ, hσ]
     simp only [Functor.map_comp, Category.assoc]
     have c1 : HX.map (fc.inv.app L) ≫
-        (DerivedCategory.homologyFunctor (ModuleCat X) n).map (rc.mapDerivedCategoryFactors.hom.app L)
-          = 𝟙 _ := by
+        (DerivedCategory.homologyFunctor (ModuleCat X) n).map
+          (rc.mapDerivedCategoryFactors.hom.app L) = 𝟙 _ := by
       rw [← HX.map_comp, Iso.inv_hom_id_app]
       exact HX.map_id _
     have c2 : rρ.map ((DerivedCategory.homologyFunctorFactors (ModuleCat Y) n).inv.app Lσ) ≫

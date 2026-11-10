@@ -108,7 +108,7 @@ public abbrev baseIdeal : Ideal ℤ_[p] := Ideal.span {(p : ℤ_[p])}
 
 /-- `𝐙_p` is `p`-adically complete. -/
 public instance instIsAdicCompleteBase : IsAdicComplete (baseIdeal p) ℤ_[p] := by
-  show IsAdicComplete (Ideal.span {(p : ℤ_[p])}) ℤ_[p]
+  change IsAdicComplete (Ideal.span {(p : ℤ_[p])}) ℤ_[p]
   rw [← PadicInt.maximalIdeal_eq_span_p]
   infer_instance
 
@@ -242,14 +242,13 @@ public def coeff (n : ℕ) : completedMonomials p →ₗ[ℤ_[p]] ℤ_[p] :=
 public theorem coeff_of (n : ℕ) (f : monomials p) :
     coeff p n (AdicCompletion.of (baseIdeal p) (monomials p) f) = f n := by
   simp only [coeff, LinearMap.comp_apply, LinearMap.coe_restrictScalars, LinearEquiv.coe_coe,
-    LinearEquiv.coe_toLinearMap, AdicCompletion.map_of, AdicCompletion.ofLinearEquiv_symm_of,
+    AdicCompletion.map_of, AdicCompletion.ofLinearEquiv_symm_of,
     Finsupp.lapply_apply]
 
 private lemma of_coeff (n : ℕ) (x : completedMonomials p) :
     AdicCompletion.of (baseIdeal p) ℤ_[p] (coeff p n x)
       = AdicCompletion.map (baseIdeal p) (Finsupp.lapply (M := ℤ_[p]) (R := ℤ_[p]) n) x := by
-  simp only [coeff, LinearMap.comp_apply, LinearMap.coe_restrictScalars, LinearEquiv.coe_coe,
-    LinearEquiv.coe_toLinearMap]
+  simp only [coeff, LinearMap.comp_apply, LinearMap.coe_restrictScalars, LinearEquiv.coe_coe]
   exact AdicCompletion.of_ofLinearEquiv_symm _ _
 
 /-- **The coefficients are computed at any level.**  The `n`-th coefficient of `x` agrees modulo
@@ -302,7 +301,7 @@ public theorem coeff_completedDifferential (n : ℕ) (x : completedMonomials p) 
   obtain ⟨f, hf⟩ := Submodule.Quotient.mk_surjective
     (baseIdeal p ^ e • (⊤ : Submodule ℤ_[p] (monomials p))) (x.val e)
   have hd : (completedDifferential p x).val e = Submodule.Quotient.mk (differential p f) := by
-    show (AdicCompletion.map (baseIdeal p) (differential p) x).val e = _
+    change (AdicCompletion.map (baseIdeal p) (differential p) x).val e = _
     rw [AdicCompletion.map_val_apply, ← hf]
     rfl
   have h1 := coeff_sub_mem p n (completedDifferential p x) (differential p f) hd
@@ -346,7 +345,7 @@ public theorem completedDifferential_eq_zero_iff (x : completedMonomials p) :
         rcases mul_eq_zero.mp hc.symm with h' | h'
         · exact absurd h' hne
         · exact h'
-      rw [hz, Finsupp.single_apply, if_neg (Nat.succ_ne_zero m).symm]
+      rw [hz, Finsupp.single_apply, ite_eq_right (Nat.succ_ne_zero m).symm]
   · rw [h]
     exact completedDifferential_of_single_zero p _
 
@@ -382,7 +381,7 @@ public def mkCohomologyOne : completedMonomials p →ₗ[ℤ_[p]] cohomologyOne 
 differential. -/
 public theorem mkCohomologyOne_eq_zero_iff (x : completedMonomials p) :
     mkCohomologyOne p x = 0 ↔ x ∈ LinearMap.range (completedDifferential p) := by
-  show (LinearMap.range (completedDifferential p)).mkQ x = 0 ↔ _
+  change (LinearMap.range (completedDifferential p)).mkQ x = 0 ↔ _
   rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
 
 /-! ### Conclusion (3): the cokernel is infinite and not torsion -/
@@ -419,7 +418,7 @@ private lemma sum_single_pow_apply {u : ℕ → ℕ} (hu : Function.Injective u)
       (p ^ u e - 1) = (p : ℤ_[p]) ^ (e + 1) := by
   classical
   have hp : p.Prime := Fact.out
-  rw [Finsupp.finset_sum_apply, Finset.sum_eq_single_of_mem e (Finset.mem_range.mpr h)]
+  rw [Finsupp.finsetSum_apply, Finset.sum_eq_single_of_mem e (Finset.mem_range.mpr h)]
   · exact Finsupp.single_eq_same
   · intro j _ hj
     refine Finsupp.single_eq_of_ne fun hcontra ↦ hj ?_
@@ -486,7 +485,7 @@ public theorem nsmul_omega_notMem_range {n : ℕ} (hn : n ≠ 0) :
 /-- **Conclusion (3) of [Stacks, Tag 07LK] for the displayed complex, second clause.**  The
 cokernel of `diag(0, 1, 2, 3, …)` is not a torsion abelian group: the class of the source's
 `ω = ∑_{e > 0} p^e x^{p^{2e} - 1} dx` has no positive multiple equal to zero. -/
-public theorem not_isTorsion_cohomologyOne : ¬ AddMonoid.IsTorsion (cohomologyOne p) := by
+public theorem not_isTorsion_cohomologyOne : ¬ IsAddTorsion (cohomologyOne p) := by
   intro htor
   obtain ⟨n, hn, hzero⟩ := isOfFinAddOrder_iff_nsmul_eq_zero.mp (htor (mkCohomologyOne p (omega p)))
   rw [← map_nsmul, mkCohomologyOne_eq_zero_iff] at hzero
@@ -538,7 +537,7 @@ private lemma differential_single_one {m : ℕ} (hm : 1 ≤ m) :
   by_cases h : m = n + 1
   · subst h
     simp
-  · rw [if_neg h, mul_zero, if_neg (by omega)]
+  · rw [ite_eq_right h, mul_zero, ite_eq_right (by omega)]
 
 /-- The `t`-th partial sum of `η` is the differential of `∑_{0 < e ≤ t} x^{p^e}`. -/
 private lemma differential_etaPoly (t : ℕ) : differential p (etaPoly p t) = etaPartial p t := by

@@ -135,7 +135,7 @@ public theorem smallEtaleScheme_openCoverData (X : Scheme.{u}) {T : X.Etale}
     refine Set.eq_univ_of_forall fun x => ?_
     obtain ⟨i, hi⟩ := hsurj x
     refine Set.mem_iUnion.2 ⟨ULift.up i, ?_⟩
-    show x ∈ Set.range (U i).ι.base
+    change x ∈ Set.range (U i).ι.base
     rwa [Scheme.Opens.range_ι]
   · exact fun i y => y.2
 
@@ -214,11 +214,11 @@ public theorem constantToSmallEtaleLocallyConstantMapsAb_isLocallySurjective (X 
   refine (Presheaf.imageSieve
     (constantToSmallEtaleLocallyConstantMapsAb.{u, v} X A) s).downward_closed ?_ g
   refine ⟨s₀ (r i), ?_⟩
-  show LocallyConstant.const (W i).left (s₀ (r i)) =
+  change LocallyConstant.const (W i).left (s₀ (r i)) =
     LocallyConstant.comapAddMonoidHom
       ((Scheme.Etale.forget X ⋙ Over.forget X).map (a i)).base.hom s₀
   refine LocallyConstant.ext fun y => ?_
-  show s₀ (r i) = s₀ ((Scheme.Etale.forget X ⋙ Over.forget X).map (a i) y)
+  change s₀ (r i) = s₀ ((Scheme.Etale.forget X ⋙ Over.forget X).map (a i) y)
   exact (hconst (r i) _ (hmaps i y)).symm
 
 /-! ### The constant abelian sheaf -/
@@ -270,7 +270,7 @@ public theorem smallEtaleConstantSheafIsoLocallyConstantMapsAb_unit (X : Scheme.
   let α := constantToSmallEtaleLocallyConstantMapsAb.{u, v} X A
   let hP : Presheaf.IsSheaf J (smallEtaleLocallyConstantMapsAb.{u, max (u + 1) v} X A) :=
     smallEtaleLocallyConstantMapsAb_isSheaf.{u, v} X A
-  show (sheafifyLift J α hP).app T
+  change (sheafifyLift J α hP).app T
     (((toSheafify J ((Functor.const (X.Etale)ᵒᵖ).obj (AddCommGrpCat.of A))).app T) a) = _
   exact congrArg (fun f => f.app T a) (toSheafify_sheafifyLift J α hP)
 

@@ -76,7 +76,7 @@ lemma grModule_noetherian (S : Type*) [CommRing S] (J : Ideal S) (t : ℕ) (a : 
     intro i m x
     show (MvPolynomial.X i : P) • (lf m x) = lf (m + 1) (grShift S J 1 (a i) (mulA_hai S J t a ha
         i) m x)
-    show grModuleRingHom S J t a ha (MvPolynomial.X i)
+    change grModuleRingHom S J t a ha (MvPolynomial.X i)
         (DirectSum.lof S ℕ (fun n => grPiece S J n) m x)
       = (DirectSum.lof S ℕ (fun n => grPiece S J n) (m + 1)
           (grShift S J 1 (a i) (mulA_hai S J t a ha i) m x))
@@ -88,7 +88,7 @@ lemma grModule_noetherian (S : Type*) [CommRing S] (J : Ideal S) (t : ℕ) (a : 
   -- the S⧸J-scalar action commutes with lf
   have hlf_smul : ∀ (c : S ⧸ J) (n : ℕ) (x : grPiece S J n), c • (lf n x) = lf n (c • x) := by
     intro c n x
-    show c • (DirectSum.lof S ℕ (fun n => grPiece S J n) n x : grModule S J)
+    change c • (DirectSum.lof S ℕ (fun n => grPiece S J n) n x : grModule S J)
       = (DirectSum.lof S ℕ (fun n => grPiece S J n) n (c • x) : grModule S J)
     have heq : (DirectSum.lof S ℕ (fun n => grPiece S J n) n x : grModule S J)
         = DirectSum.lof (S ⧸ J) ℕ (fun n => grPiece S J n) n x := rfl
@@ -129,7 +129,7 @@ lemma grModule_noetherian (S : Type*) [CommRing S] (J : Ideal S) (t : ℕ) (a : 
         simpa [smul_eq_mul] using this⟩ : (J ^ n : Ideal S)) = r • v := by
       ext; simp [smul_eq_mul]
     rw [hv]
-    show lf n (grMk S J n (r • v)) = _
+    change lf n (grMk S J n (r • v)) = _
     have hrs : grMk S J n (r • v) = (Ideal.Quotient.mk J r) • grMk S J n v := by
       unfold grMk; rw [Submodule.Quotient.mk_smul, grPiece_smul_mk]
     rw [hrs, ← hlf_smul, grModule_C_smul S J t a ha]
@@ -243,10 +243,10 @@ lemma grModule_noetherian (S : Type*) [CommRing S] (J : Ideal S) (t : ℕ) (a : 
       intro hv
       have : (⟨(0:S), hv⟩ : (J ^ n : Ideal S)) = 0 := by ext; rfl
       rw [this]
-      show lf n (grMk S J n 0) ∈ _
+      change lf n (grMk S J n 0) ∈ _
       have h0 : grMk S J n 0 = 0 := by unfold grMk; simp
       rw [h0]
-      show (DirectSum.lof S ℕ (fun n => grPiece S J n) n 0 : grModule S J) ∈ _
+      change (DirectSum.lof S ℕ (fun n => grPiece S J n) n 0 : grModule S J) ∈ _
       rw [_root_.map_zero]; exact Submodule.zero_mem _
     · -- add
       intro x y hx hy hxih hyih hv
@@ -256,12 +256,12 @@ lemma grModule_noetherian (S : Type*) [CommRing S] (J : Ideal S) (t : ℕ) (a : 
         rw [star_pow_eq_span_monomials S J t a ha n]; exact hy
       have hsplit : (⟨x + y, hv⟩ : (J ^ n : Ideal S)) = ⟨x, hxmem⟩ + ⟨y, hymem⟩ := by ext; simp
       rw [hsplit]
-      show lf n (grMk S J n (⟨x, hxmem⟩ + ⟨y, hymem⟩)) ∈ _
+      change lf n (grMk S J n (⟨x, hxmem⟩ + ⟨y, hymem⟩)) ∈ _
       have hgadd : grMk S J n (⟨x, hxmem⟩ + ⟨y, hymem⟩)
           = grMk S J n ⟨x, hxmem⟩ + grMk S J n ⟨y, hymem⟩ := by
         unfold grMk; rw [Submodule.Quotient.mk_add]
       rw [hgadd]
-      show (DirectSum.lof S ℕ (fun n => grPiece S J n) n
+      change (DirectSum.lof S ℕ (fun n => grPiece S J n) n
           (grMk S J n ⟨x, hxmem⟩ + grMk S J n ⟨y, hymem⟩) : grModule S J) ∈ _
       rw [map_add]
       exact Submodule.add_mem _ (hxih hxmem) (hyih hymem)
@@ -284,7 +284,7 @@ lemma grModule_noetherian (S : Type*) [CommRing S] (J : Ideal S) (t : ℕ) (a : 
     · intro n x
       induction x using Submodule.Quotient.induction_on with
       | _ z =>
-        show (DirectSum.lof S ℕ (fun n => grPiece S J n) n (grMk S J n z) : grModule S J)
+        change (DirectSum.lof S ℕ (fun n => grPiece S J n) n (grMk S J n z) : grModule S J)
             ∈ Submodule.span P {g}
         exact hpiece n z
     · intro p q hp hq
@@ -333,13 +333,13 @@ lemma mulA_pow_lof_grMk (S : Type*) [CommRing S] (J : Ideal S) (t : ℕ) (a : Fi
   | zero =>
     simp only [pow_zero, Module.End.one_apply]
     refine lof_grMk_congr S J _ _ (by ring) _ _ ?_
-    show (z : S) = 1 * z
+    change (z : S) = 1 * z
     rw [one_mul]
   | succ b ih =>
     rw [pow_succ', Module.End.mul_apply, ih]
     rw [mulA'_apply, mulA_lof, grShift_grMk]
     refine lof_grMk_congr S J _ _ (by ring) _ _ ?_
-    show a i * (a i ^ b * (z : S)) = a i ^ (b + 1) * z
+    change a i * (a i ^ b * (z : S)) = a i ^ (b + 1) * z
     rw [pow_succ]; ring
 
 /-- Monomial action on a homogeneous lifted leading-form class: the monoid-hom
@@ -358,7 +358,7 @@ lemma mulAMonoidHom_lof_grMk (S : Type*) [CommRing S] (J : Ideal S) (t : ℕ) (a
   | zero =>
     simp only [ofAdd_zero, map_one, Module.End.one_apply, Finsupp.sum_zero_index]
     refine lof_grMk_congr S J _ _ rfl _ _ ?_
-    show (z : S) = (∏ i, a i ^ (0 : Fin t →₀ ℕ) i) * z
+    change (z : S) = (∏ i, a i ^ (0 : Fin t →₀ ℕ) i) * z
     simp
   | single_add i b μ' hi hb ih =>
     -- split the monoid-hom
@@ -380,7 +380,7 @@ lemma mulAMonoidHom_lof_grMk (S : Type*) [CommRing S] (J : Ideal S) (t : ℕ) (a
     -- assemble degree and value
     refine lof_grMk_congr S J _ _ ?_ _ _ ?_
     · rw [sum_single_add_eq]; ring
-    · show a i ^ b * ((∏ k, a k ^ μ' k) * (z : S)) = (∏ k, a k ^ (Finsupp.single i b + μ') k) * z
+    · change a i ^ b * ((∏ k, a k ^ μ' k) * (z : S)) = (∏ k, a k ^ (Finsupp.single i b + μ') k) * z
       rw [prod_pow_single_add]; ring
 
 /-- Action of a single monomial `monomial μ c` of `P = MvPolynomial (Fin t)(S⧸J)`
@@ -397,7 +397,7 @@ lemma monomial_smul_lof_grMk (S : Type*) [CommRing S] (J : Ideal S) (t : ℕ) (a
   have hmon : (MvPolynomial.monomial μ c : MvPolynomial (Fin t) (S ⧸ J))
       = AddMonoidAlgebra.single μ c := rfl
   rw [hmon, grModuleRingHom, AddMonoidAlgebra.liftNCRingHom_single]
-  show (algebraMap (S ⧸ J) (Module.End (S ⧸ J) (grModule S J)) c)
+  change (algebraMap (S ⧸ J) (Module.End (S ⧸ J) (grModule S J)) c)
       (mulAMonoidHom S J t a ha (Multiplicative.ofAdd μ)
         (DirectSum.lof S ℕ (fun n => grPiece S J n) m (grMk S J m z))) = _
   rw [mulAMonoidHom_lof_grMk, Module.algebraMap_end_apply]
@@ -406,7 +406,7 @@ lemma monomial_smul_lof_grMk (S : Type*) [CommRing S] (J : Ideal S) (t : ℕ) (a
   set w : (J ^ D : Ideal S) := ⟨(∏ i, a i ^ μ i) * z, by
     rw [hD, pow_add, mul_comm (J ^ m)]
     exact Ideal.mul_mem_mul (aMon_mem_pow S J t a ha μ) z.property⟩ with hw
-  show c • (DirectSum.lof S ℕ (fun n => grPiece S J n) D (grMk S J D w) : grModule S J)
+  change c • (DirectSum.lof S ℕ (fun n => grPiece S J n) D (grMk S J D w) : grModule S J)
     = (DirectSum.lof S ℕ (fun n => grPiece S J n) D (c • grMk S J D w) : grModule S J)
   have heq1 : (DirectSum.lof S ℕ (fun n => grPiece S J n) D (grMk S J D w) : grModule S J)
       = DirectSum.lof (S ⧸ J) ℕ (fun n => grPiece S J n) D (grMk S J D w) := rfl
@@ -456,14 +456,14 @@ lemma component_smul_lof (S : Type*) [CommRing S] (J : Ideal S) (t : ℕ) (a : F
       refine ⟨c' * ∏ i, a i ^ μ i, hsmem, ?_⟩
       -- the component equals the leading-form of `(c' a^μ) w`
       rw [DirectSum.component.lof_self]
-      show (Ideal.Quotient.mk J c') • grMk S J (m + (μ.sum fun _ e => e))
+      change (Ideal.Quotient.mk J c') • grMk S J (m + (μ.sum fun _ e => e))
           ⟨(∏ i, a i ^ μ i) * (w : S), _⟩ = _
       rw [grPiece_smul_mk]
       unfold grMk
       rw [← Submodule.Quotient.mk_smul]
       congr 1
       ext
-      show c' • ((∏ i, a i ^ μ i) * (w : S)) = (c' * ∏ i, a i ^ μ i) * w
+      change c' • ((∏ i, a i ^ μ i) * (w : S)) = (c' * ∏ i, a i ^ μ i) * w
       rw [smul_eq_mul]; ring
     · -- degree mismatch: component is 0, take s = 0
       refine ⟨0, Submodule.zero_mem _, ?_⟩
@@ -471,7 +471,7 @@ lemma component_smul_lof (S : Type*) [CommRing S] (J : Ideal S) (t : ℕ) (a : F
       unfold grMk
       rw [eq_comm, Submodule.Quotient.mk_eq_zero]
       simp only [Submodule.mem_comap]
-      show (0 : S) * (w : S) ∈ (J ^ (N + 1) : Ideal S)
+      change (0 : S) * (w : S) ∈ (J ^ (N + 1) : Ideal S)
       rw [zero_mul]; exact Submodule.zero_mem _
   | add p q hp hq =>
     obtain ⟨sp, hsp, hep⟩ := hp
@@ -482,7 +482,7 @@ lemma component_smul_lof (S : Type*) [CommRing S] (J : Ideal S) (t : ℕ) (a : F
     rw [← Submodule.Quotient.mk_add]
     congr 1
     ext
-    show sp * (w : S) + sq * w = (sp + sq) * w
+    change sp * (w : S) + sq * w = (sp + sq) * w
     rw [add_mul]
 
 /-- If the degree-`N` leading form of `x` is the sum of those of the `y k`, then

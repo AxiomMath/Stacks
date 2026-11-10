@@ -474,8 +474,7 @@ private abbrev gmfLeft
 /-- The right side of `derivedPullbackTensorIso_hom_app_comp_comparisonRight`. -/
 private abbrev gmfRight
     (K P : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hP : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) P)
-    (hflatP : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (P.X i)) :=
+    (hP : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) P) :=
       (derivedPullback f).map (TY.comparisonRight K P hP).hom ≫
         derivedPullbackQComparison f (HomologicalComplex.mapBifunctor K P
           (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) (ComplexShape.up ℤ)) ≫
@@ -487,7 +486,7 @@ private theorem gmfLeft_eq_gmfRight_of_kFlat
     (hflatR : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (R.X i))
     (hP : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) P)
     (hflatP : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (P.X i)) :
-    gmfLeft f TX TY R P hP hflatP = gmfRight f TY R P hP hflatP := by
+    gmfLeft f TX TY R P hP hflatP = gmfRight f TY R P hP := by
   have hmodel := derivedPullbackTensorIso_hom_app_model_comp f TX TY R P hR hP hflatR hflatP
   rw [← TX.comparisonRight_eq_comparison _ _ (kFlat_pullbackComplex' f R hR hflatR)
       (kFlat_pullbackComplex' f P hP hflatP),
@@ -549,11 +548,10 @@ private theorem gmfRight_naturality
     {R K : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ}
     (s : R ⟶ K)
     (P : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)) ℤ)
-    (hP : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) P)
-    (hflatP : ∀ i : ℤ, AlgebraicGeometry.SheafOfModules.IsFlat.{u, c', u, u} (O := Y.O) (P.X i)) :
+    (hP : CochainComplex.KFlatBifunctor.KFlat (Stacks.SheafOfModules.Tensor.sheafTensor Y.O) P) :
     (derivedPullback f).map ((TY.tensor.map (DerivedCategory.Q.map s)).app
-        (DerivedCategory.Q.obj P)) ≫ gmfRight f TY K P hP hflatP =
-      gmfRight f TY R P hP hflatP ≫
+        (DerivedCategory.Q.obj P)) ≫ gmfRight f TY K P hP =
+      gmfRight f TY R P hP ≫
         DerivedCategory.Q.map (HomologicalComplex.mapBifunctorMap ((pullbackComplex f).map s)
           (𝟙 ((pullbackComplex f).obj P)) (Stacks.SheafOfModules.Tensor.sheafTensor X.O)
           (ComplexShape.up ℤ)) := by
@@ -601,7 +599,7 @@ theorem derivedPullbackTensorIso_hom_app_comp_comparisonRight
     (by rwa [HomologicalComplex.mem_quasiIso_iff])
   exact gmf_chase ((derivedPullback f).mapIso
     ((TY.tensor.mapIso (asIso (DerivedCategory.Q.map s))).app (DerivedCategory.Q.obj P)))
-    (gmfLeft_naturality f TX TY s P hP hflatP) (gmfRight_naturality f TY s P hP hflatP)
+    (gmfLeft_naturality f TX TY s P hP hflatP) (gmfRight_naturality f TY s P hP)
     (gmfLeft_eq_gmfRight_of_kFlat f TX TY R P hR hflatR hP hflatP)
 
 private theorem cancel3 {C : Type*} [Category C] {A B B' D : C} {a : A ⟶ B} {b : B ⟶ B'}

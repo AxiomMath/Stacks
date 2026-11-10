@@ -100,7 +100,7 @@ private theorem opens_le_of_geometric_range_subset_of_good
   have hg : ∀ y, g y = x := fun y => X.fromSpecResidueField_apply x _
   have hA : Set.range g ⊆ A := by
     rintro _ ⟨y, rfl⟩
-    show g y ∈ A
+    change g y ∈ A
     rwa [hg]
   have hxB := h K (hgood x) g hA (Set.mem_range_self default)
   change g default ∈ B at hxB
@@ -172,7 +172,7 @@ private theorem range_subset_openRelationComp_iff
         Set.range a ⊆ A ∧ Set.range b ⊆ B ∧ pullback.lift a b h ≫ c = g := by
   let m := openRelationCompMap s t c A B
   let := etale_openRelationCompMap s t c A B
-  show Set.range g ⊆ Set.range m ↔ _
+  change Set.range g ⊆ Set.range m ↔ _
   rw [range_subset_iff_exists_lift_of_etale m g]
   constructor
   · rintro ⟨l, hl⟩
@@ -192,7 +192,7 @@ private theorem range_subset_openRelationComp_iff
     have hab' : a' ≫ A.ι ≫ s = b' ≫ B.ι ≫ t := by
       rwa [← Category.assoc, ← Category.assoc, haf, hbf]
     refine ⟨pullback.lift a' b' hab', ?_⟩
-    show pullback.lift a' b' hab' ≫ openRelationCompMap s t c A B = g
+    change pullback.lift a' b' hab' ≫ openRelationCompMap s t c A B = g
     rw [lift_openRelationCompMap]
     simpa only [haf, hbf] using hg
 
@@ -668,7 +668,7 @@ private theorem algebraicClosureResidueFieldSpec_contained
   rw [Scheme.size_Spec] at hκ
   have hcard := Algebra.IsAlgebraic.cardinalMk_le_max (X.residueField x)
     (AlgebraicClosure (X.residueField x))
-  show (Spec (.of (AlgebraicClosure (X.residueField x)))).size < B.cutoff
+  change (Spec (.of (AlgebraicClosure (X.residueField x)))).size < B.cutoff
   rw [Scheme.size_Spec]
   exact max_lt B.aleph0_lt_cutoff (hcard.trans_lt
     (max_lt ((le_max_right _ _).trans_lt hκ) B.aleph0_lt_cutoff))

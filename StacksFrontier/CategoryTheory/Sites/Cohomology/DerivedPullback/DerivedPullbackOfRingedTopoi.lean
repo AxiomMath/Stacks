@@ -154,7 +154,6 @@ section Biproduct
 universe u
 
 variable {C : Type u} [SmallCategory.{u} C] {J : GrothendieckTopology C}
-  [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [HasWeakSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
   (R : Sheaf J CommRingCat.{u})
 
@@ -420,7 +419,7 @@ theorem isGE_derivedPushforward_obj_of_adjunction
     (n : ℤ) (hK : K.IsGE n) :
     ((Stacks.Cohomology.DerivedPullbackPushforwardAdjunction.derivedPushforward f).obj
       K).IsGE n := by
-  show DerivedCategory.TStructure.t.IsGE
+  change DerivedCategory.TStructure.t.IsGE
     ((Stacks.Cohomology.DerivedPullbackPushforwardAdjunction.derivedPushforward f).obj K) n
   rw [DerivedCategory.TStructure.t.isGE_iff_orthogonal (n - 1) n (by omega)]
   intro L g hL

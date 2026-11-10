@@ -87,7 +87,7 @@ theorem isIso_mapDerivedCategory_counit_app_single (M : D) [IsIso (adj.counit.ap
   let K := (HomologicalComplex.single D (ComplexShape.up ℤ) 0).obj M
   have hK : IsIso ((adj.mapHomologicalComplex (ComplexShape.up ℤ)).counit.app K) := by
     refine @HomologicalComplex.Hom.isIso_of_components _ _ _ _ _ _ _ _ fun n => ?_
-    show IsIso (adj.counit.app (K.X n))
+    change IsIso (adj.counit.app (K.X n))
     by_cases hn : n = 0
     · subst hn
       rw [NatTrans.isIso_app_iff_of_iso adj.counit
@@ -156,7 +156,7 @@ theorem _root_.CategoryTheory.Functor.bijective_map_of_iso_left {C D : Type*} [C
       (fun t : G.obj X' ⟶ G.obj Y => G.map e.hom ≫ t) ∘ (fun ζ : X' ⟶ Y => G.map ζ) ∘
         (fun ζ : X ⟶ Y => e.inv ≫ ζ) := by
     funext ζ
-    show G.map ζ = G.map e.hom ≫ G.map (e.inv ≫ ζ)
+    change G.map ζ = G.map e.hom ≫ G.map (e.inv ≫ ζ)
     rw [← G.map_comp, Iso.hom_inv_id_assoc]
   rw [hc]
   exact (((isIso_iff_coyoneda_map_bijective (G.map e.hom)).1 inferInstance _).comp h).comp

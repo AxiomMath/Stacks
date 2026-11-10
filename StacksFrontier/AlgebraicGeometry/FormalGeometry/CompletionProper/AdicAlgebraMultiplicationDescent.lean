@@ -217,7 +217,7 @@ theorem algebraSheafOfModuleCompare_oneSection (U : X.Opensᵒᵖ) :
           (algebraSheafOfModule E (moduleAlgebraDataOfAlgebraSheaf E C ι)) U) =
       AlgebraSheaf.oneSection C U := by
   refine Eq.trans (algebraSheafOfModuleCompare_app E C ι U _) ?_
-  show (ι.inv.val.app U).hom ((ι.hom.val.app U).hom
+  change (ι.inv.val.app U).hom ((ι.hom.val.app U).hom
     (AlgebraSheaf.structSection C U (1 : Γ(X, U.unop)))) = _
   exact (underlyingModuleIso_inv_hom_apply E C ι U _).trans (AlgebraSheaf.structSection_one C U)
 
@@ -232,7 +232,7 @@ theorem algebraSheafOfModuleCompare_mulSection (U : X.Opensᵒᵖ)
         (((algebraSheafOfModuleCompare E C ι).val.app U).hom a)
         (((algebraSheafOfModuleCompare E C ι).val.app U).hom b) := by
   refine Eq.trans (algebraSheafOfModuleCompare_app E C ι U _) ?_
-  show (ι.inv.val.app U).hom ((ι.hom.val.app U).hom
+  change (ι.inv.val.app U).hom ((ι.hom.val.app U).hom
     (AlgebraSheaf.mulSection C U ((ι.inv.val.app U).hom (show E.val.obj U from a))
       ((ι.inv.val.app U).hom (show E.val.obj U from b)))) = _
   exact underlyingModuleIso_inv_hom_apply E C ι U _

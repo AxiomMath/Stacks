@@ -99,6 +99,7 @@ variable {Z Z' : Scheme.{u}} (i : Z' ⟶ Z)
   {S : ShortComplex (Sheaf Z.smallEtaleTopology AddCommGrpCat.{max (u + 1) v})}
 
 set_option maxHeartbeats 1000000 in
+-- assembling the eight fields of `CurveCohomologyStatements` over étale abelian sheaves is heavy
 /-- **The eight statements of Situation 0A52 pass to the middle term of a short exact sequence.**
 Let `0 → S.X₁ → S.X₂ → S.X₃ → 0` be a short exact sequence of abelian sheaves on the small étale
 site of `Z`. If the eight statements hold for `S.X₁` and for `S.X₃`, and the coefficient

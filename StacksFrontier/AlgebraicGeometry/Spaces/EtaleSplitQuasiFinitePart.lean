@@ -22,8 +22,8 @@ prescribed points by the finitely many points of the fibre product, so that the 
 affine) and `StacksFrontier/AlgebraicGeometry/Spaces/EtaleSplitDecompositionRestriction.lean` (the
 affine chart, the splitting of Tag 02LN, and its restriction into the site); the passage from the
 resulting open immersion of schemes to an étale morphism of presheaves is
-`StacksFrontier/AlgebraicGeometry/Spaces/EtaleSplitPresheafAssembly.lean`; and the finiteness clause,
-which is the quotient of the chart by its kernel pair, is
+`StacksFrontier/AlgebraicGeometry/Spaces/EtaleSplitPresheafAssembly.lean`; and the finiteness
+clause, which is the quotient of the chart by its kernel pair, is
 `StacksFrontier/AlgebraicGeometry/Spaces/ClopenPartFinite.lean`.
 
 ## Main definitions

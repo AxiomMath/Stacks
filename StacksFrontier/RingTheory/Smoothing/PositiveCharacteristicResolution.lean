@@ -572,7 +572,7 @@ private theorem canBeResolved_of_hasArtinianApproximationData
       fun x => rfl
   have : IsScalarTower k A C := by
     refine IsScalarTower.of_algebraMap_eq fun x => ?_
-    show algebraMap (MvPolynomial (Fin d) k) C (algebraMap k (MvPolynomial (Fin d) k) x) =
+    change algebraMap (MvPolynomial (Fin d) k) C (algebraMap k (MvPolynomial (Fin d) k) x) =
       algebraMap (parameterPowerAlgebra A d N a) C
         (algebraMap A (parameterPowerAlgebra A d N a) (algebraMap k A x))
     rw [IsScalarTower.algebraMap_apply (MvPolynomial (Fin d) k) (parameterPowerAlgebra A d N a) C,
@@ -595,7 +595,7 @@ private theorem canBeResolved_of_hasArtinianApproximationData
       (algebraMap A C x) = algebraMap A Λ x := by
     intro x
     rw [improvedAlgebraToTarget_apply]
-    show parameterPowerAlgebraToTarget N a (fun i => δ i * φ (π i)) lam hrel
+    change parameterPowerAlgebraToTarget N a (fun i => δ i * φ (π i)) lam hrel
       (grt (algebraMap (parameterPowerAlgebra A d N a) C
         (algebraMap A (parameterPowerAlgebra A d N a) x))) = _
     rw [hgrtB]
@@ -616,7 +616,7 @@ private theorem canBeResolved_of_hasArtinianApproximationData
               commutes' := hfCk } : C →ₐ[k] Λ)).comp
             (IsScalarTower.toAlgHom k (MvPolynomial (Fin d) k) C) := by
       refine MvPolynomial.algHom_ext fun i => ?_
-      show algebraMap (MvPolynomial (Fin m ⊕ Fin d) k) Λ
+      change algebraMap (MvPolynomial (Fin m ⊕ Fin d) k) Λ
           (twistedBaseHom π (MvPolynomial.X i)) =
         improvedAlgebraToTarget N a (fun i => δ i * φ (π i)) lam hrel grt
           (algebraMap (MvPolynomial (Fin d) k) C (MvPolynomial.X i))
@@ -645,7 +645,7 @@ private theorem canBeResolved_of_hasArtinianApproximationData
       (MvPolynomial (Fin m ⊕ Fin d) k ⊗[MvPolynomial (Fin d) k] C) Λ := by
     refine IsScalarTower.of_algebraMap_eq (R := MvPolynomial (Fin m ⊕ Fin d) k)
       (S := MvPolynomial (Fin m ⊕ Fin d) k ⊗[MvPolynomial (Fin d) k] C) (A := Λ) fun x => ?_
-    show (algebraMap (MvPolynomial (Fin m ⊕ Fin d) k) Λ) x =
+    change (algebraMap (MvPolynomial (Fin m ⊕ Fin d) k) Λ) x =
       Algebra.TensorProduct.lift fRalg fCalg (fun _ _ => Commute.all _ _)
         (x ⊗ₜ[MvPolynomial (Fin d) k] (1 : C))
     rw [Algebra.TensorProduct.lift_tmul, map_one, mul_one]
@@ -657,7 +657,7 @@ private theorem canBeResolved_of_hasArtinianApproximationData
       algebraMap (MvPolynomial (Fin m ⊕ Fin d) k ⊗[MvPolynomial (Fin d) k] C) Λ
           (Algebra.TensorProduct.includeRight (algebraMap A C x)) = algebraMap A Λ x := by
     intro x
-    show Algebra.TensorProduct.lift fRalg fCalg (fun _ _ => Commute.all _ _)
+    change Algebra.TensorProduct.lift fRalg fCalg (fun _ _ => Commute.all _ _)
       (Algebra.TensorProduct.includeRight (algebraMap A C x)) = _
     rw [show Algebra.TensorProduct.lift fRalg fCalg (fun _ _ => Commute.all _ _)
       (Algebra.TensorProduct.includeRight (algebraMap A C x)) = fCalg (algebraMap A C x) from
@@ -683,7 +683,7 @@ private theorem canBeResolved_of_hasArtinianApproximationData
     have hγe : ∀ j, (eeq : MvPolynomial (Fin m ⊕ Fin d) k ≃+* _) (twistedParameter π j)
         = scaledVariable π j := by
       intro j
-      show (MvPolynomial.sumAlgEquiv k (Fin d) (Fin m))
+      change (MvPolynomial.sumAlgEquiv k (Fin d) (Fin m))
         ((MvPolynomial.renameEquiv k (Equiv.sumComm (Fin m) (Fin d)))
           (twistedParameter π j)) = scaledVariable π j
       rw [twistedParameter, map_mul, map_mul, scaledVariable_apply]

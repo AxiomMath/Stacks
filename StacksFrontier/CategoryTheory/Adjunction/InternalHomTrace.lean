@@ -151,7 +151,7 @@ theorem bijective_comp_pushforwardTrace (L : C) {A : C} {K : D} (ε : G.obj A �
       φ ≫ pushforwardTrace adj TC TD α HC HD adjC adjD L ε) =
         e₁.trans (e₂.trans (e₃.trans (e₄.trans e₅))) := by
     funext φ
-    show φ ≫ _ = (adjD (G.obj L)).homEquiv M K (p ≫ G.map
+    change φ ≫ _ = (adjD (G.obj L)).homEquiv M K (p ≫ G.map
       (((adjC L).homEquiv (F.obj M) A).symm ((adj.homEquiv M _).symm φ)) ≫ ε)
     refine (Equiv.symm_apply_eq _).1 ?_
     rw [homEquiv_symm_comp_pushforwardTrace, ← Category.assoc,
@@ -202,7 +202,7 @@ theorem bijective_comp_shift [HasShift D ℤ] {P : ObjectProperty D} {A B : D} (
   have key : (fun g : M ⟶ A⟦n⟧ => g ≫ φ⟦n⟧') =
       (adj.homEquiv M B) ∘ (fun g : M⟦-n⟧ ⟶ A => g ≫ φ) ∘ (adj.homEquiv M A).symm := by
     funext g
-    show g ≫ φ⟦n⟧' = adj.homEquiv M B ((adj.homEquiv M A).symm g ≫ φ)
+    change g ≫ φ⟦n⟧' = adj.homEquiv M B ((adj.homEquiv M A).symm g ≫ φ)
     rw [Adjunction.homEquiv_naturality_right]
     exact congrArg (· ≫ φ⟦n⟧') ((adj.homEquiv M A).apply_symm_apply g).symm
   rw [key]

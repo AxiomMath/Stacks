@@ -130,7 +130,7 @@ theorem exists_constantUnit_of_mem_polyUnitsOfDegreeLE_zero {u : (RatFunc k)ˣ}
   have hc : f.coeff 0 ≠ 0 := fun h ↦ hf0 (by
     rw [Polynomial.eq_C_of_natDegree_eq_zero (Nat.le_zero.mp hfd), h, map_zero])
   refine ⟨Units.mk0 (f.coeff 0) hc, Units.ext ?_⟩
-  show constantsHom k (f.coeff 0) = algebraMap (Polynomial k) (RatFunc k) f
+  change constantsHom k (f.coeff 0) = algebraMap (Polynomial k) (RatFunc k) f
   rw [constantsHom, RingHom.comp_apply,
     ← Polynomial.eq_C_of_natDegree_eq_zero (Nat.le_zero.mp hfd)]
 
@@ -188,7 +188,7 @@ theorem infinityResidueRing_eq_zero_of_mem_milnorKPolyFiltration_zero
     rw [List.map_map]
     exact List.map_congr_left fun c _ ↦
       Units.ext (projectiveLineChartInversion_constantsHom (c : k))
-  show milnorKRingMap ((residueFieldAtOriginEquiv k).symm :
+  change milnorKRingMap ((residueFieldAtOriginEquiv k).symm :
       ResidueField (localRingAtOrigin k) →+* k)
       (MilnorKShift.shift (dvrMilnorShiftMap (F := RatFunc k)
         (irreducible_algebraMap_X (k := k))

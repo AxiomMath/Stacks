@@ -6,11 +6,11 @@ public import StacksFrontier.CategoryTheory.Sites.InverseSystem.CohomologyMapIsT
 /-!
 # The base-change square of Stacks 0EYL's levels, on cohomology
 
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/LevelEtaleSquareCoherence.lean` builds the
-pasted base-change square `levelEtaleSquare` of the levels of Stacks 0EYL: restriction to the level
-`i` followed by direct image along the transition of `a : i ⟶ j` is direct image along base change
-in the small étale site followed by restriction to the level `j`, with its identity and composition
-laws.
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Colimits/LevelEtaleSquareCoherence.lean` builds
+the pasted base-change square `levelEtaleSquare` of the levels of Stacks 0EYL: restriction to the
+level `i` followed by direct image along the transition of `a : i ⟶ j` is direct image along base
+change in the small étale site followed by restriction to the level `j`, with its identity and
+composition laws.
 
 This file reads that square on **cohomology**, which is the index-naturality clause of Stacks
 03Q6. Both the transition map of the cohomology of the levels and the transition map of the
@@ -103,6 +103,7 @@ variable {i j : E.system.I} (a : i ⟶ j)
   [(levelEtaleRestrict E Ab.{max u v + 1} i).PreservesInjectiveObjects]
   [(levelEtaleRestrict E Ab.{max u v + 1} j).PreservesInjectiveObjects]
 
+omit [Nonempty I] [IsDirected I (· ≤ ·)] in
 /-- **The cohomological base-change square of the levels of Stacks 0EYL.** Let `a : i ⟶ j` be an
 arrow of the index category, `𝒢ᵢ` and `𝒢ⱼ` abelian sheaves on the small étale sites of the two
 stages and `ψ : 𝒢ⱼ ⟶ (Xᵢ ⟶ Xⱼ)_* 𝒢ᵢ` a transition map between them, and let `V` be an object of the

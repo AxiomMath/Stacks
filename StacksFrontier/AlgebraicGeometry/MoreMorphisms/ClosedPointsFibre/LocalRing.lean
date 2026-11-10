@@ -88,7 +88,7 @@ theorem exists_quotient_isLocalization_quasiFinite_of_isOpen
           (PrimeSpectrum.continuous_comap f)) using 1
       ext x
       exact ⟨fun h ↦ PrimeSpectrum.ext h, fun h ↦ congrArg PrimeSpectrum.asIdeal h⟩
-    show IsOpen (Subtype.val ⁻¹' (V ∩ {x : PrimeSpectrum B |
+    change IsOpen (Subtype.val ⁻¹' (V ∩ {x : PrimeSpectrum B |
       x.asIdeal.comap f = IsLocalRing.maximalIdeal A}ᶜ))
     exact (hV.inter hclosed.isOpen_compl).preimage continuous_subtype_val
   have hWne : W.Nonempty := by
@@ -165,7 +165,7 @@ theorem exists_quotient_isLocalization_quasiFinite_of_isOpen
       Ideal.map_le_iff_le_comap.mp hmap
     have hcomp : Ideal.comap g (⊥ : Ideal D) = q.comap f := by
       ext a
-      show Ideal.Quotient.mk q (f a) = 0 ↔ f a ∈ q
+      change Ideal.Quotient.mk q (f a) = 0 ↔ f a ∈ q
       exact Ideal.Quotient.eq_zero_iff_mem
     have : (q.comap f).IsPrime := Ideal.IsPrime.comap f
     rw [hcomp] at hle

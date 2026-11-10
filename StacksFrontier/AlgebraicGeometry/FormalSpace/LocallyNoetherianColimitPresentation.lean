@@ -146,7 +146,7 @@ theorem isRepresentableThickeningULift_colimitι_of_chain (E : ℕ ⥤ BigAffine
   have heq : colimit.ι ((eL.inverse ⋙ E) ⋙ BigAffineFppf.inclusion B S hS ⋙
       Sheaf.sheafifiedYoneda (BigFppfOver.topology B S hS)) (ULift.up n) ≫ e'.hom =
         colimit.ι G n ≫ e.hom := by
-    show colimit.ι (eL.inverse ⋙ G) (ULift.up n) ≫
+    change colimit.ι (eL.inverse ⋙ G) (ULift.up n) ≫
       (Functor.Final.colimitIso eL.inverse G).hom ≫ e.hom = _
     rw [Functor.Final.ι_colimitIso_hom_assoc]
     rfl
@@ -159,8 +159,8 @@ affine objects of the site and closed immersions `E_0 ⟶ E_1 ⟶ ⋯`, with `E_
 cut out of `E_m` by the `(n + 1)`st power of the ideal of `E_0`, each stage a representable
 thickening, and the stages covering `Y` locally. -/
 theorem exists_chain_of_isNoetherian (Y : FppfSheaf B S hS) (hY : IsNoetherian B S hS Y) :
-    ∃ (E : ℕ ⥤ BigFppfOver B S hS) (ρ : ∀ n, uliftYoneda.{u + 1}.obj (E.obj n) ⟶ Y.obj)
-      (hρ : ∀ n, Space.IsRepresentableThickeningULift.{u + 1} B S hS (ρ n)),
+    ∃ (E : ℕ ⥤ BigFppfOver B S hS) (ρ : ∀ n, uliftYoneda.{u + 1}.obj (E.obj n) ⟶ Y.obj),
+      (∀ n, Space.IsRepresentableThickeningULift.{u + 1} B S hS (ρ n)) ∧
       (∀ n, IsAffine ((BigFppfOver.toScheme B S hS).obj (E.obj n))) ∧
       IsReduced ((BigFppfOver.toScheme B S hS).obj (E.obj 0)) ∧
       (∀ n, AlgebraicGeometry.IsLocallyNoetherian ((BigFppfOver.toScheme B S hS).obj (E.obj n))) ∧
@@ -206,12 +206,12 @@ theorem exists_chain_of_isNoetherian (Y : FppfSheaf B S hS) (hY : IsNoetherian B
     have : PreservesLimitsOfShape WalkingCospan (Sheaf.sheafifiedYoneda JT) := by
       dsimp [Sheaf.sheafifiedYoneda]
       infer_instance
-    show Mono ((Sheaf.sheafifiedYoneda JT).map (E.map f))
+    change Mono ((Sheaf.sheafifiedYoneda JT).map (E.map f))
     infer_instance
   refine ⟨E, ρ, hρ, fun n ↦ (E₀.obj n).property, hred, hnoethE, ?_, fun n m h ↦ (hthick _).1,
     hkerE, ?_⟩
   · intro n m h
-    show uliftYoneda.{u + 1}.map (E.map (homOfLE h)) ≫ ι m ≫ (colimit.ι G m ≫ e.hom).hom =
+    change uliftYoneda.{u + 1}.map (E.map (homOfLE h)) ≫ ι m ≫ (colimit.ι G m ≫ e.hom).hom =
       ι n ≫ (colimit.ι G n ≫ e.hom).hom
     rw [← Category.assoc, sheafifiedYonedaObjIso_naturality B S hS (E.map (homOfLE h)),
       Category.assoc, ← colimit.w G (homOfLE h)]
@@ -223,12 +223,12 @@ theorem exists_chain_of_isNoetherian (Y : FppfSheaf B S hS) (hY : IsNoetherian B
       (e.inv.hom.app (op U) (Y.obj.map g.op y))
     refine (sieve_arrows_iSup_iff _ g).mpr ⟨m, ?_⟩
     refine ⟨(sheafifiedYonedaObjIso B S hS (E.obj m)).inv.app (op U) z, ?_⟩
-    show (colimit.ι G m ≫ e.hom).hom.app (op U)
+    change (colimit.ι G m ≫ e.hom).hom.app (op U)
       ((ι m).app (op U) ((sheafifiedYonedaObjIso B S hS (E.obj m)).inv.app (op U) z)) = _
     rw [show (ι m).app (op U) ((sheafifiedYonedaObjIso B S hS (E.obj m)).inv.app (op U) z) = z
       from ConcreteCategory.congr_hom
         (congr_app (sheafifiedYonedaObjIso B S hS (E.obj m)).inv_hom_id (op U)) z]
-    show e.hom.hom.app (op U) ((colimit.ι G m).hom.app (op U) z) = _
+    change e.hom.hom.app (op U) ((colimit.ι G m).hom.app (op U) z) = _
     rw [hz]
     exact ConcreteCategory.congr_hom (congr_app (congrArg (fun t ↦ t.hom) e.inv_hom_id) (op U)) _
 
@@ -367,7 +367,7 @@ theorem exists_finiteOrderThickening_presentation_of_isLocallyNoetherian
     intro W g' hg'
     obtain ⟨m, hm⟩ := (sieve_arrows_iSup_iff _ g').mp hg'
     refine (sieve_arrows_iSup_iff _ (g' ≫ g)).mpr ⟨m, ?_⟩
-    show X.obj.map (g' ≫ g).op ξ ∈ (neighbourhood hi m).obj (op W)
+    change X.obj.map (g' ≫ g).op ξ ∈ (neighbourhood hi m).obj (op W)
     rw [op_comp, Functor.map_comp_apply, ← hy, ← NatTrans.naturality_apply]
     exact (hmemj j m _).mpr hm
   -- the charts of the neighbourhoods
@@ -403,9 +403,9 @@ theorem exists_finiteOrderThickening_presentation_of_isLocallyNoetherian
       obtain ⟨z, hz⟩ := hyn
       refine ⟨(Sigma.ι (fun j ↦ Rsp j) j).hom.app (op V) z, ?_⟩
       apply Subtype.ext
-      show ((Sigma.ι (fun j ↦ Rsp j) j ≫ Sigma.desc kk).hom.app (op V) z).1 = _
-      rw [show Sigma.ι (fun j ↦ Rsp j) j ≫ Sigma.desc kk = kk j from Sigma.ι_desc _ _]
-      show (f j).hom.app (op V) ((ρ j n).app (op V) z) = _
+      change ((Sigma.ι (fun j ↦ Rsp j) j ≫ Sigma.desc kk).hom.app (op V) z).1 = _
+      rw [show Sigma.ι (fun j ↦ Rsp j) j ≫ Sigma.desc kk = kk j from Sigma.ι_comp_desc _ _]
+      change (f j).hom.app (op V) ((ρ j n).app (op V) z) = _
       rw [hz, hy]
       rfl
     have halg := isAlgebraicSpaceULift_of_reduced_etale_cover B S hS (neighbourhoodι hi n)

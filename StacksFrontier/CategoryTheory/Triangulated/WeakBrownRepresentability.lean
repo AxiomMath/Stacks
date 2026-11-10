@@ -349,7 +349,7 @@ private lemma sigma_desc_kills_kernel
   have hz : Limits.Sigma.map f ≫ Limits.Sigma.map k ≫ Sigma.desc g = 0 := by
     apply Sigma.hom_ext
     intro n
-    simp only [Limits.Sigma.ι_map_assoc, Limits.Sigma.ι_desc, comp_zero]
+    simp only [Limits.Sigma.ι_map_assoc, Sigma.ι_comp_desc, comp_zero]
     rw [← Category.assoc]
     apply hg n (j n) (f n ≫ k n)
     have hz : k n ≫ q n = 0 := comp_distTriang_mor_zero₁₂ _ (hT n)

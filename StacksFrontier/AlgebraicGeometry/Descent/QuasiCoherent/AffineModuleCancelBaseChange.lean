@@ -114,7 +114,7 @@ def congrHom (h : f = g) (X : ModuleCat.{u} R) :
 @[simp]
 theorem congrHom_oneTmul (h : f = g) (X : ModuleCat.{u} R) (x : X) :
     congrHom h X (oneTmul f x) = oneTmul g x := by
-  show (1 : S) • (oneTmul g x : ((extendScalars g).obj X : Type u)) = oneTmul g x
+  change (1 : S) • (oneTmul g x : ((extendScalars g).obj X : Type u)) = oneTmul g x
   exact one_smul _ _
 
 end ExtendScalars

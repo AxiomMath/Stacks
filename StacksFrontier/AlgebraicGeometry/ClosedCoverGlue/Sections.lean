@@ -143,7 +143,7 @@ public theorem isIso_restrict_pushforward_restrict_map {X : Scheme.{u}} {F G : X
       ((Scheme.Modules.restrictFunctor W.ι ⋙ Scheme.Modules.pushforward W.ι).map a)) := by
   apply Scheme.Modules.Hom.isIso_iff_isIso_app.mpr
   intro V
-  show IsIso (a.app (W.ι ''ᵁ (W.ι ⁻¹ᵁ (U.ι ''ᵁ V))))
+  change IsIso (a.app (W.ι ''ᵁ (W.ι ⁻¹ᵁ (U.ι ''ᵁ V))))
   apply (isIso_over_iff_app a (U ⊓ W)).mp inferInstance
   refine le_inf ?_ ?_
   · exact le_trans (W.ι.image_preimage_le _) (by simpa using U.ι.image_le_opensRange V)
@@ -273,7 +273,7 @@ public theorem isIso_restrict_iff_over {X : Scheme.{u}} {F G : X.Modules}
   · intro h V hV
     have he : U.ι ''ᵁ (U.ι ⁻¹ᵁ V) = V := by
       ext x
-      show x ∈ U.ι '' (U.ι ⁻¹' (V : Set X)) ↔ x ∈ V
+      change x ∈ U.ι '' (U.ι ⁻¹' (V : Set X)) ↔ x ∈ V
       constructor
       · rintro ⟨y, hy, rfl⟩
         exact hy
@@ -507,7 +507,7 @@ public theorem isInvertible_of_pointwise_restrictIsoUnit {X : Scheme.{u}} (M : X
       M 1 := @AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.mk.{u, u, u}
         (Opens X) _ (Opens.grothendieckTopology X) X.ringCatSheaf _ _ M 1
         ⟨q, hq, fun x => by
-          show Nonempty (PUnit.{u + 1} ≃ Fin 1)
+          change Nonempty (PUnit.{u + 1} ≃ Fin 1)
           exact ⟨Equiv.ofUnique _ _⟩⟩
   exact (Stacks.SheafOfModules.isInvertible_iff_algebraicGeometry X.toRingedSpace.presheaf
       (structureSheafRing X.toRingedSpace).property
@@ -600,7 +600,7 @@ public theorem isIso_restrict_adjoint_of_open_comp {X Y T : Scheme.{u}}
       (Scheme.Modules.restrictFunctor g).map β := by
     dsimp only [q]
     rw [Adjunction.comp_homEquiv]
-    show (d.homEquiv _ _).symm ((a.homEquiv _ _).symm
+    change (d.homEquiv _ _).symm ((a.homEquiv _ _).symm
       (b ≫ (Scheme.Modules.pushforward f).map (d.unit.app L))) = _
     rw [a.homEquiv_naturality_right_symm, d.homEquiv_naturality_left_symm]
     simp [β]
@@ -612,7 +612,7 @@ public theorem isIso_restrict_adjoint_of_open_comp {X Y T : Scheme.{u}}
       ((Scheme.Modules.pushforward f).map (d.unit.app L))) := by
     apply Scheme.Modules.Hom.isIso_iff_isIso_app.mpr
     intro V
-    show IsIso (L.presheaf.map (homOfLE
+    change IsIso (L.presheaf.map (homOfLE
       (g.image_preimage_le (f ⁻¹ᵁ ((g ≫ f) ''ᵁ V)))).op)
     have he : g ''ᵁ (g ⁻¹ᵁ (f ⁻¹ᵁ ((g ≫ f) ''ᵁ V))) = f ⁻¹ᵁ ((g ≫ f) ''ᵁ V) := by
       ext y
@@ -784,8 +784,6 @@ public theorem exists_invertible_with_sections_of_closed_cover_discrete_intersec
     (Z : ι → Scheme.{u}) (f : ∀ i, Z i ⟶ X)
     [∀ i, IsClosedImmersion (f i)]
     (hcover : ∀ x : X, ∃ i z, f i z = x)
-    (hdiscrete : ∀ i j, i ≠ j → DiscreteTopology
-      (↥(Set.range (f i) ∩ Set.range (f j) : Set X)))
     (L : ∀ i, (Z i).Modules)
     [∀ i, AlgebraicGeometry.SheafOfModules.IsInvertible (Z i).presheaf (Z i).ringCatSheaf.2 (L i)]
     (s : ∀ i, (L i).sections)

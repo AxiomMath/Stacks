@@ -317,7 +317,7 @@ theorem siteHomEquiv_comp {V W : BigFppfOver 𝒞 𝒵 (Space.contains_specULift
     (h : W ⟶ siteObject 𝒞 𝒵 (Space.contains_specULiftZ 𝒞) hR b) :
     siteHomEquiv hR b V (g ≫ h) = siteHomEquiv hR b W h ≫
       ((BigFppfOver.toScheme 𝒞 𝒵 (Space.contains_specULiftZ 𝒞)).map g).appTop := by
-  show specRingHom (_ ≫ _) = _
+  change specRingHom (_ ≫ _) = _
   rw [specRingHom_comp]
   rfl
 
@@ -535,13 +535,13 @@ theorem specRingHom_lift_smul {W : Scheme.{u}} (m : W ⟶ multiplicativeGroupULi
     simp only [CommRingCat.hom_comp, CommRingCat.hom_ofHom, RingHom.comp_apply,
       (action k p).μ_homogeneous 0 _ hC, gradedActionTensorMap_tmul_T,
       RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom,
-      AlgEquiv.coe_ringEquiv, Algebra.TensorProduct.comm_tmul, MvPolynomial.eval₂Hom_C]
+      AlgEquiv.coe_toRingEquiv, Algebra.TensorProduct.comm_tmul, MvPolynomial.eval₂Hom_C]
     refine (specRingHom_lift_pullbackSpecIso_hom_tmul m q w _ _).trans ?_
     rw [LaurentPolynomial.T_zero, map_one, one_mul]
   · intro j
     simp only [CommRingCat.hom_comp, CommRingCat.hom_ofHom, RingHom.comp_apply, action_μ_X,
       gradedActionTensorMap_tmul_T, RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom,
-      AlgEquiv.coe_ringEquiv,
+      AlgEquiv.coe_toRingEquiv,
       Algebra.TensorProduct.comm_tmul, MvPolynomial.eval₂Hom_X', smulPoint_apply,
       IsUnit.unit_spec]
     refine (specRingHom_lift_pullbackSpecIso_hom_tmul m q w _ _).trans ?_
@@ -812,7 +812,7 @@ theorem gmHom_smul_toSchemeOver_map (W : BigFppfOver 𝒞 𝒵 (Space.contains_s
   apply specRingHom_injective
   refine (specRingHom_lift_smul k p (gmHom m).left
     ((BigFppfOver.toScheme 𝒞 𝒵 _).map h) (specULiftZIsTerminal.hom_ext _ _)).trans ?_
-  show _ = CommRingCat.ofHom (pointRingHom (actMap p (gmUnitsEquiv W m) h))
+  change _ = CommRingCat.ofHom (pointRingHom (actMap p (gmUnitsEquiv W m) h))
   rw [actMap, pointRingHom_pointOfCoords]
   rfl
 
@@ -852,13 +852,13 @@ theorem objectsIso_inv_target (W : BigFppfOver 𝒞 𝒵 (Space.contains_specULi
   have hx' : x = yonedaEquiv ((arrowsYonedaEquiv 𝒞 k p hU W).symm (m, h)) := by
     rw [hx, Equiv.apply_symm_apply]
   have he : arrowsEquiv 𝒞 k p hU W x = (gmUnitsEquiv W (yonedaEquiv m), h) := by
-    show (Equiv.prodCongr (yonedaEquiv.trans (gmUnitsEquiv W)) (Equiv.refl _))
+    change (Equiv.prodCongr (yonedaEquiv.trans (gmUnitsEquiv W)) (Equiv.refl _))
       (arrowsYonedaEquiv 𝒞 k p hU W (yonedaEquiv.symm x)) = _
     rw [← hx, Equiv.apply_symm_apply]
     rfl
   rw [he, hx', ← yonedaEquiv_comp, ← yonedaEquiv_comp, Category.assoc,
     target_hom_comp_objectsIso_inv]
-  show yonedaEquiv ((pullback.lift _ _ _ ≫ eqToHom _) ≫ eqToHom _ ≫ _) = _
+  change yonedaEquiv ((pullback.lift _ _ _ ≫ eqToHom _) ≫ eqToHom _ ≫ _) = _
   rw [Category.assoc, eqToHom_trans_assoc, eqToHom_refl, Category.id_comp]
   let t := (isTerminalBaseAlgebraicSpace 𝒞).from (yoneda.obj W)
   let ptG : Over.mk t ⟶ groupOver 𝒞 := Over.homMk (prod.lift t m) (prod.lift_fst _ _)
@@ -995,7 +995,7 @@ theorem actMap_eq_self_iff_coe {W : BigFppfOver 𝒞 𝒵 (Space.contains_specUL
   rw [← pointStabilizer_eq_rootsUnitsSubgroup p i _ hh]
   constructor
   · intro he
-    show smulPoint p γ (coord h) = coord h
+    change smulPoint p γ (coord h) = coord h
     rw [← coord_actMap_eq_smulPoint, he]
   · intro hγ
     exact hom_ext_coord (scalarMap_actMap p γ h)
@@ -1056,13 +1056,13 @@ theorem exists_comp_specMap_quotient_iff {X : Scheme.{u}} {A : Type u} [CommRing
   constructor
   · rintro ⟨f, rfl⟩ a ha
     rw [RingHom.mem_ker, specRingHom_comp_specMap]
-    show (specRingHom f).hom (Ideal.Quotient.mk I a) = 0
+    change (specRingHom f).hom (Ideal.Quotient.mk I a) = 0
     rw [Ideal.Quotient.eq_zero_iff_mem.2 ha, map_zero]
   · intro hI
     refine ⟨specHomEquiv.symm (CommRingCat.ofHom (Ideal.Quotient.lift I (specRingHom g).hom hI)),
       specRingHom_injective ?_⟩
     rw [specRingHom_comp_specMap]
-    show _ ≫ specHomEquiv (specHomEquiv.symm _) = _
+    change _ ≫ specHomEquiv (specHomEquiv.symm _) = _
     rw [Equiv.apply_symm_apply]
     ext a
     rfl
@@ -1448,11 +1448,11 @@ theorem coarseMap_actMapStratum (a : WithTop ℕ)
     coarseMap p a (actMapStratum p a γ x) = coarseMap p a x := by
   induction a using WithTop.recTopCoe with
   | top =>
-    show (siteHomEquiv _ _ W).symm (CommRingCat.ofHom (scalarMap (actMap p γ x.1))) =
+    change (siteHomEquiv _ _ W).symm (CommRingCat.ofHom (scalarMap (actMap p γ x.1))) =
       (siteHomEquiv _ _ W).symm (CommRingCat.ofHom (scalarMap x.1))
     rw [scalarMap_actMap]
   | coe i =>
-    show pointOfCoords (scalarMap (actMap p γ x.1))
+    change pointOfCoords (scalarMap (actMap p γ x.1))
         (coarseCoords p i (coord (actMap p γ x.1))
           (stratumUnit (actMapStratum p (i : WithTop ℕ) γ x))) =
       pointOfCoords (scalarMap x.1) (coarseCoords p i (coord x.1) (stratumUnit x))
@@ -1477,14 +1477,14 @@ theorem coarseMap_restrictStratum {V : BigFppfOver 𝒞 𝒵 (Space.contains_spe
     coarseMap p a (restrictStratum g x) = g ≫ coarseMap p a x := by
   induction a using WithTop.recTopCoe with
   | top =>
-    show (siteHomEquiv _ _ V).symm (CommRingCat.ofHom (scalarMap (g ≫ x.1))) =
+    change (siteHomEquiv _ _ V).symm (CommRingCat.ofHom (scalarMap (g ≫ x.1))) =
       g ≫ (siteHomEquiv _ _ W).symm (CommRingCat.ofHom (scalarMap x.1))
     apply (siteHomEquiv (contains_specField hU) _ V).injective
     rw [siteHomEquiv_comp, Equiv.apply_symm_apply, Equiv.apply_symm_apply]
     ext1
     exact scalarMap_comp g x.1
   | coe i =>
-    show pointOfCoords (scalarMap (g ≫ x.1))
+    change pointOfCoords (scalarMap (g ≫ x.1))
         (coarseCoords p i (coord (g ≫ x.1)) (stratumUnit (restrictStratum g x))) =
       g ≫ pointOfCoords (scalarMap x.1) (coarseCoords p i (coord x.1) (stratumUnit x))
     have hu : stratumUnit (restrictStratum g x) =
@@ -1527,12 +1527,12 @@ theorem coarseMap_coarseSection (a : WithTop ℕ) (y : W ⟶ coarseSiteObject hU
   induction a using WithTop.recTopCoe with
   | top =>
     apply (siteHomEquiv (contains_specField hU) _ W).injective
-    show (siteHomEquiv _ _ W) ((siteHomEquiv _ _ W).symm _) = _
+    change (siteHomEquiv _ _ W) ((siteHomEquiv _ _ W).symm _) = _
     rw [Equiv.apply_symm_apply]
     ext1
     exact scalarMap_pointOfCoords _ _
   | coe i =>
-    show coarseMapCoe p (coarseSectionCoe i y) = y
+    change coarseMapCoe p (coarseSectionCoe i y) = y
     have hu : stratumUnit (coarseSectionCoe (hU := hU) i y) = 1 :=
       Units.ext (by simp [coarseSectionCoe])
     refine hom_ext_coord ?_ (fun m => ?_)
@@ -1541,7 +1541,7 @@ theorem coarseMap_coarseSection (a : WithTop ℕ) (y : W ⟶ coarseSiteObject hU
     · rw [coord_coarseMapCoe, hu]
       simp only [coarseSectionCoe, coord_pointOfCoords, inv_one, one_pow, Units.val_one,
         mul_one]
-      rw [if_neg (by omega), if_neg (by omega)]
+      rw [ite_eq_right (by omega), ite_eq_right (by omega)]
       congr 1
       omega
 
@@ -1550,7 +1550,7 @@ theorem coarseSectionTop_naturality {V : BigFppfOver 𝒞 𝒵 (Space.contains_s
     (g : V ⟶ W) (y : W ⟶ specFieldSiteObject hU) :
     coarseSectionTop (g ≫ y) = restrictStratum g (coarseSectionTop y) := by
   apply Subtype.ext
-  show pointOfCoords _ _ = g ≫ pointOfCoords _ _
+  change pointOfCoords _ _ = g ≫ pointOfCoords _ _
   rw [comp_pointOfCoords, siteHomEquiv_comp]
   congr 1
   funext j
@@ -1561,7 +1561,7 @@ theorem coarseSectionCoe_naturality {V : BigFppfOver 𝒞 𝒵 (Space.contains_s
     (g : V ⟶ W) (i : ℕ) (y : W ⟶ totalSiteObject 𝒞 k hU) :
     coarseSectionCoe i (g ≫ y) = restrictStratum g (coarseSectionCoe i y) := by
   apply Subtype.ext
-  show pointOfCoords _ _ = g ≫ pointOfCoords _ _
+  change pointOfCoords _ _ = g ≫ pointOfCoords _ _
   rw [comp_pointOfCoords, scalarMap_comp]
   congr 1
   funext j
@@ -1824,7 +1824,7 @@ theorem exists_covering_actMap_eq (hp : 0 < p) (a : WithTop ℕ)
       rw [coord_comp_eq, coord_comp_eq]
       refine congrFun (smulPoint_eq_of_coarseCoords_eq _ p i x.2 y.2 (stratumUnit_val x)
         (stratumUnit_val y) hc _ ?_) j
-      show (restrict h (isUnit_rootCoverRoot (p ^ i) hn c).unit.val) ^ p ^ i = _
+      change (restrict h (isUnit_rootCoverRoot (p ^ i) hn c).unit.val) ^ p ^ i = _
       rw [IsUnit.unit_spec, ← map_pow, rootCoverRoot_pow', restrict_comp]
 
 end Transitivity

@@ -167,7 +167,7 @@ theorem exists_isOpenImmersion_pointClosure {U X : Scheme.{u}} (j : U ⟶ X) [Is
   have hFrange : Set.range j'.base ⊆ Set.range V.ι.base := by
     rintro _ ⟨w, rfl⟩
     rw [V.range_ι]
-    show IZ.subschemeι.base (j'.base w) ∈ j.opensRange
+    change IZ.subschemeι.base (j'.base w) ∈ j.opensRange
     rw [base_apply_eq_of_comp_eq hj']
     exact ⟨_, rfl⟩
   set j'' : IW.subscheme ⟶ V.toScheme := IsOpenImmersion.lift V.ι j' hFrange

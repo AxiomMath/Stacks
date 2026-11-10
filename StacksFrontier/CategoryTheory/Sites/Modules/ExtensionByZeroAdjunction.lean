@@ -69,7 +69,7 @@ have `ModuleCat (S.obj X)` as its module of sections over `X : Cᵒᵖ`, whereas
 a family indexed over `C` carries its `HasColimit` instance in `ModuleCat (S.obj (op V))`.
 The two are definitionally equal, but the equality is not available to unification, which
 cannot unfold `CategoryTheory.Limits.getColimitCocone`. Indexing by `Cᵒᵖ` makes the instances
-match syntactically, which is what lets the proofs below rewrite with `Sigma.ι_desc` and
+match syntactically, which is what lets the proofs below rewrite with `Sigma.ι_comp_desc` and
 reduce to components with `Sigma.hom_ext`.
 
 `extensionByZeroPresheafSectionIso_inv_ι` is stated with `HEq` because the two sides live in
@@ -145,7 +145,7 @@ lemma ι_comp_presheafRestriction (G : PresheafOfModules.{u} ((Over.forget U).op
       summandRestriction U S G f φ ≫
         (ModuleCat.restrictScalars (S.map f).hom).map
           (Sigma.ι (presheafSummands U S G Y) (f.unop ≫ φ)) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- `presheafRestriction` applied to an element of the summand indexed by `φ`. -/
 @[simp]
@@ -239,7 +239,8 @@ lemma presheafRestriction_comp_desc
         (ModuleCat.restrictScalars (S.map f).hom).map (Sigma.desc (descComponent U S α Y)) =
       Sigma.desc (descComponent U S α X) ≫ H.map f := by
   apply Sigma.hom_ext; intro φ
-  rw [ι_comp_presheafRestriction_assoc, ← Functor.map_comp, Sigma.ι_desc, Sigma.ι_desc_assoc]
+  rw [ι_comp_presheafRestriction_assoc, ← Functor.map_comp, Sigma.ι_comp_desc,
+    Sigma.ι_comp_desc_assoc]
   exact α.naturality _
 
 /-- The map out of `directSumPresheaf G` determined by a map `G ⟶ j_U^* H`: it is given on the
@@ -288,7 +289,7 @@ noncomputable def directSumPresheafIso
       Sigma.desc (descComponent U S ((restrictionAdjunction U S).unit.app G) X) ≫
         (directSumComparisonInv U S G).app X =
       Sigma.ι (presheafSummands U S G X) φ ≫ 𝟙 _
-    rw [Sigma.ι_desc_assoc, Category.comp_id]
+    rw [Sigma.ι_comp_desc_assoc, Category.comp_id]
     exact congrArg (fun β => β.app (op (Over.mk φ)))
       (((restrictionAdjunction U S).homEquiv_unit G _
           (directSumComparisonInv U S G)).symm.trans
@@ -302,7 +303,7 @@ noncomputable def directSumPresheafIso
         (restrictionFunctor U S).map (directSumComparison U S G) = _
     rw [Equiv.apply_symm_apply, (restrictionAdjunction U S).homEquiv_id]
     exact PresheafOfModules.hom_ext fun X =>
-      Sigma.ι_desc (descComponent U S ((restrictionAdjunction U S).unit.app G)
+      Sigma.ι_comp_desc (descComponent U S ((restrictionAdjunction U S).unit.app G)
         (op X.unop.left)) X.unop.hom
 
 end Presheaf
@@ -362,7 +363,7 @@ theorem extensionByZeroPresheafSectionIso_inv_ι
       (F := Over.forget U) (R := R.obj) (S := (R.over U).obj)
       (𝟙 (R.over U) : (R.over U) ⟶ (R.over U)).hom).unit.app G.val).app
         (op (Over.mk φ))) :=
-  heq_of_eq <| Sigma.ι_desc (f := extensionByZeroSummands J R U G V)
+  heq_of_eq <| Sigma.ι_comp_desc (f := extensionByZeroSummands J R U G V)
     (P := ((PresheafOfModules.pullback (F := Over.forget U)
       (𝟙 ((Over.forget U).op ⋙ R.obj))).obj G.val).obj (op V))
     (fun ψ => ((restrictionAdjunction U R.obj).unit.app G.val).app

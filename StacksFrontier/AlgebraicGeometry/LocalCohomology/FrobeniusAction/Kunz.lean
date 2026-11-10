@@ -297,7 +297,7 @@ private lemma frobenius_iterate_isLocalHom {A : Type*} [CommRing A] [IsLocalRing
 private lemma frobeniusOfPrime_iterate_apply {A : Type*} [CommRing A]
     (p : ℕ) (hp : p.Prime) (hchar : (p : A) = 0) (n : ℕ) (x : A) :
     (frobeniusOfPrime p hp hchar ^ n) x = x ^ p ^ n := by
-  show ((fun y : A ↦ y ^ p)^[n]) x = x ^ p ^ n
+  change ((fun y : A ↦ y ^ p)^[n]) x = x ^ p ^ n
   rw [pow_iterate]
 
 /-- A Noetherian local ring with flat Frobenius endomorphism is regular. -/
@@ -349,11 +349,11 @@ private lemma isRegularLocalRing_of_frobeniusOfPrime_flat {A : Type u} [CommRing
   let J : ℕ → Ideal S := fun n ↦ Ideal.map (φ n) mA
   let q : ℕ → ℕ := fun n ↦ p ^ n
   have hφx (n : ℕ) (i : Fin r) : φ n (x i) = y i ^ q n := by
-    show e ((frobeniusOfPrime p hp hchar ^ n) (x i)) = e (x i) ^ p ^ n
+    change e ((frobeniusOfPrime p hp hchar ^ n) (x i)) = e (x i) ^ p ^ n
     rw [frobeniusOfPrime_iterate_apply]
     rw [map_pow]
   have hJspan (n : ℕ) : J n = Ideal.span (Set.range fun i ↦ y i ^ q n) := by
-    show Ideal.map (φ n) mA = _
+    change Ideal.map (φ n) mA = _
     rw [← hxspan, Ideal.map_span]
     congr 1
     ext z
@@ -391,7 +391,7 @@ private lemma isRegularLocalRing_of_frobeniusOfPrime_flat {A : Type u} [CommRing
     · rw [← hyspan]
       apply Ideal.span_le.mpr
       rintro _ ⟨i, rfl⟩
-      show y i ∈ (J n).radical
+      change y i ∈ (J n).radical
       rw [Ideal.mem_radical_iff]
       exact ⟨q n, hgen n i⟩
   have hmArad : mA.radical = IsLocalRing.maximalIdeal A :=
@@ -406,7 +406,7 @@ private lemma isRegularLocalRing_of_frobeniusOfPrime_flat {A : Type u} [CommRing
       _ = Module.length S (S ⧸ (mS ^ t)) := by
         rw [Ideal.map_pow]
         have hmax : Ideal.map e.toRingHom mA = mS := by
-          show Ideal.map e.toRingHom (IsLocalRing.maximalIdeal A) =
+          change Ideal.map e.toRingHom (IsLocalRing.maximalIdeal A) =
             IsLocalRing.maximalIdeal S
           exact IsLocalRing.map_ringEquiv_maximalIdeal e
         rw [hmax]
@@ -414,7 +414,7 @@ private lemma isRegularLocalRing_of_frobeniusOfPrime_flat {A : Type u} [CommRing
     Ideal.hilbertSamuelDegree_eq_degree_of_computes hP
   have hdimEq : Module.hilbertSamuelDegree A A = Module.hilbertSamuelDegree S S := by
     apply WithBot.map_injective (fun a b h ↦ WithTop.coe_injective h)
-    show WithBot.map (Nat.cast : ℕ → ℕ∞) (Module.hilbertSamuelDegree A A) =
+    change WithBot.map (Nat.cast : ℕ → ℕ∞) (Module.hilbertSamuelDegree A A) =
       WithBot.map (Nat.cast : ℕ → ℕ∞) (Module.hilbertSamuelDegree S S)
     rw [Module.hilbertSamuelDegree_eq_supportDim A A, Module.supportDim_self_eq_ringKrullDim,
       Module.hilbertSamuelDegree_eq_supportDim S S, Module.supportDim_self_eq_ringKrullDim,
@@ -439,10 +439,10 @@ private lemma isRegularLocalRing_of_frobeniusOfPrime_flat {A : Type u} [CommRing
     let : Algebra A S := (φ n).toAlgebra
     let : Module A S := (φ n).toAlgebra.toModule
     let : IsLocalHom (algebraMap A S) := by
-      show IsLocalHom (φ n)
+      change IsLocalHom (φ n)
       exact hφlocal n
     have hflatAlg : (algebraMap A S).Flat := by
-      show RingHom.Flat (φ n)
+      change RingHom.Flat (φ n)
       exact hφflat n
     let : Module.Flat A S := RingHom.flat_algebraMap_iff.mp hflatAlg
     have hb := length_baseChange_eq_length_mul_length_quotient A S
@@ -463,7 +463,7 @@ private lemma isRegularLocalRing_of_frobeniusOfPrime_flat {A : Type u} [CommRing
     (congrArg (fun z : ℕ∞ ↦ (z : WithBot ℕ∞)) hden).trans hδ
   have hPdegree : P.degree = (d : WithBot ℕ) := by
     apply WithBot.map_injective (fun a b h ↦ WithTop.coe_injective h)
-    show WithBot.map (Nat.cast : ℕ → ℕ∞) P.degree =
+    change WithBot.map (Nat.cast : ℕ → ℕ∞) P.degree =
       WithBot.map (Nat.cast : ℕ → ℕ∞) (d : WithBot ℕ)
     rw [← hdegP, Module.hilbertSamuelDegree_eq_supportDim A A,
       Module.supportDim_self_eq_ringKrullDim, hd.symm]
@@ -612,7 +612,7 @@ private lemma isRegularLocalRing_of_frobeniusOfPrime_flat {A : Type u} [CommRing
           (q N) ^ d * r ^ d := by simpa [Nat.mul_comm] using hmul
       exact Nat.le_of_mul_le_mul_left hmul' (Nat.pow_pos hqpos)
     have hqge : p ^ N ≤ (q N) ^ (r - d) := by
-      show p ^ N ≤ (p ^ N) ^ (r - d)
+      change p ^ N ≤ (p ^ N) ^ (r - d)
       calc
         p ^ N = (p ^ N) ^ 1 := (pow_one _).symm
         _ ≤ (p ^ N) ^ (r - d) := by
@@ -726,13 +726,13 @@ private lemma frobeniusOfPrime_flat_of_isRegularRing {A : Type*} [CommRing A]
   have heq : φ = F.comp eLoc.toRingHom := by
     apply IsLocalization.ringHom_ext Q.primeCompl
     ext x
-    show (Localization.localRingHom Q P (frobeniusOfPrime p hp hchar) (by rfl))
+    change (Localization.localRingHom Q P (frobeniusOfPrime p hp hchar) (by rfl))
         (algebraMap A qQ x) = F (eLoc (algebraMap A qQ x))
     rw [Localization.localRingHom_to_map]
     rw [show eLoc (algebraMap A qQ x) = algebraMap A qP x by
       exact IsLocalization.ringEquivOfRingEquiv_eq (S := qQ) (Q := qP) hmap x]
     simp [F, qP, frobeniusOfPrime_apply]
-  show RingHom.Flat φ
+  change RingHom.Flat φ
   rw [heq]
   exact (RingHom.Flat.of_bijective (f := eLoc.toRingHom) eLoc.bijective).comp
     (frobeniusOfPrime_flat_of_isRegularLocalRing p hp hcharP)

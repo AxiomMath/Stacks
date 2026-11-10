@@ -11,7 +11,8 @@ Let `f : X ⟶ Spec A` and let `U : I → X.Opens` be a family of opens. Restric
 `A`-linear map `Γ(F, W) → Č⁰_alt(U, F)`. When the family covers `W` it is injective and its image
 is the kernel of the alternating Čech differential, by the sheaf property; and it is compatible
 with the base change of Čech cochains of
-`StacksFrontier/AlgebraicGeometry/Modules/AlternatingCechModuleBaseChange.lean`, through the canonical
+`StacksFrontier/AlgebraicGeometry/Modules/AlternatingCechModuleBaseChange.lean`,
+through the canonical
 pullback of sections.
 
 ## Main definitions
@@ -158,7 +159,7 @@ theorem range_sectionsToAlternatingₗ :
   · rintro ⟨s, rfl⟩
     rw [LinearMap.mem_ker]
     refine Subtype.ext (funext fun i => ?_)
-    show ∑ j : Fin 2, ((-1 : ℤ) ^ (j : ℕ)) • CechCochains.restr F.presheaf
+    change ∑ j : Fin 2, ((-1 : ℤ) ^ (j : ℕ)) • CechCochains.restr F.presheaf
       (CechCochains.inter_le_omit U i j)
         (CechCochains.restr F.presheaf (inter_le_of_le U hUW (i ∘ j.succAbove)) s) = 0
     rw [Fin.sum_univ_two, CechCochains.restr_restr, CechCochains.restr_restr]

@@ -113,7 +113,7 @@ private lemma vanishingIdeal_closure_singleton_map {X Y : Scheme.{u}}
   rw [Scheme.IdealSheafData.map_vanishingIdeal]
   congr 1
   apply TopologicalSpace.Closeds.ext
-  show closure (f '' closure ({x} : Set X)) = closure ({f x} : Set Y)
+  change closure (f '' closure ({x} : Set X)) = closure ({f x} : Set Y)
   apply le_antisymm
   · apply closure_minimal _ isClosed_closure
     simpa using image_closure_subset_closure_image (s := ({x} : Set X)) f.continuous
@@ -169,7 +169,7 @@ private lemma relativeDelta_eq_stalkDimension_of_generic
   have hη : closure ({η} : Set T) = Set.univ := (genericPoint_spec T).def
   have hmax : ∀ z : IrreducibleCloseds T, z ≤ closureSingleton η := by
     intro z
-    show (z : Set T) ⊆ closure ({η} : Set T)
+    change (z : Set T) ⊆ closure ({η} : Set T)
     rw [hη]
     exact Set.subset_univ _
   have hcod := codim_closure_singleton_eq_delta_diff
@@ -205,7 +205,7 @@ private theorem relativeDimension_precomp_closedImmersion
   have ht : Algebra.trdeg K B = Algebra.trdeg K A :=
     (AlgEquiv.ofBijective φ hbij).trdeg_eq
   simp only [relativeDimension]
-  show δ (f (i y)) + (Cardinal.toNat (Algebra.trdeg K B) : ℤ) =
+  change δ (f (i y)) + (Cardinal.toNat (Algebra.trdeg K B) : ℤ) =
     δ ((i ≫ f) y) + (Cardinal.toNat (Algebra.trdeg K A) : ℤ)
   simp [ht]
 
@@ -234,7 +234,7 @@ public theorem relativeDimension_postcomp_closedImmersion
   have ht : Algebra.trdeg K L = Algebra.trdeg K' L :=
     Algebra.trdeg_eq_of_ringEquiv eK (RingEquiv.refl L) hcompat
   simp only [relativeDimension, pullbackDimensionFunctionClosed]
-  show δ (i (f x)) + (Cardinal.toNat (Algebra.trdeg K L) : ℤ) =
+  change δ (i (f x)) + (Cardinal.toNat (Algebra.trdeg K L) : ℤ) =
     δ (i (f x)) + (Cardinal.toNat (Algebra.trdeg K' L) : ℤ)
   simp [ht]
 

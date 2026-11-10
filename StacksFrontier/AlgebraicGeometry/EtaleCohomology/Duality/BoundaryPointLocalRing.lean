@@ -120,7 +120,7 @@ theorem mem_range_of_forall_mem_range_curveLocalRing [IsAffine S] (s : X ⟶ S) 
     Spec.map (curveLocalRingToFunctionField j hy)
   have : IsDominant ι := by
     rw [isDominant_iff]
-    show DenseRange (PrimeSpectrum.comap ψ)
+    change DenseRange (PrimeSpectrum.comap ψ)
     rw [DenseRange, dense_iff_closure_eq, PrimeSpectrum.closure_range_comap,
       (RingHom.injective_iff_ker_eq_bot _).mp hinj]
     exact PrimeSpectrum.zeroLocus_bot
@@ -138,7 +138,7 @@ theorem mem_range_of_forall_mem_range_curveLocalRing [IsAffine S] (s : X ⟶ S) 
   have hev : Spec.map (V.evaluation ⊤ (genericPoint V) trivial) ≫ V.isoSpec.inv =
       V.fromSpecResidueField (genericPoint V) := by
     rw [← cancel_mono V.isoSpec.hom, Category.assoc, Iso.inv_hom_id, Category.comp_id]
-    show _ = V.fromSpecResidueField (genericPoint V) ≫ V.toSpecΓ
+    change _ = V.fromSpecResidueField (genericPoint V) ≫ V.toSpecΓ
     rw [Scheme.fromSpecResidueField, Category.assoc, Scheme.fromSpecStalk_toSpecΓ,
       ← Spec.map_comp]
     rfl
@@ -147,7 +147,7 @@ theorem mem_range_of_forall_mem_range_curveLocalRing [IsAffine S] (s : X ⟶ S) 
         V.evaluation ⊤ (genericPoint V) trivial := by
       ext a
       exact hθ a
-    show Spec.map (curveLocalRingToFunctionField j hy) ≫ Spec.map θc ≫
+    change Spec.map (curveLocalRingToFunctionField j hy) ≫ Spec.map θc ≫
       V.isoSpec.inv ≫ j = _
     rw [← Spec.map_comp_assoc, h1, ← Category.assoc, hev]
     exact (specMap_curveLocalRingToFunctionField_comp_fromSpecStalk j hy).symm

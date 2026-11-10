@@ -128,7 +128,7 @@ theorem geometricFiberComponentCount_pullback_snd_eq
   have hβ : yonedaEquiv.symm p.value ≫ g = yonedaEquiv.symm q.value := by
     apply yonedaEquiv.injective
     rw [yonedaEquiv_comp]
-    show g.app (op p.siteObject) (yonedaEquiv (yonedaEquiv.symm p.value)) =
+    change g.app (op p.siteObject) (yonedaEquiv (yonedaEquiv.symm p.value)) =
       yonedaEquiv (yonedaEquiv.symm q.value)
     rw [Equiv.apply_symm_apply, Equiv.apply_symm_apply]
     rfl

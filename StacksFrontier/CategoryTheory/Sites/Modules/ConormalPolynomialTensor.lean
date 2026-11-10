@@ -321,7 +321,7 @@ theorem tensorPresheaf_map_one_tmul_d {X Y : Cᵒᵖ} (f : X ⟶ Y) (x : A₀.ob
           CommRingCat.KaehlerDifferential.d (f := a₀.app X) x) =
       (1 : A₀.obj Y ⧸ kernelIdeal φ₀ Y) ⊗ₜ[A₀.obj Y]
         CommRingCat.KaehlerDifferential.d (f := a₀.app Y) (A₀.map f x) := by
-  show (quotientPresheaf φ₀).map f 1 ⊗ₜ[A₀.obj Y]
+  change (quotientPresheaf φ₀).map f 1 ⊗ₜ[A₀.obj Y]
       (differentialsPresheaf a₀).map f (CommRingCat.KaehlerDifferential.d x) = _
   rw [map_one ((quotientPresheaf φ₀).map f).hom]
   exact congrArg (fun ω : (differentialsPresheaf a₀).obj Y ↦
@@ -610,7 +610,7 @@ theorem polynomialTensorDescApp_map
     (polynomialTensorDescRestrict J A B E a e f)
     (polynomialTensorRestrictDesc J A B E a e f) ?_) t
   intro b p
-  show polynomialTensorDescApp.{v, u, w, z} J A B E a e Y
+  change polynomialTensorDescApp.{v, u, w, z} J A B E a e Y
       ((tensorPresheaf (freeAlgebraSheafDesc J A B E a e).hom
         (freeAlgebraSheafCoefficientMap J A E).hom).map f
         (b ⊗ₜ[(freeAlgebraSheaf J A E).obj.obj X]

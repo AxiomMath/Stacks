@@ -616,7 +616,7 @@ theorem TleftCochain_mapTriangle_triangle_iso (G : CochainComplex C ℤ)
   · -- mor₂ compatibility: the `inr` inclusions (sign-free L-summand) intertwine via Θ.
     simp only [CochainComplex.mappingCone.triangle_mor₂, Iso.refl_hom, Category.id_comp]
     -- expose the (defeq) reduced form of `(mapTriangle.obj _).mor₂`
-    show (TleftCochain G).map (CochainComplex.mappingCone.inr φ)
+    change (TleftCochain G).map (CochainComplex.mappingCone.inr φ)
         ≫ (TleftCochain_mappingCone_iso G φ).hom
       = CochainComplex.mappingCone.inr ((TleftCochain G).map φ)
     rw [← hinr, Category.assoc, Iso.inv_hom_id, Category.comp_id]
@@ -624,7 +624,7 @@ theorem TleftCochain_mapTriangle_triangle_iso (G : CochainComplex C ℤ)
     -- and `commShiftIso (TleftCochain G) 1 = mapBifunctorShift₂Iso` enter here.
     simp only [Iso.refl_hom, CategoryTheory.Functor.map_id, Category.comp_id]
     -- expose the (defeq) reduced form of `(mapTriangle.obj _).mor₃`
-    show (TleftCochain G).map (CochainComplex.mappingCone.triangle φ).mor₃
+    change (TleftCochain G).map (CochainComplex.mappingCone.triangle φ).mor₃
         ≫ (Functor.commShiftIso (TleftCochain G) 1).hom.app
             (CochainComplex.mappingCone.triangle φ).obj₁
       = (TleftCochain_mappingCone_iso G φ).hom
@@ -720,7 +720,7 @@ theorem Tleft_mapTriangle_triangleh_iso (G : CochainComplex C ℤ)
   -- after rewriting the LHS through the strict lift iso `Q ⋙ Tleft G ≅ TleftCochain G ⋙ Q`.
   refine ?_ ≪≫ (HomotopyCategory.quotient C (ComplexShape.up ℤ)).mapTriangle.mapIso Φ
   refine (Functor.mapTriangleCompIso _ _).symm.app _ ≪≫ ?_ ≪≫ (Functor.mapTriangleCompIso _ _).app _
-  show ((HomotopyCategory.quotient C (ComplexShape.up ℤ)) ⋙ Tleft G).mapTriangle.obj _ ≅
+  change ((HomotopyCategory.quotient C (ComplexShape.up ℤ)) ⋙ Tleft G).mapTriangle.obj _ ≅
        ((TleftCochain G) ⋙ (HomotopyCategory.quotient C (ComplexShape.up ℤ))).mapTriangle.obj _
   -- The strict lift iso, with its `NatTrans.CommShift` datum
   -- (`Quotient.liftCommShift_compatibility`).

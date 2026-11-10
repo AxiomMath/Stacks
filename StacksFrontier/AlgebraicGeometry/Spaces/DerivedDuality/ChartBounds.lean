@@ -54,36 +54,10 @@ theorem exists_lower_bound_schemeDual (T : Scheme.{u}) [IsAffine T] [IsNoetheria
 variable (Y : RingedSite.{u, u, u})
   [HasSheafify Y.J AddCommGrpCat.{u}]
   [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
-  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]
-  [∀ A, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).obj A).Additive]
-  [∀ (K₁ K₂ : HomologicalComplex (SheafOfModules.{u}
-      (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} Y.O)) (ComplexShape.up ℤ)),
-    HomologicalComplex.HasMapBifunctor K₁ K₂ (Stacks.SheafOfModules.Tensor.sheafTensor Y.O)
-      (ComplexShape.up ℤ)]
   [∀ U : Y.C, HasSheafify (Y.over U).J AddCommGrpCat.{u}]
   [∀ U : Y.C, (Y.over U).J.WEqualsLocallyBijective AddCommGrpCat.{u}]
-  [∀ U : Y.C, (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (Y.over U).O).Additive]
-  [∀ U : Y.C, ∀ A,
-    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (Y.over U).O).obj A).Additive]
-  [∀ U : Y.C, ∀ (K₁ K₂ : HomologicalComplex (SheafOfModules.{u}
-      (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} (Y.over U).O)) (ComplexShape.up ℤ)),
-    HomologicalComplex.HasMapBifunctor K₁ K₂
-      (Stacks.SheafOfModules.Tensor.sheafTensor (Y.over U).O) (ComplexShape.up ℤ)]
 
 variable {Y} in
-omit [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]
-  [∀ A, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).obj A).Additive]
-  [∀ (K₁ K₂ : HomologicalComplex (SheafOfModules.{u}
-      (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} Y.O)) (ComplexShape.up ℤ)),
-    HomologicalComplex.HasMapBifunctor K₁ K₂ (Stacks.SheafOfModules.Tensor.sheafTensor Y.O)
-      (ComplexShape.up ℤ)]
-  [∀ U : Y.C, (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (Y.over U).O).Additive]
-  [∀ U : Y.C, ∀ A,
-    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (Y.over U).O).obj A).Additive]
-  [∀ U : Y.C, ∀ (K₁ K₂ : HomologicalComplex (SheafOfModules.{u}
-      (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} (Y.over U).O)) (ComplexShape.up ℤ)),
-    HomologicalComplex.HasMapBifunctor K₁ K₂
-      (Stacks.SheafOfModules.Tensor.sheafTensor (Y.over U).O) (ComplexShape.up ℤ)] in
 /-- The vanishing of a cohomology sheaf of an object of `D(O)` restricted to a slice. -/
 theorem isZero_homology_stdRestrict {U : Y.C} {L : StdDerived Y} {n : ℤ}
     (h : IsZero ((stdHomology Y n).obj L)) :
@@ -92,19 +66,6 @@ theorem isZero_homology_stdRestrict {U : Y.C} {L : StdDerived Y} {n : ℤ}
     (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) U) h).of_iso (stdRestrictHomologyIso Y U n L)
 
 variable {Y} in
-omit [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]
-  [∀ A, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).obj A).Additive]
-  [∀ (K₁ K₂ : HomologicalComplex (SheafOfModules.{u}
-      (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} Y.O)) (ComplexShape.up ℤ)),
-    HomologicalComplex.HasMapBifunctor K₁ K₂ (Stacks.SheafOfModules.Tensor.sheafTensor Y.O)
-      (ComplexShape.up ℤ)]
-  [∀ U : Y.C, (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (Y.over U).O).Additive]
-  [∀ U : Y.C, ∀ A,
-    ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} (Y.over U).O).obj A).Additive]
-  [∀ U : Y.C, ∀ (K₁ K₂ : HomologicalComplex (SheafOfModules.{u}
-      (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} (Y.over U).O)) (ComplexShape.up ℤ)),
-    HomologicalComplex.HasMapBifunctor K₁ K₂
-      (Stacks.SheafOfModules.Tensor.sheafTensor (Y.over U).O) (ComplexShape.up ℤ)] in
 /-- A model on a chart of an object whose cohomology vanishes in degree `n` has vanishing
 cohomology in degree `n`. -/
 theorem DualityChart.isZero_homology_model {U : Y.C} {K : StdDerived (Y.over U)}

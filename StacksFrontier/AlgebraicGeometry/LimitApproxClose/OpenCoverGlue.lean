@@ -169,7 +169,7 @@ lemma preimage_gluePairOpensHom_left :
     · have hq : q.1 ∈ U₁ := (gluePairOpensHom_inr_apply S U₁ U₂ q) ▸ ht
       exact ⟨⟨q.1, hq⟩, gluePairInl_eq_gluePairInr_of_val_eq S U₁ U₂ ⟨q.1, hq⟩ q rfl⟩
   · obtain ⟨p, rfl⟩ := ht
-    show gluePairOpensHom S U₁ U₂ (gluePairInl _ _ p) ∈ U₁
+    change gluePairOpensHom S U₁ U₂ (gluePairInl _ _ p) ∈ U₁
     rw [gluePairOpensHom_inl_apply]
     exact p.2
 
@@ -184,7 +184,7 @@ lemma preimage_gluePairOpensHom_right :
       exact ⟨⟨p.1, hp⟩, (gluePairInl_eq_gluePairInr_of_val_eq S U₁ U₂ p ⟨p.1, hp⟩ rfl).symm⟩
     · exact ⟨q, rfl⟩
   · obtain ⟨q, rfl⟩ := ht
-    show gluePairOpensHom S U₁ U₂ (gluePairInr _ _ q) ∈ U₂
+    change gluePairOpensHom S U₁ U₂ (gluePairInr _ _ q) ∈ U₂
     rw [gluePairOpensHom_inr_apply]
     exact q.2
 

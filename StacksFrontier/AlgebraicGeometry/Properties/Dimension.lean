@@ -158,7 +158,7 @@ lemma isIso_sigmaFromSpecStalk_of_topologicalKrullDim_le_zero
   change (Sigma.desc (fun x : X ↦ X.fromSpecStalk x))
       ((Sigma.ι (fun x : X ↦ Spec (X.presheaf.stalk x)) x)
         p) = x
-  rw [← Scheme.Hom.comp_apply, Sigma.ι_desc]
+  rw [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
   exact Scheme.fromSpecStalk_closedPoint
 
 /-- A space with an open singleton has local dimension zero at that point. -/

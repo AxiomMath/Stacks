@@ -417,7 +417,8 @@ following hypotheses:
 
 The hypotheses `hresE`, `hresCE`, `hresCCE` provide the K-flat resolutions defining the three
 derived tensor products. -/
-@[stacks 08QC "RESTRICTED: assumes Tags 07A4, 08PH, 08QA (diagonal and both projections) and 08QB at the derived level"]
+@[stacks 08QC "RESTRICTED: assumes Tags 07A4, 08PH, 08QA (diagonal and both projections) and \
+    08QB at the derived level"]
 theorem isIso_totalDerivedColimitTensorComparison
     (U : CosimplicialObject C) (hU : IsPointResolution U)
     (K₁ K₂ : DerivedCategory (Cᵒᵖ ⥤ E)) :

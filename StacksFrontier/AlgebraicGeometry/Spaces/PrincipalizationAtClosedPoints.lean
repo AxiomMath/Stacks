@@ -82,7 +82,7 @@ proved here is the induction that assembles them.
   the multiple of the exceptional divisor — and an ideal again supported on finitely many
   closed points, lying over the old ones, which are regular of dimension two and whose
   colength is strictly smaller.  The scheme-level `Stacks.ResolutionOfSurfaces` form of Stacks
-  0AHH, in `StacksFrontier/AlgebraicGeometry/ResolutionOfSurfaces/QuadraticTransformations/PointBlowupChain.lean` under
+  0AHH, in `PointBlowupChain.lean` under
   `StacksFrontier/AlgebraicGeometry/ResolutionOfSurfaces/QuadraticTransformations/`,
   carries exactly this hypothesis, there with the concrete colength
   `Stacks.ResolutionOfSurfaces.totalColength`.  Here the colength is a parameter `colength` of

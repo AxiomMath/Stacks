@@ -73,7 +73,7 @@ theorem sectionAt_map {k : Type u} [Field k] {X : Scheme.{u}}
     (ha : a.base (IsLocalRing.closedPoint k) ∈ U) (s : Γ(X, V)) :
     AlgebraicGeometry.sectionAt a U ha (X.presheaf.map i.op s) =
       AlgebraicGeometry.sectionAt a V (i.le ha) s := by
-  show (Scheme.stalkClosedPointTo a).hom (X.presheaf.germ U _ ha (X.presheaf.map i.op s)) =
+  change (Scheme.stalkClosedPointTo a).hom (X.presheaf.germ U _ ha (X.presheaf.map i.op s)) =
     (Scheme.stalkClosedPointTo a).hom (X.presheaf.germ V _ (i.le ha) s)
   rw [X.presheaf.germ_res_apply i _ ha s]
 
@@ -124,10 +124,10 @@ theorem sectionAt_constHom {k : Type u} [Field k] {X : Scheme.{u}}
       𝟙 Γ(Spec (.of k), ⊤) := by
     rw [Scheme.Hom.appLE_comp_appLE]
     exact appLE_eq_id_of_eq_id _ hid _
-  show ((X.presheaf.germ U _ hU ≫ Scheme.stalkClosedPointTo a).hom)
+  change ((X.presheaf.germ U _ hU ≫ Scheme.stalkClosedPointTo a).hom)
     (((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appLE ⊤ U hUle).hom c) = c
   rw [germ_stalkClosedPointTo_appLE a U hU]
-  show (((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appLE ⊤ U hUle ≫
+  change (((Scheme.ΓSpecIso (.of k)).inv ≫ (X ↘ Spec (.of k)).appLE ⊤ U hUle ≫
     a.appLE U ⊤ (Scheme.preimage_eq_top_of_closedPoint_mem a hU).ge ≫
       (Scheme.ΓSpecIso (.of k)).hom).hom) c = c
   rw [← Category.assoc ((X ↘ Spec (.of k)).appLE ⊤ U hUle), hcomp, Category.id_comp,

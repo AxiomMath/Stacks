@@ -244,7 +244,7 @@ theorem CompactSupportTwistResolution.nonempty :
       DerivedCategory.Q.map (τ ≫ P.mapCochainComplexPlus.map ψ).hom)
   refine ⟨⟨T, ψ, hq, hinj, hge,
     ObjectProperty.homMk g, DerivedCategory.Plus.ι.map_injective ?_⟩⟩
-  show DerivedCategory.Q.map (τ ≫ P.mapCochainComplexPlus.map ψ).hom =
+  change DerivedCategory.Q.map (τ ≫ P.mapCochainComplexPlus.map ψ).hom =
     DerivedCategory.Q.map (ψ.hom ≫ g)
   rw [DerivedCategory.Q.map_comp ψ.hom g, hg, IsIso.hom_inv_id_assoc]
 
@@ -382,7 +382,7 @@ lemma directImageComp_hom_app_etaleModuleHom {X₁ X₂ X₃ : Scheme.{u}} (f₁
         ((etaleModuleDirectImageComp.{u, 0} R f₁ f₂ f₁₂ h).hom.app G) := by
   apply Sheaf.hom_ext
   refine NatTrans.ext (funext fun U => ?_)
-  show 𝟙 _ ≫ (homFunctor M ρ).map (G.obj.map _) = (homFunctor M ρ).map (𝟙 _ ≫ G.obj.map _)
+  change 𝟙 _ ≫ (homFunctor M ρ).map (G.obj.map _) = (homFunctor M ρ).map (𝟙 _ ≫ G.obj.map _)
   simp only [Category.id_comp]
 
 omit [Module.Finite R M] [IsNoetherianRing R] in
@@ -465,7 +465,7 @@ lemma twistChainEndo_etaleModuleHom
         (pullback.snd (Over.mk j.toBase).hom (specAlgebraMap k kbar))
         (geometricFrobeniusBaseChange_comp_toBase (Over.mk j.toBase) kbar p q hcard).symm).hom.app
         (T.obj.X n))
-  show (etaleModuleGlobalSections.{u, 0} Λ (Spec (.of kbar))).map
+  change (etaleModuleGlobalSections.{u, 0} Λ (Spec (.of kbar))).map
       ((etaleModuleDirectImage.{u, 0} Λ
         (pullback.snd (Over.mk j.toBase).hom (specAlgebraMap k kbar))).map
           ((etaleModuleHom M ρ (fieldBaseChange (Over.mk j.toBase) kbar)).map (tw.hom.f n)) ≫
@@ -613,7 +613,7 @@ theorem exists_compactSupportHomModel [IsSepClosed kbar]
     simp only [ObjectProperty.FullSubcategory.comp_hom, Functor.map_comp,
       DerivedCategory.Q.map_comp] at h₁
     apply DerivedCategory.Plus.ι.map_injective
-    show DerivedCategory.Q.map (τΛ.hom ≫
+    change DerivedCategory.Q.map (τΛ.hom ≫
       ((etaleModuleDirectImage.{u, 0} Λ
       (geometricFrobeniusBaseChange (Over.mk j.toBase) kbar p q hcard)).mapHomologicalComplex _).map
         (e.hom.hom ≫ ((etaleModuleHom M ρ

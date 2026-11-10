@@ -57,7 +57,7 @@ theorem groupoidCompose_cancel_left {S : Scheme.{u}} (G : GroupoidScheme S) {T :
   have hsource : ∀ (c : T ⟶ G.arrows) (wc : a ≫ G.source = c ≫ G.target),
       G.compose a c wc ≫ G.source = c ≫ G.source := by
     intro c wc
-    show (pullback.lift a c wc ≫ G.comp) ≫ G.source = c ≫ G.source
+    change (pullback.lift a c wc ≫ G.comp) ≫ G.source = c ≫ G.source
     rw [Category.assoc, G.source_comp, pullback.lift_snd_assoc]
   have hs : b ≫ G.source = b' ≫ G.source := by
     rw [← hsource b w, h, hsource b' w']

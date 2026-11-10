@@ -223,7 +223,7 @@ include hp in
 theorem zmodPresheafHom_comp_artinSchreierMap :
     zmodPresheafHom.{u, v} X hX ≫ (artinSchreierMap.{u, v} X hp hX).hom = 0 := by
   ext U m
-  show ULift.up ((constZModHom X hX U.unop m.down) ^ p - constZModHom X hX U.unop m.down) = _
+  change ULift.up ((constZModHom X hX U.unop m.down) ^ p - constZModHom X hX U.unop m.down) = _
   rw [constZModHom_pow X hp hX U.unop m.down, sub_self]
   rfl
 
@@ -233,7 +233,7 @@ theorem zmodSheafHom_comp_artinSchreierMap :
     zmodSheafHom.{u, v} X hX ≫ artinSchreierMap.{u, v} X hp hX = 0 := by
   refine Sheaf.hom_ext (sheafify_hom_ext X.smallEtaleTopology _ _
     (isSheaf_additivePresheaf.{u, v} X) ?_)
-  show toSheafify X.smallEtaleTopology
+  change toSheafify X.smallEtaleTopology
       ((Functor.const X.Etaleᵒᵖ).obj
         (AddCommGrpCat.of (ULift.{max (u + 1) v} (ZMod p)))) ≫
       (zmodSheafHom.{u, v} X hX).hom ≫ (artinSchreierMap.{u, v} X hp hX).hom =

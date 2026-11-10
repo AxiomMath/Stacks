@@ -138,7 +138,7 @@ public theorem eq_genericPoint_of_map_eq_genericPoint_of_dim_eq {Z T : Scheme.{u
   have hsum : (Order.height Q : WithBot ℕ∞) + (Order.coheight Q : WithBot ℕ∞) ≤
       topologicalKrullDim Z := by
     have _ : Nonempty (IrreducibleCloseds Z) := ⟨Q⟩
-    show _ ≤ Order.krullDim (IrreducibleCloseds Z)
+    change _ ≤ Order.krullDim (IrreducibleCloseds Z)
     rw [Order.krullDim_eq_iSup_height_add_coheight_of_nonempty]
     exact WithBot.coe_mono
       (le_iSup (fun W : IrreducibleCloseds Z => Order.height W + Order.coheight W) Q)
@@ -259,7 +259,7 @@ private theorem sheafMultiplicity_pushforward_unitModule {Z X : Scheme.{u}} (g :
       (((Scheme.Modules.pushforward g).obj (Stacks.Ample.unitModule Z)).presheaf.stalk
         (g.base (genericPoint Z)))).toNat = g.residueDegree (genericPoint Z) := by
     rw [hA, hB, length_unitModule_stalk_genericPoint Z, one_mul]
-  show ((Module.length (X.presheaf.stalk (g.base (genericPoint Z)))
+  change ((Module.length (X.presheaf.stalk (g.base (genericPoint Z)))
       (((Scheme.Modules.pushforward g).obj (Stacks.Ample.unitModule Z)).presheaf.stalk
         (g.base (genericPoint Z)))).toNat : ℤ) = (g.residueDegree (genericPoint Z) : ℤ)
   exact_mod_cast hfin
@@ -583,7 +583,7 @@ private theorem intersectionNumber_pullback_eq_sum_mixedCoeff (k : Type u) [Fiel
         (fun j => if j ∈ S then 1 else 0)) :=
       isZero_twistedSheaf_of_isZero L hzero' _
     refine hq ?_
-    show (-1 : ℤ) ^ q * eulerCharacteristic k pX
+    change (-1 : ℤ) ^ q * eulerCharacteristic k pX
       (twistedSheaf ((Scheme.Modules.pushforward ι).obj
         ((higherDirectImage h q).obj (Stacks.Ample.unitModule Z))) L
         (fun j => if j ∈ S then 1 else 0)) = 0
@@ -732,7 +732,7 @@ public theorem intersectionNumber_pullback_eq_degreeOver_mul (k : Type u) [Field
     have h0 : (i ≫ f).toImage.base (genericPoint Z) = genericPoint (i ≫ f).image :=
       map_genericPoint_of_isDominant (i ≫ f).toImage
     conv_lhs => rw [← (i ≫ f).toImage_imageι]
-    show (i ≫ f).imageι.base ((i ≫ f).toImage.base (genericPoint Z)) = _
+    change (i ≫ f).imageι.base ((i ≫ f).toImage.base (genericPoint Z)) = _
     rw [h0]
   have hfibg : ∀ z : Z, (i ≫ f).base z = (i ≫ f).base (genericPoint Z) →
       z = genericPoint Z := by
@@ -788,7 +788,7 @@ public theorem intersectionNumber_pullback_eq_degreeOver_mul (k : Type u) [Field
     have hWsub : (W.1.support : Set X) ⊆ ((i ≫ f).ker.support : Set X) := by
       rw [← hsuppG]
       exact W.2.2.1
-    show (W.1.support : Set X) = ((i ≫ f).ker.support : Set X)
+    change (W.1.support : Set X) = ((i ≫ f).ker.support : Set X)
     refine Set.Subset.antisymm hWsub ?_
     have hξW : (i ≫ f).imageι.base (genericPoint (i ≫ f).image) ∈
         (W.1.support : Set X) := by

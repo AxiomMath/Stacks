@@ -102,7 +102,7 @@ private lemma exists_tuple_of_weightOne (A : Type u) [CommRing A]
     rfl
   have hzRep : y = ∑ i, vars i ⊗ₜ[A] mvec i := by
     rw [hz.symm, hz']
-    show TensorProduct.map (symmetricPower A Q 1).subtype LinearMap.id
+    change TensorProduct.map (symmetricPower A Q 1).subtype LinearMap.id
       (TensorProduct.map ρ LinearMap.id (TensorProduct.map q LinearMap.id zV)) = _
     rw [TensorProduct.map_map, TensorProduct.map_map, hcomp, hzVrep, map_sum]
     refine Finset.sum_congr rfl fun i _ => ?_
@@ -121,8 +121,7 @@ private lemma down_extensionMap_apply {n m : ℕ} (A : Type u) [CommRing A]
           (Opposite.op (Opposite.op R))) z) =
       f.baseChange R
         (TensorProduct.map LinearMap.id (finiteFreeDownEquiv.{w, u} A).toLinearMap z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul b z =>
       rw [moduleExtensionFunctor_map_app_tmul.{max u w, v}
         A ((ModuleCat.uliftFunctor.{w, u} A).map (ModuleCat.ofHom f))
@@ -382,7 +381,7 @@ private lemma lift_eq_of_eq_at_universalSolution_on
       TensorProduct.piScalarRightHom_tmul, Pi.single_apply]
   have hiξ : tupleTensorFiniteFree.{w} A D xC = (i.app XC).hom ξ := by
     apply (TensorProduct.congr (LinearEquiv.refl A D) eₙ).injective
-    show TensorProduct.map (LinearMap.id : D →ₗ[A] D) eₙ.toLinearMap
+    change TensorProduct.map (LinearMap.id : D →ₗ[A] D) eₙ.toLinearMap
         (tupleTensorFiniteFree.{w} A D xC) =
       TensorProduct.map (LinearMap.id : D →ₗ[A] D) eₙ.toLinearMap ((i.app XC).hom ξ)
     rw [tupleTensorFiniteFree_down]
@@ -417,12 +416,12 @@ private lemma lift_eq_of_eq_at_universalSolution_on
       (moduleExtensionOfCarrierOn.{max u w} Q.ι (finiteFreeModule.{w} A n)).map u x := by
     have hFmap : (moduleExtensionOfCarrierOn.{max u w} Q.ι
         (finiteFreeModule.{w} A n)).map u x = tupleTensorFiniteFree.{w} A D xC := by
-      show (TensorProduct.map e.toLinearMap LinearMap.id)
+      change (TensorProduct.map e.toLinearMap LinearMap.id)
           (tupleTensorFiniteFree.{w} A B vars) = tupleTensorFiniteFree.{w} A D xC
       simp only [tupleTensorFiniteFree, map_sum]
       apply Finset.sum_congr rfl
       intro j hj
-      show e (vars j) ⊗ₜ[A] (⟨Pi.single j 1⟩ : finiteFreeModule.{w} A n) =
+      change e (vars j) ⊗ₜ[A] (⟨Pi.single j 1⟩ : finiteFreeModule.{w} A n) =
         xC j ⊗ₜ[A] (⟨Pi.single j 1⟩ : finiteFreeModule.{w} A n)
       rw [hvarsC j]
     exact hiξ.symm.trans hFmap.symm

@@ -121,7 +121,7 @@ public theorem continuous_algHom_leftMulMatrixTopology {K : Type*} [NormedRing K
         simp only [Finset.mul_sum, mul_smul_comm], b.sum_repr, mul_one]
     calc b.repr x l = b.repr (∑ l', b.repr 1 l' • (x * b l')) l := by rw [h1]
       _ = ∑ l', b.repr 1 l' * b.repr (x * b l') l := by
-        rw [map_sum, Finsupp.finset_sum_apply]
+        rw [map_sum, Finsupp.finsetSum_apply]
         simp only [map_smul, Finsupp.smul_apply, smul_eq_mul]
   have hj : (j : E → K) = fun x =>
       ∑ l, (∑ l', b.repr 1 l' * Algebra.leftMulMatrix b x l l') • j (b l) := by
@@ -130,8 +130,8 @@ public theorem continuous_algHom_leftMulMatrixTopology {K : Type*} [NormedRing K
     simp only [map_sum, map_smul]
     exact Finset.sum_congr rfl fun l _ => by rw [hrepr x l]
   rw [hj]
-  refine continuous_finset_sum _ fun l _ => Continuous.smul ?_ continuous_const
-  exact continuous_finset_sum _ fun l' _ =>
+  refine continuous_finsetSum _ fun l _ => Continuous.smul ?_ continuous_const
+  exact continuous_finsetSum _ fun l' _ =>
     continuous_const.mul (hi.continuous.matrix_elem l l')
 
 end Topology
@@ -185,7 +185,7 @@ public theorem exists_norm_eq_pow_of_isIotaRealizable_restrictScalarsRep
         ((1 : (Matrix (Fin r) (Fin r) E₀)ˣ) : Matrix (Fin r) (Fin r) E₀) = T := fun T => by
     rw [inv_one, Units.val_one, Matrix.one_mul, Matrix.mul_one]
   have hgd : ∀ T : Matrix (Fin r) (Fin r) E₀, gradedDiag (fun _ : Fin r => (0 : ℤ)) T = T :=
-    fun T => funext fun i => funext fun i' => if_pos rfl
+    fun T => funext fun i => funext fun i' => ite_eq_left rfl
   obtain ⟨β, hβ, hβy⟩ := exists_norm_eq_pow_toSquareBlock_of_isIotaRealizable_linear ι' H φ hcomm
     hD1 Fr deg hFr hdeg hfin hq
     (fun ι₁ m τ hτ => htf ι₁ m τ ((continuous_iff_continuous_restrictScalarsRep b τ).1 hτ)) ρ

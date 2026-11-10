@@ -64,7 +64,7 @@ theorem _root_.CategoryTheory.PullbackData.relHomOpens_isFlasque_of_surjective {
   obtain ⟨y, hy⟩ := hs h ((P.triangle (κ.w (homOfLE h))).inv.app N ≫ x ≫
     (P.triangle (κ.w (homOfLE h))).hom.app N')
   refine ⟨y, ?_⟩
-  show (P.triangle (κ.w (homOfLE h))).hom.app N ≫ (P.pull (π.map (homOfLE h))).map y ≫
+  change (P.triangle (κ.w (homOfLE h))).hom.app N ≫ (P.pull (π.map (homOfLE h))).map y ≫
     (P.triangle (κ.w (homOfLE h))).inv.app N' = x
   rw [hy]
   simp only [Category.assoc, Iso.hom_inv_id_app, Category.comp_id, Iso.hom_inv_id_app_assoc]

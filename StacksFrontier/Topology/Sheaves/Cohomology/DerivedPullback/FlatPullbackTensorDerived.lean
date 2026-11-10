@@ -98,7 +98,7 @@ theorem isIso_comparison_app_of_kFlat (M : CochainComplex (Modules Y) ℤ)
     (hM : AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.KFlat Y M) :
     IsIso ((comparison f G).app M) := by
   have h₁ := Stacks.Cohomology.DerivedPullbackTensor.isIso_derivedPullbackNatTrans_app f M hM
-  have hK : Stacks.SheafOfModules.KFlat.KFlat X.sheaf ((pullbackComplex f).obj M) :=
+  have hK : Stacks.SheafOfModules.KFlat X.sheaf ((pullbackComplex f).obj M) :=
     Stacks.SheafOfModules.KFlatPullback.kFlat_pullback_unconditional f M hM
   have e := (Stacks.DerivedTensor.RingedSite.canonicalDerivedTensorProduct X.sheaf
       ).toTensor_eq_comparisonLeft ((pullbackComplex f).obj M) G hK

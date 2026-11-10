@@ -253,14 +253,12 @@ theorem unramifiedAt_pullbackLift_of_isDMOver (𝒳 : AlgebraicStacks.{u, w} B S
         F.obj E ⟶ pullback (terminal.from (F.obj W)) (terminal.from (F.obj W))) =
       F.map (prod.lift s t) ≫ hPB'.isoPullback.hom ≫ j ≫ (pullback.congrHom hρi hρi).hom := by
     apply pullback.hom_ext
-    · simp only [pullback.congrHom_hom, Category.assoc, pullback.map_fst, Category.comp_id,
+    · simp only [pullback.congrHom_hom, Category.assoc, Category.comp_id,
         IsPullback.isoPullback_hom_fst, ← F.map_comp, limit.lift_π, BinaryFan.mk_pt,
         BinaryFan.mk_fst, ρ, i, j, PullbackCone.mk_π_app]
-      all_goals first | rfl | exact pullback.lift_fst _ _ _
-    · simp only [pullback.congrHom_hom, Category.assoc, pullback.map_snd, Category.comp_id,
+    · simp only [pullback.congrHom_hom, Category.assoc, Category.comp_id,
         IsPullback.isoPullback_hom_snd, ← F.map_comp, limit.lift_π, BinaryFan.mk_pt,
         BinaryFan.mk_snd, ρ, i, j, PullbackCone.mk_π_app]
-      all_goals first | rfl | exact pullback.lift_snd _ _ _
   have h₁ := unramified_prodLift_of_isDMOver B S hS 𝒳 h𝒳 b c hc s t es et
   have h₂ : Unramified hPB'.isoPullback.hom := hunr _
   have h₃ : Unramified j := hunr _

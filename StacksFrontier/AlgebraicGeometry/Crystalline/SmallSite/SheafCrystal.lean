@@ -85,7 +85,8 @@ site.  The condition read with the comparison maps of presheaves of modules — 
 `Crystalline.GlobalCrystallineSituation.SmallSite.CohomologyRestriction.moduleComparison` — is
 strictly stronger, the pullback of sheaves of modules being the sheafification of the pullback of
 presheaves of modules; see the correction described in the module documentation of
-`StacksFrontier.AlgebraicGeometry.Crystalline.CrystalsModules.SheafCrystal`.  It would therefore name
+`StacksFrontier.AlgebraicGeometry.Crystalline.CrystalsModules.SheafCrystal`.
+It would therefore name
 a smaller class of modules than [Stacks, Tag 07IS] defines, and is not the condition stated here.
 
 The implication from the presheaf-level to the sheaf-level condition, the small-site analogue of

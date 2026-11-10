@@ -62,10 +62,10 @@ pushforwards.
 
 The stack is formed over the big fppf site of `Spec ℤ`, and `𝓕_{𝒳,k,x}` over `𝒞_Λ` with `Λ = ℤ`,
 `Spec Λ = Spec ℤ` the affine open of the base containing the image of `Spec k` (Stacks 07T2). -/
-@[stacks 0D1K "(1): for a field k of finite type over Z and an object x of Spaces'_{fp,flat,proper} \
-over Spec k, the predeformation category F_{X,k,x} over C_Z is a deformation category whose \
-tangent space T F_{X,k,x} and infinitesimal automorphisms Inf(F_{X,k,x}) (Section 07WY) are \
-finite dimensional"]
+@[stacks 0D1K "(1): for a field k of finite type over Z and an object x of \
+Spaces'_{fp,flat,proper} over Spec k, the predeformation category F_{X,k,x} over C_Z is a \
+deformation category whose tangent space T F_{X,k,x} and infinitesimal automorphisms \
+Inf(F_{X,k,x}) (Section 07WY) are finite dimensional"]
 theorem finiteDimensional_predeformationCategory {k : Type u} [Field k]
     [Algebra (ULift.{u} ℤ) k] [Algebra.FiniteType (ULift.{u} ℤ) k]
     (x : CartesianProperFlatSpaces B integerBase hZ)
@@ -76,7 +76,7 @@ theorem finiteDimensional_predeformationCategory {k : Type u} [Field k]
       (letI : Fact (IsPredeformationCategory (BasedCategory.ofFunctor (predeformationCategory
           (𝟙 integerBase) (cartesianProperFlatProjection B integerBase hZ ⋙ Over.post B.inclusion)
             x hx).projection).p) := ⟨hD.predeformation⟩;
-        letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+        letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
           (isomorphismClasses (BasedCategory.ofFunctor (predeformationCategory (𝟙 integerBase)
             (cartesianProperFlatProjection B integerBase hZ ⋙ Over.post B.inclusion) x
               hx).projection) hD.predeformation.cofibered))) := ⟨tangentConditionS2.{u, u, u} hD⟩;

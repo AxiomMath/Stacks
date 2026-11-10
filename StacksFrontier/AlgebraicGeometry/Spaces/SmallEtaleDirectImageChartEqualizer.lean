@@ -205,7 +205,7 @@ theorem smallEtaleDirectImageChartEqualizer_fork_comm
         ((comparisonFunctor B S hS X).op ⋙
           ((smallEtaleComparisonRestriction B S hS X).asEquivalence.inverse.obj P).obj).map
             b.op := by
-  show ((smallEtaleComparisonRestriction B S hS X).asEquivalence.inverse.obj P).obj.map g.op ≫
+  change ((smallEtaleComparisonRestriction B S hS X).asEquivalence.inverse.obj P).obj.map g.op ≫
         ((smallEtaleComparisonRestriction B S hS X).asEquivalence.inverse.obj P).obj.map
           ((comparisonFunctor B S hS X).map a).op =
       ((smallEtaleComparisonRestriction B S hS X).asEquivalence.inverse.obj P).obj.map g.op ≫

@@ -106,7 +106,7 @@ lemma chartComparison_restrict_m {Z Z' : BigFppfOver B S hS} (k : Z' ⟶ Z) (ψ 
       (X.map (eqToHom (congrArg Over.mk (Category.assoc k ψ pr₁)))) :=
     isHomLift_map_eqToHom 𝒳 hX _
   have : 𝒳.val.p.IsHomLift (𝟙 Z') r.m := r.vert
-  show l.1 ≫ g.map (eqToHom (congrArg Over.mk (Category.assoc k ψ pr₂))) =
+  change l.1 ≫ g.map (eqToHom (congrArg Over.mk (Category.assoc k ψ pr₂))) =
     (X.map (eqToHom (congrArg Over.mk (Category.assoc k ψ pr₁))) ≫ r.m :
       X.obj (Over.mk ((k ≫ ψ) ≫ pr₁)) ⟶ g.obj (Over.mk (k ≫ ψ ≫ pr₂)))
   have : 𝒳.val.p.IsHomLift (𝟙 Z')

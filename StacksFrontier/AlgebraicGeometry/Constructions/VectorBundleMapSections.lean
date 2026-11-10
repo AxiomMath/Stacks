@@ -55,7 +55,7 @@ theorem symmetricAlgebraGen_app (m : Γ(E, V)) :
     conv_lhs => rw [← htri]
     exact congrArg (fun g => (SheafOfModules.Hom.val g).app (op V) _)
       (Scheme.Modules.sheafificationIso X E).hom_inv_id
-  show (@PresheafOfModules.symmetricAlgebraSheafifyGen _ _ _ X.sheaf.obj X.ringCatSheaf
+  change (@PresheafOfModules.symmetricAlgebraSheafifyGen _ _ _ X.sheaf.obj X.ringCatSheaf
       (𝟙 X.ringCatSheaf.obj) (Scheme.Modules.isLocallyInjective_id_ringCatSheaf X)
       (Scheme.Modules.isLocallySurjective_id_ringCatSheaf X)
       inferInstance inferInstance E.val).val.app
@@ -73,7 +73,7 @@ theorem symSectionsRingEquiv_ι_eq_ungradedIncl (m : Γ(E, V)) :
   have hmem := SymmetricAlgebra.ι_mem_symmetricPower_one (R := Γ(X, V)) (M := Γ(E, V)) m
   have hdec := DirectSum.decompose_of_mem
     (fun n : ℕ => SymPow.symmetricPower n Γ(X, V) Γ(E, V)) hmem
-  show Stacks.RelativeSpec.totalSectionsRingEquiv X (Scheme.Modules.symmetricAlgebra X E)
+  change Stacks.RelativeSpec.totalSectionsRingEquiv X (Scheme.Modules.symmetricAlgebra X E)
       (Scheme.Modules.symmetricAlgebra_mul_comm X E) hV
       (ofSymPowers E hV (DirectSum.decompose
         (fun n : ℕ => SymPow.symmetricPower n Γ(X, V) Γ(E, V))

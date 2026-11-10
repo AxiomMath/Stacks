@@ -81,7 +81,7 @@ theorem cycleClass_codimensionGysin {X Y : (SmoothProjectiveScheme k).FullSubcat
         (h.cycleClassGrade hA1 hA3 Y i β) := by
   refine (tateTwistCoordinates 𝔇.coord (i : ℤ)).injective (Subtype.ext ?_)
   rw [tateTwistCoordinates_map]
-  show _ = 𝔇.pull f ((tateTwistCoordinates 𝔇.coord (i : ℤ)
+  change _ = 𝔇.pull f ((tateTwistCoordinates 𝔇.coord (i : ℤ)
     (h.cycleClassGrade hA1 hA3 Y i β) : 𝔇.grade Y (2 * (i : ℤ))) : 𝔇.H Y)
   simp only [IsCohomologicalChernCharacter.cycleClassGrade, AddMonoidHom.coe_mk, ZeroHom.coe_mk,
     LinearEquiv.apply_symm_apply]

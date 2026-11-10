@@ -120,7 +120,7 @@ basic open of `Y` cut out by the pullback `h^♯ a`. -/
 theorem mem_basicOpen_appTop {Y Z : Scheme.{u}} (h : Y ⟶ Z) {y : Y} {z : Z} (hyz : h y = z)
     (a : Γ(Z, ⊤)) (ha : z ∈ Z.basicOpen a) : y ∈ Y.basicOpen (h.appTop.hom a) := by
   rw [← Scheme.preimage_basicOpen_top]
-  show h y ∈ Z.basicOpen a
+  change h y ∈ Z.basicOpen a
   rw [hyz]
   exact ha
 
@@ -171,7 +171,7 @@ theorem restrictBasicOpen_isAffineElementaryEtaleSquare {U : EtaleNeighborhood X
       restrictBasicOpenHom h a U'.point = V'.point := by
   refine ⟨hV.restrictOpen _ ha, hU.restrictOpen _ _,
     V.isAffine_restrictOpen_basicOpen a ha, U.isAffine_restrictOpen_basicOpen _ _, ?_, ?_⟩
-  · show restrictBasicOpenHom h a ≫ (V.scheme.basicOpen a).ι ≫ V.toBase =
+  · change restrictBasicOpenHom h a ≫ (V.scheme.basicOpen a).ι ≫ V.toBase =
       ((U.scheme.basicOpen (h.appTop.hom a)).ι ≫ U.toBase) ≫ f
     rw [← Category.assoc, restrictBasicOpenHom_comp_ι, Category.assoc, Category.assoc, ← hsq]
   · exact Subtype.ext ((restrictBasicOpenHom_apply h a _).trans hpt)

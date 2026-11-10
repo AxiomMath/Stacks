@@ -60,7 +60,7 @@ def unitsStabilizer : Subgroup (Matrix m m K)ˣ where
     by simpa only [_root_.mul_inv_rev, Units.val_mul] using Subalgebra.mul_mem _ hb.2 ha.2⟩
   inv_mem' {a} ha := ⟨ha.2, by rw [inv_inv]; exact ha.1⟩
 
-omit [CharZero K] [CompleteSpace K] in
+omit [CharZero K] [IsUltrametricDist K] [CompleteSpace K] in
 /-- An invertible matrix preserving a subspace of `K^m` preserves it with its inverse. -/
 theorem mem_unitsStabilizer_of_mem {W : Submodule K (m → K)} {g : (Matrix m m K)ˣ}
     (hg : (g : Matrix m m K) ∈ stabilizerSubalgebra W) : g ∈ unitsStabilizer W := by
@@ -143,7 +143,7 @@ theorem exists_normal_isOpen_map_mem_matrixDiscSubgroup (ρ : Γ →* (Matrix n 
       ∀ g ∈ U, ρ g ∈ matrixDiscSubgroup ℓ K n := by
   set U₀ : Subgroup Γ := (matrixDiscSubgroup ℓ K n).comap ρ
   have hU₀ : IsOpen (U₀ : Set Γ) := by
-    show IsOpen {g : Γ | ‖(ρ g : Matrix n n K) - 1‖ < (ℓ : ℝ)⁻¹}
+    change IsOpen {g : Γ | ‖(ρ g : Matrix n n K) - 1‖ < (ℓ : ℝ)⁻¹}
     exact isOpen_lt (continuous_norm.comp (hρ.sub continuous_const)) continuous_const
   have : Finite (Γ ⧸ U₀) := Subgroup.quotient_finite_of_isOpen U₀ hU₀
   have : U₀.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
@@ -151,6 +151,7 @@ theorem exists_normal_isOpen_map_mem_matrixDiscSubgroup (ρ : Γ →* (Matrix n 
     (U₀.normalCore_isClosed (Subgroup.isClosed_of_isOpen U₀ hU₀)),
     fun g hg => U₀.normalCore_le hg⟩
 
+omit [CharZero K] in
 variable (ℓ) in
 include ℓ in
 /-- **Finite determinants on the geometric monodromy** (Weil II, 1.3.4, group form).  Let
@@ -209,6 +210,7 @@ def detCharacter (ρ : Γ →* (Matrix m m K)ˣ) {W : Submodule K (m → K)}
         rw [map_mul, Units.val_mul]) _ (Subalgebra.mul_mem _ (hW a) (hW b)),
       stabRestrict_mul, map_mul]
 
+omit [CharZero K] in
 variable (ℓ) in
 include ℓ in
 /-- **Determinantal weights are read on a single Frobenius** (Weil II, 1.3.4 and 1.3.5).  Let
@@ -252,7 +254,7 @@ theorem isStableUnder_map_unitsToEnd_iff {G : Subgroup (Matrix n n K)ˣ}
     change Matrix.toLinAlgEquiv' (g : Matrix n n K) w ∈ W at this
     rwa [Matrix.toLinAlgEquiv'_apply] at this
   · rintro h _ ⟨_, ⟨g, hg, rfl⟩, rfl⟩ w hw
-    show Matrix.toLinAlgEquiv' (g : Matrix n n K) w ∈ W
+    change Matrix.toLinAlgEquiv' (g : Matrix n n K) w ∈ W
     rw [Matrix.toLinAlgEquiv'_apply]
     exact h g hg w hw
 
@@ -560,7 +562,7 @@ theorem coe_unitsToEnd (g : (Matrix n n K)ˣ) :
     ((unitsToEnd g : (Module.End K (n → K))ˣ) : Module.End K (n → K)) =
       Matrix.toLin' (g : Matrix n n K) :=
   LinearMap.ext fun v => by
-    show Matrix.toLinAlgEquiv' (g : Matrix n n K) v = _
+    change Matrix.toLinAlgEquiv' (g : Matrix n n K) v = _
     rw [Matrix.toLinAlgEquiv'_apply, Matrix.toLin'_apply]
 
 omit [TopologicalSpace Γ] [IsTopologicalGroup Γ] [CompactSpace Γ] in
@@ -690,7 +692,7 @@ theorem exists_forall_hasEigenvalue_norm_eq_of_irreducible [IsAlgClosed K] (ι :
           (Matrix.toLin' (ρ c₀ : Matrix n n K)).restrict hXc *
             (Matrix.toLin' (ρ h : Matrix n n K)).restrict hXh :=
         LinearMap.ext fun x => Subtype.ext (by
-          show Matrix.toLin' (ρ (c₀ * h) : Matrix n n K) x = _
+          change Matrix.toLin' (ρ (c₀ * h) : Matrix n n K) x = _
           rw [hρmul]
           rfl)
       rw [e, map_mul, map_mul, norm_mul]
@@ -724,7 +726,7 @@ theorem exists_forall_hasEigenvalue_norm_eq_of_irreducible [IsAlgClosed K] (ι :
     have e1 : (Matrix.toLin' (ρ c₀ : Matrix n n K)).restrict
         (hX _ ⟨c₀, Or.inr (Or.inr rfl), rfl⟩) = stabRestrict _ hu' :=
       LinearMap.ext fun x => Subtype.ext (by
-        rw [stabRestrict_apply, LinearMap.restrict_coe_apply, Matrix.toLin'_apply, hc₀])
+        rw [stabRestrict_apply, LinearMap.coe_restrict_apply, Matrix.toLin'_apply, hc₀])
     rw [e1, hdet]
     rfl
   have hzS : ∀ s ∈ S, Commute (Matrix.toLin' (exp B)) s := by
@@ -826,7 +828,7 @@ theorem eigenNormIn_of_forall_irreducible (ι : K →+* ℂ) (ρ : Γ →* (Matr
     (fun X hX => le_comap_toLin'_iff.mpr (hT X hX).1) hμ
   exact (hT X hX).2 μ hμX
 
-omit [CharZero K] [CompleteSpace K] in
+omit [CharZero K] [IsUltrametricDist K] [CompleteSpace K] in
 /-- The determinant of a matrix on the line spanned by one of its eigenvectors is the
 eigenvalue. -/
 theorem det_stabRestrict_span_singleton {M : Matrix m m K} {v : m → K} (hv : v ≠ 0) {lam : K}
@@ -924,7 +926,7 @@ theorem exists_monodromy_weights_frobenius [IsAlgClosed K] (ι : K →+* ℂ)
   obtain ⟨hz, hu', r, hr, hdet⟩ := hW W hWΓ hirr
   refine ⟨hz, r, hr, fun g d hg => ?_⟩
   have e1 : LinearMap.det (stabRestrict _ hu') = detCharacter ρ hWΓ (φ ^ (U.index * ℓ ^ N)) := by
-    show _ = LinearMap.det (stabRestrict _ (hWΓ _))
+    change _ = LinearMap.det (stabRestrict _ (hWΓ _))
     rw [stabRestrict_congr (show (ρ (φ ^ U.index) : Matrix n n K) ^ (ℓ ^ N) =
       (ρ (φ ^ (U.index * ℓ ^ N)) : Matrix n n K) by
         rw [pow_mul, map_pow ρ (φ ^ U.index), Units.val_pow_eq_pow_val]) hu' (hWΓ _)]

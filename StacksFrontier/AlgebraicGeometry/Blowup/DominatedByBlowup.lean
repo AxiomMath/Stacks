@@ -85,7 +85,7 @@ private theorem mem_range_strictTransformToBlowUp_of_notMem {f : X ⟶ S} (I : S
   let u : U.toScheme := ⟨blowUpToBase I z, hzU⟩
   let x : (f ⁻¹ᵁ U).toScheme := inv (f ∣_ U) u
   have hx : (f ∣_ U) x = u := by
-    show (inv (f ∣_ U) ≫ (f ∣_ U)) u = u
+    change (inv (f ∣_ U) ≫ (f ∣_ U)) u = u
     rw [IsIso.inv_hom_id]
     rfl
   have hfx : f ((f ⁻¹ᵁ U).ι x) = blowUpToBase I z := by
@@ -98,7 +98,7 @@ private theorem mem_range_strictTransformToBlowUp_of_notMem {f : X ⟶ S} (I : S
       ((f ⁻¹ᵁ U).ι x) z hfx
   have hyE : y ∉ Stacks.StrictTransform.exceptionalPreimage f (blowUpToBase I)
       (exceptionalIdeal I) := by
-    show (pullback.snd f (blowUpToBase I)).base y ∉
+    change (pullback.snd f (blowUpToBase I)).base y ∉
       ((exceptionalIdeal I).support : Set (blowUp I))
     rw [hyz]
     exact hzE
@@ -183,7 +183,7 @@ public theorem cartierBoundaryReduction [CompactSpace S] [QuasiSeparatedSpace S]
     exact disjoint_compl_right
   · have hcomap : ((exceptionalIdeal I).support : Set (blowUp I)) =
         (blowUpToBase I).base ⁻¹' (I.support : Set S) := by
-      show ((I.comap (blowUpToBase I)).support : Set (blowUp I)) = _
+      change ((I.comap (blowUpToBase I)).support : Set (blowUp I)) = _
       rw [Scheme.IdealSheafData.support_comap, TopologicalSpace.Closeds.coe_preimage]
     rw [hcomap, hIsupp, Set.preimage_compl, Scheme.Hom.coe_preimage]
 

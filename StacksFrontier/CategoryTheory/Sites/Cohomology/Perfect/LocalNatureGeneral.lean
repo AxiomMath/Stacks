@@ -29,7 +29,8 @@ the monoidal development of Stacks 0FPT and of Stacks 0FPY.
 
 ## Implementation notes
 
-See the implementation notes of `StacksFrontier.CategoryTheory.Sites.Cohomology.Perfect.LocalNature`:
+See the implementation notes of
+`StacksFrontier.CategoryTheory.Sites.Cohomology.Perfect.LocalNature`:
 the hypothesis is used only at the terminal object `Over.mk (𝟙 V)` of `C/V`, the strictly perfect
 model on an iterated slice `(C/V)/Z` is carried down to `C/Z.left` by
 `Stacks.SheafOfModules.sliceBackward`, and it is compared with the restriction of a chosen

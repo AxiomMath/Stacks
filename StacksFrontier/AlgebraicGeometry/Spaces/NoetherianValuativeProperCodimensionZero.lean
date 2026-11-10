@@ -153,13 +153,13 @@ theorem hasLift_of_codimensionZeroLift
   let kX' : Kobj ⟶ X' :=
     Over.homMk (ObjectProperty.homMk D.i₁ : B.obj hK ⟶ X'.left) (by
       apply ObjectProperty.hom_ext
-      show D.i₁ ≫ (B.inclusion).map X'.hom =
+      change D.i₁ ≫ (B.inclusion).map X'.hom =
         Spec.map (CommRingCat.ofHom (algebraMap D.R D.K)) ≫ baseR
       rw [hX'hom, ← Category.assoc, D.commSq.w, Category.assoc])
   have hιaT : ιsite ≫ aT = kX' ≫ ψ := by
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    show Spec.map (CommRingCat.ofHom (algebraMap D.R D.K)) ≫ D.i₂ =
+    change Spec.map (CommRingCat.ofHom (algebraMap D.R D.K)) ≫ D.i₂ =
       D.i₁ ≫ (BigFppfOver.toScheme B S hS).map ψ
     exact D.commSq.w.symm
   -- the valuative square for `f` obtained by composing
@@ -188,7 +188,7 @@ theorem hasLift_of_codimensionZeroLift
       (schemePointsHomeomorph B S hS X').symm (D.i₁ (IsLocalRing.closedPoint D.K)) := by
     apply (schemePointsHomeomorph B S hS X').injective
     rw [Homeomorph.apply_symm_apply, schemePointsHomeomorph_apply, pointsToScheme_class]
-    show (BigFppfOver.toScheme B S hS).map (yonedaEquiv (yoneda.map kX')) _ = _
+    change (BigFppfOver.toScheme B S hS).map (yonedaEquiv (yoneda.map kX')) _ = _
     rw [yonedaEquiv_yoneda_map]
     rfl
   have hgp : q₁.genericPoint = pointsMap B S hS (yoneda.obj X') (p ≫ pullback.snd φ f)
@@ -235,7 +235,7 @@ theorem hasLift_of_codimensionZeroLift
       (BigFppfOver.toScheme B S hS).map ιsite from rfl,
       ← (BigFppfOver.toScheme B S hS).map_comp, hmι]
     rfl
-  · show (BigFppfOver.toScheme B S hS).map m ≫
+  · change (BigFppfOver.toScheme B S hS).map m ≫
       (BigFppfOver.toScheme B S hS).map ψ = D.i₂
     rw [← (BigFppfOver.toScheme B S hS).map_comp, hmψ]
     rfl

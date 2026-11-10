@@ -181,7 +181,7 @@ public theorem depth_localizedModule_adicCompletion_eq_of_exact
       Module.depth (Localization.AtPrime p'.asIdeal)
         (maximalIdeal (Localization.AtPrime p'.asIdeal))
         (LocalizedModule p'.asIdeal.primeCompl (AdicCompletion I Y)) := by
-  obtain ⟨b, hbI, hbp⟩ := SetLike.not_le_iff_exists.mp hp'
+  obtain ⟨b, hbI, hbp⟩ := IsConcreteLE.not_le_iff_exists.mp hp'
   refine Module.depth_eq_depth_of_linearEquiv _
     (localizedModuleEquivOfExactOfSMulEqZero p'.asIdeal.primeCompl
       (AdicCompletion.map I f) (AdicCompletion.map I g)

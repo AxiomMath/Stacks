@@ -86,7 +86,7 @@ theorem bijective_smul_tmul {R : Type*} [CommRing R] {M N : Type*}
   have h1 : eM (1 : R) = m := one_smul R m
   have he : ∀ r : R, e r = r • (m ⊗ₜ[R] n) := by
     intro r
-    show TensorProduct.congr eM eN ((TensorProduct.lid R R).symm r) = _
+    change TensorProduct.congr eM eN ((TensorProduct.lid R R).symm r) = _
     rw [TensorProduct.lid_symm_apply, TensorProduct.congr_tmul, h1]
     exact tmul_smul r m n
   convert e.bijective using 1
@@ -103,8 +103,7 @@ theorem span_singleton_tmul_eq_top {R : Type*} [CommSemiring R] {M N : Type*}
     (hm : span R {m} = ⊤) (hn : span R {n} = ⊤) :
     span R {m ⊗ₜ[R] n} = ⊤ := by
   refine eq_top_iff'.2 fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero => exact zero_mem _
+  induction z using TensorProduct.inductionOn with
   | add a b ha hb => exact add_mem ha hb
   | tmul a b =>
       obtain ⟨r, hr⟩ := mem_span_singleton.1 (eq_top_iff'.1 hm a)
@@ -170,7 +169,7 @@ theorem tensorStalkTmul_germ (x : X) (U : X.Opens) (hx : x ∈ U)
 theorem tensorStalkTmul_smul_smul (x : X) (a b : X.presheaf.stalk x)
     (m : L.presheaf.stalk x) (n : N.presheaf.stalk x) :
     tensorStalkTmul L N x (a • m) (b • n) = (a * b) • tensorStalkTmul L N x m n := by
-  show (tensorStalkEquiv L N x).symm ((a • m) ⊗ₜ (b • n)) = _
+  change (tensorStalkEquiv L N x).symm ((a • m) ⊗ₜ (b • n)) = _
   rw [TensorProduct.smul_tmul_smul]
   exact map_smul (tensorStalkEquiv L N x).symm (a * b) _
 
@@ -241,7 +240,7 @@ theorem isStalkBasis_tensorStalkTmul (x : X) {m : L.presheaf.stalk x}
       (tensorStalkEquiv L N x).symm ∘
         fun r : X.presheaf.stalk x => r • (m ⊗ₜ[X.presheaf.stalk x] n) :=
     funext fun r => (map_smul (tensorStalkEquiv L N x).symm r _).symm
-  show Function.Bijective fun r : X.presheaf.stalk x => r • tensorStalkTmul L N x m n
+  change Function.Bijective fun r : X.presheaf.stalk x => r • tensorStalkTmul L N x m n
   rw [hfun]
   exact (tensorStalkEquiv L N x).symm.bijective.comp
     (TensorProduct.bijective_smul_tmul hm hn)

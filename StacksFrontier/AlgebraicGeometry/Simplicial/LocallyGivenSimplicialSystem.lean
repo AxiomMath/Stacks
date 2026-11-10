@@ -5,8 +5,7 @@ public import StacksFrontier.AlgebraicGeometry.Simplicial.LocallyGivenSimplicial
 public import StacksFrontier.AlgebraicGeometry.Simplicial.SemiRepresentableTransitionCoherence
 public import
   StacksFrontier.AlgebraicGeometry.Simplicial.ComponentRingedTopos.DerivedTransitionCompExact
-public import
-  StacksFrontier.AlgebraicGeometry.Simplicial.ComponentRingedTopos.CartesianDerivedModuleOfModuleSystem
+public import StacksFrontier.AlgebraicGeometry.Simplicial.ComponentRingedTopos.CartesianDerivedModuleOfModuleSystem
 
 /-!
 # The simplicial system of locally given derived objects
@@ -832,7 +831,7 @@ theorem localSystem_cartesian : (G.localSystem L).Cartesian := by
   have : IsIso ((Functor.pi' (G.summandDerivedRestriction L n)).map (G.systemMap L φ)) := by
     rw [isIso_pi_iff]
     intro i
-    show IsIso ((G.summandDerivedRestriction L n i).map (G.systemMap L φ))
+    change IsIso ((G.summandDerivedRestriction L n i).map (G.systemMap L φ))
     rw [map_systemMap]
     infer_instance
   exact (Functor.FullyFaithful.ofFullyFaithful

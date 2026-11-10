@@ -124,7 +124,7 @@ noncomputable def ofRingEquiv (e : S ≃+* R) (he : ∀ (s : S) (m : M), e s •
   classical
   have h1 : (Module.Basis.ofRingEquiv e he b).repr (b i) = Finsupp.single i (1 : R) := by
     refine Finsupp.ext fun j => ?_
-    show e (b.repr (b i) j) = (Finsupp.single i (1 : R)) j
+    change e (b.repr (b i) j) = (Finsupp.single i (1 : R)) j
     rw [b.repr_self, Finsupp.single_apply, Finsupp.single_apply]
     by_cases hij : i = j
     · simp [hij]
@@ -285,7 +285,7 @@ theorem stalkMapL_pi_freeGerm (g : L.GeneratingSections) (x : X.carrier) (i : g.
 theorem stalkMapL_id (x : X.carrier) :
     stalkMapL X L.val L.val (𝟙 L : L ⟶ L).val x = LinearMap.id := by
   ext m
-  show stalkMap X L.val L.val (𝟙 L.val) x m = m
+  change stalkMap X L.val L.val (𝟙 L.val) x m = m
   unfold stalkMap
   rw [CategoryTheory.Functor.map_id, CategoryTheory.Functor.map_id]
   rfl
@@ -482,7 +482,7 @@ theorem toTensorSheafSection_tmul_antisymm_eq_zero
         ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
         (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj (L)).obj (L))).isSheaf⟩ U _ 0
         fun x hx => ?_
-  show grpGerm X ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+  change grpGerm X ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj (L)).obj (L))).val x U hx _ =
       grpGerm X ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj (L)).obj (L))).val x U hx 0
@@ -549,7 +549,7 @@ theorem koszulHom_comp_tensorSheafMap (g : L.GeneratingSections) (i j : g.I) :
       (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u})).obj (L)).obj
       (L))).unitHomEquiv.symm_apply_eq).mpr ?_
   ext U
-  show ((((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+  change ((((Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
       (⟨X.presheaf, X.IsSheaf⟩ : Sheaf (JX X) CommRingCat.{u}))).map
       ((g.π, (𝟙 L)) : (_root_.SheafOfModules.free (R := structureSheafRing X) g.I, L) ⟶
       (L, L)))).val.app U).hom ((koszulSection X L g i j).eval U)

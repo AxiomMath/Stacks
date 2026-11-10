@@ -89,8 +89,7 @@ theorem sectionsBaseChange_eq_restrictionBaseChange
   let := chartAlgebra (hF := hF) k
   let := chartSectionsModule M k
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy =>
     exact ((map_add _ x y).trans (congrArg₂ (· + ·) hx hy)).trans (map_add _ x y).symm
   | tmul b x =>

@@ -165,7 +165,7 @@ theorem total_single_single_comp
     rw [hε₂, ← Category.assoc, hε₁, Category.assoc]
   simp only [Functor.mapHomologicalComplex_obj_X]
   rw [reassoc_of% h₁, ← reassoc_of% h₂, reassoc_of% hU]
-  simp only [Functor.map_comp, Category.assoc, Iso.map_inv_hom_id_assoc]
+  simp only [Functor.map_comp, Category.assoc, Iso.inv_hom_id_map_assoc]
 
 end CategoryTheory.Functor
 

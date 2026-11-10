@@ -130,7 +130,7 @@ first factor is affine, being a base change of the structure morphism of that fa
 lemma quasiCompact_prod_snd (U V : Scheme.{u}) [IsAffine U] :
     QuasiCompact (prod.snd : U ⨯ V ⟶ V) := by
   have h := IsPullback.of_isLimit_binaryFan_of_isTerminal (prodIsProd U V) terminalIsTerminal
-  simp only [BinaryFan.mk_fst, BinaryFan.mk_snd, pair_obj_left, pair_obj_right] at h
+  simp only [BinaryFan.mk_fst, BinaryFan.mk_snd] at h
   exact MorphismProperty.IsStableUnderBaseChange.of_isPullback h inferInstance
 
 namespace powPresheaf

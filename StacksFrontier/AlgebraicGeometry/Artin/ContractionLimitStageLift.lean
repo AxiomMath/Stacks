@@ -234,6 +234,7 @@ theorem system_hmapA {k k' : Over k₀} (g : k' ⟶ k) (n : ℕ)
     (f := ((BigFppfOver.toScheme B S hS).map (D.map g.left).hom).appTop.hom)
     (stageIdeal_map_le I₀ g) (mem_stageIdealHat_pow.1 hx))
 
+omit [IsCofiltered I] in
 /-- The `hAR` input. -/
 theorem system_hAR (k : Over k₀) :
     ∃ c : ℕ, ∀ (n : ℕ) (x : (completionSystem (D := D) I₀).obj (op k)),
@@ -369,6 +370,7 @@ theorem isGoodAt_ρ {k : Over k₀} (f : k ⟶ topStage k₀) (r : Γ((O : Schem
 def stagePsiSys : Bt →+* (towerSystem W I₀).obj (op (topStage k₀)) :=
   stagePsi W ℓ hZI₀ hB e (topStage k₀)
 
+omit [IsCofiltered I] in
 include hℓ in
 /-- The `hφψ` input. -/
 theorem system_hφψ (b : Bt) :

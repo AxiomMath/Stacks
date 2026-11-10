@@ -259,20 +259,17 @@ abbrev coverModule : SimplicialModuleOver (standardResolution A B).left where
   map f := (TensorProduct.map ((standardResolution A B).left.map f).hom.toLinearMap
     ((augmentationIdealDecRed.{u, v} A B).map f).hom).toAddMonoidHom
   map_smul f p t := by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul q l =>
       simp only [LinearMap.toAddMonoidHom_coe, TensorProduct.smul_tmul', smul_eq_mul,
         TensorProduct.map_tmul, AlgHom.toLinearMap_apply, map_mul]
     | add s t hs ht => simp only [smul_add, map_add, hs, ht]
   map_id n t := by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul q l => simp
     | add s t hs ht => simp only [map_add, hs, ht]
   map_comp f g t := by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul q l => simp
     | add s t hs ht => simp only [map_add, hs, ht]
 
@@ -306,8 +303,7 @@ theorem coverHomApp_tmul (n : SimplexCategoryᵒᵖ) (p : (standardResolution A 
 def coverHom : (coverModule.{u, v} A B).Hom (augmentationIdealModule.{u, v} A B) where
   app n := coverHomApp.{u, v} A B n
   naturality f t := by
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [map_zero]; try rfl
+    induction t using TensorProduct.inductionOn with
     | tmul q l =>
       change coverHomApp.{u, v} A B _ (((standardResolution A B).left.map f).hom q ⊗ₜ
           ((augmentationIdealDecRed.{u, v} A B).map f).hom l) = _
@@ -356,11 +352,9 @@ theorem idealTensorCoverEquiv_naturality {n m : SimplexCategoryᵒᵖ} (f : n �
       TensorProduct.map ((augmentationIdealModule.{u, v} A B).mapLinear f)
         ((augmentationIdealDecRed.{u, v} A B).map f).hom
           (idealTensorCoverEquiv.{u, v} A B n t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul y k =>
-    induction k using TensorProduct.induction_on with
-    | zero => simp only [TensorProduct.tmul_zero, map_zero]
+    induction k using TensorProduct.inductionOn with
     | tmul p l =>
       change idealTensorCoverEquiv.{u, v} A B m ((augmentationIdealModule.{u, v} A B).map f y ⊗ₜ
         (((standardResolution A B).left.map f).hom p ⊗ₜ
@@ -457,8 +451,7 @@ theorem exists_coverKernel_lift
         SimplicialModuleOver.tensorMap (augmentationIdealModule.{u, v} A B)
           (coverModule.{u, v} A B) (SimplexCategory.δ (n := 0) 1).op w =
         LinearMap.lTensor _ (LinearMap.ker (coverHomApp.{u, v} A B (op ⦋0⦌))).subtype z := by
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction z using TensorProduct.inductionOn with
   | tmul y k =>
     obtain ⟨u, hu⟩ := augmentationIdeal_exists_δ_sub_δ.{u, v} A B y
     refine ⟨u ⊗ₜ (coverModule.{u, v} A B).map (SimplexCategory.σ (0 : Fin 1)).op k.1, ?_, ?_⟩
@@ -533,8 +526,7 @@ abbrev augmentationIdealSqModule : SimplicialModuleOver (standardResolution A B)
 def idealMulHom : (idealTensorIdeal.{u, v} A B).Hom (augmentationIdealSqModule.{u, v} A B) where
   app n := Submodule.mulMap' (augmentationIdeal A B n) (augmentationIdeal A B n)
   naturality f t := by
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [map_zero]; try rfl
+    induction t using TensorProduct.inductionOn with
     | tmul x y =>
       apply Subtype.ext
       change ((standardResolution A B).left.map f).hom x.1 *

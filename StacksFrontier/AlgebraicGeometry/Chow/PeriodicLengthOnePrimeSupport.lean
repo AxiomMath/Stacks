@@ -113,7 +113,7 @@ theorem span_range_admissibleSequenceMap_eq_top {R : Type u} {A B : Type v}
       exact ⟨e.1 (Fin.cast hlen.symm j), Set.mem_range_self _, rfl⟩
     · rintro ⟨d, ⟨i, rfl⟩, rfl⟩
       refine ⟨Fin.cast hlen i, ?_⟩
-      show E (e.1 (Fin.cast hlen.symm (Fin.cast hlen i))) = E (e.1 i)
+      change E (e.1 (Fin.cast hlen.symm (Fin.cast hlen i))) = E (e.1 i)
       rw [show Fin.cast hlen.symm (Fin.cast hlen i) = i from Fin.ext rfl]
   rw [hrange, ← Submodule.map_span, he, Submodule.map_top, LinearMap.range_eq_top]
   exact E.surjective
@@ -242,7 +242,7 @@ theorem isFiniteLength_map_mkQ {R : Type u} {M : Type v} [CommRing R] [AddCommGr
     intro c hc
     rw [LinearMap.mem_ker]
     refine Subtype.ext ?_
-    show W.mkQ (c : M) = (0 : M ⧸ W)
+    change W.mkQ (c : M) = (0 : M ⧸ W)
     rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
     exact hc
   refine h.of_surjective (f := Submodule.liftQ _ (W.mkQ.restrict hmem) hle) ?_
@@ -348,10 +348,10 @@ theorem exists_symbol_scalar_localized_span
     admissibleSequenceMap E hlenE Aw, fun i ↦ ?_, fun i ↦ ?_,
     span_range_admissibleSequenceMap_eq_top E hlenE Aw hAwspan, f, hf,
     symbol_admissibleSequenceMap_smul E hlenE Av Aw f hsym, ?_⟩
-  · show ι (E (LocalizedModule.mk _ 1)) = _
+  · change ι (E (LocalizedModule.mk _ 1)) = _
     rw [hE, LocalizedModule.map_mk, hcast i]
     rfl
-  · show ι (E (LocalizedModule.mk _ 1)) = _
+  · change ι (E (LocalizedModule.mk _ 1)) = _
     rw [hE, LocalizedModule.map_mk, hcast i]
     rfl
   · have hr : LinearMap.range (Submodule.inclusion hvw) =
@@ -520,7 +520,7 @@ theorem periodicGamma_symbol_tmul_symbol
       (LocalizedModule.mk (c (Fin.cast hlenV i)) 1) = vs.1 i := by
     intro i
     refine Subtype.ext ?_
-    show (LocalizedModule.map q.primeCompl φ)
+    change (LocalizedModule.map q.primeCompl φ)
         (LocalizedModule.mk (c (Fin.cast hlenV i)) 1) =
       (LinearMap.range (LocalizedModule.map q.primeCompl φ)).subtype (vs.1 i)
     rw [LocalizedModule.map_mk, hvs i]
@@ -530,7 +530,7 @@ theorem periodicGamma_symbol_tmul_symbol
       (LocalizedModule.map q.primeCompl φ).rangeRestrict hinj hsurj hexact hK hMq hQ
       us vs hus0 hvs0 (fun i ↦ LocalizedModule.mk (c (Fin.cast hlenV i)) 1) hlifts
   refine heq.trans (congrArg symbol (Subtype.ext (funext fun j ↦ ?_)))
-  show Fin.append
+  change Fin.append
       (fun i ↦ (LinearMap.range (LocalizedModule.map q.primeCompl ψ)).subtype (us.1 i))
       (fun i ↦ LocalizedModule.mk (c (Fin.cast hlenV i)) (1 : q.primeCompl))
       (Fin.cast hlength j) = ws.1 j

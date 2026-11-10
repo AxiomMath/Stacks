@@ -88,12 +88,12 @@ theorem canonicalBraidingHom_eq_braidingIso (A B : DerivedModules X.O) :
       (Stacks.SheafOfModules.DerivedMonoidal.kFlatComplexQ X.O)
       (Stacks.SheafOfModules.DerivedMonoidal.kFlatComplexQuasiIso X.O)
       (Stacks.SheafOfModules.DerivedMonoidal.kFlatComplexQuasiIso X.O) (fun K L => ?_)
-    show Stacks.SheafOfModules.DerivedMonoidal.canonicalBraidingHom X.O
+    change Stacks.SheafOfModules.DerivedMonoidal.canonicalBraidingHom X.O
         (DerivedCategory.Q.obj K.obj) (DerivedCategory.Q.obj L.obj) =
       ((DerivedTensorProduct.braidingTrans X (canonicalDerivedTensorProduct X.O)).app
         (DerivedCategory.Q.obj K.obj)).app (DerivedCategory.Q.obj L.obj)
-    have hK : Stacks.SheafOfModules.KFlat.KFlat X.O K.obj := K.property
-    have hL : Stacks.SheafOfModules.KFlat.KFlat X.O L.obj := L.property
+    have hK : Stacks.SheafOfModules.KFlat X.O K.obj := K.property
+    have hL : Stacks.SheafOfModules.KFlat X.O L.obj := L.property
     rw [DerivedTensorProduct.braidingTrans_app_app X _ K.obj L.obj hK hL]
     refine Eq.trans ?_ (Category.assoc _ _ _)
     refine (Iso.eq_comp_inv _).2 ?_

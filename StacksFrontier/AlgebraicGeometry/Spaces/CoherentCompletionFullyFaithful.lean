@@ -130,7 +130,7 @@ theorem completionFunctor_map_eq (a : M ⟶ N) :
     refine Subtype.ext (funext fun n => ?_)
     apply (smallEtaleInternalHomSectionsEquiv B S hS X.1 X.2 M.obj
       (smallEtaleAdicQuotient B S hS X.1 X.2 𝓘 (n + 1) N.obj)).injective
-    show smallEtaleInternalHomSectionsEquiv B S hS X.1 X.2 M.obj _
+    change smallEtaleInternalHomSectionsEquiv B S hS X.1 X.2 M.obj _
         (SheafOfModules.sectionsMap (smallEtaleInternalHomAdicComparisonApp B S hS X.1 X.2 𝓘
           M.obj N.obj n) (SheafOfModules.sectionsMap
             (smallEtaleAdicQuotientProjection B S hS X.1 X.2 𝓘 (n + 1)
@@ -146,7 +146,7 @@ theorem completionFunctor_map_eq (a : M ⟶ N) :
       M.property N.property (adicSectionsOfSections B S hS X.1 X.2 𝓘
         (smallEtaleInternalHom B S hS X.1 X.2 M.obj N.obj) σ) =
       (systemHomEquiv B S hS X.1 X.2 _ _ _ _).symm t := by
-    show (systemHomEquiv B S hS X.1 X.2 _ _ _ _).symm
+    change (systemHomEquiv B S hS X.1 X.2 _ _ _ _).symm
       ((Equiv.ofBijective _ (bijective_smallEtaleInternalHomAdicSection B S hS X.1 X.2 𝓘 M.obj
         N.obj)).symm (adicSectionsMap B S hS X.1 X.2 _ _ _ _
           (smallEtaleInternalHomAdicComparisonApp B S hS X.1 X.2 𝓘 M.obj N.obj)

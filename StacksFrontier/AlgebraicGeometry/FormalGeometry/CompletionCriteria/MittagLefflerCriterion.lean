@@ -466,7 +466,7 @@ private theorem exists_limit_with_stable_projection
     ⟨fun n => (a n.unop).1, by
       intro n m f
       let h : m.unop ≤ n.unop := leOfHom f.unop
-      show S.φ h ((a n.unop).1) = (a m.unop).1
+      change S.φ h ((a n.unop).1) = (a m.unop).1
       exact congrArg Subtype.val (ha h)⟩
   let L := isLimitOfPreserves (forget (ModuleCat.{u} A)) (limit.isLimit G)
   refine ⟨(Types.isLimitEquivSections L).symm sec, ?_⟩
@@ -539,7 +539,7 @@ public theorem scalarMap_restrict_mem_idealOnOpen_pow (U : S.U.toScheme.affineOp
 public theorem idealPower_smul_globalSections_eq_zero (n : ℕ) {a : S.A}
     (ha : a ∈ S.I ^ (n + 1)) (y : (globalSectionsSystem S F).obj (op n)) :
     a • y = 0 := by
-  show scalarMap S a • (show Γ(F.obj.obj (op n), ⊤) from y) = 0
+  change scalarMap S a • (show Γ(F.obj.obj (op n), ⊤) from y) = 0
   refine (F.obj.obj (op n)).isSheaf.section_ext (U := op (⊤ : S.U.toScheme.Opens))
     fun z _ => ?_
   obtain ⟨W, hW, hzW, -⟩ :=
@@ -697,7 +697,7 @@ public theorem hom_ext_of_app_top {R : CommRingCat.{u}} {X : Scheme.{u}}
   apply (Scheme.Modules.pushforward j).map_injective
   have : ((Scheme.Modules.pushforward j).obj M).IsQuasicoherent := inferInstance
   apply (cancel_epi ((Scheme.Modules.pushforward j).obj M).fromTildeΓ).mp
-  show (tilde.adjunction (R := R)).counit.app ((Scheme.Modules.pushforward j).obj M) ≫ _ =
+  change (tilde.adjunction (R := R)).counit.app ((Scheme.Modules.pushforward j).obj M) ≫ _ =
     (tilde.adjunction (R := R)).counit.app ((Scheme.Modules.pushforward j).obj M) ≫ _
   have hmap : moduleSpecΓFunctor.map ((Scheme.Modules.pushforward j).map f) =
       moduleSpecΓFunctor.map ((Scheme.Modules.pushforward j).map g) := by
@@ -757,10 +757,10 @@ private theorem exists_factor_through_limit_stage
   have hm : t ((limit.π G (op k)).hom m) = π m :=
     ConcreteCategory.congr_hom (limit.w G (homOfLE hik).op) m
   have hr : r ((limit.π G (op k)).hom m) = π.rangeRestrict m := Subtype.ext hm
-  show (π.ker.liftQ q.hom hker)
+  change (π.ker.liftQ q.hom hker)
     (π.quotKerEquivRange.symm (r ((limit.π G (op k)).hom m))) = q.hom m
   rw [hr]
-  show (π.ker.liftQ q.hom hker)
+  change (π.ker.liftQ q.hom hker)
     (π.quotKerEquivRange.symm ⟨π m, _⟩) = q.hom m
   rw [LinearMap.quotKerEquivRange_symm_apply_image]
   rfl
@@ -784,7 +784,7 @@ private theorem limit_cone_detects_eventual_equality
   have hj := ConcreteCategory.congr_hom (limit.w G aj) m
   have hm' := ConcreteCategory.congr_hom h m
   simp only [Functor.map_comp, ModuleCat.comp_apply]
-  show f.hom ((G.map ai).hom ((G.map a).hom x)) =
+  change f.hom ((G.map ai).hom ((G.map a).hom x)) =
     g.hom ((G.map aj).hom ((G.map a).hom x))
   rw [← hm]
   change (G.map ai).hom ((limit.π G (op n)).hom m) = (limit.π G i).hom m at hi
@@ -833,7 +833,7 @@ public theorem exists_projection_ker_le_adicPower
   have hmem :
       ((S.I ^ (n + 1) • (⊤ : Submodule S.A M) : Submodule S.A M) : Set M) ∈
         @nhds M T 0 := by
-    show ((S.I ^ (n + 1) • (⊤ : Submodule S.A M) : Submodule S.A M) : Set M) ∈
+    change ((S.I ^ (n + 1) • (⊤ : Submodule S.A M) : Submodule S.A M) : Set M) ∈
       @nhds M (⨅ k : ℕ, TopologicalSpace.induced (π k)
         (⊥ : TopologicalSpace (G.obj (op k)))) 0
     rw [htop]
@@ -843,7 +843,7 @@ public theorem exists_projection_ker_le_adicPower
   obtain ⟨k, hk⟩ := hJfin.bddAbove
   refine ⟨k, ?_⟩
   intro x hx
-  show x ∈ ((S.I ^ (n + 1) • (⊤ : Submodule S.A M) : Submodule S.A M) : Set M)
+  change x ∈ ((S.I ^ (n + 1) • (⊤ : Submodule S.A M) : Submodule S.A M) : Set M)
   rw [hVeq, Set.mem_iInter]
   intro j
   have hj : (j : ℕ) ≤ k := hk j.2
@@ -862,7 +862,7 @@ public theorem exists_projection_ker_le_adicPower
     (mem_nhds_induced (π j.1) (0 : M) (V j)).mp hVj
   have hzero : (π j.1) 0 ∈ U := mem_of_mem_nhds hU
   have hxpre : x ∈ (π j.1) ⁻¹' U := by
-    show (π j.1) x ∈ U
+    change (π j.1) x ∈ U
     rw [hxj]
     simpa using hzero
   exact hUV hxpre
@@ -987,18 +987,18 @@ private theorem completion_projection_comp_of
     obtain ⟨m, hm⟩ := (I ^ n • (⊤ : Submodule R M)).mkQ_surjective
       (AdicCompletion.eval I M n x)
     refine ⟨m, ?_⟩
-    show f (AdicCompletion.of I M m) = f x
+    change f (AdicCompletion.of I M m) = f x
     apply sub_eq_zero.mp
     rw [← map_sub]
     apply LinearMap.mem_ker.mp
     rw [hker']
-    show AdicCompletion.eval I M n (AdicCompletion.of I M m - x) = 0
+    change AdicCompletion.eval I M n (AdicCompletion.of I M m - x) = 0
     rw [map_sub, AdicCompletion.eval_of, hm, sub_self]
   · ext m
     rw [LinearMap.mem_ker]
-    show f (AdicCompletion.of I M m) = 0 ↔ m ∈ I ^ n • (⊤ : Submodule R M)
+    change f (AdicCompletion.of I M m) = 0 ↔ m ∈ I ^ n • (⊤ : Submodule R M)
     rw [← LinearMap.mem_ker, hker', LinearMap.mem_ker, AdicCompletion.eval_of]
-    show m ∈ (I ^ n • (⊤ : Submodule R M)).mkQ.ker ↔ _
+    change m ∈ (I ^ n • (⊤ : Submodule R M)).mkQ.ker ↔ _
     rw [Submodule.ker_mkQ]
 
 private theorem finite_quotient_changeScalars
@@ -1011,7 +1011,7 @@ private theorem finite_quotient_changeScalars
   let : Module T M := Module.compHom M e.symm.toRingHom
   have : IsScalarTower R T M := ⟨by
     intro r t m
-    show e.symm (e r * t) • m = r • e.symm t • m
+    change e.symm (e r * t) • m = r • e.symm t • m
     simp [mul_smul]⟩
   let P : Submodule T M := I.map e.toRingHom • ⊤
   have hP : P.restrictScalars R = I • (⊤ : Submodule R M) :=
@@ -1047,7 +1047,7 @@ private theorem exists_coherentSystem_from_finite_completion
   refine ⟨G, e, fun n => ⟨?_, ?_⟩⟩
   · exact (Stacks.Coherent.globalSectionsComparison_projection_surjective X I G n).comp
       η.toLinearEquiv.surjective
-  · show LinearMap.ker (((Stacks.Coherent.globalSectionsComparison X I G).hom ≫
+  · change LinearMap.ker (((Stacks.Coherent.globalSectionsComparison X I G).hom ≫
         limit.π (Stacks.Coherent.globalSectionsSystem G) (op n)).hom ∘ₗ η.hom.hom) = _
     rw [LinearMap.ker_comp,
       Stacks.Coherent.globalSectionsComparison_projection_ker X I G n,
@@ -1087,7 +1087,7 @@ private theorem exists_factor_of_surjective
     (f.hom.quotKerEquivOfSurjective hf).symm.toLinearMap
   refine ⟨ModuleCat.ofHom h, ?_⟩
   ext x
-  show (f.hom.ker.liftQ g.hom hker)
+  change (f.hom.ker.liftQ g.hom hker)
     ((f.hom.quotKerEquivOfSurjective hf).symm (f.hom x)) = g.hom x
   rw [LinearMap.quotKerEquivOfSurjective_symm_apply]
   rfl
@@ -1126,7 +1126,7 @@ public theorem canonicallyExtends_of_finite_limit_images
       toFun := fun x => (p.app j).hom x
       map_add' x y := (p.app j).hom.map_add x y
       map_smul' r x := by
-        show (p.app j).hom (r • x) = e r • (p.app j).hom x
+        change (p.app j).hom (r • x) = e r • (p.app j).hom x
         have h := (p.app j).hom.map_smul (e r) x
         change (p.app j).hom (e.symm (e r) • x) = e r • (p.app j).hom x at h
         rwa [e.symm_apply_apply] at h
@@ -1138,7 +1138,7 @@ public theorem canonicallyExtends_of_finite_limit_images
   let : Algebra S.A R := e.toRingHom.toAlgebra
   have : IsScalarTower S.A R M := ⟨by
     intro r t m
-    show e.symm (e r * t) • m = r • e.symm t • m
+    change e.symm (e r * t) • m = r • e.symm t • m
     simp [mul_smul]⟩
   have hq (n : ℕ) : Function.Surjective (q.app (op n)).hom ∧
       (q.app (op n)).hom.ker = S.I ^ (n + 1) • (⊤ : Submodule S.A M) := by

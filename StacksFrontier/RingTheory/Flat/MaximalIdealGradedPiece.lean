@@ -70,8 +70,9 @@ respelled as the `T`-submodules `(𝔪ᵏ T) • ⊤` — which have the same el
 `Ideal.smul_restrictScalars` — and the tensor products to be taken in
 `TensorProduct.AlgebraTensorModule`, whose `M ⊗[R] N` is a `T`-module when the left factor is.
 That is the section "The decomposition over the ring that acts" below, ending in
-`Stacks.Flatness.towerPiEquivSmulTopOfGradedPieceEquiv`; the application is in
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/AlgebraizationCoherentFormal/FlatOverLocalBase.lean`.
+`Stacks.Flatness.towerPiEquivSmulTopOfGradedPieceEquiv`; the application is in the file
+`FlatOverLocalBase.lean` of the directory
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/AlgebraizationCoherentFormal/`.
 The `T`-linear chain is not transported from the `R`-linear one: the factor carrying the
 `T`-action has to be the left one, and the exchange of factors is only `R`-linear.
 -/

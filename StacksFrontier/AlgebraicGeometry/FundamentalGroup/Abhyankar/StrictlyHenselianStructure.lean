@@ -19,8 +19,7 @@ invertible in `A`, in each of the following two cases:
 * `AlgebraicGeometry.Abhyankar.isTamelyRamifiedInCodimensionOne_of_surjective`: tameness passes to
   quotients of the cover.
 * `AlgebraicGeometry.Abhyankar.exists_ringEquiv_pi_of_isUnit`: the split case.
-* `AlgebraicGeometry.Abhyankar.exists_ringEquiv_pi_of_isRegularLocalRing`: the regular case,
-  granted purity for regular local rings.
+* `AlgebraicGeometry.Abhyankar.exists_ringEquiv_pi_of_isRegularLocalRing`: the regular case.
 
 ## References
 
@@ -87,9 +86,8 @@ theorem isNormalRing_localizationAway {A : Type u} [CommRing A] [IsDomain A] [Is
 /-- **Abhyankar's lemma over a strictly henselian regular local ring.** Let `A` be a strictly
 henselian regular local ring, `0 ≠ φ ∈ 𝔪_A` with `A/φA` regular, and `B` a finite étale
 `A_φ`-algebra which is tamely ramified over `Spec A` in codimension one. Then
-`B ≅ ∏ᵢ A[x]/(x^{eᵢ} - φ)_φ` over `A_φ` with every `eᵢ ≥ 1` invertible in `A`. The argument
-`h0BMA` is purity for regular local rings ([Stacks, Tag 0BMA] (1)). -/
-theorem exists_ringEquiv_pi_of_isRegularLocalRing (h0BMA : PurityAtRegularLocalRings.{u})
+`B ≅ ∏ᵢ A[x]/(x^{eᵢ} - φ)_φ` over `A_φ` with every `eᵢ ≥ 1` invertible in `A`. -/
+theorem exists_ringEquiv_pi_of_isRegularLocalRing
     (A : Type u) [CommRing A] [StrictlyHenselianLocalRing A] [IsRegularLocalRing A]
     (φ : A) (hφ : φ ∈ maximalIdeal A) (hφ0 : φ ≠ 0)
     (hreg : IsRegularLocalRing (A ⧸ Ideal.span {φ}))
@@ -116,7 +114,7 @@ theorem exists_ringEquiv_pi_of_isRegularLocalRing (h0BMA : PurityAtRegularLocalR
   have : Fintype (minimalPrimes B) := hfin.fintype
   let Q : minimalPrimes B → Type u := fun P ↦ B ⧸ (P : Ideal B)
   let ε : B →ₐ[Localization.Away φ] (∀ P, Q P) :=
-    Pi.algHom _ Q (fun P ↦ Ideal.Quotient.mkₐ _ (P : Ideal B))
+    AlgHom.pi (fun P ↦ Ideal.Quotient.mkₐ _ (P : Ideal B))
   let εe := AlgEquiv.ofBijective ε hbij
   have : Algebra.Etale (Localization.Away φ) (∀ P, Q P) := Algebra.Etale.of_equiv εe
   have hfac : ∀ P : minimalPrimes B, ∃ d : ℕ, 0 < d ∧ IsUnit (d : A) ∧
@@ -124,7 +122,7 @@ theorem exists_ringEquiv_pi_of_isRegularLocalRing (h0BMA : PurityAtRegularLocalR
         ∀ r, σ (Localization.awayMap (algebraMap A (standardTamelyRamifiedAlgebra A φ d)) φ r) =
           algebraMap _ (Q P) r := by
     intro P
-    have : (P : Ideal B).IsPrime := Ideal.minimalPrimes_isPrime P.2
+    have : (P : Ideal B).IsPrime := P.2.isPrime
     have : IsDomain (Q P) := Ideal.Quotient.isDomain _
     have : Module.Finite (Localization.Away φ) (Q P) :=
       Module.Finite.of_surjective (Ideal.Quotient.mkₐ _ (P : Ideal B)).toLinearMap
@@ -134,7 +132,7 @@ theorem exists_ringEquiv_pi_of_isRegularLocalRing (h0BMA : PurityAtRegularLocalR
     have : Algebra.FinitePresentation (Localization.Away φ) (Q P) :=
       Algebra.FinitePresentation.of_finiteType.mp inferInstance
     have : Algebra.Etale (Localization.Away φ) (Q P) := ⟨inferInstance, inferInstance⟩
-    exact exists_ringEquiv_of_isDomain h0BMA A φ hφ hφ0 hreg (Q P)
+    exact exists_ringEquiv_of_isDomain A φ hφ hφ0 hreg (Q P)
       (isTamelyRamifiedInCodimensionOne_of_surjective (R := .of A) φ
         (Ideal.Quotient.mkₐ _ (P : Ideal B)) Ideal.Quotient.mk_surjective htame)
   choose d hd0 hdu σP hσP using hfac
@@ -143,7 +141,7 @@ theorem exists_ringEquiv_pi_of_isRegularLocalRing (h0BMA : PurityAtRegularLocalR
     (RingEquiv.piCongrRight fun i ↦ σP (eq.symm i)).trans
       ((RingEquiv.piCongrLeft Q eq.symm).trans εe.symm.toRingEquiv), fun r ↦ ?_⟩
   apply εe.injective
-  simp only [RingEquiv.trans_apply, AlgEquiv.coe_ringEquiv,
+  simp only [RingEquiv.trans_apply, AlgEquiv.coe_toRingEquiv,
     AlgEquiv.apply_symm_apply, AlgEquiv.commutes]
   funext P
   obtain ⟨i, rfl⟩ := eq.symm.surjective P
@@ -184,14 +182,14 @@ theorem exists_ringEquiv_pi_of_isUnit (A : Type u) [CommRing A] [StrictlyHenseli
     have h1 : Localization.awayMap (algebraMap A C) φ (algebraMap A _ a) =
         algebraMap C _ (algebraMap A C a) := IsLocalization.map_eq _ _
     rw [h1]
-    show e₁ (eC.symm (eC (algebraMap A C a))) = a
+    change e₁ (eC.symm (eC (algebraMap A C a))) = a
     rw [AlgEquiv.symm_apply_apply, AlgEquiv.commutes]
     rfl
   refine ⟨n, fun _ ↦ 1, fun _ ↦ ⟨one_pos, by simp⟩,
     (RingEquiv.piCongrRight fun _ ↦ eK).trans eB.symm.toRingEquiv, fun r ↦ ?_⟩
   obtain ⟨a, rfl⟩ := eA.surjective r
   rw [show eA a = algebraMap A (Localization.Away φ) a from eA.commutes a]
-  show eB.symm (fun _ ↦ eK (Localization.awayMap (algebraMap A C) φ (algebraMap A _ a))) = _
+  change eB.symm (fun _ ↦ eK (Localization.awayMap (algebraMap A C) φ (algebraMap A _ a))) = _
   simp only [heK]
   exact eB.symm.commutes a
 

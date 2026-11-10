@@ -427,7 +427,7 @@ private lemma diagonal_map_succ {C : Type u} [Category.{v} C] {M : ℕ → ℕ�
         (homOfLE (Nat.le_succ k)) =
       (liftIndexFunctor ⋙ (liftedInverseSequence (diagSystem R)).op ⋙ coyoneda).map
         (homOfLE (Nat.le_succ k)) := by
-  show ((Functor.ofSequence (rowTransition R)).map (homOfLE (Nat.le_succ k))).app k ≫
+  change ((Functor.ofSequence (rowTransition R)).map (homOfLE (Nat.le_succ k))).app k ≫
       ((Functor.ofSequence (rowTransition R)).obj (k + 1)).map (homOfLE (Nat.le_succ k)) =
     coyoneda.map ((diagSystem R).map (homOfLE (Nat.le_succ k)).op).op
   rw [diagSystem_map_succ, Functor.ofSequence_map_homOfLE_succ]

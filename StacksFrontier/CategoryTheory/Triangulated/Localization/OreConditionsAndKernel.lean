@@ -254,7 +254,7 @@ lemma A_two_imp_one (hL : S.HasLeftCalculusOfFractions) :
   let : Q.Additive := Localization.functor_additive Q S
   let e : Q.obj Z ≅ Q.obj Z' := Localization.isoOfHom Q S (0 : Z ⟶ Z') h
   have hhom : e.hom = 0 := Q.map_zero Z Z'
-  show IsZero (Q.obj Z)
+  change IsZero (Q.obj Z)
   rw [IsZero.iff_id_eq_zero, ← e.hom_inv_id, hhom, zero_comp]
 
 omit [HasShift 𝒟 ℤ] in
@@ -267,7 +267,7 @@ lemma A_three_imp_one (hL : S.HasLeftCalculusOfFractions) :
   let : Q.Additive := Localization.functor_additive Q S
   let e : Q.obj Z' ≅ Q.obj Z := Localization.isoOfHom Q S (0 : Z' ⟶ Z) h
   have hhom : e.hom = 0 := Q.map_zero Z' Z
-  show IsZero (Q.obj Z)
+  change IsZero (Q.obj Z)
   rw [IsZero.iff_id_eq_zero, ← e.inv_hom_id, hhom, comp_zero]
 
 /-- If some zero morphism `Z ⟶ Z'` lies in `S`, then some `Z ⊞ Z''` is the third object of a
@@ -284,11 +284,11 @@ lemma A_two_imp_four (hcompat : S.IsCompatibleWithTriangulation) :
     simp [Triangle.invRotate, binaryBiproductTriangle, Triangle.mk]
   have hSmor1 : S ((binaryBiproductTriangle W' Z).invRotate.mor₁) := by
     rw [hmor1]
-    show S (0 : (shiftFunctor 𝒟 (-1:ℤ)).obj Z ⟶ (shiftFunctor 𝒟 (-1:ℤ)).obj W)
+    change S (0 : (shiftFunctor 𝒟 (-1:ℤ)).obj Z ⟶ (shiftFunctor 𝒟 (-1:ℤ)).obj W)
     have hcond := hcompat.toIsCompatibleWithShift.condition (-1 : ℤ)
     rw [show (0 : (shiftFunctor 𝒟 (-1:ℤ)).obj Z ⟶ (shiftFunctor 𝒟 (-1:ℤ)).obj W)
         = (shiftFunctor 𝒟 (-1:ℤ)).map (0 : Z ⟶ W) from (Functor.map_zero _ _ _).symm]
-    show S.inverseImage (shiftFunctor 𝒟 (-1:ℤ)) (0 : Z ⟶ W)
+    change S.inverseImage (shiftFunctor 𝒟 (-1:ℤ)) (0 : Z ⟶ W)
     rw [hcond]; exact hf
   refine ⟨W', (binaryBiproductTriangle W' Z).invRotate.obj₁,
     (binaryBiproductTriangle W' Z).invRotate.obj₂,
@@ -390,7 +390,7 @@ lemma B_one_imp_seven (hL : S.HasLeftCalculusOfFractions)
   have hT₀ : T₀ ∈ distinguishedTriangles :=
     inv_rot_of_distTriang _ (contractible_distinguished Z)
   have hzero₁ : IsZero T₀.obj₁ := by
-    show IsZero ((shiftFunctor 𝒟 (-1 : ℤ)).obj (contractibleTriangle Z).obj₃)
+    change IsZero ((shiftFunctor 𝒟 (-1 : ℤ)).obj (contractibleTriangle Z).obj₃)
     exact Functor.map_isZero (shiftFunctor 𝒟 (-1)) (isZero_zero 𝒟)
   refine ⟨O, Z, (0 : O ⟶ Z), (𝟙 Z), (0 : Z ⟶ (shiftFunctor 𝒟 (1 : ℤ)).obj O), ?_, hf⟩
   refine isomorphic_distinguished _ hT₀ _ ?_

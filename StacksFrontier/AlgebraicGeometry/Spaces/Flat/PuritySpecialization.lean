@@ -95,8 +95,8 @@ of schemes — which for a morphism locally of finite type is the relative assas
 comparison is
 `AlgebraicGeometry.Space.isRelativeWeaklyAssociatedPoint_iff_mem_relativeWeaklyAssociatedPoints`,
 in `StacksFrontier/AlgebraicGeometry/Divisors/MorphismWeaklyAssociated/`
-`StacksFrontier/AlgebraicGeometry/Divisors/MorphismWeaklyAssociated/RepresentedFibreComparison.lean`, and it is *proved* there — see the implementation notes
-below.
+`RepresentedFibreComparison.lean`,
+and it is *proved* there — see the implementation notes below.
 
 It is *not* the comparison of `AlgebraicGeometry.Scheme.Modules` of a scheme of the site with
 `AlgebraicGeometry.Space.Modules` of the algebraic space it represents that is missing, as this
@@ -138,7 +138,8 @@ With those, the comparison is proved for an arbitrary morphism of the site and a
 module, as
 `AlgebraicGeometry.Space.isRelativeWeaklyAssociatedPoint_iff_mem_relativeWeaklyAssociatedPoints`
 of `StacksFrontier/AlgebraicGeometry/Divisors/MorphismWeaklyAssociated/`
-`StacksFrontier/AlgebraicGeometry/Divisors/MorphismWeaklyAssociated/RepresentedFibreComparison.lean`: neither affineness of the source scheme nor local finiteness
+`RepresentedFibreComparison.lean`:
+neither affineness of the source scheme nor local finiteness
 of the type of the morphism is required, the quasi-coherence of the restriction of the module to
 a fibre being Stacks 03GA along an arbitrary morphism of algebraic spaces.
 

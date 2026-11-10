@@ -272,7 +272,7 @@ lemma comparison_injective {R : Type u} [Ring R]
       (0 : (M ⋙ homF P).obj i)]
     refine ⟨k, g, g, ?_⟩
     rw [map_zero]
-    show (homF P).map (M.map g) f = 0
+    change (homF P).map (M.map g) f = 0
     exact hfg0
   rw [hgoal, map_zero]
 
@@ -459,7 +459,7 @@ private lemma preservesColimit_homComplexFunctor {R : Type u} [Ring R]
       (homComplexFunctor E ⋙
         HomologicalComplex.eval AddCommGrpCat.{v} (ComplexShape.up ℤ) n) :=
     preservesColimit_of_natIso M (homComplexEvalIso E n).symm
-  show IsColimit
+  change IsColimit
     ((homComplexFunctor E ⋙
       HomologicalComplex.eval AddCommGrpCat.{v} (ComplexShape.up ℤ) n).mapCocone
         (colimit.cocone M))
@@ -525,7 +525,7 @@ private lemma homologyExtAddEquiv_naturality {R : Type u} [Ring R]
     simp only [ConcreteCategory.comp_apply] at h1 h2 h3
     refine h1.trans ?_
     refine h2.trans ?_
-    show ((HomologicalComplex.iCycles H n) z).comp _ (add_zero n) = a.1.comp _ (add_zero n)
+    change ((HomologicalComplex.iCycles H n) z).comp _ (add_zero n) = a.1.comp _ (add_zero n)
     congr 1
   simp only [homologyExtAddEquiv, AddEquiv.trans_apply]
   have hnat := ConcreteCategory.congr_hom
@@ -651,7 +651,7 @@ theorem colimit_ext_comparison_isIso_of_lt_and_mono
       (hτ n (M.obj j)).2 hn
     have : IsIso (Functor.whiskerLeft M (τ n)) := NatIso.isIso_of_isIso_app _
     have := hE' n
-    show IsIso (colimit.post M (extFunctor n))
+    change IsIso (colimit.post M (extFunctor n))
     have h2 : IsIso (colimit.post M (extFunctor n) ≫ (τ n).app (colimit M)) := by
       rw [hsq]; infer_instance
     exact IsIso.of_isIso_comp_right _ ((τ n).app (colimit M))
@@ -660,7 +660,7 @@ theorem colimit_ext_comparison_isIso_of_lt_and_mono
     have : ∀ j, Mono ((Functor.whiskerLeft M (τ (-m))).app j) := fun j =>
       (hτ (-m) (M.obj j)).1 le_rfl
     have : Mono (Functor.whiskerLeft M (τ (-m))) := NatTrans.mono_of_mono_app _
-    show Mono (colimit.post M (extFunctor (-m)))
+    change Mono (colimit.post M (extFunctor (-m)))
     have : Mono (colim.map (Functor.whiskerLeft M (τ (-m)))) := inferInstance
     have h2 : Mono (colimit.post M (extFunctor (-m)) ≫ (τ (-m)).app (colimit M)) := by
       rw [hsq]; exact mono_comp _ _
@@ -717,7 +717,7 @@ private lemma witnessProj_comp {R : Type u} [Ring R] (N : ModuleCat.{v} R)
     witnessProj N E ≫ (witnessFunctor N).map f = witnessProj N E' := by
   apply ModuleCat.hom_ext
   rw [ModuleCat.hom_comp]
-  show (Submodule.factor (witnessSub_mono N (leOfHom f))) ∘ₗ (witnessSub N E).mkQ
+  change (Submodule.factor (witnessSub_mono N (leOfHom f))) ∘ₗ (witnessSub N E).mkQ
       = (witnessSub N E').mkQ
   exact Submodule.factor_comp_mk _
 
@@ -755,12 +755,12 @@ private lemma finite_of_mono_colimit_post {R : Type u} [Ring R] (N : ModuleCat.{
         = (homF N).map (colimit.ι F (∅ : Finset N)) (witnessProj N (∅ : Finset N)) :=
       ConcreteCategory.congr_hom hfac (witnessProj N (∅ : Finset N))
     rw [hcm]
-    show witnessProj N (∅ : Finset N) ≫ colimit.ι F (∅ : Finset N) = 0
+    change witnessProj N (∅ : Finset N) ≫ colimit.ι F (∅ : Finset N) = 0
     apply ModuleCat.hom_ext
     apply LinearMap.ext
     intro x
     rw [ModuleCat.hom_comp, ModuleCat.hom_zero]
-    show (colimit.ι F (∅ : Finset N)) ((witnessSub N (∅ : Finset N)).mkQ x) = 0
+    change (colimit.ι F (∅ : Finset N)) ((witnessSub N (∅ : Finset N)).mkQ x) = 0
     exact witnessProj_emptyset_zero N x
   have hmono := h (Finset N) F
   rw [AddCommGrpCat.mono_iff_injective] at hmono
@@ -775,8 +775,8 @@ private lemma finite_of_mono_colimit_post {R : Type u} [Ring R] (N : ModuleCat.{
   rw [map_zero] at hfg
   have hLHS : (ConcreteCategory.hom ((F ⋙ homF N).map f)) (witnessProj N (∅ : Finset N))
       = witnessProj N k := by
-    show (homF N).map (F.map f) (witnessProj N (∅ : Finset N)) = witnessProj N k
-    show witnessProj N (∅ : Finset N) ≫ F.map f = witnessProj N k
+    change (homF N).map (F.map f) (witnessProj N (∅ : Finset N)) = witnessProj N k
+    change witnessProj N (∅ : Finset N) ≫ F.map f = witnessProj N k
     exact witnessProj_comp N f
   rw [hLHS] at hfg
   have hmkQ : (witnessSub N k).mkQ = 0 := by
@@ -807,7 +807,7 @@ private lemma mono_colimit_post_iff
   constructor
   · intro h i x hx
     have hz : colimit.ι (M ⋙ G) i x = 0 := h _ (by
-      show (colimit.ι (M ⋙ G) i ≫ colimit.post M G) x = 0
+      change (colimit.ι (M ⋙ G) i ≫ colimit.post M G) x = 0
       simpa using hx)
     have hz' : colimit.ι (M ⋙ G) i x = colimit.ι (M ⋙ G) i 0 := by
       simpa using hz
@@ -888,7 +888,7 @@ private lemma finite_top_homology_of_mono_colimit_ext
   have hN : Module.Finite R N := by
     apply finite_of_mono_colimit_post N
     intro J _ _ M
-    show Mono (colimit.post M (preadditiveCoyoneda.obj (Opposite.op N)))
+    change Mono (colimit.post M (preadditiveCoyoneda.obj (Opposite.op N)))
     apply (mono_colimit_post_iff M (preadditiveCoyoneda.obj (Opposite.op N))).mpr
     intro i x hx
     let y : K ⟶ ((DerivedCategory.singleFunctor (ModuleCat.{v} R) 0).obj (M.obj i))⟦-t⟧ :=
@@ -907,7 +907,7 @@ private lemma finite_top_homology_of_mono_colimit_ext
       simp [hx]
     obtain ⟨j, f, hf⟩ := (mono_colimit_post_iff M (extFunctor K (-t))).mp (h J M) i y hy
     refine ⟨j, f, ?_⟩
-    show x ≫ M.map f = 0
+    change x ≫ M.map f = 0
     apply (hbij (M.obj j)).injective
     rw [hnat] at hf
     apply (cancel_mono (e.inv.app (M.obj j))).mp

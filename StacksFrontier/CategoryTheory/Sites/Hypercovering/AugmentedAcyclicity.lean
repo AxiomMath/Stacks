@@ -125,9 +125,9 @@ theorem isIso_widePullback_π_fin_one {F G : Cᵒᵖ ⥤ Type w} (f : F ⟶ G) :
     WidePullback.lift f (fun _ : Fin 1 => 𝟙 F) (by intro i; fin_cases i; simp)
   refine ⟨g, ?_, ?_⟩
   · apply WidePullback.hom_ext
-    · intro i; fin_cases i; simp [g, Category.assoc, WidePullback.lift_π]
-    · simp [g, Category.assoc, WidePullback.lift_base, WidePullback.π_arrow]
-  · simp [g, WidePullback.lift_π]
+    · intro i; fin_cases i; simp [g, Category.assoc]
+    · simp [g, Category.assoc, WidePullback.π_arrow]
+  · simp [g]
 
 end CategoryTheory.Limits
 
@@ -157,14 +157,12 @@ theorem isIso_cechNerveOneToPullback {F G : Cᵒᵖ ⥤ Type w} (f : F ⟶ G) :
   refine ⟨g, ?_, ?_⟩
   · apply WidePullback.hom_ext
     · intro i
-      fin_cases i <;> simp [cechNerveOneToPullback, g, Category.assoc,
-        WidePullback.lift_π, pullback.lift_fst, pullback.lift_snd]
+      fin_cases i <;> simp [cechNerveOneToPullback, g, Category.assoc]
     · dsimp [g]
       rw [Category.assoc, WidePullback.lift_base, ← Category.assoc]
       simp only [cechNerveOneToPullback, pullback.lift_fst, WidePullback.π_arrow,
         Category.id_comp]
-  · apply pullback.hom_ext <;> simp [cechNerveOneToPullback, g, Category.assoc,
-      WidePullback.lift_π, pullback.lift_fst, pullback.lift_snd]
+  · apply pullback.hom_ext <;> simp [cechNerveOneToPullback, g, Category.assoc]
 
 end CategoryTheory.Arrow
 
@@ -219,7 +217,7 @@ theorem isIso_sheafHomologyFunctor_map_of_isIso_lowDegrees (J : GrothendieckTopo
     dsimp [φ, HomologicalComplex.shortComplexFunctor]
     exact hn
   have : IsIso φ := ShortComplex.isIso_of_isIso φ
-  show IsIso ((ShortComplex.homologyFunctor (Sheaf J AddCommGrpCat.{w})).map φ)
+  change IsIso ((ShortComplex.homologyFunctor (Sheaf J AddCommGrpCat.{w})).map φ)
   infer_instance
 
 /-- The canonical transition `cosk_{n+1} K ⟶ cosk_n K` of the coskeleton tower.  It is the
@@ -253,7 +251,7 @@ theorem coskAdj_unit_app_comp_coskSuccToCosk (K : SimplicialObject (Cᵒᵖ ⥤ 
   let a := SimplicialObject.coskAdj (C := Cᵒᵖ ⥤ Type w) n
   let u := (SimplicialObject.coskAdj (n+1)).unit.app K
   have hu : IsIso ((SimplicialObject.truncation n).map u) := by
-    show IsIso ((SimplicialObject.Truncated.trunc _ (n+1) n (by omega)).map
+    change IsIso ((SimplicialObject.Truncated.trunc _ (n+1) n (by omega)).map
       ((SimplicialObject.truncation (n+1)).map u))
     infer_instance
   apply (a.homEquiv K _).symm.injective
@@ -418,10 +416,10 @@ theorem toCechNerve_app_one_comp_cechNerveOneToPullback
   apply pullback.hom_ext
   · simp only [Category.assoc, Arrow.cechNerveOneToPullback, pullback.lift_fst]
     convert toCechNerve_app_one_comp_π K 0 using 1 <;>
-      simp [edgesToFiberProduct, Fin.rev, pullback.lift_fst]
+      simp [edgesToFiberProduct, Fin.rev]
   · simp only [Category.assoc, Arrow.cechNerveOneToPullback, pullback.lift_snd]
     convert toCechNerve_app_one_comp_π K 1 using 1 <;>
-      simp [edgesToFiberProduct, Fin.rev, pullback.lift_snd]
+      simp [edgesToFiberProduct, Fin.rev]
 
 /-- If the relation map is locally surjective then so is
 `CategoryTheory.SimplicialObject.Augmented.toCechNerve` in degree one, since the two differ by
@@ -451,7 +449,7 @@ theorem isIso_toCechNerve_app_zero
   have : f.HasCechPullbacks := ⟨fun _ => inferInstance⟩
   let p := Arrow.π₀ f
   have : IsIso p := by
-    show IsIso (WidePullback.π (fun _ : Fin 1 => K.hom.app
+    change IsIso (WidePullback.π (fun _ : Fin 1 => K.hom.app
       (op (SimplexCategory.mk 0))) 0)
     exact isIso_widePullback_π_fin_one _
   have heq : (toCechNerve K).app (op (SimplexCategory.mk 0)) ≫ p = 𝟙 _ :=
@@ -493,7 +491,7 @@ theorem coskAdj_unit_app_comp_coskOneToCechNerve
       toCechNerve K ≫ (SimplicialObject.coskAdj 1).unit.app f.cechNerve := by
     simpa only [Functor.id_map, Functor.comp_map] using
       ((SimplicialObject.coskAdj 1).unit.naturality (toCechNerve K)).symm
-  show ((SimplicialObject.coskAdj 1).unit.app K.left ≫
+  change ((SimplicialObject.coskAdj 1).unit.app K.left ≫
     (SimplicialObject.cosk 1).map (toCechNerve K)) ≫
     inv ((SimplicialObject.coskAdj 1).unit.app f.cechNerve) = toCechNerve K
   rw [hnat, Category.assoc, IsIso.hom_inv_id, Category.comp_id]

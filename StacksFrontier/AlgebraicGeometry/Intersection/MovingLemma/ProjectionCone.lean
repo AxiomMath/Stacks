@@ -165,7 +165,7 @@ public theorem isIrreducible_projectionPreimage (W : Submodule k V)
   refine Topology.isIrreducible_of_mem_of_subset_closure_singleton
     (ξ := coneGenericPoint k V W z) ⟨⟨coneGenericPoint k V W z,
       coneGenericPoint_mem_projectionDomain k V W z⟩, ?_, rfl⟩ ?_
-  · show (projection k V W).base _ ∈ Z
+  · change (projection k V W).base _ ∈ Z
     rw [projection_base_coneGenericPoint k V W z]
     exact hz ▸ subset_closure (Set.mem_singleton z)
   · rintro x ⟨y, hy, rfl⟩

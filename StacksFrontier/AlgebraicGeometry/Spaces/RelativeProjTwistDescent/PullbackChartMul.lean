@@ -168,7 +168,7 @@ private theorem mul_comp_eq_of_chart_readings {CW CU D : Type*} [Category CW] [M
     _ = tF ≫ ((si ≫ G.map κi ≫ ℓi) ⊗ₘ (sj ≫ G.map κj ≫ ℓj)) ≫ μL := by
         rw [← hsq]
         simp only [Category.assoc, tensorHom_comp_tensorHom_assoc]
-        rw [Iso.map_inv_hom_id_assoc]
+        rw [Iso.inv_hom_id_map_assoc]
     _ = F.map ((ei ⊗ₘ ej) ≫ μG) ≫ ρk.hom := by
         rw [F.map_comp, Category.assoc, hρ, reassoc_of% hnc, tensorHom_comp_tensorHom_assoc,
           hei, hej]
@@ -195,7 +195,7 @@ private theorem unit_comp_eq_of_chart_readings {CW CU D : Type*} [Category CW] [
         rw [hnat, Category.assoc, ← G.map_comp_assoc, hcν, G.map_comp, Category.assoc, hℓ]
         simp only [Category.assoc]
     _ = F.map νG ≫ ρ.hom := by
-        rw [hsq, hρ, Category.assoc, Iso.map_inv_hom_id_assoc]
+        rw [hsq, hρ, Category.assoc, Iso.inv_hom_id_map_assoc]
 
 end Abstract
 

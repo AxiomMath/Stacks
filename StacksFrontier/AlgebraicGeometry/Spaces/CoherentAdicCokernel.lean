@@ -106,7 +106,7 @@ theorem idealPowerMultiple_ι_comp_comp_eq_zero (k : ℕ) {M N T : Modules.{u, u
   refine (idealPowerMultiple_ι_comp_eq_zero_iff B S hS F hF 𝓘 k (φ ≫ ψ)).mpr fun U r hr x => ?_
   have hψ := (idealPowerMultiple_ι_comp_eq_zero_iff B S hS F hF 𝓘 k ψ).mp h U r hr
     (φ.val.app (op U) x)
-  show ψ.val.app (op U) (φ.val.app (op U) (r • x)) = 0
+  change ψ.val.app (op U) (φ.val.app (op U) (r • x)) = 0
   rw [(φ.val.app (op U)).hom.map_smul r x]
   exact hψ
 
@@ -138,7 +138,7 @@ theorem idealPowerMultiple_ι_comp_eq_zero_of_epi (k : ℕ) {M Q T : Modules.{u,
     map_smulₛₗ (Q.val.restrictₛₗ g.op) r x
   have e2 : Q.val.restrictₛₗ g.op x = π.val.app (op V) t := ht'.symm
   refine (PresheafOfModules.naturality_apply ψ.val g.op (r • x)).symm.trans ?_
-  show ψ.val.app (op V) (Q.val.restrictₛₗ g.op (r • x)) = 0
+  change ψ.val.app (op V) (Q.val.restrictₛₗ g.op (r • x)) = 0
   have e3 : chartRestrict (hF := hF) g r • π.val.app (op V) t
       = π.val.app (op V) (chartRestrict (hF := hF) g r • t) :=
     ((π.val.app (op V)).hom.map_smul _ t).symm
@@ -170,6 +170,7 @@ theorem app_comp_cokernelObjIso_hom {X Y : ℕᵒᵖ ⥤ Modules.{u, u} B S hS F
   PreservesCokernel.π_iso_hom ((evaluation ℕᵒᵖ (Modules.{u, u} B S hS F hF)).obj n) g
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- the cokernel and `Epi` instance searches in `Modules B S hS F hF` here are heavy
 /-- Every component of the projection onto a levelwise cokernel is an epimorphism. -/
 instance epi_cokernel_π_app {X Y : ℕᵒᵖ ⥤ Modules.{u, u} B S hS F hF} (g : X ⟶ Y) (n : ℕᵒᵖ) :
     Epi ((cokernel.π g).app n) := by

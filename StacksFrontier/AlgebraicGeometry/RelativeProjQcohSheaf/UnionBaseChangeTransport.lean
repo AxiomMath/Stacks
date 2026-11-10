@@ -73,7 +73,7 @@ theorem baseChangeUp_algebraTransport (g : S' ⟶ S) (f' : T ⟶ S')
         P).baseChangeUp g f' A d =
       algebraTransport Φ h (P.baseChangeUp g f' B d) :=
   Quadruple.ext rfl fun i => heq_of_eq (by
-    show compComparison f' g (A.piece (i * d)) ≫
+    change compComparison f' g (A.piece (i * d)) ≫
         ((pullbackFunctor (ringedSpaceHom f')).map
           ((pullbackFunctor (ringedSpaceHom g)).map (Φ.app (i * d))) ≫ P.twisting.app i) =
       (pullbackFunctor (ringedSpaceHom (f' ≫ g))).map (Φ.app (i * d)) ≫
@@ -109,7 +109,7 @@ theorem baseChangeUp_baseChangeUp (q : S' ⟶ T) (g : T ⟶ S) (π : S' ⟶ S) (
     exact ((CategoryTheory.Functor.map_comp _ _ _).symm.trans
       (congrArg (pullbackFunctor (ringedSpaceHom f')).map hhi)).trans
         (CategoryTheory.Functor.map_id _ _)
-  show compComparison (f' ≫ q) g (A.piece (i * d)) ≫
+  change compComparison (f' ≫ q) g (A.piece (i * d)) ≫
       (compComparison f' q ((pullbackFunctor (ringedSpaceHom g)).obj (A.piece (i * d))) ≫
         ((pullbackFunctor (ringedSpaceHom f')).map
           ((baseAlgebraCompHomOf A q g (q ≫ g) rfl).app (i * d)) ≫ P.twisting.app i)) =

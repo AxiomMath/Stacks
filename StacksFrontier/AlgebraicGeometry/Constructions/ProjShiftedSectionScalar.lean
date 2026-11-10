@@ -105,7 +105,7 @@ theorem degreeNToGlobalSections_smul (n : ℤ) (a : 𝒮 0) (m : 𝒨 n) (am : �
       algebraMap S (Localization x.1.asHomogeneousIdeal.toIdeal.primeCompl) (a : S) :=
     Stacks.AlgebraicGeometry.ProjEulerSequence.toSpecZero_appTop_val 𝒮 a x.1
   rw [happly am, ham]
-  show _ = HomogeneousLocalization.val ((pullbackDegreeZero 𝒮 a).1 x) •
+  change _ = HomogeneousLocalization.val ((pullbackDegreeZero 𝒮 a).1 x) •
     ((associatedModuleSheafSectionsEquiv 𝒮 (shiftedGrading 𝒨 n) ⊤)
       (degreeNToGlobalSections 𝒮 𝒨 n m)).1 x
   rw [happly m, hscalar, algebraMap_smul, LocalizedModule.smul'_mk]

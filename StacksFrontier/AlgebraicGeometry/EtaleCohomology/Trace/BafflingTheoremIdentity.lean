@@ -72,12 +72,12 @@ public theorem etaleAbelianInverseImageConstantIso_hom_app {X : Scheme.{u}} (g :
     AddCommGrpCat.{max (u + 1) v} X.smallEtaleTopology X.smallEtaleTopology
   let adjT := (constantSheafAdj X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v} hT).comp adjE
   let adjGT := constantSheafAdj X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v} hGT
-  show (Adjunction.leftAdjointUniq adjT adjGT).hom.app A =
+  change (Adjunction.leftAdjointUniq adjT adjGT).hom.app A =
     (Adjunction.leftAdjointUniq adjE adjId).hom.app cA
   apply (adjT.homEquiv A cA).injective
   rw [Adjunction.homEquiv_leftAdjointUniq_hom_app adjT adjGT A, Adjunction.comp_homEquiv]
   simp only [Equiv.trans_apply]
-  show adjGT.unit.app A =
+  change adjGT.unit.app A =
     (constantSheafAdj X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v} hT).homEquiv
       A ((G.sheafPushforwardContinuous AddCommGrpCat.{max (u + 1) v}
         X.smallEtaleTopology X.smallEtaleTopology).obj cA)

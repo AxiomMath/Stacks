@@ -335,7 +335,7 @@ theorem statement2 {K L M N : DGModule 𝒜}
         simpa using Submodule.neg_mem _ (s.degree _ _ (h₀.degree n x hx)) }
   obtain ⟨a', haa', hformula⟩ := exists_homotopic_sub a H
   have hgH : ∀ y, g.toLinearMap (H.toLinearMap y) = -h₀.toLinearMap y := fun y => by
-    show g.toLinearMap (-s.toLinearMap (h₀.toLinearMap y)) = _
+    change g.toLinearMap (-s.toLinearMap (h₀.toLinearMap y)) = _
     rw [map_neg, hs]
   refine ⟨a', haa', fun x => ?_⟩
   have hrel : b.toLinearMap (f.toLinearMap x) - g.toLinearMap (a.toLinearMap x)

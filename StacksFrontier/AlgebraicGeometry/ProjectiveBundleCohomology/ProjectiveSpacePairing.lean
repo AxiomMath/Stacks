@@ -44,7 +44,7 @@ namespace Stacks.AlgebraicGeometry.ProjectiveBundleCohomology.ProjectiveSpacePai
 
 section Biproducts
 
-variable {C : Type*} [Category C] [Preadditive C] {J : Type} [Fintype J] (f : J → C)
+variable {C : Type*} [Category C] [Preadditive C] {J : Type} (f : J → C)
   [HasBiproduct f] (H : C ⥤ AddCommGrpCat.{u}) [H.Additive]
 
 /-- Evaluation of a finite sum of morphisms of abelian groups. -/
@@ -57,8 +57,9 @@ theorem hom_sum_apply {X Y : AddCommGrpCat.{u}} {ι : Type*} (S : Finset ι) (φ
 
 /-- An element of the image of a finite biproduct under an additive functor to abelian groups is
 determined by its components. -/
-theorem ext_biproduct {y y' : H.obj (⨁ f)}
+theorem ext_biproduct [Finite J] {y y' : H.obj (⨁ f)}
     (h : ∀ s, (H.map (biproduct.π f s)).hom y = (H.map (biproduct.π f s)).hom y') : y = y' := by
+  have := Fintype.ofFinite J
   have htot : H.map (𝟙 (⨁ f)) = ∑ s, H.map (biproduct.π f s) ≫ H.map (biproduct.ι f s) := by
     rw [← biproduct.total, Functor.map_sum]
     simp only [Functor.map_comp]
@@ -74,7 +75,7 @@ theorem ext_biproduct {y y' : H.obj (⨁ f)}
   simp only [h]
 
 /-- The components of the image of a sum of inclusions. -/
-theorem π_sum_ι (z : ∀ s, H.obj (f s)) (t : J) :
+theorem π_sum_ι [Fintype J] (z : ∀ s, H.obj (f s)) (t : J) :
     (H.map (biproduct.π f t)).hom (∑ s, (H.map (biproduct.ι f s)).hom (z s)) = z t := by
   classical
   rw [map_sum]
@@ -91,14 +92,16 @@ theorem π_sum_ι (z : ∀ s, H.obj (f s)) (t : J) :
 
 /-- The image of a finite biproduct under an additive functor to abelian groups is the product
 of the images: an element is the same as the family of its components. -/
-theorem bijective_biproduct_components :
+theorem bijective_biproduct_components [Finite J] :
     Function.Bijective (fun y : H.obj (⨁ f) => fun s => (H.map (biproduct.π f s)).hom y) :=
+  have := Fintype.ofFinite J
   ⟨fun _ _ h => ext_biproduct f H fun s => congrFun h s,
     fun z => ⟨∑ s, (H.map (biproduct.ι f s)).hom (z s), funext (π_sum_ι f H z)⟩⟩
 
 /-- A finite biproduct of objects on which an additive functor vanishes is sent to zero. -/
-theorem isZero_map_biproduct {D : Type*} [Category D] [Preadditive D] (G : C ⥤ D) [G.Additive]
-    (h : ∀ s, IsZero (G.obj (f s))) : IsZero (G.obj (⨁ f)) := by
+theorem isZero_map_biproduct [Finite J] {D : Type*} [Category D] [Preadditive D] (G : C ⥤ D)
+    [G.Additive] (h : ∀ s, IsZero (G.obj (f s))) : IsZero (G.obj (⨁ f)) := by
+  have := Fintype.ofFinite J
   refine (IsZero.iff_id_eq_zero _).2 ?_
   rw [← G.map_id, ← biproduct.total, Functor.map_sum]
   refine Finset.sum_eq_zero fun s _ => ?_

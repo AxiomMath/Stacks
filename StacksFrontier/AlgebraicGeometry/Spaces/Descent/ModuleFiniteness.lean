@@ -129,13 +129,13 @@ private theorem inverseImage_etale_isMultiplicative :
       (MorphismProperty.inverseImage (@Etale.{u} : MorphismProperty Scheme.{u})
         (BigFppfOver.toScheme B S hS)) where
   id_mem X := by
-    show Etale ((BigFppfOver.toScheme B S hS).map (𝟙 X))
+    change Etale ((BigFppfOver.toScheme B S hS).map (𝟙 X))
     rw [(BigFppfOver.toScheme B S hS).map_id]
     infer_instance
   comp_mem f g hf hg := by
     change Etale ((BigFppfOver.toScheme B S hS).map f) at hf
     change Etale ((BigFppfOver.toScheme B S hS).map g) at hg
-    show Etale ((BigFppfOver.toScheme B S hS).map (f ≫ g))
+    change Etale ((BigFppfOver.toScheme B S hS).map (f ≫ g))
     rw [Functor.map_comp]
     exact Etale.etale_comp _ _
 
@@ -184,7 +184,7 @@ theorem fpqc_of_yoneda_refinements {V : BigFppfOver B S hS} (W : PreZeroHypercov
     obtain ⟨R, hfin, hcov, hfac⟩ := hrefine T t
     let R' := R.map (BigAffineFppf.toScheme B S hS)
     have hcov' : R'.presieve₀ ∈ Scheme.fpqcPrecoverage O.toScheme := by
-      show (R.map (BigAffineFppf.toScheme B S hS)).presieve₀ ∈
+      change (R.map (BigAffineFppf.toScheme B S hS)).presieve₀ ∈
         Scheme.fpqcPrecoverage ((BigAffineFppf.toScheme B S hS).obj T)
       rw [PreZeroHypercover.presieve₀_map]
       exact hcov
@@ -332,7 +332,7 @@ private theorem isLocallyProjective_of_iso {Y : Scheme.{u}} {M N : Y.Modules} (e
   let eO : M.val.obj (op O) ≅ N.val.obj (op O) :=
     (PresheafOfModules.evaluation _ (op O)).mapIso ((SheafOfModules.forget _).mapIso e)
   have : Module.Projective Γ(Y, O) (M.val.obj (op O)) := h O hO
-  show Module.Projective Γ(Y, O) (N.val.obj (op O))
+  change Module.Projective Γ(Y, O) (N.val.obj (op O))
   exact Module.Projective.of_equiv (σ := RingHom.id Γ(Y, O)) (σ' := RingHom.id Γ(Y, O))
     eO.toLinearEquiv
 

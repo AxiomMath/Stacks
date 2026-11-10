@@ -699,7 +699,7 @@ theorem moduleSheafFunctor_map_pullbackAdjPushforwardModules_unit_app :
         ((inverseImageAdjDirectImageModules f.toToposHom
             (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).unit.app F) =
       f.toToposHom.adj.unit.app (moduleSheaf (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) F) := by
-    show (moduleSheafFunctor (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).map
+    change (moduleSheafFunctor (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).map
         (toposModulesHomEquiv f.toToposHom (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) F
           ((inverseImageModules f.toToposHom
               (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)).obj F) (𝟙 _)) = _

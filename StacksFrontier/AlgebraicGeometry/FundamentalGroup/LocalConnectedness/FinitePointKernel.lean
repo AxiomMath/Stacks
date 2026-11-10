@@ -184,7 +184,7 @@ theorem ker_etaleFundamentalGroupMap_comp_isIso {A B C : Scheme.{u}} [ConnectedS
     MonoidHom.ker (etaleFundamentalGroupMap (a ≫ b) p).toMonoidHom =
       MonoidHom.ker (etaleFundamentalGroupMap a p).toMonoidHom := by
   ext σ
-  show etaleFundamentalGroupMap (a ≫ b) p σ = 1 ↔ etaleFundamentalGroupMap a p σ = 1
+  change etaleFundamentalGroupMap (a ≫ b) p σ = 1 ↔ etaleFundamentalGroupMap a p σ = 1
   rw [← map_eq_one_iff _ (etaleFundamentalGroupMulEquiv (fiberFunctorMapCompIso a b p)).injective,
     etaleFundamentalGroupMulEquiv_mapCompIso]
   exact map_eq_one_iff _ (injective_etaleFundamentalGroupMap_of_isIso b (p.map a))
@@ -244,7 +244,7 @@ theorem ker_etaleFundamentalGroupMap_of_iso
         = etaleFundamentalGroupMulEquiv (fiberFunctorTransportIso sV t)
             (etaleFundamentalGroupMap sV ((z.map r).map θ.inv) σ) :=
       (etaleFundamentalGroupMulEquiv_transportIso sV t σ).symm
-    show etaleFundamentalGroupMap sV v (etaleFundamentalGroupChange t σ) = 1 ↔
+    change etaleFundamentalGroupMap sV v (etaleFundamentalGroupChange t σ) = 1 ↔
       etaleFundamentalGroupMap sV ((z.map r).map θ.inv) σ = 1
     rw [hint]
     exact map_eq_one_iff _ (etaleFundamentalGroupMulEquiv
@@ -355,7 +355,7 @@ theorem chainIncl_comp_ι (j : ℕ) :
   induction j with
   | zero => exact Category.id_comp _
   | succ j ih =>
-    show (chainIncl (chainStep x hclosed) j ≫ chainStep x hclosed j) ≫ _ = _
+    change (chainIncl (chainStep x hclosed) j ≫ chainStep x hclosed j) ≫ _ = _
     rw [Category.assoc, chainStep_comp_ι]
     exact ih
 
@@ -779,7 +779,7 @@ theorem ker_etaleFundamentalGroupMap_eq_closedNormalClosure_biUnion_range
     have hcomp := etaleFundamentalGroupMulEquiv_mapCompIso
       (chainLocalRes x hclosed hinj ⟨j, hj⟩ (Ash ⟨j, hj⟩))
       (chainStepIso x hclosed hinj ⟨j, hj⟩).inv (w ⟨j, hj⟩) σ
-    show etaleFundamentalGroupMulEquiv
+    change etaleFundamentalGroupMulEquiv
         ((fiberFunctorMapCompIso (chainLocalRes x hclosed hinj ⟨j, hj⟩ (Ash ⟨j, hj⟩))
           (chainStepIso x hclosed hinj ⟨j, hj⟩).inv (w ⟨j, hj⟩)).symm ≪≫ t')
         (etaleFundamentalGroupMap (chainStepIso x hclosed hinj ⟨j, hj⟩).inv

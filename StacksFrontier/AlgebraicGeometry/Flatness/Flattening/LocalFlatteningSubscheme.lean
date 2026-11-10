@@ -124,7 +124,7 @@ private theorem factor_through_stalk_ideal_subscheme_iff
     rfl
   have hκker : RingHom.ker (q.appTop ≫ (Scheme.ΓSpecIso R).hom).hom =
       RingHom.ker q.appTop.hom := by
-    show RingHom.ker ((Scheme.ΓSpecIso R).hom.hom.comp q.appTop.hom) = _
+    change RingHom.ker ((Scheme.ΓSpecIso R).hom.hom.comp q.appTop.hom) = _
     exact RingHom.ker_equiv_comp q.appTop.hom
       (Scheme.ΓSpecIso R).commRingCatIsoToRingEquiv
   constructor
@@ -139,7 +139,7 @@ private theorem factor_through_stalk_ideal_subscheme_iff
       rw [← RingHom.mem_ker, ker_appTop_subschemeι_closedSubschemeOfStalkIdeal]
       exact ha
     have hqKill : (q.appTop ≫ (Scheme.ΓSpecIso R).hom).hom b = 0 := by
-      show (Scheme.ΓSpecIso R).hom.hom (q.appTop.hom b) = 0
+      change (Scheme.ΓSpecIso R).hom.hom (q.appTop.hom b) = 0
       rw [hcomp]
       simp [CommRingCat.hom_comp, hbKer]
     rw [hκ] at hqKill
@@ -182,7 +182,7 @@ private theorem exists_local_flattening_ideal {X S : Scheme.{u}} (f : X ⟶ S)
           (stalkFlatAtPointSituation f F x s hxs).M → J.FG) := by
   have hψ : ((eqToHom (congrArg S.presheaf.stalk hxs).symm ≫
       f.stalkMap x).hom).EssFiniteType := by
-    show ((f.stalkMap x).hom.comp
+    change ((f.stalkMap x).hom.comp
       (eqToHom (congrArg S.presheaf.stalk hxs).symm).hom).EssFiniteType
     exact (RingHom.EssFiniteType.respectsIso.cancel_left_isIso
       (eqToHom (congrArg S.presheaf.stalk hxs).symm) (f.stalkMap x)).mpr
@@ -260,7 +260,7 @@ private lemma open_eq_top_of_mem_closedPoint {S : Scheme.{u}} (s : S)
   apply top_unique
   intro z _
   obtain ⟨w, rfl⟩ := (S.fromSpecStalk s).surjective z
-  show w ∈ S.fromSpecStalk s ⁻¹ᵁ V
+  change w ∈ S.fromSpecStalk s ⁻¹ᵁ V
   rw [hpre]
   trivial
 
@@ -377,7 +377,7 @@ theorem exists_finitePresentation_closedSubscheme_flatOverAt_iff_factorStalk
   obtain ⟨J, hJ, hJfg⟩ := exists_local_flattening_ideal f F x (f x) rfl
   have hB : (algebraMap (stalkFlatAtPointSituation f F x (f x) rfl).A
       (stalkFlatAtPointSituation f F x (f x) rfl).B).EssentiallyOfFinitePresentation := by
-    show ((eqToHom (congrArg S.presheaf.stalk (rfl : f x = f x)).symm ≫
+    change ((eqToHom (congrArg S.presheaf.stalk (rfl : f x = f x)).symm ≫
       f.stalkMap x).hom).EssentiallyOfFinitePresentation
     rw [show (eqToHom (congrArg S.presheaf.stalk (rfl : f x = f x)).symm ≫
       f.stalkMap x) = f.stalkMap x from by simp]

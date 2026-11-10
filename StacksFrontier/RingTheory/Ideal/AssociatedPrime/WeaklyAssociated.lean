@@ -163,7 +163,7 @@ private theorem exists_smul_mem_of_pow_smul_mem {g : R} (n : ℕ) (x : M)
     · obtain ⟨c, hc, hgc⟩ := ih (g • x) (mem_minimalPrimes_colon_smul hx hgx)
         (by rw [smul_smul, ← pow_succ]; exact h)
       exact ⟨c * g, by rwa [mul_smul], by rwa [mul_smul]⟩
-    · obtain ⟨y, hy, hyp⟩ := SetLike.not_le_iff_exists.mp hgx
+    · obtain ⟨y, hy, hyp⟩ := IsConcreteLE.not_le_iff_exists.mp hgx
       refine ⟨y, mem_minimalPrimes_colon_smul_of_notMem hx hyp, ?_⟩
       rw [smul_comm]
       exact mem_colon_singleton.mp hy
@@ -544,7 +544,7 @@ variable {R : Type*} [CommSemiring R] {M N : Type*} [AddCommMonoid M] [Module R 
 /-- The annihilator of an element is contained in the annihilator of its image. -/
 private theorem annihilator_span_singleton_le_map (f : M →ₗ[R] N) (m : M) :
     (R ∙ m).annihilator ≤ (R ∙ f m).annihilator := by
-  simp only [SetLike.le_def, Submodule.mem_annihilator_span_singleton, ← map_smul]
+  simp only [IsConcreteLE.le_iff, Submodule.mem_annihilator_span_singleton, ← map_smul]
   exact fun r hr => by rw [hr, map_zero]
 
 /-- An injective linear map preserves the annihilator of an element. -/
@@ -589,7 +589,7 @@ public theorem solution
   · exact Or.inr ⟨g m, Stacks.AssociatedPrimes.WeakComparison.mem_minimalPrimes_of_le_of_le hm
       (annihilator_span_singleton_le_map g m) h⟩
   · obtain ⟨r, hr, hrp⟩ : ∃ r ∈ (R ∙ g m).annihilator, r ∉ p := by
-      simpa [SetLike.le_def] using h
+      simpa [IsConcreteLE.le_iff] using h
     rw [Submodule.mem_annihilator_span_singleton, ← map_smul] at hr
     obtain ⟨a, ha⟩ := (hfg (r • m)).mp hr
     refine Or.inl ⟨a, ?_⟩

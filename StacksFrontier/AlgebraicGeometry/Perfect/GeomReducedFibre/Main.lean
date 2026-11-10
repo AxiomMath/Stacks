@@ -156,7 +156,7 @@ theorem exists_open_finiteEtale_and_derivedPushforward_splitting {X S : Scheme.{
   let U : S.Opens := S.basicOpen h
   have hsU : s ∈ U := by
     rw [← hx]
-    show x ∈ φ ⁻¹ᵁ S.basicOpen h
+    change x ∈ φ ⁻¹ᵁ S.basicOpen h
     rw [hW.fromSpec_preimage_basicOpen]
     exact hh
   have hUaff : IsAffineOpen U := hW.basicOpen h

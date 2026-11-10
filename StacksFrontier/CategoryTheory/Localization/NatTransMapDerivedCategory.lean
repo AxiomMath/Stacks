@@ -82,7 +82,7 @@ theorem NatTrans.mapDerivedCategory_app_Q (η : F ⟶ G) (K : CochainComplex C �
         DerivedCategory.Q.map ((NatTrans.mapHomologicalComplex η (ComplexShape.up ℤ)).app K) ≫
         G.mapDerivedCategoryFactors.inv.app K := by
   rw [NatTrans.mapDerivedCategory, Localization.liftNatTrans_app]
-  simp [Localization.Lifting.compLeft_iso]
+  simp
   rfl
 
 /-- Two natural transformations of derived functors agreeing on the image of the localization

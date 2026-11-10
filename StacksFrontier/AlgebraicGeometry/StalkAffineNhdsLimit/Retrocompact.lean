@@ -110,7 +110,7 @@ theorem isCompact_inter_of_isRetrocompact (U W : S.Opens) (hU : IsRetrocompact (
     (hW : IsCompact (W : Set S)) :
     IsCompact ((W.ι ⁻¹ᵁ U : Set (W : Scheme.{u}))) := by
   rw [W.ι.isOpenEmbedding.isEmbedding.isCompact_iff]
-  show IsCompact (W.ι '' (W.ι ⁻¹' (U : Set S)))
+  change IsCompact (W.ι '' (W.ι ⁻¹' (U : Set S)))
   rw [Set.image_preimage_eq_inter_range, W.range_ι]
   exact hU hW W.2
 

@@ -22,8 +22,8 @@ sections with the monomial chart for a single `s`, by way of
 graded piece is described — `Stacks.ProjectiveCohomology.awayGrading` and
 `Stacks.GradedLocalization.gradedPiece` — and the naturality square. Together they make the
 combinatorial Čech complex of
-`StacksFrontier/AlgebraicGeometry/ProjectiveSpace/Cohomology/LaurentCharts.lean`, whose terms are the
-monomial charts and whose differentials are built from the chart inclusions, the Čech complex of
+`StacksFrontier/AlgebraicGeometry/ProjectiveSpace/Cohomology/LaurentCharts.lean`, whose terms are
+the monomial charts and whose differentials are built from the chart inclusions, the Čech complex of
 the standard cover of `ℙⁿ_R` for `𝒪(d)`, which is what [Stacks, Tag 01XT] computes with.
 
 ## Main definitions
@@ -259,7 +259,7 @@ theorem chartDenom_pow_smul_injective (R : Type u) [CommRing R] (n : ℕ)
   intro z₁ z₂ h
   have h' : chartDenom R n s ^ N • z₁ = chartDenom R n s ^ N • z₂ := h
   refine chartDenom_pow_smul_injective_self R n t N ?_
-  show chartDenom R n t ^ N • z₁ = chartDenom R n t ^ N • z₂
+  change chartDenom R n t ^ N • z₁ = chartDenom R n t ^ N • z₂
   rw [chartDenom_pow_eq_mul_sdiff R n s t hst, mul_comm, mul_smul, mul_smul, h']
 
 /-- **The localization map on a single fraction.** Raising the denominator from
@@ -286,7 +286,7 @@ theorem chartLocalizedMap_mk (R : Type u) [CommRing R] (n : ℕ) (d : ℤ)
     rw [LocalizedModule.smul'_mk]
     have harith : chartDenom R n s ^ N • (x * chartDenom R n (t \ s) ^ N)
         = (chartPow R n t N) • x := by
-      show chartDenom R n s ^ N * (x * chartDenom R n (t \ s) ^ N) = chartDenom R n t ^ N * x
+      change chartDenom R n s ^ N * (x * chartDenom R n (t \ s) ^ N) = chartDenom R n t ^ N * x
       rw [chartDenom_pow_eq_mul_sdiff R n s t hst]
       ring
     rw [harith, LocalizedModule.mk_cancel]

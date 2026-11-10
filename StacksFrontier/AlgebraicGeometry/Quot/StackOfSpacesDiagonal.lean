@@ -80,8 +80,7 @@ presheaves is not needed either, because the two components of a section are rea
 two projections of the fibre product and the equality of their bases is
 `CategoryTheory.Limits.pullback.condition` evaluated at the section.
 
-The results are stated under Stacks 0D01, as `AlgebraicGeometry.Space.HasHilbertModels`. In
-`AlgebraicGeometry.Space.hasRepresentableDiagonal_properFlatSpacesStack` the hypothesis `hcmp`
+In `AlgebraicGeometry.Space.hasRepresentableDiagonal_properFlatSpacesStack` the hypothesis `hcmp`
 states that the fibre of the stack of Stacks 0D1D over a scheme `U` is given by two finitely
 presented, flat and proper families over `U` whose isomorphism presheaf is the functor
 `Isom_U(Z, X)` read over `U` by Stacks 04SG.
@@ -147,8 +146,8 @@ theorem RelativeMorphism.restrict_comp' (p : RelativeMorphism B S hS Z X Q z x T
       asIso_hom]
     simp only [← Category.assoc]
     refine congrArg (fun m => m ≫ q.morphism) (pullback.hom_ext ?_ ?_)
-    · simp [pullback.lift_fst, pullback.lift_fst_assoc]
-    · simp [pullback.lift_snd])
+    · simp
+    · simp)
 
 end Pairs
 
@@ -180,7 +179,7 @@ theorem relativeHomIdentitySection_comp_projection :
     relativeHomIdentitySection B S hS Z Q z hZ hQ ≫
         relativeHomProjection B S hS Z Z Q z z hZ hZ hQ = 𝟙 Q := by
   refine NatTrans.ext (funext fun T => ConcreteCategory.hom_ext _ _ fun a => ?_)
-  show (relativeHomProjection B S hS Z Z Q z z hZ hZ hQ).app T
+  change (relativeHomProjection B S hS Z Z Q z z hZ hZ hQ).app T
     ((relativeHomIdentitySection B S hS Z Q z hZ hQ).app T a) = a
   rw [relativeHomProjection_app (V := T.unop),
     show relativeHomSections B S hS Z Z Q z z hZ hZ hQ T.unop
@@ -346,7 +345,7 @@ theorem relativeHomCompFst_comp_projection :
       relativeHomCompSnd B S hS Z X Q z x hZ hX hQ ≫
         relativeHomProjection B S hS X X Q x x hX hX hQ := by
   refine NatTrans.ext (funext fun T => ConcreteCategory.hom_ext _ _ fun s => ?_)
-  show (relativeHomProjection B S hS Z Z Q z z hZ hZ hQ).app T
+  change (relativeHomProjection B S hS Z Z Q z z hZ hZ hQ).app T
       (relativeHomCompFstApp B S hS Z X Q z x hZ hX hQ T.unop s) =
     (relativeHomProjection B S hS X X Q x x hX hX hQ).app T
       (relativeHomCompSndApp B S hS Z X Q z x hZ hX hQ T.unop s)
@@ -506,12 +505,11 @@ def HasAlgebraicIsomFunctors : Prop :=
     IsAlgebraicSpace B S hS
       (relativeIsom B S hS Z X (yoneda.obj U) z x hZ hX (isAlgebraicSpace_yoneda B S hS U))
 
-/-- Criterion (2) of Stacks 045G in concrete form, assuming Stacks 0D01: the isomorphism functor
-of two finitely presented, flat and proper families over a scheme of the site is an algebraic
-space. -/
+/-- Criterion (2) of Stacks 045G in concrete form: the isomorphism functor of two finitely
+presented, flat and proper families over a scheme of the site is an algebraic space. -/
 @[stacks 0D1F "the Isom functor of two finitely presented, flat and proper families is an \
 algebraic space, which is criterion (2) of Stacks 045G for the diagonal"]
-theorem hasAlgebraicIsomFunctors (hilb : HasHilbertModels B S hS) :
+theorem hasAlgebraicIsomFunctors :
     HasAlgebraicIsomFunctors B S hS := by
   intro U Z X hZ hX z x hz_fp hz_flat hz_proper hx_fp hx_flat hx_proper
   have hQ := isAlgebraicSpace_yoneda B S hS U
@@ -535,16 +533,16 @@ abbrev properFlatSpacesStack :
   Spaces'_{fp, flat, proper} ⟶ Spaces'_{fp, flat, proper} × Spaces'_{fp, flat, proper}
 ```
 
-is representable by algebraic spaces, assuming Stacks 0D01 (`hilb`) and that the isomorphism
-presheaf of the fibre of the stack over a scheme `U` is algebraic whenever the isomorphism functors
-`Isom_U(Z, X)` of finitely presented, flat and proper families over `U` are (`hcmp`). -/
+is representable by algebraic spaces, assuming that the isomorphism presheaf of the fibre of the
+stack over a scheme `U` is algebraic whenever the isomorphism functors `Isom_U(Z, X)` of finitely
+presented, flat and proper families over `U` are (`hcmp`). -/
 @[stacks 0D1F "the diagonal is representable by algebraic spaces"]
-theorem hasRepresentableDiagonal_properFlatSpacesStack (hilb : HasHilbertModels B S hS)
+theorem hasRepresentableDiagonal_properFlatSpacesStack
     (hcmp : HasAlgebraicIsomFunctors B S hS →
       Stack.IsAlgebraicSpaceIsomPresheaf B S hS (properFlatSpacesStack B S hS)) :
     Stack.HasRepresentableDiagonal B S hS (properFlatSpacesStack B S hS) :=
   (Stack.hasRepresentableDiagonal_iff_isAlgebraicSpaceIsomPresheaf B S hS
-    (properFlatSpacesStack B S hS)).2 (hcmp (hasAlgebraicIsomFunctors B S hS hilb))
+    (properFlatSpacesStack B S hS)).2 (hcmp (hasAlgebraicIsomFunctors B S hS))
 
 end Diagonal
 

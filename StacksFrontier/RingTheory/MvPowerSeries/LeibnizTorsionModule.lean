@@ -228,7 +228,7 @@ public theorem isIPowerTorsion_directSum
       have := Finset.le_sup (s := x.support) (f := n) hi
       omega) ha)
   · have hx : x i = 0 := by simpa using hi
-    show a • x i = 0
+    change a • x i = 0
     simp [hx]
 
 /-- A universe lift of an `I`-power torsion module is `I`-power torsion. -/
@@ -273,7 +273,7 @@ private theorem smul_eq_zero_of_forall_X_smul_eq_zero
       rw [add_smul, ha, hb, zero_add])
     (smul := by
       intro r a _ ha
-      show (r * a) • z = 0
+      change (r * a) • z = 0
       rw [← smul_smul, ha, smul_zero]) ha
 
 /-- An element annihilated by the maximal ideal of a formal power series ring over a field is
@@ -372,7 +372,7 @@ theorem pderiv_rename
   · obtain ⟨α, rfl⟩ := hβ
     rw [← Finsupp.mapDomain_single (f := e) (a := i) (b := 1),
       ← Finsupp.mapDomain_add]
-    show MvPowerSeries.coeff (Finsupp.mapDomain e (α + Finsupp.single i 1))
+    change MvPowerSeries.coeff (Finsupp.mapDomain e (α + Finsupp.single i 1))
       (MvPowerSeries.rename e g) *
       ((Finsupp.mapDomain e α) (e i) + 1) =
       MvPowerSeries.coeff (Finsupp.mapDomain e α)
@@ -381,7 +381,7 @@ theorem pderiv_rename
       ← Finsupp.embDomain_eq_mapDomain e α]
     simp only [MvPowerSeries.coeff_embDomain_rename, MvPowerSeries.coeff_pderiv]
     rw [Finsupp.embDomain_eq_mapDomain]
-    show MvPowerSeries.coeff (α + Finsupp.single i 1) g *
+    change MvPowerSeries.coeff (α + Finsupp.single i 1) g *
       ((Finsupp.mapDomain e α) (e i) + 1) = _
     rw [Finsupp.mapDomain_apply_of_injective e.injective]
   · have hβ' : β + Finsupp.single (e i) 1 ∉
@@ -492,8 +492,9 @@ private theorem linearMap_surjective_of_coordinateTorsion
               D0 j (g • z) = MvPowerSeries.pderiv (R := k) j g • z + g • D0 j z := by
             intro j g z
             apply Subtype.ext
-            show D (Fin.succ j) ((MvPowerSeries.rename Fin.succ g) • z.1) = _
-            have hren : MvPowerSeries.pderiv (R := k) (Fin.succ j) (MvPowerSeries.rename Fin.succ g) =
+            change D (Fin.succ j) ((MvPowerSeries.rename Fin.succ g) • z.1) = _
+            have hren :
+                MvPowerSeries.pderiv (R := k) (Fin.succ j) (MvPowerSeries.rename Fin.succ g) =
                 MvPowerSeries.rename Fin.succ (MvPowerSeries.pderiv (R := k) j g) :=
               pderiv_rename ⟨Fin.succ, Fin.succ_injective _⟩ j g
             rw [hD, hren]
@@ -529,7 +530,7 @@ private theorem essentialMono_nonzero_multiple
     ∃ r : R, r • x ∈ LinearMap.range i.hom ∧ r • x ≠ 0 := by
   let e := ModuleCat.subobjectModule N
   have hImage : e (Subobject.mk i) = LinearMap.range i.hom := by
-    show LinearMap.range (Subobject.mk i).arrow.hom = LinearMap.range i.hom
+    change LinearMap.range (Subobject.mk i).arrow.hom = LinearMap.range i.hom
     rw [← ModuleCat.hom_ext_iff.mp (Subobject.underlyingIso_hom_comp_eq_mk i),
       ModuleCat.hom_comp]
     exact LinearEquiv.range_comp (Subobject.underlyingIso i).toLinearEquiv i.hom
@@ -575,7 +576,7 @@ private theorem injectiveHull_socle_equiv
       intro r
       rw [← i.hom.map_smul, ModuleCat.restrictScalars.smul_def,
         (mem_maximalIdeal_iff_constantCoeff_eq_zero_field _).mp r.2, zero_smul]
-      show i.hom (0 : K) = 0
+      change i.hom (0 : K) = 0
       exact i.hom.map_zero⟩
     map_add' := fun a b => Subtype.ext (map_add i.hom a b)
     map_smul' := fun r a => Subtype.ext (i.hom.map_smul r a) }
@@ -585,7 +586,7 @@ private theorem injectiveHull_socle_equiv
     intro y
     by_cases hy : (y : E) = 0
     · refine ⟨0, Subtype.ext ?_⟩
-      show i.hom (0 : K) = (y : E)
+      change i.hom (0 : K) = (y : E)
       rw [hy, map_zero]
     obtain ⟨r, ⟨a, ha⟩, hr0⟩ := essentialMono_nonzero_multiple i hi.2 y.1 hy
     have hscale := smul_eq_C_constantCoeff_smul y.2 r
@@ -629,7 +630,7 @@ private theorem exists_linearEquiv_torsionBySet_directSum
       map_add' := h0.map_add
       map_smul' := fun a x => by
         rw [show a • x = C (c a) • x from Subtype.ext (smul_eq_C_constantCoeff_smul x.2 a)]
-        show h0 (c a • x) = c a • h0 x
+        change h0 (c a • x) = c a • h0 x
         exact h0.map_smul _ _ }
   exact ⟨J, ⟨(LinearEquiv.ofBijective h0A h0.bijective).trans
     (DFinsupp.mapRange.linearEquiv fun _ => u)⟩⟩
@@ -642,7 +643,7 @@ private theorem exists_lmap_eq_of_forall_exists_eq {R : Type*} [Semiring R] {J P
   classical
   let r : J → Q → P := fun _ x => if hx : x ≠ 0 ∧ ∃ p, g p = x then hx.2.choose else 0
   refine ⟨DFinsupp.mapRange r (fun _ => dite_eq_right fun h => h.1 rfl) z, DFinsupp.ext fun j => ?_⟩
-  show g (r j (z j)) = z j
+  change g (r j (z j)) = z j
   by_cases h : z j = 0
   · simp [r, h]
   · have hx : z j ≠ 0 ∧ ∃ p, g p = z j := ⟨h, hz j⟩
@@ -679,7 +680,7 @@ private theorem nonempty_linearEquiv_of_socle
   obtain ⟨φ', hφ'⟩ := Module.Injective.out inc' hinc' (g.comp ULift.moduleEquiv.toLinearMap)
   let φ : M →ₗ[A] N := φ'.comp ULift.moduleEquiv.symm.toLinearMap
   have hφ (x : S) : φ x.1 = g x := by
-    show φ' (ULift.up x.1) = g x
+    change φ' (ULift.up x.1) = g x
     simpa [inc'] using hφ' (ULift.up x)
   have hsurj : Function.Surjective φ := by
     refine linearMap_surjective_of_coordinateTorsion k d M N D
@@ -730,7 +731,7 @@ theorem exists_linearEquiv_directSum_injectiveHull_of_leibniz
   have hjE : Function.Injective jE := fun x y hxy =>
     (ModuleCat.mono_iff_injective i).mp inferInstance (congrArg ULift.down hxy)
   have hgS : Function.Injective gS := by
-    show Function.Injective (DirectSum.lmap (fun _ : J => jE) ∘ e)
+    change Function.Injective (DirectSum.lmap (fun _ : J => jE) ∘ e)
     exact ((DirectSum.lmap_injective _).mpr fun _ => hjE).comp e.injective
   have : IsNoetherianRing A := mvPowerSeries_fin_isNoetherianRing k d
   have : Module.Injective A (ULift.{v} E) :=
@@ -747,11 +748,11 @@ theorem exists_linearEquiv_directSum_injectiveHull_of_leibniz
         rw [DirectSum.smul_apply] at h'
         simpa using h'
       refine ⟨eE.symm ⟨(z j).down, hc⟩, ULift.ext ?_⟩
-      show i.hom (eE.symm _) = _
+      change i.hom (eE.symm _) = _
       rw [← heE, eE.apply_symm_apply]
     obtain ⟨p, hp⟩ := exists_lmap_eq_of_forall_exists_eq jE z hrange
     refine ⟨e.symm p, ?_⟩
-    show DirectSum.lmap (fun _ : J => jE) (e (e.symm p)) = z
+    change DirectSum.lmap (fun _ : J => jE) (e (e.symm p)) = z
     rw [e.apply_symm_apply, hp]
   obtain ⟨eφ⟩ := nonempty_linearEquiv_of_socle k d M N _hM
     (isIPowerTorsion_directSum A J _ I fun _ => isIPowerTorsion_ulift

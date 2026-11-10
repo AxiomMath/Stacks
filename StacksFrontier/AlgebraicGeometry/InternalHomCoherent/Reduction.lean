@@ -48,8 +48,8 @@ Two distinct `IsCoherent` classes are in play and they are unbridged by instance
 `M.IsCoherent` resolves to for `M : X.Modules`, and
 `Stacks.SheafOfModules.IsCoherent` of
 `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/Coherent.lean`, which is what the locality theory
-of `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/CoherenceClosure.lean` concludes.  The two have the
-same fields and `Stacks.AlgebraicGeometry.CoherenceCriteria.isCoherent_of_isCoherent'` /
+of `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/CoherenceClosure.lean` concludes.  The two have
+the same fields and `Stacks.AlgebraicGeometry.CoherenceCriteria.isCoherent_of_isCoherent'` /
 `isCoherent'_of_isCoherent` cross between them; both crossings are needed here, one for the
 hypothesis on the structure sheaf and one for the conclusion.
 

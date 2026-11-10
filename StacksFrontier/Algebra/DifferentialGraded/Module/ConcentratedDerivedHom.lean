@@ -188,7 +188,7 @@ theorem lof_op_smul {X : Type u} (y : X) (a : C.A) :
   by_cases hi : i = y
   · subst hi
     rw [DirectSum.of_eq_same, DirectSum.of_eq_same]
-    show MulOpposite.op a • (1 : C.A) = a
+    change MulOpposite.op a • (1 : C.A) = a
     rw [show MulOpposite.op a • (1 : C.A) = 1 * a from rfl, one_mul]
   · rw [DirectSum.of_eq_of_ne _ _ _ hi, DirectSum.of_eq_of_ne _ _ _ hi, smul_zero]
 
@@ -303,14 +303,14 @@ def cellBlockEmbed (m : ℕ) : cellBlock C M₀ m →ₗ[C.Aᵐᵒᵖ] (⨁ (_ :
 theorem cellBlockEmbed_apply_same (m : ℕ) (z : cellBlock C M₀ m) (y : cellIndex C M₀ m) :
     (cellBlockEmbed C M₀ m z) ⟨m, y⟩ = z y := by
   rw [cellBlockEmbed]
-  show ((DirectSum.lof C.Aᵐᵒᵖ ℕ (cellBlock C M₀) m z) m) y = z y
+  change ((DirectSum.lof C.Aᵐᵒᵖ ℕ (cellBlock C M₀) m z) m) y = z y
   rw [DirectSum.lof_eq_of, DirectSum.of_eq_same]
 
 /-- The inclusion of the level-`m` part vanishes on the cells of every other level. -/
 theorem cellBlockEmbed_apply_ne (m m' : ℕ) (hm : m' ≠ m) (z : cellBlock C M₀ m)
     (y : cellIndex C M₀ m') : (cellBlockEmbed C M₀ m z) ⟨m', y⟩ = 0 := by
   rw [cellBlockEmbed]
-  show ((DirectSum.lof C.Aᵐᵒᵖ ℕ (cellBlock C M₀) m z) m') y = 0
+  change ((DirectSum.lof C.Aᵐᵒᵖ ℕ (cellBlock C M₀) m z) m') y = 0
   rw [DirectSum.lof_eq_of, DirectSum.of_eq_of_ne _ _ _ hm, DirectSum.zero_apply]
 
 /-- The inclusion of the level-`m` part is injective. -/
@@ -369,11 +369,11 @@ theorem resolutionDiffCurried_apply (w : ⨁ (m : ℕ), cellBlock C M₀ m) (m :
       DirectSum.toModule_lof (R := C.Aᵐᵒᵖ)]
     match j with
     | 0 =>
-      show (0 : ⨁ (m : ℕ), cellBlock C M₀ m) m = _
+      change (0 : ⨁ (m : ℕ), cellBlock C M₀ m) m = _
       rw [DirectSum.zero_apply, DirectSum.lof_eq_of,
         DirectSum.of_eq_of_ne _ _ _ (by omega : m + 1 ≠ 0), map_zero]
     | (j + 1) =>
-      show ((DirectSum.lof C.Aᵐᵒᵖ ℕ (cellBlock C M₀) j) (cellDiff C M₀ j z)) m = _
+      change ((DirectSum.lof C.Aᵐᵒᵖ ℕ (cellBlock C M₀) j) (cellDiff C M₀ j z)) m = _
       by_cases hj : j = m
       · subst hj
         rw [DirectSum.lof_eq_of, DirectSum.of_eq_same, DirectSum.lof_eq_of,
@@ -395,7 +395,7 @@ theorem resolutionDiff_cellBlockEmbed_zero (z : cellBlock C M₀ 0) :
   rw [resolutionDiff, cellBlockEmbed]
   simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.apply_symm_apply]
   rw [resolutionDiffCurried, DirectSum.toModule_lof (R := C.Aᵐᵒᵖ)]
-  show (resolutionCurry C M₀).symm (0 : ⨁ (m : ℕ), cellBlock C M₀ m) = 0
+  change (resolutionCurry C M₀).symm (0 : ⨁ (m : ℕ), cellBlock C M₀ m) = 0
   rw [map_zero]
 
 /-- On the level-`(m + 1)` part, the differential of the resolution is `cellDiff C M₀ m`, landing
@@ -731,7 +731,7 @@ theorem concentratedAug_isQuasiIsomorphism :
         obtain ⟨v, hv⟩ := (freeCover_eq_zero_iff C (moduleObj C M) 0 z).mp hzero
         refine ⟨cellBlockEmbed C (moduleObj C M) 1 v, ?_, ?_⟩
         · exact cellBlockEmbed_mem_grading_of_eq C (moduleObj C M) hC (by norm_num) v
-        · show resolutionDiff C (moduleObj C M) (cellBlockEmbed C (moduleObj C M) 1 v) = _
+        · change resolutionDiff C (moduleObj C M) (cellBlockEmbed C (moduleObj C M) 1 v) = _
           rw [resolutionDiff_cellBlockEmbed_succ, hv]
       | (m + 1) =>
         have hdz : cellDiff C (moduleObj C M) m z = 0 := by
@@ -740,7 +740,7 @@ theorem concentratedAug_isQuasiIsomorphism :
         obtain ⟨v, hv⟩ := (cellDiff_eq_zero_iff C (moduleObj C M) m z).mp hdz
         refine ⟨cellBlockEmbed C (moduleObj C M) (m + 2) v, ?_, ?_⟩
         · exact cellBlockEmbed_mem_grading_of_eq C (moduleObj C M) hC (by push_cast; omega) v
-        · show resolutionDiff C (moduleObj C M) (cellBlockEmbed C (moduleObj C M) (m + 2) v) = _
+        · change resolutionDiff C (moduleObj C M) (cellBlockEmbed C (moduleObj C M) (m + 2) v) = _
           rw [resolutionDiff_cellBlockEmbed_succ, hv]
     · refine ⟨0, Submodule.zero_mem _, ?_⟩
       rw [(freeResolution_mem_grading_pos C (moduleObj C M) hC hlt x).mp hx, map_zero]
@@ -883,7 +883,7 @@ theorem exists_concentratedAug_comp_eq (h : concentratedResolution C hC M ⟶ N)
         = cellBlockEmbed C (moduleObj C M) m
             (DirectSum.lof C.Aᵐᵒᵖ (cellIndex C (moduleObj C M) m) (fun _ => C.A) y a) :=
       lof_eq_cellBlockEmbed C (moduleObj C M) m y a
-    show h.toFun (DirectSum.lof R (resolutionIndex C (moduleObj C M)) (fun _ => C.A) ⟨m, y⟩ a)
+    change h.toFun (DirectSum.lof R (resolutionIndex C (moduleObj C M)) (fun _ => C.A) ⟨m, y⟩ a)
       = zfun (resolutionAugMap C M
           (DirectSum.lof R (resolutionIndex C (moduleObj C M)) (fun _ => C.A) ⟨m, y⟩ a))
     match m with

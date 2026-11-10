@@ -471,7 +471,7 @@ theorem Sheaf.isQuasiCompact_of_quasiCompact {F : Sheaf J (Type max u v)}
   have hepi : Epi (Sigma.desc f) := (Sheaf.isLocallySurjective_iff_epi _).1 hf
   obtain ⟨S, hSc, hS⟩ := hF G (Sigma.desc f) hepi
   refine ⟨(S : Set I), S.finite_toSet, ?_⟩
-  simp only [Sigma.ι_desc] at hS
+  simp only [Sigma.ι_comp_desc] at hS
   rw [Sheaf.isLocallySurjective_iff_epi]
   exact epi_of_epi_fac (map'_id_comp_desc (fun j : ((S : Set I) : Type max u v) => G j.1)
     (fun j => f j.1) (fun j : (S : Finset I) => ⟨j.1, Finset.mem_coe.2 j.2⟩))

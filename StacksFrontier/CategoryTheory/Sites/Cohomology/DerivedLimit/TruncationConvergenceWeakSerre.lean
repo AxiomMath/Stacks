@@ -91,7 +91,7 @@ theorem hasProduct_truncGETower_of_enoughInjectives {A : Type*} [Category* A] [A
     HasProduct fun n : ℕ ↦ (Stacks.DerivedLimit.truncGETower A E).obj ⟨n⟩ :=
   (DerivedCategory.exists_isDerivedLimit_of_forall_isGE (Stacks.DerivedLimit.truncGETower A E)
     fun n ↦ ⟨-(n : ℤ), by
-      show ((DerivedCategory.TStructure.t.truncGE (-(n : ℤ))).obj E).IsGE _
+      change ((DerivedCategory.TStructure.t.truncGE (-(n : ℤ))).obj E).IsGE _
       infer_instance⟩).choose
 
 /-- **In the Olsson--Laszlo situation the truncation tower of any object of `D(O)` has a

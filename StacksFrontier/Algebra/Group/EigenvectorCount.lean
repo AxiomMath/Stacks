@@ -44,7 +44,7 @@ theorem Set.encard_le_mul_of_sub_mem {A P : Type*} [AddGroup A] {E F : Set A} (h
   let rep : P → A := fun p => if hp : ∃ a ∈ E, h a = p then hp.choose else 0
   have hrep : ∀ a ∈ E, rep (h a) ∈ E ∧ h (rep (h a)) = h a := fun a ha => by
     have hp : ∃ a' ∈ E, h a' = h a := ⟨a, ha, rfl⟩
-    simp only [rep, dif_pos hp]
+    simp only [rep, dite_eq_left hp]
     exact hp.choose_spec
   let g : A → P × A := fun a => (h a, a - rep (h a))
   have hinj : Set.InjOn g E := by
@@ -76,7 +76,7 @@ theorem encard_eigen_le_mul_of_exact (σU : U →+ U) (σA : A →+ A) (_σP : P
   refine Set.encard_le_mul_of_sub_mem ι fun a₁ h₁ a₂ h₂ h12 => ?_
   obtain ⟨u, hu⟩ := hexact (a₁ - a₂) (by rw [map_sub, h12, sub_self])
   refine ⟨u, ?_, hu⟩
-  show δ (σU u - q • u) = 0
+  change δ (σU u - q • u) = 0
   rw [map_sub, map_zsmul, hδ, hu, map_sub, (h₁ : σA a₁ = q • a₁), (h₂ : σA a₂ = q • a₂),
     ← zsmul_sub, sub_self]
 
@@ -94,7 +94,7 @@ theorem encard_torsion_eigen_le_mul_of_surjective (σ' : P' →+ P') (σ : P →
       {w : P' | N • w = 0 ∧ σ' w = Q • w}.encard * {z : P | (Q - 1) • z = 0}.encard := by
   refine (Set.encard_le_mul_of_sub_mem (fun z : P => (1 - Q) • z) fun z₁ _ z₂ _ h12 => ?_).trans
     (mul_le_mul_left ?_ _)
-  · show (Q - 1) • (z₁ - z₂) = 0
+  · change (Q - 1) • (z₁ - z₂) = 0
     have h : (1 - Q) • (z₁ - z₂) = 0 := by rw [zsmul_sub, h12, sub_self]
     rw [show Q - 1 = -(1 - Q) by ring, neg_zsmul, h, neg_zero]
   · refine le_trans (Set.encard_le_encard ?_) (Set.encard_image_le r _)
@@ -130,7 +130,7 @@ private theorem exists_gcd_zsmul_eq_of_eigen {F : Type*} [AddCommGroup F] (δ : 
   refine ⟨⟨Int.gcdA n (q - 1) • φ u - Int.gcdB n (q - 1) • φ v,
     sub_mem (zsmul_mem (AddMonoidHom.mem_range.2 ⟨u, rfl⟩) _)
       (zsmul_mem (AddMonoidHom.mem_range.2 ⟨v, rfl⟩) _)⟩, ?_⟩
-  show (Int.gcd (n : ℤ) (q - 1) : ℤ) • φ u =
+  change (Int.gcd (n : ℤ) (q - 1) : ℤ) • φ u =
     (n : ℤ) • (Int.gcdA n (q - 1) • φ u - Int.gcdB n (q - 1) • φ v)
   rw [Int.gcd_eq_gcd_ab (n : ℤ) (q - 1)]
   linear_combination (norm := module) (Int.gcdB n (q - 1)) • hφv
@@ -196,7 +196,7 @@ theorem encard_image_eigen_le_of_ker_le {F : Type*} [AddCommGroup F] [IsAddTorsi
     rintro _ ⟨u₁, hu₁, rfl⟩ _ ⟨u₂, hu₂, rfl⟩ h12
     have e₁ : ∃ u, δ (σ u - q • u) = 0 ∧ δ u = δ u₁ := ⟨u₁, hu₁, rfl⟩
     have e₂ : ∃ u, δ (σ u - q • u) = 0 ∧ δ u = δ u₂ := ⟨u₂, hu₂, rfl⟩
-    simp only [h, dif_pos e₁, dif_pos e₂] at h12
+    simp only [h, dite_eq_left e₁, dite_eq_left e₂] at h12
     obtain ⟨hw₁, hw₁'⟩ := e₁.choose_spec
     obtain ⟨hw₂, hw₂'⟩ := e₂.choose_spec
     obtain ⟨⟨t, ⟨y, rfl⟩⟩, ht⟩ := exists_sub_eq_zsmul_of_mk_eq h12
@@ -225,7 +225,7 @@ theorem finite_quotient_range_zsmulAddGroupHom {G : Type*} [AddCommGroup G] [Add
   refine Module.finite_of_fg_torsion Q fun x => ?_
   obtain ⟨y, rfl⟩ := QuotientAddGroup.mk'_surjective _ x
   refine ⟨⟨d, mem_nonZeroDivisors_of_ne_zero hd⟩, ?_⟩
-  show d • (QuotientAddGroup.mk y : Q) = 0
+  change d • (QuotientAddGroup.mk y : Q) = 0
   rw [← QuotientAddGroup.mk_zsmul, QuotientAddGroup.eq_zero_iff]
   exact ⟨y, rfl⟩
 
@@ -254,12 +254,13 @@ theorem encard_torsion_le_mul_of_surjective {G : Type*} [AddCommGroup G] (r : P'
     if hz : d • z = 0 then QuotientAddGroup.mk (hmem z hz).choose else 0
   refine (Set.encard_le_mul_of_sub_mem (F := r '' {w : P' | d • w = 0}) h ?_).trans ?_
   · intro z₁ hz₁ z₂ hz₂ h12
-    simp only [h, dif_pos (show d • z₁ = 0 from hz₁), dif_pos (show d • z₂ = 0 from hz₂)] at h12
+    simp only [h, dite_eq_left (show d • z₁ = 0 from hz₁),
+      dite_eq_left (show d • z₂ = 0 from hz₂)] at h12
     have e₁ := (hmem z₁ hz₁).choose_spec
     have e₂ := (hmem z₂ hz₂).choose_spec
     obtain ⟨t, ht⟩ := exists_sub_eq_zsmul_of_mk_eq h12
     refine ⟨s z₁ - s z₂ - ψ t, ?_, ?_⟩
-    · show d • (s z₁ - s z₂ - ψ t) = 0
+    · change d • (s z₁ - s z₂ - ψ t) = 0
       rw [zsmul_sub, zsmul_sub, ← map_zsmul, ← ht, map_sub, e₁, e₂]
       abel
     · rw [map_sub, map_sub, hs, hs, hrψ, sub_zero]

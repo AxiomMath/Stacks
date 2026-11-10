@@ -110,7 +110,7 @@ private theorem exists_covSeries_isMin_head {R : Type*} [CommRing R] [IsNoetheri
       (by rw [hlast, ← PrimeSpectrum.height_eq_orderHeight, hlen]) i
   refine ⟨⟨l.length, l.toFun, fun i => covBy_of_height_eq_of_height_eq (n := (i : ℕ)) (l.step i)
     (by simpa using hidx i.castSucc) (by simpa using hidx i.succ)⟩, ?_, hlast⟩
-  show IsMin (l.toFun 0)
+  change IsMin (l.toFun 0)
   exact Order.height_eq_zero.mp (by simpa using hidx 0)
 
 /-- **The chains of primes ending at `𝔮` are bounded in length by `height 𝔮`**, a natural number in
@@ -284,7 +284,8 @@ separate declaration is owed for the first sentence.
 
 *The hypothesis is the source's, by name.* "Cohen–Macaulay `R`-module" is Definition 0AAH, the
 project's `Module.IsCohenMacaulay`, and "`Supp(M) = Spec(R)`" is `Module.support R M = Set.univ`,
-the spelling the companion Tag 0AAE uses for the same clause. Neither is unfolded here: the localised
+the spelling the companion Tag 0AAE uses for the same clause. Neither is unfolded here: the
+localised
 modules `M_𝔭` and the local rings `R_𝔭` that the condition speaks of live inside Definition 0AAH,
 which pins them to the canonical models `Localization.AtPrime p` and
 `LocalizedModule p.primeCompl M`, and measures depth along

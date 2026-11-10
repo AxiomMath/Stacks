@@ -182,7 +182,7 @@ theorem ringRestrictionSheafStructureIso_inv_eq :
     (Thickening.ringRestrictionSheafStructureIso A.obj).inv = (ambientRingSheafIso A).inv := by
   apply Sheaf.hom_ext
   ext W : 2
-  show (forget₂ CommRingCat RingCat).map (Scheme.Opens.topIso W.unop).inv =
+  change (forget₂ CommRingCat RingCat).map (Scheme.Opens.topIso W.unop).inv =
     (forget₂ CommRingCat RingCat).map (openTopRes W.unop)
   rw [openTopRes_eq]
   rfl
@@ -193,7 +193,7 @@ modules along the same isomorphism of sheaves of rings, by
 `ringRestrictionSheafStructureIso_inv_eq`. -/
 theorem crysAmbientSchemeModules_eq_ambientCoefficientModule :
     crysAmbientSchemeModules F A = ambientCoefficientModule A F := by
-  show (SheafOfModules.restrictScalars
+  change (SheafOfModules.restrictScalars
       (Thickening.ringRestrictionSheafStructureIso A.obj).inv).obj
         (CohomologyRestriction.moduleRestrictionSheaf F A) =
     (SheafOfModules.restrictScalars (ambientRingSheafIso A).inv).obj

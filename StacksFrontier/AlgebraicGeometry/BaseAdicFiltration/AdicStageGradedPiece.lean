@@ -97,7 +97,8 @@ def pushforwardKernelUnitComparisonIso {W V : Scheme.{u}} (j : V ⟶ W) (w : W �
         (Scheme.Modules.unitToPushforwardUnit j))
         ((Scheme.Modules.pushforwardComp j w).hom.app (Scheme.unitModule V) ≫
           eqToHom (congrArg
-            (fun f : V ⟶ Z => (Scheme.Modules.pushforward f).obj (Scheme.unitModule V)) hw))).symm ≪≫
+            (fun f : V ⟶ Z => (Scheme.Modules.pushforward f).obj (Scheme.unitModule V))
+            hw))).symm ≪≫
       kernelIsoOfEq (pushforwardUnitComparison_eq j w hw).symm
 
 end Comparison

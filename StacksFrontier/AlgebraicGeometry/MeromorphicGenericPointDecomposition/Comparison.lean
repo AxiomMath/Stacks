@@ -201,7 +201,7 @@ lemma toTotalQuotientSheaf_comp_toStalkSpecPushforwardSheaf (η : genericPoints 
           X.presheaf.totalQuotientPresheaf ≫ (toStalkSpecPushforwardSheaf η).hom) := by
     rw [Scheme.toTotalQuotientSheaf_hom]
     exact Category.assoc _ _ _
-  show X.toTotalQuotientSheaf.hom ≫ (toStalkSpecPushforwardSheaf η).hom =
+  change X.toTotalQuotientSheaf.hom ≫ (toStalkSpecPushforwardSheaf η).hom =
     (X.fromSpecStalk η.1).c
   rw [e1, toSheafify_comp_toStalkSpecPushforwardSheaf_hom]
   exact NatTrans.ext <| funext <| toLocalizationPresheaf_app_comp_toStalkSpecPushforwardApp η
@@ -319,7 +319,7 @@ lemma modulesSectionsPiEquiv_apply {ι : Type u} (M : ι → X.Modules) (U : X.O
   have h1 : PreservesLimitsOfShape (Discrete ι) (Scheme.Modules.toPresheaf X) := inferInstance
   have h2 : PreservesLimitsOfShape (Discrete ι)
       ((evaluation ((Opens X)ᵒᵖ) Ab.{u}).obj (Opposite.op U)) := inferInstance
-  show Limits.Concrete.productEquiv _
+  change Limits.Concrete.productEquiv _
     ((PreservesProduct.iso (modulesSectionsFunctor X U) M).hom x) i = _
   rw [Limits.Concrete.productEquiv_apply_apply, ← ConcreteCategory.comp_apply,
     PreservesProduct.iso_hom, piComparison_comp_π]
@@ -345,7 +345,7 @@ lemma ringSheafSectionsPiEquiv_apply {ι : Type u} (L : ι → TopCat.Sheaf Comm
       (TopCat.Sheaf.forget CommRingCat.{u} X) := inferInstance
   have h2 : PreservesLimitsOfShape (Discrete ι)
       ((evaluation ((Opens X)ᵒᵖ) CommRingCat.{u}).obj (Opposite.op U)) := inferInstance
-  show Limits.Concrete.productEquiv _
+  change Limits.Concrete.productEquiv _
     ((PreservesProduct.iso (ringSheafSectionsFunctor X U) L).hom x) i = _
   rw [Limits.Concrete.productEquiv_apply_apply, ← ConcreteCategory.comp_apply,
     PreservesProduct.iso_hom, piComparison_comp_π]

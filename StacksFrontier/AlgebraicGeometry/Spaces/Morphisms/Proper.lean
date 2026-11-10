@@ -72,6 +72,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Y Z T : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks in this presheaf category times out at the default limit
 /-- Pullbacks of presheaves on `BigFppfOver B S hS`, stated once: instance search for them
 times out at the default heartbeat limit under Mathlib v4.35.0. -/
 local instance hasPullbacks_presheaf_Proper : HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
@@ -79,7 +80,8 @@ local instance hasPullbacks_presheaf_Proper : HasPullbacks ((BigFppfOver B S hS)
 
 /-- Every cospan of presheaves on `BigFppfOver B S hS` has a limit, found directly from
 `hasPullbacks_presheaf_Proper` ahead of the slower general search. -/
-local instance (priority := high) hasPullback_presheaf_Proper {P Q R : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
+local instance (priority := high) hasPullback_presheaf_Proper
+    {P Q R : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (a : P ⟶ R) (b : Q ⟶ R) : HasLimit (cospan a b) :=
   HasLimitsOfShape.has_limit (cospan a b)
 

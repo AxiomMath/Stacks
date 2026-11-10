@@ -122,7 +122,7 @@ theorem isIso_of_isIso_toPresheaf_app_postcomp {Z : AlgebraicSpaces B S hS}
     let e : (smallEtalePostcomp B S hS (chartToSpace B S hS Z (U j))
         (isEtale_chartToSpace B S hS Z (U j))).obj (E.inverse.obj T.unop) ≅ T.unop.left :=
       (Over.forget (U j)).mapIso (E.counitIso.app T.unop)
-    show IsIso (((PresheafOfModules.toPresheaf R.obj).map φ.val).app (op T.unop.left))
+    change IsIso (((PresheafOfModules.toPresheaf R.obj).map φ.val).app (op T.unop.left))
     rw [NatTrans.isIso_app_iff_of_iso _ e.op]
     exact h j _
   exact isIso_of_reflects_iso _ (SheafOfModules.forget _ ⋙ PresheafOfModules.toPresheaf _)
@@ -182,7 +182,7 @@ instance isIso_chartSquare_baseChangeTransformation :
     IsIso (ChangeOfSitesSquare.baseChangeTransformation (chartSquareAdjX B S hS V)
       (chartSquareAdjY B S hS f hf V) (chartSquareIso B S hS f hf V)) := by
   change IsIso ((mateEquiv (chartSquareAdjX B S hS V) (chartSquareAdjY B S hS f hf V)
-    (TwoSquare.mk _ _ _ _ (chartSquareMate B S hS f hf V))).natTrans)
+    (TwoSquare.mk _ _ _ _ (chartSquareMate B S hS f hf V))))
   rw [mateEquiv_chartSquareMate]
   infer_instance
 
@@ -315,7 +315,7 @@ theorem isQuasicoherentOnSite_restrictScalarsEquivalenceOfIso_functor {C : Type 
     (M : SheafOfModules.{u} R) (hM : M.IsQuasicoherentOnSite) :
     ((Stacks.Sheaves.RingedPoint.restrictScalarsEquivalenceOfIso e).functor.obj
       M).IsQuasicoherentOnSite := by
-  show ((SheafOfModules.restrictScalars e.inv).obj M).IsQuasicoherentOnSite
+  change ((SheafOfModules.restrictScalars e.inv).obj M).IsQuasicoherentOnSite
   exact Stacks.SheafOfModules.isQuasicoherentOnSite_restrictScalars_of_isIso e.inv M hM
 
 /-- Restriction along a functor of sites through an isomorphism of sheaves of rings preserves

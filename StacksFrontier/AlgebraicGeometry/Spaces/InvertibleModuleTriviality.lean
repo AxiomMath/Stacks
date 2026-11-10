@@ -239,7 +239,7 @@ theorem mono_of_ne_zero (hint : IsIntegralSpace B S hS F)
     intro Z k hk
     obtain ⟨Y, c, e, he, rfl⟩ := hk
     obtain ⟨i⟩ := he
-    show M.val.map (c ≫ gi i).op
+    change M.val.map (c ≫ gi i).op
         (t.val.app (op V) (1 : (modulesRingSheaf B S hS F hF).obj.obj (op V))) =
       M.val.map (c ≫ gi i).op 0
     rw [map_zero, hres (c ≫ gi i), ← hres c, hall i]

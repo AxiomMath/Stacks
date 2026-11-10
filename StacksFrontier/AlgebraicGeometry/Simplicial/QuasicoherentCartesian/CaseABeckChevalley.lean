@@ -53,7 +53,7 @@ def overPushforwardMate :
 
 /-- The direct-image comparison is invertible: it is the conjugate of clause (b). -/
 theorem isIso_overPushforwardMate (hu : u.IsMorphismOfSites J K) :
-    IsIso (overPushforwardMate J K u V).natTrans := by
+    IsIso (overPushforwardMate J K u V) := by
   have := isIso_overPullbackCompSheafPullbackOverPostMate J K u V hu
   have h := iterated_mateEquiv_conjugateEquiv (u.sheafAdjunctionContinuous (Type u) J K)
     ((Over.post (X := V) u).sheafAdjunctionContinuous (Type u) (J.over V) (K.over (u.obj V)))
@@ -73,7 +73,7 @@ theorem isIso_overPushforwardMate (hu : u.IsMorphismOfSites J K) :
           ((Over.post (X := V) u).sheafAdjunctionContinuous (Type u) (J.over V)
             (K.over (u.obj V)))).apply_symm_apply
         (eqToHom (sheafPushforwardContinuous_overPost_eq J K u V (Type u)).symm)).symm
-  rw [show (overPushforwardMate J K u V).natTrans = _ from (congrArg TwoSquare.natTrans e).trans h]
+  rw [show (overPushforwardMate J K u V) = _ from e.trans h]
   infer_instance
 
 
@@ -106,13 +106,13 @@ end Presheaf
 
 /-- The sheaf-level direct-image comparison has the presheaf-level one underneath. -/
 theorem overPushforwardMate_app_hom (N : Sheaf (K.over (u.obj V)) (Type u)) :
-    ((overPushforwardMate J K u V).natTrans.app N).hom =
+    ((overPushforwardMate J K u V).app N).hom =
       overPushforwardMatePresheaf u V N.obj := by
   have h1 := mateEquiv_counit
     ((Over.forget (u.obj V)).sheafAdjunctionCocontinuous (Type u) (K.over (u.obj V)) K)
     ((Over.forget V).sheafAdjunctionCocontinuous (Type u) (J.over V) J)
     (eqToHom (sheafPushforwardContinuous_overPost_eq J K u V (Type u)).symm) N
-  have h2 : (overPushforwardMate J K u V).natTrans.app N =
+  have h2 : (overPushforwardMate J K u V).app N =
       ((Over.forget V).sheafAdjunctionCocontinuous (Type u) (J.over V) J).homEquiv _ _
         (((Over.post (X := V) u).sheafPushforwardContinuous (Type u) (J.over V)
           (K.over (u.obj V))).map
@@ -172,7 +172,7 @@ def overPushforwardMateA :
 counit. -/
 theorem overPushforwardMateA_app (N : SheafOfModules.{u}
     (((situation C).componentRingSheaf O m).over ((transitionFunctorA C φ).obj Q))) :
-    (overPushforwardMateA C O φ Q).natTrans.app N =
+    (overPushforwardMateA C O φ Q).app N =
       (overRestrictionAdj C O n Q).homEquiv _ _
         ((slicePushforward C O φ Q).map
           ((overRestrictionAdj C O m ((transitionFunctorA C φ).obj Q)).counit.app N)) := by
@@ -186,7 +186,7 @@ theorem overPushforwardMateA_app (N : SheafOfModules.{u}
 /-- The module-level direct-image comparison has the presheaf-level one underneath. -/
 theorem toPresheaf_map_overPushforwardMateA_app (N : SheafOfModules.{u}
     (((situation C).componentRingSheaf O m).over ((transitionFunctorA C φ).obj Q))) :
-    (PresheafOfModules.toPresheaf _).map ((overPushforwardMateA C O φ Q).natTrans.app N).val =
+    (PresheafOfModules.toPresheaf _).map ((overPushforwardMateA C O φ Q).app N).val =
       SliceTopos.overPushforwardMatePresheaf (H := AddCommGrpCat.{u}) (transitionFunctorA C φ) Q
         N.val.presheaf := by
   have hc : (PresheafOfModules.toPresheaf _).map
@@ -245,7 +245,7 @@ theorem forget_map_overPushforwardMatePresheaf_app
 
 
 /-- **The module-level direct-image comparison is invertible.** -/
-theorem isIso_overPushforwardMateA : IsIso (overPushforwardMateA C O φ Q).natTrans := by
+theorem isIso_overPushforwardMateA : IsIso (overPushforwardMateA C O φ Q) := by
   rw [NatTrans.isIso_iff_isIso_app]
   intro N
   rw [← isIso_iff_of_reflects_iso _ (SheafOfModules.forget _ ⋙ PresheafOfModules.toPresheaf _),
@@ -257,10 +257,10 @@ theorem isIso_overPushforwardMateA : IsIso (overPushforwardMateA C O φ Q).natTr
   have := SliceTopos.isIso_overPushforwardMate ((situation C).componentTopology n)
     ((situation C).componentTopology m) (transitionFunctorA C φ) Q (C.isMorphismOfSites φ)
   have h1 : IsIso ((SliceTopos.overPushforwardMate ((situation C).componentTopology n)
-      ((situation C).componentTopology m) (transitionFunctorA C φ) Q).natTrans.app N').hom :=
+      ((situation C).componentTopology m) (transitionFunctorA C φ) Q).app N').hom :=
     Functor.map_isIso (sheafToPresheaf ((situation C).componentTopology n) (Type u))
       ((SliceTopos.overPushforwardMate ((situation C).componentTopology n)
-        ((situation C).componentTopology m) (transitionFunctorA C φ) Q).natTrans.app N')
+        ((situation C).componentTopology m) (transitionFunctorA C φ) Q).app N')
   rw [SliceTopos.overPushforwardMate_app_hom] at h1
   have h2 : IsIso ((SliceTopos.overPushforwardMatePresheaf (H := Type u)
       (transitionFunctorA C φ) Q (N.val.presheaf ⋙ forget AddCommGrpCat.{u})).app b) :=
@@ -283,7 +283,7 @@ theorem isIso_overPushforwardMateA : IsIso (overPushforwardMateA C O φ Q).natTr
     (Iso.isIso_inv _)
 
 /-- **The Beck–Chevalley comparison of case (A) is invertible.** -/
-theorem isIso_beckChevalleyA : IsIso (beckChevalleyA C O φ Q).natTrans := by
+theorem isIso_beckChevalleyA : IsIso (beckChevalleyA C O φ Q) := by
   have h := iterated_mateEquiv_conjugateEquiv
     (SheafOfModules.pullbackPushforwardAdjunction.{u} (ringTransitionA C O φ))
     (slicePullbackAdj C O φ Q) (overRestrictionAdj C O n Q)
@@ -303,13 +303,13 @@ theorem isIso_beckChevalleyA : IsIso (beckChevalleyA C O φ Q).natTrans := by
       ((SheafOfModules.pullbackPushforwardAdjunction.{u} (ringTransitionA C O φ)).comp
         (overRestrictionAdj C O m ((transitionFunctorA C φ).obj Q)))
       ((overRestrictionAdj C O n Q).comp (slicePullbackAdj C O φ Q))
-      (beckChevalleyA C O φ Q).natTrans) := by
+      (beckChevalleyA C O φ Q)) := by
     rw [← h, ← e]
     infer_instance
   exact conjugateEquiv_of_iso
     ((SheafOfModules.pullbackPushforwardAdjunction.{u} (ringTransitionA C O φ)).comp
       (overRestrictionAdj C O m ((transitionFunctorA C φ).obj Q)))
     ((overRestrictionAdj C O n Q).comp (slicePullbackAdj C O φ Q))
-    (beckChevalleyA C O φ Q).natTrans
+    (beckChevalleyA C O φ Q)
 
 end CategoryTheory.SimplicialSite.CartesianSlice

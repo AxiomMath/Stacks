@@ -193,7 +193,7 @@ private theorem reductionUnit_epi
   have h : (ModuleCat.extendRestrictScalarsAdj (Ideal.Quotient.mk I)).unit.app M ≫ e.hom =
       ModuleCat.ofHom (Submodule.mkQ (I • (⊤ : Submodule R M))) := by
     ext x
-    show TensorProduct.quotTensorEquivQuotSMul M I ((1 : R ⧸ I) ⊗ₜ[R] x) = _
+    change TensorProduct.quotTensorEquivQuotSMul M I ((1 : R ⧸ I) ⊗ₜ[R] x) = _
     simp
   have : Epi ((ModuleCat.extendRestrictScalarsAdj (Ideal.Quotient.mk I)).unit.app M ≫ e.hom) := by
     rw [h]
@@ -721,7 +721,7 @@ theorem exists_boundedAbove_lift_representing_iso
   let eLift := DerivedCategory.Q.mapIso ePC ≪≫ eB ≪≫ eK
   refine ⟨PC, hPC, ⟨bA + 1, CochainComplex.isStrictlyLE_of_iso ePC.symm _⟩,
     eRed, eLift, ?_⟩
-  show D.comparison.app PC ≫ DerivedCategory.Q.map eRed.hom ≫ eGiven.hom =
+  change D.comparison.app PC ≫ DerivedCategory.Q.map eRed.hom ≫ eGiven.hom =
     D.functor.map eLift.hom
   apply (cancel_mono (D.functor.map eK.inv ≫ D.comparison.app KC)).1
   have heq : eGiven.hom ≫ D.functor.map eK.inv ≫ D.comparison.app KC =

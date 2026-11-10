@@ -218,7 +218,7 @@ theorem exists_open_isNowhereDense_fiber_of_isReduced {X Y : Scheme.{u}} (f : X 
   let xU : (↑UX) := ⟨x, hxU⟩
   have hxUval : jX xU = x := rfl
   have hbaseX : fU xU = y := by
-    show (jX ≫ f) xU = f x
+    change (jX ≫ f) xU = f x
     rw [Scheme.Hom.comp_apply, hxUval]
   have hbasePX : f x = fU xU := by simpa [y] using hbaseX.symm
   have hmapX : f.fiberMap jX (fU xU) (fU.asFiber xU) = f.asFiberAt x (fU xU) hbasePX := by
@@ -244,12 +244,12 @@ theorem exists_open_isNowhereDense_fiber_of_isReduced {X Y : Scheme.{u}} (f : X 
     rw [hmapT]
     exact f.mem_genericPoints_fiberPt x (g t) hxfBase hpgenX
   have htV : t ∈ TV := by
-    show g t ∈ V
+    change g t ∈ V
     rw [hgt]
     exact hyV
   let tV : (↑TV) := ⟨t, htV⟩
   have hbaseT : gV tV = y := by
-    show (jT ≫ g) tV = f x
+    change (jT ≫ g) tV = f x
     rw [Scheme.Hom.comp_apply]
     exact hgt
   have htVval : jT tV = t := rfl
@@ -272,7 +272,7 @@ theorem exists_open_isNowhereDense_fiber_of_isReduced {X Y : Scheme.{u}} (f : X 
   let xη : X := i tη
   have hxηbase : f xη = η := by simpa [g, i, xη, htηbase] using htηbase
   have hxηU : xη ∈ UX := by
-    show f xη ∈ U
+    change f xη ∈ U
     rw [hxηbase]
     exact hηU
   let xηU : (↑UX) := ⟨xη, hxηU⟩
@@ -408,7 +408,7 @@ theorem exists_open_isNowhereDense_fiber_of_isReduced {X Y : Scheme.{u}} (f : X 
     exact (not_lt_of_ge hCdimle) (hDdim ▸ hstrict)
   have hDsubsetZ : D ⊆ (f.fiberι (f xη)) ⁻¹' Z := by
     rintro z ⟨z', hz', rfl⟩
-    show f.fiberι (f xη) (φ z') ∈ Z
+    change f.fiberι (f xη) (φ z') ∈ Z
     rw [show f.fiberι (f xη) (φ z') = i ((i ≫ f).fiberι (f xη) z') from
       f.fiberι_fiberMap i (f xη) z']
     have hrange : i ((i ≫ f).fiberι (f xη) z') ∈ Set.range i := ⟨_, rfl⟩
@@ -459,7 +459,7 @@ theorem exists_open_isNowhereDense_fiber {X Y : Scheme.{u}} (f : X ⟶ Y) [Irred
   have hb : IsHomeomorph r := hr.universally_isHomeomorph _ _ _ IsPullback.of_id_snd
   let eY : Y.nilradical.subscheme ≃ₜ Y := hb.homeomorph r
   have hη' : IsGenericPoint (eY.symm η) Set.univ := by
-    show closure ({eY.symm η} : Set Y.nilradical.subscheme) = Set.univ
+    change closure ({eY.symm η} : Set Y.nilradical.subscheme) = Set.univ
     calc
       closure ({eY.symm η} : Set Y.nilradical.subscheme) = eY.symm '' closure ({η} : Set Y) := by
         rw [eY.symm.image_closure]
@@ -468,10 +468,10 @@ theorem exists_open_isNowhereDense_fiber {X Y : Scheme.{u}} (f : X ⟶ Y) [Irred
   have : IsReduced Y.nilradical.subscheme := isReduced_nilradical_subscheme Y
   have : IrreducibleSpace Y.nilradical.subscheme := eY.irreducibleSpace_iff.mpr inferInstance
   have : LocallyOfFiniteType g := by
-    show LocallyOfFiniteType (pullback.snd f r)
+    change LocallyOfFiniteType (pullback.snd f r)
     infer_instance
   have : QuasiCompact g := by
-    show QuasiCompact (pullback.snd f r)
+    change QuasiCompact (pullback.snd f r)
     infer_instance
   have hcomm (z : P) : f (a z) = r (g z) := congrArg (fun k : P ⟶ Y => k z) pullback.condition
   have hηZ' : IsNowhereDense ((g.fiberι (eY.symm η)) ⁻¹' (a ⁻¹' Z)) := by

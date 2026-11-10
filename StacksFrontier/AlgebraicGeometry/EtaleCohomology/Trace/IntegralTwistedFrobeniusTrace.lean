@@ -200,6 +200,7 @@ variable (Λ : Type r) [Ring Λ] {k : Type u} [Field k] [Fintype k] {Z Y : Over 
   (i : Z ⟶ Y) (σ : Z ⟶ Z) (hσ : σ ≫ i = i) (kbar : Type u) [Field kbar] [Algebra k kbar]
   (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
 
+omit [Fintype k] in
 include hσ in
 /-- `σ̄ ≫ i_k̄ = i_k̄` for `σ` over `Y`. -/
 lemma fieldBaseChangeMap_comp_of_comp_eq :

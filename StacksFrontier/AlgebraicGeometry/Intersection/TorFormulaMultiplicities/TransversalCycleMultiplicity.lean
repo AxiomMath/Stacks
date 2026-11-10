@@ -362,7 +362,7 @@ theorem torFormulaCycleIntersectionProduct_apply_eq_one [DecidableEq X]
     torFormulaCycleIntersectionProduct C f hX k
         (Function.locallyFinsuppWithin.single x 1)
         (Function.locallyFinsuppWithin.single y 1) z = 1 := by
-  show cycleIntersectionProduct (torFormulaSubvarietyProductTotal C f hX k)
+  change cycleIntersectionProduct (torFormulaSubvarietyProductTotal C f hX k)
     (Function.locallyFinsuppWithin.single x 1)
     (Function.locallyFinsuppWithin.single y 1) z = 1
   rw [cycleIntersectionProduct_single_single,
@@ -408,7 +408,7 @@ theorem torFormulaCycleIntersectionProduct_apply_eq_mul (C : Stacks.Chow.ChowSit
     rw [torFormulaSubvarietyProductTotal_eq_of_bound C f hX k h]
     exact torSubvarietyProductOfBound_apply_eq_one C f hX k h d hd hz hzx hzy I₀ J₀
       hI hJ hmult hdimI hdimJ hproper
-  show cycleIntersectionProduct (torFormulaSubvarietyProductTotal C f hX k) α β z = α x * β y
+  change cycleIntersectionProduct (torFormulaSubvarietyProductTotal C f hX k) α β z = α x * β y
   rw [cycleIntersectionProduct_apply _ hα hβ z]
   refine Eq.trans (Finset.sum_eq_single_of_mem x (hα.mem_toFinset.2 hx) fun x' hx' hne => ?_)
     (Eq.trans (Finset.sum_eq_single_of_mem y (hβ.mem_toFinset.2 hy) fun y' hy' hne => ?_) ?_)

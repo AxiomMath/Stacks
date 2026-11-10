@@ -957,7 +957,7 @@ theorem exists_map_eq_of_isMor (sq₃ : ChosenPullback₃ sq sq sq)
     rw [← reassoc_of% hn, ← Functor.map_comp_assoc, ← Functor.map_comp_assoc, hw, ← hit]
     simp only [Iso.trans_inv, Iso.trans_hom, Functor.mapIso_inv, Functor.mapIso_hom,
       Category.assoc, Functor.map_comp]
-    simp only [Iso.map_hom_inv_id_assoc]
+    simp only [Iso.hom_inv_id_map_assoc]
     rfl
   have key : (P.map f.op.toLoc).toFunctor.map
       (((𝔇.pc S).iterObjIso n k A).inv ≫ x ≫ ((𝔇.pc S).iterObjIso n k A').hom) =

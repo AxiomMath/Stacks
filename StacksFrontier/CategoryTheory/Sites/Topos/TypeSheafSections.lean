@@ -131,7 +131,7 @@ theorem sheafify_iSup_range_eq_top :
   let ψ' : ∀ i, A i ⟶ B' := fun i => ⟨Subfunctor.lift (ψ i).hom (hle i)⟩
   have hfac : Sigma.desc ψ' ≫ m = Sigma.desc ψ := by
     refine Sigma.hom_ext _ _ fun i => ?_
-    rw [Sigma.ι_desc_assoc, Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc]
     exact Sheaf.hom_ext (Subfunctor.lift_ι (ψ i).hom (hle i))
   have : Epi m := epi_of_epi_fac hfac
   have : Mono m := (sheafToPresheaf J (Type t)).mono_of_mono_map
@@ -150,7 +150,7 @@ theorem exists_covering_of_epi_sigmaDesc (X : C) (b : B.obj.obj (op X)) :
       ∃ (i : ι) (a : (A i).obj.obj (op V)),
         (ψ i).hom.app (op V) a = B.obj.map g.op b := by
   refine ⟨(⨆ i, Subfunctor.range (ψ i).hom).sieveOfSection b, ?_, ?_⟩
-  · show b ∈ ((⨆ i, Subfunctor.range (ψ i).hom).sheafify J).obj (op X)
+  · change b ∈ ((⨆ i, Subfunctor.range (ψ i).hom).sheafify J).obj (op X)
     rw [sheafify_iSup_range_eq_top A ψ]
     trivial
   · intro V g hg

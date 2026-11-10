@@ -126,6 +126,7 @@ def devissageLegHom (i : Iᵒᵖ) :
         ((inverseImageIsoPullbackAb (conePi cX i)).hom.naturality (d.g i)).symm).trans
         (Category.assoc _ _ _))))
 
+omit [∀ i : Iᵒᵖ, HasExt.{u + 1} (Sheaf (smallEtaleTopology (DX.obj i)) AddCommGrpCat.{u + 1})] in
 /-- A morphism of systems in the vocabulary of `systemTransitionMap`, read in the vocabulary of
 the transition maps of the systems themselves. -/
 theorem map_comp_of_systemTransitionMap {F F' : EtaleSheafSystem DX AddCommGrpCat.{u + 1}}

@@ -34,11 +34,13 @@ Tag 07ZK is the hypothesis under which those maps do become isomorphisms.
 
 ## Main results
 
-* `Stacks.AlgebraicGeometry.Tag07ZGTwistStatement.domain_closedImmersion_twistEpi_of_eventually_epi`:
+All in the namespace `Stacks.AlgebraicGeometry.Tag07ZGTwistStatement`:
+
+* `domain_closedImmersion_twistEpi_of_eventually_epi`:
   **the three assertions of Tag 07ZI in one statement.**
-* `Stacks.AlgebraicGeometry.Tag07ZGTwistStatement.domain_isIso_twistIsIso_of_eventually_isIso`:
+* `domain_isIso_twistIsIso_of_eventually_isIso`:
   **the three assertions of Tag 07ZJ in one statement.**
-* `Stacks.AlgebraicGeometry.Tag07ZGTwistStatement.domain_closedImmersion_twistIsIso_of_generatedInDegreeOne`:
+* `domain_closedImmersion_twistIsIso_of_generatedInDegreeOne`:
   **the three assertions of Tag 07ZK in one statement.**
 
 ## References

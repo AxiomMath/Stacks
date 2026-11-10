@@ -151,7 +151,7 @@ theorem app_app_extension {T₂ : BigFppfOver B S hS} (L : T₂ ⟶ C₁) {τ : 
       (c.app (op T₂) (ULift.up L : (uliftYoneda.{u + 1}.obj C₁).obj (op T₂)))) =
       ξ.app (op T₂) (ULift.up (τ ≫ t) : (uliftYoneda.{u + 1}.obj T).obj (op T₂)) := by
   rw [app_app_eq_of_comp_eq sq₁.w (op T₂) (ULift.up L : (uliftYoneda.{u + 1}.obj C₁).obj (op T₂))]
-  show i.app (op T₂)
+  change i.app (op T₂)
     (e₀.app (op T₂) (ULift.up (L ≫ p) : (uliftYoneda.{u + 1}.obj T₀).obj (op T₂))) = _
   rw [hL]
   exact app_app_eq_of_comp_eq sq₀.w (op T₂) (ULift.up τ : (uliftYoneda.{u + 1}.obj T₀).obj (op T₂))
@@ -181,7 +181,7 @@ noncomputable def extensionSection [Mono t] {T' : BigFppfOver B S hS} (v : T' �
     have hτ : (h ≫ hg.choose) ≫ t = (h ≫ g) ≫ v ≫ q := by
       rw [Category.assoc, hg.choose_spec, Category.assoc]
     have hex : ∃ τ : T''' ⟶ T₀, τ ≫ t = (h ≫ g) ≫ v ≫ q := ⟨_, hτ⟩
-    rw [dif_pos hex, map_app_uliftYoneda_up]
+    rw [dite_eq_left hex, map_app_uliftYoneda_up]
     congr 3
     apply hC.hom_ext
     · simp only [hC.lift_fst, Category.assoc]
@@ -197,8 +197,8 @@ theorem extensionSection_sect_eq [Mono t] {T' T'' : BigFppfOver B S hS} (v : T' 
       some (c.app (op T'') (ULift.up L : (uliftYoneda.{u + 1}.obj C₁).obj (op T''))) := by
   have hex : ∃ τ : T'' ⟶ T₀, τ ≫ t = g ≫ v ≫ q :=
     ⟨L ≫ p, by rw [Category.assoc, ← hC.w, ← Category.assoc, hL, Category.assoc]⟩
-  show (if h : ∃ τ : T'' ⟶ T₀, τ ≫ t = g ≫ v ≫ q then _ else none) = _
-  rw [dif_pos hex]
+  change (if h : ∃ τ : T'' ⟶ T₀, τ ≫ t = g ≫ v ≫ q then _ else none) = _
+  rw [dite_eq_left hex]
   congr 3
   apply hC.hom_ext
   · rw [hC.lift_fst, hL]
@@ -211,7 +211,7 @@ open Classical in
 theorem extensionSection_sect_eq_none [Mono t] {T' T'' : BigFppfOver B S hS} (v : T' ⟶ V)
     (g : T'' ⟶ T') (h : ¬ ∃ τ : T'' ⟶ T₀, τ ≫ t = g ≫ v ≫ q) :
     (extensionSection sq₀ hC sq₁ v).sect g = none :=
-  dif_neg h
+  dite_eq_right h
 
 /-- The morphism from the presheaf represented by the étale lift `V` to the pushforward of
 `u₀` along `i`, given on sections by `AlgebraicGeometry.Space.extensionSection`. -/
@@ -310,9 +310,9 @@ theorem isPullback_extensionHom (hi : uliftYoneda.{u + 1}.relativelyRepresentabl
     obtain ⟨v, ⟨hvq, hav⟩, -⟩ :=
       existsUnique_extend_of_isPullback_of_isThickening B S hS ht hq hT' (L ≫ ψ) hn
     refine ⟨(ULift.up v : (uliftYoneda.{u + 1}.obj V).obj T'), ?_, ULift.ext hvq⟩
-    show extensionSection sq₀ hC sq₁ v = s
+    change extensionSection sq₀ hC sq₁ v = s
     refine MonoPushforwardSection.ext ?_ ?_
-    · show ξ.app _ (ULift.up (v ≫ q) : (uliftYoneda.{u + 1}.obj T).obj _) = s.base
+    · change ξ.app _ (ULift.up (v ≫ q) : (uliftYoneda.{u + 1}.obj T).obj _) = s.base
       rw [hvq, hsk]
     · funext T'' g
       by_cases h : ∃ τ : T'' ⟶ T₀, τ ≫ t = g ≫ v ≫ q

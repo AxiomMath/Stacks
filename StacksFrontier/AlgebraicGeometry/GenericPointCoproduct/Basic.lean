@@ -80,17 +80,17 @@ theorem isIso_map_coproductToProduct_of_finite {ι : Type*} [DecidableEq ι] (F 
   have hdiag : ∀ j : ι, G.map (Sigma.ι F j) ≫ G.map (Sigma.desc (Pi.ι F)) ≫ G.map (Pi.π F j)
       = 𝟙 (G.obj (F j)) := by
     intro j
-    rw [← G.map_comp, ← G.map_comp, ← Category.assoc, Sigma.ι_desc, Pi.ι_π_eq_id, G.map_id]
+    rw [← G.map_comp, ← G.map_comp, ← Category.assoc, Sigma.ι_comp_desc, Pi.ι_π_eq_id, G.map_id]
   have hoff : ∀ i j : ι, i ≠ j →
       G.map (Sigma.ι F j) ≫ G.map (Sigma.desc (Pi.ι F)) ≫ G.map (Pi.π F i) = 0 := by
     intro i j hij
-    rw [← G.map_comp, ← G.map_comp, ← Category.assoc, Sigma.ι_desc,
+    rw [← G.map_comp, ← G.map_comp, ← Category.assoc, Sigma.ι_comp_desc,
       Pi.ι_π_of_ne F (Ne.symm hij), G.map_zero]
   refine ⟨⟨∑ i ∈ hfin.toFinset, G.map (Pi.π F i) ≫ G.map (Sigma.ι F i), ?_, ?_⟩⟩
   · refine hc.hom_ext ?_
     rintro ⟨j⟩
     by_cases hj : j ∈ hfin.toFinset
-    · show G.map (Sigma.ι F j) ≫ _ = G.map (Sigma.ι F j) ≫ _
+    · change G.map (Sigma.ι F j) ≫ _ = G.map (Sigma.ι F j) ≫ _
       rw [Category.comp_id]
       simp only [Preadditive.comp_sum]
       rw [Finset.sum_eq_single_of_mem (f := fun i ↦ G.map (Sigma.ι F j) ≫
@@ -104,7 +104,7 @@ theorem isIso_map_coproductToProduct_of_finite {ι : Type*} [DecidableEq ι] (F 
   · refine hl.hom_ext ?_
     rintro ⟨j⟩
     by_cases hj : j ∈ hfin.toFinset
-    · show _ ≫ G.map (Pi.π F j) = _ ≫ G.map (Pi.π F j)
+    · change _ ≫ G.map (Pi.π F j) = _ ≫ G.map (Pi.π F j)
       rw [Category.id_comp]
       simp only [Preadditive.sum_comp, Category.assoc]
       rw [Finset.sum_eq_single_of_mem (f := fun i ↦ G.map (Pi.π F i) ≫ G.map (Sigma.ι F i) ≫

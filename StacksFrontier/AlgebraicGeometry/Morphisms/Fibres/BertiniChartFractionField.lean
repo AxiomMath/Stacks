@@ -82,7 +82,7 @@ theorem isGeometricallyIrreducible_chartRing (c : D.Chart) :
   have h3 := h2.2 ⟨⊤, isAffineOpen_top c.U.toScheme⟩
     ⟨⟨(Nonempty.some c.nonempty), trivial⟩⟩
   refine Algebra.isGeometricallyIrreducible_of_ringHom_eq ?_ h3
-  show ((Scheme.ΓSpecIso (.of D.k)).inv ≫
+  change ((Scheme.ΓSpecIso (.of D.k)).inv ≫
     (c.U.ι ≫ D.toBase).appLE ⊤ ⊤ (by simp)).hom = chartRingHom c.U
   have happ : (c.U.ι ≫ D.toBase).appLE (⊤ : (Spec (.of D.k)).Opens) ⊤ (by simp) =
       (c.U.ι ≫ D.toBase).appTop := Scheme.Hom.appLE_eq_app _

@@ -196,7 +196,7 @@ private lemma exists_hom_of_full (w : f ≫ b = i ≫ a)
     { fst := u
       snd := v
       w := by
-        show p.chosenPullbacks.homMap f u ≫ _ = _ ≫ p.chosenPullbacks.homMap i v
+        change p.chosenPullbacks.homMap f u ≫ _ = _ ≫ p.chosenPullbacks.homMap i v
         rw [chosenPullbacks_homMap, chosenPullbacks_homMap]
         exact huv }
   have hm := (fiberSquareComparison p p.chosenPullbacks f i b a w).map_preimage ψ

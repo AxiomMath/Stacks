@@ -133,7 +133,7 @@ private lemma bijective_postcomp_of_shift
         (fun g : A ⟶ X⟦-n⟧ => g ≫ f⟦-n⟧') ∘
         (fun g : A⟦n⟧ ⟶ X => E1 g) := by
     funext g
-    show g ≫ f = E2.symm (E1 g ≫ f⟦-n⟧')
+    change g ≫ f = E2.symm (E1 g ≫ f⟦-n⟧')
     exact E2.eq_symm_apply.mpr (adj.homEquiv_naturality_right g f)
   rw [key]
   exact E2.symm.bijective.comp (h.comp E1.bijective)
@@ -153,7 +153,7 @@ private lemma bijective_precomp_shift
       (fun g : Y ⟶ A⟦-n⟧ => E2.symm (f ≫ g)) ∘
         (fun g : Y⟦n⟧ ⟶ A => E1 g) := by
     funext g
-    show f⟦n⟧' ≫ g = E2.symm (f ≫ E1 g)
+    change f⟦n⟧' ≫ g = E2.symm (f ≫ E1 g)
     exact E2.eq_symm_apply.mpr (adj.homEquiv_naturality_left f g)
   rw [key]
   exact E2.symm.bijective.comp (h.comp E1.bijective)
@@ -173,7 +173,7 @@ private lemma isZero_of_rightOrthogonal_shiftSpan
     let adj := (shiftEquiv' C (-i) i (neg_add_cancel i)).toAdjunction
     let e := adj.homEquiv E K
     have he0 : e.symm (0 : E ⟶ K⟦i⟧) = 0 := by
-      show (adj.homEquiv E K).symm
+      change (adj.homEquiv E K).symm
         (0 : E ⟶ (shiftEquiv' C (-i) i (neg_add_cancel i)).inverse.obj K) = 0
       rw [adj.homEquiv_counit]
       simp
@@ -216,11 +216,11 @@ private lemma bijective_precomp_leftCounit
     simp only [Function.comp_apply]
     calc
       E1 (adjL.counit.app K ≫ f) = F.map f := by
-        show adjL.homEquiv (F.obj K) A (adjL.counit.app K ≫ f) = F.map f
+        change adjL.homEquiv (F.obj K) A (adjL.counit.app K ≫ f) = F.map f
         rw [Adjunction.homEquiv_unit]
         simp [Functor.map_comp]
       _ = E2.symm (f ≫ adjR.unit.app A) := by
-        show F.map f = (adjR.homEquiv K (F.obj A)).symm (f ≫ adjR.unit.app A)
+        change F.map f = (adjR.homEquiv K (F.obj A)).symm (f ≫ adjR.unit.app A)
         rw [Adjunction.homEquiv_counit]
         simp [Functor.map_comp, Category.assoc]
       _ = E1 (E1.symm (E2.symm (f ≫ adjR.unit.app A))) := (E1.apply_symm_apply _).symm
@@ -284,7 +284,7 @@ private lemma isIso_leftCounit_app_of_isIso_unit
       simpa [T] using comp_distTriang_mor_zero₃₁ T hT
     have hker : T.mor₂ ≫ f = 0 := by
       apply hpreEi.injective
-      show adjL.counit.app K ≫ (T.mor₂ ≫ f) = adjL.counit.app K ≫ 0
+      change adjL.counit.app K ≫ (T.mor₂ ≫ f) = adjL.counit.app K ≫ 0
       rw [← Category.assoc, h12, zero_comp, comp_zero]
     obtain ⟨q, hq⟩ := T.yoneda_exact₃ hT f hker
     obtain ⟨q', hq'⟩ := hpreShift.surjective q

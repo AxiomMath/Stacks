@@ -276,7 +276,7 @@ include hT in
 /-- `Spec R_0 ⟶ Spec R` is a closed immersion. -/
 theorem isClosedImmersion_levelBase_zero : IsClosedImmersion (T.levelBase 0) := by
   refine IsClosedImmersion.spec_of_surjective _ ?_
-  show Function.Surjective ((Scheme.ΓSpecIso (T.R.obj (op 0))).hom.hom ∘
+  change Function.Surjective ((Scheme.ΓSpecIso (T.R.obj (op 0))).hom.hom ∘
     (limit.π T.globalRing (op 0)).hom)
   exact (ConcreteCategory.bijective_of_isIso (Scheme.ΓSpecIso (T.R.obj (op 0))).hom).2.comp
     ((T.tow d₀ hd₀).surjective_limit_π_zero hT)

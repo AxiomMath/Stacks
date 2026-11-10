@@ -102,7 +102,7 @@ theorem ranProj_app_apply (X : AlgebraicSpaces B S hS) (A : SpacesEtale B S hS X
   have h : ((comparisonAdjunction B S hS X).counit.app F).hom =
       (comparisonFunctor B S hS X).op.ranCounit.app F.obj := by
     rw [Functor.sheafAdjunctionCocontinuous_counit_app_hom, Functor.ranAdjunction_counit]
-  show ((comparisonAdjunction B S hS X).counit.app F).hom.app j.right
+  change ((comparisonAdjunction B S hS X).counit.app F).hom.app j.right
       (((comparisonFunctor B S hS X).op.ran.obj F.obj).map j.hom a) = _
   rw [h]
   rfl
@@ -182,7 +182,7 @@ noncomputable def comparisonUnitIso (Q : Sheaf (SpacesEtale.topology B S hS X) (
 /-- The isomorphism is the unit of the Kan-extension adjunction. -/
 theorem comparisonUnitIso_hom (Q : Sheaf (SpacesEtale.topology B S hS X) (Type u)) :
     (comparisonUnitIso B S hS X Q).hom = (comparisonAdjunction B S hS X).unit.app Q := by
-  show (smallEtaleComparisonRestriction B S hS X).asEquivalence.toAdjunction.unit.app Q ≫
+  change (smallEtaleComparisonRestriction B S hS X).asEquivalence.toAdjunction.unit.app Q ≫
     _ = _
   exact Adjunction.unit_rightAdjointUniq_hom_app
     (smallEtaleComparisonRestriction B S hS X).asEquivalence.toAdjunction
@@ -531,7 +531,7 @@ theorem forgetRing_map_fSharp {W W' : AlgebraicSpaces B S hS} (h : W ⟶ W') :
     (smallEtaleRingedTopos B S hS W').forgetRing.map
         (smallEtaleRingedToposHom B S hS h).fSharp =
       structureSharpSet B S hS h := by
-  show (sheafCompose (SmallEtale.topology B S hS W'.1) (forget RingCat.{u})).map
+  change (sheafCompose (SmallEtale.topology B S hS W'.1) (forget RingCat.{u})).map
     ((sheafCompose (SmallEtale.topology B S hS W'.1)
       (forget₂ CommRingCat.{u} RingCat.{u})).map
         (smallEtaleRingedToposHom B S hS h).fSharp) = _

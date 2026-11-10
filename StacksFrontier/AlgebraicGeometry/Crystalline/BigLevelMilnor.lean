@@ -45,6 +45,11 @@ variable {N : SmallSite.BigModuleSheaf S}
     ((CochainComplex.singleFunctor (SmallSite.BigModuleSheaf S) 0).obj N))
 
 set_option maxHeartbeats 1600000 in
+-- elaborating the large composite of derived-category functors and unifying the proof term
+omit [HasDerivedCategory.{wB} (SmallSite.BigModuleSheaf S)]
+  [∀ n, HasDerivedCategory.{wB} (SmallSite.BigModuleSheaf (S.levelSituation (hN.isLevel n)))]
+  [∀ n, HasDerivedCategory.{wA}
+    (ModuleCat.{u + 1} Γ((S.levelSituation (hN.isLevel n)).S.scheme, ⊤))] in
 /-- **The transition of the restricted resolutions, localized, is the localized transition of
 global sections applied to the resolution**: the three pieces (comparison along
 `S_{e(n)} ⟶ S_{e(n+1)}`, composition of restrictions of scalars, identification of the two
@@ -110,6 +115,7 @@ theorem levelResolutionTransition_square (n : ℕ) :
     R.cocomplex R.boundedBelow (S.levelStepResolutionHom hN R n) rfl
 
 set_option maxHeartbeats 1600000 in
+-- unifying the large composites of derived-category functors in the statement and `dsimp only`
 /-- The transition of the levels is, in `D(Mod_A)`, the transition of global sections applied to
 the resolution. -/
 theorem levelDerivedTransition_comp_levelResolutionQIso_app (n : ℕ) :

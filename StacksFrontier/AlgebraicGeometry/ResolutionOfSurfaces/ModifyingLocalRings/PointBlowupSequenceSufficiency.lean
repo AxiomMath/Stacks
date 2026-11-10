@@ -99,14 +99,14 @@ theorem isoDescentLeg_comp {Z X : Scheme.{u}} {pZ : Z ⟶ S} {pX : X ⟶ S}
     isoDescentLeg hX e a ≫ pX = pullback.fst pZ (map s hs a) ≫ pZ := by
   cases a with
   | none =>
-    show (pullback.snd pZ (complementOfClosedPoints s hs).ι ≫
+    change (pullback.snd pZ (complementOfClosedPoints s hs).ι ≫
       inv (pullback.snd pX (complementOfClosedPoints s hs).ι) ≫
         pullback.fst pX (complementOfClosedPoints s hs).ι) ≫ pX = _
     rw [Category.assoc, Category.assoc, pullback.condition, IsIso.inv_hom_id_assoc,
       ← pullback.condition]
     rfl
   | some i =>
-    show (e i ≫ pullback.fst pX (S.fromSpecStalk (s i))) ≫ pX = _
+    change (e i ≫ pullback.fst pX (S.fromSpecStalk (s i))) ≫ pX = _
     rw [Category.assoc, pullback.condition, ← Category.assoc, he, ← pullback.condition]
     rfl
 
@@ -132,7 +132,7 @@ theorem exists_hom_of_baseChange (hinj : Function.Injective s)
   have hcomp : Presieve.Arrows.Compatible (yoneda.obj X)
       (fun a ↦ pullback.fst pZ (map s hs a)) (isoDescentLeg hX e) := by
     intro a b W ga gb hab
-    show ga ≫ isoDescentLeg hX e a = gb ≫ isoDescentLeg hX e b
+    change ga ≫ isoDescentLeg hX e a = gb ≫ isoDescentLeg hX e b
     have hover : (ga ≫ isoDescentLeg hX e a) ≫ pX = (gb ≫ isoDescentLeg hX e b) ≫ pX := by
       rw [Category.assoc, Category.assoc, isoDescentLeg_comp hX e he,
         isoDescentLeg_comp hX e he, ← Category.assoc, hab, Category.assoc]
@@ -166,7 +166,7 @@ theorem exists_hom_of_baseChange (hinj : Function.Injective s)
           ((hsnd (some j) gb).symm.trans (congrArg (· ≫ pZ) hab).symm)
         refine key ?_
         rintro _ ⟨w, rfl⟩
-        show ((ga ≫ pullback.fst pZ (S.fromSpecStalk (s i))) ≫ pZ) w ∈ _
+        change ((ga ≫ pullback.fst pZ (S.fromSpecStalk (s i))) ≫ pZ) w ∈ _
         rw [← hc]
         exact (complementOfClosedPoints s hs).range_ι.le ⟨_, rfl⟩
   obtain ⟨t, ht, -⟩ := (Presieve.isSheafFor_arrows_iff _ _).1 hsf _ hcomp
@@ -208,11 +208,11 @@ theorem nonempty_iso_of_baseChange (hinj : Function.Injective s)
       refine hom_eq_of_isIso_pullback_snd s hs hA _ _ (by simp [hα, hβ]) ?_
       rw [Category.assoc, Category.assoc, hβ, hα]
       rintro _ ⟨w, rfl⟩
-      show (pullback.fst pA (complementOfClosedPoints s hs).ι ≫ pA) w ∈ _
+      change (pullback.fst pA (complementOfClosedPoints s hs).ι ≫ pA) w ∈ _
       rw [pullback.condition]
       exact (complementOfClosedPoints s hs).range_ι.le ⟨_, rfl⟩
     | some i =>
-      show pullback.fst pA (S.fromSpecStalk (s i)) ≫ α ≫ β =
+      change pullback.fst pA (S.fromSpecStalk (s i)) ≫ α ≫ β =
         pullback.fst pA (S.fromSpecStalk (s i)) ≫ 𝟙 A
       rw [reassoc_of% (hαi i), hβi i, Iso.hom_inv_id_assoc, Category.comp_id]
   refine ⟨⟨φ, ψ, hid hZ e φ ψ hφ hψ hφi hψi, ?_⟩, hφ⟩
@@ -241,7 +241,7 @@ theorem exists_pullback_blowUpToBase_comp_iso_of_notMem_range {W S V : Scheme.{u
   set M := Scheme.IdealSheafData.vanishingIdeal (⟨{w}, hw⟩ : Closeds W)
   have hsupp : ((M.comap (pullback.fst p v)).support : Set ↥(pullback p v)) = ∅ := by
     rw [Scheme.IdealSheafData.support_comap]
-    show pullback.fst p v ⁻¹' (M.support : Set W) = ∅
+    change pullback.fst p v ⁻¹' (M.support : Set W) = ∅
     rw [Scheme.IdealSheafData.coe_support_vanishingIdeal]
     refine Set.eq_empty_of_forall_notMem fun y hy => hv ⟨pullback.snd p v y, ?_⟩
     have hy' : pullback.fst p v y = w := hy
@@ -271,7 +271,7 @@ theorem isClosed_singleton_pullback_fst_fromSpecStalk {W S : Scheme.{u}} (p : W 
     simpa using (hsp.map p.continuous).mem_closed hs (by simpa using hys)
   have hrange : w' ∈ Set.range f := by
     rw [Scheme.Pullback.range_fst, Scheme.range_fromSpecStalk]
-    show p w' ⤳ s
+    change p w' ⤳ s
     rw [hpw']
   obtain ⟨y'', rfl⟩ := hrange
   have hsp' : y ⤳ y'' := f.isEmbedding.isInducing.specializes_iff.mp hsp
@@ -368,7 +368,7 @@ theorem exists_pointBlowupChain_lift_local {S W₀ : Scheme.{u}} (p₀ : W₀ �
       rw [← hideal]
       exact exists_blowUp_iso_comap_of_isIso e'.hom _
     have hwT : g' (pullback.fst (g' ≫ p₀) (S.fromSpecStalk s) y') ∈ p₀ ⁻¹' {s} := by
-      show p₀ (g' _) = s
+      change p₀ (g' _) = s
       rw [← Scheme.Hom.comp_apply]
       exact hpw
     refine ⟨_, _, hchain'.step _ hw hwT, ?_, fun V v hv hsv => ?_⟩
@@ -471,7 +471,7 @@ theorem factorsAsPointBlowups_of_forall (BC : BaseChangeFunctor D) (X : D.global
   have ht : ∀ i, t i ∈ closedPoints D.S := fun i ↦ mem_closedPoints_iff.mpr (D.points_closed i.down)
   have hU : complementOfClosedPoints t ht = D.complement := by
     ext x
-    show x ∈ (⋂ i : ULift.{u} (Fin D.n), ({D.points i.down} : Set D.S)ᶜ) ↔
+    change x ∈ (⋂ i : ULift.{u} (Fin D.n), ({D.points i.down} : Set D.S)ᶜ) ↔
       x ∈ (Set.range D.points)ᶜ
     simp only [Set.mem_iInter, Set.mem_compl_iff, Set.mem_singleton_iff, Set.mem_range]
     exact ⟨fun h ⟨i, hi⟩ ↦ h (ULift.up i) hi.symm, fun h i hi ↦ h ⟨i.down, hi.symm⟩⟩

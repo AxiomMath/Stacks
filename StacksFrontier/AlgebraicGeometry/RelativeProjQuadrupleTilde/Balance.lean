@@ -160,7 +160,7 @@ theorem algFrac_add (i : ℕ) (a b : s.sectionPieces U.1 (i * d)) :
     algFrac U c i (a + b) = algFrac U c i a + algFrac U c i b := by
   apply HomogeneousLocalization.val_injective
   rw [HomogeneousLocalization.val_add]
-  show (Localization.mk (DirectSum.of (s.sectionPieces U.1) (i * d) (a + b))
+  change (Localization.mk (DirectSum.of (s.sectionPieces U.1) (i * d) (a + b))
       (⟨(cHom U.1 c) ^ i, i, rfl⟩ : Submonoid.powers (cHom U.1 c)) : Localization.Away _) =
     Localization.mk (DirectSum.of (s.sectionPieces U.1) (i * d) a)
         (⟨(cHom U.1 c) ^ i, i, rfl⟩ : Submonoid.powers (cHom U.1 c)) +
@@ -174,7 +174,7 @@ theorem algFrac_smul (i : ℕ) (r : s.base.ringCatSheaf.obj.obj (op U.1))
     algFrac U c i (r • a) = baseFrac U c r * algFrac U c i a := by
   apply HomogeneousLocalization.val_injective
   simp only [algFrac, baseFrac, HomogeneousLocalization.Away.val_mk,
-    HomogeneousLocalization.val_mul, Localization.mk_mul, ← sectionRingBaseMap_mul_of]
+    HomogeneousLocalization.val_mul, ← sectionRingBaseMap_mul_of]
   congr 1
   exact Subtype.ext (by simp)
 
@@ -194,7 +194,7 @@ theorem kappaSec_smul (i : ℕ) (r : s.base.ringCatSheaf.obj.obj (op U.1))
     (a : s.sectionPieces U.1 (i * d)) :
     kappaSec U c g hg i (r • a) =
       (show T.ringCatSheaf.obj.obj (op ⊤) from f.appLE U.1 ⊤ hf r) • kappaSec U c g hg i a := by
-  show g.appLE _ ⊤ hg (Proj.awayToSection _ _ (algFrac U c i (r • a))) =
+  change g.appLE _ ⊤ hg (Proj.awayToSection _ _ (algFrac U c i (r • a))) =
     f.appLE U.1 ⊤ hf r * g.appLE _ ⊤ hg (Proj.awayToSection _ _ (algFrac U c i a))
   rw [algFrac_smul, map_mul, map_mul, hgf r]
 
@@ -216,6 +216,7 @@ theorem kappa_pullbackSection (i : ℕ) (a : s.sectionPieces U.1 (i * d)) :
     (𝟙_ (SheafOfModules.{u} (structureRingSheaf T.toRingedSpace)) : T.Modules)
     (kappaSec U c g hg i) (kappaSec_smul U c f hf g hg hgf i) a
 
+omit [∀ n : ℤ, (ℳ.piece n).IsQuasicoherent] in
 /-- **The pulled-back fraction carries the action of `a` to multiplication by `g^♯(a / c^i)`.** -/
 theorem fracPull_smul (m : ℤ) (i : ℕ) (a : s.sectionPieces U.1 (i * d))
     (x : sectionModulePieces ℳ U.1 (m * d)) (y : sectionModulePieces ℳ U.1 ((m + i) * d))
@@ -234,6 +235,7 @@ theorem fracPull_smul (m : ℤ) (i : ℕ) (a : s.sectionPieces U.1 (i * d))
   exact (congrArg (Scheme.Modules.pullbackSection g (moduleChart ℳ U) _ ⊤ hg) h1).trans
     (pullbackSection_smul g _ _ ⊤ hg _ _)
 
+omit [∀ n : ℤ, (ℳ.piece n).IsQuasicoherent] in
 /-- The homogeneous product presented by the right action of the right graded module read off
 `ℳ`, transported to the degree `(m + i)d`. -/
 theorem of_act (m : ℤ) (i : ℕ) (x : sectionModulePieces ℳ U.1 (m * d))
@@ -296,7 +298,7 @@ theorem act_beta (m : ℤ) (i : ℕ) :
       fracPull ℳ U c g hg (m + i)
         ((eqToHom (congrArg ℳ.piece (by ring : m * d + (i : ℤ) * d = (m + i) * d))).val.app
           (op U.1) ((ℳ.toGradedModule s.mul_comm).smul (m * d) ((i : ℤ) * d) (op U.1) x a)) := by
-    show (betaS ℳ U c f hf g hg hgf (m + i)).val.app (op ⊤)
+    change (betaS ℳ U c f hf g hg hgf (m + i)).val.app (op ⊤)
       (((Scheme.Modules.pullback f).map φ).val.app (op ⊤)
         (Scheme.Modules.pullbackSection f _ U.1 ⊤ hf t)) = _
     have e1 := Scheme.Modules.pullbackSection_naturality f
@@ -318,7 +320,7 @@ theorem act_beta (m : ℤ) (i : ℕ) :
         (op ⊤) (Scheme.Modules.pullbackSection f _ U.1 ⊤ hf t) =
       (show (structureRingSheaf T.toRingedSpace).obj.obj (op ⊤) from kappaSec U c g hg i a) •
         fracPull ℳ U c g hg m x := by
-    show (ρ_ (tgt ℳ U g)).hom.val.app (op ⊤)
+    change (ρ_ (tgt ℳ U g)).hom.val.app (op ⊤)
       ((betaS ℳ U c f hf g hg hgf m ⊗ₘ kappaS U c f hf g hg hgf i).val.app (op ⊤)
         ((pullbackTensorComparison (ringedSpaceHom f) (ℳ.piece (m * d))
           (s.algebra.piece ((i : ℤ) * d))).val.app (op ⊤)
@@ -359,7 +361,7 @@ theorem twisting_app_eq (i : ℕ) :
       ((laurent L).piece i).val.restrictₛₗ (LaurentSections.topRes T (op ⊤)) x = x := by
     intro x
     have h1 : LaurentSections.topRes T (op ⊤) = 𝟙 _ := Subsingleton.elim _ _
-    show ((laurent L).piece i).val.map (LaurentSections.topRes T (op ⊤)) x = x
+    change ((laurent L).piece i).val.map (LaurentSections.topRes T (op ⊤)) x = x
     rw [h1, PresheafOfModules.map_id]
     rfl
   have e2 : (kappa U c f hf g hg hgf i ≫
@@ -367,7 +369,7 @@ theorem twisting_app_eq (i : ℕ) :
         (Scheme.Modules.pullbackSection f _ U.1 ⊤ hf a) =
       (show (structureRingSheaf T.toRingedSpace).obj.obj (op ⊤) from kappaSec U c g hg i a) •
         LaurentSections.pw w i := by
-    show (LaurentSections.secHom ((laurent L).piece i) (LaurentSections.pw w i)).val.app (op ⊤)
+    change (LaurentSections.secHom ((laurent L).piece i) (LaurentSections.pw w i)).val.app (op ⊤)
       ((kappa U c f hf g hg hgf i).val.app (op ⊤)
         (Scheme.Modules.pullbackSection f _ U.1 ⊤ hf a)) = _
     rw [kappa_pullbackSection]
@@ -406,7 +408,7 @@ theorem bmap_balanced_nat (m : ℤ) (i : ℕ) :
         ((kappaS U c f hf g hg hgf i ▷ (laurent L).piece (-(m + i))) ≫ (λ_ _).hom ≫
           LaurentSections.coord w (m + i))) ≫ (ρ_ _).hom := by
     rw [← h3]
-    show ((α_ _ _ _).hom ≫ _ ◁ ((ψ.app (i : ℤ) ▷ (laurent L).piece (-(m + i))) ≫
+    change ((α_ _ _ _).hom ≫ _ ◁ ((ψ.app (i : ℤ) ▷ (laurent L).piece (-(m + i))) ≫
         mulHom (laurent L) i (-(m + i)) ≫ eqToHom (congrArg (laurent L).piece
           (by ring : (i : ℤ) + -(m + i) = -m)))) ≫
       (betaS ℳ U c f hf g hg hgf m ⊗ₘ LaurentSections.coord w m) ≫ (ρ_ _).hom = _

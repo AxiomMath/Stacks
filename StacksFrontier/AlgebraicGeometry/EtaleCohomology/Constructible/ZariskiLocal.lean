@@ -308,7 +308,7 @@ public theorem isStratifiedSheaf_of_openCover_of_quasiSeparated
     intro x hxV
     obtain ⟨k, z, hz⟩ := Set.mem_iUnion.mp (hcover ▸ Set.mem_univ x)
     have hzpre : z ∈ ((B.inclusion.map (jm k)) ⁻¹ᵁ V.1 : (U k).obj.Opens) := by
-      show (B.inclusion.map (jm k)).base z ∈ ((V.1 : Z.obj.Opens) : Set Z.obj)
+      change (B.inclusion.map (jm k)).base z ∈ ((V.1 : Z.obj.Opens) : Set Z.obj)
       rw [hz]
       exact hxV
     obtain ⟨S, hS, hzw, hWsub⟩ :=

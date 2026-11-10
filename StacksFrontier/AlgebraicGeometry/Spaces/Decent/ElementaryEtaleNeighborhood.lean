@@ -107,7 +107,7 @@ theorem isIso_residueFieldObjectMap (T Q : BigFppfOver B S hS) (f : T ⟶ Q)
     IsIso (residueFieldObjectMap B S hS T Q f p) := by
   have : IsIso (B.inclusion.map ((Over.forget (B.obj hS)).map
       (residueFieldObjectMap B S hS T Q f p))) := by
-    show IsIso (Spec.map (f.left.1.residueFieldMap p))
+    change IsIso (Spec.map (f.left.1.residueFieldMap p))
     infer_instance
   have : IsIso ((Over.forget (B.obj hS)).map (residueFieldObjectMap B S hS T Q f p)) :=
     isIso_of_reflects_iso _ B.inclusion

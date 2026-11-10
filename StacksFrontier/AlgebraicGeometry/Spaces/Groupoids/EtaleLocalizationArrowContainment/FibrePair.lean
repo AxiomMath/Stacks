@@ -260,7 +260,7 @@ theorem exists_lift_fibrePair_iff (V' : BigFppfOver C S hS)
     · rintro ⟨x, rfl⟩
       have h1 : (etaleLocalFibreIso G C hS hU hR u hK).hom
           ((fibreOpenImmersion G C hS hU hR u hK W) x) = W.ι x := by
-        show ((W.ι ≫ (etaleLocalFibreIso G C hS hU hR u hK).inv) ≫
+        change ((W.ι ≫ (etaleLocalFibreIso G C hS hU hR u hK).inv) ≫
           (etaleLocalFibreIso G C hS hU hR u hK).hom) x = W.ι x
         rw [Category.assoc, Iso.inv_hom_id, Category.comp_id]
       rw [h1]
@@ -268,7 +268,7 @@ theorem exists_lift_fibrePair_iff (V' : BigFppfOver C S hS)
       rwa [Scheme.Opens.range_ι] at hx
     · intro hy
       refine ⟨⟨(etaleLocalFibreIso G C hS hU hR u hK).hom y, hy⟩, ?_⟩
-      show (etaleLocalFibreIso G C hS hU hR u hK).inv
+      change (etaleLocalFibreIso G C hS hU hR u hK).inv
         ((etaleLocalFibreIso G C hS hU hR u hK).hom y) = y
       rw [← Scheme.Hom.comp_apply, Iso.hom_inv_id]
       rfl

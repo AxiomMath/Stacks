@@ -138,9 +138,9 @@ lemma nontrivial_stalk_unit (W : Scheme.{u}) (x : W) :
   let D := (OpenNhds.inclusion x).op ⋙ W.ringCatSheaf.obj
   let eCR := preservesColimitIso (forget₂ CommRingCat RingCat) D₀
   let eAb := preservesColimitIso (forget₂ RingCat AddCommGrpCat) D
-  show Nontrivial ↑(colimit (D ⋙ forget₂ RingCat AddCommGrpCat))
+  change Nontrivial ↑(colimit (D ⋙ forget₂ RingCat AddCommGrpCat))
   have h₀ : Nontrivial ((forget₂ CommRingCat RingCat).obj (colimit D₀)) := by
-    show Nontrivial ↑(W.presheaf.stalk x)
+    change Nontrivial ↑(W.presheaf.stalk x)
     infer_instance
   have hD : Nontrivial ↑(colimit D) :=
     (ConcreteCategory.bijective_of_isIso eCR.hom).injective.nontrivial
@@ -264,7 +264,7 @@ lemma smul_maximalIdeal_stalk_eq_zero {W X : Scheme.{u}} (g : W ⟶ X) [IsFinite
   have hsource : ∀ r : TopCat.Presheaf.stalk (C := Ab.{u})
       (SheafOfModules.unit W.ringCatSheaf).val.presheaf (genericPoint W), a • r = 0 := by
     intro r
-    show (g.stalkMap (genericPoint W) a) • r = 0
+    change (g.stalkMap (genericPoint W) a) • r = 0
     rw [hkill, zero_smul]
   exact smul_eq_zero_of_moduleCatIso e hsource s
 
@@ -318,7 +318,7 @@ theorem exists_isCoherent_of_pointClosure {X Y Z W : Scheme.{u}} (f : Y ⟶ X) [
   have hfibre := preimage_singleton_genericPoint_eq (j ≫ f)
   refine ⟨(Scheme.Modules.pushforward j).obj (SheafOfModules.unit W.ringCatSheaf),
     FiniteDirectImageCoherent.isCoherent_pushforward_of_isFinite j _, ?_, fun a ha s => ?_⟩
-  · show SheafOfModules.supp ((Scheme.Modules.pushforward (j ≫ f)).obj
+  · change SheafOfModules.supp ((Scheme.Modules.pushforward (j ≫ f)).obj
       (SheafOfModules.unit W.ringCatSheaf)) = Set.range i.base
     refine Set.Subset.antisymm (supp_pushforward_subset (j ≫ f) _
       i.isClosedEmbedding.isClosed_range hrange) ?_

@@ -177,7 +177,7 @@ lemma smul_sectionMap_app_comm (V : Opens X) (g b : oScalar X V) :
       b • (sectionMap X L s).val.app (op V) g := map_smul _ b g
   rw [← h1, ← h2]
   congr 1
-  show g * b = b * g
+  change g * b = b * g
   exact oScalar_mul_comm X V g b
 
 /-! ### The affine-local presentation -/
@@ -218,7 +218,7 @@ theorem exists_denominator_iff_mul_eq
     refine ⟨u • e, ?_⟩
     have hkey : b • u • e = g • a • e := by rw [smul_smul, smul_smul, hu]
     refine hbinj ?_
-    show @HSMul.hSMul (oScalar X V) _ _ _ b
+    change @HSMul.hSMul (oScalar X V) _ _ _ b
         ((sectionMap X L s).val.app (op V) g) =
       @HSMul.hSMul (oScalar X V) _ _ _ b ((toK X L).val.app (op V) (u • e))
     rw [key, ← hkey, toK_app_smul]

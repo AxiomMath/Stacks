@@ -3,8 +3,7 @@ module
 public import StacksFrontier.Algebra.Homology.DerivedCategory.SingleDegree
 public import StacksFrontier.AlgebraicGeometry.Duality.EffectiveCartierDerivedSheafHomTensor
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedTensor.DegreeZeroTensorProduct
-public import
-  StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.ClosedEmbeddingProjectionFormulaStalks
+public import StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.ClosedEmbeddingProjectionFormulaStalks
 
 /-!
 # The adjunction formula of an effective Cartier divisor, at the level of modules

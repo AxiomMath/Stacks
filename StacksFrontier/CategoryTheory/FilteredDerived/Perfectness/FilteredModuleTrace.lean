@@ -3,7 +3,7 @@ module
 public import Mathlib.Algebra.BigOperators.Finprod
 public import Mathlib.Algebra.Order.BigOperators.Group.LocallyFinite
 public import Mathlib.Data.Int.Interval
-public import Mathlib.Data.Int.SuccPred
+public import Mathlib.Order.SuccPred.Int
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.CategoryTheory.FilteredDerived.Category.Projective
 public import StacksFrontier.CategoryTheory.FilteredDerived.Perfectness.ProjectiveTrace
@@ -90,7 +90,7 @@ private lemma filtered_step_projectiveTrace_add (R : Type u) [Ring R]
     left_inv z := by
       rcases z with ⟨x, y⟩
       apply Prod.ext
-      · show t.r.hom (S.f.hom x + t.s.hom y) = x
+      · change t.r.hom (S.f.hom x + t.s.hom y) = x
         rw [map_add, hfr_apply, hrs, add_zero]
       · exact hgsum x y
     right_inv z := by simpa using congrArg (fun k : Module.End R S.X₂ => k z) hfs
@@ -155,7 +155,7 @@ public theorem projectiveModuleTrace_eq_sum_grP (R : Type u) [Ring R]
   classical
   let : Module.Finite R P.obj.X := hP.finite_projective_forget.1
   let : Module.Projective R P.obj.X := hP.finite_projective_forget.2
-  show Stacks.Trace.projectiveModuleTrace R P.obj.X
+  change Stacks.Trace.projectiveModuleTrace R P.obj.X
       ((FiniteFilteredObject.forget (𝒜 := ModuleCat.{max u v} R)).map f).hom =
     ∑ᶠ p : ℤ,
       (have : Projective ((FiniteFilteredObject.grP
@@ -253,7 +253,7 @@ public theorem projectiveModuleTrace_eq_sum_grP (R : Type u) [Ring R]
       _ = fN (i.hom (e.symm x)) := hx
       _ = fN x := by
         congr 1
-        show e (e.symm x) = x
+        change e (e.symm x) = x
         exact e.apply_symm_apply x
   have htrace : Stacks.Trace.projectiveModuleTrace R P.obj.X fN = U a := by
     calc

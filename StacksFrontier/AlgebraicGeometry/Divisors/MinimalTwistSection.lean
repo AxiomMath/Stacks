@@ -174,7 +174,7 @@ theorem sup_nonvanishingChart_pair_eq_top (D : X.IdealSheafData)
   by_cases hy : y ∈ D.supportSet
   · exact ⟨1, hs₁ hy⟩
   · refine ⟨0, ?_⟩
-    show y ∈ (nonvanishingChart (invertibleSheaf D) (canonicalSections D) : Set X)
+    change y ∈ (nonvanishingChart (invertibleSheaf D) (canonicalSections D) : Set X)
     rw [nonvanishingChart_canonicalSections]
     exact hy
 

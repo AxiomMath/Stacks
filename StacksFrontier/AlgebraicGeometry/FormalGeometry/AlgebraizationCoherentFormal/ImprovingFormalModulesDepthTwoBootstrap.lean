@@ -83,7 +83,7 @@ theorem levelEquiv_transitionMap (G : Stacks.Coherent.CoherentAdicSystems I) {m 
     (G.obj.map (homOfLE h).op).app U (levelEquiv G hU n z) =
       levelEquiv G hU m (AdicCompletion.transitionMap _ _ (Nat.succ_le_succ h) z) := by
   obtain ⟨x, rfl⟩ := Submodule.mkQ_surjective _ z
-  show (G.obj.map (homOfLE h).op).app U (limit.π (G.obj ⋙ sectionsOver U) (op n) x) =
+  change (G.obj.map (homOfLE h).op).app U (limit.π (G.obj ⋙ sectionsOver U) (op n) x) =
     limit.π (G.obj ⋙ sectionsOver U) (op m) x
   rw [← limit.w (G.obj ⋙ sectionsOver U) (homOfLE h).op]
   rfl

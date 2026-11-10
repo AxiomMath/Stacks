@@ -60,7 +60,7 @@ theorem comp_endPolyEval_of_comp_eq_one (α : G ⟶ G) [IsMonHom α] {Y : C} (x 
     rw [endPolyEval_add, MonObj.comp_mul, hR, hS, Polynomial.coeff_add, zpow_add]
   | monomial n c _ =>
     rw [C_mul_X_pow_succ, endPolyEval_mul, endPolyEval_X, ← Category.assoc, hx,
-      ← C_mul_X_pow_succ, Polynomial.coeff_C_mul_X_pow, if_neg (by lia), zpow_zero]
+      ← C_mul_X_pow_succ, Polynomial.coeff_C_mul_X_pow, ite_eq_right (by lia), zpow_zero]
     have h1 : (1 : G ⟶ G) ≫ endPolyEval α (Polynomial.C c * Polynomial.X ^ n) = 1 := by
       rw [endPolyEval, ← postcompHom_apply]
       exact congrArg Additive.toMul (map_zero (Polynomial.aeval (postcompOf α)
@@ -148,7 +148,7 @@ theorem tangentMap_unit_eq_zsmul_of_comp (s : S) (d : ℤ)
 /-- Translation by a point intertwines a homomorphism `β` with translation by the image point. -/
 theorem mulRight_comp_of_isMonHom (point : 𝟙_ (Over S) ⟶ G) :
     (GrpObj.mulRight point).hom ≫ β = β ≫ (GrpObj.mulRight (point ≫ β)).hom := by
-  show ((𝟙 G : G ⟶ G) * (toUnit G ≫ point)) ≫ β =
+  change ((𝟙 G : G ⟶ G) * (toUnit G ≫ point)) ≫ β =
     β ≫ ((𝟙 G : G ⟶ G) * (toUnit G ≫ point ≫ β))
   rw [MonObj.mul_comp, MonObj.comp_mul, Category.id_comp, Category.comp_id,
     ← Category.assoc β, comp_toUnit, Category.assoc]
@@ -287,7 +287,7 @@ theorem isFiniteLocallyFreeOfRank_endDegree_of_comp_tangent_eq_zpow [IsAlgClosed
   have hgen := left_genericPoint_of_comp_tangent_eq_zpow k A β d hd hβ
   have hrank := isFiniteLocallyFreeOfRank_degreeOver β.left hgen
     (preimage_genericPoint_of_locallyQuasiFinite β.left hgen)
-  rwa [endDegree, dif_pos hdom]
+  rwa [endDegree, dite_eq_left hdom]
 
 /-- **The `k`-points of the kernel of a homomorphism whose derivative at the identity is
 multiplication by an invertible integer number its degree**, for `k` algebraically closed: the
@@ -303,7 +303,7 @@ theorem natCard_comp_eq_one_eq_endDegree [IsAlgClosed k] :
   have hetK : Etale (pullback.snd β.left (η[A]).left) := inferInstance
   have hone : (1 : 𝟙_ (Over (Spec (.of k))) ⟶ A) = η[A] := by
     rw [CategoryTheory.Hom.one_def]
-    show (𝟙 (Over.mk (𝟙 (Spec (.of k)))) ≫ η[A]) = η[A]
+    change (𝟙 (Over.mk (𝟙 (Spec (.of k)))) ≫ η[A]) = η[A]
     exact Category.id_comp _
   rw [hone]
   exact (Nat.card_congr (pullbackKernelPointsEquiv β (η[A]))).trans

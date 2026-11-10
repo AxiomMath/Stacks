@@ -157,7 +157,7 @@ theorem chartPre_psi (V : trivializingOpens L) (k : ℕ) (a : 𝒜.sectionPieces
   have h0 : (relativeTwistIso L 𝒜).hom ''ᵁ ((relativeProj (twist 𝒜 L)).toBase ⁻¹ᵁ (V : S.Opens)) ≤
       (relativeProj 𝒜).toBase ⁻¹ᵁ (V : S.Opens) := by
     rintro _ ⟨y, hy, rfl⟩
-    show ((relativeTwistIso L 𝒜).hom ≫ (relativeProj 𝒜).toBase) y ∈ (V : S.Opens)
+    change ((relativeTwistIso L 𝒜).hom ≫ (relativeProj 𝒜).toBase) y ∈ (V : S.Opens)
     rw [relativeTwistIso_hom_comp_toBase]
     exact hy
   refine (chartPre_hom_app L 𝒜 V k _ _).trans ?_

@@ -171,7 +171,7 @@ private lemma map_map_eq_eqToHom (F : X ⥤ Y) (hF : F ⋙ pY = pX) {a b : X} (e
     {hab : pX.obj a = pX.obj b} (he : pX.map e.hom = eqToHom hab) :
     pY.map (F.mapIso e).hom = eqToHom ((Functor.congr_obj hF a).trans
       (hab.trans (Functor.congr_obj hF b).symm)) := by
-  show pY.map (F.map e.hom) = _
+  change pY.map (F.map e.hom) = _
   rw [map_map_eq F hF, he]
   simp
 
@@ -191,7 +191,7 @@ theorem bijective_verticalAutMap_of_iso (F : X ⥤ Y) (hF : F ⋙ pY = pX) {a b 
     apply Subtype.ext
     apply Aut.ext
     apply Iso.ext
-    show F.map e.inv ≫ F.map (α : Aut a).asIso.hom ≫ F.map e.hom =
+    change F.map e.inv ≫ F.map (α : Aut a).asIso.hom ≫ F.map e.hom =
       F.map (e.inv ≫ (α : Aut a).asIso.hom ≫ e.hom)
     simp
   rw [key]
@@ -212,7 +212,8 @@ theorem injective_verticalAutMap_of_full
   apply Aut.ext
   apply Iso.ext
   have hh : F.map (β : Aut a).asIso.hom = F.map (α : Aut a).asIso.hom := by
-    simpa using (congrArg (fun z : pY.verticalAut (F.obj a) => (z : Aut (F.obj a)).asIso.hom) h).symm
+    simpa using
+      (congrArg (fun z : pY.verticalAut (F.obj a) => (z : Aut (F.obj a)).asIso.hom) h).symm
   simpa using (inertiaPullbackComparison_reflects_comm pX pY F hF
     ⟨a, α, verticalAut.cond α⟩ ⟨a, β, verticalAut.cond β⟩ (𝟙 a) (by simpa using hh)).symm
 

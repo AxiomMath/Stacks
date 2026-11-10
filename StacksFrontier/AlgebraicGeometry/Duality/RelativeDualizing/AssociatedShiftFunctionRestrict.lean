@@ -76,7 +76,7 @@ theorem associatedShiftFunction_congr {X : Scheme.{u}} [IsLocallyNoetherian X]
     [HasDerivedCategory.{w} X.Modules] {K K' : DerivedCategory X.Modules} (e : K ≅ K') :
     associatedShiftFunction K = associatedShiftFunction K' := by
   funext x
-  show sInf _ = sInf _
+  change sInf _ = sInf _
   congr 1
   ext n
   exact ⟨fun ⟨E, ⟨f⟩, h⟩ => ⟨E, ⟨f ≪≫ e⟩, h⟩, fun ⟨E, ⟨f⟩, h⟩ => ⟨E, ⟨f ≪≫ e.symm⟩, h⟩⟩
@@ -160,7 +160,7 @@ theorem associatedShiftFunction_restrict_of_isOpenImmersion [HasDerivedCategory.
         (Scheme.Modules.restrictFunctor j).mapDerivedCategory.obj K) := fun E ⟨e⟩ =>
     ⟨((Scheme.Modules.restrictFunctor j).mapDerivedCategoryFactors.app E).symm ≪≫
       (Scheme.Modules.restrictFunctor j).mapDerivedCategory.mapIso e⟩
-  show sInf _ = sInf _
+  change sInf _ = sInf _
   congr 1
   ext n
   refine ⟨fun ⟨E, ⟨e⟩, h⟩ => ?_, fun ⟨E, hE, h⟩ => ⟨restrictComplex j E, hr E hE,

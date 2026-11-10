@@ -1,7 +1,6 @@
 module
 
-public import
- StacksFrontier.AlgebraicGeometry.EtaleCohomology.TorsionSheavesCurves.ReducedExtensionByZeroStatements
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.TorsionSheavesCurves.ReducedExtensionByZeroStatements
 public import StacksFrontier.RingTheory.Smooth.GeometricallyReducedFibres
 
 /-!

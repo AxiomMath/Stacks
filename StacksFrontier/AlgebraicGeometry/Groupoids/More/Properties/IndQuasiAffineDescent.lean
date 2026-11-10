@@ -88,7 +88,7 @@ the same as restricting it directly. -/
 theorem Scheme.Hom.appLE_top_comp_restrictOpenToSubset {Z S : Scheme.{u}} (k : Z ⟶ S)
     (E : Set Z) (U : Z.Opens) (hE : E ⊆ U) (hU : U ≤ k ⁻¹ᵁ ⊤) :
     k.appLE ⊤ U hU ≫ Z.restrictOpenToSubset E U hE = k.appTop ≫ Z.restrictToSubset E := by
-  show (k.appTop ≫ Z.presheaf.map (homOfLE (le_top : U ≤ ⊤)).op) ≫
+  change (k.appTop ≫ Z.presheaf.map (homOfLE (le_top : U ≤ ⊤)).op) ≫
       Z.restrictOpenToSubset E U hE = k.appTop ≫ Z.restrictOpenToSubset E ⊤ (Set.subset_univ E)
   rw [Category.assoc, Scheme.map_comp_restrictOpenToSubset E le_top hE]
 
@@ -260,7 +260,7 @@ theorem sectionsRingOnSubset_preimage_iInter_iso_pushout
   let gLE : ∀ s : JY, Γ(Scheme.Spec.obj (op B), ⊤) ⟶ (L ⋙ FX).obj s := fun s ↦ b (L.obj s)
   have hfLEnat : ∀ {s t : JY} (m : s ⟶ t), FY.map m ≫ fLE t = fLE s ≫ (L ⋙ FX).map m := by
     intro s t m
-    show Y.presheaf.map (homOfLE m.le).op ≫ f.appLE (wY t) (wX (L.obj t)) (hLpre t).le =
+    change Y.presheaf.map (homOfLE m.le).op ≫ f.appLE (wY t) (wX (L.obj t)) (hLpre t).le =
       f.appLE (wY s) (wX (L.obj s)) (hLpre s).le ≫
         X.presheaf.map (homOfLE (L.map m).le).op
     rw [Scheme.Hom.map_appLE, Scheme.Hom.appLE_map]
@@ -289,14 +289,14 @@ theorem sectionsRingOnSubset_preimage_iInter_iso_pushout
       naturality := by
         intro s t m
         have hinl : inlP s ≫ PY.map m = FY.map m ≫ inlP t := by
-          show pushout.inl (DY.obj s).hom ψ ≫
+          change pushout.inl (DY.obj s).hom ψ ≫
               Under.Hom.right ((Under.pushout ψ).map (DY.map m)) =
             Under.Hom.right (DY.map m) ≫ pushout.inl (DY.obj t).hom ψ
           dsimp [Under.pushout, DY]
           simp only [Under.homMk_right, Under.lift_map]
           exact pushout.inl_desc _ _ _
         have hinr : inrP s ≫ PY.map m = inrP t := by
-          show pushout.inr (DY.obj s).hom ψ ≫
+          change pushout.inr (DY.obj s).hom ψ ≫
               Under.Hom.right ((Under.pushout ψ).map (DY.map m)) =
             pushout.inr (DY.obj t).hom ψ
           dsimp [Under.pushout, DY]
@@ -352,7 +352,7 @@ theorem sectionsRingOnSubset_preimage_iInter_iso_pushout
     pushoutIsoOfIsoSpan (Scheme.ΓSpecIso A).symm (Scheme.ΓSpecIso B).symm aE ψ φ hψ
   let e : pushout (toSectionsOnSubset h E) φ ≅ X.sectionsRingOnSubset Eₓ := qIso ≪≫ e0
   have hPInr (s : JY) : inrP s ≫ cP.ι.app s = pushout.inr aE ψ := by
-    show pushout.inr (DY.obj s).hom ψ ≫
+    change pushout.inr (DY.obj s).hom ψ ≫
       Under.Hom.right ((Under.pushout ψ).map (cYUnder.ι.app s)) = pushout.inr aE ψ
     dsimp [Under.pushout]
     exact pushout.inr_desc _ _ _

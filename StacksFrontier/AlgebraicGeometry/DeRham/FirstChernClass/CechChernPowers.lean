@@ -156,6 +156,7 @@ theorem hypercohomologyMap_ιTruncPlus_filteredChernPow (i : ℕ) :
     exact cup_natural A _ _ _ _ _ _ _ _ _
       (pairingHom_ιTruncPlus (deRhamCechPairing B D) (k : ℤ) 1) _ _ _ _ _ _
 
+omit [∀ x : X, IsLocalRing (X.presheaf.stalk x)] in
 include hT in
 /-- Čech cohomology computes the cohomology of a term of the de Rham complex placed in any
 degree. -/

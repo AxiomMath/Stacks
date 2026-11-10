@@ -304,7 +304,7 @@ theorem isSeparated_of_valuativeCriterionUniqueness (f : 𝒳 ⟶ 𝒴)
       (isAlgebraicSpace_yoneda B U.left.1 U.left.2 _) _ hqcU hexU
   refine (prop_algebraicSpaceMap_iff B S hS (Space.universallyClosedProperty B S hS)
     U F hF).mpr ?_
-  show Space.UniversallyClosed B S hS (OverShriek.relocalizeToYoneda U.hom F)
+  change Space.UniversallyClosed B S hS (OverShriek.relocalizeToYoneda U.hom F)
   rw [← relocalizeToYoneda_eq_map_toYonedaId B U.left.1 S U.left.2 hS U.hom F]
   exact (MorphismProperty.cancel_right_of_respectsIso (@Space.UniversallyClosed B S hS) _ _).2
     ((Space.universallyClosed_relocalize_iff B U.left.1 U.left.2 S hS U.hom hF

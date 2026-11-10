@@ -188,10 +188,10 @@ functor. -/
 private lemma unboundedBaseChangeMate_forget_general
     (F : Sheaf (Scheme.smallEtaleTopology X'.obj) AddCommGrpCat.{max (u + 1) v}) :
     (AlgebraicGeometry.SmallEtale.unboundedBaseChangeMate B (Type (max (u + 1) v)) f g g' f'
-          P hP₁ hP₂).natTrans.app ((coefficientForgetSheafGeneral.{u, v} B X').obj F) =
+          P hP₁ hP₂).app ((coefficientForgetSheafGeneral.{u, v} B X').obj F) =
       (coefficientForgetSheafGeneral.{u, v} B Y).map
         ((AlgebraicGeometry.SmallEtale.unboundedBaseChangeMate B AddCommGrpCat.{max (u + 1) v} f g
-          g' f' P hP₁ hP₂).natTrans.app F) := by
+          g' f' P hP₁ hP₂).app F) := by
   refine Sheaf.hom_ext (NatTrans.ext (funext fun UU => ?_))
   obtain ⟨U⟩ := UU
   rw [AlgebraicGeometry.SmallEtale.unboundedBaseChangeMate_app_hom_app, sheafCompose_map_hom,
@@ -214,7 +214,7 @@ private lemma coefficient_cube_eq_general :
         mateEquiv (abelianAdjGeneral.{u, v} B g) (unboundedAdjGeneral.{u, v} B g)
           (bigSitePullbackForgetGeneral.{u, v} B g) := by
   rw [mateEquiv_coefficientPullbackTwoSquare, mateEquiv_coefficientPullbackTwoSquare]
-  refine TwoSquare.ext _ _ fun F => ?_
+  refine NatTrans.ext (funext fun F => ?_)
   rw [AlgebraicGeometry.SmallEtale.ts_whiskerLeft_app,
     AlgebraicGeometry.SmallEtale.ts_whiskerRight_app, AlgebraicGeometry.SmallEtale.ts_vComp_app,
     AlgebraicGeometry.SmallEtale.ts_vComp_app]
@@ -233,7 +233,7 @@ private lemma isIso_mateEquiv_symm_abelianBaseChangeMate_general
     [IsFinite (B.inclusion.map f)] (hcomm : g' ≫ f = f' ≫ g) :
     IsIso ((mateEquiv (abelianAdjGeneral.{u, v} B g') (abelianAdjGeneral.{u, v} B g)).symm
       (AlgebraicGeometry.SmallEtale.unboundedBaseChangeMate B AddCommGrpCat.{max (u + 1) v} f g g'
-        f' P hP₁ hP₂)).natTrans := by
+        f' P hP₁ hP₂)) := by
   have := preservesLeftKanExtensions_forget_smallEtaleBaseChange_univ.{u, v} (B.inclusion.map g')
   have := preservesLeftKanExtensions_forget_smallEtaleBaseChange_univ.{u, v} (B.inclusion.map g)
   have hback :=

@@ -58,14 +58,14 @@ private theorem isAdic_propertyIsLocalNoetherian' :
       (fun {A B : Type u} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
         [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
         (φ : A →+* B) => RingHom.IsAdic φ) := by
-  show TopologicalRing.PropertyIsLocal'
+  change TopologicalRing.PropertyIsLocal'
     (fun {A B : Type u} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
       [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
       (φ : A →+* B) => RingHom.IsAdic φ)
     (fun R => TopologicalRing.IsAdic R ∧ IsNoetherianRing R)
   refine ⟨?_, ?_, ?_, ?_⟩
-  · intro B A B' A' _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-    intro eB eA heB heBs heA heAs f _ _ _ _ _
+  · intro B A B' A' _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ eB eA heB heBs heA heAs f
+      _ _ _ _ _
     exact RingHom.isAdic_comp_ringEquiv_iff eB eA heB heBs heA heAs f
   · intro A B A' B' _ _ _ _ _ _ _ _ _ _ D hA hB hA' hB' hMap
     let hAweak : TopologicalRing.IsCountablyWeaklyAdmissible A :=
@@ -75,12 +75,12 @@ private theorem isAdic_propertyIsLocalNoetherian' :
     let hA'weak := completionOver_isCountablyWeaklyAdmissible D.toA' hAweak
     let hB'weak := completionOver_isCountablyWeaklyAdmissible D.toB' hBweak
     have hBfg := exists_fg_isAdic_of_isAdic_noetherian hB
-    have hInput := (adic_iff_taut_of_local_context D.map D.continuousMap hBfg
+    have hInput := (adic_iff_taut_of_local_context D.map hBfg
       hAweak.1.2.1 hAweak.1.2.2).mp hMap
     have hOutput := TopologicalRing.isTaut_localizationPreserves
       D hAweak hBweak hA'weak hB'weak hInput
     have hB'fg := exists_fg_isAdic_of_isAdic_noetherian hB'
-    exact (adic_iff_taut_of_local_context D.completedMap D.continuousCompletedMap hB'fg
+    exact (adic_iff_taut_of_local_context D.completedMap hB'fg
       hA'weak.1.2.1 hA'weak.1.2.2).mpr hOutput
   · intro A B A' B' _ _ _ _ _ _ _ _ _ _ D hA hB hA' hB' hFF hCompleted
     let hAweak : TopologicalRing.IsCountablyWeaklyAdmissible A :=
@@ -92,16 +92,16 @@ private theorem isAdic_propertyIsLocalNoetherian' :
     have hBfg := exists_fg_isAdic_of_isAdic_noetherian hB
     have hB'fg := exists_fg_isAdic_of_isAdic_noetherian hB'
     have hInput := (adic_iff_taut_of_local_context D.completedMap
-      D.continuousCompletedMap hB'fg hA'weak.1.2.1 hA'weak.1.2.2).mp hCompleted
+      hB'fg hA'weak.1.2.1 hA'weak.1.2.2).mp hCompleted
     have hOutput := TopologicalRing.isTaut_faithfullyFlatDescent
       D hAweak hBweak hA'weak hB'weak hFF hInput
-    exact (adic_iff_taut_of_local_context D.map D.continuousMap hBfg
+    exact (adic_iff_taut_of_local_context D.map hBfg
       hAweak.1.2.1 hAweak.1.2.2).mpr hOutput
   · intro B _ _ _ _ hB hBcount ι _ A _ _ _ _ hAweak hAcount f hf hBprop hAprop hMaps
     have hBfg := exists_fg_isAdic_of_isAdic_noetherian hBprop
     have hProdTaut := TopologicalRing.isTaut_finiteProductPreserves
       hB hBcount A hAweak hAcount f hf ⟨hB, hBcount⟩ (fun i => ⟨hAweak i, hAcount i⟩)
-      fun i => (adic_iff_taut_of_local_context (f i) (hf i) hBfg
+      fun i => (adic_iff_taut_of_local_context (f i) hBfg
         (hAweak i).2.1 (hAweak i).2.2).mp (hMaps i)
     let : ∀ i, UniformSpace (A i) := fun i => IsTopologicalAddGroup.rightUniformSpace (A i)
     let : ∀ i, IsUniformAddGroup (A i) := fun i => isUniformAddGroup_of_addCommGroup
@@ -122,7 +122,7 @@ private theorem isAdic_propertyIsLocalNoetherian' :
       IsTopologicalAddGroup.rightUniformSpace (∀ i, A i)
     let : CompleteSpace (∀ i, A i) := hPiComplete
     let : T2Space (∀ i, A i) := inferInstance
-    exact (adic_iff_taut_of_local_context (RingHom.pi f) (continuous_pi hf)
+    exact (adic_iff_taut_of_local_context (RingHom.pi f)
       hBfg (inferInstance : @CompleteSpace (∀ i, A i)
         (IsTopologicalAddGroup.rightUniformSpace (∀ i, A i))) inferInstance).mpr hProdTaut
 

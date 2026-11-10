@@ -96,8 +96,8 @@ theorem comp_map_add {C Z₀ Z' : DerivedCategory (Mod Z.sheaf)} (s : C ⟶ shea
 /-- The flip of the middle two factors is an isomorphism. -/
 instance isIso_middleFour (H G A B : DerivedCategory (Mod Z.sheaf)) :
     IsIso (middleFour Z H G A B) := by
-  letI := canonicalDerivedMonoidal Z.sheaf
-  letI := canonicalDerivedSymmetric Z.sheaf
+  let := canonicalDerivedMonoidal Z.sheaf
+  let := canonicalDerivedSymmetric Z.sheaf
   exact ⟨⟨tensorδ H G A B, tensorμ_tensorδ H G A B, tensorδ_tensorμ H G A B⟩⟩
 
 end OneSpace

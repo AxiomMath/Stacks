@@ -103,7 +103,7 @@ theorem exists_mem_range_of_surjective_sigmaDesc {X : Scheme.{u}} {I : Type v} [
     (x : X) : ∃ i, x ∈ Set.range (f i).base := by
   obtain ⟨p, hp⟩ := h x
   obtain ⟨i, y, hy⟩ := exists_sigmaι_base_eq Y p
-  exact ⟨i, y, by rw [← hp, ← hy, ← Scheme.Hom.comp_apply, Sigma.ι_desc]⟩
+  exact ⟨i, y, by rw [← hp, ← hy, ← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]⟩
 
 /-- **Stacks 0ETT, (2) implies (1).** The morphism from the disjoint union of the sources of an
 h covering to its target is universally submersive.

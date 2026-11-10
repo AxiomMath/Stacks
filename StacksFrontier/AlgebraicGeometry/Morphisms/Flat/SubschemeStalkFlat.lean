@@ -70,7 +70,7 @@ theorem isFlatAt_subschemeι_comp_iff :
         ((Ideal.Quotient.mk (IdealSheafData.stalk J (J.subschemeι ζ))).comp
           (p.stalkMap (J.subschemeι ζ)).hom) := by
     rw [hcomp, ← subschemeStalkQuotEquiv_comp_mk J ζ, RingHom.comp_assoc]
-  show RingHom.Flat ((J.subschemeι ≫ p).stalkMap ζ).hom ↔ _
+  change RingHom.Flat ((J.subschemeι ≫ p).stalkMap ζ).hom ↔ _
   rw [hfac]
   exact RingHom.Flat.comp_iff_of_bijective_left (subschemeStalkQuotEquiv J ζ).bijective
 

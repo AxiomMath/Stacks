@@ -79,7 +79,7 @@ theorem support_ker_sup_support_ker_eq_top
 private theorem inv_toImage_comp_hom : inv a.toImage ≫ a = a.ker.subschemeι := by
   rw [IsIso.inv_comp_eq, Scheme.Hom.toImage_imageι]
 
-omit [LocallyOfFiniteType sA] in
+omit [LocallyOfFiniteType sT] [LocallyOfFiniteType sA] in
 include ha in
 /-- The structure morphism of the scheme-theoretic image of `a`, read through the inverse of the
 isomorphism `A ≅ a.image`. -/
@@ -87,7 +87,7 @@ theorem inv_toImage_comp_structureMorphism :
     inv a.toImage ≫ sA = a.ker.subschemeι ≫ sT := by
   rw [← ha, ← Category.assoc, inv_toImage_comp_hom]
 
-omit [LocallyOfFiniteType sA] in
+omit [LocallyOfFiniteType sT] [LocallyOfFiniteType sA] [IsClosedImmersion a] in
 include ha in
 /-- The structure morphism of `A`, read through the isomorphism `A ≅ a.image`. -/
 theorem toImage_comp_structureMorphism :
@@ -143,7 +143,7 @@ theorem exists_eq_neg_chowPush_of_chowPush_add_chowPush_eq_zero
   set y' := chowPush C sB (J.subschemeι ≫ sT) b.toImage
     (toImage_comp_structureMorphism C sT sB b hb) k y
   have hsum : summandsToUnionChow C sT I J k (x', y') = 0 := by
-    show chowPush C (I.subschemeι ≫ sT) sT I.subschemeι rfl k x' +
+    change chowPush C (I.subschemeι ≫ sT) sT I.subschemeι rfl k x' +
       chowPush C (J.subschemeι ≫ sT) sT J.subschemeι rfl k y' = 0
     rwa [chowPush_imageι_chowPush_toImage, chowPush_imageι_chowPush_toImage]
   obtain ⟨γ, hγ⟩ := (exact_intersectionToSummandsChow_summandsToUnionChow C sT I J k

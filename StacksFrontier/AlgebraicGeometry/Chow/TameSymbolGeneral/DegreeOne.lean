@@ -62,7 +62,7 @@ theorem tameShift_normalizationDvrFamily_milnorKSymbol (hdim : ringKrullDim A = 
   refine Finset.sum_congr rfl fun m _ ↦ ?_
   rw [SemilocalDvrFamily.tameShiftAt_apply, dvrMilnorShiftMap_milnorKSymbol,
     shift_dvrMilnorThetaHom, map_zsmul]
-  show dvrFracOrd _ f • milnorKNormRing (ResidueField A) (ResidueField (𝓕.Dvr m)) 1 = _
+  change dvrFracOrd _ f • milnorKNormRing (ResidueField A) (ResidueField (𝓕.Dvr m)) 1 = _
   rw [milnorKNormRing_one, smul_smul, mul_comm]
 
 /-- The valuation of the image of a nonzero element `a` of a discrete valuation ring `R` in its
@@ -120,7 +120,7 @@ theorem sum_finrank_mul_dvrFracOrd_algebraMap (hdim : ringKrullDim A = 1)
   refine Finset.sum_congr rfl fun m _ ↦ ?_
   rw [Nat.cast_mul]
   congr 1
-  show _ = ((Ring.ord (𝓕.Dvr m) (algebraMap A (𝓕.Dvr m) a)).toNat : ℤ)
+  change _ = ((Ring.ord (𝓕.Dvr m) (algebraMap A (𝓕.Dvr m) a)).toNat : ℤ)
   have ham : algebraMap A (𝓕.Dvr m) a ≠ 0 := fun h ↦
     haF (by rw [IsScalarTower.algebraMap_apply A (𝓕.Dvr m) F, h, map_zero])
   have hF : algebraMap (𝓕.Dvr m) F (algebraMap A (𝓕.Dvr m) a) ≠ 0 := by
@@ -161,7 +161,7 @@ theorem oneDimTameSymbol_zero_eq_ordInt (hdim : ringKrullDim A = 1)
     intro n y hy
     have : y = milnorKZeroMap (ResidueField A) n := Subtype.ext <| by
       rw [hy]
-      show _ = ((n : MilnorKRing (ResidueField A)))
+      change _ = ((n : MilnorKRing (ResidueField A)))
       rw [zsmul_one]
     rw [this, milnorKTheoryZeroAddEquiv_milnorKZeroMap]
   have hA : ∀ (a : A) (ha : a ≠ 0) (haF : algebraMap A F a ≠ 0),
@@ -169,7 +169,7 @@ theorem oneDimTameSymbol_zero_eq_ordInt (hdim : ringKrullDim A = 1)
         Multiplicative.toAdd (ordIntHom A F (Units.mk0 _ haF)) := by
     intro a ha haF
     rw [ordIntHom_apply]
-    show milnorKTheoryZeroAddEquiv _ _ = _
+    change milnorKTheoryZeroAddEquiv _ _ = _
     rw [hzero _ _ (hval _), sum_finrank_mul_dvrFracOrd_algebraMap hdim ha haF]
     exact (ordInt_algebraMap A a ha haF).symm
   have hext : φ = ordIntHom A F := by

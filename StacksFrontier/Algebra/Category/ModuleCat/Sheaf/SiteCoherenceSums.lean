@@ -88,7 +88,7 @@ theorem generates_restrict {A : PresheafOfModules.{m} S} {U V : C} (g : V ⟶ U)
   refine ⟨a, Eq.trans (Finset.sum_congr rfl fun j _ ↦ ?_) ha⟩
   have hc : A.restrictₛₗ (k ≫ f).op (A.restrictₛₗ g.op (s j)) =
       A.restrictₛₗ (k ≫ f ≫ g).op (s j) := by
-    show A.map (k ≫ f).op (A.map g.op (s j)) = A.map (k ≫ f ≫ g).op (s j)
+    change A.map (k ≫ f).op (A.map g.op (s j)) = A.map (k ≫ f ≫ g).op (s j)
     rw [← A.map_comp_apply]
     exact A.congr_map_apply (congrArg Quiver.Hom.op (Category.assoc k f g)) (s j)
   rw [hc]

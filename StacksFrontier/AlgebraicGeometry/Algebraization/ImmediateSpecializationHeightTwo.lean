@@ -74,8 +74,8 @@ public theorem exists_specializes_height_one
     (S : AlgebraizationSituation.{u}) [IsLocalRing S.A] (ha : S.a = IsLocalRing.maximalIdeal S.A)
     (y : S.U.toScheme) (z : S.Y) (hyz : S.U.ι.base y = S.Yι.base z)
     (hheight : Order.height (S.U.ι.base y) = 2) :
-    ∃ (y' : S.U.toScheme) (z' : S.Y) (h : y ⤳ y')
-      (q : PrimeSpectrum (S.U.toScheme.presheaf.stalk y')),
+    ∃ (y' : S.U.toScheme) (z' : S.Y) (q : PrimeSpectrum (S.U.toScheme.presheaf.stalk y')),
+      y ⤳ y' ∧
       S.U.ι.base y' = S.Yι.base z' ∧
       Order.height (S.U.ι.base y') = 1 ∧
       S.U.toScheme.fromSpecStalk y' q = y ∧
@@ -176,7 +176,7 @@ public theorem exists_specializes_height_one
       (IsLocalRing.closedPoint (S.U.toScheme.presheaf.stalk y))).mp
       (stalk_idealOnOpen_le_maximalIdeal S y z hyz)
     rwa [Scheme.fromSpecStalk_closedPoint] at h
-  refine ⟨y', z', hspec, q, ?_, ?_, hq, ?_, ?_⟩
+  refine ⟨y', z', q, hspec, ?_, ?_, hq, ?_, ?_⟩
   · exact hy'base.trans hz'base.symm
   · rw [height_base_eq_coheight S y', hy'base, hcop1]
   · exact (Stacks.Chow.le_iff_fromSpecStalk_mem_support (idealOnOpen S) y' q).mpr

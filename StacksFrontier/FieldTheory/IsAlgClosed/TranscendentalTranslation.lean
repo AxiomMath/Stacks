@@ -59,7 +59,7 @@ theorem exists_algEquiv_apply_eq_add_one [IsAlgClosed K] {μ : K} (hμ : Transce
     rw [AlgebraicIndependent.algebraMap_aevalEquiv, aeval_X]
   rw [AlgEquiv.ofRingEquiv_apply, hμA, hσ]
   simp only [τ, AlgEquiv.trans_apply, AlgEquiv.symm_apply_apply, mvPolynomialTranslate,
-    AlgEquiv.ofAlgHom_apply, aeval_X, map_add, map_one, if_true]
+    AlgEquiv.ofAlgHom_apply, aeval_X, map_add, map_one, ite_true]
 
 end IsAlgClosed
 

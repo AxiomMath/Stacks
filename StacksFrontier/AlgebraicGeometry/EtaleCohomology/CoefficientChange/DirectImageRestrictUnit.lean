@@ -182,7 +182,7 @@ theorem isIso_etaleModuleDerivedDirectImageUnboundedUnit_app_restrictScalars
     DerivedCategory.Q _ _
     (Stacks.Injectives.KInjectiveResolution.invertsQuasiIso_mapHomologicalComplex_comp_Q
       (etaleModuleDirectImage.{u, r} Λ₁ f)) (NR.inclusion.app Z) hJ hq ?_
-  show IsIso (DerivedCategory.Q.map
+  change IsIso (DerivedCategory.Q.map
     (((etaleModuleDirectImage.{u, r} Λ₁ f).mapHomologicalComplex (ComplexShape.up ℤ)).map
       (NR.inclusion.app Z)))
   rw [DerivedCategory.isIso_Q_map_iff_quasiIso]

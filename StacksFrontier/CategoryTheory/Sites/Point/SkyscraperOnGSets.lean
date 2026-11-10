@@ -221,7 +221,7 @@ theorem skyscraperStalkEquiv_counitSection (E : Type w) (m : E) :
     skyscraperStalkEquiv G e E ((forgetfulPoint G e).counitSection.app E m) =
       Function.const G m := by
   funext g
-  show skyscraperStalkEquiv G e E
+  change skyscraperStalkEquiv G e E
       (((forgetfulPoint G e).pushforward ⋙ (forgetfulPoint G e).inverseImage).map
         (↾fun (_ : PUnit.{w + 1}) => m) (forgetfulPoint G e).basePoint) g = m
   rw [skyscraperStalkEquiv_naturality]

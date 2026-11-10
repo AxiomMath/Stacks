@@ -52,7 +52,7 @@ theorem isIso_homology_map_truncGEπ_of_isLE (m : ℤ)
   have hT : G.mapTriangle.obj T₀ ∈ distTriang (DerivedCategory D) := G.map_distinguished T₀ hT₀
   have hτGE : T₀.obj₁.IsGE (b - 1 - a) := by
     let : K.IsGE (b - 1 - a) := hK
-    show ((t.truncLE (b - 1)).obj K).IsGE _
+    change ((t.truncLE (b - 1)).obj K).IsGE _
     infer_instance
   have hτLE : T₀.obj₁.IsLE (b - 1 - a + (a : ℕ)) :=
     t.isLE_truncLE_obj K (b - 1) _ (by omega)
@@ -66,7 +66,7 @@ theorem isIso_homology_map_truncGEπ_of_isLE (m : ℤ)
   have hepi : Epi ((DerivedCategory.homologyFunctor D (m + b)).map (G.mapTriangle.obj T₀).mor₂) :=
     (DerivedCategory.HomologySequence.exact₃ (G.mapTriangle.obj T₀) hT (m + b) (m + b + 1)).epi_f
       ((hzero (m + b + 1) (by omega)).eq_of_tgt _ _)
-  show IsIso ((DerivedCategory.homologyFunctor D (m + b)).map (G.mapTriangle.obj T₀).mor₂)
+  change IsIso ((DerivedCategory.homologyFunctor D (m + b)).map (G.mapTriangle.obj T₀).mor₂)
   exact isIso_of_mono_of_epi _
 
 end Stacks.CompositeDegreeVanishing

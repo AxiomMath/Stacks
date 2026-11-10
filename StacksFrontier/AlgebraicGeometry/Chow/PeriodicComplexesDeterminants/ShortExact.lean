@@ -91,7 +91,7 @@ private theorem rangeMap_exact
     (hip : Function.Exact i p) :
     Function.Exact (rangeMap f₁ f₂ i hfi) (rangeMap f₂ f₃ p hfp) := by
   refine LinearMap.exact_iff.mpr (Submodule.ext fun y => ?_)
-  show rangeMap f₂ f₃ p hfp y = 0 ↔
+  change rangeMap f₂ f₃ p hfp y = 0 ↔
     y ∈ LinearMap.range (rangeMap f₁ f₂ i hfi)
   constructor
   · intro hy
@@ -141,7 +141,7 @@ private theorem moduleLength_eq_add_of_exact
     (hi : Function.Injective i) (hp : Function.Surjective p) (hip : Function.Exact i p)
     (h₁ : IsFiniteLength R M₁) (h₃ : IsFiniteLength R M₃) :
     moduleLength R M₂ = moduleLength R M₁ + moduleLength R M₃ := by
-  show (Module.length R M₂).toNat = _
+  change (Module.length R M₂).toNat = _
   rw [Module.length_eq_add_of_exact i p hi hp hip,
     ENat.toNat_add (Module.length_ne_top_iff.mpr h₁) (Module.length_ne_top_iff.mpr h₃)]
 
@@ -368,7 +368,7 @@ theorem periodicDeterminant_short_exact
   have hδCsurj : Function.Surjective δC :=
     (determinantExactSequenceMap_bijective iC pC hiC hpC hexC hC₁ hC₂ hC₃).2
   have hprop : IsPeriodicDeterminant φ₂ ψ₂ hφψ₂ hψφ₂ hM₂ (d₁ * d₃) := by
-    show γψ₂.comp (TensorProduct.comm (IsLocalRing.ResidueField R)
+    change γψ₂.comp (TensorProduct.comm (IsLocalRing.ResidueField R)
       (determinant R A₂) (determinant R C₂)).toLinearMap =
       (((-1 : IsLocalRing.ResidueField R) ^
         (moduleLength R C₂ * moduleLength R A₂) *

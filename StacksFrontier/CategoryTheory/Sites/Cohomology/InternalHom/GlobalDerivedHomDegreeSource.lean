@@ -46,8 +46,8 @@ hypothesis on the target.
 
 *What this removes from the remaining work.* The transport of the degree-`n` reading off the
 representative pair was planned — see the implementation notes of
-`StacksFrontier.CategoryTheory.Sites.Modules.TensorWithComplexDerivedHom` — to need the naturality of
-`CochainComplex.HomComplex.homComplexTargetShiftIso` under
+`StacksFrontier.CategoryTheory.Sites.Modules.TensorWithComplexDerivedHom` — to need the naturality
+of `CochainComplex.HomComplex.homComplexTargetShiftIso` under
 `CochainComplex.HomComplex.homComplexConj` as well as
 `AlgebraicGeometry.RingedSite.homologyAddEquiv_conj`. With the reading restated in degree `n` the
 target shift no longer appears in it, so only the second is needed, and

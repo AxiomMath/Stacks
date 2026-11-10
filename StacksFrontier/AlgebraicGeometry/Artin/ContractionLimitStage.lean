@@ -87,7 +87,7 @@ theorem exists_preimage_eq_of_isClosed
     rw [pointsMap_yoneda_preimage_eq, pointsMap_yoneda_preimage_eq,
       (Space.schemePointsHomeomorph B S hS W.obj).surjective.preimage_injective.eq_iff,
       TopologicalSpace.Opens.ext_iff]
-    show _ ↔ (_ ⁻¹' (e.symm ⁻¹' Z₁)ᶜ : Set _) = _ ⁻¹' (e.symm ⁻¹' Z₂)ᶜ
+    change _ ↔ (_ ⁻¹' (e.symm ⁻¹' Z₁)ᶜ : Set _) = _ ⁻¹' (e.symm ⁻¹' Z₂)ᶜ
     rw [Set.preimage_compl, Set.preimage_compl, compl_inj_iff]
     rfl
   obtain ⟨j, f, hf⟩ := exists_map_preimage_eq_map_preimage X

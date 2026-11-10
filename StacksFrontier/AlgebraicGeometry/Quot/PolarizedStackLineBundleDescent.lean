@@ -600,8 +600,8 @@ noncomputable def lineBundleDescentData' :
       (fun i j => Stacks.Picard.mapChosenPullback (Comma.fst (𝟭 Scheme.{u}) B.inclusion)
         (S.memberSq i j) (isPullback_fst_commaChosenPullback _ _))
       (Stacks.Picard.mapChosenPullback₃ (Comma.fst (𝟭 Scheme.{u}) B.inclusion) S.memberSq
-        S.memberSq₃ (fun i j => isPullback_fst_commaChosenPullback _ _)
-        (fun i j k => isPullback_fst_commaChosenPullback _ _)) :=
+        S.memberSq₃ (fun _ _ => isPullback_fst_commaChosenPullback _ _)
+        (fun _ _ _ => isPullback_fst_commaChosenPullback _ _)) :=
   Stacks.Picard.diagramDescentData (F := modulePullbackPseudofunctor)
     (Comma.fst (𝟭 Scheme.{u}) B.inclusion) S.memberSq S.memberSq₃
     (fun _ _ => isPullback_fst_commaChosenPullback _ _)

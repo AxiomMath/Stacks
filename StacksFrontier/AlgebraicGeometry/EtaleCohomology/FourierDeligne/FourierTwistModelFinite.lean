@@ -110,6 +110,7 @@ section Model
 variable (K : Type u) [Field K] [Algebra k K] {V : Scheme.{u}} (jV : V ⟶ Spec (.of k[X]))
   [IsOpenImmersion jV]
 
+omit [Fintype k] [IsOpenImmersion jV] in
 /-- **The model `𝔸¹_K ×_{𝔸¹_k} V` is nonempty**: `𝔸¹_K ⟶ 𝔸¹_k` is onto. -/
 theorem nonempty_fourierTwistModel [Nonempty V] :
     Nonempty ↥(pullback (fourierTwistModelMap k K) jV : Scheme.{u}) := by
@@ -125,6 +126,7 @@ theorem nonempty_fourierTwistModel [Nonempty V] :
     exact ⟨v, hz.symm⟩
   exact ⟨c⟩
 
+omit [Fintype k] in
 /-- `Spec Γ(Y) ⟶ 𝔸¹_K` is an open immersion. -/
 theorem isOpenImmersion_specMap_fourierTwistModelRingHom :
     IsOpenImmersion (Spec.map (CommRingCat.ofHom (fourierTwistModelRingHom k K jV))) := by
@@ -182,7 +184,7 @@ theorem nonempty_inverseImage_aeval_C_mul_X_tensor_iso {A : Type u} [CommRing A]
     (k := k) (A := k[X]) (Λ := Λ) (ψ := ψ) (B := B) (hX := schemeSizeBelow_spec_polynomial k B)
     (hX' := hA) (e := 𝟙 _) (Φ.comp (aeval (C a * Polynomial.X)))
     (Φ.comp (aeval (C b * Polynomial.X))) (Φ.comp (aeval (C (a + b) * Polynomial.X)))
-    (by simp only [AlgHom.comp_apply, aeval_X, ← map_add, ← add_mul, ← C_add])
+    (by simp only [AlgHom.comp_apply, aeval_X, ← map_add, ← add_mul])
     (Category.id_comp _).symm (Category.id_comp _).symm (Category.id_comp _).symm p₀ p₀ p₀
 
 /-- **`L_ψ(0 x)` is the unit** on a connected `Spec A` over `𝔸¹_K`. -/
@@ -225,7 +227,7 @@ theorem isSimpleModule_monodromyAction_constantSheaf_tensor_inverseImage {A : Ty
     (c := AdjoinRoot.root (poly k g))
     (h := Stacks.ArtinSchreier.coverHom k A g ≫ Spec.map (CommRingCat.ofHom φ.toRingHom))
     (by
-      show algebraMap A (Ring k g) g = _
+      change algebraMap A (Ring k g) g = _
       rw [root_pow_card]
       ring)
     (by

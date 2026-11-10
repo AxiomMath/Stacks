@@ -73,7 +73,7 @@ theorem exists_stage_of_isLimit
   have hzm : zm.baseChange (c.π.app m.left) = ⟨_, K, hK⟩ := by
     refine (QuotSituation.quotFamily_eq_baseChange_of D (c.π.app m.left) ⟨_, K, hK⟩ zm ?_
       ((D.toCoherentSituation.stageTestCone E cE g).π.app m) rfl hpull.symm).symm
-    show (schemeSpaceFunctor B S hS).map (c.π.app i) ≫ g =
+    change (schemeSpaceFunctor B S hS).map (c.π.app i) ≫ g =
       (schemeSpaceFunctor B S hS).map (c.π.app m.left) ≫
         (schemeSpaceFunctor B S hS).map (Dg.map m.hom) ≫ g
     rw [← Functor.map_comp_assoc, c.w]

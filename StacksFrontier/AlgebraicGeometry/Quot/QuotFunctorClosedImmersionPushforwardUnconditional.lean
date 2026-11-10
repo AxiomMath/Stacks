@@ -384,7 +384,7 @@ theorem isIso_of_app_eq_kernelSubobject (h : SchemeTargetAffinePushforwardQuasic
 /-- **The two inputs of `AlgebraicGeometry.Space.QuotPushforwardSituation.isIso_quotFunctorMap`,
 constructed** for a closed immersion: every quotient of `G_T` is a direct image along `π_T`, and
 the four conditions of Stacks 09TR descend along `π_{T,*}`. -/
-def closedImmersionQuotInputs (h : SchemeTargetAffinePushforwardQuasicoherent B S hS)
+theorem closedImmersionQuotInputs (h : SchemeTargetAffinePushforwardQuasicoherent B S hS)
     (c : PushforwardComparison D) (hπ : IsClosedImmersion B S hS D.π.hom) :
     D.ClosedImmersionQuotInputs h where
   essImage_quotientModule T K := D.essImage_quotientModule_of_isClosedImmersion h c hπ T K

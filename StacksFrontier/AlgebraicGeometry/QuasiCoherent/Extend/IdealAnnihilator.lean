@@ -142,7 +142,7 @@ lemma mem_annihilatorSubsheaf_iff [Mono i] (U : X.Opens) (s : Γ(F, U)) :
   classical
   let : CompleteLattice F.Submodule := SheafOfModules.Submodule.instCompleteLattice
   have heq : annihilatorSubsheaf I F i = locallyAnnihilatedSubmodule I F i := by
-    show sSup {N : F.Submodule | _} = locallyAnnihilatedSubmodule I F i
+    change sSup {N : F.Submodule | _} = locallyAnnihilatedSubmodule I F i
     refine le_antisymm (sSup_le fun N hN U t ht V f r => ?_) (le_sSup fun U t ht r => ?_)
     · exact hN V (F.presheaf.map f.op t) (N.toSubmodule.map f.op ht) r
     · simpa using ht U (𝟙 U) r

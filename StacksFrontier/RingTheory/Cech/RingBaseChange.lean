@@ -201,7 +201,7 @@ theorem modMap_cechι (φ : A →+* B) (f : Fin r → A) {s t : Finset (Fin r)} 
       (restrictHom φ (ModuleCat.ofHom (Cech.cechι (mapFamily φ f) B h))).comp
         (modMap φ f s) := by
     refine cechMod_linearMap_ext f s (isUnit_algebraMap_restrictedMod φ f h) fun a => ?_
-    show modMap φ f t (Cech.cechι f A h
+    change modMap φ f t (Cech.cechι f A h
         (LocalizedModule.mkLinearMap (Cech.cechSub f s) A a)) =
       Cech.cechι (mapFamily φ f) B h
         (modMap φ f s (LocalizedModule.mkLinearMap (Cech.cechSub f s) A a))
@@ -217,7 +217,7 @@ theorem modMap_modMap (φ : A →+* B) (ψ : B →+* C) (f : Fin r → A) (s : F
       (modMap φ f s) = modMap (ψ.comp φ) f s := by
     refine cechMod_linearMap_ext f s
       (isUnit_algebraMap_restrictedMod (ψ.comp φ) f (le_refl s)) fun a => ?_
-    show modMap ψ (mapFamily φ f) s
+    change modMap ψ (mapFamily φ f) s
         (modMap φ f s (LocalizedModule.mkLinearMap (Cech.cechSub f s) A a)) =
       modMap (ψ.comp φ) f s (LocalizedModule.mkLinearMap (Cech.cechSub f s) A a)
     rw [modMap_mkLinearMap, modMap_mkLinearMap, modMap_mkLinearMap]
@@ -248,7 +248,7 @@ theorem cechModEmptyEquiv_modMap (φ : A →+* B) (f : Fin r → A)
         (modMap φ f ∅) =
       (ofRingHom φ).comp (Stacks.CechBaseChange.cechModEmptyEquiv f A).toLinearMap := by
     refine cechMod_linearMap_ext f ∅ hunit fun a => ?_
-    show Stacks.CechBaseChange.cechModEmptyEquiv (mapFamily φ f) B
+    change Stacks.CechBaseChange.cechModEmptyEquiv (mapFamily φ f) B
         (modMap φ f ∅ (LocalizedModule.mkLinearMap
           (Cech.cechSub f (∅ : Finset (Fin r))) A a)) =
       φ (Stacks.CechBaseChange.cechModEmptyEquiv f A
@@ -299,7 +299,7 @@ theorem termMap_comp_cechD (φ : A →+* B) (f : Fin r → A) (p : ℕ) :
       (restrictHom φ (ModuleCat.ofHom (Cech.cechD (mapFamily φ f) B p))).comp
         (termMap φ f p) := by
   refine DirectSum.linearMap_ext A fun s => LinearMap.ext fun x => ?_
-  show termMap φ f (p + 1) (Cech.cechD f A p (DirectSum.lof A _ _ s x)) =
+  change termMap φ f (p + 1) (Cech.cechD f A p (DirectSum.lof A _ _ s x)) =
     Cech.cechD (mapFamily φ f) B p (termMap φ f p (DirectSum.lof A _ _ s x))
   have hrhs := Cech.cechD_lof (mapFamily φ f) B p s (modMap φ f s.1 x)
   rw [Cech.cechD_lof, map_sum, termMap_lof, hrhs]
@@ -336,7 +336,7 @@ theorem termMap_comp_termMap (φ : A →+* B) (ψ : B →+* C) (f : Fin r → A)
       termMap (ψ.comp φ) f p := by
   refine DirectSum.linearMap_ext A fun s => LinearMap.ext fun x => ?_
   have hmid := termMap_lof ψ (mapFamily φ f) p s (modMap φ f s.1 x)
-  show termMap ψ (mapFamily φ f) p (termMap φ f p (DirectSum.lof A _ _ s x)) =
+  change termMap ψ (mapFamily φ f) p (termMap φ f p (DirectSum.lof A _ _ s x)) =
     termMap (ψ.comp φ) f p (DirectSum.lof A _ _ s x)
   rw [termMap_lof, hmid, termMap_lof, modMap_modMap]
   rfl

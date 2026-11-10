@@ -255,14 +255,14 @@ lemma isBounded_cohomologySpectralObjectFunctor_obj
     obtain ⟨m, hm⟩ : ∃ m : ℤ, DerivedCategory.Plus.IsGE K m :=
       ⟨K.2.choose, (DerivedCategory.Plus.isGE_ι_obj_iff _ _).1 K.2.choose_spec⟩
     refine ⟨m, fun i j hij hj ↦ ?_⟩
-    show IsZero ((DerivedCategory.Plus.homologyFunctor C n).obj
+    change IsZero ((DerivedCategory.Plus.homologyFunctor C n).obj
       (Φ.obj ((DerivedCategory.Plus.TStructure.t.eTruncGE.obj i).obj
         ((DerivedCategory.Plus.TStructure.t.eTruncLT.obj j).obj K))))
     exact Functor.map_isZero _ (Functor.map_isZero _ (Functor.map_isZero _
       (DerivedCategory.Plus.TStructure.t.isZero_eTruncLT_obj_obj K m j hj)))
   exists_isZero_of_ge n := by
     refine ⟨n + 1, fun i j hij hi ↦ ?_⟩
-    show IsZero ((DerivedCategory.Plus.homologyFunctor C n).obj
+    change IsZero ((DerivedCategory.Plus.homologyFunctor C n).obj
       (Φ.obj ((DerivedCategory.Plus.TStructure.t.eTruncGE.obj i).obj
         ((DerivedCategory.Plus.TStructure.t.eTruncLT.obj j).obj K))))
     have h₁ : DerivedCategory.Plus.IsGE

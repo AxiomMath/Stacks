@@ -257,7 +257,7 @@ theorem exists_irreducible_of_chartFraction_mem (hx : ∀ i, x i ∈ maximalIdea
     obtain ⟨Q, rfl⟩ := hρ Qbar
     have hdiff : (P - Pl * Q).map (residue A) = 0 := by
       rw [Polynomial.map_sub, Polynomial.map_mul]
-      show P.map (residue A) - ρ Pl * ρ Q = 0
+      change P.map (residue A) - ρ Pl * ρ Q = 0
       rw [hPl, ← hQbar, sub_self]
     have h1 := aeval_mem_span_of_map_eq_zero S hx hdiff
     have hz' : z = (z - aeval (chartFraction S hx 1) P) +
@@ -408,6 +408,7 @@ theorem hasDoubleLineRelation_of_taylor {A : Type*} [CommRing A] [IsLocalRing A]
     rwa [sub_add_cancel] at this
   · simpa using hFrest
 
+omit [IsLocalRing B] in
 /-- A polynomial whose coefficients lie in `𝔪_A`, evaluated along `g`, lies in `(W)` when
 `g(𝔪_A) ⊆ (W)`. -/
 theorem eval₂_mem_span_of_map_eq_zero {A : Type*} [CommRing A] [IsLocalRing A] (g : A →+* B)
@@ -793,7 +794,7 @@ theorem false_of_mul_self_mem_pow_three {b : A} (hb : b ∈ maximalIdeal A)
   have hreg := (Stacks.Blowup.isRegular_algebraMap_affineBlowupAlgebra (maximalIdeal A) b T).left
   have h1 : algebraMap A (affineBlowupAlgebra (maximalIdeal A) b T) b * t = 1 := by
     refine hreg (hreg ?_)
-    show _ * (_ * (_ * t)) = _ * (_ * 1)
+    change _ * (_ * (_ * t)) = _ * (_ * 1)
     rw [mul_one, ← map_mul, ← ht]
     ring
   refine hM.ne_top ((Ideal.eq_top_iff_one M).mpr ?_)

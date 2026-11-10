@@ -161,7 +161,7 @@ theorem homGradingEquiv_delta (Y : CochainComplex B ℤ) {i n : ℤ} (h : i + 1 
   have hzv : (z : (DGCategory.representableModule (dgCategory B) K Y).M) =
       DirectSum.of (DGCategory.repFamily (dgCategory B) K Y) (i + 1) (δ i (i + 1) f) := by
     rw [hz]
-    show DGCategory.repDifferential (dgCategory B) K Y
+    change DGCategory.repDifferential (dgCategory B) K Y
       (w : (DGCategory.representableModule (dgCategory B) K Y).M) = _
     rw [hf, DGCategory.repDifferential_of]
     rfl
@@ -354,7 +354,7 @@ theorem homAddEquiv_homCohomologyClassEquiv_gradedCohomologyMap {Y Y' : CochainC
         (HomotopyCategory.quotient B (ComplexShape.up ℤ)).map (φ⟦n⟧') := by
   induction c using Submodule.Quotient.induction_on with
   | H z =>
-    show CohomologyClass.homAddEquiv (CohomologyClass.mk (homCocyclesEquiv B K Y' n
+    change CohomologyClass.homAddEquiv (CohomologyClass.mk (homCocyclesEquiv B K Y' n
           (DifferentialGradedModule.gradedCocyclesMap
             ((homComplexesFunctor B K).map φ) n z))) =
         CohomologyClass.homAddEquiv (CohomologyClass.mk (homCocyclesEquiv B K Y n z)) ≫

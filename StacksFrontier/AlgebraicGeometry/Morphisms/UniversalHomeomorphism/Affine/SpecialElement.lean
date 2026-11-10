@@ -77,7 +77,7 @@ private theorem field_purelyInseparable_witness
         (IsPurelyInseparable.elemExponent_min' F q (a := x) (n := e - 1) (by omega))
     have hpow : y ^ q ∈ Set.range f := by
       have hexp : q ^ (e - 1) * q = q ^ e := by rw [← pow_succ, Nat.sub_add_cancel hepos]
-      show (x ^ q ^ (e - 1)) ^ q ∈ _
+      change (x ^ q ^ (e - 1)) ^ q ∈ _
       rw [← pow_mul, hexp]
       simpa [RingHom.algebraMap_toAlgebra] using
         (IsPurelyInseparable.elemExponent_def' F q x)
@@ -331,10 +331,10 @@ private lemma not_surjective_algebraMap_of_nontrivial_localizedModule
   let fA : A →ₗ[A] R := Algebra.linearMap A R
   let fC : C →ₗ[A] S := (IsScalarTower.toAlgHom A C S).toLinearMap
   have : IsLocalizedModule M fA := by
-    show IsLocalizedModule M (Algebra.linearMap A R)
+    change IsLocalizedModule M (Algebra.linearMap A R)
     infer_instance
   have : IsLocalizedModule M fC := by
-    show IsLocalizedModule M (IsScalarTower.toAlgHom A C S).toLinearMap
+    change IsLocalizedModule M (IsScalarTower.toAlgHom A C S).toLinearMap
     rw [isLocalizedModule_iff_isLocalization]
     infer_instance
   have hmapEq : IsLocalizedModule.map M fA fC (Algebra.linearMap A C) =
@@ -342,7 +342,7 @@ private lemma not_surjective_algebraMap_of_nontrivial_localizedModule
     apply IsLocalizedModule.linearMap_ext M fA fC
     ext
     simp only [LinearMap.comp_apply]
-    show IsLocalizedModule.map M fA fC (Algebra.linearMap A C)
+    change IsLocalizedModule.map M fA fC (Algebra.linearMap A C)
       (fA 1) = Algebra.linearMap R S (fA 1)
     rw [← IsLocalizedModule.mk'_one M fA (1 : A), IsLocalizedModule.map_mk']
     simp [fA, fC]
@@ -680,7 +680,7 @@ private lemma exists_special_element_of_finite_subalgebra
     p.asIdeal.primeCompl.le_comap_map
   let : Algebra Aₚ Cₚ := locMap.toAlgebra
   have : IsScalarTower A Aₚ Cₚ := IsScalarTower.of_algebraMap_eq fun x => by
-    show algebraMap C Cₚ (algebraMap A C x) = locMap (algebraMap A Aₚ x)
+    change algebraMap C Cₚ (algebraMap A C x) = locMap (algebraMap A Aₚ x)
     exact (IsLocalization.map_eq (M := p.asIdeal.primeCompl) (S := Aₚ)
       (T := p.asIdeal.primeCompl.map (algebraMap A C)) (Q := Cₚ)
       p.asIdeal.primeCompl.le_comap_map x).symm

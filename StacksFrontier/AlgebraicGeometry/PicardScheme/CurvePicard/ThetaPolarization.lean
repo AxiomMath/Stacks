@@ -263,6 +263,8 @@ theorem finrank_fibreCohomology_classOnX (w : picardAt B hX hk f (powerObj B hX 
   obtain ⟨e⟩ := Stacks.PicardCurve.nonempty_rep_schemePullbackClass_iso (fromCurve B hX hk f) w
   exact finrank_fibreCohomology_eq_of_isPullback _ _ _ _ _ (isPullback_fromCurve B hX hk f) _ e t n
 
+omit [GeometricallyIrreducible (B.inclusion.map f)]
+  [(picardFunctor B hX hk f).IsRepresentable] [IsAlgClosed k] in
 /-- **The point class pulled back to `X ×_k X` is the constant family `{c₀} × X`.** -/
 theorem picardMap_curveToPoint_pointP :
     picardMap B hX hk f (curveToPoint B hX hk f) (pointP B hX hk f σ hσ) =

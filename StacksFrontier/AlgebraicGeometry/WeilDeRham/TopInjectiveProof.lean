@@ -204,7 +204,7 @@ theorem classTransport_eq_eqToHom {X S : Scheme.{u}} (π : X ⟶ S) {k k' : ℤ}
 
 section TopInjective
 
-variable {A : Type u} [CommRing A] {X : Scheme.{u}} (f : X ⟶ Spec (.of A)) [IsProper f]
+variable {A : Type u} [CommRing A] {X : Scheme.{u}} (f : X ⟶ Spec (.of A))
   (e : ℕ) [SmoothOfRelativeDimension (e + 1) f]
   (σ : Spec (.of A) ⟶ X) [IsClosedImmersion σ] [LocallyOfFinitePresentation σ]
   [Smooth (σ ≫ f)] [FormallyUnramified (σ ≫ f)]

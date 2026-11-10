@@ -272,7 +272,7 @@ theorem isIso_evaluation_limitComparisonPresheaf
             (SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) (K ⋙ H)).inv
         from rfl,
       E.map_comp, E.map_comp]
-  show IsIso (E.map (limitComparisonPresheaf X K L q a))
+  change IsIso (E.map (limitComparisonPresheaf X K L q a))
   rw [hsplit]
   exact IsIso.comp_isIso' hA (IsIso.comp_isIso' hM inferInstance)
 

@@ -60,7 +60,7 @@ lemma isIso_tot_ιStupidTrunc_f (P : CochainComplex C ℤ) (b : ℤ) [P.IsStrict
   by_cases hq : k ≤ q
   · have := HomologicalComplex.isIso_ιStupidTrunc_f R (ComplexShape.embeddingUpIntGE k)
       (i := (q - k).toNat) (by change k + ((q - k).toNat : ℤ) = q; omega)
-    show IsIso (((matrixAction A).map (𝟙 (P.X p))).app _ ≫
+    change IsIso (((matrixAction A).map (𝟙 (P.X p))).app _ ≫
       ((matrixAction A).obj (P.X p)).map ((R.ιStupidTrunc _).f q))
     rw [Functor.map_id, NatTrans.id_app, Category.id_comp]
     exact Functor.map_isIso _ _

@@ -184,7 +184,7 @@ theorem isZero_cohomologyOne_pullback_iff_of_isAffine {X S : Scheme.{u}} (f : X 
   let : Algebra Γ(S, ⊤) Γ(X, ⊤) := baseSectionsAlgebra Γ(S, ⊤) W
   have hring : algebraMap Γ(S, ⊤) Γ(X, ⊤) = f.appTop.hom := by
     have := Stacks.AlgebraicGeometry.TopDegreeFiniteType.ΓSpecIso_inv_comp_isoSpec_appTop f
-    show baseRingToSections _ W (op ⊤) = f.appTop.hom
+    change baseRingToSections _ W (op ⊤) = f.appTop.hom
     simp only [baseRingToSections]
     rw [← this]
     have hle : (Opens.leTop (⊤ : X.Opens)) = 𝟙 _ := Subsingleton.elim _ _
@@ -297,7 +297,7 @@ private theorem isZero_restrict_pullback_firstDirectImage_iff_of_isAffineOpen
   let UX := f ⁻¹ᵁ U
   let UY := f' ⁻¹ᵁ V
   have hsub : UY ≤ g' ⁻¹ᵁ UX := by
-    show f' ⁻¹ᵁ V ≤ g' ⁻¹ᵁ (f ⁻¹ᵁ U)
+    change f' ⁻¹ᵁ V ≤ g' ⁻¹ᵁ (f ⁻¹ᵁ U)
     calc
       _ ≤ f' ⁻¹ᵁ (g ⁻¹ᵁ U) := f'.preimage_mono hVU
       _ = g' ⁻¹ᵁ (f ⁻¹ᵁ U) := by simp only [← Scheme.Hom.comp_preimage, sq.w]

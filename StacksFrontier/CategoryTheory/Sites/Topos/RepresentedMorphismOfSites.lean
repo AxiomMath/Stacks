@@ -327,7 +327,7 @@ theorem epi_sigmaDesc_natIso_iff {C : Type*} {A : Type*} [Category C] [Category 
       CategoryTheory.Limits.Sigma.map (fun i => e.hom.app (Y i)) ≫
         Sigma.desc (fun i => G.map (f i)) := by
     ext i
-    simp only [Sigma.ι_desc_assoc, Sigma.ι_map_assoc, Sigma.ι_desc]
+    simp only [Sigma.ι_comp_desc_assoc, Sigma.ι_map_assoc, Sigma.ι_comp_desc]
     exact e.hom.naturality (f i)
   rw [← epi_comp_iff_of_isIso _ (e.hom.app X), he, epi_comp_iff_of_epi]
 
@@ -373,7 +373,7 @@ theorem representedFunctor_isDenseSubsite {C D : Type u} [SmallCategory C] [Smal
     ext V S
     obtain ⟨ι, Y, f, rfl⟩ := S.exists_eq_ofArrows
     rw [hL Y f (coproductIsCoproduct (fun i : ι => Q.obj (Y i)))]
-    show Epi (Sigma.desc (fun i => H.asEquivalence.inverse.map (J.yoneda.map (f i)))) ↔ _
+    change Epi (Sigma.desc (fun i => H.asEquivalence.inverse.map (J.yoneda.map (f i)))) ↔ _
     rw [epi_sigmaDesc_map_iff, ← epi_sigmaDesc_natIso_iff (sheafifiedYonedaIsoYoneda J),
       ← epi_sigmaDesc_sheafifiedYoneda_iff]
   subst L

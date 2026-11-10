@@ -62,12 +62,12 @@ this is the source's convention "`d = 0` if `X = ∅`".
 
 `q(S)` is `sInf` of the set of valid bounds, taken in `ℕ`. The source knows this set is nonempty
 by Cohomology of Schemes, Lemmas [Stacks, Tag 0AG6] and [Stacks, Tag 0AG7]; **those are not
-available in the generality needed here** (see `StacksFrontier/AlgebraicGeometry/ProjSerreDevissage/`
-and `StacksFrontier/AlgebraicGeometry/ProjLargeDegreeSections/Basic.lean`, whose Tag 0AG7 statement
+available in the generality needed here** (see
+`StacksFrontier/AlgebraicGeometry/ProjSerreDevissage/` and
+`StacksFrontier/AlgebraicGeometry/ProjLargeDegreeSections/Basic.lean`, whose Tag 0AG7 statement
 carries homogeneous generating data for the kernel and the cokernel instead of deriving it from
-Noetherianity). So nonemptiness is a *hypothesis* of
-`isRegularDegree_of_qInvariant_le` rather than a theorem; `Nat.sInf` of the empty set is `0`, and
-no claim is made about `qInvariant` in that case.
+Noetherianity). So nonemptiness is a *hypothesis* of `isRegularDegree_of_qInvariant_le` rather than
+a theorem; `Nat.sInf` of the empty set is `0`, and no claim is made about `qInvariant` in that case.
 
 `dInvariant` formalizes clause (2) of the paragraph of [Stacks, Tag 0GA6] that introduces `d`,
 namely the description as the maximal fibre dimension of `Proj(S) → Spec(S₀)`, which is the

@@ -213,7 +213,7 @@ theorem coneSection_coneCancel : coneSection α β ≫ coneCancel α β = 𝟙 (
   apply Hom.ext
   refine LinearMap.ext fun x => ?_
   refine Prod.ext rfl ?_
-  show α.toFun 0 + x.2 = x.2
+  change α.toFun 0 + x.2 = x.2
   rw [map_zero, zero_add]
 
 /-- The contracting homotopy for the cancellation map: on `(M ⊕ K) ⊕ (L ⊕ K)` it is
@@ -271,7 +271,7 @@ theorem coneIncl_coneCancel :
   apply Hom.ext
   refine LinearMap.ext fun x => ?_
   refine Prod.ext (add_zero _).symm ?_
-  show α.toFun x.2 + 0 = α.toFun x.2
+  change α.toFun x.2 + 0 = α.toFun x.2
   rw [add_zero]
 
 /-- The boundary homotopy: on `(M ⊕ K) ⊕ (L ⊕ K)` the map `((m, k), (l, j)) ↦ (0, k)` is a

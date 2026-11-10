@@ -73,7 +73,7 @@ theorem map_g_eq_zero_of_natCard_le {S : ShortComplex A} (hS : S.ShortExact) (n 
   have : Finite δ.toAddMonoidHom.ker := Subtype.finite
   ext x
   have hx : ((H.functor (n + 1)).map S.g).hom x ∈ δ.toAddMonoidHom.ker := by
-    show (H.δ hS n).hom (((H.functor (n + 1)).map S.g).hom x) = 0
+    change (H.δ hS n).hom (((H.functor (n + 1)).map S.g).hom x) = 0
     rw [← ModuleCat.comp_apply, H.map_g_δ hS n]
     rfl
   exact congrArg Subtype.val ((Finite.card_le_one_iff_subsingleton.1 hker).elim ⟨_, hx⟩ 0)
@@ -91,7 +91,7 @@ theorem natCard_ker_map_f_eq_of_map_g_eq_zero {S : ShortComplex A} (hS : S.Short
     rw [← LinearMap.ker_eq_bot, eq_bot_iff]
     intro y hy
     obtain ⟨x, rfl⟩ := h₁ hy
-    show ((H.functor (n + 1)).map S.g).hom x ∈ ⊥
+    change ((H.functor (n + 1)).map S.g).hom x ∈ ⊥
     rw [hg]
     exact Submodule.zero_mem _
   refine (Nat.card_congr (Equiv.ofBijective (fun y ↦ (⟨(H.δ hS n).hom y, hmap y⟩ :

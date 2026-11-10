@@ -109,7 +109,7 @@ public theorem bijective_constantGerm (s : GeometricPoint S)
       (constantPresheafHom_app B S hS (Over.mk (g ≫ k)) ψ e).symm.trans he
     have hgy : Φ.fiber.map (g ≫ k) y = x := by
       rwa [Φ.fiber.map_comp, ConcreteCategory.comp_apply, hy]
-    show Φ.toPresheafFiber U x P (ψ.app (op (Over.mk (𝟙 U))) e) = z
+    change Φ.toPresheafFiber U x P (ψ.app (op (Over.mk (𝟙 U))) e) = z
     rw [← hgy, ← Φ.toPresheafFiber_w_apply (g ≫ k) y P, hval,
       Φ.toPresheafFiber_w_apply g y P, hy]
     exact hz

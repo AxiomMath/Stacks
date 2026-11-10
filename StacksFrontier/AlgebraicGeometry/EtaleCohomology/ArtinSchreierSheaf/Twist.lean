@@ -112,7 +112,7 @@ public theorem restrictScalarsRepresentation_characterTwist
       restrictScalarsRepresentation B (specObject A B hX) x b ρ σ *
         Units.map (coefficientScalarRingHom b r).toMonoidHom (χ σ) := by
   ext : 1
-  show coefficientMatrixRingHom b r ((ρ σ).val * Matrix.scalar (Fin r) (χ σ : O)) = _
+  change coefficientMatrixRingHom b r ((ρ σ).val * Matrix.scalar (Fin r) (χ σ : O)) = _
   rw [map_mul]
   rfl
 

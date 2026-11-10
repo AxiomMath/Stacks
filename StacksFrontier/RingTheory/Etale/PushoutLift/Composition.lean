@@ -339,10 +339,10 @@ theorem composition_secondProjection (x : Γ) :
     (f₂ := ({ iota2 s τ with commutes' := iota2_algebraMap s σ hσ τ hτ } : Γ →ₐ[A] T))
     (fun y ↦ by
       rw [← Ideal.Quotient.eq]
-      show Ideal.Quotient.mk _ (m (s y)) = Ideal.Quotient.mk _ (iota2 s τ y)
+      change Ideal.Quotient.mk _ (m (s y)) = Ideal.Quotient.mk _ (iota2 s τ y)
       rw [mk_composition, compositionBar_secondProjection])
     (fun y ↦ by
-      show m (s y) * η = iota2 s τ y * η
+      change m (s y) * η = iota2 s τ y * η
       have e1 : m (s y) * m ε = algebraMap Γ T y * m ε := by
         rw [← map_mul, mul_comm, hs1, mul_comm, map_mul, AlgHom.commutes]
       have e2 : iota2 s τ y * (leftT τ ε * rightT σ τ ε) =

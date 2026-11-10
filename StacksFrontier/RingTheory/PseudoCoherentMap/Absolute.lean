@@ -61,7 +61,7 @@ private lemma isModulePseudoCoherent_of_finite_free
   intro i
   by_cases hi : i = 0
   · subst i
-    show Module.Finite S M ∧ Module.Free S M
+    change Module.Finite S M ∧ Module.Free S M
     exact ⟨inferInstance, inferInstance⟩
   · have : Subsingleton (E.X i) := ModuleCat.subsingleton_of_isZero
       (HomologicalComplex.isZero_single_obj_X (ComplexShape.up ℤ) 0 (ModuleCat.of S M) i hi)

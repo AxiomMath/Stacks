@@ -149,7 +149,7 @@ theorem Hom.identityArrow_comp_arrowsMap (φ : Hom G G') :
     identityArrow G ≫ φ.arrowsMap = φ.objectsMap ≫ identityArrow G' := by
   apply ObjectProperty.hom_ext
   ext T x
-  show φ.toGroupoidHom.mapArrows.app T ((identityArrow G).hom.app T x) =
+  change φ.toGroupoidHom.mapArrows.app T ((identityArrow G).hom.app T x) =
     (identityArrow G').hom.app T (φ.toGroupoidHom.mapObjects.app T x)
   rw [identityArrow_hom_app G T x, identityArrow_hom_app G' T (φ.toGroupoidHom.mapObjects.app T x)]
   exact φ.toGroupoidHom.map_id T x
@@ -206,7 +206,7 @@ theorem Hom.comp_comp_arrowsMap (φ : Hom G G') :
         ((pullback.snd G.source.hom G.target.hom).app T κ) :=
     natTrans_app_congr
       (congrArg (fun ψ => ψ.hom) φ.compPairsMap_comp_secondArrow) T κ
-  show φ.toGroupoidHom.mapArrows.app T (G.comp.hom.app T κ) =
+  change φ.toGroupoidHom.mapArrows.app T (G.comp.hom.app T κ) =
     G'.comp.hom.app T (φ.compPairsMap.hom.app T κ)
   rw [comp_hom_app_eq G T κ _ _ rfl rfl hab,
     comp_hom_app_eq G' T (φ.compPairsMap.hom.app T κ) _ _ e₁ e₂

@@ -125,10 +125,10 @@ theorem gradedIso_app_eq_laurentComparisonOfDegreeOpen
     intro m
     refine laurent_app_eq_of_app_one (γ := c.inv ≫ ω.hom)
       (γ' := CategoryStruct.id (laurent P.L)) (e := Iso.refl P.L) ?_ ?_ m
-    · show (c.inv.app 1 ≫ ω.hom.app 1) ≫ P.oneIso.hom = P.oneIso.hom ≫ (Iso.refl P.L).hom
+    · change (c.inv.app 1 ≫ ω.hom.app 1) ≫ P.oneIso.hom = P.oneIso.hom ≫ (Iso.refl P.L).hom
       rw [h1, show c.inv.app 1 ≫ c.hom.app 1 = _ from (degreeOnePieceIso D r P c).inv_hom_id,
         Category.id_comp, Iso.refl_hom, Category.comp_id]
-    · show (CategoryStruct.id ((laurent P.L).piece 1)) ≫ P.oneIso.hom =
+    · change (CategoryStruct.id ((laurent P.L).piece 1)) ≫ P.oneIso.hom =
         P.oneIso.hom ≫ (Iso.refl P.L).hom
       rw [Category.id_comp, Iso.refl_hom, Category.comp_id]
   calc ω.hom.app n

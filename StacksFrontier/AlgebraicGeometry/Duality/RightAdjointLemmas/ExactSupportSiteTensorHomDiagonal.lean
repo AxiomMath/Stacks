@@ -103,8 +103,8 @@ tensor product [Stacks, Tag 08J8] is stated over along
 `Stacks.SheafOfModules.DerivedMonoidal.interfaceTensorCanonicalIso` as
 `AlgebraicGeometry.RingedSite.derivedTensorFlipNatIso`, and the slot-moved adjunctions
 `AlgebraicGeometry.RingedSite.derivedTensorSheafHomAdjunctionFlip` and
-`AlgebraicGeometry.RingedSite.interfaceDerivedTensorSheafHomAdjunction` are in
-`StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/DerivedTensorSheafHomAdjunctionSlot.lean`.
+`AlgebraicGeometry.RingedSite.interfaceDerivedTensorSheafHomAdjunction` are in the module
+`StacksFrontier.CategoryTheory.Sites.Cohomology.InternalHom.DerivedTensorSheafHomAdjunctionSlot`.
 The second of those has exactly the left and right adjoint of
 `tensorSheafHomAdjunctionAtPushforwardStructureSheaf` at `G`, with nothing further to transport.
 

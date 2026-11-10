@@ -117,11 +117,11 @@ theorem stalkToFiber_cX (y : (constPresheaf X A).stalk x) :
       (ConcreteCategory.hom ((constSheaf X A).presheaf.germ U x m))
         ((ConcreteCategory.hom ((constSheafUnit X A).app (op U))) s) :=
     TopCat.Presheaf.stalkFunctor_map_germ_apply U x m (constSheafUnit X A) s
-  show (ConcreteCategory.hom ((constPresheaf X A).stalkToFiber x))
+  change (ConcreteCategory.hom ((constPresheaf X A).stalkToFiber x))
       ((ConcreteCategory.hom (cX X A x)) ((ConcreteCategory.hom ((constPresheaf X A).germ U x m))
           s)) = _
   rw [hcx]
-  show TopCat.stalkToFiber (TopCat.Presheaf.Sheafify.isLocallyGerm (constPresheaf X A)) x
+  change TopCat.stalkToFiber (TopCat.Presheaf.Sheafify.isLocallyGerm (constPresheaf X A)) x
       ((TopCat.subsheafToTypes (TopCat.Presheaf.Sheafify.isLocallyGerm (constPresheaf X
           A))).presheaf.germ U x m
           ((constSheafUnit X A).app (op U) s)) = _

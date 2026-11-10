@@ -114,9 +114,9 @@ theorem Space.isOpenImmersion_algebraicSpaceMap_of_iso_yoneda
       B U.left.1 S U.left.2 hS U.hom ⟨F, hF⟩ W s
     rw [hx] at hs
     apply Over.OverMorphism.ext
-    show (((K.obj ⟨F, hF⟩).1.hom).app W x).left = (d.hom.app W x).left ≫ V.hom
+    change (((K.obj ⟨F, hF⟩).1.hom).app W x).left = (d.hom.app W x).left ≫ V.hom
     rw [hs]
-    show s.1.1 = (d.hom.app W x).left ≫ V.hom
+    change s.1.1 = (d.hom.app W x).left ≫ V.hom
     let q : Over.mk s.1.1 ⟶ V := e.hom.app (Opposite.op (Over.mk s.1.1)) s.1.2
     have hq : (d.hom.app W x).left = q.left := rfl
     rw [hq]
@@ -136,7 +136,7 @@ theorem Space.isOpenImmersion_algebraicSpaceMap_of_iso_yoneda
         (@AlgebraicGeometry.IsOpenImmersion.{u} : MorphismProperty Scheme.{u})
         (BigFppfOver.toScheme B S hS))
   have : P.RespectsIso := inferInstance
-  show P ((K.obj ⟨F, hF⟩).1.hom)
+  change P ((K.obj ⟨F, hF⟩).1.hom)
   rw [hd]
   exact MorphismProperty.RespectsIso.precomp P d.hom (yoneda.map j') hj
 
@@ -393,7 +393,7 @@ theorem exists_open_over_iff_of_exists_isOpenSubspace (U : BigFppfOver B integer
   let j' : V₀ ⟶ U := j ≫ β.hom
   let V' : BigFppfOver B U.left.1 U.left.2 := Over.mk j'.left
   have hj' : IsOpenImmersion ((BigFppfOver.toScheme B integerBase hZ).map j') := by
-    show IsOpenImmersion ((BigFppfOver.toScheme B integerBase hZ).map (j ≫ β.hom))
+    change IsOpenImmersion ((BigFppfOver.toScheme B integerBase hZ).map (j ≫ β.hom))
     rw [Functor.map_comp]
     infer_instance
   refine ⟨V', hj', fun T => ?_⟩

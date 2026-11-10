@@ -67,7 +67,7 @@ theorem bijective_extendRestrictScalarsAdj_unit_app (M : ModuleCat.{u} R) :
     have h1 : (LinearEquiv.ofBijective βₗ hβ).symm (1 : R') = 1 :=
       (LinearEquiv.ofBijective βₗ hβ).symm_apply_eq.2 (map_one β).symm
     refine (congrArg c (extendRestrictScalarsAdj_unit_app_apply β M m)).trans ?_
-    show TensorProduct.lid R M ((LinearEquiv.ofBijective βₗ hβ).symm (1 : R') ⊗ₜ m) = m
+    change TensorProduct.lid R M ((LinearEquiv.ofBijective βₗ hβ).symm (1 : R') ⊗ₜ m) = m
     rw [h1, TensorProduct.lid_tmul, one_smul]
   exact ⟨Function.LeftInverse.injective hc, fun t => ⟨c t, c.injective (hc (c t))⟩⟩
 
@@ -196,7 +196,7 @@ theorem chartLocalRingToEtaleLocalRing_algebraMap (a : A) :
         (op (yonedaIdentityNeighborhood (specFppfOver B S hS hA g) ū))
         ((Scheme.ΓSpecIso (CommRingCat.of A)).inv a : (Γ(chartScheme
           (yonedaIdentityNeighborhood (specFppfOver B S hS hA g) ū).chart, ⊤))) := by
-  show chartLocalRingToEtaleLocalRing B S hS (yoneda.obj (specFppfOver B S hS hA g))
+  change chartLocalRingToEtaleLocalRing B S hS (yoneda.obj (specFppfOver B S hS hA g))
       (isAlgebraicSpace_yoneda B S hS _) (yonedaIdentityNeighborhood (specFppfOver B S hS hA g) ū)
       ((StructureSheaf.toStalk A (identityChartPrime B S hS hA g ū)).hom a) = _
   rw [← germ_ΓSpecIso_inv]

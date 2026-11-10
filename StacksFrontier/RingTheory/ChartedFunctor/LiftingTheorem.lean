@@ -48,6 +48,7 @@ abbrev Lmap {P Q : BoundedAlg R κ} (f : P ⟶ Q) :
     Lifts F P (ideal I P) (pt hR I x P) → Lifts F Q (ideal I Q) (pt hR I x Q) :=
   Lifts.map f (ideal_le_comap I f) (pt_map f)
 
+omit [Fact (ℵ₀ < κ)] in
 /-- The image of a lift under a composite of algebra maps is the iterated image. -/
 lemma Lmap_comp {P Q W : BoundedAlg R κ} (f : P ⟶ Q) (g : Q ⟶ W)
     (z : Lifts F P (ideal I P) (pt hR I x P)) : Lmap g (Lmap f z) = Lmap (f ≫ g) z :=

@@ -195,8 +195,7 @@ def kernelTensorPi : C ⊗[limit f] RingHom.ker (towerLimitProj f 0) →ₗ[limi
 /-- The components of `AlgebraicGeometry.C1590Private.kernelTensorPi`. -/
 theorem kernelTensorPi_apply (t : C ⊗[limit f] RingHom.ker (towerLimitProj f 0)) (n : ℕ) :
     kernelTensorPi hπ e he C t n = (kernelComponent hπ e he n).lTensor C t := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul c x => rfl
   | add x y hx hy => rw [map_add, Pi.add_apply, hx, hy, map_add]
 
@@ -208,8 +207,7 @@ theorem lTensor_subtype_kernelTensorPi (t : C ⊗[limit f] RingHom.ker (towerLim
       e n • (Algebra.linearMap (limit f) (R (n + 1))).lTensor C
         ((RingHom.ker (towerLimitProj f 0)).subtype.lTensor C t) := by
   rw [kernelTensorPi_apply]
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul c x => simp [kernelComponent, TensorProduct.tmul_smul]
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add, smul_add]
 
@@ -218,8 +216,7 @@ theorem smul_tensor_kernel_eq_self
     (hV : ∀ n, ∀ z ∈ RingHom.ker (f n), towerLimitProj f (n + 1) (1 - e n) * z = 0) (n : ℕ)
     (w : C ⊗[limit f] LinearMap.ker (transitionLinearMap hπ n)) : e n • w = w := by
   have h : (1 - e n) • w = 0 := by
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | tmul c v =>
       have hv : (1 - e n) • v = 0 := by
         refine Subtype.ext ?_
@@ -444,8 +441,7 @@ theorem map_towerTransitionAlgHom_eq_lTensor (n : ℕ) (C : Type*) [CommRing C]
         (transitionLinearMap (fun _ => rfl) n).lTensor C x := by
   let := fun m => (towerLimitProj f m).toAlgebra
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul c r => rfl
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 

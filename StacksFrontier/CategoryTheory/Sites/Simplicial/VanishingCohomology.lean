@@ -272,12 +272,12 @@ lemma extendCochainEval_bijective (P : ChainComplex C ℕ) (I : CochainComplex C
       Cochain.mk fun r q hrq => if hr : r ≤ 0 then
         (P.extendXIso ComplexShape.embeddingDownNat
           (show ComplexShape.embeddingDownNat.f (-r).toNat = r by
-            show -((-r).toNat : ℤ) = r; omega)).hom ≫
+            change -((-r).toNat : ℤ) = r; omega)).hom ≫
           x ⟨((-r).toNat, q), by dsimp; omega⟩
       else 0
     refine ⟨z, ?_⟩
     ext ⟨⟨p, q⟩, hpq⟩
-    show (P.extendXIso ComplexShape.embeddingDownNat rfl).inv ≫
+    change (P.extendXIso ComplexShape.embeddingDownNat rfl).inv ≫
       z.v (-(p : ℤ)) q (by omega) = x ⟨(p, q), hpq⟩
     dsimp only [z, Cochain.mk_v]
     simp only [neg_nonpos, Nat.cast_nonneg, dite_true]

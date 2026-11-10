@@ -280,7 +280,7 @@ isomorphism `c : T ⟶ Z` of the identity object of `Z` is an isomorphism. -/
 theorem isIso_smallEtaleBaseChangeLift_mkId :
     IsIso (smallEtaleBaseChangeLift c (Scheme.Etale.mk (𝟙 Z)) c (Category.comp_id c)) := by
   have h2 : IsIso (((smallEtaleBaseChange c).obj (Scheme.Etale.mk (𝟙 Z))).hom) := by
-    show IsIso (pullback.snd (𝟙 Z) c)
+    change IsIso (pullback.snd (𝟙 Z) c)
     infer_instance
   have ht2 : IsTerminal ((smallEtaleBaseChange c).obj (Scheme.Etale.mk (𝟙 Z))) :=
     isTerminalOfIsIsoHom _

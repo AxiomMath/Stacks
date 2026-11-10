@@ -21,8 +21,8 @@ closes Tag 0551.
 * `AlgebraicGeometry.spreadsOutFiniteSeparableResidueExtension` is the geometric form of the same
   statement, the `Y`-half of Tag 0551.
 Feeding it to the `X`-half `..._genericFiber_components_of_spreadsOut` of
-`StacksFrontier.AlgebraicGeometry.Etale.FiniteEtaleIrreducibleCover0551` gives Tag 0551 itself, which
-is stated as
+`StacksFrontier.AlgebraicGeometry.Etale.FiniteEtaleIrreducibleCover0551` gives Tag 0551 itself,
+which is stated as
 `AlgebraicGeometry.exists_nonemptyOpen_finiteEtale_cover_geometricallyIrreducible_genericFiber` in
 `StacksFrontier.AlgebraicGeometry.MoreMorphisms.GenericFibre.GeometricallyIrreducible`.
 

@@ -13,8 +13,8 @@ independent universes under a cofinality hypothesis the source does not state
 (`AlgebraicGeometry.eventually_isFinite_of_isLimit_of_isIntegral_of_initiallySmall`, which
 `CategoryTheory.InitiallySmall.{u} Iᵒᵖ` is; `Small.{u} I` discharges it).  What stands between
 those two is [Stacks, Tag 09ZM]: `StacksDraft/AlgebraicGeometry/F3/Tag09ZNAffineReduction/`
-`StacksFrontier/AlgebraicGeometry/AffineReduction/Eventual.lean` proves Tag 09ZN at two independent universes with no smallness of any kind, given
-Tag 09ZM's conclusion for the system at hand.
+`StacksFrontier/AlgebraicGeometry/AffineReduction/Eventual.lean` proves Tag 09ZN at two independent
+universes with no smallness of any kind, given Tag 09ZM's conclusion for the system at hand.
 
 This file turns that reduction into a statement about *statements*.  Each of the two source
 statements is written out as a closed proposition with its universes named and independent —
@@ -56,10 +56,10 @@ question this file isolates.
 
 ## Implementation notes
 
-`Statement09ZN` and `Statement09ZM` reproduce the binder lists of the formal statements of the two tags exactly,
-instance-implicit binders included, so that each is the tag's statement and not a paraphrase of it.  Consequently
-they are applied through `@`: the instance arguments of a proposition are not in the local
-instance cache of whoever consumes it.
+`Statement09ZN` and `Statement09ZM` reproduce the binder lists of the formal statements of the two
+tags exactly, instance-implicit binders included, so that each is the tag's statement and not a
+paraphrase of it. Consequently they are applied through `@`: the instance arguments of a proposition
+are not in the local instance cache of whoever consumes it.
 
 The index category of Tag 09ZN is `Iᵒᵖ` for `I` a nonempty directed preorder, and Tag 09ZM's is
 an arbitrary cofiltered category whose hom types lie in the universe of its objects.  The former
@@ -107,8 +107,8 @@ def Statement09ZN : Prop :=
 
 /-- **The statement of Tag 09ZM, verbatim, as a proposition in two independent universes.**
 
-`w` is the universe of the index category — objects and homs alike, as the statement has it — and `u`
-that of the schemes. -/
+`w` is the universe of the index category — objects and homs alike, as the statement has it — and
+`u` that of the schemes. -/
 def Statement09ZM : Prop :=
   ∀ {I : Type w} [Category.{w} I] [IsCofiltered I]
     {S : Scheme.{u}} [CompactSpace S] [QuasiSeparatedSpace S]

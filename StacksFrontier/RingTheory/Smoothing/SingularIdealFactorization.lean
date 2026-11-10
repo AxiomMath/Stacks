@@ -169,13 +169,13 @@ theorem fwd_bwd (j : ι) (c : ι → K) (hj : IsUnit (c j)) :
     (fwd j c hj).comp (bwd j c) = AlgHom.id K (MvPolynomial {i // i ≠ j} K) := by
   apply MvPolynomial.algHom_ext
   intro i
-  show fwd j c hj (bwd j c (X i)) = X i
+  change fwd j c hj (bwd j c (X i)) = X i
   unfold bwd
   rw [aeval_X]
-  show fwd j c hj (Ideal.Quotient.mk _ (X i.1)) = X i
+  change fwd j c hj (Ideal.Quotient.mk _ (X i.1)) = X i
   unfold fwd
   rw [Ideal.Quotient.liftₐ_apply, Ideal.Quotient.lift_mk]
-  show fwdHom j c (X i.1) = X i
+  change fwdHom j c (X i.1) = X i
   unfold fwdHom
   rw [aeval_X]
   unfold gmap
@@ -189,10 +189,10 @@ theorem bwd_fwd (j : ι) (c : ι → K) (hj : IsUnit (c j)) :
   apply Ideal.Quotient.algHom_ext
   apply MvPolynomial.algHom_ext
   intro i
-  show bwd j c (fwd j c hj (Ideal.Quotient.mk _ (X i))) = Ideal.Quotient.mk _ (X i)
+  change bwd j c (fwd j c hj (Ideal.Quotient.mk _ (X i))) = Ideal.Quotient.mk _ (X i)
   unfold fwd
   rw [Ideal.Quotient.liftₐ_apply, Ideal.Quotient.lift_mk]
-  show bwd j c (fwdHom j c (X i)) = Ideal.Quotient.mk _ (X i)
+  change bwd j c (fwdHom j c (X i)) = Ideal.Quotient.mk _ (X i)
   unfold fwdHom
   rw [aeval_X]
   unfold gmap
@@ -334,7 +334,7 @@ theorem connectionEquiv
   have e1' : Localization.Away bj ≃ₐ[A] Qmid :=
     AlgEquiv.ofRingEquiv (f := e1.toRingEquiv) (by
       intro a
-      show e1 (algebraMap A (Localization.Away bj) a) = algebraMap A Qmid a
+      change e1 (algebraMap A (Localization.Away bj) a) = algebraMap A Qmid a
       rw [IsScalarTower.algebraMap_apply A Quof (Localization.Away bj) a]
       rw [e1.commutes (algebraMap A Quof a)]
       rw [htower])
@@ -344,7 +344,7 @@ theorem connectionEquiv
     rw [hImapped, hI, Ideal.map_span]
     congr 1
     rw [Set.image_singleton]; congr 1
-    show (algebraMap (MvPolynomial ι A) (MvPolynomial ι Aj)) rf = _
+    change (algebraMap (MvPolynomial ι A) (MvPolynomial ι Aj)) rf = _
     have hae : (algebraMap (MvPolynomial ι A) (MvPolynomial ι Aj)) rf
         = MvPolynomial.map (algebraMap A Aj) rf := rfl
     rw [hae, hrf]
@@ -447,13 +447,13 @@ theorem exists_smooth_factorization_of_singularIdeal_map_eq_top
     apply IsScalarTower.of_algebraMap_eq
     intro a
     rw [hψalg]
-    show _ = ψ (algebraMap A B a)
+    change _ = ψ (algebraMap A B a)
     rw [AlgHom.commutes]
   · -- IsScalarTower R B Λ
     apply IsScalarTower.of_algebraMap_eq
     intro r
     rw [hψalg]
-    show algebraMap R Λ r = ψ (algebraMap R B r)
+    change algebraMap R Λ r = ψ (algebraMap R B r)
     rw [IsScalarTower.algebraMap_apply R A B r, AlgHom.commutes,
       ← IsScalarTower.algebraMap_apply R A Λ r]
   · -- `Algebra.Smooth R B`, checked Zariski-locally on `Spec(B)` along the cover by the

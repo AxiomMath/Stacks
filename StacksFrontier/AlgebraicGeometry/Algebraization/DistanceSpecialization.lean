@@ -122,7 +122,7 @@ private theorem specializeDistanceSystem_weight_le {Y : Scheme.{u}} [IsNoetheria
       (IrreducibleCloseds.closureSingleton y') hVW hWW', hlast,
       topCodim_eq_one_of_covby _ _ hcover]
   have hupLast : t.upCodimension last = s.upCodimension last + 1 := by
-    show (topCodim (s.V last)
+    change (topCodim (s.V last)
       (Function.update s.W (Fin.last s.k)
         (IrreducibleCloseds.closureSingleton y') last)).toNat =
       (topCodim (s.V last) (s.W last)).toNat + 1
@@ -136,16 +136,16 @@ private theorem specializeDistanceSystem_weight_le {Y : Scheme.{u}} [IsNoetheria
     · subst j
       simp [hupLast]
     · have hj' : j ≠ Fin.last s.k := by simpa [last] using hj
-      show (topCodim (s.V j)
+      change (topCodim (s.V j)
         (Function.update s.W (Fin.last s.k)
           (IrreducibleCloseds.closureSingleton y') j)).toNat =
             s.upCodimension j + if j = last then 1 else 0
       rw [Function.update_of_ne hj']
-      show (topCodim (s.V j) (s.W j)).toNat =
+      change (topCodim (s.V j) (s.W j)).toNat =
         (topCodim (s.V j) (s.W j)).toNat + if j = last then 1 else 0
       simp [hj]
   have hdown (j : Fin s.k) : t.downCodimension j = s.downCodimension j := by
-    show (topCodim (s.V (Fin.succ j))
+    change (topCodim (s.V (Fin.succ j))
       (Function.update s.W (Fin.last s.k)
         (IrreducibleCloseds.closureSingleton y') (Fin.castSucc j))).toNat =
           s.downCodimension j
@@ -186,7 +186,7 @@ private theorem specializeDistanceSystem_weight_le {Y : Scheme.{u}} [IsNoetheria
       (Finset.univ : Finset (Fin (s.k + 1))).sup f₀ + 1 :=
     Finset.sup_le fun i _ => (hf i).trans
       (Nat.add_le_add_right (Finset.le_sup (f := f₀) (Finset.mem_univ i)) 1)
-  show s.k + (Finset.univ : Finset (Fin (s.k + 1))).sup f₁ ≤
+  change s.k + (Finset.univ : Finset (Fin (s.k + 1))).sup f₁ ≤
     (s.k + (Finset.univ : Finset (Fin (s.k + 1))).sup f₀) + 1
   omega
 

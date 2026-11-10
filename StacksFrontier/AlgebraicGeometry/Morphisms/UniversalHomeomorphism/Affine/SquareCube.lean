@@ -85,7 +85,7 @@ private theorem exists_stalk_residue_representative
       (Scheme.Spec.obj (Opposite.op (CommRingCat.of C))).residue q (f.stalkMap q a) at h
     exact h.symm.trans hm
   rw [← IsLocalRing.residue_eq_zero_iff]
-  show (Scheme.Spec.obj (Opposite.op (CommRingCat.of C))).residue q
+  change (Scheme.Spec.obj (Opposite.op (CommRingCat.of C))).residue q
       (f.stalkMap q a) -
     (Scheme.Spec.obj (Opposite.op (CommRingCat.of C))).residue q
       ((Scheme.Spec.obj (Opposite.op (CommRingCat.of C))).presheaf.germ ⊤ q trivial
@@ -137,7 +137,7 @@ private theorem exists_localRingHom_sub_mem_maximalIdeal
       (Spec.germ_stalkMapIso_hom (R := CommRingCat.of C) q)
     simpa [iC, CommRingCat.hom_comp, RingHom.comp_apply, CommRingCat.hom_ofHom] using h
   have heq : eC d = g aLoc - algebraMap C (Localization.AtPrime q.asIdeal) c := by
-    show iC.hom.hom d = _
+    change iC.hom.hom d = _
     dsimp [d]
     rw [map_sub, hst, hgerm]
   exact ⟨aLoc, by rwa [← heq]⟩
@@ -195,7 +195,7 @@ private theorem support_localized_at_minimal_prime
   have hc : PrimeSpectrum.comap (algebraMap R Rₚ)
       (IsLocalRing.closedPoint Rₚ) = p := by
     ext x
-    show algebraMap R Rₚ x ∈ IsLocalRing.maximalIdeal Rₚ ↔ x ∈ p.asIdeal
+    change algebraMap R Rₚ x ∈ IsLocalRing.maximalIdeal Rₚ ↔ x ∈ p.asIdeal
     exact IsLocalization.AtPrime.to_map_mem_maximal_iff (S := Rₚ) p.asIdeal x
   ext q
   rw [IsBaseChange.support_eq_preimage_comap
@@ -207,7 +207,7 @@ private theorem support_localized_at_minimal_prime
         (congrArg PrimeSpectrum.asIdeal hc).le
     exact PrimeSpectrum.localization_comap_injective Rₚ S ((hmin _ hq hle).trans hc.symm)
   · rintro rfl
-    show PrimeSpectrum.comap (algebraMap R Rₚ) (IsLocalRing.closedPoint Rₚ) ∈
+    change PrimeSpectrum.comap (algebraMap R Rₚ) (IsLocalRing.closedPoint Rₚ) ∈
       Module.support R M
     rwa [hc]
 
@@ -225,7 +225,7 @@ private theorem exists_pow_smul_eq_zero_of_support_singleton
       rw [Module.support_eq_zeroLocus]
       exact (PrimeSpectrum.mem_zeroLocus q ↑(Module.annihilator R M)).mpr hI.1
     have hqm : q = m := by simpa [hsupp] using hq
-    show x ∈ q.asIdeal
+    change x ∈ q.asIdeal
     rwa [hqm]
   obtain ⟨n, hn⟩ := Ideal.mem_radical_iff.mp hxrad
   exact ⟨n, Module.mem_annihilator.mp hn⟩
@@ -443,14 +443,14 @@ private lemma exists_localizedCokernel_map
   let fC : C →ₗ[A] D := (IsScalarTower.toAlgHom A C D).toLinearMap
   have : IsLocalizedModule S fC := by
     rw [isLocalizedModule_iff_isLocalization]
-    show IsLocalization (S.map (algebraMap A C)) D
+    change IsLocalization (S.map (algebraMap A C)) D
     infer_instance
   let π : C →ₗ[A] (C ⧸ (Algebra.linearMap A C).range) :=
     Submodule.mkQ ((Algebra.linearMap A C).range)
   let ψ₀ := IsLocalizedModule.map S fC fM π
   let ψ := ψ₀.extendScalarsOfIsLocalization S R
   refine ⟨ψ, fun d => ?_, fun z => ?_⟩
-  · show ψ (fC d) = fM (π d)
+  · change ψ (fC d) = fM (π d)
     rw [show fC d = IsLocalizedModule.mk' fC d 1 from
       (IsLocalizedModule.mk'_one S fC d).symm]
     simp [ψ, ψ₀]
@@ -463,7 +463,7 @@ private lemma exists_localizedCokernel_map
     have hψI₀comp : ψI₀ ∘ₗ gA =
         (Algebra.linearMap R D).restrictScalars A ∘ₗ gA := by
       refine LinearMap.ext fun a => ?_
-      show ψI₀ (gA a) = Algebra.linearMap R D (gA a)
+      change ψI₀ (gA a) = Algebra.linearMap R D (gA a)
       rw [IsLocalizedModule.map_apply]
       calc
         fC (ι a) = algebraMap C D (algebraMap A C a) := rfl
@@ -472,7 +472,7 @@ private lemma exists_localizedCokernel_map
     have hψI₀ : ψI₀ = (Algebra.linearMap R D).restrictScalars A :=
       IsLocalizedModule.ext S gA (fun x => IsLocalizedModule.map_units fC x) hψI₀comp
     have hψI : ψI = Algebra.linearMap R D := by
-      show ψI₀.extendScalarsOfIsLocalization S R = Algebra.linearMap R D
+      change ψI₀.extendScalarsOfIsLocalization S R = Algebra.linearMap R D
       rw [hψI₀]
       rfl
     have hkerπ : π.ker = ι.range := Submodule.ker_mkQ _
@@ -671,7 +671,7 @@ private lemma eq_map_of_map_le_of_comap_injective
     by_contra hxp
     refine Set.disjoint_left.mp hdisj
       (Submonoid.mem_map_of_mem _ (Ideal.mem_primeCompl_iff.mpr hxp)) ?_
-    show algebraMap C D (algebraMap A C x) ∈ I
+    change algebraMap C D (algebraMap A C x) ∈ I
     rw [← hcomp x]
     exact hx
   have hrA : rA = p :=
@@ -680,11 +680,11 @@ private lemma eq_map_of_map_le_of_comap_injective
     apply hinj
     have hc : PrimeSpectrum.comap (algebraMap A C) rC = rA := by
       ext x
-      show algebraMap C D (algebraMap A C x) ∈ I ↔ algebraMap A D x ∈ I
+      change algebraMap C D (algebraMap A C x) ∈ I ↔ algebraMap A D x ∈ I
       rw [← hcomp x]
     rw [hc, hrA, hq]
   rw [← IsLocalization.map_under T D I]
-  show Ideal.map (algebraMap C D) rC.asIdeal = Ideal.map (algebraMap C D) q.asIdeal
+  change Ideal.map (algebraMap C D) rC.asIdeal = Ideal.map (algebraMap C D) q.asIdeal
   rw [hrC]
 
 private lemma exists_sq_cube_mem_of_mem_radical
@@ -774,7 +774,7 @@ theorem exists_not_mem_and_sq_mem_and_cube_mem_of_universalHomeomorphism_of_resi
     ∃ b : B, b ∉ A ∧ b ^ 2 ∈ A ∧ b ^ 3 ∈ A := by
   have : UniversalHomeomorphism
       (Scheme.Spec.map (CommRingCat.ofHom (algebraMap A B)).op) := by
-    show UniversalHomeomorphism (Scheme.Spec.map (CommRingCat.ofHom A.subtype).op)
+    change UniversalHomeomorphism (Scheme.Spec.map (CommRingCat.ofHom A.subtype).op)
     infer_instance
   have : Algebra.IsIntegral A B := universalHomeomorphism_algebra_isIntegral
   obtain ⟨b, hb⟩ : ∃ b : B, b ∉ A := by

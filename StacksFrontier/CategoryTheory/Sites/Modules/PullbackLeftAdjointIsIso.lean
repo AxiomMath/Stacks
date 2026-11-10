@@ -122,7 +122,7 @@ theorem modelAdjunction_homEquiv_symm_app_tmul
           (κ.app (op (L.obj V.unop)) m) := by
     rw [Stacks.PullbackModel.smul_tmul, mul_one]
     rfl
-  show (((modelAdjunction adj φ φ' h).counit.app N).app V).hom
+  change (((modelAdjunction adj φ φ' h).counit.app N).app V).hom
       ((((pullbackModel adj φ).map κ).app V).hom
         (Stacks.PullbackModel.tmul ((transposeRingHom adj φ).app V).hom s m)) = _
   rw [hκ]
@@ -144,7 +144,7 @@ theorem modelAdjunction_homEquiv_symm_app_tmul_one_map
       N.map g.op (κ.app (op Z) m) := by
   refine (modelAdjunction_homEquiv_symm_app_tmul adj φ φ' h κ (op V) 1 _).trans ?_
   rw [one_smul, _root_.PresheafOfModules.naturality_apply]
-  show N.map (adj.unit.app V).op (N.map (F.map ((adj.homEquiv V Z).symm g)).op
+  change N.map (adj.unit.app V).op (N.map (F.map ((adj.homEquiv V Z).symm g)).op
     (κ.app (op Z) m)) = _
   have e : adj.unit.app V ≫ F.map ((adj.homEquiv V Z).symm g) = g :=
     (adj.homEquiv_unit V Z _).symm.trans ((adj.homEquiv V Z).apply_symm_apply g)
@@ -290,10 +290,10 @@ theorem isIso_homEquiv_symm_of_liftedRingHom
       simp [ρ]
     have hn := T₀.counit.naturality ((pushforwardRingULiftIso.{m, z} φ).hom.app N)
     rw [hρ, Functor.map_comp, Functor.map_comp, Category.assoc, Category.assoc]
-    show _ ≫ _ ≫ (T₀.inverse ⋙ T₀.functor).map _ ≫ _ = _
+    change _ ≫ _ ≫ (T₀.inverse ⋙ T₀.functor).map _ ≫ _ = _
     rw [hn, ← Category.assoc (T₀.functor.map (T₀.unit.app _))]
     have ht := T₀.functor_unit_comp ((_root_.SheafOfModules.pushforward.{max r z m} φ).obj N)
-    show _ ≫ (T₀.functor.map (T₀.unit.app _) ≫
+    change _ ≫ (T₀.functor.map (T₀.unit.app _) ≫
       T₀.counit.app (T₀.functor.obj ((_root_.SheafOfModules.pushforward.{max r z m} φ).obj N))) ≫
         _ = _
     rw [ht]

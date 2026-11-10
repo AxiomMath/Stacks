@@ -33,7 +33,7 @@ theorem comap_mem_minimalPrimes_of_ringHom_flat {A : Type u} {C : Type v} [CommR
   let : Algebra A C := f.toAlgebra
   have : Module.Flat A C := hf
   have : Algebra.HasGoingDown A C := Algebra.HasGoingDown.of_flat
-  show q.comap (algebraMap A C) ∈ minimalPrimes A
+  change q.comap (algebraMap A C) ∈ minimalPrimes A
   refine ⟨⟨Ideal.comap_isPrime _ _, bot_le⟩, ?_⟩
   rintro P ⟨hP, -⟩ hPq
   have : q.LiesOver (q.comap (algebraMap A C)) := ⟨rfl⟩

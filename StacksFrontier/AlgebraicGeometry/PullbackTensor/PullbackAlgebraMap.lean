@@ -165,7 +165,7 @@ theorem pullbackIsoRestrict_hom_mul
       ((pullbackIsoRestrict f).hom.app (G.piece (i + j))))
     ((ρ.compLeft ((pullbackIsoRestrict f).hom.app (G.piece i)).val).compRight
       ((pullbackIsoRestrict f).hom.app (G.piece j)).val) (fun V a b => ?_) U x y
-  show Hom.app ((pullbackIsoRestrict f).hom.app (G.piece (i + j))).val (op (f ⁻¹ᵁ V))
+  change Hom.app ((pullbackIsoRestrict f).hom.app (G.piece (i + j))).val (op (f ⁻¹ᵁ V))
       (((pullbackGradedAlgebra f.toLRSHom.toShHom G).mul i j).app (op (f ⁻¹ᵁ V))
         (pullbackUnit f.toLRSHom.toShHom (G.piece i) (op V) a)
         (pullbackUnit f.toLRSHom.toShHom (G.piece j) (op V) b)) =

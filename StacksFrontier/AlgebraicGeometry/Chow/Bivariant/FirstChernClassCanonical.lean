@@ -122,7 +122,7 @@ theorem firstChernClassCapChow_congr' (C : ChowSituation.{u}) {Y : Scheme.{u}} (
     (e : M ≅ N) :
     firstChernClassCapChow C k q M = firstChernClassCapChow C k q N := by
   refine QuotientAddGroup.addMonoidHom_ext _ (AddMonoidHom.ext fun α ↦ ?_)
-  show firstChernClassCapChow C k q M
+  change firstChernClassCapChow C k q M
         (QuotientAddGroup.mk' (rationalEquivalences C q (k + 1)) α) =
       firstChernClassCapChow C k q N
         (QuotientAddGroup.mk' (rationalEquivalences C q (k + 1)) α)
@@ -154,7 +154,7 @@ theorem properChowPushforward_comp_firstChernClassCapChow_of_isProper (C : ChowS
       (firstChernClassCapChow C k sB M).comp
         (properChowPushforward C sA sB w hw (k + 1) hfacUp) := by
   refine QuotientAddGroup.addMonoidHom_ext _ (AddMonoidHom.ext fun γ ↦ ?_)
-  show properChowPushforward C sA sB w hw k hfac
+  change properChowPushforward C sA sB w hw k hfac
       (firstChernClassCapChow C k sA ((Scheme.Modules.pullback w).obj M)
         (QuotientAddGroup.mk' (rationalEquivalences C sA (k + 1)) γ)) =
     firstChernClassCapChow C k sB M
@@ -246,7 +246,7 @@ theorem flatPullbackChow_firstChernClassCapChow_of_base (C : ChowSituation.{u})
           (flatPullbackChow C sA sB v hv r hvr (k + 1) hfacUp α)) := by
   induction α using QuotientAddGroup.induction_on with
   | H β =>
-    show flatPullbackChow C sA sB v hv r hvr k hfac
+    change flatPullbackChow C sA sB v hv r hvr k hfac
           (firstChernClassCapChow C k sB M
             (QuotientAddGroup.mk' (rationalEquivalences C sB (k + 1)) β)) =
         firstChernClassCapChow C (k + (r : ℤ)) sA ((Scheme.Modules.pullback v).obj M)

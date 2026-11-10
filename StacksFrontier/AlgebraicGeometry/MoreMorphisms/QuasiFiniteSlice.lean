@@ -101,7 +101,7 @@ theorem exists_flat_locallyQuasiFinite_factorization_through_of_hasQuasiFiniteSl
   have hD : Dense A := dense_cohenMacaulayAt_fiber f (f x₀)
   have hO : IsOpen {x : X | f.IsCohenMacaulayAt hf x} := isOpen_setOf_isCohenMacaulayAt f
   have : LocallyOfFiniteType (f.fiberToSpecResidueField (f x₀)) := by
-    show LocallyOfFiniteType (Limits.pullback.snd f (S.fromSpecResidueField (f x₀)))
+    change LocallyOfFiniteType (Limits.pullback.snd f (S.fromSpecResidueField (f x₀)))
     infer_instance
   let : JacobsonSpace (f.fiber (f x₀)) :=
     LocallyOfFiniteType.jacobsonSpace (f.fiberToSpecResidueField (f x₀))
@@ -110,7 +110,7 @@ theorem exists_flat_locallyQuasiFinite_factorization_through_of_hasQuasiFiniteSl
     (hO.preimage (f.fiberι (f x₀)).continuous).isLocallyClosed
   let x : X := f.fiberι (f x₀) y
   have hfx : f x = f x₀ := by
-    show (f.fiberι (f x₀) ≫ f) y = f x₀
+    change (f.fiberι (f x₀) ≫ f) y = f x₀
     rw [f.fiber_fac]
     simp
   have hCM : f.IsCohenMacaulayAt hf x := hyA
@@ -128,7 +128,7 @@ theorem exists_flat_locallyQuasiFinite_factorization_through_of_hasQuasiFiniteSl
   obtain ⟨Z, i, z, -, hiz, hflat, hlfp, hqf⟩ :=
     h0570 f inferInstance x ⟨hf, hCM⟩ hclosed
   refine ⟨Z, i ≫ f, i, rfl, hflat, hlfp, inferInstance, hqf, ⟨z, ?_⟩⟩
-  show f (i z) = f x₀
+  change f (i z) = f x₀
   rwa [hiz]
 
 end AlgebraicGeometry

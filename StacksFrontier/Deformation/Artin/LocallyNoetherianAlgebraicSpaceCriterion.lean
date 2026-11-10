@@ -172,10 +172,10 @@ theorem satisfiesRSFunctor_of_satisfiesRS {F' : (BigFppfOver B S hS)ᵒᵖ ⥤ T
     ⟨@hinj (op Y₀) (F'.map j'.op (e.inv.app (op Y'₀) t)) a ?_,
       @hinj (op X'₀) (F'.map i'.op (e.inv.app (op Y'₀) t)) b ?_⟩,
     fun t' ht' => @hinj (op Y'₀) t' (e.inv.app (op Y'₀) t) ?_⟩
-  · show e.hom.app (op Y₀) (((LocallyNoetherianOver.toBigFppfOver B S hS).op ⋙ F').map j'₀.op
+  · change e.hom.app (op Y₀) (((LocallyNoetherianOver.toBigFppfOver B S hS).op ⋙ F').map j'₀.op
       (e.inv.app (op Y'₀) t)) = _
     rw [NatTrans.naturality_apply, Iso.inv_hom_id_app_apply, ht₁]
-  · show e.hom.app (op X'₀) (((LocallyNoetherianOver.toBigFppfOver B S hS).op ⋙ F').map i'₀.op
+  · change e.hom.app (op X'₀) (((LocallyNoetherianOver.toBigFppfOver B S hS).op ⋙ F').map i'₀.op
       (e.inv.app (op Y'₀) t)) = _
     rw [NatTrans.naturality_apply, Iso.inv_hom_id_app_apply, ht₂]
   · rw [Iso.inv_hom_id_app_apply]
@@ -199,7 +199,7 @@ theorem isLocallyNoetherian_of_eq_spec {Λ k : Type u} [CommRing Λ] [Field k] [
     (h : T = Over.mk (Spec.map (CommRingCat.ofHom (algebraMap Λ A)) ≫ i)) :
     IsLocallyNoetherian T.left := by
   subst h
-  show IsLocallyNoetherian (Spec (.of A))
+  change IsLocallyNoetherian (Spec (.of A))
   infer_instance
 
 /-- **Versality is detected on a full subcategory containing the Noetherian objects.** Let
@@ -270,7 +270,7 @@ theorem isFiberedInGroupoids_comp_of_surjective {r : 𝓓' ⥤ C} (hr : r.IsFibe
   unique_lift {x y z} φ ψ f hf := by
     obtain ⟨χ', ⟨hχ'₁, hχ'₂⟩, hu⟩ := hr.unique_lift (Ψ.map φ) (Ψ.map ψ) f hf
     refine ⟨Ψ.preimage χ', ⟨?_, Ψ.map_injective ?_⟩, fun χ hχ => Ψ.map_injective ?_⟩
-    · show r.map (Ψ.map (Ψ.preimage χ')) = f
+    · change r.map (Ψ.map (Ψ.preimage χ')) = f
       rw [Functor.map_preimage, hχ'₁]
     · rw [Functor.map_comp, Functor.map_preimage, hχ'₂]
     · rw [Functor.map_preimage]
@@ -293,7 +293,7 @@ theorem nonempty_fiber_equivalence_of_surjective (r : 𝓓' ⥤ C) (A : C) :
   have : G.EssSurj := ⟨fun z => by
     obtain ⟨d, hd⟩ := hsurj z.1
     have hA : (Ψ ⋙ r).obj d = A := by
-      show r.obj (Ψ.obj d) = A
+      change r.obj (Ψ.obj d) = A
       rw [hd]
       exact z.2
     exact ⟨⟨d, hA⟩, ⟨eqToIso (Subtype.ext hd)⟩⟩⟩
@@ -315,17 +315,17 @@ theorem satisfiesRS_comp_of_surjective {Λ : Type u} {k : Type w} [CommRing Λ] 
   let c := PullbackCone.mk g₁ g₂ hcond
   have hΨ : IsLimit (c.map Ψ) := IsLimit.ofIsoLimit hc' (PullbackCone.ext (eqToIso hP.symm)
     (by
-      show c'.fst = eqToHom hP.symm ≫ Ψ.map (Ψ.preimage (eqToHom hP ≫ c'.fst))
+      change c'.fst = eqToHom hP.symm ≫ Ψ.map (Ψ.preimage (eqToHom hP ≫ c'.fst))
       rw [Functor.map_preimage, eqToHom_trans_assoc, eqToHom_refl, Category.id_comp])
     (by
-      show c'.snd = eqToHom hP.symm ≫ Ψ.map (Ψ.preimage (eqToHom hP ≫ c'.snd))
+      change c'.snd = eqToHom hP.symm ≫ Ψ.map (Ψ.preimage (eqToHom hP ≫ c'.snd))
       rw [Functor.map_preimage, eqToHom_trans_assoc, eqToHom_refl, Category.id_comp]))
   refine ⟨c, ⟨isLimitOfReflects Ψ ((PullbackCone.isLimitMapConeEquiv c Ψ).symm hΨ)⟩, ⟨?_⟩⟩
   refine IsLimit.ofIsoLimit hc'r (PullbackCone.ext (r.mapIso (eqToIso hP.symm)) ?_ ?_)
-  · show r.map c'.fst = r.map (eqToHom hP.symm) ≫ r.map (Ψ.map g₁)
+  · change r.map c'.fst = r.map (eqToHom hP.symm) ≫ r.map (Ψ.map g₁)
     rw [← Functor.map_comp, Functor.map_preimage, eqToHom_trans_assoc, eqToHom_refl,
       Category.id_comp]
-  · show r.map c'.snd = r.map (eqToHom hP.symm) ≫ r.map (Ψ.map g₂)
+  · change r.map c'.snd = r.map (eqToHom hP.symm) ≫ r.map (Ψ.map g₂)
     rw [← Functor.map_comp, Functor.map_preimage, eqToHom_trans_assoc, eqToHom_refl,
       Category.id_comp]
 
@@ -456,7 +456,7 @@ theorem predeformationComp_surjective
   rw [← hχ] at ab
   refine ⟨(⟨A, y, χ, base, ab⟩ : DeformationObject iΛ (Φ ⋙ q') x₀ hx₀), ?_⟩
   exact deformationObject_ext_of_arrow_comp (halg := rfl) (hpoint := rfl) (by
-    show Φ.map χ ≫ eqToHom rfl = arr
+    change Φ.map χ ≫ eqToHom rfl = arr
     rw [eqToHom_refl, Category.comp_id, hχ])
 
 /-- **Finite-dimensionality of tangent spaces passes to a category reaching the same Noetherian
@@ -472,12 +472,12 @@ theorem finiteDimensional_tangentSpaceArtinian_of_comp
     (h : letI := (predeformationCategory iΛ (Φ ⋙ q') x₀ hx₀).category
       ∀ (hP : IsPredeformationCategory (BasedCategory.ofFunctor
           (predeformationCategory iΛ (Φ ⋙ q') x₀ hx₀).projection).p)
-        (hS2 : SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+        (hS2 : SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
           (BasedCategory.ofFunctor (predeformationCategory iΛ (Φ ⋙ q') x₀ hx₀).projection)
             hP.cofibered))),
         letI : Fact (IsPredeformationCategory (BasedCategory.ofFunctor
             (predeformationCategory iΛ (Φ ⋙ q') x₀ hx₀).projection).p) := ⟨hP⟩
-        letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+        letI : Fact (SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
             (BasedCategory.ofFunctor (predeformationCategory iΛ (Φ ⋙ q') x₀ hx₀).projection)
               hP.cofibered))) := ⟨hS2⟩
         FiniteDimensional k (artinianTangentSpace Λ k (isomorphismClasses
@@ -488,7 +488,7 @@ theorem finiteDimensional_tangentSpaceArtinian_of_comp
     letI := (predeformationCategory iΛ q' (Φ.obj x₀) hx₀).category
     letI : Fact (IsPredeformationCategory (BasedCategory.ofFunctor
         (predeformationCategory iΛ q' (Φ.obj x₀) hx₀).projection).p) := ⟨hD'.predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
         (BasedCategory.ofFunctor (predeformationCategory iΛ q' (Φ.obj x₀) hx₀).projection)
           hD'.predeformation.cofibered))) := ⟨tangentConditionS2 hD'⟩
     FiniteDimensional k (tangentSpaceArtinian Λ k (isomorphismClasses
@@ -560,7 +560,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 over schemes over `S`: the big-site counterpart of
 `AlgebraicGeometry.LocallyNoetherianOver.elementsToOver`. -/
 abbrev bigElementsToOver (F' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type w) : F'.Elementsᵒᵖ ⥤ Over S :=
-  (CategoryOfElements.π F').leftOp ⋙ Over.post B.inclusion
+  (Functor.Elements.π F').leftOp ⋙ Over.post B.inclusion
 
 /-- **The comparison of the categories fibred in sets** of a functor `F` on the locally
 Noetherian site and of a functor `F'` on the big fppf site restricting to it along `e`. -/
@@ -616,7 +616,7 @@ theorem elementsComparison_surjective (y' : F'.Elementsᵒᵖ)
     ∃ y : F.Elementsᵒᵖ, (elementsComparison e).obj y = y' := by
   obtain ⟨@⟨⟨T⟩, s⟩⟩ := y'
   refine ⟨op (F.elementsMk (op ⟨T, hy'⟩) (e.hom.app (op ⟨T, hy'⟩) s)), ?_⟩
-  show op (F'.elementsMk (op T) (e.inv.app _ (e.hom.app (op ⟨T, hy'⟩) s))) =
+  change op (F'.elementsMk (op T) (e.inv.app _ (e.hom.app (op ⟨T, hy'⟩) s))) =
     op (F'.elementsMk (op T) s)
   rw [Iso.hom_inv_id_app_apply]
 
@@ -647,7 +647,7 @@ theorem finiteDimensional_tangentSpaceArtinian_bigElementsToOver
     letI : Fact (IsPredeformationCategory (BasedCategory.ofFunctor
         (predeformationCategory iΛ (bigElementsToOver F') x₀ hx₀).projection).p) :=
       ⟨hD.predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
         (BasedCategory.ofFunctor
           (predeformationCategory iΛ (bigElementsToOver F') x₀ hx₀).projection)
           hD.predeformation.cofibered))) := ⟨tangentConditionS2 hD⟩
@@ -657,7 +657,7 @@ theorem finiteDimensional_tangentSpaceArtinian_bigElementsToOver
         hD.predeformation.cofibered)) := by
   have hN : IsLocallyNoetherian ((bigElementsToOver F').obj x₀).left := by
     rw [hx₀]
-    show IsLocallyNoetherian (Spec (.of k))
+    change IsLocallyNoetherian (Spec (.of k))
     infer_instance
   obtain ⟨y, rfl⟩ := elementsComparison_surjective e x₀ hN
   exact finiteDimensional_tangentSpaceArtinian_of_comp iΛ (bigElementsToOver F')
@@ -680,7 +680,7 @@ theorem exists_eq_of_hasEffectiveFormalObjects (h : HasEffectiveFormalObjects B 
   obtain ⟨x, hx⟩ := h A hA (fun n => e.hom.app _ (ξ₀ n)) (fun n => by
     rw [← NatTrans.naturality_apply, hξ₀])
   refine ⟨e.inv.app (op (baseObj B S hS A hA)) x, fun n => ?_⟩
-  show F₀.map (truncationObjIncl B S hS A hA n).op (e.inv.app _ x) = ξ₀ n
+  change F₀.map (truncationObjIncl B S hS A hA n).op (e.inv.app _ x) = ξ₀ n
   rw [← NatTrans.naturality_apply, hx n, Iso.hom_inv_id_app_apply]
 
 end AlgebraicGeometry.LocallyNoetherianOver
@@ -781,7 +781,7 @@ theorem elementsToFibredCategory_surjective (y' : (Stack.fibredCategory B S hS G
     ∃ y : F.Elementsᵒᵖ, (elementsToFibredCategory e).obj y = y' := by
   obtain ⟨T, ⟨s⟩⟩ := y'
   refine ⟨op (F.elementsMk (op ⟨T, hy'⟩) (e.hom.app (op ⟨T, hy'⟩) s)), ?_⟩
-  show (⟨T, Discrete.mk (e.inv.app _ (e.hom.app (op ⟨T, hy'⟩) s))⟩ :
+  change (⟨T, Discrete.mk (e.inv.app _ (e.hom.app (op ⟨T, hy'⟩) s))⟩ :
     (Stack.fibredCategory B S hS G).val.obj) = ⟨T, ⟨s⟩⟩
   rw [Iso.hom_inv_id_app_apply]
 
@@ -824,7 +824,7 @@ theorem isEffective_fibredCategory_of_hasEffectiveFormalObjects
   let r : ∀ n, ξ.level n ⟶ X := fun n =>
     ⟨eqToHom (ξ.level_eq n) ≫ restrictionToBase B S hS ξ.base hA ξ.contains n,
       Discrete.eqToHom (by
-        show (ξ.level n).fiber.as =
+        change (ξ.level n).fiber.as =
           G.map (eqToHom (ξ.level_eq n) ≫ restrictionToBase B S hS ξ.base hA ξ.contains n).op x
         rw [hs n, op_comp, Functor.map_comp_apply, hx n])⟩
   refine FormalObject.isEffective_of_realization (Stack.fibredCategory B S hS G).property
@@ -917,7 +917,7 @@ theorem elementsToFibredCategoryULift_surjective (y' : (Stack.fibredCategory B S
   refine ⟨op (F.elementsMk (op T₀) (e.hom.app (op T₀) (ULift.up s))), ?_⟩
   have h : (e.inv.app (op T₀) (e.hom.app (op T₀) (ULift.up s))).down = s :=
     congrArg ULift.down ((e.app (op T₀)).toEquiv.symm_apply_apply _)
-  show (⟨T, Discrete.mk (e.inv.app (op T₀) (e.hom.app (op T₀) (ULift.up s))).down⟩ :
+  change (⟨T, Discrete.mk (e.inv.app (op T₀) (e.hom.app (op T₀) (ULift.up s))).down⟩ :
     (Stack.fibredCategory B S hS G).val.obj) = ⟨T, ⟨s⟩⟩
   rw [h]
 
@@ -979,7 +979,7 @@ theorem finiteDimensional_tangentSpaceArtinian_fibredCategory
     letI : Fact (IsPredeformationCategory (BasedCategory.ofFunctor
         (predeformationCategory iΛ ((Stack.fibredCategory B S hS G).val.p ⋙
           Over.post B.inclusion) x₀ hx₀).projection).p) := ⟨hD.predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
         (BasedCategory.ofFunctor (predeformationCategory iΛ
           ((Stack.fibredCategory B S hS G).val.p ⋙ Over.post B.inclusion) x₀ hx₀).projection)
         hD.predeformation.cofibered))) := ⟨tangentConditionS2 hD⟩
@@ -990,7 +990,7 @@ theorem finiteDimensional_tangentSpaceArtinian_fibredCategory
   have hN : IsLocallyNoetherian
       (((Stack.fibredCategory B S hS G).val.p ⋙ Over.post B.inclusion).obj x₀).left := by
     rw [hx₀]
-    show IsLocallyNoetherian (Spec (.of k))
+    change IsLocallyNoetherian (Spec (.of k))
     infer_instance
   obtain ⟨y, rfl⟩ := elementsToFibredCategoryULift_surjective e x₀ hN
   exact finiteDimensional_tangentSpaceArtinian_of_comp (k := k) iΛ

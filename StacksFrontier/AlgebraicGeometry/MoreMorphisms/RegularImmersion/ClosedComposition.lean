@@ -118,7 +118,7 @@ theorem isWeaklyRegular_map_res {X : Scheme.{u}} {U V : X.Opens} (hU : IsAffineO
   let _ : Algebra Γ(X, U) Γ(X, V) := q.toAlgebra
   have hflat : q.Flat := by
     convert (𝟙 X : X ⟶ X).flat_appLE hU hV (by simpa using hVU) using 1
-    show q = (CategoryStruct.id Γ(X, U) ≫ X.presheaf.map (homOfLE hVU).op).hom
+    change q = (CategoryStruct.id Γ(X, U) ≫ X.presheaf.map (homOfLE hVU).op).hom
     rw [Category.id_comp]
   have : Module.Flat Γ(X, U) Γ(X, V) := hflat
   exact hl.of_flat

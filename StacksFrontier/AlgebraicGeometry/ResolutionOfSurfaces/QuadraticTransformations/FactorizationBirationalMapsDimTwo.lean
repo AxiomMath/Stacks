@@ -107,7 +107,7 @@ public theorem ringKrullDim_stalk_eq_one_or_two {X : Scheme.{u}}
     refine genericPoint_notMem_supportSet
       (Scheme.IdealSheafData.vanishingIdeal (⟨{x}, hx⟩ : Closeds X))
       (vanishingIdeal_singleton_ne_bot hX.topologicalKrullDim_eq x hx) ?_
-    show genericPoint X ∈
+    change genericPoint X ∈
       ((Scheme.IdealSheafData.vanishingIdeal (⟨{x}, hx⟩ : Closeds X)).support : Set X)
     rw [Scheme.IdealSheafData.coe_support_vanishingIdeal]
     simpa using hxη.symm
@@ -296,7 +296,7 @@ public theorem exists_factorsAsPointBlowups_of_birationalOver_of_dim_two
   set pIso := hbirational.partialIso (X ↘ S) (Y ↘ S)
   have hpmOver : pIso.toPartialMap.IsOver S := by
     refine ⟨?_⟩
-    show (pIso.iso.hom ≫ pIso.target.ι) ≫ (Y ↘ S) = pIso.source.ι ≫ (X ↘ S)
+    change (pIso.iso.hom ≫ pIso.target.ι) ≫ (Y ↘ S) = pIso.source.ι ≫ (X ↘ S)
     rw [Category.assoc]
     exact hbirational.partialIso_isOver (X ↘ S) (Y ↘ S)
   obtain ⟨Z, p, q, hchain, hqS, hagree⟩ :=

@@ -114,8 +114,8 @@ the proof of Stacks 05IK uses the two lemmas, and all that it uses them for.
 
 Stacks 05IJ is stated for a morphism locally of finite type, that is, with
 `Algebra.FiniteType R S` and `Module.Finite S N`. **At those
-hypotheses this `def` is not provable here**, and the obstruction is not a gap in the formalization. The
-fibre clause it rests on,
+hypotheses this `def` is not provable here**, and the obstruction is not a gap in the formalization.
+The fibre clause it rests on,
 `isAssociatedPrimeStacks_quotient_of_isWeaklyAssociatedPrime_tensorProduct`,
 needs `Module.FinitePresentation S N`, because its engine is Stacks 05DF, whose proof is a limit
 argument. And the missing hypothesis cannot be manufactured: this library contains the
@@ -212,7 +212,7 @@ theorem existsAwayFlatFinitePresentationOfFlatAtPrime_of_finitePresentation_atPr
       ¬ p.asIdeal ≤ q.asIdeal}.Finite := hFfin.subset fun _ hp => hp.1
   choose! x hx1 hx2 using fun (p : PrimeSpectrum S) (hp : p ∈ {p ∈ {p ∈ weakAss S M' |
       p ∈ Set.range (localizationComap (Submonoid.powers g₁))} | ¬ p.asIdeal ≤ q.asIdeal}) =>
-    SetLike.not_le_iff_exists.mp hp.2
+    IsConcreteLE.not_le_iff_exists.mp hp.2
   set g₂ : S := ∏ p ∈ hBfin.toFinset, x p with hg₂def
   have hg₂q : g₂ ∉ q.asIdeal :=
     q.asIdeal.primeCompl.prod_mem fun p hp => hx2 p (hBfin.mem_toFinset.mp hp)

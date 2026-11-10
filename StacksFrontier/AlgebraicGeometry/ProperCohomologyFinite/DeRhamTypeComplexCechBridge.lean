@@ -57,7 +57,7 @@ def cechComplexFunctorCompIso (P : Cᵒᵖ ⥤ A) :
         intro i
         dsimp only [Functor.comp_map, Functor.comp_obj, FormalCoproduct.evalOp]
         simp only [PreservesProduct.iso_hom, Category.assoc, piComparison_comp_π,
-          Pi.lift_comp_π, Pi.lift_comp_π_assoc, piComparison_comp_π_assoc, ← Φ.map_comp])
+          Pi.lift_comp_π, piComparison_comp_π_assoc, ← Φ.map_comp])
   let e : T ⋙ Φ ≅ E.rightOp ⋙ (FormalCoproduct.evalOp.{w} C A').obj (P ⋙ Φ) :=
     Functor.isoWhiskerLeft E.rightOp e₀
   let e' : (Φ.mapHomologicalComplex (ComplexShape.up ℕ)).obj ((cechComplexFunctor U).obj P) ≅

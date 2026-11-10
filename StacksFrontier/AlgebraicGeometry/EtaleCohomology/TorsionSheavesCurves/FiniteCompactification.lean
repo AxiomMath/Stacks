@@ -61,7 +61,7 @@ theorem exists_isPullback_isFinite_relativeNormalization (k : Type u) [Field k]
     set P := π ⁻¹ᵁ j.opensRange
     have hsub : j'.opensRange ≤ P := by
       rintro _ ⟨t, rfl⟩
-      show π.base (j'.base t) ∈ Set.range j.base
+      change π.base (j'.base t) ∈ Set.range j.base
       rw [← Scheme.Hom.comp_apply, hw, Scheme.Hom.comp_apply]
       exact ⟨_, rfl⟩
     let l : T ⟶ P := IsOpenImmersion.lift P.ι j' (by rw [P.range_ι]; exact hsub)

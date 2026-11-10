@@ -53,8 +53,8 @@ rather than a comparison of two morphisms out of a tensor product.
 ## Implementation notes
 
 The split presentation is passed as data rather than substituted, for the reason recorded in
-`StacksFrontier.RingTheory.Dualizing.BaseChangeComparison.TensorBaseChangeScalarLift`: `ψ`'s value is
-large and a consumer may hold it in more than one shape, the all-objects one or the one at the
+`StacksFrontier.RingTheory.Dualizing.BaseChangeComparison.TensorBaseChangeScalarLift`: `ψ`'s value
+is large and a consumer may hold it in more than one shape, the all-objects one or the one at the
 keystone's K-flat pair with the content factor at the chain level, and passing it in keeps the
 reduction independent of which.  The two shapes agree on the prefix `v` and the identity beside
 it, and differ only in the transpose's argument `a`, which is what makes one hypothesis list serve

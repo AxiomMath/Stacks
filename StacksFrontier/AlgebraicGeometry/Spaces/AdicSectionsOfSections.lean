@@ -122,7 +122,7 @@ theorem adicSectionsMap_adicSectionsOfSections {K K' : Modules.{u, m} B S hS F h
         (adicSectionsOfSections B S hS F hF 𝓘 K σ) =
       adicSectionsOfSections B S hS F hF 𝓘 K' (SheafOfModules.sectionsMap g σ) := by
   refine Subtype.ext (funext fun n => ?_)
-  show SheafOfModules.sectionsMap _ (SheafOfModules.sectionsMap _ σ) =
+  change SheafOfModules.sectionsMap _ (SheafOfModules.sectionsMap _ σ) =
     SheafOfModules.sectionsMap _ (SheafOfModules.sectionsMap _ σ)
   rw [← SheafOfModules.sectionsMap_comp, ← SheafOfModules.sectionsMap_comp,
     smallEtaleAdicQuotientProjection_comp_mapOfHom]
@@ -143,7 +143,7 @@ theorem adicSectionsMap_mapOfHom_comp {K K' K'' : Modules.{u, m} B S hS F hF} (g
         (fun n => smallEtaleAdicQuotientTransition_comp_mapOfHom B S hS F hF 𝓘 (n + 1)
           (g ≫ g')) s := by
   refine Subtype.ext (funext fun n => ?_)
-  show SheafOfModules.sectionsMap _ (SheafOfModules.sectionsMap _ _) =
+  change SheafOfModules.sectionsMap _ (SheafOfModules.sectionsMap _ _) =
     SheafOfModules.sectionsMap _ _
   rw [← SheafOfModules.sectionsMap_comp]
   exact congrArg (fun k => SheafOfModules.sectionsMap k (s.1 n))
@@ -159,7 +159,7 @@ theorem adicSectionsMap_mapOfHom_id (K : Modules.{u, m} B S hS F hF)
         (fun n => smallEtaleAdicQuotientTransition_comp_mapOfHom B S hS F hF 𝓘 (n + 1) (𝟙 K))
         s = s := by
   refine Subtype.ext (funext fun n => ?_)
-  show SheafOfModules.sectionsMap _ _ = _
+  change SheafOfModules.sectionsMap _ _ = _
   exact (congrArg (fun k => SheafOfModules.sectionsMap k (s.1 n))
     (smallEtaleAdicQuotientMapOfModuleHom_id B S hS F hF 𝓘 (n + 1) K)).trans
       (SheafOfModules.sectionsMap_id _)

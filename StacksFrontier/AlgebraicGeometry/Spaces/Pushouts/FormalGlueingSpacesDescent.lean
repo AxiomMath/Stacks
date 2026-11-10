@@ -157,7 +157,7 @@ theorem morphismProperty_iff_restrictions (D : FormalGlueingSituation B S hS)
       f := gi
       mem₀ := ⟨I, Xi', gi, rfl, (spaceOfX D).property, fun i => (Xi' i).property, hcover⟩ }
   refine MorphismProperty.IsLocalAtTarget.of_zeroHypercover (P := P) 𝒰 fun i => ?_
-  show P (pullback.snd a (gi i))
+  change P (pullback.snd a (gi i))
   rcases hfactor i with ⟨b, hb⟩ | ⟨c, hc⟩
   · exact property_pullback_snd_comp hbc a (homOfU D) ⟨b⟩ (gi i)
       hb hU

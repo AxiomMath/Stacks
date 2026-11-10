@@ -103,8 +103,7 @@ def absModTotalForwardSummand (L : DifferentialGradedModule.{u, u, u} A)
   ModuleCat.ofHom <| LinearMap.codRestrict _
     (TensorProduct.map (L.grading p).subtype (N.grading q).subtype) (by
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add x y hx hy => simpa only [map_add] using Submodule.add_mem _ hx hy
       | tmul x y =>
         subst n
@@ -187,7 +186,7 @@ theorem absModTotalBackward_pure (L : DifferentialGradedModule.{u, u, u} A)
     rw [LinearEquiv.apply_symm_apply]
     apply Subtype.ext
     exact (absModFiberMap_lof_tmul L N n ⟨(p, q), h⟩ x y).symm
-  show absModTotalBackwardLinear L N n ((absModComponentEquiv L N n).symm _) = _
+  change absModTotalBackwardLinear L N n ((absModComponentEquiv L N n).symm _) = _
   rw [he, absModTotalBackwardLinear_lof]
 
 /-- The composite of `absModTotalBackwardLinear` with `absModTotalForward` is the bigraded
@@ -197,7 +196,7 @@ theorem absModTotalForward_comp_backwardLinear (L : DifferentialGradedModule.{u,
     (absModTotalForward L N n).hom ∘ₗ absModTotalBackwardLinear L N n =
       (absModComponentEquiv L N n).toLinearMap := by
   refine DirectSum.linearMap_ext R fun pq => TensorProduct.ext' fun x y => ?_
-  show (absModTotalForward L N n).hom (absModTotalBackwardLinear L N n
+  change (absModTotalForward L N n).hom (absModTotalBackwardLinear L N n
     (DirectSum.lof R _ _ pq (x ⊗ₜ[R] y))) = absModComponentEquiv L N n (DirectSum.lof R _ _ pq _)
   rw [absModTotalBackwardLinear_lof]
   apply Subtype.ext
@@ -209,7 +208,7 @@ theorem absModTotalBackward_forward (L : DifferentialGradedModule.{u, u, u} A)
     (N : DifferentialGradedModule.{u, u, u} B) (n : ℤ) :
     absModTotalBackward L N n ≫ absModTotalForward L N n = 𝟙 _ := by
   apply ModuleCat.hom_ext
-  show (absModTotalForward L N n).hom ∘ₗ
+  change (absModTotalForward L N n).hom ∘ₗ
       (absModTotalBackwardLinear L N n ∘ₗ (absModComponentEquiv L N n).symm.toLinearMap) =
     LinearMap.id
   rw [← LinearMap.comp_assoc, absModTotalForward_comp_backwardLinear]
@@ -226,7 +225,7 @@ theorem absModTotalForward_backward (L : DifferentialGradedModule.{u, u, u} A)
   ext x y
   change L.grading p at x
   change N.grading q at y
-  show (absModTotalBackward L N n) ((absModTotalForward L N n)
+  change (absModTotalBackward L N n) ((absModTotalForward L N n)
     (absModTensorInclusion L N p q n h (x ⊗ₜ[R] y))) = _
   rw [absModTotalForward_ι, absModTotalBackward_pure]
   rfl
@@ -244,11 +243,11 @@ theorem absModTotalForward_comm (L : DifferentialGradedModule.{u, u, u} A)
   have h₂ : (ComplexShape.up ℤ).Rel q (q + 1) := rfl
   have ha : (ComplexShape.up ℤ).π (ComplexShape.up ℤ) (ComplexShape.up ℤ) (p + 1, q) = n + 1 := by
     change p + q = n at hpq
-    show p + 1 + q = n + 1
+    change p + 1 + q = n + 1
     omega
   have hb : (ComplexShape.up ℤ).π (ComplexShape.up ℤ) (ComplexShape.up ℤ) (p, q + 1) = n + 1 := by
     change p + q = n at hpq
-    show p + (q + 1) = n + 1
+    change p + (q + 1) = n + 1
     omega
   rw [HomologicalComplex.mapBifunctor.d_eq]
   simp only [Preadditive.add_comp, Preadditive.comp_add,

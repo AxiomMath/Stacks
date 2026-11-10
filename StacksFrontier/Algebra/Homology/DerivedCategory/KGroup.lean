@@ -164,7 +164,7 @@ private def liftCls {M : Type*} [AddCommGroup M] (s : Set (FreeAbelianGroup X)) 
 private lemma liftCls_cls {M : Type*} [AddCommGroup M] (s : Set (FreeAbelianGroup X)) (f : X → M)
     (hf : ∀ x ∈ s, FreeAbelianGroup.lift f x = 0) (x : X) :
     liftCls s f hf (QuotientAddGroup.mk (FreeAbelianGroup.of x)) = f x := by
-  show FreeAbelianGroup.lift f (FreeAbelianGroup.of x) = f x
+  change FreeAbelianGroup.lift f (FreeAbelianGroup.of x) = f x
   simp
 
 /-- The value of `FreeAbelianGroup.lift f` on a generator. -/

@@ -118,7 +118,7 @@ theorem comap_map_awayDegreeZeroToAtPrime (hf : f ∈ 𝒜 1) (Q : Ideal (Away �
       Q.map (algebraMap (Away 𝒜 f) (Localization.Away f)) := by
   let := (awayToAtPrime p hp).toAlgebra
   have := isLocalization_awayToAtPrime p hp
-  have h := IsLocalization.comap_map_of_isPrime_disjoint
+  have h := IsLocalization.under_map_of_isPrime_disjoint
     (p.primeCompl.map (algebraMap S (Localization.Away f))) (Localization.AtPrime p)
     (isPrime_map_algebraMap_away 𝒜 hf Q) (disjoint_map_algebraMap_away 𝒜 p hp Q hQ)
   rwa [Ideal.map_map] at h
@@ -133,7 +133,7 @@ theorem awayZpowBasis_repr_eval₂ (hf : f ∈ 𝒜 1) (P : Polynomial (Away �
   have hpow : ∀ i : ℕ, (algebraMap S (Localization.Away f) f) ^ i =
       awayZpowBasis 𝒜 hf (i : ℤ) := fun i => by
     rw [awayZpowBasis_apply, coe_awayUnit_zpow_natCast, map_pow]
-  rw [Polynomial.eval₂_eq_sum_range, map_sum, Finsupp.finset_sum_apply]
+  rw [Polynomial.eval₂_eq_sum_range, map_sum, Finsupp.finsetSum_apply]
   have hterm : ∀ i ∈ Finset.range (P.natDegree + 1),
       (awayZpowBasis 𝒜 hf).repr (algebraMap (Away 𝒜 f) (Localization.Away f) (P.coeff i) *
         (algebraMap S (Localization.Away f) f) ^ i) (n : ℤ) = if i = n then P.coeff n else 0 :=
@@ -142,7 +142,7 @@ theorem awayZpowBasis_repr_eval₂ (hf : f ∈ 𝒜 1) (P : Polynomial (Away �
         Finsupp.single_apply]
       by_cases hin : i = n
       · subst hin; simp
-      · rw [if_neg (fun h => hin (by exact_mod_cast h)), if_neg hin, smul_zero]
+      · rw [ite_eq_right (fun h => hin (by exact_mod_cast h)), ite_eq_right hin, smul_zero]
   rw [Finset.sum_congr rfl hterm, Finset.sum_ite_eq']
   split_ifs with hn
   · rfl
@@ -182,7 +182,7 @@ theorem baseResidueMap_algebraMap (b : Away 𝒜 f) :
     baseResidueMap 𝒜 p hp (algebraMap (Away 𝒜 f) (baseIdeal 𝒜 p hp).ResidueField b) =
       residue (Localization.AtPrime p) (awayDegreeZeroToAtPrime 𝒜 p hp b) := by
   rw [IsScalarTower.algebraMap_apply (Away 𝒜 f) (Localization.AtPrime (baseIdeal 𝒜 p hp))]
-  show IsLocalRing.ResidueField.map _ (residue _ _) = _
+  change IsLocalRing.ResidueField.map _ (residue _ _) = _
   rw [IsLocalRing.ResidueField.map_residue, baseLocalHom_algebraMap]
 
 /-- **At the generic point of the fibre, `f` is transcendental over the residue field of the
@@ -206,7 +206,7 @@ theorem transcendental_residue_of_maximalIdeal_le (hf : f ∈ 𝒜 1)
     IsScalarTower.of_algebraMap_eq fun _ => rfl
   have hDB : ∀ b : B, algebraMap D (ResidueField T) (Ideal.Quotient.mk Q b) =
       residue T (φ b) := fun b => by
-    show ψ (algebraMap D Q.ResidueField (Ideal.Quotient.mk Q b)) = _
+    change ψ (algebraMap D Q.ResidueField (Ideal.Quotient.mk Q b)) = _
     have h := IsScalarTower.algebraMap_apply B D Q.ResidueField b
     rw [Ideal.Quotient.algebraMap_eq] at h
     rw [← h]
@@ -263,7 +263,7 @@ theorem toENat_trdeg_add_one_le (hf : f ∈ 𝒜 1) (k : Type*) [Field k] [Algeb
   let : Algebra Q.ResidueField p.ResidueField := ψ.toAlgebra
   have : IsScalarTower k Q.ResidueField p.ResidueField :=
     IsScalarTower.of_algebraMap_eq fun a => by
-      show _ = ψ _
+      change _ = ψ _
       rw [IsScalarTower.algebraMap_apply k (Away 𝒜 f) Q.ResidueField, baseResidueMap_algebraMap,
         hk, IsScalarTower.algebraMap_apply k T (ResidueField T),
         IsLocalRing.ResidueField.algebraMap_eq]

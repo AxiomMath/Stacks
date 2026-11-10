@@ -96,7 +96,7 @@ theorem exists_specializes_mem_of_genericPoints_subset {Z : Type*} [TopologicalS
   refine ⟨hirr.genericPoint, ?_, hgeneric ?_⟩
   · exact (hirr.isGenericPoint_genericPoint isClosed_irreducibleComponent).specializes
       mem_irreducibleComponent
-  · show closure ({hirr.genericPoint} : Set Z) ∈ irreducibleComponents Z
+  · change closure ({hirr.genericPoint} : Set Z) ∈ irreducibleComponents Z
     rw [(hirr.isGenericPoint_genericPoint isClosed_irreducibleComponent).def]
     exact irreducibleComponent_mem_irreducibleComponents z
 
@@ -163,7 +163,7 @@ theorem trdeg_residueField_of_isOpenImmersion (k : Type u) [Field k] {X Y : Sche
         ⟨(ConcreteCategory.bijective_of_isIso _).1,
           (ConcreteCategory.bijective_of_isIso _).2⟩ with
       commutes' := fun a ↦ by
-        show (j.residueFieldMap x).hom
+        change (j.residueFieldMap x).hom
             (((Scheme.ΓSpecIso (.of k)).inv ≫ q.appTop ≫ Y.Γevaluation (j x)).hom a) =
           ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫ X.Γevaluation x).hom a
         rw [← hq, Scheme.Hom.comp_appTop]

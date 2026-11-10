@@ -40,7 +40,7 @@ private theorem algHom_card_eq_residueField_of_finite
         (R := F) (RingHom.ker hom.toRingHom) (by
           have hbot : (RingHom.ker hom.toRingHom).comap (algebraMap F B) = ⊥ := by
             ext element
-            show hom (algebraMap F B element) = 0 ↔ element = 0
+            change hom (algebraMap F B element) = 0 ↔ element = 0
             rw [hom.commutes]
             exact map_eq_zero (algebraMap F K)
           rw [Ideal.under_def, hbot]
@@ -122,7 +122,7 @@ private theorem isLocalizationAtPrime_of_piAlgEquiv
     exact notMem_maximalIdeal.mp denominator.2
   · intro value
     refine ⟨(equiv.symm (Pi.single element value), 1), ?_⟩
-    show value * projection 1 = projection (equiv.symm (Pi.single element value))
+    change value * projection 1 = projection (equiv.symm (Pi.single element value))
     simp [projection]
   · intro numerator₁ numerator₂ heq
     change equiv numerator₁ element = equiv numerator₂ element at heq
@@ -361,7 +361,7 @@ theorem minimalPrime_comap_of_flat
     {R S : Type u} [CommRing R] [CommRing S] [Algebra R S] [Module.Flat R S]
     (prime : Ideal S) [prime.IsPrime] (hprime : prime ∈ minimalPrimes S) :
     prime.comap (algebraMap R S) ∈ minimalPrimes R := by
-  show IsMinimalPrime (prime.comap (algebraMap R S))
+  change IsMinimalPrime (prime.comap (algebraMap R S))
   rw [IsMinimalPrime.iff_minimal]
   refine ⟨Ideal.comap_isPrime _ _, ?_⟩
   intro smaller hsmaller hle
@@ -404,7 +404,7 @@ private theorem weightedFiberSum_of_finite_pi
     PrimeSpectrum.comap (algebraMap R B) point = closedPoint R}
   have hpoint (element : index) :
       PrimeSpectrum.comap (algebraMap R B) (point element) = closedPoint R := by
-    show PrimeSpectrum.comap (algebraMap R B)
+    change PrimeSpectrum.comap (algebraMap R B)
       (PrimeSpectrum.comap (projection element).toRingHom _) = _
     rw [← PrimeSpectrum.comap_comp_apply]
     rw [show (projection element).toRingHom.comp (algebraMap R B) =
@@ -426,7 +426,7 @@ private theorem weightedFiberSum_of_finite_pi
       have htarget := congrArg PrimeSpectrum.asIdeal target.2
       have hprimeTarget : PrimeSpectrum.comap (projection element).toRingHom prime = target.1 := by
         have heq := congrArg (PrimeSpectrum.comap equiv.toRingHom) hprime
-        show PrimeSpectrum.comap equiv.toRingHom
+        change PrimeSpectrum.comap equiv.toRingHom
           (PrimeSpectrum.comap (Pi.evalRingHom factors element) prime) = target.1
         exact heq.trans ((PrimeSpectrum.comapEquiv equiv.toRingEquiv).symm_apply_apply target.1)
       rw [← hprimeTarget] at htarget
@@ -438,7 +438,7 @@ private theorem weightedFiberSum_of_finite_pi
       PrimeSpectrum.ext (eq_maximalIdeal hmaximal)
     refine ⟨element, ?_⟩
     have heq := congrArg (PrimeSpectrum.comap equiv.toRingHom) hprime
-    show PrimeSpectrum.comap equiv.toRingHom
+    change PrimeSpectrum.comap equiv.toRingHom
       (PrimeSpectrum.comap (Pi.evalRingHom factors element) (closedPoint _)) = target.1
     rw [← heqprime]
     exact heq.trans ((PrimeSpectrum.comapEquiv equiv.toRingEquiv).symm_apply_apply target.1)
@@ -473,7 +473,7 @@ private theorem weightedFiberSum_of_finite_pi
     let := module_finite_residueFieldMap hom (point element)
     exact IsPurelyInseparable.finSepDegree_eq_one _ _
   unfold separableDegreeWeightedFiberSum
-  show (∑ᶠ target : PrimeSpectrum B, if PrimeSpectrum.comap (algebraMap R B) target =
+  change (∑ᶠ target : PrimeSpectrum B, if PrimeSpectrum.comap (algebraMap R B) target =
       closedPoint R then _ else 0) = _
   rw [finsum_eq_sum_of_support_subset_of_finite _ (s := Set.range point) (by
     intro target htarget
@@ -585,7 +585,7 @@ private theorem genericSeparableDegree_eq_of_affine_factor
   apply IsLocalization.ringHom_ext
     (((Spec.map (CommRingCat.ofHom (algebraMap A B))) point).asIdeal.primeCompl)
   ext value
-  show algebraMap ((Spec (.of A)).presheaf.stalk
+  change algebraMap ((Spec (.of A)).presheaf.stalk
       ((Spec.map (CommRingCat.ofHom (algebraMap A B))) point)) factor
       (algebraMap A ((Spec (.of A)).presheaf.stalk
         ((Spec.map (CommRingCat.ofHom (algebraMap A B))) point)) value) =
@@ -647,7 +647,7 @@ private theorem weightedFiberSum_eq_of_affine_strictHenselization
       (CommRingCat.isPushout_tensorProduct A Rsh B)).flip
   have hclosed : baseMap (closedPoint Rsh) = basePoint := by
     apply PrimeSpectrum.ext
-    show (maximalIdeal Rsh).comap (algebraMap A Rsh) = basePoint.asIdeal
+    change (maximalIdeal Rsh).comap (algebraMap A Rsh) = basePoint.asIdeal
     rw [IsScalarTower.algebraMap_eq A ((Spec (.of A)).presheaf.stalk basePoint) Rsh,
       ← Ideal.comap_comap, maximalIdeal_comap]
     exact IsLocalization.AtPrime.under_maximalIdeal
@@ -679,7 +679,7 @@ private theorem weightedFiberSum_eq_of_affine_strictHenselization
     let : IsScalarTower A ((Spec (.of A)).presheaf.stalk basePoint) factor :=
       IsScalarTower.to₁₂₄ A ((Spec (.of A)).presheaf.stalk basePoint) Rsh factor
     let : IsScalarTower A B factor := .of_algebraMap_eq fun value => by
-      show algebraMap Rsh factor (algebraMap A Rsh value) =
+      change algebraMap Rsh factor (algebraMap A Rsh value) =
         factorProjection (Algebra.TensorProduct.includeRight (algebraMap A B value))
       rw [Algebra.TensorProduct.includeRight.commutes]
       exact (factorProjection.commutes (algebraMap A Rsh value)).symm
@@ -687,7 +687,7 @@ private theorem weightedFiberSum_eq_of_affine_strictHenselization
       ⟨(maximalIdeal factor).comap (algebraMap B factor), Ideal.comap_isPrime _ _⟩
     have hover : original point = basePoint := by
       apply PrimeSpectrum.ext
-      show ((maximalIdeal factor).comap (algebraMap B factor)).comap
+      change ((maximalIdeal factor).comap (algebraMap B factor)).comap
         (algebraMap A B) = basePoint.asIdeal
       rw [Ideal.comap_comap, ← IsScalarTower.algebraMap_eq,
         IsScalarTower.algebraMap_eq A Rsh factor, ← Ideal.comap_comap]
@@ -696,12 +696,12 @@ private theorem weightedFiberSum_eq_of_affine_strictHenselization
         (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := Rsh) (maximalIdeal factor))
       rw [hmax]
       exact congrArg PrimeSpectrum.asIdeal hclosed
-    show genericSeparableDegree original hY point = _
+    change genericSeparableDegree original hY point = _
     dsimp only [original] at hover
     cases hover
     exact genericSeparableDegree_eq_of_affine_factor A B hY point κ Rsh hRsh
       factor rfl (hindFactors element) prime hprime K
-  show (∑ element, (genericSeparableDegree original hY
+  change (∑ element, (genericSeparableDegree original hY
     (inclusion (PrimeSpectrum.comap _ (closedPoint (factors element)))) : ℤ)) = _
   simp_rw [hdegree]
   rw [← Nat.cast_sum]

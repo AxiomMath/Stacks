@@ -167,7 +167,7 @@ theorem residueEquiv_residue_mk (R : CompleteLocalAlgCat.{u, v, w} Λ k) (n : �
   let q := Ideal.Quotient.mkₐ Λ (ideal R n)
   let : IsLocalHom q := ⟨(IsLocalHom.of_surjective q.toRingHom
     Ideal.Quotient.mk_surjective).map_nonunit⟩
-  show R.residueEquiv
+  change R.residueEquiv
     ((AlgEquiv.ofBijective (ResidueField.mapAlgHom q) (residueMap_bijective R n)).symm
       (ResidueField.mapAlgHom q (residue R r))) = _
   exact congrArg R.residueEquiv
@@ -541,7 +541,7 @@ public theorem formalObjectProjection_isCofiberedInGroupoids
         naturality := fun n ↦ by
           simpa [Y] using (congrArg Quiver.Hom.unop (htransition n).2).symm }
     exact ⟨Opposite.op Y, φ.op, by
-      show FormalObject.projection.op.IsHomLift f φ.op
+      change FormalObject.projection.op.IsHomLift f φ.op
       apply IsHomLift.of_fac
       · rfl
       · rfl
@@ -582,7 +582,7 @@ public theorem formalObjectProjection_isCofiberedInGroupoids
           apply Quiver.Hom.op_inj
           apply hom_ext_of_fibered p.op hp (φ.unop.app (n + 1)).op
           · apply Quiver.Hom.unop_inj
-            show p.map (Y.unop.transition n ≫ (app n).unop) =
+            change p.map (Y.unop.transition n ≫ (app n).unop) =
               p.map ((app (n + 1)).unop ≫ Z.unop.transition n)
             rw [Functor.map_comp, Functor.map_comp]
             let := Y.unop.transition_lift n
@@ -600,7 +600,7 @@ public theorem formalObjectProjection_isCofiberedInGroupoids
             rw [hn, hn1]
             simp [Category.assoc]
           · apply Quiver.Hom.unop_inj
-            show φ.unop.app (n + 1) ≫ (Y.unop.transition n ≫ (app n).unop) =
+            change φ.unop.app (n + 1) ≫ (Y.unop.transition n ≫ (app n).unop) =
               φ.unop.app (n + 1) ≫ ((app (n + 1)).unop ≫ Z.unop.transition n)
             have hn : φ.unop.app n ≫ (app n).unop = ψ.unop.app n := by
               simpa using congrArg Quiver.Hom.unop (happ n).2
@@ -992,7 +992,7 @@ public theorem completionNatTrans_id
     simp only [eqToHom_trans, eqToHom_refl]
     rfl
   · rw [completionNatTrans_app_level]
-    show eqToHom _ ≫ 𝟙 _ ≫ eqToHom _ = _
+    change eqToHom _ ≫ 𝟙 _ ≫ eqToHom _ = _
     simp only [Category.id_comp, eqToHom_trans, eqToHom_refl]
     rfl
 
@@ -1008,17 +1008,17 @@ public theorem completionNatTrans_comp
   refine BasedNatTrans.ext _ _ (NatTrans.ext (funext fun (X : FormalObject p) => ?_))
   refine FormalObject.Hom.ext ?_ (fun n => ?_)
   · rw [completionNatTrans_app_base]
-    show _ = ((completionNatTrans t).toNatTrans.app X ≫
+    change _ = ((completionNatTrans t).toNatTrans.app X ≫
       (completionNatTrans s).toNatTrans.app X).base
-    show _ = ((completionNatTrans t).toNatTrans.app X).base ≫
+    change _ = ((completionNatTrans t).toNatTrans.app X).base ≫
       ((completionNatTrans s).toNatTrans.app X).base
     rw [completionNatTrans_app_base, completionNatTrans_app_base]
     simp
   · rw [completionNatTrans_app_level]
-    show eqToHom _ ≫ (t.toNatTrans.app _ ≫ s.toNatTrans.app _) ≫ eqToHom _ =
+    change eqToHom _ ≫ (t.toNatTrans.app _ ≫ s.toNatTrans.app _) ≫ eqToHom _ =
       ((completionNatTrans t).toNatTrans.app X ≫
         (completionNatTrans s).toNatTrans.app X).app n
-    show _ = ((completionNatTrans t).toNatTrans.app X).app n ≫
+    change _ = ((completionNatTrans t).toNatTrans.app X).app n ≫
       ((completionNatTrans s).toNatTrans.app X).app n
     rw [completionNatTrans_app_level, completionNatTrans_app_level]
     simp only [Category.assoc, eqToHom_trans_assoc, eqToHom_refl, Category.id_comp]

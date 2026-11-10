@@ -2,7 +2,7 @@ module
 
 public import StacksCore.Tactic.StacksAttribute
 public import
-    StacksFrontier.AlgebraicGeometry.EtaleCohomology.StrictHenselizationSeparablyClosedFiberRestriction
+ StacksFrontier.AlgebraicGeometry.EtaleCohomology.StrictHenselizationSeparablyClosedFiberRestriction
 
 /-!
 # The erratum to Tag 0EZV

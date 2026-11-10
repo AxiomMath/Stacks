@@ -19,8 +19,9 @@ proved on the small étale site of the *scheme* `U`:
 need is the same statement for the sheaf of differentials of `α` read as a morphism of
 *represented algebraic spaces*, `AlgebraicGeometry.Space.sheafOfDifferentials` of
 `AlgebraicGeometry.schemeSpaceMap α`.  This module carries the isomorphism across, which proves
-`AlgebraicGeometry.Space.SheafOfDifferentialsSchemeComparison` and so supplies the scheme-chart comparison that Stacks 04CV,
-`AlgebraicGeometry.Space.isQuasicoherentOnSite_sheafOfDifferentials`, needs.
+`AlgebraicGeometry.Space.SheafOfDifferentialsSchemeComparison` and so supplies the scheme-chart
+comparison that Stacks 04CV, `AlgebraicGeometry.Space.isQuasicoherentOnSite_sheafOfDifferentials`,
+needs.
 
 The two sides live on two identified sites, not on one: the small étale site of the algebraic
 space `yoneda.obj U` is the small étale site of the scheme underlying `U` by
@@ -334,7 +335,8 @@ theorem transportDerivation_injective
         U.left.property).obj) M.val ψ}
     (h : transportDerivation B S hS U ψ D = transportDerivation B S hS U ψ D') : D = D' :=
   PresheafOfModulesOfCommRing.Derivation.ext (funext fun W => AddMonoidHom.ext fun x =>
-    PresheafOfModulesOfCommRing.Derivation.congr_d (M := ((representedModulePushforward B S hS U).obj M).val)
+    PresheafOfModulesOfCommRing.Derivation.congr_d
+      (M := ((representedModulePushforward B S hS U).obj M).val)
       h (X := op ((representedSmallEtaleEquivalence B S hS U).inverse.obj W.unop)) x)
 
 end Derivations
@@ -777,8 +779,10 @@ theorem schemeDifferentialsHom_comp_inv :
     (universalDerivation B S hS (schemeSpaceMap α))
   refine (hu _ ?_).trans (hu _ ?_).symm
   · exact derivation_postcomp_comp_eq
-      (fun x => PresheafOfModulesOfCommRing.Derivation.congr_d (postcomp_schemeDifferentialsHom B S hS α) x)
-      (fun x => PresheafOfModulesOfCommRing.Derivation.congr_d (postcomp_schemeDifferentialsInv B S hS α) x)
+      (fun x => PresheafOfModulesOfCommRing.Derivation.congr_d
+        (postcomp_schemeDifferentialsHom B S hS α) x)
+      (fun x => PresheafOfModulesOfCommRing.Derivation.congr_d
+        (postcomp_schemeDifferentialsInv B S hS α) x)
   · exact PresheafOfModulesOfCommRing.Derivation.ext (funext fun _ => AddMonoidHom.ext fun _ => rfl)
 
 /-- The two comparison morphisms compose to the identity of the transported module as well.
@@ -809,9 +813,12 @@ theorem schemeDifferentialsInv_comp_hom :
       refine Eq.trans (congrArg (fun n => (transportedEtaleDerivation B S hS α).postcomp n.val)
         hGm) ?_
       exact derivation_postcomp_comp_eq
-        (fun x => PresheafOfModulesOfCommRing.Derivation.congr_d (postcomp_schemeDifferentialsInv B S hS α) x)
-        (fun x => PresheafOfModulesOfCommRing.Derivation.congr_d (postcomp_schemeDifferentialsHom B S hS α) x)
-    · exact PresheafOfModulesOfCommRing.Derivation.ext (funext fun _ => AddMonoidHom.ext fun _ => rfl)
+        (fun x => PresheafOfModulesOfCommRing.Derivation.congr_d
+          (postcomp_schemeDifferentialsInv B S hS α) x)
+        (fun x => PresheafOfModulesOfCommRing.Derivation.congr_d
+          (postcomp_schemeDifferentialsHom B S hS α) x)
+    · exact PresheafOfModulesOfCommRing.Derivation.ext
+        (funext fun _ => AddMonoidHom.ext fun _ => rfl)
   exact hGm.symm.trans ((congrArg (representedModulePushforward B S hS U).map hm).trans
     ((representedModulePushforward B S hS U).map_id _))
 

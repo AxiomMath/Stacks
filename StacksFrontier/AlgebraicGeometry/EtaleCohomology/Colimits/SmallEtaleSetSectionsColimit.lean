@@ -113,7 +113,7 @@ namespace SetLinearization
 section Shift
 
 variable {I : Type v} [Preorder I] {D : Iᵒᵖ ⥤ Scheme.{u}} {A : Type w} [Category.{w'} A]
-  [∀ (i j : Iᵒᵖ) (a : i ⟶ j), (systemPushforward D A a).IsRightAdjoint] {c : Cone D}
+  {c : Cone D}
 
 /-- **A map of families commuting with the legs commutes with the shifted legs.** -/
 theorem map_comp_shiftLeg {G G' : ∀ i : Iᵒᵖ, Sheaf (smallEtaleTopology (D.obj i)) A}
@@ -226,7 +226,7 @@ theorem forgetAb_map_pushforwardComp'_hom_app {X Y Z : Scheme.{u}} (f : X ⟶ Y)
       (smallEtalePushforwardComp' f g fg hfg (Type (u + 1))).hom.app ((forgetAb X).obj M) := by
   refine Sheaf.hom_ext (NatTrans.ext (funext fun U => ?_))
   ext s
-  show ((smallEtalePushforwardComp' f g fg hfg AddCommGrpCat.{u + 1}).hom.app M).hom.app U s =
+  change ((smallEtalePushforwardComp' f g fg hfg AddCommGrpCat.{u + 1}).hom.app M).hom.app U s =
     ((smallEtalePushforwardComp' f g fg hfg (Type (u + 1))).hom.app ((forgetAb X).obj M)).hom.app
       U s
   rw [show ((smallEtalePushforwardComp' f g fg hfg AddCommGrpCat.{u + 1}).hom.app M).hom.app U =

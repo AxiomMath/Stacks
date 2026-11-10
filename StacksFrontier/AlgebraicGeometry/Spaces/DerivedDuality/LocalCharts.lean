@@ -129,7 +129,7 @@ theorem isIso_of_isSplitEpi_of_schemeCoherent {T : Scheme.{u}} [IsAffine T] [IsN
   have hsurj : Function.Surjective f := by
     intro y
     refine ⟨(section_ e).app ⊤ y, ?_⟩
-    show (((section_ e) ≫ e).app ⊤) y = y
+    change (((section_ e) ≫ e).app ⊤) y = y
     rw [IsSplitEpi.id e]
     rfl
   exact Stacks.AlgebraicGeometry.AffineBaseChange.isIso_of_isIso_app_top e

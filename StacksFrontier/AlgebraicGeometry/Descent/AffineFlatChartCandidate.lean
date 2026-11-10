@@ -166,10 +166,10 @@ theorem exists_affineCandidate_of_isPullback
   let k : v ⟶ bb := Over.homMk (ObjectProperty.homMk
       (((BigFppfOver.toScheme B S hS).obj v).isoSpec.hom ≫ Spec.map pr ≫ ε.inv)) (by
     apply ObjectProperty.hom_ext
-    show ((BigFppfOver.toScheme B S hS).obj v).isoSpec.hom ≫ Spec.map pr ≫ ε.inv ≫ bb.hom.hom
+    change ((BigFppfOver.toScheme B S hS).obj v).isoSpec.hom ≫ Spec.map pr ≫ ε.inv ≫ bb.hom.hom
       = v.hom.hom
     rw [← Over.w i, ← Over.w w, ← Over.w q]
-    show ((BigFppfOver.toScheme B S hS).obj v).isoSpec.hom ≫ Spec.map pr ≫ ε.inv ≫
+    change ((BigFppfOver.toScheme B S hS).obj v).isoSpec.hom ≫ Spec.map pr ≫ ε.inv ≫
         ((BigFppfOver.toScheme B S hS).map i ≫ a.hom.hom)
       = (BigFppfOver.toScheme B S hS).map w ≫
         (BigFppfOver.toScheme B S hS).map q ≫ a.hom.hom

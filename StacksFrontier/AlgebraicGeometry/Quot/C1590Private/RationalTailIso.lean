@@ -97,7 +97,7 @@ theorem complementaryCurveIdeal_comap (C : X.IdealSheafData) (ψ : Y ⟶ X) [IsI
   have hU : (C.comap ψ).support.compl = (inv ψ) ''ᵁ C.support.compl := by
     apply TopologicalSpace.Opens.ext
     rw [support_comap]
-    show (ψ ⁻¹' (C.support : Set X))ᶜ = (inv ψ : X ⟶ Y) '' (C.support : Set X)ᶜ
+    change (ψ ⁻¹' (C.support : Set X))ᶜ = (inv ψ : X ⟶ Y) '' (C.support : Set X)ᶜ
     rw [inv_image_eq_preimage]
     rfl
   rw [complementaryCurveIdeal, complementaryCurveIdeal, hU, comap_eq_map_inv, map_ker,
@@ -122,16 +122,16 @@ theorem isRationalTail_comap {k : Type u} [Field k] [X.Over (Spec (.of k))]
     refine preimage_mem_irreducibleComponents hirr ψ.isOpenEmbedding ?_
     obtain ⟨z, hz⟩ := hirr.1.nonempty
     exact ⟨z, hz, inv ψ z, Scheme.inv_hom_apply (asIso ψ) z⟩
-  · show Nonempty (complementaryCurveIdeal (C.comap ψ)).subscheme
+  · change Nonempty (complementaryCurveIdeal (C.comap ψ)).subscheme
     rw [complementaryCurveIdeal_comap]
     exact hne.map (comapSubschemeIso (complementaryCurveIdeal C) ψ).inv
   · rw [intersectionWithComplementaryCurveIdeal, complementaryCurveIdeal_comap, ← comap_sup]
-    show (intersectionWithComplementaryCurveIdeal C).comap ψ = _
+    change (intersectionWithComplementaryCurveIdeal C).comap ψ = _
     rw [hinter, comap_eq_map_inv, map_vanishingIdeal]
     congr 1
     ext1
     rw [TopologicalSpace.Closeds.coe_closure]
-    show closure ((inv ψ : X ⟶ Y) '' {C.subschemeι x}) =
+    change closure ((inv ψ : X ⟶ Y) '' {C.subschemeι x}) =
       {(C.comap ψ).subschemeι (θ.inv x)}
     rw [Set.image_singleton, ← hx']
     exact hcl.closure_eq

@@ -324,7 +324,6 @@ theorem isElementaryDistinguishedSquare_of_reducedStratum
     (nested_closed_support B S hS hF I J hJ hIJ T hTsupport) f hf hpb
 
 attribute [-instance] CategoryTheory.Limits.Types.instHasPushoutsType in
-
 /-- **Stacks 08GP.** Induction on the quasi-compact quasi-separated objects of the
 spaces-étale site of a quasi-compact quasi-separated algebraic space `X`: a property of
 algebraic spaces étale over `X` which holds on the affine ones and is inherited across an
@@ -334,8 +333,6 @@ public theorem qcqs_induction_on
     (B : BigFppfSite.{u}) (S : Scheme.{u})
     (hS : B.Contains S) (hZ : B.Contains (⊤_ Scheme.{u}))
     (X : AlgebraicSpaces B S hS)
-    (hXqc : IsQuasiCompactSpace B S hS X.1)
-    (hXqs : IsAbsolutelyQuasiSeparated B S hS hZ X.1)
     (P : (Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) →
       (Y ⟶ X.1) → Prop)
     (haff : ∀ V : SpacesEtale B S hS X,
@@ -389,7 +386,7 @@ public theorem qcqs_induction_on
         (etale_of_openImmersion B S hS g hgopen) Y.2)
   have hVemptyAff : IsAffineSpace B S hS Vempty.1.left.1 := by
     refine ⟨E, ?_, ⟨Iso.refl _⟩⟩
-    show IsAffine (∅ : Scheme.{u})
+    change IsAffine (∅ : Scheme.{u})
     infer_instance
   have hQVempty := propertyUpToIso_of_affine B S hS X P haff Vempty hVemptyAff
   have hQn : propertyUpToIso B S hS X P (U n).toFunctor
@@ -426,7 +423,7 @@ public theorem qcqs_induction_on
         have hinc : eC.inv ≫ (U (p + 1)).ι = C.ι ≫ (U p).ι := by
           rw [← Subfunctor.homOfLe_ι (hUnested p hp),
             ← Subfunctor.toRange_ι (Subfunctor.homOfLe (hUnested p hp))]
-          show ((eC.inv ≫ eC.hom) ≫ C.ι) ≫ (U p).ι = C.ι ≫ (U p).ι
+          change ((eC.inv ≫ eC.hom) ≫ C.ι) ≫ (U p).ι = C.ι ≫ (U p).ι
           rw [eC.inv_hom_id, Category.id_comp]
         refine propertyUpToIso_of_iso B S hS X P eC.symm ih ?_
         simpa only [Iso.symm_hom, Category.assoc] using
@@ -479,7 +476,7 @@ public theorem qcqs_induction_on_self
     P X.1 (𝟙 X.1) := by
   let Y : SpacesEtale B S hS X :=
     ⟨Over.mk (𝟙 X), by intro T φ hφ; simpa using hφ⟩
-  simpa [Y] using qcqs_induction_on B S hS hZ X hXqc hXqs P haff hstep Y hXqc hXqs
+  simpa [Y] using qcqs_induction_on B S hS hZ X P haff hstep Y hXqc hXqs
 
 /-- **Stacks 08GQ.** Induction inside a collection `𝓑` of objects of the spaces-étale site of
 a quasi-compact quasi-separated algebraic space `X`: a property of the members of `𝓑` holds
@@ -492,8 +489,6 @@ public theorem qcqs_induction_on_collection
     (B : BigFppfSite.{u}) (S : Scheme.{u})
     (hS : B.Contains S) (hZ : B.Contains (⊤_ Scheme.{u}))
     (X : AlgebraicSpaces B S hS)
-    (hXqc : IsQuasiCompactSpace B S hS X.1)
-    (hXqs : IsAbsolutelyQuasiSeparated B S hS hZ X.1)
     (𝓑 P : (Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) →
       (Y ⟶ X.1) → Prop)
     (hBqcqs : ∀ W : SpacesEtale B S hS X,
@@ -530,7 +525,7 @@ public theorem qcqs_induction_on_collection
       𝓑 W.1.left.1 W.1.hom.hom →
       P W.1.left.1 W.1.hom.hom := by
   intro W hBW
-  refine qcqs_induction_on B S hS hZ X hXqc hXqs (fun Y g => 𝓑 Y g → P Y g)
+  refine qcqs_induction_on B S hS hZ X (fun Y g => 𝓑 Y g → P Y g)
     (fun V hVaff _ => hPaff V hVaff) ?_ W (hBqcqs W hBW).1 (hBqcqs W hBW).2 hBW
   intro W' V U f hcomp hsq _hW'qc hW'qs hUqc hVaff hQU hQV hQpb hBW'
   have hVqc : IsQuasiCompactSpace B S hS V.1.left.1 :=
@@ -548,7 +543,7 @@ public theorem qcqs_induction_on_collection
         (BigFppfOver.toScheme B S hS)
     let _ : Q.presheaf.IsStableUnderBaseChange :=
       MorphismProperty.relative_isStableUnderBaseChange Q
-    show Q.presheaf (pullback.snd U.ι f)
+    change Q.presheaf (pullback.snd U.ι f)
     exact MorphismProperty.pullback_snd (P := Q.presheaf) U.ι f hsq.isOpenSubspace.2
   have hpbmap : pullback.fst U.ι f ≫ U.ι ≫ W'.1.hom.hom =
       pullback.snd U.ι f ≫ V.1.hom.hom := by

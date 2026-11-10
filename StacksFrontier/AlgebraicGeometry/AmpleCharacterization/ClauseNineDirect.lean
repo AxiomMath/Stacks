@@ -140,7 +140,7 @@ theorem exists_twistHom_eq (F : X.Modules) (n : ℤ) (ψ : tensorPowModule X L (
         ((Stacks.SectionProduct.monoidalUnitHomEquiv
           (F ⊗ tensorPowModule X L n)).symm_apply_apply f))
   refine (CategoryTheory.MonoidalCategory.tensorRight (tensorPowModule X L n)).map_injective ?_
-  show twistHom L F n _ ▷ tensorPowModule X L n = ψ ▷ tensorPowModule X L n
+  change twistHom L F n _ ▷ tensorPowModule X L n = ψ ▷ tensorPowModule X L n
   rw [whiskerRight_twistHom, hunit, hf, Iso.hom_inv_id_assoc]
 
 /-! ### Clause (9) implies clause (6) -/

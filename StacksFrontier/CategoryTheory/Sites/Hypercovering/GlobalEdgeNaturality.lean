@@ -529,6 +529,8 @@ lemma hypercoverPresheafAbutmentIso_hom_app
   rfl
 
 set_option maxHeartbeats 1600000 in
+-- elaborating `comparisonMapP_naturality` on the hypercover double complexes and the `rw`s
+-- through the comparison isomorphisms
 /-- **The comparison of [Stacks, Tag 0133] forms a cocone on the hypercoverings of `G`**: the
 comparison isomorphism of `L` followed by the Čech pullback along `ψ : K ⟶ L` is the comparison
 isomorphism of `K`.
@@ -569,6 +571,7 @@ theorem HypercoveringOf.Hom.totalComparison_comp_homologyMap_filteredMap
   exact h
 
 set_option maxHeartbeats 1600000 in
+-- the `rfl` for `hRD` and the `rw`s through the abutment and comparison isomorphisms
 /-- **The abutment identification of [Stacks, Tag 09VX] forms a cocone on the hypercoverings of
 `G`**: the Čech pullback along `ψ : K ⟶ L` followed by the identification of `K` is the
 identification of `L`.

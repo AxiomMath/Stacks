@@ -63,7 +63,7 @@ private theorem closed_affine_target_of_lifting
   have hψ : Function.Injective ψ := by
     refine fun a b hab => 𝒰.ext_elem a b fun i => ?_
     have h := congrArg (Sigma.ι (fun i => 𝒰.X i) i).appTop.hom hab
-    show (𝒰.f i).appTop.hom a = (𝒰.f i).appTop.hom b
+    change (𝒰.f i).appTop.hom a = (𝒰.f i).appTop.hom b
     simpa only [← hπi i, Scheme.Hom.comp_appTop, CommRingCat.hom_comp,
       RingHom.comp_apply] using h
   let g : Spec (.of Γ(U, ⊤)) ⟶ X := U.isoSpec.inv ≫ π

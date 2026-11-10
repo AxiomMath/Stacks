@@ -62,7 +62,7 @@ public theorem adjShiftedHomEquiv_smul (L : B ⥤ C) (R : C ⥤ B) (adj : L ⊣ 
     (x : L.obj (R.obj E) ⟶ F⟦n⟧) :
     Stacks.ExtensionByZero.adjShiftedHomEquiv L R adj E F n (r • x) =
       r • Stacks.ExtensionByZero.adjShiftedHomEquiv L R adj E F n x := by
-  show (adj.unit.app (R.obj E) ≫ R.map (r • x)) ≫ (R.commShiftIso n).hom.app F =
+  change (adj.unit.app (R.obj E) ≫ R.map (r • x)) ≫ (R.commShiftIso n).hom.app F =
     r • ((adj.unit.app (R.obj E) ≫ R.map x) ≫ (R.commShiftIso n).hom.app F)
   rw [R.map_smul, Linear.comp_smul, Linear.smul_comp]
 

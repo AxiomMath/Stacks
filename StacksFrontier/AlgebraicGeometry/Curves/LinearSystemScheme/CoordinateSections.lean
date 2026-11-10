@@ -76,7 +76,7 @@ theorem coordSection_pullback (h : Y' ⟶ Y) (p : Y ⟶ X) (q : Y ⟶ T) (L : X.
 `q.appTop`. -/
 theorem baseModule_smul_eq (q : Y ⟶ T) (M : Y.Modules) (r : Γ(T, ⊤)) (s : Γ(M, ⊤)) :
     (letI := baseModule q M ⊤; r • s) = q.appTop r • s := by
-  show (q.appLE ⊤ ⊤ (le_preimage_top q ⊤)).hom r • s = _
+  change (q.appLE ⊤ ⊤ (le_preimage_top q ⊤)).hom r • s = _
   rw [show q.appLE ⊤ ⊤ (le_preimage_top q ⊤) = q.app ⊤ from Scheme.Hom.appLE_preimage_self q ⊤]
 
 /-- **Degree-zero flat base change in coordinates.** For a cartesian square

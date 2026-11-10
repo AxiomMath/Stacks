@@ -366,7 +366,7 @@ theorem finsum_mem_natCast_mul_toNat_eq {ι : Type*} {s : Set ι} (hs : s.Finite
       (fun _ _ => zero_le) hi)
   rw [← h, ENat.toNat_sum hterm, Nat.cast_sum]
   refine Finset.sum_congr rfl fun i _ => ?_
-  rw [ENat.toNat_mul, ENat.toNat_coe, Nat.cast_mul]
+  rw [ENat.toNat_mul, ENat.toNat_natCast, Nat.cast_mul]
 
 /-- A ring map into a reduced ring whose contraction preserves minimal primes preserves
 nonzerodivisors. -/
@@ -456,7 +456,7 @@ theorem finsum_primeResidueDegree_mul_ord_sub_eq
       {Q : PrimeSpectrum (chartRing B S hS X.1 X.2 d.U) |
         Q.asIdeal.comap (algebraMap (chartRing B S hS Y.1 Y.2 d.V) _) = p} := by
     refine ⟨fun w hw => ?_, hbij.1.injOn, fun Q hQ => ?_⟩
-    · show (chartPrimeAt B S hS X.2 d.U w).comap φ = p
+    · change (chartPrimeAt B S hS X.2 d.U w).comap φ = p
       rw [hcomap w, show r.base w = e from hw]
     · obtain ⟨w, rfl⟩ := hbij.2 Q
       exact ⟨w, hbijV.1 (PrimeSpectrum.ext ((hcomap w).symm.trans hQ)), rfl⟩
@@ -489,8 +489,8 @@ theorem finsum_primeResidueDegree_mul_ord_sub_eq
     refine hconv.trans ?_
     have hK : (deg : ℕ∞) * Ring.ord (Localization.AtPrime p)
         (algebraMap _ (Localization.AtPrime p) x) ≠ ⊤ :=
-      WithTop.mul_ne_top (ENat.coe_ne_top deg) (Ring.ord_ne_top (hnzdp x hx))
-    rw [finsum_mem_natCast_mul_toNat_eq hfinQ _ _ hK hA3, ENat.toNat_mul, ENat.toNat_coe,
+      WithTop.mul_ne_top (ENat.natCast_ne_top deg) (Ring.ord_ne_top (hnzdp x hx))
+    rw [finsum_mem_natCast_mul_toNat_eq hfinQ _ _ hK hA3, ENat.toNat_mul, ENat.toNat_natCast,
       Nat.cast_mul]
   refine (finsum_mem_sub_distrib _ _ hfinw).trans ?_
   rw [key a ha, key b hb]

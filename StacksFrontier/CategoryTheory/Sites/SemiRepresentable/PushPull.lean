@@ -72,7 +72,7 @@ on the corresponding summand. -/
 @[simp] lemma coproductHomFamilyEquiv_symm_ι {I : Type u} {D : Type w}
     [Category.{v, w} D] (F : I → D) [HasCoproduct F] (Y : D)
     (g : ∀ i, F i ⟶ Y) (i : I) :
-    Sigma.ι F i ≫ (coproductHomFamilyEquiv F Y).symm g = g i := Sigma.ι_desc _ _
+    Sigma.ι F i ≫ (coproductHomFamilyEquiv F Y).symm g = g i := Sigma.ι_comp_desc _ _
 
 /-- The morphism into a product determined by a family composes with each projection to the
 corresponding member of the family. -/
@@ -227,7 +227,7 @@ lemma coproductOfProductsIso_ι_hom {I : Type u}
   let : PreservesColimitsOfShape (Discrete I) (prod.functor.obj X) :=
     (SheafHomAdj.prodSheafHomAdjunction X).leftAdjoint_preservesColimits
       |>.preservesColimitsOfShape
-  show Sigma.ι (fun j ↦ (prod.functor.obj (G j)).obj X) i ≫
+  change Sigma.ι (fun j ↦ (prod.functor.obj (G j)).obj X) i ≫
       (Sigma.mapIso (fun j ↦ productFunctorSwap (G j) X)).hom ≫
         (PreservesCoproduct.iso (prod.functor.obj X) G).symm.hom ≫
         (productFunctorSwap X (∐ G)).hom = _

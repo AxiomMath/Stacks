@@ -220,14 +220,14 @@ theorem outerSquare_pointLink (q : ValuativeSquare B S hS f) (e : q.DominatingEx
       q.γ.hom.app u =
     q.γ.hom.app (e.k.hom.obj z) ≫
       f.hom.hom.map (q.x.hom.map (Over.mkIdTerminal.from (e.k.hom.obj z))) at hn
-  show (𝟙 _ ≫ q.y.hom.map (e.commute.hom.app z) ≫ 𝟙 _ ≫
+  change (𝟙 _ ≫ q.y.hom.map (e.commute.hom.app z) ≫ 𝟙 _ ≫
       q.γ.hom.app (e.k.hom.obj z) ≫ 𝟙 _) ≫ _ ≫
       (@inv _ _ _ _ (q.γ.hom.app u) hiso ≫ _) = _
   simp only [Category.id_comp, Category.comp_id, Category.assoc]
   rw [← Category.assoc (q.γ.hom.app _) _ _, ← hn]
   simp only [Category.assoc, IsIso.hom_inv_id_assoc]
   rw [← q.y.hom.toFunctor.map_comp, ← q.y.hom.toFunctor.map_comp]
-  show q.y.hom.map _ = q.y.hom.map _ ≫ q.y.hom.map _
+  change q.y.hom.map _ = q.y.hom.map _ ≫ q.y.hom.map _
   rw [← q.y.hom.toFunctor.map_comp]
   congr 1
   exact Over.mkIdTerminal.hom_ext _ _

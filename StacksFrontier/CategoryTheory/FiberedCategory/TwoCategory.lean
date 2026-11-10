@@ -82,8 +82,13 @@ end BasedFunctor
 
 The hom-category `𝒳 ⟶ 𝒴` is the source's `Mor_{Fib/𝒮}(𝒳, 𝒴)`. -/
 @[stacks 02XP]
-def CatFibered (𝒮 : Type u₁) [Category.{v₁} 𝒮] :=
-  {𝒳 : BasedCategory.{v₂, u₂} 𝒮 // 𝒳.p.IsFibered}
+structure CatFibered (𝒮 : Type u₁) [Category.{v₁} 𝒮] where
+  /-- Bundle a category over `𝒮` with a proof that its structure functor is a fibred category. -/
+  ofBasedCategory ::
+  /-- The underlying category over `𝒮`. -/
+  toBasedCategory : BasedCategory.{v₂, u₂} 𝒮
+  /-- The structure functor of the underlying category over `𝒮` is a fibred category. -/
+  toBasedCategory_isFibered : toBasedCategory.p.IsFibered
 
 namespace CatFibered
 

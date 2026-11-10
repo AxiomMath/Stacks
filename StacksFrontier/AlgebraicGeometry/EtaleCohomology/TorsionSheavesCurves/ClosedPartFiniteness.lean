@@ -76,7 +76,7 @@ theorem finite_etaleStalk_of_isConstructibleSetSheaf (B : BigEtaleSite.{u}) (X :
     exact Set.mem_iUnion.mp hx
   set t' := GeometricPoint.ofPoint (s.piece i).obj z
   have hbase : (t'.map (B.inclusion.map (s.inclusion i))).hom default = t.hom default := by
-    show (B.inclusion.map (s.inclusion i)).base (t'.hom default) = t.hom default
+    change (B.inclusion.map (s.inclusion i)).base (t'.hom default) = t.hom default
     rwa [show t'.hom default = z from GeometricPoint.ofPoint_liesOver (s.piece i).obj z]
   have hfin :=
     (@finite_etaleStalk_and_bijective_specializationMapOnStalks_of_isFiniteLocallyConstant B
@@ -170,14 +170,14 @@ theorem injective_globalSections_toPresheafFiber
     have h1 : (y x).left ≫ (f x).left = (GeometricPoint.ofPoint X x).hom :=
       congrArg CommaMorphism.left (hy x)
     refine ⟨(y x).left p, ?_⟩
-    show ((y x).left ≫ (f x).left) p = x
+    change ((y x).left ≫ (f x).left) p = x
     rw [h1]
     exact GeometricPoint.ofPoint_liesOver X x
   have hsh := ((sheafCompose X.smallEtaleTopology (forget AddCommGrpCat.{u + 1})).obj F).property
   rw [isSheaf_iff_isSheaf_of_type] at hsh
   refine (hsh _ hcov).isSeparatedFor.ext fun Z g hg => ?_
   obtain ⟨x, h, rfl⟩ := (Sieve.mem_ofArrows_iff _ _ _).1 hg
-  show F.obj.map (h ≫ f x).op a = F.obj.map (h ≫ f x).op b
+  change F.obj.map (h ≫ f x).op a = F.obj.map (h ≫ f x).op b
   rw [op_comp, Functor.map_comp, ConcreteCategory.comp_apply, ConcreteCategory.comp_apply, hf x]
 
 /-- **`H⁰` of a constructible abelian sheaf on a scheme with finitely many points is finite.** -/

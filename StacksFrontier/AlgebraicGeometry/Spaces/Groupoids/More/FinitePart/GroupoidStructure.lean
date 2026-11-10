@@ -86,6 +86,7 @@ variable {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
   {B : AlgebraicSpaces C S hS} {G : GroupoidInAlgebraicSpaces C S hS B}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the `inferInstance` search for limits of presheaves on `BigFppfOver C S hS` is deep
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_GroupoidStructure :
@@ -98,6 +99,7 @@ local instance (priority := high) hasPullback_presheaf_GroupoidStructure
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the `inferInstance` search for limits of presheaves on `BigFppfOver C S hS` is deep
 /-- Finite products of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasLimitsOfShapeDiscrete_presheaf_GroupoidStructure (J : Type) :
@@ -190,7 +192,7 @@ theorem schemePointHom_arrowHom_comp_source (V : BigFppfOver C S hS)
     (Space.schemePointHom C S hS V (k ≫ fp.arrowHom)).hom ≫ G.source.hom =
       (Space.baseChangePair C S hS G.source fp.pair
         (Space.schemePointHom C S hS V (k ≫ fp.sourceHom))).toBase.hom := by
-  show (k ≫ fp.arrowHom) ≫ G.source.hom = (k ≫ fp.sourceHom) ≫ fp.pair.toBase.hom
+  change (k ≫ fp.arrowHom) ≫ G.source.hom = (k ≫ fp.sourceHom) ≫ fp.pair.toBase.hom
   simp only [Category.assoc]
   rw [fp.sourceHom_comp_toBase]
 
@@ -271,33 +273,33 @@ theorem baseChangePair_targetPair_unit (V : BigFppfOver C S hS)
   have hzt : (Space.schemePointHom C S hS V (kc ≫ fp.arrowHom)).hom ≫ G.target.hom =
       (Space.baseChangePair C S hS G.source fp.pair
         (Space.schemePointHom C S hS V m)).toBase.hom := by
-    show (kc ≫ fp.arrowHom) ≫ G.target.hom = m ≫ fp.pair.toBase.hom
+    change (kc ≫ fp.arrowHom) ≫ G.target.hom = m ≫ fp.pair.toBase.hom
     rw [hkca]
     simp only [Category.assoc, identityHom_comp_target, Category.comp_id]
   have hzs : (Space.schemePointHom C S hS V (kc ≫ fp.arrowHom)).hom ≫ G.source.hom =
       (Space.baseChangePair C S hS G.source fp.pair
         (Space.schemePointHom C S hS V (kc ≫ fp.sourceHom))).toBase.hom := by
     rw [hQ]
-    show (kc ≫ fp.arrowHom) ≫ G.source.hom = m ≫ fp.pair.toBase.hom
+    change (kc ≫ fp.arrowHom) ≫ G.source.hom = m ≫ fp.pair.toBase.hom
     rw [hkca]
     simp only [Category.assoc, identityHom_comp_source, Category.comp_id]
   have hid₁ : ((Space.baseChangePair C S hS G.source fp.pair
         (Space.schemePointHom C S hS V m)).toBase ≫ identityHom G).hom ≫ G.source.hom =
       (Space.baseChangePair C S hS G.source fp.pair
         (Space.schemePointHom C S hS V m)).toBase.hom := by
-    show (m ≫ fp.pair.toBase.hom) ≫ (identityHom G).hom ≫ G.source.hom = m ≫ fp.pair.toBase.hom
+    change (m ≫ fp.pair.toBase.hom) ≫ (identityHom G).hom ≫ G.source.hom = m ≫ fp.pair.toBase.hom
     rw [identityHom_comp_source, Category.comp_id]
   have hid₂ : ((Space.baseChangePair C S hS G.source fp.pair
         (Space.schemePointHom C S hS V m)).toBase ≫ identityHom G).hom ≫ G.target.hom =
       (Space.baseChangePair C S hS G.source fp.pair
         (Space.schemePointHom C S hS V m)).toBase.hom := by
-    show (m ≫ fp.pair.toBase.hom) ≫ (identityHom G).hom ≫ G.target.hom = m ≫ fp.pair.toBase.hom
+    change (m ≫ fp.pair.toBase.hom) ≫ (identityHom G).hom ≫ G.target.hom = m ≫ fp.pair.toBase.hom
     rw [identityHom_comp_target, Category.comp_id]
   have harrow : Space.schemePointHom C S hS V (kc ≫ fp.arrowHom) =
       (Space.baseChangePair C S hS G.source fp.pair
         (Space.schemePointHom C S hS V m)).toBase ≫ identityHom G :=
     ObjectProperty.hom_ext _ (by
-      show kc ≫ fp.arrowHom = (m ≫ fp.pair.toBase.hom) ≫ (identityHom G).hom
+      change kc ≫ fp.arrowHom = (m ≫ fp.pair.toBase.hom) ≫ (identityHom G).hom
       rw [hkca, Category.assoc])
   refine (baseChangePair_targetPair_translate fp V kc hzs _ hzt).trans ?_
   refine (translatePairOf_congr hQ harrow rfl hzs hzt hid₁ hid₂).trans ?_
@@ -340,20 +342,20 @@ theorem baseChangePair_targetPair_inverse (V : BigFppfOver C S hS)
   have hzt : (Space.schemePointHom C S hS V (kc ≫ fp.arrowHom)).hom ≫ G.target.hom =
       (Space.baseChangePair C S hS G.source fp.pair
         (Space.schemePointHom C S hS V (k ≫ fp.sourceHom))).toBase.hom := by
-    show (kc ≫ fp.arrowHom) ≫ G.target.hom = (k ≫ fp.sourceHom) ≫ fp.pair.toBase.hom
+    change (kc ≫ fp.arrowHom) ≫ G.target.hom = (k ≫ fp.sourceHom) ≫ fp.pair.toBase.hom
     rw [hkca, Category.assoc, inverseHom_comp_target]
     exact hzs₀
   have hinvs : ((Space.schemePointHom C S hS V (k ≫ fp.arrowHom)) ≫ inverseHom G).hom ≫
       G.source.hom =
       (Space.schemePointHom C S hS V ((k ≫ fp.arrowHom) ≫ G.target.hom)).hom := by
-    show ((k ≫ fp.arrowHom) ≫ (inverseHom G).hom) ≫ G.source.hom =
+    change ((k ≫ fp.arrowHom) ≫ (inverseHom G).hom) ≫ G.source.hom =
       (k ≫ fp.arrowHom) ≫ G.target.hom
     rw [Category.assoc, inverseHom_comp_source]
   have hinvt : ((Space.schemePointHom C S hS V (k ≫ fp.arrowHom)) ≫ inverseHom G).hom ≫
       G.target.hom =
       (Space.baseChangePair C S hS G.source fp.pair
         (Space.schemePointHom C S hS V (k ≫ fp.sourceHom))).toBase.hom := by
-    show ((k ≫ fp.arrowHom) ≫ (inverseHom G).hom) ≫ G.target.hom =
+    change ((k ≫ fp.arrowHom) ≫ (inverseHom G).hom) ≫ G.target.hom =
       (k ≫ fp.sourceHom) ≫ fp.pair.toBase.hom
     rw [Category.assoc, inverseHom_comp_target]
     exact hzs₀

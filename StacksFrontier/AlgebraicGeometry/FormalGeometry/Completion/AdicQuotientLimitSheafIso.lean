@@ -197,7 +197,7 @@ theorem adicCompletionHomologyLimitSectionsEquiv_of (V : X.affineOpens)
   have hsev : (sectionsEvaluationIso (structureSheafRing X.toRingedSpace) V.1 q).inv.app K
       ((sectionsEvaluationIso (structureSheafRing X.toRingedSpace) V.1 q).hom.app K x) = x :=
     ((sectionsEvaluationIso (structureSheafRing X.toRingedSpace) V.1 q).app K).hom_inv_id_apply x
-  show (adicQuotientLimitSectionsEquiv X 𝓘 (homologyCoherentModule K hK q) V)
+  change (adicQuotientLimitSectionsEquiv X 𝓘 (homologyCoherentModule K hK q) V)
       (AdicCompletion.of (𝓘.ideal V) _
         ((homologyIso_derivedSections_of_isAffineOpen X K hqcK V q).toLinearEquiv
           ((sectionsEvaluationIso (structureSheafRing X.toRingedSpace) V.1 q).hom.app K x))) = _
@@ -249,7 +249,7 @@ theorem adicQuotientLimitSectionsComparison_comp_of (V : X.affineOpens)
   have hspec := (existsUnique_bijective_adicQuotientLimitSections_homology_derivedCompletion
     𝓘 K V hK q).choose_spec.1
     ((sectionsEvaluationIso (structureSheafRing X.toRingedSpace) V.1 q).hom.app K x)
-  show (sectionsEvaluationIso (structureSheafRing X.toRingedSpace) V.1 q).inv.app _
+  change (sectionsEvaluationIso (structureSheafRing X.toRingedSpace) V.1 q).inv.app _
       ((existsUnique_bijective_adicQuotientLimitSections_homology_derivedCompletion
         𝓘 K V hK q).choose
           ((homologyToAdicQuotientLimitPresheaf 𝓘 K hK q).app (op V.1) x)) = _

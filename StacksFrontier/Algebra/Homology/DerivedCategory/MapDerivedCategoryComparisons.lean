@@ -328,7 +328,7 @@ lemma localization_liftNatTrans_commShift
   apply Localization.natTrans_ext L W
   intro X
   let β := Localization.liftNatTrans L W F G F' G' τ
-  show (F'.commShiftIso n).hom.app (L.obj X) ≫
+  change (F'.commShiftIso n).hom.app (L.obj X) ≫
       ((β.app (L.obj X))⟦n⟧') =
     β.app ((L.obj X)⟦n⟧) ≫ (G'.commShiftIso n).hom.app (L.obj X)
   rw [commShiftIso_lifting_hom_app L W F F', commShiftIso_lifting_hom_app L W G G']

@@ -95,7 +95,7 @@ theorem shortExact_reduce (M : ModuleCat.{u} A) (hM : IsSMulRegular M f) :
     intro x hx
     have hx' : (Submodule.Quotient.mk x : M ⧸ (Ideal.span {f} • (⊤ : Submodule A M))) = 0 := by
       rw [← reduceEquiv_reduceUnit]
-      show reduceEquiv f M (reduceUnit f M x) = 0
+      change reduceEquiv f M (reduceUnit f M x) = 0
       rw [show reduceUnit f M x = 0 from hx, map_zero]
     rw [Submodule.Quotient.mk_eq_zero, Submodule.ideal_span_singleton_smul] at hx'
     obtain ⟨y, -, rfl⟩ := hx'
@@ -149,7 +149,7 @@ theorem surjective_and_ker_homologyMap_reduceComplexUnit
   have hδ : hS.δ n (n + 1) rfl = 0 := by
     have h1 := hS.homology_exact₁ n (n + 1) rfl
     have hmono : Mono (HomologicalComplex.homologyMap (reduceShortComplex f P).f (n + 1)) := by
-      show Mono (HomologicalComplex.homologyMap (f • 𝟙 P) (n + 1))
+      change Mono (HomologicalComplex.homologyMap (f • 𝟙 P) (n + 1))
       rw [homologyMap_smul_id, ModuleCat.mono_iff_injective]
       exact hH
     exact (ShortComplex.Exact.mono_g_iff h1).mp hmono
@@ -158,15 +158,15 @@ theorem surjective_and_ker_homologyMap_reduceComplexUnit
   refine ⟨fun y => ?_, ?_⟩
   · rw [ShortComplex.moduleCat_exact_iff] at h3
     exact h3 y (by
-      show (hS.δ n (n + 1) rfl) y = 0
+      change (hS.δ n (n + 1) rfl) y = 0
       rw [hδ]
       rfl)
   · rw [ShortComplex.moduleCat_exact_iff_range_eq_ker] at h2
     change _ = LinearMap.ker (HomologicalComplex.homologyMap (reduceShortComplex f P).g n).hom
       at h2
-    show LinearMap.ker (HomologicalComplex.homologyMap (reduceShortComplex f P).g n).hom = _
+    change LinearMap.ker (HomologicalComplex.homologyMap (reduceShortComplex f P).g n).hom = _
     rw [← h2, Submodule.ideal_span_singleton_smul]
-    show LinearMap.range (HomologicalComplex.homologyMap (f • 𝟙 P) n).hom = _
+    change LinearMap.range (HomologicalComplex.homologyMap (f • 𝟙 P) n).hom = _
     rw [homologyMap_smul_id]
     ext x
     simp only [LinearMap.mem_range, Submodule.mem_smul_pointwise_iff_exists]
@@ -291,7 +291,7 @@ theorem nonempty_homology_etaObject_equiv (N : CochainComplex (ModuleCat.{u} A) 
       (homologyEquivHcohom N htf j).symm.injective ?_
     rw [map_zero]
     apply hH
-    show f • (homologyEquivHcohom N htf j).symm ξ = f • 0
+    change f • (homologyEquivHcohom N htf j).symm ξ = f • 0
     rw [smul_zero, ← map_smul, (hker ξ).mp hξ, map_zero]
   exact ⟨(homologyEtaEquivHeta N htf j).trans (e.symm.trans
     ((Submodule.quotEquivOfEqBot _ hbot).trans (homologyEquivHcohom N htf j).symm))⟩

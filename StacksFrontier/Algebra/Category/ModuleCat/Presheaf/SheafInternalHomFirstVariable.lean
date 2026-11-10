@@ -19,7 +19,8 @@ library lacked, continuity in the **first** variable at sheaf level: the contrav
 
 The proof is formal.  `Mod(O)` is symmetric monoidal closed — the monoidal structure is
 `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/Monoidal.lean`'s, closedness is Day's reflection
-theorem as recorded in `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/MonoidalSheafTensor.lean` — and in a *braided* monoidal closed category
+theorem as recorded in `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/MonoidalSheafTensor.lean` —
+and in a *braided* monoidal closed category
 the first-variable internal hom `MonoidalClosed.internalHom.flip.obj H : Mod(O)ᵒᵖ ⥤ Mod(O)` is
 the right adjoint of a parametrized adjunction, hence preserves limits.  That last step is
 Mathlib's `CategoryTheory.ihom.instPreservesLimitsOfShape`, which needs no input from this

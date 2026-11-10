@@ -207,7 +207,7 @@ theorem formalObjectIdealStage_eq_sup (n : ℕ) :
   set σ := ((BigFppfOver.toScheme B S hS).map (truncationOverSucc B S hS A hA n)).appTop.hom
   have hψ : ψ = σ.comp ψ' := by
     ext a
-    show chartRing (truncationToChart hS A hA n) a =
+    change chartRing (truncationToChart hS A hA n) a =
       chartRing (truncationOverSucc B S hS A hA n ≫ truncationToChart hS A hA (n + 1)) a
     rw [truncationOverSucc_comp_truncationToChart]
   have hK : truncationReductionIdeal hred A hA w n =
@@ -216,7 +216,7 @@ theorem formalObjectIdealStage_eq_sup (n : ℕ) :
     have := (isReductionIdeal_truncationReductionIdeal hred A hA w (n + 1)).map
       (truncationOverSucc B S hS A hA n)
     rwa [hw n] at this
-  show Ideal.comap ψ (truncationReductionIdeal hred A hA w n) = _
+  change Ideal.comap ψ (truncationReductionIdeal hred A hA w n) = _
   rw [hK, truncationReductionIdeal_eq_map_stage hred A hA w (n + 1), Ideal.map_map, ← hψ,
     Ideal.comap_map_of_surjective' _ (surjective_chartRing_truncationToChart hS A hA n),
     ker_chartRing_truncationToChart]
@@ -248,7 +248,7 @@ theorem formalObjectIdeal_le_maximalIdeal :
     formalObjectIdeal hred A hA w ≤ maximalIdeal A.R := by
   refine (iInf_le _ 0).trans ?_
   have hred0 : IsReduced ((BigFppfOver.toScheme B S hS).obj (truncationOver B S hS A hA 0)) := by
-    show IsReduced (Spec (.of (A.R ⧸ maximalIdeal A.R ^ (0 + 1))))
+    change IsReduced (Spec (.of (A.R ⧸ maximalIdeal A.R ^ (0 + 1))))
     have : _root_.IsReduced (A.R ⧸ maximalIdeal A.R ^ (0 + 1)) :=
       (Ideal.isRadical_iff_quotient_reduced _).mp
         (by simpa using (maximalIdeal.isMaximal A.R).isPrime.isRadical)
@@ -260,7 +260,7 @@ theorem formalObjectIdeal_le_maximalIdeal :
     rw [eq_bot_iff]
     refine hK.trans fun ξ hξ => ?_
     simpa using hξ
-  show Ideal.comap _ (truncationReductionIdeal hred A hA w 0) ≤ _
+  change Ideal.comap _ (truncationReductionIdeal hred A hA w 0) ≤ _
   rw [hK0, ← RingHom.ker_eq_comap_bot, ker_chartRing_truncationToChart, zero_add, pow_one]
 
 end AlgebraicGeometry.FormalSpace

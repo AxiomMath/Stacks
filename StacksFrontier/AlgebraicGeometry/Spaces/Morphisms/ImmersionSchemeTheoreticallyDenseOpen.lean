@@ -216,7 +216,7 @@ theorem isSchemeTheoreticallyDense_of_schemeTheoreticClosure_eq_top
     IsSchemeTheoreticallyDense B S hS U := by
   intro V hV φ hφ
   have htop' : schemeTheoreticImageSubfunctor B S hS U.ι = ⊤ := htop
-  show schemeTheoreticImageSubfunctor B S hS (U.preimage φ).ι = ⊤
+  change schemeTheoreticImageSubfunctor B S hS (U.preimage φ).ι = ⊤
   rw [schemeTheoreticImageSubfunctor_eq_of_isPullback B S hS (Subfunctor.isPullback_preimage φ U),
     h3 V φ hV hφ, htop', Subfunctor.preimage_eq_top_iff]
   exact le_top
@@ -242,7 +242,7 @@ theorem isSchemeTheoreticallyDense_range_of_qc_or_reduced
       (hasEtaleLocalProperty_of_isEtale B S hS hrangeAlg hZ
         (isEtale_of_isIso B S hS (asIso (Subfunctor.toRange g)).inv))
   have htop : schemeTheoreticClosure B S hS (Subfunctor.range g) = ⊤ := by
-    show schemeTheoreticImageSubfunctor B S hS (Subfunctor.range g).ι = ⊤
+    change schemeTheoreticImageSubfunctor B S hS (Subfunctor.range g).ι = ⊤
     rwa [schemeTheoreticImageSubfunctor_congr_range B S hS (Subfunctor.range g).ι g hX
       (Subfunctor.range_ι _)]
   intro V hV k hk
@@ -315,6 +315,7 @@ theorem isSchemeTheoreticallyDense_range_toSchemeTheoreticImage_of_qc_or_reduced
     (hq_or_hr.imp (isQuasiCompact_of_isPullback B S hS hsqg) id)
     (schemeTheoreticImageSubfunctor_toSchemeTheoreticImage_eq_top B S hS h hX) hV k hk
 
+omit hh in
 /-- **Stacks 088G, the fourth assertion.** The source of an immersion of algebraic spaces over
 `S` which is quasi-compact or has reduced source is topologically dense in its scheme-theoretic
 image. -/

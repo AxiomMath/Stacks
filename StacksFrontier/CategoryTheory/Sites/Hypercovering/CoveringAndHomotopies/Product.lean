@@ -145,7 +145,7 @@ private theorem IsHypercovering.isCoveringOver_matching_of_isTerminal (J : Preto
         (X := (SimplicialObject.truncation n).obj T) (isTerminal_truncation_obj n hT)
     have : IsIso ((SimplicialObject.coskAdj n).unit.app T) :=
       isIso_of_isTerminal hT hCosk _
-    show IsIso (((SimplicialObject.coskAdj n).unit.app T).app i)
+    change IsIso (((SimplicialObject.coskAdj n).unit.app T).app i)
     infer_instance
   have hn : b.app i ≫ f = ((SimplicialObject.coskAdj n).unit.app L).app i ≫ g :=
     NatTrans.congr_app ((SimplicialObject.coskAdj n).unit.naturality b) i

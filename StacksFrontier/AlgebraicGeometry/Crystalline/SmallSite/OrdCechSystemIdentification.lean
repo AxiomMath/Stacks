@@ -425,7 +425,7 @@ theorem restrictOrdCechModuleIso_hom_comp_ordCechπ (n : ℕ) (β : OrdCechTuple
     (restrictOrdCechModuleIso A V F n).hom ≫ ordCechπ (restrictCechSystem A V) F n β =
       AddCommGrpCat.ofHom (Pi.evalAddMonoidHom _ β) ≫
         (restrictTupleSectionsIso A V F β.1).inv := by
-  show ((AddCommGrpCat.piIsoPi fun γ : OrdCechTuple Λ n =>
+  change ((AddCommGrpCat.piIsoPi fun γ : OrdCechTuple Λ n =>
         F.obj (op ((restrictOpenFunctor A).obj (inter V γ.1)))).inv ≫
       (Pi.mapIso fun γ : OrdCechTuple Λ n => restrictTupleSectionsIso A V F γ.1).inv) ≫
         Pi.π _ β = _
@@ -458,7 +458,7 @@ theorem cechDiffOrd_comp_restrictOrdCechModuleIso (n : ℕ) :
   apply AddMonoidHom.ext
   intro s
   refine Eq.trans ?_ (Stacks.CechSite.hom_sum_apply Finset.univ _ s).symm
-  show ((restrictTupleSectionsIso A V F β.1).inv).hom
+  change ((restrictTupleSectionsIso A V F β.1).inv).hom
       (∑ i : Fin (n + 2), ((-1 : ℤ) ^ (i : ℕ)) •
         Alternating.tres ((restrictOpenFunctor A).op ⋙ F) V (Fin.succAbove i) β.1
           (s (β.omit i))) = _

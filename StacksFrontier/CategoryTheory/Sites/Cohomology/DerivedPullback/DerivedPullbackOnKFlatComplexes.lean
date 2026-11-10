@@ -113,8 +113,7 @@ theorem isFlat_total
       ((Z.total (ComplexShape.up ℤ)).X n) :=
   isFlat_coproduct_of_smallIndex O _ (fun j => hflat j.val.1 j.val.2)
 
-variable [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
-  [(Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, _, u, u} O).Additive]
+variable [(Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, _, u, u} O).Additive]
   [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, _, u, u} O).obj M).Additive]
   [∀ (A B : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O)) ℤ),
     HomologicalComplex.HasMapBifunctor A B (Stacks.SheafOfModules.Tensor.sheafTensor O)

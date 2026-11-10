@@ -143,7 +143,7 @@ theorem inclusionTopology_le_topology' :
       change (E₂.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage _ at h
       exact h.2 (Presieve.ofArrows.mk i)
     have hsm : Smooth (B.inclusion.map (𝒳.val.val.p.map (v ≫ ρ)).left) := by
-      show Smooth (B.inclusion.map
+      change Smooth (B.inclusion.map
         ((BigFppfOver.forget B S hS).map (𝒳.val.val.p.map (v ≫ ρ))))
       rw [hleftmap, Functor.map_comp]
       have : IsIso (B.inclusion.map (eqToHom hleft)) := by
@@ -159,7 +159,7 @@ theorem inclusionTopology_le_topology' :
       rename_i z r₀
       refine ⟨z, ObjectProperty.homMk (v ≫ a), r₀, hr₀, ?_⟩
       apply (smoothObject.{u, w} B S hS 𝒳).ι.map_injective
-      show (v ≫ a) ≫ (smoothObject.{u, w} B S hS 𝒳).ι.map r₀ = v ≫ ρ
+      change (v ≫ a) ≫ (smoothObject.{u, w} B S hS 𝒳).ι.map r₀ = v ≫ ρ
       rw [Category.assoc, har]
     · exact hleftmap
   choose W k hk hWX hkf using key
@@ -168,7 +168,7 @@ theorem inclusionTopology_le_topology' :
   have hcomb₂ : PreZeroHypercover.CombinatoriallyEquivalent
       (E.map (toSchemes.{u, w} B S hS 𝒳)) E₂ :=
     ⟨⟨id, hWX, hkf⟩, ⟨id, fun i => (hWX i).symm, fun i => by
-      show E₂.f i = eqToHom (hWX i).symm ≫ (toSchemes.{u, w} B S hS 𝒳).map (k i)
+      change E₂.f i = eqToHom (hWX i).symm ≫ (toSchemes.{u, w} B S hS 𝒳).map (k i)
       rw [hkf i]
       simp⟩⟩
   have hcomb : Covering.CombEquiv
@@ -183,7 +183,7 @@ theorem inclusionTopology_le_topology' :
       (map_mem_iff_of_combEquiv B.inclusion Scheme.etalePrecoverage hcomb).mpr hE₂.2⟩
     have h := hE₂.1.1
     change E₂.presieve₀ ∈ Scheme.fppfPrecoverage.comap B.inclusion _ at h
-    show (E.map (toSchemes.{u, w} B S hS 𝒳)).presieve₀ ∈
+    change (E.map (toSchemes.{u, w} B S hS 𝒳)).presieve₀ ∈
       Scheme.fppfPrecoverage.comap B.inclusion _
     rw [hpres]
     exact h

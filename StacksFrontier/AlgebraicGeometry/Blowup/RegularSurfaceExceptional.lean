@@ -193,12 +193,12 @@ theorem mem_chartOpen_chart_of_notMem (b : I.ideal V) (q : PrimeSpectrum (chartR
     conv_lhs => rw [Stacks.Blowup.chart_eq_specMap_awayι I V a]
     rfl
   rw [hpt]
-  show Proj.awayι ((reesSituation I).sectionRingGrading V.1) (reesDegreeOne I V a).1
+  change Proj.awayι ((reesSituation I).sectionRingGrading V.1) (reesDegreeOne I V a).1
       (reesDegreeOne I V a).2 Nat.one_pos z ∈
     (Stacks.RelativeProj.Situation.relativeProjChart (reesSituation I) V ⁻¹ᵁ
       (chartOpen I V b).1)
   rw [preimage_relativeProjChart_chartOpen I V b]
-  show z ∈ (Proj.awayι ((reesSituation I).sectionRingGrading V.1) (reesDegreeOne I V a).1
+  change z ∈ (Proj.awayι ((reesSituation I).sectionRingGrading V.1) (reesDegreeOne I V a).1
       (reesDegreeOne I V a).2 Nat.one_pos ⁻¹ᵁ
     Proj.basicOpen ((reesSituation I).sectionRingGrading V.1) (reesDegreeOne I V b).1)
   rw [Proj.awayι_preimage_basicOpen ((reesSituation I).sectionRingGrading V.1)

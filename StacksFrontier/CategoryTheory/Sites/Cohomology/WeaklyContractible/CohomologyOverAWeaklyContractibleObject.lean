@@ -126,9 +126,9 @@ theorem exact_sheafSections_of_isWeaklyContractible
     let S := sheafCompose J (forget AddCommGrpCat.{w})
     have : Presheaf.IsLocallySurjective J f.hom := Stacks.Sites.LocalImage.epi_localSurjective J f
     have hlocS : Sheaf.IsLocallySurjective (S.map f) := by
-      show Presheaf.IsLocallySurjective J (whiskerRight f.hom (forget AddCommGrpCat.{w}))
+      change Presheaf.IsLocallySurjective J (whiskerRight f.hom (forget AddCommGrpCat.{w}))
       infer_instance
-    show Epi (f.hom.app (op U))
+    change Epi (f.hom.app (op U))
     exact (AddCommGrpCat.epi_iff_surjective _).2 (hU (S.obj X) (S.obj Y) (S.map f) hlocS)
   have : E.PreservesHomology := E.preservesHomology_of_preservesEpis_and_kernels
   exact ⟨hLim, E.preservesFiniteColimits_of_preservesHomology⟩

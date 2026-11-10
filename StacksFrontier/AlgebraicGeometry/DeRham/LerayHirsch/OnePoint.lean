@@ -70,7 +70,7 @@ theorem isIso_biproduct_desc_of_basis
     intro i
     rw [hb i, DirectSum.lmap_lof]
     congr 1
-    show ((H (n i)).map (biproduct.ι P i) ≫ (H (n i)).map (biproduct.desc d)).hom
+    change ((H (n i)).map (biproduct.ι P i) ≫ (H (n i)).map (biproduct.desc d)).hom
       (g i) = _
     rw [← Functor.map_comp, biproduct.ι_desc]
   -- the generators span
@@ -139,7 +139,7 @@ theorem isIso_of_isIso_sections {M M' : SheafOfModules.{u} (structureSheafRing Z
     have := key M
     have := key M'
     rw [ConcreteCategory.isIso_iff_bijective]
-    show Function.Bijective (ψ.val.app (op ⊥))
+    change Function.Bijective (ψ.val.app (op ⊥))
     exact ⟨fun a b _ => Subsingleton.elim a b, fun y => ⟨0, Subsingleton.elim _ _⟩⟩
   · obtain rfl : U = op ⊤ := congrArg op hU
     exact inferInstanceAs (IsIso ((forget₂ (ModuleCat.{u} ((structureSheafRing Z).obj.obj (op ⊤)))

@@ -219,7 +219,7 @@ private theorem exists_nonzero_relation_of_etale
   obtain ⟨P, hP, hPz⟩ := hzalgR
   refine ⟨P, hP, ?_⟩
   have hinj : Function.Injective (algebraMap C D) := by
-    show Function.Injective (Algebra.TensorProduct.includeRight (R := R) (A := K))
+    change Function.Injective (Algebra.TensorProduct.includeRight (R := R) (A := K))
     exact Algebra.TensorProduct.includeRight_injective (IsFractionRing.injective R K)
   apply hinj
   have heval : algebraMap C D (Polynomial.eval₂ f z P) =
@@ -227,7 +227,7 @@ private theorem exists_nonzero_relation_of_etale
     rw [Polynomial.hom_eval₂]
     congr 1
     ext x
-    show algebraMap C D (algebraMap R C x) = algebraMap R D x
+    change algebraMap C D (algebraMap R C x) = algebraMap R D x
     exact (IsScalarTower.algebraMap_apply R C D x).symm
   rw [heval]
   have hroot : Polynomial.eval₂ (algebraMap R D)
@@ -314,7 +314,7 @@ private theorem exists_p_divisible_tilt_leadingCoeff
   have hDsplit (ν : Fin (n + 1) →₀ ℕ) : D ν = ν 0 + D' ν := by
     simp [D, D', Fin.sum_univ_succ, he0]
   have hWsplit (ν : Fin (n + 1) →₀ ℕ) : W ν = ν 0 + M * D' ν := by
-    show (∑ i, E i * ν i) = ν 0 + M * (∑ i : Fin n, e i.succ * ν i.succ)
+    change (∑ i, E i * ν i) = ν 0 + M * (∑ i : Fin n, e i.succ * ν i.succ)
     simp only [Fin.sum_univ_succ, E, Fin.cases_zero, one_mul, Fin.cases_succ, Finset.mul_sum,
       mul_assoc]
   have hWlt : ∀ ν ∈ g.support, ∀ ν' ∈ g.support, D' ν < D' ν' → W ν < W ν' := by
@@ -343,7 +343,7 @@ private theorem exists_p_divisible_tilt_leadingCoeff
   set Ψ : MvPolynomial (Fin (n + 1)) k →ₐ[k] Polynomial (MvPolynomial (Fin n) k) :=
     (MvPolynomial.finSuccEquiv k n).toAlgHom.comp (subst n E)
   have hΨX0 : Ψ (MvPolynomial.X 0) = Polynomial.X := by
-    show MvPolynomial.finSuccEquiv k n
+    change MvPolynomial.finSuccEquiv k n
       (subst n E (MvPolynomial.X 0)) = Polynomial.X
     rw [subst_X_zero, MvPolynomial.finSuccEquiv_X_zero]
   have hΨXsucc : ∀ j : Fin n,
@@ -351,7 +351,7 @@ private theorem exists_p_divisible_tilt_leadingCoeff
         Polynomial.X ^ (E j.succ) := by
     intro j
     have hne : (j.succ : Fin (n + 1)) ≠ 0 := Fin.succ_ne_zero j
-    show MvPolynomial.finSuccEquiv k n
+    change MvPolynomial.finSuccEquiv k n
       (subst n E (MvPolynomial.X j.succ)) = _
     rw [subst_X_ne_zero n E j.succ hne, map_add, map_pow,
       MvPolynomial.finSuccEquiv_X_succ, MvPolynomial.finSuccEquiv_X_zero]
@@ -384,7 +384,7 @@ private theorem exists_p_divisible_tilt_leadingCoeff
     Polynomial.monic_prod_of_monic _ _ fun i _ => (hΨX_monic i).pow _
   have hPνdeg : ∀ ν, (Pν ν).natDegree = W ν := by
     intro ν
-    show (∏ i, (Ψ (MvPolynomial.X i)) ^ (ν i)).natDegree = W ν
+    change (∏ i, (Ψ (MvPolynomial.X i)) ^ (ν i)).natDegree = W ν
     rw [Polynomial.natDegree_prod_of_monic _ _ fun i _ => (hΨX_monic i).pow _]
     simp only [W]
     apply Finset.sum_congr rfl
@@ -510,7 +510,7 @@ theorem exists_etalePresentation_nonfiniteGeneratorNumber_lt
       funext i
       refine Fin.cases ?_ ?_ i <;> simp [w, ψ]
     rw [hw]
-    show (((MvPolynomial.aeval w).comp (subst n E)).comp N) g = 0
+    change (((MvPolynomial.aeval w).comp (subst n E)).comp N) g = 0
     rw [hcomp]
     exact hgrel
   obtain ⟨νa, hνa, ha⟩ := haCoeff
@@ -526,7 +526,7 @@ theorem exists_etalePresentation_nonfiniteGeneratorNumber_lt
   have hHmonic : Hm.Monic := by
     simpa [Hm] using Polynomial.monic_of_isUnit_leadingCoeff_inv_smul hHunit
   have hHmroot : Polynomial.eval₂ ψ.toRingHom z Hm = 0 := by
-    show Polynomial.eval₂ ψ.toRingHom z
+    change Polynomial.eval₂ ψ.toRingHom z
       ((hHunit.unit⁻¹ : Units (MvPolynomial (Fin n) k)) • H) = 0
     rw [Units.smul_def, Polynomial.eval₂_smul, hHroot]
     simp
@@ -537,7 +537,7 @@ theorem exists_etalePresentation_nonfiniteGeneratorNumber_lt
     have heq : ψ = φ'.comp neg := by
       apply MvPolynomial.algHom_ext
       intro i
-      show ψ (MvPolynomial.X i) = φ' (neg (MvPolynomial.X i))
+      change ψ (MvPolynomial.X i) = φ' (neg (MvPolynomial.X i))
       simp [ψ, φ', neg]
     exact congrArg AlgHom.toRingHom heq
   have hφ'int : φ'.toRingHom.IsIntegralElem z := by
@@ -605,7 +605,7 @@ theorem exists_etalePresentation_nonfiniteGeneratorNumber_lt
     · exact hφ'int
   have hyD : ∀ i : Fin r, i.val < s → IsIntegral D (y i) := by
     intro i hi
-    show (algebraMap D C).IsIntegralElem (y i)
+    change (algebraMap D C).IsIntegralElem (y i)
     rw [← hφDcomp] at hint
     exact RingHom.IsIntegralElem.of_comp (hint i hi)
   let zD : D := ⟨z, hDz⟩
@@ -620,15 +620,15 @@ theorem exists_etalePresentation_nonfiniteGeneratorNumber_lt
           exact_mod_cast (Nat.succ_le_iff.mpr hPpos)
     · rw [Polynomial.eval₂_sub, Polynomial.eval₂_map, Polynomial.eval₂_C]
       rw [hφDcomp]
-      show Polynomial.eval₂ φ.toRingHom x P - z = 0
+      change Polynomial.eval₂ φ.toRingHom x P - z = 0
       simp [z]
   let : Algebra.IsIntegral R D := hDint
   have hyInt : ∀ i : Fin r, i.val < s → φ'.toRingHom.IsIntegralElem (y i) := by
     intro i hi
-    show IsIntegral R (y i)
+    change IsIntegral R (y i)
     exact isIntegral_trans (R := R) (A := D) (B := C) (y i) (hyD i hi)
   have hxInt : φ'.toRingHom.IsIntegralElem x := by
-    show IsIntegral R x
+    change IsIntegral R x
     exact isIntegral_trans (R := R) (A := D) (B := C) x hxD
   let Y : Fin (n + r) → C :=
     Fin.addCases (fun i => φ (MvPolynomial.X i)) y
@@ -673,15 +673,15 @@ theorem exists_etalePresentation_nonfiniteGeneratorNumber_lt
   have hcompNew : qAlg.comp φ' = qAlg.comp φ := by
     apply MvPolynomial.algHom_ext
     intro i
-    show qAlg (φ' (MvPolynomial.X i)) = qAlg (φ (MvPolynomial.X i))
+    change qAlg (φ' (MvPolynomial.X i)) = qAlg (φ (MvPolynomial.X i))
     rw [show φ' (MvPolynomial.X i) = t i by simp [φ']]
-    show qAlg (φ (MvPolynomial.X i) + z ^ E i.succ) = qAlg (φ (MvPolynomial.X i))
+    change qAlg (φ (MvPolynomial.X i) + z ^ E i.succ) = qAlg (φ (MvPolynomial.X i))
     rw [map_add, map_pow, hzker, zero_pow (Nat.one_le_iff_ne_zero.mp (hEpos i.succ)), add_zero]
   let J' : Ideal C := Ideal.map φ'.toRingHom I
   have hJker : J' ≤ RingHom.ker qAlg.toRingHom := by
     rw [Ideal.map_le_iff_le_comap]
     intro f hf
-    show qAlg (φ' f) = 0
+    change qAlg (φ' f) = 0
     calc
       qAlg (φ' f) = qAlg (φ f) :=
         congrArg (fun F : R →ₐ[k] B => F f) hcompNew

@@ -443,7 +443,7 @@ theorem nonempty_basis_cotangentSpace_cohen {Λ : Type*} [CommRing Λ] [IsDomain
         have hdvp1 : dvp ⟨MvPowerSeries.C p₀, hpmem⟩ = 1 := by
           refine mul_left_cancel₀ hp0ne ?_
           rw [← hdvp ⟨MvPowerSeries.C p₀, hpmem⟩]
-          show MvPowerSeries.constantCoeff (MvPowerSeries.C p₀ : B) = _
+          change MvPowerSeries.constantCoeff (MvPowerSeries.C p₀ : B) = _
           rw [MvPowerSeries.constantCoeff_C, mul_one]
         rw [hdvp1, MvPowerSeries.C.map_one, map_one, Pi.single_eq_same]
       · intro i
@@ -470,7 +470,7 @@ theorem nonempty_basis_cotangentSpace_cohen {Λ : Type*} [CommRing Λ] [IsDomain
         have hdvp0 : dvp ⟨MvPowerSeries.X i, hXmem i⟩ = 0 := by
           refine mul_left_cancel₀ hp0ne ?_
           rw [← hdvp ⟨MvPowerSeries.X i, hXmem i⟩]
-          show MvPowerSeries.constantCoeff (MvPowerSeries.X i : B) = _
+          change MvPowerSeries.constantCoeff (MvPowerSeries.X i : B) = _
           rw [MvPowerSeries.constantCoeff_X, mul_zero]
         rw [hdvp0, MvPowerSeries.C.map_zero, map_zero]
         rw [Pi.single_eq_of_ne (Fin.succ_ne_zero i).symm]

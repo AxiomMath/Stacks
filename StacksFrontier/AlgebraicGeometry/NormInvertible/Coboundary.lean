@@ -149,7 +149,7 @@ theorem coboundaryScale_mem (h : IsCoboundaryTwist D D' c) (W : Opens X.carrier)
     presheafMap_trans_apply (inf_le_right : W ⊓ U k ≤ U k) hk (c k).val
   have hcompat := s.property i j
   have htw := h i j Z (inf_le_left.trans inf_le_right) (inf_le_right.trans inf_le_right)
-  show (D'.transition i j Z (inf_le_left.trans inf_le_right)
+  change (D'.transition i j Z (inf_le_left.trans inf_le_right)
         (inf_le_right.trans inf_le_right)).val *
       X.presheaf.map (homOfLE hZi).op
         ((resUnits (inf_le_right : W ⊓ U i ≤ U i) (c i)).val * s.val i) =
@@ -242,7 +242,7 @@ theorem chartLinearEquiv_glueIsoOfCoboundaryTwist (h : IsCoboundaryTwist D D' c)
     (i : ι) {V : Opens X.carrier} (hV : V ≤ U i) (s : D.sectionsSubmodule V) :
     D'.chartLinearEquiv i hV ((glueIsoOfCoboundaryTwist h).hom.val.app (op V) s) =
       X.presheaf.map (homOfLE hV).op (c i).val * D.chartLinearEquiv i hV s := by
-  show X.presheaf.map (homOfLE (le_inf le_rfl hV)).op
+  change X.presheaf.map (homOfLE (le_inf le_rfl hV)).op
       ((coboundarySectionsEquiv h V s).val i) =
     X.presheaf.map (homOfLE hV).op (c i).val *
       X.presheaf.map (homOfLE (le_inf le_rfl hV)).op (s.val i)

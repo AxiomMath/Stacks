@@ -161,7 +161,7 @@ private theorem isSeparable_residueField_of_indEtale
       hom.comp equivR.toRingHom := by
     ext element
     obtain ⟨element, rfl⟩ := residue_surjective element
-    show algebraMap S (maximalIdeal S).ResidueField (algebraMap R S element) =
+    change algebraMap S (maximalIdeal S).ResidueField (algebraMap R S element) =
       hom (algebraMap R (maximalIdeal R).ResidueField element)
     exact (Ideal.ResidueField.map_algebraMap _ _ _ _ _).symm
   let : IsScalarTower (ResidueField R) (ResidueField S)
@@ -217,7 +217,7 @@ private theorem exists_algEquiv_of_indEtale_of_residueFieldEquiv
     have heq := RingHom.congr_fun hcompat element
     change equiv (residue A (algebraMap R A element)) =
       residue B (algebraMap R B element) at heq
-    show equiv.symm (residue B (algebraMap R B element)) = _
+    change equiv.symm (residue B (algebraMap R B element)) = _
     rw [← heq]
     exact equiv.symm_apply_apply _
   obtain ⟨forward, ⟨hforwardLocal, hforward⟩, _⟩ :=
@@ -282,9 +282,9 @@ private theorem exists_algEquiv_eq_of_localAlgHom_of_indEtale
       ((residue A).comp (algebraMap R A)) =
       (residue B).comp (algebraMap R B) := by
     ext element
-    show ResidueField.map hom.toRingHom (residue A (algebraMap R A element)) = _
+    change ResidueField.map hom.toRingHom (residue A (algebraMap R A element)) = _
     rw [ResidueField.map_residue]
-    show residue B (hom (algebraMap R A element)) = residue B (algebraMap R B element)
+    change residue B (hom (algebraMap R A element)) = residue B (algebraMap R B element)
     rw [hom.commutes]
   obtain ⟨equiv, hequiv⟩ :=
     exists_algEquiv_of_indEtale_of_residueFieldEquiv hA hB residueEquiv hcompat
@@ -315,7 +315,7 @@ private theorem exists_residueFieldEquiv_of_strictHenselization
   refine ⟨hsh.residueFieldEquiv.trans quotientEquiv.symm.toRingEquiv, ?_⟩
   intro element
   apply quotientEquiv.injective
-  show quotientEquiv (quotientEquiv.symm
+  change quotientEquiv (quotientEquiv.symm
     (hsh.residueFieldEquiv (algebraMap (maximalIdeal R).ResidueField κ
       (algebraMap R (maximalIdeal R).ResidueField element)))) = _
   rw [quotientEquiv.apply_symm_apply]
@@ -398,7 +398,7 @@ private theorem isSepClosure_idealResidueField_of_isSepClosure
   refine ⟨inferInstance, ⟨IsSepClosed.of_ringEquiv equivT.symm.toRingEquiv,
     AlgEquiv.Algebra.isSeparable (equivT.restrictScalars (maximalIdeal R).ResidueField)⟩, ?_⟩
   intro element
-  show equivT (algebraMap (ResidueField R) (ResidueField T)
+  change equivT (algebraMap (ResidueField R) (ResidueField T)
     (equivR.symm (algebraMap R (maximalIdeal R).ResidueField element))) = _
   have hR : algebraMap R (maximalIdeal R).ResidueField element = equivR (residue R element) :=
     (IsScalarTower.algebraMap_apply R (ResidueField R) _ element).symm
@@ -500,7 +500,7 @@ private theorem exists_algEquiv_of_strictHenselization
       ((residue A).comp (algebraMap R A)) =
       (residue B).comp (algebraMap R B) := by
     ext element
-    show residueEquivB (closureEquiv
+    change residueEquivB (closureEquiv
       (residueEquivA.symm (residue A (algebraMap R A element)))) = _
     rw [← hresidueA, residueEquivA.symm_apply_apply, closureEquiv.commutes, hresidueB]
     rfl
@@ -595,7 +595,7 @@ private theorem exists_strictHenselization
     residueFieldEquiv := residueEquivSh
     residueFieldEquiv_comp := ?_ }⟩⟩
   ext element
-  show quotientEquivSh (residueEquiv
+  change quotientEquivSh (residueEquiv
     (algebraMap (ResidueField R) κ (residue R element))) = _
   rw [hresidueEquiv]
   exact (Ideal.ResidueField.map_algebraMap _ _ _ _ element).symm
@@ -632,10 +632,10 @@ private theorem exists_localAlgHom_of_strictHenselization
   have hcompat : fieldMap.comp ((residue Rsh).comp (algebraMap R Rsh)) =
       (residue Ssh).comp (algebraMap R Ssh) := by
     ext element
-    show equivS (closureMap (equivR.symm
+    change equivS (closureMap (equivR.symm
       (residue Rsh (algebraMap R Rsh element)))) = _
     rw [← hresidueR, equivR.symm_apply_apply, closureMap.commutes]
-    show equivS (algebraMap (maximalIdeal S).ResidueField κS
+    change equivS (algebraMap (maximalIdeal S).ResidueField κS
       (residueMap (algebraMap R (maximalIdeal R).ResidueField element))) = _
     rw [Ideal.ResidueField.map_algebraMap, hresidueS,
       ← IsScalarTower.algebraMap_apply R S Ssh]

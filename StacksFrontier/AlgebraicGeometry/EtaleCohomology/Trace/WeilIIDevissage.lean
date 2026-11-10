@@ -249,7 +249,7 @@ theorem LAdicSheaf.satisfiesWeightBound_of_forall_exists_open (X : B.Scheme) [Is
       (B.inclusion.map (iZZ' ≫ iZ)).isClosedEmbedding.isClosed_range⟩ :
         TopologicalSpace.Closeds X.1) < C := by
     refine lt_of_le_of_ne ?_ ?_
-    · show Set.range (B.inclusion.map (iZZ' ≫ iZ)).base ⊆ (C : Set X.1)
+    · change Set.range (B.inclusion.map (iZZ' ≫ iZ)).base ⊆ (C : Set X.1)
       rw [← hC]
       rintro _ ⟨z, rfl⟩
       exact ⟨(B.inclusion.map iZZ').base z, hcomp z⟩

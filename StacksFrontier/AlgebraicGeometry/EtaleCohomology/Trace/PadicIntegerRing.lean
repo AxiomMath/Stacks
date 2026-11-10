@@ -4,7 +4,8 @@ public import Mathlib.NumberTheory.Padics.PadicIntegers
 public import Mathlib.RingTheory.DedekindDomain.IntegralClosure
 public import Mathlib.RingTheory.DedekindDomain.PID
 public import Mathlib.RingTheory.Localization.Module
-public import Mathlib.NumberTheory.RamificationInertia.Basic
+public import Mathlib.NumberTheory.RamificationInertia.Inertia
+public import Mathlib.NumberTheory.RamificationInertia.Ramification
 public import Mathlib.RingTheory.DiscreteValuationRing.Basic
 public import Mathlib.NumberTheory.Padics.RingHoms
 

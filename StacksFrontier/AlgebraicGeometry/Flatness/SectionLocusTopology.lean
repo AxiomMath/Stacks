@@ -55,7 +55,7 @@ namespace ConnectedAlongSection
 /-- The value of the section at `y` lies in the fibre over `y`. -/
 theorem section_mem_preimage (D : ConnectedAlongSection.{u}) (y : D.Y) :
     D.s y ∈ D.f ⁻¹' {y} := by
-  show D.f (D.s y) = y
+  change D.f (D.s y) = y
   rw [← Scheme.Hom.comp_apply, D.section_fac]
   rfl
 

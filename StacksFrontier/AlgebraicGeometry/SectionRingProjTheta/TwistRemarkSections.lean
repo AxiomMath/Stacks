@@ -139,7 +139,7 @@ theorem tensorSection_unitSec {F G : X.Modules} (t : 𝟙_ X.Modules ⟶ F) (t' 
       Stacks.SectionRingProjQuasicoherent.unitSec ((λ_ (𝟙_ X.Modules)).inv ≫ (t ⊗ₘ t')) U := by
   refine (Stacks.SectionProduct.mulSec_eq_tensorSection F G t'
     (Stacks.SectionRingProjQuasicoherent.unitSec t U)).symm.trans ?_
-  show ((Stacks.TensorSectionNonvanishing.mulRight F t').app U
+  change ((Stacks.TensorSectionNonvanishing.mulRight F t').app U
       (Stacks.SectionRingProjQuasicoherent.unitSec t U)) = _
   rw [← Stacks.SectionRingProjQuasicoherent.unitSec_comp]
   congr 1

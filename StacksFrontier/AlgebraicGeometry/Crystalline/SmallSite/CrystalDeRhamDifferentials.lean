@@ -106,9 +106,7 @@ theorem tensorFormsSectionsEquiv_map {A A' : CrystallineThickening S} (k : A ⟶
         (structurePresheaf S ⋙ forget₂ CommRingCat RingCat)) i).map k.op
           ((tensorFormsSectionsEquiv F i A').symm y)) =
       restrictForms F k i y := by
-  induction y using TensorProduct.induction_on with
-  | zero => exact ((congrArg _ ((congrArg _ (map_zero _)).trans (map_zero _))).trans
-      (map_zero _)).trans (map_zero _).symm
+  induction y using TensorProduct.inductionOn with
   | tmul m ω => rfl
   | add x y hx hy =>
       exact ((congrArg _ ((congrArg _ (map_add _ x y)).trans (map_add _ _ _))).trans
@@ -311,7 +309,7 @@ theorem crystalDeRhamDifferential_comp (i : ℕ) :
       (toSheafify_crystalDeRhamDifferential hF i))).trans ?_
   refine (hom_ext_of_app S (g := 0) (fun B ↦ ?_)).trans (comp_zero (f := toSheafify _ _)).symm
   ext x
-  show (crystalDeRhamDifferential hF (i + 1)).hom.app (op B.obj)
+  change (crystalDeRhamDifferential hF (i + 1)).hom.app (op B.obj)
       ((presheafDeRhamDifferential hF i).app (op B.obj) (ULift.up x.down)) = 0
   refine (congrArg ((crystalDeRhamDifferential hF (i + 1)).hom.app (op B.obj))
     (presheafDeRhamDifferential_app hF i B x.down)).trans ?_

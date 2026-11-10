@@ -97,7 +97,7 @@ theorem bijective_tensorProductMap_of_ringEquiv (φ : R →+* A) (ψ : R →+* B
   let fA : A →ₐ[R] A₁ ⊗[R₁] B₁ :=
     { toRingHom := Algebra.TensorProduct.includeLeftRingHom.comp eA.toRingHom
       commutes' := fun r => by
-        show Algebra.TensorProduct.includeLeftRingHom (eA (φ r)) =
+        change Algebra.TensorProduct.includeLeftRingHom (eA (φ r)) =
           algebraMap R₁ (A₁ ⊗[R₁] B₁) (eR r)
         have : eA (φ r) = φ₁ (eR r) := congrArg (fun k : R →+* A₁ => k r) hφ
         rw [this]
@@ -106,7 +106,7 @@ theorem bijective_tensorProductMap_of_ringEquiv (φ : R →+* A) (ψ : R →+* B
   let fB : B' →ₐ[R] A₁ ⊗[R₁] B₁ :=
     { toRingHom := Algebra.TensorProduct.includeRight.toRingHom.comp eB.toRingHom
       commutes' := fun r => by
-        show Algebra.TensorProduct.includeRight (eB (ψ r)) =
+        change Algebra.TensorProduct.includeRight (eB (ψ r)) =
           algebraMap R₁ (A₁ ⊗[R₁] B₁) (eR r)
         have : eB (ψ r) = ψ₁ (eR r) := congrArg (fun k : R →+* B₁ => k r) hψ
         rw [this]
@@ -119,7 +119,7 @@ theorem bijective_tensorProductMap_of_ringEquiv (φ : R →+* A) (ψ : R →+* B
   let gA : A₁ →ₐ[R₁] A ⊗[R] B' :=
     { toRingHom := Algebra.TensorProduct.includeLeftRingHom.comp eA.symm.toRingHom
       commutes' := fun r => by
-        show Algebra.TensorProduct.includeLeftRingHom (eA.symm (φ₁ r)) =
+        change Algebra.TensorProduct.includeLeftRingHom (eA.symm (φ₁ r)) =
           algebraMap R (A ⊗[R] B') (eR.symm r)
         have : eA.symm (φ₁ r) = φ (eR.symm r) := congrArg (fun k : R₁ →+* A => k r) hφ'
         rw [this]
@@ -128,7 +128,7 @@ theorem bijective_tensorProductMap_of_ringEquiv (φ : R →+* A) (ψ : R →+* B
   let gB : B₁ →ₐ[R₁] A ⊗[R] B' :=
     { toRingHom := Algebra.TensorProduct.includeRight.toRingHom.comp eB.symm.toRingHom
       commutes' := fun r => by
-        show Algebra.TensorProduct.includeRight (eB.symm (ψ₁ r)) =
+        change Algebra.TensorProduct.includeRight (eB.symm (ψ₁ r)) =
           algebraMap R (A ⊗[R] B') (eR.symm r)
         have : eB.symm (ψ₁ r) = ψ (eR.symm r) := congrArg (fun k : R₁ →+* B' => k r) hψ'
         rw [this]
@@ -141,14 +141,12 @@ theorem bijective_tensorProductMap_of_ringEquiv (φ : R →+* A) (ψ : R →+* B
     simp [θ, fB]
   · have h₁ : ∀ t, κ (θ t) = t := by
       intro t
-      induction t using TensorProduct.induction_on with
-      | zero => simp
+      induction t using TensorProduct.inductionOn with
       | tmul a b => simp [θ, κ, fA, fB, gA, gB, Algebra.TensorProduct.tmul_mul_tmul]
       | add s t hs ht => simp only [map_add, hs, ht]
     have h₂ : ∀ t, θ (κ t) = t := by
       intro t
-      induction t using TensorProduct.induction_on with
-      | zero => simp
+      induction t using TensorProduct.inductionOn with
       | tmul a b => simp [θ, κ, fA, fB, gA, gB, Algebra.TensorProduct.tmul_mul_tmul]
       | add s t hs ht => simp only [map_add, hs, ht]
     exact ⟨Function.LeftInverse.injective h₁, Function.RightInverse.surjective h₂⟩
@@ -227,7 +225,7 @@ theorem cartesian_stalkRing_tensor_flat {X' X Y' Y : AlgebraicSpaces B S hS}
         CommRingCat.ofHom (etaleLocalRingMap Y'.2 h.hom (geometricPointMap f'.hom x'))).hom).comp
           eR.toRingHom := by
     ext a
-    show eB (smallEtaleStalkPullbackRingMap B S hS h _
+    change eB (smallEtaleStalkPullbackRingMap B S hS h _
         ((eqToHom (congrArg (structureStalkRing B S hS Y) hy)).hom a)) =
       etaleLocalRingMap Y'.2 h.hom _
         ((eqToHom (congrArg (etaleLocalRing B S hS Y.1) hy)).hom (eR a))

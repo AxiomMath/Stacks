@@ -115,7 +115,7 @@ private theorem schemePoint_fieldValuedPoint_map
         (AlgebraicGeometry.Space.FieldValuedPoint.map B S hS (yoneda.obj A) (yoneda.map f) p) =
       (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map f
         (AlgebraicGeometry.Space.schemePoint B S hS A p) := by
-  show (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map
+  change (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map
       (p.value ≫ f) (IsLocalRing.closedPoint p.carrier) =
     (AlgebraicGeometry.BigFppfOver.toScheme B S hS).map f
       ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map p.value
@@ -236,7 +236,7 @@ private theorem schemePointRepresentative_schemePoint
     AlgebraicGeometry.Space.schemePoint B S hS U
       (schemePointRepresentative_aux B S hS U x) = x := by
   let kobj : B.Schemes := B.obj (B.residueField_spec_contains U.left.property x)
-  show (B.inclusion.map (B.inclusion.preimage (X := kobj) (Y := U.left)
+  change (B.inclusion.map (B.inclusion.preimage (X := kobj) (Y := U.left)
     (((AlgebraicGeometry.BigFppfOver.toScheme B S hS).obj U).fromSpecResidueField x))) _ = x
   rw [B.inclusion.map_preimage]
   exact Scheme.fromSpecResidueField_apply x _
@@ -262,18 +262,18 @@ private theorem canonical_class_eq
     (AlgebraicGeometry.FieldValuedPoint.canonical_isSmallest x) hp (hpx.trans hcx.symm)
   have hqmap : hq.map = (AlgebraicGeometry.FieldValuedPoint.canonical X x).map := by
     let kobj : B.Schemes := B.obj (B.residueField_spec_contains U.left.property x)
-    show B.inclusion.map (B.inclusion.preimage (X := kobj) (Y := U.left)
+    change B.inclusion.map (B.inclusion.preimage (X := kobj) (Y := U.left)
       (X.fromSpecResidueField x)) = X.fromSpecResidueField x
     rw [B.inclusion.map_preimage]
   let φ' : B.inclusion.obj (p.siteObject B S hS (yoneda.obj U)).left ⟶
       B.inclusion.obj (q.siteObject B S hS (yoneda.obj U)).left := by
-    show Spec (.of p.carrier) ⟶ Spec (.of q.carrier)
+    change Spec (.of p.carrier) ⟶ Spec (.of q.carrier)
     exact φ
   let fbase := B.inclusion.preimage φ'
   have hleft : fbase ≫ q.value.left = p.value.left := by
     apply B.inclusion.map_injective
     rw [B.inclusion.map_comp, B.inclusion.map_preimage]
-    show φ ≫ hq.map = hp.map
+    change φ ≫ hq.map = hp.map
     rw [hqmap]
     exact hφ
   have hbase : fbase ≫ (AlgebraicGeometry.Space.FieldValuedPoint.siteObject B S hS
@@ -294,7 +294,7 @@ private theorem canonical_class_eq
       q.siteObject B S hS (yoneda.obj U) := Over.homMk fbase hbase
   have hdom : AlgebraicGeometry.Space.FieldValuedPoint.Dominates B S hS (yoneda.obj U) p q := by
     refine ⟨f, ?_⟩
-    show f ≫ q.value = p.value
+    change f ≫ q.value = p.value
     exact Over.OverMorphism.ext hleft
   have hrel : AlgebraicGeometry.Space.FieldValuedPoint.HasCommonExtension B S hS
       (yoneda.obj U) p q :=
@@ -576,7 +576,7 @@ theorem exists_dense_affine_openImmersion
   have hjdense : DenseRange
       (AlgebraicGeometry.Space.pointsMap B S hS (yoneda.obj D) (yoneda.map j)) :=
     denseRange_pointsMap_of_denseRange B S hS j (by
-      show Dense (Set.range O.ι)
+      change Dense (Set.range O.ι)
       simpa only [Scheme.Opens.range_ι] using hd)
   refine ⟨D, yoneda.map j ≫ a, hO, ?_, ?_⟩
   · exact AlgebraicGeometry.Space.isOpenImmersion_comp B S hS _ _ hjOpen ha

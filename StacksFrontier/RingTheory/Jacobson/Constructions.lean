@@ -156,7 +156,7 @@ theorem isMaximal_of_isAlgebraic_residueField
       q.injective_algebraMap_quotient_residueField ?_
     refine Ideal.Quotient.ringHom_ext (RingHom.ext fun x => ?_)
     rw [hcompat]
-    show Ideal.ResidueField.map m q f hlies (algebraMap R m.ResidueField x)
+    change Ideal.ResidueField.map m q f hlies (algebraMap R m.ResidueField x)
       = algebraMap S q.ResidueField (f x)
     exact Ideal.ResidueField.map_algebraMap m q f hlies x
   -- A domain algebraic over a field is a field, hence `q` is maximal.
@@ -576,7 +576,7 @@ theorem exists_mul_vCapD_singleton_of_finite {R : Type*} [CommRing R]
     rw [p.isPrime.prod_le]
     rintro ⟨q, hq, hle⟩
     exact hnotle q hq hle
-  obtain ⟨g, hgprod, hgnp⟩ := SetLike.not_le_iff_exists.mp hprodnotle
+  obtain ⟨g, hgprod, hgnp⟩ := IsConcreteLE.not_le_iff_exists.mp hprodnotle
   refine ⟨g, hgnp, ?_⟩
   have hginq : ∀ q ∈ S, g ∈ q.asIdeal := fun q hq =>
     (Ideal.prod_le_inf.trans (Finset.inf_le (f := fun i => i.asIdeal) hq)) hgprod

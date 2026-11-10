@@ -122,7 +122,7 @@ theorem bivariantConnectedComponentRestriction_flatPullbackBivariantClassOfIsOpe
         ((X.connectedComponentOpens (j.continuous.connectedComponentsMap a)).ι ≫ sX)
         (j.resConnectedComponent a) (j.resConnectedComponent_comp_ι_comp hj a) := by
   refine BivariantClass.ext C _ _ _ _ _ _ fun {T} g _ k β ↦ ?_
-  show bivariantPieceRestrictionCap C _ sU sX j hj _ _ _ _ _ a _ g k β = _
+  change bivariantPieceRestrictionCap C _ sU sX j hj _ _ _ _ _ a _ g k β = _
   rw [bivariantPieceRestrictionCap_apply]
   have : LocallyOfFiniteType (pullback.fst (j.resConnectedComponent a) g) :=
     MorphismProperty.of_isPullback (IsPullback.of_hasPullback (j.resConnectedComponent a) g).flip
@@ -235,7 +235,7 @@ variable (C : ChowSituation.{u}) {Z U V X : Scheme.{u}} (sZ : Z ⟶ C.S) [Locall
   (hι : ι ≫ sU = sV) (hιi : iV ≫ ι = i) (hιj : ι ≫ j = jV)
   [IsLocallyNoetherian Z] [IsLocallyNoetherian U] [IsLocallyNoetherian V] [IsLocallyNoetherian X]
 
-omit [LocallyOfFiniteType i] [LocallyOfFiniteType iV] [IsOpenImmersion ι] in
+omit [LocallyOfFiniteType i] [LocallyOfFiniteType iV] [IsOpenImmersion ι] [IsLocallyNoetherian Z] in
 include hιi in
 /-- The connected component of `V` that a connected component `Z_z` of `Z` lands in is carried by
 `ι` into the connected component of `U` that `Z_z` lands in. -/
@@ -264,7 +264,7 @@ instance isOpenImmersion_componentShrinkMap (z : _root_.ConnectedComponents Z) :
   exact IsOpenImmersion.of_comp _ (U.connectedComponentOpens _).ι
 
 omit [LocallyOfFiniteType sU] [LocallyOfFiniteType sV] [LocallyOfFiniteType i]
-  [LocallyOfFiniteType iV] [IsOpenImmersion ι] in
+  [LocallyOfFiniteType iV] [IsOpenImmersion ι] [IsLocallyNoetherian Z] in
 include hι in
 /-- The open immersion `V_{a'} ⟶ U_a` of connected components commutes with the structure
 morphisms of `V_{a'}` and `U_a` to `S`. -/

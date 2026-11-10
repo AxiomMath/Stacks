@@ -68,9 +68,9 @@ theorem isEquivalenceRelation_map_of_isPullback {C D : Type*} [Category C] [Cate
       t := F.map (i.inv ≫ e.t)
       transitivity₁ := ?_
       transitivity₂ := ?_ }
-  · show F.map (i.inv ≫ e.t) ≫ F.map p₀ = F.map (pullback.fst p₁ p₀) ≫ F.map p₀
+  · change F.map (i.inv ≫ e.t) ≫ F.map p₀ = F.map (pullback.fst p₁ p₀) ≫ F.map p₀
     rw [← F.map_comp, ← F.map_comp, Category.assoc, e.transitivity₁, ← Category.assoc, hfst]
-  · show F.map (i.inv ≫ e.t) ≫ F.map p₁ = F.map (pullback.snd p₁ p₀) ≫ F.map p₁
+  · change F.map (i.inv ≫ e.t) ≫ F.map p₁ = F.map (pullback.snd p₁ p₀) ≫ F.map p₁
     rw [← F.map_comp, ← F.map_comp, Category.assoc, e.transitivity₂, ← Category.assoc, hsnd]
 
 end CategoryTheory
@@ -141,7 +141,7 @@ theorem isClosedImmersion_baseChange_map_prodLift {W T : AlgebraicSpaces B S hS}
     · simp only [k, Category.assoc, PreservesLimitPair.iso_hom, prodComparison_snd,
         prod.lift_snd, ← Functor.map_comp]
       exact (prod.lift_snd _ _).symm
-  show P.presheaf (rR.map (prod.lift p₀.hom p₁.hom))
+  change P.presheaf (rR.map (prod.lift p₀.hom p₁.hom))
   rw [(Iso.eq_comp_inv k).mpr h₂]
   exact MorphismProperty.RespectsIso.postcomp P.presheaf k.inv _ hlift
 

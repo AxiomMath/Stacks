@@ -165,7 +165,7 @@ theorem exists_homogeneous_of_series_equation [IsDomain Γ] {p : ℕ} (hp : 2 �
   obtain ⟨u', rfl⟩ : X ^ c ∣ u := X_pow_dvd_iff.mpr fun m hm => (hlow m hm).1
   obtain ⟨v', rfl⟩ : X ^ c ∣ v := X_pow_dvd_iff.mpr fun m hm => (hlow m hm).2
   have hc (f : PowerSeries Γ) : coeff c (X ^ c * f) = constantCoeff f := by
-    rw [coeff_X_pow_mul', if_pos le_rfl, Nat.sub_self, coeff_zero_eq_constantCoeff_apply]
+    rw [coeff_X_pow_mul', ite_eq_left le_rfl, Nat.sub_self, coeff_zero_eq_constantCoeff_apply]
   rw [hc, hc] at hspec
   obtain ⟨q, rfl⟩ : ∃ q, p = q + 1 := ⟨p - 1, by omega⟩
   rw [Nat.add_sub_cancel] at h ⊢
@@ -297,7 +297,7 @@ theorem mem_pow_smul_top_of_decompose_eq_zero [Module.Finite (MvPolynomial σ k)
     refine Submodule.smul_mem_smul ?_ trivial
     rw [MvPolynomial.mem_pow_idealOfVars_iff']
     intro x hx
-    rw [MvPolynomial.coeff_homogeneousComponent, if_neg]
+    rw [MvPolynomial.coeff_homogeneousComponent, ite_eq_right]
     have := gi.2.2
     omega
   refine ⟨D, fun N γ hγ => ?_⟩

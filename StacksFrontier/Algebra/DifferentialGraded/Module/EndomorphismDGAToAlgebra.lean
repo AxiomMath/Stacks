@@ -121,7 +121,7 @@ theorem exists_hom_of_cohomologyZeroAlgEquiv (A E : DifferentialGradedAlgebra R)
   have hΛd : ∀ a : E.grading (-1),
       Λ.toLinearMap ⟨E.d a, by simpa using E.d_mem (-1) (a : E.A) a.property⟩ = 0 := by
     intro a
-    show Φ (cohomologyZeroMk E _) = 0
+    change Φ (cohomologyZeroMk E _) = 0
     refine (congrArg Φ ?_).trans (map_zero Φ)
     rw [cohomologyZeroMk_apply]
     exact (Cohomology.mk_eq_zero_iff _).2 ⟨a, rfl⟩
@@ -132,9 +132,9 @@ theorem exists_hom_of_cohomologyZeroAlgEquiv (A E : DifferentialGradedAlgebra R)
     have hfun : (A.cohomologyZeroEquiv hA) ∘ (θ.cohomologyMap 0) = Φ := by
       funext x
       induction x using Quotient.ind with | _ a => ?_
-      show θ.toAlgebraHom (a.1 : E.A) = Φ (Quotient.mk _ a)
+      change θ.toAlgebraHom (a.1 : E.A) = Φ (Quotient.mk _ a)
       rw [hθ0 a.1]
-      show Φ (cohomologyZeroMk E (E.gradingZeroAlgEquivCocycleZero hE a.1)) = _
+      change Φ (cohomologyZeroMk E (E.gradingZeroAlgEquivCocycleZero hE a.1)) = _
       rw [cohomologyZeroMk_apply,
         show E.gradingZeroAlgEquivCocycleZero hE a.1 = a from Subtype.ext rfl]
     rw [← Equiv.comp_bijective _ (A.cohomologyZeroEquiv hA), hfun]

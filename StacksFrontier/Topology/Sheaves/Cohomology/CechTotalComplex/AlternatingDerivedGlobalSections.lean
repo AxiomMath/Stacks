@@ -161,7 +161,7 @@ theorem isIso_globalSectionsToAlternatingCechDerived_of_injective
     (L : CochainComplex (SheafOfModules.{u} R) ℤ) (hL : ∀ n : ℤ, Injective (L.X n)) :
     IsIso ((globalSectionsToAlternatingCechDerived X R U).app L) := by
   have := quasiIso_globalSectionsToAlternatingCech_of_injective X U hU L hL
-  show IsIso (DerivedCategory.Q.map
+  change IsIso (DerivedCategory.Q.map
     ((globalSectionsToAlternatingCech X U).app ((underlyingPresheafComplexFunctor X R).obj L)))
   infer_instance
 

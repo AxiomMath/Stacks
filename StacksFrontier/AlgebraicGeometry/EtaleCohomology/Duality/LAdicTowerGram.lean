@@ -67,7 +67,7 @@ theorem exists_isUnit_det_transpose_mul_mul_eq_smul (φ : limit F ⟶ limit F)
       obtain ⟨b', rfl⟩ := surjective_π hsurj hfin m b
       exact ha b'
     exact exists_eq_smul_of_π_eq_zero hkill hsurj hker htors m a h0
-  · show e ((limit.π F (op m)).hom (φ.hom a)) ((limit.π F (op m)).hom (φ.hom b)) =
+  · change e ((limit.π F (op m)).hom (φ.hom a)) ((limit.π F (op m)).hom (φ.hom b)) =
       _ * e ((limit.π F (op m)).hom a) ((limit.π F (op m)).hom b)
     rw [hφ, hφ, he]
 

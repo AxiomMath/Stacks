@@ -209,7 +209,7 @@ theorem isIntegralElem_of_pow_mem_spanVia {z : L} {d : ℕ}
   obtain ⟨c, hc⟩ := exists_eq_sum_of_mem_spanVia_range hz
   refine ⟨Polynomial.X ^ d - ∑ i : Fin d, Polynomial.C (c i) * Polynomial.X ^ (i : ℕ),
     Polynomial.monic_X_pow_sub (Polynomial.degree_sum_fin_lt c), ?_⟩
-  simp only [Polynomial.eval₂_sub, Polynomial.eval₂_X_pow, Polynomial.eval₂_finset_sum,
+  simp only [Polynomial.eval₂_sub, Polynomial.eval₂_X_pow, Polynomial.eval₂_finsetSum,
     Polynomial.eval₂_mul, Polynomial.eval₂_C]
   rw [← hc, sub_self]
 
@@ -239,7 +239,7 @@ theorem mem_of_forall_kills {ι : Type v} [Finite ι] {R B : Type u} [CommRing R
   have _ : Fintype ι := Fintype.ofFinite ι
   have _ : Module.FaithfullyFlat R (∀ i, R'' i) := Module.faithfullyFlat_pi_of_ringHom_pi hff
   let N' : Submodule R B := { N with smul_mem' := fun r x hx => hN r x hx }
-  show b ∈ N'
+  change b ∈ N'
   refine (Submodule.Quotient.mk_eq_zero N').1
     ((Module.FaithfullyFlat.one_tmul_eq_zero_iff (A := ∀ i, R'' i) R (B ⧸ N') (N'.mkQ b)).1 ?_)
   have h1 : ∑ i : ι, Pi.single i (1 : R'' i) = (1 : ∀ i, R'' i) :=
@@ -321,7 +321,7 @@ theorem IsGradedBaseChange.mem_spanVia_irrelevant (h : IsGradedBaseChange σ σ'
       rw [DirectSum.coe_decompose_mul_of_left_mem_zero 𝒜' (h.σ'_mem r),
         ← GradedRingHom.map_directSumDecompose, ← mul_sub, ← map_sub]
       refine smul_mem_spanVia _ ⟨_, ?_, rfl⟩
-      show GradedRing.proj 𝒜 0 (b - (DirectSum.decompose 𝒜 b 0 : B)) = 0
+      change GradedRing.proj 𝒜 0 (b - (DirectSum.decompose 𝒜 b 0 : B)) = 0
       simp [GradedRing.proj_apply, DirectSum.decompose_sub]
     | zero => simp
     | add x y _ _ hx hy =>
@@ -561,7 +561,7 @@ theorem finiteType_of_isGradedBaseChange (h : IsGradedBaseChange σ σ' φ Φ)
   let := σ'.toAlgebra
   have hft' : Algebra.FiniteType R B := hft
   obtain ⟨s, hs⟩ := hft'.out
-  show Algebra.FiniteType R' B'
+  change Algebra.FiniteType R' B'
   refine ⟨⟨s.image Φ, ?_⟩⟩
   rw [eq_top_iff]
   intro y _
@@ -592,7 +592,7 @@ theorem finiteType_of_isGradedDescentFamily (hfam : IsGradedDescentFamily σ σ'
   obtain ⟨Tall, -, hTall⟩ := exists_finset_mem_spanVia_forall (Φ := fun i => Φ'' i)
     (P := Set.univ) (s := s) fun i y _ => by simpa using (hfam.bc i).mem_spanVia y
   let C := Algebra.adjoin R (Tall : Set B)
-  show Algebra.FiniteType R B
+  change Algebra.FiniteType R B
   refine ⟨⟨Tall, ?_⟩⟩
   rw [eq_top_iff]
   intro b _
@@ -604,7 +604,7 @@ theorem finiteType_of_isGradedDescentFamily (hfam : IsGradedDescentFamily σ σ'
         rintro _ ⟨x, hx, rfl⟩ _ ⟨y, hy, rfl⟩
         exact ⟨x * y, C.mul_mem hx hy, map_mul _ x y⟩)
       (fun k => by
-        show (σ'' i) k ∈ _
+        change (σ'' i) k ∈ _
         simpa using smul_mem_spanVia (σ' := σ'' i) (S := Φ'' i '' (C : Set B)) k
           ⟨1, C.one_mem, map_one (Φ'' i)⟩)
   have hle : Algebra.adjoin (R'' i) (s i : Set (B'' i)) ≤ E :=

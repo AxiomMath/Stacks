@@ -40,7 +40,7 @@ public theorem geometricPointStalkMap_app_eq_id {S : Scheme.{u}} (hS : B.Contain
   have hU : (neighborhoodFunctor B S hS a).op.obj U = U := by
     refine congrArg op (Functor.Elements.ext _ _ rfl ?_)
     refine Subtype.ext ?_
-    show a.hom ≫ U.unop.val.1 = U.unop.val.1
+    change a.hom ≫ U.unop.val.1 = U.unop.val.1
     rw [ha, Category.id_comp]
   refine (colimit.ι_pre ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ P)
     (neighborhoodFunctor B S hS a).op U).trans (Eq.trans ?_ (Category.comp_id _).symm)
@@ -69,7 +69,7 @@ public theorem geometricPointStalkMap_galoisPow
   induction k with
   | zero =>
     rw [geometricPointStalkMap_app_eq_id B Λ Y.property _ (by
-      show Spec.map (CommRingCat.ofHom (σ ^ 0).toAlgHom.toRingHom) = 𝟙 _
+      change Spec.map (CommRingCat.ofHom (σ ^ 0).toAlgHom.toRingHom) = 𝟙 _
       rw [pow_zero]
       exact Spec.map_id _), pow_zero]
     rfl
@@ -104,7 +104,7 @@ morphism. -/
 public theorem galoisPointHom_one_hom {k : Type u} [Field k] {S : Scheme.{u}} (K : Type u) [Field K]
     [IsAlgClosed K] [Algebra k K] (s : Spec (.of k) ⟶ S) :
     (galoisPointHom K (1 : K ≃ₐ[k] K) s).hom = 𝟙 _ := by
-  show Spec.map (CommRingCat.ofHom (1 : K ≃ₐ[k] K).toAlgHom.toRingHom) = 𝟙 _
+  change Spec.map (CommRingCat.ofHom (1 : K ≃ₐ[k] K).toAlgHom.toRingHom) = 𝟙 _
   rw [show CommRingCat.ofHom (1 : K ≃ₐ[k] K).toAlgHom.toRingHom = 𝟙 _ from rfl, Spec.map_id]
 
 /-- The underlying morphisms of the morphisms of geometric points attached to `τ` and `τ⁻¹` are
@@ -202,9 +202,9 @@ public theorem liftAct_mul
       AlgebraicClosure (Y.1.residueField y)) (ℓ : PointLifts (fS B f) y) :
     liftAct B f y τ (liftAct B f y τ' ℓ) = liftAct B f y (τ * τ') ℓ := by
   apply Subtype.ext
-  show _ ≫ _ ≫ _ = _
+  change _ ≫ _ ≫ _ = _
   rw [← Category.assoc]
-  show ((galoisPointHom _ τ _).comp (galoisPointHom _ τ' _)).hom ≫ ℓ.1 = _
+  change ((galoisPointHom _ τ _).comp (galoisPointHom _ τ' _)).hom ≫ ℓ.1 = _
   rw [galoisPointHom_comp]
   rfl
 
@@ -321,7 +321,7 @@ variable [Finite (Y.1.residueField y)]
   (hres : ∀ x : {x : X.1 // (fS B f) x = y}, Finite (X.1.residueField x.1))
 
 include hres in
-omit [IsFinite (fS B f)] in
+omit [IsFinite (fS B f)] [Finite (Y.1.residueField y)] in
 /-- A point over `y` has an embedding of its residue field into `κ(y)‾`. -/
 public theorem nonempty_fiberEmbeddings (x : {x : X.1 // (fS B f) x = y}) :
     Nonempty (FiberEmbeddings (fS B f) y x) := by
@@ -373,7 +373,7 @@ public theorem liftAct_pow_fiberDegree_baseLift (x : {x : X.1 // (fS B f) x = y}
   exact pow_finrank_comp_eq (residueGeometricFrobenius Y.1 y)
     (residueGeometricFrobenius_symm_apply_card B y) _
 
-omit [IsFinite (fS B f)] in
+omit [IsFinite (fS B f)] [Finite (Y.1.residueField y)] in
 /-- The lifts in the orbit of the base lift over `x` pass through `x`. -/
 public theorem liftAct_baseLift_apply
     (τ : AlgebraicClosure (Y.1.residueField y) ≃ₐ[Y.1.residueField y]

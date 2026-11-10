@@ -314,8 +314,8 @@ noncomputable def realizationComponentComparison (T : SimplicialDerivedSystem S)
   app n := Limits.Sigma.desc fun φ => realizationComponentInclusion T hT φ
   naturality _ _ ψ := by
     refine Limits.Sigma.hom_ext _ _ fun φ => ?_
-    simp only [simplexCopower, Limits.Sigma.ι_desc_assoc, Limits.Sigma.ι_desc, Functor.comp_map,
-      realizationSimplicial]
+    simp only [simplexCopower, Limits.Sigma.ι_comp_desc_assoc, Limits.Sigma.ι_comp_desc,
+      Functor.comp_map, realizationSimplicial]
     exact (realizationComponentInclusion_comp T hT ψ.unop φ).symm
 
 /-- The `φ`th summand of the comparison is the transpose of the transition along `φ`. -/
@@ -325,7 +325,7 @@ theorem realizationComponentComparison_ι (T : SimplicialDerivedSystem S)
     Limits.Sigma.ι (fun _ : n.unop ⟶ m => T.obj m) φ ≫
         (realizationComponentComparison S T hT m).app n =
       realizationComponentInclusion T hT φ :=
-  Limits.Sigma.ι_desc _ _
+  Limits.Sigma.ι_comp_desc _ _
 
 /-- **Stacks 0D9L, the Postnikov system of the realization.**  The complex whose term in degree
 `n` is the extension by lower shriek of the object of the system in degree `n`, and whose

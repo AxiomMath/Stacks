@@ -63,7 +63,7 @@ theorem contains_generalLinearScheme :
       (Spec (.of (MvPolynomial (Fin n × Fin n) (ULift.{u} ℤ)))).size < 𝒞.cutoff :=
     Scheme.size_Spec_lt_of_finiteType 𝒞.aleph0_lt_cutoff 𝒞.cutoff_isStrongPrelimit
       (ULift.{u} ℤ) (MvPolynomial (Fin n × Fin n) (ULift.{u} ℤ)) (contains_specULiftZ 𝒞)
-  show (Spec (.of (generalLinearCoordinateRing.{u} n))).size < 𝒞.cutoff
+  change (Spec (.of (generalLinearCoordinateRing.{u} n))).size < 𝒞.cutoff
   exact Scheme.size_Spec_lt_of_isLocalization 𝒞.aleph0_lt_cutoff 𝒞.cutoff_isStrongPrelimit
     (Submonoid.powers (generalLinearDeterminant.{u} n))
     (generalLinearCoordinateRing.{u} n) hpoly

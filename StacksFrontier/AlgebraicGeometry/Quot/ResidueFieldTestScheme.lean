@@ -62,7 +62,7 @@ theorem exists_residueField_test (c : BigFppfOver B S hS)
     Scheme.Γ.mapIso e.symm.op ≪≫ Scheme.ΓSpecIso (X.residueField x)
   refine ⟨T, f, ι₀.commRingCatIsoToRingEquiv, fun a => ?_⟩
   have h1 : ((BigFppfOver.toScheme B S hS).map f).appTop ≫ ι₀.hom = X.evaluation ⊤ x trivial := by
-    show ((BigFppfOver.toScheme B S hS).map f).appTop ≫ e.inv.appTop ≫
+    change ((BigFppfOver.toScheme B S hS).map f).appTop ≫ e.inv.appTop ≫
       (Scheme.ΓSpecIso (X.residueField x)).hom = _
     rw [hf, Scheme.Hom.comp_appTop, Category.assoc, ← Category.assoc e.hom.appTop,
       ← Scheme.Hom.comp_appTop, e.inv_hom_id, Scheme.Hom.id_appTop, Category.id_comp,

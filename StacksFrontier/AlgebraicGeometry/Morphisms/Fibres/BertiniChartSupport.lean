@@ -129,7 +129,7 @@ theorem chartMvPolynomialEquiv_chartΓEquiv_chartSection
       ∑ j, MvPolynomial.C (D.chartEquationIndex U eU j) * MvPolynomial.X j := by
   have hγ : D.chartMvPolynomialEquiv U (D.chartΓEquiv U (D.chartSection eU)) =
       (AffineSpace.ΓIso D.basisIndex U.toScheme).hom (D.chartSection eU) := by
-    show (AffineSpace.ΓIso D.basisIndex U.toScheme).commRingCatIsoToRingEquiv
+    change (AffineSpace.ΓIso D.basisIndex U.toScheme).commRingCatIsoToRingEquiv
       ((D.chartΓEquiv U).symm (D.chartΓEquiv U (D.chartSection eU))) = _
     rw [RingEquiv.symm_apply_apply]
     rfl
@@ -208,7 +208,7 @@ theorem chartSubschemeΓEquiv_subschemeι_app
       Scheme.IdealSheafData.subschemeι_app D.universalDivisor (D.chartOpen U),
       Category.assoc, Iso.inv_hom_id, Category.comp_id]
     rfl
-  show Ideal.quotientEquiv _ _ (D.chartMvPolynomialEquiv U)
+  change Ideal.quotientEquiv _ _ (D.chartMvPolynomialEquiv U)
       (D.map_chartMvPolynomialEquiv_ideal_universalDivisor U eU)
       ((D.universalDivisor.subschemeObjIso (D.chartOpen U)).hom
         (D.universalDivisor.subschemeι.app (D.chartOpen U) a)) = _

@@ -18,8 +18,9 @@ the gradings. `Stacks.ProjModuleComparison.moduleMap` is the canonical compariso
 This file proves that it is an isomorphism as soon as, for every homogeneous `a` of positive
 degree, the coefficient extension `ℬ₍ψ a₎ ⊗_{𝒜₍a₎} M₍a₎ ⟶ N₍ψ a₎` of the algebraic chart
 comparison is. It is the module companion of the chain
-`StacksFrontier/AlgebraicGeometry/TwistChartLocality/ChartTranspose.lean` and `StacksFrontier/AlgebraicGeometry/TwistChartLocality/ChartGamma.lean`,
-which treats the twisting sheaves, and it is run for an arbitrary graded module.
+`StacksFrontier/AlgebraicGeometry/TwistChartLocality/ChartTranspose.lean` and
+`StacksFrontier/AlgebraicGeometry/TwistChartLocality/ChartGamma.lean`, which treats the twisting
+sheaves, and it is run for an arbitrary graded module.
 
 ## Main definitions
 
@@ -104,6 +105,7 @@ public def chartAdjointModuleMap :
   ((pullbackPushforwardAdjunction (AlgebraicGeometry.Proj.awayι 𝒜 a ha hd)).homEquiv _ _).symm
     (chartPushforwardModuleMap ψ hψ f hf hd ha)
 
+omit [DirectSum.Decomposition 𝒨] [DirectSum.Decomposition 𝒩] in
 /-- **The chart inverse image of the module comparison is an inverse adjoint transpose along
 `Spec.map` of the chart ring homomorphism**, preceded by the comparison of the inverse images
 along the two factorizations of the chart square's diagonal. -/
@@ -146,6 +148,7 @@ public theorem pullback_awayι_map_moduleMap_eq :
     (pullbackPushforwardAdjunction (AlgebraicGeometry.Proj.awayι 𝒜 a ha hd))
     (pullbackPushforwardAdjunction (Spec.map (CommRingCat.ofHom (Away.map ψ a)))) _ _ _
 
+omit [DirectSum.Decomposition 𝒨] [DirectSum.Decomposition 𝒩] in
 /-- **The chart form of the invertibility question for the module comparison.** -/
 public theorem isIso_pullback_awayι_map_moduleMap_iff :
     IsIso ((pullback (AlgebraicGeometry.Proj.awayι ℬ (ψ a) (ψ.map_mem ha) hd)).map
@@ -205,6 +208,7 @@ public theorem standardOpenEquiv_pushforwardModuleMap
     associatedModuleSheafStandardOpenEquiv_degreeZeroToSection]
   exact associatedModuleSheafStandardOpenEquiv_degreeZeroToSection ℬ 𝒩 (ψ.map_mem ha) hd _
 
+omit [DirectSum.Decomposition 𝒨] [DirectSum.Decomposition 𝒩] in
 /-- The morphism the chart square's composite adjunction transposes, on sections over `D₊(a)`:
 the explicit pointwise comparison followed by the unit of the chart adjunction of `Proj ℬ`. -/
 public theorem chartPushforwardModuleMap_app
@@ -224,6 +228,7 @@ public theorem chartPushforwardModuleMap_app
             (AlgebraicGeometry.Proj.basicOpen 𝒜 a) w)) :=
   rfl
 
+omit [DirectSum.Decomposition 𝒨] in
 /-- **The chart sections of the morphism the chart square's composite adjunction transposes**:
 the explicit pointwise comparison on sections over `D₊(a)`. -/
 public theorem chartΓIso_chartPushforwardModuleMap

@@ -184,7 +184,7 @@ public theorem affineDerivedPushforward_comparison {X Y : Scheme.{u}} (f : X ⟶
       (fun g => ByP.ι.map_injective (eAmbient.hom.naturality g))
   have he (K : HomotopyCategory C c) :
       αR.app K ≫ (e.inv.app (QC.obj K)).hom = αL.app K := by
-    show αR.app K ≫ eAmbient.inv.app (QC.obj K) = αL.app K
+    change αR.app K ≫ eAmbient.inv.app (QC.obj K) = αL.app K
     simpa only [eAmbient, Functor.rightDerivedUnique,
       Functor.rightDerivedNatIso_inv, Iso.refl_inv,
       NatTrans.id_app, Category.id_comp] using

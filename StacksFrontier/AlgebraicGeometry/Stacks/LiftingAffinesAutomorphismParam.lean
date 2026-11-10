@@ -304,7 +304,7 @@ def homOfLift (s : Lifts hι₁ ξ) : Hom ξ ξ where
 `δ_{(id, q' ∘ δ, δ^*γ)} = δ`. -/
 theorem autLift_homOfLift (s : Lifts hι₁ ξ) : ξ.autLift (homOfLift hι₁ ξ s) = s.1 := by
   refine autLift_eq_of_isAutLift ξ ⟨lifts_fst hι₁ ξ s, rfl, fun e₀ e₁ e₂ => ?_⟩
-  show eqToHom e₀ ≫ (eqToHom (ambientMap_eq_map_comp_fst hι₁ ξ s) ≫ _ ≫
+  change eqToHom e₀ ≫ (eqToHom (ambientMap_eq_map_comp_fst hι₁ ξ s) ≫ _ ≫
     eqToHom (map_comp_snd_eq hι₁ ξ s)) = _
   exact eqToHom_comp_eqToHom_comp_eq _ _ _ _
 
@@ -352,7 +352,7 @@ theorem autParam_comp (σ τ : Hom ξ ξ) (hσ : σ.base = 𝟙 ξ.base) (hτ : 
   let M := {m : Hom ξ ξ // m.base = 𝟙 ξ.base}
   let xx : M → Lifts hι₁ ξ := fun m => autLiftLift hι₁ ξ m.1 m.2
   let mul : M → M → M := fun m n => ⟨m.1.comp n.1, by
-    show m.1.base ≫ n.1.base = _
+    change m.1.base ≫ n.1.base = _
     rw [m.2, n.2, Category.comp_id]⟩
   exact AddAction.add_of_translation (liftsBase hι₁ ξ)
     (fun θ₁ θ₂ h => (liftsEquiv hι₁ ξ).injective h) xx (fun m => autParam hι₁ ξ m.1 m.2)

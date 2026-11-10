@@ -67,32 +67,32 @@ theorem exists_mateEquiv_mapHomotopyCategoryAdjunction_app_quotient (adj₁ : G�
     (adj₂ : G₂ ⊣ R₂) (c : ComplexShape ι) (e : TwoSquare T G₁ G₂ Bo)
     (e₀ : TwoSquare (T.mapHomotopyCategory c) (G₁.mapHomotopyCategory c)
       (G₂.mapHomotopyCategory c) (Bo.mapHomotopyCategory c))
-    (he₀ : ∀ K : HomologicalComplex A c, e₀.natTrans.app ((HomotopyCategory.quotient A c).obj K) =
-      (HomotopyCategory.quotient D c).map ((NatTrans.mapHomologicalComplex e.natTrans c).app K))
+    (he₀ : ∀ K : HomologicalComplex A c, e₀.app ((HomotopyCategory.quotient A c).obj K) =
+      (HomotopyCategory.quotient D c).map ((NatTrans.mapHomologicalComplex e c).app K))
     (K : HomologicalComplex B c) :
     ∃ φ : (T.mapHomologicalComplex c).obj ((R₁.mapHomologicalComplex c).obj K) ⟶
         (R₂.mapHomologicalComplex c).obj ((Bo.mapHomologicalComplex c).obj K),
-      (∀ n, φ.f n = (mateEquiv adj₁ adj₂ e).natTrans.app (K.X n)) ∧
+      (∀ n, φ.f n = (mateEquiv adj₁ adj₂ e).app (K.X n)) ∧
       (mateEquiv (mapHomotopyCategoryAdjunction adj₁ c) (mapHomotopyCategoryAdjunction adj₂ c)
-        e₀).natTrans.app ((HomotopyCategory.quotient B c).obj K) =
+        e₀).app ((HomotopyCategory.quotient B c).obj K) =
         (HomotopyCategory.quotient C c).map φ := by
   refine ⟨(mapHomologicalComplexAdjunction adj₂ c).unit.app _ ≫
       (R₂.mapHomologicalComplex c).map
-        ((NatTrans.mapHomologicalComplex e.natTrans c).app ((R₁.mapHomologicalComplex c).obj K)) ≫
+        ((NatTrans.mapHomologicalComplex e c).app ((R₁.mapHomologicalComplex c).obj K)) ≫
       (R₂.mapHomologicalComplex c).map ((Bo.mapHomologicalComplex c).map
         ((mapHomologicalComplexAdjunction adj₁ c).counit.app K)), fun n => ?_, ?_⟩
-  · have hθ : (mateEquiv adj₁ adj₂ e).natTrans.app (K.X n) =
-        adj₂.unit.app (T.obj (R₁.obj (K.X n))) ≫ R₂.map (e.natTrans.app (R₁.obj (K.X n))) ≫
+  · have hθ : (mateEquiv adj₁ adj₂ e).app (K.X n) =
+        adj₂.unit.app (T.obj (R₁.obj (K.X n))) ≫ R₂.map (e.app (R₁.obj (K.X n))) ≫
           R₂.map (Bo.map (adj₁.counit.app (K.X n))) := by
       simp [mateEquiv_apply]
     rw [hθ]
     simp [mapHomologicalComplexAdjunction]
   · have hθ : (mateEquiv (mapHomotopyCategoryAdjunction adj₁ c)
-        (mapHomotopyCategoryAdjunction adj₂ c) e₀).natTrans.app
+        (mapHomotopyCategoryAdjunction adj₂ c) e₀).app
           ((HomotopyCategory.quotient B c).obj K) =
         (mapHomotopyCategoryAdjunction adj₂ c).unit.app ((T.mapHomotopyCategory c).obj
           ((R₁.mapHomotopyCategory c).obj ((HomotopyCategory.quotient B c).obj K))) ≫
-        (R₂.mapHomotopyCategory c).map (e₀.natTrans.app ((R₁.mapHomotopyCategory c).obj
+        (R₂.mapHomotopyCategory c).map (e₀.app ((R₁.mapHomotopyCategory c).obj
           ((HomotopyCategory.quotient B c).obj K))) ≫
         (R₂.mapHomotopyCategory c).map ((Bo.mapHomotopyCategory c).map
           ((mapHomotopyCategoryAdjunction adj₁ c).counit.app
@@ -107,10 +107,10 @@ theorem exists_mateEquiv_mapHomotopyCategoryAdjunction_app_quotient (adj₁ : G�
         (HomotopyCategory.quotient B c).map
           ((mapHomologicalComplexAdjunction adj₁ c).counit.app K) :=
       rfl
-    have he : e₀.natTrans.app ((R₁.mapHomotopyCategory c).obj
+    have he : e₀.app ((R₁.mapHomotopyCategory c).obj
         ((HomotopyCategory.quotient B c).obj K)) =
         (HomotopyCategory.quotient D c).map
-          ((NatTrans.mapHomologicalComplex e.natTrans c).app
+          ((NatTrans.mapHomologicalComplex e c).app
             ((R₁.mapHomologicalComplex c).obj K)) :=
       he₀ _
     rw [hθ, hu, he, hc]
@@ -122,16 +122,16 @@ theorem isIso_mateEquiv_mapHomotopyCategoryAdjunction_app (adj₁ : G₁ ⊣ R�
     (c : ComplexShape ι) (e : TwoSquare T G₁ G₂ Bo)
     (e₀ : TwoSquare (T.mapHomotopyCategory c) (G₁.mapHomotopyCategory c)
       (G₂.mapHomotopyCategory c) (Bo.mapHomotopyCategory c))
-    (he₀ : ∀ K : HomologicalComplex A c, e₀.natTrans.app ((HomotopyCategory.quotient A c).obj K) =
-      (HomotopyCategory.quotient D c).map ((NatTrans.mapHomologicalComplex e.natTrans c).app K))
-    [IsIso (mateEquiv adj₁ adj₂ e).natTrans] (K : HomotopyCategory B c) :
+    (he₀ : ∀ K : HomologicalComplex A c, e₀.app ((HomotopyCategory.quotient A c).obj K) =
+      (HomotopyCategory.quotient D c).map ((NatTrans.mapHomologicalComplex e c).app K))
+    [IsIso (mateEquiv adj₁ adj₂ e)] (K : HomotopyCategory B c) :
     IsIso ((mateEquiv (mapHomotopyCategoryAdjunction adj₁ c)
-      (mapHomotopyCategoryAdjunction adj₂ c) e₀).natTrans.app K) := by
+      (mapHomotopyCategoryAdjunction adj₂ c) e₀).app K) := by
   obtain ⟨K⟩ := K
   obtain ⟨φ, hφ, h⟩ :=
     exists_mateEquiv_mapHomotopyCategoryAdjunction_app_quotient adj₁ adj₂ c e e₀ he₀ K
   change IsIso ((mateEquiv (mapHomotopyCategoryAdjunction adj₁ c)
-      (mapHomotopyCategoryAdjunction adj₂ c) e₀).natTrans.app
+      (mapHomotopyCategoryAdjunction adj₂ c) e₀).app
         ((HomotopyCategory.quotient B c).obj K))
   rw [h]
   have : ∀ n, IsIso (φ.f n) := fun n => by rw [hφ n]; infer_instance
@@ -150,12 +150,12 @@ adjoints, up to the identifications of left adjoints**: it is invertible for one
 adjoints of `R₁` and `R₂` exactly when it is for another. -/
 theorem isIso_mateEquiv_symm_iff_of_rightAdjoint (adj₁ : L₁ ⊣ R₁) (adj₁' : L₁' ⊣ R₁)
     (adj₂ : L₂ ⊣ R₂) (adj₂' : L₂' ⊣ R₂) (π : TwoSquare R₁ H G R₂) :
-    IsIso ((mateEquiv adj₁ adj₂).symm π).natTrans ↔
-      IsIso ((mateEquiv adj₁' adj₂').symm π).natTrans := by
+    IsIso ((mateEquiv adj₁ adj₂).symm π) ↔
+      IsIso ((mateEquiv adj₁' adj₂').symm π) := by
   suffices key : ∀ {L₁ L₁' : A ⥤ B} {L₂ L₂' : C ⥤ D} (adj₁ : L₁ ⊣ R₁) (adj₁' : L₁' ⊣ R₁)
       (adj₂ : L₂ ⊣ R₂) (adj₂' : L₂' ⊣ R₂),
-      IsIso ((mateEquiv adj₁' adj₂').symm π).natTrans →
-        IsIso ((mateEquiv adj₁ adj₂).symm π).natTrans from
+      IsIso ((mateEquiv adj₁' adj₂').symm π) →
+        IsIso ((mateEquiv adj₁ adj₂).symm π) from
     ⟨key adj₁' adj₁ adj₂' adj₂, key adj₁ adj₁' adj₂ adj₂'⟩
   intro L₁ L₁' L₂ L₂' adj₁ adj₁' adj₂ adj₂' hπ
   let β₂ := (adj₂.leftAdjointUniq adj₂').hom
@@ -356,10 +356,10 @@ applied termwise to `K`. -/
 theorem spacesEtaleModelHomotopyPullbackSquare_app_quotient
     (K : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf
       (spacesEtaleModelRingedTopos B S hS W).O)) ℤ) :
-    (spacesEtaleModelHomotopyPullbackSquare B S hS g h j j' comm).natTrans.app
+    (spacesEtaleModelHomotopyPullbackSquare B S hS g h j j' comm).app
         ((HomotopyCategory.quotient _ _).obj K) =
       (HomotopyCategory.quotient _ _).map ((NatTrans.mapHomologicalComplex
-        (spacesEtaleModelPullbackSquare B S hS g h j j' comm).natTrans
+        (spacesEtaleModelPullbackSquare B S hS g h j j' comm)
           (ComplexShape.up ℤ)).app K) :=
   Functor.mapHomotopyCategoryCompIso_hom_comp_comp_inv_app_quotient (ComplexShape.up ℤ)
     (spacesEtaleModelPullbackComp B S hS h j) (spacesEtaleModelPullbackComp B S hS j' g) _ _
@@ -370,7 +370,7 @@ comparison maps of the derived pullbacks. -/
 theorem spacesEtaleModelDerivedPullbackSquare_app_comp_derivedPullbackComparison
     (K : HomotopyCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf
       (spacesEtaleModelRingedTopos B S hS W).O)) (ComplexShape.up ℤ)) :
-    (spacesEtaleModelDerivedPullbackSquare B S hS g h j j' comm).natTrans.app
+    (spacesEtaleModelDerivedPullbackSquare B S hS g h j j' comm).app
         (DerivedCategory.Qh.obj K) ≫
       (derivedPullback (spacesEtaleModelHom B S hS j')).map
         ((derivedPullbackComparison (spacesEtaleModelHom B S hS g)).app K) ≫
@@ -383,7 +383,7 @@ theorem spacesEtaleModelDerivedPullbackSquare_app_comp_derivedPullbackComparison
         (((spacesEtaleModelHom B S hS j).pullbackTopos.mapHomotopyCategory
           (ComplexShape.up ℤ)).obj K) ≫
       DerivedCategory.Qh.map
-        ((spacesEtaleModelHomotopyPullbackSquare B S hS g h j j' comm).natTrans.app K) := by
+        ((spacesEtaleModelHomotopyPullbackSquare B S hS g h j j' comm).app K) := by
   have h₁ := spacesEtaleModelDerivedPullbackCompIso_hom_app_comp_derivedPullbackComparison_app
     B S hS h j K
   have h₂ := spacesEtaleModelDerivedPullbackCompIso_hom_app_comp_derivedPullbackComparison_app
@@ -429,7 +429,7 @@ theorem spacesEtaleModelDerivedPullbackSquare_app_comp_derivedPullbackComparison
 complex `I`, at which all the comparison maps of the base change square are invertible. -/
 theorem exists_isKInjective_isIso_comparisons (hj : IsEtale B S hS j.hom)
     (hj' : IsEtale B S hS j'.hom)
-    [IsIso (spacesEtaleModelPushforwardBaseChange B S hS g h j j' comm).natTrans]
+    [IsIso (spacesEtaleModelPushforwardBaseChange B S hS g h j j' comm)]
     (X : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf
       (spacesEtaleModelRingedTopos B S hS W').O))) :
     ∃ K, Nonempty (DerivedCategory.Qh.obj K ≅ X) ∧
@@ -440,7 +440,7 @@ theorem exists_isKInjective_isIso_comparisons (hj : IsEtale B S hS j.hom)
           (ComplexShape.up ℤ)).obj K)) ∧
       IsIso ((mateEquiv (homotopyPullbackPushforwardAdjunction (spacesEtaleModelHom B S hS g))
         (homotopyPullbackPushforwardAdjunction (spacesEtaleModelHom B S hS h))
-        (spacesEtaleModelHomotopyPullbackSquare B S hS g h j j' comm)).natTrans.app K) ∧
+        (spacesEtaleModelHomotopyPullbackSquare B S hS g h j j' comm)).app K) ∧
       IsIso ((Stacks.Cohomology.DerivedPullbackPushforwardAdjunction.derivedPushforwardUnit
         (spacesEtaleModelHom B S hS h)).app
         (((spacesEtaleModelHom B S hS j').pullbackTopos.mapHomotopyCategory
@@ -450,8 +450,8 @@ theorem exists_isKInjective_isIso_comparisons (hj : IsEtale B S hS j.hom)
   have hcj' := isIso_derivedPullbackComparison_spacesEtaleModelHom_of_isEtale B S hS j' hj'
   have hγ : IsIso (mateEquiv (spacesEtaleModelHom B S hS g).pullbackPushforwardAdjunctionTopos
       (spacesEtaleModelHom B S hS h).pullbackPushforwardAdjunctionTopos
-      (spacesEtaleModelPullbackSquare B S hS g h j j' comm)).natTrans :=
-    ‹IsIso (spacesEtaleModelPushforwardBaseChange B S hS g h j j' comm).natTrans›
+      (spacesEtaleModelPullbackSquare B S hS g h j j' comm)) :=
+    ‹IsIso (spacesEtaleModelPushforwardBaseChange B S hS g h j j' comm)›
   obtain ⟨I, f, hI, hf⟩ := exists_quasiIso_isKInjective (spacesEtaleModelRingedTopos B S hS W')
     (DerivedCategory.Q.objPreimage X)
   have := hI
@@ -472,8 +472,8 @@ theorem exists_isKInjective_isIso_comparisons (hj : IsEtale B S hS j.hom)
 commutative square whose horizontal arrows `j`, `j'` are étale. -/
 theorem isIso_spacesEtaleModelDerivedPushforwardBaseChange (hj : IsEtale B S hS j.hom)
     (hj' : IsEtale B S hS j'.hom)
-    [IsIso (spacesEtaleModelPushforwardBaseChange B S hS g h j j' comm).natTrans] :
-    IsIso (spacesEtaleModelDerivedPushforwardBaseChange B S hS g h j j' comm).natTrans :=
+    [IsIso (spacesEtaleModelPushforwardBaseChange B S hS g h j j' comm)] :
+    IsIso (spacesEtaleModelDerivedPushforwardBaseChange B S hS g h j j' comm) :=
   Adjunction.isIso_mateEquiv_of_fac
     (QW := DerivedCategory.Qh) (QW' := DerivedCategory.Qh) (QY := DerivedCategory.Qh)
     (QY' := DerivedCategory.Qh)
@@ -509,7 +509,7 @@ theorem conjugateEquiv_spacesEtaleModelPullbackSquare :
         (spacesEtaleModelHom B S hS j').pullbackPushforwardAdjunctionTopos)
       ((spacesEtaleModelHom B S hS j).pullbackPushforwardAdjunctionTopos.comp
         (spacesEtaleModelHom B S hS h).pullbackPushforwardAdjunctionTopos)
-      (spacesEtaleModelPullbackSquare B S hS g h j j' comm).natTrans =
+      (spacesEtaleModelPullbackSquare B S hS g h j j' comm) =
     (spacesEtaleModelPushforwardComp B S hS j' g).hom ≫
       conjugateEquiv (spacesEtaleModelHom B S hS (j' ≫ g)).pullbackPushforwardAdjunctionTopos
         (spacesEtaleModelHom B S hS (h ≫ j)).pullbackPushforwardAdjunctionTopos
@@ -539,14 +539,14 @@ adjunctions `P_j ⊣ j_*` and `P_{j'} ⊣ j'_*` of restriction along postcomposi
 invertible. -/
 theorem isIso_spacesEtaleModelPushforwardBaseChange_iff (hj : IsEtale B S hS j.hom)
     (hj' : IsEtale B S hS j'.hom) :
-    IsIso (spacesEtaleModelPushforwardBaseChange B S hS g h j j' comm).natTrans ↔
+    IsIso (spacesEtaleModelPushforwardBaseChange B S hS g h j j' comm) ↔
       IsIso ((mateEquiv (smallModelPostcompPushforwardAdjunction B S hS j' hj')
         (smallModelPostcompPushforwardAdjunction B S hS j hj)).symm
           (conjugateEquiv ((spacesEtaleModelHom B S hS g).pullbackPushforwardAdjunctionTopos.comp
               (spacesEtaleModelHom B S hS j').pullbackPushforwardAdjunctionTopos)
             ((spacesEtaleModelHom B S hS j).pullbackPushforwardAdjunctionTopos.comp
               (spacesEtaleModelHom B S hS h).pullbackPushforwardAdjunctionTopos)
-            (spacesEtaleModelPullbackSquare B S hS g h j j' comm).natTrans)).natTrans := by
+            (spacesEtaleModelPullbackSquare B S hS g h j j' comm))) := by
   have h : spacesEtaleModelPushforwardBaseChange B S hS g h j j' comm =
       (mateEquiv (spacesEtaleModelHom B S hS j').pullbackPushforwardAdjunctionTopos
         (spacesEtaleModelHom B S hS j).pullbackPushforwardAdjunctionTopos).symm
@@ -554,7 +554,7 @@ theorem isIso_spacesEtaleModelPushforwardBaseChange_iff (hj : IsEtale B S hS j.h
               (spacesEtaleModelHom B S hS j').pullbackPushforwardAdjunctionTopos)
             ((spacesEtaleModelHom B S hS j).pullbackPushforwardAdjunctionTopos.comp
               (spacesEtaleModelHom B S hS h).pullbackPushforwardAdjunctionTopos)
-            (spacesEtaleModelPullbackSquare B S hS g h j j' comm).natTrans) := by
+            (spacesEtaleModelPullbackSquare B S hS g h j j' comm)) := by
     apply (mateEquiv (spacesEtaleModelHom B S hS j').pullbackPushforwardAdjunctionTopos
       (spacesEtaleModelHom B S hS j).pullbackPushforwardAdjunctionTopos).injective
     refine Eq.trans ?_ (Equiv.apply_symm_apply (mateEquiv

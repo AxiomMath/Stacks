@@ -154,7 +154,7 @@ public theorem squareCotangentPush_D (sq : AlgebraSquare.{u, v, w} A A' B B')
   have : IsScalarTower A A' P' := IsScalarTower.of_algebraMap_eq fun _ => rfl
   have : IsScalarTower A P P' := IsScalarTower.of_algebraMap_eq fun a => (hbase a).symm
   have : SMulCommClass A' P P' := ⟨fun a' y z => by simp only [Algebra.smul_def, mul_left_comm]⟩
-  show (1 : B') ⊗ₜ[P'] (KaehlerDifferential.map A A' P P'
+  change (1 : B') ⊗ₜ[P'] (KaehlerDifferential.map A A' P P'
     (KaehlerDifferential.D A P x)) = _
   rw [KaehlerDifferential.map_D]
   rfl
@@ -216,7 +216,7 @@ private theorem cylinderCotangentMap_naturality
       (cotangentSimplicialModule.{u, max u v} A B).object.map f.op ≫
         cylinderCotangentMap p hp A B hA C m (f ≫ t) := by
   refine cotangentTerm_hom_ext.{u, max u v} A B (op ⦋n⦌) _ _ fun x => ?_
-  show (ModuleCat.restrictScalars (frobeniusSquare.{u, v} p hp A B hA).map).map
+  change (ModuleCat.restrictScalars (frobeniusSquare.{u, v} p hp A B hA).map).map
         (cotangentMap.{u, max u v} A B f.op)
       (cylinderCotangentMap p hp A B hA C n t
         (cotangentTermDifferential.{u, max u v} A B (op ⦋n⦌) x)) =

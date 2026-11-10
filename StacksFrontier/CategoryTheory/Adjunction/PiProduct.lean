@@ -86,7 +86,7 @@ followed by the counit of `F k ⊣ G k`. -/
 theorem piProduct_counit_app_apply (N : ∀ i, D i) (k : ι) :
     (piProduct adj).counit.app N k =
       (F k).map (Pi.π (fun i => (G i).obj (N i)) k) ≫ (adj k).counit.app (N k) := by
-  show ((adj k).homEquiv _ (N k)).symm
+  change ((adj k).homEquiv _ (N k)).symm
     (𝟙 (∏ᶜ fun i => (G i).obj (N i)) ≫ Pi.π (fun i => (G i).obj (N i)) k) = _
   rw [Category.id_comp, homEquiv_counit]
 

@@ -94,19 +94,19 @@ public theorem isRegular_and_flat_of_flat_localRingHom
   let J : Ideal C := Ideal.ofList (rs.map (algebraMap R C))
   let K : Ideal D := J.map (algebraMap C D)
   have hK : K = Ideal.ofList (rs.map ((algebraMap R' D).comp Θ)) := by
-    show J.map (algebraMap C D) = _
+    change J.map (algebraMap C D) = _
     rw [Ideal.map_ofList, hmap]
   let : Algebra A D := (ℓ.comp (algebraMap A C)).toAlgebra
   have : IsScalarTower A C D := IsScalarTower.of_algebraMap_eq' rfl
   have hAD : algebraMap A D = (algebraMap A' D).comp (algebraMap A A') := by
     refine RingHom.ext fun a ↦ ?_
-    show ℓ (algebraMap A C a) = algebraMap A' D (algebraMap A A' a)
+    change ℓ (algebraMap A C a) = algebraMap A' D (algebraMap A A' a)
     rw [IsScalarTower.algebraMap_apply A R C a, Localization.localRingHom_to_map q Q Θ hQ,
       IsScalarTower.algebraMap_apply A' R' D, ← RingHom.comp_apply Θ, hsq, RingHom.comp_apply]
   have : IsScalarTower A A' D := IsScalarTower.of_algebraMap_eq' hAD
   have hflatK : Module.Flat A' (D ⧸ K) := by rwa [hK]
   have : Module.Flat A (D ⧸ K) := Module.Flat.trans A A' (D ⧸ K)
-  let e : (D ⧸ K) ≃ₗ[D] D ⊗[C] (C ⧸ J) := J.qoutMapEquivTensorQout (S := D)
+  let e : (D ⧸ K) ≃ₗ[D] D ⊗[C] (C ⧸ J) := J.quotMapEquivTensorQuot (S := D)
   have : Module.Flat A (D ⊗[C] (C ⧸ J)) := Module.Flat.of_linearEquiv (e.restrictScalars A).symm
   exact Module.Flat.of_tensorProduct_of_faithfullyFlat (A := A) (C := C) (D := D)
 
@@ -169,7 +169,7 @@ public theorem restrictedPowerSeriesCompletedAwayHom_comp_algebraMap
     (restrictedPowerSeriesCompletedAwayEquiv_comp_completedAwayMap I hI σ f)
     (algebraMap A (CompletedAway I f) a)
   simp only [RingHom.comp_apply] at h1 h2
-  show restrictedPowerSeriesCompletedAwayEquiv I hI σ f
+  change restrictedPowerSeriesCompletedAwayEquiv I hI σ f
       (algebraMap (RestrictedPowerSeries I σ) _ (coefficientRingHom I σ a)) =
     coefficientRingHom (completedAwayCoefficientIdeal I f) σ (algebraMap A (CompletedAway I f) a)
   rwa [← h1]
@@ -223,19 +223,19 @@ public theorem exists_comap_restrictedPowerSeriesCompletedAwayHom_eq
     (bijective_restrictedPowerSeriesCompletedAwayEquiv I hIfg (Fin n) f)
   let Q := q'.comap Ee.symm.toRingHom
   have hQE : Q.comap (restrictedPowerSeriesCompletedAwayEquiv I hIfg (Fin n) f) = q' := by
-    show (q'.comap Ee.symm.toRingHom).comap Ee.toRingHom = q'
+    change (q'.comap Ee.symm.toRingHom).comap Ee.toRingHom = q'
     rw [Ideal.comap_comap]
     convert Ideal.comap_id q'
     exact RingHom.ext fun x ↦ Ee.symm_apply_apply x
   refine ⟨f, Q, Ideal.comap_isPrime _ _, ?_, ?_⟩
-  · show q = Q.comap ((restrictedPowerSeriesCompletedAwayEquiv I hIfg (Fin n) f).comp _)
+  · change q = Q.comap ((restrictedPowerSeriesCompletedAwayEquiv I hIfg (Fin n) f).comp _)
     rw [← Ideal.comap_comap, hQE]
     exact (comap_extendedIdeal_eq (coefficientIdeal I (Fin n)) q (coefficientRingHom I (Fin n) f)
       hunit).symm
   · have hp'' : Q.comap (algebraMap (CompletedAway I f)
           (RestrictedPowerSeries (completedAwayCoefficientIdeal I f) (Fin n))) = q'.comap
         (RingHom.completedAwayMap (coefficientRingHom I (Fin n)) I f) := by
-      show Q.comap (coefficientRingHom (completedAwayCoefficientIdeal I f) (Fin n)) = _
+      change Q.comap (coefficientRingHom (completedAwayCoefficientIdeal I f) (Fin n)) = _
       rw [comap_coefficientRingHom_completedAway I hIfg (Fin n) f Q, hQE]
     exact isClosedPointAwayFrom_congr_prime _ _ _ hp''.symm hp'closed
 
@@ -370,7 +370,7 @@ public theorem isRegular_and_flat_of_flat_of_isWeaklyRegular {A S S' : Type*} [C
     exact hmem s hs
   · rw [← Ideal.map_ofList]
     let e : (S' ⧸ (Ideal.ofList rs).map (algebraMap S S')) ≃ₗ[S'] S' ⊗[S] (S ⧸ Ideal.ofList rs) :=
-      (Ideal.ofList rs).qoutMapEquivTensorQout (S := S')
+      (Ideal.ofList rs).quotMapEquivTensorQuot (S := S')
     have : Module.Flat A (S' ⊗[S] (S ⧸ Ideal.ofList rs)) :=
       Module.Flat.tensorProduct_of_flat_left
     exact Module.Flat.of_linearEquiv (e.restrictScalars A)

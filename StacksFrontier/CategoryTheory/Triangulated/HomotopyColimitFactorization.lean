@@ -60,7 +60,7 @@ omit [HasZeroObject D] [HasShift D ℤ] [∀ n : ℤ, (shiftFunctor D n).Additiv
 private lemma ι_comp_oneSubTransition (F : ℕ ⥤ D) (n : ℕ) :
     Sigma.ι F.obj n ≫ oneSubTransition F =
       Sigma.ι F.obj n - F.map (homOfLE (Nat.le_succ n)) ≫ Sigma.ι F.obj (n + 1) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- **A map from a compact object into a derived colimit factors through a term of the system**:
 the surjectivity half of [Stacks, Tag 094A]. If `K = hocolim Kₙ` for the system `F : ℕ ⥤ D` and

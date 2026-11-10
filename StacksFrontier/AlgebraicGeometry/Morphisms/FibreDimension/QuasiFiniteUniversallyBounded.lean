@@ -99,7 +99,7 @@ theorem appTop_algebraMap_comp {K : Type u} [Field K] {Z Z' : Scheme.{u}}
       ((Scheme.ΓSpecIso (.of K)).inv ≫ (ι ≫ p).appTop).hom.toAlgebra
     ∀ a : K, ι.appTop.hom (algebraMap K ↑Γ(Z, ⊤) a) = algebraMap K ↑Γ(Z', ⊤) a := by
   intro a
-  show (((Scheme.ΓSpecIso (.of K)).inv ≫ p.appTop) ≫ ι.appTop).hom _ =
+  change (((Scheme.ΓSpecIso (.of K)).inv ≫ p.appTop) ≫ ι.appTop).hom _ =
     ((Scheme.ΓSpecIso (.of K)).inv ≫ (ι ≫ p).appTop).hom _
   rw [Scheme.Hom.comp_appTop, Category.assoc]
 
@@ -360,7 +360,7 @@ private theorem openCoverOfLeft_f_snd {X Y Z : Scheme.{u}} (𝒰 : X.OpenCover)
     (f : X ⟶ Z) (g : Y ⟶ Z) (i : 𝒰.I₀) :
     (Scheme.Pullback.openCoverOfLeft 𝒰 f g).f i ≫ pullback.snd f g =
       pullback.snd (𝒰.f i ≫ f) g := by
-  show pullback.map (𝒰.f i ≫ f) g f g (𝒰.f i) (𝟙 _) (𝟙 _) (Category.comp_id _)
+  change pullback.map (𝒰.f i ≫ f) g f g (𝒰.f i) (𝟙 _) (𝟙 _) (Category.comp_id _)
       (by rw [Category.comp_id, Category.id_comp]) ≫ pullback.snd f g = _
   rw [pullback.lift_snd, Category.comp_id]
 

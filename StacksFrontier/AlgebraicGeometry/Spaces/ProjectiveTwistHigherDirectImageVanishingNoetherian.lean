@@ -498,7 +498,7 @@ theorem exists_twistBound_isZero_rightDerived_modulePushforward
     restrictToChartTensorObjIso T F _ hF.toIsQuasicoherentOnSite hPqc ≪≫
       Stacks.RelativeVeryAmple.tensorModulesMapIso (chartScheme T) (Iso.refl G) eP
   exact isZero_rightDerived_modulePushforward_of_isZero_chart B S hS D.hom hρ hf.2.1.2
-    (isQuasiSeparated_of_isSeparated B S hS hf.1) A hAaff hAsurj _ hMqc p hp
+    (isQuasiSeparated_of_isSeparated B S hS hf.1) A hAaff hAsurj _ hMqc p
     (isZero_rightDerived_evaluation_chartSpace_of_isZero_hgroup_restrictToChart T _ hMqc p hp
       ((hd₀ d p (le_of_max_le_left hd) hp).of_iso
         ((Hfunctor (chartScheme T).ringCatSheaf ⊤ p).mapIso eM)))

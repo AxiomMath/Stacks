@@ -97,10 +97,16 @@ theorem tateLineCongr_symm (e : L ≃ₗ[F] L') (n : ℤ) :
 isomorphisms. -/
 theorem tateLineCongr_trans (e : L ≃ₗ[F] L') (e' : L' ≃ₗ[F] L'') (n : ℤ) :
     (tateLineCongr e n).trans (tateLineCongr e' n) = tateLineCongr (e.trans e') n := by
-  cases n <;>
-  · refine piTensorProduct_equiv_ext fun x ↦ ?_
+  cases n with
+  | ofNat =>
+    refine piTensorProduct_equiv_ext fun x ↦ ?_
     simp only [tateLineCongr]
-    simp <;> rfl
+    simp
+  | negSucc =>
+    refine piTensorProduct_equiv_ext fun x ↦ ?_
+    simp only [tateLineCongr]
+    simp
+    rfl
 
 /-- The isomorphism `V(n) ≅ V'(n)` of Tate twists induced by isomorphisms `L ≅ L'` of lines and
 `V ≅ V'` of vector spaces. -/

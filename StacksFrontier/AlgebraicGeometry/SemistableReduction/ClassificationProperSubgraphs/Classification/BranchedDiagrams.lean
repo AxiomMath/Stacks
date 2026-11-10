@@ -296,7 +296,7 @@ private lemma submatrix_quadratic_neg {t : ℕ} (T : NumericalType)
   let A : Matrix (Fin T.componentCount) (Fin T.componentCount) ℚ :=
     fun i j => T.intersection i j
   have hmul (r : Fin t) : (A *ᵥ x) (v r) = ∑ s, A (v r) (v s) * c s := by
-    show (A.mulVec (∑ s, Pi.single (v s) (c s))) (v r) = _
+    change (A.mulVec (∑ s, Pi.single (v s) (c s))) (v r) = _
     rw [Matrix.mulVec_sum]
     simp [Finset.sum_apply, Matrix.mulVec_single, mul_comm]
   have h := quadraticForm_neg_of_supported_proper_finset T I hproper x hsupport hnonzero
@@ -398,13 +398,13 @@ private def segmentWithLeaf {t n : ℕ} (b : ℕ) (h : b + n ≤ t) :
 private lemma segmentWithLeaf_val {t n : ℕ} (b : ℕ) (h : b + n ≤ t)
     (r : Fin (n + 1)) (hr : r.val < n) :
     (segmentWithLeaf b h r).val = b + r.val := by
-  show (if r.val < n then b + r.val else t) = _
+  change (if r.val < n then b + r.val else t) = _
   rw [ite_eq_left hr]
 
 private lemma segmentWithLeaf_last {t n : ℕ} (b : ℕ) (h : b + n ≤ t) :
     segmentWithLeaf b h (Fin.last n) = Fin.last t := by
   apply Fin.ext
-  show (if (Fin.last n).val < n then b + (Fin.last n).val else t) = _
+  change (if (Fin.last n).val < n then b + (Fin.last n).val else t) = _
   simp
 
 private lemma classify_oriented_chain_with_leaf {t : ℕ} (T : NumericalType)

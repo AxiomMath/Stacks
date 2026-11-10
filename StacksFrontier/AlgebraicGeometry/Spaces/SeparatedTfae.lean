@@ -81,7 +81,7 @@ theorem exists_mem_obj_of_sigmaDesc {I : Type*} (U : I → Subfunctor F)
   have hfac : (Limits.Sigma.desc fun i => homOfLe (le_iSup U i)) ≫ (⨆ i, U i).ι =
       Limits.Sigma.desc fun i => (U i).ι :=
     Limits.Sigma.hom_ext _ _ fun i => by
-      rw [Limits.Sigma.ι_desc_assoc, homOfLe_ι, Limits.Sigma.ι_desc]
+      rw [Limits.Sigma.ι_comp_desc_assoc, homOfLe_ι, Limits.Sigma.ι_comp_desc]
   have hmem : (Limits.Sigma.desc fun i => (U i).ι).app c t ∈ (⨆ i, U i).obj c := by
     rw [← hfac]
     exact ((Limits.Sigma.desc fun i => homOfLe (le_iSup U i)).app c t).property
@@ -430,13 +430,13 @@ theorem presheaf_of_affine {P : MorphismProperty Scheme.{u}}
   have : (MorphismProperty.inverseImage P (BigFppfOver.toScheme B S hS)).RespectsIso :=
     MorphismProperty.RespectsIso.inverseImage _ _
   refine MorphismProperty.relative_of_snd hu (fun a g => ?_)
-  show P ((BigFppfOver.toScheme B S hS).map (hu.snd g))
+  change P ((BigFppfOver.toScheme B S hS).map (hu.snd g))
   refine AlgebraicGeometry.IsZariskiLocalAtTarget.of_openCover
     ((BigFppfOver.toScheme B S hS).obj a).affineCover fun j => ?_
   refine pullback_snd_of_snd_yoneda_map B S hS hu (openObjHom B S hS a
     (((BigFppfOver.toScheme B S hS).obj a).affineCover.f j)) g
     (H (openObj B S hS a (((BigFppfOver.toScheme B S hS).obj a).affineCover.f j)) ?_ _)
-  show IsAffine (((BigFppfOver.toScheme B S hS).obj a).affineCover.X j)
+  change IsAffine (((BigFppfOver.toScheme B S hS).obj a).affineCover.X j)
   infer_instance
 
 /-- The property of a morphism of presheaves on the big fppf site of `S` that its relative diagonal
@@ -1214,7 +1214,7 @@ theorem isSeparated_relocalize {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {p 
     (h : IsSeparated B S hS p) :
     IsSeparated B S' hS' ((OverShriek.relocalizePresheafFunctor k).map p) := by
   have h1 := isClosedImmersion_relocalize B S hS hS' k (p := pullback.diagonal p) h
-  show IsClosedImmersion B S' hS'
+  change IsClosedImmersion B S' hS'
     (pullback.diagonal ((OverShriek.relocalizePresheafFunctor k).map p))
   rw [← OverShriek.relocalize_map_diagonal]
   exact MorphismProperty.RespectsIso.postcomp (closedImmersionPresheafProperty B S' hS') _ _ h1
@@ -1251,7 +1251,7 @@ theorem isLocallySeparated_relocalize {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type
     (h : IsLocallySeparated B S hS p) :
     IsLocallySeparated B S' hS' ((OverShriek.relocalizePresheafFunctor k).map p) := by
   have h1 := isImmersion_relocalize B S hS hS' k (p := pullback.diagonal p) h
-  show IsImmersion B S' hS'
+  change IsImmersion B S' hS'
     (pullback.diagonal ((OverShriek.relocalizePresheafFunctor k).map p))
   rw [← OverShriek.relocalize_map_diagonal]
   exact MorphismProperty.RespectsIso.postcomp (immersionPresheafProperty B S' hS') _ _ h1

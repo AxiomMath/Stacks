@@ -198,7 +198,7 @@ theorem powPowIso_mul (a i j : ℤ) :
   have key := scaledIso_mul (powBeta L a) i j (i + j) rfl rfl
   have hre := mulPairIso_reindex (powModule L a) (mul_one i) (mul_one j) (mul_one (i + j))
     (degMul (rfl : i + j = i + j) (1 : ℤ)) (rfl : i + j = i + j)
-  show (mulPairIso L (degMul (rfl : i + j = i + j) a)).hom ≫
+  change (mulPairIso L (degMul (rfl : i + j = i + j) a)).hom ≫
       (scaledIso (powBeta L a) (i + j)).hom ≫
         (reindexIso (powModule L a) (mul_one (i + j))).hom = _
   rw [← Category.assoc, key, Category.assoc, hre, ← Category.assoc,
@@ -229,7 +229,7 @@ theorem powPairIso_mul (a : ℤ) {p p' s i j : ℤ} (hp : p = i * a) (hp' : p' =
   have hpm := powPowIso_mul L a i j
   rw [mulSheaf_laurent] at hpm
   rw [mulSheaf_laurent]
-  show (mulPairIso L h).hom ≫ (reindexIso L hs).hom ≫ (powPowIso L a (i + j)).hom = _
+  change (mulPairIso L h).hom ≫ (reindexIso L hs).hom ≫ (powPowIso L a (i + j)).hom = _
   rw [← Category.assoc, hre, Category.assoc, hpm, ← Category.assoc,
     MonoidalCategory.tensorHom_comp_tensorHom]
   rfl

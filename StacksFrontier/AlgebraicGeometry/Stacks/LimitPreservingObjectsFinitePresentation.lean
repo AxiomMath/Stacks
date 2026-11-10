@@ -89,7 +89,7 @@ theorem isLimitPreservingOnObjects_of_iso
     e.inv.hom.isHomLift x'.2
   refine ⟨j, a, x', xU, δ, β, α.inv.app x'.1 ≫ γ', hδ, hβ, hβiso,
     isStronglyCartesian_comp_of_isHomLift_id hα' hγ', ?_⟩
-  show g.hom.toFunctor.map δ ≫ α.inv.app x'.1 ≫ γ' = g.hom.toFunctor.map β ≫ γ
+  change g.hom.toFunctor.map δ ≫ α.inv.app x'.1 ≫ γ' = g.hom.toFunctor.map β ≫ γ
   rw [← Category.assoc, α.inv.naturality δ, Category.assoc, hcomm,
     ← Category.assoc (f.hom.toFunctor.map β), α.hom.naturality β]
   simp only [Category.assoc, Iso.inv_hom_id_app_assoc]
@@ -256,7 +256,7 @@ theorem isLocallyOfFinitePresentation_of_associatedMap
       π := { app := fun i ↦ ObjectProperty.homMk (c.π.app i)
              naturality := fun i j a ↦ by
                apply ObjectProperty.hom_ext
-               show c.π.app j = c.π.app i ≫ D.map a
+               change c.π.app j = c.π.app i ≫ D.map a
                exact (c.w a).symm } }
   let X := fibredCategory B S hS F
   let Y := fibredCategory B S hS G
@@ -278,7 +278,7 @@ theorem isLocallyOfFinitePresentation_of_associatedMap
   · rw [colimit.ι_desc_apply]
     have hδ' := presheafFiberElement_map B S hS F (c.π.app j) xU xj δ hδ.toIsHomLift
     have hβ' := presheafFiberElement_map B S hS F (𝟙 c.pt) xU xF β hβ
-    show F.map (c.π.app j).op (presheafFiberElement B S hS F xj) = x
+    change F.map (c.π.app j).op (presheafFiberElement B S hS F xj) = x
     have hβ'' : presheafFiberElement B S hS F xF = presheafFiberElement B S hS F xU := by
       simpa using hβ'
     exact hδ'.trans hβ''.symm
@@ -286,7 +286,7 @@ theorem isLocallyOfFinitePresentation_of_associatedMap
     have hγ'' := presheafFiberElement_map B S hS G (D.map b)
       ((Functor.fiberFunctorOfCompEq q.hom.w (D.obj j)).obj xj) yG γ' hγ'.toIsHomLift
     rw [presheafFiberElement_associatedMap] at hγ''
-    show colimit.ι (D.op ⋙ G) (Opposite.op j)
+    change colimit.ι (D.op ⋙ G) (Opposite.op j)
       (a.app (Opposite.op (D.obj j)) (presheafFiberElement B S hS F xj)) = _
     rw [← hγ'', ← CategoryTheory.comp_apply]
     exact ConcreteCategory.congr_hom (colimit.w (D.op ⋙ G) b.op) yi

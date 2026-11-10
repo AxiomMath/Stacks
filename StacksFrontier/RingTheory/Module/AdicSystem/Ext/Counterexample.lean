@@ -68,7 +68,7 @@ private theorem exact_mul_of_mul_zero {R : Type*} [CommRing R] [IsDomain R]
 
 private theorem x_ne_zero (k : Type*) [Field k] (i : Fin 2) :
     (MvPowerSeries.X i : MvPowerSeries (Fin 2) k) ≠ 0 :=
-  nonZeroDivisors.ne_zero (MvPowerSeries.X_mem_nonzeroDivisors (i := i) (R := k))
+  nonZeroDivisors.ne_zero (MvPowerSeries.X_mem_nonZeroDivisors (i := i) (R := k))
 
 private theorem exact_lsmul_mkQ_ideal {R : Type*} [CommRing R] (y : R) :
     Function.Exact (LinearMap.lsmul R R y) (Submodule.mkQ (Ideal.span {y})) := by
@@ -213,7 +213,7 @@ private theorem homToExtOne_eq_zero_iff {R : Type u} [CommRing R]
     obtain ⟨g, hg⟩ := Ext.contravariant_sequence_exact₁ hS N (Ext.mk₀ f) rfl hf
     refine ⟨Ext.linearEquiv₀ (R := R) g, ?_⟩
     apply Ext.homEquiv₀.symm.injective
-    show Ext.mk₀ (S.f ≫ Ext.linearEquiv₀ (R := R) g) = Ext.mk₀ f
+    change Ext.mk₀ (S.f ≫ Ext.linearEquiv₀ (R := R) g) = Ext.mk₀ f
     rw [← Ext.mk₀_comp_mk₀, Ext.mk₀_linearEquiv₀_apply]
     exact hg
   · rintro ⟨g, rfl⟩
@@ -314,8 +314,8 @@ private theorem extTwoEquivQuotient {R M N : Type u} [CommRing R]
   have hH : Function.Surjective H := hd.comp e.symm.surjective
   have hker : H.ker = (LinearMap.range (LinearMap.lsmul R N x)).comap T.subtype := by
     ext z
-    show H z = 0 ↔ ∃ m : N, x • m = z.1
-    show d (e.symm z) = 0 ↔ _
+    change H z = 0 ↔ ∃ m : N, x • m = z.1
+    change d (e.symm z) = 0 ↔ _
     rw [hd0]
     constructor
     · rintro ⟨b, hb⟩
@@ -332,8 +332,8 @@ private theorem extTwoEquivQuotient {R M N : Type u} [CommRing R]
       refine ⟨b, e.injective ?_⟩
       rw [e.apply_symm_apply]
       apply Subtype.ext
-      show (f 1).1 • m = z.1
-      show (x * 1) • m = z.1
+      change (f 1).1 • m = z.1
+      change (x * 1) • m = z.1
       simpa only [mul_one] using hm
   exact ⟨((Submodule.quotEquivOfEq _ _ hker).symm.trans
     (H.quotKerEquivOfSurjective hH)).symm⟩
@@ -357,12 +357,12 @@ private theorem extTwoEquivOfPeriodic {R N : Type u} [CommRing R]
   intro T
   have hT : ∀ z : N, z ∈ T ↔ ∀ r : R, x * r = 0 → r • z = 0 := by
     intro z
-    show y • z = 0 ↔ _
+    change y • z = 0 ↔ _
     constructor
     · intro hz r hr
       obtain ⟨t, ht⟩ := (hyx r).mp hr
       rw [← ht]
-      show (y * t) • z = 0
+      change (y * t) • z = 0
       rw [mul_comm y t, mul_smul, hz, smul_zero]
     · intro hz
       apply hz y
@@ -387,12 +387,12 @@ private theorem extTwoEquivOfCoprod {R M N : Type u} [CommRing R]
   intro T
   have hT : ∀ v : N, v ∈ T ↔ ∀ r : R, x * r = 0 → r • v = 0 := by
     intro v
-    show (y • v = 0 ∧ z • v = 0) ↔ _
+    change (y • v = 0 ∧ z • v = 0) ↔ _
     constructor
     · rintro ⟨hy, hz⟩ r hr
       obtain ⟨⟨a, b⟩, hab⟩ := (hyzx r).mp hr
       rw [← hab]
-      show (y * a + z * b) • v = 0
+      change (y * a + z * b) • v = 0
       rw [add_smul, mul_comm y a, mul_comm z b, mul_smul, mul_smul, hy, hz,
         smul_zero, smul_zero, zero_add]
     · intro hv
@@ -413,7 +413,7 @@ private theorem killCompl_xAxis_eq_zero_iff {k : Type*} [CommRing k]
   · intro h m hm
     have he : Finsupp.embDomain xAxis (Finsupp.single () (m 0)) = m := by
       rw [Finsupp.embDomain_single]
-      show Finsupp.single 0 (m 0) = m
+      change Finsupp.single 0 (m 0) = m
       ext i
       fin_cases i <;> simp [hm]
     rw [← he, ← MvPowerSeries.coeff_killCompl, h, map_zero]
@@ -455,7 +455,7 @@ private theorem node_disjoint (k : Type*) [Field k] :
   rw [hkX] at hka
   have ha : MvPowerSeries.killCompl xAxis a = 0 :=
     (mul_eq_zero.mp hka).resolve_left
-      (nonZeroDivisors.ne_zero (MvPowerSeries.X_mem_nonzeroDivisors (i := ()) (R := k)))
+      (nonZeroDivisors.ne_zero (MvPowerSeries.X_mem_nonZeroDivisors (i := ()) (R := k)))
   obtain ⟨d, hd⟩ := (killCompl_xAxis_eq_zero_iff a).mp ha
   have hxa : X * a ∈ Ideal.span {X * Y} := by
     rw [Ideal.mem_span_singleton]
@@ -478,11 +478,11 @@ private theorem quotient_span_adic_presentation {R : Type*} [CommRing R]
       (Submodule.Quotient.mk (Ideal.Quotient.mk (Ideal.span {y}) 1))
   have hq (r : R) : q (Ideal.Quotient.mk _ r) =
       Submodule.Quotient.mk (Ideal.Quotient.mk (Ideal.span {y}) r) := by
-    show Ideal.Quotient.mk (I ^ n) r •
+    change Ideal.Quotient.mk (I ^ n) r •
       (Submodule.Quotient.mk (Ideal.Quotient.mk (Ideal.span {y}) 1) : Mn) = _
     rw [Module.Quotient.mk_smul_mk]
     congr 1
-    show Ideal.Quotient.mk _ (r * 1) = _
+    change Ideal.Quotient.mk _ (r * 1) = _
     rw [mul_one]
   refine ⟨q, by simpa using hq 1, ?_, ?_⟩
   · intro z
@@ -505,7 +505,7 @@ private theorem quotient_span_adic_presentation {R : Type*} [CommRing R]
         Ideal.Quotient.eq.mp hm.symm
       obtain ⟨b, hb⟩ := Ideal.mem_span_singleton.mp hr
       refine ⟨Ideal.Quotient.mk _ b, ?_⟩
-      show Ideal.Quotient.mk _ y * Ideal.Quotient.mk _ b = _
+      change Ideal.Quotient.mk _ y * Ideal.Quotient.mk _ b = _
       rw [← map_mul, ← hb, map_sub, map_mul]
       have hxn : Ideal.Quotient.mk (I ^ n) (x ^ n) = 0 := by
         apply Ideal.Quotient.eq_zero_iff_mem.mpr
@@ -520,7 +520,7 @@ private theorem quotient_span_adic_presentation {R : Type*} [CommRing R]
         Ideal.mem_span_singleton] at hb
       obtain ⟨b, hb⟩ := hb
       refine ⟨Ideal.Quotient.mk _ (-b), ?_⟩
-      show Ideal.Quotient.mk (Ideal.span {y}) (x ^ n * -b) =
+      change Ideal.Quotient.mk (Ideal.span {y}) (x ^ n * -b) =
         Ideal.Quotient.mk (Ideal.span {y}) r
       have hr : x ^ n * -b = r - y * a := by rw [mul_neg, ← hb]; ring
       rw [hr, map_sub, map_mul]
@@ -585,7 +585,7 @@ private theorem mem_adic_smul_iff {k R M : Type*} [CommRing k] [CommRing R]
     exact ⟨e a, linearEquiv_smul_pow e x he n a⟩
   · rintro ⟨p, hp⟩
     refine ⟨e.symm p, e.injective ?_⟩
-    show e (x ^ n • e.symm p) = e m
+    change e (x ^ n • e.symm p) = e m
     rw [linearEquiv_smul_pow e x he, e.apply_symm_apply, hp]
 
 private theorem adic_quotient_equiv_polynomial {k R M : Type*} [CommRing k] [CommRing R]
@@ -602,7 +602,7 @@ private theorem adic_quotient_equiv_polynomial {k R M : Type*} [CommRing k] [Com
   have hker : f.ker = p.restrictScalars k := by
     ext m
     rw [LinearMap.mem_ker, hf, Ideal.Quotient.eq_zero_iff_mem]
-    show PowerSeries.trunc n (e m) ∈ J ↔ m ∈ p
+    change PowerSeries.trunc n (e m) ∈ J ↔ m ∈ p
     rw [mem_adic_smul_iff e x he, Ideal.mem_span_singleton, Polynomial.X_pow_dvd_iff,
       PowerSeries.X_pow_dvd_iff]
     simp only [PowerSeries.coeff_trunc]
@@ -631,7 +631,7 @@ private theorem exact_adic_smul_pow {k R M : Type*} [Field k] [CommRing R]
       (LinearMap.lsmul Q Mn (xn ^ ((n : ℕ) - 1))) := by
   intro I Q xn Mn z
   obtain ⟨m, rfl⟩ := Submodule.mkQ_surjective (I ^ (n : ℕ) • (⊤ : Submodule R M)) z
-  show xn ^ ((n : ℕ) - 1) • (Submodule.Quotient.mk m : Mn) = 0 ↔ _
+  change xn ^ ((n : ℕ) - 1) • (Submodule.Quotient.mk m : Mn) = 0 ↔ _
   have hn : (n : ℕ) - 1 + 1 = n := Nat.sub_add_cancel n.property
   rw [← map_pow, Module.Quotient.mk_smul_mk, Submodule.Quotient.mk_eq_zero,
     mem_adic_smul_iff e x he, linearEquiv_smul_pow e x he]
@@ -644,7 +644,7 @@ private theorem exact_adic_smul_pow {k R M : Type*} [Field k] [CommRing R]
         _ = PowerSeries.X ^ ((n : ℕ) - 1) * (PowerSeries.X * p) := by
           rw [← mul_assoc, ← pow_succ, hn]
     refine ⟨Submodule.Quotient.mk (e.symm p), ?_⟩
-    show xn • (Submodule.Quotient.mk (e.symm p) : Mn) = Submodule.Quotient.mk m
+    change xn • (Submodule.Quotient.mk (e.symm p) : Mn) = Submodule.Quotient.mk m
     rw [Module.Quotient.mk_smul_mk]
     congr 1
     apply e.injective
@@ -676,7 +676,7 @@ private theorem annihilator_quotient_equiv {k R M : Type*} [CommRing k] [CommRin
   have hker : f.ker = p.restrictScalars k := by
     ext m
     rw [LinearMap.mem_ker, hf, ← PowerSeries.X_dvd_iff]
-    show PowerSeries.X ∣ e m.1 ↔ m.1 ∈ Ideal.span {x} • (⊤ : Submodule R M)
+    change PowerSeries.X ∣ e m.1 ↔ m.1 ∈ Ideal.span {x} • (⊤ : Submodule R M)
     simpa using (mem_adic_smul_iff e x he 1 m.1).symm
   have hsurj : Function.Surjective f := by
     intro a
@@ -802,7 +802,7 @@ public theorem extTwo_not_preserved_by_adicQuotients (k : Type u) [Field k] :
   intro R X Y A x y I M
   obtain ⟨hyx, hxy, hyp, hp⟩ := node_exactness k
   have hzero : x * y = 0 := by
-    show Ideal.Quotient.mk _ X * Ideal.Quotient.mk _ Y = 0
+    change Ideal.Quotient.mk _ X * Ideal.Quotient.mk _ Y = 0
     rw [← map_mul]
     exact Ideal.Quotient.mk_singleton_self _
   have hsep : ∀ a b : A, x * a = y * b → y * b = 0 := node_disjoint k
@@ -834,11 +834,11 @@ public theorem extTwo_not_preserved_by_adicQuotients (k : Type u) [Field k] :
     let e : M ≃ₐ[k] PowerSeries k := e0
     have hex : e (Ideal.Quotient.mk _ x) = PowerSeries.X := hex0
     have he (m : M) : e.toLinearEquiv (x • m) = PowerSeries.X * e m := by
-      show e (Ideal.Quotient.mk _ x * m) = _
+      change e (Ideal.Quotient.mk _ x * m) = _
       rw [map_mul, hex]
     have hym (m : M) : y • m = 0 := by
       obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective m
-      show Ideal.Quotient.mk (Ideal.span {y}) (y * a) = 0
+      change Ideal.Quotient.mk (Ideal.span {y}) (y * a) = 0
       rw [Ideal.Quotient.eq_zero_iff_mem, Ideal.mem_span_singleton]
       exact ⟨a, rfl⟩
     constructor

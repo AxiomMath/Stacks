@@ -493,7 +493,7 @@ theorem _root_.Stacks.DerivedIndexing.isIso_homologyFunctor_zero_map_rightDerive
       ((Stacks.DerivedIndexing.rightDerivedPlusUnitSingle F).app X)) := by
   have h := (Functor.isZero_and_preservesFiniteLimits_and_isIso_iff_preservesFiniteLimits
     F F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith).2.2.2 inferInstance X
-  show IsIso ((DerivedCategory.Plus.homologyFunctor D 0).map
+  change IsIso ((DerivedCategory.Plus.homologyFunctor D 0).map
     ((Functor.mapSingleFunctorCompQhIso F).inv.app X ≫
       F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor C 0).obj X) ≫
       F.rightDerivedFunctorPlus.map ((Functor.singleFunctorPlusIsoCompQh (A := C) 0).inv.app X)))
@@ -792,7 +792,7 @@ theorem isUniversal_geometricDerivedSourceDelta :
         (continuousModuleRingInvariants.{0, u + 1, u + 1} Λ
       (EtaleFundamentalGroup (Stacks.Frobenius.fieldBaseChange (Over.mk f) K) y)))
   have : ∀ n, IsIso (η.app n) := fun n ↦ by
-    show IsIso
+    change IsIso
       (Functor.whiskerLeft _
       (Stacks.DerivedIndexing.rightDerivedIso (continuousModuleRingInvariants.{0, u + 1, u + 1} Λ
       (EtaleFundamentalGroup (Stacks.Frobenius.fieldBaseChange (Over.mk f) K) y)) n).hom)
@@ -820,7 +820,7 @@ theorem isUniversal_geometricDerivedTargetDelta
       (Stacks.Frobenius.fieldBaseChange (Over.mk f) K)))
       (geometricDiscreteSheafιIso B X Λ f K hK y).inv
   have : ∀ n, IsIso (η.app n) := fun n ↦ by
-    show IsIso
+    change IsIso
       (Functor.whiskerLeft _
       (Stacks.DerivedIndexing.rightDerivedIso
       (Stacks.EtaleCohomology.etaleModuleGlobalSections.{u, 0} Λ
@@ -1018,6 +1018,7 @@ def geometricInvariantsGlobalSectionsIsoCanonical
       (fun {_ρ _ρ'} φ ↦ ModuleCat.hom_ext (LinearMap.ext fun z ↦ Subtype.ext
         (geometricGlobalSectionsInvariantsEquiv_naturality B X f K Λ y φ z)))).symm
 
+omit [Smooth f] in
 /-- **The canonical identification is Galois-equivariant**: for `γ ∈ π₁(X)` with image `σ` in
 `Aut(k̄/k)`, the invariant attached to `σ` applied to a global section is `ρ(γ)` applied to the
 invariant attached to the section. -/

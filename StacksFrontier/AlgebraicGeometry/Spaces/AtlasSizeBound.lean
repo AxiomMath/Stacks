@@ -100,7 +100,7 @@ theorem BigFppfOver.exists_isColimit_cofan_size_le {K : Type u} (R : K → BigFp
       Sigma.ι (fun k => (BigFppfOver.toScheme B S hS).obj (R k)) k := by
     intro k
     refine BigFppfOver.exists_hom_of_comp_eq B S hS _ ?_
-    rw [hZhom, Sigma.ι_desc]
+    rw [hZhom, Sigma.ι_comp_desc]
   choose c hcmap using hc
   have key : ∀ t : Cofan R, ∃! m : Z ⟶ t.pt, ∀ k, c k ≫ m = t.inj k := by
     intro t
@@ -109,13 +109,13 @@ theorem BigFppfOver.exists_isColimit_cofan_size_le {K : Type u} (R : K → BigFp
       refine BigFppfOver.exists_hom_of_comp_eq B S hS _ ?_
       rw [hZhom]
       refine Sigma.hom_ext _ _ fun k => ?_
-      rw [Sigma.ι_desc_assoc, Sigma.ι_desc]
+      rw [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc]
       exact (Functor.map_comp B.inclusion (t.inj k).left t.pt.hom).symm.trans
         (congrArg B.inclusion.map (Over.w (t.inj k)))
     refine ⟨m, fun k => (BigFppfOver.toScheme B S hS).map_injective ?_, fun m' hm' => ?_⟩
-    · rw [Functor.map_comp, hcmap k, hm, Sigma.ι_desc]
+    · rw [Functor.map_comp, hcmap k, hm, Sigma.ι_comp_desc]
     · refine (BigFppfOver.toScheme B S hS).map_injective (Sigma.hom_ext _ _ fun k => ?_)
-      rw [hm, Sigma.ι_desc, ← hcmap k, ← Functor.map_comp, hm' k]
+      rw [hm, Sigma.ι_comp_desc, ← hcmap k, ← Functor.map_comp, hm' k]
   exact ⟨Z, c, ⟨Cofan.IsColimit.mk _ (fun t => (key t).choose)
     (fun t k => (key t).choose_spec.1 k) fun t m hm => (key t).choose_spec.2 m hm⟩, hle⟩
 

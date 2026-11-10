@@ -74,7 +74,7 @@ theorem smoothOfRelativeDimension_terminalFrom_chartDomain {k n : ℕ}
         (R := ULift.{u} ℤ)))) := by
     rw [HasRingHomProperty.Spec_iff (P := @SmoothOfRelativeDimension (k * (n - k)))]
     refine RingHom.locally_of RingHom.isStandardSmoothOfRelativeDimension_respectsIso _ ?_
-    show (algebraMap (ULift.{u} ℤ)
+    change (algebraMap (ULift.{u} ℤ)
       (MvPolynomial (ChartIndex.{u} ι) (ULift.{u} ℤ))).IsStandardSmoothOfRelativeDimension
         (k * (n - k))
     rw [RingHom.isStandardSmoothOfRelativeDimension_algebraMap]

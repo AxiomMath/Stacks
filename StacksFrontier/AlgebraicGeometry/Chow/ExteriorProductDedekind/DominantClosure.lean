@@ -183,7 +183,7 @@ theorem topologicalKrullDimAt_fiber_eq_of_ringKrullDim_stalk_le_one {X S : Schem
         (T₀ : WithBot ℕ∞) := by
     intro s v hv
     subst hv
-    show topologicalKrullDim (closure ({f.asFiber v} : Set (f.fiber (f v)))) ≤ _
+    change topologicalKrullDim (closure ({f.asFiber v} : Set (f.fiber (f v)))) ≤ _
     rw [topologicalKrullDim_closure_singleton_eq_trdeg (S.residueField (f v)) (f.fiber (f v))
       (f.fiberToSpecResidueField (f v)) (f.asFiber v), trdeg_residueField_asFiber f v]
     exact_mod_cast key v

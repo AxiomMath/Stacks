@@ -117,7 +117,7 @@ private lemma exists_away_map_eq_of_isLocalization_atPrime {B T : Type*} [CommRi
   let eqLoc : Localization.AtPrime q ≃ₐ[B] T := IsLocalization.algEquiv q.primeCompl _ _
   refine exists_away_map_eq_of_map_eq q J q hJq
     (ideal_map_injective_ringEquiv eqLoc.toRingEquiv ?_)
-  show Ideal.map eqLoc.toRingEquiv.toRingHom
+  change Ideal.map eqLoc.toRingEquiv.toRingHom
       (Ideal.map (algebraMap B (Localization.AtPrime q)) J) =
     Ideal.map eqLoc.toRingEquiv.toRingHom
       (Ideal.map (algebraMap B (Localization.AtPrime q)) q)
@@ -226,14 +226,14 @@ private lemma span_uniformizer_sup_le_map (S : NeronSituation) (π : S.R)
   have : IsLocalization.AtPrime T q :=
     isLocalization_atPrime_map_of_notMem (B := B) (C := T) hf
   have hg' : ∀ i, algebraMap B T (g i) = g₀ i := hg
-  show _ ≤ q
+  change _ ≤ q
   refine sup_le ?_ (Ideal.span_le.mpr ?_)
   · rw [Ideal.span_singleton_le_iff_mem]
-    show algebraMap S.A B (algebraMap S.R S.A π) ∈ q
+    change algebraMap S.A B (algebraMap S.R S.A π) ∈ q
     exact Ideal.mem_map_of_mem _ (uniformizer_mem_maximalIdealPreimage S π hπ)
   · rintro z ⟨i, rfl⟩
     rw [← IsLocalization.AtPrime.under_maximalIdeal T q]
-    show algebraMap B T (g i) ∈ IsLocalRing.maximalIdeal T
+    change algebraMap B T (g i) ∈ IsLocalRing.maximalIdeal T
     rw [hg' i, hgen]
     exact Ideal.mem_sup_right (Ideal.subset_span ⟨i, rfl⟩)
 
@@ -423,7 +423,7 @@ private lemma map_maximalIdealPreimage_of_away_algEquiv (S : NeronSituation) (π
   let D := Localization.Away F
   let gF : Fin c → D := fun i => eF.symm (algebraMap B C (g i))
   apply ideal_map_injective_ringEquiv eF.toRingEquiv
-  show Ideal.map eF.toRingEquiv.toRingHom
+  change Ideal.map eF.toRingEquiv.toRingHom
       (Ideal.map (algebraMap S.A D) S.maximalIdealPreimage) =
     Ideal.map eF.toRingEquiv.toRingHom
       (Ideal.span ({algebraMap S.R D π} : Set D) ⊔ Ideal.span (Set.range gF))
@@ -435,7 +435,7 @@ private lemma map_maximalIdealPreimage_of_away_algEquiv (S : NeronSituation) (π
   have hgC : eF '' Set.range gF = (algebraMap B C) '' Set.range g := by
     rw [image_range_eq_range _ _ (fun i => algebraMap B C (g i)) fun i => eF.apply_symm_apply _]
     exact Set.range_comp _ _
-  show Ideal.map (algebraMap S.A C) S.maximalIdealPreimage =
+  change Ideal.map (algebraMap S.A C) S.maximalIdealPreimage =
     Ideal.span (eF '' ({algebraMap S.R D π} : Set D)) ⊔ Ideal.span (eF '' Set.range gF)
   rw [hπC, hgC, IsScalarTower.algebraMap_eq S.A B C, ← Ideal.map_map]
   simpa only [Ideal.map_sup, Ideal.map_span, Set.image_singleton] using hJz.symm
@@ -462,7 +462,7 @@ private lemma exists_basis_of_away_algEquiv (S : NeronSituation) {f : S.A}
     IsLocalization.isLocalization_of_algEquiv (Submonoid.powers z) eFB.symm
   have : IsScalarTower S.R B D := IsScalarTower.of_algebraMap_eq fun r => by
     apply eF.injective
-    show eF (algebraMap S.R D r) = eF (eF.symm (algebraMap B C (algebraMap S.R B r)))
+    change eF (algebraMap S.R D r) = eF (eF.symm (algebraMap B C (algebraMap S.R B r)))
     rw [eF.apply_symm_apply, IsScalarTower.algebraMap_apply S.R S.A D, eF.commutes,
       IsScalarTower.algebraMap_apply S.R S.A B]
     exact IsScalarTower.algebraMap_apply S.A B C (algebraMap S.R S.A r)
@@ -479,7 +479,7 @@ private lemma exists_basis_of_away_algEquiv (S : NeronSituation) {f : S.A}
   let bD : Module.Basis (Fin n) D (KaehlerDifferential S.R D) :=
     Module.Basis.ofRepr (LinearEquiv.ofBijective eD hbijD).symm
   have hbD (i : Fin n) : bD i = KaehlerDifferential.D S.R D (algebraMap B D (u i)) := by
-    show (IsLocalizedModule.map (Submonoid.powers z) l₁D l₂D eB)
+    change (IsLocalizedModule.map (Submonoid.powers z) l₁D l₂D eB)
       (Finsupp.single i 1) = _
     rw [show eB = Finsupp.linearCombination B w from rfl,
       IsLocalizedModule.map_linearCombination]

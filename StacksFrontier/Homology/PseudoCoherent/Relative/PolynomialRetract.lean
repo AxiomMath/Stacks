@@ -190,16 +190,14 @@ private def coeffZeroLinear : polynomialModule (R := R) →ₗ[R] R where
 
 private lemma mulX_eq_rTensor (M : ModuleCat.{u} R) (z : extend.obj M) :
     (mulX.app M) z = (mulXLinear (R := R)).rTensor M z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simp [hx, hy]
   | tmul p m => rfl
 
 private lemma augmentation_eq_rTensor (M : ModuleCat.{u} R) (z : extend.obj M) :
     (augmentation.app M) z =
       TensorProduct.lid R M ((coeffZeroLinear (R := R)).rTensor M z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simp [hx, hy]
   | tmul p m =>
     change augmentation.app M ((p : Polynomial R) ⊗ₜ[R, Polynomial.C] m) = _

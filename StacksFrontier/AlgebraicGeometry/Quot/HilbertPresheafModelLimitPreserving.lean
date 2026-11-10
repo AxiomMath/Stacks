@@ -126,7 +126,7 @@ theorem map_sectionFiberOfHilbertFamily {V V' : Over A} (g : V' ⟶ V)
       sectionFiberOfHilbertFamily f yA V'
         (z.baseChange ((overToSchemesOverPresheaf (yonedaEquiv.symm yA)).map g)) := by
   apply Subtype.ext
-  show equivShrink (HilbertFamilyOver f V'.left)
+  change equivShrink (HilbertFamilyOver f V'.left)
       (((equivShrink (HilbertFamilyOver f V.left)).symm (equivShrink (HilbertFamilyOver f V.left)
         ⟨yoneda.map V.hom ≫ yonedaEquiv.symm yA, z⟩)).baseChange g.left) =
     equivShrink (HilbertFamilyOver f V'.left) ⟨yoneda.map V'.hom ≫ yonedaEquiv.symm yA,
@@ -148,7 +148,7 @@ theorem relativelyLimitPreserving_toBase_canonical (hfp : IsFinitePresentation B
     (hsep : IsSeparated B S hS f.hom) :
     RelativelyLimitPreserving.{u, u, u, u} B S hS (HilbertPresheafModel.canonical f).toBase := by
   refine relativelyLimitPreserving_of_directed B S hS _ ?_
-  intro A yA Λ _ _ _ D c hc hDaff hTaff
+  rintro A yA Λ _ _ _ D c hc hDaff -
   let Φ := overToSchemesOverPresheaf (yonedaEquiv.symm yA)
   have hc' : IsLimit ((CostructuredArrow.proj yoneda Y.obj ⋙ BigFppfOver.toScheme B S hS).mapCone
       (Φ.mapCone c)) := hc
@@ -157,7 +157,7 @@ theorem relativelyLimitPreserving_toBase_canonical (hfp : IsFinitePresentation B
   · intro x
     obtain ⟨z, rfl⟩ := sectionFiberOfHilbertFamily_surjective f yA c.pt x
     obtain ⟨j, z', hz'⟩ := exists_hilbertFamily_baseChange_eq f (D ⋙ Φ) (Φ.mapCone c) hc'
-      hDaff hTaff hfp hsep z
+      hDaff hfp hsep z
     refine ⟨j, sectionFiberOfHilbertFamily f yA (D.obj j) z', ?_⟩
     rw [map_sectionFiberOfHilbertFamily]
     exact congrArg _ hz'

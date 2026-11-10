@@ -50,10 +50,7 @@ theorem span_range_symm_one_tmul {A C M N ι : Type*} [CommRing A] [CommRing C] 
   refine eq_top_iff.2 fun t _ => ?_
   rw [← e.symm_apply_apply t]
   generalize e t = s
-  induction s using TensorProduct.induction_on with
-  | zero =>
-    rw [map_zero]
-    exact Submodule.zero_mem _
+  induction s using TensorProduct.inductionOn with
   | tmul c n =>
     obtain ⟨r, rfl⟩ := hj n
     rw [show c ⊗ₜ[A] j r = c • ((1 : C) ⊗ₜ[A] j r) by

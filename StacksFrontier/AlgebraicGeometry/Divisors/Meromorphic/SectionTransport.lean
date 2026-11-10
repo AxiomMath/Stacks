@@ -104,7 +104,7 @@ theorem isRegularMeromorphicSection_mapMeromorphicSection [IsIntegral X] (L N : 
     ((Stacks.Sheaves.ChangeOfRings.changeOfRings (Opens.grothendieckTopology X)
       (toTotalQuotientSheaf X.sheaf)).mapIso e).isIso_hom
   change Mono ((meromorphicSectionSheaf X.sheaf L).unitHomEquiv.symm s) at hs
-  show Mono ((meromorphicSectionSheaf X.sheaf N).unitHomEquiv.symm
+  change Mono ((meromorphicSectionSheaf X.sheaf N).unitHomEquiv.symm
     (SheafOfModules.sectionsMap ((Stacks.Sheaves.ChangeOfRings.changeOfRings
       (Opens.grothendieckTopology X) (toTotalQuotientSheaf X.sheaf)).map e.hom) s))
   have hcomp : Mono ((meromorphicSectionSheaf X.sheaf L).unitHomEquiv.symm s ≫
@@ -169,10 +169,10 @@ def stalkLinearMap (L N : X.Modules) (f : L ⟶ N) (x : X) :
 /-- The stalk map of an isomorphism of sheaves of modules is bijective. -/
 theorem bijective_stalkLinearMap (L N : X.Modules) (f : L ⟶ N) [IsIso f] (x : X) :
     Function.Bijective (stalkLinearMap L N f x) := by
-  show Function.Bijective (ConcreteCategory.hom
+  change Function.Bijective (ConcreteCategory.hom
     ((TopCat.Presheaf.stalkFunctor Ab x).map (Scheme.Modules.Hom.mapPresheaf f)))
   have : IsIso (Scheme.Modules.Hom.mapPresheaf f) := by
-    show IsIso ((Scheme.Modules.toPresheaf X).map f)
+    change IsIso ((Scheme.Modules.toPresheaf X).map f)
     exact Functor.map_isIso (Scheme.Modules.toPresheaf X) f
   exact ConcreteCategory.bijective_of_isIso _
 
@@ -187,7 +187,7 @@ theorem stalkLinearMap_stalkSpecializes (L N : X.Modules) (f : L ⟶ N) {x y : X
     (m : L.presheaf.stalk y) :
     stalkLinearMap L N f x (L.presheaf.stalkSpecializes h m) =
       N.presheaf.stalkSpecializes h (stalkLinearMap L N f y m) := by
-  show ConcreteCategory.hom ((L.presheaf.stalkSpecializes h) ≫
+  change ConcreteCategory.hom ((L.presheaf.stalkSpecializes h) ≫
       (TopCat.Presheaf.stalkFunctor Ab x).map (Scheme.Modules.Hom.mapPresheaf f)) m =
     ConcreteCategory.hom ((TopCat.Presheaf.stalkFunctor Ab y).map
       (Scheme.Modules.Hom.mapPresheaf f) ≫ N.presheaf.stalkSpecializes h) m
@@ -199,7 +199,7 @@ theorem stalkLinearMap_germ (L N : X.Modules) (f : L ⟶ N) (U : X.Opens) (x : X
     (m : L.presheaf.obj (op U)) :
     stalkLinearMap L N f x (L.presheaf.germ U x hx m) =
       N.presheaf.germ U x hx (f.val.app (op U) m) := by
-  show ConcreteCategory.hom ((TopCat.Presheaf.stalkFunctor Ab x).map
+  change ConcreteCategory.hom ((TopCat.Presheaf.stalkFunctor Ab x).map
       (Scheme.Modules.Hom.mapPresheaf f))
     (ConcreteCategory.hom (L.presheaf.germ U x hx) m) = _
   rw [TopCat.Presheaf.stalkFunctor_map_germ_apply]
@@ -295,7 +295,7 @@ theorem meromorphicSectionSheafIsoConstant_naturality [IsIntegral X] (L N : X.Mo
       ((meromorphicExtendRestrictAdjunction X).unit.app N).val.app U (f.val.app U m) :=
     congrArg (fun z => (z.val.app U) m) ((meromorphicExtendRestrictAdjunction X).unit_naturality f)
   by_cases hU : genericPoint X ∈ U.unop
-  · show (constantGenericStalkModuleMap L N f).val.app U
+  · change (constantGenericStalkModuleMap L N f).val.app U
         (((meromorphicSectionSheafIsoConstant X L).val.hom.val.app U)
           ((((meromorphicExtendRestrictAdjunction X).unit.app L).val.app U) m)) =
       ((meromorphicSectionSheafIsoConstant X N).val.hom.val.app U)

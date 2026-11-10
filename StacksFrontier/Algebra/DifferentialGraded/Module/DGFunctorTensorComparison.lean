@@ -105,8 +105,8 @@ def regularRightMul {M : DifferentialGradedModule.{u, u, u} A} {p : ℤ} (x : M.
 def regularRightMulₗ (M : DifferentialGradedModule.{u, u, u} A) (p : ℤ) :
     M.grading p →ₗ[R] HomogeneousMap A (regularModule A) M p where
   toFun := regularRightMul
-  map_add' x y := Subtype.ext (LinearMap.ext fun b => smul_add _ (x : M.M) y)
-  map_smul' r x := Subtype.ext (LinearMap.ext fun b => smul_comm _ r (x : M.M))
+  map_add' x y := Subtype.ext (LinearMap.ext fun b => smul_add (MulOpposite.op b) (x : M.M) y)
+  map_smul' r x := Subtype.ext (LinearMap.ext fun b => smul_comm (MulOpposite.op b) r (x : M.M))
 
 end DifferentialGradedModule
 
@@ -136,7 +136,7 @@ theorem regularLeftMul_d {n : ℤ} (a : A.grading n) :
   | zero => simp
   | add x y hx hy => simp only [map_add, hx, hy]
   | @homogeneous i x =>
-    show A.d (a : A.A) * x = A.d ((a : A.A) * x) -
+    change A.d (a : A.A) * x = A.d ((a : A.A) * x) -
       DifferentialGraded.gradedSign R n • ((a : A.A) * A.d x)
     rw [A.leibniz n i a x a.property x.property, ← Int.cast_smul_eq_zsmul R,
       DifferentialGraded.intCast_negOnePow]
@@ -190,7 +190,7 @@ multiplication. -/
 def ofDGFunctorRegular : Bimodule A B where
   rightModule := Φ.obj (regularModule A)
   leftAction := ⟨dgFunctorRegularLeftAction Φ, fun n a =>
-    isRightLinearCochain_homogeneousMapToCochain B _ (Φ.map (regularLeftMul a))⟩
+    isRightLinearCochain_homogeneousMapToCochain B _ (n := n) (Φ.map (regularLeftMul a))⟩
 
 /-- The underlying right module of the bimodule `Φ(A)` is `Φ(A)`. -/
 @[simp] theorem ofDGFunctorRegular_rightModule :
@@ -226,7 +226,7 @@ theorem regularRightMul_smul {M : DifferentialGradedModule.{u, u, u} A} {p n : �
   apply Subtype.ext
   apply LinearMap.ext
   intro b
-  show MulOpposite.op b • (MulOpposite.op (a : A.A) • (x : M.M)) =
+  change MulOpposite.op b • (MulOpposite.op (a : A.A) • (x : M.M)) =
     MulOpposite.op ((a : A.A) * b) • (x : M.M)
   rw [MulOpposite.op_mul, mul_smul]
 
@@ -242,7 +242,7 @@ theorem regularRightMul_d {M : DifferentialGradedModule.{u, u, u} A} {p : ℤ} (
   | zero => simp
   | add b c hb hc => simp only [map_add, hb, hc]
   | @homogeneous i b =>
-    show MulOpposite.op (b : A.A) • M.d x = M.d (MulOpposite.op (b : A.A) • (x : M.M)) -
+    change MulOpposite.op (b : A.A) • M.d x = M.d (MulOpposite.op (b : A.A) • (x : M.M)) -
       DifferentialGraded.gradedSign R p • (MulOpposite.op (A.d b) • (x : M.M))
     rw [M.leibniz p i x b x.property b.property, ← Int.cast_smul_eq_zsmul R,
       DifferentialGraded.intCast_negOnePow]
@@ -355,7 +355,7 @@ theorem dgFunctorTensorBilinear_map {M M' : DifferentialGradedModule.{u, u, u} A
   | @homogeneous p x =>
     rw [show u.1 (x : M.M) = ((⟨u.1 x, u.2.1 p x x.property⟩ : M'.grading (p + n)) : M'.M) from rfl,
       dgFunctorTensorBilinear_apply, dgFunctorTensorBilinear_apply, regularRightMul_map]
-    show (Φ.map ((dgCategory A).comp (add_comm n p) u _)).1 y = _
+    change (Φ.map ((dgCategory A).comp (add_comm n p) u _)).1 y = _
     rw [Φ.map_comp]
     rfl
 

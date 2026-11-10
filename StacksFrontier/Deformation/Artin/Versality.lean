@@ -95,7 +95,7 @@ public theorem residueFieldPoint_base_eq (u₀ : U.left) :
       (Spec.map (CommRingCat.ofHom
         (algebraMap (S.presheaf.stalk (basePoint U u₀)) (U.left.residueField u₀))) ≫
         S.fromSpecStalk (basePoint U u₀)) := by
-  show Over.mk (residueFieldBasePoint U u₀) = Over.mk _
+  change Over.mk (residueFieldBasePoint U u₀) = Over.mk _
   congr 1
   exact (Scheme.Spec_stalkClosedPointTo_fromSpecStalk
     (residueFieldBasePoint U u₀)).symm

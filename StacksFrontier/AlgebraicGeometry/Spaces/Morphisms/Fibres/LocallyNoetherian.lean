@@ -253,7 +253,7 @@ private theorem locallyOfFiniteType_toScheme_map_siteHom_comp
   rw [htMap]
   have hfirst : LocallyOfFiniteType
       (Spec.map (((BigFppfOver.toScheme B S hS).map j).residueFieldMap x)) := by
-    show LocallyOfFiniteType
+    change LocallyOfFiniteType
       (Spec (CommRingCat.of (((BigFppfOver.toScheme B S hS).obj A).residueField x)) ↘
         Spec (CommRingCat.of
           (((BigFppfOver.toScheme B S hS).obj p.siteObject).residueField
@@ -323,7 +323,7 @@ private theorem isLocallyNoetherianFiberAt_map_of_locallyOfFiniteType
     apply yonedaEquiv.injective
     simp only [Equiv.apply_symm_apply]
     rfl
-  show HasEtaleLocalProperty B S hS (pullback f (fieldMorphism B S hS Y
+  change HasEtaleLocalProperty B S hS (pullback f (fieldMorphism B S hS Y
     (FieldValuedPoint.map B S hS (yoneda.obj p.siteObject) pY q))) _
   refine hasEtaleLocalProperty_of_iso B S hS _ ?_ hZ₁
   refine Iso.symm ?_
@@ -462,12 +462,12 @@ theorem isLocallyNoetherianFiber_tfae
           qP).value :=
       congrArg (fun k : yoneda.obj A ⟶ Y ↦ k.app (Opposite.op rA.siteObject) rA.value) hlj
     have hqVYFibre : IsLocallyNoetherianFiberAt B S hS f qVY := by
-      show HasEtaleLocalProperty B S hS (pullback f (yonedaEquiv.symm qVY.value)) _
+      change HasEtaleLocalProperty B S hS (pullback f (yonedaEquiv.symm qVY.value)) _
       rw [hqVYvalue]
       exact hqLFibre
     have hβ : fieldMorphism B S hS Y qVY = yoneda.map φ ≫ fieldMorphism B S hS Y q₀ := by
       rw [fieldMorphism_map_yoneda, fieldMorphism_map_yoneda]
-      show yoneda.map qV.value ≫ g = yoneda.map φ ≫ yoneda.map pV.value ≫ g
+      change yoneda.map qV.value ≫ g = yoneda.map φ ≫ yoneda.map pV.value ≫ g
       rw [← hφ', Functor.map_comp, Category.assoc]
     exact isLocallyNoetherianFiberAt_of_factor B S hS hX hY f (p := qVY) φ hβ hqVYFibre
   tfae_finish
@@ -489,7 +489,7 @@ theorem isLocallyNoetherianFiberAt_iff_exists
   obtain ⟨α, hα, -⟩ := FieldValuedPoint.existsUnique_factor_of_class_eq_of_mono B S hS Y hY
     p₀ p (hp₀.trans hp.symm)
   refine isLocallyNoetherianFiberAt_of_factor B S hS hX hY f α ?_ hN
-  show yonedaEquiv.symm p.value = yoneda.map α ≫ yonedaEquiv.symm p₀.value
+  change yonedaEquiv.symm p.value = yoneda.map α ≫ yonedaEquiv.symm p₀.value
   rw [← hα]
   exact (yonedaEquiv_symm_naturality_left α Y p₀.value).symm
 
@@ -534,7 +534,7 @@ theorem isLocallyNoetherianFiberAt_of_isLocallyOfFiniteType
     isAlgebraicSpace_pullback B S hS f (fieldMorphism B S hS Y p) hX hP hY
   have hPNoetherian :
       IsLocallyNoetherian ((BigFppfOver.toScheme B S hS).obj p.siteObject) := by
-    show IsLocallyNoetherian (Spec (CommRingCat.of p.carrier))
+    change IsLocallyNoetherian (Spec (CommRingCat.of p.carrier))
     exact isLocallyNoetherian_Spec.mpr inferInstance
   have hPAtlas : HasEtaleLocalProperty B S hS (yoneda.obj p.siteObject)
       (fun T : Scheme.{u} => IsLocallyNoetherian T) :=

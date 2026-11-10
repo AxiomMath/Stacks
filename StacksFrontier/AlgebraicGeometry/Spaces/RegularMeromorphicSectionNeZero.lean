@@ -79,7 +79,7 @@ theorem isRegularMeromorphicSection_iff_ne_zero
     refine one_ne_zero (show (1 : ↥(RingCat.sectionsSubring
         ((Stacks.SheafOfModules.Tensor.ringSheaf (meromorphicRingedSite B S hS X hX).O).obj))) = 0
       from Subtype.ext (funext fun W => hs W.unop ?_))
-    show (1 : (Stacks.SheafOfModules.Tensor.ringSheaf
+    change (1 : (Stacks.SheafOfModules.Tensor.ringSheaf
         (meromorphicRingedSite B S hS X hX).O).obj.obj W) • s.eval W =
       (0 : (Stacks.SheafOfModules.Tensor.ringSheaf
         (meromorphicRingedSite B S hS X hX).O).obj.obj W) • s.eval W

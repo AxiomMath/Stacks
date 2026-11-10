@@ -29,7 +29,7 @@ and module cases here take them too. They are helper lemmas: the unconditional p
 Stacks 095P apply them with those hypotheses supplied, in
 `StacksFrontier/AlgebraicGeometry/EtaleCohomology/Constructible/SetEssentiallyConstantColimit.lean`
 and
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Constructible/ModuleEssentiallyConstantColimit.lean`.
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.ModuleEssentiallyConstantColimit`.
 In the abelian case Stacks 095N for `ℤ`-modules is supplied here, by
 `AlgebraicGeometry.hasFiniteShriekPresentation_of_isConstructibleModuleSheaf_int`.
 
@@ -159,7 +159,7 @@ ind-object `F_i` is essentially constant with value `F`.
 This is a helper lemma. It is used by the unconditional
 `AlgebraicGeometry.exists_isEssentiallyConstantWith_of_isConstructibleModuleSheaf_colimit`
 (Stacks 095P, part (3)) in
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Constructible/ModuleEssentiallyConstantColimit.lean`,
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.ModuleEssentiallyConstantColimit`,
 which supplies `h095N` by Stacks 095N. -/
 public theorem isEssentiallyConstantWith_of_isConstructibleModuleSheaf_colimit
     (B : BigEtaleSite.{u}) (X : B.Scheme) (R : Type (u + 1)) [CommRing R] [IsNoetherianRing R]

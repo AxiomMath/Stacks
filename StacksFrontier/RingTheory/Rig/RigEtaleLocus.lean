@@ -245,7 +245,7 @@ public theorem finite_h1Cotangent : Module.Finite B (Algebra.H1Cotangent A B) :=
     Algebra.FiniteType.iff_exists_generators.mp (inferInstance : Algebra.FiniteType A B)
   have : IsNoetherianRing B := Algebra.FiniteType.isNoetherianRing A B
   have hring : IsNoetherianRing G.toExtension.Ring := by
-    show IsNoetherianRing (MvPolynomial (Fin n) A); infer_instance
+    change IsNoetherianRing (MvPolynomial (Fin n) A); infer_instance
   have hcot : Module.Finite B G.toExtension.Cotangent :=
     Algebra.Extension.Cotangent.finite (Ideal.fg_of_isNoetherianRing G.toExtension.ker)
   have hH : Module.Finite B G.toExtension.H1Cotangent :=
@@ -345,7 +345,7 @@ private theorem map_le_annihilator_tensor {R S M : Type*} [CommRing R] [CommRing
   induction t with
   | add x y hx hy => simp [smul_add, hx, hy]
   | tmul b m =>
-    show (algebraMap R S s * b) ⊗ₜ[R] m = 0
+    change (algebraMap R S s * b) ⊗ₜ[R] m = 0
     rw [← Algebra.smul_def, TensorProduct.smul_tmul]
     simp [Module.mem_annihilator.mp (hJ hs) m]
 
@@ -493,7 +493,7 @@ public theorem exists_isEtaleOutside_localization_of_isRigEtale_adicCompletionOb
     have hJq : ¬ I.map (algebraMap A B) ≤ q.asIdeal := by
       rw [Ideal.map_le_iff_le_comap]
       exact (notMem_zeroLocus_iff I q).mp hqI
-    obtain ⟨s, hs, hsq⟩ := SetLike.not_le_iff_exists.mp
+    obtain ⟨s, hs, hsq⟩ := IsConcreteLE.not_le_iff_exists.mp
       (fun hle => hJq (Ideal.IsPrime.le_of_pow_le (n := c) hle))
     rw [Algebra.etaleLocus_eq_compl_support]
     exact ⟨notMem_support_of_smul_smul_eq_zero hg₂q hsq (hz₂ s hs),

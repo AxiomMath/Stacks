@@ -192,7 +192,8 @@ local sections of `L^{⊗ n}` land in the degree-`(n + m)` part. The condition i
 *every smaller open*, not only over the open the section lives on, which is what makes it local:
 the restriction of a section satisfying it satisfies it, and a section satisfying it near every
 point satisfies it. The annihilator subsheaf of
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/EtaSheafCohomology.lean` is stated the same way, for
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/EtaSheafCohomology.lean` is stated the same way,
+for
 the same reason, and restriction along the identity is likewise not among the conditions. -/
 private def Situation.RaisesDegree (p : ℕ) (n m : ℤ) {U : (Opens D.X)ᵒᵖ}
     (ω : (D.laurentFormsPushforward (p : ℤ)).val.obj U) : Prop :=

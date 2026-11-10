@@ -202,7 +202,7 @@ theorem map_maximalIdeal_of_isSeparable
     refine Algebra.FormallyUnramified.comp_injective ((maximalIdeal S).map qD)
       (by simp [hI2]) (AlgHom.ext fun x ↦ ?_)
     refine e0.injective ?_
-    show e0 (Ideal.Quotient.mk ((maximalIdeal S).map qD) (qD x)) =
+    change e0 (Ideal.Quotient.mk ((maximalIdeal S).map qD) (qD x)) =
       e0 (Ideal.Quotient.mk _ ((lift.restrictScalars R) (residue S x)))
     rw [show e0 (Ideal.Quotient.mk ((maximalIdeal S).map qD) (qD x)) = residue S x from rfl,
       show Ideal.Quotient.mk ((maximalIdeal S).map qD)
@@ -258,7 +258,7 @@ theorem formallyUnramified_iff_formallyUnramified_adicCompletion
       (algebraMap (ResidueField (AdicCompletion (maximalIdeal A) A))
         (ResidueField (AdicCompletion (maximalIdeal B) B))) eA.toRingHom =
       eB.toRingHom.comp (algebraMap (ResidueField A) (ResidueField B)) := by
-    show (ResidueField.map fc).comp eA.toRingHom = eB.toRingHom.comp (ResidueField.map f)
+    change (ResidueField.map fc).comp eA.toRingHom = eB.toRingHom.comp (ResidueField.map f)
     exact AdicCompletion.residueField_adicCompletionMap_comp f
   refine ⟨fun h ↦ ?_, fun h ↦ ?_⟩
   · have hcrit := (Algebra.FormallyUnramified.iff_map_maximalIdeal_eq (R := A) (S := B)).mp h
@@ -328,7 +328,7 @@ theorem isEtaleLocalHom_iff_isEtaleLocalHom_adicCompletion
   let : Algebra (AdicCompletion (maximalIdeal A) A) (AdicCompletion (maximalIdeal B) B) :=
     fc.toAlgebra
   let : Algebra A B := f.toAlgebra
-  show (f.Flat ∧ f.FormallyUnramified ∧ f.EssFiniteType) ↔
+  change (f.Flat ∧ f.FormallyUnramified ∧ f.EssFiniteType) ↔
     (fc.Flat ∧ fc.FormallyUnramified ∧ fc.EssFiniteType)
   constructor
   · rintro ⟨hflat, hfu, _⟩
@@ -362,7 +362,7 @@ theorem isEtaleLocalHom_adicCompletion_iff_etale_adicCompletion
   let : Algebra (AdicCompletion (maximalIdeal A) A) (AdicCompletion (maximalIdeal B) B) :=
     fc.toAlgebra
   let : Algebra A B := f.toAlgebra
-  show (fc.Flat ∧ Algebra.FormallyUnramified _ _ ∧ Algebra.EssFiniteType _ _) ↔
+  change (fc.Flat ∧ Algebra.FormallyUnramified _ _ ∧ Algebra.EssFiniteType _ _) ↔
     Algebra.Etale _ _
   constructor
   · rintro ⟨hflat, hfu, _⟩

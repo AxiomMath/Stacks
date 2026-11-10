@@ -65,7 +65,7 @@ theorem mem_imageSubmodule_iff_of_mono [Abelian (_root_.SheafOfModules.{t} R)] (
   have hcomp : fam.Compatible := by
     intro V₁ V₂ W g₁ g₂ f₁ f₂ h₁ h₂ hc
     apply hinj (op W)
-    show f.val.app (op W) (M.val.map g₁.op (fam f₁ h₁)) =
+    change f.val.app (op W) (M.val.map g₁.op (fam f₁ h₁)) =
       f.val.app (op W) (M.val.map g₂.op (fam f₂ h₂))
     rw [PresheafOfModules.naturality_apply f.val g₁.op (fam f₁ h₁),
       PresheafOfModules.naturality_apply f.val g₂.op (fam f₂ h₂),
@@ -78,7 +78,7 @@ theorem mem_imageSubmodule_iff_of_mono [Abelian (_root_.SheafOfModules.{t} R)] (
     fun V g hg => hsh.valid_glue hcomp g hg
   refine ⟨y, ?_⟩
   refine (isSheaf_forget N T hs).isSeparatedFor.ext fun V g hg => ?_
-  show N.val.map g.op (f.val.app (op X) y) = N.val.map g.op s
+  change N.val.map g.op (f.val.app (op X) y) = N.val.map g.op s
   refine (PresheafOfModules.naturality_apply f.val g.op y).symm.trans ?_
   rw [hy V g hg, hspec V g hg]
 
@@ -166,7 +166,7 @@ theorem imageSubmodule_idealMultipleι_obj_of_isAffine (M : Modules.{u, u} B (Sp
     Submodule.map_span]
   refine le_antisymm (Submodule.span_le.2 ?_) ?_
   · rintro _ ⟨_, ⟨a, ha, s, rfl⟩, rfl⟩
-    show (ι.val.app (op U)) ((idealMultipleFactor _ M J ha).val.app (op U) s) ∈ _
+    change (ι.val.app (op U)) ((idealMultipleFactor _ M J ha).val.app (op U) s) ∈ _
     rw [idealMultipleFactor_ι_app]
     exact Submodule.smul_mem_smul (Ideal.mem_map_of_mem _ ha) Submodule.mem_top
   · refine Submodule.smul_le.2 fun b hb s _ => ?_
@@ -187,7 +187,7 @@ theorem map_le_baseIdealSheaf_obj (I : Ideal A) (U : SmallEtale B (Spec (.of A))
     (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf
       (smallEtaleRingedSite B (Spec (.of A)) hA X hX).O)) I ha U
     (1 : chartRing B (Spec (.of A)) hA X hX U)
-  show specBaseChartHom X hX U a ∈ (baseIdealSubmodule X hX I).obj (op U)
+  change specBaseChartHom X hX U a ∈ (baseIdealSubmodule X hX I).obj (op U)
   have h1 : specBaseChartHom X hX U a • (1 : chartRing B (Spec (.of A)) hA X hX U) =
       specBaseChartHom X hX U a := mul_one _
   exact (h2.trans h1) ▸ h
@@ -203,7 +203,7 @@ theorem chartIdeal_baseIdealSubmodule_of_isAffine (I : Ideal A)
     (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf
       (smallEtaleRingedSite B (Spec (.of A)) hA X hX).O))
     (SheafOfModules.isQuasicoherentOnSite_unit _) I U hU
-  show (baseIdealSubmodule X hX I).obj (op U) = _
+  change (baseIdealSubmodule X hX I).obj (op U) = _
   refine h.trans ?_
   exact (Ideal.smul_eq_mul _ _).trans (Ideal.mul_top _)
 

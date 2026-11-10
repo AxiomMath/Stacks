@@ -249,7 +249,7 @@ theorem isIso_inverseImageRestrictScalarsHom :
       intro U hy
       apply AddCommGrpCat.hom_ext
       ext m
-      show t (inverseImageStalkHom f A ρM y
+      change t (inverseImageStalkHom f A ρM y
           ((TopCat.Presheaf.germ ρM.val.presheaf U (f y) hy).hom m)) =
         inverseImageStalkHom f B M y
           ((TopCat.Presheaf.germ M.val.presheaf U (f y) hy).hom m)

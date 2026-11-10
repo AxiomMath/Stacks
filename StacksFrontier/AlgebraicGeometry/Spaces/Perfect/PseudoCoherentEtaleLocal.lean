@@ -67,7 +67,7 @@ theorem isPseudoCoherentFrom_of_forall_etale {ι : Type*} (Y : ι → AlgebraicS
     CostructuredArrow.w m''.hom
   let gx : Wx ⟶ U := ObjectProperty.homMk (CostructuredArrow.homMk
     ((SmallEtale.toOver B S hS (Y i).1).map m'' ≫ p) (by
-      show yoneda.map (_ ≫ p) ≫ U.1.hom = W''.1.hom ≫ (f i).hom
+      change yoneda.map (_ ≫ p) ≫ U.1.hom = W''.1.hom ≫ (f i).hom
       rw [Functor.map_comp, Category.assoc, hp, ← Category.assoc, hm''w]))
   have hc : chartToSpace B S hS (Y i) W'' ≫ f i = chartToSpace B S hS X Wx := rfl
   refine ⟨Wx, gx, Sieve.le_generate R _ _ ?_, ?_⟩
@@ -77,7 +77,7 @@ theorem isPseudoCoherentFrom_of_forall_etale {ι : Type*} (Y : ι → AlgebraicS
     exact ⟨P, hP, hb, φ ≫ e.hom, DerivedCategory.ApproximatesFrom.comp_iso φ e m ⟨hiso, hepi⟩⟩
   · refine ⟨(BigFppfOver.toScheme B S hS).map ((SmallEtale.toOver B S hS (Y i).1).map m') w',
       ?_⟩
-    show (BigFppfOver.toScheme B S hS).map
+    change (BigFppfOver.toScheme B S hS).map
       ((SmallEtale.toOver B S hS (Y i).1).map m'' ≫ p) _ = _
     rw [← hw, ← hw', Functor.map_comp, Functor.map_comp, Functor.map_comp,
       Scheme.Hom.comp_apply, Scheme.Hom.comp_apply]

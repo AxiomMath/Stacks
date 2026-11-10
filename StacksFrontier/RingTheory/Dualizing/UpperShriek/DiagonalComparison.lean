@@ -42,7 +42,8 @@ isomorphism `i_*(G ⊗ᴸ_B Ext Y) ≅ i_*G ⊗ᴸ_A Y` of the projection formul
 Nothing else is assumed: in particular no K-flatness, no Tor-amplitude bound and no choice of
 representative, all of which the proof below avoids by working through the two adjunctions alone.
 
-`StacksFrontier.RingTheory.Dualizing.UpperShriek.DiagonalComparisonBridge` relates this hypothesis to
+`StacksFrontier.RingTheory.Dualizing.UpperShriek.DiagonalComparisonBridge` relates this hypothesis
+to
 the compatibility of the projection formula with the counit of [stacks 0GMT] named in
 `StacksFrontier.RingTheory.Dualizing.UpperShriek.ProjectionFormulaCounit`,
 `Dualizing.ProjectionFormula.ProjCounitCompat`.  The relation is an implication and not an

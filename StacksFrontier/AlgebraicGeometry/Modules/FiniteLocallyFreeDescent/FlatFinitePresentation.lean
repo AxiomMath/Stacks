@@ -278,7 +278,7 @@ theorem isFlat_of_isFiniteLocallyFree {X : Scheme.{u}} (F : X.Modules)
     LocallyFreeRank.instModuleStalkF (X : TopCat.{u}) X.sheaf F x
   have : Module.Free (ToType (TopCat.Presheaf.stalk X.sheaf.obj x))
       (ToType (TopCat.Presheaf.stalk F.val.presheaf x)) := free_stalk_of_isLocallyFreeData F q hq x
-  show Module.Flat (ToType (TopCat.Presheaf.stalk X.sheaf.obj x))
+  change Module.Flat (ToType (TopCat.Presheaf.stalk X.sheaf.obj x))
     (ToType (TopCat.Presheaf.stalk F.val.presheaf x))
   exact Module.Flat.of_free
 

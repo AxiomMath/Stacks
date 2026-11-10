@@ -79,8 +79,8 @@ which are quasi-affine and **not affine** whenever `f` is not affine. Producing 
 that is not a pullback *is* the content of Tag 01PW.
 
 *Part (1)* is not proved here. Its proof needs Tag 01PW for a **module-valued** `F`, which the
-premise above does not give, together with two comparison isomorphisms. The four missing ingredients,
-stated so that they can be built:
+premise above does not give, together with two comparison isomorphisms. The four missing
+ingredients, stated so that they can be built:
 
 * `Tag 01PW surjectivity, module-valued`: for `X` quasi-compact and quasi-separated, `N` and `F`
   invertible `𝒪_X`-modules, `σ : Γ(N, ⊤)` and a section `s` of `F` over the nonvanishing open
@@ -123,7 +123,8 @@ does not also need Proposition 28.27.13 and Tag 01Q1, contrary to what
 
 * `../AmplePullback/QuasiAffineUnitIso.lean` says part (2) in general "needs, as in the
   source, part (1)
-  together with Stacks Tag 01PT (`L` is ample if and only if `L ^⊗ n` is, for `n ≥ 1`)". The half of Tag 01PT that
+  together with Stacks Tag 01PT (`L` is ample if and only if `L ^⊗ n` is, for `n ≥ 1`)".
+  The half of Tag 01PT that
   the source's route consumes is **available and unconditional**:
   `Stacks.RelativeVeryAmple.isAmple_of_isAmple_tensorPowModule`
   (`../RelativeVeryAmple/TensorPower.lean`) is exactly `IsAmple X (L ^⊗ d) → IsAmple X L` for

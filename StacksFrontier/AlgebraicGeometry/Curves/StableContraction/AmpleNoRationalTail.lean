@@ -203,7 +203,7 @@ theorem not_isRationalTail_of_isAmple_dualizingSheafOverField (k : Type u) [Fiel
     infer_instance
   have hf : C.subscheme.toSpecΓ ≫ Spec.map (CommRingCat.ofHom (algebraMap k Γ(C.subscheme, ⊤))) =
       fC := by
-    show C.subscheme.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ fC.appTop) = fC
+    change C.subscheme.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso (.of k)).inv ≫ fC.appTop) = fC
     rw [Spec.map_comp, ← Category.assoc, ← Scheme.toSpecΓ_naturality]
     simp
   have hneg := invertibleCurveDegree_eq_neg_of_isRationalTail hdim hC Γ(C.subscheme, ⊤)

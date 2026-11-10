@@ -67,7 +67,7 @@ theorem IsNiceElement.regular_kaehler {h : A} (hh : IsNiceElement A B h) :
   intro ω ω' hω
   apply oneForm_injective A Ω[A⁄ℤ]
   refine hh.regular 1 ?_
-  show h • oneForm A _ ω = h • oneForm A _ ω'
+  change h • oneForm A _ ω = h • oneForm A _ ω'
   rw [← map_smul, ← map_smul]
   exact congrArg _ hω
 
@@ -87,14 +87,13 @@ theorem coordTensor_tmul {ι : Type*} (e : Module.Basis ι A B) (i : ι) (b : B)
 theorem coordTensor_smul {ι : Type*} [Fintype ι] (e : Module.Basis ι A B) (i : ι) (x : B)
     (t : B ⊗[A] Ω[A⁄ℤ]) :
     coordTensor A B e i (x • t) = ∑ j, e.repr (x * e j) i • coordTensor A B e j t := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul b ω =>
     rw [TensorProduct.smul_tmul', smul_eq_mul, coordTensor_tmul]
     simp only [coordTensor_tmul, smul_smul, ← Finset.sum_smul]
     congr 1
     conv_lhs => rw [← e.sum_repr b, Finset.mul_sum]
-    simp only [mul_smul_comm, map_sum, map_smul, Finsupp.coe_finset_sum, Finset.sum_apply,
+    simp only [mul_smul_comm, map_sum, map_smul, Finsupp.coe_finsetSum, Finset.sum_apply,
       Finsupp.smul_apply, smul_eq_mul]
     exact Finset.sum_congr rfl fun j _ => mul_comm _ _
   | add s t hs ht =>
@@ -102,16 +101,17 @@ theorem coordTensor_smul {ι : Type*} [Fintype ι] (e : Module.Basis ι A B) (i 
     simp only [map_add, smul_add]
 
 /-- The trace in coordinates: `Trace(x) = ∑ᵢ cᵢ(x eᵢ)`. -/
-theorem trace_eq_sum_repr {ι : Type*} [Fintype ι] [DecidableEq ι] (e : Module.Basis ι A B)
+theorem trace_eq_sum_repr {ι : Type*} [Fintype ι] (e : Module.Basis ι A B)
     [Module.Finite A B] [Module.Projective A B] (x : B) :
     trace A B x = ∑ i, e.repr (x * e i) i := by
+  classical
   have : Module.Free A B := Module.Free.of_basis e
   rw [trace, LinearMap.comp_apply, Stacks.Discriminant.finiteProjectiveTrace_eq_trace,
     LinearMap.trace_eq_matrix_trace A e, Matrix.trace]
   simp [LinearMap.toMatrix_apply]
 
 /-- The trace contraction `τ : B ⊗_A Ω_A → Ω_A`, `b ⊗ ω ↦ Trace(b) ω`, as `∑ᵢ πᵢ(eᵢ · -)`. -/
-theorem sum_coordTensor_basis_smul_tmul {ι : Type*} [Fintype ι] [DecidableEq ι]
+theorem sum_coordTensor_basis_smul_tmul {ι : Type*} [Fintype ι]
     (e : Module.Basis ι A B) [Module.Finite A B] [Module.Projective A B] (b : B) (ω : Ω[A⁄ℤ]) :
     ∑ i, coordTensor A B e i (e i • (b ⊗ₜ ω)) = trace A B b • ω := by
   rw [trace_eq_sum_repr e, Finset.sum_smul]
@@ -125,7 +125,7 @@ theorem IsNiceElement.coordTensor_eq_zero_of_mem_ker {h : A} (hh : IsNiceElement
     coordTensor A B e i t = 0 := by
   obtain ⟨n, hn⟩ := hh.ker_torsion t ht
   refine (hh.regular_kaehler.pow n) ?_
-  show h ^ n • coordTensor A B e i t = h ^ n • 0
+  change h ^ n • coordTensor A B e i t = h ^ n • 0
   rw [← map_smul, hn, map_zero, smul_zero]
 
 /-- Over a nice element, `h^N d z` lifts to `B ⊗_A Ω_A`. -/
@@ -145,14 +145,13 @@ theorem D_smul_eq (c : A) (z : B) :
   rw [Algebra.smul_def, Derivation.leibniz, KaehlerDifferential.map_D, algebraMap_smul]
 
 /-- `Θ¹ ∘ μ = τ`: property (1) of Lemma 0FLB in degree one, read on `B ⊗_A Ω_A`. -/
-theorem IsFormsTrace.apply_oneForm_mapBaseChange {ι : Type*} [Fintype ι] [DecidableEq ι]
+theorem IsFormsTrace.apply_oneForm_mapBaseChange {ι : Type*} [Fintype ι]
     (e : Module.Basis ι A B) [Module.Finite A B] [Module.Projective A B]
     {Θ : ∀ p : ℕ, ⋀[B]^p Ω[B⁄ℤ] →ₗ[A] ⋀[A]^p Ω[A⁄ℤ]} (hΘ : IsFormsTrace A B Θ)
     (t : B ⊗[A] Ω[A⁄ℤ]) :
     Θ 1 (oneForm B _ (KaehlerDifferential.mapBaseChange ℤ A B t)) =
       oneForm A _ (∑ i, coordTensor A B e i (e i • t)) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero, smul_zero, Finset.sum_const_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul b ω =>
     rw [sum_coordTensor_basis_smul_tmul, KaehlerDifferential.mapBaseChange_tmul, map_smul]
     have : oneForm B Ω[B⁄ℤ] (KaehlerDifferential.map ℤ ℤ A B ω) =
@@ -164,11 +163,12 @@ theorem IsFormsTrace.apply_oneForm_mapBaseChange {ι : Type*} [Fintype ι] [Deci
 
 /-- **The degree-one compatibility** `Θ¹(d b) = d Trace(b)` over a nice element, for a finite
 free algebra. -/
-theorem IsFormsTrace.degreeOneD_of_isNiceElement {ι : Type*} [Fintype ι]
+theorem IsFormsTrace.degreeOneD_of_isNiceElement {ι : Type*} [Finite ι]
     (e : Module.Basis ι A B) [Module.Finite A B] [Module.Projective A B] {h : A}
     (hh : IsNiceElement A B h) {Θ : ∀ p : ℕ, ⋀[B]^p Ω[B⁄ℤ] →ₗ[A] ⋀[A]^p Ω[A⁄ℤ]}
     (hΘ : IsFormsTrace A B Θ) : DegreeOneD Θ := by
   classical
+  have := Fintype.ofFinite ι
   obtain ⟨N, hN⟩ := hh.pow_smul_kaehler
   choose lam hlam using exists_mapBaseChange_eq_pow_smul_D hN
   set μ := KaehlerDifferential.mapBaseChange ℤ A B
@@ -186,16 +186,16 @@ theorem IsFormsTrace.degreeOneD_of_isNiceElement {ι : Type*} [Fintype ι]
       conv_rhs => rw [← e.sum_repr (x * e i)]
       simp only [T, map_sum, Finset.smul_sum]
       refine Finset.sum_congr rfl fun j _ => ?_
-      show μ (c j • lam (e j) + _) = h ^ N • D ℤ B (c j • e j)
+      change μ (c j • lam (e j) + _) = h ^ N • D ℤ B (c j • e j)
       rw [map_add, μ.map_smul_of_tower, hlam, KaehlerDifferential.mapBaseChange_tmul, map_smul,
         D_smul_eq, smul_add, smul_comm (h ^ N) (c j), smul_comm (h ^ N) (e j)]
     have := hker (lam (x * e i)) T (by rw [hlam, hT']) i
     rw [this, map_sum]
     simp only [map_add, map_smul, Finset.sum_add_distrib]
     congr 1
-    show ∑ j, coordTensor A B e i (e j ⊗ₜ (h ^ N • D ℤ A (c j))) = _
+    change ∑ j, coordTensor A B e i (e j ⊗ₜ (h ^ N • D ℤ A (c j))) = _
     simp only [coordTensor_tmul, e.repr_self, Finsupp.single_apply, ite_smul, one_smul,
-      zero_smul, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      zero_smul, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   -- the Leibniz rule for `x eᵢ`
   have keyB : ∀ (x : B) (i : ι), π i (lam (x * e i)) =
       ∑ j, e.repr (x * e j) i • π j (lam (e i)) + π i (e i • lam x) := by
@@ -217,7 +217,7 @@ theorem IsFormsTrace.degreeOneD_of_isNiceElement {ι : Type*} [Fintype ι]
       trace_eq_sum_repr e, map_sum, Finset.smul_sum]
     abel
   refine ((hh.regular 1).pow N) ?_
-  show h ^ N • Θ 1 (oneForm B _ (D ℤ B x)) = h ^ N • oneForm A _ (D ℤ A (trace A B x))
+  change h ^ N • Θ 1 (oneForm B _ (D ℤ B x)) = h ^ N • oneForm A _ (D ℤ A (trace A B x))
   rw [← map_smul (Θ 1), ← LinearMap.map_smul_of_tower (oneForm B _), ← hlam,
     hΘ.apply_oneForm_mapBaseChange e, hτ, map_smul]
 

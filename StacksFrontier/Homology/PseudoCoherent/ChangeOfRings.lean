@@ -106,7 +106,7 @@ theorem extensionScalars_preserves_pseudoCoherent
     intro N hfinite hfree
     have := hfinite
     have := hfree
-    show Module.Finite B (TensorProduct A B N) ∧ Module.Free B (TensorProduct A B N)
+    change Module.Finite B (TensorProduct A B N) ∧ Module.Free B (TensorProduct A B N)
     exact ⟨inferInstance, inferInstance⟩
   have h := exactFunctor_preserves_pseudoCoherent F hF
     ((DerivedCategory.singleFunctor (ModuleCat.{w} A) 0).obj M)
@@ -132,7 +132,8 @@ short complexes to exact short complexes: on underlying functions nothing change
 theorem restrictScalars_shortComplex_exact {A : Type u} {B : Type v} [Ring A] [Ring B]
     (f : A →+* B) (S : ShortComplex (ModuleCat.{w} B)) (hS : S.Exact) :
     (S.map (ModuleCat.restrictScalars.{w} f)).Exact := by
-  rwa [ShortComplex.ShortExact.moduleCat_exact_iff_function_exact] at hS ⊢
+  rw [ShortComplex.ShortExact.moduleCat_exact_iff_function_exact] at hS ⊢
+  exact hS
 
 /-- Restriction of scalars along a homomorphism of possibly noncommutative rings preserves finite
 limits. Mathlib provides this only for commutative rings. -/
@@ -205,7 +206,7 @@ private lemma modulePseudoCoherent_power {R : Type u} [Ring R]
   intro N hfin hfree
   have := hfin
   have := hfree
-  show Module.Finite R (ι → N) ∧ Module.Free R (ι → N)
+  change Module.Finite R (ι → N) ∧ Module.Free R (ι → N)
   exact ⟨inferInstance, inferInstance⟩
 
 /-- If `B` is pseudo-coherent as an `A`-module, then so is every finite free `B`-module: choose a
@@ -380,7 +381,7 @@ private lemma pseudoCoherentFrom_restrictScalars
   apply _root_.PseudoCoherence.isPseudoCoherent_of_distinguished_two m
     (F.mapDerivedCategory.mapTriangle.obj T) (F.mapDerivedCategory.map_distinguished T hT)
   · exact pseudoCoherent_restrictScalars_of_finiteFree f hB E hE m
-  · show IsPseudoCoherentFrom (F.mapDerivedCategory.obj C) m
+  · change IsPseudoCoherentFrom (F.mapDerivedCategory.obj C) m
     have := mapDerivedCategory_isLE F C (m - 1)
     exact isPseudoCoherentFrom_of_isLE _ m
 

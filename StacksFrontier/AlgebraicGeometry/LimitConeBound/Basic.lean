@@ -195,7 +195,7 @@ def structHom (T : Finset (Type u)) : vertexRing.{u} →+* stageRing.{u} T :=
 theorem stageHom_comp_structHom {T T' : Finset (Type u)} (h : T ≤ T') :
     (stageHom h).comp (structHom T) = structHom T' := by
   refine RingHom.ext fun z => (stageRingEquiv T').injective (funext fun U => ?_)
-  show stageRingEquiv T' (stageHom h (structHom T z)) U = stageRingEquiv T' (structHom T' z) U
+  change stageRingEquiv T' (stageHom h (structHom T z)) U = stageRingEquiv T' (structHom T' z) U
   rw [stageRingEquiv_stageHom, stageRingEquiv_structHom, stageRingEquiv_structHom]
 
 /-- The structure morphisms of the system, over the spectrum of `ZMod 2`. -/

@@ -59,9 +59,9 @@ theorem isZero_rightDerived_one_pushforward_of_lift
   have h0 := congrArg (fun φ => φ.app (op V') i)
     (Stacks.Cohomology.RightDerivedDeltaOne.map_g_comp_deltaOne hS Q)
   simp only [NatTrans.comp_app, NatTrans.app_zero] at h0
-  show _ = _
+  change _ = _
   rw [map_zero, ← NatTrans.naturality_apply δ g.op c]
-  show δ.app (op V') (S.X₃.obj.map (u.map g).op c) = 0
+  change δ.app (op V') (S.X₃.obj.map (u.map g).op c) = 0
   rw [← hi]
   exact h0.trans (by rfl)
 

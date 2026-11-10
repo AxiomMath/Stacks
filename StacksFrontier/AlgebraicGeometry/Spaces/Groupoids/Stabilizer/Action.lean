@@ -86,12 +86,12 @@ theorem stabilizerArrowHom_unit (G : GroupoidInAlgebraicSpaces C S hS B) :
       (stabilizerArrowHom_composable G f g) = stabilizerArrowHom G g :=
     (stabilizerArrowHom_mul G f g).symm.trans (congrArg (stabilizerArrowHom G) hmul)
   have hid : identityAfterSource G (stabilizerArrowHom G f) = stabilizerArrowHom G g := by
-    show stabilizerArrowHom G f ≫ G.source.hom ≫ (identityArrow G).hom = _
+    change stabilizerArrowHom G f ≫ G.source.hom ≫ (identityArrow G).hom = _
     calc
       _ = T.hom ≫ (identityArrow G).hom :=
         congrArg (fun q => q ≫ (identityArrow G).hom) (stabilizerArrowHom_source G f)
       _ = stabilizerArrowHom G g := by
-        show T.hom ≫ (identityArrow G).hom = stabilizerArrowHom G (𝟙 T ≫ stabilizerOne G)
+        change T.hom ≫ (identityArrow G).hom = stabilizerArrowHom G (𝟙 T ≫ stabilizerOne G)
         exact (stabilizerArrowHom_one G (𝟙 T)).symm
   have hright : groupoidCompose G (stabilizerArrowHom G f)
       (stabilizerArrowHom G g) (stabilizerArrowHom_composable G f g) =
@@ -144,17 +144,17 @@ theorem stabilizerActionMap_apply (G : GroupoidInAlgebraicSpaces C S hS B)
     (fst (stabilizer G) (arrowsOverTarget G)) (snd (stabilizer G) (arrowsOverTarget G))
   let k : T.left ⟶ P.left := (lift g r).left
   have ha : k ≫ a = stabilizerArrowHom G g := by
-    show (lift g r).left ≫
+    change (lift g r).left ≫
       (fst (stabilizer G) (arrowsOverTarget G)).left ≫ stabilizerArrow G = _
     exact congrArg (fun z => z ≫ stabilizerArrow G)
       (congrArg Over.Hom.left (lift_fst g r))
   have hb : k ≫ b = r.left := by
-    show (lift g r).left ≫ (snd (stabilizer G) (arrowsOverTarget G)).left = _
+    change (lift g r).left ≫ (snd (stabilizer G) (arrowsOverTarget G)).left = _
     exact congrArg Over.Hom.left (lift_snd g r)
   have hw := stabilizerArrowHom_arrowOverTarget_composable G g r
-  show (lift g r).left ≫ (stabilizerActionMap G).left = _
+  change (lift g r).left ≫ (stabilizerActionMap G).left = _
   rw [show (stabilizerActionMap G).left = groupoidCompose G a b w from rfl]
-  show k ≫ groupoidCompose G a b w = _
+  change k ≫ groupoidCompose G a b w = _
   calc
     _ = groupoidCompose G (k ≫ a) (k ≫ b)
         (by

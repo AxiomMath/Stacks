@@ -148,7 +148,7 @@ the image of the closed immersion. -/
 private theorem range_closedComplementInclusion :
     Set.range (B.inclusion.map (closedComplementInclusion B i)).base =
       (Set.range (B.inclusion.map i).base)ᶜ := by
-  show Set.range (closedComplementOpen B i).ι.base = _
+  change Set.range (closedComplementOpen B i).ι.base = _
   rw [Scheme.Opens.range_ι]
   rfl
 
@@ -159,7 +159,7 @@ private theorem exists_geometricPoint_complement (s : GeometricPoint X.obj)
     ∃ t : GeometricPoint (closedComplement B i).obj,
       t.map (B.inclusion.map (closedComplementInclusion B i)) = s := by
   have : IsOpenImmersion (B.inclusion.map (closedComplementInclusion B i)) := by
-    show IsOpenImmersion (closedComplementOpen B i).ι
+    change IsOpenImmersion (closedComplementOpen B i).ι
     infer_instance
   have hrange : Set.range s.hom.base ⊆
       Set.range (B.inclusion.map (closedComplementInclusion B i)).base := by

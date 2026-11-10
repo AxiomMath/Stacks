@@ -139,7 +139,7 @@ theorem openGrChartMap_smul (n : ℕ) (r : Γ(X, V)) (a b : ↥(chartIdeal i V ^
           openSectionEquiv U V hVU r) •
         openPowerEquiv i U hsub hcl V hVU n a := by
     refine Subtype.ext ?_
-    show openSectionEquiv U V hVU ((r • a : ↥(chartIdeal i V ^ n)) : Γ(X, V)) =
+    change openSectionEquiv U V hVU ((r • a : ↥(chartIdeal i V ^ n)) : Γ(X, V)) =
       openSectionEquiv U V hVU r * openSectionEquiv U V hVU (a : Γ(X, V))
     rw [SetLike.val_smul, smul_eq_mul, map_mul]
   rw [openGrChartMap_apply, openGrChartMap_apply, hp,
@@ -246,7 +246,7 @@ theorem conormalIsoGrPullback_one (W : Z.Opens) :
 chartwise comparison. -/
 theorem conormalIsoGrPullback_hom_app_app (n : ℤ) (V : InnerChart U) :
     ((conormalIsoGrPullback i U hsub hcl).hom.app n).val.app (op (i ⁻¹ᵁ V.1.1)) =
-      (chartCompareIsoInt i U hsub (conormalChartPresentation i U hsub hcl)
+      (chartCompareIsoInt i U (conormalChartPresentation i U hsub hcl)
         (openGrChartPresentation i U hsub hcl) V.1 V.2 n).hom :=
   gradedAlgebraIsoOfChartPresentations_hom_app_app i U hsub _ _ n V
 

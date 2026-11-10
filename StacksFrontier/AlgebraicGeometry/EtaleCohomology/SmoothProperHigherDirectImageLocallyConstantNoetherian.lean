@@ -102,9 +102,9 @@ public theorem bijective_specializationMapOnStalks_of_forget {s : GeometricPoint
       ConcreteCategory.congr_hom (ι_comp_specializationMapOnStalks σ (P ⋙ F)
         (Functor.elementsMk (geometricPointFiber B S hS s) U x)) c
     simp only [ConcreteCategory.comp_apply] at h1 h2
-    show specializationMapOnStalks σ P (es.hom _) = et.hom _
+    change specializationMapOnStalks σ P (es.hom _) = et.hom _
     rw [h3]
-    show specializationMapOnStalks σ P
+    change specializationMapOnStalks σ P
         (((geometricPointSitePoint B S hS s).presheafFiberCompIso F).hom.app P _) =
       ((geometricPointSitePoint B S hS σ.target).presheafFiberCompIso F).hom.app P _
     rw [h1, h2]

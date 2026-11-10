@@ -117,12 +117,12 @@ theorem actMap_comp_twistPowAddIso {m : ℕ} (t : twistSections F L m) (d : ℕ)
   induction d with
   | zero =>
       rw [twistPowAddIso_zero, actMap_zero]
-      show t ≫ (ρ_ (twistPow F L m)).inv = (λ_ (𝟙_ C : C)).inv ≫ t ▷ (𝟙_ C : C)
+      change t ≫ (ρ_ (twistPow F L m)).inv = (λ_ (𝟙_ C : C)).inv ≫ t ▷ (𝟙_ C : C)
       rw [MonoidalCategory.whiskerRight_id, ← MonoidalCategory.unitors_equal]
       simp
   | succ d ih =>
       rw [twistPowAddIso_succ, actMap_succ, Iso.trans_hom, whiskerRightIso_hom]
-      show actMap t d ▷ L ≫ (twistPowAddIso F L m d).hom ▷ L ≫
+      change actMap t d ▷ L ≫ (twistPowAddIso F L m d).hom ▷ L ≫
           (α_ (twistPow F L m) (natTensorPow L d) L).hom =
         (λ_ (natTensorPow L d ⊗ L)).inv ≫ t ▷ (natTensorPow L d ⊗ L)
       rw [← Category.assoc, ← comp_whiskerRight, ih, comp_whiskerRight, Category.assoc,
@@ -407,7 +407,7 @@ theorem shiftPow_add_eq_actMap {d : ℕ} (s : powSections L d) (u : twistSection
       rw [sectionPow_zero_comp]
       exact (twistCongr_rfl _).symm
   | succ k ih =>
-      show shiftBySection s (shiftPow s (n + k) u) = _
+      change shiftBySection s (shiftPow s (n + k) u) = _
       rw [ih, shiftBySection_eq, actMap_twistCongr, ← Category.assoc, actMap_comp,
         ← Category.assoc, comp_mulMap_sectionPow]
       simp only [twistCongr, Category.assoc, eqToHom_trans]

@@ -112,7 +112,7 @@ theorem natCard_nsmul_id_etaleModules {X : Scheme.{u}} (G : EtaleModules.{u, 0} 
     Nat.card Λ • 𝟙 G = 0 := by
   apply Sheaf.hom_ext
   ext V x
-  show Nat.card Λ • x = 0
+  change Nat.card Λ • x = 0
   rw [← one_smul Λ x, ← smul_assoc, card_nsmul_eq_zero', zero_smul]
 
 /-- **The Fourier transform of a locally free sheaf has no `H⁰`: `H⁰(Φ(F[0])) = 0` for `F`

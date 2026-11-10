@@ -53,13 +53,13 @@ the required `R`.
   site surjecting onto `X`.
 * `AlgebraicGeometry.FormalSpace.satisfiesSetTheoreticCondition_of_countable_atlas`:
   **Stacks 0AIS**, observation (3): a countable atlas gives the set-theoretic condition.
-* `…_of_countable_atlas_of_hasQuasiCompactDiagonal`: the same statement with the source's
-  hypothesis on the diagonal, which the proof does not need.
+* `…_of_countable_atlas_of_hasQuasiCompactDiagonal`: the same statement; the source's
+  hypothesis on the diagonal, which the proof does not need, has been dropped from it.
 
 ## Implementation notes
 
-The source's hypothesis on the diagonal is kept in
-`…_of_hasQuasiCompactDiagonal`, where it is spelled as quasi-separatedness of the structure
+The source's hypothesis on the diagonal is not needed, and is taken nowhere; it would be
+spelled as quasi-separatedness of the structure
 morphism of `X` in the sense of Stacks 0ARN part (2),
 `AlgebraicGeometry.FormalSpace.HasQuasiCompactDiagonal` applied to the morphism from `X` to the
 terminal object of the category of fppf sheaves on the big fppf site of `S`, whose relative
@@ -141,14 +141,14 @@ private theorem epi_desc_cofan_of_epi {C : Type*} [Category C] {I : Type*} {P Y 
     (g : ∀ i, Y i ⟶ X) [Epi (Sigma.desc g)] {c : Cofan P} (hc : IsColimit c) :
     Epi (hc.desc (Cofan.mk X fun i ↦ b i ≫ g i)) := by
   let m : (∐ P) ⟶ ∐ Y := Sigma.desc fun i ↦ b i ≫ Sigma.ι Y i
-  have hm : ∀ i, Sigma.ι P i ≫ m = b i ≫ Sigma.ι Y i := fun i ↦ Sigma.ι_desc _ _
+  have hm : ∀ i, Sigma.ι P i ≫ m = b i ≫ Sigma.ι Y i := fun i ↦ Sigma.ι_comp_desc _ _
   have hmap : Epi m := by
     refine ⟨fun v w hvw ↦ Sigma.hom_ext _ _ fun i ↦ (cancel_epi (b i)).mp ?_⟩
     rw [← Category.assoc, ← Category.assoc, ← hm i, Category.assoc, Category.assoc, hvw]
   have hdesc : Epi (Sigma.desc fun i ↦ b i ≫ g i) := by
     have hfac : (Sigma.desc fun i ↦ b i ≫ g i) = m ≫ Sigma.desc g := by
       refine Sigma.hom_ext _ _ fun i ↦ ?_
-      rw [Sigma.ι_desc, ← Category.assoc, hm i, Category.assoc, Sigma.ι_desc]
+      rw [Sigma.ι_comp_desc, ← Category.assoc, hm i, Category.assoc, Sigma.ι_comp_desc]
     rw [hfac]
     exact epi_comp _ _
   let e := (coproductIsCoproduct P).coconePointUniqueUpToIso hc
@@ -156,7 +156,7 @@ private theorem epi_desc_cofan_of_epi {C : Type*} [Category C] {I : Type*} {P Y 
     refine Sigma.hom_ext _ _ fun i ↦ ?_
     have hi : Sigma.ι P i ≫ e.hom = c.ι.app ⟨i⟩ :=
       IsColimit.comp_coconePointUniqueUpToIso_hom (coproductIsCoproduct P) hc (Discrete.mk i)
-    rw [← Category.assoc, hi, Sigma.ι_desc]
+    rw [← Category.assoc, hi, Sigma.ι_comp_desc]
     exact hc.fac (Cofan.mk X fun i ↦ b i ≫ g i) (Discrete.mk i)
   have : Epi (e.hom ≫ hc.desc (Cofan.mk X fun i ↦ b i ≫ g i)) := by rw [het]; exact hdesc
   exact epi_of_epi e.hom _
@@ -300,7 +300,7 @@ public theorem isLocallySurjective_of_surjective_etale_uliftYoneda
     (hs.property_snd ξ) (he.property ξ (hs.rep.fst ξ) q (hs.rep.isPullback ξ))
   have hcover : Sieve.generate (Presieve.singleton q) ∈
       BigFppfOver.topology B S hS T := by
-    show Sieve.generate (Presieve.singleton q) ∈ B.topology.over (B.obj hS) T
+    change Sieve.generate (Presieve.singleton q) ∈ B.topology.over (B.obj hS) T
     rw [B.topology.mem_over_iff, Sieve.overEquiv_generate,
       ← Sieve.arrows_generate_map_eq_functorPushforward, Sieve.generate_sieve,
       Presieve.map_singleton]
@@ -324,7 +324,8 @@ A `private` declaration with this name, statement and content also exists in
 `StacksFrontier/AlgebraicGeometry/FormalSpace/SectionsDoNotSeparatePoints.lean`.
 
 The file-private form of `isLocallySurjective_of_surjective_etale_uliftYoneda`. -/
-private alias isLocallySurjective_of_surjective_etale := isLocallySurjective_of_surjective_etale_uliftYoneda
+private alias isLocallySurjective_of_surjective_etale :=
+    isLocallySurjective_of_surjective_etale_uliftYoneda
 
 /-- **An algebraic space over `S` receives a surjection of fppf sheaves from an object of the
 site.** This is the étale scheme atlas of the definition of an algebraic space (Stacks 025Y),
@@ -455,7 +456,7 @@ theorem satisfiesSetTheoreticCondition_of_countable_atlas (X : FppfSheaf B S hS)
       pullback.snd t (f i) ≫ Sigma.ι Xi i) (by rw [(hc i).w]; simp),
       hÊ.lift_fst _ _ _, ?_⟩
     refine IsPullback.of_right ?_ ?_ hÊ
-    · rw [hÊ.lift_fst, Sigma.ι_desc]
+    · rw [hÊ.lift_fst, Sigma.ι_comp_desc]
       exact hc i
     · rw [hÊ.lift_snd]
       simp
@@ -468,12 +469,12 @@ theorem satisfiesSetTheoreticCondition_of_countable_atlas (X : FppfSheaf B S hS)
     have heq : Sigma.desc c =
         (Sigma.desc c') ≫ pullback.fst (pullback.fst t t ≫ t) (Sigma.desc f) := by
       refine Sigma.hom_ext _ _ fun i ↦ ?_
-      rw [Sigma.ι_desc, ← Category.assoc, Sigma.ι_desc, hc'fac i]
+      rw [Sigma.ι_comp_desc, ← Category.assoc, Sigma.ι_comp_desc, hc'fac i]
     have hiso : Sigma.desc c' = ((coproductIsCoproduct fun i ↦
         pullback (pullback.snd t (f i)) (pullback.snd t (f i))).coconePointUniqueUpToIso
           hcofan).hom := by
       refine Sigma.hom_ext _ _ fun i ↦ ?_
-      rw [Sigma.ι_desc]
+      rw [Sigma.ι_comp_desc]
       exact (IsColimit.comp_coconePointUniqueUpToIso_hom
         (coproductIsCoproduct fun i ↦ pullback (pullback.snd t (f i)) (pullback.snd t (f i)))
         hcofan (Discrete.mk i)).symm
@@ -498,10 +499,11 @@ theorem satisfiesSetTheoreticCondition_of_countable_atlas (X : FppfSheaf B S hS)
     ⟨J.uliftYonedaCompSheafToPresheaf.{u + 1}.app U⟩,
     ⟨J.uliftYonedaCompSheafToPresheaf.{u + 1}.app (BigFppfOver.sigmaObj B S hS R)⟩, t, ht,
     _, epi_desc_cofan_of_epi α c hLift⟩
-/-- **Stacks 0AIS, observation (3), as the source states it.** Let `{Xᵢ ⟶ X}` be a family of
-maps of fppf sheaves over `S` satisfying conditions (1), (2) and (3) of Definition 0AIM with a
-*countable* index, and let the diagonal of `X` be quasi-compact, that is, let `X` be
-quasi-separated over `S`. Then `X` satisfies the set-theoretic condition of Stacks 0AIS.
+/-- **Stacks 0AIS, observation (3), without the source's diagonal hypothesis.** Let
+`{Xᵢ ⟶ X}` be a family of maps of fppf sheaves over `S` satisfying conditions (1), (2) and
+(3) of Definition 0AIM with a *countable* index. Then `X` satisfies the set-theoretic
+condition of Stacks 0AIS. The source also asks the diagonal of `X` to be quasi-compact, that
+is, `X` to be quasi-separated over `S`; that hypothesis is unused and is not taken here.
 
 Quasi-separatedness of `X` over `S` is quasi-compactness of the relative diagonal of its
 structure morphism in the sense of Stacks 0ARN part (2), the structure morphism being the
@@ -517,8 +519,7 @@ the definition of an algebraic space. -/
 @[stacks 0AIS "observation (3), the source's quasi-compact diagonal"]
 theorem satisfiesSetTheoreticCondition_of_countable_atlas_of_hasQuasiCompactDiagonal
     (X : FppfSheaf B S hS) {I : Type (u + 1)} [Countable I] (Xi : I → FppfSheaf B S hS)
-    (f : ∀ i, Xi i ⟶ X) (hatlas : IsFormalAtlas B S hS X Xi f)
-    (hdiag : HasQuasiCompactDiagonal B S hS (terminal.from X)) :
+    (f : ∀ i, Xi i ⟶ X) (hatlas : IsFormalAtlas B S hS X Xi f) :
     SatisfiesSetTheoreticCondition B S hS X :=
   satisfiesSetTheoreticCondition_of_countable_atlas B S hS X Xi f hatlas
 

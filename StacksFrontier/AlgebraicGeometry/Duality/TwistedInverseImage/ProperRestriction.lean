@@ -154,7 +154,7 @@ theorem exists_comp_eq_zero_twistedInverseImage_of_isPseudoCoherent (sq : IsPull
           (ProjectionFormulaLocallySmall.natTrans f c.obj).app I.obj))
     have : IsIso (ιY.map (π.app I)) := this
     exact isIso_of_reflects_iso _ ιY
-  simp only [Category.assoc, Iso.hom_inv_id_assoc] at hz
+  simp only [Iso.hom_inv_id_assoc] at hz
   refine ⟨Φ.obj I, Φ.map u ≫ θ.hom, ?_, adj.comp_eq_zero_of_natTrans π u θ.hom g hz⟩
   have h3 := ProjectionFormulaLocallySmall.isIso_derivedRestrict_tensor_pullback_map f sq c.obj
     (ιY.map u) hu

@@ -63,7 +63,7 @@ theorem map_homEquiv_symm_comp_counit (γL : Lf ⋙ Lw ⟶ Lj ⋙ Lv) (H : D₁)
     adjj.counit.naturality m
   rw [homEquiv_counit, Functor.map_comp, Functor.map_comp, Functor.map_comp, Category.assoc,
     Category.assoc, h1, ← Category.assoc]
-  show (Lw.map (Lf.map (Rj.map m)) ≫ γL.app (Rj.obj (Rv.obj B))) ≫ _ = _
+  change (Lw.map (Lf.map (Rj.map m)) ≫ γL.app (Rj.obj (Rv.obj B))) ≫ _ = _
   rw [hnat, Category.assoc, ← Functor.map_comp_assoc, hcounit, Functor.map_comp_assoc]
 
 /-- The map `Lf (Rj H) ⟶ Rw B` attached to `φ : Lv H ⟶ B` around the square: the transpose under

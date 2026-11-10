@@ -198,7 +198,7 @@ private theorem bound_factorization_exponent_via_dvr
     have h := RingHom.IsIntegralElem.map hIntQ L
     rwa [IsLocalization.Away.lift_comp] at h
   have hIntA : IsIntegral A (L x) := by
-    show (algebraMap A K).IsIntegralElem (L x)
+    change (algebraMap A K).IsIntegralElem (L x)
     apply RingHom.IsIntegralElem.of_comp (f := rA)
     rwa [hcomp]
   obtain ⟨d, hd⟩ := IsIntegrallyClosed.algebraMap_eq_of_integral hIntA

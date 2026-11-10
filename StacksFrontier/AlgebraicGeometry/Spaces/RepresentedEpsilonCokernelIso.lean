@@ -57,7 +57,8 @@ def representedEpsilonDerivationRestriction
       (smallEtaleRingedTopos B S hS (representedAlgebraicSpace B S hS U)).O))
     (D : PresheafOfModulesOfCommRing.Derivation' T.val
       (smallEtaleRingedToposHom B S hS (representedSpaceMap B S hS φ)).fSharpInverseImage.hom) :
-    PresheafOfModulesOfCommRing.Derivation' ((representedEpsilonModulePushforward B S hS U).obj T).val
+    PresheafOfModulesOfCommRing.Derivation'
+        ((representedEpsilonModulePushforward B S hS U).obj T).val
       (representedZariskiSchemeHom B S hS φ).fSharpInverseImage.hom :=
   Stacks.SheafOfModules.derivationPushforwardOfSquare.{u, u, u, u + 1, u, u} _ _ _ _ _
     (representedToZariskiRingedToposSiteHom B S hS U).u _ _ _ _ _

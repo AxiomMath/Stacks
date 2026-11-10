@@ -237,7 +237,7 @@ private theorem isSmooth_induced_of_deformation_lifting
   let C := Deformation.Artin.predeformationCategory i qY y₀ hy₀
   let D := Deformation.Artin.predeformationCategory i qZ (F.obj y₀)
     (Deformation.Artin.imageBasePoint i qY qZ F hF y₀ hy₀)
-  show ∀ ⦃B A : Deformation.ArtinianLocalAlgCat.{u, u, u} Λ l⦄ (f : B ⟶ A),
+  change ∀ ⦃B A : Deformation.ArtinianLocalAlgCat.{u, u, u} Λ l⦄ (f : B ⟶ A),
     Function.Surjective f.hom → ∀ (y : D.carrier) (z : C.carrier)
       (g : y ⟶ G.toFunctor.obj z), D.projection.IsHomLift f g →
       ∃ (z' : C.carrier) (h : z' ⟶ z) (α : G.toFunctor.obj z' ⟶ y),
@@ -471,7 +471,7 @@ private theorem isSmooth_slice_of_deformation_lifting
       arrow := Over.homMk t (hproj a.point g.arrow hv)
       triangle := by
         apply Over.OverMorphism.ext
-        show a.arrow.left ≫ t = r
+        change a.arrow.left ≫ t = r
         have hm := IsHomLift.fac' p a.arrow.left (F.map a.arrow)
         have htri := congrArg p.map g.triangle
         change p.map (F.map a.arrow ≫ g.arrow) = p.map b.arrow at htri
@@ -484,7 +484,7 @@ private theorem isSmooth_slice_of_deformation_lifting
           (mapDeformationObject S _ _ F (sliceFunctor_comp_post B S hS p c x) iΛ uₗ₀ huₗ₀
             a).base b.base }
   refine ⟨b', hm, am, rfl, by simp [hm], by rfl, ?_⟩
-  show F.map hm.arrow = g.arrow ≫ α
+  change F.map hm.arrow = g.arrow ≫ α
   exact (hfac a.point g.arrow hm.arrow hv rfl).symm
 
 private theorem deformation_lifting_of_isSmooth_slice
@@ -612,7 +612,7 @@ public theorem isSmooth_mapPredeformationCategory_of_liftsAtResiduePoint
       simp only [Category.assoc, eqToHom_trans_assoc, eqToHom_refl, Category.id_comp]
       exact congrArg (fun t => _ ≫ _ ≫ t) (Category.comp_id _)
     _ = fieldPointMap B S hS p x iΛ uₗ₀ huₗ₀ := by
-      show eqToHom (congrArg Over.left hxκ).symm ≫
+      change eqToHom (congrArg Over.left hxκ).symm ≫
         (q.map (F.map a.arrow ≫ c.map a.point.hom ⟨x, rfl⟩)).left = _
       rw [c.sliceFunctor_map_fac]
       exact chosenPullback_fieldPointMap B S hS p x iΛ uₗ₀ huₗ₀ c hxκ
@@ -678,7 +678,7 @@ public theorem liftsAtResiduePoint_of_isSmooth_mapPredeformationCategory
       arrow := ma.arrow ≫ ψ ≫ i
       base := hz
       arrow_base := by
-        show schemeMap q img hz (ma.arrow ≫ ψ ≫ i) = _
+        change schemeMap q img hz (ma.arrow ≫ ψ ≫ i) = _
         rw [schemeMap_comp q img ma.base hz, schemeMap_comp q ma.base hy hz, hma, hψb, hi,
           Category.id_comp, ← Spec.map_comp, ← CommRingCat.ofHom_comp,
           Deformation.Artin.residueMap_comp] }
@@ -687,7 +687,7 @@ public theorem liftsAtResiduePoint_of_isSmooth_mapPredeformationCategory
       arrow := ψ ≫ i
       triangle := rfl
       arrow_base := by
-        show schemeMap q ma.base hz (ψ ≫ i) = _
+        change schemeMap q ma.base hz (ψ ≫ i) = _
         rw [schemeMap_comp q ma.base hy hz, hψb, hi, Category.id_comp] }
   obtain ⟨v, hv⟩ := deformation_lifting_of_isSmooth_slice B S hS p x iΛ uₗ₀ huₗ₀ c _ hs
     aU bZ gZ hf
@@ -730,7 +730,7 @@ public theorem residueFieldSlicePoint_base
         (((p ⋙ Over.post B.inclusion).obj x).left.residueField u₀))) ≫ iΛ) := by
   have hm := B.inclusion.map_preimage (X := B.obj hκ) (Y := (p.obj x).left)
     (((p ⋙ Over.post B.inclusion).obj x).left.fromSpecResidueField u₀)
-  show Over.mk (B.inclusion.map (B.inclusion.preimage (X := B.obj hκ) (Y := (p.obj x).left)
+  change Over.mk (B.inclusion.map (B.inclusion.preimage (X := B.obj hκ) (Y := (p.obj x).left)
     (((p ⋙ Over.post B.inclusion).obj x).left.fromSpecResidueField u₀)) ≫
       ((p ⋙ Over.post B.inclusion).obj x).hom) = _
   exact congrArg Over.mk ((congrArg (· ≫ ((p ⋙ Over.post B.inclusion).obj x).hom) hm).trans

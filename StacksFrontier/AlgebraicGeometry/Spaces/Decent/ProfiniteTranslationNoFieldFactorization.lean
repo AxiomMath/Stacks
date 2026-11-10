@@ -224,7 +224,7 @@ theorem evaluationPrime_bijective [CompactSpace G] [T2Space G] [TotallyDisconnec
 theorem sigmaDesc_base_sigmaMk {ι : Type u} (X : ι → Scheme.{u}) {W : Scheme.{u}}
     (f : ∀ i, X i ⟶ W) (i : ι) (y : ↥(X i)) :
     (Sigma.desc f) (AlgebraicGeometry.sigmaMk X ⟨i, y⟩) = (f i) y := by
-  rw [AlgebraicGeometry.sigmaMk_mk, ← Scheme.Hom.comp_apply, Sigma.ι_desc]
+  rw [AlgebraicGeometry.sigmaMk_mk, ← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
 
 /-- The index of the summand into which a morphism to a coproduct of schemes sends a
 point. -/
@@ -371,7 +371,7 @@ theorem comap_translationRingEquiv_evaluationPrime (g h : G) :
     PrimeSpectrum.comap (translationRingEquiv k G g).toRingHom (evaluationPrime k G h) =
       evaluationPrime k G (g * h) := by
   refine PrimeSpectrum.ext (Ideal.ext fun f => ?_)
-  show (translationRingEquiv k G g) f ∈ (evaluationPrime k G h).asIdeal ↔ _
+  change (translationRingEquiv k G g) f ∈ (evaluationPrime k G h).asIdeal ↔ _
   rw [mem_evaluationPrime_iff, mem_evaluationPrime_iff, translationRingEquiv_apply]
 
 /-- The translation action is transitive on the spectrum: for `G` profinite every point of
@@ -448,6 +448,7 @@ variable [Group G] [ContinuousMul G]
 def profiniteSpec : Over (Spec (.of k)) :=
   Over.mk (Spec.map (CommRingCat.ofHom (algebraMap k (LocallyConstant G k))))
 
+omit [Group G] [ContinuousMul G] in
 /-- The underlying scheme of `profiniteSpec k G` is `Spec (LocallyConstant G k)`. -/
 theorem profiniteSpec_left : (profiniteSpec k G).left = Spec (.of (LocallyConstant G k)) := rfl
 
@@ -574,6 +575,8 @@ def evalPoint (w : G) :
       (Spec.map (CommRingCat.ofHom (LocallyConstant.evalRingHom (Y := k) w))))
     (ObjectProperty.hom_ext _ (specMap_evalRingHom_comp_specMap_algebraMap k G w))
 
+omit [Group G] [ContinuousMul G] [CompactSpace G] [T2Space G] [TotallyDisconnectedSpace G]
+  [HasSheafify (BigFppfOver.topology B (Spec (.of k)) hS) (Type u)] in
 /-- The underlying morphism of schemes of `evalPoint k G B hS hY w` is the spectrum of evaluation
 at `w`. -/
 theorem evalPoint_left (w : G) :
@@ -589,6 +592,7 @@ theorem isAlgebraicSpace_profiniteTranslationQuotient :
     (actsFreelyOnNonemptyPoints_translationAction k G)
 
 
+omit [HasSheafify (BigFppfOver.topology B (Spec (.of k)) hS) (Type u)] in
 /-- The relation scheme of the translation action satisfies the size cutoff of the site. -/
 theorem contains_profiniteRelationScheme :
     B.Contains (Space.actionRelationScheme
@@ -619,6 +623,7 @@ def siteTranslation (g : G) :
   Over.homMk (ObjectProperty.homMk (translationSpecIso k G g).hom)
     (ObjectProperty.hom_ext _ (translationAut k G g).asIso.hom.w)
 
+omit [HasSheafify (BigFppfOver.topology B (Spec (.of k)) hS) (Type u)] in
 /-- The summand inclusion splits the source map of the relation. -/
 theorem summandInclusion_comp_source (g : G) :
     summandInclusion k G B hS hY g ≫
@@ -626,8 +631,9 @@ theorem summandInclusion_comp_source (g : G) :
           (contains_profiniteRelationScheme k G B hS hY) = 𝟙 _ := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  exact congrArg Over.Hom.left (Sigma.ι_desc _ g)
+  exact congrArg Over.Hom.left (Sigma.ι_comp_desc _ g)
 
+omit [HasSheafify (BigFppfOver.topology B (Spec (.of k)) hS) (Type u)] in
 /-- The summand inclusion carries the target map of the relation to translation by `g`. -/
 theorem summandInclusion_comp_target (g : G) :
     summandInclusion k G B hS hY g ≫
@@ -636,15 +642,17 @@ theorem summandInclusion_comp_target (g : G) :
       siteTranslation k G B hS hY g := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  exact congrArg Over.Hom.left (Sigma.ι_desc _ g)
+  exact congrArg Over.Hom.left (Sigma.ι_comp_desc _ g)
 
+omit [CompactSpace G] [T2Space G] [TotallyDisconnectedSpace G]
+  [HasSheafify (BigFppfOver.topology B (Spec (.of k)) hS) (Type u)] in
 /-- Translating the `k`-point at the origin by `w` gives the `k`-point at `w`: the
 translation action is transitive on the `k`-points of `Y`. -/
 theorem evalPoint_comp_siteTranslation (w : G) :
     evalPoint k G B hS hY 1 ≫ siteTranslation k G B hS hY w = evalPoint k G B hS hY w := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom (LocallyConstant.evalRingHom (Y := k) (1 : G))) ≫
+  change Spec.map (CommRingCat.ofHom (LocallyConstant.evalRingHom (Y := k) (1 : G))) ≫
       Spec.map (CommRingCat.ofHom (translationRingEquiv k G w).toRingHom) = _
   rw [← Spec.map_comp, ← CommRingCat.ofHom_comp]
   congr 2
@@ -676,9 +684,11 @@ private theorem relation_left_eq_iso_hom_comp_desc {S T : Scheme.{u}} {H : Type 
     f = (Space.actionRelationUnderlyingIso U H).hom ≫ Sigma.desc d := by
   rw [← Iso.inv_comp_eq]
   refine Sigma.hom_ext _ _ fun g => ?_
-  rw [Sigma.ι_desc, ← Category.assoc, Space.actionRelationUnderlyingIso_inv_ι]
+  rw [Sigma.ι_comp_desc, ← Category.assoc, Space.actionRelationUnderlyingIso_inv_ι]
   exact h g
 
+omit [Group G] [ContinuousMul G] [CompactSpace G] [T2Space G] [TotallyDisconnectedSpace G]
+  [HasSheafify (BigFppfOver.topology B (Spec (.of k)) hS) (Type u)] in
 /-- Through the identification of the relation scheme with a disjoint union of copies of `Y`,
 the source map of the graph relation is the codiagonal. -/
 theorem actionRelationSource_left_eq :
@@ -686,8 +696,10 @@ theorem actionRelationSource_left_eq :
       (Space.actionRelationUnderlyingIso (profiniteOver k G B hS hY) G).hom ≫
         Sigma.desc fun _ : G => 𝟙 (profiniteOver k G B hS hY).left :=
   relation_left_eq_iso_hom_comp_desc _ _ _ fun g =>
-    congrArg Over.Hom.left (Sigma.ι_desc _ g)
+    congrArg Over.Hom.left (Sigma.ι_comp_desc _ g)
 
+omit [CompactSpace G] [T2Space G] [TotallyDisconnectedSpace G]
+  [HasSheafify (BigFppfOver.topology B (Spec (.of k)) hS) (Type u)] in
 /-- Through the same identification, the target map of the graph relation is the morphism
 induced by the individual translations. -/
 theorem actionRelationTarget_left_eq :
@@ -696,7 +708,7 @@ theorem actionRelationTarget_left_eq :
         Sigma.desc fun g : G => ((translationAction k G g).asIso.hom.left :
           (profiniteOver k G B hS hY).left ⟶ (profiniteOver k G B hS hY).left) :=
   relation_left_eq_iso_hom_comp_desc _ _ _ fun g =>
-    congrArg Over.Hom.left (Sigma.ι_desc _ g)
+    congrArg Over.Hom.left (Sigma.ι_comp_desc _ g)
 
 /-! ### `X` is a one-point space -/
 
@@ -708,6 +720,8 @@ def evalFieldPoint (w : G) :
   toBase := 𝟙 _
   value := evalPoint k G B hS hY w
 
+omit [Group G] [ContinuousMul G]
+  [HasSheafify (BigFppfOver.topology B (Spec (.of k)) hS) (Type u)] in
 /-- Every field-valued point of `Y` has the class of a `k`-point at some element of `G`,
 because a field-valued point of `Y` factors through evaluation at a point of `G`. -/
 theorem exists_class_eq_evalFieldPoint
@@ -767,7 +781,7 @@ theorem subsingleton_points_profiniteTranslationQuotient :
   | _ pb =>
   obtain ⟨wa, ha⟩ := exists_class_eq_evalFieldPoint k G B hS hY pa
   obtain ⟨wb, hb⟩ := exists_class_eq_evalFieldPoint k G B hS hY pb
-  show Space.pointsMap B (Spec (.of k)) hS _ (profiniteQuotientMap k G B hS hY)
+  change Space.pointsMap B (Spec (.of k)) hS _ (profiniteQuotientMap k G B hS hY)
       (pa.class B (Spec (.of k)) hS _) =
     Space.pointsMap B (Spec (.of k)) hS _ (profiniteQuotientMap k G B hS hY)
       (pb.class B (Spec (.of k)) hS _)
@@ -869,7 +883,7 @@ theorem not_exists_comp_evalPoint_comp_quotientMap_eq [IsTopologicalGroup G] [In
   have hfib : sigmaIndexOf (fun _ : G => (profiniteOver k G B hS hY).left) ρt ⁻¹' {1} =
       {evaluationPrime k G 1} := by
     refine Set.eq_singleton_iff_unique_mem.mpr ⟨?_, fun z hz => ?_⟩
-    · show sigmaIndexOf (fun _ : G => (profiniteOver k G B hS hY).left) ρt
+    · change sigmaIndexOf (fun _ : G => (profiniteOver k G B hS hY).left) ρt
         (evaluationPrime k G 1) = 1
       rw [hindex 1, inv_one]
     · obtain ⟨w, hw⟩ := evaluationPrime_surjective k G z
@@ -1075,6 +1089,8 @@ variable (k G : Type u) [Field k] [TopologicalSpace G] [Group G] [IsTopologicalG
 
 open ProfiniteTranslation
 
+omit [Group G] [IsTopologicalGroup G] [CompactSpace G] [T2Space G] [TotallyDisconnectedSpace G]
+  [Infinite G] [HasSheafify (BigFppfOver.topology B (Spec (.of k)) hS) (Type u)] in
 /-- `Y = Spec (LocallyConstant G k)` is reduced. -/
 theorem hasEtaleLocalProperty_isReduced_profiniteChart :
     HasEtaleLocalProperty B (Spec (.of k)) hS

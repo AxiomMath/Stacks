@@ -86,8 +86,8 @@ topoi rather than with the right Kan extension it unfolds to, for the same reaso
 *Why the comparison of right adjoints is stated with the cocontinuous direct image first.* Its
 two sides live over two spellings of the same two topologies: the morphism of ringed topoi spells
 them `(componentRingedTopos P k).J` and the morphism of sites spells them `componentTopology k`,
-the friction recorded in the implementation notes of
-`StacksFrontier/AlgebraicGeometry/Simplicial/ComponentRingedTopos/ComponentPullbackRestriction.lean`.
+the friction recorded in the implementation notes of `ComponentPullbackRestriction.lean` (in
+`StacksFrontier/AlgebraicGeometry/Simplicial/ComponentRingedTopos/`).
 The implicit site arguments of `Stacks.SheafOfModules.pushforwardCocontinuous` are read off
 `fSharpB`, hence at the second spelling, only if it is elaborated before the expected type has
 fixed them; written on the right of the `≅` it inherits the first spelling instead, and the

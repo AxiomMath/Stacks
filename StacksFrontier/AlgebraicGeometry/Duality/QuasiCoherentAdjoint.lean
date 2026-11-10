@@ -45,11 +45,11 @@ source's inputs: [Stacks, Tag 08DZ], that `Rf_*` commutes with direct sums, and
 Those same two inputs, and no others, are what
 `Stacks.Duality.DerivedPushforward.isLeftAdjoint_qcqsRestrictedDerivedPushforward` carries for an
 arbitrary quasi-compact quasi-separated morphism with quasi-compact target, where the tag is
-registered. Of the two, 09IS is not formalized in this repository at all. 08DZ *is* formalized at the
-locally small model in force here, in the namespace `Stacks.Duality.DerivedPushforward`, as
+registered. Of the two, 09IS is not formalized in this repository at all. 08DZ *is* formalized at
+the locally small model in force here, in the namespace `Stacks.Duality.DerivedPushforward`, as
 `LocallySmall.preservesColimitsOfShape_discrete_quasiCoherentDerivedPushforward`
-of
-`StacksFrontier/AlgebraicGeometry/Duality/DerivedPushforward/QuasiCoherentDirectSumsLocallySmall.lean`;
+of the module
+`StacksFrontier.AlgebraicGeometry.Duality.DerivedPushforward.QuasiCoherentDirectSumsLocallySmall`;
 it takes the quasi-coherence proof `hpush` as an argument and so covers the affine restricted
 functor below as well. That file imports this one, so the hypothesis is still a binder here, but
 it is no longer open. 09IS is the only substantial one left.

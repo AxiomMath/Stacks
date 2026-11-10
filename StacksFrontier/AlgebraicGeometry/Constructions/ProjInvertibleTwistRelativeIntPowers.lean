@@ -181,7 +181,7 @@ theorem mk_invSec_mul :
     rw [he] at h2
     exact congrArg ((reix L (show (-1 : ℤ) + 1 = 0 by norm_num)).hom.val.app (op V)) h2
   refine Sigma.ext (show (-1 : ℤ) + 1 = 0 by norm_num) ?_
-  show HEq ((lmul L (-1) 1).app (op V) (invSec L hx) x) _
+  change HEq ((lmul L (-1) 1).app (op V) (invSec L hx) x) _
   refine (heq_reix L (show (-1 : ℤ) + 1 = 0 by norm_num) (op V) _).symm.trans ?_
   rw [← h1, hg]
   rfl
@@ -203,7 +203,7 @@ theorem fst_zpow_unitSec (n : ℤ) : ((unitSec L hx ^ n : (GradedMonoid (Laurent
       rfl
   | pred k ih =>
       rw [zpow_sub_one, Units.val_mul, GradedMonoid.fst_mul, ih]
-      show -(k : ℤ) + -1 = -(k : ℤ) - 1
+      change -(k : ℤ) + -1 = -(k : ℤ) - 1
       ring
 
 /-- **The `n`-th integer power of a trivializing section**, for `n : ℤ`. -/

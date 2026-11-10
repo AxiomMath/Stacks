@@ -34,7 +34,7 @@ public theorem map_ringHomPi [Finite ι] (f : ∀ i, R →+* A i) (I : Ideal R) 
     I.map (RingHom.pi f) = Ideal.pi fun i ↦ I.map (f i) := by
   apply (Ideal.piOrderIso (R := A)).injective
   funext i
-  show Ideal.map (Pi.evalRingHom A i) (Ideal.map (RingHom.pi f) I) =
+  change Ideal.map (Pi.evalRingHom A i) (Ideal.map (RingHom.pi f) I) =
     Ideal.map (Pi.evalRingHom A i) (Ideal.pi fun j ↦ I.map (f j))
   rw [Ideal.map_map, Ideal.map_evalRingHom_pi]
   congr 1
@@ -105,7 +105,7 @@ public theorem Etale.pi {ι : Type*} [_root_.Finite ι] {R : Type*} [CommRing R]
     (RingHom.pi f).Etale := by
   let (i : ι) : Algebra R (A i) := (f i).toAlgebra
   let (i : ι) : Algebra.Etale R (A i) := hf i
-  show @Algebra.Etale R (∀ i, A i) _ _ (RingHom.pi f).toAlgebra
+  change @Algebra.Etale R (∀ i, A i) _ _ (RingHom.pi f).toAlgebra
   have halg : (RingHom.pi f).toAlgebra = Pi.algebra ι A := by
     apply Algebra.algebra_ext
     intro r

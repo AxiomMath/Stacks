@@ -83,13 +83,13 @@ theorem envelopeTaylorCoeff_zero (y : (tensorPowerEnvelope s f 0).object) :
     (envReindex s f (SimplexCategory.σ (n := 0) 0)).toAddMonoidHom
     (fun r y ↦ map_mul (envReindex s f (SimplexCategory.σ (n := 0) 0)) r y)
     (fun m ↦ by
-      show (envelopeReindex s f _).1 ((envelopeReindex s f _).1 m) = m
+      change (envelopeReindex s f _).1 ((envelopeReindex s f _).1 m) = m
       rw [← envelopeReindex_comp, δ_one_comp_σ_zero', envelopeReindex_id])
     (fun m ↦ by
-      show (envelopeReindex s f _).1 ((envelopeReindex s f _).1 m) = m
+      change (envelopeReindex s f _).1 ((envelopeReindex s f _).1 m) = m
       rw [← envelopeReindex_comp, δ_zero_comp_σ_zero', envelopeReindex_id])
     (by
-      show envReindex s f _ (envelopeTaylorMonomial s f 0) = 1
+      change envReindex s f _ (envelopeTaylorMonomial s f 0) = 1
       rw [envelopeTaylorMonomial_zero, map_one])
     (fun K hK ↦ envReindex_degeneracy_envelopeTaylorMonomial s f hK) y
   exact h
@@ -175,6 +175,7 @@ def wsCompletionMap (n : ℕ) :
   algebraMap (wsEnvelope hp n) (AdicCompletion (Ideal.span {((S.p : ℕ) : wsEnvelope hp n)})
     (wsEnvelope hp n))
 
+omit [IsAffine S.X] [IsAffine S.S.scheme] in
 /-- The cosimplicial structure maps of the completions extend the reindexings of the
 envelopes. -/
 theorem wholeSpaceEnvelopeRing_map_wsCompletionMap {m n : ℕ}
@@ -312,10 +313,12 @@ variable (F : SheafOfModules.{u} (structureSheaf S)) {A A' : CrystallineThickeni
 def crysRestrictHom : F.val.obj (op A) →+ F.val.obj (op A') :=
   AddMonoidHom.mk' (crysRestrict F k) (map_add _)
 
+omit [IsAffine S.X] [IsAffine S.S.scheme] in
 /-- `crysRestrictHom F k` is the restriction `crysRestrict F k`. -/
 @[simp] theorem crysRestrictHom_apply (x : F.val.obj (op A)) :
     crysRestrictHom F k x = crysRestrict F k x := rfl
 
+omit [IsAffine S.X] [IsAffine S.S.scheme] in
 /-- **The sections of a crystal over the source of `k` are free over those over its target on a
 family of scalars on which the section ring of the source is free.**  This is the crystal base
 change `...SmallSite.bijective_crysBaseChangeAlong` combined with the freeness of the ring. -/
@@ -333,7 +336,7 @@ theorem bijective_taylorSum_crysRestrictHom [IsAffine A.obj.thickening.target.sc
     funext g
     rw [Finsupp.linearCombination_apply, taylorSum_apply]
     refine Finsupp.sum_congr fun K _ ↦ ?_
-    show crysSheafRingMap k.hom (g K) * xi K = xi K * sheafRingMap k (g K)
+    change crysSheafRingMap k.hom (g K) * xi K = xi K * sheafRingMap k (g K)
     exact mul_comm _ _
   have hb : Function.Bijective (Finsupp.linearCombination (crysSheafRing S A.obj) xi') := by
     rw [hlin]
@@ -388,14 +391,14 @@ variable (F : SheafOfModules.{u} (structureSheaf S))
 theorem wholeSpaceTrans_comp {l m n : ℕ} (φ : (⦋l⦌ : SimplexCategory) ⟶ ⦋m⦌)
     (ψ : (⦋m⦌ : SimplexCategory) ⟶ ⦋n⦌) (e : ℕ) :
     wholeSpaceTrans hp ψ e ≫ wholeSpaceTrans hp φ e = wholeSpaceTrans hp (φ ≫ ψ) e := by
-  show _ = ((wholeSpaceSystem S hp).map (φ ≫ ψ).op).app e
+  change _ = ((wholeSpaceSystem S hp).map (φ ≫ ψ).op).app e
   rw [op_comp, Functor.map_comp]
   rfl
 
 /-- The cosimplicial transition along an identity is the identity. -/
 theorem wholeSpaceTrans_id (n e : ℕ) :
     wholeSpaceTrans hp (𝟙 (⦋n⦌ : SimplexCategory)) e = 𝟙 _ := by
-  show ((wholeSpaceSystem S hp).map (𝟙 _).op).app e = _
+  change ((wholeSpaceSystem S hp).map (𝟙 _).op).app e = _
   rw [op_id, CategoryTheory.Functor.map_id]
   rfl
 
@@ -484,16 +487,16 @@ theorem levelTheta_zero (e : ℕ) (m : Fc.obj.val.obj (op (levelObj hp 0 e))) :
     (crysRestrictHom Fc.obj (wholeSpaceTrans hp (SimplexCategory.σ (n := 0) 0) e))
     (fun r y ↦ map_smulₛₗ (crysRestrict Fc.obj _) r y)
     (fun m ↦ by
-      show crysRestrict Fc.obj _ (crysRestrict Fc.obj _ m) = m
+      change crysRestrict Fc.obj _ (crysRestrict Fc.obj _ m) = m
       rw [crysRestrict_wholeSpaceTrans_comp, δ_one_comp_σ_zero, crysRestrict_wholeSpaceTrans_id])
     (fun m ↦ by
-      show crysRestrict Fc.obj _ (crysRestrict Fc.obj _ m) = m
+      change crysRestrict Fc.obj _ (crysRestrict Fc.obj _ m) = m
       rw [crysRestrict_wholeSpaceTrans_comp, δ_zero_comp_σ_zero, crysRestrict_wholeSpaceTrans_id])
     (by
-      show sheafRingMap _ (envLevelMap hp 1 e (envelopeTaylorMonomial _ _ 0)) = 1
+      change sheafRingMap _ (envLevelMap hp 1 e (envelopeTaylorMonomial _ _ 0)) = 1
       rw [envelopeTaylorMonomial_zero, map_one, map_one])
     (fun K hK ↦ by
-      show sheafRingMap _ (envLevelMap hp 1 e (envelopeTaylorMonomial _ _ K)) = 0
+      change sheafRingMap _ (envLevelMap hp 1 e (envelopeTaylorMonomial _ _ K)) = 0
       rw [envLevelMap_restriction, envReindex_degeneracy_envelopeTaylorMonomial _ _ hK, map_zero])
     m
 
@@ -524,13 +527,13 @@ theorem levelTheta_levelTheta (e : ℕ) (K L : wholeSpaceIndex S hp →₀ ℕ)
       (by rw [δ_one_comp_δ_one]; rfl)
   · exact crysRestrict_wholeSpaceTrans_comp_eq hp Fc.obj δ_one_comp_δ_zero e m
   · exact crysRestrict_wholeSpaceTrans_comp_eq hp Fc.obj δ_zero_comp_δ_zero e m
-  · show sheafRingMap _ (envLevelMap hp 1 e _) = envLevelMap hp 2 e _
+  · change sheafRingMap _ (envLevelMap hp 1 e _) = envLevelMap hp 2 e _
     rw [envLevelMap_restriction, envReindex_delta_two_envelopeTaylorMonomial]
-  · show sheafRingMap _ (envLevelMap hp 1 e _) = envLevelMap hp 2 e _
+  · change sheafRingMap _ (envLevelMap hp 1 e _) = envLevelMap hp 2 e _
     rw [envLevelMap_restriction, envReindex_delta_zero_envelopeTaylorMonomial]
-  · show sheafRingMap _ (envLevelMap hp 1 e _) = ∑ x ∈ _, envLevelMap hp 2 e _
+  · change sheafRingMap _ (envLevelMap hp 1 e _) = ∑ x ∈ _, envLevelMap hp 2 e _
     rw [envLevelMap_restriction, envReindex_delta_one_envelopeTaylorMonomial, map_sum]
-  · show envLevelMap hp 2 e _ * envLevelMap hp 2 e _ = envLevelMap hp 2 e _
+  · change envLevelMap hp 2 e _ * envLevelMap hp 2 e _ = envLevelMap hp 2 e _
     rw [← map_mul, envelopeTaylorMonomial₂_mul]
 
 /-- **The operators `θ_K` are compatible with the restrictions between the levels.** -/
@@ -544,7 +547,8 @@ theorem levelTheta_levelRestrict {e e' : ℕ} (h : e ⟶ e') (K : wholeSpaceInde
     (crysRestrictHom Fc.obj (((wholeSpaceSystem S hp).obj (op ⦋1⦌)).map h))
     (sheafRingMap (((wholeSpaceSystem S hp).obj (op ⦋1⦌)).map h))
     (fun r y ↦ map_smulₛₗ (crysRestrict Fc.obj _) r y)
-    (fun K ↦ envLevelMap_levelMap hp 1 h _)
+    (fun K ↦ envLevelMap_levelMap hp 1 h
+      (envelopeTaylorMonomial (affineSituation S hp) (wholeSpacePresentation S hp) K))
     (fun m ↦ crysRestrict_wholeSpaceTrans_level hp Fc.obj _ h m)
     (fun m ↦ crysRestrict_wholeSpaceTrans_level hp Fc.obj _ h m) K m
 
@@ -553,6 +557,7 @@ def crystalSectionsHom {Fc Gc : QuasiCoherentCrystal S} (psi : Fc ⟶ Gc)
     (A : CrystallineThickening S) : Fc.obj.val.obj (op A) →+ Gc.obj.val.obj (op A) :=
   (PresheafOfModules.Hom.app ((quasiCoherentCrystalι S).map psi).val (op A)).hom.toAddMonoidHom
 
+omit [IsAffine S.X] [IsAffine S.S.scheme] in
 /-- `crystalSectionsHom psi A` is the component at `A` of the morphism of presheaves of modules
 underlying `psi`. -/
 theorem crystalSectionsHom_apply {Fc Gc : QuasiCoherentCrystal S} (psi : Fc ⟶ Gc)
@@ -560,6 +565,7 @@ theorem crystalSectionsHom_apply {Fc Gc : QuasiCoherentCrystal S} (psi : Fc ⟶ 
     crystalSectionsHom psi A x =
       (PresheafOfModules.Hom.app ((quasiCoherentCrystalι S).map psi).val (op A)).hom x := rfl
 
+omit [IsAffine S.X] [IsAffine S.S.scheme] in
 /-- A morphism of crystals commutes with the restrictions. -/
 theorem crystalSectionsHom_crysRestrict {Fc Gc : QuasiCoherentCrystal S} (psi : Fc ⟶ Gc)
     {A B : CrystallineThickening S} (k : A ⟶ B) (x : Fc.obj.val.obj (op B)) :
@@ -576,7 +582,8 @@ theorem levelTheta_naturality {Fc Gc : QuasiCoherentCrystal S} (psi : Fc ⟶ Gc)
     (crystalSectionsHom psi (levelObj hp 0 e)) (crystalSectionsHom psi (levelObj hp 1 e))
     (RingHom.id _) (fun r y ↦ map_smul (PresheafOfModules.Hom.app
       ((quasiCoherentCrystalι S).map psi).val (op (levelObj hp 1 e))).hom r y)
-    (fun K ↦ rfl) (fun m ↦ crystalSectionsHom_crysRestrict psi _ m)
+    (fun K ↦ RingHom.id_apply (levelTaylorMonomial hp e K))
+    (fun m ↦ crystalSectionsHom_crysRestrict psi _ m)
     (fun m ↦ crystalSectionsHom_crysRestrict psi _ m) K m
 
 /-- **The Leibniz rule at a level**: for `f` the reduction of `y ∈ E(0)`,
@@ -593,7 +600,7 @@ theorem levelTheta_single_smul (e : ℕ) (y : wsEnvelope hp 0) (i : wholeSpaceIn
     (fun a m ↦ map_smulₛₗ (crysRestrict Fc.obj _) a m)
     (fun a m ↦ map_smulₛₗ (crysRestrict Fc.obj _) a m)
     (fun K L ↦ by
-      show envLevelMap hp 1 e _ * envLevelMap hp 1 e _ = _ * envLevelMap hp 1 e _
+      change envLevelMap hp 1 e _ * envLevelMap hp 1 e _ = _ * envLevelMap hp 1 e _
       rw [← map_mul, envelopeTaylorMonomial_mul, map_mul, map_natCast])
     (envLevelMap hp 0 e y)
     ((envelopeTaylorCoeff _ _ y).mapRange (envLevelMap hp 0 e) (map_zero _))
@@ -603,11 +610,11 @@ theorem levelTheta_single_smul (e : ℕ) (y : wsEnvelope hp 0) (i : wholeSpaceIn
         (wholeSpacePresentation S hp)).taylorSum_coeffs y
       rw [envelopeTaylorExpansion_coeffs, taylorSum_apply] at hT
       rw [envLevelMap_restriction]
-      show envLevelMap hp 1 e ((envelopeTaylorExpansion (affineSituation S hp)
+      change envLevelMap hp 1 e ((envelopeTaylorExpansion (affineSituation S hp)
         (wholeSpacePresentation S hp)).a₁ y) = _
       rw [← hT, map_finsuppSum, Finsupp.sum_mapRange_index (fun _ ↦ by rw [map_zero, zero_mul])]
       refine Finsupp.sum_congr fun K _ ↦ ?_
-      show envLevelMap hp 1 e (envelopeTaylorMonomial _ _ K * envReindex _ _ _ _) = _
+      change envLevelMap hp 1 e (envelopeTaylorMonomial _ _ K * envReindex _ _ _ _) = _
       rw [map_mul, ← envLevelMap_restriction, mul_comm]
       rfl)
     i m

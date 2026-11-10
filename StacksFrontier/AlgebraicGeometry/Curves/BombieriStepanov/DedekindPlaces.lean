@@ -50,6 +50,7 @@ def toStalk : A →+* X.presheaf.stalk x where
   map_add' a b := IsFractionRing.injective (X.presheaf.stalk x) X.functionField (by
     rw [(hA _).choose_spec, map_add, map_add, (hA a).choose_spec, (hA b).choose_spec])
 
+omit [IsFractionRing A X.functionField] in
 /-- `toStalk` is compatible with the inclusions into the function field. -/
 theorem algebraMap_toStalk (a : A) :
     algebraMap (X.presheaf.stalk x) X.functionField (toStalk x hA a) =
@@ -63,13 +64,15 @@ private theorem algebraMap_ne_zero_of_notMem {P : Ideal A} {t : A} (ht : t ∉ P
     algebraMap A X.functionField t ≠ 0 := fun h =>
   ht ((map_eq_zero_iff _ (IsFractionRing.injective A _)).1 h ▸ P.zero_mem)
 
+section Dedekind
+
 variable [IsDedekindDomain A]
 
 /-- Membership in the localization `A_P ⊆ R(X)`. -/
 theorem mem_valuationSubringAtPrime_iff (v : HeightOneSpectrum A) (f : X.functionField) :
     f ∈ v.valuationSubringAtPrime X.functionField ↔
       ∃ a t : A, t ∉ v.asIdeal ∧ f = algebraMap A X.functionField a * (algebraMap A _ t)⁻¹ := by
-  show (∃ (a s : A) (_ : s ∈ v.asIdeal.primeCompl), f = _) ↔ _
+  change (∃ (a s : A) (_ : s ∈ v.asIdeal.primeCompl), f = _) ↔ _
   simp [Ideal.primeCompl]
 
 variable {F : Type u} [Field F] (p : X ⟶ Spec (.of F))
@@ -109,6 +112,8 @@ theorem exists_curvePlace_eq_localization [UniversallyClosed p] [IsCurve F p]
   obtain ⟨x, hx⟩ := exists_curvePlace_mem_iff p hdvr _ hk hV
   exact ⟨x, fun f => (hx f).symm.trans (mem_valuationSubringAtPrime_iff v f)⟩
 
+end Dedekind
+
 section Residue
 
 variable {P : Ideal A} [P.IsMaximal] {x : X}
@@ -116,12 +121,14 @@ variable {P : Ideal A} [P.IsMaximal] {x : X}
     (∃ s : X.presheaf.stalk x, algebraMap _ X.functionField s = f) ↔
       ∃ a t : A, t ∉ P ∧ f = algebraMap A X.functionField a * (algebraMap A _ t)⁻¹)
 
+omit [IsFractionRing A X.functionField] in
 include hx in
 /-- If `𝒪_{X,x} = A_P`, then `A ⊆ 𝒪_{X,x}` inside the function field. -/
 theorem forall_exists_algebraMap_eq : ∀ a : A, ∃ s : X.presheaf.stalk x,
     algebraMap (X.presheaf.stalk x) X.functionField s = algebraMap A X.functionField a :=
   fun a => (hx _).2 ⟨a, 1, P.one_notMem, by simp⟩
 
+omit [IsFractionRing A X.functionField] [P.IsMaximal] in
 include hx in
 /-- The inverse of an element of `A` outside `P` lies in `𝒪_{X,x}`. -/
 theorem exists_algebraMap_eq_inv {t : A} (ht : t ∉ P) : ∃ s : X.presheaf.stalk x,

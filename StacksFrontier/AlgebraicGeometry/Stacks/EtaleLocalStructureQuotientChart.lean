@@ -280,7 +280,7 @@ theorem pointsMap_chart_point {𝒳 : AlgebraicStacks.{u, w} B S hS} {U V : BigF
       pointsMap B S hS (fibredCategory B S hS (yoneda.obj U)).val
         (fibredCategory B S hS (yoneda.obj U)).property 𝒳.val.property
         (BasedFunctor.comp (quotientStackProjection P.groupoid) X) y := by
-    show pointsMap B S hS _ _ _ f.hom.hom p = _
+    change pointsMap B S hS _ _ _ f.hom.hom p = _
     rw [← pointsMap_eq_of_basedNatTrans B S hS _ _ _ η, ← pointsMap_comp]
   have hid : Space.pointsMap B S hS
       (Space.representedRealization s t c' hG').toGroupoidInFunctors.objects

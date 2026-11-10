@@ -59,6 +59,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {cY : Cone Y} {K : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (k : K ⟶ cY.pt)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is heavy
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut; not private, since the exposed `constantBaseChangeSystem` uses it). -/
 local instance hasPullbacks_constantBaseChange_presheaf :
@@ -70,6 +71,7 @@ local instance (priority := high) hasPullback_constantBaseChange_presheaf
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks in the functor category of inverse systems of presheaves is heavy
 /-- Pullbacks of inverse systems of presheaves on the big fppf site. -/
 local instance hasPullbacks_constantBaseChange_system :
     HasPullbacks (Iᵒᵖ ⥤ ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u)) := inferInstance

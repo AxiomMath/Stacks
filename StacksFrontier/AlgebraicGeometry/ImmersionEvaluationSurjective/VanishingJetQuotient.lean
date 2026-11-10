@@ -101,7 +101,7 @@ variable {k : Type u} [Field k] {X : Scheme.{u}}
 /-- **The vanishing part of the target of the evaluation at `x`**: the quotient
 `𝔪_xℒ_x/𝔪_x²ℒ_x`, written as `𝔪_xℒ_x` modulo `𝔪_x·(𝔪_xℒ_x)`, and carrying the vector space
 structure over the base field `k` of the structure morphism `f`. -/
-def vanishingEvalQuotient (f : X ⟶ Spec (CommRingCat.of k)) (L : X.Modules) (x : X) : Type u :=
+def vanishingEvalQuotient (_ : X ⟶ Spec (CommRingCat.of k)) (L : X.Modules) (x : X) : Type u :=
   ↥(maximalSmul L x) ⧸
     (maximalIdeal (X.presheaf.stalk x) •
       (⊤ : Submodule (X.presheaf.stalk x) ↥(maximalSmul L x)))

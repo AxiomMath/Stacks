@@ -129,7 +129,7 @@ theorem isCompleteIntersectionCompleteLocalRing_iff_adicCompletion
   isCompleteIntersectionCompleteLocalRing_congr
     (RingEquiv.ofBijective (algebraMap A (AdicCompletion (maximalIdeal A) A))
       (by
-        show Function.Bijective (AdicCompletion.of (maximalIdeal A) A)
+        change Function.Bijective (AdicCompletion.of (maximalIdeal A) A)
         exact AdicCompletion.of_bijective _ _))
 
 /-- The kernel of a ring homomorphism into a nonzero ring consists of nonunits. -/
@@ -215,7 +215,7 @@ private theorem flat_quotient_base_change
   have hscalar : ∀ a, e (algebraMap r0 s0 a) = algebraMap r0 (TensorProduct R r0 S) a := by
     intro a
     obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective a
-    show ec (eS (Ideal.Quotient.mk (I.map (algebraMap R S)) (algebraMap R S r))) = _
+    change ec (eS (Ideal.Quotient.mk (I.map (algebraMap R S)) (algebraMap R S r))) = _
     rw [Algebra.TensorProduct.quotIdealMapEquivTensorQuot_mk,
       Algebra.TensorProduct.tmul_one_eq_one_tmul, Algebra.TensorProduct.comm_tmul]
     rfl
@@ -239,7 +239,7 @@ private theorem isH1Regular_fiber_of_isH1Regular
   have hpoint : (fun i => e.symm (KoszulH1.fp (A := A) (A' := k) f i)) =
       fun i => Ideal.Quotient.mk ((maximalIdeal A).map (algebraMap A T)) (f i) := by
     funext i
-    show (Algebra.TensorProduct.quotIdealMapEquivTensorQuot T (maximalIdeal A)).symm
+    change (Algebra.TensorProduct.quotIdealMapEquivTensorQuot T (maximalIdeal A)).symm
       (f i ⊗ₜ[A] (Ideal.Quotient.mk (maximalIdeal A) (1 : A))) = _
     rw [Algebra.TensorProduct.quotIdealMapEquivTensorQuot_symm_tmul]
     simp
@@ -340,7 +340,7 @@ private theorem regIdeal_of_fiber_regIdeal
       (Ideal.mem_map_iff_of_surjective qF Ideal.Quotient.mk_surjective).mp hxm
     refine Submodule.mem_sup.mpr ⟨y, hy, x - y, ?_, by abel⟩
     refine Ideal.Quotient.eq_zero_iff_mem.mp ?_
-    show qF (x - y) = 0
+    change qF (x - y) = 0
     rw [map_sub, hxy, sub_self]
   exact ⟨List.ofFn f, hrsT, (Ideal.eq_of_le_sup_map_of_flat_quotient
     (Ideal.fg_of_isNoetherianRing Q) hJ0Q (maximalIdeal A)
@@ -487,9 +487,9 @@ private theorem completeIntersection_iff_of_presentation
   have hIJ : I.map (algebraMap R S) ≤ J := by
     rw [Ideal.map_le_iff_le_comap]
     intro r hr
-    show (qB.comp (algebraMap R S)) r = 0
+    change (qB.comp (algebraMap R S)) r = 0
     rw [← hcomm]
-    show fc (qA r) = 0
+    change fc (qA r) = 0
     rw [RingHom.mem_ker.mp hr, map_zero]
   let qbar := Ideal.quotientMap J (algebraMap R S) (Ideal.map_le_iff_le_comap.mp hIJ)
   let eA : (R ⧸ I) ≃+* Ah := RingHom.quotientKerEquivOfSurjective hqA
@@ -513,7 +513,7 @@ private theorem completeIntersection_iff_of_presentation
       (Stacks.CompleteIntersection.quotientModule qbar) := by
     let := qbar.toAlgebra
     have : Module.Flat (R ⧸ I) (S ⧸ J) := RingHom.flat_algebraMap_iff.mp hqbarflat
-    show Stacks.CompleteIntersection.FiniteTorDimension (ModuleCat.of (R ⧸ I) (S ⧸ J))
+    change Stacks.CompleteIntersection.FiniteTorDimension (ModuleCat.of (R ⧸ I) (S ⧸ J))
     exact finiteTorDimension_of_flat (ModuleCat.of (R ⧸ I) (S ⧸ J))
   have h13 := (Stacks.CompleteIntersection.regularSequence_quotient_tfae_of_flat
     (R := R) (S := S) I J (ker_le_maximalIdeal qA) hIJ inferInstance).out 1 3

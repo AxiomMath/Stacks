@@ -39,7 +39,7 @@ theorem isIso_of_epi_of_isFiniteLocallyFreeOfRank {M N : X.Modules} (φ : M ⟶ 
   let := stalkModule (X := X.toRingedSpace) M x
   let := stalkModule (X := X.toRingedSpace) N x
   let g := stalkLinearMap (X := X.toRingedSpace) φ x
-  show Function.Injective g
+  change Function.Injective g
   change Function.Surjective g at hs
   obtain ⟨eM⟩ := nonempty_stalkLinearEquiv_fin M r x
   obtain ⟨eN⟩ := nonempty_stalkLinearEquiv_fin N r x

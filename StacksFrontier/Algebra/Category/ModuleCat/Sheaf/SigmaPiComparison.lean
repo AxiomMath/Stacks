@@ -66,11 +66,11 @@ theorem module_coproduct_injective {R : Type u} [Ring R] {ι : Type v} [Decidabl
     · subst j
       simp only [dite_true]
       ext a
-      show a = (DFinsupp.single (β := fun k => F k) i a) i
+      change a = (DFinsupp.single (β := fun k => F k) i a) i
       simp
     · simp only [dite_eq_right hij]
       ext a
-      show 0 = (DFinsupp.single (β := fun k => F k) i a) j
+      change 0 = (DFinsupp.single (β := fun k => F k) i a) j
       simp [hij]
   intro a b hab
   refine (ConcreteCategory.bijective_of_isIso e.hom).injective (DFinsupp.ext fun j => ?_)
@@ -165,7 +165,7 @@ theorem isLocallyInjective_of_comparison [HasWeakSheafify J AddCommGrpCat.{u}]
         (fun j => E.map (G.map (Pi.π F j))) fun i j => ?_
       simp only [Category.assoc]
       rw [ι_comp_sigmaComparison_assoc, ← E.map_comp, ← E.map_comp]
-      show E.map ((Sigma.ι Q i ≫ c ≫ G.map f) ≫ G.map (Pi.π F j)) = _
+      change E.map ((Sigma.ι Q i ≫ c ≫ G.map f) ≫ G.map (Pi.π F j)) = _
       rw [ι_comp_sigmaComparison_assoc, ← G.map_comp, ← G.map_comp, Category.assoc, h]
       by_cases hij : i = j
       · subst j
@@ -196,7 +196,7 @@ theorem exists_preimage_of_finite_support {ι : Type u} [DecidableEq ι]
   refine ⟨∑ i ∈ s, (Sigma.ι F i).val.app U ((Pi.π F i).val.app U b), ?_⟩
   apply Concrete.isLimit_ext _ (isLimitOfPreserves E (limit.isLimit (Discrete.functor F)))
   rintro ⟨j⟩
-  show (Pi.π F j).val.app U (f.val.app U
+  change (Pi.π F j).val.app U (f.val.app U
     (∑ i ∈ s, (Sigma.ι F i).val.app U ((Pi.π F i).val.app U b))) = (Pi.π F j).val.app U b
   simp only [map_sum]
   have he (i : ι) : (Pi.π F j).val.app U

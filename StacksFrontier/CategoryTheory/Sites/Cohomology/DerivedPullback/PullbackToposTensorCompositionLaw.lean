@@ -269,8 +269,8 @@ theorem pullbackTensorIso_hom_naturality_prod_assoc
     {F F' G G' : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)} (a : F ⟶ F') (b
         : G ⟶ G') {T : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)}
     (k
-        : (Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O)).obj (
-            g.pullbackModules.obj F', g.pullbackModules.obj G') ⟶ T) :
+        : (Functor.uncurry.obj (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O)).obj
+            (g.pullbackModules.obj F', g.pullbackModules.obj G') ⟶ T) :
     g.pullbackModules.map ((Functor.uncurry.obj (
         Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O)).map ((a, b) :
           ((F, G)
@@ -326,6 +326,9 @@ def pullbackToposCompTau :
         (RingedToposSiteHom.isMorphismOfSites_comp_u f f' hmosf hmosf')).toToposHom.pushforward :=
   Iso.refl _
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify Z.J AddCommGrpCat.{u}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The structure map of the composite is the composite structure map**: the compatibility of
 `pullbackToposCompTau` with the structure maps that
 `Stacks.Sheaves.RingedToposModules.pullbackModulesCompIso` takes. -/
@@ -372,6 +375,7 @@ def pullbackModulesCompSiteIso :
 
 /-! ### The reduction of the bridge to an identity of pushforwards -/
 
+omit [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 private theorem pullbackModulesSiteIso_eq :
     pullbackModulesSiteIso f hmosf =
       Adjunction.leftAdjointUniq
@@ -380,6 +384,10 @@ private theorem pullbackModulesSiteIso_eq :
         f.pullbackPushforwardAdjunctionTopos :=
   rfl
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Z.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] [HasSheafify Z.J AddCommGrpCat.{u}]
+  [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The composition comparison of the two site-presented pullbacks, spelled out. -/
 private theorem pullbackToposCompIso_eq :
     RingedToposSiteHom.pullbackToposCompIso f f' =
@@ -388,6 +396,7 @@ private theorem pullbackToposCompIso_eq :
         (RingedToposSiteHom.pushforwardToposCompIso f f').symm :=
   rfl
 
+omit [HasSheafify Z.J AddCommGrpCat.{u}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The composition comparison of the four-field pullbacks, spelled out. -/
 private theorem pullbackModulesCompSiteIso_eq_adj :
     pullbackModulesCompSiteIso f f' hmosf hmosf' =
@@ -412,6 +421,10 @@ variable {X' Y' : RingedTopos.{u, u, u}}
   [HasSheafify X'.J AddCommGrpCat.{u}] [X'.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
   [HasSheafify Y'.J AddCommGrpCat.{u}] [Y'.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
 
+omit [X'.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Y'.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] [HasSheafify X'.J AddCommGrpCat.{u}]
+  [X'.J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify Y'.J AddCommGrpCat.{u}]
+  [Y'.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The comparison of the two presentations of the direct image splits, on underlying sheaves of
 sets, into the comparison of the four-field and the two-field presentations and the comparison of
 the two-field presentation with Mathlib's direct image. -/
@@ -427,6 +440,10 @@ private theorem map_pushforwardModulesToposIso_hom_app_comp
           ((RingedSite.Hom.ofRingedToposSiteHom g hmos).pushforwardToposIso.hom.app N) :=
   (Sheaf.moduleSheafFunctor (Stacks.SheafOfModules.Tensor.ringSheaf Y'.O)).map_comp _ _
 
+omit [X'.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Y'.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] [HasSheafify X'.J AddCommGrpCat.{u}]
+  [X'.J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify Y'.J AddCommGrpCat.{u}]
+  [Y'.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The comparison of the two-field direct image with Mathlib's is the identity on underlying
 sheaves of sets: its component is `Stacks.Sheaves.RingedToposModules.ofSheafHom` of an
 identity. -/
@@ -438,9 +455,11 @@ private theorem map_pushforwardToposIso_hom_app
       CategoryStruct.id ((Sheaf.moduleSheafFunctor
           (Stacks.SheafOfModules.Tensor.ringSheaf Y'.O)).obj
         ((RingedSite.Hom.ofRingedToposSiteHom g hmos).ringedToposHom.pushforwardModules.obj N)) :=
-  moduleSheafFunctor_map_ofSheafHom _ _ _
+  moduleSheafFunctor_map_ofSheafHom.{u, u, u} _ _ _
 
 open Stacks.Sheaves.GradedAlgebraEssentiallySmall in
+omit [HasSheafify X'.J AddCommGrpCat.{u}] [X'.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify Y'.J AddCommGrpCat.{u}] [Y'.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The comparison of the four-field and the two-field direct images is the identity on
 underlying sheaves of sets. -/
 private theorem map_pushforwardModulesIso_hom_app
@@ -454,6 +473,8 @@ private theorem map_pushforwardModulesIso_hom_app
         ((pushforwardModules (modulesHomOfSiteHom g hmos)).obj N)) :=
   moduleSheafFunctor_map_pushforwardModulesIso_hom_app _ N
 
+omit [HasSheafify X'.J AddCommGrpCat.{u}] [X'.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify Y'.J AddCommGrpCat.{u}] [Y'.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The comparison of the two presentations of the direct image of sheaves of modules along a
 morphism of ringed topoi presented by a morphism of sites is the identity on underlying sheaves
 of sets.** -/
@@ -477,6 +498,8 @@ private theorem map_pushforwardModulesToposIso_hom_app
               (RingedSite.Hom.ofRingedToposSiteHom g hmos).ringedToposHom).hom.app N))).trans
         (map_pushforwardModulesIso_hom_app g hmos N)))
 
+omit [HasSheafify X'.J AddCommGrpCat.{u}] [X'.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify Y'.J AddCommGrpCat.{u}] [Y'.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The same comparison, read on sections. -/
 private theorem val_app_pushforwardModulesToposIso_hom_app
     (g : RingedToposSiteHom X' Y') (hmos : g.u.IsMorphismOfSites Y'.J X'.J)
@@ -495,6 +518,12 @@ end Factors
 
 /-! ### The factors of (★) -/
 
+omit [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [Z.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] [HasSheafify X.J AddCommGrpCat.{u}]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify Y.J AddCommGrpCat.{u}]
+  [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify Z.J AddCommGrpCat.{u}]
+  [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The composition comparison of Mathlib's direct images is the identity on sections. -/
 private theorem map_pushforwardToposCompIso_hom_app
     (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
@@ -506,6 +535,9 @@ private theorem map_pushforwardToposCompIso_hom_app
   Sheaf.hom_ext_sections fun U x ↦
     RingedToposSiteHom.pushforwardToposCompIso_hom_app_val_app f f' M U x
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify Z.J AddCommGrpCat.{u}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The inverse of the composition comparison of the four-field direct images is `τ.inv`, hence
 the identity, on underlying sheaves of sets. -/
 private theorem map_pushforwardModulesCompIso_inv_app
@@ -526,6 +558,10 @@ private theorem map_pushforwardModulesCompIso_inv_app
       (RingedToposSiteHom.isMorphismOfSites_comp_u f f' hmosf hmosf')) M
     (pullbackToposCompTau f f' hmosf hmosf') (fSharpSetComp_modulesHomOfSiteHom f f' hmosf hmosf')
 
+omit [Z.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] [HasSheafify Z.J AddCommGrpCat.{u}]
+  [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The direct image along `f'` of the comparison for `f` is the identity on underlying sheaves
 of sets: the direct image is restriction along `f'.u`, so this is the comparison for `f` read on
 sections over `f'.u U`. -/
@@ -541,6 +577,9 @@ private theorem map_pushforwardTopos_map_hom_app
   Sheaf.hom_ext_sections fun U x ↦
     val_app_pushforwardModulesToposIso_hom_app f hmosf M (f'.u.op.obj U) x
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify Z.J AddCommGrpCat.{u}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The two whiskered factors of the right-hand side of (★) compose to the identity on
 underlying sheaves of sets. -/
 private theorem star_rhs_tail
@@ -573,6 +612,10 @@ private theorem star_rhs_tail
   exact map_pushforwardModulesToposIso_hom_app f' hmosf'
     ((pushforwardModules (modulesHomOfSiteHom f hmosf)).obj M)
 
+omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] [HasSheafify Y.J AddCommGrpCat.{u}]
+  [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify Z.J AddCommGrpCat.{u}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The left-hand side of (★) is the identity on underlying sheaves of sets. -/
 private theorem star_lhs
     (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
@@ -605,6 +648,9 @@ private theorem star_lhs
   exact map_pushforwardModulesToposIso_hom_app (f'.comp f)
     (RingedToposSiteHom.isMorphismOfSites_comp_u f f' hmosf hmosf') M
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify Z.J AddCommGrpCat.{u}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The right-hand side of (★) is the identity on underlying sheaves of sets. -/
 private theorem star_rhs
     (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
@@ -653,6 +699,9 @@ private theorem star_rhs
         (fSharpSetComp_modulesHomOfSiteHom f f' hmosf hmosf')).inv.app M))) ?_
   exact map_pushforwardModulesCompIso_inv_app f f' hmosf hmosf' M
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify Z.J AddCommGrpCat.{u}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- (★) at a single sheaf of modules. -/
 private theorem star_app
     (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) :
@@ -677,6 +726,9 @@ private theorem star_app
     (N := f'.pushforwardTopos.obj (f.pushforwardTopos.obj M))
     ((star_lhs f f' hmosf hmosf' M).trans (star_rhs f f' hmosf hmosf' M).symm)
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasSheafify Z.J AddCommGrpCat.{u}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **(★)** The two comparisons of the direct image of sheaves of modules along a composite are
 compatible with the comparisons of the two presentations of each direct image. -/
 private theorem star :
@@ -696,6 +748,7 @@ private theorem star :
             f'.pushforwardTopos :=
   NatTrans.ext (funext fun M ↦ star_app f f' hmosf hmosf' M)
 
+omit [HasSheafify Z.J AddCommGrpCat.{u}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The two composition isomorphisms of pullbacks agree.**  The composition isomorphism
 `f^*f'^* ≅ (f' ∘ f)^*` of `AlgebraicGeometry.RingedToposSiteHom.pullbackToposCompIso`, followed by
 the identification of the pullback along `f' ∘ f` with its four-field counterpart, is the
@@ -760,6 +813,7 @@ theorem pullbackToposTensorMap_eq_uncurry (hmos : f.u.IsMorphismOfSites Y.J X.J)
                 (f.pullbackTopos.obj A, f.pullbackTopos.obj B)) :=
   rfl
 
+omit [HasSheafify Z.J AddCommGrpCat.{u}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The bridge, read backwards.**  Undoing the four-field composition isomorphism and then
 identifying the pullback along `f' ∘ f` is the identification for `f'` pushed along `f^*`, then the
 identification for `f`, then the composition isomorphism of the site-presented pullbacks; it is
@@ -783,6 +837,7 @@ theorem pullbackModulesCompSiteIso_inv_app_comp_pullbackModulesSiteIso_hom_app (
       (((modulesHomOfSiteHom f hmosf).pullbackModules).map_id _))
     (pullbackToposCompIso_hom_app_comp_pullbackModulesSiteIso_inv_app f f' hmosf hmosf' M)
 
+omit [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The naturality of the identification of the two pullbacks of sheaves of modules, with a
 morphism appended. -/
 private lemma pullbackModulesSiteIso_inv_naturality_assoc
@@ -794,12 +849,13 @@ private lemma pullbackModulesSiteIso_inv_naturality_assoc
           (modulesHomOfSiteHom f hmosf).pullbackModules.map h ≫ k := by
   rw [← Category.assoc, (pullbackModulesSiteIso f hmosf).inv.naturality, Category.assoc]
 
+omit [HasSheafify Z.J AddCommGrpCat.{u}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- `pullbackToposCompIso_hom_app_comp_pullbackModulesSiteIso_inv_app` with a morphism appended. -/
 private lemma pullbackToposCompIso_hom_app_comp_inv_app_assoc (M
     : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Z.O))
     {T : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)} (k
-        : (modulesHomOfSiteHom (f'.comp f) (
-            RingedToposSiteHom.isMorphismOfSites_comp_u f f' hmosf hmosf')).pullbackModules.obj M ⟶
+        : (modulesHomOfSiteHom (f'.comp f)
+            (RingedToposSiteHom.isMorphismOfSites_comp_u f f' hmosf hmosf')).pullbackModules.obj M ⟶
                 T) :
     (RingedToposSiteHom.pullbackToposCompIso f f').hom.app M ≫
         (pullbackModulesSiteIso (f'.comp f) (
@@ -811,6 +867,7 @@ private lemma pullbackToposCompIso_hom_app_comp_inv_app_assoc (M
   rw [← Category.assoc, pullbackToposCompIso_hom_app_comp_pullbackModulesSiteIso_inv_app,
       Category.assoc, Category.assoc]
 
+omit [HasSheafify Z.J AddCommGrpCat.{u}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- `pullbackModulesCompSiteIso` written out as the four-field composition isomorphism
 `Stacks.Sheaves.RingedToposModules.pullbackModulesCompIso` it is. -/
 private lemma pullbackModulesCompSiteIso_eq :
@@ -821,6 +878,7 @@ private lemma pullbackModulesCompSiteIso_eq :
         fSharpSetComp_modulesHomOfSiteHom f f' hmosf hmosf')) :=
   rfl
 
+omit [HasSheafify Z.J AddCommGrpCat.{u}] [Z.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The three tensor-factor comparisons recombine.**  Undoing the four-field composition
 isomorphism in each tensor factor and then identifying the two pullbacks along `f' ∘ f` in each
 tensor factor is the identification for `f'` pushed along `f^*`, then the identification for `f`,

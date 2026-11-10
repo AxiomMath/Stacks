@@ -67,7 +67,7 @@ theorem lqcohSheafFbcModuleRule_stackModuleDirectImage_of_isAffineRepresentable
     lqcohSheafFbcModuleRule B E h S hS 𝒴 ((stackModuleDirectImage B S hS f .etale).obj F) := by
   have hlqc := isLocallyQuasicoherent_stackModuleDirectImage_of_isAffineRepresentable B S hS E h
     f h𝒳 h𝒴 F hF.1
-  exact ⟨hlqc, hasSheafFlatBaseChangeProperty_of_isIso_restrictionBaseChange B E h S hS _ _ _ hlqc
+  exact ⟨hlqc, hasSheafFlatBaseChangeProperty_of_isIso_restrictionBaseChange B E h S hS _ _ _
     fun {_ _} φ hy hy' hφ ↦ isIso_restrictionBaseChange_stackModuleDirectImage B S hS @Flat .etale
       f h𝒳 h𝒴 F (fun _ _ ψ hx hx' hψ ↦
         isIso_restrictionBaseChange_of_flat B E h S hS _ _ F.val hF ψ hψ hx hx') φ hy hy' hφ⟩

@@ -127,11 +127,11 @@ private theorem exists_open_neighborhood_away_from_closed
     (Scheme.size_le_of_locallyOfFiniteType j).trans_lt X.property
   let V : SmallEtale B X.1 X.property :=
     ⟨Over.mk (ObjectProperty.homMk j : B.obj (Spec R) hR ⟶ B.obj X.1 X.property), by
-      show Etale j
+      change Etale j
       infer_instance⟩
   have hp : (geometricPointFiber B X.1 X.property s).obj V :=
     ⟨IsOpenImmersion.lift j s.hom hrange, by
-      simpa [V] using IsOpenImmersion.lift_fac j s.hom hrange⟩
+      simp [V]⟩
   refine ⟨V, hp, Set.disjoint_left.mpr ?_⟩
   rintro _ ⟨y, rfl⟩ hyx
   exact hsub ⟨y, rfl⟩ hyx
@@ -158,7 +158,7 @@ public theorem smallEtalePushforward_stalk_unique_of_not_mem_range
     (SmallEtale.topology B Z.1 Z.property)
   let J := geometricPointFiber B X.1 X.property s
   let I := J.Elementsᵒᵖ
-  let F : I ⥤ Type (max (u + 1) v) := (CategoryOfElements.π J).op ⋙ (H.obj G).obj
+  let F : I ⥤ Type (max (u + 1) v) := (Functor.Elements.π J).op ⋙ (H.obj G).obj
   obtain ⟨V, p, hdisjV⟩ := exists_open_neighborhood_away_from_closed B i s hs
   let e₀ : J.Elements := J.elementsMk V p
   let e₀' : I := op e₀
@@ -179,7 +179,7 @@ public theorem smallEtalePushforward_stalk_unique_of_not_mem_range
       rw [← hfac]
       exact range_comp_base_subset _ _
     have hEmpty : IsEmpty ((SmallEtale.toScheme B Z.1 Z.property).obj (P.obj C)) := by
-      show IsEmpty (B.inclusion.obj ((Over.pullback i).obj C.obj).left)
+      change IsEmpty (B.inclusion.obj ((Over.pullback i).obj C.obj).left)
       refine ⟨fun w => ?_⟩
       let fst := B.inclusion.map (Limits.pullback.fst C.obj.hom i)
       let snd := B.inclusion.map (Limits.pullback.snd C.obj.hom i)
@@ -190,14 +190,14 @@ public theorem smallEtalePushforward_stalk_unique_of_not_mem_range
       exact Set.disjoint_left.mp (hdisjV.mono_left hsub) (range_comp_base_subset _ _ ⟨w, rfl⟩)
         (range_comp_base_subset _ _ hw)
     have hUnique : Unique (F.obj c) := by
-      show Unique ((H.obj G).obj.obj (op C))
-      show Unique (G.obj.obj (op (P.obj C)))
+      change Unique ((H.obj G).obj.obj (op C))
+      change Unique (G.obj.obj (op (P.obj C)))
       exact unique_sections_of_empty_etale_object B Z G (P.obj C) hEmpty
     refine ⟨c, ⟨IsFiltered.leftToMax a e₀'⟩, ?_⟩
     let := hUnique
     exact ⟨inferInstance, ⟨default⟩⟩
   let := unique_colimit_of_refinements F hF
-  show ∃! _ : colimit F, True
+  change ∃! _ : colimit F, True
   exact ⟨default, trivial, fun _ _ => Subsingleton.elim _ _⟩
 
 end AlgebraicGeometry

@@ -122,6 +122,7 @@ instance isCohenMacaulay_isLocal_etale :
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for pullbacks of presheaves on the big fppf site is expensive
 /-- Pullbacks of presheaves on the big fppf site of `S`, found once so that later searches
 do not repeat the expensive instance search. -/
 theorem hasLimit_cospan_presheaf_etaleCharts {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -295,7 +296,7 @@ private theorem chartFiberAtlas_isPullback (f : X ⟶ Y) (V : BigFppfOver B S hS
     (by rw [Category.assoc, comm]; exact pullback.condition) with hkdef
   refine (isPullback_lift_fst a (pullback.snd f g) (yoneda.map h) (yoneda.map r) comm).of_iso
     e.symm (Iso.refl _) (Iso.refl _) (Iso.refl _) ?_ ?_ rfl rfl
-  · show k = e.inv ≫ (e.hom ≫ k)
+  · change k = e.inv ≫ (e.hom ≫ k)
     rw [← Category.assoc, Iso.inv_hom_id, Category.id_comp]
   · exact (PreservesPullback.iso_inv_fst yoneda h r).symm
 
@@ -363,7 +364,7 @@ theorem hasEtaleLocalProperty_fiberAt_iff
       (pullback.congrHom (f₁ := f) rfl
         (yonedaEquiv_symm_value_chartResidueFieldPoint B S hS V g v hv))
   have eScheme : T.obj (pullback h r) ≅ (T.map h).fiber v := by
-    show T.obj (pullback h r) ≅ pullback (T.map h) (V.left.1.fromSpecResidueField v)
+    change T.obj (pullback h r) ≅ pullback (T.map h) (V.left.1.fromSpecResidueField v)
     have hr : T.map r = V.left.1.fromSpecResidueField v := rfl
     rw [← hr]
     exact PreservesPullback.iso T h r
@@ -670,7 +671,7 @@ theorem nonempty_quotient_maximalIdeal_map_ringEquiv {R A : Type u} [CommRing R]
       (((maximalIdeal R).map g).map (algebraMap A TA.strictHenselization)).map eA := by
     rw [← map_ringEquiv_maximalIdeal eR,
       ← IsHenselization.map_maximalIdeal (R := R) (L := LR) (Rh := TR.strictHenselization)]
-    show (((maximalIdeal R).map (algebraMap R TR.strictHenselization)).map
+    change (((maximalIdeal R).map (algebraMap R TR.strictHenselization)).map
         eR.toRingHom).map φ =
       (((maximalIdeal R).map g).map (algebraMap A TA.strictHenselization)).map eA.toRingHom
     simp only [Ideal.map_map]
@@ -705,7 +706,7 @@ theorem apply_algebraMap_strictHenselization_eq {Z W : Scheme.{u}} [IsAffine W]
     apply IsLocalization.ringHom_ext
       ((isAffineOpen_top W).primeIdealOf ⟨q z, trivial⟩).asIdeal.primeCompl
     ext a
-    show eZ.symm (φ (eW (algebraMap _ T.strictHenselization
+    change eZ.symm (φ (eW (algebraMap _ T.strictHenselization
       (W.presheaf.germ ⊤ (q z) trivial a)))) = _
     rw [hc, RingEquiv.symm_apply_apply]
     exact congrArg (algebraMap _ U.strictHenselization)
@@ -859,7 +860,7 @@ theorem exists_compatible_affine_chart_square (hX : IsAlgebraicSpace B S hS X)
   set iV : VW ⟶ V.chart.obj.left := Over.homMk ⟨W.ι⟩ with hiV
   set gW : UW ⟶ VW := Over.homMk ⟨(C.map g) ∣_ W⟩ (by
     apply B.inclusion.map_injective
-    show (C.map g ∣_ W) ≫ (W.ι ≫ V.chart.obj.left.hom.1) = Z.ι ≫ U.chart.obj.left.hom.1
+    change (C.map g ∣_ W) ≫ (W.ι ≫ V.chart.obj.left.hom.1) = Z.ι ≫ U.chart.obj.left.hom.1
     rw [← Category.assoc, morphismRestrict_ι, Category.assoc]
     congr 1
     exact congrArg B.inclusion.map g.w) with hgW
@@ -868,17 +869,17 @@ theorem exists_compatible_affine_chart_square (hX : IsAlgebraicSpace B S hS X)
   have hrange : Set.range (C.map U.point) ⊆ Set.range Z.ι := by
     rintro _ ⟨t, rfl⟩
     refine ⟨⟨C.map U.point t, ?_⟩, rfl⟩
-    show C.map g (C.map U.point t) ∈ W
+    change C.map g (C.map U.point t) ∈ W
     rw [← Scheme.Hom.comp_apply, ← C.map_comp, hpoint]
     have ht : t = IsLocalRing.closedPoint x.val.carrier := by
-      show (_ : Spec (.of x.val.carrier)) = _
+      change (_ : Spec (.of x.val.carrier)) = _
       exact Subsingleton.elim _ _
     rw [ht]
     exact hv
   set q' : x.val.siteObject ⟶ UW :=
     Over.homMk ⟨IsOpenImmersion.lift Z.ι (C.map U.point) hrange⟩ (by
       apply B.inclusion.map_injective
-      show IsOpenImmersion.lift Z.ι (C.map U.point) hrange ≫
+      change IsOpenImmersion.lift Z.ι (C.map U.point) hrange ≫
         (Z.ι ≫ U.chart.obj.left.hom.1) = x.val.toBase
       rw [← Category.assoc, IsOpenImmersion.lift_fac]
       exact congrArg B.inclusion.map U.point.w) with hq'
@@ -898,7 +899,7 @@ theorem exists_compatible_affine_chart_square (hX : IsAlgebraicSpace B S hS X)
       yoneda.map_comp, Category.assoc]
   have hqa : (yoneda.map iU ≫ U.chart.obj.hom).app (Opposite.op x.val.siteObject) q' =
       x.val.value := by
-    show U.chart.obj.hom.app _ (q' ≫ iU) = x.val.value
+    change U.chart.obj.hom.app _ (q' ≫ iU) = x.val.value
     rw [hq]
     exact U.point_comp
   refine ⟨⟨⟨CostructuredArrow.mk (yoneda.map iU ≫ U.chart.obj.hom), haW⟩, q', hqa⟩,

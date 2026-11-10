@@ -110,8 +110,7 @@ theorem exists_linearMap_residueField_ne_zero (M : Type u) [AddCommGroup M] [Mod
     exact hι (by simpa using congrArg (fun f => f m) hμ)
   have hzero : ∀ y : TensorProduct A (IsLocalRing.ResidueField A) M, φ y = 0 := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul a m =>
         have hm := congrArg (fun f : M →ₗ[A] IsLocalRing.ResidueField A => f m) hμ'
         simp only [LinearMap.coe_comp, Function.comp_apply, TensorProduct.mk_apply,

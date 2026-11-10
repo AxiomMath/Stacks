@@ -81,7 +81,7 @@ theorem rationallyEquivalentOn_firstChernCapCycleMap_restrictedSectionChernRule
         fun T hT hβT _ => ⟨?_, (hβ T hβT).2⟩))
   have hTE := (hβ T hβT).1
   rw [show restrictedSectionChernRule D sX hX L σ hLs m (canonicalFirstChernRule D sX hX L hL m)
-      T hT = _ from dif_neg hTE]
+      T hT = _ from dite_eq_right hTE]
   exact isPrincipalDivisorCycleOfGood_canonicalDivisorCycleAt_sub D _ _ T.isIntegralSpace _ _ _ _
     _ _ _
 
@@ -150,7 +150,7 @@ theorem rationallyEquivalentOn_firstChernCapCycleMap_closedSubspaceCycle_inf
   convert rationallyEquivalentOn_firstChernCapCycleMap_closedSubspaceCycle D sX hX L hL hLs σ m C
     hCdim hCart using 1
   refine Subtype.ext ?_
-  show _ = cycleClosedPushforward D hX.1 (vanishingLocus D sX hX L σ).2.1
+  change _ = cycleClosedPushforward D hX.1 (vanishingLocus D sX hX L σ).2.1
     (D.isDecentSpace_of_isGood sX hX) (vanishingLocus D sX hX L σ).2.2
     (gysinCycleMap D sX (vanishingLocus D sX hX L σ) (isGood_vanishingLocus D sX hX L σ) m
       (canonicalGysinComponentRule D sX hX (vanishingLocus D sX hX L σ)
@@ -355,7 +355,7 @@ theorem rationallyEquivalentOn_topSegreCycle_flatPullbackMap_integralCycle_of_ch
     rw [hCd, subspacePointSet_preimage]
     exact Set.image_preimage_subset _ _
   have key := (rationallyEquivalentOn_iff_zero.{u + 1} D sU hU _).2 hpush
-  show RationallyEquivalentOn.{u + 1} D sU hU k _
+  change RationallyEquivalentOn.{u + 1} D sU hU k _
     (properCyclePushforward D sP hP sU hU hπ hπp.2.1.2 k
       (iteratedFirstChernCapCycle D sP hP d (fun _ => N) (fun _ => hN) k
         (cycleGroupCast D sP rfl (flatPullbackMap D sP hP sU hU π hπ d hπf hπd k (k + d) rfl

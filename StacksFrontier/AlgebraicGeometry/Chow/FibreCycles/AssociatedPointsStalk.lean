@@ -104,7 +104,7 @@ theorem isAssociatedPrimeStacks_of_isAssociatedPrime_quotient_ker {A B : Type*} 
     { toFun := φ
       map_add' := φ.map_add
       map_smul' := fun r a => by
-        show φ (r * a) = r • φ a
+        change φ (r * a) = r • φ a
         rw [map_mul]
         rfl }
   let e : (A ⧸ RingHom.ker φ) ≃ₗ[A] B :=

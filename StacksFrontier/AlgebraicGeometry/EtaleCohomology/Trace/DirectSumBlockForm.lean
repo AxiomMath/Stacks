@@ -207,7 +207,7 @@ public theorem eq_coordSubspace_of_coordMatrix {α : Type*} {a n : ℕ} {e : Fin
   have hrange : ∀ w ∈ coordSubspace (K := K) (fun i => δ i = t), L (fun j => w (e j)) = w := by
     intro w hw
     funext i
-    show (coordMatrix (R := K) e *ᵥ fun j => w (e j)) i = w i
+    change (coordMatrix (R := K) e *ᵥ fun j => w (e j)) i = w i
     by_cases hi : ∃ j, e j = i
     · obtain ⟨j, rfl⟩ := hi
       rw [coordMatrix_mulVec_apply he]
@@ -234,14 +234,14 @@ public theorem eq_coordSubspace_of_coordMatrix {α : Type*} {a n : ℕ} {e : Fin
       rw [eq_bot_iff]
       intro w hw
       have hw' : (fun j => w (e j)) ∈ W₁ := by
-        show L _ ∈ W'
+        change L _ ∈ W'
         rw [hrange w (hW hw)]
         exact hw
       rw [h0, Submodule.mem_bot] at hw'
       rw [Submodule.mem_bot, ← hrange w (hW hw), hw', map_zero]
     · intro x v hv
-      show L (X x *ᵥ v) ∈ W'
-      show (coordMatrix (R := K) e *ᵥ (X x *ᵥ v)) ∈ W'
+      change L (X x *ᵥ v) ∈ W'
+      change (coordMatrix (R := K) e *ᵥ (X x *ᵥ v)) ∈ W'
       rw [Matrix.mulVec_mulVec, ← hMX, ← Matrix.mulVec_mulVec]
       exact hst x _ hv
   refine le_antisymm hW fun w hw => ?_

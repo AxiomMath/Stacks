@@ -596,7 +596,7 @@ private theorem counit_compat_complex
           (modulePushforward_supportedSectionsOnClosed_adjunction X Z hZ)
           (ComplexShape.up ℤ)).counit.app C) := by
   refine HomologicalComplex.hom_ext _ _ fun n => ?_
-  show (closedSubsetPushforwardPullbackNatIso f Z).hom.app
+  change (closedSubsetPushforwardPullbackNatIso f Z).hom.app
           ((supportedSectionsOnClosedFunctor X Z hZ).obj (C.X n)) ≫
       (modulePushforward (closedSubsetInclusion X' (closedSubsetPreimage f Z))).map
         ((supportedSectionsOnClosedPullbackNatIso f Z hZ hZ').hom.app (C.X n)) ≫

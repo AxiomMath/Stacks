@@ -54,7 +54,7 @@ theorem identityComponent_ι_identityPoint (k : Type u) [Field k]
       η[G.X] := IsMonHom.one_hom _
   have h' := congrArg (fun f => f.left) h
   simp only [Over.comp_left] at h'
-  show ((η[(identityComponent k G).carrier.X]).left ≫
+  change ((η[(identityComponent k G).carrier.X]).left ≫
       (identityComponent k G).ι.hom.hom.left) _ = _
   rw [h']
 

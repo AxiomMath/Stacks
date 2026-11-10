@@ -351,11 +351,12 @@ theorem transitionBaseChangeIso_comp {i j k : (sys D c B hD hX hc).I} (a : i ⟶
     (lvlMap D c B hD hX hc (a ≫ b))) expand).symm
   exact (chain_aux _ _ _ _ _ _ _ _ _ _ _ h4' h5 h2' h3').symm
 
+open CategoryTheory.Sites.InverseSystem in
 /-- **The functors to the site of the limit are continuous** (one half of Stacks 0A35). -/
 theorem toLimitSmall_isContinuous (i : (sys D c B hD hX hc).I) :
     (toLimitSmall D c B hD hX hc i).IsContinuous ((sys D c B hD hX hc).J i)
       (limitSitePrecoverage D c B hX).toGrothendieck :=
-  (CategoryTheory.Sites.InverseSystem.InverseSystemOfFiniteSites.exists_isMorphismOfSites_sections_pullback_of_colimit
+  (InverseSystemOfFiniteSites.exists_isMorphismOfSites_sections_pullback_of_colimit
     (sys D c B hD hX hc) (toLimitSmall D c B hD hX hc) (toLimitSmall_transition D c B hD hX hc)
     (toLimitSmall_obj_descends D c B hD hX hc) (toLimitSmall_hom_descends D c B hD hX hc)
     (toLimitSmall_hom_eventually_eq D c B hD hX hc) (limitSitePrecoverage D c B hX)

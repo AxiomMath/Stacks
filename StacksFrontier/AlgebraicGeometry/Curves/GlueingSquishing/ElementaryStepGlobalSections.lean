@@ -115,9 +115,9 @@ theorem eq_zero_of_isIso_of_locally {X' X : Scheme.{u}} (f : X' ⟶ X)
       · exact Or.inl (hyx ▸ hxV)
       · exact Or.inr ⟨hy, mem_of_ne_of_eq_compl hU hyx⟩
     refine TopCat.Sheaf.eq_of_locally_eq₂ X.sheaf (homOfLE hVΩ) (homOfLE hUΩ) hcov s 0 ?_ ?_
-    · show (X.presheaf.map (homOfLE hVΩ).op).hom s = (X.presheaf.map (homOfLE hVΩ).op).hom 0
+    · change (X.presheaf.map (homOfLE hVΩ).op).hom s = (X.presheaf.map (homOfLE hVΩ).op).hom 0
       rw [hV0, map_zero]
-    · show (X.presheaf.map (homOfLE hUΩ).op).hom s = (X.presheaf.map (homOfLE hUΩ).op).hom 0
+    · change (X.presheaf.map (homOfLE hUΩ).op).hom s = (X.presheaf.map (homOfLE hUΩ).op).hom 0
       rw [hU0, map_zero]
   · have : IsIso (f.app Ω) := by
       refine isIso_app_of_isIso_morphismRestrict f U _ ?_
@@ -290,7 +290,7 @@ theorem finrank_globalSections_eq_of_bijective_appTop (k : Type u) [Field k]
   have e : Γ(X, ⊤) ≃ₐ[k] Γ(X', ⊤) :=
     AlgEquiv.ofRingEquiv (f := RingEquiv.ofBijective (f.appTop).hom hbij) (by
       intro c
-      show (f.appTop).hom (((Scheme.ΓSpecIso (.of k)).inv ≫ p.appTop).hom c)
+      change (f.appTop).hom (((Scheme.ΓSpecIso (.of k)).inv ≫ p.appTop).hom c)
         = ((Scheme.ΓSpecIso (.of k)).inv ≫ (f ≫ p).appTop).hom c
       have hc : (f ≫ p).appTop = p.appTop ≫ f.appTop := by simp
       rw [hc]

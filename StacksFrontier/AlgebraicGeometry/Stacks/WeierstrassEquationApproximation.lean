@@ -253,7 +253,7 @@ theorem overPullback_iff (M : E.Model B) (P : MorphismProperty Scheme.{u}) [P.Re
     P ((Over.pullback M.π).map (Over.homMk (Over.mk M.family.map).hom (by simp) :
         Over.mk M.family.map ⟶ Over.mk (𝟙 B))).left ↔ P E.map := by
   rw [overPullback_structure_iff P M.π (Over.mk M.family.map)]
-  show P (Limits.pullback.snd M.family.map M.π) ↔ P E.map
+  change P (Limits.pullback.snd M.family.map M.π) ↔ P E.map
   rw [← M.isPullback.isoPullback_hom_snd]
   exact (MorphismProperty.cancel_left_of_respectsIso P _ _).symm
 
@@ -330,13 +330,13 @@ theorem exists_model_stage (E : PointedFamily D.limitScheme) (hE : FinitePresent
         exact hbig
       zero_q := by
         refine Limits.pullback.hom_ext ?_ ?_
-        · show E.zero ≫ Limits.pullback.lift _ _ hq ≫ Limits.pullback.fst _ _ =
+        · change E.zero ≫ Limits.pullback.lift _ _ hq ≫ Limits.pullback.fst _ _ =
             c.π.app j ≫ Limits.pullback.lift (D.system.map e₂ ≫ g₂) (𝟙 _) hze ≫
               Limits.pullback.fst _ _
           rw [Limits.pullback.lift_fst, Limits.pullback.lift_fst]
           simp only [g₂, ← Category.assoc, c.w]
           exact hg₁.symm.trans (by simp)
-        · show E.zero ≫ Limits.pullback.lift _ _ hq ≫ Limits.pullback.snd _ _ =
+        · change E.zero ≫ Limits.pullback.lift _ _ hq ≫ Limits.pullback.snd _ _ =
             c.π.app j ≫ Limits.pullback.lift (D.system.map e₂ ≫ g₂) (𝟙 _) hze ≫
               Limits.pullback.snd _ _
           rw [Limits.pullback.lift_snd, Limits.pullback.lift_snd, reassoc_of% E.zero_map,

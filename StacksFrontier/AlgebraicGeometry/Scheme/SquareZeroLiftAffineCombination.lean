@@ -156,7 +156,7 @@ theorem apply_closedPoint_eq (ℓ : Spec (B) ⟶ Z) :
   have : IsLocalHom (Ideal.Quotient.mk I) :=
     IsLocalHom.of_surjective _ Ideal.Quotient.mk_surjective
   have : IsLocalHom (CommRingCat.ofHom (Ideal.Quotient.mk I)).hom := ‹_›
-  show ℓ ((Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I))) (closedPoint _)) = _
+  change ℓ ((Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk I))) (closedPoint _)) = _
   rw [Spec_closedPoint]
 
 /-- The local ring map of `reduction I ≫ ℓ` is that of `ℓ` followed by the quotient map. -/
@@ -244,7 +244,7 @@ theorem affineComb_apply_closedPoint (ℓ : ι → (Spec B ⟶ Z)) (z : Z)
     (hz : ∀ i, ℓ i (closedPoint B) = z) (c : ι → B) (hc : ∑ i, c i = 1)
     (i₀ : ι) (he : ∀ i, reduction I ≫ ℓ i = reduction I ≫ ℓ i₀) :
     affineComb I hI ℓ z hz c hc i₀ he (closedPoint B) = z := by
-  show Z.fromSpecStalk z ((Spec.map (affineCombStalk I hI ℓ z hz c hc i₀ he)) _) = z
+  change Z.fromSpecStalk z ((Spec.map (affineCombStalk I hI ℓ z hz c hc i₀ he)) _) = z
   rw [Spec_closedPoint, Scheme.fromSpecStalk_closedPoint]
 
 /-- The local ring map of an affine combination is
@@ -313,7 +313,7 @@ theorem affineComb_comp (ℓ : ι → (Spec B ⟶ Z)) (z : Z)
     affineComb I hI ℓ z hz c hc i₀ he ≫ g =
       affineComb I hI (fun i => ℓ i ≫ g) (g z) hz' c hc i₀ he' := by
   have h₁ : (affineComb I hI ℓ z hz c hc i₀ he ≫ g) (closedPoint B) = g z := by
-    show g (affineComb I hI ℓ z hz c hc i₀ he (closedPoint B)) = g z
+    change g (affineComb I hI ℓ z hz c hc i₀ he (closedPoint B)) = g z
     rw [affineComb_apply_closedPoint]
   refine eq_of_stalkAt_eq h₁ (affineComb_apply_closedPoint _ _ hz' c hc i₀ he') ?_
   rw [stalkAt_comp _ (affineComb_apply_closedPoint ℓ z hz c hc i₀ he) g,
@@ -335,7 +335,7 @@ theorem specMap_comp_affineComb (ℓ : ι → (Spec B ⟶ Z)) (z : Z)
     Spec.map ρ ≫ affineComb I hI ℓ z hz c hc i₀ he =
       affineComb I hI (fun i => Spec.map ρ ≫ ℓ i) z hz' (fun i => ρ (c i)) hc' i₀ he' := by
   have h₁ : (Spec.map ρ ≫ affineComb I hI ℓ z hz c hc i₀ he) (closedPoint B) = z := by
-    show affineComb I hI ℓ z hz c hc i₀ he ((Spec.map ρ) (closedPoint B)) = z
+    change affineComb I hI ℓ z hz c hc i₀ he ((Spec.map ρ) (closedPoint B)) = z
     rw [Spec_closedPoint, affineComb_apply_closedPoint]
   refine eq_of_stalkAt_eq h₁ (affineComb_apply_closedPoint _ _ hz' _ hc' i₀ he') ?_
   rw [stalkAt_specMap_comp ρ _ (affineComb_apply_closedPoint ℓ z hz c hc i₀ he) h₁,
@@ -355,7 +355,7 @@ theorem affineComb_comp_eq (ℓ : ι → (Spec B ⟶ Z)) (z : Z)
   have hmz : m (closedPoint B) = g z := by
     rw [← hm i₀]; change g (ℓ i₀ (closedPoint B)) = g z; rw [hz]
   have h₁ : (affineComb I hI ℓ z hz c hc i₀ he ≫ g) (closedPoint B) = g z := by
-    show g (affineComb I hI ℓ z hz c hc i₀ he (closedPoint B)) = g z
+    change g (affineComb I hI ℓ z hz c hc i₀ he (closedPoint B)) = g z
     rw [affineComb_apply_closedPoint]
   refine eq_of_stalkAt_eq h₁ hmz ?_
   rw [stalkAt_comp _ (affineComb_apply_closedPoint ℓ z hz c hc i₀ he) g, stalkAt_affineComb]
@@ -365,7 +365,7 @@ theorem affineComb_comp_eq (ℓ : ι → (Spec B ⟶ Z)) (z : Z)
     intro k
     have h1 := stalkAt_comp (ℓ k) (hz k) g
     have h2 := stalkAt_congr (hm k) (show (ℓ k ≫ g) (closedPoint B) = g z by
-      show g (ℓ k (closedPoint B)) = g z; rw [hz]) hmz
+      change g (ℓ k (closedPoint B)) = g z; rw [hz]) hmz
     rw [← h2, h1]
     rfl
   simp only [hk, ← Finset.sum_mul, hc, one_mul]

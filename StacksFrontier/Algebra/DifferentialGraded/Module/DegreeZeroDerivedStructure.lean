@@ -138,7 +138,7 @@ theorem degreeZeroComponent_isLocalization :
       Functor.leftUnitor DerivedCategory.Q)
   intro X Y f hf
   apply MorphismProperty.le_isoClosure
-  show HomologicalComplex.quasiIso (ModuleCat.{u} A) (.up ℤ)
+  change HomologicalComplex.quasiIso (ModuleCat.{u} A) (.up ℤ)
     ((degreeZeroComponentFunctor R A).map (degreeZeroEquivalence.inverse.map f))
   exact ((HomologicalComplex.quasiIso (ModuleCat.{u} A) (.up ℤ)).arrow_mk_iso_iff
     (Arrow.isoMk (degreeZeroEquivalence.counitIso.app X)

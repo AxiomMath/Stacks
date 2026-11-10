@@ -81,7 +81,7 @@ theorem inverseObjIsoSelf_naturality (e : A ≌ A) (α : ∀ M : A, e.functor.ob
     exact hα (e.inverse.map g)
   have hcounit : e.functor.map (e.inverse.map g) ≫ (e.counitIso.app N).hom =
       (e.counitIso.app M).hom ≫ g := e.counitIso.hom.naturality g
-  show e.inverse.map g ≫ (α (e.inverse.obj N)).inv ≫ (e.counitIso.app N).hom =
+  change e.inverse.map g ≫ (α (e.inverse.obj N)).inv ≫ (e.counitIso.app N).hom =
     ((α (e.inverse.obj M)).inv ≫ (e.counitIso.app M).hom) ≫ g
   rw [← Category.assoc, ← hinv, Category.assoc, hcounit, Category.assoc]
 
@@ -94,12 +94,12 @@ theorem powNatObjIsoSelf_naturality (e : A ≌ A) (α : ∀ M : A, e.functor.obj
       (e.powNat n).functor.map g ≫ (powNatObjIsoSelf e α n N).hom =
         (powNatObjIsoSelf e α n M).hom ≫ g
   | 0, _, _, g => by
-      show g ≫ 𝟙 _ = 𝟙 _ ≫ g
+      change g ≫ 𝟙 _ = 𝟙 _ ≫ g
       simp
   | 1, _, _, g => hα g
   | n + 2, M, N, g => by
       have ih := powNatObjIsoSelf_naturality e α hα (n + 1) (e.functor.map g)
-      show (e.powNat (n + 1)).functor.map (e.functor.map g) ≫
+      change (e.powNat (n + 1)).functor.map (e.functor.map g) ≫
           (powNatObjIsoSelf e α (n + 1) (e.functor.obj N)).hom ≫ (α N).hom =
         ((powNatObjIsoSelf e α (n + 1) (e.functor.obj M)).hom ≫ (α M).hom) ≫ g
       rw [← Category.assoc, ih, Category.assoc, Category.assoc, hα g]
@@ -129,15 +129,15 @@ theorem powNatObjIsoSelf_succIso (e : A ≌ A) (α : ∀ M : A, e.functor.obj M 
           (powNatObjIsoSelf e α n M).hom =
         (powNatObjIsoSelf e α (n + 1) M).hom
   | 0, M => by
-      show 𝟙 _ ≫ (α M).hom ≫ 𝟙 _ = (α M).hom
+      change 𝟙 _ ≫ (α M).hom ≫ 𝟙 _ = (α M).hom
       simp
   | 1, M => by
-      show 𝟙 _ ≫ (α (e.functor.obj M)).hom ≫ (α M).hom =
+      change 𝟙 _ ≫ (α (e.functor.obj M)).hom ≫ (α M).hom =
         (α (e.functor.obj M)).hom ≫ (α M).hom
       simp
   | n + 2, M => by
       have ih := powNatObjIsoSelf_succIso e α (n + 1) (e.functor.obj M)
-      show (powNatSuccIso e (n + 1) (e.functor.obj M)).inv ≫
+      change (powNatSuccIso e (n + 1) (e.functor.obj M)).inv ≫
           (α ((e.powNat (n + 1)).functor.obj (e.functor.obj M))).hom ≫
             ((powNatObjIsoSelf e α (n + 1) (e.functor.obj M)).hom ≫ (α M).hom) =
         (powNatObjIsoSelf e α (n + 2) (e.functor.obj M)).hom ≫ (α M).hom
@@ -154,11 +154,11 @@ theorem powNatObjIsoSelf_inverseSuccIso (e : A ≌ A) (α : ∀ M : A, e.functor
             (powNatObjIsoSelf e.symm (inverseObjIsoSelf e α) (n + 1) M).hom =
         (powNatObjIsoSelf e.symm (inverseObjIsoSelf e α) n M).hom
   | 0, M => by
-      show (e.counitIso.app M).inv ≫ (α (e.inverse.obj M)).hom ≫
+      change (e.counitIso.app M).inv ≫ (α (e.inverse.obj M)).hom ≫
           ((α (e.inverse.obj M)).inv ≫ (e.counitIso.app M).hom) = 𝟙 M
       simp
   | 1, M => by
-      show (e.counitIso.app (e.inverse.obj M)).inv ≫
+      change (e.counitIso.app (e.inverse.obj M)).inv ≫
           (α (e.inverse.obj (e.inverse.obj M))).hom ≫
             (((α (e.inverse.obj (e.inverse.obj M))).inv ≫
                 (e.counitIso.app (e.inverse.obj M)).hom) ≫
@@ -167,7 +167,7 @@ theorem powNatObjIsoSelf_inverseSuccIso (e : A ≌ A) (α : ∀ M : A, e.functor
       simp
   | n + 2, M => by
       have ih := powNatObjIsoSelf_inverseSuccIso e α (n + 1) (e.inverse.obj M)
-      show (powNatInverseSuccIso e (n + 1) (e.inverse.obj M)).inv ≫
+      change (powNatInverseSuccIso e (n + 1) (e.inverse.obj M)).inv ≫
           (α ((e.symm.powNat (n + 2)).functor.obj (e.inverse.obj M))).hom ≫
             ((powNatObjIsoSelf e.symm (inverseObjIsoSelf e α) (n + 2)
                 (e.inverse.obj M)).hom ≫ (inverseObjIsoSelf e α M).hom) =

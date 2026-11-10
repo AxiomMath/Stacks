@@ -72,7 +72,7 @@ theorem pull_id (n : SimplexCategory) : pull (𝟙 n) = id := by
   rcases q with _ | σ
   · rfl
   · have h : Epi (𝟙 n ≫ σ.1) := by rw [Category.id_comp]; exact σ.2
-    simp only [pull, dif_pos h, id]
+    simp only [pull, dite_eq_left h, id]
     exact congrArg some (Subtype.ext (Category.id_comp σ.1))
 
 /-- The structure maps are contravariantly functorial: `pull (θ ≫ θ') = pull θ ∘ pull θ'`. -/
@@ -87,13 +87,13 @@ theorem pull_comp {l m n : SimplexCategory} (θ : l ⟶ m) (θ' : m ⟶ n) :
         rw [Category.assoc] at h
         exact epi_of_epi θ _
       have h'' : Epi (θ ≫ θ' ≫ σ.1) := by rw [← Category.assoc]; exact h
-      rw [dif_pos h, dif_pos h']
-      simp only [dif_pos h'']
+      rw [dite_eq_left h, dite_eq_left h']
+      simp only [dite_eq_left h'']
       exact congrArg some (Subtype.ext (Category.assoc θ θ' σ.1))
-    · rw [dif_neg h]
+    · rw [dite_eq_right h]
       split_ifs with h'
       · have h'' : ¬ Epi (θ ≫ θ' ≫ σ.1) := by rw [← Category.assoc]; exact h
-        simp only [dif_neg h'']
+        simp only [dite_eq_right h'']
       · rfl
 
 /-- The ring of degree `n`: pairs `(a, F)` of an integer and a function `Qₙ → 𝔽₂` whose value at
@@ -101,15 +101,15 @@ the base point is the reduction of `a`. -/
 def ringSub (n : SimplexCategory) : Subring (ℤ × (Option (Surj n) → ZMod 2)) where
   carrier := {x | x.2 none = (x.1 : ZMod 2)}
   mul_mem' {a b} ha hb := by
-    simp only [Set.mem_setOf_eq, Prod.fst_mul, Prod.snd_mul, Pi.mul_apply, Int.cast_mul] at *
+    simp only [Set.mem_ofPred_eq, Prod.fst_mul, Prod.snd_mul, Pi.mul_apply, Int.cast_mul] at *
     rw [ha, hb]
   one_mem' := by simp
   add_mem' {a b} ha hb := by
-    simp only [Set.mem_setOf_eq, Prod.fst_add, Prod.snd_add, Pi.add_apply, Int.cast_add] at *
+    simp only [Set.mem_ofPred_eq, Prod.fst_add, Prod.snd_add, Pi.add_apply, Int.cast_add] at *
     rw [ha, hb]
   zero_mem' := by simp
   neg_mem' {a} ha := by
-    simp only [Set.mem_setOf_eq, Prod.fst_neg, Prod.snd_neg, Pi.neg_apply, Int.cast_neg] at *
+    simp only [Set.mem_ofPred_eq, Prod.fst_neg, Prod.snd_neg, Pi.neg_apply, Int.cast_neg] at *
     rw [ha]
 
 /-- The ring of degree `n`. -/
@@ -131,7 +131,7 @@ theorem ringMap_id (n : SimplexCategory) (x : Ring n) : ringMap (𝟙 n) x = x :
 theorem ringMap_comp {l m n : SimplexCategory} (θ : l ⟶ m) (θ' : m ⟶ n) (x : Ring l) :
     ringMap (θ ≫ θ') x = ringMap θ' (ringMap θ x) :=
   Subtype.ext (Prod.ext rfl (by
-    show x.1.2 ∘ pull (θ ≫ θ') = (x.1.2 ∘ pull θ) ∘ pull θ'
+    change x.1.2 ∘ pull (θ ≫ θ') = (x.1.2 ∘ pull θ) ∘ pull θ'
     rw [pull_comp]; rfl))
 
 /-- **The cosimplicial ring of `Δ[3] / ∂Δ[3]`.** -/
@@ -168,7 +168,7 @@ theorem bijective_ringMap {m n : SimplexCategory} (θ : m ⟶ n) (hm : m.len ≤
 theorem flat_map {m n : SimplexCategory} (θ : m ⟶ n) (hm : m.len ≤ 2) (hn : n.len ≤ 2) :
     (sphereRing.{u}.map θ).hom.Flat := by
   refine RingHom.Flat.of_bijective ?_
-  show Function.Bijective (ULift.ringEquiv.symm ∘ ringMap θ ∘ ULift.ringEquiv)
+  change Function.Bijective (ULift.ringEquiv.symm ∘ ringMap θ ∘ ULift.ringEquiv)
   exact ULift.ringEquiv.symm.bijective.comp
     ((bijective_ringMap θ hm hn).comp ULift.ringEquiv.bijective)
 
@@ -200,9 +200,9 @@ theorem add_self_eq_zero_of_mem {n : SimplexCategory} {x : sphereRing.{u}.obj n}
   obtain ⟨⟨⟨a, F⟩, hF⟩⟩ := x
   have ha : a = 0 := hx
   refine congrArg ULift.up (Subtype.ext (Prod.ext ?_ (funext fun q => ?_)))
-  · show a + a = 0
+  · change a + a = 0
     rw [ha, add_zero]
-  · show F q + F q = 0
+  · change F q + F q = 0
     generalize F q = c
     fin_cases c <;> rfl
 

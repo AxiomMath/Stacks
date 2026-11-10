@@ -52,6 +52,7 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) (ℓ : ℕ) [Fact ℓ.Prime]
   (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
   [IsNoetherian X.1]
 
+omit [IsSeparated f] in
 /-- **The twisted trace formula for `ψ ∘ (π_X^*)^N` from the twisted trace formula over the finite
 extensions of `k`.** -/
 public theorem LAdicSheaf.finsum_trace_comp_pow_eq_of_traceFormula (F : LAdicSheaf.{u, u + 1} B X ℓ)

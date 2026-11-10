@@ -677,7 +677,7 @@ theorem geomIrred_tensor_sep_isDomain (F K : Type*) [Field F] [Field K] [Algebra
     intro L₁ L₂ h
     have hfac : φ L₁ = (φ L₂).comp
         (Algebra.TensorProduct.map (AlgHom.id K K) (IntermediateField.inclusion h)) := by
-      show Algebra.TensorProduct.map (AlgHom.id K K) (L₁.val) = _
+      change Algebra.TensorProduct.map (AlgHom.id K K) (L₁.val) = _
       rw [← Algebra.TensorProduct.map_comp]; congr 1
     rw [hfac, AlgHom.range_comp]
     rintro x ⟨y, -, rfl⟩
@@ -690,14 +690,13 @@ theorem geomIrred_tensor_sep_isDomain (F K : Type*) [Field F] [Field K] [Algebra
   have hcov : ∀ x : R, ∃ L : IntermediateField F (SeparableClosure F),
       FiniteDimensional F L ∧ x ∈ (φ L).range := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => exact ⟨⊥, inferInstance, Subalgebra.zero_mem _⟩
+    induction x using TensorProduct.inductionOn with
     | tmul k s =>
         refine ⟨IntermediateField.adjoin F {s}, ?_, ?_⟩
         · exact IntermediateField.adjoin.finiteDimensional (Algebra.IsIntegral.isIntegral s)
         · refine ⟨k ⊗ₜ[F] ⟨s, ?_⟩, ?_⟩
           · exact IntermediateField.subset_adjoin F {s} (Set.mem_singleton s)
-          · show Algebra.TensorProduct.map (AlgHom.id K K) _ _ = _
+          · change Algebra.TensorProduct.map (AlgHom.id K K) _ _ = _
             rw [Algebra.TensorProduct.map_tmul]; rfl
     | add a b ha hb =>
         obtain ⟨L₁, hL₁, haL₁⟩ := ha

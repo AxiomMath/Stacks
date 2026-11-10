@@ -110,7 +110,7 @@ theorem range_gradedMap_eq_ker {K L M : LeftModule A} (i : K ⟶ L) (p : L ⟶ M
     obtain ⟨z, hz⟩ := hmem
     refine ⟨⟨DirectSum.gradedProjection K.grading d z,
       DirectSum.gradedProjection_mem K.grading d z⟩, Subtype.ext ?_⟩
-    show i.toFun (DirectSum.gradedProjection K.grading d z) = (x : L.M)
+    change i.toFun (DirectSum.gradedProjection K.grading d z) = (x : L.M)
     rw [gradedProjection_comm K.grading L.grading i.toFun i.map_grading d z, hz,
       DirectSum.gradedProjection_of_mem_same L.grading x.2]
 
@@ -131,7 +131,7 @@ theorem exists_dualPiece_preimage {K L M : LeftModule A} (i : K ⟶ L) (p : L �
       (dualPieceRestrict L n ⟨l, hl⟩) = 0 := by
     apply CharacterModule.ext
     intro w
-    show (dualPieceRestrict L n ⟨l, hl⟩) (Hom.gradedMap i (-n) w) = 0
+    change (dualPieceRestrict L n ⟨l, hl⟩) (Hom.gradedMap i (-n) w) = 0
     rw [dualPieceRestrict_apply]
     exact hker (w : K.M)
   obtain ⟨ν, hν⟩ := (CharacterModule.dual_exact _ _ hex _).mp hzero
@@ -210,7 +210,7 @@ theorem dualMap_exact {K L M : LeftModule A} (i : K ⟶ L) (p : L ⟶ M)
     refine Submodule.sum_mem _ (fun n _ => ?_)
     refine mem_range_dualMap_of_mem_grading i p hexact
       (DirectSum.decompose (dual L).grading y n).2 ?_
-    show (dualMap i).toFun (DirectSum.gradedProjection (dual L).grading n y) = 0
+    change (dualMap i).toFun (DirectSum.gradedProjection (dual L).grading n y) = 0
     rw [gradedProjection_comm (dual L).grading (dual K).grading (dualMap i).toFun
       (dualMap i).map_grading n y, hy, map_zero]
 

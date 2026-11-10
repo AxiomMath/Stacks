@@ -58,7 +58,7 @@ private theorem surjective_of_isFiniteLocallyFreeOfRank (hd : 0 < d) {X Y : Sche
   have : IsFinite f := h.1
   have : Flat f := h.2.1
   refine f.one_le_finrank_iff_surjective.mp fun y => ?_
-  show 1 ≤ Scheme.Hom.finrank f y
+  change 1 ≤ Scheme.Hom.finrank f y
   rw [(Stacks.Morphisms.isFiniteLocallyFreeOfRank_iff_forall_finrank_eq f d).mp inferInstance y]
   exact hd
 
@@ -111,10 +111,10 @@ private theorem eq_id_of_comp_alpha_eq (P : FiniteHilbert.Object B S hS 𝒳 �
   · exact Functor.isIso_of_isHomLift_id 𝒴.toBasedCategory.p
       𝒴.isStackInGroupoids.isFiberedInGroupoids δ hδ'
   · intro _
-    show P.α ≫ δ = 𝟙 (F.obj P.x) ≫ P.α
+    change P.α ≫ δ = 𝟙 (F.obj P.x) ≫ P.α
     simpa using hαδ
   · intro _
-    show P.α ≫ 𝟙 P.y = 𝟙 (F.obj P.x) ≫ P.α
+    change P.α ≫ 𝟙 P.y = 𝟙 (F.obj P.x) ≫ P.α
     simp
 
 /-- For a positive degree `d`, the 1-morphism `ℋ_d(𝒳/𝒴) ⟶ ℋ_d(𝒳)` from the relative to the

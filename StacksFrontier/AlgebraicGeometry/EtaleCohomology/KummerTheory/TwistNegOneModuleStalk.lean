@@ -279,7 +279,7 @@ theorem bijective_twistNegOneFiberPairing_root {V : X.Etale} (v : Φ.fiber.obj V
         (sliceRootSection.{u, 0} V κ hζ (Over.mk (𝟙 V)) 1))) :=
   bijective_fiberPairing_of_bijective Φ _ (twistNegOneModulePairing_naturality.{u, 0} X N G) v _
     (fun W g => by
-      show Function.Bijective (fun α => twistNegOneModulePairing.{u, 0} X N G W α
+      change Function.Bijective (fun α => twistNegOneModulePairing.{u, 0} X N G W α
         ((rootsOfUnitySheaf.{u, 0} X N).obj.map g.op
           (sliceRootSection.{u, 0} V κ hζ (Over.mk (𝟙 V)) 1)))
       rw [rootsOfUnitySheaf_map_sliceRootSection N g κ hζ 1]

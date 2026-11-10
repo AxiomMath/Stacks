@@ -14,8 +14,8 @@ public import StacksFrontier.CategoryTheory.Sites.Topos.ToposMorphismDefs
 # Additions to `Stackification`
 
 Declarations this development adds alongside
-`StacksFrontier.AlgebraicGeometry.Stacks.Sheaves.Stackification`, kept in their own module so that the
-base file is unchanged: 6 declaration(s) that the base file does not have, with the section
+`StacksFrontier.AlgebraicGeometry.Stacks.Sheaves.Stackification`, kept in their own module so that
+the base file is unchanged: 6 declaration(s) that the base file does not have, with the section
 variables, namespaces and options they are stated in.
 -/
 
@@ -249,7 +249,7 @@ theorem equalizerSieve_mem_inheritedTopology' (hp : p.IsFiberedInGroupoids)
       ((congrArg (fun m => Functor.Fiber.fiberInclusion.map m ≫
           Functor.IsPreFibered.pullbackMap y.2 (p.map g)) (hloc (p.map g) hg)).trans
         (Functor.pullbackFiberHom_fac β (p.map g)))
-  show g ≫ a = g ≫ b
+  change g ≫ a = g ≫ b
   exact CategoryTheory.comp_eq_comp_of_fac v pm hv cart hkey hαfac hβfac
 
 /-- **Cover-dense.** A 1-morphism inducing an equivalence of stackifications is cover-dense for

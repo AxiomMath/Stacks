@@ -257,13 +257,13 @@ private theorem isComplexOfFlats_restrictScalars_extend_of_projective
   let : Module A (P.X i) := Module.compHom (P.X i) (algebraMap A B)
   let : IsScalarTower A B (P.X i) :=
     IsScalarTower.of_algebraMap_smul fun _ _ => rfl
-  show Module.Flat A (P.X i)
+  change Module.Flat A (P.X i)
   have : Module.Flat B (P.X i) := by
-    show Module.Flat B ↑(HomologicalComplex.extend.X F.complex
+    change Module.Flat B ↑(HomologicalComplex.extend.X F.complex
       (ComplexShape.embeddingDownNat.r i))
     cases ComplexShape.embeddingDownNat.r i with
     | some n =>
-      show Module.Flat B (F.complex.X n)
+      change Module.Flat B (F.complex.X n)
       have := hproj n
       infer_instance
     | none =>
@@ -280,7 +280,7 @@ private theorem isStrictlyGE_extend_of_isZero {B M : Type u} [CommRing B] [AddCo
     CochainComplex.IsStrictlyGE (F.complex.extend ComplexShape.embeddingDownNat) (-(d : ℤ)) := by
   rw [CochainComplex.isStrictlyGE_iff]
   intro i hi
-  show IsZero (HomologicalComplex.extend.X F.complex
+  change IsZero (HomologicalComplex.extend.X F.complex
     (ComplexShape.embeddingDownNat.r i))
   cases hn : ComplexShape.embeddingDownNat.r i with
   | some n =>
@@ -429,7 +429,7 @@ theorem finiteTorDimension_quotientModule_of_flat
     let e := eQAlg.toLinearEquiv.restrictScalars A
     refine { e with map_smul' := ?_ }
     intro a x
-    show eQAlg (algebraMap B (B ⧸ K) (algebraMap A B a) *
+    change eQAlg (algebraMap B (B ⧸ K) (algebraMap A B a) *
       (show B ⧸ K from x)) = fAC a * eQAlg (show B ⧸ K from x)
     rw [map_mul, eQAlg.commutes]
     congr 1

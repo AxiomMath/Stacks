@@ -56,7 +56,7 @@ public theorem map_mem [Module.Finite R M] [Module.Projective R M]
       rankIdempotent (R := R) (M := N) n := by
     have hs : rankLocus (R := R) M n = rankLocus (R := R) N n := by
       ext p
-      show Module.rankAtStalk M p = n ↔ Module.rankAtStalk N p = n
+      change Module.rankAtStalk M p = n ↔ Module.rankAtStalk N p = n
       rw [h p]
     exact rankIdempotent_eq_of_rankLocus_eq (rankIdempotent_spec (R := R) (M := N) n).1
       (hs.trans (rankIdempotent_spec (R := R) (M := N) n).2)
@@ -79,7 +79,7 @@ public theorem map_mem [Module.Finite R M] [Module.Projective R M]
     simp [hId n]
   have hsub : (submodule (R := R) (M := M)).map
       (ExteriorAlgebra.map f).toLinearMap ≤ submodule (R := R) (M := N) := by
-    show (⨆ n, component (R := R) (M := M) n).map
+    change (⨆ n, component (R := R) (M := M) n).map
       (ExteriorAlgebra.map f).toLinearMap ≤ _
     rw [Submodule.map_iSup]
     exact iSup_le fun n => (hcomp n).trans (component_le_submodule n)
@@ -116,7 +116,7 @@ public theorem map_comp {P : Type*} [AddCommGroup P] [Module R P]
   apply LinearMap.ext
   intro x
   apply Subtype.ext
-  show ExteriorAlgebra.map (g.comp f) x.1 =
+  change ExteriorAlgebra.map (g.comp f) x.1 =
     ExteriorAlgebra.map g (ExteriorAlgebra.map f x.1)
   rw [← ExteriorAlgebra.map_comp_map]
   rfl
@@ -136,13 +136,13 @@ public theorem map_bijective [Module.Finite R M] [Module.Projective R M]
   let G := map (fun p => (rankAtStalk_congr e p).symm) e.symm.toLinearMap
   have hGF (x : module (R := R) (M := M)) : G (F x) = x := by
     apply Subtype.ext
-    show ExteriorAlgebra.map e.symm.toLinearMap
+    change ExteriorAlgebra.map e.symm.toLinearMap
       (ExteriorAlgebra.map e.toLinearMap x.1) = x.1
     rw [← AlgHom.comp_apply, ExteriorAlgebra.map_comp_map]
     simp
   have hFG (y : module (R := R) (M := N)) : F (G y) = y := by
     apply Subtype.ext
-    show ExteriorAlgebra.map e.toLinearMap
+    change ExteriorAlgebra.map e.toLinearMap
       (ExteriorAlgebra.map e.symm.toLinearMap y.1) = y.1
     rw [← AlgHom.comp_apply, ExteriorAlgebra.map_comp_map]
     simp
@@ -244,7 +244,7 @@ public theorem det_eq_linearMap_det_of_basis [Nontrivial R]
   rw [exteriorPower.ιMultiDual_apply_ιMulti, map_smul,
     exteriorPower.ιMultiDual_apply_ιMulti] at hcoeff
   have hs (i : Fin n) : Set.powersetCard.ofFinEmbEquiv.symm s i = i := by
-    show Finset.orderEmbOfFin Finset.univ _ i = i
+    change Finset.orderEmbOfFin Finset.univ _ i = i
     symm
     exact congrFun (Finset.orderEmbOfFin_unique (by simp) (fun _ => Finset.mem_univ _)
       strictMono_id) i

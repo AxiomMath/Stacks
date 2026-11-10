@@ -167,7 +167,7 @@ public theorem exists_dense_opens_isIso_resLE_of_isBirational
         (eqToHom (congrArg (fun z : Y ↦ Y.presheaf.stalk z) hys).symm).hom) =
       (Scheme.Hom.stalkMap (𝟙 Y) y).hom.comp
         (eqToHom (congrArg (fun z : Y ↦ Y.presheaf.stalk z) hxs).symm).hom := by
-    show (inv theta ≫ psi).hom.comp theta.hom = psi.hom
+    change (inv theta ≫ psi).hom.comp theta.hom = psi.hom
     rw [← CommRingCat.hom_comp]
     simp
   have hext : ∃ (U : Y.Opens) (hyU : y ∈ U) (g : (U : Scheme) ⟶ X)
@@ -191,10 +191,10 @@ public theorem exists_dense_opens_isIso_resLE_of_isBirational
     rw [Category.assoc, hgf, Scheme.Hom.resLE_comp_ι]
   have hfx : D.ι z = x.1 := rfl
   have hgx' : k z = x.1 := by
-    show g (a z) = x.1
+    change g (a z) = x.1
     have haz : a z = ⟨y, hyU⟩ := by
       apply Subtype.ext
-      show ((Scheme.Hom.resLE f U D le_rfl) z).1 = y
+      change ((Scheme.Hom.resLE f U D le_rfl) z).1 = y
       rw [Scheme.Hom.coe_resLE_apply]
     rw [haz, hgx]
   obtain ⟨W, hzW, hW⟩ := exists_open_eq_of_stalkMap_eq

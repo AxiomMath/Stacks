@@ -163,7 +163,7 @@ theorem isWeaklyAssociatedPoint_pullback_of_isGenericPoint_fiber
   let φ : A →+* B := (f.stalkMap x).hom
   let : Algebra (↑A) (↑B) := φ.toAlgebra
   have : IsLocalHom φ := by
-    show IsLocalHom (f.stalkMap x).hom
+    change IsLocalHom (f.stalkMap x).hom
     exact f.toLRSHom.prop x
   let M := ↑(TopCat.Presheaf.stalk G.val.presheaf (g.hom.base x))
   let : Module A M :=
@@ -199,7 +199,7 @@ theorem isWeaklyAssociatedPoint_pullback_of_isGenericPoint_fiber
     rw [hAnn]
     exact radical_map_eq_of_radical_eq φ hmrad
       (radical_map_stalkMap_maximalIdeal_eq_of_mem_genericPoints_fiber f x hgeneric)
-  show IsWeaklyAssociatedPrime B N (IsLocalRing.maximalIdeal B)
+  change IsWeaklyAssociatedPrime B N (IsLocalRing.maximalIdeal B)
   simpa [IsWeaklyAssociatedPrime, WeaklyAssociated, annihilatorOfElem_semiring] using
     (weaklyAssociated_maximalIdeal_iff_exists_radical_eq (S := B) (N := N)).mpr ⟨n, hrad⟩
 

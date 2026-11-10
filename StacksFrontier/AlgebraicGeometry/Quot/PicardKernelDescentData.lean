@@ -144,18 +144,19 @@ theorem modulePullback_comp_map_eq_iff {X Y W : AlgebraicSpaces B S hS} (f : X �
   constructor
   · intro h
     rw [← Iso.cancel_iso_hom_right _ _ ((modulePullbackCompIso B S hS f g).app N)]
-    show _ ≫ (modulePullbackCompIso B S hS f g).hom.app N =
+    change _ ≫ (modulePullbackCompIso B S hS f g).hom.app N =
       _ ≫ (modulePullbackCompIso B S hS f g).hom.app N
     rw [hφ, hψ, h]
   · intro h
     rw [← Iso.cancel_iso_hom_left ((modulePullbackCompIso B S hS f g).app M)]
-    show (modulePullbackCompIso B S hS f g).hom.app M ≫ _ =
+    change (modulePullbackCompIso B S hS f g).hom.app M ≫ _ =
       (modulePullbackCompIso B S hS f g).hom.app M ≫ _
     rw [← hφ, ← hψ, h]
 
 /-! ### A trivialization of an invertible module along a covering family of test schemes -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site needs the larger budget
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_PicardKernelDescentData :

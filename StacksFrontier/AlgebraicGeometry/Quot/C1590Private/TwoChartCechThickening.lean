@@ -316,7 +316,7 @@ theorem finitePresentation_of_flat_of_ker_le_smul (hg : Function.Surjective (alg
     have hxy : x - y ∈ LinearMap.ker ψ ⊓ I • ⊤ := by
       refine ⟨sub_mem hx (hK'le hy), ker_compLeft_le_smul_top n ?_⟩
       rw [LinearMap.mem_ker]
-      show red (x - y) = 0
+      change red (x - y) = 0
       rw [map_sub, hyx, sub_self]
     rw [LinearMap.ker_inf_smul_top_eq_smul_of_flat I ψ hψ] at hxy
     exact Submodule.mem_sup.2 ⟨y, hy, x - y, hxy, by abel⟩

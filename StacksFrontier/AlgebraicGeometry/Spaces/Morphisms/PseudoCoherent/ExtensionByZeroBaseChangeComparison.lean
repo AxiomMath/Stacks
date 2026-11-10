@@ -341,7 +341,7 @@ def extensionByZeroBaseChangeHomotopy {T T' U Z : AlgebraicSpaces B S hS} (u' : 
   ((mateEquiv (etaleLowerShriekHomotopyAdjunction u hu)
     (etaleLowerShriekHomotopyAdjunction u' hu')).symm
       (TwoSquare.mk _ _ _ _ ((smallEtalePullbackMapHomotopyFactorIso t' u (u' ≫ t) h.symm).hom ≫
-        (smallEtalePullbackMapHomotopyFactorIso u' t (u' ≫ t) rfl).inv))).natTrans
+        (smallEtalePullbackMapHomotopyFactorIso u' t (u' ≫ t) rfl).inv)))
 
 /-- **The derived base change map for extension by zero is the degreewise one on complexes**: for
 the canonical pseudofunctoriality datum, at the image of a complex `M`, the base change map

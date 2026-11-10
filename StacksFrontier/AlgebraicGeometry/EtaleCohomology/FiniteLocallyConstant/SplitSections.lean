@@ -153,7 +153,7 @@ public theorem exists_compactSpace_etale_isSplitOver {X S : Scheme.{u}} (f : X �
     W.affineOpenCover.openCover.map_prop i
   refine ⟨W.affineOpenCover.openCover.X i, W.affineOpenCover.openCover.f i ≫ g,
     inferInstance, inferInstance, y, ?_, ⟨hsp.comp _⟩⟩
-  show g (W.affineOpenCover.openCover.f i y) = s
+  change g (W.affineOpenCover.openCover.f i y) = s
   rw [hy, hw]
 
 end Stacks.Etale

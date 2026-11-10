@@ -196,6 +196,8 @@ theorem bijective_precomp_structureRestriction
 
 /-! ### Homotopy classes over `(O, 0)` are homotopy classes of complexes -/
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasWeakSheafify X.J (Type u)] in
 /-- Two morphisms of right differential graded `(O, 0)`-modules are homotopic exactly when their
 underlying morphisms of complexes are. -/
 theorem structure_quotient_map_eq_iff
@@ -211,6 +213,7 @@ theorem structure_quotient_map_eq_iff
   · rintro ⟨H⟩
     exact _root_.HomotopyCategory.eq_of_homotopy _ _ H.toComplexHomotopy
 
+omit [HasWeakSheafify X.J (Type u)] in
 /-- The descended adjunction on a homotopy class of a module-level morphism is the homotopy
 class of the module-level adjoint. -/
 theorem structureHomotopyAdjunction_homEquiv_quotient_map
@@ -237,12 +240,15 @@ noncomputable def structureExtensionRegularHom :
     (structureExtension A).obj (regularModule (unitDGAlgebra X.O)) ⟶ regularModule A :=
   ((structureAdjunction A).homEquiv _ _).symm (structureRegularHom A)
 
+omit [HasWeakSheafify X.J (Type u)] in
 /-- The adjoint of `structureExtensionRegularHom` is `structureRegularHom`. -/
 theorem structureAdjunction_homEquiv_extensionRegularHom :
     (structureAdjunction A).homEquiv _ _ (structureExtensionRegularHom A) =
       structureRegularHom A :=
   Equiv.apply_symm_apply _ _
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasWeakSheafify X.J (Type u)] in
 /-- Morphisms out of the regular module agree as soon as they agree at the unit. -/
 theorem hom_ext_regularModule {B : DifferentialGradedAlgebra.{u, u} (toRingCat X.J X.O)}
     {M : DifferentialGradedModule.{u, u, u} B} {f f' : regularModule B ⟶ M}
@@ -260,6 +266,7 @@ noncomputable def structureExtensionRegularInv :
     (evalOneClosed (A := unitDGAlgebra X.O)
       ((structureAdjunction A).unit.app (regularModule (unitDGAlgebra X.O)))).2
 
+omit [HasWeakSheafify X.J (Type u)] in
 /-- `structureExtensionRegularInv` sends the unit of `A` to the image of the unit of `(O, 0)`
 under the unit of the adjunction `structureAdjunction`. -/
 theorem structureExtensionRegularInv_one (U : X.Cᵒᵖ) :
@@ -274,6 +281,7 @@ theorem structureExtensionRegularInv_one (U : X.Cᵒᵖ) :
         (regularModule (unitDGAlgebra X.O)))).2)
   exact this
 
+omit [HasWeakSheafify X.J (Type u)] in
 /-- `structureExtensionRegularHom` sends the image of the unit of `(O, 0)` under the unit of
 the adjunction `structureAdjunction` to the unit of `A`. -/
 theorem structureExtensionRegularHom_unit (U : X.Cᵒᵖ) :
@@ -310,6 +318,7 @@ noncomputable def structureExtensionRegularIso :
 
 /-! ### Morphisms out of the regular module are morphisms out of the structure sheaf -/
 
+omit [HasWeakSheafify X.J (Type u)] in
 /-- The adjoint of `structureExtensionRegularHom ≫ g` has underlying morphism of complexes
 `unitAlgebraComplexHom A ≫ g`. -/
 theorem structureAdjunction_homEquiv_extensionRegularHom_comp
@@ -320,6 +329,7 @@ theorem structureAdjunction_homEquiv_extensionRegularHom_comp
   rw [Adjunction.homEquiv_naturality_right, structureAdjunction_homEquiv_extensionRegularHom]
   rfl
 
+omit [HasWeakSheafify X.J (Type u)] in
 /-- Every morphism of complexes from `O` to the underlying complex of a right differential
 graded `A`-module is the restriction to `O` of a morphism from `A`. -/
 theorem exists_unitAlgebraComplexHom_comp {N : DifferentialGradedModule.{u, u, u} A}
@@ -331,11 +341,12 @@ theorem exists_unitAlgebraComplexHom_comp {N : DifferentialGradedModule.{u, u, u
   refine ⟨(structureExtensionRegularIso A).inv ≫ ((structureAdjunction A).homEquiv _ _).symm h,
     ?_⟩
   rw [← structureAdjunction_homEquiv_extensionRegularHom_comp]
-  show ((structureAdjunction A).homEquiv _ _ ((structureExtensionRegularIso A).hom ≫
+  change ((structureAdjunction A).homEquiv _ _ ((structureExtensionRegularIso A).hom ≫
     (structureExtensionRegularIso A).inv ≫ _)).toHomologicalComplex = f
   rw [Iso.hom_inv_id_assoc, Equiv.apply_symm_apply]
   rfl
 
+omit [HasWeakSheafify X.J (Type u)] in
 /-- Two morphisms from `A` into a right differential graded `A`-module are homotopic as soon as
 their restrictions to `O` are homotopic as morphisms of complexes. -/
 theorem quotient_map_eq_of_unitAlgebraComplexHom_comp
@@ -417,6 +428,8 @@ noncomputable def structureClass {N : DifferentialGradedModule.{u, u, u} A}
   (_root_.HomotopyCategory.quotient _ (ComplexShape.up ℤ)).map
     (unitAlgebraComplexHom A ≫ g.toHomologicalComplex)
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasWeakSheafify X.J (Type u)] in
 /-- Homotopic morphisms out of the regular module have the same `structureClass`. -/
 theorem structureClass_eq {N : DifferentialGradedModule.{u, u, u} A}
     {g g' : regularModule A ⟶ N}
@@ -427,6 +440,8 @@ theorem structureClass_eq {N : DifferentialGradedModule.{u, u, u} A}
     ((congrArg (_ ≫ ·) (_root_.HomotopyCategory.eq_of_homotopy _ _ H.toComplexHomotopy)).trans
       ((_root_.HomotopyCategory.quotient _ _).map_comp _ _).symm)
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasWeakSheafify X.J (Type u)] in
 /-- `structureClass` is additive. -/
 theorem structureClass_add {N : DifferentialGradedModule.{u, u, u} A}
     (g g' : regularModule A ⟶ N) :
@@ -450,6 +465,8 @@ noncomputable def regularHomotopyHomAddHom (N : DifferentialGradedModule.{u, u, 
         (HomotopyCategory.quotient A).preimage y) ?_).trans (structureClass_add A _ _)
       rw [Functor.map_preimage, Functor.map_add, Functor.map_preimage, Functor.map_preimage]
 
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [HasWeakSheafify X.J (Type u)] in
 /-- `regularHomotopyHomAddHom` sends the homotopy class of `g` to `structureClass A g`. -/
 theorem regularHomotopyHomAddHom_quotient_map {N : DifferentialGradedModule.{u, u, u} A}
     (g : regularModule A ⟶ N) :
@@ -476,6 +493,7 @@ noncomputable def regularHomotopyHomAddEquiv (N : DifferentialGradedModule.{u, u
       refine ⟨(HomotopyCategory.quotient A).map g, ?_⟩
       rw [regularHomotopyHomAddHom_quotient_map, structureClass, hg]⟩
 
+omit [HasWeakSheafify X.J (Type u)] in
 /-- `regularHomotopyHomAddEquiv` sends the homotopy class of `g` to `structureClass A g`. -/
 theorem regularHomotopyHomAddEquiv_quotient_map {N : DifferentialGradedModule.{u, u, u} A}
     (g : regularModule A ⟶ N) :
@@ -529,7 +547,7 @@ theorem bijective_Qh_map_unitComplex
     have : IsIso (DerivedCategory.Qh.map (q.map s)) := Localization.inverts _ W _ hs
     have : IsIso (DerivedCategory.Qh.map (q.map t)) := Localization.inverts _ W _
       ((hqi t).2 ht)
-    show DerivedCategory.Qh.map (q.map g) =
+    change DerivedCategory.Qh.map (q.map g) =
       inv (DerivedCategory.Qh.map (q.map s)) ≫ DerivedCategory.Qh.map (q.map f)
     rw [← cancel_epi (DerivedCategory.Qh.map (q.map s)), IsIso.hom_inv_id_assoc,
       ← cancel_epi (DerivedCategory.Qh.map (q.map t))]

@@ -40,8 +40,10 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {U X : AlgebraicSpaces B S hS} (a : U ⟶ X) (ha : IsEtale B S hS a.hom)
 
-set_option maxHeartbeats 1000000 in
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance synthesis on the small étale sites' sheaf categories is slow
+set_option maxHeartbeats 1000000 in
+-- `simp only` and `rw` through the inverse-image isomorphisms of the small étale sites
 /-- **The identification `a⁻¹𝒪_X ≅ 𝒪_U` of Stacks 03LV is the identity on sections.** It is the
 comparison of the inverse image with restriction followed by the inverse-image form of the
 structure map, and on underlying sheaves of sets both are the comparison of Stacks 03LQ. -/

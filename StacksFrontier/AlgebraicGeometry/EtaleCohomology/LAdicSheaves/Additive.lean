@@ -118,7 +118,7 @@ private theorem isIso_mate_cokernel [Limits.HasCokernels C] [Limits.HasCokernels
     IsIso ((adj.homEquiv (Limits.cokernel f') (Limits.cokernel f)).symm tC) := by
   have : L.IsLeftAdjoint := adj.isLeftAdjoint
   have : Epi (Limits.cokernel.π f') := by
-    show Epi (Limits.coequalizer.π f' 0); infer_instance
+    change Epi (Limits.coequalizer.π f' 0); infer_instance
   have : Epi (L.map (Limits.cokernel.π f')) := inferInstance
   set β := (adj.homEquiv B' B).symm tB with hβ
   have heq : (adj.homEquiv (Limits.cokernel f') (Limits.cokernel f)).symm tC =
@@ -151,14 +151,14 @@ private theorem isIso_mate_biprod [Preadditive C] [Limits.HasBinaryBiproducts C]
     apply Limits.biprod.hom_ext
     · rw [← adj.homEquiv_naturality_right_symm, Category.assoc, mapBiprod_inv_map_fst,
         Limits.biprod.map_fst, adj.homEquiv_naturality_left_symm]
-      show L.map Limits.biprod.fst ≫ (adj.homEquiv A₁ B₁).symm t₁ =
+      change L.map Limits.biprod.fst ≫ (adj.homEquiv A₁ B₁).symm t₁ =
         (Limits.biprod.lift (L.map Limits.biprod.fst) (L.map Limits.biprod.snd) ≫
           Limits.biprod.map ((adj.homEquiv A₁ B₁).symm t₁)
             ((adj.homEquiv A₂ B₂).symm t₂)) ≫ Limits.biprod.fst
       rw [Category.assoc, Limits.biprod.map_fst, ← Category.assoc, Limits.biprod.lift_fst]
     · rw [← adj.homEquiv_naturality_right_symm, Category.assoc, mapBiprod_inv_map_snd,
         Limits.biprod.map_snd, adj.homEquiv_naturality_left_symm]
-      show L.map Limits.biprod.snd ≫ (adj.homEquiv A₂ B₂).symm t₂ =
+      change L.map Limits.biprod.snd ≫ (adj.homEquiv A₂ B₂).symm t₂ =
         (Limits.biprod.lift (L.map Limits.biprod.fst) (L.map Limits.biprod.snd) ≫
           Limits.biprod.map ((adj.homEquiv A₁ B₁).symm t₁)
             ((adj.homEquiv A₂ B₂).symm t₂)) ≫ Limits.biprod.snd
@@ -372,10 +372,10 @@ public theorem biprodLift_unique {H F G : LAdicSheaf B X ℓ} (f : H ⟶ F) (g :
     (h : H ⟶ biprodSystem F G) (hf : h ≫ biprodFst F G = f) (hg : h ≫ biprodSnd F G = g) :
     h = biprodLift f g := by
   refine LAdicSheaf.Hom.ext _ _ _ fun n => biprod.hom_ext _ _ ?_ ?_
-  · show h.app n ≫ biprod.fst = biprod.lift (f.app n) (g.app n) ≫ biprod.fst
+  · change h.app n ≫ biprod.fst = biprod.lift (f.app n) (g.app n) ≫ biprod.fst
     rw [biprod.lift_fst]
     exact congrArg (fun t : H ⟶ F => t.app n) hf
-  · show h.app n ≫ biprod.snd = biprod.lift (f.app n) (g.app n) ≫ biprod.snd
+  · change h.app n ≫ biprod.snd = biprod.lift (f.app n) (g.app n) ≫ biprod.snd
     rw [biprod.lift_snd]
     exact congrArg (fun t : H ⟶ G => t.app n) hg
 

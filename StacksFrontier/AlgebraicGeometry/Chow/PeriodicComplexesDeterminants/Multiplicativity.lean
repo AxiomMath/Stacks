@@ -157,7 +157,7 @@ private lemma exact_restrictToRange (f g γ : M →ₗ[R] M)
     rcases hxg with ⟨y, hy⟩
     refine ⟨⟨γ y, ⟨y, rfl⟩⟩, ?_⟩
     apply Subtype.ext
-    show f (γ y) = x.1
+    change f (γ y) = x.1
     simpa [LinearMap.comp_apply] using hy
   · rintro ⟨y, rfl⟩
     have hy : y.1 ∈ LinearMap.ker (g ∘ₗ f) := hγ ▸ y.2
@@ -200,7 +200,7 @@ private lemma comap_ker_eq_range (β f g : M →ₗ[R] M)
     rw [map_add, (show g (β z) = x - g y by simpa [LinearMap.comp_apply] using hz)]
     simp
   · rintro ⟨y, rfl⟩
-    show f (g y) ∈ LinearMap.ker β
+    change f (g y) ∈ LinearMap.ker β
     rw [hβ]
     exact ⟨y, rfl⟩
 
@@ -212,7 +212,7 @@ theorem exact_alpha_gamma_onKerBetaQuotient (α β γ : M →ₗ[R] M)
     Function.Exact (alphaOnKerBetaQuotient α β γ h)
       (gammaOnKerBetaQuotient α β γ h) := by
   apply LinearMap.exact_iff.mpr
-  show LinearMap.ker (Submodule.mapQ (LinearMap.ker β) (LinearMap.ker β) γ _) =
+  change LinearMap.ker (Submodule.mapQ (LinearMap.ker β) (LinearMap.ker β) γ _) =
     LinearMap.range (Submodule.mapQ (LinearMap.ker β) (LinearMap.ker β) α _)
   rw [Submodule.ker_mapQ, Submodule.range_mapQ,
     comap_ker_eq_range β γ α h.ker_beta_eq_range_gamma_alpha
@@ -226,7 +226,7 @@ theorem exact_gamma_alpha_onKerBetaQuotient (α β γ : M →ₗ[R] M)
     Function.Exact (gammaOnKerBetaQuotient α β γ h)
       (alphaOnKerBetaQuotient α β γ h) := by
   apply LinearMap.exact_iff.mpr
-  show LinearMap.ker (Submodule.mapQ (LinearMap.ker β) (LinearMap.ker β) α _) =
+  change LinearMap.ker (Submodule.mapQ (LinearMap.ker β) (LinearMap.ker β) α _) =
     LinearMap.range (Submodule.mapQ (LinearMap.ker β) (LinearMap.ker β) γ _)
   rw [Submodule.ker_mapQ, Submodule.range_mapQ,
     comap_ker_eq_range β α γ h.ker_beta_eq_range_alpha_gamma
@@ -259,7 +259,7 @@ private lemma exact_of_factorizations
     (hp : Function.Surjective p) (hj : Function.Injective j)
     (hf : f = i.comp p) (hg : g = j.comp q) : Function.Exact i q := by
   intro x
-  show q x = 0 ↔ ∃ a, i a = x
+  change q x = 0 ↔ ∃ a, i a = x
   constructor
   · intro hx
     obtain ⟨y, hy⟩ := (hfg x).mp (by rw [hg]; simp [hx])
@@ -330,7 +330,7 @@ private lemma determinantMapLinearEquiv_refl {R : Type u} [CommRing R] [IsLocalR
       (finiteLengthIsoHom hN hN (LinearEquiv.refl R N))).toLinearMap = LinearMap.id := by
   rw [finiteLengthIsoHom_refl]
   let O := finiteLengthIsoObject R N hN
-  show ((determinantFunctor R).mapLinearEquiv (𝟙 O)).toLinearMap = LinearMap.id
+  change ((determinantFunctor R).mapLinearEquiv (𝟙 O)).toLinearMap = LinearMap.id
   simpa using congrArg ModuleCat.Hom.hom (show ModuleCat.ofHom
     ((determinantFunctor R).mapLinearEquiv (𝟙 O)).toLinearMap =
     𝟙 (ModuleCat.of (IsLocalRing.ResidueField R) (determinant R O.of.obj)) from by
@@ -436,7 +436,7 @@ private lemma determinantExactSequenceMap_right_unit
       (0 : N →ₗ[R] PUnit.{v + 1})
       Function.injective_id (by intro x; exact ⟨0, Subsingleton.elim _ _⟩)
       (by rw [LinearMap.exact_iff]; simp) hN hN IsFiniteLength.of_subsingleton
-  show g _ = _
+  change g _ = _
   induction a using determinant_induction with
   | h0 => simp
   | ha x y hx hy => simp [TensorProduct.add_tmul, hx, hy]
@@ -471,7 +471,7 @@ private lemma determinantExactSequenceMap_left_unit
       (by intro x y _; exact Subsingleton.elim _ _)
       Function.surjective_id
       (by rw [LinearMap.exact_iff]; simp) IsFiniteLength.of_subsingleton hN hN
-  show g _ = _
+  change g _ = _
   induction a using determinant_induction with
   | h0 => simp
   | ha x y hx hy => simp [TensorProduct.tmul_add, hx, hy]
@@ -713,7 +713,7 @@ theorem periodicDeterminant_mul (α β γ : M →ₗ[R] M)
   have exF : Function.Exact iCF pFT := by
     intro f
     obtain ⟨x, rfl⟩ := hpF f
-    show pFT (pF x) = 0 ↔ ∃ c, iCF c = pF x
+    change pFT (pF x) = 0 ↔ ∃ c, iCF c = pF x
     rw [hpFT_apply]
     constructor
     · intro hx
@@ -730,7 +730,7 @@ theorem periodicDeterminant_mul (α β γ : M →ₗ[R] M)
       rw [h.range_gamma_eq_ker_beta_alpha]
       have hc' := congrArg (fun z : F => z.1) hc
       change c.1 = α x at hc'
-      show β (α x) = 0
+      change β (α x) = 0
       rw [← hc']
       exact c.2
   have hkerV : LinearMap.ker B.mkQ ≤ LinearMap.ker (C.mkQ.comp α) := by
@@ -751,7 +751,7 @@ theorem periodicDeterminant_mul (α β γ : M →ₗ[R] M)
     obtain ⟨x, rfl⟩ := B.mkQ_surjective t
     have hx : α x ∈ C := (Submodule.Quotient.mk_eq_zero C).mp
       ((hv_apply x).symm.trans ht)
-    show B.mkQ x = 0
+    change B.mkQ x = 0
     apply (Submodule.Quotient.mk_eq_zero B).mpr
     dsimp only [A, B, C, F]
     rw [h.range_gamma_eq_ker_beta_alpha]
@@ -777,7 +777,7 @@ theorem periodicDeterminant_mul (α β γ : M →ₗ[R] M)
     obtain ⟨x, rfl⟩ := hpA a
     have hx : γ x ∈ C := (Submodule.Quotient.mk_eq_zero C).mp
       ((hw_apply x).symm.trans ha)
-    show pA x = 0
+    change pA x = 0
     apply Subtype.ext
     exact hx
   have hkerU : LinearMap.ker C.mkQ ≤ LinearMap.ker pA := by
@@ -810,7 +810,7 @@ theorem periodicDeterminant_mul (α β γ : M →ₗ[R] M)
     apply LinearMap.ext
     intro q
     obtain ⟨x, rfl⟩ := C.mkQ_surjective q
-    show C.mkQ (γ x) = w (u (C.mkQ x))
+    change C.mkQ (γ x) = w (u (C.mkQ x))
     rw [hu_apply, hw_apply]
   have exQ := exact_of_factorizations gQ fQ (exact_gamma_alpha_onKerBetaQuotient α β γ h)
     w u v t hu hv hgQ hfQ
@@ -829,7 +829,7 @@ theorem periodicDeterminant_mul (α β γ : M →ₗ[R] M)
     apply LinearMap.ext
     intro f
     obtain ⟨x, rfl⟩ := hpF f
-    show C.mkQ (α x) = v (pFT (pF x))
+    change C.mkQ (α x) = v (pFT (pF x))
     rw [hpFT_apply, hv_apply]
   have commBQ : C.mkQ.comp B.subtype = w.comp pBA := by
     apply LinearMap.ext
@@ -917,8 +917,7 @@ theorem periodicDeterminant_mul (α β γ : M →ₗ[R] M)
   have compareF (a : determinant R A) (f : determinant R F) :
       sM • GM (a ⊗ₜ[k] f) = (sQ * sB) • GM (a ⊗ₜ[k] f) := by
     obtain ⟨x, rfl⟩ := hGF f
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul c z => exact compare a c z
     | add x y hx hy =>
         simpa only [map_add, TensorProduct.tmul_add, smul_add] using congrArg₂ (· + ·) hx hy
@@ -927,8 +926,7 @@ theorem periodicDeterminant_mul (α β γ : M →ₗ[R] M)
       A.subtype pF A.subtype_injective hpF exM hA hM hF).2
   have compareM (m : determinant R M) : sM • m = (sQ * sB) • m := by
     obtain ⟨x, rfl⟩ := hGM m
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a f => exact compareF a f
     | add x y hx hy =>
         simpa only [map_add, smul_add] using congrArg₂ (· + ·) hx hy
@@ -941,10 +939,10 @@ theorem periodicDeterminant_mul (α β γ : M →ₗ[R] M)
     rw [Module.length_eq_add_of_exact iCF pFT hiCF hpFT exF,
       ENat.toNat_add (Module.length_ne_top_iff.mpr hC) (Module.length_ne_top_iff.mpr hT)]
   apply Units.ext
-  show (d : k) = (dB : k) * (dQ : k)
+  change (d : k) = (dB : k) * (dQ : k)
   apply mul_left_cancel₀ (pow_ne_zero (moduleLength R F * moduleLength R A)
     (neg_ne_zero.mpr (one_ne_zero : (1 : k) ≠ 0)))
-  show sM = (-1 : k) ^ (moduleLength R F * moduleLength R A) * ((dB : k) * (dQ : k))
+  change sM = (-1 : k) ^ (moduleLength R F * moduleLength R A) * ((dB : k) * (dQ : k))
   rw [hs]
   dsimp [sQ, sB]
   rw [hlen, Nat.add_mul, pow_add]

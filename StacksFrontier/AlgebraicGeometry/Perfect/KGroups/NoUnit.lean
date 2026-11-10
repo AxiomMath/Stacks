@@ -149,8 +149,8 @@ variable [IsDomain R] [IsNoetherianRing R] [Ring.KrullDimLE 1 R]
 /-- The local rings of `Spec R` have Krull dimension at most one when `R` has. -/
 instance krullDimLE_one_stalk (x : Spec R) : Ring.KrullDimLE 1 ((Spec R).presheaf.stalk x) := by
   have hU := isAffineOpen_top (Spec R)
-  letI := ((Spec R).presheaf.germ ⊤ x trivial).hom.toAlgebra
-  haveI := hU.isLocalization_stalk ⟨x, trivial⟩
+  let := ((Spec R).presheaf.germ ⊤ x trivial).hom.toAlgebra
+  have := hU.isLocalization_stalk ⟨x, trivial⟩
   rw [Ring.krullDimLE_iff, IsLocalization.AtPrime.ringKrullDim_eq_height
     (hU.primeIdealOf ⟨x, trivial⟩).asIdeal]
   refine (Ideal.height_le_ringKrullDim_of_ne_top Ideal.IsPrime.ne_top').trans ?_
@@ -231,6 +231,7 @@ variable {y : Spec R} (hy : y ∉ Set.range i.base) (x : Spec R)
 
 include hy
 
+omit [IsDomain R] [IsNoetherianRing R] [Ring.KrullDimLE 1 R] in
 /-- The cohomology sheaves of an object of `D_{Z, perf}(𝒪_X)` vanish at a point off `Z`. -/
 theorem subsingleton_stalk_cohomologyModule (E : supportedPerfectDerivedCategory i) (n : ℤ) :
     Subsingleton ((cohomologyModule E.obj n).presheaf.stalk y) := by
@@ -378,6 +379,7 @@ theorem isPerfect_koszulObj : RingedSpace.IsPerfect.{u, u + 1} (koszulObj f) := 
 variable {Z : Scheme.{u}} (i : Z ⟶ Spec R) [IsClosedImmersion i]
   (hi : Set.range i.base = PrimeSpectrum.zeroLocus {f})
 
+omit [IsClosedImmersion i] in
 include hf hi in
 /-- `(R ⧸ (f))^~` placed in degree zero is a perfect object with cohomology supported on
 `V(f)`. -/
@@ -436,6 +438,7 @@ variable [IsDomain R] [IsNoetherianRing R] [Ring.KrullDimLE 1 R] {f : R} (hf : f
 /-- The generic point of `Spec R`. -/
 abbrev genericPt : Spec R := (⟨⊥, Ideal.isPrime_bot⟩ : PrimeSpectrum R)
 
+omit [IsNoetherianRing R] [Ring.KrullDimLE 1 R] [IsClosedImmersion i] in
 include hf hi in
 /-- The generic point of `Spec R` does not lie in `V(f)` for `f ≠ 0`. -/
 theorem genericPt_notMem_range : genericPt ∉ Set.range i.base := by

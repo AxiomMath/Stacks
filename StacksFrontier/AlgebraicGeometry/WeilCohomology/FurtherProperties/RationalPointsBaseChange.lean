@@ -99,7 +99,7 @@ theorem baseChangeChowPullbackOfIsPullback_rationalPointChowClass (k K : Type u)
       cycleAssociatedToClosedSubscheme (fieldChowSituation K) q (pullback.snd x pr) 0 :=
     cycleAssociatedToClosedSubscheme_eq_of_iso (fieldChowSituation K) q y (pullback.snd x pr)
       hpb.isoPullback hpb.isoPullback_hom_snd 0
-  show baseChangeChowPullbackOfIsPullback (fieldExtensionBaseChangeSituation k K) rfl p sq 0
+  change baseChangeChowPullbackOfIsPullback (fieldExtensionBaseChangeSituation k K) rfl p sq 0
       (QuotientAddGroup.mk' (rationalEquivalences (fieldChowSituation k) p 0)
         (cycleAssociatedToClosedSubscheme (fieldChowSituation k) p x 0)) =
     QuotientAddGroup.mk' (rationalEquivalences (fieldChowSituation K) q 0)

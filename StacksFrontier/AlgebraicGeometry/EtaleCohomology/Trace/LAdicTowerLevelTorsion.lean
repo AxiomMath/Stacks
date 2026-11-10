@@ -54,7 +54,7 @@ public theorem LAdicSheaf.pow_nsmul_id_padicTower_obj (n : ℕ) :
   have : e.functor.PreservesZeroMorphisms := Functor.preservesZeroMorphisms_of_isLeftAdjoint _
   have := preservesBinaryBiproducts_of_preservesBinaryCoproducts e.functor
   have : e.functor.Additive := Functor.additive_of_preservesBinaryBiproducts _
-  show (ℓ ^ (n + 1)) • 𝟙 (e.functor.obj (LAdicSheaf.padicLevel B X ℓ F n)) = 0
+  change (ℓ ^ (n + 1)) • 𝟙 (e.functor.obj (LAdicSheaf.padicLevel B X ℓ F n)) = 0
   rw [← CategoryTheory.Functor.map_id, ← Functor.map_nsmul, LAdicSheaf.pow_nsmul_id_padicLevel,
     Functor.map_zero]
 

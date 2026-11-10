@@ -93,7 +93,7 @@ theorem isIso_etaleModuleBaseChange_of_isIso_smallEtaleBaseChangeAb (sq : IsPull
     ((etaleAbelianDirectImageCompIso'.{u, 0} g' i (i' ≫ g) sq.w).hom ≫
       (etaleAbelianDirectImageCompIso'.{u, 0} i' g (i' ≫ g) rfl).inv)
   have : IsIso
-      ((mateEquiv (smallEtaleAdjunctionAb g') (smallEtaleAdjunctionAb g)).symm T).natTrans := hAb
+      ((mateEquiv (smallEtaleAdjunctionAb g') (smallEtaleAdjunctionAb g)).symm T) := hAb
   have hmate : ∀ {A B : Scheme.{u}} (f : A ⟶ B),
       mateEquiv (etaleModuleInverseImageAdj.{u, 0} Λ f) (smallEtaleAdjunctionAb f)
         (coefficientSheafPullbackTwoSquare (smallEtaleBaseChange f) B.smallEtaleTopology
@@ -111,7 +111,7 @@ theorem isIso_etaleModuleBaseChange_of_isIso_smallEtaleBaseChangeAb (sq : IsPull
       X'.smallEtaleTopology (forget₂ (ModuleCat.{u + 1} Λ) AddCommGrpCat.{u + 1}))
     (directImageForgetIso Λ i).hom (directImageForgetIso Λ i').inv _ T ?_
   rw [hmate g', hmate g]
-  refine TwoSquare.ext _ _ fun M => ?_
+  refine NatTrans.ext (funext fun M => ?_)
   refine Sheaf.hom_ext ?_
   refine NatTrans.ext (funext fun U => ?_)
   rfl
@@ -129,7 +129,7 @@ section FieldBaseChange
 
 open Stacks.Frobenius
 
-variable {k : Type u} [Field k] [Fintype k] {Zk Yk : Over (Spec (.of k))} (i : Zk ⟶ Yk)
+variable {k : Type u} [Field k] {Zk Yk : Over (Spec (.of k))} (i : Zk ⟶ Yk)
   (kbar : Type u) [Field kbar] [Algebra k kbar]
 
 /-- **The base change map to `k̄` along a proper morphism over `k` is an isomorphism.** -/

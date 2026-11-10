@@ -165,25 +165,25 @@ public noncomputable def CoherentTriple.homTwistZOfIsZero {A : Type u} [CommRing
 triple vanishes, then the Euler characteristics of its twists by the integer tensor powers of an
 invertible coherent triple are all equal to the Euler characteristic of the triple itself. -/
 public theorem CoherentTriple.eulerCharacteristic_twistZ_eq_of_isZero {A : Type u} [CommRing A]
-    [IsLocalRing A] [IsNoetherianRing A] {f : A} (hf : f ∈ maximalIdeal A) (hreg : IsRegular f)
+    [IsLocalRing A] [IsNoetherianRing A] {f : A} (hf : f ∈ maximalIdeal A)
     (T L : CoherentTriple A f) (hL : IsInvertibleTriple L) (hT : IsZero T.F) (n : ℤ) :
-    (T.twistZ L hL n).eulerCharacteristic hf hreg = T.eulerCharacteristic hf hreg :=
+    (T.twistZ L hL n).eulerCharacteristic = T.eulerCharacteristic :=
   have : IsIso (T.homTwistZOfIsZero hf L hL hT n).onPunctured :=
     inferInstanceAs (IsIso ((T.isZero_twistZ_F L hL hT n).iso hT).hom)
   have : IsIso (T.homTwistZOfIsZero hf L hL hT n).onClosedFibre :=
     inferInstanceAs (IsIso (T.twistZF₀Iso hf L hL n).hom)
-  CoherentTriple.eulerCharacteristic_eq_of_hom hf hreg (T.homTwistZOfIsZero hf L hL hT n)
+  CoherentTriple.eulerCharacteristic_eq_of_hom hf (T.homTwistZOfIsZero hf L hL hT n)
 
 /-- **The base case of [Stacks, Tag 0F27], as polynomiality.** If the punctured-spectrum member
 of a coherent triple vanishes, then `n ↦ χ((F, F₀, α) ⊗ (L, L₀, λ)^{⊗ n})` is given at every
 integer by a constant rational polynomial. -/
 public theorem exists_polynomial_eulerCharacteristic_twistZ_of_isZero {A : Type u} [CommRing A]
-    [IsLocalRing A] [IsNoetherianRing A] {f : A} (hf : f ∈ maximalIdeal A) (hreg : IsRegular f)
+    [IsLocalRing A] [IsNoetherianRing A] {f : A} (hf : f ∈ maximalIdeal A)
     (T L : CoherentTriple A f) (hL : IsInvertibleTriple L) (hT : IsZero T.F) :
     ∃ P : Polynomial ℚ, P.natDegree = 0 ∧
-      ∀ n : ℤ, (((T.twistZ L hL n).eulerCharacteristic hf hreg : ℤ) : ℚ) = P.eval (n : ℚ) :=
-  ⟨Polynomial.C ((T.eulerCharacteristic hf hreg : ℤ) : ℚ), Polynomial.natDegree_C _, fun n => by
-    rw [T.eulerCharacteristic_twistZ_eq_of_isZero hf hreg L hL hT n]
+      ∀ n : ℤ, (((T.twistZ L hL n).eulerCharacteristic : ℤ) : ℚ) = P.eval (n : ℚ) :=
+  ⟨Polynomial.C ((T.eulerCharacteristic : ℤ) : ℚ), Polynomial.natDegree_C _, fun n => by
+    rw [T.eulerCharacteristic_twistZ_eq_of_isZero hf L hL hT n]
     simp⟩
 
 end Stacks.Algebraization

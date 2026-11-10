@@ -87,7 +87,8 @@ What is proved here is the implication from perfectness to finite Tor dimension 
 rings, read on a chart. Stacks 069C itself is `AlgebraicGeometry.perfect_tfae` of
 `StacksFrontier.AlgebraicGeometry.MoreMorphisms.PerfectMorphism.RelativeTorDimensionClause`; its
 implication (1) ⟹ (3) is `AlgebraicGeometry.Perfect.hasFiniteTorDimensionCanonical_stalk` of
-`StacksFrontier.AlgebraicGeometry.MoreMorphisms.PerfectMorphism.PerfectIffStalkTorDimension`, which is
+`StacksFrontier.AlgebraicGeometry.MoreMorphisms.PerfectMorphism.PerfectIffStalkTorDimension`,
+which is
 `AlgebraicGeometry.Perfect.hasTorAmplitudeAt_of_perfect` below transported from the chart to the
 stalk.
 
@@ -127,7 +128,7 @@ theorem under_primeIdealOf_eq {X S : Scheme.{u}} (f : X ⟶ S) {x : X}
     Ideal.under Γ(S, V) (hU.primeIdealOf ⟨x, hxU⟩).asIdeal =
       (hV.primeIdealOf ⟨f.base x, hUV hxU⟩).asIdeal := by
   let _ : Algebra Γ(S, V) Γ(X, U) := (f.appLE V U hUV).hom.toAlgebra
-  show Ideal.comap (algebraMap Γ(S, V) Γ(X, U)) _ = _
+  change Ideal.comap (algebraMap Γ(S, V) Γ(X, U)) _ = _
   rw [RingHom.algebraMap_toAlgebra]
   exact congrArg PrimeSpectrum.asIdeal
     (IsAffineOpen.comap_primeIdealOf_appLE V hV U hU hUV hxU)
@@ -228,7 +229,7 @@ private theorem hasTorAmplitudeCanonical_single_of_0DJF
       (DerivedCategory.Q.obj ((CochainComplex.singleFunctor (ModuleCat.{u} R) 0).obj M)) a b := by
   let P := FaithfullyFlat.projResComplex M
   have hPle : P.IsStrictlyLE 0 := by
-    show CochainComplex.IsStrictlyLE
+    change CochainComplex.IsStrictlyLE
       ((CategoryTheory.ProjectiveResolution.of M).complex.extend
         ComplexShape.embeddingDownNat) 0
     infer_instance
@@ -239,7 +240,7 @@ private theorem hasTorAmplitudeCanonical_single_of_0DJF
     (CategoryTheory.ProjectiveResolution.of M).π'
   have hq : QuasiIso q := by
     dsimp [q]
-    show QuasiIso
+    change QuasiIso
       (HomologicalComplex.extendMap (CategoryTheory.ProjectiveResolution.of M).π
         ComplexShape.embeddingDownNat ≫ _)
     have hπ' : QuasiIso (HomologicalComplex.extendMap
@@ -304,7 +305,7 @@ private theorem hasTorAmplitude0DJF_single_localization_of_hasTorAmplitudeAt
           (ModuleCat.of B B))
         (TensorProduct.AlgebraTensorModule.rid B (Localization.AtPrime q)
           (Localization.AtPrime q))).toModuleIso
-    show restr.obj (ext.obj (ModuleCat.of B B)) ≅
+    change restr.obj (ext.obj (ModuleCat.of B B)) ≅
       restr.obj (ModuleCat.of (Localization.AtPrime q) (Localization.AtPrime q))
     exact restr.mapIso eExt
   exact hasTorAmplitude0DJF_of_isoComplex

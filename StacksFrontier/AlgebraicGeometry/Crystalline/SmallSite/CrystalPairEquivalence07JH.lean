@@ -134,8 +134,7 @@ theorem coordinate_naturality {N : Type w} [AddCommGroup N] [Module D N]
     rw [hmap, ← hx, pLevelMapQ_mk, pLevelMapQ_mk, pLevelMapQ_mk]
     congr 1
     clear hmap hx
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul y ω => simp [dualTensorCoordinate_tmul]
     | add a b ha hb => simp only [map_add, ha, hb]
   rw [key, completedTensorFunctionalLevel_eq_of_hasSum p D Omega M hco hc j m n, pLevelMapQ_mk]

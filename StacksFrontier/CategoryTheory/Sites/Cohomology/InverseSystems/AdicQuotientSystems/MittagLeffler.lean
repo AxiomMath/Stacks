@@ -143,7 +143,7 @@ theorem mulTo_mem_vanishingSubmodule (c m n k : ℕ) (h : n + m = k) (a : ↥(I 
     (globalModuleCohomology.{u, v, r, w} O p).map (mulTo hF m n k h a) x ∈
       vanishingSubmodule (F ⋙ globalModuleCohomology.{u, v, r, w} O p) c k := by
   intro i hi
-  show ((globalModuleCohomology.{u, v, r, w} O p).map (towerMap F (show i ≤ k by omega))).hom
+  change ((globalModuleCohomology.{u, v, r, w} O p).map (towerMap F (show i ≤ k by omega))).hom
     (((globalModuleCohomology.{u, v, r, w} O p).map (mulTo hF m n k h a)).hom x) = 0
   by_cases him : i < m
   · rw [← functor_map_comp_hom_apply, mulTo_comp_towerMap_eq_zero hF m n k i h him a]
@@ -263,7 +263,7 @@ theorem exists_lift_preserving_image (c : ℕ)
 
 theorem subobjectModule_image {R : Type*} [Ring R] {X Y : ModuleCat R} (f : X ⟶ Y) :
     ModuleCat.subobjectModule Y (imageSubobject f) = LinearMap.range f.hom := by
-  show LinearMap.range (imageSubobject f).arrow.hom = LinearMap.range f.hom
+  change LinearMap.range (imageSubobject f).arrow.hom = LinearMap.range f.hom
   conv_rhs => rw [← imageSubobject_arrow_comp f]
   rw [ModuleCat.hom_comp, LinearMap.range_comp,
     ModuleCat.range_eq_top_of_epi (factorThruImageSubobject f), Submodule.map_top]
@@ -293,7 +293,7 @@ theorem exists_uniform_stable_image (hacc : WellFoundedGT (GradedSubmodule hF p)
       exact exists_lift_preserving_image hF p c hc i n hn z
   apply (ModuleCat.subobjectModule
     ((F ⋙ globalModuleCohomology.{u, v, r, w} O p).obj (op i))).injective
-  show ModuleCat.subobjectModule _ (imageSubobject _) =
+  change ModuleCat.subobjectModule _ (imageSubobject _) =
     ModuleCat.subobjectModule _ (imageSubobject _)
   rw [subobjectModule_image, subobjectModule_image]
   induction k, h using Nat.le_induction with

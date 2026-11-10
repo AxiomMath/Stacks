@@ -99,7 +99,7 @@ private theorem two_le_depth_stalk_pullback_of_finite_of_flat {E X T : Scheme.{u
   have : IsLocallyNoetherian (pullback g φ) :=
     LocallyOfFiniteType.isLocallyNoetherian (pullback.snd g φ)
   refine (hg _ fun h => he ?_).trans (depth_stalk_le_depth_stalk_of_flat (pullback.fst g φ) e)
-  show φ (pullback.snd g φ e) ∈ U
+  change φ (pullback.snd g φ e) ∈ U
   rwa [← Scheme.Hom.comp_apply, ← pullback.condition, Scheme.Hom.comp_apply]
 
 /-- Commuting squares of schemes commute pointwise. -/
@@ -212,7 +212,7 @@ private theorem etale_pullback_snd_extendedEtale_of_powerSeries_chart
     · have h1 : f (φ (s₀ t)) ∈ Stacks.puncturedSpectrum A := h
       rw [hfφs, (hα t).2 h'] at h1
       exact Stacks.notMem_puncturedSpectrum_closedPoint A h1
-    · show f (φ (s₀ t)) ∈ Stacks.puncturedSpectrum A
+    · change f (φ (s₀ t)) ∈ Stacks.puncturedSpectrum A
       rw [hfφs]
       exact fun h' => h ((hα t).1 h')
   have hdepthT : ∀ q : T, q ∉ VT →
@@ -328,8 +328,8 @@ private theorem Abhyankar.isSplitCover_pullback_snd_comp_hom {S W : Scheme.{u}} 
   have hE1 : E1.hom ≫ pullback.fst (t ≫ Y.obj.hom) Y.obj.hom =
       Limits.Sigma.desc (fun _ ↦ 𝟙 _) := by
     refine Sigma.hom_ext _ _ fun _ => ?_
-    simp only [E1, asIso_hom, Sigma.ι_desc_assoc, Abhyankar.translateSection,
-      pullback.lift_fst, Limits.Sigma.ι_desc]
+    simp only [E1, asIso_hom, Sigma.ι_comp_desc_assoc, Abhyankar.translateSection,
+      pullback.lift_fst, Sigma.ι_comp_desc]
   have hE2 : E2.inv ≫ Limits.Sigma.desc (fun _ ↦ 𝟙 W) = Limits.Sigma.desc (fun _ ↦ 𝟙 _) :=
     Sigma.hom_ext _ _ fun _ => by simp [E2, Sigma.whiskerEquiv]
   refine (Stacks.Etale.isSplitCover_iff_of_iso (pullbackSymmetry Y.obj.hom (t ≫ Y.obj.hom))
@@ -356,7 +356,7 @@ private theorem preimage_singleton_subset_puncturedSpectrum_of_depth_le_one
       exact (stalkClosedPointIso (.of A)).commRingCatIsoToRingEquiv
     rw [@Module.depth_self_eq_of_ringEquiv _ _ _ _ hloc _ eA] at hs
     exact absurd (hdepthA.trans hs) (by norm_num)
-  · show f x ∈ Stacks.puncturedSpectrum A
+  · change f x ∈ Stacks.puncturedSpectrum A
     rw [show f x = s from hx]
     exact hsc
 
@@ -370,7 +370,7 @@ private theorem exists_specializes_mem_preimage_puncturedSpectrum
   have hηx : η ⤳ f x := (PrimeSpectrum.le_iff_specializes _ _).1 bot_le
   obtain ⟨x', hx'x, hx'η⟩ := Flat.generalizingMap f hηx
   refine ⟨x', hx'x, ?_⟩
-  show f x' ∈ Stacks.puncturedSpectrum A
+  change f x' ∈ Stacks.puncturedSpectrum A
   rw [hx'η]
   intro hηc
   have hbot : maximalIdeal A = ⊥ := (congrArg PrimeSpectrum.asIdeal hηc).symm
@@ -503,7 +503,7 @@ private theorem exists_finiteEtaleOver_extending_puncturedSpectrum
         ⟨σ (closedPoint A), apply_section_apply hσ _, hσGood⟩
     · intro x hx
       refine subset_closure ⟨hXUGood x ?_, hx⟩
-      show f x ∈ U
+      change f x ∈ U
       rw [show f x = s from hx]
       exact hsc
   -- `E` over `Good`
@@ -538,7 +538,7 @@ private theorem connectedSpace_left_of_finiteEtaleBaseChange_iso {X : Scheme.{u}
     obtain ⟨p, hp, -⟩ := Scheme.exists_preimage_of_isPullback hK1 y' (⟨x', hx'⟩ : U.toScheme)
       hy'x'
     refine hy'y.mem_closed isClosed_closure (subset_closure ⟨e.hom.left p, ?_⟩)
-    show (e.hom.left ≫ e.inv.left ≫ finiteEtaleBaseChangeProj U.ι Y₁) p = y'
+    change (e.hom.left ≫ e.inv.left ≫ finiteEtaleBaseChangeProj U.ι Y₁) p = y'
     rw [← Category.assoc, ← MorphismProperty.Comma.comp_left, e.hom_inv_id]
     exact hp
   exact connectedSpace_iff_univ.mpr
@@ -590,7 +590,7 @@ theorem Abhyankar.exists_finiteEtaleGaloisCover_extending_puncturedSpectrum
   have hσrange : Set.range (U.ι ≫ σ) ⊆ XU.ι.opensRange := by
     rintro _ ⟨u, rfl⟩
     rw [Scheme.Opens.opensRange_ι]
-    show f (σ (U.ι u)) ∈ U
+    change f (σ (U.ι u)) ∈ U
     rw [apply_section_apply hσ]
     exact u.2
   let σU := IsOpenImmersion.lift XU.ι (U.ι ≫ σ) hσrange

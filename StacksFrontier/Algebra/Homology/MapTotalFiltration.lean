@@ -105,6 +105,7 @@ section TwoCategories
 
 variable {A : Type*} [Category* A] [Abelian A] {B : Type*} [Category* B] [Abelian B]
 
+omit [Abelian B] in
 /-- **Every functor sends the inclusion of the image of an idempotent to a split
 monomorphism**, since that inclusion is already a split monomorphism. -/
 lemma isSplitMono_map_imageSubobject_arrow_of_idempotent (G : A ⥤ B) {X : A} (e : X ⟶ X)
@@ -262,6 +263,7 @@ def totalFiltrationStepIso
         HomologicalComplex₂.totalFiltrationStep_d_comp_arrow, G.map_comp, ← Category.assoc,
         imageTotalProjectorIso_hom_comp_map_arrow, Category.assoc])
 
+omit [(mapBicomplex G K).HasTotal (ComplexShape.up ℤ)] in
 /-- **Every additive functor sends the inclusions of the steps of the total filtration to
 monomorphisms**, because those inclusions are split: a step is the image of an idempotent. -/
 lemma mono_map_totalFiltration_ι (p : ℤᵒᵖ) :
@@ -307,6 +309,7 @@ theorem totalFiltrationIsoOfFinite_hom_hom
 
 end Weight
 
+omit [(mapBicomplex G K).HasTotal (ComplexShape.up ℤ)] in
 /-- **Every additive functor sends the inclusions of the steps of the first total filtration to
 monomorphisms.** -/
 lemma mono_map_totalFiltration₁_ι (p : ℤᵒᵖ) :

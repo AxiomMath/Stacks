@@ -124,7 +124,7 @@ theorem exists_completionSubfunctor_lift_of_isClosedImmersion
     let y : Zo ⟶ P := s.1.down
     let j := pullback.fst (Tf.map y) k
     have hsurj : Function.Surjective j.base := fun x => by
-      show x ∈ Set.range (pullback.fst (Tf.map y) k)
+      change x ∈ Set.range (pullback.fst (Tf.map y) k)
       rw [Scheme.Pullback.range_fst]
       exact hk Zo y s.2 ⟨x, rfl⟩
     let Zo₀ : BigFppfOver B S hS := BigFppfOver.mk B S hS (B.contains_of_mono j Zo.left.2)
@@ -138,7 +138,7 @@ theorem exists_completionSubfunctor_lift_of_isClosedImmersion
       Stacks.Etale.universalHomeomorphism_of_isClosedImmersion_of_surjective _ hsurj
     obtain ⟨l₀, hl₀⟩ := BigFppfOver.exists_hom_of_comp_eq B S hS (X := Zo₀) (Y := W₀)
       (pullback.snd (Tf.map y) k ≫ l) (by
-        show (pullback.snd (Tf.map y) k ≫ l) ≫ B.inclusion.map W₀.hom =
+        change (pullback.snd (Tf.map y) k ≫ l) ≫ B.inclusion.map W₀.hom =
           j ≫ B.inclusion.map Zo.hom
         rw [Category.assoc, hlS, ← Category.assoc, ← pullback.condition, Category.assoc,
           hover y])
@@ -149,7 +149,7 @@ theorem exists_completionSubfunctor_lift_of_isClosedImmersion
         hl Zo₀ (C.toFunctor.map j₀.op s) l₀ (pullback.snd (Tf.map y) k) ?_ hl₀,
         NatTrans.naturality_apply]
       · rfl
-      · show pullback.snd (Tf.map y) k ≫ k = Tf.map (j₀ ≫ y)
+      · change pullback.snd (Tf.map y) k ≫ k = Tf.map (j₀ ≫ y)
         rw [Functor.map_comp, hj₀]
         exact pullback.condition.symm
     obtain ⟨l₁, ⟨hl₁π, hl₁j⟩, hl₁u⟩ :=
@@ -159,7 +159,7 @@ theorem exists_completionSubfunctor_lift_of_isClosedImmersion
       have hcond : Tf.map t ≫ Tf.map y = m ≫ k := by rw [hm, Functor.map_comp]
       obtain ⟨κ, hκ⟩ := BigFppfOver.exists_hom_of_comp_eq B S hS (X := Z₁) (Y := Zo₀)
         (pullback.lift (Tf.map t) m hcond) (by
-          show pullback.lift (Tf.map t) m hcond ≫ j ≫ B.inclusion.map Zo.hom = _
+          change pullback.lift (Tf.map t) m hcond ≫ j ≫ B.inclusion.map Zo.hom = _
           rw [pullback.lift_fst_assoc]
           exact hover t)
       have hκj : κ ≫ j₀ = t := Tf.map_injective (by
@@ -170,7 +170,7 @@ theorem exists_completionSubfunctor_lift_of_isClosedImmersion
     · rintro l₂ ⟨hl₂π, hl₂⟩
       refine hl₁u l₂ ⟨hl₂π, Tf.map_injective ?_⟩
       rw [hl₂ Zo₀ j₀ (pullback.snd (Tf.map y) k) ?_, hl₀]
-      show pullback.snd (Tf.map y) k ≫ k = Tf.map j₀ ≫ Tf.map y
+      change pullback.snd (Tf.map y) k ≫ k = Tf.map j₀ ≫ Tf.map y
       rw [hj₀]
       exact pullback.condition.symm
   choose L hL hLu using key
@@ -179,7 +179,7 @@ theorem exists_completionSubfunctor_lift_of_isClosedImmersion
   · intro Zo Zo' f
     ext s
     apply ULift.ext
-    show L Zo'.unop (C.toFunctor.map f s) = f.unop ≫ L Zo.unop s
+    change L Zo'.unop (C.toFunctor.map f s) = f.unop ≫ L Zo.unop s
     symm
     apply hLu
     refine ⟨?_, ?_⟩
@@ -191,7 +191,7 @@ theorem exists_completionSubfunctor_lift_of_isClosedImmersion
       exact (hL _ s).2 Z₁ (t ≫ f.unop) m (by rw [hm, Category.assoc]; rfl)
   · ext Zo s
     apply ULift.ext
-    show π.app Zo (L Zo.unop s) = (ŵP.app Zo s).down
+    change π.app Zo (L Zo.unop s) = (ŵP.app Zo s).down
     have h := congrArg yonedaEquiv (hL Zo.unop s).1
     rwa [yonedaEquiv_comp, yonedaEquiv_yoneda_map, Equiv.apply_symm_apply] at h
 
@@ -242,12 +242,12 @@ theorem exists_affine_chart_completion_factorization
       (⟨Ws, hWs⟩ : TopologicalSpace.Closeds V₀)).subscheme ⟶ V₀ :=
     (Scheme.IdealSheafData.vanishingIdeal (⟨Ws, hWs⟩ : TopologicalSpace.Closeds V₀)).subschemeι
   have hirange : Set.range i.base = Ws := by
-    show Set.range (Scheme.IdealSheafData.vanishingIdeal
+    change Set.range (Scheme.IdealSheafData.vanishingIdeal
       (⟨Ws, hWs⟩ : TopologicalSpace.Closeds V₀)).subschemeι.base = Ws
     rw [Scheme.IdealSheafData.range_subschemeι, Scheme.IdealSheafData.coe_support_vanishingIdeal]
     rfl
   have : AlgebraicGeometry.IsClosedImmersion i := by
-    show AlgebraicGeometry.IsClosedImmersion (Scheme.IdealSheafData.vanishingIdeal
+    change AlgebraicGeometry.IsClosedImmersion (Scheme.IdealSheafData.vanishingIdeal
       (⟨Ws, hWs⟩ : TopologicalSpace.Closeds V₀)).subschemeι
     infer_instance
   have : IsAffine (Scheme.IdealSheafData.vanishingIdeal
@@ -280,9 +280,9 @@ theorem exists_affine_chart_completion_factorization
   obtain ⟨pa, hpa⟩ := hsndsurj.surj z₀
   let sW : Tf.obj Wa ⟶ S := B.inclusion.map Wa.hom
   have hw₀O : sW.base ((Tf.map fst).base pa) ∈ O := by
-    show (Tf.map fst ≫ sW).base pa ∈ O
+    change (Tf.map fst ≫ sW).base pa ∈ O
     rw [hover fst, ← hover snd]
-    show sV.base (V₀.ι.base (i.base ((Tf.map snd).base pa))) ∈ O
+    change sV.base (V₀.ι.base (i.base ((Tf.map snd).base pa))) ∈ O
     rw [hpa, hz₀]
     exact hsO
   obtain ⟨W₀', hW₀', hw₀W₀, hW₀O⟩ := exists_isAffineOpen_mem_and_subset
@@ -338,9 +338,9 @@ theorem exists_affine_chart_completion_factorization
     intro Zo y hy
     have hy' := (hasImageIn_yoneda_iff_range_subset B S hS p T (y ≫ r)).1 (himg Zo y hy)
     rintro _ ⟨x, rfl⟩
-    show (Tf.map y).base x ∈ Set.range (pullback.snd i g)
+    change (Tf.map y).base x ∈ Set.range (pullback.snd i g)
     rw [Scheme.Pullback.range_snd]
-    show g.base ((Tf.map y).base x) ∈ Set.range i.base
+    change g.base ((Tf.map y).base x) ∈ Set.range i.base
     rw [hirange]
     exact hy' ⟨x, rfl⟩
   have hŵeq : ∀ (Zo : BigFppfOver B S hS)
@@ -411,7 +411,7 @@ theorem exists_affine_chart_completion_factorization
         rw [hpa', hz₀]
         rfl
   · have : IsLocallyNoetherian X₁ := LocallyOfFiniteType.isLocallyNoetherian g
-    show IsNoetherian X₁
+    change IsNoetherian X₁
     exact { }
   · rintro _ ⟨x, rfl⟩
     exact hV₀O (g.base x).2

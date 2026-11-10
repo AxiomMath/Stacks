@@ -107,6 +107,7 @@ theorem isIso_restrictionBaseChange_pushforwardRestriction
   convert h₂ using 2
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the sheaf-of-modules and base-change constructions in the proof
 include hV₀ e in
 /-- **Over an affine object `W` of the spaces-étale site, the direct image `a_{X,*}H` of a locally
 presented module is `M^a`**, hence has a global presentation: on the affine schemes étale over

@@ -110,7 +110,7 @@ private theorem exists_sectionsMap_eq (hcol : IsColimit (Cocone.mk F φ))
   refine ⟨l, (sectionsEquivOfTerminal _ (isTerminalTop (α := T.Opens))).symm t, ?_⟩
   refine (sectionsEquivOfTerminal ((Scheme.Modules.pullback p).obj F)
     (isTerminalTop (α := T.Opens))).injective ?_
-  show (SheafOfModules.sectionsMap ((Scheme.Modules.pullback p).map (φ.app l)) _).val (op ⊤)
+  change (SheafOfModules.sectionsMap ((Scheme.Modules.pullback p).map (φ.app l)) _).val (op ⊤)
     = s.val (op ⊤)
   rw [Scheme.Modules.sectionsMap_val,
     show ((sectionsEquivOfTerminal ((Scheme.Modules.pullback p).obj (D.obj l))
@@ -136,7 +136,7 @@ private theorem exists_hom_sectionsMap_eq (hcol : IsColimit (Cocone.mk F φ)) {l
     (congrArg (fun z : ((Scheme.Modules.pullback p).obj F).sections => z.val (op ⊤)) h)
   refine ⟨m, g₁, g₂, (sectionsEquivOfTerminal ((Scheme.Modules.pullback p).obj (D.obj m))
     (isTerminalTop (α := T.Opens))).injective ?_⟩
-  show (SheafOfModules.sectionsMap ((Scheme.Modules.pullback p).map (D.map g₁)) y₁).val (op ⊤)
+  change (SheafOfModules.sectionsMap ((Scheme.Modules.pullback p).map (D.map g₁)) y₁).val (op ⊤)
     = (SheafOfModules.sectionsMap ((Scheme.Modules.pullback p).map (D.map g₂)) y₂).val (op ⊤)
   rw [Scheme.Modules.sectionsMap_val, Scheme.Modules.sectionsMap_val]
   exact hg
@@ -149,6 +149,7 @@ open Stacks.AlgebraicGeometry.ModuleLimits
 
 variable {α : Type u} [Preorder α] [IsDirected α (· ≤ ·)] [Nonempty α] (E : αᵒᵖ ⥤ Scheme.{u})
 
+omit [IsDirected α (· ≤ ·)] [Nonempty α] in
 /-- **The transition map of Stacks 01Z0 is natural in the coefficient module.**  This is
 `...ModuleLimits.sectionsMap_canHom_modulePullbackSection_naturality` at the factorisation
 `Sⱼ ⟶ Sᵢ ⟶ S₀` that `AlgebraicGeometry.stagePullbackSectionTransition` is built from. -/

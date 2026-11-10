@@ -100,6 +100,7 @@ theorem directImageAct_naturality {N N' : Stack.fppfModules B S hS 𝒰} (ψ : N
     ((affinePushforward.{u, w, u} g hg).map ψ) _ _ (directImageActPresheaf_naturality ψ)
 
 set_option maxHeartbeats 1000000 in
+-- unfolding the sheafified tensor-product isomorphisms against the localized monoidal structure
 attribute [local instance] AlgebraicStacks.modulesMonoidalCategory in
 /-- **On `g_*𝒪_𝒰` the action is the multiplication of the algebra `g_*𝒪_𝒰`** of Stacks 0GRK
 (`AlgebraicGeometry.Stack.monObjAffinePushforwardStructureSheaf`, for the localized monoidal
@@ -389,7 +390,7 @@ omit [F.Additive] in
 theorem directImageSMul_app_structureSheaf (c y : affineTensorAlgebra g hg F) :
     ((directImageSMul g hg F c).app (quasicoherentStructureSheaf.{u, w} (U := U))).hom y =
       y * c := by
-  show (F.map (quasicoherentDirectImageAct g hg _)).hom
+  change (F.map (quasicoherentDirectImageAct g hg _)).hom
     ((Functor.LaxMonoidal.μ F _ _).hom (y ⊗ₜ c)) = _
   rw [quasicoherentDirectImageAct_structureSheaf]
   rfl

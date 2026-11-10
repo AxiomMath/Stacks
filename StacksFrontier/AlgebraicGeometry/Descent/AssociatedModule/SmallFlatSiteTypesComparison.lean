@@ -41,8 +41,8 @@ Let `ι : S_τ ⊆ (Sch/S)_τ` be the inclusion and `ι_!` its lower shriek.
 * **The local properties** go through the big site: `ι_!(𝓕^a|_{S_τ}) ≅ 𝓕^a|_{(Sch/S)_τ}`
   (`AlgebraicGeometry.SmallFlatSite.associatedModuleCompLowerShriekIso`), a module on `S_τ` has
   each of the local properties exactly when its lower shriek has it
-  (`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallFlatSiteLocalTypes.lean`), and the
-  big-site clauses of 05VG settle the comparison with `𝓕`.
+  (`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallFlatSiteLocalTypes.lean`), and
+  the big-site clauses of 05VG settle the comparison with `𝓕`.
 
 ## Main results
 

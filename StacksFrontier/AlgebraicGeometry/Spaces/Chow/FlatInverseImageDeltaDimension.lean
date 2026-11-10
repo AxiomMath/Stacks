@@ -149,7 +149,7 @@ theorem hasFiberLocalRingDimension_zero_of_mem_genericPoints
     (AlgebraicGeometry.ringKrullDim_stalk_eq_of_etale U.topIso.hom z).trans hzero
   have hfiber := ringKrullDim_fiber_stalk_eq_zero_of_source_eq_zero
     (U.topIso.hom ≫ h) z hzero'
-  show ∃ g : AlgebraicGeometry.MorphismOfGerms.Representative ⟨U, u⟩ ⟨V, h u⟩,
+  change ∃ g : AlgebraicGeometry.MorphismOfGerms.Representative ⟨U, u⟩ ⟨V, h u⟩,
     AlgebraicGeometry.MorphismOfGerms.mk g =
       AlgebraicGeometry.MorphismOfGerms.ofSchemeHom h u ∧
     ringKrullDim ((g.hom.fiber (g.hom ⟨u, g.mem_source⟩)).presheaf.stalk
@@ -204,7 +204,7 @@ theorem IntegralClosedSubspace.isGenericPoint_pointsMap_of_isGenericPoint_of_isF
     (fun V hV ψ hψ => hasFiniteChartFibersAtEveryPoint_of_isDecentSpace D.site D.base D.base_mem
       (D.isDecentSpace_of_isGood sY hY) _ V hV ψ hψ) x rfl
   have hx'A : x' ∈ Z.preimagePointSet D.site D.base D.base_mem f := by
-    show pointsMap D.site D.base D.base_mem X f x' ∈
+    change pointsMap D.site D.base D.base_mem X f x' ∈
       subspacePointSet D.site D.base D.base_mem Y Z.subspace
     rw [hx'map]
     exact ⟨Z.genericPoint D.site D.base D.base_mem, rfl⟩
@@ -353,7 +353,7 @@ private theorem hasFiberLocalRingDimension_zero_of_isGenericPoint_preimageCompon
       (isClosed_of_mem_irreducibleComponents _ hWP).closure_eq] at h
   have hwgen : w ∈ genericPoints (points D.site D.base D.base_mem
       (Z.subspace.preimage f).toFunctor) := by
-    show closure {w} ∈ irreducibleComponents _
+    change closure {w} ∈ irreducibleComponents _
     rw [hgenw.def]
     exact hWP
   have hPdec : IsDecentSpace D.site D.base D.base_mem (Z.subspace.preimage f).toFunctor :=
@@ -430,7 +430,7 @@ theorem IntegralClosedSubspace.deltaDimension_preimageComponent_of_isFlat
     rw [← hbase, pointsMap_comp_apply]
   rw [deltaDimension_eq_of_isGenericPoint D sX hX.1 W ξ hgenξ,
     deltaDimension_eq_of_isGenericPoint D sY hY.1 Z _ hdom]
-  show inducedDimensionValue D.site D.base D.base_mem D.delta.toFun sX ξ =
+  change inducedDimensionValue D.site D.base D.base_mem D.delta.toFun sX ξ =
     inducedDimensionValue D.site D.base D.base_mem D.delta.toFun sY
       (pointsMap D.site D.base D.base_mem X f ξ) + (r : ℤ)
   rw [hXval, hYval, himg, ← har]

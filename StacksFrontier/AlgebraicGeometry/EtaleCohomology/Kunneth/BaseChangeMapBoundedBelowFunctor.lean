@@ -213,7 +213,7 @@ theorem isIso_rightDerivedFunctorPlus_map_forgetDerivedPlus_map_of_isIso {X Z : 
     IsIso ((smallEtalePushforwardAb c).rightDerivedFunctorPlus.map
       ((forgetDerivedPlus Λ X).map φ)) := by
   have h₁ : IsIso ((DerivedCategory.Plus.ι ⋙ pushforward Λ c ⋙ forgetDerived Λ Z).map φ) := by
-    show IsIso ((forgetDerived Λ Z).map ((pushforward Λ c).map (DerivedCategory.Plus.ι.map φ)))
+    change IsIso ((forgetDerived Λ Z).map ((pushforward Λ c).map (DerivedCategory.Plus.ι.map φ)))
     infer_instance
   have h₂ := (NatIso.isIso_map_iff (pushforwardForgetPlusIso Λ c) φ).1 h₁
   change IsIso (DerivedCategory.Plus.ι.map ((smallEtalePushforwardAb c).rightDerivedFunctorPlus.map

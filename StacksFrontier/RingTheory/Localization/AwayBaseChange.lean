@@ -59,8 +59,7 @@ theorem tensorBaseChange (A' A P' Pg' : Type u) [CommRing A'] [CommRing A] [Comm
             (TensorProduct P' Pg' (TensorProduct A' P' A)) p) =
         algebraMap (TensorProduct A' P' A) (TensorProduct A' Pg' A) p := by
     intro p
-    induction p using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, map_zero]
+    induction p using TensorProduct.inductionOn with
     | tmul x a =>
         have h1 : algebraMap (TensorProduct A' P' A)
             (TensorProduct P' Pg' (TensorProduct A' P' A)) (x ⊗ₜ[A'] a) =

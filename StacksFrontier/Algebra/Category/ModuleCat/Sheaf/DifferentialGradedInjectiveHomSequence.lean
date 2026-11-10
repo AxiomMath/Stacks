@@ -222,7 +222,7 @@ private lemma hom_shortExact_of_injective {D : Type*} [Category D] [Preadditive 
   refine ⟨?_, ?_, ?_⟩
   · exact fun _ _ hab => (cancel_epi S.g).1 hab
   · intro a
-    show (S.f ≫ a = 0) ↔ a ∈ Set.range (fun k : S.X₃ ⟶ I => S.g ≫ k)
+    change (S.f ≫ a = 0) ↔ a ∈ Set.range (fun k : S.X₃ ⟶ I => S.g ≫ k)
     constructor
     · intro ha
       have := hS.exact.hasHomology
@@ -292,7 +292,7 @@ private lemma gradedToCochain_actionLinear {M N : DifferentialGradedModule.{u, v
   subst p
   have hf := f.map_smul q m U x a
   apply heq_of_eq
-  show (f.app (q + m)).val.app U
+  change (f.app (q + m)).val.app U
       ((eqToHom (congrArg M.complex.X (show (q + -k) + m = (q + m) + -k by omega))).val.app U
         ((M.mul (q + -k) m).app U x a)) =
     (N.mul q m).app U ((f.app q).val.app U
@@ -335,7 +335,7 @@ private lemma homogeneousGradedEquiv_precomp {M N I : DifferentialGradedModule.{
         homogeneousGradedEquiv A N I k a := by
   apply GradedModule.Hom.ext
   intro p
-  show b.val.v (p + -k) p (by omega) = _
+  change b.val.v (p + -k) p (by omega) = _
   rw [h, Cochain.zero_cochain_comp_v, Cochain.ofHom_v]
   rfl
 
@@ -345,7 +345,7 @@ private lemma homogeneousGradedEquiv_precomp {M N I : DifferentialGradedModule.{
 private lemma isActionLinear_zero (M N : DifferentialGradedModule.{u, v, w} A) (k : ℤ) :
     IsActionLinear A (0 : Cochain M.complex N.complex k) := by
   intro p q m hpq U x a
-  show HEq (0 : (N.complex.X (q + m)).val.obj U) ((N.mul q m).app U 0 a)
+  change HEq (0 : (N.complex.X (q + m)).val.obj U) ((N.mul q m).app U 0 a)
   simp
 
 /-- The homogeneous right-linear map underlying a homogeneous morphism of degree `n`. -/
@@ -391,7 +391,7 @@ private lemma dgGradedEquiv_zero (M N : DifferentialGradedModule.{u, v, w} A) (k
     dgGradedEquiv A M N k 0 = 0 := by
   apply GradedModule.Hom.ext
   intro p
-  show (dgHomEquiv A M N k 0).val.v (p + -k) p (by omega) = 0
+  change (dgHomEquiv A M N k 0).val.v (p + -k) p (by omega) = 0
   rw [dgHomEquiv_zero]
   rfl
 
@@ -446,7 +446,7 @@ def precompCocycle {S : Type*} [CommRing S] (D : DGCategory S) {x y : D.Obj}
 theorem d_precompCocycle {S : Type*} [CommRing S] (D : DGCategory S) {x y : D.Obj}
     (c : D.Cocycle x y) (z : D.Obj) (n : ℤ) (h : D.Hom y z n) :
     D.d (precompCocycle D c z n h) = precompCocycle D c z (n + 1) (D.d h) := by
-  show D.d (D.comp (add_zero n) h c.val) = D.comp (add_zero (n + 1)) (D.d h) c.val
+  change D.d (D.comp (add_zero n) h c.val) = D.comp (add_zero (n + 1)) (D.d h) c.val
   rw [D.leibniz (add_zero n) h c.val, c.property]
   simp
 
@@ -508,7 +508,7 @@ lemma d'_zero_eq {x y : D.Obj} {m n : ℤ} (e : m + 1 = n) :
 lemma d'_neg {x y : D.Obj} {m n : ℤ} (e : m + 1 = n) (f : D.Hom x y m) :
     D.d' e (-f) = -D.d' e f := by
   subst e
-  show D.d (-f) = -D.d f
+  change D.d (-f) = -D.d f
   rw [← neg_one_smul S f, D.d_smul, neg_one_smul]
 
 /-- The transported differential `D.d'` is `S`-linear. -/
@@ -675,7 +675,7 @@ private theorem connecting_class_eq {x₁ x₂ x₃ z : D.Obj}
     rw [precompCocycle_sub, hb, hb', sub_self]
   obtain ⟨e, he⟩ := (hexact n (b - b')).mp hz
   refine ⟨n, rfl, e, ?_⟩
-  show D.d e = ((c - c' : ↥(homCocycles D x₃ z (n + 1))) : D.Hom x₃ z (n + 1))
+  change D.d e = ((c - c' : ↥(homCocycles D x₃ z (n + 1))) : D.Hom x₃ z (n + 1))
   rw [AddSubgroup.coe_sub]
   apply hinj (n + 1)
   rw [← d_precompCocycle, he, precompCocycle_sub, hc, hc', d_sub]
@@ -769,7 +769,7 @@ private theorem exact_precompCocycleCohomology_connecting {x₁ x₂ x₃ z : D.
     have hv : precompCocycleCocycles D cf z n ⟨_, hdv⟩ = a := by
       apply Subtype.ext
       rw [precompCocycleCocycles_coe]
-      show precompCocycle D cf z n (b - precompCocycle D cg z n h) = _
+      change precompCocycle D cf z n (b - precompCocycle D cg z n h) = _
       rw [precompCocycle_sub, hb, (hexact n).apply_apply_eq_zero, sub_zero]
     exact ⟨QuotientAddGroup.mk ⟨_, hdv⟩, by rw [precompCocycleCohomology_mk, hv]⟩
   · have h0 : precompCocycle D cg z (n + 1)
@@ -1107,7 +1107,7 @@ lemma homCohomologyShiftEquiv_precompCocycleCohomology {x y : D.Obj} (c : D.Cocy
     (z : D.Obj) (n : ℤ) (u : homCohomology D y z n) :
     homCohomologyShiftEquiv D B x z n (precompCocycleCohomology D c z n u) =
       D.compK (homCohomologyShiftEquiv D B y z n u) (Quotient.mk (D.homotopySetoid x y) c) := by
-  show homCohomologyZeroEquiv D x ((B.shiftFunctor n).obj z)
+  change homCohomologyZeroEquiv D x ((B.shiftFunctor n).obj z)
       (shiftHomCohomology D B n x z (zero_add n) (precompCocycleCohomology D c z n u)) = _
   rw [shiftHomCohomology_precompCocycleCohomology,
     homCohomologyZeroEquiv_precompCocycleCohomology]

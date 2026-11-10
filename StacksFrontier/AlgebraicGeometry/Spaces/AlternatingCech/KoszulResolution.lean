@@ -64,7 +64,7 @@ variable {R M : Type*} [CommRing R] [AddCommGroup M] [Module R M]
 /-- Left multiplication by a vector carries the `n`-th exterior power into the `(n+1)`-st. -/
 theorem ι_mul_mem (e : M) (n : ℕ) {x : ExteriorAlgebra R M} (hx : x ∈ ⋀[R]^n M) :
     ι R e * x ∈ ⋀[R]^(n + 1) M := by
-  show _ ∈ (LinearMap.range (ι R : M →ₗ[R] ExteriorAlgebra R M)) ^ (n + 1)
+  change _ ∈ (LinearMap.range (ι R : M →ₗ[R] ExteriorAlgebra R M)) ^ (n + 1)
   rw [pow_succ' (LinearMap.range (ι R : M →ₗ[R] ExteriorAlgebra R M)) n]
   exact Submodule.mul_mem_mul ⟨e, rfl⟩ hx
 

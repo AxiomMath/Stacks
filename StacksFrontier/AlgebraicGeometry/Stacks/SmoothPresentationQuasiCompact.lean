@@ -216,7 +216,7 @@ private theorem exists_affine_refinement_of_open_surjective
   let _ : IsZariskiLocalAtSource (@Smooth.{u}) :=
     HasRingHomProperty.instIsZariskiLocalAtSource (Q := RingHom.Smooth)
   have hd : Smooth d := IsZariskiLocalAtSource.sigmaDesc (fun i : s => by
-    show Smooth i.val.1.ι; infer_instance)
+    change Smooth i.val.1.ι; infer_instance)
   have hY : B.Contains (∐ Y) := Scheme.size_sigmaObj_lt B.aleph0_lt_cutoff
     B.aleph0_lt_cutoff_cof Cardinal.mk_le_aleph0 Y (fun i => hv i.val)
   let A : BigFppfOver B S hS :=
@@ -224,13 +224,13 @@ private theorem exists_affine_refinement_of_open_surjective
   let k : A ⟶ U := Over.homMk ⟨d⟩ (by rfl)
   let l (i : s) : V i.val ⟶ A := Over.homMk ⟨Limits.Sigma.ι Y i⟩ (by
     apply ObjectProperty.hom_ext
-    show Limits.Sigma.ι Y i ≫ (d ≫ B.inclusion.map U.hom) = _
-    rw [← Category.assoc, Limits.Sigma.ι_desc]
+    change Limits.Sigma.ι Y i ≫ (d ≫ B.inclusion.map U.hom) = _
+    rw [← Category.assoc, Limits.Sigma.ι_comp_desc]
     rfl)
   have hl (i : s) : l i ≫ k = j i.val :=
-    Over.OverMorphism.ext (ObjectProperty.hom_ext _ (Limits.Sigma.ι_desc _ i))
+    Over.OverMorphism.ext (ObjectProperty.hom_ext _ (Limits.Sigma.ι_comp_desc _ i))
   refine ⟨A, k, ?_, (show T.map k = d from rfl) ▸ hd, ?_⟩
-  · show IsAffine (∐ Y)
+  · change IsAffine (∐ Y)
     let instAff (i : s) : IsAffine (Y i) := i.val.2
     infer_instance
   · intro x
@@ -243,7 +243,7 @@ private theorem exists_affine_refinement_of_open_surjective
       have h := congrFun (Space.pointsMap_comp B S hS (yoneda.obj (V i))
         (yoneda.map (l ⟨i, hi⟩)) (yoneda.map k)).symm p
       rwa [← Functor.map_comp, hl ⟨i, hi⟩] at h
-    show m (Space.pointsMap B S hS (yoneda.obj A) (yoneda.map k) _) = x
+    change m (Space.pointsMap B S hS (yoneda.obj A) (yoneda.map k) _) = x
     rwa [hcomp, hp]
 
 /-! ### The five conditions -/
@@ -314,7 +314,7 @@ private theorem hasQuasiCompactSpaceSmoothPresentation_of_scheme
     obtain ⟨z, hz⟩ := pointsMap_surjective_of_basedEquivalence B S hS
       (𝒜 := fibredCategory B S hS F) (𝒞 := schemeFibredCategory B S hS U) e.symm y
     refine ⟨z, ?_⟩
-    show pointsMap B S hS 𝒰space.val.val 𝒰space.val.property 𝒳.val.property
+    change pointsMap B S hS 𝒰space.val.val 𝒰space.val.property 𝒳.val.property
       (BasedFunctor.comp e.inverse f.hom) z = x
     rwa [← pointsMap_comp B S hS 𝒰space.val.val 𝒰space.val.property
       (schemeFibredCategory B S hS U).property 𝒳.val.property e.inverse f.hom z,
@@ -405,7 +405,7 @@ private theorem hasAffineSmoothPresentation_of_isQuasiCompactStack
       (𝒜 := schemeFibredCategory B S hS A)
       (𝒞 := fibredCategory B S hS (yoneda.obj A)) eA y
     refine ⟨z, ?_⟩
-    show pointsMap B S hS (schemeFibredCategory B S hS A).val
+    change pointsMap B S hS (schemeFibredCategory B S hS A).val
       (schemeFibredCategory B S hS A).property 𝒳.val.property
       (BasedFunctor.comp eA.functor c) z = x
     rw [← pointsMap_comp B S hS (schemeFibredCategory B S hS A).val

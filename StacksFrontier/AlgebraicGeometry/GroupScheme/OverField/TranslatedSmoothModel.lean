@@ -103,7 +103,7 @@ theorem exists_lift_of_le_nilradical {R : Type u} {A : Type v} {B : Type w} [Com
     rw [AlgEquiv.symm_apply_eq]
     rfl
   have e4 : φ (π x) = Ideal.Quotient.mk J' (h x) := by
-    show φ₀ ((Ideal.quotientKerAlgEquivOfSurjective hπ).symm (π x)) = _
+    change φ₀ ((Ideal.quotientKerAlgEquivOfSurjective hπ).symm (π x)) = _
     rw [e3]
     rfl
   rw [e4, Ideal.Quotient.eq] at e1
@@ -135,7 +135,7 @@ private def appTopAlgHom {S T Z : Scheme.{u}} (fT : T ⟶ S) (fZ : Z ⟶ S) (h :
   letI := fZ.appTop.hom.toAlgebra
   { h.appTop.hom with
     commutes' := fun r => by
-      show h.appTop (fT.appTop r) = fZ.appTop r
+      change h.appTop (fT.appTop r) = fZ.appTop r
       rw [← hh, Scheme.Hom.comp_appTop]
       rfl }
 
@@ -257,7 +257,7 @@ theorem exists_smooth_affine_model {k : Type u} [Field k] [PerfectField k] {Y : 
       (ConcreteCategory.bijective_of_isIso _)).mp hf
   refine ⟨Over.mk (X₀.ι ≫ X.hom), hX₀a, hsm, X₀.ι, inferInstance, rfl, W, hWV', ⟨_, hvW⟩, hW,
     π₀, ?_, hπ₀, hfl, hqc⟩
-  show π₀ ≫ X₀.ι ≫ X.hom = W.ι ≫ y
+  change π₀ ≫ X₀.ι ≫ X.hom = W.ι ≫ y
   rw [reassoc_of% hπ₀, hπ, Scheme.homOfLE_ι_assoc]
 
 end AlgebraicGeometry

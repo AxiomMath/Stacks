@@ -365,7 +365,7 @@ theorem isBlowupAlong_strictTransform (hb : IsBlowupAlong B S hS Z b) :
       φ ≫ strictTransformPullbackToBlowUp B S hS f b = cl := by
     intro φ hφ
     refine hcluniq _ ?_
-    show (φ ≫ strictTransformPullbackToBlowUp B S hS f b) ≫ b = y ≫ f
+    change (φ ≫ strictTransformPullbackToBlowUp B S hS f b) ≫ b = y ≫ f
     rw [Category.assoc, ← sq.w, ← Category.assoc, hφ]
   have hltop : l ≫ strictTransformSpaceι B S hS f b (preimageClosedSubspace b Z).1 ≫
       strictTransformPullbackToSource B S hS f b = y := by

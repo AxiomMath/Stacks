@@ -114,8 +114,8 @@ def VeroneseRelativeProjRealization : Prop :=
     [IsInvertibleModule X L],
     topologicalKrullDim X = 1 → SheafOfModules.IsGeneratedByGlobalSections L →
       IsZero (cohomologyOverField k f L 1) → IsAmple X L →
-        ∃ (A : SheafGradedAlgebra (Spec (.of k)))
-          (hgen : ProjRepresentsF1.IsGeneratedInDegreeOne A) (e : X ≅ (relativeProj A).scheme),
+        ∃ (A : SheafGradedAlgebra (Spec (.of k))), ProjRepresentsF1.IsGeneratedInDegreeOne A ∧
+          ∃ (e : X ≅ (relativeProj A).scheme),
           e.hom ≫ (relativeProj A).toBase = f ∧
             Nonempty (tensorPowModule X L 2 ≅
               (Scheme.Modules.pullback e.hom).obj (Tag07ZRVeryAmple.twistOne A))

@@ -111,7 +111,7 @@ lemma colimitIsoHoColimitNerve_hom_ι
             simp [colimitIsoHoColimitNerve, Iso.trans_hom, Iso.symm_hom, G, n]
     _ = (n.inv.app i ≫ colimit.ι (G ⋙ SSet.hoFunctor.{max u v w}) i) ≫
           (preservesColimitIso SSet.hoFunctor.{max u v w} G).inv := by
-            rw [HasColimit.isoOfNatIso_ι_inv]
+            rw [HasColimit.ι_isoOfNatIso_inv]
     _ = n.inv.app i ≫ SSet.hoFunctor.{max u v w}.map (colimit.ι G i) := by
           rw [Category.assoc, ι_preservesColimitIso_inv]
 
@@ -258,7 +258,7 @@ lemma exists_stage_obj_of_colimit
   have hobj : e.hom.toFunctor.obj ((colimit.ι F i).toFunctor.obj y) =
       e.hom.toFunctor.obj x := by
     rw [colimitIsoHoColimitNerve_obj_ι]
-    show (SSet.mapHomotopyCategory (colimit.ι H i)).obj
+    change (SSet.mapHomotopyCategory (colimit.ι H i)).obj
         ((CategoryTheory.nerveFunctorCompHoFunctorIso.{max u v w}.app
           (F.obj i)).inv.toFunctor.obj y) = _
     rw [catIso_inv_hom_obj
@@ -348,7 +348,7 @@ private lemma isStageMorphism
                intro x y g
                apply inc.map_injective
                simp only [Functor.map_comp, eqToHom_map]
-               show (colimit.ι F j).toFunctor.map ((F.map s).toFunctor.map g) =
+               change (colimit.ι F j).toFunctor.map ((F.map s).toFunctor.map g) =
                  eqToHom _ ≫ (colimit.ι F i).toFunctor.map g ≫ eqToHom _
                exact Functor.congr_hom (congrArg Cat.Hom.toFunctor (colimit.w F s)) g } }
   let d := colimit.desc F c

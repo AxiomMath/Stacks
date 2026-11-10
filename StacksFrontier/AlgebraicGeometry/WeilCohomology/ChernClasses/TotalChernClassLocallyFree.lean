@@ -167,7 +167,7 @@ theorem chernClass_central (j : ℕ) (b : 𝔄.A X) :
         refine Finset.sum_congr rfl fun i _ => ?_
         rw [map_mul, ← mul_assoc, hx (𝔄.pull (𝔄.bundleDatum X E r hE).proj b) (i : ℕ),
           mul_assoc]
-      show ∑ i : Fin (r + 1), _ * _ = ∑ i : Fin (r + 1), _ * _
+      change ∑ i : Fin (r + 1), _ * _ = ∑ i : Fin (r + 1), _ * _
       rw [hL, hR, topTerm, neg_mul, mul_neg, smul_mul_assoc, mul_smul_comm,
         hx (𝔄.pull (𝔄.bundleDatum X E r hE).proj b) (r + 1)]
     exact fun i => congrFun heq i
@@ -213,7 +213,7 @@ theorem chernClass_eq_of_relation (d : ℕ → 𝔄.A X) (hd0 : d 0 = 1)
   · rw [hd0, 𝔄.chernClass_zero X E r hE]
   rcases le_or_gt j (r + 1) with hle | hgt
   · rw [𝔄.chernClass_of_le X E r hE (by omega) hle, ← htuple]
-    show d j = ((-1 : ℤ) ^ (r + 1 - j)) • (((-1 : ℤ) ^ (r + 1 - j)) • d (r + 1 - (r + 1 - j)))
+    change d j = ((-1 : ℤ) ^ (r + 1 - j)) • (((-1 : ℤ) ^ (r + 1 - j)) • d (r + 1 - (r + 1 - j)))
     rw [show r + 1 - (r + 1 - j) = j from by omega, smul_smul, ← pow_add,
       show (r + 1 - j) + (r + 1 - j) = 2 * (r + 1 - j) from by omega, pow_mul]
     simp

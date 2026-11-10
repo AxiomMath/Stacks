@@ -209,7 +209,7 @@ theorem fibreParameterMap_comp_parameterBaseMap (a : Fin (Module.finrank D.k D.V
       D.fibreParameterMap_comp_parameterProjection K a]
     exact (D.isPullback_baseChange K).w
   · rw [Scheme.Hom.comp_appTop, Scheme.Hom.comp_appTop]
-    show (D.fibreParameterMap K a).appTop (D.parameterBaseMap.appTop _) =
+    change (D.fibreParameterMap K a).appTop (D.parameterBaseMap.appTop _) =
       (D.baseChangeToSpec K).appTop ((D.parameterPoint a).appTop _)
     rw [AffineSpace.map_appTop_coord, D.parameterPoint_appTop_coord K a i]
     exact D.fibreParameterMap_appTop_coord K a i.down

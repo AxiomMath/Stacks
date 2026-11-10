@@ -70,7 +70,7 @@ lemma twoFibreProductDiagonalDiagram_app (j : J) :
     ((twoFibreProductDiagonalDiagram α).app j).toFunctor =
       CategoricalPullback.diagonal (α.app j).toFunctor := rfl
 
-variable [HasColimit X] [HasColimit Y] [HasColimit (twoFibreProductDiagram α α)]
+variable [HasColimit X] [HasColimit Y]
 
 /-- The diagonal of `α.app j` followed by the stagewise comparison `twoFibreProductStage α α j`
 equals the colimit inclusion `colimit.ι X j` followed by the diagonal of `colimMap α`. -/
@@ -80,6 +80,8 @@ lemma diagonal_comp_twoFibreProductStage (j : J) :
         CategoricalPullback.diagonal (colimMap α).toFunctor :=
   CategoricalPullback.diagonal_comp_map (α.app j).toFunctor (colimMap α).toFunctor
     (colimit.ι X j).toFunctor (colimit.ι Y j).toFunctor (ι_colimMap_toFunctor α j)
+
+variable [HasColimit (twoFibreProductDiagram α α)]
 
 /-- The colimit of the stagewise diagonal, followed by the comparison
 `colimitTwoFibreProductComparison α α` into the 2-fibre product of the colimits, is the diagonal

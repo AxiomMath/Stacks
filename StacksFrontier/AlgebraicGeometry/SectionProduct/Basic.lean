@@ -98,7 +98,7 @@ theorem eq_triv_smul_res_basis {W : X.Opens} (h : W ⟶ V) (u : Γ(M, W)) :
     u = Stacks.NonvanishingOpen.triv t h u •
       M.presheaf.map h.op (Stacks.NonvanishingOpen.basis t) := by
   refine (t.θ W h).injective ?_
-  show Stacks.NonvanishingOpen.triv t h u = Stacks.NonvanishingOpen.triv t h _
+  change Stacks.NonvanishingOpen.triv t h u = Stacks.NonvanishingOpen.triv t h _
   rw [Stacks.NonvanishingOpen.triv_smul, Stacks.NonvanishingOpen.triv_res_basis, mul_one]
 
 /-- **The germ of the basis section generates the stalk.** -/

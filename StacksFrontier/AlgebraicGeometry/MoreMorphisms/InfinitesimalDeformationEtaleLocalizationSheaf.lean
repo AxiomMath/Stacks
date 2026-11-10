@@ -179,7 +179,7 @@ theorem app_conormalSheafTranspose (hi₁ : i₁.ker ^ 2 = ⊥) (hi₂ : i₂.ke
           (eqToHom (preimage_comp_eq cT W)).op
           ((conormalSheafTranspose cT).val.app (op (i₁ ⁻¹ᵁ W)) m)) := by
   refine (conormalTransportSheaf_apply hi₁ hi₂ cT W m).symm.trans ?_
-  have hdef : conormalTransportSheaf hi₁ hi₂ cT =
+  have hdef : conormalTransportSheaf hi₂ cT =
       (modulePushforward i₁.toLRSHom.toShHom).map (conormalSheafTranspose cT) ≫
         (modulePushforwardSquareIso h.toLRSHom.toShHom h'.toLRSHom.toShHom
               i₂.toLRSHom.toShHom i₁.toLRSHom.toShHom (toShHom_square cT)).inv.app

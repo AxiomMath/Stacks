@@ -114,7 +114,7 @@ theorem degreeSection_smul (d : ℕ) (r : R)
     (a : MvPolynomial.homogeneousSubmodule (Fin (n + 1)) R d) :
     r • degreeSectionCoeff R n d a = degreeSectionCoeff R n d (r • a) := by
   refine Subtype.ext (funext fun x => ?_)
-  show HomogeneousLocalization.val ((coeffScalar R n r).1 x) •
+  change HomogeneousLocalization.val ((coeffScalar R n r).1 x) •
       LocalizedModule.mk (a : MvPolynomial (Fin (n + 1)) R)
         (1 : x.1.asHomogeneousIdeal.toIdeal.primeCompl)
     = LocalizedModule.mk
@@ -135,7 +135,7 @@ theorem degreeSection_add (d : ℕ)
     degreeSectionCoeff R n d (a + b)
       = degreeSectionCoeff R n d a + degreeSectionCoeff R n d b := by
   refine Subtype.ext (funext fun x => ?_)
-  show LocalizedModule.mk
+  change LocalizedModule.mk
         ((a + b : MvPolynomial.homogeneousSubmodule (Fin (n + 1)) R d) :
           MvPolynomial (Fin (n + 1)) R)
         (1 : x.1.asHomogeneousIdeal.toIdeal.primeCompl)

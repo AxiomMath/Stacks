@@ -311,7 +311,7 @@ theorem leftMulHomogeneous_d (N : Bimodule A B) {n : ℤ} (a : A.grading n) :
     simp only [LinearMap.sub_apply, LinearMap.comp_apply, LinearMap.smul_apply,
       leftMulHomogeneous_val]
     rw [← Int.cast_smul_eq_zsmul R, DifferentialGraded.intCast_negOnePow] at h
-    show leftActionTotal A B N.rightModule N.leftAction.1 (A.d (a : A.A)) x = _
+    change leftActionTotal A B N.rightModule N.leftAction.1 (A.d (a : A.A)) x = _
     rw [h]
     abel)
 
@@ -380,7 +380,7 @@ theorem compTensor_leftActionTotal_tensorPure (N : Bimodule A B) (N' : Bimodule 
       (tensorPure N' N.rightModule).toLinearMap
         (leftActionTotal A B N.rightModule N.leftAction.1 (a : A.A) x) y := by
   rw [leftActionTotal_apply A C (compTensor N N').rightModule (compTensor N N').leftAction.1 n a]
-  show totalizeCochain C (tensorObj N' N.rightModule) n
+  change totalizeCochain C (tensorObj N' N.rightModule) n
     (compAction N N' n a) _ = _
   rw [compAction_apply, totalizeCochain_homogeneousMapCochain]
   exact (tensorDGFunctor N').map_pure (leftMulHomogeneous N a) x y

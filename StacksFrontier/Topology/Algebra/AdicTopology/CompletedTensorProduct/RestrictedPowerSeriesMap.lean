@@ -105,7 +105,7 @@ public theorem restrictedPowerSeriesMap_polynomialRingHom (I : Ideal A) (σ : Ty
       RestrictedPowerSeries.polynomialRingHom (I.map (algebraMap A B)) σ
         (MvPolynomial.map (algebraMap A B) p) := by
   refine Subtype.ext (funext fun n => ?_)
-  show MvPolynomial.map (coefficientQuotientMap (B := B) I n)
+  change MvPolynomial.map (coefficientQuotientMap (B := B) I n)
       (RestrictedPowerSeries.coefficientProjection I σ n
         (RestrictedPowerSeries.polynomialRingHom I σ p)) =
     RestrictedPowerSeries.coefficientProjection (I.map (algebraMap A B)) σ n
@@ -122,7 +122,7 @@ public theorem restrictedPowerSeriesMap_coefficientRingHom (I : Ideal A) (σ : T
     restrictedPowerSeriesMap (B := B) I σ (RestrictedPowerSeries.coefficientRingHom I σ a) =
       RestrictedPowerSeries.coefficientRingHom (I.map (algebraMap A B)) σ (algebraMap A B a) := by
   refine Subtype.ext (funext fun n => ?_)
-  show MvPolynomial.map (coefficientQuotientMap (B := B) I n)
+  change MvPolynomial.map (coefficientQuotientMap (B := B) I n)
       (RestrictedPowerSeries.coefficientProjection I σ n
         (algebraMap A (RestrictedPowerSeries I σ) a)) =
     RestrictedPowerSeries.coefficientProjection (I.map (algebraMap A B)) σ n

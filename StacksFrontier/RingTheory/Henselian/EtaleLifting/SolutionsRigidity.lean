@@ -131,7 +131,7 @@ theorem span_range_sub_le_maximalIdeal_smul
       apply Algebra.FormallyUnramified.ext I hInil
       intro x
       obtain ⟨q, rfl⟩ := Ideal.Quotient.mk_surjective x
-      show Ideal.Quotient.mk I (g₁ (Ideal.Quotient.mk _ q))
+      change Ideal.Quotient.mk I (g₁ (Ideal.Quotient.mk _ q))
         = Ideal.Quotient.mk I (g₂ (Ideal.Quotient.mk _ q))
       rw [e1, e2, ← sub_eq_zero, ← map_sub, ← map_sub, Ideal.Quotient.eq_zero_iff_mem]
       exact Ideal.mem_map_of_mem _ (heval_cong q)

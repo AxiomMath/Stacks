@@ -88,7 +88,7 @@ private lemma exists_smul_eq_of_lifts
     congrArg (fun g => g PUnit.unit) (hc.fac c (op k))
   refine ⟨z, Concrete.limit_ext F _ _ ?_⟩
   intro k
-  show (limit.π F k).hom (f • z) = (limit.π F k).hom x
+  change (limit.π F k).hom (f • z) = (limit.π F k).hom x
   rw [map_smul, hz k.unop, ← hback, hy, limit_π_map_of_le]
 
 private lemma range_pow_eq_ker_limitProjection_of_lifts
@@ -146,7 +146,7 @@ private theorem evaluation_restrictScalars_map_terminalSectionToEnd_apply
       ((Stacks.SheafOfModules.terminalSectionToEnd R T hT (scalarMap f)).asHom.app M)).hom x =
         f • x := by
   change M.val.obj (op T) at x
-  show (((Stacks.SheafOfModules.terminalSectionToEnd R T hT (scalarMap f)).asHom.app M).val.app
+  change (((Stacks.SheafOfModules.terminalSectionToEnd R T hT (scalarMap f)).asHom.app M).val.app
     (op T)).hom x = scalarMap f • x
   rw [Stacks.SheafOfModules.terminalSectionToEnd_apply, hT.hom_ext (hT.from T) (𝟙 T)]
   simp
@@ -166,7 +166,7 @@ private theorem map_proj_apply_limit_π
         (fun n => E.map (map n))) (op 0)).hom x := by
   let F : ℕᵒᵖ ⥤ ModuleCat.{m} A :=
     Functor.ofOpSequence (X := fun n => E.obj (obj n)) (fun n => E.map (map n))
-  show (E.map (Stacks.Cohomology.InverseSystems.TorsionFreeDivisible.proj obj map k)).hom
+  change (E.map (Stacks.Cohomology.InverseSystems.TorsionFreeDivisible.proj obj map k)).hom
     ((limit.π F (op k)).hom x) = (limit.π F (op 0)).hom x
   have hstep (k : ℕ) :
       (E.map (map k)).hom ((limit.π F (op (k + 1))).hom x) = (limit.π F (op k)).hom x := by
@@ -236,7 +236,7 @@ theorem range_pow_eq_ker_limitProjection_terminalSections
     exact (ModuleCat.mono_iff_injective _).mp hmono
   · intro k x
     rw [Functor.ofOpSequence_map_homOfLE_succ]
-    show (E.map (ι k)).hom ((E.map (map k)).hom x) = f • x
+    change (E.map (ι k)).hom ((E.map (map k)).hom x) = f • x
     have he := congrArg (fun q => (E.map q).hom x) (hfac k)
     rw [E.map_comp] at he
     exact ((ModuleCat.comp_apply _ _ _).symm.trans he).trans (hscalar _ x)

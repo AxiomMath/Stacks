@@ -211,7 +211,7 @@ public theorem bijective_resF_inf_of_isIso_unit
       rwa [resF_resF H hle hge, resF_resF H hle hge, hid, hid] at h
     · intro ζ
       refine ⟨resF H hge ζ, ?_⟩
-      show resF H hle (resF H hge ζ) = ζ
+      change resF H hle (resF H hge ζ) = ζ
       rw [resF_resF H hge hle, hid]
   -- and the composite is restriction to `V ⊓ W`
   have hcomp : (fun ξ : Γ(H, W) => resF H (inf_le_right : V ⊓ W ≤ W) ξ) =

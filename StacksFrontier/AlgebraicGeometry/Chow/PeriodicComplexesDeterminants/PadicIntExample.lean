@@ -255,7 +255,7 @@ private theorem moduleSymbol_padicInt (a b : ℕ) (u v : ℤ_[p]ˣ) :
   have hsym := (tameSymbol (K := ℚ_[p]) hdim).eq_moduleSymbol α β hαreg hβreg
   apply Units.ext
   rw [← hsym]
-  show ((tameSymbol (K := ℚ_[p]) hdim) xU yU : IsLocalRing.ResidueField ℤ_[p]) = _
+  change ((tameSymbol (K := ℚ_[p]) hdim) xU yU : IsLocalRing.ResidueField ℤ_[p]) = _
   rw [hmain]
   have hsign : ((-1 : (IsLocalRing.ResidueField ℤ_[p])ˣ) ^ ((b : ℤ) * (a : ℤ))) =
       ((-1 : (IsLocalRing.ResidueField ℤ_[p])ˣ) ^ (a * b)) := by

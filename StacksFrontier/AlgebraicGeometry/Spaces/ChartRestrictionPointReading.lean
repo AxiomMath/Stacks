@@ -343,7 +343,7 @@ theorem selfOpensStructureMap_comp_sheafPushforwardContinuousNatTrans :
           (J' := SmallEtale.topology B S hS (yoneda.obj U))
           (representedSmallEtaleEquivalence B S hS U)
           (representedSchemeStructureSheaf B S hS U))).hom.app O) = 𝟙 _ := by
-    show (representedSchemeStructureSheaf B S hS U).obj.map
+    change (representedSchemeStructureSheaf B S hS U).obj.map
         ((representedSmallEtaleEquivalence B S hS U).counit.app
           (_root_.AlgebraicGeometry.SmallEtale.opensObj (associatedBigEtaleSite B)
             ((BigFppfOver.toScheme B S hS).obj U) U.left.property O.unop)).op = 𝟙 _
@@ -355,11 +355,11 @@ theorem selfOpensStructureMap_comp_sheafPushforwardContinuousNatTrans :
         RingCat.{u} (Opens.grothendieckTopology ↥(chartScheme (idEtaleChart B S hS U)))
         (SmallEtale.topology B S hS (yoneda.obj U))).app
         (representedStructureRingSheaf B S hS U)).hom.app O = 𝟙 _ := by
-    show (representedStructureRingSheaf B S hS U).obj.map
+    change (representedStructureRingSheaf B S hS U).obj.map
       (eqToHom (selfOpensFunctor_obj B S hS U O.unop).symm).op = 𝟙 _
     exact (congrArg (representedStructureRingSheaf B S hS U).obj.map (eqToHom_op _)).trans
       ((eqToHom_map (representedStructureRingSheaf B S hS U).obj _).trans rfl)
-  show (_ ≫ _) ≫ _ = _
+  change (_ ≫ _) ≫ _ = _
   rw [h2, h3]
   exact (Category.comp_id _).trans (Category.comp_id _)
 

@@ -221,7 +221,7 @@ theorem isLocalRing_adicCompletion_of_le_maximalIdeal {R : Type u} [CommRing R]
   have hkerK : RingHom.ker f ≤ K := by
     rw [hker]
     refine hjac.trans ?_
-    show sInf {L : Ideal Sc | (⊥ : Ideal Sc) ≤ L ∧ L.IsMaximal} ≤ K
+    change sInf {L : Ideal Sc | (⊥ : Ideal Sc) ≤ L ∧ L.IsMaximal} ≤ K
     exact sInf_le ⟨bot_le, hK⟩
   calc K = (K.map f).comap f := (hrecover K hkerK).symm
     _ = (maximalIdeal (R ⧸ J)).comap f := by
@@ -254,9 +254,9 @@ private theorem exists_sub_mem_map_adicCompletion {R : Type u} [CommRing R] [IsN
   have hcomp : (AdicCompletion.evalOneₐ J) (algebraMap R (AdicCompletion J R) a) =
       Ideal.Quotient.mk J a :=
     RingHom.congr_fun (AdicCompletion.evalOneₐ_comp_algebraMap_eq_mk J) a
-  show (AdicCompletion.evalOneₐ J).toRingHom _ = 0
+  change (AdicCompletion.evalOneₐ J).toRingHom _ = 0
   rw [RingHom.map_sub]
-  show (AdicCompletion.evalOneₐ J) x - (AdicCompletion.evalOneₐ J) _ = 0
+  change (AdicCompletion.evalOneₐ J) x - (AdicCompletion.evalOneₐ J) _ = 0
   rw [hcomp, ← ha, sub_self]
 
 /-! ### The dimension splitting for a quotient of an adic completion -/
@@ -373,7 +373,7 @@ private theorem bijective_residueFieldMap {R S : Type u} [CommRing R] [CommRing 
         IsLocalization.mk' (Localization.AtPrime q') (f a) ⟨f b, hfq b⟩ := by
     intro a b
     rw [IsLocalization.eq_mk'_iff_mul_eq]
-    show g (IsLocalization.mk' (Localization.AtPrime q) a b) *
+    change g (IsLocalization.mk' (Localization.AtPrime q) a b) *
       algebraMap S (Localization.AtPrime q') (f (b : R)) = _
     rw [← hg (b : R), ← map_mul, IsLocalization.mk'_spec]
     exact hg a

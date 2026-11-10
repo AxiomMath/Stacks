@@ -79,7 +79,7 @@ public theorem mk_symmetricAlgebra_le (C : Type u) [CommRing C] (W : Type u) [Ad
 `#C, #V < κ`, `#(C ⊕ V) < κ`. -/
 public theorem mk_trivSqZeroExt_lt {κ : Cardinal.{u}} (hκ : ℵ₀ < κ) {C : Type u} {V : Type u}
     (hC : #C < κ) (hV : #V < κ) : #(TrivSqZeroExt C V) < κ := by
-  show #(C × V) < κ
+  change #(C × V) < κ
   rw [mk_prod, lift_id, lift_id]
   exact (mul_le_max _ _).trans_lt (max_lt (max_lt hC hV) hκ)
 
@@ -91,7 +91,7 @@ namespace AlgebraicGeometry
 `Spec B` is `max ℵ₀ #B`. -/
 public theorem schemeSizeBelow_spec_iff {κ : Cardinal.{u}} (hκ : ℵ₀ < κ) (B : Type u)
     [CommRing B] : schemeSizeBelow κ (Spec (CommRingCat.of B)) ↔ #B < κ := by
-  show (Spec (CommRingCat.of B)).size < κ ↔ _
+  change (Spec (CommRingCat.of B)).size < κ ↔ _
   rw [Scheme.size_Spec]
   exact ⟨(le_max_right _ _).trans_lt, max_lt hκ⟩
 

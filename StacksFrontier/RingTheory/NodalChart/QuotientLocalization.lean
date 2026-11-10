@@ -58,14 +58,14 @@ public theorem isLocalization_quotient_atPrime_of_mem_iff
     IsLocalization.of_surjective p.primeCompl (Localization.AtPrime p)
       (Ideal.Quotient.mk (Ideal.span {f})) Ideal.Quotient.mk_surjective
       (Ideal.Quotient.mk _) Ideal.Quotient.mk_surjective rfl
-      (fun a ha ↦ by rwa [Ideal.mk_ker] at ha ⊢)
+      (fun a ha ↦ by rw [Ideal.mk_ker] at ha ⊢; assumption)
   have hsub : Algebra.algebraMapSubmonoid (A ⧸ Ideal.span {f}) p.primeCompl = q.primeCompl := by
     ext y
     obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective y
     refine ⟨?_, fun hr ↦ ⟨r, fun hrp ↦ hr ((hpq r).mpr hrp), rfl⟩⟩
     rintro ⟨s, hs, heq⟩ hqr
     refine hs ((hpq s).mp ?_)
-    show algebraMap A (A ⧸ Ideal.span {f}) s ∈ q
+    change algebraMap A (A ⧸ Ideal.span {f}) s ∈ q
     rwa [heq]
   rwa [hsub] at hloc
 

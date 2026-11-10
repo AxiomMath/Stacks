@@ -70,7 +70,7 @@ theorem realization_evaluation_faithful
   have himg : (φ.evaluation ((siteToOver C hS).obj T.unop)).map (X := eO x) (Y := eO y) (mk m) =
       (φ.evaluation ((siteToOver C hS).obj T.unop)).map (X := eO x) (Y := eO y) (mk n) := by
     apply EvaluationHom.ext
-    show eA a ≫ φ.mapArrows = eA b ≫ φ.mapArrows
+    change eA a ≫ φ.mapArrows = eA b ≫ φ.mapArrows
     rw [← yonedaSchemePointEquiv_map C hS hRG hRH φ.mapArrows T a,
       ← yonedaSchemePointEquiv_map C hS hRG hRH φ.mapArrows T b]
     exact congrArg (yonedaSchemePointEquiv C hS hRH T) hm

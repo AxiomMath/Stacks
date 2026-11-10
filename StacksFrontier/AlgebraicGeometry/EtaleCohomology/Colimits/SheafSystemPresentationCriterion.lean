@@ -128,7 +128,7 @@ theorem EtaleSheafSystem.isPullbackColimitPresentation_of_forall_exists
     · obtain ⟨k, a, x, rfl⟩ := F.exists_pushforwardLeg_apply_eq c hc ιC hιC hC V₀ y
       obtain ⟨l, b, hb⟩ := hinj i₀ V₀ a x (by rwa [hleg a])
       rw [← F.pushforwardTransition_comp_pushforwardLeg c ιC hιC b a]
-      show (F.pushforwardLeg c ιC (b ≫ a)).hom.app (op V₀)
+      change (F.pushforwardLeg c ιC (b ≫ a)).hom.app (op V₀)
         ((F.pushforwardTransition b a).hom.app (op V₀) x) = 0
       rw [hb, map_zero]
     · obtain ⟨k, a, x, rfl⟩ := hsurj i₀ V₀ s

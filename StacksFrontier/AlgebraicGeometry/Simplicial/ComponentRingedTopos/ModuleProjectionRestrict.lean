@@ -63,9 +63,9 @@ Stacks 0D9P has been applied, the goal contains `(Lg_n^* ⋙ Lf_φ^*).map` of th
 has to be read as `Lf_φ^*` of `Lg_n^*` of it. The two agree by a delta step that the elaborator
 takes at default transparency but `rw` does not take when building its motive, so
 `CategoryTheory.Functor.comp_map` fails there with a motive that is not type correct — the
-hazard the implementation notes of
-`StacksFrontier/AlgebraicGeometry/Simplicial/ComponentRingedTopos/ModuleProjectionTargetSummand.lean`
-record for the same reason. `CategoryTheory.Functor.map_comp` under a `congrArg` goes through.
+hazard the implementation notes of `ModuleProjectionTargetSummand.lean` (in the same directory,
+`StacksFrontier/AlgebraicGeometry/Simplicial/ComponentRingedTopos/`) record for the same reason.
+`CategoryTheory.Functor.map_comp` under a `congrArg` goes through.
 
 *What the residual square is, and what it is blocked on.* The hypothesis `hadj` of
 `…moduleProjection_restrict_of_adjunctSquare` says that the derived adjunct

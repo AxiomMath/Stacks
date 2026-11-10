@@ -77,7 +77,7 @@ theorem topDegreeTransition_comp_paste (H : D₁ ⥤ M₁) (H₂ : D₂ ⥤ M₂
   ext
   simp only [Iso.trans_hom, Iso.symm_hom, Functor.mapIso_hom, Functor.map_comp, Category.assoc]
   rw [Iso.inv_comp_eq, hcomp']
-  simp only [Category.assoc, Iso.hom_inv_id_assoc, Iso.map_hom_inv_id_assoc]
+  simp only [Category.assoc, Iso.hom_inv_id_assoc, Iso.hom_inv_id_map_assoc]
   rw [← reassoc_of% hnat, Iso.hom_inv_id_assoc]
 
 /-- The chase behind `derivedPullbackTopDegreeIsoPullback_id_hom`: a comparison `θ` that is

@@ -57,7 +57,7 @@ public theorem one_lt_enatToEInt_add_of_two_lt {d d' : ℕ∞} {c : WithBot ℕ�
   have hm := krullDimToEInt_mono h2
   rw [krullDimToEInt_add, krullDimToEInt_coe] at hm
   refine lt_of_lt_of_le ?_ hm
-  show ((1 : ℤ) : EInt) < ((2 : ℤ) : EInt)
+  change ((1 : ℤ) : EInt) < ((2 : ℤ) : EInt)
   exact WithBotTop.coe_lt_coe.mpr (by norm_num)
 
 /-- **[Stacks, Tag 0EL2] in the vocabulary of [Stacks, Tag 0EK2].** For `F` coherent with

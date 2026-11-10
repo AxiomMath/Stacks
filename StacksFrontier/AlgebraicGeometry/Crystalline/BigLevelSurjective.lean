@@ -193,10 +193,10 @@ theorem surjective_levelSectionsTrans (N : BigModuleSheaf S) [Injective N] :
   have hB : S.LiesOverLevel he ((S.levelChangeBase he).obj B.unop) := ⟨B.unop.toBase, rfl⟩
   let one : (S.bigUnit).val.obj (op ((S.levelChangeBase he).obj B.unop)) :=
     ULift.up (1 : (crystallineStructureSheaf S).obj.obj (op ((S.levelChangeBase he).obj B.unop)))
-  show ψ.app (op ((S.levelChangeBase he).obj B.unop)) one = t.val B
+  change ψ.app (op ((S.levelChangeBase he).obj B.unop)) one = t.val B
   refine (congrArg (fun f => f.app (op ((S.levelChangeBase he).obj B.unop)) ⟨one, Or.inl hB⟩)
     hψ).trans ?_
-  show (1 : (crystallineStructureSheaf S).obj.obj (op ((S.levelChangeBase he).obj B.unop))) •
+  change (1 : (crystallineStructureSheaf S).obj.obj (op ((S.levelChangeBase he).obj B.unop))) •
       S.levelValueOrZero he N t (op ((S.levelChangeBase he).obj B.unop)) = t.val B
   rw [one_smul]
   refine (S.levelValueOrZero_of_liesOver he N t _ _).trans

@@ -85,7 +85,7 @@ variable {A : Type*} [CommRing A]
 /-- **A module over `∏_i F_i` is the product of its base changes to the `F_i`**:
 `M = A ⊗_A M = (∏_i F_i) ⊗_A M = ∏_i F_i ⊗_A M` when `A → ∏_i F_i` is bijective. -/
 def piFactorEquiv {ι : Type*} [Fintype ι] [DecidableEq ι] (K : ι → Type*) [∀ i, CommRing (K i)]
-    [∀ i, Algebra A (K i)] (hK : Function.Bijective (Pi.ringHom fun i ↦ algebraMap A (K i)))
+    [∀ i, Algebra A (K i)] (hK : Function.Bijective (RingHom.pi fun i ↦ algebraMap A (K i)))
     (M : Type*) [AddCommGroup M] [Module A M] : M ≃ₗ[A] ∀ i, K i ⊗[A] M :=
   (TensorProduct.lid A M).symm ≪≫ₗ
     TensorProduct.congr (LinearEquiv.ofBijective (LinearMap.pi fun i ↦ Algebra.linearMap A (K i))
@@ -95,7 +95,7 @@ def piFactorEquiv {ι : Type*} [Fintype ι] [DecidableEq ι] (K : ι → Type*) 
 @[simp]
 theorem piFactorEquiv_apply {ι : Type*} [Fintype ι] [DecidableEq ι] (K : ι → Type*)
     [∀ i, CommRing (K i)] [∀ i, Algebra A (K i)]
-    (hK : Function.Bijective (Pi.ringHom fun i ↦ algebraMap A (K i))) (M : Type*)
+    (hK : Function.Bijective (RingHom.pi fun i ↦ algebraMap A (K i))) (M : Type*)
     [AddCommGroup M] [Module A M] (x : M) (i : ι) :
     piFactorEquiv K hK M x i = (1 : K i) ⊗ₜ x := by
   simp only [piFactorEquiv, piLeft, LinearEquiv.trans_apply, lid_symm_apply, congr_tmul,
@@ -160,7 +160,7 @@ theorem finrank_range_lsmul_le_of_pairing {M N : Type*} [AddCommGroup M] [Module
     simp only [φ, LinearMap.compl₁₂_apply, Submodule.coe_subtype, LinearMap.coe_restrictScalars,
       LinearMap.zero_apply] at h'
     simp only [ZeroMemClass.coe_zero, map_zero, LinearMap.zero_apply]
-    show B (ε • m) n = 0
+    change B (ε • m) n = 0
     rwa [← hx, hbal]
   exact (LinearMap.finrank_le_finrank_of_injective hφ).trans_eq Subspace.dual_finrank_eq
 
@@ -232,7 +232,7 @@ theorem toSpecGlobalSections_comp_specMap :
     toSpecGlobalSections (ofOver k π hπ) ≫ specMap (globalSectionsAlgHom k π hπ) =
       toSpec k π hπ := by
   apply hom_ext_left
-  show X.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso (.of k')).inv ≫ π.appTop) = π
+  change X.toSpecΓ ≫ Spec.map ((Scheme.ΓSpecIso (.of k')).inv ≫ π.appTop) = π
   rw [Spec.map_comp, ← Category.assoc, ← Scheme.toSpecΓ_naturality, Category.assoc,
     toSpecΓ_SpecMap_ΓSpecIso_inv, Category.comp_id]
 
@@ -319,7 +319,7 @@ theorem pairingOverSpec_smul {d : ℕ} (hX : IsNonemptyEquidimensional (ofOver k
   rw [pairingOverSpec_apply, pairingOverSpec_apply]
   congr 2
   apply Subtype.ext
-  show W.pull (toSpec k π hπ) (c : W.H (spec k k')) * a * b =
+  change W.pull (toSpec k π hπ) (c : W.H (spec k k')) * a * b =
     a * (W.pull (toSpec k π hπ) (c : W.H (spec k k')) * b)
   rw [W.mul_comm_of_mem_grade_zero _ (W.pull_grade (toSpec k π hπ) 0 _ c.2) a, mul_assoc]
 
@@ -422,16 +422,17 @@ module by the symmetry of the tensor product. The coefficient field `F` is not r
 characteristic zero. -/
 @[stacks 0FI3 "for H^* a Weil cohomology theory (0FI2), X geometrically irreducible smooth \
   projective of dimension d over a finite separable k'/k, viewed over k, and H^0(Spec k') → ∏ F_i \
-  bijective for fields F_i: H^*(X) and each H^n(X) are ∏_i of their base changes to the F_i by x ↦ (1 ⊗ x)_i; \
+  bijective for fields F_i: H^*(X) and each H^n(X) are ∏_i of their base changes to the F_i \
+  by x ↦ (1 ⊗ x)_i; \
   H^0(X) and H^{2d}(X) are free of rank 1 over H^0(Spec k'), with each factor of dimension 1 over \
   F_i; M ⊗_{H^0(Spec k')} F_i is written F_i ⊗_{H^0(Spec k')} M; no CharZero F needed"]
 theorem factorwise_rank_one_of_geometricallyIrreducible (W : WeilCohomologyTheory k F)
     {k' : Type u} [Field k'] [Algebra k k'] [FiniteDimensional k k'] [Algebra.IsSeparable k k']
     {X : Scheme.{u}} (p : X ⟶ Spec (.of k')) [Smooth p] [GeometricallyIrreducible p]
     (hp : IsProjectiveMorphism p) {d : ℕ} (hd : topologicalKrullDim X = d)
-    {ι : Type*} [Fintype ι] [DecidableEq ι] (K : ι → Type*) [∀ i, Field (K i)]
+    {ι : Type*} [Finite ι] (K : ι → Type*) [∀ i, Field (K i)]
     [∀ i, Algebra (W.H0 (spec k k')) (K i)]
-    (hK : Function.Bijective (Pi.ringHom fun i ↦ algebraMap (W.H0 (spec k k')) (K i))) :
+    (hK : Function.Bijective (RingHom.pi fun i ↦ algebraMap (W.H0 (spec k k')) (K i))) :
     Function.Bijective (fun (x : W.H (ofOver k p hp)) (i : ι) ↦
         (1 : K i) ⊗ₜ[W.H0 (spec k k')] x) ∧
       (∀ n : ℤ, Function.Bijective (fun (x : W.gradeOverSpec p hp n) (i : ι) ↦
@@ -440,6 +441,8 @@ theorem factorwise_rank_one_of_geometricallyIrreducible (W : WeilCohomologyTheor
       (∀ i, Module.finrank (K i) (K i ⊗[W.H0 (spec k k')] W.gradeOverSpec p hp 0) = 1) ∧
       Nonempty (W.H0 (spec k k') ≃ₗ[W.H0 (spec k k')] W.gradeOverSpec p hp (2 * d)) ∧
       (∀ i, Module.finrank (K i) (K i ⊗[W.H0 (spec k k')] W.gradeOverSpec p hp (2 * d)) = 1) := by
+  classical
+  have := Fintype.ofFinite ι
   set A := W.H0 (spec k k')
   have : Subsingleton (Spec (.of k')) := inferInstanceAs (Subsingleton (PrimeSpectrum k'))
   have : IrreducibleSpace X := GeometricallyIrreducible.irreducibleSpace_of_subsingleton p
@@ -458,7 +461,7 @@ theorem factorwise_rank_one_of_geometricallyIrreducible (W : WeilCohomologyTheor
         W.pull_grade (toSpec k p hp) 0 _ c.2⟩
       map_add' := fun a b ↦ Subtype.ext (map_add _ _ _)
       map_smul' := fun a b ↦ Subtype.ext (by
-        show W.pull (toSpec k p hp) ((a : W.H (spec k k')) * b) =
+        change W.pull (toSpec k p hp) ((a : W.H (spec k k')) * b) =
           W.pull (toSpec k p hp) (a : W.H (spec k k')) * W.pull (toSpec k p hp) b
         exact map_mul _ _ _) }
   have hf₀ : Function.Bijective f₀ := by

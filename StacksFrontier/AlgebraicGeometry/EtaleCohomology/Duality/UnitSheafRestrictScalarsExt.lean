@@ -158,7 +158,7 @@ theorem bijective_mk₀CompMapExactFunctor_unitSheafReduction_zero
         homUnitSheafEquiv N' M f := by
     intro f
     rw [homUnitSheafEquiv_eq_app, homUnitSheafEquiv_eq_app N' M f]
-    show (R.map f).hom.app _ ((unitSheafReduction Y h).hom.app _ _) = _
+    change (R.map f).hom.app _ ((unitSheafReduction Y h).hom.app _ _) = _
     erw [symm_hom_app_homUnitSheafEquiv_id]
     rfl
   refine ⟨fun x y hxy => ?_, fun z => ?_⟩
@@ -194,10 +194,10 @@ theorem exists_comp_eq_id_freeYonedaSheaf (N : ℕ) :
   have hnat := ConcreteCategory.congr_hom (corep.inv.naturality g) (𝟙 FY)
   have hinv := ConcreteCategory.congr_hom (corep.hom_inv_id_app (unitSheaf (X := Y) N)) s
   rw [homUnitSheafEquiv_eq_app]
-  show g.hom.app (op T) (f.hom.app (op T) s) = s
+  change g.hom.app (op T) (f.hom.app (op T) s) = s
   rw [hfs]
   refine (hnat.symm.trans ?_).trans hinv
-  show corep.inv.app _ (𝟙 FY ≫ g) = _
+  change corep.inv.app _ (𝟙 FY ≫ g) = _
   rw [Category.id_comp]
   rfl
 

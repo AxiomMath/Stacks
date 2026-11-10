@@ -194,10 +194,10 @@ theorem projective_of_mono (X : ComposableArrows C 1) [Mono X.hom] [Projective X
   have hr : X.hom ≫ sp.r = 𝟙 _ := sp.f_r
   refine ⟨homMk₁ a ((sp.r ≫ a ≫ E.hom : X.right ⟶ E.right) +
     (cokernel.π X.hom ≫ b : X.right ⟶ E.right)) ?_, ?_⟩
-  · show X.hom ≫ _ = a ≫ E.hom
+  · change X.hom ≫ _ = a ≫ E.hom
     simp [Preadditive.comp_add, reassoc_of% hr]
   · refine hom_ext₁ ha ?_
-    show ((sp.r ≫ a ≫ E.hom : X.right ⟶ E.right) +
+    change ((sp.r ≫ a ≫ E.hom : X.right ⟶ E.right) +
       (cokernel.π X.hom ≫ b : X.right ⟶ E.right)) ≫ e.app 1 = f.app 1
     have he₁ : E.hom ≫ e.app 1 = e.app 0 ≫ Z.hom := e.naturality _
     have hf₁ : X.hom ≫ f.app 1 = f.app 0 ≫ Z.hom := f.naturality _

@@ -121,7 +121,7 @@ theorem picardClass_baseChangeTwist (p : X' ⟶ X) (L : X'.Modules) (N : X.Modul
         ((Stacks.RingedSpace.pullbackFunctor p.toLRSHom.toShHom).obj N) hpN :=
     (Stacks.SheafOfModules.picardClass_eq_iff _ _ _ _ _ _).2
       ⟨(Stacks.ProjectiveBundleQuotients.pullbackIso p).app N⟩
-  show _ = _ + Stacks.Picard.pullbackClass p.toLRSHom.toShHom _
+  change _ = _ + Stacks.Picard.pullbackClass p.toLRSHom.toShHom _
   rw [Stacks.Picard.pullbackClass_classOf p.toLRSHom.toShHom N hN, ← e]
   exact (Stacks.SheafOfModules.picardClass_tensorSheaf _ _ L _ hL hpN' hLN).symm
 
@@ -526,7 +526,7 @@ theorem pointIdealTwistStep_holds (L : X'.Modules) [hLi : Stacks.Ample.IsInverti
   obtain ⟨L₁, hL₁, ⟨E⟩⟩ := exists_baseChangeTwist_iso_idealTwist p L L₀ C
   obtain ⟨z, hzv⟩ : v ∈ Set.range C'.subschemeι.base := by
     rw [Scheme.IdealSheafData.range_subschemeι, Scheme.IdealSheafData.support_comap]
-    show p.base v ∈ (C.support : Set X)
+    change p.base v ∈ (C.support : Set X)
     rw [Scheme.Hom.support_ker, Scheme.range_fromSpecResidueField, hx₀.closure_eq, hvx]
     rfl
   refine ⟨C'.subscheme, C'.subschemeι, inferInstance, L₁,

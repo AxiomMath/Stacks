@@ -93,7 +93,7 @@ theorem isIso_derivedPullback_map_of_comp {X U W : RingedSpace.{u, u}} (j : U �
     IsIso ((derivedPullback (i ≫ j)).map φ) := by
   have hcomp : IsIso ((derivedPullback j ⋙ derivedPullback i).map φ) := by
     have := hj
-    show IsIso ((derivedPullback i).map ((derivedPullback j).map φ))
+    change IsIso ((derivedPullback i).map ((derivedPullback j).map φ))
     infer_instance
   exact (NatIso.isIso_map_iff
     (Stacks.DerivedPullback.Composition.derivedPullbackCompIsoCanonical i j) φ).mp hcomp

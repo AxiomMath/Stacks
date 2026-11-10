@@ -71,7 +71,8 @@ namespace Stacks.EtaleCohomology
 attribute [local instance] HasDerivedCategory.standard
 
 /- The spelling of the preferred `Preadditive` structure and zero morphisms of
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/ProperBaseChange/BaseChangeMap.lean`, in which `etaleAbelianDerivedBaseChange_fac` is stated;
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/ProperBaseChange/BaseChangeMap.lean`, in which
+`etaleAbelianDerivedBaseChange_fac` is stated;
 with another spelling the kernel has to unfold both, which times out. -/
 attribute [local instance 10000] CategoryTheory.Abelian.toPreadditive
 

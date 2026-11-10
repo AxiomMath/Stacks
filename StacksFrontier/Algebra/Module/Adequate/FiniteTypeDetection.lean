@@ -152,7 +152,7 @@ public theorem exists_fgSubalgebra_stage_eq_zero
   have hrep : (H.presheaf.mapCocone (fgSubalgebraCoconeOpOp R)).ι.app T z =
       (H.presheaf.mapCocone (fgSubalgebraCoconeOpOp R)).ι.app T
         (0 : H.obj ((fgSubalgebraDiagramOpOp R).obj T)) := by
-    show H.map ((fgSubalgebraCoconeOpOp R).ι.app T) z =
+    change H.map ((fgSubalgebraCoconeOpOp R).ι.app T) z =
       H.map ((fgSubalgebraCoconeOpOp R).ι.app T) 0
     rw [hz, map_zero (H.map ((fgSubalgebraCoconeOpOp R).ι.app T)).hom]
   obtain ⟨T', a, b, hab⟩ :=
@@ -161,7 +161,7 @@ public theorem exists_fgSubalgebra_stage_eq_zero
   refine ⟨T', a, ?_⟩
   show H.map ((fgSubalgebraDiagramOpOp R).map a) z = 0
   refine hab.trans ?_
-  show H.map ((fgSubalgebraDiagramOpOp R).map b) 0 = 0
+  change H.map ((fgSubalgebraDiagramOpOp R).map b) 0 = 0
   exact map_zero (H.map ((fgSubalgebraDiagramOpOp R).map b)).hom
 
 /-- **The joining argument of [Stacks, Tag 06ZR]: exactness of a sequence of adequate

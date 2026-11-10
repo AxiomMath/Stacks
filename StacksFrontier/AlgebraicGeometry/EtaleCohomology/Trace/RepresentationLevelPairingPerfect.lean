@@ -244,7 +244,7 @@ theorem bijective_levelTensorHom_ulift (s : GeometricPoint X.1) :
       (Iso.eq_comp_inv _).2 hU
     exact (congrArg (_ ≫ ·) h₁).trans ((Category.assoc _ _ _).symm.trans
       ((congrArg (· ≫ _) h₂).trans ((Category.assoc _ _ _).trans (Category.assoc _ _ _))))
-  show Function.Bijective (TensorProduct.curry (Functor.LaxMonoidal.μ
+  change Function.Bijective (TensorProduct.curry (Functor.LaxMonoidal.μ
     (Φ.ulift.{u + 1}).sheafFiber _ _ ≫
       (Φ.ulift.{u + 1}).sheafFiber.map (levelTensorHom B X x ρ₀ hρ₀ k)).hom)
   rw [key]
@@ -318,7 +318,7 @@ theorem bijective_representationLevelPairing_ulift (s : GeometricPoint X.1) :
     (congrArg (_ ≫ ·) (Ψ.map_comp _ _)).trans
       ((Functor.LaxMonoidal.μ_natural_assoc Ψ _ _ _).symm.trans (congrArg (_ ≫ ·)
         (Category.comp_id _).symm))
-  show Function.Bijective (TensorProduct.curry (Functor.LaxMonoidal.μ Ψ _ _ ≫
+  change Function.Bijective (TensorProduct.curry (Functor.LaxMonoidal.μ Ψ _ _ ≫
     Ψ.map (representationLevelPairingOfProper B X x ρ₀ hρ₀ f n)).hom)
   rw [key]
   exact Stacks.SheafDuality.bijective_curry_tensorHom_comp _ _ _ _
@@ -433,7 +433,7 @@ theorem bijective_inverseImage_representationLevelPairingOfProper {T : Scheme.{u
       Ψ.map (inverseImageConstantPairing g (ℓ ^ (n + 1))
         (representationLevelPairingOfProper B X x ρ₀ hρ₀ f n)) =
       ε_ (Ψ.obj (G.obj K')) (Ψ.obj (G.obj K)) ≫ iT.hom := by
-    show Functor.LaxMonoidal.μ Ψ (G.obj K) (G.obj K') ≫
+    change Functor.LaxMonoidal.μ Ψ (G.obj K) (G.obj K') ≫
         Ψ.map (Functor.LaxMonoidal.μ G K K' ≫
           G.map (representationLevelPairingOfProper B X x ρ₀ hρ₀ f n) ≫ c.hom) =
       (Functor.LaxMonoidal.μ Ψ (G.obj K) (G.obj K') ≫ Ψ.map (Functor.LaxMonoidal.μ G K K' ≫

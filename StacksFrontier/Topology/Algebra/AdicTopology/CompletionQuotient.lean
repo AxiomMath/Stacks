@@ -111,7 +111,7 @@ public theorem closure_coe_image_eq_closure_map (J : Ideal S) :
       isClosed_closure.preimage (continuous_mul_const y)
     refine Completion.induction_on c hclosed ?_
     intro s
-    show (s : Completion S) * y ∈ T
+    change (s : Completion S) * y ∈ T
     refine map_mem_closure (mulLeft_continuous (s : Completion S)) hy ?_
     rintro _ ⟨j, hj, rfl⟩
     exact ⟨s * j, J.mul_mem_left s hj, by rw [map_mul]; rfl⟩

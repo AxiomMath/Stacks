@@ -67,8 +67,7 @@ theorem range_idealSMulMap (J : Ideal A) (M : Type*) [AddCommGroup M] [Module A 
     LinearMap.range (idealSMulMap J M) = J • (⊤ : Submodule A M) := by
   apply le_antisymm
   · rintro _ ⟨t, rfl⟩
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul j m => exact Submodule.smul_mem_smul j.2 Submodule.mem_top
     | add s t hs ht =>
       rw [map_add]
@@ -85,8 +84,7 @@ theorem lTensor_mkQ_bijective_of_sq_eq_bot (J : Ideal A) (hJ : J ^ 2 = ⊥)
     (lTensor_exact J (LinearMap.exact_subtype_mkQ (J • (⊤ : Submodule A M)))
       (Submodule.mkQ_surjective _)), eq_bot_iff]
   rintro _ ⟨t, rfl⟩
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul j m =>
     obtain ⟨m, hm⟩ := m
     simp only [LinearMap.lTensor_tmul, Submodule.subtype_apply, Submodule.mem_bot]
@@ -231,8 +229,7 @@ theorem isPushout_of_flat_of_sq_eq_bot [Module.Flat A₁ B₁] (J₁ : Ideal A�
       have hcong : ∀ p : A₁ ⊗[A₂] B₂, ∃ b : B₂,
           p - 1 ⊗ₜ b ∈ J₁.map (algebraMap A₁ (A₁ ⊗[A₂] B₂)) := by
         intro p
-        induction p using TensorProduct.induction_on with
-        | zero => exact ⟨0, by simp⟩
+        induction p using TensorProduct.inductionOn with
         | tmul a b =>
           obtain ⟨a', ha'⟩ := hA a
           refine ⟨a' • b, ?_⟩
@@ -293,7 +290,7 @@ theorem stalkMap_eqToHom_comp {P Q R : RingedSpace.{u, u}} (α : P ⟶ Q) (β : 
       eqToHom (congrArg R.presheaf.stalk hr'.symm) ≫ γ.hom.stalkMap p := by
   subst h hq hr
   simp only [eqToHom_refl, Category.id_comp]
-  show _ = eqToHom _ ≫ (α.hom ≫ β.hom).stalkMap p
+  change _ = eqToHom _ ≫ (α.hom ≫ β.hom).stalkMap p
   rw [PresheafedSpace.stalkMap.comp]
   exact (Category.id_comp _).symm
 
@@ -400,7 +397,7 @@ theorem stalkSquareIsPushout₁₂ :
   · rw [Ideal.map_le_iff_le_comap]
     intro a ha
     rw [Ideal.mem_comap, RingHom.mem_ker]
-    show p₁.hom (ψ.hom a) = 0
+    change p₁.hom (ψ.hom a) = 0
     rw [hψ']
     exact ha
   · exact exists_sub_mem_ker_of_comp_surjective _ _ _ (congrArg CommRingCat.Hom.hom hψ) hp₂

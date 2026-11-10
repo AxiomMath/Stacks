@@ -252,7 +252,7 @@ theorem exteriorPowerCongr_pullbackFromSpecΓIso_natural (n : ℕ) :
   have hlin := congrArg ModuleCat.Hom.hom (pullbackFromSpecΓIso_natural φ hU)
   simp only [ModuleCat.hom_comp, ModuleCat.hom_ofHom] at hlin
   refine ModuleCat.hom_ext ?_
-  show exteriorPower.map n _ ∘ₗ exteriorPower.map n _ =
+  change exteriorPower.map n _ ∘ₗ exteriorPower.map n _ =
     exteriorPower.map n _ ∘ₗ exteriorPower.map n _
   rw [← exteriorPower.map_comp, ← exteriorPower.map_comp]
   exact congrArg (fun L => exteriorPower.map n L) hlin

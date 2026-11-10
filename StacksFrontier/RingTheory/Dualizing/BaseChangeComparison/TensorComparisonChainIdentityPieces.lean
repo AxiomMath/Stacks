@@ -251,6 +251,7 @@ theorem extendRestrictComplexIso_hom_f_bcTmul (n : ℤ) (t : T) (m : K.X n) :
 
 end ChainProjection
 
+set_option linter.checkUnivs false in
 /-- Two maps out of `(T ⊗ M) ⊗_T (T ⊗ N)` agree as soon as they agree on `(1 ⊗ m) ⊗ (1 ⊗ n)`. -/
 theorem extendScalars_tensor_hom_ext {S : Type uR} {T : Type uRp} [CommRing S] [CommRing T]
     (f : S →+* T) {M N : ModuleCat.{max v uR uA uRp} S}
@@ -292,6 +293,7 @@ theorem extendScalars_tensor_hom_ext {S : Type uR} {T : Type uRp} [CommRing S] [
     (fun m => h₁ m y')
   exact congrArg (fun φ => φ.hom y) this
 
+set_option linter.checkUnivs false in
 /-- `Dualizing.extendScalars_tensor_hom_ext` for the degrees of two termwise base changes. -/
 theorem extendScalars_tensor_hom_ext_complex {S : Type uR} {T : Type uRp} [CommRing S]
     [CommRing T] (f : S →+* T) (X Y : CochainComplex (ModuleCat.{max v uR uA uRp} S) ℤ) (a b : ℤ)

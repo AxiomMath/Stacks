@@ -155,7 +155,7 @@ lemma isHomLift_mapDiagIso (hs : s ⋙ p𝒴 = p𝒱) (w : 𝒲) :
     exact Functor.isHomLift_map_of_comp_eq hs (𝟙 w.base) (sndIso w).hom
   have h₃ : p𝒴.IsHomLift (𝟙 w.base) w.y.iso.inv := by
     have := w.y.vertical; rw [e₂] at this; infer_instance
-  show p𝒴.IsHomLift (𝟙 w.base) (w.x.iso.hom ≫ s.map (sndIso w).hom ≫ w.y.iso.inv)
+  change p𝒴.IsHomLift (𝟙 w.base) (w.x.iso.hom ≫ s.map (sndIso w).hom ≫ w.y.iso.inv)
   infer_instance
 
 /-- The functor `r × r : 𝒰 ×_𝒱 𝒰 ⥤ 𝒳 ×_𝒴 𝒳` induced by the first projection

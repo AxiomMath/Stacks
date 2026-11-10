@@ -57,9 +57,9 @@ attribute [local instance] HasDerivedCategory.standard
 
 variable {A : Type u} {σ : Type w} [CommRing A] [SetLike σ A] [AddSubgroupClass σ A]
   (𝒜 : ℕ → σ) [GradedRing 𝒜] [IsNoetherianRing (𝒜 0)] {n : ℕ} (x : Fin (n + 1) → A)
-  (hx : ∀ i, x i ∈ 𝒜 1) (hgen : Algebra.adjoin (𝒜 0) (Set.range x) = ⊤)
+  (hgen : Algebra.adjoin (𝒜 0) (Set.range x) = ⊤)
 
-include hx hgen
+include hgen
 
 /-- **Assertion (2) of [Stacks, Tag 0AG6].** For every coherent `𝒪_X`-module `ℱ` on
 `X = Proj A` and every `p`, the cohomology `H^p(X, ℱ)` is a finite `A₀`-module.

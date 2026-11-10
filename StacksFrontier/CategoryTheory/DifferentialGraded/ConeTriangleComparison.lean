@@ -175,7 +175,7 @@ private lemma homotopic_neg {x y : A.Obj} {f g : A.Cocycle x y}
     (h : A.Homotopic f g) : A.Homotopic (cocycleNeg f) (cocycleNeg g) := by
   obtain ⟨H, hH⟩ := h
   refine ⟨-H, ?_⟩
-  show -f.1 - (-g.1) = A.d (-H)
+  change -f.1 - (-g.1) = A.d (-H)
   rw [d_neg]
   change f.1 - g.1 = A.d H at hH
   rw [← hH]
@@ -560,7 +560,7 @@ public theorem ConeSituationIso.coneTriangleIsoOfShortExact (S : ConeSituationIs
         A.comp (by lia : (0 : ℤ) + 0 = 0) D.s δ.1,
       cone_retraction_lift_closed S E⟩
   have hef : A.comp (by lia : (0 : ℤ) + 0 = 0) e.1 f.1 = A.id z := by
-    show A.comp (by lia : (0 : ℤ) + 0 = 0)
+    change A.comp (by lia : (0 : ℤ) + 0 = 0)
         (A.comp (by lia : (0 : ℤ) + 0 = 0) E.b.1 D.π)
         (A.comp (by lia : (0 : ℤ) + 0 = 0) D.a.1 E.s -
           A.comp (by lia : (0 : ℤ) + 0 = 0) D.s δ.1) = A.id z
@@ -631,7 +631,7 @@ public theorem ConeSituationIso.coneTriangleIsoOfShortExact (S : ConeSituationIs
     simp only [t₁, t₃, t₄]
     abel
   have hfe : A.comp (by lia : (0 : ℤ) + 0 = 0) f.1 e.1 = t₂ - t₄ := by
-    show A.comp (by lia : (0 : ℤ) + 0 = 0)
+    change A.comp (by lia : (0 : ℤ) + 0 = 0)
         (A.comp (by lia : (0 : ℤ) + 0 = 0) D.a.1 E.s -
           A.comp (by lia : (0 : ℤ) + 0 = 0) D.s δ.1)
         (A.comp (by lia : (0 : ℤ) + 0 = 0) E.b.1 D.π) = _
@@ -645,9 +645,9 @@ public theorem ConeSituationIso.coneTriangleIsoOfShortExact (S : ConeSituationIs
   have hfe_homotopic : A.Homotopic (A.compCocycle f e)
       (⟨A.id (S.cone E.a), A.d_id (S.cone E.a)⟩ : A.Cocycle (S.cone E.a) (S.cone E.a)) := by
     refine ⟨-H, ?_⟩
-    show A.comp (by lia : (0 : ℤ) + 0 = 0) f.1 e.1 - A.id (S.cone E.a) = A.d (-H)
+    change A.comp (by lia : (0 : ℤ) + 0 = 0) f.1 e.1 - A.id (S.cone E.a) = A.d (-H)
     rw [d_neg, hid]
-    show _ = -A.d H
+    change _ = -A.d H
     abel
   let eK : A.HomotopyClass (S.cone E.a) z := Quotient.mk _ e
   have heiso : @CategoryTheory.IsIso (A.K) (DGCategory.instCategoryK A)
@@ -662,12 +662,12 @@ public theorem ConeSituationIso.coneTriangleIsoOfShortExact (S : ConeSituationIs
       rfl) (by
         dsimp [negativeConeTriangle, ShiftAxiomBIso.associatedKTriangle]
         rw [CategoryTheory.Category.id_comp]
-        show A.compK eK (Quotient.mk _ D.a) =
+        change A.compK eK (Quotient.mk _ D.a) =
           Quotient.mk _ E.b
-        show Quotient.mk _ (A.compCocycle e D.a) = _
+        change Quotient.mk _ (A.compCocycle e D.a) = _
         apply congrArg (Quotient.mk _)
         apply Subtype.ext
-        show A.comp (by lia : (0 : ℤ) + 0 = 0) e.1 D.a.1 = E.b.1
+        change A.comp (by lia : (0 : ℤ) + 0 = 0) e.1 D.a.1 = E.b.1
         rw [show e.1 = A.comp (by lia : (0 : ℤ) + 0 = 0) E.b.1 D.π by rfl,
           ← A.assoc (by lia : (0 : ℤ) + 0 = 0)
             (by lia : (0 : ℤ) + 0 = 0) (by lia : (0 : ℤ) + 0 = 0)
@@ -676,7 +676,7 @@ public theorem ConeSituationIso.coneTriangleIsoOfShortExact (S : ConeSituationIs
         let nb := cocycleNeg D.b
         have hhom : A.Homotopic (A.compCocycle δ e) nb := by
           refine ⟨p, ?_⟩
-          show A.comp (by lia : (0 : ℤ) + 0 = 0) δ.1 e.1 - (-D.b.1) =
+          change A.comp (by lia : (0 : ℤ) + 0 = 0) δ.1 e.1 - (-D.b.1) =
             A.d' (by lia : (-1 : ℤ) + 1 = 0) p
           rw [coneProjectionAux_d]
           simp only [e]
@@ -690,7 +690,7 @@ public theorem ConeSituationIso.coneTriangleIsoOfShortExact (S : ConeSituationIs
         have hshift : (CategoryTheory.shiftFunctor A.K (1 : ℤ)).obj x =
             (S.shift.shiftFunctor (1 : ℤ)).obj x :=
           congrArg (fun F : A.K ⥤ A.K => F.obj x) (S.shift.kShift_functor 1)
-        show (Quotient.mk _ nb ≫ eqToHom hshift.symm) ≫
+        change (Quotient.mk _ nb ≫ eqToHom hshift.symm) ≫
             (CategoryTheory.shiftFunctor A.K (1 : ℤ)).map
               (@CategoryTheory.CategoryStruct.id (A.K) _ x) =
           eK ≫ (Quotient.mk _ δ ≫ eqToHom hshift.symm)
@@ -738,11 +738,11 @@ public theorem ConeSituationIso.shortExactTriangleIsoOfFactorization (S : ConeSi
         (Quotient.mk (A.homotopySetoid x y') E.a) =
       A.compK (Quotient.mk (A.homotopySetoid x y) α)
         (Quotient.mk (A.homotopySetoid x x) u) := by
-    show Quotient.mk _ (A.compCocycle π E.a) =
+    change Quotient.mk _ (A.compCocycle π E.a) =
       Quotient.mk _ (A.compCocycle α u)
     apply congrArg (Quotient.mk _)
     apply Subtype.ext
-    show A.comp (by lia : (0 : ℤ) + 0 = 0) π.1 E.a.1 =
+    change A.comp (by lia : (0 : ℤ) + 0 = 0) π.1 E.a.1 =
       A.comp (by lia : (0 : ℤ) + 0 = 0) α.1 u.1
     rw [A.comp_id]
     exact congrArg Subtype.val hπα
@@ -759,13 +759,13 @@ public theorem ConeSituationIso.shortExactTriangleIsoOfFactorization (S : ConeSi
       (A.homotopySetoid ((S.shift.shiftFunctor 1).obj x)
         ((S.shift.shiftFunctor 1).obj x)) γ =
       @CategoryTheory.CategoryStruct.id (A.K) _ ((S.shift.shiftFunctor 1).obj x) := by
-    show Quotient.mk _ γ = Quotient.mk _
+    change Quotient.mk _ γ = Quotient.mk _
       (⟨A.id ((S.shift.shiftFunctor 1).obj x),
         A.d_id ((S.shift.shiftFunctor 1).obj x)⟩ :
           A.Cocycle ((S.shift.shiftFunctor 1).obj x) ((S.shift.shiftFunctor 1).obj x))
     apply congrArg (Quotient.mk _)
     apply Subtype.ext
-    show (S.shift.shiftFunctor 1).map (A.id x) = A.id ((S.shift.shiftFunctor 1).obj x)
+    change (S.shift.shiftFunctor 1).map (A.id x) = A.id ((S.shift.shiftFunctor 1).obj x)
     exact (S.shift.shiftFunctor 1).map_id x
   have hsq : ∀ (b₁ : A.Cocycle (S.cone E.a) ((S.shift.shiftFunctor 1).obj x))
       (b₂ : A.Cocycle (S.cone α) ((S.shift.shiftFunctor 1).obj x)),
@@ -827,7 +827,7 @@ public theorem ConeSituationIso.shortExactTriangleIsoOfFactorization (S : ConeSi
           exact homotopic_neg hbase
         have hnegK : A.compK (Quotient.mk _ n₂) cK =
             A.compK (Quotient.mk _ γ) (Quotient.mk _ n₁) := by
-          show Quotient.mk _ (A.compCocycle n₂ c) =
+          change Quotient.mk _ (A.compCocycle n₂ c) =
             Quotient.mk _ (A.compCocycle γ n₁)
           exact Quotient.sound hnegrel
         simp only [CategoryTheory.Functor.map_id]
@@ -854,7 +854,7 @@ public theorem ConeSituationIso.shortExactTriangleIsoOfFactorization (S : ConeSi
   refine ⟨inv φE ≫ θneg, ?_, ?_, ?_⟩
   · exact (congrArg (· ≫ θneg.hom₁) hinv₁).trans (Category.id_comp _)
   · exact (congrArg (· ≫ θneg.hom₂) hinv₂).trans (Category.id_comp _)
-  · show IsIso ((inv φE).hom₃ ≫ θneg.hom₃)
+  · change IsIso ((inv φE).hom₃ ≫ θneg.hom₃)
     infer_instance
 
 /-- The admissible sequence in a factorization of a closed arrow gives a triangle

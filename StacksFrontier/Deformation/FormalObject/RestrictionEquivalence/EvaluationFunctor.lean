@@ -137,7 +137,7 @@ theorem evaluationIsoAtLevel_coherence
     simpa [dmi, dni] using formalLevelTransition_comp X.snd hnm hin
   have hInv : dmi.inv ≫ formalLevelTransition X.snd m n hnm = dni.inv := by
     rw [Iso.inv_comp_eq, ← hcomp, Category.assoc, Iso.hom_inv_id, Category.comp_id]
-  show ((evaluationData p hp X).levelIso.symm.hom ≫ dmi.inv) ≫
+  change ((evaluationData p hp X).levelIso.symm.hom ≫ dmi.inv) ≫
       formalLevelTransition X.snd m n hnm =
     (evaluationData p hp X).levelIso.symm.hom ≫ dni.inv
   rw [Category.assoc, hInv]
@@ -209,7 +209,7 @@ theorem evaluationMapAtStage_id
       (FormalObject.projection (p := p))) (m : ℕ)
     (hm : maximalIdeal X.fst ^ (m + 1) = ⊥) :
     evaluationMapAtStage p hp (𝟙 X) m hm hm = 𝟙 (evaluationObject p hp X) := by
-  show (evaluationIsoAtLevel p hp X m hm).hom ≫
+  change (evaluationIsoAtLevel p hp X m hm).hom ≫
       𝟙 (X.snd.level m) ≫ (evaluationIsoAtLevel p hp X m hm).inv = _
   simp
 
@@ -337,7 +337,7 @@ theorem evaluationFunctor_map_naturality_at_level
     maximalIdeal_pow_succ_eq_bot_of_le Y.fst (le_max_right _ _) (minimalEvaluationIndex_spec p Y)
   have hstage := evaluationMapAtStage_independent p hp f
     (m := m) (n := M) hM hmX hmY hMX hMY
-  show evaluationMapAtStage p hp f M hMX hMY ≫
+  change evaluationMapAtStage p hp f M hMX hMY ≫
       (evaluationIsoAtLevel p hp Y m hmY).hom =
     (evaluationIsoAtLevel p hp X m hmX).hom ≫ f.snd.app m
   rw [← hstage]
@@ -519,7 +519,7 @@ theorem evaluationFunctor_comp_eq
   let r := CategoricalPullback.π₁ artinianToComplete
     (FormalObject.projection (p := p))
   let hobj : ∀ X, (evaluationFunctor p hp ⋙ p).obj X = r.obj X := fun X => by
-    show p.obj (evaluationObject p hp X) = X.fst
+    change p.obj (evaluationObject p hp X) = X.fst
     exact (evaluationData p hp X).object_over
   refine CategoryTheory.Functor.ext hobj ?_
   intro X Y f
@@ -528,7 +528,7 @@ theorem evaluationFunctor_comp_eq
     evaluationCanOver_hom_eqToHom p hp Y] at hnat
   change p.map ((evaluationFunctor p hp).map f) ≫ eqToHom (hobj Y) =
     eqToHom (hobj X) ≫ f.fst at hnat
-  show p.map ((evaluationFunctor p hp).map f) =
+  change p.map ((evaluationFunctor p hp).map f) =
     eqToHom (hobj X) ≫ f.fst ≫ eqToHom (hobj Y).symm
   calc
     p.map ((evaluationFunctor p hp).map f) =

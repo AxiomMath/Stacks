@@ -132,7 +132,7 @@ theorem presheaf_isFiniteLocallyFreeOfRank_f' (r : ℕ)
   have hsite : IsPullback (yoneda.preimage k) (hf.rep.snd p) snd j :=
     IsPullback.of_map_of_faithful yoneda hleft'
   have hscheme := hsite.map Tscheme
-  show Stacks.Morphisms.IsFiniteLocallyFreeOfRank (Tscheme.map snd) r
+  change Stacks.Morphisms.IsFiniteLocallyFreeOfRank (Tscheme.map snd) r
   rw [Stacks.Morphisms.isFiniteLocallyFreeOfRank_iff_forall_finrank_eq _ r] at hrank₀ ⊢
   intro t
   obtain ⟨t₀, rfl⟩ := hthick.2 t

@@ -45,7 +45,7 @@ theorem le_image_preimage_of_section (W : T.Opens) :
     W ≤ P.coveringOpen.ι ''ᵁ (P.coveringOpen.ι ⁻¹ᵁ W) := by
   intro x hx
   refine ⟨g.base x, ?_, base_apply_base_of_section P g hg x⟩
-  show P.coveringOpen.ι.base (g.base x) ∈ W
+  change P.coveringOpen.ι.base (g.base x) ∈ W
   rw [base_apply_base_of_section P g hg x]
   exact hx
 
@@ -98,7 +98,7 @@ theorem thetaOnSection_val_app_pullbackSection (n : ℤ) (O : (relativeProj A).s
       ((P.theta.app n).val.app (op O')
         (pullbackSection (P.globalMorphism (relativeProj A))
           ((twD A).algebra.piece n) O O' hO' z))
-  show ((Scheme.Modules.pullback g).map
+  change ((Scheme.Modules.pullback g).map
         ((Scheme.Modules.restrictFunctorIsoPullback P.coveringOpen.ι).hom.app
           (tensorPowerModule T P.L n)) ≫
       (Scheme.Modules.pullbackComp g P.coveringOpen.ι).hom.app (tensorPowerModule T P.L n) ≫
@@ -156,7 +156,7 @@ theorem pullbackAdjointPsi_val_app_pullbackSection {X Y : Scheme.{u}} (A : Sheaf
         ((GradedPowerMap.twD A).ψ n)) V a
     rw [Equiv.apply_symm_apply] at h
     exact h.symm
-  show ((Scheme.Modules.pullback ι).map
+  change ((Scheme.Modules.pullback ι).map
       (((Scheme.Modules.pullbackPushforwardAdjunction (relativeProj A).toBase).homEquiv _ _).symm
         ((GradedPowerMap.twD A).ψ n))).val.app (op W)
       (((Scheme.Modules.pullbackComp ι (relativeProj A).toBase).inv.app
@@ -189,15 +189,15 @@ theorem pullbackAdjointPsi_comp_thetaOnSection (d : ℕ)
   refine Stacks.AlgebraicGeometry.ModuleLimits.hom_ext_of_pullbackSection f fun V a => ?_
   have hW' : f ⁻¹ᵁ V ≤ (g ≫ P.globalMorphism (relativeProj A)) ⁻¹ᵁ
       ((relativeProj A).toBase ⁻¹ᵁ V) := by
-    show f ⁻¹ᵁ V ≤
+    change f ⁻¹ᵁ V ≤
       ((g ≫ P.globalMorphism (relativeProj A)) ≫ (relativeProj A).toBase) ⁻¹ᵁ V
     rw [← hf]
   have hO' : P.toBase ⁻¹ᵁ V ≤ P.globalMorphism (relativeProj A) ⁻¹ᵁ
       ((relativeProj A).toBase ⁻¹ᵁ V) := (P.toBase_preimage_eq V).le
   have hgV : f ⁻¹ᵁ V ≤ g ⁻¹ᵁ (P.toBase ⁻¹ᵁ V) := by
     intro x hx
-    show g.base x ∈ P.toBase ⁻¹ᵁ V
-    show P.coveringOpen.ι.base (g.base x) ∈ f ⁻¹ᵁ V
+    change g.base x ∈ P.toBase ⁻¹ᵁ V
+    change P.coveringOpen.ι.base (g.base x) ∈ f ⁻¹ᵁ V
     rw [base_apply_base_of_section P g hg x]
     exact hx
   have hV : f ⁻¹ᵁ V ≤ P.coveringOpen.ι ''ᵁ (P.toBase ⁻¹ᵁ V) :=
@@ -269,7 +269,7 @@ theorem pullbackAdjointPsi_comp_thetaOnSection (d : ℕ)
       (((Scheme.Modules.pullbackPushforwardAdjunction f).homEquiv _ _).symm (P.ψ d)) V a
     rw [Equiv.apply_symm_apply] at h
     exact h.symm
-  show (P.thetaOnSection g hg (d : ℤ)).val.app (op (f ⁻¹ᵁ V))
+  change (P.thetaOnSection g hg (d : ℤ)).val.app (op (f ⁻¹ᵁ V))
         ((AlgebraicGeometry.Space.pullbackAdjointPsi A
             (g ≫ P.globalMorphism (relativeProj A)) f hf d).val.app (op (f ⁻¹ᵁ V))
           (pullbackSection f (A.piece (d : ℤ)) V (f ⁻¹ᵁ V) le_rfl a)) =
@@ -278,7 +278,7 @@ theorem pullbackAdjointPsi_comp_thetaOnSection (d : ℕ)
             (P.ψ d)).val.app (op (f ⁻¹ᵁ V))
           (pullbackSection f (A.piece (d : ℤ)) V (f ⁻¹ᵁ V) le_rfl a))
   rw [hA1, hA2, hR, ← hsh, hnat, hself]
-  show (tensorPowerModule T P.L (d : ℤ)).val.map (homOfLE hV).op
+  change (tensorPowerModule T P.L (d : ℤ)).val.map (homOfLE hV).op
       ((tensorPowerModule T P.L (d : ℤ)).val.map
         (P.coveringOpen.ι.opensFunctor.map (homOfLE hO')).op
         ((P.theta.app (d : ℤ)).val.app
@@ -306,13 +306,13 @@ theorem pullback_map_pullbackAdjointPsi_comp_canHom {X Y Z : Scheme.{u}}
       canHom c fX fZ hfZ (A.piece (n : ℤ)) ≫ pullbackAdjointPsi A ι' fZ hfZ' n := by
   refine hom_ext_of_doublePullbackSection c fX (F := A.piece (n : ℤ)) fun V a => ?_
   have hw : fX ⁻¹ᵁ V ≤ ι ⁻¹ᵁ ((relativeProj A).toBase ⁻¹ᵁ V) := by
-    show fX ⁻¹ᵁ V ≤ (ι ≫ (relativeProj A).toBase) ⁻¹ᵁ V
+    change fX ⁻¹ᵁ V ≤ (ι ≫ (relativeProj A).toBase) ⁻¹ᵁ V
     rw [← hfX]
   have h2 : c ⁻¹ᵁ (fX ⁻¹ᵁ V) ≤ fZ ⁻¹ᵁ V := by
     rw [← hfZ]
     exact le_rfl
   have h3 : c ⁻¹ᵁ (fX ⁻¹ᵁ V) ≤ ι' ⁻¹ᵁ ((relativeProj A).toBase ⁻¹ᵁ V) := by
-    show c ⁻¹ᵁ (fX ⁻¹ᵁ V) ≤ (ι' ≫ (relativeProj A).toBase) ⁻¹ᵁ V
+    change c ⁻¹ᵁ (fX ⁻¹ᵁ V) ≤ (ι' ≫ (relativeProj A).toBase) ⁻¹ᵁ V
     rw [← hfZ']
     exact h2
   have hL1 := Scheme.Modules.pullbackSection_naturality c (pullbackAdjointPsi A ι fX hfX n)
@@ -337,7 +337,7 @@ theorem pullback_map_pullbackAdjointPsi_comp_canHom {X Y Z : Scheme.{u}}
       (c ⁻¹ᵁ (fX ⁻¹ᵁ V)) le_rfl le_rfl h2 a
   have hR2 := pullbackAdjointPsi_val_app_pullbackSection A ι' fZ hfZ' n V
     (c ⁻¹ᵁ (fX ⁻¹ᵁ V)) h2 h3 a
-  show (canHom c ι ι' hι' ((GradedPowerMap.twD A).algebra.piece (n : ℤ))).val.app
+  change (canHom c ι ι' hι' ((GradedPowerMap.twD A).algebra.piece (n : ℤ))).val.app
         (op (c ⁻¹ᵁ (fX ⁻¹ᵁ V)))
         (((Scheme.Modules.pullback c).map (pullbackAdjointPsi A ι fX hfX n)).val.app
           (op (c ⁻¹ᵁ (fX ⁻¹ᵁ V))) (doublePullbackSection c fX (A.piece (n : ℤ)) V a)) =
@@ -376,7 +376,7 @@ include hg in
 theorem eq_comp_globalMorphism_comp_toBase :
     f = (g ≫ P.globalMorphism (relativeProj A)) ≫ (relativeProj A).toBase := by
   rw [Category.assoc, P.globalMorphism_comp_toBase]
-  show f = g ≫ P.coveringOpen.ι ≫ f
+  change f = g ≫ P.coveringOpen.ι ≫ f
   rw [← Category.assoc, hg, Category.id_comp]
 
 end GradedPowerMap

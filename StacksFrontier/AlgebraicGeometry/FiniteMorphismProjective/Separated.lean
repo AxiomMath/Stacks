@@ -32,11 +32,11 @@ bundle `𝐏(E) ⟶ S` once that morphism is known separated, and to any other t
 ## Implementation notes
 
 The hypothesis is finiteness of the composite rather than finiteness of the source over the base
-because that is the shape the hypothesis of the tagged statement has: `f = σ ≫ p` is finite, and `σ` is the
-morphism whose closedness is wanted. Universal closedness would be enough for the topological
+because that is the shape the hypothesis of the tagged statement has: `f = σ ≫ p` is finite, and `σ`
+is the morphism whose closedness is wanted. Universal closedness would be enough for the topological
 half — a universally closed morphism has closed image, so
-`AlgebraicGeometry.IsClosedImmersion.of_isPreimmersion` applies — but finiteness is what the statement
-gives and it reaches the conclusion without passing through the range at all.
+`AlgebraicGeometry.IsClosedImmersion.of_isPreimmersion` applies — but finiteness is what the
+statement gives and it reaches the conclusion without passing through the range at all.
 
 ## References
 

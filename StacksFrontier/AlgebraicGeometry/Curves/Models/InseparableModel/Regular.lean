@@ -97,7 +97,7 @@ theorem modelSection_comp_X_to_R : modelSection ≫ X_to_R = 𝟙 _ := by
   rw [modelSection, Category.assoc, chartι_comp_X_to_R, ← Spec.map_comp, ← Spec.map_id]
   congr 1
   refine CommRingCat.hom_ext (RingHom.ext fun r => ?_)
-  show chartTwoEval ((chartEquiv 2).symm (awayBase 2 r)) = r
+  change chartTwoEval ((chartEquiv 2).symm (awayBase 2 r)) = r
   rw [← chartEquiv_algebraMap, RingEquiv.symm_apply_apply, chartTwoEval_algebraMap]
 
 end Stacks.Models.InseparableModel

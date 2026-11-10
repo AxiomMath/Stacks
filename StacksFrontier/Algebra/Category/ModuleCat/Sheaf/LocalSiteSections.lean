@@ -53,7 +53,7 @@ theorem projective_unit_of_mem :
     apply N.unitHomEquiv.injective
     apply eN.injective
     rw [_root_.SheafOfModules.unitHomEquiv_comp_apply, Equiv.apply_symm_apply]
-    show (g.val.app (op T)).hom (eM (eM.symm t')) = _
+    change (g.val.app (op T)).hom (eM (eM.symm t')) = _
     rw [Equiv.apply_symm_apply]
     exact ht.trans (by simp only [op_id, CategoryTheory.Functor.map_id]; rfl)
 

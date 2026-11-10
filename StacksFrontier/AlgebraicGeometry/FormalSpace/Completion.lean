@@ -265,7 +265,7 @@ theorem isRepresentableByAlgebraicSpacesULift_completionMap
     (sheafToPresheaf J (Type (u + 1)))
   have hcomm : (sheafifiedULiftMap B S hS f).hom ≫ eX.inv = eX'.inv ≫ H.map f := by
     have hn' : H.map f ≫ eX.hom = eX'.hom ≫ (sheafifiedULiftMap B S hS f).hom := by
-      show (Functor.whiskerRight f uliftFunctor.{u + 1}) ≫
+      change (Functor.whiskerRight f uliftFunctor.{u + 1}) ≫
           J.toSheafify (X ⋙ uliftFunctor.{u + 1}) =
         J.toSheafify (X' ⋙ uliftFunctor.{u + 1}) ≫
           J.sheafifyMap (Functor.whiskerRight f uliftFunctor.{u + 1})

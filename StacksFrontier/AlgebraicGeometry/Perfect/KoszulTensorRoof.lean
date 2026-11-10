@@ -176,9 +176,10 @@ independently elaborated mentions of the bijection — the one in this statement
 in the roof's hypothesis, after the roof's eight instance arguments have been resynthesized at
 `affineSite A` — and that comparison exceeds the default heartbeat budget on its own, with
 `v` given or left to be determined by `hv`. This is the rule that
-`StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/TensorRoofFromSystem.lean` records for this bijection, that such an equation is to be consumed
-by `rw` and not by `exact` against another declaration's hypothesis. This statement is kept
-because it is the content of [Stacks, Tag 0FPT] here: the transpose of the unit is invertible. -/
+`StacksFrontier/CategoryTheory/Sites/Cohomology/InternalHom/TensorRoofFromSystem.lean` records for
+this bijection, that such an equation is to be consumed by `rw` and not by `exact` against another
+declaration's hypothesis. This statement is kept because it is the content of [Stacks, Tag 0FPT]
+here: the transpose of the unit is invertible. -/
 theorem isIso_affineCurryEquiv_structureSheafHomUnit (A : CommRingCat.{u})
     (E : affineDerivedCat A) :
     IsIso (RingedSite.derivedCurryHomEquiv (affineSite A) (affineStructureSheafObject A) E E

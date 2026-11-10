@@ -76,7 +76,7 @@ of finite type over the residue field of its image point. -/
 private theorem isLocallyNoetherian_fiber_of_finitePresentation {X Z : Scheme.{u}}
     (g : X ⟶ Z) [LocallyOfFinitePresentation g] (y : Z) : IsLocallyNoetherian (g.fiber y) := by
   have : LocallyOfFiniteType (g.fiberToSpecResidueField y) := by
-    show LocallyOfFiniteType (pullback.snd g (Z.fromSpecResidueField y))
+    change LocallyOfFiniteType (pullback.snd g (Z.fromSpecResidueField y))
     infer_instance
   exact LocallyOfFiniteType.isLocallyNoetherian (g.fiberToSpecResidueField y)
 

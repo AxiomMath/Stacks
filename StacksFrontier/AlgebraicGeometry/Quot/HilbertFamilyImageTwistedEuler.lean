@@ -71,7 +71,7 @@ theorem twistedEuler_hilbertCohObject_image {T : BigFppfOver B S hS}
       x.subspaceInclusion ≫ schemeBaseChangeProjectionHom B S hS bX
         (CostructuredArrow.mk x.toBase) := by
     apply ObjectProperty.hom_ext
-    show x.family.Z.toImage m ≫ (x.family.Z.image m).ι ≫ pullback.snd bY.hom x.toBase =
+    change x.family.Z.toImage m ≫ (x.family.Z.image m).ι ≫ pullback.snd bY.hom x.toBase =
       x.family.Z.ι ≫ pullback.snd bX.hom x.toBase
     rw [← Category.assoc, Subfunctor.toImage_ι, Category.assoc]
     exact congrArg (x.family.Z.ι ≫ ·) (schemeBaseChangeOfMap_snd hπ (CostructuredArrow.mk x.toBase))
@@ -81,7 +81,7 @@ theorem twistedEuler_hilbertCohObject_image {T : BigFppfOver B S hS}
     schemeBaseChangeSpace bY (CostructuredArrow.mk y.toBase) ⟶ Y)
   have hp : p ≫ π = p' := by
     apply ObjectProperty.hom_ext
-    show (x.family.Z.ι ≫ pullback.fst bX.hom x.toBase) ≫ π.hom =
+    change (x.family.Z.ι ≫ pullback.fst bX.hom x.toBase) ≫ π.hom =
       x.family.Z.toImage m ≫ (x.family.Z.image m).ι ≫ pullback.fst bY.hom x.toBase
     rw [← Category.assoc (x.family.Z.toImage m), Subfunctor.toImage_ι, Category.assoc,
       Category.assoc]

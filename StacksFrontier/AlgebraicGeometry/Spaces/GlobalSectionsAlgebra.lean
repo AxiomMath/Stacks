@@ -117,7 +117,7 @@ theorem of_isArtinianRing_of_forall_isIdempotentElem (R : Type*) [CommRing R] [N
   have : p.IsPrime := hp.isPrime
   refine IsLocalRing.of_unique_max_ideal ⟨p, hp, fun q hq => ?_⟩
   by_contra hne
-  obtain ⟨e, hnotp, he, hother⟩ := IsArtinianRing.exists_not_mem_forall_mem_of_ne p
+  obtain ⟨e, hnotp, he, hother⟩ := IsArtinianRing.exists_notMem_forall_mem_of_ne p
   rcases h e he with hzero | hone
   · exact hnotp (hzero ▸ p.zero_mem)
   · exact hq.ne_top (q.eq_top_iff_one.mpr (hone ▸ hother q hq.isPrime hne))
@@ -164,13 +164,13 @@ theorem bijective_pi_sectionsPrecomp {C : Type*} [Category C] (F : Cᵒᵖ ⥤ T
     · intro U W g
       apply (hbij W.unop).injective
       funext i
-      show F.map (v W.unop i).op (F.map g (t U)) = _
+      change F.map (v W.unop i).op (F.map g (t U)) = _
       rw [← types_comp_apply, ← F.map_comp]
       exact (hn i (hV W.unop i) (v W.unop i ≫ g.unop)).trans (ht W.unop i).symm
     · funext i
       apply Subtype.ext
       funext U
-      show t (op U.unop.obj) = _
+      change t (op U.unop.obj) = _
       simpa using hn i U.unop.property (𝟙 U.unop.obj)
 
 end CategoryTheory.Functor
@@ -396,13 +396,13 @@ theorem chartOpenRestriction_fac {U W : SmallEtale B S hS F}
     rw [h1, h2]
     exact hl
   let lO : W.obj.left ⟶ W'.obj.left := Over.homMk lB (by
-    show lB ≫ (vB ≫ U.obj.left.hom) = W.obj.left.hom
+    change lB ≫ (vB ≫ U.obj.left.hom) = W.obj.left.hom
     rw [← Category.assoc, hlB]
     exact g.hom.left.w)
   have hlO : lO ≫ (chartOpenRestrictionHom B S hS F U V).hom.left = g.hom.left :=
     Over.OverMorphism.ext hlB
   refine ⟨ObjectProperty.homMk (CostructuredArrow.homMk lO (by
-    show yoneda.map lO ≫ (yoneda.map _ ≫ U.obj.hom) = W.obj.hom
+    change yoneda.map lO ≫ (yoneda.map _ ≫ U.obj.hom) = W.obj.hom
     have hh := congrArg (fun t => yoneda.map t ≫ U.obj.hom) hlO
     exact hh.trans (by simp))), ObjectProperty.hom_ext _ (CostructuredArrow.hom_ext _ _ hlO)⟩
 
@@ -497,7 +497,7 @@ def connectedComponentCarrier (c : ConnectedComponents (points B S hS F)) :
 theorem isConnected_connectedComponentCarrier (c : ConnectedComponents (points B S hS F)) :
     IsConnected (connectedComponentCarrier B S hS F c) := by
   obtain ⟨x, rfl⟩ := ConnectedComponents.surjective_coe c
-  show IsConnected (ConnectedComponents.mk ⁻¹' {ConnectedComponents.mk x})
+  change IsConnected (ConnectedComponents.mk ⁻¹' {ConnectedComponents.mk x})
   rw [connectedComponents_preimage_singleton]
   exact isConnected_connectedComponent
 
@@ -559,7 +559,7 @@ private theorem componentChartProperty_chartOpenRestriction (U : SmallEtale B S 
     rw [← pointsMap_chart_hom B S hS F (chartOpenRestrictionHom B S hS F U V)]
     apply (hV (p.map B S hS _ (yoneda.map (chartOpenRestrictionHom B S hS F U V).hom.left))).mpr
     rw [schemePoint_map_yoneda]
-    show ((SmallEtale.toOver B S hS F ⋙ BigFppfOver.toScheme B S hS).map
+    change ((SmallEtale.toOver B S hS F ⋙ BigFppfOver.toScheme B S hS).map
       (chartOpenRestrictionHom B S hS F U V)) _ ∈ V
     rw [chartOpenRestrictionHom_toScheme]
     exact (schemePoint B S hS (chartOpenRestriction B S hS F U V).obj.left p).property
@@ -599,7 +599,7 @@ theorem bijective_globalFunctionsRestriction_of_cover
   · intro U
     have h := Scheme.bijective_pi_appTop_of_disjoint_cover
       ((BigFppfOver.toScheme B S hS).obj U.obj.left) (V U) (hd U) (hc U)
-    show Function.Bijective
+    change Function.Bijective
       (fun s : Γ((BigFppfOver.toScheme B S hS).obj U.obj.left, ⊤) => fun c =>
         ((SmallEtale.toOver B S hS F ⋙ BigFppfOver.toScheme B S hS).map (v U c)).appTop s)
     simp only [v, chartOpenRestrictionHom_toScheme]
@@ -731,7 +731,7 @@ theorem isOpen_connectedComponentCarrier
     (c : ConnectedComponents (points B S hS F)) :
     IsOpen (connectedComponentCarrier B S hS F c) := by
   obtain ⟨x, rfl⟩ := ConnectedComponents.surjective_coe c
-  show IsOpen (ConnectedComponents.mk ⁻¹' {ConnectedComponents.mk x})
+  change IsOpen (ConnectedComponents.mk ⁻¹' {ConnectedComponents.mk x})
   rw [connectedComponents_preimage_singleton]
   exact (TopologicalSpace.isClopen_connectedComponent_of_finite_connectedComponents x).2
 
@@ -871,7 +871,7 @@ theorem nonempty_componentwiseArtinianFactorization
     refine IsLocalRing.of_isArtinianRing_of_forall_isIdempotentElem _ fun e he => ?_
     let t : ∀ d, componentFunctions B (Spec (.of k)) hS X d := Pi.single c e
     have ht : IsIdempotentElem t := by
-      show t * t = t
+      change t * t = t
       funext d
       by_cases h : d = c
       · subst d

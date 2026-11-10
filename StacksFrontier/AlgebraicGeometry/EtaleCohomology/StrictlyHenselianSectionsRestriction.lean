@@ -96,7 +96,7 @@ theorem isIso_smallEtaleGlobalSectionsRestrictionAb_of_strictlyHenselian
     rw [← isIso_comp_right_iff _ (ΦP.toPresheafFiber _ vP G.obj), key]
     exact IsIso.comp_isIso' hgT
       (inferInstanceAs (IsIso (((smallEtaleStalkPullbackAbIso x (𝟙 P)).app F).inv)))
-  show IsIso
+  change IsIso
     ((Sheaf.ΓNatIsoSheafSections (smallEtaleTopology (Spec (.of R))) Ab.{u + 1} hTt).hom.app F ≫
       (B ≫ G.obj.map ℓ.op) ≫
         (Sheaf.ΓNatIsoSheafSections (smallEtaleTopology P) Ab.{u + 1} hPt).inv.app G)

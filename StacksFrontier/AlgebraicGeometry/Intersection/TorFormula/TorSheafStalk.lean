@@ -107,7 +107,7 @@ def flatResHom (X : Scheme.{u}) (F : X.Modules) :
 
 /-- The chosen resolution is K-flat. -/
 theorem flatRes_kFlat (X : Scheme.{u}) (F : X.Modules) :
-    Stacks.SheafOfModules.KFlat.KFlat.{u, u, u} X.sheaf (flatRes X F) :=
+    Stacks.SheafOfModules.KFlat.{u, u, u} X.sheaf (flatRes X F) :=
   let : HasWeakSheafify (schemeRingedSite X).J AddCommGrpCat.{u} :=
     inferInstanceAs (HasWeakSheafify (Opens.grothendieckTopology ↥X) AddCommGrpCat.{u})
   let : (schemeRingedSite X).J.WEqualsLocallyBijective AddCommGrpCat.{u} :=

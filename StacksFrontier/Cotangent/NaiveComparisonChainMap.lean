@@ -167,7 +167,7 @@ theorem faceAsTermMap_eq (n : ℕ) (i : Fin (n + 2)) :
     faceAsTermMap A B n i = cotangentMap A B (SimplexCategory.δ i).op :=
   cotangentTerm_hom_ext A B (op ⦋n + 1⦌) _ _ fun p => by
     rw [cotangentMap_D]
-    show Algebra.Extension.CotangentSpace.map (standardResolutionExtensionFace A B n i)
+    change Algebra.Extension.CotangentSpace.map (standardResolutionExtensionFace A B n i)
         ((1 : ↥B) ⊗ₜ KaehlerDifferential.D A _ p) = _
     have h := Algebra.Extension.CotangentSpace.map_tmul
       (standardResolutionExtensionFace A B n i) (1 : ↥B) p
@@ -298,13 +298,13 @@ noncomputable def comparisonComponent (i : ℤ) :
 /-- In degree zero the component is `comparisonDegreeZero`. -/
 theorem comparisonComponent_zero :
     comparisonComponent A B 0 = comparisonDegreeZero A B := by
-  rw [comparisonComponent, dif_pos rfl, eqToHom_refl, eqToHom_refl, Category.id_comp,
+  rw [comparisonComponent, dite_eq_left rfl, eqToHom_refl, eqToHom_refl, Category.id_comp,
     Category.comp_id]
 
 /-- In degree `-1` the component is the explicit arrow. -/
 theorem comparisonComponent_negOne :
     comparisonComponent A B (-1) = comparisonDegreeNegOne A B := by
-  rw [comparisonComponent, dif_neg (by decide), dif_pos rfl, eqToHom_refl, eqToHom_refl,
+  rw [comparisonComponent, dite_eq_right (by decide), dite_eq_left rfl, eqToHom_refl, eqToHom_refl,
     Category.id_comp, Category.comp_id]
 
 /-- **Stacks Project, Tag 08UP.** Outside cohomological degrees `0` and `-1` the comparison is
@@ -314,7 +314,7 @@ zero: the bottom row of the diagram vanishes there, so every downward arrow from
 there"]
 theorem comparisonComponent_eq_zero (i : ℤ) (h : i ≠ 0) (h' : i ≠ -1) :
     comparisonComponent A B i = 0 := by
-  rw [comparisonComponent, dif_neg h, dif_neg h']
+  rw [comparisonComponent, dite_eq_right h, dite_eq_right h']
 
 /-- **Stacks Project, Tag 08UP.** The map of complexes `L_{B/A} ⟶ NL_{B/A}` displayed by the
 remark: the identity in degree zero, the explicit arrow `d f ⊗ b ↦ (d₀ f - d₁ f) b` in degree

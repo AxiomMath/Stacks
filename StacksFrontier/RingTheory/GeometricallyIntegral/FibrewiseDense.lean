@@ -206,8 +206,7 @@ variable {A B K : Type u} [CommRing A] [CommRing B] [Algebra A B] [CommRing K] [
 /-- Base changing multiplication by `b` is multiplication by `1 ⊗ₜ b`. -/
 theorem lTensor_mulLeft_apply (b : B) (z : K ⊗[A] B) :
     LinearMap.lTensor K ((LinearMap.mulLeft B b).restrictScalars A) z = ((1 : K) ⊗ₜ b) * z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul k t => simp [Algebra.TensorProduct.tmul_mul_tmul]
   | add x y hx hy => rw [map_add, hx, hy, mul_add]
 
@@ -227,7 +226,7 @@ theorem lTensor_mulTuple_eq_zero {m : ℕ} (g : Fin m → B) (z : K ⊗[A] B)
     rw [hdec, map_sum, LinearMap.sum_apply]
     refine Finset.sum_eq_zero fun j _ => ?_
     rw [AlgebraTensorModule.lTensor_comp]
-    show (AlgebraTensorModule.lTensor A K (LinearMap.single A (fun _ : Fin m => B) j))
+    change (AlgebraTensorModule.lTensor A K (LinearMap.single A (fun _ : Fin m => B) j))
       ((AlgebraTensorModule.lTensor A K ((LinearMap.mulLeft B (g j)).restrictScalars A)) z) = 0
     rw [show (AlgebraTensorModule.lTensor A K
           ((LinearMap.mulLeft B (g j)).restrictScalars A)) z
@@ -284,8 +283,7 @@ theorem subsingleton_tensorProduct_of_smul_eq_zero {A E X : Type u} [CommRing A]
     (hX : ∀ x : X, a • x = 0) : Subsingleton (E ⊗[A] X) := by
   have h1 : ∀ z : E ⊗[A] X, a • z = 0 := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul r x =>
         rw [TensorProduct.smul_tmul', TensorProduct.smul_tmul, hX x, TensorProduct.tmul_zero]
     | add x y hx hy => rw [smul_add, hx, hy, add_zero]
@@ -360,9 +358,9 @@ private theorem injective_lTensor_of_flat_quotient_of_subsingleton_ker
       (LinearMap.baseChange (Localization.Away f) (φ.restrictScalars A))
       (LinearMap.baseChange (Localization.Away f)
         (((LinearMap.range φ).mkQ).restrictScalars A))
-      (by rw [LinearMap.baseChange_eq_ltensor]; exact hinjRf)
-      (by rw [LinearMap.baseChange_eq_ltensor, LinearMap.baseChange_eq_ltensor]; exact hexRf)
-      (by rw [LinearMap.baseChange_eq_ltensor]; exact hsurjRf)).1
+      (by rw [LinearMap.baseChange_eq_lTensor]; exact hinjRf)
+      (by rw [LinearMap.baseChange_eq_lTensor, LinearMap.baseChange_eq_lTensor]; exact hexRf)
+      (by rw [LinearMap.baseChange_eq_lTensor]; exact hsurjRf)).1
 
 /-- If a map `φ` is injective after base change to the fraction field of a domain `A`, each element
 of its kernel is killed by a nonzero element of `A`. -/
@@ -373,7 +371,7 @@ private theorem exists_ne_zero_smul_eq_zero_of_injective_lTensor_fractionRing
     (x : M) (hx : φ x = 0) : ∃ c : A, c ≠ 0 ∧ c • x = 0 := by
   have h0 : (TensorProduct.mk A (FractionRing A) M 1) x = 0 := by
     refine hgen ?_
-    show LinearMap.lTensor (FractionRing A) φ ((1 : FractionRing A) ⊗ₜ x) =
+    change LinearMap.lTensor (FractionRing A) φ ((1 : FractionRing A) ⊗ₜ x) =
       LinearMap.lTensor (FractionRing A) φ 0
     simp [hx]
   obtain ⟨c, hc⟩ := IsLocalizedModule.exists_of_eq
@@ -536,8 +534,7 @@ theorem subsingleton_tensorProduct_of_forall_exists_smul_eq_zero {A E X : Type u
     (hX : ∀ x : X, ∃ a : A, IsUnit (algebraMap A E a) ∧ a • x = 0) :
     Subsingleton (E ⊗[A] X) := by
   refine subsingleton_of_forall_eq 0 fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero => rfl
+  induction z using TensorProduct.inductionOn with
   | tmul r x =>
       obtain ⟨a, ha, hax⟩ := hX x
       have h1 : a • (r ⊗ₜ[A] x) = 0 := by
@@ -573,11 +570,11 @@ theorem exists_pow_smul_eq_zero_of_flat_baseChange {A M : Type u} [CommRing A] [
     Module.IsTorsionFree.isSMulRegular (IsRegular.of_ne_zero hc)
   have hz : (TensorProduct.mk A (Localization.Away f) M 1) x = 0 := by
     refine hreg ?_
-    show algebraMap A (Localization.Away f) c •
+    change algebraMap A (Localization.Away f) c •
         ((TensorProduct.mk A (Localization.Away f) M 1) x)
       = algebraMap A (Localization.Away f) c • (0 : Localization.Away f ⊗[A] M)
     rw [smul_zero, algebraMap_smul]
-    show c • ((1 : Localization.Away f) ⊗ₜ[A] x) = 0
+    change c • ((1 : Localization.Away f) ⊗ₜ[A] x) = 0
     rw [TensorProduct.smul_tmul', TensorProduct.smul_tmul, hcx, TensorProduct.tmul_zero]
   obtain ⟨s, hs⟩ := IsLocalizedModule.exists_of_eq
     (S := Submonoid.powers f) (f := TensorProduct.mk A (Localization.Away f) M 1)

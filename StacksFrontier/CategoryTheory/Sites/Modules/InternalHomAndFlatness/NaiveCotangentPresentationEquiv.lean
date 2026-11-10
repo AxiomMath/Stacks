@@ -58,7 +58,6 @@ open Stacks.Sites.FreeAlgebra
 
 variable {C : Type u} [Category.{v} C] (J : GrothendieckTopology C)
   [HasWeakSheafify J CommRingCat.{w}]
-  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
 variable (A : Sheaf J CommRingCat.{w}) (E₁ E₂ : Functor Cᵒᵖ (Type w))
   (h : E₁ ⟶ E₂) (k : E₂ ⟶ E₁)
   (B : Sheaf J CommRingCat.{w}) (a : A ⟶ B)

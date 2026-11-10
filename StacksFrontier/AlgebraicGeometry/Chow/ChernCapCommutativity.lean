@@ -218,7 +218,7 @@ theorem firstChernClassCapOnChow_comm
         (firstChernClassCapOnChow C p (k + 1) chernLUp hchernLUp α) := by
   induction α using QuotientAddGroup.induction_on with
   | H β =>
-    show QuotientAddGroup.mk ((firstChernCapRule C p k chernL).extendCycleGroup
+    change QuotientAddGroup.mk ((firstChernCapRule C p k chernL).extendCycleGroup
       ((firstChernCapRule C p (k + 1) chernNUp).extendCycleGroup β)) = _
     rw [firstChernCapRule_extendCycleGroup_comm C p k chernL chernN chernLUp chernNUp hcomp β]
     rfl

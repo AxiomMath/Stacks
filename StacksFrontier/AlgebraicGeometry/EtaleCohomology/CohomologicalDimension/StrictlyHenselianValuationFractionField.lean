@@ -270,7 +270,7 @@ theorem exists_valuation_pow_eq {Γ₀ : Type*} [LinearOrderedCommGroupWithZero 
   obtain ⟨j, hj, hjmax⟩ := Finset.exists_max_image (Finset.range (n + 1)) (fun i ↦ v (f i))
     ⟨n, Finset.self_mem_range_succ n⟩
   have hfj : v (f j) ≠ 0 := fun h0 ↦ hfn (le_antisymm
-    ((hjmax n (Finset.self_mem_range_succ n)).trans h0.le) zero_le')
+    ((hjmax n (Finset.self_mem_range_succ n)).trans h0.le) zero_le)
   obtain ⟨i, hi, hij, hvij⟩ : ∃ i ∈ Finset.range (n + 1), i ≠ j ∧ v (f i) = v (f j) := by
     by_contra hcon
     push Not at hcon

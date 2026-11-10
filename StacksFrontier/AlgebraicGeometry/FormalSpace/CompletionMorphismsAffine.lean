@@ -84,7 +84,7 @@ theorem existsUnique_algHom_of_etale_of_bijective_quotientMap
     { toRingHom := (Ideal.quotientMap JR (algebraMap C R) Ideal.le_comap_map).comp
         (e.symm.toRingHom.comp (Ideal.Quotient.mk _))
       commutes' := fun c ↦ by
-        show Ideal.quotientMap JR (algebraMap C R) Ideal.le_comap_map
+        change Ideal.quotientMap JR (algebraMap C R) Ideal.le_comap_map
           (e.symm (Ideal.Quotient.mk _ (algebraMap C C' c))) = _
         rw [he]
         rfl }⟩, fun g₁ g₂ ↦ ?_⟩
@@ -129,7 +129,7 @@ theorem hasImageIn_yoneda_preimage_iff {X Y U : BigFppfOver B S hS} (h : Y ⟶ X
     rfl
   · rintro H _ ⟨p, rfl⟩
     obtain ⟨t, ht, he⟩ := H (Space.pointsToScheme B S hS U p)
-    show Space.pointsMap B S hS (yoneda.obj Y) (yoneda.map h)
+    change Space.pointsMap B S hS (yoneda.obj Y) (yoneda.map h)
       (Space.pointsMap B S hS (yoneda.obj U) (yoneda.map y) p) ∈ T
     convert ht using 1
     apply Space.injective_pointsToScheme B S hS X
@@ -180,7 +180,7 @@ theorem appTop_SpecMap_comp_isoSpec_inv {Z : Scheme.{u}} [IsAffine Z] {R : CommR
   have h1 : Z.isoSpec.inv.appTop = (Scheme.ΓSpecIso Γ(Z, ⊤)).inv := by
     rw [← cancel_mono (Scheme.ΓSpecIso Γ(Z, ⊤)).hom, Iso.inv_hom_id, ← Scheme.toSpecΓ_appTop,
       ← Scheme.Hom.comp_appTop]
-    show (Z.isoSpec.hom ≫ Z.isoSpec.inv).appTop = _
+    change (Z.isoSpec.hom ≫ Z.isoSpec.inv).appTop = _
     rw [Iso.hom_inv_id, Scheme.Hom.id_appTop]
   rw [Scheme.Hom.comp_appTop, h1, ← cancel_mono (Scheme.ΓSpecIso R).hom, Category.assoc,
     Scheme.ΓSpecIso_naturality, Iso.inv_hom_id_assoc, Category.assoc, Iso.inv_hom_id,
@@ -346,7 +346,7 @@ theorem ker_le_ker_appTop_specAlgOverι {R : CommRingCat.{u}}
       RingHom.ker ((BigFppfOver.toScheme B S hS).map (specAlgOverι B S hS Y φ hR)).appTop.hom := by
   intro c hc
   rw [RingHom.mem_ker, appTop_specAlgOverι]
-  show (Scheme.ΓSpecIso R).inv.hom (φ.hom c) = 0
+  change (Scheme.ΓSpecIso R).inv.hom (φ.hom c) = 0
   rw [(RingHom.mem_ker).1 hc, map_zero]
 
 /-- A morphism `y : V ⟶ Y` whose map on global sections factors through `φ` lifts to
@@ -376,7 +376,7 @@ theorem specAlgOverLift_comp_specAlgOverι {R : CommRingCat.{u}}
     specAlgOverLift B S hS Y φ hR y ψ hψ ≫ specAlgOverι B S hS Y φ hR = y := by
   apply (BigFppfOver.toScheme B S hS).map_injective
   apply ext_of_isAffine
-  show ((((BigFppfOver.toScheme B S hS).obj V).toSpecΓ ≫ Spec.map ψ) ≫
+  change ((((BigFppfOver.toScheme B S hS).obj V).toSpecΓ ≫ Spec.map ψ) ≫
     (Spec.map φ ≫ ((BigFppfOver.toScheme B S hS).obj Y).isoSpec.inv)).appTop = _
   rw [Scheme.Hom.comp_appTop, appTop_SpecMap_comp_isoSpec_inv, Category.assoc,
     ΓSpecIso_inv_appTop_toSpecΓ_SpecMap, hψ]
@@ -447,7 +447,7 @@ theorem specAlgOverRingOut_specAlgOverLift_comp {R R' : CommRingCat.{u}}
       ((ψ ≫ (Scheme.ΓSpecIso R).hom).hom).comp (specAlgOverRingOut B S hS Y φ' hR' g) := by
   have e := ΓSpecIso_inv_appTop_specAlgOverLift B S hS Y φ' hR' y ψ hψ
   ext a
-  show (Scheme.ΓSpecIso R).hom.hom (((BigFppfOver.toScheme B S hS).map
+  change (Scheme.ΓSpecIso R).hom.hom (((BigFppfOver.toScheme B S hS).map
       (specAlgOverLift B S hS Y φ' hR' y ψ hψ)).appTop.hom
       (((BigFppfOver.toScheme B S hS).map g).appTop.hom a)) =
     (Scheme.ΓSpecIso R).hom.hom (ψ.hom ((Scheme.ΓSpecIso R').hom.hom
@@ -456,7 +456,7 @@ theorem specAlgOverRingOut_specAlgOverLift_comp {R R' : CommRingCat.{u}}
   set z := ((BigFppfOver.toScheme B S hS).map g).appTop.hom a
   have h1 := congrArg (fun k ↦ k.hom ((Scheme.ΓSpecIso R').hom.hom z)) e
   refine Eq.trans ?_ h1
-  show _ = ((BigFppfOver.toScheme B S hS).map (specAlgOverLift B S hS Y φ' hR' y ψ hψ)).appTop.hom
+  change _ = ((BigFppfOver.toScheme B S hS).map (specAlgOverLift B S hS Y φ' hR' y ψ hψ)).appTop.hom
     ((Scheme.ΓSpecIso R').inv.hom ((Scheme.ΓSpecIso R').hom.hom z))
   have h2 : (Scheme.ΓSpecIso R').inv.hom ((Scheme.ΓSpecIso R').hom.hom z) = z :=
     (Scheme.ΓSpecIso R').hom_inv_id_apply z
@@ -473,13 +473,13 @@ theorem appTop_specAlgOverLift_comp {R : CommRingCat.{u}}
       ψ.hom.comp (specAlgOverRingOut B S hS Y φ hR g) := by
   have e := ΓSpecIso_inv_appTop_specAlgOverLift B S hS Y φ hR y ψ hψ
   ext a
-  show ((BigFppfOver.toScheme B S hS).map (specAlgOverLift B S hS Y φ hR y ψ hψ)).appTop.hom
+  change ((BigFppfOver.toScheme B S hS).map (specAlgOverLift B S hS Y φ hR y ψ hψ)).appTop.hom
       (((BigFppfOver.toScheme B S hS).map g).appTop.hom a) =
     ψ.hom ((Scheme.ΓSpecIso R).hom.hom (((BigFppfOver.toScheme B S hS).map g).appTop.hom a))
   set z := ((BigFppfOver.toScheme B S hS).map g).appTop.hom a
   have h1 := congrArg (fun k ↦ k.hom ((Scheme.ΓSpecIso R).hom.hom z)) e
   refine Eq.trans ?_ h1
-  show _ = ((BigFppfOver.toScheme B S hS).map (specAlgOverLift B S hS Y φ hR y ψ hψ)).appTop.hom
+  change _ = ((BigFppfOver.toScheme B S hS).map (specAlgOverLift B S hS Y φ hR y ψ hψ)).appTop.hom
     ((Scheme.ΓSpecIso R).inv.hom ((Scheme.ΓSpecIso R).hom.hom z))
   have h2 : (Scheme.ΓSpecIso R).inv.hom ((Scheme.ΓSpecIso R).hom.hom z) = z :=
     (Scheme.ΓSpecIso R).hom_inv_id_apply z
@@ -547,7 +547,7 @@ theorem etale_specAlgOverι {Cp : Type u} [CommRing Cp]
   have : Etale (Spec.map (homOf
       (algebraMap Γ((BigFppfOver.toScheme B S hS).obj Y, ⊤) Cp))) :=
     HasRingHomProperty.Spec_iff.mpr (RingHom.etale_algebraMap.mpr inferInstance)
-  show Etale (Spec.map _ ≫ ((BigFppfOver.toScheme B S hS).obj Y).isoSpec.inv)
+  change Etale (Spec.map _ ≫ ((BigFppfOver.toScheme B S hS).obj Y).isoSpec.inv)
   infer_instance
 
 end SpecOver
@@ -740,7 +740,7 @@ theorem ambientRead_sheafifiedULiftMap (a : G ⟶ G') {U : BigFppfOver B S hS}
   obtain ⟨w, rfl⟩ : ∃ w, e.hom.app (op U) w = z :=
     ⟨e.inv.app (op U) z, congrArg (fun φ ↦ φ.app (op U) z) e.inv_hom_id⟩
   obtain ⟨g⟩ := w
-  show ambientRead B S hS hG' (((BigFppfOver.topology B S hS).toSheafify
+  change ambientRead B S hS hG' (((BigFppfOver.topology B S hS).toSheafify
       (G ⋙ uliftFunctor.{u + 1}) ≫
     (BigFppfOver.topology B S hS).sheafifyMap
       (Functor.whiskerRight a uliftFunctor.{u + 1})).app (op U) (ULift.up g)) =
@@ -758,9 +758,9 @@ theorem hasImageIn_preimage_pointsMap_iff {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ 
     Space.HasImageIn B S hS F (Space.pointsMap B S hS F φ ⁻¹' T) U x ↔
       Space.HasImageIn B S hS G T U (φ.app (op U) x) := by
   refine forall_congr' fun p ↦ ?_
-  show Space.pointsMap B S hS F φ _ ∈ T ↔ _
+  change Space.pointsMap B S hS F φ _ ∈ T ↔ _
   rw [Space.pointsMap_class]
-  show (⟨p.carrier, p.contained, p.toBase, φ.app _ (F.map p.value.op x)⟩ :
+  change (⟨p.carrier, p.contained, p.toBase, φ.app _ (F.map p.value.op x)⟩ :
     Space.FieldValuedPoint B S hS G).class B S hS G ∈ T ↔ _
   rw [NatTrans.naturality_apply φ p.value.op x]
 
@@ -925,7 +925,7 @@ theorem completionSheaf_hom_ext
     intro Φ
     rw [ambientRead_map, completionEval_map B S hS hG Φ φ x hx hx']
     rfl
-  show ambientRead B S hS hG ((Space.sheafifiedULift B S hS G).obj.map φ.op
+  change ambientRead B S hS hG ((Space.sheafifiedULift B S hS G).obj.map φ.op
         ((Space.completionSheafInclusion B S hS G TG).hom.app U
           (Φ₁.hom.app U (presheafSection B S hS x hx)))) =
     ambientRead B S hS hG ((Space.sheafifiedULift B S hS G).obj.map φ.op
@@ -992,7 +992,7 @@ theorem hom_app_completionEval {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
       (αL.hom.app (op U) (presheafSection B S hS x hx)) =
       (Space.completionSheafMap B S hS M.hom T).hom.app (op U) (presheafSection B S hS x hx) :=
     congrArg (fun Φ ↦ Φ.hom.app (op U) (presheafSection B S hS x hx)) hw
-  show N.hom.app (op U) (ambientRead B S hS hN
+  change N.hom.app (op U) (ambientRead B S hS hN
     ((Space.completionSheafInclusion B S hS N.left
         (Space.pointsMap B S hS N.left N.hom ⁻¹' T)).hom.app (op U)
       (αL.hom.app (op U) (presheafSection B S hS x hx)))) = M.hom.app (op U) x
@@ -1101,7 +1101,7 @@ theorem isLocallyInjective_completionMap_specAlgOverι :
       V.property
     apply Subtype.ext
     apply ULift.ext
-    show (f₁ ≫ f₂) ≫ x₁ = (f₁ ≫ f₂) ≫ x₂
+    change (f₁ ≫ f₂) ≫ x₁ = (f₁ ≫ f₂) ≫ x₂
     rw [Category.assoc, Category.assoc]
     congr 1
     have hz : Space.HasImageIn B S hS (yoneda.obj Y)
@@ -1412,7 +1412,7 @@ theorem exists_etale_completion_factorization {X X' Y : BigFppfOver B S hS}
   have hY' : B.Contains (Spec (.of Cp)) := contains_spec_of_etale B S hS Y
   obtain ⟨a, hab, ha⟩ := exists_hom_specAlgOver_of_algHom B S hS Y f h hY' g.toRingHom (by
     ext x
-    show g (algebraMap _ _ x) = algebraMap _ Cp (algebraMap _ _ x)
+    change g (algebraMap _ _ x) = algebraMap _ Cp (algebraMap _ _ x)
     rw [g.commutes, IsScalarTower.algebraMap_apply _ Γ((BigFppfOver.toScheme B S hS).obj Y, ⊤)])
   set b := specAlgOverι B S hS Y (CommRingCat.ofHom
     (algebraMap Γ((BigFppfOver.toScheme B S hS).obj Y, ⊤) Cp)) hY' with hb
@@ -1422,7 +1422,7 @@ theorem exists_etale_completion_factorization {X X' Y : BigFppfOver B S hS}
     have : IsIso ((Over.forget _).map ((Space.completionOverFunctor B S hS T).map
         (Over.homMk (yoneda.map b) : Over.mk (yoneda.map b ≫ yoneda.map h) ⟶
           Over.mk (yoneda.map h)))) := by
-      show IsIso (Space.completionOverMap B S hS T _)
+      change IsIso (Space.completionOverMap B S hS T _)
       rw [Space.completionOverMap]
       have : IsIso (Space.completionSheafMap B S hS
           (Over.homMk (yoneda.map b) : Over.mk (yoneda.map b ≫ yoneda.map h) ⟶
@@ -1445,7 +1445,7 @@ theorem exists_etale_completion_factorization {X X' Y : BigFppfOver B S hS}
   refine (completionEval_completionOverMap_comp B S hS _ T _ α.left x hx hxb).trans ?_
   refine Eq.trans ?_ (completionEval_completionOverMap B S hS T _
     (isSheaf_yoneda_comp_uliftFunctor B S hS X') x hx).symm
-  show completionEval B S hS (G := (Over.mk (yoneda.map f)).left)
+  change completionEval B S hS (G := (Over.mk (yoneda.map f)).left)
     (isSheaf_yoneda_comp_uliftFunctor B S hS X') α.left (x ≫ b) hxb = x ≫ a
   obtain ⟨N, hN⟩ := isNilpotent_map_of_hasImageIn B S hS h T I hIfg hI (x ≫ b) hxb
   have hker : fibreIdealPow B S hS I h N ≤

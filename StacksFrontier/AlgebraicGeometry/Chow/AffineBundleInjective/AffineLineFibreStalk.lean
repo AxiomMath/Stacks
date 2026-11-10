@@ -134,7 +134,7 @@ theorem stalkMap_germ_ΓSpecIso_inv (p : Spec S) (r : R) :
   have h2 : (Scheme.ΓSpecIso S).inv (φ r) =
       (Spec.map φ).appTop ((Scheme.ΓSpecIso R).inv r) :=
     DFunLike.congr_fun (CommRingCat.hom_ext_iff.mp (Scheme.ΓSpecIso_inv_naturality φ)) r
-  show (Spec.map φ).stalkMap p ((Spec R).presheaf.germ ⊤ _ trivial
+  change (Spec.map φ).stalkMap p ((Spec R).presheaf.germ ⊤ _ trivial
       ((Scheme.ΓSpecIso R).inv r)) = (Spec S).presheaf.germ ⊤ p trivial
       ((Scheme.ΓSpecIso S).inv (φ r))
   refine (Scheme.Hom.germ_stalkMap_apply (Spec.map φ) ⊤ p trivial _).trans ?_
@@ -184,7 +184,7 @@ theorem fibreGenericPoint_specializes {y : Spec A} {w : Spec (CommRingCat.of (Po
     (hw : (Spec.map (CommRingCat.ofHom (C : A →+* Polynomial A))).base w = y) :
     fibreGenericPoint y ⤳ w := by
   refine (PrimeSpectrum.le_iff_specializes (fibreGenericPoint y) w).mp ?_
-  show y.asIdeal.map C ≤ w.asIdeal
+  change y.asIdeal.map C ≤ w.asIdeal
   rw [Ideal.map_le_iff_le_comap, ← asIdeal_specMap_C_base, hw]
 
 /-- **A point of a fibre which specializes to another point of that fibre is the generic point of
@@ -281,7 +281,7 @@ theorem isFractionRing_fibrePolynomialAlgebra (hζ : IsGenericFibrePoint ζ) :
       rw [← specEval_eq_zero_iff, ← fibrePolynomialEval_mapRingHom, h0, map_zero])
     refine ⟨⟨mapRingHom (specEval (specPolynomialBase ζ)) a,
       ⟨mapRingHom (specEval (specPolynomialBase ζ)) b, mem_nonZeroDivisors_of_ne_zero hb0⟩⟩, ?_⟩
-    show z * fibrePolynomialEval ζ _ = fibrePolynomialEval ζ _
+    change z * fibrePolynomialEval ζ _ = fibrePolynomialEval ζ _
     rw [fibrePolynomialEval_mapRingHom, fibrePolynomialEval_mapRingHom, h]
   · exact ⟨1, by rw [hinj h]⟩
 
@@ -401,7 +401,7 @@ theorem closureStalkToResidueField_closureStalkGerm (a : Polynomial A) :
     exact specializes_iff_mem_closure.mpr h
   rw [closureStalkToResidueField_apply, closureStalkGerm, RingHom.comp_apply,
     pointClosureFunctionFieldEquiv_algebraMap_stalkMap ζ _ hspec]
-  show (Spec (CommRingCat.of (Polynomial A))).residue ζ
+  change (Spec (CommRingCat.of (Polynomial A))).residue ζ
       ((Spec (CommRingCat.of (Polynomial A))).presheaf.stalkSpecializes hspec
         ((Spec (CommRingCat.of (Polynomial A))).presheaf.germ ⊤ _ trivial
           ((Scheme.ΓSpecIso _).inv a))) = _
@@ -541,7 +541,7 @@ omit h in
 theorem IsGenericFibrePoint.specializes (hζ : IsGenericFibrePoint ζ)
     (hw : specPolynomialBase w = specPolynomialBase ζ) : ζ ⤳ w := by
   refine (PrimeSpectrum.le_iff_specializes ζ w).mp ?_
-  show ζ.asIdeal ≤ w.asIdeal
+  change ζ.asIdeal ≤ w.asIdeal
   rw [hζ, Ideal.map_le_iff_le_comap, comap_C_asIdeal_of_specPolynomialBase_eq hw]
 
 /-- The generic point of a fibre has the zero ideal attached. -/

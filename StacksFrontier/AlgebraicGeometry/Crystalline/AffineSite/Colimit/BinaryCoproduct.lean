@@ -101,7 +101,7 @@ private lemma tensorInlQuotientMap_comp
   let _ : Algebra S.C (Y.ring ⧸ Y.ring.ideal) := Y.toQuotient.toAlgebra
   apply Ideal.Quotient.ringHom_ext
   ext a
-  show tensorEnvelopeQuotientEquiv X Y
+  change tensorEnvelopeQuotientEquiv X Y
     (Ideal.Quotient.mk (tensorEnvelope X Y).object.ideal
       ((tensorEnvelope X Y).structureMap
         ((pushout.inl (baseImageToLeft X Y) (baseImageToRight X Y)) a))) = _
@@ -129,7 +129,7 @@ private lemma tensorInrQuotientMap_comp
   let _ : Algebra S.C (Y.ring ⧸ Y.ring.ideal) := Y.toQuotient.toAlgebra
   apply Ideal.Quotient.ringHom_ext
   ext a
-  show tensorEnvelopeQuotientEquiv X Y
+  change tensorEnvelopeQuotientEquiv X Y
     (Ideal.Quotient.mk (tensorEnvelope X Y).object.ideal
       ((tensorEnvelope X Y).structureMap
         ((pushout.inr (baseImageToLeft X Y) (baseImageToRight X Y)) a))) = _
@@ -278,7 +278,7 @@ private lemma imagePushoutToTargetQuotient_left
       ((pushout.inl (baseImageToLeft X Y) (baseImageToRight X Y)) x) =
       Ideal.Quotient.mk Z.ring.ideal (f.hom x) := by
   unfold imagePushoutToTargetQuotient
-  show Ideal.Quotient.mk Z.ring.ideal
+  change Ideal.Quotient.mk Z.ring.ideal
     ((imagePushoutCoconeMap f g)
       ((pushout.inl (baseImageToLeft X Y) (baseImageToRight X Y)) x)) = _
   exact congrArg (Ideal.Quotient.mk Z.ring.ideal)
@@ -293,7 +293,7 @@ private lemma imagePushoutToTargetQuotient_right
       ((pushout.inr (baseImageToLeft X Y) (baseImageToRight X Y)) y) =
       Ideal.Quotient.mk Z.ring.ideal (g.hom y) := by
   unfold imagePushoutToTargetQuotient
-  show Ideal.Quotient.mk Z.ring.ideal
+  change Ideal.Quotient.mk Z.ring.ideal
     ((imagePushoutCoconeMap f g)
       ((pushout.inr (baseImageToLeft X Y) (baseImageToRight X Y)) y)) = _
   exact congrArg (Ideal.Quotient.mk Z.ring.ideal)
@@ -327,7 +327,7 @@ private lemma imagePushoutToTargetQuotient_comp
   let _ : Algebra S.C (Y.ring ⧸ Y.ring.ideal) := Y.toQuotient.toAlgebra
   apply pushout.hom_ext
   · ext x
-    show (imagePushoutToTargetQuotient f g)
+    change (imagePushoutToTargetQuotient f g)
       ((pushout.inl (baseImageToLeft X Y) (baseImageToRight X Y)) x) =
       (tensorToTargetDPMorphism f g)
         ((imagePushoutToTensor X Y)
@@ -338,7 +338,7 @@ private lemma imagePushoutToTargetQuotient_comp
       _ = (tensorToTargetDPMorphism f g)
           ((Ideal.Quotient.mk X.ring.ideal x) ⊗ₜ[S.C]
             (1 : Y.ring ⧸ Y.ring.ideal)) := by
-        show Ideal.Quotient.mk Z.ring.ideal (f.hom x) =
+        change Ideal.Quotient.mk Z.ring.ideal (f.hom x) =
           (tensorToTargetQuotient f g)
             ((Ideal.Quotient.mk X.ring.ideal x) ⊗ₜ[S.C]
               (1 : Y.ring ⧸ Y.ring.ideal))
@@ -347,7 +347,7 @@ private lemma imagePushoutToTargetQuotient_comp
       _ = _ := congrArg (tensorToTargetDPMorphism f g)
         (imagePushoutToTensor_left X Y x).symm
   · ext y
-    show (imagePushoutToTargetQuotient f g)
+    change (imagePushoutToTargetQuotient f g)
       ((pushout.inr (baseImageToLeft X Y) (baseImageToRight X Y)) y) =
       (tensorToTargetDPMorphism f g)
         ((imagePushoutToTensor X Y)
@@ -358,7 +358,7 @@ private lemma imagePushoutToTargetQuotient_comp
       _ = (tensorToTargetDPMorphism f g)
           ((1 : X.ring ⧸ X.ring.ideal) ⊗ₜ[S.C]
             (Ideal.Quotient.mk Y.ring.ideal y)) := by
-        show Ideal.Quotient.mk Z.ring.ideal (g.hom y) =
+        change Ideal.Quotient.mk Z.ring.ideal (g.hom y) =
           (tensorToTargetQuotient f g)
             ((1 : X.ring ⧸ X.ring.ideal) ⊗ₜ[S.C]
               (Ideal.Quotient.mk Y.ring.ideal y))
@@ -379,7 +379,7 @@ private lemma imagePushoutKer_mapsToIdeal
   let _ : Algebra S.C (Y.ring ⧸ Y.ring.ideal) := Y.toQuotient.toAlgebra
   rw [Ideal.map_le_iff_le_comap]
   intro p hp
-  show (imagePushoutCoconeMap f g).toRingHom p ∈ Z.ring.ideal
+  change (imagePushoutCoconeMap f g).toRingHom p ∈ Z.ring.ideal
   apply Ideal.Quotient.eq_zero_iff_mem.mp
   have h := congrArg
     (fun k : imagePushout X Y ⟶ zeroDividedPowerRing
@@ -390,7 +390,7 @@ private lemma imagePushoutKer_mapsToIdeal
     (tensorToTargetDPMorphism f g) ((imagePushoutToTensor X Y) p) at h
   have hpq : (imagePushoutToTensor X Y).toRingHom p = 0 :=
     RingHom.mem_ker.mp hp
-  show Ideal.Quotient.mk Z.ring.ideal
+  change Ideal.Quotient.mk Z.ring.ideal
     ((imagePushoutCoconeMap f g) p) = 0
   change Ideal.Quotient.mk Z.ring.ideal
       ((imagePushoutCoconeMap f g) p) =

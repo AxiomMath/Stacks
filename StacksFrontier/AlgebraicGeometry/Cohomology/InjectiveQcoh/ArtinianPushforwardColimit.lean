@@ -234,11 +234,11 @@ private theorem quotientToResidueField_isEssential
       obtain ⟨a, b, hb, hab⟩ := IsFractionRing.div_surjective (R ⧸ p) x
       obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective b
       refine ⟨r, ?_, ?_⟩
-      · show r • x ∈ f.hom.range
+      · change r • x ∈ f.hom.range
         refine ⟨a, ?_⟩
-        show (algebraMap (R ⧸ p) p.ResidueField a) = r • x
+        change (algebraMap (R ⧸ p) p.ResidueField a) = r • x
         rw [Algebra.smul_def]
-        show algebraMap (R ⧸ p) p.ResidueField a =
+        change algebraMap (R ⧸ p) p.ResidueField a =
           algebraMap R p.ResidueField r * x
         rw [← hab, ← Ideal.algebraMap_quotient_residueField_mk (I := p) r,
           div_eq_mul_inv, mul_comm
@@ -338,7 +338,7 @@ private theorem finiteProductArtinian
   let (i : ι) : IsScalarTower (∀ j, A j) (A i) (A i) :=
     IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   have hsurj (i : ι) : Function.Surjective (algebraMap (∀ j, A j) (A i)) := by
-    show Function.Surjective (Pi.evalRingHom A i)
+    change Function.Surjective (Pi.evalRingHom A i)
     exact fun x => ⟨Pi.single i x, by simp⟩
   have (i : ι) : IsArtinian (∀ j, A j) (A i) :=
     isArtinian_of_surjective_algebraMap (hsurj i)
@@ -359,7 +359,7 @@ private theorem finitePiModule
   let (i : ι) : IsScalarTower (∀ j, A j) (A i) (M i) :=
     IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   have hsurj (i : ι) : Function.Surjective (algebraMap (∀ j, A j) (A i)) := by
-    show Function.Surjective (Pi.evalRingHom A i)
+    change Function.Surjective (Pi.evalRingHom A i)
     exact fun x => ⟨Pi.single i x, by simp⟩
   have (i : ι) : Module.Finite (∀ j, A j) (M i) :=
     Module.finite_def.mpr ((Module.finite_def.mp (inferInstance : Module.Finite (A i) (M i)))
@@ -576,15 +576,15 @@ private theorem filteredStageDirectSumEquiv
         let zi : ArtinianStageSubmodule E P i :=
           ⟨artinianStageToTotal E P i z, LinearMap.mem_range_self _ z⟩
         refine ⟨Module.DirectLimit.of R (StageIndex α) G f i zi, ?_⟩
-        show Module.DirectLimit.lift R (StageIndex α) G f
+        change Module.DirectLimit.lift R (StageIndex α) G f
           (fun i => (ArtinianStageSubmodule E P i).subtype)
           (by
             intro i j hij x
-            show ((f i j hij x : ArtinianStageSubmodule E P j) : DirectSum α E) = x.1
+            change ((f i j hij x : ArtinianStageSubmodule E P j) : DirectSum α E) = x.1
             rfl)
           (Module.DirectLimit.of R (StageIndex α) G f i zi) = _
         rw [Module.DirectLimit.lift_of]
-        show artinianStageToTotal E P i z = DirectSum.lof R α E a x
+        change artinianStageToTotal E P i z = DirectSum.lof R α E a x
         rw [artinianStageToTotal_lof]
   exact ⟨LinearEquiv.ofBijective q ⟨hqinj, hqsurj⟩⟩
 
@@ -609,7 +609,7 @@ private theorem indecomposable_filtration
   let P (n : ℕ) : Submodule R E := (Q n).restrictScalars R
   have hmono : Monotone P := by
     intro n m hnm x hx
-    show x ∈ Q m
+    change x ∈ Q m
     rw [Submodule.mem_torsionBySet_iff]
     intro a
     exact ((Submodule.mem_torsionBySet_iff _ _).mp hx)

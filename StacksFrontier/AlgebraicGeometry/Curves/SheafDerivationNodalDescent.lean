@@ -178,7 +178,7 @@ theorem fixes_stalkDerivation_of_fixes (ν : Y ⟶ X) (D' : SheafDerivationOf (�
   subst hsz
   have hvan : y ∉ Y.basicOpen s := (hε U hxU s).mp hz
   have hyU : y ∈ ν ⁻¹ᵁ U := by
-    show ν.base y ∈ U
+    change ν.base y ∈ U
     rw [hxy]; exact hxU
   obtain ⟨-, ⟨V, hV, rfl⟩, hyV, hVU⟩ :=
     Y.isBasis_affineOpens.exists_subset_of_mem_open hyU (ν ⁻¹ᵁ U).2

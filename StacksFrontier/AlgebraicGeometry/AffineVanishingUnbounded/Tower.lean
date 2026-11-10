@@ -85,12 +85,13 @@ That statement *is* formalized: it is `AlgebraicGeometry.isIso_to_isDerivedLimit
 (`Duality/SpaltensteinCriterion/QuasicoherentTruncationConvergence.lean`, carrying
 `@[stacks 08D3]`), with the derived-limit repackaging
 `AlgebraicGeometry.isDerivedLimit_truncGETower` in
-`Duality/AffineVanishing/UpperBounds.lean`. What still separates it from the hypothesis below is only the model: both
-of those are stated at `CategoryTheory.HasDerivedCategory.standard`, which is the model the local
-convergence criterion of Stacks 0D6P is available at, whereas everything in this file is at the
-locally small `AlgebraicGeometry.Scheme.Modules.hasDerivedCategory`, and `HasDerivedCategory`
-carries the localized category as data, so the two are different types. Re-binding the convergence
-chain at a free `[HasDerivedCategory.{w}]` binder — or re-proving 0D6P there — is what remains.
+`Duality/AffineVanishing/UpperBounds.lean`. What still separates it from the hypothesis below is
+only the model: both of those are stated at `CategoryTheory.HasDerivedCategory.standard`, which is
+the model the local convergence criterion of Stacks 0D6P is available at, whereas everything in this
+file is at the locally small `AlgebraicGeometry.Scheme.Modules.hasDerivedCategory`, and
+`HasDerivedCategory` carries the localized category as data, so the two are different types.
+Re-binding the convergence chain at a free `[HasDerivedCategory.{w}]` binder — or re-proving 0D6P
+there — is what remains.
 
 No `@[stacks 08D4]` attribute appears below, for the reason recorded in
 `StacksFrontier/AlgebraicGeometry/AffineVanishingUnbounded.lean`: that tag's covering set is

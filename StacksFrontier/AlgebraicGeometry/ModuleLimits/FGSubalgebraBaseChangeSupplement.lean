@@ -101,7 +101,7 @@ theorem baseChangeLimitCone_π_comp_fst (i : (FgSubalgebras k A)ᵒᵖ) :
         pullback.fst ((specDiagram k A).obj i).hom f =
       pullback.fst (Spec.map (CommRingCat.ofHom (algebraMap k A))) f ≫
         Spec.map (CommRingCat.ofHom (Subalgebra.val (i.unop : Subalgebra k A)).toRingHom) := by
-  show pullback.lift (pullback.fst _ f ≫ _) (pullback.snd _ f) _ ≫ _ = _
+  change pullback.lift (pullback.fst _ f ≫ _) (pullback.snd _ f) _ ≫ _ = _
   rw [pullback.lift_fst]
   rfl
 
@@ -110,7 +110,7 @@ theorem baseChangeLimitCone_π_comp_snd (i : (FgSubalgebras k A)ᵒᵖ) :
     (baseChangeLimitCone k A f).cone.π.app i ≫
         pullback.snd ((specDiagram k A).obj i).hom f =
       pullback.snd (Spec.map (CommRingCat.ofHom (algebraMap k A))) f := by
-  show pullback.lift (pullback.fst _ f ≫ _) (pullback.snd _ f) _ ≫ _ = _
+  change pullback.lift (pullback.fst _ f ≫ _) (pullback.snd _ f) _ ≫ _ = _
   rw [pullback.lift_snd]
   rfl
 

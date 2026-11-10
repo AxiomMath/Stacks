@@ -112,7 +112,6 @@ theorem unitTensorDown_mul_one_tmul (a : B.A)
     (x : (degreeZero R R).grading ᵍ⊗[R] B.grading) :
     unitTensorDown B (x * ((1 : R) ᵍ⊗ₜ[R] a)) = unitTensorDown B x * a := by
   induction x using gradedTensor_induction with
-  | zero => simp
   | tmul r b =>
     rw [tmul_mul_one_tmul, unitTensorDown_tmul, unitTensorDown_tmul, smul_mul_assoc]
   | add z w hz hw => rw [add_mul, map_add, map_add, add_mul, hz, hw]
@@ -152,7 +151,6 @@ theorem unitTensorDown_d (x : (degreeZero R R).grading ᵍ⊗[R] B.grading) :
     unitTensorDown B (((degreeZero R R).tensorProduct B).d x) =
       B.d (unitTensorDown B x) := by
   induction x using gradedTensor_induction with
-  | zero => simp
   | tmul r b =>
     have hr : r ∈ (degreeZero R R).grading 0 := by
       change r ∈ degreeZeroGrading R R 0
@@ -176,11 +174,7 @@ theorem one_tmul_unitTensorDown (x : (degreeZero R R).grading ᵍ⊗[R] B.gradin
         ((1 : R) ᵍ⊗ₜ[R] y) + ((1 : R) ᵍ⊗ₜ[R] z) :=
     fun y z =>
       map_add (GradedTensorProduct.includeRight (degreeZero R R).grading B.grading) y z
-  have hzero : ((1 : R) ᵍ⊗ₜ[R] (0 : B.A) :
-      (degreeZero R R).grading ᵍ⊗[R] B.grading) = 0 :=
-    map_zero (GradedTensorProduct.includeRight (degreeZero R R).grading B.grading)
   induction x using gradedTensor_induction with
-  | zero => rw [map_zero, hzero]
   | tmul r b => rw [unitTensorDown_tmul, ← tmul_eq_one_tmul_smul]
   | add z w hz hw => rw [map_add, hadd, hz, hw]
 

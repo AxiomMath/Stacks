@@ -92,14 +92,14 @@ summand. -/
 @[simp]
 theorem sigmaι_comp_sigmaTwist (e : ι → (X ⟶ X)) (i : ι) :
     Sigma.ι (fun _ : ι => X) i ≫ sigmaTwist e = e i ≫ Sigma.ι (fun _ : ι => X) i :=
-  Sigma.ι_desc _ i
+  Sigma.ι_comp_desc _ i
 
 /-- Twisting by a family of endomorphisms and then folding is the map given by the family. -/
 theorem sigmaTwist_comp_sigmaDesc_id (e : ι → (X ⟶ X)) :
     sigmaTwist e ≫ (Sigma.desc fun _ : ι => 𝟙 X) = Sigma.desc e := by
   refine Sigma.hom_ext _ _ fun i => ?_
-  rw [← Category.assoc, sigmaι_comp_sigmaTwist, Category.assoc, Sigma.ι_desc, Category.comp_id,
-    Sigma.ι_desc]
+  rw [← Category.assoc, sigmaι_comp_sigmaTwist, Category.assoc, Sigma.ι_comp_desc, Category.comp_id,
+    Sigma.ι_comp_desc]
 
 /-- Twisting by a family of isomorphisms is an isomorphism of the disjoint union. -/
 instance isIso_sigmaTwist (e : ι → (X ⟶ X)) [∀ i, IsIso (e i)] : IsIso (sigmaTwist e) := by
@@ -118,10 +118,12 @@ noncomputable def sigmaShrinkIso (X : Scheme.{u}) (ι : Type v) [Small.{u} ι] :
   inv := Sigma.desc fun j => Sigma.ι (fun _ : ι => X) ((equivShrink ι).symm j)
   hom_inv_id := by
     refine Sigma.hom_ext _ _ fun i => ?_
-    rw [← Category.assoc, Sigma.ι_desc, Sigma.ι_desc, Category.comp_id, Equiv.symm_apply_apply]
+    rw [← Category.assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc, Category.comp_id,
+      Equiv.symm_apply_apply]
   inv_hom_id := by
     refine Sigma.hom_ext _ _ fun j => ?_
-    rw [← Category.assoc, Sigma.ι_desc, Sigma.ι_desc, Category.comp_id, Equiv.apply_symm_apply]
+    rw [← Category.assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc, Category.comp_id,
+      Equiv.apply_symm_apply]
 
 /-- The reindexing comparison is compatible with the fold maps. -/
 theorem sigmaShrinkIso_hom_comp_sigmaDesc_id (X : Scheme.{u}) (ι : Type v) [Small.{u} ι] :
@@ -129,9 +131,9 @@ theorem sigmaShrinkIso_hom_comp_sigmaDesc_id (X : Scheme.{u}) (ι : Type v) [Sma
       Sigma.desc fun _ : ι => 𝟙 X := by
   refine Sigma.hom_ext _ _ fun i => ?_
   rw [← Category.assoc]
-  show (Sigma.ι (fun _ : ι => X) i ≫ Sigma.desc fun i =>
+  change (Sigma.ι (fun _ : ι => X) i ≫ Sigma.desc fun i =>
     Sigma.ι (fun _ : Shrink.{u} ι => X) (equivShrink ι i)) ≫ _ = _
-  rw [Sigma.ι_desc, Sigma.ι_desc, Sigma.ι_desc]
+  rw [Sigma.ι_comp_desc, Sigma.ι_comp_desc, Sigma.ι_comp_desc]
 
 end Twist
 

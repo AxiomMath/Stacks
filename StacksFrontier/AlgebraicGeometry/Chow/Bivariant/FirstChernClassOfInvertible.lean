@@ -69,13 +69,14 @@ read for the cap operation on the *test schemes*:
   `Stacks.Chow.GysinSystem` relates those two, as the counterexample in
   `StacksFrontier.AlgebraicGeometry.Chow.Gysin42.ProperPushforward` shows.
 
-Two of the four are derivable; the obstruction described above is real but is not an obstruction to `hproper` or `hiso`.
+Two of the four are derivable; the obstruction described above is real but is not an obstruction
+to `hproper` or `hiso`.
 
 * `hproper` **is** derivable at the canonical cap product, as
   `Stacks.Chow.properNaturality_firstChernIdentityCapRule` of
-  `StacksFrontier.AlgebraicGeometry.Chow.Bivariant.FirstChernClassCanonical`, with no hypothesis. The
-  library's integral-component form of Stacks 02SU is stated for one fixed pair of component rules
-  of Stacks 02SO, but at the rules of an invertible module and its pullback the identity is
+  `StacksFrontier.AlgebraicGeometry.Chow.Bivariant.FirstChernClassCanonical`, with no hypothesis.
+  The library's integral-component form of Stacks 02SU is stated for one fixed pair of component
+  rules of Stacks 02SO, but at the rules of an invertible module and its pullback the identity is
   unconditional — `Stacks.Chow.properChowPushforward_firstChernClassCapOfInvertible_of_isProper'` —
   so all that is needed to quantify over test schemes is the coherence isomorphism
   `(h ∘ g)^*ℒ ≅ h^*(g^*ℒ)` (the pullback of modules being functorial only up to isomorphism)

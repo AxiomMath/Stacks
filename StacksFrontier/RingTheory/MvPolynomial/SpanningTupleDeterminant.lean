@@ -82,7 +82,7 @@ theorem repr_apply_eq_sum (e : Module.Basis (Fin d) κ W) (φ : (ι → κ) →�
     simpa only [Pi.basisFun_repr, Pi.basisFun_apply] using (Pi.basisFun κ ι).sum_repr b
   conv_lhs => rw [← hb]
   rw [map_sum, map_sum]
-  simp only [map_smul, Finsupp.coe_smul, Pi.smul_apply, smul_eq_mul, Finsupp.coe_finset_sum,
+  simp only [map_smul, Finsupp.coe_smul, Pi.smul_apply, smul_eq_mul, Finsupp.coe_finsetSum,
     Finset.sum_apply]
 
 /-- **The matrix of a `d`-tuple of vectors of `κ^ι` in a basis of `W` indexed by `Fin d`**, with

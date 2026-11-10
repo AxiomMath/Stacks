@@ -659,7 +659,7 @@ theorem descendDiffQuot_map {U V : (Opens X.carrier)ᵒᵖ} (k : U ⟶ V)
 theorem descendDiffQuot_one {U : (Opens X.carrier)ᵒᵖ} :
     e.descendDiffQuot
         (1 : (Stacks.Sites.Conormal.quotientPresheaf Q.thickenedReduction).obj U) = 0 := by
-  show e.descendDiff (1 : Q.thickenedPresheaf.obj U) = 0
+  change e.descendDiff (1 : Q.thickenedPresheaf.obj U) = 0
   rw [descendDiff_apply, e.diff_one, DeformationSolution.descendSection_zero]
 
 open Stacks.Sites.Conormal AlgebraicGeometry.SheafOfModules in
@@ -754,7 +754,7 @@ deformed structure morphism: an endomorphism of a solution is a morphism over `S
 theorem toDerivationAux_deformedStructureMap (W : (Opens S'.carrier)ᵒᵖ)
     (b : S'.presheaf.obj W) :
     e.toDerivationAux.d (((Q.i ≫ Q.f').hom.c.app W).hom b) = 0 := by
-  show e.toDerivationAux.d ((Q.i.hom.c.app ((Opens.map Q.f'.hom.base).op.obj W)).hom
+  change e.toDerivationAux.d ((Q.i.hom.c.app ((Opens.map Q.f'.hom.base).op.obj W)).hom
       ((Q.f'.hom.c.app W).hom b)) = 0
   rw [e.toDerivationAux_comorphism, e.diff_baseMap]
   rfl
@@ -787,7 +787,7 @@ theorem toDerivationAux_structureMap (V : Opens S.carrier) (b : S.presheaf.obj (
   have hinv : ∀ w : S.carrier, tb.inv (tb.hom w) = w :=
     fun w => ConcreteCategory.congr_hom tb.hom_inv_id w
   have hyV' : t.hom.base (f.hom.base x) ∈ V' := by
-    show tb.inv (tb.hom (f.hom.base x)) ∈ V
+    change tb.inv (tb.hom (f.hom.base x)) ∈ V
     rw [hinv]
     exact hx
   obtain ⟨V'', hV''V', ⟨a, ha⟩, hyV''⟩ := hsurj (t.hom.base (f.hom.base x)) hyV'
@@ -795,7 +795,7 @@ theorem toDerivationAux_structureMap (V : Opens S.carrier) (b : S.presheaf.obj (
     intro z hz
     have h1 : z ∈ (Opens.map tb.hom).obj V'' := hz
     have h2 : tb.hom z ∈ V' := hV''V' h1
-    show z ∈ V
+    change z ∈ V
     rw [← hinv z]
     exact h2
   refine ⟨(Opens.map f.hom.base).obj ((Opens.map t.hom.base).obj V''),
@@ -951,7 +951,7 @@ variable (D : Stacks.Sheaves.RingedSpaceDifferentials.SDerivation f G)
 kills. -/
 theorem dval_incl {W : (Opens Q.X'.carrier)ᵒᵖ}
     (u : ((modulePushforward Q.i).obj G).val.obj W) : Q.dval D (Q.incl u) = 0 := by
-  show D.d ((Q.i.hom.c.app W).hom (Q.incl u)) = 0
+  change D.d ((Q.i.hom.c.app W).hom (Q.incl u)) = 0
   rw [show (Q.i.hom.c.app W).hom (Q.incl u) =
     (0 : ((modulePushforward Q.i).obj (SheafOfModules.unit (structureSheafRing X))).val.obj W)
       from Q.reduction_incl u]
@@ -962,7 +962,7 @@ include D in
 theorem derivationHom_thickening_comm : Q.i ≫ Q.derivationHom D = Q.i := by
   have key : Q.derivationComorphism D ≫ Q.i.hom.c = Q.i.hom.c := by
     ext W x
-    show (Q.i.hom.c.app (op W)).hom (x + Q.incl (Q.dval D x)) =
+    change (Q.i.hom.c.app (op W)).hom (x + Q.incl (Q.dval D x)) =
       (Q.i.hom.c.app (op W)).hom x
     rw [map_add, show (Q.i.hom.c.app (op W)).hom (Q.incl (Q.dval D x)) =
       (0 : ((TopCat.Presheaf.pushforward CommRingCat Q.i.hom.base).obj X.presheaf).obj (op W))
@@ -973,7 +973,7 @@ theorem derivationHom_thickening_comm : Q.i ≫ Q.derivationHom D = Q.i := by
 base along the deformed structure morphism of a solution. -/
 theorem dval_deformedStructureMap (W : (Opens S'.carrier)ᵒᵖ) (s : S'.presheaf.obj W) :
     Q.dval D ((Q.f'.hom.c.app W).hom s) = 0 := by
-  show D.d (((Q.i ≫ Q.f').hom.c.app W).hom s) = 0
+  change D.d (((Q.i ≫ Q.f').hom.c.app W).hom s) = 0
   rw [Q.comm]
   exact derivation_d_structureSheafMap D ((Opens.map t.hom.base).op.obj W)
     ((t.hom.c.app W).hom s)
@@ -985,7 +985,7 @@ theorem derivationHom_base_comm : Q.derivationHom D ≫ Q.f' = Q.f' := by
       (TopCat.Presheaf.pushforward CommRingCat Q.f'.hom.base).map
         (Q.derivationComorphism D) = Q.f'.hom.c := by
     ext W s
-    show ((Q.derivationComorphism D).app ((Opens.map Q.f'.hom.base).op.obj (op W))).hom
+    change ((Q.derivationComorphism D).app ((Opens.map Q.f'.hom.base).op.obj (op W))).hom
         ((Q.f'.hom.c.app (op W)).hom s) = (Q.f'.hom.c.app (op W)).hom s
     rw [Q.derivationComorphism_app, Q.dval_deformedStructureMap D (op W) s, Q.incl_zero,
       add_zero]
@@ -1119,11 +1119,11 @@ theorem derivationSolutionHom_toDerivation (e : SolutionHom Q Q) :
   have hc : Q.derivationComorphism e.toDerivation = e.selfComorphism := by
     ext W x
     rw [Q.derivationComorphism_app]
-    show x + Q.incl (e.toDerivation.d ((Q.i.hom.c.app (op W)).hom x)) =
+    change x + Q.incl (e.toDerivation.d ((Q.i.hom.c.app (op W)).hom x)) =
       (e.selfComorphism.app (op W)).hom x
     rw [e.toDerivation_comorphism (op W) x, SolutionHom.incl_diff]
     abel
-  show (⟨⟨𝟙 Q.X'.carrier, Q.derivationComorphism e.toDerivation⟩⟩ : Q.X' ⟶ Q.X') = e.hom
+  change (⟨⟨𝟙 Q.X'.carrier, Q.derivationComorphism e.toDerivation⟩⟩ : Q.X' ⟶ Q.X') = e.hom
   rw [hc]
   exact e.hom_eq_mk.symm
 

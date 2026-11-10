@@ -92,8 +92,7 @@ theorem kappa_comp_boxSingleHom (i j : ℕ)
       boxSingleHom A.hom A.hom (R.left i) (R.right i) ≫
         (DerivedCategory.singleFunctor _ 0).map ((moduleBoxPairing A R).κ i j t) := by
   let := modulesLinear k A
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul a b =>
     have e₁ := by
       let : Linear k (pullback A.hom A.hom).Modules := modulesLinear k (overPullback k A A)

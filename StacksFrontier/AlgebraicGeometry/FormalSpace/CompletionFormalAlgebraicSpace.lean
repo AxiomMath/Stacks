@@ -168,7 +168,7 @@ theorem completionSheafMap_atlas_isRepresentable_etale_surjective
         t ≫ Sigma.desc fun i ↦ pullback.snd (ψ i) φ := by
       apply Sigma.hom_ext
       intro i
-      simp only [t, Sigma.ι_desc_assoc, Sigma.ι_desc, Category.assoc]
+      simp only [t, Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc, Category.assoc]
       exact ((Space.isPullback_completionSheafMap B S hS (a i) T).isoPullback_hom_snd).symm
     rw [hfac, Sheaf.isLocallySurjective_iff_epi]
     let _ : Epi t := hts.epi

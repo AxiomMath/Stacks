@@ -257,7 +257,7 @@ public theorem exists_linearEquiv_pushforwardStalk_appTop_pullback
       exact (CommRingCat.comp_apply _ _ _).symm
   have towerRAD : IsScalarTower Γ(Y, U₀) (Y.presheaf.stalk y) (pushforwardStalkModule f y) := by
     refine ⟨fun r a d => ?_⟩
-    show (toPushforwardStalk f y).hom ((Y.presheaf.germ U₀ y hy₀).hom r * a) * d
+    change (toPushforwardStalk f y).hom ((Y.presheaf.germ U₀ y hy₀).hom r * a) * d
       = (f.app U₀ ≫ (f.base _* X.presheaf).germ U₀ y hy₀).hom r *
         ((toPushforwardStalk f y).hom a * d)
     rw [map_mul, mul_assoc, hgerm r, CommRingCat.comp_apply]

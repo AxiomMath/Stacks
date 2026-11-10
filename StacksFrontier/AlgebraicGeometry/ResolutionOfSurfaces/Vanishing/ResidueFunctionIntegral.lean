@@ -149,7 +149,7 @@ lemma residueAlgebraMap_apply {y x : X} (h : y ⤳ x) (a : R) :
       (StructureSheaf.toStalk R (f x) a) = StructureSheaf.toStalk R (f y) a :=
     StructureSheaf.toStalk_stalkSpecializes_apply (f.base.hom.map_specializes h) a
   rw [h2] at h1
-  show X.residue y (f.stalkMap y (StructureSheaf.toStalk R (f y) a)) = _
+  change X.residue y (f.stalkMap y (StructureSheaf.toStalk R (f y) a)) = _
   rw [h1]
   rfl
 
@@ -191,7 +191,7 @@ theorem isUnit_of_residue_eq [IsLocalRing R] (y : X) (hy : f y = closedPoint R)
       have ha' : a ∉ maximalIdeal R := fun hm => ha (Subtype.ext (hker a hm))
       obtain ⟨u, rfl⟩ := IsLocalRing.notMem_maximalIdeal.mp ha'
       refine ⟨⟨ρ ↑u⁻¹, ↑u⁻¹, rfl⟩, Subtype.ext ?_⟩
-      show ρ ↑u * ρ ↑u⁻¹ = 1
+      change ρ ↑u * ρ ↑u⁻¹ = 1
       rw [← map_mul, Units.mul_inv, map_one]
   let := hfield.toField
   -- the subring of `κ(y)` of images of `𝒪_{X, x}`, as an algebra over the image of `R`

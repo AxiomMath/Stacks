@@ -123,6 +123,7 @@ local notation "ℬ" => pullbackFiberSndIsoOfFiberedInGroupoids p𝒳 p𝒴 p�
 local notation "𝔞" => pullbackHomFst p𝒳 p𝒴 p𝒮 F G
 local notation "𝔟" => pullbackHomSnd p𝒳 p𝒴 p𝒮 F G
 
+omit [p𝒴.IsFibered] [p𝒮.IsFibered] in
 /-- The inverse comparison of
 `CategoryTheory.TwoFibreProductOver.pullbackFiberFstIsoOfFiberedInGroupoids` factors
 the chosen `𝒳`-lift of `f` through the `𝒳`-component of the chosen lift of `f`. -/
@@ -138,6 +139,7 @@ lemma pullbackFiberFstIsoOfFiberedInGroupoids_inv_fac {U V : 𝒞}
     h𝒳.isStronglyCartesian_homLift f (𝔞 P f)
   Functor.fiberIsoOfCartesian_inv_fac _ _ _ _ _
 
+omit [p𝒳.IsFibered] [p𝒮.IsFibered] in
 /-- The inverse comparison of
 `CategoryTheory.TwoFibreProductOver.pullbackFiberSndIsoOfFiberedInGroupoids` factors
 the chosen `𝒴`-lift of `f` through the `𝒴`-component of the chosen lift of `f`. -/
@@ -153,6 +155,7 @@ lemma pullbackFiberSndIsoOfFiberedInGroupoids_inv_fac {U V : 𝒞}
     h𝒴.isStronglyCartesian_homLift f (𝔟 P f)
   Functor.fiberIsoOfCartesian_inv_fac _ _ _ _ _
 
+omit [p𝒳.IsFibered] [p𝒴.IsFibered] [p𝒮.IsFibered] in
 include hG h𝒴 in
 /-- The `𝒴`-component of the chosen lift of `f` in the 2-fibre product is cartesian after `G`. -/
 lemma isCartesian_map_pullbackHomSnd {U V : 𝒞}
@@ -267,6 +270,7 @@ lemma mapPullbackFiberIso_conj_obj_iso_inclusion {U V : 𝒞}
   simpa only [Functor.map_comp, Category.assoc,
     Functor.fiberInclusion_map_fiberFunctorOfCompEq_map] using h
 
+omit [p𝒳.IsFibered] [p𝒴.IsFibered] [(structureFunctor p𝒳 p𝒴 p𝒮 F G).IsFibered] in
 /-- The chosen pullback of the comparison isomorphism factors through the chosen pullbacks of
 the two components. -/
 @[reassoc]
@@ -281,6 +285,7 @@ lemma pullbackFiberHom_toFiberPullback_fac {U V : 𝒞}
         Fiber.fiberInclusion.map ((𝒯 U).obj P).iso.hom :=
   Functor.pullbackFiberHom_fac _ f
 
+omit [p𝒴.IsFibered] [p𝒮.IsFibered] in
 include h𝒳 in
 /-- The image under `F` of
 `CategoryTheory.TwoFibreProductOver.pullbackFiberFstIsoOfFiberedInGroupoids_hom_fac`. -/
@@ -292,6 +297,7 @@ lemma map_pullbackFiberFstIsoOfFiberedInGroupoids_hom_fac {U V : 𝒞}
       F.map (𝔞 P f) := by
   rw [← Functor.map_comp, pullbackFiberFstIsoOfFiberedInGroupoids_hom_fac]
 
+omit [p𝒳.IsFibered] [p𝒮.IsFibered] in
 include h𝒴 in
 /-- The image under `G` of
 `CategoryTheory.TwoFibreProductOver.pullbackFiberSndIsoOfFiberedInGroupoids_hom_fac`. -/
@@ -358,6 +364,7 @@ private lemma comp_eq_comp_of_comp_eq {𝒵 : Type*} [Category 𝒵] {p : 𝒵 �
   have : p.IsHomLift g (t ≫ j) := by simpa using (inferInstance : p.IsHomLift (g ≫ 𝟙 V) (t ≫ j))
   exact Functor.IsStronglyCartesian.ext p f φ g h
 
+omit [p𝒴.IsFibered] [p𝒮.IsFibered] in
 include h𝒳 in
 /-- **`CategoryTheory.TwoFibreProductOver.pullbackFiberFstIsoOfFiberedInGroupoids` is natural in
 the slice**: it intertwines the canonical morphism `(g ≫ f)^* ⟶ f^*` of the 2-fibre product with
@@ -388,6 +395,7 @@ lemma pullbackFiberFstIsoOfFiberedInGroupoids_inv_pullbackFiberProj {U V V' : �
     pullbackFiberFstIsoOfFiberedInGroupoids_inv_fac p𝒳 p𝒴 p𝒮 F G hF hG h𝒳,
     Functor.pullbackFiberProj_fac]
 
+omit [p𝒴.IsFibered] [p𝒮.IsFibered] in
 include h𝒳 in
 /-- **Base change of the conjugated `𝒳`-component of a morphism.** -/
 lemma restrictHom_conj_fst {U U' V V' : 𝒞}
@@ -420,6 +428,7 @@ lemma restrictHom_conj_fst {U U' V V' : 𝒞}
   rw [hfac, pullbackFiberFstIsoOfFiberedInGroupoids_inv_pullbackFiberProj_assoc
     p𝒳 p𝒴 p𝒮 F G hF hG h𝒳]
 
+omit [p𝒳.IsFibered] [p𝒮.IsFibered] in
 include h𝒴 in
 /-- **`CategoryTheory.TwoFibreProductOver.pullbackFiberSndIsoOfFiberedInGroupoids` is natural in
 the slice**, by the argument of
@@ -452,6 +461,7 @@ lemma pullbackFiberSndIsoOfFiberedInGroupoids_inv_pullbackFiberProj {U V V' : �
     pullbackFiberSndIsoOfFiberedInGroupoids_inv_fac p𝒳 p𝒴 p𝒮 F G hF hG h𝒴,
     Functor.pullbackFiberProj_fac]
 
+omit [p𝒳.IsFibered] [p𝒮.IsFibered] in
 include h𝒴 in
 /-- **Base change of the conjugated `𝒴`-component of a morphism**, by the argument of
 `CategoryTheory.TwoFibreProductOver.restrictHom_conj_fst` on the other side. -/

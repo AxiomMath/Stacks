@@ -239,7 +239,7 @@ private theorem eq_of_comp_eq_of_pow_smul_mem_range
   refine LinearMap.ext fun y => ?_
   obtain ⟨n, x, hx⟩ := hrange y
   refine hinj n ?_
-  show a ^ n • h y = a ^ n • k y
+  change a ^ n • h y = a ^ n • k y
   rw [← map_smul, ← map_smul, ← hx]
   exact LinearMap.congr_fun he x
 
@@ -370,7 +370,7 @@ private lemma canonicalLocalMap_comp_apply {P₁ P₂ P₃ : ModuleCat.{max u v}
     canonicalLocalMap f b i (canonicalLocalMap f a i z) = canonicalLocalMap f (a ≫ b) i z := by
   induction z using LocalizedModule.induction_on with
   | h y t =>
-    show LocalizedModule.map _ b.hom (LocalizedModule.map _ a.hom (LocalizedModule.mk y t)) =
+    change LocalizedModule.map _ b.hom (LocalizedModule.map _ a.hom (LocalizedModule.mk y t)) =
       LocalizedModule.map _ (a ≫ b).hom (LocalizedModule.mk y t)
     rw [LocalizedModule.map_mk, LocalizedModule.map_mk, LocalizedModule.map_mk]
     rfl
@@ -378,7 +378,7 @@ private lemma canonicalLocalMap_comp_apply {P₁ P₂ P₃ : ModuleCat.{max u v}
 private lemma localComparison_apply (i : Fin r) (m : canonicalLocalPiece f N i) :
     localComparison f ψ₁ ψ₂ hψ₁ i (canonicalLocalMap f ψ₁ i m) =
       canonicalLocalMap f ψ₂ i m := by
-  show (canonicalLocalMap f ψ₂ i).hom
+  change (canonicalLocalMap f ψ₂ i).hom
       ((LinearEquiv.ofBijective (canonicalLocalMap f ψ₁ i).hom (hψ₁ i)).symm
         ((LinearEquiv.ofBijective (canonicalLocalMap f ψ₁ i).hom (hψ₁ i)) m)) =
     canonicalLocalMap f ψ₂ i m
@@ -416,8 +416,7 @@ private noncomputable def canonicalComparisonMap
       refine eq_of_comp_eq_of_pow_smul_mem_range
         ((LinearMap.baseChange S ψ₁.hom).restrictScalars R) (f i) (hrange i) hinj _ _ ?_
       refine LinearMap.ext fun x => ?_
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul s n =>
         change AlgebraTensorModule.lTensor S S (canonicalLocalMk f M₂ i)
             (gen (LinearMap.baseChange S ψ₁.hom (s ⊗ₜ[R] n))) =
@@ -478,7 +477,7 @@ private lemma localComparison_comp_symm
     localComparison f ψ₁ ψ₂ hψ₁ i ≫ localComparison f ψ₂ ψ₁ hψ₂ i = 𝟙 _ := by
   refine ModuleCat.hom_ext (LinearMap.ext fun z => ?_)
   obtain ⟨y, rfl⟩ := (hψ₁ i).2 z
-  show localComparison f ψ₂ ψ₁ hψ₂ i
+  change localComparison f ψ₂ ψ₁ hψ₂ i
       (localComparison f ψ₁ ψ₂ hψ₁ i (canonicalLocalMap f ψ₁ i y)) = _
   rw [localComparison_apply, localComparison_apply]
   rfl
@@ -493,8 +492,7 @@ private lemma exists_baseChange_eq_pow_smul
     (I : Ideal A) (ψ : N →ₗ[A] M) (hC : IsIPowerTorsion A (M ⧸ LinearMap.range ψ) I)
     (a : A) (ha : a ∈ I) (y : TensorProduct A S M) :
     ∃ (n : ℕ) (w : TensorProduct A S N), LinearMap.baseChange S ψ w = a ^ n • y := by
-  induction y using TensorProduct.induction_on with
-  | zero => exact ⟨0, 0, by simp⟩
+  induction y using TensorProduct.inductionOn with
   | tmul s m =>
     obtain ⟨n, w, hw⟩ := exists_pow_smul_mem_range_of_isIPowerTorsion I ψ hC a ha m
     refine ⟨n, s ⊗ₜ[A] w, ?_⟩
@@ -655,7 +653,7 @@ public theorem AdicCompletion.codescent_unique
   · exact congrArg ModuleCat.Hom.hom hcompat
   · rw [hdlin, hgeneric]
     refine LinearMap.ext fun x => ?_
-    show e₂ (e₂.symm (e₁ x)) = e₁ x
+    change e₂ (e₂.symm (e₁ x)) = e₁ x
     rw [e₂.apply_symm_apply]
   · rintro c ⟨hc₁, hc₂⟩
     have hc₂' : ∀ x : TensorProduct A (AdicCompletion I A) M₁,
@@ -666,11 +664,11 @@ public theorem AdicCompletion.codescent_unique
       rw [hd₁]
       refine FormalGlueing.ModuleGlueingMap.ext ?_ (funext fun i => ?_)
       · refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-        show LinearMap.baseChange (AdicCompletion I A) c.toLinearMap x = e₂.symm (e₁ x)
+        change LinearMap.baseChange (AdicCompletion I A) c.toLinearMap x = e₂.symm (e₁ x)
         rw [← hc₂' x, e₂.symm_apply_apply]
       · refine ModuleCat.hom_ext (LinearMap.ext fun z => ?_)
         obtain ⟨y, rfl⟩ := (hψ₁loc i).2 z
-        show FormalGlueing.canonicalLocalMap f (ModuleCat.ofHom c.toLinearMap) i
+        change FormalGlueing.canonicalLocalMap f (ModuleCat.ofHom c.toLinearMap) i
             (FormalGlueing.canonicalLocalMap f g₁ i y) =
           localComparison f g₁ g₂ hψ₁loc i (FormalGlueing.canonicalLocalMap f g₁ i y)
         rw [canonicalLocalMap_comp_apply f g₁ (ModuleCat.ofHom c.toLinearMap) i y,

@@ -60,7 +60,7 @@ private lemma topologicalKrullDim_le_of_isClosedEmbedding_of_genericPoint_notMem
   let map := IrreducibleCloseds.map f hf.continuous
   let q := p.map map (IrreducibleCloseds.map_strictMono_of_isInducing hf.isInducing)
   have hLast : (q.last : Set B) = f '' (p.last : Set A) := by
-    show (map p.last : Set B) = f '' (p.last : Set A)
+    change (map p.last : Set B) = f '' (p.last : Set A)
     rw [IrreducibleCloseds.coe_map, (hf.isClosedMap _ p.last.isClosed).closure_eq]
   obtain ⟨C, hC, hsub⟩ := exists_mem_irreducibleComponents_subset_of_isIrreducible
     (q.last : Set B) q.last.isIrreducible
@@ -126,7 +126,7 @@ theorem exists_affineOpen_isAffineHom_mem_genericPoints (X : Scheme.{u}) [IsNoet
   let W : Fin s.card → X.Opens := fun i => V (eS i).1
   let O : X.Opens := Finset.univ.inf W
   have hOη (i : Fin (Fintype.card (irreducibleComponents X))) : η i ∈ O := by
-    show η i ∈ ((Finset.univ.inf W : X.Opens) : Set X)
+    change η i ∈ ((Finset.univ.inf W : X.Opens) : Set X)
     simp only [Opens.coe_finset_inf, Finset.inf_set_eq_iInter, Set.mem_iInter]
     exact fun j _ => hVη (eS j).1 i
   obtain ⟨U, hUaff, hUO, hUη⟩ := exists_affineOpen_le_mem_genericPoints Z hZ hZinj η hη O hOη
@@ -162,7 +162,7 @@ private lemma iUnion_lastCases_image_eq_univ
     ⋃ i, (Fin.lastCases (U : Set X) fun i => f '' s.strata i : Fin (n + 2) → Set X) i =
       Set.univ := by
   let strata : Fin (n + 2) → Set X := Fin.lastCases (U : Set X) fun i => f '' s.strata i
-  show ⋃ i, strata i = Set.univ
+  change ⋃ i, strata i = Set.univ
   refine Set.eq_univ_of_forall fun x => ?_
   by_cases hx : x ∈ U
   · exact Set.mem_iUnion.mpr ⟨Fin.last (n + 1), by simpa [strata] using hx⟩
@@ -181,7 +181,7 @@ private lemma isLocallyFiniteStratification_lastCases_image
       (Fin.lastCases (U : Set X) fun i => f '' s.strata i : Fin (n + 2) → Set X) := by
   let strata : Fin (n + 2) → Set X := Fin.lastCases (U : Set X) fun i => f '' s.strata i
   have hCover : ⋃ i, strata i = Set.univ := iUnion_lastCases_image_eq_univ f U hRange s
-  show IsLocallyFiniteStratification strata
+  change IsLocallyFiniteStratification strata
   refine ⟨⟨⟨?_, ?_, hCover⟩, ?_⟩, locallyFinite_of_finite _⟩
   · intro i
     induction i using Fin.lastCases with

@@ -327,7 +327,7 @@ theorem comparisonComp_objStarIso :
         (objSliceStructureMap B S hS U) := by
   ext : 2
   funext V
-  show (structureMap B S hS).hom.app V ≫
+  change (structureMap B S hS).hom.app V ≫
       (structureSheaf B S hS).obj.map
         (prod.snd : U ⨯ (opensToSmallEtale B S hS).obj V.unop ⟶
           (opensToSmallEtale B S hS).obj V.unop).op ≫
@@ -363,7 +363,7 @@ theorem comparisonComp_objStarIso :
     ((BigEtaleOver.hom_hom_eq B S hS (homOfRangeLe B S hS V.unop
         (range_le_of_le_preimage B S hS U V.unop _ le_rfl)).hom).symm.trans
       (objToSmallEtaleOver_obj_left_obj_hom_hom B S hS U _))
-  show (forget₂ CommRingCat RingCat.{u}).map (Scheme.Opens.topIso (X := S) V.unop).inv ≫
+  change (forget₂ CommRingCat RingCat.{u}).map (Scheme.Opens.topIso (X := S) V.unop).inv ≫
       (forget₂ CommRingCat RingCat.{u}).map
         ((homOfRangeLe B S hS V.unop
           (range_le_of_le_preimage B S hS U V.unop _ le_rfl)).hom.left.hom).appTop =

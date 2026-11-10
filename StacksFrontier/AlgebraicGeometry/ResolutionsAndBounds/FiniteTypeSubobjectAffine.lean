@@ -203,7 +203,7 @@ theorem surjective_app_of_eq_basicOpen {R : CommRingCat.{u}} {K H : (Spec R).Mod
   obtain ⟨x, hx⟩ := ((Module.End.isUnit_iff _).mp (hunit K)).2
     (K.presheaf.map (homOfLE (le_top (a := V))).op w)
   refine ⟨x, ((Module.End.isUnit_iff _).mp (hunit H)).1 ?_⟩
-  show r • φ.app V x = r • z
+  change r • φ.app V x = r • z
   rw [← hsmul, show r • x = K.presheaf.map (homOfLE (le_top (a := V))).op w from hx, h1]
 
 /-! ### The local isomorphism criterion -/
@@ -376,7 +376,7 @@ theorem exists_finiteTypeQuasicoherentSubobject_isIso_restrict_of_spec
     (fun g : tilde (ModuleCat.of R Q) ⟶ H ↦ g.app ⊤)
     (Subobject.underlyingIso_arrow (tilde.map (ModuleCat.ofHom Q.subtype) ≫ H.fromTildeΓ))
   refine (congr($harrow (tilde.toOpen (ModuleCat.of R Q) ⊤ ⟨a i ^ k • y, hk⟩))).trans ?_
-  show H.fromTildeΓ.app ⊤ ((tilde.map (ModuleCat.ofHom Q.subtype)).app ⊤
+  change H.fromTildeΓ.app ⊤ ((tilde.map (ModuleCat.ofHom Q.subtype)).app ⊤
     (tilde.toOpen (ModuleCat.of R Q) ⊤ ⟨a i ^ k • y, hk⟩)) = a i ^ k • y
   rw [tildeMap_app_toOpen]
   exact fromTildeΓ_app_top_toOpen H _

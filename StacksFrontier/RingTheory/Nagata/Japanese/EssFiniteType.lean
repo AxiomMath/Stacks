@@ -230,20 +230,20 @@ lemma isN2_apply_of_isFractionRing (S₀ : Type u) [CommRing S₀] [IsDomain S�
   have : IsScalarTower S₀ (FractionRing S₀) K := by
     apply IsScalarTower.of_algebraMap_eq
     intro x
-    show algebraMap S₀ K x = e (algebraMap S₀ (FractionRing S₀) x)
+    change algebraMap S₀ K x = e (algebraMap S₀ (FractionRing S₀) x)
     rw [AlgEquiv.commutes]
   -- give L an Algebra (FractionRing S₀) structure via e then K → L
   let : Algebra (FractionRing S₀) L := ((algebraMap K L).comp e.toRingHom).toAlgebra
   have : IsScalarTower S₀ (FractionRing S₀) L := by
     apply IsScalarTower.of_algebraMap_eq
     intro x
-    show algebraMap S₀ L x = (algebraMap K L) (e (algebraMap S₀ (FractionRing S₀) x))
+    change algebraMap S₀ L x = (algebraMap K L) (e (algebraMap S₀ (FractionRing S₀) x))
     rw [AlgEquiv.commutes]
     rw [← IsScalarTower.algebraMap_apply S₀ K L]
   have : IsScalarTower (FractionRing S₀) K L := by
     apply IsScalarTower.of_algebraMap_eq
     intro y
-    show (algebraMap K L) (e y) = algebraMap K L (algebraMap (FractionRing S₀) K y)
+    change (algebraMap K L) (e y) = algebraMap K L (algebraMap (FractionRing S₀) K y)
     rfl
   have : Module.Finite (FractionRing S₀) K := by
     have : Function.Surjective (algebraMap (FractionRing S₀) K) := e.surjective

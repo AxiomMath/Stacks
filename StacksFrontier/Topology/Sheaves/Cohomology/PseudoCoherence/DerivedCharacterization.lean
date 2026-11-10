@@ -25,8 +25,8 @@ the derived object.
 
 The space, ring and module universes all coincide. This is the universe signature already forced
 on Tag 08C6 and Tag 08C7, hence on Tag 08C9, on which both parts rest; at matching universes all
-four sheafification instances of the Tag 08CB statement hold automatically and so are not hypotheses.
-The derived-category universe of `X` and that of its open restrictions are independent.
+four sheafification instances of the Tag 08CB statement hold automatically and so are not
+hypotheses. The derived-category universe of `X` and that of its open restrictions are independent.
 
 Both parts reduce to
   `Stacks.PseudoCoherence.DerivedCharacterization.local_derived_approximation_at`, which turns a
@@ -128,12 +128,12 @@ theorem localDerivedMap_homologyBounds [HasDerivedCategory.{w₁} C] [HasDerived
   have hIso (hj : m < j) : IsIso ((DerivedCategory.homologyFunctor D j).map
         (F.mapDerivedCategory.map α)) := by
     apply (NatIso.isIso_map_iff (exactFunctorDerivedHomologyIso F j) α).mpr
-    show IsIso (F.map ((DerivedCategory.homologyFunctor C j).map α))
+    change IsIso (F.map ((DerivedCategory.homologyFunctor C j).map α))
     have := hαj hj
     exact Functor.map_isIso F _
   have hEpi : Epi ((DerivedCategory.homologyFunctor D m).map (F.mapDerivedCategory.map α)) := by
     apply (epi_map_iff_of_natIso (exactFunctorDerivedHomologyIso F m) α).mpr
-    show Epi (F.map ((DerivedCategory.homologyFunctor C m).map α))
+    change Epi (F.map ((DerivedCategory.homologyFunctor C m).map α))
     exact preserves_epi_of_preservesColimit F _
   have hcomm (i : ℤ) :
       (DerivedCategory.homologyFunctor D i).map (F.mapDerivedCategory.map α) ≫
@@ -218,7 +218,7 @@ theorem local_derived_approximation_at (m : ℤ) (K : CochainComplex (OXMod.{u} 
       (AlgebraicGeometry.RingedSpace.PseudoCoherence.nestedOpenIso X U V)
   let eK := AlgebraicGeometry.RingedSpace.PseudoCoherence.nestedRestrictionComplexIso X U V K
   have hIsoK (j : ℤ) : IsIso (HomologicalComplex.homologyMap eK.hom j) := by
-    show IsIso ((HomologicalComplex.homologyFunctor _ (ComplexShape.up ℤ) j).map eK.hom)
+    change IsIso ((HomologicalComplex.homologyFunctor _ (ComplexShape.up ℤ) j).map eK.hom)
     exact Functor.map_isIso _ _
   refine ⟨W, ⟨⟨x, hxU⟩, hxV, rfl⟩, Tc.obj
     (AlgebraicGeometry.RingedSpace.PseudoCoherence.restrictComplex P V), ?_,

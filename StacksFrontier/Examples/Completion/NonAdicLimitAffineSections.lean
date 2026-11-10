@@ -57,7 +57,7 @@ universe u
 
 namespace Stacks.Examples.NonAdicLimit
 
-open _root_.Stacks.AlgebraicGeometry CategoryTheory Opposite
+open _root_.Stacks.AlgebraicGeometry _root_.Stacks.CategoryTheory Opposite
 
 variable (k : Type u) [Field k]
 

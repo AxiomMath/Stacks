@@ -101,7 +101,8 @@ from (b) alone, which is what a previous reading of this directory assumed.
   is unconditional — `…restrictBaseTopDegreeTensorCohomologyLinearEquiv` in
   `EilenbergWattsUnitor.lean`. What (b) does not supply in any form is the identification
   of `Φ(Γ(W, ⊤))` with `H^d(f''⁻¹(W), ((h')^* F')|)`: that is the source's own two further
-  steps, *"since `h'` is affine"*. **Both of those steps are in this tree.** The Leray comparison `H^d(X'', (h')^* F') = H^d(X', h'_* (h')^* F')`
+  steps, *"since `h'` is affine"*. **Both of those steps are in this tree.** The Leray comparison
+  `H^d(X'', (h')^* F') = H^d(X', h'_* (h')^* F')`
   along an affine morphism is `…TopDegreeBaseChange.cohomologyPullbackIsoPushforward`
   (`BaseChangeAffineLeray.lean`), [Stacks, Tag 089W] itself and not merely the vanishing of
   [Stacks, Tag 01XC]; the projection formula `h'_* (h')^* F' = F' ⊗ (f')^* R''~` is

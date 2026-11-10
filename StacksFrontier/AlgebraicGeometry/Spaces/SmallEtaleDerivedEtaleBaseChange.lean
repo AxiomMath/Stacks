@@ -55,7 +55,7 @@ theorem isIso_etaleModuleBaseChangeMate (sq : IsPullback g' f' f g) (hg : IsEtal
         (etaleModulePullbackAdjunction B S hS g hg)).symm
       (TwoSquare.mk _ _ _ _ ((modulePushforwardCompIso B S hS g' f).hom ≫
         eqToHom (congrArg (fun k : X' ⟶ Y => modulePushforward B S hS k) sq.w) ≫
-        (modulePushforwardCompIso B S hS f' g).inv))).natTrans :=
+        (modulePushforwardCompIso B S hS f' g).inv))) :=
   @NatIso.isIso_of_isIso_app _ _ _ _ _ _ _ fun K =>
     Stacks.Sheaves.PushforwardEssentialImage.isIso_of_isIso_moduleSheafFunctor_map
       (R := structureRingSheaf B S hS Y') _

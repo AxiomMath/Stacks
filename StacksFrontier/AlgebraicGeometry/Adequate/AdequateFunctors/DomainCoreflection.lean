@@ -141,7 +141,7 @@ public theorem isSeparating_ofLinearPresentationSite (hA : (Spec (CommRingCat.of
       (e.inv ≫ Sigma.ι L i ≫ cover')
   have key : (e.inv ≫ Sigma.ι L i ≫ cover') ≫ f.hom = (e.inv ≫ Sigma.ι L i ≫ cover') ≫ g.hom :=
     congrArg InducedCategory.Hom.hom (hfg _ (ObjectProperty.ofObj_apply _ d) h₀)
-  show Sigma.ι L i ≫ cover' ≫ f.hom = Sigma.ι L i ≫ cover' ≫ g.hom
+  change Sigma.ι L i ≫ cover' ≫ f.hom = Sigma.ι L i ≫ cover' ≫ g.hom
   rw [← cancel_epi e.inv]
   simpa using key
 

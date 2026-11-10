@@ -214,10 +214,11 @@ private theorem exists_isDomain_localization_atPrime_of_mem_associatedPrimes {R 
     simp
   have e :
     (AdicCompletion (maximalIdeal R) R ⧸
-        Ideal.span {(algebraMap R (AdicCompletion (maximalIdeal R) R)) x}) ≃ₗ[AdicCompletion (maximalIdeal R) R]
+        Ideal.span {(algebraMap R (AdicCompletion (maximalIdeal R) R)) x}) ≃ₗ[
+          AdicCompletion (maximalIdeal R) R]
       (AdicCompletion (maximalIdeal R) R) ⊗[R] (R ⧸ Ideal.span {x}) :=
     (Submodule.quotEquivOfEq _ _ hspan).trans
-      (Ideal.qoutMapEquivTensorQout (AdicCompletion (maximalIdeal R) R))
+      (Ideal.quotMapEquivTensorQuot (AdicCompletion (maximalIdeal R) R))
   rw [LinearEquiv.AssociatedPrimes.eq e, ← mem_setOf_colon_iff_mem_associatedPrimes,
     (associatedPrimes.tensorProduct_of_flat (R := R) (S := AdicCompletion (maximalIdeal R) R) (M :=
           R ⧸ Ideal.span {x}) (N := AdicCompletion (maximalIdeal R) R)).2
@@ -338,7 +339,7 @@ public theorem solution {R : Type*} [CommRing R] [IsNoetherianRing R] [IsLocalRi
       maximalIdeal (AdicCompletion (maximalIdeal R) R) := by
     rw [AdicCompletion.maximalIdeal_eq_map]
     exact Ideal.mem_map_of_mem _ hxm
-  show IsReduced (AdicCompletion (maximalIdeal R) R)
+  change IsReduced (AdicCompletion (maximalIdeal R) R)
   refine isReduced_of_forall_mul_self_eq_zero ?_
   -- the divisibility step, with the square-zero condition carried along
   have core :

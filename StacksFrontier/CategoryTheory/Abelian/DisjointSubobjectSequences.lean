@@ -110,7 +110,7 @@ lemma shortExact_lift :
     have hxa : x ≫ cokernel.π a = 0 := by simpa using hx =≫ biprod.fst
     have hxb : x ≫ cokernel.π b = 0 := by simpa using hx =≫ biprod.snd
     have h := (Abelian.monoLift_comp a x hxa).trans (Abelian.monoLift_comp b x hxb).symm
-    show x = 0
+    change x = 0
     rw [← Abelian.monoLift_comp a x hxa, hdisj _ _ h, zero_comp]
   exact := by
     rw [ShortComplex.exact_iff_exact_up_to_refinements]
@@ -138,7 +138,7 @@ lemma shortExact_lift :
       rw [← Preadditive.comp_add, ← hdesc, ← hy, Preadditive.comp_sub, add_sub_cancel]
     refine ⟨T₃, π₃ ≫ π₂ ≫ π₁, inferInstance,
       π₃ ≫ π₂ ≫ s - y ≫ biprod.fst ≫ a, ?_⟩
-    show (π₃ ≫ π₂ ≫ π₁) ≫ w = (π₃ ≫ π₂ ≫ s - y ≫ biprod.fst ≫ a) ≫
+    change (π₃ ≫ π₂ ≫ π₁) ≫ w = (π₃ ≫ π₂ ≫ s - y ≫ biprod.fst ≫ a) ≫
       biprod.lift (cokernel.π a) (cokernel.π b)
     have e : π₃ ≫ π₂ ≫ s - y ≫ biprod.fst ≫ a = π₃ ≫ t + y ≫ biprod.snd ≫ b := by
       rw [hy']
@@ -179,7 +179,7 @@ lemma shortExact_quotient :
     refine ⟨T₂, π₂ ≫ π₁, inferInstance, y ≫ biprod.snd, ?_⟩
     have hdesc : biprod.desc a b = biprod.fst ≫ a + biprod.snd ≫ b := by
       apply biprod.hom_ext' <;> simp
-    show (π₂ ≫ π₁) ≫ w = (y ≫ biprod.snd) ≫ b ≫ cokernel.π a
+    change (π₂ ≫ π₁) ≫ w = (y ≫ biprod.snd) ≫ b ≫ cokernel.π a
     rw [assoc, hs, ← assoc, hy, hdesc, Preadditive.comp_add, Preadditive.add_comp, assoc, assoc,
       assoc, cokernel.condition, comp_zero, comp_zero, zero_add, assoc, assoc]
   epi_g := epi_of_epi_fac (cokernel.π_desc _ _ _)

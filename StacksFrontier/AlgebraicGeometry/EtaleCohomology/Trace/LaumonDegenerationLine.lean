@@ -53,16 +53,16 @@ public theorem coeff_coeff_aeval_line (D : MvPolynomial (Fin 2) k) {t j : ℕ} (
     by_cases hm : m = Finsupp.single 0 (t - j) + Finsupp.single 1 j
     · subst hm
       simp [hjt]
-    · rw [if_neg hm]
+    · rw [ite_eq_right hm]
       split_ifs with ht
-      · rw [coeff_C_mul_X_pow, if_neg]
+      · rw [coeff_C_mul_X_pow, ite_eq_right]
         intro hj
         apply hm
         ext i
         fin_cases i <;> simp <;> omega
       · exact coeff_zero j
   | add p q hp hq =>
-    rw [map_add, coeff_add, coeff_add, hp, hq, MvPolynomial.coeff_add]
+    rw [map_add, coeff_add, coeff_add, hp, hq, AddMonoidAlgebra.coeff_add]; rfl
 
 /-- **`D(s, λ s)` is a nonzero polynomial in `λ` and `s`** for `D ≠ 0`. -/
 public theorem aeval_line_ne_zero {D : MvPolynomial (Fin 2) k} (hD : D ≠ 0) :

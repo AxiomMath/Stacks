@@ -325,9 +325,9 @@ theorem Refinement.stalkTransition_eq {M' M : ProperModel B} (φ : Refinement M'
     Functor.map_comp, Category.assoc]
 
 /-- **The cocycle of the transition maps of stalks** (the stalk form of the
-transport cocycle `(g^π)^ρ = g^{πρ}`). For refinements `ψ : Y'' ⟶ Y'` and `φ : Y' ⟶ Y` and a geometric
-point `s` of `Y''`, the transition map of `φ` at `s ≫ ψ` followed by that of `ψ` at `s` is the
-transition map of the composite at `s` (the stalks at `(s ≫ ψ) ≫ φ` and `s ≫ (ψ ≫ φ)` being
+transport cocycle `(g^π)^ρ = g^{πρ}`). For refinements `ψ : Y'' ⟶ Y'` and `φ : Y' ⟶ Y` and a
+geometric point `s` of `Y''`, the transition map of `φ` at `s ≫ ψ` followed by that of `ψ` at `s` is
+the transition map of the composite at `s` (the stalks at `(s ≫ ψ) ≫ φ` and `s ≫ (ψ ≫ φ)` being
 identified), followed by the identification `𝟙⁻¹ F ≅ 𝟙⁻¹ 𝟙⁻¹ F` of the coefficients. It is the
 stalk at `s` of the sheaf-level pasting law
 `Stacks.EtaleCohomology.etaleAbelianInverseImageRightDerivedDirectImageBaseChange_comp`, through

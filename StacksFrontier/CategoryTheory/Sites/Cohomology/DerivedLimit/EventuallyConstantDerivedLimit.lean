@@ -113,7 +113,7 @@ private theorem isIso_rightDerivedEvaluation_map_of_window
   · intro X a ha
     have : (E.rightDerivedFunctorPlus.obj X).IsGE a :=
       CategoryTheory.Functor.isGE_rightDerivedFunctorPlus_obj E X a
-    show (DerivedCategory.Plus.ι.obj (E.rightDerivedFunctorPlus.obj X)).IsGE a
+    change (DerivedCategory.Plus.ι.obj (E.rightDerivedFunctorPlus.obj X)).IsGE a
     infer_instance
 
 /-- **One stage of an eventually constant tower works uniformly over a basis object.** For a

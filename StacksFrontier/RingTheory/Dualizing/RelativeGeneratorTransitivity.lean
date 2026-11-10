@@ -124,21 +124,20 @@ theorem diagonalBaseChangeBaseChangeEquiv_comp (R' : Type u) [CommRing R'] [Alge
   rw [envelopingBaseChangeRingHom_eq, envelopingBaseChangeRingHom_eq,
     envelopingBaseChangeRingHom_eq]
   refine RingHom.ext fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add] at *; rw [hx, hy]
   | tmul a₁ a₂ =>
-      show diagonalBaseChangeBaseChangeEquiv (R₁ := R₁) (R := R) (A₁ := A₁) R'
+      change diagonalBaseChangeBaseChangeEquiv (R₁ := R₁) (R := R) (A₁ := A₁) R'
         (diagonalBaseChangeMap R (A₁ ⊗[R₁] R) R'
           (diagonalBaseChangeMap R₁ A₁ R (a₁ ⊗ₜ[R₁] a₂))) =
         diagonalBaseChangeMap R₁ A₁ R' (a₁ ⊗ₜ[R₁] a₂)
       rw [diagonalBaseChangeMap_tmul, diagonalBaseChangeMap_tmul, diagonalBaseChangeMap_tmul]
-      show Algebra.TensorProduct.congr
+      change Algebra.TensorProduct.congr
         (baseChangeBaseChangeAlgEquiv (R₁ := R₁) (R := R) (A₁ := A₁) R')
         (baseChangeBaseChangeAlgEquiv (R₁ := R₁) (R := R) (A₁ := A₁) R')
         ((((a₁ ⊗ₜ[R₁] (1 : R)) ⊗ₜ[R] (1 : R'))) ⊗ₜ[R'] ((a₂ ⊗ₜ[R₁] (1 : R)) ⊗ₜ[R] (1 : R'))) = _
       rw [Algebra.TensorProduct.congr_apply, Algebra.TensorProduct.map_tmul]
-      simp only [AlgEquiv.coe_algHom, baseChangeBaseChangeAlgEquiv_tmul_one]
+      simp only [AlgEquiv.coe_toAlgHom, baseChangeBaseChangeAlgEquiv_tmul_one]
 
 variable [Module.Flat R₁ A₁] [Algebra.FinitePresentation R₁ A₁]
 
@@ -165,7 +164,7 @@ theorem IsUniversallyGeneratorPreserving.baseChange {K₁ : DerivedCategory (Mod
     eC.symm.toRingHom.comp (env₁'.comp (RingEquiv.refl (A₁ ⊗[R₁] A₁)).toRingHom)
   have hh : h = env₂.comp env₁ := by
     refine RingHom.ext fun x => ?_
-    show eC.symm (env₁' x) = env₂ (env₁ x)
+    change eC.symm (env₁' x) = env₂ (env₁ x)
     have h₁ := RingHom.congr_fun
       (diagonalBaseChangeBaseChangeEquiv_comp (R₁ := R₁) (R := R) (A₁ := A₁) R') x
     change eC (env₂ (env₁ x)) = env₁' x at h₁
@@ -208,8 +207,7 @@ variable {R A₂ A : Type u} [CommRing R] [CommRing A₂] [CommRing A] [Algebra 
 theorem lmul'_congr_symm (e : A₂ ≃ₐ[R] A) (b : A ⊗[R] A) :
     e (Algebra.TensorProduct.lmul' R ((Algebra.TensorProduct.congr e e).symm b)) =
       Algebra.TensorProduct.lmul' R b := by
-  induction b using TensorProduct.induction_on with
-  | zero => simp
+  induction b using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul c₁ c₂ =>
       rw [Algebra.TensorProduct.congr_symm_apply, Algebra.TensorProduct.map_tmul,
@@ -263,11 +261,10 @@ theorem IsUniversallyGeneratorPreserving.of_algEquiv (e : A₂ ≃ₐ[R] A)
   have hh : h = env := by
     rw [show env = diagonalBaseChangeMap R A R' from envelopingBaseChangeRingHom_eq R A R']
     refine RingHom.ext fun x => ?_
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul c₁ c₂ =>
-        show Algebra.TensorProduct.congr e' e'
+        change Algebra.TensorProduct.congr e' e'
           (env₂ ((Algebra.TensorProduct.congr e e).symm (c₁ ⊗ₜ[R] c₂))) = _
         rw [show env₂ = diagonalBaseChangeMap R A₂ R' from envelopingBaseChangeRingHom_eq R A₂ R',
           Algebra.TensorProduct.congr_symm_apply, Algebra.TensorProduct.map_tmul,

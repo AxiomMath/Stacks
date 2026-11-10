@@ -172,7 +172,7 @@ public theorem geometricallyRegular_baseChange_iff
       Spec.map (ofHom (algebraMap k k'))
     IsGeometricallyRegular f ↔
       IsGeometricallyRegular (pullback.snd f g) := by
-  show (∀ x : X, IsGeometricallyRegularAt f x) ↔
+  change (∀ x : X, IsGeometricallyRegularAt f x) ↔
     (∀ (x' : (pullback f (Spec.map (ofHom (algebraMap k k'))) : Scheme.{u})),
       IsGeometricallyRegularAt
         (pullback.snd f (Spec.map (ofHom (algebraMap k k')))) x')

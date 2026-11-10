@@ -140,7 +140,7 @@ theorem ofArrows_mem_baseOverTopology {T : BigFppfOver B S hS} {I : Type w}
         (fun i => (toScheme B S hS).map (f i)) ∈
       Scheme.fppfPrecoverage ((toScheme B S hS).obj T)) :
     Sieve.ofArrows X f ∈ baseOverTopology B S hS .fppf T := by
-  show Sieve.ofArrows X f ∈ (B.topology.over (B.obj hS)) T
+  change Sieve.ofArrows X f ∈ (B.topology.over (B.obj hS)) T
   rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
   exact B.ofArrows_mem_topology T.left (fun i => (X i).left) (fun i => (f i).left) hf
 
@@ -252,7 +252,7 @@ theorem nonempty_finiteDisjointUnion (hp : p.IsFiberedInGroupoids) (x : 𝒳) {�
   set Dover : BigFppfOver B S hS := Over.mk (dq ≫ (p.obj x).hom) with hDover
   set dmap : Dover ⟶ p.obj x := Over.homMk dq with hdmap
   set ιO : ∀ i, p.obj (Y i).left ⟶ Dover := fun i => Over.homMk (ιb i) (by
-    show ιb i ≫ dq ≫ (p.obj x).hom = (p.obj (Y i).left).hom
+    change ιb i ≫ dq ≫ (p.obj x).hom = (p.obj (Y i).left).hom
     rw [← Category.assoc, hιbdq i]
     exact Over.w (p.map (Y i).hom)) with hιO
   have hιOdmap : ∀ i, ιO i ≫ dmap = p.map (Y i).hom := fun i =>
@@ -326,7 +326,7 @@ theorem nonempty_finiteDisjointUnion (hp : p.IsFiberedInGroupoids) (x : 𝒳) {�
     have h4 := congrArg (BigFppfOver.toScheme B S hS).map h3
     rw [Functor.map_comp, Functor.map_comp] at h4
     exact isEmpty_of_commSq_sigmaι_of_ne (g := Zs) ⟨h4⟩ hij
-  · show IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj u))
+  · change IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj u))
     rw [hdom]
     have haff' : ∀ i, IsAffine (Zs i) := fun i => haff i
     exact (inferInstance : IsAffine (∐ Zs))

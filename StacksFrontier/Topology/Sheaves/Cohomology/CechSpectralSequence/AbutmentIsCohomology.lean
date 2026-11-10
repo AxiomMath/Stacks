@@ -459,7 +459,7 @@ lemma exactAt_cechDoubleFunctor_X
   · exact HomologicalComplex.extend_exactAt _ ComplexShape.embeddingUpNat q
       fun j => by change ((j : ℕ) : ℤ) ≠ q; omega
   · have hk : ComplexShape.embeddingUpNat.f q.toNat = q := by
-      show ((q.toNat : ℕ) : ℤ) = q; omega
+      change ((q.toNat : ℕ) : ℤ) = q; omega
     exact (HomologicalComplex.extend_exactAt_iff
       (((cechDoubleOuterFunctor.{u, r, v, w} O 𝒰).obj Y).X p)
       ComplexShape.embeddingUpNat hk).2

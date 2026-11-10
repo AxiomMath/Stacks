@@ -285,7 +285,7 @@ theorem source_eq_target_selfIntersectionPresentation
     (h𝒳 : IsAlgebraicStack.{u, w} B S hS 𝒳.val) (π : 𝒳 ⟶ 𝒴) (hx : x ≫ π ≅ 𝟙 𝒴) :
     (selfIntersectionPresentation eU eR h𝒳).groupoid.source =
       (selfIntersectionPresentation eU eR h𝒳).groupoid.target := by
-  show (ObjectProperty.homMk (relationSourceMap eU eR) : R ⟶ U) =
+  change (ObjectProperty.homMk (relationSourceMap eU eR) : R ⟶ U) =
     ObjectProperty.homMk (relationTargetMap eU eR)
   rw [relationSourceMap_eq_relationTargetMap eU eR π hx]
 
@@ -309,8 +309,8 @@ action of its stabilizer group of **Stacks 0447** on the object space, and that 
 `Isom_𝒳(x, x)` over the object space. The passage is
 `exists_grpObj_nonempty_equivalenceOver_quotientStackOfAction_of_section_of_isGerbeOver`, in the
 namespace `AlgebraicGeometry.Stack.AlgebraicStacks` of
-`StacksFrontier.AlgebraicGeometry.Stacks.GerbeSectionClassifyingStack`, where the whole of Stacks 06QG
-is assembled. -/
+`StacksFrontier.AlgebraicGeometry.Stacks.GerbeSectionClassifyingStack`, where the whole of Stacks
+06QG is assembled. -/
 @[stacks 06QG "part (1): the canonical 1-morphism out of the quotient stack of the \
 self-intersection groupoid is an equivalence"]
 theorem nonempty_isEquivalenceOver_canonicalMap_of_section_of_isGerbeOver

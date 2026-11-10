@@ -364,7 +364,7 @@ theorem part1_residueField_colimit :
     intro i j hij x
     let := hlocal i j hij
     obtain ⟨y, rfl⟩ := residue_surjective x
-    show (ResidueField.map (colimitOf G f j)) (residueTransition G f hlocal i j hij (residue (G
+    change (ResidueField.map (colimitOf G f j)) (residueTransition G f hlocal i j hij (residue (G
         i) y))
       = (ResidueField.map (colimitOf G f i)) (residue (G i) y)
     rw [residueTransition, ResidueField.map_residue, ResidueField.map_residue,
@@ -392,7 +392,7 @@ theorem part1_residueField_colimit :
     obtain ⟨i, x, rfl⟩ := Ring.DirectLimit.exists_of z
     refine ⟨Ring.DirectLimit.of _ _ i (residue (G i) x), ?_⟩
     rw [hΦ, Ring.DirectLimit.lift_of]
-    show ResidueField.map (colimitOf G f i) (residue (G i) x) = residue _ (colimitOf G f i x)
+    change ResidueField.map (colimitOf G f i) (residue (G i) x) = residue _ (colimitOf G f i x)
     rw [ResidueField.map_residue]
   exact ⟨(RingEquiv.ofBijective Φ ⟨hinj, hsurj⟩).symm⟩
 

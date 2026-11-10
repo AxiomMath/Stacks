@@ -173,11 +173,11 @@ theorem directedSystem_globalFunctionsModel :
   · intro i x
     have hid : D.transition (le_refl i) = 𝟙 (D.stage i) := by
       apply CategoryTheory.ObjectProperty.hom_ext
-      show D.system.map (CategoryTheory.homOfLE (le_refl i)).op = _
+      change D.system.map (CategoryTheory.homOfLE (le_refl i)).op = _
       rw [Subsingleton.elim (CategoryTheory.homOfLE (le_refl i)).op (𝟙 (op i)),
         D.system.map_id]
       rfl
-    show (stageModelEquiv D i).symm
+    change (stageModelEquiv D i).symm
       (globalFunctionsMap B S hS (D.transition (le_refl i)) _) = x
     rw [hid, globalFunctionsMap_id]
     exact (stageModelEquiv D i).symm_apply_apply x
@@ -310,7 +310,7 @@ theorem exists_isIso_specMapOfGlobalHom_of_isAffineSpace (hterminal : IsTerminal
             ((globalFunctionsChartRestriction B S hS X V).comp e.toRingHom) := by
   set M : GlobalFunctionsModel B S hS X.obj := ⟨CommRingCat.of A, hA, e⟩ with hM
   refine ⟨(affineSpaceIsoSchemePoints B S hS hterminal X M hX).hom, inferInstance, fun V => ?_⟩
-  show yonedaEquiv (V.obj.hom ≫ (toSpecGlobalFunctions B S hS X M hterminal).hom ≫
+  change yonedaEquiv (V.obj.hom ≫ (toSpecGlobalFunctions B S hS X M hterminal).hom ≫
       schemePointsUnit B S hS (specGlobalFunctions B S hS X M hterminal))
     = specMapOfGlobalHom A ((globalFunctionsChartRestriction B S hS X V).comp e.toRingHom)
   set gmap := yoneda.preimage (V.obj.hom ≫ (toSpecGlobalFunctions B S hS X M hterminal).hom)
@@ -454,7 +454,7 @@ theorem eval₂_mk_X_eq_zero {A R : Type u} [CommRing A] [CommRing R] [Algebra A
       exact (AlgEquiv.commutes e.symm a).symm
     · simp
   refine (RingHom.congr_fun hcomp (g l)).trans ?_
-  show e.symm (Ideal.Quotient.mk (Ideal.span (Set.range g)) (g l)) = 0
+  change e.symm (Ideal.Quotient.mk (Ideal.span (Set.range g)) (g l)) = 0
   rw [Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.subset_span (Set.mem_range_self (f := g) l)),
     map_zero]
 

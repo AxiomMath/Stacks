@@ -62,7 +62,6 @@ section PresentationIso
 universe v u w z
 
 variable {C : Type u} [Category.{v} C] (J : GrothendieckTopology C)
-  [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   (R B A₁ A₂ : Sheaf J CommRingCat.{w}) (a₁ : R ⟶ A₁) (a₂ : R ⟶ A₂)
   (φ₁ : A₁ ⟶ B) (φ₂ : A₂ ⟶ B)
   [Presheaf.IsLocallySurjective J φ₁.hom] [Presheaf.IsLocallySurjective J φ₂.hom]
@@ -86,14 +85,12 @@ lemma tensorSheafMapOfFac_eq_id (ψ : A₁ ⟶ A₁) (hψ : ψ ≫ φ₁ = φ₁
 
 variable (ψ : A₁ ≅ A₂)
 
-omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
-  [Presheaf.IsLocallySurjective J φ₁.hom] [Presheaf.IsLocallySurjective J φ₂.hom] in
+omit [Presheaf.IsLocallySurjective J φ₁.hom] [Presheaf.IsLocallySurjective J φ₂.hom] in
 /-- The factorisation of `φ₂` through `φ₁` inverse to a given factorisation of `φ₁` through
 `φ₂` by an isomorphism. -/
 lemma inv_comp_of_fac (hψ : ψ.hom ≫ φ₂ = φ₁) : ψ.inv ≫ φ₁ = φ₂ := by
   rw [← hψ, ← Category.assoc, ψ.inv_hom_id, Category.id_comp]
 
-omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The factorisation of `a₂` through `a₁` inverse to a given factorisation of `a₁` through
 `a₂` by an isomorphism. -/
 lemma comp_inv_of_fac (ha : a₁ ≫ ψ.hom = a₂) : a₂ ≫ ψ.inv = a₁ := by
@@ -163,7 +160,6 @@ section ConormalModuleIso
 universe t vv uu
 
 variable {C : Type uu} [Category.{vv} C] (J : GrothendieckTopology C)
-  [J.HasSheafCompose (forget₂ CommRingCat.{max uu vv t} RingCat.{max uu vv t})]
   {B A₁ A₂ : Sheaf J CommRingCat.{max uu vv t}} (φ₁ : A₁ ⟶ B) (φ₂ : A₂ ⟶ B)
   [Presheaf.IsLocallySurjective J φ₁.hom] [Presheaf.IsLocallySurjective J φ₂.hom]
 

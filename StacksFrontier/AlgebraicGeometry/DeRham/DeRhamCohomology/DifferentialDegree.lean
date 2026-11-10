@@ -57,14 +57,14 @@ theorem deRhamDifferential_maps_gradedDifferentialFormComponent
   rw [Submodule.map_le_iff_le_comap]
   apply Submodule.span_le.2
   rintro x ⟨degree, a, hg, rfl⟩
-  show d ((a 0 : A) • exteriorPower.ιMulti A p (fun i ↦
+  change d ((a 0 : A) • exteriorPower.ιMulti A p (fun i ↦
     KaehlerDifferential.D R A (a i.succ : A))) ∈
       gradedDifferentialFormComponent gr (p + 1) g
   rw [hd (fun i ↦ (a i : A))]
   apply Submodule.subset_span
   refine ⟨Fin.cons 0 degree, Fin.cases ⟨1, hunit⟩ a, ?_, ?_⟩
   · simpa [Fin.sum_univ_succ] using hg
-  · show _ = (1 : A) • exteriorPower.ιMulti A (p + 1)
+  · change _ = (1 : A) • exteriorPower.ιMulti A (p + 1)
       (fun i ↦ KaehlerDifferential.D R A (a i : A))
     simp
 

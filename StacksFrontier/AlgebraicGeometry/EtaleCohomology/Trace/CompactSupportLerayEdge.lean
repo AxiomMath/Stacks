@@ -81,7 +81,7 @@ section Leray
 variable (B : BigEtaleSite.{u}) (ℓ : ℕ) [Fact ℓ.Prime] {U W : B.Scheme} [IsNoetherian U.1]
   [IsNoetherian W.1] (g : U ⟶ W) [LocallyOfFiniteType (B.inclusion.map g)]
   [QuasiCompact (B.inclusion.map g)] [IsSeparated (B.inclusion.map g)]
-  (jg : CompactificationOf (Over.mk (B.inclusion.map g))) {k : Type u} [Field k] [Fintype k]
+  (jg : CompactificationOf (Over.mk (B.inclusion.map g))) {k : Type u} [Field k] [Finite k]
   (fW : W.1 ⟶ Spec (.of k)) [LocallyOfFiniteType fW] [QuasiCompact fW] [IsSeparated fW]
   (jW : CompactificationOf (Over.mk fW)) (kbar : Type u) [Field kbar] [Algebra k kbar]
 
@@ -97,6 +97,7 @@ theorem LAdicSheaf.nonempty_compactSupportSheafCohomology_lowerShriekHomology_on
     Nonempty ((compactSupportSheafCohomology ℤ_[ℓ] fW jW kbar 0).obj
         ((lowerShriekHomology ℤ_[ℓ] (B.inclusion.map g) jg 1).obj K.obj) ≅
       (compactSupportSheafCohomology ℤ_[ℓ] (B.inclusion.map g ≫ fW) jU kbar 1).obj K.obj) := by
+  have : Fintype k := Fintype.ofFinite k
   obtain ⟨p, hp⟩ := CharP.exists k
   have : CharP k p := hp
   obtain ⟨q, hpr, hq⟩ := FiniteField.card k p

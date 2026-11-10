@@ -55,10 +55,10 @@ private theorem units_and_fractions_toTotalQuotientPresheaf (V : Opens X) :
   set S := O.presheaf.submonoidPresheafOfStalk
     fun y => nonZeroDivisors ↑(O.presheaf.stalk y) with hS
   let : Algebra ↑(O.presheaf.obj (op V)) ↑(O.presheaf.totalQuotientPresheaf.obj (op V)) := by
-    show Algebra _ (Localization (S.obj (op V)))
+    change Algebra _ (Localization (S.obj (op V)))
     infer_instance
   let : IsLocalization (S.obj (op V)) ↑(O.presheaf.totalQuotientPresheaf.obj (op V)) := by
-    show IsLocalization _ (Localization (S.obj (op V)))
+    change IsLocalization _ (Localization (S.obj (op V)))
     infer_instance
   refine ⟨fun b hb => IsLocalization.map_units (M := S.obj (op V))
     ↑(O.presheaf.totalQuotientPresheaf.obj (op V)) ⟨b, hb⟩, fun t => ?_⟩

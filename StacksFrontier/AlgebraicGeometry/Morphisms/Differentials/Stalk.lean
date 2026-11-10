@@ -197,14 +197,13 @@ theorem isIso_relativeDifferentialsMap_of_stalk {W X Y S : Scheme.{u}}
       exact ihy (a • b)
   have hBridge : ∀ w : C ⊗[A] M, E (eT w) = eC (stalkC (ePull'.symm w)) := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | tmul b m =>
       have h := hspan (eA m) b
       rwa [LinearEquiv.symm_apply_apply] at h
     | add w₁ w₂ h₁ h₂ => simp only [map_add, h₁, h₂]
   -- the stalk of `c` is bijective because it is the given equivalence up to three others
-  show Function.Bijective stalkC
+  change Function.Bijective stalkC
   have hEq : ⇑eC ∘ ⇑stalkC = ⇑E ∘ ⇑eT ∘ ⇑ePull' := funext fun z => by
     have h := hBridge (ePull' z)
     rw [LinearEquiv.symm_apply_apply] at h

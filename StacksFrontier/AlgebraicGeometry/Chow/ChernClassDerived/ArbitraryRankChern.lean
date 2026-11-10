@@ -274,7 +274,7 @@ theorem totalChernOfFiniteLocallyFree_apply_eq_zero {p : ℕ} (hp : ∀ x : X, m
     rw [TotalChowClass.res_rfl_apply, TotalChowClass.res_rfl_apply]
     by_cases hq : q = p
     · subst hq
-      rw [show d q = 0 from if_pos rfl, map_zero, ← TotalChowClass.res_rfl_apply,
+      rw [show d q = 0 from ite_eq_left rfl, map_zero, ← TotalChowClass.res_rfl_apply,
         res_totalChernOfFiniteLocallyFree_rankLocus]
       rcases isEmpty_or_nonempty (rankLociFamily F r : Scheme.{u}) with hE | ⟨⟨y⟩⟩
       · exact (congrArg (fun c : TotalChowClass C _ ↦ c q)
@@ -282,8 +282,8 @@ theorem totalChernOfFiniteLocallyFree_apply_eq_zero {p : ℕ} (hp : ∀ x : X, m
       · have hy : moduleRank F y.1 = r.down := y.2
         let := isFiniteLocallyFreeOfRank_pullback_rankLociFamily F r
         exact (totalChern_apply_of_lt C _ _ r.down (hy ▸ hp y.1)).symm
-    · rw [show d q = totalChernOfFiniteLocallyFree C sX F q from if_neg hq]
-  exact (congrArg (fun c : TotalChowClass C sX ↦ c p) key).symm.trans (if_pos rfl)
+    · rw [show d q = totalChernOfFiniteLocallyFree C sX F q from ite_eq_right hq]
+  exact (congrArg (fun c : TotalChowClass C sX ↦ c p) key).symm.trans (ite_eq_left rfl)
 
 end Stacks.Chow
 

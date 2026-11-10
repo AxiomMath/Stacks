@@ -1273,7 +1273,7 @@ public lemma eq_of_le_of_ringKrullDim_quotient_eq {R : Type*} [CommRing R] {J I 
     (hJI : J ≤ I) [IsDomain (R ⧸ J)] {n : ℕ} (hJ : ringKrullDim (R ⧸ J) = n)
     (hI : ringKrullDim (R ⧸ I) = n) : J = I := by
   by_contra hne
-  obtain ⟨a, haI, haJ⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hJI hne)
+  obtain ⟨a, haI, haJ⟩ := IsConcreteLE.exists_of_lt (lt_of_le_of_ne hJI hne)
   have hkill : ringKrullDim (R ⧸ I) + 1 ≤ ringKrullDim (R ⧸ J) :=
     ringKrullDim_succ_le_of_surjective (Ideal.Quotient.factor hJI)
       (Ideal.Quotient.factor_surjective hJI)

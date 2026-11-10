@@ -108,7 +108,7 @@ public theorem mem_ker_fibreProduct_iff (z : AlgHom.pullback φ f) :
   refine ⟨fun hz => ?_, fun h => RingHom.mem_ker.2 h.1⟩
   have h1 : ((z : A × C')).1 = 0 := RingHom.mem_ker.1 hz
   refine ⟨h1, RingHom.mem_ker.2 ?_⟩
-  show f ((z : A × C')).2 = 0
+  change f ((z : A × C')).2 = 0
   rw [← fibreProduct_prop φ f z, h1, map_zero]
 
 /-- The kernel of `A ×_C C' → A` is square-zero when the kernel of `f` is: an element of it has
@@ -128,9 +128,9 @@ public theorem ker_fibreProduct_sq_eq_bot
     rwa [hsq, Ideal.mem_bot] at h
   rw [Ideal.mem_bot]
   refine Subtype.ext (Prod.ext ?_ ?_)
-  · show ((z : A × C')).1 * ((w : A × C')).1 = 0
+  · change ((z : A × C')).1 * ((w : A × C')).1 = 0
     rw [hz1, zero_mul]
-  · show ((z : A × C')).2 * ((w : A × C')).2 = 0
+  · change ((z : A × C')).2 * ((w : A × C')).2 = 0
     exact hmul
 
 end FibreProduct
@@ -218,7 +218,7 @@ public theorem exists_algHom_lift_of_algHom_section
     ∃ ψ : A →ₐ[Λ] C', f.comp ψ = φ := by
   refine ⟨(AlgHom.pullbackSnd φ f).comp σ, AlgHom.ext fun a => ?_⟩
   have h1 : ((σ a : A × C')).1 = a := by simpa using RingHom.congr_fun hσ a
-  show f ((σ a : A × C')).2 = φ a
+  change f ((σ a : A × C')).2 = φ a
   rw [← fibreProduct_prop φ f (σ a), h1]
 
 end Section

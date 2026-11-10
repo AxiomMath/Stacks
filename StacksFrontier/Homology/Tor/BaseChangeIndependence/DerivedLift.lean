@@ -188,17 +188,16 @@ private lemma isIso_pushoutComparison_app
     ((τ.app M).hom.toAddMonoidHom.comp u.symm.toAddEquiv.toAddMonoidHom)
   have hψ : (ψ : _ → _) = ⇑e := by
     funext x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul s m =>
-      show w (τ.app M (s ⊗ₜ[R,algebraMap R S] m)) = e (s ⊗ₜ[R] m)
+      change w (τ.app M (s ⊗ₜ[R,algebraMap R S] m)) = e (s ⊗ₜ[R] m)
       rw [hτ]
       exact (Algebra.IsPushout.cancelBaseChange_symm_tmul R S A B M s m).symm
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
   apply (ConcreteCategory.isIso_iff_bijective (τ.app M)).mpr
   have he : (τ.app M : _ → _) = w.symm ∘ ψ ∘ u := by
     funext x
-    show τ.app M x = w.symm (w (τ.app M (u.symm (u x))))
+    change τ.app M x = w.symm (w (τ.app M (u.symm (u x))))
     exact (w.symm_apply_apply (τ.app M x)).symm.trans
       (congrArg (fun y ↦ w.symm (w (τ.app M y))) (u.symm_apply_apply x)).symm
   rw [he]
@@ -212,13 +211,14 @@ private lemma isIso_restrictDerived_map
   intro n
   have hg : IsIso (((ModuleCat.restrictScalars f).mapDerivedCategory ⋙
       DerivedCategory.homologyFunctor (ModuleCat.{max u v} R) n).map g) := by
-    show IsIso ((DerivedCategory.homologyFunctor (ModuleCat.{max u v} R) n).map
+    change IsIso ((DerivedCategory.homologyFunctor (ModuleCat.{max u v} R) n).map
       ((ModuleCat.restrictScalars f).mapDerivedCategory.map g))
     infer_instance
   have hg' : IsIso ((ModuleCat.restrictScalars f).map
       ((DerivedCategory.homologyFunctor (ModuleCat.{max u v} S) n).map g)) :=
     (NatIso.isIso_map_iff (restrictedDerivedHomologyIso f n) g).mp hg
-  rwa [ConcreteCategory.isIso_iff_bijective] at hg' ⊢
+  rw [ConcreteCategory.isIso_iff_bijective] at hg' ⊢
+  exact hg'
 
 private lemma isIso_comparison_app_of_torIndependent
     {R A S B : Type u} [CommRing R] [CommRing A] [CommRing S] [CommRing B]
@@ -279,7 +279,7 @@ private lemma isIso_comparison_app_of_torIndependent
   have : ∀ M, IsIso (τ.1.app M) := fun M ↦ isIso_pushoutComparison_app τ.1 τ.2.2.1 M
   have : IsIso τ.1 := NatIso.isIso_of_isIso_app τ.1
   have : IsIso ((NatTrans.mapHomologicalComplex τ.1 (ComplexShape.up ℤ)).app X) := by
-    show IsIso ((NatIso.mapHomologicalComplex (asIso τ.1) (ComplexShape.up ℤ)).hom.app X)
+    change IsIso ((NatIso.mapHomologicalComplex (asIso τ.1) (ComplexShape.up ℤ)).hom.app X)
     infer_instance
   have hh := congrArg (fun η ↦ η.app X) τ.2.2.2
   dsimp only [Functor.whiskerLeft_app, NatTrans.comp_app, Functor.associator_hom_app,
@@ -439,7 +439,7 @@ private lemma exists_flat_module_of_derived_lift
   let eModule := FR.asEquivalence.counitIso.app N₀
   have hflatER : Module.Flat R ER := by
     have hflatLifted : Module.Flat (ULift.{max u v} R) ER := by
-      show Module.Flat (ULift.{max u v} R) ((FR.obj ER : ModuleCat (ULift.{max u v} R)))
+      change Module.Flat (ULift.{max u v} R) ((FR.obj ER : ModuleCat (ULift.{max u v} R)))
       exact @Module.Flat.of_linearEquiv _ _ _ _ _ _ _ _ hflatN₀ eModule.toLinearEquiv
     exact (Module.Flat.ulift_left_iff.{u, max u v, max u v}
       (R := R) (M := (ER : Type (max u v)))).mp hflatLifted
@@ -563,7 +563,7 @@ public theorem exists_flat_lift_iff_exists_derived_lift
         map_smul' := by
           intro a x
           apply ULift.ext
-          show (algebraMap A P a) • x.down = a • x.down
+          change (algebraMap A P a) • x.down = a • x.down
           exact IsScalarTower.algebraMap_smul (R := A) (A := P) a x.down }
       let : Module.Flat A (ULift.{u} M) :=
         Module.Flat.ulift_right_iff.mpr (inferInstance : Module.Flat A M)

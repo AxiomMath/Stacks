@@ -3,7 +3,7 @@ module
 public import Mathlib.AlgebraicGeometry.AlgebraicCycle.Basic
 public import Mathlib.AlgebraicGeometry.Morphisms.Proper
 public import Mathlib.AlgebraicGeometry.ResidueField
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 public import Mathlib.Order.WithBotTop
 public import Mathlib.RingTheory.AlgebraicIndependent.Basic
 public import StacksFrontier.AlgebraicGeometry.Chow.RationalEquivalence
@@ -302,7 +302,7 @@ theorem properPushforward_apply (C : ChowSituation.{u}) {X Y : Scheme.{u}} (sX :
         (if relativeDimension C.dimensionFunction sX x =
             relativeDimension C.dimensionFunction sY (f.base x)
           then (f.residueDegree x : ℤ) else 0) := by
-  show AlgebraicCycle.map f (relativeDimension C.dimensionFunction sX)
+  change AlgebraicCycle.map f (relativeDimension C.dimensionFunction sX)
       (relativeDimension C.dimensionFunction sY) c.1 y = _
   simp [AlgebraicCycle.map, AlgebraicCycle.mapCoeff]
 

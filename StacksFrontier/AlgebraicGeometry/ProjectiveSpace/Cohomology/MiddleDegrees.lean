@@ -573,7 +573,7 @@ theorem range_laurentCechDiffRestrict_le_ker :
       ≤ LinearMap.ker (laurentCechDiffRestrict R n d (q + 1)) := by
   rintro _ ⟨b, rfl⟩
   refine LinearMap.mem_ker.2 (Subtype.ext ?_)
-  show laurentCechDiff R n (laurentCechDiff R n (b : LaurentCochain R n)) = 0
+  change laurentCechDiff R n (laurentCechDiff R n (b : LaurentCochain R n)) = 0
   exact LinearMap.congr_fun laurentCechDiff_comp_self (b : LaurentCochain R n)
 
 /-- Coboundaries are all the cocycles as soon as every cocycle is the differential of a cochain. -/
@@ -654,7 +654,7 @@ theorem ker_laurentCechDiffRestrict_zero_eq_bot (hn : 0 < n) (hd : d < 0) :
     exact (mem_laurentCechCochains.1 c.2).1 {i}
   have hzero : (c : LaurentCochain R n) {(0 : Fin (n + 1))} = 0 :=
     (Submodule.eq_bot_iff _).1 (twistChart_eq_bot_of_neg n hd) _ hmem
-  show (c : LaurentCochain R n) S = 0
+  change (c : LaurentCochain R n) S = 0
   by_cases hS : S.card = 0 + 1
   · obtain ⟨i, rfl⟩ := Finset.card_eq_one.1 hS
     rw [apply_singleton_eq_of_laurentCechDiff_eq_zero hz i 0, hzero]
@@ -813,14 +813,14 @@ theorem range_laurentTopCechDiff (R : Type u) [CommRing R] (m : ℕ) (d : ℤ) :
         if S = Finset.univ.erase i then Cech.cechSign Finset.univ i • x else 0)
           ∈ laurentCechCochains R (m + 1) d m := by
       refine ⟨fun S => ?_, fun S hS => ?_⟩
-      · show (if S = Finset.univ.erase i then Cech.cechSign Finset.univ i • x else 0)
+      · change (if S = Finset.univ.erase i then Cech.cechSign Finset.univ i • x else 0)
           ∈ twistChart R (m + 1) d (S : Set (Fin (m + 1 + 1)))
         by_cases hSi : S = Finset.univ.erase i
         · rw [ite_eq_left hSi, hSi, coe_univ_erase m i]
           exact zsmul_mem hx _
         · rw [ite_eq_right hSi]
           exact zero_mem _
-      · show (if S = Finset.univ.erase i then Cech.cechSign Finset.univ i • x else 0) = 0
+      · change (if S = Finset.univ.erase i then Cech.cechSign Finset.univ i • x else 0) = 0
         refine ite_eq_right fun hSi => hS ?_
         rw [hSi]
         exact hcard
@@ -832,11 +832,11 @@ theorem range_laurentTopCechDiff (R : Type u) [CommRing R] (m : ℕ) (d : ℤ) :
           Finset.mem_erase.2 ⟨fun h => hj h.symm, Finset.mem_univ i⟩
         rw [hcon] at hmem
         exact (Finset.mem_erase.1 hmem).1 rfl
-      show Cech.cechSign Finset.univ j •
+      change Cech.cechSign Finset.univ j •
         (if Finset.univ.erase j = Finset.univ.erase i then
           Cech.cechSign Finset.univ i • x else 0) = 0
       rw [ite_eq_right hne, smul_zero]
-    · show Cech.cechSign Finset.univ i •
+    · change Cech.cechSign Finset.univ i •
         (if Finset.univ.erase i = Finset.univ.erase i then
           Cech.cechSign Finset.univ i • x else 0) = x
       rw [ite_eq_left rfl, cechSign_smul_cechSign_smul]

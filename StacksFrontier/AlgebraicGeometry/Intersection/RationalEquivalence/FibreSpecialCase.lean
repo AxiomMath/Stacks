@@ -496,7 +496,7 @@ theorem isGenericPoint_fromSpecStalk_idealStalk (W : P.IdealSheafData) [IsIntegr
   have h2 : Qη.asIdeal ≤ Qw.asIdeal := by
     rw [← fromSpecStalk_specializes_iff, hQη]
     exact hηz
-  show IsGenericPoint (P.fromSpecStalk y Qw) _
+  change IsGenericPoint (P.fromSpecStalk y Qw) _
   rwa [← PrimeSpectrum.ext (le_antisymm h2 h1), hQη]
 
 /-- If an integral `W` through `y` is not contained in the closed set `T` and `t` lies only in
@@ -848,7 +848,7 @@ theorem torFormulaCycleIntersectionProduct_fibre_apply (x : X)
           fun h => h.1⟩
         by_contra hzy
         apply hz
-        show componentWeight k f v W d z * _ = 0
+        change componentWeight k f v W d z * _ = 0
         rw [hcoeff0 z hzZ (fun h => hzy (specializes_iff_mem_closure.mpr h)), mul_zero]
     _ = _ := (finsum_mem_eq_of_bijOn _ hbij fun Q hQ => (hterm Q hQ).symm).symm
 
@@ -1006,7 +1006,7 @@ theorem cycleAssociatedToClosedSubscheme_comap_eq_zero {r : ℤ} (hrs : r ≠ s)
       0 := by
   apply Function.locallyFinsuppWithin.ext
   intro x
-  show closedSubschemeCycleCoeff (fieldChowSituation k) f _ r x = 0
+  change closedSubschemeCycleCoeff (fieldChowSituation k) f _ r x = 0
   unfold closedSubschemeCycleCoeff
   rw [dite_eq_right]
   rintro ⟨ξ, hξ, hδ⟩
@@ -1296,7 +1296,7 @@ theorem rationallyEquivalent_intersectionProduct_fibreCycle [DecidableEq X] (hX 
             ((integralComponentAt z).comap σb).subschemeι n) := by
     apply Subtype.ext
     rw [AddSubgroup.coe_sub, AddSubgroup.val_finsetSum]
-    show torFormulaCycleIntersectionProduct (fieldChowSituation k) f hX n
+    change torFormulaCycleIntersectionProduct (fieldChowSituation k) f hX n
           (Function.locallyFinsuppWithin.single v 1)
           (cycleAssociatedToClosedSubscheme (fieldChowSituation k) f (W.comap σa).subschemeι s).1 -
         torFormulaCycleIntersectionProduct (fieldChowSituation k) f hX n
@@ -1313,7 +1313,7 @@ theorem rationallyEquivalent_intersectionProduct_fibreCycle [DecidableEq X] (hX 
     rw [Scheme.IdealSheafData.range_subschemeι, coe_support_integralComponentAt]
     exact subset_closure rfl
   exact sub_cycleAssociatedToClosedSubscheme_comap_mem_rationalEquivalences (fieldChowSituation k)
-    f k rfl n (isPresentedSection_closedPointSection k f a ha)
+    f n (isPresentedSection_closedPointSection k f a ha)
     (isPresentedSection_closedPointSection k f b hb) (integralComponentAt z)
     (relativeDimension_familyBase_integralComponentAt_genericPoints (fieldChowSituation k) f z
       (hZδ z hz))
@@ -1392,7 +1392,7 @@ theorem rationallyEquivalent_intersectionProduct_fibreCycle_dimension_r [Decidab
         torFormulaCycleIntersectionProduct_mem_cyclesOfDimension
           (fieldChowSituation k) f hX _ _ _⟩ := by
     apply Subtype.ext
-    show torFormulaCycleIntersectionProduct (fieldChowSituation k) f hX ((r : ℤ) + r - dX)
+    change torFormulaCycleIntersectionProduct (fieldChowSituation k) f hX ((r : ℤ) + r - dX)
           (Function.locallyFinsuppWithin.single v 1)
           (cycleAssociatedToClosedSubscheme (fieldChowSituation k) f
             (W.comap (closedPointSection k rfl a ha f)).subschemeι r).1 =

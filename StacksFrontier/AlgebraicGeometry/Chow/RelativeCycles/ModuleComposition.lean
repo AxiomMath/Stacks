@@ -324,13 +324,17 @@ attached to a ringed space is the ring sheaf of that space, so the two hypothese
 over the former before it applies. -/
 private theorem isFiniteType_tensorSheaf (X : Scheme.{u}) (F G : X.Modules)
     [F.IsFiniteType] [G.IsFiniteType] :
-    ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj (F)).obj (G))).IsFiniteType := by
+    ((((Stacks.SheafOfModules.Tensor.sheafTensor
+      ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj (F)).obj
+        (G))).IsFiniteType := by
   have hF : SheafOfModules.IsFiniteType
-      (R := (Stacks.SheafOfModules.Tensor.ringSheaf (Stacks.Cohomology.SpaceInverseSystems.ringedSiteOfSpace
-        X.toRingedSpace).O)) F := ‹F.IsFiniteType›
+      (R := (Stacks.SheafOfModules.Tensor.ringSheaf
+        (Stacks.Cohomology.SpaceInverseSystems.ringedSiteOfSpace
+          X.toRingedSpace).O)) F := ‹F.IsFiniteType›
   have hG : SheafOfModules.IsFiniteType
-      (R := (Stacks.SheafOfModules.Tensor.ringSheaf (Stacks.Cohomology.SpaceInverseSystems.ringedSiteOfSpace
-        X.toRingedSpace).O)) G := ‹G.IsFiniteType›
+      (R := (Stacks.SheafOfModules.Tensor.ringSheaf
+        (Stacks.Cohomology.SpaceInverseSystems.ringedSiteOfSpace
+          X.toRingedSpace).O)) G := ‹G.IsFiniteType›
   exact Stacks.SheafOfModules.TensorLocalProperties.tensorSheaf_isFiniteType
     (Stacks.Cohomology.SpaceInverseSystems.ringedSiteOfSpace X.toRingedSpace) F G
 

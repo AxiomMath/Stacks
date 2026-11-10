@@ -201,7 +201,7 @@ theorem mem_torsion'_powers_of_smul_eq_zero {B : Type*} [CommRing B] [Algebra R 
     (ht : algebraMap R B x • t = 0) :
     t ∈ Submodule.torsion' B N (Submonoid.powers (algebraMap R B (x * a))) := by
   refine ⟨⟨_, 1, rfl⟩, ?_⟩
-  show algebraMap R B (x * a) ^ 1 • t = 0
+  change algebraMap R B (x * a) ^ 1 • t = 0
   rw [pow_one, map_mul, mul_comm (algebraMap R B x), mul_smul, ht, smul_zero]
 
 /-- An element of `R[(xI)/(xa)] ⊗[R] M` killed by the image of `x` lies in the submodule

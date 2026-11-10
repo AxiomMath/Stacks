@@ -148,7 +148,7 @@ theorem compositumFrobenius_le_fieldRange_residueFieldMap_relativeFrobenius
   apply Subfield.closure_le.mpr
   rintro a (⟨b, rfl⟩ | ⟨b, rfl⟩)
   · refine hbase ⟨((Scheme.ΓSpecIso (.of k)).inv ≫ S.Γevaluation (pX x)).hom b, ?_⟩
-    show ((Scheme.ΓSpecIso (.of k)).inv ≫ S.Γevaluation (pX x) ≫
+    change ((Scheme.ΓSpecIso (.of k)).inv ≫ S.Γevaluation (pX x) ≫
         pX.residueFieldMap x).hom b =
       ((Scheme.ΓSpecIso (.of k)).inv ≫ pX.appTop ≫ X.Γevaluation x).hom b
     rw [Scheme.Γevaluation_naturality]

@@ -266,7 +266,6 @@ private theorem chartMul_assoc_of_tensorIso
     whiskerLeft_comp, Category.assoc, reassoc_of% nL,
     map_eqToHom_hom_of_eq A (add_assoc i j k).symm]
 
-include hT in
 /-- **Commutativity passes through a monoidal identification**, the companion of
 `chartMul_assoc_of_tensorIso` for an identification compatible with the braidings. -/
 private theorem chartMul_comm_of_tensorIso [bD : BraidedCategory D]
@@ -510,9 +509,8 @@ theorem representedTensorChartMul_comm
     (bD := modulesBraidedCategory B S hS (yoneda.obj U)
       (AlgebraicGeometry.isAlgebraicSpace_yoneda B S hS U))
     (representedQuasicoherentSchemeEquivalence B S hS U).functor (quasicoherentTensorObj B S hS U)
-    (fun {_ _ _ _} a b => quasicoherentTensorHom B S hS U a b)
     (representedQuasicoherentSchemeTensorIso B S hS U)
-    (fun {_ _ _ _} a b => representedQuasicoherentSchemeTensorIso_hom_naturality B S hS U a b) m
+    m
     (quasicoherentBraiding B S hS U) (representedQuasicoherentSchemeTensorIso_braiding B S hS U)
     hm i j
 

@@ -136,8 +136,7 @@ theorem exists_glue [IsReduced (A ⨿ B : Scheme.{u})] (L : ∀ j, (summand A B 
     · exact absurd rfl hjk
   obtain ⟨M, hM, t, ht⟩ :=
     StacksTag09NE.exists_invertible_with_sections_of_closed_cover_discrete_intersections
-      (A ⨿ B : Scheme.{u}) (summand A B) (summandι A B) hcover
-      (fun j k hjk => by rw [hdisj j k hjk]; infer_instance) L s
+      (A ⨿ B : Scheme.{u}) (summand A B) (summandι A B) hcover L s
       (fun j k hjk z hz => absurd (show summandι A B j z ∈ (∅ : Set _) from
         hdisj j k hjk ▸ ⟨⟨z, rfl⟩, hz⟩) id)
   refine ⟨M, (Stacks.SheafOfModules.isInvertible_iff_algebraicGeometry _ _ M).mpr hM, t,

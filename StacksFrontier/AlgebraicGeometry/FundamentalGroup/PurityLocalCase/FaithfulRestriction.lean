@@ -91,7 +91,7 @@ private theorem exists_nonclosed_prime_over_prime
   have : IsLocalHom (Ideal.Quotient.mk p) :=
     IsLocalHom.of_surjective (Ideal.Quotient.mk p) Ideal.Quotient.mk_surjective
   have hfbMax : fb ∈ IsLocalRing.maximalIdeal B := by
-    show f ∈ (IsLocalRing.maximalIdeal B).comap (Ideal.Quotient.mk p)
+    change f ∈ (IsLocalRing.maximalIdeal B).comap (Ideal.Quotient.mk p)
     rw [IsLocalRing.maximalIdeal_comap]
     exact hfmax
   have hdimEq : ringKrullDim (B ⧸ Ideal.span {fb}) + 1 = ringKrullDim B :=
@@ -108,7 +108,7 @@ private theorem exists_nonclosed_prime_over_prime
       Ideal.Quotient.mk_surjective
   have hdimT : 0 < ringKrullDim T := by
     have hTle : 1 + 1 ≤ ringKrullDim T + 1 := by
-      show 1 + 1 ≤ ringKrullDim (B ⧸ Ideal.span {fb}) + 1
+      change 1 + 1 ≤ ringKrullDim (B ⧸ Ideal.span {fb}) + 1
       simpa only [one_add_one_eq_two, hdimEq] using hdim
     exact lt_of_lt_of_le (by norm_num)
       (ENat.WithBot.add_le_add_one_right_iff.mp hTle)
@@ -130,12 +130,12 @@ private theorem exists_nonclosed_prime_over_prime
       (h.trans (IsLocalRing.comap_closedPoint g).symm))
   refine ⟨qa, ?_, ?_, hqaNotClosed⟩
   · intro a ha
-    show g a ∈ q.asIdeal
-    show Ideal.Quotient.mk (Ideal.span {fb}) (Ideal.Quotient.mk p a) ∈ q.asIdeal
+    change g a ∈ q.asIdeal
+    change Ideal.Quotient.mk (Ideal.span {fb}) (Ideal.Quotient.mk p a) ∈ q.asIdeal
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr ha]
     exact Ideal.zero_mem _
-  · show g f ∈ q.asIdeal
-    show Ideal.Quotient.mk (Ideal.span {fb}) fb ∈ q.asIdeal
+  · change g f ∈ q.asIdeal
+    change Ideal.Quotient.mk (Ideal.span {fb}) fb ∈ q.asIdeal
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.subset_span (Set.mem_singleton fb))]
     exact Ideal.zero_mem _
 
@@ -167,7 +167,7 @@ private theorem isClosedImmersion_U₀ToU (S : LocalLefschetzSituation.{u}) :
     IsClosedImmersion.spec_of_surjective
       (CommRingCat.ofHom (Ideal.Quotient.mk S.principalIdeal))
       Ideal.Quotient.mk_surjective
-  show IsClosedImmersion (S.X₀ToX ∣_ S.UOpen)
+  change IsClosedImmersion (S.X₀ToX ∣_ S.UOpen)
   infer_instance
 
 /-- Given a non-closed point `x` of `Spec A` such that every minimal prime specializing to `x` and
@@ -192,7 +192,7 @@ private theorem exists_specializes_point_over_U₀ (S : LocalLefschetzSituation.
       simpa [pPoint, IsLocalRing.closedPoint] using congrArg PrimeSpectrum.asIdeal e
     apply hxne
     apply PrimeSpectrum.ext
-    show x.asIdeal = IsLocalRing.maximalIdeal S.A
+    change x.asIdeal = IsLocalRing.maximalIdeal S.A
     exact le_antisymm (IsLocalRing.le_maximalIdeal x.isPrime.ne_top')
       (by simpa [ep] using hpx)
   obtain ⟨qPoint, hpq, hqf, hqNotClosed⟩ :
@@ -325,7 +325,7 @@ private theorem not_exists_nonclosed_prime_over_prime_of_dim_eq_one
     refine hfp ?_
     have hqIdeal : q.asIdeal = p := by
       rw [← hqR, h]
-      show RingHom.ker (Ideal.Quotient.mk p) = p
+      change RingHom.ker (Ideal.Quotient.mk p) = p
       exact Ideal.mk_ker
     exact hqIdeal ▸ hqf
   have hqRneTop : qR ≠ (⊤ : PrimeSpectrum R) := by
@@ -365,7 +365,7 @@ theorem exists_hasLargeMissingComponents (S : LocalLefschetzSituation.{u}) :
     have hqU : S.X₀ToX.base z ∈ S.UOpen := hz
     have hqne : S.X₀ToX.base z ≠ IsLocalRing.closedPoint S.A := hqU
     have hqf : S.f ∈ (S.X₀ToX.base z).asIdeal := by
-      show S.f ∈ Ideal.comap (Ideal.Quotient.mk S.principalIdeal) z.asIdeal
+      change S.f ∈ Ideal.comap (Ideal.Quotient.mk S.principalIdeal) z.asIdeal
       rw [Ideal.mem_comap, Ideal.Quotient.eq_zero_iff_mem.mpr
         (Ideal.subset_span (Set.mem_singleton S.f))]
       exact z.asIdeal.zero_mem

@@ -178,7 +178,7 @@ private theorem exists_variable_power_mem_span_of_nonzero_oneVariable
   exact hu.mul_right_dvd.mpr dvd_rfl
 
 private theorem quotient_decompose_constant_variable
-    {k : Type w} [Field k] (f : MvPowerSeries (Fin 1) k)
+    {k : Type w} [Field k]
     (I : Ideal (MvPowerSeries (Fin 1) k)) (y : MvPowerSeries (Fin 1) k ⧸ I) :
     ∃ c : k, ∃ z : MvPowerSeries (Fin 1) k ⧸ I,
       y = algebraMap k (MvPowerSeries (Fin 1) k ⧸ I) c +
@@ -206,13 +206,13 @@ private theorem quotient_decompose_constant_variable
   refine ⟨c, Ideal.Quotient.mk I r, ?_⟩
   have hC : algebraMap k (MvPowerSeries (Fin 1) k ⧸ I) c =
       Ideal.Quotient.mk I (MvPowerSeries.C c) := by
-    show Ideal.Quotient.mk I (algebraMap k R c) = _
+    change Ideal.Quotient.mk I (algebraMap k R c) = _
     congr 1
   rw [hrepr]
   simp [hC]
 
 private theorem exists_quotient_expansion_mod_variable_power
-    {k : Type w} [Field k] (f : MvPowerSeries (Fin 1) k)
+    {k : Type w} [Field k]
     (I : Ideal (MvPowerSeries (Fin 1) k)) :
     ∀ n : ℕ, ∀ y : MvPowerSeries (Fin 1) k ⧸ I,
       ∃ c : Fin n → k, ∃ z : MvPowerSeries (Fin 1) k ⧸ I,
@@ -231,7 +231,7 @@ private theorem exists_quotient_expansion_mod_variable_power
       intro y
       let x : MvPowerSeries (Fin 1) k ⧸ I :=
         Ideal.Quotient.mk I (MvPowerSeries.X (0 : Fin 1))
-      obtain ⟨a, z₀, h₀⟩ := quotient_decompose_constant_variable f I y
+      obtain ⟨a, z₀, h₀⟩ := quotient_decompose_constant_variable I y
       obtain ⟨c, z, hc⟩ := ih z₀
       let c' : Fin (n + 1) → k := Fin.cons a c
       refine ⟨c', z, ?_⟩
@@ -280,7 +280,7 @@ private theorem moduleFinite_hypersurface_oneVariable
   have htop : S = ⊤ := by
     apply top_unique
     intro y hy
-    obtain ⟨c, z, hrepr⟩ := exists_quotient_expansion_mod_variable_power f I d y
+    obtain ⟨c, z, hrepr⟩ := exists_quotient_expansion_mod_variable_power I d y
     have hlast : x ^ d * z = 0 := by rw [hxpow, zero_mul]
     rw [hlast, add_zero] at hrepr
     rw [hrepr]
@@ -390,14 +390,14 @@ private theorem hypersurfaceJacobianKernelDerivation_apply_mk {k : Type w} [Fiel
     map_add' := fun x y => map_add (Ideal.Quotient.mk I) x y
     map_smul' := by
       intro a x
-      show Ideal.Quotient.mk I (a * x) = Ideal.Quotient.mk I a * Ideal.Quotient.mk I x
+      change Ideal.Quotient.mk I (a * x) = Ideal.Quotient.mk I a * Ideal.Quotient.mk I x
       exact map_mul (Ideal.Quotient.mk I) a x }
   unfold hypersurfaceJacobianKernelDerivation
   dsimp only
-  show ((Submodule.restrictScalars k I).liftQ _ _)
+  change ((Submodule.restrictScalars k I).liftQ _ _)
     (Submodule.Quotient.mk g) = _
   rw [Submodule.liftQ_apply]
-  show Derivation.coeFnAddMonoidHom
+  change Derivation.coeFnAddMonoidHom
     (∑ i : Fin n, v.1 i • (π.compDer (MvPowerSeries.pderiv (R := k) i))) g = _
   rw [map_sum, Fintype.sum_apply]
   rfl
@@ -485,7 +485,7 @@ private theorem exists_maximalIdeal_not_mem_of_prime_not_maximal
     intro hm
     have heq : q = IsLocalRing.maximalIdeal P := le_antisymm hqle hm
     exact hq (heq ▸ IsLocalRing.maximalIdeal.isMaximal P)
-  exact SetLike.not_le_iff_exists.mp hnot
+  exact IsConcreteLE.not_le_iff_exists.mp hnot
 
 private theorem exists_vector_in_kernel_nonzero_at_prime
     (P : Type*) [CommRing P] (n : ℕ) (hn : 2 ≤ n) (a : Fin n → P)
@@ -508,7 +508,7 @@ private theorem exists_vector_in_kernel_nonzero_at_prime
       (S := A) (M := q.primeCompl) (a i)).mp hzero
     let v : Fin n → P := Pi.single i (s : P)
     refine ⟨v, ?_, ?_⟩
-    · show (∑ x : Fin n, (Pi.single i (s : P) : Fin n → P) x * a x) = 0
+    · change (∑ x : Fin n, (Pi.single i (s : P) : Fin n → P) x * a x) = 0
       rw [hsingle]
       simpa [mul_comm] using hs
     · refine ⟨i, ?_⟩
@@ -517,7 +517,7 @@ private theorem exists_vector_in_kernel_nonzero_at_prime
     let w : Fin n → P := Pi.single j (a i)
     let v : Fin n → P := u + w
     refine ⟨v, ?_, ?_⟩
-    · show (∑ x : Fin n, (u x + w x) * a x) = 0
+    · change (∑ x : Fin n, (u x + w x) * a x) = 0
       simp only [add_mul, Finset.sum_add_distrib, u, w, hsingle]
       ring
     · refine ⟨j, ?_⟩
@@ -537,7 +537,7 @@ private theorem exists_hypersurfaceJacobianKernel_nonzero_at_prime
     P n hn a q
   refine ⟨⟨v, ?_⟩, j, ?_⟩
   · apply LinearMap.mem_ker.mpr
-    show hypersurfaceJacobianMap n f v = 0
+    change hypersurfaceJacobianMap n f v = 0
     simpa [hypersurfaceJacobianMap, a] using hv
   · simpa [P] using hj
 
@@ -679,7 +679,7 @@ private theorem not_finiteDimensional_hypersurfaceDerivations
   let D := hypersurfaceJacobianKernelToDerivation n f v
   have hD : algebraMap P (Localization.AtPrime q)
       (D (Ideal.Quotient.mk (Ideal.span {f}) (MvPowerSeries.X j))) ≠ 0 := by
-    show algebraMap P (Localization.AtPrime q)
+    change algebraMap P (Localization.AtPrime q)
       (hypersurfaceJacobianKernelDerivation n f v
         (Ideal.Quotient.mk (Ideal.span {f}) (MvPowerSeries.X j))) ≠ 0
     rwa [hypersurfaceJacobianKernelDerivation_apply_X]

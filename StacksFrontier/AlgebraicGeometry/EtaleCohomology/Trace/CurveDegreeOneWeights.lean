@@ -118,7 +118,7 @@ public theorem isCharpolyNormMixedOfWeightLE_one_of_isIotaRealizable (hℓp : �
     have h : (Set.univ : Set (closedPoints U.1)) =
         ⋃ m : ℕ, {y : closedPoints U.1 | residueDegree f y.1 ≤ m} := by
       ext y
-      simp only [Set.mem_univ, Set.mem_iUnion, Set.mem_setOf_eq, true_iff]
+      simp only [Set.mem_univ, Set.mem_iUnion, Set.mem_ofPred_eq, true_iff]
       exact ⟨_, le_rfl⟩
     exact Set.countable_univ_iff.1 (h ▸ Set.countable_iUnion fun m =>
       (finite_setOf_closedPoints_residueDegree_le f m).countable)

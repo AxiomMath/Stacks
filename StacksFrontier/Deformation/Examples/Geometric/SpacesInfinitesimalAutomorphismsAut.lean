@@ -243,7 +243,7 @@ theorem spaceSelfMapOfHom_comp_retraction (θ : SpaceLiftHom B hΛ hSpec X hX to
     spaceSelfMapOfHom B hΛ hSpec X hX toK hpair i θ ≫ (spaceRetraction B hΛ hSpec X hX toK i).hom =
       (spaceLiftsEquiv B hΛ hSpec X hX toK hpair i θ).1.hom := by
   have := isIso_spaceSpecialMap_of_residueFieldObject B hΛ hSpec X hX toK x₀
-  show spaceSelfMapOfHom B hΛ hSpec X hX toK hpair i θ ≫ i.left.map ≫
+  change spaceSelfMapOfHom B hΛ hSpec X hX toK hpair i θ ≫ i.left.map ≫
     inv (spaceSpecialMap B hΛ hSpec X hX toK x₀.1) = _
   rw [← Category.assoc, spaceSelfMapOfHom, IsPullback.lift_fst, Category.assoc,
     IsIso.hom_inv_id, Category.comp_id]

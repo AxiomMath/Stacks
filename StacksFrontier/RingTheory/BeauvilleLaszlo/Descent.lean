@@ -85,8 +85,7 @@ private lemma rTensor_lTensor_comm
     [AddCommGroup N] [Module R N] [AddCommGroup P] [Module R P]
     (g : A →ₗ[R] B) (i : N →ₗ[R] P) (x : A ⊗[R] N) :
     g.rTensor P (i.lTensor A x) = i.lTensor B (g.rTensor N x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul a n => rfl
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -108,8 +107,7 @@ private lemma tensorDifference_exact (t : T) (σ : S →ₗ[R] U) (τ : T →ₗ
   have hten := _root_.rTensor_exact N hex hes
   let p := TensorProduct.prodLeft R R S T N
   have hp (x : (S × T) ⊗[R] N) : e.rTensor N x = tensorDifference σ τ N (p x) := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul a n =>
       rcases a with ⟨a, b⟩
       simp [e, ringDifference, p, tensorDifference, TensorProduct.add_tmul,
@@ -117,8 +115,7 @@ private lemma tensorDifference_exact (t : T) (σ : S →ₗ[R] U) (τ : T →ₗ
     | add x y hx hy => simp only [map_add, hx, hy]
   have hpd (x : R ⊗[R] N) :
       p (d.rTensor N x) = tensorDiagonal (R := R) (S := S) t N (TensorProduct.lid R N x) := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul r n =>
       simp [p, d, ringDiagonal, tensorDiagonal, Algebra.algebraMap_eq_smul_one,
         TensorProduct.smul_tmul]
@@ -145,7 +142,7 @@ private lemma tensorDifference_surjective (σ : S →ₗ[R] U) (τ : T →ₗ[R]
   intro u
   obtain ⟨x, hx⟩ := LinearMap.rTensor_surjective N hs u
   exact ⟨TensorProduct.prodLeft R R S T N x, by
-    show ((tensorDifference σ τ N).comp (TensorProduct.prodLeft R R S T N).toLinearMap) x = u
+    change ((tensorDifference σ τ N).comp (TensorProduct.prodLeft R R S T N).toLinearMap) x = u
     rw [he, hx]⟩
 
 private lemma tensorDiagonal_injective_of_flat (t : T)
@@ -191,11 +188,11 @@ private lemma rTensor_prod_exact
       simpa using hx)
     refine ⟨y, ?_⟩
     rw [← h₁]
-    show p ((a.prod b).rTensor N y) = x
+    change p ((a.prod b).rTensor N y) = x
     rw [hy, p.apply_symm_apply]
   · rintro ⟨y, rfl⟩
     rw [← h₁]
-    show (((c.rTensor N).coprod (-d.rTensor N)).comp p.toLinearMap)
+    change (((c.rTensor N).coprod (-d.rTensor N)).comp p.toLinearMap)
       ((a.prod b).rTensor N y) = 0
     rw [h₂]
     exact he.apply_apply_eq_zero y
@@ -256,7 +253,7 @@ private lemma fiber_exact (t : T) (σ : S →ₗ[S] U) (τ : T →ₗ[R] U)
     change (σ.restrictScalars R).rTensor A a - τ.rTensor A b = x.2 at hab
     have hxb : tensorDifference (σ.restrictScalars R) τ B
         (x.1 - i.lTensor S a, -i.lTensor T b) = 0 := by
-      show (σ.restrictScalars R).rTensor B (x.1 - i.lTensor S a) +
+      change (σ.restrictScalars R).rTensor B (x.1 - i.lTensor S a) +
         -(τ.rTensor B (-i.lTensor T b)) = 0
       rw [map_sub, map_neg, neg_neg, rTensor_lTensor_comm, rTensor_lTensor_comm, hx₂,
         ← hab, map_sub]
@@ -270,42 +267,42 @@ private lemma fiber_exact (t : T) (σ : S →ₗ[S] U) (τ : T →ₗ[R] U)
     have hdc : d c = 0 := by
       apply (injective_iff_map_eq_zero _).mp hcinj
       apply Prod.ext
-      · show (1 : S) ⊗ₜ[R] d c = 0
-        show d.lTensor S ((1 : S) ⊗ₜ[R] c) = 0
+      · change (1 : S) ⊗ₜ[R] d c = 0
+        change d.lTensor S ((1 : S) ⊗ₜ[R] c) = 0
         rw [hcS, map_sub, hx₁, ← LinearMap.lTensor_comp_apply, hdi]
         simp
-      · show t ⊗ₜ[R] d c = 0
-        show d.lTensor T (t ⊗ₜ[R] c) = 0
+      · change t ⊗ₜ[R] d c = 0
+        change d.lTensor T (t ⊗ₜ[R] c) = 0
         rw [hcT, map_neg, ← LinearMap.lTensor_comp_apply, hdi]
         simp
     obtain ⟨a₀, ha₀⟩ := (hid c).mp hdc
     refine ⟨a + (1 : S) ⊗ₜ[R] a₀, ?_⟩
     apply Prod.ext
-    · show i.lTensor S (a + (1 : S) ⊗ₜ[R] a₀) = x.1
+    · change i.lTensor S (a + (1 : S) ⊗ₜ[R] a₀) = x.1
       rw [map_add]
-      show i.lTensor S a + (1 : S) ⊗ₜ[R] i a₀ = x.1
+      change i.lTensor S a + (1 : S) ⊗ₜ[R] i a₀ = x.1
       rw [ha₀, hcS]
       abel
-    · show (σ.restrictScalars R).rTensor A (a + (1 : S) ⊗ₜ[R] a₀) = x.2
+    · change (σ.restrictScalars R).rTensor A (a + (1 : S) ⊗ₜ[R] a₀) = x.2
       have ht₀ : t ⊗ₜ[R] a₀ = -b := by
         apply ht
-        show t ⊗ₜ[R] i a₀ = i.lTensor T (-b)
+        change t ⊗ₜ[R] i a₀ = i.lTensor T (-b)
         rw [ha₀, hcT, map_neg]
       have hστ : σ 1 = τ t := by
         have hz := hex.apply_apply_eq_zero 1
         apply sub_eq_zero.mp
         simpa [ringDiagonal, ringDifference, sub_eq_add_neg] using hz
       rw [map_add]
-      show (σ.restrictScalars R).rTensor A a + σ 1 ⊗ₜ[R] a₀ = x.2
+      change (σ.restrictScalars R).rTensor A a + σ 1 ⊗ₜ[R] a₀ = x.2
       rw [hστ]
-      show (σ.restrictScalars R).rTensor A a + τ.rTensor A (t ⊗ₜ[R] a₀) = x.2
+      change (σ.restrictScalars R).rTensor A a + τ.rTensor A (t ⊗ₜ[R] a₀) = x.2
       rw [ht₀, map_neg, ← sub_eq_add_neg, hab]
   · rintro ⟨a, rfl⟩
     apply Prod.ext
-    · show d.lTensor S (i.lTensor S a) = 0
+    · change d.lTensor S (i.lTensor S a) = 0
       rw [← LinearMap.lTensor_comp_apply, hdi]
       simp
-    · show (σ.restrictScalars R).rTensor B (i.lTensor S a) -
+    · change (σ.restrictScalars R).rTensor B (i.lTensor S a) -
         i.lTensor U ((σ.restrictScalars R).rTensor A a) = 0
       rw [rTensor_lTensor_comm, sub_self]
 
@@ -351,12 +348,10 @@ private lemma fiber_exact_baseChange
       (fiberIn σM i).comp e₀.toLinearMap := by
     apply TensorProduct.ext'
     intro p a
-    induction p using TensorProduct.induction_on with
-    | zero => simp only [TensorProduct.zero_tmul, map_zero]
+    induction p using TensorProduct.inductionOn with
     | add p q hp hq => simp only [TensorProduct.add_tmul, map_add, hp, hq]
     | tmul s m =>
-      induction a using TensorProduct.induction_on with
-      | zero => simp only [TensorProduct.tmul_zero, map_zero]
+      induction a using TensorProduct.inductionOn with
       | add a b ha hb => simp only [TensorProduct.tmul_add, map_add, ha, hb]
       | tmul s' a =>
         simp [e₀, e₁, fiberIn, σM, tensorExchange, ← map_smul]
@@ -364,8 +359,7 @@ private lemma fiber_exact_baseChange
       (fiberOut σM i d).comp e₁.toLinearMap := by
     apply TensorProduct.ext'
     intro p x
-    induction p using TensorProduct.induction_on with
-    | zero => simp only [TensorProduct.zero_tmul, map_zero]
+    induction p using TensorProduct.inductionOn with
     | add p q hp hq => simp only [TensorProduct.add_tmul, map_add, hp, hq]
     | tmul s m =>
       rcases x with ⟨b, a⟩
@@ -373,15 +367,13 @@ private lemma fiber_exact_baseChange
       rw [split, TensorProduct.tmul_add, map_add, map_add]
       clear split
       congr 1
-      · induction b using TensorProduct.induction_on with
-        | zero => simp only [← Prod.zero_eq_mk, TensorProduct.tmul_zero, map_zero]
+      · induction b using TensorProduct.inductionOn with
         | add b c hb hc =>
           have hh : (b + c, (0 : U ⊗[R] A)) = (b, 0) + (c, 0) := by simp
           rw [hh]
           simp only [TensorProduct.tmul_add, map_add, hb, hc]
         | tmul s' b => simp [e₁, e₂, fiberOut, σM, tensorExchange, ← map_smul]
-      · induction a using TensorProduct.induction_on with
-        | zero => simp only [← Prod.zero_eq_mk, TensorProduct.tmul_zero, map_zero]
+      · induction a using TensorProduct.inductionOn with
         | add a b ha hb =>
           have hh : ((0 : S ⊗[R] B), a + b) = (0, a) + (0, b) := by simp
           rw [hh]
@@ -396,14 +388,14 @@ private lemma fiber_exact_baseChange
   · intro hx
     have hz : (fiberOut σ i d).lTensor P (e₁.symm x) = 0 := by
       apply e₂.injective
-      show (e₂.toLinearMap.comp ((fiberOut σ i d).lTensor P)) (e₁.symm x) = e₂ 0
+      change (e₂.toLinearMap.comp ((fiberOut σ i d).lTensor P)) (e₁.symm x) = e₂ 0
       rw [hout]
       simpa using hx
     obtain ⟨a, ha⟩ := (he _).mp hz
     refine ⟨e₀ a, ?_⟩
-    show ((fiberIn σM i).comp e₀.toLinearMap) a = x
+    change ((fiberIn σM i).comp e₀.toLinearMap) a = x
     rw [← hin]
-    show e₁ ((fiberIn σ i).lTensor P a) = x
+    change e₁ ((fiberIn σ i).lTensor P a) = x
     rw [ha, e₁.apply_symm_apply]
   · rintro ⟨a, rfl⟩
     have ha := he.apply_apply_eq_zero (e₀.symm a)
@@ -438,7 +430,7 @@ private lemma lTensor_exact_of_gluing (t : T) (σ : S →ₗ[S] U) (τ : T →�
       apply sub_eq_zero.mp
       simpa [ringDiagonal, ringDifference, sub_eq_add_neg] using hex.apply_apply_eq_zero 1
     ext m
-    show σ 1 ⊗ₜ[R] m = τ t ⊗ₜ[R] m
+    change σ 1 ⊗ₜ[R] m = τ t ⊗ₜ[R] m
     rw [hστ]
   have hf := fiber_exact_baseChange (M := M) σ i d
     (fiber_exact t σ τ hex hes hed i d hi hid)
@@ -454,24 +446,24 @@ private lemma lTensor_exact_of_gluing (t : T) (σ : S →ₗ[S] U) (τ : T →�
       rw [← rTensor_lTensor_comm, hx, map_zero])
     have hxy : fiberOut σM i d (a.rTensor B x, e.rTensor A y) = 0 := by
       apply Prod.ext
-      · show d.lTensor (S ⊗[R] M) (a.rTensor B x) = 0
+      · change d.lTensor (S ⊗[R] M) (a.rTensor B x) = 0
         rw [← rTensor_lTensor_comm, hx, map_zero]
-      · show c.rTensor B (a.rTensor B x) - i.lTensor (U ⊗[R] M) (e.rTensor A y) = 0
+      · change c.rTensor B (a.rTensor B x) - i.lTensor (U ⊗[R] M) (e.rTensor A y) = 0
         rw [← LinearMap.rTensor_comp_apply, hc, LinearMap.rTensor_comp_apply,
           ← rTensor_lTensor_comm, hy, sub_self]
     obtain ⟨z, hz⟩ := (hf _).mp hxy
     have hz₁ : i.lTensor (S ⊗[R] M) z = a.rTensor B x := congrArg Prod.fst hz
     have hz₂ : c.rTensor A z = e.rTensor A y := congrArg Prod.snd hz
     obtain ⟨w, hw⟩ := (hA (z, y)).mp (by
-      show c.rTensor A z + -(e.rTensor A y) = 0
+      change c.rTensor A z + -(e.rTensor A y) = 0
       rw [hz₂, add_neg_cancel])
     have hw₁ : a.rTensor A w = z := congrArg Prod.fst hw
     have hw₂ : b.rTensor A w = y := congrArg Prod.snd hw
     refine ⟨w, hB ?_⟩
     apply Prod.ext
-    · show a.rTensor B (i.lTensor M w) = a.rTensor B x
+    · change a.rTensor B (i.lTensor M w) = a.rTensor B x
       rw [rTensor_lTensor_comm, hw₁, hz₁]
-    · show b.rTensor B (i.lTensor M w) = b.rTensor B x
+    · change b.rTensor B (i.lTensor M w) = b.rTensor B x
       rw [rTensor_lTensor_comm, hw₂, hy]
   · rintro ⟨x, rfl⟩
     have hdi : d.comp i = 0 := LinearMap.ext hid.apply_apply_eq_zero
@@ -666,7 +658,7 @@ private lemma bijective_quotientMap_of_quotientPowMap_bijective (f : R)
     ext r
     exact Ideal.quotEquivOfEq_mk he (algebraMap R S r)
   apply (e.bijective.of_comp_iff' q).mp
-  show Function.Bijective (e.toRingHom.comp q)
+  change Function.Bijective (e.toRingHom.comp q)
   rw [heq]
   exact hquot n hn
 
@@ -749,12 +741,12 @@ lemma finite_tensorProduct_prod_of_finite
   let : IsScalarTower R (A × B) A := IsScalarTower.of_algebraMap_eq' rfl
   let : IsScalarTower R (A × B) B := IsScalarTower.of_algebraMap_eq' rfl
   have : Module.Finite (A × B) (A ⊗[R] M) := ⟨by
-    show (Submodule.restrictScalars (A × B) (⊤ : Submodule A (A ⊗[R] M))).FG
+    change (Submodule.restrictScalars (A × B) (⊤ : Submodule A (A ⊗[R] M))).FG
     exact Submodule.FG.restrictScalars_of_surjective
         (Module.Finite.fg_top (R := A) (M := A ⊗[R] M))
         (fun a ↦ ⟨(a, 0), rfl⟩)⟩
   have : Module.Finite (A × B) (B ⊗[R] M) := ⟨by
-    show (Submodule.restrictScalars (A × B) (⊤ : Submodule B (B ⊗[R] M))).FG
+    change (Submodule.restrictScalars (A × B) (⊤ : Submodule B (B ⊗[R] M))).FG
     exact Submodule.FG.restrictScalars_of_surjective
         (Module.Finite.fg_top (R := B) (M := B ⊗[R] M))
         (fun b ↦ ⟨(0, b), rfl⟩)⟩
@@ -770,11 +762,11 @@ private lemma finite_baseChange_kernel_of_finite_projective
     Module.Finite A (A ⊗[R] LinearMap.ker p) := by
   let q := LinearMap.baseChange A p
   have hq : Function.Surjective q := by
-    simp only [q, LinearMap.baseChange_eq_ltensor]
+    simp only [q, LinearMap.baseChange_eq_lTensor]
     exact LinearMap.lTensor_surjective A hp
   let b := LinearMap.baseChange A (LinearMap.ker p).subtype
   have hbinj : Function.Injective b := by
-    simp only [b, LinearMap.baseChange_eq_ltensor]
+    simp only [b, LinearMap.baseChange_eq_lTensor]
     exact LinearMap.lTensor_injective_of_exact_of_flat p hp _
       (Submodule.injective_subtype _) (LinearMap.exact_subtype_ker_map p) A
   have hrange : LinearMap.range b = LinearMap.ker q := by
@@ -784,7 +776,7 @@ private lemma finite_baseChange_kernel_of_finite_projective
     constructor
     · rintro ⟨y, rfl⟩
       rw [LinearMap.mem_ker]
-      show (LinearMap.lTensor A p)
+      change (LinearMap.lTensor A p)
           ((LinearMap.lTensor A (LinearMap.ker p).subtype) y) = 0
       rw [← LinearMap.comp_apply, hex.linearMap_comp_eq_zero, LinearMap.zero_apply]
     · intro hx

@@ -84,11 +84,11 @@ public theorem baseIdealSheaf_isoSpec (V : Y.affineOpens) :
       V.1.topIso.inv := by
     rw [V.2.isoSpec_hom_appTop]
     exact Iso.inv_hom_id_assoc _ _
-  show Ideal.map (V.1.toScheme.presheaf.map
+  change Ideal.map (V.1.toScheme.presheaf.map
       (homOfLE (le_top (a := (⊤ : V.1.toScheme.Opens)))).op).hom
       (baseIdeal ↥Γ(Y, V.1) (I.ideal V) V.2.isoSpec.hom) = _
   rw [hid]
-  show Ideal.map (CategoryTheory.CategoryStruct.id
+  change Ideal.map (CategoryTheory.CategoryStruct.id
       (V.1.toScheme.presheaf.obj (op (⊤ : V.1.toScheme.Opens)))).hom
       (baseIdeal ↥Γ(Y, V.1) (I.ideal V) V.2.isoSpec.hom) = _
   rw [CommRingCat.hom_id, Ideal.map_id, baseIdeal, hmap]
@@ -101,7 +101,7 @@ variable {X : Scheme.{u}} (f : X ⟶ Y) (F : X.Modules)
 public theorem baseIdealSheaf_affineBaseChart (V : Y.affineOpens) :
     baseIdealSheaf ↥Γ(Y, V.1) (I.ideal V) (affineBaseChart f V).hom =
       (I.comap f).comap (f ⁻¹ᵁ V.1).ι := by
-  show baseIdealSheaf ↥Γ(Y, V.1) (I.ideal V) ((f ∣_ V.1) ≫ V.2.isoSpec.hom) = _
+  change baseIdealSheaf ↥Γ(Y, V.1) (I.ideal V) ((f ∣_ V.1) ≫ V.2.isoSpec.hom) = _
   rw [← Stacks.PuncturedSpectrumPicard.baseIdealSheaf_comap ↥Γ(Y, V.1) (I.ideal V)
     V.2.isoSpec.hom (f ∣_ V.1), baseIdealSheaf_isoSpec I V,
     ← Scheme.IdealSheafData.comap_comp, ← Scheme.IdealSheafData.comap_comp,
@@ -116,7 +116,7 @@ public theorem piece_reesFiltrationModule_affineBaseChart [F.IsQuasicoherent]
     ((reesFiltrationModule (I.ideal V) (affineBaseChart f V)
         (affineBaseChartModule f F V)).piece n : (f ⁻¹ᵁ V.1).toScheme.Modules) =
       (Scheme.Modules.restrictFunctor (f ⁻¹ᵁ V.1).ι).obj (Stacks.Blowup.reesComapMod f I F n) := by
-  show ((Stacks.Blowup.reesMultiple
+  change ((Stacks.Blowup.reesMultiple
       (baseIdealSheaf ↥Γ(Y, V.1) (I.ideal V) (affineBaseChart f V).hom) n
       (affineBaseChartModule f F V)).toSheafOfModules : (f ⁻¹ᵁ V.1).toScheme.Modules) = _
   rw [baseIdealSheaf_affineBaseChart I f V]

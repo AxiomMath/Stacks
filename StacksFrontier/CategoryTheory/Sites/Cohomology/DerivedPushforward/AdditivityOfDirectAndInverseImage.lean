@@ -57,7 +57,8 @@ because the goal's `x` is typed through `((pullbackModuleFunctor J Φ O).obj G).
 the rewrite needs it at `(Φ ⋙ Sheaf.sectionsFunctor J X).obj (Sheaf.moduleSheaf O G)`, and the
 two spellings only agree at default transparency.
 
-No tag is placed. Stacks Tag 0D6E is registered (`@[stacks 0D6E]`) on the invertibility of the derived
+No tag is placed. Stacks Tag 0D6E is registered (`@[stacks 0D6E]`) on the invertibility of the
+derived
 comparison alone, and none of these results is any clause of 0D6E, 03D1, 03D2 or 03D6 — they are
 the additivity premise those statements consume, not part of what they assert.
 

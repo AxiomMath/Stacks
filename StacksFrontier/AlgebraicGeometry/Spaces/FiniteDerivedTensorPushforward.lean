@@ -257,6 +257,7 @@ def tensorBicomplexPushforwardIso (hπ : IsFinite B S hS π.hom)
     (tensorPushforwardBifunctorIso φ hπ)
 
 set_option maxHeartbeats 1000000 in
+-- elaborating the total-complex isomorphisms over nested `mapHomologicalComplex` functors
 /-- **Stacks 0DK4, totalized**: for `π` finite and complexes `𝒦` of `ℬ`-modules and `ℳ` of
 `𝒜`-modules, `Tot(𝒦 ⊗_ℬ f_*ℳ) ≅ f_*Tot(f^*𝒦 ⊗_𝒜 ℳ)`. On the summand of bidegree `(p, q)`
 it is the isomorphism `𝒦ᵖ ⊗_ℬ f_*ℳ^q ≅ f_*(f^*𝒦ᵖ ⊗_𝒜 ℳ^q)` of Stacks 0DK4; that `f_*` commutes
@@ -293,7 +294,7 @@ theorem isGrothendieckAbelian_smallEtaleRingedToposOfRings_modules
     IsGrothendieckAbelian.{u} (SheafOfModules.{u}
       (Stacks.SheafOfModules.Tensor.ringSheaf 𝒜)) :=
   have : EssentiallySmall.{u} (smallEtaleRingedToposOfRings B S hS X 𝒜).C := by
-    show EssentiallySmall.{u} (SmallEtale B S hS X.1)
+    change EssentiallySmall.{u} (SmallEtale B S hS X.1)
     infer_instance
   SheafOfModules.isGrothendieckAbelian_of_essentiallySmall _
 
@@ -377,6 +378,7 @@ theorem isKFlat_pullbackModules_mapHomologicalComplex
     (ringedToposHomOfSharp B S hS π φ) 𝒦 h𝒦 hflat
 
 set_option maxHeartbeats 1000000 in
+-- elaborating the K-flat comparison isomorphism through nested derived and complex functors
 /-- For a K-flat complex `𝒦` of `ℬ`-modules with flat terms and any complex `ℳ` of `𝒜`-modules,
 `Lf^*(Q𝒦) ⊗^L_𝒜 Qℳ` is represented by `Tot(f^*𝒦 ⊗_𝒜 ℳ)`: `Lf^*(Q𝒦) = Q(f^*𝒦)` by Stacks 06YY
 and `f^*𝒦` is K-flat by Stacks 0G7E. -/
@@ -404,6 +406,7 @@ def derivedTensorPullbackObjQIso
             (derivedPullbackObjQIso φ 𝒦 h𝒦 hflat)).symm.app _
 
 set_option maxHeartbeats 1000000 in
+-- elaborating the composite of derived tensor-product and derived pushforward isomorphisms
 /-- **Stacks 0DK5 on representatives**: for `π` finite, a K-flat complex `𝒦` of `ℬ`-modules with
 flat terms and any complex `ℳ` of `𝒜`-modules,
 `Q𝒦 ⊗^L_ℬ Rf_*(Qℳ) ≅ Rf_*(Lf^*(Q𝒦) ⊗^L_𝒜 Qℳ)`.

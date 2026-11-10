@@ -39,7 +39,7 @@ isomorphism when the inclusion of the residue field at that point is. -/
 theorem isIso_fiberι_of_isIso_fromSpecResidueField {X Y : Scheme.{u}} (f : X ⟶ Y) (y : Y)
     (hy : IsIso (Y.fromSpecResidueField y)) : IsIso (f.fiberι y) := by
   have := hy
-  show IsIso (pullback.fst f (Y.fromSpecResidueField y))
+  change IsIso (pullback.fst f (Y.fromSpecResidueField y))
   infer_instance
 
 /-- A scheme carrying a morphism to a nonempty base all of whose residue field inclusions are

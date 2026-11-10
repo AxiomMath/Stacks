@@ -158,7 +158,7 @@ private lemma preservesColimitsOfShape_discrete_nat_of_compact {D : Type u}
     intro i f
     have heq : eDS (DirectSum.of _ i f) = DirectSum.of _ (ULift.up i) f :=
       DirectSum.equivCongrLeft_of (β := fun j : ℕ => (K ⟶ E j)) eIdx (ULift.up i) f
-    show (DirectSum.toAddMonoid
+    change (DirectSum.toAddMonoid
         (fun j : ℕ => Preadditive.rightComp K (Limits.Sigma.ι E j)))
         (DirectSum.of (fun j : ℕ => (K ⟶ E j)) i f) =
       (CategoryTheory.cofanMap K (fun j : ULift.{w} ℕ => Limits.Sigma.ι E j.down))
@@ -184,7 +184,7 @@ private lemma preservesColimitsOfShape_discrete_nat_of_compact {D : Type u}
       (sigmaComparison (preadditiveCoyoneda.obj (Opposite.op K)) E).hom (ι₀ i g)
         = g ≫ Limits.Sigma.ι E i := by
     intro i g
-    show ((Limits.Sigma.ι (fun i => (preadditiveCoyoneda.obj (Opposite.op K)).obj (E i)) i) ≫
+    change ((Limits.Sigma.ι (fun i => (preadditiveCoyoneda.obj (Opposite.op K)).obj (E i)) i) ≫
       sigmaComparison (preadditiveCoyoneda.obj (Opposite.op K)) E).hom g = _
     rw [ι_comp_sigmaComparison]
     rfl
@@ -272,7 +272,7 @@ private lemma exists_upper_cohomology_bound_of_compact
   let H := DerivedCategory.homologyFunctor A i
   have hFn : IsZero (H.obj (DerivedCategory.Q.obj (F₀.obj n))) := by
     have : (DerivedCategory.Q.obj (F₀.obj n)).IsLE (n : ℤ) := by
-      show (DerivedCategory.Q.obj (K₀.truncLE (n : ℤ))).IsLE (n : ℤ)
+      change (DerivedCategory.Q.obj (K₀.truncLE (n : ℤ))).IsLE (n : ℤ)
       rw [DerivedCategory.isLE_Q_obj_iff]
       infer_instance
     exact DerivedCategory.isZero_of_isLE _ (n : ℤ) i hi
@@ -577,10 +577,10 @@ private lemma exists_retract_finite_term
     (fun i hi => Finset.mem_union_left _ hi)
   let π : L ⟶ T.obj (∐ fun i : {i // ¬ q i} => E i) := π₀ ≫ T.map ρ
   have hπ : r.i ≫ DerivedCategory.Q.map π = 0 := by
-    show r.i ≫ DerivedCategory.Q.map (π₀ ≫ T.map ρ) = 0
+    change r.i ≫ DerivedCategory.Q.map (π₀ ≫ T.map ρ) = 0
     rw [CategoryTheory.Functor.map_comp, ← Category.assoc]
     refine ht _ _ fun i hi => ?_
-    show G.map (Limits.Sigma.ι E' i) ≫ G.map ρ = 0
+    change G.map (Limits.Sigma.ι E' i) ≫ G.map ρ = 0
     rw [← G.map_comp, hρzero i (Finset.mem_union_right _ (Finset.mem_image.mpr ⟨i, hi, rfl⟩)),
       G.map_zero]
   have hπc : π.f c = e.hom ≫ summandProjection E (fun i => ¬ q i) ≫

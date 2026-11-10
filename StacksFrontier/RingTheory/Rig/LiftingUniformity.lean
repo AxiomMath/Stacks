@@ -349,8 +349,7 @@ public theorem exists_divided_obstruction_of_extension
         AlgHom.commutes, IsScalarTower.algebraMap_apply A C (C ⧸ JC ^ m) a,
         Ideal.Quotient.algebraMap_eq]
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul y x =>
       have hy : y ⊗ₜ[Rs] x = y • ((1 : C ⧸ JC ^ m) ⊗ₜ[Rs] x) := by
         rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]

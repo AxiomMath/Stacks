@@ -118,7 +118,7 @@ lemma tensorModuleRight_map_eq_zero (N : ModuleCat.{u} R)
   apply ModuleCat.hom_ext
   apply TensorProduct.ext_threefold
   intro x y n
-  show f.hom.rTensor N ((x ⊗ₜ[R] y) ⊗ₜ[R] n) = (0 : _ →ₗ[R] _) ((x ⊗ₜ[R] y) ⊗ₜ[R] n)
+  change f.hom.rTensor N ((x ⊗ₜ[R] y) ⊗ₜ[R] n) = (0 : _ →ₗ[R] _) ((x ⊗ₜ[R] y) ⊗ₜ[R] n)
   rw [LinearMap.rTensor_tmul, hf x y, TensorProduct.smul_tmul, hz y n, TensorProduct.tmul_zero,
     LinearMap.zero_apply]
 
@@ -132,7 +132,7 @@ lemma mul_naturality_aux {X Y : ModuleCat.{u} R} (g : X ⟶ Y)
   apply ModuleCat.hom_ext
   apply TensorProduct.ext'
   intro x y
-  show fY.hom (g.hom.rTensor J (x ⊗ₜ[R] y)) = g.hom (fX.hom (x ⊗ₜ[R] y))
+  change fY.hom (g.hom.rTensor J (x ⊗ₜ[R] y)) = g.hom (fX.hom (x ⊗ₜ[R] y))
   rw [LinearMap.rTensor_tmul, hY (g.hom x) y, hX x y, _root_.map_smul]
 
 /-- Tensoring the termwise multiplication map with a module annihilated by the image of `j`

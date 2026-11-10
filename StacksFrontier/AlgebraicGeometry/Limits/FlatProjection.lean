@@ -149,7 +149,7 @@ theorem flat_of_isColimit {A : Type u} [CommRing A]
     simpa [map_sum, hy] using hx
   obtain ⟨k, g, hg⟩ := (Types.FilteredColimit.isColimit_eq_iff' hcD
     (∑ i, f i • y i : F.obj j) (0 : F.obj j)).mp (by
-      show (c.ι.app j).hom (∑ i, f i • y i) = (c.ι.app j).hom 0
+      change (c.ι.app j).hom (∑ i, f i • y i) = (c.ι.app j).hom 0
       simpa only [map_zero] using hsum)
   let : Module.Flat A (F.obj k) := hF k
   have hg' : ∑ i, f i • (F.map g).hom (y i) = 0 := by
@@ -375,7 +375,7 @@ theorem flat_π_app (hc : IsLimit c)
     let g := opensToBase D i U j.unop
     let : Flat (D.map j.unop.hom) := hFlat j.unop.hom
     let : Flat g := by
-      show Flat ((D.map j.unop.hom).resLE U _ _)
+      change Flat ((D.map j.unop.hom).resLE U _ _)
       infer_instance
     exact RingHom.flat_algebraMap_iff.mp (Scheme.Hom.flat_appTop g)
   let : PreservesFilteredColimitsOfSize.{u, u} (forget CommRingCat.{u}) :=
@@ -387,7 +387,7 @@ theorem flat_π_app (hc : IsLimit c)
     RingHom.flat_algebraMap_iff.mpr hAlgFlat
   have hTop : f.appTop.hom.Flat := by
     have hcomp : (opensCone D c i U).π.app idx.unop ≫ opensToBase D i U idx.unop = f := by
-      show (c.π.app i).resLE _ W _ ≫ (D.map (𝟙 i)).resLE U _ _ = (c.π.app i).resLE U W _
+      change (c.π.app i).resLE _ W _ ≫ (D.map (𝟙 i)).resLE U _ _ = (c.π.app i).resLE U W _
       rw [Scheme.Hom.resLE_comp_resLE]
       simp only [c.w]
     have hfe : f.appTop.hom =
@@ -402,7 +402,7 @@ theorem flat_π_app (hc : IsLimit c)
   have hSnd : Flat (pullback.snd (c.π.app i) U.ι) := by
     rw [← pullbackRestrictIsoRestrict_hom_morphismRestrict]
     infer_instance
-  show Flat (pullback.snd (c.π.app i) U.ι)
+  change Flat (pullback.snd (c.π.app i) U.ι)
   exact hSnd
 
 end Flat

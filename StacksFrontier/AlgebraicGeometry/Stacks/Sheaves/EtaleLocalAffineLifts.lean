@@ -123,7 +123,7 @@ theorem exists_affine_etale_family_lift_of_representable
       (Over.homMk m rfl : (Over.mk (m ≫ U.hom) : BigFppfOver B S hS) ⟶ U) φ
   obtain ⟨z', ρ, hρ⟩ := 𝒳.isFiberedInGroupoids.exists_lift b z hzbase
   refine ⟨z', (CatFiberedInGroupoids.homFunctor f).map ρ ≫ φ, ?_⟩
-  show 𝒴.val.p.IsHomLift
+  change 𝒴.val.p.IsHomLift
     (Over.homMk (e k) : (Over.mk (e k ≫ U.hom) : BigFppfOver B S hS) ⟶ U) _
   rw [← hb]
   have h₁ : 𝒴.val.p.IsHomLift b ((CatFiberedInGroupoids.homFunctor f).map ρ) :=

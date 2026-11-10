@@ -55,13 +55,14 @@ attribute [local instance 5000] SheafOfModules.instAbelian
 summand.** -/
 theorem isZero_rightDerived_modulePushforward_representedModuleOf_biproduct
     {Y : AlgebraicSpaces B S hS} (V : BigFppfOver B S hS) (p : schemeSpace V ⟶ Y)
-    (G : ((BigFppfOver.toScheme B S hS).obj V).Modules) {ι : Type} [Fintype ι] (q : ℕ)
+    (G : ((BigFppfOver.toScheme B S hS).obj V).Modules) {ι : Type} [Finite ι] (q : ℕ)
     (h : have := hasInjectiveResolutions_modules B S hS (schemeSpace V).1 (schemeSpace V).2
       IsZero (((modulePushforward B S hS p).rightDerived q).obj (representedModuleOf B S hS V G))) :
     have := hasInjectiveResolutions_modules B S hS (schemeSpace V).1 (schemeSpace V).2
     IsZero (((modulePushforward B S hS p).rightDerived q).obj
       (representedModuleOf B S hS V (⨁ fun _ : ι => G))) := by
   intro _
+  have := Fintype.ofFinite ι
   have := enoughInjectives_modules B S hS (schemeSpace V).1 (schemeSpace V).2
   have := additive_representedModuleOfFunctor B S hS V
   let F := representedModuleOfFunctor B S hS V ⋙ (modulePushforward B S hS p).rightDerived q
@@ -71,7 +72,7 @@ theorem isZero_rightDerived_modulePushforward_representedModuleOf_biproduct
     (congrArg ((modulePushforward B S hS p).rightDerived q).map
       ((representedModuleOfFunctor B S hS V).map_add (f := f) (g := g))).trans
       (((modulePushforward B S hS p).rightDerived q).map_add)⟩
-  show IsZero (F.obj (⨁ fun _ : ι => G))
+  change IsZero (F.obj (⨁ fun _ : ι => G))
   have h' : IsZero (F.obj G) := h
   have ht : 𝟙 (⨁ fun _ : ι => G) = ∑ j, biproduct.π (fun _ : ι => G) j ≫
       biproduct.ι (fun _ : ι => G) j := (biproduct.total (J := ι) (f := fun _ : ι => G)).symm

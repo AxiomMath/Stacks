@@ -62,8 +62,7 @@ def specCone : Cone (specDiagram A B) where
         rfl)
       naturality i j g := by
         ext1
-        simp only [Functor.const_obj_obj, Functor.const_obj_map, Category.id_comp, Over.comp_left,
-          Over.homMk_left]
+        simp only [Functor.const_obj_obj, Functor.const_obj_map, Category.id_comp, Over.comp_left]
         change Spec.map (cB.ι.app j.unop).right = Spec.map (cB.ι.app i.unop).right ≫
           Spec.map (B.map g.unop).right
         rw [← Spec.map_comp, ← Under.comp_right, cB.w] }

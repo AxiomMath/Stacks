@@ -169,7 +169,7 @@ theorem map_boundary :
         (DerivedCategory.Q.map ((F'.commShiftIso (1 : ℤ)).inv.app P))⟦(1 : ℤ)⟧' =
         DerivedCategory.triangleOfSESδ (S.shortExact.map_of_exact F') := by
       refine hnat.trans ?_
-      show DerivedCategory.Q.map (𝟙 _) ≫ _ = _
+      change DerivedCategory.Q.map (𝟙 _) ≫ _ = _
       rw [CategoryTheory.Functor.map_id, Category.id_comp]
     rw [← h, Category.assoc, ← CategoryTheory.Functor.map_comp,
       ← CategoryTheory.Functor.map_comp, Iso.inv_hom_id_app]

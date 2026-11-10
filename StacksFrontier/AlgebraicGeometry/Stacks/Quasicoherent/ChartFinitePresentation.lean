@@ -90,7 +90,7 @@ theorem hasFiniteGlobalPresentation_over_of_finitePresentation
     refine Eq.trans (Finset.sum_congr rfl fun i _ => ?_) (e.trans ?_)
     · rw [map_smulₛₗ]
       congr 1
-      show _ = F.val.map h.op (F.val.map (g' ≫ f').op (s i))
+      change _ = F.val.map h.op (F.val.map (g' ≫ f').op (s i))
       rw [← PresheafOfModules.map_comp_apply, ← op_comp, ← Category.assoc]
       rfl
     · exact (PresheafOfModules.map_comp_apply F.val g'.op h.op x).symm

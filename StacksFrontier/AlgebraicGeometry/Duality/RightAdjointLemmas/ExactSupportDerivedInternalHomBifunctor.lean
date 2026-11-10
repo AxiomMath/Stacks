@@ -91,8 +91,9 @@ closed quotient morphism in `RingedSpaceModuleAdjunction.ClosedQuotientMorphismO
   of that very complex**, not only of the complex `CategoryTheory.Functor.objPreimage` chooses.
   This is what makes the isomorphism of [Stacks, Tag 0E2I] computable at a *named* source, such
   as the structure sheaf of the closed subspace in degree zero.
-* `ClosedQuotientMorphismOfRingedSpaces.derivedSheafHomExactSupportPushforwardNatIso_app_isKInjective`:
-  the component of the isomorphism of [Stacks, Tag 0A77] at a K-injective class, written with
+* `derivedSheafHomExactSupportPushforwardNatIso_app_isKInjective` (in the namespace
+  `ClosedQuotientMorphismOfRingedSpaces`): the component of the isomorphism of
+  [Stacks, Tag 0A77] at a K-injective class, written with
   the identification on K-injective representatives of `RingedSite.structureSheafComplex` — no
   chosen representative anywhere in the formula.
 
@@ -622,8 +623,8 @@ private theorem derivedSheafHomPushforwardModelIso_natural_source_of_resolution
         (modulePushforward S.i).mapDerivedCategory.map
           (((Stacks.SheafOfModules.derivedSheafHom S.Z.sheaf).map α.op).app
             (S.derivedSheafHomExactSupport.obj (DerivedCategory.Q.obj I))) := by
-  haveI := hρ
-  haveI : IsIso (((Stacks.SheafOfModules.derivedSheafHom S.X.sheaf).map
+  have := hρ
+  have : IsIso (((Stacks.SheafOfModules.derivedSheafHom S.X.sheaf).map
       ((modulePushforward S.i).mapDerivedCategory.map (DerivedCategory.Q.map ρ)).op).app
         (DerivedCategory.Q.obj I)) :=
     (((Stacks.SheafOfModules.derivedSheafHom S.X.sheaf).mapIso
@@ -688,7 +689,7 @@ theorem derivedSheafHomPushforwardNatIso_app_cochain
     derivedSheafHomPushforwardModelIso_natural_source_derived S
       (DerivedCategory.Q.objObjPreimageIso (DerivedCategory.Q.obj M₀)).hom I
   rw [derivedSheafHomPushforwardNatIso_app]
-  show ((S.derivedSheafHomPushforwardRepresentative
+  change ((S.derivedSheafHomPushforwardRepresentative
           (DerivedCategory.Q.obj M₀)).app (DerivedCategory.Q.obj I)).hom ≫
       (derivedSheafHomPushforwardModelIso S
           (DerivedCategory.Q.objPreimage (DerivedCategory.Q.obj M₀)) I).hom ≫

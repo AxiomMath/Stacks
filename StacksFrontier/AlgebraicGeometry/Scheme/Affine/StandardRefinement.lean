@@ -74,7 +74,7 @@ theorem exists_isStandardOpenCover_basicOpen_eq_of_iSup_eq_top
     obtain ⟨hy, hxy⟩ := Set.mem_iUnion.mp hxy
     exact (le_iSup (fun j => X.basicOpen (f j)) (e ⟨y, hy⟩)) (by simpa [f] using hxy)
   refine ⟨Fintype.card t, f, i, g, ?_, hcover, fun j => hfg₀ (e.symm j)⟩
-  show (⨆ j, PrimeSpectrum.basicOpen (f j)) = PrimeSpectrum.basicOpen (1 : Γ(X, V))
+  change (⨆ j, PrimeSpectrum.basicOpen (f j)) = PrimeSpectrum.basicOpen (1 : Γ(X, V))
   rw [PrimeSpectrum.basicOpen_one, PrimeSpectrum.iSup_basicOpen_eq_top_iff]
   exact (hV.iSup_basicOpen_eq_self_iff (s := Set.range f)).mp
     (by simpa only [iSup_range'] using hcover)

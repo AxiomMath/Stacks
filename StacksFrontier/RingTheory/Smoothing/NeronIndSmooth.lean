@@ -113,7 +113,7 @@ theorem NeronStage.exists_algHom_of_reflTransGen
           commutes' := fun r => e.commutes r }
       have hg : (algebraMap c.A S.Λ).comp g = algebraMap b.A S.Λ := by
         ext y
-        show algebraMap c.A S.Λ (e (algebraMap b.A B y)) = _
+        change algebraMap c.A S.Λ (e (algebraMap b.A B y)) = _
         rw [he₂]
         exact DFunLike.congr_fun he₁ y
       refine ⟨g.comp f, ?_⟩
@@ -156,12 +156,12 @@ private theorem isSmoothAt_bot_subalgebra_of_isSeparableExtension {R Λ K L : Ty
   have : IsScalarTower R K LC := IsScalarTower.of_algebraMap_eq fun r => (hKLC r).symm
   have hcomp : (algebraMap LC L).comp (algebraMap K LC) = algebraMap K L := by
     refine IsFractionRing.ringHom_ext (A := R) fun r => ?_
-    show fCL (algebraMap K LC (algebraMap R K r)) = _
+    change fCL (algebraMap K LC (algebraMap R K r)) = _
     rw [hKLC r, IsScalarTower.algebraMap_apply R C LC r]
-    show fCL (algebraMap C LC (algebraMap R C r)) = _
+    change fCL (algebraMap C LC (algebraMap R C r)) = _
     rw [IsFractionRing.lift_algebraMap (A := C) (K := LC) (L := L) hCL (algebraMap R C r),
       ← IsScalarTower.algebraMap_apply R K L r]
-    show (algebraMap Λ L) (algebraMap C Λ (algebraMap R C r)) = _
+    change (algebraMap Λ L) (algebraMap C Λ (algebraMap R C r)) = _
     rw [← IsScalarTower.algebraMap_apply R C Λ r, ← IsScalarTower.algebraMap_apply R Λ L r]
   let fFrac : LC →ₐ[K] L :=
     { toRingHom := fCL
@@ -272,7 +272,7 @@ theorem ind_underSmooth_of_ramificationIdx_one
     intro X hX
     let : Algebra R X.right := X.hom.hom.toAlgebra
     change Algebra.Smooth R X.right at hX
-    show Algebra.FinitePresentation R X.right
+    change Algebra.FinitePresentation R X.right
     exact hX.finitePresentation
   refine (CommRingCat.ind_under_iff_exists_factorization
     (Under.mk (CommRingCat.ofHom (algebraMap R Λ))) hE).2 ?_

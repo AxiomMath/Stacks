@@ -69,12 +69,12 @@ private noncomputable def overPullbackSnd {S : Scheme} {A B C : Over S}
 private lemma overPullback_condition {S : Scheme} {A B C : Over S} (f : A ⟶ C) (g : B ⟶ C) :
     overPullbackFst f g ≫ f = overPullbackSnd f g ≫ g := by
   apply Over.OverMorphism.ext
-  show Limits.pullback.fst f.left g.left ≫ f.left = Limits.pullback.snd f.left g.left ≫ g.left
+  change Limits.pullback.fst f.left g.left ≫ f.left = Limits.pullback.snd f.left g.left ≫ g.left
   exact Limits.pullback.condition
 
 private lemma range_overPullbackFst {S : Scheme} {A B C : Over S} (f : A ⟶ C) (g : B ⟶ C) :
     Set.range (overPullbackFst f g).left.base = f.left.base ⁻¹' Set.range g.left.base := by
-  show Set.range (Limits.pullback.fst f.left g.left).base = _
+  change Set.range (Limits.pullback.fst f.left g.left).base = _
   exact Scheme.Pullback.range_fst f.left g.left
 
 /-- If `z` avoids the image of a homomorphism `ψ` of group schemes, so does the product of `z`
@@ -98,7 +98,7 @@ private theorem notMem_range_mul_comp {S : Scheme} {G' G : Grp (Over S)} (ψ : G
     simp
   have hfactor : rQ ≫ z = (rH / (rQ ≫ h)) ≫ ψ.hom.hom := by
     rw [hsolve]
-    show (rH ≫ ψ.hom.hom) / ((rQ ≫ h) ≫ ψ.hom.hom) = _
+    change (rH ≫ ψ.hom.hom) / ((rQ ≫ h) ≫ ψ.hom.hom) = _
     rw [← GrpObj.div_comp]
   have hin : (rQ ≫ z).left.base r ∈ Set.range ψ.hom.hom.left.base := by
     rw [hfactor]
@@ -116,14 +116,14 @@ private lemma range_subset_range_overPullbackFst_comp_mul {S : Scheme} {G' G : G
     simp [sectionP, sectionH, IsMonHom.one_hom, Category.assoc]
   let sectionQ : T ⟶ overPullback (snd T G.X) ψ.hom.hom := Over.homMk
     (Limits.pullback.lift sectionP.left sectionH.left (congrArg Over.Hom.left hsection)) (by
-      show (Limits.pullback.lift sectionP.left sectionH.left
+      change (Limits.pullback.lift sectionP.left sectionH.left
             (congrArg Over.Hom.left hsection) ≫
           Limits.pullback.fst (snd T G.X).left ψ.hom.hom.left) ≫ (T ⊗ G.X).hom = T.hom
       rw [Limits.pullback.lift_fst]
       exact Over.w sectionP)
   have hsectionQ : sectionQ ≫ overPullbackFst (snd T G.X) ψ.hom.hom = sectionP := by
     apply Over.OverMorphism.ext
-    show Limits.pullback.lift sectionP.left sectionH.left _ ≫
+    change Limits.pullback.lift sectionP.left sectionH.left _ ≫
         Limits.pullback.fst (snd T G.X).left ψ.hom.hom.left = sectionP.left
     exact Limits.pullback.lift_fst _ _ _
   have hsectionM : sectionP ≫ lift (fst T G.X ≫ inc) (snd T G.X) ≫ μ[G.X] = inc := by
@@ -161,7 +161,7 @@ theorem isClosed_range_of_isOpen {k : Type u} [Field k]
     rw [← Category.assoc, CartesianMonoidalCategory.comp_lift, hproj]
     rfl
   have hrangeInc : Set.range inc.left.base = (Z : Set G.X.left) := by
-    show Set.range I.subschemeι.base = (Z : Set G.X.left)
+    change Set.range I.subschemeι.base = (Z : Set G.X.left)
     rw [Scheme.IdealSheafData.range_subschemeι]
     simp [I]
   have hz : ∀ q, (qP ≫ fst T G.X ≫ inc).left.base q ∉ Set.range ψ.hom.hom.left.base := by

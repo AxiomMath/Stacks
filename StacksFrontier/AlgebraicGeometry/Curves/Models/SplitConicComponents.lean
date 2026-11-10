@@ -46,17 +46,17 @@ theorem mem_range_map_of_ker_le (f : 𝒜 →+*ᵍ ℬ)
   let Q : HomogeneousIdeal ℬ := x.asHomogeneousIdeal.map f
   have hQprime : Q.toIdeal.IsPrime := Ideal.map_isPrime_of_surjective hs hx
   have hcomap : Q.toIdeal.comap (f : A →+* B) = x.asHomogeneousIdeal.toIdeal := by
-    show (x.asHomogeneousIdeal.toIdeal.map (f : A →+* B)).comap (f : A →+* B) = _
+    change (x.asHomogeneousIdeal.toIdeal.map (f : A →+* B)).comap (f : A →+* B) = _
     rwa [Ideal.comap_map_of_surjective (f : A →+* B) (hs : Function.Surjective (f : A →+* B)),
       sup_eq_left]
   have hirr : ¬ HomogeneousIdeal.irrelevant ℬ ≤ Q := by
     intro h
     apply x.not_irrelevant_le
     intro a ha
-    show a ∈ x.asHomogeneousIdeal.toIdeal
+    change a ∈ x.asHomogeneousIdeal.toIdeal
     rw [← hcomap]
     apply h
-    show f a ∈ HomogeneousIdeal.irrelevant ℬ
+    change f a ∈ HomogeneousIdeal.irrelevant ℬ
     change a ∈ HomogeneousIdeal.irrelevant 𝒜 at ha
     rw [HomogeneousIdeal.mem_irrelevant_iff, GradedRing.proj_apply] at ha ⊢
     rw [← GradedRingHom.map_directSumDecompose, ha, map_zero]
@@ -196,7 +196,7 @@ theorem conicConst_mem_of_mem_specialFibre (x : conicScheme π)
   -- the image of `p` in `Spec R` is the closed point
   rw [← Scheme.Hom.comp_apply, awayι_comp_conicToSpec] at hq
   have hmem : π ∈ (residueSpecMap R q).asIdeal := by
-    show π ∈ Ideal.comap (algebraMap R (IsLocalRing.ResidueField R)) q.asIdeal
+    change π ∈ Ideal.comap (algebraMap R (IsLocalRing.ResidueField R)) q.asIdeal
     rw [@Ideal.eq_bot_of_prime _ _ _ q.isPrime, Ideal.mem_comap]
     exact (IsLocalRing.residue_eq_zero_iff π).2 (mem_maximalIdeal_of_irreducible hπ)
   rw [hq] at hmem
@@ -205,7 +205,7 @@ theorem conicConst_mem_of_mem_specialFibre (x : conicScheme π)
   apply hp
   convert hmem using 1
   apply HomogeneousLocalization.val_injective
-  show Localization.mk _ _ = (HomogeneousLocalization.mk ⟨0, _, 1, one_mem _⟩).val
+  change Localization.mk _ _ = (HomogeneousLocalization.mk ⟨0, _, 1, one_mem _⟩).val
   rw [HomogeneousLocalization.val_mk, Localization.mk_eq_mk_iff, Localization.r_iff_exists]
   refine ⟨1, ?_⟩
   simp [PlaneCurveModel.coe_toGradingZero, conicConst]

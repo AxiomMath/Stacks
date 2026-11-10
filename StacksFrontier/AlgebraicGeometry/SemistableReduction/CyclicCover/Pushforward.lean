@@ -204,7 +204,7 @@ theorem exists_eq_smul_extendScalars {R S : Type u} [CommRing R] [CommRing S] (�
     rfl
   have h1 : Λ ((ModuleCat.ExtendScalars.objSelfIso α).hom ((ModuleCat.extendScalars α).map ε.inv w))
       = ψ w := by
-    show ψ ((ModuleCat.extendScalars α).map ε.hom ((ModuleCat.ExtendScalars.objSelfIso α).inv
+    change ψ ((ModuleCat.extendScalars α).map ε.hom ((ModuleCat.ExtendScalars.objSelfIso α).inv
       ((ModuleCat.ExtendScalars.objSelfIso α).hom ((ModuleCat.extendScalars α).map ε.inv w)))) = _
     rw [Iso.hom_inv_id_apply, key]
   have h2 : ∀ s : S, Λ s = s • Λ 1 := fun s => by
@@ -307,7 +307,7 @@ theorem totalFunction_basisPow (i : ℕ) :
     (situation f L).totalFunction i U.1 (basisPow (n := i) f U b) =
       (situation f L).polynomialSectionsRingEquiv U b (Polynomial.X ^ i) := by
   rw [basisPow, ← (situation f L).symSectionsRingEquiv_coe]
-  show _ = (situation f L).symSectionsRingEquiv U
+  change _ = (situation f L).symSectionsRingEquiv U
     (((situation f L).polynomialAlgEquiv U b).symm (Polynomial.X ^ i))
   congr 1
   rw [AlgEquiv.eq_symm_apply, map_pow, (situation f L).polynomialAlgEquiv_ι]
@@ -340,7 +340,7 @@ theorem symPowToCoverMap_app (i : ℕ) (x : ((situation f L).symmetricAlgebra.pi
   rw [symPowToCoverMap]
   refine (Stacks.AlgebraicGeometry.ProjectiveDeformation.homEquiv_symm_app_pullbackSection
     _ _ _ _ _ _).trans ?_
-  show (cover f φ S c).presheaf.map _ ((cover f φ S c).presheaf.map _
+  change (cover f φ S c).presheaf.map _ ((cover f φ S c).presheaf.map _
     (((coverFst f φ S c).app _).hom ((situation f L).totalFunction i U.1 x))) = _
   rw [← ConcreteCategory.comp_apply]
   exact (ConcreteCategory.congr_hom ((cover f φ S c).presheaf.map_comp _ _) _).symm.trans rfl
@@ -360,7 +360,7 @@ theorem coverSectionsEquiv_symPowToCoverMap (i : ℕ)
       algebraMap _ _ (baseChangeSectionsEquiv f S U q) * AdjoinRoot.root _ ^ i := by
   let := (sectionsStructure f U.1).hom.toAlgebra
   rw [Scheme.Modules.Hom.app_smul]
-  show coverSectionsEquiv f φ S c U b ((coverMap f φ S c).app _ q *
+  change coverSectionsEquiv f φ S c U b ((coverMap f φ S c).app _ q *
     id (α := Γ(cover f φ S c, coverMap f φ S c ⁻¹ᵁ baseChangeOpen f S U.1))
       ((symPowToCoverMap f φ S c i).app (baseChangeOpen f S U.1) (basisPowPullback f S U b i))) = _
   rw [map_mul]
@@ -413,7 +413,7 @@ theorem exists_eq_smul_basisPowPullback (i : ℕ)
   have h1 := affinePullbackSectionsBaseChangeIso_one_tmul (baseChangeFst f S) F U.2
     (isAffineOpen_baseChangeOpen f S U) le_rfl (basisPow (n := i) f U b)
   have h2 : ε.hom (1 : Γ(Z, U.1)) = basisPow (n := i) f U b := by
-    show (1 : Γ(Z, U.1)) • (show Γ(F, U.1) from basisPow (n := i) f U b) = _
+    change (1 : Γ(Z, U.1)) • (show Γ(F, U.1) from basisPow (n := i) f U b) = _
     exact one_smul _ _
   rw [h2, h1]
   rfl
@@ -439,7 +439,7 @@ theorem bijective_pushforwardDecomposition_app (hn : n ≠ 0) :
         map_zero' := rfl
         map_add' := fun _ _ => rfl }
     exact (congrArg (fun F => F x) (map_sum A g Finset.univ)).trans
-      (AddMonoidHom.finset_sum_apply _ _ _)
+      (AddMonoidHom.finsetSum_apply _ _ _)
   have htot : ∀ x, x = ∑ i, (biproduct.ι M i).app (baseChangeOpen f S U.1)
       ((biproduct.π M i).app (baseChangeOpen f S U.1) x) := fun x => by
     have h := congrArg (fun t => t.app (baseChangeOpen f S U.1) x) (biproduct.total (f := M))

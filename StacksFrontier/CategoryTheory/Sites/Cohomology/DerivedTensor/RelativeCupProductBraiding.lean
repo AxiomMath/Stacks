@@ -74,7 +74,7 @@ hypothesised below.
 **spaces** the corresponding statement is
 `Stacks.Cohomology.DerivedPullbackTensor.derivedPullbackTensorIso_braiding`, whence
 [Stacks, Tag 0FP5] in
-`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/RelativeCupProductCommutativity.lean`.
+`StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.RelativeCupProductCommutativity`.
 That proof descends from a pair of K-flat complexes, where it is the braiding clause of a
 *monoidal lift of `f^*` to complexes*
 (`Stacks.Cohomology.DerivedPullbackTensor.pullbackTensorComplexIso_braiding`, resting on

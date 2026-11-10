@@ -228,7 +228,7 @@ theorem bijective_aeval_mul_X [Finite σ] {c : σ → MvPolynomial σ B} (hc : �
     rcases eq_or_ne m 0 with rfl | hm
     · simp
     · have hC : (C ((c i).coeff 0) : MvPolynomial σ B).coeff m = 0 := by
-        rw [coeff_C, if_neg (Ne.symm hm)]
+        rw [coeff_C, ite_eq_right (Ne.symm hm)]
       simpa [hC] using (MvPolynomial.isUnit_iff.mp (hc i)).2 m hm
   obtain ⟨J, hJnil, hJmem⟩ :=
     exists_nilpotent_ideal_of_coeff_nilpotent (fun i => c i - C ((c i).coeff 0)) hn
@@ -239,7 +239,7 @@ theorem bijective_aeval_mul_X [Finite σ] {c : σ → MvPolynomial σ B} (hc : �
         ((scaleEquiv fun i => (hd i).unit : MvPolynomial σ B ≃ₐ[B] MvPolynomial σ B) :
           MvPolynomial σ B →ₐ[B] MvPolynomial σ B) := by
     ext i
-    simp only [AlgHom.comp_apply, aeval_X, AlgEquiv.coe_algHom, scaleEquiv_X,
+    simp only [AlgHom.comp_apply, aeval_X, AlgEquiv.coe_toAlgHom, scaleEquiv_X,
       Ideal.Quotient.mkₐ_eq_mk]
     rw [← sub_eq_zero, ← map_sub, Ideal.Quotient.eq_zero_iff_mem,
       show c i * X i - C (((hd i).unit : B)) * X i = (c i - C ((c i).coeff 0)) * X i by
@@ -247,7 +247,7 @@ theorem bijective_aeval_mul_X [Finite σ] {c : σ → MvPolynomial σ B} (hc : �
     exact Ideal.mul_mem_right _ _ (hJmem i)
   intro x
   have hx := AlgHom.congr_fun key x
-  simp only [AlgHom.comp_apply, Ideal.Quotient.mkₐ_eq_mk, AlgEquiv.coe_algHom] at hx
+  simp only [AlgHom.comp_apply, Ideal.Quotient.mkₐ_eq_mk, AlgEquiv.coe_toAlgHom] at hx
   rwa [Ideal.Quotient.eq] at hx
 
 end Rescale
@@ -326,7 +326,7 @@ theorem exists_isUnit_mul_X_of_span_eq {σ : Type w} {i : σ} {h : MvPolynomial 
   have hreg : Function.Injective fun y : MvPolynomial σ B => y * X i :=
     (MvPolynomial.isRegular_X (n := i)).right
   have hvu : v * u = 1 := hreg <| by
-    show v * u * X i = 1 * X i
+    change v * u * X i = 1 * X i
     rw [one_mul, mul_comm v, mul_assoc, hv, hu]
   exact ⟨v, ⟨⟨v, u, hvu, (mul_comm u v).trans hvu⟩, rfl⟩, hv.symm⟩
 

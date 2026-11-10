@@ -131,7 +131,7 @@ theorem exists_twoIso_cancelIteratedTwoFibreProduct
           CatFiberedInGroupoids.homFunctor f).obj uu) :=
       (Functor.congr_obj hcf uu).symm
     rw [hbb]
-    show 𝒴.val.p.IsHomLift _ (𝟙 ((CatFiberedInGroupoids.homFunctor a ⋙
+    change 𝒴.val.p.IsHomLift _ (𝟙 ((CatFiberedInGroupoids.homFunctor a ⋙
       CatFiberedInGroupoids.homFunctor f).obj uu))
     infer_instance
   set cancD := TwoFibreProductOver.cancelSnd (fibredCategory B S hS V').val.p 𝒳.val.p 𝒴.val.p
@@ -175,7 +175,7 @@ theorem exists_twoIso_cancelIteratedTwoFibreProduct
   have hFDequiv : Functor.IsEquivalence FD :=
     (CategoryTheory.Equivalence.mk cancD FD ηD.symm εD).symm.isEquivalence_functor
   refine ⟨Bicategory.InducedBicategory.mkHom ⟨cancM ⋙ FD, hwc⟩, ?_, ?_⟩
-  · show Functor.IsEquivalence (cancM ⋙ FD)
+  · change Functor.IsEquivalence (cancM ⋙ FD)
     have h1 := TwoFibreProductOver.isEquivalence_cancelSnd (fibredCategory B S hS V').val.p
       (fibredCategory B S hS V).val.p 𝒴.val.p (fibredCategory B S hS U).val.p
       (CatFiberedInGroupoids.homFunctor b') (CatFiberedInGroupoids.homFunctor b)
@@ -209,13 +209,13 @@ theorem exists_twoIso_cancelIteratedTwoFibreProduct
       inv := Functor.whiskerLeft cancM (Functor.whiskerRight εD.hom fstT)
       hom_inv_id := by
         ext x
-        show fstT.map (εD.inv.app (cancM.obj x)) ≫
+        change fstT.map (εD.inv.app (cancM.obj x)) ≫
           fstT.map (εD.hom.app (cancM.obj x)) = _
         rw [← Functor.map_comp, Iso.inv_hom_id_app]
         exact fstT.map_id _
       inv_hom_id := by
         ext x
-        show fstT.map (εD.hom.app (cancM.obj x)) ≫
+        change fstT.map (εD.hom.app (cancM.obj x)) ≫
           fstT.map (εD.inv.app (cancM.obj x)) = _
         rw [← Functor.map_comp, Iso.hom_inv_id_app]
         exact fstT.map_id _ } hvert)⟩

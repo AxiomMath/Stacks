@@ -123,7 +123,7 @@ private lemma exactAt_mapHomologicalComplex_of_cover
   let S : ShortComplex P.FullSubcategory := ShortComplex.mk
     (Q.map (I.cocomplex.d (n - 1) n)) (Q.map (I.cocomplex.d n (n + 1)))
     (by rw [← Q.map_comp, I.cocomplex.d_comp_d, Q.map_zero])
-  show S.Exact
+  change S.Exact
   rw [ShortComplex.exact_iff_epi_kernel_lift S]
   apply P.ι.epi_of_epi_map
   obtain ⟨J, L, gcov, hLP, hLExt, hje⟩ := hcover (P.ι.obj (kernel S.g)) (kernel S.g).property
@@ -134,7 +134,7 @@ private lemma exactAt_mapHomologicalComplex_of_cover
     let gi : LB ⟶ kernel S.g := ObjectProperty.homMk (gcov j)
     let φ : LB ⟶ S.X₂ := gi ≫ kernel.ι S.g
     have hcycle : φ ≫ Q.map (I.cocomplex.d n (n + 1)) = 0 := by
-      show (gi ≫ kernel.ι S.g) ≫ S.g = 0
+      change (gi ≫ kernel.ι S.g) ≫ S.g = 0
       rw [Category.assoc, kernel.condition, comp_zero]
     have hfA : (adj.homEquiv LB (I.cocomplex.X n)).symm φ ≫ I.cocomplex.d n (n + 1) = 0 := by
       apply (adj.homEquiv LB (I.cocomplex.X (n + 1))).injective

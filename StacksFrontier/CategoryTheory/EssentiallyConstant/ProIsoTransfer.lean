@@ -73,7 +73,7 @@ theorem IsEssentiallyConstantPro.of_proIso {X Y : ℕᵒᵖ ⥤ C} (e : ProIso X
             rw [hmapY hle g, ← e.φnat hle, ← Category.assoc, hπ] } }
   refine ⟨c', op (e.β i.unop), e.ψ i.unop ≫ s, ?_, ?_⟩
   · obtain ⟨i⟩ := i
-    show (c.π.app (op (e.α (e.β i))) ≫ e.φ (e.β i)) ≫ e.ψ i ≫ s = 𝟙 c.pt
+    change (c.π.app (op (e.α (e.β i))) ≫ e.φ (e.β i)) ≫ e.ψ i ≫ s = 𝟙 c.pt
     rw [Category.assoc, ← Category.assoc (e.φ _), e.ψφ, ← Category.assoc, hπ]
     exact hs.retraction
   · rintro ⟨j⟩
@@ -85,7 +85,7 @@ theorem IsEssentiallyConstantPro.of_proIso {X Y : ℕᵒᵖ ⥤ C} (e : ProIso X
     have hjβ : j ≤ e.β k₀ := le_trans (e.αle j) (le_trans hjk (e.βle k₀))
     refine ⟨op (e.β k₀), (homOfLE hβ).op, (homOfLE hjβ).op, ?_⟩
     rw [hmap hik σ, hmap hjk τ] at hk
-    show tr Y hjβ = tr Y hβ ≫ (e.ψ i ≫ s) ≫ c.π.app (op (e.α j)) ≫ e.φ j
+    change tr Y hjβ = tr Y hβ ≫ (e.ψ i ≫ s) ≫ c.π.app (op (e.α j)) ≫ e.φ j
     simp only [Category.assoc]
     rw [← Category.assoc (tr Y hβ) (e.ψ i), e.ψnat hik]
     simp only [Category.assoc]

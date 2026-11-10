@@ -49,10 +49,11 @@ first term should not rebuild it.
 **What the first term needed.** That `M̲ ⊗_𝒪 Ω_{𝒪/A}` is the restriction of scalars of a
 `B̲`-module — the hypothesis under which
 `Stacks.ChaoticSite.derivedColimitWithCoefficientsRestrictScalarsIso` applies to the first term
-as it does to the third — is `CommAlgCat.smallAtiyahFirstVertexRestrictionIso` below. Its naturality in the object of the
-site needs no extra work: the projection formula `Stacks.FlatChangeOfRings.baseChangeNatIso` is already a natural
-isomorphism of functors, and its component at the constant `B̲`-module `M` is exactly the needed
-identification, with `TensorProduct.AlgebraTensorModule.cancelBaseChange` as its sections.
+as it does to the third — is `CommAlgCat.smallAtiyahFirstVertexRestrictionIso` below. Its
+naturality in the object of the site needs no extra work: the projection formula
+`Stacks.FlatChangeOfRings.baseChangeNatIso` is already a natural isomorphism of functors, and its
+component at the constant `B̲`-module `M` is exactly the needed identification, with
+`TensorProduct.AlgebraTensorModule.cancelBaseChange` as its sections.
 
 What that left was the *computation* of the resulting `B̲`-module on the standard resolution:
 
@@ -73,7 +74,8 @@ instance `CommAlgCat` carries. (The `Stacks.PullbackModel.extendScalars` form an
 `CommAlgCat.smallPolynomialAugmentationComm A B κ`.)
 
 Although the comparison might seem to need constructing through the universal property, it is a
-one-line transport along the equality of the two instances. The obstruction is real but local: `CommRingCat.KaehlerDifferential f` is
+one-line transport along the equality of the two instances. The obstruction is real but local:
+`CommRingCat.KaehlerDifferential f` is
 `letI := f.hom.toAlgebra; ModuleCat.of B (KaehlerDifferential A B)`, and `rw` at the instance
 equality does fail with "motive is not type correct", because the instance occurs in the
 `SMulCommClass` proof argument `ModuleCat.of` carries and not only in the carrier. What that

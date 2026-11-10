@@ -99,7 +99,8 @@ lemma isPullback_baseChangePullbackMap_fst (hX : IsPullback cX f₁ f s)
   refine IsPullback.of_right ?_ (baseChangePullbackMap_fst hX.toCommSq hY.toCommSq)
     (IsPullback.of_hasPullback f g).flip
   have h := ((IsPullback.of_hasPullback f₁ g₁).flip).paste_horiz hY
-  rwa [baseChangePullbackMap_snd hX.toCommSq hY.toCommSq, ← hX.w] at *
+  rw [baseChangePullbackMap_snd hX.toCommSq hY.toCommSq, ← hX.w] at *
+  assumption
 
 /-- The second projection of a fibre product is compatible with base change. -/
 lemma isPullback_baseChangePullbackMap_snd (hX : IsPullback cX f₁ f s)
@@ -109,7 +110,8 @@ lemma isPullback_baseChangePullbackMap_snd (hX : IsPullback cX f₁ f s)
   refine IsPullback.of_right ?_ (baseChangePullbackMap_snd hX.toCommSq hY.toCommSq)
     (IsPullback.of_hasPullback f g)
   have h := (IsPullback.of_hasPullback f₁ g₁).paste_horiz hX
-  rwa [baseChangePullbackMap_fst hX.toCommSq hY.toCommSq, ← hY.w] at *
+  rw [baseChangePullbackMap_fst hX.toCommSq hY.toCommSq, ← hY.w] at *
+  assumption
 
 /-- The fibre product of two base changes is the base change of the fibre product. -/
 lemma isPullback_baseChangePullbackMap_base (hX : IsPullback cX f₁ f s)
@@ -249,8 +251,7 @@ def convolutionBaseChangeIsoOfIsPullback
       ≫ fourierMukaiPr23 f g h =
       fourierMukaiPr23 f₁ g₁ h₁ ≫ baseChangePullbackMap hY.toCommSq hZ.toCommSq := by
     apply pullback.hom_ext <;>
-      simp [fourierMukaiPr23, baseChangePullbackMap, pullback.lift_fst, pullback.lift_snd,
-        pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+      simp [fourierMukaiPr23, baseChangePullbackMap]
   haveI : IsIso ((dbaseChange
       (baseChangePullbackMap (isPullback_baseChangePullbackMap_base' hX hY).toCommSq hZ.toCommSq)
       (fourierMukaiPr13 f₁ g₁ h₁)

@@ -351,9 +351,9 @@ lemma kernelPairLeg_snd (j : J) :
 lemma kernelPairLeg_map {j k : J} (u : j ⟶ k) :
     L.kernelPairLeg j ≫ G.kernelPair.map u = L.kernelPairLeg k := by
   refine KernelPairSystem.hom_ext_app G.nbhd G.toBase (fun j ↦ (G.etale_toBase j).rep) ?_ ?_
-  · show L.kernelPairLeg j ≫ G.kernelPair.map u ≫ G.fst.app k = L.kernelPairLeg k ≫ G.fst.app k
+  · change L.kernelPairLeg j ≫ G.kernelPair.map u ≫ G.fst.app k = L.kernelPairLeg k ≫ G.fst.app k
     rw [G.fst.naturality u, kernelPairLeg_fst_assoc, kernelPairLeg_fst, L.coneW.w u]
-  · show L.kernelPairLeg j ≫ G.kernelPair.map u ≫ G.snd.app k = L.kernelPairLeg k ≫ G.snd.app k
+  · change L.kernelPairLeg j ≫ G.kernelPair.map u ≫ G.snd.app k = L.kernelPairLeg k ≫ G.snd.app k
     rw [G.snd.naturality u, kernelPairLeg_snd_assoc, kernelPairLeg_snd, L.coneW.w u]
 
 /-- The cone from `W ×_X W` to the kernel pairs `W_j ×_{U_j} W_j`, in schemes. -/
@@ -459,11 +459,11 @@ lemma overWDiag_overWSnd : L.overWDiag ≫ L.overWSnd = 𝟙 _ :=
 lemma overWDiag_kernelPairLeg (j : J) :
     L.overWDiag ≫ L.kernelPairLeg j = L.coneW.π.app j ≫ G.diag.app j := by
   refine KernelPairSystem.hom_ext_app G.nbhd G.toBase (fun j ↦ (G.etale_toBase j).rep) ?_ ?_
-  · show L.overWDiag ≫ L.kernelPairLeg j ≫ G.fst.app j = L.coneW.π.app j ≫ G.diag.app j ≫
+  · change L.overWDiag ≫ L.kernelPairLeg j ≫ G.fst.app j = L.coneW.π.app j ≫ G.diag.app j ≫
       G.fst.app j
     rw [kernelPairLeg_fst, ← Category.assoc, overWDiag_overWFst, Category.id_comp,
       ← NatTrans.comp_app, KernelPairSystem.diag_fst, NatTrans.id_app, Category.comp_id]
-  · show L.overWDiag ≫ L.kernelPairLeg j ≫ G.snd.app j = L.coneW.π.app j ≫ G.diag.app j ≫
+  · change L.overWDiag ≫ L.kernelPairLeg j ≫ G.snd.app j = L.coneW.π.app j ≫ G.diag.app j ≫
       G.snd.app j
     rw [kernelPairLeg_snd, ← Category.assoc, overWDiag_overWSnd, Category.id_comp,
       ← NatTrans.comp_app, KernelPairSystem.diag_snd, NatTrans.id_app, Category.comp_id]
@@ -559,7 +559,7 @@ lemma relLeg_source (j : J) :
         (L.coneV.π.app j) = L.relLeg j ≫ G.sourceScheme.app j :=
   L.relLeg_proj G.sndScheme G.diagScheme_sndScheme ((BigFppfOver.toScheme B S hS).map L.overWSnd)
     (fun j ↦ by
-      show _ = (BigFppfOver.toScheme B S hS).map (L.kernelPairLeg j) ≫
+      change _ = (BigFppfOver.toScheme B S hS).map (L.kernelPairLeg j) ≫
           (BigFppfOver.toScheme B S hS).map (G.snd.app j)
       rw [← CategoryTheory.Functor.map_comp, kernelPairLeg_snd]
       rfl) _ L.toScheme_kernelDiag_kernelSnd L.overW_ι_kernelSnd j
@@ -571,7 +571,7 @@ lemma relLeg_target (j : J) :
         (L.coneV.π.app j) = L.relLeg j ≫ G.targetScheme.app j :=
   L.relLeg_proj G.fstScheme G.diagScheme_fstScheme ((BigFppfOver.toScheme B S hS).map L.overWFst)
     (fun j ↦ by
-      show _ = (BigFppfOver.toScheme B S hS).map (L.kernelPairLeg j) ≫
+      change _ = (BigFppfOver.toScheme B S hS).map (L.kernelPairLeg j) ≫
           (BigFppfOver.toScheme B S hS).map (G.fst.app j)
       rw [← CategoryTheory.Functor.map_comp, kernelPairLeg_fst]
       rfl) _ L.toScheme_kernelDiag_kernelFst L.overW_ι_kernelFst j

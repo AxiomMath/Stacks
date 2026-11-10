@@ -62,10 +62,13 @@ is needed.
 
 Scalars on `Γ(𝓖, U)` are declared over `X.ringCatSheaf.obj.obj (op U)`, which instance search
 does not recognise as `Γ(X, U)`; `AlgebraicGeometry.secs` and the local instance
-`AlgebraicGeometry.sectionsModuleΓSheaf` are the spelling `StacksFrontier/AlgebraicGeometry/Duality/ExtensionZeroCoherent/IdealPowerIterate.lean` fixed for
+`AlgebraicGeometry.sectionsModuleΓSheaf` are the spelling
+`StacksFrontier/AlgebraicGeometry/Duality/ExtensionZeroCoherent/IdealPowerIterate.lean` fixed for
 that, and they are used here so that the two files' statements compose without a conversion.
 
-Converting the inclusion of `StacksFrontier/AlgebraicGeometry/Duality/ExtensionZeroCoherent/IdealPowerIterate.lean` from its "the preimage is everything" shape
+Converting the inclusion of
+`StacksFrontier/AlgebraicGeometry/Duality/ExtensionZeroCoherent/IdealPowerIterate.lean` from its
+"the preimage is everything" shape
 to an inclusion of subsheaves of `ℐ ^ n 𝓖` has to build a section of `ℐ ^ (n + m) 𝓖` out of a
 section of `ℐ ^ n 𝓖` and a membership proof. Done at the concrete subsheaf that is a kernel
 **deterministic timeout**: the anonymous constructor makes the kernel reduce the type

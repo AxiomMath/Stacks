@@ -253,7 +253,7 @@ theorem exists_comp_eq_iff_forall_isAffine_definingIdealAt_le
     have hkey : (l ≫ π i) ≫ hfE.rep.fst' τ = (l ≫ ψ i) ≫ jj i := by
       rw [Category.assoc, ← hcomm i, Category.assoc]
     rw [map_op_app_eq_app_comp, hkey]
-    show Uaff.1.hom.app (op V) (l ≫ ψ i) ∈ Z.1.obj (op V)
+    change Uaff.1.hom.app (op V) (l ≫ ψ i) ∈ Z.1.obj (op V)
     rw [mem_obj_iff_definingIdealAt_le]
     refine hker Uaff haff V (l ≫ ψ i)
       (yoneda.map (l ≫ π i) ≫ yoneda.map (hfE.rep.snd τ) ≫ yonedaEquiv.symm x₀) ?_

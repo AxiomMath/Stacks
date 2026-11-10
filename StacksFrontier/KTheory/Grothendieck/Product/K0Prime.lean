@@ -70,7 +70,7 @@ theorem K0prime_product_forward (R1 R2 : Type u) [CommRing R1] [CommRing R2]
       simp only [FreeAbelianGroup.lift_apply_of]
       rw [sub_eq_zero]
       -- baseChangeMk f P.module = baseChangeMk f Q.module
-      show K0prime.mkModule S (TensorProduct (R1 × R2) S P.module)
+      change K0prime.mkModule S (TensorProduct (R1 × R2) S P.module)
         = K0prime.mkModule S (TensorProduct (R1 × R2) S Q.module)
       exact K0prime.mkModule_eq_of_iso _ _ (LinearEquiv.baseChange (R1 × R2) S P.module Q.module e)
     | ses P P' P'' f0 g0 hf0 hg0 he0 =>
@@ -78,7 +78,7 @@ theorem K0prime_product_forward (R1 R2 : Type u) [CommRing R1] [CommRing R2]
       simp only [FreeAbelianGroup.lift_apply_of]
       rw [sub_sub, sub_eq_zero]
       -- baseChangeMk f P.module = baseChangeMk f P'.module + baseChangeMk f P''.module
-      show K0prime.mkModule S (TensorProduct (R1 × R2) S P.module)
+      change K0prime.mkModule S (TensorProduct (R1 × R2) S P.module)
         = K0prime.mkModule S (TensorProduct (R1 × R2) S P'.module)
           + K0prime.mkModule S (TensorProduct (R1 × R2) S P''.module)
       exact K0prime.mkModule_add_of_ses _ _ _
@@ -136,7 +136,7 @@ private theorem exists_restrictMk_hom {R S : Type u} [CommRing R] [CommRing S] (
   refine ⟨QuotientAddGroup.lift _ g ?_, fun _ => rfl⟩
   rw [K0Sub, AddSubgroup.closure_le]
   rintro x hx
-  show g x = 0
+  change g x = 0
   cases hx with
   | iso P Q e =>
     rw [map_sub, sub_eq_zero]
@@ -180,9 +180,9 @@ theorem K0prime_product_backward (R1 R2 : Type u) [CommRing R1] [CommRing R2]
   obtain ⟨ψ2, hψ2⟩ := exists_restrictMk_hom (RingHom.snd R1 R2) (Prod.snd_finite R1 R2)
   refine ⟨ψ1.comp (AddMonoidHom.fst (K0prime R1) (K0prime R2))
         + ψ2.comp (AddMonoidHom.snd (K0prime R1) (K0prime R2)), fun N1 => ?_, fun N2 => ?_⟩
-  · show ψ1 (K0prime.mk N1) + ψ2 0 = _
+  · change ψ1 (K0prime.mk N1) + ψ2 0 = _
     rw [map_zero, add_zero, hψ1]
-  · show ψ1 0 + ψ2 (K0prime.mk N2) = _
+  · change ψ1 0 + ψ2 (K0prime.mk N2) = _
     rw [map_zero, zero_add, hψ2]
 
 /-- The class of `M.module` as a module agrees with the class of the presentation `M`. -/
@@ -192,7 +192,7 @@ private theorem mkModule_module_eq_mk {R : Type u} [CommRing R] (M : FGPres R) :
   set P := (FGPres.skeleton_surjective (R := R) M.module).choose with hP
   have hmem : FreeAbelianGroup.of M - FreeAbelianGroup.of P ∈ K0Sub R :=
     AddSubgroup.subset_closure (K0Rel.iso M P e.symm)
-  show (QuotientAddGroup.mk (FreeAbelianGroup.of P) : K0prime R) = QuotientAddGroup.mk _
+  change (QuotientAddGroup.mk (FreeAbelianGroup.of P) : K0prime R) = QuotientAddGroup.mk _
   rw [QuotientAddGroup.eq]
   simpa [sub_eq_neg_add] using hmem
 
@@ -264,7 +264,7 @@ theorem K0prime_product_left_inv (R1 R2 : Type u) [CommRing R1] [CommRing R2]
           simp only [LinearMap.coe_mk, AddHom.coe_mk, RingHom.id_apply, LinearMap.smul_apply,
             smul_smul]
           congr 1
-          show (c.fst * x, 0) = c * (x, 0)
+          change (c.fst * x, 0) = c * (x, 0)
           ext <;> simp }
     let g1 : TensorProduct (R1 × R2) R1 N →ₗ[R1 × R2] N := TensorProduct.lift b1
     let b2 : R2 →ₗ[R1 × R2] N →ₗ[R1 × R2] N :=
@@ -284,7 +284,7 @@ theorem K0prime_product_left_inv (R1 R2 : Type u) [CommRing R1] [CommRing R2]
           simp only [LinearMap.coe_mk, AddHom.coe_mk, RingHom.id_apply, LinearMap.smul_apply,
             smul_smul]
           congr 1
-          show (0, c.snd * x) = c * (0, x)
+          change (0, c.snd * x) = c * (0, x)
           ext <;> simp }
     let g2 : TensorProduct (R1 × R2) R2 N →ₗ[R1 × R2] N := TensorProduct.lift b2
     let F : (TensorProduct (R1 × R2) R1 N × TensorProduct (R1 × R2) R2 N) →ₗ[R1 × R2] N :=
@@ -298,63 +298,59 @@ theorem K0prime_product_left_inv (R1 R2 : Type u) [CommRing R1] [CommRing R2]
           rw [TensorProduct.tmul_smul, TensorProduct.tmul_smul] }
     refine LinearEquiv.ofLinearMap F G ?_ ?_
     · ext m
-      show g1 ((1 : R1) ⊗ₜ[R1 × R2] m) + g2 ((1 : R2) ⊗ₜ[R1 × R2] m) = m
-      show ((1, 0) : R1 × R2) • m + ((0, 1) : R1 × R2) • m = m
+      change g1 ((1 : R1) ⊗ₜ[R1 × R2] m) + g2 ((1 : R2) ⊗ₜ[R1 × R2] m) = m
+      change ((1, 0) : R1 × R2) • m + ((0, 1) : R1 × R2) • m = m
       rw [← add_smul, show ((1, 0) : R1 × R2) + (0, 1) = 1 by ext <;> simp, one_smul]
     · refine LinearMap.ext (fun x => ?_)
       refine Prod.ext ?_ ?_
-      · show (1 : R1) ⊗ₜ[R1 × R2] (g1 x.fst + g2 x.snd) = x.fst
+      · change (1 : R1) ⊗ₜ[R1 × R2] (g1 x.fst + g2 x.snd) = x.fst
         rw [TensorProduct.tmul_add]
         have hcross : (1 : R1) ⊗ₜ[R1 × R2] (g2 x.snd) = 0 := by
-          induction x.snd using TensorProduct.induction_on with
-          | zero => simp
+          induction x.snd using TensorProduct.inductionOn with
           | tmul r2 m =>
-            show (1 : R1) ⊗ₜ[R1 × R2] (((0, r2) : R1 × R2) • m) = 0
+            change (1 : R1) ⊗ₜ[R1 × R2] (((0, r2) : R1 × R2) • m) = 0
             rw [TensorProduct.tmul_smul]
-            show (((0, r2) : R1 × R2) • (1 : R1)) ⊗ₜ[R1 × R2] m = 0
+            change (((0, r2) : R1 × R2) • (1 : R1)) ⊗ₜ[R1 × R2] m = 0
             rw [show ((0, r2) : R1 × R2) • (1 : R1) = (0 : R1) by
-              show (RingHom.fst R1 R2) (0, r2) * 1 = 0; simp]
+              change (RingHom.fst R1 R2) (0, r2) * 1 = 0; simp]
             rw [TensorProduct.zero_tmul]
           | add a b ha hb => rw [map_add, TensorProduct.tmul_add, ha, hb, add_zero]
         have hself : (1 : R1) ⊗ₜ[R1 × R2] (g1 x.fst) = x.fst := by
-          induction x.fst using TensorProduct.induction_on with
-          | zero => simp
+          induction x.fst using TensorProduct.inductionOn with
           | tmul r1 m =>
-            show (1 : R1) ⊗ₜ[R1 × R2] (((r1, 0) : R1 × R2) • m) = r1 ⊗ₜ[R1 × R2] m
+            change (1 : R1) ⊗ₜ[R1 × R2] (((r1, 0) : R1 × R2) • m) = r1 ⊗ₜ[R1 × R2] m
             rw [TensorProduct.tmul_smul]
-            show (((r1, 0) : R1 × R2) • (1 : R1)) ⊗ₜ[R1 × R2] m = r1 ⊗ₜ[R1 × R2] m
+            change (((r1, 0) : R1 × R2) • (1 : R1)) ⊗ₜ[R1 × R2] m = r1 ⊗ₜ[R1 × R2] m
             rw [show ((r1, 0) : R1 × R2) • (1 : R1) = r1 by
-              show (RingHom.fst R1 R2) (r1, 0) * 1 = r1; simp]
+              change (RingHom.fst R1 R2) (r1, 0) * 1 = r1; simp]
           | add a b ha hb => rw [map_add, TensorProduct.tmul_add, ha, hb]
         rw [hself, hcross, add_zero]
-      · show (1 : R2) ⊗ₜ[R1 × R2] (g1 x.fst + g2 x.snd) = x.snd
+      · change (1 : R2) ⊗ₜ[R1 × R2] (g1 x.fst + g2 x.snd) = x.snd
         rw [TensorProduct.tmul_add]
         have hcross : (1 : R2) ⊗ₜ[R1 × R2] (g1 x.fst) = 0 := by
-          induction x.fst using TensorProduct.induction_on with
-          | zero => simp
+          induction x.fst using TensorProduct.inductionOn with
           | tmul r1 m =>
-            show (1 : R2) ⊗ₜ[R1 × R2] (((r1, 0) : R1 × R2) • m) = 0
+            change (1 : R2) ⊗ₜ[R1 × R2] (((r1, 0) : R1 × R2) • m) = 0
             rw [TensorProduct.tmul_smul]
-            show (((r1, 0) : R1 × R2) • (1 : R2)) ⊗ₜ[R1 × R2] m = 0
+            change (((r1, 0) : R1 × R2) • (1 : R2)) ⊗ₜ[R1 × R2] m = 0
             rw [show ((r1, 0) : R1 × R2) • (1 : R2) = (0 : R2) by
-              show (RingHom.snd R1 R2) (r1, 0) * 1 = 0; simp]
+              change (RingHom.snd R1 R2) (r1, 0) * 1 = 0; simp]
             rw [TensorProduct.zero_tmul]
           | add a b ha hb => rw [map_add, TensorProduct.tmul_add, ha, hb, add_zero]
         have hself : (1 : R2) ⊗ₜ[R1 × R2] (g2 x.snd) = x.snd := by
-          induction x.snd using TensorProduct.induction_on with
-          | zero => simp
+          induction x.snd using TensorProduct.inductionOn with
           | tmul r2 m =>
-            show (1 : R2) ⊗ₜ[R1 × R2] (((0, r2) : R1 × R2) • m) = r2 ⊗ₜ[R1 × R2] m
+            change (1 : R2) ⊗ₜ[R1 × R2] (((0, r2) : R1 × R2) • m) = r2 ⊗ₜ[R1 × R2] m
             rw [TensorProduct.tmul_smul]
-            show (((0, r2) : R1 × R2) • (1 : R2)) ⊗ₜ[R1 × R2] m = r2 ⊗ₜ[R1 × R2] m
+            change (((0, r2) : R1 × R2) • (1 : R2)) ⊗ₜ[R1 × R2] m = r2 ⊗ₜ[R1 × R2] m
             rw [show ((0, r2) : R1 × R2) • (1 : R2) = r2 by
-              show (RingHom.snd R1 R2) (0, r2) * 1 = r2; simp]
+              change (RingHom.snd R1 R2) (0, r2) * 1 = r2; simp]
           | add a b ha hb => rw [map_add, TensorProduct.tmul_add, ha, hb]
         rw [hcross, hself, zero_add]
   intro x
   refine DFunLike.congr_fun (K0prime_hom_ext (F := ψ.comp φ) (G := AddMonoidHom.id _)
     fun M => ?_) x
-  show ψ (φ (K0prime.mk M)) = K0prime.mk M
+  change ψ (φ (K0prime.mk M)) = K0prime.mk M
   rw [hφ M]
   -- the two base-change carriers
   set A1 := TensorProduct (R1 × R2) R1 M.module with hA1
@@ -386,7 +382,7 @@ theorem K0prime_product_left_inv (R1 R2 : Type u) [CommRing R1] [CommRing R2]
   have : Module.Finite (R1 × R2) R2 := Prod.snd_finite R1 R2
   have : Module.Finite (R1 × R2) A1 := Module.Finite.trans R1 A1
   have : Module.Finite (R1 × R2) A2 := Module.Finite.trans R2 A2
-  show K0prime.mkModule (R1 × R2) A1 + K0prime.mkModule (R1 × R2) A2 = K0prime.mk M
+  change K0prime.mkModule (R1 × R2) A1 + K0prime.mkModule (R1 × R2) A2 = K0prime.mk M
   -- the idempotent decomposition iso `A1 ⊕ A2 ≅ M.module` as `(R1×R2)`-modules
   have eM : (A1 × A2) ≃ₗ[R1 × R2] M.module := hidem M.module
   -- `mkModule A1 + mkModule A2 = mkModule (A1 × A2) = mkModule M.module = mk M`
@@ -449,7 +445,7 @@ theorem K0prime_product_right_inv (R1 R2 : Type u) [CommRing R1] [CommRing R2]
     rw [hres, hφ P]
     refine Prod.ext ?_ ?_
     · -- fst component: baseChangeMk fst P.module = K0prime.mk N1
-      show K0prime.mkModule R1 (TensorProduct (R1 × R2) R1 P.module) = K0prime.mk N1
+      change K0prime.mkModule R1 (TensorProduct (R1 × R2) R1 P.module) = K0prime.mk N1
       -- iso: T R1 P.module ≅ T R1 N1.module ≅ N1.module
       have eT : TensorProduct (R1 × R2) R1 P.module ≃ₗ[R1] TensorProduct (R1 × R2) R1 N1.module :=
         LinearEquiv.baseChange (R1 × R2) R1 P.module N1.module e
@@ -457,7 +453,7 @@ theorem K0prime_product_right_inv (R1 R2 : Type u) [CommRing R1] [CommRing R2]
         K0prime.mkModule_eq_of_iso _ _ (Prod.tensorFstEquiv R1 R2 N1.module)]
       exact mkModule_module_eq_mk N1
     · -- snd component: baseChangeMk snd P.module = 0
-      show K0prime.mkModule R2 (TensorProduct (R1 × R2) R2 P.module) = 0
+      change K0prime.mkModule R2 (TensorProduct (R1 × R2) R2 P.module) = 0
       have eT : TensorProduct (R1 × R2) R2 P.module ≃ₗ[R2] TensorProduct (R1 × R2) R2 N1.module :=
         LinearEquiv.baseChange (R1 × R2) R2 P.module N1.module e
       rw [K0prime.mkModule_eq_of_iso _ _ eT]
@@ -477,7 +473,7 @@ theorem K0prime_product_right_inv (R1 R2 : Type u) [CommRing R1] [CommRing R2]
     rw [hres, hφ P]
     refine Prod.ext ?_ ?_
     · -- fst component: baseChangeMk fst P.module = 0
-      show K0prime.mkModule R1 (TensorProduct (R1 × R2) R1 P.module) = 0
+      change K0prime.mkModule R1 (TensorProduct (R1 × R2) R1 P.module) = 0
       have eT : TensorProduct (R1 × R2) R1 P.module ≃ₗ[R1] TensorProduct (R1 × R2) R1 N2.module :=
         LinearEquiv.baseChange (R1 × R2) R1 P.module N2.module e
       rw [K0prime.mkModule_eq_of_iso _ _ eT]
@@ -485,7 +481,7 @@ theorem K0prime_product_right_inv (R1 R2 : Type u) [CommRing R1] [CommRing R2]
         Prod.subsingleton_tensor_fst_of_snd R1 R2 N2.module
       exact hzero _
     · -- snd component: baseChangeMk snd P.module = K0prime.mk N2
-      show K0prime.mkModule R2 (TensorProduct (R1 × R2) R2 P.module) = K0prime.mk N2
+      change K0prime.mkModule R2 (TensorProduct (R1 × R2) R2 P.module) = K0prime.mk N2
       have eT : TensorProduct (R1 × R2) R2 P.module ≃ₗ[R2] TensorProduct (R1 × R2) R2 N2.module :=
         LinearEquiv.baseChange (R1 × R2) R2 P.module N2.module e
       rw [K0prime.mkModule_eq_of_iso _ _ eT,

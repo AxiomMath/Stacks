@@ -61,7 +61,7 @@ theorem mono_yoneda_map_residueFieldMap (U : BigFppfOver B S hS) (u : U.left.1)
     (hu : B.Contains (Spec (.of (U.left.1.residueField u)))) :
     Mono (yoneda.map (residueFieldMap B S hS U u hu)) := by
   have hscheme : Mono ((BigFppfOver.toScheme B S hS).map (residueFieldMap B S hS U u hu)) := by
-    show Mono (U.left.1.fromSpecResidueField u)
+    change Mono (U.left.1.fromSpecResidueField u)
     infer_instance
   have : Mono (residueFieldMap B S hS U u hu) :=
     Functor.mono_of_mono_map (BigFppfOver.toScheme B S hS) hscheme
@@ -72,7 +72,7 @@ representing scheme is that point. -/
 theorem pointsToScheme_presheafPoint (U : BigFppfOver B S hS) (u : U.left.1)
     (hu : B.Contains (Spec (.of (U.left.1.residueField u)))) :
     pointsToScheme B S hS U (presheafPoint B S hS U u hu) = u := by
-  show U.left.1.fromSpecResidueField u (IsLocalRing.closedPoint _) = u
+  change U.left.1.fromSpecResidueField u (IsLocalRing.closedPoint _) = u
   exact Scheme.fromSpecResidueField_apply u _
 
 /-- The point of a represented presheaf attached to the scheme point underlying a field-valued
@@ -126,7 +126,7 @@ theorem mono_yoneda_map_residueFieldMap_comp
       yoneda.map (residueFieldMap B S hS U
         (pointsToScheme B S hS U (t.class B S hS (yoneda.obj U))) hu) := by
     rw [← hvfield]
-    show yoneda.map e.hom ≫ yonedaEquiv.symm t.value = yonedaEquiv.symm _
+    change yoneda.map e.hom ≫ yonedaEquiv.symm t.value = yonedaEquiv.symm _
     rw [yonedaEquiv_symm_naturality_left e.hom (yoneda.obj U) t.value, he]
   exact mono_of_eq_of_mono
     ((congrArg (fun k ↦ k ≫ c) hfac).symm.trans (Category.assoc _ _ _))

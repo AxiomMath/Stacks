@@ -618,7 +618,7 @@ instance isLocallySurjective_extGenerator [QuasiIso K.augmentation] :
     PresheafOfModules.IsLocallySurjective (Opens.grothendieckTopology ↥X)
       (R := (structureSheaf Rc).obj) (extGenerator Rc K).val where
   imageSieve_mem {U} t := by
-    haveI hπ : Presheaf.IsLocallySurjective (Opens.grothendieckTopology ↥X)
+    have hπ : Presheaf.IsLocallySurjective (Opens.grothendieckTopology ↥X)
         ((PresheafOfModules.toPresheaf (structureSheaf Rc).obj).map
           ((endComplex Rc (cochain Rc K)).homologyπ 1).val) :=
       ImageSubsheaf.isLocallySurjective_of_epi ((endComplex Rc (cochain Rc K)).homologyπ 1)

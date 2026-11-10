@@ -71,7 +71,7 @@ theorem Scheme.Hom.fiberDimension_le_of_specializes {Y T : Scheme.{u}} (g : Y �
   | coe c =>
     rw [WithBot.coe_lt_coe] at ht
     rw [WithBot.coe_le_coe]
-    exact (ENat.lt_add_one_iff (ENat.coe_ne_top n)).mp (by exact_mod_cast ht)
+    exact (ENat.lt_add_one_iff (ENat.natCast_ne_top n)).mp (by exact_mod_cast ht)
 
 /-- **The fibres of a smoothing over `k⟦t⟧` have dimension at most one.** Let `g : Y ⟶ Spec k⟦t⟧`
 be universally closed and locally of finite type, with special fibre (the base change along the

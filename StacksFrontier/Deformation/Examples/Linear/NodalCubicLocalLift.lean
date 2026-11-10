@@ -25,8 +25,8 @@ second copy doubles the rank.
 The correct local lift is the one layer seven named and this file talked itself out of — `(P')_g`
 modulo `x − t·α` — and it is built in
 `StacksFrontier.Deformation.Examples.Linear.NodalCubicLocalAway` and
-`StacksFrontier.Deformation.Examples.Linear.NodalCubicLocalModule`, where the two obstacles this file
-raised against it are dealt with: the chosen inverse of `Y` is avoided by cutting with
+`StacksFrontier.Deformation.Examples.Linear.NodalCubicLocalModule`, where the two obstacles this
+file raised against it are dealt with: the chosen inverse of `Y` is avoided by cutting with
 `u = Y·x − t·Z` instead, which does not depend on `g`; and flatness is obtained not from a
 presentation of `(P')_g` but by *identifying* the quotient with `((A')_Y)_{π g}`, a localization
 of a localization of `A'`.

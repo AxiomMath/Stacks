@@ -71,7 +71,7 @@ theorem AbelianSheaf.exists_iCycles_app (K : CochainComplex (AbelianSheaf X) ℤ
     AddCommGrpCat.ofHom ((zmultiplesHom _ x).comp AddEquiv.ulift.toAddMonoidHom)
   have hφ : φ ≫ G.map (K.d n m) = 0 := by
     ext k
-    show (K.d n m).hom.app U (k.down • x) = 0
+    change (K.d n m).hom.app U (k.down • x) = 0
     rw [map_zsmul, hx, smul_zero]
   obtain ⟨l, hl'⟩ := KernelFork.IsLimit.lift' hl φ hφ
   exact ⟨l (ULift.up 1), (ConcreteCategory.congr_hom hl' (ULift.up 1)).trans (one_smul ℤ x)⟩
@@ -136,7 +136,7 @@ theorem logarithmicDifferentialAbelian_comp_iso_f_one
       logarithmicDifferentialSheafHom B ≫
         (_root_.SheafOfModules.toSheaf (underlyingRingSheaf A)).map
           ((deRhamComplex B D).extendXIso ComplexShape.embeddingUpNat h).inv := by
-  show (logarithmicDifferentialSheafHom B ≫ (deRhamAbelianIntXIsoOne B D).inv) ≫
+  change (logarithmicDifferentialSheafHom B ≫ (deRhamAbelianIntXIsoOne B D).inv) ≫
     (HomologicalComplex.mapHomologicalComplexExtendIso
       (_root_.SheafOfModules.toSheaf (underlyingRingSheaf A)) (deRhamComplex B D)
       ComplexShape.embeddingUpNat).hom.f 1 = _
@@ -190,7 +190,7 @@ theorem Situation.residuePlusSequence_g_f_zero :
     ∃ h, D.residuePlusSequence.g.hom.f 0 =
       (D.weightZeroExtXIso 1 (0 + 1) embeddingUpNat_f_one).hom ≫
         (Scheme.Hom.toBaseModules D.f).map (D.residueHom 0) ≫ eqToHom h := by
-  show ∃ h, ((HomologicalComplex.extendMap D.residueBaseMap ComplexShape.embeddingUpNat ≫
+  change ∃ h, ((HomologicalComplex.extendMap D.residueBaseMap ComplexShape.embeddingUpNat ≫
       (Scheme.Hom.deRhamComplex D.f).desuspendExtendIso.hom)⟦(1 : ℤ)⟧' ≫
       (shiftFunctorCompIsoId _ (-1 : ℤ) 1 (by omega)).hom.app _).f 0 = _
   rw [HomologicalComplex.comp_f, CochainComplex.shiftFunctor_map_f', HomologicalComplex.comp_f,
@@ -201,7 +201,7 @@ theorem Situation.residuePlusSequence_g_f_zero :
         (i := 1) (i' := ((1 : ℕ) : ℤ)) rfl).hom ≫
         ((Scheme.Hom.deRhamComplex D.f).extendXIso ComplexShape.embeddingUpNat
           (i := 0) (i' := ((1 : ℕ) : ℤ) + -1) (by simp)).inv := by
-    show (HomologicalComplex.extendUpNatXIso _ _ (fun p (hp : p < 0) =>
+    change (HomologicalComplex.extendUpNatXIso _ _ (fun p (hp : p < 0) =>
       HomologicalComplex.isZero_extend_X_of_neg (p := p + -1) _ (by omega))
       (CochainComplex.desuspendXIso (Scheme.Hom.deRhamComplex D.f)) ((1 : ℕ) : ℤ)).hom = _
     rw [HomologicalComplex.extendUpNatXIso_natCast]
@@ -224,7 +224,7 @@ theorem Situation.residuePlusSequence_f_f_zero :
       (D.deRhamExtXIso 1 (0 + 1) embeddingUpNat_f_one).hom ≫
         (Scheme.Hom.toBaseModules D.f).map (D.pullbackHom 1) ≫
           (D.weightZeroExtXIso 1 (0 + 1) embeddingUpNat_f_one).inv := by
-  show ((HomologicalComplex.extendMap D.inclusionBaseMap ComplexShape.embeddingUpNat)⟦(1 : ℤ)⟧').f
+  change ((HomologicalComplex.extendMap D.inclusionBaseMap ComplexShape.embeddingUpNat)⟦(1 : ℤ)⟧').f
     0 = _
   rw [CochainComplex.shiftFunctor_map_f', HomologicalComplex.extendMap_f D.inclusionBaseMap
     ComplexShape.embeddingUpNat (i := 1) (i' := 0 + 1) embeddingUpNat_f_one]
@@ -236,7 +236,7 @@ theorem Situation.residuePlusSequence_X₂_d_zero :
     D.residuePlusSequence.X₂.obj.d 0 1 =
       (1 : ℤ).negOnePow • ((D.weightZeroExtXIso 1 (0 + 1) embeddingUpNat_f_one).hom ≫
         D.weightZeroBaseD 1 ≫ (D.weightZeroExtXIso 2 (1 + 1) embeddingUpNat_f_two).inv) := by
-  show ((D.weightZeroBaseComplex.extend ComplexShape.embeddingUpNat)⟦(1 : ℤ)⟧).d 0 1 = _
+  change ((D.weightZeroBaseComplex.extend ComplexShape.embeddingUpNat)⟦(1 : ℤ)⟧).d 0 1 = _
   rw [CochainComplex.shiftFunctor_obj_d', HomologicalComplex.extend_d_eq _ _
     embeddingUpNat_f_one embeddingUpNat_f_two, D.weightZeroBaseComplex_d 1]
   rfl
@@ -372,7 +372,7 @@ theorem dlogForm_sub_eq (c₀ c₁ : D.BaseChart) {W : D.X.Opens} (h₀ : W ≤ 
     map_mul _ _ _
   apply D.weightZeroVal_injective 1
   rw [map_sub, hn]
-  show D.weightZeroVal 1 ((D.weightZero 1).presheaf.map (homOfLE hcW).op
+  change D.weightZeroVal 1 ((D.weightZero 1).presheaf.map (homOfLE hcW).op
       ((D.weightZero 1).presheaf.map (homOfLE h₁).op c₁.dlogForm)) -
     D.weightZeroVal 1 ((D.weightZero 1).presheaf.map (homOfLE hcW).op
       ((D.weightZero 1).presheaf.map (homOfLE h₀).op c₀.dlogForm)) = _
@@ -444,7 +444,7 @@ theorem Situation.weightZeroOneSection_d {U : D.X.Opens} (x : Γ(D.weightZero 1,
     refine (congrArg (_ ≫ ·) D.residuePlusSequence_X₂_d_zero).trans ?_
     exact iso_inv_comp_units_smul (C := SheafOfModules.{u} (Scheme.Hom.baseRingSheaf D.f)) _ _ _ _
   refine (toSheaf_map_app_eq_of_comp_eq hm _ x).trans ?_
-  show ((SheafOfModules.toSheaf (structureSheafRing D.baseSpace)).map
+  change ((SheafOfModules.toSheaf (structureSheafRing D.baseSpace)).map
     (((1 : ℤ).negOnePow : ℤ) • (D.weightZeroExtXIso 2 (1 + 1) embeddingUpNat_f_two).inv)).hom.app
       (op U) (D.weightZeroD 1 U x) = 0
   rw [hx]
@@ -553,7 +553,7 @@ theorem Situation.exists_residueCechData (D : Situation.{u}) :
       m.hom.app (op c.U.1) (D.residueCycles.g.hom.app (op c.U.1) (y c)) = one.eval (op c.U.1) := by
     intro c
     refine (sheaf_hom_app_congr hgm _ _).trans ?_
-    show (K.g.f 0).hom.app (op c.U.1) ((K.X₂.iCycles 0).hom.app (op c.U.1) (y c)) = _
+    change (K.g.f 0).hom.app (op c.U.1) ((K.X₂.iCycles 0).hom.app (op c.U.1) (y c)) = _
     rw [hy c]
     refine eq_of_heq ((D.residueAbelianSequence_g_f_zero_heq c.dlogForm).trans ?_)
     rw [c.residueHom_dlogForm]

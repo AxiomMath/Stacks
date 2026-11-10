@@ -125,7 +125,7 @@ theorem shiftSectionsAdd_shiftSectionsInvAdd (y : M.totalSections U) :
   | of p q =>
       rw [shiftSectionsInvAdd_of, shiftSectionsAdd_of]
       refine of_heq (show p - 1 + 1 = p by omega) ?_
-      show HEq (((shiftPackage M).xIso (p - 1)).hom.val.app U
+      change HEq (((shiftPackage M).xIso (p - 1)).hom.val.app U
         (((shiftPackage M).xIso (p - 1)).inv.val.app U
           (castHom M.complex.X (show p = p - 1 + 1 by omega) U q))) q
       rw [shiftSections_iso_hom_inv]
@@ -223,7 +223,7 @@ theorem sectionModuleRestriction_shiftSectionsHom {V : Cᵒᵖ} (a : V ⟶ U) :
         _root_.DifferentialGradedModule.restrictScalarsShiftInv (A.sectionRestriction a) 1
           (M.sectionModule U) := by
   refine _root_.DifferentialGradedModule.Hom.ext (LinearMap.ext fun x ↦ ?_)
-  show shiftSectionsAdd M U ((shift M).sectionRestrictAdd a x) =
+  change shiftSectionsAdd M U ((shift M).sectionRestrictAdd a x) =
     M.sectionRestrictAdd a (shiftSectionsAdd M V x)
   induction x using DirectSum.induction_on with
   | zero => simp only [map_zero]

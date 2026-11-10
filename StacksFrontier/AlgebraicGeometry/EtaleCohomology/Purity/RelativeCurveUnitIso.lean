@@ -150,7 +150,7 @@ theorem nsmul_id_forget₂_zmod {N : ℕ} (E : ModuleCat.{u + 1} (ZMod N)) :
     N • 𝟙 ((forget₂ (ModuleCat.{u + 1} (ZMod N)) Ab.{u + 1}).obj E) = 0 := by
   refine nsmul_id_obj_eq_zero _ ?_
   ext x
-  show N • x = 0
+  change N • x = 0
   rw [← Nat.cast_smul_eq_nsmul (ZMod N), ZMod.natCast_self, zero_smul]
 
 /-- The restriction along an étale monomorphism `j` of the unit `F ⟶ j_* j⁻¹ F` is invertible,
@@ -246,7 +246,7 @@ private theorem exists_isIso_inverseImage_unit_of_mem_divisor (k : Type u) [Fiel
   have : Smooth φT := inferInstance
   have he : e = (e₁ ∣_ V) ≫ V.ι := (morphismRestrict_ι e₁ V).symm
   have ht₁T : t₁ ∈ T := by
-    show e₁.base t₁ ∈ V
+    change e₁.base t₁ ∈ V
     rw [ht₁]
     exact hzV
   refine ⟨T.toScheme, e, ⟨⟨t₁, ht₁T⟩, ht₁⟩, isIso_etaleModuleInverseImage_map_unit_of_ab j e H ?_⟩
@@ -258,11 +258,11 @@ private theorem exists_isIso_inverseImage_unit_of_mem_divisor (k : Type u) [Fiel
     have h3 : e.base t = V.ι.base ((e₁ ∣_ V).base t) := by
       rw [he, Scheme.Hom.comp_apply]
     rw [hj, Set.mem_compl_iff, h3, ← h2]
-    show φV.base ((e₁ ∣_ V).base t) ∈ _ ↔ _
+    change φV.base ((e₁ ∣_ V).base t) ∈ _ ↔ _
     exact ⟨fun hp hm => h1.1 hm hp, fun hn => by_contra fun hp => hn (h1.2 hp)⟩
   have H' : φT ⁻¹ᵁ (punctured k).ι.opensRange = (pullback.snd j e).opensRange := by
     ext t
-    show φT.base t ∈ Set.range (punctured k).ι.base ↔ t ∈ Set.range (pullback.snd j e).base
+    change φT.base t ∈ Set.range (punctured k).ι.base ↔ t ∈ Set.range (pullback.snd j e).base
     rw [Scheme.Opens.range_ι, Scheme.Pullback.range_snd]
     exact hmem t
   obtain ⟨φ₀, sq⟩ := exists_isPullback_punctured_of_preimage_eq (pullback.snd j e) φT H'

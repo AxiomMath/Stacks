@@ -45,7 +45,6 @@ attribute [local instance] HasDerivedCategory.standard
 universe u v w w'
 
 set_option maxRecDepth 4096
-set_option synthInstance.maxHeartbeats 200000
 
 namespace Stacks.DerivedTensorHomDiagonal
 
@@ -196,7 +195,7 @@ private theorem postcomp_eq_homCxMap
   intro z
   apply Cochain.ext
   intro i j hij
-  show (z.comp (Cochain.ofHom r) (add_zero n)).v i j hij =
+  change (z.comp (Cochain.ofHom r) (add_zero n)).v i j hij =
     (Stacks.HomComplex.TensorHomComparison.HomCxMapDeg P P B I (𝟙 P) r n z).v i j hij
   rw [Stacks.HomComplex.TensorHomComparison.HomCxMapDeg_v]
   simp only [Cochain.comp_zero_cochain_v, Cochain.ofHom_v, HomologicalComplex.id_f,
@@ -215,7 +214,7 @@ private theorem homComparison_inv_naturality
       DerivedCategory.Q.map (Stacks.HomComplex.TensorHomMap.postcomp R P B I r) ≫
         ((DerivedInternalHom.Model.adjunction R).homIso P I).inv := by
   let c := Stacks.DerivedTensorHomDiagonal.ProjectiveComparison.projectiveHomComparison (R := R)
-  show (c.iso P B d).inv ≫ _ = _
+  change (c.iso P B d).inv ≫ _ = _
   apply (cancel_epi (c.iso P B d).hom).mp
   apply (cancel_mono ((DerivedInternalHom.Model.adjunction R).homIso P I).hom).mp
   simp only [Iso.hom_inv_id_assoc, Category.assoc, Iso.inv_hom_id, Category.comp_id]
@@ -366,7 +365,7 @@ private theorem transpose_theta (K L M : CochainComplex (ModuleCat R) ℤ) :
   apply GradedObject.Monoidal.tensorObj₃'_ext
   intro p q r h
   rw [GradedObject.Monoidal.ιTensorObj₃'_eq _ _ _ p q r n h (p + q) rfl]
-  show (ιTensorObj K (HomComplexR R M L) p q (p + q) rfl ▷ M.X r) ≫
+  change (ιTensorObj K (HomComplexR R M L) p q (p + q) rfl ▷ M.X r) ≫
       ιTensorObj (K ⊗ HomComplexR R M L) M (p + q) r n h ≫ _ =
     (ιTensorObj K (HomComplexR R M L) p q (p + q) rfl ▷ M.X r) ≫
       ιTensorObj (K ⊗ HomComplexR R M L) M (p + q) r n h ≫
@@ -377,20 +376,19 @@ private theorem transpose_theta (K L M : CochainComplex (ModuleCat R) ℤ) :
   apply ModuleCat.hom_ext
   apply TensorProduct.ext'
   intro z m
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simpa [TensorProduct.add_tmul] using congrArg₂ (· + ·) hx hy
   | tmul x φ =>
     change Cochain M L q at φ
-    show (chainTensorHomEquiv (K ⊗ HomComplexR R M L) M (K ⊗ L)
+    change (chainTensorHomEquiv (K ⊗ HomComplexR R M L) M (K ⊗ L)
       (Stacks.HomComplex.TensorHomComparison.theta K L M)).f n
       ((ιTensorObj (K ⊗ HomComplexR R M L) M (p + q) r n h)
         ((ιTensorObj K (HomComplexR R M L) p q (p + q) rfl (x ⊗ₜ[R] φ)) ⊗ₜ[R] m)) = _
     rw [chainTensorHomEquiv_apply]
-    show ((Stacks.HomComplex.TensorHomComparison.thetaDeg K L M (p + q))
+    change ((Stacks.HomComplex.TensorHomComparison.thetaDeg K L M (p + q))
       ((ιTensorObj K (HomComplexR R M L) p q (p + q) rfl).hom (x ⊗ₜ[R] φ))).v r n (by omega) m = _
     rw [Stacks.HomComplex.TensorHomComparison.theta_apply]
-    show (ιTensorObj K L p (n - p) n (by omega)) (x ⊗ₜ[R] φ.v r (n - p) (by omega) m) =
+    change (ιTensorObj K L p (n - p) n (by omega)) (x ⊗ₜ[R] φ.v r (n - p) (by omega) m) =
       (K ◁ chainTensorHomEquiv (HomComplexR R M L) M L (𝟙 _)).f n
         ((ιTensorObj K (HomComplexR R M L ⊗ M) p (q + r) n (by omega))
           (x ⊗ₜ[R] (ιTensorObj (HomComplexR R M L) M q r (q + r) rfl (φ ⊗ₜ[R] m))))
@@ -398,7 +396,7 @@ private theorem transpose_theta (K L M : CochainComplex (ModuleCat R) ℤ) :
       chainTensorHomEquiv_apply]
     have hn : n - p = q + r := by omega
     simp only [HomologicalComplex.id_f, ModuleCat.id_apply]
-    show (ιTensorObj K L p (n - p) n (by omega)).hom
+    change (ιTensorObj K L p (n - p) n (by omega)).hom
       (x ⊗ₜ[R] (φ.v r (n - p) (by omega)).hom m) =
         (ιTensorObj K L p (q + r) n (by omega)).hom
           (x ⊗ₜ[R] (φ.v r (q + r) (by omega)).hom m)

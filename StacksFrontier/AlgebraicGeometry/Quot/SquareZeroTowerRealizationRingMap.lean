@@ -118,7 +118,7 @@ theorem towerSolutionSquareZeroExtension_toBase_comp_limit_π (n : ℕ) :
       (Space.thickenedBaseIso B S hS (towerStructureMap ξ 0) (schemeSpaceMap (c.ι.app 0))
         (towerProblemBaseIso ξ hsurj hsq e cR hcR c eLimit hc)).inv ≫ towerLimitBaseMapApp ξ c n :=
     (Category.assoc _ _ _).trans (congrArg _ (limit.lift_π _ _))
-  show ((towerSolutionBaseIso ξ hsurj hsq e cR hcR c eLimit hc).hom ≫ P'.baseMap) ≫ κ.hom ≫
+  change ((towerSolutionBaseIso ξ hsurj hsq e cR hcR c eLimit hc).hom ≫ P'.baseMap) ≫ κ.hom ≫
     limit.π (towerRingSystem ξ) (op n) = _
   refine (Category.assoc _ _ _).trans ?_
   refine (congrArg (_ ≫ ·) ((Category.assoc _ _ _).symm.trans

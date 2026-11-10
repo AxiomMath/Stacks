@@ -141,10 +141,10 @@ private lemma pushforwardLevel_isIso
     IsIso (DerivedCategory.Q.map
       ((FilteredObject.pushforwardHom S g).natTrans.app i)) := by
   have : Mono ((FilteredObject.pushforwardHom S g).natTrans.app i) := by
-    show Mono (factorThruImage (S.filtration.ι.app i ≫ g))
+    change Mono (factorThruImage (S.filtration.ι.app i ≫ g))
     exact mono_of_mono_fac (image.fac _)
   have : Epi ((FilteredObject.pushforwardHom S g).natTrans.app i) := by
-    show Epi (factorThruImage (S.filtration.ι.app i ≫ g))
+    change Epi (factorThruImage (S.filtration.ι.app i ≫ g))
     infer_instance
   have := isIso_of_mono_of_epi ((FilteredObject.pushforwardHom S g).natTrans.app i)
   exact Functor.map_isIso _ _
@@ -270,7 +270,7 @@ theorem exists_bifilteredComplex_representation
       _ = inv (DerivedCategory.Q.map (j.natTrans.app i)) ≫
           (η₀.hom.app i ≫ φ.app i) := by rw [h₀ i]
       _ = ηJ.hom.app i ≫ φ.app i := by
-        show inv (DerivedCategory.Q.map (j.natTrans.app i)) ≫
+        change inv (DerivedCategory.Q.map (j.natTrans.app i)) ≫
           (η₀.hom.app i ≫ φ.app i) =
           (inv (DerivedCategory.Q.map (j.natTrans.app i)) ≫ η₀.hom.app i) ≫ φ.app i
         simp [Category.assoc]
@@ -294,7 +294,7 @@ theorem exists_bifilteredComplex_representation
     have : Mono ((CochainComplex.mappingCone.inr (𝟙 L.X)).f n) :=
       mono_of_mono_fac (CochainComplex.mappingCone.inr_f_snd_v (𝟙 L.X) n)
     have hgn : Mono (g.f n) := by
-      show Mono ((CochainComplex.mappingCone.inr (𝟙 L.X)).f n ≫ r.f n)
+      change Mono ((CochainComplex.mappingCone.inr (𝟙 L.X)).f n ≫ r.f n)
       infer_instance
     exact mono_of_mono_fac (show m.f n ≫ (biprod.snd : P ⟶ I).f n = g.f n by simp [m]))
   have hIzero : IsZero (DerivedCategory.Q.obj I) := isZero_Q_obj_of_acyclic I hIac
@@ -302,7 +302,7 @@ theorem exists_bifilteredComplex_representation
   let eP : DerivedCategory.Q.obj P ≅ E := qbp ≪≫ eJ
   have hjP : DerivedCategory.Q.map jP ≫ eP.hom = eJ.hom := by
     have hmap : DerivedCategory.Q.map jP ≫ qbp.hom = 𝟙 _ := by
-      show DerivedCategory.Q.map (biprod.inl (X := J.X) (Y := I)) ≫
+      change DerivedCategory.Q.map (biprod.inl (X := J.X) (Y := I)) ≫
         DerivedCategory.Q.map (biprod.fst (X := J.X) (Y := I)) = _
       exact (mapBiprodLeftIso J.X I hIzero).inv_hom_id
     dsimp [eP]
@@ -314,7 +314,7 @@ theorem exists_bifilteredComplex_representation
     have hf : DerivedCategory.Q.map f = (eL ≪≫ eJ.symm).hom :=
       Classical.choose_spec (exists_map_realizing_iso L.X J.X hJkinj (eL ≪≫ eJ.symm))
     have hmap : DerivedCategory.Q.map m ≫ qbp.hom = DerivedCategory.Q.map f := by
-      show DerivedCategory.Q.map (biprod.lift f g) ≫
+      change DerivedCategory.Q.map (biprod.lift f g) ≫
         DerivedCategory.Q.map (biprod.fst (X := J.X) (Y := I)) = _
       rw [← DerivedCategory.Q.map_comp]
       simp [biprod.lift_fst]

@@ -166,7 +166,7 @@ theorem canBeResolved_of_isRegularLocalRing_of_isSeparableExtension
   have hXB (i : Fin d) : algebraMap R B (MvPolynomial.X i) =
       Ideal.Quotient.mk K (MvPolynomial.X (Sum.inl i)) := by
     rw [IsScalarTower.algebraMap_apply R P B]
-    show Ideal.Quotient.mk K (fRP (MvPolynomial.X i)) = _
+    change Ideal.Quotient.mk K (fRP (MvPolynomial.X i)) = _
     rw [MvPolynomial.aeval_X]
   have hBsmooth (i : Fin d) : Algebra.Smooth R
       (Localization.Away (algebraMap R B (MvPolynomial.X i))) :=
@@ -206,7 +206,7 @@ theorem canBeResolved_of_isRegularLocalRing_of_isSeparableExtension
       rw [IsScalarTower.algebraMap_apply R C (Localization.Away (algebraMap B C b)),
         IsScalarTower.algebraMap_apply R B C,
         IsScalarTower.algebraMap_apply R B (Localization.Away b)]
-      show _ = Localization.awayMap (algebraMap B C) b _
+      change _ = Localization.awayMap (algebraMap B C) b _
       simp [Localization.awayMap, IsLocalization.Away.map]
     have hsm := Algebra.Smooth.comp R (Localization.Away b)
       (Localization.Away (algebraMap B C b))
@@ -252,7 +252,7 @@ theorem canBeResolved_of_isRegularLocalRing_of_isSeparableExtension
       (fun x => (ψ.commutes x).symm)
   have : IsScalarTower B C Lambda :=
     IsScalarTower.of_algebraMap_eq (R := B) (S := C) (A := Lambda) fun x => by
-    show φ x = φ (g (algebraMap B C x))
+    change φ x = φ (g (algebraMap B C x))
     exact congrArg φ (AlgHom.congr_fun hRetract x).symm
   let : Algebra A C := ((algebraMap B C).comp (algebraMap A B)).toAlgebra
   let : IsScalarTower A B C :=
@@ -315,11 +315,11 @@ theorem canBeResolved_of_isRegularLocalRing_of_isSeparableExtension
     flat_polynomial_localization_of_parameters q
       (by
         intro i
-        show algebraMap R Lambda (MvPolynomial.X i) ∈ q
+        change algebraMap R Lambda (MvPolynomial.X i) ∈ q
         rw [hπmap]
         exact hπq i)
       (by
-        show Ideal.map (algebraMap Lambda (Localization.AtPrime q))
+        change Ideal.map (algebraMap Lambda (Localization.AtPrime q))
           (Ideal.span (Set.range fun i : Fin d => algebraMap R Lambda (MvPolynomial.X i))) = _
         simpa only [hπmap] using hπspan) hd
   have hAC : Ideal.map (algebraMap A C) (Stacks.Smoothing.singularIdeal k A) ≤
@@ -361,7 +361,7 @@ theorem canBeResolved_of_isRegularLocalRing_of_isSeparableExtension
         exact ⟨i, by rw [← pow_mul, Nat.mul_comm c 8]⟩
     rw [hI, radical_span_range_pow (fun i : Fin d => MvPolynomial.X i)
       (by omega)]
-    show (MvPolynomial.idealOfVars (Fin d) k).radical = _
+    change (MvPolynomial.idealOfVars (Fin d) k).radical = _
     exact (polynomial_idealOfVars_isMaximal.isPrime.isRadical).radical
   have hImax : I.radical.IsMaximal := by
     rw [hIrad]
@@ -452,13 +452,13 @@ theorem canBeResolved_of_isRegularLocalRing_of_isSeparableExtension
     exact (isArtinianRing_iff_isNilpotent_maximalIdeal (R ⧸ I)).mp inferInstance
   have hVarsL : Ideal.map (algebraMap R L)
       (MvPolynomial.idealOfVars (Fin d) k) = IsLocalRing.maximalIdeal L := by
-    show Ideal.map (algebraMap R L)
+    change Ideal.map (algebraMap R L)
       (Ideal.span (Set.range fun i : Fin d => MvPolynomial.X i)) = _
     rw [Ideal.map_span, ← Set.range_comp']
     have hX : (algebraMap R L) ∘ (fun i : Fin d => MvPolynomial.X i) =
         fun i => algebraMap Lambda L (π i) := by
       funext i
-      show algebraMap R L (MvPolynomial.X i) = _
+      change algebraMap R L (MvPolynomial.X i) = _
       rw [IsScalarTower.algebraMap_apply R Lambda L, hπmap]
     simp only [Function.comp_def] at hX
     rw [hX, hspanL, IsLocalization.AtPrime.map_eq_maximalIdeal q L]
@@ -469,7 +469,7 @@ theorem canBeResolved_of_isRegularLocalRing_of_isSeparableExtension
         (Ideal.Quotient.mk (Ideal.map (algebraMap R L) I)).comp (algebraMap R L) := by
       apply RingHom.ext
       intro r
-      show algebraMap (R ⧸ I) Q (Ideal.Quotient.mk I r) =
+      change algebraMap (R ⧸ I) Q (Ideal.Quotient.mk I r) =
         Ideal.Quotient.mk (Ideal.map (algebraMap R L) I) (algebraMap R L r)
       exact Ideal.Quotient.algebraMap_quotient_map_quotient (R := R) (S := L)
         (p := I) r
@@ -524,16 +524,16 @@ theorem canBeResolved_of_isRegularLocalRing_of_isSeparableExtension
       (algebraMap k q.ResidueField).comp MvPolynomial.constantCoeff := by
     apply MvPolynomial.ringHom_ext'
     · ext a
-      show algebraMap L q.ResidueField
+      change algebraMap L q.ResidueField
         (algebraMap R L (MvPolynomial.C a)) =
         algebraMap k q.ResidueField (MvPolynomial.constantCoeff (MvPolynomial.C a))
       rw [MvPolynomial.constantCoeff_C]
-      show algebraMap L q.ResidueField
+      change algebraMap L q.ResidueField
         (algebraMap R L (algebraMap k R a)) = algebraMap k q.ResidueField a
       rw [← IsScalarTower.algebraMap_apply k R L,
         ← IsScalarTower.algebraMap_apply k L q.ResidueField]
     · intro i
-      show algebraMap L q.ResidueField (algebraMap R L (MvPolynomial.X i)) =
+      change algebraMap L q.ResidueField (algebraMap R L (MvPolynomial.X i)) =
         algebraMap k q.ResidueField
           (MvPolynomial.constantCoeff (MvPolynomial.X i))
       rw [MvPolynomial.constantCoeff_X, map_zero,
@@ -553,7 +553,7 @@ theorem canBeResolved_of_isRegularLocalRing_of_isSeparableExtension
       eQ (Ideal.Quotient.mk (Ideal.map (algebraMap (R ⧸ I) Q) m)
         (Ideal.Quotient.mk (Ideal.map (algebraMap R L) I) p)) =
           algebraMap L q.ResidueField p := by
-    show (DoubleQuot.quotQuotEquivQuotOfLE (hJ.symm ▸ hJle))
+    change (DoubleQuot.quotQuotEquivQuotOfLE (hJ.symm ▸ hJle))
       ((Ideal.quotEquivOfEq hmQ)
         (Ideal.Quotient.mk (Ideal.map (algebraMap (R ⧸ I) Q) m)
           (Ideal.Quotient.mk (Ideal.map (algebraMap R L) I) p))) = _
@@ -629,7 +629,7 @@ theorem canBeResolved_of_isRegularLocalRing_of_isSeparableExtension
       refine ⟨y, ?_, rfl⟩
       intro hy
       apply hx
-      show y ∈ qbar.comap (Ideal.Quotient.mk IΛ)
+      change y ∈ qbar.comap (Ideal.Quotient.mk IΛ)
       rw [hqbar_comap]
       exact hy
   have : IsLocalization qbar.primeCompl Q' := by
@@ -650,7 +650,7 @@ theorem canBeResolved_of_isRegularLocalRing_of_isSeparableExtension
       (Localization.AtPrime qbar)).symm.trans hdimT
   have hRT (r : R) : algebraMap (R ⧸ I) T (Ideal.Quotient.mk I r) =
       Ideal.Quotient.mk IΛ (algebraMap R Lambda r) := by
-    show algebraMap D T
+    change algebraMap D T
       (algebraMap (R ⧸ I) D (Ideal.Quotient.mk I r)) = _
     rw [Ideal.Quotient.algebraMap_quotient_map_quotient,
       Ideal.Quotient.algebraMap_quotient_map_quotient]
@@ -660,7 +660,7 @@ theorem canBeResolved_of_isRegularLocalRing_of_isSeparableExtension
     apply IsScalarTower.of_algebraMap_eq
     intro a
     obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective a
-    show eQQ' (algebraMap (R ⧸ I) Q (Ideal.Quotient.mk I r)) = _
+    change eQQ' (algebraMap (R ⧸ I) Q (Ideal.Quotient.mk I r)) = _
     rw [Ideal.Quotient.algebraMap_quotient_map_quotient (R := R) (S := L)
       (p := I), hRT,
       Ideal.Quotient.algebraMap_quotient_map_quotient (R := Lambda) (S := L)

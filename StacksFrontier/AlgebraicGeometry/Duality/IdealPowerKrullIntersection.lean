@@ -114,7 +114,7 @@ theorem forall_mem_idealPowerMultiple_iff_exists_restrict_eq_zero
     intro x hxW
     by_cases hx : x ∈ V
     · refine ⟨V, homOfLE hVW, ?_, hx⟩
-      show F.presheaf.map (homOfLE hVW).op s ∈ P.toSubmodule.obj (op V)
+      change F.presheaf.map (homOfLE hVW).op s ∈ P.toSubmodule.obj (op V)
       rw [hs0]
       exact zero_mem _
     · exact ⟨W ⊓ I.support.compl, homOfLE inf_le_left, htop _ inf_le_right _, hxW,

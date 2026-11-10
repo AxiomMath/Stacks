@@ -62,7 +62,7 @@ theorem thickening_comp_over : P.thickening ≫ P.over = k := by
       k.hom.base).homEquiv_naturality_right _ _).symm.trans
       ((congrArg _ P.base_comp_reduction).trans (Equiv.apply_symm_apply _ _))
   refine InducedCategory.hom_ext ?_
-  show PresheafedSpace.Hom.mk k.hom.base
+  change PresheafedSpace.Hom.mk k.hom.base
     (((TopCat.Sheaf.pullbackPushforwardAdjunction CommRingCat.{u} k.hom.base).homEquiv _ _
       P.base ≫ (TopCat.Sheaf.pushforward CommRingCat.{u} k.hom.base).map P.reduction).hom) = k.hom
   rw [h]
@@ -84,7 +84,7 @@ theorem thickening_mul_eq_zero (U : (Opens P.space.carrier)ᵒᵖ)
 /-- `i : X ⟶ X'` is a thickening of ringed spaces. -/
 theorem isThickening_thickening : IsThickening P.thickening := by
   refine ⟨?_, ?_, ?_⟩
-  · show IsIso (𝟙 X.carrier)
+  · change IsIso (𝟙 X.carrier)
     infer_instance
   · have h : Presheaf.IsLocallySurjective (Opens.grothendieckTopology P.space.carrier)
         ((PresheafOfModules.toPresheaf _).map

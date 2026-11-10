@@ -68,7 +68,7 @@ theorem cechPullbackNat_app (N₀ : LocalDerivedCategory.{0} (pretopologyRingedS
               (((cechLift (X := pretopologyRingedSite P OC) f).map φ.op).f t)).hom.app N) ≫
         (globalRhoNat P OC f
           (((cechLift (X := pretopologyRingedSite P OC) f).map φ.op).φ t)).app N := by
-  show 𝟙 _ ≫ 𝟙 _ ≫ _ ≫ 𝟙 _ ≫ ((globalLocallyGiven P OC f N₀).restriction
+  change 𝟙 _ ≫ 𝟙 _ ≫ _ ≫ 𝟙 _ ≫ ((globalLocallyGiven P OC f N₀).restriction
           (((cechLift (X := pretopologyRingedSite P OC) f).map φ.op).φ t)).map (𝟙 _) ≫ _ ≫ _ = _
   rw [CategoryTheory.Functor.map_id]
   simp only [Category.id_comp]

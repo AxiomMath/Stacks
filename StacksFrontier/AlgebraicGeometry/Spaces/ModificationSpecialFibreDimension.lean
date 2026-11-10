@@ -60,6 +60,7 @@ attribute [local instance] pointTopology
 variable (A : Type u) [CommRing A] [IsLocalRing A] (B : BigFppfSite.{u})
   (hS : B.Contains (Spec (.of A)))
 
+omit [IsLocalRing A] in
 /-- A modification `f : X → Spec A` of the spectrum of a local domain has exactly one point
 of `|X|` over the generic point of `Spec A`. -/
 theorem IsIntegralModification.existsUnique_pointsToScheme_eq_genericPoint [IsDomain A]

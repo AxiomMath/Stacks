@@ -36,9 +36,10 @@ attribute [local instance] MvPolynomial.gradedAlgebra
 /-! ### Rescaling evaluations of homogeneous polynomials -/
 
 /-- Rescaling all the coordinates by `μ` rescales a homogeneous form of degree `n` by `μⁿ`. -/
-theorem eval₂_mul_of_isHomogeneous {σ R C : Type*} [Fintype σ] [CommSemiring R] [CommSemiring C]
+theorem eval₂_mul_of_isHomogeneous {σ R C : Type*} [Finite σ] [CommSemiring R] [CommSemiring C]
     (f : R →+* C) (μ : C) (v : σ → C) {n : ℕ} {p : MvPolynomial σ R} (hp : p.IsHomogeneous n) :
     eval₂ f (fun i => μ * v i) p = μ ^ n * eval₂ f v p := by
+  have := Fintype.ofFinite σ
   simp only [eval₂_eq', Finset.mul_sum]
   refine Finset.sum_congr rfl fun d hd => ?_
   have hdeg : ∑ i, d i = n := by

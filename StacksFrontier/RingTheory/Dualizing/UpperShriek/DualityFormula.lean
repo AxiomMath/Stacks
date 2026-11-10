@@ -330,7 +330,7 @@ theorem dualityFormulaHomEquiv_naturality_source [IsNoetherianRing A]
     (b : Z ⟶ (derivedHom.{u, v, u} φ).obj K) :
     dualityFormulaHomEquiv.{u, v} φ E iStar adj hproj ωA K hωA hK Z' (g ≫ b) =
       g ≫ dualityFormulaHomEquiv.{u, v} φ E iStar adj hproj ωA K hωA hK Z b := by
-  show ((derivedHomAdjunctionOverRing.{u, v, max u v + 1} B).homEquiv _ _ _).symm _ = _
+  change ((derivedHomAdjunctionOverRing.{u, v, max u v + 1} B).homEquiv _ _ _).symm _ = _
   rw [Adjunction.homEquiv_naturality_left_symm, Category.assoc,
     (derivedHomAdjunctionOverRing.{u, v, max u v + 1} A).homEquiv_naturality_left,
     reassoc_of% (hprojNat _ g).symm, Adjunction.homEquiv_naturality_left,
@@ -376,7 +376,7 @@ theorem dualityFormulaHomEquiv_naturality_target [IsNoetherianRing A]
               (Opposite.op (E.functor.obj
                 ((derivedHomAdjunctionOverRing.{u, v, max u v + 1} A).hom.obj
                   (Opposite.op K', ωA))), (derivedHom.{u, v, u} φ).obj ωA)) := by
-  show ((derivedHomAdjunctionOverRing.{u, v, max u v + 1} B).homEquiv _ _ _).symm _ = _
+  change ((derivedHomAdjunctionOverRing.{u, v, max u v + 1} B).homEquiv _ _ _).symm _ = _
   rw [Adjunction.homEquiv_naturality_right_symm, Category.assoc,
     dualizingBidualityIso_hom_naturality.{u, v} ωA hωA hK hK' f, ← Category.assoc,
     (derivedHomAdjunctionOverRing.{u, v, max u v + 1} A).homEquiv_dinaturality,

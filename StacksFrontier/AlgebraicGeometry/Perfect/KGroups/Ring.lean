@@ -267,7 +267,9 @@ product, together with its associativity and commutativity -- the fields of \
 `NonUnitalCommRing`. Stated at the standard derived-category model, which the source does not \
 fix. The absence of a unit in general is \
 `AlgebraicGeometry.exists_supportedPerfect_not_exists_unit`; the definition of the \
-subcategory and its three adjectives are in `StacksFrontier/AlgebraicGeometry/Perfect/KGroups/Basic.lean` and `StacksFrontier/AlgebraicGeometry/Perfect/KGroups/Saturation.lean`"]
+subcategory and its three adjectives are in \
+`StacksFrontier/AlgebraicGeometry/Perfect/KGroups/Basic.lean` and \
+`StacksFrontier/AlgebraicGeometry/Perfect/KGroups/Saturation.lean`"]
 theorem exists_supportedPerfect_nonUnitalCommRing :
     ∃ r : NonUnitalCommRing (K0 (supportedPerfectDerivedCategory i)),
       r.toAddCommGroup = (inferInstance : AddCommGroup (K0 (supportedPerfectDerivedCategory i))) ∧

@@ -190,7 +190,7 @@ private theorem isH1Regular_ker_app_of_kerGeneratedBy {W₀ C₀ : Scheme.{u}} (
     (IsLocalization.algEquiv (Submonoid.powers g) (Localization.Away g)
       Γ(C₀, C₀.basicOpen g)).symm
   have hg : g ∉ q.asIdeal := by
-    show q ∈ PrimeSpectrum.basicOpen g
+    change q ∈ PrimeSpectrum.basicOpen g
     rw [← U.2.fromSpec_preimage_basicOpen]
     exact hxg
   refine ⟨g, hg, r, fun n => e (ρ (f n)),
@@ -201,7 +201,7 @@ private theorem isH1Regular_ker_app_of_kerGeneratedBy {W₀ C₀ : Scheme.{u}} (
     ext b
     exact e.commutes b
   rw [← p.ker_apply U, ← hmap, ← Ideal.map_map, p.ker.map_ideal_basicOpen U g]
-  show Ideal.map e.toRingHom (p.ker.ideal ⟨C₀.basicOpen g, U.2.basicOpen g⟩) = _
+  change Ideal.map e.toRingHom (p.ker.ideal ⟨C₀.basicOpen g, U.2.basicOpen g⟩) = _
   rw [hkerW, Ideal.map_span, ← Set.range_comp]
   rfl
 

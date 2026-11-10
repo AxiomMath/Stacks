@@ -100,10 +100,10 @@ theorem faithfullyFlat_pi_appTop {U : Scheme.{u}} [IsAffine U]
   intro p
   obtain ⟨i, y, hy⟩ := hcover (U.isoSpec.inv p)
   refine ⟨i, (V i).isoSpec.hom y, ?_⟩
-  show (Spec.map (f i).appTop) ((V i).isoSpec.hom y) = p
-  show ((V i).isoSpec.hom ≫ Spec.map (f i).appTop) y = p
+  change (Spec.map (f i).appTop) ((V i).isoSpec.hom y) = p
+  change ((V i).isoSpec.hom ≫ Spec.map (f i).appTop) y = p
   rw [Scheme.isoSpec_hom_naturality]
-  show U.isoSpec.hom (f i y) = p
+  change U.isoSpec.hom (f i y) = p
   rw [hy]
   exact congrArg (fun k : Spec Γ(U, ⊤) ⟶ Spec Γ(U, ⊤) => k p) U.isoSpec.inv_hom_id
 
@@ -150,7 +150,7 @@ theorem exists_finite_flat_refinement
     ((Scheme.precoverage @Flat).comap L).toPretopology
   have hle : P.toGrothendieck ≤ K.toGrothendieck := by
     refine Precoverage.toGrothendieck_le_iff_le_toPrecoverage.mpr fun X R hR => ?_
-    show Sieve.generate R ∈ K.toGrothendieck X
+    change Sieve.generate R ∈ K.toGrothendieck X
     exact ⟨R, hP R hR, Sieve.le_generate R⟩
   obtain ⟨R, hR, hRS⟩ := (Pretopology.mem_toGrothendieck K U S).mp (hle U hS)
   let E : PreZeroHypercover U :=
@@ -161,7 +161,7 @@ theorem exists_finite_flat_refinement
   refine ⟨E, hR.1.to_subtype, ?_, ?_⟩
   · rw [PreZeroHypercover.presieve₀_map, he]
     exact hR.2
-  · show Sieve.generate E.presieve₀ ≤ S
+  · change Sieve.generate E.presieve₀ ≤ S
     rw [he]
     exact (Sieve.generate_le_iff _ _).mpr hRS
 
@@ -267,7 +267,7 @@ theorem isSheaf_of_affine_flat_covers
     inferInstanceAs (Precoverage.IsStableUnderBaseChange
       ((Scheme.precoverage AlgebraicGeometry.flatProperty.{u}).comap L))
   have he : E.presieve₀ ∈ K U := by
-    show E.presieve₀.map L ∈ (Scheme.precoverage @Flat) (L.obj U)
+    change E.presieve₀.map L ∈ (Scheme.precoverage @Flat) (L.obj U)
     simpa only [PreZeroHypercover.presieve₀_map] using hE
   have he' : (E.pullback₂ f).presieve₀ ∈ K V :=
     K.mem_coverings_of_isPullback _ he _ _ _
@@ -306,7 +306,7 @@ theorem isSheaf_of_affine_flat_refinements
     inferInstanceAs (Precoverage.IsStableUnderBaseChange
       ((Scheme.precoverage AlgebraicGeometry.flatProperty.{u}).comap L))
   have he : E.presieve₀ ∈ K U := by
-    show E.presieve₀.map L ∈ (Scheme.precoverage @Flat) (L.obj U)
+    change E.presieve₀.map L ∈ (Scheme.precoverage @Flat) (L.obj U)
     simpa only [PreZeroHypercover.presieve₀_map] using hE
   have he' : (E.pullback₂ f).presieve₀ ∈ K V :=
     K.mem_coverings_of_isPullback _ he _ _ _
@@ -391,7 +391,7 @@ theorem isSheaf_of_cartesian_of_flat_covers
     inferInstanceAs (Precoverage.IsStableUnderBaseChange
       ((Scheme.precoverage AlgebraicGeometry.flatProperty.{u}).comap L))
   have he : E.presieve₀ ∈ K U := by
-    show E.presieve₀.map L ∈ (Scheme.precoverage @Flat) (L.obj U)
+    change E.presieve₀.map L ∈ (Scheme.precoverage @Flat) (L.obj U)
     simpa only [PreZeroHypercover.presieve₀_map] using hE
   have he' : (E.pullback₂ f).presieve₀ ∈ K V :=
     K.mem_coverings_of_isPullback _ he _ _ _
@@ -436,7 +436,7 @@ theorem isSheaf_of_cartesian_of_flat_refinements
     inferInstanceAs (Precoverage.IsStableUnderBaseChange
       ((Scheme.precoverage AlgebraicGeometry.flatProperty.{u}).comap L))
   have he : E.presieve₀ ∈ K U := by
-    show E.presieve₀.map L ∈ (Scheme.precoverage @Flat) (L.obj U)
+    change E.presieve₀.map L ∈ (Scheme.precoverage @Flat) (L.obj U)
     simpa only [PreZeroHypercover.presieve₀_map] using hE
   have he' : (E.pullback₂ f).presieve₀ ∈ K V :=
     K.mem_coverings_of_isPullback _ he _ _ _

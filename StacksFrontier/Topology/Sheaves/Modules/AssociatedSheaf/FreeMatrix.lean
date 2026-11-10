@@ -156,7 +156,7 @@ lemma unitEntry_comp_freeIsoAssociatedSheaf_app_top {I : Type u}
         ((associatedSheafAdjunction.{u, u} X α).unit.app ((ModuleCat.free R).obj I)
           (Finsupp.single i (1 : R))) := by
   rw [← freeIsoAssociatedSheaf_hom_app_top X α I i]
-  show (SheafOfModules.ιFree i ≫ (freeIsoAssociatedSheaf X α I).hom).val.app (op ⊤)
+  change (SheafOfModules.ιFree i ≫ (freeIsoAssociatedSheaf X α I).hom).val.app (op ⊤)
       (unitEntry X b) = smulTop X _ (unitEntry X b)
       ((SheafOfModules.ιFree i ≫ (freeIsoAssociatedSheaf X α I).hom).val.app (op ⊤) (unitTop X))
   conv_lhs => rw [← smulTop_unitTop X (unitEntry X b)]

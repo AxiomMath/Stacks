@@ -151,7 +151,7 @@ private theorem exists_maximalIdeal_pow_smul_cotangent_eq_bot
       (Localization.AtPrime q) (x : R)).mp x.property
     refine ⟨s, s.property, ?_⟩
     rw [← map_smul, Ideal.toCotangent_eq_zero]
-    show (s : R) * (x : R) ∈ J ^ 2
+    change (s : R) * (x : R) ∈ J ^ 2
     rw [hs]
     exact Ideal.zero_mem _
   have hle : maximalIdeal R ≤ (Module.annihilator R J.Cotangent).radical := by
@@ -198,7 +198,7 @@ theorem exists_finiteType_completion_quotient
             (⊤ : Submodule A (RingHom.ker φ.toRingHom).Cotangent) = ⊥ := by
     subst I
     refine ⟨Ideal.Quotient.mkₐ A J, Ideal.Quotient.mk_surjective, ?_⟩
-    show maximalIdeal A ^ n •
+    change maximalIdeal A ^ n •
       (⊤ : Submodule A (RingHom.ker (Ideal.Quotient.mk J)).Cotangent) = ⊥
     have hcot (K : Ideal Ahat) (hK : K = J) :
         maximalIdeal A ^ n • (⊤ : Submodule A K.Cotangent) = ⊥ := by
@@ -295,7 +295,7 @@ theorem exists_algHom_adicCompletion_of_isHenselization
   let φ : Ah →ₐ[A] ResidueField A :=
     { __ := e.symm.toRingHom.comp (residue Ah)
       commutes' := fun x => by
-        show e.symm (residue Ah (algebraMap A Ah x)) = residue A x
+        change e.symm (residue Ah (algebraMap A Ah x)) = residue A x
         rw [← he x]
         simp }
   obtain ⟨f, _⟩ := Algebra.FormallySmooth.exists_adicCompletionEvalOneₐ_comp_eq φ
@@ -309,7 +309,7 @@ private theorem surjective_algebraMap_of_surjective_adicCompletion
   have hker : I.map (algebraMap A (AdicCompletion I A)) ≤ RingHom.ker φ.toRingHom := by
     rw [Ideal.map_le_iff_le_comap]
     intro r hr
-    show φ (algebraMap A (AdicCompletion I A) r) = 0
+    change φ (algebraMap A (AdicCompletion I A) r) = 0
     rw [φ.commutes]
     exact (Ideal.map_eq_bot_iff_le_ker _).mp hzero hr
   intro c
@@ -319,7 +319,7 @@ private theorem surjective_algebraMap_of_surjective_adicCompletion
   have hx : x - algebraMap A (AdicCompletion I A) a ∈
       I.map (algebraMap A (AdicCompletion I A)) := by
     rw [← AdicCompletion.ker_evalOneₐ_eq_map I hI, RingHom.mem_ker, map_sub]
-    show AdicCompletion.evalOneₐ I x - Ideal.Quotient.mk I a = 0
+    change AdicCompletion.evalOneₐ I x - Ideal.Quotient.mk I a = 0
     rw [ha, sub_self]
   have hz := hker hx
   change φ (x - algebraMap A (AdicCompletion I A) a) = 0 at hz
@@ -412,7 +412,7 @@ theorem flat_of_isHenselization_algHom
   let : Algebra (ULift.{u} Ah) B := ULift.algebra' Ah B
   have : IsScalarTower A (ULift.{u} Ah) B :=
     IsScalarTower.of_algebraMap_eq (R := A) (S := ULift.{u} Ah) (A := B) fun x => by
-      show algebraMap A B x = f (algebraMap A Ah x)
+      change algebraMap A B x = f (algebraMap A Ah x)
       exact (f.commutes x).symm
   exact Module.Flat.ulift_left_iff.mp (flat_restrictScalars_of_ind_etale A (ULift.{u} Ah) B
     (IsHenselization.ind_etale (R := A) (L := ResidueField A) (Rh := Ah)))
@@ -571,7 +571,7 @@ private theorem exists_standardEtale_lift
       ← Polynomial.aeval_algHom_apply] using
         ((show P.HasMap a from ⟨ha', hgunit⟩).isUnit_derivative_f.map f)
   · rw [← residue_eq_zero_iff, map_sub, sub_eq_zero]
-    show residue C (ψ P.X) = residue C (f.toRingHom a)
+    change residue C (ψ P.X) = residue C (f.toRingHom a)
     rw [← ResidueField.map_residue f.toRingHom a, har, ha₀]
 
 private theorem isAdicComplete_quotient
@@ -639,7 +639,7 @@ theorem exists_ideal_map_eq_of_algebraization
   have hus : IsUnit (algebraMap D Dhat s) := by
     rw [← notMem_maximalIdeal, ← hmhat,
       ← AdicCompletion.ker_evalOneₐ_eq_map m m.fg_of_isNoetherianRing, RingHom.mem_ker]
-    show Ideal.Quotient.mk m s ≠ 0
+    change Ideal.Quotient.mk m s ≠ 0
     exact Ideal.Quotient.eq_zero_iff_mem.not.mpr hs
   let d : D →ₐ[A] C := e.symm.toAlgHom.comp (Algebra.algHom A D Dhat)
   let θ : Localization.Away s →ₐ[A] C :=
@@ -655,14 +655,14 @@ theorem exists_ideal_map_eq_of_algebraization
       (residue_surjective.comp Ideal.Quotient.mk_surjective)
     rw [Ideal.map_eq_bot_iff_le_ker]
     intro a ha
-    show residue C (algebraMap A C a) = 0
+    change residue C (algebraMap A C a) = 0
     rwa [residue_eq_zero_iff, ← Ideal.mem_comap, maximalIdeal_comap]
   have hresf : Function.Surjective (ResidueField.map fbar.toRingHom) := by
     intro x
     obtain ⟨a, rfl⟩ := hresC x
     refine ⟨residue Ah (algebraMap A Ah a), ?_⟩
     rw [ResidueField.map_residue]
-    show residue C (fbar (algebraMap A Ah a)) = residue C (algebraMap A C a)
+    change residue C (fbar (algebraMap A Ah a)) = residue C (algebraMap A C a)
     rw [fbar.commutes]
   obtain ⟨σ, hσ⟩ := exists_standardEtale_lift fbar hresf P (θ.comp π)
   let I : Ideal Ah := (RingHom.ker π.toRingHom).map σ.toRingHom
@@ -671,9 +671,9 @@ theorem exists_ideal_map_eq_of_algebraization
     dsimp only [K, I]
     rw [Ideal.map_map, Ideal.map_le_iff_le_comap]
     intro x hx
-    show f (σ x) ∈ J
+    change f (σ x) ∈ J
     rw [← Ideal.Quotient.eq_zero_iff_mem]
-    show fbar (σ x) = 0
+    change fbar (σ x) = 0
     rw [show fbar (σ x) = θ (π x) from congrArg (fun g => g x) hσ, show π x = 0 from hx, map_zero]
   let Q := Ahat ⧸ K
   have hcomplete : IsAdicComplete (maximalIdeal Ahat) Q :=
@@ -687,7 +687,7 @@ theorem exists_ideal_map_eq_of_algebraization
   let η : P.Ring →ₐ[A] Q := ((Ideal.Quotient.mkₐ A K).comp f).comp σ
   have hη : RingHom.ker π.toRingHom ≤ RingHom.ker η.toRingHom := by
     intro x hx
-    show Ideal.Quotient.mk K (f (σ x)) = 0
+    change Ideal.Quotient.mk K (f (σ x)) = 0
     exact Ideal.Quotient.eq_zero_iff_mem.mpr
       (Ideal.mem_map_of_mem f.toRingHom (Ideal.mem_map_of_mem σ.toRingHom hx))
   let δ : Localization.Away s →ₐ[A] Q := AlgHom.liftOfSurjective π hπ η hη

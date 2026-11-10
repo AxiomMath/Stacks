@@ -76,7 +76,7 @@ theorem moduleHomRestrict_homRestrict {P Q R : AlgebraicSpaces B S hS} (g : Q �
       moduleHomRestrict M N (g' ≫ g) p r (by rw [Category.assoc, h, h']) x := by
   subst h h'
   rw [moduleHomRestrict_rfl, moduleHomRestrict_rfl]
-  show _ = moduleHomRestrict M N (g' ≫ g) p ((g' ≫ g) ≫ p) rfl x
+  change _ = moduleHomRestrict M N (g' ≫ g) p ((g' ≫ g) ≫ p) rfl x
   rw [moduleHomRestrict_rfl]
   have hM := (modulePullbackCompIsoAssoc B S hS).inv_app g' g p M
   have hN := (modulePullbackCompIsoAssoc B S hS).hom_app g' g p N
@@ -329,7 +329,7 @@ theorem homConj_homRestrict {V P Q : AlgebraicSpaces B S hS} (f : V ⟶ Z) (r : 
       moduleHomRestrict M N s (r ≫ f) ((s ≫ r) ≫ f) (Category.assoc _ _ _).symm
         (homConj f r x) := by
   rw [moduleHomRestrict_rfl]
-  show _ = moduleHomRestrict M N s (r ≫ f) (s ≫ r ≫ f) rfl (homConj f r x)
+  change _ = moduleHomRestrict M N s (r ≫ f) (s ≫ r ≫ f) rfl (homConj f r x)
   rw [moduleHomRestrict_rfl]
   have hM := (modulePullbackCompIsoAssoc B S hS).inv_app s r f M
   have hN := (modulePullbackCompIsoAssoc B S hS).hom_app s r f N

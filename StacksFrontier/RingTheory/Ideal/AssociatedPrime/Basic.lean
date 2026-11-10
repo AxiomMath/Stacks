@@ -161,7 +161,7 @@ theorem exists_mem_nonZeroDivisors_not_isUnit {k : Type*} [Field k] {S : Type*} 
     ∃ f : S, f ∈ nonZeroDivisors S ∧ ¬ IsUnit f := by
   have := Algebra.FiniteType.isNoetherianRing k S
   have hfin := associatedPrimes.finite S S
-  obtain ⟨m, hm, hmA⟩ := ((infinite_setOf_isMaximal (k := k) h).diff hfin).nonempty
+  obtain ⟨m, hm, hmA⟩ := ((infinite_setOf_isMaximal (k := k) h).sdiff hfin).nonempty
   have hm : m.IsMaximal := hm
   obtain ⟨f, hfm, hf⟩ :=
     (Ideal.exists_mem_isSMulRegular_iff_forall_associatedPrimes_not_le m S hfin).mpr

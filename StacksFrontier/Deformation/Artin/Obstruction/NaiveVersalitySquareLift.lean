@@ -227,7 +227,7 @@ public theorem exists_algHom_powQuotient_of_liftsAtResiduePoint
     refine hlifts (powQuotientObj ε hε n) (powQuotientObj ε' hε' n)
       (powQuotientMap hφ hε' hε n) (powQuotientMapAlgHom_surjective hφ n hsurjφ)
       y z hy hz i hi a ?_
-    show Spec.map (CommRingCat.ofHom (powQuotientAug ε n).toRingHom) ≫
+    change Spec.map (CommRingCat.ofHom (powQuotientAug ε n).toRingHom) ≫
       schemeMap (p ⋙ Over.post B.inclusion) hy hxS a = Spec.map (CommRingCat.ofHom ε.toRingHom)
     rw [ha, ← Spec.map_comp, hmkaug]
   have hover : schemeMap (p ⋙ Over.post B.inclusion) hz hxS b ≫

@@ -249,7 +249,7 @@ product: the natural isomorphism `Q ⋙ (- ⊗^L_O Q K') ≅ Tot(- ⊗_O K') ⋙
 `comparisonRight`, whose naturality in the left variable is part of Stacks 06YU. -/
 def derivedTensorRightKFlatIso
     (K' : CochainComplex (Stacks.DerivedTensor.RingedSite.Modules.{u} R) ℤ)
-    (hK' : Stacks.SheafOfModules.KFlat.KFlat R K') :
+    (hK' : Stacks.SheafOfModules.KFlat R K') :
     DerivedCategory.Q (C := Stacks.DerivedTensor.RingedSite.Modules.{u} R) ⋙
         derivedTensorRight R T (DerivedCategory.Q.obj K') ≅
       tensorTotFunctor R K' ⋙ DerivedCategory.Q :=
@@ -277,7 +277,7 @@ theorem preservesColimitsOfShape_nat_derivedTensorRight
     (K : Stacks.DerivedTensor.RingedSite.DerivedModules R) :
     PreservesColimitsOfShape (Discrete ℕ) (derivedTensorRight R T K) := by
   let K' := Stacks.DerivedTensor.RingedSite.kFlatModel R K
-  have hK' : Stacks.SheafOfModules.KFlat.KFlat R K' :=
+  have hK' : Stacks.SheafOfModules.KFlat R K' :=
     Stacks.DerivedTensor.RingedSite.kFlatModel_kFlat R K
   have hmodel : PreservesColimitsOfShape (Discrete ℕ)
       (derivedTensorRight R T (DerivedCategory.Q.obj K')) := by

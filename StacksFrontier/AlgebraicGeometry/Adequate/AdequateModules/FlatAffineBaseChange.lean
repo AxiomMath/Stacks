@@ -69,8 +69,7 @@ public theorem bijective_restrictionBaseChange_of_equiv
   intro e he
   have hfun : ∀ z, restrictionBaseChange M f z = e z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact (map_zero _).trans (map_zero e).symm
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw =>
       exact (map_add _ z w).trans ((congrArg₂ (· + ·) hz hw).trans (map_add e z w).symm)
     | tmul c x => exact (restrictionBaseChange_tmul M f c x).trans (he c x).symm
@@ -122,12 +121,12 @@ public theorem BigSite.bijective_restrictionBaseChange_of_flat (B : BigSite τ S
     congrArg (fun k : T.left ⟶ (⟨S, B.base_mem⟩ : SchemeBelow B.cutoff) => k.hom) (Over.w g)
   let isoV : T' ≅ aV := Over.isoMk (ObjectProperty.isoMk _ T'.left.obj.isoSpec) (by
     apply ObjectProperty.hom_ext
-    show T'.left.obj.isoSpec.hom ≫ Spec.map (𝟙 Γ(T'.left.obj, ⊤)) ≫
+    change T'.left.obj.isoSpec.hom ≫ Spec.map (𝟙 Γ(T'.left.obj, ⊤)) ≫
       T'.left.obj.isoSpec.inv ≫ T'.hom.hom = T'.hom.hom
     rw [Spec.map_id, Category.id_comp, Iso.hom_inv_id_assoc])
   let isoU : T ≅ aU := Over.isoMk (ObjectProperty.isoMk _ T.left.obj.isoSpec) (by
     apply ObjectProperty.hom_ext
-    show T.left.obj.isoSpec.hom ≫ Spec.map g.left.hom.appTop ≫
+    change T.left.obj.isoSpec.hom ≫ Spec.map g.left.hom.appTop ≫
       T'.left.obj.isoSpec.inv ≫ T'.hom.hom = T.hom.hom
     rw [← Category.assoc, Scheme.isoSpec_hom_naturality, Category.assoc, Iso.hom_inv_id_assoc]
     exact hgw)
@@ -162,13 +161,13 @@ public theorem BigSite.bijective_restrictionBaseChange_of_flat (B : BigSite τ S
   have key : ∀ x, (affineSectionFunctor B F R' f').map gA.op.op (eM x) =
       eN (M.map g.op x) := by
     intro x
-    show F.val.map ((affineSpecOver B R' f').map gA.op).op (F.val.map isoV.inv.op x) =
+    change F.val.map ((affineSpecOver B R' f').map gA.op).op (F.val.map isoV.inv.op x) =
       F.val.map isoU.inv.op (F.val.map g.op x)
     exact (F.val.map_comp_apply isoV.inv.op ((affineSpecOver B R' f').map gA.op).op x).symm.trans
       ((F.val.congr_map_apply hsq.symm x).trans (F.val.map_comp_apply g.op isoU.inv.op x))
   refine Stacks.PresheafOfModules.bijective_restrictionBaseChange_of_equiv M g.op etot
     fun c x ↦ ?_
-  show eN.symm (c • (affineSectionFunctor B F R' f').map gA.op.op (eM x)) = _
+  change eN.symm (c • (affineSectionFunctor B F R' f').map gA.op.op (eM x)) = _
   rw [key]
   exact (eN.symm.map_smul c _).trans (congrArg (fun y ↦ c • y) (eN.symm_apply_apply _))
 

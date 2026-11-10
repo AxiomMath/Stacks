@@ -130,7 +130,7 @@ is everything. -/
 public theorem top_le_preimage_fromSpecResidueField {s : S} {U : S.Opens} (hs : s ∈ U) :
     (⊤ : (Spec (S.residueField s)).Opens) ≤ S.fromSpecResidueField s ⁻¹ᵁ U := by
   intro x _
-  show S.fromSpecResidueField s x ∈ U
+  change S.fromSpecResidueField s x ∈ U
   rw [Scheme.fromSpecResidueField_apply]
   exact hs
 
@@ -464,7 +464,8 @@ neighbourhoods of `S'`, which is
 The same statement covers the connectedness conjunct of clause (1) of [Stacks, Tag 03H0], whose
 hypotheses are strictly stronger;
 `Stacks.SteinFactorization.geometricallyConnected_toNormalization` in
-`StacksFrontier.AlgebraicGeometry.MoreMorphisms.SteinFactorization.Noetherian` is that reading of it.
+`StacksFrontier.AlgebraicGeometry.MoreMorphisms.SteinFactorization.Noetherian` is that reading
+of it.
 The properness conjunct of clause (1) is `Stacks.SteinFactorization.isProper_toNormalization`. -/
 @[stacks 03H2 "clause (1), the geometric connectedness conjunct: the first factor of the Stein \
   factorization of a proper morphism has geometrically connected fibres, over an arbitrary base. \

@@ -180,7 +180,7 @@ def geometricCompactSupportFieldExtensionIso (n : ℕ) :
         (compactificationFieldBaseChange f j k') kbar).mapIso
         (padicComplexFieldExtensionIso B X ℓ f k' F n))
 
-omit [Fintype k] [Fintype k'] in
+omit [Fintype k] [Fintype k'] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- The finite-level identification is compatible with the maps of the inverse systems. -/
 lemma geometricCompactSupportFieldExtensionIso_transition [Finite k] (n : ℕ) :
     (geometricCompactSupportPadicCohomology B X ℓ f j kbar i).map
@@ -253,6 +253,7 @@ def LAdicSheaf.fieldExtensionCohomologyIso :
   HasLimit.isoOfNatIso
     (geometricCompactlySupportedCohomologySystemFieldExtensionIso B X ℓ f j k' kbar F i)
 
+omit [Fintype k'] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- The limit identification lies over the finite-level ones. -/
 lemma LAdicSheaf.fieldExtensionCohomologyIso_hom_π (n : ℕ) :
     (LAdicSheaf.fieldExtensionCohomologyIso B X ℓ f j k' kbar F i).hom ≫
@@ -289,6 +290,7 @@ lemma map_end_pow {C D : Type*} [Category* C] [Category* D] (G : C ⥤ D) {Y : C
     (e : ℕ) : G.map ((End.of a) ^ e).asHom = ((End.of (G.map a)) ^ e).asHom :=
   congrArg End.asHom ((G.mapEnd Y).map_pow (End.of a) e)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **At a finite level, the identification carries `(π_X^*) ^ (m + 1)` to `π_{X'}^*`.** -/
 lemma geometricCompactSupportFieldExtensionIso_comm (n : ℕ) :
     ((End.of ((geometricCompactSupportPadicCohomologyPullback B X ℓ f j kbar i
@@ -310,7 +312,7 @@ lemma geometricCompactSupportFieldExtensionIso_comm (n : ℕ) :
     (pullback.snd f (specAlgebraMap k k')) (compactificationFieldBaseChange f j k') kbar p
     (q * (m + 1)) hcard').naturality (padicComplexFieldExtensionIso B X ℓ f k' F n).hom
   have h := square_paste hc' hN.symm
-  show ((End.of ((DerivedCategory.Plus.homologyFunctor (ModuleCat.{u + 1} ℤ_[ℓ]) i).map
+  change ((End.of ((DerivedCategory.Plus.homologyFunctor (ModuleCat.{u + 1} ℤ_[ℓ]) i).map
       (canonicalCompactSupportFrobenius.{u, 0} ℤ_[ℓ] f j kbar p q hcard
         ((padicCoefficientComplex B X ℓ).obj (LAdicSheaf.padicLevel B X ℓ F n))))) ^
           (m + 1)).asHom ≫
@@ -326,6 +328,7 @@ private lemma limit_square {D : Type*} [Category* D] {L L' M M' : D} {Φ : L ⟶
     (h₄ : Fr ≫ πm = πm ≫ cm) : (P ≫ Φ) ≫ πm = (Φ ≫ Fr) ≫ πm := by
   rw [Category.assoc, h₁, reassoc_of% h₂, h₃, Category.assoc, h₄, reassoc_of% h₁]
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- The `(m + 1)`-st power of `π_X^*` on the limit lies over the `(m + 1)`-st powers at the finite
 levels. -/
 lemma geometricCompactlySupportedFrobenius_pow_π (e n : ℕ) :
@@ -344,6 +347,7 @@ lemma geometricCompactlySupportedFrobenius_pow_π (e n : ℕ) :
       congr 1
       exact LAdicSheaf.geometricCompactlySupportedCohomologyPullback_π B X ℓ f j kbar F i _ n
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **On `Hⁱ_c`, the identification carries `(π_X^*) ^ (m + 1)` to `π_{X'}^*`.** -/
 theorem LAdicSheaf.fieldExtensionCohomologyIso_comm :
     ((End.of (LAdicSheaf.geometricCompactlySupportedFrobenius B X ℓ f j kbar p q hcard F i)) ^
@@ -353,7 +357,7 @@ theorem LAdicSheaf.fieldExtensionCohomologyIso_comm :
           (pullback.snd f (specAlgebraMap k k')) (compactificationFieldBaseChange f j k') kbar p
           (q * (m + 1)) hcard' (LAdicSheaf.inverseImage (fieldExtensionProj B X f k') F) i := by
   refine limit.hom_ext fun n => ?_
-  show _ ≫ LAdicSheaf.geometricCompactlySupportedCohomologyπ B (fieldExtensionScheme B X f k') ℓ
+  change _ ≫ LAdicSheaf.geometricCompactlySupportedCohomologyπ B (fieldExtensionScheme B X f k') ℓ
       (pullback.snd f (specAlgebraMap k k')) (compactificationFieldBaseChange f j k') kbar
       (LAdicSheaf.inverseImage (fieldExtensionProj B X f k') F) i n.unop = _ ≫
     LAdicSheaf.geometricCompactlySupportedCohomologyπ B (fieldExtensionScheme B X f k') ℓ
@@ -366,6 +370,7 @@ theorem LAdicSheaf.fieldExtensionCohomologyIso_comm :
       (pullback.snd f (specAlgebraMap k k')) (compactificationFieldBaseChange f j k') kbar
       (LAdicSheaf.inverseImage (fieldExtensionProj B X f k') F) i _ n.unop)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The trace of `π_{X'}^*` on `Hⁱ_c(X'_{k̄}, g⁻¹F ⊗ ℚ_ℓ)` is the trace of `(π_X^*) ^ (m + 1)`
 on `Hⁱ_c(X_{k̄}, F ⊗ ℚ_ℓ)`**, for `X' = X ×_k k'` over a field `k'` with `q ^ (m + 1)` elements. -/
 theorem LAdicSheaf.trace_rationalGeometricCompactlySupportedFrobenius_fieldExtension :

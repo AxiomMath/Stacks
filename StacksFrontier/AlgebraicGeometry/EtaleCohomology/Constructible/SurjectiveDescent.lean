@@ -59,7 +59,7 @@ here is the descent of constructibility along a surjection.
   `Y_étale` with constructible inverse image is a quotient of a constructible sheaf of sets.
 * `AlgebraicGeometry.isConstructibleSetSheaf_of_isConstructibleSetSheaf_pullback` and
   `AlgebraicGeometry.isConstructibleSetSheaf_pullback_iff` — the converse implication and the
-  resulting equivalence, the latter with Stacks 0245 as the hypothesis `hdesc`.
+  resulting equivalence, the latter no longer taking Stacks 0245 as a hypothesis.
 * `AlgebraicGeometry.isConstructibleSetSheaf_pullback_iff_unconditional` — **Stacks 095Q (1)**,
   the same equivalence with nothing assumed. Stacks 09Y9 is supplied there from
   `isConstructibleSetSheaf_iff_hasFiniteQCSRepresentableCoequalizerPresentation_unconditional`,
@@ -186,7 +186,7 @@ public theorem isConstructibleSetSheaf_of_isConstructibleSetSheaf_pullback
   rintro (_ | _)
   exacts [hH, hG]
 
-/-- The equivalence of Stacks 095Q (1), shared by its statements with and without `hdesc`. -/
+/-- The equivalence of Stacks 095Q (1), shared by its two statements. -/
 private theorem isConstructibleSetSheaf_pullback_iff_of_surjective
     (hf : Function.Surjective (B.inclusion.map f).base)
     (hXc : CompactSpace X.obj) (hXq : QuasiSeparatedSpace X.obj)
@@ -213,8 +213,9 @@ The forward implication is Stacks 095G, `AlgebraicGeometry.isConstructibleFinite
 and needs neither surjectivity of `f` nor quasi-compactness. The converse is
 `AlgebraicGeometry.isConstructibleSetSheaf_of_isConstructibleSetSheaf_pullback`.
 
-One statement of the source is granted rather than proved: Stacks 0245 as `hdesc`, which does
-not mention `f`. Both hypotheses of the library's Stacks 03SA (1) are **discharged** here:
+Stacks 0245, which does not mention `f`, was once a hypothesis `hdesc` here; the proof never
+used it, and it has been removed.
+Both hypotheses of the library's Stacks 03SA (1) are **discharged** here:
 Stacks 03S0 by `AlgebraicGeometry.etaleFiniteStratificationExists` of
 `StacksFrontier/AlgebraicGeometry/EtaleCohomology/Constructible/EtaleObjectStratification.lean`,
 and Stacks 093C (1), in the spelling
@@ -289,7 +290,7 @@ base change. Two declarations already in the library suffice, and their composit
 sheafified `ULift` universe), which identifies the pullback of a sheafified representable with the
 sheafified representable of the base change. Instantiated at the two projections of `Y i ×_X Y j`
 that composite *is* the comparison over the overlap. The module documentation of
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/FiniteLocallyConstant/EtaleLocalRepresentability.lean`, under
+`EtaleLocalRepresentability.lean`, under
 `StacksFrontier/AlgebraicGeometry/EtaleCohomology/FiniteLocallyConstant/`, describes the same
 mechanism.
 
@@ -323,12 +324,11 @@ through the two bridges above.
 Parts (2) and (3) of the tag are not proved here.
 
 The tag is registered on `AlgebraicGeometry.isConstructibleSetSheaf_pullback_iff_unconditional`
-below, which is this statement with `hdesc` removed, not on this declaration. -/
+below, which states the same equivalence, not on this declaration. -/
 public theorem isConstructibleSetSheaf_pullback_iff
     (hf : Function.Surjective (B.inclusion.map f).base)
     (hXc : CompactSpace X.obj) (hXq : QuasiSeparatedSpace X.obj)
     (hYc : CompactSpace Y.obj) (hYq : QuasiSeparatedSpace Y.obj)
-    (hdesc : Stacks.EtaleCohomology.EtaleDescentForFiniteEtaleRepresentability B)
     (F : Sheaf (SmallEtale.topology B Y.obj Y.property) (Type (u + 1))) :
     IsConstructibleSetSheaf B Y F ↔
       IsConstructibleSetSheaf B X ((smallEtaleSetPullback B f).obj F) := by

@@ -70,6 +70,8 @@ abbrev fppfToBigEtaleAbelianPushforward :
     AddCommGrpCat.{u + 1} (E.bigEtaleTopology (etaleSpace T E h X)) (BigFppfSpaceOver.topology T X)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limit preservation of the sheaf pushforward between the big fppf and
+-- big étale sites, and for the abelian-sheaf adjunction, is deep
 /-- The adjunction `ε_X⁻¹ ⊣ ε_{X,*}` on abelian sheaves. -/
 def fppfToBigEtaleAbelianAdjunction :
     CategoryTheory.Sites.abelianInverseImage (fppfToBigEtaleMorphism T E h X) ⊣

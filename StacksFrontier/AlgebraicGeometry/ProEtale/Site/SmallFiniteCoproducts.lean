@@ -59,7 +59,7 @@ namespace SmallProetale
 /-- A finite disjoint union of schemes in a chosen big pro-étale site lies in it. -/
 theorem contains_sigma {ι : Type} [Finite ι] (Y : ι → Scheme.{u})
     (hY : ∀ i, B.Contains (Y i)) : B.Contains (∐ Y) := by
-  show (∐ Y).size < B.cutoff
+  change (∐ Y).size < B.cutoff
   rw [← Scheme.size_congr (Sigma.reindex (Equiv.ulift : ULift.{u} ι ≃ ι) Y)]
   exact Scheme.size_sigmaObj_lt B.aleph0_lt_cutoff B.aleph0_lt_cutoff_cof
     Cardinal.mk_le_aleph0 _ (fun i ↦ hY i.down)
@@ -93,7 +93,7 @@ def isColimitSigmaCofan {ι : Type} [Finite ι] (X : ι → SmallProetale B S hS
   · apply B.inclusion.map_injective
     change Limits.Sigma.desc _ ≫ B.inclusion.map s.pt.obj.hom = Limits.Sigma.desc _
     refine Sigma.hom_ext _ _ fun i ↦ ?_
-    simp only [Sigma.ι_desc_assoc, Sigma.ι_desc]
+    simp only [Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc]
     change B.inclusion.map (s.inj i).hom.left ≫ B.inclusion.map s.pt.obj.hom = _
     rw [← Functor.map_comp, Over.w]
   · intro s i
@@ -107,7 +107,7 @@ def isColimitSigmaCofan {ι : Type} [Finite ι] (X : ι → SmallProetale B S hS
     change Sigma.ι _ i ≫ H.map m = H.map (s.inj i) at hi
     change Sigma.ι (fun i ↦ H.obj (X i)) i ≫ H.map m =
       Sigma.ι (fun i ↦ H.obj (X i)) i ≫ Limits.Sigma.desc (fun i ↦ H.map (s.inj i))
-    simpa only [Sigma.ι_desc] using hi
+    simpa only [Sigma.ι_comp_desc] using hi
 
 /-- The small pro-étale site has finite coproducts. -/
 instance hasFiniteCoproducts : HasFiniteCoproducts (SmallProetale B S hS) := by

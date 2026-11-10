@@ -166,7 +166,7 @@ theorem actLeft_add_right (q : LocalHom N.toRightModule M n U) {p : ℤ}
     (b b' : (A.complex.X p).val.obj (op U)) :
     q.actLeft (b + b') = q.actLeft b + q.actLeft b' :=
   LocalHom.ext fun i j hij V x => by
-    show q.app (p + i) j _ V ((N.leftMul p i).app (op V.left)
+    change q.app (p + i) j _ V ((N.leftMul p i).app (op V.left)
       (resSec (A.complex.X p) V.hom (b + b')) x) = q.app (p + i) j _ V ((N.leftMul p i).app
         (op V.left) (resSec (A.complex.X p) V.hom b) x) + q.app (p + i) j _ V
           ((N.leftMul p i).app (op V.left) (resSec (A.complex.X p) V.hom b') x)
@@ -178,7 +178,7 @@ theorem restrict_actLeft (q : LocalHom N.toRightModule M n U) {p : ℤ}
     (b : (A.complex.X p).val.obj (op U)) {U' : C} (g : U' ⟶ U) :
     (q.actLeft b).restrict g = (q.restrict g).actLeft (resSec (A.complex.X p) g b) :=
   LocalHom.ext fun i j hij V x => by
-    show q.app (p + i) j _ (Over.mk (V.hom ≫ g)) ((N.leftMul p i).app (op V.left)
+    change q.app (p + i) j _ (Over.mk (V.hom ≫ g)) ((N.leftMul p i).app (op V.left)
       (resSec (A.complex.X p) (V.hom ≫ g) b) x) = q.app (p + i) j _ (Over.mk (V.hom ≫ g))
         ((N.leftMul p i).app (op V.left) (resSec (A.complex.X p) V.hom
           (resSec (A.complex.X p) g b)) x)
@@ -196,7 +196,7 @@ theorem actLeft_smul_right (r : R.obj.obj (op U)) (q : LocalHom N.toRightModule 
     (b : (A.complex.X p).val.obj (op U)) :
     q.actLeft (r • b) = r • q.actLeft b :=
   LocalHom.ext fun i j hij V x => by
-    show q.app (p + i) j _ V ((N.leftMul p i).app (op V.left)
+    change q.app (p + i) j _ V ((N.leftMul p i).app (op V.left)
       (resSec (A.complex.X p) V.hom (r • b)) x) = R.obj.map V.hom.op r • q.app (p + i) j _ V
         ((N.leftMul p i).app (op V.left) (resSec (A.complex.X p) V.hom b) x)
     rw [resSec_smul, (N.leftMul p i).map_smul_left]
@@ -208,7 +208,7 @@ theorem actLeft_actLeft (q : LocalHom N.toRightModule M n U) {p p' : ℤ}
     (b : (A.complex.X p).val.obj (op U)) (b' : (A.complex.X p').val.obj (op U)) :
     HEq ((q.actLeft b).actLeft b') (q.actLeft ((A.mul p p').app (op U) b b')) :=
   heq_of_app (add_assoc n p p') fun i j hij hij' V x => by
-    show q.app (p + (p' + i)) j _ V ((N.leftMul p (p' + i)).app (op V.left)
+    change q.app (p + (p' + i)) j _ V ((N.leftMul p (p' + i)).app (op V.left)
         (resSec (A.complex.X p) V.hom b) ((N.leftMul p' i).app (op V.left)
           (resSec (A.complex.X p') V.hom b') x)) =
       q.app (p + p' + i) j _ V ((N.leftMul (p + p') i).app (op V.left)
@@ -225,7 +225,7 @@ omit [∀ U : Cᵒᵖ, IsMulCommutative (R.obj.obj U)] in
 theorem actLeft_one (q : LocalHom N.toRightModule M n U) :
     HEq (q.actLeft (A.one.eval (op U))) q :=
   heq_of_app (add_zero n) fun i j hij hij' V x => by
-    show q.app (0 + i) j _ V ((N.leftMul 0 i).app (op V.left)
+    change q.app (0 + i) j _ V ((N.leftMul 0 i).app (op V.left)
         (resSec (A.complex.X 0) V.hom (A.one.eval (op U))) x) = q.app i j _ V x
     have h1 : resSec (A.complex.X 0) V.hom (A.one.eval (op U)) = A.one.eval (op V.left) :=
       PresheafOfModules.sections_property A.one V.hom.op
@@ -243,7 +243,7 @@ theorem diffAt_actLeft (q : LocalHom N.toRightModule M n U) {p : ℤ}
           (add_assoc n p 1).symm (q.actLeft ((A.complex.d p (p + 1)).val.app (op U) b)) :=
   LocalHom.ext fun i j hij V x => by
     rw [add_app, zsmul_app, gradedCast_app, gradedCast_app, diffAt_app]
-    show (M.complex.d (i + (n + p)) j).val.app (op V.left)
+    change (M.complex.d (i + (n + p)) j).val.app (op V.left)
         (q.app (p + i) (i + (n + p)) (by omega) V
           ((N.leftMul p i).app (op V.left) (resSec (A.complex.X p) V.hom b) x)) -
       ((n + p).negOnePow : ℤ) • q.app (p + (i + 1)) j (by omega) V
@@ -289,14 +289,14 @@ open CochainComplex.HomComplex
 theorem homSections_zsmul' {S T : SheafOfModules.{s} R} (k : ℤ) (f : S ⟶ T) (U : Cᵒᵖ)
     (x : S.val.obj U) : homSections (k • f) U x = k • homSections f U x := by
   have hv : (k • f).val = k • f.val := by
-    show (SheafOfModules.forget R).map (k • f) = _
+    change (SheafOfModules.forget R).map (k • f) = _
     rw [Functor.map_zsmul]
     rfl
   have heval : (k • f.val).app U = k • f.val.app U := by
-    show (PresheafOfModules.evaluation R.obj U).map (k • f.val) = _
+    change (PresheafOfModules.evaluation R.obj U).map (k • f.val) = _
     rw [Functor.map_zsmul]
     rfl
-  show ConcreteCategory.hom ((k • f).val.app U) x = _
+  change ConcreteCategory.hom ((k • f).val.app U) x = _
   rw [hv, heval]
   simp
 

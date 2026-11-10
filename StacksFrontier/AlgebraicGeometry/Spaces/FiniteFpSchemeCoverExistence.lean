@@ -115,7 +115,7 @@ theorem existsFiniteSurjectiveSchemeCover_and_refining
     obtain ⟨hY₀c, hY₀qs⟩ := compactSpace_and_quasiSeparatedSpace_of_isIntegralHom B S hS hZ Y₀ f₀
       hX hXqc hXqs (IsFinite.isIntegralHom B S hS hf₀fin)
     -- an affine surjective étale chart
-    obtain ⟨V, c, hVaff, hcsurj, hcet⟩ :=
+    obtain ⟨V, c, -, hcsurj, hcet⟩ :=
       (isQuasiCompactSpace_iff_exists_affine_etale_surjective_cover B S hS X hX).1 hXqc
     have hcs : IsSurjective B S hS c := isSurjective_of_presheafSurjective B S hS c hcsurj
     have hc : IsEtale B S hS c := hcet
@@ -123,7 +123,7 @@ theorem existsFiniteSurjectiveSchemeCover_and_refining
     obtain ⟨Y, r, hrfin, hrsurj, -, hloc⟩ := exists_finite_surjective_refinement_over B S hS hX
       (isAlgebraicSpace_yoneda B S hS V) Y₀ f₀ hY₀c hY₀qs c hcs hc
     have hfsurj : IsSurjective B S hS (yoneda.map r ≫ f₀) := by
-      show Function.Surjective (pointsMap B S hS (yoneda.obj Y) (yoneda.map r ≫ f₀))
+      change Function.Surjective (pointsMap B S hS (yoneda.obj Y) (yoneda.map r ≫ f₀))
       rw [pointsMap_comp B S hS (yoneda.obj Y) (yoneda.map r) f₀]
       exact hf₀surj.comp (isSurjective_yoneda_map B S hS r hrsurj)
     have _ : (MorphismProperty.inverseImage
@@ -137,7 +137,7 @@ theorem existsFiniteSurjectiveSchemeCover_and_refining
     -- the refined cover is closed in a finite cover of finite presentation
     obtain ⟨T, g, i, hgfin, hgfp, -, hig⟩ :=
       exists_isClosedImmersion_isFinite_isFinitePresentation_of_factorsZariskiLocallyThrough B S hS
-        hZ X hX hXqc hXqs V hVaff c hc Y (yoneda.map r ≫ f₀) hffin hloc
+        hZ X hX hXqc hXqs V c hc Y (yoneda.map r ≫ f₀) hffin hloc
     refine ⟨T, g, ?_, hgfin, hgfp⟩
     intro x
     obtain ⟨y, hy⟩ := hfsurj x

@@ -124,7 +124,7 @@ theorem isIso_etaleModuleBiproductToExtensionByZeroISup
     · obtain ⟨a, ha⟩ := TopologicalSpace.Opens.mem_iSup.1 hy
       exact Set.mem_iUnion.2 ⟨.inl a, ⟨⟨y, ha⟩, rfl⟩⟩
     · refine Set.mem_iUnion.2 ⟨.inr ⟨y, hy⟩, ?_⟩
-      show y ∈ Set.range (X.fromSpecResidueField y)
+      change y ∈ Set.range (X.fromSpecResidueField y)
       rw [range_fromSpecResidueField]
       rfl
   · rcases s with b | ⟨x, hx⟩

@@ -273,7 +273,7 @@ omit [IsGalois K Ω] in
 /-- The Artin-Schreier map is `Gal(Ω/K)`-equivariant. -/
 theorem artinSchreier_smul (g : Gal(Ω/K)) (x : Ω) :
     artinSchreier Ω p (g • x) = g • artinSchreier Ω p x := by
-  show (g x) ^ p - g x = g (x ^ p - x)
+  change (g x) ^ p - g x = g (x ^ p - x)
   rw [map_sub, map_pow]
 
 omit [IsGalois K Ω] in

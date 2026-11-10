@@ -380,7 +380,7 @@ private lemma sectionCochain_precomp
     (s : (H.obj.X n).val.obj (op U)) :
     (sectionCochain H' U n ((precompDegreeMap H H' f n).val.app (op U) s)).v p q hpq =
       (f p).over U ≫ (sectionCochain H U n s).v p q hpq := by
-  show (((H'.sectionsIso U).hom.f n).hom
+  change (((H'.sectionsIso U).hom.f n).hom
     (((H'.sectionsIso U).inv.f n).hom _)).v p q hpq = _
   rw [componentIso_inv_hom_apply (H'.sectionsIso U) n]
   rfl
@@ -393,7 +393,7 @@ private lemma sectionCochain_postcomp
     (s : (H.obj.X n).val.obj (op U)) :
     (sectionCochain H' U n ((postcompDegreeMap H H' f n).val.app (op U) s)).v p q hpq =
       (sectionCochain H U n s).v p q hpq ≫ (f q).over U := by
-  show (((H'.sectionsIso U).hom.f n).hom
+  change (((H'.sectionsIso U).hom.f n).hom
     (((H'.sectionsIso U).inv.f n).hom _)).v p q hpq = _
   rw [componentIso_inv_hom_apply (H'.sectionsIso U) n]
   rfl
@@ -576,8 +576,7 @@ noncomputable def postcompComplexMap
     apply CochainComplex.HomComplex.Cochain.ext
     intro p q hpq
     ext W x
-    simpa [cochainPostcomp, sectionCochain] using
-      congrArg (fun z => (z.v p q hpq).val.app W x) (hδ (sectionCochain H U.unop n s))
+    simp [sectionCochain]
 
 /-- The composite of precomposition by `g` and postcomposition by `f` on internal Hom
 complexes. -/
@@ -600,7 +599,7 @@ lemma canonicalSheafHomComplexMap_induced (X : RingedSite.{u, v, r})
     IsInducedSheafHomComplexMap g f (sheafHomComplex X K L)
       (sheafHomComplex X K' L') (canonicalSheafHomComplexMap X g f) := by
   intro U n p q hpq s
-  show ((sectionCochain (sheafHomComplex X K' L') U n
+  change ((sectionCochain (sheafHomComplex X K' L') U n
       ((postcompDegreeMap (sheafHomComplex X K' L) (sheafHomComplex X K' L')
           (fun q => f.f q) n).val.app (op U)
         ((precompDegreeMap (sheafHomComplex X K L) (sheafHomComplex X K' L)
@@ -621,7 +620,7 @@ lemma identitySheafHomComplexMap_induced (X : RingedSite.{u, v, r})
     (H : SheafHomComplex X K L) :
     IsInducedSheafHomComplexMap (𝟙 K) (𝟙 L) H H (𝟙 H.obj) := by
   intro U n p q hpq s
-  show (sectionCochain H U n s).v p q hpq = _
+  change (sectionCochain H U n s).v p q hpq = _
   simp [HomologicalComplex.id_f]
 
 /-- The canonical precomposition-and-postcomposition action on the internal Hom complexes,
@@ -754,7 +753,7 @@ private lemma termwiseSplit_first_aux
     funext n
     apply degreeMap_ext H₁
     intro U z p q hpq
-    show (sectionCochain H₁ U n
+    change (sectionCochain H₁ U n
       ((b.f n).val.app (op U) ((a.f n).val.app (op U) z))).v p q hpq =
         (sectionCochain H₁ U n 0).v p q hpq
     rw [sectionCochain_induced_precomp H₂ H₁ S.f b hb,
@@ -769,7 +768,7 @@ private lemma termwiseSplit_first_aux
     id := ?_ }⟩⟩
   · apply degreeMap_ext H₃
     intro U z p q hpq
-    show (sectionCochain H₃ U n
+    change (sectionCochain H₃ U n
       ((precompDegreeMap H₂ H₃ ss n).val.app (op U)
         ((a.f n).val.app (op U) z))).v p q hpq =
       (sectionCochain H₃ U n z).v p q hpq
@@ -777,7 +776,7 @@ private lemma termwiseSplit_first_aux
       ← Category.assoc, ← over_comp, hsg, over_id, Category.id_comp]
   · apply degreeMap_ext H₁
     intro U z p q hpq
-    show (sectionCochain H₁ U n
+    change (sectionCochain H₁ U n
       ((b.f n).val.app (op U)
         ((precompDegreeMap H₁ H₂ rr n).val.app (op U) z))).v p q hpq =
       (sectionCochain H₁ U n z).v p q hpq
@@ -785,7 +784,7 @@ private lemma termwiseSplit_first_aux
       ← Category.assoc, ← over_comp, hfr, over_id, Category.id_comp]
   · apply degreeMap_ext H₂
     intro U z p q hpq
-    show (sectionCochain H₂ U n
+    change (sectionCochain H₂ U n
       ((a.f n).val.app (op U)
         ((precompDegreeMap H₂ H₃ ss n).val.app (op U) z) +
        (precompDegreeMap H₁ H₂ rr n).val.app (op U)
@@ -830,7 +829,7 @@ private lemma termwiseSplit_second_aux
     funext n
     apply degreeMap_ext H₃
     intro U z p q hpq
-    show (sectionCochain H₃ U n
+    change (sectionCochain H₃ U n
       ((b.f n).val.app (op U) ((a.f n).val.app (op U) z))).v p q hpq =
         (sectionCochain H₃ U n 0).v p q hpq
     rw [sectionCochain_induced_postcomp H₂ H₃ S.g b hb,
@@ -845,7 +844,7 @@ private lemma termwiseSplit_second_aux
     id := ?_ }⟩⟩
   · apply degreeMap_ext H₁
     intro U z p q hpq
-    show (sectionCochain H₁ U n
+    change (sectionCochain H₁ U n
       ((postcompDegreeMap H₂ H₁ rr n).val.app (op U)
         ((a.f n).val.app (op U) z))).v p q hpq =
       (sectionCochain H₁ U n z).v p q hpq
@@ -854,7 +853,7 @@ private lemma termwiseSplit_second_aux
     exact Category.comp_id _
   · apply degreeMap_ext H₃
     intro U z p q hpq
-    show (sectionCochain H₃ U n
+    change (sectionCochain H₃ U n
       ((b.f n).val.app (op U)
         ((postcompDegreeMap H₃ H₂ ss n).val.app (op U) z))).v p q hpq =
       (sectionCochain H₃ U n z).v p q hpq
@@ -863,7 +862,7 @@ private lemma termwiseSplit_second_aux
     exact Category.comp_id _
   · apply degreeMap_ext H₂
     intro U z p q hpq
-    show (sectionCochain H₂ U n
+    change (sectionCochain H₂ U n
       ((a.f n).val.app (op U)
         ((postcompDegreeMap H₂ H₁ rr n).val.app (op U) z) +
        (postcompDegreeMap H₃ H₂ ss n).val.app (op U)

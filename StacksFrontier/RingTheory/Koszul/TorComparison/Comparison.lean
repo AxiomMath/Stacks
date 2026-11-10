@@ -124,7 +124,7 @@ degree-`n` component of `Koszul.relComparison` acts on `⋀ⁿ(Rⁿ)` as `det (g
 theorem relComparison_f_top_apply (f g : Fin n → R) (gij : Matrix (Fin n) (Fin n) R)
     (h : ∀ i, f i = ∑ j, gij i j * g j) (x : ⋀[R]^n (Fin n → R)) :
     ((relComparison f g gij h).f n).hom x = gij.det • x := by
-  show exteriorPower.map n (relMap gij) x = gij.det • x
+  change exteriorPower.map n (relMap gij) x = gij.det • x
   exact (exteriorPower.map_top_pi_eq_det_smul gij.transpose x).trans
     (by rw [Matrix.det_transpose])
 

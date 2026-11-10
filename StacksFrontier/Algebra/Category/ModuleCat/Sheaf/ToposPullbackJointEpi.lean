@@ -20,8 +20,8 @@ epimorphism too.
 
 That is the whole categorical content of Stacks 05VD, in the route that avoids Stacks 03CR: the
 relation side is carried across by left exactness (the sheaf of relations is a finite limit, see
-`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.ToposPullbackRelationSheaf`), the factorization side
-is carried across in the easy direction, the `∃ l` is carried across because `Φ` preserves
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.ToposPullbackRelationSheaf`), the factorization
+side is carried across in the easy direction, the `∃ l` is carried across because `Φ` preserves
 coproducts, and epimorphy is carried across because `Φ` has a right adjoint.
 
 ## Main results
@@ -91,7 +91,7 @@ theorem sigmaComparison_comp_map_sigmaDesc :
   refine Limits.Sigma.hom_ext (f := fun l : ℕ => Φ.obj (factorizationSheaf R M n l))
     _ _ (fun l => ?_)
   rw [← Category.assoc, Limits.ι_comp_sigmaComparison, ← Category.assoc, ← Φ.map_comp,
-    Limits.Sigma.ι_desc, Limits.Sigma.ι_desc,
+    Limits.Sigma.ι_comp_desc, Limits.Sigma.ι_comp_desc,
     factorizationSheafComparison_comp_factorizationToRelation J Φ R M n l hc]
 
 omit [HasCoproduct (fun l : ℕ => factorizationSheaf R M n l)] in
@@ -110,8 +110,8 @@ theorem sigmaDesc_comp_eq :
             (pullback_sections_mul_comm J Φ hc)) := by
   refine Limits.Sigma.hom_ext (f := fun l : ℕ => Φ.obj (factorizationSheaf R M n l))
     _ _ (fun l => ?_)
-  rw [Limits.Sigma.ι_desc, ← Category.assoc, Limits.Sigma.ι_desc, Category.assoc,
-    Limits.Sigma.ι_desc]
+  rw [Limits.Sigma.ι_comp_desc, ← Category.assoc, Limits.Sigma.ι_comp_desc, Category.assoc,
+    Limits.Sigma.ι_comp_desc]
 
 include hc in
 /-- **The inverse image of the factorization-to-relation epimorphism is an epimorphism.**

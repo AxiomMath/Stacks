@@ -82,7 +82,7 @@ theorem exists_isIso_affineOver (Y : BigFppfOver B S hS)
   refine ⟨Γ((BigFppfOver.toScheme B S hS).obj Y, ⊤), inferInstance, inferInstance, hR,
     ((BigFppfOver.toScheme B S hS).obj Y).isoSpec.inv ≫ Y.hom.hom,
     FormalSpace.siteHom B S hS ((BigFppfOver.toScheme B S hS).obj Y).isoSpec.inv rfl, ?_⟩
-  show IsIso ((BigFppfOver.toScheme B S hS).obj Y).isoSpec.inv
+  change IsIso ((BigFppfOver.toScheme B S hS).obj Y).isoSpec.inv
   infer_instance
 
 /-- **Completion of an étale morphism of algebraic spaces is representable étale** (Stacks 0GI0),
@@ -164,7 +164,7 @@ theorem exists_affine_etale_chart_through {X' : (BigFppfOver B S hS)ᵒᵖ ⥤ T
     have hw : (BigFppfOver.toScheme B S hS).map fst w.1 ∈ O := w.2
     refine ⟨⟨_, hw⟩, ?_⟩
     rw [Functor.map_comp]
-    show O.ι ⟨_, hw⟩ = (BigFppfOver.toScheme B S hS).map fst (O'.ι w)
+    change O.ι ⟨_, hw⟩ = (BigFppfOver.toScheme B S hS).map fst (O'.ι w)
     rfl)
   refine ⟨openObj B S hS U O, hVa, hVn, yoneda.map jU ≫ a,
     MorphismProperty.comp_mem Pe.presheaf _ _ (MorphismProperty.relative_map hjUe) hae,
@@ -172,7 +172,7 @@ theorem exists_affine_etale_chart_through {X' : (BigFppfOver B S hS)ᵒᵖ ⥤ T
   · rw [← Category.assoc, ← Functor.map_comp, hz₂, Functor.map_comp, Functor.map_comp,
       Category.assoc, Category.assoc, hsq]
   · rw [Functor.map_comp]
-    show (BigFppfOver.toScheme B S hS).map snd (O'.ι ⟨z, hzO⟩) = k
+    change (BigFppfOver.toScheme B S hS).map snd (O'.ι ⟨z, hzO⟩) = k
     exact hz
 
 /-- The open subobject of `X₁` on the complement of the image of a set `T₁` of points lands in
@@ -292,9 +292,9 @@ private theorem pointsMap_yoneda_value_eq_class {Y₁ : BigFppfOver B S hS}
   let p₀ : FieldValuedPoint B S hS (yoneda.obj p.siteObject) :=
     ⟨p.carrier, p.contained, p.toBase, 𝟙 _⟩
   rw [@Subsingleton.elim _ hsub r (p₀.class B S hS _)]
-  show (FieldValuedPoint.map B S hS _ (yoneda.map p.value) p₀).class B S hS _ = _
+  change (FieldValuedPoint.map B S hS _ (yoneda.map p.value) p₀).class B S hS _ = _
   have h2 : FieldValuedPoint.map B S hS _ (yoneda.map p.value) p₀ = p := by
-    show (⟨p.carrier, p.contained, p.toBase, 𝟙 _ ≫ p.value⟩ : FieldValuedPoint B S hS _) = p
+    change (⟨p.carrier, p.contained, p.toBase, 𝟙 _ ≫ p.value⟩ : FieldValuedPoint B S hS _) = p
     rw [Category.id_comp]
   rw [h2]
 
@@ -305,7 +305,7 @@ theorem hasImageIn_fieldValuedPoint {Y₁ : BigFppfOver B S hS}
     (hp : p.class B S hS _ ∈ T) :
     HasImageIn B S hS (yoneda.obj Y₁) T p.siteObject p.value := by
   intro r
-  show pointsMap B S hS _ (yoneda.map p.value) (r.class B S hS _) ∈ T
+  change pointsMap B S hS _ (yoneda.map p.value) (r.class B S hS _) ∈ T
   rwa [pointsMap_yoneda_value_eq_class]
 
 /-! ### Lifts from equations of completions -/
@@ -348,7 +348,7 @@ theorem exists_app_eq_of_completionOverMap_app_eq {X : (BigFppfOver B S hS)ᵒ�
     (image_preimage_subset_preimage_of_comp_eq B S hS (Over.w a) T)
   have key : (completionOverMap B S hS T a).hom ≫ iN.hom = iM.hom ≫ φ := by
     rw [← cancel_epi iM.inv, Iso.inv_hom_id_assoc]
-    show (BigFppfOver.topology B S hS).toSheafify _ ≫ (completionOverMap B S hS T a).hom ≫
+    change (BigFppfOver.topology B S hS).toSheafify _ ≫ (completionOverMap B S hS T a).hom ≫
       iN.hom = φ
     have hts := toSheafify_comp_completionOverMap (T := T) a
     calc (BigFppfOver.topology B S hS).toSheafify _ ≫ (completionOverMap B S hS T a).hom ≫ iN.hom
@@ -528,7 +528,7 @@ theorem exists_isCompletionLift_of_completionSheafMap_eq {X₁ Y₁ V Y' : BigFp
       rw [e1, e2, (completionOverFunctor B S hS T₁).map_comp,
         (completionOverFunctor B S hS T₁).map_comp]
       apply Over.OverMorphism.ext
-      show AL' ≫ cvL = (BL ≫ F') ≫ αL
+      change AL' ≫ cvL = (BL ≫ F') ≫ αL
       rw [Category.assoc, haO', ← hBA, hE0]
       simp only [Category.assoc, eqToHom_trans_assoc, eqToHom_refl, Category.id_comp]
       rw [← hρ'])
@@ -545,9 +545,9 @@ theorem exists_isCompletionLift_of_completionSheafMap_eq {X₁ Y₁ V Y' : BigFp
   have hs : (completionOverMap B S hS T₁ (bO ≫ f'O)).hom.app (op Z) s'' =
       (completionSheafMap B S hS (yoneda.map f') T).hom.app (op Z) t := by
     rw [completionOverMap_comp]
-    show F'.hom.app (op Z) (BL.hom.app (op Z) s'') = _
+    change F'.hom.app (op Z) (BL.hom.app (op Z) s'') = _
     rw [hs'', hE0]
-    show (completionSheafMap B S hS (yoneda.map f') T).hom.app (op Z)
+    change (completionSheafMap B S hS (yoneda.map f') T).hom.app (op Z)
       ((eqToHom hP0).hom.app (op Z) t₀) = _
     rw [ht₀]
   obtain ⟨y, hy⟩ := exists_app_eq_of_completionOverMap_app_eq T₁ (bO ≫ f'O)
@@ -667,7 +667,7 @@ theorem exists_isCompletionLift_affineOver
       isoX'.inv.app (op Z) (α₁.app (op Z) ξ₁) := by
     have hid : isoY.hom.app (op Z) (isoY.inv.app (op Z) ξ₁) = ξ₁ :=
       congrFun (congrArg (fun φ => (φ.app (op Z) : _ → _)) isoY.inv_hom_id) ξ₁
-    show isoX'.inv.app (op Z) (α₁.app (op Z) (isoY.hom.app (op Z) (isoY.inv.app (op Z) ξ₁))) = _
+    change isoX'.inv.app (op Z) (α₁.app (op Z) (isoY.hom.app (op Z) (isoY.inv.app (op Z) ξ₁))) = _
     rw [hid]
   have e2 : cv.left.hom.app (op Z) (isoV.inv.app (op Z) ξ₂) =
       isoX'.inv.app (op Z) ((completionSubfunctorMap B S hS v
@@ -686,12 +686,12 @@ theorem exists_isCompletionLift_affineOver
         = X'₁.map p'.op (α₁.app (op K₀) ⟨ULift.up s₀, hs₀T⟩).1.down :=
           completionHom_app_map (α := α₁) p'.op s₀ hs₀T hz₁T
       _ = (yoneda.map p' ≫ x).app (op Z) (𝟙 Z) := by
-          show _ = x.app (op Z) (𝟙 Z ≫ p')
+          change _ = x.app (op Z) (𝟙 Z ≫ p')
           rw [Category.id_comp]
           rfl
       _ = (yoneda.map z₂ ≫ v).app (op Z) (𝟙 Z) := by rw [hz₂]
       _ = v.app (op Z) z₂ := by
-          show v.app _ (𝟙 Z ≫ z₂) = _
+          change v.app _ (𝟙 Z ≫ z₂) = _
           rw [Category.id_comp]
   have hζ : ζ₁ ≫ αs.left = ζ₂ ≫ cv.left := by
     apply (Sheaf.sectionEquiv J).injective
@@ -740,7 +740,7 @@ theorem exists_isCompletionLift_affineOver
   rw [hα] at hlift'
   -- the point `q` is in the image of `Y'' ⟶ Y₁`
   have hσ : (pullback.fst αs.left cv.left).hom.app (op Z) σ = isoY.inv.app (op Z) ξ₁ := by
-    show (pullback.fst αs.left cv.left).hom.app (op Z)
+    change (pullback.fst αs.left cv.left).hom.app (op Z)
       (Sheaf.sectionEquiv J (pullback.lift ζ₁ ζ₂ hζ)) = _
     rw [← Sheaf.sectionEquiv_comp J, pullback.lift_fst]
     exact Equiv.apply_symm_apply _ _
@@ -751,7 +751,7 @@ theorem exists_isCompletionLift_affineOver
     rw [← he]
     have hinv : e.hom.hom.app (op Z') (e.inv.hom.app (op Z') t) = t :=
       congrFun (congrArg (fun φ => (φ.hom.app (op Z') : _ → _)) e.inv_hom_id) t
-    show (pullback.fst αs.left cv.left).hom.app (op Z') ((w k).hom.app (op Z')
+    change (pullback.fst αs.left cv.left).hom.app (op Z') ((w k).hom.app (op Z')
       (e.hom.hom.app (op Z') (e.inv.hom.app (op Z') t))) = _
     rw [hinv, ht, NatTrans.naturality_apply (pullback.fst αs.left cv.left).hom g'.op σ, hσ]
     exact (NatTrans.naturality_apply isoY.inv g'.op ξ₁).symm
@@ -785,7 +785,7 @@ theorem affineCompletionLiftProperty : AffineCompletionLiftProperty B S hS := by
       f₁.app W (α₁'.app W ⟨ULift.up y, hy⟩).1.down = (yoneda.map (ι ≫ h)).app W y := by
     intro W y hy
     refine (hα₁ W ((yoneda.map ι).app W y) _).trans ?_
-    show (y ≫ ι) ≫ h = y ≫ ι ≫ h
+    change (y ≫ ι) ≫ h = y ≫ ι ≫ h
     exact Category.assoc _ _ _
   -- `q` comes from a point of `Spec Γ(Y₁)`
   obtain ⟨x', hx'⟩ := (inferInstance : Surjective ((BigFppfOver.toScheme B S hS).map ι)).surj

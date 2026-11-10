@@ -129,8 +129,7 @@ theorem bijective_baseChangeLim (hT : T.IsAdmissible) (n : ℕ) :
     rw [this]
     exact Φ.bijective
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy]
   | tmul a b =>
     induction b using DirectSum.induction_on with

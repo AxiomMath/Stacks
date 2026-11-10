@@ -143,8 +143,11 @@ public theorem conjugateEquiv_smallEtalePostcomposeId (T : B.Scheme) :
     (fun Y ↦ by simp)
     (Over.mapId T).inv (smallEtalePostcomposeId B T).inv
     (fun X ↦ by
-      simp [smallEtalePostcomposeId, ObjectProperty.isoMk, ObjectProperty.homMk,
-        smallEtalePostcompose, ObjectProperty.lift]
+      simp only [Over.mk_left, ObjectProperty.ι_obj, Functor.id_obj, smallEtalePostcompose,
+        ObjectProperty.lift, Over.mk_hom, Functor.comp_obj, Functor.comp_map,
+        ObjectProperty.ι_map, ObjectProperty.homMk, Iso.refl_hom, NatTrans.id_app,
+        smallEtalePostcomposeId, ObjectProperty.isoMk, Iso.app_hom, Iso.app_inv,
+        NatIso.ofComponents_inv_app, Category.id_comp]
       exact Category.comp_id _) V
   have hpb : conjugateEquiv (Over.mapPullbackAdj (𝟙 T)) (Adjunction.id (C := Over T))
       (Over.mapId T).inv = (Over.pullbackId (X := T)).hom := rfl
@@ -152,7 +155,11 @@ public theorem conjugateEquiv_smallEtalePostcomposeId (T : B.Scheme) :
   have hid : (SmallEtale.inclusion B T.1 T.property).map
       ((smallEtaleBaseChange_idIso B T).hom.app V) = Over.pullbackId.hom.app V.obj := by
     simp only [smallEtaleBaseChange_idIso, Functor.fullyFaithfulCancelRight]
-    simp
+    simp only [ObjectProperty.ι_obj, smallEtaleBaseChange_obj_obj, Functor.id_obj, eqToIso_refl,
+      Iso.refl_trans, NatIso.trans_app, Functor.comp_obj, NatIso.ofComponents_hom_app,
+      Functor.preimageIso_hom, Iso.trans_hom, Iso.app_hom, Functor.isoWhiskerLeft_hom,
+      Functor.whiskerLeft_app, Functor.rightUnitor_hom_app, Iso.symm_hom,
+      Functor.leftUnitor_inv_app, Category.comp_id, ObjectProperty.ι_map]
     exact (SmallEtale.inclusion B T.1 T.property).map_preimage _
   exact (Category.id_comp _).symm.trans (key.trans ((Category.comp_id _).trans hid.symm))
 
@@ -190,8 +197,11 @@ public theorem conjugateEquiv_smallEtalePostcomposeComp {T'' T' T : B.Scheme} (h
       (counit_comm_restrictFullyFaithful _ _ _ _ _))
     (Over.mapComp h k).inv (smallEtalePostcomposeComp B h k).hom
     (fun X ↦ by
-      simp [smallEtalePostcomposeComp, commIsoComp, ObjectProperty.isoMk,
-        ObjectProperty.homMk, smallEtalePostcompose, ObjectProperty.lift]
+      simp only [Over.mk_left, ObjectProperty.ι_obj, Functor.comp_obj, smallEtalePostcompose,
+        ObjectProperty.lift, Over.mk_hom, Functor.comp_map, ObjectProperty.ι_map,
+        ObjectProperty.homMk, commIsoComp, NatIso.ofComponents_hom_app, Iso.trans_hom,
+        Functor.mapIso_hom, Iso.app_hom, smallEtalePostcomposeComp, ObjectProperty.isoMk,
+        Iso.symm_hom, Iso.app_inv, Iso.symm_inv, Category.assoc]
       exact Category.comp_id _) V
   have hpb : conjugateEquiv (Over.mapPullbackAdj (h ≫ k))
       ((Over.mapPullbackAdj h).comp (Over.mapPullbackAdj k))

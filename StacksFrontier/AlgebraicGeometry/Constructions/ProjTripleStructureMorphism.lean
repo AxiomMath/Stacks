@@ -338,7 +338,7 @@ theorem toProj_comp_toSpecZero (hd : 0 < d)
     rw [Scheme.Hom.comp_appTop, ← Category.assoc, ← Scheme.ΓSpecIso_inv_naturality,
       Category.assoc, Scheme.toSpecΓ_appTop, Iso.inv_hom_id, Category.comp_id]
   refine AlgebraicGeometry.ext_to_Spec ?_
-  show (Scheme.ΓSpecIso (CommRingCat.of (𝒜 0))).inv ≫
+  change (Scheme.ΓSpecIso (CommRingCat.of (𝒜 0))).inv ≫
       (toProj 𝒜 p.1 ≫ Proj.toSpecZero 𝒜).appTop
     = (Scheme.ΓSpecIso (CommRingCat.of (𝒜 0))).inv ≫
       (Y.toSpecΓ ≫ Spec.map (CommRingCat.ofHom (degreeZeroHom 𝒜 ψ hone))).appTop
@@ -357,7 +357,7 @@ theorem toProj_comp_toSpecZero (hd : 0 < d)
           (le_preimage_top (toProj 𝒜 p.1 ≫ Proj.toSpecZero 𝒜)
             (nonvanishingOpen Y L (psiSection 𝒜 ψ f))) :=
     Scheme.Hom.appLE_comp_appLE _ _ _ _ _ _ _
-  show (toProj 𝒜 p.1 ≫ Proj.toSpecZero 𝒜).appLE ⊤
+  change (toProj 𝒜 p.1 ≫ Proj.toSpecZero 𝒜).appLE ⊤
         (nonvanishingOpen Y L (psiSection 𝒜 ψ f))
         (le_preimage_top (toProj 𝒜 p.1 ≫ Proj.toSpecZero 𝒜)
           (nonvanishingOpen Y L (psiSection 𝒜 ψ f)))
@@ -366,7 +366,7 @@ theorem toProj_comp_toSpecZero (hd : 0 < d)
           (homOfLE (le_top : nonvanishingOpen Y L (psiSection 𝒜 ψ f) ≤ ⊤)).op
           (degreeZeroHom 𝒜 ψ hone z)
   rw [← hstep]
-  show (toProj 𝒜 p.1).appLE (Proj.basicOpen 𝒜 (f : A))
+  change (toProj 𝒜 p.1).appLE (Proj.basicOpen 𝒜 (f : A))
         (nonvanishingOpen Y L (psiSection 𝒜 ψ f)) (preimage_basicOpen_eq 𝒜 hp f).ge
         ((Proj.toSpecZero 𝒜).appLE ⊤ (Proj.basicOpen 𝒜 (f : A))
           (le_preimage_top (Proj.toSpecZero 𝒜) (Proj.basicOpen 𝒜 (f : A)))

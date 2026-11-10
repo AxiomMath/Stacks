@@ -247,8 +247,8 @@ theorem canonicalPrincipalDivisorCycleAt_zpow
       Pi.smul_apply, smul_eq_mul]
   · unfold canonicalPrincipalDivisorCycleAt
     simp only
-    rw [principalDivisorCycleCoefficients, principalDivisorCycleCoefficients, dif_neg hP,
-      dif_neg hP, mul_zero]
+    rw [principalDivisorCycleCoefficients, principalDivisorCycleCoefficients, dite_eq_right hP,
+      dite_eq_right hP, mul_zero]
 
 end Zpow
 
@@ -287,7 +287,7 @@ theorem firstChernCapCycleMap_comm_sub_apply (α : CycleGroup D sX (k + 1 + 1))
             (firstChernComponentCycle D sX hX (k + 1) chernN₁ W) -
           firstChernCapCycleMap D sX hX k chernN₀
             (firstChernComponentCycle D sX hX (k + 1) chernL₁ W)).1 Z := by
-  show (firstChernCapCycleMap D sX hX k chernL₀
+  change (firstChernCapCycleMap D sX hX k chernL₀
       (firstChernCapCycleMap D sX hX (k + 1) chernN₁ α)).1 Z -
     (firstChernCapCycleMap D sX hX k chernN₀
       (firstChernCapCycleMap D sX hX (k + 1) chernL₁ α)).1 Z = _
@@ -299,7 +299,7 @@ theorem firstChernCapCycleMap_comm_sub_apply (α : CycleGroup D sX (k + 1 + 1))
       (hasFiniteSupport_mul_firstChernCapCycleMap_firstChernComponentCycle D sX hX chernN₀
         chernL₁ α Z)]
   refine finsum_congr fun W => ?_
-  show _ = α.1 W * ((firstChernCapCycleMap D sX hX k chernL₀
+  change _ = α.1 W * ((firstChernCapCycleMap D sX hX k chernL₀
       (firstChernComponentCycle D sX hX (k + 1) chernN₁ W)).1 Z -
     (firstChernCapCycleMap D sX hX k chernN₀
       (firstChernComponentCycle D sX hX (k + 1) chernL₁ W)).1 Z)

@@ -367,7 +367,8 @@ lemma inverseImageNaiveCotangentZeroDerivation_d (U : Cᵒᵖ)
     ((inverseImageFreeAlgebraIso f A B).hom.hom.app U z)
   exact h3.trans rfl
 
-omit [K.HasSheafCompose (forget₂ CommRingCat.{max u' v' w'} RingCat.{max u' v' w'})]
+omit [J.HasSheafCompose (forget₂ CommRingCat.{max u v w} RingCat.{max u v w})]
+  [K.HasSheafCompose (forget₂ CommRingCat.{max u' v' w'} RingCat.{max u' v' w'})]
   [J.HasSheafCompose (forget AddCommGrpCat.{max u v w})]
   [K.HasSheafCompose (forget AddCommGrpCat.{max u' v' w'})] in
 /-- **The degree `-1` comparison followed by the conormal differential, restricted to the kernel

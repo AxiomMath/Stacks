@@ -27,7 +27,8 @@ comparison `AlgebraicGeometry.Space.squarePullbackCompIso`**, read at
 
 That is the hypothesis `hΞ` of
 `AlgebraicGeometry.Space.conormalSheafMap_representedConormalKernelIdealZPowIso` of
-`StacksFrontier/AlgebraicGeometry/Spaces/ConormalModuleRepresentedNaturality.lean`, so the naturality
+`StacksFrontier/AlgebraicGeometry/Spaces/ConormalModuleRepresentedNaturality.lean`, so the
+naturality
 of part (1) of [Stacks Project, Tag 04G2] in the closed immersion is unconditional from here; it
 is restated as such below.
 
@@ -71,7 +72,8 @@ own.
 > `CategoryTheory.CategoryStruct.comp` and reaches for `AlgebraicGeometry.Space.modulePullback` —
 > a left adjoint built by sheafification — and the share is a deterministic timeout.
 
-Both halves are checked directly.  The transport along the commutativity of the square of represented
+Both halves are checked directly.  The transport along the commutativity of the square of
+represented
 spaces, spelled `representedSpaceMap b ≫ representedSpaceMap j'` on the reading's side and
 `representedSpaceMap (b ≫ j')` on the transport identity's, satisfies
 `eqToHom e₁ = eqToHom e₂` by **`rfl`, free**, as a goal on its own; the two **objects** it runs

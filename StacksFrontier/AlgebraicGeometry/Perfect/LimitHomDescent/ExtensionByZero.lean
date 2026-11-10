@@ -128,7 +128,7 @@ theorem bijective_restriction_map_of_iso {E E' : DerivedCategory (SheafOfModules
           (derivedRestriction O U).map φ) ∘ (fun φ : E ⟶ F => e.symm.hom ≫ φ) := by
     funext φ
     simp only [Function.comp_apply, Functor.mapIso_hom, Iso.symm_hom, Functor.map_comp,
-      Iso.map_hom_inv_id_assoc]
+      Iso.hom_inv_id_map_assoc]
   rw [key]
   exact (bijective_precomp ((derivedRestriction O U).mapIso e)).comp
     ((bijective_restriction_map_extension O U _ F).comp (bijective_precomp e.symm))

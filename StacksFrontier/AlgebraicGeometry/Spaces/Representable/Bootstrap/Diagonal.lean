@@ -140,12 +140,12 @@ noncomputable def pullbackProdMapDiagIso {A B F : C} (f : A ⟶ F) (g : B ⟶ F)
       inv := pullback.lift (prod.lift (pullback.fst f g) (pullback.snd f g))
         (pullback.fst f g ≫ f) (prod.hom_ext (by simp) (by simp [pullback.condition]))
       hom_inv_id := pullback.hom_ext
-        (prod.hom_ext (by simp [pullback.lift_fst])
-          (by simp [pullback.lift_fst_assoc, pullback.lift_snd]))
-        (by simp [pullback.lift_snd, pullback.lift_fst_assoc, hfst])
+        (prod.hom_ext (by simp)
+          (by simp))
+        (by simp [hfst])
       inv_hom_id := pullback.hom_ext
-        (by simp [pullback.lift_fst, pullback.lift_fst_assoc])
-        (by simp [pullback.lift_snd, pullback.lift_fst_assoc]) }
+        (by simp)
+        (by simp) }
 
 /-- The isomorphism `pullbackProdMapDiagIso f g` followed by the first projection of `A ×_F B`
 is the first component of the projection to `A ⨯ B`. -/
@@ -256,19 +256,19 @@ noncomputable def pullbackProdLiftDiagIso {T F : C} (a b : T ⟶ F) :
         (pullback.lift (pullback.fst (prod.lift a b) (diag F))
           (pullback.fst (prod.lift a b) (diag F)) (hla.trans hlb.symm))
         (pullback.fst (prod.lift a b) (diag F))
-        (prod.hom_ext (by simp [pullback.lift_fst]) (by simp [pullback.lift_snd]))
+        (prod.hom_ext (by simp) (by simp))
       inv := pullback.lift
         (pullback.snd (prod.lift (pullback.fst a b) (pullback.snd a b)) (diag T))
         (pullback.snd (prod.lift (pullback.fst a b) (pullback.snd a b)) (diag T) ≫ a)
         (prod.hom_ext (by simp) (by simp [hrab]))
       hom_inv_id := pullback.hom_ext
-        (by simp [pullback.lift_fst, pullback.lift_snd])
-        (by simp [pullback.lift_snd, pullback.lift_snd_assoc, hla])
+        (by simp)
+        (by simp [hla])
       inv_hom_id := pullback.hom_ext
         (pullback.hom_ext
-          (by simp [pullback.lift_fst, hr₁])
-          (by simp [pullback.lift_snd, pullback.lift_fst, hr₂]))
-        (by simp [pullback.lift_snd, pullback.lift_fst]) }
+          (by simp [hr₁])
+          (by simp [hr₂]))
+        (by simp) }
 
 end CategoryTheory.Limits
 
@@ -411,7 +411,7 @@ private theorem isSeparated_isLocallyQuasiFinite_kernelPair
           (X := ⟨pullback (prod.map f f) (diag F), hW⟩) (Y := ⟨pullback f f, hR⟩)
           hsq.isoPullback).hom ≫ ObjectProperty.homMk (pullback.fst f f) :=
       ObjectProperty.hom_ext _ hsq.isoPullback_hom_fst.symm
-    show Pl (ObjectProperty.homMk (pullback.fst (prod.map f f) (diag F) ≫ prod.fst) :
+    change Pl (ObjectProperty.homMk (pullback.fst (prod.map f f) (diag F) ≫ prod.fst) :
       (⟨pullback (prod.map f f) (diag F), hW⟩ : AlgebraicSpaces B S hS) ⟶ ⟨X, hX⟩)
     rw [heq]
     exact MorphismProperty.RespectsIso.precomp Pl _ _ hlft

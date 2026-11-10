@@ -93,7 +93,7 @@ theorem finiteLocallyConstantAbelianStalkCounit_germ
           (finiteLocallyConstantStalkForgetIso B X t) _
           (etaleStalkGerm.{u, u + 1} B X.1 X.2 s _ U
             ((eqToHom
-              (sheafCompose_forget_finiteLocallyConstantAbelianEquivalenceOfSetEquivalence_inverse_obj
+      (sheafCompose_forget_finiteLocallyConstantAbelianEquivalenceOfSetEquivalence_inverse_obj
                 _ (canonicalFiniteLocallyConstantSetsEquivalence B X x) A)).hom.app
                   (op U.1) a))) := by
   have h := abelianEtaleStalkForgetIso_germ.{u, u + 1} B X.1 X.2 s
@@ -265,7 +265,7 @@ theorem representationLevelStalkCounit_germ (U : (geometricPointFiber B X.1 X.2 
   congrArg (finiteLocallyConstantAbelianStalkCounit B X t (levelAbelian ρ hρ k))
     (ConcreteCategory.congr_hom (ι_preservesColimitIso_hom
       (forget₂ (ModuleCat.{u + 1} (ZMod (ℓ ^ k))) AddCommGrpCat.{u + 1})
-      ((CategoryOfElements.π (geometricPointFiber B X.1 X.2 s)).op ⋙ (representationLevelSheaf B X x
+      ((Functor.Elements.π (geometricPointFiber B X.1 X.2 s)).op ⋙ (representationLevelSheaf B X x
         (canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x) ρ hρ k).obj) (op U)) a)
 
 /-- `representationLevelStalkCounit` is a bijection. -/
@@ -288,6 +288,7 @@ def representationLevelStalkLinearEquiv :
     (representationLevelStalkIso B X x ρ hρ t k).addCommGroupIsoToAddEquiv.trans AddEquiv.ulift
   LinearEquiv.ofBijective (e.toAddMonoidHom.toZModLinearMap (ℓ ^ k)) e.bijective
 
+omit [ConnectedSpace X.1] in
 /-- Two germs at `s̄` of sections of two presheaves of modules are germs at a common pointed
 étale neighbourhood: the neighbourhoods form a cofiltered category. -/
 theorem exists_toPresheafFiber_eq₂ (R : Type) [Ring R]
@@ -306,9 +307,12 @@ theorem exists_toPresheafFiber_eq₂ (R : Type) [Ring R]
     preservesFilteredColimitsOfSize_shrink.{u, u + 1, u, u + 1} _
   obtain ⟨X₁, x₁, a₁, rfl⟩ := Φ.toPresheafFiber_jointly_surjective m
   obtain ⟨X₂, x₂, b₂, rfl⟩ := Φ.toPresheafFiber_jointly_surjective n
-  let W := IsCofiltered.min (C := Φ.fiber.Elements) (Φ.fiber.elementsMk X₁ x₁) (Φ.fiber.elementsMk X₂ x₂)
-  let f₁ := IsCofiltered.minToLeft (C := Φ.fiber.Elements) (Φ.fiber.elementsMk X₁ x₁) (Φ.fiber.elementsMk X₂ x₂)
-  let f₂ := IsCofiltered.minToRight (C := Φ.fiber.Elements) (Φ.fiber.elementsMk X₁ x₁) (Φ.fiber.elementsMk X₂ x₂)
+  let W := IsCofiltered.min (C := Φ.fiber.Elements) (Φ.fiber.elementsMk X₁ x₁)
+    (Φ.fiber.elementsMk X₂ x₂)
+  let f₁ := IsCofiltered.minToLeft (C := Φ.fiber.Elements) (Φ.fiber.elementsMk X₁ x₁)
+    (Φ.fiber.elementsMk X₂ x₂)
+  let f₂ := IsCofiltered.minToRight (C := Φ.fiber.Elements) (Φ.fiber.elementsMk X₁ x₁)
+    (Φ.fiber.elementsMk X₂ x₂)
   refine ⟨W, P.map f₁.1.op a₁, Q.map f₂.1.op b₂, ?_, ?_⟩
   · refine (Φ.toPresheafFiber_w_apply f₁.1 W.2 P a₁).trans ?_
     rw [f₁.2]

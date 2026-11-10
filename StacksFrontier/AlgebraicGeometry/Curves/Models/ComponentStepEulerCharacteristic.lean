@@ -103,7 +103,7 @@ public theorem eq_prod_specialFiberDivisorCoeff (D : S.X.IdealSheafData)
       obtain ⟨Z, hZ, hyZ⟩ := exists_mem_irreducibleComponents_subset_of_isIrreducible
         ({y} : Set S.specialFiber) isIrreducible_singleton
       refine ⟨⟨Z, hZ⟩, ?_⟩
-      show S.specialFiberι.base y ∈
+      change S.specialFiberι.base y ∈
         (((S.specialFiberComponentIdeal ⟨Z, hZ⟩).support : TopologicalSpace.Closeds S.X) :
           Set S.X)
       rw [S.coe_support_specialFiberComponentIdeal]
@@ -197,13 +197,10 @@ public theorem eulerCharacteristic_sub_eq_eulerCharacteristic_restrict
         ((Scheme.Modules.pushforward (S.specialFiberComponentι Z)).obj
           ((Scheme.Modules.pullback (S.specialFiberComponentIdeal Z).subschemeι).obj
             (Stacks.Divisors.negativeTwist D))) := by
-  have hC := S.isEffectiveCartierDivisor_specialFiberComponent Z
-  have hD' : Stacks.Divisors.IsEffectiveCartierDivisor D' :=
-    hsum ▸ AlgebraicGeometry.isEffectiveCartierDivisor_mul _ _ hD hC
   have hsub : D' ≤ D := hsum ▸ Scheme.IdealSheafData.mul_le_left D _
   have hZ := S.specialFiberIdeal_le_specialFiberComponentIdeal Z
   obtain ⟨f, zero, hex⟩ := Stacks.Divisors.addEffectiveCartierDivisor_shortExact D D'
-    (S.specialFiberComponentIdeal Z) hD hD' hC hsub hsum
+    (S.specialFiberComponentIdeal Z) hD hsub hsum
   have hcE : ∀ (E : S.X.IdealSheafData) (h : S.specialFiberIdeal ≤ E),
       (SheafOfModules.unit E.subscheme.ringCatSheaf).IsCoherent := fun E h =>
     Stacks.AlgebraicGeometry.CurveEulerBridge.isCoherent_unit S.k (S.fibreSubschemeToSpec E h)

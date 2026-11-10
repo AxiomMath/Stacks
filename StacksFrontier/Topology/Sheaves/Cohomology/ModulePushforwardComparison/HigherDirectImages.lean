@@ -241,7 +241,7 @@ theorem rightAcyclic_of_injective {A B : Type*} [Category* A] [Category* B] [Abe
     have := hM
     exact inferInstanceAs
       (Injective (((HomologicalComplex.single A (ComplexShape.up ℤ) 0).obj M).X m))
-  show IsIso _
+  change IsIso _
   infer_instance
 
 /-- Every abelian sheaf embeds into one that is acyclic for sections over every open: embed it
@@ -380,7 +380,8 @@ noncomputable def derivedCompositionUnit :
           abelianPushforward f))).inv DerivedCategory.Plus.Qh ≫
     Functor.whiskerLeft (SheafOfModules.toSheaf (structureSheafRing X)).mapHomotopyCategoryPlus
       (abelianPushforward f).rightDerivedFunctorPlusUnith ≫
-    Functor.whiskerRight (SheafOfModules.toSheaf (structureSheafRing X)).rightDerivedFunctorPlusUnith
+    Functor.whiskerRight
+      (SheafOfModules.toSheaf (structureSheafRing X)).rightDerivedFunctorPlusUnith
       (abelianPushforward f).rightDerivedFunctorPlus
 
 /-- The canonical comparison `R(f_* ∘ forget) ⟶ Rf_* ∘ R(forget)` of Stacks 05T2, obtained from

@@ -70,7 +70,8 @@ Additivity of the lift is
 `Stacks.SheafOfModules.preservesFiniteLimits_moduleULift`, and right exactness is
 `Stacks.SheafOfModules.preservesFiniteColimits_moduleULift`; only the last of the three is new.
 The two exactness facts are restated at the spelling of the ringed site, as the sheafification
-facts of `StacksFrontier/AlgebraicGeometry/EtaleCohomology/SmallEtaleRingedSiteInternalHom.lean` are,
+facts of `StacksFrontier/AlgebraicGeometry/EtaleCohomology/SmallEtaleRingedSiteInternalHom.lean`
+are,
 and made `local instance`s. Both classes are `Prop`s, so a second route to either cannot produce
 incompatible data.
 

@@ -83,18 +83,18 @@ theorem exists_compatible_isPrimitiveRoot [IsSepClosed κ] (hℓ : (ℓ : κ) �
       exact z.2.pow_ne_one_of_pos_of_lt (pow_ne_zero _ (by omega))
         (Nat.pow_lt_pow_right hℓ1 (Nat.lt_succ_self k))
     · rw [hxz, z.2.pow_eq_one]
-  obtain ⟨z₀, hz₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot κ (ℓ ^ (0 + 1))
+  obtain ⟨z₀, hz₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot κ (ℓ ^ (0 + 1))
   let z₁ : {z : κˣ // IsPrimitiveRoot z (ℓ ^ (0 + 1))} :=
     ⟨(hz₀.isUnit (by positivity)).unit, hz₀.isUnit_unit (by positivity)⟩
   let g : ∀ k, {z : κˣ // IsPrimitiveRoot z (ℓ ^ (k + 1))} := fun k =>
     Nat.rec z₁ (fun k z => Classical.choose (step k z)) k
   refine ⟨fun k => Nat.casesOn k 1 fun k => (g k).1, fun k => ?_, fun k => ?_⟩
   · cases k with
-    | zero => simpa using IsPrimitiveRoot.one (M := κˣ)
+    | zero => simp
     | succ k => exact (g k).2
   · cases k with
     | zero =>
-      show (g 0).1 ^ ℓ = 1
+      change (g 0).1 ^ ℓ = 1
       simpa using (g 0).2.pow_eq_one
     | succ k => exact Classical.choose_spec (step k (g k))
 

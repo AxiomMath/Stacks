@@ -302,7 +302,7 @@ theorem mapHomologicalComplex_singlePlus_comp (M : A) :
         (Stacks.DerivedIndexing.singlePlusFunctor B 0).map (τ.app M) := by
   rw [← cancel_epi (mapCochainComplexPlusSinglePlusIso P M).inv, Iso.inv_hom_id_assoc]
   refine ObjectProperty.hom_ext _ ?_
-  show (HomologicalComplex.singleMapHomologicalComplex P (ComplexShape.up ℤ) 0).inv.app M ≫
+  change (HomologicalComplex.singleMapHomologicalComplex P (ComplexShape.up ℤ) 0).inv.app M ≫
       (NatTrans.mapHomologicalComplex τ (ComplexShape.up ℤ)).app
         ((HomologicalComplex.single A (ComplexShape.up ℤ) 0).obj M) ≫
       (S.mapHomologicalComplex (ComplexShape.up ℤ)).map

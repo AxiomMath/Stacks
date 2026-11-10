@@ -61,7 +61,7 @@ private instance : (surjectiveOnSite B S hS).RespectsIso :=
 
 /-- Étaleness on the site is stable under base change, because étaleness of schemes is and
 the forgetful functor to schemes preserves fibre products. -/
-private theorem etaleSite_isStableUnderBaseChange' :
+theorem etaleSite_isStableUnderBaseChange' :
     (etaleOnSite B S hS).IsStableUnderBaseChange where
   of_isPullback sq hg :=
     MorphismProperty.IsStableUnderBaseChange.of_isPullback (P := @Etale)
@@ -69,20 +69,20 @@ private theorem etaleSite_isStableUnderBaseChange' :
 
 /-- An étale morphism of presheaves out of a representable one is relatively étale: test the
 defining condition of Stacks 03FR on the identity chart. -/
-private theorem etalePresheaf_of_isEtale_yonedaDomain' {A : BigFppfOver B S hS}
+theorem etalePresheaf_of_isEtale_yonedaDomain' {A : BigFppfOver B S hS}
     {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (g : yoneda.obj A ⟶ F) (hg : IsEtale B S hS g) :
     (etaleOnSite B S hS).presheaf g := by
   simpa using hg A (𝟙 (yoneda.obj A)) (presheaf_etale_id B S hS A)
 
 /-- Relative étaleness of presheaf morphisms is stable under base change. -/
-private theorem etalePresheaf_of_isPullback'
+theorem etalePresheaf_of_isPullback'
     {A C D E : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {p : A ⟶ C} {q : A ⟶ D} {g : C ⟶ E} {h : D ⟶ E}
     (sq : IsPullback p q g h) (hg : (etaleOnSite B S hS).presheaf g) :
     (etaleOnSite B S hS).presheaf q :=
   (MorphismProperty.relative_isStableUnderBaseChange (etaleOnSite B S hS)).of_isPullback sq hg
 
 /-- Relative surjectivity of presheaf morphisms is stable under base change. -/
-private theorem surjectivePresheaf_of_isPullback'
+theorem surjectivePresheaf_of_isPullback'
     {A C D E : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {p : A ⟶ C} {q : A ⟶ D} {g : C ⟶ E} {h : D ⟶ E}
     (sq : IsPullback p q g h) (hg : (surjectiveOnSite B S hS).presheaf g) :
     (surjectiveOnSite B S hS).presheaf q :=
@@ -90,7 +90,7 @@ private theorem surjectivePresheaf_of_isPullback'
 
 /-- Surjectivity after every representable base change is stable under composition on the site,
 being the relatively representable form of a multiplicative property. -/
-private theorem surjectiveOnSite_presheaf_comp {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
+theorem surjectiveOnSite_presheaf_comp {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     {p : F ⟶ G} {q : G ⟶ H} (hp : (surjectiveOnSite B S hS).presheaf p)
     (hq : (surjectiveOnSite B S hS).presheaf q) : (surjectiveOnSite B S hS).presheaf (p ≫ q) :=
   have : MorphismProperty.IsStableUnderComposition (surjectiveOnSite B S hS) :=
@@ -98,7 +98,7 @@ private theorem surjectiveOnSite_presheaf_comp {F G H : (BigFppfOver B S hS)ᵒ�
   MorphismProperty.comp_mem _ _ _ hp hq
 
 /-- Étaleness after every representable base change is stable under composition on the site. -/
-private theorem etaleSite_presheaf_comp' {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
+theorem etaleSite_presheaf_comp' {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     {p : F ⟶ G} {q : G ⟶ H} (hp : (etaleOnSite B S hS).presheaf p)
     (hq : (etaleOnSite B S hS).presheaf q) : (etaleOnSite B S hS).presheaf (p ≫ q) :=
   have : MorphismProperty.IsStableUnderComposition (etaleOnSite B S hS) :=
@@ -111,7 +111,7 @@ variable {X Y : AlgebraicSpaces B S hS}
 space whose kernel pair is representable is an epimorphism onto sheaves: every morphism out of
 the chart which identifies the two projections of the kernel pair factors uniquely through
 it. -/
-private theorem existsUnique_desc_of_surjectiveEtale'
+theorem existsUnique_desc_of_surjectiveEtale'
     {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {A E : BigFppfOver B S hS}
     (q : yoneda.obj A ⟶ F) (p₁ p₂ : E ⟶ A)
     (hq : IsPullback (yoneda.map p₁) (yoneda.map p₂) q q)
@@ -145,13 +145,13 @@ variable {X Y : AlgebraicSpaces B S hS} {f : X ⟶ Y} {C : SpacesEtale B S hS X}
   (P : LiftedEtalePresentation B S hS f C)
 
 /-- The quotient map is surjective, by Stacks 02WW. -/
-private theorem surjective_toQuotient' : (surjectiveOnSite B S hS).presheaf P.toQuotient :=
+theorem surjective_toQuotient' : (surjectiveOnSite B S hS).presheaf P.toQuotient :=
   let := BigFppfOver.hasSheafify_type B S hS
   let := P.isEtaleEquivalenceRelation
   quotientMap_surjective_unconditional B S hS P.k₁ P.k₂
 
 /-- The quotient map is étale, by Stacks 02WW. -/
-private theorem etale_toQuotient' : (etaleOnSite B S hS).presheaf P.toQuotient :=
+theorem etale_toQuotient' : (etaleOnSite B S hS).presheaf P.toQuotient :=
   let := BigFppfOver.hasSheafify_type B S hS
   let := P.isEtaleEquivalenceRelation
   quotientMap_etale_unconditional B S hS P.k₁ P.k₂

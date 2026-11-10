@@ -58,15 +58,15 @@ variable (F : Sheaf (SmallEtale.topology B S hS) AddCommGrpCat.{v})
 
 /-- Lifting the values does not change vanishing of an existing geometric stalk. -/
 public theorem isZero_etaleStalk_ulift_iff (p : GeometricPoint S)
-    [HasColimit ((CategoryOfElements.π (geometricPointFiber B S hS p)).op ⋙
+    [HasColimit ((Functor.Elements.π (geometricPointFiber B S hS p)).op ⋙
       F.obj)] :
     IsZero (etaleStalk B S hS p (F.obj ⋙ AddCommGrpCat.uliftFunctor.{u, v})) ↔
       IsZero (etaleStalk B S hS p F.obj) := by
   let U := AddCommGrpCat.uliftFunctor.{u, v}
   let e := preservesColimitIso U
-    ((CategoryOfElements.π (geometricPointFiber B S hS p)).op ⋙ F.obj) ≪≫
+    ((Functor.Elements.π (geometricPointFiber B S hS p)).op ⋙ F.obj) ≪≫
     HasColimit.isoOfNatIso (Functor.associator _ _ _)
-  show IsZero (colimit _) ↔ IsZero (colimit _)
+  change IsZero (colimit _) ↔ IsZero (colimit _)
   rw [← e.isZero_iff, IsZero.iff_id_eq_zero, ← U.map_id, U.map_eq_zero_iff,
     ← IsZero.iff_id_eq_zero]
 

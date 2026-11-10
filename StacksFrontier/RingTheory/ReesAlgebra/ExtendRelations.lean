@@ -123,7 +123,7 @@ public theorem exists_extendLinearMaps_kills_relations
     fun k => ⟨algebraMap A B (g k) • x k, hpiece k⟩ with hy
   have hysum : (∑ k, y k) = 0 := by
     apply Subtype.ext
-    rw [AddSubmonoidClass.coe_finset_sum]
+    rw [AddSubmonoidClass.coe_finsetSum]
     simpa [hy] using hsum
   -- The degree-`n` component of the graded map kills that sum.
   have hΨsum : (∑ k, Ψ n (y k)) = 0 := by

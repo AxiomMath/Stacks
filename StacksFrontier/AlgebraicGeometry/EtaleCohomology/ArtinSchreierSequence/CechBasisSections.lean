@@ -61,7 +61,7 @@ theorem cechFibreBaseChangeIso_hom_f_comp_π (n : ℕ) (x : Fin (n + 1) → ι) 
         (fibreBaseChange f t).app (op (inter U x)) := by
   have : (ModuleCat.extendScalars.{u, u, u} t.appTop.hom).Additive :=
     (ModuleCat.extendRestrictScalarsAdj.{u, u, u} t.appTop.hom).left_adjoint_additive
-  show ((mapCechIso (ModuleCat.extendScalars.{u, u, u} t.appTop.hom) U
+  change ((mapCechIso (ModuleCat.extendScalars.{u, u, u} t.appTop.hom) U
       (baseSectionsPresheaf f)).hom.f n ≫ ((cechComplexFunctor U).map (fibreBaseChange f t)).f n) ≫
     π U (fibreSectionsPresheaf f t) n x = _
   rw [Category.assoc, Stacks.AlgebraicGeometry.CoveringResolution.cech_map_f_comp_π,
@@ -74,6 +74,7 @@ abbrev oneTmulBasis (r : ℕ) (i : Fin r) :
     (ModuleCat.extendScalars.{u, u, u} t.appTop.hom).obj (ModuleCat.of Γ(S, ⊤) (Fin r → Γ(S, ⊤))) :=
   (1 : Γ(T, ⊤)) ⊗ₜ[Γ(S, ⊤), t.appTop.hom] (Pi.single i (1 : Γ(S, ⊤)) : Fin r → Γ(S, ⊤))
 
+omit [IsAffine S] [IsAffine T] in
 /-- `b ↦ ∑ᵢ bᵢ (1 ⊗ eᵢ)`, the inverse of the identification `Γ(T) ⊗_{Γ(S)} Γ(S)^r ≅ Γ(T)^r`. -/
 theorem baseChangeTermEquiv_symm_apply (b : Fin r → Γ(T, ⊤)) :
     (Stacks.Eta.DeterminantalIdeal.baseChangeTermEquiv t.appTop.hom r).symm b =
@@ -117,6 +118,7 @@ def directImageSectionsIso (V' : S.Etale) :
       fibreSectionsPresheaf f V'.hom ⋙ moduleCoefficients.{u} Γ(V'.left, ⊤) :=
   (sectionsModulePresheafIso (pullback.snd V'.hom f) (pullback.fst V'.hom f)).symm
 
+omit [Finite ι] [IsAffine S] in
 /-- The component of `basisMapDeg` at the index `x` is `∑ᵢ prᵢ ≫ multMap cᵢ`, where `prᵢ` is the
 `i`-th projection of `𝐆_a^r` and `cᵢ` the `x`-component of `zᵢ`. -/
 theorem basisMapDeg_comp_π (x : Fin (q + 1) → ι) :
@@ -128,6 +130,7 @@ theorem basisMapDeg_comp_π (x : Fin (q + 1) → ι) :
   rw [Category.assoc, cochainMult_comp_π]
   rfl
 
+omit [Finite ι] [IsAffine S] in
 /-- On sections over `V'`, the component of `basisMapDeg` at the index `x` sends `b` to
 `∑ᵢ multFun cᵢ (bᵢ)`, where `cᵢ` is the `x`-component of `zᵢ`. -/
 theorem basisMapDeg_comp_π_app (x : Fin (q + 1) → ι) (V' : S.Etale)
@@ -139,6 +142,7 @@ theorem basisMapDeg_comp_π_app (x : Fin (q + 1) → ι) (V' : S.Etale)
       (ulift_down_sum
         (M := ↑((pullback (pullback.snd V'.hom f) (inter U x).ι).presheaf.obj (op ⊤))) _ _))
 
+omit [Finite ι] [IsAffine S] [IsAffine T] in
 /-- The base change along `Γ(S) ⟶ Γ(T)` of the component of `moduleBasisMapDeg` at the index `x`,
 followed by `fibreBaseChange`, sends the element of `Γ(T) ⊗_{Γ(S)} Γ(S)^r` corresponding to
 `b ∈ Γ(T)^r` to `∑ᵢ multFun cᵢ (bᵢ)`, where `cᵢ` is the `x`-component of `zᵢ`. -/
@@ -152,7 +156,7 @@ theorem moduleBasisMapDeg_comp_π_fibreBaseChange_apply (x : Fin (q + 1) → ι)
   rw [baseChangeTermEquiv_symm_apply, map_sum]
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [map_smul]
-  show b i • (fibreBaseChange f t).app (op (inter U x))
+  change b i • (fibreBaseChange f t).app (op (inter U x))
     ((1 : Γ(T, ⊤)) ⊗ₜ[Γ(S, ⊤), t.appTop.hom]
       (π U (baseSectionsPresheaf f) q x (moduleBasisMapDeg f U z
         (Pi.single i (1 : Γ(S, ⊤)) : Fin r → Γ(S, ⊤))))) = _
@@ -299,7 +303,7 @@ theorem coversByProperty_isAffine (S : Scheme.{u}) :
   refine S.smallEtaleTopology.superset_covering ?_ hcov
   rintro V b ⟨_, g, _, ⟨i⟩, rfl⟩
   refine ⟨Z i, g, a i, ?_, rfl⟩
-  show IsAffine (C.X i)
+  change IsAffine (C.X i)
   infer_instance
 
 include hU in

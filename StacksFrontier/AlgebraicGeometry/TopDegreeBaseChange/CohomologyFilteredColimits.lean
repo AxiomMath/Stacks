@@ -72,7 +72,8 @@ and Lean refuses to omit them. The preservation forms keep them as binders, whic
 and keeps instance search cheap inside their proofs.
 
 *`isZero_colimit_of_isZero` is pure category theory and exists three times already as a
-`private` declaration* — `Stacks.Homology.Perfect`'s copy in `StacksFrontier/Homology/Perfect/ProjectiveAmplitude.lean`, which
+`private` declaration* — `Stacks.Homology.Perfect`'s copy in
+`StacksFrontier/Homology/Perfect/ProjectiveAmplitude.lean`, which
 is already at this generality, and a `ModuleCat`-specific one in
 `AlgebraicGeometry/CoherentSubquotients/NowhereDense.lean`. Neither can be repointed at this
 file without reversing the import order, so the public form is stated here and those two are

@@ -56,7 +56,7 @@ theorem frobeniusEquationAlgebra_isEtale
       intro j
       ext i
       rw [Pi.basisFun_apply, P.aevalDifferential_single j i]
-      show MvPolynomial.aeval P.val (MvPolynomial.pderiv i (f j)) = _
+      change MvPolynomial.aeval P.val (MvPolynomial.pderiv i (f j)) = _
       simp [hfderiv, P, Pi.single_apply, eq_comm]
     rw [hdiff]
     exact Function.bijective_id

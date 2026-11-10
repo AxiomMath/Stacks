@@ -157,7 +157,7 @@ theorem exists_pow_smul_coinduction_eq_zero
   refine ⟨S.sup k, Subtype.ext (funext fun x ↦ ?_)⟩
   have hle : k ((f : G → N.obj.obj.V) x) ≤ S.sup k :=
     Finset.le_sup (by simp [S])
-  show ℓ ^ S.sup k • (f : G → N.obj.obj.V) x = 0
+  change ℓ ^ S.sup k • (f : G → N.obj.obj.V) x = 0
   rw [← Nat.sub_add_cancel hle, pow_add, mul_smul, hk, smul_zero]
 
 end Coinduced
@@ -186,6 +186,7 @@ def IsAdapted (f : CoindRes H M) (N : OpenNormalSubgroup G) : Prop :=
   N.toSubgroup ≤ rightStabilizer (coindVal f) ∧
     ∀ x, ∀ n ∈ N.toSubgroup, (M.obj.obj.ρ n).asHom.hom (coindVal f x) = coindVal f x
 
+omit [CompactSpace G] [TotallyDisconnectedSpace G] in
 /-- An open normal subgroup contained in one adapted to `f` is adapted to `f`. -/
 lemma IsAdapted.mono {f : CoindRes H M} {N N' : OpenNormalSubgroup G} (h : IsAdapted f N)
     (hle : N' ≤ N) : IsAdapted f N' :=
@@ -222,6 +223,7 @@ lemma averagedFunction_mul_right {f : CoindRes H M} {N : OpenNormalSubgroup G}
   rw [mul_inv_rev, mul_inv_rev, ← mul_assoc, h1, ρ_mul_apply, ρ_mul_apply, hN.2 _ n hn, h2,
     ρ_apply_ρ_inv_apply]
 
+omit [CompactSpace G] [TotallyDisconnectedSpace G] in
 /-- If every open subgroup of `G` containing `H` has index prime to `ℓ`, then so does `H ⊔ N`. -/
 lemma coprime_index_sup (hH : ∀ U : Subgroup G, IsOpen (U : Set G) → H ≤ U → U.index.Coprime ℓ)
     (N : OpenNormalSubgroup G) : (H ⊔ N.toSubgroup).index.Coprime ℓ :=
@@ -266,6 +268,7 @@ private lemma sup_le_sup_of_le {K : Type*} [Group K] [TopologicalSpace K] [IsTop
     H ⊔ N'.toSubgroup ≤ H ⊔ N.toSubgroup :=
   sup_le_sup_left (show N'.toSubgroup ≤ N.toSubgroup from fun _ hx ↦ hle hx) _
 
+omit [TotallyDisconnectedSpace G] in
 /-- Refining the open normal subgroup multiplies the sum by the relative index. -/
 lemma averagedSum_of_le (f : CoindRes H M) {N N' : OpenNormalSubgroup G}
     (hN : IsAdapted f N) (hle : N' ≤ N) :
@@ -295,6 +298,7 @@ lemma averagedSum_of_le (f : CoindRes H M) {N N' : OpenNormalSubgroup G}
 
 include hH hM
 
+omit [TotallyDisconnectedSpace G] in
 /-- The average does not depend on the adapted open normal subgroup, comparing nested ones. -/
 lemma averageAt_of_le (f : CoindRes H M) {N N' : OpenNormalSubgroup G}
     (hN : IsAdapted f N) (hle : N' ≤ N) :
@@ -304,6 +308,7 @@ lemma averageAt_of_le (f : CoindRes H M) {N N' : OpenNormalSubgroup G}
   rw [averagedSum_of_le f hN hle, nsmulInv_eq_iff, ← Subgroup.relIndex_mul_index hUU, mul_smul,
     nsmul_nsmulInv]
 
+omit [TotallyDisconnectedSpace G] in
 /-- The average does not depend on the adapted open normal subgroup. -/
 lemma averageAt_eq (f : CoindRes H M) {N N' : OpenNormalSubgroup G} (hN : IsAdapted f N)
     (hN' : IsAdapted f N') : averageAt hH hM f N hN = averageAt hH hM f N' hN' := by
@@ -328,10 +333,10 @@ lemma average_add (f g : CoindRes H M) :
   have hg : IsAdapted g (N ⊓ N') := hN'.mono inf_le_right
   have hfg : IsAdapted (f + g) (N ⊓ N') :=
     ⟨fun n hn x ↦ by
-      show coindVal f (x * n) + coindVal g (x * n) = coindVal f x + coindVal g x
+      change coindVal f (x * n) + coindVal g (x * n) = coindVal f x + coindVal g x
       rw [hf.1 hn x, hg.1 hn x],
       fun x n hn ↦ by
-        show (M.obj.obj.ρ n).asHom.hom (coindVal f x + coindVal g x) =
+        change (M.obj.obj.ρ n).asHom.hom (coindVal f x + coindVal g x) =
           coindVal f x + coindVal g x
         rw [map_add, hf.2 x n hn, hg.2 x n hn]⟩
   rw [average_eq hH hM _ hfg, average_eq hH hM _ hf, average_eq hH hM _ hg]
@@ -341,7 +346,7 @@ lemma average_add (f g : CoindRes H M) :
   funext c
   induction c using QuotientGroup.induction_on with
   | H y =>
-    show (M.obj.obj.ρ y).asHom.hom (coindVal f y⁻¹ + coindVal g y⁻¹) = _
+    change (M.obj.obj.ρ y).asHom.hom (coindVal f y⁻¹ + coindVal g y⁻¹) = _
     rw [map_add]
     rfl
 
@@ -357,7 +362,7 @@ lemma average_translate (g : G) (f : CoindRes H M) :
   obtain ⟨N, hN⟩ := exists_isAdapted f
   have hgN : IsAdapted (coinductionTranslate g f) N :=
     ⟨fun n hn x ↦ by
-      show coindVal f (x * n * g) = coindVal f (x * g)
+      change coindVal f (x * n * g) = coindVal f (x * g)
       have : x * n * g = x * g * (g⁻¹ * n * g) := by group
       rw [this]
       exact hN.1 (by simpa using N.isNormal'.conj_mem n hn g⁻¹) _,
@@ -374,7 +379,7 @@ lemma average_translate (g : G) (f : CoindRes H M) :
     fun c ↦ ?_
   induction c using QuotientGroup.induction_on with
   | H y =>
-    show (M.obj.obj.ρ y).asHom.hom (coindVal f (y⁻¹ * g)) =
+    change (M.obj.obj.ρ y).asHom.hom (coindVal f (y⁻¹ * g)) =
       (M.obj.obj.ρ g).asHom.hom ((M.obj.obj.ρ (g⁻¹ * y)).asHom.hom (coindVal f (g⁻¹ * y)⁻¹))
     rw [← ρ_mul_apply, mul_inv_cancel_left, mul_inv_rev, inv_inv]
 
@@ -400,7 +405,7 @@ lemma average_unit (m : M.obj.obj.V) :
     (isOpen_stabilizer ℤ G M m) (elementStabilizer G M m).one_mem
   have hNf : IsAdapted f N :=
     ⟨fun n hn x ↦ by
-      show coindVal f (x * n) = coindVal f x
+      change coindVal f (x * n) = coindVal f x
       rw [hf, hf, ρ_mul_apply, show (M.obj.obj.ρ n).asHom.hom m = m from hN hn],
       fun x n hn ↦ by
         rw [hf]
@@ -415,7 +420,7 @@ lemma average_unit (m : M.obj.obj.V) :
     intro c
     induction c using QuotientGroup.induction_on with
     | H y =>
-      show (M.obj.obj.ρ y).asHom.hom (coindVal f y⁻¹) = m
+      change (M.obj.obj.ρ y).asHom.hom (coindVal f y⁻¹) = m
       rw [hf, ρ_apply_ρ_inv_apply]
   simp only [hc, Finset.sum_const, Finset.card_univ]
   rw [← Nat.card_eq_fintype_card, ← Subgroup.index_eq_card, nsmulInv_nsmul]

@@ -172,10 +172,7 @@ theorem isSheafFor_ofArrows_of_isPresheafCokernel_of_cartesian'
         (C.obj (op W))),
       C.restrictₛₗ p.op (e₁ k x) = e₂ i j (TensorProduct.map ρ.toLinearMap LinearMap.id x) := by
     intro i j k p ρ hρ hE x
-    induction x using TensorProduct.induction_on with
-    | zero =>
-      simp only [map_zero]
-      exact map_zero (C.restrictₛₗ p.op)
+    induction x using TensorProduct.inductionOn with
     | tmul c n =>
       refine (congrArg (C.restrictₛₗ p.op) (he₁' k c n)).trans
         ((map_smulₛₗ (C.restrictₛₗ p.op) c _).trans ?_)

@@ -160,7 +160,7 @@ theorem tensorPowAddIsoSheaf_natCast (a b : ℕ) :
     tensorPowAddIsoSheaf 𝒪 h𝒪 L (a : ℤ) (b : ℤ) =
       (tensorIso 𝒪 h𝒪 (tensorPow 𝒪 h𝒪 L (a : ℤ)) (tensorPow 𝒪 h𝒪 L (b : ℤ))).symm ≪≫
         powAddIso L a b := by
-  show (tensorIso 𝒪 h𝒪 (tensorPow 𝒪 h𝒪 L (a : ℤ)) (tensorPow 𝒪 h𝒪 L (b : ℤ))).symm ≪≫
+  change (tensorIso 𝒪 h𝒪 (tensorPow 𝒪 h𝒪 L (a : ℤ)) (tensorPow 𝒪 h𝒪 L (b : ℤ))).symm ≪≫
     tensorPowAddIso 𝒪 h𝒪 L (a : ℤ) (b : ℤ) = _
   rw [tensorPowAddIso_natCast]
   rfl

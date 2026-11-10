@@ -186,8 +186,7 @@ private theorem baseChangeNatTrans_pasteSource_app (w : g' ≫ f = f' ≫ g)
             (pushforwardSourceComp i' f').hom.app
               ((modulePullback k'.toLRSHom.toShHom).obj M) := by
   have key := congr_app (AlgebraicGeometry.baseChangeNatTrans_vpaste' w wi w2 rfl) M
-  simp only [NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app,
-    pushforwardCongr_rfl_hom (rfl : i' ≫ f' = i' ≫ f'), NatTrans.id_app, Category.comp_id,
+  simp only [pushforwardCongr_rfl_hom (rfl : i' ≫ f' = i' ≫ f'), Category.comp_id,
     Category.assoc] at key
   exact key
 

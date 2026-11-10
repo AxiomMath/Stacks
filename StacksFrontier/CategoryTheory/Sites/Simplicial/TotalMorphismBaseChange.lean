@@ -70,7 +70,7 @@ square of direct images along the two component morphisms of simplicial degree `
 isomorphism: the canonical comparison `(g'_n)^{-1} h_{total,*} ⟶ h_{n,*} g_n^{-1}` of sheaves
 of sets is invertible. -/
 theorem isIso_totalComponentPushforwardMate (h : Morphism C C') (n : SimplexCategory) :
-    IsIso (totalComponentPushforwardMate h n).natTrans := by
+    IsIso (totalComponentPushforwardMate h n) := by
   let v := (h.hom.app (Opposite.op n)).toFunctor
   let i := Grothendieck.ι C.underlying (Opposite.op n)
   let i' := Grothendieck.ι C'.underlying (Opposite.op n)
@@ -117,7 +117,7 @@ theorem isIso_totalComponentPushforwardMate (h : Morphism C C') (n : SimplexCate
   have : IsIso (e.inv.app F) := (e.app F).isIso_inv
   exact IsIso.comp_isIso' inferInstance (IsIso.comp_isIso'
     (NatIso.isIso_app_of_isIso
-      (sheafPushforwardCocontinuousSquareMate Jn Jn' K K' i i' v h.totalFunctor hq).natTrans F)
+      (sheafPushforwardCocontinuousSquareMate Jn Jn' K K' i i' v h.totalFunctor hq) F)
     inferInstance)
 
 end CategoryTheory.CocontinuousSimplicialSite.Morphism

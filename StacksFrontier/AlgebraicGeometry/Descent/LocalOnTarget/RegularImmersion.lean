@@ -148,7 +148,7 @@ theorem mem_basicOpen_iff_notMem_primeIdealOf {X : Scheme.{u}} {U : X.Opens}
     (hU : IsAffineOpen U) (g : Γ(X, U)) (y : U) :
     (y : X) ∈ X.basicOpen g ↔ g ∉ (hU.primeIdealOf y).asIdeal := by
   have h : (hU.primeIdealOf y ∈ hU.fromSpec ⁻¹ᵁ X.basicOpen g) ↔ ((y : X) ∈ X.basicOpen g) := by
-    show hU.fromSpec (hU.primeIdealOf y) ∈ X.basicOpen g ↔ _
+    change hU.fromSpec (hU.primeIdealOf y) ∈ X.basicOpen g ↔ _
     rw [hU.fromSpec_primeIdealOf y]
   rw [← h, hU.fromSpec_preimage_basicOpen]
   exact PrimeSpectrum.mem_basicOpen _ _

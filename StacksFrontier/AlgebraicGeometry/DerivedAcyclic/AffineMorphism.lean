@@ -112,7 +112,7 @@ theorem isIso_pushforwardToRightDerived_of_isAffine
   let eα := Functor.associator L RF E.functor
   let αstd : Gstd ⟶ L ⋙ RFstd := eG.symm.hom ≫ αtrans
   have hcomm : αtrans ≫ Functor.whiskerLeft L (Iso.refl RFstd).hom = eG.hom ≫ αstd := by
-    show αtrans ≫ Functor.whiskerLeft L (𝟙 RFstd) = eG.hom ≫ αstd
+    change αtrans ≫ Functor.whiskerLeft L (𝟙 RFstd) = eG.hom ≫ αstd
     rw [Functor.whiskerLeft_id']
     simp [αstd]
   have hkanstd : RFstd.IsLeftKanExtension αstd :=
@@ -136,7 +136,7 @@ theorem isIso_pushforwardToRightDerived_of_isAffine
   obtain ⟨K', rfl⟩ := HomotopyCategory.quotient_obj_surjective Z
   refine ⟨Q.obj ((Stacks.Injectives.kInjectiveResolutionFunctor X.Modules).obj K'),
     Q.map ((Stacks.Injectives.kInjectiveResolutionInclusion X.Modules).app K'), ?_, ?_⟩
-  · show HomotopyCategory.quasiIso X.Modules (ComplexShape.up ℤ)
+  · change HomotopyCategory.quasiIso X.Modules (ComplexShape.up ℤ)
       (Q.map ((Stacks.Injectives.kInjectiveResolutionInclusion X.Modules).app K'))
     rw [HomotopyCategory.quotient_map_mem_quasiIso_iff]
     exact Stacks.Injectives.kInjectiveResolutionInclusion_quasiIso X.Modules K'

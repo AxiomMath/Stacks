@@ -445,7 +445,7 @@ theorem sections_skyscraperPtSpace_top (A : AddCommGrpCat.{0}) :
     A = (sections.{0, 0} (skyscraperPtCone A).pt
       ((skyscraperPtSystem A).globalOpenCone (skyscraperPtCone A)).pt).obj
         (skyscraperPtCone A).pt.sheaf := by
-  show _ = (skyscraperPresheaf (X := TopCat.of Unit) () A).obj (op ⊤)
+  change _ = (skyscraperPresheaf (X := TopCat.of Unit) () A).obj (op ⊤)
   simp [skyscraperPresheaf]
 
 /-- **The sections group on the vertex of the global clause is not a zero object** at the

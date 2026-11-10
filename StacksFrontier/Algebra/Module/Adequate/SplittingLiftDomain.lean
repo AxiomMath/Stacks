@@ -180,8 +180,7 @@ public lemma baseChangeValueMap_naturality {F G : ModuleValuedFunctorOn.{max u v
       (η.app (algObj Q C hC)).hom (baseChangeValueMap F f hB hC t) := by
   let : Algebra B C := f.toRingHom.toAlgebra
   intro t
-  induction t using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction t using TensorProduct.inductionOn with
   | add t t' ht ht' => simpa only [map_add] using congrArg₂ (· + ·) ht ht'
   | tmul c x =>
     rw [LinearMap.lTensor_tmul, baseChangeValueMap_tmul, baseChangeValueMap_tmul, map_smul]
@@ -199,8 +198,7 @@ public lemma baseChangeValueMap_bijective (F : ModuleValuedFunctorOn.{max u v w}
   obtain ⟨e, he⟩ := hF B C hB hC f hf
   have hm : baseChangeValueMap F f hB hC = e.toLinearMap := by
     refine LinearMap.ext fun t => ?_
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | add t t' ht ht' => simp only [map_add, ht, ht']
     | tmul c x =>
       exact (baseChangeValueMap_tmul F f hB hC c x).trans

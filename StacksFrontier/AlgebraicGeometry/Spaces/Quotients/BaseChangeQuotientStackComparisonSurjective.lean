@@ -177,7 +177,7 @@ theorem quotientPointwiseMap_obj_mk {G H : GroupoidInAlgebraicSpaces C S hS B}
           (evaluationGroupoidFunctor G.toGroupoidInFunctors)).obj) =
       ⟨V, h.toGroupoidHom.mapObjects.app (op V) a⟩ := by
   refine Pseudofunctor.CoGrothendieck.ext rfl (heq_of_eq ?_)
-  show ((quotientPointwiseMapData h).val.app ⟨op V⟩).toFunctor.obj a =
+  change ((quotientPointwiseMapData h).val.app ⟨op V⟩).toFunctor.obj a =
     h.toGroupoidHom.mapObjects.app (op V) a
   rw [(quotientPointwiseMapData h).property.1 V]
   rfl

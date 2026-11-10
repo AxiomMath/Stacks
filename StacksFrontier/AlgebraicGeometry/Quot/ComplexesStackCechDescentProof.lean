@@ -363,7 +363,7 @@ theorem exists_testScheme_lift {Z : SchemesOver D.Y} {n : ℕ}
       congrArg CommaMorphism.left (hu i)
   refine ⟨CostructuredArrow.homMk (WidePullback.lift t.left (fun i => (u i).left) hu') ?_,
     fun i => CostructuredArrow.hom_ext _ _ (WidePullback.lift_π _ _ _ _ _)⟩
-  show (schemeSpaceFunctor B S hS).map _ ≫ (schemeSpaceFunctor B S hS).map _ ≫ T.hom = Z.hom
+  change (schemeSpaceFunctor B S hS).map _ ≫ (schemeSpaceFunctor B S hS).map _ ≫ T.hom = Z.hom
   rw [← Category.assoc, ← CategoryTheory.Functor.map_comp, WidePullback.lift_base]
   exact CostructuredArrow.w t
 
@@ -452,7 +452,7 @@ theorem exists_cechFace₀ :
           (ν.comp R.nerveObjectHom) := by
   have hc : (R.nerveObjectFace₁.comp R.nerveObjectHom).base ≫ R.unionHom =
       (R.testSchemeMap (SimplexCategory.δ (0 : Fin 2)) ≫ R.nerveVertex 0 0) ≫ R.unionHom := by
-    show (R.testSchemeMap (SimplexCategory.δ (1 : Fin 2)) ≫ R.nerveVertex 0 0) ≫ R.unionHom = _
+    change (R.testSchemeMap (SimplexCategory.δ (1 : Fin 2)) ≫ R.nerveVertex 0 0) ≫ R.unionHom = _
     rw [Category.assoc, Category.assoc, testSchemeMap_comp_vertex_zero,
       testSchemeMap_comp_vertex_zero]
   obtain ⟨a', ha', hT⟩ := IsUnionTransport.exists R (R.nerveObjectFace₁.comp R.nerveObjectHom) _ hc
@@ -658,16 +658,16 @@ theorem comp_eq_of_isUnionRelated (f₁ ν : ComplexesHom R.nerveObject₁ R.ner
   obtain ⟨κ, hκ, hκ'⟩ := exists_complexesHom_lift f₁ e g₁ (by rw [hf₁, e₁])
   have hκν : κ.comp ν = g₂ := by
     refine complexesHom_cancel_right R.nerveObjectHom ?_ ?_
-    · show κ.base ≫ ν.base = g₂.base
+    · change κ.base ≫ ν.base = g₂.base
       rw [hκ, hν, e₂]
     · have T₁ := hT.comp_left κ
       rw [← ComplexesHom.assoc, hκ'] at T₁
       rw [ComplexesHom.assoc]
       refine IsUnionTransport.unique T₁ (R.isUnionTransport_of_isUnionRelated h₁ h₂) ?_ ?_
-      · show (g₁.base ≫ R.nerveVertex 0 0) ≫ R.unionHom =
+      · change (g₁.base ≫ R.nerveVertex 0 0) ≫ R.unionHom =
           (κ.base ≫ ν.base ≫ R.nerveVertex 0 0) ≫ R.unionHom
         rw [← Category.assoc, hκ, hν, e₂, ← hb₁, hb₂]
-      · show κ.base ≫ ν.base ≫ R.nerveVertex 0 0 = g₂.base ≫ R.nerveVertex 0 0
+      · change κ.base ≫ ν.base ≫ R.nerveVertex 0 0 = g₂.base ≫ R.nerveVertex 0 0
         rw [← Category.assoc, hκ, hν, e₂]
   rw [← hκ', ComplexesHom.assoc, hω, ← ComplexesHom.assoc, hκν]
 
@@ -699,7 +699,7 @@ theorem exists_complexesHom_descended (f₁ ν : ComplexesHom R.nerveObject₁ R
     exact har.comp_left R g
   obtain ⟨Ψ, hΨb, hΨ⟩ := exists_complexesHom_of_descent (P := C.X i) (G := G) (C.a i)
     (pullback.fst (C.a i).left R.q) (R.baseCover_mem_topology (C.a i)) (l.comp ω) (by
-      show l.base ≫ ω.base = R.baseCoverHom (C.a i) ≫ C.a i
+      change l.base ≫ ω.base = R.baseCoverHom (C.a i) ≫ C.a i
       rw [hl, hωb, ← R.vertex_comp_unionHom 0 0, ← Category.assoc, he₀ 0, R.coverHom_comp])
     (fun A h₁ h₂ hh => by
       rw [← ComplexesHom.assoc, ← ComplexesHom.assoc]
@@ -758,11 +758,11 @@ theorem cechDescentOfSmallEtaleHypercoverDescent :
     ⟨R.edge₁₂, df, di⟩ ⟨R.edge₀₂, c₃f, c₃i⟩ R.nerveObjectFace₁
     ⟨R.testSchemeMap (SimplexCategory.δ (0 : Fin 2)), νf, νi⟩ R.nerveObjectHom hT hc₃' hd'
     (by
-      show (R.edge₀₁ ≫ R.nerveFace₁ ≫ R.nerveVertex 0 0) ≫ R.unionHom =
+      change (R.edge₀₁ ≫ R.nerveFace₁ ≫ R.nerveVertex 0 0) ≫ R.unionHom =
         (R.edge₁₂ ≫ R.nerveFace₀ ≫ R.nerveVertex 0 0) ≫ R.unionHom
       rw [R.edge_face_vertex_unionHom, R.edge_face_vertex_unionHom])
     (by
-      show R.edge₁₂ ≫ R.nerveFace₀ = R.edge₀₂ ≫ R.nerveFace₀
+      change R.edge₁₂ ≫ R.nerveFace₀ = R.edge₀₂ ≫ R.nerveFace₀
       exact R.edge₀₂_comp_face₀.symm)
   have hcoc := isHypercoverDescentCocycle_of_complexesHom
     (restrictComplexHom R.nerveObject₁ R.edge₀₁)
@@ -785,13 +785,13 @@ theorem cechDescentOfSmallEtaleHypercoverDescent :
     intro i j
     refine complexesHom_ext_of_descent (P := C.X₂ i j) ?_
       (pullback.fst ((C.n i j).base ≫ C.a i).left R.q) (R.baseCover_mem_topology _) ?_
-    · show (C.n i j).base ≫ (Ψ i).base = (C.m i j).base ≫ (Ψ j).base
+    · change (C.n i j).base ≫ (Ψ i).base = (C.m i j).base ≫ (Ψ j).base
       rw [hΨb' i, hΨb' j]
       exact C.w i j
     obtain ⟨a₂, -, har₂⟩ := IsUnionRelated.exists_unionHom R
       ((restrictComplexHom (C.X₂ i j) (R.baseCoverHom ((C.n i j).base ≫ C.a i))).comp (C.n i j))
       (R.baseCoverUnion ((C.n i j).base ≫ C.a i)) (by
-        show (R.baseCoverHom _ ≫ (C.n i j).base) ≫ C.a i = _
+        change (R.baseCoverHom _ ≫ (C.n i j).base) ≫ C.a i = _
         rw [Category.assoc]
         exact R.coverHom_comp _)
     have har₂' := har₂.of_isRelated

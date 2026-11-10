@@ -57,6 +57,8 @@ noncomputable section
 
 variable {X Y S : Scheme.{u}}
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- The `Epi` instance search on the composite times out at the default limit.
 /-- **Surjectivity of `𝒪_Y ⟶ f_* 𝒪_X` passes to a flat base change.** The degree-zero
 base-change comparison is invertible along a flat morphism ([Stacks, Tag 02KH]) and is
 compatible with the two canonical maps, and pullback preserves epimorphisms. -/
@@ -69,7 +71,7 @@ theorem epi_unitToPushforwardUnit_of_isPullback_of_flat {X' Y' : Scheme.{u}} {f 
       Scheme.Modules.unitToPushforwardUnit f' ≫ (Scheme.Modules.pushforward f').map
         (Scheme.Modules.pullbackUnitIso g').inv) := by
     rw [unitToPushforwardUnit_comp_pushforwardBaseChange H.w]
-    set_option synthInstance.maxHeartbeats 400000 in infer_instance
+    infer_instance
   exact (epi_comp_iff_of_isIso _ _).1 ((epi_comp_iff_of_epi _ _).1 this)
 
 /-- The cokernel of the restriction of `𝒪_Y ⟶ f_* 𝒪_X` to an open `U` is the cokernel of
@@ -264,6 +266,8 @@ theorem exists_isOpen_notMem_supp_cokernel_unit (f : X ⟶ Y) (q : Y ⟶ S) (s :
   rintro _ ⟨w, hw, rfl⟩
   exact notMem_supp_cokernel_unit_of_restrict f U w hw
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- The `Epi` instance search on the composite times out at the default limit.
 /-- **`𝒪_V ⟶ f_* 𝒪_X|_V` surjective gives `𝒪_V ⟶ (f ∣_ V)_* 𝒪` surjective**: the two maps
 differ by the isomorphisms of
 `ProjectiveSpaceHigherDirectImage.restrictUnitToPushforwardUnitSquare`. -/
@@ -273,7 +277,7 @@ theorem epi_unitToPushforwardUnit_morphismRestrict_of_epi (f : X ⟶ Y) (V : Y.O
   have : Epi ((ProjectiveSpaceHigherDirectImage.restrictUnitModuleIso V.ι).hom ≫
       Scheme.Modules.unitToPushforwardUnit (f ∣_ V)) := by
     rw [← ProjectiveSpaceHigherDirectImage.restrictUnitToPushforwardUnitSquare f V]
-    set_option synthInstance.maxHeartbeats 400000 in infer_instance
+    infer_instance
   exact epi_of_epi ((ProjectiveSpaceHigherDirectImage.restrictUnitModuleIso V.ι).hom) _
 
 /-- **Persistence under base change.** If over an open `V ⊆ Y` the fibres of `f` have dimension

@@ -116,7 +116,7 @@ theorem range_subschemeι_vanishingIdeal_pow (n : ℕ) (hn : 0 < n) :
     Set.range ((Scheme.IdealSheafData.vanishingIdeal
       (⟨{y}, hy⟩ : Closeds Y) ^ n).subschemeι).base = ({y} : Set Y) := by
   rw [Scheme.IdealSheafData.range_subschemeι]
-  show ((Scheme.IdealSheafData.vanishingIdeal (⟨{y}, hy⟩ : Closeds Y) ^ n).supportSet) = _
+  change ((Scheme.IdealSheafData.vanishingIdeal (⟨{y}, hy⟩ : Closeds Y) ^ n).supportSet) = _
   rw [Stacks.Divisors.supportSet_pow _ hn]
   exact supportSet_vanishingIdeal_singleton hy
 

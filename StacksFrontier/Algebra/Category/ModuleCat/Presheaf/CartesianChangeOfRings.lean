@@ -84,7 +84,7 @@ theorem isScalarTower_changeOfRings_right (θ : O₁ ⟶ O₂) {X Y : Cᵒᵖ} (
   let := (O₂.map f).hom.toAlgebra
   let := ((O₂.map f).hom.comp (θ.app X).hom).toAlgebra
   refine ⟨fun a s t => ?_⟩
-  show (O₂.map f).hom ((θ.app X).hom a * s) * t =
+  change (O₂.map f).hom ((θ.app X).hom a * s) * t =
     ((O₂.map f).hom ((θ.app X).hom a)) * ((O₂.map f).hom s * t)
   rw [map_mul, mul_assoc]
 
@@ -99,7 +99,7 @@ theorem isScalarTower_changeOfRings_left (θ : O₁ ⟶ O₂) {X Y : Cᵒᵖ} (f
   let := (O₁.map f).hom.toAlgebra
   let := ((O₂.map f).hom.comp (θ.app X).hom).toAlgebra
   refine ⟨fun a b t => ?_⟩
-  show (θ.app Y).hom ((O₁.map f).hom a * b) * t =
+  change (θ.app Y).hom ((O₁.map f).hom a * b) * t =
     ((O₂.map f).hom ((θ.app X).hom a)) * ((θ.app Y).hom b * t)
   rw [map_mul, mul_assoc]
   refine congrArg (fun z => z * ((θ.app Y).hom b * t)) ?_
@@ -131,8 +131,7 @@ theorem isIso_restrictionBaseChange_changeOfRings (θ : O₁ ⟶ O₂)
   have hone : ∀ w : TensorProduct (O₁.obj X) (O₂.obj X) (M.obj X),
       E ((1 : O₂.obj Y) ⊗ₜ[O₂.obj X] w) = (N.map f).hom w := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => exact (map_zero E).trans (map_zero (N.map f).hom).symm
+    induction w using TensorProduct.inductionOn with
     | add w w' hw hw' =>
       exact ((congrArg E (tmul_add ..)).trans (map_add E ..)).trans
         ((congrArg₂ _ hw hw').trans (map_add (N.map f).hom w w').symm)

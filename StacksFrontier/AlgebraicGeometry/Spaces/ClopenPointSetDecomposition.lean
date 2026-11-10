@@ -125,7 +125,7 @@ theorem range_snd_eq_image_preimage_range_pointsMap (f : F ⟶ G)
       (pointsEquivScheme B S hS (hopen.rep.pullback q)).apply_symm_apply z
     refine ⟨pointsMap B S hS (yoneda.obj (hopen.rep.pullback q))
       (yoneda.map (hopen.rep.snd q)) w, ?_, ?_⟩
-    · show pointsMap B S hS (yoneda.obj A) q _ ∈ Set.range (pointsMap B S hS F f)
+    · change pointsMap B S hS (yoneda.obj A) q _ ∈ Set.range (pointsMap B S hS F f)
       rw [← pointsMap_comp_apply, ← sq.w, pointsMap_comp_apply]
       exact ⟨_, rfl⟩
     · rw [pointsToScheme_pointsMap_yoneda, hwz]
@@ -156,7 +156,7 @@ theorem isClosedImmersion_of_isOpenImmersion_of_isClosed_range_pointsMap (f : F 
   refine ⟨hopen.rep.pullback q, hopen.rep.fst q, hopen.rep.snd q, hopen.rep.isPullback q, ?_⟩
   have hoi : _root_.AlgebraicGeometry.IsOpenImmersion
       ((BigFppfOver.toScheme B S hS).map (hopen.rep.snd q)) := hopen.property_snd q
-  show _root_.AlgebraicGeometry.IsClosedImmersion _
+  change _root_.AlgebraicGeometry.IsClosedImmersion _
   refine IsClosedImmersion.of_isPreimmersion _ ?_
   rw [range_snd_eq_image_preimage_range_pointsMap B S hS f hopen q]
   exact (isClosed_pointTopology_yoneda_iff_isClosed_image B S hS A _).mp
@@ -200,7 +200,7 @@ private theorem exists_restrict_mem_openSubspaceOfPoints (T : Set (points B S hS
   have hkey : yonedaEquiv.symm (F.map i.op x) = yoneda.map i ≫ yonedaEquiv.symm x :=
     yonedaEquiv_symm_map i.op x
   rw [mem_openSubspaceOfPoints_iff]
-  show Set.range (pointsMap B S hS (yoneda.obj b) (yonedaEquiv.symm (F.map i.op x))) ⊆ T
+  change Set.range (pointsMap B S hS (yoneda.obj b) (yonedaEquiv.symm (F.map i.op x))) ⊆ T
   rw [hkey]
   rintro y ⟨w, rfl⟩
   obtain ⟨p, rfl⟩ := Quot.exists_rep w

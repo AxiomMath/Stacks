@@ -353,8 +353,8 @@ private lemma quotient_universal_of_kernelPair {S : Scheme.{u}}
     (hf : r₁ ≫ f = r₂ ≫ f)
     (hcover : Sieve.generate (Presieve.singleton f) ∈ J M)
     (hkernel : IsIso (pullback.lift r₁ r₂ hf)) :
-    ∀ (F : Sheaf J (Type u)) (a : J.yoneda.obj U ⟶ F)
-      (ha : J.yoneda.map r₁ ≫ a = J.yoneda.map r₂ ≫ a),
+    ∀ (F : Sheaf J (Type u)) (a : J.yoneda.obj U ⟶ F),
+      J.yoneda.map r₁ ≫ a = J.yoneda.map r₂ ≫ a →
       ∃! b : J.yoneda.obj M ⟶ F, J.yoneda.map f ≫ b = a := by
   intro F a ha
   have hF : Presieve.IsSheaf J F.obj :=
@@ -370,9 +370,9 @@ private lemma quotient_universal_of_kernelPair {S : Scheme.{u}}
     let : IsIso (pullback.lift r₁ r₂ hf) := hkernel
     let e : R ≅ pullback f f := asIso (pullback.lift r₁ r₂ hf)
     have hfst : e.hom ≫ pullback.fst f f = r₁ := by
-      simp [e, pullback.lift_fst]
+      simp [e]
     have hsnd : e.hom ≫ pullback.snd f f = r₂ := by
-      simp [e, pullback.lift_snd]
+      simp [e]
     have hef : e.inv ≫ r₁ = pullback.fst f f := by rw [← hfst, Iso.inv_hom_id_assoc]
     have hes : e.inv ≫ r₂ = pullback.snd f f := by rw [← hsnd, Iso.inv_hom_id_assoc]
     let l : Z ⟶ R := pullback.lift p₁ p₂ hp ≫ e.inv
@@ -520,8 +520,8 @@ private lemma subgroupoidConjugate_refl {S : Scheme.{u}}
       (r ≫ G.target ≫ e.inv) (by simp) (by simp) = r :=
   congrArg GroupoidScheme.EvaluationHom.arrow
     (conjugationEquiv_refl i q hq (r ≫ G.source ≫ e.inv) (r ≫ G.target ≫ e.inv)
-      ⟨r, by show r ≫ G.source = (r ≫ G.source ≫ e.inv) ≫ i.mapObjects; simp [hi],
-        by show r ≫ G.target = (r ≫ G.target ≫ e.inv) ≫ i.mapObjects; simp [hi]⟩)
+      ⟨r, by change r ≫ G.source = (r ≫ G.source ≫ e.inv) ≫ i.mapObjects; simp [hi],
+        by change r ≫ G.target = (r ≫ G.target ≫ e.inv) ≫ i.mapObjects; simp [hi]⟩)
 
 private lemma subgroupoidConjugate_precomp {S : Scheme.{u}}
     {G H : GroupoidScheme S} (i : GroupoidScheme.Hom H G)
@@ -664,9 +664,9 @@ private lemma exists_effectiveTransport {S : Scheme.{u}} {R X B : Over S}
       (fun _ ↦ show LocallyOfFiniteType p.left from inferInstance)
   let z := effectiveProjection f.left (Over.mk p.left) d' Y e
   let r : R ⟶ (Over.map B.hom).obj Y := Over.homMk z.left (by
-    show z.left ≫ Y.hom ≫ B.hom = R.hom
+    change z.left ≫ Y.hom ≫ B.hom = R.hom
     rw [← Category.assoc, Over.w z]
-    show (p.left ≫ f.left) ≫ B.hom = R.hom
+    change (p.left ≫ f.left) ≫ B.hom = R.hom
     rw [Category.assoc, Over.w f, Over.w p])
   let j : (Over.map B.hom).obj Y ⟶ B := Over.homMk Y.hom
   refine ⟨_, j, r, ?_, ?_⟩
@@ -923,14 +923,14 @@ private lemma exists_groupoid_division {S : Scheme.{u}} {G H : GroupoidScheme S}
     apply prod.hom_ext <;> simp [p]
   have : IsIso (prod.map e.inv e.inv).left :=
     (Over.forget S).map_isIso (prod.map e.inv e.inv)
-  have : IsSeparated p.left := by rw [hp_eq]; show IsSeparated (_ ≫ _); infer_instance
+  have : IsSeparated p.left := by rw [hp_eq]; change IsSeparated (_ ≫ _); infer_instance
   have : LocallyOfFiniteType p.left := by
     rw [hp_eq]
-    show LocallyOfFiniteType (_ ≫ _)
+    change LocallyOfFiniteType (_ ≫ _)
     infer_instance
   have : LocallyQuasiFinite p.left := by
     rw [hp_eq]
-    show LocallyQuasiFinite (_ ≫ _)
+    change LocallyQuasiFinite (_ ≫ _)
     infer_instance
   have : Stacks.Morphisms.IsFiniteLocallyFree f.left := finiteLocallyFree_prod_map q q
   have : Surjective f.left := surjective_prod_map q q
@@ -966,11 +966,11 @@ private lemma exists_groupoid_division {S : Scheme.{u}} {G H : GroupoidScheme S}
     rcases a with ⟨a, has, hat⟩
     have hsx : a ≫ G.source ≫ e.inv = x := by
       rw [← Category.assoc, has]
-      show (x ≫ i.mapObjects) ≫ e.inv = x
+      change (x ≫ i.mapObjects) ≫ e.inv = x
       simp [hi]
     have hty : a ≫ G.target ≫ e.inv = y := by
       rw [← Category.assoc, hat]
-      show (y ≫ i.mapObjects) ≫ e.inv = y
+      change (y ≫ i.mapObjects) ≫ e.inv = y
       simp [hi]
     subst x
     subst y
@@ -1096,7 +1096,7 @@ theorem exists_division {S : Scheme.{u}} (G H : GroupoidScheme S)
   let Q := quotientOver H
   let π : G.objects ⟶ Q := eqToHom hobj.symm ≫ quotientProjection H
   let : IsIso ((eqToHom hobj.symm).left) := by
-    show IsIso ((Over.forget S).map (eqToHom hobj.symm))
+    change IsIso ((Over.forget S).map (eqToHom hobj.symm))
     exact Functor.map_isIso (Over.forget S) (eqToHom hobj.symm)
   let : Stacks.Morphisms.IsFiniteLocallyFree (eqToHom hobj.symm).left :=
     finiteLocallyFree_of_isIso (eqToHom hobj.symm).left
@@ -1104,13 +1104,13 @@ theorem exists_division {S : Scheme.{u}} (G H : GroupoidScheme S)
     rw [quotientProjection_left]
     exact objectsToInvariantSpectrum_isFiniteLocallyFree H
   have hπ : Stacks.Morphisms.IsFiniteLocallyFree π.left := by
-    show Stacks.Morphisms.IsFiniteLocallyFree
+    change Stacks.Morphisms.IsFiniteLocallyFree
       ((eqToHom hobj.symm).left ≫ (quotientProjection H).left)
     exact inferInstance
   let qH := quotientProjection H
   have hqHcomm : H.target ≫ qH = H.source ≫ qH := by
     apply Over.OverMorphism.ext
-    show H.target.left ≫ objectsToInvariantSpectrum H =
+    change H.target.left ≫ objectsToInvariantSpectrum H =
       H.source.left ≫ objectsToInvariantSpectrum H
     exact (isPullback_objectsToInvariantSpectrum H).w
   have hqHpb : IsPullback H.target H.source qH qH :=
@@ -1122,12 +1122,12 @@ theorem exists_division {S : Scheme.{u}} (G H : GroupoidScheme S)
     rw [← he]
     infer_instance
   let : Surjective qH.left := by
-    show Surjective (objectsToInvariantSpectrum H)
+    change Surjective (objectsToInvariantSpectrum H)
     exact (surjective_iff _).2 (surjective_objectsToInvariantSpectrum H)
   have hqHcover : Sieve.generate (Presieve.singleton qH) ∈
       (Scheme.fppfTopology.over S) Q := by
     rw [GrothendieckTopology.mem_over_iff]
-    show Sieve.functorPushforward (Over.forget S)
+    change Sieve.functorPushforward (Over.forget S)
       (Sieve.generate (Presieve.singleton qH)) ∈ Scheme.fppfTopology Q.left
     rw [← Sieve.generate_map_eq_functorPushforward, Presieve.map_singleton]
     exact singleton_fppf_of_finiteLocallyFree qH.left
@@ -1141,10 +1141,10 @@ theorem exists_division {S : Scheme.{u}} (G H : GroupoidScheme S)
   obtain ⟨K, he, F, hF, hFF, hFid⟩ := exists_groupoid_division i (eqToIso hobj) hiobj
     qH hqHpb hqHcover'
   refine ⟨⟨Q, ?_, π, hπ, ?_, ?_, ?_, ?_, K, he, F, ?_, hFF, ?_⟩⟩
-  · show IsAffine (quotientOver H).left
+  · change IsAffine (quotientOver H).left
     rw [quotientOver_left]
     infer_instance
-  · show Surjective ((eqToHom hobj.symm).left ≫ qH.left)
+  · change Surjective ((eqToHom hobj.symm).left ≫ qH.left)
     infer_instance
   · apply Over.OverMorphism.ext
     -- The quotient map coequalizes the source and target of the subgroupoid.

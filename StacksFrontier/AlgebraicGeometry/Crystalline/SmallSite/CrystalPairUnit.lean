@@ -114,7 +114,7 @@ theorem crystalTheta_unit_one {K : wholeSpaceIndex S hp →₀ ℕ} (hK : K ≠ 
         Finsupp.single 0 (wholeSpaceSectionsVal hp _ (pairUnitOne hp) e) := by
     refine TaylorExpansion.coeffs_eq_of_taylorSum _ ?_
     rw [taylorSum_single]
-    show levelTaylorMonomial hp e 0 • crysRestrict (quasiCoherentCrystalUnit S).obj _
+    change levelTaylorMonomial hp e 0 • crysRestrict (quasiCoherentCrystalUnit S).obj _
         (1 : (structureSheaf S).obj.obj _) =
       crysRestrict (quasiCoherentCrystalUnit S).obj _ (1 : (structureSheaf S).obj.obj _)
     rw [crysRestrict_unit_one, crysRestrict_unit_one, levelTaylorMonomial,

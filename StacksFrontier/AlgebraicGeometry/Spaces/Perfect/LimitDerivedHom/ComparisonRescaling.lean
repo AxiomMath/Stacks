@@ -19,7 +19,8 @@ naturality.
 translation dictionary for Stacks 09RI has to be built, composes around a square only *up to a
 unit* of the ring of global functions of the last corner:
 `AlgebraicGeometry.Space.exists_representedAffineToposDerivedBaseChange_compat` of
-`StacksFrontier/AlgebraicGeometry/Spaces/RepresentedAffineDerivedBaseChangeComp.lean` produces a unit
+`StacksFrontier/AlgebraicGeometry/Spaces/RepresentedAffineDerivedBaseChangeComp.lean` produces a
+unit
 `c` and `AlgebraicGeometry.Space.unitCentralIso` turns it into an automorphism of the identity
 functor of the derived category.  A dictionary field such as
 `AlgebraicGeometry.Space.DescentSituation.RingModel.stageEquiv_homTransition` asks for an equation

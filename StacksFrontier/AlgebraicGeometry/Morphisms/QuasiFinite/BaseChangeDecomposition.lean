@@ -303,7 +303,7 @@ private lemma exists_thickening_onto_open_range {Y X : Scheme.{u}}
   intro x
   obtain ⟨y, hy⟩ := x.2
   refine ⟨y, U.ι.isOpenEmbedding.injective ?_⟩
-  show (h ≫ U.ι) y = x.1
+  change (h ≫ U.ι) y = x.1
   rw [hh]
   exact hy
 
@@ -358,7 +358,7 @@ private lemma exists_iso_coproduct_of_disjoint_closed_sections
   simp only [Iso.symm_hom, asIso_inv, IsIso.hom_inv_id_assoc]
   apply Sigma.hom_ext
   intro i
-  simp only [Sigma.ι_desc, Sigma.ι_desc_assoc, hs]
+  simp only [Sigma.ι_comp_desc, Sigma.ι_comp_desc_assoc, hs]
 
 private lemma exists_iso_coproduct_of_closed_sections_eq_or_disjoint
     {X Y : Scheme.{u}} [IsReduced Y] (f : Y ⟶ X) {n : ℕ}
@@ -478,7 +478,7 @@ private lemma exists_iso_coproduct_of_selected_closed_sections
       · exact (Set.disjoint_left.mp h ⟨x, hx⟩ ⟨y, rfl⟩).elim
     refine Set.mem_iUnion.mpr ⟨a ⟨j, hj⟩, x, ?_⟩
     apply i.isClosedEmbedding.injective
-    show (t (a.symm (a ⟨j, hj⟩)) ≫ i) x = i y
+    change (t (a.symm (a ⟨j, hj⟩)) ≫ i) x = i y
     rw [Equiv.symm_apply_apply, ht]
     exact hx
 
@@ -544,7 +544,7 @@ private lemma exists_iso_coproduct_of_baseChange_sections
         dsimp only [t]
         rw [range_sectionBaseChange]
         refine ⟨h x, ?_⟩
-        show s k (h x) = (sectionBaseChange p (s j) (hs j) h ≫ pullback.fst p h) x
+        change s k (h x) = (sectionBaseChange p (s j) (hs j) h ≫ pullback.fst p h) x
         rw [sectionBaseChange_fst]
         exact (heq x).symm
       exact Set.Subset.antisymm (hsub j k heq) (hsub k j (fun x => (heq x).symm))
@@ -621,7 +621,7 @@ private lemma exists_split_of_constant_section_loci
     rw [← Set.range_eq_univ, Scheme.IdealSheafData.range_subschemeι]
     simp
   have hr : Set.range r = (pullback.fst p h) ⁻¹' Set.range i := by
-    show Set.range ((closedImmersionBaseChange i p h) ∘ P.nilradical.subschemeι) = _
+    change Set.range ((closedImmersionBaseChange i p h) ∘ P.nilradical.subschemeι) = _
     rw [Set.range_comp, hsur.range_eq, Set.image_univ, range_closedImmersionBaseChange]
   have hm (j) : Set.range (sectionBaseChange p (s j) (hs j) h) ⊆ Set.range r ∨
       Disjoint (Set.range (sectionBaseChange p (s j) (hs j) h)) (Set.range r) := by
@@ -629,7 +629,7 @@ private lemma exists_split_of_constant_section_loci
     · left
       rintro _ ⟨x, rfl⟩
       rw [hr]
-      show (sectionBaseChange p (s j) (hs j) h ≫ pullback.fst p h) x ∈ Set.range i
+      change (sectionBaseChange p (s j) (hs j) h ≫ pullback.fst p h) x ∈ Set.range i
       rw [sectionBaseChange_fst]
       exact hj x
     · right
@@ -820,9 +820,9 @@ private lemma isIso_reductionMap_of_isThickening {X Y : Scheme.{u}}
     obtain ⟨x, hx⟩ := hi.2 (Y.nilradical.subschemeι y)
     obtain ⟨z, hz⟩ := (Stacks.AffineClosedUnion.isThickening_subschemeι_nilradical X).2 x
     refine ⟨z, Y.nilradical.subschemeι.isClosedEmbedding.injective ?_⟩
-    show (reductionMap i ≫ Y.nilradical.subschemeι) z = Y.nilradical.subschemeι y
+    change (reductionMap i ≫ Y.nilradical.subschemeι) z = Y.nilradical.subschemeι y
     rw [reductionMap_comp_subschemeι]
-    show i (X.nilradical.subschemeι z) = _
+    change i (X.nilradical.subschemeι z) = _
     rw [hz, hx]
   exact isIso_of_isClosedImmersion_of_surjective _
 
@@ -870,21 +870,21 @@ private lemma exists_split_after_baseChange_of_reduced_base
   let codiagonal := Sigma.desc (fun _ : Fin n => 𝟙 X)
   have : IsFinite codiagonal := inferInstance
   have hc (j) : IsClosedImmersion (Sigma.ι S j) :=
-    isClosedImmersion_of_comp_eq (Sigma.ι S j) codiagonal (c := 𝟙 X) (Sigma.ι_desc _ _)
+    isClosedImmersion_of_comp_eq (Sigma.ι S j) codiagonal (c := 𝟙 X) (Sigma.ι_comp_desc _ _)
   let s (j : Fin n) : X ⟶ Y := Sigma.ι S j ≫ e.inv ≫ Y.nilradical.subschemeι
   have : ∀ j, IsClosedImmersion (s j) := by
     intro j
     dsimp [s]
     infer_instance
   have hs (j) : s j ≫ f = 𝟙 X := by
-    simp only [s, Category.assoc, ← he, Iso.inv_hom_id_assoc, Sigma.ι_desc]
+    simp only [s, Category.assoc, ← he, Iso.inv_hom_id_assoc, Sigma.ι_comp_desc]
   have hcover : (⋃ j, Set.range (s j)) = Set.univ := by
     apply Set.eq_univ_of_forall
     intro y
     obtain ⟨z, hz⟩ := (Stacks.AffineClosedUnion.isThickening_subschemeι_nilradical Y).2 y
     obtain ⟨j, x, hx⟩ := (sigmaOpenCover S).exists_eq (e.hom z)
     refine Set.mem_iUnion.mpr ⟨j, x, ?_⟩
-    show Y.nilradical.subschemeι (e.inv (Sigma.ι S j x)) = y
+    change Y.nilradical.subschemeι (e.inv (Sigma.ι S j x)) = y
     rw [show Sigma.ι S j x = e.hom z from hx]
     simpa using hz
   have hsplit := exists_split_of_constant_section_loci (𝟙 Y) f h s hs
@@ -1200,7 +1200,7 @@ private lemma exists_thickening_finiteEtale_of_split_reductions
   obtain ⟨z, hz⟩ := (hg i).surj y
   obtain ⟨w, hw⟩ := (Stacks.AffineClosedUnion.isThickening_subschemeι_nilradical (T i)).2 z
   refine Set.mem_iUnion.mpr ⟨i, w, ?_⟩
-  show (s i) ((g i) ((T i).nilradical.subschemeι w)) = x
+  change (s i) ((g i) ((T i).nilradical.subschemeι w)) = x
   rw [hw, hz]
   exact hy
 
@@ -1209,7 +1209,7 @@ private lemma isFinite_pullback_snd_of_isFinite_restrict
     IsFinite (pullback.snd f U.ι) := by
   let e := (isPullback_morphismRestrict f U).flip.isoPullback
   rw [← MorphismProperty.cancel_left_of_respectsIso (P := @IsFinite) e.hom]
-  show IsFinite ((isPullback_morphismRestrict f U).flip.isoPullback.hom ≫ _)
+  change IsFinite ((isPullback_morphismRestrict f U).flip.isoPullback.hom ≫ _)
   rw [IsPullback.isoPullback_hom_snd]
   infer_instance
 
@@ -1258,14 +1258,14 @@ private lemma exists_affine_partition_isFinite_over_closed
         isFinite_pullback_snd_of_isFinite_restrict fZ V.1
       let e := pullbackLeftPullbackSndIso f i V.1.ι
       rw [← MorphismProperty.cancel_left_of_respectsIso (P := @IsFinite) e.hom]
-      show IsFinite ((pullbackLeftPullbackSndIso f i V.1.ι).hom ≫ _)
+      change IsFinite ((pullbackLeftPullbackSndIso f i V.1.ι).hom ≫ _)
       rw [pullbackLeftPullbackSndIso_hom_snd]
       infer_instance
     let D : TopologicalSpace.Closeds X :=
       ⟨i '' (V.1 : Set Z)ᶜ, i.isClosedEmbedding.isClosedMap _ V.1.isOpen.isClosed_compl⟩
     have hDC : D ≤ C := by
       rintro _ ⟨z, hz, rfl⟩
-      show i z ∈ (C : Set X)
+      change i z ∈ (C : Set X)
       rw [← hi]
       exact ⟨z, rfl⟩
     have hDi : i η.1 ∉ D := by
@@ -1276,7 +1276,7 @@ private lemma exists_affine_partition_isFinite_over_closed
       intro h
       apply hDi
       rw [h]
-      show i η.1 ∈ (C : Set X)
+      change i η.1 ∈ (C : Set X)
       rw [← hi]
       exact ⟨η.1, rfl⟩)
     obtain ⟨J, hJ, T, t, ht, hd, hc⟩ := ih D hlt
@@ -1321,7 +1321,7 @@ private lemma exists_affine_partition_isFinite_over_closed
           exact ⟨V.1.ι z, hz⟩
         | some j =>
           apply hDC
-          show y ∈ (D : Set X)
+          change y ∈ (D : Set X)
           rw [← hc]
           exact Set.mem_iUnion.mpr ⟨j, z, hz⟩
       · intro hy
@@ -1387,7 +1387,7 @@ private lemma exists_affine_partition_isFinite_family
       pullback.snd r (t j)) := inferInstance
   rw [closedImmersionBaseChange_snd] at hfin
   change IsFinite (pullback.snd (Sigma.ι Y i ≫ Sigma.desc f) (t j)) at hfin
-  rw [Sigma.ι_desc] at hfin
+  rw [Sigma.ι_comp_desc] at hfin
   exact hfin
 
 private lemma isClopen_range_baseChange_of_finite_partition
@@ -1435,7 +1435,7 @@ private lemma ranges_closedImmersionBaseChange_cover_base
       Set.preimage_univ] using (Set.mem_univ y)
   obtain ⟨j, z, hz⟩ := Set.mem_iUnion.mp hy'
   refine Set.mem_iUnion.mpr ⟨j, z, ?_⟩
-  show (pullback.snd g h) (closedImmersionBaseChange (t j) g h z) = x
+  change (pullback.snd g h) (closedImmersionBaseChange (t j) g h z) = x
   rw [hz]
   exact hy
 
@@ -1497,7 +1497,7 @@ private lemma exists_finiteLocallyFree_open_cover_of_partition
     trivial
   obtain ⟨j, y, hy⟩ := Set.mem_iUnion.mp hx
   refine Set.mem_iUnion.mpr ⟨j, a j y, ?_⟩
-  show ((a j ≫ (W j).ι) ≫ pullback.snd g h) y = x
+  change ((a j ≫ (W j).ι) ≫ pullback.snd g h) y = x
   rw [hfac j]
   exact hy
 
@@ -1704,7 +1704,7 @@ private lemma exists_affine_partition_with_surjective_finiteLocallyFree_pullback
     obtain ⟨i, hi⟩ := Set.iUnion_eq_univ_iff.mp hcover x
     have hei : e.symm (e i) = i := e.symm_apply_apply i
     refine Set.mem_iUnion.mpr ⟨e i, ?_⟩
-    show x ∈ Set.range (g (e.symm (e i)))
+    change x ∈ Set.range (g (e.symm (e i)))
     rw [hei]
     exact hi
   obtain ⟨J, hJ, S, s, hs, hd, hsc, hg⟩ :=

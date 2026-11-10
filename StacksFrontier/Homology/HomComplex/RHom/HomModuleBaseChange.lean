@@ -126,8 +126,7 @@ public def extendScalarsObjTensorEquiv (N : ModuleCat.{u} R) :
       ((ModuleCat.restrictScalars (algebraMap R A)).obj (ModuleCat.of A A) : Type u)
       (N : Type u)), t (a • w) = a • t w := by
     intro a w
-    induction w using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero, smul_zero]
+    induction w using TensorProduct.inductionOn with
     | tmul b n => rfl
     | add w w' hw hw' => rw [smul_add, map_add, map_add, smul_add, hw, hw']
   exact { t.toAddEquiv with map_smul' := key }

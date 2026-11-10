@@ -125,7 +125,7 @@ theorem exists_dense_affineLocus {X : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u}
     exact hsU₀ ⟨⟨z, hz⟩, rfl⟩
   refine ⟨(schemePointsHomeomorph C S hS A).symm a, ?_⟩
   rw [pointsMap_comp]
-  show ψ (pointsMap C S hS _ (yoneda.map u) ((schemePointsHomeomorph C S hS A).symm a)) = z
+  change ψ (pointsMap C S hS _ (yoneda.map u) ((schemePointsHomeomorph C S hS A).symm a)) = z
   rw [schemePointsHomeomorph_symm_naturality, ha]
   exact hdz z hz
 
@@ -316,7 +316,6 @@ theorem mem_schematicLocus_of_forall_mul_mem {K L : Type u} [Field K] [Algebra k
     Set.mem_preimage, ← Function.comp_apply (f := pointsMap C S hS _ prod.snd),
     ← pointsMap_comp, pointsMap_class, ptOf_map]
   refine range_pointsMap_subset_range_ι C S hS iA (hsA ⟨τ, ?_⟩)
-  congr 2
   rw [← Category.assoc, comp_leftTrans_hom, prod.lift_snd, prod.lift_fst_assoc, Category.id_comp,
     prod.lift_snd]
 

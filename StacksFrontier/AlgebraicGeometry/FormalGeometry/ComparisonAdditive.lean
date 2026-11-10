@@ -296,15 +296,15 @@ additive in the morphism and `CategoryTheory.Limits.IsBilimit.total` identifies
 `∑ i, b.π i ≫ b.ι i` with the identity. The empty family is included: the sum is then the zero
 morphism, which is the identity of a zero object.
 
-The family is indexed by a `Fintype` because that is the hypothesis of
-`CategoryTheory.Limits.IsBilimit.total`; a `Finite` index type is converted by
-`Fintype.ofFinite`. -/
-theorem isIso_comparisonMap_bicone [IsNoetherianRing A] {ι : Type*} [Fintype ι]
+The family is indexed by a `Finite` type; the proof chooses a `Fintype` structure on it, which is
+the hypothesis of `CategoryTheory.Limits.IsBilimit.total`. -/
+theorem isIso_comparisonMap_bicone [IsNoetherianRing A] {ι : Type*} [Finite ι]
     {P : ι → (complementZeroLocus A a : Scheme).Modules} [∀ i, (P i).IsCoherent]
     (b : Bicone P) [b.pt.IsCoherent] (hb : b.IsBilimit)
     (hP : ∀ i, IsIso (comparisonMap A I a (P i))) :
     IsIso (comparisonMap A I a b.pt) := by
   classical
+  cases nonempty_fintype ι
   rw [ConcreteCategory.isIso_iff_bijective]
   refine ⟨(ConcreteCategory.mono_iff_injective_of_preservesPullback _).1
     (mono_comparisonMap A I a b.pt), fun w => ?_⟩

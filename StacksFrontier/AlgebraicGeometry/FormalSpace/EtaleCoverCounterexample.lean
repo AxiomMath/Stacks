@@ -137,7 +137,7 @@ theorem exists_isPullback_constMap (s : σ) (U : BigFppfOver B S hS)
     rw [Types.isPullback_iff]
     refine ⟨?_, ?_, ?_⟩
     · ext ⟨a⟩
-      show ContinuousMap.const _ s = ξ.hom.app V (ULift.up (a ≫ p))
+      change ContinuousMap.const _ s = ξ.hom.app V (ULift.up (a ≫ p))
       refine Eq.trans ?_ (app_eq_comp B S hS σ ξ.hom (a ≫ p)).symm
       ext y
       have hy : ((BigFppfOver.toScheme B S hS).map p)
@@ -192,7 +192,7 @@ theorem isLocallySurjective_sigmaDesc_constMap :
   refine ⟨(Sigma.ι G (x (r i))).hom.app (op (W i)) (ULift.up (toBase B S hS (W i))), ?_⟩
   have h := congrArg (fun φ : G (x (r i)) ⟶ contSheaf B S hS σ ↦
     φ.hom.app (op (W i)) (ULift.up (toBase B S hS (W i))))
-    (Sigma.ι_desc (fun s : σ ↦ constMap B S hS σ s (G s)) (x (r i)))
+    (Sigma.ι_comp_desc (fun s : σ ↦ constMap B S hS σ s (G s)) (x (r i)))
   refine (Eq.trans ?_ h).trans ?_
   · rfl
   · exact ContinuousMap.ext fun y ↦ (hmem i y).symm

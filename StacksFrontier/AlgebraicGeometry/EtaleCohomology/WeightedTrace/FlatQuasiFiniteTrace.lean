@@ -184,7 +184,6 @@ variable (B : BigEtaleSite.{u}) (Λ : Type u) [Ring Λ] {X Y X' Y' : B.Scheme}
   (sq : IsPullback p f' f g)
   [HasDerivedCategory.{t} (ModuleSheaf.{u, u + 1, u} B X Λ)]
   [HasDerivedCategory.{t} (ModuleSheaf.{u, u + 1, u} B Y Λ)]
-  [HasDerivedCategory.{t} (ModuleSheaf.{u, u + 1, u} B X' Λ)]
   [HasDerivedCategory.{t} (ModuleSheaf.{u, u + 1, u} B Y' Λ)]
 
 include sq in

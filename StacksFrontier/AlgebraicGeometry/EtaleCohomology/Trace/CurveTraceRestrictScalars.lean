@@ -643,7 +643,7 @@ theorem curveConstantModuleTraceAddEquiv_restrictScalars (hcard : Fintype.card R
   rw [← zmodEvalAddEquiv_curveConstantClass_symm_congr q hcard hnR hζR hn hζ hR
     (shrink_card_nsmul_eq_zero Λ E) (bijective_curveConstantClass q hnR hζR hR), hΘ,
     ← curveConstantClass_naturality, ← hΘ', ← hΘ, Θ'.symm_apply_apply, Θ.symm_apply_apply]
-  show Shrink.addEquiv.{0} (α := E') (h' (φ 1)) = h.hom (Shrink.addEquiv.{0} (α := E) (φ 1))
+  change Shrink.addEquiv.{0} (α := E') (h' (φ 1)) = h.hom (Shrink.addEquiv.{0} (α := E) (φ 1))
   simp [h', e]
   rfl
 
@@ -884,7 +884,7 @@ theorem curveExtensionByZeroSheafTrace_restrictScalars (hcard : Fintype.card R =
   rw [curveExtensionByZeroSheafTrace_apply, curveExtensionByZeroSheafTrace_apply, hz]
   convert key using 2
 
-omit [Fintype R] [Fintype Λ] in
+omit [IsCurve K q] [IsProper q] [Fintype R] [Fintype Λ] in
 include q hfin in
 /-- `H²(C, j_! j^{-1} H) ≅ H²(C, H)` through the counit, as a surjection. -/
 theorem exists_rightDerivedPlus_two_counit_eq (S : Type) [Ring S] (H : EtaleModules.{u, 0} S C)

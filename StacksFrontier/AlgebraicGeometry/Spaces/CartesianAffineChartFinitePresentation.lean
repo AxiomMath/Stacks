@@ -68,8 +68,7 @@ theorem exists_coeff_of_sum_tmul_eq_zero {R R' M : Type*} [CommRing R] [CommRing
       exact hx _
   have key : ∀ w, LinearMap.lTensor R' K.subtype w ∈ N := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | tmul b x =>
       rw [LinearMap.lTensor_tmul]
       exact hbN b x (hker ▸ x.2)

@@ -26,7 +26,7 @@ separated morphism.
 
 ## Main results
 
-* `AlgebraicGeometry.Space.exists_isBlowupAlong_isOpenImmersion_strictTransformSpaceToBlowUp_unconditional`:
+* `Space.exists_isBlowupAlong_isOpenImmersion_strictTransformSpaceToBlowUp_unconditional`:
   the corrected statement of Stacks 087F.
 
 ## Implementation notes

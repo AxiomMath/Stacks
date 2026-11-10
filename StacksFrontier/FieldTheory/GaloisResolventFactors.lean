@@ -141,7 +141,7 @@ theorem exists_ringHom_extend {F L : Type*} [Field F] [Field L] [Algebra F L] (p
     [IsSplittingField F L p] (tw : F →+* F) (hp : p.map tw = p) :
     ∃ σt : L →+* L, ∀ x, σt (algebraMap F L x) = algebraMap F L (tw x) := by
   have hspl : Splits (p.map (algebraMap F (TwistedField F L tw))) := by
-    show Splits (p.map ((algebraMap F L).comp tw))
+    change Splits (p.map ((algebraMap F L).comp tw))
     rw [← Polynomial.map_map, hp]
     exact IsSplittingField.splits L p
   let l : L →ₐ[F] TwistedField F L tw := IsSplittingField.lift L p hspl
@@ -240,7 +240,7 @@ theorem exists_factors_galoisResolvent {K : Type*} [Field K] {m : ℕ} (f : K[X]
   obtain ⟨σt, hσtF⟩ := exists_ringHom_extend (L := L) fF (frF : F →+* F) hfF
   have hσtψ : ∀ x : K[X], σt (ψ x) = ψ (frX x) := fun x ↦ by
     rw [IsScalarTower.algebraMap_apply K[X] F L, hσtF]
-    show algebraMap F L (frF (algebraMap K[X] F x)) = _
+    change algebraMap F L (frF (algebraMap K[X] F x)) = _
     rw [hfrF, ← IsScalarTower.algebraMap_apply]
   have hσtroot : ∀ i, σt (b i) ∈ fF.rootSet L := by
     intro i

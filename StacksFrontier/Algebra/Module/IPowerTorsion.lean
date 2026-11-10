@@ -253,7 +253,7 @@ theorem torsionBySet_quotient_primaryComponent_eq_bot_and_isIPowerTorsion_of_exa
     obtain ⟨y, hy_eq⟩ : a • m ∈ f.range := by
       rw [← hfg.linearMap_ker_eq, LinearMap.mem_ker, map_smul]
       exact hgn a ha
-    show a • m ∈ Ideal.primaryComponent M₂ I
+    change a • m ∈ Ideal.primaryComponent M₂ I
     rw [← hy_eq]
     obtain ⟨k, hk, hy⟩ := hM₁ y
     refine mem_primaryComponent_iff_forall_smul_eq_zero.mpr ⟨k, fun b hb ↦ ?_⟩

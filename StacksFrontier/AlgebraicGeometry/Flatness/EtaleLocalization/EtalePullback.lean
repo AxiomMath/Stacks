@@ -62,7 +62,7 @@ private theorem pullbackWeakAssoc_comp_open_first {X Y Z : Scheme.{u}}
   let G' := (Scheme.Modules.pullback g).obj G
   have h₁ := (isWeaklyAssociatedPoint_iff_of_iso
     ((Scheme.Modules.pullbackComp f g).app G) x).symm
-  show Stacks.Divisors.IsWeaklyAssociatedPoint
+  change Stacks.Divisors.IsWeaklyAssociatedPoint
       ((Scheme.Modules.pullback (f ≫ g)).obj G) x ↔
     Stacks.Divisors.IsWeaklyAssociatedPoint G (g.base (f.base x))
   exact h₁.trans ((isWeaklyAssociatedPoint_pullback_iff_of_isOpenImmersion f G' x).trans
@@ -96,7 +96,7 @@ private theorem standardEtalePair_factors_open_finiteFlat
     simp only [← Spec.map_comp]
     congr 1
     ext r
-    show algebraMap R P.Ring r =
+    change algebraMap R P.Ring r =
       P.equivAwayAdjoinRoot.symm (algebraMap A B (algebraMap R A r))
     rw [← IsScalarTower.algebraMap_apply R A B]
     exact (P.equivAwayAdjoinRoot.symm.commutes r).symm
@@ -125,7 +125,7 @@ private theorem pullbackWeakAssoc_comp_open_second {X Y Z : Scheme.{u}}
     Stacks.AlgebraicGeometry.AffineBaseChange.isQuasicoherent_pullback_of_isOpenImmersion g G
   have h₁ := (isWeaklyAssociatedPoint_iff_of_iso
     ((Scheme.Modules.pullbackComp f g).app G) x).symm
-  show Stacks.Divisors.IsWeaklyAssociatedPoint
+  change Stacks.Divisors.IsWeaklyAssociatedPoint
       ((Scheme.Modules.pullback (f ≫ g)).obj G) x ↔
     Stacks.Divisors.IsWeaklyAssociatedPoint G (g.base (f.base x))
   exact h₁.trans ((hf G' x).trans
@@ -160,7 +160,7 @@ private theorem pullbackWeakAssoc_isStandardEtale_affine
     rw [← Spec.map_comp]
     congr 1
     ext r
-    show algebraMap R A r = P.equivRing.symm (algebraMap R P.P.Ring r)
+    change algebraMap R A r = P.equivRing.symm (algebraMap R P.P.Ring r)
     exact (P.equivRing.symm.commutes r).symm
   rw [hfac]
   exact pullbackWeakAssoc_comp_open_first e.hom _ hstd
@@ -222,7 +222,7 @@ private theorem pullbackWeakAssoc_etale
   have : IsAffine U.toScheme := hU
   have : IsAffine V.toScheme := hV
   have : Etale k := by
-    show Etale (h.resLE V U e)
+    change Etale (h.resLE V U e)
     exact (HasRingHomProperty.iff_of_isAffine (P := @Etale)).2
       ((RingHom.Etale.respectsIso.arrow_mk_iso_iff (arrowResLEAppIso h V U e)).2
         (h.etale_appLE hV hU e))

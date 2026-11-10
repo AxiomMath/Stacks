@@ -55,8 +55,10 @@ refinement of that point. -/
 theorem exists_fiber_equalizer {W V : C} (w : Φ.fiber.obj W) (g g' : W ⟶ V)
     (h : Φ.fiber.map g w = Φ.fiber.map g' w) :
     ∃ (W' : C) (w' : Φ.fiber.obj W') (a : W' ⟶ W), Φ.fiber.map a w' = w ∧ a ≫ g = a ≫ g' := by
-  let e : Φ.fiber.elementsMk W w ⟶ Φ.fiber.elementsMk V (Φ.fiber.map g w) := Functor.Elements.homMk g rfl
-  let e' : Φ.fiber.elementsMk W w ⟶ Φ.fiber.elementsMk V (Φ.fiber.map g w) := Functor.Elements.homMk g' h.symm
+  let e : Φ.fiber.elementsMk W w ⟶ Φ.fiber.elementsMk V (Φ.fiber.map g w) :=
+    Functor.Elements.homMk g rfl
+  let e' : Φ.fiber.elementsMk W w ⟶ Φ.fiber.elementsMk V (Φ.fiber.map g w) :=
+    Functor.Elements.homMk g' h.symm
   obtain ⟨W', a, ha⟩ := @IsCofilteredOrEmpty.cone_maps Φ.fiber.Elements _ _ _ _ e e'
   exact ⟨W'.obj, W'.val, a.hom, a.map_val, congrArg Functor.Elements.Hom.hom ha⟩
 

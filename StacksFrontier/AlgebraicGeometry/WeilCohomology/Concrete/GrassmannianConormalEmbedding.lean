@@ -125,7 +125,7 @@ theorem exists_grassmannian_embedding {Z X : (SmoothProjectiveScheme k).FullSubc
   have hlfst : hl ≫ pullback.fst X.obj.hom G.obj.hom = i.hom.left := pullback.lift_fst _ _ _
   have hlsnd : hl ≫ pullback.snd X.obj.hom G.obj.hom = g' := pullback.lift_snd _ _ _
   let h : Z ⟶ prod X G := ObjectProperty.homMk (Over.homMk hl (by
-    show hl ≫ pullback.fst X.obj.hom G.obj.hom ≫ X.obj.hom = Z.obj.hom
+    change hl ≫ pullback.fst X.obj.hom G.obj.hom ≫ X.obj.hom = Z.obj.hom
     rw [← Category.assoc, hlfst, Over.w i.hom]))
   have : IsClosedImmersion hl := by
     have : IsClosedImmersion (hl ≫ pullback.fst X.obj.hom G.obj.hom) := by

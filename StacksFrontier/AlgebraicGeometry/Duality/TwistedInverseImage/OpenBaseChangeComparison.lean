@@ -85,11 +85,11 @@ theorem twistedInverseImagePushforwardBaseChange_eq_rightAdjointSquare
         (quasiCoherentDerivedPullbackCompIso g' f ≪≫ quasiCoherentDerivedPullbackCongr sq.w)
         (twistedInverseImageAdjunction f (isQuasicoherent_homology_derivedPushforward_of_qcqs f))
         (twistedInverseImageAdjunction f'
-          (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))).natTrans :=
+          (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))) :=
   congrArg (fun γ => (mateEquiv (twistedInverseImageAdjunction f'
       (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))
     (twistedInverseImageAdjunction f (isQuasicoherent_homology_derivedPushforward_of_qcqs f))
-      (TwoSquare.mk _ _ _ _ γ)).natTrans)
+      (TwoSquare.mk _ _ _ _ γ)))
     (quasiCoherentDerivedPushforwardSquareIso_hom_eq g' f' f g _ _ _ _ sq.w)
 
 omit [CompactSpace X'] in
@@ -110,7 +110,7 @@ theorem isIso_rightAdjointSquare_of_isOpenImmersion [IsOpenImmersion g]
         (quasiCoherentDerivedPullbackCompIso g' f ≪≫ quasiCoherentDerivedPullbackCongr sq.w)
         (twistedInverseImageAdjunction f (isQuasicoherent_homology_derivedPushforward_of_qcqs f))
         (twistedInverseImageAdjunction f'
-          (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))).natTrans := by
+          (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))) := by
   have : IsOpenImmersion g' := MorphismProperty.of_isPullback sq.flip inferInstance
   rw [← twistedInverseImagePushforwardBaseChange_eq_rightAdjointSquare]
   exact isIso_twistedInverseImagePushforwardBaseChange_of_isOpenImmersion g' f' f g _ _ _ _ sq
@@ -126,7 +126,7 @@ theorem isIso_twoSquare_of_isOpenImmersion [IsOpenImmersion g] (sq : IsPullback 
           (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))
         (quasiCoherentDerivedPullbackCompIso f' g)
         (quasiCoherentDerivedPullbackCompIso g' f ≪≫
-          quasiCoherentDerivedPullbackCongr sq.w)).natTrans := by
+          quasiCoherentDerivedPullbackCongr sq.w)) := by
   have h := isIso_rightAdjointSquare_of_isOpenImmersion g' f' f g sq
   rw [Stacks.CategoryTheory.BaseChange.rightAdjointSquare_natTrans_eq] at h
   exact conjugateEquiv_of_iso (adj₁ := (quasiCoherentDerivedAdjunction g'
@@ -153,8 +153,8 @@ private lemma mateEquiv_symm_inv_congr {C D E F : Type*} [Category C] [Category 
     [Category F] {G : C ⥤ E} {H : D ⥤ F} {L₁ : C ⥤ D} {R₁ : D ⥤ C} {L₂ : E ⥤ F} {R₂ : F ⥤ E}
     (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂) {x y : H ⋙ R₂ ⟶ R₁ ⋙ G} (h : x = y) [IsIso x] [IsIso y]
     (K : C) :
-    ((mateEquiv adj₁ adj₂).symm (TwoSquare.mk _ _ _ _ (inv x))).natTrans.app K =
-      ((mateEquiv adj₁ adj₂).symm (TwoSquare.mk _ _ _ _ (inv y))).natTrans.app K := by
+    ((mateEquiv adj₁ adj₂).symm (TwoSquare.mk _ _ _ _ (inv x))).app K =
+      ((mateEquiv adj₁ adj₂).symm (TwoSquare.mk _ _ _ _ (inv y))).app K := by
   subst h; rfl
 
 /-- The map of [Stacks, Tag 0A9L] at `K` is the inverse mate of `ξ⁻¹` under the restriction
@@ -184,7 +184,7 @@ private lemma twistedInverseImageRestrictionMap_app_eq_mateEquiv_symm
         (isQuasicoherent_homology_derivedPushforward_of_qcqs j')
         (isQuasicoherent_homology_derivedPushforward_of_qcqs f)
         (isQuasicoherent_homology_derivedPushforward_of_qcqs f')
-        (isQuasicoherent_homology_derivedPushforward_of_qcqs j) sq)))).natTrans.app K := by
+        (isQuasicoherent_homology_derivedPushforward_of_qcqs j) sq)))).app K := by
   simp [OpenImmersion.twistedInverseImageRestrictionMap, mateEquiv]
 
 /-- **The base change map `α : L(j')^* ∘ a ⟶ a' ∘ Lj^*` along an open immersion is invertible at
@@ -215,7 +215,7 @@ theorem isIso_rightAdjointBaseChange_app_of_isIso_twistedInverseImageRestriction
         (quasiCoherentDerivedPullbackCompIso j' f ≪≫ quasiCoherentDerivedPullbackCongr sq.w)
         (twistedInverseImageAdjunction f (isQuasicoherent_homology_derivedPushforward_of_qcqs f))
         (twistedInverseImageAdjunction f'
-          (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))).natTrans.app K) := by
+          (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))).app K) := by
   have : IsOpenImmersion j' := MorphismProperty.of_isPullback sq.flip inferInstance
   intro hγ
   have := isIso_rightAdjointSquare_of_isOpenImmersion j' f' f j sq
@@ -257,7 +257,7 @@ theorem rightAdjointBaseChange_app_eq_twistedInverseImageRestrictionMap
         (quasiCoherentDerivedPullbackCompIso j' f ≪≫ quasiCoherentDerivedPullbackCongr sq.w)
         (twistedInverseImageAdjunction f (isQuasicoherent_homology_derivedPushforward_of_qcqs f))
         (twistedInverseImageAdjunction f'
-          (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))).natTrans.app K =
+          (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))).app K =
       (Adjunction.leftAdjointUniq
           (quasiCoherentDerivedAdjunction j' (isQuasicoherent_homology_derivedPullback' j')
             (isQuasicoherent_homology_derivedPushforward_of_qcqs j'))
@@ -326,7 +326,7 @@ theorem isIso_rightAdjointBaseChange_app_of_isOpenImmersion (sq : IsPullback j' 
         (quasiCoherentDerivedPullbackCompIso j' f ≪≫ quasiCoherentDerivedPullbackCongr sq.w)
         (twistedInverseImageAdjunction f (isQuasicoherent_homology_derivedPushforward_of_qcqs f))
         (twistedInverseImageAdjunction f'
-          (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))).natTrans.app K) := by
+          (isQuasicoherent_homology_derivedPushforward_of_qcqs f'))).app K) := by
   have : IsOpenImmersion j' := MorphismProperty.of_isPullback sq.flip inferInstance
   have := isNoetherian_of_isProper f
   have : IsProper f' := MorphismProperty.of_isPullback sq inferInstance

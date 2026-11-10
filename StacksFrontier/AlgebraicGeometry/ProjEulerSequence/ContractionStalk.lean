@@ -181,7 +181,7 @@ theorem val_coordRatio
       Localization.mk (MvPolynomial.X j : MvPolynomial (Fin (n + 1)) R)
         ⟨MvPolynomial.X i, hx⟩ := by
     rw [contraction_apply]
-    show Localization.mk (MvPolynomial.X j : MvPolynomial (Fin (n + 1)) R) 1 *
+    change Localization.mk (MvPolynomial.X j : MvPolynomial (Fin (n + 1)) R) 1 *
       Localization.mk (1 : MvPolynomial (Fin (n + 1)) R)
         (⟨MvPolynomial.X i, hx⟩ : x.asHomogeneousIdeal.toIdeal.primeCompl) = _
     rw [Localization.mk_mul]

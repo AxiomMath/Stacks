@@ -19,8 +19,8 @@ Noetherian local rings with Gorenstein target is Gorenstein.
 
 **That ring-theoretic assertion IS proved in this library, so the two results below are
 superseded.** The full equivalence is `Dualizing.isGorensteinLocalRing_iff_of_flat` in
-`StacksFrontier/RingTheory/Dualizing/FlatLocalGorenstein.lean` (line 681, carrying `@[stacks 0BJL]`),
-and `Stacks.Duality.isGorenstein_of_flat` in
+`StacksFrontier/RingTheory/Dualizing/FlatLocalGorenstein.lean` (line 681, carrying
+`@[stacks 0BJL]`), and `Stacks.Duality.isGorenstein_of_flat` in
 `StacksFrontier/AlgebraicGeometry/Duality/GorensteinMorphismOfFlat.lean` already deduces the
 scheme-level Tag 0C12 from it with no hypothesis at all.
 

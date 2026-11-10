@@ -8,7 +8,8 @@ public import StacksFrontier.AlgebraicGeometry.Perfect.SupportClosedSubset.Affin
 
 Let `A` be a commutative ring, let `f₁, …, f_c ∈ A` be a finite nonempty family and let `M` be an
 `A`-module.  `StacksFrontier/AlgebraicGeometry/Perfect/SupportClosedSubset/AffineFractionClass\
-StacksFrontier/AlgebraicGeometry/Perfect/PerfectApproximation/Comparison.lean` reduces clause 3 of Tag 0G7R to the existence of a **target comparison**: an
+StacksFrontier/AlgebraicGeometry/Perfect/PerfectApproximation/Comparison.lean` reduces clause 3 of
+Tag 0G7R to the existence of a **target comparison**: an
 `A`-linear map
 
 `M_{f₁⋯f_c}/im(⨁ᵢ M_{f₁⋯f̂ᵢ⋯f_c}) ⟶ Γ(Spec A, Coker(lastDif))`
@@ -312,15 +313,15 @@ public def atIndexL (f : Fin (d + 1) → R) (M : ModuleCat.{u} R) (p : ℕ)
     rw [map_add, CechCochains.OrdCochain.add_apply, secIso_symm_apply, secIso_symm_apply,
       secIso_symm_apply, atIndexCochain_apply, atIndexCochain_apply, atIndexCochain_apply]
     by_cases hq : q = q₀
-    · simp only [dif_pos hq]; exact map_add _ _ _
-    · simp only [dif_neg hq]; exact (add_zero 0).symm
+    · simp only [dite_eq_left hq]; exact map_add _ _ _
+    · simp only [dite_eq_right hq]; exact (add_zero 0).symm
   map_smul' r y := by
     refine (secIso (specFun f) (tilde M) p ⊤).injective (funext fun q => ?_)
     rw [RingHom.id_apply, secIso_smulR, secIso_symm_apply, secIso_symm_apply,
       atIndexCochain_apply, atIndexCochain_apply]
     by_cases hq : q = q₀
-    · simp only [dif_pos hq]; exact map_smul _ _ _
-    · simp only [dif_neg hq]; exact (smul_zero r).symm
+    · simp only [dite_eq_left hq]; exact map_smul _ _ _
+    · simp only [dite_eq_right hq]; exact (smul_zero r).symm
 
 /-- The components of `atIndexL`. -/
 public theorem secIso_atIndexL (f : Fin (d + 1) → R) (M : ModuleCat.{u} R) (p : ℕ)
@@ -359,7 +360,7 @@ public theorem lastDif_preimage_zero (f : Fin 1 → R) (M : ModuleCat.{u} R)
       atIndexL f M 0 (topIndex 0) (awayLift f M s (interTop_le f s) x) := by
   refine (secIso (specFun f) (tilde M) 0 ⊤).injective (funext fun q => ?_)
   obtain rfl := topIndex_unique q
-  rw [secIso_difZero, secIso_atIndexL, dif_pos rfl]
+  rw [secIso_difZero, secIso_atIndexL, dite_eq_left rfl]
   exact (resL_awayLift f M s htop (interTop_le f s) _ x).trans
     (resL_awayLift f M s (interTop_le f s) (interTop_le f s) _ x).symm
 
@@ -393,11 +394,11 @@ public theorem lastDif_preimage_succ {e : ℕ} (f : Fin (e + 2) → R) (M : Modu
             ⟨(topIndex (e + 1)).1 ∘ j.succAbove,
               CechCochains.strictMono_omit (topIndex (e + 1)).2 j⟩) = 0 := by
     intro j _ hj
-    rw [secIso_atIndexL, dif_neg fun h => hj (faceIndex_injective ((hidx j).symm.trans h)),
+    rw [secIso_atIndexL, dite_eq_right fun h => hj (faceIndex_injective ((hidx j).symm.trans h)),
       map_zero, smul_zero]
   rw [secIso_difSucc, ordD_apply, Finset.sum_eq_single_of_mem i (Finset.mem_univ i) hzero,
-    secIso_atIndexL, dif_pos (hidx i), map_zsmul, map_zsmul, sign_smul_sign, restr_eq,
-    secIso_atIndexL, dif_pos rfl]
+    secIso_atIndexL, dite_eq_left (hidx i), map_zsmul, map_zsmul, sign_smul_sign, restr_eq,
+    secIso_atIndexL, dite_eq_left rfl]
   exact ((congrArg (fun z => resL (tilde M)
       (CechCochains.inter_le_omit
         (fun k => (⊤ : (Spec R).Opens) ⊓ (Spec R).basicOpen (specFun f k))
@@ -566,7 +567,7 @@ public theorem atIndexL_awayLift_univ (f : Fin (d + 1) → R) (M : ModuleCat.{u}
       (fractionHom (specFun f) (tilde M) d).app ⊤ (toOpenL M ⊤ m) := by
   refine (secIso (specFun f) (tilde M) d ⊤).injective (funext fun q => ?_)
   obtain rfl := topIndex_unique q
-  rw [secIso_atIndexL, dif_pos rfl, fractionHom_secIso, fractionCochain_apply,
+  rw [secIso_atIndexL, dite_eq_left rfl, fractionHom_secIso, fractionCochain_apply,
     resL_awayLift f M Finset.univ (interTop_le f Finset.univ) (interTop_le f Finset.univ) _ _,
     awayLift_univ_eq_fraction]
   rfl
@@ -587,7 +588,7 @@ public theorem targetComparison_mk (f : Fin (d + 1) → R) (M : ModuleCat.{u} R)
     targetComparison f M (Submodule.Quotient.mk (Cech.topFraction f (M : Type u) m)) =
       (cokernel.π (lastDif (specFun f) (tilde M))).app ⊤
         ((fractionHom (specFun f) (tilde M) d).app ⊤ ((tilde.isoTop M).hom m)) := by
-  show piL f M (topTransfer f M (Cech.topFraction f (M : Type u) m)) = _
+  change piL f M (topTransfer f M (Cech.topFraction f (M : Type u) m)) = _
   rw [Cech.topFraction_apply, topTransfer_lof_of_card f M Finset.univ (Finset.card_fin _),
     atIndexL_awayLift_univ]
   rfl

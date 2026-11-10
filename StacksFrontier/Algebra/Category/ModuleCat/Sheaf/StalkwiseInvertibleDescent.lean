@@ -293,7 +293,7 @@ lemma dualStalkEquiv_germ (hfp : M.IsFinitePresentation) (x : Y) {U : Opens Y} (
   let := stalkModule M x
   let := stalkModule (dualM M) x
   let := stalkModule (unitMod Y) x
-  show (unitStalkEquiv x).symm
+  change (unitStalkEquiv x).symm
       (sheafHomStalk M hfp x (germ (dualM M) x hx α) (germ M x hx m)) = _
   rw [sheafHomStalk_germ M hfp x hx α m]
   exact unitStalkEquiv_symm_germ x hx _

@@ -65,7 +65,7 @@ private lemma chosen_baseChange_map_isPullback
     IsPullback (G.map g).left (p.app A) (p.app B) (F.map g).left := by
   apply IsPullback.of_right (t := (hp B).flip)
     (p := p.naturality g)
-  show IsPullback ((G.map g).left ≫ (G.obj B).hom) (p.app A) f
+  change IsPullback ((G.map g).left ≫ (G.obj B).hom) (p.app A) f
     ((F.map g).left ≫ (F.obj B).hom)
   rw [Over.w, Over.w]
   exact (hp A).flip
@@ -126,7 +126,7 @@ private lemma exists_stage_range_subset {J : Type u} [Category.{u} J] [IsCofilte
     obtain ⟨p, y, hp, hy⟩ := hn j.left j.hom
     obtain ⟨z, hz⟩ := ht ▸ (show y ∈ Eᶜ from hy)
     have hpz : F.map j.hom p = q' z := by
-      show F.map j.hom p = q (t z)
+      change F.map j.hom p = q (t z)
       rw [hz]
       exact hp
     obtain ⟨w, _, _⟩ := Scheme.Pullback.exists_preimage_pullback p z hpz
@@ -215,7 +215,7 @@ public lemma mem_smallAffineEtale_precoverage_iff
     let E := R.preZeroHypercover
     have : Finite E.I₀ := Set.Finite.to_subtype hfin
     have he : AlgebraicGeometry.IsEtaleCovering ⟨F.obj X, E.map F⟩ := by
-      show (E.map (F ⋙ B.inclusion)).presieve₀ ∈ Scheme.etalePrecoverage _
+      change (E.map (F ⋙ B.inclusion)).presieve₀ ∈ Scheme.etalePrecoverage _
       rw [PreZeroHypercover.presieve₀_map, Presieve.presieve₀_preZeroHypercover]
       exact hcov
     obtain ⟨⟨T, Q⟩, hQ, hcomb⟩ := B.exists_covering_rep ⟨F.obj X, E.map F⟩ he
@@ -234,7 +234,7 @@ public lemma mem_smallAffineEtale_precoverage_iff
     refine ⟨deduplicateFamily E, ?_, ?_, deduplicateFamily_finite E⟩
     · rw [deduplicateFamily_presieve₀, Presieve.presieve₀_preZeroHypercover]
     · refine ⟨?_, hbound⟩
-      show ((deduplicateFamily E).map (F ⋙ B.inclusion)).presieve₀ ∈ Scheme.etalePrecoverage _
+      change ((deduplicateFamily E).map (F ⋙ B.inclusion)).presieve₀ ∈ Scheme.etalePrecoverage _
       rw [PreZeroHypercover.presieve₀_map, deduplicateFamily_presieve₀,
         Presieve.presieve₀_preZeroHypercover]
       exact hcov
@@ -296,7 +296,7 @@ private lemma affineEtale_hom_etale
   let q := B.inclusion.map Y.obj.obj.hom
   have : Etale q := Y.obj.property
   have : Etale ((AlgebraicGeometry.SmallAffineEtale.toScheme B S hS).map f ≫ q) := by
-    show Etale (B.inclusion.map f.hom.hom.left ≫ B.inclusion.map Y.obj.obj.hom)
+    change Etale (B.inclusion.map f.hom.hom.left ≫ B.inclusion.map Y.obj.obj.hom)
     have hw := congrArg B.inclusion.map (Over.w f.hom.hom)
     rw [Functor.map_comp] at hw
     rw [hw]
@@ -441,7 +441,7 @@ private lemma exists_etale_baseChange_of_finite_cover {J : Type*} [Category* J]
   intro l
   have hsq := (IsPullback.of_hasPullback (pullback.fst A.hom (F.map b))
     (𝒰.f l)).flip.paste_vert (IsPullback.of_hasPullback A.hom (F.map b))
-  show Etale (pullback.fst (pullback.fst A.hom (F.map b)) (𝒰.f l) ≫
+  change Etale (pullback.fst (pullback.fst A.hom (F.map b)) (𝒰.f l) ≫
     pullback.snd A.hom (F.map b))
   rw [← hsq.isoPullback_hom_snd]
   let := he l
@@ -485,10 +485,10 @@ private lemma exists_etale_baseChange_chart {J : Type u} [Category.{u} J] [IsCof
     show IsAffineHom (pullback.snd (F.map i₀.hom) q) from inferInstance
   let W₀ := (Over.pullback p₀).obj W
   have : IsAffine W₀.left := by
-    show IsAffine (pullback W.hom p₀)
+    change IsAffine (pullback W.hom p₀)
     exact isAffine_of_isAffineHom (pullback.fst W.hom p₀)
   have : LocallyOfFinitePresentation W₀.hom := by
-    show LocallyOfFinitePresentation (pullback.snd W.hom p₀)
+    change LocallyOfFinitePresentation (pullback.snd W.hom p₀)
     infer_instance
   have hlim : Etale ((Over.pullback e.pt.hom).obj W).hom :=
     (etale_pullback_factor_iff (d.π.app i) q W).mp inferInstance
@@ -561,7 +561,7 @@ private lemma exists_etale_baseChange_of_compact_source {J : Type u} [Category.{
       exact etale_baseChange_precomp (d.π.app i) A.hom (U l).1.ι
     obtain ⟨j, hj⟩ := exists_etale_baseChange_chart F d hd i (V l).1.ι W
     refine ⟨j.left, j.hom, ?_⟩
-    show Etale (pullback.snd ((U l).1.ι ≫ A.hom) (F.map j.hom))
+    change Etale (pullback.snd ((U l).1.ι ≫ A.hom) (F.map j.hom))
     rwa [hw] at hj)
   exact ⟨Over.mk a, ha⟩
 

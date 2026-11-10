@@ -284,7 +284,7 @@ lemma inertia_locally_fixed (Z : AbsoluteInertia (schemeQuotientProjection.{t} B
         ψ.hom.map W (Z'.obj.translationMap g W p) :=
       (ψ.hom.map_equivariant W _ p).symm
     refine (ψ.hom.bijOn_map W p.1).injOn ?_ rfl (hc.trans (h2.trans h3))
-    show (Z'.auto.asIso.hom.map W p).1 = p.1
+    change (Z'.auto.asIso.hom.map W p).1 = p.1
     rw [Z'.auto.asIso.hom.fst_map, auto_base, Category.comp_id]
   refine ⟨g, fixedSchemePull Z' htrans, fixedSchemePullHom Z' htrans ≫ ψ, ?_⟩
   refine (RelativeInertia.isHomLift_π_comp_iff f _).mpr

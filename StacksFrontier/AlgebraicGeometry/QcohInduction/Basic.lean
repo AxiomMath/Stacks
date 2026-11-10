@@ -206,8 +206,8 @@ of `Y` covering `Y`, if the higher direct images along `A.ι ≫ j ≫ f`, `B.ι
 `R ᵐ⁺¹ (j ≫ f)_* (j^* F)` is quasi-coherent.
 
 Because `A` and `B` cover the *whole* of `Y`, the relative Mayer-Vietoris sequence of
-[Stacks, Tag 01EC] applies in the form in which it is stated in the library, whose cover hypothesis is
-`Set.range iU ∪ Set.range iV = Set.univ`. -/
+[Stacks, Tag 01EC] applies in the form in which it is stated in the library, whose cover hypothesis
+is `Set.range iU ∪ Set.range iV = Set.univ`. -/
 theorem isQuasicoherent_succ_of_cover (f : X ⟶ S) (F : X.Modules) {Y : Scheme.{u}} (j : Y ⟶ X)
     (A B : Y.Opens) (hcover : A ⊔ B = ⊤) (m : ℤ)
     (hA : ∀ k : ℤ, (((Scheme.Modules.pushforward (A.ι ≫ j ≫ f)).rightDerivedPlus k).obj
@@ -221,13 +221,13 @@ theorem isQuasicoherent_succ_of_cover (f : X ⟶ S) (F : X.Modules) {Y : Scheme.
       ((Scheme.Modules.pullback j).obj F)).IsQuasicoherent := by
   have hcov : Set.range (A.ι.toLRSHom.toShHom).hom.base ∪
       Set.range (B.ι.toLRSHom.toShHom).hom.base = Set.univ := by
-    show Set.range A.ι.base ∪ Set.range B.ι.base = Set.univ
+    change Set.range A.ι.base ∪ Set.range B.ι.base = Set.univ
     rw [Scheme.Opens.range_ι, Scheme.Opens.range_ι]
     exact congrArg (fun T : Y.Opens => (T : Set Y)) hcover
   have hint : Set.range ((A ⊓ B).ι.toLRSHom.toShHom).hom.base =
       Set.range (A.ι.toLRSHom.toShHom).hom.base ∩
         Set.range (B.ι.toLRSHom.toShHom).hom.base := by
-    show Set.range (A ⊓ B).ι.base = Set.range A.ι.base ∩ Set.range B.ι.base
+    change Set.range (A ⊓ B).ι.base = Set.range A.ι.base ∩ Set.range B.ι.base
     rw [Scheme.Opens.range_ι, Scheme.Opens.range_ι, Scheme.Opens.range_ι]
     rfl
   obtain ⟨MV⟩ := relativeMayerVietorisPlus (j ≫ f).toLRSHom.toShHom
@@ -252,7 +252,7 @@ def QcohImage (f : X ⟶ S) (F : X.Modules) (U : X.Opens) : Prop :=
 image of `j`. -/
 theorem range_preimage_ι_comp {Y : Scheme.{u}} (j : Y ⟶ X) [IsOpenImmersion j] (W U : X.Opens)
     (hW : j.opensRange = W) (hUW : U ≤ W) : Set.range ((j ⁻¹ᵁ U).ι ≫ j).base = U := by
-  show (((j ⁻¹ᵁ U).ι ≫ j).opensRange : Set X) = U
+  change (((j ⁻¹ᵁ U).ι ≫ j).opensRange : Set X) = U
   rw [Scheme.Hom.opensRange_comp, Scheme.Opens.opensRange_ι,
     Scheme.Hom.image_preimage_eq_opensRange_inf, hW]
   exact inf_eq_right.mpr hUW

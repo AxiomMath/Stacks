@@ -98,7 +98,7 @@ theorem exists_finite_flat_covering_refinement
       P.toGrothendieck.toPretopology
   have hle : P.toGrothendieck ≤ K.toGrothendieck := by
     refine Precoverage.toGrothendieck_le_iff_le_toPrecoverage.mpr fun X R hR => ?_
-    show Sieve.generate R ∈ K.toGrothendieck X
+    change Sieve.generate R ∈ K.toGrothendieck X
     exact ⟨R, ⟨⟨(hP R hR).1, (hP R hR).2⟩, Precoverage.generate_mem_toGrothendieck hR⟩,
       Sieve.le_generate R⟩
   obtain ⟨R, hR, hRS⟩ := (Pretopology.mem_toGrothendieck K U S).mp (hle U hS)
@@ -112,10 +112,10 @@ theorem exists_finite_flat_covering_refinement
   refine ⟨E, hR.1.1.to_subtype, ?_, ?_, ?_⟩
   · rw [PreZeroHypercover.presieve₀_map, he]
     exact hR.1.2
-  · show Sieve.generate E.presieve₀ ∈ _
+  · change Sieve.generate E.presieve₀ ∈ _
     rw [he]
     exact hR.2
-  · show Sieve.generate E.presieve₀ ≤ S
+  · change Sieve.generate E.presieve₀ ≤ S
     rw [he]
     exact (Sieve.generate_le_iff _ _).mpr hRS
 
@@ -338,11 +338,11 @@ theorem exists_finite_flat_covering (hp : p.IsFiberedInGroupoids) (τ : SiteKind
       let e := L.map (eqToHom (IsHomLift.domain_eq q (h k) (φ k)))
       obtain ⟨c, rfl⟩ := (inferInstance : Surjective e).surj b
       refine ⟨k, c, ?_⟩
-      show (L.map (q.map (φ k ≫ g k))) c = _
+      change (L.map (q.map (φ k ≫ g k))) c = _
       rw [hmap k, L.map_comp, Scheme.Hom.comp_apply]
       rfl
     · intro k
-      show Flat (L.map (q.map (φ k ≫ g k)))
+      change Flat (L.map (q.map (φ k ≫ g k)))
       rw [hmap k, L.map_comp]
       have := hfl k
       change Flat (L.map (E.f k)) at this

@@ -244,7 +244,7 @@ private lemma freeHomEquiv_mapFreeIso_comp {W V : C} {N : _root_.SheafOfModules.
     [PreservesColimitsOfShape (Discrete ι) F] :
     (N.over V).freeHomEquiv ((SheafOfModules.mapFreeIso F ι η).hom ≫ F.map e ≫ φ) j =
       (N.over V).unitHomEquiv (η.hom ≫ F.map (SheafOfModules.ιFree j ≫ e) ≫ φ) := by
-  show (N.over V).unitHomEquiv
+  change (N.over V).unitHomEquiv
     (SheafOfModules.ιFree j ≫ (SheafOfModules.mapFreeIso F ι η).hom ≫ F.map e ≫ φ) = _
   rw [← Category.assoc, SheafOfModules.ιFree_mapFreeIso_hom]
   simp only [Category.assoc, Functor.map_comp]
@@ -262,12 +262,12 @@ private lemma exists_lift_free_over {M N : _root_.SheafOfModules.{t} R} (f : M �
   refine ⟨(M.over V).freeHomEquiv.symm fun j ↦
     PresheafOfModules.sectionsMk (fun Z ↦ M.val.map Z.unop.hom.op (m j)) (by
       intro Z Z' k
-      show M.val.map k.unop.left.op (M.val.map Z.unop.hom.op (m j)) = _
+      change M.val.map k.unop.left.op (M.val.map Z.unop.hom.op (m j)) = _
       rw [← M.val.map_comp_apply, ← op_comp, Over.w]), ?_⟩
   rw [SheafOfModules.freeHomEquiv_symm_comp]
   refine (N.over V).freeHomEquiv.symm_apply_eq.2 (funext fun j ↦ ?_)
   refine PresheafOfModules.sections_ext _ _ fun Z ↦ ?_
-  show f.val.app (op Z.unop.left) (M.val.map Z.unop.hom.op (m j)) = _
+  change f.val.app (op Z.unop.left) (M.val.map Z.unop.hom.op (m j)) = _
   rw [PresheafOfModules.naturality_apply, hm j]
   exact ((N.over V).freeHomEquiv α j).property
     (Over.homMk Z.unop.hom (by simp) : Z.unop ⟶ Over.mk (𝟙 V)).op
@@ -356,7 +356,7 @@ private lemma exists_le_lift_sections (f : M ⟶ N) [Epi f] {ι : Type u} [Finit
   have hZV (i : ι) : W ⊓ ⨅ j, V j ≤ V i := inf_le_right.trans (iInf_le _ i)
   refine ⟨W ⊓ ⨅ j, V j, inf_le_left, ⟨hy, ?_⟩,
     fun i ↦ M.val.map (homOfLE (hZV i)).op (s i), fun i ↦ ?_⟩
-  · show y ∈ ((⨅ j, V j : Y.Opens) : Set Y)
+  · change y ∈ ((⨅ j, V j : Y.Opens) : Set Y)
     rw [TopologicalSpace.Opens.coe_iInf, Set.mem_iInter]
     exact hyV
   · refine Eq.trans (PresheafOfModules.naturality_apply f.val (homOfLE (hZV i)).op (s i)) ?_

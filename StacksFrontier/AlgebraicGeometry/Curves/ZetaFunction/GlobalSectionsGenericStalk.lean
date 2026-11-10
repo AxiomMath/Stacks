@@ -215,7 +215,7 @@ theorem exists_genericCoord_eq [IsNormal X]
     rw [map_one] at this
     exact this
   have hT1 : T g = a • genericValue X L s := by
-    show genericStructStalkEquiv X _ • (a • genericValue X L s) = _
+    change genericStructStalkEquiv X _ • (a • genericValue X L s) = _
     rw [h1, one_smul]
   rw [hT1] at hgerm
   have hfinal : (genericBasisEquiv X L s hs).symm (a • genericValue X L s) = a :=

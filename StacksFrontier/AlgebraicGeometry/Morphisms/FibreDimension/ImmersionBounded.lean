@@ -47,7 +47,7 @@ theorem hasUniversallyBoundedFibers_of_isImmersion {X Y : Scheme.{u}} (f : X ⟶
     [IsImmersion f] : HasUniversallyBoundedFibers f := by
   refine ⟨1, fun y ↦ ?_⟩
   have hgi : IsImmersion (f.fiberToSpecResidueField y) := by
-    show IsImmersion (pullback.snd f (Y.fromSpecResidueField y))
+    change IsImmersion (pullback.snd f (Y.fromSpecResidueField y))
     infer_instance
   let : Algebra ↑(Y.residueField y) ↑Γ(f.fiber y, ⊤) :=
     ((Scheme.ΓSpecIso (Y.residueField y)).inv ≫

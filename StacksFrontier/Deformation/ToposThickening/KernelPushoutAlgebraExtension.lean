@@ -126,7 +126,7 @@ private theorem reduction_algebraMap_inv {M : SheafOfModules.{w}
 /-- A solution, read as an extension of `𝒜`-algebras, induces `c`. -/
 theorem isCompatible_toAlgebraExtension (P : S.CompatibleFirstOrderThickening) :
     S.IsCompatible θ S.c (S.toAlgebraExtension θ hθ P) := fun U x => by
-  show P.baseMap.hom.app U (θ.hom.hom.app U (θ.inv.hom.app U _)) = _
+  change P.baseMap.hom.app U (θ.hom.hom.app U (θ.inv.hom.app U _)) = _
   rw [hom_app_inv_app]
   exact P.baseMap_ideal U x
 

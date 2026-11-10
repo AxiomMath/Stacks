@@ -92,7 +92,7 @@ theorem le_openComplementOfClosedSubspace (Z : ClosedSubspaces B S hS A.1)
     U.1 ≤ (openComplementOfClosedSubspace B S hS A Z).1 := by
   have h : U ≤ openComplementOfClosedSubspace B S hS A Z := by
     rw [← (openSubspacesOrderIso B S hS A.1 A.2).le_iff_le]
-    show subspacePointSet B S hS A.1 U.1 ⊆
+    change subspacePointSet B S hS A.1 U.1 ⊆
       subspacePointSet B S hS A.1 (openComplementOfClosedSubspace B S hS A Z).1
     rw [subspacePointSet_openComplement]
     exact hUZ.subset_compl_right
@@ -123,13 +123,13 @@ theorem range_pullbackFst_preimage_le_strictTransform (Z : ClosedSubspaces B S h
     ((pullback.fst (strictTransformPullbackToBlowUp B S hS f b).hom
       (U.1.preimage b.hom).ι).app T y)
   simp only [NatTrans.comp_app_apply] at h1 h2
-  show f.hom.app T ((pullback.fst f.hom b.hom).app T _) ∈ U.1.obj T
+  change f.hom.app T ((pullback.fst f.hom b.hom).app T _) ∈ U.1.obj T
   rw [show f.hom.app T ((pullback.fst f.hom b.hom).app T ((pullback.fst
       (strictTransformPullbackToBlowUp B S hS f b).hom (U.1.preimage b.hom).ι).app T y)) =
     b.hom.app T ((pullback.snd f.hom b.hom).app T ((pullback.fst
       (strictTransformPullbackToBlowUp B S hS f b).hom (U.1.preimage b.hom).ι).app T y)) from
     h2]
-  show b.hom.app T ((strictTransformPullbackToBlowUp B S hS f b).hom.app T _) ∈ U.1.obj T
+  change b.hom.app T ((strictTransformPullbackToBlowUp B S hS f b).hom.app T _) ∈ U.1.obj T
   rw [h1]
   exact ((pullback.snd (strictTransformPullbackToBlowUp B S hS f b).hom
     (U.1.preimage b.hom).ι).app T y).2
@@ -189,7 +189,7 @@ theorem isIso_pullbackSnd_strictTransformSpaceToBlowUp (Z : ClosedSubspaces B S 
   have hfac := range_pullbackFst_preimage_le_strictTransform f b Z hb U hUZ
   set h := Subfunctor.lift (pullback.fst p U'.ι) hfac
   have hh : h ≫ i = pullback.fst p U'.ι := Subfunctor.lift_ι _ _
-  show IsIso (pullback.snd (i ≫ p) U'.ι)
+  change IsIso (pullback.snd (i ≫ p) U'.ι)
   have hlift : (inv (pullback.snd p U'.ι) ≫ h) ≫ i ≫ p = 𝟙 _ ≫ U'.ι := by
     rw [Category.assoc, reassoc_of% hh, pullback.condition, IsIso.inv_hom_id_assoc,
       Category.id_comp]

@@ -153,21 +153,29 @@ add_to_ega "III 1.2.1" "more general"
   AlgebraicGeometry.LocallyRingedSpace.Γevaluation_eq_zero_iff_notMem_basicOpen
 add_to_ega "III 1.2.1" "more general"
   AlgebraicGeometry.LocallyRingedSpace.Γevaluation_ne_zero_iff_mem_basicOpen
+open AlgebraicGeometry.Scheme.Modules in
 add_to_ega "III 1.2.1" "M = Γ(X"
-  AlgebraicGeometry.Scheme.Modules.instModuleCarrierObjOppositeOpensCarrierCarrierCommRingCatPresheafOpOpensCarrierAbPresheaf
+  instModuleCarrierObjOppositeOpensCarrierCarrierCommRingCatPresheafOpOpensCarrierAbPresheaf
 add_to_ega "III 1.2.1" AlgebraicGeometry.Scheme.basicOpen
 add_to_ega "III 1.2.1" "more general"
   AlgebraicGeometry.Scheme.evaluation_eq_zero_iff_notMem_basicOpen
 add_to_ega "III 1.2.1" "more general" AlgebraicGeometry.Scheme.evaluation_ne_zero_iff_mem_basicOpen
 add_to_ega "III 1.2.1" "A = Γ(X, O_X)" AlgebraicGeometry.Scheme.Γ
+open AlgebraicGeometry.IsAffineOpen in
 add_to_ega "III 1.2.2" "special case"
-  AlgebraicGeometry.IsAffineOpen.instAwayCarrierObjOppositeOpensCarrierCarrierCommRingCatSpecPresheafOpOpensBasicOpen
+  instAwayCarrierObjOppositeOpensCarrierCarrierCommRingCatSpecPresheafOpOpensBasicOpen
 add_to_ega "III 1.2.2" "special case" AlgebraicGeometry.IsAffineOpen.isLocalization_basicOpen
 add_to_ega "III 1.2.2" "special case" AlgebraicGeometry.IsAffineOpen.isLocalization_of_eq_basicOpen
-add_to_ega "III 1.2.2" "special case"
-  AlgebraicGeometry.StructureSheaf.instAwayObjOppositeOpensCarrierTopObjFunctorTypeIsSheafGrothendieckTopologyStructureSheafInTypeOpBasicOpen
-add_to_ega "III 1.2.2" "special case"
-  AlgebraicGeometry.StructureSheaf.instAwayObjOppositeOpensCarrierTopObjFunctorTypeIsSheafGrothendieckTopologyStructureSheafInTypeOpBasicOpenToOpenₗ
+-- These auto-generated instance names are longer than a line, so each identifier is
+-- assembled from two pieces before being handed to `add_to_ega`.
+run_cmd Lean.Elab.Command.elabCommand (← `(command| add_to_ega "III 1.2.2" "special case"
+  $(Lean.mkIdent <| .str `AlgebraicGeometry.StructureSheaf
+    ("instAwayObjOppositeOpensCarrierTopObjFunctorTypeIsSheafGrothendieckTopology" ++
+      "StructureSheafInTypeOpBasicOpen"))))
+run_cmd Lean.Elab.Command.elabCommand (← `(command| add_to_ega "III 1.2.2" "special case"
+  $(Lean.mkIdent <| .str `AlgebraicGeometry.StructureSheaf
+    ("instAwayObjOppositeOpensCarrierTopObjFunctorTypeIsSheafGrothendieckTopology" ++
+      "StructureSheafInTypeOpBasicOpenToOpenₗ"))))
 add_to_ega "III 1.2.2" "special case" AlgebraicGeometry.isLocalization_away_of_isAffine
 add_to_ega "III 1.2.2" "special case" AlgebraicGeometry.Γ_restrict_isLocalization
 add_to_ega "III 1.2.5" "partial" AlgebraicGeometry.IsAffineOpen.basicOpen
@@ -177,17 +185,23 @@ add_to_ega "III 1.2.5" "partial" AlgebraicGeometry.IsAffineOpen.inf
 add_to_ega "III 1.2.5" "partial" AlgebraicGeometry.IsAffineOpen.instIsAffineToSchemeBasicOpen
 add_to_ega "III 1.2.5" "partial" AlgebraicGeometry.IsAffineOpen.ι_basicOpen_preimage
 add_to_ega "III 1.4.6" "special case" AlgebraicGeometry.IsAffineOpen.isLocalization_of_eq_basicOpen
-add_to_ega "III 1.4.6" "special case"
-  AlgebraicGeometry.StructureSheaf.instAwayObjOppositeOpensCarrierTopObjFunctorTypeIsSheafGrothendieckTopologyStructureSheafInTypeOpBasicOpenToOpenₗ
+run_cmd Lean.Elab.Command.elabCommand (← `(command| add_to_ega "III 1.4.6" "special case"
+  $(Lean.mkIdent <| .str `AlgebraicGeometry.StructureSheaf
+    ("instAwayObjOppositeOpensCarrierTopObjFunctorTypeIsSheafGrothendieckTopology" ++
+      "StructureSheafInTypeOpBasicOpenToOpenₗ"))))
 add_to_ega "III 1.4.6" "special case" AlgebraicGeometry.isLocalization_away_of_isAffine
 add_to_ega "III 1.4.6" "special case" AlgebraicGeometry.Γ_restrict_isLocalization
 add_to_ega "III 1.4.15" CategoryTheory.Limits.pullback
 add_to_ega "III 1.4.15.5" AlgebraicGeometry.Flat.SpecMap_iff
 add_to_ega "III 1.4.15.5" "partial" AlgebraicGeometry.Scheme.Hom.flat_appTop
-add_to_ega "III 2.1.2" "special case"
-  AlgebraicGeometry.StructureSheaf.instAwayObjOppositeOpensCarrierTopObjFunctorTypeIsSheafGrothendieckTopologyStructureSheafInTypeOpBasicOpen
-add_to_ega "III 2.1.2" "special case"
-  AlgebraicGeometry.StructureSheaf.instAwayObjOppositeOpensCarrierTopObjFunctorTypeIsSheafGrothendieckTopologyStructureSheafInTypeOpBasicOpenToOpenₗ
+run_cmd Lean.Elab.Command.elabCommand (← `(command| add_to_ega "III 2.1.2" "special case"
+  $(Lean.mkIdent <| .str `AlgebraicGeometry.StructureSheaf
+    ("instAwayObjOppositeOpensCarrierTopObjFunctorTypeIsSheafGrothendieckTopology" ++
+      "StructureSheafInTypeOpBasicOpen"))))
+run_cmd Lean.Elab.Command.elabCommand (← `(command| add_to_ega "III 2.1.2" "special case"
+  $(Lean.mkIdent <| .str `AlgebraicGeometry.StructureSheaf
+    ("instAwayObjOppositeOpensCarrierTopObjFunctorTypeIsSheafGrothendieckTopology" ++
+      "StructureSheafInTypeOpBasicOpenToOpenₗ"))))
 add_to_ega "III 2.1.2" "special case" AlgebraicGeometry.Γ_restrict_isLocalization
 add_to_ega "III 2.1.8" "special case" AdjoinRoot.powerBasis'
 add_to_ega "III 2.1.8" "special case" AdjoinRoot.powerBasisAux

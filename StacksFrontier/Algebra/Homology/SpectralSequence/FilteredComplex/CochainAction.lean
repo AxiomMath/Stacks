@@ -351,7 +351,7 @@ lemma ofHom_f_comp_actionMid (hw : RespectsFiltration F M w)
   ext n
   rw [Cochain.zero_cochain_comp_v, Cochain.ofHom_v, Cochain.ofHom_v,
     ← cancel_epi (F.map ((M.grπ (k + 1)).f n))]
-  show F.map ((M.grπ (k + 1)).f n) ≫ F.map ((M.grShortComplex k).f.f n) ≫ _ =
+  change F.map ((M.grπ (k + 1)).f n) ≫ F.map ((M.grShortComplex k).f.f n) ≫ _ =
     F.map ((M.grπ (k + 1)).f n) ≫ (actionGr hw hw' (k + 1) (k' + 1) _).f n ≫
       F.map ((M.grShortComplex k').f.f (n + p))
   rw [← F.map_comp_assoc, ← HomologicalComplex.comp_f, grπ_grShortComplex_f,
@@ -369,7 +369,7 @@ lemma actionMid_comp_ofHom_g (hw : RespectsFiltration F M w)
   ext n
   rw [Cochain.comp_zero_cochain_v, Cochain.ofHom_v, Cochain.ofHom_v,
     ← cancel_epi (F.map ((cokernel.π (M.succStep (k + 1) ≫ M.succStep k)).f n))]
-  show _ ≫ _ ≫ F.map ((M.grShortComplex k').g.f (n + p)) =
+  change _ ≫ _ ≫ F.map ((M.grShortComplex k').g.f (n + p)) =
     F.map ((cokernel.π (M.succStep (k + 1) ≫ M.succStep k)).f n) ≫
       F.map ((M.grShortComplex k).g.f n) ≫ (actionGr hw hw' k k' hk).f n
   rw [reassoc_of% (π_actionMid_v hw k k' hk n), ← F.map_comp, ← HomologicalComplex.comp_f,
@@ -434,7 +434,7 @@ lemma δ_actionMid (hw : RespectsFiltration F M w)
     simp only [comp_add, Int.negOnePow_one, Units.neg_smul, one_smul, Linear.comp_units_smul,
       comp_neg, sub_comp, Linear.units_smul_comp, assoc, CochainComplex.shiftFunctor_obj_d',
       π_actionMid_v_assoc]
-    show p.negOnePow • (_ ≫ F.map ((cokernel.π (M.succStep (k' + 1) ≫ M.succStep k')).f
+    change p.negOnePow • (_ ≫ F.map ((cokernel.π (M.succStep (k' + 1) ≫ M.succStep k')).f
         (n + p)) ≫ F.map ((M.grShortComplex k').X₂.d (n + p) (n + 1 + p))) +
       -(F.map ((cokernel.π (M.succStep (k + 1) ≫ M.succStep k)).f n) ≫
         F.map ((M.grShortComplex k).X₂.d n (n + 1)) ≫ _) = _
@@ -442,7 +442,7 @@ lemma δ_actionMid (hw : RespectsFiltration F M w)
     rfl
   refine hL.trans ?_
   rw [hd]
-  show _ = F.map ((cokernel.π (M.succStep (k + 1) ≫ M.succStep k)).f n) ≫
+  change _ = F.map ((cokernel.π (M.succStep (k + 1) ≫ M.succStep k)).f n) ≫
     F.map ((M.grShortComplex k).g.f n) ≫ _ ≫ F.map ((M.grShortComplex k').f.f (n + 1 + p))
   rw [← F.map_comp_assoc, ← HomologicalComplex.comp_f, π_grShortComplex_g]
   simp only [Cocycle.equivHomShift_apply, Cochain.rightUnshift_v _ _ _ _ _ _ _ (add_zero n),
@@ -599,7 +599,7 @@ theorem derivedShiftedMap_actionGr_comp_derivedConnecting (hw : RespectsFiltrati
     simp only [Linear.units_smul_comp, smul_smul, Int.units_mul_self, one_smul, assoc]
     rw [← Functor.map_comp_assoc, Iso.inv_hom_id_app]
     refine congrArg (fun x => _ ≫ _ ≫ x) ?_
-    show _ = (shiftFunctorComm (DerivedCategory B) 1 p).hom.app (H.obj B₁) ≫
+    change _ = (shiftFunctorComm (DerivedCategory B) 1 p).hom.app (H.obj B₁) ≫
       (CategoryTheory.shiftFunctor (DerivedCategory B) 1).map (𝟙 ((H.obj B₁)⟦p⟧)) ≫ _
     rw [CategoryTheory.Functor.map_id]
     exact hcomm.symm.trans (congrArg (fun x => _ ≫ x) (id_comp _).symm)

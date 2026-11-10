@@ -222,6 +222,7 @@ local instance (priority := high) hasPullback_presheaf_ProperFlatFamilies
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site times out otherwise
 /-- Limits of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasLimits_presheaf_ProperFlatFamilies
@@ -229,6 +230,7 @@ local instance hasLimits_presheaf_ProperFlatFamilies
     HasFiniteLimits ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site times out otherwise
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_ProperFlatFamilies
@@ -236,6 +238,7 @@ local instance hasPullbacks_presheaf_ProperFlatFamilies
     HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for small discrete limits of presheaves on the big fppf site times out otherwise
 /-- Small discrete limits of presheaves on the big fppf site (instance search times out
 without this shortcut). -/
 local instance hasLimitsOfShape_discrete_presheaf_ProperFlatFamilies
@@ -361,16 +364,16 @@ private theorem spaceFamily_morphism_isPullback
     apply IsPullback.of_iso_pullback (CommSq.mk (by
       simpa [schemeSpaceMap, schemeSpace] using
         (show A.hom ≫ yoneda.map m.right = m.left.hom ≫ C.hom from m.w.symm))) e
-    · show e.hom ≫ pullback.fst (yoneda.map m.right) C.hom = A.hom
-      show (ObjectProperty.ι _).map t ≫
+    · change e.hom ≫ pullback.fst (yoneda.map m.right) C.hom = A.hom
+      change (ObjectProperty.ι _).map t ≫
         pullback.fst (yoneda.map m.right) C.hom = A.hom
-      show pullback.lift A.hom m.left.hom m.w.symm ≫
+      change pullback.lift A.hom m.left.hom m.w.symm ≫
         pullback.fst (yoneda.map m.right) C.hom = A.hom
       exact pullback.lift_fst _ _ _
-    · show e.hom ≫ pullback.snd (yoneda.map m.right) C.hom = m.left.hom
-      show (ObjectProperty.ι _).map t ≫
+    · change e.hom ≫ pullback.snd (yoneda.map m.right) C.hom = m.left.hom
+      change (ObjectProperty.ι _).map t ≫
         pullback.snd (yoneda.map m.right) C.hom = m.left.hom
-      show pullback.lift A.hom m.left.hom m.w.symm ≫
+      change pullback.lift A.hom m.left.hom m.w.symm ≫
         pullback.snd (yoneda.map m.right) C.hom = m.left.hom
       exact pullback.lift_snd _ _ _
   simpa [schemeSpaceMap, schemeSpace,
@@ -429,15 +432,15 @@ private theorem properFlatHom_isPullback_spaces
   let e : Cx.left ≅ P := asIso lift
   have hfst : e.hom ≫ pFst = properFlatCommaHomAsSpaceMap B S hS Cx := by
     apply ObjectProperty.hom_ext
-    show CategoryTheory.Limits.pullback.lift Cx.hom m.left.hom m.w.symm ≫
+    change CategoryTheory.Limits.pullback.lift Cx.hom m.left.hom m.w.symm ≫
       CategoryTheory.Limits.pullback.fst fbase.hom cbase.hom = Cx.hom
     exact CategoryTheory.Limits.pullback.lift_fst _ _ _
   have hsnd : e.hom ≫ pSnd = m.left := by
     apply ObjectProperty.hom_ext
-    show CategoryTheory.Limits.pullback.lift Cx.hom m.left.hom m.w.symm ≫
+    change CategoryTheory.Limits.pullback.lift Cx.hom m.left.hom m.w.symm ≫
       CategoryTheory.Limits.pullback.snd fbase.hom cbase.hom = m.left.hom
     exact CategoryTheory.Limits.pullback.lift_snd _ _ _
-  show IsPullback m.left
+  change IsPullback m.left
     (properFlatCommaHomAsSpaceMap B S hS Cx)
     (properFlatCommaHomAsSpaceMap B S hS Cy) (schemeSpaceMap m.right)
   apply hp.flip.of_iso e.symm (Iso.refl _) (Iso.refl _) (Iso.refl _)
@@ -484,15 +487,15 @@ private theorem properFlatHom_isPullback_spaces_over
   let e : Cx.left ≅ P := asIso lift
   have hfst : e.hom ≫ pFst = properFlatCommaHomAsSpaceMap_over B S hS Cx := by
     apply ObjectProperty.hom_ext
-    show CategoryTheory.Limits.pullback.lift Cx.hom m.left.hom m.w.symm ≫
+    change CategoryTheory.Limits.pullback.lift Cx.hom m.left.hom m.w.symm ≫
       CategoryTheory.Limits.pullback.fst fbase.hom cbase.hom = Cx.hom
     exact CategoryTheory.Limits.pullback.lift_fst _ _ _
   have hsnd : e.hom ≫ pSnd = m.left := by
     apply ObjectProperty.hom_ext
-    show CategoryTheory.Limits.pullback.lift Cx.hom m.left.hom m.w.symm ≫
+    change CategoryTheory.Limits.pullback.lift Cx.hom m.left.hom m.w.symm ≫
       CategoryTheory.Limits.pullback.snd fbase.hom cbase.hom = m.left.hom
     exact CategoryTheory.Limits.pullback.lift_snd _ _ _
-  show IsPullback m.left
+  change IsPullback m.left
     (properFlatCommaHomAsSpaceMap_over B S hS Cx)
     (properFlatCommaHomAsSpaceMap_over B S hS Cy) (schemeSpaceMap m.right)
   apply hp.flip.of_iso e.symm (Iso.refl _) (Iso.refl _) (Iso.refl _)
@@ -568,7 +571,7 @@ private theorem properFlatHom_pointsMap_surjective_of_base_nonempty_subsingleton
       (P := @Surjective) (hsq.map T) hp⟩
   let : HasPullbacks (AlgebraicGeometry.BigFppfOver B S hS) := inferInstance
   have hscheme : P f.hom.hom.right := by
-    show Surjective (T.map f.hom.hom.right)
+    change Surjective (T.map f.hom.hom.right)
     exact ⟨hbaseScheme⟩
   have hpresheaf : P.presheaf (yoneda.map f.hom.hom.right) :=
     MorphismProperty.relative_map hscheme
@@ -606,7 +609,7 @@ private theorem properFlatHom_pointsMap_surjective_of_base_nonempty_subsingleton
       (P := @Surjective) (hsq.map T) hp⟩
   let : HasPullbacks (AlgebraicGeometry.BigFppfOver B S hS) := inferInstance
   have hscheme : P f.hom.hom.right := by
-    show Surjective (T.map f.hom.hom.right)
+    change Surjective (T.map f.hom.hom.right)
     exact ⟨hbaseScheme⟩
   have hpresheaf : P.presheaf (yoneda.map f.hom.hom.right) :=
     MorphismProperty.relative_map hscheme

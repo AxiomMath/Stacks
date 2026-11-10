@@ -106,7 +106,7 @@ private theorem surjectiveDeterminantEquiv_escomp_bcLine (P : TwoTermPresentatio
       rfl⟩
   have hRS (i : ℤ) : IsScalarTower R S ((bcComplex g (bcComplex f P.complex)).X i) :=
     ⟨fun r s x => by
-      show (g (f r * s)) • x = g (f r) • (g s • x)
+      change (g (f r * s)) • x = g (f r) • (g s • x)
       rw [map_mul, mul_smul]⟩
   have h₁ := isBaseChange_bcUnit f P.complex (-1)
   have h₀ := isBaseChange_bcUnit f P.complex 0

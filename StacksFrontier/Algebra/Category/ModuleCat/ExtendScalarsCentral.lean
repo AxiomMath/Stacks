@@ -101,7 +101,8 @@ theorem natTrans_app_comp_eq (hA : P (ModuleCat.of A A))
   obtain ⟨u, hu⟩ := natTrans_app_eq_smul hA δ
   rw [hu, hu]
   exact (Linear.smul_comp _ _ _ _ _ _).trans ((congrArg (u • ·)
-    ((Category.id_comp φ).trans (Category.comp_id φ).symm)).trans (Linear.comp_smul _ _ _ _ _ _).symm)
+    ((Category.id_comp φ).trans (Category.comp_id φ).symm)).trans
+      (Linear.comp_smul _ _ _ _ _ _).symm)
 
 /-- An element of `B` acting as the identity on `B ⊗_A A` is `1`. -/
 theorem eq_one_of_smul_id_eq_id (a : B)

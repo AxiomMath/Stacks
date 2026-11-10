@@ -89,7 +89,7 @@ theorem isReduced_pullback_of_dense_iUnion_range {ι : Type u} [Finite ι]
     refine hp.mono ?_
     intro x hx
     obtain ⟨i, w, rfl⟩ := Set.mem_iUnion.mp hx
-    exact ⟨Sigma.ι W i w, by rw [← Scheme.Hom.comp_apply, Sigma.ι_desc]⟩
+    exact ⟨Sigma.ι W i w, by rw [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]⟩
   have : IsSchemeTheoreticallyDominant (Sigma.desc p) := .of_isDominant _
   suffices IsReduced (pullback (pullback.fst f g) (Sigma.desc p)) from
     IsSchemeTheoreticallyDominant.isReduced (pullback.fst (pullback.fst f g) (Sigma.desc p))

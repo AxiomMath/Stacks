@@ -109,7 +109,8 @@ theorem heq_projectiveCompletionTautologicalInl_bundle :
       (projectiveCompletionTautologicalInl E hr) :=
   (heq_of_eq (projectiveCompletionTautologicalInl_eq_bundle E hr)).symm
 
-omit [IsAffine (chartScheme V)] in
+omit [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree
+  (show SheafOfModules.{u} (structureRingSheaf B S hS X) from E)] [IsAffine (chartScheme V)] in
 /-- `AlgebraicGeometry.Space.projectiveCompletionSectionHom_eq_bundle` across the two spellings
 of the source and target. -/
 theorem heq_projectiveCompletionSectionHom_bundle :
@@ -126,6 +127,8 @@ theorem heq_projectiveCompletionSectionHom_bundle :
       (isFiniteLocallyFreeOnSite_addUnit hr)).hom) (projectiveCompletionSectionHom E hr) :=
   (heq_of_eq (projectiveCompletionSectionHom_eq_bundle E hr)).symm
 
+omit [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree
+  (show SheafOfModules.{u} (structureRingSheaf B S hS X) from E)] [IsAffine (chartScheme V)] in
 /-- The inverse image of a section of `ℰ` at the chart `U_V`, in the spelling of the projective
 bundle. -/
 theorem modulePullbackChartSection_affinePartChart_eq_bundle (x : E.val.obj (op V)) :
@@ -154,6 +157,8 @@ theorem modulePullbackChartSection_affinePartChart_eq_bundle (x : E.val.obj (op 
         x :=
   rfl
 
+omit [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree
+  (show SheafOfModules.{u} (structureRingSheaf B S hS X) from E)] [IsAffine (chartScheme V)] in
 /-- `AlgebraicGeometry.Space.modulePullbackChartSection_affinePartChart_eq_bundle` across the two
 spellings of the module. -/
 theorem heq_modulePullbackChartSection_bundle (x : E.val.obj (op V)) :
@@ -181,6 +186,8 @@ theorem heq_modulePullbackChartSection_bundle (x : E.val.obj (op V)) :
             affinePartChartOverChart_comm E hr m⟩ x) :=
   (heq_of_eq (modulePullbackChartSection_affinePartChart_eq_bundle E hr m x)).symm
 
+omit [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree
+  (show SheafOfModules.{u} (structureRingSheaf B S hS X) from E)] [IsAffine (chartScheme V)] in
 /-- The value of `q` on a chart section, in the spelling of the projective bundle. -/
 theorem projectiveCompletionAffinePartQuotient_val_app_eq_bundle (x : E.val.obj (op V)) :
     ((modulePullbackCompIso B S hS (projectiveCompletionAffinePartHomBundle E hr)
@@ -249,6 +256,8 @@ variable {n : Type u} [DecidableEq n] [Finite n]
   (e : (show SheafOfModules.{u} (structureRingSheaf B S hS X) from E).over V ≅
     SheafOfModules.free (R := (structureRingSheaf B S hS X).over V) n)
 
+omit [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree
+  (show SheafOfModules.{u} (structureRingSheaf B S hS X) from E)] in
 /-- The coordinates of `U ×_X V ≅ 𝐏((ℰ ⊕ 𝒪)|_V) ∖ 𝐏(ℰ|_V) ≅ 𝐀^n_V` are those of the open
 immersion `U ×_X V ⟶ 𝐏((ℰ ⊕ 𝒪)|_V)`. -/
 theorem affinePartOverChartIsoComplement_splitQuotientComplementIso_appTop_coord (j : n) :

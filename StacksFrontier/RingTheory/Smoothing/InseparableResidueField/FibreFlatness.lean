@@ -489,8 +489,7 @@ theorem isEssentiallySmooth_of_finite_flat {R D : Type u} [CommRing R] [IsLocalR
   have hflat : Module.Flat (Localization.AtPrime (maximalIdeal R))
       (Localization.AtPrime (maximalIdeal D)) := by
     rw [← RingHom.flat_algebraMap_iff,
-      Localization.AtPrime.IsLiesOverAlgebra.algebraMap_eq (p := maximalIdeal R)
-        (P := maximalIdeal D),
+      Localization.AtPrime.algebraMap_eq (maximalIdeal R) (maximalIdeal D),
       ← RingHom.Flat.comp_iff_of_bijective_right hbijR, hsq,
       RingHom.Flat.comp_iff_of_bijective_left hbijD, RingHom.flat_algebraMap_iff]
     infer_instance

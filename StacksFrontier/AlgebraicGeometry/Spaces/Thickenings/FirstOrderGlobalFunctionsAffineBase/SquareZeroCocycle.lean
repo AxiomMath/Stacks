@@ -354,19 +354,14 @@ theorem ι₀_tmul (b : D₀) (m : X.KD) (x : D) (hx : X.πD x = b) :
 theorem exists_ι₀_eq_mul (e : E) (y : D₀ ⊗[C] X.KD) :
     ∃ y' : D₀ ⊗[C] X.KD, KE.val X (X.ι₀ y') = e * KE.val X (X.ι₀ y) := by
   obtain ⟨z, hz⟩ := X.gen (X.πE e)
-  induction z using TensorProduct.induction_on generalizing e with
-  | zero =>
-    refine ⟨0, ?_⟩
-    rw [map_zero] at hz
-    rw [map_zero, KE.val_zero, X.sq_zero_E e (RingHom.mem_ker.2 hz.symm) _ (KE.mem X _)]
+  induction z using TensorProduct.inductionOn generalizing e with
   | tmul b b' =>
     obtain ⟨x, rfl⟩ := X.surj_πD b
     obtain ⟨x', rfl⟩ := X.surj_πD b'
     have hκ : e - X.s x * X.t x' ∈ RingHom.ker X.πE := by
       rw [RingHom.mem_ker, map_sub, ← hz, map_mul, X.πE_s, X.πE_t,
         Algebra.TensorProduct.productMap_apply_tmul, sub_self]
-    induction y using TensorProduct.induction_on with
-    | zero => exact ⟨0, by rw [map_zero, KE.val_zero, mul_zero]⟩
+    induction y using TensorProduct.inductionOn with
     | tmul b'' m =>
       obtain ⟨x'', rfl⟩ := X.surj_πD b''
       refine ⟨(X.πD x * X.πD x'') ⊗ₜ KD.mk X (x' * KD.val X m)
@@ -493,7 +488,7 @@ theorem injective_ι₁ : Function.Injective X.ι₁ := by
       (Module.Flat.lTensor_preserves_injective_linearMap _ Subtype.val_injective)
   have mult_tmul : ∀ (e : E₂) (n : X.KE), mult (e ⊗ₜ n) = X.d₀ (KE.val X n) * e := by
     intro e n
-    show TensorProduct.rid E E₂ (e ⊗ₜ (n : E)) = _
+    change TensorProduct.rid E E₂ (e ⊗ₜ (n : E)) = _
     rw [TensorProduct.rid_tmul, Algebra.smul_def]
     rfl
   let α : D₀ ⊗[C] X.KE →+ E₂ ⊗[E] X.KE :=
@@ -522,15 +517,14 @@ theorem injective_ι₁ : Function.Injective X.ι₁ := by
               hx, Algebra.smul_def]),
           ← sub_eq_zero, ← TensorProduct.sub_tmul]
         refine kill _ ?_ n
-        show X.πE₂ (X.q (x * _) - X.d₀ x' * X.q _) = 0
+        change X.πE₂ (X.q (x * _) - X.d₀ x' * X.q _) = 0
         rw [map_sub, map_mul, map_mul, map_mul, X.πE₂_q, X.πE₂_q, X.πE₂_d₀, hx, hx',
           AlgHom.commutes, AlgHom.commutes, sub_self])
   have α_tmul : ∀ b n, α (b ⊗ₜ n) = X.q (Function.surjInv X.surj_πD b) ⊗ₜ[E] n :=
     fun _ _ => rfl
   have hι : ∀ y, X.ι₁ y = mult (α y) := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, map_zero]
+    induction y using TensorProduct.inductionOn with
     | tmul b n =>
       rw [X.ι₁_tmul b n _ (Function.surjInv_eq X.surj_πD b), α_tmul, mult_tmul, mul_comm]
     | add y y' h h' => rw [map_add, map_add, map_add, h, h']
@@ -549,14 +543,13 @@ theorem injective_ι₁ : Function.Injective X.ι₁ := by
     { toFun := fun n => y • n
       map_add' := fun n n' => smul_add y n n'
       map_smul' := fun c n => by
-        show y • (algebraMap C E₀ c • n) = algebraMap C E₀ c • (y • n)
+        change y • (algebraMap C E₀ c • n) = algebraMap C E₀ c • (y • n)
         rw [smul_smul, smul_smul, mul_comm] }
   have homext : ∀ f g : D₀ ⊗[C] X.KE →+ D₀ ⊗[C] X.KE,
       (∀ b n, f (b ⊗ₜ n) = g (b ⊗ₜ n)) → f = g := by
     intro f g h
     refine AddMonoidHom.ext fun z => ?_
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul b n => exact h b n
     | add z z' hz hz' => rw [map_add, map_add, hz, hz']
   let Φ : D₀ ⊗[C] E₀ →+ (D₀ ⊗[C] X.KE →+ D₀ ⊗[C] X.KE) :=
@@ -564,22 +557,21 @@ theorem injective_ι₁ : Function.Injective X.ι₁ := by
       (AddMonoidHom.mk' (fun b => AddMonoidHom.mk'
           (fun y => (TensorProduct.map (LinearMap.mulLeft C b) (yAct y)).toAddMonoidHom)
           (fun y y' => homext _ _ fun b' n => by
-            show (b * b') ⊗ₜ ((y + y') • n) = (b * b') ⊗ₜ (y • n) + (b * b') ⊗ₜ (y' • n)
+            change (b * b') ⊗ₜ ((y + y') • n) = (b * b') ⊗ₜ (y • n) + (b * b') ⊗ₜ (y' • n)
             rw [add_smul, TensorProduct.tmul_add]))
         (fun b b' => by
           refine AddMonoidHom.ext fun y => homext _ _ fun b'' n => ?_
-          show ((b + b') * b'') ⊗ₜ (y • n) = (b * b'') ⊗ₜ (y • n) + (b' * b'') ⊗ₜ (y • n)
+          change ((b + b') * b'') ⊗ₜ (y • n) = (b * b'') ⊗ₜ (y • n) + (b' * b'') ⊗ₜ (y • n)
           rw [add_mul, TensorProduct.add_tmul]))
       (fun c b y => homext _ _ fun b' n => by
-        show ((c • b) * b') ⊗ₜ (y • n) = (b * b') ⊗ₜ ((c • y) • n)
+        change ((c • b) * b') ⊗ₜ (y • n) = (b * b') ⊗ₜ ((c • y) • n)
         rw [smul_mul_assoc, TensorProduct.smul_tmul, Algebra.smul_def, mul_smul]
         rfl)
   have Φ_tmul : ∀ b y b' n, Φ (b ⊗ₜ y) (b' ⊗ₜ n) = (b * b') ⊗ₜ (y • n) :=
     fun _ _ _ _ => rfl
   have Φ3 : ∀ u y n, Φ ((1 ⊗ₜ y) * u) (1 ⊗ₜ n) = Φ u (1 ⊗ₜ (y • n)) := by
     intro u y n
-    induction u using TensorProduct.induction_on with
-    | zero => simp only [mul_zero, map_zero, AddMonoidHom.zero_apply]
+    induction u using TensorProduct.inductionOn with
     | tmul b y' =>
       rw [Algebra.TensorProduct.tmul_mul_tmul, Φ_tmul, Φ_tmul, one_mul, mul_smul, smul_comm]
     | add u u' hu hu' =>
@@ -603,11 +595,10 @@ theorem injective_ι₁ : Function.Injective X.ι₁ := by
         rw [hrn, hre, map_mul, hσe, Φ3])
   have hρ : ∀ y, ρ (α y) = y := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction y using TensorProduct.inductionOn with
     | tmul b n =>
       rw [α_tmul]
-      show Φ (σ (X.πE₂ (X.q (Function.surjInv X.surj_πD b)))) (1 ⊗ₜ n) = b ⊗ₜ n
+      change Φ (σ (X.πE₂ (X.q (Function.surjInv X.surj_πD b)))) (1 ⊗ₜ n) = b ⊗ₜ n
       rw [X.πE₂_q, Function.surjInv_eq X.surj_πD, hσq, Φ_tmul, mul_one, one_smul]
     | add y y' h h' => rw [map_add, map_add, h, h']
   intro y y' h
@@ -625,12 +616,11 @@ theorem exists_sub_mem_ker_eq [Module.FaithfullyFlat C D₀] (a : D)
   let ψ : X.KE → E₂ := fun n => X.d₁ (KE.val X n) - X.d₂ (KE.val X n)
   have hc : ∀ y, X.ι₁ (X.φ.lTensor D₀ y) = ψ (X.ι₀ y) := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => simp [ψ]
+    induction y using TensorProduct.inductionOn with
     | tmul b m =>
       obtain ⟨x, rfl⟩ := X.surj_πD b
       rw [LinearMap.lTensor_tmul, X.ι₁_tmul _ _ x rfl, X.φ_val]
-      show _ = X.d₁ (KE.val X (X.ι₀ _)) - X.d₂ (KE.val X (X.ι₀ _))
+      change _ = X.d₁ (KE.val X (X.ι₀ _)) - X.d₂ (KE.val X (X.ι₀ _))
       rw [X.ι₀_tmul _ _ x rfl, map_mul, map_mul, X.d₁_s, X.d₂_s, X.d₁_t, X.d₂_t, map_sub]
       ring
     | add y y' h h' =>

@@ -111,8 +111,7 @@ theorem exists_forall_tmul_one_eq_of_cocycle
             (TensorProduct.piLeft R (B ⊗[R] N) A
               (LinearMap.lTensor B (TensorProduct.mk R B N 1) t) i)) j =
           LinearMap.lTensor (A i) (TensorProduct.mk R (A j) N 1) (e t i) := by
-      induction t using TensorProduct.induction_on with
-      | zero => simp
+      induction t using TensorProduct.inductionOn with
       | tmul b n => simp [TensorProduct.piLeft, TensorProduct.piRight, e, B]
       | add t t' ht ht' => simp_all
     rw [rhs, ez]

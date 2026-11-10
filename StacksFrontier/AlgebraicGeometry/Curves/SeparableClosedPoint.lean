@@ -216,7 +216,7 @@ theorem isClosed_finrank_residueField_le_degreeOver_of_finrank_eq_one [IsNormal 
   let algXY := (f.residueFieldMap x).hom.toAlgebra
   have htower : IsScalarTower k (Y.residueField (f.base x)) (X.residueField x) := by
     refine IsScalarTower.of_algebraMap_eq fun c => ?_
-    show ((Scheme.ΓSpecIso (.of k)).inv ≫ πX.appTop ≫ X.Γevaluation x).hom c =
+    change ((Scheme.ΓSpecIso (.of k)).inv ≫ πX.appTop ≫ X.Γevaluation x).hom c =
       (f.residueFieldMap x).hom (((Scheme.ΓSpecIso (.of k)).inv ≫ πY.appTop ≫
         Y.Γevaluation (f.base x)).hom c)
     subst hf
@@ -269,15 +269,15 @@ theorem exists_section_affineSpace_mem_of_isOpen [Infinite k] {σ : Type u}
   · rw [Category.assoc, AffineSpace.SpecIso_inv_over, ← Spec.map_comp, ← Spec.map_id]
     congr 1
     ext c
-    show ψ (MvPolynomial.C c) = c
+    change ψ (MvPolynomial.C c) = c
     rw [MvPolynomial.aeval_C]
     rfl
   · let qpt : PrimeSpectrum R := PrimeSpectrum.comap ψ.toRingHom ⊥
     have hqpt : qpt ∈ PrimeSpectrum.basicOpen q := by
       rw [PrimeSpectrum.mem_basicOpen]
-      show q ∉ Ideal.comap ψ.toRingHom (⊥ : Ideal k)
+      change q ∉ Ideal.comap ψ.toRingHom (⊥ : Ideal k)
       rw [Ideal.mem_comap, Ideal.mem_bot]
-      show MvPolynomial.eval₂ (algebraMap k k) a q ≠ 0
+      change MvPolynomial.eval₂ (algebraMap k k) a q ≠ 0
       exact ha
     have hpt : Spec.map (CommRingCat.ofHom ψ.toRingHom) p = (qpt : Spec (.of R)) := by
       have : p = OrderDual.ofDual
@@ -288,10 +288,10 @@ theorem exists_section_affineSpace_mem_of_isOpen [Infinite k] {σ : Type u}
     have hp : Spec.map (CommRingCat.ofHom ψ.toRingHom) p ∈ PrimeSpectrum.basicOpen q := by
       rwa [hpt]
     obtain ⟨w, hw, hweq⟩ := hsub hp
-    show e.inv (Spec.map (CommRingCat.ofHom ψ.toRingHom) p) ∈ W
+    change e.inv (Spec.map (CommRingCat.ofHom ψ.toRingHom) p) ∈ W
     rw [← hweq]
     have h1 : e.inv (homeo w) = w := by
-      show (e.hom ≫ e.inv).base w = w
+      change (e.hom ≫ e.inv).base w = w
       rw [e.hom_inv_id]
       rfl
     rwa [h1]
@@ -426,7 +426,7 @@ theorem exists_isClosed_isSeparable_finrank_le_degreeOver_of_etale [Infinite k]
   exact Algebra.IsSeparable.of_algHom _ _
     { toRingHom := (U.ι.residueFieldMap u).hom
       commutes' := fun c => by
-        show (U.ι.residueFieldMap u).hom ((φ.residueFieldMap (U.ι u)).hom c) =
+        change (U.ι.residueFieldMap u).hom ((φ.residueFieldMap (U.ι u)).hom c) =
           ((U.ι ≫ φ).residueFieldMap u).hom c
         rw [Scheme.residueFieldMap_comp]
         rfl }

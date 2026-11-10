@@ -83,7 +83,7 @@ theorem kaehlerDifferent_comap {Y' Y X' X : Scheme.{u}} (g' : Y' ⟶ Y) (f' : Y'
     locallyOfFiniteType_isStableUnderBaseChange.of_isPullback h inferInstance
   have hiso : IsIso (Scheme.Hom.relativeDifferentialsMap g' f f' g h.w) :=
     Scheme.Hom.isIso_relativeDifferentialsMap_of_isPullback g' f' f g h
-  show fittingIdeal (Scheme.Hom.relativeDifferentials f') 0 =
+  change fittingIdeal (Scheme.Hom.relativeDifferentials f') 0 =
     (fittingIdeal (Scheme.Hom.relativeDifferentials f) 0).comap g'
   rw [fittingIdeal_comap g' (Scheme.Hom.relativeDifferentials f) 0]
   exact fittingIdeal_eq_of_iso

@@ -366,7 +366,7 @@ theorem amplePolarizedHom_ampleHomOf : amplePolarizedHom hA hC (ampleHomOf b hw)
     _ (Space.QuasiCoherentDescent.canonicalComparison _ _ _ _
       (ampleModelBaseMap_comp_ampleModelSpaceIso (ampleBase b hw)) C.lineBundle) _ _ hz
   have hfib : picardFibreIso (ampleHomOf b hw) = ampleFibreOf b hw := Iso.ext rfl
-  show ampleLineBundleIso hA hC (ampleHomOf b hw) ≍ b.lineBundleIso
+  change ampleLineBundleIso hA hC (ampleHomOf b hw) ≍ b.lineBundleIso
   rw [ampleLineBundleIso, ampleModuleComparison, hfib]
   exact (heq_of_eq key).trans (PolarizedFamily.eqToIso_trans_heq _ _)
 

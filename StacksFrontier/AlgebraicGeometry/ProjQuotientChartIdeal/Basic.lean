@@ -68,7 +68,7 @@ theorem irrelevant_le_map_quotientMk {R A : Type u} [CommRing R] [CommRing A]
       (HomogeneousIdeal.irrelevant 𝒜).map (quotientMk 𝒜 I) := by
   refine (HomogeneousIdeal.irrelevant_le (quotientGrading 𝒜 I)).2 fun j hj x hx ↦ ?_
   obtain ⟨a, ha, rfl⟩ := (mem_quotientGrading_iff 𝒜 I).1 hx
-  show Ideal.Quotient.mk I.toIdeal a ∈
+  change Ideal.Quotient.mk I.toIdeal a ∈
     ((HomogeneousIdeal.irrelevant 𝒜).map (quotientMk 𝒜 I)).toAddSubmonoid
   exact Ideal.mem_map_of_mem _ (HomogeneousIdeal.mem_irrelevant_of_mem _ hj ha)
 

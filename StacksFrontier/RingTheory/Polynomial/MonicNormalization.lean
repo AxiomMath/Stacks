@@ -57,7 +57,8 @@ theorem dvd_of_forall_pderiv_eq_zero {f : MvPolynomial σ R} (h : ∀ i, pderiv 
   have hmi : 1 ≤ m i := Nat.one_le_iff_ne_zero.mpr fun h0 => hp (h0 ▸ dvd_zero p)
   have hle : Finsupp.single i 1 ≤ m := Finsupp.single_le_iff.mpr hmi
   have hc := coeff_pderiv (i := i) f (m - Finsupp.single i 1)
-  rw [h i, AddMonoidAlgebra.coeff_zero, Finsupp.coe_zero, Pi.zero_apply, tsub_add_cancel_of_le hle, Finsupp.tsub_apply, Finsupp.single_eq_same,
+  rw [h i, AddMonoidAlgebra.coeff_zero, Finsupp.coe_zero, Pi.zero_apply, tsub_add_cancel_of_le hle,
+    Finsupp.tsub_apply, Finsupp.single_eq_same,
     eq_comm, mul_eq_zero] at hc
   rcases hc with hc | hc
   · exact (mem_support_iff.mp hm) hc
@@ -142,7 +143,7 @@ theorem totalDegree_shear_le (a : R) (f : MvPolynomial (Fin 2) R) :
     (shear a f).totalDegree ≤ f.totalDegree := by
   conv_lhs => rw [← sum_homogeneousComponent f]
   rw [map_sum]
-  refine (totalDegree_finset_sum _ _).trans (Finset.sup_le fun i hi => ?_)
+  refine (totalDegree_finsetSum _ _).trans (Finset.sup_le fun i hi => ?_)
   exact (isHomogeneous_shear a (homogeneousComponent_isHomogeneous i f)).totalDegree_le.trans
     (Nat.lt_succ_iff.mp (Finset.mem_range.mp hi))
 
@@ -161,7 +162,7 @@ theorem IsHomogeneous.coeff_single_one_eq_eval {G : MvPolynomial (Fin 2) R} {d :
   conv_lhs => rw [← Polynomial.homogenize_eq_of_isHomogeneous hG rfl]
   rw [Polynomial.coeff_homogenize]
   simp only [Finsupp.single_eq_of_ne (show (0 : Fin 2) ≠ 1 by decide), Finsupp.single_eq_same,
-    zero_add, if_true, Polynomial.coeff_zero_eq_eval_zero, eval_aeval_X_one]
+    zero_add, ite_true, Polynomial.coeff_zero_eq_eval_zero, eval_aeval_X_one]
 
 /-- The coefficient of `y ^ d` after the shear is the top homogeneous component evaluated at
 `(a, 1)`. -/
@@ -214,12 +215,12 @@ theorem irreducible_of_irreducible_map {σ K L : Type*} [Field K] [Field L] (φ 
       ext m
       by_cases hm : m = 0
       · simp [hm]
-      · rw [coeff_C, if_neg (Ne.symm hm)]
+      · rw [coeff_C, ite_eq_right (Ne.symm hm)]
         have := congrArg (fun q : MvPolynomial _ _ => q.coeff m) hc.2
-        rw [coeff_map, coeff_C, if_neg (Ne.symm hm)] at this
+        rw [coeff_map, coeff_C, ite_eq_right (Ne.symm hm)] at this
         exact (map_eq_zero φ).mp this
     have h0 := congrArg (fun q : MvPolynomial _ _ => q.coeff 0) hc.2
-    rw [coeff_map, coeff_C, if_pos rfl] at h0
+    rw [coeff_map, coeff_C, ite_eq_left rfl] at h0
     rw [hu']
     refine (isUnit_iff_ne_zero.mpr fun h => ?_).map C
     rw [h, map_zero] at h0
@@ -282,7 +283,7 @@ theorem exists_monic_normalization {F : Type*} [Field F] [Fintype F]
       fun s => s.sum fun _ e => e
     intro h
     have := congrArg (fun q : MvPolynomial _ _ => q.coeff m) h
-    rw [coeff_homogeneousComponent, if_pos (show m.degree = d from hmd.symm),
+    rw [coeff_homogeneousComponent, ite_eq_left (show m.degree = d from hmd.symm),
       AddMonoidAlgebra.coeff_zero, Finsupp.coe_zero, Pi.zero_apply] at this
     exact mem_support_iff.mp hm this
   set P : Polynomial F := aeval ![Polynomial.X, 1] H
@@ -365,7 +366,7 @@ theorem exists_monic_normalization {F : Type*} [Field F] [Fintype F]
     have hset : {p : Fin 2 → F | eval p f = 0} =
         (fun P : F × F => ![P.1 + a * P.2, P.2]) '' {P : F × F | g.evalEval P.1 P.2 = 0} := by
       ext p
-      simp only [Set.mem_setOf_eq, Set.mem_image, hev, mul_eq_zero, inv_eq_zero, hc, false_or]
+      simp only [Set.mem_ofPred_eq, Set.mem_image, hev, mul_eq_zero, inv_eq_zero, hc, false_or]
       have hp : ![p 0, p 1] = p := by ext i; fin_cases i <;> rfl
       constructor
       · intro h

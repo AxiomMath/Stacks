@@ -118,7 +118,7 @@ theorem isZero_homologyFunctor_obj_of_restrictScalars (q : A →+* B)
           (DerivedCategory.homologyFunctorFactors (ModuleCat.{u} B) i).symm F)
   have h2 : IsZero (F.obj ((DerivedCategory.homologyFunctor (ModuleCat.{u} B) i).obj X)) :=
     h.of_iso (E.app X).symm
-  rwa [ModuleCat.isZero_iff_subsingleton] at h2 ⊢
+  rw [ModuleCat.isZero_iff_subsingleton] at h2 ⊢; assumption
 
 /-- For a **surjective** ring map `q : A → B`, an `A`-linear isomorphism between two `B`-modules
 is automatically `B`-linear: every scalar `b` is `q a` for some `a`, and `b • y = a • y` for the
@@ -217,14 +217,14 @@ theorem nonempty_iso_restrictScalars_derivedHom_single (M : ModuleCat.{u} A) (n 
       (HomologicalComplex.single (ModuleCat.{u} A) (ComplexShape.up ℤ) n)).ShortExact :=
     hS.map_of_exact _
   have hmor : (DerivedCategory.triangleOfSES hSp).mor₁ = t • 𝟙 K := by
-    show DerivedCategory.Q.map
+    change DerivedCategory.Q.map
       ((HomologicalComplex.single (ModuleCat.{u} A) (ComplexShape.up ℤ) n).map (t • 𝟙 M)) = _
     rw [single_map_smul_id, Functor.map_smul, DerivedCategory.Q.map_id]
     rfl
   let eT := Pretriangulated.isoTriangleOfIso₁₂ (Triangle.mk i (t • 𝟙 K) δ).rotate
     (DerivedCategory.triangleOfSES hSp) (rot_of_distTriang _ hT)
     (DerivedCategory.triangleOfSES_distinguished hSp) (Iso.refl _) (Iso.refl _) (by
-      show (t • 𝟙 K) ≫ 𝟙 K = 𝟙 K ≫ (DerivedCategory.triangleOfSES hSp).mor₁
+      change (t • 𝟙 K) ≫ 𝟙 K = 𝟙 K ≫ (DerivedCategory.triangleOfSES hSp).mor₁
       rw [hmor, Category.comp_id]
       exact (Category.id_comp _).symm)
   let sh := (DerivedCategory.singleFunctors (ModuleCat.{u} A)).shiftIso 1 n (n + 1) (by ring)
@@ -317,7 +317,7 @@ theorem isDualizingComplex_single_extendScalars_of_ker_eq_span_singleton
   have hcomp : (φ : (A ⧸ Ideal.span {t}) →+* B).comp
       (Ideal.Quotient.mk (Ideal.span {t})) = q := by
     refine RingHom.ext fun a => ?_
-    show φ (Ideal.Quotient.mk (Ideal.span {t}) a) = q a
+    change φ (Ideal.Quotient.mk (Ideal.span {t}) a) = q a
     simp only [φ, RingEquiv.coe_trans, Function.comp_apply, Ideal.quotEquivOfEq_symm,
       Ideal.quotEquivOfEq_mk, RingHom.quotientKerEquivOfSurjective_apply_mk]
   let : Limits.PreservesFiniteLimits

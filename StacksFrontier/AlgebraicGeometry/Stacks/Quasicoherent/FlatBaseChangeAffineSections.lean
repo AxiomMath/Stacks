@@ -86,22 +86,20 @@ private def tensorAddEquivOfRingEquiv {A B A' B' N N' : Type*} [CommRing A] [Com
   { toFun := E
     invFun := E'
     left_inv := fun z => by
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add z w hz hw => rw [map_add, map_add, hz, hw]
       | tmul c m =>
         change ρB.symm (ρB c) ⊗ₜ[A] θ.symm (θ m) = c ⊗ₜ m
         rw [ρB.symm_apply_apply, θ.symm_apply_apply]
     right_inv := fun z => by
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | add z w hz hw => rw [map_add, map_add, hz, hw]
       | tmul c m =>
         change ρB (ρB.symm c) ⊗ₜ[A'] θ (θ.symm m) = c ⊗ₜ m
         rw [ρB.apply_symm_apply, θ.apply_symm_apply]
     map_add' := map_add E }
 
-open scoped ChangeOfRings in
+open scoped _root_.Stacks.PresheafOfModules.ChangeOfRings in
 /-- **Cartesianness transported along semilinear identifications.**  Let `M` and `P` be presheaves
 of modules over presheaves of commutative rings `R` and `R'` on two categories, `f : X ⟶ Y` and
 `g : X' ⟶ Y'`, and identify the rings `R X ≅ R' X'`, `R Y ≅ R' Y'` compatibly with the restriction
@@ -127,11 +125,7 @@ theorem bijective_restrictionBaseChange_of_addEquiv
   let E := tensorAddEquivOfRingEquiv ρX ρY hρ θX hX
   have key : ∀ z, θY (restrictionBaseChange M f z) = restrictionBaseChange P g (E z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero =>
-      exact ((congrArg θY (map_zero (restrictionBaseChange M f).hom)).trans
-        (map_zero θY)).trans ((congrArg (restrictionBaseChange P g) (map_zero E)).trans
-          (map_zero (restrictionBaseChange P g).hom)).symm
+    induction z using TensorProduct.inductionOn with
     | add z w hz hw =>
       exact ((congrArg θY (map_add (restrictionBaseChange M f).hom z w)).trans
         (map_add θY _ _)).trans ((congrArg₂ (· + ·) hz hw).trans
@@ -246,7 +240,7 @@ theorem restrictModuleToSmallEtaleFinalIso_inv_smul_etale (z : 𝒳)
         (etaleTopology_le_topology B) F).obj (op (smallEtaleFinal B E h S hS p z)) from
         (restrictModuleToSmallEtaleFinalIso B E h S hS p hp z (etaleTopology B)
         (etaleTopology_le_topology B) F).inv s) := by
-  show F.map _ (c • s) = _
+  change F.map _ (c • s) = _
   rw [PresheafOfModules.map_smul]
   have hc : ((ringStructureSheafCore B S hS p hp (etaleTopology B)
       (etaleTopology_le_topology B)).obj.map
@@ -266,13 +260,13 @@ theorem restrictModuleToSmallEtaleFinalIso_inv_smul_etale (z : 𝒳)
         (p ⋙ Over.forget (B.obj hS))).inv _
         (isTerminal_smallEtaleInclusion_obj_final B E h S hS p z)).uniqueUpToIso
           Over.mkIdTerminal).hom
-      show (p.map ((IsTerminal.isTerminalObj (Over.post (X := z)
+      change (p.map ((IsTerminal.isTerminalObj (Over.post (X := z)
         (p ⋙ Over.forget (B.obj hS))).inv _
         (isTerminal_smallEtaleInclusion_obj_final B E h S hS p z)).uniqueUpToIso
           Over.mkIdTerminal).hom.left).left = _
       rw [(Category.comp_id _).symm.trans h2]
       exact h1.symm.trans (Category.comp_id _)
-    show (Scheme.Γ.map (B.inclusion.map (p.map
+    change (Scheme.Γ.map (B.inclusion.map (p.map
       (smallEtaleFinalObjectIso B E h S hS p hp z).hom).left).op).hom c =
       (Scheme.Γ.map (B.inclusion.map
         ((Over.post (X := z) (p ⋙ Over.forget (B.obj hS))).asEquivalence.counit.app

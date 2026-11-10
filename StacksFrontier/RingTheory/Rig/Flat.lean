@@ -156,7 +156,7 @@ public theorem completedAwayMap_comp_algebraMap
   let : Algebra (Localization.Away f) (Localization.Away (φ f)) := φf.toAlgebra
   apply RingHom.ext
   intro x
-  show Stacks.Nagata.PthRootDescent.mapAdicCompletion _ _ _ _ = _
+  change Stacks.Nagata.PthRootDescent.mapAdicCompletion _ _ _ _ = _
   rw [Stacks.Nagata.PthRootDescent.mapAdicCompletion_of]
   congr 1
 

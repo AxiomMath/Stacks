@@ -64,7 +64,7 @@ theorem abelianVarietyTrace_eq_zero_of_dimension_eq_zero {A : Over (Spec (.of k)
     (α : A ⟶ A) [IsMonHom α] : Stacks.Groupoids.abelianVarietyTrace A α = 0 := by
   have hd := Stacks.Groupoids.natDegree_endCharPoly A α
   rw [h, mul_zero] at hd
-  rw [Stacks.Groupoids.abelianVarietyTrace, Polynomial.nextCoeff, if_pos hd, neg_zero]
+  rw [Stacks.Groupoids.abelianVarietyTrace, Polynomial.nextCoeff, ite_eq_left hd, neg_zero]
 
 /-- **Weil's formula in genus zero**: `V(φ) = 1 + deg φ`, since `J` is a point. -/
 theorem fixedPointIntersection_eq_of_dimension_eq_zero
@@ -154,7 +154,7 @@ theorem exists_classifyingMap_polarizationClass_eq_of_points
     rw [toPicardFunctorHom_apply, toPicardFunctor_app_naturality] at hpt0
     have h0 := (fibreDegree_map B hX hk f σ hσ (isIso_baseChangeProj_c_of_isCurve B hX hk f σ hσ)
       (powerHomJac B hX hk f σ hσ (m := 0) 1) _ (IsLocalRing.closedPoint k)).symm.trans hpt0
-    show fibreDegree B hX hk f σ hσ (isIso_baseChangeProj_c_of_isCurve B hX hk f σ hσ) _
+    change fibreDegree B hX hk f σ hσ (isIso_baseChangeProj_c_of_isCurve B hX hk f σ hσ) _
       (toPicardFunctorHom B hX hk f _ (polarizationClass B hX hk f σ hσ L hL)) t = 0
     rw [hlc.apply_eq_of_preconnectedSpace t (B.inclusion.map
       (powerHomJac B hX hk f σ hσ (m := 0) 1).left (IsLocalRing.closedPoint k))]
@@ -187,7 +187,7 @@ theorem fixedPointIntersection_eq_of_dimension_eq_zero_padic (hdim : topological
   refine fixedPointIntersection_eq_of_abelianVarietyTrace B hX hk f σ hσ φ w hdim ?_ ℓ hℓ
   rw [abelianVarietyTrace_eq_zero_of_dimension_eq_zero h]
   have hV := fixedPointIntersection_eq_of_dimension_eq_zero B hX hk f σ hσ φ w h
-  show _ = (((1 + (CurveGraph.curveMapDegree (B.inclusion.map f) φ w : ℤ) -
+  change _ = (((1 + (CurveGraph.curveMapDegree (B.inclusion.map f) φ w : ℤ) -
     CurveGraph.fixedPointIntersection (B.inclusion.map f)
       (topologicalKrullDim_left_le_one (curveOver B hX hk f)) φ w : ℤ)) : ℚ)
   rw [hV, sub_self, Int.cast_zero]

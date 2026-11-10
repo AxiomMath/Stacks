@@ -170,7 +170,7 @@ private theorem finiteDimensional_cohomologyOverField_tensorPowModule_of_isImmer
     rw [hrange, topologicalKrullDim_range_eq] at h
     exact h.trans hdim
   have hj₀gb : j₀ ≫ gb = f := by
-    show j₀ ≫ ι ≫ (P ↘ Spec (.of k)) = f
+    change j₀ ≫ ι ≫ (P ↘ Spec (.of k)) = f
     rw [← Category.assoc, hj₀ι, hj]
   let j' : Y ⟶ projectiveSpaceOver N (Spec (.of k)) := j
   let ι' : Zb ⟶ projectiveSpaceOver N (Spec (.of k)) := ι
@@ -267,7 +267,7 @@ private theorem finiteDimensional_cohomologyOverField_unit_of_genericPoint_mem_s
     (AlgebraicGeometry.SheafOfModules.mem_supp_coproduct_iff
       (fun _ : Fin r => I.toSheafOfModules) _).1
       (((Set.mem_union _ _ _).1 (supp_subset_union_of_shortExact S₁ hS₁ hξG)).resolve_right hξQ₁)
-  have hret := Sigma.ι_desc (f := fun _ : Fin r => I.toSheafOfModules)
+  have hret := Sigma.ι_comp_desc (f := fun _ : Fin r => I.toSheafOfModules)
     (Pi.single j₁ (𝟙 I.toSheafOfModules)) j₁
   rw [Pi.single_eq_same] at hret
   let S₂ := ShortComplex.cokernelSequence I.ι

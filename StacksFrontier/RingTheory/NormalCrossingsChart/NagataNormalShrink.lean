@@ -197,7 +197,7 @@ public theorem exists_notMem_forall_isDomain_and_isIntegrallyClosed_of_isNagataR
     exact (Finset.mem_erase.mp hpF).1
       (huniq𝔭 p (hfin.mem_toFinset.mp (Finset.mem_erase.mp hpF).2) hple)
   obtain ⟨t₁, ht₁mem, ht₁⟩ : ∃ t₁ ∈ (hfin.toFinset.erase p₀).inf id, t₁ ∉ 𝔭 := by
-    rw [SetLike.le_def] at hnotle
+    rw [IsConcreteLE.le_iff] at hnotle
     push Not at hnotle
     exact hnotle
   -- `t₁` propagates the uniqueness of `p₀` to every prime avoiding it.

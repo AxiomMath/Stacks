@@ -193,7 +193,7 @@ public theorem affineSectionsMap_isIso
   have hFs : Presheaf.IsSheaf J (presheafAffineSectionFunctor B F A f).presheaf :=
     AdequateFunctor.isSheaf_of_isAdequate _ J _ hF hM
   have hGs : Presheaf.IsSheaf J (affineSectionFunctor B G A f).presheaf := by
-    show Presheaf.IsSheaf J ((affineSpecOver B A f).op ⋙ G.val.presheaf)
+    change Presheaf.IsSheaf J ((affineSpecOver B A f).op ⋙ G.val.presheaf)
     exact (affineSpecOver B A f).op_comp_isSheaf_of_isSheaf J B.topology G.val.presheaf G.isSheaf
   refine isIso_of_isLocallyBijective hFs hGs _ ?_ ?_
   · exact Presheaf.isLocallyInjective_whisker J B.topology (affineSpecOver B A f)

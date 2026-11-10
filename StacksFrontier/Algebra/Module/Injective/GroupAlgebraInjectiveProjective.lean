@@ -45,7 +45,7 @@ open Stacks.ZModPrimePower
 
 namespace MonoidAlgebra
 
-variable {ℓ : ℕ} [hℓ : Fact ℓ.Prime] {n : ℕ} {H : Type} [Group H] [Fintype H]
+variable {ℓ : ℕ} [hℓ : Fact ℓ.Prime] {n : ℕ} {H : Type} [Group H]
 
 /-- An element of `(ℤ/ℓⁿ)[H]` killed by `ℓ^{n-a}` acts by zero on an element killed by `ℓ^a`. -/
 theorem smul_eq_zero_of_mul_natCast_eq_zero {a : ℕ} (ha : a ≤ n) {I : Type w} [AddCommGroup I]
@@ -58,7 +58,7 @@ theorem smul_eq_zero_of_mul_natCast_eq_zero {a : ℕ} (ha : a ≤ n) {I : Type w
     rw [MonoidAlgebra.natCast_def, coeff_mul_single_one, coeff_zero] at this
     rw [mul_comm]
     simpa using this
-  rw [← sum_single_coeff r, Finset.sum_smul]
+  rw [← sum_coeff_single r, Finsupp.sum, Finset.sum_smul]
   refine Finset.sum_eq_zero fun h _ => ?_
   obtain ⟨s, hs⟩ := exists_eq_pow_mul_of_pow_mul_eq_zero ha (hcoeff h)
   have : single h (r.coeff h) = single h s * ((ℓ ^ a : ℕ) : MonoidAlgebra (ZMod (ℓ ^ n)) H) := by
@@ -104,7 +104,7 @@ theorem zmod_primePow_isLocalRing [NeZero n] : IsLocalRing (ZMod (ℓ ^ n)) := b
 
 /-- The `A[H]`-linear map `x ↦ ∑_h c(h⁻¹ x) h` attached to an `A`-linear form `c` on an
 `A[H]`-module, `A` acting through `A ⟶ A[H]`. -/
-noncomputable def formLift {A : Type} [CommRing A] {I : Type w} [AddCommGroup I]
+noncomputable def formLift [Fintype H] {A : Type} [CommRing A] {I : Type w} [AddCommGroup I]
     [Module (MonoidAlgebra A H) I] (c : I →+ A)
     (hc : ∀ (a : A) (x : I), c (single (1 : H) a • x) = a * c x) :
     I →ₗ[MonoidAlgebra A H] MonoidAlgebra A H where
@@ -140,30 +140,31 @@ noncomputable def formLift {A : Type} [CommRing A] {I : Type w} [AddCommGroup I]
       rw [smul_single, smul_eq_mul]
 
 /-- `formLift c hc` sends `x` to `∑_h c(h⁻¹ x) h`. -/
-theorem formLift_apply {A : Type} [CommRing A] {I : Type w} [AddCommGroup I]
+theorem formLift_apply [Fintype H] {A : Type} [CommRing A] {I : Type w} [AddCommGroup I]
     [Module (MonoidAlgebra A H) I] (c : I →+ A)
     (hc : ∀ (a : A) (x : I), c (single (1 : H) a • x) = a * c x) (x : I) :
     formLift c hc x = ∑ h : H, single h (c (single h⁻¹ (1 : A) • x)) := rfl
 
 /-- The coefficient of `1` in `∑_h c(h⁻¹ x) h` is `c(x)`. -/
-theorem coeff_one_formLift {A : Type} [CommRing A] {I : Type w} [AddCommGroup I]
+theorem coeff_one_formLift [Fintype H] {A : Type} [CommRing A] {I : Type w} [AddCommGroup I]
     [Module (MonoidAlgebra A H) I] (c : I →+ A)
     (hc : ∀ (a : A) (x : I), c (single (1 : H) a • x) = a * c x) (x : I) :
     (formLift c hc x).coeff 1 = c x := by
   classical
-  rw [formLift_apply, MonoidAlgebra.coeff_sum, Finsupp.finset_sum_apply,
+  rw [formLift_apply, MonoidAlgebra.coeff_sum, Finsupp.finsetSum_apply,
     Finset.sum_eq_single (1 : H)]
-  · rw [MonoidAlgebra.coeff_single_apply, if_pos rfl, inv_one, ← MonoidAlgebra.one_def, one_smul]
+  · simp [← MonoidAlgebra.one_def]
   · intro h _ hh
-    rw [MonoidAlgebra.coeff_single_apply, if_neg hh]
+    simp [hh]
   · simp
 
 /-- **Injective `(ℤ/ℓⁿ)[H]`-modules are projective.** -/
-theorem projective_of_injective_zmod [NeZero n] (I : Type w) [AddCommGroup I]
+theorem projective_of_injective_zmod [Finite H] [NeZero n] (I : Type w) [AddCommGroup I]
     [Module (MonoidAlgebra (ZMod (ℓ ^ n)) H) I]
     [Module.Injective (MonoidAlgebra (ZMod (ℓ ^ n)) H) I] :
     Module.Projective (MonoidAlgebra (ZMod (ℓ ^ n)) H) I := by
   classical
+  have := Fintype.ofFinite H
   let A := ZMod (ℓ ^ n)
   let R := MonoidAlgebra A H
   let : Module A I := Module.compHom I (algebraMap A R)
@@ -177,7 +178,7 @@ theorem projective_of_injective_zmod [NeZero n] (I : Type w) [AddCommGroup I]
   have hc : ∀ (s : S) (a : A) (x : I),
       (b.coord s).toAddMonoidHom (single (1 : H) a • x) = a * (b.coord s).toAddMonoidHom x :=
     fun s a x => by
-      show b.coord s (a • x) = _
+      change b.coord s (a • x) = _
       rw [map_smul, smul_eq_mul]
       rfl
   let cs : S → (I →+ A) := fun s => (b.coord s).toAddMonoidHom
@@ -206,7 +207,7 @@ theorem projective_of_injective_zmod [NeZero n] (I : Type w) [AddCommGroup I]
     intro x hx
     refine b.repr.injective (Finsupp.ext fun s => ?_)
     have := congrArg (fun f : S →₀ R => (f s).coeff 1) hx
-    simp only [Finsupp.zero_apply, coeff_zero, Finsupp.coe_zero, Pi.zero_apply] at this
+    simp only [Finsupp.zero_apply, coeff_zero] at this
     change (σf x s).coeff 1 = 0 at this
     rw [hσf, coeff_one_formLift, hcs] at this
     rw [this, map_zero, Finsupp.zero_apply]

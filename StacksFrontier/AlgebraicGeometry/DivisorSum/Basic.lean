@@ -127,7 +127,7 @@ theorem ideal_finsetProd_eq_prod {ι : Type*} (s : Finset ι)
 inequality of their sheaves of ideals, so `D₁ ⊆ D₁ + D₂` reads `𝓘_{D₁} 𝓘_{D₂} ≤ 𝓘_{D₁}`. -/
 theorem mul_le_left (I J : X.IdealSheafData) : I * J ≤ I :=
   le_def.2 fun U => by
-    show I.ideal U * J.ideal U ≤ I.ideal U
+    change I.ideal U * J.ideal U ≤ I.ideal U
     exact Ideal.mul_le_left
 
 /-- **Each summand is contained in the sum**, on the right. -/
@@ -139,7 +139,7 @@ subscheme of the larger one, which on sheaves of ideals is `𝓘 ^ n ≤ 𝓘 ^ 
 theorem pow_le_pow_right_of_le (I : X.IdealSheafData) {m n : ℕ} (h : m ≤ n) :
     I ^ n ≤ I ^ m :=
   le_def.2 fun U => by
-    show I.ideal U ^ n ≤ I.ideal U ^ m
+    change I.ideal U ^ n ≤ I.ideal U ^ m
     exact Ideal.pow_le_pow_right h
 
 end AlgebraicGeometry.Scheme.IdealSheafData
@@ -173,7 +173,7 @@ theorem exists_affineOpen_ideal_mul_eq_span (I J : X.IdealSheafData)
   refine ⟨W.1, W.2, hxW, fW * gW,
     (isRegular_res_of_eq_basicOpen hWU a' f rfl hf).mul
       (isRegular_res_of_eq_basicOpen hWV b' g hab hg), ?_⟩
-  show I.ideal W * J.ideal W = _
+  change I.ideal W * J.ideal W = _
   rw [← I.map_ideal hWU, ← J.map_ideal hWV, hIf, hJg, Ideal.map_span, Ideal.map_span,
     Set.image_singleton, Set.image_singleton, Ideal.span_singleton_mul_span_singleton]
   rfl

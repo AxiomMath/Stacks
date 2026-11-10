@@ -310,7 +310,7 @@ public lemma isoOfRegularAction_hom_app
     exact (α.hom.naturality r.hom).symm
   have hreg' : F.map r.hom ≫ e.hom = F.map r.hom ≫ α.hom.app (ModuleCat.of A A) := by
     simpa [e', Category.assoc] using hreg
-  show α.hom.app (ModuleCat.of A A) = e.hom
+  change α.hom.app (ModuleCat.of A A) = e.hom
   exact ((cancel_epi (F.map r.hom)).mp hreg').symm
 
 end ModuleCat

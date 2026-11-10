@@ -81,7 +81,7 @@ theorem prop_stupidTrunc_X {C : Type*} [Category C] [HasZeroMorphisms C] [HasZer
   by_cases hi : ∃ i, e.f i = i'
   · obtain ⟨i, rfl⟩ := hi
     have hX : (K.stupidTrunc e).X (e.f i) = K.X (e.f i) := by
-      show HomologicalComplex.extend.X (K.restriction e) (e.r (e.f i)) = _
+      change HomologicalComplex.extend.X (K.restriction e) (e.r (e.f i)) = _
       rw [e.r_f]
       rfl
     rw [hX]

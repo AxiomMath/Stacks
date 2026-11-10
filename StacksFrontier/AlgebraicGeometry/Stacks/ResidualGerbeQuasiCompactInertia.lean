@@ -99,7 +99,7 @@ theorem hasReducedSingletonPointMonomorphism_of_isQuasiCompact_inertia
   let := pointTopology B S hS (fullSubcategoryAlgebraicStack 𝒳 P hP).val
   have hgen : closure {x'} = Set.univ := by
     rw [hemb.closure_eq_preimage_closure_image, Set.image_singleton]
-    show AlgebraicStacks.pointsMap B S hS i ⁻¹'
+    change AlgebraicStacks.pointsMap B S hS i ⁻¹'
       closure {AlgebraicStacks.pointsMap B S hS i x'} = _
     rw [hx', ← hrange, Set.preimage_range]
   have hx'U : x' ∈ 𝒰.pointSet B S hS := by
@@ -136,11 +136,11 @@ theorem hasReducedSingletonPointMonomorphism_of_isQuasiCompact_inertia
           hPmono))
   · obtain ⟨z', hz'⟩ := hQs z
     refine ⟨z', fun w => hkemb.injective ((hz _).trans (hz _).symm |>.trans hz'.symm), ?_⟩
-    show AlgebraicStacks.pointsMap B S hS (k ≫ f ≫ 𝒰.inclusion ≫ i) z' = x
+    change AlgebraicStacks.pointsMap B S hS (k ≫ f ≫ 𝒰.inclusion ≫ i) z' = x
     rw [AlgebraicStacks.pointsMap_comp, AlgebraicStacks.pointsMap_comp,
       AlgebraicStacks.pointsMap_comp]
     simp only [Function.comp_apply]
-    show AlgebraicStacks.pointsMap B S hS i (AlgebraicStacks.pointsMap B S hS 𝒰.inclusion
+    change AlgebraicStacks.pointsMap B S hS i (AlgebraicStacks.pointsMap B S hS 𝒰.inclusion
       (AlgebraicStacks.pointsMap B S hS f (AlgebraicStacks.pointsMap B S hS k z'))) = x
     rw [hz']
     have hfz' : AlgebraicStacks.pointsMap B S hS f z = x'' := hfz

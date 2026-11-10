@@ -62,7 +62,7 @@ public theorem of_precoverage {u : C ⥤ Type w} [IsCofiltered u.Elements] {K : 
     have he : e.hom ≫ p.hom ≫ f = e.hom ≫ q.hom ≫ g :=
       congrArg Functor.Elements.Hom.hom (IsCofiltered.eq_condition α β)
     refine ⟨_, (e ≫ q).hom, ?_, (IsCofiltered.eq α β).val, (e ≫ q).map_val⟩
-    show S ((e.hom ≫ q.hom) ≫ g)
+    change S ((e.hom ≫ q.hom) ≫ g)
     rw [Category.assoc, ← he, ← Category.assoc]
     exact S.downward_closed hf _
   | transitive X S R _ _ ih₁ ih₂ =>

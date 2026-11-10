@@ -15,7 +15,8 @@ at every `τ ∈ {Zariski, étale, smooth, syntomic, fppf}`, with no hypothesis.
 
 ## What was left to do
 
-`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/BaseExtensionClosure.lean` carries out the
+`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/BaseExtensionClosure.lean` carries out
+the
 source's three steps on the big `τ`-site, over two hypotheses, and both are now theorems:
 
 * `AlgebraicGeometry.BigFppfOver.isIso_baseCounit_app_X₂` — step 3, the counit

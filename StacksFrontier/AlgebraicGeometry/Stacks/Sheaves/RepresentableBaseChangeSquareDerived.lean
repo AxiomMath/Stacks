@@ -484,7 +484,7 @@ private theorem faithful_fst_and_hasEqualizers_apex
   ⟨TwoFibreProductOver.faithful_fst_of_faithful_structureFunctor _ _ _ _ _,
     eF'.hasEqualizers_of_presheafOfCategories⟩
 
-include hF' hG' eF' eG' in
+include eF' eG' in
 /-- The inverse image of abelian sheaves along the projection `g' : 𝒴' ×_𝒴 𝒳 ⟶ 𝒳` carries
 K-injective complexes to K-injective complexes. The projection is faithful, because `𝒴'` is
 faithful over the site, and its source has equalizers, because it is an algebraic space; so
@@ -555,7 +555,7 @@ theorem preservesFiniteColimits_inverseImageAb_comp :
     PreservesFiniteColimits (inverseImageAb B S hS g ⋙ restrictionG'Ab B S hS G' hG' eG') :=
   comp_preservesFiniteColimits _ _
 
-include hG' eG' in
+include eG' in
 /-- The composite `(g')⁻¹ ⋙ (-)|_{F'_étale}` of abelian sheaves carries K-injective complexes to
 K-injective complexes. -/
 theorem isKInjective_fstInverseImageAb_comp (I : CochainComplex
@@ -564,7 +564,7 @@ theorem isKInjective_fstInverseImageAb_comp (I : CochainComplex
     letI := additive_fstInverseImageAb_comp B S hS f g F' hF' eF'
     CochainComplex.IsKInjective (((fstInverseImageAb B S hS f g ⋙
       restrictionF'Ab B S hS f g F' hF' eF').mapHomologicalComplex (ComplexShape.up ℤ)).obj I) :=
-  have h₁ := isKInjective_fstInverseImageAb B S hS f g F' G' hF' hG' eF' eG' I
+  have h₁ := isKInjective_fstInverseImageAb B S hS f g F' G' eF' eG' I
   have h₂ := preservesKInjective_abelianPushforward _
     (Space.projectionRingedToposHom B S hS F' (apexP B S hS f g)
       (apexP_isFiberedInGroupoids B S hS f g) hF' eF').toToposHom _ h₁
@@ -620,7 +620,7 @@ def derivedAbIso :
   haveI : PreservesFiniteLimits β := preservesFiniteLimits_inverseImageAb_comp B S hS g G' hG' eG'
   haveI : PreservesFiniteColimits β :=
     preservesFiniteColimits_inverseImageAb_comp B S hS g G' hG' eG'
-  have hK := isKInjective_fstInverseImageAb_comp B S hS f g F' G' hF' hG' eF' eG'
+  have hK := isKInjective_fstInverseImageAb_comp B S hS f g F' G' hF' eF' eG'
   exact Functor.isoWhiskerLeft _ (Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl β)) ≪≫
     (derivedBaseChangeIso α β (directImageAb B S hS f)
       (smallDirectImageAb B S hS f g F' G' hF' hG' eF' eG') _ _
@@ -795,7 +795,8 @@ instance preservesFiniteColimits_fstInverseImageMod :
     (apexP B S hS f g) (B.baseTopology .etale)
   have := Stack.wEqualsLocallyBijective_associatedTopology_of_essentiallySmall.{u, _, _, u} B S hS
     𝒳.val.val.p (B.baseTopology .etale)
-  exact Stacks.SheafOfModules.PushforwardRightExact.preservesFiniteColimits_pushforward_of_isAlmostCocontinuous
+  open Stacks.SheafOfModules.PushforwardRightExact in
+  exact preservesFiniteColimits_pushforward_of_isAlmostCocontinuous
     _ _ (isAlmostCocontinuous_of_isCocontinuous _ _ _)
 
 /-- The inverse image `g^*` of sheaves of modules preserves finite colimits. -/
@@ -813,10 +814,11 @@ instance preservesFiniteColimits_inverseImageMod :
     𝒴'.val.val.p (B.baseTopology .etale)
   have := Stack.wEqualsLocallyBijective_associatedTopology_of_essentiallySmall.{u, _, _, u} B S hS
     𝒴.val.val.p (B.baseTopology .etale)
-  exact Stacks.SheafOfModules.PushforwardRightExact.preservesFiniteColimits_pushforward_of_isAlmostCocontinuous
+  open Stacks.SheafOfModules.PushforwardRightExact in
+  exact preservesFiniteColimits_pushforward_of_isAlmostCocontinuous
     _ _ (isAlmostCocontinuous_of_isCocontinuous _ _ _)
 
-include hF' hG' eF' eG' in
+include eF' eG' in
 /-- The inverse image of sheaves of modules along the projection `g' : 𝒴' ×_𝒴 𝒳 ⟶ 𝒳` carries
 K-injective complexes to K-injective complexes: `g'` is faithful and its source has equalizers,
 so `(g')_!` on sheaves of modules is exact by Stacks 06X2, and a right adjoint of an exact functor
@@ -998,7 +1000,9 @@ omit [HasDerivedCategory.{mX} (FibredSite.associatedRingedTopos B S hS 𝒳.val.
   [HasDerivedCategory.{mY} (FibredSite.associatedRingedTopos B S hS 𝒴.val.val.p
       (𝒴.val.isFiberedInGroupoids) .etale).Modules]
   [HasDerivedCategory.{mY₂} (FibredSite.associatedRingedTopos B S hS 𝒴'.val.val.p
-      (𝒴'.val.isFiberedInGroupoids) .etale).Modules] in
+      (𝒴'.val.isFiberedInGroupoids) .etale).Modules]
+  [HasDerivedCategory.{mA} (FibredSite.associatedRingedTopos B S hS (apexP B S hS f g)
+      (apexP_isFiberedInGroupoids B S hS f g) .etale).Modules] in
 /-- The unit of `Rf'_{small,*}` is invertible at `(g')^*I|_{F'_étale}` for every K-injective
 complex `I` of `𝒪_𝒳`-modules: `(g')^*I` is K-injective (`isKInjective_fstInverseImageMod`), and the
 unit of `Rf'_{small,*}` is invertible at the restriction of any K-injective complex of
@@ -1021,7 +1025,7 @@ theorem isIso_derivedDirectImageSpaceUnit_app (I : CochainComplex
         hG' eF' eG' (TwoFibreProductOver.snd _ _ _ f.hom.hom.toFunctor g.hom.hom.toFunctor)
         (snd_isFibredOneMorphism B S hS f g))
     (((fstInverseImageMod B S hS f g).mapHomologicalComplex (ComplexShape.up ℤ)).obj I)
-    (isKInjective_fstInverseImageMod B S hS f g F' G' hF' hG' eF' eG' I)
+    (isKInjective_fstInverseImageMod B S hS f g F' G' eF' eG' I)
   exact h
 
 /-- **Stacks 075P for sheaves of modules**:
@@ -1114,7 +1118,8 @@ Stacks 075N, `AlgebraicGeometry.Space.derivedAbelianDirectImageFibred`,
 `AlgebraicGeometry.Space.derivedDirectImageFibred` and
 `AlgebraicGeometry.Space.derivedDirectImageSpace`. -/
 @[stacks 075P "The displayed identity, both clauses, as isomorphisms of functors on the unbounded \
-  derived categories: (1) g^{-1}(Rf_*F)|_{G'_etale} = Rf'_{small,*}((g')^{-1}F|_{F'_etale}) for F in \
+  derived categories: (1) g^{-1}(Rf_*F)|_{G'_etale} = Rf'_{small,*}((g')^{-1}F|_{F'_etale}) \
+  for F in \
   D(X_etale), (2) the same identity for F in D(O_X), for any presentations of Y' and of the apex \
   X' by algebraic spaces G' and F'."]
 def restrictedDerivedBaseChangeIsoClauses :

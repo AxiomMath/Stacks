@@ -261,12 +261,12 @@ private lemma arrowValue_map
       f.toGroupoidHom.mapArrows.app (op x.base) (arrowValue a) := by
   let α := (quotientPointwiseMapData f).val
   obtain ⟨h, hh⟩ := (quotientPointwiseMapData f).property.2 a.base.op.toLoc
-  show (H.toGroupoidInFunctors.evaluationArrowEquiv (op x.base) _ _
+  change (H.toGroupoidInFunctors.evaluationArrowEquiv (op x.base) _ _
     ((α.app ⟨op x.base⟩).toFunctor.map a.fiber ≫
       (α.naturality a.base.op.toLoc).hom.toNatTrans.app y.fiber)).1 = _
   rw [hh]
   simp only [eqToIso.hom, Cat.Hom₂.eqToHom_toNatTrans, eqToHom_app]
-  show (H.toGroupoidInFunctors.evaluationArrowEquiv (op x.base) _ _
+  change (H.toGroupoidInFunctors.evaluationArrowEquiv (op x.base) _ _
     ((α.app ⟨op x.base⟩).toFunctor.map a.fiber ≫ eqToHom _)).1 = _
   rw [Functor.congr_hom ((quotientPointwiseMapData f).property.1 x.base),
     arrow_conjugate_assoc]
@@ -361,7 +361,7 @@ private lemma pointwiseMap_obj_fiber
     (f : GroupoidInAlgebraicSpaces.Hom G H) (x : (presentation G).obj) :
     ((quotientPointwiseMap f).obj x).fiber =
       f.toGroupoidHom.mapObjects.app (op x.base) x.fiber := by
-  show ((quotientPointwiseMapData f).val.app ⟨op x.base⟩).toFunctor.obj _ = _
+  change ((quotientPointwiseMapData f).val.app ⟨op x.base⟩).toFunctor.obj _ = _
   rw [(quotientPointwiseMapData f).property.1]
   rfl
 
@@ -379,7 +379,7 @@ private lemma arrowValue_map_cartesian_comp
       H.arrows.obj.map i.op (arrowValue b) := by
   let α := (quotientPointwiseMapData f).val
   obtain ⟨h, hh⟩ := (quotientPointwiseMapData f).property.2 i.op.toLoc
-  show (H.toGroupoidInFunctors.evaluationArrowEquiv (op V) _ _
+  change (H.toGroupoidInFunctors.evaluationArrowEquiv (op V) _ _
     (((α.app ⟨op V⟩).toFunctor.map (𝟙 _) ≫
       (α.naturality i.op.toLoc).hom.toNatTrans.app x.fiber) ≫
       (Deformation.evaluationMap H.toGroupoidInFunctors i.op).map b.fiber ≫
@@ -389,7 +389,7 @@ private lemma arrowValue_map_cartesian_comp
   simp only [Functor.toPseudofunctor'_mapComp, eqToIso.inv, Cat.eqToHom_app]
   rw [hh, CategoryTheory.Functor.map_id]
   simp only [Category.id_comp, eqToIso.hom, Cat.eqToHom_app]
-  show (H.toGroupoidInFunctors.evaluationArrowEquiv (op V) _ _
+  change (H.toGroupoidInFunctors.evaluationArrowEquiv (op V) _ _
     (eqToHom _ ≫ (Deformation.evaluationMap H.toGroupoidInFunctors i.op).map b.fiber ≫
       eqToHom _)).1 = _
   rw [arrow_conjugate]
@@ -458,7 +458,7 @@ private lemma isGerbeOver_pointwise
     let l : x₁ ⟶ y := ⟨i ≫ b.base,
       (G.toGroupoidInFunctors.evaluationArrowEquiv (op V) _ _).symm
         ⟨r, hrs, hrt.trans (by
-          show G.objects.obj.map i.op (G.objects.obj.map b.base.op y.fiber) =
+          change G.objects.obj.map i.op (G.objects.obj.map b.base.op y.fiber) =
             G.objects.obj.map (i ≫ b.base).op y.fiber
           rw [show (i ≫ b.base).op = b.base.op ≫ i.op from rfl]
           exact (G.objects.obj.map_comp_apply b.base.op i.op y.fiber).symm)⟩⟩
@@ -467,11 +467,11 @@ private lemma isGerbeOver_pointwise
     have hl : F.map l = F.map ξ ≫ b := by
       apply arrowValue_ext
       · rfl
-      · show arrowValue ((quotientPointwiseMap f).map l) =
+      · change arrowValue ((quotientPointwiseMap f).map l) =
           arrowValue ((quotientPointwiseMap f).map
             (CoGrothendieck.cartesianLift x.fiber i) ≫ b)
         rw [arrowValue_map, arrowValue_map_cartesian_comp]
-        show f.toGroupoidHom.mapArrows.app (op V)
+        change f.toGroupoidHom.mapArrows.app (op V)
           ((G.toGroupoidInFunctors.evaluationArrowEquiv (op V) _ _
             ((G.toGroupoidInFunctors.evaluationArrowEquiv (op V) _ _).symm _)).1) = _
         simpa only [Equiv.apply_symm_apply] using hrf
@@ -533,7 +533,7 @@ public theorem isGerbeOver_quotientStackMap
       ((BasedFunctor.comp P A').w.trans (BasedFunctor.comp A F).w.symm)
       ((BasedNatTrans.forgetful _ _).mapIso η) _ hPA
     intro x
-    show q.IsHomLift (𝟙 (q.obj ((BasedFunctor.comp P A').obj x)))
+    change q.IsHomLift (𝟙 (q.obj ((BasedFunctor.comp P A').obj x)))
       (η.hom.toNatTrans.app x)
     rw [(BasedFunctor.comp P A').w_obj]
     exact η.hom.isHomLift' x
@@ -675,7 +675,7 @@ private lemma locally_vertical_full_pointwiseToBase
   let l : x₁ ⟶ (⟨T, yf⟩ : (presentation G).obj) := ⟨i ≫ b'.base,
     (G.toGroupoidInFunctors.evaluationArrowEquiv (op V) _ _).symm
       ⟨r, hrs, hrt.trans (by
-        show G.objects.obj.map i.op (G.objects.obj.map b'.base.op yf) =
+        change G.objects.obj.map i.op (G.objects.obj.map b'.base.op yf) =
           G.objects.obj.map (i ≫ b'.base).op yf
         rw [show (i ≫ b'.base).op = b'.base.op ≫ i.op from rfl]
         exact (G.objects.obj.map_comp_apply b'.base.op i.op yf).symm)⟩⟩

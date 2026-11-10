@@ -147,7 +147,7 @@ theorem nonempty_freeModel_of_isAffineOpen {X : Scheme.{u}} {U : X.Opens} (hU : 
       (Scheme.Modules.restrictFunctorAdjCounitIso U.ι).app (P.X i)
     by_cases hi : b < i
     · have hempty : IsEmpty (ULift.{u} (Fin (rk i))) := by
-        rw [show rk i = 0 from if_pos hi]
+        rw [show rk i = 0 from ite_eq_left hi]
         exact inferInstanceAs (IsEmpty (ULift.{u} (Fin 0)))
       have hz : IsZero (SheafOfModules.free (R := (U.toScheme).ringCatSheaf)
           (ULift.{u} (Fin (rk i)))) := by
@@ -158,7 +158,7 @@ theorem nonempty_freeModel_of_isAffineOpen {X : Scheme.{u}} {U : X.Opens} (hU : 
       exact ⟨((hb i hi).of_iso hcounit).iso hz⟩
     · have := hIfin i
       refine ⟨hcounit ≪≫ (hIiso i).some ≪≫ SheafOfModules.freeFunctor.mapIso ?_⟩
-      rw [show rk i = Nat.card (I i) from if_neg hi]
+      rw [show rk i = Nat.card (I i) from ite_eq_right hi]
       exact ((Finite.equivFin (I i)).trans (Equiv.ulift.{u}).symm).toIso
   choose bas _bas' _hbas using fun i : ℤ =>
     Scheme.Modules.exists_basis_pair_of_isoFree (Md.X i) U (hfree i) (W := ⊤) (W' := ⊤)
@@ -166,7 +166,7 @@ theorem nonempty_freeModel_of_isAffineOpen {X : Scheme.{u}} {U : X.Opens} (hU : 
   exact ⟨{ model := Md
            rank := rk
            top := b
-           rank_eq_zero_of_top_lt := fun i hi => if_pos hi
+           rank_eq_zero_of_top_lt := fun i hi => ite_eq_left hi
            isFree := hfree
            basis := bas
            derivedIso := ⟨DerivedCategory.Q.mapIso

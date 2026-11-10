@@ -127,7 +127,7 @@ theorem BigFppfSite.contains_sigma (B : BigFppfSite.{u}) {I : Type v} [Small.{u}
       fun k => (le_ciSup Cardinal.bddAbove_of_small k).trans (le_max_right _ _)
   have e : (∐ X) ≅ ∐ Y :=
     Sigma.whiskerEquiv (equivShrink.{u} I) fun i => eqToIso (by simp [Y])
-  show (∐ X).size < B.cutoff
+  change (∐ X).size < B.cutoff
   rw [Scheme.size_congr e]
   exact hY.trans_lt hcut
 
@@ -161,13 +161,13 @@ noncomputable def sigmaIncl (i : I) : U i ⟶ sigmaObj B S hS U :=
       B.inclusion.preimage (X := B.obj (contains_sigma_toScheme B S hS U)) (Y := B.obj hS)
         (Sigma.desc fun i => B.inclusion.map (U i).hom)) = _
     rw [Functor.map_comp, B.inclusion.map_preimage, B.inclusion.map_preimage]
-    exact Sigma.ι_desc _ i)
+    exact Sigma.ι_comp_desc _ i)
 
 /-- The underlying scheme morphism of the `i`-th inclusion into the coproduct. -/
 theorem sigmaIncl_left_hom (i : I) :
     (sigmaIncl B S hS U i).left.hom =
       Sigma.ι (fun i => (toScheme B S hS).obj (U i)) i := by
-  show B.inclusion.map (B.inclusion.preimage (X := (U i).left)
+  change B.inclusion.map (B.inclusion.preimage (X := (U i).left)
     (Y := B.obj (contains_sigma_toScheme B S hS U))
     (Sigma.ι (fun i => (toScheme B S hS).obj (U i)) i)) = _
   exact B.inclusion.map_preimage _

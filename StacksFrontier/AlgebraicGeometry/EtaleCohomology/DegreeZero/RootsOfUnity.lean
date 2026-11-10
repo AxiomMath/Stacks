@@ -163,7 +163,7 @@ theorem rootsSheafSectionsEquiv_val
       Additive.toMul (e.hom.hom z).1 := by
     simp only [rootsSheafSectionsEquiv]
     dsimp only [rootsOfUnityPowerKernelEquiv]
-    show Additive.toMul (e.hom.hom z).1 = _
+    change Additive.toMul (e.hom.hom z).1 = _
     rfl
   rw [hroot]
   exact congrArg Additive.toMul hz
@@ -245,7 +245,7 @@ theorem rootsOfUnitySections_bijective_of_isIntegral
     have hz : (Scheme.ΓSpecIso (.of k)).inv.hom
         ((Scheme.ΓSpecIso (.of k)).hom.hom z) = z :=
       congrArg (fun g : CommRingCat.Hom _ _ => g.hom z) (Scheme.ΓSpecIso (.of k)).hom_inv_id
-    show (Scheme.Γ.map f.op).hom
+    change (Scheme.Γ.map f.op).hom
         ((Scheme.ΓSpecIso (.of k)).inv.hom ((Scheme.ΓSpecIso (.of k)).hom.hom z)) = _
     exact congrArg (Scheme.Γ.map f.op).hom hz
   have hψ : Function.Injective (Scheme.Γ.map f.op).hom := fun a b hab =>
@@ -260,7 +260,7 @@ theorem rootsOfUnitySections_bijective_of_isIntegral
     Units.map (Scheme.ΓSpecIso (.of k)).inv.hom.toMonoidHom (Units.ofPowEqOne a n hapow hn.ne')
   have hypow : y ^ n = 1 := by
     apply Units.ext
-    show ((Scheme.ΓSpecIso (.of k)).inv.hom a) ^ n = 1
+    change ((Scheme.ΓSpecIso (.of k)).inv.hom a) ^ n = 1
     rw [← map_pow, hapow, map_one]
   exact ⟨⟨y, hypow⟩, Subtype.ext (Units.ext ha)⟩
 

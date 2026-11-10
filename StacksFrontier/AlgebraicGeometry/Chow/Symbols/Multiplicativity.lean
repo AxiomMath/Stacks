@@ -84,7 +84,7 @@ theorem moduleSymbol_mul_right
     intro u v huv
     congr 1
     ext x
-    show u • (v • x) = a • ((b * c) • x)
+    change u • (v • x) = a • ((b * c) • x)
     rw [smul_smul, smul_smul, huv]
   have hdenB := hden b (a * c) (by ring)
   have hdenC := hden c (a * b) (by ring)
@@ -92,22 +92,22 @@ theorem moduleSymbol_mul_right
   let eC : (M ⧸ LinearMap.range fC) ≃ₗ[A] Q := Submodule.quotEquivOfEq _ _ hdenC
   have hψA : ψA = β.comp γ := by
     ext x
-    show Submodule.Quotient.mk ((b * c) • x) =
+    change Submodule.Quotient.mk ((b * c) • x) =
       Submodule.Quotient.mk (b • (c • x))
     rw [smul_smul]
   have hαγ : α.comp γ = γ.comp α := by
     ext x
-    show Submodule.Quotient.mk (a • (c • x)) =
+    change Submodule.Quotient.mk (a • (c • x)) =
       Submodule.Quotient.mk (c • (a • x))
     rw [smul_comm]
   have hαβ : α.comp β = β.comp α := by
     ext x
-    show Submodule.Quotient.mk (a • (b • x)) =
+    change Submodule.Quotient.mk (a • (b • x)) =
       Submodule.Quotient.mk (b • (a • x))
     rw [smul_comm]
   have hβγ : β.comp γ = γ.comp β := by
     ext x
-    show Submodule.Quotient.mk (b • (c • x)) =
+    change Submodule.Quotient.mk (b • (c • x)) =
       Submodule.Quotient.mk (c • (b • x))
     rw [smul_comm]
   have hA : Function.Exact α (β.comp γ) := by
@@ -118,11 +118,11 @@ theorem moduleSymbol_mul_right
     exact exact_mul_right_left (M := M) a (b * c) ha
   have hBφ : eB.toLinearMap.comp φB = β.comp eB.toLinearMap := by
     ext x
-    show Submodule.Quotient.mk (b • x) = Submodule.Quotient.mk (b • x)
+    change Submodule.Quotient.mk (b • x) = Submodule.Quotient.mk (b • x)
     rfl
   have hBψ : eB.toLinearMap.comp ψB = (α.comp γ).comp eB.toLinearMap := by
     ext x
-    show Submodule.Quotient.mk ((a * c) • x) =
+    change Submodule.Quotient.mk ((a * c) • x) =
       Submodule.Quotient.mk (a • (c • x))
     rw [smul_smul]
   have hB := exact_of_linearEquiv eB φB ψB β (α.comp γ) hBφ hBψ
@@ -131,11 +131,11 @@ theorem moduleSymbol_mul_right
     (exact_mul_right_left (M := M) b (a * c) hb)
   have hCφ : eC.toLinearMap.comp φC = γ.comp eC.toLinearMap := by
     ext x
-    show Submodule.Quotient.mk (c • x) = Submodule.Quotient.mk (c • x)
+    change Submodule.Quotient.mk (c • x) = Submodule.Quotient.mk (c • x)
     rfl
   have hCψ : eC.toLinearMap.comp ψC = (α.comp β).comp eC.toLinearMap := by
     ext x
-    show Submodule.Quotient.mk ((a * b) • x) =
+    change Submodule.Quotient.mk ((a * b) • x) =
       Submodule.Quotient.mk (a • (b • x))
     rw [smul_smul]
   have hC := exact_of_linearEquiv eC φC ψC γ (α.comp β) hCφ hCψ
@@ -180,7 +180,7 @@ theorem moduleSymbol_mul_right
     intro x
     obtain ⟨m, rfl⟩ := Submodule.mkQ_surjective (LinearMap.range fab) x
     refine ⟨Submodule.Quotient.mk m, ?_⟩
-    show γ (Submodule.Quotient.mk m) = qC (Submodule.Quotient.mk m)
+    change γ (Submodule.Quotient.mk m) = qC (Submodule.Quotient.mk m)
     simp only [γ, qC, LinearMap.lsmul_apply, Submodule.Quotient.mk_smul,
       Submodule.mapQ_apply])
   have hi : Function.Injective i := by
@@ -223,13 +223,13 @@ theorem moduleSymbol_mul_right
       (alphaOnGammaRange α β γ hComplementary).comp e1.toLinearMap := by
     rw [he1]
     ext m
-    show Submodule.Quotient.mk (c • (a • m)) = Submodule.Quotient.mk (a • (c • m))
+    change Submodule.Quotient.mk (c • (a • m)) = Submodule.Quotient.mk (a • (c • m))
     exact congrArg _ (smul_comm c a m)
   have hiψ : e1.toLinearMap.comp ψab =
       (betaOnGammaRange α β γ hComplementary).comp e1.toLinearMap := by
     rw [he1]
     ext m
-    show Submodule.Quotient.mk (c • (b • m)) = Submodule.Quotient.mk (b • (c • m))
+    change Submodule.Quotient.mk (c • (b • m)) = Submodule.Quotient.mk (b • (c • m))
     rw [smul_comm]
   have hSymAB : moduleSymbol a b ha hb hdim =
       periodicDeterminant φab ψab
@@ -257,7 +257,7 @@ theorem moduleSymbol_mul_right
     intro x hx
     obtain ⟨m, rfl⟩ := LinearMap.mem_range.mp hx
     refine ⟨b • m, ?_⟩
-    show a • (c • (b • m)) = a • ((b * c) • m)
+    change a • (c • (b • m)) = a • ((b * c) • m)
     simp only [smul_smul]
     rw [show a * (c * b) = a * (b * c) by ring]
   let qac := (LinearMap.range fA).mapQ (LinearMap.range gac)
@@ -272,7 +272,7 @@ theorem moduleSymbol_mul_right
       Submodule.mapQ_apply, LinearMap.comp_apply, LinearMap.lsmul_apply]
   have hqacGamma : qac.comp γ = ψac.comp qac := by
     ext m
-    show qac (c • (Submodule.Quotient.mk m)) = c • qac (Submodule.Quotient.mk m)
+    change qac (c • (Submodule.Quotient.mk m)) = c • qac (Submodule.Quotient.mk m)
     exact map_smul qac c (Submodule.Quotient.mk m)
   have hrangeKill : LinearMap.range (α.comp γ) ≤ LinearMap.ker qac := by
     intro x hx
@@ -290,7 +290,7 @@ theorem moduleSymbol_mul_right
                 ψac (qac (Submodule.Quotient.mk m)) from
                   congrArg (fun f => f (Submodule.Quotient.mk m)) hqacGamma]
     have hzero : φac (ψac (qac (Submodule.Quotient.mk m))) = 0 := by
-      show (Submodule.Quotient.mk (gac m) : Xac) = 0
+      change (Submodule.Quotient.mk (gac m) : Xac) = 0
       apply (Submodule.Quotient.mk_eq_zero (LinearMap.range gac)).mpr
       exact LinearMap.mem_range_self gac m
     exact hαγ.trans hzero
@@ -314,7 +314,7 @@ theorem moduleSymbol_mul_right
       refine ⟨y, ?_⟩
       rw [← hy]
       exact (congrArg (fun f : M →ₗ[A] M => f y) hBprod).symm
-    show (Submodule.Quotient.mk ((LinearMap.lsmul A M b) m) : Q) = 0
+    change (Submodule.Quotient.mk ((LinearMap.lsmul A M b) m) : Q) = 0
     exact (Submodule.Quotient.mk_eq_zero (LinearMap.range fA)).mpr hbmem
   let e2fun := (LinearMap.ker β).liftQ qac hkerBetaLe
   have hkerEq : LinearMap.ker β = LinearMap.ker qac := le_antisymm hkerBetaLe hkerQacLe
@@ -324,10 +324,10 @@ theorem moduleSymbol_mul_right
     intro x
     obtain ⟨m, rfl⟩ := Submodule.mkQ_surjective (LinearMap.range gac) x
     refine ⟨Submodule.Quotient.mk (Submodule.Quotient.mk m), ?_⟩
-    show e2fun (Submodule.Quotient.mk (Submodule.Quotient.mk m)) =
+    change e2fun (Submodule.Quotient.mk (Submodule.Quotient.mk m)) =
       Submodule.Quotient.mk m
     simp only [e2fun, Submodule.liftQ_apply]
-    show (Submodule.Quotient.mk ((LinearMap.id : M →ₗ[A] M) m) : Xac) =
+    change (Submodule.Quotient.mk ((LinearMap.id : M →ₗ[A] M) m) : Xac) =
       Submodule.Quotient.mk m
     rfl
   let e2 : (Q ⧸ LinearMap.ker β) ≃ₗ[A] Xac :=
@@ -342,12 +342,12 @@ theorem moduleSymbol_mul_right
   have he2φ : e2.toLinearMap.comp φker = φac.comp e2.toLinearMap := by
     rw [he2]
     ext q
-    show qac (α (Submodule.Quotient.mk q)) = φac (qac (Submodule.Quotient.mk q))
+    change qac (α (Submodule.Quotient.mk q)) = φac (qac (Submodule.Quotient.mk q))
     exact congrArg (fun f => f (Submodule.Quotient.mk q)) hqacAlpha
   have he2ψ : e2.toLinearMap.comp ψker = ψac.comp e2.toLinearMap := by
     rw [he2]
     ext q
-    show qac (γ (Submodule.Quotient.mk q)) = ψac (qac (Submodule.Quotient.mk q))
+    change qac (γ (Submodule.Quotient.mk q)) = ψac (qac (Submodule.Quotient.mk q))
     exact congrArg (fun f => f (Submodule.Quotient.mk q)) hqacGamma
   have hSymAC : moduleSymbol a c ha hc hdim =
       periodicDeterminant φac ψac

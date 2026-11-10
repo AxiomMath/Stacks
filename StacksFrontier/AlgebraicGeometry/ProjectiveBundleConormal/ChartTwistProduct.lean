@@ -250,8 +250,8 @@ is the result:
 
 **`hpair` is discharged on a chart, and not here.** It is
 `Stacks.ProjectiveBundleConormal.tensorPairing_chartTrivialisation_eq_unitSection` of
-`StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.ChartTrivialisationPairing`, which imports
-this module; the paragraphs below record what that requires.
+`StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.ChartTrivialisationPairing`, which
+imports this module; the paragraphs below record what that requires.
 `exists_pullbackSection_inverseTwistBaseChangeIso_inv_val_app_pinned` asks that `q s` and `w` pair
 to `1` downstairs. For the `w` a trivialisation `θ` of `(𝓛^{⊗ -1})|_W` names, that pairing is the
 value at `q s` of the frame `θ` induces, which is `1` exactly when the frame `eL` of `hs` is that
@@ -315,7 +315,8 @@ tilde, which turning that into the equation clause 3 reduces to also needs, is
 `Stacks.ProjectiveBundleConormal.isIso_conormalCanonicalMap_of_restrict_eq'` are built from; the
 open the chart earns there is `basicOpen_le_preimage_chartMap_tautologicalChart` below.
 **Its first factor is not the obstruction**:
-`Stacks.CartierConormal.conormalSheafIsoPullbackSelf` is characterised — `Stacks.Divisors.conormalSheafIsoNegativeTwist_apply`
+`Stacks.CartierConormal.conormalSheafIsoPullbackSelf` is characterised —
+`Stacks.Divisors.conormalSheafIsoNegativeTwist_apply`
 carries `@[stacks 0B3P "canonical ideal quotient"]`, is axiom-clean, and characterises it on
 sections over an affine open with an affine model, `conormalSheafIsoNegativeTwist` being *defined*
 as `conormalSheafIsoPullbackSelf D.subschemeι`; its general form is

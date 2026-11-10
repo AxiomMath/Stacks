@@ -239,8 +239,8 @@ variable {R : Type u} {σ : Type w} [CommRing R] [SetLike σ R] [AddSubgroupClas
 is an isomorphism**, in all integer degrees: `𝒪(n) ⊗ 𝒪(m) ⟶ 𝒪(n + m)`.
 
 Generation in degree one makes the degree-one ratio locus the whole of `Proj`, and the
-multiplication maps are isomorphisms over the ratio locus. Both halves are proved elsewhere; this composes
-them. The transport is the substitution of `1 * n` for `n`,
+multiplication maps are isomorphisms over the ratio locus. Both halves are proved elsewhere; this
+composes them. The transport is the substitution of `1 * n` for `n`,
 done after `revert` because the index occurs in the type of the morphism. -/
 public theorem isIso_twistMultiplicationMap_of_adjoin
     (hgen : Algebra.adjoin (𝒜 0) (𝒜 1 : Set R) = ⊤) (n m : ℤ) :

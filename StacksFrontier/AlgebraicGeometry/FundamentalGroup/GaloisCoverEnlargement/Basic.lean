@@ -103,7 +103,7 @@ lemma exists_specializes_mem_preimage [Flat f] {U U' : S.Opens} (hUU' : U ≤ U'
   obtain ⟨x', hx'x, hfx'⟩ := Flat.generalizingMap f (genericPoint_specializes (f x.1))
   have hx'U' : x' ∈ f ⁻¹ᵁ U' := hx'x.mem_open (f ⁻¹ᵁ U').isOpen x.2
   have hx'U : x' ∈ f ⁻¹ᵁ U := by
-    show f x' ∈ U
+    change f x' ∈ U
     rwa [hfx']
   exact ⟨⟨x', hx'U'⟩, ⟨⟨x', hx'U⟩, Scheme.homOfLE_apply' _ _ _⟩,
     Topology.IsInducing.subtypeVal.specializes_iff.mp hx'x⟩

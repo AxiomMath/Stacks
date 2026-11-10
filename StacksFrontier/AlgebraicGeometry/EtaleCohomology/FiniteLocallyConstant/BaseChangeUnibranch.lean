@@ -150,7 +150,7 @@ public theorem map_comp_colimit_ι_monodromyDiagram_eq {C : Type*} [Category* C]
     exact h
   rw [← colimit.w ((monodromyDiagram y).obj G) m₁.op,
     ← colimit.w ((monodromyDiagram y).obj G) m₂.op]
-  show G.map _ ≫ G.map ((finiteEtaleToEtale Y).map m₁.val).op ≫ _ =
+  change G.map _ ≫ G.map ((finiteEtaleToEtale Y).map m₁.val).op ≫ _ =
     G.map _ ≫ G.map ((finiteEtaleToEtale Y).map m₂.val).op ≫ _
   rw [← G.map_comp_assoc, ← G.map_comp_assoc, ← op_comp, ← op_comp, ← Functor.map_comp,
     ← Functor.map_comp, hm]
@@ -169,7 +169,7 @@ public theorem finiteEtaleFiberFunctor_map_finiteEtaleBaseChange_projectionEquiv
   have h := ConcreteCategory.congr_hom ((finiteEtaleFiberProjectionIso f y).hom.naturality φ)
     ((finiteEtaleFiberProjectionEquiv f y V).symm p)
   refine h.trans ?_
-  show (finiteEtaleFiberFunctor (y.map f)).map φ
+  change (finiteEtaleFiberFunctor (y.map f)).map φ
     ((finiteEtaleFiberProjectionEquiv f y V) ((finiteEtaleFiberProjectionEquiv f y V).symm p)) = _
   rw [Equiv.apply_symm_apply]
 
@@ -186,7 +186,7 @@ public theorem comp_finiteEtaleBaseChange_map_galoisAutHom (A : PointedGaloisCov
         (galoisAutHom (y.map f) (etaleFundamentalGroupMap f y σ) A) =
       galoisAutHom y σ B ≫ g := by
   apply evaluation_injective_of_isConnected (finiteEtaleFiberFintypeFunctor Y y) B.obj _ B.pt
-  show (finiteEtaleFiberFunctor y).map (g ≫ (finiteEtaleBaseChange f).map
+  change (finiteEtaleFiberFunctor y).map (g ≫ (finiteEtaleBaseChange f).map
       (galoisAutHom (y.map f) (etaleFundamentalGroupMap f y σ) A)) B.basePt =
     (finiteEtaleFiberFunctor y).map (galoisAutHom y σ B ≫ g) B.basePt
   have h1 : (finiteEtaleFiberFunctor y).map (galoisAutHom y σ B) B.basePt = σ • B.basePt :=
@@ -205,7 +205,7 @@ public theorem comp_finiteEtaleBaseChange_map_galoisAutHom (A : PointedGaloisCov
   rw [Equiv.apply_symm_apply]
   refine ((etaleFundamentalGroupMap_finiteEtaleFiberProjection f y A.obj σ
     ((finiteEtaleFiberProjectionEquiv f y A.obj).symm A.basePt)).trans ?_).symm
-  show ((etaleFundamentalGroupMap f y σ).asIso.app A.obj).hom
+  change ((etaleFundamentalGroupMap f y σ).asIso.app A.obj).hom
     ((finiteEtaleFiberProjectionEquiv f y A.obj) ((finiteEtaleFiberProjectionEquiv f y A.obj).symm
       A.basePt)) = _
   rw [Equiv.apply_symm_apply]
@@ -297,7 +297,7 @@ public theorem ι_monodromyBaseChangeMap (A : PointedGaloisCover (y.map f))
         G.map ((finiteEtaleToEtale Y).map g).op ≫
           colimit.ι ((monodromyDiagram y).obj G) (op B) := by
   refine (colimit.ι_desc (monodromyBaseChangeCocone f y F G θ) (op A)).trans ?_
-  show baseChangeSectionsMap f F G θ A.obj ≫ _ = _
+  change baseChangeSectionsMap f F G θ A.obj ≫ _ = _
   congr 1
   apply map_comp_colimit_ι_monodromyDiagram_eq
   rw [baseChangePointedGaloisCoverHom_basePt, hg]
@@ -322,7 +322,7 @@ public theorem monodromyBaseChangeMap_comm (σ : EtaleFundamentalGroup Y y) :
   rw [ι_colimMap_assoc, ι_monodromyBaseChangeMap_baseChangePointedGaloisCover,
     reassoc_of% (ι_monodromyBaseChangeMap_baseChangePointedGaloisCover f y F G θ A.unop),
     ι_colimMap, monodromyDiagramAut_app_app, monodromyDiagramAut_app_app]
-  show F.map ((finiteEtaleToEtale X).map _).op ≫ baseChangeSectionsMap f F G θ A.unop.obj ≫ _ = _
+  change F.map ((finiteEtaleToEtale X).map _).op ≫ baseChangeSectionsMap f F G θ A.unop.obj ≫ _ = _
   rw [map_comp_baseChangeSectionsMap_assoc, map_finiteEtaleToEtale_comp_assoc,
     comp_finiteEtaleBaseChange_map_galoisAutHom f y A.unop _ _
       (baseChangePointedGaloisCoverHom_basePt f y A.unop) σ,
@@ -344,7 +344,7 @@ public theorem monodromyBaseChangeMap_naturality {F' : (X.Etale)ᵒᵖ ⥤ C} {G
       β.app (op ((finiteEtaleToEtale Y).obj ((finiteEtaleBaseChange f).obj A.unop.obj))) =
       α.app _ ≫ baseChangeSectionsMap f F' G' θ' A.unop.obj :=
     congrArg (fun φ => φ.app (op ((finiteEtaleToEtale X).obj A.unop.obj))) h
-  show α.app _ ≫ baseChangeSectionsMap f F' G' θ' A.unop.obj ≫ _ =
+  change α.app _ ≫ baseChangeSectionsMap f F' G' θ' A.unop.obj ≫ _ =
     baseChangeSectionsMap f F G θ A.unop.obj ≫ G.map _ ≫ β.app _ ≫ _
   rw [← reassoc_of% h1, β.naturality_assoc]
 

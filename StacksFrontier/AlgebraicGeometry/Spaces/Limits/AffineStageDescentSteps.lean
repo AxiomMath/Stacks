@@ -82,6 +82,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site exceeds the default budget
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_AffineStageDescentSteps :
@@ -202,10 +203,10 @@ theorem isPullback_limitChartToSpace_stage (i : A.Stages) :
     (Iso.refl _) A.limitIso.symm (Iso.refl _) (Iso.refl _)
     (by simp [limitChartToSpace]) (by simp)
     (by
-      show A.limitIso.inv ≫ limit.π A.system (op i.1) = A.π.app (op i.1) ≫ 𝟙 _
+      change A.limitIso.inv ≫ limit.π A.system (op i.1) = A.π.app (op i.1) ≫ 𝟙 _
       rw [Category.comp_id, ← A.limitIso_hom_comp_π (op i.1), Iso.inv_hom_id_assoc])
     (by
-      show (𝟙 _) ≫ (A.stagesEtaleChart C hf₀ i).1.hom
+      change (𝟙 _) ≫ (A.stagesEtaleChart C hf₀ i).1.hom
         = (A.stagesEtaleChart C hf₀ i).1.hom ≫ 𝟙 _
       rw [Category.id_comp, Category.comp_id])
 

@@ -142,12 +142,10 @@ theorem cancelBaseChange_naturality {X Y : Type*} [AddCommGroup X] [Module A X]
           A).toLinearMap ∘ₗ
         ((f.baseChange k).lTensor N).restrictScalars A := by
   refine LinearMap.ext fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z w hz hw => rw [map_add, map_add, hz, hw]
   | tmul n x =>
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a x => simp
     | add x y hx hy => rw [tmul_add, map_add, map_add, hx, hy]
 

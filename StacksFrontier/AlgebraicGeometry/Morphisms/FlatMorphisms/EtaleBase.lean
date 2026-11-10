@@ -121,13 +121,13 @@ public theorem isFlatOverAt_comp_iff_of_etale [Etale g] (x : X) :
     have hback := modulePullback_isFlatOverAt
       (IsPullback.of_hasPullback (f ≫ g) g) Fm (i x) hF'
     have hiFlat : AlgebraicGeometry.IsFlatAt i.toLRSHom.toShHom x := by
-      show (i.stalkMap x).hom.Flat
+      change (i.stalkMap x).hom.Flat
       exact Flat.stalkMap i x
     have hres := (AlgebraicGeometry.isFlatOverAt_iff_modulePullback_isFlatOverAt
       i p₂ F' x hiFlat).mp hback
     have hid : i.toLRSHom.toShHom ≫ p₁.toLRSHom.toShHom = 𝟙 _ := by
       rw [← LocallyRingedSpace.comp_toShHom, ← Scheme.Hom.comp_toLRSHom, hi₁]
-      show LocallyRingedSpace.Hom.toShHom
+      change LocallyRingedSpace.Hom.toShHom
         (𝟙 X.toLocallyRingedSpace) = 𝟙 (X.toSheafedSpace)
       exact LocallyRingedSpace.id_toShHom' X.toLocallyRingedSpace
     let epull : (modulePullback i.toLRSHom.toShHom).obj F' ≅ Fm :=
@@ -140,7 +140,7 @@ public theorem isFlatOverAt_comp_iff_of_etale [Etale g] (x : X) :
     rwa [hi₂] at hsame
   · intro hF
     apply IsFlatOverAt.comp f.toLRSHom.toShHom g.toLRSHom.toShHom F x hF
-    show (g.stalkMap (f x)).hom.Flat
+    change (g.stalkMap (f x)).hom.Flat
     exact Flat.stalkMap g (f x)
 
 /-- A quasi-coherent module is flat over the base if and only if it is flat
@@ -149,7 +149,7 @@ over an étale intermediate scheme. -/
 public theorem isFlatOver_comp_iff_of_etale [Etale g] :
     AlgebraicGeometry.IsFlatOver (f ≫ g).toLRSHom.toShHom F ↔
       AlgebraicGeometry.IsFlatOver f.toLRSHom.toShHom F := by
-  show (∀ x : X, AlgebraicGeometry.IsFlatOverAt (f ≫ g).toLRSHom.toShHom F x) ↔
+  change (∀ x : X, AlgebraicGeometry.IsFlatOverAt (f ≫ g).toLRSHom.toShHom F x) ↔
     ∀ x : X, AlgebraicGeometry.IsFlatOverAt f.toLRSHom.toShHom F x
   exact forall_congr' fun x => isFlatOverAt_comp_iff_of_etale f g F x
 

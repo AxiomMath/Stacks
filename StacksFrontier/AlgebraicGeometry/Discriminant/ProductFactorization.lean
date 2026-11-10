@@ -115,7 +115,7 @@ lemma prod_comap_isOpenEmbedding
     funext q
     apply eR.injective
     rw [eR.apply_symm_apply]
-    show PrimeSpectrum.primeSpectrumProd R S
+    change PrimeSpectrum.primeSpectrumProd R S
         (PrimeSpectrum.comap
           (RingHom.prod (f.comp (RingHom.fst R S)) (g.comp (RingHom.snd R S))) q) =
       Sum.map (PrimeSpectrum.comap f) (PrimeSpectrum.comap g)

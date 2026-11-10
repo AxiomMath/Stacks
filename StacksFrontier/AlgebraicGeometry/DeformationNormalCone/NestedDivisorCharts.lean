@@ -53,7 +53,7 @@ omit [Stacks.Divisors.IsEffectiveCartierDivisor DY] in
 theorem Chart.nestedAffine_le (c : Chart (idealYX DY)) :
     (c.nestedAffine DY DZ).1 ≤ nestedOuterMap DY DZ hZY ⁻¹ᵁ c.toAffine.1 := by
   intro y hy
-  show ((nestedOuterMap DY DZ hZY ≫ deformationSpaceToBase (idealYX DY))) y ∈ c.W.1
+  change ((nestedOuterMap DY DZ hZY ≫ deformationSpaceToBase (idealYX DY))) y ∈ c.W.1
   rw [nestedOuterMap_toBase']
   exact hy
 
@@ -144,7 +144,7 @@ theorem innerBase_app_outerBase_app_gen (c : Chart (idealYX DY)) :
       ((innerBase DY DZ hZY).app _).hom (((outerBase DY DZ).app c.W.1).hom c.g) := by
     rw [Scheme.Hom.comp_app]; rfl
   rw [← e1, hcomp]
-  show ((Scheme.IdealSheafData.inclusion hZY).coborderRange.toScheme.presheaf.map _).hom
+  change ((Scheme.IdealSheafData.inclusion hZY).coborderRange.toScheme.presheaf.map _).hom
     (((Scheme.IdealSheafData.inclusion hZY).coborderRange.ι.app _).hom
       ((DY.subschemeι.liftCoborder.app c.W.1).hom c.g)) = 0
   rw [RingHom.mem_ker.1 hg, map_zero, map_zero]
@@ -164,7 +164,7 @@ the chart of `D(Z ⊆ X)` over `c`. -/
 theorem innerToBase_preimage_le (c : Chart (idealYX DY)) :
     c.innerOpen DY DZ hZY ≤ nestedInnerMap DY DZ hZY ⁻¹ᵁ (c.nestedAffine DY DZ).1 := by
   intro y hy
-  show ((nestedInnerMap DY DZ hZY ≫ deformationSpaceToBase (idealZX DZ))) y ∈
+  change ((nestedInnerMap DY DZ hZY ≫ deformationSpaceToBase (idealZX DZ))) y ∈
     outerBase DY DZ ⁻¹ᵁ c.W.1
   rw [nestedInnerMap_toBase]
   exact hy

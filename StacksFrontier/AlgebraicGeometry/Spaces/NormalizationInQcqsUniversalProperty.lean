@@ -46,7 +46,8 @@ This file proves all of it for the normalization of Stacks 0822.
 
 Property (2) is the criterion
 `AlgebraicGeometry.Space.isRelativeNormalization_of_pushforwardAlgebraMap_eq` of
-`StacksFrontier.AlgebraicGeometry.Spaces.RelativeNormalizationAlgebraCriterion`, which is the source's
+`StacksFrontier.AlgebraicGeometry.Spaces.RelativeNormalizationAlgebraCriterion`, which is the
+source's
 proof: the algebra `π_* 𝒪_Z` of a test object is integral, so its map to `f_* 𝒪_Y`
 lands in `𝒪'` (Stacks 0820), and the mapping property of a space affine over `X`
 (`AlgebraicGeometry.Space.overHomEquivPushforwardAlgebraHom`, the form of Stacks 081V the source

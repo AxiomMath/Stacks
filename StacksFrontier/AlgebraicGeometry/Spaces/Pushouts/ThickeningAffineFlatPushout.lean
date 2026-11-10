@@ -279,7 +279,7 @@ theorem exists_flat_chart_pullback_of_isFlat
   · apply AlgebraicGeometry.presheaf_id_of_iso B S hS
     intro Z Z' h hh
     let _ := hh
-    show _root_.AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map h)
+    change _root_.AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map h)
     infer_instance
   rw [hχ, Category.comp_id]
 
@@ -1033,13 +1033,13 @@ theorem isPushout_of_isFlat_of_thickeningAffineAtlas
     apply ObjectProperty.hom_ext
     refine hom_ext_of_etale_atlas B S hS WX'.property.isSheaf W'.property.isSheaf A₂.p'
       A₂.surjective_p' A₂.etale_p' ?_
-    show A₂.p' ≫ a₂.hom ≫ ε = A₂.p' ≫ cX'.hom
+    change A₂.p' ≫ a₂.hom ≫ ε = A₂.p' ≫ cX'.hom
     rw [← Category.assoc, ha₂, Category.assoc, hε, hcX'c]
   have hb₂' : b₂ ≫ εsp = cY := by
     apply ObjectProperty.hom_ext
     refine hom_ext_of_etale_atlas B S hS WY.property.isSheaf W'.property.isSheaf A₂.q
       A₂.surjective_q A₂.etale_q ?_
-    show A₂.q ≫ b₂.hom ≫ ε = A₂.q ≫ cY.hom
+    change A₂.q ≫ b₂.hom ≫ ε = A₂.q ≫ cY.hom
     rw [← Category.assoc, hb₂, Category.assoc, hε, hcYc]
   exact hpush₂.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) ⟨εsp, δsp, h1, h2⟩
     (by simp) (by simp) (by simpa using ha₂') (by simpa using hb₂')
@@ -1189,7 +1189,7 @@ theorem isIso_pushoutGluingAdjunction_counit_of_isFlat
       exact hinrc.trans (Category.id_comp _)
   have : IsIso ((Over.forget (Limits.pushout i f)).map
       ((pushoutGluingAdjunction B S hS hatlas i f hi hf).counit.app Z)) := by
-    show IsIso ((pushoutGluingAdjunction B S hS hatlas i f hi hf).counit.app Z).left
+    change IsIso ((pushoutGluingAdjunction B S hS hatlas i f hi hf).counit.app Z).left
     rw [hεleft]
     exact ⟨⟨(hGpush.isoIsPushout _ _ hW'push).inv,
       (hGpush.isoIsPushout _ _ hW'push).hom_inv_id,

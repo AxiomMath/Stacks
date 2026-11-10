@@ -144,7 +144,7 @@ variable {U R : BigFppfOver B S hS} (w : yoneda.obj U ⟶ Y) (pr₁ pr₂ : R �
 
 omit [QuasiCompact ((BigFppfOver.toScheme B S hS).map (hrep.snd (relBase B S hS w pr₁)))]
   [QuasiSeparated ((BigFppfOver.toScheme B S hS).map (hrep.snd (relBase B S hS w pr₁)))] in
-include hsq hQ hchart hwsurj hwet hY in
+include hQ hchart hwsurj hwet hY in
 /-- **The normalization morphism of the glued object is integral.** -/
 theorem isIntegralHom_base : IsIntegralHom B S hS ν := by
   have hq := isIntegralHom_toScheme_map_chartNormProj B S hS (hrep.snd w)
@@ -168,7 +168,7 @@ theorem isIntegralHom_base : IsIntegralHom B S hS ν := by
 
 omit [QuasiCompact ((BigFppfOver.toScheme B S hS).map (hrep.snd (relBase B S hS w pr₁)))]
   [QuasiSeparated ((BigFppfOver.toScheme B S hS).map (hrep.snd (relBase B S hS w pr₁)))] in
-include hsq hQ hchart hwsurj hwet hY in
+include hQ hchart hwsurj hwet hY in
 /-- The normalization morphism of the glued object is representable with integral represented
 base changes. -/
 theorem presheaf_isIntegralHom_base :
@@ -176,11 +176,11 @@ theorem presheaf_isIntegralHom_base :
       (@_root_.AlgebraicGeometry.IsIntegralHom.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme B S hS)).presheaf ν :=
   ((isIntegralHom_iff_representable B S hS ν hQ hY).1
-    (isIntegralHom_base B S hS hrep w pr₁ pr₂ hsq hQ ν qm hchart hwsurj hwet hY)).2
+    (isIntegralHom_base B S hS hrep w hQ ν qm hchart hwsurj hwet hY)).2
 
 omit [QuasiCompact ((BigFppfOver.toScheme B S hS).map (hrep.snd (relBase B S hS w pr₁)))]
   [QuasiSeparated ((BigFppfOver.toScheme B S hS).map (hrep.snd (relBase B S hS w pr₁)))] in
-include hsq hQ hchart hwsurj hwet hY in
+include hQ hchart hwsurj hwet hY in
 /-- The fibre product of the glued object with an arbitrary chart of `Y` is representable with
 integral projection. -/
 theorem presheaf_isIntegralHom_pullback_snd {W : BigFppfOver B S hS} (w' : yoneda.obj W ⟶ Y) :
@@ -193,7 +193,7 @@ theorem presheaf_isIntegralHom_pullback_snd {W : BigFppfOver B S hS} (w' : yoned
       (BigFppfOver.toScheme B S hS)) (F := yoneda)
   exact MorphismProperty.IsStableUnderBaseChange.of_isPullback
     (IsPullback.of_hasPullback ν w')
-    (presheaf_isIntegralHom_base B S hS hrep w pr₁ pr₂ hsq hQ ν qm hchart hwsurj hwet hY)
+    (presheaf_isIntegralHom_base B S hS hrep w hQ ν qm hchart hwsurj hwet hY)
 
 
 /-! ### An arbitrary étale chart and its refinement by the atlas -/
@@ -230,7 +230,7 @@ include hjk hwsurj in
 theorem surjective_toScheme_map_j : Surjective ((BigFppfOver.toScheme B S hS).map j) :=
   hwsurj.property w' (yoneda.map k) j hjk.flip
 
-include hjk hwet in
+include hjk in
 /-- The two projections of the self-fibre-product of the refinement over the chart agree over
 the atlas. -/
 theorem rel_refine_middle :
@@ -275,7 +275,7 @@ the transition morphism.** -/
 theorem isPullback_normChartMap_refine_self :
     IsPullback (normChartMap B S hS hrep (Limits.pullback.fst j j) rfl)
       (normChartMap B S hS hrep (Limits.pullback.snd j j)
-        (rel_refine_middle B S hS w hwet w' j k hjk))
+        (rel_refine_middle B S hS w w' j k hjk))
       (normChartMap B S hS hrep j hjk.w) (normChartMap B S hS hrep j hjk.w) := by
   have _ : PreservesLimitsOfShape WalkingCospan (BigFppfOver.toScheme B S hS) :=
     preservesLimitsOfShape_walkingCospan_toScheme B S hS
@@ -292,16 +292,16 @@ theorem isPullback_normChartMap_refine_self :
   have hD := isPullback_normChartMap B S hS hrep (w₁ := yoneda.map k ≫ w)
     (Limits.pullback.fst j j) rfl
   have hC := isPullback_normChartMap B S hS hrep (Limits.pullback.snd j j)
-    (rel_refine_middle B S hS w hwet w' j k hjk)
+    (rel_refine_middle B S hS w w' j k hjk)
   have houter := hD.paste_vert (IsPullback.of_hasPullback j j)
   rw [← hC.w, ← hA.w] at houter
   refine houter.of_bot ?_ hA
   rw [normChartMap_comp B S hS hrep j hjk.w (Limits.pullback.fst j j) rfl,
     normChartMap_comp B S hS hrep j hjk.w (Limits.pullback.snd j j)
-      (rel_refine_middle B S hS w hwet w' j k hjk)]
+      (rel_refine_middle B S hS w w' j k hjk)]
   exact normChartMap_congr B S hS hrep _ _ _ _ Limits.pullback.condition
 
-include hjk hwet in
+include hjk in
 /-- The two projections of the self-fibre-product of the refinement, followed by `k`, agree
 over `Y`. -/
 theorem rel_refine_comm :
@@ -309,18 +309,18 @@ theorem rel_refine_comm :
       yoneda.map (Limits.pullback.snd j j ≫ k) ≫ w := by
   rw [CategoryTheory.Functor.map_comp, CategoryTheory.Functor.map_comp, Category.assoc,
     Category.assoc]
-  exact (rel_refine_middle B S hS w hwet w' j k hjk).symm
+  exact (rel_refine_middle B S hS w w' j k hjk).symm
 
 /-- The morphism from the self-fibre-product of the refinement into the relation `U ×_Y U`. -/
 def relRefine : Limits.pullback j j ⟶ R :=
   yoneda.preimage (hsq.lift (yoneda.map (Limits.pullback.fst j j ≫ k))
     (yoneda.map (Limits.pullback.snd j j ≫ k))
-    (rel_refine_comm B S hS w hwet w' j k hjk))
+    (rel_refine_comm B S hS w w' j k hjk))
 
 /-- `relRefine` followed by the first projection of the relation is the first projection of the
 self-fibre-product followed by `k`. -/
 lemma relRefine_comp_pr₁ :
-    relRefine B S hS w pr₁ pr₂ hsq hwet w' j k hjk ≫ pr₁ =
+    relRefine B S hS w pr₁ pr₂ hsq w' j k hjk ≫ pr₁ =
       Limits.pullback.fst j j ≫ k :=
   yoneda.map_injective (by
     rw [CategoryTheory.Functor.map_comp, relRefine, yoneda.map_preimage, hsq.lift_fst])
@@ -328,7 +328,7 @@ lemma relRefine_comp_pr₁ :
 /-- `relRefine` followed by the second projection of the relation is the second projection of the
 self-fibre-product followed by `k`. -/
 lemma relRefine_comp_pr₂ :
-    relRefine B S hS w pr₁ pr₂ hsq hwet w' j k hjk ≫ pr₂ =
+    relRefine B S hS w pr₁ pr₂ hsq w' j k hjk ≫ pr₂ =
       Limits.pullback.snd j j ≫ k :=
   yoneda.map_injective (by
     rw [CategoryTheory.Functor.map_comp, relRefine, yoneda.map_preimage, hsq.lift_snd])
@@ -336,14 +336,14 @@ lemma relRefine_comp_pr₂ :
 /-- `relRefine` followed by the structure morphism `relBase` of the relation to `Y` is the first
 projection of the self-fibre-product followed by `k` and `w`. -/
 lemma yoneda_map_relRefine_comp :
-    yoneda.map (relRefine B S hS w pr₁ pr₂ hsq hwet w' j k hjk) ≫ relBase B S hS w pr₁ =
+    yoneda.map (relRefine B S hS w pr₁ pr₂ hsq w' j k hjk) ≫ relBase B S hS w pr₁ =
       yoneda.map (Limits.pullback.fst j j) ≫ yoneda.map k ≫ w := by
   rw [relBase, ← Category.assoc, ← CategoryTheory.Functor.map_comp, relRefine_comp_pr₁,
     CategoryTheory.Functor.map_comp, Category.assoc]
 
 omit [QuasiCompact ((BigFppfOver.toScheme B S hS).map (hrep.snd w'))]
   [QuasiSeparated ((BigFppfOver.toScheme B S hS).map (hrep.snd w'))] in
-include hjk hwet hker in
+include hjk hker in
 /-- **The transition morphism to the atlas chart normalization is invariant under the kernel
 pair of the refinement.** -/
 theorem invariant_normChartMap_refine :
@@ -351,31 +351,31 @@ theorem invariant_normChartMap_refine :
           (Limits.pullback.fst j j) rfl) ≫
         yoneda.map (normChartMap B S hS hrep (w₁ := w) k rfl) ≫ qm =
       yoneda.map (normChartMap B S hS hrep (Limits.pullback.snd j j)
-          (rel_refine_middle B S hS w hwet w' j k hjk)) ≫
+          (rel_refine_middle B S hS w w' j k hjk)) ≫
         yoneda.map (normChartMap B S hS hrep (w₁ := w) k rfl) ≫ qm := by
   have e1 : normChartMap B S hS hrep
-        (relRefine B S hS w pr₁ pr₂ hsq hwet w' j k hjk)
-        (yoneda_map_relRefine_comp B S hS w pr₁ pr₂ hsq hwet w' j k hjk) ≫
+        (relRefine B S hS w pr₁ pr₂ hsq w' j k hjk)
+        (yoneda_map_relRefine_comp B S hS w pr₁ pr₂ hsq w' j k hjk) ≫
           normRelFst B S hS hrep w pr₁ =
       normChartMap B S hS hrep (w₁ := yoneda.map k ≫ w) (Limits.pullback.fst j j) rfl ≫
         normChartMap B S hS hrep (w₁ := w) k rfl := by
     rw [normRelFst, normChartMap_comp, normChartMap_comp]
     exact normChartMap_congr B S hS hrep _ _ _ _
-      (relRefine_comp_pr₁ B S hS w pr₁ pr₂ hsq hwet w' j k hjk)
+      (relRefine_comp_pr₁ B S hS w pr₁ pr₂ hsq w' j k hjk)
   have e2 : normChartMap B S hS hrep
-        (relRefine B S hS w pr₁ pr₂ hsq hwet w' j k hjk)
-        (yoneda_map_relRefine_comp B S hS w pr₁ pr₂ hsq hwet w' j k hjk) ≫
+        (relRefine B S hS w pr₁ pr₂ hsq w' j k hjk)
+        (yoneda_map_relRefine_comp B S hS w pr₁ pr₂ hsq w' j k hjk) ≫
           normRelSnd B S hS hrep w pr₁ pr₂ hsq =
       normChartMap B S hS hrep (Limits.pullback.snd j j)
-          (rel_refine_middle B S hS w hwet w' j k hjk) ≫
+          (rel_refine_middle B S hS w w' j k hjk) ≫
         normChartMap B S hS hrep (w₁ := w) k rfl := by
     rw [normRelSnd, normChartMap_comp, normChartMap_comp]
     exact normChartMap_congr B S hS hrep _ _ _ _
-      (relRefine_comp_pr₂ B S hS w pr₁ pr₂ hsq hwet w' j k hjk)
+      (relRefine_comp_pr₂ B S hS w pr₁ pr₂ hsq w' j k hjk)
   simp only [← Functor.map_comp_assoc, ← e1, ← e2]
   simp only [Functor.map_comp_assoc, hker.w]
 
-include hjk hw'et hwet hwsurj hker hQ in
+include hjk hwet hwsurj hker hQ in
 /-- **The chart normalization of an arbitrary chart maps to the glued object.** There is a
 unique morphism `d : N(W) ⟶ Q` whose composite with the transition morphism `N(V) ⟶ N(W)` is the
 transition morphism `N(V) ⟶ N(U)` followed by `qm`. -/
@@ -389,7 +389,7 @@ theorem existsUnique_chartMapToSpace :
     (surjective_etale_normChartMap_j B S hS hrep w hwsurj hwet w' j k hjk).1
     (surjective_etale_normChartMap_j B S hS hrep w hwsurj hwet w' j k hjk).2
     hQ.isSheaf _
-    (invariant_normChartMap_refine B S hS hrep w pr₁ pr₂ hsq qm hker hwet w' j k hjk)
+    (invariant_normChartMap_refine B S hS hrep w pr₁ pr₂ hsq qm hker w' j k hjk)
 
 include hjk hw'et hwet hwsurj hker hQ hchart hunit hY in
 /-- **The chart condition at an arbitrary étale chart, granted a refinement by the atlas.**
@@ -401,7 +401,7 @@ theorem exists_chartMapToSpace :
       yoneda.map (chartNormUnit B S hS (hrep.snd w')) ≫ b = hrep.fst w' ≫ tn := by
   classical
   obtain ⟨bW, hbW, -⟩ := existsUnique_chartMapToSpace B S hS hrep w pr₁ pr₂ hsq hQ qm hker
-    hwsurj hwet w' hw'et j k hjk
+    hwsurj hwet w' j k hjk
   have hαsurj := (surjective_etale_normChartMap_j B S hS hrep w hwsurj hwet w' j k hjk).1
   have hαet := (surjective_etale_normChartMap_j B S hS hrep w hwsurj hwet w' j k hjk).2
   have hNWsheaf := (isAlgebraicSpace_yoneda B S hS (chartNorm B S hS (hrep.snd w'))).isSheaf
@@ -528,7 +528,7 @@ theorem exists_chartMapToSpace :
       exact hchartV
     · rw [Category.assoc, hβsnd, ← CategoryTheory.Functor.map_comp,
         normChartMap_comp_chartNormProj, CategoryTheory.Functor.map_comp]
-  have hrel := presheaf_isIntegralHom_pullback_snd B S hS hrep w pr₁ pr₂ hsq hQ ν qm hchart
+  have hrel := presheaf_isIntegralHom_pullback_snd B S hS hrep w hQ ν qm hchart
     hwsurj hwet hY w'
   have hrelsq := hrel.1.isPullback (𝟙 (yoneda.obj W))
   have _ : IsIso (hrel.1.fst (𝟙 (yoneda.obj W))) := isIso_fst_of_isPullback_id B S hS hrelsq
@@ -625,13 +625,13 @@ theorem exists_chartMapToSpace :
   have _ : (MorphismProperty.inverseImage
       (@AlgebraicGeometry.Surjective.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme B S hS)).ContainsIdentities := ⟨fun Z => by
-    show AlgebraicGeometry.Surjective ((BigFppfOver.toScheme B S hS).map (𝟙 Z))
+    change AlgebraicGeometry.Surjective ((BigFppfOver.toScheme B S hS).map (𝟙 Z))
     rw [CategoryTheory.Functor.map_id]
     infer_instance⟩
   have _ : (MorphismProperty.inverseImage
       (@AlgebraicGeometry.Etale.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme B S hS)).ContainsIdentities := ⟨fun Z => by
-    show AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map (𝟙 Z))
+    change AlgebraicGeometry.Etale ((BigFppfOver.toScheme B S hS).map (𝟙 Z))
     rw [CategoryTheory.Functor.map_id]
     infer_instance⟩
   have _ : (MorphismProperty.inverseImage

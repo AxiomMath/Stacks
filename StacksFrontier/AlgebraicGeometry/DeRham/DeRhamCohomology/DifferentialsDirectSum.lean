@@ -49,7 +49,7 @@ theorem isInternal_gradedDifferentialComponent
   have hP :=
     isInternal_gradedDifferentialFormComponent gr
       (DirectSum.Decomposition.isInternal gr) 1
-  show DirectSum.IsInternal
+  change DirectSum.IsInternal
     (fun i ↦ (gradedDifferentialFormComponent gr 1 i).map e.toLinearMap)
   rw [DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top]
   exact ⟨e.toLinearMap.iSupIndep_map e.injective hP.submodule_iSupIndep,

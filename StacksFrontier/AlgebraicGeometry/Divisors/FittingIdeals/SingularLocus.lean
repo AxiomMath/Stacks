@@ -79,7 +79,7 @@ private lemma fiber_topologicalKrullDimAt_eq_of_equidimensional
   let Y := f.fiber (f x)
   let y : Y := f.asFiber x
   have : LocallyOfFiniteType (f.fiberToSpecResidueField (f x)) := by
-    show LocallyOfFiniteType
+    change LocallyOfFiniteType
       (Limits.pullback.snd f (S.fromSpecResidueField (f x)))
     infer_instance
   obtain ⟨C, hC, hyC, hdimy⟩ :=
@@ -138,9 +138,9 @@ private theorem mem_fittingIdeal_iff_not_generatedByNear_residueField
   have hopen : ∀ y : X, y ∈ (fittingGeneratorOpen F r : Set X) ↔
       y ∉ (I.support : Set X) := by
     intro y
-    show y ∉ Set.range (fittingClosedSubscheme F (r : ℤ)).hom.base ↔ _
+    change y ∉ Set.range (fittingClosedSubscheme F (r : ℤ)).hom.base ↔ _
     rw [fittingClosedSubscheme_ofNat]
-    show y ∉ Set.range I.subschemeι ↔ _
+    change y ∉ Set.range I.subschemeι ↔ _
     rw [Scheme.IdealSheafData.range_subschemeι]
   have hfactor :
       (∃! q : T ⟶ (fittingGeneratorOpen F r).toScheme,
@@ -157,7 +157,7 @@ private theorem mem_fittingIdeal_iff_not_generatedByNear_residueField
       have hrange : Set.range p.base ⊆ Set.range (fittingGeneratorOpen F r).ι.base := by
         rw [Scheme.Opens.range_ι, Set.range_subset_iff]
         intro z
-        show p.base z ∈ fittingGeneratorOpen F r
+        change p.base z ∈ fittingGeneratorOpen F r
         simpa [p, Scheme.fromSpecResidueField_apply] using hx
       exact ⟨IsOpenImmersion.lift _ p hrange, by simp,
         fun q hq => IsOpenImmersion.lift_uniq _ p hrange q hq⟩
@@ -217,7 +217,7 @@ theorem isScalarTower_stalk_residueField_specResidueFieldStalk
   have hcomp : (p.toLRSHom.toShHom).hom.stalkMap t ≫ (stalkClosedPointIso (.of K)).hom =
       Scheme.stalkClosedPointTo p := rfl
   have hcompa (a : A) : eD (algebraMap A D a) = (Scheme.stalkClosedPointTo p).hom a := by
-    show ((stalkClosedPointIso (.of K)).hom.hom) _ = _
+    change ((stalkClosedPointIso (.of K)).hom.hom) _ = _
     exact congrArg (fun φ : A ⟶ .of K => φ.hom a) hcomp
   have hδ (a : A) : eField ((X.residue (p t)).hom a) =
       (Scheme.stalkClosedPointTo p).hom a := by
@@ -225,11 +225,11 @@ theorem isScalarTower_stalk_residueField_specResidueFieldStalk
       (Scheme.stalkClosedPointTo p) (Scheme.isLocalHom_stalkClosedPointTo' p)
     have hra := congrArg (fun φ : A ⟶ .of K => φ.hom a) hr
     change δ.hom ((X.residue (p t)).hom a) = (Scheme.stalkClosedPointTo p).hom a at hra
-    show ((X.residueFieldCongr hpt).hom).hom ((X.residue (p t)).hom a) =
+    change ((X.residueFieldCongr hpt).hom).hom ((X.residue (p t)).hom a) =
       (Scheme.stalkClosedPointTo p).hom a
     simpa only [hdesc] using hra
   have hf (a : A) : eDL (algebraMap A D a) = (algebraMap A L) a := by
-    show eField.symm (eD (algebraMap A D a)) = (X.residue (p t)).hom a
+    change eField.symm (eD (algebraMap A D a)) = (X.residue (p t)).hom a
     rw [hcompa a, ← hδ a]
     exact eField.symm_apply_apply _
   exact IsScalarTower.of_algebraMap_eq' (by
@@ -296,7 +296,7 @@ private theorem nonempty_sectionsStalkLinearEquiv {K : Type u} [Field K]
   let l : Γ(F, ⊤) →ₗ[K] F.presheaf.stalk t :=
     LinearMap.mk gAdd (by
       intro a s
-      show gfun (((Scheme.ΓSpecIso (.of K)).inv.hom a) • s) =
+      change gfun (((Scheme.ΓSpecIso (.of K)).inv.hom a) • s) =
         algebraMap K D a • gfun s
       rw [show gfun (((Scheme.ΓSpecIso (.of K)).inv.hom a) • s) =
           (Spec (.of K)).presheaf.germ ⊤ t trivial ((Scheme.ΓSpecIso (.of K)).inv a) • gfun s from
@@ -304,7 +304,7 @@ private theorem nonempty_sectionsStalkLinearEquiv {K : Type u} [Field K]
       have hconst : (Spec (.of K)).presheaf.germ ⊤ t trivial
           ((Scheme.ΓSpecIso (.of K)).inv a) = algebraMap K D a := by
         apply (stalkClosedPointIso (.of K)).commRingCatIsoToRingEquiv.injective
-        show ((stalkClosedPointIso (.of K)).hom.hom) _ = _
+        change ((stalkClosedPointIso (.of K)).hom.hom) _ = _
         calc
           ((stalkClosedPointIso (.of K)).hom.hom)
               ((Spec (.of K)).presheaf.germ ⊤ t trivial ((Scheme.ΓSpecIso (.of K)).inv a)) = a := by
@@ -376,7 +376,7 @@ private theorem idealSheafData_stalk_of_subsingleton {K : Type u} [Field K]
         (I.ideal ⟨⊤, isAffineOpen_top T⟩) := by
   classical
   let Utop : T.affineOpens := ⟨⊤, isAffineOpen_top T⟩
-  show (⨆ U : T.affineOpens, ⨆ h : t ∈ U.1,
+  change (⨆ U : T.affineOpens, ⨆ h : t ∈ U.1,
     Ideal.map (T.presheaf.germ U.1 t h).hom (I.ideal U)) = _
   apply le_antisymm
   · apply iSup_le
@@ -411,7 +411,7 @@ private theorem isGeneratedByNear_specField_iff_finrank_le {K : Type u} [Field K
   have : Module.Finite K Γ(F, ⊤) := moduleFinite_field_sections_on_spec_field F
   obtain ⟨_, hrank⟩ := finite_and_finrank_eq_of_ringEquiv (M := Γ(F, ⊤)) eR.symm fun _ _ => rfl
   let Utop : T.affineOpens := ⟨⊤, isAffineOpen_top T⟩
-  show IsGeneratedByNear F r t ↔ _
+  change IsGeneratedByNear F r t ↔ _
   rw [isGeneratedByNear_iff_fittingIdeal_stalk_eq_top,
     idealSheafData_stalk_of_subsingleton (K := K) T t, fittingIdeal_ideal F (r : ℤ) Utop,
     Ideal.map_eq_top_of_bijective (f := (T.presheaf.germ ⊤ t trivial).hom)
@@ -481,7 +481,7 @@ private theorem nonempty_pullbackStalkCotangentLinearEquiv
   have ep' : (G.presheaf.stalk t) ≃ₗ[D] (D ⊗[A] Ω) := ep
   let epL : (G.presheaf.stalk t) ≃ₗ[L] D ⊗[A] Ω :=
     LinearEquiv.ofBijective (LinearMap.restrictScalars L ep'.toLinearMap) ep'.bijective
-  show Nonempty ((G.presheaf.stalk t) ≃ₗ[L] (L ⊗[A] Ω))
+  change Nonempty ((G.presheaf.stalk t) ≃ₗ[L] (L ⊗[A] Ω))
   exact ⟨epL.trans eTensor⟩
 
 /-- At the canonical residue field point of `x`, the pullback of `Ω_{X/S}` is generated by `d`
@@ -527,13 +527,13 @@ private theorem isGeneratedByNear_pullback_relativeDifferentials_iff_generatedBy
   have : Module.Finite K (G.presheaf.stalk t) := Module.Finite.equiv eSections
   have hscalar (c : K) (m : G.presheaf.stalk t) :
       eField.symm c • m = c • m := by
-    show eDL.symm (eField.symm c) • m = eD.symm c • m
+    change eDL.symm (eField.symm c) • m = eD.symm c • m
     congr 1
-    show eD.symm (eField (eField.symm c)) = eD.symm c
+    change eD.symm (eField (eField.symm c)) = eD.symm c
     simp
   obtain ⟨_, hcross⟩ := finite_and_finrank_eq_of_ringEquiv eField.symm hscalar
   have : Module.Finite L (relativeCotangentSpace f z) := Module.Finite.equiv eCotangent
-  show IsGeneratedByNear G d t ↔
+  change IsGeneratedByNear G d t ↔
     GeneratedByAtMost L (relativeCotangentSpace f z) (d : WithBot ℕ∞)
   calc
     IsGeneratedByNear G d t ↔ Module.finrank K Γ(G, ⊤) ≤ d :=

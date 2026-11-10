@@ -97,9 +97,9 @@ theorem range_yoneda_map_eq_of_ker_eq {Y₁ Y₂ P : BigFppfOver B S hS} (j₁ :
       apply ObjectProperty.hom_ext
       have h1 := congrArg (fun φ => φ.hom) (Over.w k₁)
       have h2 := congrArg (fun φ => φ.hom) (Over.w k₂)
-      show a ≫ Z₁.hom.hom = Z₂.hom.hom
+      change a ≫ Z₁.hom.hom = Z₂.hom.hom
       rw [← h1, ← h2]
-      show a ≫ k₁.left.hom ≫ P.hom.hom = k₂.left.hom ≫ P.hom.hom
+      change a ≫ k₁.left.hom ≫ P.hom.hom = k₂.left.hom ≫ P.hom.hom
       rw [← Category.assoc]
       exact congrArg (· ≫ P.hom.hom) ha
     obtain ⟨b, hb⟩ : ∃ b : Z₂ ⟶ Z₁, b ≫ k₁ = k₂ :=
@@ -107,7 +107,7 @@ theorem range_yoneda_map_eq_of_ker_eq {Y₁ Y₂ P : BigFppfOver B S hS} (j₁ :
         Over.OverMorphism.ext (ObjectProperty.hom_ext _ ha)⟩
     rintro V x ⟨g, rfl⟩
     exact ⟨g ≫ b, by
-      show (g ≫ b) ≫ k₁ = g ≫ k₂
+      change (g ≫ b) ≫ k₁ = g ≫ k₂
       rw [Category.assoc, hb]⟩
   exact le_antisymm (key j₂ j₁ I.inv hI') (key j₁ j₂ I.hom hI)
 

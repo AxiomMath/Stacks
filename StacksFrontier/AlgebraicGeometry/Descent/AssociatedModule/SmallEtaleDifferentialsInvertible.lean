@@ -251,7 +251,8 @@ public theorem universalRelativeDerivation_postcomp_sectionsUnit :
 private theorem postcomp_postcomp_of_comp_eq_id
     {C : Type*} [Category C] {R S : Cᵒᵖ ⥤ CommRingCat.{u}} {φ : S ⟶ R}
     {M N : PresheafOfModules.{u} (R ⋙ forget₂ CommRingCat RingCat)}
-    (d : PresheafOfModulesOfCommRing.Derivation' M φ) (a : M ⟶ N) (b : N ⟶ M) (h : ∀ V, (a ≫ b).app V = 𝟙 _) :
+    (d : PresheafOfModulesOfCommRing.Derivation' M φ) (a : M ⟶ N) (b : N ⟶ M)
+    (h : ∀ V, (a ≫ b).app V = 𝟙 _) :
     (d.postcomp a).postcomp b = d :=
   PresheafOfModulesOfCommRing.Derivation.ext (funext fun V => AddMonoidHom.ext fun x =>
     ConcreteCategory.congr_hom (h V) (d.d x))

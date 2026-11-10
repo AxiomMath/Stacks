@@ -241,13 +241,13 @@ private theorem exists_chart_aux (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.
     exact MorphismProperty.RespectsIso.precomp _ PXo.inv _
       (MorphismProperty.RespectsIso.precomp _ eθ.inv _ h02WU)
   · have hisoe : IsIso (Over.Hom.left (eqToHom H.objects_eq.symm)) := by
-      show IsIso ((Over.forget S).map (eqToHom H.objects_eq.symm))
+      change IsIso ((Over.forget S).map (eqToHom H.objects_eq.symm))
       infer_instance
     rw [hFc, Over.comp_left]
     exact MorphismProperty.RespectsIso.precomp (@IsFiniteLocallyFree.{u})
       (Over.Hom.left (eqToHom H.objects_eq.symm)) π.left hflfπ
   · have hisoe : IsIso (Over.Hom.left (eqToHom H.objects_eq.symm)) := by
-      show IsIso ((Over.forget S).map (eqToHom H.objects_eq.symm))
+      change IsIso ((Over.forget S).map (eqToHom H.objects_eq.symm))
       infer_instance
     have hresp : MorphismProperty.RespectsIso (@Surjective.{u}) :=
       MorphismProperty.IsStableUnderBaseChange.respectsIso

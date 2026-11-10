@@ -246,7 +246,7 @@ private lemma factorization_of_ext_to_neg_one_eq_zero
   have hzero : toHomD (Qq.map (a ≫ κcon)) = 0 := hcomp.symm.trans hkill
   have hclzero : Qq.map (a ≫ κcon) = 0 := by
     apply (toHomD_bijective M (shiftSingle N 1) hMpos hM0 hTzero).1
-    show toHomD (Qq.map (a ≫ κcon)) = toHomD (0 : HomK M (shiftSingle N 1))
+    change toHomD (Qq.map (a ≫ κcon)) = toHomD (0 : HomK M (shiftSingle N 1))
     rw [hzero, toHomD_zero]
   obtain ⟨H⟩ : Nonempty (Homotopy (a ≫ κcon) 0) :=
     ⟨HomotopyCategory.homotopyOfEq _ _ (by rw [hclzero, Functor.map_zero])⟩
@@ -257,7 +257,7 @@ private lemma factorization_of_ext_to_neg_one_eq_zero
   rw [dNext_eq H.hom hrel, prevD_eq H.hom hrel2, hTd] at hcomm
   simp only [comp_zero, add_zero, HomologicalComplex.zero_f, HomologicalComplex.comp_f] at hcomm
   have hf1 : κcon.f (-1) ≫ eN.inv = 𝟙 (K.X (-1)) := by
-    show kf (-1) ≫ eN.inv = _
+    change kf (-1) ≫ eN.inv = _
     simp [kf]
   have key := congrArg (· ≫ eN.inv) hcomm
   simp only [Category.assoc] at key

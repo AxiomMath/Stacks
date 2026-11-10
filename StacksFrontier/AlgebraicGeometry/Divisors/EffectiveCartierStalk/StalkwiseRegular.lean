@@ -146,7 +146,7 @@ theorem mem_nonZeroDivisors_localizationAway {a h : A} (hh : ∀ b : A, b * a = 
     subst hn
     rw [IsLocalization.mk'_eq_zero_iff]
     refine ⟨⟨h ^ (n + 1), n + 1, rfl⟩, ?_⟩
-    show h ^ (n + 1) * b = 0
+    change h ^ (n + 1) * b = 0
     linear_combination hh (h ^ n * b) (by linear_combination hc)
   exact mem_nonZeroDivisors_iff.2 ⟨fun x hx => key x (by rwa [mul_comm]), key⟩
 
@@ -193,7 +193,7 @@ theorem isEffectiveCartierDivisor_of_stalk_isPrincipal_nonZeroDivisor {X : Schem
   let W := X.affineBasicOpen a
   have hxW : x ∈ W.1 := by
     refine (X.mem_basicOpen' a ⟨x, hxV⟩).2 ?_
-    show IsUnit (algebraMap Γ(X, V) (X.presheaf.stalk x) a)
+    change IsUnit (algebraMap Γ(X, V) (X.presheaf.stalk x) a)
     exact IsLocalization.map_units (M := P.primeCompl) _ ⟨a, ha⟩
   let _ : Algebra Γ(X, V) Γ(X, W) :=
     (X.presheaf.map (homOfLE (X.basicOpen_le a)).op).hom.toAlgebra

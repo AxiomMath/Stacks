@@ -266,7 +266,8 @@ object is spelled through the chart localization.  Ruled out, with the evidence 
 `simp` and `simp only` in any lemma set; `rw` of either content lemma; `show`; and
 `implicit_reducible` on any of the definitions named above.
 
-`AlgebraicGeometry.Space.chartSchemeEquivalenceBaseChangeIso` itself is proved, and so is every piece the assembly of Stacks 0610 needs on top of this square:
+`AlgebraicGeometry.Space.chartSchemeEquivalenceBaseChangeIso` itself is proved, and so is every
+piece the assembly of Stacks 0610 needs on top of this square:
 `AlgebraicGeometry.Space.over_smallBaseChangeModulePushforward_obj` (Stacks 04CF),
 `AlgebraicGeometry.Space.isFinitePresentation_chartSchemeModule_iff`,
 `AlgebraicGeometry.Space.restrictModulePushforwardIso`,

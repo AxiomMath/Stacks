@@ -100,7 +100,7 @@ private theorem exists_iso_blowUpSpec_comap_exceptionalIdeal
         (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom (IsLocalRing.maximalIdeal A))) =
       Stacks.Blowup.toSpec (IsLocalRing.maximalIdeal A) := Over.w φ.hom
   refine ⟨(Over.forget _).mapIso φ, ?_⟩
-  show (exceptionalIdeal _).comap φ.hom.left = _
+  change (exceptionalIdeal _).comap φ.hom.left = _
   rw [show exceptionalIdeal (Scheme.IdealSheafData.ofIdealTop (Ideal.map
         (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom (IsLocalRing.maximalIdeal A))) =
       (Scheme.IdealSheafData.ofIdealTop (Ideal.map

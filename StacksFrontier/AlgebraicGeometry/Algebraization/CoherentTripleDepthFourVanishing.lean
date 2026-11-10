@@ -102,7 +102,7 @@ theorem eulerCharacteristic_eq_zero_of_three_le_depth_closedFibreSections (A : T
     (hdepth : 3 ≤ Module.depth A (maximalIdeal A) A)
     (hNfin : Module.Finite A (closedFibreSectionsModule A f T : Type u))
     (hdN : 3 ≤ Module.depth A (maximalIdeal A) (closedFibreSectionsModule A f T : Type u)) :
-    T.eulerCharacteristic hf hreg = 0 := by
+    T.eulerCharacteristic = 0 := by
   let := puncturedSectionsModule A T.F
   let := puncturedClosedFibreSectionsModule A f
     ((Scheme.Modules.pullback (puncturedClosedFibre A f).ι).obj T.F₀)
@@ -110,7 +110,7 @@ theorem eulerCharacteristic_eq_zero_of_three_le_depth_closedFibreSections (A : T
     (show (2 : ℕ∞) ≤ 3 by decide).trans hdepth
   have hfinlen := finiteLength_cokernel_globalSectionsMap A f hf hreg T hdepth
   -- the Euler characteristic vanishes exactly when the canonical map on sections is surjective
-  have hzero : T.eulerCharacteristic hf hreg = 0 ↔
+  have hzero : T.eulerCharacteristic = 0 ↔
       Function.Surjective (globalSectionsMap A f T) := by
     rw [CoherentTriple.eulerCharacteristic_eq_length_cokernel A f hf hreg T hdepth,
       Int.natCast_eq_zero]

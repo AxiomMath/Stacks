@@ -151,7 +151,7 @@ theorem exists_isPullback_smoothOfRelativeDimension_of_isLimit {I : Type u} [Cat
     simpa using Over.w e.hom
   have hsq₀ : IsPullback g₀ f f₁ (c.π.app j) := by
     refine IsPullback.of_iso_pullback ⟨?_⟩ ((Over.forget _).mapIso e) rfl he
-    show (e.hom.left ≫ pullback.fst f₁ (c.π.app j)) ≫ f₁ = f ≫ c.π.app j
+    change (e.hom.left ≫ pullback.fst f₁ (c.π.app j)) ≫ f₁ = f ≫ c.π.app j
     rw [Category.assoc, pullback.condition, ← Category.assoc, he]
   obtain ⟨k, t, hsm, hsyn⟩ :=
     exists_smooth_syntomicOfRelativeDimension_pullbackSnd_of_isLimit D c hc hsq₀ n

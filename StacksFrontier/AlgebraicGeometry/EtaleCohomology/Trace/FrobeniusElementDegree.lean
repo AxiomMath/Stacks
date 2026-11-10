@@ -104,7 +104,7 @@ theorem absoluteFrobeniusPow_mul_comp_hom (hq : Fintype.card k = p ^ n)
       ((Scheme.ΓSpecIso (.of k)).inv ≫ V.hom.appTop).hom a := by
     rw [← map_pow, pow_mul, ← hq, FiniteField.pow_card_pow]
   refine ext_to_Spec ?_
-  show ((Scheme.ΓSpecIso (.of k)).inv ≫
+  change ((Scheme.ΓSpecIso (.of k)).inv ≫
       (absoluteFrobeniusPow V.left p (isInCharacteristic_of_over V) (n * d) ≫ V.hom).appTop :
         CommRingCat.of k ⟶ Γ(V.left, ⊤)) = (Scheme.ΓSpecIso (.of k)).inv ≫ V.hom.appTop
   rw [Scheme.Hom.comp_appTop, ← Category.assoc]
@@ -152,7 +152,7 @@ theorem frobeniusSourceIso_hom_comp (hq : Fintype.card k = p ^ n)
   rw [frobeniusSourceIso_hom, ← Spec.map_preimage z.hom, ← Spec.map_comp]
   congr 1
   ext a
-  show (Spec.preimage z.hom).hom a ^ p ^ n = (Spec.preimage z.hom).hom a
+  change (Spec.preimage z.hom).hom a ^ p ^ n = (Spec.preimage z.hom).hom a
   rw [← map_pow, ← hq, FiniteField.pow_card]
 
 /-- **The Frobenius of a finite field** `k` with `p ^ n` elements in `π₁(Spec k, z)`: it acts on
@@ -177,10 +177,10 @@ theorem finiteFieldFrobenius_pow_app_coe_specMap (hq : Fintype.card k = p ^ n)
     rfl
   | succ d ih =>
     rw [pow_succ]
-    show ((((finiteFieldFrobenius p n hq z) ^ d).asIso.app V).hom
+    change ((((finiteFieldFrobenius p n hq z) ^ d).asIso.app V).hom
       (((finiteFieldFrobenius p n hq z).asIso.app V).hom q)).1 = _
     rw [ih]
-    show _ ≫ (frobeniusSourceIso p n z).hom ≫ q.1 = _
+    change _ ≫ (frobeniusSourceIso p n z).hom ≫ q.1 = _
     rw [frobeniusSourceIso_hom, ← Category.assoc, ← Spec.map_comp, ← CommRingCat.ofHom_comp,
       ← iterateFrobenius_add, mul_add, mul_one, add_comm]
 
@@ -236,7 +236,7 @@ theorem specMap_residueGeometricFrobenius_symm_comp (V : FiniteEtaleOver (Spec (
       absoluteFrobeniusPow (Spec (.of Ω)) p
         (Stacks.Frobenius.isInCharacteristic_spec Ω p) (n * d) := by
     refine specMap_eq_absoluteFrobeniusPow _ p (n * d) _ fun a => ?_
-    show (Stacks.Frobenius.residueGeometricFrobenius X y.1).symm a = _
+    change (Stacks.Frobenius.residueGeometricFrobenius X y.1).symm a = _
     rw [Stacks.Frobenius.residueGeometricFrobenius_symm_apply,
       natCard_residueField_eq p n f y hq]
   let e : pullback V.hom f ⟶ pullback V.hom f :=
@@ -246,12 +246,12 @@ theorem specMap_residueGeometricFrobenius_symm_comp (V : FiniteEtaleOver (Spec (
     finiteEtaleBaseChange_map_left_fst f _
   have hsnd : e ≫ pullback.snd V.hom f = pullback.snd V.hom f :=
     MorphismProperty.Over.w ((finiteEtaleBaseChange f).map (frobeniusCoverEnd p n hq V d))
-  show _ ≫ g = g ≫ e
+  change _ ≫ g = g ≫ e
   refine pullback.hom_ext ?_ ?_
   · rw [Category.assoc, Category.assoc, hfst, hσ, ← Category.assoc g]
     exact absoluteFrobeniusPow_naturality (g ≫ pullback.fst V.hom f) p _ _ _
   · rw [Category.assoc, Category.assoc, hsnd, hg]
-    show _ ≫ Spec.map (CommRingCat.ofHom (algebraMap (X.residueField y.1) Ω)) ≫
+    change _ ≫ Spec.map (CommRingCat.ofHom (algebraMap (X.residueField y.1) Ω)) ≫
       X.fromSpecResidueField y.1 = Spec.map (CommRingCat.ofHom (algebraMap _ Ω)) ≫ _
     rw [← Category.assoc, ← Spec.map_comp, ← CommRingCat.ofHom_comp]
     congr 3
@@ -286,7 +286,7 @@ theorem etaleFundamentalGroupMap_element_frobeniusDataOfPath
   refine Aut.ext (Iso.ext (NatTrans.ext (funext fun V => ?_)))
   ext q
   apply Subtype.ext
-  show (((etaleFundamentalGroupMap f x c.element).asIso.app V).hom q).1 =
+  change (((etaleFundamentalGroupMap f x c.element).asIso.app V).hom q).1 =
     ((((finiteFieldFrobenius p n hq (x.map f)) ^ d).asIso.app V).hom q).1
   rw [finiteFieldFrobenius_pow_app_coe]
   let w := (finiteEtaleFiberProjectionEquiv f x V).symm q
@@ -305,7 +305,7 @@ theorem etaleFundamentalGroupMap_element_frobeniusDataOfPath
       fe (t.inv.app _ w)) = (finiteEtaleFiberFunctor x).map fe w := by
     rw [NatTrans.naturality_apply t.hom fe (t.inv.app _ w), Iso.inv_hom_id_app_apply]
   rw [h1, h2, h3, h4]
-  show (w.1 ≫ fe.left) ≫ pullback.fst V.hom f = q.1 ≫ _
+  change (w.1 ≫ fe.left) ≫ pullback.fst V.hom f = q.1 ≫ _
   calc (w.1 ≫ fe.left) ≫ pullback.fst V.hom f
       = w.1 ≫ (fe.left ≫ pullback.fst V.hom f) := Category.assoc _ _ _
     _ = w.1 ≫ (pullback.fst V.hom f ≫ (frobeniusCoverEnd p n hq V d).left) :=
@@ -333,7 +333,7 @@ theorem inv_pow_mul_geometricFrobeniusFamily_mem_ker [LocallyOfFiniteType f]
         Stacks.EtaleCohomology.geometricFrobeniusFamily f x y ∈
       (etaleFundamentalGroupMap f x).toMonoidHom.ker := by
   rw [MonoidHom.mem_ker, map_mul, map_inv, map_pow]
-  show (etaleFundamentalGroupMap f x φ ^ _)⁻¹ *
+  change (etaleFundamentalGroupMap f x φ ^ _)⁻¹ *
     etaleFundamentalGroupMap f x (Stacks.EtaleCohomology.geometricFrobeniusFamily f x y) = 1
   rw [etaleFundamentalGroupMap_geometricFrobeniusFamily p n hq f x y, hφ, inv_pow, inv_inv,
     mul_inv_cancel]

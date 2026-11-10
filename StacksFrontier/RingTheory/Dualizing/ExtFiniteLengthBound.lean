@@ -55,8 +55,8 @@ having to transport along `-1 + 1 = 0` or `0 + 1 = 1`.
 
 A module of finite length is finite, but through `isFiniteLength_iff_isNoetherian_isArtinian`
 rather than directly, so the `Module.Finite` hypothesis of the results of
-`StacksFrontier/RingTheory/Dualizing/DualExtDepthDimension.lean` is produced inside the proofs rather
-than demanded of the caller. The bound `dim Supp(Q) ≤ 0` for such a `Q` is
+`StacksFrontier/RingTheory/Dualizing/DualExtDepthDimension.lean` is produced inside the proofs
+rather than demanded of the caller. The bound `dim Supp(Q) ≤ 0` for such a `Q` is
 `Dualizing.supportDim_le_zero_of_finiteLength`, which is `private` in
 `StacksFrontier/RingTheory/Dualizing/ExtSupportBound.lean` and so is reached through `import all`.
 

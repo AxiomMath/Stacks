@@ -117,7 +117,7 @@ theorem isAlgebraicSpaceIsomPresheaf_of_pointwiseEquiv
       right_inv := by intro z; cases z; simp; rfl }) ?_⟩⟩
   intro V W f
   ext z
-  show ULift.up ((e W).symm ((F.map f) z.down)) =
+  change ULift.up ((e W).symm ((F.map f) z.down)) =
     ULift.up (((Over.iteratedSliceBackward U).op ⋙
       𝒳.val.p.isomPresheaf x y).map f ((e V).symm z.down))
   congr 1

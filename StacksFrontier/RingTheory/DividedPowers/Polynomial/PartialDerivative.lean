@@ -44,8 +44,8 @@ where `≤` and `-` on `ι →₀ ℕ` are the pointwise order and pointwise tru
 The operator is built with `Module.Basis.constr` on
 `DividedPowers.dividedPowerPolynomialMonomialBasis`, so no finiteness assumption on the index
 type `ι` is needed: an element of the algebra has finitely many nonzero coordinates even when
-there are infinitely many variables. Decidability of the pointwise order on `ι →₀ ℕ` is
-obtained from `DecidableEq ι`.
+there are infinitely many variables. The pointwise order on `ι →₀ ℕ` is decidable without
+any decidability assumption on `ι`.
 -/
 
 @[expose] public section
@@ -63,7 +63,7 @@ private theorem natFinsupp_add_le_iff_le_tsub {ι : Type w} (J K L : ι →₀ �
   simp only [Finsupp.le_def, Finsupp.add_apply, Finsupp.tsub_apply, ← forall_and]
   exact forall_congr' fun _ ↦ by lia
 
-variable (A : Type u) [CommRing A] (ι : Type w) [DecidableEq ι]
+variable (A : Type u) [CommRing A] (ι : Type w)
 
 /-- The iterated divided power partial derivative `∂_J` on the divided power polynomial algebra
 `A⟨xᵢ : i ∈ ι⟩`, the `A`-linear operator sending the divided power monomial `x^[K]` to
@@ -86,12 +86,12 @@ power monomial `x^[K - J]`. -/
 public theorem dividedPowerPolynomialPartial_monomial_of_le {J K : ι →₀ ℕ} (h : J ≤ K) :
     dividedPowerPolynomialPartial A ι J (dividedPowerPolynomialMonomial A K) =
       dividedPowerPolynomialMonomial A (K - J) := by
-  rw [dividedPowerPolynomialPartial_monomial, if_pos h]
+  rw [dividedPowerPolynomialPartial_monomial, ite_eq_left h]
 
 /-- When `J ≤ K` fails, the operator `∂_J` annihilates the divided power monomial `x^[K]`. -/
 public theorem dividedPowerPolynomialPartial_monomial_of_not_le {J K : ι →₀ ℕ} (h : ¬J ≤ K) :
     dividedPowerPolynomialPartial A ι J (dividedPowerPolynomialMonomial A K) = 0 := by
-  rw [dividedPowerPolynomialPartial_monomial, if_neg h]
+  rw [dividedPowerPolynomialPartial_monomial, ite_eq_right h]
 
 /-- The partial derivative attached to the zero exponent vector is the identity. -/
 @[simp]
@@ -99,7 +99,7 @@ public theorem dividedPowerPolynomialPartial_zero :
     dividedPowerPolynomialPartial A ι 0 = LinearMap.id := by
   refine (dividedPowerPolynomialMonomialBasis A ι).ext fun K ↦ ?_
   rw [dividedPowerPolynomialMonomialBasis_apply, dividedPowerPolynomialPartial_monomial,
-    if_pos (zero_le : (0 : ι →₀ ℕ) ≤ K), tsub_zero, LinearMap.id_apply]
+    ite_eq_left (zero_le : (0 : ι →₀ ℕ) ≤ K), tsub_zero, LinearMap.id_apply]
 
 /-- The composition law for the divided power partial derivatives: `∂_(J + K) = ∂_J ∘ ∂_K`. -/
 public theorem dividedPowerPolynomialPartial_add (J K : ι →₀ ℕ) :
@@ -110,11 +110,11 @@ public theorem dividedPowerPolynomialPartial_add (J K : ι →₀ ℕ) :
     dividedPowerPolynomialPartial_monomial, dividedPowerPolynomialPartial_monomial]
   have hiff := natFinsupp_add_le_iff_le_tsub J K L
   by_cases hK : K ≤ L
-  · rw [if_pos hK, dividedPowerPolynomialPartial_monomial, tsub_tsub]
+  · rw [ite_eq_left hK, dividedPowerPolynomialPartial_monomial, tsub_tsub]
     by_cases hJ : J ≤ L - K
-    · rw [if_pos hJ, if_pos (hiff.2 ⟨hK, hJ⟩), add_comm K J]
-    · rw [if_neg hJ, if_neg fun h ↦ hJ (hiff.1 h).2]
-  · rw [if_neg hK, map_zero, if_neg fun h ↦ hK (hiff.1 h).1]
+    · rw [ite_eq_left hJ, ite_eq_left (hiff.2 ⟨hK, hJ⟩), add_comm K J]
+    · rw [ite_eq_right hJ, ite_eq_right fun h ↦ hJ (hiff.1 h).2]
+  · rw [ite_eq_right hK, map_zero, ite_eq_right fun h ↦ hK (hiff.1 h).1]
 
 /-- The partial derivative attached to the zero exponent vector is the identity function. -/
 public theorem dividedPowerPolynomialPartial_apply_zero :

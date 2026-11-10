@@ -187,7 +187,7 @@ theorem exists_factorization_of_ker_pow_eq_bot {P Q : BigFppfOver B S hS} {i : P
     (X := P) (Y := BigFppfOver.mk B S hS hWsize (v' ≫ B.inclusion.map Q.hom)) u' htri
   refine ⟨_, u, v, ?_, ⟨?_, ?_⟩, ?_, ?_⟩
   · apply BigFppfOver.map_toScheme_injective B S hS
-    show (BigFppfOver.toScheme B S hS).map (u ≫ v) = (BigFppfOver.toScheme B S hS).map i
+    change (BigFppfOver.toScheme B S hS).map (u ≫ v) = (BigFppfOver.toScheme B S hS).map i
     rw [Functor.map_comp, hu, hv]
     exact hfac
   · rwa [hv]

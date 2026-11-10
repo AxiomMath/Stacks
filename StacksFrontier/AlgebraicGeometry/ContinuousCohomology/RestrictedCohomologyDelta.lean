@@ -129,7 +129,7 @@ theorem elementwiseEffaceable_restrictedCohomologyDelta (hφ : Topology.IsInduci
         ((coind.{0, w, w} Λ U.toOpenSubgroup).obj
           ((finiteTypeContinuousModuleι.{0, w, w} Λ Γ).obj M)) := by
       have : Module.Finite Λ M.obj.obj.obj.V := M.property
-      show Module.Finite Λ (Γ ⧸ (U.toOpenSubgroup : Subgroup Γ) → M.obj.obj.obj.V)
+      change Module.Finite Λ (Γ ⧸ (U.toOpenSubgroup : Subgroup Γ) → M.obj.obj.obj.V)
       infer_instance
     let N : FiniteTypeContinuousModule.{0, w, w} Λ Γ := ⟨_, hFG⟩
     let u : M ⟶ N := ObjectProperty.homMk (coindUnit.{0, w, w} Λ U.toOpenSubgroup

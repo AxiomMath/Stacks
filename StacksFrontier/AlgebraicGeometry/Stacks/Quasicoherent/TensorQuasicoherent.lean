@@ -441,6 +441,7 @@ variable [J.HasSheafCompose (forget₂ CommRingCat.{max u v w} RingCat.{max u v 
   {𝒪 : Cᵒᵖ ⥤ CommRingCat.{max u v w}}
   (h𝒪 : Presheaf.IsSheaf J (TensorSheafification.structureRingPresheaf 𝒪))
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{max u v w} RingCat.{max u v w})] in
 /-- **The tensor product of two globally presented sheaves of modules is globally presented.**
 The tensored presentation is `Stacks.SheafOfModules.TensorProduct.tensorPresentation`; the two
 encodings of a global presentation are matched by

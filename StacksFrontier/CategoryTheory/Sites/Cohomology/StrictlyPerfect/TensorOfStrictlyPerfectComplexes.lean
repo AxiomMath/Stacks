@@ -208,7 +208,7 @@ lemma sheafTensorUnitIsoLeft_hom_unit_tmul (M : SheafOfModules.{w} (ringSheaf R)
     (sheafification_map_unit_apply R (λ_ M.val).hom U _)) ?_
   refine Eq.trans (counit_unit_apply R M U _) ?_
   let _i : CommRing ↑((ringSheaf R).obj.obj U) := inferInstanceAs (CommRing ↑(R.obj.obj U))
-  show (ConcreteCategory.hom (λ_ (M.val.obj U)).hom)
+  change (ConcreteCategory.hom (λ_ (M.val.obj U)).hom)
     ((1 : ↑((ringSheaf R).obj.obj U)) ⊗ₜ t) = t
   rw [ModuleCat.MonoidalCategory.leftUnitor_hom_apply]
   exact one_smul _ _
@@ -424,7 +424,7 @@ theorem isStrictlyPerfect_tensorComplex
     · apply ((hK.bounded.prod hL.bounded).preimage
         (f := fun i : {pq : ℤ × ℤ | pq.1 + pq.2 = n} => i.1) Subtype.val_injective.injOn).subset
       rintro ⟨⟨p, q⟩, hpq⟩ h
-      show p ∈ s ∧ q ∈ t
+      change p ∈ s ∧ q ∈ t
       by_contra hh
       exact h (hz p q hh)
     · rintro ⟨⟨p, q⟩, hpq⟩

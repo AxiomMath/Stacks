@@ -138,7 +138,7 @@ private theorem stalk_eq_ker_stalkMap_of_isAffineOpen
     exact (IsLocalization.algEquiv p.asIdeal.primeCompl (X.presheaf.stalk x)
       (Localization.AtPrime p.asIdeal)).commutes a
   apply eR.idealComapOrderIso.symm.injective
-  show (IdealSheafData.stalk I x).map eR.toRingHom =
+  change (IdealSheafData.stalk I x).map eR.toRingHom =
     (RingHom.ker (I.subschemeι.stalkMap y).hom).map eR.toRingHom
   rw [hstalkMap, map_ker_eq_ker_of_comp_eq _ _ eR eS hcomm, hkerLoc, hfker]
 
@@ -262,7 +262,9 @@ private theorem discreteTopology_subscheme_of_support_eq {X : Scheme.{u}}
 
 /-- The length over the base ring of a finite-support quotient is bounded
 below by the sum of the colengths of its stalks. -/
-@[stacks 0AGT "clause (3), the second inequality: the length over the base ring of the global sections of the quotient is at least the sum over the support points of the colengths of the stalks"]
+@[stacks 0AGT "clause (3), the second inequality: the length over the base ring of the \
+global sections of the quotient is at least the sum over the support points \
+of the colengths of the stalks"]
 public theorem length_globalSections_ge_sum_length_stalkQuotient
     {A : Type*} [CommRing A] {X : Scheme}
     (f : X ⟶ Spec (.of A)) (I : X.IdealSheafData)

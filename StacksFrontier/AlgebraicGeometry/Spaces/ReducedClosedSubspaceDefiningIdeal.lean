@@ -114,7 +114,7 @@ theorem comap_atlasVanishingIdeal
   have _he := etale_toScheme_toOver_map B S hS X.obj m
   refine Scheme.IdealSheafData.comap_vanishingIdeal_of_etale _ _ _ ?_
   ext x
-  show x ∈ atlasPointSet B S hS A.1.hom T ↔
+  change x ∈ atlasPointSet B S hS A.1.hom T ↔
     ((BigFppfOver.toScheme B S hS).map
       ((SmallEtale.toOver B S hS X.obj).map m)).base x ∈ atlasPointSet B S hS φ T
   rw [mem_atlasPointSet_map_iff B S hS ((SmallEtale.toOver B S hS X.obj).map m) φ T x,
@@ -215,7 +215,7 @@ theorem definingIdealSheaf_reducedClosedSubspaceOfChart_inf
     (⟨CostructuredArrow.mk φ, he⟩ : SmallEtale B S hS X.1)
     ((presheafSurjective_iff_isSurjective_yoneda B S hS X.1 X.2 U φ).1 hs) _ _
     fun A hA m => ?_
-  show definingIdealAt B S hS X ⟨reducedClosedSubspaceOfChart B S hS φ T₀ hT₀, hZ₀⟩ (op A) ⊓
+  change definingIdealAt B S hS X ⟨reducedClosedSubspaceOfChart B S hS φ T₀ hT₀, hZ₀⟩ (op A) ⊓
       definingIdealAt B S hS X ⟨reducedClosedSubspaceOfChart B S hS φ T₁ hT₁, hZ₁⟩ (op A) =
     definingIdealAt B S hS X
       ⟨reducedClosedSubspaceOfChart B S hS φ (T₀ ∪ T₁) (hT₀.union hT₁), hZ⟩ (op A)

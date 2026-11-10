@@ -280,7 +280,7 @@ public theorem eq_of_isIntMat_heckeLocal_mul_inv (hπ : Place.IsUniformizer v π
       have h10 := e ▸ h 1 0
       have hmem : lam l' - lam l ∈ Ideal.span {π} := by
         refine Ideal.mem_span_singleton'.2 ⟨⟨_, h10⟩, Subtype.ext ?_⟩
-        show ((lam l' : v.completion) - (lam l : v.completion)) * (π : v.completion)⁻¹ *
+        change ((lam l' : v.completion) - (lam l : v.completion)) * (π : v.completion)⁻¹ *
           (π : v.completion) = (lam l' : v.completion) - (lam l : v.completion)
         rw [mul_assoc, inv_mul_cancel₀ hπ0, mul_one]
       obtain ⟨i₀, -, huniq⟩ := hlam (lam l')
@@ -625,10 +625,10 @@ public theorem heckeOperator_isUnramifiedCuspForm {Λ : Type w} [CommRing Λ]
   have hW : ∀ z, ∀ y ∈ (principalAdeles K).toAddSubgroup ⊔ U,
       heckeOperator g₀ g f (x * GeneralLinearGroup.upperRightHom (z + y)) =
         heckeOperator g₀ g f (x * GeneralLinearGroup.upperRightHom z) :=
-    fun z y hy => integrand_add_mem_sup k hR x hinv z hy
+    fun z y hy => integrand_add_mem_sup hR x hinv z hy
   have hle : (principalAdeles K).toAddSubgroup ⊔ U' ≤ (principalAdeles K).toAddSubgroup ⊔ U :=
     sup_le_sup_left inf_le_left _
-  exact sum_eq_zero_of_finer k (ringChar_nsmul_adele k (K := K)) hp hle le_rfl
+  exact sum_eq_zero_of_finer (ringChar_nsmul_adele k (K := K)) hp hle le_rfl
     (index_principal_sup_ne_zero k hU') hW (fun z y hy => hW z y (hle hy)) hZ hs
 
 /-- `T_v` preserves the unramified cusp forms with central character. -/
@@ -674,8 +674,7 @@ public theorem cuspFormsBaseChange_comp_baseChange_hecke (hp : IsUnit (ringChar 
         (LinearMap.baseChange Λ (cuspFormsHecke k F (isUnit_ringChar_of_algebra k hp) hd)) =
       (cuspFormsHecke k Λ hp hd).comp (cuspFormsBaseChange K F Λ) := by
   refine LinearMap.ext fun t => ?_
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul c f =>
     rw [LinearMap.comp_apply, LinearMap.comp_apply, LinearMap.baseChange_tmul,
       cuspFormsBaseChange_tmul, cuspFormsBaseChange_tmul, map_smul]
@@ -698,7 +697,7 @@ public theorem cuspFormsBaseChangeEquiv_tmul (hp : IsUnit (ringChar k : Λ)) (c 
     (f : cuspFormsCentralChar K F) :
     ((cuspFormsBaseChangeEquiv k hp (c ⊗ₜ f) : cuspFormsCentralChar K Λ) :
       GL (Fin 2) (AdeleRing K) → Λ) = c • mapCoeffs (algebraMap F Λ) f := by
-  show ((cuspFormsBaseChange K F Λ (c ⊗ₜ f) : cuspFormsCentralChar K Λ) :
+  change ((cuspFormsBaseChange K F Λ (c ⊗ₜ f) : cuspFormsCentralChar K Λ) :
     GL (Fin 2) (AdeleRing K) → Λ) = _
   rw [cuspFormsBaseChange_tmul]
   rfl

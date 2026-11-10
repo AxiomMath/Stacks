@@ -104,7 +104,7 @@ private theorem single_finite_projective {A L : Type u} [CommRing A]
       (ModuleCat.of A L)).X i) := by
   let Ps := (CochainComplex.singleFunctor (ModuleCat.{u} A) (0 : ℤ)).obj
     (ModuleCat.of A L)
-  show Module.Finite A (Ps.X i) ∧ Module.Projective A (Ps.X i)
+  change Module.Finite A (Ps.X i) ∧ Module.Projective A (Ps.X i)
   by_cases hi : i = 0
   · subst i
     let e := (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0
@@ -202,7 +202,7 @@ private theorem mapped_resolution_bounded (R : Type u) [CommRing R]
     (map_resolution R f M F).cochainComplex.IsStrictlyGE (-(d : ℤ)) := by
   apply cochain_ge_of_bounded
   intro n hn
-  show IsZero ((ModuleCat.localizedModuleFunctor (Submonoid.powers f)).obj
+  change IsZero ((ModuleCat.localizedModuleFunctor (Submonoid.powers f)).obj
     (F.complex.X n))
   let G := ModuleCat.localizedModuleFunctor (Submonoid.powers f)
   exact IsZero.of_iso (isZero_zero _) (G.mapIso (hF n hn).isoZero ≪≫ G.mapZeroObject)
@@ -217,7 +217,7 @@ private theorem mapped_resolution_finite_free (R : Type u) [CommRing R]
       Module.Free (Localization.Away f) ((map_resolution R f M F).complex.X n) := by
   let : Module.Free R (F.complex.X n) := (F.property n).1
   let : Module.Finite R (F.complex.X n) := (F.property n).2
-  show Module.Finite (Localization.Away f)
+  change Module.Finite (Localization.Away f)
       ((F.complex.X n).localizedModule (Submonoid.powers f)) ∧
     Module.Free (Localization.Away f)
       ((F.complex.X n).localizedModule (Submonoid.powers f))
@@ -254,7 +254,7 @@ private lemma det_mk_eq_zero_of_free {A : Type u} [CommRing A]
     rw [Module.rankAtStalk_eq_finrank_of_free]
     rfl)
   rw [hh]
-  show CommRing.Pic.mk A (⋀[A]^(Module.finrank A M.carrier) M.carrier) = 1
+  change CommRing.Pic.mk A (⋀[A]^(Module.finrank A M.carrier) M.carrier) = 1
   exact CommRing.Pic.mk_eq_one_iff_free.mpr inferInstance
 
 private theorem free_of_bounded_free_complex {A L : Type u} [CommRing A]
@@ -422,7 +422,7 @@ private lemma invertible_of_projective_nonzero_ideal {R : Type u} [CommRing R]
     (map_ideal_equiv_localizedModule P I).symm ≪≫ₗ LinearEquiv.ofEq _ _ htop ≪≫ₗ
       Submodule.topEquiv
   have hgeneric : Module.rankAtStalk I (⟨P, inferInstance⟩ : PrimeSpectrum R) = 1 := by
-    show Module.finrank A (LocalizedModule P.primeCompl I) = 1
+    change Module.finrank A (LocalizedModule P.primeCompl I) = 1
     rw [e.finrank_eq]
     exact Module.finrank_self A
   have hrank : Module.rankAtStalk I = Function.const (PrimeSpectrum R) 1 := by
@@ -463,7 +463,8 @@ private lemma uniqueFactorizationMonoid_of_locally_ufd_of_pic_subsingleton
 group is a unique factorization domain.** Each height-one prime is locally principal, hence an
 invertible module, hence principal. -/
 @[ega "IV 21.7.6" "Affine integral case"]
-public alias _root_.UniqueFactorizationMonoid.of_localization_maximal_of_pic_subsingleton := uniqueFactorizationMonoid_of_locally_ufd_of_pic_subsingleton
+public alias _root_.UniqueFactorizationMonoid.of_localization_maximal_of_pic_subsingleton :=
+  uniqueFactorizationMonoid_of_locally_ufd_of_pic_subsingleton
 
 private lemma exists_prime_parameter (R : Type*) [CommRing R] [IsRegularLocalRing R]
     (hdim : ringKrullDim R ≠ 0) :

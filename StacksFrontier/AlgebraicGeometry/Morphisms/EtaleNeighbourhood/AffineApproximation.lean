@@ -143,8 +143,7 @@ private noncomputable def tensorRightUnitLinearEquiv
   let e := TensorProduct.rid R M
   refine { e with map_smul' := ?_ }
   intro a x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul m r =>
       simp only [TensorProduct.smul_tmul']
       exact (smul_comm a r m).symm
@@ -247,7 +246,7 @@ theorem exists_smooth_finiteTypeAffineModel
   let : Algebra B₀ B := φRing.toAlgebra
   have hmapA₀ : algebraMap A₀ B = φRing.comp (algebraMap A₀ B₀) := by
     ext a
-    show algebraMap A B (A₀.subtype a) = _
+    change algebraMap A B (A₀.subtype a) = _
     calc
       _ = e.symm (algebraMap A (A ⊗[A₀] B₀) (A₀.subtype a)) := by simp
       _ = e.symm (1 ⊗ₜ[A₀] algebraMap A₀ B₀ a) := by
@@ -342,14 +341,14 @@ private lemma isStandardSyntomic_specMap_algebraMap
       eT.toRingHom.comp f₀'.appTop.hom :=
     congrArg CommRingCat.Hom.hom (Scheme.ΓSpecIso_naturality α₀T).symm
   let : Algebra Γ(S₀, ⊤) Γ(X₀, ⊤) := f₀'.appTop.hom.toAlgebra
-  show Algebra.IsRelativeGlobalCompleteIntersection Γ(S₀, ⊤) Γ(X₀, ⊤)
+  change Algebra.IsRelativeGlobalCompleteIntersection Γ(S₀, ⊤) Γ(X₀, ⊤)
   let : Algebra R₀ Γ(S₀, ⊤) := eR.symm.toRingHom.toAlgebra
   let g : Γ(S₀, ⊤) →+* T :=
     α₀T.hom.comp (eR.toRingHom : Γ(S₀, ⊤) →+* R₀)
   let : Algebra Γ(S₀, ⊤) T :=
     RingHom.toAlgebra (R := Γ(S₀, ⊤)) (S := T) g
   let : IsScalarTower R₀ Γ(S₀, ⊤) T := .of_algebraMap_eq fun x => by
-    show (algebraMap R₀ T) x =
+    change (algebraMap R₀ T) x =
       ((algebraMap R₀ T).comp eR.toRingHom) (eR.symm x)
     simp
   have hpush : Algebra.IsPushout R₀ T Γ(S₀, ⊤) T :=
@@ -359,7 +358,7 @@ private lemma isStandardSyntomic_specMap_algebraMap
     Algebra.IsRelativeGlobalCompleteIntersection.baseChange R₀ T Γ(S₀, ⊤) T
   let eA : Γ(X₀, ⊤) ≃ₐ[Γ(S₀, ⊤)] T := AlgEquiv.ofRingEquiv (f := eT) (by
     intro x
-    show (eT.toRingHom.comp f₀'.appTop.hom) x =
+    change (eT.toRingHom.comp f₀'.appTop.hom) x =
       (α₀T.hom.comp eR.toRingHom) x
     exact (congrArg (fun k : Γ(S₀, ⊤) →+* T => k x) hcomp).symm)
   exact Algebra.IsRelativeGlobalCompleteIntersection.of_algEquiv
@@ -405,7 +404,7 @@ theorem exists_finiteTypeAffineModel_standardSyntomic
       (MvPolynomial.eval₂_C (algebraMap R₀ A) P.val x).symm
   have hPush : Algebra.IsPushout R₀ R T A :=
     P.isPushout_quotient_of_map_eq f₀ hf₀ fun i => by
-      show φ (Ideal.Quotient.mk _ (MvPolynomial.X i)) = P.val i
+      change φ (Ideal.Quotient.mk _ (MvPolynomial.X i)) = P.val i
       simp [φ, T, Ideal.Quotient.lift_mk]
   let X₀ : Scheme.{u} := Spec (.of T)
   let S₀ : Scheme.{u} := Spec (.of R₀)

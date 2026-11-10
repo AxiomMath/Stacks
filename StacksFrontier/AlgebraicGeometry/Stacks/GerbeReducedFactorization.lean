@@ -159,7 +159,7 @@ theorem range_pointsMap_representingMap_subset_singleton {𝒴 𝒱 : AlgebraicS
       (schemeStack.{u, w} B S hS U).val 𝒱.val (representedChart B S hS U) eF
       (b ≫ f).hom τ).trans ?_)
   rw [hx]
-  show AlgebraicStacks.pointsMap B S hS (b ≫ f) _ = _
+  change AlgebraicStacks.pointsMap B S hS (b ≫ f) _ = _
   rw [AlgebraicStacks.pointsMap_comp, Function.comp_apply, hf]
 
 /-- The source of a gerbe over an algebraic stack with at most one point has at most one point. -/
@@ -237,7 +237,7 @@ theorem exists_lift_of_isMonomorphism_of_forall_factorization
       (representedChart B S hS U) eF (c ≫ a).hom = representingMap B S hS
         (schemeStack.{u, w} B S hS U).val 𝒱.val (yoneda.obj U) F (representedChart B S hS U) eF
         (b ≫ f).hom := by
-    show representingMap B S hS _ _ (yoneda.obj U) F (representedChart B S hS U) eF
+    change representingMap B S hS _ _ (yoneda.obj U) F (representedChart B S hS U) eF
       (c' ≫ a.hom) = _
     rw [representingMap_comp B S hS (yoneda.obj U) Z F (representedChart B S hS U) eZ eF, hc',
       ha', hg']

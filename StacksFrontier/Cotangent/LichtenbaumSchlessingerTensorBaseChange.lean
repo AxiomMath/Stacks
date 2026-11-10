@@ -57,7 +57,7 @@ under `R[X] → A[X]`. -/
 theorem tensorBaseChange_relation (t : T) :
     (P.tensorBaseChange A).relation (Sum.inl t) =
       MvPolynomial.map (algebraMap R A) (P.relation t) := by
-  show MvPolynomial.rename (Equiv.refl X).symm
+  change MvPolynomial.rename (Equiv.refl X).symm
     (MvPolynomial.map (algebraMap R A) (P.relation t)) = _
   rw [Equiv.refl_symm, Equiv.coe_refl, MvPolynomial.rename_id_apply]
 
@@ -132,7 +132,7 @@ theorem isIso_extendRestrictScalarsAdj_homEquiv_symm_of_basis {R S : Type u} [Co
   have hunit : θ ≫ (ModuleCat.restrictScalars f).map Ψ = adj.unit.app X := by
     ext1
     refine bX.ext fun i => ?_
-    show Ψ (θ (bX i)) = _
+    change Ψ (θ (bX i)) = _
     rw [h, hΨ, Equiv.symm_apply_apply]
   have hθ : ∀ x, (((ModuleCat.extendRestrictScalarsAdj f).homEquiv _ _).symm θ)
       (adj.unit.app X x) = θ x := fun x =>
@@ -143,7 +143,7 @@ theorem isIso_extendRestrictScalarsAdj_homEquiv_symm_of_basis {R S : Type u} [Co
       Equiv.symm_apply_apply]
   · ext1
     refine bY.ext fun j => ?_
-    show (((ModuleCat.extendRestrictScalarsAdj f).homEquiv _ _).symm θ) (Ψ (bY j)) = bY j
+    change (((ModuleCat.extendRestrictScalarsAdj f).homEquiv _ _).symm θ) (Ψ (bY j)) = bY j
     rw [hΨ, hθ, h, Equiv.apply_symm_apply]
 
 end ModuleCat
@@ -226,7 +226,7 @@ theorem isIso_tensorBaseChangeComplexMap_f_negOne :
   refine ModuleCat.isIso_extendRestrictScalarsAdj_homEquiv_symm_of_basis _ _ (lsFreeBasis P)
     (lsFreeBasis (P.tensorBaseChange A)) (Equiv.sumEmpty T PEmpty).symm fun t => ?_
   apply (lichtenbaumSchlessingerComplex (P.tensorBaseChange A)).freeIso.toLinearEquiv.injective
-  show (lichtenbaumSchlessingerComplex (P.tensorBaseChange A)).freeIso.hom
+  change (lichtenbaumSchlessingerComplex (P.tensorBaseChange A)).freeIso.hom
       ((P.tensorBaseChangeHom A).complexMap.f (-1) (lsFreeBasis P t)) =
     (lichtenbaumSchlessingerComplex (P.tensorBaseChange A)).freeIso.hom
       (lsFreeBasis (P.tensorBaseChange A) (Sum.inl t))
@@ -245,7 +245,7 @@ theorem isIso_tensorBaseChangeComplexMap_f_zero :
     fun x => ?_
   apply (lichtenbaumSchlessingerComplex
     (P.tensorBaseChange A)).differentialIso.toLinearEquiv.injective
-  show (lichtenbaumSchlessingerComplex (P.tensorBaseChange A)).differentialIso.hom
+  change (lichtenbaumSchlessingerComplex (P.tensorBaseChange A)).differentialIso.hom
       ((P.tensorBaseChangeHom A).complexMap.f 0 (lsDifferentialBasis P x)) =
     (lichtenbaumSchlessingerComplex (P.tensorBaseChange A)).differentialIso.hom
       (lsDifferentialBasis (P.tensorBaseChange A) x)

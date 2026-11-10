@@ -239,7 +239,7 @@ instance (i : Finset K) : QuasiCompact (stageToBottom K i) :=
 /-- The stage maps to the bottom stage commute with the transitions. -/
 lemma transition_comp_stageToBottom {i j : Finset K} (h : i ≤ j) :
     (finsetDescentSituation K ∅).transition h ≫ stageToBottom K i = stageToBottom K j := by
-  show (specAdjoinFinsetDiagram K).map _ ≫ (specAdjoinFinsetDiagram K).map _ =
+  change (specAdjoinFinsetDiagram K).map _ ≫ (specAdjoinFinsetDiagram K).map _ =
     (specAdjoinFinsetDiagram K).map _
   rw [← Functor.map_comp]
   rfl

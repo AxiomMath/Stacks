@@ -101,7 +101,7 @@ variable {𝒵 𝒳 𝒴' 𝒴 : Type (u + 1)} [Category.{u} 𝒵] [Category.{u}
   (RZ : 𝒵ᵒᵖ ⥤ RingCat.{u})
   (hX : RX = f.op ⋙ R) (hY' : RY' = g.op ⋙ R) (hZa : RZ = a.op ⋙ RX) (hZb : RZ = b.op ⋙ RY')
   (ha : b.op ⋙ g.op ⋙ R = a.op ⋙ f.op ⋙ R)
-  (hRw : ∀ z : 𝒵ᵒᵖ, R.map (w.op.natTrans.app z) = eqToHom (Functor.congr_obj ha z))
+  (hRw : ∀ z : 𝒵ᵒᵖ, R.map (w.op.app z) = eqToHom (Functor.congr_obj ha z))
   [w.GuitartExact]
 
 /-- **Base change for the direct image of presheaves of modules of Stacks 06WD along a Guitart
@@ -149,7 +149,7 @@ theorem comp_comp_eq_of_square : a ⋙ f ⋙ pY = b ⋙ g ⋙ pY := by
 
 /-- A 2-cell of the square is **vertical** when its image in the base is an identity. -/
 def TwoSquareIsVertical : Prop :=
-  ∀ z : 𝒵, pY.map (w.natTrans.app z) =
+  ∀ z : 𝒵, pY.map (w.app z) =
     eqToHom (show pY.obj (f.obj (a.obj z)) = pY.obj (g.obj (b.obj z)) from
       Functor.congr_obj (comp_comp_eq_of_square B S hS pZ pX pY' pY a b f g ha hb hf hg) z)
 
@@ -179,9 +179,9 @@ noncomputable def moduleSheafGuitartBaseChangeIso
     change (b ⋙ g ⋙ pY).op ⋙ (BigFppfOver.structureSheaf B S hS).obj =
       (a ⋙ f ⋙ pY).op ⋙ (BigFppfOver.structureSheaf B S hS).obj
     rw [comp_comp_eq_of_square B S hS pZ pX pY' pY a b f g ha hb hf hg]
-  have hRw : ∀ z : 𝒵ᵒᵖ, R.map (w.op.natTrans.app z) = eqToHom (Functor.congr_obj hring z) := by
+  have hRw : ∀ z : 𝒵ᵒᵖ, R.map (w.op.app z) = eqToHom (Functor.congr_obj hring z) := by
     intro z
-    change (BigFppfOver.structureSheaf B S hS).obj.map (pY.map (w.natTrans.app z.unop)).op = _
+    change (BigFppfOver.structureSheaf B S hS).obj.map (pY.map (w.app z.unop)).op = _
     rw [hw z.unop, eqToHom_op, eqToHom_map]
     rfl
   let P := modulePresheafGuitartBaseChangeIso a b f g w R _ _ _

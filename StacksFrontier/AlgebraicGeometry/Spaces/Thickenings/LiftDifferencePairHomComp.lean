@@ -111,7 +111,7 @@ theorem exists_restrictedSquareZeroValues_ι_eq_restrictedSharp
     (restrictedSharpThroughThickening_comp_reduction_structureSharp B S hS ZU ZX k₀ k hk))
     ((conormalInverseImageSquareZeroValues B S hS ZX hZX).ι m)
   refine h.trans ?_
-  show (structureSharp B S hS k₀).hom.app V ((structureSharpRingInverseImage B S hS
+  change (structureSharp B S hS k₀).hom.app V ((structureSharpRingInverseImage B S hS
     (subspaceInclusion B S hS X' ZX)).hom.app V ((conormalInverseImageι B S hS ZX hZX).val.app V
       m)) = 0
   rw [app_conormalInverseImageι_eq_zero B S hS ZX hZX V m, map_zero]

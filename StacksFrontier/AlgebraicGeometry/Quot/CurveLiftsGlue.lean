@@ -96,7 +96,7 @@ theorem comp_homToSchemeSpace {y₀ y y' : CurveFamily B hZ} (hy₀ : y₀.total
     f ≫ homToSchemeSpace hy hW t ht bm g hg = homToSchemeSpace hy₀ hW t ht bm₀ g₀ hg₀ := by
   subst hbm hgg
   refine Hom.ext rfl ?_
-  show f.totalMap ≫ (totalSpaceIso hy).inv ≫ schemeSpaceMap (integerSiteHom g) ≫
+  change f.totalMap ≫ (totalSpaceIso hy).inv ≫ schemeSpaceMap (integerSiteHom g) ≫
       eqToHom hW.symm = (totalSpaceIso hy₀).inv ≫ schemeSpaceMap (integerSiteHom
         ((BigFppfOver.toScheme B integerBase hZ).map (totalSiteMap hy hy₀ f) ≫ g)) ≫
       eqToHom hW.symm
@@ -107,7 +107,7 @@ theorem comp_homToSchemeSpace {y₀ y y' : CurveFamily B hZ} (hy₀ : y₀.total
       (totalSiteIso hy).hom := by
     rw [yoneda_map_totalSiteMap hy hy₀ f]
     simp
-  show f.totalMap.hom ≫ (totalSiteIso hy).inv ≫ yoneda.map (integerSiteHom g) =
+  change f.totalMap.hom ≫ (totalSiteIso hy).inv ≫ yoneda.map (integerSiteHom g) =
     (totalSiteIso hy₀).inv ≫ yoneda.map (integerSiteHom
         ((BigFppfOver.toScheme B integerBase hZ).map (totalSiteMap hy hy₀ f) ≫ g))
   rw [h']

@@ -106,7 +106,7 @@ def rationalPointSection (x : Spec (.of D.k) ⟶ D.X) : D.parameterBase ⟶ D.pa
 theorem rationalPointSection_comp_parameterBaseMap (x : Spec (.of D.k) ⟶ D.X)
     (hx : x ≫ D.toBase = 𝟙 (Spec (.of D.k))) :
     D.rationalPointSection x ≫ D.parameterBaseMap = 𝟙 D.parameterBase := by
-  show AffineSpace.map D.basisIndex x ≫ AffineSpace.map D.basisIndex D.toBase = _
+  change AffineSpace.map D.basisIndex x ≫ AffineSpace.map D.basisIndex D.toBase = _
   rw [← AffineSpace.map_comp, hx, AffineSpace.map_id]
 
 /-- The image of a parameter under the section lies over it. -/
@@ -158,7 +158,7 @@ theorem universalDivisor_comap_rationalPointSection (x₀ : Spec (.of D.k) ⟶ U
     (fun i => AffineSpace.coord (Spec (.of D.k)) (ULift.up i)) hcoord
     (fun i => D.restrictedSection U (D.basis i))
   rw [h, ← D.universalDivisor_comap_chartMap U, ← Scheme.IdealSheafData.comap_comp]
-  show _ = D.universalDivisor.comap (AffineSpace.map D.basisIndex x₀ ≫ D.chartMap U)
+  change _ = D.universalDivisor.comap (AffineSpace.map D.basisIndex x₀ ≫ D.chartMap U)
   rw [chartMap, ← AffineSpace.map_comp]
   rfl
 
@@ -325,7 +325,7 @@ theorem universalSection_restrict_fibre_ne_zero
     D.parameterBaseMap_rationalPointSection (x₀ ≫ U.ι) hx u.1
   have hmem : (D.rationalPointSection (x₀ ≫ U.ι)).base u.1 ∈
       D.parameterBaseMap ⁻¹ᵁ rationalPointOpen eU x₀ := by
-    show D.parameterBaseMap.base _ ∈ rationalPointOpen eU x₀
+    change D.parameterBaseMap.base _ ∈ rationalPointOpen eU x₀
     rw [hbase]
     exact u.2
   have hfib : (D.parameterBaseMap ∣_ rationalPointOpen eU x₀).base ⟨_, hmem⟩ = u :=

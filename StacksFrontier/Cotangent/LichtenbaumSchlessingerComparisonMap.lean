@@ -154,7 +154,7 @@ def lsRight : MvPolynomial ((𝒫).left.obj (op ⦋0⦌)) A →ₐ[A] P.Ring :=
 /-- For `x ∈ P₁`, the difference `ψ(d₀ x) - ψ(d₁ x)` lies in the kernel `I` of `P → B`. -/
 theorem lsSection_δ_sub_mem (x : (𝒫).left.obj (op ⦋1⦌)) :
     P.lsSection ((𝒫).left.δ (0 : Fin 2) x) - P.lsSection ((𝒫).left.δ (1 : Fin 2) x) ∈ P.ker := by
-  show algebraMap P.Ring B _ = 0
+  change algebraMap P.Ring B _ = 0
   rw [map_sub, algebraMap_lsSection, algebraMap_lsSection,
     CommAlgCat.standardResolution_augmentation_δ, CommAlgCat.standardResolution_augmentation_δ,
     sub_self]
@@ -214,7 +214,7 @@ theorem lsBiderivation_mul (x y : (𝒫).left.obj (op ⦋1⦌)) :
   have h' : P.lsBiderivationPoly (lsOneEquiv x * lsOneEquiv y) =
       P.lsBiderivationPoly.toLinearMap (lsOneEquiv x * lsOneEquiv y) := rfl
   rw [h', h, map_add, TwistedFreeQuotient.equiv_smul, TwistedFreeQuotient.equiv_op_smul]
-  simp only [lsLeft, lsRight, AlgHom.comp_apply, AlgEquiv.coe_algHom, AlgEquiv.symm_apply_apply]
+  simp only [lsLeft, lsRight, AlgHom.comp_apply, AlgEquiv.coe_toAlgHom, AlgEquiv.symm_apply_apply]
   rfl
 
 /-- `λ(1) = 0`. -/

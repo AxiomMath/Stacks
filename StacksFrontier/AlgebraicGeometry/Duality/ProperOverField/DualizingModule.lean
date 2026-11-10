@@ -109,7 +109,7 @@ theorem dualizingModuleHomEquiv_comp
     (-(ENat.toNat ((topologicalKrullDim X).getD 0) : ℤ)) u
   have h₂ := congrArg (fun y ↦ y.hom x)
     ((hypercohomologyNegNegIso f (ENat.toNat ((topologicalKrullDim X).getD 0))).inv.naturality φ)
-  show dualityEquiv f (singleQuasiCoherentDegreeZero F) _
+  change dualityEquiv f (singleQuasiCoherentDegreeZero F) _
       ((DerivedCategory.extSingleLinearEquivOfIsGE k F (ωX).obj _).symm (φ ≫ u))
       (((hypercohomologyNegNegIso f (ENat.toNat ((topologicalKrullDim X).getD 0))).app F).inv x) =
     dualityEquiv f (singleQuasiCoherentDegreeZero G) _

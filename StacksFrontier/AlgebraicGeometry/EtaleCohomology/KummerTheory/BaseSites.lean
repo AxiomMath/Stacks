@@ -90,7 +90,7 @@ private theorem exists_root_of_factorisation {X Y P : Scheme.{u}} (n : ℕ)
     simpa only [CommRingCat.hom_comp] using
       congrArg (fun k : Γ(X, ⊤) ⟶ Γ(Y, ⊤) => k.hom) h1.symm
   have hbval : b.val ^ n = q.appTop.hom a.val := congrArg Units.val hb
-  show (c.appTop.hom b.val) ^ n = g.appTop.hom a.val
+  change (c.appTop.hom b.val) ^ n = g.appTop.hom a.val
   rw [← map_pow, hbval, hring, RingHom.comp_apply]
 
 /-- **A covering family of the base topology whose members carry `n`-th roots of a unit makes
@@ -184,9 +184,9 @@ private theorem exists_etale_root_cover {T : Scheme.{u}}
   refine ⟨pullback f g, pullback.snd f g, inferInstance, inferInstance, d, ?_⟩
   rw [hd, pullback.condition]
   apply Units.ext
-  show (pullback.snd f g).appTop.hom (g.appTop.hom ((Scheme.ΓSpecIso R).inv.hom a.val)) = _
+  change (pullback.snd f g).appTop.hom (g.appTop.hom ((Scheme.ΓSpecIso R).inv.hom a.val)) = _
   rw [Scheme.toSpecΓ_appTop]
-  show (pullback.snd f g).appTop.hom (((Scheme.ΓSpecIso R).inv ≫ (Scheme.ΓSpecIso R).hom).hom
+  change (pullback.snd f g).appTop.hom (((Scheme.ΓSpecIso R).inv ≫ (Scheme.ΓSpecIso R).hom).hom
     a.val) = _
   rw [Iso.inv_hom_id]
   rfl

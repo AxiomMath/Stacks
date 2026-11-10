@@ -516,7 +516,7 @@ public abbrev sepCompShriekStalkMap (s : GeometricPoint Z.obj) :
     ↑(etaleStalk B Z.obj Z.property s ((fShriekFunctor.{u, v} B (f ≫ g)).obj F).obj) →+
       ↑(etaleStalk B Z.obj Z.property s ((properSupportFunctor.{u, max (u + 1) v} B g).obj
         ((fShriekFunctor.{u, v} B f).obj F)).obj) :=
-  (colim.map (Functor.whiskerLeft (CategoryOfElements.π
+  (colim.map (Functor.whiskerLeft (Functor.Elements.π
     (geometricPointFiber B Z.obj Z.property s)).op (sepCompShriekMap B f g F).hom)).hom
 
 /-- The stalk map of `c'` is injective: the stalk decomposition of an element is read off from

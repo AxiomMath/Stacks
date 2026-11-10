@@ -85,7 +85,7 @@ public theorem differential_algebraMap_eq_sum (f : T.P) :
         simp [mul_smul]
       · simp [hk, mul_smul]
     rw [Finset.sum_congr rfl fun k _ ↦ h1 k, Finset.sum_add_distrib, Finset.sum_ite_eq,
-      if_pos (Finset.mem_univ _), ← Finset.smul_sum, ← hf, map_mul, T.differential_mul]
+      ite_eq_left (Finset.mem_univ _), ← Finset.smul_sum, ← hf, map_mul, T.differential_mul]
     rfl
 
 /-- The de Rham differential of `g dx_{σ(1)} ∧ ⋯ ∧ dx_{σ(s)}` is
@@ -176,7 +176,7 @@ public theorem deRhamDifferential_monomial_smul_wedgeCoordinates (N : ℕ) :
         smul_eq_mul, mul_one, one_mul]
       simp
     rw [hcons, hpd, algebraMap_smul_polynomial]
-    show ((((N + 1 : ℕ) : T.A) • T.monomialD (T.diagMonomial N)) • T.topWedge hs :
+    change ((((N + 1 : ℕ) : T.A) • T.monomialD (T.diagMonomial N)) • T.topWedge hs :
       T.forms (s + 1)) = _
     exact smul_assoc _ _ _
   · intro k _ hk
@@ -262,11 +262,11 @@ public theorem topCoeffForms_seriesPartial {a : ℕ → ℕ} (ha : Function.Inje
     T.topCoeffForms hs (T.diagMonomial (a e)) (T.seriesPartial hs a t) = (T.p : T.A) ^ e := by
   classical
   rw [seriesPartial, map_sum, Finset.sum_eq_single_of_mem e (Finset.mem_range.mpr het)]
-  · rw [map_smul, monomialD, topCoeffForms_smul_topWedge, MvPolynomial.coeff_monomial, if_pos rfl,
-      smul_eq_mul, mul_one]
+  · rw [map_smul, monomialD, topCoeffForms_smul_topWedge, MvPolynomial.coeff_monomial,
+      ite_eq_left rfl, smul_eq_mul, mul_one]
   · intro j _ hj
     rw [map_smul, monomialD, topCoeffForms_smul_topWedge, MvPolynomial.coeff_monomial,
-      if_neg, smul_zero]
+      ite_eq_right, smul_zero]
     intro h
     exact hj (ha (T.diagMonomial_injective (Fin.cast hs.symm 0) h))
 
@@ -324,7 +324,7 @@ public theorem exists_surjective_homologyClass_top :
     have h1 : (QuotientAddGroup.mk' _ (incl x) :
         (AddMonoidHom.ker S.g.hom) ⧸ AddMonoidHom.range S.abToCycles) = E.hom z := by
       rwa [hincl, QuotientAddGroup.mk'_apply]
-    show E.inv.hom (QuotientAddGroup.mk' _ (incl x)) = z
+    change E.inv.hom (QuotientAddGroup.mk' _ (incl x)) = z
     rw [h1, ← ConcreteCategory.comp_apply, Iso.hom_inv_id]
     rfl
   constructor
@@ -416,7 +416,7 @@ private lemma exists_eq_succ (hr : 0 < T.r) : ∃ s, T.r = s + 1 := ⟨T.r - 1, 
 `D = 𝐙_p[x_1, …, x_r]^∧` is not a torsion abelian group: the class of
 `ω = ∑_{e ≥ 0} p^e x_1^{p^{2e} - 1} ⋯ x_r^{p^{2e} - 1} dx_1 ∧ ⋯ ∧ dx_r` has infinite order. -/
 public theorem not_isTorsion_homology_top (hr : 0 < T.r) :
-    ¬ AddMonoid.IsTorsion (T.deRhamComplexNat.homology T.r) := by
+    ¬ IsAddTorsion (T.deRhamComplexNat.homology T.r) := by
   obtain ⟨s, hs⟩ := T.exists_eq_succ hr
   obtain ⟨π, hπ⟩ := T.exists_homologyClass_top hs
   intro htor

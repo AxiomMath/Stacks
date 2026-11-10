@@ -94,7 +94,7 @@ theorem weilClassOfCodimTwoInvertible_eq_iff [IsNormal X] (L M : U.toScheme.Modu
   refine (Stacks.SheafOfModules.picardClass_eq_iff U.toScheme.sheaf.obj
     U.toScheme.ringCatSheaf.property _ _ hL' hM').mp
     (picardToWeilDivisorClassGroup_injective U.toScheme ?_)
-  show weilDivisorClassOfPicardClass U.toScheme _ = weilDivisorClassOfPicardClass U.toScheme _
+  change weilDivisorClassOfPicardClass U.toScheme _ = weilDivisorClassOfPicardClass U.toScheme _
   rw [weilDivisorClassOfPicardClass_picardClass U.toScheme L,
     weilDivisorClassOfPicardClass_picardClass U.toScheme M]
   exact hc
@@ -162,9 +162,9 @@ theorem weilClassOfCodimTwoInvertible_restrict {V : X.Opens}
     apply V.ι.isOpenEmbedding.injective
     rw [base_genericPoint_primeDivisorRestrictEquiv V hV,
       genericPoint_primeDivisorRestrictEquiv_symm U hU]
-    show U.ι.base W.genericPoint = (ρ ≫ V.ι).base W.genericPoint
+    change U.ι.base W.genericPoint = (ρ ≫ V.ι).base W.genericPoint
     rw [hρι]
-  show (weilDivisorClassRestrictEquiv U hU).symm
+  change (weilDivisorClassRestrictEquiv U hU).symm
       (weilDivisorClassOfInvertibleSheaf U.toScheme (L.restrict ρ)) =
     (weilDivisorClassRestrictEquiv V hV).symm (weilDivisorClassOfInvertibleSheaf V.toScheme L)
   rw [symm_weilDivisorClassOfInvertibleSheaf U hU (L.restrict ρ) (restrictMeromorphicSection ρ L s)

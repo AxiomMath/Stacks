@@ -180,7 +180,7 @@ theorem cycleDimensionLayerWideHom_eq_zero_of_isRationallyEquivalentToZero (C : 
   have he : ∀ j, (Sigma.ι (fun j ↦ (W j).subscheme) j).isoOpensRange.hom ≫
       (Sigma.ι (fun j ↦ (W j).subscheme) j).opensRange.ι ≫
         (Sigma.desc fun j ↦ (W j).subschemeι) = (W j).subschemeι := fun j ↦ by
-    rw [← Category.assoc, Scheme.Hom.isoOpensRange_hom_ι, Sigma.ι_desc]
+    rw [← Category.assoc, Scheme.Hom.isoOpensRange_hom_ι, Sigma.ι_comp_desc]
   obtain ⟨c, hc, hres⟩ := exists_properPushforward_eq_of_isClopenDecomposition C sX
     (Sigma.desc fun j ↦ (W j).subschemeι) k
     (isClopenDecomposition_opensRange_sigmaι fun j ↦ (W j).subscheme)

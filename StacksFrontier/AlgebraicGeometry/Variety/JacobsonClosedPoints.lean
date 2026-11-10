@@ -62,7 +62,7 @@ public theorem isAlgebraic_residueField_of_isClosed (p : X ⟶ Spec (.of k))
   change LocallyOfFiniteType (Spec.map _) at hcomp
   rw [HasRingHomProperty.Spec_iff (P := @LocallyOfFiniteType)] at hcomp
   have : Algebra.FiniteType k (X.residueField x) := by
-    show RingHom.FiniteType (algebraMap k (X.residueField x))
+    change RingHom.FiniteType (algebraMap k (X.residueField x))
     convert hcomp using 1
     simp only [RingHom.algebraMap_toAlgebra]
     rw [← Scheme.Γevaluation_naturality]

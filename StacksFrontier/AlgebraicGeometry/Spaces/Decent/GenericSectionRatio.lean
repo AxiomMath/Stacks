@@ -128,7 +128,7 @@ theorem PrimeDivisor.isUnit_of_smul_toMeromorphicSectionValue_eq_genericMeromorp
       (Z.genericHenselianSpace B S hS hX hdec R hR).obj
       (Z.genericHenselianSpace B S hS hX hdec R hR).property
       (Z.genericHenselianChart B S hS hX hdec R hR)) :=
-    Z.isFractionRing_genericMeromorphicChartRing B S hS hX hdec hInt R hR
+    Z.isFractionRing_genericMeromorphicChartRing B S hS hX hdec R hR
       (Z.isReduced_genericHenselization B S hS hX hdec hInt hN R)
       (Z.isNoetherianRing_genericHenselization B S hS hX hdec hInt hN R)
   have hreg := isRegularMeromorphicSection_pullbackMeromorphicSection B S hS
@@ -151,7 +151,7 @@ theorem PrimeDivisor.isUnit_of_smul_toMeromorphicSectionValue_eq_genericMeromorp
       (Z.genericHenselianChart B S hS hX hdec R hR)) := by
     refine mem_nonZeroDivisors_iff_right.mpr fun x hx => ?_
     refine hinj ?_
-    show x • _ = (0 : meromorphicChartRing B S hS
+    change x • _ = (0 : meromorphicChartRing B S hS
       (Z.genericHenselianSpace B S hS hX hdec R hR).obj
       (Z.genericHenselianSpace B S hS hX hdec R hR).property
       (Z.genericHenselianChart B S hS hX hdec R hR)) • _
@@ -211,7 +211,7 @@ theorem PrimeDivisor.exists_ringEquiv_genericTotalFractionRing :
       (Z.genericHenselianSpace B S hS hX hdec R hR).obj
       (Z.genericHenselianSpace B S hS hX hdec R hR).property
       (Z.genericHenselianChart B S hS hX hdec R hR)) :=
-    Z.isFractionRing_genericMeromorphicChartRing B S hS hX hdec hInt R hR
+    Z.isFractionRing_genericMeromorphicChartRing B S hS hX hdec R hR
       (Z.isReduced_genericHenselization B S hS hX hdec hInt hN R)
       (Z.isNoetherianRing_genericHenselization B S hS hX hdec hInt hN R)
   obtain ⟨e⟩ := Z.exists_ringEquiv_genericHenselianLocalRing B S hS hX hdec R

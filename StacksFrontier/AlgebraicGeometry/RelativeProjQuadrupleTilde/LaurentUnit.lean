@@ -62,7 +62,7 @@ theorem mulBy_app (m : ℤ) (x : ((laurent L).piece m).val.obj (op ⊤)) (V : (O
     (secHom_app _ _ V 1).trans (one_smul _ _)
   have e4 :=
     mulHom_tmul (laurent L) m (-m) V (((laurent L).piece m).val.restrictₛₗ (topRes T V) x) y
-  show (eqToHom (congrArg (laurent L).piece (add_neg_cancel m))).val.app V
+  change (eqToHom (congrArg (laurent L).piece (add_neg_cancel m))).val.app V
     ((mulHom (laurent L) m (-m)).val.app V
       ((secHom ((laurent L).piece m) x ▷ (laurent L).piece (-m)).val.app V
         ((λ_ ((laurent L).piece (-m))).inv.val.app V y))) = _
@@ -92,12 +92,12 @@ theorem exists_unit_of_isIso_secHom (x : ((laurent L).piece 1).val.obj (op ⊤))
   set τ : ((laurent L).piece (-1)).val.obj (op ⊤) :=
     (inv (mulBy 1 x)).val.app (op ⊤) (oneSec T.toRingedSpace (op ⊤)) with hτ
   have hm : (mulBy 1 x).val.app (op ⊤) τ = oneSec T.toRingedSpace (op ⊤) := by
-    show ((inv (mulBy 1 x)) ≫ mulBy 1 x).val.app (op ⊤) _ = _
+    change ((inv (mulBy 1 x)) ≫ mulBy 1 x).val.app (op ⊤) _ = _
     rw [IsIso.inv_hom_id]
     rfl
   have htop : ((laurent L).piece 1).val.restrictₛₗ (topRes T (op ⊤)) x = x := by
     have h1 : topRes T (op ⊤) = 𝟙 _ := Subsingleton.elim _ _
-    show ((laurent L).piece 1).val.map (topRes T (op ⊤)) x = x
+    change ((laurent L).piece 1).val.map (topRes T (op ⊤)) x = x
     rw [h1, PresheafOfModules.map_id]
     rfl
   rw [mulBy_app, htop] at hm

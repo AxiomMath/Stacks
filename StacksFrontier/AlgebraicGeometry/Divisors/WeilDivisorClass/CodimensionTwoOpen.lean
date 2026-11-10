@@ -48,8 +48,8 @@ the clause that lets the class of a rank one coherent reflexive module be read o
 restriction to the open subscheme supplied by clause (3) of [Stacks, Tag 0AY6], and the only
 clause of that proof that is a statement about `Cl` alone.  The independence of that class of the
 chosen open is `AlgebraicGeometry.weilClassOfCodimTwoInvertible_restrict` of
-`StacksFrontier/AlgebraicGeometry/Divisors/WeilDivisorClass/CodimTwoInvertibleClass.lean`, resting on
-the invariance of the first Chern class under restriction to such an open,
+`StacksFrontier/AlgebraicGeometry/Divisors/WeilDivisorClass/CodimTwoInvertibleClass.lean`, resting
+on the invariance of the first Chern class under restriction to such an open,
 `AlgebraicGeometry.weilDivisorClassOfInvertibleSheaf_restrict`; the resulting map is
 `AlgebraicGeometry.CoherentReflexive.rankOneSkeletonToWeilClass`, and it is injective and
 multiplicative for the monoid law of [Stacks, Tag 0EBL] —
@@ -274,7 +274,7 @@ theorem mem_weilDivisor_comp_primeDivisorRestrictEquiv [IsLocallyNoetherian X]
   rintro - ⟨Z, ⟨hZV, hZne⟩, rfl⟩
   refine ⟨(primeDivisorRestrictEquiv U hU Z).genericPoint,
     genericPoint_mem_ite_support hZne, ?_⟩
-  show U.ι.base (primeDivisorRestrictEquiv U hU Z).genericPoint ∈ V
+  change U.ι.base (primeDivisorRestrictEquiv U hU Z).genericPoint ∈ V
   rwa [base_genericPoint_primeDivisorRestrictEquiv]
 
 /-- **Restriction is an isomorphism `Div(X) ≅ Div(U)`** for an open subscheme whose complement has
@@ -341,7 +341,7 @@ theorem map_principalWeilDivisors_weilDivisorRestrictEquiv [IsIntegral X] [IsLoc
     refine ⟨principalDivisor X
       ((Stacks.Chow.rationalFunctionsUnitsMulEquivOfOpenImmersion U.ι).symm g),
       ⟨_, rfl⟩, ?_⟩
-    show weilDivisorRestrictEquiv U hU (principalDivisor X _) = _
+    change weilDivisorRestrictEquiv U hU (principalDivisor X _) = _
     rw [weilDivisorRestrictEquiv_principalDivisor, MulEquiv.apply_symm_apply]
 
 /-- **`Cl(U) = Cl(X)` for an open subscheme with a codimension `≥ 2` complement.**  On an integral

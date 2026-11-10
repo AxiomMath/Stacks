@@ -220,6 +220,7 @@ def geometricCyclotomicDualInvariantsToHom
     ρ.obj.obj.obj.V →+ ULift.{u + 1} (Additive (_root_.rootsOfUnity (Fintype.card Λ) kbar)) :=
   b.1
 
+omit [Smooth f] in
 /-- An element of `Hom_N(M, μ_n)` is invariant under the image of `π₁(X_k̄)`. -/
 theorem geometricCyclotomicDualInvariantsToHom_apply_eq
     (ρ : letI := connectedSpace_of_isCurve B X f
@@ -289,6 +290,7 @@ def geometricCyclotomicDualInvariantsLift
     obtain ⟨m, rfl⟩ := Stacks.Trace.coinvariantsMk_surjective _ z
     rfl
 
+omit [Smooth f] in
 /-- The map `M_N → μ_n` induced by `b` sends the class of `m` to `b m`. -/
 theorem geometricCyclotomicDualInvariantsLift_mk
     (ρ : letI := connectedSpace_of_isCurve B X f
@@ -304,6 +306,7 @@ theorem geometricCyclotomicDualInvariantsLift_mk
       (geometricCyclotomicDualInvariantsToHom B X f kbar Λ y ρ b m).down :=
   rfl
 
+omit [Smooth f] in
 /-- `b ↦ b̄` is injective: the coinvariants map is surjective. -/
 theorem injective_geometricCyclotomicDualInvariantsLift
     (ρ : letI := connectedSpace_of_isCurve B X f
@@ -320,6 +323,7 @@ theorem injective_geometricCyclotomicDualInvariantsLift
     AddMonoidHom.ext fun m ↦ ULift.ext (DFunLike.congr_fun h (Stacks.Trace.coinvariantsMk _ m))
   exact e
 
+omit [Smooth f] in
 /-- `b ↦ b̄` is surjective: `m ↦ c(m̄)` is `N`-equivariant for every `c : M_N → μ_n`, since `N`
 acts trivially on `μ_n`. -/
 theorem surjective_geometricCyclotomicDualInvariantsLift
@@ -344,7 +348,7 @@ theorem surjective_geometricCyclotomicDualInvariantsLift
       ((etaleFundamentalGroupMap (fieldBaseChangeObjProj B X f kbar
       (contains_fieldBaseChange_of_isCurve B X f kbar)).hom y) g) ⟨g, rfl⟩
     refine AddMonoidHom.ext fun m ↦ ?_
-    show ((cyclotomicContinuousModule B X f kbar y (Fintype.card Λ)).obj.obj.obj.ρ
+    change ((cyclotomicContinuousModule B X f kbar y (Fintype.card Λ)).obj.obj.obj.ρ
         ((etaleFundamentalGroupMap (fieldBaseChangeObjProj B X f kbar
       (contains_fieldBaseChange_of_isCurve B X f kbar)).hom y) g)).asHom.hom (φ ((ρ.obj.obj.obj.ρ
         ((etaleFundamentalGroupMap (fieldBaseChangeObjProj B X f kbar
@@ -360,6 +364,7 @@ theorem surjective_geometricCyclotomicDualInvariantsLift
           (contains_fieldBaseChange_of_isCurve B X f kbar)).hom y) g⟩ m)
   · exact Stacks.Trace.coinvariants_addMonoidHom_ext fun m ↦ rfl
 
+omit [Smooth f] in
 /-- `b ↦ b̄` is natural: `b̄' ∘ v_N` is the lift of `b' ∘ v`. -/
 theorem geometricCyclotomicDualInvariantsLift_naturality
     {ρ ρ' : letI := connectedSpace_of_isCurve B X f

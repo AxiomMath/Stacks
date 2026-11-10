@@ -355,7 +355,7 @@ theorem exists_etale_faithfullyFlat_bijective_tensorLift {F : (BigFppfOver B S h
     have hw : G.map s ≫ G.map a = G.map t ≫ G.map a := by
       rw [← G.map_comp, ← G.map_comp, hpbC.w]
     have := congrArg (fun m => (Scheme.Hom.appTop m).hom) hw
-    show (G.map s).appTop.hom.comp (G.map a).appTop.hom =
+    change (G.map s).appTop.hom.comp (G.map a).appTop.hom =
       (G.map t).appTop.hom.comp (G.map a).appTop.hom
     simpa only [Scheme.Hom.comp_appTop, CommRingCat.hom_comp] using this
   refine ⟨Γ(G.obj T, ⊤), inferInstance, inferInstance, ?_, ?_, hst, ?_⟩
@@ -373,8 +373,7 @@ theorem exists_etale_faithfullyFlat_bijective_tensorLift {F : (BigFppfOver B S h
     have heq : ∀ x, Stacks.AffineStageCore.tensorLift (G.map s).appTop.hom (G.map t).appTop.hom
         hst x = i.hom.hom x := by
       intro x
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul d d' =>
         rw [Stacks.AffineStageCore.tensorLift_tmul]
         have h1 : d ⊗ₜ[Γ(G.obj T, ⊤)] d' =
@@ -437,7 +436,7 @@ theorem exists_effective_of_isAffineSpace {Z : ClosedSubspaces B S hS Y.1}
   have hτ : ∀ y, τ (D.eV y) = D.eR ((G.map D.t'').appTop.hom y) := fun y => (D.eR_t y).symm
   have hst : σ.comp (algebraMap A _) = τ.comp (algebraMap A _) := by
     ext a
-    show σ (D.eV (algebraMap A _ a)) = τ (D.eV (algebraMap A _ a))
+    change σ (D.eV (algebraMap A _ a)) = τ (D.eV (algebraMap A _ a))
     rw [hσ, hτ]
     exact congrArg D.eR (congrArg (fun g : A →+* _ => g a) hst₀)
   refine ⟨A, inferInstance, inferInstance, Algebra.Etale.of_equiv eA,
@@ -447,8 +446,7 @@ theorem exists_effective_of_isAffineSpace {Z : ClosedSubspaces B S hS Y.1}
       D.eR (Stacks.AffineStageCore.tensorLift (G.map D.s'').appTop.hom
         (G.map D.t'').appTop.hom hst₀ (T.symm x)) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul x y =>
       obtain ⟨x, rfl⟩ := eA.surjective x
       obtain ⟨y, rfl⟩ := eA.surjective y

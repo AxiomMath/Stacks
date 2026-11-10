@@ -165,6 +165,7 @@ theorem tensorProductSquareComm :
           R' →ₐ[R] TensorProduct R A R').toRingHom.comp (algebraMap R R') :=
   RingHom.ext (fun r => Algebra.TensorProduct.tmul_one_eq_one_tmul r)
 
+set_option linter.checkUnivs false in
 /-- **[Stacks 06Y1] at `R → R'`, in the spelling the far edge of the square asks for.**  The
 degreewise extension of scalars along `R → R'` of a K-flat complex of `R`-modules is K-flat, with
 the module universe written `max v uR uA uRp` rather than `max v uR uA`.  The two are the same

@@ -478,7 +478,7 @@ private lemma exact_restriction_of_lift
     (TwoFibreProductOver.psiIso (f ⋙ q) (e ⋙ q) q f e)
   have hα : ∀ v, q.IsHomLift (𝟙 (q.obj (f.obj (h.obj v)))) (α.hom.app v) := by
     intro v
-    show q.IsHomLift (𝟙 ((f ⋙ q).obj (d.obj v).x)) (d.obj v).iso.hom
+    change q.IsHomLift (𝟙 ((f ⋙ q).obj (d.obj v).x)) (d.obj v).iso.hom
     rw [(d.obj v).hx]
     exact (d.obj v).vertical
   have hpP : pP.IsFiberedInGroupoids :=
@@ -513,9 +513,9 @@ private lemma exact_restriction_of_lift
   have hprod : (TwoFibreProductOver.lift (f ⋙ q) (e ⋙ q) q f e
       (d ⋙ pP) h g hcomph hcompg α (by
         intro v
-        show q.IsHomLift (𝟙 (d.obj v).base) (d.obj v).iso.hom
+        change q.IsHomLift (𝟙 (d.obj v).base) (d.obj v).iso.hom
         exact (d.obj v).vertical)).IsEquivalence := by
-    show d.IsEquivalence
+    change d.IsEquivalence
     infer_instance
   have hbc := isIso_baseChangeMap_of_isTwoFibreProduct
     q (f ⋙ q) (e ⋙ q) (d ⋙ pP) f e g h rfl rfl hcompg hcomph α hα
@@ -637,7 +637,7 @@ public theorem mono_sheafAugmentation
       (adj.counit.app (r.op ⋙ 𝓕.obj)).app (Opposite.op c) = 𝟙 _ at ht
     dsimp only [NatTrans.comp_app] at he
     simpa only [Category.assoc, ht, Category.comp_id] using he
-  show Mono ((sheafificationIso 𝓕).hom ≫
+  change Mono ((sheafificationIso 𝓕).hom ≫
     (presheafToSheaf _ _).map (adj.unit.app 𝓕.obj))
   infer_instance
 

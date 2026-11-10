@@ -191,7 +191,9 @@ theorem baseChangeIsSheaf_of_isSheaf (R : Sheaf K RingCat.{u + 1})
 end AffineSchemesOver
 
 set_option maxHeartbeats 1000000 in
+-- the proof elaborates sheafification and module pullback along the fppf-to-étale ringed hom
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for sheafification on the slices of the big fppf site is expensive
 open AffineSchemesOver Stacks.DenseSubsiteBaseChange in
 /-- **The unit of `ε_X^* ⊣ ε_{X,*}` is invertible on sections over an affine object** over which
 the module has a global presentation. -/
@@ -205,11 +207,6 @@ theorem isIso_fppfToBigEtale_unit_val_app_of_hasGlobalPresentation
   have i1 : PLift (HasWeakSheafify (bigFppfRingedSite T X).J AddCommGrpCat.{u + 1}) :=
     ⟨inferInstance⟩
   have i2 : PLift ((bigFppfRingedSite T X).J.WEqualsLocallyBijective AddCommGrpCat.{u + 1}) :=
-    ⟨inferInstance⟩
-  have i3 : PLift (HasWeakSheafify ((bigFppfRingedSite T X).J.over
-      ((fppfToBigEtaleRingedHom T E h X).u.obj W)) AddCommGrpCat.{u + 1}) := ⟨inferInstance⟩
-  have i4 : PLift (((bigFppfRingedSite T X).J.over
-      ((fppfToBigEtaleRingedHom T E h X).u.obj W)).WEqualsLocallyBijective AddCommGrpCat.{u + 1}) :=
     ⟨inferInstance⟩
   have hK0 : ∀ P : Sheaf ((bigFppfRingedSite T X).over
         ((fppfToBigEtaleRingedHom T E h X).u.obj W)).J AddCommGrpCat.{u + 1},
@@ -280,8 +277,8 @@ theorem isIso_fppfToBigEtale_unit_val_app_of_hasGlobalPresentation
           (op ((Over.post f.u).obj t)) ⋙ Eq.functor :=
       NatIso.ofComponents (fun _ ↦ Iso.refl _) (fun _ ↦ by ext; rfl)
     let j : t.left ≅ W := Over.isoMk (f := Over.mk (e.hom ≫ W.hom)) (g := W) e rfl
-    have key := @RingedSite.Hom.isIso_unit_val_app_of_fullyFaithful _ _ f i1.down i2.down Wy i3.down
-      i4.down G t (associatedSheaf hs) adjS ffS
+    have key := @RingedSite.Hom.isIso_unit_val_app_of_fullyFaithful _ _ f i1.down i2.down Wy G t
+      (associatedSheaf hs) adjS ffS
       (associatedSheaf hb) adjB ffB Eq e₂ M i W j
     rw [← hf] at key
     convert key using 3

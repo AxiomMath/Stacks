@@ -98,7 +98,7 @@ private theorem map_sectionsIdeal_basicOpen_of_isGeneratedByOn (hU : IsAffineOpe
     (h : IsGeneratedByOn X.toRingedSpace J U f) (g : Γ(X, U)) :
     (sectionsIdeal J U).map (X.presheaf.map (homOfLE (X.basicOpen_le g)).op).hom
       = sectionsIdeal J (X.basicOpen g) := by
-  show _ = (J.obj (op (X.basicOpen g)) : Ideal Γ(X, X.basicOpen g))
+  change _ = (J.obj (op (X.basicOpen g)) : Ideal Γ(X, X.basicOpen g))
   rw [obj_eq_span_res_of_isGeneratedByOn f h (hU.basicOpen g) (X.basicOpen_le g),
     sectionsIdeal_eq_span_of_isGeneratedByOn hU f h, Ideal.map_span, ← Set.range_comp]
   rfl

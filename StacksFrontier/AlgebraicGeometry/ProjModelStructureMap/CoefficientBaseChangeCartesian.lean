@@ -291,7 +291,7 @@ theorem ofHom_gradedZeroRingHom_polyBaseChangeGradedHom_comp [Algebra R S] (n : 
             (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) R) S 0))) =
       polyDegreeZeroHom S n := by
   refine CommRingCat.hom_ext (RingHom.ext fun s => Subtype.ext ?_)
-  show MvPolynomial.algebraTensorAlgEquiv R S
+  change MvPolynomial.algebraTensorAlgEquiv R S
       (TensorProduct.tmul R s (1 : MvPolynomial (Fin (n + 1)) R)) =
     MvPolynomial.C s
   rw [MvPolynomial.algebraTensorAlgEquiv_tmul, map_one, MvPolynomial.smul_eq_C_mul, mul_one]

@@ -111,7 +111,7 @@ public lemma proClass_eq_iff (A : ℕᵒᵖ ⥤ C) {X : C} {n m : ℕᵒᵖ}
 
 public lemma proMap_proClass {A B : ℕᵒᵖ ⥤ C} (f : A ⟶ B) {X : C} {n : ℕᵒᵖ}
     (g : B.obj n ⟶ X) : (proMap f).app X (proClass B g) = proClass A (f.app n ≫ g) := by
-  show ((colimit.ι (B.op ⋙ coyoneda) (op n) ≫ proMap f).app X) g = _
+  change ((colimit.ι (B.op ⋙ coyoneda) (op n) ≫ proMap f).app X) g = _
   rw [colimit.ι_map]
   rfl
 
@@ -213,12 +213,12 @@ public lemma proZero_of_exact [Abelian C] {A B D E F : ℕᵒᵖ ⥤ C}
   refine ⟨k, g ≫ f, ?_⟩
   rw [Functor.map_comp]
   apply (he m).comp_eq_zero
-  · show D.map g ≫ c.app m = 0
+  · change D.map g ≫ c.app m = 0
     rw [c.naturality, ← ht, ← Category.assoc]
     have h := NatTrans.congr_app hcd k
     change c.app k ≫ d.app k = 0 at h
     rw [h, zero_comp]
-  · show b.app m ≫ D.map f = 0
+  · change b.app m ≫ D.map f = 0
     rw [← b.naturality, ← hs, Category.assoc]
     have h := NatTrans.congr_app hab n
     change a.app n ≫ b.app n = 0 at h
@@ -279,7 +279,7 @@ private lemma complexEvaluationHomologyIso_naturality
       ((NatTrans.mapHomologicalComplex ((evaluation ℕᵒᵖ Ab.{v}).map a)
         (ComplexShape.up ℤ)).app K) p ≫ (complexEvaluationHomologyIso K p m).hom =
       (complexEvaluationHomologyIso K p n).hom ≫ (K.homology p).map a := by
-  show ShortComplex.homologyMap ((K.sc p).mapNatTrans
+  change ShortComplex.homologyMap ((K.sc p).mapNatTrans
     ((evaluation ℕᵒᵖ Ab.{v}).map a)) ≫ _ = _
   rw [ShortComplex.homologyMap_mapNatTrans]
   simp [complexEvaluationHomologyIso]
@@ -357,11 +357,11 @@ private lemma homology_proIso {E D : DerivedCategory Rlim.InvSystemAb.{v}}
       Functor.whiskerRight g (homologyFunctor Ab.{v} p) := by
     apply NatTrans.ext
     funext n
-    show (homologyFunctor Ab.{v} p).map ((Stacks.InverseSystem.AbelianGroupDerivedLift.evD n).map
+    change (homologyFunctor Ab.{v} p).map ((Stacks.InverseSystem.AbelianGroupDerivedLift.evD n).map
       f) =
       (homologyFunctor Ab.{v} p).map (g.app n)
     rw [hg]
-    show (homologyFunctor Ab.{v} p).map _ =
+    change (homologyFunctor Ab.{v} p).map _ =
       (homologyFunctor Ab.{v} p).map (𝟙 _ ≫ _ ≫ 𝟙 _)
     simp
   have : IsIso (proMap ((evaluationHomologyFunctor p).map f)) := by
@@ -412,7 +412,7 @@ private lemma derivedLimit_isZero_of_proZero
       apply Pi.hom_ext
       intro n
       rw [Pi.lift_comp_π, Preadditive.sub_comp, Category.id_comp, Pi.lift_comp_π]
-    show IsZero (cokernel _)
+    change IsZero (cokernel _)
     rw [he]
     exact (hz (p - 1)).2
   · exact (hz p).1
@@ -581,7 +581,7 @@ private theorem isMittagLeffler_of_isProZero (A : Rlim.InvSystemAb.{u})
   obtain ⟨m, hnm, hz⟩ := hA n
   refine ⟨op m, (homOfLE hnm).op, fun k g x hx ↦ ?_⟩
   obtain ⟨y, rfl⟩ := hx
-  show A.map (homOfLE hnm).op y ∈ Set.range (A.map g)
+  change A.map (homOfLE hnm).op y ∈ Set.range (A.map g)
   rw [hz]
   exact ⟨0, map_zero _⟩
 

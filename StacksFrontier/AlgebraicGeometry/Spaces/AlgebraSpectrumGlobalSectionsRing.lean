@@ -119,7 +119,7 @@ theorem algebraSpectrumGlobalSectionsEquiv_siteHom (R : Type u) [CommRing R]
     algebraSpectrumGlobalSectionsEquiv B S hS T R
         (globalSectionsRingHomSite B S hS (schemeSpaceMap (algebraSpectrumSiteHom B S hS T R)) a) =
       algebraMap _ R (schemeSpaceGlobalSectionsEquiv B S hS T a) := by
-  show (Scheme.ΓSpecIso (.of R)).hom.hom (schemeSpaceGlobalSectionsEquiv B S hS _
+  change (Scheme.ΓSpecIso (.of R)).hom.hom (schemeSpaceGlobalSectionsEquiv B S hS _
     (globalSectionsRingHomSite B S hS (schemeSpaceMap (algebraSpectrumSiteHom B S hS T R)) a)) = _
   rw [schemeSpaceGlobalSectionsEquiv_globalSectionsRingHomSite]
   exact algebraSpectrumMap_appTop_apply B S hS T R _
@@ -140,7 +140,7 @@ theorem algebraSpectrumGlobalSectionsEquiv_siteMap (R : Type u) [CommRing R]
         (globalSectionsRingHomSite B S hS
           (schemeSpaceMap (algebraSpectrumSiteMap B S hS T R R' φ)) a) =
       φ (algebraSpectrumGlobalSectionsEquiv B S hS T R a) := by
-  show (Scheme.ΓSpecIso (.of R')).hom.hom (schemeSpaceGlobalSectionsEquiv B S hS _
+  change (Scheme.ΓSpecIso (.of R')).hom.hom (schemeSpaceGlobalSectionsEquiv B S hS _
     (globalSectionsRingHomSite B S hS
       (schemeSpaceMap (algebraSpectrumSiteMap B S hS T R R' φ)) a)) = _
   rw [schemeSpaceGlobalSectionsEquiv_globalSectionsRingHomSite]

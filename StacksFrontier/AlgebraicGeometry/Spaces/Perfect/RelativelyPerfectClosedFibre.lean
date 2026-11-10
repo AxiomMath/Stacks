@@ -413,7 +413,6 @@ theorem hasTorAmplitudeAt_of_le_of_closedFibre
       B.obj hA ⟶ B.obj hR) ≫ gR = gA)
     (φ : (⟨yoneda.obj (specFppfOver B S hS hA gA), isAlgebraicSpace_yoneda B S hS _⟩ :
       AlgebraicSpaces B S hS) ⟶ X) (hφ : IsEtale B S hS φ.hom)
-    (hφf : yoneda.map (specFppfOverMap B S hS hR gR hA gA w) = φ.hom ≫ f.hom)
     (d : ℕ) (presentation : MvPolynomial (Fin d) R →ₐ[R] A)
     (hpres : Function.Surjective presentation)
     (E : DerivedCategory (Modules.{u, u} B S hS X.1 X.2))
@@ -551,7 +550,7 @@ theorem hasTorAmplitudeCanonical_geometricStalk_of_closedFibre
     hφ E P eP]
   have hspec := huu₀.map (schemePointsHomeomorph B S hS (specFppfOver B S hS hA gA)).continuous
   rw [← hū] at hspec
-  exact hasTorAmplitudeAt_of_le_of_closedFibre B S hS f f₀ i hpb w φ hφ hφf d presentation hpres E
+  exact hasTorAmplitudeAt_of_le_of_closedFibre B S hS f f₀ i hpb w φ hφ d presentation hpres E
     P hP eP hA₀ φ₀ hφ₀ hsq hcomm hφf₀ a b hab u₀ (by rw [hu₀]; exact hx₀) _
     ((PrimeSpectrum.le_iff_specializes _ _).2 hspec)
 

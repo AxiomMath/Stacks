@@ -1,7 +1,7 @@
 module
 
 public import
-  StacksFrontier.AlgebraicGeometry.EtaleCohomology.ComparingBigSmall.FineTopologyCohomologyComparison
+StacksFrontier.AlgebraicGeometry.EtaleCohomology.ComparingBigSmall.FineTopologyCohomologyComparison
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ComparingBigSmall.HComparisonSituation
 import StacksCore.Tactic.StacksAttribute
 
@@ -26,8 +26,8 @@ big étale site over `X` to the small étale site of `X`, `ε_X` for the change 
 ## Implementation notes
 
 These are the instances, at the comparison situation `AlgebraicGeometry.hEtaleCohomologyComparison`
-of Stacks 0F0J, of the statements of
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.ComparingBigSmall.FineTopologyCohomologyComparison`
+of Stacks 0F0J, of the statements of the module
+`ComparingBigSmall.FineTopologyCohomologyComparison`
 for a precoverage finer than the étale one. The source deduces the lemma from Stacks 0EWG,
 `K ≅ Ra_{X,*}a_X⁻¹K`, by Cohomology on Sites, Remark 08J6, `RΓ(X_étale, Ra_{X,*}-) = RΓ_h(X, -)`.
 Here the isomorphism `RΓ(X_étale, K) ≅ RΓ_h(X, a_X⁻¹K)` is the same canonical map, assembled from

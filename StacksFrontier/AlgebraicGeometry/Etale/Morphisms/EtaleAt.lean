@@ -87,7 +87,7 @@ private lemma isEtaleLocalHom_iff_of_arrowIso
     (f : A →+* B) (g : C →+* D) [IsLocalHom f] [IsLocalHom g]
     (e : Arrow.mk (CommRingCat.ofHom f) ≅ Arrow.mk (CommRingCat.ofHom g)) :
     RingHom.IsEtaleLocalHom f ↔ RingHom.IsEtaleLocalHom g := by
-  show f.Flat ∧ f.FormallyUnramified ∧ f.EssFiniteType ↔
+  change f.Flat ∧ f.FormallyUnramified ∧ f.EssFiniteType ↔
     g.Flat ∧ g.FormallyUnramified ∧ g.EssFiniteType
   exact and_congr (RingHom.Flat.respectsIso.arrow_mk_iso_iff e)
     (and_congr (RingHom.FormallyUnramified.respectsIso.arrow_mk_iso_iff e)
@@ -173,7 +173,7 @@ theorem isEtaleAt_iff_etaleAt {X Y : Scheme.{u}} (f : X ⟶ Y) (x : X)
         ((IsLocalization.algEquiv (Submonoid.powers g) (Localization.Away g)
           Γ(X, W)).restrictScalars A)
     have hring : (f.appLE V W hWV).hom.Etale := by
-      show (algebraMap A Γ(X, W)).Etale
+      change (algebraMap A Γ(X, W)).Etale
       exact RingHom.etale_algebraMap.mpr inferInstance
     exact ⟨W, hW, hxW, V, hV, hWV, hring⟩
   · rintro ⟨U, hU, hxU, V, hV, hUV, hEtale⟩

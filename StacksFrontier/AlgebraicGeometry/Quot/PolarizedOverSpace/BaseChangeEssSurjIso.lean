@@ -142,7 +142,7 @@ abbrev glueCommaHom : glueComma G ⟶ fibreComma (gluePolarized G) :=
 isomorphism of the family of `G` with the base change, its fibre an identity. -/
 instance isIso_inverseImage_glueCommaHom_app (a : (Points T).obj) :
     IsIso (fibreInverseImage.map ((glueCommaHom G).app a)) := by
-  haveI hl : IsIso ((glueCommaHom G).app a).left :=
+  have hl : IsIso ((glueCommaHom G).app a).left :=
     @Arrow.isIso_of_isIso_left_of_isIso_right _ _ _ _ (glueArrowHom G a) (isIso_glueFibreLift G a)
       (inferInstance : IsIso (eqToHom (SpacesOverSpace.fam_right (glueFamilies G) a)))
   exact isIso_of_isIso_base_of_isIso_fiber _ hl
@@ -156,10 +156,10 @@ def glueComparison : glueInclusion G ⟶ fibreComma (gluePolarized G) ⋙ fibreI
 
 /-- The comparison of `G` with `F^R(ξ)` in the Grothendieck construction is an isomorphism. -/
 instance isIso_glueComparison : IsIso (glueComparison G) := by
-  haveI : ∀ a, IsIso ((Functor.whiskerRight (glueCommaHom G) fibreInverseImage).app a) :=
+  have : ∀ a, IsIso ((Functor.whiskerRight (glueCommaHom G) fibreInverseImage).app a) :=
     fun a => isIso_inverseImage_glueCommaHom_app G a
-  haveI : IsIso (glueSigmaNatTrans G) := NatIso.isIso_of_isIso_app _
-  haveI : IsIso (Functor.whiskerRight (glueCommaHom G) fibreInverseImage) :=
+  have : IsIso (glueSigmaNatTrans G) := NatIso.isIso_of_isIso_app _
+  have : IsIso (Functor.whiskerRight (glueCommaHom G) fibreInverseImage) :=
     NatIso.isIso_of_isIso_app _
   exact IsIso.comp_isIso
 

@@ -161,7 +161,7 @@ theorem contractionFunctor_satisfiesRS (c : ContractionSituation B S hS) :
   change Triple c Y.obj at a
   change Triple c X'.obj at b
   change mapTriple c j.hom a = mapTriple c i.hom b at hab
-  show ∃! t : Triple c Y'.obj, mapTriple c j'.hom t = a ∧ mapTriple c i'.hom t = b
+  change ∃! t : Triple c Y'.obj, mapTriple c j'.hom t = a ∧ mapTriple c i'.hom t = b
   let T := BigFppfOver.toScheme B S hS
   have w' : i.hom ≫ i'.hom = j.hom ≫ j'.hom := congrArg InducedCategory.Hom.hom w
   -- condition (RS) for `U'` and for `W`, at the square

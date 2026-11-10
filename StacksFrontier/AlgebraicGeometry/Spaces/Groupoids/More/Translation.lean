@@ -118,9 +118,9 @@ private theorem pointwise_translation_bijective
   have hpack (x : R) : e (pack x) = x := by
     dsimp [e, endpointBundle, flatten, arrowEquivBundle, endpointEquiv, pack]
     rw [Equiv.sigmaFiberEquiv_apply]
-    show (((P.arrowEquiv (s x) (t x)).trans (endpointEquiv (s x) (t x)))
+    change (((P.arrowEquiv (s x) (t x)).trans (endpointEquiv (s x) (t x)))
       ((P.arrowEquiv (s x) (t x)).symm ⟨x, rfl, rfl⟩)).1 = x
-    show (endpointEquiv (s x) (t x)
+    change (endpointEquiv (s x) (t x)
       (P.arrowEquiv (s x) (t x) ((P.arrowEquiv (s x) (t x)).symm ⟨x, rfl, rfl⟩))).1 = x
     rw [Equiv.apply_symm_apply]
     rfl
@@ -141,11 +141,11 @@ private theorem pointwise_translation_bijective
     rw [hraw]
     dsimp [e, endpointBundle, flatten, arrowEquivBundle, endpointEquiv, onBundle, pack]
     rw [Equiv.sigmaFiberEquiv_apply]
-    show (((P.arrowEquiv (s x) (σe (t x))).trans (endpointEquiv (s x) (σe (t x))))
+    change (((P.arrowEquiv (s x) (σe (t x))).trans (endpointEquiv (s x) (σe (t x))))
       ((P.arrowEquiv (s x) (t x)).symm ⟨x, rfl, rfl⟩ ≫ α (t x))).1 =
         (P.arrowEquiv (s x) (σe (t x))
           ((P.arrowEquiv (s x) (t x)).symm ⟨x, rfl, rfl⟩ ≫ α (t x))).1
-    show (endpointEquiv (s x) (σe (t x))
+    change (endpointEquiv (s x) (σe (t x))
       (P.arrowEquiv (s x) (σe (t x))
         ((P.arrowEquiv (s x) (t x)).symm ⟨x, rfl, rfl⟩ ≫ α (t x)))).1 = _
     dsimp [endpointEquiv]
@@ -155,7 +155,7 @@ private theorem pointwise_translation_bijective
     calc forward x = e (onBundle (pack x)) := (htranslate_raw x).symm
       _ = e (onBundle (e.symm x)) := congrArg (fun q => e (onBundle q)) (hpack_inv x)
       _ = translationEquiv x := rfl
-  show Function.Bijective forward
+  change Function.Bijective forward
   rw [funext htranslation]
   exact translationEquiv.bijective
 
@@ -233,7 +233,7 @@ private theorem translationByArrow_app (G : GroupoidInAlgebraicSpaces C S hS B)
             simp [q]
   have hactual (y : G.arrows.obj.obj T) :
       (translationByArrow G r).hom.app T y = (F.comp.app T) (q.app T y) := by
-    show G.comp.hom.app T
+    change G.comp.hom.app T
         ((pullback.lift (G.target.hom ≫ a.hom) (𝟙 G.arrows.obj) hcomp).app T y) =
       (F.comp.app T) (q.app T y)
     have h := congrArg
@@ -243,7 +243,7 @@ private theorem translationByArrow_app (G : GroupoidInAlgebraicSpaces C S hS B)
         ((pullback.lift (G.target.hom ≫ a.hom) (𝟙 G.arrows.obj) hcomp).app T y) =
       G.comp.hom.app T ((q.app T ≫
         (composableToPullback G.source.hom G.target.hom).app T) y) at h
-    show G.comp.hom.app T
+    change G.comp.hom.app T
         ((pullback.lift (G.target.hom ≫ a.hom) (𝟙 G.arrows.obj) hcomp).app T y) =
       G.comp.hom.app T ((composableToPullback G.source.hom G.target.hom).app T (q.app T y))
     simpa using h
@@ -277,7 +277,7 @@ theorem translationByArrow_isIso (G : GroupoidInAlgebraicSpaces C S hS B)
       (fun x => F.compose T (a.hom.app T (F.target.app T x)) x
         (normalized_source_app G r T _)) := by
     simpa [Deformation.GroupoidInFunctors.compose] using hbij
-  show Function.Bijective
+  change Function.Bijective
     (fun x : G.arrows.obj.obj T => (translationByArrow G r).hom.app T x)
   rw [funext hactual]
   exact hbijComp
@@ -299,10 +299,10 @@ theorem translationByArrow_identity (G : GroupoidInAlgebraicSpaces C S hS B)
     exact congrArg (r.hom.app T)
       (congrArg (fun f : G.objects ⟶ G.objects => f.hom.app T x)
         (IsIso.hom_inv_id (r ≫ G.source)))
-  show (translationByArrow G r).hom.app T (F.identity T z) = r.hom.app T x
+  change (translationByArrow G r).hom.app T (F.identity T z) = r.hom.app T x
   have hmap_id := translationByArrow_app G r T (F.identity T z)
   have htarget_id : F.target.app T (F.identity T z) = z := by
-    show F.target.app T ((F.evaluationArrowEquiv T z z (𝟙 z)).1) = z
+    change F.target.app T ((F.evaluationArrowEquiv T z z (𝟙 z)).1) = z
     exact (F.evaluationArrowEquiv T z z (𝟙 z)).2.2
   have harg : (inv (r ≫ G.source) ≫ r).hom.app T
       (G.toGroupoidInFunctors.target.app T (F.identity T z)) = a.hom.app T z := by
@@ -320,10 +320,10 @@ theorem translationByArrow_identity (G : GroupoidInAlgebraicSpaces C S hS B)
       (Equiv.apply_symm_apply (F.evaluationArrowEquiv T z σ) ⟨a.hom.app T z, hs, ht⟩)
   have hcomp : F.compose T (a.hom.app T z) (F.identity T z) (hs.trans htarget_id.symm) =
       (F.evaluationArrowEquiv T z σ (𝟙 z ≫ f)).1 := by
-    show F.compose T (a.hom.app T z)
+    change F.compose T (a.hom.app T z)
         (F.evaluationArrowEquiv T z z (𝟙 z)).1 (hs.trans htarget_id.symm) = _
     simpa only [hf_val] using (F.evaluationArrowEquiv_comp T (𝟙 z) f).symm
-  show F.compose T (a.hom.app T z) (F.identity T z)
+  change F.compose T (a.hom.app T z) (F.identity T z)
       (hs.trans htarget_id.symm) = a.hom.app T z
   rw [hcomp]
   exact (congrArg (fun g => (F.evaluationArrowEquiv T z σ g).1) (Category.id_comp f)).trans hf_val

@@ -285,7 +285,7 @@ theorem gluingPushoutData_inl {X X' Y : Scheme.{u}}
     pushout.inl (pullback.fst T.obj.right.hom i) (gluingSourceMap i f T) ≫
         (gluingPushoutData i f T).hom = T.obj.right.hom ≫ pushout.inl i f := by
   dsimp [gluingPushoutData]
-  simp [pushout.inl_desc]
+  simp
 
 /-- On `V` the structure morphism of the glued scheme is the given morphism `V ⟶ Y` followed by
 `Y ⟶ Y'`. -/
@@ -297,7 +297,7 @@ theorem gluingPushoutData_inr {X X' Y : Scheme.{u}}
     pushout.inr (pullback.fst T.obj.right.hom i) (gluingSourceMap i f T) ≫
         (gluingPushoutData i f T).hom = T.obj.left.hom ≫ pushout.inr i f := by
   dsimp [gluingPushoutData]
-  simp [pushout.inr_desc]
+  simp
 
 /-- The morphism of glued schemes induced by a morphism of compatible pairs, by the universal
 property of the pushout. -/
@@ -502,7 +502,7 @@ noncomputable def gluingFunctor {X X' Y : Scheme.{u}}
     exact gluingPushoutMap i f g
   map_id := by
     intro T
-    letI := hasPushout_of_isThickening i f hi
+    let := hasPushout_of_isThickening i f hi
     have : HasPushout (pullback.fst T.obj.right.hom i) (gluingSourceMap i f T) := by
       exact gluingHasPushout i f hi T
     apply Over.OverMorphism.ext
@@ -511,7 +511,7 @@ noncomputable def gluingFunctor {X X' Y : Scheme.{u}}
     · simp [gluingPushoutMap_inr]
   map_comp := by
     intro T S R g h
-    letI := hasPushout_of_isThickening i f hi
+    let := hasPushout_of_isThickening i f hi
     have : HasPushout (pullback.fst T.obj.right.hom i) (gluingSourceMap i f T) := by
       exact gluingHasPushout i f hi T
     have : HasPushout (pullback.fst S.obj.right.hom i) (gluingSourceMap i f S) := by
@@ -571,7 +571,7 @@ theorem gluingFunctor_obj_isPushout {X X' Y : Scheme.{u}}
         T.obj.left.hom ≫ pushout.inr i f ∧
       u' ≫ ((gluingFunctor i f hi).obj T).hom =
         T.obj.right.hom ≫ pushout.inl i f := by
-  letI := hasPushout_of_isThickening i f hi
+  let := hasPushout_of_isThickening i f hi
   have : HasPushout (pullback.fst T.obj.right.hom i) (gluingSourceMap i f T) := by
       exact gluingHasPushout i f hi T
   refine ⟨pushout.inr (pullback.fst T.obj.right.hom i) (gluingSourceMap i f T),
@@ -1220,7 +1220,8 @@ private theorem isPullback_of_affine_ring_cube
     simpa only [← Scheme.Hom.comp_appTop] using congrArg Scheme.Hom.appTop hqc
   obtain ⟨hb, ha⟩ :=
     isPushout_of_fibreProduct hR hP hv' hw' hi hqd'.symm hqc'.symm
-  exact ⟨AlgebraicGeometry.isPullback_of_isPushout_appTop hb, AlgebraicGeometry.isPullback_of_isPushout_appTop ha⟩
+  exact ⟨AlgebraicGeometry.isPullback_of_isPushout_appTop hb,
+    AlgebraicGeometry.isPullback_of_isPushout_appTop ha⟩
 
 /-- A square of schemes is cartesian as soon as it becomes cartesian over every affine open of
 the lower right corner above an affine open of the base. -/
@@ -1333,19 +1334,19 @@ private theorem isPullback_of_section_cube
     let wr := w.resLE (a ⁻¹ᵁ S) (c ⁻¹ᵁ T) hwS
     let zr := z.resLE (f ⁻¹ᵁ (b ⁻¹ᵁ S)) (g ⁻¹ᵁ (d ⁻¹ᵁ T)) hzS
     let qr := q.resLE S T hTS
-    letI : IsAffine S.toScheme := hS
-    letI : IsAffine T.toScheme := hT
-    letI : IsAffine (a ⁻¹ᵁ S).toScheme := hS.preimage a
-    letI : IsAffine (b ⁻¹ᵁ S).toScheme := hS.preimage b
-    letI : IsAffine (f ⁻¹ᵁ (b ⁻¹ᵁ S)).toScheme := (hS.preimage b).preimage f
-    letI : IsAffine (c ⁻¹ᵁ T).toScheme := hT.preimage c
-    letI : IsAffine (d ⁻¹ᵁ T).toScheme := hT.preimage d
-    letI : IsAffine (g ⁻¹ᵁ (d ⁻¹ᵁ T)).toScheme := (hT.preimage d).preimage g
+    let : IsAffine S.toScheme := hS
+    let : IsAffine T.toScheme := hT
+    let : IsAffine (a ⁻¹ᵁ S).toScheme := hS.preimage a
+    let : IsAffine (b ⁻¹ᵁ S).toScheme := hS.preimage b
+    let : IsAffine (f ⁻¹ᵁ (b ⁻¹ᵁ S)).toScheme := (hS.preimage b).preimage f
+    let : IsAffine (c ⁻¹ᵁ T).toScheme := hT.preimage c
+    let : IsAffine (d ⁻¹ᵁ T).toScheme := hT.preimage d
+    let : IsAffine (g ⁻¹ᵁ (d ⁻¹ᵁ T)).toScheme := (hT.preimage d).preimage g
     have hir : IsPullback ir (f ⁻¹ᵁ (b ⁻¹ᵁ S)).ι (a ⁻¹ᵁ S).ι i := by
       apply IsOpenImmersion.isPullback
       · exact (Scheme.Hom.resLE_comp_ι _ _).symm
       · simpa using hiS.symm
-    haveI : IsClosedImmersion ir :=
+    have : IsClosedImmersion ir :=
       MorphismProperty.IsStableUnderBaseChange.of_isPullback hir.flip inferInstance
     have hvr : IsPullback (g ∣_ (d ⁻¹ᵁ T)) zr vr (f ∣_ (b ⁻¹ᵁ S)) := by
       simpa only [Scheme.Hom.resLE_eq_morphismRestrict] using
@@ -1429,24 +1430,24 @@ theorem gluing_components_isPullback {X X' Y : Scheme.{u}}
       IsPullback
         (pushout.inl (pullback.fst T.obj.right.hom i) (gluingSourceMap i f T))
         T.obj.right.hom ((gluingFunctor i f hi).obj T).hom (pushout.inl i f) := by
-  letI : IsClosedImmersion i := hi.1
+  let : IsClosedImmersion i := hi.1
   have hj := isThickening_pullback_fst i f hi T
   have hb := pushout_inr_isThickening forall_isAffine_of_isThickening i f hi
   have hd := gluing_inr_isThickening i f hi T
-  letI : IsClosedImmersion (pushout.inr i f) := hb.1
-  letI : IsClosedImmersion
+  let : IsClosedImmersion (pushout.inr i f) := hb.1
+  let : IsClosedImmersion
       (pushout.inr (pullback.fst T.obj.right.hom i) (gluingSourceMap i f T)) := hd.1
   have := isAffineHom_gluingSourceMap i f T
-  haveI : IsAffineHom (i ≫ pushout.inl i f) := by
+  have : IsAffineHom (i ≫ pushout.inl i f) := by
     rw [pushout.condition]
     infer_instance
-  haveI : IsAffineHom (pushout.inl i f) :=
+  have : IsAffineHom (pushout.inl i f) :=
     isAffineHom_of_thickening_comp i _ hi
-  haveI : IsAffineHom (pullback.fst T.obj.right.hom i ≫
+  have : IsAffineHom (pullback.fst T.obj.right.hom i ≫
       pushout.inl (pullback.fst T.obj.right.hom i) (gluingSourceMap i f T)) := by
     rw [pushout.condition]
     infer_instance
-  haveI : IsAffineHom
+  have : IsAffineHom
       (pushout.inl (pullback.fst T.obj.right.hom i) (gluingSourceMap i f T)) :=
     isAffineHom_of_thickening_comp _ _ hj
   exact isPullback_of_section_cube i f (pushout.inl i f) (pushout.inr i f)
@@ -1468,7 +1469,7 @@ theorem gluingAdjunction_unit_app_isIso {X X' Y : Scheme.{u}}
     (i : X ⟶ X') (f : X ⟶ Y)
     (hi : IsThickening i) [IsAffineHom f] [HasPushout i f]
     (T : gluingData i f) : IsIso ((gluingAdjunction i f hi).unit.app T) := by
-  letI := gluingHasPushout i f hi T
+  let := gluingHasPushout i f hi T
   obtain ⟨hd, hc⟩ := gluing_components_isPullback i f hi T
   let η := (gluingAdjunction i f hi).unit.app T
   let ηl : T.obj.left.left ⟶
@@ -1495,19 +1496,19 @@ theorem gluingAdjunction_unit_app_isIso {X X' Y : Scheme.{u}}
   have hright : ηr = hc.isoPullback.hom :=
     pullback.hom_ext (hrfst.trans hc.isoPullback_hom_fst.symm)
       (hrsnd.trans hc.isoPullback_hom_snd.symm)
-  haveI : IsIso ηl := hleft ▸ hd.isoPullback.isIso_hom
-  haveI : IsIso ηr := hright ▸ hc.isoPullback.isIso_hom
-  haveI : IsIso ((Over.forget Y).map η.hom.left) := by
+  have : IsIso ηl := hleft ▸ hd.isoPullback.isIso_hom
+  have : IsIso ηr := hright ▸ hc.isoPullback.isIso_hom
+  have : IsIso ((Over.forget Y).map η.hom.left) := by
     change IsIso ηl
     infer_instance
-  haveI : IsIso ((Over.forget X').map η.hom.right) := by
+  have : IsIso ((Over.forget X').map η.hom.right) := by
     change IsIso ηr
     infer_instance
-  haveI : IsIso η.hom.left := isIso_of_reflects_iso η.hom.left (Over.forget Y)
-  haveI : IsIso η.hom.right := isIso_of_reflects_iso η.hom.right (Over.forget X')
+  have : IsIso η.hom.left := isIso_of_reflects_iso η.hom.left (Over.forget Y)
+  have : IsIso η.hom.right := isIso_of_reflects_iso η.hom.right (Over.forget X')
   let e := Comma.isoMk (asIso η.hom.left) (asIso η.hom.right) η.hom.w
   have he : e.hom = η.hom := by apply Comma.hom_ext <;> rfl
-  haveI : IsIso η.hom := he ▸ e.isIso_hom
+  have : IsIso η.hom := he ▸ e.isIso_hom
   exact (ObjectProperty.isIso_hom_iff η).mp inferInstance
 
 /-- **The unit of the gluing adjunction is an isomorphism.** -/

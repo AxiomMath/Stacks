@@ -375,7 +375,8 @@ typeclass resolution finds on the stalk of the latter is the Stacks 01CB one and
 beyond `instances` transparency. -/
 @[ega "I 9.1.12" "special case"]
 noncomputable def tensorSheafStalkEquiv {X : Scheme.{u}} (F G T : X.Modules)
-    (hT : T = (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj (F)).obj (G))) (x : X)
+    (hT : T = (((Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj (F)).obj (G))) (x : X)
       :
     TopCat.Presheaf.stalk (C := Ab.{u}) T.val.presheaf x ≃ₗ[X.presheaf.stalk x]
       (TopCat.Presheaf.stalk (C := Ab.{u}) F.val.presheaf x ⊗[X.presheaf.stalk x]
@@ -383,7 +384,9 @@ noncomputable def tensorSheafStalkEquiv {X : Scheme.{u}} (F G T : X.Modules)
   subst hT
   exact transportLinearEquivTensor
     (stalkModule_eq_moduleStalk
-      ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj (F)).obj (G)) : X.Modules) x)
+      ((((Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj (F)).obj (G)) :
+          X.Modules) x)
     (stalkModule_eq_moduleStalk F x) (stalkModule_eq_moduleStalk G x)
     (Stacks.SheafOfModules.TensorStalkRingedSpace.tensorStalkIso X.toRingedSpace x F G)
 
@@ -452,7 +455,9 @@ fibre is associated to the restriction of `F`; over a Noetherian base stalk the 
 as well. -/
 private lemma mem_associatedPoints_tensor_criterion {X S : Scheme.{u}}
     (f : X ⟶ S) (F : X.Modules) (G : S.Modules) (T : X.Modules)
-    (hT : T = (((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj (F)).obj (((Scheme.Modules.pullback f).obj G))))
+    (hT : T = (((Stacks.SheafOfModules.Tensor.sheafTensor
+        ⟨((X.toRingedSpace)).presheaf, ((X.toRingedSpace)).IsSheaf⟩).obj (F)).obj
+          (((Scheme.Modules.pullback f).obj G))))
     (hF : IsFlatOver f.toLRSHom.toShHom F) (x : X) :
     ((f x ∈ Stacks.Divisors.associatedPoints G ∧
         f.asFiber x ∈ Stacks.Divisors.associatedPoints
@@ -529,7 +534,10 @@ theorem relativeAssassin_subset_associatedPoints_tensor_pullback
         Stacks.Divisors.associatedPoints
           ((Scheme.Modules.pullback (f.fiberι s)).obj F)) ⊆
     Stacks.Divisors.associatedPoints
-        ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toLocallyRingedSpace.toRingedSpace)).presheaf, ((X.toLocallyRingedSpace.toRingedSpace)).IsSheaf⟩).obj (F)).obj (((Scheme.Modules.pullback f).obj G)))) := by
+        ((((Stacks.SheafOfModules.Tensor.sheafTensor
+          ⟨((X.toLocallyRingedSpace.toRingedSpace)).presheaf,
+            ((X.toLocallyRingedSpace.toRingedSpace)).IsSheaf⟩).obj (F)).obj
+              (((Scheme.Modules.pullback f).obj G)))) := by
   intro x hx
   simp only [Set.mem_iUnion, Set.mem_image] at hx
   obtain ⟨s, hsG, y, hy, hxy⟩ := hx
@@ -559,7 +567,10 @@ theorem associatedPoints_tensor_pullback_eq_relativeAssassin
     (hF : IsFlatOver f.toLRSHom.toShHom F)
     [IsLocallyNoetherian S] :
     Stacks.Divisors.associatedPoints
-        ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toLocallyRingedSpace.toRingedSpace)).presheaf, ((X.toLocallyRingedSpace.toRingedSpace)).IsSheaf⟩).obj (F)).obj (((Scheme.Modules.pullback f).obj G)))) =
+        ((((Stacks.SheafOfModules.Tensor.sheafTensor
+          ⟨((X.toLocallyRingedSpace.toRingedSpace)).presheaf,
+            ((X.toLocallyRingedSpace.toRingedSpace)).IsSheaf⟩).obj (F)).obj
+              (((Scheme.Modules.pullback f).obj G)))) =
       ⋃ s ∈ Stacks.Divisors.associatedPoints G,
         f.fiberι s ''
           Stacks.Divisors.associatedPoints

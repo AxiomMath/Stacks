@@ -140,7 +140,7 @@ theorem linEqHomEquiv_coe_congr {C : Scheme.{u}} {n m' : ℕ} (M : Matrix (Fin n
     (z' : {x : T ⟶ linEqScheme M // x ≫ linEqProj M = t'}) (h : z.1 = z'.1) :
     (linEqHomEquiv M t z).1 = (linEqHomEquiv M t' z').1 := by
   funext j
-  show (z.1 ≫ pullback.fst _ _).appTop _ = (z'.1 ≫ pullback.fst _ _).appTop _
+  change (z.1 ≫ pullback.fst _ _).appTop _ = (z'.1 ≫ pullback.fst _ _).appTop _
   rw [h]
 
 variable {c N} in

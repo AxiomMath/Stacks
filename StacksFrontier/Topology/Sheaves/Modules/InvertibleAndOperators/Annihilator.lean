@@ -208,7 +208,7 @@ theorem annihilatorSheaf_obj_eq_ker_scalarAction (U : (Opens X.carrier)ᵒᵖ) :
   · apply (H.sectionsEquiv U.unop).injective
     rw [map_zero]
     ext W m
-    show (H.sectionsEquiv U.unop ((scalarAction X F H).val.app U r)).val.app
+    change (H.sectionsEquiv U.unop ((scalarAction X F H).val.app U r)).val.app
       (op (Over.mk W.unop.hom)) m = 0
     convert (scalarAction_component X F H U.unop W.unop.left W.unop.hom.le r m).trans
       (hr (op W.unop.left) W.unop.hom.op m) using 1

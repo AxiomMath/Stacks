@@ -134,7 +134,7 @@ images of `X` and `Y`. -/
 theorem map_dpowTau {C : Type*} [CommRing C] {K : Ideal C} {δ : DividedPowers K}
     (f : DPMorphism γ δ) {X Y : B} (hx : X ^ 2 ∈ I) (hy : Y ^ 2 ∈ I) (hz : X * Y ∈ I) :
     f (dpowTau γ p X Y) = dpowTau δ p (f X) (f Y) := by
-  show f.toRingHom (dpowTau γ p X Y) = dpowTau δ p (f.toRingHom X) (f.toRingHom Y)
+  change f.toRingHom (dpowTau γ p X Y) = dpowTau δ p (f.toRingHom X) (f.toRingHom Y)
   rw [dpowTau, dpowTau, map_sub, map_mul, map_pow, ← f.dpow_comp (n := p) _ hx,
     ← f.dpow_comp (n := p) _ hy, ← f.dpow_comp (n := p) _ hz, map_pow, map_pow, map_mul]
 
@@ -213,7 +213,7 @@ theorem envelopeDelta_envelopeTau (i : Fin 2) :
   change b.repr (dividedPowerDifferential (A := ℤ_[p]) (envelope p).object.dividedPowers
       (envelopeTau p)) i = _ at hcoord
   rw [dividedPowerDifferential_envelopeTau, map_zero, Finsupp.zero_apply, map_sum,
-    Finsupp.finset_sum_apply] at hcoord
+    Finsupp.finsetSum_apply] at hcoord
   have key : ∀ x : Fin 2, b.repr ((DPMorphism.id (envelope p).object.dividedPowers)
         ((envelopeDelta (envelope p) x) (envelopeTau p)) •
       universalDividedPowerDerivation.toDerivation
@@ -226,7 +226,7 @@ theorem envelopeDelta_envelopeTau (i : Fin 2) :
     rw [hbx, LinearEquiv.map_smul, b.repr_self, Finsupp.smul_apply, Finsupp.single_apply]
     split_ifs <;> simp [smul_eq_mul]
     rfl
-  simp_rw [key, Finset.sum_ite_eq', Finset.mem_univ, if_true] at hcoord
+  simp_rw [key, Finset.sum_ite_eq', Finset.mem_univ, ite_true] at hcoord
   exact hcoord.symm
 
 /-- **The Taylor coefficients `θ_K(τ)` vanish for `K ≠ 0`**: `θ_K` is `θ_{K − e_i} ∘ δ_i` for any
@@ -241,7 +241,7 @@ theorem presentationTaylorCoeff_envelopeTau {K : Fin 2 →₀ ℕ} (hK : K ≠ 0
   have hsplit : K = (K - Finsupp.single i 1) + Finsupp.single i 1 :=
     (tsub_add_cancel_of_le hle).symm
   rw [hsplit, presentationTaylorCoeff_add, Function.comp_apply]
-  show presentationTaylorCoeff (envelope p) _ (envelopeDelta (envelope p) i (envelopeTau p)) = 0
+  change presentationTaylorCoeff (envelope p) _ (envelopeDelta (envelope p) i (envelopeTau p)) = 0
   rw [envelopeDelta_envelopeTau, map_zero]
 
 /-- **`τ` does not depend on the coordinates.**  Two divided power morphisms `F, G` from the
@@ -278,7 +278,7 @@ theorem frobeniusCoords_map_relations_le :
     simpa using (envelope p).structureMap.ideal_comp
       (Ideal.mem_map_of_mem (envelope p).structureMap.toRingHom hpbase)
   refine Ideal.map_le_iff_le_comap.mpr ?_
-  show Ideal.span ({(p : polynomial p), polynomialX p ^ 2,
+  change Ideal.span ({(p : polynomial p), polynomialX p ^ 2,
     polynomialX p * polynomialY p, polynomialY p ^ 2} : Set (polynomial p)) ≤ _
   rw [Ideal.span_le]
   rintro z hz

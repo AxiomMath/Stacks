@@ -88,7 +88,7 @@ theorem mem_smoothLocus_of_isSmooth_openComplementRestriction
   have hTcopen : IsOpen (Space.pointsMap B S hS R f ⁻¹' Tᶜ) :=
     hT.isOpen_compl.preimage (Space.continuous_pointsMap B S hS f)
   have hp' : Space.pointsMap B S hS (yoneda.obj P) pr p ∈ Space.pointsMap B S hS R f ⁻¹' Tᶜ := by
-    show Space.pointsMap B S hS R f (Space.pointsMap B S hS (yoneda.obj P) pr p) ∈ Tᶜ
+    change Space.pointsMap B S hS R f (Space.pointsMap B S hS (yoneda.obj P) pr p) ∈ Tᶜ
     rwa [← Space.pointsMap_comp_apply]
   obtain ⟨VP, -, hxVP, δ, hδe, hδ⟩ :=
     exists_opens_lift_openSubspaceOfPoints B S hS hR hTcopen pr hpr p hp'

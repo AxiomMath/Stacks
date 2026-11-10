@@ -76,7 +76,7 @@ theorem gysinSystemOfInvertible_flatPullback (C : ChowSituation.{u}) {X' X : Sch
   subst hp
   induction x using QuotientAddGroup.induction_on with
   | H a =>
-    show (gysinSystemOfInvertible C).onChow (f ≫ p) ((Scheme.Modules.pullback f).obj L)
+    change (gysinSystemOfInvertible C).onChow (f ≫ p) ((Scheme.Modules.pullback f).obj L)
         (AlgebraicGeometry.pullbackGlobalSections f L s) (k + (r : ℤ))
         (chowGroupDegreeEquiv C (f ≫ p) _ (QuotientAddGroup.mk' _
           (flatPullback C (f ≫ p) p f rfl r hf (k + 1) a))) = _

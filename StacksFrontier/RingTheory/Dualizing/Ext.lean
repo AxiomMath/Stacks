@@ -230,7 +230,7 @@ lemma extendScalars_map_smul {R : Type u₁} {S : Type u₂} [CommRing R] [CommR
     fun m x => TensorProduct.tmul_smul c m x
   apply ModuleCat.ExtendScalars.hom_ext
   intro n
-  show ((1 : S) ⊗ₜ[R, φ] (c • n) : (ModuleCat.extendScalars.{u₁, u₂, max w u₂} φ).obj N)
+  change ((1 : S) ⊗ₜ[R, φ] (c • n) : (ModuleCat.extendScalars.{u₁, u₂, max w u₂} φ).obj N)
       = (φ c * (1 : S)) ⊗ₜ[R, φ] n
   exact key (1 : S) n
 
@@ -417,7 +417,7 @@ lemma homologyMap_complexUnit_isIso (K : CochainComplex C ℤ) (i : ℤ)
     IsIso ((HomologicalComplex.homologyFunctor C (ComplexShape.up ℤ) i).map
       ((complexUnit L τ).app K)) := by
   let S := K.sc i
-  show IsIso (ShortComplex.homologyMap (S.mapNatTrans τ))
+  change IsIso (ShortComplex.homologyMap (S.mapNatTrans τ))
   rw [ShortComplex.homologyMap_mapNatTrans]
   have : IsIso ((S.mapHomologyIso (𝟭 C)).hom) := inferInstance
   have : IsIso (τ.app S.homology) := hi
@@ -631,7 +631,7 @@ lemma homologyMap_unit_isIso (adj : P ⊣ Q) (K : CochainComplex C ℤ) (i : ℤ
   let S := K.sc i
   have : PreservesFiniteLimits (P ⋙ Q) := comp_preservesFiniteLimits P Q
   have : PreservesFiniteColimits (P ⋙ Q) := comp_preservesFiniteColimits P Q
-  show IsIso (ShortComplex.homologyMap ((K.sc i).mapNatTrans adj.unit))
+  change IsIso (ShortComplex.homologyMap ((K.sc i).mapNatTrans adj.unit))
   rw [ShortComplex.homologyMap_mapNatTrans]
   have : IsIso ((S.mapHomologyIso (𝟭 C)).hom) := inferInstance
   have : IsIso (adj.unit.app S.homology) := hi
@@ -742,7 +742,7 @@ lemma derivedPowerTorsion_iff_locDerived_isZero (I : Ideal A) (hI : I.FG)
     (X : DerivedCategory (ModuleCat.{max v u} A)) :
     Dualizing.derivedPowerTorsionProperty A I hI X ↔
       ∀ f ∈ s, IsZero ((locDerived.{v} f).obj X) := by
-  show (∀ i, IsIPowerTorsion A
+  change (∀ i, IsIPowerTorsion A
     ((DerivedCategory.homologyFunctor (ModuleCat.{max v u} A) i).obj X) I) ↔ _
   constructor
   · intro h f hf

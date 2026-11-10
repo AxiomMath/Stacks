@@ -100,7 +100,7 @@ theorem comp_mk₀_center_eq_zero (N M : C) (a : CatCenter C) (ha : a.app N = 0)
     Linear.smulOfRingMorphism (RingHom.id (CatCenter C))
   let : Linear (CatCenter C) C := Linear.ofRingMorphism (RingHom.id (CatCenter C))
   have hid (P : C) : a • 𝟙 P = a.app P := by
-    show a.app P ≫ 𝟙 P = _
+    change a.app P ≫ 𝟙 P = _
     exact Category.comp_id _
   have key : a • x = (Abelian.Ext.mk₀ (a • 𝟙 N)).comp x (zero_add q) := by
     rw [Abelian.Ext.mk₀_smul, Abelian.Ext.smul_comp, Abelian.Ext.mk₀_id_comp]

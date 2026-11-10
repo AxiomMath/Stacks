@@ -143,7 +143,8 @@ noncomputable def ringOfFunctionsLift (F : FppfSheaf B S hS) (E : TopCommRingCat
         { app := fun p => c p.obj.unop p.val
           naturality := fun p q k => by
             have h := hc p.obj.unop q.obj.unop k.hom.unop p.val
-            have hk : F.obj.map ((BigAffineFppf.inclusion B S hS).map k.hom.unop).op p.val = q.val :=
+            have hk :
+                F.obj.map ((BigAffineFppf.inclusion B S hS).map k.hom.unop).op p.val = q.val :=
               k.map_val
             rw [hk] at h
             exact (Category.id_comp _).trans h.symm } }

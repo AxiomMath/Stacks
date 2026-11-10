@@ -76,7 +76,7 @@ theorem exists_reductionι_fiberι_comp {X X' Y Y' : Scheme.{u}} {f : X ⟶ Y} {
   obtain ⟨φ, hφ, -⟩ := Scheme.existsUnique_lift_nilradical_subschemeι
     ((f'.fiber y').reductionι ≫ φ₀)
   refine ⟨(φ : (f'.fiber y').reduction ⟶ (f.fiber (g y')).reduction), ?_⟩
-  show φ ≫ (f.fiber (g y')).nilradical.subschemeι ≫ f.fiberι (g y') = _
+  change φ ≫ (f.fiber (g y')).nilradical.subschemeι ≫ f.fiberι (g y') = _
   have hφ₀ : φ₀ ≫ f.fiberι (g y') = f'.fiberι y' ≫ g' := pullback.lift_fst _ _ _
   rw [← Category.assoc, hφ, Category.assoc, hφ₀]
 

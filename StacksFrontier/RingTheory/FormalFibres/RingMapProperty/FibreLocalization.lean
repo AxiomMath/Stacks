@@ -126,7 +126,7 @@ section FiberLocalization
 variable {R S : Type*} [CommRing R] [CommRing S] [Algebra R S]
   (p : Ideal R) [p.IsPrime] (q : Ideal S) [q.IsPrime] [q.LiesOver p]
   [Algebra (Localization.AtPrime p) (Localization.AtPrime q)]
-  [Localization.AtPrime.IsLiesOverAlgebra p q]
+  [IsScalarTower R (Localization.AtPrime p) (Localization.AtPrime q)]
 
 private noncomputable abbrev toFiberLocalization :
     p.Fiber S →ₐ[p.ResidueField] p.Fiber (Localization.AtPrime q) :=
@@ -140,13 +140,13 @@ private noncomputable def fiberLocalizationAlgebra :
 attribute [local instance] fiberLocalizationAlgebra
 
 omit [q.LiesOver p] [Algebra (Localization.AtPrime p) (Localization.AtPrime q)]
-  [Localization.AtPrime.IsLiesOverAlgebra p q] in
+  [IsScalarTower R (Localization.AtPrime p) (Localization.AtPrime q)] in
 private lemma algebraMap_fiberLocalization_apply (x : p.Fiber S) :
     algebraMap (p.Fiber S) (p.Fiber (Localization.AtPrime q)) x =
       toFiberLocalization p q x := rfl
 
 omit [q.LiesOver p] [Algebra (Localization.AtPrime p) (Localization.AtPrime q)]
-  [Localization.AtPrime.IsLiesOverAlgebra p q] in
+  [IsScalarTower R (Localization.AtPrime p) (Localization.AtPrime q)] in
 private lemma isScalarTower_fiberLocalization :
     IsScalarTower p.ResidueField (p.Fiber S) (p.Fiber (Localization.AtPrime q)) :=
   IsScalarTower.of_algHom (toFiberLocalization p q)
@@ -336,8 +336,7 @@ private noncomputable def tensorLid : T ⊗[R] S ≃ₐ[T] S := by
   apply AlgEquiv.ofBijective f
   have hf : (f : T ⊗[R] S → S) = TensorProduct.lid' R T S := by
     funext x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul t s => simp [f, TensorProduct.lid'_apply_tmul, Algebra.smul_def]
     | add x y hx hy => simp [map_add, hx, hy]
   rw [hf]
@@ -546,7 +545,7 @@ private lemma atPrimeIsScalarTower (h : p ≤ m) :
       IsUnit (algebraMap R (Localization.AtPrime p) y) := fun y ↦
     IsLocalization.map_units (M := p.primeCompl) (Localization.AtPrime p)
       ⟨y.1, fun hy ↦ y.2 (h hy)⟩
-  show (algebraMap R (Localization.AtPrime p)) x =
+  change (algebraMap R (Localization.AtPrime p)) x =
     (IsLocalization.lift (S := Localization.AtPrime m) (g :=
       algebraMap R (Localization.AtPrime p)) hg)
       ((algebraMap R (Localization.AtPrime m)) x)

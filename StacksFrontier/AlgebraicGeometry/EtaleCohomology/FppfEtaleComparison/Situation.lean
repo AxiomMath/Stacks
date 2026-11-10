@@ -363,7 +363,7 @@ theorem fppfCovering_refinement_etale_finite (U : B.Schemes) (R : Presieve U)
   refine ⟨Presieve.ofArrows boundedSource boundedArrow, ?_, ?_⟩
   · rw [bigEtalePrecoverage_eq_comap, Precoverage.mem_comap_iff, Presieve.map_ofArrows]
     simp only [hboundedArrow]
-    show Presieve.ofArrows etaleSource etaleArrow ∈ Scheme.precoverage @Etale U.1
+    change Presieve.ofArrows etaleSource etaleArrow ∈ Scheme.precoverage @Etale U.1
     rw [Scheme.ofArrows_mem_precoverage_iff (@Etale)]
     refine ⟨fun point ↦ ?_, hetale⟩
     obtain ⟨index, sourcePoint, hpoint⟩ :=
@@ -387,7 +387,7 @@ theorem fppfCovering_refinement_etale_finite (U : B.Schemes) (R : Presieve U)
     obtain ⟨boundedFinite, hboundedFinite⟩ :=
       B.inclusion.map_surjective (X := W) (Y := boundedSource index) finiteMap
     refine ⟨W, boundedFinite, ?_, ?_, Presieve.singleton (𝟙 W), ?_, ?_⟩
-    · show IsFinite (B.inclusion.map boundedFinite)
+    · change IsFinite (B.inclusion.map boundedFinite)
       rw [hboundedFinite]
       infer_instance
     · rw [bigFppfPrecoverage_eq_comap, Precoverage.mem_comap_iff, Presieve.map_singleton,
@@ -395,7 +395,7 @@ theorem fppfCovering_refinement_etale_finite (U : B.Schemes) (R : Presieve U)
       exact finiteMap.singleton_mem_fppfPrecoverage
     · rw [bigEtalePrecoverage_eq_comap, Precoverage.mem_comap_iff, Presieve.map_singleton,
         show (associatedBigEtaleSite B).inclusion = B.inclusion from rfl, B.inclusion.map_id]
-      show Presieve.singleton (𝟙 source) ∈ Scheme.precoverage @Etale source
+      change Presieve.singleton (𝟙 source) ∈ Scheme.precoverage @Etale source
       rw [Scheme.singleton_mem_precoverage_iff (@Etale)]
       exact ⟨Function.surjective_id, inferInstance⟩
     · rintro Z identity ⟨⟩
@@ -407,7 +407,7 @@ theorem fppfCovering_refinement_etale_finite (U : B.Schemes) (R : Presieve U)
         exact Presieve.ofArrows.mk (refinement.s₀ index.1)
       · apply B.inclusion.map_injective
         simp only [Functor.map_comp, hfactor, hboundedFinite, hboundedArrow, Category.id_comp]
-        show (pullback.fst (finiteArrow index.1) affineArrow ≫
+        change (pullback.fst (finiteArrow index.1) affineArrow ≫
           refinement.h₀ index.1) ≫ schemeCover.f (refinement.s₀ index.1) =
             finiteMap ≫ etaleArrow index
         rw [Category.assoc, refinement.w₀, ← hcomp, ← Category.assoc, pullback.condition]

@@ -58,7 +58,7 @@ def etaleOverEquivalence {X : Scheme.{u}} (U : X.Etale) :
       (B := U) V.hom)
     map {V W} g := Over.homMk (MorphismProperty.Over.homMk g.left (by
       change g.left ≫ (W.hom ≫ U.hom) = V.hom ≫ U.hom
-      have h : g.left ≫ W.hom = V.hom := by simpa using g.w
+      have h : g.left ≫ W.hom = V.hom := by simp
       rw [← Category.assoc, h])) (by
         apply MorphismProperty.Comma.Hom.ext
         · exact g.w
@@ -68,7 +68,7 @@ def etaleOverEquivalence {X : Scheme.{u}} (U : X.Etale) :
   unitIso := NatIso.ofComponents (fun V ↦ Over.isoMk
     (MorphismProperty.Over.isoMk (Iso.refl _) (by
       change 𝟙 _ ≫ (V.hom.left ≫ U.hom) = V.left.hom
-      simpa using V.hom.w)) (by
+      simp)) (by
         apply MorphismProperty.Comma.Hom.ext
         · change 𝟙 _ ≫ V.hom.left = V.hom.left
           simp

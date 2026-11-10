@@ -76,17 +76,17 @@ public theorem isTaut_isomorphismInvariant :
   constructor
   · intro h
     simpa only [RingHom.comp_assoc] using RingHom.isTaut_comp (f.comp eB.symm.toRingHom)
-      eA.toRingHom (hf.comp heBs) heA
-      (RingHom.isTaut_comp eB.symm.toRingHom f heBs hf (isTaut_ringEquiv eB.symm heBs heB) h)
+      eA.toRingHom heA
+      (RingHom.isTaut_comp eB.symm.toRingHom f hf (isTaut_ringEquiv eB.symm heBs heB) h)
       (isTaut_ringEquiv eA heA heAs)
   · intro h
     have hpre : RingHom.IsTaut (f.comp eB.symm.toRingHom) := by
       convert RingHom.isTaut_comp ((eA.toRingHom.comp f).comp eB.symm.toRingHom)
-        eA.symm.toRingHom (heA.comp (hf.comp heBs)) heAs h
+        eA.symm.toRingHom heAs h
         (isTaut_ringEquiv eA.symm heAs heA) using 1
       ext x
       simp
-    convert RingHom.isTaut_comp eB.toRingHom (f.comp eB.symm.toRingHom) heB (hf.comp heBs)
+    convert RingHom.isTaut_comp eB.toRingHom (f.comp eB.symm.toRingHom) (hf.comp heBs)
       (isTaut_ringEquiv eB heB heBs) hpre using 1
     ext x
     simp

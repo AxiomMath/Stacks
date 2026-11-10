@@ -143,6 +143,7 @@ theorem isAffine_prod_of_mapsTo_isAffineOpen (U : BigFppfOver B S hS)
 variable {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance synthesis through the `BigFppfOver` pullback and `yoneda` terms of this proof
 /-- If `q' : h_{U'} ⟶ F` is quasi-compact and `U` is affine, then the scheme representing the
 fibre product of `q'` with a morphism `q : h_U ⟶ F` has compact underlying space. -/
 private theorem compactSpace_pullback_of_isQuasiCompact {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}

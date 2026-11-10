@@ -350,6 +350,8 @@ variable {A : Type u₁} {B : Type u₂} {D : Type u}
   [HomologicalComplex.HasMapBifunctor S.X₂ T.X₃ Φ (up ℤ)]
   [HomologicalComplex.HasMapBifunctor S.X₃ T.X₁ Φ (up ℤ)]
 
+omit [HomologicalComplex.HasMapBifunctor S.X₂ T.X₁ Φ (up ℤ)]
+  [HomologicalComplex.HasMapBifunctor S.X₃ T.X₁ Φ (up ℤ)] in
 /-- **The first commutative square of the source holds for a canonical, nonzero, choice of the
 pairings.**  Take `H := Tot(Φ(F₂, G₁))`, let `γ₁` be the map induced by `F₁ ⟶ F₂` and `γ₂` the
 map induced by `G₂ ⟶ G₁`.  The first square is then the naturality of `Φ` in its two variables.
@@ -363,6 +365,8 @@ theorem canonical_gamma_compat₁ :
   ext j i₁ i₂ h
   simp
 
+omit [HomologicalComplex.HasMapBifunctor S.X₁ T.X₂ Φ (up ℤ)]
+  [HomologicalComplex.HasMapBifunctor S.X₁ T.X₃ Φ (up ℤ)] in
 /-- **The second commutative square of the source holds for the same canonical pairings, with
 `γ₃ = 0`**, because the composite `G₃ ⟶ G₂ ⟶ G₁` of a short complex is zero. -/
 theorem canonical_gamma_compat₂ :

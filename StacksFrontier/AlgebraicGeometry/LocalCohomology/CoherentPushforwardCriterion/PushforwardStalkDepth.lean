@@ -216,7 +216,7 @@ theorem moduleFinite_pushforwardStalk [IsLocallyNoetherian X] (f : Y ⟶ X) [IsF
     IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
   have _ : IsScalarTower Γ(X, V) (X.presheaf.stalk x) (f.pushforwardStalk x) := by
     refine IsScalarTower.of_algebraMap_eq fun r ↦ ?_
-    show (f.app V ≫ f.pushforwardGerm V x hxV).hom r =
+    change (f.app V ≫ f.pushforwardGerm V x hxV).hom r =
       (f.pushforwardStalkMap x).hom ((X.presheaf.germ V x hxV).hom r)
     exact (ConcreteCategory.congr_hom (TopCat.Presheaf.stalkFunctor_map_germ V x hxV f.c) r).symm
   have _ : IsLocalization (hV.primeIdealOf ⟨x, hxV⟩).asIdeal.primeCompl (X.presheaf.stalk x) :=
@@ -309,7 +309,7 @@ theorem depth_stalk_pushforwardUnitModule_eq (f : Y ⟶ X) [IsAffineHom f] (x : 
     TopCat.Presheaf.algebra_section_stalk X.presheaf (⟨x, hxV⟩ : V)
   have _ : IsScalarTower Γ(X, V) (X.presheaf.stalk x) (f.pushforwardStalk x) := by
     refine IsScalarTower.of_algebraMap_eq fun r ↦ ?_
-    show (f.app V ≫ f.pushforwardGerm V x hxV).hom r =
+    change (f.app V ≫ f.pushforwardGerm V x hxV).hom r =
       (f.pushforwardStalkMap x).hom ((X.presheaf.germ V x hxV).hom r)
     exact (ConcreteCategory.congr_hom (TopCat.Presheaf.stalkFunctor_map_germ V x hxV f.c) r).symm
   have _ : IsLocalization (hV.primeIdealOf ⟨x, hxV⟩).asIdeal.primeCompl (X.presheaf.stalk x) :=

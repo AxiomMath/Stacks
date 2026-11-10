@@ -311,7 +311,7 @@ private lemma mem_biprod_map {W : MorphismProperty C} (hW : W.IsSaturated) {X X'
   have hQs : IsIso (W.Q.map s) := Localization.inverts W.Q W _ hs
   have hQs' : IsIso (W.Q.map s') := Localization.inverts W.Q W _ hs'
   rw [← hW.invertedClosure_eq]
-  show IsIso (W.Q.map (biprod.map s s'))
+  change IsIso (W.Q.map (biprod.map s s'))
   have hfst : biprod.map s s' ≫ (biprod.fst : X' ⊞ Y' ⟶ X') = biprod.fst ≫ s := by simp
   have hsnd : biprod.map s s' ≫ (biprod.snd : X' ⊞ Y' ⟶ Y') = biprod.snd ≫ s' := by simp
   have hinl : (biprod.inl : X ⟶ X ⊞ Y) ≫ biprod.map s s' = s ≫ biprod.inl := by simp
@@ -466,14 +466,14 @@ private noncomputable def mapSnd (F : C ⥤ H) {W : MorphismProperty C} (hW : W.
 private lemma mapInl_comp_mapFst (F : C ⥤ H) {W : MorphismProperty C} (hW : W.IsSaturated)
     (X Y : C) : mapInl F hW X Y ≫ mapFst F hW X Y = 𝟙 _ := by
   ext p
-  show F.map (biprod.inl : p.1.right ⟶ p.1.right ⊞ p.2.right) ≫
+  change F.map (biprod.inl : p.1.right ⟶ p.1.right ⊞ p.2.right) ≫
       F.map (biprod.fst : p.1.right ⊞ p.2.right ⟶ p.1.right) = 𝟙 _
   rw [← F.map_comp, biprod.inl_fst, F.map_id]
 
 private lemma mapInr_comp_mapSnd (F : C ⥤ H) {W : MorphismProperty C} (hW : W.IsSaturated)
     (X Y : C) : mapInr F hW X Y ≫ mapSnd F hW X Y = 𝟙 _ := by
   ext p
-  show F.map (biprod.inr : p.2.right ⟶ p.1.right ⊞ p.2.right) ≫
+  change F.map (biprod.inr : p.2.right ⟶ p.1.right ⊞ p.2.right) ≫
       F.map (biprod.snd : p.1.right ⊞ p.2.right ⟶ p.2.right) = 𝟙 _
   rw [← F.map_comp, biprod.inr_snd, F.map_id]
 
@@ -674,14 +674,14 @@ private noncomputable def mapInrOp (F : C ⥤ H) {W : MorphismProperty C} (hW : 
 private lemma mapFstOp_comp_mapInlOp (F : C ⥤ H) {W : MorphismProperty C} (hW : W.IsSaturated)
     (X Y : C) : mapFstOp F hW X Y ≫ mapInlOp F hW X Y = 𝟙 _ := by
   ext p
-  show F.map (biprod.inl : p.unop.1.left ⟶ p.unop.1.left ⊞ p.unop.2.left) ≫
+  change F.map (biprod.inl : p.unop.1.left ⟶ p.unop.1.left ⊞ p.unop.2.left) ≫
       F.map (biprod.fst : p.unop.1.left ⊞ p.unop.2.left ⟶ p.unop.1.left) = 𝟙 _
   rw [← F.map_comp, biprod.inl_fst, F.map_id]
 
 private lemma mapSndOp_comp_mapInrOp (F : C ⥤ H) {W : MorphismProperty C} (hW : W.IsSaturated)
     (X Y : C) : mapSndOp F hW X Y ≫ mapInrOp F hW X Y = 𝟙 _ := by
   ext p
-  show F.map (biprod.inr : p.unop.2.left ⟶ p.unop.1.left ⊞ p.unop.2.left) ≫
+  change F.map (biprod.inr : p.unop.2.left ⟶ p.unop.1.left ⊞ p.unop.2.left) ≫
       F.map (biprod.snd : p.unop.1.left ⊞ p.unop.2.left ⟶ p.unop.2.left) = 𝟙 _
   rw [← F.map_comp, biprod.inr_snd, F.map_id]
 
@@ -828,11 +828,11 @@ private lemma binaryBiproductTriangle_inr_fst_distinguished (X Y : C) :
     Triangle.mk (biprod.inr : Y ⟶ X ⊞ Y) (biprod.fst : X ⊞ Y ⟶ X) 0 ∈ distTriang C := by
   refine isomorphic_distinguished _ (binaryBiproductTriangle_distinguished Y X) _
     (Triangle.isoMk _ _ (Iso.refl _) (biprod.braiding X Y) (Iso.refl _) ?_ ?_ ?_)
-  · show (biprod.inr : Y ⟶ X ⊞ Y) ≫ (biprod.braiding X Y).hom = 𝟙 Y ≫ biprod.inl
+  · change (biprod.inr : Y ⟶ X ⊞ Y) ≫ (biprod.braiding X Y).hom = 𝟙 Y ≫ biprod.inl
     ext <;> simp [biprod.braiding]
-  · show (biprod.fst : X ⊞ Y ⟶ X) ≫ 𝟙 X = (biprod.braiding X Y).hom ≫ biprod.snd
+  · change (biprod.fst : X ⊞ Y ⟶ X) ≫ 𝟙 X = (biprod.braiding X Y).hom ≫ biprod.snd
     simp [biprod.braiding]
-  · show (0 : X ⟶ Y⟦(1 : ℤ)⟧) ≫ (shiftFunctor C (1 : ℤ)).map (Iso.refl Y).hom
+  · change (0 : X ⟶ Y⟦(1 : ℤ)⟧) ≫ (shiftFunctor C (1 : ℤ)).map (Iso.refl Y).hom
       = (Iso.refl X).hom ≫ 0
     simp
 
@@ -1352,7 +1352,7 @@ private lemma coprj_twistUnder_idUnder_comp (hW : W.IsSaturated) (θ : Z ≅ A �
     (ρ : c.pt ⟶ F.obj Z) (hρ : canCoprj c ≫ ρ = 𝟙 (F.obj Z)) :
     coprj c (twistUnder hW θ (idUnder W A)) ≫ ρ = F.map θ.inv := by
   have hid : (twistUnder hW θ (idUnder W A)).hom = θ.hom := by
-    show θ.hom ≫ biprod.map (𝟙 A) (𝟙 B) = θ.hom
+    change θ.hom ≫ biprod.map (𝟙 A) (𝟙 B) = θ.hom
     rw [biprod_map_id, Category.comp_id]
   have key : F.map θ.hom ≫ coprj c (twistUnder hW θ (idUnder W A)) ≫ ρ = 𝟙 (F.obj Z) := by
     rw [← hid, ← Category.assoc, map_hom_comp_coprj c (twistUnder hW θ (idUnder W A)), hρ]
@@ -1365,7 +1365,7 @@ private lemma comp_proj_twistOver_idOver (hW : W.IsSaturated) (θ : Z ≅ A ⊞ 
     (ρ : F.obj Z ⟶ c.pt) (hρ : ρ ≫ canProj c = 𝟙 (F.obj Z)) :
     ρ ≫ proj c (twistOver hW θ (idOver W A)) = F.map θ.hom := by
   have hid : (twistOver hW θ (idOver W A)).hom = θ.inv := by
-    show biprod.map (𝟙 A) (𝟙 B) ≫ θ.inv = θ.inv
+    change biprod.map (𝟙 A) (𝟙 B) ≫ θ.inv = θ.inv
     rw [biprod_map_id, Category.id_comp]
   have key : ρ ≫ proj c (twistOver hW θ (idOver W A)) ≫ F.map θ.inv = 𝟙 (F.obj Z) := by
     rw [← hid, proj_comp_map_hom c (twistOver hW θ (idOver W A)), hρ]
@@ -1399,7 +1399,7 @@ private lemma map_right_comp_summandCoprj (hW : W.IsSaturated) (θ : Z ≅ A ⊞
     (ρ : c.pt ⟶ F.obj Z) {a b : W.Under ⊤ A} (u : a ⟶ b) :
     F.map u.right ≫ summandCoprj hW θ c ρ b = summandCoprj hW θ c ρ a := by
   have hw : (twistUnder hW θ a).hom ≫ biprod.map u.right (𝟙 B) = (twistUnder hW θ b).hom := by
-    show (θ.hom ≫ biprod.map a.hom (𝟙 B)) ≫ biprod.map u.right (𝟙 B)
+    change (θ.hom ≫ biprod.map a.hom (𝟙 B)) ≫ biprod.map u.right (𝟙 B)
       = θ.hom ≫ biprod.map b.hom (𝟙 B)
     rw [Category.assoc, biprod_map_comp, Category.comp_id, MorphismProperty.Under.w u]
     rfl
@@ -1419,7 +1419,7 @@ private lemma summandProj_comp_map_left (hW : W.IsSaturated) (θ : Z ≅ A ⊞ B
     (ρ : F.obj Z ⟶ c.pt) {a b : W.Over ⊤ A} (u : a ⟶ b) :
     summandProj hW θ c ρ a ≫ F.map u.left = summandProj hW θ c ρ b := by
   have hw : biprod.map u.left (𝟙 B) ≫ (twistOver hW θ b).hom = (twistOver hW θ a).hom := by
-    show biprod.map u.left (𝟙 B) ≫ biprod.map b.hom (𝟙 B) ≫ θ.inv
+    change biprod.map u.left (𝟙 B) ≫ biprod.map b.hom (𝟙 B) ≫ θ.inv
       = biprod.map a.hom (𝟙 B) ≫ θ.inv
     rw [← Category.assoc, biprod_map_comp, Category.comp_id, MorphismProperty.Over.w u]
     rfl
@@ -1485,7 +1485,7 @@ private lemma isRightDerivedValueAt_summandCocone (hW : W.IsSaturated) (θ : Z �
   have := hW.isMultiplicative
   have := hW.hasLeftCalculusOfFractions
   refine ⟨idUnder W A, 𝟙 (F.obj A), ?_, fun s => ?_⟩
-  · show 𝟙 (F.obj A) ≫ summandCoprj hW θ c ρ (idUnder W A) = 𝟙 (F.obj A)
+  · change 𝟙 (F.obj A) ≫ summandCoprj hW θ c ρ (idUnder W A) = 𝟙 (F.obj A)
     rw [Category.id_comp, summandCoprj_idUnder hW θ c ρ hρ₁]
   obtain ⟨w, p, hp⟩ := exists_map_right_eq_coprj_comp c hc ρ hρ₂ (twistUnder hW θ s)
   obtain ⟨A'', α, k, hα, hk⟩ := exists_leftOre W (biprod.fst : A ⊞ B ⟶ A)
@@ -1506,7 +1506,7 @@ private lemma isRightDerivedValueAt_summandCocone (hW : W.IsSaturated) (θ : Z �
   refine ⟨MorphismProperty.Under.mk ⊤ α hα,
     MorphismProperty.Under.homMk (biprod.inl ≫ p.right ≫ k) hu,
     MorphismProperty.Under.homMk α (Category.id_comp α), ?_⟩
-  show F.map (biprod.inl ≫ p.right ≫ k)
+  change F.map (biprod.inl ≫ p.right ≫ k)
     = summandCoprj hW θ c ρ s ≫ 𝟙 (F.obj A) ≫ F.map α
   rw [Category.id_comp, summandCoprj_def, F.map_comp, F.map_comp, hp]
   simp only [Category.assoc, hkey]
@@ -1522,7 +1522,7 @@ private lemma isLeftDerivedValueAt_summandCone (hW : W.IsSaturated) (θ : Z ≅ 
   have := hW.isMultiplicative
   have := hW.hasRightCalculusOfFractions
   refine ⟨idOver W A, 𝟙 (F.obj A), ?_, fun s => ?_⟩
-  · show summandProj hW θ c ρ (idOver W A) ≫ 𝟙 (F.obj A) = 𝟙 (F.obj A)
+  · change summandProj hW θ c ρ (idOver W A) ≫ 𝟙 (F.obj A) = 𝟙 (F.obj A)
     rw [summandProj_idOver hW θ c ρ hρ₁, Category.id_comp]
   obtain ⟨w, p, hp⟩ := exists_map_left_eq_comp_proj c hc ρ hρ₂ (twistOver hW θ s)
   obtain ⟨A'', α, k, hα, hk⟩ := exists_rightOre W (biprod.inl : A ⟶ A ⊞ B)
@@ -1543,7 +1543,7 @@ private lemma isLeftDerivedValueAt_summandCone (hW : W.IsSaturated) (θ : Z ≅ 
   refine ⟨MorphismProperty.Over.mk ⊤ α hα,
     MorphismProperty.Over.homMk (k ≫ p.left ≫ biprod.fst) hu,
     MorphismProperty.Over.homMk α (Category.comp_id α), ?_⟩
-  show F.map (k ≫ p.left ≫ biprod.fst)
+  change F.map (k ≫ p.left ≫ biprod.fst)
     = F.map α ≫ 𝟙 (F.obj A) ≫ summandProj hW θ c ρ s
   rw [Category.id_comp, summandProj_def, F.map_comp, F.map_comp, hp]
   simp only [Category.assoc]

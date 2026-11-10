@@ -204,7 +204,7 @@ theorem exists_nonZeroDivisor_mem_stalkIdeal_bundleSectionOf
       (Stacks.ProjectiveBundleSplitting.tautologicalTwist E hqc)
         (bundleSectionOf E hqc s)).comap c).support := by
     rw [Scheme.IdealSheafData.support_comap]
-    show c ξ' ∈ (Stacks.Divisors.zeroScheme _
+    change c ξ' ∈ (Stacks.Divisors.zeroScheme _
       (Stacks.ProjectiveBundleSplitting.tautologicalTwist E hqc) (bundleSectionOf E hqc s)).support
     rwa [hcξ]
   have hdeg := exists_nonZeroDivisor_mem_stalkIdeal_degreeSection

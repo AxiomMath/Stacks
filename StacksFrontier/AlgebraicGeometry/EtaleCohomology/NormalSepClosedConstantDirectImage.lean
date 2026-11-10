@@ -140,7 +140,7 @@ private theorem exists_open_lift_of_separated_etale
   refine ⟨(j i).opensRange, g, ?_, ?_⟩
   · dsimp [g]
     rw [← he]
-    simp only [Category.assoc, e.inv_hom_id_assoc, Sigma.ι_desc,
+    simp only [Category.assoc, e.inv_hom_id_assoc, Sigma.ι_comp_desc,
       Scheme.Hom.isoOpensRange_inv_comp]
   · refine ⟨(j i).isoOpensRange.hom y, ?_⟩
     simpa [g, Scheme.Hom.comp_apply] using congrArg (fun z => e.inv z) hy'
@@ -215,7 +215,7 @@ private theorem opensToEtale_functorPushforward_mem_iff (X : Scheme.{u})
     obtain ⟨i, a, ha⟩ := Sieve.ofArrows.exists hg
     refine Set.mem_iUnion.mpr ⟨i, ⟨x.1, a.le hx⟩, ?_⟩
     apply Subtype.ext
-    show (X.homOfLE (f i).le ⟨x.1, a.le hx⟩).val = x.val
+    change (X.homOfLE (f i).le ⟨x.1, a.le hx⟩).val = x.val
     exact X.homOfLE_apply _ _
 
 private theorem opensToEtale_isDenseSubsite
@@ -279,7 +279,7 @@ private theorem isZero_rightDerived_of_subsingleton_ext
   | succ n =>
     let I := injectiveResolution F
     apply IsZero.of_iso _ (I.isoRightDerivedObj G (n + 1))
-    show IsZero (((G.mapHomologicalComplex (.up ℕ)).obj I.cocomplex).homology (n + 1))
+    change IsZero (((G.mapHomologicalComplex (.up ℕ)).obj I.cocomplex).homology (n + 1))
     rw [← HomologicalComplex.exactAt_iff_isZero_homology,
       HomologicalComplex.exactAt_iff' _ n (n + 1) (n + 2) (by simp) (by simp),
       ShortComplex.ab_exact_iff]
@@ -295,7 +295,7 @@ private theorem isZero_rightDerived_of_subsingleton_ext
       exact hx
     obtain ⟨b, hb⟩ := (I.extMk_eq_zero_iff a (n + 2) rfl ha n rfl).mp (h.elim _ _)
     refine ⟨e _ b, ?_⟩
-    show G.map (I.cocomplex.d n (n + 1)) (e _ b) = x
+    change G.map (I.cocomplex.d n (n + 1)) (e _ b) = x
     rw [← he, hb]
     exact (e _).apply_symm_apply x
 
@@ -321,7 +321,7 @@ private theorem isZero_rightDerived_sections_of_subsingleton_cohomology
   apply isZero_rightDerived_of_subsingleton_ext
     ((sheafSections J AddCommGrpCat.{w}).obj (Opposite.op T)) Z F e _ q hq h
   intro W W' a g
-  show ((constantSheafAdj J AddCommGrpCat.{w} hT).homEquiv _ W' (a ≫ g))
+  change ((constantSheafAdj J AddCommGrpCat.{w} hT).homEquiv _ W' (a ≫ g))
       (ULift.up (1 : ℤ)) =
     g.hom.app (Opposite.op T)
       (((constantSheafAdj J AddCommGrpCat.{w} hT).homEquiv _ W a) (ULift.up (1 : ℤ)))
@@ -387,7 +387,7 @@ private theorem etaleSheaf_amalgamate_coproduct
   let a (i : I) : U i ⟶ V := etaleCoproductι U i
   let (i : I) : Mono (a i) := by
     apply (Scheme.Etale.forget X ⋙ Over.forget X).mono_of_mono_map
-    show Mono (Sigma.ι (fun i => (U i).left) i)
+    change Mono (Sigma.ι (fun i => (U i).left) i)
     infer_instance
   apply etaleSheaf_amalgamate_disjoint F a
   · apply (Scheme.ofArrows_mem_smallEtaleTopology_iff _).mpr
@@ -395,7 +395,7 @@ private theorem etaleSheaf_amalgamate_coproduct
     intro x
     obtain ⟨⟨i, y⟩, hy⟩ := (AlgebraicGeometry.sigmaMk fun i => (U i).left).surjective x
     exact Set.mem_iUnion.mpr ⟨i, y, by
-      show Sigma.ι (fun i => (U i).left) i y = x
+      change Sigma.ι (fun i => (U i).left) i y = x
       simpa only [AlgebraicGeometry.sigmaMk_mk] using hy⟩
   · intro W i j b c h hij
     refine ⟨fun x => hij ?_⟩
@@ -501,7 +501,7 @@ private theorem isZero_rightDerived_etaleCoproduct_of_components
       apply (HomologicalComplex.exactAt_iff_isZero_homology _ _).mpr
       exact (h i).of_iso (R.isoRightDerivedObj (G (U i)) (n + 1)).symm
     apply IsZero.of_iso _ (R.isoRightDerivedObj (G (etaleCoproduct U)) (n + 1))
-    show IsZero ((((G (etaleCoproduct U)).mapHomologicalComplex (.up ℕ)).obj
+    change IsZero ((((G (etaleCoproduct U)).mapHomologicalComplex (.up ℕ)).obj
       R.cocomplex).homology (n + 1))
     rw [← HomologicalComplex.exactAt_iff_isZero_homology,
       HomologicalComplex.exactAt_iff' _ n (n + 1) (n + 2) (by simp) (by simp),
@@ -514,7 +514,7 @@ private theorem isZero_rightDerived_etaleCoproduct_of_components
       have hi := (HomologicalComplex.exactAt_iff' _ n (n + 1) (n + 2)
         (by simp) (by simp)).mp (he i)
       apply ((ShortComplex.ab_exact_iff _).mp hi)
-      show (R.cocomplex.d (n + 1) (n + 2)).hom.app (Opposite.op (U i))
+      change (R.cocomplex.d (n + 1) (n + 2)).hom.app (Opposite.op (U i))
         ((R.cocomplex.X (n + 1)).obj.map (etaleCoproductι U i).op x) = 0
       have hn := ConcreteCategory.congr_hom
         ((R.cocomplex.d (n + 1) (n + 2)).hom.naturality (etaleCoproductι U i).op) x
@@ -524,7 +524,7 @@ private theorem isZero_rightDerived_etaleCoproduct_of_components
     choose b hb using hb
     obtain ⟨y, hy⟩ := etaleSheaf_coproduct_sections_surjective (R.cocomplex.X n) U b
     refine ⟨y, ?_⟩
-    show (R.cocomplex.d n (n + 1)).hom.app
+    change (R.cocomplex.d n (n + 1)).hom.app
       (Opposite.op (etaleCoproduct U)) y = x
     apply etaleSheaf_coproduct_sections_injective (R.cocomplex.X (n + 1)) U
     funext i
@@ -578,7 +578,7 @@ private theorem extendByInitialFunctor_preservesMonomorphisms
   intro F G f hf
   rw [NatTrans.mono_iff_mono_app]
   intro V
-  show Mono (TopCat.Presheaf.ExtensionByInitial.appMap U f V)
+  change Mono (TopCat.Presheaf.ExtensionByInitial.appMap U f V)
   unfold TopCat.Presheaf.ExtensionByInitial.appMap
   split_ifs with hV
   · infer_instance
@@ -596,11 +596,11 @@ private theorem sheafRestrict_preservesInjectiveObjects
       (C := AddCommGrpCat.{w}) U).PreservesMonomorphisms := by
     constructor
     intro F G f hf
-    show Mono ((presheafToSheaf (Opens.grothendieckTopology T) AddCommGrpCat.{w}).map
+    change Mono ((presheafToSheaf (Opens.grothendieckTopology T) AddCommGrpCat.{w}).map
       ((TopCat.Presheaf.extendByInitialFunctor U).map f.hom))
     let : Mono f := hf
     have : Mono f.hom := by
-      show Mono ((sheafToPresheaf _ _).map f)
+      change Mono ((sheafToPresheaf _ _).map f)
       exact @Functor.map_mono _ _ _ _ (sheafToPresheaf _ _) _ _ _ f hf
     have : Mono ((TopCat.Presheaf.extendByInitialFunctor U).map f.hom) :=
       Functor.map_mono _ _
@@ -661,7 +661,7 @@ private theorem isZero_rightDerived_openSections_constantSheaf
       (Opens.isOpenEmbedding_obj_top U).symm).op)
       (by
         intro X Y f
-        show f.hom.app _ ≫ Y.obj.map _ = X.obj.map _ ≫ f.hom.app _
+        change f.hom.app _ ≫ Y.obj.map _ = X.obj.map _ ≫ f.hom.app _
         exact (f.hom.naturality (eqToIso (Opens.isOpenEmbedding_obj_top U).symm).hom.op).symm)
   apply IsZero.of_iso _ ((DerivedFunctor.rightDerivedIso e q).symm.app _)
   apply IsZero.of_iso _ (rightDerivedCompIso_of_preservesInjectiveObjects G H _ q)
@@ -740,7 +740,7 @@ private theorem isZero_rightDerived_etaleOpenSections_constantSheaf
     let : G.IsRightAdjoint := ⟨_, ⟨E.toAdjunction⟩⟩
     let : G.PreservesZeroMorphisms := Functor.preservesZeroMorphisms_of_isRightAdjoint G
     let : G.Additive := Functor.additive_of_preserves_binary_products _
-    show IsZero (((G ⋙ H).rightDerived q).obj _)
+    change IsZero (((G ⋙ H).rightDerived q).obj _)
     apply IsZero.of_iso _ (rightDerivedCompIso_of_preservesInjectiveObjects G H _ q)
     let F := (constantSheaf X.smallEtaleTopology AddCommGrpCat.{w}).obj M
     let e : G.obj F ≅ (constantSheaf (Opens.grothendieckTopology X)
@@ -822,7 +822,7 @@ public theorem isZero_rightDerived_smallEtalePushforward_constantSheaf
     have hP : IsSeparated P.hom := by
       let : V.left.IsSeparated := inferInstance
       have : IsSeparated (V.hom : V.left ⟶ Y) := inferInstance
-      show IsSeparated (pullback.snd (V.hom : V.left ⟶ Y) f)
+      change IsSeparated (pullback.snd (V.hom : V.left ⟶ Y) f)
       infer_instance
     obtain ⟨I, U, j, hj, e, he⟩ :=
       AlgebraicGeometry.exists_coproduct_open_immersions X P.left P.hom

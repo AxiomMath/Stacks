@@ -109,7 +109,7 @@ public theorem comparisonComp_starIteratedSliceForwardIsoPullback :
         (𝟙 ((R.over U).over (Over.mk f))) := by
   ext : 2
   funext Z
-  show R.obj.map (Quiver.Hom.op (pullback.fst (Over.hom Z.unop) f)) ≫
+  change R.obj.map (Quiver.Hom.op (pullback.fst (Over.hom Z.unop) f)) ≫
       R.obj.map (Quiver.Hom.op
         ((starIteratedSliceForwardIsoPullback f).hom.app Z.unop).left) =
     R.obj.map (Quiver.Hom.op (prod.snd : Over.mk f ⨯ Z.unop ⟶ Z.unop).left) ≫ 𝟙 _

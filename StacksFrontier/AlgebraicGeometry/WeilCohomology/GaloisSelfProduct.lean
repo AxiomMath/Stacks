@@ -219,7 +219,7 @@ lemma spec_eval_comp_specPiIsoSelfProduct (σ : k' ≃ₐ[k] k') :
   · simp only [specPiIsoSelfProduct, Iso.trans_hom, Iso.symm_hom, Functor.mapIso_hom, Iso.op_hom,
       Category.assoc, pullbackSpecIso_inv_fst, pullbackSpecIso_inv_snd,
       specGaloisCoprojection_fst, specGaloisCoprojection_snd]
-    show Spec.map _ ≫ Spec.map _ ≫ Spec.map _ = _
+    change Spec.map _ ≫ Spec.map _ ≫ Spec.map _ = _
     rw [← Spec.map_comp, ← Spec.map_comp]
     first
     | rw [← Spec.map_id]; congr 1; ext x

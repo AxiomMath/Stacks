@@ -211,7 +211,7 @@ theorem smul_top_le_ker_toMapCotangent :
   rw [Submodule.smul_le]
   intro r hr x _
   rw [LinearMap.mem_ker, toMapCotangent_apply, Ideal.toCotangent_eq_zero, pow_two]
-  show algebraMap R S ((r • x : ↥I) : R) ∈ _
+  change algebraMap R S ((r • x : ↥I) : R) ∈ _
   rw [show ((r • x : ↥I) : R) = r * (x : R) from rfl, map_mul]
   exact Ideal.mul_mem_mul (Ideal.mem_map_of_mem _ hr) (Ideal.mem_map_of_mem _ x.2)
 

@@ -75,7 +75,7 @@ theorem isInvertible_of_isGorensteinRing
     MonoidalCategory.IsInvertible K := by
   let := (DerivedCategory.Invertible.derivedCategory_symmetricMonoidalCategory A).choose
   apply (DerivedCategory.Invertible.isInvertible_iff_locallyShiftedUnit K).1.mpr
-  show ∀ p : Ideal A, p.IsPrime →
+  change ∀ p : Ideal A, p.IsPrime →
       ∃ f : A, f ∉ p ∧ ∃ n : ℤ,
         Nonempty
           (((totalDerivedExtensionScalars.{u, u, u}

@@ -236,13 +236,15 @@ theorem rep_targetRestriction : yoneda.relativelyRepresentable (targetRestrictio
 theorem rep_ambientRestriction : yoneda.relativelyRepresentable (ambientRestriction i f g).hom :=
   relativelyRepresentable_of_isAffineHom B S hS _ (isAffineHom_ambientRestriction i f g hi hf)
 
+omit hi in
 /-- The morphism `U ⟶ V` is representable. -/
 theorem rep_commonToTarget : yoneda.relativelyRepresentable (commonToTarget i f g).hom :=
-  relativelyRepresentable_of_isAffineHom B S hS _ (isAffineHom_commonToTarget i f g hi hf)
+  relativelyRepresentable_of_isAffineHom B S hS _ (isAffineHom_commonToTarget i f g hf)
 
+omit hf in
 /-- The morphism `U ⟶ U'` is representable. -/
 theorem rep_commonToAmbient : yoneda.relativelyRepresentable (commonToAmbient i f g).hom :=
-  relativelyRepresentable_of_isAffineHom B S hS _ (isAffineHom_commonToAmbient i f g hi hf)
+  relativelyRepresentable_of_isAffineHom B S hS _ (isAffineHom_commonToAmbient i f g hi)
 
 /-- The composite `U ⟶ V ⟶ V'` is representable. -/
 theorem rep_commonTargetComp :

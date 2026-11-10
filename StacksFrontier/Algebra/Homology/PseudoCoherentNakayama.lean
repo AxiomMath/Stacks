@@ -82,9 +82,9 @@ theorem isPseudoCoherent_totalDerivedExtensionScalars_obj
     have := (hE.finiteFree i).2
     let : Algebra R B := φ.toAlgebra
     constructor
-    · show Module.Finite B (TensorProduct R B (E.X i))
+    · change Module.Finite B (TensorProduct R B (E.X i))
       infer_instance
-    · show Module.Free B (TensorProduct R B (E.X i))
+    · change Module.Free B (TensorProduct R B (E.X i))
       infer_instance
 
 /-- **Stacks 064V**, the cone case. In a distinguished triangle `K → L → C → K[1]` of `D(R)` whose

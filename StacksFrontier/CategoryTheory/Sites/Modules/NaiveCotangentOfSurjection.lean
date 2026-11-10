@@ -129,7 +129,7 @@ omit [HasWeakSheafify J CommRingCat.{u}] in
     (Stacks.Sites.Conormal.conormalPresheaf a.hom)
   intro X cl
   obtain ⟨x, rfl⟩ := (kernelIdeal a.hom X).toCotangent_surjective cl
-  show (conormalSequence.{u, u, u, u} J A P B c φ).f.val.app X
+  change (conormalSequence.{u, u, u, u} J A P B c φ).f.val.app X
       ((conormalSheafMapOfSquare.{u, u, u, u} J A P B B a φ c (𝟙 B) h).val.app X
         (conormalClass.{u, u, u, u} J A A B (𝟙 A) a X x)) =
     (0 : conormalSheaf.{u, u, u, u} J A B a ⟶ _).val.app X
@@ -139,7 +139,7 @@ omit [HasWeakSheafify J CommRingCat.{u}] in
   refine (Stacks.Sites.Conormal.conormalSequence_f_class.{u, u, u, u} J A P B c φ X _).trans ?_
   refine Eq.trans ?_ (rfl : (0 : (conormalSequence.{u, u, u, u} J A P B c φ).X₂.val.obj X) =
     (0 : conormalSheaf.{u, u, u, u} J A B a ⟶ _).val.app X _)
-  show toAssociatedModule.{u, u, u, u} J P B φ
+  change toAssociatedModule.{u, u, u, u} J P B φ
       (Stacks.Sites.Conormal.tensorPresheaf φ.hom c.hom) X
       ((1 : _ ⧸ kernelIdeal φ.hom X) ⊗ₜ[_]
         CommRingCat.KaehlerDifferential.d (f := c.hom.app X) (c.hom.app X x)) = 0
@@ -291,7 +291,7 @@ theorem conormalToNaiveCotangentComplex_comp_mapOfBase (a' : A' ⟶ B)
   rw [HomologicalComplex.comp_f, HomologicalComplex.comp_f,
     conormalToNaiveCotangentComplex_f_negOne, naiveCotangentComplexMapOfBase_f_negOne,
     conormalToNaiveCotangentComplex_f_negOne]
-  show _ = ((HomologicalComplex.single _ (ComplexShape.up ℤ) (-1)).map _).f (-1) ≫ _
+  change _ = ((HomologicalComplex.single _ (ComplexShape.up ℤ) (-1)).map _).f (-1) ≫ _
   rw [HomologicalComplex.single_map_f_self]
   simp only [Category.assoc, eqToHom_trans_assoc, eqToHom_refl, Category.id_comp,
     Iso.inv_hom_id_assoc]
@@ -324,7 +324,7 @@ theorem conormalToNaiveCotangentComplex_comp_mapOfSquare :
     conormalToNaiveCotangentComplex_f_negOne, naiveCotangentComplexMapOfSquare_f_negOne,
     Functor.mapHomologicalComplex_map_f, conormalToNaiveCotangentComplex_f_negOne,
     HomologicalComplex.singleMapHomologicalComplex_inv_app_self]
-  show _ = ((HomologicalComplex.single _ (ComplexShape.up ℤ) (-1)).map _).f (-1) ≫ _
+  change _ = ((HomologicalComplex.single _ (ComplexShape.up ℤ) (-1)).map _).f (-1) ≫ _
   rw [HomologicalComplex.single_map_f_self]
   simp only [Category.assoc, Functor.map_comp, eqToHom_trans_assoc, eqToHom_refl,
     Category.id_comp]
@@ -363,7 +363,7 @@ theorem differentialsMapOfSquare_eq_zero_of_factor (X : Cᵒᵖ)
   induction mem using Submodule.span_induction with
   | mem x hx =>
       obtain ⟨x, rfl⟩ := hx
-      show differentialsMapOfSquare (δ ≫ a₂) a₁ a₂ ρ ha X
+      change differentialsMapOfSquare (δ ≫ a₂) a₁ a₂ ρ ha X
         (CommRingCat.KaehlerDifferential.d (f := a₁.app X) x) = 0
       rw [differentialsMapOfSquare_d]
       exact ModuleCat.Derivation.d_map (CommRingCat.KaehlerDifferential.D (a₂.app X))
@@ -377,8 +377,7 @@ include hsq ha in
 theorem tensorMapOfSquareₛₗ_eq_zero_of_factor (X : Cᵒᵖ)
     (t : (A₁.obj X ⧸ kernelIdeal φ₁ X) ⊗[A₁.obj X] ((differentialsPresheaf a₁).obj X)) :
     tensorMapOfSquareₛₗ φ₁ φ₂ (δ ≫ a₂) β hsq a₁ a₂ ρ ha X t = 0 := by
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul b ω =>
       refine (TensorProduct.map_tmul _ _ b ω).trans ?_
       rw [differentialsMapOfSquare_eq_zero_of_factor a₁ a₂ δ ρ ha X ω]
@@ -895,7 +894,7 @@ theorem surjectionEta_comp_comparison :
   have hc := presentationNaiveCotangentComplexMap_f_negOne.{u, u, u, u} J A
     (surjectionGenerators J A) (underlyingPresheaf J B) (surjectionGeneratorsMap J A B a) B a
     (surjectionGeneratorsMap J A B a) (𝟙 _) (Category.comp_id _)
-  show _ ≫ (presentationNaiveCotangentComplexMap.{u, u, u, u} J A
+  change _ ≫ (presentationNaiveCotangentComplexMap.{u, u, u, u} J A
     (surjectionGenerators J A) (underlyingPresheaf J B) (surjectionGeneratorsMap J A B a) B a
     (surjectionGeneratorsMap J A B a) (𝟙 _) (Category.comp_id _)).f (-1) = _
   rw [hc]

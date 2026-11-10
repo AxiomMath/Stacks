@@ -95,8 +95,8 @@ about the square at other objects enters. -/
 theorem mateEquiv_app_eq_of_map_comp_counit (adjf : Lf ⊣ Rf) (w : TwoSquare M Lf Lf M') (K : B)
     (u : M.obj (Rf.obj K) ⟶ Rf.obj (M'.obj K))
     (hu : Lf.map u ≫ adjf.counit.app (M'.obj K) =
-      w.natTrans.app (Rf.obj K) ≫ M'.map (adjf.counit.app K)) :
-    (mateEquiv adjf adjf w).natTrans.app K = u := by
+      w.app (Rf.obj K) ≫ M'.map (adjf.counit.app K)) :
+    (mateEquiv adjf adjf w).app K = u := by
   have hinj : ∀ a b : M.obj (Rf.obj K) ⟶ Rf.obj (M'.obj K),
       Lf.map a ≫ adjf.counit.app (M'.obj K) =
         Lf.map b ≫ adjf.counit.app (M'.obj K) → a = b := by
@@ -112,9 +112,9 @@ private theorem mateEquiv_app_eq_comp_of_counit (adjf : Lf ⊣ Rf) (w : TwoSquar
     {Y₂ Y₃ : B} {X' : A} (ι₁ : M.obj (Rf.obj K) ≅ X') (ι₂ : M'.obj (Lf.obj (Rf.obj K)) ≅ Y₂)
     (ι₃ : M'.obj K ≅ Y₃) (β : Lf.obj X' ⟶ Y₂) (c : Y₂ ⟶ Y₃) (a : X' ⟶ Rf.obj Y₃)
     (ha : Lf.map a ≫ adjf.counit.app Y₃ = β ≫ c)
-    (hcompat : w.natTrans.app (Rf.obj K) = Lf.map ι₁.hom ≫ β ≫ ι₂.inv)
+    (hcompat : w.app (Rf.obj K) = Lf.map ι₁.hom ≫ β ≫ ι₂.inv)
     (hcounit : M'.map (adjf.counit.app K) ≫ ι₃.hom = ι₂.hom ≫ c) :
-    (mateEquiv adjf adjf w).natTrans.app K = ι₁.hom ≫ a ≫ Rf.map ι₃.inv := by
+    (mateEquiv adjf adjf w).app K = ι₁.hom ≫ a ≫ Rf.map ι₃.inv := by
   refine mateEquiv_app_eq_of_map_comp_counit adjf w K _ ?_
   rw [Functor.map_comp, Functor.map_comp, Category.assoc, Category.assoc,
     adjf.counit_naturality ι₃.inv, reassoc_of% ha, hcompat, Category.assoc, Category.assoc]
@@ -140,11 +140,11 @@ theorem mateEquiv_app_eq_adjunctionTensorMap_of_app (K : B)
     (ι₁ : M.obj (Rf.obj K) ≅ TA.obj (Rf.obj K, H))
     (ι₂ : M'.obj (Lf.obj (Rf.obj K)) ≅ TB.obj (Lf.obj (Rf.obj K), Lf.obj H))
     (ι₃ : M'.obj K ≅ TB.obj (K, Lf.obj H))
-    (hcompat : w.natTrans.app (Rf.obj K) =
+    (hcompat : w.app (Rf.obj K) =
       Lf.map ι₁.hom ≫ α.app (Rf.obj K, H) ≫ ι₂.inv)
     (hcounit : M'.map (adjf.counit.app K) ≫ ι₃.hom =
       ι₂.hom ≫ TB.map (adjf.counit.app K ×ₘ 𝟙 (Lf.obj H))) :
-    (mateEquiv adjf adjf w).natTrans.app K =
+    (mateEquiv adjf adjf w).app K =
       ι₁.hom ≫ CategoryTheory.adjunctionTensorMap adjf TA TB α K H ≫ Rf.map ι₃.inv := by
   exact mateEquiv_app_eq_comp_of_counit adjf w K ι₁ ι₂ ι₃ _ _ _
     (CategoryTheory.map_adjunctionTensorMap_comp_counit adjf TA TB α K H) hcompat hcounit
@@ -157,12 +157,12 @@ theorem isIso_mateEquiv_app_of_isIso_adjunctionTensorMap (K : B)
     (ι₁ : M.obj (Rf.obj K) ≅ TA.obj (Rf.obj K, H))
     (ι₂ : M'.obj (Lf.obj (Rf.obj K)) ≅ TB.obj (Lf.obj (Rf.obj K), Lf.obj H))
     (ι₃ : M'.obj K ≅ TB.obj (K, Lf.obj H))
-    (hcompat : w.natTrans.app (Rf.obj K) =
+    (hcompat : w.app (Rf.obj K) =
       Lf.map ι₁.hom ≫ α.app (Rf.obj K, H) ≫ ι₂.inv)
     (hcounit : M'.map (adjf.counit.app K) ≫ ι₃.hom =
       ι₂.hom ≫ TB.map (adjf.counit.app K ×ₘ 𝟙 (Lf.obj H)))
     (h : IsIso (CategoryTheory.adjunctionTensorMap adjf TA TB α K H)) :
-    IsIso ((mateEquiv adjf adjf w).natTrans.app K) := by
+    IsIso ((mateEquiv adjf adjf w).app K) := by
   rw [mateEquiv_app_eq_adjunctionTensorMap_of_app adjf w TA TB α H K ι₁ ι₂ ι₃ hcompat hcounit]
   infer_instance
 
@@ -194,11 +194,11 @@ theorem mateEquiv_app_eq_adjunctionTensorMapRight_of_app (K : B)
     (ι₁ : M.obj (Rf.obj K) ≅ TA.obj (H, Rf.obj K))
     (ι₂ : M'.obj (Lf.obj (Rf.obj K)) ≅ TB.obj (Lf.obj H, Lf.obj (Rf.obj K)))
     (ι₃ : M'.obj K ≅ TB.obj (Lf.obj H, K))
-    (hcompat : w.natTrans.app (Rf.obj K) =
+    (hcompat : w.app (Rf.obj K) =
       Lf.map ι₁.hom ≫ α.app (H, Rf.obj K) ≫ ι₂.inv)
     (hcounit : M'.map (adjf.counit.app K) ≫ ι₃.hom =
       ι₂.hom ≫ TB.map (𝟙 (Lf.obj H) ×ₘ adjf.counit.app K)) :
-    (mateEquiv adjf adjf w).natTrans.app K =
+    (mateEquiv adjf adjf w).app K =
       ι₁.hom ≫ Stacks.Cohomology.DerivedKunneth.adjunctionTensorMapRight adjf TA TB α H K ≫
         Rf.map ι₃.inv := by
   exact mateEquiv_app_eq_comp_of_counit adjf w K ι₁ ι₂ ι₃ _ _ _
@@ -209,12 +209,12 @@ theorem isIso_mateEquiv_app_of_isIso_adjunctionTensorMapRight (K : B)
     (ι₁ : M.obj (Rf.obj K) ≅ TA.obj (H, Rf.obj K))
     (ι₂ : M'.obj (Lf.obj (Rf.obj K)) ≅ TB.obj (Lf.obj H, Lf.obj (Rf.obj K)))
     (ι₃ : M'.obj K ≅ TB.obj (Lf.obj H, K))
-    (hcompat : w.natTrans.app (Rf.obj K) =
+    (hcompat : w.app (Rf.obj K) =
       Lf.map ι₁.hom ≫ α.app (H, Rf.obj K) ≫ ι₂.inv)
     (hcounit : M'.map (adjf.counit.app K) ≫ ι₃.hom =
       ι₂.hom ≫ TB.map (𝟙 (Lf.obj H) ×ₘ adjf.counit.app K))
     (h : IsIso (Stacks.Cohomology.DerivedKunneth.adjunctionTensorMapRight adjf TA TB α H K)) :
-    IsIso ((mateEquiv adjf adjf w).natTrans.app K) := by
+    IsIso ((mateEquiv adjf adjf w).app K) := by
   rw [mateEquiv_app_eq_adjunctionTensorMapRight_of_app adjf w TA TB α H K ι₁ ι₂ ι₃
     hcompat hcounit]
   infer_instance
@@ -249,7 +249,7 @@ theorem isIso_pushforward_map_of_isIso_adjunctionTensorMap_app (K : B)
     (ι₁ : (Lg ⋙ Rg).obj (Rf.obj K) ≅ TA.obj (Rf.obj K, H))
     (ι₂ : (Lg' ⋙ Rg').obj (Lf.obj (Rf.obj K)) ≅ TB.obj (Lf.obj (Rf.obj K), Lf.obj H))
     (ι₃ : (Lg' ⋙ Rg').obj K ≅ TB.obj (K, Lf.obj H))
-    (hcompat : (pullbackPushforwardSquare adjg adjg' eg ef).natTrans.app (Rf.obj K) =
+    (hcompat : (pullbackPushforwardSquare adjg adjg' eg ef).app (Rf.obj K) =
       Lf.map ι₁.hom ≫ α.app (Rf.obj K, H) ≫ ι₂.inv)
     (hcounit : (Lg' ⋙ Rg').map (adjf.counit.app K) ≫ ι₃.hom =
       ι₂.hom ≫ TB.map (adjf.counit.app K ×ₘ 𝟙 (Lf.obj H)))
@@ -268,7 +268,7 @@ theorem isIso_pushforward_map_of_isIso_adjunctionTensorMapRight_app (K : B)
     (ι₁ : (Lg ⋙ Rg).obj (Rf.obj K) ≅ TA.obj (H, Rf.obj K))
     (ι₂ : (Lg' ⋙ Rg').obj (Lf.obj (Rf.obj K)) ≅ TB.obj (Lf.obj H, Lf.obj (Rf.obj K)))
     (ι₃ : (Lg' ⋙ Rg').obj K ≅ TB.obj (Lf.obj H, K))
-    (hcompat : (pullbackPushforwardSquare adjg adjg' eg ef).natTrans.app (Rf.obj K) =
+    (hcompat : (pullbackPushforwardSquare adjg adjg' eg ef).app (Rf.obj K) =
       Lf.map ι₁.hom ≫ α.app (H, Rf.obj K) ≫ ι₂.inv)
     (hcounit : (Lg' ⋙ Rg').map (adjf.counit.app K) ≫ ι₃.hom =
       ι₂.hom ≫ TB.map (𝟙 (Lf.obj H) ×ₘ adjf.counit.app K))

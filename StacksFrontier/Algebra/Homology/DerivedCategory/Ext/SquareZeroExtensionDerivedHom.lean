@@ -60,8 +60,9 @@ section General
 /-- In a coproduct of a family which vanishes away from `i`, the inclusion of the `i`-th summand
 is an isomorphism. -/
 theorem isIso_cofan_inj_of_isZero {C : Type*} [Category* C] [HasZeroMorphisms C] {J : Type*}
-    [DecidableEq J] {F : J → C} (c : Cofan F) (hc : IsColimit c) (i : J)
+    {F : J → C} (c : Cofan F) (hc : IsColimit c) (i : J)
     (h : ∀ j, j ≠ i → IsZero (F j)) : IsIso (c.inj i) := by
+  classical
   let p := Cofan.IsColimit.desc hc fun j => if e : j = i then eqToHom (congrArg F e) else 0
   refine ⟨⟨p, ?_, ?_⟩⟩
   · simp [p, Cofan.IsColimit.fac]
@@ -74,8 +75,9 @@ theorem isIso_cofan_inj_of_isZero {C : Type*} [Category* C] [HasZeroMorphisms C]
 /-- In a product of a family which vanishes away from `i`, the projection onto the `i`-th factor
 is an isomorphism. -/
 theorem isIso_fan_proj_of_isZero {C : Type*} [Category* C] [HasZeroMorphisms C] {J : Type*}
-    [DecidableEq J] {F : J → C} (c : Fan F) (hc : IsLimit c) (i : J)
+    {F : J → C} (c : Fan F) (hc : IsLimit c) (i : J)
     (h : ∀ j, j ≠ i → IsZero (F j)) : IsIso (c.proj i) := by
+  classical
   let p := Fan.IsLimit.lift hc fun j => if e : i = j then eqToHom (congrArg F e) else 0
   refine ⟨⟨p, ?_, ?_⟩⟩
   · refine Fan.IsLimit.hom_ext hc _ _ fun j => ?_

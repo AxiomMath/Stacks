@@ -123,7 +123,7 @@ theorem comp_app_pair {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
     refine Space.pullback_app_ext C hS G.source.hom G.target.hom T _ _ ?_ ?_
     · rw [Space.composableToPullback_fst_app, ha]
     · rw [Space.composableToPullback_snd_app, hb]
-  show G.comp.hom.app T (k.app T x) = G.comp.hom.app T
+  change G.comp.hom.app T (k.app T x) = G.comp.hom.app T
     ((composableToPullback G.source.hom G.target.hom).app T ⟨(a, b), hab⟩)
   rw [hq]
 
@@ -153,7 +153,7 @@ theorem comp_hom_comp_source_hom {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.
     compOnPairs G ≫ G.source.hom =
       pullback.snd G.source.hom G.target.hom ≫ G.source.hom := by
   ext T q
-  show G.source.hom.app T (G.comp.hom.app T q) =
+  change G.source.hom.app T (G.comp.hom.app T q) =
     G.source.hom.app T ((pullback.snd G.source.hom G.target.hom).app T q)
   rw [comp_app_eq_comp_app_fst_snd]
   exact (G.toGroupoidInFunctors.pointwiseData T).source_comp _ _
@@ -166,7 +166,7 @@ theorem comp_hom_comp_target_hom {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.
     compOnPairs G ≫ G.target.hom =
       pullback.fst G.source.hom G.target.hom ≫ G.target.hom := by
   ext T q
-  show G.target.hom.app T (G.comp.hom.app T q) =
+  change G.target.hom.app T (G.comp.hom.app T q) =
     G.target.hom.app T ((pullback.fst G.source.hom G.target.hom).app T q)
   rw [comp_app_eq_comp_app_fst_snd]
   exact (G.toGroupoidInFunctors.pointwiseData T).target_comp _ _

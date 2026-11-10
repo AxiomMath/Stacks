@@ -61,8 +61,6 @@ open CategoryTheory CategoryTheory.Limits CategoryTheory.GrothendieckTopology Op
 
 universe u
 
-set_option synthInstance.maxHeartbeats 400000
-
 attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesAbelian
   Stacks.Cohomology.SiteModules.moduleSheavesGrothendieck
 
@@ -71,6 +69,8 @@ namespace CategoryTheory.ShortComplex
 variable {C D E : Type*} [Category* C] [Category* D] [Category* E]
   [Abelian C] [Abelian D] [Abelian E] (F : C ⥤ D) (G : D ⥤ E)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- this was a file-wide setting: instance search in this file is heavy
 /-- An exact sequence stays exact under `F` followed by `G` when the composite is exact. -/
 private theorem exact_map_map_of_comp (hF : F.PreservesZeroMorphisms)
     (hG : G.PreservesZeroMorphisms) (hl : PreservesFiniteLimits (F ⋙ G))
@@ -78,6 +78,8 @@ private theorem exact_map_map_of_comp (hF : F.PreservesZeroMorphisms)
     ((σ.map F).map G).Exact :=
   hσ.map (F ⋙ G)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- this was a file-wide setting: instance search in this file is heavy
 /-- The image under `G` of `0 ⟶ F A ⟶ F B` is exact when `F ⋙ G` carries the monomorphism
 `A ⟶ B` to a monomorphism. -/
 private theorem exact_map_mk_zero_of_mono (_hF : F.PreservesZeroMorphisms)
@@ -96,6 +98,8 @@ open SimplicialSpacesEtaleSite ExtensionByZeroStalk
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y) (x : GeometricPoint B S hS X.1)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- this was a file-wide setting: instance search in this file is heavy
 /-- Base change of algebraic spaces étale over `Y` along `f`, followed by the fibre functor of the
 universe-lifted point at `x`, is the fibre functor of the universe-lifted point at `f ∘ x`
 (Stacks 03G2, read on lifts of geometric points). -/
@@ -105,6 +109,8 @@ def spacesBaseChangeFiberIsoULiftSpacesEtaleModulePullbackFlatExact :
   (Functor.associator _ _ _).symm ≪≫
     Functor.isoWhiskerRight (spacesBaseChangeFiberIso B S hS f x) uliftFunctor.{u + 1}
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- this was a file-wide setting: instance search in this file is heavy
 /-- The direct image along the spaces-étale morphism of `f` of the skyscraper at `x` is the
 skyscraper at `f ∘ x`, by reindexing the products along the fibre comparison. -/
 def spacesEtaleSkyscraperIsoSpacesEtaleModulePullbackFlatExact :
@@ -116,6 +122,8 @@ def spacesEtaleSkyscraperIsoSpacesEtaleModulePullbackFlatExact :
     (spacesBaseChange B S hS f).functor
     (spacesBaseChangeFiberIsoULiftSpacesEtaleModulePullbackFlatExact f x)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- this was a file-wide setting: instance search in this file is heavy
 /-- **Stacks 04K2, part (4), on the spaces-étale sites at the universe of the modules.** The
 fibre at `x` of the inverse image of a sheaf of sets is its fibre at `f ∘ x`; it is the
 right-adjoint transpose of `spacesEtaleSkyscraperIsoSpacesEtaleModulePullbackFlatExact`. -/
@@ -130,6 +138,8 @@ def spacesEtaleInverseImageFiberIsoSpacesEtaleModulePullbackFlatExact :
       (sitePoint (geometricPointMap f.hom x)).skyscraperSheafAdjunction).symm
     (spacesEtaleSkyscraperIsoSpacesEtaleModulePullbackFlatExact f x)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- this was a file-wide setting: instance search in this file is heavy
 /-- The homomorphism `(𝒪_Y)_{f ∘ x} ⟶ (𝒪_X)_x` of structure-sheaf stalks along which the stalk of
 a pullback of modules extends scalars (Stacks 05V5), for the spaces-étale ringed topoi. -/
 abbrev spacesEtaleStalkPullbackRingMapSpacesEtaleModulePullbackFlatExact :=
@@ -137,6 +147,8 @@ abbrev spacesEtaleStalkPullbackRingMapSpacesEtaleModulePullbackFlatExact :=
     (sitePoint x) (sitePoint (geometricPointMap f.hom x))
     (spacesEtaleInverseImageFiberIsoSpacesEtaleModulePullbackFlatExact f x)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- this was a file-wide setting: instance search in this file is heavy
 /-- The sheaf of sets underlying the structure sheaf of the spaces-étale ringed topos. -/
 abbrev spacesEtaleStructureSetSheafSpacesEtaleModulePullbackFlatExact
     (Z : AlgebraicSpaces B S hS) :
@@ -144,11 +156,15 @@ abbrev spacesEtaleStructureSetSheafSpacesEtaleModulePullbackFlatExact
   (sheafCompose (SpacesEtale.topology B S hS Z) (forget RingCat.{u + 1})).obj
     (Stacks.SheafOfModules.Tensor.ringSheaf (spacesEtaleRingedTopos B S hS Z).O)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- this was a file-wide setting: instance search in this file is heavy
 /-- The fibre at `x` of the sheaf of sets underlying the structure sheaf of `X`. -/
 abbrev spacesEtaleStructureSetFiberSpacesEtaleModulePullbackFlatExact :=
   ((sitePoint x).sheafFiber (A := Type (u + 1))).obj
     (spacesEtaleStructureSetSheafSpacesEtaleModulePullbackFlatExact X)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- this was a file-wide setting: instance search in this file is heavy
 /-- Germ formation at `x`, as a map into the skyscraper with value the fibre. -/
 abbrev spacesEtaleStructureSetUnitSpacesEtaleModulePullbackFlatExact :
     spacesEtaleStructureSetSheafSpacesEtaleModulePullbackFlatExact X ⟶
@@ -158,6 +174,8 @@ abbrev spacesEtaleStructureSetUnitSpacesEtaleModulePullbackFlatExact :
     (spacesEtaleStructureSetSheafSpacesEtaleModulePullbackFlatExact X)
     (spacesEtaleStructureSetFiberSpacesEtaleModulePullbackFlatExact x) (𝟙 _)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- this was a file-wide setting: instance search in this file is heavy
 /-- **The germ formula on sheaves of sets**: the fibre comparison followed by the fibre of the
 inverse-image structure map carries the germ of a section over `V` at a lift of `f ∘ x` to the
 germ of its image under the structure map at the corresponding lift of `x` into `V ×_Y X`. -/
@@ -216,6 +234,8 @@ theorem spacesEtaleStructureSetFiberMap_germ_spacesEtaleModulePullbackFlatExact
     ((spacesBaseChange B S hS f).functor.obj V)
     ((spacesBaseChangeFiberIsoULiftSpacesEtaleModulePullbackFlatExact f x).inv.app V v)) _
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- this was a file-wide setting: instance search in this file is heavy
 /-- The small étale neighbourhoods of `x`, read as elements of the fibre functor of the
 universe-lifted spaces-étale point. -/
 def neighborhoodToSpacesPointElementsSpacesEtaleModulePullbackFlatExact :
@@ -224,6 +244,8 @@ def neighborhoodToSpacesPointElementsSpacesEtaleModulePullbackFlatExact :
     smallToSpacesFiberElements B S hS x ⋙
       Functor.Elements.ulift.{u + 1} (spacesGeometricFiber x)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- this was a file-wide setting: instance search in this file is heavy
 /-- The small étale neighbourhoods are initial among the lifts of `x` into the spaces-étale
 site. -/
 instance initial_neighborhoodToSpacesPointElements_spacesEtaleModulePullbackFlatExact :
@@ -234,6 +256,8 @@ instance initial_neighborhoodToSpacesPointElements_spacesEtaleModulePullbackFlat
     smallToSpacesFiberElements B S hS x ⋙
       Functor.Elements.ulift.{u + 1} (spacesGeometricFiber x)))
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- this was a file-wide setting: instance search in this file is heavy
 /-- A small étale neighbourhood is sent to the image of its chart, with the lifted point. -/
 theorem neighborhoodToSpacesPointElements_obj_spacesEtaleModulePullbackFlatExact
     (U : SmallEtaleNeighborhood x) :
@@ -241,11 +265,13 @@ theorem neighborhoodToSpacesPointElements_obj_spacesEtaleModulePullbackFlatExact
       (sitePoint x).fiber.elementsMk ((comparisonFunctor B S hS X).obj U.chart)
         (ULift.up ⟨U.point, U.point_comp⟩) := rfl
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- this was a file-wide setting: instance search in this file is heavy
 /-- The structure sheaf of the spaces-étale site along the small étale neighbourhoods is the
 universe lift of the structure sheaf of the small étale site. -/
 def neighborhoodStructureIsoSpacesEtaleModulePullbackFlatExact :
     (neighborhoodToSpacesPointElementsSpacesEtaleModulePullbackFlatExact x).op ⋙
-        (CategoryOfElements.π (sitePoint x).fiber).op ⋙
+        (Functor.Elements.π (sitePoint x).fiber).op ⋙
           (SpacesEtale.structureSheaf B S hS X).obj ≅
       SmallEtaleNeighborhood.sections (x := x) (liftedStructurePresheaf B S hS X.1) :=
   NatIso.ofComponents
@@ -256,13 +282,17 @@ def neighborhoodStructureIsoSpacesEtaleModulePullbackFlatExact :
       exact globalFunctionsSchemeSpaceIso_naturality B S hS
         ((SmallEtale.toOver B S hS X.1).map g.unop.hom))
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- this was a file-wide setting: instance search in this file is heavy
 /-- The structure sheaf along the small étale neighbourhoods has a colimit. -/
 instance
     hasColimit_neighborhoodToSpacesPointElements_structureSheaf_spacesEtaleModulePullbackFlatExact :
     HasColimit ((neighborhoodToSpacesPointElementsSpacesEtaleModulePullbackFlatExact x).op ⋙
-    (CategoryOfElements.π (sitePoint x).fiber).op ⋙ (SpacesEtale.structureSheaf B S hS X).obj) :=
+    (Functor.Elements.π (sitePoint x).fiber).op ⋙ (SpacesEtale.structureSheaf B S hS X).obj) :=
   Functor.Final.comp_hasColimit _
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- this was a file-wide setting: instance search in this file is heavy
 /-- **The stalk of the spaces-étale structure sheaf at a geometric point is the étale local
 ring** (Stacks 04KG). -/
 def spacesPointStalkRingIsoSpacesEtaleModulePullbackFlatExact :
@@ -270,10 +300,12 @@ def spacesPointStalkRingIsoSpacesEtaleModulePullbackFlatExact :
       etaleLocalRing B S hS X.1 x :=
   (Functor.Final.colimitIso
       (neighborhoodToSpacesPointElementsSpacesEtaleModulePullbackFlatExact x).op
-      ((CategoryOfElements.π (sitePoint x).fiber).op ⋙
+      ((Functor.Elements.π (sitePoint x).fiber).op ⋙
         (SpacesEtale.structureSheaf B S hS X).obj)).symm ≪≫
     HasColimit.isoOfNatIso (neighborhoodStructureIsoSpacesEtaleModulePullbackFlatExact x)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- this was a file-wide setting: instance search in this file is heavy
 /-- The comparison with the étale local ring sends the germ of a transported regular function on
 a small étale neighbourhood to its germ in the étale local ring. -/
 theorem spacesPointStalkRingIso_germ_spacesEtaleModulePullbackFlatExact
@@ -287,11 +319,11 @@ theorem spacesPointStalkRingIso_germ_spacesEtaleModulePullbackFlatExact
       etaleLocalRingGerm B S hS X.1 x (op U) a := by
   have h1 := Functor.Final.ι_colimitIso_inv
     (neighborhoodToSpacesPointElementsSpacesEtaleModulePullbackFlatExact x).op
-    ((CategoryOfElements.π (sitePoint x).fiber).op ⋙ (SpacesEtale.structureSheaf B S hS X).obj)
+    ((Functor.Elements.π (sitePoint x).fiber).op ⋙ (SpacesEtale.structureSheaf B S hS X).obj)
     (op U)
-  have h2 := HasColimit.isoOfNatIso_ι_hom
+  have h2 := HasColimit.ι_isoOfNatIso_hom
     (neighborhoodStructureIsoSpacesEtaleModulePullbackFlatExact x) (op U)
-  have key : colimit.ι ((CategoryOfElements.π (sitePoint x).fiber).op ⋙
+  have key : colimit.ι ((Functor.Elements.π (sitePoint x).fiber).op ⋙
         (SpacesEtale.structureSheaf B S hS X).obj)
         ((neighborhoodToSpacesPointElementsSpacesEtaleModulePullbackFlatExact x).op.obj (op U)) ≫
           (spacesPointStalkRingIsoSpacesEtaleModulePullbackFlatExact x).hom =
@@ -301,7 +333,7 @@ theorem spacesPointStalkRingIso_germ_spacesEtaleModulePullbackFlatExact
     (Category.assoc _ _ _).symm.trans ((congrArg (· ≫ _) h1).trans h2)
   have key2 :
       (globalFunctionsSchemeSpaceIso B S hS ((SmallEtale.toOver B S hS X.1).obj U.chart)).inv ≫
-      colimit.ι ((CategoryOfElements.π (sitePoint x).fiber).op ⋙
+      colimit.ι ((Functor.Elements.π (sitePoint x).fiber).op ⋙
         (SpacesEtale.structureSheaf B S hS X).obj)
         ((neighborhoodToSpacesPointElementsSpacesEtaleModulePullbackFlatExact x).op.obj (op U)) ≫
           (spacesPointStalkRingIsoSpacesEtaleModulePullbackFlatExact x).hom =
@@ -312,6 +344,8 @@ theorem spacesPointStalkRingIso_germ_spacesEtaleModulePullbackFlatExact
       (Iso.inv_hom_id_assoc _ _)
   exact ConcreteCategory.congr_hom key2 (ULift.up a)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- this was a file-wide setting: instance search in this file is heavy
 open Stacks.Sheaves.StalkPullback Stacks.Sheaves.StalkTransport in
 /-- **The homomorphism of structure-sheaf stalks on germs**: the germ at a lift of `f ∘ x̄`
 of a section over `V` goes to the germ, at the corresponding lift of `x̄` into `V ×_Y X`, of its
@@ -350,6 +384,8 @@ theorem spacesEtaleStalkPullbackRingMap_germ_spacesEtaleModulePullbackFlatExact
     ((spacesBaseChangeFiberIsoULiftSpacesEtaleModulePullbackFlatExact f x).inv.app V v)
     ((globalFunctionsPresheaf B S hS).map ((spacesBaseChange B S hS f).projection.app V).op s)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- this was a file-wide setting: instance search in this file is heavy
 /-- The stalk of the spaces-étale structure sheaf at a geometric point is the étale local
 ring, as an isomorphism of rings. -/
 def spacesPointStalkRingEquivSpacesEtaleModulePullbackFlatExact :
@@ -357,6 +393,8 @@ def spacesPointStalkRingEquivSpacesEtaleModulePullbackFlatExact :
       etaleLocalRing B S hS X.1 x :=
   (spacesPointStalkRingIsoSpacesEtaleModulePullbackFlatExact x).commRingCatIsoToRingEquiv
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- this was a file-wide setting: instance search in this file is heavy
 /-- Applying the universe lift of a ring homomorphism, as a morphism of `CommRingCat`, to a
 lifted element. -/
 private theorem ofHom_ulift_apply {R R' : Type u} [CommRing R] [CommRing R'] (r : R →+* R')
@@ -364,6 +402,8 @@ private theorem ofHom_ulift_apply {R R' : Type u} [CommRing R] [CommRing R'] (r 
     (CommRingCat.ofHom (r.ulift.{u + 1, u + 1, u, u})).hom (ULift.up a) = ULift.up (r a) :=
   rfl
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- this was a file-wide setting: instance search in this file is heavy
 /-- Pulling back a regular function along a morphism of étale charts, read in the spaces-étale
 structure sheaf through the comparison of Stacks 03G1: a morphism between the images of two
 charts whose underlying morphism of presheaves is a Yoneda morphism pulls the transported
@@ -391,6 +431,8 @@ theorem globalFunctionsSchemeSpaceIso_inv_apply_comparison_spacesEtaleModulePull
   exact h.trans (congrArg (globalFunctionsSchemeSpaceIso B S hS
     ((SmallEtale.toOver B S hS X'.1).obj U)).inv.hom (ofHom_ulift_apply _ s))
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- this was a file-wide setting: instance search in this file is heavy
 /-- **The germ characterization**: transported to the étale local rings, the homomorphism of
 structure-sheaf stalks pulls germs back in every commuting diagram of pointed étale charts. -/
 theorem isEtaleLocalRingMap_spacesEtaleStalkPullbackRingMap_spacesEtaleModulePullbackFlatExact :
@@ -444,7 +486,7 @@ theorem isEtaleLocalRingMap_spacesEtaleStalkPullbackRingMap_spacesEtaleModulePul
         (SpacesEtale.structureSheaf B S hS Y).obj (θV.inv (ULift.up s)) :=
     (RingEquiv.symm_apply_eq _).2 hY.symm
   refine hX.symm.trans ?_
-  show spacesPointStalkRingEquivSpacesEtaleModulePullbackFlatExact x _ =
+  change spacesPointStalkRingEquivSpacesEtaleModulePullbackFlatExact x _ =
     spacesPointStalkRingEquivSpacesEtaleModulePullbackFlatExact x
       (spacesEtaleStalkPullbackRingMapSpacesEtaleModulePullbackFlatExact f x
         ((spacesPointStalkRingEquivSpacesEtaleModulePullbackFlatExact
@@ -456,6 +498,8 @@ theorem isEtaleLocalRingMap_spacesEtaleStalkPullbackRingMap_spacesEtaleModulePul
         (SpacesEtale.structureSheaf B S hS X).obj t))
     (e2.symm.trans e1)
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- this was a file-wide setting: instance search in this file is heavy
 /-- **The universe-lifted geometric points are a conservative family of points of the
 spaces-étale site.** A sieve through which every lift of every geometric point lifts contains a
 jointly point-surjective family, since every point of an algebraic space is the image of a
@@ -490,6 +534,8 @@ theorem isConservativeFamilyOfPoints_sitePoint_spacesEtaleModulePullbackFlatExac
   rintro W g ⟨Z, k, h, ⟨i⟩, rfl⟩
   exact R.downward_closed i.2.2 k
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- this was a file-wide setting: instance search in this file is heavy
 /-- **The homomorphism of structure-sheaf stalks of a flat morphism is flat**: transported to
 the étale local rings it is the homomorphism of Stacks 04NG, which is flat by Stacks 03MK. -/
 theorem flat_spacesEtaleStalkPullbackRingMap_spacesEtaleModulePullbackFlatExact
@@ -508,7 +554,10 @@ theorem flat_spacesEtaleStalkPullbackRingMap_spacesEtaleModulePullbackFlatExact
   refine RingHom.ext fun z => ?_
   simp
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- this was a file-wide setting: instance search in this file is heavy
 set_option maxHeartbeats 1000000 in
+-- composing the stalk functor with `ModuleCat.extendScalars` across universe levels is heavy
 /-- The pullback of modules along a flat morphism of the spaces-étale morphism, followed by the
 stalk at a geometric point of the source, preserves finite limits and finite colimits. -/
 private theorem preservesFiniteLimits_and_colimits_spacesEtale_pullbackModules_comp_stalk
@@ -542,7 +591,10 @@ private theorem preservesFiniteLimits_and_colimits_spacesEtale_pullbackModules_c
   exact ⟨@preservesFiniteLimits_of_natIso _ _ _ _ _ _ iso hl,
     @preservesFiniteColimits_of_natIso _ _ _ _ _ _ iso hc⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
+-- this was a file-wide setting: instance search in this file is heavy
 set_option maxHeartbeats 1000000 in
+-- elaborating short complexes of module sheaves on the spaces-étale site is heavy
 /-- **Pullback of modules on the spaces-étale sites along a flat morphism is exact.** For a flat
 morphism `f : X ⟶ Y` of algebraic spaces, `f^*` from `𝒪_Y`-modules to `𝒪_X`-modules on the
 spaces-étale sites preserves finite limits: exactness is checked on the stalks at the geometric

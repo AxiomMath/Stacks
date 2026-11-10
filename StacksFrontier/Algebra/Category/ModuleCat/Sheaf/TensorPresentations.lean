@@ -208,6 +208,7 @@ lemma exact_tensorSheaf_presentations_on_site
     (leftComplex.map (T.flip.obj G₁)).zero (rightComplex.map (T.obj F)).zero
     ((T.map f₁).naturality g₂) leftExact rightExact).exact_toComposableArrows
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] [HasSheafify J AddCommGrpCat] in
 /-- The tensor product of two epimorphisms of sheaves of modules on an arbitrary site is
 an epimorphism. -/
 lemma tensorSheafMapOnSite_epi

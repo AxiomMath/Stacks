@@ -141,7 +141,7 @@ public theorem finite_supportSet_of_eq_exceptionalIdeal_pow_mul {Y : Scheme.{u}}
   have hWZ : W ≤ Z := by
     intro U
     rw [hfac]
-    show (E.ideal U) ^ d * Z.ideal U ≤ Z.ideal U
+    change (E.ideal U) ^ d * Z.ideal U ≤ Z.ideal U
     exact Ideal.mul_le_right
   have hsub : Z.supportSet ⊆ E.supportSet :=
     fun z hz => hWsub (Scheme.IdealSheafData.support_antitone hWZ hz)
@@ -158,7 +158,7 @@ public theorem finite_supportSet_of_eq_exceptionalIdeal_pow_mul {Y : Scheme.{u}}
   have hle : W ≤ E ^ (d + 1) := by
     intro U
     rw [hfac]
-    show (E.ideal U) ^ d * Z.ideal U ≤ (E.ideal U) ^ (d + 1)
+    change (E.ideal U) ^ d * Z.ideal U ≤ (E.ideal U) ^ (d + 1)
     rw [pow_succ]
     exact Ideal.mul_mono le_rfl (hZE U)
   exact absurd (hmax (d + 1) hle) (by omega)

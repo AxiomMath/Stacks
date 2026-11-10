@@ -721,7 +721,8 @@ total Chern class, the first Chern class of Stacks 0B7H. -/
 finite locally free E and F of ranks r and s, with no further hypothesis.  The identity is read in \
 the ring TotalChowClass C sX of total Chow cohomology classes, the product over p of the A^p(X) \
 of Stacks 0B7E with the product of Stacks 0B75; every term of the identity is homogeneous, so it \
-lies in the source's A^*(X).  c_1(E) is the degree-one part TotalChowClass.homComponent 1 (totalChern C sX E r) of \
+lies in the source's A^*(X).  c_1(E) is the degree-one part \
+TotalChowClass.homComponent 1 (totalChern C sX E r) of \
 the total Chern class, the bivariant Chern class of Stacks 0B7H in degree one, and E tensor F is \
 the sheaf tensor product Stacks.SheafOfModules.Tensor.sheafTensor, of rank r * s"]
 theorem totalChern_sheafTensor_degree_one :
@@ -746,7 +747,8 @@ finite locally free E and F of ranks r and s, with no further hypothesis, the cr
 coefficient being r*s - 1 as in the source.  The identity is read in the ring TotalChowClass C sX \
 of total Chow cohomology classes, the product over p of the A^p(X) of Stacks 0B7E with the \
 product of Stacks 0B75; every term of the identity is homogeneous, so it lies in the source's \
-A^*(X).  c_i(E) is the degree-i part TotalChowClass.homComponent i (totalChern C sX E r) of the total Chern class, the \
+A^*(X).  c_i(E) is the degree-i part TotalChowClass.homComponent i (totalChern C sX E r) of the \
+total Chern class, the \
 bivariant Chern class of Stacks 0B7H in degree i, the squares and the product are products in \
 that ring, and E tensor F is the sheaf tensor product Stacks.SheafOfModules.Tensor.sheafTensor, \
 of rank r * s"]

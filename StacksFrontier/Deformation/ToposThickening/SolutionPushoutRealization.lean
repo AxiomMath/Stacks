@@ -139,7 +139,7 @@ omit [HasWeakSheafify J CommRingCat] [J.HasSheafCompose (forget₂ CommRingCat R
     (IdealRestriction.add ρ σ).app X g = ρ.app X g + σ.app X g :=
   rfl
 
-omit [HasWeakSheafify J CommRingCat] in
+omit [HasWeakSheafify J CommRingCat] [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **A map out of `ℐ/ℐ²` is determined on the classes of the sections of `ℐ'`**, the kernel of
 `ι ≫ φ`, when `ι` is locally surjective: a local section of `ℐ` is locally the image under `ι` of
 a section, which then lies in `ℐ'`. -/
@@ -594,6 +594,7 @@ def twistFunctional : (Stacks.SheafOfModules.presentationConormalSequence.{u, u,
       (twistGenerators (S := S) ξ) (twistGeneratorsMap (S := S) ξ)).X₁ ⟶ S.G :=
   (exists_twistDatum (S := S) ξ).choose_spec.choose_spec.choose_spec.choose_spec.choose
 
+omit [X.J.WEqualsLocallyBijective CommRingCat] in
 /-- `ξ`, read on the presentation of Tag 08UJ, is the class of `twistFunctional ξ`. -/
 theorem comparison_comp_eq_twistFunctional :
     DerivedCategory.Q.map (Stacks.SheafOfModules.naiveCotangentComplexComparison.{u, u, u, u}

@@ -19,7 +19,8 @@ base — from one named hypothesis,
 together with Stacks 02L7, 0APL and 041Y*. This file discharges that hypothesis from **Stacks
 0APL alone**, so Stacks 0423 holds outright.
 
-The route is the one `StacksFrontier/AlgebraicGeometry/Descent/AffineFpqcChartDescent.lean` takes for
+The route is the one
+`StacksFrontier/AlgebraicGeometry/Descent/AffineFpqcChartDescent.lean` takes for
 affine morphisms: the finite fpqc covering of an affine object of the site is replaced by the
 single surjective flat quasi-compact morphism out of its coproduct, the per-member data is glued
 over that coproduct by Zariski descent, and the descended object is produced over the resulting

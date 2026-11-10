@@ -239,11 +239,11 @@ public theorem adjugateForm_mem_symmetricPower (i j : Fin (Module.finrank k V)) 
           (Module.Dual k (V →ₗ[k] V)) := by
     intro a _
     by_cases ha : σ a = j
-    · rw [if_pos ha, ha, Matrix.updateRow_self, Pi.single_apply]
+    · rw [ite_eq_left ha, ha, Matrix.updateRow_self, Pi.single_apply]
       split
       · exact SetLike.one_mem_graded _
       · exact zero_mem _
-    · rw [if_neg ha, Matrix.updateRow_ne ha, coeffMatrix]
+    · rw [ite_eq_right ha, Matrix.updateRow_ne ha, coeffMatrix]
       exact ι_mem_symmetricPower_one k _ _
   have h := SetLike.prod_mem_graded
     (A := fun n => SymPow.symmetricPower n k (Module.Dual k (V →ₗ[k] V)))
@@ -259,8 +259,8 @@ public theorem adjugateForm_mem_symmetricPower (i j : Fin (Module.finrank k V)) 
       simp [Equiv.eq_symm_apply]
     rw [Finset.sum_congr rfl fun a _ => hiff a,
       ← Finset.add_sum_erase _ _ (Finset.mem_univ (σ.symm j))]
-    rw [if_pos rfl, zero_add]
-    rw [Finset.sum_congr rfl (fun a ha => if_neg (Finset.ne_of_mem_erase ha)),
+    rw [ite_eq_left rfl, zero_add]
+    rw [Finset.sum_congr rfl (fun a ha => ite_eq_right (Finset.ne_of_mem_erase ha)),
       Finset.sum_const, Finset.card_erase_of_mem (Finset.mem_univ _), Finset.card_univ,
       Fintype.card_fin, smul_eq_mul, mul_one]
   rwa [hsum] at h
@@ -322,7 +322,7 @@ public theorem lift_eval_adjugateSubstForm (i : Fin (Module.finrank k V)) (g : V
       SymmetricAlgebra.lift (adjugateRow k V g i) := by
     refine SymmetricAlgebra.algHom_ext (LinearMap.ext fun v => ?_)
     simp only [LinearMap.comp_apply]
-    show SymmetricAlgebra.lift (Module.Dual.eval k (V →ₗ[k] V) g)
+    change SymmetricAlgebra.lift (Module.Dual.eval k (V →ₗ[k] V) g)
         (SymmetricAlgebra.lift (adjugateSubst k V i) (SymmetricAlgebra.ι k V v)) =
       SymmetricAlgebra.lift (adjugateRow k V g i) (SymmetricAlgebra.ι k V v)
     rw [SymmetricAlgebra.lift_ι_apply, SymmetricAlgebra.lift_ι_apply, adjugateSubst,

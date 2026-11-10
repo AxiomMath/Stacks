@@ -109,7 +109,7 @@ theorem natCard_sections_rightDerived_one_rootsOfUnity :
         1).app _ ≪≫
       (Stacks.Cohomology.GlobalSections.rightDerivedΓIsoFunctorH.{u + 1} _ 1).app _
   rw [Nat.card_congr E.addCommGroupIsoToAddEquiv.toEquiv]
-  show Nat.card (Sheaf.H.{u + 1} (rootsOfUnityPunctured k (ℓ := ℓ)) 1) = ℓ
+  change Nat.card (Sheaf.H.{u + 1} (rootsOfUnityPunctured k (ℓ := ℓ)) 1) = ℓ
   rw [natCard_sheafH_congr (restrictionRootsOfUnityIso (punctured k).ι ℓ) 1]
   exact natCard_sheafH_one_rootsOfUnity_punctured k hℓ0 hℓ
 

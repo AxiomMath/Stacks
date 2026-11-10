@@ -111,7 +111,7 @@ theorem hasUniformInverses_of_isLE_zero {Z W : ℕᵒᵖ ⥤ DerivedCategory �
   refine ⟨c₀ + (-1 - e).toNat * C, fun n m hm => ?_⟩
   have hnm : n ≤ m := by omega
   have hk : ((t.triangleLTGE 0).obj (Z.obj (op m))).mor₁ ≫ tr Z hnm = 0 := by
-    show (t.truncLTι 0).app (Z.obj (op m)) ≫ tr Z hnm = 0
+    change (t.truncLTι 0).app (Z.obj (op m)) ≫ tr Z hnm = 0
     rw [← hnat, hzero n m (Nat.zero_le _) hnm (by omega), zero_comp]
   obtain ⟨u, hu⟩ : ∃ u : (t.truncGE 0).obj (Z.obj (op m)) ⟶ Z.obj (op n),
       tr Z hnm = (t.truncGEπ 0).app (Z.obj (op m)) ≫ u :=

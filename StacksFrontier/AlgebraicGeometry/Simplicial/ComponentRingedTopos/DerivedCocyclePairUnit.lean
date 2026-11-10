@@ -271,7 +271,7 @@ theorem pairDerivedModuleTransition_delta_one (Pr : S.DerivedModuleCocyclePair O
         S.pairDerivedModuleTransition O Pr (SimplexCategory.δ (0 : Fin 2)) := by
   rw [S.pairDerivedModuleTransition_delta_one_eq O Pr,
     S.pairDerivedModuleTransition_delta_zero_eq O Pr]
-  exact congrArg (fun k ↦ _ ≫ _ ≫ k) (Iso.map_inv_hom_id_assoc _ _ _).symm
+  exact congrArg (fun k ↦ _ ≫ _ ≫ k) (Iso.inv_hom_id_map_assoc _ _ _).symm
 
 end CategoryTheory.SimplicialSiteSituation
 

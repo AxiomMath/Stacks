@@ -211,7 +211,7 @@ private theorem delta_quotientShortComplex {A₁ A₂ A₃ : A} (a : A₃ ⟶ A�
       (monoShortComplex_shortExact b) (quotientShortComplex_shortExact a b)
       (monoToQuotient a b))).hom₃ =
       𝟙 (G.obj ((DerivedCategory.singleFunctor A 0).obj (cokernel b))) := by
-    show G.map ((DerivedCategory.singleFunctor A 0).map (𝟙 (cokernel b))) = _
+    change G.map ((DerivedCategory.singleFunctor A 0).map (𝟙 (cokernel b))) = _
     rw [CategoryTheory.Functor.map_id, CategoryTheory.Functor.map_id]
   have hm : ((DerivedCategory.homologyFunctor A 0).shift i).map
       (G.mapTriangle.map (ShortComplex.ShortExact.singleTriangle.map

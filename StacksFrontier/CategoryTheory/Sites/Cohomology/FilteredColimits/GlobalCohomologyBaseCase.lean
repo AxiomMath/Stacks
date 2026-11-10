@@ -152,7 +152,7 @@ lemma isIso_colimit_post_globalSections_abelian (S : Set (Sheaf J (Type u)))
           eS.hom ≫ m ≫ colimit.post F (U ⋙ GT) := by
             rw [← colimit.post_post (F := F) (G := U) (H := GT)]
       _ = eS.hom ≫ colimit.post F (G ⋙ forget AddCommGrpCat) ≫ β.hom.app (colimit F) := by
-            show eS.hom ≫
+            change eS.hom ≫
               (colim.map (Functor.whiskerLeft F β.hom) ≫ colimit.post F (U ⋙ GT)) = _
             rw [hnat]
       _ = (forget AddCommGrpCat).map (colimit.post F G) ≫ β.hom.app (colimit F) := by

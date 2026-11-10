@@ -113,7 +113,7 @@ theorem bijective_homCompPairing_unitSheaf_of_isSepClosed
         rw [this, map_add, homUnitSheafEquiv_add])
     refine ⟨hev.preimage (ModuleCat.ofHom (g.toZModLinearMap ℓ)), AddMonoidHom.ext fun x => ?_⟩
     apply hΛ.injective
-    show hΛ (x ≫ hev.preimage _) = hΛ (φ x)
+    change hΛ (x ≫ hev.preimage _) = hΛ (φ x)
     rw [homUnitSheafEquiv_comp]
     refine (congrArg (fun f => f (hM x))
       (hev.map_preimage (ModuleCat.ofHom (g.toZModLinearMap ℓ)))).trans ?_

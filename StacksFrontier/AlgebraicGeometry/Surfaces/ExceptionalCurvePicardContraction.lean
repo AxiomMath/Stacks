@@ -191,7 +191,7 @@ private theorem exceptionalDegree_schemePullbackClassHom_aux {Y Y' : Scheme.{u}}
     Stacks.Picard.eq_zero_of_subsingleton _
   have key : exceptionalRestrictionHom (I.comap f) k ε
       (Stacks.Picard.schemePullbackClassHom f L') = 0 := by
-    show Stacks.Picard.schemePullbackClass ε.hom
+    change Stacks.Picard.schemePullbackClass ε.hom
       (Stacks.Picard.schemePullbackClass (I.comap f).subschemeι
         (Stacks.Picard.schemePullbackClass f L')) = 0
     rw [Stacks.Picard.schemePullbackClass_comp (I.comap f).subschemeι f L',

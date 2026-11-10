@@ -182,7 +182,7 @@ public theorem exists_iso_mapHomologicalComplex_of_forall_essImage
   let L : CochainComplex C ℤ := CochainComplex.of X d hdd
   refine ⟨L, ⟨HomologicalComplex.Hom.isoOfComponents (fun i => e' i) (fun i j hij => ?_)⟩⟩
   obtain rfl : j = i + 1 := by simpa using hij.symm
-  show (e' i).hom ≫ K.d i (i + 1) =
+  change (e' i).hom ≫ K.d i (i + 1) =
     ((F.mapHomologicalComplex (ComplexShape.up ℤ)).obj L).d i (i + 1) ≫ (e' (i + 1)).hom
   simp only [Functor.mapHomologicalComplex_obj_d, L, CochainComplex.of_d]
   simp [d, e']

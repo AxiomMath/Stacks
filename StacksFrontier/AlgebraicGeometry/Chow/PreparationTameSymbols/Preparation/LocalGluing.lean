@@ -228,9 +228,9 @@ private theorem annihilated_quotient_trans
       (Submodule.smul_le.mp hAB) a ha d (by simp)
     obtain ⟨z, hz⟩ := had
     refine ⟨z, ?_⟩
-    show algebraMap A C z = (a * b) • c
+    change algebraMap A C z = (a * b) • c
     rw [IsScalarTower.algebraMap_apply A B C z]
-    show algebraMap B C ((Algebra.linearMap A B) z) = (a * b) • c
+    change algebraMap B C ((Algebra.linearMap A B) z) = (a * b) • c
     rw [hz, mul_smul, hd]
     simp only [Algebra.smul_def, map_mul]
     rw [← IsScalarTower.algebraMap_apply A B C a]
@@ -274,7 +274,7 @@ private theorem annihilated_quotient_trans_of_jacobson
     apply Ideal.map_le_iff_le_comap.mpr
     have hmax : ((q.asIdeal).under A).IsMaximal :=
       Ideal.isMaximal_under_of_isIntegral_of_isMaximal q.asIdeal
-    show maximalIdeal A ≤ (q.asIdeal).under A
+    change maximalIdeal A ≤ (q.asIdeal).under A
     rw [eq_maximalIdeal hmax]
   obtain ⟨n, hn⟩ := hAB
   obtain ⟨k, hk⟩ :=
@@ -367,7 +367,7 @@ private theorem exists_localRingEquiv_of_isLocalizationMap_at_maximal
     (Localization.AtPrime (p.map f))
   refine ⟨e.toRingEquiv, ?_⟩
   intro c
-  show e (algebraMap C (Localization.AtPrime p) c) = _
+  change e (algebraMap C (Localization.AtPrime p) c) = _
   rw [e.commutes]
   exact (IsScalarTower.algebraMap_apply C D (Localization.AtPrime (p.map f)) c).symm
 

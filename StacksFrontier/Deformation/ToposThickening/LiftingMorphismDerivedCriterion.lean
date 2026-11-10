@@ -521,7 +521,7 @@ theorem inv_comp_map_kernelConormalToModule_comp_prescribedAdjoint
         prescribedAdjoint g c = pushoutConormalToModule g QC c := by
   refine Stacks.Sites.Conormal.conormal_hom_ext _ _ (fun U x ↦ ?_)
   refine Eq.trans ?_ (Stacks.Sites.Conormal.conormalDesc_toAssociatedModule _ _ _ U x).symm
-  show (prescribedAdjoint g c).val.app U _ = (prescribedAdjoint g c).val.app U _
+  change (prescribedAdjoint g c).val.app U _ = (prescribedAdjoint g c).val.app U _
   exact congrArg _ (invIdealPreimage_eq QC g U x _ (he U x)).symm
 
 omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
@@ -611,6 +611,7 @@ private theorem forward_assemble {𝒞 𝒟 : Type*} [Category 𝒞] [Category �
   rw [Category.assoc, reassoc_of% hc, ← reassoc_of% hN, hP, ← key]
   simp only [Category.assoc, Functor.map_comp]
 
+omit [Y.J.WEqualsLocallyBijective CommRingCat.{u}] in
 /-- The direct implication of Stacks 0GQ7, from the three compatibilities of the identification
 of Stacks 08TZ: with base change (`hZ`), with `η` (`hZ'`) and with the pushout datum (`hZ''`). -/
 theorem pullbackExtClass_eq_restrictExtClass_of_compatibleHom_aux

@@ -302,7 +302,7 @@ theorem map_quotient_coe_eq_maximalIdeal_iff {J N : Ideal (MvPolynomial (Fin n) 
     IsLocalRing.of_surjective' (Ideal.Quotient.mk _) Ideal.Quotient.mk_surjective
   by_cases hN : N ≤ MvPolynomial.idealOfVars (Fin n) k
   case neg =>
-    obtain ⟨a, haN, havars⟩ := SetLike.not_le_iff_exists.1 hN
+    obtain ⟨a, haN, havars⟩ := IsConcreteLE.not_le_iff_exists.1 hN
     have hacoe : MvPolynomial.coeToMvPowerSeries.ringHom (σ := Fin n) (R := k) a ∉
         maximalIdeal (_root_.MvPowerSeries (Fin n) k) := by
       intro hmem

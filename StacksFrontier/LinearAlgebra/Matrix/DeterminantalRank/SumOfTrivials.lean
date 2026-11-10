@@ -14,7 +14,7 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Altitude
@@ -152,9 +152,9 @@ theorem block_split {a a' b b' r : ℕ}
         simp_all [Matrix.fromBlocks]
     apply (Fintype.card_eq.mpr ?_).symm
     refine ⟨⟨fun j => ⟨σ j.val, by
-               show Sum.isLeft (ρ (σ j.val)) = true; rw [hmap]; exact j.property⟩,
+               change Sum.isLeft (ρ (σ j.val)) = true; rw [hmap]; exact j.property⟩,
              fun i => ⟨σ.symm i.val, ?_⟩, ?_, ?_⟩⟩
-    · show Sum.isLeft (γ (σ.symm i.val)) = true
+    · change Sum.isLeft (γ (σ.symm i.val)) = true
       have := hmap (σ.symm i.val); rw [Equiv.apply_symm_apply] at this
       rw [← this]; exact i.property
     · intro j; ext; simp
@@ -197,19 +197,19 @@ theorem block_split {a a' b b' r : ℕ}
           Equiv.sumCompl_apply_inl,
         Equiv.sumCompl_apply_inr, Equiv.sumCongr_apply, Equiv.coe_trans, Function.comp_apply,
         Sum.map_inl, Sum.map_inr, Matrix.of_apply, Sum.elim_inl, Sum.elim_inr]
-    · show M (ρ x.val) (γ (bl y).val) = A (rowA x) (colA y)
+    · change M (ρ x.val) (γ (bl y).val) = A (rowA x) (colA y)
       rw [show ρ x.val = Sum.inl (rowA x) from (Sum.inl_getLeft (ρ x.val) (hll x)).symm,
           show γ (bl y).val = Sum.inl (colA y) from (Sum.inl_getLeft (γ (bl y).val) (hcl y)).symm]
       simp [hM]
-    · show M (ρ x.val) (γ (br y).val) = 0
+    · change M (ρ x.val) (γ (br y).val) = 0
       rw [show ρ x.val = Sum.inl (rowA x) from (Sum.inl_getLeft (ρ x.val) (hll x)).symm,
           show γ (br y).val = Sum.inr (colB y) from (Sum.inr_getRight (γ (br y).val) (hcr y)).symm]
       simp [hM]
-    · show M (ρ x.val) (γ (bl y).val) = 0
+    · change M (ρ x.val) (γ (bl y).val) = 0
       rw [show ρ x.val = Sum.inr (rowB x) from (Sum.inr_getRight (ρ x.val) (hrr x)).symm,
           show γ (bl y).val = Sum.inl (colA y) from (Sum.inl_getLeft (γ (bl y).val) (hcl y)).symm]
       simp [hM]
-    · show M (ρ x.val) (γ (br y).val) = B (rowB x) (colB y)
+    · change M (ρ x.val) (γ (br y).val) = B (rowB x) (colB y)
       rw [show ρ x.val = Sum.inr (rowB x) from (Sum.inr_getRight (ρ x.val) (hrr x)).symm,
           show γ (br y).val = Sum.inr (colB y) from (Sum.inr_getRight (γ (br y).val) (hcr y)).symm]
       simp [hM]
@@ -250,7 +250,7 @@ theorem combine_unit_minor (C₁ C₂ : Complex R e) (k : ℕ) {s₁ s₂ : ℕ}
       IsUnit (((directSum C₁ C₂).d k).submatrix rows cols).det := by
   refine ⟨finSumFinEquiv ∘ Sum.map rows₁ rows₂ ∘ finSumFinEquiv.symm,
           finSumFinEquiv ∘ Sum.map cols₁ cols₂ ∘ finSumFinEquiv.symm, ?_⟩
-  show IsUnit ((((Matrix.fromBlocks (C₁.d k) 0 0 (C₂.d k)).reindex finSumFinEquiv
+  change IsUnit ((((Matrix.fromBlocks (C₁.d k) 0 0 (C₂.d k)).reindex finSumFinEquiv
       finSumFinEquiv).submatrix
       (finSumFinEquiv ∘ Sum.map rows₁ rows₂ ∘ finSumFinEquiv.symm)
       (finSumFinEquiv ∘ Sum.map cols₁ cols₂ ∘ finSumFinEquiv.symm)).det)
@@ -278,7 +278,7 @@ theorem rank_le_directSum (C₁ C₂ : Complex R e) (k : ℕ) :
     have : ((directSum C₁ C₂).d k).submatrix rows cols
         = (Matrix.fromBlocks (C₁.d k) 0 0 (C₂.d k)).submatrix
             (finSumFinEquiv.symm ∘ rows) (finSumFinEquiv.symm ∘ cols) := by
-      show (((Matrix.fromBlocks (C₁.d k) 0 0 (C₂.d k)).reindex finSumFinEquiv
+      change (((Matrix.fromBlocks (C₁.d k) 0 0 (C₂.d k)).reindex finSumFinEquiv
           finSumFinEquiv).submatrix rows cols) = _
       rw [Matrix.reindex_apply, Matrix.submatrix_submatrix]
     rwa [this] at hdet

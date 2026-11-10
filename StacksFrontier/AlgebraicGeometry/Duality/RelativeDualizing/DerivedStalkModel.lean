@@ -148,7 +148,7 @@ theorem schemeStalkModuleFunctor_germ_smul {Z : Scheme.{u}} (z : Z) (M : Z.Modul
   have h : (SemilinearStalk.commStalkIso Z.presheaf z).inv.hom (Z.presheaf.germ V z hz a) =
       TopCat.Presheaf.germ (C := RingCat.{u}) Z.ringCatSheaf.obj V z hz a := by
     rw [← SemilinearStalk.commStalkRingEquiv_germ Z.presheaf z V hz a]
-    show ((SemilinearStalk.commStalkIso Z.presheaf z).hom ≫
+    change ((SemilinearStalk.commStalkIso Z.presheaf z).hom ≫
       (SemilinearStalk.commStalkIso Z.presheaf z).inv).hom _ = _
     rw [Iso.hom_inv_id]
     rfl
@@ -348,7 +348,7 @@ theorem isLocalization_affineGermRingHom :
   let e : (Spec Γ(X, U)).presheaf.stalk y ≃ₐ[Γ(X, U)] X.presheaf.stalk x :=
     { (affineStalkRingEquiv hU x hx).symm with
       commutes' := fun a => by
-        show (affineStalkRingEquiv hU x hx).symm (algebraMap _ _ a) =
+        change (affineStalkRingEquiv hU x hx).symm (algebraMap _ _ a) =
           (affineStalkRingEquiv hU x hx).symm (specGermRingHom Γ(X, U) y a)
         exact congrArg _ (DFunLike.congr_fun (specGermRingHom_eq Γ(X, U) y) a).symm }
   exact IsLocalization.isLocalization_of_algEquiv y.asIdeal.primeCompl e
@@ -489,13 +489,13 @@ theorem associatedShiftFunction_eq_dualizingDimension [IsLocallyNoetherian X]
           ((derivedStalkOfComplex x E)⟦-n⟧)} =
       {Dualizing.dualizingDimension.{u, u} ω (hU.primeIdealOf ⟨x, hx⟩)} := by
     ext n
-    simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
     exact ⟨fun ⟨E, hE, hn⟩ =>
       (isNormalizedDualizingComplex_derivedStalkOfComplex_shift_iff E hE hU x hx ω hω n).mp hn,
       fun hn => ⟨DerivedCategory.Q.objPreimage K, ⟨DerivedCategory.Q.objObjPreimageIso K⟩,
         (isNormalizedDualizingComplex_derivedStalkOfComplex_shift_iff _
           ⟨DerivedCategory.Q.objObjPreimageIso K⟩ hU x hx ω hω n).mpr hn⟩⟩
-  show sInf _ = _
+  change sInf _ = _
   rw [hset, csInf_singleton]
 
 /-- Every point of a locally Noetherian scheme with a dualizing complex `K` lies in an affine open

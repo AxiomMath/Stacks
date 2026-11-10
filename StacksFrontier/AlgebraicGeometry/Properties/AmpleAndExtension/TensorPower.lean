@@ -223,7 +223,7 @@ private theorem exists_residueLinearMap {R : Type*} [CommRing R] [IsLocalRing R]
   let f : M →ₗ[R] k := (g.restrictScalars R).comp
     (I • (⊤ : Submodule R M)).mkQ
   refine ⟨f, ?_⟩
-  show b.coord i v ≠ 0
+  change b.coord i v ≠ 0
   simpa [Module.Basis.coord] using hi
 
 private noncomputable def residueTensorMulMap {R : Type*} [CommRing R] [IsLocalRing R] :
@@ -256,7 +256,7 @@ private theorem tensor_not_mem_maximalIdeal_iff {R : Type*} [CommRing R] [IsLoca
       · intro a b ha hb
         simp [map_add, ha, hb]
     have hval : ψ (m ⊗ₜ[R] n) = f m * g n := by
-      show residueTensorMulMap ((TensorProduct.map f g) (m ⊗ₜ[R] n)) = _
+      change residueTensorMulMap ((TensorProduct.map f g) (m ⊗ₜ[R] n)) = _
       rw [TensorProduct.map_tmul, residueTensorMulMap, TensorProduct.lift.tmul]
       rfl
     exact mul_ne_zero hf hg (hval.symm.trans (hz _ hmem))
@@ -300,7 +300,7 @@ theorem tensorSections_nonvanishing_iff {X : Scheme.{u}}
       tensorValue ∈ IsLocalRing.maximalIdeal
         (Stacks.SheafOfModules.TensorStalkRingedSpace.ringStalk X.toRingedSpace x) • ⊤)
     hs)).symm.trans hlin
-  show Stacks.SheafOfModules.TensorStalkRingedSpace.grpGerm X.toRingedSpace
+  change Stacks.SheafOfModules.TensorStalkRingedSpace.grpGerm X.toRingedSpace
         (Invertible.tensorProduct X.toRingedSpace.presheaf
           (structureSheafRing X.toRingedSpace).property F G).val x ⊤ (by simp)
         ((tensorSections F G s t).eval (op ⊤)) ∉
@@ -379,7 +379,7 @@ theorem nonvanishingLocus_iso {X : Scheme.{u}} {L M : X.Modules}
       ((PresheafOfModules.toPresheaf (Stacks.SheafOfModules.TensorStalkRingedSpace.O
         X.toRingedSpace)).map e.hom.val)
       (s.eval (op ⊤))).symm
-  show Stacks.SheafOfModules.TensorStalkRingedSpace.grpGerm X.toRingedSpace M.val x ⊤ (by simp)
+  change Stacks.SheafOfModules.TensorStalkRingedSpace.grpGerm X.toRingedSpace M.val x ⊤ (by simp)
         ((SheafOfModules.sectionsMap e.hom s).eval (op ⊤)) ∉
       IsLocalRing.maximalIdeal (Stacks.SheafOfModules.TensorStalkRingedSpace.ringStalk
         X.toRingedSpace x) •

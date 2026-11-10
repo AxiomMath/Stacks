@@ -51,7 +51,7 @@ theorem isDerivedCompleteAt_of_distTriang_of_pretriangulated {T : Triangle D}
         exact (oneSubSmulShift_naturality f _).symm)
       (by
         rw [productTriangle_mor₃]
-        show (Limits.Pi.map (fun _ : ℕ => T.mor₃) ≫
+        change (Limits.Pi.map (fun _ : ℕ => T.mor₃) ≫
             inv (piComparison (shiftFunctor D (1 : ℤ))
               (fun _ : ℕ => T.obj₁))) ≫
               (shiftFunctor D (1 : ℤ)).map

@@ -105,7 +105,7 @@ theorem IsGorensteinLocalRing.mem_span_singleton_of_mul_eq_zero (hC : IsGorenste
     apply h
     apply e.injective
     rw [e.map_inf, e.map_bot, e.apply_symm_apply]
-    show N ⊓ (ModuleCat.subobjectModule E) (Subobject.mk i) = ⊥
+    change N ⊓ (ModuleCat.subobjectModule E) (Subobject.mk i) = ⊥
     rw [subobjectModule_mk_eq_range i]
     exact hz
   -- a nonzero socle element `w` of `C` gives a point of the image of the residue field
@@ -129,7 +129,7 @@ theorem IsGorensteinLocalRing.mem_span_singleton_of_mul_eq_zero (hC : IsGorenste
     obtain ⟨c, hc⟩ := residue_surjective (u'.down * u.down⁻¹)
     refine ⟨c, ULift.ext ?_⟩
     have hu0' : u.down ≠ 0 := fun h => hu0 (ULift.ext h)
-    show residue C c * u.down = u'.down
+    change residue C c * u.down = u'.down
     rw [hc, mul_assoc, inv_mul_cancel₀ hu0', mul_one]
   have hmem : ψ y ∈ Submodule.span C {ψ x} := by
     have h1 : ψ y ∈ Submodule.span C {i.hom u'} := huy ▸ Submodule.mem_span_singleton_self _

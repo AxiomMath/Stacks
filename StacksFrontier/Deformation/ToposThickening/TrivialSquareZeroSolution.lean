@@ -146,9 +146,9 @@ theorem sq_ker_sqZeroExtSheafProj (U : Cᵒᵖ) :
   have hx' : sqZeroExtFst x = 0 := hx
   have hy' : sqZeroExtFst y = 0 := hy
   refine Ideal.mem_bot.2 (sqZeroExt_ext ?_ ?_)
-  · show sqZeroExtFst x * sqZeroExtFst y = 0
+  · change sqZeroExtFst x * sqZeroExtFst y = 0
     rw [hx', zero_mul]
-  · show sqZeroExtFst x • sqZeroExtSnd y + sqZeroExtFst y • sqZeroExtSnd x = _
+  · change sqZeroExtFst x • sqZeroExtSnd y + sqZeroExtFst y • sqZeroExtSnd x = _
     rw [hx', hy', zero_smul, zero_smul, add_zero]
     rfl
 

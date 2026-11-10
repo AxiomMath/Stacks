@@ -110,7 +110,7 @@ public lemma presieve₀_mem_fpqcPrecoverage_of_finite_affineCover {T : Scheme.{
   have hqcmap (i : 𝒱.cover.I₀) : AlgebraicGeometry.QuasiCompact (𝒱.cover.f i) :=
     inferInstanceAs (AlgebraicGeometry.QuasiCompact (𝒱.f i))
   have hqc : QuasiCompactCover 𝒱.cover.toPreZeroHypercover := QuasiCompactCover.of_finite
-  show 𝒱.cover.presieve₀ ∈ Scheme.qcPrecoverage T ∧
+  change 𝒱.cover.presieve₀ ∈ Scheme.qcPrecoverage T ∧
     𝒱.cover.presieve₀ ∈ Scheme.precoverage (@Flat.{u}) T
   exact ⟨Scheme.presieve₀_mem_qcPrecoverage_iff.mpr hqc, 𝒱.cover.mem₀⟩
 

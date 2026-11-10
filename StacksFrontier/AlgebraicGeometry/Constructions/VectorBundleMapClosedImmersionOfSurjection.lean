@@ -95,7 +95,7 @@ theorem epi_symmetricAlgebraUnitalHom_app (f : F ⟶ G) [Epi f] (n : ℤ) :
   have key : symmetricAlgebraUnitalHom X f = (a.comp b).comp c :=
     (SheafOfModules.GradedAlgebra.IsUniversal.descComp_unique hF.isUniversal f _ _ hgen).symm
   rw [key]
-  show Epi ((a.app n ≫ b.app n) ≫ c.app n)
+  change Epi ((a.app n ≫ b.app n) ≫ c.app n)
   have ha : Epi (a.app n) := (hF.isUniversal.pieceIso hF'.isUniversal n).isIso_hom.epi_of_iso
   have hc : Epi (c.app n) := (hG'.isUniversal.pieceIso hG.isUniversal n).isIso_hom.epi_of_iso
   have hb : Epi (b.app n) :=

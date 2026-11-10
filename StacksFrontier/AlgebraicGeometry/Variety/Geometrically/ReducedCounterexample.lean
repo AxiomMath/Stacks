@@ -126,7 +126,7 @@ public theorem nilpotentElement_pow_eq_zero (K : Type*) [Field K]
   let R := MvPolynomial (Fin 2) K
   let g : R := 1 + MvPolynomial.C a * MvPolynomial.X 0 +
     MvPolynomial.C b * MvPolynomial.X 1
-  show Ideal.Quotient.mk _ g ^ p = 0
+  change Ideal.Quotient.mk _ g ^ p = 0
   rw [← map_pow (Ideal.Quotient.mk _)]
   let : CharP K p := charP_of_injective_algebraMap
     (algebraMap (rationalFunctionField p) K).injective p
@@ -282,11 +282,11 @@ private theorem hypersurfaceEquation_irreducible (p : ℕ) [Fact p.Prime] :
       obtain ⟨u, hu⟩ := hqP2
       have hu' : u * q = 1 :=
         mul_right_cancel₀ hqprime.ne_zero (by linear_combination hu)
-      exact hqprime.not_unit (isUnit_of_dvd_one ⟨u, by rw [mul_comm q u, hu']⟩)
+      exact hqprime.not_isUnit (isUnit_of_dvd_one ⟨u, by rw [mul_comm q u, hu']⟩)
   have hfIrr : Irreducible f := hfE.irreducible hPprime hfprim (by simpa [hnat] using hp)
   let e := MvPolynomial.finSuccEquiv k 1
   have he : e (hypersurfaceEquation p) = f := by
-    show e (1 + MvPolynomial.C (transcendentalGenerator p 0) *
+    change e (1 + MvPolynomial.C (transcendentalGenerator p 0) *
         MvPolynomial.X 0 ^ p + MvPolynomial.C (transcendentalGenerator p 1) *
         MvPolynomial.X 1 ^ p) =
       Polynomial.C (MvPolynomial.C (transcendentalGenerator p 0)) * Polynomial.X ^ p +
@@ -299,7 +299,7 @@ private theorem hypersurfaceEquation_irreducible (p : ℕ) [Fact p.Prime] :
       simpa only [show (1 : Fin 2) = Fin.succ (0 : Fin 1) by decide] using
         (MvPolynomial.finSuccEquiv_X_succ (R := k) (n := 1) (j := 0))
     have hC : ∀ c : k, e (MvPolynomial.C c) = Polynomial.C (MvPolynomial.C c) := fun c => by
-      show e (algebraMap k (MvPolynomial (Fin 2) k) c) = _
+      change e (algebraMap k (MvPolynomial (Fin 2) k) c) = _
       rw [e.commutes]
       simp [Polynomial.algebraMap_apply, MvPolynomial.algebraMap_eq]
     simp only [map_add, map_one, map_mul, map_pow, hx0, hx1, hC]
@@ -324,7 +324,7 @@ public theorem hypersurface_isVariety :
     dsimp [hypersurfaceRing]
     infer_instance
   have : LocallyOfFiniteType (hypersurfaceToSpec p) := by
-    show LocallyOfFiniteType (Spec (.of (hypersurfaceRing p)) ↘ Spec (.of k))
+    change LocallyOfFiniteType (Spec (.of (hypersurfaceRing p)) ↘ Spec (.of k))
     infer_instance
   have : IsAffineHom (hypersurfaceToSpec p) := inferInstance
   have : QuasiCompact (hypersurfaceToSpec p) := inferInstance
@@ -430,7 +430,7 @@ public theorem nilpotentElement_ne_zero (K : Type*) [Field K]
           MvPolynomial (Fin 2) K) = 1 := by simp
     rw [h] at h0
     simp at h0
-  · show (1 + MvPolynomial.C a * MvPolynomial.X 0 +
+  · change (1 + MvPolynomial.C a * MvPolynomial.X 0 +
       MvPolynomial.C b * MvPolynomial.X 1 : MvPolynomial (Fin 2) K).totalDegree <
       (extendedEquation p K).totalDegree
     unfold extendedEquation

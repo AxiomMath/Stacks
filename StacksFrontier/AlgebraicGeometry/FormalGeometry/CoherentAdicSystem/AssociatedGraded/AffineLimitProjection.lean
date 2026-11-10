@@ -99,7 +99,7 @@ private theorem kernelSectionsEquiv_val
     {X : Scheme.{u}} {L M : X.Modules} (f : L ⟶ M) (U : X.Opens)
     (a : (kernel f).val.obj (op U)) :
     (kernelSectionsEquiv f U a).val = (kernel.ι f).val.app (op U) a := by
-  show ((PreservesKernel.iso
+  change ((PreservesKernel.iso
       (SheafOfModules.evaluation X.ringCatSheaf (op U)) f).hom ≫
     (ModuleCat.kernelIsoKer (f.val.app (op U))).hom ≫
     ModuleCat.ofHom (LinearMap.ker (f.val.app (op U)).hom).subtype) a = _
@@ -259,7 +259,7 @@ private theorem ideal_map_affineOpen {X : Scheme.{u}}
         (isAffineOpen_top U.1).image_of_isOpenImmersion U.1.ι⟩ := by
     rw [I.ideal_comap_of_isOpenImmersion]
     simp only [Scheme.Opens.ι_appIso, Iso.refl_inv]
-    show (I.ideal ⟨U.1.ι ''ᵁ ⊤,
+    change (I.ideal ⟨U.1.ι ''ᵁ ⊤,
       (isAffineOpen_top U.1).image_of_isOpenImmersion U.1.ι⟩).comap
         (RingHom.id _) = _
     exact Ideal.comap_id _
@@ -276,14 +276,14 @@ private theorem ideal_smul_top_restrictScalars_iff
   · intro hx
     refine Submodule.smul_induction_on hx ?_ ?_
     · intro r hr y _
-      show φ r • (show M from y) ∈ K.map φ • (⊤ : Submodule R M)
+      change φ r • (show M from y) ∈ K.map φ • (⊤ : Submodule R M)
       exact Submodule.smul_mem_smul (Ideal.mem_map_of_mem _ hr) Submodule.mem_top
     · exact fun _ _ => Submodule.add_mem _
   · intro hx
     refine Submodule.smul_induction_on hx ?_ ?_
     · intro s hs y _
       obtain ⟨r, hr, rfl⟩ := (Ideal.mem_map_iff_of_surjective φ hφ).mp hs
-      show r • (show (ModuleCat.restrictScalars φ).obj M from y) ∈
+      change r • (show (ModuleCat.restrictScalars φ).obj M from y) ∈
         K • (⊤ : Submodule S ((ModuleCat.restrictScalars φ).obj M))
       exact Submodule.smul_mem_smul hr Submodule.mem_top
     · exact fun _ _ => Submodule.add_mem _
@@ -305,7 +305,7 @@ private theorem ideal_map_affineOpen_inv {X : Scheme.{u}}
     (I.ideal U).map U.1.topIso.inv.hom =
       (I.comap U.1.ι).ideal ⟨⊤, isAffineOpen_top U.1⟩ := by
   rw [← ideal_map_affineOpen I U, Ideal.map_map]
-  show Ideal.map (U.1.topIso.inv.hom.comp U.1.topIso.hom.hom) _ = _
+  change Ideal.map (U.1.topIso.inv.hom.comp U.1.topIso.hom.hom) _ = _
   have h : U.1.topIso.inv.hom.comp U.1.topIso.hom.hom = RingHom.id _ := by
     ext x
     exact ConcreteCategory.congr_hom U.1.topIso.hom_inv_id x
@@ -630,7 +630,7 @@ private lemma limitRestriction_projection {X : Scheme.{u}} {I : X.IdealSheafData
     (x : sectionsLimit F U) :
     (sectionsProjection F V n) (limitRestrictionFun F U V h x) =
       (F.obj.obj (op n)).val.map (homOfLE h).op ((sectionsProjection F U n) x) := by
-  show ((limitRestriction F U V h ≫
+  change ((limitRestriction F U V h ≫
     (ModuleCat.restrictScalars (X.presheaf.map (homOfLE h).op).hom).map
       (sectionsProjection F V n)) x) = _
   simp only [limitRestriction, Category.assoc, preservesLimitIso_inv_π, limMap_π]
@@ -820,7 +820,7 @@ private lemma affineOpenTransitionAction_assoc {X : Scheme.{u}} [IsNoetherian X]
   rw [affineOpenTransitionAction_mk, affineOpenTransitionAction_mk,
     conormalLocalMap_mul, affineOpenTransitionAction_mk]
   apply transitionMk_heq I F U (Nat.add_assoc n i j)
-  show (b : Γ(X, U.1)) • ((a : Γ(X, U.1)) • (x : sectionsLimit F U.1)) =
+  change (b : Γ(X, U.1)) • ((a : Γ(X, U.1)) • (x : sectionsLimit F U.1)) =
     ((a : Γ(X, U.1)) * (b : Γ(X, U.1))) • (x : sectionsLimit F U.1)
   rw [mul_smul, smul_comm]
 

@@ -55,8 +55,8 @@ of which no search for the first will find — where `h07SQ` is the conclusion o
 the third paragraph of the proof of Stacks 07VS, which runs through Stacks 07SU, 07SK, 084Z,
 07SN and 07VP — the first, second and fourth of those being proved and the other two not. Each of
 07VT, 09YA, 07SQ and 07SU is formalized elsewhere in the project, so the conditionality here is a
-question of order, not of mathematics: once Stacks 07VT is available unconditionally, the three parameters come off by
-substitution, since they are passed straight through to
+question of order, not of mathematics: once Stacks 07VT is available unconditionally, the three
+parameters come off by substitution, since they are passed straight through to
 `AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed` and used for
 nothing else.
 

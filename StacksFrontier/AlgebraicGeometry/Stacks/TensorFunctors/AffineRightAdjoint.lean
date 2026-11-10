@@ -165,7 +165,7 @@ theorem exists_isTerminal_costructuredArrow_of_isAffineHom
   refine ⟨CostructuredArrow.mk (pairMorphism Q ≫ ξ.hom), ⟨?_⟩, ?_⟩
   · refine IsTerminal.ofUniqueHom (fun c => CostructuredArrow.homMk
       (hQ.from (pairOfMorphism hF hG h𝒳 c.left (c.hom ≫ ξ.inv))).b ?_) ?_
-    · show g.hom.hom.toFunctor.map _ ≫ pairMorphism Q ≫ ξ.hom = c.hom
+    · change g.hom.hom.toFunctor.map _ ≫ pairMorphism Q ≫ ξ.hom = c.hom
       rw [← Category.assoc, pairMorphism_naturality, pairMorphism_pairOfMorphism, Category.assoc,
         Iso.inv_hom_id, Category.comp_id]
     · intro c m
@@ -179,7 +179,7 @@ theorem exists_isTerminal_costructuredArrow_of_isAffineHom
         (hQ.hom_ext (homOfPairMorphism hF hG h𝒳
           (P := pairOfMorphism hF hG h𝒳 c.left (c.hom ≫ ξ.inv)) (Q := Q) m.left hm) _)
   · have hmap := map_over hG (toTerminal Q.x)
-    show _root_.AlgebraicGeometry.IsAffineHom ((BigFppfOver.toScheme B S hS).map
+    change _root_.AlgebraicGeometry.IsAffineHom ((BigFppfOver.toScheme B S hS).map
       (𝒳.val.val.p.map ((Q.iso.inv ≫ G.map (toTerminal Q.x)) ≫ ξ.hom)))
     have : _root_.AlgebraicGeometry.IsAffineHom
         ((BigFppfOver.toScheme B S hS).map (toTerminal Q.x).left) := hQaff

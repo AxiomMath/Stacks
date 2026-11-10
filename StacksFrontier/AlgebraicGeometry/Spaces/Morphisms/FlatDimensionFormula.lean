@@ -72,7 +72,7 @@ public theorem relativeDimension_of_topologicalKrullDimAt_fiber_eq' {X S : Schem
     exact key s hs
   intro s hs
   have hFT : LocallyOfFiniteType (f.fiberToSpecResidueField s) := by
-    show LocallyOfFiniteType (Limits.pullback.snd f (S.fromSpecResidueField s))
+    change LocallyOfFiniteType (Limits.pullback.snd f (S.fromSpecResidueField s))
     infer_instance
   refine ⟨equidimensional_of_topologicalKrullDimAt_eq (S.residueField s) (f.fiber s)
     (f.fiberToSpecResidueField s) (hall s), ?_⟩

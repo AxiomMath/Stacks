@@ -152,16 +152,16 @@ public theorem stalkToFormalNeighborhood_mem_filtration_one [IsReduced D.subsche
     {a : Y.presheaf.stalk y} (ha : a ∈ IsLocalRing.maximalIdeal (Y.presheaf.stalk y)) :
     stalkToFormalNeighborhood D f y hmaps a ∈ formalNeighborhoodFiltration D 1 := by
   rw [mem_formalNeighborhoodFiltration_succ_iff]
-  obtain ⟨U, hU, s, rfl⟩ := TopCat.Presheaf.germ_exist _ a
+  obtain ⟨U, hU, s, rfl⟩ := TopCat.Presheaf.exists_germ_eq _ a
   have hyU : y ∉ Y.basicOpen s := by
     rw [Scheme.mem_basicOpen]
     exact ha
   have hsub : D ^ (0 + 1) = D := pow_one D
-  show (stalkToThickening D f y hmaps 0).hom (Y.presheaf.germ U y hU s) = 0
+  change (stalkToThickening D f y hmaps 0).hom (Y.presheaf.germ U y hU s) = 0
   unfold stalkToThickening
   rw [Scheme.Hom.stalkToΓ_germ]
   have : IsReduced (thickening D 0) := by
-    show IsReduced (D ^ (0 + 1)).subscheme
+    change IsReduced (D ^ (0 + 1)).subscheme
     rw [hsub]
     infer_instance
   refine eq_zero_of_basicOpen_eq_bot _ ?_

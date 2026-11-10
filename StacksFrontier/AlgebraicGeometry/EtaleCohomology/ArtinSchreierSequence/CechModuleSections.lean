@@ -52,7 +52,7 @@ def sectionsModule (V : X.Opens) : ModuleCat.{u} Γ(T, ⊤) :=
 gives its pullback to `Y ×_X V'`. -/
 theorem sectionsRingHom_comp {V' V : X.Opens} (h : V' ≤ V) (b : Γ(T, ⊤)) :
     (pullbackOpenMap g h).appTop.hom (sectionsRingHom g q V b) = sectionsRingHom g q V' b := by
-  show ((pullback.fst g V.ι ≫ q).appTop ≫ (pullbackOpenMap g h).appTop).hom b =
+  change ((pullback.fst g V.ι ≫ q).appTop ≫ (pullbackOpenMap g h).appTop).hom b =
     (pullback.fst g V'.ι ≫ q).appTop.hom b
   rw [← Scheme.Hom.comp_appTop, ← Category.assoc, pullbackOpenMap_fst]
 
@@ -88,7 +88,7 @@ def sectionsModulePresheaf : X.Opensᵒᵖ ⥤ ModuleCat.{u} Γ(T, ⊤) where
 /-- **Forgetting the module structure of `V ↦ Γ(Y ×_X V)` gives `pullbackSectionsPresheaf g`.** -/
 def sectionsModulePresheafIso :
     sectionsModulePresheaf g q ⋙ moduleCoefficients.{u} Γ(T, ⊤) ≅ pullbackSectionsPresheaf g :=
-  NatIso.ofComponents (fun V =>
+  NatIso.ofComponents (fun _ =>
       AddEquiv.toAddCommGrpIso
         { toFun := fun x => ULift.up x.down
           invFun := fun x => ULift.up x.down

@@ -367,7 +367,7 @@ theorem isIso_normalization_of_isNormal (X : Scheme.{u}) [IsNormal X]
         hU.isoSpec.inv := by
     rw [hchart]
     simp
-  show IsIso (X.normalization hX ∣_ U)
+  change IsIso (X.normalization hX ∣_ U)
   rw [heq]
   infer_instance
 

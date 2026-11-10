@@ -161,7 +161,7 @@ private lemma exists_open_neighborhood_avoiding_extra_relation_arrows
     exact h
   let : IsFinite (prod.fst : A ⨯ A ⟶ A).left := hproj
   have hπ : IsFinite π := by
-    show IsFinite (A ⨯ A).hom
+    change IsFinite (A ⨯ A).hom
     rw [← (prod.fst : A ⨯ A ⟶ A).w]
     infer_instance
   let : IsFinite π := hπ
@@ -228,7 +228,7 @@ private lemma range_fst_of_isPullback {P X Y Z : Scheme.{u}}
     {a : P ⟶ X} {b : P ⟶ Y} {f : X ⟶ Z} {g : Y ⟶ Z}
     (h : IsPullback a b f g) : Set.range a = f ⁻¹' Set.range g := by
   rw [← h.isoPullback_hom_fst]
-  show Set.range ((pullback.fst f g) ∘ h.isoPullback.hom) = _
+  change Set.range ((pullback.fst f g) ∘ h.isoPullback.hom) = _
   have hs : Function.Surjective h.isoPullback.hom :=
     h.isoPullback.hom.homeomorph.surjective
   rw [Set.range_comp, hs.range_eq, Set.image_univ, Scheme.Pullback.range_fst]
@@ -243,7 +243,7 @@ private lemma baseChangeProjection_isPullback {X S T V : Scheme.{u}}
     (x : X ⟶ S) (f : T ⟶ S) (q : V ⟶ T) :
     IsPullback (baseChangeProjection x f q) (pullback.snd x (q ≫ f))
       (pullback.snd x f) q := by
-  apply IsPullback.mk' (by simp [baseChangeProjection, pullback.lift_snd])
+  apply IsPullback.mk' (by simp [baseChangeProjection])
   · intro Z a b h₁ h₂
     apply pullback.hom_ext
     · have hh := congrArg (fun k => k ≫ pullback.fst x f) h₁
@@ -254,8 +254,8 @@ private lemma baseChangeProjection_isPullback {X S T V : Scheme.{u}}
       rw [Category.assoc, pullback.condition, ← Category.assoc, h, Category.assoc])
     refine ⟨l, ?_, pullback.lift_snd _ _ _⟩
     apply pullback.hom_ext
-    · simp [l, baseChangeProjection, Category.assoc, pullback.lift_fst]
-    · simp [l, baseChangeProjection, Category.assoc, pullback.lift_snd, pullback.lift_snd_assoc, h]
+    · simp [l, baseChangeProjection, Category.assoc]
+    · simp [l, baseChangeProjection, Category.assoc, h]
 
 private def baseChangeInclusion {A A' X X' S T : Scheme.{u}}
     {a : A ⟶ S} {a' : A' ⟶ T} {q : A' ⟶ A} {f : T ⟶ S}
@@ -348,7 +348,7 @@ private lemma universallyClosed_baseChange_relation {S T : Scheme.{u}}
       prodComparison_snd, ← F.map_comp]
   let : UniversallyClosed (F.map (prod.lift G.target G.source)).left := h
   rw [heq]
-  show UniversallyClosed ((F.map (prod.lift G.target G.source)).left ≫
+  change UniversallyClosed ((F.map (prod.lift G.target G.source)).left ≫
     (prodComparison F G.objects G.objects).left)
   have : IsIso (prodComparison F G.objects G.objects).left :=
     (inferInstance : IsIso ((Over.forget T).map (prodComparison F G.objects G.objects)))
@@ -366,7 +366,7 @@ private lemma image_fiber_baseChange {A A' X X' S T : Scheme.{u}}
     refine ⟨a v, ?_, ?_⟩
     · have hw := congrArg (fun k : A' ⟶ S => k v)
         (show a ≫ i ≫ x = i' ≫ x' ≫ f by rw [← hbase, ← Category.assoc, h.w, Category.assoc])
-      show x (i (a v)) = f p
+      change x (i (a v)) = f p
       simpa only [Scheme.Hom.comp_apply, hv] using hw
     · exact congrArg (fun k : A' ⟶ X => k v) h.w
   · rintro ⟨v, hv, hvi⟩
@@ -377,7 +377,7 @@ private lemma image_fiber_baseChange {A A' X X' S T : Scheme.{u}}
     refine ⟨v', ?_, rfl⟩
     apply hf
     have hb := congrArg (fun k : X' ⟶ S => k (i' v')) hbase
-    show f (x' (i' v')) = f p
+    change f (x' (i' v')) = f p
     change x (q (i' v')) = f (x' (i' v')) at hb
     rw [← hb, ← hvi]
     exact hv
@@ -626,8 +626,7 @@ public theorem exists_finite_openClosed_restriction
     dsimp only [F, pR, pU, N', restrictNeighborhood, q]
     apply pullback.hom_ext <;>
       simp [baseChangeProjection, Over.pullback_map_left,
-        Category.assoc, pullback.lift_fst, pullback.lift_snd,
-        pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+        Category.assoc]
   have hsnp : pR ≫ s.left = sn.left ≫ pU := hpmap G.source
   have htnp : pR ≫ t.left = tn.left ≫ pU := hpmap G.target
   have hcommn : ∀ (e' : H'.arrows ⟶ H'.objects) (g : G.arrows ⟶ G.objects),
@@ -666,7 +665,7 @@ public theorem exists_finite_openClosed_restriction
     intro r hr
     rw [range_fst_of_isPullback hpR]
     refine ⟨N'.point, ?_⟩
-    show N.point = R.hom r
+    change N.point = R.hom r
     have hh := congrArg (fun k => k r) s.w
     change U.hom (s.left r) = R.hom r at hh
     rw [hr, hiUpoint, ← Scheme.Hom.comp_apply, ← h11b, hu'p] at hh
@@ -688,7 +687,7 @@ public theorem exists_finite_openClosed_restriction
     hiUbase.symm, hiRbase.symm, ⟨un, ?_, horbit, harrows⟩, hfinU, hfinR,
     hsrcf, htgtf, ⟨l ≫ k, ?_, ?_, ?_⟩, ?_⟩
   · rw [hiUf]
-    show (jU ≫ pullback.fst G.objects.hom N.toBase) (a un) = u
+    change (jU ≫ pullback.fst G.objects.hom N.toBase) (a un) = u
     rw [hun, hu']
   · rw [Category.assoc, hk1, ← Category.assoc l, hl1]
     simp only [Category.assoc, hiRf, H', b]

@@ -70,6 +70,7 @@ theorem exists_iso_siteHom_canonicalSiteFieldPoint (U : BigFppfOver B S hS) (u :
   exact Over.OverMorphism.ext <| ObjectProperty.hom_ext _ <| hρ.trans (Category.id_comp _).symm
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_ProperFiniteAffineChart :
@@ -136,7 +137,7 @@ theorem exists_finite_affine_chartDiagram {Z Y : AlgebraicSpaces B S hS}
     have h₁ := hEuniq _ (pointsMap_injective_of_mono B S hS V.ι he')
     rw [← hsymm] at h₁
     exact (pointsEquivScheme B S hS E.scheme).symm.injective h₁
-  · show Mono (fieldMorphism B S hS Y.1 (FieldValuedPoint.map B S hS (yoneda.obj E.scheme)
+  · change Mono (fieldMorphism B S hS Y.1 (FieldValuedPoint.map B S hS (yoneda.obj E.scheme)
       (E.toSpace ≫ V.ι) (canonicalSiteFieldPoint B S hS E.scheme E.point)))
     rw [fieldMorphism_map_yoneda]
     obtain ⟨k, hk⟩ := exists_iso_siteHom_canonicalSiteFieldPoint B S hS E.scheme E.point

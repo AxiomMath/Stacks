@@ -193,7 +193,7 @@ theorem descent_modules_of_localization_descent_augmentationModuleDescentHyperco
   descent_modules_of_descent_sheaves_augmentationModuleDescentHypercovering A
     ⟨fullyFaithfulSituationTotalInverseImageAugmentationModuleDescentHypercovering hff.some⟩
     fun F => by
-      show (SimplicialSiteSituation.Augmentation.totalMorphismOfTopoi (situation J K)
+      change (SimplicialSiteSituation.Augmentation.totalMorphismOfTopoi (situation J K)
         (Cat.of C) J (situationAugmentation J K)).inverseImage.essImage F ↔ _
       rw [situationTotalInverseImage_essImage_augmentationModuleDescentHypercovering]
       exact hess F

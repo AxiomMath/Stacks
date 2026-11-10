@@ -72,7 +72,7 @@ public lemma exists_valuation_ring_of_specializes (S : AlgebraicGeometry.Scheme.
       S.fromSpecResidueField s' := by
     dsimp only [q, f]
     rw [← Category.assoc, ← AlgebraicGeometry.Spec.map_comp]
-    show AlgebraicGeometry.Spec.map (S.presheaf.stalkSpecializes h ≫
+    change AlgebraicGeometry.Spec.map (S.presheaf.stalkSpecializes h ≫
       S.residue s' ≫ i) ≫ S.fromSpecStalk s = _
     rw [AlgebraicGeometry.Scheme.fromSpecResidueField]
     calc
@@ -86,7 +86,7 @@ public lemma exists_valuation_ring_of_specializes (S : AlgebraicGeometry.Scheme.
       _ = _ := AlgebraicGeometry.Spec.map_comp_assoc _ _ _
   have hqη : q (closedPoint K) = genericPoint (AlgebraicGeometry.Spec (.of A)) := by
     apply PrimeSpectrum.ext
-    show Ideal.comap j (IsLocalRing.maximalIdeal K) = _
+    change Ideal.comap j (IsLocalRing.maximalIdeal K) = _
     ext x
     simp [j, AlgebraicGeometry.genericPoint_eq_bot_of_affine]
   let : (genericPoint (AlgebraicGeometry.Spec (.of A))).asIdeal.IsPrime :=
@@ -110,7 +110,7 @@ public lemma exists_valuation_ring_of_specializes (S : AlgebraicGeometry.Scheme.
     rw [AlgebraicGeometry.Spec.map_inj]
     ext x
     simp only [e, Iso.trans_hom, ConcreteCategory.comp_apply, Iso.inv_hom_id_apply]
-    show j x = eFrac (algebraMap A _ x)
+    change j x = eFrac (algebraMap A _ x)
     rw [← Ideal.algebraMap_quotient_residueField_mk,
       IsFractionRing.ringEquivOfRingEquiv_algebraMap]
     simp [baseEquiv, j]
@@ -123,7 +123,7 @@ public lemma exists_valuation_ring_of_specializes (S : AlgebraicGeometry.Scheme.
     simpa only [AlgebraicGeometry.Scheme.fromSpecResidueField_apply] using this
   refine ⟨A, inferInstance, inferInstance, inferInstance, f, e, hη, ?_, ?_⟩
   · dsimp only [f]
-    show S.fromSpecStalk s (PrimeSpectrum.comap a.hom (closedPoint A)) = s
+    change S.fromSpecStalk s (PrimeSpectrum.comap a.hom (closedPoint A)) = s
     rw [IsLocalRing.comap_closedPoint a.hom,
       AlgebraicGeometry.Scheme.fromSpecStalk_closedPoint]
   · have ht := hqf
@@ -186,7 +186,7 @@ private theorem closedRange_of_quasiCompact_stable {X S : Scheme} (f : X ⟶ S)
   have hrange : Set.range (f ∣_ U' : V.toScheme → U') =
       (U'.ι : U' → S) ⁻¹' Set.range (f : X → S) := by
     ext y
-    show (∃ x : V.toScheme, (f ∣_ U') x = y) ↔ ∃ x : X, f x = U'.ι y
+    change (∃ x : V.toScheme, (f ∣_ U') x = y) ↔ ∃ x : X, f x = U'.ι y
     constructor
     · rintro ⟨x, hx⟩
       exact ⟨x.1, (morphismRestrict_base_coe f U' x).symm.trans (congrArg U'.ι hx)⟩
@@ -197,7 +197,7 @@ private theorem closedRange_of_quasiCompact_stable {X S : Scheme} (f : X ⟶ S)
   have hstableU : StableUnderSpecialization
       (Set.range (f ∣_ U' : V.toScheme → U')) := by
     rw [hrange]; exact hstable.preimage U'.ι.continuous
-  show IsClosed ((U'.ι : U' → S) ⁻¹' Set.range (f : X → S))
+  change IsClosed ((U'.ι : U' → S) ⁻¹' Set.range (f : X → S))
   rw [← hrange]
   exact closedRange_of_compact_affineTarget (f ∣_ U') hstableU
 

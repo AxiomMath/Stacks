@@ -174,7 +174,7 @@ public theorem tripleData_eq :
       𝟙 (structureSheafOfRings (D.basespace)) := by
   ext : 2
   funext Z
-  show (forget₂ CommRingCat.{u} RingCat.{u}).map (X.presheaf.map _) ≫
+  change (forget₂ CommRingCat.{u} RingCat.{u}).map (X.presheaf.map _) ≫
       (forget₂ CommRingCat.{u} RingCat.{u}).map (X.presheaf.map _) = 𝟙 _
   refine (map_presheaf_comp _ _ (𝟙 _)).symm.trans ?_
   rw [CategoryTheory.Functor.map_id, CategoryTheory.Functor.map_id]

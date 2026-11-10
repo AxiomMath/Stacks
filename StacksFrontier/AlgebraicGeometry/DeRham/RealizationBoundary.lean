@@ -99,7 +99,7 @@ theorem _root_.CategoryTheory.Functor.comp_shiftMap_eq {C D A : Type*} [Category
     [Category* A] [HasShift C ℤ] [HasShift D ℤ] (π : C ⥤ D) [π.CommShift ℤ] (H : D ⥤ A)
     [H.ShiftSequence ℤ] {Y Z : C} (f : Y ⟶ Z⟦(1 : ℤ)⟧) (a a' : ℤ) (ha : 1 + a = a') :
     (π ⋙ H).shiftMap f a a' ha = H.shiftMap (Functor.mapδ π f) a a' ha := by
-  show (H.shift a).map (π.map f) ≫ (𝟙 _ ≫ (H.shift a).map ((π.commShiftIso 1).hom.app Z) ≫
+  change (H.shift a).map (π.map f) ≫ (𝟙 _ ≫ (H.shift a).map ((π.commShiftIso 1).hom.app Z) ≫
     𝟙 _ ≫ (H.shiftIso 1 a a' ha).hom.app (π.obj Z)) = _
   simp [Functor.shiftMap, Functor.mapδ]
 
@@ -273,7 +273,7 @@ theorem moduleδ_roof
     (hS : (toSC S).ShortExact) :
     (moduleSide X).map (coneDesc S) ≫ moduleδ X S hS =
       (moduleSide X).map (coneδPlus S) ≫ ((moduleSide X).commShiftIso (1 : ℤ)).hom.app S.X₁ := by
-  show _ = Functor.mapδ (moduleSide X) (coneδPlus S)
+  change _ = Functor.mapδ (moduleSide X) (coneδPlus S)
   rw [Functor.mapδ_comp, Functor.mapδ_comp, Functor.mapδ_comp, mapδ_ι_coneδPlus]
   have hq : DerivedCategory.Q.mapδ (CochainComplex.mappingCone.triangle (toSC S).f).mor₃ =
       DerivedCategory.Q.map (CochainComplex.mappingCone.descShortComplex (toSC S)) ≫
@@ -318,12 +318,12 @@ theorem abelianδ_roof
     (hS : (toSC S).ShortExact) :
     (abelianSide X).map (coneDesc S) ≫ abelianδ X S hS =
       (abelianSide X).map (coneδPlus S) ≫ ((abelianSide X).commShiftIso (1 : ℤ)).hom.app S.X₁ := by
-  show _ = Functor.mapδ (abelianSide X) (coneδPlus S)
+  change _ = Functor.mapδ (abelianSide X) (coneδPlus S)
   rw [Functor.mapδ_comp, Functor.mapδ_comp, Functor.mapδ_comp,
     mapδ_mapCochainComplexPlus_coneδPlus, Functor.comp_mapδ,
     ← plusQ_map_coneDesc_comp_plusδ _ (toSC_mapPlus_shortExact _ S hS), Functor.comp_mapδ,
     Functor.comp_mapδ, Functor.comp_mapδ, Functor.comp_mapδ, ← Functor.mapδ_comp]
-  show DerivedCategory.Plus.ι.map ((sectionsFunctor X.carrier ⊤).rightDerivedFunctorPlus.map
+  change DerivedCategory.Plus.ι.map ((sectionsFunctor X.carrier ⊤).rightDerivedFunctorPlus.map
       (DerivedCategory.Plus.Q.map
         ((SheafOfModules.toSheaf (structureSheafRing X)).mapCochainComplexPlus.map
           (coneDesc S)))) ≫ _ = _
@@ -352,7 +352,7 @@ theorem isIso_abelianSide_map_coneDesc
     exact (DerivedCategory.isIso_Q_map_iff_quasiIso (φ :=
       ((SheafOfModules.toSheaf (structureSheafRing X)).mapCochainComplexPlus.map
         (coneDesc S)).hom)).2 hq
-  show IsIso (DerivedCategory.Plus.ι.map
+  change IsIso (DerivedCategory.Plus.ι.map
     ((sectionsFunctor X.carrier ⊤).rightDerivedFunctorPlus.map
       (DerivedCategory.Plus.Q.map
         ((SheafOfModules.toSheaf (structureSheafRing X)).mapCochainComplexPlus.map
@@ -411,7 +411,7 @@ theorem shortExactBoundary_comp_realizationIsoAt
             AddCommGrpCat.{u}).mapDerivedCategory
             (Functor.mapδ (derivedSectionsOverOpen X ⊤) (DerivedCategory.triangleOfSESδ hS)))
           a a' (by omega) := by
-    show _ ≫ ((DerivedCategory.homologyFunctor AddCommGrpCat.{u} 0).shift a').map _ =
+    change _ ≫ ((DerivedCategory.homologyFunctor AddCommGrpCat.{u} 0).shift a').map _ =
       ((DerivedCategory.homologyFunctor AddCommGrpCat.{u} 0).shift a).map _ ≫ _
     rw [← Functor.shiftMap_comp, h₁, Functor.shiftMap_comp', moduleδ, Functor.mapδ_comp]
   rw [h₀]

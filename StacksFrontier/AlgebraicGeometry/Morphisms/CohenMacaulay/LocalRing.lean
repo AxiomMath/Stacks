@@ -43,7 +43,7 @@ public theorem isCohenMacaulayLocalRing_iff_isMaximalCohenMacaulay (R : Type*) [
     IsCohenMacaulayLocalRing R ↔ Module.IsMaximalCohenMacaulay R R := by
   rw [isCohenMacaulayLocalRing_iff_isCohenMacaulayModule_self,
     IsCohenMacaulayModule, Module.IsMaximalCohenMacaulay]
-  show Module.depthSup R (IsLocalRing.maximalIdeal R) R = Module.supportDim R R ↔ _
+  change Module.depthSup R (IsLocalRing.maximalIdeal R) R = Module.supportDim R R ↔ _
   rw [Module.supportDim_self_eq_ringKrullDim, Module.depthSup_eq_iSup,
     Module.depth, ite_eq_right (by simpa using (IsLocalRing.maximalIdeal.isMaximal R).ne_top)]
 

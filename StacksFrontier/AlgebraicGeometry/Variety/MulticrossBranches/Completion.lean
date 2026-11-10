@@ -150,7 +150,7 @@ theorem adicCompletion_algEquiv_multicross_of_deltaInvariant_eq
   let eResKA : ResidueField A ≃ₐ[k] ResidueField Ahat :=
     { eK.toRingEquiv with
       commutes' := fun x => by
-        show eK (algebraMap k (ResidueField A) x) =
+        change eK (algebraMap k (ResidueField A) x) =
           algebraMap k (ResidueField Ahat) x
         rw [IsScalarTower.algebraMap_apply k A (ResidueField A) x,
           eK.commutes,
@@ -161,7 +161,7 @@ theorem adicCompletion_algEquiv_multicross_of_deltaInvariant_eq
     · change algebraMap k (ResidueField Ahat) x =
         algebraMap k (ResidueField Ahat) y at h
       simpa using congrArg hresHat h
-    · show algebraMap k (ResidueField Ahat) (hresHat y) = y
+    · change algebraMap k (ResidueField Ahat) (hresHat y) = y
       apply hresHat.injective
       rw [hresHat.commutes]
       simp
@@ -183,7 +183,7 @@ theorem adicCompletion_algEquiv_multicross_of_deltaInvariant_eq
     have hcomp : (residue (B i)).comp (algebraMap k (B i)) =
         (ResidueField.map (ψ i)).comp ((residue Ahat).comp (algebraMap k Ahat)) := by
       ext x
-      show residue (B i) (ψ i (algebraMap k Ahat x)) =
+      change residue (B i) (ψ i (algebraMap k Ahat x)) =
         ResidueField.map (ψ i) (residue Ahat (algebraMap k Ahat x))
       simp [IsLocalRing.ResidueField.map_residue]
     rw [hcomp]
@@ -228,7 +228,7 @@ theorem adicCompletion_algEquiv_multicross_of_deltaInvariant_eq
     let c := (κ i).symm (residue (B i) b)
     have hres : residue (B i) (b - algebraMap k (B i) c) = 0 := by
       have hc : residue (B i) (algebraMap k (B i) c) = residue (B i) b := by
-        show κ i c = residue (B i) b
+        change κ i c = residue (B i) b
         exact (κ i).apply_symm_apply _
       rw [map_sub, hc, sub_self]
     have hmem : b - algebraMap k (B i) c ∈ maximalIdeal (B i) :=
@@ -254,7 +254,7 @@ theorem adicCompletion_algEquiv_multicross_of_deltaInvariant_eq
       (eRes i).toRingHom.comp (κ i.castSucc).toRingHom =
         (κ (Fin.last m)).toRingHom := by
     ext a
-    show eRes i (residue (B i.castSucc) (ψ i.castSucc (algebraMap k Ahat a))) =
+    change eRes i (residue (B i.castSucc) (ψ i.castSucc (algebraMap k Ahat a))) =
       residue (B (Fin.last m)) (ψ (Fin.last m) (algebraMap k Ahat a))
     have hz := (wEquiv (algebraMap k Ahat a)).property
     rw [mem_wedgeSubring] at hz
@@ -324,7 +324,7 @@ theorem adicCompletion_algEquiv_multicross_of_deltaInvariant_eq
     RingEquiv.ofBijective fC hfCbij
   let e : Ahat ≃+* multicross k (m + 1) := wEquiv.trans fEquiv
   refine ⟨e, RingHom.ext fun a => Subtype.ext <| funext fun i => ?_⟩
-  show E i (algebraMap k (B i) a) = PowerSeries.C a
+  change E i (algebraMap k (B i) a) = PowerSeries.C a
   exact (E i).commutes a
 
 /-- **A coefficient-compatible multicross description of the completion, with one factor for

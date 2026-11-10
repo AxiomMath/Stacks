@@ -110,14 +110,13 @@ theorem freeTensorToCotangent_one_tmul (u : T →₀ P.Ring) :
     refine (P.algebraMap_smul_cotangent_mk c _ (P.relation_mem_ker t)).trans ?_
     congr 1
     apply Subtype.ext
-    show c * P.relation t = relationMap P (Finsupp.single t c)
+    change c * P.relation t = relationMap P (Finsupp.single t c)
     rw [relationMap_single]
 
 /-- Since `P → B` is surjective, every element of `B ⊗_P M` is of the form `1 ⊗ m`. -/
 theorem tensor_eq_one_tmul {M : Type*} [AddCommGroup M] [Module P.Ring M]
     (c : B ⊗[P.Ring] M) : ∃ m : M, c = (1 : B) ⊗ₜ m := by
-  induction c using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction c using TensorProduct.inductionOn with
   | tmul b m =>
     obtain ⟨p, rfl⟩ := P.algebraMap_surjective b
     exact ⟨p • m, by rw [tmul_smul, smul_tmul', Algebra.smul_def, mul_one]⟩
@@ -181,11 +180,11 @@ theorem exists_relationBoundary_eq (c : B ⊗[P.Ring] (T →₀ P.Ring))
     exact hc
   obtain ⟨w, hw, hwu⟩ := hsq
   have hr : u - w ∈ relations P := by
-    show relationMap P (u - w) = 0
+    change relationMap P (u - w) = 0
     rw [map_sub, hwu, sub_self]
   refine ⟨(1 : B) ⊗ₜ Submodule.mkQ (trivialRelations P) ⟨u - w, hr⟩,
     (relationBoundary_tmul P ⟨u - w, hr⟩).trans ?_⟩
-  show (1 : B) ⊗ₜ[P.Ring] (u - w) = _
+  change (1 : B) ⊗ₜ[P.Ring] (u - w) = _
   rw [tmul_sub, P.one_tmul_eq_zero_of_mem_smul hw, sub_zero]
 
 /-- `F ⊗ B → I/I²` kills the image of `Rel/TrivRel ⊗ B`. -/
@@ -193,8 +192,7 @@ theorem freeTensorToCotangent_relationBoundary (s : B ⊗[P.Ring] relationQuotie
     letI := relationModule P
     P.freeTensorToCotangent (relationBoundary P s) = 0 := by
   let _ := relationModule P
-  induction s using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction s using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy, add_zero]
   | tmul b q =>
     rw [show b ⊗ₜ[P.Ring] q = b • ((1 : B) ⊗ₜ[P.Ring] q) by rw [smul_tmul', smul_eq_mul, mul_one],

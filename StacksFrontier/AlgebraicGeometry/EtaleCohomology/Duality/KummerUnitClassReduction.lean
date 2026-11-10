@@ -104,7 +104,7 @@ theorem etaleModuleUnderlyingAbelianConstantMap_comp_map_unitSheafReduction :
   have hρ := homUnitSheafEquiv_unitSheafReduction (Y := V) h
   simp only [homUnitSheafEquiv, Equiv.trans_apply, AddEquiv.toEquiv_eq_coe,
     AddEquiv.coe_toEquiv, Stacks.Cohomology.GlobalSections.moduleULiftHomAddEquiv_apply] at hρ
-  show (ConcreteCategory.hom (((etaleModuleConstantAdj (ZMod N) V hT).homEquiv _ _)
+  change (ConcreteCategory.hom (((etaleModuleConstantAdj (ZMod N) V hT).homEquiv _ _)
       (unitSheafReduction V h))) (x • (1 : ULift.{u + 1} (ZMod N))) =
     (ConcreteCategory.hom (((etaleModuleConstantAdj (ZMod N') V hT).homEquiv _ _)
       (𝟙 (unitSheaf (X := V) N')))) (x • (1 : ULift.{u + 1} (ZMod N')))
@@ -205,7 +205,7 @@ theorem underlyingMap_unitSheafReduction_comp_iso :
     rw [← constantMap_comp_underlyingIso_comp_ι hζ hN0 fV]
     simp only [Category.assoc, Stacks.Kummer.rootsOfUnityPowMap_comp_ι]
   rw [hL, hR, rootSheafHom_app_one]
-  show _ = (Stacks.Kummer.powMap.{u, 0} V e).hom.app _ (((constantSheaf V.smallEtaleTopology
+  change _ = (Stacks.Kummer.powMap.{u, 0} V e).hom.app _ (((constantSheaf V.smallEtaleTopology
       AddCommGrpCat.{u + 1}).map (uliftIntToULiftHom.{u} (ZMod N)) ≫
         Stacks.Kummer.rootSheafHom fV hζ hN0).hom.app _ _)
   rw [rootSheafHom_app_one, Stacks.Kummer.powMap_app_ofUnit]

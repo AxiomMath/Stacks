@@ -91,7 +91,7 @@ theorem SmallEtale.exists_postcomp_hom_mem_range {X Y : AlgebraicSpaces B S hS} 
   obtain ⟨Z₀, z, hz⟩ := exists_chart_point B S hS Y.1 Y.2 y
   set C := (smallEtalePostcomp B S hS f hf).obj Z₀
   have hC : pointsMap B S hS _ A.obj.hom a = pointsMap B S hS _ C.obj.hom z := by
-    show _ = pointsMap B S hS _ (Z₀.obj.hom ≫ f.hom) z
+    change _ = pointsMap B S hS _ (Z₀.obj.hom ≫ f.hom) z
     rw [pointsMap_comp_apply, hz, hy]
   obtain ⟨w, hw, -⟩ := exists_point_of_isPullback_presheaf B S hS
     (A.property.rep.isPullback' C.obj.hom) a z hC

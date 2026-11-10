@@ -104,7 +104,7 @@ theorem ker_powMapₛₗ_le_span_wedgeLeft (hφ : Function.Surjective φ) (u : M
     intro c x
     induction x using Submodule.Quotient.induction_on with
     | _ z =>
-      show sφ (φ c) • Submodule.Quotient.mk (p := P) z = c • Submodule.Quotient.mk (p := P) z
+      change sφ (φ c) • Submodule.Quotient.mk (p := P) z = c • Submodule.Quotient.mk (p := P) z
       rw [← Submodule.Quotient.mk_smul, ← Submodule.Quotient.mk_smul, ← sub_eq_zero,
         ← Submodule.Quotient.mk_sub, ← sub_smul, Submodule.Quotient.mk_eq_zero]
       exact hJ _ (by rw [map_sub, hsφ, sub_self]) z

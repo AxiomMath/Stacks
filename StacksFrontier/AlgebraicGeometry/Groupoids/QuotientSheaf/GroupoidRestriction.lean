@@ -100,7 +100,7 @@ private theorem isLocallySurjective_sheafifyMap_yonedaMap_of_singleton_cover
     obtain ⟨X', d, k, hk, hdk⟩ := hc
     obtain ⟨rfl⟩ := hk
     refine ⟨F.map d ≫ eA.hom, ?_⟩
-    show (F.map d ≫ eA.hom) ≫ f = F.map c ≫ s
+    change (F.map d ≫ eA.hom) ≫ f = F.map c ≫ s
     calc
       (F.map d ≫ eA.hom) ≫ f = F.map d ≫ F.map a ≫ eB.hom := by rw [Category.assoc, ← ha]
       _ = F.map (d ≫ a) ≫ eB.hom := by rw [← Category.assoc, ← Functor.map_comp]
@@ -194,7 +194,7 @@ private theorem restrictionArrowsIso_hom_comp_restrict (G : GroupoidScheme S) {U
     (restrictionArrowsIso G g).hom ≫
         AlgebraicGeometry.PreRelation.restrict (groupoidPreRelation G) g =
       prod.lift (restrictionTarget G g) (restrictionSource G g) := by
-  show restrictionArrowsToRestriction G g ≫ _ = _
+  change restrictionArrowsToRestriction G g ≫ _ = _
   exact pullback.lift_fst _ _ _
 
 /-- A structure map of the restricted groupoid, read through the identification of arrow
@@ -287,18 +287,18 @@ theorem restrictionQuotientMap_eq (J : GrothendieckTopology C)
   have hφ : (restrictionQuotientIso J F G g H).hom =
       quotientSheafMap J F jH jR r f hsrc htar := rfl
   have hsr : pullback.snd (prod.map g g) jG ≫ jG.source = jR.source ≫ g := by
-    show pullback.snd (prod.map g g) jG ≫ jG ≫ prod.snd =
+    change pullback.snd (prod.map g g) jG ≫ jG ≫ prod.snd =
       (pullback.fst (prod.map g g) jG ≫ prod.snd) ≫ g
     rw [← Category.assoc, ← pullback.condition, Category.assoc, Category.assoc, prod.map_snd]
   have htr : pullback.snd (prod.map g g) jG ≫ jG.target = jR.target ≫ g := by
-    show pullback.snd (prod.map g g) jG ≫ jG ≫ prod.fst =
+    change pullback.snd (prod.map g g) jG ≫ jG ≫ prod.fst =
       (pullback.fst (prod.map g g) jG ≫ prod.fst) ≫ g
     rw [← Category.assoc, ← pullback.condition, Category.assoc, Category.assoc, prod.map_fst]
   have hfs : (r ≫ pullback.snd (prod.map g g) jG) ≫ jG.source = jH.source ≫ f ≫ g := by
     rw [Category.assoc, hsr, ← Category.assoc, hsrc, Category.assoc]
   have hft : (r ≫ pullback.snd (prod.map g g) jG) ≫ jG.target = jH.target ≫ f ≫ g := by
     rw [Category.assoc, htr, ← Category.assoc, htar, Category.assoc]
-  show quotientSheafMap J F jH jG H.hom.mapArrows H.hom.mapObjects _ _ = _
+  change quotientSheafMap J F jH jG H.hom.mapArrows H.hom.mapObjects _ _ = _
   rw [hφ, restrictQuotientSheafMap,
     quotientSheafMap_comp J F jH jR jG r f hsrc htar
       (pullback.snd (prod.map g g) jG) g hsr htr]
@@ -346,29 +346,29 @@ private theorem epi_restrictionQuotientMap_of_reach (J : GrothendieckTopology C)
     toQuotientSheaf_comp_quotientSheafMap J F jH jG _ _ _ _
   have hleft : toSheafify J (points F V) ≫ mapS.hom ≫ qG.hom =
       F.op.whiskerLeft (yoneda.map s) ≫ toQuotientSheaf J F jG := by
-    show (toSheafify J (points F V) ≫
+    change (toSheafify J (points F V) ≫
       sheafifyMap J (F.op.whiskerLeft (yoneda.map s))) ≫ qG.hom = _
     rw [← toSheafify_naturality, Category.assoc,
       toSheafify_comp_sheafifyMap_toQuotientPresheaf]
   have hright : toSheafify J (points F V) ≫
         mapT.hom ≫ qH.hom ≫ (restrictionQuotientMap J F G g H).hom =
       F.op.whiskerLeft (yoneda.map (t ≫ g)) ≫ toQuotientSheaf J F jG := by
-    show (toSheafify J (points F V) ≫
+    change (toSheafify J (points F V) ≫
       sheafifyMap J (F.op.whiskerLeft (yoneda.map tH))) ≫ qH.hom ≫
         (restrictionQuotientMap J F G g H).hom = _
     rw [← toSheafify_naturality]
-    show (F.op.whiskerLeft (yoneda.map tH) ≫
+    change (F.op.whiskerLeft (yoneda.map tH) ≫
       (toSheafify J (points F H.groupoid.objects) ≫ qH.hom)) ≫
         (restrictionQuotientMap J F G g H).hom = _
     rw [toSheafify_comp_sheafifyMap_toQuotientPresheaf J F jH]
-    show F.op.whiskerLeft (yoneda.map tH) ≫
+    change F.op.whiskerLeft (yoneda.map tH) ≫
       (toQuotientSheaf J F jH ≫ (restrictionQuotientMap J F G g H).hom) = _
     rw [hqfac, ← Category.assoc, ← Functor.whiskerLeft_comp, ← Functor.map_comp]
     simp [tH, H.mapObjects_eq, Category.assoc]
   have hfac : mapS ≫ qG = mapT ≫ qH ≫ restrictionQuotientMap J F G g H := by
     apply Sheaf.hom_ext
     apply sheafify_hom_ext (hQ := (quotientSheaf J F jG).property)
-    show toSheafify J (points F V) ≫ mapS.hom ≫ qG.hom =
+    change toSheafify J (points F V) ≫ mapS.hom ≫ qG.hom =
       toSheafify J (points F V) ≫
         mapT.hom ≫ qH.hom ≫ (restrictionQuotientMap J F G g H).hom
     exact hleft.trans
@@ -419,7 +419,7 @@ private theorem isLocallySurjective_restrictionReachMap_of_objects
   let idLift : U' ⟶ pullback g G.target :=
     pullback.lift (𝟙 U') (g ≫ G.identity) (by simp [Category.assoc, G.target_identity])
   have hsection : idLift ≫ restrictionReachMap G g = g := by
-    show idLift ≫ pullback.snd g G.target ≫ G.source = g
+    change idLift ≫ pullback.snd g G.target ≫ G.source = g
     rw [← Category.assoc, pullback.lift_snd]
     simp [Category.assoc, G.source_identity]
   have hα : F.op.whiskerLeft (yoneda.map idLift) ≫

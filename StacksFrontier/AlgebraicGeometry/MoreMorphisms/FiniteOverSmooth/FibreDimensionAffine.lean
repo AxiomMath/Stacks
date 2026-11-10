@@ -89,7 +89,7 @@ theorem topologicalKrullDimAt_fiber_asFiber_eq_relativeDimensionAt
     e.symm_apply_eq.mpr (heq ⟨x, hxV⟩).symm
   have hmemq : hV.primeIdealOf ⟨x, hxV⟩ ∈
       (Subtype.val ∘ (e.symm : _ → ↥V)) ⁻¹' ((f : X → S) ⁻¹' {f x}) := by
-    show f (Subtype.val (e.symm (hV.primeIdealOf ⟨x, hxV⟩))) = f x
+    change f (Subtype.val (e.symm (hV.primeIdealOf ⟨x, hxV⟩))) = f x
     rw [hesym]
   rw [topologicalKrullDimAt_fiber_asFiber_eq_preimage f x]
   have key := (hopen.restrictPreimage ((f : X → S) ⁻¹' {f x})).topologicalKrullDimAt_eq
@@ -98,7 +98,7 @@ theorem topologicalKrullDimAt_fiber_asFiber_eq_relativeDimensionAt
         (Subtype.val ∘ (e.symm : _ → ↥V))) ⟨hV.primeIdealOf ⟨x, hxV⟩, hmemq⟩ =
       (⟨x, rfl⟩ : ↥((f : X → S) ⁻¹' {f x})) := by
     refine Subtype.ext ?_
-    show Subtype.val (e.symm (hV.primeIdealOf ⟨x, hxV⟩)) = x
+    change Subtype.val (e.symm (hV.primeIdealOf ⟨x, hxV⟩)) = x
     rw [hesym]
   rw [hval] at key
   rw [key, Algebra.relativeDimensionAt]

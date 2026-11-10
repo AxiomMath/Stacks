@@ -63,8 +63,9 @@ every summand does.** If `G ≅ ⨁ F` and each `F i` carries `u` to a monomorph
 `G`: a map `h` with `h ≫ G.map u = 0` has every projection `h ≫ π_i` killed by the monomorphism
 `F_i.map u`, and `h` is the sum of those projections followed by the inclusions. -/
 theorem mono_map_of_iso_biproduct {A B : Type*} [Category* A] [Category* B] [Preadditive B]
-    {ι : Type} [Fintype ι] {G : A ⥤ B} {F : ι → A ⥤ B} [HasBiproduct F] (e : G ≅ ⨁ F)
+    {ι : Type} [Finite ι] {G : A ⥤ B} {F : ι → A ⥤ B} [HasBiproduct F] (e : G ≅ ⨁ F)
     {X Y : A} (u : X ⟶ Y) (hu : ∀ i, Mono ((F i).map u)) : Mono (G.map u) := by
+  have := Fintype.ofFinite ι
   refine Preadditive.mono_of_cancel_zero _ fun {Z} h hh => ?_
   have key : ∀ i, h ≫ (e.hom ≫ biproduct.π F i).app X = 0 := fun i => by
     have := hu i

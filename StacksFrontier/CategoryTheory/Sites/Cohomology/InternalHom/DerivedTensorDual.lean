@@ -283,7 +283,7 @@ theorem derivedTensorDualSectionsMap_naturality
         ((derivedModuleGlobalSections X).map
           (((derivedSheafHomBifunctor X).obj (op L)).map m))
         (derivedTensorDualSectionsMap X T L M z) := by
-  show ((DerivedCategory.homologyFunctor AddCommGrpCat.{u} 0).map
+  change ((DerivedCategory.homologyFunctor AddCommGrpCat.{u} 0).map
         ((derivedModuleGlobalSections X).map
           ((T.tensor.map m).app (derivedDual X L))) ≫
       (DerivedCategory.homologyFunctor AddCommGrpCat.{u} 0).map

@@ -106,7 +106,7 @@ theorem bijective_baseChange_baseChange_iff {A : Type u} [CommRing A] (A' : Type
     Function.Bijective ((α.baseChange A').baseChange L) ↔
       Function.Bijective (α.baseChange L) := by
   rw [LinearMap.baseChange_baseChange (A := A') (B := L) α]
-  show Function.Bijective
+  change Function.Bijective
     (⇑(TensorProduct.AlgebraTensorModule.cancelBaseChange A A' L L N).symm ∘
       ⇑(α.baseChange L) ∘
         ⇑(TensorProduct.AlgebraTensorModule.cancelBaseChange A A' L L P)) ↔ _
@@ -133,7 +133,7 @@ theorem bijective_baseChange_of_tower {A : Type u} [CommRing A] (A' : Type u) [C
   have h' : Function.Bijective
       (LinearMap.lTensor L (LinearEquiv.ofBijective (α.baseChange A') h).toLinearMap) :=
     (LinearEquiv.lTensor L (LinearEquiv.ofBijective (α.baseChange A') h)).bijective
-  rwa [LinearMap.baseChange_eq_ltensor]
+  rwa [LinearMap.baseChange_eq_lTensor]
 
 /-- **The commutativity of the tensor product, as an equivalence of modules over the right
 factor.** For the `R`-algebra structure `Algebra.TensorProduct.rightAlgebra` on `B ⊗[A] R`, the
@@ -151,8 +151,7 @@ def tensorCommRight (A B R : Type u) [CommRing A] [CommRing B] [CommRing R] [Alg
     (B ⊗[A] R) ≃ₗ[R] R ⊗[A] B :=
   letI : Algebra R (B ⊗[A] R) := Algebra.TensorProduct.rightAlgebra
   AddEquiv.toLinearEquiv (TensorProduct.comm A B R).toAddEquiv fun r x ↦ by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul b s =>
         change (TensorProduct.comm A B R) ((1 ⊗ₜ[A] r) * (b ⊗ₜ[A] s)) =
           r • (TensorProduct.comm A B R) (b ⊗ₜ[A] s)
@@ -330,7 +329,7 @@ theorem comap_closedFiberIdeal_tensorProduct (A B R : Type u) [CommRing A] [Comm
   have hker : Algebra.closedFiberIdeal R (B ⊗[A] R) ≤ RingHom.ker Ψ.toRingHom := by
     refine Ideal.map_le_iff_le_comap.mpr fun x hx ↦ ?_
     rw [Ideal.mem_comap, RingHom.mem_ker]
-    show Ψ ((1 : B) ⊗ₜ[A] x) = 0
+    change Ψ ((1 : B) ⊗ₜ[A] x) = 0
     rw [hΨ, Algebra.TensorProduct.map_tmul,
       show (Ideal.Quotient.mkₐ A (IsLocalRing.maximalIdeal R)) x = 0 from
         (Ideal.Quotient.eq_zero_iff_mem).mpr hx, TensorProduct.tmul_zero]
@@ -347,12 +346,12 @@ theorem comap_closedFiberIdeal_tensorProduct (A B R : Type u) [CommRing A] [Comm
         (K := R ⧸ IsLocalRing.maximalIdeal R) (B ⧸ Algebra.closedFiberIdeal A B) h1)
   · have hx : (algebraMap A B a) ⊗ₜ[A] (1 : R) =
         algebraMap R (B ⊗[A] R) (algebraMap A R a) := by
-      show (algebraMap A B a) ⊗ₜ[A] (1 : R) = (1 : B) ⊗ₜ[A] (algebraMap A R a)
+      change (algebraMap A B a) ⊗ₜ[A] (1 : R) = (1 : B) ⊗ₜ[A] (algebraMap A R a)
       rw [Algebra.algebraMap_eq_smul_one (R := A) (A := B),
         Algebra.algebraMap_eq_smul_one (R := A) (A := R)]
       exact TensorProduct.smul_tmul _ _ _
     rw [Ideal.mem_comap, Ideal.mem_comap]
-    show (algebraMap A B a) ⊗ₜ[A] (1 : R) ∈ Algebra.closedFiberIdeal R (B ⊗[A] R)
+    change (algebraMap A B a) ⊗ₜ[A] (1 : R) ∈ Algebra.closedFiberIdeal R (B ⊗[A] R)
     rw [hx]
     exact Ideal.mem_map_of_mem _ (hle ha)
 

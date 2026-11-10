@@ -153,7 +153,7 @@ public theorem exists_approx_pAdicCompletedTensorPowerEnvelope (n k : ℕ)
       (A := (tensorPowerEnvelope s f n).object) s.p) k b)
   refine ⟨b', ?_⟩
   rw [pAdicIdeal_eq_ker_eval (B := (tensorPowerEnvelope s f n).object) s.p k, RingHom.mem_ker]
-  show (AdicCompletion.evalₐ (DividedPowers.pAdicIdeal
+  change (AdicCompletion.evalₐ (DividedPowers.pAdicIdeal
     (A := (tensorPowerEnvelope s f n).object) s.p) k) _ = 0
   rw [map_sub, AdicCompletion.evalₐ_of, ← hb', sub_self]
 

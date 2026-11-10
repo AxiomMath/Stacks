@@ -124,8 +124,8 @@ public theorem exists_sigmaIso_divisorNormalization_of_isStrictNormalCrossingsDi
             D.subscheme.reducedComponentι Z) ≫ D.subschemeι := by
     rw [← Category.assoc, he₀]
   refine ⟨Sigma.mapIso q ≪≫ e₀, Sigma.hom_ext _ _ fun C ↦ ?_⟩
-  rw [Iso.trans_hom, Category.assoc, Sigma.ι_mapIso_hom_assoc, heq, Sigma.ι_desc_assoc,
-    Sigma.ι_desc, Category.assoc]
+  rw [Iso.trans_hom, Category.assoc, Sigma.ι_mapIso_hom_assoc, heq, Sigma.ι_comp_desc_assoc,
+    Sigma.ι_comp_desc, Category.assoc]
   exact hq C
 
 /-- The coproduct injections into the normalization of a strict normal crossings divisor, read
@@ -163,7 +163,7 @@ public theorem exists_componentCover_divisorNormalization_of_isStrictNormalCross
     (componentIdeal D C).subscheme) C ≫ e.hom, fun C ↦ ?_, fun C ↦ ?_, fun y ↦ ?_,
     fun C C' hCC' ↦ ?_⟩
   · exact inferInstance
-  · rw [Category.assoc, he, Sigma.ι_desc]
+  · rw [Category.assoc, he, Sigma.ι_comp_desc]
   · exact exists_mem_range_sigmaι_hom_of_isStrictNormalCrossingsDivisor D e y
   · have hinj : Function.Injective ⇑e.hom.base := e.hom.isOpenEmbedding.injective
     rw [Set.disjoint_left]

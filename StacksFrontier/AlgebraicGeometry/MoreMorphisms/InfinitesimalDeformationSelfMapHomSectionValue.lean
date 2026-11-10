@@ -86,7 +86,7 @@ carried into the image of `U` by `σ`. -/
 theorem image_preimage_le_preimage_of_comp_ι (hw : w ≫ V.ι = V.ι ≫ σ) (U : V.toScheme.Opens) :
     V.ι ''ᵁ (w ⁻¹ᵁ U) ≤ σ ⁻¹ᵁ (V.ι ''ᵁ U) := by
   rintro x ⟨y, hy, rfl⟩
-  show σ.base (V.ι.base y) ∈ V.ι ''ᵁ U
+  change σ.base (V.ι.base y) ∈ V.ι ''ᵁ U
   have hy' : (w ≫ V.ι).base y ∈ V.ι ''ᵁ U := (Scheme.Opens.mem_ι_image_iff V).2 hy
   rw [hw] at hy'
   exact hy'
@@ -163,7 +163,7 @@ end Conormal
 section Value
 
 variable {S X X' Y Y' : Scheme.{u}} {i : X ⟶ X'} {j : Y ⟶ Y'} {a : X ⟶ Y}
-  [IsClosedImmersion i] [IsImmersion j]
+  [IsClosedImmersion i]
   {V : X'.Opens} {b : V.toScheme ⟶ Y'} {σ : X' ⟶ X'} {w : V.toScheme ⟶ V.toScheme}
   {v : Y' ⟶ Y'}
 

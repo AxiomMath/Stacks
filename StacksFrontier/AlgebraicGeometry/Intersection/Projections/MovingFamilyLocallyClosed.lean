@@ -13,7 +13,8 @@ through:
 * **a nonempty open part of an irreducible closed subset has the dimension of the whole**, by
   Tag 0A21 applied to the reduced closed subscheme on the closed subset; in particular a locally
   closed irreducible subset has the dimension of its closure;
-* **the slice bound** of `StacksFrontier.AlgebraicGeometry.Intersection.Projections.MovingFamilySlice`
+* **the slice bound** of
+  `StacksFrontier.AlgebraicGeometry.Intersection.Projections.MovingFamilySlice`
   holds for locally closed subsets of `ℓ × 𝐏(V)`: if every slice over a closed point of the line
   has dimension at most `m`, the subset has dimension at most `m + 1`. The proof is the closed
   one run on an open subscheme of the reduced closed subscheme on the closure.
@@ -93,7 +94,7 @@ public theorem topologicalKrullDim_eq_closure_of_isLocallyClosed (k : Type u) [F
 
 namespace ProjectiveSpaceOfModule
 
-variable (k V : Type u) [Field k] [IsAlgClosed k] [AddCommGroup V] [Module k V]
+variable (k V : Type u) [Field k] [AddCommGroup V] [Module k V]
   (L : Submodule k (ParameterModule k V)) [FiniteDimensional k V]
   [Nontrivial (lineSpace k V L)] [Nontrivial V]
 

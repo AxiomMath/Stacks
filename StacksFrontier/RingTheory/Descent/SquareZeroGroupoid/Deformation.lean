@@ -141,7 +141,7 @@ noncomputable def quotTensorMap : C ⊗[B] D →+* (C ⧸ extJ C L) ⊗[B ⧸ L]
 lemma quotTensorMap_tmul (c : C) (d : D) :
     quotTensorMap L (c ⊗ₜ d) =
       Ideal.Quotient.mk (extJ C L) c ⊗ₜ[B ⧸ L] Ideal.Quotient.mk (extJ D L) d := by
-  show quotLeft L c * quotRight L d = _
+  change quotLeft L c * quotRight L d = _
   simp [quotLeft, quotRight, Algebra.TensorProduct.tmul_mul_tmul]
 
 include hσ hmt hL in
@@ -225,8 +225,7 @@ theorem isEffective_s₀_of_bijective_tensorLift {B C : Type u} [CommRing B] [Co
       Stacks.AffineStageCore.tensorLift (Stacks.AffineStageCore.sBar (algebraMap B C) K)
         (Stacks.AffineStageCore.tBar (algebraMap B C) s K hK) hst := by
     funext z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => rw [map_add, map_add, hx, hy]
     | tmul x y => rw [cmp_tmul, Stacks.AffineStageCore.tensorLift_tmul, hσ, hτ]
   rw [hfun]
@@ -253,7 +252,7 @@ lemma extJ_quot_eq (K J : Ideal B) (hK : K.map s = extJ C K) (hJ : J.map s = ext
   constructor
   · rw [Ideal.map_map, ← hK, Ideal.map_map]
     congr 1
-  · show (K.map (Ideal.Quotient.mk J)).map (algebraMap (B ⧸ J) (C ⧸ extJ C J)) =
+  · change (K.map (Ideal.Quotient.mk J)).map (algebraMap (B ⧸ J) (C ⧸ extJ C J)) =
       (K.map (algebraMap B C)).map (Ideal.Quotient.mk (extJ C J))
     rw [Ideal.map_map, Ideal.map_map]
     congr 1

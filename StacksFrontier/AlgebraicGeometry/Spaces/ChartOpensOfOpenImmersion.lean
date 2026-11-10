@@ -51,7 +51,7 @@ theorem isEtale_yoneda_map_comp_of_isOpenImmersion {X : (BigFppfOver B S hS)ᵒ�
   apply MorphismProperty.IsStableUnderComposition.comp_mem (P := P.presheaf)
     _ _ _ U.property
   apply (P.relative_map_iff (F := yoneda)).2
-  show Etale ((BigFppfOver.toScheme B S hS).map u)
+  change Etale ((BigFppfOver.toScheme B S hS).map u)
   infer_instance
 
 /-- The étale chart `V → U → X` of an open immersion `u : V ⟶ U` into an étale chart `U` of `X`

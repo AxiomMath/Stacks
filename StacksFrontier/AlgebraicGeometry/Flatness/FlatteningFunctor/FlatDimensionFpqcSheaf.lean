@@ -35,8 +35,8 @@ flat at `x'` either, and the dimension bound assumed over `T'` transports back t
   05MV**, part (1): the functor `F_n` is a sheaf for the fpqc topology on schemes over the
   base.  The whole of Stacks 05MV, parts (1) and (2) together, is
   `AlgebraicGeometry.FlatDimensionSituation.flatDimensionFunctor_isSheaf_fpqc_and_limitPreserving`
-  in
-  `StacksFrontier.AlgebraicGeometry.Flatness.FlatteningFunctor.FlatDimensionSheafAndLimitPreserving`.
+  in the module
+  `StacksFrontier.AlgebraicGeometry.Flatness.FlatteningFunctor.FlatDimensionSheafAndLimitPreserving`
 
 ## Implementation notes
 
@@ -81,7 +81,7 @@ private theorem isFlatOverAt_baseChangeModule_of_flat_hom {T T' : Over D.S} (g :
     IsFlatOverAt (D.baseChangeMap T).toLRSHom.toShHom (D.baseChangeModule T)
       ((Stacks.BaseChange.transition D.f g).base x') := by
   have hbase : IsFlatAt g.left.toLRSHom.toShHom ((D.baseChangeMap T') x') := by
-    show (g.left.stalkMap ((D.baseChangeMap T') x')).hom.Flat
+    change (g.left.stalkMap ((D.baseChangeMap T') x')).hom.Flat
     exact Flat.stalkMap g.left _
   have _ : SheafOfModules.IsQuasicoherent
       (R := structureSheafRing (pullback D.f T.hom).toRingedSpace) (D.baseChangeModule T) :=
@@ -128,7 +128,7 @@ which carries the tag. -/
 public theorem flatDimensionFunctor_isSheaf_fpqc :
     Presheaf.IsSheaf (Scheme.fpqcTopology.over D.S) D.flatDimensionFunctor := by
   rw [isSheaf_iff_isSheaf_of_type]
-  show Presieve.IsSheaf ((Scheme.fpqcPrecoverage.toGrothendieck).over D.S)
+  change Presieve.IsSheaf ((Scheme.fpqcPrecoverage.toGrothendieck).over D.S)
     D.flatDimensionFunctor
   rw [CategoryTheory.over_toGrothendieck_eq_toGrothendieck_comap_forget
     Scheme.fpqcPrecoverage D.S,
@@ -142,7 +142,7 @@ public theorem flatDimensionFunctor_isSheaf_fpqc :
   intro x _
   have hlocal (i : ι) :
       D.IsFlatInDimensionsGEAfterBaseChange (Over.mk (𝒰.f i ≫ T.hom)) := by
-    show D.IsFlatInDimensionsGEAfterBaseChange (Over.mk ((g i).left ≫ T.hom))
+    change D.IsFlatInDimensionsGEAfterBaseChange (Over.mk ((g i).left ≫ T.hom))
     convert (x i).down using 1
     exact CostructuredArrow.obj_ext _ _ rfl (CostructuredArrow.w (g i)).symm
   refine ⟨PLift.up ((D.isFlatInDimensionsGEAfterBaseChange_iff_fpqcCover T 𝒰).2 hlocal), ?_, ?_⟩

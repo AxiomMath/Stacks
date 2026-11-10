@@ -74,7 +74,7 @@ public theorem exists_isCompl_of_normal_finiteIndex [CharZero L] (ρ : G →* Mo
     have hsplit : v = π v + (v - π v) := by abel
     have h1 : π (ρ n (π v)) = ρ n (π v) := hπw _ (hW n (hπW v))
     have h2 : π (ρ n (v - π v)) = 0 := hπc _ (hC n hn (Submodule.sub_projection_mem hWC v))
-    show ρ n (π v) = π (ρ n v)
+    change ρ n (π v) = π (ρ n v)
     conv_rhs => rw [hsplit, map_add, map_add, h1, h2, add_zero]
   let t : G → Module.End L V := fun h => ρ h * π * ρ h⁻¹
   have ht : ∀ h, ∀ n ∈ N, t (h * n) = t h := by
@@ -113,7 +113,7 @@ public theorem exists_isCompl_of_normal_finiteIndex [CharZero L] (ρ : G →* Mo
     rw [hQ_def, LinearMap.sum_apply]
     have : ∀ q : G ⧸ N, t q.out w = w := by
       intro q
-      show ρ q.out (π (ρ q.out⁻¹ w)) = w
+      change ρ q.out (π (ρ q.out⁻¹ w)) = w
       rw [hπw _ (hW _ hw), map_apply_map_inv_apply]
     simp only [this, Finset.sum_const, Finset.card_univ]
   have hcard : (Fintype.card (G ⧸ N) : L) ≠ 0 := Nat.cast_ne_zero.mpr Fintype.card_ne_zero
@@ -123,15 +123,15 @@ public theorem exists_isCompl_of_normal_finiteIndex [CharZero L] (ρ : G →* Mo
   have hP' : ∀ x : W, P' x = x := by
     intro x
     apply Subtype.ext
-    show (Fintype.card (G ⧸ N) : L)⁻¹ • Q x = x
+    change (Fintype.card (G ⧸ N) : L)⁻¹ • Q x = x
     rw [hQw x x.2, ← Nat.cast_smul_eq_nsmul L, smul_smul, inv_mul_cancel₀ hcard, one_smul]
   refine ⟨LinearMap.ker P', LinearMap.isCompl_of_proj hP', fun g v hv => ?_⟩
   have hv' : P v = 0 := congrArg Subtype.val (LinearMap.mem_ker.mp hv)
   rw [Submodule.mem_comap, LinearMap.mem_ker]
   apply Subtype.ext
-  show P (ρ g v) = 0
+  change P (ρ g v) = 0
   have hc : P (ρ g v) = ρ g (P v) := by
-    show (Fintype.card (G ⧸ N) : L)⁻¹ • Q (ρ g v) =
+    change (Fintype.card (G ⧸ N) : L)⁻¹ • Q (ρ g v) =
       ρ g ((Fintype.card (G ⧸ N) : L)⁻¹ • Q v)
     rw [map_smul, ← Module.End.mul_apply Q, ← hQcomm, Module.End.mul_apply]
   rw [hc, hv', map_zero]
@@ -189,7 +189,7 @@ public theorem exists_isCompl_comp_of_irreducible [CharZero L] (ρ : G →* GL �
     obtain ⟨W', hc, hW'⟩ := exists_isCompl_of_normal Γ N' hN'Γ hnormal hss hWN'
     exact ⟨W', hc, fun n hn => hW' _ ⟨ρu (Φ n), ⟨Φ n, hn, rfl⟩, rfl⟩⟩
   obtain ⟨W', hc, hW'⟩ := exists_isCompl_of_normal_finiteIndex ρ₀ N₀ hN₀ W fun γ v hv => by
-    show ρ₀ γ v ∈ W
+    change ρ₀ γ v ∈ W
     rw [hρ₀]
     exact hW γ v hv
   refine ⟨W', hc, fun γ v hv => ?_⟩

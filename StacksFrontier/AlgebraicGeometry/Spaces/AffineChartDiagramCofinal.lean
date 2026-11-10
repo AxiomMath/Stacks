@@ -245,7 +245,7 @@ theorem exists_affine_chartDiagram_ofArrows (f : X ⟶ Y) (U : SmallEtale B S hS
       toScheme_map_toOver_map_openChartInclusion B S hS X.1 dglob.U O]
     rfl
   rw [hmap]
-  show ((BigFppfOver.toScheme B S hS).map (Yoneda.fullyFaithful.preimage p))
+  change ((BigFppfOver.toScheme B S hS).map (Yoneda.fullyFaithful.preimage p))
     ((Scheme.Opens.ι O) y) = x
   rwa [hy]
 

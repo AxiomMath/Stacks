@@ -67,6 +67,7 @@ def twistSum : ℕ → P.Modules
 def twistSumShortComplex (n : ℕ) : ShortComplex P.Modules :=
   ShortComplex.mk (biprod.inl : twistSum L n ⟶ twistSum L n ⊞ L) (biprod.snd : _ ⟶ L) (by simp)
 
+omit hL in
 /-- The sequence `0 ⟶ ℒ^{⊕ (n+1)} ⟶ ℒ^{⊕ (n+2)} ⟶ ℒ ⟶ 0` is short exact. -/
 theorem twistSumShortComplex_shortExact (n : ℕ) : (twistSumShortComplex L n).ShortExact :=
   (ShortComplex.Splitting.ofHasBinaryBiproduct _ _).shortExact
@@ -105,7 +106,7 @@ theorem chernCap_twistSum_last (n : ℕ) :
   induction n with
   | zero =>
     intro k x
-    show GenuineChern.chernCap C 1 sP L k 1 x ≍ _
+    change GenuineChern.chernCap C 1 sP L k 1 x ≍ _
     rw [GenuineChern.chernCap_one_eq_invCap, capPow_succ_apply, capPow_zero_apply]
     exact (chowGroupCast_heq C sP _ _).symm
   | succ n ih =>
@@ -118,7 +119,7 @@ theorem chernCap_twistSum_last (n : ℕ) :
     have h1 : GenuineChern.chernCap C (n + 1 + 1) sP (twistSum L (n + 1)) k (Fin.last (n + 1 + 1))
         x = (A * B) k (n + 2) x := by
       rw [← hfam]
-      show _ = chernCapFamilyOnChow C (GenuineChern.chernCap C) sP (twistSum L (n + 1)) (n + 2)
+      change _ = chernCapFamilyOnChow C (GenuineChern.chernCap C) sP (twistSum L (n + 1)) (n + 2)
         k (n + 2) x
       rw [chernCapFamilyOnChow_of_le C _ sP _ _ k le_rfl]
       rfl
@@ -127,12 +128,12 @@ theorem chernCap_twistSum_last (n : ℕ) :
       refine (gradedDegreeCast_heq _ _).trans ?_
       have hB : B k 1 x = (invCap C sP L).capOnChow C sP (k - 1)
           (chowGroupCast C sP (by omega) x) := by
-        show chernCapFamilyOnChow C (GenuineChern.chernCap C) sP L 1 k 1 x = _
+        change chernCapFamilyOnChow C (GenuineChern.chernCap C) sP L 1 k 1 x = _
         rw [chernCapFamilyOnChow_of_le C _ sP _ _ k le_rfl]
         exact GenuineChern.chernCap_one_eq_invCap C sP L k x
       have hA : A (k - ((1 : ℕ) : ℤ)) (n + 2 - 1) = GenuineChern.chernCap C (n + 1) sP
           (twistSum L n) (k - ((1 : ℕ) : ℤ)) (Fin.last (n + 1)) := by
-        show chernCapFamilyOnChow C (GenuineChern.chernCap C) sP (twistSum L n) (n + 1) _
+        change chernCapFamilyOnChow C (GenuineChern.chernCap C) sP (twistSum L n) (n + 1) _
           (n + 2 - 1) = _
         rw [chernCapFamilyOnChow_of_le C _ sP _ _ _ (by omega)]
         rfl
@@ -141,19 +142,19 @@ theorem chernCap_twistSum_last (n : ℕ) :
       refine HEq.trans ?_ (heq_of_eq (capPow_succ_apply C sP (invCap C sP L) (n + 1) k _
         (by push_cast; ring) x)).symm
       exact GenuineChern.capPow_heq C sP _ _ _ rfl (by push_cast; ring) (by push_cast; ring)
-        (capOnChow_heq C sP _ (by push_cast; ring)
+        (capOnChow_heq C sP _ (by ring)
           ((chowGroupCast_heq C sP _ _).trans (chowGroupCast_heq C sP _ _).symm))
     · intro j hj hj1
       have hjm : j ≤ n + 2 := Nat.lt_succ_iff.1 (Finset.mem_range.1 hj)
       rw [convolveTerm_of_le _ _ _ hjm, capTo_def]
       rcases Nat.eq_zero_or_pos j with rfl | hjpos
       · have hA0 : A (k - ((0 : ℕ) : ℤ)) (n + 2 - 0) = 0 := by
-          show chernCapFamilyOnChow C (GenuineChern.chernCap C) sP (twistSum L n) (n + 1) _
+          change chernCapFamilyOnChow C (GenuineChern.chernCap C) sP (twistSum L n) (n + 1) _
             (n + 2 - 0) = 0
           exact chernCapFamilyOnChow_of_gt C _ sP _ _ _ (by omega)
         rw [hA0, AddMonoidHom.zero_apply, map_zero]
       · have hBj : B k j = 0 := by
-          show chernCapFamilyOnChow C (GenuineChern.chernCap C) sP L 1 k j = 0
+          change chernCapFamilyOnChow C (GenuineChern.chernCap C) sP L 1 k j = 0
           exact chernCapFamilyOnChow_of_gt C _ sP _ _ _ (by omega)
         rw [hBj, AddMonoidHom.zero_apply, map_zero, map_zero]
     · intro h
@@ -319,7 +320,7 @@ instance locallyOfFiniteType_sigmaDesc_baseProjectiveSpaceStructure :
     LocallyOfFiniteType (Sigma.desc (baseProjectiveSpaceStructure C)) :=
   letI : IsZariskiLocalAtSource @LocallyOfFiniteType.{u} :=
     HasRingHomProperty.instIsZariskiLocalAtSource (P := @LocallyOfFiniteType)
-  IsZariskiLocalAtSource.sigmaDesc (P := @LocallyOfFiniteType) fun n ↦ inferInstance
+  IsZariskiLocalAtSource.sigmaDesc (P := @LocallyOfFiniteType) inferInstance
 
 /-- **The Chern classes of a module of non-constant rank can be nonzero in infinitely many
 degrees.** Over a one-point base `S` with vanishing dimension function (for instance the spectrum
@@ -344,12 +345,12 @@ theorem exists_infinite_chernClassOfLocallyFree_ne_zero_of_subsingleton
           (baseTwistSum C n) (n.down + 1)))
   refine ⟨_, Sigma.desc (baseProjectiveSpaceStructure C), inferInstance, E, hE,
     Set.infinite_of_injective_forall_mem Nat.succ_injective fun n ↦ ?_⟩
-  show SectionZeroScheme.chernClassOfLocallyFree E C
+  change SectionZeroScheme.chernClassOfLocallyFree E C
     (Sigma.desc (baseProjectiveSpaceStructure C)) (n + 1) ≠ 0
   intro h0
   have hι : Sigma.ι (baseProjectiveSpace C) (ULift.up n) ≫
       Sigma.desc (baseProjectiveSpaceStructure C) = baseProjectiveSpaceStructure C (ULift.up n) :=
-    Sigma.ι_desc _ _
+    Sigma.ι_comp_desc _ _
   have : LocallyOfFiniteType (Sigma.ι (baseProjectiveSpace C) (ULift.up n)) := by
     have : LocallyOfFiniteType (Sigma.ι (baseProjectiveSpace C) (ULift.up n) ≫
         Sigma.desc (baseProjectiveSpaceStructure C)) := by
@@ -366,7 +367,7 @@ theorem exists_infinite_chernClassOfLocallyFree_ne_zero_of_subsingleton
   have h1 := SectionZeroScheme.idRule_chernClassOfLocallyFree_of_rank C
     (Sigma.desc (baseProjectiveSpaceStructure C)) E (n + 1) (n + 1)
     (Sigma.ι (baseProjectiveSpace C) (ULift.up n)) a (chowGroupCongr C hι.symm a α)
-  rw [h0, BivariantClass.idRule_zero, dif_pos le_rfl,
+  rw [h0, BivariantClass.idRule_zero, dite_eq_left le_rfl,
     GenuineChern.chernCap_congr C _ (n + 1) (he (ULift.up n)).some] at h1
   have h2 := SectionZeroScheme.chernCap_heq_of_base_eq C hι (baseTwistSum C (ULift.up n)) (n + 1)
     a (Fin.last (n + 1)) (chowGroupCongr_heq C hι.symm a α)

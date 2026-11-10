@@ -59,7 +59,8 @@ tor-amplitude in $[a,b]$, then both $K$ and $L$ have tor-amplitude in $[a,b]$.
   monoidal, symmetric and monoidal-closed structures are
   `SheafOfModules.monoidalCategory` and `SheafOfModules.monoidalCategorySheafTensor`
   (`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/Monoidal.lean` and
-  `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/MonoidalSheafTensor.lean`), whose tensor unit is `SheafOfModules.unit`; and for
+  `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/MonoidalSheafTensor.lean`), whose tensor unit is
+  `SheafOfModules.unit`; and for
   a ringed space `Stacks.SheafOfModules.TensorStalkRingedSpace.tensorSheaf` agrees with
     `sheafTensor` by `rfl`
   (`StacksFrontier/Topology/Sheaves/Modules/StalkTensor.lean`).  The K-flat

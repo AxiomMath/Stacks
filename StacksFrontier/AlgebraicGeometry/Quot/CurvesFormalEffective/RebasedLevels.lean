@@ -545,7 +545,7 @@ private theorem localRingDimension_le_of_dimension_le
       _ ≤ _ := hdim
   exact WithBot.coe_le_coe.mp hx
 
-private theorem isRepresentable_of_separated_locallyNoetherian_dimension_le_one
+theorem isRepresentable_of_separated_locallyNoetherian_dimension_le_one
     (h0ADD : AlgebraicGeometry.Space.SchemeNeighbourhoodsInCodimensionOne.{u})
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (hZ : B.Contains (⊤_ Scheme.{u}))

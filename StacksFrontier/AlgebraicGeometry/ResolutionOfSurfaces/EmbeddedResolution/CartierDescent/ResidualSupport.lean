@@ -100,6 +100,7 @@ namespace Stacks.ResolutionOfSurfaces.CartierDescent
 
 variable {R : Type u} [CommRing R] [IsLocalRing R]
 
+omit [IsLocalRing R] in
 /-- The first element of a regular sequence acts injectively. -/
 private lemma isSMulRegular_of_isRegular {x y : R}
     (hreg : RingTheory.Sequence.IsRegular R [x, y]) : IsSMulRegular R x := by
@@ -160,6 +161,7 @@ private lemma mem_pow_of_mul_pow_mem_pow {x y : R}
 
 /-! ### An element of the base divisible by a power of the denominator on a chart -/
 
+omit [IsLocalRing R] in
 /-- An element of `R` whose image in the chart `R[I/a]` is divisible by the `k`-th power of the
 image of `a` satisfies `a ^ n z = a ^ k w` in `R`, for some `n` and some `w ∈ I ^ n`: the
 divisibility is an equality of fractions with denominator a power of `a`, and `R` is a domain, so
@@ -240,6 +242,7 @@ private lemma exists_pow_mem_of_pow_mem_span_mul {B : Type*} [CommRing B] {ξ : 
       omega
     rw [mul_one, hgroup, hξc]
 
+omit [IsLocalRing R] in
 /-- A nonzero first member of a regular sequence: multiplication by `0` is injective only on the
 zero ring. -/
 private lemma ne_zero_of_isSMulRegular [Nontrivial R] {x : R} (h : IsSMulRegular R x) :
@@ -533,7 +536,7 @@ public lemma exists_finite_support_inter_range [IsNoetherianRing R] [IsDomain R]
     exact ⟨w.isPrime, hw⟩
   refine ⟨c.base '' {w | Lc ≤ w.asIdeal}, hfinW.image _, ?_, ?_⟩
   · ext z
-    simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_inter_iff, Set.mem_range]
+    simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_inter_iff, Set.mem_range]
     constructor
     · rintro ⟨w, hw, rfl⟩
       refine ⟨?_, w, rfl⟩

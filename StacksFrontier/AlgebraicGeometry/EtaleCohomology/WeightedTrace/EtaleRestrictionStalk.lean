@@ -164,7 +164,7 @@ of `β`. -/
 public theorem pushStalkMap_comp (α : G ⟶ (abelianRestriction B X hX U).obj H) (β : H ⟶ H') :
     pushStalkMap B X hX U s p H G α ≫
         colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B X hX s)).op β.1) =
+          (Functor.Elements.π (geometricPointFiber B X hX s)).op β.1) =
       pushStalkMap B X hX U s p H' G
         (α ≫ (abelianRestriction B X hX U).map β) := by
   refine colimit.hom_ext fun N => ?_
@@ -172,14 +172,14 @@ public theorem pushStalkMap_comp (α : G ⟶ (abelianRestriction B X hX U).obj H
   have hright := pushStalkMap_germ B X hX U s p H' G
     (α ≫ (abelianRestriction B X hX U).map β) N.unop.1 N.unop.2
   have hι := colimit.ι_map (Functor.whiskerLeft
-      (CategoryOfElements.π (geometricPointFiber B X hX s)).op β.1)
+      (Functor.Elements.π (geometricPointFiber B X hX s)).op β.1)
     (op (Functor.elementsMk _ ((smallEtalePostcompose B X hX U).obj N.unop.1)
       (pushLift B X hX U s N.unop.1 p N.unop.2) :
       (geometricPointFiber B X hX s).Elements))
   refine Eq.trans ?_ hright.symm
   exact (Category.assoc _ _ _).symm.trans
     ((congrArg (fun z => z ≫ colim.map (Functor.whiskerLeft
-        (CategoryOfElements.π (geometricPointFiber B X hX s)).op β.1)) hleft).trans
+        (Functor.Elements.π (geometricPointFiber B X hX s)).op β.1)) hleft).trans
       ((Category.assoc _ _ _).trans
         ((congrArg (fun z => α.hom.app (op N.unop.1) ≫ z) hι).trans
           (Category.assoc _ _ _).symm)))
@@ -235,7 +235,7 @@ comparison of Stacks 03Q1, i.e. by the identity on each summand. -/
 public theorem extensionUnitStalkMap_comp_counit :
     extensionUnitStalkMap B X hX U s p ((abelianRestriction B X hX U).obj H) ≫
         colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B X hX s)).op
+          (Functor.Elements.π (geometricPointFiber B X hX s)).op
           ((abelianExtensionByZeroAdjunction B X hX U).counit.app H).1) =
       restrictionStalkMap B X hX U s p H :=
   (pushStalkMap_comp B X hX U s p ((abelianRestriction B X hX U).obj H)

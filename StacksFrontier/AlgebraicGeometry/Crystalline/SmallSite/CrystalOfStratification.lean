@@ -129,8 +129,7 @@ theorem crystalPointMap_twistMap {A B : AffineCrystallineThickening S} {e : ℕ}
       crysRestrict F.obj k.hom
         (crystalPointMap hp F (descentPointHom g) (descentPointTwist g y)) := by
   subst hk
-  induction y using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction y using TensorProduct.inductionOn with
   | tmul b m =>
     rw [twistMap_tmul, descentPointTwist_tmul, descentPointTwist_tmul, crystalPointMap_tmul,
       crystalPointMap_tmul, map_smulₛₗ, crysRestrict_comp, descentPointHom_comp]
@@ -146,8 +145,7 @@ theorem crystalPointMap_lev {A : AffineCrystallineThickening S} {e : ℕ}
     crystalPointMap hp F (descentPointHom (h ≫ (wholeSpaceDescentSystem S hp).lev e))
       (descentPointTwist _ (twistCongr ((wholeSpaceDescentSystem S hp).ptRing_lev h).symm y)) =
       crystalPointMap hp F (descentPointHom h) (descentPointTwist h y) := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction y using TensorProduct.inductionOn with
   | tmul b m =>
     rw [twistCongr_tmul, descentPointTwist_tmul, descentPointTwist_tmul, crystalPointMap_tmul,
       crystalPointMap_tmul, descentPointHom_lev, ← crysRestrict_comp]
@@ -178,8 +176,7 @@ theorem crystalPointMap_comparison
       (descentPointTwist _ (E.str e m)) =
       crysRestrict F.obj (descentPointHom ((wholeSpaceDescentSystem S hp).v e 1))
         (wholeSpaceSectionsVal hp F m e) := fun m ↦ hE e m
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul b m =>
     rw [System.comparison, semilinearBaseChange_tmul, descentPointTwist_smul, map_smul,
       System.pullStrat_apply, crystalPointMap_twistMap F φ _ h H₀, hE', crysRestrict_comp,
@@ -368,6 +365,7 @@ theorem stratCrystalIso_hom_app
       crystalPointMap hp F h.hom (E.evalEquiv h (stratSectionsEquiv E A x)) :=
   stratSheafIso_hom_app hE A h x
 
+omit [IsAffine S.X] [IsAffine S.S.scheme] in
 /-- Two morphisms of sheaves of `𝒪_{X/S}`-modules agreeing on the sections over the affine objects
 are equal. -/
 theorem sheafOfModules_hom_ext_affine {P Q : SheafOfModules.{u} (structureSheaf S)} {f g : P ⟶ Q}
@@ -376,6 +374,7 @@ theorem sheafOfModules_hom_ext_affine {P Q : SheafOfModules.{u} (structureSheaf 
   (crysAffineModuleRestriction (S := S)).map_injective (SheafOfModules.hom_ext
     (PresheafOfModules.hom_ext fun X ↦ ModuleCat.hom_ext (LinearMap.ext fun x ↦ H X.unop x)))
 
+omit [IsAffine S.X] [IsAffine S.S.scheme] in
 /-- The components of a composite of morphisms of sheaves of modules, on elements. -/
 theorem sheafOfModules_comp_app_apply {P Q R : SheafOfModules.{u} (structureSheaf S)}
     (f : P ⟶ Q) (g : Q ⟶ R) (X : (CrystallineThickening S)ᵒᵖ) (x : P.val.obj X) :

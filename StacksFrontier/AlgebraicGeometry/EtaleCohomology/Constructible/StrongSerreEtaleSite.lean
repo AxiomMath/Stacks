@@ -46,8 +46,8 @@ budget on this site.
 
 **No `@[stacks 09BH]` attribute appears in this file.** The tag for part (2) is carried on the
 site of Stacks 021B by
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Constructible/StrongSerreAbelian.lean`, and what is
-here is the same proposition read through the comparison of sites, not a second proof of it.
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Constructible/StrongSerreAbelian.lean`, and what
+is here is the same proposition read through the comparison of sites, not a second proof of it.
 
 ## References
 

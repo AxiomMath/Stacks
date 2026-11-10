@@ -108,7 +108,7 @@ theorem inertiaPullbackComparison_reflects_comm
         (Functor.isHomLift_map_of_comp_eq hF (pX.map m) m)
       hb := IsHomLift.map pX m
       w := by
-        show F.map m ≫ 𝟙 _ = 𝟙 _ ≫ F.map m
+        change F.map m ≫ 𝟙 _ = 𝟙 _ ≫ F.map m
         simp }
   obtain ⟨n, hn⟩ := cmp.map_surjective z
   have he : n.hom = m := congrArg TwoFibreProductOver.Hom.b hn
@@ -144,7 +144,7 @@ theorem inertiaPullbackComparison_exists_aut
       have hc := e.hom.a.comm
       change e.hom.a.hom ≫ β.asIso.hom = F.map A.auto.asIso.hom ≫ e.hom.a.hom at hc
       rwa [he] at hc
-    show F.map (b.inv ≫ A.auto.asIso.hom ≫ b.hom) = β.asIso.hom
+    change F.map (b.inv ≫ A.auto.asIso.hom ≫ b.hom) = β.asIso.hom
     have hc' : F.map b.hom ≫ β.asIso.hom = F.map A.auto.asIso.hom ≫ F.map b.hom := hc
     rw [F.map_comp, F.map_comp, ← hc']
     simp
@@ -189,11 +189,11 @@ theorem nonempty_isEquivalenceOver_of_forall_verticalObjPreimage
             unit_over := ?_
             counit_over := ?_ }⟩
   · intro a
-    show K.map (((Functor.FullyFaithful.ofFullyFaithful K).preimageIso
+    change K.map (((Functor.FullyFaithful.ofFullyFaithful K).preimageIso
       (e (K.obj a))).hom) ≫ (e (K.obj a)).inv = 𝟙 _
     simp [Functor.FullyFaithful.preimageIso]
   · intro a
-    show p.map ((Functor.FullyFaithful.ofFullyFaithful K).preimageIso (e (K.obj a))).hom = _
+    change p.map ((Functor.FullyFaithful.ofFullyFaithful K).preimageIso (e (K.obj a))).hom = _
     have hθ : K.map ((Functor.FullyFaithful.ofFullyFaithful K).preimageIso
         (e (K.obj a))).hom = (e (K.obj a)).hom :=
       (Functor.FullyFaithful.ofFullyFaithful K).map_preimage _
@@ -255,9 +255,10 @@ theorem nonempty_inertiaPullbackComparison_isEquivalenceOver_of_reflects_lifts
   let a : Q.x ⟶ (cmp.obj A).x :=
     { hom := Q.iso.hom
       comm := by
-        show Q.iso.hom ≫ F.map α.asIso.hom = Q.x.auto.asIso.hom ≫ Q.iso.hom
+        change Q.iso.hom ≫ F.map α.asIso.hom = Q.x.auto.asIso.hom ≫ Q.iso.hom
         rw [hαF]
-        show Q.iso.hom ≫ Q.iso.inv ≫ Q.x.auto.asIso.hom ≫ Q.iso.hom = Q.x.auto.asIso.hom ≫ Q.iso.hom
+        change Q.iso.hom ≫ Q.iso.inv ≫ Q.x.auto.asIso.hom ≫ Q.iso.hom =
+          Q.x.auto.asIso.hom ≫ Q.iso.hom
         simp }
   let m : Q ⟶ cmp.obj A :=
     { hbase := eqToHom Q.hy.symm
@@ -272,14 +273,14 @@ theorem nonempty_inertiaPullbackComparison_isEquivalenceOver_of_reflects_lifts
         simp
       hb := IsHomLift.id_lift_eqToHom_domain Q.hy.symm Q.hy
       w := by
-        show Q.iso.hom ≫ 𝟙 _ = Q.iso.hom ≫ F.map (𝟙 Q.y)
+        change Q.iso.hom ≫ 𝟙 _ = Q.iso.hom ≫ F.map (𝟙 Q.y)
         simp }
   let ea : Q.x ≅ (cmp.obj A).x :=
     { hom := a
       inv := ⟨Q.iso.inv, by
-        show Q.iso.inv ≫ Q.x.auto.asIso.hom = F.map α.asIso.hom ≫ Q.iso.inv
+        change Q.iso.inv ≫ Q.x.auto.asIso.hom = F.map α.asIso.hom ≫ Q.iso.inv
         rw [hαF]
-        show Q.iso.inv ≫ Q.x.auto.asIso.hom =
+        change Q.iso.inv ≫ Q.x.auto.asIso.hom =
           (Q.iso.inv ≫ Q.x.auto.asIso.hom ≫ Q.iso.hom) ≫ Q.iso.inv
         simp⟩
       hom_inv_id := RelativeInertiaHom.ext Q.iso.hom_inv_id
@@ -328,14 +329,14 @@ theorem nonempty_inertiaPullbackComparison_isEquivalenceOver_baseChange
     rw [Functor.map_comp, Functor.map_comp]
     apply TwoFibreProductOver.Hom.ext'
     · exact hm
-    · show K.map m ≫ K.map B.auto.asIso.hom = K.map A.auto.asIso.hom ≫ K.map m
+    · change K.map m ≫ K.map B.auto.asIso.hom = K.map A.auto.asIso.hom ≫ K.map m
       apply inertiaPullbackComparison_reflects_comm pX pZ F hF
         ((RelativeInertia.functoriality pT pX K hK).obj A)
         ((RelativeInertia.functoriality pT pX K hK).obj B)
-      show F.map (K.map m) ≫ F.map (K.map B.auto.asIso.hom) =
+      change F.map (K.map m) ≫ F.map (K.map B.auto.asIso.hom) =
         F.map (K.map A.auto.asIso.hom) ≫ F.map (K.map m)
       simp only [← F.map_comp, ← K.map_comp]
-      show (K ⋙ F).map (m ≫ B.auto.asIso.hom) = (K ⋙ F).map (A.auto.asIso.hom ≫ m)
+      change (K ⋙ F).map (m ≫ B.auto.asIso.hom) = (K ⋙ F).map (A.auto.asIso.hom ≫ m)
       apply (cancel_epi (t.hom.app A.obj)).mp
       rw [← t.hom.naturality, ← t.hom.naturality]
       have he : (H ⋙ G).map (m ≫ B.auto.asIso.hom) = (H ⋙ G).map (A.auto.asIso.hom ≫ m) := by
@@ -360,9 +361,9 @@ theorem nonempty_inertiaPullbackComparison_isEquivalenceOver_baseChange
           apply IsHomLift.of_fac' pX _ _ (Functor.congr_obj hK x) (Functor.congr_obj hK x)
           simp [hα]
         w := by
-          show G.map β.asIso.hom ≫ (t.app x).hom = (t.app x).hom ≫ F.map α.asIso.hom
+          change G.map β.asIso.hom ≫ (t.app x).hom = (t.app x).hom ≫ F.map α.asIso.hom
           rw [hαF]
-          show G.map β.asIso.hom ≫ (t.app x).hom =
+          change G.map β.asIso.hom ≫ (t.app x).hom =
             (t.app x).hom ≫ (t.app x).inv ≫ G.map β.asIso.hom ≫ (t.app x).hom
           simp }
     have hma : IsIso m.a := β.asIso.isIso_hom

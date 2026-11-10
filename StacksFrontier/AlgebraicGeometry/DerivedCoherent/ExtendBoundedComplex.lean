@@ -242,11 +242,11 @@ theorem exists_bounded_isCoherent_complex_restrict_iso {X : Scheme.{u}} [IsNoeth
     isQuasicoherent_pushforward_obj U (ℱ.X i) (hFqc i)
   have hshape : ∀ i j : ℤ, i + 1 ≠ j → Pdif i j = 0 := by
     intro i j h
-    show (Scheme.Modules.pushforward U.ι).map (ℱ.d i j) = 0
+    change (Scheme.Modules.pushforward U.ι).map (ℱ.d i j) = 0
     rw [ℱ.shape i j h, Functor.map_zero]
   have hdd : ∀ i j k : ℤ, Pdif i j ≫ Pdif j k = 0 := by
     intro i j k
-    show (Scheme.Modules.pushforward U.ι).map (ℱ.d i j) ≫
+    change (Scheme.Modules.pushforward U.ι).map (ℱ.d i j) ≫
       (Scheme.Modules.pushforward U.ι).map (ℱ.d j k) = 0
     rw [← Functor.map_comp, ℱ.d_comp_d, Functor.map_zero]
   obtain ⟨A, α, hmonoα, hAcoh, hAiso⟩ :

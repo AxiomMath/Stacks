@@ -102,7 +102,7 @@ variable {R S : Type u} [CommRing R] [CommRing S]
 def mvPolynomialFinOneAlgEquivPolynomial (R : Type u) [CommRing R] :
     MvPolynomial (Fin 1) R ≃ₐ[R] Polynomial R :=
   (MvPolynomial.renameEquiv R (Equiv.equivPUnit (Fin 1) : Fin 1 ≃ PUnit.{1})).trans
-    (MvPolynomial.pUnitAlgEquiv R)
+    (MvPolynomial.uniqueAlgEquiv R PUnit.{1})
 
 /-- The element `f · x₀ - 1` of the polynomial algebra in one variable: the generator of the
 kernel of the presentation of `R_f`. -/

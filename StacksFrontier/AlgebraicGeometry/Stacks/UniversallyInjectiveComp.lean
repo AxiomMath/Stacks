@@ -114,7 +114,7 @@ theorem universallyInjective_comp {𝒳 𝒴 𝒵 : AlgebraicStacks.{u, w} B S h
   have hR := AlgebraicStacks.isTwoFibreProduct_twoFibreProductSquare B S hS Q.snd f
   have hTfst : Function.Injective
       (AlgebraicStacks.pointsMap B S hS (Q.pasteSnd R).fst) := by
-    show Function.Injective (AlgebraicStacks.pointsMap B S hS (R.fst ≫ Q.fst))
+    change Function.Injective (AlgebraicStacks.pointsMap B S hS (R.fst ≫ Q.fst))
     rw [AlgebraicStacks.pointsMap_comp]
     exact (hg 𝒲 k Q hQ).comp (hf Q.pt Q.snd R hR)
   exact injective_pointsMap_fst_of_isTwoFibreProduct B S hS hP

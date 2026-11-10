@@ -177,7 +177,7 @@ private theorem restrict_stalkMap_smul {X : Scheme.{u}} (U : X.Opens)
                   (φ.app W b : Γ(M, U.ι ''ᵁ W))) hstalk).trans
               (congrArg (fun t => (U.stalkIso x).hom.hom
                 ((U.toScheme.presheaf.germ W x hxW).hom c) • t) (hg W hxW b).symm)))))
-  show F.hom (r • m) = (U.stalkIso x).hom.hom r • F.hom m
+  change F.hom (r • m) = (U.stalkIso x).hom.hom r • F.hom m
   obtain ⟨W₁, hx₁, a, ha₀⟩ := U.toScheme.presheaf.exists_germ_eq r
   obtain ⟨W₂, hx₂, b, hb₀⟩ := N.presheaf.exists_germ_eq m
   rw [← ha₀, ← hb₀]
@@ -190,7 +190,7 @@ private theorem restrict_stalkMap_smul {X : Scheme.{u}} (U : X.Opens)
     U.toScheme.presheaf.germ_res_apply _ _ _ _
   have hb : (N.presheaf.germ W x hxW).hom b' =
       (N.presheaf.germ W₂ x hx₂).hom b := N.presheaf.germ_res_apply _ _ _ _
-  show F.hom _ = _ • F.hom _
+  change F.hom _ = _ • F.hom _
   rw [← ha, ← hb]
   exact key W hxW a' b'
 
@@ -220,7 +220,7 @@ private theorem HasNonzeroRelativeDifferential.resLE
       map_smul' := by
         intro r k
         change IsLocalRing.ResidueField (U.toScheme.presheaf.stalk x) at k
-        show IsLocalRing.ResidueField.map _ (IsLocalRing.residue _ r * k) =
+        change IsLocalRing.ResidueField.map _ (IsLocalRing.residue _ r * k) =
           IsLocalRing.residue _ ((U.stalkIso x).hom.hom r) *
             IsLocalRing.ResidueField.map (U.stalkIso x).hom.hom k
         rw [map_mul, IsLocalRing.ResidueField.map_residue] }
@@ -234,7 +234,7 @@ private theorem HasNonzeroRelativeDifferential.resLE
         (congrArg (U.ι.stalkMap x).hom ha)).trans
       (ConcreteCategory.congr_hom (Scheme.Opens.stalkIso_inv U x) h).symm
   refine ⟨T, hxT, b, hb, ?_⟩
-  show (1 : U.toScheme.residueField x) ⊗ₜ[U.toScheme.presheaf.stalk x]
+  change (1 : U.toScheme.residueField x) ⊗ₜ[U.toScheme.presheaf.stalk x]
     (N.presheaf.germ T x hxT).hom ((Scheme.Hom.universalRelativeDerivation g).d b) ≠ 0
   intro hz
   have hz' := congrArg (TensorProduct.map K L) hz
@@ -254,10 +254,10 @@ private theorem HasNonzeroRelativeDifferential.resLE
         ((Scheme.Hom.universalRelativeDerivation f).d b) =
           (Scheme.Hom.universalRelativeDerivation g).d b at hid
       rw [← hid]
-      show ((i.hom ≫ i.inv).val.app (.op T)).hom _ = _
+      change ((i.hom ≫ i.inv).val.app (.op T)).hom _ = _
       rw [i.hom_inv_id]
       rfl
-    show F.hom ((N.presheaf.germ T x hxT).hom
+    change F.hom ((N.presheaf.germ T x hxT).hom
       ((Scheme.Hom.universalRelativeDerivation g).d b)) = _
     exact (Modules.germ_stalkMap_restrictStalkNatIso U.ι M N i.inv x T hxT
         ((Scheme.Hom.universalRelativeDerivation g).d b)).trans
@@ -321,7 +321,7 @@ private theorem regularLocalRing_of_smooth_over_field
   let : Algebra B A := TopCat.Presheaf.algebra_section_stalk Z.presheaf xU
   have : IsLocalization.AtPrime A q := hU.isLocalization_stalk xU
   have hqsm : Algebra.IsSmoothAt C q := by
-    show qP ∈ Algebra.smoothLocus C B
+    change qP ∈ Algebra.smoothLocus C B
     exact (AlgebraicGeometry.formallySmooth_stalkMap_iff ⊤
       (isAffineOpen_top (Spec (.of k)))
       U hU hVU hzU).mp hstalk
@@ -341,7 +341,7 @@ private theorem fiber_regular_of_nonzero_differential
   obtain ⟨W, hxW, a, ha, hxIW, hne, -⟩ :=
     fiberImage_ne_zero_of_hasNonzeroRelativeDifferential f x h hdh
   have hsmooth : Smooth (f.fiberToSpecResidueField (f x)) := by
-    show Smooth (CategoryTheory.Limits.pullback.snd f (S.fromSpecResidueField (f x)))
+    change Smooth (CategoryTheory.Limits.pullback.snd f (S.fromSpecResidueField (f x)))
     infer_instance
   -- The fibre over the residue field is a scheme over `Spec (CommRingCat.of κ(f x))`, a
   -- spelling of its base that instance search does not reach from `hsmooth`'s, so the
@@ -407,7 +407,7 @@ private theorem exists_affine_effectiveCartierDivisor_flat_of_nonzero_differenti
   refine ⟨U.1, U.2, hx, U.1.topIso.hom.hom a,
     Scheme.IdealSheafData.ofIdealTop (Ideal.span {a}), ?_, ?_, hI, hsupp, hflat, hfp⟩
   · apply ((U.1.stalkIso ⟨x, hx⟩).symm.commRingCatIsoToRingEquiv.injective)
-    show (U.1.stalkIso ⟨x, hx⟩).inv.hom _ = (U.1.stalkIso ⟨x, hx⟩).inv.hom h
+    change (U.1.stalkIso ⟨x, hx⟩).inv.hom _ = (U.1.stalkIso ⟨x, hx⟩).inv.hom h
     rw [Scheme.Opens.stalkIso_inv]
     exact (germ_topIso U.1 x hx a).trans ha.symm
   · intro V
@@ -455,7 +455,7 @@ private theorem formallySmooth_stalkMap_principal_subscheme
     (I.subschemeι.app_surjective T hT).comp
       (ConcreteCategory.bijective_of_isIso (U₀.1.ι.app U)).2
   have hker : RingHom.ker (j.app U).hom = Ideal.span {a} := by
-    show RingHom.ker ((I.subschemeι.app T).hom.comp (U₀.1.ι.app U).hom) = _
+    change RingHom.ker ((I.subschemeι.app T).hom.comp (U₀.1.ι.app U).hom) = _
     rw [← RingHom.comap_ker, I.ker_subschemeι_app ⟨T, hT⟩, hI, ← hrestrict,
       ← Set.image_singleton, ← Ideal.map_span]
     exact Ideal.comap_map_of_bijective _
@@ -491,7 +491,7 @@ private theorem exists_affineOpen_effectiveCartierDivisor_formallySmooth_stalk
   let z : I.subscheme := ⟨⟨x, hxU⟩, hxI⟩
   have hd : HasNonzeroRelativeDifferential f (U.ι (I.subschemeι z))
       ((X.presheaf.germ U _ (I.subschemeι z).2).hom a) := by
-    show HasNonzeroRelativeDifferential f x ((X.presheaf.germ U x hxU).hom a)
+    change HasNonzeroRelativeDifferential f x ((X.presheaf.germ U x hxU).hom a)
     rwa [ha]
   have hsm := formallySmooth_stalkMap_principal_subscheme f ⟨U, hU⟩ a I hIa z hd
   exact ⟨⟨U, hU⟩, hxU, a, I, ha, hIa, hI, hfp, z, rfl, hsm⟩
@@ -565,7 +565,7 @@ private theorem exists_affineOpen_smooth_restriction_of_effectiveCartierDivisor
     exact top_unique (fun y _ => heW y)
   have hsm' : Smooth (J.subschemeι ≫ U.ι ≫ f) := by
     have hcomp : e ≫ g = J.subschemeι ≫ U.ι ≫ f := by
-      show e ≫ (I.subschemeι ≫ f) = _
+      change e ≫ (I.subschemeι ≫ f) = _
       rw [← Category.assoc, he, Category.assoc]
     rwa [hcomp] at hsm
   exact ⟨⟨U, hU⟩, hzU,
@@ -590,7 +590,7 @@ private theorem exists_affineOpen_smooth_principal_restriction
     exists_affineOpen_smooth_restriction_of_effectiveCartierDivisor f I hI z hz
   refine ⟨U, hxU, fun V => ideal_comap_eq_span U.1.ι I b hb V, hJU, ?_, hsm⟩
   rw [Scheme.IdealSheafData.support_comap]
-  show I.subschemeι z ∈ I.support
+  change I.subschemeι z ∈ I.support
   exact (I.range_subschemeι).le ⟨z, rfl⟩
 
 private theorem germ_appTop {Y X : Scheme.{u}} (j : Y ⟶ X) (y : Y) :
@@ -631,7 +631,7 @@ private theorem exists_smooth_slice_of_openImmersion
   have hac : U.topIso.inv.hom a = c := ConcreteCategory.congr_hom U.topIso.hom_inv_id c
   have hxJ : x ∈ J.support := by
     rw [Scheme.IdealSheafData.support_comap]
-    show e.inv x ∈ I.support
+    change e.inv x ∈ I.support
     rwa [hex]
   let k : J.subscheme ⟶ I.subscheme :=
     (I.comapIso e.inv).hom ≫ CategoryTheory.Limits.pullback.snd e.inv I.subschemeι
@@ -645,7 +645,7 @@ private theorem exists_smooth_slice_of_openImmersion
   refine ⟨U, hU, hxU, a, J, ?_, ?_,
     Stacks.Divisors.isPullbackDefined_of_flat e.inv I heff, hxJ, hsm⟩
   · apply (ConcreteCategory.bijective_of_isIso (U.ι.stalkMap x)).1
-    show (U.ι.stalkMap x).hom _ = (U.ι.stalkMap x).hom h
+    change (U.ι.stalkMap x).hom _ = (U.ι.stalkMap x).hom h
     rw [germ_topIso U (j y) hxU c]
     have heh : (U.ι.stalkMap x).hom h =
         (U.toScheme.presheaf.germ ⊤ x (by trivial)).hom c := by
@@ -655,7 +655,7 @@ private theorem exists_smooth_slice_of_openImmersion
         rw [← hd] at hb
         exact (ConcreteCategory.congr_hom (j.germ_stalkMap Q y hyQ) d).symm.trans hb
       have hzQ : (e.inv ≫ j) x ∈ Q := by
-        show j (e.inv x) ∈ Q
+        change j (e.inv x) ∈ Q
         simpa only [hex] using hyQ
       have hbQ' : (Y.presheaf.germ (j ⁻¹ᵁ Q) (e.inv x) hzQ).hom ((j.app Q).hom d) =
           (Y.presheaf.germ ⊤ (e.inv x) (by trivial)).hom b := by
@@ -672,7 +672,7 @@ private theorem exists_smooth_slice_of_openImmersion
           ((e.inv ≫ j).stalkMap x).hom
             ((X.presheaf.germ Q ((e.inv ≫ j) x) hzQ).hom d) := by
         rw [Scheme.Hom.stalkMap_comp]
-        show _ = (e.inv.stalkMap x).hom ((j.stalkMap (e.inv x)).hom _)
+        change _ = (e.inv.stalkMap x).hom ((j.stalkMap (e.inv x)).hom _)
         rw [hc, ← hbQ']
         exact congrArg (e.inv.stalkMap x).hom
           (ConcreteCategory.congr_hom (j.germ_stalkMap Q (e.inv x) hzQ) d).symm
@@ -754,11 +754,11 @@ public theorem exists_smooth_effectiveCartierDivisor_of_nonzero_differential
       (W.1.toScheme.presheaf.germ ⊤ y (by trivial)).hom c := by
     dsimp only [j]
     rw [Scheme.Hom.stalkMap_comp, Scheme.Hom.stalkMap_comp]
-    show (W.1.ι.stalkMap y).hom
+    change (W.1.ι.stalkMap y).hom
       ((T.1.ι.stalkMap (⟨x₀, hxT⟩ : T.1.toScheme)).hom
         ((U₀.ι.stalkMap x₀).hom h)) = _
     rw [← Scheme.Opens.stalkIso_inv U₀ x₀]
-    show (W.1.ι.stalkMap y).hom
+    change (W.1.ι.stalkMap y).hom
       ((T.1.ι.stalkMap (⟨x₀, hxT⟩ : T.1.toScheme)).hom h₀) = _
     rw [hb]
     exact (ConcreteCategory.congr_hom (germ_appTop W.1.ι y) b).symm

@@ -208,16 +208,13 @@ theorem range_extendScalars_map_le_smul (ψ : A →+* B) {M N : ModuleCat.{u} A}
     LinearMap.range ((ModuleCat.extendScalars ψ).map f).hom ≤
       (I.map ψ) • (⊤ : Submodule B ((ModuleCat.extendScalars ψ).obj N)) := by
   rintro _ ⟨t, rfl⟩
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    have e := ((ModuleCat.extendScalars ψ).map f).hom.map_zero
-    exact e ▸ zero_mem _
+  induction t using TensorProduct.inductionOn with
   | tmul s x =>
     revert s
     intro (s : B)
     let := ψ.toAlgebra
     have hx : f.hom x ∈ I • (⊤ : Submodule A N) := hf ⟨x, rfl⟩
-    show s ⊗ₜ[A,ψ] f.hom x ∈ _
+    change s ⊗ₜ[A,ψ] f.hom x ∈ _
     let T : (ModuleCat.extendScalars ψ).obj N → Prop :=
       (· ∈ (I.map ψ) • (⊤ : Submodule B ((ModuleCat.extendScalars ψ).obj N)))
     refine Submodule.smul_induction_on (p := fun z => T (s ⊗ₜ[A,ψ] z))
@@ -296,7 +293,7 @@ theorem exists_minimal_free_complex_iso [IsLocalRing A] [HasDerivedCategory.{w} 
         ((FibreCycleLift.fibreComplex κ F).homology i) := by
       refine Module.length_ne_top_iff.1 (ne_top_of_le_ne_top ?_ hle)
       rw [Module.length_eq_finrank]
-      exact ENat.coe_ne_top _
+      exact ENat.natCast_ne_top _
     have : IsNoetherian (IsLocalRing.ResidueField A)
         ((FibreCycleLift.fibreComplex κ F).homology i) :=
       ((isFiniteLength_iff_isNoetherian_isArtinian).1 this).1
@@ -307,7 +304,7 @@ theorem exists_minimal_free_complex_iso [IsLocalRing A] [HasDerivedCategory.{w} 
         rw [Module.length_eq_finrank, Module.length_eq_finrank, hr i,
           (hκX i).some.toLinearEquiv.finrank_eq, ULift.moduleEquiv.finrank_eq,
           Module.finrank_fin_fun])
-      (fun i => by rw [Module.length_eq_finrank]; exact ENat.coe_ne_top _)
+      (fun i => by rw [Module.length_eq_finrank]; exact ENat.natCast_ne_top _)
   refine ⟨F, b, r, hF, hX, fun i j => ?_, ⟨eM ≪≫ ?_⟩⟩
   · exact LinearMap.range_le_smul_top_of_extendScalars_map_eq_zero (F.d i j)
       (IsLocalRing.maximalIdeal A) (hdκ i j)
@@ -424,7 +421,7 @@ theorem nonempty_homology_totalDerivedExtensionScalars_iso_of_projective
     ShortComplex.isZero_homology_of_isZero_X₂ _ (P.isZero_of_isStrictlyLE b j hj)
   have : ∀ j, Projective (H.X j) := fun j => inferInstanceAs (Projective (P.homology j))
   have hdB : ∀ j k, (FibreCycleLift.fibreComplex φ H).d j k = 0 := fun j k => by
-    show (ModuleCat.extendScalars φ).map (H.d j k) = 0
+    change (ModuleCat.extendScalars φ).map (H.d j k) = 0
     exact Functor.map_zero _ _ _
   exact ⟨(DerivedCategory.homologyFunctor (ModuleCat.{u} B) i).mapIso
       (D.functor.mapIso

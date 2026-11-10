@@ -97,13 +97,13 @@ private lemma sub_algebraMap_mem_map_ker (μ : A →ₐ[k] k) (μ' : B →ₐ[k'
     (hp : IsBaseChange k' p.toLinearMap) (hcomm : ∀ a, μ' (p a) = algebraMap k k' (μ a)) (y : B) :
     y - algebraMap k' B (μ' y) ∈ (RingHom.ker μ).map p := by
   refine hp.inductionOn y (fun a => ?_) (fun s n hn => ?_) fun n₁ n₂ h₁ h₂ => ?_
-  · show p a - algebraMap k' B (μ' (p a)) ∈ _
+  · change p a - algebraMap k' B (μ' (p a)) ∈ _
     rw [hcomm a, ← IsScalarTower.algebraMap_apply k k' B, ← p.commutes, ← map_sub]
     exact Ideal.mem_map_of_mem _ (by simp [RingHom.mem_ker])
-  · show s • n - algebraMap k' B (μ' (s • n)) ∈ _
+  · change s • n - algebraMap k' B (μ' (s • n)) ∈ _
     rw [map_smul, smul_eq_mul, map_mul, ← Algebra.smul_def, ← smul_sub, Algebra.smul_def]
     exact Ideal.mul_mem_left _ _ hn
-  · show n₁ + n₂ - algebraMap k' B (μ' (n₁ + n₂)) ∈ _
+  · change n₁ + n₂ - algebraMap k' B (μ' (n₁ + n₂)) ∈ _
     rw [map_add, map_add, add_sub_add_comm]
     exact Ideal.add_mem _ h₁ h₂
 
@@ -240,7 +240,7 @@ private lemma iideal_eq_ker :
   ext t
   have hl : t ∈ iideal (R := R) (S := S) (S' := S') ↔
       Algebra.TensorProduct.lmul'' R (qmap (R := R) (S := S) (S' := S') t) = 0 := by
-    show Ideal.Quotient.mk (KaehlerDifferential.ideal R S')
+    change Ideal.Quotient.mk (KaehlerDifferential.ideal R S')
         (qmap (R := R) (S := S) (S' := S') t) = 0 ↔ _
     rw [Ideal.Quotient.eq_zero_iff_mem, ← ker_lmul'']
     exact RingHom.mem_ker

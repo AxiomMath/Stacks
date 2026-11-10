@@ -140,7 +140,7 @@ private lemma isZero_delta_of_mono_cokernel {M N : A} (f : M ⟶ N) [Mono f] (p 
     IsZero ((E.functor p).obj N) :=
   isZero_delta_X₂ E (S := ShortComplex.cokernelSequence f)
     { exact := ShortComplex.cokernelSequence_exact f
-      mono_f := by show Mono f; infer_instance
+      mono_f := by change Mono f; infer_instance
       epi_g := by dsimp [ShortComplex.cokernelSequence]; infer_instance } p hM hC
 
 /-- Vanishing for a quotient, once its kernel vanishes one degree higher. -/
@@ -151,7 +151,7 @@ private lemma isZero_delta_of_epi_kernel {M N : A} (f : M ⟶ N) [Epi f] (p : �
   isZero_delta_X₃ E (S := ShortComplex.mk (kernel.ι f) f (by simp))
     { exact := ShortComplex.exact_kernel f
       mono_f := by dsimp; infer_instance
-      epi_g := by show Epi f; infer_instance } p hM hK
+      epi_g := by change Epi f; infer_instance } p hM hK
 
 /-- Vanishing along a finite filtration follows from vanishing of its successive quotients. -/
 private lemma isZero_delta_of_finiteFiltration (p n : ℕ) (M : Fin (n + 1) → A)
@@ -248,7 +248,7 @@ private lemma imageSubobject_coprod_desc_eq_sup {A B F : C} (f : A ⟶ F) (g : B
     · simp only [← Category.assoc, t, coprod.inl_desc, P.factorThru_arrow]
     · simp only [← Category.assoc, t, coprod.inr_desc, P.factorThru_arrow]
   apply le_antisymm
-  · show imageSubobject (coprod.desc f g) ≤ P
+  · change imageSubobject (coprod.desc f g) ≤ P
     simpa only [Subobject.mk_arrow] using
       imageSubobject_le_mk P.arrow (coprod.desc f g) t ht
   · apply sup_le
@@ -380,7 +380,7 @@ private lemma isZero_finiteSupImages (p : ℕ) {ι : Type*} (E' : ι → A) {F :
       let a : (P : A) ⟶ (Q : A) := coprod.inl ≫ r
       let b : E' i ⟶ (Q : A) := coprod.inr ≫ r
       have ha : a ≫ Q.arrow = P.arrow := by
-        show (coprod.inl ≫ r) ≫ Q.arrow = P.arrow
+        change (coprod.inl ≫ r) ≫ Q.arrow = P.arrow
         rw [Category.assoc, imageSubobject_arrow_comp, coprod.inl_desc]
       have : Mono a := by
         have : Mono (a ≫ Q.arrow) := by rw [ha]; infer_instance
@@ -479,7 +479,7 @@ private lemma integerRingPresheafToSheaf_locallyInjective :
   unfold integerRingPresheafToSheaf
   apply (Presheaf.isLocallyInjective_forget_iff
     (Opens.grothendieckTopology (X : Type u)) _).mp
-  show Presheaf.IsLocallyInjective (Opens.grothendieckTopology (X : Type u))
+  change Presheaf.IsLocallyInjective (Opens.grothendieckTopology (X : Type u))
     (Functor.whiskerRight
       (toSheafify (Opens.grothendieckTopology (X : Type u))
         (constantPresheafOnSpace X CommRingCat.{u} (CommRingCat.of (ULift.{u} ℤ))))
@@ -493,7 +493,7 @@ private lemma integerRingPresheafToSheaf_locallySurjective :
   unfold integerRingPresheafToSheaf
   apply (Presheaf.isLocallySurjective_iff_whisker_forget
     (Opens.grothendieckTopology (X : Type u)) _).mpr
-  show Presheaf.IsLocallySurjective (Opens.grothendieckTopology (X : Type u))
+  change Presheaf.IsLocallySurjective (Opens.grothendieckTopology (X : Type u))
     (Functor.whiskerRight
       (toSheafify (Opens.grothendieckTopology (X : Type u))
         (constantPresheafOnSpace X CommRingCat.{u} (CommRingCat.of (ULift.{u} ℤ))))
@@ -687,7 +687,7 @@ private lemma extensionHomEquivRestrictedSections_comp
     (((Opens.sheafRestrict U).obj F).obj.obj (op ⊤))).toEquiv
   let γG := (AddCommGrpCat.uliftZMultiplesAddEquiv
     (((Opens.sheafRestrict U).obj G).obj.obj (op ⊤))).toEquiv
-  show γG ((β.homEquiv _ ((Opens.sheafRestrict U).obj G)) ((α.homEquiv Eℤ G) (s ≫ f))) =
+  change γG ((β.homEquiv _ ((Opens.sheafRestrict U).obj G)) ((α.homEquiv Eℤ G) (s ≫ f))) =
       rf.hom.app (op ⊤) (γF ((β.homEquiv _ ((Opens.sheafRestrict U).obj F))
         ((α.homEquiv Eℤ F) s)))
   rw [h₁]
@@ -726,15 +726,15 @@ private lemma mono_presheafExtensionCounit (F : TopCat.Sheaf AddCommGrpCat.{u} X
       (𝟙 ((TopCat.Presheaf.restrictToOpen U).obj F.obj))) := by
   let P := (TopCat.Presheaf.restrictToOpen U).obj F.obj
   let f := TopCat.Presheaf.ExtensionByInitial.homEquivInv U (𝟙 P)
-  show Mono f
+  change Mono f
   have : ∀ V, Mono (f.app V) := fun V => by
     by_cases hV : V.unop ≤ U
     · have hi : IsIso (f.app V) := by
-        show IsIso (TopCat.Presheaf.ExtensionByInitial.homEquivInvApp U (𝟙 P) V)
+        change IsIso (TopCat.Presheaf.ExtensionByInitial.homEquivInvApp U (𝟙 P) V)
         rw [TopCat.Presheaf.ExtensionByInitial.homEquivInvApp, dite_eq_left hV]
         infer_instance
       infer_instance
-    · show Mono (TopCat.Presheaf.ExtensionByInitial.homEquivInvApp U (𝟙 P) V)
+    · change Mono (TopCat.Presheaf.ExtensionByInitial.homEquivInvApp U (𝟙 P) V)
       rw [TopCat.Presheaf.ExtensionByInitial.homEquivInvApp, dite_eq_right hV]
       exact (TopCat.Presheaf.ExtensionByInitial.isInitial_obj U P hV).isZero.mono _
   exact NatTrans.mono_of_mono_app f
@@ -773,7 +773,7 @@ private lemma exists_mono_integerExtensionByZero
     ((restrictConstantSheafIso X U).app A).symm
   have : IsIso e.hom := e.isIso_hom
   have : IsIso ((TopCat.Presheaf.extendByInitialSheaf U).map e.hom) := by
-    show IsIso (((TopCat.Presheaf.extendByInitialSheaf U).mapIso e).hom); infer_instance
+    change IsIso (((TopCat.Presheaf.extendByInitialSheaf U).mapIso e).hom); infer_instance
   exact ⟨(TopCat.Presheaf.extendByInitialSheaf U).map e.hom ≫ g,
     mono_comp' (inferInstanceAs (Mono ((TopCat.Presheaf.extendByInitialSheaf U).map e.hom))) hg⟩
 
@@ -870,7 +870,7 @@ private lemma finitelyGeneratedByCompactOpenSections_supImages
     apply Subobject.finset_sup_factors
     exact ⟨i, Finset.mem_univ i, imageSubobject_factors_self (s i)⟩
   refine ⟨n, U, hU, (fun i => F.factorThru (s i) (hf i)), ?_⟩
-  show Finset.univ.sup (fun i => imageSubobject (F.factorThru (s i) (hf i) ≫ F.arrow)) = F
+  change Finset.univ.sup (fun i => imageSubobject (F.factorThru (s i) (hf i) ≫ F.arrow)) = F
   simp only [Subobject.factorThru_arrow]
   rfl
 

@@ -299,12 +299,12 @@ private theorem isPullback_sigma_desc
   · ext z
     obtain ⟨⟨j, x⟩, rfl⟩ := (sigmaMk X).surjective z
     simp only [sigmaMk_mk]
-    show (Sigma.desc (fun j ↦ f j ≫ Sigma.ι Y j)) (Sigma.ι X j x) ∈
+    change (Sigma.desc (fun j ↦ f j ≫ Sigma.ι Y j)) (Sigma.ι X j x) ∈
       Set.range (Sigma.ι Y i) ↔ Sigma.ι X j x ∈ Set.range (Sigma.ι X i)
     have hcomp : (Sigma.desc (fun j ↦ f j ≫ Sigma.ι Y j)) (Sigma.ι X j x) =
         Sigma.ι Y j (f j x) := by
-      show (Sigma.ι X j ≫ Sigma.desc (fun j ↦ f j ≫ Sigma.ι Y j)) x = _
-      rw [Sigma.ι_desc]
+      change (Sigma.ι X j ≫ Sigma.desc (fun j ↦ f j ≫ Sigma.ι Y j)) x = _
+      rw [Sigma.ι_comp_desc]
       rfl
     rw [hcomp, mem_range_sigma_ι_iff, mem_range_sigma_ι_iff]
 
@@ -316,7 +316,7 @@ private theorem isFinite_sigma_desc_to_sigma
   apply (IsZariskiLocalAtTarget.iff_of_openCover (P := @IsFinite.{u})
     (f := g) (sigmaOpenCover Y)).mpr
   intro i
-  show IsFinite (pullback.snd g (Sigma.ι Y i))
+  change IsFinite (pullback.snd g (Sigma.ι Y i))
   let sq := (isPullback_sigma_desc f i).flip
   rw [← MorphismProperty.cancel_left_of_respectsIso (P := @IsFinite) sq.isoPullback.hom]
   simpa [g, sq] using hf i
@@ -398,7 +398,7 @@ theorem exists_lift_of_subsingleton_of_mem_range
     exact ⟨v, hv.trans (congrArg b (Subsingleton.elim t x))⟩
   refine ⟨IsOpenImmersion.lift j b hmem, IsOpenImmersion.lift_fac j b hmem, ?_⟩
   apply j.injective
-  show (IsOpenImmersion.lift j b hmem ≫ j) t = j v
+  change (IsOpenImmersion.lift j b hmem ≫ j) t = j v
   rw [IsOpenImmersion.lift_fac, hv]
 
 private theorem cardinal_mk_scheme_le_power_size (X : Scheme.{u}) :
@@ -498,7 +498,7 @@ theorem exists_site_coproduct_of_uniform_bound
     Over.mk (ObjectProperty.homMk (Sigma.desc fun i ↦ (U i).hom.hom) :
       B.obj hV ⟶ B.obj hS)
   let ι : ∀ i, U i ⟶ V := fun i ↦ Over.homMk (ObjectProperty.homMk (Sigma.ι A i))
-    (ObjectProperty.hom_ext _ (Sigma.ι_desc _ i))
+    (ObjectProperty.hom_ext _ (Sigma.ι_comp_desc _ i))
   exact ⟨V, ι, Iso.refl _, fun _ ↦ Category.comp_id _, hsize⟩
 
 private theorem etale_sigma_desc {I : Type u} (X : I → Scheme.{u})
@@ -508,7 +508,7 @@ private theorem etale_sigma_desc {I : Type u} (X : I → Scheme.{u})
     HasRingHomProperty.instIsZariskiLocalAtSource (Q := RingHom.Etale)
   rw [IsZariskiLocalAtSource.iff_of_openCover (P := @Etale) (sigmaOpenCover X)]
   intro i
-  show Etale (Sigma.ι X i ≫ Sigma.desc f)
+  change Etale (Sigma.ι X i ≫ Sigma.desc f)
   simpa using hf i
 
 /-- A morphism out of a scheme identified with a coproduct is étale when its restriction to
@@ -519,7 +519,7 @@ private theorem etale_of_iso_sigma {I : Type u} (X : I → Scheme.{u}) {T Y : Sc
   have heq : f = e.hom ≫ Sigma.desc fun i ↦ Sigma.ι X i ≫ e.inv ≫ f := by
     rw [← Iso.inv_comp_eq]
     ext i
-    rw [Sigma.ι_desc]
+    rw [Sigma.ι_comp_desc]
   rw [heq]
   exact Etale.etale_comp _ (f := e.hom)
 
@@ -549,7 +549,7 @@ private theorem fppf_family_mem_topology (B : BigFppfSite.{u})
   cases hT
   have hp : E.presieve₀ = E'.2.presieve₀ := by
     simpa using PreZeroHypercover.presieve₀_eq_of_combinatoriallyEquivalent heq
-  show Sieve.generate E.presieve₀ ∈ B.topology E'.1
+  change Sieve.generate E.presieve₀ ∈ B.topology E'.1
   rw [hp]
   exact Precoverage.generate_mem_toGrothendieck ⟨E'.2, rfl, hE'⟩
 
@@ -580,7 +580,7 @@ private theorem subsingleton_sections_of_empty_scheme
       (fun i : ULift.{u + 1} Empty ↦ isEmptyElim i.down) ∈
       BigFppfOver.topology B S hS T := by
     apply fppf_over_family_mem_topology B S hS
-    show Presieve.ofArrows
+    change Presieve.ofArrows
       (fun i : ULift.{u + 1} Empty ↦
         (BigFppfOver.toScheme B S hS).obj (isEmptyElim i.down))
       (fun i : ULift.{u + 1} Empty ↦
@@ -619,7 +619,7 @@ theorem exists_sections_of_site_coproduct
   let ι' : ∀ i, U' i ⟶ V := fun i ↦ ι i.down
   have hfp : Presieve.ofArrows (fun i ↦ q.obj (U' i)) (fun i ↦ q.map (ι' i)) ∈
       Scheme.fppfPrecoverage (q.obj V) := by
-    show Presieve.ofArrows (fun i ↦ q.obj (U' i)) (fun i ↦ q.map (ι' i)) ∈
+    change Presieve.ofArrows (fun i ↦ q.obj (U' i)) (fun i ↦ q.map (ι' i)) ∈
       Scheme.precoverage (@Flat.{u} ⊓ @LocallyOfFinitePresentation.{u}) _
     rw [Scheme.ofArrows_mem_precoverage_iff]
     constructor
@@ -630,7 +630,7 @@ theorem exists_sections_of_site_coproduct
       exact (congrArg (fun m : q.obj (U i) ⟶ ∐ A ↦ m w) (he i)).trans
         (by simpa only [sigmaMk_mk] using hw)
     · intro i
-      show Flat (q.map (ι' i)) ∧ LocallyOfFinitePresentation (q.map (ι' i))
+      change Flat (q.map (ι' i)) ∧ LocallyOfFinitePresentation (q.map (ι' i))
       have : IsOpenImmersion (q.map (ι' i)) := by
         have hh : IsOpenImmersion (q.map (ι' i) ≫ e.hom) := by
           rw [he i.down]
@@ -700,7 +700,7 @@ private theorem exists_site_finite_open_union
   refine ⟨W, j, e, he, ?_, ?_⟩
   · rw [← he]
     exact IsOpenImmersion.comp e.hom _
-  · show IsFinite (q.map (j ≫ g))
+  · change IsFinite (q.map (j ≫ g))
     rw [q.map_comp, ← he, Category.assoc]
     infer_instance
 

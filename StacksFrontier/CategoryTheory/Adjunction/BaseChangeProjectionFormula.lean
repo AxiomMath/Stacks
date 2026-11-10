@@ -112,7 +112,7 @@ theorem mateEquiv_whiskerTop_whiskerBottom (adj₁ : L₁ ⊣ R₁) (adj₂ : L�
     {G G' : C₁ ⥤ C₃} {H H' : C₂ ⥤ C₄} (w : TwoSquare G L₁ L₂ H) (φ : G' ⟶ G) (ψ : H ⟶ H') :
     mateEquiv adj₁ adj₂ ((w.whiskerTop φ).whiskerBottom ψ) =
       ((mateEquiv adj₁ adj₂ w).whiskerRight φ).whiskerLeft ψ := by
-  refine TwoSquare.ext _ _ fun d => ?_
+  refine NatTrans.ext (funext fun d => ?_)
   simp [TwoSquare.whiskerTop, TwoSquare.whiskerBottom, TwoSquare.whiskerLeft,
     TwoSquare.whiskerRight, mateEquiv]
 
@@ -142,7 +142,7 @@ def tensorTwoSquare (A : C × C ⥤ C) (B : D × D ⥤ D) (α : A ⋙ L ⟶ L.pr
 @[simp]
 lemma tensorTwoSquare_natTrans_app (A : C × C ⥤ C) (B : D × D ⥤ D)
     (α : A ⋙ L ⟶ L.prod L ⋙ B) (H : C) (E : C) :
-    (tensorTwoSquare A B α H).natTrans.app E = α.app (E, H) :=
+    (tensorTwoSquare A B α H).app E = α.app (E, H) :=
   rfl
 
 /-- **The projection-formula map of an adjunction is a mate.**  The map
@@ -150,7 +150,7 @@ lemma tensorTwoSquare_natTrans_app (A : C × C ⥤ C) (B : D × D ⥤ D)
 `L ⊣ R` on both sides, of the comparison `α` read at the fixed second argument `H`. -/
 theorem mateEquiv_tensorTwoSquare_app (adj : L ⊣ R) (A : C × C ⥤ C) (B : D × D ⥤ D)
     (α : A ⋙ L ⟶ L.prod L ⋙ B) (H : C) (G : D) :
-    (mateEquiv adj adj (tensorTwoSquare A B α H)).natTrans.app G =
+    (mateEquiv adj adj (tensorTwoSquare A B α H)).app G =
       CategoryTheory.adjunctionTensorMap adj A B α G H := by
   have key : ∀ u v : A.obj (R.obj G, H) ⟶ R.obj (B.obj (G, L.obj H)),
       L.map u ≫ adj.counit.app (B.obj (G, L.obj H)) =
@@ -181,7 +181,7 @@ def pullbackComparisonIso : Lg ⋙ Lf' ≅ Lf ⋙ Lg' := eg ≪≫ ef.symm
 
 /-- The forward map of `pullbackComparisonIso eg ef` is the 2-square `pullbackComparison eg ef`. -/
 lemma pullbackComparisonIso_hom :
-    (pullbackComparisonIso eg ef).hom = (pullbackComparison eg ef).natTrans := rfl
+    (pullbackComparisonIso eg ef).hom = pullbackComparison eg ef := rfl
 
 /-- The base change morphism `Rg ⋙ Lf ⟶ Lf' ⋙ Rg'` of the **transposed** square: the mate,
 under `Lg ⊣ Rg` and `Lg' ⊣ Rg'`, of the inverse comparison `Lf ⋙ Lg' ⟶ Lg ⋙ Lf'`. -/
@@ -215,7 +215,7 @@ lemma rightCompositeIso_inv :
 inverse of the conjugate isomorphism of the right adjoints of the two composites around the
 square. -/
 theorem mateEquiv_transposedTwoSquare :
-    (mateEquiv adjf' adjf (transposedTwoSquare adjg adjg' eg ef)).natTrans =
+    mateEquiv adjf' adjf (transposedTwoSquare adjg adjg' eg ef) =
       (rightCompositeIso adjf adjf' adjg adjg' eg ef).inv := by
   rw [rightCompositeIso_inv, transposedTwoSquare]
   exact iterated_mateEquiv_conjugateEquiv adjg adjg' adjf adjf'
@@ -224,7 +224,7 @@ theorem mateEquiv_transposedTwoSquare :
 /-- **The coherence.**  The projection-formula morphism at `K` is `Rg` applied to the base change
 map at `K`, followed by the conjugate isomorphism of the two iterated right adjoints. -/
 theorem projectionTwoSquare_app (K : B) :
-    (projectionTwoSquare adjf adjg adjg' eg ef).natTrans.app K =
+    (projectionTwoSquare adjf adjg adjg' eg ef).app K =
       Rg.map (map adjf adjf' eg ef K) ≫
         (rightCompositeIso adjf adjf' adjg adjg' eg ef).inv.app (Lg'.obj K) := by
   rw [projectionTwoSquare, pullbackPushforwardSquare,
@@ -238,7 +238,7 @@ change map at `K` is the projection-formula morphism at `K` followed by the conj
 isomorphism of the two iterated right adjoints. -/
 theorem pushforward_map_eq (K : B) :
     Rg.map (map adjf adjf' eg ef K) =
-      (projectionTwoSquare adjf adjg adjg' eg ef).natTrans.app K ≫
+      (projectionTwoSquare adjf adjg adjg' eg ef).app K ≫
         (rightCompositeIso adjf adjf' adjg adjg' eg ef).hom.app (Lg'.obj K) := by
   rw [projectionTwoSquare_app, Category.assoc,
     ← NatTrans.comp_app, (rightCompositeIso adjf adjf' adjg adjg' eg ef).inv_hom_id]
@@ -249,7 +249,7 @@ when the projection-formula morphism is invertible at `K`: the two differ by the
 isomorphism of the two iterated right adjoints. -/
 theorem isIso_pushforward_map_iff (K : B) :
     IsIso (Rg.map (map adjf adjf' eg ef K)) ↔
-      IsIso ((projectionTwoSquare adjf adjg adjg' eg ef).natTrans.app K) := by
+      IsIso ((projectionTwoSquare adjf adjg adjg' eg ef).app K) := by
   have : IsIso ((rightCompositeIso adjf adjf' adjg adjg' eg ef).hom.app (Lg'.obj K)) :=
     inferInstanceAs
       (IsIso ((rightCompositeIso adjf adjf' adjg adjg' eg ef).app (Lg'.obj K)).hom)
@@ -280,8 +280,8 @@ theorem projectionTwoSquare_app_eq_mateEquiv
     (hcompat : pullbackPushforwardSquare adjg adjg' eg ef =
       ((ν.whiskerTop ι.hom).whiskerBottom ι'.inv))
     (K : B) :
-    (projectionTwoSquare adjf adjg adjg' eg ef).natTrans.app K =
-      ι.hom.app (Rf.obj K) ≫ (mateEquiv adjf adjf ν).natTrans.app K ≫
+    (projectionTwoSquare adjf adjg adjg' eg ef).app K =
+      ι.hom.app (Rf.obj K) ≫ (mateEquiv adjf adjf ν).app K ≫
         Rf.map (ι'.inv.app K) := by
   rw [projectionTwoSquare, hcompat,
     mateEquiv_whiskerTop_whiskerBottom adjf adjf ν ι.hom ι'.inv]
@@ -295,7 +295,7 @@ theorem pushforward_map_eq_mateEquiv
       ((ν.whiskerTop ι.hom).whiskerBottom ι'.inv))
     (K : B) :
     Rg.map (map adjf adjf' eg ef K) =
-      ι.hom.app (Rf.obj K) ≫ (mateEquiv adjf adjf ν).natTrans.app K ≫
+      ι.hom.app (Rf.obj K) ≫ (mateEquiv adjf adjf ν).app K ≫
         Rf.map (ι'.inv.app K) ≫
           (rightCompositeIso adjf adjf' adjg adjg' eg ef).hom.app (Lg'.obj K) := by
   rw [pushforward_map_eq adjf adjf' adjg adjg' eg ef K,

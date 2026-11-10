@@ -145,7 +145,7 @@ theorem isLocallyNoetherian_normalizationScheme {X : Scheme.{u}} [IsLocallyNoeth
     U.2.preimage (Scheme.normalization X hfin)
   refine (@isLocallyNoetherian_iff_of_affine_openCover _
     (normalizationAffineCover X hfin) haff).mpr ?_
-  show ∀ U : X.affineOpens, IsNoetherianRing
+  change ∀ U : X.affineOpens, IsNoetherianRing
     Γ((Scheme.normalization X hfin ⁻¹ᵁ (U : X.Opens)).toScheme, ⊤)
   intro U
   have hprod := isFiniteProductOfDedekindDomains_sections_preimage_normalization hdim hfin

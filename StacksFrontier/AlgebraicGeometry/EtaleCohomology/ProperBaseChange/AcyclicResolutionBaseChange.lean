@@ -151,8 +151,8 @@ public theorem isIso_Qh_map_natTrans_mapHomotopyCategory_app_single_iff
       rcases eq_or_ne i 0 with rfl | hi
       · simp only [HomologicalComplex.comp_f, NatTrans.mapHomologicalComplex_app_f,
           HomologicalComplex.singleMapHomologicalComplex_hom_app_self,
-          HomologicalComplex.single_map_f_self, Category.assoc, Iso.inv_hom_id_assoc]
-        show _ = _ ≫ _ ≫ ((HomologicalComplex.single W (ComplexShape.up ℤ) 0).map
+          Category.assoc]
+        change _ = _ ≫ _ ≫ ((HomologicalComplex.single W (ComplexShape.up ℤ) 0).map
           (α.app M)).f 0
         rw [HomologicalComplex.single_map_f_self, Iso.inv_hom_id_assoc, ← Category.assoc,
           ← NatTrans.naturality, Category.assoc]

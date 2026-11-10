@@ -66,7 +66,7 @@ private lemma equivShiftHom_precomp
     (f : X ⟶ Y) (f' : X' ⟶ Y') (hf : G.map f ≫ eY.hom = eX.hom ≫ f')
     (n : ℤ) (x : ShiftedHom Y K n) :
     equivShiftHom G eX eK n (f ≫ x) = f' ≫ equivShiftHom G eY eK n x := by
-  show eX.inv ≫ ShiftedHom.map (f ≫ x) G ≫ (shiftFunctor D n).map eK.hom = _
+  change eX.inv ≫ ShiftedHom.map (f ≫ x) G ≫ (shiftFunctor D n).map eK.hom = _
   rw [ShiftedHom.map, Functor.map_comp]
   have hf' : eX.inv ≫ G.map f = f' ≫ eY.inv := by
     calc
@@ -86,7 +86,7 @@ private lemma equivShiftHom_precomp
       congr 1
       dsimp [shiftedHomIsoAddEquiv,
         shiftedHomMapAddEquiv]
-      show eY.inv ≫ G.map x ≫ (G.commShiftIso n).hom.app K ≫
+      change eY.inv ≫ G.map x ≫ (G.commShiftIso n).hom.app K ≫
           (shiftFunctor D n).map eK.hom =
         eY.inv ≫ (x.map G) ≫ (shiftFunctor D n).map eK.hom
       rw [ShiftedHom.map]
@@ -136,7 +136,7 @@ private theorem shrinkQuotientIso_naturality
     (FilteredObject.quotπ (op q) M)
   have hx : (e.functor.mapDerivedCategoryFactors.app L ≪≫ shrinkQuotientIso M q).hom =
       e.functor.mapDerivedCategoryFactors.hom.app L ≫ DerivedCategory.Q.map hqx.hom := by
-    show e.functor.mapDerivedCategoryFactors.hom.app L ≫
+    change e.functor.mapDerivedCategoryFactors.hom.app L ≫
       (DerivedCategory.Q.mapIso hqx).hom = _
     rw [Functor.mapIso_hom]
   have hQmap := congrArg DerivedCategory.Q.map hquotMap
@@ -187,7 +187,7 @@ private theorem extFilteredHom_eventual_properties
   let e := ShrinkHoms.equivalence.{w} A
   let eC := e.mapHomologicalComplex (ComplexShape.up ℤ)
   let : e.functor.Additive := by
-    show (ShrinkHoms.functor A).Additive
+    change (ShrinkHoms.functor A).Additive
     infer_instance
   let G := e.functor.mapDerivedCategory
   let : G.IsEquivalence := mapDerivedCategory_isEquivalence e.functor
@@ -258,7 +258,7 @@ private theorem extFilteredHom_eventual_properties
     have : IsIso (extFromFilteredQuotient K M q n) := hq₁ q hq
     have hmapNat (x : DerivedCategory.Ext (DerivedCategory.Q.obj L) K n) :
         bridgeY (fOrig.hom x) = fShrink.hom (bridgeX x) := by
-      show bridgeY (f ≫ x) = f' ≫ bridgeX x
+      change bridgeY (f ≫ x) = f' ≫ bridgeX x
       exact equivShiftHom_precomp G eY eX kIso f f' hnat n x
     have hShrinkBij : Function.Bijective fShrink.hom :=
       (bijective_iff_of_comp_eq bridgeX bridgeY hmapNat).mp
@@ -273,7 +273,7 @@ private theorem extFilteredHom_eventual_properties
     let homMap := HomologicalComplex.homologyMap (N.filtration.ι.app (op p)) n
     have hcomm (x : (N.filtration.obj (op p)).homology n) :
         eWhole (homMap.hom x) = fShrink.hom (eStep x) := by
-      show filteredHomComplexHomologyAddEquivExt
+      change filteredHomComplexHomologyAddEquivExt
           (ShrinkHoms A) K' M' n
           (HomologicalComplex.homologyMap (N.filtration.ι.app (op p)) n x) =
         f' ≫ filteredHomComplexStepHomologyAddEquivExt
@@ -284,7 +284,7 @@ private theorem extFilteredHom_eventual_properties
     have hHomBij : Function.Bijective homMap.hom :=
       (bijective_iff_of_comp_eq eStep eWhole hcomm).mpr hShrinkBij
     exact (ConcreteCategory.isIso_iff_bijective homMap).mpr hHomBij
-  show (∀ n : ℤ, ∃ p₀ : ℤ, ∀ p : ℤ, p₀ ≤ p →
+  change (∀ n : ℤ, ∃ p₀ : ℤ, ∀ p : ℤ, p₀ ≤ p →
       IsZero ((N.filtration.obj (op p)).homology n)) ∧
     (∀ n : ℤ, ∃ p₁ : ℤ, ∀ p : ℤ, p ≤ p₁ →
       IsIso (HomologicalComplex.homologyMap (N.filtration.ι.app (op p)) n))
@@ -339,7 +339,7 @@ private theorem extQuotientFiltration_eq_homologyImage
   let e := ShrinkHoms.equivalence.{w} A
   let eC := e.mapHomologicalComplex (ComplexShape.up ℤ)
   let : e.functor.Additive := by
-    show (ShrinkHoms.functor A).Additive
+    change (ShrinkHoms.functor A).Additive
     infer_instance
   let G := e.functor.mapDerivedCategory
   let : G.IsEquivalence := mapDerivedCategory_isEquivalence e.functor
@@ -375,7 +375,7 @@ private theorem extQuotientFiltration_eq_homologyImage
         map_add' := by simp }
   have hmapNat (x : DerivedCategory.Ext (DerivedCategory.Q.obj L) K n) :
       bridgeY (fOrig.hom x) = fShrink.hom (bridgeX x) := by
-    show bridgeY (f ≫ x) = f' ≫ bridgeX x
+    change bridgeY (f ≫ x) = f' ≫ bridgeX x
     exact equivShiftHom_precomp G baseIso eX kIso f f' hnat n x
   let stepIso := filteredHomComplexFiltrationStepIso
     (ShrinkHoms A) K' M' p
@@ -393,7 +393,7 @@ private theorem extQuotientFiltration_eq_homologyImage
       (ShrinkHoms A) K' M' p n x
   have hcomm (x : (N.filtration.obj (op p)).homology n) :
       eWhole (homMap.hom x) = fOrig.hom (eStep x) := by
-    show bridgeY.symm (eWholeShrunk (homMap.hom x)) =
+    change bridgeY.symm (eWholeShrunk (homMap.hom x)) =
       fOrig.hom (bridgeX.symm (eStepShrunk x))
     calc
       bridgeY.symm (eWholeShrunk (homMap.hom x)) =
@@ -417,7 +417,7 @@ private theorem extQuotientFiltration_eq_homologyImage
     AddCommGrpCat.hom_ext (AddMonoidHom.ext hcomm)
   have heWhole : eWhole = extHomologyEquiv K M n := rfl
   rw [← heWhole]
-  show (Subobject.map eWholeCat.hom).obj (imageSubobject homMap) =
+  change (Subobject.map eWholeCat.hom).obj (imageSubobject homMap) =
     imageSubobject fOrig
   calc
     (Subobject.map eWholeCat.hom).obj (imageSubobject homMap) =
@@ -586,7 +586,7 @@ public theorem extSpectralSequence_convergesToExt
   have hpageFinite1 : ∀ n : ℤ,
       {p : ℤ | ¬ IsZero ((E1.page 1).X (p, n - p))}.Finite := by
     intro n
-    show {p : ℤ | ¬ IsZero
+    change {p : ℤ | ¬ IsZero
       (((CochainComplex.filteredSpectralSequence
         (extFilteredHom K M)).page 1 (by omega)).X
           (p, n - p))}.Finite
@@ -703,7 +703,7 @@ public theorem extSpectralSequence_convergesToExt
       kernelSubobject (N.X.d n (n + 1)) ⊓ F p n ⊔ F (p + 1) n := by
     let : Mono (HomologicalComplex.homologyMap
         (N.filtration.ι.app (op (p + S))) (n + 1)) := (hb (p + S) hSb).mono _
-    show F p n ⊓ (Subobject.pullback (N.X.d n (n + 1))).obj
+    change F p n ⊓ (Subobject.pullback (N.X.d n (n + 1))).obj
       (F (p + S) (n + 1)) ⊔ F (p + 1) n = _
     exact CochainComplex.cycles_sup_eq_of_mono_homologyMap N F
       (fun _ _ => rfl) p (p + S) n (by omega)
@@ -751,7 +751,7 @@ public theorem extSpectralSequence_convergesToExt
   have hHUle : H ⊓ U ≤ D S p n := by
     have hUpull : U ≤ (Subobject.pullback (N.X.d n (n + 1))).obj
         (F (p + S) (n + 1)) := by
-      show Z S p n ≤ (Subobject.pullback (N.X.d n (n + 1))).obj
+      change Z S p n ≤ (Subobject.pullback (N.X.d n (n + 1))).obj
         (F (p + S) (n + 1))
       exact inf_le_right
     have hcycle : H ⊓ U ≤ Z (S - 1) (p + 1) n :=
@@ -769,7 +769,7 @@ public theorem extSpectralSequence_convergesToExt
     rw [show Binf = A0 ⊔ H by rfl, hmod]
     exact sup_le (by rw [hDformula]; exact le_sup_right) hHUle
   have hDleBinf : D S p n ≤ Binf := by
-    show D S p n ≤ A0 ⊔ H
+    change D S p n ≤ A0 ⊔ H
     rw [← hboundarySup]
     exact le_sup_left
   have hDU : D S p n ⊓ U = Binf ⊓ U :=

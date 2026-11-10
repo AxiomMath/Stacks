@@ -170,7 +170,7 @@ theorem compactSpace_points_moduliStableCurvesOfGenusSmall (g : ℕ) (hg : 2 ≤
   have hcpt : ∀ i, CompactSpace ((BigFppfOver.toScheme B integerBase hZ).obj
       (integerSiteObject B hZ (hWc i))) := fun i => by
     have := hT i
-    show CompactSpace (W i).toScheme
+    change CompactSpace (W i).toScheme
     exact isCompact_iff_compactSpace.mp (TopologicalSpace.NoetherianSpace.isCompact _)
   refine Stack.compactSpace_points_of_forall_exists_hom B integerBase hZ
     (moduliStableCurvesOfGenusSmall B hZ g) (fun i => integerSiteObject B hZ (hWc i)) x

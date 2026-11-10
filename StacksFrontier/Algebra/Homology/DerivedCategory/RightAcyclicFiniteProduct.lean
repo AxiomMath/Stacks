@@ -81,7 +81,7 @@ theorem sum_pi_π_comp_single_eq_id {ι : Type*} [Fintype ι] [DecidableEq ι]
   rw [Finset.sum_eq_single_of_mem j (Finset.mem_univ j)]
   · simp
   · intro i _ hij
-    rw [Category.assoc, Pi.lift_comp_π, dif_neg hij, comp_zero]
+    rw [Category.assoc, Pi.lift_comp_π, dite_eq_right hij, comp_zero]
 
 end CategoryTheory.Limits
 
@@ -169,12 +169,13 @@ theorem Functor.rightAcyclic_of_sum_comp_id {ι : Type*} (s : Finset ι)
 acyclic at `M` as soon as every factor is.**  The splitting identity of the product is moved onto
 `W` by composing the projections and the diagonal lifts with the isomorphism, which is what keeps
 `∏ᶜ F` from having to be additive or left exact itself. -/
-theorem Functor.rightAcyclic_of_isoPi {ι : Type*} [Fintype ι] [DecidableEq ι]
+theorem Functor.rightAcyclic_of_isoPi {ι : Type*} [Finite ι]
     (W : C ⥤ D) [W.Additive] [PreservesFiniteLimits W]
     (F : ι → (C ⥤ D)) [∀ i, (F i).Additive] [∀ i, PreservesFiniteLimits (F i)]
     [HasProduct F] (e : W ≅ ∏ᶜ F) (M : C) (h : ∀ i, (F i).rightAcyclic M) :
     W.rightAcyclic M := by
   classical
+  have := Fintype.ofFinite ι
   refine Functor.rightAcyclic_of_sum_comp_id Finset.univ W F
     (fun i ↦ e.hom ≫ Pi.π F i)
     (fun i ↦ Pi.lift (fun j ↦ if hij : i = j then eqToHom (congrArg F hij) else 0) ≫ e.inv)

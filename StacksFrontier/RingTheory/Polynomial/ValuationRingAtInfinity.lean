@@ -222,10 +222,10 @@ theorem residue_fracX_inv : residue k ⟨_, fracX_inv_mem⟩ = 0 := by
   have : (⟨_, fracX_inv_mem⟩ : ringAtInfinity k) =
       locSpanXEquiv k (algebraMap k[X] (locSpanX k) X) := by
     ext
-    show _ = invLoc k _
+    change _ = invLoc k _
     rw [invLoc_algebraMap, invMap_X]
   rw [this]
-  show residueLoc k ((locSpanXEquiv k).symm (locSpanXEquiv k _)) = 0
+  change residueLoc k ((locSpanXEquiv k).symm (locSpanXEquiv k _)) = 0
   rw [AlgEquiv.symm_apply_apply, residueLoc_algebraMap]
   simp
 
@@ -304,7 +304,7 @@ theorem exists_derivation_eq {L : Type*} [Field L] [Algebra (FractionRing k[X]) 
     hq (X_dvd_iff.mp (Ideal.mem_span_singleton.mp h))
   refine ⟨⟨invLoc k (IsLocalization.mk' (locSpanX k) (-(X * (derivative p * q - p * derivative q)))
     (⟨q, hqmem⟩ ^ 2)), ⟨_, rfl⟩⟩, ?_⟩
-  show _ = algebraMap _ L (invLoc k _)
+  change _ = algebraMap _ L (invLoc k _)
   rw [invLoc_mk', hpq, map_div₀ (algebraMap (FractionRing k[X]) L),
     map_div₀ (algebraMap (FractionRing k[X]) L), hinv, hinv, hinv, hinv, Derivation.leibniz_div,
     hδinv, hδinv, smul_eq_mul, smul_eq_mul, smul_eq_mul]

@@ -159,7 +159,7 @@ private lemma leftRegular_smul_mul
       Representation.asModuleNC (leftRegularRepresentation Λ G)) = r * x := by
   induction r using MonoidAlgebra.induction_on with
   | of g =>
-      show (MonoidAlgebra.single g (1 : Λ) : Λ[G]) •
+      change (MonoidAlgebra.single g (1 : Λ) : Λ[G]) •
         (show Representation.asModuleNC (leftRegularRepresentation Λ G) from x) = _
       rw [single_smul_asModuleNC]
       simp only [one_smul, leftRegularRepresentation]
@@ -172,7 +172,7 @@ private lemma leftRegular_smul_mul
         intro y
         ext g
         simp [MonoidAlgebra.coeff_single_mul_apply]
-      show (a • r) • (show Representation.asModuleNC (leftRegularRepresentation Λ G) from x) = _
+      change (a • r) • (show Representation.asModuleNC (leftRegularRepresentation Λ G) from x) = _
       rw [← hs r, mul_smul, single_smul_asModuleNC, map_one]
       rw [mul_assoc, hr, hs]
       rfl
@@ -212,7 +212,7 @@ private lemma diagonalTensorCoordinate_equivariant
   unfold diagonalTensorCoordinate
   rw [TensorProduct.AlgebraTensorModule.lift_tmul,
     TensorProduct.AlgebraTensorModule.lift_tmul]
-  show weightedCoeffMap A Λ G _ (pr (ρ g p0)) =
+  change weightedCoeffMap A Λ G _ (pr (ρ g p0)) =
     (MonoidAlgebra.single g (1 : Λ) : Λ[G]) *
       weightedCoeffMap A Λ G _ (pr p0)
   rw [hpr, hc]
@@ -239,8 +239,7 @@ private noncomputable def diagonalTensorCoordinateGroupLinear
           leftRegularRepresentation Λ G g
             (diagonalTensorCoordinate A Λ G P M σ iP iM i j z) := by
       intro g z
-      induction z using TensorProduct.induction_on with
-      | zero => simp [diagonalTensorCoordinate]
+      induction z using TensorProduct.inductionOn with
       | tmul m p =>
           exact diagonalTensorCoordinate_equivariant A Λ G P M ρ σ iP iM hρ i j g m p
       | add x y hx hy => simp only [map_add, hx, hy]
@@ -287,7 +286,7 @@ private lemma reversedTensor_scalar_smul_tmul
       m ⊗ₜ[A] p) =
       (show Representation.asModuleNC (Representation.tprodAlgebraReversed ρ σ) from
         (a • m) ⊗ₜ[A] p) := by
-  show a • (m ⊗ₜ[A] p) = (a • m) ⊗ₜ[A] p
+  change a • (m ⊗ₜ[A] p) = (a • m) ⊗ₜ[A] p
   exact TensorProduct.smul_tmul' a m p
 
 private lemma reversedTensor_smul_balance
@@ -370,7 +369,7 @@ private lemma diagonalTensorFreeCoordinateSum
         simp_rw [← (σ g).map_smul, ← map_sum, ← splitExpansion Λ M pM iM hm (σ g⁻¹ m₀)]
         simp
       simp_rw [single_smul_reversed_tmul]
-      show ∑ j, (iM (σ g⁻¹ m₀) j • σ g (pM (standardBasisVector Λ (Fin m) j))) ⊗ₜ[A] ρ g q =
+      change ∑ j, (iM (σ g⁻¹ m₀) j • σ g (pM (standardBasisVector Λ (Fin m) j))) ⊗ₜ[A] ρ g q =
         m₀ ⊗ₜ[A] ((MonoidAlgebra.single g (1 : A) : A[G]) • q)
       rw [← TensorProduct.sum_tmul, hsum, hρ]
   | add r s hr hs =>
@@ -383,7 +382,7 @@ private lemma diagonalTensorFreeCoordinateSum
       refine (Finset.sum_congr rfl fun j _ ↦
         tensor_A_smul_groupAlgebra A Λ G P M ρ σ a _ _).trans ?_
       rw [← Finset.smul_sum, hr]
-      show algebraMap A Λ a • (m₀ ⊗ₜ[A] (r • q)) = m₀ ⊗ₜ[A] ((a • r) • q)
+      change algebraMap A Λ a • (m₀ ⊗ₜ[A] (r • q)) = m₀ ⊗ₜ[A] ((a • r) • q)
       rw [TensorProduct.smul_tmul', algebraMap_smul, TensorProduct.smul_tmul, smul_assoc]
 
 private lemma diagonalTensorFreeInclusion_apply_tmul
@@ -397,9 +396,9 @@ private lemma diagonalTensorFreeInclusion_apply_tmul
     (diagonalTensorFreeInclusion A Λ G P M ρ σ iP iM hρ
       (m₀ ⊗ₜ[A] p₀)) (i, j) =
       weightedCoeffMap A Λ G (fun g => iM (σ g⁻¹ m₀) j) ((iP p₀) i) := by
-  show diagonalTensorCoordinateGroupLinear A Λ G P M ρ σ iP iM hρ i j
+  change diagonalTensorCoordinateGroupLinear A Λ G P M ρ σ iP iM hρ i j
       (m₀ ⊗ₜ[A] p₀) = _
-  show diagonalTensorCoordinate A Λ G P M σ iP iM i j
+  change diagonalTensorCoordinate A Λ G P M σ iP iM i j
       (m₀ ⊗ₜ[A] p₀) = _
   simp [diagonalTensorCoordinate, LinearMap.comp_apply]
 
@@ -420,14 +419,10 @@ private lemma diagonalTensorFreeProjection_comp_inclusion
   let iT := diagonalTensorFreeInclusion A Λ G P M ρ σ iP iM hρ
   apply LinearMap.ext
   intro z
-  show pT (iT z) = z
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      show pT (iT (0 : Representation.asModuleNC
-        (Representation.tprodAlgebraReversed ρ σ))) = 0
-      rw [iT.map_zero, pT.map_zero]
+  change pT (iT z) = z
+  induction z using TensorProduct.inductionOn with
   | tmul m0 p0 =>
-      show (∑ ij, (diagonalTensorFreeInclusion A Λ G P M ρ σ iP iM hρ
+      change (∑ ij, (diagonalTensorFreeInclusion A Λ G P M ρ σ iP iM hρ
           (show Representation.asModuleNC (Representation.tprodAlgebraReversed ρ σ) from
             m0 ⊗ₜ[A] p0)) ij •
           (show Representation.asModuleNC (Representation.tprodAlgebraReversed ρ σ) from
@@ -437,12 +432,12 @@ private lemma diagonalTensorFreeProjection_comp_inclusion
       refine (Finset.sum_congr rfl fun i _ ↦
         diagonalTensorFreeCoordinateSum A Λ G P M ρ σ pM iM hm hρ m0
           (pP (standardBasisVector A[G] (Fin n) i)) ((iP p0) i)).trans ?_
-      show (∑ i, m0 ⊗ₜ[A] ((iP p0) i • pP (standardBasisVector A[G] (Fin n) i))) = m0 ⊗ₜ[A] p0
+      change (∑ i, m0 ⊗ₜ[A] ((iP p0) i • pP (standardBasisVector A[G] (Fin n) i))) = m0 ⊗ₜ[A] p0
       rw [← TensorProduct.tmul_sum, ← splitExpansion A[G] P pP iP hp p0]
   | add x y hx hy =>
       let x' : Representation.asModuleNC (Representation.tprodAlgebraReversed ρ σ) := x
       let y' : Representation.asModuleNC (Representation.tprodAlgebraReversed ρ σ) := y
-      show pT (iT (x' + y')) = x' + y'
+      change pT (iT (x' + y')) = x' + y'
       rw [iT.map_add, pT.map_add, hx, hy]
 
 private lemma diagonalTensorFreeProjection_standardBasis
@@ -462,7 +457,7 @@ private lemma diagonalTensorFreeProjection_standardBasis
       Representation.asModuleNC (Representation.tprodAlgebraReversed ρ σ) := fun ij ↦
     (pM (standardBasisVector Λ (Fin m) ij.2)) ⊗ₜ[A]
       (pP (standardBasisVector A[G] (Fin n) ij.1))
-  show (∑ ij : Fin n × Fin m,
+  change (∑ ij : Fin n × Fin m,
       (standardBasisVector Λ[G] (Fin n × Fin m) (i, j)) ij • w ij) = w (i, j)
   simp [standardBasisVector]
 
@@ -503,7 +498,7 @@ private lemma diagonalTensorEndomorphism_conj_apply_tmul
     apply e.injective
     rw [Representation.tprodAlgebraCommModuleEquiv_apply_tmul]
     exact e.apply_symm_apply (m ⊗ₜ[A] p)
-  show e ((diagonalTensorEndomorphism ρ σ u v).1 (e.symm (m ⊗ₜ[A] p))) = _
+  change e ((diagonalTensorEndomorphism ρ σ u v).1 (e.symm (m ⊗ₜ[A] p))) = _
   rw [hs, (diagonalTensorEndomorphism ρ σ u v).2 p m]
   exact Representation.tprodAlgebraCommModuleEquiv_apply_tmul ρ σ (u p) (v m)
 
@@ -562,14 +557,14 @@ lemma groupTrace_diagonalTensorEndomorphism
   let : Module A[G] P :=
     Representation.asModuleNC.moduleMonoidAlgebra ρ
   let : Module.Finite A[G] P := by
-    show Module.Finite A[G] (Representation.asModuleNC ρ)
+    change Module.Finite A[G] (Representation.asModuleNC ρ)
     infer_instance
   let : Module.Projective A[G] P := by
-    show Module.Projective A[G] (Representation.asModuleNC ρ)
+    change Module.Projective A[G] (Representation.asModuleNC ρ)
     infer_instance
   let : IsScalarTower A A[G] P :=
     IsScalarTower.of_algebraMap_smul (fun a p => by
-      show (algebraMap A A[G] a) • (show Representation.asModuleNC ρ from p) =
+      change (algebraMap A A[G] a) • (show Representation.asModuleNC ρ from p) =
         a • (show Representation.asModuleNC ρ from p)
       rw [show algebraMap A A[G] a = (MonoidAlgebra.single 1 (a : A) : A[G]) by simp,
         single_smul_asModuleNC, map_one]
@@ -593,7 +588,7 @@ lemma groupTrace_diagonalTensorEndomorphism
   have hρ (g : G) (p : P) :
       (MonoidAlgebra.single g (1 : A) : A[G]) •
           p = ρ g p := by
-    show (MonoidAlgebra.single g (1 : A) : A[G]) •
+    change (MonoidAlgebra.single g (1 : A) : A[G]) •
         (show Representation.asModuleNC ρ from p) = ρ g p
     rw [single_smul_asModuleNC, one_smul]
   let e := Representation.tprodAlgebraCommModuleEquiv ρ σ
@@ -608,7 +603,7 @@ lemma groupTrace_diagonalTensorEndomorphism
     pP iP hp pM iM hm hρ
   have hpi : p.comp i = LinearMap.id := by
     ext z
-    show e.symm (pT (iT (e z))) = z
+    change e.symm (pT (iT (e z))) = z
     rw [show pT (iT (e z)) = e z from LinearMap.congr_fun hpT (e z), e.symm_apply_apply]
   let f : Module.End Λ[G] (Representation.asModuleNC (Representation.tprodAlgebra ρ σ)) :=
     (diagonalTensorEndomorphism ρ σ u v).1
@@ -625,12 +620,12 @@ lemma groupTrace_diagonalTensorEndomorphism
           ((iP (u (pP (standardBasisVector A[G] (Fin n) i₀))) i₀).coeff 1) *
         iM (groupAlgebraEnd_restrictScalars σ v
           (pM (standardBasisVector Λ (Fin m) j₀))) j₀ := by
-    show (iT (fT (pT
+    change (iT (fT (pT
       (standardBasisVector Λ[G] (Fin n × Fin m) (i₀, j₀))))
         (i₀, j₀)).coeff 1 = _
     dsimp [pT]
     rw [diagonalTensorFreeProjection_standardBasis]
-    show (diagonalTensorFreeInclusion A Λ G P M ρ σ iP iM hρ
+    change (diagonalTensorFreeInclusion A Λ G P M ρ σ iP iM hρ
       ((Representation.tprodAlgebraCommModuleEquiv ρ σ).toLinearMap.comp
         ((diagonalTensorEndomorphism ρ σ u v).1.comp
           (Representation.tprodAlgebraCommModuleEquiv ρ σ).symm.toLinearMap)
@@ -642,7 +637,7 @@ lemma groupTrace_diagonalTensorEndomorphism
     rw [diagonalTensorEndomorphism_conj_apply_tmul,
       diagonalTensorFreeInclusion_apply_tmul,
       weightedCoeffMap_coeff_one]
-    show algebraMap A Λ
+    change algebraMap A Λ
       ((iP (u (pP (standardBasisVector A[G] (Fin n) i₀))) i₀).coeff 1) *
       iM (σ (1 : G)⁻¹
         (show M from v (show Representation.asModuleNC σ from
@@ -659,7 +654,7 @@ lemma groupTrace_diagonalTensorEndomorphism
       commutativeAdditiveCommutatorQuotientEval A
           (groupTrace A G (Representation.asModuleNC ρ) u) =
         ∑ i₀, a i₀ := by
-    show commutativeAdditiveCommutatorQuotientEval A
+    change commutativeAdditiveCommutatorQuotientEval A
         (groupTrace A G P uP) = _
     rw [groupTrace_eq_coeff_sum A G P pP iP hp uP]
     simp [commutativeAdditiveCommutatorQuotientEval,
@@ -673,7 +668,7 @@ lemma groupTrace_diagonalTensorEndomorphism
       (groupAlgebraEnd_restrictScalars σ v) pM iM hm,
       freeModuleTrace_apply]
     rfl
-  show groupTrace Λ G
+  change groupTrace Λ G
     (Representation.asModuleNC (Representation.tprodAlgebra ρ σ)) f = _
   rw [htrace, Fintype.sum_prod_type]
   simp_rw [hdiag]
@@ -686,7 +681,7 @@ lemma groupTrace_diagonalTensorEndomorphism
           ((∑ i₀, a i₀) • x) :=
     (inducedAdditiveCommutatorQuotientModule A Λ).smul_mk
       (∑ i₀, a i₀) x
-  show additiveCommutatorQuotientMk Λ
+  change additiveCommutatorQuotientMk Λ
       (∑ i₀, ∑ j₀, algebraMap A Λ (a i₀) * b j₀) =
     (∑ i₀, a i₀) •
       additiveCommutatorQuotientMk Λ (∑ j₀, b j₀)

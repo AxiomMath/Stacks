@@ -214,7 +214,7 @@ abbrev idEtaleChartBaseRingHom :
 /-- On `Spec A` itself, the functions on the identity chart are `A`. -/
 theorem bijective_baseChartRingHom_baseObject :
     Function.Bijective (idEtaleChartBaseRingHom (baseObject A B hA)) := by
-  show Function.Bijective ((Scheme.ΓSpecIso (.of A)).inv ≫ Scheme.Γ.map (B.inclusion.map
+  change Function.Bijective ((Scheme.ΓSpecIso (.of A)).inv ≫ Scheme.Γ.map (B.inclusion.map
     (𝟙 (B.obj hA))).op).hom
   exact (ConcreteCategory.bijective_of_isIso (Scheme.Γ.map (B.inclusion.map
     (𝟙 (B.obj hA))).op)).comp (ConcreteCategory.bijective_of_isIso (Scheme.ΓSpecIso (.of A)).inv)
@@ -310,10 +310,10 @@ theorem moduleFinite_cohomology_of_isProper [IsNoetherianRing A]
       (⟨yoneda.obj V, isAlgebraicSpace_yoneda B (Spec (.of A)) hA V⟩ :
         AlgebraicSpaces B (Spec (.of A)) hA) := ObjectProperty.homMk f
   have hV : IsAffine ((BigFppfOver.toScheme B (Spec (.of A)) hA).obj V) := by
-    show IsAffine (Spec (.of A))
+    change IsAffine (Spec (.of A))
     infer_instance
   have : IsLocallyNoetherian ((BigFppfOver.toScheme B (Spec (.of A)) hA).obj V) := by
-    show IsLocallyNoetherian (Spec (.of A))
+    change IsLocallyNoetherian (Spec (.of A))
     infer_instance
   have hfin := hasFiniteCohomologyOver_of_isProper B (Spec (.of A)) hA V hV g hf F inferInstance i
   have := modulePushforward_additive B (Spec (.of A)) hA g

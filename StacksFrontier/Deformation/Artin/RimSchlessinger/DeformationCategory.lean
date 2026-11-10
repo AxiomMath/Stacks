@@ -98,7 +98,7 @@ private theorem spec_residueMap_comp_algebraMap
   congr 1
   apply CommRingCat.hom_ext
   ext a
-  show A.residueEquiv (IsLocalRing.residue A (algebraMap Λ A a)) = algebraMap Λ k a
+  change A.residueEquiv (IsLocalRing.residue A (algebraMap Λ A a)) = algebraMap Λ k a
   rw [← ResidueField.algebraMap_eq, ← IsScalarTower.algebraMap_apply Λ A (ResidueField A) a]
   exact A.residueEquiv.commutes a
 
@@ -130,7 +130,7 @@ private theorem spec_finiteType_of_point
     apply congrArg Spec.map
     apply CommRingCat.hom_ext
     ext a
-    show A.residueEquiv.symm (A.residueEquiv (IsLocalRing.residue A a)) = _
+    change A.residueEquiv.symm (A.residueEquiv (IsLocalRing.residue A a)) = _
     exact A.residueEquiv.symm_apply_apply _
   have hcanonical :
       Spec.map (CommRingCat.ofHom (IsLocalRing.residue A)) ≫ f = eSpec.hom ≫ g := by
@@ -195,7 +195,7 @@ private theorem specPullback_isPullback
   have hp : p' = (CommRingCat.pullbackCone f' g').snd := by
     simp only [p', P, ArtinianLocalAlgCat.pullbackSnd_of_surjective_hom]
     rfl
-  show IsPullback q' p' f' g'
+  change IsPullback q' p' f' g'
   rw [hq, hp]
   exact IsPullback.of_isLimit hlim
 
@@ -419,7 +419,7 @@ private theorem specOver_isArtinianLocal
     (A : ArtinianLocalAlgCat.{u, u, u} Λ k)
     (hA : B.Contains (Spec (.of A))) :
     IsArtinianLocal B S hS (specOver B S hS iΛ A hA) := by
-  show IsAffine (Spec (.of A)) ∧ IsLocalRing Γ(Spec (.of A), ⊤) ∧
+  change IsAffine (Spec (.of A)) ∧ IsLocalRing Γ(Spec (.of A), ⊤) ∧
     IsArtinianRing Γ(Spec (.of A), ⊤)
   exact spec_of_artinianLocal_isArtinianLocal A
 
@@ -443,7 +443,7 @@ private theorem specOver_isFiniteTypeOver
   let f' : B.inclusion.obj X ⟶ B.inclusion.obj Y := f
   have hpre : B.inclusion.map (B.inclusion.preimage f') = f' := by
     simpa using Functor.map_preimage B.inclusion f'
-  show LocallyOfFiniteType (B.inclusion.map (B.inclusion.preimage f')) ∧
+  change LocallyOfFiniteType (B.inclusion.map (B.inclusion.preimage f')) ∧
     QuasiCompact (B.inclusion.map (B.inclusion.preimage f'))
   rw [hpre]
   exact spec_finiteType_of_point A S iΛ hfinite hqc
@@ -465,7 +465,7 @@ private theorem specOverMap_left_map
   let Y := (specOver B S hS iΛ A' hA').left
   let g : B.inclusion.obj Y ⟶ B.inclusion.obj X :=
     Spec.map (CommRingCat.ofHom f.hom.toRingHom)
-  show B.inclusion.map (B.inclusion.preimage g) = g
+  change B.inclusion.map (B.inclusion.preimage g) = g
   simpa using Functor.map_preimage B.inclusion g
 
 /-- `specOverMap` turns a composite of morphisms of `𝒞_Λ` into the composite of the
@@ -561,7 +561,7 @@ private theorem specOverResidueMap_comp
   congr 1
   apply CommRingCat.hom_ext
   ext a
-  show A'.residueEquiv
+  change A'.residueEquiv
       (IsLocalRing.residue A' (f.hom a)) =
     A.residueEquiv (IsLocalRing.residue A a)
   exact f.residue_comm a
@@ -616,7 +616,7 @@ private theorem deformationMorphism_isHomLift
     cases htype
     cases hapost
     cases hbpost
-    show _ = _ ≫ Over.Hom.left ((Over.post B.inclusion).map
+    change _ = _ ≫ Over.Hom.left ((Over.post B.inclusion).map
       (p.map m.arrow)) ≫ _
     simp [Over.comp_left, Over.post]
 
@@ -820,12 +820,12 @@ private theorem specArtinianPushoutComparison_isEquivalence_of_residue
   · exact specOver_isFiniteTypeOver B S hS iΛ A₂ hA₂ hfinite hqc
   · exact specOver_isFiniteTypeOver B S hS iΛ A₁ hA₁ hfinite hqc
   · exact specOver_isFiniteTypeOver B S hS iΛ P hPsite hfinite hqc
-  · show IsClosedImmersion
+  · change IsClosedImmersion
       (B.inclusion.map (Over.Hom.left
         (specOverMap B S hS iΛ hA₂ hA f₂)))
     rw [specOverMap_left_map B S hS iΛ hA₂ hA f₂]
     exact specMap_isClosedImmersion_of_surjective f₂ hf₂
-  · show IsPushout
+  · change IsPushout
       (B.inclusion.map (Over.Hom.left
         (specOverMap B S hS iΛ hA₂ hA f₂)))
       (B.inclusion.map (Over.Hom.left
@@ -907,7 +907,7 @@ private theorem specSquareZeroComparison_isEquivalence
   let j : W ⟶ Z := ObjectProperty.homMk (specOverMap B S hS iΛ hPsite hA₂ hQ)
   have h : f ≫ i = g ≫ j := by
     apply ObjectProperty.hom_ext
-    show specOverMap B S hS iΛ hA₁ hA f₁ ≫ specOverMap B S hS iΛ hPsite hA₁ hP =
+    change specOverMap B S hS iΛ hA₁ hA f₁ ≫ specOverMap B S hS iΛ hPsite hA₁ hP =
       specOverMap B S hS iΛ hA₂ hA f₂ ≫ specOverMap B S hS iΛ hPsite hA₂ hQ
     rw [specOverMap_comp B S hS iΛ hPsite hA₁ hA hP f₁,
       specOverMap_comp B S hS iΛ hPsite hA₂ hA hQ f₂]
@@ -1063,7 +1063,7 @@ private theorem exists_pullbackCone_of_comparison
       (hab : m₁.arrow ≫ a = m₂.arrow ≫ b) :
       c.map a₁ d₁f ≫ a = pair.iso.hom.1 ≫ c.map a₂ d₂f ≫ b := by
     apply (cancel_epi (Functor.Fiber.fiberInclusion.map e₁.hom)).1
-    show e₁.hom.1 ≫ _ = e₁.hom.1 ≫ _
+    change e₁.hom.1 ≫ _ = e₁.hom.1 ≫ _
     simpa only [← Category.assoc, he₁, hepair, he₂] using hab
   have hcomm : m₁.arrow ≫ arrow₁ = m₂.arrow ≫ arrow₂ := by
     have hh := pair_map_condition c a₁ a₂ bi.inv (c.map p₁ src) (c.map p₂ src)
@@ -1116,7 +1116,7 @@ private theorem exists_pullbackCone_of_comparison
     ringHom := hQ
     arrow := arrow₂
     triangle := by
-      show d₂.arrow ≫ arrow₂ = d₁.arrow ≫ arrow₁
+      change d₂.arrow ≫ arrow₂ = d₁.arrow ≫ arrow₁
       rw [← m₁.triangle, ← m₂.triangle, Category.assoc, Category.assoc, hcomm]
     arrow_base := (map_lift_fac p (Over.post B.inclusion ⋙ Over.forget S)
       p₂ arrow₂
@@ -1152,7 +1152,7 @@ private theorem exists_pullbackCone_of_comparison
     ringHom := lring
     arrow := l
     triangle := by
-      show (d₁.arrow ≫ arrow₁) ≫ l = t.arrow
+      change (d₁.arrow ≫ arrow₁) ≫ l = t.arrow
       rw [Category.assoc, hl.2.1]
       exact a.triangle
     arrow_base := (map_lift_fac p (Over.post B.inclusion ⋙ Over.forget S)
@@ -1173,7 +1173,7 @@ private theorem exists_pullbackCone_of_comparison
   refine ⟨?_, hm.1.2, hm.2.2⟩
   have hm' := deformationMorphism_isHomLift B S hS p iΛ x₀ hx₀
     (a := t) (b := z) hT hPsite lm'
-  show p.IsHomLift (specOverMap B S hS iΛ hT hPsite lring) lm'.arrow
+  change p.IsHomLift (specOverMap B S hS iΛ hT hPsite lring) lm'.arrow
   rw [← hring]
   exact hm'
 

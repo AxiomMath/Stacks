@@ -20,9 +20,9 @@ subspace of dimension `d + 1` and let `L₁, …, L_{d+1}` be invertible `𝒪_X
 * `AlgebraicGeometry.Space.intersectionNumber_eq_sum_of_isEffectiveCartierDivisor`:
   **Stacks 0EDK**, with the right-hand side the intersection number of Definition 0EDF read for
   the closed subspace `D`, of dimension at most `d`.
-* `AlgebraicGeometry.Space.intersectionNumber_eq_intersectionNumber_of_isEffectiveCartierDivisor_of_dimension_eq`:
-  the same with the right-hand side `AlgebraicGeometry.Space.intersectionNumber` of `D`, when
-  `D` has dimension exactly `d`.
+* `intersectionNumber_eq_intersectionNumber_of_isEffectiveCartierDivisor_of_dimension_eq`
+  (in `AlgebraicGeometry.Space`): the same with the right-hand side
+  `AlgebraicGeometry.Space.intersectionNumber` of `D`, when `D` has dimension exactly `d`.
 * `AlgebraicGeometry.Space.sum_eulerCharacteristic_eq_zero_of_dimension_lt`: the right-hand side
   vanishes when `D` has dimension less than `d`.
 

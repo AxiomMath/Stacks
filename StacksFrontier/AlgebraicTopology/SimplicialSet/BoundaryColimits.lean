@@ -63,7 +63,7 @@ lemma multicoequalizerDiagram (n : ℕ) :
     rw [stdSimplex.face_inter_face]
     congr 1
     ext x
-    simp [or_iff_not_imp_left]
+    simp
 
 /-- **The boundary is a multicoequalizer of the codimension-one faces.** -/
 noncomputable def isColimit (n : ℕ) :

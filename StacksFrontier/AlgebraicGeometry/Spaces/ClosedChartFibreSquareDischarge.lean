@@ -79,19 +79,19 @@ theorem exists_chart_square_hasClosedChartFibreSquare_of_isClosed_chartPoint
       (N : SmallEtaleNeighborhood (geometricPointMap π₁ a))
       (P : SmallEtaleNeighborhood (geometricPointMap π₂ a))
       (Q : SmallEtaleNeighborhood (geometricPointMap h (geometricPointMap π₂ a)))
-      (gfst : M.chart.obj.left ⟶ N.chart.obj.left)
-      (gsnd : M.chart.obj.left ⟶ P.chart.obj.left)
-      (gh : P.chart.obj.left ⟶ Q.chart.obj.left),
-      IsClosed ({(chartGeometricPoint M).hom
-                  (IsLocalRing.closedPoint (chartGeometricPoint M).residueField)} : Set _) →
+      (gsnd : M.chart.obj.left ⟶ P.chart.obj.left),
+      Nonempty (M.chart.obj.left ⟶ N.chart.obj.left) ∧
+      Nonempty (P.chart.obj.left ⟶ Q.chart.obj.left) ∧
+      (IsClosed ({((chartGeometricPoint M).hom
+                  (IsLocalRing.closedPoint (chartGeometricPoint M).residueField))} : Set _) →
         IsClosed ({((BigFppfOver.toScheme B S hS).map gsnd)
                     ((chartGeometricPoint M).hom (IsLocalRing.closedPoint
                       (chartGeometricPoint M).residueField))} : Set _) →
-          HasClosedChartFibreSquare B S hS h π₁ π₂ a := by
+          HasClosedChartFibreSquare B S hS h π₁ π₂ a) := by
   obtain ⟨M, N, P, Q, gfst, gsnd, gh, hcl⟩ :=
     exists_chart_square_hasClosedChartFibreSquare_of_isPullback B S hS hW hU hU' k h π₁ π₂
       hsq₀ hZ a
-  exact ⟨M, N, P, Q, gfst, gsnd, gh, fun h₁ h₂ =>
+  exact ⟨M, N, P, Q, gsnd, ⟨gfst⟩, ⟨gh⟩, fun h₁ h₂ =>
     hcl (isClosed_singleton_asFiber_of_isClosed _ _ h₁)
       (isClosed_singleton_asFiber_of_isClosed _ _ h₂)⟩
 
@@ -116,15 +116,15 @@ theorem exists_chart_square_hasClosedChartFibreSquare_of_injective
       (P : SmallEtaleNeighborhood (geometricPointMap π₂ a))
       (Q : SmallEtaleNeighborhood (geometricPointMap h (geometricPointMap π₂ a)))
       (gfst : M.chart.obj.left ⟶ N.chart.obj.left)
-      (gsnd : M.chart.obj.left ⟶ P.chart.obj.left)
       (gh : P.chart.obj.left ⟶ Q.chart.obj.left),
-      Function.Injective ((BigFppfOver.toScheme B S hS).map gfst).base →
+      Nonempty (M.chart.obj.left ⟶ P.chart.obj.left) ∧
+      (Function.Injective ((BigFppfOver.toScheme B S hS).map gfst).base →
         Function.Injective ((BigFppfOver.toScheme B S hS).map gh).base →
-          HasClosedChartFibreSquare B S hS h π₁ π₂ a := by
+          HasClosedChartFibreSquare B S hS h π₁ π₂ a) := by
   obtain ⟨M, N, P, Q, gfst, gsnd, gh, hcl⟩ :=
     exists_chart_square_hasClosedChartFibreSquare_of_isPullback B S hS hW hU hU' k h π₁ π₂
       hsq₀ hZ a
-  exact ⟨M, N, P, Q, gfst, gsnd, gh, fun h₁ h₂ =>
+  exact ⟨M, N, P, Q, gfst, gh, ⟨gsnd⟩, fun h₁ h₂ =>
     hcl (isClosed_singleton_asFiber_of_injective _ h₁ _)
       (isClosed_singleton_asFiber_of_injective _ h₂ _)⟩
 

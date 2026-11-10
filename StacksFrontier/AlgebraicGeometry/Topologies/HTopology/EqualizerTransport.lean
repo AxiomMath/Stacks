@@ -56,7 +56,7 @@ public theorem mapsTo_equalizer {V W V' W' : C} (p₁ p₂ : W ⟶ V) (p₁' p�
     Set.MapsTo (F.map v.op) {x : F.obj (op V) | F.map p₁.op x = F.map p₂.op x}
       {x : F.obj (op V') | F.map p₁'.op x = F.map p₂'.op x} := by
   intro x (hx : F.map p₁.op x = F.map p₂.op x)
-  show F.map p₁'.op (F.map v.op x) = F.map p₂'.op (F.map v.op x)
+  change F.map p₁'.op (F.map v.op x) = F.map p₂'.op (F.map v.op x)
   rw [map_op_comp_apply_eq F _ _ _ _ h₁, map_op_comp_apply_eq F _ _ _ _ h₂, hx]
 
 /-- The map on equalizers induced by a comparison morphism `v : V' ⟶ V` compatible with
@@ -93,7 +93,7 @@ public theorem bijective_mapToEqualizer_of_bijective {U V W U' V' W' : C}
       mapToEqualizer F f p₁ p₂ hp = mapToEqualizer F f' p₁' p₂' hp' ∘ F.map u.op := by
     funext t
     refine Subtype.ext ?_
-    show F.map v.op (F.map f.op t) = F.map f'.op (F.map u.op t)
+    change F.map v.op (F.map f.op t) = F.map f'.op (F.map u.op t)
     exact map_op_comp_apply_eq F _ _ _ _ hf.symm t
   rw [hsq]
   exact h.comp hu

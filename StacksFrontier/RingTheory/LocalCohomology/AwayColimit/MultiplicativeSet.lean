@@ -347,7 +347,7 @@ theorem exists_localCohomologyZeroToModule_eq_of_pow_smul_eq_zero (f : A)
     simp only [Iso.refl_inv]
     apply Subtype.ext
     funext x
-    show LocalizedModule.mk m (1 : x.1.asIdeal.primeCompl) = 0
+    change LocalizedModule.mk m (1 : x.1.asIdeal.primeCompl) = 0
     rw [← LocalizedModule.zero_mk (M := M) (1 : x.1.asIdeal.primeCompl)]
     refine LocalizedModule.mk_eq.mpr ⟨⟨f ^ n, ?_⟩, ?_⟩
     · exact fun hpow ↦ notMem_asIdeal_of_mem_complementZeroLocus_image_top x.2
@@ -492,7 +492,7 @@ theorem exists_principalLocalCohomologySystem_map_eq_zero (S : Submonoid A)
   have hN : ∀ n : ModuleCat.of A N, (f.val * (a : A)) • n = 0 := by
     intro n
     apply Subtype.ext
-    show (f.val * (a : A)) • (n : M) = 0
+    change (f.val * (a : A)) • (n : M) = 0
     rw [mul_smul, ha n, smul_zero]
   have hyx : (DerivedCategory.homologyFunctor (ModuleCat.{u} A) 1).map
       ((localCohomologyOnModules A (Ideal.span {f.val})

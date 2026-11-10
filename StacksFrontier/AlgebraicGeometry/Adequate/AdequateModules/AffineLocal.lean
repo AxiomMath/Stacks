@@ -115,7 +115,8 @@ The three steps of the source's proof of Tag 06VI are:
   with the `ULift` of the values absorbed by `AdequateFunctor.presheafOfModulesUliftIso`. No
   natural isomorphism and no `eqToHom` survives into the statement.
 
-  What makes this delicate is only the cost of the defeq. A `rfl` pitting the two sides against each other exhausts the kernel at about two
+  What makes this delicate is only the cost of the defeq. A `rfl` pitting the two sides against
+  each other exhausts the kernel at about two
   and a half minutes — the reduction would run through `AlgebraicGeometry.algSpec`,
   `CategoryTheory.Over.opEquivOpUnder` and `AlgebraicGeometry.commAlgCatEquivUnder` — but that
   is an artifact of the comparison order, not a real cost: each side *separately* reduces to
@@ -289,11 +290,11 @@ public theorem affineSpecOver_obj_siteRestrict {τ : CoveringTopology} {S : Sche
       (affineSpecOver B A f).obj
         ((AdequateFunctor.siteRestrictAlgebras.{u} φ.hom
           (schemeSizeBelow B.cutoff)).op.obj X) := by
-  show Over.mk _ = Over.mk _
+  change Over.mk _ = Over.mk _
   congr 1
   apply ObjectProperty.hom_ext (schemeSizeBelow B.cutoff)
   let : Algebra (A : Type u) (X.unop.obj : Type u) := Algebra.compHom _ φ.hom
-  show Spec.map (CommRingCat.ofHom (algebraMap (A' : Type u) (X.unop.obj : Type u))) ≫
+  change Spec.map (CommRingCat.ofHom (algebraMap (A' : Type u) (X.unop.obj : Type u))) ≫
       (Spec.map φ ≫ f) =
     Spec.map (CommRingCat.ofHom (algebraMap (A : Type u) (X.unop.obj : Type u))) ≫ f
   have hring : CommRingCat.ofHom (algebraMap (A : Type u) (X.unop.obj : Type u)) =

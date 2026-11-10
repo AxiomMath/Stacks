@@ -610,7 +610,7 @@ def detNLBaseChangeLinearEquiv : B' ⊗[B] detNL A B ≃ₗ[B'] detNL A' B' :=
 /-- `detNLBaseChangeLinearEquiv` on `1 ⊗ x` is the base change map. -/
 theorem detNLBaseChangeLinearEquiv_one_tmul (x : detNL A B) :
     detNLBaseChangeLinearEquiv hsq (1 ⊗ₜ x) = detNLMap hsq x := by
-  show (detNLBaseChangeEquiv hsq _ _).symm (TwoTermComplex.determinantLineBaseChange B' _
+  change (detNLBaseChangeEquiv hsq _ _).symm (TwoTermComplex.determinantLineBaseChange B' _
     (1 ⊗ₜ detNLEquiv _ _ x)) = _
   rw [TwoTermComplex.determinantLineBaseChange_tmul, one_smul]
   rfl

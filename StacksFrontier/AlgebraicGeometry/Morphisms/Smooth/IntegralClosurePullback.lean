@@ -349,6 +349,7 @@ public theorem range_comp_right_app_image {S : Scheme.{u}} {A B C : Under S.shea
 variable {X S Y : Scheme.{u}} (f : X ⟶ S) (g : Y ⟶ S)
   [QuasiCompact f] [QuasiSeparated f] [Smooth g]
 
+omit [Smooth g] in
 /-- The base change along `g` of the factorisation `X ⟶ f.normalization` of `f` is the canonical
 morphism `X ×_S Y ⟶ f.normalization ×_S Y` of `IntegralClosureSheaf.lean`. This is Mathlib's
 `AlgebraicGeometry.Scheme.Hom.toNormalization_normalizationPullback_fst`. -/
@@ -363,6 +364,7 @@ public theorem pullback_map_normalizationOver :
       toBaseChangeNormalizationOver, normalizationOver, Category.assoc,
       Scheme.Hom.normalizationPullback_snd, Scheme.Hom.toNormalization_fromNormalization]
 
+omit [Smooth g] in
 /-- The pullback of the relative normalization of `f`, compared inside `(X ×_S Y)_* 𝒪` through
 the base-change morphism, is the base-changed normalization of `IntegralClosureSheaf.lean`. -/
 public theorem range_algebraPullback_normalizationAlgebraι_comp_app (W : Y.Opens) :

@@ -102,12 +102,12 @@ public theorem nonempty_fiberResidueFieldAlgEquiv (f : X ⟶ S) (x : X) :
       (algebraMap k ((f.fiber (f x)).residueField (f.asFiber x)))) =
       (f.fiber (f x)).fromSpecResidueField (f.asFiber x) ≫ g := by
     rw [← cancel_mono (Spec (CommRingCat.of k)).isoSpec.hom]
-    show _ ≫ (Spec _).toSpecΓ = _ ≫ (Spec _).toSpecΓ
+    change _ ≫ (Spec _).toSpecΓ = _ ≫ (Spec _).toSpecΓ
     conv_rhs => rw [Category.assoc, Scheme.toSpecΓ_naturality]
     simp only [Scheme.fromSpecResidueField, Category.assoc,
       Scheme.fromSpecStalk_toSpecΓ_assoc, ← Spec.map_comp]
     rw [← SpecMap_ΓSpecIso_hom, ← Spec.map_comp, Spec.map_inj, halg]
-    show ((((Scheme.ΓSpecIso (CommRingCat.of k)).hom ≫
+    change ((((Scheme.ΓSpecIso (CommRingCat.of k)).hom ≫
       (Scheme.ΓSpecIso (CommRingCat.of k)).inv) ≫ g.appTop) ≫
         (f.fiber (f x)).Γevaluation (f.asFiber x)) = _
     rw [Iso.hom_inv_id, Category.id_comp]
@@ -179,7 +179,7 @@ public theorem trdeg_residueField_fiber_lt_of_specialization (f : X ⟶ S)
     Algebra.trdeg (S.residueField s) (X.residueField x') <
       Algebra.trdeg (S.residueField s) (X.residueField x) := by
   have hft : LocallyOfFiniteType (f.fiberToSpecResidueField s) := by
-    show LocallyOfFiniteType (pullback.snd f (S.fromSpecResidueField s))
+    change LocallyOfFiniteType (pullback.snd f (S.fromSpecResidueField s))
     infer_instance
   have hyy' : (f.fiberHomeo s).symm ⟨x, hx⟩ ⤳ (f.fiberHomeo s).symm ⟨x', hx'⟩ := by
     simpa only [((f.fiberHomeo s).symm.isInducing.specializes_iff), subtype_specializes_iff]

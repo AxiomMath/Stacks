@@ -133,7 +133,7 @@ theorem isScalarTower_appLE {S X Y : Scheme.{u}} (pX : X ⟶ S) (f : Y ⟶ X) {W
   let := Stacks.Smooth.algebraAppLE (f ≫ pX) hVW
   refine IsScalarTower.of_algebraMap_eq fun r => ?_
   have h := Scheme.Hom.appLE_comp_appLE f pX W U V hUW hVU
-  show ((f ≫ pX).appLE W V hVW).hom r = (f.appLE U V hVU).hom ((pX.appLE W U hUW).hom r)
+  change ((f ≫ pX).appLE W V hVW).hom r = (f.appLE U V hVU).hom ((pX.appLE W U hUW).hom r)
   rw [← h]
   rfl
 
@@ -182,7 +182,7 @@ then be taken to be the prescribed one, because the sections of `Ω_{X/S}` over 
 theorem exists_isAffineOpen_basis_kaehlerDifferential {X S : Scheme.{u}} (p : X ⟶ S) {n : ℕ}
     [SmoothOfRelativeDimension n p] (x : X) {W : S.Opens} (hW : IsAffineOpen W)
     {T : X.Opens} (hxT : x ∈ T) (hTW : T ≤ p ⁻¹ᵁ W) :
-    ∃ (U : X.Opens) (hU : IsAffineOpen U) (_ : x ∈ U) (hUT : U ≤ T),
+    ∃ (U : X.Opens), IsAffineOpen U ∧ x ∈ U ∧ ∃ (hUT : U ≤ T),
       letI := Stacks.Smooth.algebraAppLE p (hUT.trans hTW)
       Nonempty (Module.Basis (Fin n) Γ(X, U) Ω[Γ(X, U)⁄Γ(S, W)]) := by
   classical
@@ -370,7 +370,7 @@ Kähler different equals the different of Tag 0BW4 by Tag 0BWG; the statement fo
 itself is `exists_chart_differentIdealSheaf_ideal_eq_span_det`"]
 theorem exists_chart_kaehlerDifferent_ideal_eq_span_det (y : Y) :
     letI : LocallyOfFiniteType f := locallyOfFiniteType_of_smoothOfRelativeDimension pX f n
-    ∃ (W : S.Opens) (hW : IsAffineOpen W) (U : X.affineOpens) (V : Y.affineOpens)
+    ∃ (W : S.Opens), IsAffineOpen W ∧ ∃ (U : X.affineOpens) (V : Y.affineOpens)
       (hUW : U.1 ≤ pX ⁻¹ᵁ W) (hVU : V.1 ≤ f ⁻¹ᵁ U.1) (hVW : V.1 ≤ (f ≫ pX) ⁻¹ᵁ W),
       y ∈ V.1 ∧
       letI := Stacks.Smooth.algebraAppLE pX hUW
@@ -410,7 +410,7 @@ This is the chartwise form of the sheaf-level statement of [Stacks, Tag 0BWJ] th
 zero locus of the global section `∧ⁿ(df)` of `(f^*Ω^n_{X/S})^{⊗-1} ⊗ Ω^n_{Y/S}`. -/
 theorem exists_chart_kaehlerDifferent_ideal_eq_span_exteriorPower_map (y : Y) :
     letI : LocallyOfFiniteType f := locallyOfFiniteType_of_smoothOfRelativeDimension pX f n
-    ∃ (W : S.Opens) (hW : IsAffineOpen W) (U : X.affineOpens) (V : Y.affineOpens)
+    ∃ (W : S.Opens), IsAffineOpen W ∧ ∃ (U : X.affineOpens) (V : Y.affineOpens)
       (hUW : U.1 ≤ pX ⁻¹ᵁ W) (hVU : V.1 ≤ f ⁻¹ᵁ U.1) (hVW : V.1 ≤ (f ≫ pX) ⁻¹ᵁ W),
       y ∈ V.1 ∧
       letI := Stacks.Smooth.algebraAppLE pX hUW

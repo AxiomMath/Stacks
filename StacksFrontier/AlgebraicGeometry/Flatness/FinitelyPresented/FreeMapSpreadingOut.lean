@@ -341,13 +341,13 @@ private lemma exists_smul_eq_smul {S : Type*} [CommRing S] (T : Submonoid S) (Sf
   have key : algebraMap S Sf a = algebraMap S Sf (t : S) * (w : Sf) := by
     rw [← ha, mul_comm, IsLocalization.mk'_spec]
   have hmem : a ∈ (Q'.comap (algebraMap S Sf)).primeCompl := by
-    show algebraMap S Sf a ∈ Q'.primeCompl
+    change algebraMap S Sf a ∈ Q'.primeCompl
     rw [key]
     exact fun hm => (‹Q'.IsPrime›.mem_or_mem hm).elim
       (IsLocalization.algebraMap_mem_primeCompl T Sf Q' t) w.2
   refine ⟨⟨a, hmem⟩, t, fun x => ?_⟩
   rw [← algebraMap_smul (A := Sf) (a : S) x]
-  show algebraMap S Sf a • x = _
+  change algebraMap S Sf a • x = _
   rw [key, mul_smul, algebraMap_smul]
 
 /-- Localizing at `T ⊆ S` and then at the complement of a prime `Q'` of `S[T⁻¹]` is the same as
@@ -378,7 +378,7 @@ public theorem IsLocalizedModule.comp_atPrime_of_isLocalization {S : Type*} [Com
     refine ⟨⟨(t₀ : S) • m, a * ⟨(t : S), le_primeCompl_comap T Sf Q' t.2⟩⟩, ?_⟩
     have hay : (a : S) • y = (t₀ : S) • g₂ n := by
       rw [hat y, show (w : Sf) • y = g₂ n from hw]
-    show ((a : S) * (t : S)) • y = g₂ (g₁ ((t₀ : S) • m))
+    change ((a : S) * (t : S)) • y = g₂ (g₁ ((t₀ : S) • m))
     rw [mul_comm, mul_smul, hay, g₁.map_smul, ← ht,
       g₂.map_smul_of_tower, g₂.map_smul_of_tower]
     exact smul_comm _ _ _
@@ -391,7 +391,7 @@ public theorem IsLocalizedModule.comp_atPrime_of_isLocalization {S : Type*} [Com
         show (w : Sf) • g₁ x₁ = (w : Sf) • g₁ x₂ from hw]
     obtain ⟨t, ht⟩ := IsLocalizedModule.exists_of_eq (S := T) (f := g₁) ha
     refine ⟨⟨(t : S), le_primeCompl_comap T Sf Q' t.2⟩ * a, ?_⟩
-    show ((t : S) * (a : S)) • x₁ = ((t : S) * (a : S)) • x₂
+    change ((t : S) * (a : S)) • x₁ = ((t : S) * (a : S)) • x₂
     rw [mul_smul, mul_smul]
     exact ht
 
@@ -580,7 +580,7 @@ private theorem mapQ_aux (R S : Type u) [CommRing R] [CommRing S] [Algebra R S]
       refine isUnit_iff_ne_zero.mpr fun h => s.2 (hpq ?_)
       exact Ideal.algebraMap_residueField_eq_zero.mp h
     refine (Module.End.isUnit_iff _).mpr ?_
-    show Function.Bijective
+    change Function.Bijective
       (fun z : (Ideal.map (algebraMap R S) (q.under R)).ResidueField ⊗[S] N => (s : S) • z)
     have he : (fun z : (Ideal.map (algebraMap R S) (q.under R)).ResidueField ⊗[S] N =>
           (s : S) • z) =

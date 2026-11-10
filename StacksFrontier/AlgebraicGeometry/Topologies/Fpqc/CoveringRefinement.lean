@@ -97,7 +97,7 @@ theorem Scheme.ofArrows_mem_fpqcPrecoverage_of_finite {T : Scheme.{u}} (hT : IsA
   have := hT
   let 𝒰 : T.Cover (Scheme.precoverage @Flat) := Scheme.Cover.mkOfCovers (Fin m) Y q hcov hq
   have hcompact : ∀ i, QuasiCompact (𝒰.f i) := fun i => by
-    show QuasiCompact (q i)
+    change QuasiCompact (q i)
     have := hY i
     have : IsAffineHom (q i) := inferInstance
     infer_instance
@@ -138,7 +138,7 @@ theorem exists_affine_flat_family_of_isAffineOpen {X : BigFppfOver B S hS} {ι :
       Presieve.ofArrows W w ∈ Scheme.fpqcPrecoverage.comap (toScheme B S hS) Y ∧
       ∀ i, ∃ v : W i ⟶ Z (a i), w i ≫ u = v ≫ g (a i) := by
   have hle : ∀ i, V i ≤ ((toScheme B S hS).map (g (a i))) ⁻¹ᵁ U := fun i p hp => by
-    show _ ∈ (U : Set ((toScheme B S hS).obj X))
+    change _ ∈ (U : Set ((toScheme B S hS).obj X))
     rw [← hVcov]
     exact Set.mem_iUnion.2 ⟨i, p, hp, rfl⟩
   have hresflat : ∀ i, Flat (((toScheme B S hS).map (g (a i))).resLE U (V i) (hle i)) := fun i => by
@@ -155,7 +155,7 @@ theorem exists_affine_flat_family_of_isAffineOpen {X : BigFppfOver B S hS} {ι :
       (ObjectProperty.homMk (((toScheme B S hS).map (g (a i))).resLE U (V i) (hle i)))
       (by
         apply ObjectProperty.hom_ext
-        show (((toScheme B S hS).map (g (a i))).resLE U (V i) (hle i) ≫ U.ι) ≫ X.hom.hom
+        change (((toScheme B S hS).map (g (a i))).resLE U (V i) (hle i) ≫ U.ι) ≫ X.hom.hom
           = (V i).ι ≫ (Z (a i)).hom.hom
         rw [Scheme.Hom.resLE_comp_ι, Category.assoc]
         exact congrArg (fun k => (V i).ι ≫ k)
@@ -175,7 +175,7 @@ theorem exists_affine_flat_family_of_isAffineOpen {X : BigFppfOver B S hS} {ι :
         rw [← (V i).range_ι] at hp
         exact hp
       refine ⟨i, q, ?_⟩
-      show (((toScheme B S hS).map (g (a i))).resLE U (V i) (hle i)) q = y
+      change (((toScheme B S hS).map (g (a i))).resLE U (V i) (hle i)) q = y
       apply U.ι.isOpenEmbedding.injective
       rw [← Scheme.Hom.comp_apply, Scheme.Hom.resLE_comp_ι, Scheme.Hom.comp_apply, hq, hpe]
   · exact ⟨Over.homMk (ObjectProperty.homMk (V i).ι)

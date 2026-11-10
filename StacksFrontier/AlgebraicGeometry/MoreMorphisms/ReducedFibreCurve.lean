@@ -442,7 +442,7 @@ theorem Scheme.genericExtensionHom_preimage_eq_top (U : S.Opens) [Nonempty U] :
   have hη : genericPoint S ∈ U :=
     ((genericPoint_spec S).mem_open_set_iff U.isOpen).mpr (by simpa using ‹Nonempty U›)
   refine top_le_iff.mp fun y _ ↦ ?_
-  show S.fromSpecStalk (genericPoint S) _ ∈ U
+  change S.fromSpecStalk (genericPoint S) _ ∈ U
   exact (show _ ⤳ genericPoint S from Scheme.range_fromSpecStalk.subset ⟨_, rfl⟩).mem_open
     U.isOpen hη
 
@@ -751,7 +751,7 @@ theorem exists_finiteExtension_smoothAt_normalization_of_forall_affine
       have := hded x
       have : IsDedekindDomain ↥(integralClosure Γ(S, V x) E) :=
         isDedekindDomain_integralClosure_of_isNagataRing S.functionField E (hVN x)
-      show IsLocallyNoetherian (Spec (.of ↥(integralClosure Γ(S, V x) E)))
+      change IsLocallyNoetherian (Spec (.of ↥(integralClosure Γ(S, V x) E)))
       infer_instance
   have : IsLocallyNoetherian
       (pullback f (S.genericExtensionHom E).fromNormalization : Scheme.{u}) :=

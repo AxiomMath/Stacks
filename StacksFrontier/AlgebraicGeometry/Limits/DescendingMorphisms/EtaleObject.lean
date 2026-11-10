@@ -192,7 +192,7 @@ lemma exists_hom_of_isPullback_of_isLimit (hc : IsLimit c) {i : I} {A Y T : Sche
       have e : baseChangeTransition (D.map a.hom) (c.π.app i) (c.π.app a.left) (by simp) Xp ≫
           pullback.snd (D.map a.hom) p = pullback.snd (c.π.app i) p :=
         baseChangeTransition_snd (D.map a.hom) (c.π.app i) (c.π.app a.left) (by simp) Xp
-      show baseChangeTransition (D.map a.hom) (c.π.app i) (c.π.app a.left) (by simp) Xp ≫
+      change baseChangeTransition (D.map a.hom) (c.π.app i) (c.π.app a.left) (by simp) Xp ≫
         pullback.snd (D.map a.hom) p ≫ p = (e₀.inv ≫ h) ≫ x
       rw [← Category.assoc, e, Category.assoc, hh, ← Category.assoc,
         hθ.flip.isoPullback_inv_fst]

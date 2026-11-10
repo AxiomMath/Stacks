@@ -1,6 +1,6 @@
 module
 
-import StacksFrontier.AlgebraicGeometry.FlatBaseChange.Sections
+public import StacksFrontier.AlgebraicGeometry.FlatBaseChange.Sections
 public import StacksFrontier.AlgebraicGeometry.Scheme.FunctorialityQuasiCoherent.Basic.SliceRestriction
 import all StacksFrontier.AlgebraicGeometry.Scheme.FunctorialityQuasiCoherent.Basic.SliceRestriction
 public import StacksFrontier.Topology.OpensMapFinal
@@ -168,7 +168,7 @@ private instance final_opensMap_of_schemeIso {Y Z : Scheme.{u}} (φ : Y ≅ Z) :
 `Scheme.Modules` is a structure copy of `SheafOfModules` with its own `Category` instance, so an
 instance proved about `Scheme.Modules.pullback k` at its own type is not the instance
 `Presentation.map` asks for. Naming the functor here fixes the spelling for both. -/
-private noncomputable def pullbackFunctor {A B : Scheme.{u}} (k : A ⟶ B) :
+noncomputable def pullbackFunctor {A B : Scheme.{u}} (k : A ⟶ B) :
     SheafOfModules.{u} B.ringCatSheaf ⥤ SheafOfModules.{u} A.ringCatSheaf :=
   Scheme.Modules.pullback k
 
@@ -186,7 +186,7 @@ cannot apply it here: it has to unify `pullbackObjUnitToUnit ?φ` against the go
 metavariable, so unification must synthesize it before `?φ` is known and then compare the result at
 reducible transparency. Restating the conclusion here, with the arguments the goal has, moves that
 comparison into a term elaboration, where it is done at default transparency. -/
-private instance isIso_pullbackObjUnitToUnit_schemeIso {Y Z : Scheme.{u}} (φ : Y ≅ Z) :
+instance isIso_pullbackObjUnitToUnit_schemeIso {Y Z : Scheme.{u}} (φ : Y ≅ Z) :
     IsIso (SheafOfModules.pullbackObjUnitToUnit (φ.inv.toRingCatSheafHom)) :=
   SheafOfModules.instIsIsoPullbackObjUnitToUnitOfFinal _
 
@@ -265,7 +265,7 @@ of
 `IsAffineOpen.Spec_basicOpen` (`D(r)` is affine in `Spec R`) and
 `IsAffineOpen.preimage_of_isOpenImmersion` (its preimage under the open immersion `(q.X i).ι` is
 affine, using `D(r) ≤ q.X i = (q.X i).ι.opensRange`). -/
-private theorem isIso_fromTildeΓ_restrict_basicOpen {R : CommRingCat.{u}}
+theorem isIso_fromTildeΓ_restrict_basicOpen {R : CommRingCat.{u}}
     (M : (Spec R).Modules) (q : M.QuasicoherentData) (r : R) (i : q.I)
     (hr : (PrimeSpectrum.basicOpen r : (Spec R).Opens) ≤ q.X i) :
     IsIso (@Scheme.Modules.fromTildeΓ
@@ -378,7 +378,7 @@ private lemma descent_smul_eq_zero {R : CommRingCat.{u}} (M : (Spec R).Modules) 
   have hzero : g (f ^ Finset.univ.sup k • x) = 0 :=
     hms.trans ((pow_smul_eq_pow_sub_smul_pow_smul f hle _).trans
       ((congrArg (fun y => f ^ (Finset.univ.sup k - k r) • y) (hk r)).trans (smul_zero _)))
-  show g (f ^ Finset.univ.sup k • x) = g 0
+  change g (f ^ Finset.univ.sup k • x) = g 0
   rw [hzero, map_zero]
 
 /-- **Overlap agreement for the surjectivity field.**  If a section `br` on `D(r)` satisfies the
@@ -512,7 +512,7 @@ private lemma descent_surj {R : CommRingCat.{u}} (M : (Spec R).Modules) (f : R)
       (fun r : {x // x ∈ t} => (PrimeSpectrum.basicOpen (r:R) : (Spec R).Opens))
       (fun r => f ^ P • (f ^ (N - m r) • a r)) := by
     intro i j
-    show ((modulesSpecToSheaf.obj M).presheaf.map
+    change ((modulesSpecToSheaf.obj M).presheaf.map
         (homOfLE (inf_le_left : PrimeSpectrum.basicOpen (i:R) ⊓ PrimeSpectrum.basicOpen (j:R)
           ≤ PrimeSpectrum.basicOpen (i:R))).op).hom (f ^ P • (f ^ (N - m i) • a i))
       = ((modulesSpecToSheaf.obj M).presheaf.map
@@ -550,7 +550,7 @@ private lemma descent_surj {R : CommRingCat.{u}} (M : (Spec R).Modules) (f : R)
       (homOfLE (le_top : PrimeSpectrum.basicOpen f ≤ ⊤)).op).hom x) ?_
   intro r
   -- LHS = f^(N+P) • (y|_{D(f) ⊓ D(r)})
-  show ((modulesSpecToSheaf.obj M).presheaf.map
+  change ((modulesSpecToSheaf.obj M).presheaf.map
       (homOfLE (inf_le_left : PrimeSpectrum.basicOpen f ⊓ PrimeSpectrum.basicOpen (r:R)
         ≤ PrimeSpectrum.basicOpen f)).op).hom (f ^ (P + N) • y)
     = ((modulesSpecToSheaf.obj M).presheaf.map
@@ -654,7 +654,7 @@ substituted), and `exists_of_eq` is `descent_smul_eq_zero` fed `Hfr` at each `D(
 the named keystone `isLocalizedModule_basicOpen_descent` for quasi-coherent `M` is this lemma
 instantiated at the cover `exists_finite_basicOpen_cover_le_quasicoherentData`, with the basic-open
 `Hfr` produced from the affine transport `isIso_fromTildeΓ_restrict_basicOpen`. -/
-private theorem isLocalizedModule_basicOpen_descent_of_basicOpen_cover {R : CommRingCat.{u}}
+theorem isLocalizedModule_basicOpen_descent_of_basicOpen_cover {R : CommRingCat.{u}}
     (M : (Spec R).Modules) (f : R) (t : Finset R) (hspan : Ideal.span (t : Set R) = ⊤)
     (Hfr : ∀ s : R, (∃ r ∈ t, (PrimeSpectrum.basicOpen s : (Spec R).Opens)
         ≤ PrimeSpectrum.basicOpen r) →
@@ -774,7 +774,7 @@ private theorem isLocalizedModule_restrictScalars_powers_algebraMap
     obtain ⟨n, hn⟩ := s.2
     have hn' : (algebraMap R Rr f) ^ n = ↑s := hn
     refine ⟨⟨x, ⟨f ^ n, n, rfl⟩⟩, ?_⟩
-    show (f ^ n : R) • y = (g.restrictScalars R) x
+    change (f ^ n : R) • y = (g.restrictScalars R) x
     rwa [pow_smul_eq_of_algebraMap_pow_eq hn' y, LinearMap.coe_restrictScalars]
   exists_of_eq {x₁ x₂} heq := by
     obtain ⟨c, hc⟩ := IsLocalizedModule.exists_of_eq (S := Submonoid.powers (algebraMap R Rr f))
@@ -782,7 +782,7 @@ private theorem isLocalizedModule_restrictScalars_powers_algebraMap
     obtain ⟨n, hn⟩ := c.2
     have hn' : (algebraMap R Rr f) ^ n = ↑c := hn
     refine ⟨⟨f ^ n, n, rfl⟩, ?_⟩
-    show (f ^ n : R) • x₁ = (f ^ n : R) • x₂
+    change (f ^ n : R) • x₁ = (f ^ n : R) • x₂
     rwa [pow_smul_eq_of_algebraMap_pow_eq hn', pow_smul_eq_of_algebraMap_pow_eq hn']
 
 /-! ## Supplementary results — Hfr: pullback-section transport
@@ -808,7 +808,7 @@ of modules
 `Γ((pullback f).obj M, U) ≅ Γ(M, f ''ᵁ U)`. This is `Γ(-, U)` of `(restrictFunctorIsoPullback f)⁻¹`
 at `M`; the codomain is `Γ((restrictFunctor f).obj M, U) = Γ(M, f ''ᵁ U)` definitionally.
 Naturality in `U` is `gammaPullbackImageIso_hom_naturality`. -/
-private noncomputable def gammaPullbackImageIso {X Y : Scheme.{u}} (f : X ⟶ Y) [IsOpenImmersion f]
+noncomputable def gammaPullbackImageIso {X Y : Scheme.{u}} (f : X ⟶ Y) [IsOpenImmersion f]
     (M : Y.Modules) (U : X.Opens) :
     Γ((Scheme.Modules.pullback f).obj M, U) ≅ Γ(M, f ''ᵁ U) :=
   (Scheme.Modules.toPresheaf X ⋙ (CategoryTheory.evaluation _ _).obj (Opposite.op U)).mapIso
@@ -819,7 +819,7 @@ naturality).
 For opens `V ≤ U` of `X`, `gammaPullbackImageIso` commutes with the presheaf restriction maps of
 `(pullback f).obj M` and of `M` (along the image inclusion `f ''ᵁ V ≤ f ''ᵁ U`). This is the
 naturality of the underlying morphism of abelian presheaves. -/
-private theorem gammaPullbackImageIso_hom_naturality {X Y : Scheme.{u}} (f : X ⟶ Y)
+theorem gammaPullbackImageIso_hom_naturality {X Y : Scheme.{u}} (f : X ⟶ Y)
     [IsOpenImmersion f]
     (M : Y.Modules) {U V : X.Opens} (i : V ⟶ U) :
     ((Scheme.Modules.pullback f).obj M).presheaf.map i.op ≫ (gammaPullbackImageIso f M V).hom
@@ -840,7 +840,7 @@ image `j ''ᵁ V`, so pulling structure-sheaf sections back gives a ring isomorp
 
 The direction is source `→` image (so `σ_V a` lands in `Γ(Y, j ''ᵁ V)` for `a : Γ(X, V)`, the
 section ring acting on the pullback module's sections). -/
-private noncomputable def gammaImageRingEquiv {X Y : Scheme.{u}} (j : X ⟶ Y) [IsOpenImmersion j]
+noncomputable def gammaImageRingEquiv {X Y : Scheme.{u}} (j : X ⟶ Y) [IsOpenImmersion j]
     (V : X.Opens) : Γ(X, V) ≃+* Γ(Y, j ''ᵁ V) :=
   (j.appIso V).commRingCatIsoToRingEquiv.symm
 
@@ -849,7 +849,7 @@ of `gammaPullbackImageIso` is `σ_V`-semilinear (`σ_V = gammaImageRingEquiv`): 
 section of the structure sheaf and `x` a section of the pullback module,
 `hom (a • x) = σ_V a • hom x`. The pullback-side action is the structure-sheaf action through
 the pullback's `mapPresheaf`; the action on the `M` side is `M`'s action through `σ_V`. -/
-private theorem gammaPullbackImageIso_hom_semilinear {X Y : Scheme.{u}} (j : X ⟶ Y)
+theorem gammaPullbackImageIso_hom_semilinear {X Y : Scheme.{u}} (j : X ⟶ Y)
     [IsOpenImmersion j]
     (M : Y.Modules) (V : X.Opens) (a : Γ(X, V))
     (x : Γ((Scheme.Modules.pullback j).obj M, V)) :

@@ -80,11 +80,11 @@ public theorem fiberStalksMap_fiberStalkOf (s : GeometricPoint Y.obj)
     (z : ↑(etaleStalk B X.obj X.property (x.toGeometricPoint B f s) F.obj)) :
     fiberStalksMap.{u, max (u + 1) v} B f s φ (fiberStalkOf.{u, v} B f s F x z) =
       fiberStalkOf.{u, v} B f s G x
-        ((colim.map (Functor.whiskerLeft (CategoryOfElements.π
+        ((colim.map (Functor.whiskerLeft (Functor.Elements.π
           (geometricPointFiber B X.obj X.property (x.toGeometricPoint B f s))).op φ.1)) z) := by
   let _inst : DecidableEq (GeometricFiberPoint B f s) := Classical.decEq _
   exact DirectSum.map_of (fun y : GeometricFiberPoint B f s =>
-    (colim.map (Functor.whiskerLeft (CategoryOfElements.π
+    (colim.map (Functor.whiskerLeft (Functor.Elements.π
       (geometricPointFiber B X.obj X.property (y.toGeometricPoint B f s))).op φ.1)).hom) x z
 
 /-- The weighted sum over the geometric fibre is natural in the abelian sheaf on the base: the
@@ -100,26 +100,26 @@ public theorem weightedTraceStalkMap_natural (w : X.obj → ℤ)
         weightedTraceStalkMap.{u, v} B f w G s =
       weightedTraceStalkMap.{u, v} B f w F s ≫
         colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op φ.1) := by
+          (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op φ.1) := by
   refine fiberStalks_hom_ext.{u, v} B f s fun x z => ?_
   have hmap := fiberStalksMap_fiberStalkOf.{u, v} B f s ((abPullback.{u, v} B f).map φ) x z
   have hnat : (fiberPointPullbackStalkIso.{u, v} B f s G x).hom
-        ((colim.map (Functor.whiskerLeft (CategoryOfElements.π
+        ((colim.map (Functor.whiskerLeft (Functor.Elements.π
           (geometricPointFiber B X.obj X.property (x.toGeometricPoint B f s))).op
             ((abPullback.{u, v} B f).map φ).1)) z) =
       (colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op φ.1))
+          (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op φ.1))
         ((fiberPointPullbackStalkIso.{u, v} B f s F x).hom z) :=
     ConcreteCategory.congr_hom (fiberPointPullbackStalkIso_natural.{u, v} B f s φ x) z
-  show (weightedTraceStalkMap.{u, v} B f w G s)
+  change (weightedTraceStalkMap.{u, v} B f w G s)
         (fiberStalksMap.{u, max (u + 1) v} B f s ((abPullback.{u, v} B f).map φ)
           (fiberStalkOf.{u, v} B f s ((abPullback.{u, v} B f).obj F) x z)) =
       (colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op φ.1))
+          (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op φ.1))
         ((weightedTraceStalkMap.{u, v} B f w F s)
           (fiberStalkOf.{u, v} B f s ((abPullback.{u, v} B f).obj F) x z))
   rw [hmap, weightedTraceStalkMap_fiberStalkOf.{u, v} B f w G s x
-      ((colim.map (Functor.whiskerLeft (CategoryOfElements.π
+      ((colim.map (Functor.whiskerLeft (Functor.Elements.π
         (geometricPointFiber B X.obj X.property (x.toGeometricPoint B f s))).op
           ((abPullback.{u, v} B f).map φ).1)) z),
     weightedTraceStalkMap_fiberStalkOf.{u, v} B f w F s x z, hnat]
@@ -134,7 +134,7 @@ private theorem colim_map_trace_eq (w : X.obj → ℤ)
     {τ : (fShriekFunctor.{u, v} B f).obj ((abPullback.{u, v} B f).obj F) ⟶ F}
     (h : HasWeightedTraceStalks.{u, v} B f w F τ) (s : GeometricPoint Y.obj) :
     colim.map (Functor.whiskerLeft
-        (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op τ.1) =
+        (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op τ.1) =
       (fShriekStalkIso.{u, v} B f s ((abPullback.{u, v} B f).obj F)).hom ≫
         weightedTraceStalkMap.{u, v} B f w F s :=
   ((Iso.eq_inv_comp _).1 (h s).symm).symm
@@ -168,30 +168,30 @@ public theorem hasWeightedTraceStalks_naturality (w : X.obj → ℤ)
   refine (jointlyFaithful_etaleStalkSheafFiber.{u, v} B Y.obj Y.property).map_injective
     fun s => ?_
   have hLsplit : colim.map (Functor.whiskerLeft
-        (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+        (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
         (((fShriekFunctor.{u, v} B f).map ((abPullback.{u, v} B f).map φ)).1 ≫ τG.1)) =
       colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+          (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
           ((fShriekFunctor.{u, v} B f).map ((abPullback.{u, v} B f).map φ)).1) ≫
         colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op τG.1) :=
+          (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op τG.1) :=
     (etaleStalkPresheafFunctor B Y.obj Y.property s AddCommGrpCat.{max (u + 1) v}).map_comp
       ((fShriekFunctor.{u, v} B f).map ((abPullback.{u, v} B f).map φ)).1 τG.1
   have hRsplit : colim.map (Functor.whiskerLeft
-        (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op (τF.1 ≫ φ.1)) =
+        (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op (τF.1 ≫ φ.1)) =
       colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op τF.1) ≫
+          (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op τF.1) ≫
         colim.map (Functor.whiskerLeft
-          (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op φ.1) :=
+          (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op φ.1) :=
     (etaleStalkPresheafFunctor B Y.obj Y.property s AddCommGrpCat.{max (u + 1) v}).map_comp
       τF.1 φ.1
   have hdecomp := fShriekStalkIso_natural.{u, v} B f s ((abPullback.{u, v} B f).map φ)
   have hwt := weightedTraceStalkMap_natural.{u, v} B f w φ s
-  show colim.map (Functor.whiskerLeft
-      (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+  change colim.map (Functor.whiskerLeft
+      (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op
       (((fShriekFunctor.{u, v} B f).map ((abPullback.{u, v} B f).map φ)).1 ≫ τG.1)) =
     colim.map (Functor.whiskerLeft
-      (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op (τF.1 ≫ φ.1))
+      (Functor.Elements.π (geometricPointFiber B Y.obj Y.property s)).op (τF.1 ≫ φ.1))
   rw [hLsplit, hRsplit, colim_map_trace_eq B f w hF s, colim_map_trace_eq B f w hG s]
   exact (Category.assoc _ _ _).symm.trans
     ((congrArg (fun z => z ≫ weightedTraceStalkMap.{u, v} B f w G s) hdecomp).trans

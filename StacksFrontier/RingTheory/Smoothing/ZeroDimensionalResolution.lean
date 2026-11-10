@@ -209,7 +209,7 @@ private noncomputable def auxToLoc (x : AuxAlgebra ι P) :
 /-- The auxiliary relations vanish in any localization of the auxiliary algebra. -/
 private theorem auxToLoc_auxRelation (x : AuxAlgebra ι P) (k : rels ⊕ ι) :
     auxToLoc ι P x (auxRelation ι P k) = 0 := by
-  show (IsScalarTower.toAlgHom A (AuxAlgebra ι P) (Localization.Away x))
+  change (IsScalarTower.toAlgHom A (AuxAlgebra ι P) (Localization.Away x))
     (Ideal.Quotient.mk (auxIdeal ι P) (auxRelation ι P k)) = 0
   rw [mk_auxRelation, map_zero]
 
@@ -231,7 +231,7 @@ private theorem smooth_localization_away_of_retract {R : Type*} [CommRing R] [Al
   have hRet : (tToL.restrictScalars R).comp f = AlgHom.id R (Localization.Away x) := by
     refine IsLocalization.algHom_ext (W := Submonoid.powers x) ?_
     ext d
-    show tToL (IsLocalization.Away.lift x hunitR (algebraMap (AuxAlgebra ι P) _ d)) =
+    change tToL (IsLocalization.Away.lift x hunitR (algebraMap (AuxAlgebra ι P) _ d)) =
       algebraMap (AuxAlgebra ι P) _ d
     rw [IsLocalization.Away.lift_eq _ hunitR d]
     exact hcompB d
@@ -344,35 +344,35 @@ private theorem smooth_localization_away_auxZMulLift [Finite vars] [Finite rels]
   have huzUnit : IsUnit (uToL zU) := by rwa [huz]
   let tToL : Tm →ₐ[A] L := IsLocalization.Away.liftAlgHom zU (f := uToL) huzUnit
   have htU : ∀ y : Um, tToL (algebraMap Um Tm y) = uToL y := fun y => by
-    show IsLocalization.Away.lift zU huzUnit (algebraMap Um Tm y) = uToL y
+    change IsLocalization.Away.lift zU huzUnit (algebraMap Um Tm y) = uToL y
     rw [IsLocalization.Away.lift_eq]
     rfl
   have hCmap : ∀ x : C, tToL (cToT x) = cToL x := fun x => by
-    show tToL (algebraMap C Tm x) = cToL x
+    change tToL (algebraMap C Tm x) = cToL x
     rw [IsScalarTower.algebraMap_apply C Cc Tm x, IsScalarTower.algebraMap_apply Cc Um Tm,
       htU, MvPolynomial.aevalTower_algebraMap]
-    show IsLocalization.Away.lift c hcUnit (algebraMap C Cc x) = cToL x
+    change IsLocalization.Away.lift c hcUnit (algebraMap C Cc x) = cToL x
     rw [IsLocalization.Away.lift_eq]
     rfl
   -- The retraction identity, checked on the variables.
   have hcomp : (tToL.comp ρ).comp (Ideal.Quotient.mkₐ A (auxIdeal ι P)) = qL := by
     refine MvPolynomial.algHom_ext fun k => ?_
-    show tToL (ρ (Ideal.Quotient.mk (auxIdeal ι P) (X k))) = qL (X k)
+    change tToL (ρ (Ideal.Quotient.mk (auxIdeal ι P) (X k))) = qL (X k)
     rw [hρmk, aeval_X]
     match k with
     | Sum.inl j =>
-        show tToL (cToT (P.val j)) = qL (X (Sum.inl j))
+        change tToL (cToT (P.val j)) = qL (X (Sum.inl j))
         rw [hCmap]
         have h := hcToL (X j)
         rwa [aeval_X, show auxLift ι P (X j) = X (Sum.inl j) by simp [auxLift]] at h
     | Sum.inr (Sum.inl i) =>
-        show tToL 0 = qL (X (Sum.inr (Sum.inl i)))
+        change tToL 0 = qL (X (Sum.inr (Sum.inl i)))
         rw [map_zero, hyzero i]
     | Sum.inr (Sum.inr (Sum.inl ())) =>
-        show tToL (algebraMap Um Tm zU) = qL (X (Sum.inr (Sum.inr (Sum.inl ()))))
+        change tToL (algebraMap Um Tm zU) = qL (X (Sum.inr (Sum.inr (Sum.inl ()))))
         rw [htU, huz]
     | Sum.inr (Sum.inr (Sum.inr ij)) =>
-        show tToL (algebraMap Um Tm (X (Sum.inl ij))) =
+        change tToL (algebraMap Um Tm (X (Sum.inl ij))) =
           qL (X (Sum.inr (Sum.inr (Sum.inr ij))))
         rw [htU]
         exact MvPolynomial.aevalTower_X ccToL valL (Sum.inl ij)
@@ -419,7 +419,7 @@ private theorem smooth_localization_away_auxSmulY [Finite vars] [Finite rels]
     · refine Finset.sum_congr rfl fun k hk => ?_
       simp [tVal, modelTOther, Finset.ne_of_mem_erase hk]
   have hsolve : ∀ j, modelY i * solT j + sumOther j = modelP (P.relation j) := fun j => by
-    show modelY i * (yiInv * (modelP (P.relation j) - sumOther j)) + sumOther j = _
+    change modelY i * (yiInv * (modelP (P.relation j) - sumOther j)) + sumOther j = _
     rw [← mul_assoc, hyInv]
     ring
   let val : AuxIndex vars ι rels → Ti := fun k => match k with
@@ -443,7 +443,7 @@ private theorem smooth_localization_away_auxSmulY [Finite vars] [Finite rels]
   let L := Localization.Away (auxSmulY ι P a i)
   let qL : AuxPoly A vars ι rels →ₐ[A] L := auxToLoc ι P (auxSmulY ι P a i)
   have hprodUnit : IsUnit (algebraMap A L (a i) * qL (X (Sum.inr (Sum.inl i)))) := by
-    show IsUnit (algebraMap A L (a i) *
+    change IsUnit (algebraMap A L (a i) *
       algebraMap (AuxAlgebra ι P) L (Ideal.Quotient.mk (auxIdeal ι P) (X (Sum.inr (Sum.inl i)))))
     rw [IsScalarTower.algebraMap_apply A (AuxAlgebra ι P) L (a i), ← map_mul]
     exact IsLocalization.Away.algebraMap_isUnit (auxSmulY ι P a i)
@@ -474,29 +474,29 @@ private theorem smooth_localization_away_auxSmulY [Finite vars] [Finite rels]
   have huyUnit : IsUnit (uToL yi) := by rwa [huy]
   let tToL : Ti →ₐ[A] L := IsLocalization.Away.liftAlgHom yi (f := uToL) huyUnit
   have htU : ∀ y : Ui, tToL (algebraMap Ui Ti y) = uToL y := fun y => by
-    show IsLocalization.Away.lift yi huyUnit (algebraMap Ui Ti y) = uToL y
+    change IsLocalization.Away.lift yi huyUnit (algebraMap Ui Ti y) = uToL y
     rw [IsLocalization.Away.lift_eq]
     rfl
   have hmodelP : ∀ p : P.Ring, tToL (modelP p) = qL (auxLift ι P p) := fun p =>
     DFunLike.congr_fun
       (MvPolynomial.algHom_ext (f := (tToL.comp modelP : P.Ring →ₐ[A] L))
         (g := qL.comp (auxLift ι P)) fun k => by
-          show tToL (modelP (X k)) = qL (auxLift ι P (X k))
+          change tToL (modelP (X k)) = qL (auxLift ι P (X k))
           rw [show modelP (X k) = algebraMap Ui Ti (X (Sum.inl k)) by simp [modelP], htU,
             show auxLift ι P (X k) = X (Sum.inl k) by simp [auxLift]]
           exact MvPolynomial.aevalTower_X aaToL valI (Sum.inl k)) p
   have hmodelY : ∀ k, tToL (modelY k) = qL (X (Sum.inr (Sum.inl k))) := fun k => by
-    show tToL (algebraMap Ui Ti (X (Sum.inr (Sum.inl k)))) = _
+    change tToL (algebraMap Ui Ti (X (Sum.inr (Sum.inl k)))) = _
     rw [htU]
     exact MvPolynomial.aevalTower_X aaToL valI (Sum.inr (Sum.inl k))
   have hmodelT : ∀ (k : {k : ι // k ≠ i}) (j : rels), tToL (modelT k j) =
       qL (X (Sum.inr (Sum.inr (Sum.inr (k.1, j))))) := fun k j => by
-    show tToL (algebraMap Ui Ti (X (Sum.inr (Sum.inr (k, j))))) = _
+    change tToL (algebraMap Ui Ti (X (Sum.inr (Sum.inr (k, j))))) = _
     rw [htU]
     exact MvPolynomial.aevalTower_X aaToL valI (Sum.inr (Sum.inr (k, j)))
   have hsumOther : ∀ j, tToL (sumOther j) = ∑ k ∈ Finset.univ.erase i,
       qL (X (Sum.inr (Sum.inl k))) * qL (X (Sum.inr (Sum.inr (Sum.inr (k, j))))) := fun j => by
-    show tToL (∑ k ∈ Finset.univ.erase i, modelY k * modelTOther k j) = _
+    change tToL (∑ k ∈ Finset.univ.erase i, modelY k * modelTOther k j) = _
     rw [map_sum]
     refine Finset.sum_congr rfl fun k hk => ?_
     have hki := Finset.ne_of_mem_erase hk
@@ -512,27 +512,27 @@ private theorem smooth_localization_away_auxSmulY [Finite vars] [Finite rels]
           ∑ k ∈ Finset.univ.erase i, qL (X (Sum.inr (Sum.inl k))) *
             qL (X (Sum.inr (Sum.inr (Sum.inr (k, j))))) :=
       (Finset.add_sum_erase Finset.univ _ (Finset.mem_univ i)).symm
-    show qL (X (Sum.inr (Sum.inl i))) * tToL (yiInv * (modelP (P.relation j) - sumOther j)) = _
+    change qL (X (Sum.inr (Sum.inl i))) * tToL (yiInv * (modelP (P.relation j) - sumOther j)) = _
     rw [map_mul, ← mul_assoc, hinv, one_mul, map_sub, hmodelP, hsumOther, hrel j, hsum]
     ring
   -- The retraction identity, checked on the variables.
   have hcomp : (tToL.comp ρ).comp (Ideal.Quotient.mkₐ A (auxIdeal ι P)) = qL := by
     refine MvPolynomial.algHom_ext fun k => ?_
-    show tToL (ρ (Ideal.Quotient.mk (auxIdeal ι P) (X k))) = qL (X k)
+    change tToL (ρ (Ideal.Quotient.mk (auxIdeal ι P) (X k))) = qL (X k)
     rw [hρmk, aeval_X]
     match k with
     | Sum.inl j =>
-        show tToL (algebraMap Ui Ti (X (Sum.inl j))) = qL (X (Sum.inl j))
+        change tToL (algebraMap Ui Ti (X (Sum.inl j))) = qL (X (Sum.inl j))
         rw [htU]
         exact MvPolynomial.aevalTower_X aaToL valI (Sum.inl j)
     | Sum.inr (Sum.inl k) =>
-        show tToL (modelY k) = qL (X (Sum.inr (Sum.inl k)))
+        change tToL (modelY k) = qL (X (Sum.inr (Sum.inl k)))
         exact hmodelY k
     | Sum.inr (Sum.inr (Sum.inl ())) =>
-        show tToL 0 = qL (X (Sum.inr (Sum.inr (Sum.inl ()))))
+        change tToL 0 = qL (X (Sum.inr (Sum.inr (Sum.inl ()))))
         rw [map_zero, hzzero]
     | Sum.inr (Sum.inr (Sum.inr (k, j))) =>
-        show tToL (tVal k j) = qL (X (Sum.inr (Sum.inr (Sum.inr (k, j)))))
+        change tToL (tVal k j) = qL (X (Sum.inr (Sum.inr (Sum.inr (k, j)))))
         by_cases hki : k = i
         · subst hki
           rw [show tVal k j = solT j by simp [tVal]]
@@ -624,7 +624,7 @@ theorem canBeResolved_of_localization_dim_zero (S : LocalSmoothingSituation.{u, 
     have hmapY : ∀ i, algebraMap B S.Λ (auxSmulY ι P a i) =
         algebraMap S.A S.Λ (a i) ^ (N + 1) := fun i => by
       rw [auxSmulY, map_mul, ← IsScalarTower.algebraMap_apply S.A B S.Λ (a i), hφmk, aeval_X]
-      show algebraMap S.A S.Λ (a i) * algebraMap S.A S.Λ (a i) ^ N = _
+      change algebraMap S.A S.Λ (a i) * algebraMap S.A S.Λ (a i) ^ N = _
       ring
     have hgen : ∀ i, algebraMap S.A S.Λ (a i) ∈
         (Ideal.map (algebraMap B S.Λ) (singularIdeal S.R B)).radical := fun i => by

@@ -75,7 +75,7 @@ theorem exact_comp_of_exact (f : A →+ B) (g : B →+ C) (h : Function.Exact f 
     refine ⟨ψ, ?_⟩
     apply CharacterModule.ext
     intro b
-    show ψ (g b) = χ b
+    change ψ (g b) = χ b
     have hext := DFunLike.congr_fun hψ ⟨g b, ⟨b, rfl⟩⟩
     change ψ (g b) = χrange ⟨g b, ⟨b, rfl⟩⟩ at hext
     rw [hext]
@@ -84,7 +84,7 @@ theorem exact_comp_of_exact (f : A →+ B) (g : B →+ C) (h : Function.Exact f 
   · rintro ⟨c, rfl⟩
     apply CharacterModule.ext
     intro a
-    show c (g (f a)) = 0
+    change c (g (f a)) = 0
     rw [h.apply_apply_eq_zero, map_zero]
 
 /-- **Character duality is exact** for modules over a commutative ring, with Mathlib's

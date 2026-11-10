@@ -113,6 +113,7 @@ theorem exists_finset_rightStabilises_lift [GeometricallyIrreducible G.hom]
 
 /-! ### Opens meeting every fibre are scheme-theoretically dense -/
 
+omit [GrpObj G] in
 /-- **A fibrewise non-zero-divisor near every point.** Let `U` be an affine open of `G` satisfying
 Perrin's content hypothesis `hC` and `O ⊆ U ×_k T` an open of `G ×_k T` meeting every fibre over
 `T`. Every point of `T` has an affine neighbourhood `V'` with a non-zero-divisor `b` of
@@ -156,7 +157,7 @@ theorem exists_basicOpen_le_mem_nonZeroDivisors {T : Over (Spec (.of k))} (hU : 
     intro p
     let y : V := hV.isoSpec.inv (show Spec Γ(T.left, V) from p)
     have hyp : hV.primeIdealOf y = p := by
-      show (hV.isoSpec.inv ≫ hV.isoSpec.hom) (show Spec Γ(T.left, V) from p) = p
+      change (hV.isoSpec.inv ≫ hV.isoSpec.hom) (show Spec Γ(T.left, V) from p) = p
       rw [Iso.inv_hom_id]
       rfl
     obtain ⟨w', hw'b₀, hw'y⟩ := hVO' y.2
@@ -182,7 +183,7 @@ theorem exists_basicOpen_le_mem_nonZeroDivisors {T : Over (Spec (.of k))} (hU : 
       ((fst G T).left.appLE U (prodOpen U V) (prodOpen_le_fst U V)).hom
       ((snd G T).left.appLE V (prodOpen U V) (prodOpen_le_snd U V)).hom
       (prodOpenTensorIso_tmul hU hV) _ Q.asIdeal p.asIdeal hQp.symm ?_
-    show (prodOpenTensorIso hU hV).hom ((prodOpenTensorIso hU hV).inv b) ∉ Q.asIdeal
+    change (prodOpenTensorIso hU hV).hom ((prodOpenTensorIso hU hV).inv b) ∉ Q.asIdeal
     rwa [Iso.inv_hom_id_apply]
   have hz := TensorProduct.mem_nonZeroDivisors_of_forall_not_isNilpotent
     ((prodOpenTensorIso hU hV).inv b) (fun p ↦ hC _) hfib
@@ -192,6 +193,7 @@ theorem exists_basicOpen_le_mem_nonZeroDivisors {T : Over (Spec (.of k))} (hU : 
     (prodOpenTensorIso hU hV).commRingCatIsoToRingEquiv]
   exact ⟨_, hz, rfl⟩
 
+omit [GrpObj G] in
 /-- **An open of `U ×_k T` meeting every fibre over `T` is scheme-theoretically dense.** Let `U` be
 an affine open of `G` satisfying Perrin's content hypothesis `hC`, and `O ⊆ W ⊆ U ×_k T` opens of
 `G ×_k T` with `O` meeting every fibre over `T`. Then restriction of sections from `W` to `O` is
@@ -226,7 +228,7 @@ theorem injective_res_of_forall_exists_mem {T : Over (Spec (.of k))} (hU : IsAff
   have := TopCat.Presheaf.germ_res_apply X.presheaf (homOfLE hle) w hwWY s
   rw [map_zero]
   refine this.symm.trans ?_
-  show X.presheaf.germ _ w hwWY (X.presheaf.map (homOfLE hle).op s) = 0
+  change X.presheaf.germ _ w hwWY (X.presheaf.map (homOfLE hle).op s) = 0
   rw [hs', map_zero]
 
 /-- **Right stabilisation on a smaller open.** Let `G` be geometrically irreducible, `V ⊆ U` opens
@@ -294,10 +296,10 @@ theorem exists_mem_fibreTwist_preimage {T : Over (Spec (.of k))} (x z : T ⟶ G)
   obtain ⟨a', ha'd, ha't⟩ := Scheme.exists_preimage_of_isPullback
     (isPullback_stabilizerBaseChange (G := G) z) d t hdt
   refine ⟨(rightShear x⁻¹).inv.left a', ?_, ?_⟩
-  · show ((rightShear x⁻¹).inv ≫ snd G T).left a' = t
+  · change ((rightShear x⁻¹).inv ≫ snd G T).left a' = t
     rw [rightShear_inv_snd]
     exact ha't
-  · show ((rightShear x⁻¹).inv ≫ (rightShear x⁻¹).hom ≫ stabilizerBaseChange z).left a' ∈ D''
+  · change ((rightShear x⁻¹).inv ≫ (rightShear x⁻¹).hom ≫ stabilizerBaseChange z).left a' ∈ D''
     rw [Iso.inv_hom_id_assoc]
     exact ha'd ▸ hd
 
@@ -335,12 +337,12 @@ theorem rightStabilises_of_comp_eq (V : G.left.Opens) (hV : IsAffineOpen V)
     rw [← Over.comp_left, fibreTwist_self_mu]
   have hΩ₁ : Ω ≤ (fst G T).left ⁻¹ᵁ V := by
     intro a ha
-    show (fst G T).left a ∈ V
+    change (fst G T).left a ∈ V
     rw [← hβμ, Scheme.Hom.comp_apply]
     exact hD''μ ha.2
   have hΩ₂ : Ω ≤ (rightTranslate h).left ⁻¹ᵁ V := by
     intro a ha
-    show (rightTranslate h).left a ∈ V
+    change (rightTranslate h).left a ∈ V
     rw [← hαμ, Scheme.Hom.comp_apply]
     exact hD''μ ha.1
   have hΩW : Ω ≤ rightStabilizerLocus h V := le_inf hΩ₁ hΩ₂
@@ -378,13 +380,13 @@ theorem rightStabilises_of_comp_eq (V : G.left.Opens) (hV : IsAffineOpen V)
   have c₃ : αΩ ≫ LD = βΩ ≫ LD := by
     rw [← cancel_mono D.ι, Category.assoc, Category.assoc, IsOpenImmersion.lift_fac]
     apply pullback.hom_ext
-    · show (αΩ ≫ _ ≫ onePi G X V π hπ ≫ (fst G X).left) =
+    · change (αΩ ≫ _ ≫ onePi G X V π hπ ≫ (fst G X).left) =
         (βΩ ≫ _ ≫ onePi G X V π hπ ≫ (fst G X).left)
       rw [onePi_fst, Scheme.homOfLE_ι_assoc,
         ← Category.assoc αΩ, Scheme.Hom.resLE_comp_ι, ← Category.assoc βΩ,
         Scheme.Hom.resLE_comp_ι, Category.assoc, Category.assoc, ← Over.comp_left,
         ← Over.comp_left, fibreTwist_fst, fibreTwist_fst]
-    · show (αΩ ≫ _ ≫ onePi G X V π hπ ≫ (snd G X).left) =
+    · change (αΩ ≫ _ ≫ onePi G X V π hπ ≫ (snd G X).left) =
         (βΩ ≫ _ ≫ onePi G X V π hπ ≫ (snd G X).left)
       have h₁ : αΩ ≫ (G ⊗ G).left.homOfLE hD''V ≫ (snd G G).left.resLE V (EV G V) le_rfl =
           Ω.ι ≫ (snd G T).left ≫ y' := hsnd y y' hy inf_le_left

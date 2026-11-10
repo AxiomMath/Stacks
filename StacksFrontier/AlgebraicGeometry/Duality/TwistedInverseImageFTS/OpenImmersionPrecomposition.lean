@@ -109,7 +109,7 @@ theorem upperShriekCompIso_precompOpen_hom_app
         ((twistedInverseImage j.toBase (isQuasicoherent_homology_derivedPushforward_of_qcqs _)).obj
           K.obj) ≫ 𝟙 _ := rfl
   rw [upperShriekOpenIso_hom_app, U]
-  show (((DominatingCompactification.upperShriekPlusIso (h ≫ g) (j.precompOpen h.left)
+  change (((DominatingCompactification.upperShriekPlusIso (h ≫ g) (j.precompOpen h.left)
       (NestedCompactification.ofPrecompOpen h g j).compFG).hom.app K).hom ≫
     (NestedCompactification.ofPrecompOpen h g j).compHom.app K.obj ≫
     ((DominatingCompactification.upperShriekPlusIso h

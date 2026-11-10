@@ -145,7 +145,7 @@ public theorem support_idealOnOpen_withIdeal (hrad : J.radical = S.I.radical) :
     Scheme.IdealSheafData.support_comap, Scheme.IdealSheafData.support_comap]
   congr 1
   apply TopologicalSpace.Closeds.ext
-  show ((Stacks.LocalCohomology.specIdealSheaf S.A J).support : Set (Spec (CommRingCat.of S.A))) =
+  change ((Stacks.LocalCohomology.specIdealSheaf S.A J).support : Set (Spec (CommRingCat.of S.A))) =
     ((Stacks.LocalCohomology.specIdealSheaf S.A S.I).support : Set (Spec (CommRingCat.of S.A)))
   rw [Stacks.LocalCohomology.coe_support_specIdealSheaf,
     Stacks.LocalCohomology.coe_support_specIdealSheaf, ← PrimeSpectrum.zeroLocus_radical, hrad,

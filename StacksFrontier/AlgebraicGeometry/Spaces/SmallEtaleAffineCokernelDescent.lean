@@ -347,7 +347,7 @@ theorem isSheafFor_affine_of_isSheafFor_fppf (G : (Over V)ᵒᵖ ⥤ Type z)
       rw [mc f (g i) t, hc, ← mc c (g' j) t, ht j, mc c (hh j) (s (σ j))]
     rw [h1, hs (σ j) i Z₀ (c ≫ hh j) f hcomp]
   refine ⟨t, key, ?_⟩
-  show ∀ t' : G.obj (op W), (∀ i, G.map (g i).op t' = s i) → t' = t
+  change ∀ t' : G.obj (op W), (∀ i, G.map (g i).op t' = s i) → t' = t
   intro t' ht'
   refine (hsep W hW (Sieve.ofArrows Y g) hcov).ext ?_
   intro Z₀ f hf
@@ -512,7 +512,7 @@ theorem injective_map_of_isPresheafCokernel (Z : Over V)
   obtain ⟨i, hh, hfac⟩ := (Sieve.mem_ofArrows_iff _ _ _).1 (hmem j)
   have key : ∀ n : N.obj (op Z), N.map (g' j).op n = N.map hh.op (N.map (g i).op n) := fun n ↦ by
     rw [hfac]; exact N.map_comp_apply (g i).op hh.op n
-  show N.map (g' j).op s = N.map (g' j).op s'
+  change N.map (g' j).op s = N.map (g' j).op s'
   have h0 : N.map (g i).op s = N.map (g i).op s' := congrFun hss' i
   rw [key s, key s', h0]
 

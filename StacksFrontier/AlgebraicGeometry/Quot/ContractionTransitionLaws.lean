@@ -137,10 +137,10 @@ theorem transitionMove_self_of_isIso_structureSharp
   have hm : m = 𝟙 (Y i) := by
     refine eq_of_comp_eq_of_isIso_structureSharp B S hS (c i) (gY i) (hsep i) ?_ ?_
     · ext1
-      show (pullback.lift _ _ _ ≫ Ψ i i) ≫ (gY i).hom = 𝟙 _ ≫ (gY i).hom
+      change (pullback.lift _ _ _ ≫ Ψ i i) ≫ (gY i).hom = 𝟙 _ ≫ (gY i).hom
       rw [Category.assoc, hΨ, pullback.lift_snd, Category.id_comp]
     · ext1
-      show (c i).hom ≫ transitionMove (fun i => (schemeSpaceMap (φ i)).hom)
+      change (c i).hom ≫ transitionMove (fun i => (schemeSpaceMap (φ i)).hom)
           (fun i => (gY i).hom) Ψ (𝟙 _) (gY i).hom _ = (c i).hom ≫ 𝟙 _
       rw [comp_transitionMove]
       trans transitionMove (fun i => (schemeSpaceMap (φ i)).hom) (fun i => (gY i).hom) Ψ
@@ -233,7 +233,7 @@ theorem transitionMove_transitionMove_of_isIso_structureSharp
       have hP : (baseChangeMove hpX x₁ (x₂ ≫ (schemeSpaceMap tⱼ).hom) hxj ≫ (c j).hom) ≫
           G j ≫ F j = (x₂ ≫ (schemeSpaceMap tₖ).hom) ≫ F k := by
         rw [Category.assoc, ← Category.assoc (c j).hom]
-        show _ ≫ ((c j).hom ≫ (gY j).hom) ≫ _ = _
+        change _ ≫ ((c j).hom ≫ (gY j).hom) ≫ _ = _
         rw [hom_comp_hom_eq_of_contraction_over hc j]
         exact hbj
       trans transitionMove F G Ψ (baseChangeMove hpX x₁ (x₂ ≫ (schemeSpaceMap tⱼ).hom) hxj ≫
@@ -245,7 +245,7 @@ theorem transitionMove_transitionMove_of_isIso_structureSharp
     have hmm : (ObjectProperty.homMk m₁ : YV ⟶ Y k) = ObjectProperty.homMk m₂ := by
       refine eq_of_comp_eq_of_isIso_structureSharp B S hS cV (gY k) (hsep k) ?_ ?_
       · ext1
-        show m₁ ≫ (gY k).hom = m₂ ≫ (gY k).hom
+        change m₁ ≫ (gY k).hom = m₂ ≫ (gY k).hom
         rw [transitionMove_comp hΨ, transitionMove_comp hΨ]
       · ext1
         exact key
@@ -354,7 +354,7 @@ theorem exists_glued_contraction_of_transitions
         ((baseChangeMove_fst hpX _ _ _).trans hxy) (baseChangeMove_snd hpX _ _ _)
     have hm := hmove i j (x ≫ (c i).hom) (y ≫ (fX' j).hom) h'
     rw [hψc i j x _ h h', hb] at hm
-    show x ≫ (c i).hom ≫ r₀ i = y ≫ (c j).hom ≫ r₀ j
+    change x ≫ (c i).hom ≫ r₀ i = y ≫ (c j).hom ≫ r₀ j
     rw [← Category.assoc, ← hm, Category.assoc]
   obtain ⟨cQ, hcQ, -⟩ := existsUnique_desc_of_fpqcCovering B S hS pX hcovX Q
     (fun i => c i ≫ r i) hagree

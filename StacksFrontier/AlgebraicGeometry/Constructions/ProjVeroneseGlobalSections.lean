@@ -276,7 +276,7 @@ public theorem veroneseShiftedModuleIso_degreeZeroToGlobalSections (d : ℕ) (hd
   let mb : veroneseSubmodule 𝒮 (shiftedGrading 𝒨 (n * d)) d :=
     (veroneseModuleShiftEquiv 𝒮 𝒨 d n).symm ⟨m, hmV⟩
   have hmb : mb ∈ veroneseModuleGrading 𝒮 (shiftedGrading 𝒨 (n * d)) d 0 := by
-    show m ∈ 𝒨 (0 * (d : ℤ) + n * d)
+    change m ∈ 𝒨 (0 * (d : ℤ) + n * d)
     simpa only [zero_mul, zero_add] using hm
   refine (trans_mapIso_app_modulesPullbackUnit (veroneseProjIso 𝒮 d hd).hom _
     (veroneseShiftedSheafIso 𝒮 𝒨 d hd n)
@@ -385,12 +385,12 @@ public theorem veroneseTwistingSheafIso_degreeSection (d : ℕ) (hd : 0 < d) (n 
   let := veroneseModuleGradingDecomposition 𝒮 (twistGradingAddSubgroup 𝒮 (n * d)) d hd
   have h0 : (a : S) ∈ twistGrading (S := S) 𝒮 ((n : ℤ) * d) 0 := by
     have := (mem_twistGrading_mul_iff 𝒮 d hd (n : ℤ) 0 (a : S)).2
-    simp only [zero_mul, zero_add, Nat.cast_nonneg, if_true, Int.toNat_natCast] at this
+    simp only [zero_mul, zero_add, Nat.cast_nonneg, ite_true, Int.toNat_natCast] at this
     simpa using this ha
   let mb : veroneseSubmodule 𝒮 (twistGradingAddSubgroup 𝒮 ((n : ℤ) * d)) d :=
     ⟨a, coe_mem_veroneseSubmodule_twist 𝒮 d (n : ℤ) a⟩
   have hmb : mb ∈ veroneseModuleGrading 𝒮 (twistGradingAddSubgroup 𝒮 ((n : ℤ) * d)) d 0 := by
-    show (a : S) ∈ twistGradingAddSubgroup 𝒮 ((n : ℤ) * d) (0 * (d : ℤ))
+    change (a : S) ∈ twistGradingAddSubgroup 𝒮 ((n : ℤ) * d) (0 * (d : ℤ))
     simpa [twistGradingAddSubgroup] using h0
   refine (congrArg (fun t => (veroneseTwistingSheafIso 𝒮 d hd n).hom.val.app (op ⊤) t)
     (eqToHom_twistingSheaf_degreeZeroToGlobalSections 𝒮 (Nat.cast_mul n d) (a : S) _ h0)).trans ?_

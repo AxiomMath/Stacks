@@ -1,12 +1,9 @@
 module
 
-public import
-  StacksFrontier.AlgebraicGeometry.FormalGeometry.CompletionUnitLocalCohomology.AdicCompletionFunctor
+public import StacksFrontier.AlgebraicGeometry.FormalGeometry.CompletionUnitLocalCohomology.AdicCompletionFunctor
 public import StacksFrontier.AlgebraicGeometry.FormalGeometry.CompletionUnitLocalCohomology.DegreeZero
-public import
-  StacksFrontier.AlgebraicGeometry.FormalGeometry.CompletionUnitLocalCohomology.InductiveSteps
-public import
-  StacksFrontier.AlgebraicGeometry.FormalGeometry.CompletionUnitLocalCohomology.NormalizedProjections
+public import StacksFrontier.AlgebraicGeometry.FormalGeometry.CompletionUnitLocalCohomology.InductiveSteps
+public import StacksFrontier.AlgebraicGeometry.FormalGeometry.CompletionUnitLocalCohomology.NormalizedProjections
 
 /-!
 # The completion unit on local cohomology

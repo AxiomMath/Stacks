@@ -135,7 +135,6 @@ local instance additive_evaluation_local {C : Type u₁} [Category.{v₁} C]
 section Epi
 
 variable {C : Type u₁} [Category.{v₁} C] {J : GrothendieckTopology C} {R : Sheaf J RingCat.{r}}
-  [HasSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [J.HasSheafCompose (CategoryTheory.forget AddCommGrpCat.{w})]
 
 /-- **A morphism of sheaves of modules which is surjective on the sections over the objects of a
@@ -164,19 +163,19 @@ theorem mono_of_injective_on_covering_objects (B : C → Prop)
     let T : Sieve U := ⟨fun V f => M.val.map f.op s = 0, fun {V W f} hf g => by
       show M.val.map (g ≫ f).op s = 0
       rw [op_comp, M.val.map_comp, ModuleCat.comp_apply]
-      show M.val.map g.op (M.val.map f.op s) = 0
+      change M.val.map g.op (M.val.map f.op s) = 0
       rw [show M.val.map f.op s = 0 from hf]
       exact (M.val.map g.op).hom.map_zero⟩
     have hT : T ∈ J U := hB U T fun V f hV => hφ V hV (by
       have h := PresheafOfModules.naturality_apply φ.val f.op s
-      show φ.val.app (op V) (M.val.map f.op s) = φ.val.app (op V) 0
+      change φ.val.app (op V) (M.val.map f.op s) = φ.val.app (op V) 0
       rw [h, show φ.val.app (op U) s = 0 from hs]
       exact ((N.val.map f.op).hom.map_zero).trans (φ.val.app (op V)).hom.map_zero.symm)
     have hsep := ((isSheaf_iff_isSheaf_of_type _ _).1
       ((sheafCompose J (CategoryTheory.forget AddCommGrpCat.{w})).obj
         ((toSheaf R).obj M)).2).isSeparated T hT
     refine hsep.ext (t₁ := s) (t₂ := (0 : M.val.obj (op U))) fun V f hf => ?_
-    show M.val.map f.op s = M.val.map f.op 0
+    change M.val.map f.op s = M.val.map f.op 0
     rw [map_zero]
     exact hf
   constructor
@@ -245,6 +244,8 @@ theorem isZero_rightDerived_of_sectionsFormula
   exact (congrArg (fun z => ((toSheaf R ⋙ (sheafSections J AddCommGrpCat.{w}).obj
     (op (x y hy))).map S.g) z) hinv).trans ht
 
+omit [HasSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
+  [EnoughInjectives (SheafOfModules.{w} R)] in
 /-- **A direct image with a sections formula commutes with coproducts** as soon as sections over
 the objects `y` of the covering class and over the objects `x y` do: the comparison map
 `∐ Φ Fⱼ ⟶ Φ (∐ Fⱼ)` is then bijective on the sections over every `y`, hence an isomorphism. -/
@@ -275,7 +276,7 @@ theorem preservesColimit_discrete_of_sectionsFormula
     have hfac : sigmaComparison (Φ ⋙ G) F =
         sigmaComparison G (fun j => Φ.obj (F j)) ≫ G.map (sigmaComparison Φ F) := by
       refine Sigma.hom_ext _ _ fun j => ?_
-      simp only [Functor.comp_obj, Functor.comp_map, ι_comp_sigmaComparison,
+      simp only [Functor.comp_obj, ι_comp_sigmaComparison,
         ι_comp_sigmaComparison_assoc, ← G.map_comp]
       exact ι_comp_sigmaComparison (Φ ⋙ G) F j
     exact IsIso.of_isIso_fac_left hfac.symm

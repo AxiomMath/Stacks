@@ -61,7 +61,7 @@ namespace ConnectedAlongSection
 private theorem genericPoint_spec_eq_bot (R : Type u) [CommRing R] [IsDomain R] :
     genericPoint (Spec (CommRingCat.of R)) = (⟨⊥, inferInstance⟩ : PrimeSpectrum R) := by
   refine (genericPoint_spec (Spec (CommRingCat.of R))).eq ?_
-  show closure {(⟨⊥, inferInstance⟩ : PrimeSpectrum R)} = Set.univ
+  change closure {(⟨⊥, inferInstance⟩ : PrimeSpectrum R)} = Set.univ
   rw [PrimeSpectrum.closure_singleton]
   simp
 
@@ -110,7 +110,7 @@ theorem mem_locus_of_specializes_of_isLocallyNoetherian (D : ConnectedAlongSecti
   have hredR : IsReduced (fR.fiber σ) := by
     refine isReduced_fiber_of_geometricallyReduced_fiberToSpecResidueField fR _ ?_
     have hmem : σ ∈ h ⁻¹' {y : D.Y | GeometricallyReduced (D.f.fiberToSpecResidueField y)} := by
-      show GeometricallyReduced (D.f.fiberToSpecResidueField ((g ≫ D.f) σ))
+      change GeometricallyReduced (D.f.fiberToSpecResidueField ((g ≫ D.f) σ))
       rwa [Scheme.Hom.comp_apply, hgcσ]
     rwa [← geometricallyReduced_fiber_set_eq_preimage_of_isPullback D.f fR pr h hPB] at hmem
   -- Transport the two points to the base change and apply the discrete valuation ring case.

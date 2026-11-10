@@ -143,7 +143,7 @@ private theorem fiberIsoOfEq_asFiber_eq_fst {X Y Y' : Scheme.{u}} (f : X ⟶ Y) 
           pullback.condition.symm
           (g.SpecMap_residueFieldMap_fromSpecResidueField y').symm) ≫
             f.fiberι y = pY.fiberι y' ≫ pX := by
-      show (pullback.map pY (Y'.fromSpecResidueField y') f
+      change (pullback.map pY (Y'.fromSpecResidueField y') f
         (Y.fromSpecResidueField y) pX G g
         pullback.condition.symm
         (g.SpecMap_residueFieldMap_fromSpecResidueField y').symm) ≫
@@ -164,7 +164,7 @@ private theorem fiberIsoOfEq_asFiber_eq_fst {X Y Y' : Scheme.{u}} (f : X ⟶ Y) 
           (congrArg (fun k => k ≫ f.fiberι (g y')) hefst)
       _ = (pY.fiberι y' ≫ pX) z := by rw [hm]; rfl
       _ = pX x' := by
-        show pX ((pullback.snd f g).fiberι y'
+        change pX ((pullback.snd f g).fiberι y'
           ((pullback.snd f g).asFiber x')) = pX x'
         rw [Scheme.Hom.fiberι_asFiber]
   exact hold.trans hnew.symm
@@ -265,17 +265,17 @@ private theorem isFlatAt_pullback_snd_and {X Y Y' : Scheme.{u}} (f : X ⟶ Y) (g
   let _ : Algebra T C := φ.toAlgebra
   let _ : IsScalarTower A T C := IsScalarTower.of_algebraMap_eq' (by
     ext a
-    show (pX.stalkMap x').hom a = φ (Algebra.TensorProduct.includeLeftRingHom a)
+    change (pX.stalkMap x').hom a = φ (Algebra.TensorProduct.includeLeftRingHom a)
     exact (DFunLike.congr_fun hφX a).symm)
   let _ : IsScalarTower B T C := IsScalarTower.of_algebraMap_eq' (by
     ext b
-    show (pY.stalkMap x').hom b = φ (Algebra.TensorProduct.includeRight.toRingHom b)
+    change (pY.stalkMap x').hom b = φ (Algebra.TensorProduct.includeRight.toRingHom b)
     exact (DFunLike.congr_fun hφY b).symm)
   let _ : Algebra.IsPushout R A B T := TensorProduct.isPushout
   let fAC : A →ₗ[A] C := Algebra.linearMap A C
   have hbc : IsBaseChange C fAC := IsBaseChange.linearMap A C
   let _ : IsLocalHom (algebraMap A C) := by
-    show IsLocalHom (pX.stalkMap x').hom
+    change IsLocalHom (pX.stalkMap x').hom
     infer_instance
   have hcrit :=
     Module.Flat.baseChange_and_of_flat_baseChange_of_isPushout_of_isLocalization
@@ -283,13 +283,13 @@ private theorem isFlatAt_pullback_snd_and {X Y Y' : Scheme.{u}} (f : X ⟶ Y) (g
   constructor
   · intro hup
     have hflatA : Module.Flat R A := RingHom.flat_algebraMap_iff.mp hup
-    show (pY.stalkMap x').hom.Flat
+    change (pY.stalkMap x').hom.Flat
     exact RingHom.flat_algebraMap_iff.mpr (hcrit.1 hflatA)
   · intro hdownC hdownB
     have hflatC : Module.Flat B C := RingHom.flat_algebraMap_iff.mp hdownC
     have hflatB : Module.Flat R B := RingHom.flat_algebraMap_iff.mp <|
       RingHom.Flat.comp (RingHom.Flat.of_bijective (ConcreteCategory.bijective_of_isIso _)) hdownB
-    show (f.stalkMap x).hom.Flat
+    change (f.stalkMap x).hom.Flat
     exact RingHom.flat_algebraMap_iff.mpr (hcrit.2 hflatC hflatB)
 
 /-- **Stacks Project, Tag 0C07 (1).** Gorensteinness at a point is preserved under a base change
@@ -307,7 +307,7 @@ public theorem isGorensteinAt_pullback {X Y Y' : Scheme.{u}}
       Dualizing.IsGorensteinLocalRing
         ((f.fiber (f ((pullback.fst f g).base x'))).presheaf.stalk
           (f.asFiber ((pullback.fst f g).base x'))) at h
-  show IsFlatAt (pullback.snd f g).toLRSHom.toShHom x' ∧
+  change IsFlatAt (pullback.snd f g).toLRSHom.toShHom x' ∧
       Dualizing.IsGorensteinLocalRing
         (((pullback.snd f g).fiber ((pullback.snd f g) x')).presheaf.stalk
           ((pullback.snd f g).asFiber x'))
@@ -330,7 +330,7 @@ public theorem isGorensteinAt_of_pullback_of_flat {X Y Y' : Scheme.{u}}
       Dualizing.IsGorensteinLocalRing
         (((pullback.snd f g).fiber ((pullback.snd f g) x')).presheaf.stalk
           ((pullback.snd f g).asFiber x')) at h
-  show IsFlatAt f.toLRSHom.toShHom ((pullback.fst f g).base x') ∧
+  change IsFlatAt f.toLRSHom.toShHom ((pullback.fst f g).base x') ∧
       Dualizing.IsGorensteinLocalRing
         ((f.fiber (f ((pullback.fst f g).base x'))).presheaf.stalk
           (f.asFiber ((pullback.fst f g).base x')))
@@ -352,7 +352,7 @@ public theorem isGorensteinAt_of_pullback_of_flat_base {X Y Y' : Scheme.{u}}
       Dualizing.IsGorensteinLocalRing
         (((pullback.snd f g).fiber ((pullback.snd f g) x')).presheaf.stalk
           ((pullback.snd f g).asFiber x')) at h
-  show IsFlatAt f.toLRSHom.toShHom ((pullback.fst f g).base x') ∧
+  change IsFlatAt f.toLRSHom.toShHom ((pullback.fst f g).base x') ∧
       Dualizing.IsGorensteinLocalRing
         ((f.fiber (f ((pullback.fst f g).base x'))).presheaf.stalk
           (f.asFiber ((pullback.fst f g).base x')))

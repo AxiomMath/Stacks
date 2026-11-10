@@ -93,11 +93,9 @@ theorem κ_tmul (i j : ℕ) (a : E i ⟶ E j) (b : G i ⟶ G j) : β.κ i j (a �
 theorem κ_comp (i j l : ℕ) (t : (E i ⟶ E j) ⊗[k] (G i ⟶ G j))
     (s : (E j ⟶ E l) ⊗[k] (G j ⟶ G l)) :
     β.κ i j t ≫ β.κ j l s = β.κ i l (tensorComp k (E i) (E j) (E l) (G i) (G j) (G l) t s) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul a b =>
-    induction s using TensorProduct.induction_on with
-    | zero => simp
+    induction s using TensorProduct.inductionOn with
     | tmul a' b' => simp [β.box_comp]
     | add x y hx hy => simp only [map_add, Preadditive.comp_add, hx, hy]
   | add x y hx hy =>

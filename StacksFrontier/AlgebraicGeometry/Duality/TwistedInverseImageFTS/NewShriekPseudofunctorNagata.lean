@@ -139,7 +139,17 @@ def pseudofunctor : Pseudofunctor (LocallyDiscrete B) Cat :=
       have := hc f (g ≫ h) M.obj M.property
       have H := hassoc f g h M.obj M.property
       apply ObjectProperty.hom_ext
-      simp [mapCompIso, eqToHom_hom]
+      simp only [Cat.of_α, Functor.toCatHom_toFunctor, ObjectProperty.lift_obj_obj,
+        Functor.comp_obj, ObjectProperty.ι_obj, mapCompIso, Cat.Hom.isoMk_hom, Cat.Hom.isoMk_inv,
+        Cat.Hom.toNatTrans_comp, Cat.Hom.comp_toFunctor, NatTrans.toCatHom₂_toNatTrans,
+        Cat.whiskerRight_toNatTrans, Cat.associator_hom_toNatTrans, Cat.whiskerLeft_toNatTrans,
+        NatTrans.comp_app, NatIso.ofComponents_hom_app, Iso.symm_hom, ObjectProperty.isoMk_inv,
+        asIso_inv, Functor.whiskerRight_app, ObjectProperty.lift_map, Functor.comp_map,
+        ObjectProperty.ι_map, ObjectProperty.homMk_hom, Functor.map_inv, Functor.associator_hom_app,
+        Functor.whiskerLeft_app, NatIso.ofComponents_inv_app, Iso.symm_inv,
+        ObjectProperty.isoMk_hom, asIso_hom, Category.id_comp,
+        ObjectProperty.FullSubcategory.comp_hom, Cat.Hom₂.eqToHom_toNatTrans, eqToHom_app,
+        ObjectProperty.eqToHom_hom, IsIso.inv_comp_eq]
       exact H.symm)
     (fun f => by
       ext M
@@ -147,7 +157,15 @@ def pseudofunctor : Pseudofunctor (LocallyDiscrete B) Cat :=
       have := hc (𝟙 _) f M.obj M.property
       have H := hleft f M.obj M.property
       apply ObjectProperty.hom_ext
-      simp [mapCompIso, mapIdIso, eqToHom_hom]
+      simp only [Cat.of_α, Functor.toCatHom_toFunctor, ObjectProperty.lift_obj_obj,
+        Functor.comp_obj, ObjectProperty.ι_obj, mapCompIso, Cat.Hom.isoMk_hom, mapIdIso,
+        Functor.id_obj, Cat.Hom.toNatTrans_comp, Cat.Hom.comp_toFunctor,
+        NatTrans.toCatHom₂_toNatTrans, Cat.Hom.id_toFunctor, Cat.whiskerRight_toNatTrans,
+        Cat.leftUnitor_hom_toNatTrans, NatTrans.comp_app, NatIso.ofComponents_hom_app, Iso.symm_hom,
+        ObjectProperty.isoMk_inv, asIso_inv, Functor.whiskerRight_app, ObjectProperty.lift_map,
+        Functor.comp_map, ObjectProperty.ι_map, ObjectProperty.homMk_hom, Functor.map_inv,
+        Functor.leftUnitor_hom_app, Category.comp_id, ObjectProperty.FullSubcategory.comp_hom,
+        Cat.Hom₂.eqToHom_toNatTrans, eqToHom_app, ObjectProperty.eqToHom_hom, IsIso.comp_inv_eq]
       apply IsIso.inv_eq_of_hom_inv_id
       rw [← cancel_epi ((Φ f).map ((u _).app M.obj)), reassoc_of% H]
       simp)
@@ -157,7 +175,15 @@ def pseudofunctor : Pseudofunctor (LocallyDiscrete B) Cat :=
       have := hc f (𝟙 _) M.obj M.property
       have H := hright f M.obj M.property
       apply ObjectProperty.hom_ext
-      simp [mapCompIso, mapIdIso, eqToHom_hom]
+      simp only [Cat.of_α, Functor.toCatHom_toFunctor, ObjectProperty.lift_obj_obj,
+        Functor.comp_obj, ObjectProperty.ι_obj, mapCompIso, Cat.Hom.isoMk_hom, mapIdIso,
+        Functor.id_obj, Cat.Hom.toNatTrans_comp, Cat.Hom.comp_toFunctor,
+        NatTrans.toCatHom₂_toNatTrans, Cat.Hom.id_toFunctor, Cat.whiskerLeft_toNatTrans,
+        Cat.rightUnitor_hom_toNatTrans, NatTrans.comp_app, NatIso.ofComponents_hom_app,
+        Iso.symm_hom, ObjectProperty.isoMk_inv, asIso_inv, Functor.whiskerLeft_app,
+        Functor.rightUnitor_hom_app, Category.comp_id, ObjectProperty.FullSubcategory.comp_hom,
+        ObjectProperty.homMk_hom, Cat.Hom₂.eqToHom_toNatTrans, eqToHom_app,
+        ObjectProperty.eqToHom_hom, IsIso.comp_inv_eq]
       apply IsIso.inv_eq_of_hom_inv_id
       rw [← cancel_epi ((u _).app ((Φ f).obj M.obj)), reassoc_of% H]
       simp)
@@ -253,15 +279,17 @@ abbrev omega (A : SchemesOfFiniteTypeOver S) : Std A.left :=
 
 /-- `ω_A^•` is a dualizing complex. -/
 theorem isDualizing_omega (A : SchemesOfFiniteTypeOver S) : IsDualizing (omega ωS hωS A) :=
-  NormalizedOnOpens.isDualizing_stdComplex nagataCompactification (Category.id_comp _) hωS
+  NormalizedOnOpens.isDualizing_stdComplex nagataCompactification hωS
     (normalized ωS hωS A)
 
+omit [AlgebraicGeometry.IsNoetherian S] in
 /-- The morphism of schemes underlying a composite in `(SchemesOfFiniteTypeOver S)ᵒᵖ` is the
 composite in reverse order. -/
 theorem comp_unop_left {b₀ b₁ b₂ : (SchemesOfFiniteTypeOver S)ᵒᵖ} (a : b₀ ⟶ b₁) (a' : b₁ ⟶ b₂) :
     a'.unop.left ≫ a.unop.left = (a ≫ a').unop.left :=
   rfl
 
+omit [AlgebraicGeometry.IsNoetherian S] in
 /-- The morphism of schemes underlying the identity of `(SchemesOfFiniteTypeOver S)ᵒᵖ` is the
 identity. -/
 theorem unop_id_left (b : (SchemesOfFiniteTypeOver S)ᵒᵖ) : (𝟙 b).unop.left = 𝟙 b.unop.left :=

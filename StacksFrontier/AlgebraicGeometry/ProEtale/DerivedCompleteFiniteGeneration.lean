@@ -244,7 +244,7 @@ theorem exists_finite_globalSections_locallyGenerating (X : Scheme.{u}) [IsAffin
     rintro _ ⟨k, rfl⟩
     have hk : k.val < M := lt_of_lt_of_le k.isLt (Finset.le_sup (Finset.mem_univ j))
     refine Submodule.subset_span ⟨⟨k.val, hk⟩, ?_⟩
-    simp only [gen', dif_pos k.isLt]
+    simp only [gen', dite_eq_left k.isLt]
   -- the constant sections over the pieces
   let t : ∀ j, Fin M → G.obj.obj (op (U j)) := fun j k =>
     (show ((J.overPullback (ModuleCat.{u + 1} R) (Vf (i j))).obj G).obj.obj
@@ -284,7 +284,7 @@ theorem exists_finite_globalSections_locallyGenerating (X : Scheme.{u}) [IsAffin
     have hn2 := NatTrans.naturality_apply εj.hom.hom dO.op
       (((toSheafify (J.over (Vf (i j))) P).app (op (Over.mk (h j)))) (gen' j k))
     refine (congrArg (εj.hom.hom.app (op Zo)) hn1).trans (hn2.trans ?_)
-    show G.obj.map (b ≫ a).op (t j k) = _
+    change G.obj.map (b ≫ a).op (t j k) = _
     rw [← hσ k j, ← ConcreteCategory.comp_apply, ← Functor.map_comp, ← op_comp,
       (isTerminalProEtId X).hom_ext ((b ≫ a) ≫ f j) ((isTerminalProEtId X).from Z'')]
   have hw : εj.hom.hom.app (op Z') w = G.obj.map r.op y :=
@@ -312,7 +312,7 @@ theorem exists_finite_globalSections_locallyGenerating (X : Scheme.{u}) [IsAffin
       rw [h7]
       exact hφ.trans (Finset.sum_congr rfl fun k _ => congrArg (c k • ·) (hgen_res k))
     exact e1.trans (hn.symm.trans e3)
-  show G.obj.map (b ≫ r).op y ∈ _
+  change G.obj.map (b ≫ r).op y ∈ _
   rw [key]
   exact (Submodule.mem_span_range_iff_exists_fun R).2 ⟨c, rfl⟩
 
@@ -418,7 +418,7 @@ theorem mem_span_constantCoefficientScalar_of_reduction_eq_zero (W : X.ProEt) [I
     refine (Scheme.ProEt.existsUnique_glue_of_isClopenDecompositionCover V g hdec hcov
       ((sheafCompose J (forget RingCat.{u + 1})).obj O)
       (fun j => O.obj.map (g j).op f)).unique (fun j => rfl) (fun j => ?_)
-    show (O.obj.map (g j).op).hom (∑ i, c i * constantCoefficientScalar X Λ W (gen i)) =
+    change (O.obj.map (g j).op).hom (∑ i, c i * constantCoefficientScalar X Λ W (gen i)) =
       (O.obj.map (g j).op).hom f
     calc (O.obj.map (g j).op).hom (∑ i, c i * constantCoefficientScalar X Λ W (gen i))
         = ∑ i, constantCoefficientScalar X Λ (V j) (μ j i) *
@@ -453,7 +453,7 @@ theorem epi_of_surjective_sections
     obtain ⟨i, a, rfl⟩ := (Sieve.mem_ofArrows_iff V f g).mp hg
     obtain ⟨t, ht⟩ := h (V i) (hV i) (F.val.map (f i).op x)
     refine ⟨A.val.map a.op t, ?_⟩
-    show α.val.app (op Z) (A.val.map a.op t) = F.val.map (a ≫ f i).op x
+    change α.val.app (op Z) (A.val.map a.op t) = F.val.map (a ≫ f i).op x
     rw [PresheafOfModules.naturality_apply, ht]
     exact (PresheafOfModules.map_comp_apply F.val (f i).op a.op x).symm
   have : Epi ((SheafOfModules.toSheaf R).map α) := Sheaf.epi_of_isLocallySurjective _
@@ -497,7 +497,7 @@ theorem sectionRestriction_comp
     {U V V' : X.ProEt} (f : V ⟶ U) (f' : V' ⟶ V) (x : M.val.obj (op U)) :
     sectionRestriction X Λ M f' (sectionRestriction X Λ M f x) =
       sectionRestriction X Λ M (f' ≫ f) x := by
-  show M.val.map f'.op (M.val.map f.op x) = M.val.map (f' ≫ f).op x
+  change M.val.map f'.op (M.val.map f.op x) = M.val.map (f' ≫ f).op x
   rw [op_comp, PresheafOfModules.map_comp_apply]
 
 omit [IsNoetherianRing Λ] in
@@ -585,7 +585,7 @@ theorem exists_finite_globalSections_span (hX : IsWContractible.{u, u} Γ(X, ⊤
     refine (Scheme.ProEt.existsUnique_glue_of_isClopenDecompositionCover V g hdec hcov
       ((sheafCompose J (forget AddCommGrpCat.{u + 1})).obj ((SheafOfModules.toSheaf _).obj M))
       (fun l => sectionRestriction X Λ M (g l) q)).unique (fun l => rfl) (fun l => ?_)
-    show sectionRestriction X Λ M (g l) (∑ k, c k • sectionRestriction X Λ M (tr W) (σ k)) =
+    change sectionRestriction X Λ M (g l) (∑ k, c k • sectionRestriction X Λ M (tr W) (σ k)) =
       sectionRestriction X Λ M (g l) q
     rw [hd l, map_sum]
     refine Finset.sum_congr rfl fun k _ => ?_
@@ -615,7 +615,7 @@ finitely generated. -/
 theorem fg_constantCoefficientIdealSheaf_obj_of_isWContractible (W : X.ProEt) [IsAffine W.left]
     (hW : IsWContractible.{u, u} Γ(W.left, ⊤)) :
     ((constantCoefficientIdealSheaf.{u, u + 1, u} X Λ I).toSubmodule.obj (op W)).FG := by
-  show (RingedSite.idealSections (constantCoefficientRingedSite.{u, u + 1, u} X Λ)
+  change (RingedSite.idealSections (constantCoefficientRingedSite.{u, u + 1, u} X Λ)
     (constantCoefficientIdealSheaf.{u, u + 1, u} X Λ I) (op W)).FG
   rw [idealSections_constantCoefficientIdealSheaf_eq X Λ I W hW]
   exact Ideal.FG.map (IsNoetherian.noetherian I) _
@@ -649,7 +649,7 @@ theorem mem_ideal_smul_of_mem_idealSections_smul
       add_mem' := fun {a b} ha hb => Submodule.add_mem (I • (⊤ : Submodule Λ CM)) ha hb
       zero_mem' := Submodule.zero_mem (I • (⊤ : Submodule Λ CM))
       smul_mem' := fun r x hx => by
-        show c (r • d (c x)) ∈ I • (⊤ : Submodule Λ CM)
+        change c (r • d (c x)) ∈ I • (⊤ : Submodule Λ CM)
         refine Submodule.smul_induction_on (p := fun y => c (r • d y) ∈ I • (⊤ : Submodule Λ CM))
           hx (fun l hl y _ => ?_) (fun y z hy hz => ?_)
         · have : c (r • d (l • y)) = l • c (r • d y) := by
@@ -665,7 +665,7 @@ theorem mem_ideal_smul_of_mem_idealSections_smul
     intro l hl
     rw [Ideal.mem_comap, Submodule.mem_colon]
     intro x _
-    show c (constantCoefficientScalarHom X Λ W l • x) ∈ I • (⊤ : Submodule Λ CM)
+    change c (constantCoefficientScalarHom X Λ W l • x) ∈ I • (⊤ : Submodule Λ CM)
     rw [constantCoefficientScalarHom_apply, hsm']
     exact Submodule.smul_mem_smul hl Submodule.mem_top
   have hP : RingedSite.idealSections (constantCoefficientRingedSite.{u, u + 1, u} X Λ)
@@ -755,11 +755,11 @@ theorem exists_epi_sigma_completedConstantSheaf_of_isDerivedComplete
     (hφrange k W).subset ⟨w, rfl⟩
   -- the image of `L` is in the image of `α`
   have hφα : ∀ k, φ k = Sigma.ι _ (eι.symm k) ≫ α := fun k => by
-    rw [Sigma.ι_desc, Equiv.apply_symm_apply]
+    rw [Sigma.ι_comp_desc, Equiv.apply_symm_apply]
   have hLα : ∀ y, c (L y) ∈ LinearMap.range (α.val.app (op W)).hom := by
     intro y
     rw [hL]
-    show ∑ k, c ((φ' k).hom.app (op W) (y k)) ∈ _
+    change ∑ k, c ((φ' k).hom.app (op W) (y k)) ∈ _
     refine Submodule.sum_mem _ fun k _ => ?_
     obtain ⟨w, hw⟩ := hφ'φ k (y k)
     refine ⟨((Sigma.ι _ (eι.symm k) : _ ⟶ ∐ fun _ : Fin (Fintype.card ι) =>
@@ -794,7 +794,7 @@ theorem exists_epi_sigma_completedConstantSheaf_of_isDerivedComplete
         (fg_constantCoefficientIdealSheaf_obj_of_isWContractible X Λ I W hWc) 1, pow_one] at hN
       have hI' := mem_ideal_smul_of_mem_idealSections_smul X Λ I F W hWc _ hN
       have hz : c z ∈ LinearMap.range L := by
-        show c (∑ k, cf k • sectionRestriction X Λ F (tr W) (s k)) ∈ _
+        change c (∑ k, cf k • sectionRestriction X Λ F (tr W) (s k)) ∈ _
         refine Submodule.sum_mem _ fun k _ => ?_
         obtain ⟨y0, hy0⟩ := hφT k
         have hres : cf k • sectionRestriction X Λ F (tr W) (s k) = (φ k).val.app (op W)

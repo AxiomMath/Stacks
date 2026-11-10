@@ -200,9 +200,9 @@ theorem unramifiedAt_iff_isUnramifiedAt_primeIdealOf {X Y : Scheme.{u}} (f : X �
       (hU.primeIdealOf ⟨x, hx⟩).asIdeal
     let e' : X.basicOpen r ≤ f ⁻¹ᵁ V := (X.basicOpen_le r).trans e
     refine ⟨X.basicOpen r, hU.basicOpen r, ?_, V, hV, e', ?_⟩
-    · show (⟨x, hx⟩ : U).1 ∈ X.basicOpen r
+    · change (⟨x, hx⟩ : U).1 ∈ X.basicOpen r
       rw [← hU.fromSpec_primeIdealOf ⟨x, hx⟩]
-      show hU.primeIdealOf ⟨x, hx⟩ ∈ hU.fromSpec ⁻¹ᵁ X.basicOpen r
+      change hU.primeIdealOf ⟨x, hx⟩ ∈ hU.fromSpec ⁻¹ᵁ X.basicOpen r
       rw [hU.fromSpec_preimage_basicOpen]
       exact hr
     · have := hU.isLocalization_basicOpen r
@@ -330,7 +330,7 @@ theorem unramifiedAt_isPullback_iff {X Y Y' X' : Scheme.{u}} {f : X ⟶ Y} {g : 
   obtain ⟨-, ⟨U, hU, rfl⟩, hsU, -⟩ :=
     Y.isBasis_affineOpens.exists_subset_of_mem_open (Set.mem_univ (f (g' x'))) isOpen_univ
   have hs'U : f' x' ∈ g ⁻¹ᵁ U := by
-    show g (f' x') ∈ U
+    change g (f' x') ∈ U
     exact hsquare ▸ hsU
   obtain ⟨-, ⟨V, hV, rfl⟩, hxV, hVU⟩ :=
     X.isBasis_affineOpens.exists_subset_of_mem_open hsU (f ⁻¹ᵁ U).2
@@ -585,7 +585,7 @@ theorem setOf_isUnramifiedAt_eq_preimage_of_isPullback
           (congrFun (pointsMap_comp B S hS X₁.1 e.hom e.inv) x').symm
         rw [h₁, hz', h₂, e.hom_inv_id, pointsMap_id, id_eq] }
   have hsource : chartF.sourcePoint B S hS = T.map pU (chartF'.sourcePoint B S hS) := by
-    show (T.map (r.value ≫ pU)) (IsLocalRing.closedPoint r.carrier) =
+    change (T.map (r.value ≫ pU)) (IsLocalRing.closedPoint r.carrier) =
       T.map pU ((T.map r.value) (IsLocalRing.closedPoint r.carrier))
     rw [Functor.map_comp]
     exact Scheme.Hom.comp_apply _ _ _

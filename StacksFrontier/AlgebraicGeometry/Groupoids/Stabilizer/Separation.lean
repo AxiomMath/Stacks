@@ -48,12 +48,12 @@ private theorem arrowDiagonal_left_comp_iso {S : Scheme.{u}} (G : GroupoidScheme
   apply pullback.hom_ext
   · rw [Category.assoc,
       PreservesPullback.iso_hom_fst (Over.forget S) (sourceTarget G) (sourceTarget G)]
-    show _ = pullback.diagonal (sourceTarget G).left ≫
+    change _ = pullback.diagonal (sourceTarget G).left ≫
       pullback.fst (sourceTarget G).left (sourceTarget G).left
     rw [pullback.diagonal_fst]
     have h : arrowDiagonal G ≫ pullback.fst (sourceTarget G) (sourceTarget G) =
         𝟙 G.arrows := by
-      show pullback.lift (𝟙 G.arrows) (𝟙 G.arrows) _ ≫
+      change pullback.lift (𝟙 G.arrows) (𝟙 G.arrows) _ ≫
         pullback.fst (sourceTarget G) (sourceTarget G) = _
       rw [pullback.lift_fst]
     have h' := congrArg (fun f => f.left) h
@@ -61,12 +61,12 @@ private theorem arrowDiagonal_left_comp_iso {S : Scheme.{u}} (G : GroupoidScheme
     simpa [Over.forget_map] using h'
   · rw [Category.assoc,
       PreservesPullback.iso_hom_snd (Over.forget S) (sourceTarget G) (sourceTarget G)]
-    show _ = pullback.diagonal (sourceTarget G).left ≫
+    change _ = pullback.diagonal (sourceTarget G).left ≫
       pullback.snd (sourceTarget G).left (sourceTarget G).left
     rw [pullback.diagonal_snd]
     have h : arrowDiagonal G ≫ pullback.snd (sourceTarget G) (sourceTarget G) =
         𝟙 G.arrows := by
-      show pullback.lift (𝟙 G.arrows) (𝟙 G.arrows) _ ≫
+      change pullback.lift (𝟙 G.arrows) (𝟙 G.arrows) _ ≫
         pullback.snd (sourceTarget G) (sourceTarget G) = _
       rw [pullback.lift_snd]
     have h' := congrArg (fun f => f.left) h
@@ -78,7 +78,7 @@ private theorem identityStabilizer_left_comp_hom {S : Scheme.{u}} (G : GroupoidS
     (identityStabilizer G).left ≫ (stabilizer G).hom = 𝟙 G.objects.left := by
   have h : identityStabilizer G ≫ pullback.snd (sourceTarget G) (diagonal G) =
       𝟙 G.objects := by
-    show pullback.lift G.identity (𝟙 G.objects) _ ≫
+    change pullback.lift G.identity (𝟙 G.objects) _ ≫
       pullback.snd (sourceTarget G) (diagonal G) = 𝟙 G.objects
     rw [pullback.lift_snd]
   simpa [stabilizer] using congrArg (fun f => f.left) h
@@ -96,7 +96,7 @@ private theorem quasiSeparated_sourceTarget_of_identity_quasiCompact
       ((arrowDiagonal G).left ≫ (bottomComparison G).left) := by
     have : IsIso (topComparison G) := topComparison_isIso G
     have : IsIso (topComparison G).left := by
-      show IsIso ((Over.forget S).map (topComparison G))
+      change IsIso ((Over.forget S).map (topComparison G))
       infer_instance
     have : QuasiCompact (topComparison G).left := inferInstance
     have hcomm' : (arrowDiagonal G).left ≫ (bottomComparison G).left =
@@ -107,7 +107,7 @@ private theorem quasiSeparated_sourceTarget_of_identity_quasiCompact
   have hdiag : QuasiCompact (arrowDiagonal G).left := by
     have : IsIso (bottomComparison G) := bottomComparison_isIso G
     have : IsIso (bottomComparison G).left := by
-      show IsIso ((Over.forget S).map (bottomComparison G))
+      change IsIso ((Over.forget S).map (bottomComparison G))
       infer_instance
     have : QuasiSeparated (bottomComparison G).left := inferInstance
     have : QuasiCompact
@@ -159,10 +159,10 @@ private theorem sourceTarget_isSeparated_of_identity_closedImmersion
   have : IsIso (topComparison G) := topComparison_isIso G
   have : IsIso (bottomComparison G) := bottomComparison_isIso G
   have : IsIso (topComparison G).left := by
-    show IsIso ((Over.forget S).map (topComparison G))
+    change IsIso ((Over.forget S).map (topComparison G))
     infer_instance
   have : IsIso (bottomComparison G).left := by
-    show IsIso ((Over.forget S).map (bottomComparison G))
+    change IsIso ((Over.forget S).map (bottomComparison G))
     infer_instance
   have : IsClosedImmersion (topComparison G).left := inferInstance
   have hdiag : IsClosedImmersion (arrowDiagonal G).left := by

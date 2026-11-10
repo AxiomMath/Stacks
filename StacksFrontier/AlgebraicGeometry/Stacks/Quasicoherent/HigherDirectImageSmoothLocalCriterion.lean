@@ -151,7 +151,8 @@ Hypothesis (4) is the affine case. For local quasi-coherence the source proves i
 étale higher direct image, and from **Stacks 0720**; for `LQCoh^fbc` from **Stacks 075P** again
 together with **Stacks 073K**, the base change isomorphism for a cartesian square of algebraic
 spaces. Of these, **Stacks 073K** is proved, in
-`StacksFrontier/AlgebraicGeometry/Spaces/CohomologyFlatBaseChange.lean`; **Stacks 075P** is formalized
+`StacksFrontier/AlgebraicGeometry/Spaces/CohomologyFlatBaseChange.lean`; **Stacks 075P** is
+formalized
 only as the cartesian square of algebraic spaces it produces, not as the cohomological
 identification, which is **Stacks 075H** — formalized at abelian coefficients only — together with
 **Stacks 075N**; and **Stacks 0720** is not formalized. Hypothesis (4) is therefore carried, at both

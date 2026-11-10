@@ -54,13 +54,13 @@ theorem generates_overIdeal {V : C} {n : ℕ} (s : Fin n → I.toSheafOfModules.
       I.toSheafOfModules.val.restrictₛₗ (g.left ≫ f.left).op
           (I.toSheafOfModules.val.map φ.op (s i)) =
         I.toSheafOfModules.val.restrictₛₗ (g.left ≫ f.left ≫ φ).op (s i) := by
-    show I.toSheafOfModules.val.map (g.left ≫ f.left).op
+    change I.toSheafOfModules.val.map (g.left ≫ f.left).op
         (I.toSheafOfModules.val.map φ.op (s i)) =
       I.toSheafOfModules.val.map (g.left ≫ f.left ≫ φ).op (s i)
     rw [← PresheafOfModules.map_comp_apply]
     exact I.toSheafOfModules.val.congr_map_apply
       (by rw [← op_comp, Category.assoc]) (s i)
-  show (∑ i, a i • I.toSheafOfModules.val.restrictₛₗ (g.left ≫ f.left).op
+  change (∑ i, a i • I.toSheafOfModules.val.restrictₛₗ (g.left ≫ f.left).op
       (I.toSheafOfModules.val.map φ.op (s i))) =
     I.toSheafOfModules.val.restrictₛₗ g.left.op x
   simpa only [hc] using ha

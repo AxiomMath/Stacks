@@ -192,7 +192,7 @@ complex. -/
 private lemma cechModuleAugmentation_d :
     cechModuleAugmentation.{u, vᵤ, vₓ, wᵤ, wₓ, a} B S hS q f τ hq h M ≫
       (cechModuleComplex.{u, vᵤ, vₓ, wᵤ, wₓ, a} B S hS q f τ hq h M).d 0 1 = 0 := by
-  show cechModuleAugmentation.{u, vᵤ, vₓ, wᵤ, wₓ, a} B S hS q f τ hq h M ≫
+  change cechModuleAugmentation.{u, vᵤ, vₓ, wᵤ, wₓ, a} B S hS q f τ hq h M ≫
     AlternatingCofaceMapComplex.objD
       (cechModuleCosimplicial.{u, vᵤ, vₓ, wᵤ, wₓ, a} B S hS q f τ hq h M) 0 = 0
   simp only [AlternatingCofaceMapComplex.objD, Nat.reduceAdd, Fin.sum_univ_two,
@@ -429,7 +429,7 @@ private lemma cechModuleSectionsAugmentation :
   ext s
   apply Subtype.ext
   funext x
-  show M.val.presheaf.map (𝟙 _) _ = _
+  change M.val.presheaf.map (𝟙 _) _ = _
   rw [M.val.presheaf.map_id]
   rfl
 
@@ -496,7 +496,7 @@ private lemma cechModuleAugmentation_presheafIso :
   rw [Functor.whiskerLeft_comp, Category.assoc, cechModulePresheafIso_fac]
   trans 𝟙 ((Tuple.projection q f 0).op ⋙ M.val.presheaf)
   · ext x s
-    show M.val.presheaf.map (𝟙 _) s = s
+    change M.val.presheaf.map (𝟙 _) s = s
     rw [M.val.presheaf.map_id]
     rfl
   · exact (((Tuple.projection q f 0).op.ranAdjunction
@@ -615,12 +615,12 @@ private lemma cechModuleAugmentation_quasiIso :
         ⟨cechModuleAugmentation_exact.{u, vᵤ, vₓ, wᵤ, wₓ, a} B S hS p q f τ hq h M hp hf hcover,
           by dsimp; infer_instance⟩
       refine ShortComplex.isoMk (Iso.refl _) (Iso.refl _) (Iso.refl _) ?_ ?_
-      · show 𝟙 M ≫ cechModuleAugmentation.{u, vᵤ, vₓ, wᵤ, wₓ, a} B S hS q f τ hq h M =
+      · change 𝟙 M ≫ cechModuleAugmentation.{u, vᵤ, vₓ, wᵤ, wₓ, a} B S hS q f τ hq h M =
           (cechModuleAugmentationComplex.{u, vᵤ, vₓ, wᵤ, wₓ, a} B S hS q f τ hq h M).f 0 ≫
             𝟙 ((cechModuleComplex.{u, vᵤ, vₓ, wᵤ, wₓ, a} B S hS q f τ hq h M).X 0)
         rw [Category.id_comp, Category.comp_id]
         simp [cechModuleAugmentationComplex]
-      · show 𝟙 ((cechModuleComplex.{u, vᵤ, vₓ, wᵤ, wₓ, a} B S hS q f τ hq h M).X 0) ≫
+      · change 𝟙 ((cechModuleComplex.{u, vᵤ, vₓ, wᵤ, wₓ, a} B S hS q f τ hq h M).X 0) ≫
             (cechModuleComplex.{u, vᵤ, vₓ, wᵤ, wₓ, a} B S hS q f τ hq h M).d 0 1 =
           (cechModuleComplex.{u, vᵤ, vₓ, wᵤ, wₓ, a} B S hS q f τ hq h M).d 0 1 ≫
             𝟙 ((cechModuleComplex.{u, vᵤ, vₓ, wᵤ, wₓ, a} B S hS q f τ hq h M).X 1)

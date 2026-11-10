@@ -50,7 +50,8 @@ former and comes out at `u`, while everything imported from
 the resulting `homologyFunctor`s differ in a universe argument and no statement about one applies
 to the other. The fix is the `attribute [local instance 2000] HasDerivedCategory.standard` below
 — the same idiom as in
-`StacksFrontier/AlgebraicGeometry/Perfect/Coherator/QcqsQuasiCoherentDerivedPushforward.lean` — which
+`StacksFrontier/AlgebraicGeometry/Perfect/Coherator/QcqsQuasiCoherentDerivedPushforward.lean` —
+which
 makes the binder form resolve to `standard` too. No global priority is touched.
 
 *The model of this statement is `standard`; the bound itself is no longer confined to it.* The

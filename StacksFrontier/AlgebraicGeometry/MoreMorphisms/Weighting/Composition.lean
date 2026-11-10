@@ -94,7 +94,7 @@ private theorem finSepDegree_residueField_tower {X Y Z : Scheme.{u}}
   have hmap : algebraMap F K = (algebraMap E K).comp (algebraMap F E) := by
     apply RingHom.ext
     intro a
-    show (@Algebra.algebraMap F K _ _ algFK) a =
+    change (@Algebra.algebraMap F K _ _ algFK) a =
       (@Algebra.algebraMap E K _ _ algEK) ((@Algebra.algebraMap F E _ _ algFE) a)
     rw [hFK', hEK', hFE']
     have h := congrArg CommRingCat.Hom.hom
@@ -139,7 +139,7 @@ private theorem weightedFiberSum_comp_finite
           simpa only [Set.mem_preimage, Set.mem_singleton_iff] using p.2.2
         have hyz : b p.1.1 = z := by
           simpa only [Set.mem_preimage, Set.mem_singleton_iff] using p.1.2
-        show (a ≫ b) p.2.1 = z
+        change (a ≫ b) p.2.1 = z
         rw [Scheme.Hom.comp_apply, hxy, hyz]⟩
       invFun := fun x ↦ ⟨⟨a x.1, by
           have hx := x.2
@@ -180,7 +180,7 @@ private theorem weightedFiberSum_comp_finite
     let _i := ((a ≫ b).residueFieldMap x).hom.toAlgebra
     let _i := (b.residueFieldMap (a x)).hom.toAlgebra
     let _i := (a.residueFieldMap x).hom.toAlgebra
-    show (w₂ (a x) *
+    change (w₂ (a x) *
         (Field.finSepDegree (Z.residueField (b (a x)))
           (Y.residueField (a x)) : ℤ)) *
         (w₁ x * (Field.finSepDegree (Y.residueField (a x))
@@ -203,7 +203,7 @@ private theorem weightedFiberSum_comp_finite
   let _i := (b.residueFieldMap y.1).hom.toAlgebra
   let c := w₂ y.1 * (Field.finSepDegree (Z.residueField (b y.1))
     (Y.residueField y.1) : ℤ)
-  show (∑ᶠ x : A y, c * (let _i := (a.residueFieldMap x.1).hom.toAlgebra;
+  change (∑ᶠ x : A y, c * (let _i := (a.residueFieldMap x.1).hom.toAlgebra;
       w₁ x.1 * (Field.finSepDegree (Y.residueField (a x.1))
         (X.residueField x.1) : ℤ))) = _
   exact (mul_finsum _ c).symm
@@ -248,7 +248,7 @@ private theorem locallyConstant_weightedFiberSum_comp_branch
       subst z
       simpa [O'] using hyO)
   have hfactor (v : E) (hv : v ∈ W) : F v = A y * G v := by
-    show separableDegreeWeightedFiberSum (d ≫ b)
+    change separableDegreeWeightedFiberSum (d ≫ b)
       (fun x ↦ (w_f ∘ h) x * (w_g ∘ k) (d x)) v =
         A y * separableDegreeWeightedFiberSum b (w_g ∘ k) v
     rw [weightedFiberSum_comp_finite d b
@@ -352,7 +352,7 @@ private theorem locallyConstant_composite_branch_chart
     simpa only [Category.assoc] using commQ)
   have hyE : gE (m aD) = v := by
     have hma : gE (m aD) = p0 aD := by
-      show (pullback.snd g eOld) (m aD) = p0 aD
+      change (pullback.snd g eOld) (m aD) = p0 aD
       have hh := pullback.lift_snd (h0 ≫ f) p0 (by
         simpa only [Category.assoc] using commQ)
       exact congrArg (fun φ : D.toScheme ⟶ E => φ aD) hh
@@ -385,10 +385,10 @@ private theorem locallyConstant_composite_branch_chart
     exact Scheme.Pullback.eq_of_snd_eq_of_isPurelyInseparable
       p0 a v hv hfiber hpure r0 N₀.point hNpoint hz htT
   have hqT0fst : pullback.fst gE r0 (qT0 aT) = m aD := by
-    show (qT0 ≫ pullback.fst gE r0) aT = m aD
+    change (qT0 ≫ pullback.fst gE r0) aT = m aD
     simp only [hqT0fstHom, Scheme.Hom.comp_apply, haT]
   have hqT0snd : pullback.snd gE r0 (qT0 aT) = N₀.point := by
-    show (qT0 ≫ pullback.snd gE r0) aT = N₀.point
+    change (qT0 ≫ pullback.snd gE r0) aT = N₀.point
     simpa only [hqT0sndHom, Scheme.Hom.comp_apply, htT]
   obtain ⟨j, hj⟩ := hcover (qT0 aT) hqT0snd hqT0fst
   let G := GN j
@@ -414,7 +414,7 @@ private theorem locallyConstant_composite_branch_chart
       _ = G.ι ≫ pullback.fst gE r0 ≫ (pullback.snd g eOld ≫ eOld) := by
             rw [pullback.condition]
       _ = G.ι ≫ (pullback.fst gE r0 ≫ gE) ≫ eOld := by
-            show G.ι ≫ (pullback.fst gE r0 ≫ pullback.snd g eOld) ≫ eOld = _
+            change G.ι ≫ (pullback.fst gE r0 ≫ pullback.snd g eOld) ≫ eOld = _
             rfl
       _ = G.ι ≫ (pullback.snd gE r0 ≫ r0) ≫ eOld := by
             rw [pullback.condition]
@@ -432,7 +432,7 @@ private theorem locallyConstant_composite_branch_chart
     intro z hz
     have hza : z = aT := hTunique z hz
     subst z
-    show qT0 aT ∈ G
+    change qT0 aT ∈ G
     rw [← hj]
     exact aG.property
   obtain ⟨W0, hW0, hfactor⟩ :=
@@ -483,7 +483,7 @@ private theorem locallyConstant_composite_branch_chart
   let k1 : B1 ⟶ Y := pullback.fst bG W0.ι ≫ kG
   let e1 : W0.toScheme ⟶ Z := r1 ≫ eOld
   have commB1 : k1 ≫ g = b1 ≫ e1 := by
-    show (pullback.fst bG W0.ι ≫ kG) ≫ g =
+    change (pullback.fst bG W0.ι ≫ kG) ≫ g =
       pullback.snd bG W0.ι ≫ (W0.ι ≫ r0 ≫ eOld)
     calc
       (pullback.fst bG W0.ι ≫ kG) ≫ g =
@@ -741,7 +741,7 @@ private theorem locallyConstant_composite_branch_chart
           (w0 ∘ pullback.fst p0 r1) = F1 := by
     funext y
     rw [← hd1b1]
-    show separableDegreeWeightedFiberSum (d1 ≫ b1)
+    change separableDegreeWeightedFiberSum (d1 ≫ b1)
         (w0 ∘ pullback.fst p0 r1) y =
       separableDegreeWeightedFiberSum (d1 ≫ b1) w1 y
     exact congrArg (fun ww : T1 → ℤ ↦
@@ -758,11 +758,11 @@ private theorem locallyConstant_composite_branch_chart
       point := ⟨wpoint, hMW⟩
       toBase := WM.ι ≫ W0.ι ≫ r0
       map_point := by
-        show r0 (W0.ι wpoint) = v
+        change r0 (W0.ι wpoint) = v
         exact hNpoint }
   have hsumEq : F0 ∘ N.toBase = F1 ∘ WM.ι := by
     funext x
-    show F0 (r1 (WM.ι x)) = F1 (WM.ι x)
+    change F0 (r1 (WM.ι x)) = F1 (WM.ι x)
     exact hsumAt (WM.ι x)
   have hLCN : IsLocallyConstant (F0 ∘ N.toBase) := by
     rw [hsumEq]
@@ -807,12 +807,12 @@ private theorem locallyConstant_composite_branch_eventually
     (fun x ↦ wf (h (pullback.fst π qE (D.ι x))) *
       wg (f (h (pullback.fst π qE (D.ι x)))))
   have hqpoint : qW Npoint = v := by
-    show N.toBase N.point = v
+    change N.toBase N.point = v
     exact N.map_point
   have : Etale N.toBase := inferInstance
   have : IsOpenImmersion W.ι := inferInstance
   have : IsOpenMap qW := by
-    show IsOpenMap (N.toBase ∘ W.ι)
+    change IsOpenMap (N.toBase ∘ W.ι)
     exact N.toBase.isOpenMap.comp W.ι.isOpenMap
   obtain ⟨O, hOopen, hvO, hconst⟩ :=
     exists_open_neighborhood_eq_of_isLocallyConstant_comp_of_isOpenMap

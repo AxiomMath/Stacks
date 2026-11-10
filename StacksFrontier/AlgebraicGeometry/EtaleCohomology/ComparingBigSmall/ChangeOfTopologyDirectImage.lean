@@ -99,8 +99,8 @@ public def changeOfTopologyDirectImageSquare :
 /-- The natural transformation of `AlgebraicGeometry.changeOfTopologyDirectImageSquare` is an
 isomorphism, as a composite of isomorphisms. -/
 public instance isIso_changeOfTopologyDirectImageSquare :
-    IsIso (changeOfTopologyDirectImageSquare J K J' K' P).natTrans := by
-  dsimp only [changeOfTopologyDirectImageSquare, TwoSquare.mk, TwoSquare.natTrans]
+    IsIso (changeOfTopologyDirectImageSquare J K J' K' P) := by
+  dsimp only [changeOfTopologyDirectImageSquare, TwoSquare.mk]
   infer_instance
 
 /-- **The base change map of a change of topology is invertible at the sheaves of the finer
@@ -114,19 +114,19 @@ public theorem isIso_mateEquiv_symm_changeOfTopologyDirectImageSquare_app
     (adjC : LC ⊣ (𝟭 C).sheafPushforwardContinuous (Type (u + 1)) J K)
     (adjD : LD ⊣ (𝟭 D).sheafPushforwardContinuous (Type (u + 1)) J' K')
     (G : Sheaf J (Type (u + 1))) [IsIso (adjC.unit.app G)] :
-    IsIso (((mateEquiv adjC adjD).symm
-      (changeOfTopologyDirectImageSquare J K J' K' P)).natTrans.app G) := by
+    IsIso (NatTrans.app ((mateEquiv adjC adjD).symm
+      (changeOfTopologyDirectImageSquare J K J' K' P)) G) := by
   have := (Stacks.Sites.sheafPushforwardIdFullyFaithful J K).full
   have := (Stacks.Sites.sheafPushforwardIdFullyFaithful J K).faithful
   have := (Stacks.Sites.sheafPushforwardIdFullyFaithful J' K').full
   have := (Stacks.Sites.sheafPushforwardIdFullyFaithful J' K').faithful
   have e := mateEquiv_counit_symm adjC adjD (changeOfTopologyDirectImageSquare J K J' K' P)
     (LC.obj G)
-  have h₁ : IsIso (LD.map ((changeOfTopologyDirectImageSquare J K J' K' P).natTrans.app
+  have h₁ : IsIso (LD.map (NatTrans.app (changeOfTopologyDirectImageSquare J K J' K' P)
       (LC.obj G)) ≫ adjD.counit.app _) := inferInstance
   rw [e] at h₁
-  have h₂ : IsIso (((mateEquiv adjC adjD).symm
-      (changeOfTopologyDirectImageSquare J K J' K' P)).natTrans.app
+  have h₂ : IsIso (NatTrans.app ((mateEquiv adjC adjD).symm
+      (changeOfTopologyDirectImageSquare J K J' K' P))
         (((𝟭 C).sheafPushforwardContinuous (Type (u + 1)) J K).obj (LC.obj G))) :=
     IsIso.of_isIso_comp_right _
       ((P.sheafPushforwardContinuous (Type (u + 1)) K' K).map (adjC.counit.app (LC.obj G)))
@@ -140,7 +140,7 @@ private theorem vComp_natTrans_app {C₁ C₂ C₃ C₄ C₅ C₆ : Type*} [Cate
     {T : C₁ ⥤ C₂} {L : C₁ ⥤ C₃} {R : C₂ ⥤ C₄} {B : C₃ ⥤ C₄}
     {L' : C₃ ⥤ C₅} {R'' : C₄ ⥤ C₆} {B'' : C₅ ⥤ C₆}
     (w : TwoSquare T L R B) (w' : TwoSquare B L' R'' B'') (c : C₁) :
-    (w ≫ᵥ w').natTrans.app c = R''.map (w.natTrans.app c) ≫ w'.natTrans.app (L.obj c) := by
+    NatTrans.app (w ≫ᵥ w') c = R''.map (NatTrans.app w c) ≫ NatTrans.app w' (L.obj c) := by
   simp [TwoSquare.vComp]
 
 /-! ### The comparison of a big site with the small étale site -/
@@ -173,7 +173,7 @@ public def changeOfTopologySmallEtaleBaseChange :
     ((bigEtaleProjectionAdjunction E Y).comp adjY)).symm
     (changeOfTopologyDirectImageSquare (BigEtaleOver.topology E X.obj X.property) KX
       (BigEtaleOver.topology E Y.obj Y.property) KY (Over.pullback f) ≫ₕ
-      bigSmallEtaleDirectImageSquare E (Type (u + 1)) f)).natTrans
+      bigSmallEtaleDirectImageSquare E (Type (u + 1)) f))
 
 /-- **The base change map of a big site and the small étale site is an isomorphism**, granted
 the base change map `π_Y⁻¹ ∘ f_{small,*} ⟶ f_{big,*} ∘ π_X⁻¹` of Stacks 0DDJ (1) is one and that
@@ -194,14 +194,14 @@ public theorem isIso_changeOfTopologySmallEtaleBaseChange
   set s₂ := (mateEquiv adjX adjY).symm
     (changeOfTopologyDirectImageSquare (BigEtaleOver.topology E X.obj X.property) KX
       (BigEtaleOver.topology E Y.obj Y.property) KY (Over.pullback f)) with hs₂
-  have hdef : changeOfTopologySmallEtaleBaseChange E f KX KY adjX adjY = (s₁ ≫ᵥ s₂).natTrans := by
+  have hdef : changeOfTopologySmallEtaleBaseChange E f KX KY adjX adjY = (s₁ ≫ᵥ s₂) := by
     rw [changeOfTopologySmallEtaleBaseChange, ← Equiv.symm_apply_apply (mateEquiv _ _) (s₁ ≫ᵥ s₂),
       mateEquiv_hcomp, hs₁, hs₂, Equiv.apply_symm_apply, Equiv.apply_symm_apply]
   rw [hdef]
   refine @NatIso.isIso_of_isIso_app _ _ _ _ _ _ _ fun c => ?_
   rw [vComp_natTrans_app]
   have := hunit c
-  have : IsIso (s₁.natTrans.app c) :=
+  have : IsIso (NatTrans.app s₁ c) :=
     NatIso.isIso_app_of_isIso (bigSmallEtaleBaseChange E (Type (u + 1)) f
       (bigEtaleProjectionAdjunction E X) (bigEtaleProjectionAdjunction E Y)) c
   have := isIso_mateEquiv_symm_changeOfTopologyDirectImageSquare_app

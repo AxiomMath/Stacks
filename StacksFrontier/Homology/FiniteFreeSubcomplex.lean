@@ -1,8 +1,8 @@
 module
 
 public import Mathlib.Algebra.Order.Ring.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Analysis.Normed.Ring.Lemmas
-public import Mathlib.Data.Int.Star
 public import Mathlib.Data.Fintype.Order
 public import Mathlib.LinearAlgebra.FreeModule.Finite.Basic
 import StacksCore.Tactic.EgaSgaAttribute
@@ -385,7 +385,7 @@ theorem exists_subcomplex_bounded_finiteFree (F : ZComplex R) (hFa : F.BoundedAb
     refine Stacks.FiniteFreeSubcomplex.map_mem_span_image_of_support_subset
       (Stacks.FiniteFreeSubcomplex.chosenBasis F m)
       (Stacks.FiniteFreeSubcomplex.chosenBasis F (m + 1)) (F.d m) (fun j hj kk hkk => ?_) hx
-    show kk ∈ T (m + 1)
+    change kk ∈ T (m + 1)
     rw [hTmem (m + 1) kk]
     exact Stacks.FiniteFreeSubcomplex.nextSupport_subset_closureIter F n f b0 hb0 a ha ⟨m, j⟩
       ((hTmem m j).1 hj)

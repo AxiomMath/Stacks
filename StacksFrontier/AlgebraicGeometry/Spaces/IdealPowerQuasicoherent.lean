@@ -181,7 +181,7 @@ theorem exists_sieve_mem_pow_chartSectionIdeal_smul_top_of_mem_idealPowSubmodule
     exists_sieve_mem_pow_chartIdeal_smul_top B S hS F hF I M n _ (hS₀' g hg)
   refine (SmallEtale.topology B S hS F).superset_covering ?_ hS₁
   intro Y' k hk
-  show chartRestrictLinear M (k ≫ g) t ∈ _
+  change chartRestrictLinear M (k ≫ g) t ∈ _
   rw [chartRestrictLinear_comp M g k t]
   exact hS₁' k hk
 

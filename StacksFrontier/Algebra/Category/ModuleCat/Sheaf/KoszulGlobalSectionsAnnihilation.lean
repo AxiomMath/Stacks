@@ -183,7 +183,8 @@ theorem smulEnd_app_eq_comp {a b c : GlobalSection O}
     (smulEnd O c).asHom.app M = (smulEnd O a).asHom.app M ≫ (smulEnd O b).asHom.app M := by
   ext U x
   rw [smulEnd_app_apply]
-  show c.val U • x = ((smulEnd O b).asHom.app M).val.app U (((smulEnd O a).asHom.app M).val.app U x)
+  change c.val U • x =
+    ((smulEnd O b).asHom.app M).val.app U (((smulEnd O a).asHom.app M).val.app U x)
   rw [smulEnd_app_apply, smulEnd_app_apply, habc, mul_smul]
 
 /-- The rank-one `O`-module, the common value of the Koszul system. -/

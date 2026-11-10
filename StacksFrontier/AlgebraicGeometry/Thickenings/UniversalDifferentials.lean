@@ -190,7 +190,7 @@ private theorem isUniversalFirstOrderThickening_extension
     ext r
     simp
   have hkerQ : RingHom.ker (Ideal.Quotient.mkₐ R I).toRingHom ^ 2 = ⊥ := by
-    show RingHom.ker (Ideal.Quotient.mk I) ^ 2 = ⊥
+    change RingHom.ker (Ideal.Quotient.mk I) ^ 2 = ⊥
     rw [Ideal.mk_ker, hI]
   have hjThick := isFirstOrderThickening_specMap
     (CommRingCat.ofHom (Ideal.Quotient.mkₐ R I).toRingHom)
@@ -242,7 +242,7 @@ private theorem isUniversalFirstOrderThickening_extension
           (Spec.map (CommRingCat.ofHom k.toRingHom) ≫ hB) =
             (CommRingCat.ofHom (algebraMap R P.Ring)) ≫
               CommRingCat.ofHom k.toRingHom := by
-        show Spec.preimage
+        change Spec.preimage
           (Spec.map (CommRingCat.ofHom k.toRingHom) ≫
             Spec.map (CommRingCat.ofHom (algebraMap R P.Ring))) = _
         rw [Spec.preimage_comp]
@@ -290,7 +290,7 @@ private lemma bijective_baseChange_of_bijective_liftBaseChange
     simp [he', LinearMap.liftBaseChange_tmul]
   have hb : Function.Bijective ((LinearMap.baseChange A
       ((KaehlerDifferential.map T T R B).liftBaseChange B)) ∘ e.symm) := by
-    show Function.Bijective ((LinearMap.baseChange A
+    change Function.Bijective ((LinearMap.baseChange A
       ((KaehlerDifferential.map T T R B).liftBaseChange B)).comp e.symm.toLinearMap)
     rw [he]
     exact hbij
@@ -475,7 +475,7 @@ private lemma bijective_app_pullback_relativeDifferentialsMap
   have hTeq : ∀ x : Ω[Γ(X, V.1)⁄Γ(S, W.1)],
       Teq ((1 : Γ(Z', O)) ⊗ₜ x) = ρ (kVeq x) := by
     intro x
-    show hbc.equiv ((1 : Γ(Z', O)) ⊗ₜ kVeq x) = ρ (kVeq x)
+    change hbc.equiv ((1 : Γ(Z', O)) ⊗ₜ kVeq x) = ρ (kVeq x)
     rw [hbc.equiv_tmul, one_smul]
   have hmatrix := AffineDifferentials.relativeDifferentialsMap_app_eq_mapBaseChange
     h' p (h' ≫ p) hcomm W.1 V.1 O hVW hOV hOW Teq.toLinearMap kOeq.toLinearMap
@@ -491,10 +491,9 @@ private lemma bijective_app_pullback_relativeDifferentialsMap
       Ψ (LinearMap.baseChange Γ(Z, U.1)
         (KaehlerDifferential.mapBaseChange Γ(S, W.1) Γ(X, V.1) Γ(Z', O)) z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul a t =>
-        show LinearMap.baseChange Γ(Z, U.1) (sectionsLinearMap c O) (a ⊗ₜ Teq t) = _
+        change LinearMap.baseChange Γ(Z, U.1) (sectionsLinearMap c O) (a ⊗ₜ Teq t) = _
         rw [LinearMap.baseChange_tmul, show sectionsLinearMap c O (Teq t) = kOeq
           (KaehlerDifferential.mapBaseChange Γ(S, W.1) Γ(X, V.1) Γ(Z', O) t) from hmatrix t]
         rfl
@@ -545,8 +544,7 @@ private lemma bijective_app_pullback_relativeDifferentialsMap
   have hkey : ∀ z, sectionsLinearMap ((Scheme.Modules.pullback i).map c) U.1 (hbc₂.equiv z) =
       hbc₃.equiv (LinearMap.baseChange Γ(Z, U.1) (sectionsLinearMap c O) z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul a m =>
         rw [hbc₂.equiv_tmul, LinearMap.baseChange_tmul, hbc₃.equiv_tmul, map_smul]
         exact congrArg (fun y => a • y)

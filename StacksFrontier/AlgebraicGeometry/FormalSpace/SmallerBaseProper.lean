@@ -133,7 +133,7 @@ theorem isProperULift_smallerBaseULiftMap_iff {P Q : (BigFppfOver B V hV)ᵒᵖ 
           (smallerBaseULiftWhiskerIso B V S hV hS g Q₀).hom := by
       rw [← smallerBaseULiftWhiskerIso_hom_naturality, hk₀, smallerBaseULiftMap_comp_assoc,
         smallerBaseULiftMap_comp_assoc, Iso.inv_hom_id_assoc]
-    show (_ ≫ _) ≫ _ = _ ≫ (_ ≫ _)
+    change (_ ≫ _) ≫ _ = _ ≫ (_ ≫ _)
     rw [Category.assoc]
     exact key
   rw [h3, h1, Space.isProperULift_whiskerRight_iff, Space.isProperULift_whiskerRight_iff,
@@ -173,7 +173,7 @@ theorem representableProper_of_smallerBaseULiftMap
   have h1 : Space.IsProperULift.{u + 1} B S hS
       (pullback.fst (smallerBaseChart B V S hV hS g ξ₀) (smallerBaseULiftMap B V S hV hS g f)) :=
     he _ _
-  show Space.IsProperULift.{u + 1} B V hV (pullback.fst ξ₀ f)
+  change Space.IsProperULift.{u + 1} B V hV (pullback.fst ξ₀ f)
   have hsq := isPullback_smallerBaseChart_pullback B V S hV hS g f ξ₀
   refine (isProperULift_iff_of_smallerBaseULiftMap_arrowIso B V S hV hS g (hf₀ U₀ ξ₀)
     (Space.isAlgebraicSpaceULift_uliftYoneda.{u + 1} B V hV U₀) _ (hf _ _)
@@ -196,7 +196,7 @@ theorem representableProper_smallerBaseULiftMap
   refine ⟨hf', fun U ξ => ?_⟩
   obtain ⟨ψ, hψ, ξ₀, rfl⟩ := exists_smallerBaseChart B V S hV hS g U ξ
   have h1 : Space.IsProperULift.{u + 1} B V hV (pullback.fst ξ₀ f) := he _ _
-  show Space.IsProperULift.{u + 1} B S hS (pullback.fst _ _)
+  change Space.IsProperULift.{u + 1} B S hS (pullback.fst _ _)
   have hsq := isPullback_smallerBaseChart_pullback_relocalize B V S hV hS g f hψ ξ₀
   refine (isProperULift_iff_of_smallerBaseULiftMap_arrowIso B V S hV hS g (hf _ ξ₀)
     (Space.isAlgebraicSpaceULift_uliftYoneda.{u + 1} B V hV _) _ (hf' _ _)

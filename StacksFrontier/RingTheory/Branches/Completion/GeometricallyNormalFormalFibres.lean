@@ -422,10 +422,10 @@ private theorem nonempty_residueFieldAlgEquiv_strictHenselizations
   obtain ⟨eD, heD⟩ := IsHenselization.exists_residueFieldEquiv (R := B) (L := M) (Rh := D)
   refine ⟨{ eC.symm.trans (E.toRingEquiv.trans eD) with commutes' := ?_ }⟩
   intro r
-  show eD (E (eC.symm (residue C (algebraMap R C r)))) =
+  change eD (E (eC.symm (residue C (algebraMap R C r)))) =
     residue D (algebraMap R D r)
   rw [← heC r, eC.symm_apply_apply, E.commutes]
-  show eD (algebraMap (ResidueField B) M (e (residue R r))) = _
+  change eD (algebraMap (ResidueField B) M (e (residue R r))) = _
   rw [show e (residue R r) = residue B (algebraMap R B r) from e.commutes r,
     heD, ← IsScalarTower.algebraMap_apply R B D]
 

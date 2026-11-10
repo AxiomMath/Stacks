@@ -72,8 +72,8 @@ arbitrary coefficient category, and that is forced. The hom sets of `Sheaf J A` 
 `C : Type u` live in `Type (max u vA)`, while those of `A` live in `Type vA`, so the two
 corepresented functors land in the same universe only when `vA` absorbs `u`. At the module
 coefficient universe `max u v w` used here it does, and at the universe `max u v` of
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Restriction.CompactModuleSheaves` it does too, that
-universe being already forced there by the sheaves-of-sets statement being transported.
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Restriction.CompactModuleSheaves` it does too,
+that universe being already forced there by the sheaves-of-sets statement being transported.
 
 Where `ModuleCat.free` appears the ring universe is forced to equal the module universe, the
 functor `Type r ⥤ ModuleCat.{r} R` carrying the ring and the module in one universe; that is the
@@ -268,7 +268,7 @@ public theorem epi_desc_of_coyonedaSections (J : GrothendieckTopology C) (R : Ty
   have hφ : Limits.Sigma.ι (fun p : Sections J R F => P p.1)
         (⟨U, (ε U).hom.app F φ⟩ : Sections J R F) ≫
       Limits.Sigma.desc (fun p : Sections J R F => (ε p.1).inv.app F p.2) = φ := by
-    rw [Limits.Sigma.ι_desc, Iso.hom_inv_id_app_apply]
+    rw [Limits.Sigma.ι_comp_desc, Iso.hom_inv_id_app_apply]
   rw [← hφ, Category.assoc, Category.assoc, hxy]
 
 end CategoryTheory.Sheaf

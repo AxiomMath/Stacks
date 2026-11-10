@@ -130,14 +130,15 @@ theorem koszulEnd_app_apply (e : Fin r → ℕ)
 /-- The component at `𝒪` of multiplication by a monomial is
 `AlgebraicGeometry.RingedSite.koszulScalar`. -/
 theorem koszulEnd_app_unit (e : Fin r → ℕ) :
-    (koszulEnd X f e).asHom.app (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) =
+    (koszulEnd X f e).asHom.app
+        (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) =
       koszulScalar X f e := rfl
 
 /-- **Composing multiplications by monomials adds exponents.** -/
 theorem koszulEnd_comp (e e' : Fin r → ℕ) :
     (koszulEnd X f e).asHom ≫ (koszulEnd X f e').asHom = (koszulEnd X f (e + e')).asHom := by
   ext M U x
-  show koszulRingValue X f e' U • (koszulRingValue X f e U • x) =
+  change koszulRingValue X f e' U • (koszulRingValue X f e U • x) =
     koszulRingValue X f (e + e') U • x
   rw [← mul_smul]
   exact congrArg (fun c : ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj.obj U => c • x)
@@ -280,7 +281,8 @@ theorem koszulCechTrans_app (n : ℕ) (S : Finset (Fin r)) :
 section Shift
 
 variable (h : Presheaf.globalSections (X.O.obj ⋙ forget CommRingCat.{u}))
-  (a : SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ⟶ SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)))
+  (a : SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ⟶
+    SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)))
 
 /-- Reindexing a cocone over `𝒪 --f--> 𝒪 --f--> ⋯` by one step: the leg at the index `n` is
 the old leg at `n` preceded by the multiplication. -/
@@ -299,7 +301,8 @@ theorem awaySequenceShiftCocone_ι_app (c : Cocone (awaySequence X a)) (n : ℕ)
     (awaySequenceShiftCocone X a c).ι.app n = a ≫ c.ι.app n :=
   rfl
 
-variable (ha : ∀ (U : X.Cᵒᵖ) (x : (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))).val.obj U),
+variable (ha : ∀ (U : X.Cᵒᵖ)
+      (x : (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))).val.obj U),
     (a.val.app U).hom x = globalSectionVal h U • x)
 
 /-- **The cocone on `𝒪_f` whose `n`-th leg divides by `f^{n+1}`.** This is the reindexing of
@@ -367,7 +370,7 @@ dividing by `f_S^{n+1}`. -/
 theorem koszulPowerTrans_comp_koszulCechTrans (n : ℕ) :
     koszulPowerTrans X f n ≫ koszulCechTrans X f (n + 1) = koszulCechTrans X f n := by
   refine NatTrans.ext (funext fun S => ?_)
-  show koszulScalar X f (koszulIndicator S 1) ≫
+  change koszulScalar X f (koszulIndicator S 1) ≫
       awayModuleCoconeι X (prodGlobalSection f S) (n + 1 + 1) =
     awayModuleCoconeι X (prodGlobalSection f S) (n + 1)
   exact comp_awayModuleCoconeι_succ X (prodGlobalSection f S)

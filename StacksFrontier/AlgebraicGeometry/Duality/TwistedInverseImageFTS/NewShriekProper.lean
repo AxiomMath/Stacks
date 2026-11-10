@@ -208,9 +208,9 @@ def fNewShriekIsoRightAdjointOfIsProper
       ObjectProperty.ιOfLE plusCoh_le_qcoh ⋙ rightAdjointStd f :=
   haveI := hq.source_noetherian
   haveI := hp.source_noetherian
-  haveI : IsProper (ftsHomSelf (isShriekable_of_isProper hp hq) (f := f)).left :=
+  haveI : IsProper (ftsHomSelf (isShriekable_of_isProper hq) (f := f)).left :=
     inferInstanceAs (IsProper f)
-  (upperShriekStdIsoFNewShriek c hpe hωS (isShriekable_of_isProper hp hq) 𝒦X 𝒦Y).symm ≪≫
+  (upperShriekStdIsoFNewShriek c hpe hωS (isShriekable_of_isProper hq) 𝒦X 𝒦Y).symm ≪≫
     UpperShriekDuality.upperShriekStdIsoRightAdjointOfIsProper _ _
 
 /-- **[Stacks, Tag 0AUE] part (6), the duality isomorphism.** For a proper morphism `f : X ⟶ Y`
@@ -240,7 +240,7 @@ def rightAdjointStdDualizingIso
     haveI := hq.source_noetherian
     haveI := hp.source_noetherian
     (rightAdjointStd f).obj ⟨stdComplex c 𝒦Y, TwistedInverseImageDuality.qcoh_of_isDualizingComplex
-      (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y)⟩ ≅ stdComplex c 𝒦X :=
+      (isDualizing_stdComplex c hωS 𝒦Y)⟩ ≅ stdComplex c 𝒦X :=
   haveI := hq.source_noetherian
   haveI := hp.source_noetherian
   (comparison X).inverse.mapIso ((ObjectProperty.ι _).mapIso
@@ -263,7 +263,7 @@ def sheafHomDualizingIso
   (push f).mapIso (((sheafHom X).obj (op K)).mapIso
       (rightAdjointStdDualizingIso c hpe hωS 𝒦X 𝒦Y).symm) ≪≫
     sheafyTraceIsoStd f K hK _
-      (isBoundedBelow_of_isDualizing_std (isDualizing_stdComplex c (Category.id_comp q) hωS 𝒦Y))
+      (isBoundedBelow_of_isDualizing_std (isDualizing_stdComplex c hωS 𝒦Y))
 
 end NormalizedOnOpens
 

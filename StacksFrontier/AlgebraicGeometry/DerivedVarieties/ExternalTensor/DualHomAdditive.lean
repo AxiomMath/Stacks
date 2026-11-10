@@ -273,7 +273,7 @@ theorem externalTensorDualTensorHomEquiv_smul (X Y : Over (Spec (.of R)))
         (externalTensorProduct X.hom Y.hom E G) F
         (isFiniteLocallyFree_externalTensorProduct X.hom Y.hom E G hE hG) q :=
     dualTensorHomEquiv_smul R (externalTensorOver R X Y) _ F _ c q
-  show (Iso.homToEquiv _) (dualTensorHomEquiv (Limits.pullback X.hom Y.hom)
+  change (Iso.homToEquiv _) (dualTensorHomEquiv (Limits.pullback X.hom Y.hom)
       (externalTensorProduct X.hom Y.hom E G) F _ (c • q)) = _
   rw [h]
   simp only [Iso.homToEquiv, Equiv.coe_fn_mk]
@@ -298,7 +298,7 @@ theorem externalTensorDualTensorHomEquiv_add (E : X.Modules) (G : Y.Modules)
     externalTensorDualTensorHomEquiv f g E G F hE hG (q + q') =
       externalTensorDualTensorHomEquiv f g E G F hE hG q +
         externalTensorDualTensorHomEquiv f g E G F hE hG q' := by
-  show (Iso.homToEquiv _) (AlgebraicGeometry.dualTensorHomEquiv (Limits.pullback f g)
+  change (Iso.homToEquiv _) (AlgebraicGeometry.dualTensorHomEquiv (Limits.pullback f g)
       (externalTensorProduct f g E G) F _ (q + q')) = _
   rw [dualTensorHomEquiv_add]
   simp only [Iso.homToEquiv, Equiv.coe_fn_mk]

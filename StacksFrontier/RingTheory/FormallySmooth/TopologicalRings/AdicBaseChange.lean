@@ -266,8 +266,7 @@ private lemma tensorRetract_includeLeft_mul (p : R' →ₗ[R] R) (a : A)
     tensorRetract p
         ((Algebra.TensorProduct.includeLeft : A →ₐ[R] A ⊗[R] R') a * x) =
       a * tensorRetract p x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul b r' => simp [Algebra.TensorProduct.includeLeft_apply,
       Algebra.TensorProduct.tmul_mul_tmul, tensorRetract_tmul]
   | add x y hx hy => simp only [mul_add, map_add, hx, hy]
@@ -284,7 +283,7 @@ private lemma tensorRetract_map_mem (p : R' →ₗ[R] R) (J : Ideal A)
     (by
       rintro x ⟨j, hj, rfl⟩ y
       rw [mul_comm]
-      show tensorRetract p
+      change tensorRetract p
         ((Algebra.TensorProduct.includeLeft : A →ₐ[R] A ⊗[R] R') j * y) ∈ J
       rw [tensorRetract_includeLeft_mul]
       exact J.mul_mem_right _ hj)
@@ -424,7 +423,7 @@ public theorem isFormallySmooth_adic_of_split_baseChange.{u, v, w, z}
   let gbarAlg : S →ₐ[R] A ⧸ J :=
     { gbar with
       commutes' := fun r ↦ by
-        show gbar (algebraMap R S r) = Ideal.Quotient.mk J (f r)
+        change gbar (algebraMap R S r) = Ideal.Quotient.mk J (f r)
         exact DFunLike.congr_fun hcomm r }
   let gbar' : S ⊗[R] R' →+* A' ⧸ J' :=
     qeq.toRingHom.comp
@@ -442,7 +441,7 @@ public theorem isFormallySmooth_adic_of_split_baseChange.{u, v, w, z}
     have hQ : (inferInstance : TopologicalSpace (A' ⧸ J')) =
         (⊥ : Ideal (A' ⧸ J')).adicTopology :=
       (is_bot_adic_iff (A := A' ⧸ J')).2 inferInstance
-    show @Continuous (S ⊗[R] R') (A' ⧸ J') n'.adicTopology
+    change @Continuous (S ⊗[R] R') (A' ⧸ J') n'.adicTopology
       (inferInstance : TopologicalSpace (A' ⧸ J')) gbar'
     rw [hQ]
     apply (RingHom.continuous_adic_iff gbar' n' ⊥).2
@@ -472,11 +471,11 @@ public theorem isFormallySmooth_adic_of_split_baseChange.{u, v, w, z}
     dsimp [gbar', qeq, J', ιA, A']
     rw [show (Algebra.TensorProduct.map gbarAlg (AlgHom.id R R'))
         ((algebraMap R' (S ⊗[R] R')) r') = (1 : A ⧸ J) ⊗ₜ[R] r' by
-      show (Algebra.TensorProduct.map gbarAlg (AlgHom.id R R'))
+      change (Algebra.TensorProduct.map gbarAlg (AlgHom.id R R'))
         ((1 : S) ⊗ₜ[R] r') = _
       rw [Algebra.TensorProduct.map_tmul]
       simp]
-    show (Algebra.TensorProduct.quotientTensorEquiv R R' A J)
+    change (Algebra.TensorProduct.quotientTensorEquiv R R' A J)
       (Ideal.Quotient.mk J (1 : A) ⊗ₜ[R] r') =
       Ideal.Quotient.mk _ ((1 : A) ⊗ₜ[R] r')
     exact Algebra.TensorProduct.quotientTensorEquiv_apply_tmul R R' A J 1 r'
@@ -490,7 +489,7 @@ public theorem isFormallySmooth_adic_of_split_baseChange.{u, v, w, z}
     have hh := DFunLike.congr_fun hliftq (ιS s)
     change Ideal.Quotient.mk J' (lift' (ιS s)) = gbar' (ιS s) at hh
     rw [hh]
-    show qeq (gbar s ⊗ₜ[R] 1) - Ideal.Quotient.mk J' (a ⊗ₜ[R] 1) = 0
+    change qeq (gbar s ⊗ₜ[R] 1) - Ideal.Quotient.mk J' (a ⊗ₜ[R] 1) = 0
     rw [← ha]
     dsimp [qeq, J', ιA, A']
     simp
@@ -503,7 +502,7 @@ public theorem isFormallySmooth_adic_of_split_baseChange.{u, v, w, z}
     ext s
     obtain ⟨a, ha⟩ := Ideal.Quotient.mk_surjective (gbar s)
     rw [← ha]
-    show Ideal.Quotient.mk J (lift s) = Ideal.Quotient.mk J a
+    change Ideal.Quotient.mk J (lift s) = Ideal.Quotient.mk J a
     rw [← sub_eq_zero, ← map_sub]
     apply (Ideal.Quotient.eq_zero_iff_mem).2
     have hq := tensorRetract_map_mem p J (hmem s a ha)
@@ -513,7 +512,7 @@ public theorem isFormallySmooth_adic_of_split_baseChange.{u, v, w, z}
   have hliftCont : Continuous lift := by
     have hA : tA = (⊥ : Ideal A).adicTopology :=
       (is_bot_adic_iff (A := A)).2 inferInstance
-    show @Continuous S A n.adicTopology tA lift
+    change @Continuous S A n.adicTopology tA lift
     rw [hA]
     apply (RingHom.continuous_adic_iff lift n ⊥).2
     obtain ⟨k, hk, hkill⟩ :=
@@ -528,9 +527,9 @@ public theorem isFormallySmooth_adic_of_split_baseChange.{u, v, w, z}
     have hmap : Ideal.map lift (n ^ k) ≤ J := by
       rw [Ideal.map_le_iff_le_comap]
       intro y hy
-      show lift y ∈ J
+      change lift y ∈ J
       apply (Ideal.Quotient.eq_zero_iff_mem).mp
-      show ((Ideal.Quotient.mk J).comp lift) y = 0
+      change ((Ideal.Quotient.mk J).comp lift) y = 0
       rw [DFunLike.congr_fun hlq y]
       exact hkill y hy
     have hxmap : lift x ∈ Ideal.map lift (n ^ (k * 2)) :=
@@ -549,9 +548,9 @@ public theorem isFormallySmooth_adic_of_split_baseChange.{u, v, w, z}
               exact Algebra.TensorProduct.tmul_one_eq_one_tmul r
         _ = algebraMap R' A' (algebraMap R R' r) := hh
         _ = ιA (f r) := by
-          show 1 ⊗ₜ[R] algebraMap R R' r = f r ⊗ₜ[R] 1
+          change 1 ⊗ₜ[R] algebraMap R R' r = f r ⊗ₜ[R] 1
           exact (Algebra.TensorProduct.tmul_one_eq_one_tmul r).symm
-    show tensorRetract p (lift' (ιS (algebraMap R S r))) = f r
+    change tensorRetract p (lift' (ιS (algebraMap R S r))) = f r
     rw [hh']
     exact tensorRetract_includeLeft p hp (f r)
   · exact hlq

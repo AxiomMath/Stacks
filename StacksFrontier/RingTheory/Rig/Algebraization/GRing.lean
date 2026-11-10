@@ -131,7 +131,7 @@ private theorem unique_etale_map_of_quotient
         map_one]
     have hm : θ e - 1 ∈ K := by
       apply (Ideal.Quotient.eq_zero_iff_mem).mp
-      show q (θ e - 1) = 0
+      change q (θ e - 1) = 0
       simp [hq]
     exact Ideal.isUnit_of_sub_one_mem_jacobson_bot _ (hK hm)
   apply AlgHom.ext
@@ -153,7 +153,7 @@ private theorem henselianPair_quotient_local {R : Type u} [CommRing R] {J K : Id
       InducesBijectionOnIdempotents (J.map (algebraMap R S)) :=
     ((henselianPair_tfae.{u,u} R J).out 1 4).mp h
   rw [Ideal.map_map]
-  show InducesBijectionOnIdempotents (J.map (algebraMap R B))
+  change InducesBijectionOnIdempotents (J.map (algebraMap R B))
   exact hb B
 
 private theorem away_section_quotient_equiv
@@ -219,7 +219,7 @@ private theorem away_section_quotient_equiv
         ((IsLocalization.Away.algebraMap_isUnit (S := Localization.Away d) d).pow n)).mp hpow
     · rw [Ideal.map_le_iff_le_comap]
       intro a ha
-      show α' (algebraMap A (Localization.Away d) a) = 0
+      change α' (algebraMap A (Localization.Away d) a) = 0
       rw [AlgHom.commutes]
       exact (Ideal.Quotient.eq_zero_iff_mem).2 ha
   have hsurj : Function.Surjective α' := by
@@ -386,7 +386,7 @@ private theorem exists_ulift_adicCompletion_algEquiv (A : Type u) (S : Type v) [
   let F : AdicCompletion IS S →+* AdicCompletion IB B := adicCompletionMap eB.toRingHom IS IB le_rfl
   let G : AdicCompletion IB B →+* AdicCompletion IS S :=
     adicCompletionMap eB.symm.toRingHom IB IS (by
-      show (IS.map eB.toRingHom).map eB.symm.toRingHom ≤ IS
+      change (IS.map eB.toRingHom).map eB.symm.toRingHom ≤ IS
       rw [Ideal.map_map, he]
       simp)
   have hFG : G.comp F = RingHom.id _ :=
@@ -400,7 +400,7 @@ private theorem exists_ulift_adicCompletion_algEquiv (A : Type u) (S : Type v) [
     { toRingHom := F
       commutes' := adicCompletionMap_algebraMap_of_algHom eB.toAlgHom IS IB le_rfl }
   have hsource : I.map (algebraMap A B) = IB := by
-    show I.map (algebraMap A B) = (I.map (algebraMap A S)).map eB.toRingHom
+    change I.map (algebraMap A B) = (I.map (algebraMap A S)).map eB.toRingHom
     rw [Ideal.map_map]
     congr 1
   refine ⟨B, inferInstance, inferInstance,
@@ -557,7 +557,7 @@ public theorem exists_finiteType_adicCompletion_algEquiv_henselization_quotient
       { toRingHom := g₀
         commutes' := by
           intro c
-          convert congrArg (fun φ : C →+* T => φ c) hg₀.1 using 1 <;> rfl }
+          convert congrArg (fun φ : C →+* T => φ c) hg₀.1 using 1 }
     let gS : Localization.Away d →ₐ[C] T := g₀S.comp σ
     have hgSC : gS.toRingHom.comp (algebraMap C (Localization.Away d)) = fC := by
       apply RingHom.ext
@@ -580,7 +580,7 @@ public theorem exists_finiteType_adicCompletion_algEquiv_henselization_quotient
       apply RingHom.mem_ker.mpr
       have hqzero : Ideal.Quotient.mk J' (gen' i) = 0 :=
         (Ideal.Quotient.eq_zero_iff_mem).2 (Ideal.subset_span ⟨i, rfl⟩)
-      show g₀ (eH (gen i)) = 0
+      change g₀ (eH (gen i)) = 0
       calc
         g₀ (eH (gen i)) = g₀ (σ (gen' i)) := by rw [hgenmap i]
         _ = gS (gen' i) := rfl
@@ -626,7 +626,7 @@ public theorem exists_finiteType_adicCompletion_algEquiv_henselization_quotient
             eH.symm_apply_eq.mpr (eH.commutes c).symm
           have hσc : eH.symm (σ (algebraMap C (Localization.Away d) c)) = algebraMap C H c :=
             eH.symm_apply_eq.mpr ((σ.commutes c).trans (eH.commutes c).symm)
-          show g (Ideal.Quotient.mk J (eH.symm (ι c))) =
+          change g (Ideal.Quotient.mk J (eH.symm (ι c))) =
             g (Ideal.Quotient.mk J (eH.symm (σ (algebraMap C (Localization.Away d) c))))
           rw [hι, hσc]
         _ = g (φ (qB (algebraMap C (Localization.Away d) c))) := by
@@ -651,7 +651,7 @@ public theorem exists_finiteType_adicCompletion_algEquiv_henselization_quotient
           g.comp φ.toRingHom = f ∧ KQ ≤ L.comap g :=
     existsUnique_ringHom_lift_of_ulift φ.toRingHom IB KQ hB₀univ
   have hIBtarget : IB.map φ.toRingHom = I.map (algebraMap A (H ⧸ J)) := by
-    show (I.map (algebraMap A (Localization.Away d ⧸ J'))).map φ.toRingHom = _
+    change (I.map (algebraMap A (Localization.Away d ⧸ J'))).map φ.toRingHom = _
     rw [Ideal.map_map]
     congr 1
     ext a
@@ -659,7 +659,7 @@ public theorem exists_finiteType_adicCompletion_algEquiv_henselization_quotient
   have hIBφ : IB.map φ.toRingHom = KQ := by
     rw [hIBtarget]
     symm
-    show ((I.map (algebraMap A C)).map (algebraMap C H)).map
+    change ((I.map (algebraMap A C)).map (algebraMap C H)).map
       (Ideal.Quotient.mk J) = I.map (algebraMap A (H ⧸ J))
     rw [Ideal.map_map, Ideal.map_map]
     congr 1

@@ -173,6 +173,8 @@ variable (B : BigEtaleSite.{u}) (ℓ : ℕ) [Fact ℓ.Prime]
 
 attribute [local instance] HasDerivedCategory.standard moduleCat_hasLimitsOfSize
 
+omit [LocallyOfFiniteType (B.inclusion.map g)] [QuasiCompact (B.inclusion.map g)]
+  [IsSeparated (B.inclusion.map g)] in
 /-- **`Rʳ g_! G` is lisse as soon as the `Rˢ g_!` of the level zero of its flat model are locally
 constant of finite type**: by dévissage every `Rʳ g_! G'ₘ` is then locally constant of finite
 type (`Stacks.EtaleCohomology.LAdicSheaf.isFiniteTypeLocallyConstant_lowerShriekTower`), and so
@@ -276,7 +278,7 @@ theorem exists_ne_zero_forall_isFiniteTypeLocallyConstant_lowerShriekHomology {�
     [Fact ℓ.Prime]
     {U : B.Scheme} [IsNoetherian U.1] (g : U ⟶ Stacks.ArtinSchreier.specObject R B hR)
     [LocallyOfFiniteType (B.inclusion.map g)] [QuasiCompact (B.inclusion.map g)]
-    [IsSeparated (B.inclusion.map g)] {ι : Type} [Fintype ι]
+    [IsSeparated (B.inclusion.map g)] {ι : Type} [Finite ι]
     (Q : ι → EtaleModules.{u, 0} ℤ_[ℓ] U.1)
     (hQc : ∀ i, IsBigSiteConstructibleEtaleModule B U ℤ_[ℓ] (Q i)) (m : ℕ) (hm : 0 < m)
     (hQ : ∀ i, m • 𝟙 (Q i) = 0) :
@@ -292,6 +294,7 @@ theorem exists_ne_zero_forall_isFiniteTypeLocallyConstant_lowerShriekHomology {�
         V'.1.smallEtaleTopology ((lowerShriekHomology ℤ_[ℓ] (B.inclusion.map g') jg' s).obj
           ((etaleModuleInverseImage.{u, 0} ℤ_[ℓ] (B.inclusion.map jU)).obj (Q i))) := by
   classical
+  have := Fintype.ofFinite ι
   let W := Stacks.ArtinSchreier.specObject R B hR
   have : IsReduced W.1 := inferInstanceAs (IsReduced (Spec (.of R)))
   have hNW' : IsNoetherian W.1 := inferInstanceAs (IsNoetherian (Spec (.of R)))

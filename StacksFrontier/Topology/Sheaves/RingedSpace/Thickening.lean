@@ -215,17 +215,17 @@ lemma modulePullbackCompUniq_hom_app_unit_comp {X Y Z : RingedSpace.{u, u}} (f :
     ext U
     rfl
   apply (adjfg.homEquiv _ _).injective
-  show adjfg.homEquiv _ _ (α.hom.app _ ≫ z) = adjfg.homEquiv _ _ pfg
+  change adjfg.homEquiv _ _ (α.hom.app _ ≫ z) = adjfg.homEquiv _ _ pfg
   simp only [Adjunction.homEquiv_unit, Functor.map_comp]
   rw [← Category.assoc]
   unfold α modulePullbackCompUniq
   rw [Adjunction.unit_leftAdjointUniq_hom_app adjfg adjseq, ← Adjunction.homEquiv_unit adjseq,
     Adjunction.homEquiv_ofNatIsoRight_apply, Adjunction.comp_homEquiv,
     ← Adjunction.homEquiv_unit adjfg]
-  show ((adjg.comp adjf).homEquiv _ _ z) ≫ e.symm.hom.app _ = _
+  change ((adjg.comp adjf).homEquiv _ _ z) ≫ e.symm.hom.app _ = _
   rw [hseq, ← hq]
   rw [homEquiv_pullbackUnitToUnit (f ≫ g)]
-  show qfg ≫ (e.hom.app (SheafOfModules.unit (structureSheafRing X)) ≫
+  change qfg ≫ (e.hom.app (SheafOfModules.unit (structureSheafRing X)) ≫
     e.symm.hom.app (SheafOfModules.unit (structureSheafRing X))) = qfg
   simp only [Iso.symm_hom, e.hom_inv_id_app]
   simp
@@ -318,7 +318,7 @@ private theorem smul_eq_zero_of_mono {X' : RingedSpace.{u, u}}
     (h : a • f.val.app (op U) m = 0) : a • m = 0 := by
   have hinj : Function.Injective (f.val.app (op U)) := by
     apply (ModuleCat.mono_iff_injective _).mp
-    show Mono ((SheafOfModules.evaluation (R := structureSheafRing X') (op U)).map f)
+    change Mono ((SheafOfModules.evaluation (R := structureSheafRing X') (op U)).map f)
     infer_instance
   apply hinj
   rw [_root_.map_smul, _root_.map_zero]
@@ -337,7 +337,7 @@ private theorem squareZero_kernel_smul_eq_zero {X X' : RingedSpace.{u, u}} (i : 
   let I : Ideal ((structureSheafRing X').obj.obj (op U)) :=
     RingHom.ker ((structureSheafHom i).hom.app (op U)).hom
   have hbm : b ∈ I := by
-    show ((structureSheafHom i).hom.app (op U)).hom b = 0
+    change ((structureSheafHom i).hom.app (op U)).hom b = 0
     have h' := congrArg (fun k : AlgebraicGeometry.SheafOfModules.idealSheaf i ⟶
       (modulePushforward i).obj (SheafOfModules.unit (structureSheafRing X)) => k.val.app (op U) m)
       (kernel.condition q)
@@ -556,7 +556,7 @@ theorem firstOrderSurjection_epi (D : MorphismOfThickenings.{u})
   have : Epi ((modulePullbackPushforwardAdjunction D.i).unit.app
       ((modulePullback D.f').obj D.idealJ)) :=
     epi_unit_app_of_isThickening D.i hi.1 _
-  show Epi ((modulePullbackPushforwardAdjunction D.i).unit.app _ ≫
+  change Epi ((modulePullbackPushforwardAdjunction D.i).unit.app _ ≫
     (modulePushforward D.i).map D.reducedPullbackComparison.hom)
   infer_instance
 

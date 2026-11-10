@@ -114,13 +114,13 @@ theorem isMilnorNorm_of_bijective {K L : Type u} [Field K] [Field L] [Algebra K 
     rw [← (AlgEquiv.ofBijective (Algebra.ofId K L) hb).toLinearEquiv.finrank_eq, finrank_self]
   refine ⟨fun hx ↦ milnorKRingMap_mem_milnorKGrading _ hx, ?_, fun b ↦ ?_, fun z x ↦ ?_,
     fun x z ↦ ?_⟩
-  · rw [RingHom.toAddMonoidHom_eq_coe, AddMonoidHom.coe_coe, map_one, hrank, Nat.cast_one,
+  · rw [RingHom.toAddMonoidHom_eq_coe, AddMonoidHom.coe_ofClass, map_one, hrank, Nat.cast_one,
       one_smul]
-  · rw [RingHom.toAddMonoidHom_eq_coe, AddMonoidHom.coe_coe, milnorKRingMap_milnorKSymbol]
+  · rw [RingHom.toAddMonoidHom_eq_coe, AddMonoidHom.coe_ofClass, milnorKRingMap_milnorKSymbol]
     congr 1
     refine Units.ext ?_
     obtain ⟨c, hc⟩ := hb.2 (b : L)
-    simp only [Units.coe_map, MonoidHom.coe_coe, RingHom.coe_coe, ← hc,
+    simp only [Units.coe_map, MonoidHom.coe_ofClass, RingHom.coe_coe, ← hc,
       Algebra.norm_algebraMap, hrank, pow_one]
     exact (RingEquiv.ofBijective (algebraMap K L) hb).symm_apply_apply c
   · change milnorKRingMap _ (milnorKRingMap _ z * x) = z * milnorKRingMap _ x
@@ -174,7 +174,7 @@ theorem isMilnorNorm_milnorKNormAdjoinSimple {a : L} (h : IsIntegral K a) :
       simpleMilnorNorm_milnorKSymbol]
     congr 1
     refine Units.ext ?_
-    simp only [Units.coe_map, MonoidHom.coe_coe]
+    simp only [Units.coe_map, MonoidHom.coe_ofClass]
     exact Algebra.norm_eq_of_algEquiv (adjoinSimpleEquivQuot K h) (b : K⟮a⟯)
   · rw [milnorKNormAdjoinSimple_apply, map_mul, milnorKRingMap_comp_apply,
       algebraMap_comp_adjoinSimpleEquivQuot, simpleMilnorNorm_map_mul,

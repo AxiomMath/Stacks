@@ -121,8 +121,9 @@ The attribute below is in phrase form: this file proves only the inclusion
 `D_comp(𝒪', ℐ𝒪') ⊆` the inverse image of `D_comp(𝒪, ℐ)`. The reverse inclusion, and with it the
 inverse-image equality that the tag asserts, is
 `Stacks.SheafOfModules.DerivedRestrictScalars.isDerivedComplete_restrictScalars_iff` of
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/DerivedCompletionRinged/RestrictScalarsConverse.lean`, which is downstream of this file
-because it also needs [Stacks, Tag 0998].
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/DerivedCompletionRinged/`
+`RestrictScalarsConverse.lean`, which is downstream of this file because it also needs
+[Stacks, Tag 0998].
 
 A section of `ℐ𝒪'` over `U` is not in general the image of a section of `ℐ`: `extendIdeal` is the
 *smallest* sheaf of ideals of `𝒪'` containing that image. So the reverse inclusion asks for
@@ -130,7 +131,8 @@ A section of `ℐ𝒪'` over `U` is not in general the image of a section of `�
 `extendIdeal_le` that reduces to the sections at which `E` is derived complete forming a sheaf of
 ideals in `𝒪'`. That is exactly [Stacks, Tag 0998], formalized for a `RingedSite.{u, u, u}` as
 `AlgebraicGeometry.RingedSite.derivedCompleteIdealSheaf` of
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/DerivedCompletionRinged/VanishingIdealSheafCondition.lean`. The affine analogue
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/DerivedCompletionRinged/`
+`VanishingIdealSheafCondition.lean`. The affine analogue
 [Stacks, Tag 0924] uses the corresponding affine statement [Stacks, Tag 091Q] at the same point
 of its proof. Transporting `T(E|_U, f) = 0` from `𝒪` back up to `T(E|_U, f') = 0` over `𝒪'`
 additionally reads `isDerivedCompleteAt_map_of_smul_id` backwards, so it asks for restriction of
@@ -267,7 +269,7 @@ theorem restrictScalars_map_terminalSectionToEnd
       (Stacks.SheafOfModules.terminalSectionToEnd R T hT f).asHom.app
         ((SheafOfModules.restrictScalars.{w} α).obj M) := by
   refine restrictScalars_map_globalSectionToEnd α _ _ (fun U ↦ ?_) M
-  show α.hom.app U (R.obj.map (hT.from U.unop).op f)
+  change α.hom.app U (R.obj.map (hT.from U.unop).op f)
     = R'.obj.map (hT.from U.unop).op (α.hom.app (op T) f)
   rw [← RingCat.comp_apply, ← RingCat.comp_apply, α.hom.naturality]
 
@@ -473,13 +475,13 @@ theorem isDerivedComplete_restrictScalars_of_extendIdeal (α : O ⟶ O')
   let A := _root_.SheafOfModules.{u} R
   let : Linear (CatCenter A) A := Linear.ofRingMorphism (RingHom.id (CatCenter A))
   let : ∀ W : (Over U)ᵒᵖ, IsMulCommutative (R.obj.obj W) := fun W ↦ by
-    show IsMulCommutative (O.obj.obj (op W.unop.left))
+    change IsMulCommutative (O.obj.obj (op W.unop.left))
     infer_instance
   let R' := ((Stacks.SheafOfModules.Tensor.ringSheaf (ringedSite J O').O)).over U
   let A' := _root_.SheafOfModules.{u} R'
   let : Linear (CatCenter A') A' := Linear.ofRingMorphism (RingHom.id (CatCenter A'))
   let : ∀ W : (Over U)ᵒᵖ, IsMulCommutative (R'.obj.obj W) := fun W ↦ by
-    show IsMulCommutative (O'.obj.obj (op W.unop.left))
+    change IsMulCommutative (O'.obj.obj (op W.unop.left))
     infer_instance
   have hLim : PreservesFiniteLimits
       (_root_.SheafOfModules.overFunctor.{u}
@@ -506,7 +508,7 @@ theorem isDerivedComplete_restrictScalars_of_extendIdeal (α : O ⟶ O')
     (SheafOfModules.terminalSectionToEnd R (Over.mk (𝟙 U)) Over.mkIdTerminal f)
     (fun Z => by
       refine HomologicalComplex.hom_ext _ _ fun n => ?_
-      show AU.map ((SheafOfModules.terminalSectionToEnd R' (Over.mk (𝟙 U))
+      change AU.map ((SheafOfModules.terminalSectionToEnd R' (Over.mk (𝟙 U))
             Over.mkIdTerminal (φ.hom.app (op (Over.mk (𝟙 U))) f)).asHom.app (Z.X n) ≫ 𝟙 (Z.X n)) =
           (SheafOfModules.terminalSectionToEnd R (Over.mk (𝟙 U)) Over.mkIdTerminal
             f).asHom.app (AU.obj (Z.X n)) ≫ 𝟙 (AU.obj (Z.X n))

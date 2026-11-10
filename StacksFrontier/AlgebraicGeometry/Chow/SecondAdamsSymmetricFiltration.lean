@@ -192,7 +192,7 @@ theorem classOf_sym_shortExact_of_isFiniteLocallyFree {E F G : X.Modules}
   have h7 : classOf X F = classOf X E + classOf X G := classOf_shortExact f g w hE hF hG hex
   have h8 : classOf X E * classOf X G =
       classOf X (Scheme.Modules.tensorObjRingedSpace X E G) := classOf_mul E G hE hG
-  show classOf X S.X₂ = classOf X (AE.symmetric.piece ((1 + 1 : ℕ) : ℤ)) +
+  change classOf X S.X₂ = classOf X (AE.symmetric.piece ((1 + 1 : ℕ) : ℤ)) +
     classOf X (Scheme.Modules.tensorObjRingedSpace X E G) + classOf X S.X₃
   linear_combination h1 - h2 + h5 - h6 + h3 + h4 + classOf X E * h7 + h8
 

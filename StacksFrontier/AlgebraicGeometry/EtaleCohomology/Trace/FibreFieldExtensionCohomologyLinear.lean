@@ -137,7 +137,7 @@ public theorem LAdicSheaf.CoefficientSheaf.exists_rationalLinearEquiv_of_fieldEx
   let e₄ := LAdicSheaf.CoefficientSheaf.rationalFieldExtensionCohomologyLinearEquiv B X ℓ f j κ kbar
     F i E
   refine ⟨e₁.trans (e₂.trans (e₃.trans e₄)), fun v => ?_⟩
-  show e₄ (e₃ (e₂ (e₁ _))) = _
+  change e₄ (e₃ (e₂ (e₁ _))) = _
   rw [LAdicSheaf.CoefficientSheaf.rationalIsogenyLinearEquiv_frobenius G G' fY jY kbar i E φ ψ N h₁
     h₂ hφ p (q * (m + 1)) hcard', he₂,
     LAdicSheaf.CoefficientSheaf.rationalIsoOfIsIsoLinearEquiv_frobenius B ℓ α

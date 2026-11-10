@@ -308,7 +308,7 @@ theorem flat_tensorProduct_lift_chart {X Y : Scheme.{u}} (f : X ⟶ Y)
       (IsAffineOpen.comap_primeIdealOf_appLE (f := f) (x := u) W' hW' U' hU' hUW hu)
     have hmap : algebraMap ↥Γ(Y, W') ↥Γ(X, U') = (f.appLE W' U' hUW).hom :=
       RingHom.ext halg
-    show (hW'.primeIdealOf ⟨f.base u, hUW hu⟩).asIdeal =
+    change (hW'.primeIdealOf ⟨f.base u, hUW hu⟩).asIdeal =
       Ideal.comap (algebraMap ↥Γ(Y, W') ↥Γ(X, U')) (hU'.primeIdealOf ⟨u, hu⟩).asIdeal
     rw [hmap]
     exact hc.symm

@@ -181,7 +181,7 @@ theorem isIso_app_of_isIso_app_single_injective
   have z' : E.map (HomologicalComplex.homologyMap f q) ≫
       E.map (HomologicalComplex.homologyMap g q) = 0 := by rw [← E.map_comp, z, E.map_zero]
   have : Mono ((HomologicalComplex.homologyFunctor A (.up ℤ) q ⋙ E).map f) := by
-    show Mono (E.map (HomologicalComplex.homologyMap f q))
+    change Mono (E.map (HomologicalComplex.homologyMap f q))
     infer_instance
   exact isIso_app_of_exact_of_isIso α β f g z'
     (he.map_of_mono_of_preservesKernel E inferInstance inferInstance)

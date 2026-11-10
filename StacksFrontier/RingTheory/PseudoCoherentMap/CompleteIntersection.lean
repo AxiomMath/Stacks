@@ -79,11 +79,11 @@ private theorem koszulAugmentation_d {R : Type u} [CommRing R]
   apply LinearMap.ext
   intro x
   change ⋀[R]^1 (Fin r → R) at x
-  show Ideal.Quotient.mk _
+  change Ideal.Quotient.mk _
     (exteriorPower.zeroEquiv R (Fin r → R) (Koszul.d (Koszul.seqDual f) 0 x)) = 0
   rw [Koszul.zeroEquiv_d_zero]
   apply Ideal.Quotient.eq_zero_iff_mem.mpr
-  show Koszul.seqDual f _ ∈ Submodule.span R (Set.range f)
+  change Koszul.seqDual f _ ∈ Submodule.span R (Set.range f)
   rw [← Fintype.range_linearCombination]
   exact LinearMap.mem_range_self _ _
 
@@ -103,7 +103,7 @@ private noncomputable def koszulResolution {R : Type u} [CommRing R]
     cases n with
     | zero =>
       rw [ChainComplex.quasiIsoAt₀_iff,
-        ShortComplex.quasiIso_iff_of_zeros' _ (by simp <;> rfl) (by simp <;> rfl) (by simp <;> rfl)]
+        ShortComplex.quasiIso_iff_of_zeros' _ (by simp) (by simp; rfl) (by simp; rfl)]
       constructor
       · rw [ShortComplex.moduleCat_exact_iff]
         intro x hx
@@ -142,12 +142,12 @@ private theorem quotient_isPerfect_of_isKoszulRegular
   refine (StacksDraft.Perfect.isPerfectModule_iff_exists_finite_projective_resolution _).mpr
     ⟨r, koszulResolution f hf, ?_, ?_⟩
   · intro i
-    show Module.Finite R (⋀[R]^i (Fin r → R)) ∧
+    change Module.Finite R (⋀[R]^i (Fin r → R)) ∧
       Module.Projective R (⋀[R]^i (Fin r → R))
     exact ⟨inferInstance, inferInstance⟩
   · intro i hi
     apply ModuleCat.isZero_iff_subsingleton.mpr
-    show Subsingleton (⋀[R]^i (Fin r → R))
+    change Subsingleton (⋀[R]^i (Fin r → R))
     exact exteriorPower.subsingleton_of_span_eq_top_of_card_lt
       (Pi.basisFun R (Fin r)) (Pi.basisFun R (Fin r)).span_eq i
       (by simpa using hi)
@@ -226,7 +226,7 @@ private theorem quotient_isPerfect_of_isKoszulRegularIdeal
       dsimp only [P]
       rw [hspan]
       exact quotient_isPerfect_of_isKoszulRegular f hf
-    · obtain ⟨g, hgI, hgp⟩ := SetLike.not_le_iff_exists.mp hp
+    · obtain ⟨g, hgI, hgp⟩ := IsConcreteLE.not_le_iff_exists.mp hp
       refine ⟨g, hgp, ?_⟩
       have htop : I.map (algebraMap R (Localization.Away g)) = ⊤ :=
         Ideal.eq_top_of_isUnit_mem _ (Ideal.mem_map_of_mem _ hgI)

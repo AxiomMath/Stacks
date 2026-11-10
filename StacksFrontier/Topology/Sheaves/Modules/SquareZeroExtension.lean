@@ -265,20 +265,23 @@ variable {O₀ : TopCat.Sheaf CommRingCat.{u} Z}
 
 /-- The component over one open of the morphism of sheaves of commutative rings attached to a
 relative derivation. -/
-noncomputable def sqZeroSectionApp (psi : O₀ ⟶ O) (δ : PresheafOfModulesOfCommRing.Derivation' N.val psi.hom)
+noncomputable def sqZeroSectionApp (psi : O₀ ⟶ O)
+    (δ : PresheafOfModulesOfCommRing.Derivation' N.val psi.hom)
     (V : (Opens Z)ᵒᵖ) : O.obj.obj V ⟶ (sqZeroPresheaf O N).obj V :=
   CommRingCat.ofHom (sqZeroRingHom (RingHom.id ↥(O.obj.obj V)) δ.d fun a b ↦ δ.d_mul a b)
 
 /-- The first component of `sqZeroSectionApp` at `a` is `a`. -/
 @[simp]
-theorem sqZeroSectionApp_apply_fst (psi : O₀ ⟶ O) (δ : PresheafOfModulesOfCommRing.Derivation' N.val psi.hom)
+theorem sqZeroSectionApp_apply_fst (psi : O₀ ⟶ O)
+    (δ : PresheafOfModulesOfCommRing.Derivation' N.val psi.hom)
     (V : (Opens Z)ᵒᵖ) (a : ↥(O.obj.obj V)) :
     ((sqZeroSectionApp O N psi δ V).hom a).fst = a :=
   (sqZeroRingHom_fst _ _ (fun a b ↦ δ.d_mul a b) a).trans (RingHom.id_apply a)
 
 /-- The second component of `sqZeroSectionApp` at `a` is `δ a`. -/
 @[simp]
-theorem sqZeroSectionApp_apply_snd (psi : O₀ ⟶ O) (δ : PresheafOfModulesOfCommRing.Derivation' N.val psi.hom)
+theorem sqZeroSectionApp_apply_snd (psi : O₀ ⟶ O)
+    (δ : PresheafOfModulesOfCommRing.Derivation' N.val psi.hom)
     (V : (Opens Z)ᵒᵖ) (a : ↥(O.obj.obj V)) :
     ((sqZeroSectionApp O N psi δ V).hom a).snd = δ.d a :=
   sqZeroRingHom_snd _ _ (fun a b ↦ δ.d_mul a b) a
@@ -287,7 +290,8 @@ theorem sqZeroSectionApp_apply_snd (psi : O₀ ⟶ O) (δ : PresheafOfModulesOfC
 `δ` of `O` relative to `psi` with values in `N`, the map `a ↦ (a, δ a)` is a morphism of sheaves
 of commutative rings `O ⟶ O ⋉ N`: multiplicativity is exactly the Leibniz rule and naturality is
 exactly compatibility with restriction. -/
-noncomputable def sqZeroSectionOfDerivation (psi : O₀ ⟶ O) (δ : PresheafOfModulesOfCommRing.Derivation' N.val psi.hom) :
+noncomputable def sqZeroSectionOfDerivation (psi : O₀ ⟶ O)
+    (δ : PresheafOfModulesOfCommRing.Derivation' N.val psi.hom) :
     O ⟶ sqZeroSheaf O N :=
   ObjectProperty.homMk
     { app := sqZeroSectionApp O N psi δ
@@ -304,19 +308,22 @@ noncomputable def sqZeroSectionOfDerivation (psi : O₀ ⟶ O) (δ : PresheafOfM
 
 /-- The component of `sqZeroSectionOfDerivation` over `V` is `sqZeroSectionApp`. -/
 @[simp]
-theorem sqZeroSectionOfDerivation_app (psi : O₀ ⟶ O) (δ : PresheafOfModulesOfCommRing.Derivation' N.val psi.hom)
+theorem sqZeroSectionOfDerivation_app (psi : O₀ ⟶ O)
+    (δ : PresheafOfModulesOfCommRing.Derivation' N.val psi.hom)
     (V : (Opens Z)ᵒᵖ) :
     (sqZeroSectionOfDerivation O N psi δ).hom.app V = sqZeroSectionApp O N psi δ V :=
   rfl
 
 /-- The section attached to a derivation splits the projection to the base. -/
-theorem sqZeroSectionOfDerivation_comp_proj (psi : O₀ ⟶ O) (δ : PresheafOfModulesOfCommRing.Derivation' N.val psi.hom) :
+theorem sqZeroSectionOfDerivation_comp_proj (psi : O₀ ⟶ O)
+    (δ : PresheafOfModulesOfCommRing.Derivation' N.val psi.hom) :
     sqZeroSectionOfDerivation O N psi δ ≫ sqZeroProj O N = 𝟙 O :=
   Sheaf.hom_ext (NatTrans.ext (funext fun V ↦ CommRingCat.hom_ext (RingHom.ext fun a ↦
     sqZeroSectionApp_apply_fst O N psi δ V a)))
 
 /-- The section attached to a derivation is trivial on the base of the derivation. -/
-theorem sqZeroSectionOfDerivation_triv (psi : O₀ ⟶ O) (δ : PresheafOfModulesOfCommRing.Derivation' N.val psi.hom) :
+theorem sqZeroSectionOfDerivation_triv (psi : O₀ ⟶ O)
+    (δ : PresheafOfModulesOfCommRing.Derivation' N.val psi.hom) :
     psi ≫ sqZeroSectionOfDerivation O N psi δ = psi ≫ sqZeroInl O N :=
   Sheaf.hom_ext (NatTrans.ext (funext fun V ↦ CommRingCat.hom_ext (RingHom.ext fun y ↦
     TrivSqZeroExt.ext
@@ -381,7 +388,8 @@ theorem derivationOfSqZeroSection_d (psi : O₀ ⟶ O) (s : O ⟶ sqZeroSheaf O 
   rfl
 
 /-- A relative derivation is determined by the values of its underlying additive maps. -/
-theorem derivation_ext (psi : O₀ ⟶ O) {δ₁ δ₂ : PresheafOfModulesOfCommRing.Derivation' N.val psi.hom}
+theorem derivation_ext (psi : O₀ ⟶ O)
+    {δ₁ δ₂ : PresheafOfModulesOfCommRing.Derivation' N.val psi.hom}
     (h : ∀ (V : (Opens Z)ᵒᵖ) (a : ↥(O.obj.obj V)), δ₁.d a = δ₂.d a) : δ₁ = δ₂ :=
   PresheafOfModulesOfCommRing.Derivation.ext (funext fun V ↦ AddMonoidHom.ext (h V))
 

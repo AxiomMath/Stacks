@@ -150,7 +150,7 @@ private theorem app_comp_eq_zero_iff {C : Type*} [Category C] {J : GrothendieckT
     {R R' R'' : Sheaf J RingCat.{u}} (a : R ⟶ R') (b : R' ⟶ R'') (r : R'' ⟶ R')
     (hb : b ≫ r = 𝟙 R') (U : Cᵒᵖ) (x : R.obj.obj U) :
     ((a ≫ b).hom.app U).hom x = 0 ↔ (a.hom.app U).hom x = 0 := by
-  show (b.hom.app U).hom ((a.hom.app U).hom x) = 0 ↔ _
+  change (b.hom.app U).hom ((a.hom.app U).hom x) = 0 ↔ _
   constructor
   · intro h
     exact injective_app_of_comp_eq_id b r hb U (h.trans (map_zero _).symm)

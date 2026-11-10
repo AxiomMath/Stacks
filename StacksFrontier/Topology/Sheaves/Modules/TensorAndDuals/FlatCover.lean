@@ -78,10 +78,10 @@ theorem exists_epi_from_coproduct_jShriek_unit :
   let r : (i : I) → ((ExtensionByZeroModules.jStar i.1 R).obj F).sections := fun i => by
     refine ((ExtensionByZeroModules.jStar i.1 R).obj F).val.sectionsMk
       (fun V => ?_) (fun {V W} hVW => ?_)
-    · show F.val.obj (op ((TopCat.Presheaf.imF i.1).obj V.unop))
+    · change F.val.obj (op ((TopCat.Presheaf.imF i.1).obj V.unop))
       exact F.val.map (homOfLE (ExtensionByZeroModules.imF_le i.1 V.unop)).op i.2
     · let s : F.val.presheaf.obj (op i.1) := i.2
-      show (F.val.presheaf.map ((TopCat.Presheaf.imF i.1).map hVW.unop).op)
+      change (F.val.presheaf.map ((TopCat.Presheaf.imF i.1).map hVW.unop).op)
         (F.val.presheaf.map
           (homOfLE (ExtensionByZeroModules.imF_le i.1 V.unop)).op s) =
         F.val.presheaf.map
@@ -98,7 +98,7 @@ theorem exists_epi_from_coproduct_jShriek_unit :
   refine ⟨I, fun i => i.1, f, ?_⟩
   have hlocal : Presheaf.IsLocallySurjective (Opens.grothendieckTopology X)
       ((PresheafOfModules.toPresheaf R.obj).map f.val) := by
-    show TopCat.Presheaf.IsLocallySurjective
+    change TopCat.Presheaf.IsLocallySurjective
       ((PresheafOfModules.toPresheaf R.obj).map ((_root_.SheafOfModules.forget R).map f))
     rw [TopCat.Presheaf.isLocallySurjective_iff]
     intro U t x hx
@@ -111,7 +111,7 @@ theorem exists_epi_from_coproduct_jShriek_unit :
     let V : Opens X := (TopCat.Presheaf.imF U).obj ⊤
     have htop : V = U := by ext x; simp [V]
     let z0 : E.val.obj (op V) := by
-      show ((ExtensionByZeroModules.jStar U R).obj E).val.obj (op ⊤)
+      change ((ExtensionByZeroModules.jStar U R).obj E).val.obj (op ⊤)
       exact (η.val.app (op ⊤)).hom
         (1 : (ExtensionByZeroModules.resRing U R).obj.obj (op ⊤))
     have hAdj : η ≫ (ExtensionByZeroModules.jStar U R).map (g i) =
@@ -141,7 +141,7 @@ theorem exists_epi_from_coproduct_jShriek_unit :
       have hr : (r i).eval (op ⊤) = m := by
         dsimp [PresheafOfModules.sections.eval, r, i,
           ExtensionByZeroModules.jStar, _root_.SheafOfModules.pushforward]
-        show m = m
+        change m = m
         rfl
       have h' := h.trans hunit
       rw [hr] at h'
@@ -159,7 +159,7 @@ theorem exists_epi_from_coproduct_jShriek_unit :
       rw [hzeta] at h'
       have hm : m =
           TopCat.Presheaf.restrictOpen t V (ExtensionByZeroModules.imF_le U ⊤) := by
-        show (F.val.map (homOfLE (ExtensionByZeroModules.imF_le U ⊤)).op).hom i.2 =
+        change (F.val.map (homOfLE (ExtensionByZeroModules.imF_le U ⊤)).op).hom i.2 =
           TopCat.Presheaf.restrictOpen t V (ExtensionByZeroModules.imF_le U ⊤)
         rw [← PresheafOfModules.presheaf_map_apply_coe]
         have hit : (i.2 : F.val.presheaf.obj (op U)) = t := rfl
@@ -173,20 +173,20 @@ theorem exists_epi_from_coproduct_jShriek_unit :
     have hxV : x ∈ V := by rw [htop]; exact hx
     refine ⟨V, ExtensionByZeroModules.imF_le U ⊤, ⟨v, ?_⟩, hxV⟩
     have hfac : ι ≫ f = g i := Cofan.IsColimit.fac (coproductIsCoproduct S) g i
-    show ((PresheafOfModules.toPresheaf R.obj).map
+    change ((PresheafOfModules.toPresheaf R.obj).map
       ((_root_.SheafOfModules.forget R).map f)).app (op V) v =
       TopCat.Presheaf.restrictOpen t V (ExtensionByZeroModules.imF_le U ⊤)
     rw [show v = ((PresheafOfModules.toPresheaf R.obj).map
         ((_root_.SheafOfModules.forget R).map ι)).app (op V) zG from rfl,
       ← ConcreteCategory.comp_apply, ← NatTrans.comp_app, ← Functor.map_comp,
       ← (_root_.SheafOfModules.forget R).map_comp, hfac]
-    show (((PresheafOfModules.toPresheaf R.obj).map (g i).val).app (op V)).hom zG =
+    change (((PresheafOfModules.toPresheaf R.obj).map (g i).val).app (op V)).hom zG =
       TopCat.Presheaf.restrictOpen t V (ExtensionByZeroModules.imF_le U ⊤)
     refine Eq.trans ?_ hgen
     let zs : (S i).val.obj (op V) := by
-      show E.val.obj (op V)
+      change E.val.obj (op V)
       exact z0
-    show (((PresheafOfModules.toPresheaf R.obj).map (g i).val).app (op V)).hom zs =
+    change (((PresheafOfModules.toPresheaf R.obj).map (g i).val).app (op V)).hom zs =
       ((g i).val.app (op V)).hom zs
     exact PresheafOfModules.toPresheaf_map_app_apply (g i).val (op V) zs
   exact EpiMono.epi_of_isLocallySurjective f hlocal

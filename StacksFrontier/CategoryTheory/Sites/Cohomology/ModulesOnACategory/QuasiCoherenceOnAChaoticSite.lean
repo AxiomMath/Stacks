@@ -393,7 +393,7 @@ private theorem freeOneHom_gen.{u', v', r', m'} {C : Type u'} [Category.{v'} C]
     (R : Sheaf (⊥ : GrothendieckTopology C) RingCat.{r'}) (X : Cᵒᵖ)
     {Z : ModuleCat.{max u' v' r' m'} (R.obj.obj X)} (z : Z) :
     (freeOneHom.{u', v', r', m'} R X z).hom (ULift.up (1 : R.obj.obj X)) = z := by
-  show (1 : R.obj.obj X) • z = z
+  change (1 : R.obj.obj X) • z = z
   exact one_smul _ _
 
 /-- Two morphisms out of the free sheaf of modules of rank one agree as soon as they agree on
@@ -405,7 +405,7 @@ private theorem freeOne_hom_ext.{u', v', r', m'} {C : Type u'} [Category.{v'} C]
     (h : g₁.hom (ULift.up (1 : R.obj.obj X)) = g₂.hom (ULift.up (1 : R.obj.obj X))) :
     g₁ = g₂ := by
   refine ModuleCat.hom_ext (LinearMap.ext fun ⟨s⟩ ↦ ?_)
-  show g₁.hom (ULift.up s) = g₂.hom (ULift.up s)
+  change g₁.hom (ULift.up s) = g₂.hom (ULift.up s)
   have hs : (ULift.up s : ULift.{max u' v' r' m'} (R.obj.obj X)) =
       s • ULift.up (1 : R.obj.obj X) := ULift.ext (by simp)
   rw [hs, map_smul, map_smul, h]
@@ -428,7 +428,7 @@ private theorem freeOne_restriction_gen.{u', v', r', m'} {C : Type u'} [Category
         (ModuleCat.restrictScalars (R.obj.map a).hom).map g).hom
         (ULift.up (1 : R.obj.obj V)) =
       g.hom (ULift.up (1 : R.obj.obj U)) := by
-  show g.hom (ULift.up ((R.obj.map a).hom 1)) = g.hom (ULift.up 1)
+  change g.hom (ULift.up ((R.obj.map a).hom 1)) = g.hom (ULift.up 1)
   rw [map_one]
 
 /-- The restriction maps of the free sheaf of modules of rank one are base-change maps. -/
@@ -561,7 +561,7 @@ private theorem ι_comp_genMap.{u', v', r', m'} {C : Type u'} [Category.{v'} C]
     Sigma.ι (fun _ : (G.val.obj (Opposite.op T) : Type (max u' v' r' m')) ↦
         freeOne.{u', v', r', m'} R) x ≫ genMap.{u', v', r', m'} R T hT G =
       generatorHom.{u', v', r', m'} R T hT G x :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The presentation map sends the canonical generator at the index `x` to `x`. -/
 private theorem genMap_apply_gen.{u', v', r', m'} {C : Type u'} [Category.{v'} C]
@@ -605,7 +605,7 @@ private theorem ι_comp_relMap.{u', v', r', m'} {C : Type u'} [Category.{v'} C]
     Sigma.ι (fun _ : relIdx.{u', v', r', m'} R T hT G ↦ freeOne.{u', v', r', m'} R) x ≫
         relMap.{u', v', r', m'} R T hT G =
       generatorHom.{u', v', r', m'} R T hT (genObj.{u', v', r', m'} R T G) x.1 :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The relation map sends the canonical generator at the index `x` to `x`. -/
 private theorem relMap_apply_gen.{u', v', r', m'} {C : Type u'} [Category.{v'} C]

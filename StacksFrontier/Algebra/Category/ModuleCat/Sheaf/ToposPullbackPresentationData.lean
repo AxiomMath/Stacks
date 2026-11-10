@@ -221,7 +221,7 @@ theorem combinationValue_eq_zero_of_cover [J.HasSheafCompose (forget AddCommGrpC
     combinationValue M a s = 0 := by
   have hA := (isSheaf_iff_isSheaf_of_type J _).1 (moduleUnderlying M).property S hS
   refine hA.isSeparatedFor.ext fun V f hf => ?_
-  show underlyingSection M (restr M f.op (combinationValue M a s)) =
+  change underlyingSection M (restr M f.op (combinationValue M a s)) =
     underlyingSection M (restr M f.op 0)
   rw [restr_combinationValue, h V f hf, restr_zero]
 

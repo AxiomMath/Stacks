@@ -151,7 +151,7 @@ theorem exists_chart_splitBottomModel_of_vanishing
         representedSpaceMap B S hS (o ≫ k) ≫ chartToSpace B S hS X V := by
       refine InducedCategory.hom_ext ?_
       have hk' : W₀.1.hom ≫ j.hom = yoneda.map k ≫ V.1.hom := congrArg (·.hom) hk
-      show (yoneda.map o ≫ W₀.1.hom) ≫ j.hom = yoneda.map (o ≫ k) ≫ V.1.hom
+      change (yoneda.map o ≫ W₀.1.hom) ≫ j.hom = yoneda.map (o ≫ k) ≫ V.1.hom
       rw [Category.assoc, hk', Functor.map_comp, Category.assoc]
     have e : (smallEtaleDerivedModulePullback B S hS
         ((representedSpaceMap B S hS o ≫ chartToSpace B S hS Z W₀) ≫ j)).obj E ≅
@@ -214,7 +214,7 @@ theorem isIso_homologyComparison_of_isUniversallyFreeBottom
       (pb _).isIso_homologyComparison_of_preservesFiniteLimits_rightExactHomologyComparison _ a
     have heq : ψ ≫ φ = chartToSpace B S hS Y W ≫ g := by
       refine InducedCategory.hom_ext ?_
-      show yoneda.map k ≫ (yoneda.map (openSubHom W₀.1.left O) ≫ W₀.1.hom) = W.1.hom ≫ g.hom
+      change yoneda.map k ≫ (yoneda.map (openSubHom W₀.1.left O) ≫ W₀.1.hom) = W.1.hom ≫ g.hom
       exact hk
     exact (Functor.isIso_map_homologyComparison_iff_leftExactHomologyComparison (pb g)
       (pb (chartToSpace B S hS Y W)) (pb (chartToSpace B S hS Y W ≫ g))

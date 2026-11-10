@@ -175,7 +175,7 @@ private theorem isLocalCompleteIntersection_of_smooth_of_ker_eq_span
             = Ideal.Quotient.mk (RingHom.ker p.toRingHom) x := by
           rw [RingEquiv.symm_apply_eq]
           rfl
-        show (Ideal.Quotient.lift _ _ hzero)
+        change (Ideal.Quotient.lift _ _ hzero)
           ((RingHom.quotientKerEquivOfSurjective hp).symm (p.toRingHom x)) = _
         rw [hx]
         rfl
@@ -422,7 +422,7 @@ private theorem isKoszulRegularImmersion_of_isKoszulRegularIdealSheaf
     IsKoszulRegularImmersion j := by
   have hcb : ∀ y : Y, y ∈ j.coborderRange := by
     intro y
-    show y ∈ coborder (Set.range j.base)
+    change y ∈ coborder (Set.range j.base)
     rw [j.isClosedEmbedding.isClosed_range.coborder_eq]
     exact Set.mem_univ y
   refine (isKoszulRegularImmersion_iff j _
@@ -497,7 +497,7 @@ private theorem isLocalCompleteIntersectionMorphism_of_isLocalCompleteIntersecti
     CommRingCat.ofHom (algebraMap Γ(S, ⊤) (MvPolynomial (Fin n) Γ(S, ⊤)))
   have hψsm : Smooth (Spec.map ψ) := by
     rw [HasRingHomProperty.Spec_iff (P := @Smooth)]
-    show RingHom.Smooth (algebraMap Γ(S, ⊤) (MvPolynomial (Fin n) Γ(S, ⊤)))
+    change RingHom.Smooth (algebraMap Γ(S, ⊤) (MvPolynomial (Fin n) Γ(S, ⊤)))
     rw [RingHom.smooth_algebraMap]
     exact ⟨inferInstance, inferInstance⟩
   let π : Spec (CommRingCat.of (MvPolynomial (Fin n) Γ(S, ⊤))) ⟶ S :=

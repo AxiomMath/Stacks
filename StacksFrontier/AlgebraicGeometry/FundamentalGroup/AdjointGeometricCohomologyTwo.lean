@@ -82,7 +82,7 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) {k : Type u} [Field k] (f : X.1 �
   [ConnectedSpace X.1] [ConnectedSpace (fieldBaseChange (Over.mk f) kbar)]
   (y : GeometricPoint (fieldBaseChange (Over.mk f) kbar)) {n ℓ : ℕ} [Fact ℓ.Prime]
 
-omit [IsAlgClosed kbar] in
+omit [Smooth f] [IsAlgClosed kbar] in
 /-- **The coinvariants of `ad⁰ ρ₀` under `π₁(X_k̄)` vanish** when `ρ₀|_{π₁(X_k̄)}` is absolutely
 irreducible and `ℓ ∤ n`. -/
 theorem subsingleton_coinvariants_geometricRepresentation_adZero (hn : ¬ ℓ ∣ n)

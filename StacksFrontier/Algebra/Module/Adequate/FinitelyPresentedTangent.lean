@@ -348,8 +348,7 @@ lemma tangentTensorMap_natural
   let : Module B (tangentModule S.A S.F XM) := sM.1
   let : Module B (tangentModule S.A S.F XN) := sN.1
   refine LinearMap.ext fun z => ?_
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x m =>
       change (tangentFunctor S.A S.F).map (pairHom f) ((tangentFunctor S.A S.F).map (pairHom _) x) =
         (tangentFunctor S.A S.F).map (pairHom _) x
@@ -357,7 +356,7 @@ lemma tangentTensorMap_natural
           (LinearMap.id : B →ₗ[B] B).smulRight (f m) := by ext; simp
       rw [tangentFunctor_map_pairHom_comp, hcomp]
   | add z₁ z₂ hz₁ hz₂ =>
-      show (tangentPairMapLinear S f sM sN).comp
+      change (tangentPairMapLinear S f sM sN).comp
           (tangentTensorMap S sB sM) (z₁ + z₂) =
         (tangentTensorMap S sB sN).comp
           (f.lTensor (tangentModule S.A S.F
@@ -729,7 +728,7 @@ theorem tangentTensorFreeMap_bijective
     rw [hcoordmap]
     funext i
     rw [tangentTensorMap_tmul]
-    show (tangentPiCoordEquiv S (B := B) n
+    change (tangentPiCoordEquiv S (B := B) n
       (tangentMapForElement S.F f x)) i = _
     rw [tangentPiCoordEquiv_apply]
     have hcomp : LinearMap.proj i ∘ₗ (LinearMap.id : B →ₗ[B] B).smulRight f =
@@ -741,8 +740,7 @@ theorem tangentTensorFreeMap_bijective
     exact (sX.2 (f i) x).symm
   have hcomp : pC.comp α = eT.toLinearMap := by
     refine LinearMap.ext fun z => ?_
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul x f => exact hpure x f
     | add x y hx hy => rw [map_add, map_add, hx, hy]
   have hcomp' : eC.toLinearMap.comp α = eT.toLinearMap := by rwa [← hcoordmap]

@@ -32,7 +32,7 @@ lemma range_ι_comp_psi_subset (Ω : Sch.{u}.Opens) :
   refine ⟨⟨psi.{u} ((toSch.{u} ⁻¹ᵁ Ω).ι y), ?_⟩, rfl⟩
   have : toSch.{u} (psi.{u} ((toSch.{u} ⁻¹ᵁ Ω).ι y)) = toSch.{u} ((toSch.{u} ⁻¹ᵁ Ω).ι y) := by
     rw [← Scheme.Hom.comp_apply, psi_comp_toSch]
-  show toSch.{u} (psi.{u} ((toSch.{u} ⁻¹ᵁ Ω).ι y)) ∈ Ω
+  change toSch.{u} (psi.{u} ((toSch.{u} ⁻¹ᵁ Ω).ι y)) ∈ Ω
   rw [this]
   exact y.2
 
@@ -202,7 +202,7 @@ private theorem comp_cmp_hom_eq {Ω Ω' : Sch.{u}.Opens} (hΩ : Ω ≤ Uo.{u}) (
       = (cmp G hρ hΩ' κ' hκ').hom ≫ A'.homOfLE (preimage_mono α h) := by
   have := mono_extChart G hρ hΩ
   rw [← cancel_mono (chart hρ hΩ), Category.assoc, Category.assoc, cmp_hom_chart,
-    chart_comp_homOfLE hρ h hΩ (chart_comp hρ hΩ) (chart_comp hρ hΩ'), cmp_hom_chart, hf]
+    chart_comp_homOfLE hρ h (chart_comp hρ hΩ) (chart_comp hρ hΩ'), cmp_hom_chart, hf]
 
 /-- Over the `n`-th overlap, the comparison from the `Df` chart and the comparison from the
 overlap chart differ only by the inclusions. -/

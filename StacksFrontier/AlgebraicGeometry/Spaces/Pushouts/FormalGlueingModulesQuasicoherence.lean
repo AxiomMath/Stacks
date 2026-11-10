@@ -91,7 +91,7 @@ theorem isFinitePresentation_ι_preimage_Z :
 /-- The open immersion `j' : V ⟶ Y` is quasi-compact. -/
 theorem isQuasiCompact_openImmersionOver :
     IsQuasiCompact B S hS D.openImmersionOver.hom := by
-  show IsQuasiCompact B S hS D.V.ι
+  change IsQuasiCompact B S hS D.V.ι
   rw [D.V_eq_openComplement_preimage]
   exact isQuasiCompact_ι_openComplement_of_isFinitePresentation B S hS D.algebraicSpace_Y _
     D.isClosedSubspace_preimage_Z D.isFinitePresentation_ι_preimage_Z

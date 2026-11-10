@@ -83,14 +83,14 @@ theorem exists_isIso_comp_openSubHom :
     apply RQ.homEquiv.injective
     apply Subtype.ext
     rw [RQ.homEquiv_comp, ← hb]
-    show G.map b.op (RQ.homEquiv j).1 = _
+    change G.map b.op (RQ.homEquiv j).1 = _
     rw [hj, ← Category.comp_id b, RF.homEquiv_comp]
     rfl
   have h2 : a ≫ b = 𝟙 _ := by
     apply RF.homEquiv.injective
     apply Subtype.ext
     rw [RF.homEquiv_comp]
-    show G.map a.op (RF.homEquiv b).1 = _
+    change G.map a.op (RF.homEquiv b).1 = _
     rw [hb, ← hj, ← ha]
     rw [RQ.homEquiv_comp]
     rfl
@@ -162,7 +162,7 @@ theorem isOpenImmersion_normalizedOpen_ι_comp_curveAbelMap :
       (isDegreeComponent_degreeSubfunctor B hX hk f σ hσ d) H hH RQ
       (BigFppfOver.openSubHom B _ hk H (normalizedOpen B hX hk f σ hσ H hH))
     refine (congrArg Subtype.val h).trans ?_
-    show familyClass B hX hk f _ _ = (picardFunctor B hX hk f).map
+    change familyClass B hX hk f _ _ = (picardFunctor B hX hk f).map
       (𝟙 _ ≫ BigFppfOver.openSubHom B _ hk H _).op (universalClass B hX hk f H hH)
     rw [Category.id_comp]
     exact familyClass_family B hX hk f H hH _
@@ -324,7 +324,7 @@ include σ hσ in
 theorem locallyOfFiniteType_picardDegreeComponent (htw : TwistToNormalized B hX hk f) (d : ℤ) :
     LocallyOfFiniteType (B.inclusion.map (picardSchemeDegreeComponent B hX hk f σ hσ d).hom) := by
   have := locallyOfFiniteType_picardScheme B hX hk f σ hσ htw
-  show LocallyOfFiniteType (B.inclusion.map
+  change LocallyOfFiniteType (B.inclusion.map
     (degreeLocusHom B hX hk f σ hσ d ≫ (picardSchemeOver B hX hk f).hom))
   rw [Functor.map_comp, inclusion_map_degreeLocusHom]
   infer_instance

@@ -118,7 +118,7 @@ public theorem exists_pow_smul_mem_span_of_mem_span_rat (S : Set (Fin m → ℤ_
     let a' : ℤ_[ℓ] := ⟨(ℓ : ℚ_[ℓ]) ^ c' * a, hc' c' le_rfl⟩
     refine ⟨c + c', a' • z, Submodule.smul_mem _ _ hz, fun i => ?_⟩
     simp only [Pi.smul_apply, smul_eq_mul, PadicInt.coe_mul, e]
-    show (ℓ : ℚ_[ℓ]) ^ c' * a * ((ℓ : ℚ_[ℓ]) ^ c * y i) = _
+    change (ℓ : ℚ_[ℓ]) ^ c' * a * ((ℓ : ℚ_[ℓ]) ^ c * y i) = _
     ring
 
 end Denominators
@@ -171,7 +171,7 @@ public theorem span_invariantRows_eq_top
         · simp only [sub_zero, mul_eq_mul_right_iff]
           exact Or.inl rfl
       rw [Finset.sum_congr rfl fun x _ => hx x, Finset.sum_sub_distrib, Finset.sum_ite_eq,
-        if_pos (Finset.mem_univ _)]
+        ite_eq_left (Finset.mem_univ _)]
     exact sub_eq_zero.1 (this.trans hrow)
   apply hφ0
   refine LinearMap.ext fun w => ?_
@@ -219,7 +219,7 @@ public theorem exists_pow_smul_eq_zero_of_invariants
     | mem z hz =>
       obtain ⟨g, hg, i, rfl⟩ := hz
       have hgi := congrFun (hw g hg) i
-      show PadicInt.toZModPow n ((((τ g).val - 1) *ᵥ v) i) = 0
+      change PadicInt.toZModPow n ((((τ g).val - 1) *ᵥ v) i) = 0
       rw [Matrix.sub_mulVec, Matrix.one_mulVec, Pi.sub_apply, map_sub, RingHom.map_mulVec]
       exact sub_eq_zero.2 hgi
     | zero => simp
@@ -251,7 +251,7 @@ public theorem span_coinvariantVectors_eq_top
       try rfl
     · simp [L, Matrix.mulVec_single, hij]
       try rfl
-  show L w ∈ _
+  change L w ∈ _
   rw [← (Pi.basisFun ℚ_[ℓ] (Fin m)).sum_equivFun w, map_sum]
   refine Submodule.sum_mem _ fun j _ => ?_
   rw [map_smul, Pi.basisFun_apply, hL j]
@@ -540,13 +540,12 @@ public theorem subsingleton_rationalGeometricCompactlySupportedCohomology_of_pow
   refine subsingleton_of_forall_eq 0 fun z => ?_
   have hℓ : ((ℓ : ℚ_[ℓ]) ^ c) ≠ 0 :=
     pow_ne_zero _ (by exact_mod_cast (Fact.out : ℓ.Prime).ne_zero)
-  induction z using TensorProduct.induction_on with
-  | zero => rfl
+  induction z using TensorProduct.inductionOn with
   | tmul s m =>
     let s' : (ModuleCat.restrictScalars (algebraMap ℤ_[ℓ] ℚ_[ℓ])).obj
         (ModuleCat.of ℚ_[ℓ] ℚ_[ℓ]) := ((ℓ : ℚ_[ℓ]) ^ c)⁻¹ * (show ℚ_[ℓ] from s)
     have hs : s = ((ℓ : ℤ_[ℓ]) ^ c) • s' := by
-      show (show ℚ_[ℓ] from s) = algebraMap ℤ_[ℓ] ℚ_[ℓ] ((ℓ : ℤ_[ℓ]) ^ c) *
+      change (show ℚ_[ℓ] from s) = algebraMap ℤ_[ℓ] ℚ_[ℓ] ((ℓ : ℤ_[ℓ]) ^ c) *
         (((ℓ : ℚ_[ℓ]) ^ c)⁻¹ * (show ℚ_[ℓ] from s))
       rw [map_pow, map_natCast, ← mul_assoc, mul_inv_cancel₀ hℓ, one_mul]
     have hm : ((ℓ : ℤ_[ℓ]) ^ c) • m = 0 := hL m

@@ -143,8 +143,7 @@ lemma coeSmul_apply (ψ : (restrictScalars (algebraMap S (TensorProduct R S A)))
 
 /-- Multiplication by `s ⊗ₜ 1` in `S ⊗[R] A` is the action of `s`. -/
 lemma mul_tmul_one (s : S) (c : TensorProduct R S A) : c * (s ⊗ₜ[R] (1 : A)) = s • c := by
-  induction c using TensorProduct.induction_on with
-  | zero => simp
+  induction c using TensorProduct.inductionOn with
   | tmul s' a => simp [Algebra.TensorProduct.tmul_mul_tmul, TensorProduct.smul_tmul', mul_comm]
   | add x y hx hy => simp [add_mul, hx, hy, smul_add]
 
@@ -162,8 +161,7 @@ lemma theta_smul (φ : (restrictScalars (algebraMap R A)).obj (of A A) →ₗ[R]
     theta (S := S) E (a • φ) = ((1 : S) ⊗ₜ[R] a : TensorProduct R S A) • theta (S := S) E φ := by
   refine LinearMap.ext fun b => ?_
   obtain ⟨c, rfl⟩ := (algBridge S (TensorProduct R S A)).surjective b
-  induction c using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero]
+  induction c using TensorProduct.inductionOn with
   | tmul s a' =>
       rw [coeSmul_apply, Algebra.TensorProduct.tmul_mul_tmul, mul_one, theta_tmul, theta_tmul,
         CoextendScalars.smul_apply']
@@ -251,12 +249,10 @@ lemma alpha_tmul (s : S) (φ : (restrictScalars (algebraMap R A)).obj (of A A) �
 /-- `CoextendBaseChange.alpha` is surjective. -/
 lemma alpha_surjective : Function.Surjective (alpha (S := S) (A := A) E) := by
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
+  induction x using TensorProduct.inductionOn with
   | tmul b φ =>
       obtain ⟨c, rfl⟩ := (rcar (incl R S A)).symm.surjective b
-      induction c using TensorProduct.induction_on with
-      | zero => exact ⟨0, by rw [map_zero, map_zero, TensorProduct.zero_tmul]⟩
+      induction c using TensorProduct.inductionOn with
       | tmul s a =>
           refine ⟨s ⊗ₜ[R] (a • φ), ?_⟩
           rw [alpha_tmul, ← TensorProduct.smul_tmul, smul_rcar_symm,
@@ -312,10 +308,7 @@ lemma psi_tmul (s : S) (φ : (restrictScalars (algebraMap R A)).obj (of A A) →
 lemma fwd_alphaZ
     (y : TensorProduct R S ((restrictScalars (algebraMap R A)).obj (of A A) →ₗ[R] E)) :
     fwd E (alphaZ E y) = psi E y := by
-  induction y using TensorProduct.induction_on with
-  | zero =>
-      rw [map_zero, map_zero]
-      exact (map_zero _).symm
+  induction y using TensorProduct.inductionOn with
   | tmul s φ => rw [alphaZ_tmul, fwd_tmul, psi_tmul, smul_theta]
   | add x y hx hy =>
       rw [map_add, map_add, hx, hy]

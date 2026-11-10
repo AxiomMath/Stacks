@@ -234,7 +234,7 @@ private lemma coverMiddleIsoApp_hom
           (ComplexShape.up ℤ)).app
             ((Stacks.Injectives.kInjectiveResolutionFunctor
               (SheafOfModules.{u} O)).obj K)) ≫ eV.hom.app K) := by
-  show biprod.lift
+  change biprod.lift
       (DerivedCategory.Q.map (((restrictionCoverFst O U V).mapHomologicalComplex
         (ComplexShape.up ℤ)).app
           ((Stacks.Injectives.kInjectiveResolutionFunctor (SheafOfModules.{u} O)).obj K)))

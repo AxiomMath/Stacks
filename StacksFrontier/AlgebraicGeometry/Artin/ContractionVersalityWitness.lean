@@ -47,11 +47,11 @@ section TestMaps
 /-- The morphism of spectra induced by a surjection of Artinian local rings, read through
 isomorphisms of schemes, has nilpotent kernel on global sections. -/
 theorem isNilpotent_ker_appTop_of_iso_specMap {R' R : CommRingCat.{u}} [IsArtinianRing R']
-    [IsLocalRing R'] [Nontrivial R] (f : R' ⟶ R) (hf : Function.Surjective f.hom)
+    [IsLocalRing R'] [Nontrivial R] (f : R' ⟶ R)
     {X Y : Scheme.{u}} (e : X ≅ Spec R) (e' : Y ≅ Spec R') (m : X ⟶ Y)
     (hm : m = e.hom ≫ Spec.map f ≫ e'.inv) :
     IsNilpotent (RingHom.ker m.appTop.hom) := by
-  have h₀ := isNilpotent_ker_appTop_of_eq_specMap f hf rfl rfl (Spec.map f)
+  have h₀ := isNilpotent_ker_appTop_of_eq_specMap f rfl rfl (Spec.map f)
     (by simp only [eqToHom_refl, Category.id_comp, Category.comp_id])
   obtain ⟨n, hn⟩ := h₀
   subst hm
@@ -162,7 +162,7 @@ theorem CompatibilityWitness.liftsAt_x' {V : BigFppfOver B S hS} {t : Triple c V
   have hci : _root_.AlgebraicGeometry.IsClosedImmersion ((BigFppfOver.toScheme B S hS).map i) := by
     have := IsClosedImmersion.spec_of_surjective φ hsurj
     rw [hi]; infer_instance
-  have hnil := isNilpotent_ker_appTop_of_iso_specMap φ hsurj e e' _ hi
+  have hnil := isNilpotent_ker_appTop_of_iso_specMap φ e e' _ hi
   obtain ⟨α₀, rfl⟩ := yonedaEquiv.symm.surjective α
   obtain ⟨β₀, rfl⟩ := yonedaEquiv.symm.surjective β
   let pc := p.class B S hS (yoneda.obj T)

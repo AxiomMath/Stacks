@@ -133,11 +133,11 @@ private theorem topologicalKrullDim_supp_eq_of_isPullback {X' X S' S : Scheme.{u
   let pZ : pullback i g' ⟶ I.subscheme := pullback.fst i g'
   let i' : pullback i g' ⟶ X' := pullback.snd i g'
   have hiRange : Set.range ⇑i = SheafOfModules.supp F := by
-    show Set.range ⇑I.subschemeι = _
+    change Set.range ⇑I.subschemeι = _
     rw [I.range_subschemeι, Scheme.IdealSheafData.coe_support_vanishingIdeal]
     rfl
   have hi'Range : Set.range ⇑i' = SheafOfModules.supp F' := by
-    show Set.range ⇑(pullback.snd i g') = _
+    change Set.range ⇑(pullback.snd i g') = _
     rw [Scheme.Pullback.range_snd, hiRange, ← hSupp]
   have : IsClosedImmersion i' :=
     MorphismProperty.IsStableUnderBaseChange.of_isPullback (IsPullback.of_hasPullback i g')
@@ -189,11 +189,11 @@ theorem topologicalKrullDim_supp_fiber_eq_of_isPullback {X' X S' S : Scheme.{u}}
       Stacks.Modules.supp_pullback (f.fiberι (g s')) F, hSupp]
     ext w
     have hw := congrArg (fun k : f'.fiber s' ⟶ X => k w) hmap
-    show ((f'.fiberι s' ≫ g') w ∈ SheafOfModules.supp F) ↔
+    change ((f'.fiberι s' ≫ g') w ∈ SheafOfModules.supp F) ↔
       ((q ≫ f.fiberι (g s')) w ∈ SheafOfModules.supp F)
     rw [hw]
   have hft : LocallyOfFiniteType (f.fiberToSpecResidueField (g s')) := by
-    show LocallyOfFiniteType (pullback.snd f (S.fromSpecResidueField (g s')))
+    change LocallyOfFiniteType (pullback.snd f (S.fromSpecResidueField (g s')))
     infer_instance
   exact @topologicalKrullDim_supp_eq_of_isPullback _ _ _ _ _ _ _ _
     (isPullback_fiberToSpecResidueField_of_isPullback h s') hft

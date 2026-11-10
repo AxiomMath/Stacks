@@ -94,7 +94,7 @@ theorem pointClosureResidueFieldEquiv_residue_stalkMap {X : Scheme.{u}} (w : X) 
           (X.residue ((integralComponentAt w).subschemeι (pointClosurePoint w h)) s)) =
       (X.residueFieldCongr (subschemeι_pointClosurePoint w h)).hom.hom
         (X.residue ((integralComponentAt w).subschemeι (pointClosurePoint w h)) s) := by
-    show (X.residueFieldCongr (subschemeι_pointClosurePoint w h)).hom.hom
+    change (X.residueFieldCongr (subschemeι_pointClosurePoint w h)).hom.hom
       ((RingEquiv.ofBijective
         ((integralComponentAt w).subschemeι.residueFieldMap (pointClosurePoint w h)).hom
         (bijective_residueFieldMap_of_isClosedImmersion _ _)).symm
@@ -301,6 +301,7 @@ theorem pointClosureResidueFieldEquiv_comparison
 /-! ### Naturality of the local boundary -/
 
 set_option maxHeartbeats 800000 in
+-- the `change` unfolding both boundaries to `stalkMilnorBoundary` and the transport rewrites
 /-- **The local component `∂_{𝒪_{W_x, t}}` of the first differential of Stacks 0GU9 is natural
 along a morphism carrying reduced closures to reduced closures.** Both squares the transport of
 `Stacks.Chow.stalkMilnorBoundary_ringEquiv` consumes are supplied by the comparison `ψ`: the

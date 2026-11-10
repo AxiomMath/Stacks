@@ -88,7 +88,7 @@ private lemma exists_germ_comp_of_finitePresentation
         have hD : D.map (d i ≫ f) = D.map (d j) := congrArg D.map (Subsingleton.elim _ _)
         rw [Functor.map_comp] at hD
         apply CommRingCat.hom_ext
-        show (D.map (d j)).hom.comp φRX =
+        change (D.map (d j)).hom.comp φRX =
           (D.map f).hom.comp ((D.map (d i)).hom.comp φRX)
         exact congrArg (fun k : D.obj (Opposite.op (⊤ : OpenNhds x)) ⟶ D.obj j =>
           k.hom.comp φRX) hD.symm }

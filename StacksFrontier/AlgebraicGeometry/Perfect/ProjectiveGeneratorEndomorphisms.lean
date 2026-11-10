@@ -342,7 +342,7 @@ private theorem matrixEntry_mul (M N : endomorphismMatrices A n) (i j : Fin (n +
         (Fin (n + 1)) A)) k j, entry_mul_mem A n M N i j k⟩ :
           integerGrading (polyGrading A n) ((j : ℤ) - (i : ℤ))) := by
   refine Subtype.ext ?_
-  rw [AddSubmonoid.coe_finset_sum]
+  rw [AddSubmonoid.coe_finsetSum]
   exact Matrix.mul_apply
 
 /-- **The comparison map of [Stacks, Tag 0CS9]**: the upper triangular matrix algebra `R` acts
@@ -354,11 +354,11 @@ public def matrixToEnd : endomorphismMatrices A n →+* End (projTwistSum A n) w
     refine End.ext (biproduct_matrix_ext _ _ fun j i => ?_)
     rw [components_matrixToEndFun, End.one_asHom, Category.id_comp, biproduct.ι_π]
     rcases eq_or_ne j i with rfl | hji
-    · rw [dif_pos rfl, eqToHom_refl, matrixEntryHom, twistMulHom_apply]
+    · rw [dite_eq_left rfl, eqToHom_refl, matrixEntryHom, twistMulHom_apply]
       exact (twistMul_congr (polyGrading A n) _ (one_mem_integerGrading (polyGrading A n))
         (by ring) (zero_add _) (Matrix.one_apply_eq j)).trans
         (twistMul_one (polyGrading A n) (-(j : ℤ)) (one_mem_integerGrading (polyGrading A n)))
-    · rw [dif_neg hji, matrixEntryHom, twistMulHom_apply]
+    · rw [dite_eq_right hji, matrixEntryHom, twistMulHom_apply]
       exact (twistMul_congr (polyGrading A n) _ (zero_mem
         (integerGrading (polyGrading A n) ((j : ℤ) - (i : ℤ)))) (by ring) (by ring)
         (Matrix.one_apply_ne (Ne.symm hji))).trans (twistMul_zero (polyGrading A n) _ _ _ (by ring))

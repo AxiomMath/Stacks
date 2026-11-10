@@ -85,7 +85,7 @@ theorem map_comp_characterTwist (f : O →+* O') (ρ : G →* GL n O) (χ : G �
       characterTwist ((Matrix.GeneralLinearGroup.map f).comp ρ)
         ((Units.map f.toMonoidHom).comp χ) := by
   ext g i j
-  show f ((characterTwist ρ χ g).val i j) = (characterTwist _ _ g).val i j
+  change f ((characterTwist ρ χ g).val i j) = (characterTwist _ _ g).val i j
   rw [characterTwist_val, characterTwist_val]
   simp [Matrix.smul_apply]
 
@@ -141,6 +141,7 @@ theorem map_comp_laumonFourierTwistModel (k : ℕ) :
     Stacks.ArtinSchreier.artinSchreierCharacter_compAddChar]
   rfl
 
+omit [FiniteDimensional ℚ_[ℓ] E] in
 /-- **The reductions of the twist modulo every `ℓᵏ` have open kernel**, as soon as those of `σ_O`
 have. -/
 theorem isOpen_ker_map_laumonFourierTwistModel

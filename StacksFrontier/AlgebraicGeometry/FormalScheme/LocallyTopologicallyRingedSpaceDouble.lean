@@ -124,7 +124,7 @@ theorem exists_doubleSpaceι_eq (y : doubleSpace X W) : ∃ b x, doubleSpaceι X
 theorem isOpen_doubleSpace_iff (S : Set (doubleSpace X W)) :
     IsOpen S ↔ ∀ b, IsOpen (doubleSpaceι X W b ⁻¹' S) := by
   refine ⟨fun hS b => hS.preimage (doubleSpaceι X W b).hom.continuous, fun hS => ?_⟩
-  show IsOpen (Quotient.mk (doubleSetoid X W) ⁻¹' S)
+  change IsOpen (Quotient.mk (doubleSetoid X W) ⁻¹' S)
   have : Quotient.mk (doubleSetoid X W) ⁻¹' S =
       ⋃ b, ({b} : Set Bool) ×ˢ (doubleSpaceι X W b ⁻¹' S) := by
     ext ⟨b, x⟩
@@ -202,7 +202,7 @@ theorem doubleSpaceι_twist :
     φ.hom.toHom.base ≫ (X.ofRestrict W).toHom.base ≫ doubleSpaceι X W false =
       (X.ofRestrict W).toHom.base ≫ doubleSpaceι X W true := by
   ext x
-  show doubleSpaceι X W false (φ.hom.toHom.base x).1 = doubleSpaceι X W true x.1
+  change doubleSpaceι X W false (φ.hom.toHom.base x).1 = doubleSpaceι X W true x.1
   rw [hφ x, doubleSpaceι_eq_iff]
   exact ⟨rfl, Or.inr x.2⟩
 
@@ -473,7 +473,7 @@ theorem isFormalScheme_double (hX : IsFormalScheme X) : IsFormalScheme (double X
         (doubleι X W φ hφ b).toHom).base := by
     ext z
     simp only [PresheafedSpace.comp_base, TopCat.hom_comp, ContinuousMap.coe_comp, Set.range_comp]
-    show z ∈ Set.range Subtype.val ↔ z ∈ _ '' Set.range Subtype.val
+    change z ∈ Set.range Subtype.val ↔ z ∈ _ '' Set.range Subtype.val
     rw [Subtype.range_coe, Subtype.range_coe]
     rfl
   have := PresheafedSpace.IsOpenImmersion.ofRestrict (double X W φ hφ).toPresheafedSpace

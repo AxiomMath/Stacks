@@ -254,7 +254,7 @@ private theorem exists_primeSpectrum_bijective_integralClosure_finite_stage
   have hint (F : ι) : (S F).subtype.IsIntegral := by
     let f : A →+* S F := (algebraMap A (integralClosure A E)).codRestrict (S F) (by
       intro a
-      show algebraMap A E a ∈ F.val
+      change algebraMap A E a ∈ F.val
       rw [IsScalarTower.algebraMap_apply A K E]
       exact F.val.algebraMap_mem (algebraMap A K a))
     apply RingHom.IsIntegral.tower_top f
@@ -300,7 +300,7 @@ private theorem exists_isSeparable_of_directed_union
   have hsep : q.Separable := (Polynomial.separable_map (F j).subtype).mp (hq.symm ▸ hx)
   apply hsep.of_dvd
   apply minpoly.dvd
-  show q.eval₂ ((algebraMap K L).comp (F j).subtype) x = 0
+  change q.eval₂ ((algebraMap K L).comp (F j).subtype) x = 0
   rw [← Polynomial.eval₂_map]
   exact (congrArg (Polynomial.eval₂ (algebraMap K L) x) hq).trans (minpoly.aeval K x)
 
@@ -397,7 +397,7 @@ private theorem exists_isAlgClosed_residueField_subalgebra
     exact ⟨algebraMap S (AdjoinRoot q) ⟨x, hx⟩, f.commutes _⟩
   have hπq : Irreducible (algebraMap A (AdjoinRoot q) π) := by
     apply IsDiscreteValuationRing.irreducible_of_span_eq_maximalIdeal
-    · show algebraMap S (AdjoinRoot q) (algebraMap A S π) ≠ 0
+    · change algebraMap S (AdjoinRoot q) (algebraMap A S π) ≠ 0
       simpa using (FaithfulSMul.algebraMap_injective S (AdjoinRoot q)).ne hπS.ne_zero
     · rw [← hqmax, hπS.maximalIdeal_eq, Ideal.map_span, Set.image_singleton]
       rfl
@@ -408,7 +408,7 @@ private theorem exists_isAlgClosed_residueField_subalgebra
       exact isIntegral_trans (R := A) _ ((Algebra.IsIntegral.isIntegral (R := S) y).map f)
     · have he : e (algebraMap A (AdjoinRoot q) π) = algebraMap A T π := by
         apply Subtype.ext
-        show f (algebraMap S (AdjoinRoot q) (algebraMap A S π)) = algebraMap A Ω π
+        change f (algebraMap S (AdjoinRoot q) (algebraMap A S π)) = algebraMap A Ω π
         exact f.commutes (algebraMap A S π)
       rw [← he]
       exact (MulEquiv.irreducible_iff e).mpr hπq
@@ -416,9 +416,9 @@ private theorem exists_isAlgClosed_residueField_subalgebra
   let r : S := ⟨f (AdjoinRoot.root q), hTS ⟨AdjoinRoot.root q, rfl⟩⟩
   have hr : Polynomial.aeval r q = 0 := by
     apply Subtype.val_injective (p := fun x : Ω => x ∈ S)
-    show algebraMap S Ω (Polynomial.aeval r q) = algebraMap S Ω 0
+    change algebraMap S Ω (Polynomial.aeval r q) = algebraMap S Ω 0
     rw [map_zero, ← Polynomial.aeval_algebraMap_apply]
-    show Polynomial.aeval (f (AdjoinRoot.root q)) q = 0
+    change Polynomial.aeval (f (AdjoinRoot.root q)) q = 0
     rw [Polynomial.aeval_algHom_apply, AdjoinRoot.aeval_eq, AdjoinRoot.mk_self, map_zero]
   refine ⟨residue S r, ?_⟩
   rw [← hq, Polynomial.eval_map]

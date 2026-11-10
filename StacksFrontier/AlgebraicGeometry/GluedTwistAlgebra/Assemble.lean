@@ -55,7 +55,8 @@ fields — the homogeneous-section map and its chart description — are already
 ## Implementation notes
 
 **The kernel obstruction, and how it is avoided.** Feeding `mulData` and `oneData` to the
-glueing directly fails with `(kernel) deterministic timeout`s. The cause is narrow: **the kernel cannot delta-unfold
+glueing directly fails with `(kernel) deterministic timeout`s. The cause is narrow: **the kernel
+cannot delta-unfold
 `mulData` or `oneData` underneath a projection.** Every ingredient is cheap — the generic
 `congrLocalBilinear_app` and `congrLocalSection_app` of `Basic.lean` are `rfl`; the written-out
 `(congrLocalBilinear (chartEquiv …) … (pushLocalBilinear …)).app V hV s t = ofChart … ((twistMul
@@ -101,21 +102,23 @@ and keeping the `eqToHom` keeps the general case a `rfl` too.
 
 ## What is not done here
 
-The registration is made here: `@[stacks 01NR …]` sits on `twistDataOfGradedAlgebra` below, which states the whole
+The registration is made here: `@[stacks 01NR …]` sits on `twistDataOfGradedAlgebra` below, which
+states the whole
 of the tag's existence assertion, and the attribute's note names the two declarations carrying
 the tag's uniqueness assertions.
 
-The module docstring of `StacksFrontier/AlgebraicGeometry/GluedTwistAlgebra/Basic.lean` is **stale**:
-it advertises `isMultiplicativeCmpGen`,
+The module docstring of `StacksFrontier/AlgebraicGeometry/GluedTwistAlgebra/Basic.lean` is
+**stale**: it advertises `isMultiplicativeCmpGen`,
 `mulData_agree`, `oneData_agree` and `mulApp_heq_assoc`/`_heq_one_mul`/`_heq_mul_one` as its own
 main results, and none of the six is in it. The first three are proved here; the last three are
 `chartProd_heq_assoc`/`_heq_one_mul`/`_heq_mul_one` there, about the chart's product rather than
 the glued one, and are consumed here through `heq_ofChart`.
 
 `Stacks.AlgebraicGeometry.GluedTwistSectionMap.Global` still restates `cover`, `chartModule`,
-`modelData_cmp` and `trans_app_cmpGen` verbatim from `GluedTwistAlgebra.Basic`; it does not restate `chartSections`,
-`chartSections_resLE` and `trans_chartSections`, but imports `GluedTwistAlgebra.Basic` and uses those three
-from there. This file uses `GluedTwistAlgebra.Basic`'s copies throughout.
+`modelData_cmp` and `trans_app_cmpGen` verbatim from `GluedTwistAlgebra.Basic`; it does not restate
+`chartSections`,
+`chartSections_resLE` and `trans_chartSections`, but imports `GluedTwistAlgebra.Basic` and uses
+those three from there. This file uses `GluedTwistAlgebra.Basic`'s copies throughout.
 
 Quasi-coherence of the pieces and commutativity of the product are fields of `TwistData` and are
 not addressed here: `Stacks.AlgebraicGeometry.TwistDataFromChart.mk` derives them from the chart

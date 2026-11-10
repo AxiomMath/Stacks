@@ -124,7 +124,7 @@ theorem exists_sub_baseGerm_mem_maximalIdeal [LocallyOfFiniteType f] {x : X}
   obtain ⟨c, hc⟩ := surjective_residue_baseGerm f hx (X.residue x a)
   refine ⟨c, ?_⟩
   rw [← IsLocalRing.residue_eq_zero_iff]
-  show X.residue x (a - baseGerm f x c) = 0
+  change X.residue x (a - baseGerm f x c) = 0
   rw [map_sub]
   exact sub_eq_zero_of_eq hc.symm
 

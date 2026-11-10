@@ -166,7 +166,7 @@ theorem isSheaf_fpqc_of_isSheafFor_of_isAffine (hsep : IsSeparatedForFpqc X)
       (CategoryTheory.sieve₁'_toPreOneHypercover_eq_top E₀ i j) ▸
         GrothendieckTopology.top_mem _ _)
   refine E.isSheafFor_of_pullback (isSheaf_obj_of_fppf X) (fun i ↦ ?_) (fun i j k ↦ ?_)
-  · show Presieve.IsSheafFor X.obj (Sieve.pullback (u i) (Sieve.generate R)).arrows
+  · change Presieve.IsSheafFor X.obj (Sieve.pullback (u i) (Sieve.generate R)).arrows
     rw [← Sieve.pullbackArrows_comm, ← Presieve.isSheafFor_iff_generate]
     exact h _ (hZaff i) (Precoverage.pullbackArrows_mem _ hR)
   · exact isSeparatedFor_pullback_generate hsep _ hR
@@ -313,7 +313,7 @@ theorem isSheaf_fpqc_of_isSheafFor_singleton_affine (hsep : IsSeparatedForFpqc X
     rw [← Category.id_comp (G.map g), ← e.inv_hom_id, Category.assoc]
     congr 1
     refine Sigma.hom_ext _ _ fun i ↦ ?_
-    rw [← Category.assoc, he i, Sigma.ι_desc, ← Functor.map_comp]
+    rw [← Category.assoc, he i, Sigma.ι_comp_desc, ← Functor.map_comp]
     exact congrArg G.map (Cofan.IsColimit.fac hc w i)
   -- the source of the single morphism is affine: a finite coproduct of affines is affine
   have hWaff' (i : Fin m) : IsAffine (G.obj (W i)) := hWaff i
@@ -335,7 +335,7 @@ theorem isSheaf_fpqc_of_isSheafFor_singleton_affine (hsep : IsSeparatedForFpqc X
       refine ⟨fun y ↦ ?_⟩
       obtain ⟨i, z, hzy⟩ := hjs y
       refine ⟨Sigma.ι (fun i ↦ G.obj (W i)) i z, ?_⟩
-      rw [← Scheme.Hom.comp_apply, Sigma.ι_desc]
+      rw [← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
       exact hzy
     rw [hgdesc]
     infer_instance

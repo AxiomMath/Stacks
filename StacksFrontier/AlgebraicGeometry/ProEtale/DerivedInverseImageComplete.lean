@@ -101,7 +101,7 @@ theorem isDerivedComplete_of_isDerivedComplete_derivedModuleEquiv_inverse_obj (I
     (constantCoefficientRingedSite.{u, max (u + 1) w, w} X Λ).O
   let R := Rs.obj.obj (op W)
   let : IsMulCommutative R := by
-    show IsMulCommutative ((constantCoefficientRingedSite.{u, max (u + 1) w, w} X Λ).O.obj.obj
+    change IsMulCommutative ((constantCoefficientRingedSite.{u, max (u + 1) w, w} X Λ).O.obj.obj
       (op W))
     infer_instance
   let : CommRing R := inferInstance

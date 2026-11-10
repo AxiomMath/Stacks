@@ -333,7 +333,7 @@ noncomputable def bcKerTensor (f : Fin r → B) :
       = (inclRight (A := A) (B := B) (A' := A') a') • bcKer (A := A) (A' := A') f z := by
   apply Subtype.ext
   funext i
-  show _ = ((inclRight (A := A) (B := B) (A' := A') a') •
+  change _ = ((inclRight (A := A) (B := B) (A' := A') a') •
     (bcKer (A := A) (A' := A') f z : Fin r → B ⊗[A] A')) i
   simp [TensorProduct.piLeft, Algebra.TensorProduct.tmul_mul_tmul]
 
@@ -342,8 +342,7 @@ theorem cmp_rTensor_toH1 (f : Fin r → B)
     (u : ((LinearMap.ker (seqDual f)).restrictScalars A) ⊗[A] A') :
     cmp (A := A) (A' := A') f (((toH1 f).restrictScalars A).rTensor A' u)
       = toH1 (fp (A := A) (A' := A') f) (bcKerTensor f u) := by
-  induction u using TensorProduct.induction_on with
-  | zero => simp
+  induction u using TensorProduct.inductionOn with
   | tmul z a' => exact (cmp_tmul f z a').trans (by rw [bcKerTensor_tmul, map_smul])
   | add x y hx hy => simp only [map_add, hx, hy]
 

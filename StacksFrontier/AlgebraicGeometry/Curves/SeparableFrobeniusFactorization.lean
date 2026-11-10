@@ -122,10 +122,10 @@ private theorem exists_curve_separable_purelyInseparable_factorization {k : Type
     have _ : IsDominant (A ≫ B).left :=
       ⟨B.left.denseRange.comp A.left.denseRange B.left.continuous⟩
     have hcomp : functionFieldMap (A ≫ B).left = functionFieldMap F.left := by
-      show functionFieldMap (A.left ≫ B.left) = functionFieldMap f
+      change functionFieldMap (A.left ≫ B.left) = functionFieldMap f
       rw [functionFieldMap_comp A.left B.left, hAff, hBff]
       ext x
-      show ι (M.equiv (M.equiv.symm (ψ x))) = functionFieldMap f x
+      change ι (M.equiv (M.equiv.symm (ψ x))) = functionFieldMap f x
       rw [M.equiv.apply_symm_apply]
       rfl
     exact congrArg Over.Hom.left (over_hom_ext_of_functionFieldMap VX VY (A ≫ B) F hcomp)
@@ -136,7 +136,7 @@ private theorem exists_curve_separable_purelyInseparable_factorization {k : Type
       (ι.comp M.equiv.toAlgHom).toRingHom M.equiv.symm.toRingEquiv (RingEquiv.refl _) ?_
       (RingHom.isPurelyInseparable_algebraMap_iff.mpr inferInstance)
     ext x
-    show ι (M.equiv (M.equiv.symm x)) = algebraMap E X.functionField x
+    change ι (M.equiv (M.equiv.symm x)) = algebraMap E X.functionField x
     rw [M.equiv.apply_symm_apply]
     rfl
   -- the second morphism is separable
@@ -147,7 +147,7 @@ private theorem exists_curve_separable_purelyInseparable_factorization {k : Type
     refine Algebra.IsSeparable.of_equiv_equiv (RingEquiv.refl Y.functionField)
       M.equiv.symm.toRingEquiv ?_
     ext x
-    show functionFieldMap B.left x = M.equiv.symm (algebraMap Y.functionField E x)
+    change functionFieldMap B.left x = M.equiv.symm (algebraMap Y.functionField E x)
     rw [hBff]
     rfl
   exact ⟨VZ.toScheme, VZ.structureMap, hZcurve, hZproper, M.isRegular, A.left, B.left,
@@ -194,7 +194,7 @@ theorem exists_nFoldRelativeFrobenius_comp_isSeparable {k : Type u} [Field k] (p
     InseparableFrobeniusIteration.smooth_nFoldFrobeniusTwist (Spec (.of k)) p hk n
       (Over.mk pX) (show Smooth (Over.mk pX).hom from inferInstanceAs (Smooth pX))
   have hTproper : IsProper T.hom := by
-    show IsProper (pullback.snd pX (absoluteFrobeniusPow (Spec (.of k)) p hk n))
+    change IsProper (pullback.snd pX (absoluteFrobeniusPow (Spec (.of k)) p hk n))
     infer_instance
   have hTcurve : IsCurve k T.hom :=
     InseparableFrobeniusIteration.isCurve_nFoldFrobeniusTwist p hk n (Over.mk pX)
@@ -228,7 +228,7 @@ theorem exists_nFoldRelativeFrobenius_comp_isSeparable {k : Type u} [Field k] (p
     refine Algebra.IsSeparable.of_equiv_equiv (RingEquiv.refl Y.functionField)
       (RingEquiv.ofBijective _ hbij) ?_
     ext x
-    show functionFieldMap (e.hom.left ≫ b) x = functionFieldMap e.hom.left
+    change functionFieldMap (e.hom.left ≫ b) x = functionFieldMap e.hom.left
       (functionFieldMap b x)
     rw [functionFieldMap_comp e.hom.left b]
     rfl

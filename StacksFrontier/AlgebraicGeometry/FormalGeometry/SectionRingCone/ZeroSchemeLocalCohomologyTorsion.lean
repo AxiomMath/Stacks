@@ -64,7 +64,7 @@ theorem two_lt_add_one_of_one_lt {a : EInt} (h : ((1 : ℤ) : EInt) < a) :
   | bot => exact absurd h (by simp)
   | top =>
     rw [show ((⊤ : EInt)) + 1 = (⊤ : EInt) from rfl]
-    show (WithBot.some (WithTop.some (2 : ℤ))) < (WithBot.some (⊤ : WithTop ℤ))
+    change (WithBot.some (WithTop.some (2 : ℤ))) < (WithBot.some (⊤ : WithTop ℤ))
     exact WithBot.coe_lt_coe.2 (WithTop.coe_lt_top _)
   | coe y =>
     rw [← Stacks.Algebraization.intCast_one_eq_one, ← Stacks.Chow.coe_add_coe_eq_coe_add]

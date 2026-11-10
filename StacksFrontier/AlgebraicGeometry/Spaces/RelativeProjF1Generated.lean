@@ -132,7 +132,7 @@ variable {X Y : AlgebraicGeometry.RingedTopos.{v₁, u₁, t}}
   [X.J.HasSheafCompose (forget AddCommGrpCat.{t})]
   [Y.J.HasSheafCompose (forget AddCommGrpCat.{t})]
   [HasWeakSheafify X.J AddCommGrpCat.{t}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{t}]
-  [EssentiallySmall.{t} X.C] [EssentiallySmall.{t} Y.C]
+  [EssentiallySmall.{t} Y.C]
 
 /-- **A natural family read after the unit of the graded adjunction is multiplicative.** -/
 theorem natural_family_gradedAdj_unit_mul (f : AlgebraicGeometry.RingedToposHom X Y) (U : Y.Cᵒᵖ)

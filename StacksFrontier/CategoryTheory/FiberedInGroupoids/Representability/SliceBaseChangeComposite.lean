@@ -255,7 +255,7 @@ theorem hom_app_sectionOfObj_isoOfEquivalenceOver {𝒟 : Type u₁} [Category.{
     rwa [h] at hu
   have key : (isoOfEquivalenceOver e e').hom.app (op W) (sectionOfObj e z h) =
       sectionOfObj e' (e.inv.functor.obj (e.hom.functor.obj z)) h₃ := by
-    show elementsFiberEquiv F W ((fiberFunctorOfComp (e.symm.trans e').hom.w W).obj
+    change elementsFiberEquiv F W ((fiberFunctorOfComp (e.symm.trans e').hom.w W).obj
         ((elementsFiberEquiv G W).symm (sectionOfObj e z h))) = _
     rw [show (elementsFiberEquiv G W).symm (sectionOfObj e z h) =
       (fiberFunctorOfComp e.hom.w W).obj (Functor.Fiber.mk h) from

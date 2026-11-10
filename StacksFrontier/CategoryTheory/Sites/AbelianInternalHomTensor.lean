@@ -54,14 +54,12 @@ def presheafTensorObj (X : Cᵒᵖ ⥤ AddCommGrpCat.{max u v}) : Cᵒᵖ ⥤ Ad
     (TensorProduct.map (G.map f).hom.toIntLinearMap (X.map f).hom.toIntLinearMap).toAddMonoidHom
   map_id U := by
     ext t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul g x => simp
     | add a b ha hb => simp_all
   map_comp f f' := by
     ext t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul g x => simp
     | add a b ha hb => simp_all
 

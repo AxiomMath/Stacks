@@ -234,7 +234,7 @@ theorem app_pushforwardRingSheafCompInv_structureSharpThroughThickening (c : X �
       ((pushforwardRingFunctor (smallToposMorphismTypeU B S hS c)).map
           (thickeningRingUnit B S hS Z)).hom.app V
         ((structureSharp B S hS c).hom.app V b) := by
-  show (structureSharpThroughThickening B S hS Z c ≫
+  change (structureSharpThroughThickening B S hS Z c ≫
       pushforwardRingSheafCompInv B S hS (subspaceInclusion B S hS X Z) c
         (structureRingSheafInverseImage B S hS (subspaceInclusion B S hS X Z))).hom.app V b =
     (structureSharp B S hS c ≫

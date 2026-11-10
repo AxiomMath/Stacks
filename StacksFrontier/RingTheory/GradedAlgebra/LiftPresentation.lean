@@ -100,7 +100,8 @@ linear. Additive maps are enough, because the statement asserted about them is i
 
 `DirectSum.coe_decompose_map` is a strict generalisation — the source and target gradings may be
 over *different* base rings, which is exactly the case `Q` over `A` and `P` over `k` — of the
-`private` theorem `comp_of_graded` of `StacksFrontier/Algebra/DGA/Abelian/KernelCokernel.lean` and of
+`private` theorem `comp_of_graded` of `StacksFrontier/Algebra/DGA/Abelian/KernelCokernel.lean`
+and of
 `StacksFrontier/RingTheory/DividedPowers/TateResolution/Homology.lean`, which state it for an
 `R`-linear map over a common `R`; `exists_mem_map_eq_of_surjective` likewise generalises the
 `private exists_homogeneous_lift` of the latter file. Those files are not edited here.
@@ -275,15 +276,13 @@ theorem ker_eq_bot_of_ker_le_smul_top_of_flat [Module.Flat A Q] {I : Ideal A} (h
   have hcomm : ∀ ξ : (↥I) ⊗[A] M,
       φ (idealTensorSmul I M ξ) = idealTensorSmul I Q (LinearMap.lTensor (↥I) φ ξ) := by
     intro ξ
-    induction ξ using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, map_zero, map_zero]
+    induction ξ using TensorProduct.inductionOn with
     | tmul b m => rw [idealTensorSmul_tmul, LinearMap.lTensor_tmul, idealTensorSmul_tmul, map_smul]
     | add u v hu hv => simp only [map_add, hu, hv]
   have hkill : ∀ ξ : (↥I) ⊗[A] ↥(LinearMap.ker φ),
       idealTensorSmul I M (LinearMap.lTensor (↥I) (LinearMap.ker φ).subtype ξ) = 0 := by
     intro ξ
-    induction ξ using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction ξ using TensorProduct.inductionOn with
     | tmul b κ =>
         rw [LinearMap.lTensor_tmul, idealTensorSmul_tmul]
         exact Submodule.smul_eq_zero_of_mem_smul_top_of_mul_eq_bot hI b.2 (hker κ.2)
@@ -397,7 +396,7 @@ theorem exists_addMonoidHom_tmul_smul (ε : A →ₐ[k] k) (π : N →+ M) (I : 
       (fun b b' => by ext m; simp [TensorProduct.add_tmul]) with hΦ₀def
   have hΦbal : ∀ (r : k) (b : ↥I) (m : M), Φ₀ (r • b) m = Φ₀ b (r • m) := by
     intro r b m
-    show (r • b) ⊗ₜ[A] σ m = b ⊗ₜ[A] σ (r • m)
+    change (r • b) ⊗ₜ[A] σ m = b ⊗ₜ[A] σ (r • m)
     have hrb : (r • b : ↥I) = (algebraMap k A r) • b := Subtype.ext (by simp [Algebra.smul_def])
     rw [hrb, TensorProduct.smul_tmul]
     refine hlift b _ _ ?_
@@ -411,35 +410,33 @@ theorem exists_addMonoidHom_tmul_smul (ε : A →ₐ[k] k) (π : N →+ M) (I : 
       (fun b b' => by ext y; simp [TensorProduct.add_tmul]) with hΨ₀def
   have hΨbal : ∀ (a : A) (b : ↥I) (y : N), Ψ₀ (a • b) y = Ψ₀ b (a • y) := by
     intro a b y
-    show (a • b) ⊗ₜ[k] π y = b ⊗ₜ[k] π (a • y)
+    change (a • b) ⊗ₜ[k] π y = b ⊗ₜ[k] π (a • y)
     rw [hπsmul, smul_eq_augmentation_smul hI ε hIker, TensorProduct.smul_tmul]
   set Ψ := TensorProduct.liftAddHom Ψ₀ hΨbal with hΨdef
   have hΨtmul : ∀ (b : ↥I) (y : N), Ψ (b ⊗ₜ[A] y) = b ⊗ₜ[k] π y := fun _ _ => rfl
   have hΨΦ : ∀ ξ : (↥I) ⊗[k] M, Ψ (Φ ξ) = ξ := by
     intro ξ
-    induction ξ using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction ξ using TensorProduct.inductionOn with
     | tmul b m => rw [hΦtmul, hΨtmul, hσ]
     | add u v hu hv => rw [map_add, map_add, hu, hv]
   refine ⟨(LinearMap.idealTensorSmul I N).toAddMonoidHom.comp Φ, ?_, ?_, ?_, ?_⟩
   · intro b y
-    show LinearMap.idealTensorSmul I N (Φ (b ⊗ₜ[k] π y)) = (b : A) • y
+    change LinearMap.idealTensorSmul I N (Φ (b ⊗ₜ[k] π y)) = (b : A) • y
     rw [hΦtmul, hlift b _ y (hσ _), LinearMap.idealTensorSmul_tmul]
   · intro u v h
     simp only [AddMonoidHom.coe_comp, Function.comp_apply, LinearMap.toAddMonoidHom_coe] at h
     rw [← hΨΦ u, ← hΨΦ v, LinearMap.injective_idealTensorSmul I N h]
   · intro ξ
-    induction ξ using TensorProduct.induction_on with
-    | zero => rw [map_zero]; exact Submodule.zero_mem _
+    induction ξ using TensorProduct.inductionOn with
     | tmul b m =>
-        show LinearMap.idealTensorSmul I N (Φ (b ⊗ₜ[k] m)) ∈ _
+        change LinearMap.idealTensorSmul I N (Φ (b ⊗ₜ[k] m)) ∈ _
         rw [hΦtmul, LinearMap.idealTensorSmul_tmul]
         exact Submodule.smul_mem_smul b.2 Submodule.mem_top
     | add u v hu hv => rw [map_add]; exact Submodule.add_mem _ hu hv
   · intro z hz
     refine Submodule.smul_induction_on hz (fun a ha y _ => ?_) ?_
     · refine ⟨(⟨a, ha⟩ : ↥I) ⊗ₜ[k] π y, ?_⟩
-      show LinearMap.idealTensorSmul I N (Φ ((⟨a, ha⟩ : ↥I) ⊗ₜ[k] π y)) = a • y
+      change LinearMap.idealTensorSmul I N (Φ ((⟨a, ha⟩ : ↥I) ⊗ₜ[k] π y)) = a • y
       rw [hΦtmul, hlift _ _ y (hσ _), LinearMap.idealTensorSmul_tmul]
     · rintro u v ⟨ξu, rfl⟩ ⟨ξv, rfl⟩
       exact ⟨ξu + ξv, by rw [map_add]⟩
@@ -794,7 +791,7 @@ theorem aeval_eq_zero_iff_mem_span_of_flat [Module.Flat A Q] (hIsq : I * I = ⊥
   have hbot := LinearMap.ker_eq_bot_of_ker_le_smul_top_of_flat hIsq φ hφsurj hφker
   have hzero : JA.mkQ g = 0 := by
     rw [← Submodule.mem_bot (R := A), ← hbot]
-    show φ (JA.mkQ g) = 0
+    change φ (JA.mkQ g) = 0
     rw [hφmk, hg]
   have hmem : g ∈ JA := by
     rw [← Submodule.ker_mkQ JA, LinearMap.mem_ker]

@@ -62,7 +62,7 @@ private theorem kernelTowerProjection_surjective (f : A →ₗ[R] B) (g : B →�
   intro z
   obtain ⟨a, ha⟩ := hf z.1
   refine ⟨⟨a, ?_⟩, ?_⟩
-  · show g (f a) = 0
+  · change g (f a) = 0
     rw [ha]
     exact z.property
   · apply Subtype.ext
@@ -76,7 +76,7 @@ private theorem kernelTower_exact (f : A →ₗ[R] B) (g : B →ₗ[R] C) :
   constructor
   · intro hz
     refine ⟨⟨z.1, ?_⟩, ?_⟩
-    · show f z.1 = 0
+    · change f z.1 = 0
       simpa [kernelTowerProjection] using congrArg Subtype.val hz
     · exact Subtype.ext rfl
   · rintro ⟨y, rfl⟩
@@ -141,7 +141,7 @@ private theorem kernelDeterminantEquiv_comp
   obtain ⟨w, hw⟩ := (ExteriorAlgebra.map_surjective_iff.mpr hfg)
     (EAc y : ExteriorAlgebra R C)
   apply EAa.injective
-  show γfg (EAfg (kernelTowerDetEquiv f g hf (x ⊗ₜ[R] z)) ⊗ₜ[R] EAc y) =
+  change γfg (EAfg (kernelTowerDetEquiv f g hf (x ⊗ₜ[R] z)) ⊗ₜ[R] EAc y) =
     γf (EAf x ⊗ₜ[R] EAb (kernelDeterminantEquiv g hg (z ⊗ₜ[R] y)))
   have hγk := (ProjectiveDeterminant.determinantTensorDeterminantEquiv_of_exact
     (kernelTowerInclusion f g) (kernelTowerProjection f g)
@@ -165,7 +165,7 @@ private theorem kernelDeterminantEquiv_comp
     (EAf x) (EAb (kernelDeterminantEquiv g hg (z ⊗ₜ[R] y)))
     (ExteriorAlgebra.map (LinearMap.ker (g.comp f)).subtype t * w) (by
       rw [map_mul]
-      show ExteriorAlgebra.map f
+      change ExteriorAlgebra.map f
           (ExteriorAlgebra.map (LinearMap.ker (g.comp f)).subtype t) *
         ExteriorAlgebra.map f w =
           (γg (EAg z ⊗ₜ[R] EAc y) : ExteriorAlgebra R B)
@@ -179,7 +179,7 @@ private theorem kernelDeterminantEquiv_comp
         ExteriorAlgebra.map f w) ht)
   apply Subtype.ext
   rw [hγfg, hγf]
-  show ExteriorAlgebra.map (LinearMap.ker (g.comp f)).subtype
+  change ExteriorAlgebra.map (LinearMap.ker (g.comp f)).subtype
       (γk (EAf x ⊗ₜ[R] EAg z) : ExteriorAlgebra R _) * w = _
   rw [hγk, map_mul, ← mul_assoc]
   congr 1
@@ -223,7 +223,7 @@ private theorem determinantExact_naturality
       ProjectiveDeterminant.mapEquiv β (EB.symm (G (EA x ⊗ₜ[R] EC z))) := by
   dsimp only
   apply (determinantAnnihilatorEquiv (R := R) (M := B')).injective
-  show (ProjectiveDeterminant.determinantTensorDeterminantEquiv_of_exact
+  change (ProjectiveDeterminant.determinantTensorDeterminantEquiv_of_exact
       f' g' hf' hex' hg').val
       (determinantAnnihilatorEquiv (R := R) (M := A')
           (ProjectiveDeterminant.mapEquiv α x) ⊗ₜ[R]
@@ -433,8 +433,7 @@ public theorem determinantEquivOfSurjectiveQuasiIso_comp
         (delta c.kernelDifferential Dc.kernelRankZero (Tn t) ⊗ₜ[R]
           (Da.equiv.trans Db.equiv) φ y) =
         φ (kernelDeterminantEquiv c.neg hc.1 (Tn t ⊗ₜ[R] y)) := by
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul p q => exact hpure p q
     | add p q hp hq => simpa only [map_add, TensorProduct.add_tmul] using congrArg₂ (· + ·) hp hq
   simpa only [Tn.apply_symm_apply] using h_all (Tn.symm x)

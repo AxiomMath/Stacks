@@ -190,13 +190,13 @@ theorem isRegular_ofFn_scaledVariable {B : Type u} [CommRing B] [IsRegularLocalR
   have hcongr : IsRegular (MvPolynomial (Fin d) B) ((polySeq fs).map φ) := by
     refine (AddEquiv.isRegular_congr (e := φ.toAddEquiv)
       (List.forall₂_map_right_iff.mpr (List.forall₂_same.mpr fun r _ x => ?_))).mp h3
-    show φ (r * x) = φ r * φ x
+    change φ (r * x) = φ r * φ x
     exact map_mul φ r x
   have himage : (polySeq fs).map φ = List.ofFn (scaledVariable a) := by
     refine List.ext_getElem (by simp [polySeq, hlen]) fun k h1 h2 => ?_
     simp only [List.getElem_map, polySeq, List.getElem_ofFn] at *
     simp only [hφ, scaledVariable, List.get_eq_getElem, MvPolynomial.renameEquiv_apply,
-      AlgEquiv.coe_ringEquiv, map_mul, MvPolynomial.rename_C, MvPolynomial.rename_X,
+      AlgEquiv.coe_toRingEquiv, map_mul, MvPolynomial.rename_C, MvPolynomial.rename_X,
       finCongr_apply, Fin.cast_mk]
     simp [hfs]
   rwa [himage] at hcongr
@@ -265,11 +265,11 @@ theorem exists_annihilator_scaledVariable_sq_eq {P : Type u} [CommRing P] [IsNoe
   -- The structure map `R → B[t]` sends `γ_i` built from `π` to `γ_i` built from `f ∘ π`.
   have hmapC (x : P) : algebraMap R (MvPolynomial (Fin d) B) (MvPolynomial.C x) =
       MvPolynomial.C (f x) := by
-    show MvPolynomial.map (algebraMap P B) (MvPolynomial.C x) = _
+    change MvPolynomial.map (algebraMap P B) (MvPolynomial.C x) = _
     simp [hf]
   have hmapX (i : Fin d) : algebraMap R (MvPolynomial (Fin d) B) (MvPolynomial.X i) =
       MvPolynomial.X i := by
-    show MvPolynomial.map (algebraMap P B) (MvPolynomial.X i) = _
+    change MvPolynomial.map (algebraMap P B) (MvPolynomial.X i) = _
     simp
   have hmapγ (ρ : Fin d → P) (i : Fin d) :
       algebraMap R (MvPolynomial (Fin d) B) (scaledVariable ρ i) =

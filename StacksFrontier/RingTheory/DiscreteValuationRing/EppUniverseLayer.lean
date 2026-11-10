@@ -77,7 +77,7 @@ theorem exists_field_descent_ulift (K : Type uK) [Field K] (E : Type v) [Field E
     @Stacks.EppTheorem.exists_field_descent_of_module_finite K _ E _ algKE finKE
   refine ⟨K₁, fK₁, aK₁, finK₁, (ULift.ringEquiv : ULift.{v} K₁ ≃+* K₁).trans eK.toRingEquiv, ?_⟩
   intro x
-  show eK (algebraMap K K₁ x) = _
+  change eK (algebraMap K K₁ x) = _
   rw [eK.commutes]
   rfl
 
@@ -107,7 +107,7 @@ theorem uliftTensorRingEquiv_left (l : ULift.{v} L) :
     uliftTensorRingEquiv K L K₁ eUK₁
         (algebraMap (ULift.{v} L) (ULift.{v} L ⊗[ULift.{v} K] K₁') l)
       = algebraMap L (L ⊗[K] K₁) l.down := by
-  show uliftTensorRingEquiv K L K₁ eUK₁ (l ⊗ₜ[ULift.{v} K] (1 : K₁')) = _
+  change uliftTensorRingEquiv K L K₁ eUK₁ (l ⊗ₜ[ULift.{v} K] (1 : K₁')) = _
   simp [uliftTensorRingEquiv, Algebra.TensorProduct.algebraMap_apply]
   rfl
 
@@ -116,7 +116,7 @@ descent. -/
 theorem uliftTensorRingEquiv_right (z : K₁') :
     uliftTensorRingEquiv K L K₁ eUK₁ (algebraMap K₁' (ULift.{v} L ⊗[ULift.{v} K] K₁') z)
       = algebraMap K₁ (L ⊗[K] K₁) (eUK₁.symm z).down := by
-  show uliftTensorRingEquiv K L K₁ eUK₁ ((1 : ULift.{v} L) ⊗ₜ[ULift.{v} K] z) = _
+  change uliftTensorRingEquiv K L K₁ eUK₁ ((1 : ULift.{v} L) ⊗ₜ[ULift.{v} K] z) = _
   simp [uliftTensorRingEquiv]
   rfl
 
@@ -203,7 +203,7 @@ theorem eppTheorem_of_monomorphic
     exists_field_descent_ulift K K₁'
   let eUK₁ : ULift.{max uA uB uK uL} K₁ ≃ₐ[ULift.{max uA uB uK uL} K] K₁' :=
     AlgEquiv.ofRingEquiv (f := eKr) (fun x => by
-      show eKr (ULift.up (algebraMap K K₁ x.down)) = _
+      change eKr (ULift.up (algebraMap K K₁ x.down)) = _
       rw [heKr, ULift.up_down])
   let algAK₁ : Algebra A K₁ := ((algebraMap K K₁).comp (algebraMap A K)).toAlgebra
   let towAKK₁ : IsScalarTower A K K₁ := IsScalarTower.of_algebraMap_eq fun _ => rfl
@@ -221,7 +221,7 @@ theorem eppTheorem_of_monomorphic
         (algebraMap (ULift.{max uA uB uK uL} A) K₁' y)
         = algebraMap A K₁ ((ULift.ringEquiv : ULift.{max uA uB uK uL} A ≃+* A) y) := by
     intro y
-    show (eUK₁.symm (algebraMap (ULift.{max uA uB uK uL} A) K₁' y)).down
+    change (eUK₁.symm (algebraMap (ULift.{max uA uB uK uL} A) K₁' y)).down
       = algebraMap A K₁ y.down
     rw [IsScalarTower.algebraMap_apply (ULift.{max uA uB uK uL} A)
         (ULift.{max uA uB uK uL} K) K₁' y,
@@ -256,7 +256,7 @@ theorem eppTheorem_of_monomorphic
       ((algebraMap (integralClosure A K₁) (integralClosure B (reducedCompositum K L K₁)) y :
           integralClosure B (reducedCompositum K L K₁)) : reducedCompositum K L K₁)
         = algebraMap K₁ (reducedCompositum K L K₁) (y : K₁) := fun _ => rfl
-  show algebraMap (integralClosure A K₁) (integralClosure B (reducedCompositum K L K₁))
+  change algebraMap (integralClosure A K₁) (integralClosure B (reducedCompositum K L K₁))
       (integralClosureRingEquivOfSquare
         (ULift.ringEquiv : ULift.{max uA uB uK uL} A ≃+* A)
         (eUK₁.symm.toRingEquiv.trans

@@ -41,9 +41,9 @@ theorem eq_zero_of_subsingleton {Y : Scheme.{u}} [Subsingleton Y] [Nonempty Y] (
 /-- **The Picard group of the spectrum of a field is trivial.** -/
 theorem eq_zero_of_isField (K : Type u) [Field K] (N : ofScheme (Spec (.of K))) : N = 0 := by
   have : Subsingleton (Spec (CommRingCat.of K)) := by
-    show Subsingleton (PrimeSpectrum K); infer_instance
+    change Subsingleton (PrimeSpectrum K); infer_instance
   have : Nonempty (Spec (CommRingCat.of K)) := by
-    show Nonempty (PrimeSpectrum K); infer_instance
+    change Nonempty (PrimeSpectrum K); infer_instance
   exact eq_zero_of_subsingleton N
 
 end Stacks.Picard

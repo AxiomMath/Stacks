@@ -243,7 +243,7 @@ theorem mono_baseChangeMap_of_isHomLift [Algebra.IsEpi R A]
         siteObject B S hS hR b :=
       Over.homMk (ObjectProperty.homMk (Spec.map (CommRingCat.ofHom (algebraMap R A))))
     have hfac := IsHomLift.fac' (CostructuredArrow.proj (schemeSpaceFunctor B S hS) Y) φ h
-    show Mono ((BigFppfOver.toScheme B S hS).map
+    change Mono ((BigFppfOver.toScheme B S hS).map
       ((CostructuredArrow.proj (schemeSpaceFunctor B S hS) Y).map h))
     rw [hfac, Functor.map_comp, Functor.map_comp, eqToHom_map, eqToHom_map]
     exact inferInstanceAs (Mono (_ ≫ Spec.map (CommRingCat.ofHom (algebraMap R A)) ≫ _))

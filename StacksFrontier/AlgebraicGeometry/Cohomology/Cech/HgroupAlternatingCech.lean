@@ -47,6 +47,7 @@ variable {A : Type u} [CommRing A] {X : Scheme.{u}} (f : X ⟶ Spec (.of A)) {I 
   [LinearOrder I] (U : I → X.Opens) (hU : (⊤ : X.Opens) = ⨆ i, U i)
   (haff : ∀ (r : ℕ) (s : Fin (r + 1) → I), IsAffineOpen (⨅ k, U (s k)))
 
+omit [LinearOrder I] in
 /-- Restriction of scalars along `A ⟶ Γ(X, 𝒪_X)` carries the `Γ(X, 𝒪_X)`-linear functoriality of
 the alternating Čech complex to the `A`-linear one. -/
 theorem alternatingCechModuleComplexIso_naturality {G G' : X.Modules} (ψ : G ⟶ G') :

@@ -753,10 +753,10 @@ noncomputable def derivedOverPushforwardBaseChangeIso
     infer_instance
   let : IsGrothendieckAbelian.{max u v, max u v, max u v + 1}
       (AbelianSheaves J X') := sheaf_isGrothendieckAbelian (J.over X')
-  let : IsIso (J.overMapPushforwardBaseChange Ab.{max u v} h.toCommSq).natTrans :=
+  let : IsIso (J.overMapPushforwardBaseChange Ab.{max u v} h.toCommSq) :=
     J.isIso_overMapPushforwardBaseChange Ab.{max u v} h
   let under : Fc ⋙ Gd ≅ Ga ⋙ Fb :=
-    asIso (J.overMapPushforwardBaseChange Ab.{max u v} h.toCommSq).natTrans
+    asIso (J.overMapPushforwardBaseChange Ab.{max u v} h.toCommSq)
   let underH :=
     (Functor.mapHomotopyCategoryCompIso (Iso.refl (Fc ⋙ Gd))
       (ComplexShape.up ℤ)).symm ≪≫

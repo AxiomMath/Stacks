@@ -315,7 +315,7 @@ omit [IsLocallyNoetherian X] in
 /-- The global section attached to the zero morphism out of the structure sheaf is zero. -/
 theorem globalSectionOfHom_zero (M : _root_.SheafOfModules.{u} X.ringCatSheaf) :
     globalSectionOfHom M 0 = 0 := by
-  show ((0 : _root_.SheafOfModules.unit X.ringCatSheaf ⟶ M).val.app (op (⊤ : X.Opens)))
+  change ((0 : _root_.SheafOfModules.unit X.ringCatSheaf ⟶ M).val.app (op (⊤ : X.Opens)))
       (1 : X.ringCatSheaf.obj.obj (op (⊤ : X.Opens))) = 0
   rw [show (0 : _root_.SheafOfModules.unit X.ringCatSheaf ⟶ M).val = 0 from rfl,
     PresheafOfModules.zero_app]

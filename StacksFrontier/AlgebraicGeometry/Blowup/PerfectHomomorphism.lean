@@ -132,9 +132,10 @@ variable {Y Z : RingedSpace.{u, u}} (f : Y ⟶ Z)
 comparison is invertible at the single complex on `ℳ`.** Three of the four factors of
 `Stacks.AlgebraicGeometry.TopDegreeBaseChange.derivedToOrdinaryPullbackSingle` are components of
 natural isomorphisms; the fourth is that comparison. -/
-theorem isIso_derivedToOrdinaryPullbackSingle (M : SheafOfModules.{u} (structureSheafRing Z)) (d : ℤ)
-    (h : IsIso ((derivedPullbackComparison f).app
-      ((HomotopyCategory.quotient (SheafOfModules.{u} (structureSheafRing Z)) (ComplexShape.up ℤ)).obj
+theorem isIso_derivedToOrdinaryPullbackSingle (M : SheafOfModules.{u} (structureSheafRing Z))
+    (d : ℤ) (h : IsIso ((derivedPullbackComparison f).app
+      ((HomotopyCategory.quotient (SheafOfModules.{u} (structureSheafRing Z))
+        (ComplexShape.up ℤ)).obj
         ((CochainComplex.singleFunctor (SheafOfModules.{u} (structureSheafRing Z)) d).obj M)))) :
     IsIso (derivedToOrdinaryPullbackSingle f M d) := by
   have h' : IsIso ((derivedPullbackComparison f).app
@@ -224,9 +225,11 @@ is exact.** A left-exact — hence, pullback being always right exact, exact —
 a K-flat resolution of the single complex a quasi-isomorphism after applying it degreewise, and the
 comparison is invertible at that K-flat resolution by tag 06YJ. -/
 theorem isIso_derivedPullbackComparison_app_single_of_preservesFiniteLimits
-    [PreservesFiniteLimits (modulePullback f)] (M : SheafOfModules.{u} (structureSheafRing Z)) (d : ℤ) :
+    [PreservesFiniteLimits (modulePullback f)] (M : SheafOfModules.{u} (structureSheafRing Z))
+    (d : ℤ) :
     IsIso ((derivedPullbackComparison f).app
-      ((HomotopyCategory.quotient (SheafOfModules.{u} (structureSheafRing Z)) (ComplexShape.up ℤ)).obj
+      ((HomotopyCategory.quotient (SheafOfModules.{u} (structureSheafRing Z))
+        (ComplexShape.up ℤ)).obj
         ((CochainComplex.singleFunctor (SheafOfModules.{u} (structureSheafRing Z)) d).obj M))) := by
   have hph : (modulePullback f).PreservesHomology := inferInstance
   obtain ⟨K, g, hK, -, hg, -⟩ :=

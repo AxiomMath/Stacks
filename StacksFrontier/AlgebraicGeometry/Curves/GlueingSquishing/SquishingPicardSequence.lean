@@ -216,7 +216,7 @@ private theorem exact_of_sections {T : TopCat.{u}}
     simpa using hij
   obtain ⟨a, ha⟩ := hS V _ hs
   refine ⟨S.X₁.presheaf.germ V x hxV a, ?_⟩
-  show (TopCat.Presheaf.stalkFunctor AddCommGrpCat x).map S.f.hom _ = _
+  change (TopCat.Presheaf.stalkFunctor AddCommGrpCat x).map S.f.hom _ = _
   rw [TopCat.Presheaf.stalkFunctor_map_germ_apply, ha, TopCat.Presheaf.germ_res_apply]
 
 /-! ### The sequence of additive sheaves, with the contracted point named -/
@@ -263,7 +263,7 @@ private theorem dualNumberDlogHom_surjective {k : Type u} [Field k] :
   have hd : IsUnit (1 + TrivSqZeroExt.inr c : DualNumber k) :=
     TrivSqZeroExt.isUnit_iff_isUnit_fst.2 (by simp)
   refine ⟨Additive.ofMul hd.unit, ?_⟩
-  show (hd.unit : DualNumber k).snd / (hd.unit : DualNumber k).fst = c
+  change (hd.unit : DualNumber k).snd / (hd.unit : DualNumber k).fst = c
   rw [hd.unit_spec]
   simp
 
@@ -279,7 +279,7 @@ private theorem units_map_surjective_of_ker_le_jacobson {R S : Type u} [CommRing
   obtain ⟨x, hx⟩ := hq (u : S)
   obtain ⟨y, hy⟩ := hq ((u⁻¹ : Sˣ) : S)
   have hxy : x * y - 1 ∈ Ring.jacobson R := hker (by
-    show q (x * y - 1) = 0
+    change q (x * y - 1) = 0
     rw [map_sub, map_mul, hx, hy]
     simp)
   have hxyUnit : IsUnit (x * y) :=
@@ -295,13 +295,13 @@ private theorem map_maximalIdeal_le_jacobson_of_integral {A B : Type u} [CommRin
     Ideal.map i (IsLocalRing.maximalIdeal A) ≤ Ring.jacobson B := by
   rw [Ring.jacobson_eq_sInf_isMaximal]
   refine Ideal.map_le_iff_le_comap.mpr fun b hb => ?_
-  show i b ∈ sInf {M : Ideal B | M.IsMaximal}
+  change i b ∈ sInf {M : Ideal B | M.IsMaximal}
   rw [Ideal.mem_sInf]
   intro M hM
   have hM' : M.IsMaximal := hM
   have hcomap : M.comap i = IsLocalRing.maximalIdeal A :=
-    IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal' i hi M)
-  show b ∈ M.comap i
+    IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal i hi M)
+  change b ∈ M.comap i
   rw [hcomap]
   exact hb
 
@@ -354,7 +354,7 @@ private theorem finite_of_coefficient_sequence {A B k : Type u} [CommRing A] [Co
     rw [h1, h2]
     exact add_mem (Submodule.smul_mem _ _ (Submodule.subset_span (by simp)))
       (Submodule.smul_mem _ _ (Submodule.subset_span (by simp)))
-  show Module.Finite A B
+  change Module.Finite A B
   exact Module.Finite.of_fg_top ⟨{1, e}, hspan⟩
 
 /-- **The logarithmic `ε`-derivative on units is surjective for a coefficient sequence.** The
@@ -438,7 +438,7 @@ private theorem germ_stalkClosedPointTo_const {k : Type u} [Field k] {Y : Scheme
         Scheme.stalkClosedPointTo η =
       CommRingCat.ofHom (algebraMap k (DualNumber k)) := by
     rw [step, key, ← Category.assoc, Iso.inv_hom_id, Category.id_comp]
-  show ((Scheme.ΓSpecIso (.of k)).inv ≫ (Y ↘ Spec (.of k)).appTop ≫
+  change ((Scheme.ΓSpecIso (.of k)).inv ≫ (Y ↘ Spec (.of k)).appTop ≫
     Y.presheaf.germ ⊤ (η.base (IsLocalRing.closedPoint (DualNumber k))) trivial ≫
       Scheme.stalkClosedPointTo η).hom c = _
   rw [main]
@@ -461,7 +461,7 @@ private theorem constantCoefficient_surjective {k : Type u} [Field k] {Y : Schem
   intro c
   refine ⟨Y.presheaf.germ ⊤ (η.base (IsLocalRing.closedPoint (DualNumber k))) trivial
     (((Scheme.ΓSpecIso (.of k)).inv ≫ (Y ↘ Spec (.of k)).appTop).hom c), ?_⟩
-  show ((Y.presheaf.germ ⊤ (η.base (IsLocalRing.closedPoint (DualNumber k))) trivial ≫
+  change ((Y.presheaf.germ ⊤ (η.base (IsLocalRing.closedPoint (DualNumber k))) trivial ≫
       Scheme.stalkClosedPointTo η).hom
       (((Scheme.ΓSpecIso (.of k)).inv ≫ (Y ↘ Spec (.of k)).appTop).hom c)).fst = c
   rw [germ_stalkClosedPointTo_const η hη c, TrivSqZeroExt.algebraMap_eq_inl,
@@ -475,7 +475,7 @@ private theorem exists_unit_germ (Y : RingedSpace.{u, u}) (x : Y)
   obtain ⟨W, hWU, hxW, t, ht⟩ := Y.presheaf.exists_le_germ_eq (b : Y.presheaf.stalk x) hx
   obtain ⟨V, i, hxV, hv⟩ := Y.isUnit_res_of_isUnit_germ W t x hxW (by rw [ht]; exact b.isUnit)
   refine ⟨V, i.le.trans hWU, hxV, hv.unit, Units.ext ?_⟩
-  show (Y.presheaf.germ V x hxV) (hv.unit : Y.presheaf.obj (op V)) = (b : Y.presheaf.stalk x)
+  change (Y.presheaf.germ V x hxV) (hv.unit : Y.presheaf.obj (op V)) = (b : Y.presheaf.stalk x)
   rw [hv.unit_spec, Y.presheaf.germ_res_apply, ht]
 
 /-- **A unit whose value and whose inverse's value are both in the image of an injective monoid
@@ -590,7 +590,7 @@ private theorem dualNumberDlogHom_germ {k : Type u} [Field k] {X' X : Scheme.{u}
             hz).hom.toMonoidHom s))) =
       epsilonLogDeriv θ (f ⁻¹ᵁ U) (mem_preimage f θ hz) s := by
   have hq := pushforwardStalkToDualNumber_germ f θ U hz (s : Γ(X', f ⁻¹ᵁ U))
-  show (pushforwardStalkToDualNumber f θ
+  change (pushforwardStalkToDualNumber f θ
         ((pushforwardRingedSpace f).presheaf.germ U (squishedPoint f θ) hz
           (s : Γ(X', f ⁻¹ᵁ U)))).snd /
       (pushforwardStalkToDualNumber f θ
@@ -640,7 +640,7 @@ theorem unitsPushforwardMap_comp_epsilonLogDerivSheafHom {k : Type u} [Field k] 
   obtain ⟨V⟩ := U
   change X.Opens at V
   obtain ⟨su, rfl⟩ : ∃ su : Γ(X, V)ˣ, Additive.ofMul su = s := ⟨s, rfl⟩
-  show (epsilonLogDerivSheafHom f θ).hom.app (op V)
+  change (epsilonLogDerivSheafHom f θ).hom.app (op V)
     ((unitsPushforwardMap f).hom.app (op V) (Additive.ofMul su)) = 0
   by_cases hz : squishedPoint f θ ∈ V
   · refine (skyscraperAddSheafVal_eq_zero_iff X (squishedPoint f θ) hz).1 ?_
@@ -678,7 +678,7 @@ theorem shortExact_units_of_isSquishingTangentVector {k : Type u} [Field k] [IsA
   obtain ⟨ψ, hzeroAdd, hshortAdd, hψ⟩ := shortExact_addSheaf f θ h
   obtain ⟨hfOver, -, -, -, -, -, hθOver, -, -, -, -, ⟨U0, hU0, -⟩, -⟩ := id h
   have hmemU0 (y : X) : y ∈ U0 ↔ y ≠ squishedPoint f θ := by
-    show y ∈ (U0 : Set X) ↔ _
+    change y ∈ (U0 : Set X) ↔ _
     rw [hU0]
     rfl
   -- The quotient map of the additive sequence, read as a scalar.
@@ -720,7 +720,7 @@ theorem shortExact_units_of_isSquishingTangentVector {k : Type u} [Field k] [IsA
       (hker V (su : Γ(X', f ⁻¹ᵁ V)) ((hψzero V su).mp hs))
       (hker V ((su⁻¹ : Γ(X', f ⁻¹ᵁ V)ˣ) : Γ(X', f ⁻¹ᵁ V))
         ((hψzero V su⁻¹).mp (by
-          show (epsilonLogDerivSheafHom f θ).hom.app (op V)
+          change (epsilonLogDerivSheafHom f θ).hom.app (op V)
             (-(Additive.ofMul su)) = 0
           exact (((epsilonLogDerivSheafHom f θ).hom.app (op V)).hom.map_neg
             (Additive.ofMul su)).trans ((congrArg Neg.neg hs).trans neg_zero))))

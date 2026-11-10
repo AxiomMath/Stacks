@@ -270,7 +270,7 @@ theorem derivedFiberBetti_relativeDualizingComplex (hG : HasGorensteinCurveFibre
   have : QuasiSeparatedSpace C := quasiSeparatedSpace_of_quasiSeparated g
   let y : C := hpb.isoPullback.inv.base (f.asFiber x)
   have hy : h.base y = x := by
-    show (hpb.isoPullback.inv ≫ h).base (f.asFiber x) = x
+    change (hpb.isoPullback.inv ≫ h).base (f.asFiber x) = x
     rw [hpb.isoPullback_inv_fst]
     exact f.fiberι_asFiber x
   obtain ⟨e⟩ := nonempty_relativeDualizingComplex_baseChange_iso f hpb
@@ -304,7 +304,7 @@ theorem isPerfect_relativeDualizingComplex (hG : HasGorensteinCurveFibres f) :
   have : QuasiSeparatedSpace X := quasiSeparatedSpace_of_quasiSeparated f
   exact Scheme.Modules.isPerfect_of_isPseudoCoherent_of_finrank_derivedFibre _
     (isPseudoCoherent_relativeDualizingComplex f) (-1) (-1) fun x j hj =>
-      (derivedFiberBetti_relativeDualizingComplex f hG j x).trans (if_neg (by omega))
+      (derivedFiberBetti_relativeDualizingComplex f hG j x).trans (ite_eq_right (by omega))
 
 /-- **`ω_{X/S}^•` is a finite locally free module of rank one placed in degree `-1`
 everywhere** (Stacks 0E6P, 0E6R): the open subscheme of Stacks 0BDK on which it is so is all of
@@ -402,13 +402,11 @@ theorem nonempty_pullback_properFlatDualizingSheaf_iso (hG : HasGorensteinCurveF
 
 /-- **The relative dualizing sheaf after base change to a field** (Stacks 0E6P, 0E6R: formation
 of `ω_{X/S}` commutes with base change). For a cartesian square presenting `C` as
-`X ×_S Spec k`, with `C` Gorenstein and equidimensional of dimension one, the pullback of
-`ω_{X/S}` to `C` is the dualizing sheaf `ω_C` of Stacks 0BS2. -/
+`X ×_S Spec k`, the pullback of `ω_{X/S}` to `C` is the dualizing sheaf `ω_C` of Stacks 0BS2
+(no hypothesis on `C` is needed: it is a fibre of the Gorenstein curve family). -/
 theorem nonempty_pullback_properFlatDualizingSheaf_iso_of_isPullback
     (hG : HasGorensteinCurveFibres f) {k : Type u} [Field k] {C : Scheme.{u}} {h : C ⟶ X}
-    {g : C ⟶ Spec (.of k)} {c : Spec (.of k) ⟶ S} (hpb : IsPullback h g f c) [IsProper g]
-    (hC : AlgebraicGeometry.IsGorenstein C ∧ TopologicalSpace.Equidimensional C ∧
-      topologicalKrullDim C = 1) :
+    {g : C ⟶ Spec (.of k)} {c : Spec (.of k) ⟶ S} (hpb : IsPullback h g f c) [IsProper g] :
     Nonempty ((RingedSpaceModuleAdjunction.modulePullback h.toLRSHom.toShHom).obj
         (properFlatDualizingSheaf f) ≅ dualizingSheafOverField g) := by
   have : CompactSpace C := QuasiCompact.compactSpace_of_compactSpace g

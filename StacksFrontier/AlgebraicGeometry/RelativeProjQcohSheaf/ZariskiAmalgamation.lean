@@ -318,7 +318,7 @@ theorem Fd.exists_amalgamation_of_opens
       hx (T.homOfLE inf_le_left) (T.homOfLE inf_le_right) (hmem i) (hmem j)
         (by rw [Scheme.homOfLE_ι, Scheme.homOfLE_ι])
   refine ⟨t, fun Y g hg => ?_⟩
-  show Fd.pullback g t = x g hg
+  change Fd.pullback g t = x g hg
   refine Fd.eq_of_pullback_eq_of_cover (fun i => g ⁻¹ᵁ (𝒰.f i).opensRange) (fun y => ?_) _ _
     fun i => ?_
   · exact hWcov (g.base y)
@@ -379,7 +379,7 @@ theorem Fd.quadrupleGlues_of_isSheaf
         Fd.pullback (T.homOfLE (inf_le_right : W a ⊓ W b ≤ W b))
           (Fd.mk ((W b).ι ≫ f) (P b)) :=
       (pullback_mk_eq_pullback_mk_iff_over _ _ _ _).mpr ⟨overlapBase_eq f W a b, hP a b⟩
-    show Fd.pullback ga (Fd.mk ((W a).ι ≫ f) (P a)) =
+    change Fd.pullback ga (Fd.mk ((W a).ι ≫ f) (P a)) =
       Fd.pullback gb (Fd.mk ((W b).ι ≫ f) (P b))
     rw [← hk, ← hk', Fd.pullback_comp, Fd.pullback_comp, hmid]
   obtain ⟨t, ht, -⟩ := (Presieve.isSheafFor_arrows_iff _ _).mp hsf _ hcompat

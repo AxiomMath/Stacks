@@ -139,7 +139,7 @@ abbrev denseReplacementInv : RingedToposHom (denseReplacement X J' v) X :=
 
 /-- The structure map of the inverse of the replacement equivalence is an isomorphism. -/
 instance : IsIso (denseReplacementInv X J' v).fSharp := by
-  show IsIso (inv (denseReplacementHom X J' v).fSharpInverseImage)
+  change IsIso (inv (denseReplacementHom X J' v).fSharpInverseImage)
   infer_instance
 
 /-- The structure map of the restriction morphism, `𝒪_X ⟶ v_*𝒪_{X'}`. -/
@@ -178,7 +178,7 @@ def inverseTwoIsoDenseRestrict :
 /-- The structure map of the restriction morphism, as a map of sheaves of rings, is an
 isomorphism. -/
 instance : IsIso (denseRestrictSite X J' v).toRingedToposSiteHom.fSharpRing := by
-  show IsIso ((sheafCompose X.J (forget₂ CommRingCat.{u} RingCat.{u})).map
+  change IsIso ((sheafCompose X.J (forget₂ CommRingCat.{u} RingCat.{u})).map
     (denseRestrictSharp X J' v))
   infer_instance
 

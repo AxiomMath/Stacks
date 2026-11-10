@@ -111,7 +111,7 @@ theorem isFinitePresentation_free_of_finite (X : Scheme.{u}) (ι : Type u) [Fini
   let q := (_root_.SheafOfModules.free.generatingSections
     (R := X.ringCatSheaf) ι).localGeneratorsData.quasiCoherentData
   refine { exists_quasicoherentData := ⟨q, { isFinite_presentation := fun i => ⟨?_, ⟨?_⟩⟩ }⟩ }
-  · show ((_root_.SheafOfModules.free.generatingSections
+  · change ((_root_.SheafOfModules.free.generatingSections
       (R := X.ringCatSheaf) ι).localGeneratorsData.generators i).IsFiniteType
     exact ⟨inferInstanceAs (Finite ι)⟩
   · exact inferInstanceAs (Finite (ULift Empty))
@@ -130,7 +130,7 @@ theorem isFinitePresentation_tensorSheaf (X : Scheme.{u}) (F G : X.Modules)
     ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨X.sheaf.obj,
       Presheaf.isSheaf_of_isSheaf_comp _ (X.sheaf.obj) (forget₂ CommRingCat RingCat)
         (X.ringCatSheaf.property)⟩).obj (F)).obj (G))).IsFinitePresentation := by
-  show ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toRingedSpace)).presheaf,
+  change ((((Stacks.SheafOfModules.Tensor.sheafTensor ⟨((X.toRingedSpace)).presheaf,
     ((X.toRingedSpace)).IsSheaf⟩).obj (F)).obj (G))).IsFinitePresentation
   exact @AlgebraicGeometry.SheafOfModules.tensorSheaf_isFinitePresentation
     X.toRingedSpace F G hF hG

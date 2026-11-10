@@ -382,7 +382,7 @@ lemma ringNeg_map_aux :
     Φ.map (ringNegHom O) =
       𝟙 (Φ.obj (ringSheaf O)) ≫ ringNegHom (pullbackRingSheaf J Φ O) ≫ 𝟙 _ := by
   refine hom_ext_sections (fun X p ↦ ?_)
-  show (Φ ⋙ sectionsFunctor J X).map (ringNegHom O) p =
+  change (Φ ⋙ sectionsFunctor J X).map (ringNegHom O) p =
     (sectionsFunctor J X).map (ringNegHom (pullbackRingSheaf J Φ O)) p
   exact (sectionsFunctor_map_ringNegHom (pullbackRingSheaf J Φ O) X p).symm
 
@@ -451,7 +451,7 @@ lemma moduleNeg_map_aux :
     Φ.map (moduleNegHom O G) =
       moduleNegHom (pullbackRingSheaf J Φ O) (pullbackModuleObj J Φ O G) := by
   refine hom_ext_sections (fun X p ↦ ?_)
-  show (Φ ⋙ sectionsFunctor J X).map (moduleNegHom O G) p =
+  change (Φ ⋙ sectionsFunctor J X).map (moduleNegHom O G) p =
     (sectionsFunctor J X).map
       (moduleNegHom (pullbackRingSheaf J Φ O) (pullbackModuleObj J Φ O G)) p
   exact (sectionsFunctor_map_moduleNegHom (pullbackRingSheaf J Φ O)

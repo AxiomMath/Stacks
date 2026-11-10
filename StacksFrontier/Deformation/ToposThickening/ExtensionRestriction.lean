@@ -163,7 +163,7 @@ theorem restrictedExtension_actionMap :
   refine extensionActionMap_unique D.second (D.restrictedExtension E) _ ?_
   intro U b x
   let x' : E.Z.left.val.obj U := x
-  show E.f.val.app U
+  change E.f.val.app U
       ((extensionActionMap D.first E).1.val.app U
         (((((Stacks.SheafOfModules.Tensor.sheafTensor (baseRing i)).flip.obj F)).map
             D.idealMap).val.app U

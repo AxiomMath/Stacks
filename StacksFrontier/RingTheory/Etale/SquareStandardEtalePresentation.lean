@@ -97,7 +97,7 @@ theorem exists_square_presentation_isUnit_detJacobian_of_etale (R : Type u) [Com
   set Q : SubmersivePresentation R A (Fin n) (Fin n) := P.reindex (fe.trans me) fe with hQ
   have hmap : ∀ k : Fin n, Q.map k = k := by
     intro k
-    show (fe.trans me).symm (P.map (fe k)) = k
+    change (fe.trans me).symm (P.map (fe k)) = k
     have hval : P.map (fe k) = me (fe k) := rfl
     rw [hval, Equiv.symm_trans_apply, Equiv.symm_apply_apply, Equiv.symm_apply_apply]
   set g : Fin n → MvPolynomial (Fin n) R := Q.relation with hg

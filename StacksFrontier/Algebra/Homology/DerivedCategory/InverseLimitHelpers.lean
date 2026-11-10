@@ -102,7 +102,7 @@ lemma preservesProducts_homologyFunctor
   have := preservesLimits_shortComplexFunctor (A := A) c n
   have := Stacks.DerivedProducts.preservesLimitsOfShape_shortComplexHomologyFunctor
     (A := A) (I := ℕ)
-  show PreservesLimitsOfShape (Discrete ℕ)
+  change PreservesLimitsOfShape (Discrete ℕ)
     (HomologicalComplex.shortComplexFunctor A c n ⋙ ShortComplex.homologyFunctor A)
   infer_instance
 
@@ -155,7 +155,7 @@ public lemma productResolutionMap_quasiIsoAt_zero {A : Type*} [Category A] [Abel
       apply (isLimitOfPreserves (HomologicalComplex.eval A (ComplexShape.up ℕ) 0)
         (productIsProduct (fun n => (I n).cocomplex))).hom_ext
       rintro ⟨n⟩
-      show (Pi.lift (l a ha) ≫ η.f 0) ≫
+      change (Pi.lift (l a ha) ≫ η.f 0) ≫
         (Pi.π (fun n => (I n).cocomplex) n).f 0 =
           a ≫ (Pi.π (fun n => (I n).cocomplex) n).f 0
       rw [Category.assoc, productResolutionMap_f_zero_π, ← Category.assoc,

@@ -433,11 +433,11 @@ theorem smoothOfRelativeDimension_projectionOf (hΔ : IsUnit W.Δ) :
     (fun b => by cases b <;> infer_instance)
   refine IsZariskiLocalAtSource.of_openCover (P := @SmoothOfRelativeDimension.{u} 1) 𝒰 fun b => ?_
   cases b
-  · show SmoothOfRelativeDimension 1 (chartY W ≫ projectionOf W)
+  · change SmoothOfRelativeDimension 1 (chartY W ≫ projectionOf W)
     rw [chartY_projectionOf]
     exact (HasRingHomProperty.Spec_iff (P := @SmoothOfRelativeDimension.{u} 1)).mpr
       (locally_isStandardSmoothOfRelativeDimension_chartYRing W hΔ)
-  · show SmoothOfRelativeDimension 1 (chartZ W ≫ projectionOf W)
+  · change SmoothOfRelativeDimension 1 (chartZ W ≫ projectionOf W)
     rw [chartZ_projectionOf]
     exact (HasRingHomProperty.Spec_iff (P := @SmoothOfRelativeDimension.{u} 1)).mpr
       (locally_isStandardSmoothOfRelativeDimension_coordinateRing W hΔ)

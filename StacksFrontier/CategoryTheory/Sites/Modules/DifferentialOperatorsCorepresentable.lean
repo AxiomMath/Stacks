@@ -384,7 +384,7 @@ lemma principalPartsSymbolApp_naturality {X Y : Cᵒᵖ} (f : X ⟶ Y) :
   apply ModuleCat.hom_ext
   apply tensorKaehler_ext
   intro x b
-  show (principalPartsSymbolApp.{v, u, w, m} φ F Y).hom
+  change (principalPartsSymbolApp.{v, u, w, m} φ F Y).hom
       ((principalPartsSymbolSource.{v, u, w, m} φ F).map f
         (x ⊗ₜ[(ringPresheaf O₂.obj).obj X]
           CommRingCat.KaehlerDifferential.d (f := φ.hom.app X) b)) =

@@ -85,8 +85,8 @@ private lemma nonempty_algEquiv_of_large_cardinal {k K L : Type u}
   let _ := IsAlgClosed.isAlgClosure_of_transcendence_basis _ ht
   let g := IsAlgClosure.equivOfEquiv K L f.toRingEquiv
   refine ⟨{ g with commutes' := fun x => ?_ }⟩
-  show IsAlgClosure.equivOfEquiv K L f.toRingEquiv (algebraMap k K x) = algebraMap k L x
-  simpa only [AlgEquiv.coe_ringEquiv, AlgEquiv.commutes, ← IsScalarTower.algebraMap_apply] using
+  change IsAlgClosure.equivOfEquiv K L f.toRingEquiv (algebraMap k K x) = algebraMap k L x
+  simpa only [AlgEquiv.coe_toRingEquiv, AlgEquiv.commutes, ← IsScalarTower.algebraMap_apply] using
     IsAlgClosure.equivOfEquiv_algebraMap K L f.toRingEquiv
       (algebraMap k (Algebra.adjoin k (Set.range ((↑) : s → K))) x)
 
@@ -159,11 +159,10 @@ private lemma exists_restrictionArrows_lift {S : Scheme.{u}} (G : GroupoidScheme
   let l := pullback.lift b p hb.symm
   let r := pullback.lift p a ha
   let q : T ⟶ restrictionArrows G g :=
-    pullback.lift l r (by simp [l, r, pullback.lift_fst, pullback.lift_snd])
+    pullback.lift l r (by simp [l, r])
   refine ⟨q, ?_, ?_, ?_⟩ <;>
     simp [q, l, r, restrictionArrowsToArrows, restrictionSource, restrictionTarget,
-      restrictionArrows, pullback.lift_fst_assoc, pullback.lift_snd_assoc, pullback.lift_fst,
-      pullback.lift_snd]
+      restrictionArrows]
 
 /-- The morphism over `S` between spectra induced contravariantly by a ring homomorphism. -/
 public noncomputable def extensionMap {S : Scheme.{u}} {k k' : Type u} [CommRing k] [CommRing k']
@@ -198,7 +197,7 @@ private lemma exists_restrictionArrows_lift_of_point {S : Scheme.{u}} {k K : Typ
   let g : T ⟶ G.objects := extensionMap structureMap i ≫ eqToHom objects_eq.symm
   let pp : T ⟶ G.arrows := Over.homMk p hpS
   let zz : T ⟶ T := Over.homMk z (by
-    show z ≫ (d ≫ structureMap) = d ≫ structureMap
+    change z ≫ (d ≫ structureMap) = d ≫ structureMap
     rw [← Category.assoc, ← hpt, Category.assoc, htS, hpS])
   have hpps : pp ≫ G.source = (𝟙 T) ≫ g := by
     apply (cancel_mono (eqToHom objects_eq)).mp
@@ -249,14 +248,14 @@ public theorem exists_isIso_source_target_over_isAlgClosed {S : Scheme.{u}} {k :
   have hpt : p ≫ t₀ = z ≫ d := by
     rw [show p ≫ t₀ = Scheme.Spec.map (CommRingCat.ofHom j).op ≫ (p₀ ≫ t₀) from
       Category.assoc _ _ _, ← hb]
-    show Scheme.Spec.map (CommRingCat.ofHom j).op ≫
+    change Scheme.Spec.map (CommRingCat.ofHom j).op ≫
         Scheme.Spec.map (CommRingCat.ofHom b).op =
       Scheme.Spec.map (CommRingCat.ofHom τ.toRingHom).op ≫
         Scheme.Spec.map (CommRingCat.ofHom i).op
     rw [← Scheme.Spec.map_comp, ← Scheme.Spec.map_comp]
     exact congrArg (fun f : k →+* K => Scheme.Spec.map (CommRingCat.ofHom f).op) hτ.symm
   have hz : IsIso z := by
-    show IsIso (Scheme.Spec.map (CommRingCat.ofHom τ.toRingHom).op)
+    change IsIso (Scheme.Spec.map (CommRingCat.ofHom τ.toRingHom).op)
     have : IsIso (CommRingCat.ofHom τ.toRingHom) := τ.toCommRingCatIso.isIso_hom
     infer_instance
   obtain ⟨q, hq, hqs, hqt⟩ :=

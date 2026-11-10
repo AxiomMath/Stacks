@@ -64,7 +64,8 @@ vocabulary.
 
 *The three crossings, and that they are now all performed.*  Three conventions had to be
 reconciled, and the implementation notes of
-`StacksFrontier/AlgebraicGeometry/Spaces/ToposModuleDerivedBaseChangeDegreewise.lean` named the first
+`StacksFrontier/AlgebraicGeometry/Spaces/ToposModuleDerivedBaseChangeDegreewise.lean` named the
+first
 two as owed.
 
 * `R^if_*` of this development is `CategoryTheory.Functor.rightDerived`, the
@@ -111,7 +112,8 @@ an implication between two others.  No `@[stacks 073K]` attribute is carried, an
 carrier `AlgebraicGeometry.Space.BaseChangeDiagram.affineCohomologyBaseChangeIsoBase` is
 untouched.  The same construction for a cartesian square of *schemes*, for the comparison map of
 **Stacks 0GN5**, is
-`StacksFrontier/AlgebraicGeometry/FlatModuleCohomologyBaseChange/DegreewiseComparison.lean`, and this
+`StacksFrontier/AlgebraicGeometry/FlatModuleCohomologyBaseChange/DegreewiseComparison.lean`, and
+this
 file is that one transported to the seating of algebraic spaces.
 
 ## References

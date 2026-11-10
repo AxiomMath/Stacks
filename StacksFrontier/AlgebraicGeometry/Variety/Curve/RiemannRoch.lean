@@ -291,7 +291,7 @@ public theorem curveChernDegreeOfModule_eq_curveChernDegree (hdim : topologicalK
     curveChernDegreeOfModule k p hdim E r chern =
       curveChernDegree k p hdim (firstChernComponentCycleRuleOfRank (fieldChowSituation k) p E r
         (fun g => isFiniteLocallyFreeOfRank_pullback g E r) chern hr 0) := by
-  rw [curveChernDegreeOfModule, curveFirstChernRule, dif_pos hr]
+  rw [curveChernDegreeOfModule, curveFirstChernRule, dite_eq_left hr]
 
 /-- The first Chern class of a module of rank zero is zero, so `deg(c₁(ℰ) ∩ [X]_1)` vanishes
 there. -/
@@ -299,7 +299,8 @@ there. -/
     (E : X.Modules) [SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u} E 0]
     (chern : ChernClassCycleRule (fieldChowSituation k) 0) :
     curveChernDegreeOfModule k p hdim E 0 chern = 0 := by
-  rw [curveChernDegreeOfModule, curveFirstChernRule, dif_neg (Nat.lt_irrefl 0), curveChernDegree,
+  rw [curveChernDegreeOfModule, curveFirstChernRule, dite_eq_right (Nat.lt_irrefl 0),
+    curveChernDegree,
     firstChernClassCap_trivialChernComponentCycleRule]
   simp
 

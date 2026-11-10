@@ -64,7 +64,7 @@ public theorem stableUnderSpecialization_setOf_isClosed_singleton (T : Type*)
     [TopologicalSpace T] :
     StableUnderSpecialization {x : T | IsClosed ({x} : Set T)} := by
   intro x y hxy hx
-  rw [Set.mem_setOf_eq, hxy.mem_closed hx rfl]
+  rw [Set.mem_ofPred_eq, hxy.mem_closed hx rfl]
   exact hx
 
 /-- Let `K` be a separably closed field, let `X` be a scheme of finite type over `K` and let `F`

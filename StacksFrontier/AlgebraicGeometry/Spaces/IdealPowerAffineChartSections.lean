@@ -211,7 +211,7 @@ theorem chartSubmodule_idealPowSubmodule_le_pow_chartSectionIdeal_smul_top
       exists_sieve_mem_pow_chartIdeal_smul_top B S hS F hF I M n _ (hSv' f hf)
     refine (SmallEtale.topology B S hS F).superset_covering ?_ hSw
     intro Y' g hg
-    show chartRestrictLinear M (g ≫ f) x ∈ _
+    change chartRestrictLinear M (g ≫ f) x ∈ _
     rw [chartRestrictLinear_comp M f g x]
     exact hSw' g hg
   obtain ⟨ι, hιfin, W, g, hWaff, hWR, hff⟩ :=

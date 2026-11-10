@@ -231,7 +231,7 @@ theorem sectionwiseComplexDegreeIso_neg (n : ℕ) :
   | succ n =>
     dsimp only [sectionwiseComplexDegreeIso]
     rw [dite_eq_right (show ¬0 < -((n + 1 : ℕ) : ℤ) by omega)]
-    show Iso.refl _ ≪≫ sectionwiseDegreeComparisonIso J f (n + 1) ≪≫ Iso.refl _ = _
+    change Iso.refl _ ≪≫ sectionwiseDegreeComparisonIso J f (n + 1) ≪≫ Iso.refl _ = _
     simp only [Iso.refl_trans, Iso.trans_refl]
 
 end CategoryTheory.Sheaf

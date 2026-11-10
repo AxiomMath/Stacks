@@ -61,14 +61,14 @@ theorem exists_smoothChart_of_isRepresentableByAlgebraicSpace
     (hasRelativeProperty_iff_prop_representingMap.{u, u} B S hS
       (Space.surjectiveMorphismProperty B S hS) k hkrep (yoneda.obj W) F
       (isAlgebraicSpace_yoneda B S hS W) hF eW eF).2 (by
-        show Space.IsSurjective B S hS _
+        change Space.IsSurjective B S hS _
         rwa [hk])
   have hkM : HasRelativeProperty.{u, u, u + 1, u} B S hS
       (Space.smoothMorphismProperty B S hS) k hkrep :=
     (hasRelativeProperty_iff_prop_representingMap.{u, u} B S hS
       (Space.smoothMorphismProperty B S hS) k hkrep (yoneda.obj W) F
       (isAlgebraicSpace_yoneda B S hS W) hF eW eF).2 (by
-        show Space.IsSmooth B S hS _
+        change Space.IsSmooth B S hS _
         rwa [hk])
   have hc : IsRelativelySmooth B S hS (k ≫ π) :=
     isRelativelySmooth_comp B S hS k π ⟨hkrep, hkM⟩ hπ

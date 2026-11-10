@@ -125,7 +125,7 @@ private theorem ringKrullDim_quotient_succ_le {P P' : Ideal R} [P.IsPrime] (h : 
 /-- In a Noetherian local ring, a strictly larger prime has strictly smaller coheight. -/
 theorem ringKrullDim_quotient_lt_of_lt [IsLocalRing R] [IsNoetherianRing R] {P P' : Ideal R}
     [P.IsPrime] [P'.IsPrime] (h : P < P') : ringKrullDim (R ⧸ P') < ringKrullDim (R ⧸ P) := by
-  obtain ⟨x, hxP', hxP⟩ := SetLike.exists_of_lt h
+  obtain ⟨x, hxP', hxP⟩ := IsConcreteLE.exists_of_lt h
   have hle := ringKrullDim_quotient_succ_le h.le hxP hxP'
   have := isLocalRing_quotient (Ideal.IsPrime.ne_top (inferInstance : P'.IsPrime))
   obtain ⟨n, hn⟩ := exists_natCast_eq_ringKrullDim (R ⧸ P')
@@ -213,7 +213,7 @@ private theorem ringKrullDim_quotient_le_of_pow_le_sup_span' [IsLocalRing R] [Is
     calc (maximalIdeal R ^ N).map f ≤ (I ⊔ Ideal.span (Set.range L)).map f := Ideal.map_mono hN
       _ = (Ideal.span (Set.range L)).map f := by
         rw [Ideal.map_sup, hf, Ideal.map_quotient_self, bot_sup_eq]
-  have hht := Ideal.height_le_card_of_mem_minimalPrimes_span (Set.finite_range _)
+  have hht := Ideal.height_le_ncard_of_mem_minimalPrimes_span (Set.finite_range _)
     (maximalIdeal_mem_minimalPrimes_of_pow_le hle hpow)
   rw [← maximalIdeal_height_eq_ringKrullDim]
   have hcard : ((Set.range (f ∘ L)).ncard : ℕ∞) ≤ k := by exact_mod_cast ncard_range_fin_le _
@@ -881,7 +881,7 @@ private theorem exists_mem_notMem_forall_height_le [IsNoetherianRing R] (I B : I
       · exact hIB hIJ
       · rw [Set.Finite.mem_toFinset] at hJ
         have := hJ.1.1
-        have hle : J.height ≤ s.ncard := Ideal.height_le_card_of_mem_minimalPrimes_span hs hJ
+        have hle : J.height ≤ s.ncard := Ideal.height_le_ncard_of_mem_minimalPrimes_span hs hJ
         have hsn' : (s.ncard : ℕ∞) ≤ n := by exact_mod_cast hsn
         exact absurd (hht.trans_le ((Ideal.height_mono hIJ).trans (hle.trans hsn')))
           (lt_irrefl _)

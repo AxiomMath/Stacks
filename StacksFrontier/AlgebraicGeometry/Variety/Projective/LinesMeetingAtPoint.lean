@@ -109,7 +109,7 @@ public theorem exists_isOpen_lines_inter_subset_singleton [IsAlgClosed k] [Finit
   refine ⟨D.ι.base '' ((projection k V Wp).base ⁻¹' Sᶜ),
     D.ι.isOpenEmbedding.isOpenMap _ (isClosed_closure.isOpen_compl.preimage (by fun_prop)),
     ⟨_, y₀, ?_, rfl⟩, ?_⟩
-  · show projection k V Wp y₀ ∉ S
+  · change projection k V Wp y₀ ∉ S
     rw [projection_eq_linearFunctionalPoint k V Wp y₀ f hf hg hy₀]
     exact hgS
   rintro q ⟨y, hyS, rfl⟩ hyc
@@ -139,7 +139,7 @@ public theorem exists_isOpen_lines_inter_subset_singleton [IsAlgClosed k] [Finit
     rwa [hDp]
   obtain ⟨w, hw⟩ : ∃ w : D.toScheme, (w.val : projectiveSpaceOfModule k V) = z := ⟨⟨z, hzD⟩, rfl⟩
   refine hyS (subset_closure ⟨w, by
-    show (w.val : projectiveSpaceOfModule k V) ∈ B
+    change (w.val : projectiveSpaceOfModule k V) ∈ B
     rwa [hw], ?_⟩)
   show projection k V Wp w = projection k V Wp y
   rw [hyproj]

@@ -109,7 +109,8 @@ variable (X : RingedSite.{u, u, u})
     HomologicalComplex.HasMapBifunctor K₁ K₂ (Stacks.SheafOfModules.Tensor.sheafTensor X.O)
       (ComplexShape.up ℤ)]
 
-omit [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
+omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
   [∀ A, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj A).Additive]
   [∀ (K₁ K₂ : CochainComplex
     (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ),
@@ -155,7 +156,7 @@ lemma curryFun_structureSheafHomIso_inv (n : ℤ) (U : X.C)
         (k' : ((structureSheafComplex X).X 0).val.obj (op W)) = k := ⟨k, rfl⟩
     have hks : (k • structureSheafOne X W :
         ((structureSheafComplex X).X 0).val.obj (op W)) = k := by
-      show k * 1 = k
+      change k * 1 = k
       exact mul_one _
     rw [← hks, tensorComplexSection_smul_left, applyHomSectionOver_smul_right,
       applyHomSectionOver_smul_right, applyHomSectionOver_curryFun,

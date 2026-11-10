@@ -183,7 +183,7 @@ theorem isScalarTower_stalkBase {U : Y.Opens} (hUW : U ≤ g ⁻¹ᵁ W) (hfx : 
     algebraStalk (inverseImageFirstRingMap f.toLRSHom.toShHom g.toLRSHom.toShHom).hom x
   refine IsScalarTower.of_algebraMap_eq' (RingHom.ext fun r => ?_)
   -- both sides, written out on an element
-  show ((Stacks.SheafifyStalk.stalkInverseImageStructureSheafIso f x).inv.hom
+  change ((Stacks.SheafifyStalk.stalkInverseImageStructureSheafIso f x).inv.hom
       ((Y.presheaf.germ U (f.base x) hfx).hom ((g.appLE W U hUW).hom r))) =
     ((TopCat.Presheaf.stalkFunctor CommRingCat.{u} x).map
         (inverseImageFirstRingMap f.toLRSHom.toShHom g.toLRSHom.toShHom).hom).hom
@@ -288,7 +288,7 @@ theorem injective_onH₁_nlExtensionBaseChangeMap_stalk_of_lci
   let _ : Algebra Γ(Z, W.1) Γ(X, V.1) := algebraAppLE (f ≫ g) hVW
   have htowerSections : IsScalarTower Γ(Z, W.1) Γ(Y, U.1) Γ(X, V.1) :=
     IsScalarTower.of_algebraMap_eq' (by
-      show ((f ≫ g).appLE W.1 V.1 hVW).hom =
+      change ((f ≫ g).appLE W.1 V.1 hVW).hom =
         (f.appLE U.1 V.1 hVU).hom.comp (g.appLE W.1 U.1 hUW).hom
       rw [← CommRingCat.hom_comp]
       exact congrArg CommRingCat.Hom.hom

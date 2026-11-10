@@ -69,8 +69,8 @@ down and the properties of it that the proof of [Stacks, Tag 09M4] consumes trav
 
 **Spellings.** `RΓ(X, -)` enters as a pair of a functor and its structure morphism carrying the
 right-derived-functor instance, exactly as in
-`StacksFrontier/AlgebraicGeometry/DerivedQCoh/PerfectHomVanishingWindow.lean`, so the statements hold
-for every model of it; this is a device for model-independence and not a hypothesis on the
+`StacksFrontier/AlgebraicGeometry/DerivedQCoh/PerfectHomVanishingWindow.lean`, so the statements
+hold for every model of it; this is a device for model-independence and not a hypothesis on the
 geometry. `Ext^i_X(E, K)` is `DerivedCategory.Ext`, that is `Hom_{D(𝒪_X)}(E, K⟦i⟧)`, and
 `D^b_Coh(𝒪_X)` is `DerivedCategoryB.derivedCategoryBBounded` at the coherence predicate, as in
 the rest of this directory. Perfectness is

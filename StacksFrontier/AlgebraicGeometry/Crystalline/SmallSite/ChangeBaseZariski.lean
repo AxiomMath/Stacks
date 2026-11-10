@@ -96,8 +96,8 @@ whereas `smallChangeBaseFullyFaithful` also needs `S' ⟶ S` to be an open immer
 
 Clause (c) of [Stacks, Tag 07KL], commutativity of the square, is proved, unconditionally in the
 divided power base.  This supersedes the note in the module docstring of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/Functoriality.lean` that the compatibility of
-`u_{X/S}` with a change of divided power base "is not established".
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/Functoriality.lean` that the compatibility
+of `u_{X/S}` with a change of divided power base "is not established".
 
 Clause (d), that the square realizes a localization of morphisms of topoi as in
 [Stacks, Tag 04H1], is **also proved**, in
@@ -170,8 +170,9 @@ topos, [Stacks, Tag 0791], whose equivalence `Sh(C/F) ≌ Sh(C)/F` and whose adj
    `Crystalline.GlobalCrystallineSituation.smallChangeBase_comp_forgetToOpens`.  Its site-level
    inputs are in `StacksFrontier/CategoryTheory/Sites/OpenMapFunctorSubsite.lean`; those for change
    of divided power base are `smallChangeBase_coverPreserving` in
-   `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/ChangeBaseCoverPreserving.lean`, which with `smallChangeBase_isCocontinuous`
-   gives the topology correspondence, and the four hypotheses assembled in
+   `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/ChangeBaseCoverPreserving.lean`, which
+   with `smallChangeBase_isCocontinuous` gives the topology correspondence, and the four
+   hypotheses assembled in
    `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/OpenSubobjectSite.lean`.
 
    What (2) and (3) do not themselves record is the identification of the two horizontal arrows

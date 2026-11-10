@@ -78,7 +78,7 @@ public theorem schemeSizeBelow_isClosedUnderFiniteCoproducts_of_aleph0_lt {κ : 
   have := Fintype.ofFinite J
   apply ObjectProperty.IsClosedUnderColimitsOfShape.mk'
   rintro X ⟨F, hF⟩
-  show (colimit F).size < κ
+  change (colimit F).size < κ
   rw [Scheme.size_congr (HasColimit.isoOfNatIso (Discrete.natIsoFunctor (F := F)))]
   refine (schemeSize_coproduct_le (fun j : J ↦ F.obj ⟨j⟩)
     (ℵ₀ ⊔ Finset.univ.sup fun j : J ↦ (F.obj ⟨j⟩).size) le_sup_left
@@ -207,16 +207,16 @@ private theorem nonempty_overIso_sigmaDesc (B : BigSite τ S) {X : B.category}
   have hθ : ∀ i, ι i ≫ θ.hom = Sigma.ι E.X i := fun i ↦
     hc.comp_coconePointUniqueUpToIso_hom (colimit.isColimit (Discrete.functor E.X)) ⟨i⟩
   refine ⟨Over.isoMk θ ?_⟩
-  show θ.hom ≫ Sigma.desc E.f = f
+  change θ.hom ≫ Sigma.desc E.f = f
   refine Cofan.IsColimit.hom_ext hc _ _ fun i ↦ ?_
-  show ι i ≫ θ.hom ≫ Sigma.desc E.f = ι i ≫ f
-  rw [reassoc_of% (hθ i), Sigma.ι_desc]
+  change ι i ≫ θ.hom ≫ Sigma.desc E.f = ι i ≫ f
+  rw [reassoc_of% (hθ i), Sigma.ι_comp_desc]
   apply ff.map_injective
   have h2 : (Sigma.ι (E.map B.toOver).X i ≫ e.inv) ≫ B.toOver.map f = B.toOver.map (E.f i) :=
     (Category.assoc _ _ _).trans <|
       (congrArg (Sigma.ι (E.map B.toOver).X i ≫ ·)
         ((congrArg (e.inv ≫ ·) he.symm).trans (Iso.inv_hom_id_assoc e _))).trans
-      (Sigma.ι_desc (E.map B.toOver).f i)
+      (Sigma.ι_comp_desc (E.map B.toOver).f i)
   rw [Functor.map_comp, hι]
   exact h2.symm
 

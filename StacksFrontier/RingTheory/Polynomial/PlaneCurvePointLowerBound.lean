@@ -76,8 +76,8 @@ theorem fiber_twisted_count {m : ℕ} {X : Type*} (𝒪 : Finset X)
   have hone : ∀ π : Equiv.Perm (Fin m), ∑ Ψ ∈ 𝒪, (if Z Ψ π then 1 else 0 : ℕ) = 1 := by
     intro π
     obtain ⟨Ψ, ⟨hΨ, hZΨ⟩, huniq⟩ := hZ π
-    rw [Finset.sum_eq_single Ψ (fun Ψ' hΨ' hne => if_neg fun h => hne (huniq Ψ' ⟨hΨ', h⟩))
-      (fun h => absurd hΨ h), if_pos hZΨ]
+    rw [Finset.sum_eq_single Ψ (fun Ψ' hΨ' hne => ite_eq_right fun h => hne (huniq Ψ' ⟨hΨ', h⟩))
+      (fun h => absurd hΨ h), ite_eq_left hZΨ]
   have key : ∀ (w : Equiv.Perm (Fin m) → ℕ),
       ∑ Ψ ∈ 𝒪, ∑ τ : Equiv.Perm (Fin m), w τ *
         (univ.filter fun π => Z Ψ π ∧ α * π = π * τ).card =
@@ -432,7 +432,7 @@ theorem exists_card_ge_of_monic (m : ℕ) :
       (by rw [hf.natDegree_map, hfm])
     have h := (galoisResolvent_spec f (fun i => C (c' i)) (evalRingHom 0) b hb).1
     rw [← hΦmon.natDegree_map (evalRingHom 0)]
-    show (Φ.map _).natDegree = M
+    change (Φ.map _).natDegree = M
     rw [h, natDegree_prod_of_monic _ _ fun π _ => monic_X_sub_C _]
     simp only [natDegree_X_sub_C, Finset.sum_const, Finset.card_univ, Fintype.card_perm,
       Fintype.card_fin, smul_eq_mul, mul_one, M]

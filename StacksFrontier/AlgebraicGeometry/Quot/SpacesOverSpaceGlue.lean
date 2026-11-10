@@ -385,7 +385,7 @@ def famToGlue (a : (pointsCategory B S hS T).obj) : (fam G a).left.obj ⟶ glue 
 theorem famToGlue_comp_glueToBase (a : (pointsCategory B S hS T).obj) :
     famToGlue G a ≫ glueToBase G = famHom G a ≫ (pointMap a).hom := by
   ext W y
-  show T.obj.map ((famHom G a).app W y).op a.fiber.as =
+  change T.obj.map ((famHom G a).app W y).op a.fiber.as =
     (yonedaEquiv.symm a.fiber.as).app W ((famHom G a).app W y)
   rw [yonedaEquiv_symm_app_apply]
   rfl
@@ -420,12 +420,12 @@ theorem isPullback_famToGlue (a : (pointsCategory B S hS T).obj) :
           T.obj.map (𝟙 W.unop).op t := by
         rw [hg, op_id, Functor.map_id_apply]
         exact hz'.symm
-      show famToGlueApp G a ((famMap G v).app W x.1) = ⟨t, x⟩
+      change famToGlueApp G a ((famMap G v).app W x.1) = ⟨t, x⟩
       refine glue_ext G (ptHom (𝟙 W.unop) h) rfl _ _ ?_
       apply ext_famMap G v
       · rw [← famMap_comp_apply]
         exact famMap_famToGlueApp G a _ _ rfl _ (by
-          show 𝟙 _ ≫ g = _
+          change 𝟙 _ ≫ g = _
           rw [Category.id_comp, hg])
       · rw [famHom_famMap_apply, (famToGlueApp G a _).2.2, x.2]
         exact Category.id_comp _

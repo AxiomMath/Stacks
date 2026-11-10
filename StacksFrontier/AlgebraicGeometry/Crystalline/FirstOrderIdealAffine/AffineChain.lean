@@ -498,8 +498,7 @@ tensor agree. -/
 theorem extensionSectionsMap_eq_affineExtensionHom :
     (extensionSectionsMap M A : _ → _) = (affineExtensionHom M A : _ → _) := by
   funext w
-  induction w using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction w using TensorProduct.inductionOn with
   | tmul t s => exact (affineExtensionHom_tmul M A t s).symm
   | add w w' hw hw' => rw [map_add, map_add, hw, hw']
 

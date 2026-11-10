@@ -89,8 +89,7 @@ private theorem smul_algebraMap_tensorDiagonal (R A : Type u) [CommRing R] [Comm
     [Algebra R A] (M : Type u) [AddCommGroup M] [Module A M] [Module R M] [IsScalarTower R A M]
     (r : R) (x : TensorProduct A (A ⊗[R] A) M) :
     (algebraMap R (A ⊗[R] A) r) • x = r • x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add y z hy hz => simp only [smul_add, hy, hz]
   | tmul b m =>
       rw [TensorProduct.smul_tmul', TensorProduct.smul_tmul', smul_eq_mul, Algebra.smul_def]
@@ -164,7 +163,7 @@ private theorem hasTorAmplitude_of_bounded_kFlat (B : Type u) [CommRing B]
   intro M i hi
   refine (PseudoCoherence.derivedTensorHomologyIsoTermwise L hL M i).isZero_iff.2 ?_
   refine ShortComplex.isZero_homology_of_isZero_X₂ _ ?_
-  show IsZero ((StacksDraft.TorAmplitude.Termwise.tensorComplex L M).X i)
+  change IsZero ((StacksDraft.TorAmplitude.Termwise.tensorComplex L M).X i)
   rw [StacksDraft.TorAmplitude.Termwise.tensorComplex_X]
   have hz : IsZero (L.X i) := by
     rcases hi with h | h
@@ -266,7 +265,7 @@ theorem exists_diagonalHomComplexRepresentation_canonical
     (Algebra.TensorProduct.lmul' R : A ⊗[R] A →ₐ[R] A).toRingHom.toAlgebra
   have hsurj : Function.Surjective (algebraMap (A ⊗[R] A) A) := fun a =>
     ⟨a ⊗ₜ[R] 1, by
-      show (Algebra.TensorProduct.lmul' R : A ⊗[R] A →ₐ[R] A) (a ⊗ₜ[R] 1) = a
+      change (Algebra.TensorProduct.lmul' R : A ⊗[R] A →ₐ[R] A) (a ⊗ₜ[R] 1) = a
       simp⟩
   have : Module.Finite (A ⊗[R] A) A :=
     Module.Finite.of_surjective (Algebra.linearMap (A ⊗[R] A) A) hsurj

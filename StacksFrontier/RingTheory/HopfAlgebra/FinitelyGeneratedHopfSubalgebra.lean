@@ -89,8 +89,7 @@ theorem comul_antipode_of_comm (a : A) :
   change _ = comul (R := R) (antipode R a) at h2
   rw [← h2, AlgHom.convMul_apply]
   generalize comul (R := R) a = t
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul x y => simp [convInv_apply]
   | add s t hs ht => simp only [map_add, hs, ht]
 
@@ -130,14 +129,12 @@ private lemma map_assoc_rTensor (t : B ⊗[k] B) :
         (TensorProduct.assoc k B B B ((B.comulOfMem hΔ).rTensor B t)) =
       TensorProduct.assoc k A A A ((comul (R := k)).rTensor A
         (Algebra.TensorProduct.map B.val B.val t)) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul x y =>
     simp only [LinearMap.rTensor_tmul, Algebra.TensorProduct.map_tmul, Subalgebra.coe_val]
     rw [← B.map_comulOfMem hΔ x]
     generalize B.comulOfMem hΔ x = s
-    induction s using TensorProduct.induction_on with
-    | zero => simp
+    induction s using TensorProduct.inductionOn with
     | tmul p q => simp
     | add s s' hs hs' => simp only [add_tmul, map_add, hs, hs']
   | add s t hs ht => simp only [map_add, hs, ht]
@@ -147,8 +144,7 @@ private lemma map_lTensor (t : B ⊗[k] B) :
         (TensorProduct.map B.val.toLinearMap B.val.toLinearMap)
         ((B.comulOfMem hΔ).lTensor B t) =
       (comul (R := k)).lTensor A (Algebra.TensorProduct.map B.val B.val t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul x y =>
     simp only [LinearMap.lTensor_tmul, Algebra.TensorProduct.map_tmul, TensorProduct.map_tmul,
       Subalgebra.coe_val]
@@ -180,8 +176,7 @@ noncomputable def coalgebraOfComulMem : Coalgebra k B where
     change _ = (1 : k) ⊗ₜ[k] (b : A)
     rw [← rTensor_counit_comul (R := k) (b : A), ← B.map_comulOfMem hΔ b]
     generalize B.comulOfMem hΔ b = t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul p q => simp
     | add s t hs ht => simp only [map_add, hs, ht]
   lTensor_counit_comp_comul := by
@@ -193,8 +188,7 @@ noncomputable def coalgebraOfComulMem : Coalgebra k B where
     change _ = (b : A) ⊗ₜ[k] (1 : k)
     rw [← lTensor_counit_comul (R := k) (b : A), ← B.map_comulOfMem hΔ b]
     generalize B.comulOfMem hΔ b = t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul p q => simp
     | add s t hs ht => simp only [map_add, hs, ht]
 
@@ -232,8 +226,7 @@ noncomputable def hopfAlgebraOfComulMem : HopfAlgebra k B :=
       rw [← HopfAlgebra.mul_antipode_rTensor_comul_apply (R := k) (b : A),
         ← B.map_comulOfMem hΔ b]
       generalize B.comulOfMem hΔ b = t
-      induction t using TensorProduct.induction_on with
-      | zero => simp
+      induction t using TensorProduct.inductionOn with
       | tmul p q => simp
       | add s t hs ht => simp only [map_add, Subalgebra.coe_add, hs, ht]
     mul_antipode_lTensor_comul := by
@@ -243,8 +236,7 @@ noncomputable def hopfAlgebraOfComulMem : HopfAlgebra k B :=
       rw [← HopfAlgebra.mul_antipode_lTensor_comul_apply (R := k) (b : A),
         ← B.map_comulOfMem hΔ b]
       generalize B.comulOfMem hΔ b = t
-      induction t using TensorProduct.induction_on with
-      | zero => simp
+      induction t using TensorProduct.inductionOn with
       | tmul p q => simp
       | add s t hs ht => simp only [map_add, Subalgebra.coe_add, hs, ht] }
 

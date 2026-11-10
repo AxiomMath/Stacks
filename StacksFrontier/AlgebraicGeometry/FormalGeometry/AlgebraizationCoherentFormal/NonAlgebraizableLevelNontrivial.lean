@@ -99,7 +99,7 @@ public theorem exists_isUnit_mem_gluedSections_of_iso_unit (a : ℕ → PlaneRin
   have hGu : IsUnit G := (MulEquiv.isUnit_map _).1 (hG ▸ g.isUnit)
   have hu : (levelOverlapUnit k a φ n).val =
       levelOverlapRingEquiv k n (transitionElement k a φ n) := by
-    show levelOverlapRingEquiv k n ((isUnit_transitionElement k a φ n).unit.val) = _
+    change levelOverlapRingEquiv k n ((isUnit_transitionElement k a φ n).unit.val) = _
     rw [IsUnit.unit_spec]
   have hstar : transitionElement k a φ n * yChartToOverlap k n G = xChartToOverlap k n F := by
     refine (levelOverlapRingEquiv k n).injective ?_
@@ -110,7 +110,7 @@ public theorem exists_isUnit_mem_gluedSections_of_iso_unit (a : ℕ → PlaneRin
         (chartOpen_mul_le_left k n) inf_le_left F,
       hF, hG, ← hu]
     have hval := congrArg Units.val hfg
-    simp only [Units.val_mul, Units.coe_map, MonoidHom.coe_coe] at hval
+    simp only [Units.val_mul, Units.coe_map, MonoidHom.coe_ofClass] at hval
     exact hval
   obtain ⟨p, hp⟩ := hFu.exists_left_inv
   obtain ⟨q, hq⟩ := hGu.exists_left_inv

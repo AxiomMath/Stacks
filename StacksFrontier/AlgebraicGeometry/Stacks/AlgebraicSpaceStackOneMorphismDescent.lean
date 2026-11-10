@@ -411,7 +411,7 @@ theorem exists_hom_of_isEtaleCovering
         (imageSubfunctor e).toFunctor.map κ.base.op
           (imageObj e k o₂.base o₂.fiber.as).fiber.as := by
       apply Subtype.ext
-      show (e k).hom.app _ o₁.fiber.as = T.obj.map κ.base.op ((e k).hom.app _ o₂.fiber.as)
+      change (e k).hom.app _ o₁.fiber.as = T.obj.map κ.base.op ((e k).hom.app _ o₂.fiber.as)
       rw [point_eq_of_hom.{u, w} (T := T' k) κ, NatTrans.naturality_apply]
     let κP : imageObj e k o₁.base o₁.fiber.as ⟶ imageObj e k o₂.base o₂.fiber.as :=
       ⟨κ.base, Discrete.eqToHom hpe⟩

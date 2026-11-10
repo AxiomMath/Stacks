@@ -15,7 +15,8 @@ degree `k` are the direct sum `⨁_{α : [n] ⟶ [k]} M(U)`, one copy of `M(U)` 
 
 The alternating-face complex `… ⟶ B_2(M) ⟶ B_1(M) ⟶ B_0(M) ⟶ M ⟶ 0` is exact. This is the
 module-coefficient counterpart of the simplex-coefficient resolution of an abelian sheaf in
-`StacksFrontier/CategoryTheory/Sites/Simplicial/AugmentationResolution.lean`, which is the complex of
+`StacksFrontier/CategoryTheory/Sites/Simplicial/AugmentationResolution.lean`, which is the complex
+of
 the proof of Stacks 0D78; the proof of Stacks 0D7C is that proof with modules as coefficients.
 
 ## Main definitions
@@ -90,7 +91,7 @@ private lemma epi_map_kernelLift_of_exact'
   have : Epi l.f' := h.epi_f' l
   have hl : l.f' = F.map (kernel.lift T.g T.f T.zero) := by
     apply Fork.IsLimit.hom_ext hk
-    show l.f' ≫ l.i = F.map (kernel.lift T.g T.f T.zero) ≫ F.map (kernel.ι T.g)
+    change l.f' ≫ l.i = F.map (kernel.lift T.g T.f T.zero) ≫ F.map (kernel.ι T.g)
     rw [l.f'_i, ← F.map_comp, kernel.lift_ι]
     rfl
   rwa [hl] at this
@@ -142,15 +143,15 @@ private lemma exact_of_map_of_exact_next'
       comm₁₂ := by simp [T']
       comm₂₃ := by simp [T', p] }
   have : Epi (F.mapShortComplex.map φ).τ₁ := by
-    show Epi (F.map (𝟙 T.X₁))
+    change Epi (F.map (𝟙 T.X₁))
     rw [F.map_id]
     infer_instance
   have : IsIso (F.mapShortComplex.map φ).τ₂ := by
-    show IsIso (F.map (𝟙 T.X₂))
+    change IsIso (F.map (𝟙 T.X₂))
     rw [F.map_id]
     infer_instance
   have : Mono (F.mapShortComplex.map φ).τ₃ := by
-    show Mono (F.map (kernel.ι t))
+    change Mono (F.map (kernel.ι t))
     infer_instance
   have hm : (T'.map F).Exact :=
     (ShortComplex.exact_iff_of_epi_of_isIso_of_mono (F.mapShortComplex.map φ)).2 h
@@ -210,7 +211,7 @@ theorem isSheaf_of_isSheaf_componentFunctor_op_comp (S : SimplicialSiteSituation
   · let K := coverageFromIsSite (SimplicialCoverings.total C.underlying C.coverage)
       (CategoryTheory.SimplicialCoverings.total_isSite C.underlying C.coverage C.isSite
         C.isCocontinuous C.hasCoverPullbacks)
-    show Presieve.IsSheaf K.toPrecoverage.toGrothendieck P
+    change Presieve.IsSheaf K.toPrecoverage.toGrothendieck P
     rw [Coverage.toGrothendieck_toPrecoverage, Presieve.isSheaf_coverage]
     rintro X R ⟨E, hE, rfl⟩
     obtain ⟨T, hT, hE⟩ := hE
@@ -351,7 +352,7 @@ private def moduleBarAugmentedEvaluationIso (U : S.totalCategoryᵒᵖ) :
         (moduleBarAugmented M) ≅
     copowerStdSimplex (M.val.obj U) ((totalSimplexDegree S).obj U.unop).unop := by
   let e : (ModuleCat.copower (M.val.obj U)).obj (⊤_ (Type u)) ≅ M.val.obj U :=
-    (Finsupp.LinearEquiv.finsuppUnique (O.obj.obj U) (M.val.obj U) (⊤_ (Type u))).toModuleIso
+    (Finsupp.uniqueLinearEquiv (O.obj.obj U) (M.val.obj U) (default : ⊤_ (Type u))).toModuleIso
   refine Comma.isoMk (moduleBarSimplicialEvaluationIso M U) e.symm ?_
   apply NatTrans.ext
   funext n
@@ -362,9 +363,9 @@ private def moduleBarAugmentedEvaluationIso (U : S.totalCategoryᵒᵖ) :
     ModuleCat.copowerMk_comp_desc, Category.id_comp]
   ext y
   change Finsupp.single _ y =
-    (Finsupp.LinearEquiv.finsuppUnique (O.obj.obj U) (M.val.obj U) (⊤_ (Type u))).symm y
-  rw [LinearEquiv.eq_symm_apply, Finsupp.LinearEquiv.finsuppUnique_apply, Finsupp.single_apply,
-    if_pos (Subsingleton.elim _ _)]
+    (Finsupp.uniqueLinearEquiv (O.obj.obj U) (M.val.obj U) (default : ⊤_ (Type u))).symm y
+  rw [LinearEquiv.eq_symm_apply, Finsupp.uniqueLinearEquiv_apply, Finsupp.single_apply,
+    ite_eq_left (Subsingleton.elim _ _)]
 
 /-- Objectwise, the simplex-coefficient complex is exact in every positive degree. -/
 private lemma moduleBarComplex_evaluation_exactAt (U : S.totalCategoryᵒᵖ) (n : ℕ) (hn : 0 < n) :
@@ -420,7 +421,7 @@ private lemma moduleBarAugmentation_surjective (n : SimplexCategory) (U : S.tota
   let a : (simplexIndices.{u, u} S n).obj U :=
     ULift.up (SimplexCategory.const n ((totalSimplexDegree S).obj U.unop).unop 0)
   refine ⟨(ModuleCat.copowerMk a).hom x, ?_⟩
-  show (ModuleCat.copowerMk a ≫ (PresheafOfModules.copowerSum M.val _).app U).hom x = x
+  change (ModuleCat.copowerMk a ≫ (PresheafOfModules.copowerSum M.val _).app U).hom x = x
   rw [PresheafOfModules.copowerMk_comp_copowerSum_app]
   rfl
 

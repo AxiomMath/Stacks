@@ -129,7 +129,7 @@ theorem retractionMultiplicationFactor_comp_transferMap (f : M₁ ⟶ M₂) (h :
       Φ ≫ retractionMultiplication B S hS r₂ hrep₂ M₂ ι₂ F₂ (f.hom.hom v) :=
     transferMap_comp_globalSmul B S hS r₁ hrep₁ r₂ hrep₂ h hr θ _ _ (fun U => hι U v)
   have e3 : Φ ≫ p₂ = p₁ :=
-    transferMap_comp_retractionProjection B S hS hs₁ hs₂ ψ₁ ψ₂ h hr hih θ hψ
+    transferMap_comp_retractionProjection B S hS ψ₁ ψ₂ h hr hih θ hψ
   have e4 : p₂ ≫ retractionMultiplicationFactor B S hS F₂ G ψ₂ hF₂ hs₂ (f.hom.hom v) =
       retractionMultiplication B S hS r₂ hrep₂ M₂ ι₂ F₂ (f.hom.hom v) :=
     retractionProjection_comp_factor B S hS F₂ G ψ₂ hF₂ hs₂ (f.hom.hom v)
@@ -267,8 +267,7 @@ theorem kernelTransfer_comp_p :
     letI := D.residueLinear iΛ x₀ hx₀
     D.kernelTransfer hd π hπ m hm ≫ (D.kernelExtension iΛ x₀ hx₀ M d hd π hπ).p =
       (D.kernelExtension iΛ x₀ hx₀ M d hd π hπ).p :=
-  transferMap_comp_retractionProjection B S hS (D.kernel_isSplitThickeningBy iΛ x₀ hx₀ M d hd π hπ)
-    (D.kernel_isSplitThickeningBy iΛ x₀ hx₀ M d hd π hπ) (D.fiberIso iΛ x₀ hx₀ d)
+  transferMap_comp_retractionProjection B S hS (D.fiberIso iΛ x₀ hx₀ d)
     (D.fiberIso iΛ x₀ hx₀ d) (D.relativeMap (D.homOf m.arrow).base)
     (D.relativeMap_comp_trivialBase_self hd π hπ m hm) (D.relativeMap_comp_arrowBase m)
     (D.homOf m.arrow).fibre (D.homOf_arrow_fibre_eq m (D.relativeMap_comp_arrowBase m))
@@ -558,7 +557,8 @@ theorem infAction_hom (a : infinitesimalAutomorphismKernel PF
 theorem infAction_injective : Function.Injective (D.infAction iΛ x₀ hx₀ PF hT) := by
   intro a b h
   have hn := D.eq_of_kernelAut_eq (D.algebra_dualPoint iΛ x₀ hx₀ PF) hT.choose _ _
-    (D.ringHom_infEndo iΛ x₀ hx₀ PF a) (D.ringHom_infEndo iΛ x₀ hx₀ PF b) (congrArg (fun t => t.asIso.hom) h)
+    (D.ringHom_infEndo iΛ x₀ hx₀ PF a) (D.ringHom_infEndo iΛ x₀ hx₀ PF b)
+    (congrArg (fun t => t.asIso.hom) h)
   have hφ : D.infEndo iΛ x₀ hx₀ PF a = D.infEndo iΛ x₀ hx₀ PF b :=
     ((D.cohDef iΛ x₀ hx₀).morphisms _ _).injective hn
   exact Subtype.ext (Aut.ext (Iso.ext (Functor.Fiber.hom_ext hφ)))
@@ -693,7 +693,7 @@ theorem finiteDimensional_tangentSpace_and_infinitesimalAutomorphisms_cohDef
     ∃ hp : IsDeformationCategory.{u, u, u} (D.cohDef iΛ x₀ hx₀).projection,
       (letI : Fact (IsPredeformationCategory.{u, u, u}
           (BasedCategory.ofFunctor (D.cohDef iΛ x₀ hx₀).projection).p) := ⟨hp.predeformation⟩;
-        letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π
+        letI : Fact (SchlessingerConditionS2 (Functor.Elements.π
           (isomorphismClasses (BasedCategory.ofFunctor (D.cohDef iΛ x₀ hx₀).projection)
             hp.predeformation.cofibered))) := ⟨tangentConditionS2.{u, u, u} hp⟩;
         FiniteDimensional k (tangentSpaceArtinian.{u, u, u} Λ k

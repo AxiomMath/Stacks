@@ -272,7 +272,7 @@ theorem integral_dim_up
     rw [← PrimeSpectrum.asIdeal_lt_asIdeal] at hpq ⊢
     rw [PrimeSpectrum.comap_asIdeal, PrimeSpectrum.comap_asIdeal, ← halg]
     have := p.isPrime
-    exact Ideal.IsIntegral.comap_lt_comap hpq
+    exact Ideal.IsIntegral.under_lt_under hpq
   · -- (b) closed points map to closed points (maximal contracts to maximal)
     intro q hq
     rw [PrimeSpectrum.isClosed_singleton_iff_isMaximal] at hq ⊢

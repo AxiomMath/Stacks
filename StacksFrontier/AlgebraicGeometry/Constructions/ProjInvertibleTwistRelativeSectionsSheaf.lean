@@ -45,11 +45,7 @@ variable {S P P' : Scheme.{u}} (π : P ⟶ S) {An Ln : S.Modules} {FA : P.Module
 /-- **The multiply map on the image of `A_n(V) ⊗ L_n(V)` is the lower route.** -/
 theorem multiplyHom_app_gammaTensorMap (V : S.Opens) (z : Γ(An, V) ⊗[Γ(S, V)] Γ(Ln, V)) :
     (multiplyHom π ψA).val.app (op V) (gammaTensorMap An Ln V z) = lowerRoute π ψA V z := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-    refine (congrArg ((multiplyHom π ψA).val.app (op V)) (map_zero (gammaTensorMap An Ln V))).trans
-      ?_
-    exact ((multiplyHom π ψA).val.app (op V)).hom.map_zero.trans (map_zero _).symm
+  induction z using TensorProduct.inductionOn with
   | tmul a l => exact multiplyHom_app_gammaTmul π ψA V a l
   | add z z' hz hz' =>
     refine (congrArg ((multiplyHom π ψA).val.app (op V))

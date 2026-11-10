@@ -343,7 +343,7 @@ theorem isFirstOrderThickening_thickeningTestSchemeMap
     rw [← f.overBase, RingHom.comp_apply, ha, map_zero]
   have hsq : RingHom.ker (CommRingCat.ofHom f.ringHom).hom ^ 2 = ⊥ :=
     le_bot_iff.1 ((pow_le_pow_left' hle 2).trans T₁.squareZeroSurjection.2.le)
-  show Stacks.Thickenings.IsFirstOrderThickening
+  change Stacks.Thickenings.IsFirstOrderThickening
     (B.inclusion.map (thickeningOverMap f).left)
   exact Stacks.Smooth.isFirstOrderThickening_specMap (CommRingCat.ofHom f.ringHom) hf hsq
 

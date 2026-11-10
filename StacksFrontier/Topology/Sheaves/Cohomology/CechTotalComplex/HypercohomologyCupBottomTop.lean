@@ -68,7 +68,7 @@ variable (K : CochainComplex.Plus (SheafOfModules.{u} (ringSheaf O)))
 theorem ιTruncPlus_truncLEπ (p : ℤ) :
     ιTruncPlus O K p ≫ truncLEπ O K p = truncPlusπ K.obj p ≫ truncLEι O K p := by
   refine ObjectProperty.hom_ext _ (HomologicalComplex.hom_ext _ _ fun n => ?_)
-  show (HomologicalComplex.ιStupidTrunc K.obj (embeddingUpIntGE p)).f n ≫
+  change (HomologicalComplex.ιStupidTrunc K.obj (embeddingUpIntGE p)).f n ≫
       (K.obj.πStupidTrunc (embeddingUpIntLE p)).f n =
     (stupidTruncGEπ K.obj p).f n ≫ (stupidTruncLEι K.obj p).f n
   by_cases hn : n = p
@@ -91,7 +91,7 @@ theorem bijective_hypercohomologyMap_truncPlusπ (p : ℤ) (hL : ∀ q, p < q �
   have hz : ∀ m, Subsingleton (hypercohomology O (truncSC O L p).X₁ m) := fun m =>
     ModuleCat.subsingleton_of_isZero
       (isZero_hypercohomology_truncPlus_of_lt O L hL (show p < p + 1 by omega) m)
-  show Function.Bijective (hypercohomologyMap O (truncSC O L p).g n)
+  change Function.Bijective (hypercohomologyMap O (truncSC O L p).g n)
   refine ⟨fun b b' hbb' => ?_, fun c => ?_⟩
   · have hker : ∀ c, hypercohomologyMap O (truncSC O L p).g n c = 0 → c = 0 := fun c hc => by
       obtain ⟨a, rfl⟩ := (exact_f_g O (truncSC O L p) hS n c).1 hc
@@ -120,7 +120,7 @@ theorem bijective_hypercohomologyMap_ιTruncPlus_of_truncLEι (p n : ℤ)
       (hypercohomologyMap O (truncLEι O K p) n) ∘
         (hypercohomologyMap O (truncPlusπ K.obj p) n) := by
     funext w
-    show (hypercohomologyMap O (ιTruncPlus O K p) n ≫ hypercohomologyMap O (truncLEπ O K p) n) w =
+    change (hypercohomologyMap O (ιTruncPlus O K p) n ≫ hypercohomologyMap O (truncLEπ O K p) n) w =
       (hypercohomologyMap O (truncPlusπ K.obj p) n ≫ hypercohomologyMap O (truncLEι O K p) n) w
     rw [← hypercohomologyMap_comp, ← hypercohomologyMap_comp, ιTruncPlus_truncLEπ]
   have h := hι.comp (bijective_hypercohomologyMap_truncPlusπ K.obj p hd n)

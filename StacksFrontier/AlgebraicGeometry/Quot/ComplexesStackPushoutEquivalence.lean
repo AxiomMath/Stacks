@@ -20,6 +20,7 @@ equivalence: [Stacks Project, Tag 0DLK]. This is
 
 @[expose] public section
 
-add_to_stacks 0DLK AlgebraicGeometry.Space.ComplexesSituation.isEquivalence_complexesFiberSquareComparison_proved
+add_to_stacks 0DLK
+  AlgebraicGeometry.Space.ComplexesSituation.isEquivalence_complexesFiberSquareComparison_proved
 
 end

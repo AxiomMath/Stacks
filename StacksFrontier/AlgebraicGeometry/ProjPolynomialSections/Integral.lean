@@ -84,7 +84,7 @@ integral model. -/
 public theorem coeffGradedHom_comp_integralGradedHom (θ : R →+* R') :
     (coeffGradedHom R n θ).comp (integralGradedHom R n) = integralGradedHom R' n := by
   refine GradedRingHom.ext fun F => ?_
-  show MvPolynomial.map θ (MvPolynomial.map (integralCoeffHom R) F) =
+  change MvPolynomial.map θ (MvPolynomial.map (integralCoeffHom R) F) =
     MvPolynomial.map (integralCoeffHom R') F
   rw [MvPolynomial.map_map, comp_integralCoeffHom]
 

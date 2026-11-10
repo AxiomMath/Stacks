@@ -125,11 +125,12 @@ variable {C : Type w} [CommRing C] [Algebra B C] [Module.Finite B C] [Algebra A 
     Algebra (Localization.AtPrime q.asIdeal) (Localization.AtPrime (s.asIdeal.under C))]
   [∀ (q : MaximalSpectrum B)
       (s : MaximalSpectrum (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl))),
-    Localization.AtPrime.IsLiesOverAlgebra q.asIdeal (s.asIdeal.under C)]
+    IsScalarTower B (Localization.AtPrime q.asIdeal) (Localization.AtPrime (s.asIdeal.under C))]
   [Fintype (MaximalSpectrum B)] [Fintype (MaximalSpectrum C)]
   [∀ q : MaximalSpectrum B,
     Fintype (MaximalSpectrum (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl)))]
 
+omit [IsNoetherianRing A] [Ring.KrullDimLE 1 A] [Module.Finite A B] in
 /-- **Stacks 0EAT for the symbol the formula Stacks 0EAQ defines.** Let `(A, 𝔪)` be a
 one-dimensional Noetherian local ring, let `A ⊆ B` be a finite ring extension and let `B ⊆ C` be a
 further finite extension. Then
@@ -148,8 +149,8 @@ takes from Stacks 0EAE — is *derived* here, from
 `Stacks.Localization.prod_maximalSpectrum_eq_prod_prod`: the maximal ideals of `C` over `𝔪_j` are
 the maximal ideals of the semilocalization `C_{𝔪_j}`, and the local ring of `C` at the one below
 `v` is `Stacks.Chow.fibrePoint`. The tower `A → B_{𝔪_j} → C_{𝔪_{j,k}}` and the locality of its
-structure maps are derived too, by instance resolution out of
-`Localization.AtPrime.IsLiesOverAlgebra` and `Stacks.Chow.isLocalHom_fibreAlgebraMap`.
+structure maps are derived too, from the scalar towers `B → B_{𝔪_j} → C_{𝔪_{j,k}}` and
+`Stacks.Chow.isLocalHom_fibreAlgebraMap`.
 
 The statement quantifies over arbitrary local factorization data `(π, u₁, u₂, e₁, e₂)` on the
 local rings of `C` rather than over data factoring two fixed elements of `A`, which is a
@@ -244,14 +245,14 @@ theorem symbolValue_eq_normPushforward
     [∀ q : MaximalSpectrum B, Ring.KrullDimLE 1 (Localization.AtPrime q.asIdeal)]
     [∀ q : MaximalSpectrum B, IsLocalHom (algebraMap A (Localization.AtPrime q.asIdeal))]
     [∀ q : MaximalSpectrum B,
-      Fintype (MaximalSpectrum
+      Finite (MaximalSpectrum
         (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl)))]
     [∀ (q : MaximalSpectrum B)
         (v : MaximalSpectrum (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl))),
       Algebra (Localization.AtPrime q.asIdeal) (Localization.AtPrime (v.asIdeal.under C))]
     [∀ (q : MaximalSpectrum B)
         (v : MaximalSpectrum (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl))),
-      Localization.AtPrime.IsLiesOverAlgebra q.asIdeal (v.asIdeal.under C)]
+      IsScalarTower B (Localization.AtPrime q.asIdeal) (Localization.AtPrime (v.asIdeal.under C))]
     (hB : ¬ IsAssociatedPrime (maximalIdeal A) B)
     (hC : ¬ IsAssociatedPrime (maximalIdeal A) C)
     (hfibre : ∀ q : MaximalSpectrum B,
@@ -273,6 +274,11 @@ theorem symbolValue_eq_normPushforward
     (P : TameSymbolPreparation a B) (i j : Fin r)
     (x y : nonZeroDivisors A) (hx : (x : A) = a i) (hy : (y : A) = a j) :
     P.symbolValue i j = normPushforward hC symb hinj hquot x y := by
+  have : ∀ q : MaximalSpectrum B,
+      Fintype (MaximalSpectrum
+        (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl))) :=
+    fun q => Fintype.ofFinite
+      (MaximalSpectrum (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl)))
   rw [normPushforward_apply_eq_prod_norm_normPushforward hB hC hfibre symb hinj hquot
     hinjFibre hquotFibre x y]
   refine Finset.prod_congr rfl fun q _ => ?_
@@ -289,6 +295,7 @@ theorem symbolValue_eq_normPushforward
   · rw [hy]
     exact P.factorization q.asIdeal j
 
+omit [Fintype (MaximalSpectrum C)] in
 /-- **The half of Stacks 0EAR about the choice of `B`, against a given refinement.** Two
 tame-symbol preparations of the same family over two different finite extensions `A ⊆ B` and
 `A ⊆ B'`, both refined by a single finite extension `A ⊆ C` as in Stacks 0EAT, give the same value
@@ -307,35 +314,35 @@ one input taken as a hypothesis; the source gets it from the glueing of Stacks 0
 This is therefore a conditional step of Stacks 0EAR and not Stacks 0EAR: the refinement and the
 localized hypotheses are assumed here. Stacks 0EAR itself is this statement with all of them
 discharged, `AlgebraicGeometry.TameSymbolPreparation.symbolValue_eq_of_preparations`. -/
-theorem symbolValue_eq_of_common_refinement
+theorem symbolValue_eq_of_common_refinement [Finite (MaximalSpectrum C)]
     {B : Type v} [CommRing B] [Algebra A B] [Algebra B C] [IsScalarTower A B C]
     [Module.Finite B C] [Fintype (MaximalSpectrum B)]
     [∀ q : MaximalSpectrum B, IsNoetherianRing (Localization.AtPrime q.asIdeal)]
     [∀ q : MaximalSpectrum B, Ring.KrullDimLE 1 (Localization.AtPrime q.asIdeal)]
     [∀ q : MaximalSpectrum B, IsLocalHom (algebraMap A (Localization.AtPrime q.asIdeal))]
     [∀ q : MaximalSpectrum B,
-      Fintype (MaximalSpectrum
+      Finite (MaximalSpectrum
         (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl)))]
     [∀ (q : MaximalSpectrum B)
         (v : MaximalSpectrum (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl))),
       Algebra (Localization.AtPrime q.asIdeal) (Localization.AtPrime (v.asIdeal.under C))]
     [∀ (q : MaximalSpectrum B)
         (v : MaximalSpectrum (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl))),
-      Localization.AtPrime.IsLiesOverAlgebra q.asIdeal (v.asIdeal.under C)]
+      IsScalarTower B (Localization.AtPrime q.asIdeal) (Localization.AtPrime (v.asIdeal.under C))]
     {B' : Type w'} [CommRing B'] [Algebra A B'] [Algebra B' C] [IsScalarTower A B' C]
     [Module.Finite B' C] [Fintype (MaximalSpectrum B')]
     [∀ q : MaximalSpectrum B', IsNoetherianRing (Localization.AtPrime q.asIdeal)]
     [∀ q : MaximalSpectrum B', Ring.KrullDimLE 1 (Localization.AtPrime q.asIdeal)]
     [∀ q : MaximalSpectrum B', IsLocalHom (algebraMap A (Localization.AtPrime q.asIdeal))]
     [∀ q : MaximalSpectrum B',
-      Fintype (MaximalSpectrum
+      Finite (MaximalSpectrum
         (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl)))]
     [∀ (q : MaximalSpectrum B')
         (v : MaximalSpectrum (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl))),
       Algebra (Localization.AtPrime q.asIdeal) (Localization.AtPrime (v.asIdeal.under C))]
     [∀ (q : MaximalSpectrum B')
         (v : MaximalSpectrum (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl))),
-      Localization.AtPrime.IsLiesOverAlgebra q.asIdeal (v.asIdeal.under C)]
+      IsScalarTower B' (Localization.AtPrime q.asIdeal) (Localization.AtPrime (v.asIdeal.under C))]
     (hB : ¬ IsAssociatedPrime (maximalIdeal A) B)
     (hB' : ¬ IsAssociatedPrime (maximalIdeal A) B')
     (hC : ¬ IsAssociatedPrime (maximalIdeal A) C)
@@ -369,8 +376,9 @@ theorem symbolValue_eq_of_common_refinement
           (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl))))
     (P : TameSymbolPreparation a B) (P' : TameSymbolPreparation a B') (i j : Fin r)
     (x y : nonZeroDivisors A) (hx : (x : A) = a i) (hy : (y : A) = a j) :
-    P.symbolValue i j = P'.symbolValue i j :=
-  (symbolValue_eq_normPushforward hB hC hfibre symb hinj hquot hinjFibre hquotFibre
+    P.symbolValue i j = P'.symbolValue i j := by
+  have : Fintype (MaximalSpectrum C) := Fintype.ofFinite (MaximalSpectrum C)
+  exact (symbolValue_eq_normPushforward hB hC hfibre symb hinj hquot hinjFibre hquotFibre
       P i j x y hx hy).trans
     (symbolValue_eq_normPushforward hB' hC hfibre' symb hinj hquot hinjFibre' hquotFibre'
       P' i j x y hx hy).symm

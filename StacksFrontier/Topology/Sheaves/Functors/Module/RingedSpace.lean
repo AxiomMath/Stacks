@@ -230,7 +230,7 @@ lemma coversTop_preimage {X Y : RingedSpace.{u, u}} (f : X ⟶ Y) {I : Type u}
   apply (Opens.coversTop_iff (X : Type u) (fun i : ULift I =>
     (Opens.map f.hom.base).obj (V i.down))).2
   have hcover : TopologicalSpace.IsOpenCover V := (Opens.coversTop_iff (Y : Type u) V).1 hV
-  show iSup (fun i : ULift I => (Opens.map f.hom.base).obj (V i.down)) = ⊤
+  change iSup (fun i : ULift I => (Opens.map f.hom.base).obj (V i.down)) = ⊤
   ext x
   simp only [Opens.coe_iSup, Set.mem_iUnion, Opens.coe_top, Set.mem_univ, iff_true]
   obtain ⟨i, hi⟩ := hcover.exists_mem (f.hom.base x)

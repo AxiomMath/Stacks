@@ -109,7 +109,7 @@ theorem exists_ambientMap :
       (⟨yoneda.map C.P.target⟩ : (⟨yoneda.obj C.P.R, hRsh⟩ :
       Sheaf (BigFppfOver.topology B S hS) (Type u)) ⟶ ⟨yoneda.obj C.P.U, hUsh⟩) ≫ g := by
     apply Sheaf.hom_ext
-    show yoneda.map C.P.source ≫ yoneda.map (incU E C hcU) ≫ ambQuot E C hcU hcR =
+    change yoneda.map C.P.source ≫ yoneda.map (incU E C hcU) ≫ ambQuot E C hcU hcR =
       yoneda.map C.P.target ≫ yoneda.map (incU E C hcU) ≫ ambQuot E C hcU hcR
     rw [← Functor.map_comp_assoc, ← Functor.map_comp_assoc, ← incR_comp_ambSource E C hcU hcR,
       ← incR_comp_ambTarget E C hcU hcR, Functor.map_comp_assoc, Functor.map_comp_assoc,

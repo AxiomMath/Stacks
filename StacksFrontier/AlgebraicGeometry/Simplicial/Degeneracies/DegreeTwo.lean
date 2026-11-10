@@ -162,7 +162,7 @@ private theorem aeval_sub_algHom_mem_span_X_sub_algHom
         MvPolynomial.X i - s (f i)) := by
   let I : Ideal (MvPolynomial σ R) :=
     Ideal.span (Set.range fun i : σ => MvPolynomial.X i - s (f i))
-  show q - s ((MvPolynomial.aeval f) q) ∈ I
+  change q - s ((MvPolynomial.aeval f) q) ∈ I
   induction q using MvPolynomial.induction_on with
   | C a => simp [I]
   | add q r hq hr =>
@@ -216,7 +216,7 @@ theorem faces_matching (q : P2 p) :
         | z t => simp [faceZero, faceTwo, DegreeOne.faceZero]
         | v r =>
             simp only [faceZero, faceTwo, MvPolynomial.aeval_X]
-            show DegreeOne.faceOne p 0 =
+            change DegreeOne.faceOne p 0 =
               DegreeOne.faceZero p
               (r.val.sum (fun t a => DegreeOne.degeneracyZero p a *
                 MvPolynomial.X (Sum.inr t)))
@@ -242,18 +242,18 @@ theorem faces_matching (q : P2 p) :
         | z t => simp [faceOne, faceTwo, DegreeOne.faceOne]
         | v r =>
             simp only [faceOne, faceTwo, MvPolynomial.aeval_X]
-            show DegreeOne.faceOne p 0 =
+            change DegreeOne.faceOne p 0 =
               DegreeOne.faceOne p
               (r.val.sum (fun t a => DegreeOne.degeneracyZero p a *
                 MvPolynomial.X (Sum.inr t)))
             simp only [map_zero]
             rw [_root_.map_finsuppSum]
             simp only [map_mul, faceOne_degeneracyZero_apply, faceOne_relationVariable]
-            show 0 = r.val.sum (fun t a => a * p.presentation.relation t)
+            change 0 = r.val.sum (fun t a => a * p.presentation.relation t)
             exact r.property.symm
         | w t t' =>
             simp only [faceOne, faceTwo, MvPolynomial.aeval_X]
-            show DegreeOne.faceOne p 0 = DegreeOne.faceOne p
+            change DegreeOne.faceOne p 0 = DegreeOne.faceOne p
               (MvPolynomial.X (Sum.inr t) * MvPolynomial.X (Sum.inr t') -
                 DegreeOne.degeneracyZero p (p.presentation.relation t) *
                   MvPolynomial.X (Sum.inr t'))
@@ -492,7 +492,7 @@ private theorem freeOne_hom_ext {T : AlgCat.{max u v w x} p.A}
       apply FreeAlgebra.hom_ext
       funext i
       cases i
-      show f.hom (ULift.up (FreeAlgebra.ι p.A ())) =
+      change f.hom (ULift.up (FreeAlgebra.ι p.A ())) =
         g.hom (ULift.up (FreeAlgebra.ι p.A ()))
       exact h
     exact congrArg (fun k : FreeAlgebra p.A Unit →ₐ[p.A] T => k x) hc
@@ -505,7 +505,7 @@ private theorem freeOne_faceZero_eq (a b : DegreeOne.P1 p)
       freeOneEval p (ULift.up b) ≫
         AlgCat.ofHom (DegreeOne.faceZeroLift p) := by
   apply freeOne_hom_ext
-  show DegreeOne.faceZeroLift p
+  change DegreeOne.faceZeroLift p
       ((freeOneEval p (show DegreeOne.algP1 p from ULift.up a)).hom
         (ULift.up (FreeAlgebra.ι p.A ()))) =
     DegreeOne.faceZeroLift p
@@ -523,7 +523,7 @@ private theorem freeOne_faceOne_eq (a b : DegreeOne.P1 p)
       freeOneEval p (ULift.up b) ≫
         AlgCat.ofHom (DegreeOne.faceOneLift p) := by
   apply freeOne_hom_ext
-  show DegreeOne.faceOneLift p
+  change DegreeOne.faceOneLift p
       ((freeOneEval p (show DegreeOne.algP1 p from ULift.up a)).hom
         (ULift.up (FreeAlgebra.ι p.A ()))) =
     DegreeOne.faceOneLift p
@@ -541,7 +541,7 @@ private theorem freeOne_faceOneZero_eq (a b : DegreeOne.P1 p)
       freeOneEval p (ULift.up b) ≫
         AlgCat.ofHom (DegreeOne.faceZeroLift p) := by
   apply freeOne_hom_ext
-  show DegreeOne.faceOneLift p
+  change DegreeOne.faceOneLift p
       ((freeOneEval p (show DegreeOne.algP1 p from ULift.up a)).hom
         (ULift.up (FreeAlgebra.ι p.A ()))) =
     DegreeOne.faceZeroLift p
@@ -630,7 +630,7 @@ theorem degreeTwoCoskeletonLimitIso_face
         limit.π (degreeTwoSlice p d') f =
         ((SimplicialObject.Truncated.cosk 1).obj truncated).map f.hom ≫
           (L.ranCounit.app truncated).app f.right := by
-      show (L.ranObjObjIsoLimit truncated X).hom ≫
+      change (L.ranObjObjIsoLimit truncated X).hom ≫
           limit.π (StructuredArrow.proj X L ⋙ truncated) f =
         (L.ran.obj truncated).map f.hom ≫ (L.ranCounit.app truncated).app f.right
       exact h
@@ -713,7 +713,7 @@ theorem matchingTriple_exists
                 cases hY
                 rfl
               rw [hcast]
-              show (freeOneEval p (ULift.up x) ≫
+              change (freeOneEval p (ULift.up x) ≫
                 (degreeOneTruncatedTopIso p d).inv) ≫ 𝟙 _ ≫
                   (degreeOneTruncatedTopIso p d).hom = _
               calc
@@ -726,7 +726,7 @@ theorem matchingTriple_exists
       (FreeAlgebra.ι p.A ())
     have hval := congrArg (fun f : algFreeOne p ⟶ DegreeOne.algP1 p =>
         f.hom gen) hcomp
-    show ULift.down.{max (max (max u v) w) x, max (max u w) x}
+    change ULift.down.{max (max (max u v) w) x, max (max u w) x}
       ((d.simplicial.δ i ≫ d.oneIso.hom) (φ.hom gen)) = x
     have hval' :
         (d.simplicial.δ i ≫ d.oneIso.hom).hom (φ.hom gen) =
@@ -778,7 +778,7 @@ private theorem degreeTwoConeOf_face
     (degreeTwoConeOf p d a).π.app (degreeTwoFaceArrow i) ≫
         (degreeOneTruncatedObjIso p d (degreeTwoFaceArrow i).right rfl).hom =
       freeOneEval p (ULift.up (coskeletonFaceOf p d i a)) := by
-  show freeOneEval p a ≫ (degreeTwoCoskeletonLimitIso p d).hom ≫
+  change freeOneEval p a ≫ (degreeTwoCoskeletonLimitIso p d).hom ≫
       limit.π (degreeTwoSlice p d) (degreeTwoFaceArrow i) ≫
         (degreeOneTruncatedObjIso p d (degreeTwoFaceArrow i).right rfl).hom = _
   calc
@@ -792,7 +792,7 @@ private theorem degreeTwoConeOf_face
       apply freeOne_hom_ext
       let gen : algFreeOne p := ULift.up.{max (max (max u v) w) x, max u}
         (FreeAlgebra.ι p.A ())
-      show (d.oneIso.hom).hom ((d.simplicial.δ i).hom
+      change (d.oneIso.hom).hom ((d.simplicial.δ i).hom
           ((freeOneEval p a).hom gen)) =
         (freeOneEval p (ULift.up (coskeletonFaceOf p d i a))).hom gen
       have hl := freeOneEval_generator p a
@@ -850,7 +850,7 @@ theorem matchingFace_injective
       rw [← op_comp]
       exact congrArg Quiver.Hom.op hfactor
     let f : Y ⟶ X := StructuredArrow.homMk ψ' (by
-      show Y.hom ≫ (SimplexCategory.Truncated.inclusion 1).op.map ψ' = X.hom
+      change Y.hom ≫ (SimplexCategory.Truncated.inclusion 1).op.map ψ' = X.hom
       simpa [Y, degreeTwoFaceArrow, ψ', hY, ObjectProperty.ι_map] using hcompose)
     have hca : ca.π.app X = ca.π.app Y ≫ (degreeTwoSlice p d).map f := by
       simpa using ca.π.naturality f
@@ -1104,7 +1104,7 @@ private theorem degreeTwoToCoskeleton_hom_face (i : Fin 3) :
     dsimp [e, degreeOneTruncatedObjIso]
     cases hY
     rfl
-  show m ≫ (degreeTwoCoskeletonLimitIso p d).inv ≫
+  change m ≫ (degreeTwoCoskeletonLimitIso p d).inv ≫
     d.simplicial.δ i ≫ d.oneIso.hom =
       AlgCat.ofHom (if i = 0 then faceZeroLiftP2 p else
         if i = 1 then faceOneLiftP2 p else faceTwoLiftP2 p)
@@ -1370,7 +1370,7 @@ private theorem commonKernel_mem
       (a - DegreeOne.degeneracyZero p
         (DegreeOne.faceOne p a)) * relationVariable p t) ∈
       commonKernelIdeal p := by
-    show (∑ t ∈ c.support, (c t -
+    change (∑ t ∈ c.support, (c t -
       DegreeOne.degeneracyZero p
         (DegreeOne.faceOne p (c t))) * relationVariable p t) ∈ _
     exact (commonKernelIdeal p).sum_mem fun t _ ↦ hdelta_mem t
@@ -1382,7 +1382,7 @@ private theorem commonKernel_mem
       DegreeOne.degeneracyZero p a * relationVariable p t) =
       c.sum (fun t a => DegreeOne.degeneracyZero p
         (DegreeOne.faceOne p a) * relationVariable p t) := by
-    show r0.sum (fun t a =>
+    change r0.sum (fun t a =>
       DegreeOne.degeneracyZero p a * relationVariable p t) = _
     dsimp [r0]
     exact Finsupp.sum_mapRange_index

@@ -58,15 +58,15 @@ followed by the second applied to the comparison of the first. -/
 theorem coefficientMate_comp_app (Gf : A ⥤ B) (Gf' : B ⥤ B') [J.HasSheafCompose Gf]
     [K.HasSheafCompose Gf] [J.HasSheafCompose Gf'] [K.HasSheafCompose Gf']
     [J.HasSheafCompose (Gf ⋙ Gf')] [K.HasSheafCompose (Gf ⋙ Gf')] (c : Sheaf J A) :
-    (sheafComposeCoefficientMate uf J K adjA adjB' (Gf ⋙ Gf')).natTrans.app c =
-      (sheafComposeCoefficientMate uf J K adjB adjB' Gf').natTrans.app ((sheafCompose J Gf).obj c) ≫
+    (sheafComposeCoefficientMate uf J K adjA adjB' (Gf ⋙ Gf')).app c =
+      (sheafComposeCoefficientMate uf J K adjB adjB' Gf').app ((sheafCompose J Gf).obj c) ≫
         (sheafCompose K Gf').map
-          ((sheafComposeCoefficientMate uf J K adjA adjB Gf).natTrans.app c) := by
+          ((sheafComposeCoefficientMate uf J K adjA adjB Gf).app c) := by
   let rhs : LB'.obj ((sheafCompose J (Gf ⋙ Gf')).obj c) ⟶
       (sheafCompose K (Gf ⋙ Gf')).obj (LA.obj c) :=
-    (sheafComposeCoefficientMate uf J K adjB adjB' Gf').natTrans.app ((sheafCompose J Gf).obj c) ≫
-      (sheafCompose K Gf').map ((sheafComposeCoefficientMate uf J K adjA adjB Gf).natTrans.app c)
-  show _ = rhs
+    (sheafComposeCoefficientMate uf J K adjB adjB' Gf').app ((sheafCompose J Gf).obj c) ≫
+      (sheafCompose K Gf').map ((sheafComposeCoefficientMate uf J K adjA adjB Gf).app c)
+  change _ = rhs
   apply (adjB'.homEquiv _ _).injective
   rw [Adjunction.homEquiv_unit, Adjunction.homEquiv_unit, ← coefficientMate_unit]
   have h₁ := coefficientMate_unit uf J K adjA adjB Gf c
@@ -74,7 +74,7 @@ theorem coefficientMate_comp_app (Gf : A ⥤ B) (Gf' : B ⥤ B') [J.HasSheafComp
   have h₃ : (sheafCompose J (Gf ⋙ Gf')).map (adjA.unit.app c) =
       (sheafCompose J Gf').map (adjB.unit.app ((sheafCompose J Gf).obj c)) ≫
         (uf.sheafPushforwardContinuous B' J K).map ((sheafCompose K Gf').map
-          ((sheafComposeCoefficientMate uf J K adjA adjB Gf).natTrans.app c)) :=
+          ((sheafComposeCoefficientMate uf J K adjA adjB Gf).app c)) :=
     (congrArg (sheafCompose J Gf').map h₁).trans ((sheafCompose J Gf').map_comp _ _)
   rw [h₃, h₂]
   exact (Category.assoc _ _ _).trans
@@ -84,8 +84,8 @@ theorem coefficientMate_comp_app (Gf : A ⥤ B) (Gf' : B ⥤ B') [J.HasSheafComp
 functors.** -/
 theorem isIso_sheafComposeCoefficientMate_of_iso {Gf Gf' : A ⥤ B} [J.HasSheafCompose Gf]
     [K.HasSheafCompose Gf] [J.HasSheafCompose Gf'] [K.HasSheafCompose Gf'] (e : Gf ≅ Gf')
-    (h : IsIso (sheafComposeCoefficientMate uf J K adjA adjB Gf).natTrans) :
-    IsIso (sheafComposeCoefficientMate uf J K adjA adjB Gf').natTrans := by
+    (h : IsIso (sheafComposeCoefficientMate uf J K adjA adjB Gf)) :
+    IsIso (sheafComposeCoefficientMate uf J K adjA adjB Gf') := by
   rw [NatTrans.isIso_iff_isIso_app]
   intro c
   have hn := sheafComposeCoefficientMate_naturality uf J K adjA adjB e.hom c
@@ -98,7 +98,7 @@ theorem isIso_sheafComposeCoefficientMate_of_iso {Gf Gf' : A ⥤ B} [J.HasSheafC
       rw [← NatTrans.comp_app, ← sheafCompose_comp, e.hom_inv_id, sheafCompose_id]; rfl, by
       rw [← NatTrans.comp_app, ← sheafCompose_comp, e.inv_hom_id, sheafCompose_id]; rfl⟩
   have : IsIso (LB.map ((sheafCompose_map J e.hom).app c) ≫
-      (sheafComposeCoefficientMate uf J K adjA adjB Gf').natTrans.app c) := by
+      (sheafComposeCoefficientMate uf J K adjA adjB Gf').app c) := by
     rw [hn]; infer_instance
   exact IsIso.of_isIso_comp_left (LB.map ((sheafCompose_map J e.hom).app c)) _
 
@@ -108,18 +108,18 @@ theorem isIso_coefficientMate_of_comp (Gf : A ⥤ B) (Gf' : B ⥤ B') [J.HasShea
     [K.HasSheafCompose Gf] [J.HasSheafCompose Gf'] [K.HasSheafCompose Gf']
     [J.HasSheafCompose (Gf ⋙ Gf')] [K.HasSheafCompose (Gf ⋙ Gf')]
     [(sheafCompose K Gf').ReflectsIsomorphisms]
-    (h : IsIso (sheafComposeCoefficientMate uf J K adjA adjB' (Gf ⋙ Gf')).natTrans)
-    (h' : IsIso (sheafComposeCoefficientMate uf J K adjB adjB' Gf').natTrans) :
-    IsIso (sheafComposeCoefficientMate uf J K adjA adjB Gf).natTrans := by
+    (h : IsIso (sheafComposeCoefficientMate uf J K adjA adjB' (Gf ⋙ Gf')))
+    (h' : IsIso (sheafComposeCoefficientMate uf J K adjB adjB' Gf')) :
+    IsIso (sheafComposeCoefficientMate uf J K adjA adjB Gf) := by
   rw [NatTrans.isIso_iff_isIso_app]
   intro c
-  have h₁ : IsIso ((sheafComposeCoefficientMate uf J K adjA adjB' (Gf ⋙ Gf')).natTrans.app c) :=
+  have h₁ : IsIso ((sheafComposeCoefficientMate uf J K adjA adjB' (Gf ⋙ Gf')).app c) :=
     inferInstance
   rw [coefficientMate_comp_app uf J K adjA adjB adjB'] at h₁
   have : IsIso ((sheafCompose K Gf').map
-      ((sheafComposeCoefficientMate uf J K adjA adjB Gf).natTrans.app c)) :=
+      ((sheafComposeCoefficientMate uf J K adjA adjB Gf).app c)) :=
     @IsIso.of_isIso_comp_left _ _ _ _ _
-      ((sheafComposeCoefficientMate uf J K adjB adjB' Gf').natTrans.app _) _ inferInstance h₁
+      ((sheafComposeCoefficientMate uf J K adjB adjB' Gf').app _) _ inferInstance h₁
   exact isIso_of_reflects_iso _ (sheafCompose K Gf')
 
 end General
@@ -151,7 +151,7 @@ lemma algebraMap_smul_freeBasisVec_comm {n : ℕ} (c : T) (j : Fin n) :
     (c • freeBasisVec A j : ULift.{v} (Fin n → A)) =
       (MulOpposite.op (algebraMap T A c) • freeBasisVec A j : ULift.{v} (Fin n → A)) := by
   ext i
-  show c • (Pi.single j 1 : Fin n → A) i = (Pi.single j 1 : Fin n → A) i * algebraMap T A c
+  change c • (Pi.single j 1 : Fin n → A) i = (Pi.single j 1 : Fin n → A) i * algebraMap T A c
   rw [Algebra.smul_def, Algebra.commutes]
 
 /-- Evaluation at the `j`-th basis vector, `Hom_A(Aⁿ, N) ⟶ N`. -/
@@ -245,8 +245,8 @@ variable [PreservesFiniteLimits LB]
 /-- **The comparison of `Hom_A(Aⁿ, -)` is invertible** when that of restriction of scalars is. -/
 theorem isIso_coefficientMate_freeHomFunctor (n : ℕ)
     [J.HasSheafCompose (freeHomFunctor.{v} T A n)] [K.HasSheafCompose (freeHomFunctor.{v} T A n)]
-    (hres : IsIso (sheafComposeCoefficientMate uf J K adjA adjB (algebraRes.{v} T A)).natTrans) :
-    IsIso (sheafComposeCoefficientMate uf J K adjA adjB (freeHomFunctor.{v} T A n)).natTrans := by
+    (hres : IsIso (sheafComposeCoefficientMate uf J K adjA adjB (algebraRes.{v} T A))) :
+    IsIso (sheafComposeCoefficientMate uf J K adjA adjB (freeHomFunctor.{v} T A n)) := by
   have : ∀ i, J.HasSheafCompose ((freeHomDiagram.{v} T A n).obj i) :=
     fun _ => inferInstanceAs (J.HasSheafCompose (algebraRes.{v} T A))
   have : ∀ i, K.HasSheafCompose ((freeHomDiagram.{v} T A n).obj i) :=
@@ -287,7 +287,7 @@ lemma presentationIncl_comp_relMap :
       presentationIncl.{v} T A f ≫ 0 := by
   refine NatTrans.ext (funext fun N => ModuleCat.hom_ext (LinearMap.ext fun φ =>
     SourceHom.ext fun d => ?_))
-  show φ.toLinearMap (f (g d.down)) = 0
+  change φ.toLinearMap (f (g d.down)) = 0
   rw [hfg.apply_apply_eq_zero, _root_.map_zero]
 
 /-- `Hom_A(D', -)` as the equalizer of the relation map and `0`. -/
@@ -426,9 +426,9 @@ theorem isIso_coefficientMate_sourceHomFunctor (D' : Type v) [AddCommGroup D'] [
     [K.HasSheafCompose (sourceHomFunctor.{v} A T D')]
     [∀ n, J.HasSheafCompose (freeHomFunctor.{v} T A n)]
     [∀ n, K.HasSheafCompose (freeHomFunctor.{v} T A n)]
-    (hres : IsIso (sheafComposeCoefficientMate uf J K adjA adjB (algebraRes.{v} T A)).natTrans) :
+    (hres : IsIso (sheafComposeCoefficientMate uf J K adjA adjB (algebraRes.{v} T A))) :
     IsIso (sheafComposeCoefficientMate uf J K adjA adjB
-      (sourceHomFunctor.{v} A T D')).natTrans := by
+      (sourceHomFunctor.{v} A T D')) := by
   obtain ⟨n, m, f, g, hf, hfg⟩ := Module.FinitePresentation.exists_fin' A D'
   have : ∀ i, J.HasSheafCompose ((parallelPair (presentationRelMap.{v} T A g) 0).obj i) := by
     rintro (_ | _)

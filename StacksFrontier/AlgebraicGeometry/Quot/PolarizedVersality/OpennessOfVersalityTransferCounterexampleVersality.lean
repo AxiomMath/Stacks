@@ -126,7 +126,7 @@ theorem truncatedTransition_surjective (m : ℕ) :
   intro a
   obtain ⟨p, rfl⟩ := AdjoinRoot.mk_surjective a
   refine ⟨AdjoinRoot.mk _ p, ?_⟩
-  show p.eval₂ (algebraMap K (truncatedRing K m)) (AdjoinRoot.root _) = AdjoinRoot.mk _ p
+  change p.eval₂ (algebraMap K (truncatedRing K m)) (AdjoinRoot.root _) = AdjoinRoot.mk _ p
   rw [← Polynomial.aeval_def, AdjoinRoot.aeval_eq]
 
 /-- The transition commutes with the augmentations. -/
@@ -393,7 +393,7 @@ theorem residueMap_testObj (m : ℕ) :
 /-- The function of `x` vanishes at `u₀`: its pullback to the residue field is zero. -/
 theorem pullbackFunction_fieldSiteToBase :
     pullbackFunction B hS (fieldSiteToBase x u₀) (objFn x) = 0 := by
-  show ((targetOver x).left.fromSpecResidueField u₀).appTop (objFn x) = 0
+  change ((targetOver x).left.fromSpecResidueField u₀).appTop (objFn x) = 0
   apply eq_zero_of_basicOpen_eq_bot
   refine (Scheme.preimage_basicOpen_top _ _).symm.trans ?_
   have hg : (targetOver x).left.basicOpen (objFn x) = ⊥ := basicOpen_objFn x
@@ -414,7 +414,7 @@ def testBaseHom : testY x u₀ 0 ⟶ x :=
 
 /-- The arrow `testBaseHom x u₀` satisfies the residue-field condition. -/
 theorem residueCond_testBaseHom : ResidueCond x u₀ 0 (testBaseHom x u₀) := by
-  show Spec.map (CommRingCat.ofHom (truncatedAug (K := testField x u₀) 0).toRingHom) ≫
+  change Spec.map (CommRingCat.ofHom (truncatedAug (K := testField x u₀) 0).toRingHom) ≫
     (Spec.map (CommRingCat.ofHom (algebraMap (testField x u₀) (truncatedRing (testField x u₀) 0))) ≫
       (targetOver x).left.fromSpecResidueField u₀) = _
   rw [← Category.assoc, ← Spec.map_comp]

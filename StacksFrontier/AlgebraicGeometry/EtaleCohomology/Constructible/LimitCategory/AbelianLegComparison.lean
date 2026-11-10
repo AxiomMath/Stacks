@@ -146,6 +146,9 @@ theorem smallEtaleSheafPushforward_map_hom_app {S T : B.Scheme} (g : T ⟶ S)
       φ.hom.app (op ((AlgebraicGeometry.smallEtaleBaseChange B g).obj V)) :=
   rfl
 
+omit [∀ (S T : B.Scheme) (f : T ⟶ S),
+    ((AlgebraicGeometry.smallEtaleBaseChange B f).sheafPushforwardContinuous AddCommGrpCat.{u + 1}
+      (topology B S.obj S.property) (topology B T.obj T.property)).IsRightAdjoint] in
 /-- **The comparisons of direct images along the restriction functors are compatible with
 composition.** -/
 theorem abRestriction_pushforwardComp_compat {X Y Z : B.Scheme} (f : X ⟶ Y) (g : Y ⟶ Z)

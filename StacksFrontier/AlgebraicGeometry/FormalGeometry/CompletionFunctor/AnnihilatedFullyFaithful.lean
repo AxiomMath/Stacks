@@ -205,7 +205,7 @@ public theorem completionAnnihilatedPushforwardIso_completionProjection [IsLocal
         (Scheme.Modules.pushforward i).map
           (completionProjection Z (I.comap i) ((coherentPullback i).obj M) n) := by
   let : IsLocallyNoetherian Z := isLocallyNoetherian_of_isClosedImmersion i
-  show completionProjection X I M n ≫
+  change completionProjection X I M n ≫
       ((completionFunctor X I).map (coherentUnitIso i M hM).hom).hom.app (op n) ≫
         (completionPushforwardIso i I ((coherentPullback i).obj M)
           (isCoherent_pushforward_of_isClosedImmersion i
@@ -246,7 +246,7 @@ public theorem completionAnnihilatedPushforwardIso_naturality [IsLocallyNoetheri
   have hN' := completionAnnihilatedPushforwardIso_completionProjection i I N hN n.unop
   have hq := completionFunctor_map_quotient X I f n.unop
   have hq' := completionFunctor_map_quotient Z (I.comap i) ((coherentPullback i).map f) n.unop
-  show completionProjection X I M n.unop ≫
+  change completionProjection X I M n.unop ≫
       ((completionFunctor X I).map f).hom.app (op n.unop) ≫
         (completionAnnihilatedPushforwardIso i I N hN).hom.app (op n.unop) =
     completionProjection X I M n.unop ≫
@@ -356,7 +356,7 @@ public theorem exists_unique_completion_preimage_of_annihilated [IsLocallyNoethe
     refine ObjectProperty.hom_ext _ ?_
     refine (cancel_mono (completionAnnihilatedPushforwardIso i I N hN).hom).1 ?_
     rw [completionAnnihilatedPushforwardIso_naturality i I hM hN, hpf, hψ₀]
-    show (completionAnnihilatedPushforwardIso i I M hM).hom ≫
+    change (completionAnnihilatedPushforwardIso i I M hM).hom ≫
       Functor.whiskerRight γ (Scheme.Modules.pushforward i) = _
     rw [hγ, Iso.hom_inv_id_assoc]
   exact ⟨ObjectProperty.homMk f, key, fun ψ' hψ' => hinj ψ' _ (hψ'.trans key.symm)⟩

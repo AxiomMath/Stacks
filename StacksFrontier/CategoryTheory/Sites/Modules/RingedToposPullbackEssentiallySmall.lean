@@ -64,7 +64,8 @@ of `fSharpRing` is written at the normal form of the ring sheaf, and
 `Stacks.SheafOfModules.Tensor.ringSheaf` is an anonymous-constructor pair whose first component
 is `O.obj ⋙ forget₂ CommRingCat RingCat`, so `(Tensor.ringSheaf Y.O).obj` reduces at
 reducible transparency instead of standing as an atom, and Mathlib's key `φ : ?S ⟶ ?F.op ⋙ ?R`
-cannot recover `?F` and `?R` from the target.  So `F`, `R` and `S` are supplied explicitly.  The analogous bridge at `RingedToposHom.lean:168`
+cannot recover `?F` and `?R` from the target.  So `F`, `R` and `S` are supplied explicitly.  The
+analogous bridge at `RingedToposHom.lean:168`
 exists only for `RingedTopos.{w, w, w}`, so it does not cover these independent universes.
 
 ## References
@@ -98,7 +99,8 @@ presented by a morphism of the underlying sites, with the object and morphism un
 two sites independent of each other and of the universe of the sections of the structure
 sheaves; the source site is asked to be essentially small in that universe rather than small"]
 def pullbackToposGeneral (f : RingedToposSiteHom X Y) :
-    SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) ⥤ SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) :=
+    SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) ⥤
+      SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) :=
   SheafOfModules.pullback.{w} f.fSharpRing
 
 /-- **Stacks 03D7 at independent universes.** The pullback of sheaves of modules is left adjoint
@@ -139,7 +141,8 @@ scalars along `f^♯`, that is, of `O_X ⊗_{f⁻¹ O_Y} f⁻¹ G`. -/
 def pullbackToposGeneralIso (f : RingedToposSiteHom X Y) :
     f.pullbackToposGeneral ≅ SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) ⋙
       PresheafOfModules.pullback.{w} f.fSharpRing.hom ⋙
-        PresheafOfModules.sheafification (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj) (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj) :=
+        PresheafOfModules.sheafification (R₀ := (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)
+          (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj) :=
   SheafOfModules.pullbackIso.{w} f.fSharpRing
 
 end AlgebraicGeometry.RingedToposSiteHom
@@ -147,8 +150,6 @@ end AlgebraicGeometry.RingedToposSiteHom
 namespace AlgebraicGeometry.RingedToposSiteHom
 
 variable {X Y : RingedTopos.{w, w, w}}
-  [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
-  [Y.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [EssentiallySmall.{w} Y.C] [LocallySmall.{w} X.C]
   [HasWeakSheafify X.J AddCommGrpCat.{w}]
   [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}]

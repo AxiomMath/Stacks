@@ -504,11 +504,11 @@ theorem isIso_extendScalarsRightDerivedConstantUnitHom [QuasiCompact f] [QuasiSe
     have n2 : RK.map ((etaleModuleRestrictScalars φ X).map (cA.map m)) ≫ iso2.inv =
         iso2.inv ≫ res.map (RA.map (cA.map m)) :=
       (etaleModuleRightDerivedDirectImageRestrictScalarsNatIso φ f q).inv.naturality (cA.map m)
-    show RK.map (cK.map ((ModuleCat.restrictScalars.{u + 1} φ).map m)) ≫
+    change RK.map (cK.map ((ModuleCat.restrictScalars.{u + 1} φ).map m)) ≫
         RK.map iso1.inv ≫ iso2.inv = (RK.map iso1.inv ≫ iso2.inv) ≫ res.map (RA.map (cA.map m))
     rw [← RK.map_comp_assoc, n1, RK.map_comp, Category.assoc, n2, Category.assoc]
   have hg : g = Ψ.map (unitULiftHom.{u} φ) ≫ e.hom := by
-    show RK.map (cK.map (unitULiftHom.{u} φ) ≫ iso1.inv) ≫ iso2.inv =
+    change RK.map (cK.map (unitULiftHom.{u} φ) ≫ iso1.inv) ≫ iso2.inv =
       RK.map (cK.map (unitULiftHom.{u} φ)) ≫ RK.map iso1.inv ≫ iso2.inv
     rw [RK.map_comp, Category.assoc]
   have hsmul : ∀ i : I, RA.map (cA.map (basisVec φ b i • 𝟙 A₁)) =
@@ -516,14 +516,14 @@ theorem isIso_extendScalarsRightDerivedConstantUnitHom [QuasiCompact f] [QuasiSe
     intro i
     have : (basisVec φ b i • 𝟙 A₁) = ModuleCat.ofHom (basisVec φ b i • LinearMap.id) := rfl
     rw [this]
-    show RA.map ((constantSheaf X.smallEtaleTopology (ModuleCat.{u + 1} A)).map
+    change RA.map ((constantSheaf X.smallEtaleTopology (ModuleCat.{u + 1} A)).map
       (ModuleCat.ofHom (basisVec φ b i • LinearMap.id))) = _
     rw [(etaleModuleSMul_app_constantSheaf X (basisVec φ b i) A₁).symm]
     exact rightDerived_etaleModuleDirectImage_map_etaleModuleSMul f _ q _
   have hH : IsColimit (Cofan.mk (res.obj H)
       (fun i => g ≫ res.map ((etaleModuleSMul S (basisVec φ b i)).app H))) := by
     refine IsColimit.ofIsoColimit hΨ (Cofan.ext e (fun i => ?_))
-    show Ψ.map (unitULiftHom.{u} φ ≫ (ModuleCat.restrictScalars.{u + 1} φ).map
+    change Ψ.map (unitULiftHom.{u} φ ≫ (ModuleCat.restrictScalars.{u + 1} φ).map
         (basisVec φ b i • 𝟙 A₁)) ≫ e.hom = g ≫ res.map ((etaleModuleSMul S (basisVec φ b i)).app H)
     rw [Ψ.map_comp, Category.assoc, he, hsmul, hg, Category.assoc]
   have hκ : ∀ i : I, ((etaleModuleExtendScalarsAdj φ S).unit.app G ≫

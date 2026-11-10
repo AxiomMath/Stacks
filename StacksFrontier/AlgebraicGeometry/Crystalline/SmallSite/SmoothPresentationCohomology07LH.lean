@@ -138,7 +138,7 @@ theorem baseChangeLift_inclusion (mu : M.carrier →ₛₗ[g.toRingHom] N) (m : 
     baseChangeLift g M mu (CompletedConnection.baseChangeInclusion p R.ring R'.ring M.carrier m) =
       mu m := by
   let : Algebra R.ring R'.ring := g.toRingHom.toAlgebra
-  show completedTensorLiftₛₗ p mu (AdicCompletion.of _ _ _) = _
+  change completedTensorLiftₛₗ p mu (AdicCompletion.of _ _ _) = _
   rw [completedTensorLiftₛₗ_of, tensorLiftₛₗ_tmul, one_smul]
 
 /-- **The linear extension of a horizontal semilinear map is horizontal** for the base-changed

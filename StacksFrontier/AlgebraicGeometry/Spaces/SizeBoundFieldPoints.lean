@@ -182,7 +182,7 @@ theorem exists_map_siteMapOver_eq_app {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type (
     have h1 := uliftYonedaEquiv_naturality g snd.op
     rw [Equiv.apply_symm_apply] at h1
     rw [h1]
-    show uliftYonedaEquiv.{w} (uliftYoneda.{w}.map snd ≫ g) = _
+    change uliftYonedaEquiv.{w} (uliftYoneda.{w}.map snd ≫ g) = _
     rw [← hsq, uliftYonedaEquiv_comp, uliftYonedaEquiv_uliftYoneda_map]
   obtain ⟨L, _, ιW, _⟩ :=
     exists_spec_field_hom_locallyOfFiniteType ((BigFppfOver.toScheme B S hS).map snd)
@@ -197,7 +197,7 @@ theorem exists_map_siteMapOver_eq_app {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type (
   have hκ : (e.hom ≫ ιW) ≫ B.inclusion.map P.hom = B.inclusion.map
       (BigFppfOver.siteObjectOver B S hS U (hcont i) (V i).hom).hom := by
     rw [← toScheme_map_comp_inclusion_map_hom B S hS snd]
-    show _ = (V i).hom ≫ B.inclusion.map U.hom
+    change _ = (V i).hom ≫ B.inclusion.map U.hom
     rw [← he]
     simp [W]
   have hh : h ≫ B.inclusion.map U₀.hom = B.inclusion.map
@@ -211,7 +211,7 @@ theorem exists_map_siteMapOver_eq_app {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type (
   have hπ : BigFppfOver.siteMapOver B S hS U (hcont i) (V i).hom = κ ≫ snd :=
     (BigFppfOver.toScheme B S hS).map_injective (by
       rw [Functor.map_comp, hκmap]
-      show (V i).hom = _
+      change (V i).hom = _
       rw [← he]
       exact (Category.assoc _ _ _).symm)
   have hfst : κ ≫ fst = homOfSchemeHom B S hS

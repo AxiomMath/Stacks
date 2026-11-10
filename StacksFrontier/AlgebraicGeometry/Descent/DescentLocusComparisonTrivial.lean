@@ -59,7 +59,7 @@ theorem nonvanishingLocus_eq_univ_of_ne_zero {K : Type u} [Field K] {Y : Scheme.
     intro h0
     apply hs
     rw [← Stacks.Cech.iso_inv_app_hom_app e ⊤ s]
-    show e.inv.app ⊤ τ = 0
+    change e.inv.app ⊤ τ = 0
     rw [h0]
     exact map_zero _
   obtain ⟨k, hk⟩ := hΓ.2 τ
@@ -133,7 +133,7 @@ theorem exists_vanishing_family_trivial {K₀ : Type u} [Field K₀] (χ₀ : A 
   set φ₀ : A →+* B₀ := (algebraMap (A ⧸ J) B₀).comp π
   have hφ₀g : IsUnit (φ₀ g) := IsLocalization.Away.algebraMap_isUnit (π g)
   have hφ₀c : ∀ k, φ₀ (c k) = 0 := fun k => by
-    show algebraMap (A ⧸ J) B₀ (π (c k)) = 0
+    change algebraMap (A ⧸ J) B₀ (π (c k)) = 0
     rw [Ideal.Quotient.eq_zero_iff_mem.2 (Ideal.subset_span (Set.mem_range_self k)), map_zero]
   -- every algebra in which `g` is invertible and the `c_k` vanish is a `B₀`-algebra
   have hfac : ∀ (B : Type u) [CommRing B] (φ : A →+* B), IsUnit (φ g) → (∀ k, φ (c k) = 0) →
@@ -143,7 +143,7 @@ theorem exists_vanishing_family_trivial {K₀ : Type u} [Field K₀] (χ₀ : A 
     let ψR : A ⧸ J →+* B := Ideal.Quotient.lift J φ fun x hx => hJ hx
     have hu : IsUnit (ψR (π g)) := hφg
     refine ⟨IsLocalization.Away.lift (π g) hu, RingHom.ext fun x => ?_⟩
-    show IsLocalization.Away.lift (π g) hu (algebraMap (A ⧸ J) B₀ (π x)) = φ x
+    change IsLocalization.Away.lift (π g) hu (algebraMap (A ⧸ J) B₀ (π x)) = φ x
     rw [IsLocalization.Away.lift_eq]
     exact Ideal.Quotient.lift_mk J φ _
   obtain ⟨ψ₀, hψ₀⟩ := hfac K₀ χ₀ (isUnit_iff_ne_zero.mpr hg) hc
@@ -195,7 +195,7 @@ theorem exists_vanishing_family_trivial {K₀ : Type u} [Field K₀] (χ₀ : A 
   obtain ⟨a₁, rfl⟩ := Ideal.Quotient.mk_surjective rt
   have hspec : t * φ₀ (g ^ m) = φ₀ a₁ := by
     rw [← hrt]
-    show IsLocalization.mk' B₀ (π a₁) ⟨π g ^ m, _⟩ * algebraMap (A ⧸ J) B₀ (π (g ^ m)) = _
+    change IsLocalization.mk' B₀ (π a₁) ⟨π g ^ m, _⟩ * algebraMap (A ⧸ J) B₀ (π (g ^ m)) = _
     rw [map_pow π]
     exact IsLocalization.mk'_spec B₀ (π a₁) ⟨π g ^ m, _⟩
   have hψt : ψ₀ t ≠ 0 := fun h0 => hst (Ideal.mem_comap.2 (h0 ▸ ξ.asIdeal.zero_mem))
@@ -220,7 +220,7 @@ theorem exists_vanishing_family_trivial {K₀ : Type u} [Field K₀] (χ₀ : A 
       by_contra hy
       apply htZ (show h₀.base (j.base y) ∈ PrimeSpectrum.basicOpen t from ?_) ⟨j.base y, hy, rfl⟩
       rw [← Scheme.Hom.comp_apply, hsqj.w, Scheme.Hom.comp_apply]
-      show t ∉ Ideal.comap ψ (h.base y).asIdeal
+      change t ∉ Ideal.comap ψ (h.base y).asIdeal
       rw [Ideal.mem_comap]
       exact fun hmem => (h.base y).isPrime.ne_top (Ideal.eq_top_of_isUnit_mem _ hmem hψt')
     rw [Stacks.NonvanishingPullback.preimage_nonvanishingLocus j L₀ σ] at hall

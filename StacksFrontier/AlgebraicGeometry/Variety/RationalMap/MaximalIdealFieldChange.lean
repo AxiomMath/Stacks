@@ -442,10 +442,10 @@ lemma tensorSpecialFibreQuotientEquiv_comp_includeLeft
         (A := IsLocalRing.ResidueField R) (B := K)).comp
           (IsLocalRing.residue R) := by
   ext r
-  show (tensorSpecialFibreQuotientEquiv k R K)
+  change (tensorSpecialFibreQuotientEquiv k R K)
     ((Ideal.Quotient.mk _) (r ⊗ₜ[k] 1)) =
       (IsLocalRing.residue R r) ⊗ₜ[k] 1
-  show (Algebra.TensorProduct.quotientTensorEquiv (R := k) k K R
+  change (Algebra.TensorProduct.quotientTensorEquiv (R := k) k K R
     (IsLocalRing.maximalIdeal R)).symm
       ((Ideal.Quotient.mk _) (r ⊗ₜ[k] 1)) =
         (Ideal.Quotient.mk (IsLocalRing.maximalIdeal R)) r ⊗ₜ[k] 1
@@ -464,10 +464,10 @@ lemma tensorSpecialFibreQuotientEquiv_comp_includeRight
       (Algebra.TensorProduct.includeRight.toRingHom :
         K →+* IsLocalRing.ResidueField R ⊗[k] K) := by
   ext r
-  show (tensorSpecialFibreQuotientEquiv k R K)
+  change (tensorSpecialFibreQuotientEquiv k R K)
     ((Ideal.Quotient.mk _) (1 ⊗ₜ[k] r)) =
       1 ⊗ₜ[k] r
-  show (Algebra.TensorProduct.quotientTensorEquiv (R := k) k K R
+  change (Algebra.TensorProduct.quotientTensorEquiv (R := k) k K R
     (IsLocalRing.maximalIdeal R)).symm
       ((Ideal.Quotient.mk _) (1 ⊗ₜ[k] r)) =
         (Ideal.Quotient.mk (IsLocalRing.maximalIdeal R)) 1 ⊗ₜ[k] r
@@ -734,7 +734,7 @@ private lemma residueFieldMap_specAlgebraMap_comp_residueFieldEquiv
   have htransport : (Scheme.residueFieldCongr h).inv.hom (eR z) = eRg z := by
     simpa [eR, eRg, Scheme.residueFieldCongr] using
       spec_residueFieldEquiv_congr k s (g y) h.symm z
-  show (Scheme.Spec.residueFieldIso (.of K) y).commRingCatIsoToRingEquiv
+  change (Scheme.Spec.residueFieldIso (.of K) y).commRingCatIsoToRingEquiv
       (g.residueFieldMap y ((Scheme.residueFieldCongr h).inv (eR z))) =
     (Scheme.Spec.residueFieldIso (.of K) y).commRingCatIsoToRingEquiv
       (eC (algebraMap k K z))
@@ -906,7 +906,7 @@ theorem map_maximalIdeal_stalkMap_eq_of_isReduced_tensorProduct
     let : Ring.KrullDimLE 0 (B ⧸ I) := ringKrullDimZero_iff_ringKrullDim_eq_zero.mpr hdimfiber
     exact Ring.KrullDimLE.isField_of_isReduced
   by
-    show I = IsLocalRing.maximalIdeal B
+    change I = IsLocalRing.maximalIdeal B
     exact IsLocalRing.eq_maximalIdeal
       ((Ideal.Quotient.maximal_ideal_iff_isField_quotient I).mpr hfield)
 

@@ -7,8 +7,8 @@ public import StacksFrontier.AlgebraicGeometry.CoveringResolutionQuasiIso.Basic
 
 The augmentation of the Čech complex of an open covering of a ringed space is a
 quasi-isomorphism, which is the last of the nine fields of
-  `Stacks.CechTotalComplex.CoveringResolution.CoveringResolution`,
-and with it `Stacks.CechTotalComplex.CoveringResolution.exists_coveringResolution`.
+  `Stacks.CechTotalComplex.CoveringResolution`,
+and with it `exists_coveringResolution`.
 
 ## Main results
 
@@ -116,7 +116,7 @@ theorem mono_augZero (hU : ⨆ i, U i = ⊤) : Mono (augZero.{u, v, w, t} X R U 
   refine ⟨0, ?_⟩
   rw [aug0_injective.{u, v, w, t} X R U l F hW hz, map_zero]
 
-/-- **The `quasiIso` field of `Stacks.CechTotalComplex.CoveringResolution.CoveringResolution`**:
+/-- **The `quasiIso` field of `Stacks.CechTotalComplex.CoveringResolution`**:
   every component of the
 natural augmentation is a quasi-isomorphism. -/
 theorem quasiIso_augmentationNatTrans (hU : ⨆ i, U i = ⊤) :
@@ -151,7 +151,7 @@ the product coordinates of its terms with Equation 01EE for the differential, th
 of homology, and the quasi-isomorphism. -/
 @[stacks 02FU]
 theorem exists_coveringResolution (hU : ⨆ i, U i = ⊤) :
-    Nonempty (CoveringResolution.{u, v, w, t} X R U) :=
+    Nonempty (Stacks.CechTotalComplex.CoveringResolution.{u, v, w, t} X R U) :=
   ⟨coveringResolutionOfQuasiIso.{u, v, w, t} X R U
     fun G => quasiIso_augmentationNatTrans.{u, v, w, t} X R U G hU⟩
 

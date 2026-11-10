@@ -115,7 +115,7 @@ theorem basisRes_refCochain_pullbackCochain (n : ℕ) {m : ℕ}
       (Scheme.Hom.relativeDifferentialForms f' (n : ℤ)).presheaf.map (homOfLE h').op
         (Scheme.Hom.relativeDifferentialFormsPullback g' f f' g w (n : ℤ)
           (CechCochains.inter U (r ∘ t)) (c (r ∘ t))) := by
-  show CechCochains.restr (abSections (deRhamTerm (formsAlgebras f') n)) h
+  change CechCochains.restr (abSections (deRhamTerm (formsAlgebras f') n)) h
       (CechCochains.restr (abSections (deRhamTerm (formsAlgebras f') n))
         (Stacks.CechKunneth.inter_le_inter_refine (fun i => g' ⁻¹ᵁ U i) V r hr t)
         (CechCochains.restr (abSections (deRhamTerm (formsAlgebras f') n))

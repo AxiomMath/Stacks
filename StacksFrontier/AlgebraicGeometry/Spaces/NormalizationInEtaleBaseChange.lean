@@ -252,7 +252,7 @@ theorem isRelativeNormalization_id_of_isIntegrallyClosed {T Y : AlgebraicSpaces 
   exact isRelativeNormalization_of_pushforwardAlgebraMap_eq B S hS q (idAffineOver B S hS T)
     (isIntegralHom_of_isIso B S hS (𝟙 T.1)) (overHomToId B S hS q) e
     (by
-      show (AlgebraSheaf.isoOfIsIsoRight ψ).inv ≫ φ = _
+      change (AlgebraSheaf.isoOfIsIsoRight ψ).inv ≫ φ = _
       rw [← hψ]
       exact (AlgebraSheaf.isoOfIsIsoRight ψ).inv_hom_id_assoc _)
 
@@ -311,7 +311,7 @@ theorem isIntegrallyClosed_of_isRelativeNormalization_id {T Y : AlgebraicSpaces 
     Over.homMk (ObjectProperty.homMk φ.hom) (ObjectProperty.hom_ext _ hφ2)
   let Φinv : N.obj ⟶ (idAffineOver B S hS T).obj :=
     Over.homMk (ObjectProperty.homMk φ.inv) (ObjectProperty.hom_ext _ (by
-      show φ.inv ≫ 𝟙 T.1 = N.obj.hom.hom
+      change φ.inv ≫ 𝟙 T.1 = N.obj.hom.hom
       simpa only [Category.comp_id, Iso.inv_hom_id_assoc] using
         (congrArg (φ.inv ≫ ·) hφ2).symm))
   have hΦ : Φ ≫ Φinv = 𝟙 _ := Over.OverMorphism.ext (ObjectProperty.hom_ext _ φ.hom_inv_id)

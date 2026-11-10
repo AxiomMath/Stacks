@@ -254,7 +254,7 @@ theorem complementCohomologyZeroEquivSections_naturality
     complementCohomologyZeroEquivSections D N
         ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) 0).map (D.complement.map g) x) =
       (complementSectionsFunctor A I).map g (complementCohomologyZeroEquivSections D M x) := by
-  show complementSectionsHom I (associatedSheaf A N)
+  change complementSectionsHom I (associatedSheaf A N)
       (D.sectionsIso N ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) 0).map
         (D.complement.map g) x)) = _
   rw [D.sectionsIso_naturality g x]

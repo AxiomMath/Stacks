@@ -128,7 +128,7 @@ smooth, and smoothness is stable under composition. -/
 theorem isSmooth_yoneda_map_iff {U V : BigFppfOver B S hS} (j : U ⟶ V) :
     IsSmooth B S hS (yoneda.map j) ↔ Smooth ((BigFppfOver.toScheme B S hS).map j) := by
   refine ⟨smooth_toScheme_map_of_isSmooth_yoneda_map B S hS j, fun hj => ?_⟩
-  show HoldsOnEveryEtaleChart B S hS
+  change HoldsOnEveryEtaleChart B S hS
     (@Smooth.{u} : MorphismProperty Scheme.{u}) (yoneda.map j)
   rw [holdsOnEveryEtaleChart_iff_representable
     (B := B) (S := S) (hS := hS) (P := @Smooth.{u})
@@ -275,7 +275,7 @@ theorem etale_atlases_comp_isSmoothCovering
       (U i) (a i)).mp (hsurj i) z
     refine Set.mem_iUnion.mpr ⟨⟨i, PUnit.unit⟩, w, ?_⟩
     rw [pointsMap_comp]
-    show pointsMap B S hS (Z i).1 (g i).hom (pointsMap B S hS _ (a i) w) = v
+    change pointsMap B S hS (Z i).1 (g i).hom (pointsMap B S hS _ (a i) w) = v
     rw [hw, hz]
 
 /-- Around a smooth covering and an étale scheme chart `a` of its target: the base change of the
@@ -391,7 +391,7 @@ theorem isLocalAtSource_smooth_of_schemes
     let : IsIso e := inferInstance
     have hcomp : Q (e ≫ (gi j ≫ f)) :=
       MorphismProperty.RespectsIso.precomp Q e (gi j ≫ f) (hgiQ j)
-    show Q (E.f i ≫ f)
+    change Q (E.f i ≫ f)
     rw [hindex]
     exact hcomp
   · intro hall U V a b h ha hb hcomm
@@ -412,7 +412,7 @@ theorem isLocalAtSource_smooth_of_schemes
       have hi' : HoldsOnEveryEtaleChart B S hS P ((gi i).hom ≫ f.hom) := by
         have := MorphismProperty.RespectsIso.precomp Q e (E.f j ≫ f) hi
         change Q (e ≫ (E.f j ≫ f)) at this
-        show Q (gi i ≫ f)
+        change Q (gi i ≫ f)
         rw [hgi]
         exact this
       rw [← Functor.map_comp]

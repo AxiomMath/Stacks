@@ -34,10 +34,10 @@ variable {A B A' B' : Type*} [Category* A] [Category* B] [Category* A'] [Categor
 `L ⊣ R`, `L' ⊣ R'` of the mate of `θ` over `p ⊣ P`, `q ⊣ Q` is invertible: it is the conjugate
 of `θ` for the two composite adjunctions `L ⋙ q ⊣ Q ⋙ R` and `p ⋙ L' ⊣ R' ⋙ P`. -/
 theorem isIso_mateEquiv_mateEquiv (adj : L ⊣ R) (adj' : L' ⊣ R') (adjp : p ⊣ P) (adjq : q ⊣ Q)
-    (θ : TwoSquare L p q L') (hθ : IsIso θ.natTrans) :
-    IsIso (mateEquiv adj' adj (mateEquiv adjp adjq θ)).natTrans := by
+    (θ : TwoSquare L p q L') (hθ : IsIso θ) :
+    IsIso (mateEquiv adj' adj (mateEquiv adjp adjq θ)) := by
   rw [iterated_mateEquiv_conjugateEquiv adjp adjq adj adj' θ]
-  exact conjugateEquiv_iso (adjp.comp adj') (adj.comp adjq) θ.natTrans
+  exact conjugateEquiv_iso (adjp.comp adj') (adj.comp adjq) θ
 
 /-- **Invertibility of a counit transfers along a square of adjunctions.**  In the situation of
 `Stacks.CategoryTheory.isIso_mateEquiv_mateEquiv`, if moreover the mate
@@ -47,12 +47,12 @@ at `Y`, then the counit of `L ⊣ R` is invertible at `Q Y`.
 The counit square `L(σ_Y) ≫ ε_{Q Y} = α_{R' Y} ≫ Q(ε'_Y)` of the mate `σ` of `α` has an
 invertible right-hand side and an invertible first factor on the left. -/
 theorem isIso_counit_app_obj_of_isIso_mateEquiv_app (adj : L ⊣ R) (adj' : L' ⊣ R')
-    (adjp : p ⊣ P) (adjq : q ⊣ Q) (θ : TwoSquare L p q L') (hθ : IsIso θ.natTrans) (Y : B')
+    (adjp : p ⊣ P) (adjq : q ⊣ Q) (θ : TwoSquare L p q L') (hθ : IsIso θ) (Y : B')
     (hα : IsIso ((mateEquiv adjp adjq θ).app (R'.obj Y))) (hY : IsIso (adj'.counit.app Y)) :
     IsIso (adj.counit.app (Q.obj Y)) := by
   have := isIso_mateEquiv_mateEquiv adj adj' adjp adjq θ hθ
   have := NatIso.isIso_app_of_isIso
-    (mateEquiv adj' adj (mateEquiv adjp adjq θ)).natTrans Y
+    (mateEquiv adj' adj (mateEquiv adjp adjq θ)) Y
   have hsq := mateEquiv_counit adj' adj (mateEquiv adjp adjq θ) Y
   have hrhs : IsIso ((mateEquiv adjp adjq θ).app (R'.obj Y) ≫
       Q.map (adj'.counit.app Y)) := inferInstance

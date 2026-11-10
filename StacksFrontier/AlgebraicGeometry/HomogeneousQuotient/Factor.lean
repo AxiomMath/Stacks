@@ -76,7 +76,7 @@ theorem irrelevant_le_map_quotientFactor (h : I ≤ J) :
       (HomogeneousIdeal.irrelevant (quotientGrading 𝒜 I)).map (quotientFactor 𝒜 h) := by
   refine (HomogeneousIdeal.irrelevant_le (quotientGrading 𝒜 J)).2 fun j hj x hx => ?_
   obtain ⟨a, ha, rfl⟩ := (mem_quotientGrading_iff 𝒜 J).1 hx
-  show Ideal.Quotient.mk J.toIdeal a ∈
+  change Ideal.Quotient.mk J.toIdeal a ∈
     ((HomogeneousIdeal.irrelevant (quotientGrading 𝒜 I)).map (quotientFactor 𝒜 h)).toAddSubmonoid
   rw [← quotientFactor_mk 𝒜 h a]
   exact Ideal.mem_map_of_mem _ (HomogeneousIdeal.mem_irrelevant_of_mem _ hj

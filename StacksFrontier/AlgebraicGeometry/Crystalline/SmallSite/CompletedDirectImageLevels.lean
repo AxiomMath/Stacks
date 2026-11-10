@@ -104,13 +104,14 @@ source's two remaining moves, neither of which is in the library:
 Nothing below carries a hypothesis beyond those of the ambient affine or global situation.  In
 particular `computesCohomology_wholeSpaceSystem_of_directImage` does not need
 `HasBinaryCoproducts (Cris^∧(C/A))`: the Čech engine asks only for the powers of its covering
-object, which [Stacks, Tag 07L4] supplies; see the "What is and is not proved" note of `CompletedCechDescent.lean`.
+object, which [Stacks, Tag 07L4] supplies; see the "What is and is not proved" note of
+`CompletedCechDescent.lean`.
 
 The smallness question that the module docstring of
 `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/AffineCohomology.lean` leaves open in its
 item 3 is **not** open: it is answered in the module docstring of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/CompletedCechDescent.lean`, and the answer is
-that the sizes on the affine side do *not* coincide — an object of `Cris^∧(C/A)` bundles its own
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/CompletedCechDescent.lean`, and the answer
+is that the sizes on the affine side do *not* coincide — an object of `Cris^∧(C/A)` bundles its own
 carrier, so the objects form a `Type (max u v (t + 1))` while the morphisms form a `Type t` — but
 that this does not matter, because `CategoryTheory.SmallCategory` asks only that objects and
 morphisms share a universe and `CategoryTheory.AsSmall` always arranges that.  The engine
@@ -326,7 +327,7 @@ def levelLimitCone (B : CompletedCrystallineThickening.{u, v, w} s) :
   pt := ((crystallineToCompleted s).ran.obj 𝓕).obj B
   π :=
     { app := levelLimitLeg 𝓕 B
-      naturality := fun e e' f =>
+      naturality := fun _ _ f =>
         (Category.id_comp _).trans (levelLimitLeg_comp_map 𝓕 B f).symm }
 
 /-- The leg of `Crystalline.levelLimitCone` at a level `e` is `Crystalline.levelLimitLeg`. -/
@@ -378,7 +379,7 @@ theorem directImageToLevelLimitApp_comp_π (B : CompletedCrystallineThickening.{
 def directImageToLevelLimit : (crystallineToCompleted s).ran.obj 𝓕 ⟶ levelLimitPresheaf s 𝓕 where
   app B := directImageToLevelLimitApp 𝓕 B
   naturality B B' φ := by
-    show ((crystallineToCompleted s).ran.obj 𝓕).map φ ≫ directImageToLevelLimitApp 𝓕 B' =
+    change ((crystallineToCompleted s).ran.obj 𝓕).map φ ≫ directImageToLevelLimitApp 𝓕 B' =
       directImageToLevelLimitApp 𝓕 B ≫
         limMap (Functor.whiskerRight ((Functor.curryObj (levelFunctor s)).map φ) 𝓕)
     apply limit.hom_ext
@@ -498,6 +499,7 @@ variable (S : GlobalCrystallineSituation.{u}) (hp : IsNilpotent (S.p : Γ(S.X, �
   [WholeSpacePresentation S hp]
   [IsAffine S.X] [IsAffine S.S.scheme]
 
+omit [WholeSpacePresentation S hp] in
 /-- **The coefficient presheaf of [Stacks, Tag 07JN] is the level-limit presheaf.**  The presheaf
 `levelLimitSections F` of `CechCohomologyGlue.lean` is `Crystalline.levelLimitPresheaf` applied to
 the affine-side sections of `F`; the two definitions agree on the nose. -/
@@ -531,6 +533,7 @@ def IsDirectImageCohomologyComparison (F : Sheaf (smallTopology S) AddCommGrpCat
     ((abelianDirectImage.{u, u, u} (affineSituation S hp)).obj
       (affineSections S hp F.obj))) j ≃+ cohomology S F j)
 
+omit [WholeSpacePresentation S hp] in
 /-- **`IsCompletedSiteComparison` follows from the comparison stated for the direct image.**  The
 coefficient presheaf of [Stacks, Tag 07JN] is the direct image of [Stacks, Tag 07JL], by
 `levelLimitSectionsIsoDirectImage`, and the cohomology of the completed site depends on the
@@ -597,6 +600,7 @@ noncomputable def IsDirectImageCohomologyComparisonVia.equiv
         (affineSections S hp F.obj))) j ≃+ cohomology S F j :=
   AddEquiv.ofBijective (c j) (hc j)
 
+omit [WholeSpacePresentation S hp] in
 /-- **A named bijective comparison gives the remaining step of [Stacks, Tag 07JN].** -/
 theorem isDirectImageCohomologyComparison_of_via
     (F : Sheaf (smallTopology S) AddCommGrpCat.{u + 1})
@@ -605,6 +609,7 @@ theorem isDirectImageCohomologyComparison_of_via
     IsDirectImageCohomologyComparison S hp F :=
   fun j => ⟨hc.equiv j⟩
 
+omit [WholeSpacePresentation S hp] in
 /-- **The remaining step of [Stacks, Tag 07JN] is exactly the existence of a named bijective
 comparison**, so the named shape neither weakens nor strengthens it. -/
 theorem isDirectImageCohomologyComparison_iff_exists_via
@@ -627,6 +632,7 @@ def isCompletedSiteComparisonMapsOfDirectImage
   fun j => (c j).comp
     (sheafHAddEquivOfPresheafIso (levelLimitSectionsIsoDirectImage S hp F.obj) j).toAddMonoidHom
 
+omit [WholeSpacePresentation S hp] in
 /-- **The transport preserves bijectivity**, since it composes with an isomorphism. -/
 theorem isCompletedSiteComparisonVia_of_directImage
     (F : Sheaf (smallTopology S) AddCommGrpCat.{u + 1})

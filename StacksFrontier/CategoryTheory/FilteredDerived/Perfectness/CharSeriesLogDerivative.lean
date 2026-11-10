@@ -90,7 +90,7 @@ theorem coeff_logDerivative_charSeries (φ : M →ₗ[Λ] M) {m : ℕ} (hm : m �
     rfl
   obtain ⟨k, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hm
   rw [hchar, Stacks.EtaleCohomology.logDerivative_localCharSeries A one_ne_zero, map_neg,
-    Nat.cast_one, one_mul, Stacks.EtaleCohomology.coeff_traceSeries, if_pos ⟨one_dvd _, hm⟩,
+    Nat.cast_one, one_mul, Stacks.EtaleCohomology.coeff_traceSeries, ite_eq_left ⟨one_dvd _, hm⟩,
     Nat.div_one, htr, eval_freeModuleTrace, ← hpow k, ← LinearMap.toMatrix_pow]
 
 end ProjectiveDeterminant

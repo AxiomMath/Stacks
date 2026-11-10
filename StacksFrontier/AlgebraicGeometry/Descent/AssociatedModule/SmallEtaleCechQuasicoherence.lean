@@ -56,7 +56,8 @@ statement for an arbitrary weak Serre subcategory of an arbitrary abelian catego
 cohomology at `j` is a cokernel of a map into a kernel of a map between terms — and
 `AlgebraicGeometry.SmallEtale.isWeakSerreClass_qcohOnSite` is the instance that applies it to
 `AlgebraicGeometry.SmallEtale.qcohOnSite`.  The three closure conditions that instance rests on
-are in `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleQuasicoherentWeakSerre.lean`.
+are in
+`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleQuasicoherentWeakSerre.lean`.
 
 The index type and the complex shape are arbitrary, so the results apply to a cochain complex
 indexed by `ℕ` — the indexing a Čech complex comes in — as well as to one indexed by `ℤ`.

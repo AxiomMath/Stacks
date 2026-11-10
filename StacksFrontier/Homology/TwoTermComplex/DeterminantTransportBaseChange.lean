@@ -256,7 +256,7 @@ private theorem spanEquiv_apply_left {P : TwoTermPresentation K} {Q : TwoTermPre
     (s : SurjectiveSpan P Q a) (z : presentationDeterminant s.middle) :
     spanEquiv s ((isoSurjectiveDeterminant s.middle P s.left s.left_surjective) z) =
       (isoSurjectiveDeterminant s.middle Q s.right s.right_surjective) z := by
-  show (isoSurjectiveDeterminant s.middle Q s.right s.right_surjective)
+  change (isoSurjectiveDeterminant s.middle Q s.right s.right_surjective)
       ((isoSurjectiveDeterminant s.middle P s.left s.left_surjective).symm
         ((isoSurjectiveDeterminant s.middle P s.left s.left_surjective) z)) = _
   rw [LinearEquiv.symm_apply_apply]

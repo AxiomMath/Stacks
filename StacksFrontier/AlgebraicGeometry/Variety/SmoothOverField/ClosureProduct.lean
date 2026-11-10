@@ -85,9 +85,9 @@ private theorem dense_pullback_product {k : Type u} [Field k] {X Y : Scheme.{u}}
     mem_closure_iff.mp (hB (h.base v)) T (hh W (hU.preimage (p.fiberι a).continuous)) ⟨v, hvW, rfl⟩
   obtain ⟨v', hv'W, hv'b⟩ := hbT
   refine ⟨(p.fiberι a).base v', hv'W, ?_, ?_⟩
-  · show p.base ((p.fiberι a).base v') ∈ A
+  · change p.base ((p.fiberι a).base v') ∈ A
     rwa [show p.base ((p.fiberι a).base v') = a from (p.fiberHomeo a v').property]
-  · show q.base ((p.fiberι a).base v') ∈ B
+  · change q.base ((p.fiberι a).base v') ∈ B
     rwa [show q.base ((p.fiberι a).base v') = b by simpa [h] using hv'b]
 
 /-- A subset is dense in the reduced induced closed subscheme structure on its closure. -/
@@ -154,7 +154,7 @@ theorem closure_product {k : Type u} [Field k] {X Y : Scheme.{u}}
     rw [hpreimage, Set.image_preimage_eq_inter_range, hjrange]
     exact Set.inter_eq_left.mpr hSL
   have hSdense : Dense S' := dense_pullback_product f' g' A' B' hA' hB'
-  show L = closure S
+  change L = closure S
   refine Set.Subset.antisymm (fun z hz => ?_) (closure_minimal hSL
     ((isClosed_closure.preimage p.continuous).inter (isClosed_closure.preimage q.continuous)))
   rw [← hjrange] at hz

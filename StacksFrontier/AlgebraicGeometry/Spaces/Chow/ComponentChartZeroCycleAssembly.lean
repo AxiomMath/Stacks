@@ -338,7 +338,7 @@ theorem cycleAssociatedToClosedSubscheme_eq_finsum_componentsOfDeltaDimension
     refine hvW ?_
     have hx : v ∈ (Scheme.IdealSheafData.vanishingIdeal
         ⟨W.1, isClosed_of_mem_irreducibleComponents W.1 W.2⟩ ⊔ Dz).support := by
-      show v ∈ (_ : Set (chartScheme V))
+      change v ∈ (_ : Set (chartScheme V))
       rw [← Scheme.IdealSheafData.range_subschemeι]
       exact ⟨ξ.1, hξ⟩
     rw [Scheme.IdealSheafData.support_sup] at hx
@@ -385,7 +385,7 @@ theorem cycleAssociatedToClosedSubscheme_eq_finsum_componentsOfDeltaDimension
       (Subtype.val_injective.injOn)
       (finite_irreducibleComponents_mem_of_isLocallyNoetherian v)) ?_
     intro W hW
-    simp only [Set.mem_preimage, Set.mem_setOf_eq]
+    simp only [Set.mem_preimage, Set.mem_ofPred_eq]
     by_contra hvW
     exact Function.mem_support.1 hW (mul_eq_zero_of_right _ (hvanish W.1 hvW))
   refine finsum_congr fun Xi => ?_

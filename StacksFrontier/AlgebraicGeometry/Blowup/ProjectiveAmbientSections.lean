@@ -331,6 +331,7 @@ open Stacks.ProjectiveCohomology (polyGrading)
 
 variable {A : Type u} [CommRing A] [IsNoetherianRing A]
 
+omit [IsNoetherianRing A] in
 /-- The canonical map `Iᑫ ⟶ Γ(X, 𝒪_X(q))` is surjective as soon as the degree-`q` section map
 of [Stacks, Tag 0AG2] for the Rees grading is: the two differ by
 `Stacks.Blowup.reesGradingEquivPow`, the identification of `Iᑫ` with the degree-`q` piece of the
@@ -393,7 +394,7 @@ public theorem exists_forall_surjective_ambientSections (I : Ideal A) :
     refine le_antisymm (Ideal.span_le.2 ?_) (hy ▸ Ideal.span_mono ?_)
     · rintro b ⟨j, rfl⟩
       refine Fin.lastCases ?_ ?_ j
-      · simpa using Submodule.zero_mem I
+      · simp
       · intro j
         simpa using hy ▸ Ideal.subset_span (Set.mem_range_self (f := y) j)
     · rintro b ⟨j, rfl⟩

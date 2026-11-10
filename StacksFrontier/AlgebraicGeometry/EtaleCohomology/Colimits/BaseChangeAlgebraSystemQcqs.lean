@@ -308,7 +308,7 @@ def isLimitLevelCone [Nonempty I] [IsDirected I (· ≤ ·)] (hc : IsLimit (Cone
       hc.lift (base S) ≫ sL = (S.π.app i₀ ≫ pullback.snd (baseLeg s i₀) g) ≫ g := by
     intro S
     rw [hsL i₀, ← Category.assoc, fac (base S) i₀]
-    show (S.π.app i₀ ≫ pullback.fst (baseLeg s i₀) g) ≫ baseLeg s i₀ = _
+    change (S.π.app i₀ ≫ pullback.fst (baseLeg s i₀) g) ≫ baseLeg s i₀ = _
     rw [Category.assoc, pullback.condition, Category.assoc]
   have lfst : ∀ S : Cone (levels s g),
       pullback.lift _ _ (w S) ≫ pullback.fst sL g = hc.lift (base S) :=
@@ -466,13 +466,13 @@ theorem etaleCohomology_specBaseChange_colimit (A : CommRingCat.{u}) (I : Type u
   let s : D ⟶ (Functor.const Iᵒᵖ).obj (Spec A) :=
     { app i := Spec.map (B.obj i.unop).hom
       naturality i j a := by
-        show Spec.map (B.map a.unop).right ≫ Spec.map (B.obj j.unop).hom =
+        change Spec.map (B.map a.unop).right ≫ Spec.map (B.obj j.unop).hom =
           Spec.map (B.obj i.unop).hom ≫ 𝟙 _
         rw [← Spec.map_comp, Under.w, Category.comp_id] }
   let c : (Functor.const Iᵒᵖ).obj (Spec cB.pt.right) ⟶ D :=
     { app i := Spec.map (cB.ι.app i.unop).right
       naturality i j a := by
-        show 𝟙 _ ≫ Spec.map (cB.ι.app j.unop).right =
+        change 𝟙 _ ≫ Spec.map (cB.ι.app j.unop).right =
           Spec.map (cB.ι.app i.unop).right ≫ Spec.map (B.map a.unop).right
         rw [← Spec.map_comp, ← Under.comp_right, cB.w, Category.id_comp] }
   have hc : IsLimit (Cone.mk (Spec cB.pt.right) c) :=
@@ -482,7 +482,7 @@ theorem etaleCohomology_specBaseChange_colimit (A : CommRingCat.{u}) (I : Type u
   obtain ⟨h₁, h₂⟩ := etaleCohomologyBaseChangeColimit (Spec A) I D s (Spec cB.pt.right) c hc
     (Spec.map cB.pt.hom)
     (fun i => by
-      show Spec.map cB.pt.hom =
+      change Spec.map cB.pt.hom =
         Spec.map (cB.ι.app i.unop).right ≫ Spec.map (B.obj i.unop).hom
       rw [← Spec.map_comp, Under.w]; rfl) X g F p
   refine ⟨fun η => ?_, fun i ξ hξ => ?_⟩

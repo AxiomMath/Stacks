@@ -101,7 +101,7 @@ include he in
 projection to the base. -/
 public theorem ι_inv_comp_snd (i : ι) :
     Sigma.ι (fun _ : ι ↦ V) i ≫ e.inv ≫ pullback.snd f q = 𝟙 V := by
-  rw [← he, Iso.inv_hom_id_assoc, Sigma.ι_desc]
+  rw [← he, Iso.inv_hom_id_assoc, Sigma.ι_comp_desc]
 
 include he in
 /-- Each sheet of a trivialization is a section of `f` over `S`. -/

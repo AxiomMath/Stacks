@@ -98,7 +98,7 @@ theorem app_invApp_apply {V : X.Opens} (hV : V ≤ U) (r : Γ(U.toScheme, U.ι �
 theorem app_invApp_units {V : X.Opens} (hV : V ≤ U) (u : (Γ(U.toScheme, U.ι ⁻¹ᵁ V))ˣ) :
     Units.map (U.ι.app V).hom.toMonoidHom (Units.map (invApp hV).hom.toMonoidHom u) = u := by
   refine Units.ext ?_
-  show (U.ι.app V).hom ((invApp hV).hom (u : Γ(U.toScheme, U.ι ⁻¹ᵁ V))) = (u : _)
+  change (U.ι.app V).hom ((invApp hV).hom (u : Γ(U.toScheme, U.ι ⁻¹ᵁ V))) = (u : _)
   exact app_invApp_apply hV _
 
 /-- If the opens `W i` cover `X`, then their preimages `U.ι ⁻¹ᵁ W i` cover `U`. -/

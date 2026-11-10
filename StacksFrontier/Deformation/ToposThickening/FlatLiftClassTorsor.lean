@@ -135,7 +135,7 @@ theorem exists_addTorsor_flatLiftClass (i : RingedToposHom X X') (t : RingedTopo
   have hiso := (isFlatLiftCorrespondence i t f f' hi ht comm F hstrict hflat).1
     ((hasFlatLift_iff_nonempty_flatLift i f' hi F).2 hne)
   have hcff := (isIso_idealTensorComparison_iff_isIso_canonicalFirstFactor
-    i t f f' hi ht comm F hs).mp hiso
+    i t f f' hi ht comm F).mp hiso
   -- the flat lifts, up to isomorphism, are the extensions with action map the identity (08MQ)
   let eqv := flatLiftClassEquivFixedActionExtensionClass.{_, _, _, _, _, _, _, _, _, _, _, e}
     i t f f' hi ht comm F hs hF hcff

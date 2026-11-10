@@ -151,7 +151,7 @@ namespace CompletionOver
 public theorem le_comap_ker_projection (f : B →+* A) (J : WeakIdealOfDefinitionIndex B) :
     (J.1 : Ideal B) ≤ Ideal.comap (canonicalMap f) (RingHom.ker (projection f J)) := by
   intro b hb
-  show projection f J (canonicalMap f b) = 0
+  change projection f J (canonicalMap f b) = 0
   rw [projection_canonicalMap]
   exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.mem_map_of_mem f hb)
 
@@ -172,7 +172,7 @@ public theorem etale_quotientMap_canonicalMap {f : B →+* A} (hf : f.Etale)
   refine RingHom.etale_of_ringEquiv_comp _ equivalence ?_
   convert etale_quotientMap_weakIdealOfDefinition hf J using 1
   refine Ideal.Quotient.ringHom_ext (RingHom.ext fun b => ?_)
-  show equivalence (Ideal.Quotient.mk (RingHom.ker (projection f J)) (canonicalMap f b)) =
+  change equivalence (Ideal.Quotient.mk (RingHom.ker (projection f J)) (canonicalMap f b)) =
     Ideal.Quotient.mk (extendedIdeal f J) (f b)
   rw [RingHom.quotientKerEquivOfSurjective_apply_mk, projection_canonicalMap]
 

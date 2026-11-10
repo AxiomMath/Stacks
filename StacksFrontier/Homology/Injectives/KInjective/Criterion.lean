@@ -189,7 +189,7 @@ private lemma homComplexPrecomp_surjective {K L I : CochainComplex C ℤ}
       let := hI q
       exact Injective.factorThru (z.v p q hpq) (f.f p)
   refine ⟨z', ?_⟩
-  show (CochainComplex.HomComplex.Cochain.ofHom f).comp z' (zero_add d) = z
+  change (CochainComplex.HomComplex.Cochain.ofHom f).comp z' (zero_add d) = z
   ext p q hpq
   let := hI q
   let := hf p
@@ -234,7 +234,7 @@ private lemma homotopyZero_of_shortExact
     simp [d, dC]
   have hfd : S.f ≫ d = 0 := by
     apply (Cocycle.equivHom S.X₁ I).injective
-    show Cocycle.ofHom (S.f ≫ d) = Cocycle.ofHom 0
+    change Cocycle.ofHom (S.f ≫ d) = Cocycle.ofHom 0
     apply Cocycle.ext
     rw [Cocycle.ofHom_coe, Cocycle.ofHom_coe, Cochain.ofHom_comp, hd, Cochain.comp_sub,
       ← Cochain.ofHom_comp, ← δ_ofHom_comp, hz', δ_ofHomotopy]
@@ -246,7 +246,7 @@ private lemma homotopyZero_of_shortExact
   let zQ : Cochain S.X₂ I (-1) :=
     (Cochain.ofHom S.g).comp (Cochain.ofHomotopy H₂) (zero_add (-1))
   have hzQ : δ (-1) 0 zQ = Cochain.ofHom d := by
-    show δ (-1) 0 ((Cochain.ofHom S.g).comp
+    change δ (-1) 0 ((Cochain.ofHom S.g).comp
       (Cochain.ofHomotopy H₂) (zero_add (-1))) = Cochain.ofHom d
     rw [δ_ofHom_comp, δ_ofHomotopy]
     simp only [Cochain.ofHom_zero, sub_zero]
@@ -567,7 +567,7 @@ private lemma partialNullHomotopy_chain_upperBound
             exact leOfHom g)
         have hij : base i ≤ base j := hbaseLE h0
         exact hij.1)) (by
-        show Subobject.ofLE _ _ _ ≫ (G j).arrow = (G i).arrow
+        change Subobject.ofLE _ _ _ ≫ (G j).arrow = (G i).arrow
         rw [Subobject.ofLE_arrow])
     map_id := by intro j; apply Subsingleton.elim
     map_comp := by intro i j k g h; apply Subsingleton.elim }
@@ -575,12 +575,12 @@ private lemma partialNullHomotopy_chain_upperBound
     pt := MonoOver.mk S.arrow
     ι := {
       app := fun j => MonoOver.homMk (Subobject.ofLE (G j) S (le_iSup G j)) (by
-        show Subobject.ofLE _ _ _ ≫ S.arrow = (G j).arrow
+        change Subobject.ofLE _ _ _ ≫ S.arrow = (G j).arrow
         rw [Subobject.ofLE_arrow])
       naturality := by intro i j g; apply Subsingleton.elim } }
   let cOver := (MonoOver.forget M).mapCocone cMono
   let : Mono cOver.pt.hom := by
-    show Mono S.arrow
+    change Mono S.arrow
     exact Subobject.arrow_mono S
   have hsup : Subobject.mk cOver.pt.hom = ⨆ j, Subobject.mk (F.obj j).obj.hom := by
     calc
@@ -607,11 +607,11 @@ private lemma partialNullHomotopy_chain_upperBound
         exact leOfHom m)
     have hij : base i ≤ base j := hbaseLE h0
     obtain ⟨hSij, hz⟩ := hij
-    show (Cochain.ofHom (Subobject.ofLE (base i).S (base j).S hSij)).comp
+    change (Cochain.ofHom (Subobject.ofLE (base i).S (base j).S hSij)).comp
       (base j).z (zero_add (-1)) = (base i).z
     exact hz
   have hι (j : J) : c.ι.app j ≫ cOver.pt.hom = (G j).arrow := by
-    show (cOver.ι.app j).left ≫ cOver.pt.hom = (G j).arrow
+    change (cOver.ι.app j).left ≫ cOver.pt.hom = (G j).arrow
     exact (cOver.ι.app j).w
   have hsub : Subobject.mk cOver.pt.hom = Subobject.mk S.arrow := by
     rw [hsup]
@@ -630,7 +630,7 @@ private lemma partialNullHomotopy_chain_upperBound
     have hcomp : c.ι.app j ≫ (cOver.pt.hom ≫ f) = (G j).arrow ≫ f := by
       rw [← Category.assoc, hι]
       rfl
-    show δ (-1) 0 ((base j).z) =
+    change δ (-1) 0 ((base j).z) =
       Cochain.ofHom (c.ι.app j ≫ (cOver.pt.hom ≫ f))
     rw [hcomp]
     exact (base j).boundary
@@ -649,12 +649,12 @@ private lemma partialNullHomotopy_chain_upperBound
   have hzj (j : J) :
       (Cochain.ofHom (Subobject.ofLE (G j) S (le_iSup G j))).comp z
         (zero_add (-1)) = (base j).z := by
-    show (Cochain.ofHom (Subobject.ofLE (G j) S (le_iSup G j))).comp
+    change (Cochain.ofHom (Subobject.ofLE (G j) S (le_iSup G j))).comp
       ((Cochain.ofHom eCS.inv).comp z₀ (zero_add (-1))) (zero_add (-1)) = (base j).z
     rw [← Cochain.comp_assoc_of_first_is_zero_cochain, ← Cochain.ofHom_comp, hres]
     exact hzj₀ j
   have hzδ : δ (-1) 0 z = Cochain.ofHom g := by
-    show δ (-1) 0 ((Cochain.ofHom eCS.inv).comp z₀ (zero_add (-1))) =
+    change δ (-1) 0 ((Cochain.ofHom eCS.inv).comp z₀ (zero_add (-1))) =
       Cochain.ofHom (S.arrow ≫ f)
     rw [δ_ofHom_comp, hzδ₀, ← Cochain.ofHom_comp]
     apply congrArg Cochain.ofHom
@@ -670,7 +670,7 @@ private lemma partialNullHomotopy_chain_upperBound
     have hj0 : e.symm j = ⟨a.S, ⟨a, ha, rfl⟩⟩ := e.symm_apply_apply _
     have hs : (base j).S = a.S := by
       rw [base_sub j]
-      show (e.symm j).1 = a.S
+      change (e.symm j).1 = a.S
       rw [hj0]
     by_cases heq : base j = a
     · exact heq
@@ -740,7 +740,7 @@ theorem isKInjective_of_small_boundedAbove_acyclic (I : CochainComplex C ℤ)
       acyclicSubobjectExtension_acyclic M hM P.S P.acyclic htop
     let zE : Cochain (E : CochainComplex C ℤ) I (-1) := Cochain.ofHomotopy H'
     have hEboundary : δ (-1) 0 zE = Cochain.ofHom (E.arrow ≫ f) := by
-      show δ (-1) 0 (Cochain.ofHomotopy H') = Cochain.ofHom (E.arrow ≫ f)
+      change δ (-1) 0 (Cochain.ofHomotopy H') = Cochain.ofHom (E.arrow ≫ f)
       rw [δ_ofHomotopy]
       simp [E]
     have hEH :

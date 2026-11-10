@@ -130,15 +130,15 @@ theorem exists_mem_forall_smallEtalePostcomp_iso_of_isPullback_of_covering
       X := fun i => (SmallEtale.toSchemes B S hS Y.1).obj (Vc i.down)
       f := fun i => (SmallEtale.toSchemes B S hS Y.1).map (a i.down) }
   have hE : _root_.AlgebraicGeometry.IsEtaleCovering (⟨_, E⟩ : Covering B.Schemes) := by
-    show (E.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage _
+    change (E.map B.inclusion).presieve₀ ∈ Scheme.etalePrecoverage _
     rw [PreZeroHypercover.presieve₀_map]
-    show Presieve.map B.inclusion (Presieve.ofArrows E.X E.f) ∈ Scheme.etalePrecoverage _
+    change Presieve.map B.inclusion (Presieve.ofArrows E.X E.f) ∈ Scheme.etalePrecoverage _
     rw [Presieve.map_ofArrows]
     refine (Scheme.ofArrows_mem_precoverage_iff _).2 ⟨fun x => ?_, fun i => hfstEt i.down⟩
     obtain ⟨i, y, hy⟩ := hτsurj ((𝒯).map w x)
     obtain ⟨z, hz, -⟩ := Scheme.Pullback.exists_preimage_pullback x y hy.symm
     refine ⟨⟨i⟩, (hP i).isoPullback.inv z, ?_⟩
-    show ((𝒯).map (pullback.fst w (τ i))) ((hP i).isoPullback.inv z) = x
+    change ((𝒯).map (pullback.fst w (τ i))) ((hP i).isoPullback.inv z) = x
     rw [← Scheme.Hom.comp_apply, (hP i).isoPullback_inv_fst, hz]
   let Rpre : Presieve W :=
     Presieve.ofArrows (fun i : ULift.{u + 1} ι => Vc i.down) (fun i => a i.down)
@@ -155,7 +155,7 @@ theorem exists_mem_forall_smallEtalePostcomp_iso_of_isPullback_of_covering
         (isEtale_of_isPullback_yoneda B S hS (hvsq i).flip
           ((isEtale_iff_presheaf_of_yoneda B S hS _).2 W.property)))⟩
   refine ⟨i, W'', ⟨ObjectProperty.isoMk _ (CostructuredArrow.isoMk (Iso.refl _) ?_)⟩⟩
-  show 𝟙 _ ≫ W'.1.hom = (yoneda.map h.hom.left ≫ v i) ≫ (p i).hom
+  change 𝟙 _ ≫ W'.1.hom = (yoneda.map h.hom.left ≫ v i) ≫ (p i).hom
   rw [Category.id_comp, Category.assoc, hv₁, ← CostructuredArrow.w h.hom]
   rfl
 

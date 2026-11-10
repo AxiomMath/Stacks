@@ -131,7 +131,7 @@ theorem polynomialAlgebraMap_comp_canonicalPolynomialPresentation
     {A B : Sheaf (Opens.grothendieckTopology X) CommRingCat.{u}} (f : A ⟶ B) :
     polynomialAlgebraMap A B ≫ canonicalPolynomialPresentation f = f := by
   apply Sheaf.hom_ext
-  show polynomialCoefficient A B ≫
+  change polynomialCoefficient A B ≫
       toSheafify (Opens.grothendieckTopology X) (polynomialAlgebraPresheaf A B) ≫
       sheafifyLift (Opens.grothendieckTopology X) (polynomialEvaluation f) B.2 = f.hom
   rw [toSheafify_sheafifyLift]

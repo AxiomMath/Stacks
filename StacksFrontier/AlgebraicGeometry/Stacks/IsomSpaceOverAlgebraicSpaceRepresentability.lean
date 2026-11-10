@@ -140,7 +140,7 @@ lemma pointFiberMap_comp_hom (f : 𝒳 ⟶ 𝒴)
     pointFiberMap B S hS Z hZ f x₁ x₃ W z (φ ≫ ψ) =
       pointFiberMap B S hS Z hZ f x₁ x₂ W z φ ≫ pointFiberMap B S hS Z hZ f x₂ x₃ W z ψ :=
   Functor.Fiber.hom_ext (by
-    show f.hom.hom.toFunctor.map (Functor.Fiber.fiberInclusion.map (φ ≫ ψ)) =
+    change f.hom.hom.toFunctor.map (Functor.Fiber.fiberInclusion.map (φ ≫ ψ)) =
       f.hom.hom.toFunctor.map (Functor.Fiber.fiberInclusion.map φ) ≫
         f.hom.hom.toFunctor.map (Functor.Fiber.fiberInclusion.map ψ)
     simp only [CategoryTheory.Functor.map_comp])
@@ -151,7 +151,7 @@ lemma pointFiberMap_id_hom (f : 𝒳 ⟶ 𝒴)
     (W : BigFppfOver B S hS) (z : Z.obj (Opposite.op W)) :
     pointFiberMap B S hS Z hZ f x x W z (𝟙 _) = 𝟙 _ :=
   Functor.Fiber.hom_ext (by
-    show f.hom.hom.toFunctor.map
+    change f.hom.hom.toFunctor.map
       (Functor.Fiber.fiberInclusion.map (𝟙 (pointFiber B S hS Z hZ x W z))) =
         Functor.Fiber.fiberInclusion.map (𝟙 (pointFiber B S hS Z hZ (x ≫ f) W z))
     simp only [CategoryTheory.Functor.map_id]

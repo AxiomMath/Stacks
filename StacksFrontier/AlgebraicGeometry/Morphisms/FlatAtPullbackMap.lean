@@ -105,10 +105,10 @@ theorem flat_stalkMap_pullbackMap_of_flat_stalkMap {P B C : Scheme.{u}}
     (pullback.lift_fst _ _ _).trans (Category.comp_id _)
   have hmsnd : m ≫ pullback.snd a c = pullback.snd a b ≫ h := pullback.lift_snd _ _ _
   have e1 : pullback.fst a c q = x := by
-    show (m ≫ pullback.fst a c) p = _
+    change (m ≫ pullback.fst a c) p = _
     rw [hmfst]
   have e2 : pullback.snd a c q = h y := by
-    show (m ≫ pullback.snd a c) p = _
+    change (m ≫ pullback.snd a c) p = _
     rw [hmsnd]
     rfl
   -- the two presentations
@@ -139,12 +139,11 @@ theorem flat_stalkMap_pullbackMap_of_flat_stalkMap {P B C : Scheme.{u}}
       Scheme.Hom.stalkMapOfEq_rfl, Scheme.Hom.stalkMapOfEq_rfl]
   have hsq : (m.stalkMap p).hom.comp ψ₂' = ψ₁.comp τ.toRingHom := by
     refine RingHom.ext fun t => ?_
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul u v =>
       let := stalkAlgebraOver A a (pullback.fst a c q)
       let := stalkAlgebraOver A c (pullback.snd a c q)
-      show (m.stalkMap p).hom (ψ₂' (u ⊗ₜ v)) = ψ₁ (u ⊗ₜ (h.stalkMap y).hom v)
+      change (m.stalkMap p).hom (ψ₂' (u ⊗ₜ v)) = ψ₁ (u ⊗ₜ (h.stalkMap y).hom v)
       rw [hψ₂', map_mul, ringHom_tensorProduct_tmul ψ₁, hψ₁l, hψ₁r, hψ₂l, hψ₂r]
       congr 1
       · exact congrArg (fun φ => CommRingCat.Hom.hom φ u) hfst

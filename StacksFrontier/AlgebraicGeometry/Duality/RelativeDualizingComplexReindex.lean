@@ -110,7 +110,7 @@ abbrev reindex (D : DiagonalOpen h) (a : X ⟶ V) (j : V ⟶ T) [Mono j] (e : h 
 /-- The first projection of `D.reindex a j e` is that of `D`. -/
 theorem reindex_proj (D : DiagonalOpen h) (a : X ⟶ V) (j : V ⟶ T) [Mono j] (e : h = a ≫ j) :
     (D.reindex a j e).proj = D.proj := by
-  show (D.ι ≫ (pullbackFactorIso a j e).hom) ≫ pullback.fst a a = D.ι ≫ pullback.fst h h
+  change (D.ι ≫ (pullbackFactorIso a j e).hom) ≫ pullback.fst a a = D.ι ≫ pullback.fst h h
   rw [Category.assoc, pullbackFactorIso, pullback.lift_fst]
 
 end AlgebraicGeometry.Scheme.Hom.DiagonalOpen

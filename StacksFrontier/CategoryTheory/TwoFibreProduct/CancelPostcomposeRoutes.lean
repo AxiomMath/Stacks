@@ -167,7 +167,7 @@ theorem swap_postcompose_iso_hom {F : 𝒰 ⟶ 𝒳} {G : 𝒱 ⟶ 𝒳} (Z : Bi
     (ε : σ ≫ p ≅ F ≫ f) (δ : τ ≫ q ≅ G ≫ f) :
     (Z.postcompose f σ τ ε δ).swap.iso.hom = (Z.swap.postcompose f τ σ δ ε).iso.hom := by
   rw [postcompose_iso_hom_strict.{v₁, v₂, u₁, u₂} Z.swap f τ σ δ ε]
-  show (((((𝟙 _ ≫ (Z.snd ◁ δ.hom)) ≫ 𝟙 _) ≫ (Z.iso.inv ▷ f)) ≫ 𝟙 _)
+  change (((((𝟙 _ ≫ (Z.snd ◁ δ.hom)) ≫ 𝟙 _) ≫ (Z.iso.inv ▷ f)) ≫ 𝟙 _)
       ≫ (Z.fst ◁ ε.inv)) ≫ 𝟙 _ = _
   exact id_chain6 _ _ _
 

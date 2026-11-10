@@ -93,7 +93,7 @@ theorem projective_sections_pullback_basicOpen {X Y A : Scheme.{u}} [IsAffine Y]
   have htowerL : IsScalarTower Γ(A, ⊤) Γ((A.basicOpen a).toScheme, ⊤)
       (LocalizedModule (Submonoid.powers a) Γ((Scheme.Modules.pullback g).obj F, ⊤)) :=
     IsScalarTower.of_algebraMap_smul fun r m => by
-      show ε (algebraMap Γ(A, ⊤) Γ((A.basicOpen a).toScheme, ⊤) r) • m = r • m
+      change ε (algebraMap Γ(A, ⊤) Γ((A.basicOpen a).toScheme, ⊤) r) • m = r • m
       rw [show ε (algebraMap Γ(A, ⊤) Γ((A.basicOpen a).toScheme, ⊤) r) =
           algebraMap Γ(A, ⊤) (Localization.Away a) r from
         (IsLocalization.algEquiv (Submonoid.powers a)

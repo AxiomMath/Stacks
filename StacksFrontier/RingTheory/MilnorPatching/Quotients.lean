@@ -140,7 +140,7 @@ private lemma exists_lift_compatibleTensorPair {R S T U : Type u} [CommRing R] [
               ((extensionOfScalarsToPullback f g h k comm).obj L).iso.hom
                 ((1 : U) ⊗ₜ[S,h] x)) (hl₀.symm.trans hp₀B.symm)
         _ = _ := p₀.2
-    show (1 : U) ⊗ₜ[T,k] (p.1.2 - p₀.1.2) = 0
+    change (1 : U) ⊗ₜ[T,k] (p.1.2 - p₀.1.2) = 0
     rw [TensorProduct.tmul_sub, hsame, sub_self]
   have hzker : (LinearMap.rTensor L (tensorRingMapLinear g k)) z = 0 := by
     have hc := extendScalarsComp_rTensor g k L z
@@ -150,7 +150,7 @@ private lemma exists_lift_compatibleTensorPair {R S T U : Type u} [CommRing R] [
     compatibleTensorPairs_surjective f g h k hf hk hker
       (show S →ₗ[R] U from
         { toFun := h, map_add' := h.map_add, map_smul' := fun r t => by
-            show h (f r * t) = k (g r) * h t
+            change h (f r * t) = k (g r) * h t
             exact (map_mul h (f r) t).trans
               (congrArg (fun x : U => x * h t) (DFunLike.congr_fun comm r)) })
       (tensorRingMapLinear g k) (fun _ => rfl) (fun _ => rfl)
@@ -186,7 +186,7 @@ private lemma compatiblePairs_map_surjective
     exact H.symm.trans p.property
   have hj : p.1.2 - f.snd m ∈ (RingHom.ker k • (⊤ : Submodule T Y.snd)) := by
     rw [← ker_tensorProductMk_of_surjective k hk]
-    show (1 : U) ⊗ₜ[T,k] (p.1.2 - f.snd m) = 0
+    change (1 : U) ⊗ₜ[T,k] (p.1.2 - f.snd m) = 0
     rw [TensorProduct.tmul_sub, hc, sub_self]
   have hi : RingHom.ker k • (⊤ : Submodule T Y.snd) ≤
       Submodule.map f.snd.hom (RingHom.ker k • (⊤ : Submodule T X.snd)) := by
@@ -199,10 +199,10 @@ private lemma compatiblePairs_map_surjective
   have hj0 : (1 : U) ⊗ₜ[T,k] j = 0 := by
     rwa [← ker_tensorProductMk_of_surjective k hk] at hj
   refine ⟨⟨(n, m + j), ?_⟩, hn, ?_⟩
-  · show X.iso.hom ((1 : U) ⊗ₜ[S,h] n) = (1 : U) ⊗ₜ[T,k] (m + j)
+  · change X.iso.hom ((1 : U) ⊗ₜ[S,h] n) = (1 : U) ⊗ₜ[T,k] (m + j)
     rw [TensorProduct.tmul_add, hj0, add_zero]
     exact hm.symm
-  · show f.snd (m + j) = p.1.2
+  · change f.snd (m + j) = p.1.2
     rw [map_add, hfj]
     abel
 
@@ -260,7 +260,7 @@ private lemma finitePresentation_extendScalars
     (M : ModuleCat.{u} R) [Module.FinitePresentation R M] :
     Module.FinitePresentation S ((ModuleCat.extendScalars f).obj M) := by
   let : Algebra R S := f.toAlgebra
-  show Module.FinitePresentation S (S ⊗[R] M)
+  change Module.FinitePresentation S (S ⊗[R] M)
   infer_instance
 
 private lemma extendScalars_map_surjective
@@ -297,14 +297,14 @@ private theorem exists_under_fullSubcategory_equivalence_of_adjunction
       P.fullyFaithfulι Q.fullyFaithfulι (Iso.refl _) (Iso.refl _)
   have hu' (q : P.FullSubcategory) : IsIso (a.unit.app q) := by
     rw [← P.isIso_hom_iff]
-    show IsIso (P.ι.map (a.unit.app q))
+    change IsIso (P.ι.map (a.unit.app q))
     rw [Adjunction.map_restrictFullyFaithful_unit_app]
     have : IsIso ((Under.postAdjunctionLeft adj).unit.app (P.ι.obj q)) :=
       isIso_of_isIso_right _ (hu q.obj q.property)
     infer_instance
   have hc' (q : Q.FullSubcategory) : IsIso (a.counit.app q) := by
     rw [← Q.isIso_hom_iff]
-    show IsIso (Q.ι.map (a.counit.app q))
+    change IsIso (Q.ι.map (a.counit.app q))
     rw [Adjunction.map_restrictFullyFaithful_counit_app]
     have : IsIso ((Under.postAdjunctionLeft adj).counit.app (Q.ι.obj q)) :=
       isIso_of_isIso_right _ (hc q.obj q.property)
@@ -409,7 +409,7 @@ public theorem relativeFlatFinitelyPresentedQuotientsEquivalence
     intro q hq
     obtain ⟨hs₁, hs₂, hfp₁, hfl₁, hfp₂, hfl₂⟩ := hq
     refine ⟨?_, ?_, hflat q.right ⟨hfl₁, hfl₂⟩⟩
-    · show Function.Surjective (adj.unit.app L ≫ F.map q.hom)
+    · change Function.Surjective (adj.unit.app L ≫ F.map q.hom)
       have H := surjective_homEquiv_of_surjective_components s.toD s.toC' s.DtoC s.C'toC
         s.relativeSquare_comm hf hk hker F (fun X ↦ (glue X).toEquiv) adj hglue L q.right q.hom
         hs₁ hs₂
@@ -426,7 +426,7 @@ public theorem relativeFlatFinitelyPresentedQuotientsEquivalence
   rw [hi q]
   refine ⟨(glue q.obj.right).toEquiv, ?_⟩
   intro l
-  show (glue q.obj.right ((adj.unit.app L ≫ F.map q.obj.hom) l)).1.1 = _ ∧
+  change (glue q.obj.right ((adj.unit.app L ≫ F.map q.obj.hom) l)).1.1 = _ ∧
     (glue q.obj.right ((adj.unit.app L ≫ F.map q.obj.hom) l)).1.2 = _
   have H := hglue L q.obj.right ((adj.homEquiv L q.obj.right) q.obj.hom) l
   rw [Equiv.symm_apply_apply] at H

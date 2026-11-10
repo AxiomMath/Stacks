@@ -289,7 +289,7 @@ public theorem inducedAutomorphismHom_transportAut (hq : IsCofiberedInGroupoids 
   apply Iso.ext
   apply Subtype.ext
   refine Functor.IsStronglyCocartesian.ext q f.right (Q.map f) (𝟙 V.right) ?_
-  show Q.map f ≫ comparisonPushforward Φ P Q V ≫
+  change Q.map f ≫ comparisonPushforward Φ P Q V ≫
       Φ.map (P.transportHom f a) ≫ comparisonPushforwardInv Φ P Q hq V =
     Q.map f ≫ Q.transportHom f (inducedAutomorphismHom Φ P Q hq U a)
   calc
@@ -481,7 +481,7 @@ public theorem bijective_inducedInfinitesimalAutomorphismHom (hq : IsCofiberedIn
       apply (bijective_inducedAutomorphismHom Φ P Q hq
         (specialFibreUnder (p := Φ ⋙ q) (x := x₀))).1
       rw [map_one]
-      show inducedAutomorphismHom Φ P Q hq (specialFibreUnder (p := Φ ⋙ q) (x := x₀))
+      change inducedAutomorphismHom Φ P Q hq (specialFibreUnder (p := Φ ⋙ q) (x := x₀))
         (P.transportAut (tangentReduction (p := Φ ⋙ q) (x := x₀)) a) = 1
       rw [inducedAutomorphismHom_transportAut Φ P Q hq
         (tangentReduction (p := Φ ⋙ q) (x := x₀)) a, ha]
@@ -529,7 +529,7 @@ public theorem isLinearMap_inducedInfinitesimalFun (hp : SatisfiesRS (Φ ⋙ q))
     apply Subtype.ext
     rw [localizedTangentEquivKernel_inducedInfinitesimalFun, hsmulQ,
       localizedTangentEquivKernel_inducedInfinitesimalFun]
-    show inducedAutomorphismHom Φ P Q hq.1 _ (localizedTangentEquivKernel P (c • a)).1 =
+    change inducedAutomorphismHom Φ P Q hq.1 _ (localizedTangentEquivKernel P (c • a)).1 =
       Q.transportAut (tangentScaling c)
         (inducedAutomorphismHom Φ P Q hq.1 _ (localizedTangentEquivKernel P a).1)
     rw [hsmulP]
@@ -573,7 +573,7 @@ public theorem inducedInfinitesimalLinearMap_apply (hp : SatisfiesRS (Φ ⋙ q))
   let := naturalLocalizedTangentAddCommGroup Q hq
   let := naturalLocalizedTangentModule Q hq
   intro a
-  show (localizedTangentEquivKernel Q (inducedInfinitesimalFun Φ P Q hq.1 a)).1.asIso.hom.val = _
+  change (localizedTangentEquivKernel Q (inducedInfinitesimalFun Φ P Q hq.1 a)).1.asIso.hom.val = _
   rw [localizedTangentEquivKernel_inducedInfinitesimalFun]
   exact inducedAutomorphismHom_hom_val Φ P Q hq.1 _ (localizedTangentEquivKernel P a).1
 
@@ -593,7 +593,7 @@ public theorem bijective_inducedInfinitesimalLinearMap (hp : SatisfiesRS (Φ ⋙
   let := naturalLocalizedTangentModule P hp
   let := naturalLocalizedTangentAddCommGroup Q hq
   let := naturalLocalizedTangentModule Q hq
-  show Function.Bijective (inducedInfinitesimalFun Φ P Q hq.1)
+  change Function.Bijective (inducedInfinitesimalFun Φ P Q hq.1)
   exact ((localizedTangentEquivKernel Q).symm.bijective.comp
     (bijective_inducedInfinitesimalAutomorphismHom Φ P Q hq.1)).comp
     (localizedTangentEquivKernel P).bijective
@@ -641,6 +641,7 @@ variable {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
   (R : ChosenPushforwardsAt r (Ψ.obj (Φ.obj x₀)))
 
 set_option maxHeartbeats 1000000 in
+-- unifying the induced automorphism homomorphisms over the composite `Φ ⋙ Ψ ⋙ r` is heavy
 /-- The homomorphism of infinitesimal automorphism kernels induced by a composite morphism
 over the base is the composite of the two induced homomorphisms: this is
 `Deformation.inducedAutomorphismHom_comp` restricted to the infinitesimal kernel. -/
@@ -701,7 +702,7 @@ public theorem inducedInfinitesimalLinearMap_comp
   apply LinearMap.ext (R := k) (S := k) (M := localizedAutomorphismFunctorTangent P)
     (M₃ := localizedAutomorphismFunctorTangent R) (σ := RingHom.id k)
   intro a
-  show inducedInfinitesimalFun (Φ ⋙ Ψ) P R hs.1 a = _
+  change inducedInfinitesimalFun (Φ ⋙ Ψ) P R hs.1 a = _
   rw [inducedInfinitesimalFun_comp Φ Ψ r P Q R hq.1 hs.1]
   rfl
 

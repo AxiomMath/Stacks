@@ -80,7 +80,7 @@ theorem not_isZero_homology_neg_of_hasNormalizedStalks {X : Scheme.{u}} [IsNoeth
       (ModuleCat.isZero_iff_subsingleton.mp ((schemeStalkModuleFunctor ξ).map_isZero hz))
   exact (not_nontrivial_iff_subsingleton.mpr hsub) hnt
 
-open ChartCompactification ProjectiveSpace Stacks.AlgebraicGeometry.ProjPolyChart
+open ChartCompactification Stacks.AlgebraicGeometry.ProjPolyChart
 
 attribute [local instance] MvPolynomial.gradedAlgebra
 

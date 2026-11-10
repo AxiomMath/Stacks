@@ -39,7 +39,7 @@ universe u
 if every chosen generator of `p` is congruent to a multiple of `x` modulo `p²`,
 then `x` generates `p`. -/
 private theorem ideal_eq_span_singleton_of_generators_mod_square
-    {S ι : Type u} [CommRing S] [IsLocalRing S] [Fintype ι]
+    {S ι : Type u} [CommRing S] [IsLocalRing S]
     (p : Ideal S) (y : ι → S) (k : ι)
     (hp : p = Ideal.span (Set.range y)) (hfg : p.FG)
     (hpm : p ≤ maximalIdeal S)
@@ -86,11 +86,11 @@ private theorem comap_maximalIdeal_eq_span
     simpa using (Ideal.span (insert a (Set.range x))).add_mem hmem hca
   · apply Ideal.span_le.mpr
     rintro b (rfl | ⟨i, rfl⟩)
-    · show f b ∈ maximalIdeal R
+    · change f b ∈ maximalIdeal R
       rw [hπ]
       exact Ideal.subset_span rfl
     · have hi : x i ∈ RingHom.ker f := hp ▸ Ideal.subset_span ⟨i, rfl⟩
-      show f (x i) ∈ maximalIdeal R
+      change f (x i) ∈ maximalIdeal R
       rw [show f (x i) = 0 from hi]
       exact Ideal.zero_mem _
 
@@ -146,7 +146,7 @@ private theorem ker_eq_map_of_isLocalization
   · intro z hz
     obtain ⟨a, s, hs⟩ := IsLocalization.exists_mk'_eq M z
     have ha : a ∈ RingHom.ker f := by
-      show f a = 0
+      change f a = 0
       have he := congrArg g (IsLocalization.mk'_spec L a s)
       rw [map_mul, hs, show g z = 0 from hz, zero_mul] at he
       exact (congrArg (fun h : A →+* R => h a) hcomp).symm.trans he.symm
@@ -155,7 +155,7 @@ private theorem ker_eq_map_of_isLocalization
     exact ⟨1, M.one_mem, by simpa using ha⟩
   · apply Ideal.map_le_iff_le_comap.mpr
     intro a ha
-    show g (algebraMap A L a) = 0
+    change g (algebraMap A L a) = 0
     rw [← RingHom.comp_apply, hcomp]
     exact ha
 
@@ -175,7 +175,7 @@ private theorem affineBlowupAlgebra_eq_adjoin_of_span
   apply le_antisymm
   · apply Algebra.adjoin_le
     rintro b ⟨c, hc, rfl⟩
-    show IsLocalization.mk' S c d ∈ T
+    change IsLocalization.mk' S c d ∈ T
     rw [hI] at hc
     induction hc using Submodule.span_induction with
     | mem c hc =>
@@ -237,7 +237,7 @@ private theorem ker_eq_span_of_adjoin_eq_top
     have hga := hle ha
     change g (b - algebraMap A B a) = 0 at hga
     rw [map_sub, show g b = 0 from hb, zero_sub, neg_eq_zero] at hga
-    show f a = 0
+    change f a = 0
     simpa only [← hcomp, RingHom.comp_apply] using hga
   simpa only [sub_add_cancel] using
     Ideal.add_mem (Ideal.span t) ha (hker (Ideal.mem_map_of_mem (algebraMap A B) hfa))
@@ -289,7 +289,7 @@ private theorem exists_hom_of_divided_generators
   have hker : RingHom.ker F.toRingHom ≤ RingHom.ker ε := by
     intro z hz
     have hz' : (j.comp F) z = 0 := by
-      show j (F z) = 0
+      change j (F z) = 0
       rw [show F z = 0 from hz, map_zero]
     obtain ⟨n, hn⟩ :=
       ((Ideal.range_eq_affineBlowup_and_ker_eq_saturation
@@ -331,7 +331,7 @@ private theorem exists_affineBlowup_arc_hom
   have hy : Algebra.adjoin A (Set.range y) = ⊤ := by
     apply Subalgebra.map_injective (f := B.val) Subtype.val_injective
     rw [AlgHom.map_adjoin, ← Set.range_comp]
-    show Algebra.adjoin A (Set.range fun i =>
+    change Algebra.adjoin A (Set.range fun i =>
       IsLocalization.mk' (Localization.Away a) (x i) ⟨a, Submonoid.mem_powers a⟩) =
         (⊤ : Subalgebra A B).map B.val
     rw [← affineBlowupAlgebra_eq_adjoin_of_span a x I hI]
@@ -428,7 +428,7 @@ private theorem idealStalk_le_maximalIdeal_of_mem_support
   refine iSup_le fun U => iSup_le fun hxU => ?_
   apply Ideal.map_le_iff_le_comap.mpr
   intro a ha
-  show ¬ IsUnit ((X.presheaf.germ U.1 x hxU) a)
+  change ¬ IsUnit ((X.presheaf.germ U.1 x hxU) a)
   have hzero := (Scheme.IdealSheafData.mem_support_iff.mp hx) U
   exact fun hunit => (X.mem_zeroLocus_iff _ x).mp hzero a ha
     ((X.mem_basicOpen a x hxU).mpr hunit)
@@ -517,7 +517,7 @@ private theorem exists_affineBlowup_chart_over
         (affineBlowupStandardOpenIso_over I U a)
   · obtain ⟨z, hz⟩ := hx
     refine ⟨e.inv z, ?_⟩
-    show ((V.ι ≫ ((reesSituation I).relativeProjChart U)) (e.hom (e.inv z))) = x
+    change ((V.ι ≫ ((reesSituation I).relativeProjChart U)) (e.hom (e.inv z))) = x
     simpa using hz
 
 /-- A point in an affine chart has the local ring of its corresponding prime. -/
@@ -568,7 +568,7 @@ private theorem germ_stalkClosedPointTo_affine
   rw [Scheme.stalkClosedPointTo_comp]
   let z : ↥(Spec Γ(X, U.1)) := Spec.map (CommRingCat.ofHom f) (closedPoint R)
   have hz : (isAffineOpen_coe U).fromSpec z ∈ U.1 := hx
-  show X.presheaf.germ U.1 ((isAffineOpen_coe U).fromSpec z) hz ≫
+  change X.presheaf.germ U.1 ((isAffineOpen_coe U).fromSpec z) hz ≫
       (isAffineOpen_coe U).fromSpec.stalkMap z ≫
       Scheme.stalkClosedPointTo (Spec.map (CommRingCat.ofHom f)) = _
   rw [(isAffineOpen_coe U).fromSpec.germ_stalkMap_assoc U.1 z hz,
@@ -593,7 +593,7 @@ private theorem fromSpec_mem {X : Scheme.{u}} (U : X.affineOpens) (q : Spec Γ(X
 when they express every generator in terms of one generator. -/
 theorem regular_stalk_of_generators_mod_square
     {R ι : Type u} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
-    [Fintype ι] {X : Scheme.{u}} (U : X.affineOpens)
+    {X : Scheme.{u}} (U : X.affineOpens)
     [IsDomain Γ(X, U.1)] [IsNoetherianRing Γ(X, U.1)]
     (f : Γ(X, U.1) →+* R) (hf : Function.Surjective f)
     (x : ι → Γ(X, U.1)) (k : ι)
@@ -718,10 +718,10 @@ theorem exists_affineBlowup_chart_arc
         CommRingCat.ofHom f by exact congrArg CommRingCat.Hom.hom he
     apply Spec.map_injective
     apply (cancel_mono (isAffineOpen_coe U).fromSpec).mp
-    show Spec.map (CommRingCat.ofHom (algebraMap Γ(X, U.1) _) ≫
+    change Spec.map (CommRingCat.ofHom (algebraMap Γ(X, U.1) _) ≫
       CommRingCat.ofHom g) ≫ (isAffineOpen_coe U).fromSpec = _
     rw [Spec.map_comp]
-    show Spec.map (CommRingCat.ofHom g) ≫ Spec.map
+    change Spec.map (CommRingCat.ofHom g) ≫ Spec.map
       (CommRingCat.ofHom (algebraMap Γ(X, U.1) _)) ≫ (isAffineOpen_coe U).fromSpec = _
     rw [← hover, ← Category.assoc, hg, hβ, hα]
   obtain ⟨y, g₀, _, hy, hg₀, _, hdiv⟩ := exists_affineBlowup_arc_hom

@@ -152,7 +152,7 @@ private theorem integralClosure_isDedekind_of_fractionRing_range
     ext element
     exact ⟨fun integral => integral.tower_top,
       fun integral => isIntegral_trans (R := Base) element integral⟩
-  show IsDedekindDomain ↥(integralClosure Base Ambient).toSubring
+  change IsDedekindDomain ↥(integralClosure Base Ambient).toSubring
   rw [closuresEqual]
   infer_instance
 
@@ -171,7 +171,7 @@ private theorem integral_pi_iff_of_finite
     refine ⟨polynomial, monic, ?_⟩
     have equality := congrFun vanishing index
     change (polynomial.aeval element) index = 0 at equality
-    show polynomial.aeval (element index) = 0
+    change polynomial.aeval (element index) = 0
     simpa only [Polynomial.aeval_pi_apply₂] using equality
   · intro integral
     choose polynomial monic vanishing using integral
@@ -179,7 +179,7 @@ private theorem integral_pi_iff_of_finite
       Polynomial.monic_prod_of_monic _ _ (fun index _ => monic index), ?_⟩
     apply funext
     intro index
-    show ((∏ component, polynomial component).aeval element) index = 0
+    change ((∏ component, polynomial component).aeval element) index = 0
     rw [Polynomial.aeval_pi_apply₂]
     simp only [map_prod]
     exact Finset.prod_eq_zero (Finset.mem_univ index) (vanishing index)
@@ -281,7 +281,7 @@ private theorem ne_bot_of_isMaximal_of_isIntegral_dvr
   intro hq
   apply IsDiscreteValuationRing.not_a_field R
   rw [← hc, hq]
-  show RingHom.ker (algebraMap R S) = ⊥
+  change RingHom.ker (algebraMap R S) = ⊥
   exact (RingHom.injective_iff_ker_eq_bot _).mp (FaithfulSMul.algebraMap_injective R S)
 
 /-- Every maximal localization of a Noetherian integral closure of a discrete valuation ring is a
@@ -348,7 +348,7 @@ theorem isDiscreteValuationRing_integralClosure_localization
   let e₁ := Localization.localRingEquiv q (r.asIdeal.comap (Pi.evalRingHom C m)) e (by
     rw [heq]
     ext x
-    show x ∈ q ↔ e.symm (e x) ∈ q
+    change x ∈ q ↔ e.symm (e x) ∈ q
     rw [e.symm_apply_apply])
   let e₂ := RingEquiv.ofBijective (Localization.AtPrime.mapPiEvalRingHom r.asIdeal)
     (Localization.AtPrime.mapPiEvalRingHom_bijective r.asIdeal)
@@ -390,7 +390,7 @@ theorem isLocalHom_localization_of_comap_eq_maximalIdeal
     IsLocalHom (algebraMap R (Localization.AtPrime q)) := by
   apply ((IsLocalRing.local_hom_TFAE _).out 5 1).mp
   rw [IsScalarTower.algebraMap_eq R C (Localization.AtPrime q), ← Ideal.comap_comap]
-  show (Ideal.under C (maximalIdeal (Localization.AtPrime q))).comap (algebraMap R C) = _
+  change (Ideal.under C (maximalIdeal (Localization.AtPrime q))).comap (algebraMap R C) = _
   rw [IsLocalization.AtPrime.under_maximalIdeal (Localization.AtPrime q) q, hq]
 
 /-- The base acts faithfully on every prime localization of its integral closure in a field
@@ -419,7 +419,7 @@ theorem faithfulSMul_of_isIntegral_tower
     [Algebra R S] [IsScalarTower A R S] : FaithfulSMul R S := by
   apply (faithfulSMul_iff_algebraMap_injective R S).mpr
   apply (RingHom.injective_iff_ker_eq_bot _).mpr
-  apply Ideal.eq_bot_of_comap_eq_bot (R := A)
+  apply Ideal.eq_bot_of_under_eq_bot (R := A)
   rw [RingHom.ker_eq_comap_bot]
   change Ideal.comap _ (Ideal.comap _ ⊥) = ⊥
   rw [Ideal.comap_comap, ← IsScalarTower.algebraMap_eq A R S]
@@ -453,13 +453,13 @@ theorem essFiniteType_residueField_of_localization
   apply RingHom.ext
   intro x
   obtain ⟨a, rfl⟩ := residue_surjective (R := R) x
-  show (ResidueField.map (algebraMap R (Localization.AtPrime q))) (residue R a) =
+  change (ResidueField.map (algebraMap R (Localization.AtPrime q))) (residue R a) =
     g (algebraMap (ResidueField R) (maximalIdeal R).ResidueField (residue R a))
   rw [ResidueField.map_residue]
-  show residue (Localization.AtPrime q) (algebraMap R (Localization.AtPrime q) a) =
+  change residue (Localization.AtPrime q) (algebraMap R (Localization.AtPrime q) a) =
     g (algebraMap R (maximalIdeal R).ResidueField a)
   rw [Ideal.ResidueField.map_algebraMap]
-  show residue (Localization.AtPrime q) (algebraMap R (Localization.AtPrime q) a) =
+  change residue (Localization.AtPrime q) (algebraMap R (Localization.AtPrime q) a) =
     residue (Localization.AtPrime q)
       (algebraMap S (Localization.AtPrime q) (algebraMap R S a))
   rw [IsScalarTower.algebraMap_apply R S (Localization.AtPrime q)]
@@ -521,7 +521,7 @@ private theorem exists_finite_common_solution
   have : IsScalarTower K (F i) E :=
     IsScalarTower.of_algebraMap_eq' (emb i).comp_algebraMap.symm
   have : IsScalarTower A (F i) E := IsScalarTower.of_algebraMap_eq fun a => by
-    show algebraMap K E (algebraMap A K a) = emb i (algebraMap A (F i) a)
+    change algebraMap K E (algebraMap A K a) = emb i (algebraMap A (F i) a)
     rw [IsScalarTower.algebraMap_apply A K (F i), AlgHom.commutes]
   have : Module.Finite (F i) E := Module.Finite.of_restrictScalars_finite K (F i) E
   exact IsDiscreteValuationRing.exists_isSolution_of_tower A (B i) K (L i) (F i) E (hsol i)

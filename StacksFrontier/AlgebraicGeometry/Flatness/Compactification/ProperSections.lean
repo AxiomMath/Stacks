@@ -106,7 +106,7 @@ theorem exists_dense_compactification_of_compactification
       (Over.homMk j.immersion.toImage hkm : Over.mk f ⟶ Over.mk m),
       ⟨hopen, hproper⟩⟩
   have hqc : QuasiCompact j'.immersion := by
-    show QuasiCompact j.immersion.toImage
+    change QuasiCompact j.immersion.toImage
     infer_instance
   refine ⟨j', hqc, ?_⟩
   simpa [j', AlgebraicGeometry.CompactificationOf.immersion,
@@ -180,7 +180,7 @@ theorem proper_graph_restrict_closedImmersion {S U Y : Scheme.{u}}
   let R : (pullback f q).Opens := (pullback.snd f q) ⁻¹ᵁ T
   have hEq : m ⁻¹ᵁ R = V.ι ⁻¹ᵁ T := by
     ext x
-    show (m ≫ pullback.snd f q).base x ∈ (T : Set Y) ↔
+    change (m ≫ pullback.snd f q).base x ∈ (T : Set Y) ↔
       V.ι.base x ∈ (T : Set Y)
     rw [show m ≫ pullback.snd f q = V.ι from pullback.lift_snd _ _ _]
   let β : (V.ι ⁻¹ᵁ T).toScheme ≅ (m ⁻¹ᵁ R).toScheme :=
@@ -205,7 +205,7 @@ theorem proper_graph_restrict_closedImmersion {S U Y : Scheme.{u}}
           β.hom ≫ (m ∣_ R) ≫ (R.ι ≫ pullback.fst f q) := by
             simp only [g, Category.assoc, hαfst]
       _ = (V.ι ⁻¹ᵁ T).ι ≫ p := by
-        simp [β, m, pullback.lift_fst]
+        simp [β, m]
   · have hαsnd : α.inv ≫ pullback.snd f (T.ι ≫ q) =
         pullback.snd f q ∣_ T := by
       dsimp [α, morphismRestrict]
@@ -217,8 +217,7 @@ theorem proper_graph_restrict_closedImmersion {S U Y : Scheme.{u}}
             simp only [g, Category.assoc, hαsnd]
       _ = V.ι ∣_ T := by
         apply (cancel_mono T.ι).1
-        simp [β, R, m, Category.assoc, morphismRestrict_ι,
-          pullback.lift_snd]
+        simp [β, R, m, Category.assoc, morphismRestrict_ι]
 
 /-- A section of a separated morphism is a closed immersion: it is the base change of the
 diagonal along the graph of the section. -/
@@ -345,7 +344,7 @@ theorem isIso_restrict_proper_extension_image
       _ = a := Scheme.Hom.toImage_imageι a
       _ = e ≫ V.ι := rfl
   have heEp : eE ≫ pE = W.ι := by
-    show eE ≫ (k ≫ p) = W.ι
+    change eE ≫ (k ≫ p) = W.ι
     rw [← Category.assoc, heEk]
     exact he
   exact isIso_restrict_of_proper_dense_open_section W pE eE heEp hdenseE
@@ -416,11 +415,11 @@ theorem section_closedImmersion_away_from_boundary {U Y : Scheme.{u}}
   let T : Y.Opens := ⟨(closure B)ᶜ, isClosed_closure.isOpen_compl⟩
   have hET : Set.range e.base ⊆ (V.ι ⁻¹ᵁ T : Set V.toScheme) := by
     rintro y ⟨w, rfl⟩
-    show V.ι.base (e.base w) ∉ closure B
+    change V.ι.base (e.base w) ∉ closure B
     exact Set.disjoint_left.mp hsection ⟨w, rfl⟩
   have hTW : V.ι ⁻¹ᵁ T ≤ p ⁻¹ᵁ W := by
     intro y hy
-    show p.base y ∈ (W : Set U)
+    change p.base y ∈ (W : Set U)
     by_contra hnot
     exact (hy : V.ι.base y ∉ closure B) (subset_closure ⟨y, hnot, rfl⟩)
   exact ⟨by simpa only [Scheme.Opens.range_ι] using hET,
@@ -614,7 +613,7 @@ theorem open_compl_closure_boundary_le_preimage
     V.ι ⁻¹ᵁ T ≤ p ⁻¹ᵁ W := by
   dsimp
   intro y hy
-  show p.base y ∈ (W : Set U)
+  change p.base y ∈ (W : Set U)
   by_contra hnot
   have hB : V.ι.base y ∈
       V.ι.base '' (p.base ⁻¹' ((W : Set U)ᶜ)) := ⟨y, hnot, rfl⟩
@@ -675,7 +674,7 @@ theorem isImmersion_fiberProduct_of_proper_open_extensions
       exact (pullback.lift_fst _ _ _).symm
     · rw [Category.assoc, Category.assoc, hn₂, reassoc_of% he₂, reassoc_of% hm₂]
       exact (pullback.lift_snd _ _ _).symm
-  show IsImmersion a
+  change IsImmersion a
   rw [← heq]
   infer_instance
 
@@ -704,7 +703,7 @@ theorem preimage_closure_subset_of_isIso_restrict
   let y : O.toScheme := ⟨x, hxO⟩
   have hpy : N.ι.base (r.base y) = p.base x := comp_base_apply_eq (morphismRestrict_ι p N) y
   have hN : r.base y ∈ N.ι.base ⁻¹' closure A := by
-    show N.ι.base (r.base y) ∈ closure A
+    change N.ι.base (r.base y) ∈ closure A
     rw [hpy]
     exact hx
   have hNcl : r.base y ∈ closure (N.ι.base ⁻¹' A) :=
@@ -717,7 +716,7 @@ theorem preimage_closure_subset_of_isIso_restrict
   have hsub : O.ι.base '' (r.base ⁻¹' (N.ι.base ⁻¹' A)) ⊆
       p.base ⁻¹' A := by
     rintro z ⟨z', hz', rfl⟩
-    show p.base (O.ι.base z') ∈ A
+    change p.base (O.ι.base z') ∈ A
     exact comp_base_apply_eq (morphismRestrict_ι p N) z' ▸ hz'
   exact closure_mono hsub hXcl
 
@@ -829,7 +828,7 @@ theorem disjoint_boundaries_from_fiberProduct
         comp_base_apply_eq (pullback.condition (f := p₁) (g := p₂)) z
       rw [← hpb, ← hsame]
       exact hv₁
-    show P₂.base (a.base z) ∈ closure C
+    change P₂.base (a.base z) ∈ closure C
     rw [comp_base_apply_eq ha₂ z]
     exact hC ⟨(pullback.snd p₁ p₂).base z, hbad, rfl⟩
   exact disjoint_image_boundaries_of_isIso_near_closure P₁ P₂ a N B C D

@@ -179,7 +179,7 @@ public theorem support_stalk_eq_univ_of_supp_eq_univ (F : X.Modules) [F.IsQuasic
       have hmem : X.fromSpecStalk x q ∈ Set.range (X.fromSpecStalk x) := ⟨q, rfl⟩
       rwa [Scheme.range_fromSpecStalk] at hmem
     refine ⟨X.fromSpecStalk x q, hyx, (X.fromSpecStalk x).isEmbedding.injective ?_⟩
-    show (Spec.map (X.presheaf.stalkSpecializes hyx) ≫ X.fromSpecStalk x)
+    change (Spec.map (X.presheaf.stalkSpecializes hyx) ≫ X.fromSpecStalk x)
       (IsLocalRing.closedPoint (X.presheaf.stalk (X.fromSpecStalk x q))) = _
     rw [Scheme.SpecMap_stalkSpecializes_fromSpecStalk]
     exact Scheme.fromSpecStalk_closedPoint

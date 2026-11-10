@@ -183,7 +183,7 @@ theorem isGorensteinLocalRing_stalk_of_isNode (k : Type u) [Field k] (X : Scheme
   let Y := (pullback f g : Scheme.{u})
   let _ : Y.Over (AlgebraicGeometry.Spec (.of K)) := ⟨pullback.snd f g⟩
   have _ : LocallyOfFiniteType (Y ↘ AlgebraicGeometry.Spec (.of K)) := by
-    show LocallyOfFiniteType (pullback.snd f g)
+    change LocallyOfFiniteType (pullback.snd f g)
     infer_instance
   have _ : IsLocallyNoetherian Y :=
     LocallyOfFiniteType.isLocallyNoetherian (Y ↘ AlgebraicGeometry.Spec (.of K))
@@ -326,7 +326,7 @@ theorem geometricallyReduced_of_hasAtWorstNodalSingularities (k : Type u) [Field
   let _ : Y.Over (AlgebraicGeometry.Spec (.of K)) :=
     ⟨pullback.snd (X ↘ AlgebraicGeometry.Spec (.of k)) g⟩
   have _ : LocallyOfFiniteType (Y ↘ AlgebraicGeometry.Spec (.of K)) := by
-    show LocallyOfFiniteType (pullback.snd (X ↘ AlgebraicGeometry.Spec (.of k)) g)
+    change LocallyOfFiniteType (pullback.snd (X ↘ AlgebraicGeometry.Spec (.of k)) g)
     infer_instance
   have hY : AlgebraicGeometry.IsReduced Y :=
     isReduced_of_hasAtWorstNodalSingularities K Y

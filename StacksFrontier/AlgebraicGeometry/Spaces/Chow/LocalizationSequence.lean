@@ -452,7 +452,7 @@ theorem IntegralClosedSubspace.exists_closureImage_eq
         subspacePointSet D.site D.base D.base_mem U
           (integralClosedSubspaceOfPoints D.site D.base D.base_mem hU hUdec T).subspace) := by
     rw [hpts]
-    show subspacePointSet D.site D.base D.base_mem X W.subspace =
+    change subspacePointSet D.site D.base D.base_mem X W.subspace =
       closure (pointsMap D.site D.base D.base_mem U j ''
         (pointsMap D.site D.base D.base_mem U j ⁻¹'
           subspacePointSet D.site D.base D.base_mem X W.subspace))
@@ -524,7 +524,7 @@ theorem cycleGroupRestrict_eq_zero_iff (sX : X ⟶ D.space) (hX : D.IsGood sX) (
           ← IntegralClosedSubspace.deltaDimension_pushforward D sX hX.2.2 hX.1 hY.1 hXdec hi Z]
         exact α.2.2 _ hZ
     refine ⟨⟨_, hβmem⟩, Subtype.ext (funext fun W => ?_)⟩
-    show cycleClosedPushforward D hX.1 hY.1 hXdec hi
+    change cycleClosedPushforward D hX.1 hY.1 hXdec hi
       (fun Z => α.1 (IntegralClosedSubspace.pushforward D.site D.base D.base_mem hX.1 hY.1
         hXdec hi Z)) W = α.1 W
     by_cases hW : ∃ Z, IntegralClosedSubspace.pushforward D.site D.base D.base_mem hX.1 hY.1

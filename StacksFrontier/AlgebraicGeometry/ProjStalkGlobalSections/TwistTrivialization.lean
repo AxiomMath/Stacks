@@ -292,7 +292,7 @@ theorem mulPowTwistEquiv_mk (hf : f ∈ 𝒮 1) {x : ProjectiveSpectrum.top 𝒮
     (mulPowTwistEquiv 𝒮 hf hx d k ⟨LocalizedModule.mk m s, hz⟩ :
         ProjectiveSpectrum.Proj.ModuleFiber (M := S) 𝒮 x) =
       LocalizedModule.mk (f ^ k * m) s := by
-  show mulFiber 𝒮 x (powFiber 𝒮 f k x) (LocalizedModule.mk m s) = _
+  change mulFiber 𝒮 x (powFiber 𝒮 f k x) (LocalizedModule.mk m s) = _
   rw [powFiber, mulFiber_mk, one_mul]
 
 /-- The local ring `S₍ₓ₎`, mapped into the fibre at `x` as the `S₍ₓ₎`-multiples of the fraction
@@ -308,7 +308,7 @@ localization. -/
 theorem toFiber_apply (x : ProjectiveSpectrum.top 𝒮)
     (r : HomogeneousLocalization.AtPrime 𝒮 x.asHomogeneousIdeal.toIdeal) :
     toFiber 𝒮 x r = HomogeneousLocalization.val r := by
-  show HomogeneousLocalization.val r * Localization.mk (1 : S) 1 = _
+  change HomogeneousLocalization.val r * Localization.mk (1 : S) 1 = _
   rw [Localization.mk_one, mul_one]
 
 /-- The map of `S₍ₓ₎` into the fibre is injective, because the value of a homogeneous fraction
@@ -338,7 +338,7 @@ theorem range_toFiber (x : ProjectiveSpectrum.top 𝒮) :
       simpa only [mem_homogeneousSubmodule] using hm
     refine Submodule.mem_span_singleton.mpr
       ⟨HomogeneousLocalization.mk ⟨j, ⟨m, hmS⟩, ⟨(s : S), hs⟩, s.2⟩, ?_⟩
-    show mulFiber 𝒮 x
+    change mulFiber 𝒮 x
       (HomogeneousLocalization.val
         (HomogeneousLocalization.mk ⟨j, ⟨m, hmS⟩, ⟨(s : S), hs⟩, s.2⟩))
       (LocalizedModule.mk 1 1) = _
@@ -387,7 +387,7 @@ theorem val_twistMinusOneEquiv_mk (hf : f ∈ 𝒮 1) {x : ProjectiveSpectrum.to
       Localization.mk (f * m) s := by
   rw [twistMinusOneEquiv]
   rw [LinearEquiv.trans_apply, val_degreeZeroModuleAtZeroEquiv_symm]
-  show (mulPowTwistEquiv 𝒮 hf hx (-1) 1 ⟨LocalizedModule.mk m s, hz⟩ :
+  change (mulPowTwistEquiv 𝒮 hf hx (-1) 1 ⟨LocalizedModule.mk m s, hz⟩ :
     ProjectiveSpectrum.Proj.ModuleFiber (M := S) 𝒮 x) = _
   rw [mulPowTwistEquiv_mk, pow_one]
   rfl

@@ -109,8 +109,10 @@ theorem isSheaf_homology_presheafComplex_of_isStrictlyGE
   refine ObjectProperty.prop_of_isLimit (P := Presheaf.IsSheaf X.J (A := AddCommGrpCat.{u}))
     ((presheafComplex X J).cyclesIsKernel 0 1 (by simp)) ?_
   rintro (_ | _)
-  · exact ((SheafOfModules.toSheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj (J.X 0)).property
-  · exact ((SheafOfModules.toSheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj (J.X 1)).property
+  · exact ((SheafOfModules.toSheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj
+      (J.X 0)).property
+  · exact ((SheafOfModules.toSheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj
+      (J.X 1)).property
 
 /-- **The negative cohomology presheaves of a K-injective complex acyclic in negative degrees
 vanish**: `H^i(Γ(U, M)) = 0` for `i < 0` and every `U`. -/

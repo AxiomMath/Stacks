@@ -460,7 +460,8 @@ variable (S : FormalFunctionsSituation.{u, max (u + 1) w})
 /-- The structure sheaf of the small étale ringed site of the algebraic space of Situation
 08AV, as a sheaf of rings: the sheaf over which the `𝒪_X`-modules are taken. -/
 abbrev structureRing :=
-  (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite S.site (Spec (.of S.ring)) S.containsBase S.space.1 S.space.2).O)
+  (Stacks.SheafOfModules.Tensor.ringSheaf
+    (smallEtaleRingedSite S.site (Spec (.of S.ring)) S.containsBase S.space.1 S.space.2).O)
 
 /-- The ring map from the base ring of Situation 08AV to the global functions of its algebraic
 space, along which the cohomology of Situation 08AV is an `A`-module. -/

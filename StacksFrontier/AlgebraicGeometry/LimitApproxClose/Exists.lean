@@ -97,7 +97,7 @@ lemma finiteType_localization_away_of_basicOpen_le {W : Scheme.{u}} (f : W ⟶ S
   let D : Scheme.{u} := Scheme.Opens.toScheme (X := Spec (.of R)) (PrimeSpectrum.basicOpen a)
   let inc : D ⟶ Spec (.of R) := Scheme.Opens.ι _
   have hincOpen : IsOpenImmersion inc := by
-    show IsOpenImmersion (Scheme.Opens.ι (X := Spec (.of R)) (PrimeSpectrum.basicOpen a))
+    change IsOpenImmersion (Scheme.Opens.ι (X := Spec (.of R)) (PrimeSpectrum.basicOpen a))
     rw [← basicOpenIsoSpecAway_hom_SpecMap (R := CommRingCat.of R)]
     infer_instance
   have hinc : Set.range inc ⊆ Set.range f := by

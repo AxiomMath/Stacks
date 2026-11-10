@@ -92,8 +92,7 @@ public theorem tensorKaehlerDifferential_ext {Λ B k M : Type u} [CommRing Λ] [
     f = g := by
   apply LinearMap.ext
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add u v hu hv => rw [map_add, map_add, hu, hv]
   | tmul c ω =>
     have hω : ω ∈ Submodule.span B (Set.range (KaehlerDifferential.D Λ B)) := by
@@ -118,7 +117,7 @@ variable (Λ B A k : Type u) [CommRing Λ] [CommRing B] [CommRing A] [CommRing k
 public theorem differentialsBaseChangeMap_tmul_D (c : k) (b : B) :
     differentialsBaseChangeMap Λ B A k (c ⊗ₜ[B] KaehlerDifferential.D Λ B b) =
       c ⊗ₜ[A] KaehlerDifferential.D Λ A (algebraMap B A b) := by
-  show (KaehlerDifferential.mapBaseChange Λ B A).baseChange k
+  change (KaehlerDifferential.mapBaseChange Λ B A).baseChange k
       ((TensorProduct.AlgebraTensorModule.cancelBaseChange B A k k
         (KaehlerDifferential Λ B)).symm (c ⊗ₜ[B] KaehlerDifferential.D Λ B b)) = _
   have hsymm : (TensorProduct.AlgebraTensorModule.cancelBaseChange B A k k

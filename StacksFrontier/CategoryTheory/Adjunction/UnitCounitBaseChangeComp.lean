@@ -283,7 +283,7 @@ theorem baseChangeAlongEquivalence_eq (E : Y ≌ X) (E' : Y' ≌ X') {ρ : X ⥤
     exact (Category.assoc _ _ _).symm.trans ((congrArg (· ≫ (A.app _).inv) n1').trans
       (Category.assoc _ _ _))
   unfold baseChangeOfCounitUnit baseChangeOfUnit
-  show ρ'.map (φ.map ((E.counitIso.app N).inv ≫
+  change ρ'.map (φ.map ((E.counitIso.app N).inv ≫
       E.functor.map (inv (adj.counit.app (E.inverse.obj N))))) ≫
     ρ'.map ((E'.counitIso.app (φ.obj (E.functor.obj (asc.obj (res.obj (E.inverse.obj N)))))).inv ≫
       E'.functor.map ((R.app (E.functor.obj (asc.obj (res.obj (E.inverse.obj N))))).hom ≫
@@ -356,7 +356,7 @@ theorem baseChangeAlongEquivalence_comp (E₀ : Y ≌ X) (E₁ : Y' ≌ X') (E�
     baseChangeAlongEquivalence_eq _ _ _ _ _ _ _ _ hι₂,
     baseChangeAlongEquivalence_eq _ _ _ _ _ _ _ _ hι₁]
   simp only [Category.assoc, Functor.map_comp, Iso.app_hom]
-  rw [nc, reassoc_of% hc, reassoc_of% nι, Iso.map_inv_hom_id_assoc, reassoc_of% nδ,
+  rw [nc, reassoc_of% hc, reassoc_of% nι, Iso.inv_hom_id_map_assoc, reassoc_of% nδ,
     ← res₂.map_comp_assoc (R.hom.app N), ← hRN]
   simp only [Functor.map_comp, Category.assoc]
 

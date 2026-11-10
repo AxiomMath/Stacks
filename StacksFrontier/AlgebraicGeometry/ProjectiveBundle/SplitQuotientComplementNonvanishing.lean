@@ -67,7 +67,7 @@ variable {Y T : Scheme.{u}}
 
 /-- The morphism out of the structure sheaf attached to the zero global section is zero. -/
 theorem unitHomEquivTop_zero (M : Y.Modules) : Scheme.Modules.unitHomEquivTop M 0 = 0 := by
-  rw [Equiv.apply_eq_iff_eq_symm_apply]
+  rw [← Equiv.eq_symm_apply]
   rfl
 
 /-- **Pulling back the morphism of a global section**: `f^*` of the morphism `𝒪_Y ⟶ M` of a

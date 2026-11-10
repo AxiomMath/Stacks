@@ -75,7 +75,7 @@ attribute [local implicit_reducible] TopCat.Sheaf sheafCompose AlgebraicGeometry
 attribute [local instance_reducible] ProjectiveSpectrum.top
 
 variable {S : Type u} {σ : Type u} [CommRing S] [SetLike σ S] [AddSubgroupClass σ S]
-  (𝒮 : ℕ → σ) [GradedRing 𝒮] [IsNoetherianRing S]
+  (𝒮 : ℕ → σ) [GradedRing 𝒮]
 
 section Bare
 
@@ -173,7 +173,8 @@ public theorem grade_shiftedTruncatedSectionsObj (k : ℤ) :
 
 /-- **Part (1) of Stacks 0B5R at this spelling of the truncation**: `N'` is a finite
 `A`-module. -/
-public theorem moduleFinite_shiftedTruncatedSectionsObj [Module.Finite S M] (k : ℤ) :
+public theorem moduleFinite_shiftedTruncatedSectionsObj [IsNoetherianRing S] [Module.Finite S M]
+    (k : ℤ) :
     Module.Finite S (shiftedTruncatedSectionsObj 𝒮 𝒨 k).carrier := by
   let := (globalSectionsModuleMap 𝒮 𝒨).moduleInst
   let := (globalSectionsModuleMap 𝒮 𝒨).gradedSMul
@@ -256,7 +257,7 @@ public theorem exists_truncatedTwistedToShiftedMor_eq (k : ℤ) {n : ℤ} (hkn :
   refine ⟨(⟨_, hmem⟩ :
     ↥(truncationAbove 𝒮 (twistedGlobalSectionsGrading 𝒮 (associatedModuleSheaf 𝒮 𝒨)) k)),
     Subtype.ext ?_⟩
-  show twistedToShiftedSections 𝒮 𝒨
+  change twistedToShiftedSections 𝒮 𝒨
       (DirectSum.of
         (fun j : ℤ => twistedSectionsComponent 𝒮 (associatedModuleSheaf 𝒮 𝒨) j) n t) = yv
   rw [twistedToShiftedSections_of, hts, hs]
@@ -331,7 +332,7 @@ public theorem exists_moduleToShiftedTruncation_eq
       DirectSum.of (fun j : ℤ => shiftedSectionsComponent 𝒮 X.grade j) n
         (degreeNToGlobalSections 𝒮 X.grade n ⟨(m : X.carrier), m.2⟩) :=
     globalSectionsModuleMap_hom_of_mem 𝒮 X.grade n (m : X.carrier) m.2
-  show (globalSectionsModuleMap 𝒮 X.grade).hom (m : X.carrier) = yv
+  change (globalSectionsModuleMap 𝒮 X.grade).hom (m : X.carrier) = yv
   rw [hof, hs]
   exact congrArg (DirectSum.of (fun j : ℤ => shiftedSectionsComponent 𝒮 X.grade j) n) hms
 

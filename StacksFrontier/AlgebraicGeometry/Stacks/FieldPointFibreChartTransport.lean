@@ -138,16 +138,16 @@ theorem exists_contains_hom_iso_fieldPointObject (V : BigFppfOver B S hS) (k : T
       (e : V ≅ fieldPointObject B S hS k hk toBase),
       (BigFppfOver.toScheme B S hS).map e.hom = ι.hom := by
   have hk : B.Contains (Spec (.of k)) := by
-    show (Spec (.of k)).size < B.cutoff
+    change (Spec (.of k)).size < B.cutoff
     rw [← Scheme.size_congr ι]
     exact V.left.property
   refine ⟨hk, ι.inv ≫ (BigFppfSite.inclusion B).map V.hom, Over.isoMk
     (ObjectProperty.isoMk (schemeSizeBelow B.cutoff) ι) ?_, rfl⟩
-  show (ObjectProperty.homMk ι.hom : V.left ⟶ B.obj hk) ≫
+  change (ObjectProperty.homMk ι.hom : V.left ⟶ B.obj hk) ≫
       (ObjectProperty.homMk (ι.inv ≫ (BigFppfSite.inclusion B).map V.hom) :
         B.obj hk ⟶ B.obj hS) = V.hom
   apply (ObjectProperty.faithful_ι (schemeSizeBelow B.cutoff)).map_injective
-  show ι.hom ≫ ι.inv ≫ (BigFppfSite.inclusion B).map V.hom =
+  change ι.hom ≫ ι.inv ≫ (BigFppfSite.inclusion B).map V.hom =
     (BigFppfSite.inclusion B).map V.hom
   rw [Iso.hom_inv_id_assoc]
 
@@ -299,7 +299,7 @@ theorem exists_fibreIsUnramifiedNear_of_iso_etaleChart_unramifiedAt
     (⟨CostructuredArrow.mk (a ≫ ε.inv), ha'⟩ : Space.SmallEtale B S hS Fsp) v, ?_⟩
   refine fibreIsUnramifiedNear_of_unramifiedAt.{u, w} B S hS 𝒳 U hU k hk toBase f g Fsp hFsp eF
     ⟨CostructuredArrow.mk (a ≫ ε.inv), ha'⟩ q ?_ v hv
-  show (a ≫ ε.inv) ≫ fibreSpaceStructureMorphism B S hS 𝒳 U hU k hk toBase f g Fsp eF =
+  change (a ≫ ε.inv) ≫ fibreSpaceStructureMorphism B S hS 𝒳 U hU k hk toBase f g Fsp eF =
     yoneda.map q
   rw [← hζ, Category.assoc, Iso.inv_hom_id_assoc]
   exact hq

@@ -217,7 +217,6 @@ theorem right_unitality (X : C) :
     Category.assoc, ← associator_inv_naturality_middle, ← Category.assoc,
     ← MonoidalCategory.whiskerLeft_comp, comul_counit_whiskerRight, h2]
 
-include natL natR assoc in
 /-- The counit is invertible. -/
 theorem isIso_counit : IsIso (counit F δ φ) := by
   have h : IsIso (counit F δ φ ▷ F.obj (𝟙_ C)) := by

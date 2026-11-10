@@ -99,7 +99,7 @@ theorem finrank_restrictScalars_eq {k R R' : Type u} [Field k] [Ring R] [Ring R'
   refine congrArg Cardinal.toNat (rank_eq_of_equiv_equiv i
     (M := (ModuleCat.restrictScalars f).obj M) (M₁ := (ModuleCat.restrictScalars f').obj M')
     j hi fun r m => ?_)
-  show j (f r • m) = f' (e'.symm (ρ (f r))) • j m
+  change j (f r • m) = f' (e'.symm (ρ (f r))) • j m
   exact (hj (f r) m).trans (congrArg (· • j m) (e'.apply_symm_apply (ρ (f r))).symm)
 
 end SemilinearEquivalent
@@ -232,7 +232,7 @@ theorem bijective_smallBaseChangeSharp_app_of_iso (c : SmallEtale B S hS X.1) :
   have hpb := hrep.isPullback c.1.hom
   have : IsIso (yoneda.map (hrep.snd c.1.hom)) := hpb.isIso_snd_of_isIso
   have : IsIso (hrep.snd c.1.hom) := isIso_of_fully_faithful yoneda _
-  show Function.Bijective ((forget₂ CommRingCat.{u} RingCat.{u}).map
+  change Function.Bijective ((forget₂ CommRingCat.{u} RingCat.{u}).map
     (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map (hrep.snd c.1.hom)).op))
   exact (ConcreteCategory.bijective_of_isIso _)
 

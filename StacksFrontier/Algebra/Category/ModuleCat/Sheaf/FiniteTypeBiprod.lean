@@ -57,7 +57,7 @@ theorem overFunctor_preservesLimit_pair {M N : SheafOfModules.{u} R} (U : C) :
   refine ⟨fun {c} hc => ⟨isLimitOfReflects (SheafOfModules.forget (R.over U)) ?_⟩⟩
   refine PresheafOfModules.evaluationJointlyReflectsLimits _ _ fun V => ?_
   let V' : Cᵒᵖ := Opposite.op ((Over.forget U).obj V.unop)
-  show IsLimit ((ModuleCat.restrictScalars (RingHom.id ((R.obj).obj V'))).mapCone
+  change IsLimit ((ModuleCat.restrictScalars (RingHom.id ((R.obj).obj V'))).mapCone
     ((SheafOfModules.evaluation R V').mapCone c))
   exact isLimitOfPreserves _ (isLimitOfPreserves (SheafOfModules.evaluation R V') hc)
 
@@ -85,7 +85,7 @@ theorem isFiniteType_biprod {M N : SheafOfModules.{u} R} [HasBinaryBiproduct M N
   let genAt (ij : I) :
       {g : ((M ⊞ N).over (W ij)).GeneratingSections // g.IsFiniteType} := by
     rcases ij with ⟨Z, i, j, fM, fN⟩
-    show {g : ((M ⊞ N).over Z).GeneratingSections // g.IsFiniteType}
+    change {g : ((M ⊞ N).over Z).GeneratingSections // g.IsFiniteType}
     have : (p.generators i).IsFiniteType := hp.isFiniteType i
     have : (q.generators j).IsFiniteType := hq.isFiniteType j
     let sM := Stacks.SheafOfModules.generatingSectionsOverMap M fM (p.generators i)

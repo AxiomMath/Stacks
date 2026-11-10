@@ -48,9 +48,9 @@ theorem exists_comp_specMap_fractionRing_eq {T : Scheme.{u}} (t : T ⟶ Spec (.o
     have hmem : x ∈ T.basicOpen
         ((e φ).appTop ((Scheme.ΓSpecIso (CommRingCat.of A)).inv (y : A))) := by
       rw [← Scheme.preimage_basicOpen_top]
-      show x ∈ e φ ⁻¹ᵁ (Spec (.of A)).basicOpen _
+      change x ∈ e φ ⁻¹ᵁ (Spec (.of A)).basicOpen _
       rw [basicOpen_eq_of_affine (R := CommRingCat.of A) (y : A)]
-      show (y : A) ∉ ((e φ).base x).asIdeal
+      change (y : A) ∉ ((e φ).base x).asIdeal
       rw [ht x]
       exact fun h => nonZeroDivisors.ne_zero y.2 ((Ideal.mem_bot).1 h)
     have hy : φ.unop.hom y = (e φ).appTop ((Scheme.ΓSpecIso (CommRingCat.of A)).inv (y : A)) := by

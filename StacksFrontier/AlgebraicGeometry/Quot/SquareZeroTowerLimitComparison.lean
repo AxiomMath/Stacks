@@ -88,7 +88,7 @@ theorem towerLimitΓIso_hom_comp_towerLimitProjection :
   have hc' : (e 0).hom.appTop ≫ (e 0).inv.appTop = 𝟙 _ := by
     rw [← Scheme.Hom.comp_appTop, Iso.inv_hom_id]
     rfl
-  show eLimit.inv.appTop ≫ (Scheme.ΓSpecIso _).hom ≫ _ =
+  change eLimit.inv.appTop ≫ (Scheme.ΓSpecIso _).hom ≫ _ =
     ((BigFppfOver.toScheme B S hS).map (c.ι.app 0)).appTop ≫ (e 0).inv.appTop ≫
       (Scheme.ΓSpecIso _).hom
   simp only [hf, Scheme.Hom.comp_appTop, Category.assoc]

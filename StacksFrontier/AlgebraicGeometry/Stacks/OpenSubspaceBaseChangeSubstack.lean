@@ -130,7 +130,7 @@ theorem prop_of_hom_of_isFieldObject {r c : 𝒳.val.val.obj}
     have := hξ
     infer_instance
   let e : (Over.map V.hom).obj a ⟶ p.obj r := Over.homMk (𝟙 _) (by
-    show 𝟙 _ ≫ _ = t.left ≫ V.hom
+    change 𝟙 _ ≫ _ = t.left ≫ V.hom
     rw [Category.id_comp, Over.w t])
   have he : (Over.map V.hom).map ta ≫ eqToHom hT' = e ≫ t := by
     ext

@@ -105,7 +105,7 @@ theorem IsTorsionFreeOverAt.of_mono {G F : SheafOfModules.{u}
     Module.compHom _ (f.hom.stalkMap x).hom
   have : Module.IsTorsionFree (Y.presheaf.stalk (f.hom.base x))
       (TopCat.Presheaf.stalk (C := AddCommGrpCat.{u}) MF.presheaf x) := h
-  show Module.IsTorsionFree (Y.presheaf.stalk (f.hom.base x))
+  change Module.IsTorsionFree (Y.presheaf.stalk (f.hom.base x))
       (TopCat.Presheaf.stalk (C := AddCommGrpCat.{u}) MG.presheaf x)
   let ψ : TopCat.Presheaf.stalk (C := AddCommGrpCat.{u}) MG.presheaf x →
       TopCat.Presheaf.stalk (C := AddCommGrpCat.{u}) MF.presheaf x :=
@@ -150,7 +150,7 @@ theorem isTorsionFreeOverAt_of_forall_dvd_germ (F : SheafOfModules.{u}
   let : Module (Y.presheaf.stalk (f.hom.base x))
       (TopCat.Presheaf.stalk (C := AddCommGrpCat.{u}) MF.presheaf x) :=
     Module.compHom _ (f.hom.stalkMap x).hom
-  show Module.IsTorsionFree (Y.presheaf.stalk (f.hom.base x))
+  change Module.IsTorsionFree (Y.presheaf.stalk (f.hom.base x))
       (TopCat.Presheaf.stalk (C := AddCommGrpCat.{u}) MF.presheaf x)
   refine ⟨fun a ha => ?_⟩
   obtain ⟨V, hV, r, ⟨c, hc⟩, hinj⟩ := h a ha
@@ -158,7 +158,7 @@ theorem isTorsionFreeOverAt_of_forall_dvd_germ (F : SheafOfModules.{u}
   intro m hm
   have hrm : ((f.hom.stalkMap x).hom (Y.presheaf.germ V (f.hom.base x) hV r)) • m = 0 := by
     rw [hc, map_mul, mul_comm, mul_smul]
-    show ((f.hom.stalkMap x).hom c) • (a • m) = 0
+    change ((f.hom.stalkMap x).hom c) • (a • m) = 0
     rw [hm, smul_zero]
   obtain ⟨U₀, hxU₀, m', rfl⟩ := TopCat.Presheaf.exists_germ_eq MF.presheaf m
   let U : Opens X := U₀ ⊓ (Opens.map f.hom.base).obj V
@@ -182,7 +182,7 @@ theorem isTorsionFreeOverAt_of_forall_dvd_germ (F : SheafOfModules.{u}
   have hWV : W ≤ (Opens.map f.hom.base).obj V := (leOfHom iWU).trans hUV
   have hzero : MF.map iWU.op m'' = 0 := by
     refine hinj W hxW hWV ?_
-    show X.presheaf.map (homOfLE hWV).op (f.hom.c.app (op V) r) • MF.map iWU.op m'' =
+    change X.presheaf.map (homOfLE hWV).op (f.hom.c.app (op V) r) • MF.map iWU.op m'' =
       X.presheaf.map (homOfLE hWV).op (f.hom.c.app (op V) r) • 0
     rw [smul_zero]
     have h1 : MF.map iWU.op (s • m'') = 0 := heq.trans (map_zero _)

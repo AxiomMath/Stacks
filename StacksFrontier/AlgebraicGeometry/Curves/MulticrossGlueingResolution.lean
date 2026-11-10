@@ -207,7 +207,7 @@ private theorem isReduced_tensor_adicCompletion_of_isNagataRing
     (hB : IsNagataRing B) (p : Ideal A) [p.IsPrime]
     (Ap : Type*) [CommRing Ap] [Algebra A Ap] [IsLocalization.AtPrime Ap p] [IsLocalRing Ap] :
     IsReduced (AdicCompletion (maximalIdeal Ap) Ap ⊗[A] B) := by
-  haveI : IsNoetherianRing B := hB.1
+  have : IsNoetherianRing B := hB.1
   have hred (q : p.primesOver B) :
       IsReduced (AdicCompletion (maximalIdeal (Localization.AtPrime q.1))
         (Localization.AtPrime q.1)) := by
@@ -215,7 +215,7 @@ private theorem isReduced_tensor_adicCompletion_of_isNagataRing
       isNagata_of_isLocalization B q.1.primeCompl (Localization.AtPrime q.1) hB
     exact (reducedness_and_adicCompletion.{_, 0} (Localization.AtPrime q.1)).2.2 hq
       |>.mp inferInstance
-  letI := hred
+  let := hred
   obtain ⟨e⟩ := AdicCompletion.nonempty_algEquiv_pi_primesOver (S := B) p Ap
     (fun q => Localization.AtPrime q.1)
   exact isReduced_of_injective
@@ -257,10 +257,10 @@ private theorem ringKrullDim_stalk_eq_one_of_singular
     (hsing : ¬ IsRegularLocalRing (X.presheaf.stalk x)) :
     ringKrullDim (X.presheaf.stalk x) = 1 := by
   let A := X.presheaf.stalk x
-  letI : IsLocallyNoetherian X :=
+  let : IsLocallyNoetherian X :=
     LocallyOfFiniteType.isLocallyNoetherian (X ↘ AlgebraicGeometry.Spec (.of k))
-  letI : IsNoetherianRing A := inferInstance
-  letI : IsReduced A := inferInstance
+  let : IsNoetherianRing A := inferInstance
+  let : IsReduced A := inferInstance
   have hle : ringKrullDim A ≤ 1 := by
     have h := AlgebraicGeometry.ringKrullDim_stalk_le_topologicalKrullDim x
     rwa [hX] at h
@@ -297,29 +297,29 @@ private theorem stalk_residueField_algEquiv {k : Type u} [Field k] [IsAlgClosed 
     letI : Algebra k (X.residueField x) :=
       ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫ X.Γevaluation x).hom.toAlgebra
     Nonempty (X.residueField x ≃ₐ[k] k) := by
-  letI : Algebra k (X.residueField x) :=
+  let : Algebra k (X.residueField x) :=
     ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫ X.Γevaluation x).hom.toAlgebra
-  letI : LocallyOfFiniteType (X.fromSpecResidueField x) := by
+  let : LocallyOfFiniteType (X.fromSpecResidueField x) := by
     have hclosed := isClosed_singleton_iff_isClosedImmersion.mp hx
     infer_instance
   have hcomp : LocallyOfFiniteType (X.fromSpecResidueField x ≫ f) := inferInstance
   rw [← f.SpecMap_residueFieldMap_fromSpecResidueField x] at hcomp
-  simp [Scheme.fromSpecResidueField, Spec.fromSpecStalk_eq] at hcomp
+  simp only [Scheme.fromSpecResidueField, Spec.fromSpecStalk_eq, Spec.map_comp] at hcomp
   simp only [← Spec.map_comp] at hcomp
   change LocallyOfFiniteType (Spec.map _) at hcomp
   rw [AlgebraicGeometry.HasRingHomProperty.Spec_iff
     (P := @LocallyOfFiniteType)] at hcomp
-  letI : Algebra.FiniteType k (X.residueField x) := by
+  let : Algebra.FiniteType k (X.residueField x) := by
     change RingHom.FiniteType (algebraMap k (X.residueField x))
     convert hcomp using 1
     · simp only [RingHom.algebraMap_toAlgebra]
       rw [← Scheme.Γevaluation_naturality]
       simp only [Scheme.Γevaluation, Scheme.evaluation, Category.assoc]
-  letI : Module.Finite k (X.residueField x) :=
+  let : Module.Finite k (X.residueField x) :=
     finite_of_finite_type_of_isJacobsonRing _ _
-  letI : Algebra.IsAlgebraic k (X.residueField x) :=
+  let : Algebra.IsAlgebraic k (X.residueField x) :=
     Algebra.IsAlgebraic.of_finite _ _
-  letI : Algebra.IsIntegral k (X.residueField x) := inferInstance
+  let : Algebra.IsIntegral k (X.residueField x) := inferInstance
   have hbij : Function.Bijective (algebraMap k (X.residueField x)) :=
     IsAlgClosed.algebraMap_bijective_of_isIntegral
   let e : k ≃ₐ[k] X.residueField x :=
@@ -333,7 +333,7 @@ private theorem exists_open_meets_singularLocus_only_at
     ∃ U : X.Opens, x ∈ U ∧
       ∀ y ∈ U, y ∈ AlgebraicGeometry.singularLocus X → y = x := by
   let D : Set X := AlgebraicGeometry.singularLocus X
-  haveI : DiscreteTopology D :=
+  have : DiscreteTopology D :=
     AlgebraicGeometry.discreteTopology_singularLocus_of_isNagataScheme X hNagata hdim.le
   have hD : _root_.IsDiscrete D := isDiscrete_iff_discreteTopology.mpr inferInstance
   obtain ⟨U, hU, hUcap⟩ := (isDiscrete_iff_forall_mem_exists_isOpen.mp hD) x hx
@@ -475,7 +475,7 @@ private theorem nonempty_algEquiv_multicross_of_isPullback
     letI : Algebra k (Stacks.Curves.multicross k (m + n)) :=
       Stacks.Curves.multicrossAlgebra k (m + n)
     Nonempty (A ≃ₐ[k] Stacks.Curves.multicross k (m + n)) := by
-  letI : Algebra k (Stacks.Curves.multicross k (m + n)) := Stacks.Curves.multicrossAlgebra k (m + n)
+  let : Algebra k (Stacks.Curves.multicross k (m + n)) := Stacks.Curves.multicrossAlgebra k (m + n)
   let e₀ := ringEquivEqLocusOfIsPullback f g (multicrossResidue i) (multicrossResidue j) h
   let e := e₀.trans (multicrossEqLocusRingEquiv i j)
   refine ⟨{ e with commutes' := ?_ }⟩
@@ -945,7 +945,7 @@ private theorem exists_completedLocalRing_ringEquiv_of_isIso_stalkMap
   let B := Y.presheaf.stalk (f x)
   let φ : A ≃+* B :=
     (asIso (f.stalkMap x)).commRingCatIsoToRingEquiv.symm
-  letI : Algebra A B := φ.toRingHom.toAlgebra
+  let : Algebra A B := φ.toRingHom.toAlgebra
   let eL : A ≃ₗ[A] B :=
     { toFun := φ
       invFun := φ.symm
@@ -956,10 +956,10 @@ private theorem exists_completedLocalRing_ringEquiv_of_isIso_stalkMap
         intro a b
         change φ (a * b) = φ a * φ b
         exact φ.map_mul a b }
-  letI : Module.Free A B :=
+  let : Module.Free A B :=
     Module.Free.of_equiv' (inferInstance : Module.Free A A) eL
-  letI : Module.Flat A B := Module.Flat.of_free
-  letI : IsLocalHom (algebraMap A B) := IsLocalHom.of_surjective _ φ.surjective
+  let : Module.Flat A B := Module.Flat.of_free
+  let : IsLocalHom (algebraMap A B) := IsLocalHom.of_surjective _ φ.surjective
   have hmax :
       Ideal.map (algebraMap A B) (IsLocalRing.maximalIdeal A) =
         IsLocalRing.maximalIdeal B := by
@@ -1086,12 +1086,12 @@ private theorem completedLocalRing_ringEquiv_of_affineOpen_scalar
     completedLocalRing_ringEquiv_of_affineOpen U hU x
       (completionScalarMap p (U.ι x) c) =
         completionScalarMap q (hU.isoSpec.hom x) c := by
-  letI : IsNoetherianRing Γ(X, U) :=
+  let : IsNoetherianRing Γ(X, U) :=
     IsLocallyNoetherian.component_noetherian ⟨U, hU⟩
-  haveI : IsIso (U.ι.stalkMap x) := by
+  have : IsIso (U.ι.stalkMap x) := by
     rw [← Scheme.Opens.stalkIso_inv]
     exact (U.stalkIso x).isIso_inv
-  haveI : IsIso (hU.isoSpec.hom.stalkMap x) :=
+  have : IsIso (hU.isoSpec.hom.stalkMap x) :=
     ((AlgebraicGeometry.isIso_iff_isIso_stalkMap hU.isoSpec.hom).mp inferInstance).2 x
   have hι := completedLocalRing_ringEquiv_scalar U.ι p x rfl c
   have hchart := completedLocalRing_ringEquiv_scalar hU.isoSpec.hom q x rfl c
@@ -1111,15 +1111,14 @@ private theorem affineOpen_isoSpec_hom_rationalPoint
       (AlgebraicGeometry.Spec.map
         (X.presheaf.germ U _ hr ≫ Scheme.stalkClosedPointTo r))
         (IsLocalRing.closedPoint k) := by
-  haveI : IsLocalHom (Scheme.stalkClosedPointTo r).hom :=
+  have : IsLocalHom (Scheme.stalkClosedPointTo r).hom :=
     Scheme.isLocalHom_stalkClosedPointTo' r
   have hpt : (AlgebraicGeometry.Spec.map (Scheme.stalkClosedPointTo r))
       (IsLocalRing.closedPoint k) =
       IsLocalRing.closedPoint (X.presheaf.stalk (r (IsLocalRing.closedPoint k))) :=
     IsLocalRing.comap_closedPoint (Scheme.stalkClosedPointTo r).hom
   rw [hU.isoSpec_hom_apply]
-  simp only [AlgebraicGeometry.Spec.map_comp, Scheme.Hom.comp_apply,
-    AlgebraicGeometry.Spec.map_apply, IsLocalRing.comap_closedPoint]
+  simp only [AlgebraicGeometry.Spec.map_comp]
   exact congrArg (AlgebraicGeometry.Spec.map (X.presheaf.germ U _ hr)) hpt.symm
 
 private theorem primeIdealOf_rationalPoint_eq_ker
@@ -1142,7 +1141,7 @@ private theorem eq_or_eq_of_isGlueingTwoPoints_of_image_eq
     (h : AlgebraicGeometry.IsGlueingTwoPoints f a b)
     (y : X') (hy : f y = (a ≫ f) (closedPoint k)) :
     y = a (closedPoint k) ∨ y = b (closedPoint k) := by
-  letI : IsFinite f := h.2.2.2.2.2.2.2.2.choose_spec.1
+  let : IsFinite f := h.2.2.2.2.2.2.2.2.choose_spec.1
   obtain ⟨V, hV, _, ha, hb, hsurj⟩ :=
     exists_isAffineOpen_pairEvaluation_surjective f a b h ⊤ trivial
   have hW : IsAffineOpen (f ⁻¹ᵁ V) := IsAffineHom.isAffine_preimage V hV
@@ -1234,7 +1233,7 @@ private theorem isIso_stalkMap_of_isGlueingTwoPoints_of_ne
     rw [← SetLike.mem_coe, hU]
     exact hy
   let z : f ⁻¹ᵁ U := ⟨y, hyU⟩
-  letI : IsIso (f ∣_ U) := hIso
+  let : IsIso (f ∣_ U) := hIso
   have hz : IsIso ((f ∣_ U).stalkMap z) :=
     (isIso_iff_isIso_stalkMap (f ∣_ U)).mp hIso |>.2 z
   exact (MorphismProperty.arrow_mk_iso_iff (P := .isomorphisms _)
@@ -1247,7 +1246,7 @@ private theorem isAffineOpen_preimage_of_isGlueingTwoPoints
     (f : X' ⟶ X) (a b : AlgebraicGeometry.Spec (.of k) ⟶ X')
     (h : AlgebraicGeometry.IsGlueingTwoPoints f a b)
     (U : X.Opens) (hU : IsAffineOpen U) : IsAffineOpen (f ⁻¹ᵁ U) := by
-  letI : IsFinite f := h.2.2.2.2.2.2.2.2.choose_spec.1
+  let : IsFinite f := h.2.2.2.2.2.2.2.2.choose_spec.1
   exact IsAffineHom.isAffine_preimage U hU
 
 /-- A rational point `a` of a `k`-scheme recovers the scalar `c` from its image in the stalk. -/
@@ -1319,7 +1318,7 @@ private theorem exists_completedLocalRing_isPullback_over_field
         fun i => completionScalarMap (a ≫ pQ) (x' i) c := by
   let e := (AlgebraicGeometry.pushoutAlongClosedImmersionAndIntegral s).isPushout.isoIsPushout
     s.X s.Y hQ
-  letI : IsLocallyNoetherian (AlgebraicGeometry.pushoutScheme s) :=
+  let : IsLocallyNoetherian (AlgebraicGeometry.pushoutScheme s) :=
     LocallyOfFiniteType.isLocallyNoetherian e.hom
   have ha : AlgebraicGeometry.pushoutInl s ≫ e.hom = a :=
     IsPushout.inl_isoIsPushout_hom s.X s.Y
@@ -1351,7 +1350,7 @@ private theorem exists_completedLocalRing_isPullback_over_field
     · rfl
     · rfl
   · intro i
-    letI : s.X.Over (AlgebraicGeometry.Spec (.of k)) := ⟨a ≫ pQ⟩
+    let : s.X.Over (AlgebraicGeometry.Spec (.of k)) := ⟨a ≫ pQ⟩
     exact completedLocalRing_residueMap_comp_baseMap _ (hpoints i) (ρ i) (hρ i)
   · intro c
     change q (eC.symm (completionScalarMap pQ _ c)) = _
@@ -1398,14 +1397,14 @@ private theorem exists_completedLocalRing_pairPullback_of_isGlueingTwoPoints
   have hW : IsAffineOpen W := isAffineOpen_preimage_of_isGlueingTwoPoints f a b h V hV
   let A := Γ(X, V)
   let B := Γ(X', W)
-  letI : IsNoetherianRing A := IsLocallyNoetherian.component_noetherian ⟨V, hV⟩
+  let : IsNoetherianRing A := IsLocallyNoetherian.component_noetherian ⟨V, hV⟩
   let ρ := (X'.presheaf.germ W _ ha ≫ Scheme.stalkClosedPointTo a).hom
   let σ := (X'.presheaf.germ W _ hb ≫ Scheme.stalkClosedPointTo b).hom
   let π := (RingEquiv.piFinTwo (fun _ : Fin 2 => k)).symm.toRingHom.comp (ρ.prod σ)
   let s := affinePushoutSituation
     (X.presheaf.germ V _ ha ≫ Scheme.stalkClosedPointTo (a ≫ f)).hom
     (f.app V).hom π hpb hπ
-  letI : Surjective s.j := affinePushoutSituation_surjective (by decide : 0 < 2) _ _ _ hpb hπ
+  let : Surjective s.j := affinePushoutSituation_surjective (by decide : 0 < 2) _ _ _ hpb hπ
   let pA := hV.fromSpec ≫ (X ↘ AlgebraicGeometry.Spec (.of k))
   let pB := hW.fromSpec ≫ (X' ↘ AlgebraicGeometry.Spec (.of k))
   have hbase : AlgebraicGeometry.Spec.map (f.app V) ≫ pA = pB := by
@@ -1636,7 +1635,7 @@ private theorem IsMulticrossOrField.of_algEquiv
   rcases h with h | ⟨n, hn, h⟩
   · obtain ⟨f⟩ := h
     exact Or.inl ⟨e.trans f⟩
-  · letI : Algebra k (Stacks.Curves.multicross k n) := Stacks.Curves.multicrossAlgebra k n
+  · let : Algebra k (Stacks.Curves.multicross k n) := Stacks.Curves.multicrossAlgebra k n
     obtain ⟨f⟩ := h
     exact Or.inr ⟨n, hn, ⟨e.trans f⟩⟩
 
@@ -1669,7 +1668,7 @@ private theorem isMulticrossOrField_of_pairPullback
     obtain ⟨e⟩ := nonempty_algEquiv_of_pairPullback_of_bijective q r ρ σ hp hρ hr
       (residue_bijective_of_algEquiv_field ρ hρ eR)
     exact hS.of_algEquiv e
-  letI : Algebra k (Stacks.Curves.multicross k m) := Stacks.Curves.multicrossAlgebra k m
+  let : Algebra k (Stacks.Curves.multicross k m) := Stacks.Curves.multicrossAlgebra k m
   obtain ⟨eR⟩ := hR
   rcases hS with hS | ⟨n, hn, hS⟩
   · obtain ⟨eS⟩ := hS
@@ -1689,7 +1688,7 @@ private theorem isMulticrossOrField_of_pairPullback
     obtain ⟨e⟩ := nonempty_algEquiv_of_pairPullback_of_bijective q r' σ ρ hp' hσ hr'
       (residue_bijective_of_algEquiv_field σ hσ eS)
     exact (show IsMulticrossOrField k R from Or.inr ⟨m, hm, ⟨eR⟩⟩).of_algEquiv e
-  · letI : Algebra k (Stacks.Curves.multicross k n) := Stacks.Curves.multicrossAlgebra k n
+  · let : Algebra k (Stacks.Curves.multicross k n) := Stacks.Curves.multicrossAlgebra k n
     obtain ⟨eS⟩ := hS
     refine Or.inr ⟨m + n, by omega, ?_⟩
     exact nonempty_algEquiv_multicross_of_pairPullback q r ρ σ hp hρ hσ hr
@@ -1708,13 +1707,13 @@ private theorem isSeminormalRing_completedLocalRing_of_hasMulticrossOrFieldCompl
     [X.Over (AlgebraicGeometry.Spec (.of k))] {x : X}
     (h : HasMulticrossOrFieldCompletion k X x) :
     IsSeminormalRing (AlgebraicGeometry.Scheme.completedLocalRing X x) := by
-  letI : Algebra k (AlgebraicGeometry.Scheme.completedLocalRing X x) :=
+  let : Algebra k (AlgebraicGeometry.Scheme.completedLocalRing X x) :=
     (completionScalarMap (X ↘ AlgebraicGeometry.Spec (.of k)) x).toAlgebra
   rcases h with h | ⟨n, _, h⟩
   · obtain ⟨e⟩ := h
     exact Stacks.RingTheory.Seminormal.IsSeminormalRing.of_ringEquiv e.toRingEquiv.symm
       (isSeminormalRing_of_isIntegrallyClosed k)
-  · letI : Algebra k (Stacks.Curves.multicross k n) := Stacks.Curves.multicrossAlgebra k n
+  · let : Algebra k (Stacks.Curves.multicross k n) := Stacks.Curves.multicrossAlgebra k n
     obtain ⟨e⟩ := h
     exact Stacks.RingTheory.Seminormal.IsSeminormalRing.of_ringEquiv e.toRingEquiv.symm
       (isSeminormalRing_multicross k n)
@@ -1730,14 +1729,14 @@ private theorem isSeminormalRing_completedLocalRing_of_isGlueingTwoPoints
       IsSeminormalRing (AlgebraicGeometry.Scheme.completedLocalRing X x))
     (y : X') (hy : IsClosed ({y} : Set X')) :
     IsSeminormalRing (AlgebraicGeometry.Scheme.completedLocalRing X' y) := by
-  letI : IsFinite f := h.2.2.2.2.2.2.2.2.choose_spec.1
+  let : IsFinite f := h.2.2.2.2.2.2.2.2.choose_spec.1
   have hfy : IsClosed ({f y} : Set X) := by simpa using f.isClosedMap _ hy
   by_cases heq : f y = (a ≫ f) (closedPoint k)
   · have hc := hX (f y) hfy
     rw [heq] at hc
-    letI : Algebra k (AlgebraicGeometry.Scheme.completedLocalRing X' (a (closedPoint k))) :=
+    let : Algebra k (AlgebraicGeometry.Scheme.completedLocalRing X' (a (closedPoint k))) :=
       (completionScalarMap (X' ↘ AlgebraicGeometry.Spec (.of k)) _).toAlgebra
-    letI : Algebra k (AlgebraicGeometry.Scheme.completedLocalRing X' (b (closedPoint k))) :=
+    let : Algebra k (AlgebraicGeometry.Scheme.completedLocalRing X' (b (closedPoint k))) :=
       (completionScalarMap (X' ↘ AlgebraicGeometry.Spec (.of k)) _).toAlgebra
     obtain ⟨ρ, σ, q, r, hp, hρ, hσ, _⟩ :=
       exists_completedLocalRing_pairPullback_of_isGlueingTwoPoints f a b h
@@ -1747,7 +1746,7 @@ private theorem isSeminormalRing_completedLocalRing_of_isGlueingTwoPoints
     rcases eq_or_eq_of_isGlueingTwoPoints_of_image_eq f a b h y heq with rfl | rfl
     · exact hfac.1
     · exact hfac.2
-  · letI : IsIso (f.stalkMap y) :=
+  · let : IsIso (f.stalkMap y) :=
       isIso_stalkMap_of_isGlueingTwoPoints_of_ne f a b h y heq
     exact Stacks.RingTheory.Seminormal.IsSeminormalRing.of_ringEquiv
       (completedLocalRing_ringEquiv_of_isIso_stalkMap f y).symm (hX (f y) hfy)
@@ -1762,8 +1761,8 @@ private theorem hasMulticrossOrFieldCompletion_of_isIso_stalkMap
     HasMulticrossOrFieldCompletion k X (f y) := by
   let R := AlgebraicGeometry.Scheme.completedLocalRing X' y
   let S := AlgebraicGeometry.Scheme.completedLocalRing X (f y)
-  letI : Algebra k R := (completionScalarMap (X' ↘ AlgebraicGeometry.Spec (.of k)) y).toAlgebra
-  letI : Algebra k S := (completionScalarMap (X ↘ AlgebraicGeometry.Spec (.of k)) (f y)).toAlgebra
+  let : Algebra k R := (completionScalarMap (X' ↘ AlgebraicGeometry.Spec (.of k)) y).toAlgebra
+  let : Algebra k S := (completionScalarMap (X ↘ AlgebraicGeometry.Spec (.of k)) (f y)).toAlgebra
   let e : R ≃ₐ[k] S :=
     { completedLocalRing_ringEquiv_of_isIso_stalkMap f y with
       commutes' := by
@@ -1784,11 +1783,11 @@ private theorem hasMulticrossOrFieldCompletion_of_isGlueingTwoPoints
     (ha : HasMulticrossOrFieldCompletion k X' (a (closedPoint k)))
     (hb : HasMulticrossOrFieldCompletion k X' (b (closedPoint k))) :
     HasMulticrossOrFieldCompletion k X ((a ≫ f) (closedPoint k)) := by
-  letI : Algebra k (AlgebraicGeometry.Scheme.completedLocalRing X ((a ≫ f) (closedPoint k))) :=
+  let : Algebra k (AlgebraicGeometry.Scheme.completedLocalRing X ((a ≫ f) (closedPoint k))) :=
     (completionScalarMap (X ↘ AlgebraicGeometry.Spec (.of k)) ((a ≫ f) (closedPoint k))).toAlgebra
-  letI : Algebra k (AlgebraicGeometry.Scheme.completedLocalRing X' (a (closedPoint k))) :=
+  let : Algebra k (AlgebraicGeometry.Scheme.completedLocalRing X' (a (closedPoint k))) :=
     (completionScalarMap (X' ↘ AlgebraicGeometry.Spec (.of k)) (a (closedPoint k))).toAlgebra
-  letI : Algebra k (AlgebraicGeometry.Scheme.completedLocalRing X' (b (closedPoint k))) :=
+  let : Algebra k (AlgebraicGeometry.Scheme.completedLocalRing X' (b (closedPoint k))) :=
     (completionScalarMap (X' ↘ AlgebraicGeometry.Spec (.of k)) (b (closedPoint k))).toAlgebra
   obtain ⟨ρ, σ, q, r, hp, hρ, hσ, hr⟩ :=
     exists_completedLocalRing_pairPullback_of_isGlueingTwoPoints f a b h
@@ -1843,25 +1842,25 @@ private theorem hasMulticrossCompletion_one_of_regular
     Stacks.Curves.HasMulticrossCompletion k X x 1 := by
   let A := X.presheaf.stalk x
   let f : X ⟶ AlgebraicGeometry.Spec (.of k) := X ↘ AlgebraicGeometry.Spec (.of k)
-  letI : Algebra k A :=
+  let : Algebra k A :=
     (((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫
       X.presheaf.germ ⊤ x trivial).hom).toAlgebra
-  letI : Algebra k (ResidueField A) :=
+  let : Algebra k (ResidueField A) :=
     (((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫
       X.Γevaluation x).hom).toAlgebra
-  letI : IsRegularLocalRing A := hreg
-  letI : IsSepClosed k := inferInstance
+  let : IsRegularLocalRing A := hreg
+  let : IsSepClosed k := inferInstance
   have hres : Nonempty (ResidueField A ≃ₐ[k] k) :=
     stalk_residueField_algEquiv f x hx
   obtain ⟨e, he⟩ := exists_adicCompletion_ringEquiv_multicross_one
     k A (Stacks.AlgebraicGeometry.NormalizationQuotient.stalk_isNagataRing X hNagata x)
       hdim hres
   let Ahat := AdicCompletion (maximalIdeal A) A
-  letI : Algebra A Ahat := inferInstance
-  letI : Algebra k Ahat :=
+  let : Algebra A Ahat := inferInstance
+  let : Algebra k Ahat :=
     ((algebraMap A Ahat).comp (algebraMap k A)).toAlgebra
-  letI : IsScalarTower k A Ahat := inferInstance
-  letI : Algebra k (Stacks.Curves.multicross k 1) :=
+  let : IsScalarTower k A Ahat := inferInstance
+  let : Algebra k (Stacks.Curves.multicross k 1) :=
     Stacks.Curves.multicrossAlgebra k 1
   let eAlg : Ahat ≃ₐ[k] Stacks.Curves.multicross k 1 :=
     { e with
@@ -1889,10 +1888,10 @@ private theorem exists_completedLocalRing_ringEquiv_base_of_fieldStalk
         (a (closedPoint k)) c) = c := by
   let A := X.presheaf.stalk (a (closedPoint k))
   let C := AlgebraicGeometry.Scheme.completedLocalRing X (a (closedPoint k))
-  letI : Field A := IsField.toField hfield
+  let : Field A := IsField.toField hfield
   have hmax : maximalIdeal A = ⊥ :=
     (IsLocalRing.isField_iff_maximalIdeal_eq).mp hfield
-  letI : IsAdicComplete (maximalIdeal A) A := by
+  let : IsAdicComplete (maximalIdeal A) A := by
     rw [hmax]
     exact IsAdicComplete.bot A
   let eC : C ≃ₐ[A] A := (AdicCompletion.ofAlgEquiv (maximalIdeal A)).symm
@@ -1946,7 +1945,7 @@ private theorem hasMulticrossOrFieldCompletion_of_regular
       exact isField_of_reduced_dim_zero _ hzero
     obtain ⟨e, he⟩ := exists_completedLocalRing_ringEquiv_base_of_fieldStalk k a
       (pointOfClosedPoint_comp p x hx) hf
-    letI : Algebra k (AlgebraicGeometry.Scheme.completedLocalRing X (a (closedPoint k))) :=
+    let : Algebra k (AlgebraicGeometry.Scheme.completedLocalRing X (a (closedPoint k))) :=
       (completionScalarMap (X ↘ AlgebraicGeometry.Spec (.of k)) (a (closedPoint k))).toAlgebra
     have hcompletion : HasMulticrossOrFieldCompletion k X (a (closedPoint k)) :=
       Or.inl ⟨AlgEquiv.ofRingEquiv (f := e) he⟩
@@ -1959,9 +1958,9 @@ private theorem isRegularLocalRing_of_multicrossCompletion_one
     (k : Type u) [Field k] {X : Scheme.{u}} [X.Over (AlgebraicGeometry.Spec (.of k))]
     [IsLocallyNoetherian X] (x : X) (h : Stacks.Curves.HasMulticrossCompletion k X x 1) :
     IsRegularLocalRing (X.presheaf.stalk x) := by
-  letI : Algebra k (AlgebraicGeometry.Scheme.completedLocalRing X x) :=
+  let : Algebra k (AlgebraicGeometry.Scheme.completedLocalRing X x) :=
     (completionScalarMap (X ↘ AlgebraicGeometry.Spec (.of k)) x).toAlgebra
-  letI : Algebra k (Stacks.Curves.multicross k 1) := Stacks.Curves.multicrossAlgebra k 1
+  let : Algebra k (Stacks.Curves.multicross k 1) := Stacks.Curves.multicrossAlgebra k 1
   obtain ⟨e⟩ := h
   apply isRegularLocalRing_iff_adicCompletion_maximalIdeal.mpr
   exact IsRegularLocalRing.of_ringEquiv
@@ -1973,7 +1972,7 @@ private theorem isMulticrossSingularity_of_hasMulticrossOrFieldCompletion
     (x : X) (hx : IsClosed ({x} : Set X))
     (hsing : ¬ IsRegularLocalRing (X.presheaf.stalk x))
     (h : HasMulticrossOrFieldCompletion k X x) : Stacks.Curves.IsMulticrossSingularity k X x := by
-  letI : Algebra k (AlgebraicGeometry.Scheme.completedLocalRing X x) :=
+  let : Algebra k (AlgebraicGeometry.Scheme.completedLocalRing X x) :=
     (completionScalarMap (X ↘ AlgebraicGeometry.Spec (.of k)) x).toAlgebra
   rcases h with h | ⟨n, hn, he⟩
   · obtain ⟨e⟩ := h
@@ -1995,11 +1994,11 @@ private theorem isRegularLocalRing_stalk_of_isRegular
     {X : Scheme.{u}} (h : AlgebraicGeometry.IsRegular X) (x : X) :
     IsRegularLocalRing (X.presheaf.stalk x) := by
   obtain ⟨U, hx, hU⟩ := h x
-  letI : IsRegularRing Γ(X, U.1) := hU
-  letI : Algebra Γ(X, U.1) (X.presheaf.stalk x) :=
+  let : IsRegularRing Γ(X, U.1) := hU
+  let : Algebra Γ(X, U.1) (X.presheaf.stalk x) :=
     X.presheaf.algebra_section_stalk ⟨x, hx⟩
   let p := (U.2.primeIdealOf ⟨x, hx⟩).asIdeal
-  letI : IsLocalization p.primeCompl (X.presheaf.stalk x) := U.2.isLocalization_stalk ⟨x, hx⟩
+  let : IsLocalization p.primeCompl (X.presheaf.stalk x) := U.2.isLocalization_stalk ⟨x, hx⟩
   exact IsRegularRing.isRegularLocalRing_of_isLocalization p (X.presheaf.stalk x)
 
 section
@@ -2094,7 +2093,7 @@ private theorem isReduced_stalk_of_isReduced_sections {T : TopCat.{u}}
   obtain ⟨U, hx, t, rfl⟩ := F.exists_germ_eq s
   obtain ⟨n, hn⟩ := hs
   obtain ⟨V, hxV, i, j, hij⟩ := F.germ_eq x hx hx (t ^ n) 0 (by simpa using hn)
-  haveI : IsReduced (F.obj (op V)) := hF V
+  have : IsReduced (F.obj (op V)) := hF V
   have ht : F.map i.op t = 0 := eq_zero_of_pow_eq_zero (by simpa using hij)
   rw [← F.germ_res_apply i x hxV, ht, map_zero]
 
@@ -2118,7 +2117,7 @@ private theorem finite_of_dualNumber_coefficient_sequence
   have he : q e = TrivSqZeroExt.inr (1 : k) := by
     apply TrivSqZeroExt.ext <;> simp [e, map_sub, hc, ha₀, he₀, hcf, hcs]
   refine ⟨⟨e, he⟩, ?_⟩
-  letI : Algebra A B := i.toAlgebra
+  let : Algebra A B := i.toAlgebra
   apply Module.Finite.of_fg_top
   refine ⟨{1, e}, top_unique ?_⟩
   intro b _
@@ -2157,17 +2156,17 @@ private theorem not_dualNumber_coefficient_sequence_of_seminormalCompletion
     (hr : Function.Surjective r)
     (hd : Function.Surjective (fun b => (q b).snd))
     (hker : ∀ b, (q b).snd = 0 → ∃ a, i a = b) : False := by
-  letI : IsNoetherianRing A := hA.1
+  let : IsNoetherianRing A := hA.1
   obtain ⟨⟨e, he⟩, hfinite⟩ := finite_of_dualNumber_coefficient_sequence i q r hconst hr hd hker
-  letI : Algebra A B := i.toAlgebra
-  letI : Module.Finite A B := hfinite
+  let : Algebra A B := i.toAlgebra
+  let : Module.Finite A B := hfinite
   have hAll : ∀ (S : Type u) [CommRing S] [Algebra A S] [Algebra.FiniteType A S],
       IsNagataRing S := ((isNagataRing_tfae (R := A)).out 1 2).mp hA
   have hB : IsNagataRing B := hAll B
   let S := AdicCompletion (maximalIdeal A) A
-  letI : IsLocalization.AtPrime A (maximalIdeal A) :=
+  let : IsLocalization.AtPrime A (maximalIdeal A) :=
     IsLocalization.of_le_isUnit fun a ha => (notMem_maximalIdeal (R := A)).mp ha
-  letI : IsReduced (S ⊗[A] B) :=
+  let : IsReduced (S ⊗[A] B) :=
     isReduced_tensor_adicCompletion_of_isNagataRing hB (maximalIdeal A) A
   have he₂ : e ^ 2 ∈ i.range := hker _ (by rw [map_pow, he]; simp)
   have he₃ : e ^ 3 ∈ i.range := hker _ (by rw [map_pow, he]; simp [pow_succ])
@@ -2182,7 +2181,7 @@ private theorem not_dualNumber_coefficient_sequence_of_seminormalCompletion
     (Algebra.TensorProduct.includeRight (R := A) (A := S) (B := B)).toRingHom
     (algebraMap S (S ⊗[A] B)) hcomm hinj hS e he₂ he₃
   obtain ⟨ρ, hρ⟩ := exists_completion_residueMap r
-  letI : Algebra A (DualNumber k) := ((algebraMap k (DualNumber k)).comp r).toAlgebra
+  let : Algebra A (DualNumber k) := ((algebraMap k (DualNumber k)).comp r).toAlgebra
   let fS : S →ₐ[A] DualNumber k :=
     { toRingHom := (algebraMap k (DualNumber k)).comp ρ
       commutes' := fun a => congrArg (algebraMap k (DualNumber k))
@@ -2212,8 +2211,8 @@ private theorem app_injective_of_isSquishingTangentVector
   rcases h with ⟨_, _, _, _, _, _, _, _, _, _, _, _, ψ, hzero, hshort, _⟩
   let φ := (sheafCompose (Opens.grothendieckTopology X)
     (forget₂ RingCat AddCommGrpCat)).map (Scheme.Hom.toRingCatSheafHom f)
-  haveI hm : Mono φ := hshort.mono_f
-  haveI hm' : Mono φ.hom :=
+  have hm : Mono φ := hshort.mono_f
+  have hm' : Mono φ.hom :=
     @Functor.map_mono _ _ _ _ (TopCat.Sheaf.forget AddCommGrpCat X) inferInstance _ _ φ hm
   exact (AddCommGrpCat.mono_iff_injective (φ.hom.app (op U))).mp inferInstance
 
@@ -2272,8 +2271,8 @@ private theorem exists_coefficient_sequence_of_isSquishingTangentVector
   let φ0 := (sheafCompose (Opens.grothendieckTopology X)
     (forget₂ RingCat AddCommGrpCat)).map (Scheme.Hom.toRingCatSheafHom f)
   let S0 := ShortComplex.mk φ0 ψ0 hzero0
-  haveI hm0 : Mono φ0 := hshort.mono_f
-  haveI hmS0 : Mono S0.f := hm0
+  have hm0 : Mono φ0 := hshort.mono_f
+  have hmS0 : Mono S0.f := hm0
   have hker (U : X.Opens) (b : Γ(X', f ⁻¹ᵁ U))
       (hb : ψ0.hom.app (op U) b = 0) : ∃ a, (f.app U).hom a = b :=
     @sheaf_exact_sections _ S0 hshort.exact hmS0 U b hb
@@ -2365,12 +2364,12 @@ private theorem not_isSquishingTangentVector_of_seminormal_completions
   intro h
   obtain ⟨B, hB, hred, i, q, r, hrLocal, hinj, hconst, hr, hd, hker⟩ :=
     exists_coefficient_sequence_of_isSquishingTangentVector f θ h
-  letI : CommRing B := hB
-  letI : _root_.IsReduced B := hred
-  letI : IsLocalHom r := hrLocal
+  let : CommRing B := hB
+  let : _root_.IsReduced B := hred
+  let : IsLocalHom r := hrLocal
   rcases h with ⟨hfOver, hltX', hqcX', hltX, hqcX, hclosed, hθOver,
     x, hxOver, hcontract, _⟩
-  letI : LocallyOfFiniteType (X ↘ AlgebraicGeometry.Spec (.of k)) := hltX
+  let : LocallyOfFiniteType (X ↘ AlgebraicGeometry.Spec (.of k)) := hltX
   let z := (θ ≫ f) (closedPoint (DualNumber k))
   have hz : z = x (closedPoint k) := by
     dsimp only [z]
@@ -2400,7 +2399,7 @@ private theorem isGlueingTwoPoints_comp_iso
     (h : AlgebraicGeometry.IsGlueingTwoPoints f a b)
     (e : X ≅ Y) (he : e.hom.IsOver (AlgebraicGeometry.Spec (.of k))) :
     AlgebraicGeometry.IsGlueingTwoPoints (f ≫ e.hom) a b := by
-  letI : IsFinite f := h.2.2.2.2.2.2.2.2.choose_spec.1
+  let : IsFinite f := h.2.2.2.2.2.2.2.2.choose_spec.1
   have hinj (U : Y.Opens) : Function.Injective ((f ≫ e.hom).app U) := by
     rw [Scheme.Hom.comp_app]
     exact (app_injective_of_isGlueingTwoPoints f a b h _).comp
@@ -2409,8 +2408,8 @@ private theorem isGlueingTwoPoints_comp_iso
     rw [← Scheme.Hom.comp_preimage, e.hom_inv_id, Scheme.Hom.id_preimage]
   have hh : a ≫ (f ≫ e.hom) = b ≫ (f ≫ e.hom) := by
     rw [← Category.assoc, ← Category.assoc, h.2.2.2.2.2.2.2.2.choose]
-  letI : f.IsOver (AlgebraicGeometry.Spec (.of k)) := h.2.2.2.1
-  letI : e.hom.IsOver (AlgebraicGeometry.Spec (.of k)) := he
+  let : f.IsOver (AlgebraicGeometry.Spec (.of k)) := h.2.2.2.1
+  let : e.hom.IsOver (AlgebraicGeometry.Spec (.of k)) := he
   refine ⟨h.1, h.2.1, h.2.2.1, inferInstance,
     h.2.2.2.2.1, h.2.2.2.2.2.1, inferInstance, inferInstance, hh,
     inferInstance, ?_, ?_, ?_, ?_⟩
@@ -2442,7 +2441,7 @@ private theorem isGlueingTwoPoints_comp_iso
             ((congrArg (fun w : Y => e.inv w) (hcomp (closedPoint k))).trans (hinv _))
       exact not_congr heq
     · rw [morphismRestrict_comp]
-      letI : IsIso (f ∣_ e.hom ⁻¹ᵁ (e.inv ⁻¹ᵁ U)) := by rw [pre]; exact hres
+      let : IsIso (f ∣_ e.hom ⁻¹ᵁ (e.inv ⁻¹ᵁ U)) := by rw [pre]; exact hres
       exact (asIso (f ∣_ e.hom ⁻¹ᵁ (e.inv ⁻¹ᵁ U)) ≪≫
         asIso (e.hom ∣_ (e.inv ⁻¹ᵁ U))).isIso_hom
   · intro U hx s hs
@@ -2481,11 +2480,11 @@ private theorem normalizationScheme_isRegular
     (hfin : ∀ U : X.Opens, IsCompact (U : Set X) → (irreducibleComponents U).Finite)
     (hdim : topologicalKrullDim X ≤ 1) :
     AlgebraicGeometry.IsRegular (AlgebraicGeometry.Scheme.normalizationScheme X hfin) := by
-  letI : IsFinite (AlgebraicGeometry.Scheme.normalization X hfin) :=
+  let : IsFinite (AlgebraicGeometry.Scheme.normalization X hfin) :=
     AlgebraicGeometry.Scheme.isFinite_normalization hNagata hfin
-  letI : IsLocallyNoetherian (AlgebraicGeometry.Scheme.normalizationScheme X hfin) :=
+  let : IsLocallyNoetherian (AlgebraicGeometry.Scheme.normalizationScheme X hfin) :=
     LocallyOfFiniteType.isLocallyNoetherian (AlgebraicGeometry.Scheme.normalization X hfin)
-  letI : AlgebraicGeometry.IsNormal (AlgebraicGeometry.Scheme.normalizationScheme X hfin) := by
+  let : AlgebraicGeometry.IsNormal (AlgebraicGeometry.Scheme.normalizationScheme X hfin) := by
     obtain ⟨ι, Z, hZ, _, ⟨e⟩⟩ :=
       AlgebraicGeometry.Scheme.exists_iso_sigma_isIntegral_isNormal_normalizationScheme X hfin
     let C := (sigmaOpenCover Z).pushforwardIso e.inv
@@ -2494,9 +2493,9 @@ private theorem normalizationScheme_isRegular
     obtain ⟨i, y, hy⟩ := C.exists_eq x
     subst x
     let φ := (asIso ((C.f i).stalkMap y)).commRingCatIsoToRingEquiv
-    letI : IsDomain ((C.X i).presheaf.stalk y) := (hZ i).stalk_isDomain y
-    letI : IsIntegrallyClosed ((C.X i).presheaf.stalk y) := (hZ i).stalk_normal y
-    letI := Function.Injective.isDomain φ φ.injective
+    let : IsDomain ((C.X i).presheaf.stalk y) := (hZ i).stalk_isDomain y
+    let : IsIntegrallyClosed ((C.X i).presheaf.stalk y) := (hZ i).stalk_normal y
+    let := Function.Injective.isDomain φ φ.injective
     exact ⟨inferInstance, IsIntegrallyClosed.of_equiv φ.symm⟩
   exact AlgebraicGeometry.isRegular_of_isNormal_of_topologicalKrullDim_le_one _
     ((AlgebraicGeometry.topologicalKrullDim_le_of_isIntegralHom
@@ -2511,7 +2510,7 @@ private theorem exists_affineOpen_with_single_singularPoint
     ∃ (U : X.Opens) (_ : IsAffineOpen U) (hxU : x ∈ U),
       topologicalKrullDim U.toScheme = 1 ∧
       AlgebraicGeometry.singularLocus U.toScheme ⊆ {⟨x, hxU⟩} := by
-  letI : IsLocallyNoetherian X :=
+  let : IsLocallyNoetherian X :=
     LocallyOfFiniteType.isLocallyNoetherian (X ↘ AlgebraicGeometry.Spec (.of k))
   have hNagata := AlgebraicGeometry.isNagataScheme_of_locallyOfFiniteType_over_field k
     (X ↘ AlgebraicGeometry.Spec (.of k))
@@ -2534,7 +2533,7 @@ private theorem exists_affineOpen_with_single_singularPoint
     apply hV y.1 (hUV y.2)
     intro hreg
     apply hy
-    letI : IsRegularLocalRing (X.presheaf.stalk (U.ι y)) := hreg
+    let : IsRegularLocalRing (X.presheaf.stalk (U.ι y)) := hreg
     exact IsRegularLocalRing.of_ringEquiv (asIso (U.ι.stalkMap y)).commRingCatIsoToRingEquiv
 
 
@@ -2604,14 +2603,14 @@ private theorem HasGlueingTowerTo.of_isoLeft {k : Type u} [Field k] [IsAlgClosed
   match n, h with
   | 0, ⟨h⟩ => exact ⟨0, ⟨e.trans h⟩⟩
   | (n + 1), ⟨W, f, a, b, hglue, htower⟩ =>
-    letI : LocallyOfFiniteType Y.hom := hglue.2.2.2.2.2.2.1
-    letI : QuasiCompact Y.hom := hglue.2.2.2.2.2.2.2.1
-    letI : LocallyOfFiniteType (X.left ↘ AlgebraicGeometry.Spec (.of k)) := by
-      show LocallyOfFiniteType X.hom
+    let : LocallyOfFiniteType Y.hom := hglue.2.2.2.2.2.2.1
+    let : QuasiCompact Y.hom := hglue.2.2.2.2.2.2.2.1
+    let : LocallyOfFiniteType (X.left ↘ AlgebraicGeometry.Spec (.of k)) := by
+      change LocallyOfFiniteType X.hom
       rw [← Over.w e.hom]
       infer_instance
-    letI : QuasiCompact (X.left ↘ AlgebraicGeometry.Spec (.of k)) := by
-      show QuasiCompact X.hom
+    let : QuasiCompact (X.left ↘ AlgebraicGeometry.Spec (.of k)) := by
+      change QuasiCompact X.hom
       rw [← Over.w e.hom]
       infer_instance
     refine ⟨n + 1, W, f ≫ e.inv, a, b, ?_, htower⟩
@@ -2638,10 +2637,10 @@ private theorem exists_isGlueingTower_of_hasGlueingTowerTo {k : Type u} [Field k
   induction n generalizing X with
   | zero =>
     obtain ⟨e⟩ := h
-    letI : IsLocallyNoetherian Z.left := by
+    let : IsLocallyNoetherian Z.left := by
       have h2 := ((AlgebraicGeometry.isRegular_tfae Z.left).out 1 2).mp hZ
       exact h2.1
-    letI : IsLocallyNoetherian X.left :=
+    let : IsLocallyNoetherian X.left :=
       LocallyOfFiniteType.isLocallyNoetherian e.hom.left
     exact ⟨0, AlgebraicGeometry.isRegular_of_iso (asIso e.hom.left) hZ⟩
   | succ n ih =>
@@ -2666,23 +2665,23 @@ private theorem hasMulticrossOrFieldCompletion_of_isGlueingTower
   induction n with
   | zero =>
     intro X hreg hft hdim x hx
-    letI : LocallyOfFiniteType X.hom := hft
-    letI : LocallyOfFiniteType (X.left ↘ AlgebraicGeometry.Spec (.of k)) := hft
-    letI : IsLocallyNoetherian X.left := LocallyOfFiniteType.isLocallyNoetherian X.hom
-    letI : IsReduced X.left := isReduced_of_isRegular hreg
+    let : LocallyOfFiniteType X.hom := hft
+    let : LocallyOfFiniteType (X.left ↘ AlgebraicGeometry.Spec (.of k)) := hft
+    let : IsLocallyNoetherian X.left := LocallyOfFiniteType.isLocallyNoetherian X.hom
+    let : IsReduced X.left := isReduced_of_isRegular hreg
     exact hasMulticrossOrFieldCompletion_of_regular k X.left x hx
       (isRegularLocalRing_stalk_of_isRegular hreg x)
       ((AlgebraicGeometry.ringKrullDim_stalk_le_topologicalKrullDim x).trans hdim)
   | succ n ih =>
     intro X htower hft hdim x hx
     obtain ⟨W, f, a, b, hglue, hW⟩ := htower
-    letI : LocallyOfFiniteType X.hom := hft
-    letI : LocallyOfFiniteType (X.left ↘ AlgebraicGeometry.Spec (.of k)) := hft
-    letI : IsLocallyNoetherian X.left := LocallyOfFiniteType.isLocallyNoetherian X.hom
-    letI hftW : LocallyOfFiniteType W.hom := hglue.2.2.2.2.1
-    letI : LocallyOfFiniteType (W.left ↘ AlgebraicGeometry.Spec (.of k)) := hftW
-    letI : IsLocallyNoetherian W.left := LocallyOfFiniteType.isLocallyNoetherian W.hom
-    letI : IsFinite f.left := hglue.2.2.2.2.2.2.2.2.choose_spec.1
+    let : LocallyOfFiniteType X.hom := hft
+    let : LocallyOfFiniteType (X.left ↘ AlgebraicGeometry.Spec (.of k)) := hft
+    let : IsLocallyNoetherian X.left := LocallyOfFiniteType.isLocallyNoetherian X.hom
+    let hftW : LocallyOfFiniteType W.hom := hglue.2.2.2.2.1
+    let : LocallyOfFiniteType (W.left ↘ AlgebraicGeometry.Spec (.of k)) := hftW
+    let : IsLocallyNoetherian W.left := LocallyOfFiniteType.isLocallyNoetherian W.hom
+    let : IsFinite f.left := hglue.2.2.2.2.2.2.2.2.choose_spec.1
     have hdimW : topologicalKrullDim W.left ≤ 1 :=
       (AlgebraicGeometry.topologicalKrullDim_le_of_isIntegralHom f.left).trans hdim
     have ihW := ih W hW hftW hdimW
@@ -2693,11 +2692,11 @@ private theorem hasMulticrossOrFieldCompletion_of_isGlueingTower
         (ihW _ (pointEquivClosedPoint W.hom ⟨b, hglue.2.1.comp_over⟩).property)
     · obtain ⟨y, hy⟩ := (surjective_of_isGlueingTwoPoints f.left a b hglue).surj x
       have hne : f.left y ≠ (a ≫ f.left) (closedPoint k) := by rwa [hy]
-      letI : IsIso (f.left.stalkMap y) :=
+      let : IsIso (f.left.stalkMap y) :=
         isIso_stalkMap_of_isGlueingTwoPoints_of_ne f.left a b hglue y hne
       have hyclosed : IsClosed ({y} : Set W.left) := by
         obtain ⟨_, _, ⟨V, hV, hiso⟩, _⟩ := hglue.2.2.2.2.2.2.2.2
-        letI : IsIso (f.left ∣_ V) := hiso
+        let : IsIso (f.left ∣_ V) := hiso
         have hxV : x ∈ V := by
           rw [← SetLike.mem_coe, hV]
           exact heq
@@ -2732,13 +2731,13 @@ private theorem isMulticrossSingularity_of_hasNonsingularGlueingResolution
     (h : HasNonsingularGlueingResolution k X x) :
     Stacks.Curves.IsMulticrossSingularity k X x := by
   obtain ⟨U, hxU, n, htower⟩ := h
-  letI : IsLocallyNoetherian X :=
+  let : IsLocallyNoetherian X :=
     LocallyOfFiniteType.isLocallyNoetherian (X ↘ AlgebraicGeometry.Spec (.of k))
-  letI : U.toScheme.Over (AlgebraicGeometry.Spec (.of k)) :=
+  let : U.toScheme.Over (AlgebraicGeometry.Spec (.of k)) :=
     ⟨U.ι ≫ (X ↘ AlgebraicGeometry.Spec (.of k))⟩
-  letI : LocallyOfFiniteType (U.toScheme ↘ AlgebraicGeometry.Spec (.of k)) :=
+  let : LocallyOfFiniteType (U.toScheme ↘ AlgebraicGeometry.Spec (.of k)) :=
     inferInstanceAs (LocallyOfFiniteType (U.ι ≫ (X ↘ AlgebraicGeometry.Spec (.of k))))
-  letI : IsLocallyNoetherian U.toScheme :=
+  let : IsLocallyNoetherian U.toScheme :=
     LocallyOfFiniteType.isLocallyNoetherian (U.toScheme ↘ AlgebraicGeometry.Spec (.of k))
   have hdimU : topologicalKrullDim U.toScheme ≤ 1 :=
     (topologicalKrullDim_subspace_le X U).trans hX
@@ -2750,10 +2749,10 @@ private theorem isMulticrossSingularity_of_hasNonsingularGlueingResolution
     have ht := hx.preimage U.ι.continuous
     convert ht using 1
     ext z
-    simp only [Set.mem_singleton_iff, Set.mem_preimage, Scheme.Opens.ι_apply]
+    simp only [Set.mem_singleton_iff, Set.mem_preimage]
     exact Subtype.ext_iff
   have hcU : HasMulticrossOrFieldCompletion k U.toScheme y := hc _ hyclosed
-  letI : IsIso (U.ι.stalkMap y) := inferInstance
+  let : IsIso (U.ι.stalkMap y) := inferInstance
   have hcX := hasMulticrossOrFieldCompletion_of_isIso_stalkMap U.ι ⟨rfl⟩ y hcU
   exact isMulticrossSingularity_of_hasMulticrossOrFieldCompletion k x hx hsing hcX
 
@@ -2768,8 +2767,8 @@ private theorem locallyOfFiniteType_of_isElementaryChain {k : Type u} [Field k] 
   induction h with
   | @of_isIso Y' Y g hg =>
     intro hX
-    haveI := hg
-    letI : LocallyOfFiniteType Y.hom := hX
+    have := hg
+    let : LocallyOfFiniteType Y.hom := hX
     rw [← Over.w g]
     infer_instance
   | of_step g hg =>
@@ -2788,14 +2787,14 @@ private theorem isReduced_of_isElementaryChain {k : Type u} [Field k] [IsAlgClos
   induction h with
   | of_isIso g hg =>
     intro hX'
-    haveI := hg
-    letI := hX'
+    have := hg
+    let := hX'
     refine ⟨fun V => ?_⟩
     exact _root_.isReduced_of_injective (g.left.app V).hom
       (ConcreteCategory.bijective_of_isIso (g.left.app V)).1
   | of_step g hg =>
     intro hX'
-    letI := hX'
+    let := hX'
     rcases hg with ⟨a, b, hh⟩ | ⟨θ, hh⟩
     · exact isReduced_of_isGlueingTwoPoints g.left a b hh
     · refine ⟨fun V => ?_⟩
@@ -2823,23 +2822,23 @@ private theorem hasGlueingTowerTo_of_isElementaryChain {k : Type u} [Field k] [I
         IsSeminormalRing (AlgebraicGeometry.Scheme.completedLocalRing X'.left z) := by
   induction hchain with
   | @of_isIso Y' Y g hg =>
-    haveI := hg
-    letI : LocallyOfFiniteType Y.hom := hft
-    letI : IsLocallyNoetherian Y.left := LocallyOfFiniteType.isLocallyNoetherian Y.hom
-    letI : LocallyOfFiniteType Y'.hom := by rw [← Over.w g]; infer_instance
-    letI : IsLocallyNoetherian Y'.left := LocallyOfFiniteType.isLocallyNoetherian Y'.hom
+    have := hg
+    let : LocallyOfFiniteType Y.hom := hft
+    let : IsLocallyNoetherian Y.left := LocallyOfFiniteType.isLocallyNoetherian Y.hom
+    let : LocallyOfFiniteType Y'.hom := by rw [← Over.w g]; infer_instance
+    let : IsLocallyNoetherian Y'.left := LocallyOfFiniteType.isLocallyNoetherian Y'.hom
     refine ⟨hasGlueingTowerTo_of_iso (asIso g).symm, fun z hz => ?_⟩
     have hzc : IsClosed ({g.left z} : Set Y.left) := by
       simpa using g.left.isClosedMap _ hz
     exact Stacks.RingTheory.Seminormal.IsSeminormalRing.of_ringEquiv
       (completedLocalRing_ringEquiv_of_isIso_stalkMap g.left z).symm (hsemi _ hzc)
   | @of_step Y' Y g hg =>
-    letI : LocallyOfFiniteType Y.hom := hft
-    letI : IsLocallyNoetherian Y.left := LocallyOfFiniteType.isLocallyNoetherian Y.hom
-    letI := hred
+    let : LocallyOfFiniteType Y.hom := hft
+    let : IsLocallyNoetherian Y.left := LocallyOfFiniteType.isLocallyNoetherian Y.hom
+    let := hred
     rcases hg with ⟨a, b, hh⟩ | ⟨θ, hh⟩
-    · letI : LocallyOfFiniteType Y'.hom := hh.2.2.2.2.1
-      letI : IsLocallyNoetherian Y'.left := LocallyOfFiniteType.isLocallyNoetherian Y'.hom
+    · let : LocallyOfFiniteType Y'.hom := hh.2.2.2.2.1
+      let : IsLocallyNoetherian Y'.left := LocallyOfFiniteType.isLocallyNoetherian Y'.hom
       exact ⟨⟨1, Y', g, a, b, hh, ⟨Iso.refl Y'⟩⟩,
         isSeminormalRing_completedLocalRing_of_isGlueingTwoPoints g.left a b hh hsemi⟩
     · exact (not_isSquishingTangentVector_of_seminormal_completions g.left θ hsemi hh).elim
@@ -2868,9 +2867,9 @@ private theorem isAlmostIso_normalization
             (X ↘ AlgebraicGeometry.Spec (.of k))) ⟶
           Over.mk (X ↘ AlgebraicGeometry.Spec (.of k))) := by
   set ν := AlgebraicGeometry.Scheme.normalization X hfin with hν
-  letI : IsFinite ν := AlgebraicGeometry.Scheme.isFinite_normalization hNagata hfin
-  haveI := AlgebraicGeometry.Scheme.quasiCompactFromGenericPointResidueFields X hfin
-  haveI := AlgebraicGeometry.Scheme.quasiSeparatedFromGenericPointResidueFields X
+  let : IsFinite ν := AlgebraicGeometry.Scheme.isFinite_normalization hNagata hfin
+  have := AlgebraicGeometry.Scheme.quasiCompactFromGenericPointResidueFields X hfin
+  have := AlgebraicGeometry.Scheme.quasiSeparatedFromGenericPointResidueFields X
   have hinjapp : ∀ U : X.Opens, Function.Injective (ν.app U) :=
     Stacks.AlgebraicGeometry.Normalization.injective_fromNormalization_app
       (AlgebraicGeometry.Scheme.fromGenericPointResidueFields X)
@@ -2885,15 +2884,15 @@ private theorem isAlmostIso_normalization
     AlgebraicGeometry.isNormal_of_isRegular R.toScheme hRreg
   refine ⟨⟨?_, ?_, ?_, ?_, ?_, R, hSing,
     AlgebraicGeometry.Scheme.isIso_normalization_restrict_of_isNormal X hfin R hRnormal⟩, ?_⟩
-  · show LocallyOfFiniteType (ν ≫ (X ↘ AlgebraicGeometry.Spec (.of k)))
+  · change LocallyOfFiniteType (ν ≫ (X ↘ AlgebraicGeometry.Spec (.of k)))
     infer_instance
-  · show QuasiCompact (ν ≫ (X ↘ AlgebraicGeometry.Spec (.of k)))
+  · change QuasiCompact (ν ≫ (X ↘ AlgebraicGeometry.Spec (.of k)))
     infer_instance
-  · show LocallyOfFiniteType (X ↘ AlgebraicGeometry.Spec (.of k))
+  · change LocallyOfFiniteType (X ↘ AlgebraicGeometry.Spec (.of k))
     infer_instance
-  · show QuasiCompact (X ↘ AlgebraicGeometry.Spec (.of k))
+  · change QuasiCompact (X ↘ AlgebraicGeometry.Spec (.of k))
     infer_instance
-  · show IsFinite ν
+  · change IsFinite ν
     infer_instance
   refine Stacks.GlueSquishFactor.mono_hom_pushforwardAlgebra_of_injective_app ν fun y => ?_
   obtain ⟨_, ⟨V, hV, rfl⟩, hyV, -⟩ :=
@@ -2913,12 +2912,12 @@ private theorem exists_isGlueingTower_of_forall_isSeminormalRing
     (hsemi : ∀ z : X, IsClosed ({z} : Set X) →
       IsSeminormalRing (AlgebraicGeometry.Scheme.completedLocalRing X z)) :
     ∃ n : ℕ, IsGlueingTower k n (Over.mk (X ↘ AlgebraicGeometry.Spec (.of k))) := by
-  letI : IsLocallyNoetherian X :=
+  let : IsLocallyNoetherian X :=
     LocallyOfFiniteType.isLocallyNoetherian (X ↘ AlgebraicGeometry.Spec (.of k))
   have hNagata := AlgebraicGeometry.isNagataScheme_of_locallyOfFiniteType_over_field k
     (X ↘ AlgebraicGeometry.Spec (.of k))
   have hfin := finite_irreducibleComponents_of_isNagataScheme X hNagata
-  letI : IsFinite (AlgebraicGeometry.Scheme.normalization X hfin) :=
+  let : IsFinite (AlgebraicGeometry.Scheme.normalization X hfin) :=
     AlgebraicGeometry.Scheme.isFinite_normalization hNagata hfin
   have hregν : AlgebraicGeometry.IsRegular
       (AlgebraicGeometry.Scheme.normalizationScheme X hfin) :=
@@ -3033,8 +3032,7 @@ theorem exists_counterexample_to_displayed_statement_of_tag_0C1X_specPolynomial
     IsLocalization.isDomain_of_le_nonZeroDivisors _
       (Ideal.primeCompl_le_nonZeroDivisors (AlgebraicGeometry.originPolynomial k).asIdeal)
   have hne : (AlgebraicGeometry.originPolynomial k).asIdeal ≠ ⊥ := by
-    simpa [AlgebraicGeometry.originPolynomial, Ideal.span_singleton_eq_bot] using
-      (Polynomial.X_ne_zero (R := k))
+    simp [AlgebraicGeometry.originPolynomial]
   have : IsDiscreteValuationRing A :=
     IsLocalization.AtPrime.isDiscreteValuationRing_of_dedekind_domain (Polynomial k) hne A
   obtain ⟨⟨hdimX, -⟩, hclauses, hnot⟩ :=
@@ -3096,18 +3094,18 @@ theorem isMulticrossSingularity_tfae
     isMulticrossSingularity_of_hasNonsingularGlueingResolution k X hX.le x hx hsing
   tfae_have 1 → 3 := by
     intro h
-    letI : IsLocallyNoetherian X :=
+    let : IsLocallyNoetherian X :=
       LocallyOfFiniteType.isLocallyNoetherian (X ↘ AlgebraicGeometry.Spec (.of k))
     obtain ⟨U, hU, hxU, hdimU, hsingU⟩ :=
       exists_affineOpen_with_single_singularPoint k X hX x hsing
-    letI : IsAffine U.toScheme := hU
-    letI : U.toScheme.Over (AlgebraicGeometry.Spec (.of k)) :=
+    let : IsAffine U.toScheme := hU
+    let : U.toScheme.Over (AlgebraicGeometry.Spec (.of k)) :=
       ⟨U.ι ≫ (X ↘ AlgebraicGeometry.Spec (.of k))⟩
-    letI : LocallyOfFiniteType (U.toScheme ↘ AlgebraicGeometry.Spec (.of k)) :=
+    let : LocallyOfFiniteType (U.toScheme ↘ AlgebraicGeometry.Spec (.of k)) :=
       inferInstanceAs (LocallyOfFiniteType (U.ι ≫ (X ↘ AlgebraicGeometry.Spec (.of k))))
-    letI : QuasiCompact (U.toScheme ↘ AlgebraicGeometry.Spec (.of k)) :=
+    let : QuasiCompact (U.toScheme ↘ AlgebraicGeometry.Spec (.of k)) :=
       inferInstanceAs (QuasiCompact (U.ι ≫ (X ↘ AlgebraicGeometry.Spec (.of k))))
-    letI : IsLocallyNoetherian U.toScheme :=
+    let : IsLocallyNoetherian U.toScheme :=
       LocallyOfFiniteType.isLocallyNoetherian (U.toScheme ↘ AlgebraicGeometry.Spec (.of k))
     have hsemiU : ∀ z : U.toScheme, IsClosed ({z} : Set U.toScheme) →
         IsSeminormalRing (AlgebraicGeometry.Scheme.completedLocalRing U.toScheme z) := by
@@ -3121,7 +3119,7 @@ theorem isMulticrossSingularity_tfae
         have hs : IsSeminormalRing (AlgebraicGeometry.Scheme.completedLocalRing X x) :=
           isSeminormalRing_completedLocalRing_of_hasMulticrossOrFieldCompletion
             (Or.inr ⟨m, by omega, hc⟩)
-        letI : IsIso (U.ι.stalkMap z) := inferInstance
+        let : IsIso (U.ι.stalkMap z) := inferInstance
         have heq : U.ι z = x := by rw [hzx]; simp
         have hs' : IsSeminormalRing
             (AlgebraicGeometry.Scheme.completedLocalRing X (U.ι z)) := by

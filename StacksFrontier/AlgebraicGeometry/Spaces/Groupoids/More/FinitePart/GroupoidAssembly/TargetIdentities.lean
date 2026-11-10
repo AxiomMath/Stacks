@@ -660,7 +660,7 @@ public theorem comp_hom_comp_targetClassify (F : FinitePartUniversalOpen G) :
           ((AlgebraicGeometry.AlgebraicSpaces.fiberProduct C S hS
             F.source F.target).obj.map w.op p)) := by
     intro m V' w
-    show F.arrowMap.hom.app V' (F.arrows.obj.map w.op (m.app V p)) = _
+    change F.arrowMap.hom.app V' (F.arrows.obj.map w.op (m.app V p)) = _
     exact congrArg (fun z => F.arrowMap.hom.app V' z)
       (NatTrans.naturality_apply m w.op p).symm
   have harr : yonedaEquiv.symm (F.comp.hom.app V p) ≫ F.arrowMap.hom =
@@ -672,7 +672,7 @@ public theorem comp_hom_comp_targetClassify (F : FinitePartUniversalOpen G) :
         G.target.hom.app V'
           ((yonedaEquiv.symm (F.compSnd.app V p) ≫ F.arrowMap.hom).app V' w) :=
       congrArg (fun z => z.app V' w) harrc
-    show (yonedaEquiv.symm (F.comp.hom.app V p) ≫ F.arrowMap.hom).app V' w =
+    change (yonedaEquiv.symm (F.comp.hom.app V p) ≫ F.arrowMap.hom).app V' w =
       (composeMor G (yonedaEquiv.symm (F.compFst.app V p) ≫ F.arrowMap.hom)
         (yonedaEquiv.symm (F.compSnd.app V p) ≫ F.arrowMap.hom) harrc).app V' w
     refine ((hnat F.comp.hom V' w).trans ?_).trans
@@ -691,7 +691,7 @@ public theorem comp_hom_comp_targetClassify (F : FinitePartUniversalOpen G) :
 monomorphism, being an isomorphism followed by the inclusion of a subfunctor. -/
 public theorem mono_objectsInclusion (F : FinitePartUniversalOpen G) :
     Mono F.objectsInclusion := by
-  show Mono (F.objectsEquiv.hom ≫
+  change Mono (F.objectsEquiv.hom ≫
     (finitePartWithSection C S hS G.source F.unit F.unit_source).toSubfunctor.ι)
   have h₁ : Mono F.objectsEquiv.hom := IsIso.mono_of_iso _
   have h₂ : Mono (finitePartWithSection C S hS G.source F.unit F.unit_source).toSubfunctor.ι :=
@@ -782,11 +782,11 @@ its target morphism as well as of its source morphism. -/
 public theorem unitMap_comp_target (F : FinitePartUniversalOpen G) :
     F.unitMap ≫ F.target = 𝟙 F.objects := by
   apply ObjectProperty.hom_ext
-  show F.unitMap.hom ≫ F.target.hom = 𝟙 F.objects.obj
+  change F.unitMap.hom ≫ F.target.hom = 𝟙 F.objects.obj
   refine F.objects_hom_ext _ _ ?_
   rw [Category.assoc, F.target_comp_objectsInclusion, Category.id_comp]
   ext V x
-  show F.targetClassify.app V (F.unitMap.hom.app V x) = F.objectsInclusion.app V x
+  change F.targetClassify.app V (F.unitMap.hom.app V x) = F.objectsInclusion.app V x
   have key := F.targetClassify_unitMap_app V.unop (yonedaEquiv.symm x)
   rwa [yonedaEquiv_symm_naturality_right, Equiv.apply_symm_apply,
     Equiv.apply_symm_apply] at key

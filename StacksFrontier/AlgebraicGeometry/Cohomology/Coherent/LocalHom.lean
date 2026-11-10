@@ -108,7 +108,7 @@ theorem exists_localHom_of_stalkLinearMap (X : TopCat.{u})
     (congrArg e.equiv hs).trans (e.equiv.apply_symm_apply ψ)
   rw [H.restrict_natural hVU s (le_refl V) m]
   simp only [homOfLE_refl]
-  show germAt F V x hxV ((H.sectionsEquiv V sV).val.app (op (Over.mk (𝟙 V))) m) =
+  change germAt F V x hxV ((H.sectionsEquiv V sV).val.app (op (Over.mk (𝟙 V))) m) =
     ψ (germAt G V x hxV m)
   rw [← e.germ_apply V hxV sV m, hH, ht]
 

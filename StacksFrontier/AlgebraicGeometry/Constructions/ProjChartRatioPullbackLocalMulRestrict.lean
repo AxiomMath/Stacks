@@ -108,7 +108,7 @@ public theorem nonvanishingOpen_restrictPowSection (n : ℕ) (x : Γ(natTensorPo
         (restrictPowSection M U n x)
       = U.ι ⁻¹ᵁ nonvanishingOpenOn (natTensorPow M n) U x := by
   refine Opens.ext ?_
-  show Stacks.Ample.nonvanishingLocus _ (restrictPowSection M U n x) = _
+  change Stacks.Ample.nonvanishingLocus _ (restrictPowSection M U n x) = _
   rw [restrictPowSection_eq]
   exact (Stacks.Ample.nonvanishingLocus_congr (restrictNatTensorPowIso M U n)
       (restrictSection U (natTensorPow M n) x)).trans

@@ -91,7 +91,7 @@ theorem hasInjectiveDimensionLE_of_isRegularRing (A : Type u) [CommRing A] [IsRe
   refine ModuleCat.hasInjectiveDimensionLE_of_quotients (ModuleCat.of A A) d fun I => ?_
   let M : ModuleCat.{u} A := ModuleCat.of A (Shrink.{u, u} (A ⧸ I))
   have hpdlt : projectiveDimension M < ((d + 1 : ℕ) : WithBot ℕ∞) := by
-    show projectiveDimension M < (d : WithBot ℕ∞) + 1
+    change projectiveDimension M < (d : WithBot ℕ∞) + 1
     exact (ENat.WithBot.lt_add_one_iff (n := projectiveDimension M) (m := d)).2
       ((le_iSup (fun N : ModuleCat.{u} A => projectiveDimension N) M).trans hgl.le)
   have : HasProjectiveDimensionLT M (d + 1) := projectiveDimension_lt_iff.mp hpdlt

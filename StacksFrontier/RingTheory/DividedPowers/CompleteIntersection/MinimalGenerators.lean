@@ -254,7 +254,7 @@ private lemma isRegular_cons_of_sub_mul_mem [IsNoetherianRing A] [IsLocalRing A]
       exact sub_eq_zero.1 h
     intro x y hxy
     refine hcf ?_
-    show (c * f₀) • x = (c * f₀) • y
+    change (c * f₀) • x = (c * f₀) • y
     rw [← hsm, ← hsm]
     exact hxy
   have hwg : IsWeaklyRegular (A ⧸ K) (others ++ [g]) :=

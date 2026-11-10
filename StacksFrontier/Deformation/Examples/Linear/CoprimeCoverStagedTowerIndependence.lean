@@ -109,11 +109,11 @@ def red {k : ℕ} (v : Stage (k + 1)) : Stage k :=
     refine ⟨fun i hi => ?_, fun hk => ?_⟩
     · change (if i = k then (0 : ℤ) else v.1 i) = 0
       by_cases h : i = k
-      · rw [if_pos h]
-      · rw [if_neg h]
+      · rw [ite_eq_left h]
+      · rw [ite_eq_right h]
         exact v.2.1 i (by omega)
     · change (if (0 : ℕ) = k then (0 : ℤ) else v.1 0) = 0
-      rw [if_neg (show ¬((0 : ℕ) = k) by omega)]
+      rw [ite_eq_right (show ¬((0 : ℕ) = k) by omega)]
       exact v.2.2 (by omega)⟩
 
 /-- The translation action on a fibre of `red`: add `c` to the top coordinate. -/
@@ -121,10 +121,10 @@ def trans {k : ℕ} (c : ℤ) (v : Stage (k + 1)) : Stage (k + 1) :=
   ⟨fun i => if i = k then v.1 i + c else v.1 i, by
     refine ⟨fun i hi => ?_, fun hk => ?_⟩
     · change (if i = k then v.1 i + c else v.1 i) = 0
-      rw [if_neg (show ¬(i = k) by omega)]
+      rw [ite_eq_right (show ¬(i = k) by omega)]
       exact v.2.1 i hi
     · change (if (0 : ℕ) = k then v.1 0 + c else v.1 0) = 0
-      rw [if_neg (show ¬((0 : ℕ) = k) by omega)]
+      rw [ite_eq_right (show ¬((0 : ℕ) = k) by omega)]
       exact v.2.2 hk⟩
 
 /-- The obstruction: non-zero exactly at stage two with non-zero coordinate `0`. -/
@@ -165,7 +165,7 @@ theorem red_zeroStage (k : ℕ) : red (zeroStage (k + 1)) = zeroStage k :=
 
 /-- The reduction of a stage-three carrier has coordinate `0` zero. -/
 theorem red_three_val_zero (w : Stage 3) : (red w).1 0 = 0 := by
-  rw [red_val, if_neg (show ¬((0 : ℕ) = 2) by omega)]
+  rw [red_val, ite_eq_right (show ¬((0 : ℕ) = 2) by omega)]
   exact w.2.2 (by omega)
 
 /-- Multiplication by two is the scalar action of `f ^ n` for `f = 2` and `n = 1`. -/
@@ -178,29 +178,29 @@ theorem two_pow_one_smul (b : ℤ) : (2 : ℤ) ^ 1 • b = 2 * b := by
 theorem red_trans {k : ℕ} (c : ℤ) (v : Stage (k + 1)) : red (trans c v) = red v :=
   stage_ext fun i => by
     by_cases h : i = k
-    · simp only [red_val, if_pos h]
-    · simp only [red_val, trans_val, if_neg h]
+    · simp only [red_val, ite_eq_left h]
+    · simp only [red_val, trans_val, ite_eq_right h]
 
 /-- Translating by zero does nothing. -/
 theorem trans_zero {k : ℕ} (v : Stage (k + 1)) : trans (0 : ℤ) v = v :=
   stage_ext fun i => by
     by_cases h : i = k
-    · simp only [trans_val, if_pos h, add_zero]
-    · simp only [trans_val, if_neg h]
+    · simp only [trans_val, ite_eq_left h, add_zero]
+    · simp only [trans_val, ite_eq_right h]
 
 /-- Translation is an action of `ℤ`. -/
 theorem trans_add {k : ℕ} (c d : ℤ) (v : Stage (k + 1)) :
     trans (c + d) v = trans c (trans d v) :=
   stage_ext fun i => by
     by_cases h : i = k
-    · simp only [trans_val, if_pos h]
+    · simp only [trans_val, ite_eq_left h]
       omega
-    · simp only [trans_val, if_neg h]
+    · simp only [trans_val, ite_eq_right h]
 
 /-- The action is free. -/
 theorem trans_eq_self {k : ℕ} (c : ℤ) (v : Stage (k + 1)) (h : trans c v = v) : c = 0 := by
   have h0 : (trans c v).1 k = v.1 k := by rw [h]
-  rw [trans_val, if_pos rfl] at h0
+  rw [trans_val, ite_eq_left rfl] at h0
   omega
 
 /-- The action is transitive on each fibre of `red`. -/
@@ -209,11 +209,11 @@ theorem exists_trans {k : ℕ} (v w : Stage (k + 1)) (h : red v = red w) :
   refine ⟨w.1 k - v.1 k, stage_ext fun i => ?_⟩
   by_cases hi : i = k
   · subst hi
-    rw [trans_val, if_pos rfl]
+    rw [trans_val, ite_eq_left rfl]
     omega
   · have h' : (red v).1 i = (red w).1 i := congrFun (congrArg Subtype.val h) i
-    rw [red_val, red_val, if_neg hi, if_neg hi] at h'
-    rw [trans_val, if_neg hi]
+    rw [red_val, red_val, ite_eq_right hi, ite_eq_right hi] at h'
+    rw [trans_val, ite_eq_right hi]
     exact h'
 
 /-! ### The obstruction detects liftability by one stage -/
@@ -224,8 +224,8 @@ theorem exists_red_eq (k : ℕ) (v : Stage k) (h3 : 2 < k + 1 → v.1 0 = 0) :
   refine ⟨⟨v.1, fun i hi => v.2.1 i (by omega), h3⟩, stage_ext fun i => ?_⟩
   by_cases hi : i = k
   · have hv : v.1 k = 0 := v.2.1 k le_rfl
-    rw [red_val, if_pos hi, hi, hv]
-  · simp only [red_val, if_neg hi]
+    rw [red_val, ite_eq_left hi, hi, hv]
+  · simp only [red_val, ite_eq_right hi]
 
 /-- **The obstruction vanishes exactly when the carrier rises one stage.** -/
 theorem obs_eq_zero_iff {k : ℕ} (v : Stage k) :
@@ -233,11 +233,11 @@ theorem obs_eq_zero_iff {k : ℕ} (v : Stage k) :
   refine ⟨fun h => exists_red_eq k v fun hk₃ => ?_, ?_⟩
   · by_cases hk : k = 2
     · by_contra h0
-      rw [obs_eq, if_pos ⟨hk, h0⟩] at h
+      rw [obs_eq, ite_eq_left ⟨hk, h0⟩] at h
       exact absurd h (by decide)
     · exact v.2.2 (by omega)
   · rintro ⟨z, hz⟩
-    rw [obs_eq, if_neg]
+    rw [obs_eq, ite_eq_right]
     rintro ⟨rfl, h0⟩
     exact h0 (hz ▸ red_three_val_zero z)
 
@@ -247,10 +247,10 @@ is zero. -/
 theorem obs_trans {k : ℕ} (c : ℤ) (v : Stage (k + 1)) : obs (trans c v) = obs v := by
   by_cases hk : k + 1 = 2
   · have hk0 : ¬((0 : ℕ) = k) := by omega
-    rw [obs_eq, obs_eq, trans_val, if_neg hk0]
+    rw [obs_eq, obs_eq, trans_val, ite_eq_right hk0]
   · have h1 : ¬(k + 1 = 2 ∧ (trans c v).1 0 ≠ 0) := fun hc => hk hc.1
     have h2 : ¬(k + 1 = 2 ∧ v.1 0 ≠ 0) := fun hc => hk hc.1
-    rw [obs_eq, obs_eq, if_neg h1, if_neg h2]
+    rw [obs_eq, obs_eq, ite_eq_right h1, ite_eq_right h2]
 
 /-- `2` annihilates the obstruction module. -/
 theorem two_pow_one_smul_eq_zero (t : ZMod 2) : (2 : ℤ) ^ 1 • t = 0 := by
@@ -273,7 +273,7 @@ def redGlob {k : ℕ} (x : Glob (k + 1)) : Glob k :=
   ⟨red x.1, by
     refine ⟨by have := x.2.1; omega, fun hk => ?_⟩
     have hx := x.2.2 (by omega)
-    rw [red_val, if_neg (show ¬((0 : ℕ) = k) by omega)]
+    rw [red_val, ite_eq_right (show ¬((0 : ℕ) = k) by omega)]
     exact hx⟩
 
 /-- A global stage-zero carrier is unique. -/
@@ -288,10 +288,10 @@ theorem glue_zero (x : Glob 0) (z : Stage 1) (_h : red z = x.1) :
   obtain ⟨m, hm⟩ | ⟨m, hm⟩ := Int.even_or_odd (z.1 0)
   · refine ⟨1 - m, ⟨trans (2 * (1 - m)) z, ⟨by omega, fun _ => Or.inr ?_⟩⟩,
       glob_zero_eq _ _, rfl⟩
-    rw [trans_val, if_pos rfl, hm]
+    rw [trans_val, ite_eq_left rfl, hm]
     omega
   · refine ⟨-m, ⟨trans (2 * -m) z, ⟨by omega, fun _ => Or.inl ?_⟩⟩, glob_zero_eq _ _, rfl⟩
-    rw [trans_val, if_pos rfl, hm]
+    rw [trans_val, ite_eq_left rfl, hm]
     omega
 
 /-- **The gluing step at stage one is the identity**: a stage-two carrier above a global one is
@@ -301,7 +301,7 @@ theorem glue_one (x : Glob 1) (z : Stage 2) (h : red z = x.1) :
   have hz0 : z.1 0 = 1 ∨ z.1 0 = 2 := by
     have hx := x.2.2 (by omega)
     rw [← h] at hx
-    simpa only [red_val, if_neg (show ¬((0 : ℕ) = 1) by omega)] using hx
+    simpa only [red_val, ite_eq_right (show ¬((0 : ℕ) = 1) by omega)] using hx
   refine ⟨0, ⟨z, ⟨by omega, fun _ => hz0⟩⟩, Subtype.ext h, ?_⟩
   rw [mul_zero, trans_zero]
 
@@ -380,7 +380,7 @@ theorem not_exists_red_chain (y : Stage 1) (hy : y.1 0 = 2) :
     rw [← hw]
     exact red_three_val_zero w
   have h' : (red z).1 0 = y.1 0 := congrFun (congrArg Subtype.val hz) 0
-  rw [red_val, if_neg (show ¬((0 : ℕ) = 1) by omega), hy] at h'
+  rw [red_val, ite_eq_right (show ¬((0 : ℕ) = 1) by omega), hy] at h'
   omega
 
 /-- **The `2`-divisible translate of the zero carrier does not rise two stages**, although it
@@ -388,7 +388,7 @@ rises one: its coordinate `0` is `2`. -/
 theorem not_liftsTo_two_trans_zeroStage :
     ¬ badTower.liftsTo 2 1 (badTower.tr ((2 : ℤ) ^ 1 • (1 : ℤ)) (zeroStage 1)) :=
   not_exists_red_chain (trans ((2 : ℤ) ^ 1 • (1 : ℤ)) (zeroStage 1)) (by
-    rw [trans_val, if_pos rfl, zeroStage_val, two_pow_one_smul]
+    rw [trans_val, ite_eq_left rfl, zeroStage_val, two_pow_one_smul]
     omega)
 
 /-- **The weak link fails in this tower.** Every field of `CoverLiftTower` holds for `badTower`, so

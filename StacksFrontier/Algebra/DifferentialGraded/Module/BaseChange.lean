@@ -63,8 +63,8 @@ Parts (2) and (3) ARE formalized. Part (3) is
 of the source's proof — a differential graded `A`-module with property (P) is K-flat as a complex
 of `R`-modules when `A` is — which is
 `DifferentialGradedModule.kFlat_toCochainComplex_of_propertyPFiltration` of
-`StacksFrontier/Algebra/DifferentialGraded/Module/PropertyPKFlat.lean`, and that in turn on the three
-closure properties of `CochainComplex.KFlat` (Tag 06XZ) in
+`StacksFrontier/Algebra/DifferentialGraded/Module/PropertyPKFlat.lean`, and that in turn on the
+three closure properties of `CochainComplex.KFlat` (Tag 06XZ) in
 `StacksFrontier/Homology/KFlat/Closure.lean`: `kFlat_shift`, `kFlat_coproduct` and
 `kFlat_two_out_of_three_of_degreewiseSplit`. The last is the degreewise-split form, which is what
 the source actually cites (Tag 06Y2) rather than `kFlat_two_over_three` (Tag 0BYH), whose demand

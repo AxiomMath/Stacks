@@ -84,8 +84,7 @@ theorem span_range_mk_one_tmul {C : Type u} [CommRing C] [Algebra R C] (J : Idea
     Submodule.span C (Set.range fun a : A ↦ Ideal.Quotient.mk J ((1 : C) ⊗ₜ[R] a)) = ⊤ := by
   refine Submodule.eq_top_iff'.mpr fun z ↦ ?_
   obtain ⟨y, rfl⟩ := Ideal.Quotient.mk_surjective z
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add]; exact add_mem hx hy
   | tmul c a =>
     rw [mk_tmul_eq_smul]
@@ -135,15 +134,14 @@ theorem mem_span_range_quotMap (φ : C →ₐ[R] C') (J : Ideal (C ⊗[R] A))
     (z : (C' ⊗[R] A) ⧸ J.map (Algebra.TensorProduct.map φ (AlgHom.id R A))) :
     z ∈ Submodule.span C' (Set.range (quotMap φ J)) := by
   obtain ⟨y, rfl⟩ := Ideal.Quotient.mk_surjective z
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add]; exact add_mem hx hy
   | tmul c' a =>
     have : Ideal.Quotient.mk (J.map (Algebra.TensorProduct.map φ (AlgHom.id R A))) (c' ⊗ₜ[R] a) =
         c' • quotMap φ J (Ideal.Quotient.mk J ((1 : C) ⊗ₜ a)) := by
       rw [quotMap_mk, Algebra.TensorProduct.map_tmul, map_one, AlgHom.id_apply,
         Algebra.smul_def]
-      show _ = Ideal.Quotient.mk _ (c' ⊗ₜ 1) * Ideal.Quotient.mk _ _
+      change _ = Ideal.Quotient.mk _ (c' ⊗ₜ 1) * Ideal.Quotient.mk _ _
       rw [← map_mul, Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
     rw [this]
     exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨_, rfl⟩)
@@ -184,8 +182,7 @@ theorem fibreLift_map (J : Ideal (C ⊗[R] A)) (y : C ⊗[R] A) :
     fibreLift (K := K) J
         (Algebra.TensorProduct.map (IsScalarTower.toAlgHom R C K) (AlgHom.id R A) y) =
       (1 : K) ⊗ₜ Ideal.Quotient.mk J y := by
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, tmul_add]
   | tmul c a =>
     rw [Algebra.TensorProduct.map_tmul, fibreLift, Algebra.TensorProduct.lift_tmul]
@@ -221,7 +218,7 @@ theorem fibreComparison_smul (J : Ideal (C ⊗[R] A)) (k : K)
     fibreComparison J (k • z) = k • fibreComparison J z := by
   rw [Algebra.smul_def, map_mul, Algebra.smul_def]
   congr 1
-  show fibreLift J (k ⊗ₜ 1) = _
+  change fibreLift J (k ⊗ₜ 1) = _
   rw [fibreLift, Algebra.TensorProduct.lift_tmul]
   simp [← Algebra.TensorProduct.one_def]
 
@@ -284,8 +281,7 @@ theorem exists_smul_mem_range_of_surjective {J : Ideal (C ⊗[R] A)}
         (Submodule.Quotient.mk_eq_zero N).mpr ⟨Pi.single l 1, markedMap_single W J l⟩, tmul_zero,
         smul_zero]
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => rw [map_add, hx, hy, add_zero]
     | tmul k q =>
       have : k ⊗ₜ[C] q = k • ((1 : K) ⊗ₜ q) := by
@@ -294,7 +290,7 @@ theorem exists_smul_mem_range_of_surjective {J : Ideal (C ⊗[R] A)}
   obtain ⟨x, y, hxy⟩ := hnt'
   obtain ⟨x, rfl⟩ := LinearMap.lTensor_surjective K N.mkQ_surjective x
   obtain ⟨y, rfl⟩ := LinearMap.lTensor_surjective K N.mkQ_surjective y
-  rw [← LinearMap.baseChange_eq_ltensor] at hxy
+  rw [← LinearMap.baseChange_eq_lTensor] at hxy
   exact hxy ((hzero x).trans (hzero y).symm)
 
 /-- The marked elements span as soon as, at every prime, some element outside it multiplies the

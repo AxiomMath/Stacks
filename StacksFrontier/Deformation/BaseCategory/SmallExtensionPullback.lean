@@ -65,10 +65,10 @@ private theorem isSmallExtension_comp_ringEquiv
       map_add' := by intro x y; ext; exact map_add e x.1 y.1
       map_smul' := by
         intro r x; ext
-        show e (r * x.1) = e r * e x.1
+        change e (r * x.1) = e r * e x.1
         exact map_mul e r x.1 }
   refine ⟨inferInstance, hTLoc, inferInstance, hTArt, hsurj.comp e.surjective, ?_⟩
-  show Module.length R (RingHom.ker (f.comp e.toRingHom)) = 1
+  change Module.length R (RingHom.ker (f.comp e.toRingHom)) = 1
   rw [equiv.length_eq, Module.length_eq_of_surjective (M := RingHom.ker f) e.surjective]
   simpa using hlen
 
@@ -88,7 +88,7 @@ private theorem concretePullbackFst_ker_length
   let q : P →ₐ[Λ] A₂ := AlgHom.pullbackSnd f₁.hom f₂.hom
   let _ : Algebra P A₂ := q.toRingHom.toAlgebra
   let _ : IsLocalHom (algebraMap P A₂) := by
-    show IsLocalHom q.toRingHom
+    change IsLocalHom q.toRingHom
     let _ : IsLocalHom f₁.hom.toRingHom := f₁.isLocal
     exact RingHom.isLocalHom_pullbackSnd f₁.hom.toRingHom f₂.hom.toRingHom
   let _ : Module P (RingHom.ker f₂.hom.toRingHom) :=
@@ -96,7 +96,7 @@ private theorem concretePullbackFst_ker_length
   let toKer : RingHom.ker (AlgHom.pullbackFst f₁.hom f₂.hom).toRingHom →ₗ[P]
       RingHom.ker f₂.hom.toRingHom :=
     { toFun := fun x => ⟨q x.1, by
-        show f₂.hom (q x.1) = 0
+        change f₂.hom (q x.1) = 0
         have hc : f₁.hom (AlgHom.pullbackFst f₁.hom f₂.hom x.1) = f₂.hom (q x.1) := x.1.2
         have hx : AlgHom.pullbackFst f₁.hom f₂.hom x.1 = 0 := RingHom.mem_ker.mp x.2
         rw [hx, map_zero] at hc
@@ -108,7 +108,7 @@ private theorem concretePullbackFst_ker_length
     · exact (RingHom.mem_ker.mp x.2).trans (RingHom.mem_ker.mp y.2).symm
     · exact congrArg Subtype.val hxy
     · refine ⟨⟨⟨(0, y.1), ?_⟩, ?_⟩, rfl⟩
-      · show f₁.hom 0 = f₂.hom y.1
+      · change f₁.hom 0 = f₂.hom y.1
         have hy : f₂.hom y.1 = 0 := RingHom.mem_ker.mp y.2
         simp [hy]
       · simp [AlgHom.pullbackFst]
@@ -126,16 +126,16 @@ private theorem concretePullbackFst_ker_length
     obtain ⟨b, hb⟩ := hf₂ (f₁.hom a₁ - f₂.hom a)
     have hbmax : b ∈ maximalIdeal A₂ := by
       rw [← IsLocalRing.maximalIdeal_comap f₂.hom.toRingHom]
-      show f₂.hom b ∈ maximalIdeal A
+      change f₂.hom b ∈ maximalIdeal A
       rw [hb]
       exact hdiff
     let x : P := ⟨(a₁, a + b), by
-      show f₁.hom a₁ = f₂.hom (a + b)
+      change f₁.hom a₁ = f₂.hom (a + b)
       rw [map_add, hb]
       abel⟩
     refine ⟨residue P x, ?_⟩
-    show residue A₂ (q x) = residue A₂ a
-    show residue A₂ (a + b) = residue A₂ a
+    change residue A₂ (q x) = residue A₂ a
+    change residue A₂ (a + b) = residue A₂ a
     have hbzero : residue A₂ b = 0 := (residue_eq_zero_iff _).2 hbmax
     rw [map_add, hbzero, add_zero]
   change Module.length A₂ (RingHom.ker f₂.hom.toRingHom) = 1 at h₂len
@@ -154,10 +154,10 @@ private theorem concretePullbackFst_isSmallExtension
     IsSmallExtension (CommRingCat.ofHom h.fst.hom.toRingHom) := by
   cases h.obj_carrier
   refine ⟨inferInstance, inferInstance, inferInstance, inferInstance, ?_, ?_⟩
-  · show Function.Surjective h.fst.hom
+  · change Function.Surjective h.fst.hom
     rw [h.fst_hom]
     exact AlgHom.surjective_pullbackFst_of_surjective f₁.hom f₂.hom h₂.2.2.2.2.1
-  · show Module.length h.obj (RingHom.ker h.fst.hom.toRingHom) = 1
+  · change Module.length h.obj (RingHom.ker h.fst.hom.toRingHom) = 1
     rw [h.fst_hom]
     exact concretePullbackFst_ker_length f₁ f₂ h₂.2.2.2.2.1 h₂
 
@@ -185,7 +185,7 @@ theorem isSmallExtension_pullback_fst
   have heq : c.fst.hom.toRingHom.comp e.toRingHom =
       (Limits.pullback.fst f₁ f₂).hom.toRingHom := by
     ext x
-    show c.fst.hom (iso.inv.hom x) = (Limits.pullback.fst f₁ f₂).hom x
+    change c.fst.hom (iso.inv.hom x) = (Limits.pullback.fst f₁ f₂).hom x
     exact hom_congr c.isPullback.isoPullback_inv_fst x
   simpa only [heq] using isSmallExtension_comp_ringEquiv e c.fst.hom.toRingHom
     (concretePullbackFst_isSmallExtension f₁ f₂ c h₂)

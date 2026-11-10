@@ -131,13 +131,13 @@ theorem isIso_lanSigmaDesc
     (by
       intro s j
       dsimp [c]
-      rw [Category.assoc, Sigma.ι_desc]
+      rw [Category.assoc, Sigma.ι_comp_desc]
       exact s.w (eta j))
     (by
       intro s m hm
       apply Sigma.hom_ext
       intro φ
-      rw [Sigma.ι_desc]
+      rw [Sigma.ι_comp_desc]
       simpa only [hterminal] using hm (terminal φ))
   let e₁ : (∐ fun φ : V ⟶ U => F.obj (op (Over.mk φ))) ≅ colimit G :=
     hc.coconePointUniqueUpToIso (colimit.isColimit G)
@@ -159,7 +159,7 @@ theorem isIso_lanSigmaDesc
         colimit.ι G (terminal φ) :=
       (congrArg (fun x => x ≫ e₁.hom) (hterminal φ).symm).trans
         (IsColimit.comp_coconePointUniqueUpToIso_hom hc (colimit.isColimit G) (terminal φ))
-    rw [Sigma.ι_desc, Iso.trans_hom, Iso.symm_hom, ← Category.assoc, hcolim]
+    rw [Sigma.ι_comp_desc, Iso.trans_hom, Iso.symm_hom, ← Category.assoc, hcolim]
     exact (Iso.eq_comp_inv e₂).2 hunit
   rw [he]
   infer_instance
@@ -294,11 +294,11 @@ noncomputable def extensionByZeroCompToSheafIso :
       apply Sigma.hom_ext
       intro f
       have hdesc : Sigma.ι B f ≫ d =
-          (L.lanUnit.app (FAb.obj M)).app (op (Over.mk f)) := Sigma.ι_desc _ f
+          (L.lanUnit.app (FAb.obj M)).app (op (Over.mk f)) := Sigma.ι_comp_desc _ f
       have he : Sigma.ι B f ≫ e.hom =
           eNat.inv.app (Discrete.mk f) ≫ forgetMod.map (Sigma.ι A f) := by
         dsimp [e]
-        rw [← Category.assoc, HasColimit.isoOfNatIso_ι_inv, Category.assoc,
+        rw [← Category.assoc, HasColimit.ι_isoOfNatIso_inv, Category.assoc,
           ι_preservesColimitIso_inv]
       have hunitMod : Sigma.ι A f ≫ q.inv =
           ((PresheafOfModules.pullbackPushforwardAdjunction.{v}

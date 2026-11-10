@@ -68,6 +68,7 @@ private instance (priority := high) hasPullback_presheaf_coproductUniversallyClo
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of sheaves on the big fppf site is heavy
 /-- Pullbacks of sheaves on the big fppf site (instance search times out without this
 shortcut). -/
 private instance hasPullbacks_sheaf_coproductUniversallyClosed :

@@ -913,7 +913,7 @@ theorem exteriorPowerStalkEquivDirectSumOfSplit_comp_stalkCoprodEquiv (n : ℕ) 
         (prodWedgeHomOfEq AF AG A iF iG i.down.1.1 i.down.1.2 n i.down.2).val t :=
     LinearMap.congr_fun (stalkMapL_comp_of_comp_eq_comp x
       (Sigma.ι (exteriorPowerProdSummand AF AG n) i)
-      (exteriorPowerProdHom AF AG A iF iG n) _ (Sigma.ι_desc _ i)) t
+      (exteriorPowerProdHom AF AG A iF iG n) _ (Sigma.ι_comp_desc _ i)) t
   refine Eq.trans (congrArg (fun y =>
     exteriorPowerStalkEquivDirectSumOfSplit AF AG A n x iF pF iG pG hF hG hFG hGF htot
       (PresheafOfModules.stalkMapL x (exteriorPowerProdHom AF AG A iF iG n).val y)) h1) ?_

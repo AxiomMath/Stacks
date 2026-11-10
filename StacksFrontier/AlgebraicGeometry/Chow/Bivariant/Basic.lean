@@ -629,7 +629,7 @@ public theorem isPullback_bivariantBaseChangeMap {X Y T T' : Scheme.{u}} (f : X 
     (pullbackLeftPullbackSndIso f g h) (Iso.refl _) (Iso.refl _) (Iso.refl _) ?_ ?_ ?_ ?_
   · simp
   · refine (pullback.hom_ext ?_ ?_).symm
-    · simp [bivariantBaseChangeMap, pullback.map, pullback.lift_fst]
+    · simp [bivariantBaseChangeMap, pullback.map]
     · simp only [bivariantBaseChangeMap, pullback.map, Category.comp_id, Category.assoc,
         pullback.lift_snd, pullbackLeftPullbackSndIso_hom_snd_assoc, Iso.refl_hom]
       exact pullback.condition.symm

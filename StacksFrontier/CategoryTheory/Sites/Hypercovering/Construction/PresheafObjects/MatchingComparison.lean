@@ -91,7 +91,7 @@ lemma coskeleton_map_comp_matchingCone_π {L L' : SimplicialObject A} (f : L ⟶
       ((coskAdj n).counit.app ((truncation n).obj L')).app a.right =
     ((coskAdj n).counit.app ((truncation n).obj L)).app a.right ≫
       ((truncation n).map f).app a.right at h
-  show ((cosk n).map f).app r ≫ (((cosk n).obj L').map a.hom ≫
+  change ((cosk n).map f).app r ≫ (((cosk n).obj L').map a.hom ≫
       ((coskAdj n).counit.app ((truncation n).obj L')).app a.right) =
     (((cosk n).obj L).map a.hom ≫
       ((coskAdj n).counit.app ((truncation n).obj L)).app a.right) ≫
@@ -109,14 +109,14 @@ lemma unit_matching_π (L : SimplicialObject A) (n : ℕ)
     (t : SimplexCategoryᵒᵖ)
     (a : StructuredArrow t (SimplexCategory.Truncated.inclusion n).op) :
     (((coskAdj n).unit.app L).app t) ≫ (matchingCone L n t).π.app a = L.map a.hom := by
-  show (((coskAdj n).unit.app L).app t) ≫
+  change (((coskAdj n).unit.app L).app t) ≫
     (((cosk n).obj L).map a.hom ≫ ((coskAdj n).counit.app _).app a.right) = _
   rw [← Category.assoc, ← ((coskAdj n).unit.app L).naturality a.hom,
     Category.assoc]
   have h := NatTrans.congr_app ((coskAdj n).left_triangle_components L) a.right
   change (((coskAdj n).unit.app L).app _) ≫
     (((coskAdj n).counit.app _).app a.right) = 𝟙 _ at h
-  show L.map a.hom ≫ _ = _
+  change L.map a.hom ≫ _ = _
   rw [h]
   exact Category.comp_id _
 

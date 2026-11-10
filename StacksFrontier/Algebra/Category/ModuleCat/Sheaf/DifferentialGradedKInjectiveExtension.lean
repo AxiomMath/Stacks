@@ -322,7 +322,7 @@ private theorem gradedShift_piece_eq {A : DifferentialGradedAlgebra.{t, a} R}
     (M : DifferentialGradedModule.{t, a, m} A) {i j : ℤ} (h : i = j + 1) :
     M.complex.X i = (gradedShift ((forgetToGradedModule A).obj M) 1).piece j := by
   subst i
-  show M.complex.X (j + 1) = M.complex.X (j + 1)
+  change M.complex.X (j + 1) = M.complex.X (j + 1)
   rfl
 
 private def homotopyShiftHom {A : DifferentialGradedAlgebra.{t, a} R}
@@ -970,7 +970,6 @@ private noncomputable def homotopyBoundary {A : DifferentialGradedAlgebra.{t, a}
                   ((ModuleCat.Hom.hom ((eqToHom (gradedShift_piece_eq M h4)).val.app U))
                   x))))) a := by
       rw [hpieceId (n - 1)]
-      try simp only [hidapp]
       dsimp [yI]
       rfl
     have hdxM :
@@ -1004,7 +1003,7 @@ theorem exists_extension_of_acyclic_of_mono
     { toHomologicalComplex := 0
       map_mul := by
         intro n m U x a
-        show 0 = ((I.mul n m).app U) 0 a
+        change 0 = ((I.mul n m).app U) 0 a
         simp }
   have hzero : (Q.map a) = Q.map z := Subsingleton.elim _ _
   have hnull : Homotopic a z :=
@@ -1026,7 +1025,7 @@ theorem exists_extension_of_acyclic_of_mono
   have hprev := congrArg (fun q => q.app (n - 1)) hfactor
   have hnow := congrArg (fun q => q.app n) hfactor
   dsimp [sb, gradedShiftHom, homotopyShiftHom] at hprev hnow
-  show (ModuleCat.Hom.hom ((b.toHomologicalComplex.f n ≫
+  change (ModuleCat.Hom.hom ((b.toHomologicalComplex.f n ≫
       (homotopyBoundary Hext).toHomologicalComplex.f n).val.app U)) y =
     (ModuleCat.Hom.hom ((a.toHomologicalComplex.f n).val.app U)) y
   dsimp only [homotopyBoundary]
@@ -1081,10 +1080,10 @@ theorem exists_extension_of_acyclic_of_mono
         (show n + 1 - 1 = n by lia))).val.app U))
         ((ModuleCat.Hom.hom ((H.app (n + 1)).val.app U))
           ((ModuleCat.Hom.hom ((M.complex.d n (n + 1)).val.app U)) y))
-    show t₁ + t₂ = r₁ + r₂
+    change t₁ + t₂ = r₁ + r₂
     have ht₁ : t₁ = r₂ := by
       dsimp [t₁, r₂]
-      convert hnowEval using 1 <;> try rfl
+      convert hnowEval using 1; try rfl
     have hprevD := congrArg
       (fun x => (ModuleCat.Hom.hom ((I.complex.d (n - 1) n).val.app U)) x) hprevEval
     have hindex : n = (n - 1) + 1 := by lia
@@ -1102,7 +1101,7 @@ theorem exists_extension_of_acyclic_of_mono
       convert hmap using 1 ;
         simp only [gradedShift, forgetToGradedModule_obj_piece,
           DifferentialGradedAlgebra.toGradedAlgebra_piece, gradedCast_eqToHom, yshift] ;
-        first | exact Subsingleton.elim _ _ | exact Iff. | rfl
+        first | rfl
     have hbcD := congrArg
       (fun x => (ModuleCat.Hom.hom ((I.complex.d (n - 1) n).val.app U))
         ((ModuleCat.Hom.hom ((Hext.app (n - 1)).val.app U)) x)) hbc

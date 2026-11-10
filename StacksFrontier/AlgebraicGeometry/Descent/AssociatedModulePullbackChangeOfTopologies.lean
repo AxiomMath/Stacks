@@ -379,8 +379,7 @@ public def smallEtalePiRingedSiteHomPullbackIso :
       (B.carriedOverToZariskiRingedSiteHom S hS .etale)
       (Iso.refl _) (by
         ext U : 3
-        simp [RingedSite.HomGeneral.comp_fsharp,
-          Functor.sheafPushforwardContinuousComp, Functor.sheafPushforwardContinuousNatTrans]
+        simp [Functor.sheafPushforwardContinuousNatTrans]
         rfl)
 
 /-- **Stacks 03FH, part (2), for the morphisms of ringed sites

@@ -66,7 +66,7 @@ theorem singleRightIsoMapBifunctor_naturality_snd (K : CochainComplex C₁ ℤ) 
         mapBifunctorMap (𝟙 K) ((CochainComplex.singleFunctor C₂ 0).map g) F
           (ComplexShape.up ℤ) := by
   ext i
-  show (F.obj (K.X i)).map g ≫ (mapBifunctorSingleRightXIso F K N' i).inv =
+  change (F.obj (K.X i)).map g ≫ (mapBifunctorSingleRightXIso F K N' i).inv =
     (mapBifunctorSingleRightXIso F K N i).inv ≫
       (mapBifunctorMap (𝟙 K) ((CochainComplex.singleFunctor C₂ 0).map g) F
         (ComplexShape.up ℤ)).f i

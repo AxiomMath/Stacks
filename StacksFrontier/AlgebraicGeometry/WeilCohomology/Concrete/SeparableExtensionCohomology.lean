@@ -160,7 +160,7 @@ theorem bijective_pull_of_isColimit_cofan (hA1 : 𝔇.CoproductAxiom) {ι : Type
     (Limits.colimit.isColimit (Discrete.functor G)).comp_coconePointUniqueUpToIso_hom hc ⟨i⟩
   have hopen : ∀ i, IsOpenImmersion (SmoothProjectiveScheme.toScheme k |>.map (p i)) := by
     intro i
-    show IsOpenImmersion (p i).hom.left
+    change IsOpenImmersion (p i).hom.left
     rw [← hφ i]
     infer_instance
   have hrange : ∀ i, Set.range (p i).hom.left.base =
@@ -196,7 +196,7 @@ theorem bijective_pull_of_isColimit_cofan (hA1 : 𝔇.CoproductAxiom) {ι : Type
       rw [Function.onFun, disjoint_iff, ← SetLike.coe_set_eq]
       simp only [TopologicalSpace.Opens.coe_inf, Scheme.Hom.coe_opensRange,
         TopologicalSpace.Opens.coe_bot]
-      show Set.range (p (e.symm j)).hom.left.base ∩ Set.range (p (e.symm j')).hom.left.base = ∅
+      change Set.range (p (e.symm j)).hom.left.base ∩ Set.range (p (e.symm j')).hom.left.base = ∅
       rw [hrange, hrange, ← Set.image_inter hinj, hsigma _ _ (e.symm.injective.ne hjj'),
         Set.image_empty])
     (by
@@ -207,7 +207,7 @@ theorem bijective_pull_of_isColimit_cofan (hA1 : 𝔇.CoproductAxiom) {ι : Type
       refine TopologicalSpace.Opens.mem_iSup.mpr ⟨e i, ?_⟩
       have := hopen (e.symm (e i))
       rw [← SetLike.mem_coe, Scheme.Hom.coe_opensRange]
-      show _ ∈ Set.range (p (e.symm (e i))).hom.left.base
+      change _ ∈ Set.range (p (e.symm (e i))).hom.left.base
       rw [e.symm_apply_apply, hrange]
       exact ⟨w, hi, rfl⟩)
   refine ⟨fun a b hab => h.1 (funext fun j => congrFun hab (e.symm j)), fun g => ?_⟩
@@ -235,7 +235,7 @@ theorem exists_specMap_eq (g : spec k K ⟶ spec k K') : ∃ φ : K' →ₐ[k] K
     exact Over.w g.hom
   refine ⟨⟨φ₀.hom, fun c => ?_⟩, hom_ext_left ?_⟩
   · exact congrArg (fun f : CommRingCat.of k ⟶ CommRingCat.of K => f.hom c) hcomp
-  · show Spec.map (CommRingCat.ofHom φ₀.hom) = g.hom.left
+  · change Spec.map (CommRingCat.ofHom φ₀.hom) = g.hom.left
     exact Spec.map_preimage _
 
 /-- The `k`-algebra `Γ(Spec K', 𝒪)` is `K'`. -/
@@ -255,7 +255,7 @@ def globalSectionsSpecAlgHom : globalSections (spec k K') →ₐ[k] K' where
 /-- `Spec` of a nonzero finite `k`-algebra has dimension zero. -/
 theorem topologicalKrullDim_spec_field [Nontrivial K'] :
     topologicalKrullDim (spec k K').obj.left = 0 := by
-  show topologicalKrullDim (PrimeSpectrum K') = 0
+  change topologicalKrullDim (PrimeSpectrum K') = 0
   have : IsArtinianRing K' := isArtinian_of_tower k inferInstance
   rw [PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim]
   exact ringKrullDimZero_iff_ringKrullDim_eq_zero.mp inferInstance
@@ -276,7 +276,7 @@ theorem nonempty_isColimit_splitCofan_left [Nontrivial K'] (L : Type u) [Field L
       (pullbackSpecIso k (globalSections (spec k K')) L).hom =
         sigmaSpec R ≫ Spec.map (CommRingCat.ofHom Φ.toRingEquiv.toRingHom) := by
     refine Limits.Sigma.hom_ext _ _ fun σ ↦ ?_
-    rw [Limits.Sigma.ι_desc_assoc, splitLift_prodMapSpec_pullbackSpecIso, ι_sigmaSpec_assoc,
+    rw [Limits.Sigma.ι_comp_desc_assoc, splitLift_prodMapSpec_pullbackSpecIso, ι_sigmaSpec_assoc,
       ← Spec.map_comp]
     congr 1
   have : IsIso (Limits.Sigma.desc (splitLift hX L) ≫ prodMapSpec hX L ≫
@@ -294,7 +294,7 @@ theorem nonempty_isColimit_splitCofan_left [Nontrivial K'] (L : Type u) [Field L
     have : Limits.Sigma.desc c.inj =
         Limits.Sigma.desc (splitLift hX L) ≫ (prodLeftIso (spec k K') (spec k L)).inv :=
       Limits.Sigma.hom_ext _ _ fun σ ↦ by
-        rw [Limits.Sigma.ι_desc, Limits.Sigma.ι_desc_assoc]
+        rw [Limits.Sigma.ι_comp_desc, Limits.Sigma.ι_comp_desc_assoc]
         rfl
     rw [this]
     infer_instance
@@ -343,7 +343,7 @@ theorem injective_pull_specMap_family (hA1 : 𝔇.CoproductAxiom) (hA5 : 𝔇.Ku
   have hpull := 𝔇.bijective_pull_of_isColimit_cofan hA1 (splitInj hX E) hc
   let Φ : 𝔇.H (spec k K') →ₗ[F] (∀ j, 𝔇.H (spec k (L j))) :=
     LinearMap.pi fun j => (𝔇.pull (specMap (φ j))).toLinearMap
-  show Function.Injective Φ
+  change Function.Injective Φ
   rw [injective_iff_map_eq_zero]
   intro c hc0
   have hσ : ∀ σ, 𝔇.pull (splitInj hX E σ ≫ fst (spec k K') (spec k E)) c = 0 := by
@@ -369,7 +369,7 @@ theorem injective_pull_specMap_family (hA1 : 𝔇.CoproductAxiom) (hA5 : 𝔇.Ku
     let : Field (K' ⧸ m) := Ideal.Quotient.field m
     let α : K' ⧸ m →ₐ[k] E := (ψ j).comp (Ideal.Quotient.liftₐ m (φ j) fun a ha => ha)
     let β : K' ⧸ m →ₐ[k] E := Ideal.Quotient.liftₐ m θ fun a ha => by
-      show a ∈ RingHom.ker θ.toRingHom; rw [← hkereq]; exact ha
+      change a ∈ RingHom.ker θ.toRingHom; rw [← hkereq]; exact ha
     let : Algebra (K' ⧸ m) E := α.toRingHom.toAlgebra
     have : IsScalarTower k (K' ⧸ m) E :=
       IsScalarTower.of_algebraMap_eq fun c => (α.commutes c).symm
@@ -386,7 +386,7 @@ theorem injective_pull_specMap_family (hA1 : 𝔇.CoproductAxiom) (hA5 : 𝔇.Ku
   have hκ : 𝔇.kunnethMap (spec k K') (spec k E) (c ⊗ₜ 1) = 0 := by
     apply hpull.1
     funext σ
-    show 𝔇.pull (splitInj hX E σ) (𝔇.kunnethMap _ _ (c ⊗ₜ 1)) = 𝔇.pull (splitInj hX E σ) 0
+    change 𝔇.pull (splitInj hX E σ) (𝔇.kunnethMap _ _ (c ⊗ₜ 1)) = 𝔇.pull (splitInj hX E σ) 0
     rw [map_zero, kunnethMap_tmul, map_one, mul_one, ← AlgHom.comp_apply, ← 𝔇.pull_comp]
     exact hσ σ
   have ht : c ⊗ₜ[F] (1 : 𝔇.H (spec k E)) = 0 := (hA5.2 _ _).1 (by rw [hκ, map_zero])
@@ -451,7 +451,7 @@ theorem injective_pull_specMap_family_of_axioms [CharZero F] (hA1 : 𝔇.Coprodu
     Function.Injective fun c : 𝔇.H (spec k K') => fun j => 𝔇.pull (specMap (φ j)) c := by
   obtain ⟨E, _, _, _, _, ψ, hE⟩ := exists_isGalois_embeddings (k := k) L
   exact 𝔇.injective_pull_specMap_family hA1 hA5 φ hφ ψ
-    (splits_minpoly_map_of_injective (f := Pi.algHom k L φ) hφ hE)
+    (splits_minpoly_map_of_injective (f := AlgHom.pi φ) hφ hE)
     (𝔇.nontrivial_H_spec hA3 hA4 hA5 E)
 
 /-- For finite separable field extensions `k''/k'/k`, pullback `H^*(Spec(k')) ⟶ H^*(Spec(k''))` is

@@ -66,8 +66,7 @@ def tensorMapOfAlgRingEquiv : Db ⊗[D] M →ₛₗ[(u : Db →+* D')] D' ⊗[D]
   toFun := TensorProduct.map (ringEquivLinear u hu) LinearMap.id
   map_add' := map_add _
   map_smul' c x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [smul_zero, _root_.map_zero]
+    induction x using TensorProduct.inductionOn with
     | tmul b m =>
       rw [TensorProduct.smul_tmul', TensorProduct.map_tmul, TensorProduct.map_tmul,
         TensorProduct.smul_tmul']
@@ -113,10 +112,9 @@ theorem CompletedConnection.baseChangeRingEquivMap_symm_baseChangeMap
     CompletedConnection.baseChangeRingEquivMap p u.symm (ringEquiv_symm_algebraMap_of_comm u hu) M
         (CompletedConnection.baseChangeRingEquivMap p u hu M x) = x :=
   adicCompletionMapₛₗ_comp_eq_self _ _ _ _ (fun t => by
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [_root_.map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul b m =>
-      show u.symm (u b) ⊗ₜ m = b ⊗ₜ m
+      change u.symm (u b) ⊗ₜ m = b ⊗ₜ m
       rw [RingEquiv.symm_apply_apply]
     | add x y hx hy => rw [_root_.map_add, _root_.map_add, hx, hy]) x
 
@@ -129,10 +127,9 @@ theorem CompletedConnection.baseChangeRingEquivMap_baseChangeMap_symm
           (ringEquiv_symm_algebraMap_of_comm u hu) M
           x) = x :=
   adicCompletionMapₛₗ_comp_eq_self _ _ _ _ (fun t => by
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [_root_.map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul b m =>
-      show u (u.symm b) ⊗ₜ m = b ⊗ₜ m
+      change u (u.symm b) ⊗ₜ m = b ⊗ₜ m
       rw [RingEquiv.apply_symm_apply]
     | add x y hx hy => rw [_root_.map_add, _root_.map_add, hx, hy]) x
 
@@ -206,10 +203,9 @@ theorem CompletedConnection.baseChange_baseChangeRingEquivMap
       CompletedConnection.baseChange_inclusion, CompletedConnection.baseChange_inclusion,
       sub_eq_zero]
     refine adicCompletionMapₛₗ_comp_apply _ _ _ _ _ _ (fun y => ?_) (nabla m)
-    induction y using TensorProduct.induction_on with
-    | zero => simp only [_root_.map_zero]
+    induction y using TensorProduct.inductionOn with
     | tmul m' η =>
-      show CompletedConnection.baseChangeInclusion p D D' M m' ⊗ₜ[D']
+      change CompletedConnection.baseChangeInclusion p D D' M m' ⊗ₜ[D']
           semilinearOfScalarTower D D' (psi 1) η =
         CompletedConnection.baseChangeRingEquivMap p u hu M
             (CompletedConnection.baseChangeInclusion p D Db M m') ⊗ₜ[D'] fB 1 (psiB 1 η)
@@ -260,7 +256,7 @@ def pushedModuleMapInv :
 /-- `pushedModuleMapInv` is a left inverse of `pushedModuleMap`. -/
 theorem pushedModuleMapInv_pushedModuleMap (y : MB) :
     pushedModuleMapInv p u hu M MB β (pushedModuleMap p u hu M MB β y) = y := by
-  show β (CompletedConnection.baseChangeRingEquivMap p u.symm _ M
+  change β (CompletedConnection.baseChangeRingEquivMap p u.symm _ M
     (CompletedConnection.baseChangeRingEquivMap p u hu M (β.symm y))) = y
   rw [CompletedConnection.baseChangeRingEquivMap_symm_baseChangeMap, LinearEquiv.apply_symm_apply]
 
@@ -268,7 +264,7 @@ theorem pushedModuleMapInv_pushedModuleMap (y : MB) :
 theorem pushedModuleMap_pushedModuleMapInv
     (y : CompletedConnection.baseChangeCarrier p D D' M) :
     pushedModuleMap p u hu M MB β (pushedModuleMapInv p u hu M MB β y) = y := by
-  show CompletedConnection.baseChangeRingEquivMap p u hu M
+  change CompletedConnection.baseChangeRingEquivMap p u hu M
     (β.symm (β (CompletedConnection.baseChangeRingEquivMap p u.symm _ M y))) = y
   rw [LinearEquiv.symm_apply_apply, CompletedConnection.baseChangeRingEquivMap_baseChangeMap_symm]
 
@@ -277,7 +273,7 @@ applied to `x`. -/
 theorem pushedModuleMap_apply (x : CompletedConnection.baseChangeCarrier p D Db M) :
     pushedModuleMap p u hu M MB β (β x) =
       CompletedConnection.baseChangeRingEquivMap p u hu M x := by
-  show CompletedConnection.baseChangeRingEquivMap p u hu M (β.symm (β x)) = _
+  change CompletedConnection.baseChangeRingEquivMap p u hu M (β.symm (β x)) = _
   rw [LinearEquiv.symm_apply_apply]
 
 /-- **The identification `M_b ⊗̂_{D_b} Ω_b^i ≃ M ⊗̂_D Ω'^i`**, degree by degree: the comparison of
@@ -321,7 +317,7 @@ theorem baseChangePushedEquiv_comparisonValues (g : M →ₛₗ[algebraMap D Db]
       (CompletedDeRham.comparisonValues p D Db (algebraMap D Db) M MB g Om OmB psiB i)
   suffices h : F = CompletedDeRham.completedLTensor p D M (psi i) from DFunLike.congr_fun h z
   refine completedTensor_addMonoidHom_ext p fun m ω => ?_
-  show baseChangePushedEquiv p u hu M OmB Om' fB fBinv hfB hfB' MB β i
+  change baseChangePushedEquiv p u hu M OmB Om' fB fBinv hfB hfB' MB β i
       (CompletedDeRham.comparisonValues p D Db (algebraMap D Db) M MB g Om OmB psiB i
         (toCompletedTensor p D (Om i) M (m ⊗ₜ ω))) =
     CompletedDeRham.completedLTensor p D M (psi i) (toCompletedTensor p D (Om i) M (m ⊗ₜ ω))
@@ -392,10 +388,9 @@ theorem baseChange_pushedModuleMap (y : MB) :
       fB
       hfpsi hfd hdBadd hdBleib hpsiB1 hd'add hd'leib hpsi1]
   refine adicCompletionMapₛₗ_comp_apply _ _ _ _ _ _ (fun t => ?_) _
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [_root_.map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul x ω =>
-    show CompletedConnection.baseChangeRingEquivMap p u hu M x ⊗ₜ[D'] fB 1 ω =
+    change CompletedConnection.baseChangeRingEquivMap p u hu M x ⊗ₜ[D'] fB 1 ω =
       pushedModuleMap p u hu M MB β (β x) ⊗ₜ[D'] fB 1 ω
     rw [pushedModuleMap_apply]
   | add a b ha hb => rw [_root_.map_add, _root_.map_add, _root_.map_add, ha, hb]

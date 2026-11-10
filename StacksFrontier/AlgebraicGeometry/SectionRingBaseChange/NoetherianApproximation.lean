@@ -67,7 +67,7 @@ theorem moduleFinitePresentation_of_bijective_semilinear {R R' M M' : Type u} [C
   let := ρ.toAlgebra
   let : Module R M' := Module.compHom M' ρ
   have : IsScalarTower R R' M' := ⟨fun r r' m => by
-    show (ρ r * r') • m = ρ r • (r' • m)
+    change (ρ r * r') • m = ρ r • (r' • m)
     exact mul_smul _ _ _⟩
   let L : M ≃ₗ[R] M' := { AddEquiv.ofBijective Φ hΦ with map_smul' := fun r m => hsmul r m }
   have : Module.FinitePresentation R M' := Module.FinitePresentation.of_equiv L

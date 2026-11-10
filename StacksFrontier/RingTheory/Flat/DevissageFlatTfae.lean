@@ -120,7 +120,7 @@ public theorem flat_localizedModule_tfae_of_projective'
       (Π₀ _ : Fin r, S) ≃ₗ[R] (Fin r → S))
   let p := Algebra.closedFiberIdeal R S
   have hpq : p ≤ q := by
-    show Ideal.map (algebraMap R S) (IsLocalRing.maximalIdeal R) ≤ q
+    change Ideal.map (algebraMap R S) (IsLocalRing.maximalIdeal R) ≤ q
     rw [Ideal.map_le_iff_le_comap, hq]
   let fq := (LocalizedModule.map q.primeCompl alpha).restrictScalars R
   let gq := (LocalizedModule.map q.primeCompl (LinearMap.range alpha).mkQ).restrictScalars R
@@ -264,10 +264,10 @@ public theorem injective_of_flat_localizedModule_of_projective_finsupp
   set e : (Fin r →₀ S) ≃ₗ[S] (Fin r → S) := Finsupp.linearEquivFunOnFinite S S (Fin r)
   have hbase : Function.Bijective
       ((alpha ∘ₗ e.symm.toLinearMap).rTensor (Algebra.closedFiberIdeal R S).ResidueField) := by
-    rw [← LinearMap.lTensor_bij_iff_rTensor_bij, ← LinearMap.baseChange_eq_ltensor,
+    rw [← LinearMap.lTensor_bij_iff_rTensor_bij, ← LinearMap.baseChange_eq_lTensor,
       LinearMap.baseChange_comp]
     refine halpha.comp ?_
-    rw [LinearMap.baseChange_eq_ltensor, LinearMap.lTensor_bij_iff_rTensor_bij,
+    rw [LinearMap.baseChange_eq_lTensor, LinearMap.lTensor_bij_iff_rTensor_bij,
       ← LinearEquiv.coe_rTensor _ e.symm]
     exact (e.symm.rTensor _).bijective
   have := injective_of_flat_localizedModule_of_projective R S q hq N r

@@ -42,8 +42,7 @@ in special cases and relative to a reference object.
   `A` perfect over the polynomial algebra of a presentation, the second for `R → A` flat.
 * `Dualizing.PolynomialPresentation.isIso_relativeHomothety_of_isRelativeDualizingComplex_of_flat`
   and its three variants: the conclusion of [stacks 0E2G] for an arbitrary relative dualizing
-  complex of a flat map of finite presentation of Noetherian rings, under the
-  projection-compatibility hypotheses `hProjFib` and `hProjSelf`.
+  complex of a flat map of finite presentation of Noetherian rings.
 
 ## References
 
@@ -276,15 +275,12 @@ theorem isIso_relativeHomothety_relativeDualizingComplex (R A : Type u) [CommRin
     (p.isPerfectModule_uLift_of_flat.{u, u} (RingHom.flat_algebraMap_iff.mpr inferInstance))
 
 /-- **The conclusion of [stacks 0E2G] over a Noetherian base.**  Let `R → A` be a flat
-homomorphism of finite presentation of Noetherian rings, presented by `p` and satisfying the
-projection-compatibility hypotheses `hProjFib` and `hProjSelf`, and let `K` be a relative
-dualizing complex for `R → A` satisfying, against `φ^!(R)`, the hypothesis `hdiag` of
+homomorphism of finite presentation of Noetherian rings, presented by `p`, and let `K` be a
+relative dualizing complex for `R → A` satisfying, against `φ^!(R)`, the hypothesis `hdiag` of
 [stacks 0E2D].  Then `A ⟶ RHom_A(K, K)` is an isomorphism. -/
 theorem isIso_relativeHomothety_of_isRelativeDualizingComplex_of_flat (R A : Type u) [CommRing R]
     [CommRing A] [Algebra R A] [Module.Flat R A] [Algebra.FinitePresentation R A]
     [IsNoetherianRing R] [IsNoetherianRing A] (p : PolynomialPresentation (algebraMap R A))
-    (hProjFib : ∀ t : PrimeSpectrum R, p.ProjectionCompatibility t.asIdeal.ResidueField)
-    (hProjSelf : p.ProjectionCompatibility A)
     (K : DerivedCategory (ModuleCat.{u} A)) (hK : IsRelativeDualizingComplex R A K)
     (hdiag :
       IsIso (StacksDraft.DerivedHom.derivedTensorHomDiagonal
@@ -299,36 +295,31 @@ theorem isIso_relativeHomothety_of_isRelativeDualizingComplex_of_flat (R A : Typ
     IsIso (relativeHomothety A K) :=
   isIso_derivedHomothety_of_isRelativeDualizingComplex R A K _ hK
     (p.relativeDualizingComplex_isRelativeDualizingComplex_of_flat
-      (RingHom.flat_algebraMap_iff.mpr inferInstance) hProjFib hProjSelf)
+      (RingHom.flat_algebraMap_iff.mpr inferInstance))
     hdiag (isIso_relativeHomothety_relativeDualizingComplex R A p)
 
-/-- **[stacks 0E2G] for a perfect diagonal.**  Under the hypotheses `hProjFib` and `hProjSelf`,
-if the diagonal `A`, read in `D(A ⊗[R] A)` by restriction of scalars along the multiplication
-map, is perfect there, then `A ⟶ RHom_A(K, K)` is an isomorphism for every relative dualizing
-complex `K`. -/
+/-- **[stacks 0E2G] for a perfect diagonal.**  If the diagonal `A`, read in `D(A ⊗[R] A)` by
+restriction of scalars along the multiplication map, is perfect there, then `A ⟶ RHom_A(K, K)`
+is an isomorphism for every relative dualizing complex `K`. -/
 theorem isIso_relativeHomothety_of_isRelativeDualizingComplex_of_isPerfect_diagonalObject
     (R A : Type u) [CommRing R] [CommRing A] [Algebra R A] [Module.Flat R A]
     [Algebra.FinitePresentation R A] [IsNoetherianRing R] [IsNoetherianRing A]
     (p : PolynomialPresentation (algebraMap R A))
-    (hProjFib : ∀ t : PrimeSpectrum R, p.ProjectionCompatibility t.asIdeal.ResidueField)
-    (hProjSelf : p.ProjectionCompatibility A)
     (K : DerivedCategory (ModuleCat.{u} A)) (hK : IsRelativeDualizingComplex R A K)
     (hdiagPerf : StacksDraft.Perfect.IsPerfect (diagonalObject R A)) :
     IsIso (relativeHomothety A K) :=
   isIso_derivedHomothety_of_isRelativeDualizingComplex_of_isPerfect_diagonalObject R A K _ hK
     (p.relativeDualizingComplex_isRelativeDualizingComplex_of_flat
-      (RingHom.flat_algebraMap_iff.mpr inferInstance) hProjFib hProjSelf)
+      (RingHom.flat_algebraMap_iff.mpr inferInstance))
     hdiagPerf (isIso_relativeHomothety_relativeDualizingComplex R A p)
 
-/-- **[stacks 0E2G] for perfect base changes.**  Under the hypotheses `hProjFib` and
-`hProjSelf`, if the derived base changes of `K` and of `ω_{A/R} = φ^!(R)` along the left
-coprojection are perfect objects of `D(A ⊗[R] A)`, then `A ⟶ RHom_A(K, K)` is an isomorphism. -/
+/-- **[stacks 0E2G] for perfect base changes.**  If the derived base changes of `K` and of
+`ω_{A/R} = φ^!(R)` along the left coprojection are perfect objects of `D(A ⊗[R] A)`, then
+`A ⟶ RHom_A(K, K)` is an isomorphism. -/
 theorem isIso_relativeHomothety_of_isRelativeDualizingComplex_of_isPerfect_baseChange
     (R A : Type u) [CommRing R] [CommRing A] [Algebra R A] [Module.Flat R A]
     [Algebra.FinitePresentation R A] [IsNoetherianRing R] [IsNoetherianRing A]
     (p : PolynomialPresentation (algebraMap R A))
-    (hProjFib : ∀ t : PrimeSpectrum R, p.ProjectionCompatibility t.asIdeal.ResidueField)
-    (hProjSelf : p.ProjectionCompatibility A)
     (K : DerivedCategory (ModuleCat.{u} A)) (hK : IsRelativeDualizingComplex R A K)
     (hKperf : StacksDraft.Perfect.IsPerfect ((diagonalDerivedExtension R A).obj K))
     (hωperf : StacksDraft.Perfect.IsPerfect ((diagonalDerivedExtension R A).obj
@@ -337,19 +328,16 @@ theorem isIso_relativeHomothety_of_isRelativeDualizingComplex_of_isPerfect_baseC
     IsIso (relativeHomothety A K) :=
   isIso_derivedHomothety_of_isRelativeDualizingComplex_of_isPerfect_baseChange R A K _ hK
     (p.relativeDualizingComplex_isRelativeDualizingComplex_of_flat
-      (RingHom.flat_algebraMap_iff.mpr inferInstance) hProjFib hProjSelf)
+      (RingHom.flat_algebraMap_iff.mpr inferInstance))
     hKperf hωperf (isIso_relativeHomothety_relativeDualizingComplex R A p)
 
-/-- **[stacks 0E2G] under the Tor-amplitude bound of [stacks 0ATK] (3).**  Under the hypotheses
-`hProjFib` and `hProjSelf`, if each of the derived base changes of `K` and of
-`ω_{A/R} = φ^!(R)` along the left coprojection has Tor amplitude bounded below over
-`A ⊗[R] A`, then `A ⟶ RHom_A(K, K)` is an isomorphism. -/
+/-- **[stacks 0E2G] under the Tor-amplitude bound of [stacks 0ATK] (3).**  If each of the derived
+base changes of `K` and of `ω_{A/R} = φ^!(R)` along the left coprojection has Tor amplitude
+bounded below over `A ⊗[R] A`, then `A ⟶ RHom_A(K, K)` is an isomorphism. -/
 theorem isIso_relativeHomothety_of_isRelativeDualizingComplex_of_torAmplitude
     (R A : Type u) [CommRing R] [CommRing A] [Algebra R A] [Module.Flat R A]
     [Algebra.FinitePresentation R A] [IsNoetherianRing R] [IsNoetherianRing A]
     (p : PolynomialPresentation (algebraMap R A))
-    (hProjFib : ∀ t : PrimeSpectrum R, p.ProjectionCompatibility t.asIdeal.ResidueField)
-    (hProjSelf : p.ProjectionCompatibility A)
     (K : DerivedCategory (ModuleCat.{u} A)) (hK : IsRelativeDualizingComplex R A K) (a : ℤ)
     (hKtor : ∀ (N : ModuleCat.{u} (A ⊗[R] A)) (i : ℤ), i < a →
       Limits.IsZero ((DerivedCategory.homologyFunctor (ModuleCat.{u} (A ⊗[R] A)) i).obj
@@ -367,7 +355,7 @@ theorem isIso_relativeHomothety_of_isRelativeDualizingComplex_of_torAmplitude
     IsIso (relativeHomothety A K) :=
   isIso_derivedHomothety_of_isRelativeDualizingComplex_of_torAmplitude R A K _ hK
     (p.relativeDualizingComplex_isRelativeDualizingComplex_of_flat
-      (RingHom.flat_algebraMap_iff.mpr inferInstance) hProjFib hProjSelf)
+      (RingHom.flat_algebraMap_iff.mpr inferInstance))
     a hKtor hωtor (isIso_relativeHomothety_relativeDualizingComplex R A p)
 
 end PolynomialPresentation

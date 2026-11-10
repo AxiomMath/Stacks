@@ -76,9 +76,9 @@ private theorem ringKrullDim_lt_top_of_bounded_dimensionFunction
   let f : PrimeSpectrum A → β := fun p => ⟨δ p, hδ p⟩
   have hf : StrictMono f := by
     intro p q hpq
-    show δ q < δ p
+    change δ q < δ p
     exact δ.strictAnti_specializes ((PrimeSpectrum.le_iff_specializes p q).mp hpq.le) hpq.ne
-  show Order.krullDim (PrimeSpectrum A) < ⊤
+  change Order.krullDim (PrimeSpectrum A) < ⊤
   exact (Order.krullDim_le_of_strictMono f hf).trans_lt
     (lt_top_iff_ne_top.mpr (Order.krullDim_ne_top_of_finiteDimensionalOrder (α := β)))
 
@@ -291,7 +291,7 @@ private theorem dualizingDimension_eq_of_derivedHom_residueField_shift {A : Type
   let R := Localization.AtPrime (⊥ : Ideal B)
   let LR := (derivedExtensionScalars (algebraMap B R)).obj KB
   have hminB : IsMinimalPrime (⊥ : Ideal B) := by
-    show (⊥ : Ideal B) ∈ minimalPrimes B
+    change (⊥ : Ideal B) ∈ minimalPrimes B
     rw [IsDomain.minimalPrimes_eq_singleton_bot]
     simp
   obtain ⟨E, -, ⟨eL⟩⟩ :=

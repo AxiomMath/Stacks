@@ -152,8 +152,7 @@ theorem dimension_eq_add_of_bijective (p : P ⟶ X) (q : P ⟶ Y)
     have hzero : ∀ x,
         DirectSum.component F ℤ (S.H P).piece (2 * (S.dimension P : ℤ)) (K x) = 0 := by
       intro x
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | add x y hx hy => simp [hx, hy]
       | tmul x y =>
         induction x using DirectSum.induction_on with
@@ -263,7 +262,7 @@ theorem pushforward_mul_pullback_of_trace_mul (p : P ⟶ X) (q : P ⟶ Y)
   have := S.perfect Y n
   refine (LinearMap.IsPerfPair.bijective_right ((S.H Y).tracePairing (S.dimension Y)
     (S.integration Y).toLinearMap n)).injective (LinearMap.ext fun v ↦ ?_)
-  show (S.H Y).tracePairing (S.dimension Y) (S.integration Y).toLinearMap n v _ =
+  change (S.H Y).tracePairing (S.dimension Y) (S.integration Y).toLinearMap n v _ =
     (S.H Y).tracePairing (S.dimension Y) (S.integration Y).toLinearMap n v _
   rw [← S.integration_pullback_mul q n v, ExternallyGradedAlgebra.tracePairing_eq_traceExtension,
     ExternallyGradedAlgebra.traceExtension_congr _ _ _ (show _ = i + (n + j) by omega)

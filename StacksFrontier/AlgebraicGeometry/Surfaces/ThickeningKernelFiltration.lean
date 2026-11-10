@@ -178,10 +178,10 @@ public theorem thickeningKernel_mul_le (D : X.IdealSheafData) {m n N : ℕ} (hm 
   refine mul_eq_zero_of_appTop_inclusion_eq_zero (D ^ (m + 1)) (D ^ (n + 1))
     (D ^ (m + n + 1 + 1)) (pow_succ_le_pow_succ D hmp) (pow_succ_le_pow_succ D hnp)
     (ideal_pow_mul_ideal_pow_le D m n) ?_ ?_
-  · show thickeningRestrictionLE D hmp (thickeningRestrictionLE D h u) = 0
+  · change thickeningRestrictionLE D hmp (thickeningRestrictionLE D h u) = 0
     rw [thickeningRestrictionLE_comp D hmp h]
     exact hu
-  · show thickeningRestrictionLE D hnp (thickeningRestrictionLE D h v) = 0
+  · change thickeningRestrictionLE D hnp (thickeningRestrictionLE D h v) = 0
     rw [thickeningRestrictionLE_comp D hnp h]
     exact hv
 
@@ -444,7 +444,7 @@ public theorem thickeningKernel_le_mul_of_mem_closure (D : X.IdealSheafData)
     obtain ⟨u, huK, hu⟩ := exists_mem_thickeningKernel_gradedSectionsHom D hsurj h₀ a
     obtain ⟨v, hvK, hv⟩ :=
       exists_mem_thickeningKernel_gradedSectionsHom D hsurj (Nat.le_succ (p + 1)) b
-    show gradedSectionsHom D (p + 1) c ∈
+    change gradedSectionsHom D (p + 1) c ∈
       thickeningKernel D (Nat.zero_le (p + 2)) * thickeningKernel D (Nat.le_add_right p 2)
     rw [hab u v hu hv]
     exact Ideal.mul_mem_mul huK hvK
@@ -519,7 +519,7 @@ public theorem formalNeighborhoodFiltration_le_mul_sup_of_thickeningKernel_le
       exact ha
     obtain ⟨b, hb, hbv⟩ := main _ (hgenK p hv)
     refine Submodule.mem_sup.2 ⟨b, hb, a - b, ?_, by ring⟩
-    show a - b ∈ RingHom.ker (formalNeighborhoodProjection D (p + 2))
+    change a - b ∈ RingHom.ker (formalNeighborhoodProjection D (p + 2))
     rw [RingHom.mem_ker, map_sub, hbv, sub_self]
 
 end AlgebraicGeometry.Scheme.IdealSheafData

@@ -209,7 +209,7 @@ private lemma tensorModuleComparison_isIso (T : DerivedTensorProduct R)
     IsIso ((tensorModuleComparison T M).app K) := by
   have : QuasiIso ((tensorLeft K).map (projResπ M)) :=
     quasiIso_tensorLeft_map K hK (projResπ M)
-  show IsIso ((tensorModuleFactors T M).hom.app K ≫
+  change IsIso ((tensorModuleFactors T M).hom.app K ≫
     DerivedCategory.Q.map ((tensorLeft K).map (projResπ M)) ≫
       (Functor.whiskerRight (termwiseTensorSingleIso M).inv DerivedCategory.Q).app K)
   infer_instance

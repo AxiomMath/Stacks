@@ -127,7 +127,7 @@ theorem exists_isAffineOpen_fibre_of_isAffineHom {S X : Scheme.{u}} (g : X ⟶ S
   obtain ⟨_, ⟨V, hV, rfl⟩, hsV, -⟩ :=
     S.isBasis_affineOpens.exists_subset_of_mem_open (Set.mem_univ s) isOpen_univ
   refine ⟨g ⁻¹ᵁ V, IsAffineHom.isAffine_preimage (f := g) V hV, fun x hx => ?_⟩
-  show g.base x ∈ V
+  change g.base x ∈ V
   exact (hts x hx).symm ▸ hsV
 
 /-- If `Z ⟶ S` is finite locally free and `X ⟶ S` is affine, then the relative morphism functor

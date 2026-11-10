@@ -90,7 +90,7 @@ private theorem conj_aux {C : Type*} [Category* C] {T S S' T' U V : C} (ai : T �
   rw [Category.id_comp, ← Category.assoc Hqf, hnat]
   simp only [Category.assoc, reassoc_of% hinv, Category.id_comp]
 
-omit [EnoughInjectives A] [HasDerivedCategory A] in
+omit [EnoughInjectives A] [HasDerivedCategory A] [HasDerivedCategory B] in
 /-- The homotopy-category half of the comparison of `rightDerivedIso` with
 `derivedPlusToStandardObj`: the two identifications of the cohomology of the extension of `F(K)`
 with the cohomology of `F(K)` agree. -/
@@ -103,7 +103,7 @@ theorem homologyFunctorFactors_inv_extendMapHomologyIso_inv (K : CochainComplex 
         ((F.mapHomologicalComplex (up ℕ)).obj K) := by
   have hnat := (HomotopyCategory.homologyFunctorFactors B (up ℤ) (n : ℤ)).hom.naturality
     (mapExtendIso F ComplexShape.embeddingUpNat K).inv
-  show (HomotopyCategory.homologyFunctorFactors B (up ℤ) (n : ℤ)).inv.app _ ≫
+  change (HomotopyCategory.homologyFunctorFactors B (up ℤ) (n : ℤ)).inv.app _ ≫
       ((HomotopyCategory.homologyFunctor B (up ℤ) (n : ℤ)).map
           ((HomotopyCategory.quotient B (up ℤ)).map
             (mapExtendIso F ComplexShape.embeddingUpNat K).inv) ≫
@@ -121,7 +121,7 @@ private theorem comp_map_eq_of_eq_id {C D : Type*} [Category* C] [Category* D] (
     {X : C} {f : X ⟶ X} (hf : f = 𝟙 X) {Y : D} (u : Y ⟶ G.obj X) : u ≫ G.map f = u := by
   rw [hf, CategoryTheory.Functor.map_id, Category.comp_id]
 
-omit [HasDerivedCategory A] in
+omit [HasDerivedCategory A] [HasDerivedCategory B] in
 /-- At the chosen injective resolution, `CategoryTheory.InjectiveResolution.isoRightDerivedObj`
 is the identification of the homology of the homotopy category with the homology of complexes. -/
 theorem isoRightDerivedObj_inv_injectiveResolution (M : A) (n : ℕ) :
@@ -131,10 +131,10 @@ theorem isoRightDerivedObj_inv_injectiveResolution (M : A) (n : ℕ) :
   have e : (injectiveResolution M).iso.inv = 𝟙 _ :=
     HomotopyCategory.eq_of_homotopy _ _ (InjectiveResolution.descIdHomotopy _ _)
   have h : ((injectiveResolution M).isoRightDerivedToHomotopyCategoryObj F).inv = 𝟙 _ := by
-    show (F.mapHomotopyCategoryFactors (up ℕ)).inv.app _ ≫
+    change (F.mapHomotopyCategoryFactors (up ℕ)).inv.app _ ≫
       (F.mapHomotopyCategory (up ℕ)).map (injectiveResolution M).iso.inv = 𝟙 _
     exact comp_map_eq_of_eq_id (F.mapHomotopyCategory (up ℕ)) e _
-  show (HomotopyCategory.homologyFunctorFactors B (up ℕ) n).inv.app _ ≫
+  change (HomotopyCategory.homologyFunctorFactors B (up ℕ) n).inv.app _ ≫
     (HomotopyCategory.homologyFunctor B (up ℕ) n).map
       ((injectiveResolution M).isoRightDerivedToHomotopyCategoryObj F).inv = _
   exact comp_map_eq_of_eq_id (HomotopyCategory.homologyFunctor B (up ℕ) n) h _

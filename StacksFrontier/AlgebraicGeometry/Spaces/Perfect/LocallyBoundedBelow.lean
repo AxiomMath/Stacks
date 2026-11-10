@@ -185,7 +185,7 @@ theorem exists_chart_lift_mem_range_of_isEtale {X Y : AlgebraicSpaces B S hS} (f
     yoneda.preimage (a ≫ pullback.fst U.1.hom f.hom), ?_, w, ?_⟩
   · simp only [Functor.map_preimage, Category.assoc, pullback.condition]
     rfl
-  · show pointsMap B S hS _ (a ≫ pullback.snd U.1.hom f.hom) w = y
+  · change pointsMap B S hS _ (a ≫ pullback.snd U.1.hom f.hom) w = y
     rw [pointsMap_comp, Function.comp_apply, hw, hq2]
 
 /-- **Étale pullback preserves local boundedness below**: if `E` is locally bounded below on `X`
@@ -203,7 +203,7 @@ theorem isLocallyBoundedBelow_smallEtaleDerivedModulePullback {X X' : AlgebraicS
   refine Set.eq_empty_of_forall_notMem fun y ⟨hy, w, hw⟩ => ?_
   subst hw
   refine (Set.eq_empty_iff_forall_notMem.mp h0) _ ⟨hy, pointsMap B S hS _ (yoneda.map p) w, ?_⟩
-  show (pointsMap B S hS _ V.1.hom ∘ pointsMap B S hS _ (yoneda.map p)) w =
+  change (pointsMap B S hS _ V.1.hom ∘ pointsMap B S hS _ (yoneda.map p)) w =
     (pointsMap B S hS _ a.hom ∘ pointsMap B S hS _ V'.1.hom) w
   rw [← pointsMap_comp, ← pointsMap_comp, hp]
 

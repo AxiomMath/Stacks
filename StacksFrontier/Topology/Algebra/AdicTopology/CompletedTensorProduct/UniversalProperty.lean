@@ -130,6 +130,9 @@ def tensorProductLiftOfCompat (α : A →+* T) (β : C →+* T)
     ({ β with commutes' := fun r ↦ (RingHom.congr_fun h r).symm } : C →ₐ[R] T)
     (fun _ _ ↦ Commute.all _ _)).toRingHom
 
+omit [TopologicalSpace A] [IsTopologicalRing A] [IsLinearTopology A A] [TopologicalSpace C]
+  [IsTopologicalRing C] [IsLinearTopology C C] [TopologicalSpace T] [IsTopologicalRing T]
+  [IsLinearTopology T T] in
 /-- The ring map `A ⊗_R C → T` attached to `α` and `β` sends `a ⊗ c` to `α a * β c`. -/
 @[ega "0 7.7.6" "partial", ega "I 3.2.3" "τ(b⊗c)=ρ(b)σ(c)"]
 theorem tensorProductLiftOfCompat_tmul (α : A →+* T) (β : C →+* T)
@@ -138,6 +141,7 @@ theorem tensorProductLiftOfCompat_tmul (α : A →+* T) (β : C →+* T)
   let : Algebra R T := (α.comp (algebraMap R A)).toAlgebra
   exact Algebra.TensorProduct.lift_tmul _ _ _ a c
 
+omit [IsTopologicalRing A] [IsLinearTopology A A] [IsTopologicalRing C] [IsLinearTopology C C] in
 /-- If `α` and `β` are continuous, the ring map `A ⊗_R C → T` attached to them is continuous for
 the tensor product topology. -/
 @[ega "0 7.7.6" "more general"]
@@ -149,7 +153,7 @@ theorem continuous_tensorProductLiftOfCompat (α : A →+* T) (β : C →+* T) (
   let _ : IsTopologicalAddGroup (A ⊗[R] C) :=
     (tensorProductAddGroupFilterBasis (R := R) (M := A) (N := C)).isTopologicalAddGroup
   apply continuous_of_continuousAt_zero (tensorProductLiftOfCompat α β h)
-  show Tendsto (tensorProductLiftOfCompat α β h) (𝓝 0) (𝓝 (tensorProductLiftOfCompat α β h 0))
+  change Tendsto (tensorProductLiftOfCompat α β h) (𝓝 0) (𝓝 (tensorProductLiftOfCompat α β h 0))
   rw [map_zero]
   refine ((hasBasis_tensorProductTopology (R := R) (M := A) (N := C)).tendsto_iff
     IsLinearTopology.hasBasis_open_ideal).mpr ?_
@@ -227,7 +231,8 @@ theorem completedTensorProductLift_comp_inr (α : A →+* T) (β : C →+* T) (h
   rw [RingHom.comp_apply, completedTensorProductInr_apply, completedTensorProductLift_coe,
     tensorProductLiftOfCompat_tmul, map_one, one_mul]
 
-omit [IsLinearTopology T T] [IsUniformAddGroup T] [CompleteSpace T] [T0Space T] in
+omit [IsTopologicalRing T] [IsLinearTopology T T] [IsUniformAddGroup T] [CompleteSpace T]
+  [T0Space T] in
 /-- **Uniqueness in the universal property of the completed tensor product.** Two continuous ring
 maps out of `A ⊗̂_R C` into a separated ring which agree on the images of `A` and of `C` are
 equal. -/
@@ -238,8 +243,7 @@ theorem completedTensorProduct_ringHom_ext [T2Space T]
     (hr : φ.comp completedTensorProductInr = ψ.comp completedTensorProductInr) : φ = ψ := by
   let _ : UniformSpace (A ⊗[R] C) := tensorProductUniformSpace (R := R) (M := A) (N := C)
   refine RingHom.coe_inj (UniformSpace.Completion.ext hφ hψ fun x ↦ ?_)
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [UniformSpace.Completion.coe_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul a c =>
     have e : (((a ⊗ₜ[R] c : A ⊗[R] C)) : CompletedTensorProduct (R := R) (M := A) (N := C)) =
         completedTensorProductInl a * completedTensorProductInr c := by

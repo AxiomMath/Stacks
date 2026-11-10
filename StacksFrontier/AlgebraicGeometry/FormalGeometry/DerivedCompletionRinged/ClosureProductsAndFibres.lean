@@ -52,9 +52,9 @@ of modules, and come instead from K-injective resolutions
 (`Stacks.KInjectiveProducts.hasProductsOfShape_derivedCategory_sheafOfModules`). What makes the
 product case go through is
 `AlgebraicGeometry.RingedSite.preservesProducts_mapDerivedCategory_overFunctor` of
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/DerivedCompletionRinged/VanishingIdealSheafRestriction.lean`, which says the restriction
-*does* preserve them, by the K-injective route: restriction has extension by zero as a left
-adjoint, hence preserves products of sheaves of modules, and it carries K-injective complexes to
+`VanishingIdealSheafRestriction.lean` (in this directory), which says the restriction *does*
+preserve them, by the K-injective route: restriction has extension by zero as a left adjoint,
+hence preserves products of sheaves of modules, and it carries K-injective complexes to
 K-injective complexes by [Stacks, Tag 08FI].
 
 That is what fixes the universes. The product preservation is available for a
@@ -209,8 +209,8 @@ theorem isDerivedComplete_of_isDerivedLimit
 
 /-- The derived-complete objects contain a zero object. This is
 `isDerivedComplete_of_isZero` in the `ObjectProperty` spelling, the idiom in which
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/DerivedCompletionRinged/CompleteShift.lean` records the stability under shift and under
-isomorphism. -/
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/DerivedCompletionRinged/CompleteShift.lean`
+records the stability under shift and under isomorphism. -/
 instance containsZero_isDerivedComplete :
     ObjectProperty.ContainsZero (IsDerivedComplete.{u, u, u, u} X I) where
   exists_zero := by

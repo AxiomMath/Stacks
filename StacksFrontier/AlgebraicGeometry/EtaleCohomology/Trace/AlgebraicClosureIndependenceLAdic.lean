@@ -82,6 +82,7 @@ private theorem comp_symm_trans_trans_hom_eq {C : Type*} [Category C]
   comp_trans_hom_eq_trans_hom_comp _ _ _ _ _ _ _ (comp_symm_hom_eq_symm_hom_comp _ _ _ _ h₁)
     (comp_trans_hom_eq_trans_hom_comp _ _ _ _ _ _ _ h₂ h₃)
 
+omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The identification is natural in the ℓ-adic sheaf.** -/
 public theorem LAdicSheaf.geometricCompactlySupportedCohomologySystemAlgEquivIso_hom_naturality
     {F G : LAdicSheaf.{u, u + 1} B X ℓ} (φ : F ⟶ G) :
@@ -106,6 +107,7 @@ public theorem LAdicSheaf.geometricCompactlySupportedCohomologySystemAlgEquivIso
 
 variable (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **The identification carries `π_X^*` over `k̄₂` to `π_X^*` over `k̄₁`** on the inverse
 systems. -/
 public theorem LAdicSheaf.geometricCompactlySupportedCohomologySystemAlgEquivIso_hom_frobenius
@@ -139,6 +141,7 @@ public def LAdicSheaf.rationalGeometricCompactlySupportedCohomologyAlgEquivIso
   (rationalLim.{u + 1} (ℓ := ℓ)).mapIso
     (LAdicSheaf.geometricCompactlySupportedCohomologySystemAlgEquivIso B ℓ f j σ i F)
 
+omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- The rational identification is natural in the ℓ-adic sheaf. -/
 public theorem LAdicSheaf.rationalGeometricCompactlySupportedCohomologyAlgEquivIso_hom_naturality
     {F G : LAdicSheaf.{u, u + 1} B X ℓ} (φ : F ⟶ G) :
@@ -151,6 +154,7 @@ public theorem LAdicSheaf.rationalGeometricCompactlySupportedCohomologyAlgEquivI
   map_comp_map_eq_of_comp_eq (rationalLim.{u + 1} (ℓ := ℓ)) _ _ _ _
     (LAdicSheaf.geometricCompactlySupportedCohomologySystemAlgEquivIso_hom_naturality B ℓ f j σ i φ)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- The rational identification carries `π_X^*` over `k̄₂` to `π_X^*` over `k̄₁`. -/
 public theorem LAdicSheaf.rationalGeometricCompactlySupportedCohomologyAlgEquivIso_hom_frobenius
     (F : LAdicSheaf.{u, u + 1} B X ℓ) :
@@ -182,7 +186,7 @@ public def LAdicSheaf.CoefficientSheaf.rationalAlgEquivLinearEquiv :
         ℓ f j σ i (F.act o).asHom
       exact congrArg (fun t => t.hom v) h)
 
-omit [Algebra ℚ_[ℓ] E] in
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] [Algebra ℚ_[ℓ] E] in
 /-- The `E`-linear identification carries `π_X^*` over `k̄₂` to `π_X^*` over `k̄₁`. -/
 public theorem LAdicSheaf.CoefficientSheaf.rationalAlgEquivLinearEquiv_frobenius
     (v : LAdicSheaf.rationalGeometricCompactlySupportedCohomology B X ℓ f j kbar₂

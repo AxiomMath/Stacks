@@ -53,7 +53,8 @@ compatibilities of the correspondences `a_α` (Stacks 0FG0, 0FG5, 0FG8).
 
 The motive `h(X)` is spelled `TwistedKaroubi.ofObj (𝐎 X)` and only the generic monoidal structure
 `TwistedKaroubi.monoidalCategory` of the twisted Karoubi envelope is used, as in
-`StacksFrontier.AlgebraicGeometry.WeilCohomology.Concrete.MotiveMonoid`. The functor of a realization
+`StacksFrontier.AlgebraicGeometry.WeilCohomology.Concrete.MotiveMonoid`. The functor of a
+realization
 is reread on the twisted Karoubi envelope (`WeilRealization.functorTK`), with its braided structure
 (`WeilRealization.braidedTK`) over the generic instances.
 
@@ -279,7 +280,7 @@ theorem kunnethIsomorphism : G.toWeilData.KunnethIsomorphism := by
     (ChowMotiveCat.motMap (CorrespondenceCategory.tensorFst X Y))
     (ChowMotiveCat.motMap (CorrespondenceCategory.tensorSnd X Y)) (G.toWeilData.kunnethMap X Y)
     fun i j a b ↦ ?_
-  show G.cohPull _ (DirectSum.of (G.cohAlg X).piece i a) *
+  change G.cohPull _ (DirectSum.of (G.cohAlg X).piece i a) *
     G.cohPull _ (DirectSum.of (G.cohAlg Y).piece j b) = _
   refine (congrArg₂ (· * ·) (G.functorTK.cohomologyMap_of _ i a)
     (G.functorTK.cohomologyMap_of _ j b)).trans ?_
@@ -293,7 +294,7 @@ theorem cycleClassPullback : G.toWeilData.CycleClassPullback := by
   refine WeilData.cycleClassPullback_of_coord _ fun {X Y} f i β ↦ ?_
   rw [toWeilData_cycleClassCoord, toWeilData_cycleClassCoord]
   refine Subtype.ext ?_
-  show ((G.cohAlg X).gradeEquiv (2 * i)).symm _ =
+  change ((G.cohAlg X).gradeEquiv (2 * i)).symm _ =
     (G.cohPull f : _ → _) (((G.cohAlg Y).gradeEquiv (2 * i)).symm _)
   rw [ExternallyGradedAlgebra.gradeEquiv_symm_apply_coe,
     ExternallyGradedAlgebra.gradeEquiv_symm_apply_coe, cohPull, Functor.cohomologyMap_of]
@@ -345,10 +346,10 @@ theorem kunnethTrace : G.toWeilData.KunnethTrace := by
   refine WeilData.kunnethTrace_of_coord _ fun X Y d e hX hY hXY ↦
     ⟨fun a b ↦ ?_, fun i j h hi a b ↦ ?_⟩
   · refine (G.traceCoord_cup_pullDeg X Y d e hX hY hXY _ _ _ a b).trans ?_
-    rw [dif_pos (by ring), toWeilData_traceCoord, toWeilData_traceCoord]
+    rw [dite_eq_left (by ring), toWeilData_traceCoord, toWeilData_traceCoord]
     rfl
   · refine (G.traceCoord_cup_pullDeg X Y d e hX hY hXY _ _ h a b).trans ?_
-    rw [dif_neg (by omega)]
+    rw [dite_eq_right (by omega)]
 
 /-- **Axiom (B), the Künneth formula.** -/
 theorem kunneth : G.toWeilData.Kunneth :=

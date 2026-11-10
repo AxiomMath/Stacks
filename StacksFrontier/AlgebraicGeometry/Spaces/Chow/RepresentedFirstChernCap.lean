@@ -264,7 +264,7 @@ theorem exists_iso_yoneda_idealSheafSubschemeObject [hV : IsIntegral V.subscheme
   let εs : R ≅ idealSheafSubschemeObject B S hS U V :=
     Over.isoMk (ObjectProperty.isoMk _ ε) (by
       apply ObjectProperty.hom_ext
-      show ε.hom ≫ V.subschemeι ≫ U.hom.hom = R.hom.hom
+      change ε.hom ≫ V.subschemeι ≫ U.hom.hom = R.hom.hom
       rw [← Category.assoc, hε]
       exact congrArg (fun f => f.hom) (Over.w j))
   have hεs : εs.hom ≫ idealSheafSubschemeObjectι B S hS U V = j := by
@@ -492,7 +492,7 @@ theorem mk_cycleGroupEquivScheme_firstChernCapCycleMap
     (fun V hV hDim => have := hV; (representedFirstChernRule_spec D sQ hQ s₀ hδ M hM V hDim).1)
     (cycleGroupEquivScheme sQ s₀ hδ (k + 1) β)
   refine Eq.trans ?_ hcongr
-  show _ = QuotientAddGroup.mk ((Stacks.Chow.firstChernCapRule C s₀ k
+  change _ = QuotientAddGroup.mk ((Stacks.Chow.firstChernCapRule C s₀ k
     (representedFirstChernRule D sQ hQ s₀ hδ M hM k)).extendCycleGroup
       (cycleGroupEquivScheme sQ s₀ hδ (k + 1) β))
   congr 1
@@ -514,7 +514,7 @@ theorem mk_cycleGroupEquivScheme_firstChernCapCycleMap
       rw [Stacks.Chow.schemeDeltaDimension_integralComponentAt, ← h, hWd]
     have := Stacks.Chow.isIntegral_integralComponentAt x
     symm
-    show (Stacks.Chow.firstChernCapRule C s₀ k
+    change (Stacks.Chow.firstChernCapRule C s₀ k
         (representedFirstChernRule D sQ hQ s₀ hδ M hM k)).totalize
           (Stacks.Chow.integralComponentAt x) y = _
     rw [Stacks.Chow.IntegralComponentRule.totalize_eq _ _ inferInstance hDim]

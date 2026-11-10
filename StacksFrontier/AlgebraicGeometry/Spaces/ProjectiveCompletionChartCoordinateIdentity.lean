@@ -44,8 +44,6 @@ attribute [local implicit_reducible] AlgebraicGeometry.Space.smallEtaleRingedSit
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} {X : AlgebraicSpaces B S hS}
     (E : Modules.{u, u} B S hS X.1 X.2) {r : ℕ}
     (hr : RingedSite.IsFiniteLocallyFreeOfRank (smallEtaleRingedSite B S hS X.1 X.2) E r)
-    [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree
-      (show SheafOfModules.{u} (structureRingSheaf B S hS X) from E)]
     {V : SmallEtale B S hS X.1} (m : V ⟶ bundleBaseChart X)
 
 /-- The chart `U_V ⟶ U ⟶ P` is `U_V ⟶ P_U ⟶ P`, on points. -/
@@ -70,8 +68,6 @@ theorem representedSpaceMap_affinePartOverChartToPresenting_comp_atlas :
         projectiveCompletionAffinePartHom E hr :=
   ObjectProperty.hom_ext _ (affinePartChartOverChart_hom_comp E hr m).symm
 
-omit [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree
-      (show SheafOfModules.{u} (structureRingSheaf B S hS X) from E)] in
 /-- The presenting chart of `P` followed by `π : P ⟶ X` is `P_U ⟶ U_X ⟶ X`, on points. -/
 theorem presentationChart_projectiveCompletion_hom_comp :
     (presentationChart (@projectiveBundleChartPresentation B S hS X (addUnit X.2 E)

@@ -28,7 +28,6 @@ universe u
 namespace Stacks.BombieriStepanov
 
 variable {X : Scheme.{u}} [IsIntegral X] [IsLocallyNoetherian X] {x : X} (hx : coheight x = 1)
-  [IsDiscreteValuationRing (X.presheaf.stalk x)]
 
 include hx
 
@@ -45,6 +44,8 @@ theorem ord_algebraMap_nonneg {a : X.presheaf.stalk x} (ha : a ≠ 0) :
   have ha' : algebraMap _ X.functionField a ≠ 0 := by simpa using ha
   rw [Scheme.le_ord_iff hx ha', ordHom_eq_ordFrac hx]
   exact Ring.ordFrac_ge_one_of_ne_zero ha
+
+variable [IsDiscreteValuationRing (X.presheaf.stalk x)]
 
 /-- A uniformizer has order one. -/
 theorem ord_algebraMap_irreducible {π : X.presheaf.stalk x} (hπ : Irreducible π) :
@@ -94,7 +95,7 @@ theorem exists_algebraMap_eq_of_ord_nonneg {y : X.functionField} (hy : 0 ≤ X.o
       X.ord ((algebraMap (X.presheaf.stalk x) X.functionField π) ^ n) x = n := by
     intro n
     induction n with
-    | zero => simp [scheme_ord_one]
+    | zero => simp
     | succ m ih =>
       rw [pow_succ, Scheme.ord_mul (pow_ne_zero _ hπ0) hπ0, ih, ord_algebraMap_irreducible hx hπ]
       push_cast

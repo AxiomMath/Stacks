@@ -114,7 +114,8 @@ theorem fixedPointIntersection_eq_padic {k : Type u} [Field k] [IsAlgClosed k] {
       (Nat.pos_of_ne_zero hg) ℓ hℓ
 
 /-- **Stacks Project, Tag 03U1 (Weil).** Let `C` be a smooth projective curve over an
-algebraically closed field `k` and `φ : C ⟶ C` a `k`-endomorphism distinct from the identity.
+algebraically closed field `k` and `φ : C ⟶ C` a `k`-endomorphism
+(the source assumes `φ ≠ 𝟙 C`; it is not needed here).
 Let `V(φ) = (Δ · Γ_φ)` be the intersection number of the diagonal and the graph of `φ` on
 `C ×_k C`. Then `V(φ) = 1 - Tr_J(φ^*) + deg φ`, where `φ^*` is the endomorphism of the Jacobian
 `J = Pic⁰_{C/k}` induced by pullback and `Tr_J(φ^*)` is its trace on the `ℓ`-adic Tate module of
@@ -123,7 +124,7 @@ Let `V(φ) = (Δ · Γ_φ)` be the intersection number of the diagonal and the g
 @[stacks 03U1]
 theorem fixedPointIntersection_eq {k : Type u} [Field k] [IsAlgClosed k] {C : Scheme.{u}}
     (f : C ⟶ Spec (.of k)) [IsCurve k f] [Smooth f] [IsProper f]
-    (hdim : topologicalKrullDim C ≤ 1) (φ : C ⟶ C) (w : φ ≫ f = f) (hφ : φ ≠ 𝟙 C)
+    (hdim : topologicalKrullDim C ≤ 1) (φ : C ⟶ C) (w : φ ≫ f = f)
     (ℓ : ℕ) [Fact ℓ.Prime] (hℓ : IsUnit (ℓ : k)) :
     ((fixedPointIntersection f hdim φ w : ℤ) : ℤ_[ℓ]) =
       1 - jacobianTateTrace f hdim φ w ℓ + (curveMapDegree f φ w : ℤ_[ℓ]) :=

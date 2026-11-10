@@ -53,7 +53,7 @@ attribute [local instance] HasDerivedCategory.standard
 
 section General
 
-variable (Λ : Type) [Ring Λ] {k : Type u} [Field k] [Fintype k] {X : Scheme.{u}}
+variable (Λ : Type) [Ring Λ] {k : Type u} [Field k] [Finite k] {X : Scheme.{u}}
   (f : X ⟶ Spec (.of k)) (j : CompactificationOf (Over.mk f))
   (kbar : Type u) [Field kbar] [Algebra k kbar]
 
@@ -63,8 +63,9 @@ variable {S : ShortComplex (CochainComplex (EtaleModules.{u, 0} Λ X) ℤ)} (hS 
   (h₁ : CochainComplex.plus _ S.X₁) (h₂ : CochainComplex.plus _ S.X₂)
   (h₃ : CochainComplex.plus _ S.X₃)
 
+omit [Finite k] in
 /-- Some Frobenius datum on the finite field `k`, to build the triangle. -/
-private theorem exists_frobeniusDatum :
+private theorem exists_frobeniusDatum [Fintype k] :
     ∃ (p n : ℕ) (_ : Fact p.Prime) (_ : CharP k p), Fintype.card k = p ^ n := by
   obtain ⟨p, hp⟩ := CharP.exists k
   obtain ⟨n, hpr, hn⟩ := FiniteField.card k p
@@ -81,6 +82,7 @@ theorem isIso_homology_compactSupportFrobeniusFunctor_map_g_of_isZero (i : ℤ)
     IsIso ((DerivedCategory.Plus.homologyFunctor (ModuleCat.{u + 1} Λ) i).map
       ((compactSupportFrobeniusFunctor.{u, 0} Λ f j kbar).map
         (ObjectProperty.homMk S.g : (⟨S.X₂, h₂⟩ : CochainComplex.Plus _) ⟶ ⟨S.X₃, h₃⟩))) := by
+  have := Fintype.ofFinite k
   obtain ⟨p, n, _, _, hn⟩ := exists_frobeniusDatum (k := k)
   have hT := compactSupportFrobeniusTriangle_distinguished.{u, 0} Λ f j kbar p n hn hS h₁ h₂ h₃
   refine @isIso_of_mono_of_epi _ _ _ _ _ _ ?_ ?_
@@ -99,6 +101,7 @@ theorem isIso_homology_compactSupportFrobeniusFunctor_map_f_of_isZero (i : ℤ)
     IsIso ((DerivedCategory.Plus.homologyFunctor (ModuleCat.{u + 1} Λ) i).map
       ((compactSupportFrobeniusFunctor.{u, 0} Λ f j kbar).map
         (ObjectProperty.homMk S.f : (⟨S.X₁, h₁⟩ : CochainComplex.Plus _) ⟶ ⟨S.X₂, h₂⟩))) := by
+  have := Fintype.ofFinite k
   obtain ⟨p, n, _, _, hn⟩ := exists_frobeniusDatum (k := k)
   have hT := compactSupportFrobeniusTriangle_distinguished.{u, 0} Λ f j kbar p n hn hS h₁ h₂ h₃
   refine @isIso_of_mono_of_epi _ _ _ _ _ _ ?_ ?_
@@ -122,7 +125,7 @@ theorem plus_shortComplexTruncLE_X₃ (n : ℤ) (K : CochainComplex.Plus (EtaleM
   exact IsZero.of_epi (((K.obj.truncGE n).shortComplexTruncLE n).g.f i')
     ((K.obj.truncGE n).isZero_of_isStrictlyGE n i' hi')
 
-omit [Fintype k] in
+omit [Finite k] in
 /-- The quasi-isomorphism `τ_{≥ n} K / τ_{≤ n} τ_{≥ n} K ⟶ τ_{≥ n+1} τ_{≥ n} K` becomes an
 isomorphism under `compactSupportFrobeniusFunctor`. -/
 theorem isIso_compactSupportFrobeniusFunctor_map_shortComplexTruncLEX₃ToTruncGE (n : ℤ)
@@ -176,7 +179,7 @@ theorem isIso_compactSupportTruncToTrunc_app (n i : ℤ)
       (DerivedCategory.Plus.homologyFunctor (ModuleCat.{u + 1} Λ) i).map
         ((compactSupportFrobeniusFunctor.{u, 0} Λ f j kbar).map
           (ObjectProperty.homMk S.g : (⟨S.X₂, h₂⟩ : CochainComplex.Plus _) ⟶ ⟨S.X₃, h₃⟩)) ≫ e := by
-    show (DerivedCategory.Plus.homologyFunctor (ModuleCat.{u + 1} Λ) i).map
+    change (DerivedCategory.Plus.homologyFunctor (ModuleCat.{u + 1} Λ) i).map
         ((compactSupportFrobeniusFunctor.{u, 0} Λ f j kbar).map
           ((CochainComplex.Plus.πTruncGEComp n (n + 1)).app K)) ≫ _ = _
     rw [NatIso.isIso_inv_app, hk]
@@ -235,10 +238,11 @@ def torsionHomologyNonneg (Λ : Type) [Ring Λ] (X : Scheme.{u}) :
 section DimensionZero
 
 variable (Λ : Type) [CommRing Λ] {k : Type u} [Field k] [Fintype k] {X : Scheme.{u}}
-  (f : X ⟶ Spec (.of k)) [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
+  (f : X ⟶ Spec (.of k)) [LocallyOfFiniteType f] [QuasiCompact f]
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [IsAlgClosed kbar]
   [Algebra k kbar] (hdim : topologicalKrullDim X ≤ 0)
 
+omit [Fintype k] in
 include hdim in
 /-- In dimension zero the graded piece `τ_{≤ n} τ_{≥ n} K` of a complex with torsion cohomology
 has no `Hⁱ_c` for `i > n`: it is `H^{i-n}_c(X_k̄, Hⁿ(K))`. -/
@@ -329,7 +333,7 @@ theorem compactSupportTruncChainIso_hom_frobenius (r : ℕ) (n : ℕ) (h : n ≤
           (CochainComplex.Plus.truncGEFunctor n) r) := by
   induction n with
   | zero =>
-    show _ ≫ 𝟙 _ = 𝟙 _ ≫ _
+    change _ ≫ 𝟙 _ = 𝟙 _ ≫ _
     rw [Category.comp_id, Category.id_comp]
     rfl
   | succ n ih =>

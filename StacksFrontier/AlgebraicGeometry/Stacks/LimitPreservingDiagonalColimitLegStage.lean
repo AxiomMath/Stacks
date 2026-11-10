@@ -76,7 +76,7 @@ lemma mapDiagonal_comp_asSmallMap {C' : Type*} {D' : Type*} [Category C'] [Categ
   refine CategoryTheory.Functor.ext
     (fun T => Cat.categoricalPullback_obj_ext rfl rfl ?_) (fun T T' m => ?_)
   · refine Cat.eq_eqToHom_conj _ _ _ _ (heq_of_eq ?_)
-    show AsSmall.up.{vY, uY, t}.map (α₀.hom.app T.fst) ≫
+    change AsSmall.up.{vY, uY, t}.map (α₀.hom.app T.fst) ≫
           AsSmall.up.{vY, uY, t}.map (b₀.map T.iso.hom) ≫
           AsSmall.up.{vY, uY, t}.map (α₀.inv.app T.snd) =
         𝟙 _ ≫ AsSmall.up.{vY, uY, t}.map (α₀.hom.app T.fst ≫ b₀.map T.iso.hom ≫

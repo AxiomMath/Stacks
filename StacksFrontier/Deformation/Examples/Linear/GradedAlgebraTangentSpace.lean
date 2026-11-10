@@ -58,12 +58,12 @@ spells it, and exactly as `Stmt_0DVZ__graded_tangent_finite` spells it up to the
 `artinianTangentSpaceOver → artinianTangentSpace` and
 `associatedTangentSpace{AddCommGroup,Module} → …Unlifted`.
 
-Three instance hypotheses the statement of the tag carries are **absent** here, because the reduction does not
-use them: `[IsNoetherianRing Λ]`, `[Module.Finite Λ k]` — the Chapter-93 conventions — and
-`[Algebra.FiniteType k P]`. They are needed, if at all, inside the construction of `t`, not in
-order to pass from `t` to finite-dimensionality. The statement is therefore strictly stronger
-than the corresponding half of the tag, which is why it is safe; it carries no `@[stacks]` tag
-because it does not prove 0DVZ's third theorem.
+Three instance hypotheses the statement of the tag carries are **absent** here, because the
+reduction does not use them: `[IsNoetherianRing Λ]`, `[Module.Finite Λ k]` — the Chapter-93
+conventions — and `[Algebra.FiniteType k P]`. They are needed, if at all, inside the
+construction of `t`, not in order to pass from `t` to finite-dimensionality. The statement is
+therefore strictly stronger than the corresponding half of the tag, which is why it is safe; it
+carries no `@[stacks]` tag because it does not prove 0DVZ's third theorem.
 
 `tangentSetFunctor` is an abbreviation rather than a definition so that the existing API of
 `Deformation.associatedTangentSpaceSetFunctor` applies to it unchanged; its value at
@@ -130,7 +130,7 @@ theorem finiteDimensional_tangentSpace_of_natural_injection
     letI hS2 := Artin.schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory 𝓕 hD
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 hD.predeformation.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 hD.predeformation.cofibered))) := ⟨hS2⟩
     letI T := artinianTangentSpace Λ k (isomorphismClasses 𝓕 hD.predeformation.cofibered)
     letI : AddCommGroup T := associatedTangentSpaceAddCommGroupUnlifted 𝓕
     letI : Module k T := associatedTangentSpaceModuleUnlifted 𝓕
@@ -174,7 +174,7 @@ theorem finiteDimensional_tangentSpace_of_gradedJacobian_natural_injection
     letI hS2 := Artin.schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory 𝓕 hD
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 hD.predeformation.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 hD.predeformation.cofibered))) := ⟨hS2⟩
     letI T := artinianTangentSpace Λ k (isomorphismClasses 𝓕 hD.predeformation.cofibered)
     letI : AddCommGroup T := associatedTangentSpaceAddCommGroupUnlifted 𝓕
     letI : Module k T := associatedTangentSpaceModuleUnlifted 𝓕

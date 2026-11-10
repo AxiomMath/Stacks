@@ -82,7 +82,7 @@ theorem isReduced_of_isIso_absoluteFrobeniusPow (X : Scheme.{u}) [IsAffine X] (p
   have hred : _root_.IsReduced Γ(X, ⊤) := by
     refine (isReduced_iff_pow_one_lt (p ^ e)
       (Nat.one_lt_pow he (Fact.out : p.Prime).one_lt)).2 fun x hx => hinj ?_
-    show (absoluteFrobeniusPow X p hX e).appTop x = (absoluteFrobeniusPow X p hX e).appTop 0
+    change (absoluteFrobeniusPow X p hX e).appTop x = (absoluteFrobeniusPow X p hX e).appTop 0
     rw [absoluteFrobeniusPow_appTop_apply, absoluteFrobeniusPow_appTop_apply, hx, zero_pow]
     exact (pow_pos (Fact.out : p.Prime).pos e).ne'
   exact isReduced_of_isAffine_isReduced X

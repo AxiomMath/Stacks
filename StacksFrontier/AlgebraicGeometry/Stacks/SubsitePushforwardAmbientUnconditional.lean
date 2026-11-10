@@ -165,7 +165,8 @@ flat object `y` of `𝒴` and for a sheaf of sets, with NO hypothesis beyond the
 `AlgebraicGeometry.Stack.FlatFppf.hasLocallyConnectedFactorizations_primedInclusion`, each proved \
 for every algebraic stack. The site functor itself and its continuity and cocontinuity, which are \
 the first assertion of the tag, are registered in \
-`StacksFrontier/AlgebraicGeometry/Stacks/FlatFppfSiteFunctor.lean`. Three pieces of the tag are not \
+`StacksFrontier/AlgebraicGeometry/Stacks/FlatFppfSiteFunctor.lean`. Three pieces of the tag are \
+not \
 covered here: naturality of the bijection in `y`, so that it \
 becomes an equality of sheaves on `𝒴_{flat,fppf}` rather than a family of bijections; the same \
 identity at abelian rather than set coefficients; and the second identity \

@@ -104,8 +104,7 @@ theorem injective_tensorMap_of_span_eq_top {M₁ M₂ N : Type u} [AddCommGroup 
     Function.Injective (TensorProduct.map φ₁ φ₂) := by
   have hsurj : ∀ τ : M₁ ⊗[R] M₂, ∃ m : M₁, m ⊗ₜ[R] e = τ := by
     intro τ
-    induction τ using TensorProduct.induction_on with
-    | zero => exact ⟨0, TensorProduct.zero_tmul _ _⟩
+    induction τ using TensorProduct.inductionOn with
     | tmul m y =>
       have hy : y ∈ Submodule.span R {e} := he ▸ Submodule.mem_top
       obtain ⟨r, rfl⟩ := Submodule.mem_span_singleton.1 hy
@@ -514,7 +513,7 @@ theorem isIso_cupEdgeRight (G L : _root_.SheafOfModules.{u}
       (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.sheaf))
     (hL : AlgebraicGeometry.SheafOfModules.IsFlat.{u, u, u, u} (O := X.sheaf) L) :
     IsIso (cupEdgeRight G L) := by
-  have hK : Stacks.SheafOfModules.KFlat.KFlat X.sheaf
+  have hK : Stacks.SheafOfModules.KFlat X.sheaf
       ((singleNat L 0).extend ComplexShape.embeddingUpNat) :=
     CochainComplex.KFlatBifunctor.KFlat.of_iso (sheafTensor.{u, u, u, u, u} X.sheaf)
       (Stacks.SheafOfModules.KFlatResolution.kFlat_single_of_isFlat X.sheaf L hL 0)

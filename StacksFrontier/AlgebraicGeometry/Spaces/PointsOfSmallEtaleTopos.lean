@@ -101,14 +101,14 @@ theorem elementsPrecomp_isEquivalence {C : Type u} [Category.{v} C] {D : Type u'
   let : T.Faithful := ⟨fun h => Functor.Elements.hom_ext (e.functor.map_injective
     (congrArg (fun f => f.hom) h))⟩
   let : T.Full := ⟨fun {X Y} f => ⟨Functor.Elements.homMk (e.functor.preimage f.hom) (by
-    show H.map (e.functor.map (e.functor.preimage f.hom)) X.val = Y.val
+    change H.map (e.functor.map (e.functor.preimage f.hom)) X.val = Y.val
     exact (congrArg (fun g => H.map g X.val) (e.functor.map_preimage f.hom)).trans
       (show H.map f.hom X.val = Y.val from f.map_val)),
       by apply Functor.Elements.hom_ext; exact e.functor.map_preimage _⟩⟩
   let : T.EssSurj := ⟨fun Y => ⟨(e.functor ⋙ H).elementsMk (e.inverse.obj Y.obj)
       (H.map (e.counitInv.app Y.obj) Y.val),
     ⟨Functor.Elements.isoMk (e.counitIso.app Y.obj) (by
-      show H.map (e.counit.app Y.obj) (H.map (e.counitInv.app Y.obj) Y.val) = Y.val
+      change H.map (e.counit.app Y.obj) (H.map (e.counitInv.app Y.obj) Y.val) = Y.val
       simp [← Functor.map_comp_apply])⟩⟩⟩
   exact ⟨inferInstance, inferInstance, inferInstance⟩
 
@@ -232,7 +232,7 @@ theorem exists_bounded_geometricPoint_extension (B : BigFppfSite.{u}) {X : Schem
         (Cardinal.self_le_power _ Cardinal.one_le_aleph0)
   refine ⟨t, Scheme.size_Spec_lt_of_mk_le B.aleph0_lt_cutoff B.cutoff_isStrongPrelimit
     (.of K) hX hK, Spec.map (CommRingCat.ofHom φ.toRingHom), ?_⟩
-  show Spec.map (CommRingCat.ofHom φ.toRingHom) ≫
+  change Spec.map (CommRingCat.ofHom φ.toRingHom) ≫
     (Spec.map (CommRingCat.ofHom (algebraMap (X.residueField x) K)) ≫
       X.fromSpecResidueField x) = s.hom
   rw [← Category.assoc, ← Spec.map_comp]
@@ -263,7 +263,7 @@ theorem geometric_lift_bijective_of_extension {k L : Type u} [Field k] [IsAlgClo
     refine ⟨⟨l ≫ pullback.fst v s, ?_⟩, ?_⟩
     · rw [Category.assoc, pullback.condition, ← Category.assoc, hl, Category.id_comp]
     · apply Subtype.ext
-      show f ≫ (l ≫ pullback.fst v s) = q.1
+      change f ≫ (l ≫ pullback.fst v s) = q.1
       calc
         _ = ((q' ≫ g) ≫ l) ≫ pullback.fst v s := by
           rw [show q' ≫ g = f from pullback.lift_snd _ _ _]
@@ -405,7 +405,7 @@ theorem exists_chart_geometric_stalk (hF : IsAlgebraicSpace B S hS F)
           ((representedSmallEtaleEquivalence B S hS X.obj.left).inverse ⋙
             e.functor ⋙ Over.forget X).op ⋙
         (Functor.whiskeringLeft _ _ _).obj
-          (CategoryOfElements.π (geometricPointFiber (associatedBigEtaleSite B)
+          (Functor.Elements.π (geometricPointFiber (associatedBigEtaleSite B)
             ((BigFppfOver.toScheme B S hS).obj X.obj.left)
             X.obj.left.left.property s)).op ⋙ colim) := by
   obtain ⟨Φ, ⟨ι⟩⟩ := PointOfTopos.exists_sitePoint p

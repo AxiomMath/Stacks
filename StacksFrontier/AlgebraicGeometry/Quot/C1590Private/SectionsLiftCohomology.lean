@@ -139,7 +139,7 @@ private theorem isKilledBy_cokernel_generatorsSmul {m : Ideal A} {s : ℕ} {g : 
   simp only [smul_eq_mul]
   rw [globalSmul_sum, Preadditive.sum_comp]
   refine Finset.sum_congr rfl fun i _ => ?_
-  rw [Category.assoc, generatorsSmul, Sigma.ι_desc]
+  rw [Category.assoc, generatorsSmul, Sigma.ι_comp_desc]
 
 /-- **Vanishing of `H¹` for modules killed by a power of an ideal.**  Let `𝔪 ⊆ A` be finitely
 generated and suppose that `H¹(X, G) = 0` for every quasi-coherent quotient `G` of a finite sum
@@ -185,7 +185,7 @@ theorem isZero_cohomology_one_of_isKilledBy_pow (F : Space.Modules.{u, u} B S hS
       refine ih _ hK ((hq.sigma (Fin s)).of_epi w) fun a ha => ?_
       have key : v ≫ globalSmul O (φ a) G = 0 := by
         refine Sigma.hom_ext _ _ fun i => ?_
-        rw [Sigma.ι_desc_assoc, comp_zero, ← globalSmul_mul, ← map_mul]
+        rw [Sigma.ι_comp_desc_assoc, comp_zero, ← globalSmul_mul, ← map_mul]
         refine hk _ ?_
         rw [pow_succ']
         exact Ideal.mul_mem_mul (hgm i) ha
@@ -213,7 +213,7 @@ theorem isFiniteQuotient_idealMultiple (F : Space.Modules.{u, u} B S hS X.1 X.2)
       ∑ i, globalSmul _ (φ (c i)) F ≫ Sigma.ι (fun _ : Fin s => F) i ≫ p := by
     refine (cancel_mono (Space.idealMultipleι φ F J)).1 ?_
     rw [Space.idealMultipleFactor_ι, Preadditive.sum_comp]
-    simp only [smul_eq_mul, Category.assoc, Sigma.ι_desc_assoc, Space.idealMultipleFactor_ι, p]
+    simp only [smul_eq_mul, Category.assoc, Sigma.ι_comp_desc_assoc, Space.idealMultipleFactor_ι, p]
     exact globalSmul_sum _ c g F
   rw [hfac, Preadditive.sum_comp, Preadditive.sum_comp]
   refine Finset.sum_congr rfl fun i _ => ?_
@@ -260,7 +260,7 @@ private theorem delta_idealShortComplex_eq_zero (F : Space.Modules.{u, u} B S hS
     exact h1.symm
   let δ := (H.delta Γ 0).hom
   have h3 : (φ r) • s = s := hs
-  show δ s = 0
+  change δ s = 0
   rw [← h3, map_smul]
   exact hr (δ s) Submodule.mem_top
 

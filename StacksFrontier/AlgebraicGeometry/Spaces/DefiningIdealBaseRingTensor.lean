@@ -103,7 +103,7 @@ theorem selfHomEquiv_homEquiv_baseRingTensorModuleSelfHom_comp
         (baseRingTensorModuleSelfHom B S hS X φ ≫ v)) =
       (modelSectionsHomEquiv B S hS X φ F).symm v := by
   rw [Adjunction.homEquiv_naturality_right, baseRingTensorModuleSelfHom, Equiv.apply_symm_apply]
-  show ((baseRingGlobalSectionsModule B S hS X φ).map v).hom
+  change ((baseRingGlobalSectionsModule B S hS X φ).map v).hom
       (((ModuleCat.selfHomEquiv R _).symm (unitGlobalSection B S hS X φ)).hom 1) = _
   rw [show ((ModuleCat.selfHomEquiv R ((baseRingGlobalSectionsModule B S hS X φ).obj
       (unitModule B S hS X.2))).symm (unitGlobalSection B S hS X φ)).hom 1 =
@@ -236,7 +236,7 @@ abbrev preimageIdealι : preimageIdeal B S hS g Z ⟶ unitModule B S hS W.2 :=
 
 /-- The inclusion of the defining ideal of `g⁻¹(Z)` into `𝒪_W` is a monomorphism. -/
 instance : Mono (preimageIdealι B S hS g Z) :=
-  ⟨fun a b h => SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun U =>
+  ⟨fun _ _ h => SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun U =>
     ModuleCat.hom_ext (LinearMap.ext fun x => Subtype.ext
       (congrArg (fun k => (k.val.app U).hom x) h)))⟩
 
@@ -340,7 +340,7 @@ theorem preimageIdealGlobalSections_comp_map_ι :
           ((baseRingGlobalSectionsModule B S hS W (baseRingHomOfMap g)).obj
             (unitModule B S hS W.2))).symm (unitGlobalSection B S hS W (baseRingHomOfMap g)) := by
   refine ModuleCat.hom_ext (LinearMap.ext fun a => ?_)
-  show ((baseRingGlobalSectionsModule B S hS W (baseRingHomOfMap g)).map
+  change ((baseRingGlobalSectionsModule B S hS W (baseRingHomOfMap g)).map
       (preimageIdealι B S hS g Z)).hom ((preimageIdealGlobalSections B S hS g Z).hom a) =
     ((ModuleCat.selfHomEquiv (baseRing B S hS T)
       ((baseRingGlobalSectionsModule B S hS W (baseRingHomOfMap g)).obj

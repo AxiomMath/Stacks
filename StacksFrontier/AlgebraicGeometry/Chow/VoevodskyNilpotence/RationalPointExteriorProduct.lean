@@ -166,7 +166,7 @@ theorem exteriorProduct_cycleAssociatedToClosedSubscheme_section {X Y : Scheme.{
   · obtain ⟨h1, h2⟩ := hz
     rw [h1, h2, cycleAssociatedToClosedSubscheme_section_apply_self k g p hp,
       cycleAssociatedToClosedSubscheme_section_apply_self k f q hq, one_mul, one_mul]
-    show closedSubschemeCycleCoeff _ _ _ _ z = closedSubschemeCycleCoeff _ _ _ _ z
+    change closedSubschemeCycleCoeff _ _ _ _ z = closedSubschemeCycleCoeff _ _ _ _ z
     have hI := exteriorProductIdeal_section_eq_ker k g f p hp q hq s₀
     let c := IsClosedImmersion.lift r (exteriorProductIdeal g f (p s₀) (q s₀)).subschemeι
       (by rw [hI, Scheme.IdealSheafData.ker_subschemeι])
@@ -265,7 +265,7 @@ theorem chowExteriorProduct_sum_tmul_rationalPointChowClass_sub {X Y : Scheme.{u
     apply rationalPointChowClass_congr
     simp only [Fin.snocEquiv, Equiv.coe_fn_mk, Fin.init_snoc, Fin.snoc_last]
   rw [e true, e false]
-  simp only [Fin.snocEquiv, Equiv.coe_fn_mk, boolSign_snoc, cond_true, cond_false,
+  simp only [Fin.snocEquiv, Equiv.coe_fn_mk, boolSign_snoc, Bool.cond_true, Bool.cond_false,
     mul_neg, mul_one, neg_smul, smul_sub]
   abel
 

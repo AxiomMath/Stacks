@@ -143,7 +143,7 @@ theorem _root_.AlgebraicGeometry.CoherentModuleFunctors.FilteredColimitExtension
     have hnat := E.iso.hom.naturality (r • 𝟙 N)
     have hlin : F.map (r • 𝟙 N) = r • 𝟙 (F.obj N) :=
       (Functor.linear_iff R F).mp hF N r
-    show E.functor.map ((coherentToQuasicoherent X.left).map (r • 𝟙 N)) =
+    change E.functor.map ((coherentToQuasicoherent X.left).map (r • 𝟙 N)) =
       r • 𝟙 (E.functor.obj ((coherentToQuasicoherent X.left).obj N))
     have hinc' : (coherentToQuasicoherent Y.left).map (F.map (r • 𝟙 N)) =
         r • 𝟙 ((coherentToQuasicoherent Y.left).obj (F.obj N)) :=
@@ -258,7 +258,7 @@ theorem exactLinearCoherentFunctor_coherentRestriction
   have hlin : G.Linear k := hG.1.2
   refine ⟨⟨fun {M N} f r => ?_⟩, ?_⟩
   · refine ObjectProperty.hom_ext _ ?_
-    show (G.map ((coherentToQuasicoherent X.left).map (r • f))).hom =
+    change (G.map ((coherentToQuasicoherent X.left).map (r • f))).hom =
       (r • G.map ((coherentToQuasicoherent X.left).map f)).hom
     exact congrArg InducedCategory.Hom.hom
       (Functor.Linear.map_smul (F := G) ((coherentToQuasicoherent X.left).map f) r)

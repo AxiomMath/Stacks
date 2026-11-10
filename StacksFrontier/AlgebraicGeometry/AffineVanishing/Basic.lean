@@ -63,8 +63,8 @@ below; everything here is about the `ℕ`-indexed theory.
 
 Results *do* transfer between the two indexings. `Stacks.DerivedIndexing.rightDerivedIso` is the
 comparison `F.rightDerived n ≅ F.rightDerivedPlus (n : ℤ)`, with `isZero_rightDerived_obj_iff` and
-`isZero_rightDerivedPlus_obj_iff` carrying vanishing both ways. So a `ℤ`-indexed input may be used to
-discharge an `ℕ`-indexed obligation and conversely.
+`isZero_rightDerivedPlus_obj_iff` carrying vanishing both ways. So a `ℤ`-indexed input may be used
+to discharge an `ℕ`-indexed obligation and conversely.
 
 **The four hypotheses, and why they are hypotheses.**
 
@@ -220,7 +220,7 @@ theorem hasVanishingHigherCech_X₃ {Cov : Set (OpenCover X)} (hSE : CechShortEx
     HasVanishingHigherCech R Cov S.X₃ := by
   intro V hV p hp
   obtain ⟨T, hT, e₁, e₂, e₃⟩ := hSE S hS V hV
-  show IsZero (((cechFunctor R V).obj S.X₃).homology p)
+  change IsZero (((cechFunctor R V).obj S.X₃).homology p)
   rw [← e₃]
   refine isZero_homology_X₃_of_shortExact hT (fun q hq ↦ ?_) (fun q hq ↦ ?_) p hp
   · rw [e₁]; exact h₁ V hV q hq

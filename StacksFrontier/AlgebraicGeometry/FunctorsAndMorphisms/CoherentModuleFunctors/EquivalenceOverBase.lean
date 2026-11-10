@@ -126,7 +126,7 @@ lemma smul_id_eq_baseScalar (X : Over (Spec (.of R))) (r : R)
     letI : Linear R (SheafOfModules.{u} X.left.ringCatSheaf) := modulesLinear R X
     (r • 𝟙 M : M ⟶ M) = (baseScalar R X r).app M := by
   let : Linear R (SheafOfModules.{u} X.left.ringCatSheaf) := modulesLinear R X
-  show (baseRingToCenter R X r).app M ≫ 𝟙 M = _
+  change (baseRingToCenter R X r).app M ≫ 𝟙 M = _
   rw [Category.comp_id]
   rfl
 
@@ -252,17 +252,17 @@ lemma eq_comp_of_pullback_baseScalar_unit {X Y : Over (Spec (.of R))} (f : Y.lef
     have honeX : baseRingToSections R X UtopX r =
         (((baseScalar R X r).app OX).val.app UtopX).hom one := (mul_one _).symm
     refine Eq.trans (congrArg _ honeX) (h3.trans ?_)
-    show Mul.mul (baseRingToSections R Y UtopY r)
+    change Mul.mul (baseRingToSections R Y UtopY r)
         ((CommRingCat.Hom.hom (Scheme.Hom.appTop f.hom)) 1) =
       baseRingToSections R Y UtopY r
     exact (congrArg (Mul.mul (baseRingToSections R Y UtopY r))
       (map_one (CommRingCat.Hom.hom (Scheme.Hom.appTop f.hom)))).trans (mul_one _)
   apply AlgebraicGeometry.ext_to_Spec
   ext r
-  show ((Scheme.ΓSpecIso (.of R)).inv ≫ (f.hom ≫ X.hom).appTop).hom r =
+  change ((Scheme.ΓSpecIso (.of R)).inv ≫ (f.hom ≫ X.hom).appTop).hom r =
     ((Scheme.ΓSpecIso (.of R)).inv ≫ Y.hom.appTop).hom r
   rw [Scheme.Hom.comp_appTop]
-  show (f.hom.appTop).hom ((X.hom.appTop).hom ((Scheme.ΓSpecIso (.of R)).inv.hom r)) =
+  change (f.hom.appTop).hom ((X.hom.appTop).hom ((Scheme.ΓSpecIso (.of R)).inv.hom r)) =
     (Y.hom.appTop).hom ((Scheme.ΓSpecIso (.of R)).inv.hom r)
   rw [← baseRingToSections_top R X r, ← baseRingToSections_top R Y r]
   simpa [RingCat.id_apply, RingCat.hom_id] using hsections r

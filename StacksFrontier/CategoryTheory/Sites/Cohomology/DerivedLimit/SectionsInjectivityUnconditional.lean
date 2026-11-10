@@ -21,8 +21,7 @@ sheaves of modules is the one the source is talking about.  This file takes the 
 to be `max u v r w` -- still an arbitrary universe, since `w` is arbitrary -- and discharges all
 five, so that the tag is available with no class hypothesis at all beyond the model of the
 derived category.  This is the same treatment, at the same module universe, that
-`StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedLimit.TruncationTowerConvergenceUnconditional`
-gives to [Stacks, Tag 0D6M].
+`TruncationTowerConvergenceUnconditional.lean` (in this directory) gives to [Stacks, Tag 0D6M].
 
 Note that the module universe of a `RingedSite` is also its *ring* universe:
 `AlgebraicGeometry.RingedSite.{u, v, w}` carries a structure sheaf of rings with sections in
@@ -107,6 +106,7 @@ theorem hasRightDerivedFunctorMaxRingedSite :
         (SheafOfModules.{max u v r w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) (.up ℤ)) :=
   inferInstance
 
+set_option linter.checkUnivs false in
 /-- The Tag 0BKV derived sections presheaf of a ringed site whose module universe contains the
 site, with its three instances supplied.  Sheafification and local bijectivity cannot be found
 by instance search at this universe shape, so the functor is given a name that carries them. -/

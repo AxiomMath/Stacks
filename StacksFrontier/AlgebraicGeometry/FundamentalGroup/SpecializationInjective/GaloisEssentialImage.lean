@@ -70,7 +70,7 @@ theorem eq_one_of_app_isGalois_eq_id {X : Scheme.{u}} [ConnectedSpace X] (x : Ge
   have hm : (finiteEtaleFiberFunctor x).map f ≫ γ.asIso.hom.app V
       = (finiteEtaleFiberFunctor x).map f := by
     rw [γ.asIso.hom.naturality f, hA A hgal, Category.id_comp]
-  show (ConcreteCategory.hom (γ.asIso.hom.app V)) p = p
+  change (ConcreteCategory.hom (γ.asIso.hom.app V)) p = p
   rw [← hp]
   exact ConcreteCategory.congr_hom hm a
 

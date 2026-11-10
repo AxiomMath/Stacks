@@ -58,8 +58,8 @@ implementation notes.
   one `s` being regular and invertible although neither multiplier is.
 * `Stacks.InvertiblePullback.exists_chart_nonempty_generatorSections_of_isPullMeromorphicFamily`:
   the chart datum of
-  `StacksFrontier/AlgebraicGeometry/InvertiblePullbackFlat/ChartFromGenerators.lean` for this family.
-  Its conclusion is that of
+  `StacksFrontier/AlgebraicGeometry/InvertiblePullbackFlat/ChartFromGenerators.lean` for this
+  family. Its conclusion is that of
   `Stacks.InvertiblePullback.exists_chart_nonempty_generatorSections`, unchanged.
 
 ## Implementation notes

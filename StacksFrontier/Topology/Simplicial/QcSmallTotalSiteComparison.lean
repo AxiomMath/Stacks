@@ -173,7 +173,7 @@ theorem qcSmallComparison_mem {t : qcSmallTotal S X U a}
     dsimp only
     rw [← hw]
     exact S.qcSite.smallEquivalence.symm.toAdjunction.homEquiv_naturality_right_symm _ _
-  show ((qcSmallPoint S X U a ⟨n, ⟨i, Y⟩⟩ ≫ U.map β : _ ⟶ U.obj A.degree) :
+  change ((qcSmallPoint S X U a ⟨n, ⟨i, Y⟩⟩ ≫ U.map β : _ ⟶ U.obj A.degree) :
       (S.qcSite.smallEquivalence.inverse.obj Y.left.left).obj → (U.obj A.degree).obj) p ∈
         A.toOpens
   rw [ht]
@@ -295,7 +295,7 @@ theorem qcSmallComparisonFunctor_representablyFlat :
     · exact qcSmallComparison_hom_ext S X U a _ _ (Category.id_comp _)
     · apply StructuredArrow.hom_ext
       apply SimplicialOpen.Hom.ext
-      show A.hom.base ≫ f.right.base = A.hom.base ≫ g.right.base
+      change A.hom.base ≫ f.right.base = A.hom.base ≫ g.right.base
       exact congrArg Grothendieck.Hom.base
         ((StructuredArrow.w f).trans (StructuredArrow.w g).symm)
   · exact ⟨StructuredArrow.mk (qcSmallHomMk S X U a t ⟨t.base, ⊤⟩ (𝟙 _) (fun _ => trivial))⟩
@@ -355,7 +355,7 @@ theorem qcSmallSigmaIncl_coverPreserving (n : SimplexCategoryᵒᵖ) :
         (C := fun i : ((qcSmallSemiRep S X U a).obj n).I =>
           Over (((qcSmallSemiRep S X U a).obj n).obj i)) PUnit.unit) := by
   refine ⟨fun {Y R} hR => ?_⟩
-  show (R.functorPushforward _).functorPullback (CategoryTheory.Sigma.incl
+  change (R.functorPushforward _).functorPullback (CategoryTheory.Sigma.incl
     (C := fun i : ((qcSmallSemiRep S X U a).obj n).I =>
       Over (((qcSmallSemiRep S X U a).obj n).obj i)) PUnit.unit) ∈
         ((S.qcSite.smallOverTopology X).over (((qcSmallSemiRep S X U a).obj n).obj PUnit.unit)) Y
@@ -385,7 +385,7 @@ theorem qcSmallTotalIota_coverPreserving (n : SimplexCategoryᵒᵖ) :
   refine ⟨fun {P T} hT => ?_⟩
   have hcov : sliceCoverings (S.qcSite.smallOverTopology X) (qcSmallSemiRep S X U a) n
       ⟨P, T.arrows.preZeroHypercover⟩ := by
-    show (T.arrows.preZeroHypercover).presieve₀ ∈ _
+    change (T.arrows.preZeroHypercover).presieve₀ ∈ _
     rw [Presieve.presieve₀_preZeroHypercover, GrothendieckTopology.mem_toCoverage_iff,
       Sieve.generate_sieve]
     exact hT

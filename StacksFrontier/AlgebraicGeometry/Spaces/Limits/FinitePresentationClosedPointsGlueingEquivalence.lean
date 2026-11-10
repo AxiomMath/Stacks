@@ -125,13 +125,13 @@ theorem full_comparisonFunctor_peel {n : ℕ} {D : ClosedPointsGlueingData B S h
             (baseChange B S hS (D.overlapToLocal (Fin.last n))).map b' := by
       simp only [a', b', Functor.map_comp, Category.assoc]
       rw [CB Y', reassoc_of% (hw (Fin.last n))]
-      haveI : Epi ((baseChange B S hS (D.overlapToOpen (Fin.last n))).map (Fo.hom.app Y)) :=
+      have : Epi ((baseChange B S hS (D.overlapToOpen (Fin.last n))).map (Fo.hom.app Y)) :=
         @IsIso.epi_of_iso _ _ _ _ _
           (Functor.map_isIso (baseChange B S hS (D.overlapToOpen (Fin.last n))) (Fo.app Y).hom)
       rw [← cancel_epi ((baseChange B S hS (D.overlapToOpen (Fin.last n))).map (Fo.hom.app Y)),
         reassoc_of% (CB Y)]
-      exact (Iso.map_hom_inv_id_assoc (Fo.app Y) _ _).trans
-        (congrArg (_ ≫ ·) (Iso.map_hom_inv_id_assoc (Fl.app Y) _ _).symm)
+      exact (Iso.hom_inv_id_map_assoc (Fo.app Y) _ _).trans
+        (congrArg (_ ≫ ·) (Iso.hom_inv_id_map_assoc (Fl.app Y) _ _).symm)
     let c₁ : p.lastFunctor.obj ((baseChange B S hS p.midToBase).obj Y) ⟶
         p.lastFunctor.obj ((baseChange B S hS p.midToBase).obj Y') :=
       ObjectProperty.homMk { left := a', right := b', w := hw' }
@@ -168,7 +168,7 @@ theorem full_comparisonFunctor_peel {n : ℕ} {D : ClosedPointsGlueingData B S h
             (baseChangeSquareIso B S hS wt).hom.app Y' =
           (baseChangeSquareIso B S hS (D.w i.castSucc)).hom.app Y' := by
         rw [← cancel_epi (fz₁.hom.app Y'), reassoc_of% (AS Y'), Iso.hom_inv_id_app_assoc, CF Y']
-      show (baseChange B S hS (ovo ≫ p.openToMid)).map c ≫
+      change (baseChange B S hS (ovo ≫ p.openToMid)).map c ≫
           (baseChangeSquareIso B S hS wt).hom.app Y' =
         (baseChangeSquareIso B S hS wt).hom.app Y ≫ (baseChange B S hS ovl).map (b i.castSucc)
       rw [← cancel_epi (fz₂.hom.app Y), reassoc_of% (CF Y), ← hw i.castSucc, NAT']
@@ -177,7 +177,7 @@ theorem full_comparisonFunctor_peel {n : ℕ} {D : ClosedPointsGlueingData B S h
       simp only [a', Functor.map_comp, Category.assoc]
       have e : (baseChange B S hS ovo).map (Fo.hom.app Y) ≫
           (baseChange B S hS ovo).map (Fo.inv.app Y) = 𝟙 _ :=
-        Iso.map_hom_inv_id (Fo.app Y) _
+        Iso.hom_inv_id_map (Fo.app Y) _
       rw [reassoc_of% e, key]
     let c₂ : p.tail.comparisonFunctor.obj Y ⟶ p.tail.comparisonFunctor.obj Y' :=
       ObjectProperty.homMk { left := c, right := fun i => b i.castSucc, w := funext hwt }
@@ -209,12 +209,12 @@ theorem quasiCompact_ι_of_finite_diff {V W : S.Opens} (hV : QuasiCompact V.ι) 
   rw [quasiCompact_iff_forall_isAffineOpen]
   intro A hA
   rw [W.ι.isOpenEmbedding.isEmbedding.isCompact_iff]
-  show IsCompact (W.ι '' (W.ι ⁻¹' (A : Set S)))
+  change IsCompact (W.ι '' (W.ι ⁻¹' (A : Set S)))
   rw [Set.image_preimage_eq_inter_range, Scheme.Opens.range_ι]
   have h₁ : IsCompact ((A : Set S) ∩ V) := by
     have := (hV.isCompact_preimage _ A.2 hA.isCompact).image V.ι.continuous
     rwa [Set.image_preimage_eq_inter_range, Scheme.Opens.range_ι] at this
-  rw [← Set.union_diff_cancel (show (V : Set S) ⊆ W from hVW), Set.inter_union_distrib_left]
+  rw [← Set.union_sdiff_cancel (show (V : Set S) ⊆ W from hVW), Set.inter_union_distrib_left]
   exact h₁.union (hfin.subset Set.inter_subset_right).isCompact
 
 /-- The inclusion of a quasi-compact open into an open is of finite presentation. -/
@@ -283,7 +283,7 @@ theorem isEquivalence_glueingFunctor_closedPoint_of_open {s : S} (hs : IsClosed 
     exact finitePresentation_ι S hZqc
   · exact finitePresentation_homOfLE S hqc hUU'
   · apply SetLike.ext'
-    show (U : Set S) = (U' : Set S) ∩ Z
+    change (U : Set S) = (U' : Set S) ∩ Z
     rw [hU, hU', hZ]
     ext x
     by_cases hx : x = s
@@ -341,7 +341,7 @@ theorem isEquivalence_comparisonFunctor_closedPointsGlueingData_zero (s : Fin 0 
   have hiso : IsIso (closedPointsGlueingData B S hS s hs U hU).openToBase := by
     have : IsIso ((BigFppfOver.toScheme B S hS).map
         (closedPointsGlueingData B S hS s hs U hU).openToBase) := by
-      show IsIso ((BigFppfOver.toScheme B S hS).map (toBase B S hS (opensObj B S hS U)))
+      change IsIso ((BigFppfOver.toScheme B S hS).map (toBase B S hS (opensObj B S hS U)))
       rw [toScheme_map_eq_inclusion_map_hom, inclusion_map_opensObj_hom]
       subst hUtop
       exact (S.topIso).isIso_hom
@@ -414,7 +414,8 @@ the intermediate base as the open part. -/
 theorem closedPointsPeel_tail {n : ℕ} (s : Fin (n + 1) → S) (hinj : Function.Injective s)
     (hs : ∀ i, IsClosed ({s i} : Set S)) (U : S.Opens) (hU : (U : Set S) = (Set.range s)ᶜ) :
     (closedPointsPeel B S hS s hinj hs U hU).tail =
-      closedPointsGlueingData B S hS (s ∘ Fin.castSucc) (fun i => hs _) (midOpens S s hs) rfl := by
+      closedPointsGlueingData B S hS (s ∘ Fin.castSucc) (fun i => hs i.castSucc)
+        (midOpens S s hs) rfl := by
   simp only [ClosedPointsGlueingData.Peel.tail, closedPointsPeel, closedPointsGlueingData]
   congr 1
   funext i

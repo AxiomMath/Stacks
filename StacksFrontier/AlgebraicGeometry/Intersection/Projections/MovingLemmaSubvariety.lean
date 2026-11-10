@@ -142,7 +142,7 @@ public theorem topologicalKrullDim_constantFamily_of_isLocallyClosed
     have hμ : μ ≠ 0 := fun h => hμw (by rw [h]; rfl)
     refine ⟨(lineSection k V L (linearFunctionalPoint k (lineSpace k V L) μ hμ)
       (linearFunctionalPoint_isClosed k (lineSpace k V L) μ hμ)).base x, ?_⟩
-    show (ambPoint k V L).base _ ∈ X
+    change (ambPoint k V L).base _ ∈ X
     rw [ambPoint_lineSection]
     exact hx
   rw [hconst, topologicalKrullDim_inter_isOpen_eq k (movingAmbientToSpec k V L)
@@ -489,7 +489,7 @@ private theorem exists_constantFamily_projectiveLine
   · refine closure_eq_univ_of_closedPoints_subset fun lam hlam => ?_
     refine mem_image_lineProductLine_of_lineProductFibre_nonempty k V (Fin 2 → k) lam
       (mem_closedPoints_iff.mp hlam) ?_
-    show (lineProductFibre k V (Fin 2 → k) lam _
+    change (lineProductFibre k V (Fin 2 → k) lam _
       (lineProductConstant k V (Fin 2 → k) (C : Set _))).Nonempty
     rw [lineProductFibre_lineProductConstant]
     exact C.isIrreducible'.nonempty

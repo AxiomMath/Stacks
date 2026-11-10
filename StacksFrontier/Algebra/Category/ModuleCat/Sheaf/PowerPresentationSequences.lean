@@ -204,9 +204,9 @@ theorem IsExteriorAlgebra.comp_iso {κ : N ⟶ B.piece 1} (hB : IsExteriorAlgebr
   refine ⟨squareZero_comp c hB.1, fun D lam hlam => ?_⟩
   obtain ⟨g, hg, hu⟩ := hB.2 D (inv c ≫ lam) (squareZero_comp (inv c) hlam)
   refine ⟨g, ?_, fun h hh => hu h ?_⟩
-  · show (c ≫ κ) ≫ g.app 1 = lam
+  · change (c ≫ κ) ≫ g.app 1 = lam
     simp [hg]
-  · show κ ≫ h.app 1 = inv c ≫ lam
+  · change κ ≫ h.app 1 = inv c ≫ lam
     simp [← show (c ≫ κ) ≫ h.app 1 = lam from hh]
 
 end Generators

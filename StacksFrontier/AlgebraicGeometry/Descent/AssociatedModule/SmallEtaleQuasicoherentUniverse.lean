@@ -217,13 +217,13 @@ theorem preservesLimit_sheafOfModules_pushforward.{u₁, v₁, u₂, v₂}
       refine PresheafOfModules.evaluationJointlyReflectsLimits _ _ fun X => ?_
       have : PreservesLimit (G ⋙ SheafOfModules.forget R₂)
           (PresheafOfModules.pushforward.{m} φ.hom ⋙ PresheafOfModules.evaluation R₁.obj X) := by
-        show PreservesLimit _ (PresheafOfModules.evaluation R₂.obj (F.op.obj X) ⋙
+        change PreservesLimit _ (PresheafOfModules.evaluation R₂.obj (F.op.obj X) ⋙
           ModuleCat.restrictScalars (RingCat.Hom.hom (φ.hom.app X)))
         infer_instance
       exact isLimitOfPreserves (PresheafOfModules.pushforward.{m} φ.hom ⋙
         PresheafOfModules.evaluation R₁.obj X) hc⟩⟩
   have : PreservesLimit G (SheafOfModules.pushforward.{m} φ ⋙ SheafOfModules.forget R₁) := by
-    show PreservesLimit G (SheafOfModules.forget R₂ ⋙ PresheafOfModules.pushforward.{m} φ.hom)
+    change PreservesLimit G (SheafOfModules.forget R₂ ⋙ PresheafOfModules.pushforward.{m} φ.hom)
     exact comp_preservesLimit _ _
   exact preservesLimit_of_reflects_of_preserves _ (SheafOfModules.forget R₁)
 

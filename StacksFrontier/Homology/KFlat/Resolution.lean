@@ -185,7 +185,7 @@ theorem exists_kFlat_resolution {R : Type u} [CommRing R]
   have : Epi ((q n).f i) := hepi n i
   have hpre : (ComplexShape.embeddingUpIntLE (n : ℤ)).op.f
       ((n : ℤ) - i).natAbs = i := by
-    show (n : ℤ) - (((n : ℤ) - i).natAbs : ℤ) = i
+    change (n : ℤ) - (((n : ℤ) - i).natAbs : ℤ) = i
     omega
   have hnotboundary : ¬ (ComplexShape.embeddingUpIntLE (n : ℤ)).op.BoundaryGE
       ((n : ℤ) - i).natAbs := by
@@ -200,7 +200,7 @@ theorem exists_kFlat_resolution {R : Type u} [CommRing R]
     rw [ComplexShape.Embedding.isIso_liftExtend_f_iff _ _ _ hpre]
     exact M.op.isIso_restrictionToTruncGE' _ _ hnotboundary
   have : IsIso ((M.ιTruncLE (n : ℤ)).f i) := by
-    show IsIso ((M.op.πTruncGE
+    change IsIso ((M.op.πTruncGE
       (ComplexShape.embeddingUpIntLE (n : ℤ)).op).f i).unop
     infer_instance
   have : Epi ((c.ι.app n).f i ≫ α.f i) := by
@@ -295,8 +295,7 @@ private lemma flat_prod {R A B : Type u} [CommRing R]
       LinearMap.lTensor_comp_rTensor] using this
   have hpr (z : TensorProduct R S (A × B)) : TensorProduct.prodRight R R S A B z =
       ((LinearMap.fst R A B).lTensor S z, (LinearMap.snd R A B).lTensor S z) := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp [Prod.mk_zero_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul x y => simp
     | add x y hx hy => simp_all
   apply (TensorProduct.prodRight R R S A B).injective
@@ -326,7 +325,7 @@ theorem exists_kFlat_factorization_up_to_homotopy
       (CochainComplex.trianglehOfDegreewiseSplit_distinguished
         (glueSC a q) (glueSplitting a q))).2.1 hK hM
   · intro hKflat n
-    show Module.Flat R (↑((K.X n) ⊞ (M.X n) : ModuleCat R))
+    change Module.Flat R (↑((K.X n) ⊞ (M.X n) : ModuleCat R))
     let := hKflat n
     let := hMflat n
     let : Module.Flat R (K.X n × M.X n) := flat_prod

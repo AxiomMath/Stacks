@@ -338,23 +338,23 @@ def ranSMulRingHom (V : Yᵒᵖ) : T.obj V →+* End ((w.op.ran.obj M.presheaf).
   toFun r := End.of (ranSMul w ψ M V r)
   map_one' := by
     refine End.ext ?_
-    show ranSMul w ψ M V 1 = 𝟙 _
+    change ranSMul w ψ M V 1 = 𝟙 _
     refine ran_hom_ext w.op M.presheaf (fun j => ?_)
     rw [ranSMul_π, Category.id_comp, map_one, smulPresheaf_one, Category.comp_id]
   map_mul' r r' := by
     refine End.ext ?_
-    show ranSMul w ψ M V (r * r') = ranSMul w ψ M V r' ≫ ranSMul w ψ M V r
+    change ranSMul w ψ M V (r * r') = ranSMul w ψ M V r' ≫ ranSMul w ψ M V r
     refine ran_hom_ext w.op M.presheaf (fun j => ?_)
     rw [ranSMul_π, Category.assoc, ranSMul_π, ← Category.assoc, ranSMul_π,
       Category.assoc, map_mul, smulPresheaf_mul]
   map_zero' := by
     refine End.ext ?_
-    show ranSMul w ψ M V 0 = 0
+    change ranSMul w ψ M V 0 = 0
     refine ran_hom_ext w.op M.presheaf (fun j => ?_)
     rw [ranSMul_π, map_zero, smulPresheaf_zero, Limits.comp_zero, Limits.zero_comp]
   map_add' r r' := by
     refine End.ext ?_
-    show ranSMul w ψ M V (r + r') = ranSMul w ψ M V r + ranSMul w ψ M V r'
+    change ranSMul w ψ M V (r + r') = ranSMul w ψ M V r + ranSMul w ψ M V r'
     refine ran_hom_ext w.op M.presheaf (fun j => ?_)
     rw [ranSMul_π, Preadditive.add_comp, ranSMul_π, ranSMul_π, map_add, smulPresheaf_add,
       Preadditive.comp_add]
@@ -413,14 +413,14 @@ def ranMap {M₁ M₂ : PresheafOfModules.{v} S} (φ : M₁ ⟶ M₂) : ranObj w
 /-- `ranMap` takes the identity to the identity. -/
 lemma ranMap_id (M : PresheafOfModules.{v} S) : ranMap w ψ (𝟙 M) = 𝟙 _ := by
   refine (PresheafOfModules.toPresheaf T).map_injective ?_
-  show w.op.ran.map (presheafMap (𝟙 M)) = 𝟙 (w.op.ran.obj M.presheaf)
+  change w.op.ran.map (presheafMap (𝟙 M)) = 𝟙 (w.op.ran.obj M.presheaf)
   rw [presheafMap_id, CategoryTheory.Functor.map_id]
 
 /-- `ranMap` takes a composite to the composite. -/
 lemma ranMap_comp {M₁ M₂ M₃ : PresheafOfModules.{v} S} (φ₁ : M₁ ⟶ M₂) (φ₂ : M₂ ⟶ M₃) :
     ranMap w ψ (φ₁ ≫ φ₂) = ranMap w ψ φ₁ ≫ ranMap w ψ φ₂ := by
   refine (PresheafOfModules.toPresheaf T).map_injective ?_
-  show w.op.ran.map (presheafMap (φ₁ ≫ φ₂))
+  change w.op.ran.map (presheafMap (φ₁ ≫ φ₂))
       = w.op.ran.map (presheafMap φ₁) ≫ w.op.ran.map (presheafMap φ₂)
   rw [presheafMap_comp, CategoryTheory.Functor.map_comp]
 

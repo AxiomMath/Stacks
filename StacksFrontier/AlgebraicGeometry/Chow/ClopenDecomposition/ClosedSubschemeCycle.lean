@@ -163,7 +163,7 @@ theorem cycleAssociatedToClosedSubscheme_eq_add_of_isOpenImmersion_pieces
   refine Subtype.ext ?_
   apply Function.locallyFinsuppWithin.ext
   intro x
-  show (cycleAssociatedToClosedSubscheme C p ι k).1 x =
+  change (cycleAssociatedToClosedSubscheme C p ι k).1 x =
     (cycleAssociatedToClosedSubscheme C p ι₁ k).1 x +
       (cycleAssociatedToClosedSubscheme C p ι₂ k).1 x
   by_cases hA : ∃ ξ : genericPoints A,

@@ -70,7 +70,7 @@ map, followed by `Spec 𝒪_{X, b} → X`, is `a`. -/
 private theorem fromSpecStalk_comap_closedPoint {X : Scheme.{u}} {a b : X} (h : a ⤳ b) :
     X.fromSpecStalk b (PrimeSpectrum.comap (X.presheaf.stalkSpecializes h).hom
       (closedPoint (X.presheaf.stalk a))) = a := by
-  show (Spec.map (X.presheaf.stalkSpecializes h) ≫ X.fromSpecStalk b) (closedPoint _) = _
+  change (Spec.map (X.presheaf.stalkSpecializes h) ≫ X.fromSpecStalk b) (closedPoint _) = _
   rw [Scheme.SpecMap_stalkSpecializes_fromSpecStalk, Scheme.fromSpecStalk_closedPoint]
 
 /-- Every prime ideal `p` of the local ring `𝒪_{X, x}` is the contraction of the maximal ideal of
@@ -143,7 +143,7 @@ theorem isFlatOverAt_of_forall_isAssociatedPoint_specializes {X S : Scheme.{u}} 
         (⊤ : Submodule B N)) :=
       Module.Finite.of_surjective (Submodule.mkQ _) (Submodule.mkQ_surjective _)
     exact Module.Finite.of_restrictScalars_finite B _ _
-  show Module.Flat R N
+  change Module.Flat R N
   refine Stacks.Flatness.flat_of_forall_flat_atPrime_assStacks_closedFibre
     (R := R) (S := B) (N := N) fun p hp hass => ?_
   set I : Ideal B := Ideal.map (algebraMap R B) (maximalIdeal R) with hI
@@ -197,7 +197,7 @@ theorem isFlatOverAt_of_forall_isAssociatedPoint_specializes {X S : Scheme.{u}} 
     have hφ := Stacks.ModuleStalkSpecialization.isLocalizedModule_atPrime_stalkSpecializes F hw
     have he : ((maximalIdeal C).under B).primeCompl = p.primeCompl := by
       ext a
-      show a ∉ _ ↔ a ∉ _
+      change a ∉ _ ↔ a ∉ _
       rw [← hpw]
       rfl
     change IsLocalizedModule ((maximalIdeal C).under B).primeCompl φ at hφ
@@ -240,7 +240,7 @@ theorem isFlatOverAt_of_forall_isAssociatedPoint_specializes {X S : Scheme.{u}} 
   let : Algebra R (S.presheaf.stalk (f.base w)) := φS.toAlgebra
   have : IsScalarTower R (S.presheaf.stalk (f.base w)) (F.presheaf.stalk w) := by
     refine IsScalarTower.of_algebraMap_smul fun r m => ?_
-    show (f.stalkMap w).hom (φS r) • m = φX ((f.stalkMap x).hom r) • m
+    change (f.stalkMap w).hom (φS r) • m = φX ((f.stalkMap x).hom r) • m
     rw [← RingHom.comp_apply, hnat, RingHom.comp_apply]
   have : Module.Flat R (S.presheaf.stalk (f.base w)) := by
     let e : R ≃ₗ[R] S.presheaf.stalk (f.base w) :=

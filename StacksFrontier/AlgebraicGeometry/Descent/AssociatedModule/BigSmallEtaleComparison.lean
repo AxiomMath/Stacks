@@ -387,11 +387,11 @@ def bigRestrictAssociatedModuleNatTrans (T : Scheme.{u}) (hT : E.Contains T)
     associatedModule E T hT ⟶
       BigFppfOver.baseAssociatedModule B T (bigContains B E h hT) τ ⋙
         bigRestrict B E h T hT τ hτ :=
-  ((mateEquiv (BigFppfOver.baseAssociatedModuleAdjunction B T (bigContains B E h hT) τ)
+  (mateEquiv (BigFppfOver.baseAssociatedModuleAdjunction B T (bigContains B E h hT) τ)
     (associatedModuleAdjunction E T hT)).symm
       (TwoSquare.mk (BigFppfOver.baseRestrictModule B T (bigContains B E h hT) τ)
         (bigRestrict B E h T hT τ hτ) (𝟭 T.Modules) (restrictModule E T hT)
-        (bigRestrictCompRestrictModuleIso B E h T hT τ hτ).hom)).natTrans
+        (bigRestrictCompRestrictModuleIso B E h T hT τ hτ).hom)
 
 /-- The transpose of the canonical comparison is the unit of the big associated-module
 adjunction, read through `bigRestrictCompRestrictModuleIso`. -/
@@ -611,13 +611,13 @@ def bigRestrictAlongAssociatedModuleNatTrans (τ : SiteKind)
     Scheme.Modules.pullback (schemeHom E a) ⋙ associatedModule E X.obj X.property ⟶
       BigFppfOver.baseAssociatedModule B Y.obj (bigContains B E h Y.property) τ ⋙
         bigRestrictAlong B E h a τ hτ :=
-  ((mateEquiv (BigFppfOver.baseAssociatedModuleAdjunction B Y.obj (bigContains B E h Y.property) τ)
+  (mateEquiv (BigFppfOver.baseAssociatedModuleAdjunction B Y.obj (bigContains B E h Y.property) τ)
     ((Scheme.Modules.pullbackPushforwardAdjunction (schemeHom E a)).comp
       (associatedModuleAdjunction E X.obj X.property))).symm
       (TwoSquare.mk (BigFppfOver.baseRestrictModule B Y.obj (bigContains B E h Y.property) τ)
         (bigRestrictAlong B E h a τ hτ) (𝟭 Y.obj.Modules)
         (restrictModule E X.obj X.property ⋙ Scheme.Modules.pushforward (schemeHom E a))
-        (bigRestrictAlongZariskiComparison B E h a τ hτ))).natTrans
+        (bigRestrictAlongZariskiComparison B E h a τ hτ))
 
 /-- The transpose of the canonical comparison along `a` is the unit of the big associated-module
 adjunction of `Y` followed by the comparison on the small Zariski sites. -/
@@ -659,7 +659,7 @@ omit h in
 /-- An isomorphism of modules on a scheme is a bijection on sections. -/
 theorem modules_iso_hom_app_inv_app_apply {Z : Scheme.{u}} {M N : Z.Modules} (e : M ≅ N)
     (U : Z.Opens) (x : Γ(N, U)) : e.hom.app U (e.inv.app U x) = x := by
-  show (e.inv.app U ≫ e.hom.app U) x = x
+  change (e.inv.app U ≫ e.hom.app U) x = x
   rw [← Scheme.Modules.Hom.comp_app, e.inv_hom_id, Scheme.Modules.Hom.id_app]
   rfl
 
@@ -743,10 +743,11 @@ def bigRestrictAlongSectionsIso :
           right_inv := fun x => modules_iso_hom_app_inv_app_apply
             ((Scheme.Modules.pullbackComp ((toOver E X.obj X.property).obj W.unop).hom
               (schemeHom E a)).app 𝓕).symm ⊤ x })
-      (fun W₁ W₂ f => ModuleCat.hom_ext (LinearMap.ext fun x =>
+      (fun _ _ f => ModuleCat.hom_ext (LinearMap.ext fun x =>
         congrArg (fun φ => φ.hom x)
           ((bigRestrictAlongSectionsPresheafHom B E h a 𝓕).naturality f))))
 
+omit h [𝓕.IsQuasicoherent] in
 /-- **The sections identity behind (1').**  Pulling a section `s` of `𝓕` over `V` back to the open
 subscheme `V`, then along `a⁻¹(V) ⟶ V`, and reading it through the composition isomorphism of
 pullbacks, is pulling `s` back along `a` and then to the open subscheme `a⁻¹(V)`. -/
@@ -796,7 +797,7 @@ theorem bigRestrictAlongSectionsIso_hom_apply (V : Y.obj.Opens)
       ((Scheme.Modules.pullbackComp (schemeHom E a ⁻¹ᵁ V).ι (schemeHom E a)).inv.app 𝓕).app ⊤ x :=
   rfl
 
-omit [𝓕.IsQuasicoherent] in
+omit h [𝓕.IsQuasicoherent] in
 /-- Restriction to the small Zariski site of `X` followed by pushforward along `a`, on sections. -/
 theorem restrictModule_pushforward_map_apply (V : Y.obj.Opens) {M N : SheafOfModules.{u}
   (structureSheaf E X.obj X.property)}
@@ -808,7 +809,7 @@ theorem restrictModule_pushforward_map_apply (V : Y.obj.Opens) {M N : SheafOfMod
         (schemeHom E a ⁻¹ᵁ V))))) y :=
   rfl
 
-omit [𝓕.IsQuasicoherent] in
+omit h [𝓕.IsQuasicoherent] in
 /-- The unit of `𝓕 ↦ a_*(a^*𝓕)^a`, on sections, is the unit of `a^* ⊣ a_*` followed by the unit
 of the small associated-module adjunction of `X`. -/
 theorem compUnit_restrict_apply (V : Y.obj.Opens) (s : 𝓕.val.obj (op V))
@@ -825,6 +826,7 @@ theorem compUnit_restrict_apply (V : Y.obj.Opens) (s : 𝓕.val.obj (op V))
         (((Scheme.Modules.pullbackPushforwardAdjunction (schemeHom E a)).unit.app 𝓕).app V s) :=
   rfl
 
+omit [𝓕.IsQuasicoherent] in
 /-- The restriction map of the sheaf of pullback sections along `a⁻¹(V) ⟶ V`, on a section
 pulled back to `V`. -/
 theorem pullbackSectionsMap_zariskiArrow (V : Y.obj.Opens) (s : 𝓕.val.obj (op V)) :
@@ -848,8 +850,9 @@ theorem sectionsIso_apply_zariski (V : Y.obj.Opens) (s : 𝓕.val.obj (op V)) :
   refine (bigRestrictAlongSectionsIso_hom_apply B E h a τ hτ 𝓕 V _).trans ?_
   refine (congrArg (fun y => ((Scheme.Modules.pullbackComp (schemeHom E a ⁻¹ᵁ V).ι
     (schemeHom E a)).inv.app 𝓕).app ⊤ y) (pullbackSectionsMap_zariskiArrow B E h a 𝓕 V s)).trans ?_
-  exact zariskiSections_eq B E h a 𝓕 V s
+  exact zariskiSections_eq E a 𝓕 V s
 
+omit h in
 /-- The transpose of the identification of `(a^*𝓕)^a_small` with its sheaf of pullback sections,
 on a section of `𝓕`. -/
 theorem compUnit_sectionsIso_apply (V : Y.obj.Opens) (s : 𝓕.val.obj (op V)) :
@@ -862,7 +865,7 @@ theorem compUnit_sectionsIso_apply (V : Y.obj.Opens) (s : 𝓕.val.obj (op V)) :
         ((Scheme.Modules.pullback (schemeHom E a)).obj 𝓕) (schemeHom E a ⁻¹ᵁ V) ⊤
           (Scheme.Opens.top_le_ι_preimage le_rfl)
         (((Scheme.Modules.pullbackPushforwardAdjunction (schemeHom E a)).unit.app 𝓕).app V s) :=
-  (compUnit_restrict_apply B E h a 𝓕 V s _).trans (congrArg (fun φ => (φ.app (op
+  (compUnit_restrict_apply E a 𝓕 V s _).trans (congrArg (fun φ => (φ.app (op
     (schemeHom E a ⁻¹ᵁ V))).hom
     (((Scheme.Modules.pullbackPushforwardAdjunction (schemeHom E a)).unit.app 𝓕).app V s))
     (SmallEtale.val_unit_comp_restrictModule_map_associatedModuleIsoSections E X.obj
@@ -919,9 +922,9 @@ theorem bigRestrictAlongAssociatedModuleNatTrans_app_comp :
   refine (congrArg (fun y => (ModuleCat.Hom.hom ((R₂.map m).val.app (op V)))
     ((ModuleCat.Hom.hom ((κ.app _).val.app (op V))) y)) e1).trans ?_
   refine (congrArg (fun y => (ModuleCat.Hom.hom ((R₂.map m).val.app (op V))) y) e3).trans ?_
-  refine (restrictModule_pushforward_map_apply B E h a V m _).trans ?_
+  refine (restrictModule_pushforward_map_apply E a V m _).trans ?_
   exact (sectionsIso_apply_zariski B E h a τ hτ 𝓕 V s).trans
-    (compUnit_sectionsIso_apply B E h a 𝓕 V s).symm
+    (compUnit_sectionsIso_apply E a 𝓕 V s).symm
 
 /-- **The canonical comparison along `a` is an isomorphism at a quasi-coherent module.** -/
 instance isIso_bigRestrictAlongAssociatedModuleNatTrans_app :
@@ -968,6 +971,7 @@ theorem bigRestrictAlongAssociatedModuleIso_hom_naturality (τ : SiteKind)
   exact ((bigRestrictAlongAssociatedModuleNatTrans B E h a τ hτ).naturality α).symm
 
 
+omit h in
 /-- **The transposed base-change identification, read on the small Zariski site of `Y`.**  The
 unit of `𝓕 ↦ ε_{a,*}ε_a^*(𝓕^a)` followed by the base-change identification of Stacks 03LC (1) is,
 after restriction to the small Zariski site of `Y`, the unit of `𝓕 ↦ a_*(a^*𝓕)^a` followed by the
@@ -1011,7 +1015,7 @@ theorem bigRestrictAssociatedModuleNatTrans_app_comp_bigRestrictComparison (τ :
   have hκ : (bigRestrictCompRestrictModuleIso B E h Y.obj Y.property τ hτ).hom.app A ≫
       (restrictModule E Y.obj Y.property).map ((bigRestrictComparison B E h a τ hτ).app A) =
       κ.app A ≫ (restrictModuleBaseChangeIso E a).inv.app _ := by
-    show _ = ((bigRestrictCompRestrictModuleIso B E h Y.obj Y.property τ hτ).hom.app A ≫
+    change _ = ((bigRestrictCompRestrictModuleIso B E h Y.obj Y.property τ hτ).hom.app A ≫
       (restrictModule E Y.obj Y.property).map ((bigRestrictComparison B E h a τ hτ).app A) ≫
       (restrictModuleBaseChangeIso E a).hom.app _) ≫ (restrictModuleBaseChangeIso E a).inv.app _
     simp only [Category.assoc, Iso.hom_inv_id_app]
@@ -1045,7 +1049,7 @@ theorem bigRestrictAssociatedModuleNatTrans_app_comp_bigRestrictComparison (τ :
           (restrictModule E Y.obj Y.property).map
             ((SheafOfModules.pushforward.{u} (smallEtaleStructureMapRing E a)).map Ψ) := by
         rw [Category.assoc, (restrictModuleBaseChangeIso E a).inv.naturality Ψ, ← Category.assoc,
-          ← unit_comp_restrictModule_map_associatedModuleObjBaseChangeIso_inv B E h a 𝓕,
+          ← unit_comp_restrictModule_map_associatedModuleObjBaseChangeIso_inv E a 𝓕,
           Category.assoc]
         rfl
     _ = _ := by
@@ -1105,7 +1109,7 @@ theorem isIso_homEquiv_symm_bigRestrictComparison_app (τ : SiteKind)
   have e2 : adj.homEquiv _ _ ((SmallEtale.associatedModuleObjBaseChangeIso E a 𝓕).inv ≫ Φ.inv) =
       adj.unit.app _ ≫ ε.map ((SmallEtale.associatedModuleObjBaseChangeIso E a 𝓕).inv ≫ Φ.inv) :=
     Adjunction.homEquiv_unit _ _ _ _
-  show IsIso ((adj.homEquiv _ _).symm ρ)
+  change IsIso ((adj.homEquiv _ _).symm ρ)
   rw [e, ← e2, Adjunction.homEquiv_naturality_left_symm, Equiv.symm_apply_apply]
   infer_instance
 

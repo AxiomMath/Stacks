@@ -83,11 +83,6 @@ theorem derivedSheafHomCounit_structureSheaf_eq_derivedDualEvaluation
   rw [derivedSheafHomCounit_eq, derivedSheafHomTensorEquiv_eq,
     RingedSite.derivedDualEvaluation_eq]
 
-variable [∀ V : Opens X, HasSheafify ((Opens.grothendieckTopology X).over V) AddCommGrpCat.{u}]
-  [∀ V : Opens X, ((Opens.grothendieckTopology X).over V).WEqualsLocallyBijective
-    AddCommGrpCat.{u}]
-  [∀ V : Opens X, HasWeakSheafify ((Opens.grothendieckTopology X).over V) AddCommGrpCat.{u}]
-
 /-- **The canonical map of Stacks 08I1 against application, from the double contraction.** If
 the composition morphism of Stacks 0A8V at intermediate object the structure sheaf is the
 transpose, under the bijection of Stacks 08DI, of the double contraction written with
@@ -111,8 +106,9 @@ theorem derivedTensorDualToSheafHom_whiskerRight_comp_derivedSheafHomCounit_of_d
             (RingedSite.derivedStructureSheaf (ringedSite Rc))).op).app M) :
     derivedTensorDualToSheafHom Rc L M ▷ L ≫ derivedSheafHomCounit Rc L M =
       derivedDualContraction Rc M L := by
-  have h := derivedSheafHomComposition_structureSheafMiddle_whiskerRight_comp_derivedSheafHomCounit_of_doubleContraction
-    Rc L M htr
+  have h :=
+    derivedSheafHomComposition_structSheafMiddle_whiskerRight_comp_counit_of_doubleContraction
+      Rc L M htr
   rw [derivedSheafHomCounit_structureSheaf_eq_derivedDualEvaluation] at h
   exact derivedTensorDualToSheafHom_whiskerRight_comp_derivedSheafHomCounit_of_laws
     Rc L M (RingedSite.derivedDualEvaluation (ringedSite Rc) L) h

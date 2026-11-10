@@ -290,7 +290,7 @@ private theorem pullbackGlobalSections_apply {X Y : Scheme.{u}} (h : Y ⟶ X) (M
     AlgebraicGeometry.pullbackGlobalSections h M s =
       ((Scheme.Modules.pullbackPushforwardAdjunction h).unit.app M).val.app
         (op (⊤ : X.Opens)) s := by
-  show ((Scheme.Modules.pullback h).obj M).presheaf.map (𝟙 (op (⊤ : Y.Opens)))
+  change ((Scheme.Modules.pullback h).obj M).presheaf.map (𝟙 (op (⊤ : Y.Opens)))
       (((Scheme.Modules.pullbackPushforwardAdjunction h).unit.app M).val.app
         (op (⊤ : X.Opens)) s) = _
   exact Functor.map_id_apply _ _ _
@@ -323,7 +323,7 @@ theorem freeHomEquiv_pullbackFreeIso_inv {X Y : Scheme.{u}} (h : Y ⟶ X) (M : X
               (AlgebraicGeometry.Grassmannian.pullbackFreeIso h N).inv ≫
                 (Scheme.Modules.pullback h).map q)).val.app (op (⊤ : X.Opens))
         (1 : X.ringCatSheaf.obj.obj (op ⊤)) := by
-    show _ = ((Scheme.Modules.pushforward h).map
+    change _ = ((Scheme.Modules.pushforward h).map
         (SheafOfModules.ιFree i ≫
           (AlgebraicGeometry.Grassmannian.pullbackFreeIso h N).inv ≫
             (Scheme.Modules.pullback h).map q)).val.app (op (⊤ : X.Opens))

@@ -1,9 +1,7 @@
 module
 
-public import
-  StacksFrontier.AlgebraicGeometry.Simplicial.ComponentRingedTopos.CartesianDerivedModuleOfModuleSystem
-public import
-  StacksFrontier.AlgebraicGeometry.Simplicial.ComponentRingedTopos.ModuleProjectionAdjunctSquareDerived
+public import StacksFrontier.AlgebraicGeometry.Simplicial.ComponentRingedTopos.CartesianDerivedModuleOfModuleSystem
+public import StacksFrontier.AlgebraicGeometry.Simplicial.ComponentRingedTopos.ModuleProjectionAdjunctSquareDerived
 public import
   StacksFrontier.AlgebraicGeometry.Simplicial.ComponentRingedTopos.ModuleTransitionTensorCoherence
 public import StacksFrontier.AlgebraicGeometry.Simplicial.ComponentRingedTopos.ModuleTransitionUnitor

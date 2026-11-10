@@ -115,7 +115,7 @@ private noncomputable def symmetricAlgebra_prodEquiv
       AddHom.coe_mk, Algebra.TensorProduct.toLinearMap_includeRight,
       Algebra.TensorProduct.algHomOfLinearMapTensorProduct_apply,
       TensorProduct.AlgebraTensorModule.lift_apply, map_add, TensorProduct.lift.tmul,
-      LinearMap.coe_coe, map_one, AlgHom.coe_toLinearMap, SymmetricAlgebra.lift_ι_apply,
+      LinearMap.coe_ofClass, map_one, AlgHom.coe_toLinearMap, SymmetricAlgebra.lift_ι_apply,
       LinearMap.coe_inl, LinearMap.mul_apply_apply, mul_one, LinearMap.coe_inr, one_mul,
       F, fP, fQ, gP, gQ]
     rw [← map_add]
@@ -189,8 +189,7 @@ private noncomputable def symmetricAlgebra_baseChangeEquiv
     change F (G (SymmetricAlgebra.ι B (B ⊗[A] M) x)) =
       SymmetricAlgebra.ι B (B ⊗[A] M) x
     rw [SymmetricAlgebra.lift_ι_apply]
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul b m =>
       change (E (SymmetricAlgebra.lift f))
           (b ⊗ₜ[A] SymmetricAlgebra.ι A M m) =
@@ -259,7 +258,7 @@ private theorem mvPolynomial_aeval_zero_eq_constantCoeff
       (MvPolynomial.constantCoeff : MvPolynomial (Fin m) R →+* R) := by
   ext x
   · simp
-  · show MvPolynomial.aeval (fun _ : Fin m => (0 : R)) (MvPolynomial.X x) =
+  · change MvPolynomial.aeval (fun _ : Fin m => (0 : R)) (MvPolynomial.X x) =
       MvPolynomial.constantCoeff (MvPolynomial.X x)
     simp [MvPolynomial.aeval_X, MvPolynomial.constantCoeff_X]
 
@@ -301,7 +300,7 @@ private theorem mvPolynomial_X_isQuasiRegular (R : Type*) [CommRing R] (m : ℕ)
     aeval_val_σ' := by simp
     relation := MvPolynomial.X
     span_range_relation_eq_ker := by
-      show MvPolynomial.idealOfVars (Fin m) R =
+      change MvPolynomial.idealOfVars (Fin m) R =
         RingHom.ker (MvPolynomial.aeval (fun _ : Fin m => (0 : R))).toRingHom
       rw [mvPolynomial_aeval_zero_eq_constantCoeff R m]
       exact (mvPolynomial_ker_constantCoeff_eq_idealOfVars (Fin m) R).symm
@@ -343,7 +342,7 @@ private theorem flat_localization_quotient_of_isQuasiRegular
     exact (IsLocalization.AtPrime.to_map_mem_maximal_iff P p x).mpr (hI hx)
   have hf : ∀ i, f i ∈ Q := by
     intro i
-    show Ideal.Quotient.mk J (f i) ∈ q
+    change Ideal.Quotient.mk J (f i) ∈ q
     rw [Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.subset_span (Set.mem_range_self i))]
     exact q.zero_mem
   have hreg := isRegular_fiber (P := P) (T := T) p.primeCompl I hI' f
@@ -391,7 +390,7 @@ private theorem syntomic_restrictScalars_of_bijective
   let : Algebra S R := e.symm.toRingHom.toAlgebra
   have : IsScalarTower S R T := .of_algebraMap_eq fun s ↦ by
     obtain ⟨r, rfl⟩ := h.surjective s
-    show algebraMap S T (algebraMap R S r) = algebraMap R T (e.symm (e r))
+    change algebraMap S T (algebraMap R S r) = algebraMap R T (e.symm (e r))
     rw [e.symm_apply_apply, ← IsScalarTower.algebraMap_apply R S T]
   have : Algebra.IsPushout S T R T := Algebra.IsPushout.of_bijective_left R T e.symm.bijective
   exact Algebra.IsPushout.syntomic S T R T
@@ -429,7 +428,7 @@ private theorem completeIntersection_fiber_of_syntomic_quotient
       (Algebra.TensorProduct.cancelBaseChange R (R ⧸ I) (R ⧸ I) K A)
   let e : (K ⊗[R ⧸ I] B) ≃ₐ[K] p.Fiber A :=
     AlgEquiv.ofRingEquiv (f := e₀.toRingEquiv) (fun k ↦ by
-      show e₀ (k ⊗ₜ[R ⧸ I] 1) = k ⊗ₜ[R] 1
+      change e₀ (k ⊗ₜ[R ⧸ I] 1) = k ⊗ₜ[R] 1
       simp [e₀, Algebra.TensorProduct.one_def])
   have : Algebra.Syntomic K (p.Fiber A) := syntomic_of_algEquiv e inferInstance
   have hlci := lci_of_syntomic_field (k := K) (S := p.Fiber A)
@@ -522,7 +521,7 @@ private theorem exists_sub_one_mem_syntomic
   let e := (IsLocalization.algEquiv q.primeCompl
     (Localization.AtPrime q) (Localization.AtPrime q')).restrictScalars R
   have hp : q.under R = q'.under R := by
-    show (q'.comap (algebraMap S (Localization.Away s))).comap (algebraMap R S) = _
+    change (q'.comap (algebraMap S (Localization.Away s))).comap (algebraMap R S) = _
     rw [Ideal.comap_comap, ← IsScalarTower.algebraMap_eq]
   refine ⟨Module.Flat.of_linearEquiv e.symm.toLinearEquiv, ?_⟩
   exact IsCompleteIntersection.fiber_congr hp
@@ -617,25 +616,24 @@ theorem exists_syntomic_lift_of_surjective
   let eTensor : Kbar ≃ₛₗ[qr.toRingHom] (C'bar ⊗[A₀] K) :=
     { TensorProduct.congr qlin (LinearEquiv.refl A₀ K) with
       map_smul' := fun c x => by
-        show (TensorProduct.congr qlin (LinearEquiv.refl A₀ K)) (c • x) =
+        change (TensorProduct.congr qlin (LinearEquiv.refl A₀ K)) (c • x) =
           qr c • (TensorProduct.congr qlin (LinearEquiv.refl A₀ K)) x
-        induction x using TensorProduct.induction_on with
-        | zero => simp
+        induction x using TensorProduct.inductionOn with
         | add x y hx hy => rw [smul_add, map_add, hx, hy, map_add, smul_add]
         | tmul x y =>
             rw [TensorProduct.smul_tmul', TensorProduct.congr_tmul,
               TensorProduct.congr_tmul, TensorProduct.smul_tmul']
-            show qr (c * x) ⊗ₜ[A₀] y = (qr c * qr x) ⊗ₜ[A₀] y
+            change qr (c * x) ⊗ₜ[A₀] y = (qr c * qr x) ⊗ₜ[A₀] y
             rw [map_mul] }
   let Qbar := C'bar ⊗[C'] Q
   let eKbarQ : (C'bar ⊗[A₀] K) ≃ₗ[C'bar] Qbar :=
     { eTensor.symm.toAddEquiv.trans eQ.toAddEquiv with
       map_smul' := fun c x => by
-        show eQ (eTensor.symm (c • x)) = c • eQ (eTensor.symm x)
+        change eQ (eTensor.symm (c • x)) = c • eQ (eTensor.symm x)
         rw [LinearEquiv.map_smulₛₗ eTensor.symm c x,
           LinearEquiv.map_smulₛₗ eQ
             ((RingEquiv.ofBijective q hq).symm.toRingHom c) (eTensor.symm x)]
-        show (RingEquiv.ofBijective q hq)
+        change (RingEquiv.ofBijective q hq)
           ((RingEquiv.ofBijective q hq).symm c) • eQ (eTensor.symm x) = _
         rw [(RingEquiv.ofBijective q hq).apply_symm_apply] }
   let : Algebra (C' ⧸ J')
@@ -690,7 +688,7 @@ theorem exists_syntomic_lift_of_surjective
         Ideal.Quotient.mk J (algebraMap R C r) := by
       rw [← IsScalarTower.algebraMap_apply R₀ A₀ C₀]
       exact heC r
-    show Ideal.Quotient.mk L (algebraMap C' D (algebraMap C C' (algebraMap R C r))) =
+    change Ideal.Quotient.mk L (algebraMap C' D (algebraMap C C' (algebraMap R C r))) =
       algebraMap C'bar (D ⧸ L)
         (qr (eC (algebraMap A₀ C₀ (algebraMap R₀ A₀ (algebraMap R R₀ r)))))
     rw [hC]
@@ -745,7 +743,7 @@ theorem exists_syntomic_lift_of_surjective
         Ideal.Quotient.mk (Kideal.map (Ideal.Quotient.mk L))
           (Ideal.Quotient.mk L (algebraMap R D r)) := by
       refine eKred.symm_apply_eq.mpr ?_
-      show Ideal.Quotient.mk (MvPolynomial.idealOfVars (Fin m) A₀)
+      change Ideal.Quotient.mk (MvPolynomial.idealOfVars (Fin m) A₀)
           (MvPolynomial.C (algebraMap R₀ A₀ (algebraMap R R₀ r))) =
         Ideal.Quotient.mk (MvPolynomial.idealOfVars (Fin m) A₀)
           (ePoly (Ideal.Quotient.mk L (algebraMap R D r)))
@@ -756,7 +754,7 @@ theorem exists_syntomic_lift_of_surjective
         Ideal.Quotient.mk (L.map (Ideal.Quotient.mk Kideal))
           (Ideal.Quotient.mk Kideal (algebraMap R D r)) :=
       eSwap.symm_apply_eq.mpr (DoubleQuot.quotQuotEquivComm_quotQuotMk Kideal L _)
-    show eFiber (algebraMap R₀ A₀ (algebraMap R R₀ r)) =
+    change eFiber (algebraMap R₀ A₀ (algebraMap R R₀ r)) =
       Ideal.Quotient.mk (I.map (algebraMap R A))
         (Ideal.Quotient.mk Kideal (algebraMap R D r))
     simp only [eFiber, RingEquiv.trans_apply,
@@ -808,7 +806,7 @@ theorem exists_syntomic_lift_of_surjective
         A ⧸ I.map (algebraMap R A) :=
       AlgEquiv.ofRingEquiv (f := E₂) (fun x : R ⧸ I ↦ by
         obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective x
-        show E₂ (Ideal.Quotient.mk _ (Ideal.Quotient.mk _ (algebraMap R D r))) =
+        change E₂ (Ideal.Quotient.mk _ (Ideal.Quotient.mk _ (algebraMap R D r))) =
           Ideal.Quotient.mk _ (Ideal.Quotient.mk _ (algebraMap R D r))
         exact (congrArg (Ideal.quotEquivOfEq hmap)
           (DoubleQuot.quotQuotEquivComm_quotQuotMk

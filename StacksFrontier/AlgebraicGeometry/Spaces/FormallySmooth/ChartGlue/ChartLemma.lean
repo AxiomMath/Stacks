@@ -51,14 +51,14 @@ abbrev aPt {C₀ : BigFppfOver B S hS} (u : C₀ ⟶ U) : X.obj (op C₀) := a.a
 /-- Restricting the section `a(u)` along `j` gives `a(j ≫ u)`. -/
 lemma aPt_comp {C₀ D₀ : BigFppfOver B S hS} (j : D₀ ⟶ C₀) (u : C₀ ⟶ U) :
     X.map j.op (aPt (a := a) u) = aPt (a := a) (j ≫ u) := by
-  show X.map j.op (a.app _ u) = a.app _ ((yoneda.obj U).map j.op u)
+  change X.map j.op (a.app _ u) = a.app _ ((yoneda.obj U).map j.op u)
   rw [a.naturality_apply]
 
 variable (hfa : FormallyEtale a) (hfs : FormallySmooth (a ≫ f))
   (hyE : f.app _ (aPt (a := a) eU) = Y.map eT.op y)
   (hpair : PairFormallyEtale B S hS T' f y a eT eU)
 
-include hfa hpair hyE in
+include hfa hpair in
 omit [IsAffine ((BigFppfOver.toScheme B S hS).obj T')] in
 /-- **The section `a(e_U)` is formally étale relative to `T'`.** -/
 theorem relFormallyEtale_of_pair : RelFormallyEtale B S hS T' f y eT (aPt (a := a) eU) := by
@@ -68,12 +68,12 @@ theorem relFormallyEtale_of_pair : RelFormallyEtale B S hS T' f y eT (aPt (a := 
   obtain ⟨e, ⟨he₁, he₂, he₃⟩, heu⟩ :=
     hpair C₀ D₀ hC hD j hj u c (by rw [hu₂, hg]) e₀ hu₁.symm he₀
   refine ⟨e, ⟨he₁, he₃, ?_⟩, fun e' ⟨he'₁, he'₂, he'₃⟩ ↦ ?_⟩
-  · show X.map e.op (a.app _ eU) = g
+  · change X.map e.op (a.app _ eU) = g
     rw [aPt_comp (a := a) e eU, he₂]
     exact hu₂
   · have hu' : e' ≫ eU = u := by
       refine huu (e' ≫ eU) ⟨?_, ?_⟩
-      · show j ≫ e' ≫ eU = e₀ ≫ eU
+      · change j ≫ e' ≫ eU = e₀ ≫ eU
         rw [← Category.assoc, he'₁]
       · rw [← he'₃]
         exact (aPt_comp (a := a) e' eU).symm
@@ -88,7 +88,7 @@ theorem exists_lift_of_pair (C₀ D₀ : BigFppfOver B S hS)
     (hj : IsSquareZeroClosedImmersion B S hS j) (c : C₀ ⟶ T') (e₀ : D₀ ⟶ E)
     (he₀ : e₀ ≫ eT = j ≫ c) : ∃ e : C₀ ⟶ E, j ≫ e = e₀ ∧ e ≫ eT = c := by
   obtain ⟨u, hu₁, hu₂⟩ := hfs D₀ C₀ hD hC j hj (e₀ ≫ eU) (Y.map c.op y) (by
-    show f.app _ (a.app _ (e₀ ≫ eU)) = _
+    change f.app _ (a.app _ (e₀ ≫ eU)) = _
     rw [show a.app _ (e₀ ≫ eU) = X.map e₀.op (aPt (a := a) eU) from (aPt_comp e₀ eU).symm,
       f.naturality_apply, hyE, ← Functor.map_comp_apply,
       ← op_comp, he₀, op_comp, Functor.map_comp_apply])
@@ -157,7 +157,7 @@ theorem pairFormallyEtale_of_formallyEtale {E : BigFppfOver B S hS}
   refine ⟨z, ⟨hz₁, ?_, ?_⟩, fun e' ⟨he'₁, he'₂, he'₃⟩ ↦ hzu e' ⟨he'₁, ?_⟩⟩
   · rw [← Category.assoc, hz₂', hm₁]
   · rw [← Category.assoc, hz₂', hm₂]
-  · show e' ≫ eZ = m
+  · change e' ≫ eZ = m
     refine hext _ _ ?_ ?_
     · rw [Category.assoc, he'₂, hm₁]
     · rw [Category.assoc, he'₃, hm₂]

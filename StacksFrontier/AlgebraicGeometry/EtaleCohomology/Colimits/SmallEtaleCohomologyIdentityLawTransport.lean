@@ -269,7 +269,7 @@ theorem etaleCohomologyTransition_id_apply (F : EtaleSheafSystem D AddCommGrpCat
   have hw : systemTransitionMap F (𝟙 i) =
       (etaleSheafPullbackComparison.{u, u + 1} (D.obj i) (D.map (𝟙 i))
         (smallEtaleBaseChangeIdOf (D.map (𝟙 i)) (D.map_id i)).symm).hom.app (F.obj i) := by
-    show (systemPullbackIsoInverseImage D (𝟙 i)).inv.app (F.obj i) ≫ F.map (𝟙 i) = _
+    change (systemPullbackIsoInverseImage D (𝟙 i)).inv.app (F.obj i) ≫ F.map (𝟙 i) = _
     rw [h i,
       ← systemPullbackIsoInverseImage_hom_comp_etaleSheafPullbackComparison_hom_app D i (F.obj i),
       ← Category.assoc, Iso.inv_hom_id_app, Category.id_comp]

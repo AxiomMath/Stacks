@@ -112,7 +112,7 @@ theorem derivedPullbackNatTransAssoc_eq :
   ext K
   simp only [NatTrans.comp_app, Functor.whiskerRight_app, Functor.whiskerLeft_app,
     Functor.associator_hom_app, Functor.associator_inv_app, Category.id_comp]
-  show _ ≫ _ ≫ _ ≫ 𝟙 _ ≫ _ = _
+  change _ ≫ _ ≫ _ ≫ 𝟙 _ ≫ _ = _
   rw [Category.id_comp]
   rfl
 
@@ -124,13 +124,13 @@ reassociations of the intermediate functors are written out; see the implementat
 theorem derivedPullbackNatTrans_commShift :
     letI := derivedPullback_commShift f
     NatTrans.CommShift (derivedPullbackNatTrans f) ℤ := by
-  letI := derivedPullback_commShift f
+  let := derivedPullback_commShift f
   -- the inputs the four whiskered factors' own instances consume
-  letI : (HomotopyCategory.quotient (Modules Y) (ComplexShape.up ℤ)).CommShift ℤ := inferInstance
-  letI : (DerivedCategory.Qh ⋙ derivedPullback f).CommShift ℤ := inferInstance
-  letI : (pullbackOnHomotopy f).CommShift ℤ := inferInstance
-  letI := derivedPullbackComparison_commShift f
-  letI : NatTrans.CommShift (derivedPullbackNatTransAssoc f) ℤ := by
+  let : (HomotopyCategory.quotient (Modules Y) (ComplexShape.up ℤ)).CommShift ℤ := inferInstance
+  let : (DerivedCategory.Qh ⋙ derivedPullback f).CommShift ℤ := inferInstance
+  let : (pullbackOnHomotopy f).CommShift ℤ := inferInstance
+  let := derivedPullbackComparison_commShift f
+  let : NatTrans.CommShift (derivedPullbackNatTransAssoc f) ℤ := by
     unfold derivedPullbackNatTransAssoc
     infer_instance
   exact NatTrans.commShift_of_eq (derivedPullbackNatTransAssoc_eq f).symm

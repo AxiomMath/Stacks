@@ -136,7 +136,7 @@ theorem sectionOf_eq_sum (w : D.V) :
     D.sectionOf w = ∑ i, D.baseScalar (D.basis.repr w i) • D.sectionOf (D.basis i) := by
   classical
   conv_lhs => rw [← D.basis.sum_repr w]
-  show D.ψ (∑ i, D.basis.repr w i • D.basis i) = _
+  change D.ψ (∑ i, D.basis.repr w i • D.basis i) = _
   rw [map_sum]
   exact Finset.sum_congr rfl fun i _ => D.sectionOf_smul _ _
 
@@ -223,7 +223,7 @@ theorem restrictedSection_eq_sum (w : D.V) :
     D.restrictedSection U w =
       ∑ i, U.ι.appTop (D.baseScalar (D.basis.repr w i)) • D.restrictedSection U (D.basis i) := by
   classical
-  show pullbackGlobalSections U.ι D.L (D.sectionOf w) = _
+  change pullbackGlobalSections U.ι D.L (D.sectionOf w) = _
   rw [D.sectionOf_eq_sum w, map_sum]
   exact Finset.sum_congr rfl fun i _ =>
     SectionsEqualizer.pullbackGlobalSections_smul U.ι D.L _ _

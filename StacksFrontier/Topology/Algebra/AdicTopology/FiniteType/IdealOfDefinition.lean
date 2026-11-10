@@ -37,7 +37,7 @@ section
 private lemma idealClosure_mono {R : Type*} [CommRing R] [TopologicalSpace R]
     [IsTopologicalRing R] {I J : Ideal R} (h : I ≤ J) :
     Ideal.closure I ≤ Ideal.closure J := by
-  show closure (I : Set R) ⊆ closure (J : Set R)
+  change closure (I : Set R) ⊆ closure (J : Set R)
   exact closure_mono h
 
 /-- For a pre-admissible source, finite type modulo every weak ideal of definition is equivalent
@@ -84,7 +84,7 @@ public lemma finiteTypeModuloEveryWeakIdeal_iff_exists_idealOfDefinition
     let N : Ideal (B ⧸ L) := J.map (Ideal.Quotient.mk L)
     have hNnil : IsNilpotent N := by
       refine ⟨n, ?_⟩
-      show (J.map (Ideal.Quotient.mk L)) ^ n = ⊥
+      change (J.map (Ideal.Quotient.mk L)) ^ n = ⊥
       rw [← Ideal.map_pow]
       exact Ideal.map_mk_eq_bot_of_le hpow
     have hsumClosed : IsClosed ((J.map φ ⊔ IL : Ideal A) : Set A) :=
@@ -109,7 +109,7 @@ public lemma finiteTypeModuloEveryWeakIdeal_iff_exists_idealOfDefinition
           (Ideal.ker_quotient_lift (I := IL) (f := Ideal.Quotient.mk IJ)
             (show IL ≤ RingHom.ker (Ideal.Quotient.mk IJ) from by simpa using hIle))
       rw [hker]
-      show IJ.map (Ideal.Quotient.mk IL) =
+      change IJ.map (Ideal.Quotient.mk IL) =
         (J.map (Ideal.Quotient.mk L)).map
           (Ideal.quotientMap IL φ (Ideal.map_le_iff_le_comap.mp hLmap))
       have hfLmk : (Ideal.quotientMap IL φ (Ideal.map_le_iff_le_comap.mp hLmap)).comp

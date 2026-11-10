@@ -93,7 +93,7 @@ include he hφ in
 theorem span_le_comap_span :
     Ideal.span {φ} ≤ (Ideal.span {φ}).comap g.appTop.hom := by
   rw [Ideal.span_le, Set.singleton_subset_iff]
-  show g.appTop φ ∈ Ideal.span {φ}
+  change g.appTop φ ∈ Ideal.span {φ}
   rw [hφ]
   exact Ideal.pow_mem_of_mem _ (Ideal.mem_span_singleton_self φ) e he
 
@@ -123,7 +123,7 @@ theorem units_map_basicOpenMap :
     Units.map (basicOpenMap g he φ hφ).appTop.hom (functionDatum φ).a =
       (functionDatum φ).a ^ e := by
   ext
-  show (basicOpenMap g he φ hφ).appTop ((functionDatum φ).j.appTop φ) =
+  change (basicOpenMap g he φ hφ).appTop ((functionDatum φ).j.appTop φ) =
     ((functionDatum φ).j.appTop φ) ^ e
   rw [← CommRingCat.comp_apply, ← Scheme.Hom.comp_appTop, ← basicOpenMap_comp g he φ hφ,
     Scheme.Hom.comp_appTop, CommRingCat.comp_apply, hφ, map_pow]

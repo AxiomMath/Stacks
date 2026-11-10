@@ -173,7 +173,7 @@ theorem ValuativeSquare.DominatingExtension.genericOver_comp_fracHom
     e.genericOver ≫ q.fracHom = e.square.fracHom ≫ e.specialOver := by
   apply Over.OverMorphism.ext
   apply B.inclusion.map_injective
-  show B.inclusion.map e.genericOver.left ≫ B.inclusion.map q.fracHom.left =
+  change B.inclusion.map e.genericOver.left ≫ B.inclusion.map q.fracHom.left =
     B.inclusion.map e.square.fracHom.left ≫ B.inclusion.map e.specialOver.left
   rw [e.genericOver_left, e.specialOver_left]
   simp only [ValuativeSquare.fracHom, Over.homMk_left, ObjectProperty.ι_map,
@@ -330,7 +330,7 @@ theorem valuativeCriterion_uniqueness_of_isSeparated (f : X ⟶ Y)
       rw [hk]
       have hQ : (RingHom.toMorphismProperty fun φ ↦ Function.Injective φ).RespectsIso :=
         RingHom.toMorphismProperty_respectsIso_iff.mp RingHom.injective_respectsIso
-      show RingHom.toMorphismProperty (fun φ ↦ Function.Injective φ) _
+      change RingHom.toMorphismProperty (fun φ ↦ Function.Injective φ) _
       rw [← MorphismProperty.arrow_mk_iso_iff
         (P := RingHom.toMorphismProperty fun φ ↦ Function.Injective φ)
         (arrowIsoΓSpecOfIsAffine (CommRingCat.ofHom (algebraMap v.R v.K)))]
@@ -349,7 +349,7 @@ theorem valuativeCriterion_uniqueness_of_isSeparated (f : X ⟶ Y)
     exact IsClosedImmersion.isIso_of_injective_of_isAffine hinj
   have : IsIso (hf.rep.snd w) := isIso_of_reflects_iso _ (BigFppfOver.toScheme B S hS)
   have : Epi (yoneda.map (hf.rep.snd w)) := by
-    haveI : IsIso (yoneda.map (hf.rep.snd w)) := Functor.map_isIso _ _
+    have : IsIso (yoneda.map (hf.rep.snd w)) := Functor.map_isIso _ _
     exact IsIso.epi_of_iso _
   have hcancel : yoneda.map (hf.rep.snd w) ≫ w ≫ pullback.fst f f =
       yoneda.map (hf.rep.snd w) ≫ w ≫ pullback.snd f f := by
@@ -404,7 +404,7 @@ private theorem exists_valuativeSquare_of_specializes {F : (BigFppfOver B S hS)�
     rw [Scheme.size_Spec] at h
     exact (le_max_right Cardinal.aleph0 (Cardinal.mk p.carrier)).trans_lt h
   have hAmem : B.Contains (Spec (.of A)) := by
-    show (Spec (.of A)).size < B.cutoff
+    change (Spec (.of A)).size < B.cutoff
     rw [Scheme.size_Spec]
     exact max_lt B.aleph0_lt_cutoff
       ((Cardinal.mk_le_of_injective Subtype.val_injective).trans_lt hKcard)
@@ -413,7 +413,7 @@ private theorem exists_valuativeSquare_of_specializes {F : (BigFppfOver B S hS)�
   let vA : Spec (.of A) ⟶ T := Spec.map localMap ≫ T.fromSpecStalk y
   have hfactor : Spec.map (CommRingCat.ofHom (algebraMap A p.carrier)) ≫ vA = g := by
     have hφ : Spec.map φ ≫ T.fromSpecStalk y = g := by
-      show Spec.map (T.presheaf.stalkSpecializes hsp' ≫ Scheme.stalkClosedPointTo g) ≫
+      change Spec.map (T.presheaf.stalkSpecializes hsp' ≫ Scheme.stalkClosedPointTo g) ≫
         T.fromSpecStalk y = g
       rw [Spec.map_comp, Category.assoc, Scheme.SpecMap_stalkSpecializes_fromSpecStalk hsp']
       exact Scheme.Spec_stalkClosedPointTo_fromSpecStalk (f := g)
@@ -442,7 +442,7 @@ private theorem exists_valuativeSquare_of_specializes {F : (BigFppfOver B S hS)�
         p.siteObject B S hS F :=
     Over.homMk (𝟙 (B.obj p.contained)) (by
       apply ObjectProperty.hom_ext
-      show p.toBase = _
+      change p.toBase = _
       exact hbase.symm)
   let vB : B.obj hAmem ⟶ U.left := B.inclusion.preimage vA
   have hvB : B.inclusion.map vB = vA :=
@@ -450,12 +450,12 @@ private theorem exists_valuativeSquare_of_specializes {F : (BigFppfOver B S hS)�
   let specialOver : siteObject B S hS hAmem baseA ⟶ U :=
     Over.homMk vB (by
       apply ObjectProperty.hom_ext
-      show B.inclusion.map vB ≫ B.inclusion.map U.hom = baseA
+      change B.inclusion.map vB ≫ B.inclusion.map U.hom = baseA
       rw [hvB])
   have harrow : idK ≫ u = qFrac ≫ specialOver := by
     apply Over.OverMorphism.ext
     apply B.inclusion.map_injective
-    show B.inclusion.map (𝟙 (B.obj p.contained)) ≫ B.inclusion.map u.left =
+    change B.inclusion.map (𝟙 (B.obj p.contained)) ≫ B.inclusion.map u.left =
       Spec.map (CommRingCat.ofHom (algebraMap A p.carrier)) ≫ B.inclusion.map vB
     rw [B.inclusion.map_id, Category.id_comp, hvB]
     exact hfactor.symm
@@ -482,7 +482,7 @@ private theorem exists_valuativeSquare_of_specializes {F : (BigFppfOver B S hS)�
       IsLocalRing.closedPoint (T.presheaf.stalk y) :=
     IsLocalRing.comap_closedPoint (φ.hom.codRestrict A.toSubring hA)
   have hvA : vA (IsLocalRing.closedPoint A) = y := by
-    show T.fromSpecStalk y (Spec.map localMap (IsLocalRing.closedPoint A)) = y
+    change T.fromSpecStalk y (Spec.map localMap (IsLocalRing.closedPoint A)) = y
     rw [hclosedA]
     exact T.fromSpecStalk_closedPoint
   have hcenter : schemePoint B S hS U (FieldValuedPoint.map B S hS
@@ -492,7 +492,7 @@ private theorem exists_valuativeSquare_of_specializes {F : (BigFppfOver B S hS)�
     rw [schemePoint_map_yoneda,
       schemePointRepresentative_point B S hS (siteObject B S hS hAmem baseA)
         (IsLocalRing.closedPoint A)]
-    show B.inclusion.map vB (IsLocalRing.closedPoint A) = y
+    change B.inclusion.map vB (IsLocalRing.closedPoint A) = y
     rw [hvB]
     exact hvA
   obtain ⟨e, hlift⟩ := hval v
@@ -570,7 +570,7 @@ theorem exists_specializes_pointsMap_eq_of_lift {F G : (BigFppfOver B S hS)ᵒ�
   have hpLiftEq : FieldValuedPoint.map B S hS (yoneda.obj RObj) l.map ringGeneric =
       FieldValuedPoint.map B S hS (yoneda.obj frac)
         (yoneda.map (e.genericOver ≫ k) ≫ yonedaEquiv.symm p.value) genericPoint := by
-    show FieldValuedPoint.map B S hS (yoneda.obj frac)
+    change FieldValuedPoint.map B S hS (yoneda.obj frac)
       (yoneda.map e.square.fracHom ≫ l.map) genericPoint = _
     rw [hnat]
   have hpExt : (FieldValuedPoint.map B S hS (yoneda.obj frac)
@@ -578,7 +578,7 @@ theorem exists_specializes_pointsMap_eq_of_lift {F G : (BigFppfOver B S hS)ᵒ�
         B S hS F = p.class B S hS F := by
     refine FieldValuedPoint.class_eq_class_of_hasCommonExtension B S hS F ⟨_,
       FieldValuedPoint.dominates_refl B S hS F _, ⟨e.genericOver ≫ k, ?_⟩⟩
-    show F.map (e.genericOver ≫ k).op p.value =
+    change F.map (e.genericOver ≫ k).op p.value =
       (yoneda.map (e.genericOver ≫ k) ≫ yonedaEquiv.symm p.value).app
         (Opposite.op frac) (yonedaEquiv (yoneda.map (𝟙 frac)))
     rw [yonedaEquiv_symm_naturality_left, yonedaEquiv_yoneda_map, yonedaEquiv_symm_app_apply]
@@ -597,7 +597,7 @@ theorem exists_specializes_pointsMap_eq_of_lift {F G : (BigFppfOver B S hS)ᵒ�
       rw [schemePoint_map_yoneda,
         schemePointRepresentative_point B S hS RObj (IsLocalRing.closedPoint e.square.R)]
       have : IsLocalHom e.ringMap := e.isLocalHom
-      show B.inclusion.map e.specialOver.left
+      change B.inclusion.map e.specialOver.left
         (IsLocalRing.closedPoint e.square.R) = _
       rw [e.specialOver_left]
       exact IsLocalRing.comap_closedPoint e.ringMap
@@ -788,7 +788,7 @@ public theorem spec_algebraMap_closedPoint_eq_genericPoint
         (IsLocalRing.closedPoint K) =
       genericPoint (Spec (.of R)) := by
   apply PrimeSpectrum.ext
-  show Ideal.comap (algebraMap R K) (IsLocalRing.maximalIdeal K) = _
+  change Ideal.comap (algebraMap R K) (IsLocalRing.maximalIdeal K) = _
   rw [genericPoint_eq_bot_of_affine, IsLocalRing.maximalIdeal_eq_bot,
     Ideal.comap_bot_of_injective _ (IsFractionRing.injective R K)]
   rfl
@@ -855,7 +855,7 @@ theorem valuativeCriterion_existence_of_isQuasiSeparated_of_universallyClosed
     refine isQuasiCompact_of_comp_of_isQuasiSeparated B S hS g p hK hA ?_ hqsp
     rw [hgp]
     refine isQuasiCompact_yoneda_map_of_isAffineHom B S hS q.fracHom ?_
-    show _root_.AlgebraicGeometry.IsAffineHom
+    change _root_.AlgebraicGeometry.IsAffineHom
       (Spec.map (CommRingCat.ofHom (algebraMap q.R q.K)))
     infer_instance
   -- The scheme-theoretic image of `g`, whose points are the closure of the image of `g`.
@@ -881,7 +881,7 @@ theorem valuativeCriterion_existence_of_isQuasiSeparated_of_universallyClosed
       (congrFun (pointsMap_comp B S hS (yoneda.obj TK) g p) _).symm
     rw [h1, hgp, pointsToScheme_pointsMap B S hS q.fracHom, pointsToScheme_class,
       schemePointRepresentative_point B S hS TK (IsLocalRing.closedPoint q.K)]
-    show (Spec.map (CommRingCat.ofHom (algebraMap q.R q.K)))
+    change (Spec.map (CommRingCat.ofHom (algebraMap q.R q.K)))
       (IsLocalRing.closedPoint q.K) = _
     exact spec_algebraMap_closedPoint_eq_genericPoint
   -- Hence the closed point of `Spec A` is hit as well.
@@ -967,7 +967,7 @@ theorem valuativeCriterion_existence_of_isQuasiSeparated_of_universallyClosed
         IsLocalRing.closedPoint q.R := by
       rw [pointsToScheme_class]
       exact schemePointRepresentative_point B S hS TA (IsLocalRing.closedPoint q.R)
-    show (Spec.map (CommRingCat.ofHom ringMap)) (IsLocalRing.closedPoint q'.R) =
+    change (Spec.map (CommRingCat.ofHom ringMap)) (IsLocalRing.closedPoint q'.R) =
       IsLocalRing.closedPoint q.R
     rw [hringMap]
     exact h2.symm.trans h4
@@ -1032,6 +1032,7 @@ theorem universallyClosed_iff_valuativeCriterion_existence_of_isQuasiCompact_of_
 /-! ### Separatedness from the uniqueness part -/
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance search for the pullbacks `pullback f f` of presheaves on the big fppf site
 /-- The relative diagonal of a morphism satisfying the uniqueness part of the valuative
 criterion satisfies the existence part.
 
@@ -1285,7 +1286,7 @@ theorem exists_valuationRing_extension_lift_of_isFlat
       IsLocalHom.of_surjective ek.hom.hom (ConcreteCategory.bijective_of_isIso ek.hom).2
     have h2 : IsLocalHom (k.stalkMap u).hom := inferInstance
     rw [hα]
-    show IsLocalHom ((k.stalkMap u).hom.comp ek.hom.hom)
+    change IsLocalHom ((k.stalkMap u).hom.comp ek.hom.hom)
     exact RingHom.isLocalHom_comp _ _
   let _ : Algebra A (((BigFppfOver.toScheme B S hS).obj U).presheaf.stalk u) :=
     α.hom.toAlgebra
@@ -1310,7 +1311,7 @@ theorem exists_valuationRing_extension_lift_of_isFlat
     intro b c hbc
     have hmem : α.hom (b - c) ∈ P.asIdeal := by
       refine Ideal.Quotient.eq_zero_iff_mem.mp ?_
-      show ψ (b - c) = 0
+      change ψ (b - c) = 0
       rw [map_sub, hbc, sub_self]
     have hmem' : (b - c) ∈ Ideal.comap α.hom P.asIdeal := hmem
     rw [hzero] at hmem'
@@ -1385,7 +1386,7 @@ theorem exists_valuationRing_extension_lift_of_isFlat
     rfl
   have hOver : pU ≫ U.hom = V'.hom := by
     apply B.inclusion.map_injective
-    show B.inclusion.map (pU ≫ U.hom) = B.inclusion.map (pV ≫ V.hom)
+    change B.inclusion.map (pU ≫ U.hom) = B.inclusion.map (pV ≫ V.hom)
     rw [← hleft, Category.assoc, Over.w h]
   set j : V' ⟶ V := Over.homMk pV with hj
   set jU : V' ⟶ U := Over.homMk pU hOver with hjU

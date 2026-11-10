@@ -380,8 +380,7 @@ theorem exists_smul_eq_one_tmul (z : p.ResidueField ⊗[R] M) :
   suffices h : ∃ b : R, b ∉ p ∧ ∃ m : M, b • z = (1 : p.ResidueField) ⊗ₜ[R] m by
     obtain ⟨b, hb, m, hm⟩ := h
     exact ⟨b, hb, m, by rwa [algebraMap_smul]⟩
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨1, (Ideal.ne_top_iff_one p).1 (Ideal.IsPrime.ne_top ‹_›), 0, by simp⟩
+  induction z using TensorProduct.inductionOn with
   | tmul c m =>
     obtain ⟨⟨a, s⟩, rfl⟩ := IsLocalization.mk'_surjective (nonZeroDivisors (R ⧸ p)) c
     obtain ⟨a', rfl⟩ := Ideal.Quotient.mk_surjective a
@@ -540,8 +539,7 @@ theorem exact_lTensor_of_exact_extendScalars {S : Type u} [CommRing S] [Algebra 
   have hcomm : ∀ {M M' : ModuleCat.{u} R} (g : M ⟶ M') (z : TensorProduct R S' M),
       E M' (TensorProduct.map LinearMap.id g.hom z) = g.hom.lTensor S (E M z) := by
     intro M M' g z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul c m => rfl
     | add x y hx hy => simp only [map_add, hx, hy]
   have hmap : ∀ {M M' : ModuleCat.{u} R} (g : M ⟶ M') (z : TensorProduct R S' M),

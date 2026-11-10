@@ -678,7 +678,7 @@ private theorem comap_eq_of_mem_quot_of_flat [Module.Flat R N] (q : PrimeSpectru
         (by simpa using hk)
     exact hq.ne_top (by rw [hz, hz0]; simp)
   · intro r hr
-    show algebraMap R S r ∈ q.asIdeal
+    change algebraMap R S r ∈ q.asIdeal
     refine mem_of_smul_eq_zero hz ?_
     rw [algebraMap_smul]
     exact smul_eq_zero_of_mem N p.asIdeal hr z

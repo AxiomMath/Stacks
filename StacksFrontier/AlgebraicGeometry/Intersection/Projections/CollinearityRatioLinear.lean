@@ -142,14 +142,14 @@ public theorem prFst_comp_prodTwoToSpec :
 /-- The first projection of the triple product is a morphism over `Spec k`. -/
 public theorem pr₁_comp_toSpec :
     pr₁ k V ≫ projectiveSpaceOfModuleToSpec k V = prodThreeToSpec k V := by
-  show (prFst k V ≫ pullback.fst _ _) ≫ projectiveSpaceOfModuleToSpec k V = _
+  change (prFst k V ≫ pullback.fst _ _) ≫ projectiveSpaceOfModuleToSpec k V = _
   rw [Category.assoc]
   exact pullback.condition
 
 /-- The second projection of the triple product is a morphism over `Spec k`. -/
 public theorem pr₂_comp_toSpec :
     pr₂ k V ≫ projectiveSpaceOfModuleToSpec k V = prodThreeToSpec k V := by
-  show (prFst k V ≫ pullback.snd _ _) ≫ projectiveSpaceOfModuleToSpec k V = _
+  change (prFst k V ≫ pullback.snd _ _) ≫ projectiveSpaceOfModuleToSpec k V = _
   rw [Category.assoc, ← pullback.condition]
   exact pullback.condition
 
@@ -388,9 +388,9 @@ public theorem mem_collinearLocus_of_lineSubmodule_le [IsAlgClosed k] [Module.Fi
     (hle : lineSubmodule k V ((pr₁ k V).base x) ((pr₂ k V).base x) ≤
       pointSubmodule k V ((pr₃ k V).base x)) :
     x ∈ collinearLocus k V := by
-  obtain ⟨b, hb₁, hb₂⟩ := SetLike.not_le_iff_exists.mp
+  obtain ⟨b, hb₁, hb₂⟩ := IsConcreteLE.not_le_iff_exists.mp
     (not_pointSubmodule_le k V hcl₁ hcl₂ hne)
-  obtain ⟨a, ha₂, ha₁⟩ := SetLike.not_le_iff_exists.mp
+  obtain ⟨a, ha₂, ha₁⟩ := IsConcreteLE.not_le_iff_exists.mp
     (not_pointSubmodule_le k V hcl₂ hcl₁ hne.symm)
   obtain ⟨g₁, hg₁ne, hg₁eq⟩ := exists_eq_linearFunctionalPoint k V _ hcl₁
   obtain ⟨g₂, hg₂ne, hg₂eq⟩ := exists_eq_linearFunctionalPoint k V _ hcl₂

@@ -99,7 +99,7 @@ theorem extendScalars_map_ι_comp_tensorExtendScalarsIso
   apply ModuleCat.hom_ext
   apply TensorProduct.ext'
   intro x y
-  show (((tensorExtendScalarsIso f K).hom.app P).f n).hom
+  change (((tensorExtendScalarsIso f K).hom.app P).f n).hom
         ((1 : A) ⊗ₜ[R] (HomologicalComplex.ιTensorObj P K i j n h).hom (x ⊗ₜ[R] y)) =
       (HomologicalComplex.ιTensorObj ((mapCochainComplex f).obj P)
           ((mapCochainComplex f).obj K) i j n h).hom

@@ -273,7 +273,7 @@ theorem generates_baseChangeFamily (hgen : D.Generates) : (D.baseChangeFamily K)
       (fun v : D.V => pullbackGlobalSections (D.baseChangeToX K) D.L (D.sectionOf v)) :=
     AlgebraicGeometry.generatesStalks_pullbackGlobalSections (D.baseChangeToX K) D.L
       D.sectionOf hgen
-  show Stacks.ProjectiveFromSections.GeneratesStalks (D.baseChangeFamily K).sectionOf
+  change Stacks.ProjectiveFromSections.GeneratesStalks (D.baseChangeFamily K).sectionOf
   refine Stacks.StalkwiseGeneration.generatesStalks_of_span_eq_top _ fun x => ?_
   obtain ⟨v, hv⟩ := Stacks.ProjectiveFromSections.exists_mem_nvCover_of_generatesStalks _ hpb x
   refine Stacks.FinGenFromCover.span_eq_top_of_mem_nonvanishingLocus _ _ (i := 1 ⊗ₜ v) ?_

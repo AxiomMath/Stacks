@@ -131,7 +131,7 @@ theorem cancelIsoApp_inv_one_tmul {A B R : Type u} [CommRing A] [CommRing B] [Co
   have hhom : (cancelIsoApp a b p hp P).hom ((1 : R) ⊗ₜ[B,b] y) = (1 : R) ⊗ₜ[A,p] m := by
     refine (cancelIsoApp_hom_one_tmul a b p hp P fAlg (fun _ => rfl) y).trans ?_
     rw [hy]
-    show fAlg (1 : B) ⊗ₜ[A,p] m = _
+    change fAlg (1 : B) ⊗ₜ[A,p] m = _
     rw [map_one]
   have hinv : ∀ z, (cancelIsoApp a b p hp P).inv ((cancelIsoApp a b p hp P).hom z) = z :=
     fun z => congrArg (fun k => (ConcreteCategory.hom k) z)
@@ -246,7 +246,7 @@ theorem canHom_app_top_pullbackSection (a : Γ(F, ⊤)) :
     (le_preimage_top q ⊤) (hpi ▸ le_preimage_top pi ⊤) a
   have h2 := Scheme.Modules.pullbackSection_congr hpi F ⊤ ⊤ (hpi ▸ le_preimage_top pi ⊤)
     (le_preimage_top pi ⊤) a
-  show ((Scheme.Modules.pullbackCongr hpi).hom.app F).val.app (op ⊤)
+  change ((Scheme.Modules.pullbackCongr hpi).hom.app F).val.app (op ⊤)
     (((Scheme.Modules.pullbackComp q g).hom.app F).val.app (op ⊤) _) = _
   rw [h1, h2]
 

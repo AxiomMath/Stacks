@@ -497,7 +497,7 @@ private lemma final_cmp (V' : Over V) :
             rw [u.map_id, Category.id_comp, Category.id_comp]; exact Category.comp_id _))
       (fun f => by
         ext
-        show f.left.left ≫ 𝟙 _ = 𝟙 _ ≫ f.left.left
+        change f.left.left ≫ 𝟙 _ = 𝟙 _ ≫ f.left.left
         simp))
 
 open CategoryTheory.Functor in

@@ -9,7 +9,8 @@ import all StacksFrontier.AlgebraicGeometry.Scheme.Glueing.ProjectiveLineSection
 
 Integrality, quasi-compactness, finite type and dimension one of the pinched projective line,
 its global functions, separatedness and properness of its structure morphism, and its singular
-locus. All declarations are private; they are used by
+locus. All declarations except the general dimension bound
+`AlgebraicGeometry.topologicalKrullDim_le_of_openCover` are private; they are used by
 `AlgebraicGeometry.exists_pinchedProjectiveLine`.
 -/
 
@@ -130,7 +131,9 @@ private theorem pinchedCurve_finiteIrreducibleComponents [Module.Finite k K]
     rw [irreducibleComponents_eq_singleton]
     exact Set.finite_singleton _
 
-private theorem topologicalKrullDim_le_of_openCover {Y : Scheme.{u}}
+/-- The topological Krull dimension of a scheme is at most `d` if that of every member of an
+open cover is. -/
+theorem topologicalKrullDim_le_of_openCover {Y : Scheme.{u}}
     (𝒰 : Y.OpenCover) (d : WithBot ℕ∞)
     (h : ∀ i, topologicalKrullDim (𝒰.X i) ≤ d) : topologicalKrullDim Y ≤ d := by
   rw [topologicalKrullDim_eq_iSup_krullDimOfRing_stalk]

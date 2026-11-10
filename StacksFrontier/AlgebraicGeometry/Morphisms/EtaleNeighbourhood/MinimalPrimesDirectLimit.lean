@@ -54,7 +54,7 @@ private theorem directLimit_of_flat
   let g := Ring.DirectLimit.of R (fun i j h => (f i j h : R i → R j)) i
   let : Algebra (R i) (Ring.DirectLimit R (fun i j h => (f i j h : R i → R j))) :=
     g.toAlgebra
-  show Module.Flat (R i) (Ring.DirectLimit R (fun i j h => (f i j h : R i → R j)))
+  change Module.Flat (R i) (Ring.DirectLimit R (fun i j h => (f i j h : R i → R j)))
   let J := {j : ι // i ≤ j}
   have : IsDirected J (· ≤ ·) := ⟨fun j k => by
     obtain ⟨m, hjm, hkm⟩ := directed_of (· ≤ ·) j.1 k.1
@@ -150,7 +150,7 @@ private theorem finite_minimalPrimes_le_stage
       Finset.mem_image.mpr ⟨(Q', Q), Finset.mem_product.mpr ⟨by simp [Q'], by simp [Q]⟩, rfl⟩
     have hl := hlift (witness Q' Q) hmem
     have ha : lift (witness Q' Q) ∈ c q' := by
-      show ofi (lift (witness Q' Q)) ∈ q'
+      change ofi (lift (witness Q' Q)) ∈ q'
       rw [hl]
       simpa [witness, hQQ] using hw.1
     have ha' : lift (witness Q' Q) ∈ c q := by rwa [← heq] at ha

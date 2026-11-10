@@ -101,7 +101,7 @@ private theorem thickeningRelationChartToBase_comp_eq
     E.thickeningRelationChartToBase P Q gU hgU gR hgs hR ≫ s =
       E.chartRealizedSchemeOverMap hS i hU hR ≫ E.thickeningChartToBase P Q gU hgU hU :=
   BigFppfOver.map_toScheme_injective B S hS (by
-    show (BigFppfOver.toScheme B S hS).map _ = (BigFppfOver.toScheme B S hS).map _
+    change (BigFppfOver.toScheme B S hS).map _ = (BigFppfOver.toScheme B S hS).map _
     rw [Functor.map_comp, Functor.map_comp, toScheme_map_thickeningChartToBase,
       toScheme_map_thickeningRelationChartToBase, toScheme_map_chartRealizedSchemeOverMap, hs]
     exact (E.chartRealizedSchemeMap_comp_chartRealizedSchemeToBase E.toBase E.toBase_π
@@ -134,7 +134,7 @@ theorem thickeningChartToBase_comp_toSpace_eq :
         yoneda.map (E.thickeningChartToBase P Q gU hgU hU) ≫ Q.toSpace =
       yoneda.map (E.thickeningQuotientPresentation hS P hU hR).source ≫
         yoneda.map (E.thickeningChartToBase P Q gU hgU hU) ≫ Q.toSpace := by
-  show yoneda.map (E.chartRealizedSchemeOverMap hS (presentationRelationTargetHom P) hU hR) ≫ _ =
+  change yoneda.map (E.chartRealizedSchemeOverMap hS (presentationRelationTargetHom P) hU hR) ≫ _ =
     yoneda.map (E.chartRealizedSchemeOverMap hS (presentationRelationSourceHom P) hU hR) ≫ _
   have h1 := E.thickeningRelationChartToBase_target P Q gU hgU gR hgt hgs hU hR
   have h2 := E.thickeningRelationChartToBase_source P Q gU hgU gR hgs hU hR
@@ -166,13 +166,13 @@ theorem thickeningImmersion_comp_thickeningQuotientToBase :
     E.thickeningImmersion P hU hR ≫ E.thickeningQuotientToBase P Q gU hgU gR hgt hgs hU hR = f := by
   apply ObjectProperty.hom_ext
   refine presentation_toSpace_hom_ext P Y.property.isSheaf ?_
-  show P.toSpace ≫ (E.thickeningImmersion P hU hR).hom ≫
+  change P.toSpace ≫ (E.thickeningImmersion P hU hR).hom ≫
     (E.thickeningQuotientToBase P Q gU hgU gR hgt hgs hU hR).hom = _
   rw [← Category.assoc, (E.isPullback_thickeningImmersion P hU hR).w, Category.assoc,
     thickeningQuotientMap_comp_thickeningQuotientToBase, hgU, ← Category.assoc]
   refine congrArg (· ≫ Q.toSpace) ((yoneda.map_comp _ _).symm.trans (congrArg yoneda.map ?_))
   refine BigFppfOver.map_toScheme_injective B S hS ?_
-  show (BigFppfOver.toScheme B S hS).map _ = (BigFppfOver.toScheme B S hS).map _
+  change (BigFppfOver.toScheme B S hS).map _ = (BigFppfOver.toScheme B S hS).map _
   exact ((BigFppfOver.toScheme B S hS).map_comp (E.chartInclusionOver (presentationChart P) hU)
     (E.thickeningChartToBase P Q gU hgU hU)).trans
     ((congrArg₂ (· ≫ ·) (E.toScheme_map_chartInclusionOver _ hU)

@@ -85,7 +85,7 @@ theorem isFiniteType_viewOverIntegers_of_atlas [CompactSpace ((𝕋).obj V)]
         hq_et, presheaf_inverseImage_of_isIso' B hZ _ _, hq_surj, terminal.hom_ext _ _, ?_⟩
     have h : (𝕋).map ((Over.mkIdTerminal (X := B.obj hZ)).from V) =
         terminal.from ((𝕋).obj V) := terminal.hom_ext _ _
-    show LocallyOfFiniteType ((𝕋).map _)
+    change LocallyOfFiniteType ((𝕋).map _)
     rw [h]
     exact hV
   have hTqs : IsAbsolutelyQuasiSeparated B _ hZ hZ

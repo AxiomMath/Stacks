@@ -99,7 +99,7 @@ theorem stupidTruncGESplitting_r_of_ne (p n : ℤ) (hn : n ≠ p) :
               (K.stupidTrunc (embeddingUpIntGE (p + 1))) (p + 1) n (by omega))
             (CochainComplex.isZero_of_isStrictlyGE
               (K.stupidTrunc (embeddingUpIntGE p)) p n (by omega)) _) := by
-  simp only [stupidTruncGESplitting, dif_neg hn, ShortComplex.Splitting.ofIsIsoOfIsZero]
+  simp only [stupidTruncGESplitting, dite_eq_right hn, ShortComplex.Splitting.ofIsIsoOfIsZero]
   rfl
 
 /-- **The connecting map `σ^{≤p'}K ⟶ Kᵖ[-p][1]` is the differential of `K`**, `p = p' + 1`: its
@@ -284,8 +284,7 @@ theorem ι_gradedMul_f (p q : ℤ) (hpq : p + q = n) (k : ℤ)
     CategoryTheory.Functor.map_comp, NatTrans.comp_app, Category.assoc, HomologicalComplex.id_f]
   simp only [NatTrans.naturality_assoc]
   simp only [← NatTrans.comp_app_assoc, ← Functor.map_comp_assoc, ← Functor.map_comp,
-    Category.assoc,
-    Iso.inv_hom_id, Iso.inv_hom_id_assoc, Category.comp_id]
+    Iso.inv_hom_id, Category.comp_id]
 
 end Summands
 
@@ -356,8 +355,8 @@ theorem ι_connectingLECochain_v (p' q i j k k' : ℤ) (hk : k + (-1) = k')
         (F.obj (K.X i)).map (singleObjXIsoOfEq (up ℤ) q (L.X q) (j + (-1)) hj).hom ≫
           ιMapBifunctor K L F (up ℤ) i q k' (by change i + j = k at h; change i + q = k'; omega) ≫
             g.f k') := by
-  rw [connectingLECochain, CochainComplex.HomComplex.Cochain.mk_v, ι_mapBifunctorDesc, dif_pos hi,
-    dif_pos hj]
+  rw [connectingLECochain, CochainComplex.HomComplex.Cochain.mk_v, ι_mapBifunctorDesc,
+    dite_eq_left hi, dite_eq_left hj]
 
 /-- The cochain `connectingLECochain` vanishes on the summands `F((σ^{≤p'}K)^i, (L^q[-q][-1])^j)`
 with `p' < i`. -/
@@ -365,7 +364,7 @@ theorem ι_connectingLECochain_v_eq_zero (p' q i j k k' : ℤ) (hk : k + (-1) = 
     (h : ComplexShape.π (up ℤ) (up ℤ) (up ℤ) (i, j) = k) (hi : p' < i) :
     ιMapBifunctor _ _ F (up ℤ) i j k h ≫ (connectingLECochain F g p' q).v k k' hk = 0 := by
   rw [connectingLECochain, CochainComplex.HomComplex.Cochain.mk_v, ι_mapBifunctorDesc,
-    dif_neg (by omega)]
+    dite_eq_right (by omega)]
 
 /-- The first composite of `homotopyConnectingLE`, on a summand away from the top degree of
 `σ^{≤p'}K`. -/
@@ -427,7 +426,7 @@ theorem ι_connectingLE_right (p' q : ℤ) (hpq : p' + 1 + q = n) (i j k : ℤ)
     CategoryTheory.Functor.map_neg, Preadditive.neg_comp, CategoryTheory.Functor.map_comp,
     Category.assoc, NatTrans.naturality_assoc]
   congr 2
-  simp only [← Functor.map_comp_assoc, Category.assoc, Iso.inv_hom_id, Category.comp_id]
+  simp only [← Functor.map_comp_assoc, Iso.inv_hom_id, Category.comp_id]
 
 /-- The differential of the total complex on a summand: `d₁ + d₂` with the signs of `up ℤ`. -/
 private theorem ι_mapBifunctor_comp_d {K' : CochainComplex C₁ ℤ} {L' : CochainComplex C₂ ℤ}
@@ -475,7 +474,7 @@ theorem ι_d_connectingLECochain_v (p' q i j k : ℤ)
         (mapBifunctor (K.stupidTrunc (embeddingUpIntLE p'))
           (((single C₂ (up ℤ) q).obj (L.X q))⟦(-1 : ℤ)⟧) F (up ℤ)).d k (k + 1) ≫
           (connectingLECochain F g p' q).v (k + 1) k (by omega) =
-      if hi' : i + 1 ≤ p' then
+      if i + 1 ≤ p' then
         (i + 1).negOnePow • ((F.map ((stupidTruncLEXIso K p' i hi).hom ≫ K.d i (i + 1))).app _ ≫
           (F.obj (K.X (i + 1))).map (singleObjXIsoOfEq (up ℤ) q (L.X q) (j + (-1)) hj).hom ≫
             ιMapBifunctor K L F (up ℤ) (i + 1) q k
@@ -531,9 +530,9 @@ def homotopyConnectingLE (p' q : ℤ) (hpq : p' + 1 + q = n) :
       ι_connectingLE_right F g hM p' q hpq i j k h hi hj]
     by_cases hi' : i = p'
     · subst hi'
-      rw [ι_connectingLE_left_self F g hM i q hpq j k h hj, dif_neg (by omega)]
+      rw [ι_connectingLE_left_self F g hM i q hpq j k h hj, ite_eq_right (by omega)]
       abel
-    · rw [ι_connectingLE_left_eq_zero F g hM p' q hpq i j k h hi', dif_pos (by omega),
+    · rw [ι_connectingLE_left_eq_zero F g hM p' q hpq i j k h hi', ite_eq_left (by omega),
         Int.negOnePow_succ, Units.neg_smul]
       abel⟩
 
@@ -577,8 +576,8 @@ theorem ι_connectingGECochain_v (p' q i j k k' i₀ : ℤ) (hk : k + (-1) = k')
           ιMapBifunctor K L F (up ℤ) i₀ q k'
             (by change i + j = k at h; change i₀ + q = k'; omega) ≫ g.f k') := by
   subst hi₀
-  rw [connectingGECochain, CochainComplex.HomComplex.Cochain.mk_v, ι_mapBifunctorDesc, dif_pos hi,
-    dif_pos hj]
+  rw [connectingGECochain, CochainComplex.HomComplex.Cochain.mk_v, ι_mapBifunctorDesc,
+    dite_eq_left hi, dite_eq_left hj]
 
 /-- The cochain `connectingGECochain` vanishes on the summands `F((σ^{≤p'}K[-1])^i, (L^q[-q])^j)`
 with `p' < i - 1`. -/
@@ -586,7 +585,7 @@ theorem ι_connectingGECochain_v_eq_zero (p' q i j k k' : ℤ) (hk : k + (-1) = 
     (h : ComplexShape.π (up ℤ) (up ℤ) (up ℤ) (i, j) = k) (hi : p' < i + (-1)) :
     ιMapBifunctor _ _ F (up ℤ) i j k h ≫ (connectingGECochain F g p' q).v k k' hk = 0 := by
   rw [connectingGECochain, CochainComplex.HomComplex.Cochain.mk_v, ι_mapBifunctorDesc,
-    dif_neg (by omega)]
+    dite_eq_right (by omega)]
 
 /-- The first composite of `homotopyConnectingGE`, on a summand away from the degree
 `p' + 1` of `K^{p'+1}[-p'-1]`. -/
@@ -642,12 +641,11 @@ theorem ι_connectingGE_right (p' q : ℤ) (hpq : p' + 1 + q = n) (i j k i₀ : 
   simp only [id_f, CategoryTheory.Functor.map_id, NatTrans.id_app, Category.id_comp, mul_one,
     Linear.comp_units_smul]
   congr 1
-  simp only [CochainComplex.shiftFunctorObjXIso, XIsoOfEq_rfl, Iso.refl_hom,
-    CategoryTheory.Functor.map_id, Category.id_comp]
+  simp only [CochainComplex.shiftFunctorObjXIso, XIsoOfEq_rfl, Iso.refl_hom]
   dsimp only [CochainComplex.shiftFunctor_obj_X', CochainComplex.shiftFunctor_obj_X]
   simp only [CategoryTheory.Functor.map_comp, NatTrans.comp_app, Category.assoc,
     NatTrans.naturality_assoc]
-  simp only [← Functor.map_comp_assoc, Category.assoc, Category.id_comp, Iso.inv_hom_id,
+  simp only [← Functor.map_comp_assoc, Category.id_comp, Iso.inv_hom_id,
     Category.comp_id]
 
 /-- The composite of the homotopy with the differential of `M`, on a summand. -/
@@ -683,7 +681,7 @@ theorem ι_d_connectingGECochain_v (p' q i j k i₀ : ℤ)
         (mapBifunctor ((K.stupidTrunc (embeddingUpIntLE p'))⟦(-1 : ℤ)⟧)
           ((single C₂ (up ℤ) q).obj (L.X q)) F (up ℤ)).d k (k + 1) ≫
           (connectingGECochain F g p' q).v (k + 1) k (by omega) =
-      if hi' : i ≤ p' then
+      if i ≤ p' then
         (F.map ((shiftFunctorObjXIso (K.stupidTrunc (embeddingUpIntLE p')) (-1) i i₀ hi₀).hom ≫
             (stupidTruncLEXIso K p' i₀ hi).hom ≫ K.d i₀ i)).app _ ≫
           (F.obj (K.X i)).map (singleObjXIsoOfEq (up ℤ) q (L.X q) j hj).hom ≫
@@ -741,8 +739,8 @@ def homotopyConnectingGE (p' q : ℤ) (hpq : p' + 1 + q = n) :
       rw [ι_connectingGECochain_v_d F g p' q (p' + 1) j k p' h (by omega) le_rfl hj,
         ι_d_connectingGECochain_v F g p' q (p' + 1) j k p' h (by omega) le_rfl hj,
         ι_connectingGE_right F g hM p' q hpq (p' + 1) j k p' h (by omega) le_rfl hj,
-        ι_connectingGE_left_self F g hM p' q hpq j k h hj, dif_neg (by omega), Int.negOnePow_succ,
-        Units.neg_smul]
+        ι_connectingGE_left_self F g hM p' q hpq j k h hj, ite_eq_right (by omega),
+        Int.negOnePow_succ, Units.neg_smul]
       subst hj
       abel
     · have hs : i.negOnePow = -(i + (-1)).negOnePow := by
@@ -752,7 +750,7 @@ def homotopyConnectingGE (p' q : ℤ) (hpq : p' + 1 + q = n) :
       rw [ι_connectingGECochain_v_d F g p' q i j k (i + (-1)) h rfl hi hj,
         ι_d_connectingGECochain_v F g p' q i j k (i + (-1)) h rfl hi hj,
         ι_connectingGE_right F g hM p' q hpq i j k (i + (-1)) h rfl hi hj,
-        ι_connectingGE_left_eq_zero F g hM p' q hpq i j k h (by omega), dif_pos (by omega), hs,
+        ι_connectingGE_left_eq_zero F g hM p' q hpq i j k h (by omega), ite_eq_left (by omega), hs,
         Units.neg_smul]
       subst hj
       abel⟩

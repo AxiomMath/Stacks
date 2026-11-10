@@ -115,7 +115,7 @@ theorem locallyOfFinitePresentation_of_isLimitPreservingOnObjects_toTerminalCFG
       exact Over.OverMorphism.ext ((Category.comp_id _).trans (Category.id_comp _).symm)
     · intro x
       refine IsHomLift.of_fac _ _ _ rfl rfl ?_
-      show (𝟙 x.left : x.left ⟶ x.left) = 𝟙 x.left ≫ 𝟙 x.left ≫ 𝟙 x.left
+      change (𝟙 x.left : x.left ⟶ x.left) = 𝟙 x.left ≫ 𝟙 x.left ≫ 𝟙 x.left
       simp
   have hg : HasRelativeProperty.{u, u, u + 1, u} B S hS
       (Space.locallyOfFinitePresentationProperty B S hS) (schemeFibredCategoryMap B S hS g)

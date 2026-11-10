@@ -191,7 +191,7 @@ def ofPoly : MvPolynomial p.relationIndex (term p 0) →+* term p 1 :=
 /-- `toPoly` sends the image in `P₁` of `y ∈ A[u_i, x_t]` to `toPolyAux y`. -/
 theorem toPoly_oIso_inv (y : DegreeOne.P1 p) :
     toPoly p ((oIso p).inv.hom (ULift.up y)) = toPolyAux p y := by
-  show toPolyAux p (ULift.ringEquiv ((oIso p).hom.hom ((oIso p).inv.hom (ULift.up y)))) = _
+  change toPolyAux p (ULift.ringEquiv ((oIso p).hom.hom ((oIso p).inv.hom (ULift.up y)))) = _
   rw [oIso_hom_inv]
   rfl
 
@@ -212,7 +212,7 @@ theorem toPolyAux_degeneracyZero (y : p.P0) :
 theorem toPoly_degenMap (r : term p 0) : toPoly p (degenMap p r) = C r := by
   rw [← zIso_inv_hom p r, degenMap_zeroIso]
   set z := (zIso p).hom.hom r
-  show toPoly p ((oIso p).inv.hom (ULift.up (DegreeOne.degeneracyZero p z.down))) = _
+  change toPoly p ((oIso p).inv.hom (ULift.up (DegreeOne.degeneracyZero p z.down))) = _
   rw [toPoly_oIso_inv, toPolyAux_degeneracyZero]
   rfl
 
@@ -381,7 +381,7 @@ instance : Fact (Function.Surjective (aug p 1)) := ⟨aug_one_surjective p⟩
 /-- Each generator `f_t` lies in the kernel of the augmentation `P₀ → B`. -/
 theorem aug_rel (t : p.relationIndex) : aug p 0 (rel p t) = 0 := by
   let : Algebra p.A p.B := p.algebraMap.toAlgebra
-  show aug p 0 (zInv p (ULift.up (p.presentation.relation t))) = 0
+  change aug p 0 (zInv p (ULift.up (p.presentation.relation t))) = 0
   rw [aug_zInv]
   exact ULift.down_injective (p.presentation.aeval_val_relation t)
 
@@ -424,7 +424,7 @@ theorem aug_comp_ofPoly : (aug p 1).comp (ofPoly p) = polyAug (aug p 0) p.relati
 /-- `Tor₂^{P₁}(B, B) ≅ Tor₂^{P₀[x_t]}(B, B)` along `P₁ = P₀[x_t]`. -/
 def kerEquiv :
     mulKernel (aug p 1) ≃ₗ[target p] mulKernel (polyAug (aug p 0) p.relationIndex) :=
-  LinearEquiv.ofLinear (mulKernelMap (toPoly p) (polyAug_comp_toPoly p))
+  LinearEquiv.ofLinearMap (mulKernelMap (toPoly p) (polyAug_comp_toPoly p))
     (mulKernelMap (ofPoly p) (aug_comp_ofPoly p))
     (by
       ext k
@@ -606,7 +606,7 @@ theorem torTwoDecomposition_smul (r : term p 1)
         (ModuleCat.of (term p 1) (target p))).obj (ModuleCat.of (term p 1) (target p))) :
     torTwoDecomposition p (r • t) = aug p 1 r • torTwoDecomposition p t := by
   let : Algebra (term p 1) (target p) := (aug p 1).toAlgebra
-  show (decomposition p).symm ((torTwoSelfIsoMulKernel (aug_one_surjective p)).toLinearEquiv
+  change (decomposition p).symm ((torTwoSelfIsoMulKernel (aug_one_surjective p)).toLinearEquiv
     (r • t)) = aug p 1 r • (decomposition p).symm
       ((torTwoSelfIsoMulKernel (aug_one_surjective p)).toLinearEquiv t)
   have h1 : (torTwoSelfIsoMulKernel (aug_one_surjective p)).toLinearEquiv (r • t) =

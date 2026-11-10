@@ -208,12 +208,10 @@ def extendLeft
   map_add' := map_add _
   map_smul' c x := by
     simp only [RingHom.id_apply]
-    induction c using TensorProduct.induction_on with
-    | zero => simp
+    induction c using TensorProduct.inductionOn with
     | add c c' hc hc' => rw [add_smul, map_add, hc, hc', add_smul]
     | tmul x' y' =>
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | add x y hx hy => rw [smul_add, map_add, hx, hy, map_add, smul_add]
       | tmul n b =>
         rw [sourceTensor_smul_tmul]
@@ -235,7 +233,7 @@ omit [IsScalarTower A' R B] in
 lemma extendLeft_ι₁
     (g : FrameModule (A' := A') R B →ₛₗ[((q₁ A B : B →ₐ[A'] B ⊗[A] B) : B →+* B ⊗[A] B)] F)
     (n : FrameModule (A' := A') R B) : extendLeft R g (ι₁ R n) = g n := by
-  show extendLeft R g (toRM R A n ⊗ₜ[A] (1 : B)) = _
+  change extendLeft R g (toRM R A n ⊗ₜ[A] (1 : B)) = _
   rw [extendLeft_tmul, ← Algebra.TensorProduct.one_def, one_smul]
 
 omit [IsScalarTower A' R B] [Module A F] [IsScalarTower A (B ⊗[A] B) F] in
@@ -243,11 +241,10 @@ omit [IsScalarTower A' R B] [Module A F] [IsScalarTower A (B ⊗[A] B) F] in
 lemma ext_left {f f' : E₁ (A' := A') R A B →ₗ[B ⊗[A] B] F}
     (h : ∀ n : FrameModule (A' := A') R B, f (ι₁ R n) = f' (ι₁ R n)) : f = f' := by
   ext x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy]
   | tmul n b =>
-    show f (toRM R A (fromRM R A n) ⊗ₜ[A] b) = f' (toRM R A (fromRM R A n) ⊗ₜ[A] b)
+    change f (toRM R A (fromRM R A n) ⊗ₜ[A] b) = f' (toRM R A (fromRM R A n) ⊗ₜ[A] b)
     rw [tmul_eq_smul_ι₁ R (fromRM R A n) b, f.map_smul, f'.map_smul, h]
 
 /-- The `A`-linear map underlying `extendRight`. -/
@@ -284,12 +281,10 @@ def extendRight
   map_add' := map_add _
   map_smul' c x := by
     simp only [RingHom.id_apply]
-    induction c using TensorProduct.induction_on with
-    | zero => simp
+    induction c using TensorProduct.inductionOn with
     | add c c' hc hc' => rw [add_smul, map_add, hc, hc', add_smul]
     | tmul x' y' =>
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | add x y hx hy => rw [smul_add, map_add, hx, hy, map_add, smul_add]
       | tmul b n =>
         rw [targetTensor_smul_tmul]
@@ -312,7 +307,7 @@ omit [IsScalarTower A' R B] in
 lemma extendRight_ι₂
     (g : FrameModule (A' := A') R B →ₛₗ[((q₂ A B : B →ₐ[A'] B ⊗[A] B) : B →+* B ⊗[A] B)] F)
     (n : FrameModule (A' := A') R B) : extendRight R g (ι₂ R n) = g n := by
-  show extendRight R g ((1 : B) ⊗ₜ[A] toRM R A n) = _
+  change extendRight R g ((1 : B) ⊗ₜ[A] toRM R A n) = _
   rw [extendRight_tmul, ← Algebra.TensorProduct.one_def, one_smul]
 
 omit [IsScalarTower A' R B] [Module A F] [IsScalarTower A (B ⊗[A] B) F] in
@@ -320,11 +315,10 @@ omit [IsScalarTower A' R B] [Module A F] [IsScalarTower A (B ⊗[A] B) F] in
 lemma ext_right {f f' : E₂ (A' := A') R A B →ₗ[B ⊗[A] B] F}
     (h : ∀ n : FrameModule (A' := A') R B, f (ι₂ R n) = f' (ι₂ R n)) : f = f' := by
   ext x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy]
   | tmul b n =>
-    show f (b ⊗ₜ[A] toRM R A (fromRM R A n)) = f' (b ⊗ₜ[A] toRM R A (fromRM R A n))
+    change f (b ⊗ₜ[A] toRM R A (fromRM R A n)) = f' (b ⊗ₜ[A] toRM R A (fromRM R A n))
     rw [tmul_eq_smul_ι₂ R b (fromRM R A n), f.map_smul, f'.map_smul, h]
 
 end Extend
@@ -351,14 +345,14 @@ lemma σ'_frameDiff (r : R) :
 lemma postcomp_transitionInvMap_d₂ :
     (d₂ R hC₂).postcomp (transitionInvMap R Φ hC₂ hpt hE₁) = ψ₁₂ R Φ hC₂ hpt hE₁ :=
   DerAlong.ext (funext fun r ↦ by
-    show transitionInvMap R Φ hC₂ hpt hE₁ (ι₂ R (frameDiff (A' := A') R B r)) = _
+    change transitionInvMap R Φ hC₂ hpt hE₁ (ι₂ R (frameDiff (A' := A') R B r)) = _
     rw [extendRight_ι₂, σ'_frameDiff])
 
 /-- The transition map carries the universal derivation `d₁` to `ψ₂₁`. -/
 lemma postcomp_transitionMap_d₁ :
     (d₁ R hC₂).postcomp (transitionMap R Φ hC₂ hpt hE₂) = ψ₂₁ R Φ hC₂ hpt hE₂ :=
   DerAlong.ext (funext fun r ↦ by
-    show transitionMap R Φ hC₂ hpt hE₂ (ι₁ R (frameDiff (A' := A') R B r)) = _
+    change transitionMap R Φ hC₂ hpt hE₂ (ι₁ R (frameDiff (A' := A') R B r)) = _
     rw [extendLeft_ι₁, σ_frameDiff])
 
 /-- The inverse transition map is a left inverse of the transition map. -/
@@ -370,7 +364,7 @@ lemma transitionInvMap_comp_transitionMap :
       E₁ (A' := A') R A B).comp (σ R Φ hC₂ hpt hE₂) = ι₁ R := by
     refine frame_semilinear_ext fun r ↦ ?_
     rw [LinearMap.comp_apply, σ_frameDiff]
-    show ((Φ.transportFun (C := C₂ A B hC₂) hE₂ hpt.symm (d₂ R hC₂)).postcomp
+    change ((Φ.transportFun (C := C₂ A B hC₂) hE₂ hpt.symm (d₂ R hC₂)).postcomp
       (transitionInvMap R Φ hC₂ hpt hE₁)) r = d₁ R hC₂ r
     rw [← Φ.transportFun_postcomp (C := C₂ A B hC₂) (hN := hE₂) hE₁,
       postcomp_transitionInvMap_d₂, Φ.transportFun_symm]
@@ -385,7 +379,7 @@ lemma transitionMap_comp_transitionInvMap :
       E₂ (A' := A') R A B).comp (σ' R Φ hC₂ hpt hE₁) = ι₂ R := by
     refine frame_semilinear_ext fun r ↦ ?_
     rw [LinearMap.comp_apply, σ'_frameDiff]
-    show ((Φ.transportFun (C := C₂ A B hC₂) hE₁ hpt (d₁ R hC₂)).postcomp
+    change ((Φ.transportFun (C := C₂ A B hC₂) hE₁ hpt (d₁ R hC₂)).postcomp
       (transitionMap R Φ hC₂ hpt hE₂)) r = d₂ R hC₂ r
     rw [← Φ.transportFun_postcomp (C := C₂ A B hC₂) (hN := hE₁) hE₂,
       postcomp_transitionMap_d₁, Φ.transportFun_symm]
@@ -393,7 +387,7 @@ lemma transitionMap_comp_transitionInvMap :
 
 /-- **The transition isomorphism** of the frame module, from the transport of derivations. -/
 def transition : E₁ (A' := A') R A B ≃ₗ[B ⊗[A] B] E₂ (A' := A') R A B :=
-  LinearEquiv.ofLinear (transitionMap R Φ hC₂ hpt hE₂) (transitionInvMap R Φ hC₂ hpt hE₁)
+  LinearEquiv.ofLinearMap (transitionMap R Φ hC₂ hpt hE₂) (transitionInvMap R Φ hC₂ hpt hE₁)
     (transitionMap_comp_transitionInvMap R Φ hC₂ hpt hE₁ hE₂)
     (transitionInvMap_comp_transitionMap R Φ hC₂ hpt hE₁ hE₂)
 

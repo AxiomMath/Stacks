@@ -22,7 +22,8 @@ adjunction pseudofunctor without coherence hypotheses, and the functor sending a
 sheaf to its canonical descent datum along a morphism.
 
 These are stronger forms of declarations of
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.PullbackStalk.SheafDescent`, stated beside the ones
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.PullbackStalk.SheafDescent`, stated beside the
+ones
 there: over more general coefficient universes, or with inputs carried there as hypotheses
 discharged.
 

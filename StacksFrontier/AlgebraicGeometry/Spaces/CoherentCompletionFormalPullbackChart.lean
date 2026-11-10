@@ -128,7 +128,7 @@ theorem chartCompletedComparisonLinear_completeModuleEquiv
             hG.toIsQuasicoherentOnSite) hV.1).symm
         (chartSectionsLimitMap B S hS F hF α V
           ((chartLimitSectionsIso B S hS F hF E V).hom y)) := by
-    show (chartCompletionLimitEquiv B S hS F hF 𝓘 hIcart G
+    change (chartCompletionLimitEquiv B S hS F hF 𝓘 hIcart G
         (isCartesianOnAffineCharts_of_isQuasicoherentOnSite B S hS F hF G
           hG.toIsQuasicoherentOnSite) hV.1).symm
       (chartSectionsLimitMap B S hS F hF α V

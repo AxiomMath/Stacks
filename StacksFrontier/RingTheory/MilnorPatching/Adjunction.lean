@@ -71,8 +71,7 @@ public lemma tensorUnit_surjective {R S : Type*} [CommRing R] [CommRing S]
     (L : Type*) [AddCommGroup L] [Module R L] :
     Function.Surjective (fun l : L => (1 : S) ⊗ₜ[R,f] l) := by
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
+  induction z using TensorProduct.inductionOn with
   | tmul s l =>
     obtain ⟨r, rfl⟩ := hf s
     exact ⟨r • l, one_tmul_smul_eq f r l⟩
@@ -117,8 +116,7 @@ public lemma tensorKernelLift {R S T U : Type*} [CommRing R] [CommRing S]
         (1 : T) ⊗ₜ[R,g] l =
           (LinearMap.rTensor L (LinearMap.ker kl).subtype) w := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => exact ⟨0, by simp, by simp⟩
+    induction w using TensorProduct.inductionOn with
     | tmul t l =>
       obtain ⟨r, hfr, hgr⟩ := hker t.1 ((hkl t.1).symm.trans t.2)
       refine ⟨r • l, ?_, ?_⟩
@@ -146,8 +144,7 @@ public lemma extendScalarsComp_rTensor {R T U : Type u} [CommRing R] [CommRing T
   let : Module R T := Module.compHom T g
   let : Module R U := Module.compHom U (k.comp g)
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp only [map_zero, TensorProduct.tmul_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul t l =>
     rw [LinearMap.rTensor_tmul]
     calc
@@ -219,8 +216,7 @@ public lemma compatiblePairs_snd_surjective
   have hmod : ∀ z : (ModuleCat.extendScalars h).obj X.fst,
       ∃ w : T ⊗[R] P, X.iso.hom z = (1 : U) ⊗ₜ[T] (c w) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact ⟨0, by simp⟩
+    induction z using TensorProduct.inductionOn with
     | tmul a n =>
       obtain ⟨t, rfl⟩ := hk a
       obtain ⟨p, rfl⟩ := compatiblePairsModule_exists_fst_eq f g h k comm hk X n
@@ -240,14 +236,14 @@ public lemma compatiblePairs_snd_surjective
     simpa only [← ConcreteCategory.comp_apply, X.iso.inv_hom_id,
       ConcreteCategory.id_apply] using hw
   let p : P := ⟨(0, m - c w), by
-    show X.iso.hom ((1 : U) ⊗ₜ[S] 0) = (1 : U) ⊗ₜ[T] (m - c w)
+    change X.iso.hom ((1 : U) ⊗ₜ[S] 0) = (1 : U) ⊗ₜ[T] (m - c w)
     simp only [TensorProduct.tmul_zero, map_zero, TensorProduct.tmul_sub, hm, sub_self]⟩
   refine ⟨w + (1 : T) ⊗ₜ[R] p, ?_⟩
   rw [map_add]
   calc
     _ = c w + p.1.2 := congrArg (c w + ·) (hc p)
     _ = m := by
-      show c w + (m - c w) = m
+      change c w + (m - c w) = m
       abel
 
 /-- Multiplying by a scalar of `T` killed by `k` lands in the second coordinates of compatible
@@ -274,14 +270,13 @@ public lemma compatiblePairsModule_exists_of_ker
   have hct : ∀ (t : T) (p : P), c (t ⊗ₜ[R] p) = t • p.1.2 :=
     compatiblePairs_snd_tmul f g h k comm X c hc
   obtain ⟨z, rfl⟩ := hcs m
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, rfl, by simp, by simp⟩
+  induction z using TensorProduct.inductionOn with
   | tmul a p =>
     obtain ⟨r, hrS, hrT⟩ := hker (t * a) (by simp [ht])
     refine ⟨r • p, ?_, ?_, ?_⟩
-    · show f r • p.1.1 = 0
+    · change f r • p.1.1 = 0
       rw [hrS, zero_smul]
-    · show g r • p.1.2 = t • c (a ⊗ₜ[R] p)
+    · change g r • p.1.2 = t • c (a ⊗ₜ[R] p)
       rw [hrT, hct, mul_smul]
     · rw [one_tmul_smul_eq, hrS]
       simp
@@ -289,9 +284,9 @@ public lemma compatiblePairsModule_exists_of_ker
     obtain ⟨p, hp0, hp1, hp2⟩ := hx
     obtain ⟨q, hq0, hq1, hq2⟩ := hy
     refine ⟨p + q, ?_, ?_, ?_⟩
-    · show p.1.1 + q.1.1 = 0
+    · change p.1.1 + q.1.1 = 0
       rw [hp0, hq0, add_zero]
-    · show p.1.2 + q.1.2 = t • c (x + y)
+    · change p.1.2 + q.1.2 = t • c (x + y)
       rw [hp1, hq1, map_add, smul_add]
     · rw [TensorProduct.tmul_add, hp2, hq2, add_zero]
 
@@ -315,7 +310,7 @@ public lemma compatiblePairsModule_tmul_eq_zero_of_fst_eq_zero
   let kl : T →ₗ[T] U := tensorRingMapLinear (RingHom.id T) k
   have hz : (LinearMap.rTensor X.snd kl) ((1 : T) ⊗ₜ[T] p.1.2) = 0 := by
     rw [LinearMap.rTensor_tmul]
-    show k 1 ⊗ₜ[T] p.1.2 = 0
+    change k 1 ⊗ₜ[T] p.1.2 = 0
     rw [map_one, ← p.2, hp0, TensorProduct.tmul_zero, map_zero]
   obtain ⟨w, hw⟩ := (rTensor_exact X.snd (LinearMap.exact_subtype_ker_map kl) hk _).mp hz
   have hl : ∀ w : (LinearMap.ker kl) ⊗[T] X.snd,
@@ -324,8 +319,7 @@ public lemma compatiblePairsModule_tmul_eq_zero_of_fst_eq_zero
           ((LinearMap.rTensor X.snd (LinearMap.ker kl).subtype) w) ∧
         (1 : S) ⊗ₜ[R] q = 0 := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => exact ⟨0, rfl, by simp, by simp⟩
+    induction w using TensorProduct.inductionOn with
     | tmul t m =>
       simpa only [LinearMap.rTensor_tmul, Submodule.subtype_apply,
         TensorProduct.lid_tmul] using hkill t.1 t.2 m
@@ -333,9 +327,9 @@ public lemma compatiblePairsModule_tmul_eq_zero_of_fst_eq_zero
       obtain ⟨p, hp0, hp1, hp2⟩ := hx
       obtain ⟨q, hq0, hq1, hq2⟩ := hy
       refine ⟨p + q, ?_, ?_, ?_⟩
-      · show p.1.1 + q.1.1 = 0
+      · change p.1.1 + q.1.1 = 0
         rw [hp0, hq0, add_zero]
-      · show p.1.2 + q.1.2 = _
+      · change p.1.2 + q.1.2 = _
         rw [hp1, hq1, map_add, map_add]
       · rw [TensorProduct.tmul_add, hp2, hq2, add_zero]
   obtain ⟨q, hq0, hq1, hq2⟩ := hl w
@@ -409,9 +403,9 @@ private lemma compatiblePairs_morphism_isIso
     (fun _ => rfl) z hzker
   have hp0 : p = 0 := by
     refine Subtype.ext (Prod.ext ?_ ?_)
-    · show p.1.1 = 0
+    · change p.1.1 = 0
       rw [← hb, hpS, map_zero]
-    · show p.1.2 = 0
+    · change p.1.2 = 0
       rw [← hc, hpT]
       exact hz
   rw [← hpT, hp0, TensorProduct.tmul_zero]
@@ -469,11 +463,11 @@ public theorem compatiblePairsRightAdjoint_counit_isIso_of_surjective
     rw [adj.homEquiv_symm_id] at hh
     simp only [ConcreteCategory.id_apply, LinearEquiv.apply_symm_apply] at hh
     constructor
-    · show (adj.counit.app X).fst
+    · change (adj.counit.app X).fst
         ((ModuleCat.extendScalars toB).map i.inv ((1 : B) ⊗ₜ[B',toB] p)) = _
       rw [ModuleCat.ExtendScalars.map_tmul]
       exact hh.1.symm
-    · show (adj.counit.app X).snd
+    · change (adj.counit.app X).snd
         ((ModuleCat.extendScalars toA').map i.inv ((1 : A') ⊗ₜ[B',toA'] p)) = _
       rw [ModuleCat.ExtendScalars.map_tmul]
       exact hh.2.symm

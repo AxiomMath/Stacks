@@ -216,7 +216,7 @@ theorem exists_coproduct_family_and_stalk_bijective_of_forall_finiteDimensional
 Krull dimension, which for a field is zero. -/
 theorem topologicalKrullDim_specBase_le_one (k : Type u) [Field k] :
     topologicalKrullDim (Spec (CommRingCat.of k)) ≤ 1 := by
-  show topologicalKrullDim (PrimeSpectrum k) ≤ 1
+  change topologicalKrullDim (PrimeSpectrum k) ≤ 1
   rw [PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim, ringKrullDim_eq_zero_of_field]
   decide
 

@@ -12,7 +12,8 @@ morphism of sheaves of `𝒪_X`-modules into the structure sheaf. The quotient `
 sheaf of rings, and the description of its support, are the repository's canonical
 declarations in `Stacks.ClosedImmersion`
 (`StacksFrontier/AlgebraicGeometry/ClosedImmersion/ClosedSubspace.lean` and
-`StacksFrontier/AlgebraicGeometry/ClosedImmersion/ClosedSubspaceExistence.lean`); they are re-exported here and nothing is redeclared.
+`StacksFrontier/AlgebraicGeometry/ClosedImmersion/ClosedSubspaceExistence.lean`); they are
+re-exported here and nothing is redeclared.
 
 The support is described stalkwise: a point `x` lies in it exactly when no local section of `J`
 has a unit germ at `x`. Off the support the stalk of the quotient is the zero ring; on the

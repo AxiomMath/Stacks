@@ -70,7 +70,8 @@ bookkeeping: `ClosedQuotientMorphismOfRingedSpaces.sheafHomExactSupport` is the 
 What is available towards it, and is not in this file:
 
 * the reduction "it suffices after `(i|_{i⁻¹U})_*`", respectively "after `R(i|_{i⁻¹U})_*`", in
-  `StacksFrontier/AlgebraicGeometry/Duality/RightAdjointLemmas/ExactSupportRestrictComparisonIso.lean`
+  `ExactSupportRestrictComparisonIso.lean`, beside this file
+  (`StacksFrontier/AlgebraicGeometry/Duality/RightAdjointLemmas/`)
   — the restricted morphism is again a closed quotient morphism, so its pushforward reflects
   isomorphisms on both sides, by [Stacks, Tag 08KS];
 * the descent factor compared with restriction **as a functor**, in
@@ -118,8 +119,9 @@ search still does not cross between them: discovering the bundled morphism from 
 one means solving `?S.i ≟ restrictedMorphism S.i U` for `?S` under a projection, which instance
 search does not do, and reducibility of `restrict` does not change that. The instance
 `ClosedQuotientMorphismOfRingedSpaces.preservesFiniteColimits_modulePushforward_restrictedMorphism`
-below is needed: without it, four `PreservesFiniteColimits (modulePushforward (restrictedMorphism S.i U))`
-instance problems fail. So the exactness of `(i|_{i⁻¹U})_*` is found at the first spelling and the base-change
+below is needed: without it, four
+`PreservesFiniteColimits (modulePushforward (restrictedMorphism S.i U))` instance problems fail.
+So the exactness of `(i|_{i⁻¹U})_*` is found at the first spelling and the base-change
 isomorphism is stated at the second. Everything below is stated at
 the second, and the crossing is paid once, in
 `ClosedQuotientMorphismOfRingedSpaces.restrictPushforwardSheafHomExactSupportAdjunction` and its

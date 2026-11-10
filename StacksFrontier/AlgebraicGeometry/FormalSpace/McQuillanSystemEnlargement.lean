@@ -270,7 +270,7 @@ theorem isKernelKilling_ext (h : IsSystem aug unit J tr) :
   map_mem ha := inl_mem_Jext h ha
   incl_smul i a m := by
     rw [inclPaired_apply, inclPaired_apply]
-    show Paired.mk (pair h i) (a • m) 0 = (TrivSqZeroExt.inl a) • Paired.mk (pair h i) m 0
+    change Paired.mk (pair h i) (a • m) 0 = (TrivSqZeroExt.inl a) • Paired.mk (pair h i) m 0
     rw [Paired.inl_smul, Paired.fst_mk, Paired.snd_mk, smul_zero]
   incl_injective i m m' hmm := by
     have := congrArg Paired.fst hmm

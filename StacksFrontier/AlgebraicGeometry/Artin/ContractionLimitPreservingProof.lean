@@ -146,7 +146,7 @@ theorem stageAlpha_cres_lift {k₂ k k' : Over k₀} (f₂ : k₂ ⟶ topStage k
       (stageHom W (g ≫ f₂)) (stageHom W f) (stageHom W (f ≫ g ≫ f₂)) (stageHom_q W (g ≫ f₂))
       (stageHom_q W f) (stageHom_q W (f ≫ g ≫ f₂)) (stageHom_comp W (g ≫ f₂) f))
   refine e₁.symm.trans ?_
-  show towerRingMap (D.map f.left).hom (stageIdeal_map_le I₀ f) (stageQ W k) (stageQ W k')
+  change towerRingMap (D.map f.left).hom (stageIdeal_map_le I₀ f) (stageQ W k) (stageQ W k')
     (stageHom W f) (stageHom_q W f) (stageAlpha W hZI₀ k (φk b).down) = _
   rwa [e₂]
 

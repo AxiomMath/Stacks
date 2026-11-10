@@ -289,7 +289,7 @@ theorem finite_cycleSupport_mem_closureImage (sX : X ⟶ D.space) (hX : D.IsGood
   refine hVfin.subset ?_
   rintro Z ⟨hZne, hZmem⟩
   refine ⟨ξ, ?_, mem_of_mem_nhds hV⟩
-  show ξ ∈ closure (pointsMap D.site D.base D.base_mem X f '' cycleSupportFamily D α Z)
+  change ξ ∈ closure (pointsMap D.site D.base D.base_mem X f '' cycleSupportFamily D α Z)
   rw [closure_image_cycleSupportFamily D sY hY f α hZne]
   exact hZmem
 

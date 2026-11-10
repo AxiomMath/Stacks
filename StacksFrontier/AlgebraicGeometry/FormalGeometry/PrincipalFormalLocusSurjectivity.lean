@@ -108,7 +108,7 @@ theorem exists_smul_mem_of_forall_exists_smul_mem_sup {R M : Type*} [CommRing R]
         have hfm : algebraMap R Rp f ∈ IsLocalRing.maximalIdeal Rp := by
           rwa [IsLocalization.AtPrime.to_map_mem_maximal_iff Rp p]
         have hq : (⟨s, hs⟩ : p.primeCompl) • P.mkQ y = f • P.mkQ y' := by
-          show P.mkQ (s • y) = P.mkQ (f • y')
+          change P.mkQ (s • y) = P.mkQ (f • y')
           rw [← sub_eq_zero, ← map_sub, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
           have : s • y - f • y' = w := by
             rw [← hsum]
@@ -175,7 +175,7 @@ its prime. -/
 theorem mem_basicOpen_complementScalar_iff (x : (complementZeroLocus A a : Scheme)) (s : A) :
     x ∈ (complementZeroLocus A a : Scheme).basicOpen (complementTopScalars a s) ↔
       s ∉ x.1.asIdeal := by
-  show x ∈ (complementZeroLocus A a : Scheme).basicOpen
+  change x ∈ (complementZeroLocus A a : Scheme).basicOpen
       ((complementZeroLocus A a).ι.appTop ((Scheme.ΓSpecIso (CommRingCat.of A)).inv s)) ↔ _
   rw [← Scheme.preimage_basicOpen_top, basicOpen_eq_of_affine]
   exact Iff.rfl
@@ -196,7 +196,7 @@ theorem scalarAt_complementScalar_top (f : A) :
         Scheme).ringCatSheaf ⊤ isTerminalTop (complementTopScalars a f))) ⊤ =
       complementTopScalars a f := by
   rw [scalarAt_apply]
-  show ConcreteCategory.hom ((complementZeroLocus A a : Scheme).ringCatSheaf.obj.map
+  change ConcreteCategory.hom ((complementZeroLocus A a : Scheme).ringCatSheaf.obj.map
       (isTerminalTop.from (⊤ : (complementZeroLocus A a : Scheme).Opens)).op)
       (complementTopScalars a f) * 1 = _
   have h1 : (isTerminalTop.from (⊤ : (complementZeroLocus A a : Scheme).Opens)).op = 𝟙 _ :=
@@ -211,10 +211,10 @@ theorem idealSheafNearVanishing_span_singleton_eq_scalarIdealData (f : A) :
     idealSheafNearVanishing A (Ideal.span
         {f}) a = scalarIdealData ((Stacks.SheafOfModules.terminalSectionToEnd (complementZeroLocus A
         a : Scheme).ringCatSheaf ⊤ isTerminalTop (complementTopScalars a f))) := by
-  show Scheme.IdealSheafData.ofIdealTop _ = Scheme.IdealSheafData.ofIdealTop _
+  change Scheme.IdealSheafData.ofIdealTop _ = Scheme.IdealSheafData.ofIdealTop _
   congr 1
   rw [scalarAt_complementScalar_top]
-  show Ideal.map _ (Ideal.span {f}) = _
+  change Ideal.map _ (Ideal.span {f}) = _
   rw [Ideal.map_span, Set.image_singleton]
 
 omit [IsNoetherianRing A] in
@@ -246,13 +246,13 @@ theorem stalk_complementScalar_apply (f : A) (G : (complementZeroLocus A a : Sch
         (complementTopScalars a f) := by
     rw [Stacks.SheafOfModules.scalarAt_res _ (homOfLE (le_top : V ≤ ⊤)),
       scalarAt_complementScalar_top]
-  show G.presheaf.germ V x hxV
+  change G.presheaf.germ V x hxV
       (ConcreteCategory.hom (Scheme.Modules.Hom.app (((Stacks.SheafOfModules.terminalSectionToEnd
           (complementZeroLocus A a : Scheme).ringCatSheaf ⊤ isTerminalTop (complementTopScalars a
           f))).asHom.app G) V) t) = _
   rw [e1, e2]
   refine (PresheafOfModules.germ_smul G.val x V hxV _ t).trans ?_
-  show _ = (complementZeroLocus A a : Scheme).presheaf.germ ⊤ x trivial
+  change _ = (complementZeroLocus A a : Scheme).presheaf.germ ⊤ x trivial
     (complementTopScalars a f) • G.presheaf.germ V x hxV t
   congr 1
   exact (complementZeroLocus A a : Scheme).presheaf.germ_res_apply (homOfLE le_top) x hxV _
@@ -371,18 +371,18 @@ theorem exists_smul_eq_germ (G : (complementZeroLocus A a : Scheme).Modules)
   have heq'' := ((G.presheaf.germ_res_apply ((Opens.map j.base).map iW) x hxW' (cW • t')).symm.trans
     heq').trans (G.presheaf.germ_res_apply ((Opens.map j.base).map iT) x hxW' m)
   refine Eq.trans ?_ heq''
-  show (complementZeroLocus A a : Scheme).presheaf.germ ⊤ x trivial (j.appTop c) •
+  change (complementZeroLocus A a : Scheme).presheaf.germ ⊤ x trivial (j.appTop c) •
       G.presheaf.germ V x hxV t =
         G.presheaf.germ (j ⁻¹ᵁ W) x hyW (j.app W cW • tG)
   refine Eq.trans ?_ (PresheafOfModules.germ_smul G.val x (j ⁻¹ᵁ W) hyW _ tG).symm
   congr 1
   · have hnat : j.app W cW = (complementZeroLocus A a : Scheme).presheaf.map
         ((Opens.map j.base).map (homOfLE (le_top : W ≤ ⊤))).op (j.app ⊤ c) := by
-      show ConcreteCategory.hom ((Spec (CommRingCat.of A)).presheaf.map
+      change ConcreteCategory.hom ((Spec (CommRingCat.of A)).presheaf.map
           (homOfLE (le_top : W ≤ ⊤)).op ≫ j.app W) c = _
       rw [j.naturality]
       rfl
-    show (complementZeroLocus A a : Scheme).presheaf.germ ⊤ x trivial (j.app ⊤ c) =
+    change (complementZeroLocus A a : Scheme).presheaf.germ ⊤ x trivial (j.app ⊤ c) =
       (complementZeroLocus A a : Scheme).presheaf.germ (j ⁻¹ᵁ W) x hyW (j.app W cW)
     rw [hnat]
     exact ((complementZeroLocus A a : Scheme).presheaf.germ_res_apply _ x hyW _).symm
@@ -566,7 +566,7 @@ theorem exists_smul_mem_range_complementReduction_sup [G.IsCoherent]
   have hker : (c * b) • y - (complementReduction A a f hcomplete G hG hfin).hom (c • m') ∈
       LinearMap.range (LinearMap.lsmul A S.M f) := by
     rw [Stacks.Modules.PrincipalAdicInverseSystem.range_lsmul_eq_ker_firstProjection S]
-    show π0 ((c * b) • y - (complementReduction A a f hcomplete G hG hfin).hom (c • m')) = 0
+    change π0 ((c * b) • y - (complementReduction A a f hcomplete G hG hfin).hom (c • m')) = 0
     have e1 : π0 ((c * b) • y) = complementTopScalars a (c * b) • n1 := π0.map_smul (c * b) y
     have e2 : π0 ((complementReduction A a f hcomplete G hG hfin).hom (c • m')) =
         complementTopScalars a c • Scheme.Modules.Hom.app ρ ⊤ m :=
@@ -614,8 +614,9 @@ theorem exists_quotientSystemNearVanishing_iso_powQuotient (n : ℕ) :
             Scheme).ringCatSheaf ⊤ isTerminalTop (complementTopScalars a f))) G n,
       adicProj (idealSheafNearVanishing A (Ideal.span {f}) a) G (op n) ≫ e.hom =
         cokernel.π ((((Stacks.SheafOfModules.terminalSectionToEnd (complementZeroLocus A a :
-            Scheme).ringCatSheaf ⊤ isTerminalTop (complementTopScalars a f))) ^ n).asHom.app G) := by
-  show ∃ e : cokernel (C := (complementZeroLocus A a : Scheme).Modules)
+            Scheme).ringCatSheaf ⊤ isTerminalTop (complementTopScalars a f))) ^ n).asHom.app
+          G) := by
+  change ∃ e : cokernel (C := (complementZeroLocus A a : Scheme).Modules)
       (idealPowerMultiple (idealSheafNearVanishing A (Ideal.span {f}) a) n G).ι ≅ _,
     cokernel.π (C := (complementZeroLocus A a : Scheme).Modules)
       (idealPowerMultiple (idealSheafNearVanishing A (Ideal.span {f}) a) n G).ι ≫ e.hom = _
@@ -756,7 +757,7 @@ theorem exists_section_complementProj_eq [G.IsCoherent]
       obtain ⟨c, hc, hcy⟩ := this
       exact (Opens.mem_iSup (s := W)).2
         ⟨⟨c, hc⟩, (mem_basicOpen_complementScalar_iff A a y c).2 hcy⟩
-    · show y ∈ ((⨅ ij, O ij : 𝒳.Opens) : Set 𝒳)
+    · change y ∈ ((⨅ ij, O ij : 𝒳.Opens) : Set 𝒳)
       rw [Opens.coe_iInf, Set.mem_iInter]
       intro ij
       exact ⟨trivial, fun _ => germ_eq_zero_of_complementReduction_eq_zero A a f hcomplete G hG hfin
@@ -776,7 +777,7 @@ theorem exists_section_complementProj_eq [G.IsCoherent]
     isUnit_res_complementScalar A a i.1 (hViW i)
   let t : ∀ i, Γ(G, Vi i) := fun i => (↑(hunit i).unit⁻¹ : Γ(𝒳, Vi i)) • res (Vi i) (mm i)
   have ht : ∀ i, resR (Vi i) (σ i) • t i = res (Vi i) (mm i) := fun i => by
-    show ((hunit i).unit : Γ(𝒳, Vi i)) • _ = _
+    change ((hunit i).unit : Γ(𝒳, Vi i)) • _ = _
     rw [smul_smul, Units.mul_inv, one_smul]
   have hres_smul : ∀ (Z : 𝒳.Opens) (r : Γ(𝒳, ⊤)) (s : Γ(G, ⊤)),
       res Z (r • s) = resR Z r • res Z s :=
@@ -805,13 +806,13 @@ theorem exists_section_complementProj_eq [G.IsCoherent]
       rw [map_mul, mul_comm, mul_smul, hrestrict i Q hQi, hres_smul]
     have e2 : resR Q (σ i * σ j) • G.presheaf.map (homOfLE hQj).op (t j) = res Q (σ i • mm j) := by
       rw [map_mul, mul_smul, hrestrict j Q hQj, hres_smul]
-    show _ • G.presheaf.map (homOfLE hQi).op (t i) = _ • G.presheaf.map (homOfLE hQj).op (t j)
+    change _ • G.presheaf.map (homOfLE hQi).op (t i) = _ • G.presheaf.map (homOfLE hQj).op (t j)
     rw [e1, e2, ← sub_eq_zero]
     have hO : Q ≤ germVanishingOpens G ⊤ (kk i j) := hQi.trans (hViO i j)
     have h0 := res_germVanishingOpens_eq_zero G ⊤ (kk i j)
     have h2 : G.presheaf.map (homOfLE (le_top : Q ≤ ⊤)).op (kk i j) = 0 :=
       presheaf_map_eq_zero_of_le (homOfLE hO) _ _ h0
-    show G.presheaf.map (homOfLE (le_top : Q ≤ ⊤)).op (σ j • mm i) -
+    change G.presheaf.map (homOfLE (le_top : Q ≤ ⊤)).op (σ j • mm i) -
       G.presheaf.map (homOfLE (le_top : Q ≤ ⊤)).op (σ i • mm j) = 0
     rw [← map_sub]
     exact h2
@@ -830,13 +831,13 @@ theorem exists_section_complementProj_eq [G.IsCoherent]
   let πn := (limit.π S.globalSectionsSystem (op n)).hom
   refine TopCat.Sheaf.eq_of_locally_eq' (⟨P.presheaf, P.isSheaf⟩ : TopCat.Sheaf Ab.{u} 𝒳) Vi V0
     (fun i => homOfLE (hVi0 i)) hcover _ _ fun i => ?_
-  show P.presheaf.map (homOfLE (hVi0 i)).op (Scheme.Modules.Hom.app pr V0 tt) =
+  change P.presheaf.map (homOfLE (hVi0 i)).op (Scheme.Modules.Hom.app pr V0 tt) =
     P.presheaf.map (homOfLE (hVi0 i)).op (P.presheaf.map (homOfLE (le_top : V0 ≤ ⊤)).op (πn x))
   rw [presheaf_map_app_apply, htt i]
   refine Eq.trans ?_ (presheaf_map_top_comp_apply A a P (hVi0 i) (πn x)).symm
   refine eq_of_smul_eq_smul_of_isUnit A a (hunit i) ?_
   rw [← Scheme.Modules.Hom.app_smul, ht i]
-  show Scheme.Modules.Hom.app pr (Vi i) (G.presheaf.map (homOfLE (le_top : Vi i ≤ ⊤)).op
+  change Scheme.Modules.Hom.app pr (Vi i) (G.presheaf.map (homOfLE (le_top : Vi i ≤ ⊤)).op
     (mm i)) = _
   rw [← presheaf_map_app_apply]
   let πx : Γ(P, ⊤) := πn x
@@ -937,7 +938,7 @@ theorem isIso_comparisonMap_span_singleton_of_isCoherent_pushforward
         (Scheme.Modules.Hom.app (Q.map (homOfLE (Nat.le_succ (n + 1))).op) ⊤)
         (ConcreteCategory.hom (limit.π (formalSections A (Ideal.span {f}) a F) (op (n + 2))) s) =
         ConcreteCategory.hom (limit.π (formalSections A (Ideal.span {f}) a F) (op (n + 1))) s at h1
-      show ConcreteCategory.hom (Scheme.Modules.Hom.app ((e (n + 2)).hom ≫
+      change ConcreteCategory.hom (Scheme.Modules.Hom.app ((e (n + 2)).hom ≫
         quotientToQuotient g F (n + 1)) ⊤)
         (ConcreteCategory.hom (limit.π (formalSections A (Ideal.span {f}) a F) (op (n + 2))) s) =
         ConcreteCategory.hom (Scheme.Modules.Hom.app (e (n + 1)).hom ⊤)

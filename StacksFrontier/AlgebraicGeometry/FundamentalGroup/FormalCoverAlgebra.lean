@@ -106,7 +106,7 @@ theorem pullbackHomEquivPushforward_mulFamily (n : ℕ) :
     pullbackHomEquivPushforward (nbhdHom i V hV n) (G ⊗ G) _
       (D.mulFamily n ≫ (compIso i A V hV n).inv ≫
         (Scheme.Modules.pushforward (nbhdHom i V hV n)).map (D.φUnderlying n).inv) = D.mulAt n := by
-  refine (Equiv.apply_eq_iff_eq_symm_apply _).2 ?_
+  refine (Equiv.eq_symm_apply _).1 ?_
   have key : D.mulFamily n ≫ (compIso i A V hV n).inv =
       (Scheme.Modules.pullbackPushforwardAdjunction (nbhdHom i V hV n)).unit.app (G ⊗ G) ≫
         (Scheme.Modules.pushforward (nbhdHom i V hV n)).map
@@ -229,7 +229,7 @@ theorem pullbackHomEquivPushforward_unitFamily (n : ℕ) :
       (unitFamily (i := i) (A := A) (hV := hV) n ≫ (compIso i A V hV n).inv ≫
         (Scheme.Modules.pushforward (nbhdHom i V hV n)).map (D.φUnderlying n).inv)
           = D.unitAt n := by
-  refine (Equiv.apply_eq_iff_eq_symm_apply _).2 ?_
+  refine (Equiv.eq_symm_apply _).1 ?_
   have key : unitFamily (i := i) (A := A) (hV := hV) n ≫ (compIso i A V hV n).inv =
       Stacks.AlgebraicGeometry.AffineBaseChange.structureUnitHom (nbhdHom i V hV n) ≫
         (Scheme.Modules.pushforward (nbhdHom i V hV n)).map

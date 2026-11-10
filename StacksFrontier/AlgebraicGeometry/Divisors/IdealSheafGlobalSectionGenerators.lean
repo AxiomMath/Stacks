@@ -101,7 +101,7 @@ theorem mulGlobalFunction_comp_subschemeStructureHom (K : X.IdealSheafData) (a :
   have hmem : X.presheaf.map (homOfLE (le_top (a := U.1))).op a ∈
       RingHom.ker (K.subschemeι.app (U : X.Opens)).hom := by
     rw [K.ker_subschemeι_app U]; exact ha U
-  show K.subschemeι.app (U : X.Opens)
+  change K.subschemeι.app (U : X.Opens)
     (unitSectionFun c * X.presheaf.map (homOfLE _).op a) = 0
   rw [map_mul, RingHom.mem_ker.1 hmem, mul_zero]
 

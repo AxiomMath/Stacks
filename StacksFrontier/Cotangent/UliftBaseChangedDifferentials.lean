@@ -148,8 +148,7 @@ def uliftBaseChangeDown :
   toFun := ⇑(TensorProduct.lift (uliftBaseChangeDownBilinear.{u, v} A P B))
   map_add' := map_add _
   map_smul' c z := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul b w => rfl
     | add x y hx hy => simp only [smul_add, map_add, hx, hy]
 
@@ -215,8 +214,7 @@ def uliftBaseChangeEquiv :
   have hup : ∀ z : ULift.{v} B ⊗[ULift.{v} P] Ω[ULift.{v} P⁄ULift.{v} A],
       uliftBaseChangeUp.{u, v} A P B (uliftBaseChangeDown.{u, v} A P B z).down = z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero]; exact map_zero _
+    induction z using TensorProduct.inductionOn with
     | tmul b w =>
         rw [uliftBaseChangeDown_tmul]
         change uliftBaseChangeUp.{u, v} A P B (b.down ⊗ₜ[P] uliftDown.{u, v} A P w) = _
@@ -225,8 +223,7 @@ def uliftBaseChangeEquiv :
   have hdown : ∀ y : B ⊗[P] Ω[P⁄A],
       uliftBaseChangeDown.{u, v} A P B (uliftBaseChangeUp.{u, v} A P B y) = ULift.up y := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]; rfl
+    induction y using TensorProduct.inductionOn with
     | tmul b ω => rw [uliftBaseChangeUp_tmul, uliftBaseChangeDown_tmul, uliftDown_uliftUp]
     | add x y hx hy => rw [map_add, map_add, hx, hy]; rfl
   exact

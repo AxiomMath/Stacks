@@ -296,7 +296,7 @@ variable {C : Type u} [Category.{v} C] (J : GrothendieckTopology C) {U' U V' V :
 `Over.mapComp` and `Over.mapCongr` of the two ways of reading the commutative square: both sides
 are the identity on underlying objects of `C`. -/
 private lemma overMapSquare_natTrans_app (sq : CommSq a b c d) (W : Over U') :
-    (overMapSquare sq).natTrans.app W =
+    (overMapSquare sq).app W =
       (Over.mapComp a c).inv.app W ≫
         (Over.mapCongr (b ≫ d) (a ≫ c) sq.w.symm).inv.app W ≫ (Over.mapComp b d).hom.app W := by
   ext
@@ -399,7 +399,7 @@ private lemma overMapPullbackSquare_comp_counit_hom (sq : CommSq a b c d)
 the presheaf map of `overMapPullbackSquare_comp_counit_hom`. -/
 private lemma overMapPushforwardBaseChange_natTrans_app_hom (sq : CommSq a b c d)
     (F : Sheaf (J.over U) A) :
-    ((J.overMapPushforwardBaseChange A sq).natTrans.app F).hom =
+    ((J.overMapPushforwardBaseChange A sq).app F).hom =
       ((Over.map b).op.ranAdjunction A).homEquiv _ _
         ((Functor.RightExtension.mk _ ((Over.map c).op.ranCounit.app F.obj)).compTwoSquare
             (overMapSquare sq).op).hom := by
@@ -432,7 +432,7 @@ of `C` is cartesian, then the relocalization morphisms satisfy base change,
 public theorem isIso_overMapPushforwardBaseChange (hsq : IsPullback a b c d)
     [∀ (F : (Over U)ᵒᵖ ⥤ A), (Over.map c).op.HasPointwiseRightKanExtension F]
     [∀ (F : (Over U')ᵒᵖ ⥤ A), (Over.map b).op.HasPointwiseRightKanExtension F] :
-    IsIso (J.overMapPushforwardBaseChange A hsq.toCommSq).natTrans := by
+    IsIso (J.overMapPushforwardBaseChange A hsq.toCommSq) := by
   have := guitartExact_overMapSquare hsq
   rw [NatTrans.isIso_iff_isIso_app]
   intro F

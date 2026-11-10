@@ -71,7 +71,7 @@ theorem natCard_fixedSections_eq_natCard_fixedClosedPoints (φ : C ⟶ C) (w : �
   refine Nat.card_congr
     { toFun := fun y => ⟨y.1.base (IsLocalRing.closedPoint Ω),
         (pointEquivClosedPoint g ⟨y.1, y.2.1⟩).2, by
-          show (y.1 ≫ φ).base (IsLocalRing.closedPoint Ω) = _
+          change (y.1 ≫ φ).base (IsLocalRing.closedPoint Ω) = _
           rw [y.2.2]⟩
       invFun := fun x => ⟨pointOfClosedPoint g x.1 x.2.1, pointOfClosedPoint_comp g x.1 x.2.1,
         ext_of_apply_closedPoint_eq g (by rw [Category.assoc, w, pointOfClosedPoint_comp])
@@ -128,7 +128,7 @@ theorem natCard_ker_one_sub_pow_eq {A : Type*} [AddCommGroup A] (d : A →+ ℤ)
       aeval (Stacks.Picard.asEnd u) ((1 : ℤ[X]) - Polynomial.X ^ m) x = x - u^[m] x := by
     intro x
     rw [map_sub, map_one, map_pow, aeval_X]
-    show x - ((Stacks.Picard.asEnd u) ^ m) x = _
+    change x - ((Stacks.Picard.asEnd u) ^ m) x = _
     rw [AddMonoid.End.coe_pow]
     rfl
   refine Nat.card_congr
@@ -138,7 +138,7 @@ theorem natCard_ker_one_sub_pow_eq {A : Type*} [AddCommGroup A] (d : A →+ ℤ)
         rw [← hit]
         exact congrArg Subtype.val h.symm⟩
       invFun := fun c => ⟨⟨c.1, c.2.1⟩, by
-        show aeval (Stacks.Picard.asEnd u) ((1 : ℤ[X]) - Polynomial.X ^ m) ⟨c.1, c.2.1⟩ = 0
+        change aeval (Stacks.Picard.asEnd u) ((1 : ℤ[X]) - Polynomial.X ^ m) ⟨c.1, c.2.1⟩ = 0
         rw [hev, sub_eq_zero]
         exact Subtype.ext ((hit m _).trans c.2.2).symm⟩
       left_inv := fun x => rfl
@@ -197,7 +197,7 @@ theorem torsionByRestrict_schemePullbackClassHom_comp_eq_smul {S : Scheme.{u}} (
         (Stacks.Picard.schemePullbackClassHom b) m x) =
       (p ^ f) • x := by
   apply Subtype.ext
-  show Stacks.Picard.schemePullbackClass a (Stacks.Picard.schemePullbackClass b x.1) = _
+  change Stacks.Picard.schemePullbackClass a (Stacks.Picard.schemePullbackClass b x.1) = _
   rw [Stacks.Picard.schemePullbackClass_comp, hab,
     Stacks.Picard.schemePullbackClass_absoluteFrobeniusPow_eq_zsmul, Submodule.coe_smul_of_tower,
     ← natCast_zsmul, Nat.cast_pow]
@@ -332,7 +332,7 @@ theorem weilTraceInput : WeilTraceInput := by
       Ψ.hom (iterateFrobenius Ω p f) q hΨs (fun x => rfl) 1
       (fun L => by simpa only [one_mul] using hdegΨ L) N
     refine ⟨e, he, fun a b => ?_⟩
-    show e (Stacks.Picard.torsionByRestrict Pσ _ a) (Stacks.Picard.torsionByRestrict Pσ _ b) = _
+    change e (Stacks.Picard.torsionByRestrict Pσ _ a) (Stacks.Picard.torsionByRestrict Pσ _ b) = _
     rw [heσ, zsmul_eq_mul]
     push_cast
     ring
@@ -360,7 +360,7 @@ theorem weilTraceInput : WeilTraceInput := by
   set h : ℕ → ℕ := fun m => Nat.card {c : Stacks.Picard.ofScheme C // deg c = 0 ∧ Pσ^[m] c = c}
   have hnorm : ∀ m, 0 < m → (h m : ℚ) = Stacks.Polynomial.normForm χ (1 - Polynomial.X ^ m) := by
     intro m hm
-    show ((Nat.card {c : Stacks.Picard.ofScheme C // deg c = 0 ∧ Pσ^[m] c = c} : ℕ) : ℚ) = _
+    change ((Nat.card {c : Stacks.Picard.ofScheme C // deg c = 0 ∧ Pσ^[m] c = c} : ℕ) : ℚ) = _
     rw [← natCard_ker_one_sub_pow_eq deg Pσ u (fun c => rfl) m]
     exact hker _ (not_dvd_coeff_zero_one_sub_X_pow hpp hm)
   have hh0 : ∀ m, 0 < m → h m ≠ 0 := by

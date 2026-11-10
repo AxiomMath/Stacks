@@ -356,9 +356,9 @@ theorem isStack_map_iff [HasPullbacks 𝒞] {V W : 𝒞} (g : V ⟶ W)
 
 /-! ### Constructions A and B as mutually inverse functors of the 2-categories of stacks
 
-`StacksFrontier/CategoryTheory/Sites/Localization/StacksAndLocalization.lean` has Construction A as a
-functor of the 2-categories of stacks, bijective on 1-morphisms and on 2-morphisms and compatible
-with identities, composition and whiskering
+`StacksFrontier/CategoryTheory/Sites/Localization/StacksAndLocalization.lean` has Construction A
+as a functor of the 2-categories of stacks, bijective on 1-morphisms and on 2-morphisms and
+compatible with identities, composition and whiskering
 (`CategoryTheory.Over.stackConstructionHomEquiv`, `CategoryTheory.Over.stackConstructionHom₂Equiv`
 and their companions). Construction B completes it to a bijection on objects, and that is all of
 Stacks 04WV that was missing.

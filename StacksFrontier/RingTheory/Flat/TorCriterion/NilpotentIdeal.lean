@@ -148,7 +148,7 @@ private theorem rTensor_restrictScalars_injective'
     | tmul x m' =>
         induction m' with
         | tmul a m =>
-            show (LinearMap.rTensor M (f.restrictScalars R)) (eX (x ⊗ₜ[R⧸J] (a ⊗ₜ[R] m)))
+            change (LinearMap.rTensor M (f.restrictScalars R)) (eX (x ⊗ₜ[R⧸J] (a ⊗ₜ[R] m)))
               = eY ((LinearMap.rTensor ((R⧸J) ⊗[R] M) f) (x ⊗ₜ[R⧸J] (a ⊗ₜ[R] m)))
             rw [TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul]
             rw [LinearMap.rTensor_tmul, LinearMap.rTensor_tmul]
@@ -177,7 +177,7 @@ theorem flat_quotient_of_tor1_vanishes
     intro K
     apply rTensor_restrictScalars_injective' J K.subtype
     set P : Submodule R (R ⧸ J) := K.restrictScalars R with hPdef
-    show Function.Injective (LinearMap.rTensor M (P.subtype))
+    change Function.Injective (LinearMap.rTensor M (P.subtype))
     have hkill : J • (⊤ : Submodule R ((R ⧸ J) ⧸ P)) = ⊥ := by
       rw [eq_bot_iff, Submodule.smul_le]
       intro r hr x _

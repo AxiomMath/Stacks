@@ -267,7 +267,7 @@ def toSpecPrimeField {Y : Scheme.{u}} (hY : IsInCharacteristic Y p) :
 /-- The spectrum `Spec 𝐅_p` of the prime field is a scheme in characteristic `p`. -/
 lemma isInCharacteristic_spec_primeField :
     IsInCharacteristic (Spec (.of (ULift.{u} (ZMod p)))) p := by
-  show (p : Γ(Spec (.of (ULift.{u} (ZMod p))), ⊤)) = 0
+  change (p : Γ(Spec (.of (ULift.{u} (ZMod p))), ⊤)) = 0
   rw [← map_natCast (Scheme.ΓSpecIso (.of (ULift.{u} (ZMod p)))).inv.hom p,
     show ((p : ℕ) : ULift.{u} (ZMod p)) = 0 from ULift.ext (by simp), map_zero]
 
@@ -290,8 +290,8 @@ of a still later stage (`AlgebraicGeometry.exists_stage_forall_isoAlong`). -/
 theorem descendsAfterFrobenius_of_forall_finiteType
     (H : ∀ (k : Type u) [Field k] {X₀ Y₀ : Scheme.{u}} (s : Y₀ ⟶ Spec (.of k))
       [LocallyOfFiniteType s] [CompactSpace Y₀] (f₀ : X₀ ⟶ Y₀) [IsProper f₀] [Surjective f₀]
-      [GeometricallyConnected f₀] (hX₀ : IsInCharacteristic X₀ p)
-      (hY₀ : IsInCharacteristic Y₀ p) (E₀ : X₀.Vect),
+      [GeometricallyConnected f₀] (hX₀ : IsInCharacteristic X₀ p),
+      IsInCharacteristic Y₀ p → ∀ (E₀ : X₀.Vect),
       Scheme.Vect.IsFreeOnReducedFibresAfterFrobenius f₀ p hX₀ E₀ →
         Scheme.Vect.DescendsAfterFrobenius f₀ p hX₀ E₀)
     {X Y : Scheme.{u}} (f : X ⟶ Y) [CompactSpace Y] [QuasiSeparatedSpace Y] [IsProper f]
@@ -343,10 +343,10 @@ theorem descendsAfterFrobenius_of_forall_finiteType
     MorphismProperty.overPullbackMap (P := @IsAffineHom) X₁.hom ((Over.post D).map m)
       (haff m.left)
   have : ∀ k, CompactSpace (F.obj k) := fun k => by
-    show CompactSpace ↥(pullback (D.map k.hom) X₁.hom)
+    change CompactSpace ↥(pullback (D.map k.hom) X₁.hom)
     infer_instance
   have : ∀ k, QuasiSeparatedSpace (F.obj k) := fun k => by
-    show QuasiSeparatedSpace ↥(pullback (D.map k.hom) X₁.hom)
+    change QuasiSeparatedSpace ↥(pullback (D.map k.hom) X₁.hom)
     exact quasiSeparatedSpace_of_quasiSeparated (pullback.fst (D.map k.hom) X₁.hom)
   let ψ : X ≅ cX.pt := sq₁.flip.isoPullback
   obtain ⟨kE, E₂, hE₂, ⟨eE₂⟩⟩ :=
@@ -368,11 +368,11 @@ theorem descendsAfterFrobenius_of_forall_finiteType
       Over.pullback_map_left]
     exact pullback.lift_fst _ _ _
   have ha₁ : a ≫ pullback.snd (D.map kE.hom) X₁.hom = a₁ := by
-    show ψ.hom ≫ cX.π.app kE ≫ pullback.snd (D.map kE.hom) X₁.hom = a₁
+    change ψ.hom ≫ cX.π.app kE ≫ pullback.snd (D.map kE.hom) X₁.hom = a₁
     rw [hcXsnd]
     exact sq₁.flip.isoPullback_hom_snd
   have hag : a ≫ g₀ = f ≫ c.π.app (op j₀) := by
-    show ψ.hom ≫ cX.π.app kE ≫ pullback.fst (D.map kE.hom) X₁.hom = _
+    change ψ.hom ≫ cX.π.app kE ≫ pullback.fst (D.map kE.hom) X₁.hom = _
     rw [hcXfst]
     exact sq₁.flip.isoPullback_hom_fst_assoc _
   have sq : IsPullback a f g₀ (c.π.app (op j₀)) := by

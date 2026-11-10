@@ -88,12 +88,12 @@ theorem sum_antidiagonal_eq_sum_antidiagonal_erase {N : Type*} [AddCommMonoid N]
     have herase : ∀ (u : ℕ) (L : ι →₀ ℕ), L a = 0 → erase a (single a u + L) = L := by
       intro u L hL
       rw [erase_add, erase_single, zero_add, erase_of_notMem_support (by simp [hL])]
-    show (((single a q.1.1 + q.2.1) a, (single a q.1.2 + q.2.2) a),
+    change (((single a q.1.1 + q.2.1) a, (single a q.1.2 + q.2.2) a),
       (erase a (single a q.1.1 + q.2.1), erase a (single a q.1.2 + q.2.2))) = q
     rw [hval q.1.1 q.2.1 hz.1, hval q.1.2 q.2.2 hz.2, herase q.1.1 q.2.1 hz.1,
       herase q.1.2 q.2.2 hz.2]
   · intro L _
-    show F L.1 L.2 = F (single a (L.1 a) + erase a L.1) (single a (L.2 a) + erase a L.2)
+    change F L.1 L.2 = F (single a (L.1 a) + erase a L.1) (single a (L.2 a) + erase a L.2)
     rw [single_add_erase, single_add_erase]
 
 end Finsupp
@@ -191,7 +191,7 @@ theorem prod_dpow_mul {ι : Type*} {x : ι → A} (s : Finset ι) (hx : ∀ i �
 /-- The multi-index product formula for divided powers, with every product over the support of the
 multi-index it belongs to: for `x_i ∈ I`, `(∏_{i ∈ J.support} x_i^{[j_i]}) (∏_{i ∈ K.support}
 x_i^{[k_i]})` is `∏_{i ∈ (J + K).support} binom(j_i + k_i, j_i) x_i^{[j_i + k_i]}`. -/
-theorem prod_dpow_mul_support {ι : Type*} [DecidableEq ι] {x : ι → A} (hx : ∀ i, x i ∈ I)
+theorem prod_dpow_mul_support {ι : Type*} {x : ι → A} (hx : ∀ i, x i ∈ I)
     (J K : ι →₀ ℕ) :
     (∏ i ∈ J.support, hI.dpow (J i) (x i)) * (∏ i ∈ K.support, hI.dpow (K i) (x i)) =
       (∏ i ∈ (J + K).support, ((J i + K i).choose (J i) : A)) *

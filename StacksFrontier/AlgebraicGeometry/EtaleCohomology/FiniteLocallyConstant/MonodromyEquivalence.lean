@@ -65,7 +65,7 @@ theorem restrictGraph_top_map_actHom (h : H) (f : (G.descentPresheaf Λ N ρ).ob
     rfl
   have hz : g.base y ∈ G.sheet G.topOver h⁻¹ := by
     refine Scheme.Hom.mem_agreeLocus_of_comp_eq _ _ _ _ g ?_ y
-    show g ≫ (pullback.fst _ _ ≫ 𝟙 _) ≫ G.act h⁻¹ = g ≫ pullback.snd _ _
+    change g ≫ (pullback.fst _ _ ≫ 𝟙 _) ≫ G.act h⁻¹ = g ≫ pullback.snd _ _
     rw [Category.comp_id, ← Category.assoc, hg₁, hg₂, ← G.act_mul, inv_mul_cancel, G.act_one]
   have hfst : (pullback.fst G.topOver.left.hom G.cover.hom).base (g.base y) =
       (G.act h).base y := by
@@ -96,7 +96,7 @@ theorem isFiniteTypeLocallyConstant_descentSheaf [Module.Finite Λ N] :
   intro W
   refine ⟨PUnit.{u + 2}, fun _ ↦ G.fiberObj W, fun _ ↦ G.fiberObjFst W,
     G.ofArrows_fiberObjFst_mem W, fun _ ↦ ⟨ModuleCat.of Λ N, ?_, ⟨?_⟩⟩⟩
-  · show Module.Finite Λ N
+  · change Module.Finite Λ N
     infer_instance
   · exact Stacks.ConstantSheaf.Localization.overPullbackIsoOfMap X.smallEtaleTopology
       (ModuleCat.{max (u + 1) v} Λ) (G.fiberObjSnd W) (G.descentSheaf Λ N ρ) _
@@ -223,7 +223,7 @@ theorem autRepresentation_galoisAut (σ : EtaleFundamentalGroup X x) :
     autRepresentation A ρ hρ (galoisAut x σ A) = ρ σ⁻¹ := by
   have h := (surjective_galoisAut A (galoisAut x σ A)).choose_spec
   simp only at h
-  show ρ (surjective_galoisAut A (galoisAut x σ A)).choose⁻¹ = ρ σ⁻¹
+  change ρ (surjective_galoisAut A (galoisAut x σ A)).choose⁻¹ = ρ σ⁻¹
   refine eq_of_galoisAut_eq A ρ hρ ?_
   rw [galoisAut_inv, galoisAut_inv, h]
 
@@ -399,7 +399,7 @@ theorem monodromyDescentSectionsEquiv_map (σ : EtaleFundamentalGroup X x)
   have : ConnectedSpace (A.etaleGaloisCovering hX).cover.left := A.connectedSpace
   refine ((A.etaleGaloisCovering hX).descentSectionsEquiv_map_actHom N.V
     (autRepresentation A (actionLinearRepr N) hN) (galoisAut x σ A) d).trans ?_
-  show autRepresentation A (actionLinearRepr N) hN (galoisAut x σ A)⁻¹
+  change autRepresentation A (actionLinearRepr N) hN (galoisAut x σ A)⁻¹
       (monodromyDescentSectionsEquiv hX A N hN d) =
     actionLinearRepr N σ (monodromyDescentSectionsEquiv hX A N hN d)
   rw [← galoisAut_inv, autRepresentation_galoisAut, inv_inv]

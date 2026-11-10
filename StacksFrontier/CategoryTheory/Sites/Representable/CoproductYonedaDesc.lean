@@ -43,5 +43,5 @@ theorem isLocallySurjective_coprodYonedaDesc
   refine J.superset_covering ?_ (J.pullback_stable s hf)
   rintro W g ⟨Y, h, k, ⟨i⟩, hcomp⟩
   refine ⟨(Sigma.ι (fun i => yoneda.obj (U i)) i).app (op W) h, ?_⟩
-  rw [← ConcreteCategory.comp_apply, ← NatTrans.comp_app, coprodYonedaDesc, Sigma.ι_desc]
+  rw [← ConcreteCategory.comp_apply, ← NatTrans.comp_app, coprodYonedaDesc, Sigma.ι_comp_desc]
   exact hcomp

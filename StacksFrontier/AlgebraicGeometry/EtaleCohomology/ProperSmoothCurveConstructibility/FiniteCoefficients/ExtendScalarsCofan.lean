@@ -50,7 +50,7 @@ def isColimit_cofan_of_iso {D : Type*} [Category D] {ι : Type*} {X X' Y' : D}
     {c : Cofan fun _ : ι ↦ X} (hc : IsColimit c) (eX : X' ≅ X) (eY : c.pt ≅ Y')
     (inj : ι → (X' ⟶ Y')) (h : ∀ i, inj i = eX.hom ≫ c.inj i ≫ eY.hom) :
     IsColimit (Cofan.mk Y' inj) :=
-  mkCofanColimit _ (fun s ↦ eY.inv ≫ Cofan.IsColimit.desc hc fun i ↦ eX.inv ≫ s.inj i)
+  Cofan.IsColimit.mk _ (fun s ↦ eY.inv ≫ Cofan.IsColimit.desc hc fun i ↦ eX.inv ≫ s.inj i)
     (fun s i ↦ by
       change inj i ≫ _ = _
       simp [h])
@@ -217,7 +217,7 @@ theorem zmodExtendScalarsInj_comp_zmodExtendScalarsDesc (G : Sheaf J (ModuleCat.
   rw [zmodExtendScalarsDesc, Equiv.apply_symm_apply] at h₂
   ext1
   ext U m
-  show ((zmodExtendScalarsDesc J Λ ℓ G ψ).hom.app U).hom
+  change ((zmodExtendScalarsDesc J Λ ℓ G ψ).hom.app U).hom
       (e • (show (zmodExtendScalars J Λ ℓ G).obj.obj U from
         (((extendScalarsSheafAdj.{w} J ℤ Λ (Int.castRingHom Λ)).unit.app
           (zmodToInt J ℓ G)).hom.app U).hom m)) =

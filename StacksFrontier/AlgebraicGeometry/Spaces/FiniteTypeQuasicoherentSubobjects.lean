@@ -416,9 +416,11 @@ quasi-coherence is closed under kernels and under cokernels: in an abelian categ
 is the kernel of the cokernel projection. -/
 lemma isQuasicoherentOnSite_image {M N : Modules.{u, u} B S hS X hX}
     (hker : (SheafOfModules.isQuasicoherentOnSite.{u + 1, u, u, u}
-      ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X hX).O))).IsClosedUnderKernels)
+      ((Stacks.SheafOfModules.Tensor.ringSheaf
+        (smallEtaleRingedSite B S hS X hX).O))).IsClosedUnderKernels)
     (hcoker : (SheafOfModules.isQuasicoherentOnSite.{u + 1, u, u, u}
-      ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X hX).O))).IsClosedUnderCokernels)
+      ((Stacks.SheafOfModules.Tensor.ringSheaf
+        (smallEtaleRingedSite B S hS X hX).O))).IsClosedUnderCokernels)
     (f : M ⟶ N) (hM : M.IsQuasicoherentOnSite) (hN : N.IsQuasicoherentOnSite) :
     (Subobject.underlying.obj (imageSubobject f)).IsQuasicoherentOnSite := by
   have := hker
@@ -430,6 +432,7 @@ lemma isQuasicoherentOnSite_image {M N : Modules.{u, u} B S hS X hX}
     ((Abelian.imageIsoImage f).trans (imageSubobjectIso f).symm) hk
 
 set_option synthInstance.maxHeartbeats 200000 in
+-- instance synthesis (`Epi`, the ring sheaf of `smallEtaleRingedSite`) on these modules is slow
 /-- The image of a morphism out of an `𝒪_F`-module of finite type is of finite type: it is a
 quotient of the source. -/
 private lemma isFiniteType_imageSubobject {M N : Modules.{u, u} B S hS X hX} (f : M ⟶ N)

@@ -212,13 +212,13 @@ theorem ker_appTop_comp_iso {Z Z' X : Scheme.{u}} (e : Z' ≅ Z) (i : Z ⟶ X) :
 theorem ker_appTop_morphismRestrict {Z X : Scheme.{u}} (i : Z ⟶ X) (U : X.Opens) :
     RingHom.ker (i ∣_ U).appTop.hom = (RingHom.ker (i.app U).hom).map U.topIso.inv.hom := by
   rw [← Scheme.Hom.resLE_eq_morphismRestrict]
-  show RingHom.ker ((i.resLE U (i ⁻¹ᵁ U) le_rfl).app ⊤).hom = _
+  change RingHom.ker ((i.resLE U (i ⁻¹ᵁ U) le_rfl).app ⊤).hom = _
   rw [Scheme.Hom.resLE_app_top, Scheme.Hom.appLE_eq_app]
   have hinj := (ConcreteCategory.bijective_of_isIso (i ⁻¹ᵁ U).topIso.inv).injective
   ext s
   rw [Ideal.mem_map_iff_of_surjective _
     (ConcreteCategory.bijective_of_isIso U.topIso.inv).surjective]
-  show (i ⁻¹ᵁ U).topIso.inv ((i.app U) (U.topIso.hom s)) = 0 ↔ _
+  change (i ⁻¹ᵁ U).topIso.inv ((i.app U) (U.topIso.hom s)) = 0 ↔ _
   rw [map_eq_zero_iff _ hinj]
   constructor
   · intro hs
@@ -267,9 +267,9 @@ theorem isKoszulRegular_map_ringEquiv {R S : Type u} [CommRing R] [CommRing S] (
 theorem definingIdealOfHom_comp_iso {Z Z' X : Scheme.{u}} (e : Z' ≅ Z) (i : Z ⟶ X) :
     definingIdealOfHom (e.hom ≫ i) = definingIdealOfHom i := by
   refine eq_definingIdealOfHom_of_mem_iff i _ fun U s => ?_
-  show ((e.hom ≫ i).app U) s = 0 ↔ (i.app U) s = 0
+  change ((e.hom ≫ i).app U) s = 0 ↔ (i.app U) s = 0
   rw [Scheme.Hom.comp_app]
-  show (e.hom.app (i ⁻¹ᵁ U)) ((i.app U) s) = 0 ↔ (i.app U) s = 0
+  change (e.hom.app (i ⁻¹ᵁ U)) ((i.app U) s) = 0 ↔ (i.app U) s = 0
   exact map_eq_zero_iff _ (ConcreteCategory.bijective_of_isIso (e.hom.app _)).injective
 
 /-- Precomposing with an isomorphism preserves regularity of an immersion. -/
@@ -320,7 +320,7 @@ theorem exists_smooth_surjective_affine_regular_generators {Z X : Scheme.{u}} (i
     rw [Scheme.Hom.comp_appTop, hinv]
     exact (Scheme.ΓSpecIso_inv_naturality α).symm
   rw [happ, CommRingCat.hom_comp, ← Ideal.map_map]
-  show Ideal.map E.toRingHom
+  change Ideal.map E.toRingHom
     (Ideal.map (algebraMap (Γ(X, ⊤)) S) (Ideal.span (Set.range f))) = _
   rw [hspan, map_span_range_fin]
   rfl
@@ -428,12 +428,12 @@ theorem isRegularImmersion_of_affine_pullback_cover {Z X : Scheme.{u}} (i : Z �
     hf.toIsWeaklyRegular⟩
   show x ∈ (U.1 : Set i.coborderRange.toScheme)
   rw [hU]
-  show x ∈ Set.range a'
+  change x ∈ Set.range a'
   refine ⟨y, ?_⟩
   have hcxy : c x = i z := by
     rw [← hz]
     exact congr($(i.liftCoborder_ι) z)
-  show inv c (a k y) = x
+  change inv c (a k y) = x
   rw [hy, ← hcxy, ← Scheme.Hom.comp_apply, IsIso.hom_inv_id]
   rfl
 
@@ -469,7 +469,7 @@ theorem exists_smooth_surjective_regular_baseChange_of_idealSheaf {Z X : Scheme.
     (fun z ↦ Sigma.ι V (some z)) haff
     (fun z ↦ inferInstanceAs (IsOpenImmersion (Sigma.ι V (some z)))) ?_ ?_
   · exact fun z => ⟨n z, t z, ht z, (ker_appTop_pullback_snd_comp i G (Sigma.ι V (some z)) (g z)
-      (Sigma.ι_desc f (some z))).trans (hker z)⟩
+      (Sigma.ι_comp_desc f (some z))).trans (hker z)⟩
   · intro p
     obtain ⟨⟨k, y⟩, hy⟩ := (sigmaMk V).surjective (pullback.snd i G p)
     rw [sigmaMk_mk] at hy
@@ -481,7 +481,7 @@ theorem exists_smooth_surjective_regular_baseChange_of_idealSheaf {Z X : Scheme.
           i (pullback.fst i G p) = G (pullback.snd i G p) :=
             congr($(pullback.condition (f := i) (g := G)) p)
           _ = G (Sigma.ι V none y) := congrArg G hy.symm
-          _ = W.ι y := congr($(Sigma.ι_desc f none) y)
+          _ = W.ι y := congr($(Sigma.ι_comp_desc f none) y)
       exact (y.property ⟨pullback.fst i G p, hw⟩).elim
 
 /-- **Stacks Project, Tag 0692.**  A Koszul-regular closed immersion becomes a regular immersion

@@ -150,7 +150,7 @@ theorem isIso_of_isSheafOfDifferentialsMap_of_isPullback_of_schemeSquare
   have hk : schemeSpaceMap C.qU ≫ schemeSpaceMap C.α =
       schemeSpaceMap C.fU ≫ schemeSpaceMap C.pV :=
     ObjectProperty.hom_ext _ (by
-      show yoneda.map C.qU ≫ yoneda.map C.α = yoneda.map C.fU ≫ yoneda.map C.pV
+      change yoneda.map C.qU ≫ yoneda.map C.α = yoneda.map C.fU ≫ yoneda.map C.pV
       rw [← Functor.map_comp, ← Functor.map_comp]
       exact congrArg yoneda.map (pullback.condition (f := C.α) (g := C.pV)))
   have htop : (ObjectProperty.homMk C.cU : schemeSpace _ ⟶ X') ≫ g' =

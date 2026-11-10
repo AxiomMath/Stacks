@@ -22,7 +22,7 @@ of Stacks 06BD is short exact, `i : Z ⟶ Y` being the first of the two morphism
 proves the étale localization step and the reduction of short exactness to injectivity of the
 left-hand arrow; Stacks 06CC itself is
 `AlgebraicGeometry.Space.conormalSequence_shortExact_of_isLocalCompleteIntersection` in
-`StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/LocalCompleteIntersection/ConormalShortExactUnconditional.lean`.
+`ConormalShortExactUnconditional.lean`, in the same directory as this file.
 
 ## The sequence, and where it lives
 

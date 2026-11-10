@@ -77,7 +77,7 @@ theorem componentCatMapComp_comp_id {m n : SimplexCategory} (φ : m ⟶ n) :
     (congrArg Iso.hom (canonicalCompositionComparison_comp_id S φ)) (ULift.down X)
   simp only [Iso.trans_hom, Iso.symm_hom, NatTrans.comp_app, Functor.isoWhiskerLeft_hom,
     Functor.whiskerLeft_app, Functor.rightUnitor_hom_app] at hlaw
-  show (canonicalCompositionComparison S φ (𝟙 n)).hom.app (ULift.down X) ≫
+  change (canonicalCompositionComparison S φ (𝟙 n)).hom.app (ULift.down X) ≫
       (canonicalIdentityComparison S n).hom.app
           ((S.transitionMorphism φ).inverseImage.obj (ULift.down X)) ≫
         𝟙 ((S.transitionMorphism φ).inverseImage.obj (ULift.down X)) = _
@@ -98,7 +98,7 @@ theorem componentCatMapComp_id_comp {m n : SimplexCategory} (φ : m ⟶ n) :
     (congrArg Iso.hom (canonicalCompositionComparison_id_comp S φ)) (ULift.down X)
   simp only [Iso.trans_hom, Iso.symm_hom, NatTrans.comp_app, Functor.isoWhiskerRight_hom,
     Functor.whiskerRight_app, Functor.leftUnitor_hom_app] at hlaw
-  show (canonicalCompositionComparison S (𝟙 m) φ).hom.app (ULift.down X) ≫
+  change (canonicalCompositionComparison S (𝟙 m) φ).hom.app (ULift.down X) ≫
       (S.transitionMorphism φ).inverseImage.map
           ((canonicalIdentityComparison S m).hom.app (ULift.down X)) ≫
         𝟙 ((S.transitionMorphism φ).inverseImage.obj (ULift.down X)) = _
@@ -123,7 +123,7 @@ theorem componentCatMapComp_assoc {k l m n : SimplexCategory}
   simp only [Iso.trans_hom, Iso.symm_hom, NatTrans.comp_app, Functor.isoWhiskerRight_hom,
     Functor.isoWhiskerLeft_hom, Functor.whiskerRight_app, Functor.whiskerLeft_app,
     Functor.associator_inv_app, Category.id_comp] at hlaw
-  show (canonicalCompositionComparison S (χ ≫ ψ) φ).hom.app (ULift.down X) ≫
+  change (canonicalCompositionComparison S (χ ≫ ψ) φ).hom.app (ULift.down X) ≫
       (S.transitionMorphism φ).inverseImage.map
           ((canonicalCompositionComparison S χ ψ).hom.app (ULift.down X)) ≫
         𝟙 _ ≫
@@ -188,7 +188,7 @@ theorem componentPseudofunctor_compositionComparison_isCanonical {l m n : Simple
       (componentPseudofunctorTransitionIso S (ψ ≫ φ)).hom.app X ≫
         (canonicalCompositionComparison S ψ φ).hom.app
           ((componentPseudofunctorEquiv S l).functor.obj X) := by
-  show (canonicalCompositionComparison S ψ φ).hom.app (ULift.down X) ≫ 𝟙 _ ≫
+  change (canonicalCompositionComparison S ψ φ).hom.app (ULift.down X) ≫ 𝟙 _ ≫
       (S.transitionMorphism φ).inverseImage.map (𝟙 _) =
     𝟙 _ ≫ (canonicalCompositionComparison S ψ φ).hom.app (ULift.down X)
   simp

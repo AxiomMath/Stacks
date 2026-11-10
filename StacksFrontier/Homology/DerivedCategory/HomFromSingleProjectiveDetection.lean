@@ -68,7 +68,7 @@ theorem isIso_of_bijective_comp_singleFunctor_projective
     let a' : (singleFunctor C (j + 1)).obj P ⟶ X := e.inv ≫ a⟦(-1 : ℤ)⟧' ≫ ι.hom.app X
     have ha' : a' = 0 := by
       apply (h (j + 1)).injective
-      show a' ≫ f = 0 ≫ f
+      change a' ≫ f = 0 ≫ f
       have hnat := ι.hom.naturality f
       simp only [Functor.comp_map, Functor.id_map] at hnat
       simp only [a', Category.assoc, ← hnat, ← Functor.map_comp_assoc, ha, Functor.map_zero,

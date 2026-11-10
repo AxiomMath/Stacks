@@ -633,7 +633,7 @@ its target by precomposition with `s`. -/
 private lemma precompUnder_w {W : MorphismProperty C} [W.IsStableUnderComposition] {X Y : C}
     {s : X ⟶ Y} (hs : W s) {b b' : W.Under ⊤ Y} (g : b.right ⟶ b'.right)
     (hg : b.hom ≫ g = b'.hom) : (precompUnder hs b).hom ≫ g = (precompUnder hs b').hom := by
-  show (s ≫ b.hom) ≫ g = s ≫ b'.hom
+  change (s ≫ b.hom) ≫ g = s ≫ b'.hom
   rw [Category.assoc, hg]
 
 /-- The coprojection of a cocone on the ind-object at `X` at the object `s ≫ b.hom` of `X/W`
@@ -796,7 +796,7 @@ private lemma isRightDerivedValueAt_transportCocone {s : X ⟶ Y} (hs : W s) (F 
   obtain ⟨b₀, ρ, hρ, hbd⟩ := hd
   have hρ' : ρ ≫ coprj d b₀ = 𝟙 d.pt := hρ
   refine ⟨precompUnder hs b₀, ρ, ?_, ?_⟩
-  · show ρ ≫ transportι s F d (precompUnder hs b₀) = 𝟙 d.pt
+  · change ρ ≫ transportι s F d (precompUnder hs b₀) = 𝟙 d.pt
     rw [transportι_precompUnder hs F d b₀]
     exact hρ'
   · intro a
@@ -811,7 +811,7 @@ private lemma isRightDerivedValueAt_transportCocone {s : X ⟶ Y} (hs : W s) (F 
             _ = s ≫ b'.hom := by rw [Category.assoc, MorphismProperty.Under.w]),
       MorphismProperty.Under.homMk ν.right (precompUnder_w hs ν.right
         (MorphismProperty.Under.w ν)), ?_⟩
-    show F.map (f ≫ μ.right) = transportι s F d a ≫ ρ ≫ F.map ν.right
+    change F.map (f ≫ μ.right) = transportι s F d a ≫ ρ ≫ F.map ν.right
     rw [transportι_eq s F d a b f hf, F.map_comp, hμν']
     simp
 
@@ -848,7 +848,7 @@ private lemma isRightDerivedValueAt_restrictCocone (hs : W s) (F : C ⥤ H)
   refine ⟨b₀, r ≫ F.map f₀, ?_, ?_⟩
   · have h : F.map f₀ ≫ coprjPrecomp hs c b₀ = coprj c a₀ :=
       map_comp_coprjPrecomp_sq hs F c a₀ b₀ f₀ hf₀
-    show (r ≫ F.map f₀) ≫ coprjPrecomp hs c b₀ = 𝟙 c.pt
+    change (r ≫ F.map f₀) ≫ coprjPrecomp hs c b₀ = 𝟙 c.pt
     rwa [Category.assoc, h]
   · intro b
     obtain ⟨t, u, v, huv⟩ := hb' (precompUnder hs b)
@@ -882,7 +882,7 @@ private lemma isRightDerivedValueAt_restrictCocone (hs : W s) (F : C ⥤ H)
       calc f₀ ≫ p₀ ≫ q₁ ≫ q₂ = ((f₀ ≫ p₀) ≫ q₁) ≫ q₂ := by simp
         _ = ((v.right ≫ w ≫ p₁) ≫ q₁) ≫ q₂ := e₂
         _ = v.right ≫ w ≫ p₁ ≫ q₁ ≫ q₂ := by simp
-    show F.map ((g ≫ w ≫ p₁) ≫ q₁ ≫ q₂)
+    change F.map ((g ≫ w ≫ p₁) ≫ q₁ ≫ q₂)
         = coprjPrecomp hs c b ≫ (r ≫ F.map f₀) ≫ F.map (p₀ ≫ q₁ ≫ q₂)
     calc F.map ((g ≫ w ≫ p₁) ≫ q₁ ≫ q₂)
         = F.map g ≫ F.map ((w ≫ p₁) ≫ q₁ ≫ q₂) := by
@@ -925,7 +925,7 @@ public theorem Functor.exists_isRightDerivedValueAt_iff_and_isIso_of_mem
   obtain ⟨α, hα, hiso⟩ :=
     exists_isIso_comp_coprj F hc (isRightDerivedValueAt_transportCocone hs F hd)
   refine ⟨α, fun a b f hf => ?_, hiso⟩
-  show coprj c a ≫ α = F.map f ≫ coprj d b
+  change coprj c a ≫ α = F.map f ≫ coprj d b
   rw [hα a]
   exact transportι_eq s F d a b f hf
 
@@ -1180,7 +1180,7 @@ private lemma isLeftDerivedValueAt_transportCone {s : X' ⟶ X} (hs : W s) (F : 
   obtain ⟨b₀, ρ, hρ, hbd⟩ := hd
   have hρ' : prj d b₀ ≫ ρ = 𝟙 d.pt := hρ
   refine ⟨postcompOver hs b₀, ρ, ?_, ?_⟩
-  · show transportπ s F d (postcompOver hs b₀) ≫ ρ = 𝟙 d.pt
+  · change transportπ s F d (postcompOver hs b₀) ≫ ρ = 𝟙 d.pt
     rw [transportπ_postcompOver hs F d b₀]
     exact hρ'
   · intro a
@@ -1196,7 +1196,7 @@ private lemma isLeftDerivedValueAt_transportCone {s : X' ⟶ X} (hs : W s) (F : 
       MorphismProperty.Over.homMk ν.left (by
         calc ν.left ≫ b₀.hom ≫ s = (ν.left ≫ b₀.hom) ≫ s := by simp
           _ = b'.hom ≫ s := by rw [MorphismProperty.Over.w]), ?_⟩
-    show F.map (μ.left ≫ f) = F.map ν.left ≫ ρ ≫ transportπ s F d a
+    change F.map (μ.left ≫ f) = F.map ν.left ≫ ρ ≫ transportπ s F d a
     rw [transportπ_eq s F d a b f hf, F.map_comp, hμν']
     simp
 

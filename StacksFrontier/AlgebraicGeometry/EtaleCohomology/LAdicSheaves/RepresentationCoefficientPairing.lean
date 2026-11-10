@@ -96,7 +96,7 @@ theorem levelEvaluation_equivariant (k : ℕ) (g : G)
       ((levelAbelian (trivialRepresentation (G := G) (ℓ := ℓ)) continuous_const k).obj.obj.obj.ρ
         g).asHom.hom (levelEvaluation ρ hρ k a b) := by
   refine ULift.ext (funext fun _ => ?_)
-  show levelRepresentation ρ k g a.down ⬝ᵥ levelRepresentation (contragredient ρ) k g b.down =
+  change levelRepresentation ρ k g a.down ⬝ᵥ levelRepresentation (contragredient ρ) k g b.down =
     levelRepresentation (trivialRepresentation (G := G) (ℓ := ℓ)) k g (fun _ => a.down ⬝ᵥ b.down) _
   rw [levelRepresentation_dotProduct_contragredient, levelRepresentation_apply]
   simp

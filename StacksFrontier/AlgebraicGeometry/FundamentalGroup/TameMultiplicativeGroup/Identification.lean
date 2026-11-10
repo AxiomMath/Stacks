@@ -70,7 +70,7 @@ theorem isOpen_setOf_fiberAct_mem (Y : TameCover k) (y : (tameFiberFunctor k).ob
   rw [isOpen_iff_forall_mem_open]
   intro γ hγ
   refine ⟨{γ' | deck k m γ' = deck k m γ}, fun γ' hγ' ↦ ?_, isOpen_setOf_deck_eq k m γ, rfl⟩
-  show fiberAct γ' Y y ∈ S
+  change fiberAct γ' Y y ∈ S
   rw [fiberAct_eq_of_deck_eq hm hγ']
   exact hγ
 
@@ -150,15 +150,15 @@ theorem continuous_tameAutHom : Continuous (tameAutHom (k := k)) := by
 
 /-- **`π₁ᵗ(𝐆_{m,k}, η̄)` is Hausdorff.** -/
 instance : T2Space (tameFundamentalGroup k) := by
-  letI (Y : TameCover k) : TopologicalSpace ((tameFiberFunctor k).obj Y) := ⊥
-  haveI (Y : TameCover k) : DiscreteTopology ((tameFiberFunctor k).obj Y) := ⟨rfl⟩
-  letI (Y : TameCover k) : TopologicalSpace (Equiv.Perm ((tameFiberFunctor k).obj Y)) := autTopology
-  haveI (Y : TameCover k) : T2Space (Equiv.Perm ((tameFiberFunctor k).obj Y)) :=
+  let (Y : TameCover k) : TopologicalSpace ((tameFiberFunctor k).obj Y) := ⊥
+  have (Y : TameCover k) : DiscreteTopology ((tameFiberFunctor k).obj Y) := ⟨rfl⟩
+  let (Y : TameCover k) : TopologicalSpace (Equiv.Perm ((tameFiberFunctor k).obj Y)) := autTopology
+  have (Y : TameCover k) : T2Space (Equiv.Perm ((tameFiberFunctor k).obj Y)) :=
     (⟨IsInducing.induced _, Equiv.coe_fn_injective⟩ :
       IsEmbedding (fun e : Equiv.Perm ((tameFiberFunctor k).obj Y) ↦
         (e : (tameFiberFunctor k).obj Y → (tameFiberFunctor k).obj Y))).t2Space
-  letI : TopologicalSpace (Aut (tameFiberFunctor k)) := functorAutomorphismTopology _
-  letI : TopologicalSpace (∀ Y, Equiv.Perm ((tameFiberFunctor k).obj Y)) :=
+  let : TopologicalSpace (Aut (tameFiberFunctor k)) := functorAutomorphismTopology _
+  let : TopologicalSpace (∀ Y, Equiv.Perm ((tameFiberFunctor k).obj Y)) :=
     automorphismProductTopology _
   exact (isClosedEmbedding_componentEmbedding (tameFiberFunctor k)).isEmbedding.t2Space
 
@@ -178,12 +178,16 @@ def tameFundamentalGroupEquiv :
 theorem tameFundamentalGroupEquiv_apply (γ : Gamma (inverseCharacter (Fintype.card k))) :
     tameFundamentalGroupEquiv k γ = tameAutHom γ := rfl
 
+omit [Fintype k] in
 /-- `π₁ᵗ(𝐆_{m,k}, η̄)` is compact. -/
-instance : CompactSpace (tameFundamentalGroup k) :=
+instance [Finite k] : CompactSpace (tameFundamentalGroup k) :=
+  letI := Fintype.ofFinite k
   (tameFundamentalGroupEquiv k).toHomeomorph.compactSpace
 
+omit [Fintype k] in
 /-- `π₁ᵗ(𝐆_{m,k}, η̄)` is totally disconnected. -/
-instance : TotallyDisconnectedSpace (tameFundamentalGroup k) :=
+instance [Finite k] : TotallyDisconnectedSpace (tameFundamentalGroup k) :=
+  letI := Fintype.ofFinite k
   haveI := totallyDisconnectedSpace_gamma (inverseCharacter (Fintype.card k))
   (tameFundamentalGroupEquiv k).toHomeomorph.totallyDisconnectedSpace
 

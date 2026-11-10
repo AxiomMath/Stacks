@@ -81,7 +81,7 @@ theorem isIso_stalkMapOfHom_restrictFunctor_map_iff {W : Scheme.{u}} (j : W ⟶ 
       IsIso (stalkMapOfHom f (j w)) := by
   have hn := (Scheme.Modules.restrictStalkNatIso j w).hom.naturality f
   simp only [Functor.comp_map] at hn
-  show IsIso ((TopCat.Presheaf.stalkFunctor Ab.{u} w).map
+  change IsIso ((TopCat.Presheaf.stalkFunctor Ab.{u} w).map
       ((Scheme.Modules.toPresheaf W).map ((Scheme.Modules.restrictFunctor j).map f))) ↔
     IsIso ((TopCat.Presheaf.stalkFunctor Ab.{u} (j w)).map ((Scheme.Modules.toPresheaf X).map f))
   rw [← isIso_comp_right_iff _ ((Scheme.Modules.restrictStalkNatIso j w).hom.app G), hn,

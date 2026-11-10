@@ -54,11 +54,9 @@ noncomputable abbrev Cocone.pullbackDiagram (c : Cocone G) {X : C} (g : X ⟶ c.
   map {j k} f := pullback.map (c.leg j) g (c.leg k) g (G.map f) (𝟙 X) (𝟙 c.pt)
     (by simp) (by simp)
   map_id j := by
-    apply pullback.hom_ext <;> simp [pullback.map, pullback.lift_fst, pullback.lift_snd,
-      pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+    apply pullback.hom_ext <;> simp [pullback.map]
   map_comp f f' := by
-    apply pullback.hom_ext <;> simp [pullback.map, pullback.lift_fst, pullback.lift_snd,
-      pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+    apply pullback.hom_ext <;> simp [pullback.map]
 
 /-- The cocone of vertex `X` over the diagram of base changes of the members of `c` along `g`. -/
 @[simps]
@@ -68,8 +66,7 @@ noncomputable def Cocone.pullbackCocone (c : Cocone G) {X : C} (g : X ⟶ c.pt) 
   ι :=
     { app := fun j ↦ pullback.snd (c.leg j) g
       naturality := fun j k f ↦ by
-        simp [pullback.map, pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc,
-          pullback.lift_snd_assoc] }
+        simp [pullback.map] }
 
 /-- The first projections of the base changes, a morphism of diagrams to `G`. -/
 @[simps]
@@ -77,8 +74,7 @@ noncomputable def Cocone.pullbackFst (c : Cocone G) {X : C} (g : X ⟶ c.pt) :
     c.pullbackDiagram g ⟶ G where
   app j := pullback.fst (c.leg j) g
   naturality j k f := by
-    simp [pullback.map, pullback.lift_fst, pullback.lift_snd,
-      pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+    simp [pullback.map]
 
 /-- The transition squares of the diagram of base changes are cartesian. -/
 @[ega "I 3.3.9" "Objectwise transitivity"]
@@ -86,12 +82,11 @@ theorem Cocone.isPullback_pullbackDiagram_map (c : Cocone G) {X : C} (g : X ⟶ 
     {j k : I} (f : j ⟶ k) :
     IsPullback ((c.pullbackDiagram g).map f) (pullback.fst (c.leg j) g)
       (pullback.fst (c.leg k) g) (G.map f) := by
-  show IsPullback (pullback.map (c.leg j) g (c.leg k) g (G.map f) (𝟙 X) (𝟙 c.pt)
+  change IsPullback (pullback.map (c.leg j) g (c.leg k) g (G.map f) (𝟙 X) (𝟙 c.pt)
     (by simp) (by simp)) (pullback.fst (c.leg j) g) (pullback.fst (c.leg k) g) (G.map f)
   have h₁ : pullback.map (c.leg j) g (c.leg k) g (G.map f) (𝟙 X) (𝟙 c.pt)
       (by simp) (by simp) ≫ pullback.snd (c.leg k) g = pullback.snd (c.leg j) g := by
-    simp [pullback.map, pullback.lift_fst, pullback.lift_snd,
-      pullback.lift_fst_assoc, pullback.lift_snd_assoc]
+    simp [pullback.map]
   have hout : IsPullback (pullback.map (c.leg j) g (c.leg k) g (G.map f) (𝟙 X) (𝟙 c.pt)
       (by simp) (by simp) ≫ pullback.snd (c.leg k) g) (pullback.fst (c.leg j) g) g
       (G.map f ≫ c.leg k) := by
@@ -137,7 +132,7 @@ theorem IsUniversalColimit.isIso_of_isIso_pullbackMap {c : Cocone G}
       naturality := fun j k f ↦ by
         apply pullback.hom_ext <;> simp only [pullback.map,
           Category.assoc, pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc,
-          pullback.lift_snd_assoc, Category.comp_id, Category.id_comp] }
+          pullback.lift_snd_assoc, Category.comp_id] }
   have : ∀ j, IsIso (θ.app j) := h
   have : IsIso θ := NatIso.isIso_of_isIso_app θ
   have key : (IsColimit.coconePointsIsoOfNatIso hx hy (asIso θ)).hom = α :=
@@ -157,7 +152,7 @@ theorem IsUniversalColimit.exists_iso_of_pullbackDiagram_iso {c : Cocone G}
   obtain ⟨hy⟩ := IsUniversalColimit.nonempty_isColimit_pullbackCocone hc y
   refine ⟨IsColimit.coconePointsIsoOfNatIso hx hy Θ, hx.hom_ext fun j ↦ ?_⟩
   refine (IsColimit.comp_coconePointsIsoOfNatIso_hom_assoc hx hy Θ j y).trans ?_
-  show Θ.hom.app j ≫ pullback.snd (c.leg j) y ≫ y = pullback.snd (c.leg j) x ≫ x
+  change Θ.hom.app j ≫ pullback.snd (c.leg j) y ≫ y = pullback.snd (c.leg j) x ≫ x
   rw [← pullback.condition, ← Category.assoc, hΘ, pullback.condition]
 
 end General

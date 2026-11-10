@@ -143,7 +143,7 @@ theorem preimage_complementOfClosedPoints_eq_puncturedOpen :
         complementOfClosedPoints s hs =
       puncturedOpen (isClosed_singleton_peeledPoint s hs hinj) := by
   apply TopologicalSpace.Opens.ext
-  show (complementOfClosedPoints (s ∘ Option.some) (fun i' ↦ hs (some i'))).ι.base ⁻¹'
+  change (complementOfClosedPoints (s ∘ Option.some) (fun i' ↦ hs (some i'))).ι.base ⁻¹'
       (complementOfClosedPoints s hs : Set S) =
     ({peeledPoint s hs hinj} :
       Set (complementOfClosedPoints (s ∘ Option.some) (fun i' ↦ hs (some i'))).toScheme)ᶜ

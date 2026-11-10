@@ -71,7 +71,7 @@ theorem exists_nat_topologicalKrullDimAt_fiber_of_mem_genericPoints {X S : Schem
   have : LocallyOfFiniteType f := inferInstance
   obtain ⟨U, hdense, hrel⟩ := exists_open_relativeDimension_fiberwise_dense f
   have : LocallyOfFiniteType (f.fiberToSpecResidueField (f x)) := by
-    show LocallyOfFiniteType (CategoryTheory.Limits.pullback.snd f
+    change LocallyOfFiniteType (CategoryTheory.Limits.pullback.snd f
       (S.fromSpecResidueField (f x)))
     infer_instance
   have : IsLocallyNoetherian (f.fiber (f x)) :=

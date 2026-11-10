@@ -164,7 +164,7 @@ theorem cycleGroupEquivScheme_closedSubspaceCycle (h : IsDeltaCompatible D U sX 
   apply Subtype.ext
   apply Function.locallyFinsuppWithin.ext
   intro x
-  show (closedSubspaceCycle D sX hX Y hY k hdim).1 (eU.symm x) =
+  change (closedSubspaceCycle D sX hX Y hY k hdim).1 (eU.symm x) =
     Stacks.Chow.closedSubschemeCycleCoeff C s₀ i₀ k x
   by_cases hx : x ∈ Set.range i₀
   · obtain ⟨ζ, rfl⟩ := hx
@@ -234,10 +234,10 @@ theorem preimage_range_yoneda_map_eq_range {R U U' R' : BigFppfOver B S hS} (j :
     (Subfunctor.range (yoneda.map j)).preimage (yoneda.map f) =
       Subfunctor.range (yoneda.map j') := by
   ext T k
-  show (yoneda.map f).app T k ∈ (Subfunctor.range (yoneda.map j)).obj T ↔ _
+  change (yoneda.map f).app T k ∈ (Subfunctor.range (yoneda.map j)).obj T ↔ _
   rw [mem_range_yoneda_map_iff B S hS j inferInstance, mem_range_yoneda_map_iff B S hS j'
     inferInstance, hker]
-  show _ ≤ ((BigFppfOver.toScheme B S hS).map (k ≫ f)).ker ↔ _
+  change _ ≤ ((BigFppfOver.toScheme B S hS).map (k ≫ f)).ker ↔ _
   have hk : ((BigFppfOver.toScheme B S hS).map (k ≫ f)).ker =
       ((BigFppfOver.toScheme B S hS).map k).ker.map ((BigFppfOver.toScheme B S hS).map f) := by
     rw [CategoryTheory.Functor.map_comp,
@@ -331,7 +331,7 @@ theorem flatPullbackMult_equivSchemePoints_symm
   have hYi : W.subspace.preimage (yoneda.map f) = Subfunctor.range (yoneda.map j') := by
     rw [hW]
     exact hpre
-  show (cycleGroupEquivScheme sX ((BigFppfOver.toScheme D.site D.base D.base_mem).map f ≫ t₀) hδX
+  change (cycleGroupEquivScheme sX ((BigFppfOver.toScheme D.site D.base D.base_mem).map f ≫ t₀) hδX
     (deltaDimension D sY W + (r : ℤ))
     (closedSubspaceCycle D sX hX (W.subspace.preimage (yoneda.map f))
       (isClosedSubspace_preimage_integralClosedSubspace D sX hX sY hY (yoneda.map f) W)

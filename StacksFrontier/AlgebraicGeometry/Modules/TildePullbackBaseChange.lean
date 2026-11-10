@@ -87,7 +87,7 @@ public theorem bijective_rTensor_of_isIso_pullback_map_tilde (R S : Type u) [Com
     Function.Bijective (g.hom.rTensor S) := by
   let _ : Algebra R S := f.toAlgebra
   have hb := bijective_baseChange_of_isIso_pullback_map_tilde R S f M N g h
-  rw [LinearMap.baseChange_eq_ltensor] at hb
+  rw [LinearMap.baseChange_eq_lTensor] at hb
   exact (LinearMap.lTensor_bij_iff_rTensor_bij S g.hom).1 hb
 
 end AlgebraicGeometry

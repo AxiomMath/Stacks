@@ -205,7 +205,7 @@ theorem properPushforward_meromorphicDivisorCycle_eq_zero_of_schemeDeltaDimensio
   classical
   set hL' : ∀ x : X, IsTrivializedNear ((Scheme.Modules.pullback p).obj L) x :=
     fun x ↦ (hL (p.base x)).pullback with hhL'
-  show properPushforward C sX sY p hp (n - 1)
+  change properPushforward C sX sY p hp (n - 1)
       (meromorphicDivisorCycle C sX hnX hL' (genericStalkPullback p L s)).val = 0
   -- the delta-dimension of the target, read at its generic point
   set d : ℤ := relativeDimension C.dimensionFunction sY (genericPoint Y) with hd

@@ -108,7 +108,7 @@ theorem isDerivedComplete_of_forall_isNilpotent
   let A := SheafOfModules.{max u v} RV
   let : Linear (CatCenter A) A := Linear.ofRingMorphism (RingHom.id (CatCenter A))
   let : ∀ W : (Over V)ᵒᵖ, IsMulCommutative (RV.obj.obj W) := fun W ↦ by
-    show IsMulCommutative (X.O.obj.obj (op W.unop.left))
+    change IsMulCommutative (X.O.obj.obj (op W.unop.left))
     infer_instance
   have hLim : PreservesFiniteLimits
       (SheafOfModules.overFunctor.{max u v} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) V) :=

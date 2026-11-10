@@ -242,7 +242,8 @@ theorem isIso_stalk_of_isIso_pullback_map {X Y : Scheme.{u}} (g : Y ⟶ X) [Flat
   have := ModuleCat.reflectsIsomorphisms_extendScalars_of_faithfullyFlat hff
   have h3 : IsIso (Fx.map φ) :=
     isIso_of_reflects_iso _ (ModuleCat.extendScalars.{_, _, u} (g.stalkMap y).hom)
-  rwa [ConcreteCategory.isIso_iff_bijective] at h3 ⊢
+  rw [ConcreteCategory.isIso_iff_bijective] at h3 ⊢
+  exact h3
 
 /-- **The counit over a point where `ℰ` is free on the local base.** Let `f : X ⟶ S` be
 quasi-compact and quasi-separated with `𝒪_S = f_*𝒪_X`, let `s` be a point of `S` and suppose the

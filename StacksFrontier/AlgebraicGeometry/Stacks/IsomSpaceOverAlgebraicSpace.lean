@@ -378,7 +378,7 @@ lemma pointFiberMap_pointRestrict (f : 𝒳 ⟶ 𝒴)
     (pointFiberMap B S hS Z hZ f x₁ x₂ W₁.unop z φ)
     (pointFiberMap B S hS Z hZ f x₁ x₂ W₂.unop z'
       (pointRestrict B S hS Z hZ x₁ x₂ g z z' hz φ)) (by
-    show f.hom.hom.toFunctor.map _ ≫ f.hom.hom.toFunctor.map _ =
+    change f.hom.hom.toFunctor.map _ ≫ f.hom.hom.toFunctor.map _ =
       f.hom.hom.toFunctor.map _ ≫ f.hom.hom.toFunctor.map _
     rw [← CategoryTheory.Functor.map_comp, ← CategoryTheory.Functor.map_comp,
       pointRestrict_fac B S hS Z hZ x₁ x₂ g z z' hz])

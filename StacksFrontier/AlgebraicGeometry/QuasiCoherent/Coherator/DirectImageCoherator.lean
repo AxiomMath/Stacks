@@ -161,7 +161,6 @@ parameter has a named inhabitant.
 The square is not vacuous for a second reason: its source `D(QCoh(𝒪_{Spec S}))` is equivalent to
 the unbounded derived category of `S`-modules, by `Stacks.DerivedQCoh.derivedTildeEquiv`, so it
 is not a derived category of the zero category.
-
 -/
 public def specMapDerivedQuasicoherentComparisonSquare {R S : CommRingCat.{u}} (φ : R ⟶ S) :
     derivedQuasicoherentComparison.{u} (Spec S) ⋙ derivedQuasicoherentPushforward (Spec.map φ) ≅
@@ -258,6 +257,7 @@ def derivedPushforwardComparison :
     (HomotopyCategory.quasiIso (Scheme.QuasicoherentModules X) (ComplexShape.up ℤ)) _
     (quasicoherentPushforwardComparison f)
 
+omit [CompactSpace Y] in
 /-- **The comparison is invertible on a complex pushed forward from an affine open.** Let
 `j : U ⟶ X` be the inclusion of an affine open and `𝒢^•` a complex of quasi-coherent
 `𝒪_U`-modules. Replacing `𝒢^•` by a K-injective resolution `ℐ^•` in `QCoh(𝒪_U)` changes
@@ -323,6 +323,7 @@ theorem isIso_derivedPushforwardComparison_app_quasicoherentPushforward
     infer_instance
   exact (isIso_comp_left_iff ((derivedInclusionUnit f Φ ηΦ).app Kh) _).1 (hfac.symm ▸ hβ)
 
+omit [CompactSpace Y] in
 /-- **The canonical map `Φ(K) ⟶ Rf_*(K)` is an isomorphism for every `K`.** This is the content
 of [Stacks, Tag 0CRX]. Both functors are triangulated — `Φ` and `Rf_*` because they are right
 derived functors on Grothendieck abelian categories
@@ -343,6 +344,7 @@ theorem isIso_derivedPushforwardComparison : IsIso (derivedPushforwardComparison
   exact Stacks.DerivedQCoh.isIso_natTrans_of_isIso_app_quasicoherentPushforward _
     (isIso_derivedPushforwardComparison_app_quasicoherentPushforward f Φ ηΦ)
 
+omit [CompactSpace Y] in
 /-- **The comparison is the one induced by `f_* ⟶ Rf_*`**: composed with the derivation unit of
 `Φ`, it is the comparison `f_* ⟶ Rf_*` on complexes of quasi-coherent modules. This is the
 universal property that defines it, and by `CategoryTheory.Functor.rightDerived_ext` it is the

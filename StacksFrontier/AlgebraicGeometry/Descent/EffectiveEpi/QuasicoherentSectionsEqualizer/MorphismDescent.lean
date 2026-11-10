@@ -126,7 +126,7 @@ private theorem affineHomEquiv_comp {X Y Z : AffineScheme.{u}} (f : X ⟶ Y)
     affineHomEquiv X Z (f ≫ g) =
       (affineHomEquiv X Y f).comp (affineHomEquiv Y Z g) := by
   ext x
-  show (CommRingCat.Hom.hom (Scheme.Hom.appTop (f.hom ≫ g.hom))) x = _
+  change (CommRingCat.Hom.hom (Scheme.Hom.appTop (f.hom ≫ g.hom))) x = _
   rw [Scheme.Hom.comp_appTop, CommRingCat.hom_comp]
   rfl
 
@@ -173,14 +173,14 @@ private theorem affineMorphism_descends_of_ringSectionEqualizer
       intro x hx
       apply heq x
       intro i j
-      show α i j (x i) = β i j (x j)
+      change α i j (x i) = β i j (x j)
       exact hx i j)
     (E := Γ(T.obj, ⊤)) φ hφ
   let h := (affineHomEquiv X T).symm ψ
   refine ⟨h, ?_, ?_⟩
   · intro i
     apply (affineHomEquiv (U i) T).injective
-    show (ρ i).comp ((affineHomEquiv X T) h) = φ i
+    change (ρ i).comp ((affineHomEquiv X T) h) = φ i
     rw [Equiv.apply_symm_apply]
     exact hψ i
   · intro h' hh'
@@ -452,12 +452,10 @@ noncomputable def trivSqZeroExtTensorAlgEquiv :
         apply TrivSqZeroExt.ext <;> simp)
     (by
       intro x y
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | add x x' hx hx' => simp [add_mul, hx, hx']
       | tmul s a =>
-        induction y using TensorProduct.induction_on with
-        | zero => simp
+        induction y using TensorProduct.inductionOn with
         | add y y' hy hy' => simp [mul_add, hy, hy']
         | tmul t b =>
           rw [Algebra.TensorProduct.tmul_mul_tmul]
@@ -504,7 +502,7 @@ lemma trivSqZeroExtBaseChange_isPushout
   · apply CommRingCat.hom_ext
     apply RingHom.ext
     intro s
-    show trivSqZeroExtTensorAlgEquiv R S M (s ⊗ₜ[R] (1 : TrivSqZeroExt R M)) = _
+    change trivSqZeroExtTensorAlgEquiv R S M (s ⊗ₜ[R] (1 : TrivSqZeroExt R M)) = _
     rw [trivSqZeroExtTensorAlgEquiv_tmul]
     apply TrivSqZeroExt.ext <;> simp
   · rfl

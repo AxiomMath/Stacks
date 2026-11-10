@@ -356,7 +356,7 @@ theorem exists_open_of_charts (E : FlatDimensionSituation.{u}) [IsAffine E.S]
   have hVV₀ : V ≤ V₀ := inf_le_left
   have hsV : s ∈ V := by
     refine ⟨hsV₀, ?_⟩
-    show s ∈ ((⨅ i, W i : E.S.Opens) : Set E.S)
+    change s ∈ ((⨅ i, W i : E.S.Opens) : Set E.S)
     rw [TopologicalSpace.Opens.coe_iInf]
     exact Set.mem_iInter.mpr hsW
   refine ⟨V, hsV, ?_⟩
@@ -364,7 +364,7 @@ theorem exists_open_of_charts (E : FlatDimensionSituation.{u}) [IsAffine E.S]
       (E.etaleChart (h i)).IsFlatInDimensionsGEAfterBaseChange ((Over.map V.ι).obj T)) := by
     refine ((hW i).baseChange (E.S.homOfLE (hVW i))).of_iff fun T ↦ ?_
     refine (E.etaleChart (h i)).isFlat_mk_congr ?_
-    show (T.hom ≫ E.S.homOfLE (hVW i)) ≫ (W i).ι = T.hom ≫ V.ι
+    change (T.hom ≫ E.S.homOfLE (hVW i)) ≫ (W i).ι = T.hom ≫ V.ι
     rw [Category.assoc, Scheme.homOfLE_ι]
   refine (IsCutOutByMonoFP.finite_inf hchart).of_iff fun T ↦
     ⟨fun hT ↦ E.isFlat_of_forall_etaleChart h _ ?_ hT,

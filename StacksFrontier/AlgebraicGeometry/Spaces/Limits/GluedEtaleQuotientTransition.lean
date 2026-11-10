@@ -189,7 +189,7 @@ theorem qmap_app {T' : BigFppfOver B (⊤_ Scheme.{u}) hZ} (f : T' ⟶ V) :
       (Stacks.Groupoids.toQuotientSheaf (BigFppfOver.topology B (⊤_ Scheme.{u}) hZ)
         (Over.post B.inclusion) (relation B (⊤_ Scheme.{u}) hZ (src w hw ι) (tgt w hw ι))).app
         (op T') ((Over.post B.inclusion).map f) := by
-  show (Stacks.Groupoids.quotientSheaf (BigFppfOver.topology B (⊤_ Scheme.{u}) hZ)
+  change (Stacks.Groupoids.quotientSheaf (BigFppfOver.topology B (⊤_ Scheme.{u}) hZ)
       (Over.post B.inclusion) (relation B (⊤_ Scheme.{u}) hZ (src w hw ι) (tgt w hw ι))).obj.map
         f.op ((Stacks.Groupoids.toQuotientSheaf (BigFppfOver.topology B (⊤_ Scheme.{u}) hZ)
           (Over.post B.inclusion) (relation B (⊤_ Scheme.{u}) hZ (src w hw ι)
@@ -206,7 +206,7 @@ theorem qmap_quotientHom :
       yoneda.map v ≫ qmap w hw ι := by
   apply yonedaEquiv.injective
   rw [yonedaEquiv_comp, yonedaEquiv_comp, yonedaEquiv_yoneda_map]
-  show (quotientHom w hw ι w' hw' ι' u ω v hwu hιv).app _ ((qmap w' hw' ι').app _ (𝟙 V')) =
+  change (quotientHom w hw ι w' hw' ι' u ω v hwu hιv).app _ ((qmap w' hw' ι').app _ (𝟙 V')) =
     (qmap w hw ι).app _ v
   rw [qmap_app, qmap_app]
   have h := congrArg (fun m => m.app (op V') ((Over.post B.inclusion).map (𝟙 V')))
@@ -274,7 +274,7 @@ theorem isPullback_qmap_quotientHom
   refine h.of_iso (pointsIso V').symm (Iso.refl _) (pointsIso V).symm (Iso.refl _) ?_
     (by
       ext T f
-      show (Functor.FullyFaithful.ofFullyFaithful (Over.post B.inclusion)).preimage
+      change (Functor.FullyFaithful.ofFullyFaithful (Over.post B.inclusion)).preimage
           (f ≫ (Over.post B.inclusion).map v) =
         (Functor.FullyFaithful.ofFullyFaithful (Over.post B.inclusion)).preimage f ≫ v
       apply (Functor.FullyFaithful.ofFullyFaithful (Over.post B.inclusion)).map_injective

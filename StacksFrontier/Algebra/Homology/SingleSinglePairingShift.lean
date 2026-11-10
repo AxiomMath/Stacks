@@ -97,7 +97,7 @@ theorem singleFunctors_shiftIso_inv_app_f_eq_eqToHom (C : Type*) [Category* C] [
   simp only [NatIso.ofComponents_inv_app, HomologicalComplex.Hom.isoOfComponents_inv_f,
     eqToIso.inv]
   refine ⟨?_, trivial⟩
-  show (if i = a then X else 0) = (if i + n = a' then X else 0)
+  change (if i = a then X else 0) = (if i + n = a' then X else 0)
   exact if_congr (show i = a ↔ i + n = a' by omega) rfl rfl
 
 /-- **The shift of `singleSinglePairing` by `(s, -s)`** is, up to the sign `(-1)^{(a-s)(-s)}`, the
@@ -141,7 +141,7 @@ theorem singleFunctors_shiftIso_hom_app_f_eq_eqToHom (C : Type*) [Category* C] [
   simp only [NatIso.ofComponents_hom_app, HomologicalComplex.Hom.isoOfComponents_hom_f,
     eqToIso.hom]
   refine ⟨?_, trivial⟩
-  show (if i + n = a' then X else 0) = (if i = a then X else 0)
+  change (if i + n = a' then X else 0) = (if i = a then X else 0)
   exact if_congr (show i + n = a' ↔ i = a by omega) rfl rfl
 
 /-- **The right shift of `singleSinglePairing` by `m`** — the commutation of the total complex

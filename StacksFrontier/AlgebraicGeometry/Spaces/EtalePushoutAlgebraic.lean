@@ -171,6 +171,7 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the `HasLimitsOfSize` search on presheaves over the big fppf site times out at the default
 /-- Limits of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance (priority := high) hasLimits_presheaf_etalePushoutAlgebraic :
@@ -184,6 +185,7 @@ local instance (priority := high) hasPullback_presheaf_etalePushoutAlgebraic
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the `HasLimitsOfSize` search on sheaves over the big fppf site times out at the default
 /-- Limits of sheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance (priority := high) hasLimits_sheaf_etalePushoutAlgebraic :
@@ -197,6 +199,7 @@ local instance (priority := high) hasPullback_sheaf_etalePushoutAlgebraic
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the `HasLimit` search in slices of sheaves over the big fppf site times out at the default
 /-- Pullbacks in slices of sheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance (priority := high) hasPullback_overSheaf_etalePushoutAlgebraic
@@ -224,7 +227,7 @@ theorem isEtale_of_isEtale_comp_of_isSurjective {X Y Z : (BigFppfOver B S hS)ᵒ
       Xs ⟶ Ys)) ∈ Topology.precoverage.{u, 0} .etale B S hS Ys :=
     ⟨PUnit.{1}, _, _, rfl, hY, fun _ ↦ hX, ⟨hY, fun _ ↦ hX, fun _ ↦ hq,
       Set.eq_univ_iff_forall.mpr fun y ↦ Set.mem_iUnion.mpr ⟨⟨⟩, hqs y⟩⟩⟩
-  show P (ObjectProperty.homMk f : Ys ⟶ Zs)
+  change P (ObjectProperty.homMk f : Ys ⟶ Zs)
   refine MorphismProperty.IsLocalAtSource.of_forall_comp (P := P) hR ?_
   rintro T k ⟨⟩
   exact hf
@@ -249,7 +252,7 @@ theorem isLocallyOfFiniteType_of_comp_of_isEtale_of_isSurjective
     ⟨PUnit.{1}, _, _, rfl, hY, fun _ ↦ hX, isFppfCovering_of_isEtaleCovering B S hS
       ⟨hY, fun _ ↦ hX, fun _ ↦ hq,
         Set.eq_univ_iff_forall.mpr fun y ↦ Set.mem_iUnion.mpr ⟨⟨⟩, hqs y⟩⟩⟩
-  show P (ObjectProperty.homMk f : Ys ⟶ Zs)
+  change P (ObjectProperty.homMk f : Ys ⟶ Zs)
   refine MorphismProperty.IsLocalAtSource.of_forall_comp (P := P) hR ?_
   rintro T k ⟨⟩
   exact hf
@@ -335,7 +338,7 @@ theorem isLocallyOfFiniteType_of_isColimit_binaryCofan
     rcases mem_range_pointsMap_or_of_isColimit_binaryCofan B S hS hF hG hH i j hc x with hx | hx
     · exact Set.mem_iUnion.mpr ⟨.left, hx⟩
     · exact Set.mem_iUnion.mpr ⟨.right, hx⟩
-  show P (ObjectProperty.homMk f : Hs ⟶ Zs)
+  change P (ObjectProperty.homMk f : Hs ⟶ Zs)
   refine MorphismProperty.IsLocalAtSource.of_forall_comp (P := P) hR ?_
   rintro T k ⟨c⟩
   cases c
@@ -371,9 +374,9 @@ theorem isAlgebraicSpace_of_isPullback_of_isEtale
   have hsr : rel.source = tb := prod.lift_snd _ _
   have hkernelP : IsKernelPair q.hom ((Over.forget base.obj).map sb)
       ((Over.forget base.obj).map tb) := hk.map (sheafToPresheaf J (Type u))
-  haveI : HasLimitsOfShape WalkingCospan (Over base) :=
+  have : HasLimitsOfShape WalkingCospan (Over base) :=
     Over.hasLimitsOfShape_of_isConnected (B := base)
-  haveI : HasPullback tb sb := HasLimitsOfShape.has_limit _
+  have : HasPullback tb sb := HasLimitsOfShape.has_limit _
   have hrel : IsEquivalenceRelation rel.target rel.source := by
     rw [htr, hsr]
     exact (equivalenceRelation_of_isKernelPair_map (Over.forget base.obj) sb tb q.hom
@@ -506,8 +509,8 @@ theorem exists_isPullback_coprodDesc_of_isPushout
     refine isEtale_of_finite_coproduct B S hS hRParts hR hX
       (Sigma.ι RParts) (coproductIsCoproduct RParts) s ?_
     rintro ⟨c, d⟩
-    show IsEtale B S hS ((Sigma.ι RParts (c, d) ≫ s).hom)
-    simp only [s, Sigma.ι_desc]
+    change IsEtale B S hS ((Sigma.ι RParts (c, d) ≫ s).hom)
+    simp only [s, Sigma.ι_comp_desc]
     refine isEtale_comp B S hS ?_ (hxs c)
     cases c <;> cases d
     exacts [hk₁, ha, hb, isEtale_of_isIso B S hS (𝟙 V.obj)]
@@ -515,8 +518,8 @@ theorem exists_isPullback_coprodDesc_of_isPushout
     refine isEtale_of_finite_coproduct B S hS hRParts hR hX
       (Sigma.ι RParts) (coproductIsCoproduct RParts) t ?_
     rintro ⟨c, d⟩
-    show IsEtale B S hS ((Sigma.ι RParts (c, d) ≫ t).hom)
-    simp only [t, Sigma.ι_desc]
+    change IsEtale B S hS ((Sigma.ι RParts (c, d) ≫ t).hom)
+    simp only [t, Sigma.ι_comp_desc]
     refine isEtale_comp B S hS ?_ (hxs d)
     cases c <;> cases d
     exacts [hk₂, hb, ha, isEtale_of_isIso B S hS (𝟙 V.obj)]
@@ -618,10 +621,10 @@ theorem isAlgebraicSpace_of_isPushout_of_isOpenImmersion_of_isEtale
     refine isEtale_of_isEtale_comp_of_isSurjective B S hS hFD hKalg hF hqK hqKs ?_
     refine isEtale_binaryCoproduct_desc B S hS hF hDalg hFD hF coprod.inl coprod.inr
       (coprodIsCoprod _ _) (coprod.desc (pullback.diagonal g) d ≫ k) ?_ ?_
-    · show IsEtale B S hS ((coprod.inl ≫ coprod.desc (pullback.diagonal g) d ≫ k).hom)
+    · change IsEtale B S hS ((coprod.inl ≫ coprod.desc (pullback.diagonal g) d ≫ k).hom)
       rw [coprod.inl_desc_assoc, hεk]
       exact isEtale_of_isIso B S hS (𝟙 F.obj)
-    · show IsEtale B S hS ((coprod.inr ≫ coprod.desc (pullback.diagonal g) d ≫ k).hom)
+    · change IsEtale B S hS ((coprod.inr ≫ coprod.desc (pullback.diagonal g) d ≫ k).hom)
       rw [coprod.inr_desc_assoc, hdk]
       exact isEtale_comp B S hS hp haEt
   have hk₁ := hk (pullback.fst g g) (pullback.diagonal_fst g) p₁ (pullback.lift_fst _ _ _) hp₁

@@ -161,7 +161,7 @@ theorem rightHomToBilinearMap_map_d
       (P.toCochainComplex.d p (p + 1)).hom (g.gradedMap p x) := by
     rw [DifferentialGradedModule.toCochainComplex_d]
     apply Subtype.ext
-    show g.toFun (M'.d (x : M'.M)) = P.d (g.toFun x)
+    change g.toFun (M'.d (x : M'.M)) = P.d (g.toFun x)
     simpa only [LinearMap.comp_apply] using LinearMap.congr_fun g.map_d (x : M'.M)
   have hcochain :
       (iso.hom.f (p + 1)).hom (g.gradedMap (p + 1) dx) =
@@ -205,7 +205,7 @@ theorem rightHomToBilinearMap_map_d
         (cdx.v q (p + q + 1) (by omega)).hom y := by
     rw [rightHomCastBilinearApply (W := fun k : ℤ => N.X k) e₁
       (rightHomToBilinearMap M' M N P iso g (p + 1) q) dx y]
-    show e₁ ▸ (cdx.v q (p + 1 + q) (by omega)).hom y =
+    change e₁ ▸ (cdx.v q (p + 1 + q) (by omega)).hom y =
       (cdx.v q (p + q + 1) (by omega)).hom y
     simpa using rightHomCochainVTransport cdx rfl e₁
       (show q + (p + 1) = (p + 1) + q by omega)
@@ -217,7 +217,7 @@ theorem rightHomToBilinearMap_map_d
     rw [rightHomCastBilinearApply (W := fun k : ℤ => N.X k) e₂
       (rightHomToBilinearMap M' M N P iso g p (q + 1)) x
       (⟨M.d y, M.d_mem q y y.property⟩ : M.grading (q + 1))]
-    show e₂ ▸ (((iso.hom.f p).hom (g.gradedMap p x)).v
+    change e₂ ▸ (((iso.hom.f p).hom (g.gradedMap p x)).v
       (q + 1) (p + (q + 1)) (by omega)).hom
         (⟨M.d y, M.d_mem q y y.property⟩ : M.grading (q + 1)) = _
     rw [← hdyval]
@@ -225,7 +225,7 @@ theorem rightHomToBilinearMap_map_d
       (show (q + 1) + p = p + (q + 1) by omega)
       (show (q + 1) + p = p + q + 1 by omega) dyC
   rw [hfirst, hsecond, hfinal]
-  show (N.d (p + q) (p + q + 1)).hom ((c.v q (p + q) (Int.add_comm q p)).hom y) =
+  change (N.d (p + q) (p + q + 1)).hom ((c.v q (p + q) (Int.add_comm q p)).hom y) =
     (N.d (p + q) (p + q + 1)).hom ((c.v q (p + q) (Int.add_comm q p)).hom y) -
       ((p.negOnePow : ℤ) • ((c.v (q + 1) (p + q + 1) (by omega)).hom dyC)) +
       ((p.negOnePow : ℤ) • ((c.v (q + 1) (p + q + 1) (by omega)).hom dyC))
@@ -378,7 +378,7 @@ theorem rightHomBilinearLinearMap_map_grading
     (b : BalancedBilinear M' M N) (p : ℤ) (x : M'.M) (hx : x ∈ M'.grading p) :
     rightHomBilinearLinearMap M' M N P iso b x ∈ P.grading p := by
   let x' : M'.grading p := ⟨x, hx⟩
-  show rightHomBilinearLinearMap M' M N P iso b (x' : M'.M) ∈ _
+  change rightHomBilinearLinearMap M' M N P iso b (x' : M'.M) ∈ _
   rw [rightHomBilinearLinearMap_on_grading M' M N P iso b p x']
   exact (rightHomBilinearComponent M' M N P iso b p x').property
 
@@ -406,13 +406,13 @@ theorem rightHomBilinearCochain_map_d
   have hmap := b.map_d p q (p + q) rfl x y
   have hdy : ((LeftModule.toCochainComplex A M).d q (q + 1)).hom y = dy :=
     leftModule_toCochainComplex_d_apply M q y
-  show (N.d (p + q) (p + q + 1)).hom ((c.v q (p + q) (Int.add_comm q p)).hom y) +
+  change (N.d (p + q) (p + q + 1)).hom ((c.v q (p + q) (Int.add_comm q p)).hom y) +
     ((p + 1).negOnePow : ℤ) •
       (c.v (q + 1) (p + q + 1) (by omega)).hom
         (((LeftModule.toCochainComplex A M).d q (q + 1)).hom y) =
     ((rightHomBilinearCochain M' M N b (p + 1) dx).v q (p + q + 1) (by omega)).hom y
   rw [hdy]
-  show (N.d (p + q) (p + q + 1)).hom ((b.map p q (p + q) rfl x) y) +
+  change (N.d (p + q) (p + q + 1)).hom ((b.map p q (p + q) rfl x) y) +
     ((p + 1).negOnePow : ℤ) • ((b.map p (q + 1) (p + q + 1) (by omega) x) dy) =
     (b.map (p + 1) q (p + q + 1) (by omega) dx y)
   rw [Int.negOnePow_succ]
@@ -430,7 +430,7 @@ theorem rightHomBilinearComponent_map_d
       ⟨P.d (rightHomBilinearComponent M' M N P iso b p x),
         P.d_mem p (rightHomBilinearComponent M' M N P iso b p x).val
           (rightHomBilinearComponent M' M N P iso b p x).property⟩ := by
-  show (iso.inv.f (p + 1)).hom
+  change (iso.inv.f (p + 1)).hom
       (rightHomBilinearCochain M' M N b (p + 1) ⟨M'.d x, M'.d_mem p x x.property⟩) = _
   rw [← rightHomBilinearCochain_map_d M' M N b p x]
   have hc := (ConcreteCategory.congr_hom
@@ -495,7 +495,7 @@ lemma rightHomBilinearComponent_map_smul
   apply LinearMap.ext
   intro y
   change M.grading q at y
-  show b.map (p + i) q n (by omega) _ y =
+  change b.map (p + i) q n (by omega) _ y =
     (b.map p (i + q) n (by omega) x)
       ((((LeftModule.leftAction A M (LeftModule.toCochainComplex A M)
         (Iso.refl _)).action i a).v q (i + q) (Int.add_comm q i)).hom y)
@@ -558,7 +558,7 @@ lemma rightHomToBilinear_injective :
   intro p
   apply LinearMap.ext
   intro x
-  show (f.gradedMap p x).val = (g.gradedMap p x).val
+  change (f.gradedMap p x).val = (g.gradedMap p x).val
   apply congrArg Subtype.val
   apply rightHomIsoComponentInjective M N P iso p
   apply Cochain.ext
@@ -797,7 +797,7 @@ theorem curryToFun_of_mem (E : LeftHomPresentation M N)
   have hd : DirectSum.decomposeLinearEquiv M'.grading y =
       DirectSum.lof R ℤ (fun i => M'.grading i) q y' := by
     simpa [y'] using DirectSum.decomposeLinearEquiv_apply_coe M'.grading q y'
-  show (DirectSum.toModule R ℤ E.module.M
+  change (DirectSum.toModule R ℤ E.module.M
       (fun q => (Submodule.subtype _).comp (curryPiece M M' N E B q)))
       (DirectSum.decomposeLinearEquiv M'.grading y) = _
   rw [hd, DirectSum.toModule_lof]
@@ -817,7 +817,7 @@ theorem curryPiece_iso (E : LeftHomPresentation M N)
       curryCochain M M' N B q y := by
   have h := congrArg (fun f => f.hom (curryCochain M M' N B q y))
     (congrArg (fun e => e.f q) E.iso.inv_hom_id)
-  show (E.iso.inv.f q ≫ E.iso.hom.f q).hom
+  change (E.iso.inv.f q ≫ E.iso.hom.f q).hom
       (curryCochain M M' N B q y) = _
   exact h
 
@@ -882,7 +882,7 @@ theorem curryPiece_action (E : LeftHomPresentation M N)
               (((p + i) * q).negOnePow : ℤ) •
                 B.map (p + i) q (p + (i + q)) (by omega) xa y := by
           rw [curryPiece_iso]
-          show ((p + i) * q).negOnePow • B.map (p + i) q (p + (i + q)) _ xa y = _
+          change ((p + i) * q).negOnePow • B.map (p + i) q (p + (i + q)) _ xa y = _
           rfl
         rw [heval, ← hbal, smul_smul]
         simpa only [smul_smul, Units.val_mul] using
@@ -893,13 +893,13 @@ theorem curryPiece_action (E : LeftHomPresentation M N)
   have h := congrArg (fun z => (E.iso.inv.f (i + q)).hom z) hc
   change (E.iso.inv.f (i + q)).hom (curryCochain M M' N B (i + q) ya) =
     (E.iso.inv.f (i + q)).hom ((E.iso.hom.f (i + q)).hom fa) at h
-  show (((curryPiece M M' N E B (i + q) ya : E.module.grading (i + q)) : E.module.M)) = _
+  change (((curryPiece M M' N E B (i + q) ya : E.module.grading (i + q)) : E.module.M)) = _
   have hv := congrArg Subtype.val h
   have hi : (E.iso.inv.f (i + q)).hom
       ((E.iso.hom.f (i + q)).hom fa) = fa := by
     have hh := congrArg (fun e => e.f (i + q)) E.iso.hom_inv_id
     let fa' : (LeftModule.toCochainComplex A E.module).X (i + q) := by
-      show E.module.grading (i + q)
+      change E.module.grading (i + q)
       exact fa
     have hh' := congrArg (fun z => z.hom fa') hh
     have hh'' := by
@@ -936,7 +936,7 @@ theorem curryCochain_d (B : BalancedBilinear M M' N)
   intro (x : M.grading p)
   simp only [ModuleCat.hom_add, ModuleCat.hom_comp, ModuleCat.hom_smul,
     Units.smul_def, DifferentialGradedModule.toCochainComplex_d]
-  show (N.d (p + q) (p + q + 1)).hom
+  change (N.d (p + q) (p + q + 1)).hom
       (((curryCochain M M' N B q y).v p (p + q) rfl).hom x) +
     (q + 1).negOnePow •
       (((curryCochain M M' N B q y).v (p + 1) (p + q + 1) (by omega)).hom
@@ -1072,7 +1072,7 @@ theorem uncurryMap_balance (E : LeftHomPresentation M N)
         ⟨(a : A.A) • (f : E.module.M), E.module.smul_mem i q a f a.2 f.2⟩ := by
     dsimp only [homCochain, LinearMap.comp_apply]
     exact congrArg (E.iso.hom.f (i + q)).hom (Subtype.ext (g.map_smul a y))
-  show ((p + i) * q).negOnePow •
+  change ((p + i) * q).negOnePow •
       ((homCochain M M' N E g q y).v (p + i) (p + (i + q)) _).hom xa =
     (p * (i + q)).negOnePow • _
   rw [hg, ha]
@@ -1104,10 +1104,10 @@ theorem uncurryMap_d (E : LeftHomPresentation M N)
     (q + 1).negOnePow •
       (((homCochain M M' N E g q y).v (p + 1) (p + q + 1) (by omega)).hom
         ⟨M.d x, M.d_mem p x x.2⟩) = _ at hc
-  show (N.d (p + q) (p + q + 1)).hom
+  change (N.d (p + q) (p + q + 1)).hom
       ((p * q).negOnePow • (((homCochain M M' N E g q y).v p (p + q) rfl).hom x)) = _
   simp only [Units.smul_def, map_zsmul]
-  show (p * q).negOnePow • (_ : N.X (p + q + 1)) =
+  change (p * q).negOnePow • (_ : N.X (p + q + 1)) =
     ((p + 1) * q).negOnePow • (_ : N.X (p + q + 1)) +
       p.negOnePow • ((p * (q + 1)).negOnePow •
         (((homCochain M M' N E g (q + 1) ⟨M'.d y, M'.d_mem q y y.2⟩).v
@@ -1137,7 +1137,7 @@ theorem homCochain_curryHom (E : LeftHomPresentation M N)
       (curryHom M M' N E B).map_grading q y y.property⟩ : E.module.grading q) =
       curryPiece M M' N E B q y :=
     Subtype.ext (curryToFun_of_mem M M' N E B q y y.property)
-  show (E.iso.hom.f q).hom
+  change (E.iso.hom.f q).hom
     (⟨(curryHom M M' N E B).toFun y,
       (curryHom M M' N E B).map_grading q y y.property⟩ : E.module.grading q) = _
   rw [hy, curryPiece_iso]
@@ -1148,7 +1148,7 @@ theorem uncurry_curry_apply (E : LeftHomPresentation M N)
     (p q n : ℤ) (h : p + q = n) (x : M.grading p) (y : M'.grading q) :
     (uncurryBilinear M M' N E (curryHom M M' N E B)).map p q n h x y =
       B.map p q n h x y := by
-  show (p * q).negOnePow •
+  change (p * q).negOnePow •
     ((homCochain M M' N E (curryHom M M' N E B) q y).v p n h).hom x = _
   rw [homCochain_curryHom, curryCochain_apply, smul_smul, Int.units_mul_self, one_smul]
 
@@ -1178,7 +1178,7 @@ theorem curry_uncurry (E : LeftHomPresentation M N)
   apply LinearMap.ext
   intro (x : M.grading p)
   rw [curryCochain_apply]
-  show (p * q).negOnePow • ((p * q).negOnePow • (_ : N.X n)) = _
+  change (p * q).negOnePow • ((p * q).negOnePow • (_ : N.X n)) = _
   rw [smul_smul, Int.units_mul_self, one_smul]
 
 end LeftHomAux

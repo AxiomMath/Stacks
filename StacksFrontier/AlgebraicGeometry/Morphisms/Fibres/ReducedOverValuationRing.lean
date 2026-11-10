@@ -129,7 +129,7 @@ private theorem isReduced_of_isReduced_quotient_map_maximalIdeal
       have hbnil : b ∈ nilradical B := by
         refine ⟨n, ?_⟩
         refine (show b ^ n = 0 from hreg ?_) ▸ Submodule.zero_mem _
-        show π ^ n • b ^ n = π ^ n • (0 : B)
+        change π ^ n • b ^ n = π ^ n • (0 : B)
         rw [smul_zero, Algebra.smul_def, map_pow, ← mul_pow, ← hb, hn]
       have hπB : algebraMap R B π ∈ IsLocalRing.maximalIdeal B := by
         rw [IsLocalRing.mem_maximalIdeal, mem_nonunits_iff]
@@ -161,7 +161,7 @@ private theorem isReduced_tensorProduct_localization
     (Algebra.TensorProduct.map (Algebra.ofId R S) (AlgHom.id R A)).toRingHom.toAlgebra
   let : IsScalarTower R B T := .of_algebraMap_eq' (R := R) (S := B) (A := T) (by
     ext r
-    show (algebraMap R S r) ⊗ₜ[R] (1 : A) =
+    change (algebraMap R S r) ⊗ₜ[R] (1 : A) =
       (Algebra.TensorProduct.map (Algebra.ofId R S) (AlgHom.id R A))
         ((algebraMap R R r) ⊗ₜ[R] (1 : A))
     rw [Algebra.TensorProduct.map_tmul]
@@ -169,7 +169,7 @@ private theorem isReduced_tensorProduct_localization
   have hcomp : (algebraMap B T).comp Algebra.TensorProduct.includeRight.toRingHom =
       Algebra.TensorProduct.includeRight.toRingHom := by
     ext a
-    show (Algebra.TensorProduct.map (Algebra.ofId R S) (AlgHom.id R A))
+    change (Algebra.TensorProduct.map (Algebra.ofId R S) (AlgHom.id R A))
       (1 ⊗ₜ[R] a) = 1 ⊗ₜ[R] a
     rw [Algebra.TensorProduct.map_tmul]
     simp
@@ -200,7 +200,7 @@ private theorem isReduced_genericFiber_of_isReduced
   let : Algebra R K :=
     IsLocalRing.ResidueField.algebra (Localization.AtPrime η.asIdeal)
   have : IsFractionRing R K := by
-    show IsFractionRing R ((⊥ : Ideal R).ResidueField)
+    change IsFractionRing R ((⊥ : Ideal R).ResidueField)
     infer_instance
   let 𝒰 := X.affineOpenCover.openCover.pullback₁ (f.fiberι η)
   let : ∀ i : 𝒰.I₀, IsReduced (𝒰.X i) := by
@@ -258,7 +258,7 @@ private theorem isReduced_quotient_localization_of_isReduced_fiber
   let qbar : PrimeSpectrum (y.asIdeal.Fiber A) := α ⟨q, hq'⟩
   have hunder : Ideal.comap Algebra.TensorProduct.includeRight.toRingHom qbar.asIdeal =
       q.asIdeal := by
-    show (α.invFun qbar).1.asIdeal = q.asIdeal
+    change (α.invFun qbar).1.asIdeal = q.asIdeal
     simpa [qbar, α, PrimeSpectrum.preimageEquivFiber] using
       congrArg (fun z : {r // PrimeSpectrum.comap (algebraMap R A) r = y} => z.1.asIdeal)
         (α.left_inv ⟨q, hq'⟩)
@@ -342,7 +342,7 @@ private theorem isReduced_stalk_of_closedFiber
     have hφq : φ a ∈ q.asIdeal := by
       have hcomap : q.asIdeal.comap φ = y.asIdeal :=
         congrArg PrimeSpectrum.asIdeal hq
-      show a ∈ q.asIdeal.comap φ
+      change a ∈ q.asIdeal.comap φ
       rwa [hcomap, hy]
     have hBmax : algebraMap R B a ∈ IsLocalRing.maximalIdeal B := by
       rw [← Localization.AtPrime.map_eq_maximalIdeal]
@@ -408,7 +408,7 @@ public theorem isReduced_fiber_of_isProper_over_valuationRing_of_isReduced_speci
     isIso_residueFieldMap_of_isPreimmersion j y
   let y₀ : Spec (.of R') := IsLocalRing.closedPoint (CommRingCat.of R')
   have hj₀ : j y₀ = IsLocalRing.closedPoint (CommRingCat.of R) := by
-    show Spec.map (CommRingCat.ofHom φ) (IsLocalRing.closedPoint (CommRingCat.of R')) = _
+    change Spec.map (CommRingCat.ofHom φ) (IsLocalRing.closedPoint (CommRingCat.of R')) = _
     exact Spec_closedPoint
   let P := pullback f j
   let g : P ⟶ Spec (.of R') := pullback.snd f j
@@ -422,7 +422,7 @@ public theorem isReduced_fiber_of_isProper_over_valuationRing_of_isReduced_speci
   let η₀ : PrimeSpectrum R' := ⟨⊥, inferInstance⟩
   have hη : j η₀ = s := by
     apply PrimeSpectrum.ext
-    show Ideal.comap φ η₀.asIdeal = s.asIdeal
+    change Ideal.comap φ η₀.asIdeal = s.asIdeal
     rw [show η₀.asIdeal = (⊥ : Ideal R') by rfl,
       ← RingHom.ker_eq_comap_bot, Ideal.mk_ker]
   have : IsReduced (g.fiber (η₀ : Spec (.of R'))) := isReduced_genericFiber_of_isReduced g

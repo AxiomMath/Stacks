@@ -106,7 +106,7 @@ theorem eq_comp_origin_of_range_subset {k : Type u} [Field k] {Ω : Type u} [Fie
   · rw [Category.assoc, Category.assoc, origin_comp_over, Category.comp_id]
   · intro i
     rw [Subsingleton.elim i ⟨0⟩, Scheme.Hom.comp_appTop, CommRingCat.comp_apply]
-    show z.appTop (coordinate k) =
+    change z.appTop (coordinate k) =
       (z ≫ (affineLine k ↘ Spec (.of k))).appTop ((origin k).appTop (coordinate k))
     rw [origin_appTop_coordinate, map_zero]
     by_contra hne
@@ -147,7 +147,7 @@ theorem natCard_stalk_rightDerived_one_rootsOfUnity_of_isAlgClosed (L : Type u) 
     (z ≫ (affineLine L ↘ Spec (.of L)))).app R')]
   obtain ⟨e⟩ := nonempty_stalk_iso_sections_of_isSepClosed L
     ((smallEtalePullbackAb (origin L)).obj R') (z ≫ (affineLine L ↘ Spec (.of L)))
-  show Nat.card ((smallEtaleStalkAb (z ≫ (affineLine L ↘ Spec (.of L)))).obj
+  change Nat.card ((smallEtaleStalkAb (z ≫ (affineLine L ↘ Spec (.of L)))).obj
     ((smallEtalePullbackAb (origin L)).obj R')) = N
   rw [natCard_eq_of_iso e]
   let M := (etaleAbelianInverseImage.{u, 0} (origin L)).obj R'
@@ -229,7 +229,7 @@ theorem range_comp_affineLineBaseChangeIso_subset {Ω : Type u} [Field Ω]
   have : (x' ≫ (affineLineBaseChangeIso F E).hom).base p ∈
       AffineSpace.map (ULift.{u} (Fin 1)) (specMap F E) ⁻¹ᵁ punctured F := by
     rwa [preimage_punctured_map]
-  show (x' ≫ pullback.snd (specMap F E) (affineLine F ↘ Spec (.of F))).base p ∈
+  change (x' ≫ pullback.snd (specMap F E) (affineLine F ↘ Spec (.of F))).base p ∈
     (punctured F : Set (affineLine F))
   rwa [← affineLineBaseChangeIso_hom_map, ← Category.assoc]
 
@@ -405,7 +405,7 @@ theorem natCard_stalk_rightDerived_one_rootsOfUnity (k : Type u) [Field k] {N : 
   obtain ⟨e⟩ := nonempty_stalk_comp_iso_stalk
     (((smallEtalePushforwardAb (punctured K).ι).rightDerived 1).obj
       (Stacks.Kummer.rootsOfUnitySheaf.{u, 0} (punctured K).toScheme N)) y π
-  show Nat.card ((smallEtaleStalkAb y).obj _) = N
+  change Nat.card ((smallEtaleStalkAb y).obj _) = N
   rw [← natCard_eq_of_iso e]
   let : Algebra K (AlgebraicClosure Ω) :=
     (Spec.preimage ((π ≫ y) ≫ (affineLine K ↘ Spec (.of K)))).hom.toAlgebra

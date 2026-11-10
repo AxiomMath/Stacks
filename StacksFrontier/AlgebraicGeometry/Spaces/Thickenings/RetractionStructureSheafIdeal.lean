@@ -136,7 +136,8 @@ def sqZeroExtSheafAnySiteMapIso
   hom_inv_id := by rw [← sqZeroExtSheafAnySiteMap_comp, e.hom_inv_id, sqZeroExtSheafAnySiteMap_id]
   inv_hom_id := by rw [← sqZeroExtSheafAnySiteMap_comp, e.inv_hom_id, sqZeroExtSheafAnySiteMap_id]
 
-omit [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
+omit [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The isomorphism `sqZeroExtSheafAnySiteMapIso e` commutes with the projections. -/
 theorem sqZeroExtSheafAnySiteMapIso_hom_comp_proj
     {M N : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O₀)} (e : M ≅ N) :
@@ -638,8 +639,7 @@ theorem retractionChartTensor_kernel (hip : i.hom ≫ p' = p ≫ yoneda.map β)
         TensorProduct.rid R ((structureSheaf B S hS X.1 X.2).obj.obj (op W))
           (βl.lTensor ((structureSheaf B S hS X.1 X.2).obj.obj (op W)) u) := by
       intro u
-      induction u using TensorProduct.induction_on with
-      | zero => rw [map_zero, map_zero, map_zero, map_zero]
+      induction u using TensorProduct.inductionOn with
       | tmul g t =>
         rw [retractionChartTensorIso_tmul (hq := hq) (φ₀ := φ₀) hpb W hW g t, map_mul,
           split_app_apply _ _ (thickeningRetractionSection_comp_restriction B S hS hi h hq),
@@ -707,8 +707,7 @@ theorem bijective_retractionComparison (hip : i.hom ≫ p' = p ≫ yoneda.map β
       (retractionChartTensorIso (hq := hq) (φ₀ := φ₀) hpb W hW).hom
         ((retractionKernelLinearMap (φ₀ := φ₀) j hjs).lTensor _ (castL t)) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, map_zero, map_zero]; rfl
+    induction t using TensorProduct.inductionOn with
     | tmul x m => exact (retractionChartTensorIso_tmul (hq := hq) (φ₀ := φ₀) hpb W hW x (j m)).symm
     | add a b ha hb =>
       rw [map_add, map_add, map_add, map_add, ← ha, ← hb]
@@ -782,12 +781,10 @@ theorem retractionChart_mul_eq_zero (hip : i.hom ≫ p' = p ≫ yoneda.map β)
         (retractionKernelLinearMap (φ₀ := φ₀) j hjs).lTensor _ y = 0 by
     rw [h0, map_zero]
   intro x y
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, zero_mul]
+  induction x using TensorProduct.inductionOn with
   | add x x' hx hx' => rw [map_add, add_mul, hx, hx', add_zero]
   | tmul g m =>
-    induction y using TensorProduct.induction_on with
-    | zero => rw [map_zero, mul_zero]
+    induction y using TensorProduct.inductionOn with
     | add y y' hy hy' => rw [map_add, mul_add, hy, hy', add_zero]
     | tmul g' m' =>
       rw [LinearMap.lTensor_tmul, LinearMap.lTensor_tmul, Algebra.TensorProduct.tmul_mul_tmul]

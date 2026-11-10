@@ -182,7 +182,7 @@ theorem comp_left (P : HomOver f G' G) :
   have w' : ((Over.map f).map a ≫ P.mapArrows) ≫ G.source =
       ((Over.map f).map b ≫ P.mapArrows) ≫ G.target := by
     apply Over.OverMorphism.ext
-    show ((Over.map f).map a).left ≫ P.mapArrows.left ≫ G.source.left = _
+    change ((Over.map f).map a).left ≫ P.mapArrows.left ≫ G.source.left = _
     simpa only [ha, hb, Over.map_map_left, Over.comp_left, Category.assoc] using
       composables_condition P
   have hm := P.map_comp T a b w w'

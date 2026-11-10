@@ -69,7 +69,7 @@ private theorem specResidueField_hom_ext {T : Scheme.{u}} (q : T ⟶ X)
   have hinj := (tfae_universallyInjective q).out 1 2 |>.mp
     ((universalHomeomorphism_iff_integral_universallyInjective_surjective q).mp hq).2.1
   apply hinj (X.residueField x)
-  show f ≫ q = g ≫ q
+  change f ≫ q = g ≫ q
   rw [hf, hg]
 
 /-- The generic-point residue fields lift in at most one way through a universal
@@ -87,7 +87,7 @@ private theorem genericPointResidueSpectrum_hom_ext {T : Scheme.{u}} (q : T ⟶ 
     simpa [f', v, D, Scheme.genericPointResidueSpectrum] using hf
   have hg' : g' ≫ q = v := by
     simpa [g', v, D, Scheme.genericPointResidueSpectrum] using hg
-  show f' = g'
+  change f' = g'
   apply Sigma.hom_ext
   intro η
   have key : ∀ h : (∐ D) ⟶ T, h ≫ q = v → (Sigma.ι D η ≫ h) ≫ q = X.fromSpecResidueField η.1 :=
@@ -130,7 +130,7 @@ private theorem genericPointResidueSpectrumLift_comp {T : Scheme.{u}} (q : T ⟶
   let D := fun η : genericPoints X => Spec (.of (X.residueField η.1))
   let l : (∐ D) ⟶ T := genericPointResidueSpectrumLift q hq hres
   let v : (∐ D) ⟶ X := X.fromGenericPointResidueFields
-  show l ≫ q = v
+  change l ≫ q = v
   apply Sigma.hom_ext
   intro η
   rw [← Category.assoc, show Sigma.ι D η ≫ l = specResidueFieldLift q hq hres η.1 by
@@ -229,7 +229,7 @@ theorem existsUnique_iso_seminormalization_seminormalizationFactorization (X : S
     simpa [kk, abs, S, q] using
       congrArg (fun t : abs ⟶ abs => t.hom.left) (initial.hom_ext kk (𝟙 abs))
   refine ⟨⟨m.hom, k, hmInv, hkInv⟩, ?_, ?_⟩
-  · show m.hom ≫ q = F.toBase
+  · change m.hom ≫ q = F.toBase
     simpa [B] using m.hom_toBase
   · intro e' he'
     have hsource' : F.toMiddle ≫ e'.hom = nToS :=

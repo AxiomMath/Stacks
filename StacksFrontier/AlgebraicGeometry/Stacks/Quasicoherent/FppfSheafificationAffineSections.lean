@@ -229,7 +229,7 @@ theorem bijective_sheafificationAdjunction_unit_app_of_isAffine_of_flat
     {x : 𝒳} (hx : IsAffine ((BigFppfOver.toScheme B S hS).obj (p.obj x))) :
     Function.Bijective (((PresheafOfModules.sheafificationAdjunction
       (𝟙 (ringStructureSheafCore B S hS p hp .fppf).obj)).unit.app P).app (op x)) := by
-  show Function.Bijective ((CategoryTheory.toSheafify
+  change Function.Bijective ((CategoryTheory.toSheafify
     (BigFppfOver.associatedTopology B S hS p .fppf) P.presheaf).app (op x))
   have hW := (BigFppfOver.associatedTopology B S hS p .fppf).W_toSheafify P.presheaf
   have := hW.isLocallyInjective

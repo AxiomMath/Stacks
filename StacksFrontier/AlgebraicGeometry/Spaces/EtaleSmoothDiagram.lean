@@ -135,9 +135,9 @@ theorem prop_of_etale_smooth_surjective_square
           (ObjectProperty.homMk φ : (⟨F, hF⟩ : AlgebraicSpaces B S hS) ⟶ ⟨G, hG⟩)
           (ObjectProperty.homMk β : (⟨V, hV⟩ : AlgebraicSpaces B S hS) ⟶ ⟨G, hG⟩))
     hβ he ?_ ?_
-  · show Function.Surjective (pointsMap B S hS U (pullback.lift α h hcomm ≫ pullback.fst φ β))
+  · change Function.Surjective (pointsMap B S hS U (pullback.lift α h hcomm ≫ pullback.fst φ β))
     rwa [pullback.lift_fst]
-  · show P (ObjectProperty.homMk (pullback.lift α h hcomm ≫ pullback.snd φ β) :
+  · change P (ObjectProperty.homMk (pullback.lift α h hcomm ≫ pullback.snd φ β) :
       (⟨U, hU⟩ : AlgebraicSpaces B S hS) ⟶ ⟨V, hV⟩)
     rwa [pullback.lift_snd]
 

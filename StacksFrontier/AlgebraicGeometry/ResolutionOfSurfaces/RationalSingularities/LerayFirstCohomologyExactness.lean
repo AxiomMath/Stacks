@@ -148,7 +148,7 @@ theorem isIso_structureSheafToAbelianPushforward {X' X : Scheme.{u}} (g : X' ⟶
     (hg : IsIso g.c) : IsIso (structureSheafToAbelianPushforward g) := by
   have h : IsIso ((sheafToPresheaf (Opens.grothendieckTopology X) AddCommGrpCat.{u}).map
       (structureSheafToAbelianPushforward g)) := by
-    show IsIso (Functor.whiskerRight g.c (forget₂ CommRingCat.{u} RingCat.{u} ⋙
+    change IsIso (Functor.whiskerRight g.c (forget₂ CommRingCat.{u} RingCat.{u} ⋙
       forget₂ RingCat.{u} AddCommGrpCat.{u}))
     infer_instance
   exact isIso_of_reflects_iso _ (sheafToPresheaf (Opens.grothendieckTopology X) AddCommGrpCat.{u})
@@ -186,7 +186,7 @@ theorem isZero_rightDerived_evaluation_two_of_isModification (A : Type u) [CommR
       X' := X
       g := 𝟙 X
       modification' := by
-        show IsModification (𝟙 X ≫ f)
+        change IsModification (𝟙 X ≫ f)
         rw [Category.id_comp]
         exact hf
       normal := inferInstanceAs (IsNormal X) }
@@ -308,7 +308,7 @@ theorem unitSmul_comp_structureSheafToAbelianPushforward {X' X : Scheme.{u}} (g 
       structureSheafToAbelianPushforward g ≫ (abelianPushforward.{u, u} g.base).map
         ((SheafOfModules.toSheaf X'.ringCatSheaf).map (unitSmul X' (g.appTop r))) := by
   ext U s
-  show g.c.app U (X.presheaf.map (isTerminalTop.from U.unop).op r *
+  change g.c.app U (X.presheaf.map (isTerminalTop.from U.unop).op r *
       (show ↑(X.presheaf.obj U) from s)) =
     X'.presheaf.map (isTerminalTop.from ((Opens.map g.base).obj U.unop)).op (g.appTop r) *
       (show ↑(X'.presheaf.obj (op ((Opens.map g.base).obj U.unop))) from

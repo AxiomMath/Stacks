@@ -122,14 +122,14 @@ private lemma tensorBicomplex_above_isZero {R : Type u} [CommRing R]
   apply HomologicalComplex.hom_ext
   intro i
   have hz : IsZero (((tensorBicomplex P L).X q).X i) := by
-    show IsZero (L.X i ⊗ P.X q)
+    change IsZero (L.X i ⊗ P.X q)
     exact (tensorLeft (L.X i)).map_isZero (P.isZero_of_isStrictlyLE d q hq)
   exact hz.eq_of_src _ _
 
 private lemma tensorBicomplex_second_above_isZero {R : Type u} [CommRing R]
     (P L : CochainComplex (ModuleCat.{max u v} R) ℤ) (m p q : ℤ)
     [L.IsStrictlyLE m] (hq : m < q) : IsZero (((tensorBicomplex P L).X p).X q) := by
-  show IsZero (L.X q ⊗ P.X p)
+  change IsZero (L.X q ⊗ P.X p)
   exact (tensorRight (P.X p)).map_isZero (L.isZero_of_isStrictlyLE m q hq)
 
 private lemma finite_tensorBicomplex_support {R : Type u} [CommRing R]
@@ -318,10 +318,10 @@ lemma preservesColimit_totalFunctorEval
     obtain ⟨⟨pq, hpq⟩⟩ := j
     have hBmap : (B.map f).app ⟨⟨pq, hpq⟩⟩ = (f.f pq.1).f pq.2 := rfl
     simp only [Functor.comp_map, Iso.trans_hom, colim_map, Category.assoc,
-      ι_colimMap_assoc, HasColimit.isoOfNatIso_ι_hom_assoc,
+      ι_colimMap_assoc, HasColimit.ι_isoOfNatIso_hom_assoc,
       colimit.isoColimitCocone_ι_hom, colimit.isoColimitCocone_ι_hom_assoc,
       Discrete.natIso_hom_app, Iso.refl_hom, Category.id_comp, hBmap]
-    show (f.f pq.1).f pq.2 ≫ L'.toGradedObject.ιMapObj π pq n hpq =
+    change (f.f pq.1).f pq.2 ≫ L'.toGradedObject.ιMapObj π pq n hpq =
       L.toGradedObject.ιMapObj π pq n hpq ≫
         (HomologicalComplex₂.total.map f c).f n
     exact (L.ιTotal_map L' f c pq.1 pq.2 n hpq).symm

@@ -546,7 +546,7 @@ theorem homotopyCategoryEquivalence_functor_map_homModuleFunctor_map
         ((toHomotopyCategory A).map ((homModuleFunctor A B N L).map f)) =
       (homDGFunctorData A B N L).functor.onK.map
         ((homotopyCategoryEquivalence B).functor.map ((toHomotopyCategory B).map f)) := by
-  show Quotient.mk _ (cocycleOfHom A ((homModuleFunctor A B N L).map f)) =
+  change Quotient.mk _ (cocycleOfHom A ((homModuleFunctor A B N L).map f)) =
     (homDGFunctorData A B N L).functor.mapHomotopyClass
       (Quotient.mk _ (cocycleOfHom B f))
   apply congrArg (Quotient.mk _)

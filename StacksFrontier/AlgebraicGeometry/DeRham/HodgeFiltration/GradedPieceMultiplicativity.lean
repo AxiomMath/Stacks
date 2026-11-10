@@ -134,11 +134,11 @@ abbrev gradedPieceTensorSquare (p q : ℕ) :=
 /-- **`Tot(Ω^p[-p] ⊗_A Ω^q[-q])` vanishes in every degree other than `p + q`.** -/
 lemma isZero_gradedPieceTensorSquare_X (p q n : ℕ) (hn : n ≠ p + q) :
     IsZero ((gradedPieceTensorSquare B D p q).X n) := by
-  show IsZero ((HomologicalComplex.mapBifunctor (deRhamGradedPiece B D p)
+  change IsZero ((HomologicalComplex.mapBifunctor (deRhamGradedPiece B D p)
     (deRhamGradedPiece B D q) (sheafTensor.{u, u, u, u, u} A) (ComplexShape.up ℕ)).X n)
   refine HomologicalComplex₂.isZero_total_X_of_isZero _ _ n fun a b hab => ?_
   have hab' : a + b = n := hab
-  show IsZero (((sheafTensor.{u, u, u, u, u} A).obj ((deRhamGradedPiece B D p).X a)).obj
+  change IsZero (((sheafTensor.{u, u, u, u, u} A).obj ((deRhamGradedPiece B D p).X a)).obj
     ((deRhamGradedPiece B D q).X b))
   by_cases ha : a = p
   · exact isZero_tensorFunctor_obj_obj_of_right _
@@ -193,7 +193,7 @@ lemma gradedPieceWedgeSummand_self (p q : ℕ) (hab : p + q = p + q) :
               (singleObjXSelf (ComplexShape.up ℕ) p ((deRhamComplex B D).X p)).hom).app
             ((deRhamComplex B D).X q) ≫
           exteriorProductComponent B p q := by
-  rw [gradedPieceWedgeSummand, dif_pos rfl]
+  rw [gradedPieceWedgeSummand, dite_eq_left rfl]
   rfl
 
 /-- The degree-`(p + q)` component of the multiplication of the graded pieces: the descent of
@@ -286,7 +286,7 @@ private lemma ι_gradedPieceWedgeDesc_brutalπ (p q : ℕ)
               ((deRhamComplex B D).X (p + q))).inv := by
   rw [HomologicalComplex.ι_mapBifunctorMap_assoc]
   simp only [HomologicalComplex.id_f, CategoryTheory.Functor.map_id, Category.id_comp]
-  show ((sheafTensor.{u, u, u, u, u} A).obj ((deRhamBrutal B D p).X p)).map
+  change ((sheafTensor.{u, u, u, u, u} A).obj ((deRhamBrutal B D p).X p)).map
         ((CochainComplex.brutalπ (deRhamComplex B D) q).f q) ≫
       ((sheafTensor.{u, u, u, u, u} A).map ((CochainComplex.brutalπ (deRhamComplex B D) p).f p)).app
           ((deRhamGradedPiece B D q).X q) ≫
@@ -310,7 +310,7 @@ theorem gradedPieceWedge_comm (p q : ℕ) :
         ((tensorBifunctorNat (A := A)).map (deRhamBrutalπ B D p)).app
             (deRhamGradedPiece B D q) ≫
           gradedPieceWedge B D p q := by
-  show hodgeFiltrationWedge B D p q ≫ deRhamBrutalπ B D (p + q) =
+  change hodgeFiltrationWedge B D p q ≫ deRhamBrutalπ B D (p + q) =
       HomologicalComplex.mapBifunctorMap (𝟙 (deRhamBrutal B D p)) (deRhamBrutalπ B D q)
             (sheafTensor.{u, u, u, u, u} A) (ComplexShape.up ℕ) ≫
         HomologicalComplex.mapBifunctorMap (deRhamBrutalπ B D p)
@@ -334,7 +334,7 @@ theorem gradedPieceWedge_comm (p q : ℕ) :
       (truncatedWedge B D p q).f (p + q) ≫
         (singleObjXSelf (ComplexShape.up ℕ) (p + q) ((deRhamComplex B D).X (p + q))).inv := by
     rw [CochainComplex.comp_brutalπ_f, hodgeFiltrationWedge_ιBrutal]
-  show HomologicalComplex.ιMapBifunctor (deRhamBrutal B D p) (deRhamBrutal B D q)
+  change HomologicalComplex.ιMapBifunctor (deRhamBrutal B D p) (deRhamBrutal B D q)
         (sheafTensor.{u, u, u, u, u} A) (ComplexShape.up ℕ) p q (p + q) hab ≫
       (hodgeFiltrationWedge B D p q ≫
         CochainComplex.brutalπ (deRhamComplex B D) (p + q)).f (p + q) =
@@ -347,7 +347,7 @@ theorem gradedPieceWedge_comm (p q : ℕ) :
               (ComplexShape.up ℕ)).f (p + q) ≫
           (gradedPieceWedge B D p q).f (p + q))
   rw [hw]
-  show HomologicalComplex.ιMapBifunctor (deRhamBrutal B D p) (deRhamBrutal B D q)
+  change HomologicalComplex.ιMapBifunctor (deRhamBrutal B D p) (deRhamBrutal B D q)
         (sheafTensor.{u, u, u, u, u} A) (ComplexShape.up ℕ) p q (p + q) hab ≫
       (((HomologicalComplex.mapBifunctorMap (𝟙 (deRhamBrutal B D p))
               (CochainComplex.ιBrutal (deRhamComplex B D) q) (sheafTensor.{u, u, u, u, u} A)

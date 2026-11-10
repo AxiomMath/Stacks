@@ -31,8 +31,8 @@ The right adjoint is `Stacks.Duality.twistedInverseImage` of the restriction of 
 part (1) of [Stacks, Tag 08D5] discharged
 (`Stacks.Duality.isQuasicoherent_homology_derivedPushforward_of_qcqs`), which is the spelling under
 which [Stacks, Tag 0B6J] is stated in
-`StacksFrontier/AlgebraicGeometry/Duality/TwistedInverseImage/BaseChangeTrace.lean`. Its existence is
-the instance
+`StacksFrontier/AlgebraicGeometry/Duality/TwistedInverseImage/BaseChangeTrace.lean`. Its existence
+is the instance
 `Stacks.Duality.DerivedPushforward.isLeftAdjoint_quasiCoherentDerivedPushforward_of_qcqs`,
 [Stacks, Tag 0A9E] for a morphism of quasi-compact quasi-separated schemes, so no adjointness is
 assumed here. The derived categories are the locally small models, the only ones at which

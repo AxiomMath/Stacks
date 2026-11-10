@@ -171,7 +171,7 @@ theorem invariant_natural {V W : FGModuleCat.{u} k} (f : V ⟶ W)
     | h L' =>
       exact (liftDifference_congr_right (coefficientReduction.{d, d₀} θ W)
         (coefficientReduction_connectingClass_sub W) (Φ.base_baseChange f)).symm
-  show liftClassMap (coefficientReduction.{d, d₀} θ W) (Φ.base W) (Φ.toLift W b) =
+  change liftClassMap (coefficientReduction.{d, d₀} θ W) (Φ.base W) (Φ.toLift W b) =
     liftClassMap (coefficientReduction.{d, d₀} θ V) (Φ.base V) (Φ.toLift V a) ≫
       ((derivedTensorRightMap.{d₀} ((coefficientModule θ).map f)).app K₀.obj)⟦(1 : ℤ)⟧'
   rw [Φ.toLift_pullback f a b hab, hbase]
@@ -231,6 +231,9 @@ theorem finiteDimensional_tangentModuleAt_twoFibreProduct_of_coefficientLiftComp
     Φ.invariant (fun f a b hab => Φ.invariant_natural f a b hab)
     (fun a b h𝒵 hθ => Φ.invariant_separates a b h𝒵 hθ) hD
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)]
+  [∀ V : FGModuleCat.{u} k, HasDerivedCategory.{d} (SheafOfModules.{u}
+    (Stacks.SheafOfModules.Tensor.ringSheaf (coefficientRing θ V)))] in
 /-- **The infinitesimal automorphisms of a 2-fibre product, from the groups
 `Hom(K₀, K₀ ⊗^L (O₀ ⊗_k V))`.** In the setting of
 `finiteDimensional_tangentModuleAt_twoFibreProduct_of_coefficientLiftComparison`, if the groups

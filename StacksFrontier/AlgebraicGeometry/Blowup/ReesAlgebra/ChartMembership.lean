@@ -87,7 +87,7 @@ private theorem idealComap_top {X Y : Scheme.{u}} [IsAffine X] [IsAffine Y]
     ((pullback.snd f J.subschemeι).appTop).hom
     ((pullback.fst f J.subschemeι).appTop).hom (by simpa using hsq.flip)
     (IsClosedImmersion.isAffine_surjective_of_isAffine J.subschemeι).2
-  show (pullback.fst f J.subschemeι).ker.ideal _ = _
+  change (pullback.fst f J.subschemeι).ker.ideal _ = _
   rw [Scheme.Hom.ker_apply, ← J.ker_subschemeι_app]
   exact hk
 
@@ -159,10 +159,10 @@ public theorem idealStalk_comap_eq_map {X Y : Scheme.{u}} (f : X ⟶ Y)
   calc
     f.appLE U V hVUo ≫ X.presheaf.germ V x hxV =
         f.app U ≫ X.presheaf.germ (f ⁻¹ᵁ U) x hxU := by
-          show (f.app U ≫ X.presheaf.map (homOfLE hVUo).op) ≫
+          change (f.app U ≫ X.presheaf.map (homOfLE hVUo).op) ≫
             X.presheaf.germ V x hxV =
               f.app U ≫ X.presheaf.germ (f ⁻¹ᵁ U) x hxPre
-          show (f.app U ≫ rVUcat) ≫ X.presheaf.germ V x hxV = _
+          change (f.app U ≫ rVUcat) ≫ X.presheaf.germ V x hxV = _
           rw [Category.assoc, hres]
     _ = Y.presheaf.germ U (f x) hxU ≫ f.stalkMap x :=
         (f.germ_stalkMap U x hxU).symm
@@ -249,7 +249,7 @@ theorem affineBlowup_isRegular {R : Type*} [CommRing R]
   apply Subtype.ext
   have hb := (IsLocalization.Away.algebraMap_isUnit (S := Localization.Away b) b).isRegular
   apply hb.left
-  show algebraMap R (Localization.Away b) b * c.1 =
+  change algebraMap R (Localization.Away b) b * c.1 =
     algebraMap R (Localization.Away b) b * 0
   simpa [mul_comm] using congrArg Subtype.val hc
 
@@ -403,7 +403,7 @@ public theorem mem_affineBlowupStandardOpen_iff_exceptionalIdeal_stalk_eq_span
     rwa [blownUpAffine_chart_cover I U]
   obtain ⟨b, y, rfl⟩ := Set.mem_iUnion.mp hcover
   obtain ⟨z, rfl⟩ := (e b).hom.homeomorph.surjective y
-  show j b z ∈ Set.range ((V a).ι ≫ c) ↔ _
+  change j b z ∈ Set.range ((V a).ι ≫ c) ↔ _
   have hmem : j b z ∈ Set.range ((V a).ι ≫ c) ↔ ((e b).hom z).1 ∈ V a := by
     constructor
     · rintro ⟨t, ht⟩

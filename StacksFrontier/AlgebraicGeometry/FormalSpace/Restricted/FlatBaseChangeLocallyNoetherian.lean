@@ -151,7 +151,7 @@ theorem isFlat_and_isLocallyOfFiniteType_pullback_snd {X Y Z : FppfSheaf B S hS}
         f hft
     intro U V a b t hU hV ha hb hsq A R _ _ _ _ _ _ _ _ hA hRc hwa D E eU eV φ hφ
     refine ⟨hP U V a b t hU hV ha hb hsq A R hA hRc hwa D E eU eV φ hφ,
-      ((Rig.adicFiniteType_tfae φ.toRingHom φ.continuous hA.1 hRc.1
+      ((Rig.adicFiniteType_tfae φ.toRingHom hA.1 hRc.1
         (exists_isIdealOfDefinition_fg_of_isNoetherianAdic hA)
         (exists_isIdealOfDefinition_fg_of_isNoetherianAdic hRc)).out 2 1).mp ?_⟩
     exact hT U V a b t hU hV ha hb hsq A R

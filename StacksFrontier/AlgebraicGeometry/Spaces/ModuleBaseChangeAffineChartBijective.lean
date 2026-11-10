@@ -194,11 +194,7 @@ theorem bijective_moduleBaseChangeMap_val_app_of_affineChartDiagram
       modulePullbackChartBaseChange B S hS i K
         (chartDiagramOfSquare B S hS i f' f g hf hf' d sq.w) (eP.symm (eT z)) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero =>
-      simp only [map_zero]
-      exact modulePushforwardCounitApp_zero f' ((modulePullback B S hS i).obj K)
-        (smallBaseChangeDiagram f' hf' d.U)
+    induction z using TensorProduct.inductionOn with
     | tmul a s =>
       have e1 : modulePullbackChartBaseChange B S hS g ((modulePushforward B S hS f).obj K) d
             (TensorProduct.tmul (chartRing B S hS Y.1 Y.2 d.V) a s) =

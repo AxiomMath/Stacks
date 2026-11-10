@@ -132,7 +132,7 @@ private lemma ringHom_properties_iff_of_isPullback
     ((f.hom.comp base.pullbackCone.fst.hom).prod
       (g.hom.comp base.pullbackCone.snd.hom)) (RingHom.pullback i'.hom j'.hom)
     (fun x => by
-      show i'.hom (f.hom x.1.1) = j'.hom (g.hom x.1.2)
+      change i'.hom (f.hom x.1.1) = j'.hom (g.hom x.1.2)
       exact (congrArg (fun q : A ⟶ C' => q.hom x.1.1) Hf.w).trans
         ((congrArg k.hom x.2).trans (congrArg (fun q : B ⟶ C' => q.hom x.1.2) Hg.w).symm))
   have ht : h ≫ e'.hom = e.hom ≫ CommRingCat.ofHom t := by

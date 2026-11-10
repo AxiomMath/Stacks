@@ -128,7 +128,7 @@ theorem exists_fppf_refinement_of_isLocallySurjective
     s₀ := fun _ => PUnit.unit
     h₀ := fun ij => Tsch.map (yoneda.preimage (li ij.1))
     w₀ := fun ij => ?_ }⟩⟩
-  show Tsch.map (yoneda.preimage (li ij.1)) ≫ Tsch.map qUsite =
+  change Tsch.map (yoneda.preimage (li ij.1)) ≫ Tsch.map qUsite =
     Tsch.map (ri ij.1) ≫ Tsch.map (E.f ij.1)
   simpa only [Functor.map_comp] using congrArg Tsch.map (hfactor' ij.1)
 

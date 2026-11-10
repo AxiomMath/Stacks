@@ -49,7 +49,8 @@ upgraded to an `R[t_i]`-algebra equivalence by `AlgEquiv.ofRingEquiv`.
 point of `Spec (S ⊗_R κ(𝔭))` rather than at a prime of `S`, so it is transported along
 `PrimeSpectrum.preimageHomeomorphFiber` by `relativeDimensionAt_eq_of_fiber` and
 `comap_fiberMap_preimageHomeomorphFiber`; the result at a prime of `S` is
-`exists_quasiFinite_mvPolynomial_away`, in `StacksFrontier.RingTheory.RelativeDimension.QuasiFiniteAffineSpace`.
+`exists_quasiFinite_mvPolynomial_away`, in
+`StacksFrontier.RingTheory.RelativeDimension.QuasiFiniteAffineSpace`.
 
 ## References
 

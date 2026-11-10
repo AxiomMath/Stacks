@@ -323,7 +323,7 @@ theorem descentEq_polarizedSliceProjection (B : BigFppfSite.{u}) {S : Scheme.{u}
   let dx₁ : xk₁ ⟶ xiF :=
     xiF.stageBaseChangeHom ((D ⋙ BigAffineFppf.inclusion B S hS).map e₁).left
   have hAb : (dx₁ ≫ ψ).baseMap = (dx₁ ≫ ψ').baseMap := by
-    show dx₁.baseMap ≫ ψ.baseMap = dx₁.baseMap ≫ ψ'.baseMap
+    change dx₁.baseMap ≫ ψ.baseMap = dx₁.baseMap ≫ ψ'.baseMap
     rw [hψb, hψb']
   have hAt : (dx₁ ≫ ψ).totalMap = (dx₁ ≫ ψ').totalMap := hsndψ
   have hcomm1 : (((BigAffineFppf.inclusion B S hS).mapCone c).π.app k₁).left ≫

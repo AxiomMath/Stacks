@@ -161,7 +161,7 @@ theorem hasTrivializingTargetCover_of_isFinite {X Y : Scheme.{u}} (f : X ⟶ Y) 
   have hfibA : f.base ⁻¹' {y} ⊆ (A : Set X) := by
     intro x hx
     have hxB : x ∈ (f ⁻¹ᵁ U : X.Opens) := by
-      show f.base x ∈ U
+      change f.base x ∈ U
       rw [show f.base x = y from hx]
       exact hyU
     obtain ⟨z, hz⟩ : ∃ z, hB.fromSpec.base z = x := by

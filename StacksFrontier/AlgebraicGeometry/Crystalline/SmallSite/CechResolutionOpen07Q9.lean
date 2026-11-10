@@ -276,7 +276,7 @@ theorem cosimplicialDoubleComplexRowIso_inv_f_comp
     (HomologicalComplex.eval AddCommGrpCat.{u + 1} (ComplexShape.up ℤ) ((0 : ℕ) : ℤ))
     (cosimplicialDoubleComplexInner K') (cosimplicialRowInnerIso K' 0).inv
     ComplexShape.embeddingUpNat (ComplexShape.embeddingUpNat_f a)
-  show (HomologicalComplex.extendMap (cosimplicialRowInnerIso K' 0).inv
+  change (HomologicalComplex.extendMap (cosimplicialRowInnerIso K' 0).inv
       ComplexShape.embeddingUpNat ≫ (cosimplicialRowOuterIso K' 0).hom).f (a : ℤ) ≫
       ((cosimplicialDoubleComplexColumnIso K' a).hom.f ((0 : ℕ) : ℤ) ≫
         (((alternatingCofaceMapComplex AddCommGrpCat.{u + 1}).obj (K'.X a)).extendXIso
@@ -319,7 +319,7 @@ theorem openRowAugmentation_f_comp (hT : IsOpenProCovering S W T)
   have h1 := HomologicalComplex.extendMap_f (openAugmentationNat hT K)
     ComplexShape.embeddingUpNat (ComplexShape.embeddingUpNat_f a)
   have h2 := cosimplicialDoubleComplexRowIso_inv_f_comp (T := T) K a
-  show (HomologicalComplex.extendMap (openAugmentationNat hT K) ComplexShape.embeddingUpNat).f
+  change (HomologicalComplex.extendMap (openAugmentationNat hT K) ComplexShape.embeddingUpNat).f
       (a : ℤ) ≫ ((cosimplicialDoubleComplexRowIso ((cechCosimplicialComplex T).obj K) 0).inv.f
         (a : ℤ) ≫ (cechDoubleComplexXXIso T K 0 a).hom) = _
   rw [h2, h1]
@@ -432,7 +432,7 @@ theorem cechAugmentationOpen_f (hT : IsOpenProCovering S W T)
     (cechAugmentationOpen hT K).f (a : ℤ) =
       (openRowAugmentation hT K).f (a : ℤ) ≫
         ((cechDoubleComplex T).obj K).ιTotal (ComplexShape.up ℤ) 0 a a (by simp) := by
-  show (openRowAugmentation hT K).f (a : ℤ) ≫
+  change (openRowAugmentation hT K).f (a : ℤ) ≫
       ((cechDoubleComplex T).obj K).flip.ιTotal (ComplexShape.up ℤ) a 0 a (by simp) ≫
         (((cechDoubleComplex T).obj K).totalFlipIso (ComplexShape.up ℤ)).hom.f a = _
   rw [HomologicalComplex₂.ιTotal_totalFlipIso_f_hom]
@@ -490,7 +490,7 @@ theorem cechAugmentationOpen_naturality (hT : IsOpenProCovering S W T)
       rowZeroMap (StacksDraft.TotalComplexQuasiIso.flipHom ((cechDoubleComplex T).map φ)) =
         HomologicalComplex.extendMap (openSectionsComplexMap W φ) ComplexShape.embeddingUpNat ≫
           openRowAugmentation hT L := by
-    show (HomologicalComplex.extendMap (openAugmentationNat hT K) ComplexShape.embeddingUpNat ≫
+    change (HomologicalComplex.extendMap (openAugmentationNat hT K) ComplexShape.embeddingUpNat ≫
         (cosimplicialDoubleComplexRowIso ((cechCosimplicialComplex T).obj K) 0).inv) ≫
       (StacksDraft.TotalRowComparison.flipMap
         (cosimplicialDoubleComplexFunctor.map ((cechCosimplicialComplex T).map φ))).f

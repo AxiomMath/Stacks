@@ -70,7 +70,7 @@ theorem le_ker_weierstrass : (cubicIdealOf C).toIdeal ≤ RingHom.ker φ := by
 
 /-- **The ring map `k[x, y, z]/(F) → A` induced by `φ`.** -/
 def weierstrassRingHom : coordRingOf C →+* A :=
-  Ideal.Quotient.lift _ φ.toRingHom fun a ha => le_ker_weierstrass C φ hker ha
+  Ideal.Quotient.lift _ φ.toRingHom (le_ker_weierstrass C φ hker)
 
 /-- **The map `weierstrassRingHom` sends the class of a polynomial `a` to `φ a`.** -/
 @[simp] theorem weierstrassRingHom_mk (a : MvPolynomial (Fin 3) k) :

@@ -124,9 +124,8 @@ theorem isZero_compactSupportFrobeniusCohomologyGroup_zero_constant
 
 section Cover
 
-variable {k : Type u} [Field k] [Finite k] {U Ub V : Scheme.{u}} {pU : U ⟶ Spec (.of k)}
-  [IsCurve k pU] [Smooth pU] {pUb : Ub ⟶ Spec (.of k)} [IsProper pUb] {jU : U ⟶ Ub}
-  [IsOpenImmersion jU] (hjU : jU ≫ pUb = pU) {f : V ⟶ U} [IsFinite f] [Etale f] [ConnectedSpace V]
+variable {k : Type u} [Field k] {U Ub V : Scheme.{u}} {pU : U ⟶ Spec (.of k)}
+  {pUb : Ub ⟶ Spec (.of k)} {jU : U ⟶ Ub} (hjU : jU ≫ pUb = pU) {f : V ⟶ U}
   (C : CoverCompactification k pUb jU f) (kbar : Type u) [Field kbar] [IsAlgClosed kbar]
   [Algebra k kbar] (Λ : Type) [CommRing Λ] (M : ModuleCat.{u + 1} Λ)
 

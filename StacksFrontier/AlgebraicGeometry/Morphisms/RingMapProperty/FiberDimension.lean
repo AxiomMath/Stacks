@@ -132,7 +132,7 @@ theorem fiberDimensionLE_propertyIsLocal (n : ℕ) :
   let P : ∀ {R S : Type u} [CommRing R] [CommRing S], (R →+* S) → Prop := fun {R S} _ _ f =>
     let : Algebra R S := f.toAlgebra
     ∀ (p : Ideal R) [p.IsPrime], ringKrullDim (p.Fiber S) ≤ (n : WithBot ℕ∞)
-  show RingHom.StacksPropertyIsLocal P
+  change RingHom.StacksPropertyIsLocal P
   refine ⟨?_, ?_, ?_⟩
   · intro R S _ _ f r R' S' _ _ _ _ _ _ hf
     let : Algebra R S := f.toAlgebra
@@ -142,10 +142,10 @@ theorem fiberDimensionLE_propertyIsLocal (n : ℕ) :
     let : Algebra R S' := (f'.comp (algebraMap R R')).toAlgebra
     have : IsScalarTower R R' S' := .of_algebraMap_eq' (by simp [RingHom.algebraMap_toAlgebra])
     have : IsScalarTower R S S' := .of_algebraMap_eq' (by
-      show f'.comp (algebraMap R R') = (algebraMap S S').comp f
+      change f'.comp (algebraMap R R') = (algebraMap S S').comp f
       ext x
       simp [f', IsLocalization.Away.map])
-    show ringKrullDim (p'.Fiber S') ≤ (n : WithBot ℕ∞)
+    change ringKrullDim (p'.Fiber S') ≤ (n : WithBot ℕ∞)
     rw [ringKrullDim_fiber_away_eq (S := S) (S' := S') r p']
     exact hf _
   · intro R A Rf Aa _ _ _ _ f a _ _ _ _ g hg

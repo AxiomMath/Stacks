@@ -124,7 +124,7 @@ private lemma ker_cyclesToExt (n : ℕ) :
   cases n with
   | zero =>
     ext f
-    show P.extMk f.1 1 rfl f.2 = 0 ↔ _
+    change P.extMk f.1 1 rfl f.2 = 0 ↔ _
     rw [extMk_zero_eq_zero_iff]
     simp [homIncoming]
   | succ n => simpa [homIncoming, homDifferential] using ker_cyclesToExt_succ P Y n
@@ -327,7 +327,7 @@ private lemma reduceModIdeal_exact_of_range_inf
       induction x using Submodule.Quotient.induction_on with
       | _ x =>
         rw [← hx]
-        show Submodule.Quotient.mk (g (f x)) = 0
+        change Submodule.Quotient.mk (g (f x)) = 0
         rw [hfg.apply_apply_eq_zero x, Submodule.Quotient.mk_zero]
 
 set_option backward.isDefEq.respectTransparency false in
@@ -375,9 +375,9 @@ private lemma ker_homReduction [Small.{v} R] (I : Ideal R)
   ext f
   let e := ModuleCat.homLinearEquiv (S := R)
     (M := (quotientFunctor I).obj M) (N := (quotientFunctor I).obj N)
-  show e.symm (LinearMap.reduceModIdeal I f.hom) = 0 ↔ _
+  change e.symm (LinearMap.reduceModIdeal I f.hom) = 0 ↔ _
   rw [e.symm.map_eq_zero_iff]
-  show f.hom ∈ (LinearMap.reduceModIdeal I).ker ↔ _
+  change f.hom ∈ (LinearMap.reduceModIdeal I).ker ↔ _
   rw [ker_reduceModIdeal]
   constructor
   · intro h
@@ -574,7 +574,7 @@ private lemma reducedCyclesToExt_surjective (I : Ideal A) (Y : ModuleCat.{v} B) 
     rw [hg]
     exact hf
   refine ⟨⟨g, hg'⟩, ?_⟩
-  show Q.extMk (homReduction J _ _ g) (i + 1) rfl (by rw [hg]; exact hf) = x
+  change Q.extMk (homReduction J _ _ g) (i + 1) rfl (by rw [hg]; exact hf) = x
   simpa only [hg] using hfx
 
 -- Quotient scalar structures and transported Ext actions require additional elaboration.
@@ -592,7 +592,7 @@ private lemma ker_reducedCyclesToExt_succ (I : Ideal A) (Y : ModuleCat.{v} B) (n
   ext x
   have hxcycle : Q.complex.d (n + 2) (n + 1) ≫ F.map x.1 = 0 :=
     (quotientResolution_d_comp_eq_zero_iff P I Y (n + 1) x.1).mpr x.property
-  show Q.extMk (F.map x.1) (n + 1 + 1) rfl hxcycle = 0 ↔
+  change Q.extMk (F.map x.1) (n + 1 + 1) rfl hxcycle = 0 ↔
     x.1 ∈ (homDifferential (R := B) P Y n).range ⊔
       J • (⊤ : Submodule B (P.complex.X (n + 1) ⟶ Y))
   rw [Q.extMk_eq_zero_iff _ _ _ _ n rfl]
@@ -602,7 +602,7 @@ private lemma ker_reducedCyclesToExt_succ (I : Ideal A) (Y : ModuleCat.{v} B) (n
     have hz : x.1 - homDifferential (R := B) P Y n h ∈
         J • (⊤ : Submodule B (P.complex.X (n + 1) ⟶ Y)) := by
       rw [← homReduction_eq_zero_iff, map_sub]
-      show F.map x.1 - F.map (P.complex.d (n + 1) n ≫ h) = 0
+      change F.map x.1 - F.map (P.complex.d (n + 1) n ≫ h) = 0
       rw [F.map_comp]
       apply sub_eq_zero.mpr
       exact hg.symm.trans (congrArg (fun k => Q.complex.d (n + 1) n ≫ k) hh.symm)
@@ -616,7 +616,7 @@ private lemma ker_reducedCyclesToExt_succ (I : Ideal A) (Y : ModuleCat.{v} B) (n
     have hb' : homReduction J (P.complex.X (n + 1)) Y b = 0 :=
       (homReduction_eq_zero_iff _ _ _ _).mpr hb
     rw [← hab]
-    show F.map (P.complex.d (n + 1) n) ≫ F.map h =
+    change F.map (P.complex.d (n + 1) n) ≫ F.map h =
       homReduction J _ _ (homDifferential (R := B) P Y n h + b)
     rw [map_add, hb', add_zero]
     exact (F.map_comp _ _).symm
@@ -651,9 +651,9 @@ private lemma ker_reducedCyclesToExt (I : Ideal A) (Y : ModuleCat.{v} B) (n : �
     ext x
     have hxcycle : Q.complex.d 1 0 ≫ F.map x.1 = 0 :=
       (quotientResolution_d_comp_eq_zero_iff P I Y 0 x.1).mpr x.property
-    show Q.extMk (F.map x.1) 1 rfl hxcycle = 0 ↔ _
+    change Q.extMk (F.map x.1) 1 rfl hxcycle = 0 ↔ _
     rw [extMk_zero_eq_zero_iff]
-    show homReduction J _ _ x.1 = 0 ↔ _
+    change homReduction J _ _ x.1 = 0 ↔ _
     rw [homReduction_eq_zero_iff]
     simp [homIncoming, J]
 
@@ -755,7 +755,7 @@ public theorem limit_ext_quotient_iso_limit_ext_baseChange
   let (i n : ℕ) : IsScalarTower A B (En i n) := by
     apply IsScalarTower.of_algebraMap_smul
     intro a x
-    show (algebraMap B (B ⧸ J ^ n) (algebraMap A B a)) • x =
+    change (algebraMap B (B ⧸ J ^ n) (algebraMap A B a)) • x =
       algebraMap A (B ⧸ J ^ n) a • x
     rw [← IsScalarTower.algebraMap_apply A B (B ⧸ J ^ n)]
   have h : ∀ i, HasAdicComparison I (E i) (En i) := by

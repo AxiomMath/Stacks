@@ -56,7 +56,7 @@ attribute [local instance] HasDerivedCategory.standard moduleCat_hasLimitsOfSize
 
 section Level
 
-variable (Λ : Type) [CommRing Λ] {k : Type u} [Field k] [Fintype k] (kbar : Type u) [Field kbar]
+variable (Λ : Type) [CommRing Λ] {k : Type u} [Field k] [Finite k] (kbar : Type u) [Field kbar]
   [Algebra k kbar]
 
 /-- **`H⁰_c` along a decomposition into complementary open subschemes.** If `W = A ⊔ B` with `A`
@@ -169,7 +169,7 @@ theorem isZero_compactSupportSheafCohomology_zero_of_partition {X : Scheme.{u}}
         ((compactSupportSheafCohomology Λ (A.ι ≫ g) J' kbar 0).mapIso
           ((etaleModuleRestrictionCompIso.{u, 0} Λ A.ι e).app G))
       rw [Scheme.Hom.comp_base, TopCat.coe_comp, Set.range_comp, Scheme.Opens.range_ι]
-      show (⇑e) '' ((⇑e) ⁻¹' (Z a : Set X)) = _
+      change (⇑e) '' ((⇑e) ⁻¹' (Z a : Set X)) = _
       rw [Set.image_preimage_eq_inter_range]
       refine Set.inter_eq_left.2 ?_
       rw [he]
@@ -221,7 +221,7 @@ theorem isZero_compactSupportSheafCohomology_zero_of_smoothOfRelativeDimension [
     subst hg
     obtain ⟨x, rfl⟩ := ConnectedComponents.surjective_coe i
     have hZ : (Z (ConnectedComponents.mk x) : Set X) = connectedComponent x := by
-      show ConnectedComponents.mk ⁻¹' {ConnectedComponents.mk x} = _
+      change ConnectedComponents.mk ⁻¹' {ConnectedComponents.mk x} = _
       exact connectedComponents_preimage_singleton
     have : IsClosedImmersion e := .of_isPreimmersion _ (by
       rw [he]; exact hclosed _)
@@ -298,7 +298,7 @@ theorem LAdicSheaf.isFiniteTypeLocallyConstant_restriction_etaleLevel (F : LAdic
         (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1)))) _ _)).app (F.level n)).symm ≪≫
     (etaleModuleInverseImageRestrictionIso.{u, 0} (ZMod (ℓ ^ (n + 1))) e).app _
 
-variable {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
+variable {k : Type u} [Field k] [Finite k] (f : X.1 ⟶ Spec (.of k))
   [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar]
 

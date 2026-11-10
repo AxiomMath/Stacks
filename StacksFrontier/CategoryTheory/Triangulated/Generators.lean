@@ -847,7 +847,7 @@ A shift `E[n]` lies in `gen E` (it is in `gen₁ E = genN E 0`). -/
 theorem shift_mem_gen (E : D) (n : ℤ) :
     (shiftFunctor D n).obj E ∈ gen E := by
   refine Set.mem_iUnion.2 ⟨0, ?_⟩
-  show (shiftFunctor D n).obj E ∈ gen₁ E
+  change (shiftFunctor D n).obj E ∈ gen₁ E
   exact shiftCat_subset_gen₁ E (shift_mem_shiftCat E n)
 
 -- Main Statement(s)

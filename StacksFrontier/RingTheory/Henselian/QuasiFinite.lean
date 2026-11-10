@@ -487,7 +487,7 @@ private lemma henselianLocalRing_of_finite (R : Type u) (S : Type v)
     have h1 : (AdjoinRoot.mk f p)
         = p.eval₂ (algebraMap S (AdjoinRoot f)) (AdjoinRoot.root f) := by
       rw [← AdjoinRoot.aeval_eq, Polynomial.aeval_def]
-    show uj i (AdjoinRoot.mk f p) = _
+    change uj i (AdjoinRoot.mk f p) = _
     rw [h1, Polynomial.hom_eval₂]
     rfl
   exact exists_isRoot_of_eval₂_eq_zero S (Af i) f a₀ hfa₀ hder _ hev hz hgen

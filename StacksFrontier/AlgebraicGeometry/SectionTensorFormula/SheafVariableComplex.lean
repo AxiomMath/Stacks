@@ -35,13 +35,15 @@ available. This file proves that square and assembles the complex-level statemen
 
 * `Stacks.SectionTensorFormula.toTensorSection_comp_tensorHom_val`: **naturality of the
   comparison on sections** in both sheaf variables at once, from the first-variable naturality
-  `Stacks.SectionTensorFormula.toTensorSection_comp_whiskerRight_val` of `StacksFrontier/AlgebraicGeometry/SectionProduct/MulSecFormulaLeft.lean`
+  `Stacks.SectionTensorFormula.toTensorSection_comp_whiskerRight_val` of
+  `StacksFrontier/AlgebraicGeometry/SectionProduct/MulSecFormulaLeft.lean`
   (itself resting on `Stacks.SectionTensorFormula.tensorSheafIsoTensorObj_hom_whiskerRight`
   there) and the second-variable one.
 * `Stacks.SectionTensorFormula.tensorSection_whiskerLeft`: the same on an element, over a scheme,
   in the second variable; the first-variable form
   `(f ▷ G).app U (m ⊗ₛ n) = (f.app U m) ⊗ₛ n` is
-  `Stacks.SectionTensorFormula.tensorSection_whiskerRight` of `StacksFrontier/AlgebraicGeometry/SectionProduct/MulSecFormulaLeft.lean`.
+  `Stacks.SectionTensorFormula.tensorSection_whiskerRight` of
+  `StacksFrontier/AlgebraicGeometry/SectionProduct/MulSecFormulaLeft.lean`.
 * `Stacks.SectionTensorFormula.zero_whiskerRight`: **tensoring a zero morphism of sheaves of
   modules with a fixed sheaf gives zero**, for the localized monoidal structure, on any ringed
   site. Deduced from the first-variable naturality together with
@@ -200,7 +202,7 @@ theorem presheaf_zero_whiskerRight
     {P Q R : PresheafOfModules.{w} (structureSheaf 𝒪 h𝒪).obj} :
     (0 : P ⟶ Q) ▷ R = 0 := by
   refine PresheafOfModules.Hom.ext (funext fun X ↦ ?_)
-  show MonoidalCategory.whiskerRight (C := ModuleCat (𝒪.obj X)) 0 (R.obj X) = 0
+  change MonoidalCategory.whiskerRight (C := ModuleCat (𝒪.obj X)) 0 (R.obj X) = 0
   exact MonoidalPreadditive.zero_whiskerRight
 
 /-- **Sheafification sends a zero morphism to a zero morphism.** Both sides have the same image
@@ -280,7 +282,7 @@ theorem tensorSectionEquiv_whiskerRight {F F' : X.Modules} (f : F ⟶ F') (M : X
     {V : X.Opens} (hV : IsAffineOpen V) (t : TensorProduct Γ(X, V) Γ(F, V) Γ(M, V)) :
     sectionsLinearMap (f ▷ M) V (tensorSectionEquiv F M hV t) =
       tensorSectionEquiv F' M hV (LinearMap.rTensor Γ(M, V) (sectionsLinearMap f V) t) := by
-  induction t using TensorProduct.induction_on with
+  induction t using TensorProduct.inductionOn with
   | tmul m n => exact tensorSection_whiskerRight f m n
   | _ => simp_all
 
@@ -300,7 +302,7 @@ theorem tensorSectionEquiv_whiskerLeft (F : X.Modules) {G G' : X.Modules} (g : G
     {V : X.Opens} (hV : IsAffineOpen V) (t : TensorProduct Γ(X, V) Γ(F, V) Γ(G, V)) :
     sectionsLinearMap (F ◁ g) V (tensorSectionEquiv F G hV t) =
       tensorSectionEquiv F G' hV (LinearMap.lTensor Γ(F, V) (sectionsLinearMap g V) t) := by
-  induction t using TensorProduct.induction_on with
+  induction t using TensorProduct.inductionOn with
   | tmul m n => exact tensorSection_whiskerLeft F g m n
   | _ => simp_all
 

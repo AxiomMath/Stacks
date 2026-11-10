@@ -569,7 +569,7 @@ theorem associatedSheaf_isFiniteType (W : RingedSpace.{u, u}) {A₀ : Type u} [C
   constructor
   intro i
   exact ⟨by
-    show Finite (sheafPresentation.{u} W α Q).generators.I
+    change Finite (sheafPresentation.{u} W α Q).generators.I
     exact hG⟩
 
 end FiniteType

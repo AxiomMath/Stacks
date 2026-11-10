@@ -187,12 +187,12 @@ private lemma exact_sections {C : Type u'} [Category.{v'} C]
   let xmap : ModuleCat.of (R.obj.obj U) (R.obj.obj U) ⟶ e.obj B :=
     ModuleCat.ofHom (LinearMap.smulRight LinearMap.id x)
   have hx1 : xmap 1 = x := by
-    show ((LinearMap.id : (R.obj.obj U) →ₗ[R.obj.obj U] (R.obj.obj U)) 1) • x = x
+    change ((LinearMap.id : (R.obj.obj U) →ₗ[R.obj.obj U] (R.obj.obj U)) 1) • x = x
     simp
   have hxmap : xmap ≫ gU = 0 := by
     ext
     rw [ModuleCat.comp_apply, hx1]
-    show g.val.app U x = 0
+    change g.val.app U x = 0
     exact hx
   obtain ⟨l, hl⟩ := KernelFork.IsLimit.lift' hEval' xmap hxmap
   refine ⟨l 1, ?_⟩
@@ -215,7 +215,7 @@ private lemma yonedaExtension_exactShortComplex
     (E : Abelian.YonedaExtension B A 0) :
     (ShortComplex.mk E.f E.g (yonedaExtension_comp_zero E)).Exact := by
   apply (ShortComplex.exact_iff_exact_toComposableArrows _).2
-  show (ComposableArrows.mk₂ E.f E.g).Exact
+  change (ComposableArrows.mk₂ E.f E.g).Exact
   exact E.exact_g
 
 
@@ -329,9 +329,9 @@ private lemma extension_action_maps_to_zero
   let r : (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.obj U :=
     show (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.obj U from hi.incl.val.app U a
   have ha : (α.hom.app U).hom r = 0 := incl_map_eq_zero hi U a
-  show E.g.val.app U (r • x) = 0
+  change E.g.val.app U (r • x) = 0
   rw [map_smul]
-  show (α.hom.app U).hom r •
+  change (α.hom.app U).hom r •
     (show F.val.obj U from E.g.val.app U x) = 0
   rw [ha]
   exact zero_smul _ _
@@ -374,9 +374,9 @@ private lemma extension_kernel_action_zero
   let r : (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.obj U :=
     show (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.obj U from hi.incl.val.app U a
   have ha : (α.hom.app U).hom r = 0 := incl_map_eq_zero hi U a
-  show E.f.val.app U (r • (show ((SheafOfModules.restrictScalars α).obj K).val.obj U
+  change E.f.val.app U (r • (show ((SheafOfModules.restrictScalars α).obj K).val.obj U
     from k)) = 0
-  show E.f.val.app U ((α.hom.app U).hom r •
+  change E.f.val.app U ((α.hom.app U).hom r •
     (show K.val.obj U from k)) = 0
   rw [ha, zero_smul]
   exact map_zero _
@@ -585,7 +585,7 @@ private lemma extensionActionOnMiddle_add_left
       (extensionActionOnMiddle hi E).app U (a, x) +
         (extensionActionOnMiddle hi E).app U (a', x) := by
   have := sheafModule_mono_val E.f
-  show extensionActionLift hi E U (a + a') x =
+  change extensionActionLift hi E U (a + a') x =
     extensionActionLift hi E U a x + extensionActionLift hi E U a' x
   apply PresheafOfModules.injective_of_mono E.f.val U
   have hincl :
@@ -630,7 +630,7 @@ private lemma extensionActionOnMiddle_add_right
       (extensionActionOnMiddle hi E).app U (a, x) +
         (extensionActionOnMiddle hi E).app U (a, x') := by
   have := sheafModule_mono_val E.f
-  show extensionActionLift hi E U a (x + x') =
+  change extensionActionLift hi E U a (x + x') =
     extensionActionLift hi E U a x + extensionActionLift hi E U a x'
   apply PresheafOfModules.injective_of_mono E.f.val U
   have hf : E.f.val.app U (extensionActionLift hi E U a x + extensionActionLift hi E U a x') =
@@ -671,7 +671,7 @@ public lemma sheafModule_epi_locallySurjective
   have hloc : Sheaf.IsLocallySurjective ((SheafOfModules.toSheaf R).map f) :=
     (Sheaf.isLocallySurjective_iff_epi' AddCommGrpCat
       ((SheafOfModules.toSheaf R).map f)).mpr inferInstance
-  show Presheaf.IsLocallySurjective J
+  change Presheaf.IsLocallySurjective J
     ((PresheafOfModules.toPresheaf R.obj).map f.val)
   exact hloc
 
@@ -687,7 +687,7 @@ private lemma actionModuleTypes_isSheaf
       (Stacks.SheafOfModules.Tensor.ringSheaf
         ((pushforwardCommRingFunctor i.toToposHom).obj X.O))) :
     Presheaf.IsSheaf Y.J (actionModuleTypes K.val) := by
-  show Presheaf.IsSheaf Y.J
+  change Presheaf.IsSheaf Y.J
     (((sheafCompose Y.J (forget AddCommGrpCat.{w'})).obj
       ((SheafOfModules.toSheaf
         (Stacks.SheafOfModules.Tensor.ringSheaf
@@ -720,7 +720,7 @@ private lemma actionModuleMap_locallySurjective
           (sheafCompose Y.J (forget₂ CommRingCat RingCat)).map i.fSharp)).obj K) 0) :
     Presheaf.IsLocallySurjective Y.J (actionModuleMap E.g.val) := by
   have hG0 := sheafModule_epi_locallySurjective E.g
-  show Presheaf.IsLocallySurjective Y.J
+  change Presheaf.IsLocallySurjective Y.J
     (Functor.whiskerRight ((PresheafOfModules.toPresheaf
       ((Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj)).map E.g.val)
       (forget AddCommGrpCat.{w'}))
@@ -799,7 +799,7 @@ private lemma extensionActionOnMiddle_fiber
   have hg := congrArg (fun z => z.2) hxy
   change x.1 = y.1 at ha
   change E.g.val.app U x.2 = E.g.val.app U y.2 at hg
-  show extensionActionLift hi E U x.1 x.2 =
+  change extensionActionLift hi E U x.1 x.2 =
     extensionActionLift hi E U y.1 y.2
   rw [ha]
   exact extensionActionLift_eq_of_quotient_eq hi E U y.1 x.2 y.2 hg
@@ -936,7 +936,7 @@ private lemma extensionActionPairing_add_left
   rintro V g ⟨y, hy⟩
   change E.Z.left.val.obj (Opposite.op V) at y
   change E.g.val.app (Opposite.op V) y = F.val.map g.op x at hy
-  show K.val.map g.op _ = K.val.map g.op _
+  change K.val.map g.op _ = K.val.map g.op _
   have e1 : K.val.map g.op ((extensionActionPairing hi E).app U (a + a', x)) =
       (extensionActionPairing hi E).app (Opposite.op V)
         (hi.I.val.map g.op (a + a'), F.val.map g.op x) :=
@@ -1011,7 +1011,7 @@ private lemma extensionActionPairing_add_right
   have hx' := congrArg Prod.snd h
   change E.g.val.app (Opposite.op V) y = F.val.map g.op x at hx
   change E.g.val.app (Opposite.op V) y' = F.val.map g.op x' at hx'
-  show K.val.map g.op _ = K.val.map g.op _
+  change K.val.map g.op _ = K.val.map g.op _
   have hgadd : E.g.val.app (Opposite.op V) (y + y') =
       E.g.val.app (Opposite.op V) y + E.g.val.app (Opposite.op V) y' :=
     (E.g.val.app (Opposite.op V)).hom.map_add y y'
@@ -1100,7 +1100,7 @@ private lemma extensionActionPairing_smul_left
     (Stacks.SheafOfModules.Tensor.ringSheaf
       ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj.map g'.op r at hr
   change E.g.val.app (Opposite.op V) y = F.val.map g'.op x at hx
-  show K.val.map g'.op _ = K.val.map g'.op _
+  change K.val.map g'.op _ = K.val.map g'.op _
   rw [K.val.map_smul, ← extensionActionPairing_naturality hi E g'.op,
     ← extensionActionPairing_naturality hi E g'.op,
     hi.I.val.map_smul, ← hr, ← hx]
@@ -1142,7 +1142,7 @@ private lemma extensionActionPairing_smul_left
   have hqK (z : K.val.obj (Opposite.op V)) : q • z =
       (r₀R • z : ((SheafOfModules.restrictScalars α).obj K).val.obj
         (Opposite.op V)) := rfl
-  show (extensionActionPairing hi E).app (Opposite.op V)
+  change (extensionActionPairing hi E).app (Opposite.op V)
       (q • aV, E.g.val.app (Opposite.op V) yV) =
     q • (show K.val.obj (Opposite.op V) from
         (extensionActionPairing hi E).app (Opposite.op V)
@@ -1225,7 +1225,7 @@ private lemma extensionActionPairing_smul_right
     (Stacks.SheafOfModules.Tensor.ringSheaf
       ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj.map g'.op r at hr
   change E.g.val.app (Opposite.op V) y = F.val.map g'.op x at hx
-  show K.val.map g'.op _ = K.val.map g'.op _
+  change K.val.map g'.op _ = K.val.map g'.op _
   rw [K.val.map_smul, ← extensionActionPairing_naturality hi E g'.op,
     ← extensionActionPairing_naturality hi E g'.op,
     F.val.map_smul, ← hr, ← hx]
@@ -1289,13 +1289,13 @@ private lemma extensionActionPairing_smul_right
   have hqK (z : K.val.obj (Opposite.op V)) : q • z =
       (r₀R • z : ((SheafOfModules.restrictScalars α).obj K).val.obj
         (Opposite.op V)) := rfl
-  show (extensionActionPairing hi E).app (Opposite.op V)
+  change (extensionActionPairing hi E).app (Opposite.op V)
       (aV, q • xV) =
     q • (show K.val.obj (Opposite.op V) from
       (extensionActionPairing hi E).app (Opposite.op V)
         (aV, E.g.val.app (Opposite.op V) yV))
   rw [hqF]
-  show (extensionActionPairing hi E).app (Opposite.op V)
+  change (extensionActionPairing hi E).app (Opposite.op V)
       (aV, r₀R • E.g.val.app (Opposite.op V) yV) =
     r₀R • (show K.val.obj (Opposite.op V) from
       (extensionActionPairing hi E).app (Opposite.op V)

@@ -180,7 +180,7 @@ theorem lift_comp_awayMap :
   have hpn : φ f ^ n ∈ ℬ (n * e) := HomogeneousRatios.pow_mem (map_mem φ hf) n
   have hmem : φ x ∈ ℬ (n • e) := map_mem φ hx
   rw [(comap φ ψ).lift_mk hf hV he n x hx ⟨x, hxm⟩ rfl]
-  show _ = (ψ.homogeneousRatios (map_mem φ hf) hV').lift he
+  change _ = (ψ.homogeneousRatios (map_mem φ hf) hV').lift he
     (HomogeneousLocalization.Away.map φ f (HomogeneousLocalization.Away.mk 𝒜 hf n x hx))
   rw [HomogeneousLocalization.Away.map_mk,
     ψ.lift_mk (map_mem φ hf) hV' he n (φ x) hmem ⟨φ x, map_mem φ hxm⟩ rfl]

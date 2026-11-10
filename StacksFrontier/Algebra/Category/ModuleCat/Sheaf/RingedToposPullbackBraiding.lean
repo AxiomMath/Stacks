@@ -143,6 +143,7 @@ theorem canonicalPairing_braiding (F G : _root_.SheafOfModules.{w'} (Tensor.ring
             (pairingApp_swap (canonicalPairing (Tensor.ringSheaf Y.O).property G F)
               U a b).symm)))
 
+omit [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}] in
 /-- **The canonical pairing of two inverse images is compatible with the symmetry constraint of
 Tag 01CA.** This is `canonicalPairing_braiding` after `f⁻¹`. -/
 theorem invImageCanonicalPairing_braiding

@@ -46,7 +46,7 @@ theorem exists_mem_support_zeroScheme_of_subschemeSmoothAt (k : Type u) [Field k
   have htop : ι ⁻¹ᵁ Stacks.NonvanishingOpen.nonvanishingOpen X M s = ⊤ := by
     refine top_le_iff.mp fun y _ =>
       Stacks.Algebraization.mem_nonvanishingOpen_of_notMem_support_zeroScheme M s (h _ ?_)
-    show ι y ∈ (T.support : Set X)
+    change ι y ∈ (T.support : Set X)
     rw [← Scheme.IdealSheafData.range_subschemeι]
     exact ⟨y, rfl⟩
   have : IsAffine (⊤ : T.subscheme.Opens).toScheme :=

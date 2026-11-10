@@ -293,7 +293,7 @@ theorem approximationHolds_of_zeroLocus_of_isAffine (X : Scheme.{u}) [IsAffine X
         e.inv.toLRSHom.toShHom E m hpc
     · refine isZero_stalk_homology_derivedPullback e.inv.toLRSHom.toShHom E i y
         (hsupp i hi _ ?_)
-      show e.hom.base (e.inv.base y) ∉ PrimeSpectrum.zeroLocus (Set.range f)
+      change e.hom.base (e.inv.base y) ∉ PrimeSpectrum.zeroLocus (Set.range f)
       rw [hbase y]
       exact hy
   exact approximationHolds_of_iso_derivedPullback e rfl happ

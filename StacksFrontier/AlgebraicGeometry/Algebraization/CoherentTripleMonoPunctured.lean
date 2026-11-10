@@ -67,7 +67,8 @@ for `closedFibre A f` and `σ₀`, and it is the second corollary of
 `mono_tensorModulesMap_id_mulSectionPowScheme`, taken in
 `StacksFrontier.AlgebraicGeometry.Algebraization.CoherentTripleMonoClosedFibre` as
 `Stacks.Algebraization.CoherentTriple.mono_onClosedFibre_mulSectionTwistZ`. Its nonvanishing
-hypothesis about `Ass(T.F₀)` is supplied at the closed point, and the supplier is the *opening reduction* of the induction step rather than the section pair:
+hypothesis about `Ass(T.F₀)` is supplied at the closed point, and the supplier is the *opening
+reduction* of the induction step rather than the section pair:
 `Stacks.Algebraization.CoherentTriple.not_isAssociatedPoint_closedPoint_quotientTriple`. What is
 genuinely owed there is the nonvanishing of `σ₀` over the punctured closed fibre, carried from
 the `σ` of `Stacks.Algebraization.exists_section_nonvanishing_on_associatedPoints` across

@@ -133,7 +133,7 @@ theorem groupoidCompose_source (G : GroupoidInAlgebraicSpaces C S hS B)
     (w : f ≫ G.source.hom = g ≫ G.target.hom) :
     groupoidCompose G f g w ≫ G.source.hom = g ≫ G.source.hom := by
   ext V t
-  show G.source.hom.app V ((groupoidCompose G f g w).app V t) =
+  change G.source.hom.app V ((groupoidCompose G f g w).app V t) =
     G.source.hom.app V (g.app V t)
   rw [groupoidCompose_eval]
   exact (G.toGroupoidInFunctors.pointwiseData V).source_comp
@@ -145,7 +145,7 @@ theorem groupoidCompose_target (G : GroupoidInAlgebraicSpaces C S hS B)
     (w : f ≫ G.source.hom = g ≫ G.target.hom) :
     groupoidCompose G f g w ≫ G.target.hom = f ≫ G.target.hom := by
   ext V t
-  show G.target.hom.app V ((groupoidCompose G f g w).app V t) =
+  change G.target.hom.app V ((groupoidCompose G f g w).app V t) =
     G.target.hom.app V (f.app V t)
   rw [groupoidCompose_eval]
   exact (G.toGroupoidInFunctors.pointwiseData V).target_comp
@@ -166,8 +166,8 @@ theorem groupoidCompose_pre (G : GroupoidInAlgebraicSpaces C S hS B)
     rw [Category.assoc, Category.assoc, w]
   have hpair : k ≫ pullback.lift f g w = pullback.lift (k ≫ f) (k ≫ g) w' := by
     apply pullback.hom_ext
-    · simp [Category.assoc, pullback.lift_fst]
-    · simp [Category.assoc, pullback.lift_snd]
+    · simp [Category.assoc]
+    · simp [Category.assoc]
   exact (Category.assoc _ _ _).symm.trans (congrArg (· ≫ G.comp.hom) hpair)
 
 /-- Composition of generalized arrows only depends on the two arrows, not on the witness that
@@ -198,7 +198,7 @@ theorem groupoidInverse_app (G : GroupoidInAlgebraicSpaces C S hS B)
 theorem groupoidInverse_source (G : GroupoidInAlgebraicSpaces C S hS B) :
     groupoidInverse G ≫ G.source.hom = G.target.hom := by
   ext V a
-  show G.source.hom.app V ((groupoidInverse G).app V a) = G.target.hom.app V a
+  change G.source.hom.app V ((groupoidInverse G).app V a) = G.target.hom.app V a
   rw [groupoidInverse_app]
   exact Deformation.inverseArrow_source G.toGroupoidInFunctors V a
 
@@ -206,7 +206,7 @@ theorem groupoidInverse_source (G : GroupoidInAlgebraicSpaces C S hS B) :
 theorem groupoidInverse_target (G : GroupoidInAlgebraicSpaces C S hS B) :
     groupoidInverse G ≫ G.target.hom = G.source.hom := by
   ext V a
-  show G.target.hom.app V ((groupoidInverse G).app V a) = G.source.hom.app V a
+  change G.target.hom.app V ((groupoidInverse G).app V a) = G.source.hom.app V a
   rw [groupoidInverse_app]
   exact Deformation.inverseArrow_target G.toGroupoidInFunctors V a
 
@@ -226,7 +226,7 @@ private theorem identityAfterTarget_app (G : GroupoidInAlgebraicSpaces C S hS B)
     (V : (BigFppfOver C S hS)ᵒᵖ) (t : T.obj V) :
     (identityAfterTarget G a).app V t =
       G.toGroupoidInFunctors.identity V (G.toGroupoidInFunctors.target.app V (a.app V t)) := by
-  show (identityArrow G).hom.app V (G.toGroupoidInFunctors.target.app V (a.app V t)) = _
+  change (identityArrow G).hom.app V (G.toGroupoidInFunctors.target.app V (a.app V t)) = _
   exact identityArrow_hom_app G V _
 
 /-- The value of the identity at the source of a generalized arrow at a point. -/
@@ -235,7 +235,7 @@ private theorem identityAfterSource_app (G : GroupoidInAlgebraicSpaces C S hS B)
     (V : (BigFppfOver C S hS)ᵒᵖ) (t : T.obj V) :
     (identityAfterSource G a).app V t =
       G.toGroupoidInFunctors.identity V (G.toGroupoidInFunctors.source.app V (a.app V t)) := by
-  show (identityArrow G).hom.app V (G.toGroupoidInFunctors.source.app V (a.app V t)) = _
+  change (identityArrow G).hom.app V (G.toGroupoidInFunctors.source.app V (a.app V t)) = _
   exact identityArrow_hom_app G V _
 
 /-- The identity at the target of an arrow is composable after it. -/
@@ -301,7 +301,7 @@ theorem groupoidCompose_assoc (G : GroupoidInAlgebraicSpaces C S hS B)
     groupoidCompose G (groupoidCompose G a b wab) c wL =
       groupoidCompose G a (groupoidCompose G b c wbc) wR := by
   ext V t
-  show (groupoidCompose G _ c wL).app V t = (groupoidCompose G a _ wR).app V t
+  change (groupoidCompose G _ c wL).app V t = (groupoidCompose G a _ wR).app V t
   simp only [groupoidCompose_eval]
   exact groupoidInFunctors_compose_assoc _ _ _ _ _ _ _ _ _
 

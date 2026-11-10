@@ -46,7 +46,7 @@ theorem pushforwardTransition_id' (j : D.I) :
     rw [← cancel_epi ((abelianSheafPullbackIdIso.{v, u, max u v w, max u v w} D j).inv.app
       (P.obj j)), P.map_id, Iso.inv_hom_id_app]
     rfl
-  show (abelianSheafAdjunction.{v, u, max u v w, max u v w} D (𝟙 j)).homEquiv _ _ (P.map _) = _
+  change (abelianSheafAdjunction.{v, u, max u v w, max u v w} D (𝟙 j)).homEquiv _ _ (P.map _) = _
   rw [h]
   exact Adjunction.homEquiv_leftAdjointUniq_hom_app _ _ _
 
@@ -59,13 +59,13 @@ theorem pushforwardTransition_comp' {i j k : D.I} (a : i ⟶ j) (b : j ⟶ k) :
       (abelianSheafPushforward.{v, u, max u v w, max u v w} D b).map
         (pushforwardTransition D P a) ≫
       (abelianSheafPushforwardCompIso.{v, u, max u v w, max u v w} D a b).hom.app (P.obj i) := by
-  show (abelianSheafAdjunction.{v, u, max u v w, max u v w} D (a ≫ b)).homEquiv _ _
+  change (abelianSheafAdjunction.{v, u, max u v w, max u v w} D (a ≫ b)).homEquiv _ _
     (P.map (a ≫ b)) = _
   rw [← P.map_comp a b]
   dsimp only [abelianSheafPullbackCompIso]
   rw [Adjunction.homEquiv_leftAdjointUniq_inv_app_comp, Adjunction.homEquiv_ofNatIsoRight_apply,
     Adjunction.comp_homEquiv]
-  show ((abelianSheafAdjunction.{v, u, max u v w, max u v w} D b).homEquiv _ _)
+  change ((abelianSheafAdjunction.{v, u, max u v w, max u v w} D b).homEquiv _ _)
     (((abelianSheafAdjunction.{v, u, max u v w, max u v w} D a).homEquiv _ _)
       ((abelianSheafPullback.{v, u, max u v w, max u v w} D a).map (P.map b) ≫ P.map a)) ≫
     (abelianSheafPushforwardCompIso.{v, u, max u v w, max u v w} D a b).hom.app (P.obj i) = _
@@ -93,7 +93,7 @@ theorem lg_comp_of_isCompatible {k j : D.I} (a : k ⟶ j) :
   let := D.continuous a
   rw [ObjectProperty.FullSubcategory.comp_hom, ObjectProperty.FullSubcategory.comp_hom,
     NatTrans.comp_app, NatTrans.comp_app]
-  show (κ j).app V = _
+  change (κ j).app V = _
   rw [hc, colimitPushforwardCompIso, sheafPushforwardContinuousComp'_hom_app_app, eqToHom_map]
   rfl
 

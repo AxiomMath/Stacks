@@ -92,6 +92,8 @@ open Stacks.Perfect.SupportedDerivedBaseChange (supportedPullbackRoute
   supportedPullbackRoute_comp_counit)
 open AlgebraicGeometry.RingedSpaceThickening (derivedPullbackSingleObj)
 open Stacks.DeRham.GysinCohomologyBaseChange (ambientLocalCohomology)
+open Stacks.Perfect.SupportCounitComparison
+  (derivedSupportedSectionsToId_eq_derivedPushforwardAdjunction_counit)
 
 universe u
 
@@ -192,8 +194,7 @@ theorem derivedSupportedPushforward_hom_ext
         β ≫ (derivedPushforwardAdjunction Y T hT).counit.app K) : α = β := by
   let := pushforward_preservesFiniteLimits Y T
   let := pushforward_preservesFiniteColimits Y T hT
-  have hcounit := Stacks.Perfect.SupportCounitComparison.derivedSupportedSectionsToId_eq_derivedPushforwardAdjunction_counit
-    Y T hT
+  have hcounit := derivedSupportedSectionsToId_eq_derivedPushforwardAdjunction_counit Y T hT
   have hLRK : IsIso ((derivedPushforwardAdjunction Y T hT).counit.app
       ((derivedSupportedPushforward Y T hT).obj K)) :=
     hcounit ▸
@@ -478,6 +479,7 @@ def gysinBaseChangeSourceHom (left_comm : h ≫ i = i' ≫ g) (right_comm : g �
     (Scheme.Modules.pushforwardCongr left_comm).hom.app _ ≫
     (Scheme.Modules.pushforwardComp i' g).inv.app _
 
+omit [IsClosedImmersion i] [LocallyOfFinitePresentation i] [IsClosedImmersion i'] in
 /-- **The left vertical arrow on sections is `subschemeFormBaseChange`.** -/
 theorem gysinBaseChangeSourceHom_app (left_comm : h ≫ i = i' ≫ g)
     (right_comm : g ≫ π = π' ≫ t) (n : ℤ) (V : X.Opens)

@@ -132,7 +132,7 @@ theorem mapAdicCompletion_of {A B : Type*} [CommRing A] [CommRing B] [Algebra A 
       algebraMap B (AdicCompletion J B) (algebraMap A B x) := by
   refine AdicCompletion.ext_evalₐ fun n => ?_
   rw [evalₐ_mapAdicCompletion]
-  show Ideal.quotientMap (J ^ n) (algebraMap A B) _ (evalₐ I n (of I A x)) =
+  change Ideal.quotientMap (J ^ n) (algebraMap A B) _ (evalₐ I n (of I A x)) =
     evalₐ J n (of J B (algebraMap A B x))
   rw [evalₐ_of, evalₐ_of, Ideal.quotientMap_mk]
 

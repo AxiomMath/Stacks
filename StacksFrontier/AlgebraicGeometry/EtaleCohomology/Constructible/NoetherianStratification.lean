@@ -60,7 +60,8 @@ from that neighbourhood. **No `@[stacks 09BH]` attribute appears here**: this is
 scheme of the source's proof, not the proof. Parts (1) and (2) of 09BH are proved by a different
 route, by presentation of a constructible sheaf of sets by representables, in
 `StacksFrontier/AlgebraicGeometry/EtaleCohomology/Constructible/StrongSerreSets.lean` and
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Constructible/StrongSerreAbelian.lean`, which carry
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Constructible/StrongSerreAbelian.lean`, which
+carry
 the tag and do not use this induction.
 
 `ofPartition` asks separately that each part be constructible as a subset of the open subscheme,

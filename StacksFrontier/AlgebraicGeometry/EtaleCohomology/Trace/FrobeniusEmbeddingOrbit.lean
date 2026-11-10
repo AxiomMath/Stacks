@@ -42,8 +42,8 @@ public theorem symm_pow_comp_eq (k : ℕ) :
   | succ k ih =>
     ext z
     have h := congrArg (fun g : L →ₐ[K] Ω => g z) ih
-    simp only [AlgHom.comp_apply, AlgEquiv.coe_algHom] at h
-    rw [AlgHom.comp_apply, AlgEquiv.coe_algHom, pow_succ', AlgEquiv.mul_apply, h, hσ,
+    simp only [AlgHom.comp_apply, AlgEquiv.coe_toAlgHom] at h
+    rw [AlgHom.comp_apply, AlgEquiv.coe_toAlgHom, pow_succ', AlgEquiv.mul_apply, h, hσ,
       AlgHom.comp_apply, pow_succ', AlgHom.mul_apply, FiniteField.coe_frobeniusAlgHom, map_pow]
 
 /-- If `σ ^ n ∘ ι = ι` for an automorphism `σ` of `B`, then `σ⁻ⁿ ∘ ι = ι`. -/
@@ -90,7 +90,7 @@ public theorem bijective_pow_comp [IsAlgClosed Ω] :
       have hz : ((σ ^ d : Ω ≃ₐ[K] Ω) : Ω →ₐ[K] Ω).comp ι = ι := by
         ext z
         have hz := congrArg (fun g : L →ₐ[K] Ω => g z) hij
-        simp only [AlgHom.comp_apply, AlgEquiv.coe_algHom] at hz
+        simp only [AlgHom.comp_apply, AlgEquiv.coe_toAlgHom] at hz
         rw [hd, pow_add, AlgEquiv.mul_apply] at hz
         exact ((σ ^ (i : ℕ)).injective hz).symm
       exact symm_pow_comp_eq_of_pow_comp_eq ι σ d hz

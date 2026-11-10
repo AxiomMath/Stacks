@@ -121,7 +121,7 @@ section ScalarExtension
 attribute [local instance] isCurve_scalarExtension smooth_scalarExtension
 
 variable {k : Type u} [Field k] [IsAlgClosed k] {X : Scheme.{u}} (g : X ⟶ Spec (.of k))
-  [IsCurve k g] [Smooth g] (k' : Type u) [Field k'] [Algebra k k'] [IsAlgClosed k']
+  [IsCurve k g] [Smooth g] (k' : Type u) [Field k'] [Algebra k k']
 
 /-- **The class of the closed point over `x` is the pullback of the class of `x`**: under
 `Cl ≅ Pic` on `X` and on `X_{k'}`, pullback of line bundles along `X_{k'} ⟶ X` sends the class of
@@ -173,7 +173,6 @@ theorem isIso_globalSections_of_isCurve_of_isProper [IsProper g] :
     GeometricallyIntegral.of_geometricallyReduced_of_geometricallyIrreducible g
   exact isIso_globalSections_of_geometricallyIntegral k g
 
-omit [IsAlgClosed k'] in
 /-- **Pullback of line bundles to `X_{k'}` is injective** on a smooth proper curve over an
 algebraically closed field (Tag 0CDT from Tag 0CC5, `H⁰(X, 𝒪_X) = k`). -/
 theorem injective_schemePicardPullbackHom_scalarExtensionFst [IsProper g] :
@@ -222,7 +221,7 @@ theorem bijective_torsion_of_map_single_eq [IsProper g] {ℓ : ℕ} (hℓ : IsUn
     have hzc' : schemePicardPullbackHom (scalarExtensionFst k k' g) z = e' c'.1 :=
       congrArg Subtype.val hzc
     refine ⟨⟨e.symm z, by rw [← map_nsmul, hz, map_zero]⟩, Subtype.ext (e'.injective ?_)⟩
-    show e' (φ (e.symm z)) = e' c'.1
+    change e' (φ (e.symm z)) = e' c'.1
     rw [curveClassGroupAddEquivSchemePicard_map_of_map_single_eq g k' φ hφ,
       AddEquiv.apply_symm_apply, hzc']
 

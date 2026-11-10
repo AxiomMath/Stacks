@@ -128,7 +128,11 @@ is finitely presented in the sense of Stacks 03DL(7). -/
 def TensorFinitePresentationOnSite : Prop :=
   ∀ (Z : AlgebraicSpaces B S hS) (M N : Modules.{u, u} B S hS Z.1 Z.2),
     M.IsFinitePresentationOnSite → N.IsFinitePresentationOnSite →
-      ((((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u} ⟨(structureSheaf B S hS Z.1 Z.2).obj, Presheaf.isSheaf_of_isSheaf_comp _ ((structureSheaf B S hS Z.1 Z.2).obj) (forget₂ CommRingCat RingCat) ((structureRingPresheaf_isSheaf B S hS Z.1 Z.2))⟩).obj (M))).obj N).IsFinitePresentationOnSite
+      ((((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, u, u, u}
+        ⟨(structureSheaf B S hS Z.1 Z.2).obj,
+          Presheaf.isSheaf_of_isSheaf_comp _ ((structureSheaf B S hS Z.1 Z.2).obj)
+            (forget₂ CommRingCat RingCat) ((structureRingPresheaf_isSheaf B S hS Z.1 Z.2))⟩).obj
+          (M))).obj N).IsFinitePresentationOnSite
 
 variable {I : Type u} [Category.{u} I] [IsCofiltered I]
     (D : I ⥤ (BigFppfOver B S hS)ᵒᵖ ⥤ Type u)

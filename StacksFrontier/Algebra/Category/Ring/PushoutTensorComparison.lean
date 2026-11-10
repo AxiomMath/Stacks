@@ -96,7 +96,7 @@ theorem pushoutTensorLinearEquiv_tmul
   have hr := congrArg (fun k : CommRingCat.of B ⟶ P => k.hom b) (ht.inr_isoIsPushout_hom A B h)
   change e (a ⊗ₜ[R] 1) = l.hom a at hl
   change e (1 ⊗ₜ[R] b) = r.hom b at hr
-  show e (a ⊗ₜ[R] b) = _
+  change e (a ⊗ₜ[R] b) = _
   rw [← hl, ← hr, ← map_mul]
   simp
 
@@ -122,7 +122,7 @@ theorem isPushout_ulift
       (ULift.ringEquiv.trans (e.trans ULift.ringEquiv.symm))
   have hel (a : ULift.{v} A) (b : ULift.{v} B) :
       el (a ⊗ₜ[ULift.{v} R] b) = ULift.up (l.hom a.down * r.hom b.down) := by
-    show ULift.up (e (((Algebra.TensorProduct.uliftEquiv.{v, v, v, v} R R A B).symm
+    change ULift.up (e (((Algebra.TensorProduct.uliftEquiv.{v, v, v, v} R R A B).symm
       (a ⊗ₜ[ULift.{v} R] b)).down)) = _
     rw [Algebra.TensorProduct.down_uliftEquiv_symm_tmul, he]
   apply (CommRingCat.isPushout_tensorProduct (ULift.{v} R) (ULift.{v} A) (ULift.{v} B)).of_iso

@@ -101,7 +101,8 @@ test space, the legs, their étaleness and the two compatibilities as one `.Tran
 For a literal bundle the projections reduce, so this is the written-out reading
 `etaleSect … (transitionHom … ).val.app … (etaleSectInv … )` on the nose, and the laws of
 `StacksFrontier/AlgebraicGeometry/Spaces/Descent/QuasiCoherent/DatumChartLaws.lean` and
-`StacksFrontier/AlgebraicGeometry/Spaces/Descent/QuasiCoherent/DatumChartBaseChange.lean` may be read as statements about it. -/
+`StacksFrontier/AlgebraicGeometry/Spaces/Descent/QuasiCoherent/DatumChartBaseChange.lean` may be
+read as statements about it. -/
 def transitionLegsSect (D : DescentDatum B S hS Yi f) {T : AlgebraicSpaces B S hS} (i j : I)
     (L : TransitionLegs B S hS Yi f T i j) (U : SmallEtale B S hS T.1)
     (s : (D.F i).val.obj (Opposite.op ((smallEtalePostcomp B S hS L.vi L.hvi).obj U))) :
@@ -152,6 +153,7 @@ section CoverDense
 
 variable [(memberFunctor B S hS Yi f hf).IsCoverDense (SmallEtale.topology B S hS X.1)]
 
+omit [(memberFunctor B S hS Yi f hf).IsCoverDense (SmallEtale.topology B S hS X.1)] in
 /-- **The restriction factor of the restriction map of the presheaf, at an identity morphism of
 the site of the charts of the members, acts as the identity on a section** — with its two charts
 spelled explicitly, as the restriction map of the presheaf of abelian groups below carries them.
@@ -181,6 +183,7 @@ theorem memberDatumRestrict_id_apply' (D : DescentDatum B S hS Yi f) (p : (Membe
       p.unop.1) p.unop.2)))) (memberTransitionHom B S hS Yi f hf p.unop.2 p.unop.2 (memberHom B S hS
       Yi f hf (𝟙 p).unop))) rfl m
 
+omit [(memberFunctor B S hS Yi f hf).IsCoverDense (SmallEtale.topology B S hS X.1)] in
 /-- **The identity law of the restriction map of the presheaf attached to a descent datum, with
 no restriction of scalars in sight**: the transition attached to an identity morphism of the site
 of the charts of the members, applied to the restriction of a section along that morphism, is
@@ -249,6 +252,7 @@ def memberChartSpaceHom {j k : I} (V' : SmallEtale B S hS (Yi j).1)
       chartSpaceIdChart B S hS (Yi j) V' :=
   ObjectProperty.homMk (CostructuredArrow.homMk b.hom.left (by rfl))
 
+omit [(memberFunctor B S hS Yi f hf).IsCoverDense (SmallEtale.topology B S hS X.1)] in
 /-- **The morphism of charts of the target member induced by a morphism of the site is
 `.memberChartSpaceHom` pushed forward along the self leg.**  On the nose; this is what lets the
 naturality of the transition in the chart be used at the restriction map of the presheaf. -/
@@ -264,6 +268,7 @@ theorem memberChartSpaceHom_postcomp {j k : I} (V' : SmallEtale B S hS (Yi j).1)
         (memberChartSpaceHom B S hS Yi f hf V' V'' b) =
       memberTransitionHom B S hS Yi f hf V' V'' b := rfl
 
+omit [(memberFunctor B S hS Yi f hf).IsCoverDense (SmallEtale.topology B S hS X.1)] in
 /-- **The morphism of charts of a member induced by a composite morphism of the site is the one
 induced by the second factor, restricted along `.memberChartSpaceHom` of the first.**  On the
 nose, like `.memberChartSpaceHom_postcomp`. -/

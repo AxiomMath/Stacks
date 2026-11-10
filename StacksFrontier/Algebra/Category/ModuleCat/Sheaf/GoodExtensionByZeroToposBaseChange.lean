@@ -173,7 +173,8 @@ noncomputable def extensionByZeroRegularHomEquiv (Q : DifferentialGradedModule.{
     (Stacks.Sheaves.GradedAlgebraPushforward.sheafSectionEquiv J (op U)
       (closedSectionSheaf Q 0))
 
-omit [HasSheafify J (Type u)] [(J.over U).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] [HasSheafify J (Type u)]
+  [(J.over U).HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [HasSheafify (J.over U) AddCommGrpCat.{u}]
   [(J.over U).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The bijection is natural in `Q`.** -/

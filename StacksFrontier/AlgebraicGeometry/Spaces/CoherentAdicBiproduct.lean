@@ -136,9 +136,9 @@ theorem isCoherentAdicSystem_const {M : Modules.{u, u} B S hS F hF}
       hann U r (Ideal.pow_le_pow_right (by omega) hr) x
   refine isCoherentAdicSystem_of_exists_desc B S hS F hF 𝓘 (fun _ => hM) (fun n => hbot n)
     (fun _ => inferInstanceAs (Epi (𝟙 M))) (fun n => ?_) fun _ _ k => fun _ => ⟨k, ?_⟩
-  · show (idealPowerMultiple B S hS F hF 𝓘 (n + 1) M).ι ≫ 𝟙 M = 0
+  · change (idealPowerMultiple B S hS F hF 𝓘 (n + 1) M).ι ≫ 𝟙 M = 0
     rw [Category.comp_id, submodule_ι_eq_zero_of_eq_bot B S hS F hF (hbot n)]
-  · show 𝟙 M ≫ k = k
+  · change 𝟙 M ≫ k = k
     rw [Category.id_comp]
 
 /-! ### The zero object -/
@@ -247,7 +247,7 @@ theorem idealPowerMultiple_ι_comp_biprodSystem_map_eq_zero (n : ℕ) :
   set A' := E'.obj.obj (op (n + 1))
   set f := E.obj.map (homOfLE (Nat.le_succ n)).op
   set f' := E'.obj.map (homOfLE (Nat.le_succ n)).op
-  show (biprod.map f f').val.app (op U) (r • s) = 0
+  change (biprod.map f f').val.app (op U) (r • s) = 0
   refine biprod_app_smul_eq_zero B S hS F hF _ r (fun x => ?_) (fun y => ?_) s
   · change (biprod.inl ≫ biprod.map f f').val.app (op U) (r • x) = 0
     rw [biprod.inl_map]

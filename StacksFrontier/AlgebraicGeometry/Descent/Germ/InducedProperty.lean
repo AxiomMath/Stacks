@@ -123,7 +123,7 @@ theorem hasRepresentativeWithProperty_isEtaleLocalOnSourceAndTarget
           ⟨X.point, (compRepresentative f g).mem_source⟩ = ⟨Y.point, g.mem_source⟩ := by
       intro X Y Z f g
       apply Subtype.ext
-      show ((f.hom ∣_ g.source) ≫ g.source.ι) ((f.source.ι.isoImage (f.hom ⁻¹ᵁ g.source)).inv
+      change ((f.hom ∣_ g.source) ≫ g.source.ι) ((f.source.ι.isoImage (f.hom ⁻¹ᵁ g.source)).inv
         ⟨X.point, (compRepresentative f g).mem_source⟩) = Y.point
       rw [← f.map_point, morphismRestrict_ι]
       exact congrArg f.hom (hι f g)

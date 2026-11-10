@@ -417,6 +417,7 @@ def levelLimitSections (F : (CrystallineThickening S)ᵒᵖ ⥤ AddCommGrpCat.{u
   Functor.curryObj (levelFunctor (affineSituation S hp)) ⋙
     (Functor.whiskeringRight ℕᵒᵖ _ _).obj (affineSections S hp F) ⋙ lim
 
+omit [WholeSpacePresentation S hp] in
 /-- The value of `levelLimitSections` at a completed thickening `B` is the limit over `e` of the
 sections of `F` on the finite levels of `B`. -/
 @[simp]
@@ -566,6 +567,7 @@ noncomputable def IsCompletedSiteComparisonVia.equiv
       (levelLimitSections S hp F.obj)) j ≃+ cohomology S F j :=
   AddEquiv.ofBijective (c j) (hc j)
 
+omit [WholeSpacePresentation S hp] in
 /-- **A named bijective comparison gives the missing step of [Stacks, Tag 07JN]**: forget the
 map and keep the isomorphism. -/
 theorem isCompletedSiteComparison_of_via
@@ -574,6 +576,7 @@ theorem isCompletedSiteComparison_of_via
     IsCompletedSiteComparison S hp F :=
   fun j => ⟨hc.equiv j⟩
 
+omit [WholeSpacePresentation S hp] in
 /-- **The missing step of [Stacks, Tag 07JN] is exactly the existence of a named bijective
 comparison.**  So passing to the named shape neither weakens nor strengthens the statement about
 `F`; it only gives the comparison a name, and a statement about a *given* map can be discharged

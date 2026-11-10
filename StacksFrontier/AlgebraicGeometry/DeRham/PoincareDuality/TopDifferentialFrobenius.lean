@@ -128,10 +128,9 @@ theorem finrank_globalSections_pullback_eq {X : Scheme.{u}} [CompactSpace X]
       (AddEquiv.ofBijective T.hom.toAddMonoidHom hb)
   have hj : ∀ (a : A) (t : A ⊗[k] Γ(X, ⊤)), j (a • t) = a • j t := by
     intro a t
-    induction t using TensorProduct.induction_on with
-    | zero => simp only [smul_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul b x =>
-      show T (x ⊗ₜ (a * b)) = (pullback.snd f q).appTop a * T (x ⊗ₜ b)
+      change T (x ⊗ₜ (a * b)) = (pullback.snd f q).appTop a * T (x ⊗ₜ b)
       rw [globalSectionsTensorDesc_tmul, globalSectionsTensorDesc_tmul, map_mul]
       ring
     | add t₁ t₂ h₁ h₂ => rw [smul_add, map_add, map_add, h₁, h₂, smul_add]
@@ -186,7 +185,7 @@ theorem pushforward_deRham_d_comp_relativeFormsTrace_eq_zero {X Y S : Scheme.{u}
   refine Sheaf.hom_ext (NatTrans.ext (funext fun U => ?_))
   obtain ⟨U⟩ := U
   refine AddCommGrpCat.ext fun η => ?_
-  show (F.relativeFormsTrace g hF (e + 1)).app U
+  change (F.relativeFormsTrace g hF (e + 1)).app U
     (((F ≫ g).deRhamComplex.d e (e + 1)).val.app (op (F ⁻¹ᵁ U)) η) = 0
   refine (Scheme.Hom.relativeFormsTrace_deRhamComplex_d (f := F) (g := g) (p := e) hF U η).trans ?_
   have h1 : (F.relativeFormsTrace g hF e).app U η = 0 := by

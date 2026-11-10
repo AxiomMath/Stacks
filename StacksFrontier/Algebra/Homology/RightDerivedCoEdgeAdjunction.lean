@@ -38,7 +38,7 @@ theorem mapCycles_comp (Q₁ : B ⥤ D) (Q₂ : D ⥤ E) [Q₁.Additive] [Q₂.A
     mapCycles (Q₁ ⋙ Q₂) C i =
       Q₂.map (mapCycles Q₁ C i) ≫ mapCycles Q₂ ((Q₁.mapHomologicalComplex c).obj C) i := by
   rw [← cancel_mono ((((Q₁ ⋙ Q₂).mapHomologicalComplex c).obj C).iCycles i), mapCycles_i]
-  show _ = (Q₂.map (mapCycles Q₁ C i) ≫ mapCycles Q₂ ((Q₁.mapHomologicalComplex c).obj C) i) ≫
+  change _ = (Q₂.map (mapCycles Q₁ C i) ≫ mapCycles Q₂ ((Q₁.mapHomologicalComplex c).obj C) i) ≫
     ((Q₂.mapHomologicalComplex c).obj ((Q₁.mapHomologicalComplex c).obj C)).iCycles i
   rw [Category.assoc, mapCycles_i, ← Q₂.map_comp, mapCycles_i]
   rfl
@@ -55,7 +55,7 @@ theorem homologyToMapHomology_comp (Q₁ : B ⥤ D) (Q₂ : D ⥤ E) [Q₁.Addit
     (((Q₁ ⋙ Q₂).mapHomologicalComplex c).obj C).homologyπ i), Category.assoc,
     mapCycles_comp_homologyπ_comp_homologyToMapHomology, mapCycles_comp, Category.assoc,
     Category.assoc]
-  show _ = Q₂.map (mapCycles Q₁ C i) ≫ mapCycles Q₂ ((Q₁.mapHomologicalComplex c).obj C) i ≫
+  change _ = Q₂.map (mapCycles Q₁ C i) ≫ mapCycles Q₂ ((Q₁.mapHomologicalComplex c).obj C) i ≫
     ((Q₂.mapHomologicalComplex c).obj ((Q₁.mapHomologicalComplex c).obj C)).homologyπ i ≫
       homologyToMapHomology Q₂ ((Q₁.mapHomologicalComplex c).obj C) i ≫
         Q₂.map (homologyToMapHomology Q₁ C i)

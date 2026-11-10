@@ -316,7 +316,7 @@ lemma derivedUnit_single_eq (q : ℤ) (N : (ModuleCat.{max v u} B)) :
     ((HomologicalComplex.singleMapHomologicalComplex (ModuleCat.restrictScalars.{max v u} f)
     (ComplexShape.up ℤ) q).app N).hom := by
     simp [Functor.mapDerivedCategorySingleFunctor, DerivedCategory.singleFunctorIsoCompQ,
-      CochainComplex.singleFunctor, CochainComplex.singleFunctors]
+      CochainComplex.singleFunctor]
   have h2 :
     ((DerivedCategory.quotientCompQhIso (ModuleCat.{max v u} B)).hom.app
     ((HomologicalComplex.single (ModuleCat.{max v u} B) (ComplexShape.up ℤ) q).obj N)) ≫
@@ -388,8 +388,7 @@ lemma derivedUnit_single_eq (q : ℤ) (N : (ModuleCat.{max v u} B)) :
           (ComplexShape.up ℤ)).inv.app
           ((HomologicalComplex.single (ModuleCat.{max v u} A) (ComplexShape.up ℤ) q).obj
           ((ModuleCat.restrictScalars.{max v u} f).obj N)))) := by
-    simp [CategoryTheory.Functor.map_comp, ← DerivedCategory.Q_map_single_map,
-      DerivedCategory.quotientCompQhIso_inv_naturality_assoc]
+    simp [CategoryTheory.Functor.map_comp, - DerivedCategory.Q_map_single_map]
   have hB : (HomotopyCategory.quotient (ModuleCat.{max v u} B) (ComplexShape.up ℤ)).map
     ((HomologicalComplex.single (ModuleCat.{max v u} B) (ComplexShape.up ℤ) q).map
     ((ModuleCat.restrictCoextendScalarsAdj.{v, u, u} f).unit.app N) ≫

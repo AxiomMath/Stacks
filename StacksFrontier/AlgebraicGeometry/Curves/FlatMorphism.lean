@@ -72,10 +72,10 @@ lemma isFlat_of_nonconstant_of_isNormal
   intro x
   let y := f x
   have hinj : Function.Injective (f.stalkMap x) := hinjAll x
-  show ((f.toLRSHom.toShHom).hom.stalkMap x).hom.Flat
+  change ((f.toLRSHom.toShHom).hom.stalkMap x).hom.Flat
   by_cases hy : IsClosed ({y} : Set Y)
   · let φ := (f.stalkMap x).hom
-    show φ.Flat
+    change φ.Flat
     have : IsIntegrallyClosed (Y.presheaf.stalk y) := IsNormal.stalk_normal y
     have : IsDiscreteValuationRing (Y.presheaf.stalk y) :=
       ((isDiscreteValuationRing_stalk_tfae_of_isCurve k pY hy).out 2 3).mp
@@ -83,7 +83,7 @@ lemma isFlat_of_nonconstant_of_isNormal
     have : EuclideanDomain (Y.presheaf.stalk y) :=
       IsDiscreteValuationRing.toEuclideanDomain (Y.presheaf.stalk y)
     let _ : Algebra (Y.presheaf.stalk y) (X.presheaf.stalk x) := φ.toAlgebra
-    show Module.Flat (Y.presheaf.stalk y) (X.presheaf.stalk x)
+    change Module.Flat (Y.presheaf.stalk y) (X.presheaf.stalk x)
     rw [Module.Flat.flat_iff_torsion_eq_bot_of_isBezout,
       ← Submodule.isTorsionFree_iff_torsion_eq_bot,
       Module.isTorsionFree_iff_algebraMap_injective]
@@ -92,7 +92,7 @@ lemma isFlat_of_nonconstant_of_isNormal
       by_contra hne
       exact hy (Stacks.AlgebraicGeometry.AmpleDimensionOne.isClosed_singleton_of_ne_genericPoint
         Y (IsCurve.topologicalKrullDim_eq_one (k := k) (f := pY)) hne)
-    show ((f.stalkMap x).hom).Flat
+    change ((f.stalkMap x).hom).Flat
     exact RingHom.Flat.of_isField
       (AlgebraicGeometry.isField_stalk_of_closure_mem_irreducibleComponents Y (f x)
         (by rw [hyη]; simp [irreducibleComponents_eq_singleton])) _

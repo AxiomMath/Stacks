@@ -136,7 +136,7 @@ theorem isIso_evalResidueField (K : Type u) [Field K] (z : Spec (CommRingCat.of 
             algebraMap _ _ a := fun a => (Algebra.algebraMap_eq_smul_one a).symm
       refine (key ((TopCat.Presheaf.germ (C := RingCat.{u}) Z.ringCatSheaf.obj ⊤ z
         trivial).hom r)).trans ?_
-      show _ = g r
+      change _ = g r
       congr 1
       exact (RingEquiv.eq_symm_apply _).2
         (StacksDraft.StalkRingComparison.stalkRingEquiv_germ Z z ⊤ trivial r)
@@ -182,7 +182,7 @@ theorem isZero_stalkFunctor_residueFieldSkyscraperSheaf_of_ne (hx : IsClosed ({x
   suffices ∀ t : TopCat.Presheaf.stalk (C := AddCommGrpCat.{u})
       (residueFieldSkyscraperSheaf X x).val.presheaf y, t = 0 by rw [this a, this b]
   intro t
-  obtain ⟨U, hyU, s, rfl⟩ := TopCat.Presheaf.germ_exist
+  obtain ⟨U, hyU, s, rfl⟩ := TopCat.Presheaf.exists_germ_eq
     (residueFieldSkyscraperSheaf X x).val.presheaf (x := y) t
   let V : Opens X := ⟨{x}ᶜ, hx.isOpen_compl⟩
   have hyW : y ∈ U ⊓ V := ⟨hyU, hy⟩

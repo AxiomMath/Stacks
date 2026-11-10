@@ -50,7 +50,7 @@ theorem isFlatOverAt_of_free_stalk {X S : Scheme.{u}} (f : X ⟶ S) [Flat f] (F 
   have : Module.Flat (X.presheaf.stalk x) (F.presheaf.stalk x) :=
     have := hF
     inferInstance
-  show Module.Flat (S.presheaf.stalk (f x)) (F.presheaf.stalk x)
+  change Module.Flat (S.presheaf.stalk (f x)) (F.presheaf.stalk x)
   exact Module.Flat.trans (S.presheaf.stalk (f x)) (X.presheaf.stalk x) (F.presheaf.stalk x)
 
 /-- **A finite coproduct of copies of the structure sheaf, pulled back to a fibre product, is

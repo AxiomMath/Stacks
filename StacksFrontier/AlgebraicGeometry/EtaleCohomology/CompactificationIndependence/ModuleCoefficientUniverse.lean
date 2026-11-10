@@ -105,7 +105,7 @@ def etaleModuleForgetUnivInverseImageIso :
       Y.smallEtaleTopology).symm ≪≫
     asIso (coefficientSheafPullbackTwoSquare (smallEtaleBaseChange t) X.smallEtaleTopology
       Y.smallEtaleTopology
-      (forget₂ (ModuleCat.{max (u + 1) r} Λ) AddCommGrpCat.{max (u + 1) r})).natTrans
+      (forget₂ (ModuleCat.{max (u + 1) r} Λ) AddCommGrpCat.{max (u + 1) r}))
 
 variable {Λ} in
 /-- A sheaf of modules whose underlying abelian sheaf is zero is zero. -/

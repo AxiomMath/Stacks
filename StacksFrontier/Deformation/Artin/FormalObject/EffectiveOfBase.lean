@@ -89,7 +89,7 @@ public def ringIsoOfSpecEq {R R' : CommRingCat.{u}}
 public theorem specMap_ringIsoOfSpecEq {R R' : CommRingCat.{u}}
     (h : (Spec R : Scheme.{u}) = Spec R') :
     Spec.map (ringIsoOfSpecEq h).hom = eqToHom h := by
-  show Scheme.Spec.map (Scheme.Spec.preimage (eqToIso h).hom) = eqToHom h
+  change Scheme.Spec.map (Scheme.Spec.preimage (eqToIso h).hom) = eqToHom h
   exact Scheme.Spec.map_preimage _
 
 /-! ### Adic truncations along an isomorphism of local rings -/
@@ -146,7 +146,7 @@ public theorem adicTruncationEquiv_symm_comp_mk (e : R ≃+* R') (n : ℕ) :
         (Ideal.Quotient.mk (maximalIdeal R' ^ (n + 1))) =
       (Ideal.Quotient.mk (maximalIdeal R ^ (n + 1))).comp e.symm.toRingHom :=
   RingHom.ext fun r' => by
-    show (adicTruncationEquiv e n).symm
+    change (adicTruncationEquiv e n).symm
         (Ideal.Quotient.mk (maximalIdeal R' ^ (n + 1)) r') =
       Ideal.Quotient.mk (maximalIdeal R ^ (n + 1)) (e.symm r')
     rw [RingEquiv.symm_apply_eq, adicTruncationEquiv_mk, e.apply_symm_apply]
@@ -302,7 +302,7 @@ public theorem truncationOverSucc_comp_truncationOverIso
   apply Over.OverMorphism.ext
   apply B.inclusion.map_injective
   rw [Over.comp_left, Over.comp_left, Functor.map_comp, Functor.map_comp]
-  show A.truncationSucc n ≫ (truncationSchemeIso B S hS h (n + 1)).hom =
+  change A.truncationSucc n ≫ (truncationSchemeIso B S hS h (n + 1)).hom =
     (truncationSchemeIso B S hS h n).hom ≫ A'.truncationSucc n
   exact specMap_adicTruncationEquiv_comp_succ (baseRingEquiv B S hS h) n
 

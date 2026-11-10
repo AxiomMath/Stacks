@@ -266,7 +266,7 @@ theorem isSmoothLocallyPolarized_of_curveFamily (G : CurveFamily B hZ) :
       Space.mem_subspacePointSet_sumClosedSubspacesList_iff]
     refine exists_congr fun ζ => and_congr_right fun _ => ?_
     have : Mono (π ζ) := Space.mono_of_isClosedImmersion B integerBase hZ (π ζ) (hπ ζ)
-    show _ ∈ Set.range (Space.pointsMap B integerBase hZ (Subfunctor.range (π ζ)).toFunctor
+    change _ ∈ Set.range (Space.pointsMap B integerBase hZ (Subfunctor.range (π ζ)).toFunctor
       (Subfunctor.range (π ζ)).ι) ↔ _
     rw [Space.range_pointsMap_ι_range_of_mono B integerBase hZ (π ζ)]
     rfl

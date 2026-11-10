@@ -38,7 +38,7 @@ variable {R : Type w} [CommRing R] {A : DGCategory.{v, u} R}
 private lemma d'_neg {x y : A.Obj} (f : A.Hom x y (-1)) :
     A.d' (show (-1 : ℤ) + 1 = 0 by omega) (-f) =
       -A.d' (show (-1 : ℤ) + 1 = 0 by omega) f := by
-  show A.d (-f) = -A.d f
+  change A.d (-f) = -A.d f
   rw [show -f = (-1 : R) • f by rw [neg_one_smul], A.d_smul, neg_one_smul]
 
 /-- Adding the boundary of `-q` to a cocycle gives a homotopic cocycle. -/
@@ -48,7 +48,7 @@ private lemma exists_homotopic_add_d'_neg {x y : A.Obj} (b : A.Cocycle x y) (q :
   refine ⟨⟨b.1 + A.d' (show (-1 : ℤ) + 1 = 0 by omega) (-q), ?_⟩, ⟨q, ?_⟩, rfl⟩
   · rw [A.d_add, b.2]
     simpa [DGCategory.d'] using A.d_d (-q)
-  · show b.1 - (b.1 + A.d' (show (-1 : ℤ) + 1 = 0 by omega) (-q)) =
+  · change b.1 - (b.1 + A.d' (show (-1 : ℤ) + 1 = 0 by omega) (-q)) =
       A.d' (show (-1 : ℤ) + 1 = 0 by omega) q
     rw [d'_neg]
     abel
@@ -116,7 +116,7 @@ theorem comp_homotopic_zero_of_gradedSplitShortExact {x y z y₁ y₃ : A.Obj}
   obtain ⟨b'₀, hb'₀, hb'₀a⟩ := exists_homotopic_comp_left_zero E.a E.π E.π_a b' hb'
   have hzero : A.compCocycle b'₀ b₀ = ⟨0, A.d_zero⟩ := by
     apply Subtype.ext
-    show A.comp (show (0 : ℤ) + 0 = 0 by omega) b'₀.1 b₀.1 = 0
+    change A.comp (show (0 : ℤ) + 0 = 0 by omega) b'₀.1 b₀.1 = 0
     have hfirst : A.comp (show (0 : ℤ) + 0 = 0 by omega) b'₀.1
         (A.comp (show (0 : ℤ) + 0 = 0 by omega)
           (A.comp (show (0 : ℤ) + 0 = 0 by omega) E.a.1 E.π) b₀.1) = 0 := by

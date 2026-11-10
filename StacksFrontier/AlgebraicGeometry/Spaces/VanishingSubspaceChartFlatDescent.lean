@@ -139,7 +139,7 @@ theorem isFlat_preimage_vanishingSubfunctor_openSubspaceOfPoints
   · refine (holdsOnEveryEtaleChart_yoneda_map_iff B S hS
       _root_.AlgebraicGeometry.Flat.isEtaleLocalOnSourceAndTarget _).mpr ?_
     rw [Functor.map_comp]
-    show _root_.AlgebraicGeometry.Flat
+    change _root_.AlgebraicGeometry.Flat
       (chartBaseChangeHom B S hS X Z A ≫ (BigFppfOver.toScheme B S hS).map gAV)
     rw [← he, Category.assoc]
     infer_instance
@@ -198,7 +198,7 @@ theorem exists_affineOpen_isFlat_preimage_vanishingSubfunctor
       (fun i => (f i).eval (op Uc)) hflatAt hreg
   refine ⟨O, hxO, isFlat_preimage_vanishingSubfunctor_openSubspaceOfPoints B S hS X Y g f
     Vobj cY hcY (openChart B S hS X.1 Uc O.1) O.2 (openSubHom _ O.1 ≫ gUV) ?_ ?_⟩
-  · show yoneda.map (openSubHom _ O.1 ≫ gUV) ≫ cY =
+  · change yoneda.map (openSubHom _ O.1 ≫ gUV) ≫ cY =
       (yoneda.map (openSubHom _ O.1) ≫ Uc.obj.hom) ≫ g
     rw [Functor.map_comp, Category.assoc, hcomm, Category.assoc]
   · have eq2 : (List.ofFn fun i : Fin r => (f i).eval (op (openChart B S hS X.1 Uc O.1))) =

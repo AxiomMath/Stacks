@@ -163,7 +163,7 @@ theorem iso_comp (hπ : IsJointlyLocallySurjective J π) {F' : I → Cᵒᵖ ⥤
   refine J.superset_covering ?_ (hπ W x)
   rintro Z k ⟨i, t, ht⟩
   refine ⟨i, (e i).inv.app _ t, ?_⟩
-  show (π i).app _ ((e i).hom.app _ ((e i).inv.app _ t)) = _
+  change (π i).app _ ((e i).hom.app _ ((e i).inv.app _ t)) = _
   simpa using ht
 
 /-- Two sheaves receiving jointly locally surjective families from the same presheaves, which
@@ -599,7 +599,7 @@ theorem projection_isomIsSheaf :
   obtain ⟨g, hgf, -, hg⟩ :=
     Restriction.exists_glued_hom x y hx hy hxy V f hf xr yr φ hφ e he
   have hgLift : Functor.FibreHom (projection hB G P) x y hx hy g := by
-    show (projection hB G P).IsHomLift (eqToHom hx ≫ eqToHom hy.symm) g
+    change (projection hB G P).IsHomLift (eqToHom hx ≫ eqToHom hy.symm) g
     have hmap : eqToHom hx ≫ eqToHom hy.symm = (projection hB G P).map g := by
       rw [eqToHom_trans]
       exact hgf.symm

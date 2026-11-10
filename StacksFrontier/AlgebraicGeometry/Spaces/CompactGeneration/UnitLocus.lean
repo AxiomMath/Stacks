@@ -153,11 +153,11 @@ theorem exists_list_globalRing_unitLocus (hV : IsAffineSpace B S hS V)
         ∃ f ∈ gens, x ∈ (chartScheme U).basicOpen ((toG f).1 (op U)) := by
     intro U x
     rw [chartPointsMap_comp (g := hW₀.from U) (x := x), ← Set.notMem_compl_iff]
-    show ¬ (_ ∈ chartPointsMap W₀ ⁻¹' T) ↔ _
+    change ¬ (_ ∈ chartPointsMap W₀ ⁻¹' T) ↔ _
     rw [hI, ← hgens, Scheme.zeroLocus_span, Scheme.mem_zeroLocus_iff]
     push Not
     refine exists_congr fun f => and_congr Iff.rfl ?_
-    show _ ↔ x ∈ (chartScheme U).basicOpen (((BigFppfOver.toScheme B S hS).map
+    change _ ↔ x ∈ (chartScheme U).basicOpen (((BigFppfOver.toScheme B S hS).map
       ((SmallEtale.toOver B S hS V).map (hW₀.from U))).appTop f)
     exact SetLike.ext_iff.1 (Scheme.preimage_basicOpen _ f) x
   refine ⟨l, ?_, fun U' => ?_⟩
@@ -174,14 +174,14 @@ theorem exists_list_globalRing_unitLocus (hV : IsAffineSpace B S hS V)
     let ψ : yoneda.obj U.1.left ⟶ (edsInter B S hS hsq).1 :=
       pullback.lift (f := (edsOpenHom B S hS hsq).hom) (g := (edsEtaleHom B S hS hsq).hom)
         (g ≫ Uo.fromPreimage fV) U.1.hom (by
-          show (g ≫ Uo.fromPreimage fV) ≫ Uo.ι = U.1.hom ≫ fV
+          change (g ≫ Uo.fromPreimage fV) ≫ Uo.ι = U.1.hom ≫ fV
           rw [Category.assoc, Subfunctor.fromPreimage_ι, ← Category.assoc, hg])
     have hψ : ψ ≫ (edsSnd B S hS hsq).hom = U.1.hom := pullback.lift_snd _ _ _
     let U' : SmallEtale B S hS (edsInter B S hS hsq).1 :=
       ⟨CostructuredArrow.mk ψ, isEtaleChart_of_comp_etale B S hS (edsSnd B S hS hsq)
         (isEtale_edsSnd B S hS hsq) ψ (by rw [hψ]; exact U.2)⟩
     exact ⟨U', ⟨ObjectProperty.isoMk _ (CostructuredArrow.isoMk (Iso.refl _) (by
-      show 𝟙 _ ≫ U.1.hom = ψ ≫ (edsSnd B S hS hsq).hom
+      change 𝟙 _ ≫ U.1.hom = ψ ≫ (edsSnd B S hS hsq).hom
       rw [hψ, Category.id_comp]))⟩⟩
   · let U := (smallEtalePostcomp B S hS (edsSnd B S hS hsq) (isEtale_edsSnd B S hS hsq)).obj U'
     let r : (edsInter B S hS hsq).1 ⟶ O.toFunctor :=
@@ -208,7 +208,7 @@ theorem exists_list_globalRing_unitLocus (hV : IsAffineSpace B S hS V)
         (isEtale_edsSnd B S hS hsq)).obj (openChart B S hS _ U' (Ω f))) =
         (smallEtalePostcomp B S hS (edsSnd B S hS hsq) (isEtale_edsSnd B S hS hsq)).map
           (openChartInclusion B S hS _ U' (Ω f)) ≫ hW₀.from U := hW₀.hom_ext _ _
-    show IsUnit (chartRestrict (hF := hValg) (hW₀.from ((smallEtalePostcomp B S hS
+    change IsUnit (chartRestrict (hF := hValg) (hW₀.from ((smallEtalePostcomp B S hS
       (edsSnd B S hS hsq) (isEtale_edsSnd B S hS hsq)).obj (openChart B S hS _ U' (Ω f)))) f.1)
     have hc : chartRestrict (hF := hValg) ((smallEtalePostcomp B S hS (edsSnd B S hS hsq)
         (isEtale_edsSnd B S hS hsq)).map (openChartInclusion B S hS _ U' (Ω f)) ≫ hW₀.from U)
@@ -223,7 +223,7 @@ theorem exists_list_globalRing_unitLocus (hV : IsAffineSpace B S hS V)
         (openChartInclusion B S hS _ U' (Ω f)))).appTop (chartRestrict (hF := hValg)
           (hW₀.from U) f.1)) ?_
     have hι := toScheme_map_toOver_map_openChartInclusion B S hS _ U' (Ω f)
-    show (Ω f).toScheme.basicOpen (((BigFppfOver.toScheme B S hS).map
+    change (Ω f).toScheme.basicOpen (((BigFppfOver.toScheme B S hS).map
       ((SmallEtale.toOver B S hS _).map (openChartInclusion B S hS _ U' (Ω f)))).appTop _) = ⊤
     rw [hι]
     exact basicOpen_appTop_ι_basicOpen _ _

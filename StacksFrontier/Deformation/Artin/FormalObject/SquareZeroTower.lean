@@ -72,15 +72,15 @@ public theorem toBase_surjective (hf : ∀ n, Function.Surjective (f n)) :
 public def sameBase : Subring (∀ n, R n) where
   carrier := {r | ∀ n, toBase f n (r n) = r 0}
   mul_mem' {a b} ha hb n := by
-    simp only [Set.mem_setOf_eq, Pi.mul_apply, map_mul] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq, Pi.mul_apply, map_mul] at ha hb ⊢
     rw [ha n, hb n]
   one_mem' n := by simp
   add_mem' {a b} ha hb n := by
-    simp only [Set.mem_setOf_eq, Pi.add_apply, map_add] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq, Pi.add_apply, map_add] at ha hb ⊢
     rw [ha n, hb n]
   zero_mem' n := by simp
   neg_mem' {a} ha n := by
-    simp only [Set.mem_setOf_eq, Pi.neg_apply, map_neg] at ha ⊢
+    simp only [Set.mem_ofPred_eq, Pi.neg_apply, map_neg] at ha ⊢
     rw [ha n]
 
 public theorem mem_sameBase {r : ∀ n, R n} : r ∈ sameBase f ↔ ∀ n, toBase f n (r n) = r 0 :=
@@ -90,15 +90,15 @@ public theorem mem_sameBase {r : ∀ n, R n} : r ∈ sameBase f ↔ ∀ n, toBas
 public def limit : Subring (∀ n, R n) where
   carrier := {r | ∀ n, f n (r (n + 1)) = r n}
   mul_mem' {a b} ha hb n := by
-    simp only [Set.mem_setOf_eq, Pi.mul_apply, map_mul] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq, Pi.mul_apply, map_mul] at ha hb ⊢
     rw [ha n, hb n]
   one_mem' n := by simp
   add_mem' {a b} ha hb n := by
-    simp only [Set.mem_setOf_eq, Pi.add_apply, map_add] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq, Pi.add_apply, map_add] at ha hb ⊢
     rw [ha n, hb n]
   zero_mem' n := by simp
   neg_mem' {a} ha n := by
-    simp only [Set.mem_setOf_eq, Pi.neg_apply, map_neg] at ha ⊢
+    simp only [Set.mem_ofPred_eq, Pi.neg_apply, map_neg] at ha ⊢
     rw [ha n]
 
 public theorem mem_limit {r : ∀ n, R n} : r ∈ limit f ↔ ∀ n, f n (r (n + 1)) = r n :=
@@ -399,7 +399,7 @@ public theorem difference_surjective : Function.Surjective (difference f hf hsq)
   refine ⟨⟨s, fun n => (hbase n).trans (hbase 0).symm⟩, ?_⟩
   refine TrivSqZeroExt.ext rfl (funext fun n => Subtype.ext ?_)
   rw [difference_snd, step_coe]
-  show f n (s (n + 1)) - s n = (m n : R n)
+  change f n (s (n + 1)) - s n = (m n : R n)
   rw [hs n]
   ring
 

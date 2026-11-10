@@ -345,8 +345,7 @@ theorem d_append_directSum_comm {r s : ℕ} (f : Fin r → R) (g : Fin s → R) 
     obtain ⟨⟨p, q⟩, h⟩ := pq
     apply LinearMap.ext
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | add x y hx hy =>
         simp only [map_add, hx, hy]
     | tmul a b =>

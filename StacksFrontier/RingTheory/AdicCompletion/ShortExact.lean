@@ -247,7 +247,7 @@ private lemma projective_quotient_pow [Module.Flat R M]
   have hker : LinearMap.ker π = (I • ⊤ : Submodule R M) := by
     ext z
     rw [LinearMap.mem_ker]
-    show (Submodule.Quotient.mk (Submodule.Quotient.mk z) : _) = 0 ↔ _
+    change (Submodule.Quotient.mk (Submodule.Quotient.mk z) : _) = 0 ↔ _
     rw [Submodule.Quotient.mk_eq_zero]
     exact hmem z
   set φ := (Submodule.quotEquivOfEq _ _ hker.symm).trans (π.quotKerEquivOfSurjective hπ)
@@ -256,9 +256,9 @@ private lemma projective_quotient_pow [Module.Flat R M]
   intro a x
   obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective a
   rw [mk_smul_eq_smul, DoubleQuot.quotQuotEquivQuotOfLE_symm_mk]
-  show φ (r • x) = _
+  change φ (r • x) = _
   rw [φ.map_smul]
-  show _ = Ideal.Quotient.mk _ (Ideal.Quotient.mk (I ^ n) r) • φ x
+  change _ = Ideal.Quotient.mk _ (Ideal.Quotient.mk (I ^ n) r) • φ x
   rw [mk_smul_eq_smul, hsmulR]
 
 /-- Flatness of `M` in the form `IⁿP ∩ K = IⁿK`: if `f z` lies in `J • P` then `z` lies in
@@ -629,8 +629,9 @@ passage between the two towers, and left exactness of `lim` is replaced by the t
 `mk_eq_zero_of_forall_add_mem` and `map_mk_eq_mk_of_apply_eq_add`, which say that a shift of the
 index by a constant changes neither vanishing nor the represented class in the completion.
 
-Four of the helpers are general facts about adic completion with no counterpart in the Stacks Project.
-`isAdicComplete_of_pow_smul_top_eq_bot`: a module annihilated by a power of `I` is `I`-adically
+Four of the helpers are general facts about adic completion with no counterpart in the Stacks
+Project. `isAdicComplete_of_pow_smul_top_eq_bot`: a module annihilated by a power of `I` is
+`I`-adically
 complete; Mathlib has this only for `I = ⊥` (`IsAdicComplete.bot`) and for subsingletons
 (`IsAdicComplete.of_subsingleton`). `map_mk_eq_zero_iff`: the class of a Cauchy sequence `a` dies
 under `AdicCompletion.map I f` exactly when `f (a n) ∈ IⁿN` for every `n`, which is what turns

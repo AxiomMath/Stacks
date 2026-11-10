@@ -69,7 +69,7 @@ theorem isIso_inverseImage_comp_map_unit_app {S : Scheme.{u}} (g' : S ⟶ W)
       ((etaleModuleInverseImageAdj.{u, 0} (ZMod N) i).unit.app A)) := by
   rw [NatIso.isIso_map_iff (etaleModuleInverseImageCompIso.{u, 0} (ZMod N) g' i)]
   have := isIso_inverseImage_map_unit_app (N := N) i A
-  show IsIso ((etaleModuleInverseImage.{u, 0} (ZMod N) g').map
+  change IsIso ((etaleModuleInverseImage.{u, 0} (ZMod N) g').map
     ((etaleModuleInverseImage.{u, 0} (ZMod N) i).map
       ((etaleModuleInverseImageAdj.{u, 0} (ZMod N) i).unit.app A)))
   infer_instance
@@ -95,7 +95,7 @@ theorem isIso_inverseImage_comp_map_closedRestriction_map {S : Scheme.{u}} (g' :
       ((etaleModuleDirectImage.{u, 0} (ZMod N) i).map x)) ≫ G.map (adj.counit.app _)) := by
     rw [key]
     infer_instance
-  show IsIso (G.map ((etaleModuleInverseImage.{u, 0} (ZMod N) i).map
+  change IsIso (G.map ((etaleModuleInverseImage.{u, 0} (ZMod N) i).map
       ((etaleModuleDirectImage.{u, 0} (ZMod N) i).map x)))
   exact IsIso.of_isIso_comp_right _ (G.map (adj.counit.app _))
 
@@ -107,12 +107,12 @@ theorem isIso_inverseImage_map_flagUnit : ∀ {d : ℕ} (D : Fin d → DivisorDa
     {S : Scheme.{u}} (g : S ⟶ U), (∀ m, ∃ g' : S ⟶ (D m).W, g' ≫ (D m).i = g) →
     IsIso ((etaleModuleInverseImage.{u, 0} (ZMod N) g).map (flagUnit (N := N) D))
   | 0, D, S, g, _ => by
-    show IsIso ((etaleModuleInverseImage.{u, 0} (ZMod N) g).map (𝟙 _))
+    change IsIso ((etaleModuleInverseImage.{u, 0} (ZMod N) g).map (𝟙 _))
     rw [CategoryTheory.Functor.map_id]
     infer_instance
   | d + 1, D, S, g, hg => by
     obtain ⟨g', rfl⟩ := hg 0
-    show IsIso ((etaleModuleInverseImage.{u, 0} (ZMod N) (g' ≫ (D 0).i)).map
+    change IsIso ((etaleModuleInverseImage.{u, 0} (ZMod N) (g' ≫ (D 0).i)).map
       ((etaleModuleInverseImageAdj.{u, 0} (ZMod N) (D 0).i).unit.app (unitSheaf N) ≫
         (closedRestriction (N := N) (D 0).i).map (flagUnit (fun m => D m.succ))))
     rw [CategoryTheory.Functor.map_comp]
@@ -139,7 +139,7 @@ theorem isZero_inverseImage_flagSheaf : ∀ {d : ℕ} (D : Fin d → DivisorDatu
     IsZero ((etaleModuleInverseImage.{u, 0} (ZMod N) g).obj (flagSheaf (N := N) D))
   | 0, _, _, _, m, _ => m.elim0
   | d + 1, D, S, g, m, hm => by
-    show IsZero ((etaleModuleInverseImage.{u, 0} (ZMod N) g).obj
+    change IsZero ((etaleModuleInverseImage.{u, 0} (ZMod N) g).obj
       ((closedRestriction (N := N) (D 0).i).obj (flagSheaf (N := N) (fun m => D m.succ))))
     induction m using Fin.cases with
     | zero =>

@@ -96,7 +96,7 @@ theorem subsingleton_ext_unitSheaf_extensionByZeroOfRestriction_of_curve (hℓ :
     obtain ⟨s, hs⟩ := hSne
     have hne : V.opensRange ≠ ⊤ := fun h => by
       have hsr : s ∈ Set.range V.base := by
-        show s ∈ (V.opensRange : Set Y)
+        change s ∈ (V.opensRange : Set Y)
         rw [h]
         trivial
       rw [hV] at hsr
@@ -192,7 +192,7 @@ theorem exists_finset_compl_range_fromAffineSpace :
   · by_contra hS
     rw [Finset.not_nonempty_iff_eq_empty, Set.Finite.toFinset_eq_empty, Set.compl_empty_iff] at hS
     have hclosed : IsClosed (Set.range V.base) := by
-      show IsClosed (V.opensRange : Set Y)
+      change IsClosed (V.opensRange : Set Y)
       rw [hS]
       exact isClosed_univ
     have : IsClosedImmersion V := IsClosedImmersion.of_isPreimmersion _ hclosed
@@ -236,7 +236,7 @@ theorem subsingleton_ext_unitSheaf_extensionByZeroOfRestriction_affineChart (h�
   have := isCurve_projectiveSpaceOver_one k
   obtain ⟨S, hS, hSne, hV⟩ := exists_finset_compl_range_fromAffineSpace k
   have : NeZero (ℓ : k) := ⟨hℓ.ne_zero⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot k ℓ
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot k ℓ
   have h1 := KummerFlag.subsingleton_ext_one_unitSheaf_affineSpace k 1 hζ hℓ
   obtain ⟨e⟩ := nonempty_extensionByZeroOfRestriction_iso_of_range_eq (ℓ := ℓ) ι V hι
     (unitSheaf (X := projectiveSpaceOver 1 (Spec (.of k))) ℓ)

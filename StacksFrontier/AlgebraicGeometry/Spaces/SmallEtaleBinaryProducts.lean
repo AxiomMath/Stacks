@@ -176,7 +176,7 @@ breaks `AlgebraicGeometry.Space.wEqualsLocallyBijective_smallEtaleRingedSite_add
 outright for any module importing both. Consumers should use this lemma with `have`. -/
 theorem smallEtaleRingedSite_essentiallySmall (hF : IsAlgebraicSpace B S hS F) :
     EssentiallySmall.{u} (smallEtaleRingedSite B S hS F hF).C := by
-  show EssentiallySmall.{u} (SmallEtale B S hS F)
+  change EssentiallySmall.{u} (SmallEtale B S hS F)
   infer_instance
 
 /-- Presheaves of abelian groups on every slice of the small étale ringed site of an algebraic

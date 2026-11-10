@@ -16,7 +16,7 @@ theorem IntermediateField.map_top_of_surjective
 
 @[simp] theorem IntermediateField.map_AlgEquiv_top
     {F E K : Type*} [Field F] [Field E] [Field K] [Algebra F E] [Algebra F K] (e : E ≃ₐ[F] K) :
-    (⊤ : IntermediateField F E).map (AlgHomClass.toAlgHom e) = ⊤ :=
+    (⊤ : IntermediateField F E).map (AlgHom.ofClass e) = ⊤ :=
   IntermediateField.map_top_of_surjective e.surjective
 
 theorem IntermediateField.fieldRange_comp

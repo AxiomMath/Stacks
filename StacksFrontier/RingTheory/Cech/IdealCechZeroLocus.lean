@@ -174,7 +174,7 @@ theorem quasiIso_of_comp_augmentation_of_zeroLocus_eq
     QuasiIso u := by
   have hQ : DerivedCategory.Q.map u ≫ extendedCechAugmentationHom g M =
       extendedCechAugmentationHom f M := by
-    show DerivedCategory.Q.map u ≫
+    change DerivedCategory.Q.map u ≫
         DerivedCategory.Q.map (extendedCechAugmentation g M) ≫
           ((DerivedCategory.singleFunctorIsoCompQ (ModuleCat.{max u v} R) 0).app M).inv =
       DerivedCategory.Q.map (extendedCechAugmentation f M) ≫
@@ -200,7 +200,7 @@ theorem extendMap_comp_augmentation (u : Cech.cechComplex f M ⟶ Cech.cechCompl
     HomologicalComplex.extendMap_f _ ComplexShape.embeddingUpNat
       ComplexShape.embeddingUpNat_f_zero,
     extendedCechAugmentation_f_zero, extendedCechAugmentation_f_zero]
-  show ((extendXZeroIso f M).hom ≫ u.f 0 ≫ (extendXZeroIso g M).inv) ≫
+  change ((extendXZeroIso f M).hom ≫ u.f 0 ≫ (extendXZeroIso g M).inv) ≫
       (cechAugIso g M).hom ≫ _ = (cechAugIso f M).hom ≫ _
   rw [cechAugIso, cechAugIso, extendedCechXZeroIso_hom, extendedCechXZeroIso_hom]
   simp only [Category.assoc, Iso.inv_hom_id_assoc]

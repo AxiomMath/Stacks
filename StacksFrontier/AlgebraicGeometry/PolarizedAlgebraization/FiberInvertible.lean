@@ -102,7 +102,7 @@ theorem exists_mem_over_isoUnit_of_fiber {X S : Scheme.{u}} (f : X ⟶ S)
     Scheme.Modules.exists_iso_free_over_of_flat_over_at_of_flat_fiber_stalk f hf F x hflat hfiber
   let V : (f.fiber (f x)).Opens := (f.fiberι (f x)) ⁻¹ᵁ U
   have hxV : f.asFiber x ∈ V := by
-    show (f.fiberι (f x)) (f.asFiber x) ∈ U
+    change (f.fiberι (f x)) (f.asFiber x) ∈ U
     rwa [f.fiberι_asFiber]
   have hU : AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u}
       ((Scheme.Modules.pullback U.ι).obj F) n :=

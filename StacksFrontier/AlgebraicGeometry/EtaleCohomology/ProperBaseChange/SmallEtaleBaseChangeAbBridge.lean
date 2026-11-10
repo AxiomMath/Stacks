@@ -87,7 +87,7 @@ public theorem smallEtaleBaseChangeAb_eq_mateEquiv_symm_pushforwardCompIso
       ((mateEquiv (smallEtaleAdjunctionAb e) (smallEtaleAdjunctionAb f')).symm
         (TwoSquare.mk _ _ _ _
           ((smallEtalePushforwardAbCompIso' e g P hPe).hom ≫
-            (smallEtalePushforwardAbCompIso' h f' P hPh).inv))).natTrans := by
+            (smallEtalePushforwardAbCompIso' h f' P hPh).inv))) := by
   have hiso : ((smallEtalePushforwardAbCompIso e g).trans
           ((eqToIso (congrArg smallEtalePushforwardAb w.symm)).trans
             (smallEtalePushforwardAbCompIso h f').symm)).hom =

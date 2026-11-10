@@ -41,7 +41,7 @@ theorem isDenseSubsite_trans_functor (e₁ : A ≌ B) (e₂ : B ≌ C)
     [e₁.functor.IsDenseSubsite JA JB] [e₂.functor.IsDenseSubsite JB JC] :
     (e₁.trans e₂).functor.IsDenseSubsite JA JC where
   functorPushforward_mem_iff {X S} := by
-    show Sieve.functorPushforward (e₁.functor ⋙ e₂.functor) S ∈
+    change Sieve.functorPushforward (e₁.functor ⋙ e₂.functor) S ∈
       JC (e₂.functor.obj (e₁.functor.obj X)) ↔ _
     rw [Sieve.functorPushforward_comp, Functor.functorPushforward_mem_iff JB JC,
       Functor.functorPushforward_mem_iff JA JB]

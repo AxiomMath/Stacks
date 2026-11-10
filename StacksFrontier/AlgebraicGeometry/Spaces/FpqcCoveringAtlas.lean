@@ -50,6 +50,7 @@ local instance (priority := high) fpqcCoveringAtlas_hasPullback
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site is deep
 /-- Discrete limits of presheaves on the big fppf site over `S` (instance search times out
 without this shortcut). -/
 local instance (priority := high) fpqcCoveringAtlas_hasLimitsOfShape_discrete (J : Type) :
@@ -155,7 +156,7 @@ theorem isFpqcCovering_iff_pullback_atlas
     let O : PreZeroHypercover T := { I₀ := J, X := fun V ↦ Wobj V.1, f := fun V ↦ jT V.1 }
     have hmap (V : J) : (BigAffineFppf.toScheme B S hS).map (O.f V) =
         (V.1).1.ι ≫ (BigFppfOver.toScheme B S hS).map pT := by
-      show (BigFppfOver.toScheme B S hS).map (jP V.1 ≫ pT) =
+      change (BigFppfOver.toScheme B S hS).map (jP V.1 ≫ pT) =
         (V.1).1.ι ≫ (BigFppfOver.toScheme B S hS).map pT
       rw [Functor.map_comp, hjP]
     have hOcover_etale : Presieve.ofArrows
@@ -168,7 +169,7 @@ theorem isFpqcCovering_iff_pullback_atlas
       · obtain ⟨V, hVJ, y, hyV, hyx⟩ := Set.mem_iUnion₂.mp (hJcover (Set.mem_univ x))
         refine ⟨⟨V, hVJ⟩, ⟨y, hyV⟩, ?_⟩
         rw [hmap ⟨V, hVJ⟩]
-        show ((BigFppfOver.toScheme B S hS).map pT).base y = x
+        change ((BigFppfOver.toScheme B S hS).map pT).base y = x
         exact hyx
       · rw [hmap V]
         infer_instance

@@ -228,7 +228,7 @@ private lemma liftIso_naturality (T : D) (point : F.obj (op T))
     simpa using (inferInstance : p.IsHomLift (morphism.left ≫ 𝟙 W.left) _)
   have hm : (CoGrothendieck.forget F.toPseudofunctor').IsHomLift morphism.left
       (rawRestriction F T point morphism) := by
-    show (CoGrothendieck.forget F.toPseudofunctor').IsHomLift
+    change (CoGrothendieck.forget F.toPseudofunctor').IsHomLift
       ((CoGrothendieck.forget F.toPseudofunctor').map (rawRestriction F T point morphism)) _
     infer_instance
   have hh := hH.map_isHomLift morphism.left (rawRestriction F T point morphism)
@@ -357,12 +357,12 @@ private lemma homToMor_comp (T : D) (first second : F.obj (op T)) :
         hK.morPresheafMap ((imageFiber F p H hH T).obj first)
           ((imageFiber F p H hH T).obj second) := by
   ext V arrow
-  show (liftIso F q (H ⋙ K) (hH.comp hK) T first V.unop).hom ≫
+  change (liftIso F q (H ⋙ K) (hH.comp hK) T first V.unop).hom ≫
     (imageFiber F q (H ⋙ K) (hH.comp hK) V.unop.left).map arrow.down ≫
     (liftIso F q (H ⋙ K) (hH.comp hK) T second V.unop).inv = _
   rw [liftIso_comp F p H hH q K hK T first V.unop,
     liftIso_comp F p H hH q K hK T second V.unop]
-  show _ = (hK.morPresheafMap ((imageFiber F p H hH T).obj first)
+  change _ = (hK.morPresheafMap ((imageFiber F p H hH T).obj first)
     ((imageFiber F p H hH T).obj second)).app V
       ((liftIso F p H hH T first V.unop).hom ≫
         (imageFiber F p H hH V.unop.left).map arrow.down ≫
@@ -722,11 +722,11 @@ private lemma arrowFiberSectionsMap_bijective
     let lift := pullback.lift (yoneda.map V.hom) (yonedaEquiv.symm element.1) condition
     let result : (arrowFiberOver G T first second).obj (op V) :=
       ⟨yonedaEquiv lift, by
-        show (pullback.fst pair endpoints).app (op V.left) (yonedaEquiv lift) = V.hom
+        change (pullback.fst pair endpoints).app (op V.left) (yonedaEquiv lift) = V.hom
         rw [← yonedaEquiv_comp, pullback.lift_fst]
         exact yonedaEquiv_yoneda_map _⟩
     refine ⟨result, Subtype.ext ?_⟩
-    show (pullback.snd pair endpoints).app (op V.left) (yonedaEquiv lift) = element.1
+    change (pullback.snd pair endpoints).app (op V.left) (yonedaEquiv lift) = element.1
     rw [← yonedaEquiv_comp, pullback.lift_snd]
     exact yonedaEquiv.apply_symm_apply _
 
@@ -757,7 +757,7 @@ private lemma pointwiseHomToStackMor_isIso
   let equivalence := quotientPrestackEquivalence G
   let hEquiv := isFibredOneMorphism_presentationEquivalence G
   let hStack := isFibredOneMorphism_toQuotientStack G
-  show IsIso (homToMor.{u + 1, u, u, u, u + 1, u + 1}
+  change IsIso (homToMor.{u + 1, u, u, u, u + 1, u + 1}
     (pointwiseCategoryFunctor G) (quotientStack G).p
     (equivalence.functor ⋙ toQuotientStack G) (hEquiv.comp hStack)
     T first second)
@@ -955,7 +955,7 @@ theorem isomPresheafPullbackIso_hom_app (V : Over T)
     apply ULift.ext
     apply arrowFiberOverSectionArrow_injective G T x' y' V
     exact (isomPresheafPullbackIso_inv_app G T x' y' x y hx hy V r).trans hs.symm
-  show e.hom.app (op V) (ULift.up s) = _
+  change e.hom.app (op V) (ULift.up s) = _
   rw [← h]
   exact e.inv_hom_id_app_apply (op V) _
 

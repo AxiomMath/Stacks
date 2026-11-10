@@ -190,6 +190,14 @@ theorem thickeningLiftPullbackQuotientComp_heq_objectToposModule :
     (rfl : ξ.F = objectToposModule ξ)
 
 include hgr in
+omit [HasExt.{e} (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf
+      ((pushforwardCommRingFunctor (smallEtaleRingedToposHom B S hS
+        (D.relativeSquareSituation.relativeMap h)).toToposHom).obj
+        (smallEtaleRingedTopos B S hS (D.relativeSquareSituation.space ξ.T)).O)))]
+    [HasExt.{e} (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf
+      ((pushforwardCommRingFunctor (smallEtaleRingedToposHom B S hS
+        (D.relativeSquareSituation.relativeMap h₂)).toToposHom).obj
+        (smallEtaleRingedTopos B S hS (D.relativeSquareSituation.space ξ.T)).O)))] in
 /-- **The class on `X_T` of the pullback of a lift is the class of the lift followed by `λ_g`**,
 given that the kernel map of the unit `𝒢' ⟶ (X_g)_*(X_g)^*𝒢'` (any map of kernels making the
 kernel square commute) is `λ_g` read on `X_T` (`h₁`). -/

@@ -112,12 +112,12 @@ theorem presRel_side {n d : ℕ} [NeZero d] (k : MvPolynomial (Fin n) (univBase.
     (e₁.symm.toRingHom.comp (lciGlobalEquiv H f).symm.toRingEquiv.toRingHom) hglob (X j)
   rw [MvPolynomial.map_X] at hgr
   simp only [RingHom.comp_apply, RingEquiv.toRingHom_eq_coe, RingHom.coe_coe,
-    AlgEquiv.coe_ringEquiv] at hgr
+    AlgEquiv.coe_toRingEquiv] at hgr
   have hR : algebraMap (localizedCompleteIntersection A N 1
       (graphRelations eV eV 1 (globalRelations H f) ψ 0)) B (lciMk _ _ (X j)) =
       e₁.symm ((lciGlobalEquiv _ _).symm ((lciGraphEquiv eV eV 1 _ ψ 0).symm
         (lciMk _ _ (X j)))) := by
-    show ((globalGraphEquiv eV _ _ ψ).symm.trans e₁.symm) (lciMk _ _ (X j)) = _
+    change ((globalGraphEquiv eV _ _ ψ).symm.trans e₁.symm) (lciMk _ _ (X j)) = _
     rw [AlgEquiv.trans_apply, globalGraphEquiv_symm_lciMk]
   rw [sideθ_symm_lciMk, hR]
   exact hgr

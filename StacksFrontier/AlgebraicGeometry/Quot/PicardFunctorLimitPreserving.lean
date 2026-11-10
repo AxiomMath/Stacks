@@ -270,7 +270,7 @@ private theorem isColimit_picardPresheaf :
     obtain ⟨L, hL, rfl⟩ := exists_picardClass _ x
     obtain ⟨k, Lk, hLk, ⟨e⟩⟩ := exists_invertible_model D c hD hC hc hf L hL
     refine ⟨k, picardClass _ Lk hLk, ?_⟩
-    show s.picardMap (c.π.app k) _ = _
+    change s.picardMap (c.π.app k) _ = _
     rw [picardMap_eq, picardPullback_picardClass]
     exact (picardClass_eq_picardClass_iff _ _ _ _ _).2 ⟨e.symm⟩
   · intro i x y hxy
@@ -284,7 +284,7 @@ private theorem isColimit_picardPresheaf :
       (Stacks.SheafOfModules.isFinitePresentationOnSite_of_isInvertible _ L hL)
       (Stacks.SheafOfModules.isFinitePresentationOnSite_of_isInvertible _ N hN) χ
     refine ⟨k, e, ?_⟩
-    show s.picardMap (D.map e) _ = s.picardMap (D.map e) _
+    change s.picardMap (D.map e) _ = s.picardMap (D.map e) _
     rw [picardMap_eq, picardPullback_picardClass, picardPullback_picardClass]
     exact (picardClass_eq_picardClass_iff _ _ _ _ _).2 ⟨ψ⟩
 
@@ -322,7 +322,7 @@ private theorem affineCoversDescend_schemesOver :
     (D ⋙ P) (P.mapCone c) hc hD hC ⟨_, hR⟩
   refine ⟨i, s.liftHypercover E, hfin, haff, s.liftHypercover_mem E hE, fun k => ?_⟩
   rw [← CostructuredArrow.mem_functorPushforward_proj_iff]
-  show (R.1.functorPushforward P).arrows
+  change (R.1.functorPushforward P).arrows
     (P.map (pullback.fst (c.π.app i) ((s.liftHypercover E).f k)))
   rw [show P.map (pullback.fst (c.π.app i) ((s.liftHypercover E).f k)) =
       (PreservesPullback.iso P (c.π.app i) ((s.liftHypercover E).f k)).hom ≫

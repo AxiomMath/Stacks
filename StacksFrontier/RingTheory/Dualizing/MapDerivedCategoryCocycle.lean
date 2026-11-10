@@ -105,7 +105,7 @@ theorem mapDerivedCategoryCompNatIso_cocycle (e₁₂ : F₁ ⋙ F₂ ≅ G₁�
           ((Functor.mapHomologicalComplexCompIso e₁₂ (ComplexShape.up ℤ)).hom.app A)) :=
     (F₃.mapDerivedCategoryFactors.hom.naturality
       ((Functor.mapHomologicalComplexCompIso e₁₂ (ComplexShape.up ℤ)).hom.app A))
-  show F₃.mapDerivedCategory.map ((mapDerivedCategoryCompNatIso F₁ F₂ G₁₂ e₁₂).hom.app
+  change F₃.mapDerivedCategory.map ((mapDerivedCategoryCompNatIso F₁ F₂ G₁₂ e₁₂).hom.app
         (DerivedCategory.Q.obj A)) ≫
       (mapDerivedCategoryCompNatIso G₁₂ F₃ G e).hom.app (DerivedCategory.Q.obj A) =
     (mapDerivedCategoryCompNatIso F₂ F₃ G₂₃ e₂₃).hom.app
@@ -198,7 +198,7 @@ theorem mapDerivedCategoryCompNatIso_hom_app_of_unit (ε : F ≅ 𝟭 C₁) (e :
           ((G.mapHomologicalComplex (ComplexShape.up ℤ)).obj A) := by
     ext n
     simpa using h (A.X n)
-  show (mapDerivedCategoryCompNatIso G F G e).hom.app (DerivedCategory.Q.obj A) =
+  change (mapDerivedCategoryCompNatIso G F G e).hom.app (DerivedCategory.Q.obj A) =
     (mapDerivedCategoryIdNatIso F ε).hom.app (G.mapDerivedCategory.obj (DerivedCategory.Q.obj A))
   have conj : ∀ {Xo Yo : DerivedCategory C₁} (φ : Xo ≅ Yo),
       (mapDerivedCategoryIdNatIso F ε).hom.app Xo =
@@ -246,7 +246,7 @@ theorem mapDerivedCategoryCompNatIso_hom_app_of_unit' (ε : F ≅ 𝟭 C₁) (e 
       G.mapDerivedCategoryFactors.hom.app ((F.mapHomologicalComplex (ComplexShape.up ℤ)).obj A) ≫
         DerivedCategory.Q.map ((G.mapHomologicalComplex (ComplexShape.up ℤ)).map εA) :=
     G.mapDerivedCategoryFactors.hom.naturality εA
-  show (mapDerivedCategoryCompNatIso F G G e).hom.app (DerivedCategory.Q.obj A) =
+  change (mapDerivedCategoryCompNatIso F G G e).hom.app (DerivedCategory.Q.obj A) =
     G.mapDerivedCategory.map ((mapDerivedCategoryIdNatIso F ε).hom.app (DerivedCategory.Q.obj A))
   rw [mapDerivedCategoryCompNatIso_hom_app_Q F G G e, mapDerivedCategoryIdNatIso_hom_app_Q F ε,
     hdeg, Functor.map_comp, ← reassoc_of% hnat, Iso.hom_inv_id_app]

@@ -608,7 +608,7 @@ private lemma exists_kernelPolynomialQuotientAlgEquiv
       IsLocalization.Away.lift, q]
   have hkill : f₀ (isogeny ℓ ζ hsplit
       (coordinateGenerator (π ^ ℓ))) = 0 := by
-    show f₀ (localizationMap A (ζ - 1) ℓ φ _
+    change f₀ (localizationMap A (ζ - 1) ℓ φ _
       (coordinateGenerator ((ζ - 1) ^ ℓ))) = 0
     rw [localizationMap_X, ← Polynomial.aeval_algHom_apply, hf₀q]
     exact aeval_mk_X_self φ
@@ -631,12 +631,12 @@ private lemma exists_kernelPolynomialQuotientAlgEquiv
   refine ⟨AlgEquiv.ofAlgHom f g ?_ ?_, hf⟩
   · apply Ideal.Quotient.algHom_ext
     apply Polynomial.algHom_ext
-    show f (g q) = q
+    change f (g q) = q
     rw [hg, hf]
   · apply Ideal.Quotient.algHom_ext
     apply IsLocalization.algHom_ext (Submonoid.powers (C π * X + 1))
     apply Polynomial.algHom_ext
-    show g (f k) = k
+    change g (f k) = k
     rw [hf, hg]
 
 private lemma polynomialKernelAlgEquiv_pi_generator
@@ -646,7 +646,7 @@ private lemma polynomialKernelAlgEquiv_pi_generator
       sigmaPoint ℓ ζ i := by
   simp only [polynomialKernelAlgEquiv_pi, AlgEquiv.ofRingEquiv_apply,
     RingEquiv.trans_apply, Ideal.quotEquivOfEq_mk]
-  show Polynomial.quotientSpanXSubCAlgEquiv _
+  change Polynomial.quotientSpanXSubCAlgEquiv _
     (Ideal.quotientInfToPiQuotient (fun i : ZMod ℓ => Ideal.span {X - C (sigmaPoint ℓ ζ i)})
       (Ideal.Quotient.mk _ X) i) = _
   rw [Ideal.quotientInfToPiQuotient_mk', Polynomial.quotientSpanXSubCAlgEquiv_mk,
@@ -683,7 +683,7 @@ theorem isogeny_faithfullyFlat : (isogeny ℓ ζ hsplit).toRingHom.FaithfullyFla
       have h := congrArg ψ (Subsingleton.elim (0 : H) 1)
       simpa [ψ] using h
     let : Subsingleton G := hG
-    show Module.FaithfullyFlat H G
+    change Module.FaithfullyFlat H G
     have hflat : Module.Flat H G := by
       rw [Module.Flat.iff_rTensor_injectiveₛ]
       intro P _ _ N
@@ -724,7 +724,7 @@ theorem isogeny_faithfullyFlat : (isogeny ℓ ζ hsplit).toRingHom.FaithfullyFla
     let : Module.FaithfullyFlat H (Fin P.natDegree →₀ H) := inferInstance
     have hmod : Module.FaithfullyFlat H G :=
       Module.FaithfullyFlat.of_linearEquiv H (Fin P.natDegree →₀ H) hP.basis.repr
-    show Module.FaithfullyFlat H G
+    change Module.FaithfullyFlat H G
     exact hmod
 
 end AlgebraicGeometry.MultiplicativeDeformation

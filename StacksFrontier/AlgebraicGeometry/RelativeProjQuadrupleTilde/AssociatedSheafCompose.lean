@@ -112,7 +112,7 @@ private theorem summand_comp_square {W W1 W2 W3 GP GX P1 X1 P2 X2 P3 X3 X4 : C}
           simp only [Category.assoc]
     _ = _ := by
           rw [h2, ← MonoidalCategory.id_tensorHom]
-          simp only [Category.assoc, MonoidalCategory.tensorHom_comp_tensorHom_assoc,
+          simp only [Category.assoc,
             MonoidalCategory.tensorHom_comp_tensorHom, Category.comp_id]
 
 private theorem chain_square {D : Type*} [Category D] {P0 P1 Q0 Q1 R0 R1 S0 S1 S0' E : D}

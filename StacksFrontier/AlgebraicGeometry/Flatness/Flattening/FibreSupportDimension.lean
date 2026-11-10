@@ -126,7 +126,7 @@ theorem isFlatOverAt_of_notMem_supp {X S : Scheme.{u}} (f : X ⟶ S) (F : X.Modu
       hx ⟨a, ha⟩
   let _ : Module (S.presheaf.stalk (f x)) (F.presheaf.stalk x) :=
     Module.compHom _ (f.stalkMap x).hom
-  show Module.Flat (S.presheaf.stalk (f x)) (F.presheaf.stalk x)
+  change Module.Flat (S.presheaf.stalk (f x)) (F.presheaf.stalk x)
   infer_instance
 
 /-- **The base case of the induction of [Stacks, Tag 0815].** If the support of every fibre of
@@ -182,7 +182,7 @@ theorem genericPoint_mem_open_of_surjective_on_base {X S : Scheme.{u}} (f : X �
   change f (V.ι v) = s at hv
   subst s
   have hv' : f.asFiber (V.ι v) ∈ (f.fiberι (f (V.ι v))) ⁻¹' (V : Set X) := by
-    show f.fiberι (f (V.ι v)) (f.asFiber (V.ι v)) ∈ V
+    change f.fiberι (f (V.ι v)) (f.asFiber (V.ι v)) ∈ V
     rw [f.fiberι_asFiber]
     exact v.2
   have hopen : IsOpen ((f.fiberι (f (V.ι v))) ⁻¹' (V : Set X)) :=

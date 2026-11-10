@@ -344,7 +344,7 @@ transition morphisms of the inverse system. -/
 lemma isAffineHom_baseChangeDiagram_map {a b : Over i} (g : a ⟶ b) :
     IsAffineHom ((baseChangeDiagram D i X).map g) := by
   have : IsAffineHom ((Over.post D).map g).left := by
-    show IsAffineHom (D.map g.left)
+    change IsAffineHom (D.map g.left)
     infer_instance
   exact MorphismProperty.overPullbackMap (P := @IsAffineHom) X.hom ((Over.post D).map g)
     inferInstance
@@ -530,18 +530,18 @@ lemma exists_finite_affine_charts {X Y : Scheme.{u}} [CompactSpace X] (f : X ⟶
   let p (j : Ufin.I₀) : Ufin.X j ⟶ V.X (t j) :=
     (Scheme.OpenCover.fromAffineRefinement C).h₀ (k j) ≫ V.pullbackHom f (t j)
   have (q : U.I₀) : IsAffine (U.X q) := by
-    show IsAffine ((Scheme.OpenCover.affineRefinement C).openCover.X q)
+    change IsAffine ((Scheme.OpenCover.affineRefinement C).openCover.X q)
     exact Scheme.isAffine_affineOpenCover _ _ q
   refine ⟨Ufin, inferInstance, ?_, fun j ↦ V.X (t j), fun j ↦ V.f (t j), p, ?_, ?_, ?_⟩
   · intro j
-    show IsAffine (U.X (k j))
+    change IsAffine (U.X (k j))
     infer_instance
   · intro j
     infer_instance
   · intro j
     exact V.map_prop (t j)
   · intro j
-    show (((Scheme.OpenCover.fromAffineRefinement C).h₀ (k j) ≫
+    change (((Scheme.OpenCover.fromAffineRefinement C).h₀ (k j) ≫
       V.pullbackHom f (t j)) ≫ V.f (t j)) = U.f (k j) ≫ f
     simp only [Category.assoc, Scheme.Cover.pullbackHom_map]
     rw [← Category.assoc, (Scheme.OpenCover.fromAffineRefinement C).w₀]
@@ -605,7 +605,7 @@ lemma prop_overPullback_of_charts [P.IsStableUnderComposition]
   have hglobal : P (baseChangeMap g X Y f) := by
     apply IsZariskiLocalAtSource.of_openCover (𝒰 := baseChangeMapOpenCover g X U a hcover)
     intro j
-    show P (baseChangeMap g (U j) X (a j) ≫ baseChangeMap g X Y f)
+    change P (baseChangeMap g (U j) X (a j) ≫ baseChangeMap g X Y f)
     have hbj : IsOpenImmersion (b j).left := ‹∀ j, IsOpenImmersion (b j).left› j
     have hob : IsOpenImmersion (baseChangeMap g (V j) Y (b j)) :=
       MorphismProperty.IsStableUnderBaseChange.of_isPullback

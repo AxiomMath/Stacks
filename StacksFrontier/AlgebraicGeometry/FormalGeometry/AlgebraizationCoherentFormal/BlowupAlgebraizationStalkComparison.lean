@@ -115,8 +115,7 @@ theorem isTorsionBySet_tensor_quotient_pow (k : ℕ) :
     rw [Ideal.mem_comap, Module.mem_annihilator]
     intro y
     rw [algebraMap_smul]
-    induction y using TensorProduct.induction_on with
-    | zero => rw [smul_zero]
+    induction y using TensorProduct.inductionOn with
     | tmul b q =>
       obtain ⟨m, rfl⟩ := Submodule.Quotient.mk_surjective _ q
       rw [← TensorProduct.tmul_smul, ← Submodule.Quotient.mk_smul,
@@ -242,8 +241,7 @@ def completedTensorToTensorQuotient
   map_smul' a t := by
     let := tensorQuotientModule O' J hJ' M k
     simp only [AddMonoidHom.toFun_eq_coe, RingHom.id_apply]
-    induction t using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero, smul_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul r m =>
       rw [TensorProduct.smul_tmul', completedTensorToTensorQuotientAddHom_tmul,
         completedTensorToTensorQuotientAddHom_tmul, Algebra.smul_def, map_mul, mul_smul,
@@ -276,12 +274,10 @@ theorem tensorQuotientToCompletedTensorQuotient_completedTensorQuotientToTensorQ
         (completedTensorQuotientToTensorQuotient O' J hJ' M hψ hJ k (Submodule.Quotient.mk t)) =
       Submodule.Quotient.mk t := by
   let := tensorQuotientModule O' J hJ' M k
-  induction t using TensorProduct.induction_on with
-  | zero =>
-    rw [Submodule.Quotient.mk_zero, map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul r m =>
     obtain ⟨o, ho⟩ := Ideal.Quotient.mk_surjective (AdicCompletion.evalₐ J' k r)
-    show tensorQuotientToCompletedTensorQuotient O' J hJ' M hψ k
+    change tensorQuotientToCompletedTensorQuotient O' J hJ' M hψ k
       (AdicCompletion.evalₐ J' k r •
         ((1 : O') ⊗ₜ[O] (Submodule.Quotient.mk m : M ⧸ (J ^ k • ⊤ : Submodule O M)))) = _
     rw [← ho, Module.IsTorsionBySet.mk_smul, TensorProduct.smul_tmul', smul_eq_mul, mul_one,
@@ -302,12 +298,11 @@ theorem completedTensorQuotientToTensorQuotient_tensorQuotientToCompletedTensorQ
     completedTensorQuotientToTensorQuotient O' J hJ' M hψ hJ k
         (tensorQuotientToCompletedTensorQuotient O' J hJ' M hψ k x) = x := by
   let := tensorQuotientModule O' J hJ' M k
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul a q =>
     obtain ⟨m, rfl⟩ := Submodule.Quotient.mk_surjective _ q
     rw [tensorQuotientToCompletedTensorQuotient_tmul]
-    show completedTensorToTensorQuotientAddHom O' J hJ' M hψ hJ k (a • (1 : Ô') ⊗ₜ[Ô] m) = _
+    change completedTensorToTensorQuotientAddHom O' J hJ' M hψ hJ k (a • (1 : Ô') ⊗ₜ[Ô] m) = _
     rw [TensorProduct.smul_tmul', completedTensorToTensorQuotientAddHom_tmul, Algebra.smul_def,
       mul_one, show algebraMap O' Ô' a = AdicCompletion.of J' O' a from rfl,
       AdicCompletion.evalₐ_of, Module.IsTorsionBySet.mk_smul, TensorProduct.smul_tmul',
@@ -352,8 +347,7 @@ theorem transitionMap_tensorQuotientEquivCompletedTensorQuotient
         (tensorQuotientEquivCompletedTensorQuotient O' J hJ' M hψ hJ k' x) =
       tensorQuotientEquivCompletedTensorQuotient O' J hJ' M hψ hJ k
         (LinearMap.baseChange O' (AdicCompletion.transitionMap J M h) x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul a q =>
     obtain ⟨m, rfl⟩ := Submodule.Quotient.mk_surjective _ q
     rw [LinearMap.baseChange_tmul, tensorQuotientEquivCompletedTensorQuotient_tmul]
@@ -375,7 +369,7 @@ theorem adicCompletion_of_smul (hI : I.FG) (r : AdicCompletion I R) (t : T) :
   refine AdicCompletion.ext fun n => ?_
   obtain ⟨o, ho⟩ := Ideal.Quotient.mk_surjective (AdicCompletion.evalₐ I n r)
   rw [AdicCompletion.smul_eval, AdicCompletion.val_smul_eq_evalₐ_smul, ← ho]
-  show Submodule.Quotient.mk (r • t) = Ideal.Quotient.mk (I ^ n) o • Submodule.Quotient.mk t
+  change Submodule.Quotient.mk (r • t) = Ideal.Quotient.mk (I ^ n) o • Submodule.Quotient.mk t
   rw [Module.Quotient.mk_smul_mk, Submodule.Quotient.eq]
   exact smul_sub_smul_mem_pow_smul_top I hI n r o ho.symm t
 
@@ -422,7 +416,7 @@ theorem exists_adicCompletion_addEquiv_of_quotientEquiv (hI : I.FG) [IsAdicCompl
     obtain ⟨l, rfl⟩ := Submodule.Quotient.mk_surjective _ x
     rw [id, AdicCompletion.val_smul_eq_evalₐ_smul, AdicCompletion.val_smul_eq_evalₐ_smul, ← ho,
       Module.Quotient.mk_smul_mk]
-    show (e n) (Submodule.Quotient.mk (o • l)) =
+    change (e n) (Submodule.Quotient.mk (o • l)) =
       Ideal.Quotient.mk (I ^ n) o • (e n) (Submodule.Quotient.mk l)
     rw [Submodule.Quotient.mk_smul, map_smul]
     obtain ⟨t, ht⟩ := Submodule.Quotient.mk_surjective _ ((e n) (Submodule.Quotient.mk l))
@@ -430,14 +424,14 @@ theorem exists_adicCompletion_addEquiv_of_quotientEquiv (hI : I.FG) [IsAdicCompl
   let Ψ := AdicCompletion.addEquivOfQuotientEquiv I I (fun n => (e n).toAddEquiv) he
   have hΨ := AdicCompletion.addEquivOfQuotientEquiv_smul I I (fun n => (e n).toAddEquiv) he id hσ
   refine ⟨Ψ.trans (AdicCompletion.ofLinearEquiv I T).symm.toAddEquiv, fun r x => ?_⟩
-  show (AdicCompletion.ofLinearEquiv I T).symm (Ψ (r • x)) =
+  change (AdicCompletion.ofLinearEquiv I T).symm (Ψ (r • x)) =
     r • (AdicCompletion.ofLinearEquiv I T).symm (Ψ x)
   rw [hΨ]
   apply (AdicCompletion.ofLinearEquiv I T).injective
   rw [LinearEquiv.apply_symm_apply]
-  show id r • Ψ x = AdicCompletion.of I T (r • (AdicCompletion.ofLinearEquiv I T).symm (Ψ x))
+  change id r • Ψ x = AdicCompletion.of I T (r • (AdicCompletion.ofLinearEquiv I T).symm (Ψ x))
   rw [adicCompletion_of_smul I hI]
-  show id r • Ψ x = r • (AdicCompletion.ofLinearEquiv I T)
+  change id r • Ψ x = r • (AdicCompletion.ofLinearEquiv I T)
     ((AdicCompletion.ofLinearEquiv I T).symm (Ψ x))
   rw [LinearEquiv.apply_symm_apply]
   rfl
@@ -459,14 +453,14 @@ theorem exists_tensorProduct_addEquiv_of_ringEquiv {A A' B B' : Type*} [CommRing
       map_zero' := by ext m; simp
       map_add' := fun r r' => by ext m; simp }
     (fun a r m => by
-      show β (a • r) ⊗ₜ[B] m = β r ⊗ₜ[B] (a • m)
+      change β (a • r) ⊗ₜ[B] m = β r ⊗ₜ[B] (a • m)
       rw [Algebra.smul_def, map_mul, ← hsq, ← Algebra.smul_def, TensorProduct.smul_tmul, hM])
   let G : B' ⊗[B] M →+ A' ⊗[A] M := TensorProduct.liftAddHom
     { toFun := fun r => (TensorProduct.mk A A' M (β.symm r)).toAddMonoidHom
       map_zero' := by ext m; simp
       map_add' := fun r r' => by ext m; simp }
     (fun b r m => by
-      show β.symm (b • r) ⊗ₜ[A] m = β.symm r ⊗ₜ[A] (b • m)
+      change β.symm (b • r) ⊗ₜ[A] m = β.symm r ⊗ₜ[A] (b • m)
       obtain ⟨a, rfl⟩ := α.surjective b
       rw [Algebra.smul_def, map_mul, hsq, RingEquiv.symm_apply_apply, ← Algebra.smul_def,
         TensorProduct.smul_tmul, hM])
@@ -474,14 +468,12 @@ theorem exists_tensorProduct_addEquiv_of_ringEquiv {A A' B B' : Type*} [CommRing
   have hG : ∀ (r : B') (m : M), G (r ⊗ₜ m) = β.symm r ⊗ₜ m := fun _ _ => rfl
   have hGF : ∀ x, G (F x) = x := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul r m => rw [hF, hG, RingEquiv.symm_apply_apply]
     | add x y hx hy => rw [map_add, map_add, hx, hy]
   have hFG : ∀ y, F (G y) = y := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul r m => rw [hG, hF, RingEquiv.apply_symm_apply]
     | add x y hx hy => rw [map_add, map_add, hx, hy]
   let Φ : A' ⊗[A] M ≃+ B' ⊗[B] M :=
@@ -490,9 +482,8 @@ theorem exists_tensorProduct_addEquiv_of_ringEquiv {A A' B B' : Type*} [CommRing
       left_inv := hGF
       right_inv := hFG }
   refine ⟨Φ, fun r x => ?_⟩
-  show F (r • x) = β r • F x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  change F (r • x) = β r • F x
+  induction x using TensorProduct.inductionOn with
   | tmul r' m => rw [TensorProduct.smul_tmul', hF, hF, TensorProduct.smul_tmul', smul_eq_mul,
       smul_eq_mul, map_mul]
   | add x y hx hy => rw [smul_add, map_add, map_add, hx, hy, smul_add]
@@ -505,8 +496,7 @@ theorem baseChange_symm_comp_eq {R A P Q P' Q' : Type*} [CommRing R] [CommRing A
     (v : Q →ₗ[R] Q') (hsq : ∀ p, v (e p) = e' (u p)) (w : A ⊗[R] Q) :
     LinearMap.baseChange A u (LinearEquiv.baseChange R A Q P e.symm w) =
       LinearEquiv.baseChange R A Q' P' e'.symm (LinearMap.baseChange A v w) := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction w using TensorProduct.inductionOn with
   | tmul a q =>
     rw [LinearEquiv.baseChange_tmul, LinearMap.baseChange_tmul, LinearMap.baseChange_tmul,
       LinearEquiv.baseChange_tmul]
@@ -541,7 +531,7 @@ theorem adicCompletionMap_congrAlgEquiv {A R S A' R' S' : Type*} [CommRing A] [C
     adicCompletionMap_evalₐ]
   obtain ⟨r, hr⟩ := Ideal.Quotient.mk_surjective (AdicCompletion.evalₐ I n x)
   rw [← hr]
-  show Ideal.Quotient.mk (J' ^ n) (χ (f r)) = Ideal.Quotient.mk (J' ^ n) (f' (φ r))
+  change Ideal.Quotient.mk (J' ^ n) (χ (f r)) = Ideal.Quotient.mk (J' ^ n) (f' (φ r))
   rw [hsq]
 
 end Congr
@@ -573,7 +563,7 @@ theorem BlowupChartPoint.affineBlowupCompletionMap_baseCompletionEquiv (c : Blow
       (Localization.AtPrime (c.Q.asIdeal.under Γ(S.X, ⊤))) := c.baseStalkEquiv.toRingHom.toAlgebra
   let : Algebra ((situationBlowUpU S).toScheme.presheaf.stalk y')
       (Localization.AtPrime c.Q.asIdeal) := c.chartStalkEquiv.toRingHom.toAlgebra
-  show adicCompletionMap _ _ _ _ (AdicCompletion.congrAlgEquiv (AlgEquiv.ofRingEquiv
+  change adicCompletionMap _ _ _ _ (AdicCompletion.congrAlgEquiv (AlgEquiv.ofRingEquiv
       (R := S.U.toScheme.presheaf.stalk (blowupRestrict S y')) (f := c.baseStalkEquiv)
       fun _ => rfl) c.map_stalk_idealOnOpen.symm x) =
     AdicCompletion.congrAlgEquiv (AlgEquiv.ofRingEquiv
@@ -751,7 +741,7 @@ theorem BlowupChartPoint.completedStalkComparison (c : BlowupChartPoint S y')
   obtain ⟨Φ₁, hΦ₁⟩ := exists_tensorProduct_addEquiv_of_ringEquiv c.baseCompletionEquiv
     c.chartCompletionEquiv (fun a => c.affineBlowupCompletionMap_baseCompletionEquiv a)
     (completedStalk (idealOnOpen S) F (blowupRestrict S y')) (fun a m => by
-      show c.baseCompletionEquiv.symm (c.baseCompletionEquiv a) • m = a • m
+      change c.baseCompletionEquiv.symm (c.baseCompletionEquiv a) • m = a • m
       rw [RingEquiv.symm_apply_apply])
   refine ⟨Φ₀.trans Φ₁, fun r x => ?_⟩
   exact (congrArg Φ₁ (hΦ₀ r x)).trans (hΦ₁ r (Φ₀ x))

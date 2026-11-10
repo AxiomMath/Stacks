@@ -122,17 +122,18 @@ those; nothing downstream can force a definitional comparison through the transp
 *The composition clause.* The source's last sentence — that the composite of the two maps is the
 usual base change map `(Rf_*K)_s ⟶ RΓ(X_s, K|_{X_s})` — is
 `AlgebraicGeometry.derivedPushforwardStalkToStrictHenselizationSections_comp_fibreSections`
-(`StacksFrontier/AlgebraicGeometry/EtaleCohomology/DerivedStalkFibreComposition.lean`). It needs the derived comparison of the
-stalk with sections on the geometric point
-(`StacksFrontier/AlgebraicGeometry/EtaleCohomology/DerivedGeometricStalkSections.lean`), the global-sections clause of Stacks
-0D6H (`StacksFrontier/AlgebraicGeometry/EtaleCohomology/DerivedLerayGlobalSectionsAb.lean`) and the derived base change map of
-Stacks 0A2A, none of which this module imports.
+(`StacksFrontier/AlgebraicGeometry/EtaleCohomology/DerivedStalkFibreComposition.lean`). It needs
+the derived comparison of the stalk with sections on the geometric point
+(`StacksFrontier/AlgebraicGeometry/EtaleCohomology/DerivedGeometricStalkSections.lean`), the
+global-sections clause of Stacks 0D6H
+(`StacksFrontier/AlgebraicGeometry/EtaleCohomology/DerivedLerayGlobalSectionsAb.lean`) and the
+derived base change map of Stacks 0A2A, none of which this module imports.
 
 *The maps are those of the source.* The source defines the two maps as global sections of the
 derived base change maps of the two squares of its diagram. Those definitions, with no hypothesis
 on the existence of the unbounded derived functors, and the composition clause for them, are in
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/DerivedStalkFibreBaseChangeMaps.lean`, each with its own Stacks 0GIX
-registration; that the maps constructed here are those is
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/DerivedStalkFibreBaseChangeMaps.lean`, each
+with its own Stacks 0GIX registration; that the maps constructed here are those is
 `AlgebraicGeometry.derivedPushforwardStalkToStrictHenselizationSections_eq_baseChange` and
 `AlgebraicGeometry.strictHenselizationSectionsToFibreSections_eq_baseChange`.
 

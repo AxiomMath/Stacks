@@ -339,7 +339,7 @@ theorem extensionByZeroCocone_ι_costructuredTerminal (F : (U.Etale)ᵒᵖ ⥤ A
       eqToHom (congrArg (sourceDescend j) (composeIndex_costructuredTerminal j φ)) :=
     MorphismProperty.Over.Hom.ext
       (sourceDescend_eqToHom_left j (composeIndex_costructuredTerminal j φ)).symm
-  show F.map (composeIndexHom j (costructuredTerminal j φ)).op ≫
+  change F.map (composeIndexHom j (costructuredTerminal j φ)).op ≫
       Sigma.ι (extensionByZeroSummandFamily j F V)
         (composeIndex j (costructuredTerminal j φ)) = _
   exact (congrArg (fun k => F.map (Quiver.Hom.op k) ≫
@@ -360,13 +360,13 @@ def isColimitExtensionByZeroCocone (F : (U.Etale)ᵒᵖ ⥤ A) (V : X.Etale) :
         Sigma.desc (fun φ => s.ι.app (costructuredTerminal j φ)) = s.ι.app c
       exact ((Category.assoc _ _ _).trans
         (congrArg (fun k => F.map (composeIndexHom j c).op ≫ k)
-          (Sigma.ι_desc _ (composeIndex j c)))).trans
+          (Sigma.ι_comp_desc _ (composeIndex j c)))).trans
             (s.w (toCostructuredTerminal j c)))
     (fun s m hm => Sigma.hom_ext _ _ fun φ =>
       ((congrArg (fun k => k ≫ m)
         (extensionByZeroCocone_ι_costructuredTerminal j F φ).symm).trans
           (hm (costructuredTerminal j φ))).trans
-            (Sigma.ι_desc (fun ψ => s.ι.app (costructuredTerminal j ψ)) φ).symm)
+            (Sigma.ι_comp_desc (fun ψ => s.ι.app (costructuredTerminal j ψ)) φ).symm)
 
 /-- **Stacks Project, Tag 0F4K.** The sections of the presheaf `j_{p!} F` over a scheme `V` étale
 over `X` are the direct sum, over the morphisms `φ : V ⟶ U` over `X`, of the sections of `F` over
@@ -400,7 +400,7 @@ theorem isIso_sigmaDesc_extensionByZeroSummandInclusion (F : (U.Etale)ᵒᵖ ⥤
           (extensionByZeroCocone_ι_costructuredTerminal j F φ).symm).trans
         (IsColimit.comp_coconePointUniqueUpToIso_hom (isColimitExtensionByZeroCocone j F V)
           (colimit.isColimit G) (costructuredTerminal j φ))
-    exact (Sigma.ι_desc _ φ).trans <|
+    exact (Sigma.ι_comp_desc _ φ).trans <|
       ((Iso.eq_comp_inv e₂).2 hunit).trans <|
         congrArg (fun k => k ≫ e₂.inv) hcolim.symm |>.trans (Category.assoc _ _ _)
   exact he ▸ inferInstance

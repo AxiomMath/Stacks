@@ -11,8 +11,8 @@ public import StacksCore.Tactic.StacksAttribute
 
 Let `A` be a commutative ring, let `f₁, …, f_r ∈ A`, let `I = (f₁, …, f_r)` and let `M` be an
 `A`-module. Local cohomology `RΓ_{V(I)}` is defined in
-`StacksFrontier/RingTheory/Dualizing/PowerTorsionComparison/LocalCohomologyFunctor.lean` as the right
-adjoint of the inclusion of the complexes with `I`-power-torsion cohomology, so its values are
+`StacksFrontier/RingTheory/Dualizing/PowerTorsionComparison/LocalCohomologyFunctor.lean` as the
+right adjoint of the inclusion of the complexes with `I`-power-torsion cohomology, so its values are
 only accessible through that universal property. This file identifies the value at a module with
 the explicit complex of Stacks 0A6R: the extended alternating Čech complex
 $$ M \longrightarrow \bigoplus_{i} M_{f_i} \longrightarrow

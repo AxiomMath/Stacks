@@ -93,7 +93,7 @@ theorem invertibleCurveDegree_twistingSheaf_one :
       (ProjectiveSpectrum.Proj.twistingSheafModule (polyGrading k 1) 1) 0) = 2 := by
     rw [(Stacks.ProjectiveSpace.Cohomology.cohomologyOverFieldIsoRestrictScalarsCoeffScalar k 1
         _ 0).toLinearEquiv.finrank_eq]
-    show Module.finrank k (Stacks.ProjectiveSpace.Cohomology.twistCohomology k 1 1 0) = 2
+    change Module.finrank k (Stacks.ProjectiveSpace.Cohomology.twistCohomology k 1 1 0) = 2
     rw [(Stacks.ProjectiveSpace.Cohomology.twistCohomologyIsoHomogeneous k 1 1
         (by norm_num)).toLinearEquiv.finrank_eq]
     simp [MvPolynomial.finrank_homogeneousSubmodule]

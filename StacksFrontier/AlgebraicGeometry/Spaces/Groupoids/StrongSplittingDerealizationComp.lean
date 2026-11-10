@@ -109,7 +109,7 @@ theorem splittingArrowHom_comp_source
     splittingArrowHom G C hS hU hR hP hX p hA hB hRA hCP Rs f ≫ Rs.groupoid.source.hom =
       yoneda.map (schemeSiteMap C hS hCP hX (f ≫ AlgebraicGeometry.restrictionSource G p)) ≫
         eqToHom (restrictionObjectsObj_eq G C hS hU hR hP hX p Rs).symm := by
-  show (yoneda.map (schemeSiteMap C hS hCP hRA f) ≫
+  change (yoneda.map (schemeSiteMap C hS hCP hRA f) ≫
       (restrictionArrowsSpaceIso G C hS hU hR hP hX p hA hB hRA Rs).hom) ≫
       Rs.groupoid.source.hom = _
   refine (Category.assoc _ _ _).trans ?_
@@ -126,7 +126,7 @@ theorem splittingArrowHom_comp_target
     splittingArrowHom G C hS hU hR hP hX p hA hB hRA hCP Rs f ≫ Rs.groupoid.target.hom =
       yoneda.map (schemeSiteMap C hS hCP hX (f ≫ AlgebraicGeometry.restrictionTarget G p)) ≫
         eqToHom (restrictionObjectsObj_eq G C hS hU hR hP hX p Rs).symm := by
-  show (yoneda.map (schemeSiteMap C hS hCP hRA f) ≫
+  change (yoneda.map (schemeSiteMap C hS hCP hRA f) ≫
       (restrictionArrowsSpaceIso G C hS hU hR hP hX p hA hB hRA Rs).hom) ≫
       Rs.groupoid.target.hom = _
   refine (Category.assoc _ _ _).trans ?_
@@ -144,7 +144,7 @@ theorem splittingArrowHom_comp_mapArrows
         Rs.hom.toGroupoidHom.mapArrows =
       yoneda.map (schemeSiteMap C hS hCP hR
         (f ≫ AlgebraicGeometry.restrictionArrowsToArrows G p)) := by
-  show (yoneda.map (schemeSiteMap C hS hCP hRA f) ≫
+  change (yoneda.map (schemeSiteMap C hS hCP hRA f) ≫
       (restrictionArrowsSpaceIso G C hS hU hR hP hX p hA hB hRA Rs).hom) ≫
       Rs.hom.toGroupoidHom.mapArrows = _
   refine (Category.assoc _ _ _).trans ?_

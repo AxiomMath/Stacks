@@ -102,9 +102,9 @@ theorem isAlgebraicSpace_and_presheaf_isAffineHom_relativeSpecPoints :
     affineChartSpecHom B S hS A hA Vc,
     isPullback_affineChartSpec B S hS A hA Vc (injective_chartEval_of_isAffine B S hS A hAq Vc)
       (exists_chartEval_eq B S hS A hAq Vc), ?_, ?_⟩
-  · show IsAffine (Spec (A.right.obj.obj (op Vc)))
+  · change IsAffine (Spec (A.right.obj.obj (op Vc)))
     infer_instance
-  · show (Spec (A.right.obj.obj (op Vc))).size ≤ _
+  · change (Spec (A.right.obj.obj (op Vc))).size ≤ _
     rw [Scheme.size_Spec]
     refine max_le_max le_rfl ?_
     let W : (chartScheme Uc).affineOpens :=

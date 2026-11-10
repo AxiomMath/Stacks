@@ -87,9 +87,15 @@ theorem spacesEtaleDerivedPullbackCompIso_hom_comp_leftDerivedIsoMapDerivedCateg
     haveI : (spacesEtaleRingedToposHom (g ≫ f)).toModulesHom.pullbackModules.Additive :=
       Stacks.Sheaves.DerivedPullback.pullbackModules_additive
         (spacesEtaleRingedToposHom (g ≫ f)).toModulesHom
-    haveI := Space.preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact f hf
-    haveI := Space.preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact g hg
-    haveI := Space.preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact (g ≫ f) hgf
+    haveI := (open Space in
+  preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact
+      f hf)
+    haveI := (open Space in
+  preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact
+      g hg)
+    haveI := (open Space in
+  preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact
+      (g ≫ f) hgf)
     haveI : PreservesFiniteColimits (spacesEtaleRingedToposHom f).toModulesHom.pullbackModules :=
       Stacks.Sheaves.DerivedPullback.pullbackModules_preservesFiniteColimits
         (spacesEtaleRingedToposHom f).toModulesHom
@@ -145,9 +151,15 @@ theorem spacesEtaleDerivedPullbackCompIso_hom_comp_leftDerivedIsoMapDerivedCateg
       PreservesFiniteColimits (spacesEtaleRingedToposHom h).toModulesHom.pullbackModules :=
     fun h => Stacks.Sheaves.DerivedPullback.pullbackModules_preservesFiniteColimits
       (spacesEtaleRingedToposHom h).toModulesHom
-  have := Space.preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact f hf
-  have := Space.preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact g hg
-  have := Space.preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact (g ≫ f) hgf
+  have := open Space in
+  preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact
+    f hf
+  have := open Space in
+  preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact
+    g hg
+  have := open Space in
+  preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModulePullbackFlatExact
+    (g ≫ f) hgf
   open Stacks.Cohomology.DerivedPullbackCompositionOfToposHom in
   exact derivedPullbackCompIso_hom_comp_leftDerivedIsoMapDerivedCategory
     (spacesEtaleRingedToposHom g) (spacesEtaleRingedToposHom f)

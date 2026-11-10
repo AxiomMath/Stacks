@@ -142,7 +142,7 @@ private lemma maximalIdeal_notMem_associatedPrimes
   have hkey : ∀ c : Module.support R M, c = ⟨p, hpM⟩ := fun c =>
     Subtype.ext (le_antisymm le_top (hmin.2 c.2 le_top))
   have hdimzero : Module.supportDim R M = 0 := by
-    show Order.krullDim (Module.support R M) = 0
+    change Order.krullDim (Module.support R M) = 0
     have : Nonempty (Module.support R M) := ⟨⟨p, hpM⟩⟩
     have : Subsingleton (Module.support R M) := ⟨fun x y => by rw [hkey x, hkey y]⟩
     exact Order.krullDim_eq_zero
@@ -177,7 +177,7 @@ private lemma cm_of_no_embedded_full_support_one_dim
     exact (Submodule.top_ne_ideal_smul_of_le_jacobson_annihilator
       (IsLocalRing.maximalIdeal_le_jacobson (Module.annihilator R M))).symm
   have hup := Module.depth_le_supportDim R (IsLocalRing.maximalIdeal R) M htopneq
-  show (Module.depth R (IsLocalRing.maximalIdeal R) M : WithBot ℕ∞) = Module.supportDim R M
+  change (Module.depth R (IsLocalRing.maximalIdeal R) M : WithBot ℕ∞) = Module.supportDim R M
   rw [hsd] at hup ⊢
   exact le_antisymm hup (by exact_mod_cast hlo)
 
@@ -190,7 +190,7 @@ private lemma smul_top_eq_top_of_isUnit
     intro m
     obtain ⟨u, hu⟩ := hx.exists_left_inv
     refine ⟨u • m, ?_⟩
-    show x • (u • m) = m
+    change x • (u • m) = m
     rw [smul_smul, mul_comm x u, hu, one_smul]
   simpa only [LinearMap.range_lsmul] using hrange
 
@@ -227,7 +227,7 @@ private lemma length_quotSMulTop_ne_top_of_one_dim
     have : OrderTop (Module.support R (QuotSMulTop x M)) :=
       { top := ⟨IsLocalRing.closedPoint R, hcp⟩
         le_top := fun q => by
-          show q.1 ≤ IsLocalRing.closedPoint R
+          change q.1 ≤ IsLocalRing.closedPoint R
           exact (PrimeSpectrum.asIdeal_le_asIdeal _ _).mpr
             (IsLocalRing.le_maximalIdeal_of_isPrime q.1.asIdeal) }
     have hsub : Subsingleton (Module.support R (QuotSMulTop x M)) :=
@@ -239,7 +239,7 @@ private lemma length_quotSMulTop_ne_top_of_one_dim
   · have hunit : IsUnit x := by
       by_contra h
       exact hxmax ((IsLocalRing.mem_maximalIdeal x).2 (by simpa [nonunits] using h))
-    show Module.length R (M ⧸ (x • (⊤ : Submodule R M))) ≠ ⊤
+    change Module.length R (M ⧸ (x • (⊤ : Submodule R M))) ≠ ⊤
     rw [smul_top_eq_top_of_isUnit hunit]
     simp
 
@@ -256,7 +256,7 @@ private lemma map_span_through_ideal_quotient
     rw [Ideal.mem_span_singleton] at hz
     rcases hz with ⟨c, hc⟩
     rw [← hzy]
-    show Ideal.Quotient.mk I z ∈ Ideal.span {Ideal.Quotient.mk I x}
+    change Ideal.Quotient.mk I z ∈ Ideal.span {Ideal.Quotient.mk I x}
     rw [Ideal.mem_span_singleton]
     exact ⟨Ideal.Quotient.mk I c, by rw [hc, map_mul]⟩
   · intro hy
@@ -329,7 +329,7 @@ private lemma length_quotient_smul_eq
   let g := Submodule.mapQ (x • N) (x • (⊤ : Submodule R M)) LinearMap.id hcompatG
   have hf : Function.Injective f := by
     apply LinearMap.ker_eq_bot.mp
-    show (Submodule.mapQ N (x • N) (LinearMap.lsmul R M x) hcompat).ker = ⊥
+    change (Submodule.mapQ N (x • N) (LinearMap.lsmul R M x) hcompat).ker = ⊥
     rw [Submodule.ker_mapQ, hcomap]
     exact Submodule.mkQ_map_self N
   have hg : Function.Surjective g := by
@@ -340,13 +340,13 @@ private lemma length_quotient_smul_eq
     apply LinearMap.exact_iff.mpr
     have hker : LinearMap.ker g =
         (x • (⊤ : Submodule R M)).map (Submodule.mkQ (x • N)) := by
-      show (Submodule.mapQ (x • N) (x • (⊤ : Submodule R M))
+      change (Submodule.mapQ (x • N) (x • (⊤ : Submodule R M))
         LinearMap.id hcompatG).ker = _
       rw [Submodule.ker_mapQ]
       simp only [Submodule.comap_id]
     have hrange : LinearMap.range f =
         (x • (⊤ : Submodule R M)).map (Submodule.mkQ (x • N)) := by
-      show (Submodule.mapQ N (x • N) (LinearMap.lsmul R M x) hcompat).range = _
+      change (Submodule.mapQ N (x • N) (LinearMap.lsmul R M x) hcompat).range = _
       rw [Submodule.range_mapQ]
       simp only [LinearMap.range_lsmul]
     exact hker.trans hrange.symm
@@ -388,7 +388,7 @@ private lemma minimal_support_eq_minimal_primes_of_full_support
       {q : PrimeSpectrum R | q.asIdeal ∈ minimalPrimes R} := by
   ext q
   rw [minimalPrimes_eq_minimals]
-  show Minimal (· ∈ Module.support R M) q ↔ Minimal Ideal.IsPrime q.asIdeal
+  change Minimal (· ∈ Module.support R M) q ↔ Minimal Ideal.IsPrime q.asIdeal
   rw [hsupp]
   constructor
   · intro hq
@@ -397,7 +397,7 @@ private lemma minimal_support_eq_minimal_primes_of_full_support
     exact (PrimeSpectrum.asIdeal_le_asIdeal q ⟨p, hp⟩).mp
       (hq.2 trivial ((PrimeSpectrum.asIdeal_le_asIdeal ⟨p, hp⟩ q).mpr hpq))
   · intro hq
-    show Minimal (fun _ : PrimeSpectrum R => True) q
+    change Minimal (fun _ : PrimeSpectrum R => True) q
     refine ⟨trivial, fun p hp hpq => ?_⟩
     exact (PrimeSpectrum.asIdeal_le_asIdeal q p).mpr
       (hq.2 p.isPrime ((PrimeSpectrum.asIdeal_le_asIdeal p q).mp hpq))
@@ -444,7 +444,7 @@ private lemma map_fractionalProduct_module_le
     obtain ⟨x, hx⟩ := mem_fractionalProductIdeal_iff.mp hr
     have hI : x ∈ denominatorIdeal a b := mem_denominatorIdeal_iff.mpr ⟨r, hx.symm⟩
     refine ⟨x • v, Submodule.smul_mem_smul hI Submodule.mem_top, ?_⟩
-    show a • (x • v) = b • (r • v)
+    change a • (x • v) = b • (r • v)
     rw [smul_smul, smul_smul, show a * x = b * r by linear_combination hx.symm]
   · intro u v hu hv
     rcases hu with ⟨u', hu', hU⟩
@@ -476,7 +476,7 @@ theorem fraction_smul_denominatorIdeal_le
   · intro r hr m hm
     obtain ⟨y, hy⟩ := mem_denominatorIdeal_iff.mp hr
     refine ⟨y • m, ?_⟩
-    show LocalizedModule.mk (y • m) 1 =
+    change LocalizedModule.mk (y • m) 1 =
       IsLocalization.mk' (FractionRing R) a ⟨b, hb⟩ •
         LocalizedModule.mkLinearMap (nonZeroDivisors R) M (r • m)
     rw [LocalizedModule.mkLinearMap_apply]
@@ -489,13 +489,13 @@ theorem fraction_smul_denominatorIdeal_le
     apply LocalizedModule.mk_eq.mpr
     refine ⟨1, ?_⟩
     simp only [one_smul]
-    show b • (y • m) = a • (r • m)
+    change b • (y • m) = a • (r • m)
     rw [smul_smul, smul_smul, show b * y = a * r by linear_combination hy.symm]
   · intro x y hx hy
     rcases hx with ⟨u, hu⟩
     rcases hy with ⟨v, hv⟩
     refine ⟨u + v, ?_⟩
-    show LocalizedModule.mkLinearMap (nonZeroDivisors R) M (u + v) =
+    change LocalizedModule.mkLinearMap (nonZeroDivisors R) M (u + v) =
       IsLocalization.mk' (FractionRing R) a ⟨b, hb⟩ •
         LocalizedModule.mkLinearMap (nonZeroDivisors R) M (x + y)
     rw [map_add, map_add, hu, hv, smul_add]
@@ -543,7 +543,7 @@ theorem length_fractionalProduct_quotient_sub_length_denominator_quotient
             (LocalizedModule q.asIdeal.primeCompl M) := by
     by_cases haunit : IsUnit x
     · have hzero : Module.length R (QuotSMulTop x M) = 0 := by
-        show Module.length R (M ⧸ (x • (⊤ : Submodule R M))) = 0
+        change Module.length R (M ⧸ (x • (⊤ : Submodule R M))) = 0
         rw [smul_top_eq_top_of_isUnit haunit]
         simp
       rw [hzero]

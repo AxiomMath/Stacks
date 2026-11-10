@@ -232,7 +232,7 @@ public lemma pushforwardMapOfChoice_fac
   let ψ := Functor.Fiber.fiberInclusion.map g ≫ P.inclusion y
   have hψ : p.IsHomLift f ψ := homLift_comp_fiber P g
   let : p.IsHomLift f ψ := hψ
-  show P.inclusion x ≫
+  change P.inclusion x ≫
       @IsStronglyCocartesian.map C F _ _ p B A x.1 (P.obj x).1 f
         (P.inclusion x) (P.cocartesian x) A (P.obj y).1 (𝟙 A) f
         (Category.comp_id f).symm ψ hψ = ψ
@@ -346,7 +346,7 @@ public lemma cocartesianComparison_hom_fac
     (hu : p.IsStronglyCocartesian f u) (hv : p.IsStronglyCocartesian f v) :
     u ≫ Functor.Fiber.fiberInclusion.map
       (cocartesianComparison p f a b c u v hu hv).hom = v := by
-  show u ≫ IsStronglyCocartesian.map p f u (Category.comp_id f).symm v = v
+  change u ≫ IsStronglyCocartesian.map p f u (Category.comp_id f).symm v = v
   exact IsStronglyCocartesian.fac p f u (Category.comp_id f).symm v
 
 /-- A square of vertical arrows commutes as soon as it does after precomposition with a

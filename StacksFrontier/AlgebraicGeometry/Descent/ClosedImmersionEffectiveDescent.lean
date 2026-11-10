@@ -47,13 +47,13 @@ There are no new definitions.
 
 *Why the fppf form of Stacks 02L6 is reassembled here.* The fpqc descent of closed immersions is
 an instance, `Stacks.Descent.isClosedImmersion_descendsAlong_surjective_inf_flat_inf_quasiCompact`
-of `StacksFrontier.AlgebraicGeometry.Descent.FpqcLocalAtTarget`, and so is Mathlib's Zariski locality
-`AlgebraicGeometry.IsClosedImmersion.isZariskiLocalAtTarget`; Mathlib's upgrade of fpqc to fppf
-descent is also an instance but does not fire on a concrete property, so it is applied through the
-named `AlgebraicGeometry.descendsAlong_fppf_of`. The same combination is available as
+of `StacksFrontier.AlgebraicGeometry.Descent.FpqcLocalAtTarget`, and so is Mathlib's Zariski
+locality `AlgebraicGeometry.IsClosedImmersion.isZariskiLocalAtTarget`; Mathlib's upgrade of fpqc to
+fppf descent is also an instance but does not fire on a concrete property, so it is applied through
+the named `AlgebraicGeometry.descendsAlong_fppf_of`. The same combination is available as
 `Stacks.Descent.isClosedImmersion_descendsAlong_fppf` in
-`StacksFrontier.AlgebraicGeometry.Spaces.SeparatedTfae`, but that module is not in the import closure
-of the affine effective-descent theorem and nothing else here needs it.
+`StacksFrontier.AlgebraicGeometry.Spaces.SeparatedTfae`, but that module is not in the import
+closure of the affine effective-descent theorem and nothing else here needs it.
 
 *Why not the quasi-affine route.* The declaration
 `isEffectiveDescentAlongSurjectiveEtale_isClosedImmersion_of_isQuasiAffineHom` of

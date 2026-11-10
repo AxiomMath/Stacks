@@ -72,8 +72,8 @@ is proved here is the existence of products of *pairs* of objects with *affine* 
 over a situation with `X` and `S` affine.  Three further steps separate the two:
 
 1. fibre products, which the library has for `CRIS(X/S)` in
-   `StacksFrontier/AlgebraicGeometry/Crystalline/BigSite/FibreProduct.lean` and which are not touched
-   here;
+   `StacksFrontier/AlgebraicGeometry/Crystalline/BigSite/FibreProduct.lean` and which are not
+   touched here;
 2. the passage from affine objects to arbitrary ones, which needs the descent of a divided power
    thickening along an open cover of the thickened scheme — absent from the library for
    `Crystalline.SchemeThickening`, see the module docstring of
@@ -142,7 +142,7 @@ theorem sectionsIdeal_le_ker_appTop :
   have h := congrArg Scheme.Hom.appTop D.closedFiberSourceIso_inv_closedFiberι
   rw [Scheme.Hom.comp_appTop] at h
   refine (ConcreteCategory.congr_hom h s).symm.trans ?_
-  show D.closedFiberSourceIso.inv.appTop.hom
+  change D.closedFiberSourceIso.inv.appTop.hom
     ((DividedPowerScheme.closedFiberι D.target).appTop.hom s) = 0
   rw [h0, map_zero]
 
@@ -162,7 +162,7 @@ theorem ker_appTop_le_sectionsIdeal :
       RingHom.ker (D.immersion.app (A : D.target.scheme.Opens)).hom := by
     rw [RingHom.mem_ker]
     refine hnat.trans ?_
-    show (D.source.presheaf.map _).hom (D.immersion.appTop.hom s) = 0
+    change (D.source.presheaf.map _).hom (D.immersion.appTop.hom s) = 0
     rw [RingHom.mem_ker.mp hs, map_zero]
   exact ((D.ideal_eq_ker A).trans (Scheme.Hom.ker_apply D.immersion A)).ge hmem
 
@@ -247,7 +247,7 @@ theorem quotientRingHom_specSectionsRingIso_comp :
       (wholeThickeningToAffine hp (specThickeningOfAffine hp T)).toQuotient := by
   refine RingHom.ext fun y ↦ ?_
   obtain ⟨β, hβ⟩ := Ideal.Quotient.mk_surjective (T.toQuotient y)
-  show DividedPowerRing.quotientRingHom (A := T.ring)
+  change DividedPowerRing.quotientRingHom (A := T.ring)
     (B := (wholeThickeningToAffine hp (specThickeningOfAffine hp T)).ring)
     (DividedPowerScheme.specSectionsRingIso T.ring).hom (T.toQuotient y) = _
   rw [← hβ]
@@ -328,6 +328,7 @@ theorem sourceQuotientHom_quotientRingHom_wholeSectionsToQuotient
     ((congrArg B.thickening.sourceQuotientHom hb).trans
       (sourceQuotientHom_wholeSectionsToQuotient B x)))
 
+omit [IsAffine S.X] [IsAffine S.S.scheme] in
 /-- **A morphism of `CRIS(X/S)` into an object with affine thickened scheme carries the structural
 map of the target to the restriction `Γ(X, ⊤) → Γ(U_T, ⊤)`**, read through the injection
 `Γ(T, ⊤)/I_T(⊤) → Γ(U_T, ⊤)`. -/
@@ -372,6 +373,7 @@ def relativeSections (f : T ⟶ A) :
         (Ideal.Quotient.mk (SchemeThickening.sectionsIdeal T.thickening)) hb.symm).trans
       (congrArg (DividedPowerRing.quotientRingHom (globalSectionsDPMorphism f.targetHom)) hA)
 
+omit [IsAffine S.X] [IsAffine S.S.scheme] in
 /-- **The structural map of the relative sections of `T` is the restriction `Γ(X, ⊤) → Γ(U_T, ⊤)`,
 read through the injection `Γ(T, ⊤)/I_T(⊤) → Γ(U_T, ⊤)`.**  In particular it does not depend on the
 morphism `f` used to build it. -/
@@ -397,6 +399,7 @@ def relativeSectionsMap (f : T ⟶ A) (g : T ⟶ B) :
     ((sourceQuotientHom_quotientRingHom_targetHom g x).trans
       (sourceQuotientHom_relativeSections_toQuotient hp f x).symm)
 
+omit [IsAffine S.X] [IsAffine S.S.scheme] in
 /-- The underlying morphism of divided power rings of
 `Crystalline.GlobalCrystallineSituation.relativeSectionsMap` is the map on global sections of the
 ambient divided power schemes. -/
@@ -418,6 +421,7 @@ theorem homOfSectionsDPMorphism_base_naturality (f : T ⟶ A)
       (DividedPowerScheme.homOfSectionsDPMorphism_hom_appTop g.hom)
       (B.toBase.hom.appTop.hom c)).trans (DFunLike.congr_fun g.fromBase_comp c)
 
+omit [IsAffine S.S.scheme] in
 /-- **The induced map on thickened schemes is a morphism over `X`.**  Both maps land in the affine
 scheme `X`, so the identity is checked on global sections, where it is the compatibility
 `toQuotient_comp` of [Stacks, Tag 07HM] read through
@@ -461,6 +465,7 @@ theorem relativeSectionsMap_homOfRelativeSections (f : T ⟶ A)
   DividedPowerThickening.Hom.ext
     (DividedPowerScheme.globalSectionsDPMorphism_homOfSectionsDPMorphism g.hom)
 
+omit [IsAffine S.X] [IsAffine S.S.scheme] in
 /-- **Passing to relative sections is functorial in the target**, contravariantly: postcomposing a
 morphism `T ⟶ B` with a morphism `B ⟶ C` of objects with affine thickened scheme precomposes the
 associated morphism of divided power thickenings with
@@ -470,6 +475,7 @@ theorem relativeSectionsMap_comp (f : T ⟶ A) (g : T ⟶ B) (h : B ⟶ C) :
   DividedPowerThickening.Hom.ext
     (globalSectionsDPMorphism_comp g.targetHom h.targetHom).symm
 
+omit [IsAffine S.X] [IsAffine S.S.scheme] in
 /-- **A morphism of `CRIS(X/S)` from an arbitrary object into one with affine thickened scheme is
 determined by the morphism of divided power thickenings it induces.**  Together with
 `Crystalline.GlobalCrystallineSituation.relativeSectionsMap_homOfRelativeSections` this makes the
@@ -508,6 +514,7 @@ theorem relativeSectionsMap_liftOfIsColimit {T : Thickening S} (sf : T ⟶ A) (s
         (relativeSectionsMap hp sf sf) (relativeSectionsMap hp sf sg)).val :=
   relativeSectionsMap_homOfRelativeSections hp sf _
 
+omit [IsAffine S.X] [IsAffine S.S.scheme] in
 /-- Precomposing with a morphism `f : P ⟶ A` inducing a coprojection `ι` turns the relative
 sections map of `m ≫ f` into `ι` followed by `e.inv` and the relative sections map of `m`. -/
 private theorem relativeSectionsMap_comp_eq_coprojection {C : Thickening S}

@@ -192,7 +192,7 @@ theorem flatAlgebraCategory_projection_isCofiberedInGroupoids
   classical
   let _ : Category (FlatAlgebraCategory.{u, w} Λ k) := FlatAlgebraCategory.instCategory
   let p := FlatAlgebraCategory.projection (Λ := Λ) (k := k)
-  show p.op.IsFiberedInGroupoids
+  change p.op.IsFiberedInGroupoids
   constructor
   · intro V U f x hx
     cases hx; cases V
@@ -240,11 +240,11 @@ theorem flatAlgebraCategory_projection_isCofiberedInGroupoids
         cartesian := houter.of_top (phi0.cartesian.inr_desc _ _ hdesc) phi0.cartesian }
     have hchi : (FlatAlgebraCategory.instCategory (Λ := Λ) (k := k)).comp phi0 chi0 = psi0 := by
       refine FlatAlgebraCategory.Hom.ext hcomp ?_
-      show phi0.map ≫ chi0.map = psi0.map
+      change phi0.map ≫ chi0.map = psi0.map
       simpa [chi0] using hmap
     refine ⟨Opposite.op chi0, ?_, ?_⟩
     · constructor
-      · show Opposite.op (p.map chi0) = f; rfl
+      · change Opposite.op (p.map chi0) = f; rfl
       · exact congrArg Opposite.op hchi
     · intro χ hχ
       have hb : (χ.unop).base = g := by
@@ -257,9 +257,9 @@ theorem flatAlgebraCategory_projection_isCofiberedInGroupoids
         · have hm0 := congrArg (fun q : FlatAlgebraCategory.Hom X Z => q.map)
             (congrArg Quiver.Hom.unop hχ.2)
           change phi0.map ≫ χ.unop.map = psi0.map at hm0
-          show phi0.map ≫ χ.unop.map = phi0.map ≫ chi0.map
+          change phi0.map ≫ χ.unop.map = phi0.map ≫ chi0.map
           exact hm0.trans (by simpa [chi0] using hmap.symm)
-        · show FlatAlgebraCategory.structureMap Y ≫ χ.unop.map =
+        · change FlatAlgebraCategory.structureMap Y ≫ χ.unop.map =
             FlatAlgebraCategory.structureMap Y ≫ chi0.map
           rw [χ.unop.cartesian.w, chi0.cartesian.w, hb]
 

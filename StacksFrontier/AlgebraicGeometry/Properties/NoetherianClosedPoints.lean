@@ -56,7 +56,7 @@ private theorem local_stalk_dim_lt_two_of_open_singleton {Y : Scheme.{u}}
     exact hxy
   obtain ⟨p, hp⟩ := hxrange
   have hpV : p ∈ V := by
-    show f p ∈ U
+    change f p ∈ U
     rw [hp, hU]
     simp
   have hf_inj : Function.Injective f := f.isEmbedding.injective
@@ -124,7 +124,7 @@ theorem closedPoints_nonempty (X : Scheme.{u}) [IsLocallyNoetherian X] [Nonempty
       _ = closure ({xU} : Set {y : X // y ∈ U.1}) := by
         congr 1
         ext y
-        show y.1 = xU.1 ↔ y = xU
+        change y.1 = xU.1 ↔ y = xU
         exact Subtype.ext_iff.symm
   have hclosureInter : closure ({x} : Set X) ∩ U.1 = {x} := by
     ext y
@@ -135,7 +135,7 @@ theorem closedPoints_nonempty (X : Scheme.{u}) [IsLocallyNoetherian X] [Nonempty
         have : (⟨y, hyU⟩ : {y : X // y ∈ U.1}) ∈
             (Subtype.val : {y : X // y ∈ U.1} → X) ⁻¹'
             closure ({x} : Set X) := by
-          show (⟨y, hyU⟩ : {y : X // y ∈ U.1}).1 ∈ closure ({x} : Set X)
+          change (⟨y, hyU⟩ : {y : X // y ∈ U.1}).1 ∈ closure ({x} : Set X)
           exact hyc
         exact hpre.symm ▸ this
       have hy'' : (⟨y, hyU⟩ : {y : X // y ∈ U.1}) ∈
@@ -192,7 +192,7 @@ theorem closedPoints_nonempty (X : Scheme.{u}) [IsLocallyNoetherian X] [Nonempty
     · intro hy
       have hy' : y = xY := Set.mem_singleton_iff.mp hy
       subst y
-      show i xY ∈ U.1
+      change i xY ∈ U.1
       rw [hixY]
       exact hxU
   have hclosedSpecialization (y : X) (hxy : x ⤳ y) (hyx : y ≠ x) :
@@ -214,7 +214,7 @@ theorem closedPoints_nonempty (X : Scheme.{u}) [IsLocallyNoetherian X] [Nonempty
     let : PartialOrder Y := specializationOrder Y
     have hyz' : zY < yY := by
       apply lt_of_le_of_ne
-      · show yY ⤳ zY
+      · change yY ⤳ zY
         exact i.isEmbedding.isInducing.specializes_iff.mp (by simpa [hiyY, hizY] using hyz)
       · intro heq
         apply hzy
@@ -269,7 +269,7 @@ theorem nonempty_inter_closedPoints_of_isClosed (X : Scheme.{u}) [IsLocallyNoeth
   obtain ⟨y, hyclosed⟩ := closedPoints_nonempty Y
   refine ⟨i y, ?_, ?_⟩
   · simp [← hrange]
-  · show y ∈ i ⁻¹' closedPoints X
+  · change y ∈ i ⁻¹' closedPoints X
     rw [i.isClosedEmbedding.preimage_closedPoints]
     exact hyclosed
 

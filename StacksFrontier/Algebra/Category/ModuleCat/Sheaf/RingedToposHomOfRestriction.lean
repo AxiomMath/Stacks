@@ -112,7 +112,8 @@ noncomputable def pullbackCommRingSheafCongrMap (θ : Φ ⟶ Ψ) (O : Sheaf K Co
           (θ.app (Sheaf.ringSheaf (SheafOfModules.Tensor.ringSheaf O))).hom g x }
 
 omit [J.HasSheafCompose (forget RingCat.{ww})]
-  [J.HasSheafCompose (forget₂ CommRingCat.{ww} RingCat.{ww})] in
+  [J.HasSheafCompose (forget₂ CommRingCat.{ww} RingCat.{ww})]
+  [K.HasSheafCompose (forget₂ CommRingCat.{ww'} RingCat.{ww'})] in
 /-- On underlying sheaves of sets the induced map is the given natural transformation. -/
 @[simp]
 lemma pullbackCommRingSheafCongrMap_forget [J.HasSheafCompose (forget CommRingCat.{ww})]
@@ -144,7 +145,8 @@ noncomputable def pullbackCommRingSheafCongr (e : Φ ≅ Ψ) (O : Sheaf K CommRi
       (e.inv_hom_id_app (Sheaf.ringSheaf (SheafOfModules.Tensor.ringSheaf O)))) x
 
 omit [J.HasSheafCompose (forget RingCat.{ww})]
-  [J.HasSheafCompose (forget₂ CommRingCat.{ww} RingCat.{ww})] in
+  [J.HasSheafCompose (forget₂ CommRingCat.{ww} RingCat.{ww})]
+  [K.HasSheafCompose (forget₂ CommRingCat.{ww'} RingCat.{ww'})] in
 /-- The transport is the identity on underlying sheaves of sets: it *is* the given
 isomorphism. -/
 @[simp]

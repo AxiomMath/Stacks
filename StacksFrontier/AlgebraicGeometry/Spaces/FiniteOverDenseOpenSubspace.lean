@@ -42,6 +42,7 @@ local instance (priority := high) hasPullback_presheaf_finiteOverDenseOpenSubspa
   HasLimitsOfShape.has_limit _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance synthesis for these presheaf-category limit instances exceeds the default budget
 /-- Discrete limits of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance (priority := high) hasLimitsOfShape_discrete_presheaf_finiteOverDenseOpenSubspace
@@ -56,7 +57,7 @@ private theorem residueFieldValuedPoint_schemePoint
     schemePoint B S hS U (residueFieldValuedPoint B S hS U z) = z := by
   let T := (BigFppfOver.toScheme B S hS).obj U
   let kobj : B.Schemes := B.obj (B.residueField_spec_contains U.left.property z)
-  show (B.inclusion.map (B.inclusion.preimage (X := kobj) (Y := U.left)
+  change (B.inclusion.map (B.inclusion.preimage (X := kobj) (Y := U.left)
     (T.fromSpecResidueField z))) _ = z
   rw [B.inclusion.map_preimage]
   exact Scheme.fromSpecResidueField_apply z _
@@ -90,7 +91,7 @@ private theorem residueFieldValuedPoint_class_schemePoint
     Scheme.descResidueField_stalkClosedPointTo_fromSpecResidueField p.carrier (F.obj U) m
   have hq : F.map q.value = (F.obj U).fromSpecResidueField z := by
     let K := B.obj (B.residueField_spec_contains U.left.property z)
-    show B.inclusion.map (B.inclusion.preimage (X := K) (Y := U.left)
+    change B.inclusion.map (B.inclusion.preimage (X := K) (Y := U.left)
       ((F.obj U).fromSpecResidueField z)) = _
     exact B.inclusion.map_preimage _
   let a₀ : (p.siteObject B S hS (yoneda.obj U)).left ⟶
@@ -101,7 +102,7 @@ private theorem residueFieldValuedPoint_class_schemePoint
   have hleft : a₀ ≫ q.value.left = p.value.left := by
     apply B.inclusion.map_injective
     rw [Functor.map_comp]
-    show B.inclusion.map a₀ ≫ F.map q.value = F.map p.value
+    change B.inclusion.map a₀ ≫ F.map q.value = F.map p.value
     rw [hq]
     exact (congrArg (fun g => g ≫ (F.obj U).fromSpecResidueField z) ha₀).trans ha
   let a' : p.siteObject B S hS (yoneda.obj U) ⟶
@@ -129,7 +130,7 @@ private theorem pointsMap_residueFieldValuedPoint
       (BigFppfOver.toScheme B S hS).map f z := by
     exact (schemePoint_fieldValuedPoint_map B S hS f _).trans
       (congrArg _ (residueFieldValuedPoint_schemePoint B S hS U z))
-  show p.class B S hS (yoneda.obj V) = _
+  change p.class B S hS (yoneda.obj V) = _
   rw [← hp]
   exact (residueFieldValuedPoint_class_schemePoint B S hS V p).symm
 
@@ -176,7 +177,7 @@ private theorem residueFieldValuedPoint_class_injective
           ⟨AlgebraicGeometry.Space.toSchemeFieldValuedPoint B S hS U r, hdom p f hf', hdom q g hg'⟩
         exact (AlgebraicGeometry.FieldValuedPoint.hasCommonExtension_iff_point_eq _ _).mp hpq') z
   have hinv (z : X) : inv (pt z) = z := by
-    show (AlgebraicGeometry.Space.toSchemeFieldValuedPoint B S hS U
+    change (AlgebraicGeometry.Space.toSchemeFieldValuedPoint B S hS U
       (residueFieldValuedPoint B S hS U z)).point = z
     exact residueFieldValuedPoint_schemePoint B S hS U z
   intro x y h
@@ -450,7 +451,7 @@ theorem exists_isDenseOpenSubspace_isFinite_pullback_snd
       let zU := pointsMap B S hS (yoneda.obj R) (yoneda.map t) zR
       let zP := pointsMap B S hS (yoneda.obj U) a zU
       have hxr_eq : xr = pointsMap B S hS P q zP := by
-        show pointsMap B S hS (yoneda.obj R)
+        change pointsMap B S hS (yoneda.obj R)
           (yoneda.map t ≫ a ≫ q) zR =
           pointsMap B S hS P q
             (pointsMap B S hS (yoneda.obj U) a
@@ -554,7 +555,7 @@ theorem exists_isDenseOpenSubspace_isFinite_pullback_snd
       have hh := hprod.preimage δ.injective.injOn
       apply hh.subset
       intro r hr
-      show (pullback.snd (Tfun.map k) (Tfun.map k) ≫ Tfun.map k) (δ r) = η
+      change (pullback.snd (Tfun.map k) (Tfun.map k) ≫ Tfun.map k) (δ r) = η
       rw [← Scheme.Hom.comp_apply, hδl]
       exact hr
     have hRgenericFinite : (genericPoints (Tfun.obj R)).Finite := by
@@ -607,7 +608,7 @@ theorem exists_isDenseOpenSubspace_isFinite_pullback_snd
       have hj : (MorphismProperty.inverseImage (@AlgebraicGeometry.IsOpenImmersion.{u})
           Tfun).presheaf (yoneda.map ja) := by
         apply (MorphismProperty.relative_map_iff (F := yoneda)).mpr
-        show AlgebraicGeometry.IsOpenImmersion (Tfun.map ja)
+        change AlgebraicGeometry.IsOpenImmersion (Tfun.map ja)
         rw [hja]
         exact (inferInstance : AlgebraicGeometry.IsOpenImmersion (X := A.toScheme)
           (Y := Tfun.obj VT) A.ι)
@@ -628,7 +629,7 @@ theorem exists_isDenseOpenSubspace_isFinite_pullback_snd
     have hcD : Set.range (Tfun.map c).base ⊆ Set.range D.ι.base := by
       rintro _ ⟨x, rfl⟩
       refine ⟨⟨Tfun.map c x, ?_⟩, rfl⟩
-      show Tfun.map jv (Tfun.map ja x) ∈ D
+      change Tfun.map jv (Tfun.map ja x) ∈ D
       rw [hja]
       exact hAD x.property
     have hRbasefin : IsFinite B S hS

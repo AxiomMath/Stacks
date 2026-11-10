@@ -114,7 +114,8 @@ bijection between the `𝒪_X`-linear maps `θ : a^*Ω_{Y/T} ⟶ 𝒞_{X/X'}` an
 `(a')^{-1}𝒪_{Y'}` there.
 
 Carrying a derivation across that change of site and of source is
-`AlgebraicGeometry.Space.ambientConormalDerivation`, and `AlgebraicGeometry.Space.thickeningDerivationFamilyOfHom` builds the structure.
+`AlgebraicGeometry.Space.ambientConormalDerivation`, and
+`AlgebraicGeometry.Space.thickeningDerivationFamilyOfHom` builds the structure.
 What the transport does *not* do is go through the site of the closed subspace `Y` at all —
 Equation (0619) is read at the composite `X ⟶ X' ⟶ Y'` instead, and only the map `θ` itself is
 carried from `Ω_{Y/T}` to `Ω_{Y'/T}`, by the comparison of [Stacks Project, Tag 04CX].

@@ -34,8 +34,8 @@ connectedness makes the single off-diagonal entry `a` positive, the two balance 
 The three-component case is in
 `StacksFrontier/AlgebraicGeometry/Surfaces/GenusOneConfiguration/ThreeComponents.lean`, and the
 four-component case in
-`StacksFrontier/AlgebraicGeometry/Surfaces/GenusOneConfiguration/FourComponentShape.lean` (the shape of
-the incidence graph) and
+`StacksFrontier/AlgebraicGeometry/Surfaces/GenusOneConfiguration/FourComponentShape.lean` (the shape
+of the incidence graph) and
 `StacksFrontier/AlgebraicGeometry/Surfaces/GenusOneConfiguration/FourComponents.lean` (the level
 identity of each shape and the classification);
 `StacksFrontier/AlgebraicGeometry/Surfaces/GenusOneConfiguration.lean` re-exports all four files.

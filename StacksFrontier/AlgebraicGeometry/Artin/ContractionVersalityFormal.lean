@@ -84,7 +84,7 @@ section TestMaps
 /-- The morphism of spectra induced by a surjection of Artinian local rings, read through
 equalities of schemes, has nilpotent kernel on global sections. -/
 theorem isNilpotent_ker_appTop_of_eq_specMap {R' R : CommRingCat.{u}} [IsArtinianRing R']
-    [IsLocalRing R'] [Nontrivial R] (f : R' ⟶ R) (hf : Function.Surjective f.hom)
+    [IsLocalRing R'] [Nontrivial R] (f : R' ⟶ R)
     {X Y : Scheme.{u}} (e : X = Spec R) (e' : Y = Spec R') (m : X ⟶ Y)
     (hm : eqToHom e.symm ≫ m ≫ eqToHom e' = Spec.map f) :
     IsNilpotent (RingHom.ker m.appTop.hom) := by
@@ -138,7 +138,7 @@ private theorem isClosedImmersion_and_isNilpotent_ker_of_eq_specMap {R' R : Comm
     (m : X ⟶ Y) (hm : eqToHom e.symm ≫ m ≫ eqToHom e' = Spec.map f) :
     IsClosedImmersion m ∧ IsNilpotent (RingHom.ker m.appTop.hom) :=
   ⟨isClosedImmersion_of_eq_specMap f hf e e' m hm,
-    isNilpotent_ker_appTop_of_eq_specMap f hf e e' m hm⟩
+    isNilpotent_ker_appTop_of_eq_specMap f e e' m hm⟩
 
 end TestMaps
 
@@ -212,7 +212,7 @@ theorem lift_of_formallySmooth_of_isOpenImmersion {V V₀ : BigFppfOver B S hS}
   have hφ₀' : Space.HasImageIn B S hS (yoneda.obj V₀)
       (Space.pointsMap B S hS _ (yoneda.map ι₀) ⁻¹' Z) T₀ φ₀ :=
     (hasImageIn_preimage_pointsMap_iff B S hS (yoneda.map ι₀) Z T₀ φ₀).2 (by
-      show Space.HasImageIn B S hS (yoneda.obj V) Z T₀ (φ₀ ≫ ι₀)
+      change Space.HasImageIn B S hS (yoneda.obj V) Z T₀ (φ₀ ≫ ι₀)
       rw [hφ₀]; exact hφ)
   have hsec : ∀ (T : BigFppfOver B S hS) (ψ : T ⟶ V₀) (h₁)
       (h₂ : Space.HasImageIn B S hS (yoneda.obj V) Z T (ψ ≫ ι₀)),
@@ -223,7 +223,7 @@ theorem lift_of_formallySmooth_of_isOpenImmersion {V V₀ : BigFppfOver B S hS}
       (Space.completionSheafMap B S hS (yoneda.map ι₀) Z ≫ g).hom.app (op T₀)
         (presheafSection B S hS φ₀ hφ₀') := by
     rw [hw]
-    show _ = g.hom.app (op T₀) ((Space.completionSheafMap B S hS (yoneda.map ι₀) Z).hom.app
+    change _ = g.hom.app (op T₀) ((Space.completionSheafMap B S hS (yoneda.map ι₀) Z).hom.app
       (op T₀) (presheafSection B S hS φ₀ hφ₀'))
     rw [hsec T₀ φ₀ hφ₀' (by rw [hφ₀]; exact hφ)]
     exact congrArg _ (presheafSection_congr B S hS hφ₀.symm _ _)
@@ -235,7 +235,7 @@ theorem lift_of_formallySmooth_of_isOpenImmersion {V V₀ : BigFppfOver B S hS}
   · have hres' : i ≫ ψ = φ₀ := hres
     rw [← Category.assoc, hres', hφ₀]
   · rw [← hval]
-    show _ = g.hom.app (op T₁) ((Space.completionSheafMap B S hS (yoneda.map ι₀) Z).hom.app
+    change _ = g.hom.app (op T₁) ((Space.completionSheafMap B S hS (yoneda.map ι₀) Z).hom.app
       (op T₁) (presheafSection B S hS ψ hψ))
     rw [hsec T₁ ψ hψ hψ']
 
@@ -328,12 +328,12 @@ theorem isVersalAt_of_lift_openPart (x : (contractionFunctor c).Elementsᵒᵖ)
   have hZ' := (mapTriple_Z_eq_empty_iff c φ' ξ).2 hφ'
   have hb : mapTriple c φ' ξ = z.unop.2 := by
     refine Triple.ext_of_Z_eq_empty hZ' hzZ ?_
-    show ((mapTriple c φ' ξ).uPoint hZ').1 = sz.1
+    change ((mapTriple c φ' ξ).uPoint hZ').1 = sz.1
     rw [uPoint_mapTriple_eq c φ' ξ hφ' hZ', hval]
   refine ⟨Quiver.Hom.op ⟨(ObjectProperty.homMk φ' : z.unop.1.unop ⟶ x.unop.1.unop).op, hb⟩,
     ?_⟩
   apply Quiver.Hom.unop_inj
-  apply CategoryOfElements.ext
+  apply Functor.Elements.hom_ext
   apply Quiver.Hom.unop_inj
   apply ObjectProperty.hom_ext
   exact hcomp

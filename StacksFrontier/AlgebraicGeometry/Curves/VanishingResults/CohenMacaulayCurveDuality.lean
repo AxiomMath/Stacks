@@ -174,7 +174,7 @@ theorem homDualityShiftOneAddEquiv_naturality
       (DerivedCategory.homologyFunctor (ModuleCat.{u} k) 0).map
           ((derivedGlobalSectionsOver f).map g) ≫
         homDualityShiftOneAddEquiv f hcm hequi hdim L β := by
-  show dualityAddEquivZero f K ((g ≫ β) ≫ _) = _ ≫ dualityAddEquivZero f L (β ≫ _)
+  change dualityAddEquivZero f K ((g ≫ β) ≫ _) = _ ≫ dualityAddEquivZero f L (β ≫ _)
   rw [← dualityAddEquivZero_naturality, Category.assoc]
 
 /-- **Compatibility with the shift** of `Stacks.Duality.extDualityShiftOneAddEquiv`: the
@@ -192,12 +192,12 @@ theorem extDualityShiftOneAddEquiv_shift
           (((shiftEquiv' (DerivedCategory X.Modules) (-i) i (by omega)).toAdjunction.homEquiv
             K.obj (dualizingSheafShiftOne f)).symm α) := by
   rw [extDualityShiftOneAddEquiv_apply, extDualityAddEquiv_shift]
-  show _ = (derivedCohomologyShiftIso f K.obj (-i)).inv ≫
+  change _ = (derivedCohomologyShiftIso f K.obj (-i)).inv ≫
     dualityAddEquivZero f (shiftQuasiCoherent K (-i))
       (_ ≫ (dualizingSheafShiftOneIsoOfIsCohenMacaulay f hcm hequi hdim).hom)
   refine congrArg (fun z => (derivedCohomologyShiftIso f K.obj (-i)).inv ≫ z) ?_
   refine congrArg (dualityAddEquivZero f (shiftQuasiCoherent K (-i))) ?_
-  show ((shiftEquiv' (DerivedCategory X.Modules) (-i) i (by omega)).toAdjunction.homEquiv
+  change ((shiftEquiv' (DerivedCategory X.Modules) (-i) i (by omega)).toAdjunction.homEquiv
       K.obj (dualizingComplexOverField f).obj).symm (α ≫ (shiftFunctor _ i).map _) = _
   exact Adjunction.homEquiv_naturality_right_symm
     (shiftEquiv' (DerivedCategory X.Modules) (-i) i (by omega)).toAdjunction

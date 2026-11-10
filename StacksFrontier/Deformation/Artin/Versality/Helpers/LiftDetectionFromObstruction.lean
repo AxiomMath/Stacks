@@ -94,7 +94,7 @@ theorem hasLift_of_obstruction_of_bijective {A : Type u} [CommRing A] {toS : Spe
   have hinj' : Function.Injective fun (o : O.obj t.kernelObj) (n : ℕ) => O.map (fk n) o :=
     injective_map_of_bijective O (fun n => (s n).kernelObj) fk hbij (hinj _)
   refine hinj' (funext fun n => ?_)
-  show O.map (fk n) (ob t) = O.map (fk n) 0
+  change O.map (fk n) (ob t) = O.map (fk n) 0
   rw [hnat t (s n) (m n) (hbase n) (hsurj n) (fk n) (hfk n), map_zero]
   exact (hob (s n)).1 (hlift n)
 

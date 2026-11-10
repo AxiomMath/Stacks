@@ -292,10 +292,10 @@ theorem isSquare_algebraMap_mul : IsSquare (algebraMap R (Cover a b) (a * b)) :=
   refine ⟨(y, 0), ?_⟩
   rw [algebraMap_cover_eq]
   refine Prod.ext ?_ ?_
-  · show ((coverHom a b) (a * b)).1 = y * y
+  · change ((coverHom a b) (a * b)).1 = y * y
     refine Eq.trans ?_ hy
     rw [Ext.algebraMap_eq, ← map_mul, coverHom_fst]
-  · show ((coverHom a b) (a * b)).2 = 0 * 0
+  · change ((coverHom a b) (a * b)).2 = 0 * 0
     rw [coverHom_snd, mul_zero, Ideal.Quotient.eq_zero_iff_mem]
     exact Ideal.mul_mem_left _ _ (Ideal.mem_span_singleton_self b)
 

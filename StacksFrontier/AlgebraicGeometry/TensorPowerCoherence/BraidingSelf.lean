@@ -48,8 +48,8 @@ hence so is the sheafification of `β_{A,A} ▷ (B ⊗ B)`, and cancelling the t
 `(B ⊗ B)^#` — invertible because `B ⊗ B` has `A ⊗ A` as a tensor inverse — leaves `β_{A,A}`.
 
 **What this adds over what was already in the repository.**
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/BraidingScalar/Basic.lean` proves `β_ M M = 𝟙` for a
-*locally cyclic* `M` (`braiding_self_hom_eq_id_of_locally_span_singleton`), and says that local
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/BraidingScalar/Basic.lean` proves `β_ M M = 𝟙` for
+a *locally cyclic* `M` (`braiding_self_hom_eq_id_of_locally_span_singleton`), and says that local
 cyclicity is not implied by invertibility on a general site, the scalar identity being true
 there only "by the classical rank argument for invertible modules, which localizes `R` at its
 primes — an operation with no counterpart in the Grothendieck topology". The argument above is
@@ -182,7 +182,7 @@ theorem tensor_unit_end_eq_id_of_squares
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro x
-  show d.val.app U x = x
+  change d.val.app U x = x
   suffices h1 : d.val.app U 1 = 1 by
     have h := (d.val.app U).hom.map_smul x
       (1 : (SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf O
@@ -193,7 +193,7 @@ theorem tensor_unit_end_eq_id_of_squares
     hO)).isSheaf.isSeparated _ _
     (Presheaf.imageSieve_mem J ((PresheafOfModules.toPresheaf _).map E) (1 : O.obj U))
   rintro V f ⟨t, ht⟩
-  show (O.map f.op) (d.val.app U (1 : O.obj U)) = (O.map f.op) 1
+  change (O.map f.op) (d.val.app U (1 : O.obj U)) = (O.map f.op) 1
   have hn := PresheafOfModules.naturality_apply d.val f.op (1 : O.obj U) |>.symm
   change (O.map f.op) (d.val.app U (1 : O.obj U)) =
     d.val.app (Opposite.op V) ((O.map f.op) 1) at hn
@@ -213,7 +213,7 @@ theorem tensor_unit_end_eq_id_of_squares
   change dl (a0 ^ 2 * 1) = a0 ^ 2 * d0 at hs
   rw [mul_one] at hs
   have hz : a0 ^ 2 * d0 = a0 ^ 2 := hs.symm.trans h
-  show (d0 - 1) * a0 ^ 2 = 0
+  change (d0 - 1) * a0 ^ 2 = 0
   rw [sub_mul, one_mul, mul_comm d0 (a0 ^ 2), hz, sub_self]
 
 /-- An endomorphism which is the identity after conjugation by an isomorphism is the identity. -/
@@ -248,7 +248,7 @@ theorem tensorProductBraiding_self
     rw [h3]
     infer_instance
   have hW : J.W ((PresheafOfModules.toPresheaf _).map E) := by
-    show (J.W.inverseImage (PresheafOfModules.toPresheaf _)) E
+    change (J.W.inverseImage (PresheafOfModules.toPresheaf _)) E
     rw [PresheafOfModules.inverseImage_W_toPresheaf_eq_inverseImage_isomorphisms
       (𝟙 (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj)]
     exact inferInstanceAs (IsIso (F.map E))

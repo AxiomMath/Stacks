@@ -109,7 +109,7 @@ epimorphism. -/
 theorem epi_conormalSequenceRightMap (i : Z ⟶ Y) (j : Y ⟶ X) [IsImmersion i] [IsImmersion j] :
     Epi (conormalSequenceRightMap i j) := by
   have h := epi_immersionConormalSheafMap i (i ≫ j) (𝟙 Z) j (conormalSequence_isPullback i j)
-  show Epi (((modulePullbackId Z.toLocallyRingedSpace.toRingedSpace).app
+  change Epi (((modulePullbackId Z.toLocallyRingedSpace.toRingedSpace).app
       (conormalSheaf (i ≫ j).liftCoborder.toLRSHom.toShHom)).inv ≫
     immersionConormalSheafMap i (i ≫ j) (𝟙 Z) j
       (toShHom_square (conormalSequence_isPullback i j).w))

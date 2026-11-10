@@ -68,7 +68,8 @@ equality.
 
 ## Implementation notes
 
-`AlgebraicGeometry.Space.unitSectionsRestrict` cannot be generalised in place.  Its body reindexes the étale charts of the source through
+`AlgebraicGeometry.Space.unitSectionsRestrict` cannot be generalised in place.  Its body reindexes
+the étale charts of the source through
 `AlgebraicGeometry.Space.smallEtalePostcomp`, and that functor exists *only* for an étale
 morphism: it is `(IsEtaleChart B S hS Y.1).lift` of postcomposition, and the hypothesis
 `hf : IsEtale B S hS f.hom` is consumed exactly to show that an étale chart of `X` postcomposed

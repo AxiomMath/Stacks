@@ -543,7 +543,7 @@ theorem exists_isIso_diagonal_comp_eq_baseChange_diagonal
       (by simp only [Category.assoc, ← hFsnd, pullback.condition_assoc])
   let e : pullback F F ⟶ pullback t (pullback.fst f f ≫ a) :=
     pullback.lift (pullback.fst F F ≫ pullback.fst t a) d₀ (by
-      simp [d₀, pullback.condition, pullback.lift_fst_assoc])
+      simp [d₀, pullback.condition])
   let x₁ : pullback t (pullback.fst f f ≫ a) ⟶ pullback t a := pullback.lift (pullback.fst t _)
       (pullback.snd t _ ≫ pullback.fst f f) (by
         simpa [Category.assoc] using
@@ -554,28 +554,26 @@ theorem exists_isIso_diagonal_comp_eq_baseChange_diagonal
         exact pullback.condition)
   have hex₁ : e ≫ x₁ = pullback.fst F F := by
     apply pullback.hom_ext <;>
-      simp [e, x₁, d₀, pullback.lift_fst, pullback.lift_snd, pullback.lift_snd_assoc]
+      simp [e, x₁, d₀]
   have hex₂ : e ≫ x₂ = pullback.snd F F := by
     apply pullback.hom_ext <;>
-      simp [e, x₂, d₀, hq, pullback.lift_fst, pullback.lift_snd, pullback.lift_snd_assoc]
+      simp [e, x₂, d₀, hq]
   have hcomp : x₁ ≫ F = x₂ ≫ F := by
-    apply pullback.hom_ext <;> simp [x₁, x₂, hFfst, hFsnd, pullback.condition,
-      pullback.lift_fst, pullback.lift_snd_assoc]
+    apply pullback.hom_ext <;> simp [x₁, x₂, hFfst, hFsnd, pullback.condition]
   let k : pullback t (pullback.fst f f ≫ a) ⟶ pullback F F := pullback.lift x₁ x₂ hcomp
   have he₁ : e ≫ k = 𝟙 _ := by
     apply pullback.hom_ext <;>
-      simp [k, hex₁, hex₂, pullback.lift_fst, pullback.lift_snd]
+      simp [k, hex₁, hex₂]
   have he₂ : k ≫ e = 𝟙 _ := by
     apply pullback.hom_ext
-    · simp [k, e, x₁, pullback.lift_fst, pullback.lift_fst_assoc]
+    · simp [k, e, x₁]
     · apply pullback.hom_ext <;>
-        simp [k, e, d₀, x₁, x₂, pullback.lift_fst, pullback.lift_snd, pullback.lift_fst_assoc,
-          pullback.lift_snd_assoc]
+        simp [k, e, d₀, x₁, x₂]
   refine ⟨e, ⟨⟨k, he₁, he₂⟩⟩, ?_⟩
   apply pullback.hom_ext
-  · simp [e, pullback.lift_fst, pullback.diagonal_fst_assoc]
+  · simp [e, pullback.diagonal_fst_assoc]
   · apply pullback.hom_ext <;>
-      simp [e, d₀, pullback.lift_fst, pullback.lift_snd, pullback.diagonal_fst,
+      simp [e, d₀, pullback.diagonal_fst,
         pullback.diagonal_snd, pullback.diagonal_fst_assoc, pullback.diagonal_snd_assoc]
 
 /-- Formation of the diagonal commutes with base change: if `F : Z₁ ×_{Z₀} X₀ ⟶ Z₁ ×_{Z₀} Y₀`

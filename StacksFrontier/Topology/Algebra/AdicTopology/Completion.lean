@@ -254,12 +254,12 @@ public lemma exact_completionSubtype_completionQuotient (N : Submodule R M) :
   apply Set.Subset.antisymm
   · rintro _ ⟨z, rfl⟩
     refine Completion.induction_on z ?_ ?_
-    · show IsClosed ((completionQuotient N ∘ completionSubtype N) ⁻¹'
+    · change IsClosed ((completionQuotient N ∘ completionSubtype N) ⁻¹'
         {(0 : TopologicalCompletion (M ⧸ N))})
       exact isClosed_singleton.preimage
         (Completion.continuous_map.comp Completion.continuous_map)
     · intro n
-      show completionQuotient N (completionSubtype N
+      change completionQuotient N (completionSubtype N
         (n : TopologicalCompletion N)) = (0 : TopologicalCompletion (M ⧸ N))
       rw [completionSubtype_coe, completionQuotient_coe,
         Submodule.mkQ_apply, (Submodule.Quotient.mk_eq_zero N).mpr n.2, Completion.coe_zero]
@@ -303,7 +303,7 @@ private lemma topologicalCompletion_firstCountable
     obtain ⟨s, hs⟩ := (uniformity M).exists_antitone_basis
     exact (CauchyFilter.basis_uniformity hs.toHasBasis).isCountablyGenerated
   have : IsCountablyGenerated (uniformity (TopologicalRing.TopologicalCompletion M)) := by
-    show IsCountablyGenerated ((uniformity (CauchyFilter M)).map
+    change IsCountablyGenerated ((uniformity (CauchyFilter M)).map
       (Prod.map SeparationQuotient.mk SeparationQuotient.mk))
     infer_instance
   exact UniformSpace.firstCountableTopology _
@@ -334,7 +334,7 @@ private lemma completionQuotient_surjective_and_open
       rw [hf_coe, completionQuotient_coe]
   let K : AddSubgroup A := f.ker
   have hKclosed : IsClosed (K : Set A) := by
-    show IsClosed (f ⁻¹' ({0} : Set B))
+    change IsClosed (f ⁻¹' ({0} : Set B))
     exact isClosed_singleton.preimage hfcont
   have : IsClosed (K : Set A) := hKclosed
   let Q := A ⧸ K
@@ -344,18 +344,18 @@ private lemma completionQuotient_surjective_and_open
     intro m hm
     rw [AddMonoidHom.mem_ker]
     dsimp [u]
-    show (Completion.toCompl (α := M) m : A ⧸ K) = 0
+    change (Completion.toCompl (α := M) m : A ⧸ K) = 0
     rw [QuotientAddGroup.eq_zero_iff]
-    show f (m : A) = 0
+    change f (m : A) = 0
     rw [hf_coe]
-    show (N.mkQ m : B) = 0
+    change (N.mkQ m : B) = 0
     rw [← Completion.coe_zero]
     congr 1
     exact (Submodule.Quotient.mk_eq_zero N).2 hm
   let g : M ⧸ N →+ Q := QuotientAddGroup.lift N.toAddSubgroup u hN
   have hgcont : Continuous g := by
     apply (N.isQuotientMap_mkQ).continuous_iff.mpr
-    show Continuous u
+    change Continuous u
     dsimp [u]
     exact (QuotientAddGroup.continuous_mk.comp Completion.continuous_toCompl)
   have : FirstCountableTopology A := topologicalCompletion_firstCountable hM
@@ -483,7 +483,7 @@ private lemma recurrence_bijective (A : Type*) [CommRing A] [TopologicalSpace A]
       rw [Nat.cofinite_eq_atTop]
       exact IsLinearTopology.tendsto_mul_zero_of_left _ _ hf
     refine ⟨a, funext fun n ↦ ?_⟩
-    show a n - f * a (n + 1) = b n
+    change a n - f * a (n + 1) = b n
     dsimp only [a]
     have htail := (hs n).sum_add_tsum_nat_add 1
     simp only [Finset.sum_range_succ, Finset.sum_range_zero, zero_add, pow_zero,

@@ -92,7 +92,7 @@ theorem isSheaf_isomPresheaf_of_isAlgebraicSpaceIsomPresheaf
   obtain ⟨F, hF, ⟨i⟩⟩ := h U x y
   have hcont : (Over.iteratedSliceForward U).IsContinuous
       ((BigFppfOver.topology B S hS).over U) (BigFppfOver.topology B U.left.1 U.left.2) := by
-    show (Over.iteratedSliceForward U).IsContinuous
+    change (Over.iteratedSliceForward U).IsContinuous
       ((B.topology.over (B.obj hS)).over U) (B.topology.over U.left)
     infer_instance
   have h1 : Presheaf.IsSheaf (BigFppfOver.topology B U.left.1 U.left.2)

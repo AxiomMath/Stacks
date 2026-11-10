@@ -180,9 +180,10 @@ theorem eq_zero_of_sum_smul_monomialXY_eq_zero' {ι : Type*} [Fintype ι] {f : �
     (h : ∑ i, c i • (monomialXY (f i) : K[X][Y]) = 0) (i : ι) : c i = 0 := by
   classical
   have := congrArg (fun g : K[X][Y] => (g.coeff (f i).2).coeff (f i).1) h
-  simp only [finset_sum_coeff, coeff_smul, smul_eq_mul, coeff_coeff_monomialXY, Prod.mk.eta,
+  simp only [finsetSum_coeff, coeff_smul, smul_eq_mul, coeff_coeff_monomialXY, Prod.mk.eta,
     mul_ite, mul_one, mul_zero, Polynomial.coeff_zero] at this
-  rwa [Finset.sum_eq_single i (fun j _ hj => if_neg (hf.ne hj)) (by simp), if_pos rfl] at this
+  rwa [Finset.sum_eq_single i (fun j _ hj => ite_eq_right (hf.ne hj)) (by simp),
+    ite_eq_left rfl] at this
 
 /-- A monic irreducible `Ψ ∈ K[X][Y]` with `∂Ψ/∂Y ≠ 0` over an algebraically closed field has a
 point where `∂Ψ/∂Y` does not vanish. -/
@@ -398,7 +399,7 @@ theorem resultant_ne_zero_auxiliary [IsAlgClosed K] {Ψ : K[X][Y]} (hΨ : Ψ.Mon
     have hh0 : h ≠ 0 := by rintro rfl; exact hu0 (map_zero _)
     obtain ⟨hlt, hw⟩ := hspanV h hh
     have hb : (resultant Ψ h).natDegree ≤ m * (aV + w * (m - 1)) :=
-      (natDegree_resultant_le_of_weightedDegree_le hΨ hΨw' hw).trans_eq (by rw [hm])
+      (natDegree_resultant_le_of_weightedDegree_le hΨw' hw).trans_eq (by rw [hm])
     calc (ι₀L h).order ≤ ((resultant Ψ h).natDegree : ℕ∞) := (key h hh0 hlt).2
       _ ≤ ((m * (aV + w * (m - 1)) : ℕ) : ℕ∞) := by exact_mod_cast hb
       _ < ((p ^ b : ℕ) : ℕ∞) := by exact_mod_cast hV
@@ -484,11 +485,11 @@ theorem card_mul_le_of_stepanov [IsAlgClosed K] {Ψ R D : K[X][Y]} (hΨ : Ψ.Mon
     exact h1.mul (h2.pow _)
   have hdegR : (resultant Ψ g).natDegree ≤
       m * (aV + w * (m - 1) + p ^ b * (aW + w * (m - 1))) :=
-    (natDegree_resultant_le_of_weightedDegree_le hΨ hΨw' hgw).trans_eq (by rw [hm])
+    (natDegree_resultant_le_of_weightedDegree_le hΨw' hgw).trans_eq (by rw [hm])
   have h1 : ((S.card * k : ℕ) : ℕ∞) ≤ ((resultant Ψ g).natDegree : ℕ∞) := by
     refine le_trans (le_of_eq ?_) (hlow.trans hsum)
     simp [nsmul_eq_mul]
-  have h2 : S.card * k ≤ (resultant Ψ g).natDegree := ENat.coe_le_coe.mp h1
+  have h2 : S.card * k ≤ (resultant Ψ g).natDegree := ENat.natCast_le_natCast.mp h1
   rw [mul_comm k]
   exact h2.trans hdegR
 

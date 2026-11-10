@@ -190,18 +190,18 @@ private theorem quotientPrime_mem_zeroLocus
         ((Ideal.Quotient.mk J.1).comp (algebraMap A (AdicCompletion I A))) x ∈
       PrimeSpectrum.zeroLocus (I : Set A) := by
   obtain ⟨n, hn⟩ := exists_adic_power_map_le (A := A) I J
-  show ∀ a, a ∈ (I : Set A) →
+  change ∀ a, a ∈ (I : Set A) →
     ((Ideal.Quotient.mk J.1).comp (algebraMap A (AdicCompletion I A))) a ∈ x.asIdeal
   intro a ha
   apply x.isPrime.mem_of_pow_mem n
-  show ((Ideal.Quotient.mk J.1).comp
+  change ((Ideal.Quotient.mk J.1).comp
     (algebraMap A (AdicCompletion I A))) a ^ n ∈ x.asIdeal
   rw [← map_pow]
   have hzero : Ideal.Quotient.mk J.1 (algebraMap A (AdicCompletion I A) (a ^ n)) = 0 :=
     (Ideal.Quotient.eq_zero_iff_mem).2 (hn
       (Ideal.mem_map_of_mem (algebraMap A (AdicCompletion I A))
         (Ideal.pow_mem_pow ha n)))
-  show Ideal.Quotient.mk J.1 (algebraMap A (AdicCompletion I A) (a ^ n)) ∈ x.asIdeal
+  change Ideal.Quotient.mk J.1 (algebraMap A (AdicCompletion I A) (a ^ n)) ∈ x.asIdeal
   rw [hzero]
   exact x.asIdeal.zero_mem
 
@@ -223,7 +223,7 @@ private theorem schemePoint_eq_of_class_eq
     (p q : Space.FieldValuedPoint B S hS (yoneda.obj U))
     (h : p.class B S hS (yoneda.obj U) = q.class B S hS (yoneda.obj U)) :
     Space.schemePoint B S hS U p = Space.schemePoint B S hS U q := by
-  show (absoluteFieldValuedPoint B S hS U p).point =
+  change (absoluteFieldValuedPoint B S hS U p).point =
     (absoluteFieldValuedPoint B S hS U q).point
   obtain ⟨r, hpr, hqr⟩ :=
     (Space.FieldValuedPoint.class_eq_class_iff B S hS (yoneda.obj U) p q).1 h
@@ -278,7 +278,7 @@ private theorem quotientStageToAffine_transition
       quotientStageToAffine B S hS hA f I D hD J := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor h)) ≫
+  change Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor h)) ≫
       Spec.map (CommRingCat.ofHom
         ((Ideal.Quotient.mk K.1).comp (algebraMap A (AdicCompletion I A)))) =
     Spec.map (CommRingCat.ofHom
@@ -287,7 +287,7 @@ private theorem quotientStageToAffine_transition
   apply CommRingCat.hom_ext
   apply RingHom.ext
   intro x
-  show (Ideal.Quotient.factor h)
+  change (Ideal.Quotient.factor h)
       (Ideal.Quotient.mk K.1 (algebraMap A (AdicCompletion I A) x)) =
     Ideal.Quotient.mk J.1 (algebraMap A (AdicCompletion I A) x)
   exact Ideal.Quotient.factor_mk h (algebraMap A (AdicCompletion I A) x)
@@ -304,7 +304,7 @@ theorem quotientStage_hasImageIn
       (zeroLocusPoints B S hS hA f I)
       ((BigAffineFppf.inclusion B S hS).obj (D.stage J))
       (quotientStageToAffine B S hS hA f I D hD J) := by
-  show ∀ p : Space.FieldValuedPoint B S hS
+  change ∀ p : Space.FieldValuedPoint B S hS
       (yoneda.obj ((BigAffineFppf.inclusion B S hS).obj (D.stage J))),
     (⟨p.carrier, p.contained, p.toBase,
       (yoneda.obj (affineOver B S hS hA f)).map p.value.op
@@ -317,7 +317,7 @@ theorem quotientStage_hasImageIn
     Space.FieldValuedPoint.map B S hS
       (yoneda.obj ((BigAffineFppf.inclusion B S hS).obj (D.stage J)))
       (yoneda.map (quotientStageToAffine B S hS hA f I D hD J)) p
-  show ∀ q : Space.FieldValuedPoint B S hS
+  change ∀ q : Space.FieldValuedPoint B S hS
       (yoneda.obj (affineOver B S hS hA f)),
     q.class B S hS (yoneda.obj (affineOver B S hS hA f)) =
         r.class B S hS (yoneda.obj (affineOver B S hS hA f)) →
@@ -326,11 +326,11 @@ theorem quotientStage_hasImageIn
   intro q hq
   have hr : Space.schemePoint B S hS (affineOver B S hS hA f) r ∈
       PrimeSpectrum.zeroLocus (I : Set A) := by
-    show (BigFppfOver.toScheme B S hS).map
+    change (BigFppfOver.toScheme B S hS).map
         (quotientStageToAffine B S hS hA f I D hD J)
         (Space.schemePoint B S hS
           ((BigAffineFppf.inclusion B S hS).obj (D.stage J)) p) ∈ _
-    show PrimeSpectrum.comap
+    change PrimeSpectrum.comap
         ((Ideal.Quotient.mk J.1).comp (algebraMap A (AdicCompletion I A)))
         (Space.schemePoint B S hS
           ((BigAffineFppf.inclusion B S hS).obj (D.stage J)) p) ∈ _
@@ -451,7 +451,7 @@ theorem quotientStageToCompletion_naturality
     (J := J.ofDual) (K := K.ofDual) (leOfHom g)
   have hmap := congrArg (Sheaf.sectionEquiv (BigFppfOver.topology B S hS)).symm hsec
   rw [Sheaf.sectionEquiv_symm_map] at hmap
-  show (Sheaf.sheafifiedYoneda (BigFppfOver.topology B S hS)).map
+  change (Sheaf.sheafifiedYoneda (BigFppfOver.topology B S hS)).map
       ((BigAffineFppf.inclusion B S hS).map (D.transition (leOfHom g))) ≫
         (Sheaf.sectionEquiv (BigFppfOver.topology B S hS)).symm
           (quotientStageSection B S hS hA f I D hD K.ofDual) =
@@ -545,7 +545,7 @@ theorem completionComparison_overAffine
   let x : C.toFunctor.obj (Opposite.op U) :=
     ⟨ULift.up (quotientStageToAffine B S hS hA f I D hD J),
       quotientStage_hasImageIn B S hS hA f I D hD J⟩
-  show ((BigFppfOver.topology B S hS).sheafifyMap C.ι).app (Opposite.op U)
+  change ((BigFppfOver.topology B S hS).sheafifyMap C.ι).app (Opposite.op U)
       ((GrothendieckTopology.toSheafify (BigFppfOver.topology B S hS) C.toFunctor).app
         (Opposite.op U) x) =
     (GrothendieckTopology.toSheafify (BigFppfOver.topology B S hS)
@@ -561,7 +561,7 @@ theorem completionComparison_overAffine
     _ = ((C.ι ≫ ηX).app (Opposite.op U)) x := by
       have hη := congrArg (fun η => η.app (Opposite.op U))
         (GrothendieckTopology.toSheafify_naturality (BigFppfOver.topology B S hS) C.ι).symm
-      simpa [ηC, ηX, φ, C, x] using congrArg (fun g => g x) hη
+      simp [ηC, ηX, φ, C, x]
     _ = _ := by rfl
 
 /-- The extension of a positive power of `I` to `A^∧` is a weak ideal of definition: it is
@@ -582,11 +582,11 @@ private theorem adicCompletion_pow_isWeakIdeal (n : ℕ) (hn : 0 < n) :
       rw [Ideal.smul_top_eq_map] at hx
       exact hx)
   · intro x hx
-    show Tendsto (fun k : ℕ => x ^ k) atTop (nhds 0)
+    change Tendsto (fun k : ℕ => x ^ k) atTop (nhds 0)
     rw [b.toAddGroupFilterBasis.nhds_zero_hasBasis.tendsto_right_iff]
     rintro V ⟨m, rfl⟩
     filter_upwards [eventually_ge_atTop m] with k hk
-    show x ^ k ∈ I ^ m • (⊤ : Submodule A (AdicCompletion I A))
+    change x ^ k ∈ I ^ m • (⊤ : Submodule A (AdicCompletion I A))
     rw [Ideal.smul_top_eq_map]
     have hx' : x ∈ I.map (algebraMap A (AdicCompletion I A)) :=
       Ideal.map_mono (Ideal.pow_le_self hn.ne') hx
@@ -606,12 +606,12 @@ private theorem quotient_completionMap_surjective (hI : I.FG)
   obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective y
   obtain ⟨a, ha⟩ := Ideal.Quotient.mk_surjective (AdicCompletion.evalₐ I n x)
   refine ⟨a, ?_⟩
-  show Ideal.Quotient.mk J.1 (algebraMap A (AdicCompletion I A) a) =
+  change Ideal.Quotient.mk J.1 (algebraMap A (AdicCompletion I A) a) =
     Ideal.Quotient.mk J.1 x
   apply Ideal.Quotient.eq.mpr
   apply hn
   rw [← AdicCompletion.ker_evalₐ_eq_map_pow I hI n]
-  show AdicCompletion.evalₐ I n (algebraMap A (AdicCompletion I A) a - x) = 0
+  change AdicCompletion.evalₐ I n (algebraMap A (AdicCompletion I A) a - x) = 0
   simpa only [map_sub, AlgHom.commutes, Ideal.Quotient.algebraMap_eq, sub_eq_zero] using ha
 
 /-- A section over `U` supported on `V(I)` has every scheme-theoretic point of `U` mapping
@@ -698,16 +698,16 @@ private theorem exists_quotientStage_factor (hI : I.FG)
   have hφ : J.1 ≤ RingHom.ker φ := by
     intro a ha
     have ha' : AdicCompletion.evalₐ I (n + 1) a = 0 := by
-      show a ∈ RingHom.ker (AdicCompletion.evalₐ I (n + 1)).toRingHom
+      change a ∈ RingHom.ker (AdicCompletion.evalₐ I (n + 1)).toRingHom
       rw [AdicCompletion.ker_evalₐ_eq_map_pow I hI]
       exact ha
-    show ρq (AdicCompletion.evalₐ I (n + 1) a) = 0
+    change ρq (AdicCompletion.evalₐ I (n + 1) a) = 0
     rw [ha', map_zero]
   let ψ := Ideal.Quotient.lift J.1 φ hφ
   have hψ : ψ.comp ((Ideal.Quotient.mk J.1).comp
       (algebraMap A (AdicCompletion I A))) = ρ := by
     ext a
-    show ρq (AdicCompletion.evalₐ I (n + 1) (algebraMap A (AdicCompletion I A) a)) = ρ a
+    change ρq (AdicCompletion.evalₐ I (n + 1) (algebraMap A (AdicCompletion I A) a)) = ρ a
     rw [AlgHom.commutes]
     rfl
   let κ : X ⟶ Spec (.of (AdicCompletion I A ⧸ J.1)) :=
@@ -719,7 +719,7 @@ private theorem exists_quotientStage_factor (hI : I.FG)
       Iso.hom_inv_id_assoc]
   let k : U.1 ⟶ (D.stage J).1 := Over.homMk (ObjectProperty.homMk κ) (by
     apply ObjectProperty.hom_ext
-    show κ ≫ D.overS J = B.inclusion.map U.1.hom
+    change κ ≫ D.overS J = B.inclusion.map U.1.hom
     rw [hD J, ← Category.assoc, hκ]
     exact congrArg (fun t => B.inclusion.map t) g.w)
   refine ⟨J, k, ?_⟩
@@ -880,7 +880,7 @@ private theorem supportedSectionLift_map (hI : I.FG)
   obtain ⟨J, k, hk⟩ := exists_quotientStage_factor B S hS hA f I hI D hD V x.1.down x.2
   rw [supportedSectionLift_eq B S hS hA f I hI D hD V x J k hk,
     supportedSectionLift_eq B S hS hA f I hI D hD U _ J (g.hom ≫ k) (by
-      show (g.hom ≫ k) ≫ _ = g.hom ≫ x.1.down
+      change (g.hom ≫ k) ≫ _ = g.hom ≫ x.1.down
       rw [Category.assoc, hk])]
   exact (congrArg (Sheaf.sectionEquiv (BigFppfOver.topology B S hS))
       ((congrArg (fun z => z ≫ formalSpectrumInclusion D (OrderDual.toDual J))
@@ -963,7 +963,7 @@ theorem isIso_completionComparison
       (x : C.toFunctor.obj (Opposite.op U.1)) :
       β.hom.app (Opposite.op U.1) (η.app (Opposite.op U.1) x) =
         supportedSectionLift B S hS hA f I hI D hD U x := by
-    show (η ≫ β.hom).app (Opposite.op U.1) x = _
+    change (η ≫ β.hom).app (Opposite.op U.1) x = _
     rw [hηβ]
     exact congrArg (fun z => z.app (Opposite.op U) x)
       (Functor.IsCoverDense.sheafHom_restrict_eq α₀)
@@ -1003,7 +1003,7 @@ theorem isIso_completionComparison
       (Space.completionSheaf B S hS _ _).property
     apply (Functor.IsCoverDense.restrictHomEquivHom (G := t)).symm.injective
     ext U x
-    show (completionComparison B S hS hA f I D hD).hom.app (Opposite.op U.unop.1)
+    change (completionComparison B S hS hA f I D hD).hom.app (Opposite.op U.unop.1)
       (β.hom.app (Opposite.op U.unop.1) (η.app (Opposite.op U.unop.1) x)) =
         η.app (Opposite.op U.unop.1) x
     rw [hβ]

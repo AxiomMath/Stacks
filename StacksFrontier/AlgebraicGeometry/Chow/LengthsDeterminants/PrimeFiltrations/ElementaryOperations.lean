@@ -95,7 +95,7 @@ private theorem injective_of_localized_injective_of_associatedPrimes_subset
   intro x y hxy
   let K := LinearMap.ker φ
   have hxK : x - y ∈ K := by
-    show φ (x - y) = 0
+    change φ (x - y) = 0
     rw [map_sub, hxy, sub_self]
   by_contra hne
   have hK : Nontrivial K :=
@@ -171,7 +171,7 @@ private theorem spanPrefix_update_add
       have hy : x i + t ∈ spanPrefix (R := R) y n :=
         Submodule.subset_span ⟨i, hj, Function.update_self _ _ _⟩
       have ht' : t ∈ spanPrefix (R := R) y n := spanPrefix_mono y hj.le (hbefore ht)
-      show x i ∈ spanPrefix (R := R) y n
+      change x i ∈ spanPrefix (R := R) y n
       simpa only [add_sub_cancel_right] using Submodule.sub_mem _ hy ht'
     · exact Submodule.subset_span ⟨j, hj, Function.update_of_ne hji _ _⟩
 
@@ -218,7 +218,7 @@ private theorem symbol_update_add
     ⟨Function.update e.1 i (e.1 i + t), admissible_update_add e i t ht⟩
   have h := symbol_eq_residue_smul_of_update e' e i 1 t (by simp [e'])
     (by
-      show t ∈ spanPrefix (R := R) (Function.update e.1 i (e.1 i + t)) i.val
+      change t ∈ spanPrefix (R := R) (Function.update e.1 i (e.1 i + t)) i.val
       rw [spanPrefix_update_add e.1 i t ht]
       exact ht) (by simp [e', Function.update_idem])
   simpa only [Units.val_one, map_one, one_smul] using h
@@ -317,7 +317,7 @@ private theorem spanPrefix_scale_suffix_le
       spanPrefix (R := R) x n := by
   apply Submodule.span_le.mpr
   rintro _ ⟨i, hi, rfl⟩
-  show (if i.val < k then x i else a • x i) ∈ spanPrefix (R := R) x n
+  change (if i.val < k then x i else a • x i) ∈ spanPrefix (R := R) x n
   split_ifs
   · exact Submodule.subset_span ⟨i, hi, rfl⟩
   · exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨i, hi, rfl⟩)
@@ -333,7 +333,7 @@ private theorem smul_mem_spanPrefix_scale_suffix
   have h : spanPrefix (R := R) x n ≤ P.comap (a • LinearMap.id) := by
     apply Submodule.span_le.mpr
     rintro _ ⟨i, hi, rfl⟩
-    show a • x i ∈ P
+    change a • x i ∈ P
     have hxi : (if i.val < k then x i else a • x i) ∈ P :=
       Submodule.subset_span ⟨i, hi, rfl⟩
     by_cases hik : i.val < k
@@ -567,12 +567,12 @@ private theorem length_coker_eq_add_of_quotient_injective
     change (LinearMap.range φ).mkQ x.1 = 0 at hz
     obtain ⟨m, hm⟩ := (Submodule.Quotient.mk_eq_zero _).mp hz
     have hbar0 : φbar (U.mkQ m) = 0 := by
-      show V.mkQ (φ m) = 0
+      change V.mkQ (φ m) = 0
       rw [hm]
       exact (Submodule.Quotient.mk_eq_zero _).mpr x.property
     have hmU : m ∈ U := (Submodule.Quotient.mk_eq_zero _).mp
       (hbar (hbar0.trans (map_zero φbar).symm))
-    show (LinearMap.range φU).mkQ x = 0
+    change (LinearMap.range φU).mkQ x = 0
     apply (Submodule.Quotient.mk_eq_zero _).mpr
     exact ⟨⟨m, hmU⟩, Subtype.ext hm⟩
   · intro w
@@ -588,12 +588,12 @@ private theorem length_coker_eq_add_of_quotient_injective
       obtain ⟨m, rfl⟩ := Submodule.mkQ_surjective U z
       have hnm : n - φ m ∈ V := (Submodule.Quotient.eq V).mp hz.symm
       refine ⟨(LinearMap.range φU).mkQ ⟨n - φ m, hnm⟩, ?_⟩
-      show (LinearMap.range φ).mkQ (n - φ m) = (LinearMap.range φ).mkQ n
+      change (LinearMap.range φ).mkQ (n - φ m) = (LinearMap.range φ).mkQ n
       apply (Submodule.Quotient.eq _).mpr
       exact ⟨-m, by simp⟩
     · rintro _ ⟨z, rfl⟩
       obtain ⟨x, rfl⟩ := Submodule.mkQ_surjective (LinearMap.range φU) z
-      show (LinearMap.range φbar).mkQ (V.mkQ x.1) = 0
+      change (LinearMap.range φbar).mkQ (V.mkQ x.1) = 0
       rw [show V.mkQ x.1 = 0 from (Submodule.Quotient.mk_eq_zero _).mpr x.property, map_zero]
 
 /-- Rescaling the entries of a family by units does not change the submodule they span. -/
@@ -608,7 +608,7 @@ private theorem span_units_smul
     exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨i, hi, rfl⟩)
   · apply Submodule.span_le.mpr
     rintro _ ⟨i, hi, rfl⟩
-    show x i ∈ Submodule.span R ((fun i => (a i : R) • x i) '' s)
+    change x i ∈ Submodule.span R ((fun i => (a i : R) • x i) '' s)
     have h := (Submodule.span R ((fun i => (a i : R) • x i) '' s)).smul_mem
       (↑(a i)⁻¹ : R) (Submodule.subset_span ⟨i, hi, rfl⟩)
     simpa only [smul_smul, Units.inv_mul, one_smul] using h

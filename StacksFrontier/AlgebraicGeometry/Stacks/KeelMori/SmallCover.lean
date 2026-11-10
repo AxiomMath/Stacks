@@ -68,7 +68,7 @@ theorem surjective_siteMap_of_isSurjective {U V : BigFppfOver B S hS}
   refine ⟨pointsHomeomorphScheme B S hS U w, ?_⟩
   rw [← pointsHomeomorphScheme_naturality]
   have hpts := AlgebraicStacks.pointsMap_eq_of_iso B S hS (schemeStackMapIso B S hS c)
-  show (pointsHomeomorphScheme B S hS V)
+  change (pointsHomeomorphScheme B S hS V)
     (AlgebraicStacks.pointsMap B S hS (schemeStackMap.{u, w} B S hS (siteMap B S hS c)) w) = t
   rw [← hpts, hw, Homeomorph.apply_symm_apply]⟩
 

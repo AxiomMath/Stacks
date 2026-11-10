@@ -208,7 +208,7 @@ theorem bivariantCommute_dedekindExteriorClass (α : chowGroup C sX (1 - p))
   let ιt := (pullbackLeftPullbackSndIso sX sZ t).inv
   let t' := ιt ≫ g₂
   have ht' : pullback.snd sX (t ≫ sZ) ≫ t = t' := by
-    show _ = (pullbackLeftPullbackSndIso sX sZ t).inv ≫
+    change _ = (pullbackLeftPullbackSndIso sX sZ t).inv ≫
       pullback.fst (pullback.snd sX sZ) t ≫ pullback.snd sX sZ
     rw [pullbackLeftPullbackSndIso_inv_fst_snd]
   have hqY : pullback.fst f t ≫ (f ≫ sZ) = g₁ ≫ sZ := (Category.assoc _ _ _).symm
@@ -253,7 +253,7 @@ theorem bivariantCommute_dedekindExteriorClass (α : chowGroup C sX (1 - p))
   have hβ' : t ≫ sZ = (t ≫ sZ) ≫ 𝟙 C.S := (Category.comp_id _).symm
   have hAt : pullback.fst sX (t ≫ sZ) ≫ sX = (ιt ≫ g₂) ≫ sZ := by
     rw [Category.assoc, Category.assoc, ← pullback.condition (f := sX) (g := sZ)]
-    show _ = (pullbackLeftPullbackSndIso sX sZ t).inv ≫ pullback.fst (pullback.snd sX sZ) t ≫
+    change _ = (pullbackLeftPullbackSndIso sX sZ t).inv ≫ pullback.fst (pullback.snd sX sZ) t ≫
       pullback.fst sX sZ ≫ sX
     rw [pullbackLeftPullbackSndIso_inv_fst_assoc]
   have hBt : pullback.fst (pullback.snd sX sZ) t ≫ (pullback.fst sX sZ ≫ sX) = g₂ ≫ sZ :=

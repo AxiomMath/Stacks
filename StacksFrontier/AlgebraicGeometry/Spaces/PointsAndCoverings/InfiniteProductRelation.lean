@@ -103,14 +103,14 @@ def idem (n : ℕ) : productRing k := Function.update (0 : ℕ → k) n 1
 `n`-th coordinate morphism. -/
 theorem coordinate_preimage_basicOpen_self (n : ℕ) :
     coordinate k n ⁻¹ᵁ PrimeSpectrum.basicOpen (idem k n) = ⊤ := by
-  show PrimeSpectrum.basicOpen ((Pi.evalRingHom (fun _ : ℕ ↦ k) n) (idem k n)) = ⊤
+  change PrimeSpectrum.basicOpen ((Pi.evalRingHom (fun _ : ℕ ↦ k) n) (idem k n)) = ⊤
   simp [idem]
 
 /-- The basic open of the idempotent supported at `n` pulls back to the empty open along the
 `m`-th coordinate morphism, for `m ≠ n`. -/
 theorem coordinate_preimage_basicOpen_of_ne {n m : ℕ} (h : m ≠ n) :
     coordinate k m ⁻¹ᵁ PrimeSpectrum.basicOpen (idem k n) = ⊥ := by
-  show PrimeSpectrum.basicOpen ((Pi.evalRingHom (fun _ : ℕ ↦ k) m) (idem k n)) = ⊥
+  change PrimeSpectrum.basicOpen ((Pi.evalRingHom (fun _ : ℕ ↦ k) m) (idem k n)) = ⊥
   simp [idem, Function.update_of_ne h]
 
 /-- **Stacks 02Z8.** Distinct coordinate morphisms are disjoint: a scheme mapping to `S` in
@@ -158,25 +158,25 @@ noncomputable def relationSource : relation k ⟶ space k :=
 @[reassoc (attr := simp)]
 theorem ι_inl_relationTarget (x : Unit) :
     Sigma.ι (relationComponent k) (.inl x) ≫ relationTarget k = 𝟙 (space k) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The target projection restricts to `f_n` on the summand indexed by `(n, m)`. -/
 @[reassoc (attr := simp)]
 theorem ι_inr_relationTarget (p : OffDiagonal) :
     Sigma.ι (relationComponent k) (.inr p) ≫ relationTarget k = coordinate k p.1.1 :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The source projection restricts to the identity on the summand `U`. -/
 @[reassoc (attr := simp)]
 theorem ι_inl_relationSource (x : Unit) :
     Sigma.ι (relationComponent k) (.inl x) ≫ relationSource k = 𝟙 (space k) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The source projection restricts to `f_m` on the summand indexed by `(n, m)`. -/
 @[reassoc (attr := simp)]
 theorem ι_inr_relationSource (p : OffDiagonal) :
     Sigma.ι (relationComponent k) (.inr p) ≫ relationSource k = coordinate k p.1.2 :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The target projection is the first component of the morphism to `U ×_S U`. -/
 @[reassoc (attr := simp)]
@@ -185,7 +185,7 @@ theorem relationMap_comp_fst :
   refine Sigma.hom_ext _ _ fun i ↦ ?_
   cases i with
   | inl x => simp [relationComponentMap]
-  | inr p => simp [relationComponentMap, pullback.lift_fst]
+  | inr p => simp [relationComponentMap]
 
 /-- The source projection is the second component of the morphism to `U ×_S U`. -/
 @[reassoc (attr := simp)]
@@ -194,7 +194,7 @@ theorem relationMap_comp_snd :
   refine Sigma.hom_ext _ _ fun i ↦ ?_
   cases i with
   | inl x => simp [relationComponentMap]
-  | inr p => simp [relationComponentMap, pullback.lift_snd]
+  | inr p => simp [relationComponentMap]
 
 /-- **Stacks 02Z8.** The target projection of the relation is étale: it is the identity on
 one summand and an open immersion on each of the others. -/
@@ -229,7 +229,7 @@ noncomputable def relationSymm : relation k ⟶ relation k :=
 theorem ι_inl_relationSymm (x : Unit) :
     Sigma.ι (relationComponent k) (.inl x) ≫ relationSymm k =
       Sigma.ι (relationComponent k) (.inl x) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The involution of `R` sends the summand indexed by `(n, m)` identically to the summand
 indexed by `(m, n)`. -/
@@ -237,7 +237,7 @@ indexed by `(m, n)`. -/
 theorem ι_inr_relationSymm (p : OffDiagonal) :
     Sigma.ι (relationComponent k) (.inr p) ≫ relationSymm k =
       Sigma.ι (relationComponent k) (.inr ⟨p.1.swap, fun h ↦ p.2 h.symm⟩) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The involution exchanges the target projection with the source projection. -/
 @[reassoc (attr := simp)]
@@ -320,27 +320,27 @@ theorem exists_lift_relation {T : Scheme.{u}} (f g : T ⟶ relation k)
     refine ⟨p ≫ g, ?_, Category.assoc _ _ _⟩
     have h₁ : p ≫ g ≫ relationTarget k = a := by
       rw [← h]
-      simpa [reassoc_of% hp] using rfl
-    have h₂ : p ≫ f ≫ relationTarget k = a := by simpa [reassoc_of% hp] using rfl
+      simp [reassoc_of% hp]
+    have h₂ : p ≫ f ≫ relationTarget k = a := by simp [reassoc_of% hp]
     rw [Category.assoc, h₁, h₂]
   | inr p' =>
     refine exists_lift_of_sigma_cases (p ≫ g) _ _ _ _ fun j Z q b hq ↦ ?_
     have htgt : q ≫ p ≫ f ≫ relationTarget k = q ≫ a ≫ coordinate k p'.1.1 := by
-      simpa [reassoc_of% hp] using rfl
+      simp [reassoc_of% hp]
     cases j with
     | inl y =>
       refine ⟨q ≫ p ≫ f, ?_, ?_⟩
       · rw [Category.assoc, Category.assoc]
       · have e₁ : q ≫ p ≫ f ≫ relationSource k = b := by
-          simpa [h, reassoc_of% hq] using rfl
+          simp [h, reassoc_of% hq]
         have e₂ : q ≫ p ≫ g ≫ relationSource k = b := by
-          simpa [reassoc_of% hq] using rfl
+          simp [reassoc_of% hq]
         rw [Category.assoc, Category.assoc, e₁, e₂]
     | inr q' =>
       have hcomp : q ≫ a ≫ coordinate k p'.1.2 = b ≫ coordinate k q'.1.1 := by
         simpa [reassoc_of% hp, reassoc_of% hq] using congrArg (fun z ↦ q ≫ p ≫ z) h
       have hsrc : q ≫ p ≫ g ≫ relationSource k = b ≫ coordinate k q'.1.2 := by
-        simpa [reassoc_of% hq] using rfl
+        simp [reassoc_of% hq]
       by_cases hmid : p'.1.2 = q'.1.1
       · rw [hmid] at hcomp
         have hab : q ≫ a = b :=
@@ -399,14 +399,14 @@ noncomputable def relationStructure : relation k ⟶ base k :=
 @[reassoc (attr := simp)]
 theorem ι_inl_relationStructure (x : Unit) :
     Sigma.ι (relationComponent k) (.inl x) ≫ relationStructure k = structureMap k :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The structure morphism of `R` restricts to the identity on the summand indexed by
 `(n, m)`. -/
 @[reassoc (attr := simp)]
 theorem ι_inr_relationStructure (p : OffDiagonal) :
     Sigma.ι (relationComponent k) (.inr p) ≫ relationStructure k = 𝟙 (base k) :=
-  Sigma.ι_desc _ _
+  Sigma.ι_comp_desc _ _
 
 /-- The target projection lies over `S`. -/
 theorem relationTarget_comp_structureMap :

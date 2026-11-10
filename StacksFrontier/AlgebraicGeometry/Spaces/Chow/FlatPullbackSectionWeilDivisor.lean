@@ -111,7 +111,7 @@ theorem flatPullbackMap_sectionWeilDivisor_eq_componentDivisorSum :
     have : Ring.KrullDimLE 1 ((chartScheme d.U).presheaf.stalk u) :=
       Ring.krullDimLE_iff.mpr (by rw [hdimA]; exact_mod_cast le_rfl)
     exact (flatPullbackMap_sectionWeilDivisor_apply_eq_ordTotalFracInt D sX hX sY hY f hbase r
-      hflat hr hintY hn L hL s hs Z hZ d hU hV e hecompat hebij u hu).trans
+      hflat hr hintY hn L hL s hs Z hZ d hV e hecompat hebij u hu).trans
       (componentDivisorSum_apply_eq_ordTotalFracInt D sX hX sY hY f hbase r hflat hr hintY hn L
         hL s hs Z hZ d hU hV e hecompat hebij u hu hdimA).symm
   · have key (k : ℤ) (c : CycleGroup D sX k) (hZ : deltaDimension D sX Z ≠ k) : c.1 Z = 0 :=

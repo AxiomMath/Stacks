@@ -156,7 +156,7 @@ public theorem notMem_nonvanishingLocus_of_sectionEvaluation_eq_zero (k : Type u
   set z := (P.presheaf.Γgerm x).hom s
   have hker : e z ∈ IsLocalRing.maximalIdeal (X.presheaf.stalk x) :=
     (IsLocalRing.residue_eq_zero_iff _).mp (by
-      show X.residue x (e z) = 0
+      change X.residue x (e z) = 0
       exact hs)
   have hgen : z = e z • e.symm 1 := by
     apply e.injective

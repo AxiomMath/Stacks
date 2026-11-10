@@ -232,6 +232,7 @@ variable {Xt : RingedTopos.{v, u, w}} {Yt : RingedTopos.{v', u', w'}}
   (f : RingedToposHom Xt Yt)
 
 set_option maxHeartbeats 1600000 in
+-- the statement and the `have`s spell out large tensor products of sheaves of modules
 /-- **The comparison of Stacks 03EL along an arbitrary morphism of ringed topoi is compatible
 with the associativity constraint of Tag 01CA**, with no hypothesis, at the
 `Stacks.SheafOfModules.Invertible.tensorProductBifunctor` spelling of the tensor product of two

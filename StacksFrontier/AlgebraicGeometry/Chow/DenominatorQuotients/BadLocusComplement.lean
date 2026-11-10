@@ -236,18 +236,18 @@ theorem componentDivisorCycle_apply_eq_zero_of_notMem_denominatorBadLocus
     hιpres hmulpres hξV hbas hb' hξ
   obtain ⟨z, hz⟩ : ∃ w : (integralComponentAt η).subscheme,
       (integralComponentAt η).subschemeι w = ξ := by
-    show ξ ∈ Set.range (integralComponentAt η).subschemeι.base
+    change ξ ∈ Set.range (integralComponentAt η).subschemeι.base
     rw [Scheme.IdealSheafData.range_subschemeι, coe_support_integralComponentAt]
     exact specializes_iff_mem_closure.mp hspec
   have hzV : z ∈ ((integralComponentAt η).subschemeι ⁻¹ᵁ V :
       (integralComponentAt η).subscheme.Opens) := by
-    show (integralComponentAt η).subschemeι.base z ∈ V
+    change (integralComponentAt η).subschemeι.base z ∈ V
     rwa [hz]
   have hNE : Nonempty ((integralComponentAt η).subschemeι ⁻¹ᵁ V :
     (integralComponentAt η).subscheme.Opens) := ⟨⟨z, hzV⟩⟩
   have hgenV : genericPoint (integralComponentAt η).subscheme ∈
       ((integralComponentAt η).subschemeι ⁻¹ᵁ V : (integralComponentAt η).subscheme.Opens) := by
-    show (integralComponentAt η).subschemeι.base
+    change (integralComponentAt η).subschemeι.base
       (genericPoint (integralComponentAt η).subscheme) ∈ V
     rw [subschemeι_genericPoint_integralComponentAt η]
     exact hspec.mem_open V.isOpen hξV

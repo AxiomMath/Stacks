@@ -183,7 +183,7 @@ theorem puncturedSpectrum_eq_preimage_of_ringEquiv {R S : Type u} [CommRing R] [
     Stacks.puncturedSpectrum S =
       Spec.map e.toCommRingCatIso.hom ⁻¹ᵁ Stacks.puncturedSpectrum R := by
   ext x
-  show (x ∉ ({IsLocalRing.closedPoint S} : Set (PrimeSpectrum S))) ↔
+  change (x ∉ ({IsLocalRing.closedPoint S} : Set (PrimeSpectrum S))) ↔
     (Spec.map e.toCommRingCatIso.hom x ∉
       ({IsLocalRing.closedPoint R} : Set (PrimeSpectrum R)))
   apply not_congr
@@ -262,7 +262,7 @@ the original cover. -/
 theorem hasPurity_quotientRing_of_essSurj_U₀ToU
     (hess : (finiteEtaleBaseChange S.U₀ToU).EssSurj) (hpurity : HasPurity S.A) :
     HasPurity S.quotientRing := by
-  show (finiteEtaleBaseChange (Stacks.puncturedSpectrum S.quotientRing).ι).EssSurj
+  change (finiteEtaleBaseChange (Stacks.puncturedSpectrum S.quotientRing).ι).EssSurj
   rw [← S.U₀Open_eq_puncturedSpectrumOpen]
   exact essSurj_finiteEtaleBaseChange_of_commSq S.U₀ToU_comp_immersion hpurity hess
 

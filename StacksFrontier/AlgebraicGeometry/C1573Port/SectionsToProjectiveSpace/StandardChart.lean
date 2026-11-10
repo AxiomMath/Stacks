@@ -134,9 +134,9 @@ theorem C1573.chartOpen_ι_eq (j : Fin (n + 1)) :
         (X_mem_coordGrading_one j) 1 (MvPolynomial.X l) (X_mem_coordGrading_smul l)
         (v := 1) (by rw [mul_one, hj, map_one]),
       one_pow, mul_one, sectionsHom_X]
-    show (Y.basicOpen (s j)).ι.appTop (s l) = _
+    change (Y.basicOpen (s j)).ι.appTop (s l) = _
     rw [Scheme.Opens.ι_appTop, Scheme.Opens.topIso_inv, sectionsHom_X]
-    show _ = (Y.presheaf.map (homOfLE le_top).op ≫ Y.presheaf.map (eqToHom _).op) (s l)
+    change _ = (Y.presheaf.map (homOfLE le_top).op ≫ Y.presheaf.map (eqToHom _).op) (s l)
     rw [← Functor.map_comp]
     rfl
 

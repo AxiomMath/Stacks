@@ -87,6 +87,7 @@ attribute [local instance] pointTopology
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site is deep
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 private instance hasPullbacks_presheaf_affineElementaryEtale :
@@ -116,7 +117,7 @@ private theorem pointsToScheme_residueFieldPoint (U : BigFppfOver B S hS) (u : U
     (hu : B.Contains (Spec (.of (U.left.1.residueField u)))) :
     pointsToScheme B S hS U
         ((residueFieldPoint B S hS U u hu).class B S hS (yoneda.obj U)) = u := by
-  show U.left.1.fromSpecResidueField u (IsLocalRing.closedPoint _) = u
+  change U.left.1.fromSpecResidueField u (IsLocalRing.closedPoint _) = u
   exact Scheme.fromSpecResidueField_apply u _
 
 /-- The morphism of a residue-field point pushed along `α` is the residue-field map followed
@@ -209,7 +210,7 @@ private theorem exists_fieldValuedPoint_of_isIso_rep_snd
   rw [pointsMap_class, hy]
   refine FieldValuedPoint.class_eq_class_of_hasCommonExtension B S hS F
     ⟨p, ⟨𝟙 (p.siteObject B S hS F), ?_⟩, FieldValuedPoint.dominates_refl B S hS F p⟩
-  show F.map (𝟙 (p.siteObject B S hS F)).op
+  change F.map (𝟙 (p.siteObject B S hS F)).op
     ((FieldValuedPoint.map B S hS G.toFunctor G.ι q).value) = p.value
   simpa [hval]
 
@@ -327,7 +328,7 @@ private theorem exists_bijective_residueFieldHom_of_elementaryEtaleNeighborhood
   have hspec : B.inclusion.map g.left = Spec.map (CommRingCat.ofHom φ) := by
     rw [hφDef]; simp
   have hleftIso : IsIso (B.inclusion.map g.left) := by
-    show IsIso ((BigFppfOver.toScheme B S hS).map g)
+    change IsIso ((BigFppfOver.toScheme B S hS).map g)
     infer_instance
   have hφiso : IsIso (Spec.map (CommRingCat.ofHom φ)) := by rw [← hspec]; infer_instance
   have hSpecIso : IsIso (Scheme.Spec.map (CommRingCat.ofHom φ).op) := hφiso
@@ -364,7 +365,7 @@ private theorem exists_fieldValuedPoint_chart_of_isIso_pullback_fst
   let m : yoneda.obj (qT.siteObject B S hS T.toFunctor) ⟶ yoneda.obj V :=
     fieldMorphism B S hS T.toFunctor qT ≫ inv (pullback.snd f T.ι) ≫ pullback.fst f T.ι
   have hm : m ≫ f = fieldMorphism B S hS T.toFunctor qT ≫ T.ι := by
-    show (fieldMorphism B S hS T.toFunctor qT ≫ inv (pullback.snd f T.ι) ≫
+    change (fieldMorphism B S hS T.toFunctor qT ≫ inv (pullback.snd f T.ι) ≫
       pullback.fst f T.ι) ≫ f = _
     rw [Category.assoc, Category.assoc, pullback.condition,
       ← Category.assoc (inv (pullback.snd f T.ι)), IsIso.inv_hom_id, Category.id_comp]
@@ -374,7 +375,7 @@ private theorem exists_fieldValuedPoint_chart_of_isIso_pullback_fst
       (FieldValuedPoint.map B S hS (yoneda.obj (qT.siteObject B S hS T.toFunctor))
         (yoneda.map g) (qT.tautologicalPoint B S hS T.toFunctor)) = yoneda.map g := by
     rw [fieldMorphism_map_yoneda]
-    show yoneda.map (𝟙 (qT.siteObject B S hS T.toFunctor)) ≫ yoneda.map g = yoneda.map g
+    change yoneda.map (𝟙 (qT.siteObject B S hS T.toFunctor)) ≫ yoneda.map g = yoneda.map g
     simp
   have hfac : fieldMorphism B S hS (yoneda.obj V)
       (FieldValuedPoint.map B S hS (yoneda.obj (qT.siteObject B S hS T.toFunctor))
@@ -500,11 +501,11 @@ theorem exists_affine_elementaryEtaleNeighborhood
     let W : BigFppfOver B S hS := Over.mk (a ≫ V.hom)
     let j : W ⟶ V := Over.homMk a (by rfl)
     have hja : (BigFppfOver.toScheme B S hS).map j = cover.f (cover.idx vPt) := by
-      show B.inclusion.map (B.inclusion.preimage (X := Wleft) (Y := V.left)
+      change B.inclusion.map (B.inclusion.preimage (X := Wleft) (Y := V.left)
         (cover.f (cover.idx vPt))) = cover.f (cover.idx vPt)
       exact B.inclusion.map_preimage _
     refine ⟨W, j, ?_, ?_, c₀, ?_⟩
-    · show IsAffine (Spec (cover.X (cover.idx vPt)))
+    · change IsAffine (Spec (cover.X (cover.idx vPt)))
       infer_instance
     · refine (presheaf_yoneda_map_iff B S hS
         (P := @_root_.AlgebraicGeometry.IsOpenImmersion.{u}) inferInstance j).2 ?_
@@ -556,7 +557,7 @@ theorem exists_affine_elementaryEtaleNeighborhood
       fieldMorphism B S hS (yoneda.obj V)
         (FieldValuedPoint.map B S hS (yoneda.obj W) (yoneda.map j)
           (residueFieldPoint B S hS W w₀ huContained)) := by
-    show yoneda.map e.hom ≫ yonedaEquiv.symm (qV.value) = yonedaEquiv.symm _
+    change yoneda.map e.hom ≫ yonedaEquiv.symm (qV.value) = yonedaEquiv.symm _
     rw [yonedaEquiv_symm_naturality_left, he]
   have heMono : Mono (yoneda.map e.hom) := IsIso.mono_of_iso _
   have hmonoW : Mono (yoneda.map (residueFieldMap B S hS W w₀ huContained) ≫
@@ -582,7 +583,7 @@ theorem exists_affine_elementaryEtaleNeighborhood
       mono_residueField := hmonoW }
   refine ⟨E, hAff, ?_, ?_⟩
   · intro z hzFiber
-    show z = presheafPoint B S hS W w₀ huContained
+    change z = presheafPoint B S hS W w₀ huContained
     have hz : pointsMap B S hS (yoneda.obj W) (yoneda.map j ≫ f ≫ U.ι ≫ G.ι) z = x := hzFiber
     refine pointsMap_injective_of_mono B S hS (yoneda.map j) ?_
     rw [← class_residueFieldPoint, hpWToV]

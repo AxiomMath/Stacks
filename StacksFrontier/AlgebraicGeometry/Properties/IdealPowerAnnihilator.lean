@@ -125,7 +125,7 @@ lemma idealPowerAnnihilatorSubmodule_isSheaf
         (Opens.grothendieckTopology X) V.unop →
       s ∈ (idealPowerAnnihilatorSubmodule I F n).obj V := by
   intro V s hs W f a ha
-  show a • F.val.map f s = (0 : F.val.obj W)
+  change a • F.val.map f s = (0 : F.val.obj W)
   let N := idealPowerAnnihilatorSubmodule I F n
   let S := N.toSubfunctor.sieveOfSection s
   have hF : Presieve.IsSheaf (Opens.grothendieckTopology X)
@@ -135,11 +135,11 @@ lemma idealPowerAnnihilatorSubmodule_isSheaf
   refine (hF (S.pullback f.unop)
     ((Opens.grothendieckTopology X).pullback_stable f.unop hs)).isSeparatedFor.ext ?_
   intro Y g hg
-  show F.val.restrictₛₗ g.op (a • F.val.map f s) = F.val.restrictₛₗ g.op 0
+  change F.val.restrictₛₗ g.op (a • F.val.map f s) = F.val.restrictₛₗ g.op 0
   rw [map_zero]
   refine (F.val.restrictₛₗ g.op).map_smulₛₗ a _ |>.trans ?_
   let t : F.val.obj (op Y) := F.val.presheaf.map g.op (F.val.presheaf.map f s)
-  show (X.ringCatSheaf.obj.map g.op).hom a • t = 0
+  change (X.ringCatSheaf.obj.map g.op).hom a • t = 0
   have helem : t = ConcreteCategory.hom (F.val.presheaf.map ((g ≫ f.unop).op)) s := by
     rw [show ((g ≫ f.unop).op : V ⟶ op Y) = f ≫ g.op by simp, Functor.map_comp]
     rfl

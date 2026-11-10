@@ -120,7 +120,7 @@ theorem coefficientLevelAddHom_toZModPow (v : Fin (m * D) → ℤ_[ℓ]) :
     coefficientLevelAddHom β m n (fun p => PadicInt.toZModPow n (v p)) =
       fun i => Ideal.Quotient.mk (Ideal.span {(ℓ : O) ^ n}) (coefficientVecEquiv β m v i) := by
   funext i
-  show ∑ k : Fin D, _ = _
+  change ∑ k : Fin D, _ = _
   rw [coefficientVecEquiv_apply, Module.Basis.equivFun_symm_apply, map_sum]
   refine Finset.sum_congr rfl fun k _ => ?_
   rw [Algebra.smul_def, map_mul, mk_algebraMap_eq_castHom_toZModPow]
@@ -148,7 +148,7 @@ theorem coefficientLevelAddHom_bijective :
       rw [map_smul, LinearEquiv.apply_symm_apply]
       funext i
       rw [Pi.smul_apply, ← ho i, Algebra.smul_def, map_pow, map_natCast, mul_comm]
-    show (fun p => PadicInt.toZModPow n (v p)) = 0
+    change (fun p => PadicInt.toZModPow n (v p)) = 0
     rw [hv]
     funext p
     rw [Pi.smul_apply, smul_eq_mul, map_mul, map_pow, map_natCast, ← Nat.cast_pow,
@@ -176,7 +176,7 @@ theorem coefficientLevelAddEquiv_smul (a : ZMod (ℓ ^ n)) (w : Fin (m * D) → 
     coefficientLevelAddEquiv β m n (a • w) =
       ZMod.castHom dvd_rfl (O ⧸ Ideal.span {(ℓ : O) ^ n}) a • coefficientLevelAddEquiv β m n w := by
   funext i
-  show ∑ k : Fin D, (_ : O ⧸ Ideal.span {(ℓ : O) ^ n}) =
+  change ∑ k : Fin D, (_ : O ⧸ Ideal.span {(ℓ : O) ^ n}) =
     (_ : O ⧸ Ideal.span {(ℓ : O) ^ n}) * ∑ k : Fin D, (_ : O ⧸ Ideal.span {(ℓ : O) ^ n})
   rw [Finset.mul_sum]
   refine Finset.sum_congr rfl fun k _ => ?_
@@ -279,7 +279,7 @@ theorem continuous_restrictScalarsRepresentation_of_isOpen
       rw [map_mul, Units.val_mul, Matrix.map_mul, hh', Matrix.mul_one]
     have := congrFun (congrFun (map_toZModPow_coefficientMatrixRingHom_eq β m (k + 1) hmod) i) j
     simp only [Matrix.map_apply] at this
-    show PadicInt.toZModPow (k + 1) (coefficientMatrixRingHom β m (τO (g * h)).val i j) = a
+    change PadicInt.toZModPow (k + 1) (coefficientMatrixRingHom β m (τO (g * h)).val i j) = a
     rw [this]
     exact hg
   refine Units.continuous_iff.2 ⟨hval, ?_⟩

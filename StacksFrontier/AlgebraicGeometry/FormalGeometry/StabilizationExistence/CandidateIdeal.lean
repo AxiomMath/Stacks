@@ -31,7 +31,7 @@ private theorem associatedSubset_stableUnderSpecialization
     {A : Type u} [CommRing A] (I J : Ideal A) :
     StableUnderSpecialization (associatedSubset I J) := by
   intro p q hpq hp
-  show PrimeSpectrum.zeroLocus (q.asIdeal : Set A) ∩
+  change PrimeSpectrum.zeroLocus (q.asIdeal : Set A) ∩
     PrimeSpectrum.zeroLocus (I : Set A) ⊆ _
   exact fun r hr => hp ⟨((PrimeSpectrum.le_iff_specializes p q).mpr hpq).trans hr.1, hr.2⟩
 
@@ -44,7 +44,7 @@ private theorem mem_associatedSubset_of_mem_zeroLocus_inter
         PrimeSpectrum.zeroLocus (I : Set A))
     (p : PrimeSpectrum A) (hp : p ∈ PrimeSpectrum.zeroLocus (J' : Set A)) :
     p ∈ associatedSubset I J := by
-  show PrimeSpectrum.zeroLocus (p.asIdeal : Set A) ∩
+  change PrimeSpectrum.zeroLocus (p.asIdeal : Set A) ∩
       PrimeSpectrum.zeroLocus (I : Set A) ⊆
     PrimeSpectrum.zeroLocus (J : Set A) ∩
       PrimeSpectrum.zeroLocus (I : Set A)

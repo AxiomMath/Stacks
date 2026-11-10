@@ -170,7 +170,7 @@ theorem flatPullbackSubvarietyProductTotal_eq_of_bound (K : Type u) [Field K] {X
         (Stacks.Intersection.FlatPullback.schemeDeltaDimension_torSheaf_flatPullback_le
           K sX sY hX hY f hbase e he (structureSheafAt v) (structureSheafAt w)
           (isCoherent_structureSheafAt v) (isCoherent_structureSheafAt w) n h) :=
-  dif_pos h
+  dite_eq_left h
 
 /-- At a pair of points some `Tor` sheaf of which has too big a support downstairs, the
 pulled-back summand is the zero cycle. -/
@@ -182,7 +182,7 @@ theorem flatPullbackSubvarietyProductTotal_eq_zero (K : Type u) [Field K] {X Y :
     (h : haveI : IsLocallyNoetherian Y := LocallyOfFiniteType.isLocallyNoetherian sY
       ¬ TorSupportBound (fieldChowSituation K) sY hY n v w) :
     flatPullbackSubvarietyProductTotal K sX sY hX hY f hbase e he n v w = 0 :=
-  dif_neg h
+  dite_eq_right h
 
 /-- For cycles `α` and `β` on `Y` which intersect properly, with `dim Y = m` and the dimensions
 of the closures of a component of `α` and a component of `β` summing to `m + n`, the pulled-back

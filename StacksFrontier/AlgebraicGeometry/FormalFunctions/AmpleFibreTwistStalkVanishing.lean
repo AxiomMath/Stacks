@@ -262,8 +262,8 @@ identified with the pullback of the twist by [Stacks, Tag 0EGK]'s
 
 The tag's other clause is a surjectivity of a named comparison map and is not proved here; it is
 `Stacks.FormalFunctions.surjective_fiberSectionsStalkHom` of
-`StacksFrontier/AlgebraicGeometry/FormalFunctions/AmpleFibreTwistStalkSurjective.lean`, where the two
-are put together as
+`StacksFrontier/AlgebraicGeometry/FormalFunctions/AmpleFibreTwistStalkSurjective.lean`, where the
+two are put together as
 `Stacks.FormalFunctions.exists_isZero_stalk_rightDerived_and_surjective_fiberTwist`. -/
 public theorem exists_isZero_stalk_rightDerived_twistModule (f : X ⟶ Y) [IsProper f]
     [AlgebraicGeometry.IsLocallyNoetherian Y] (y : Y) (F L : X.Modules)

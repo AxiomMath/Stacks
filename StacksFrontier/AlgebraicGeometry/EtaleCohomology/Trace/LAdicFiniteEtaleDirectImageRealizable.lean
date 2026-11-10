@@ -125,7 +125,7 @@ public theorem LAdicSheaf.trace_directImageRationalBlock_eq
   let b : GeometricPoint.Hom (geometricPointLift (B.inclusion.map π) (geometricPointAt Y.1 v) x)
       (geometricPointLift (B.inclusion.map π) (geometricPointAt Y.1 v) x) :=
     ⟨(a.iterate e).hom, hfix⟩
-  show LinearMap.trace ℚ_[ℓ] _ (LAdicSheaf.directImageRationalPr π G hG _ x ∘ₗ
+  change LinearMap.trace ℚ_[ℓ] _ (LAdicSheaf.directImageRationalPr π G hG _ x ∘ₗ
       (LAdicSheaf.rationalStalkEnd B Y ℓ (SmallEtale.LAdicSheaf.directImage π G hG) a ^ (e + 1)) ∘ₗ
       LAdicSheaf.directImageRationalInc π G hG _ x) =
     LinearMap.trace ℚ_[ℓ] _ (LAdicSheaf.rationalStalkEnd B X ℓ G

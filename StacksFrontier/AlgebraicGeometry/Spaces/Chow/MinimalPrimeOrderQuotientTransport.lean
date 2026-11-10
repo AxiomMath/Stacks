@@ -115,7 +115,7 @@ theorem minimalPrimeOrd_map_of_surjective [IsLocalRing O]
   have hemk : ∀ x : O, e (Ideal.Quotient.mk (p : Ideal O) x) =
       Ideal.Quotient.mk (q : Ideal O') (π x) := fun x => by
     rw [hedef]
-    simpa using quotientComapEquivOfComap_mk π hsurj (q : Ideal O') x
+    simp
   have hcomm : (minimalPrimeFractionMap (K := K') q).comp
         (IsLocalization.map (S := K) K' π hnzd) =
       (IsFractionRing.ringEquivOfRingEquiv

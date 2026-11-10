@@ -185,7 +185,7 @@ theorem isQuasiCompactSpace_of_compactSpace_points
     refine ⟨v, ?_⟩
     have hgv : pointsMap B S hS (yoneda.obj V) (yoneda.map g) v = w := by
       refine injective_pointsToScheme B S hS U ?_
-      rwa [pointsToScheme_pointsMap_yoneda, hv, hGg, ← Scheme.Hom.comp_apply, Sigma.ι_desc]
+      rwa [pointsToScheme_pointsMap_yoneda, hv, hGg, ← Scheme.Hom.comp_apply, Sigma.ι_comp_desc]
     rwa [pointsMap_comp_apply, hgv]
   have _ : ∀ i, IsAffine (Y i) := fun i => isAffine_Spec _
   have _ : IsAffine A := inferInstance

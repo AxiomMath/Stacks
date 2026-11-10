@@ -186,7 +186,7 @@ public theorem isLocallyInjective_of_injective_etaleStalkMap_type (α : F ⟶ G)
   let p : Φ.fiber.obj V := geometricPointOfEtalePointLift B X hX V x
   have hgerm : Φ.toPresheafFiber V p F.obj a₁ = Φ.toPresheafFiber V p F.obj a₂ := by
     apply h s
-    show (Φ.presheafFiber.map α.hom) (Φ.toPresheafFiber V p F.obj a₁) =
+    change (Φ.presheafFiber.map α.hom) (Φ.toPresheafFiber V p F.obj a₁) =
       (Φ.presheafFiber.map α.hom) (Φ.toPresheafFiber V p F.obj a₂)
     rw [Φ.toPresheafFiber_naturality_apply α.hom, Φ.toPresheafFiber_naturality_apply α.hom]
     exact congrArg (Φ.toPresheafFiber V p G.obj) ha
@@ -452,7 +452,7 @@ theorem baseChangeEtalePoint_comp :
   set hm' := congrArg (fun r : GeometricPoint S.1 => r.source) hm with hm'def
   apply Subtype.ext
   refine (isPullback_smallEtaleBaseChange_inclusion B (k ≫ l) V).hom_ext ?_ ?_
-  · show (p ≫ (SmallEtale.toScheme B W.1 W.property).map m) ≫
+  · change (p ≫ (SmallEtale.toScheme B W.1 W.property).map m) ≫
       B.inclusion.map (pullback.fst V.obj.hom (k ≫ l)) =
       baseChangeEtalePointHom B (k ≫ l) hm V v ≫
         B.inclusion.map (pullback.fst V.obj.hom (k ≫ l))
@@ -478,7 +478,7 @@ theorem baseChangeEtalePoint_comp :
       congrArg (fun z => z ≫ v.1) (eqToHom_trans hk' hl')
     exact ((s1.trans s2).trans (s3.trans s4)).trans
       (baseChangeEtalePointHom_fst B (k ≫ l) hm V v).symm
-  · show (p ≫ (SmallEtale.toScheme B W.1 W.property).map m) ≫
+  · change (p ≫ (SmallEtale.toScheme B W.1 W.property).map m) ≫
       B.inclusion.map (pullback.snd V.obj.hom (k ≫ l)) =
       baseChangeEtalePointHom B (k ≫ l) hm V v ≫
         B.inclusion.map (pullback.snd V.obj.hom (k ≫ l))

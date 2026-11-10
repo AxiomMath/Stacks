@@ -93,7 +93,7 @@ theorem locMap_mk (φ : A →+* B) (S : Submonoid A) (T : Submonoid B) (h : S �
     (s : S) :
     locMap φ S T h (LocalizedModule.mk a s) =
       LocalizedModule.mk (φ a) ⟨φ s, h s.property⟩ := by
-  show IsLocalization.map (Localization T) φ h (Localization.mk a s) =
+  change IsLocalization.map (Localization T) φ h (Localization.mk a s) =
     Localization.mk (φ a) ⟨φ s, h s.property⟩
   simpa only [Localization.mk_eq_mk'] using
     IsLocalization.map_mk' (S := Localization S) (Q := Localization T) h a s
@@ -132,7 +132,7 @@ theorem locHom_ext (φ : A →+* B) (S : Submonoid A) {M : Type*} [AddCommGroup 
     apply hi s
     dsimp only
     rw [← l.map_smulₛₗ, ← k.map_smulₛₗ, LocalizedModule.smul'_mk]
-    show l (LocalizedModule.mk (s • m) s) = k (LocalizedModule.mk (s • m) s)
+    change l (LocalizedModule.mk (s • m) s) = k (LocalizedModule.mk (s • m) s)
     rw [LocalizedModule.mk_cancel]
     exact h m
 
@@ -211,7 +211,7 @@ theorem locMap_cechι (φ : A →+* B) (f : Fin r → A) (g : Fin r → B) (h : 
     · exact ((Module.End.isUnit_iff _).mp (Cech.isUnit_algebraMap g B hst
         (LocalizedModule.mkLinearMap (Cech.cechSub g t) B)
         ⟨φ d, cechSub_le_comap φ f g h s d.property⟩)).injective
-    · show locMap φ _ _ (cechSub_le_comap φ f g h t)
+    · change locMap φ _ _ (cechSub_le_comap φ f g h t)
           (Cech.cechι f A hst (LocalizedModule.mk a 1)) =
         Cech.cechι g B hst (locMap φ _ _ (cechSub_le_comap φ f g h s) (LocalizedModule.mk a 1))
       rw [← LocalizedModule.mkLinearMap_apply, Cech.cechι_mk]
@@ -230,7 +230,7 @@ theorem termMap_cechD (φ : A →+* B) (f : Fin r → A) (g : Fin r → B) (h : 
     induction y using DirectSum.induction_on with
     | zero => simp
     | of s y =>
-      show termMap φ f g h (p + 1) (Cech.cechD f A p (DirectSum.lof A _ _ s y)) =
+      change termMap φ f g h (p + 1) (Cech.cechD f A p (DirectSum.lof A _ _ s y)) =
         Cech.cechD g B p (termMap φ f g h p (DirectSum.lof A _ _ s y))
       simp only [Cech.cechD_lof, termMap_lof, map_sum, map_zsmul]
       refine Finset.sum_congr rfl fun i _ => ?_
@@ -264,7 +264,7 @@ theorem cechTermZeroEquiv_termMap (φ : A →+* B) (f : Fin r → A) (g : Fin r 
         simpa only [Finset.card_eq_zero.mp (default : ExtendedAlternatingCech.Idx r 0).2,
           Finset.prod_empty, one_pow, Submonoid.coe_one] using hn.symm
       subst d
-      show Stacks.LocalCohomology.cechTermZeroEquiv g (ModuleCat.of B B)
+      change Stacks.LocalCohomology.cechTermZeroEquiv g (ModuleCat.of B B)
           (termMap φ f g h 0 (DirectSum.lof A (ExtendedAlternatingCech.Idx r 0)
             (fun s => Cech.cechMod f A s.1) default
             (LocalizedModule.mkLinearMap (Cech.cechSub f _) A a))) =
@@ -303,7 +303,7 @@ theorem termMap_cechTermRestrict (p : ℕ) (x : Cech.cechTerm g A p) :
     termMap φ f f' hf p (Cech.cechTermRestrict f A g e he p x) =
       Cech.cechTermRestrict f' B g' e he' p (termMap φ g g' hg p x) := by
   refine DirectSum.ext_component B fun S => ?_
-  show locMap φ _ _ (cechSub_le_comap φ f f' hf S.1)
+  change locMap φ _ _ (cechSub_le_comap φ f f' hf S.1)
       (Cech.reindexLoc f A g e he S.1 (x (Cech.reindexIdx e S))) =
     Cech.reindexLoc f' B g' e he' S.1
       (locMap φ _ _ (cechSub_le_comap φ g g' hg (S.1.map e.toEmbedding))

@@ -670,13 +670,13 @@ def tangentSpaceEquivContinuousSelfExt [IsTopologicalGroup Γ]
     (ρ₀ : Representation k Γ V) (hρ₀ : IsContinuousRepresentation ρ₀)
     (hpre : IsPredeformationCategory
       (continuousDeformationProjection (Λ := Λ) V ρ₀ hρ₀))
-    (hS2 : SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+    (hS2 : SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
       (BasedCategory.ofFunctor (continuousDeformationProjection (Λ := Λ) V ρ₀ hρ₀))
       hpre.cofibered))) :
     let 𝓕 := BasedCategory.ofFunctor (continuousDeformationProjection (Λ := Λ) V ρ₀ hρ₀)
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨hpre⟩
     letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
+      (Functor.Elements.π (isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
     letI := hasExt_of_enoughInjectives.{w + 1, w, w + 1}
       (Stacks.Injectives.ContinuousModule.{w, w, w} k Γ)
     let M := continuousModuleOfContinuousRepresentation V ρ₀ hρ₀
@@ -687,12 +687,12 @@ def tangentSpaceEquivContinuousSelfExt [IsTopologicalGroup Γ]
   let 𝓖 := BasedCategory.ofFunctor (deformationCategoryProjection (Λ := Λ) V ρ₀)
   letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨hpre⟩
   letI : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
+    (Functor.Elements.π (isomorphismClasses 𝓕 hpre.cofibered))) := ⟨hS2⟩
   obtain ⟨hord, hordS2, ordinaryEquiv, hrep, hclass⟩ :=
     Deformation.tangentSpaceEquivSelfExt (Λ := Λ) V ρ₀
   letI : Fact (IsPredeformationCategory 𝓖.p) := ⟨hord⟩
   letI : Fact (SchlessingerConditionS2
-    (CategoryOfElements.π (isomorphismClasses 𝓖 hord.cofibered))) := ⟨hordS2⟩
+    (Functor.Elements.π (isomorphismClasses 𝓖 hord.cofibered))) := ⟨hordS2⟩
   letI := HasExt.standard (ModuleCat.{w} (MonoidAlgebra k Γ))
   letI := hasExt_of_enoughInjectives.{w + 1, w, w + 1}
     (Stacks.Injectives.ContinuousModule.{w, w, w} k Γ)
@@ -820,7 +820,7 @@ def tangentSpaceEquivContinuousCohomology [IsTopologicalGroup Γ]
     let hD := isDeformationCategory_continuousDeformationCategory (Λ := Λ) V ρ₀ hρ₀
     letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
     letI : Fact (SchlessingerConditionS2
-        (CategoryOfElements.π
+        (Functor.Elements.π
           (isomorphismClasses 𝓕 hD.predeformation.cofibered))) :=
       ⟨Deformation.Artin.schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory
         𝓕 hD⟩
@@ -840,7 +840,7 @@ def tangentSpaceEquivContinuousCohomology [IsTopologicalGroup Γ]
   let hD := isDeformationCategory_continuousDeformationCategory (Λ := Λ) V ρ₀ hρ₀
   letI : Fact (IsPredeformationCategory 𝓕.p) := ⟨hD.predeformation⟩
   letI : Fact (SchlessingerConditionS2
-      (CategoryOfElements.π (isomorphismClasses 𝓕 hD.predeformation.cofibered))) :=
+      (Functor.Elements.π (isomorphismClasses 𝓕 hD.predeformation.cofibered))) :=
     ⟨Deformation.Artin.schlessingerConditionS2_isomorphismClasses_of_isDeformationCategory
       𝓕 hD⟩
   letI := Stacks.ContinuousCohomology.hasExt_continuousModule.{w, w, w} k Γ

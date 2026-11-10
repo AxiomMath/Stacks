@@ -172,6 +172,7 @@ theorem canonicalSmallEtaleToposEquivAffineEtale_functor (A : Type w) [Category.
   rfl
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the sheaf categories of the étale sites in `Type (u + 1)` is slow
 /-- **Stacks 0DEB**, `Sh(X_étale) = Sh(X_{spaces, étale})`, for sheaves of sets. These are sets
 in `Type (u + 1)`, the universe of the small étale topoi of Stacks 0DEC, part (3), which pass
 through this identification. -/
@@ -182,6 +183,7 @@ noncomputable def canonicalSmallEtaleToposEquivSpacesEtaleSets :
   canonicalSmallEtaleToposEquivSpacesEtale hX (Type (u + 1))
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for the sheaf categories of the étale sites in `Type (u + 1)` is slow
 /-- **Stacks 0DEB**, `Sh(X_étale) = Sh(X_{affine, étale})`, for sheaves of sets. These are sets
 in `Type (u + 1)`, the universe of the small étale topoi of Stacks 0DEC, part (3). -/
 @[stacks 0DEB "`Sh(X_étale) = Sh(X_affine,étale)`, for sheaves of sets"]

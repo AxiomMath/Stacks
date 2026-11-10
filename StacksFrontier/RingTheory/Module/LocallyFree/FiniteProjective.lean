@@ -74,7 +74,7 @@ private theorem span_image_mkLinearMap_away_mul (a b : R) (s : Set M)
   obtain ⟨n, hn⟩ := t.2
   have hn' : (a : R) ^ n = (t : R) := hn
   refine ⟨⟨(a * b) ^ n, n, rfl⟩, ?_⟩
-  show ((a * b) ^ n : R) • m ∈ _
+  change ((a * b) ^ n : R) • m ∈ _
   rw [mul_pow, mul_comm, mul_smul, hn']
   exact Submodule.smul_mem _ _ ht
 

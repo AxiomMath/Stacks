@@ -122,7 +122,7 @@ public theorem reduce_apply (x : stdLattice v n) (i : Fin n) :
       (Algebra.linearMap v.integers v.completion).compLeft (Fin n) (e.symm x) :=
     (congrArg Subtype.val (e.apply_symm_apply x)).symm.trans
       (LinearEquiv.ofInjective_apply _ (e.symm x))
-  show algebraMap v.integers (IsLocalRing.ResidueField v.integers) (e.symm x i) = _
+  change algebraMap v.integers (IsLocalRing.ResidueField v.integers) (e.symm x i) = _
   rw [IsLocalRing.ResidueField.algebraMap_eq]
   congr 1
   exact Subtype.ext (congrFun h i).symm
@@ -179,7 +179,7 @@ public theorem mem_span_iff_inv_mul_mem {π : v.integers} (hπ0 : (π : v.comple
     exact div_mem_integers_of_mem_span hz hπ0
   · intro hz
     refine Ideal.mem_span_singleton'.2 ⟨⟨_, hz⟩, Subtype.ext ?_⟩
-    show (π : v.completion)⁻¹ * z * π = z
+    change (π : v.completion)⁻¹ * z * π = z
     rw [mul_comm, ← mul_assoc, mul_inv_cancel₀ hπ0, one_mul]
 
 /-- `z ≡ 0` in `κ_v` exactly when `π⁻¹ z ∈ O_v`. -/
@@ -236,7 +236,7 @@ variable {v : Place K} {π : v.integers} {q : ℕ} {lam : Fin q → v.integers}
 include k in
 /-- `M_j O_v^2` is a Hecke sublattice of `O_v^2`. -/
 public theorem isHeckeSublattice_heckeSublattice (hπ : Place.IsUniformizer v π)
-    (hlam : Place.IsResidueSystem v π lam) (j : Option (Fin q)) :
+    (j : Option (Fin q)) :
     IsHeckeSublattice (stdLattice v 2)
       (heckeSublattice (coe_ne_zero_of_isUniformizer k hπ)
         (fun i => (lam i : v.completion)) j) := by
@@ -295,7 +295,7 @@ public theorem isHeckeSublattice_heckeSublattice (hπ : Place.IsUniformizer v π
       refine ⟨⟨![(a : v.completion), 0], mem_stdLattice.2 (Fin.forall_fin_two.2
         ⟨a.2, v.integers.zero_mem⟩)⟩, ?_⟩
       rfl
-    · show IsLocalRing.residue v.integers (coord 0 x) = 0 ↔ _
+    · change IsLocalRing.residue v.integers (coord 0 x) = 0 ↔ _
       rw [residue_eq_zero_iff_inv_mul_mem hπ hπ0, hcoord]
       exact ⟨fun h => (mem_heckeSublattice_none hπ0 _).2 ⟨h, hc x 1⟩,
         fun h => ((mem_heckeSublattice_none hπ0 _).1 h).1⟩
@@ -306,11 +306,11 @@ public theorem isHeckeSublattice_heckeSublattice (hπ : Place.IsUniformizer v π
     · obtain ⟨a, rfl⟩ := IsLocalRing.residue_surjective a
       refine ⟨⟨![0, (a : v.completion)], mem_stdLattice.2 (Fin.forall_fin_two.2
         ⟨v.integers.zero_mem, a.2⟩)⟩, ?_⟩
-      show IsLocalRing.residue v.integers (coord 1 _ - lam i * coord 0 _) = _
+      change IsLocalRing.residue v.integers (coord 1 _ - lam i * coord 0 _) = _
       congr 1
       ext
       simp [hcoord]
-    · show IsLocalRing.residue v.integers (coord 1 x - lam i * coord 0 x) = 0 ↔ _
+    · change IsLocalRing.residue v.integers (coord 1 x - lam i * coord 0 x) = 0 ↔ _
       rw [residue_eq_zero_iff_inv_mul_mem hπ hπ0]
       push_cast
       rw [hcoord, hcoord]
@@ -364,13 +364,13 @@ public theorem isHeckeSublattice_stdLattice_iff (hπ : Place.IsUniformizer v π)
       ∃ j, Λ' = heckeSublattice (coe_ne_zero_of_isUniformizer k hπ)
         (fun i => (lam i : v.completion)) j := by
   have hπ0 := coe_ne_zero_of_isUniformizer k hπ
-  refine ⟨fun hΛ' => ?_, by rintro ⟨j, rfl⟩; exact isHeckeSublattice_heckeSublattice k hπ hlam j⟩
+  refine ⟨fun hΛ' => ?_, by rintro ⟨j, rfl⟩; exact isHeckeSublattice_heckeSublattice k hπ j⟩
   obtain ⟨h1, h2, h3⟩ := hΛ'
   have hq0 : v.residueCard ≠ 0 := by
     rw [Place.residueCard_eq_of_isResidueSystem hπ hlam]
     obtain ⟨i, -⟩ := hlam 0
     exact Nat.pos_iff_ne_zero.1 (Fin.pos i)
-  have hidx := fun j => (isHeckeSublattice_heckeSublattice k hπ hlam j).2.2
+  have hidx := fun j => (isHeckeSublattice_heckeSublattice k hπ (lam := lam) j).2.2
   have hsa : ∀ (c : v.integers) (y : Fin 2 → v.completion) (l : Fin 2),
       (c • y) l = (c : v.completion) * y l := fun _ _ _ => rfl
   have hsm : ∀ w : Fin 2 → v.completion, (π : v.completion)⁻¹ * w 0 ∈ v.integers →
@@ -422,7 +422,7 @@ public theorem isHeckeSublattice_stdLattice_iff (hπ : Place.IsUniformizer v π)
     have hle : Λ' ≤ heckeSublattice hπ0 (fun i => (lam i : v.completion)) none := fun x hx =>
       (mem_heckeSublattice_none hπ0 _).2 ⟨hA x hx, mem_stdLattice.1 (h2 hx) 1⟩
     exact ⟨none, eq_of_le_of_relIndex_eq hle
-      (isHeckeSublattice_heckeSublattice k hπ hlam none).2.1 (h3.trans (hidx none).symm)
+      (isHeckeSublattice_heckeSublattice k hπ none).2.1 (h3.trans (hidx none).symm)
       (by rwa [hidx])⟩
 
 include k in
@@ -432,7 +432,7 @@ public theorem bijective_heckeSublattice (hπ : Place.IsUniformizer v π)
     (hlam : Place.IsResidueSystem v π lam) :
     Function.Bijective fun j : Option (Fin q) =>
       (⟨heckeSublattice (coe_ne_zero_of_isUniformizer k hπ) (fun i => (lam i : v.completion)) j,
-        isHeckeSublattice_heckeSublattice k hπ hlam j⟩ :
+        isHeckeSublattice_heckeSublattice k hπ j⟩ :
         {Λ' // IsHeckeSublattice (stdLattice v 2) Λ'}) :=
   ⟨fun _ _ h => heckeSublattice_injective k hπ hlam (congrArg Subtype.val h),
     fun Λ' => by
@@ -450,7 +450,7 @@ public theorem bijective_heckeSublattice_translate (hπ : Place.IsUniformizer v 
           (fun i => (lam i : v.completion)) j) (stdLattice v 2), by
         rw [translate_mul]
         exact (isHeckeSublattice_translate_iff h).2
-          (isHeckeSublattice_heckeSublattice k hπ hlam j)⟩ :
+          (isHeckeSublattice_heckeSublattice k hπ j)⟩ :
         {Λ' // IsHeckeSublattice (translate h (stdLattice v 2)) Λ'}) := by
   convert (heckeTranslateEquiv h (stdLattice v 2)).bijective.comp
     (bijective_heckeSublattice k hπ hlam) using 1
@@ -477,7 +477,6 @@ public def heckeLine : Option (Fin q) →
   | some i => Projectivization.mk _ ![1, IsLocalRing.residue v.integers (lam i)]
       fun h => by simpa using congrFun h 0
 
-include k in
 /-- **The lines of `κ_v^2`**: `κ_v (0, 1)` and the `κ_v (1, λ̄_i)` are all the lines of `κ_v^2`,
 each exactly once. -/
 public theorem heckeLine_bijective (hπ : Place.IsUniformizer v π)
@@ -665,7 +664,7 @@ public def heckeSublatticeEquivLine (hπ : Place.IsUniformizer v π)
       Projectivization (IsLocalRing.ResidueField v.integers)
         (Fin 2 → IsLocalRing.ResidueField v.integers) :=
   (Equiv.ofBijective _ (bijective_heckeSublattice k hπ hlam)).symm.trans
-    (Equiv.ofBijective _ (heckeLine_bijective k hπ hlam))
+    (Equiv.ofBijective _ (heckeLine_bijective hπ hlam))
 
 include k in
 /-- The line attached to a Hecke sublattice `Λ'` of `O_v^2` is its reduction

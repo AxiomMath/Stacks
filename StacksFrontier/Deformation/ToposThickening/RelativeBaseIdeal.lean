@@ -266,7 +266,7 @@ theorem relBaseThickening_fSharp_eq_zero_iff (U : X'.Cᵒᵖ)
     exact (Sheaf.commRingIso_hom_inv_app_apply ((pullbackCommRingSheafFunctorId X'.J).app
       (inverseImageReducedBaseRing t f')) U _).symm.trans (h.trans (map_zero _))
   · intro ha
-    show (((pullbackCommRingSheafFunctorId X'.J).inv.app
+    change (((pullbackCommRingSheafFunctorId X'.J).inv.app
       (inverseImageReducedBaseRing t f')).hom.app U).hom
         (((inverseImageBaseReduction t f').hom.app U).hom x) = 0
     rw [ha, map_zero]

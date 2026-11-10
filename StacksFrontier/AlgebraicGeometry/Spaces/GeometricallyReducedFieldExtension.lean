@@ -280,7 +280,7 @@ private theorem schemePoint_fieldValuedPointOfBaseChange
         (schemePoint B (Spec (.of k')) hk'
           ((Over.pullback (fieldExtensionMap B k k' hk hk')).obj U) q) =
       schemePoint B (Spec (.of k)) hk U (fieldValuedPointOfBaseChange k k' B hk hk' U q) := by
-  show (B.inclusion.map (pullback.fst U.hom (fieldExtensionMap B k k' hk hk')))
+  change (B.inclusion.map (pullback.fst U.hom (fieldExtensionMap B k k' hk hk')))
       ((B.inclusion.map q.value.left) (IsLocalRing.closedPoint q.carrier)) =
     (B.inclusion.map
       ((OverShriek.restrictYonedaIso (fieldExtensionMap B k k' hk hk') U).hom.app

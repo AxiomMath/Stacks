@@ -168,7 +168,7 @@ abbrev gammaRename : Γ(ambient k, ⊤) ≃+* MvPolynomial (Fin 1 ⊕ Fin 2) k :
 theorem gammaRename_pivot (i : Fin 2) :
     gammaRename k (pivot k i) = X (Sum.inr i) := by
   simp only [gammaRename, RingEquiv.trans_apply, RingEquiv.symm_apply_apply,
-    AlgEquiv.coe_ringEquiv, renameEquiv_apply, rename_X]
+    AlgEquiv.coe_toRingEquiv, renameEquiv_apply, rename_X]
   fin_cases i <;> rfl
 
 /-- **The chart rings are polynomial rings.** The `i`-th chart ring is `k[x, y, z]`, in such a

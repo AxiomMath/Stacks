@@ -96,8 +96,8 @@ theorem conjAut_app_apply (t : F ≅ G) (σ : Aut F) (Y : C) (z : F.obj Y) :
     ((t.conjAut σ).asIso.app Y).hom (t.hom.app Y z) = t.hom.app Y ((σ.asIso.app Y).hom z) := by
   have h : (t.conjAut σ).asIso.hom.app Y = t.inv.app Y ≫ σ.asIso.hom.app Y ≫ t.hom.app Y := by
     rw [Iso.conjAut_hom]
-    simp [Iso.conj_apply, NatTrans.comp_app]
-  show ((t.conjAut σ).asIso.hom.app Y) (t.hom.app Y z) = _
+    simp [NatTrans.comp_app]
+  change ((t.conjAut σ).asIso.hom.app Y) (t.hom.app Y z) = _
   rw [h]
   simp only [comp_apply, Iso.hom_inv_id_app_apply]
   rfl
@@ -106,7 +106,7 @@ theorem conjAut_app_apply (t : F ≅ G) (σ : Aut F) (Y : C) (z : F.obj Y) :
 arbitrary point of `G.obj Y`: pull the point back along `t.inv`, act, and push forward again. -/
 theorem conjAut_app_apply_inv (t : F ≅ G) (σ : Aut F) (Y : C) (w : G.obj Y) :
     ((t.conjAut σ).asIso.app Y).hom w = t.hom.app Y ((σ.asIso.app Y).hom (t.inv.app Y w)) := by
-  simpa using conjAut_app_apply t σ Y (t.inv.app Y w)
+  simp
 
 end Stacks.FundamentalGroup
 
@@ -213,7 +213,7 @@ theorem autMulEquivEtaleFundamentalGroup_conjAut
   let L := (Functor.whiskeringRight (FiniteEtaleOver X) FintypeCat.{u} (Type u)).obj
     FintypeCat.incl
   apply Aut.ext
-  show L.mapIso ((finiteEtaleFiberFintypeFunctorIso t).conjAut σ).asIso
+  change L.mapIso ((finiteEtaleFiberFintypeFunctorIso t).conjAut σ).asIso
     = (t.conjAut (L.mapAut _ σ)).asIso
   rw [Functor.map_conjAut]
   let tL : L.obj (finiteEtaleFiberFintypeFunctor X x) ≅

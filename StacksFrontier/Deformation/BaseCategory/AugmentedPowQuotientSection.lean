@@ -108,10 +108,10 @@ public theorem exists_section_of_lift_powQuotient
         σ.commutes]
   refine ⟨{ hom := { F with commutes' := hcomm }, isLocal := hFloc, residue_comm := ?_ }, ?_⟩
   · refine Ideal.Quotient.mk_surjective.forall.mpr fun x => ?_
-    show C.residueEquiv (residue (C : Type v) (F _)) = _
+    change C.residueEquiv (residue (C : Type v) (F _)) = _
     rw [hFmk x, ← f.residue_comm (σ x), hσ x]
   · refine Hom.ext (AlgHom.ext (Ideal.Quotient.mk_surjective.forall.mpr fun x => ?_))
-    show f.hom (F _) = _
+    change f.hom (F _) = _
     rw [hFmk x, hσ x]
     rfl
 

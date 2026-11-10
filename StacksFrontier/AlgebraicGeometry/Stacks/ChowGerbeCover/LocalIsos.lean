@@ -280,7 +280,7 @@ theorem exists_finite_cover_isomFamily_pair
     exact (Subfunctor.toRange_ι (ι j)).symm
   have hOV : O ≤ V₁.preimage r := by
     rintro T _ ⟨a, rfl⟩
-    show ((ι j ≫ r).app T a) ∈ V₁.obj T
+    change ((ι j ≫ r).app T a) ∈ V₁.obj T
     rw [hιq j]
     exact ((q j).app T a).2
   refine ⟨O, hO, hOV, Space.mem_range_pointsMap_range_ι (ι j) hj, ?_⟩

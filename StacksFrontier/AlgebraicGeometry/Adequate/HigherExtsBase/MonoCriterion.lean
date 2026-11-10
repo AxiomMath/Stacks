@@ -54,7 +54,7 @@ public lemma mono_moduleExtension_map_of_universallyInjective {A : Type u} [Comm
   apply PresheafOfModules.mono_of_injective
   intro X
   let B := (X.unop.unop : Type (max u v))
-  show Function.Injective (LinearMap.baseChange B f.hom)
+  change Function.Injective (LinearMap.baseChange B f.hom)
   let Q : Type (max u v w) := ULift.{max u v w, max u v} B
   let eM : TensorProduct A B M ≃ₗ[A] TensorProduct A Q M :=
     TensorProduct.congr (ULift.moduleEquiv (R := A) (M := B)).symm (LinearEquiv.refl A M)
@@ -68,7 +68,7 @@ public lemma mono_moduleExtension_map_of_universallyInjective {A : Type u} [Comm
     rfl
   intro x y hxy
   have hxy' : (LinearMap.lTensor B f.hom) x = (LinearMap.lTensor B f.hom) y := by
-    simpa only [LinearMap.baseChange_eq_ltensor] using hxy
+    simpa only [LinearMap.baseChange_eq_lTensor] using hxy
   refine eM.injective (hQ ?_)
   have hx := LinearMap.congr_fun hcomm x
   have hy := LinearMap.congr_fun hcomm y
@@ -92,7 +92,7 @@ private lemma injective_lTensor_of_mono_moduleExtension_map
     have h := PresheafOfModules.injective_of_mono
       ((moduleExtensionFunctor.{max u v w, v} A).map f) X
     change Function.Injective (LinearMap.baseChange B f.hom) at h
-    simpa only [LinearMap.baseChange_eq_ltensor] using h
+    simpa only [LinearMap.baseChange_eq_lTensor] using h
   let inc : Q →ₗ[A] B := TrivSqZeroExt.inrHom A Q
   let proj : B →ₗ[A] Q := TrivSqZeroExt.sndHom A Q
   let jM := LinearMap.rTensor (M := ModuleCat.of A M) inc

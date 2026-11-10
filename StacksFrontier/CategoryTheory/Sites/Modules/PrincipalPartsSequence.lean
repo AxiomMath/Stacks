@@ -143,7 +143,7 @@ theorem evalTerminal_internalHomCompApp {X : Cᵒᵖ}
     evalTerminal O M P'
         ((internalHomCompApp O M M P P' (𝟙 M) β X).hom g) a =
       (β.app X).hom (evalTerminal O M P g a) := by
-  show (((restrFun O X.unop).map (𝟙 M) ≫ g ≫
+  change (((restrFun O X.unop).map (𝟙 M) ≫ g ≫
     (restrFun O X.unop).map β).app (op (Over.mk (𝟙 X.unop)))).hom a = _
   rw [CategoryTheory.Functor.map_id, Category.id_comp]
   rfl

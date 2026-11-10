@@ -444,7 +444,8 @@ produces and what every assembly so far had to discard — `…of_baseChangeComp
 pulled-back characterizing equation is
 `…exists_pullbackCharacterization_morphismRestrict_of_adicCompletionChartSquares`, whose binders
 are the base change of `π ∣_ V` along the chart with its comparisons `ι` and `θ`, the source's
-condition `hc`, and the two squares `hδ` and `hγ` — `hγ` being the remaining obstruction described in
+condition `hc`, and the two squares `hδ` and `hγ` — `hγ` being the remaining obstruction
+described in
 `CompletionProper/AdicBaseChangeSquares.lean`. Feeding that `ψ` in here needs, in addition, the
 annihilation of `α' ≫ ι` rather than of `α'`, i.e. the transport of the annihilation across the
 comparison `ι`; that is not assembled here.

@@ -18,7 +18,8 @@ diagonal; that envelope is
 This file carries out the derived algebra over such a source and **registers Stacks 0F9F under
 condition (3)**, alongside its conditions (1) and (2) in
 `StacksFrontier/AlgebraicGeometry/Chow/ChernClassDerived/TriangleAdditivity.lean` and its condition
-(4) in `StacksFrontier/AlgebraicGeometry/Chow/ChernClassDerived/TriangleAdditivityQuasiCompact.lean`.
+(4) in
+`StacksFrontier/AlgebraicGeometry/Chow/ChernClassDerived/TriangleAdditivityQuasiCompact.lean`.
 
 ## Main results
 
@@ -198,7 +199,7 @@ private theorem Q_map_eq_comp_of_roof_sigma {I : Type u} (W : I → Scheme.{u})
     DerivedCategory.Q.map a = DerivedCategory.Q.map p ≫ β := by
   refine AlgebraicGeometry.Q_map_eq_comp_of_forall_sigmaι W p a β bi hbi fun i => ?_
   rw [ha i, hp i, Functor.map_comp, Functor.map_comp, Functor.map_comp, Functor.map_comp]
-  exact comp_roof_aux _ _ _ _ _ _ _ (Iso.map_hom_inv_id _ _) (hab i)
+  exact comp_roof_aux _ _ _ _ _ _ _ (Iso.hom_inv_id_map _ _) (hab i)
 
 /-- **[Stacks, Tag 0F8G] over a coproduct of schemes with the resolution property.** Let
 `W i` be quasi-compact, quasi-separated, semi-separated schemes with the resolution property,

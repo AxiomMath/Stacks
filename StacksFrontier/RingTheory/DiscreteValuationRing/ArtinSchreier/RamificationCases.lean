@@ -110,7 +110,7 @@ theorem unramified_of_separable_minpoly
         (algebraMap K L) := by
     apply IsLocalization.ringHom_ext R⁰
     ext
-    simp only [RingHom.coe_comp, RingHom.coe_coe, AlgEquiv.coe_ringEquiv,
+    simp only [RingHom.coe_comp, RingHom.coe_coe, AlgEquiv.coe_toRingEquiv,
       Function.comp_apply, AlgEquiv.commutes, ← IsScalarTower.algebraMap_apply]
     rw [IsScalarTower.algebraMap_apply R S L, AlgEquiv.commutes,
       ← IsScalarTower.algebraMap_apply]
@@ -591,7 +591,7 @@ theorem natDegree_dvd_ramificationIdx_of_coprime_pole
     rw [← IsDedekindDomain.HeightOneSpectrum.valuation_liesOver L vA vB ξ,
       hvξ, ← WithZero.exp_nsmul]
     congr 1
-    simp only [Nat.cast_mul, mul_comm, vA, vB]
+    simp only [Nat.cast_mul, vB]
     rw [Ideal.ramificationIdx'_eq_ramificationIdx mA m (IsDiscreteValuationRing.not_a_field A)]
     simp [mul_comm]
   have he : 0 < mA.ramificationIdx' m :=

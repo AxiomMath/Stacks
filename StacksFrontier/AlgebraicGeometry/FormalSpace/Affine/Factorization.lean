@@ -94,7 +94,7 @@ private theorem exists_factor_through_thickening_aux
     refine ⟨Functor.relativelyRepresentable.of_isIso yoneda _, fun A V g fst snd hpb => ?_⟩
     have : IsIso (yoneda.map snd) := hpb.isIso_snd_of_isIso
     have : IsIso snd := Yoneda.fullyFaithful.isIso_of_isIso_map snd
-    show Etale (q.map snd)
+    change Etale (q.map snd)
     infer_instance
   have hloc := _root_.AlgebraicGeometry.isLocallySurjective_of_surjective_etale B S hS a hasurj
     (hYEtale U (𝟙 (yoneda.obj U)) hid)
@@ -110,7 +110,7 @@ private theorem exists_factor_through_thickening_aux
     ((Presheaf.isLocallySurjective_presheafToSheaf_map_iff J aLift).2 hlocLift)
   let F := D ⋙ BigAffineFppf.inclusion B S hS ⋙ Sheaf.sheafifiedYoneda J
   have htrans : ∀ i j (g : i ⟶ j), Mono (F.map g) := fun _ _ g => by
-    show Mono ((Sheaf.sheafifiedYoneda J).map
+    change Mono ((Sheaf.sheafifiedYoneda J).map
       ((BigAffineFppf.inclusion B S hS).map (D.map g)))
     have : IsClosedImmersion (q.map ((BigAffineFppf.inclusion B S hS).map (D.map g))) := hD g
     exact Sheaf.mono_sheafifiedYoneda_map_of_mono_underlying J q _ inferInstance
@@ -128,7 +128,7 @@ private theorem exists_factor_through_thickening_aux
     calc
       (Sheaf.sectionEquiv J) (gi ≫ colimit.ι F i) = (colimit.ι F i).hom.app (op U) x := by
         rw [Sheaf.sectionEquiv_comp]
-        show (colimit.ι F i).hom.app (op U)
+        change (colimit.ι F i).hom.app (op U)
           ((Sheaf.sectionEquiv J) ((Sheaf.sectionEquiv J).symm x)) = _
         exact congrArg ((colimit.ι F i).hom.app (op U))
           ((Sheaf.sectionEquiv J).apply_symm_apply x)

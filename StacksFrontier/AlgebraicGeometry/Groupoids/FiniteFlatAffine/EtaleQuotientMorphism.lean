@@ -187,9 +187,9 @@ theorem surjective_of_forall_isAlgClosed {X Y : Scheme.{u}} (g : X ⟶ Y)
       Y.fromSpecResidueField z)
   obtain ⟨p⟩ : Nonempty (Spec (.of (AlgebraicClosure (Y.residueField z)))) := inferInstance
   refine ⟨x.base p, ?_⟩
-  show (x ≫ g).base p = z
+  change (x ≫ g).base p = z
   rw [hx]
-  show (Y.fromSpecResidueField z).base _ = z
+  change (Y.fromSpecResidueField z).base _ = z
   exact Y.fromSpecResidueField_apply z _
 
 namespace GroupoidScheme

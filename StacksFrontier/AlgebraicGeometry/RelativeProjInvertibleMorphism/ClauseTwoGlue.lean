@@ -70,7 +70,7 @@ theorem partOver_le_coveringOpen (V : S.affineOpens)
     ⟨_, h1, rfl⟩
   rw [(toGradedPowerMap ψ).image_coveringOpen_affineDatum_eq V.2] at h2
   have h3 : (f ⁻¹ᵁ V.1).ι (partInclusion (W := W) V.1 ⟨y, hy⟩) = W.ι y := by
-    show (partInclusion (W := W) V.1 ≫ (f ⁻¹ᵁ V.1).ι) ⟨y, hy⟩ = W.ι y
+    change (partInclusion (W := W) V.1 ≫ (f ⁻¹ᵁ V.1).ι) ⟨y, hy⟩ = W.ι y
     rw [partInclusion_ι]
     rfl
   rw [h3] at h2

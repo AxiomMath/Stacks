@@ -123,7 +123,7 @@ variable {X X' : Scheme.{u}}
 variable (X) in
 /-- The inclusion of the `i`-th copy of the base into the split cover `∐_{i : ι} X`. -/
 def splitCoverInj (ι : Type u) [Finite ι] (i : ι) : fEtTop X ⟶ splitCover X ι :=
-  MorphismProperty.Over.homMk (Sigma.ι (fun _ : ι ↦ X) i) (Sigma.ι_desc _ _)
+  MorphismProperty.Over.homMk (Sigma.ι (fun _ : ι ↦ X) i) (Sigma.ι_comp_desc _ _)
 
 variable (X) in
 /-- The constant diagram at the terminal finite étale cover. -/
@@ -267,7 +267,7 @@ lemma comp_eq_comp_sigmaι_of_le {U : Scheme.{u}} {ι : Type u} (i₀ : ι)
   have hfac := IsOpenImmersion.lift_fac (Sigma.ι (fun _ : ι ↦ U) i₀) (W.ι ≫ t) hrange
   have hr : IsOpenImmersion.lift (Sigma.ι (fun _ : ι ↦ U) i₀) (W.ι ≫ t) hrange = W.ι := by
     have h2 := congrArg (fun l ↦ l ≫ (Sigma.desc fun _ : ι ↦ 𝟙 U)) hfac
-    simp only [Category.assoc, Sigma.ι_desc, Category.comp_id, ht] at h2
+    simp only [Category.assoc, Sigma.ι_comp_desc, Category.comp_id, ht] at h2
     simpa using h2
   rw [← hfac, hr]
 

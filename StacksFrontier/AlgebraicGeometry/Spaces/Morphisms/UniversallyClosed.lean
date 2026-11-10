@@ -214,6 +214,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` in this presheaf category exceeds the default budget
 /-- Pullbacks of presheaves on `BigFppfOver B S hS`, stated once: instance search for them
 times out at the default heartbeat limit under Mathlib v4.35.0. -/
 local instance hasPullbacks_presheaf_universallyClosed :
@@ -1321,14 +1322,14 @@ private theorem translationChart_app_eq_of_translate
     dsimp only [siteTranslationRelation, Space.actionRelation, PreRelation.target,
       Space.actionRelationTarget]
     rw [prod.lift_fst]
-    exact Sigma.ι_desc _ _
+    exact Sigma.ι_comp_desc _ _
   have hs : Sigma.ι (fun _ : Multiplicative ℤ ↦
         Space.underlyingOver B hS (siteAffineLine k B hS hU)) (Multiplicative.ofAdd n) ≫
       (siteTranslationRelation k B hS hU).source = 𝟙 _ := by
     dsimp only [siteTranslationRelation, Space.actionRelation, PreRelation.source,
       Space.actionRelationSource]
     rw [prod.lift_snd]
-    exact Sigma.ι_desc _ _
+    exact Sigma.ι_comp_desc _ _
   refine quotientChart_app_eq_of_rel _ _ _ _
     ⟨(Over.post B.inclusion).map f ≫ Sigma.ι (fun _ : Multiplicative ℤ ↦
       Space.underlyingOver B hS (siteAffineLine k B hS hU)) (Multiplicative.ofAdd n), ?_, ?_⟩

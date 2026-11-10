@@ -360,7 +360,7 @@ lemma zero_mvCochain (K : CochainComplex A ℤ) :
         (-((NatTrans.mapHomologicalComplex (Functor.whiskerRight dV G)
           (ComplexShape.up ℤ)).app K)) = 0 := by
   ext n
-  show (HomologicalComplex.eval C (ComplexShape.up ℤ) n).map (_ ≫ _) = 0
+  change (HomologicalComplex.eval C (ComplexShape.up ℤ) n).map (_ ≫ _) = 0
   rw [Functor.map_comp, eval_map_mvLift ηU ηV G K n, Category.assoc,
     eval_map_mvDesc dU dV G K n, zero_map_mayerVietoris ηU ηV dU dV hzero G (K.X n)]
 

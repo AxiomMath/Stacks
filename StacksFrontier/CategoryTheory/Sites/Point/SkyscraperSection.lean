@@ -79,7 +79,7 @@ noncomputable def skyscraperSection :
 @[reassoc (attr := simp)]
 lemma skyscraperSection_comp_counit (M : A) :
     Φ.skyscraperSection.app M ≫ Φ.skyscraperSheafAdjunction.counit.app M = 𝟙 M := by
-  show ((Sites.constantPresheafFiberIso Φ M).inv ≫
+  change ((Sites.constantPresheafFiberIso Φ M).inv ≫
     Φ.presheafFiber.map (Φ.skyscraperPresheafHomEquiv (Sites.constantPresheafFiberIso Φ M).hom)) ≫
       Φ.skyscraperPresheafHomEquiv.symm (𝟙 (Φ.skyscraperPresheaf M)) = 𝟙 M
   rw [Category.assoc, ← skyscraperPresheafHomEquiv_naturality_left_symm, Category.comp_id,

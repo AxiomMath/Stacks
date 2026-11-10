@@ -83,7 +83,7 @@ theorem homComp_of_mem (Y : (CompDG.{u, u, u, u, u, u} X R).Obj) {p : ℤ}
     (z : ((Rep.{u, u, u, u, u, u} X R K).functor.obj Y).M)
     (hz : z ∈ ((Rep.{u, u, u, u, u, u} X R K).functor.obj Y).grading p) :
     homComp X R K L Y z = homCompHom X R K L Y p ⟨z, hz⟩ := by
-  show DirectSum.toModule R ℤ _ (homCompHom X R K L Y)
+  change DirectSum.toModule R ℤ _ (homCompHom X R K L Y)
     (DirectSum.decompose ((Rep.{u, u, u, u, u, u} X R K).functor.obj Y).grading z) = _
   rw [DirectSum.decompose_of_mem _ hz, ← DirectSum.lof_eq_of R, DirectSum.toModule_lof]
 
@@ -220,7 +220,7 @@ theorem homComp_map {Y Y' : (CompDG.{u, u, u, u, u, u} X R).Obj} {m : ℤ}
   | @homogeneous p z =>
     obtain ⟨c, hc, he⟩ := (Rep.{u, u, u, u, u, u} X R K).map_comp Y Y' m p (m + p) rfl g z
     rw [← hc, homComp_of_mem X R K L _ _ c.property, homComp_of_mem X R K L _ _ z.property]
-    show ((Rep.{u, u, u, u, u, u} X R L).functor.map
+    change ((Rep.{u, u, u, u, u, u} X R L).functor.map
       ((Rep.{u, u, u, u, u, u} X R K).moduleHom Y' (m + p) c)).1 φ = _
     rw [he, (Rep.{u, u, u, u, u, u} X R L).functor.map_comp]
     rfl
@@ -277,7 +277,7 @@ theorem tensorHomComparison_naturality
           ((dgFunctorToComplexes
             (tensorWithComplexDG.{u, u, u, u, u, u} X R K).functor).map f) := by
   refine DifferentialGraded.Bimodule.tensorObj_hom_ext' _ M _ _ fun x φ => ?_
-  show (tensorHomComparison X R K L M').toFun
+  change (tensorHomComparison X R K L M').toFun
       (((DifferentialGraded.Bimodule.tensorCompFunctor (homBimodule X R K L)).map f).toFun _) =
     ((homWithComplexOver.{u, u, u, u, u, u} X R L).map _).toFun
       ((tensorHomComparison X R K L M).toFun _)

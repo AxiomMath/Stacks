@@ -231,9 +231,9 @@ private theorem exists_sheafLift_of_range_subset (f : F ⟶ H) (g : G ⟶ H)
       ext x
       apply hg W
       symm
-      show (g.hom.app W) (G.obj.map k (a V x)) = (g.hom.app W) (a W (F.obj.map k x))
+      change (g.hom.app W) (G.obj.map k (a V x)) = (g.hom.app W) (a W (F.obj.map k x))
       rw [← ConcreteCategory.comp_apply, g.hom.naturality]
-      show H.obj.map k (g.hom.app V (a V x)) = _
+      change H.obj.map k (g.hom.app V (a V x)) = _
       rw [ha, ha]
       exact (ConcreteCategory.congr_hom (f.hom.naturality k) x).symm }⟩
   exact ⟨l, by ext V x; exact ha V x⟩
@@ -445,13 +445,13 @@ private theorem openInclusionShriekMap_comp_unit {X' X : B.Scheme} (j : X' ⟶ X
       push.map (adj.unit.app G) ≫ (d.app (pull.obj G)).hom =
       (fShriekSubsheaf B (j ≫ f) (pull.obj G)).val.arrow := by
   let : LocallyOfFiniteType (B.inclusion.map (j ≫ f)) := by
-    show LocallyOfFiniteType (B.inclusion.map j ≫ B.inclusion.map f)
+    change LocallyOfFiniteType (B.inclusion.map j ≫ B.inclusion.map f)
     infer_instance
   intro adj pull push d
   ext V a
   have h := ((openInclusionShriekMap B j f G).property.2 V.unop a).1
   let e := (smallEtaleBaseChange_compIso B X' X Y j f).val
-  show (pull.obj G).obj.map (e.inv.app V.unop).op
+  change (pull.obj G).obj.map (e.inv.app V.unop).op
     ((adj.unit.app G).hom.app (op ((smallEtaleBaseChange B f).obj V.unop))
       ((fShriekSubsheaf B f G).val.arrow.hom.app V
         ((openInclusionShriekMap B j f G).val.hom.app V a))) = _
@@ -523,7 +523,7 @@ public theorem compactificationFShriekMap_isIso :
   let : IsSeparated (B.inclusion.map fbar) := inferInstance
   let : LocallyOfFiniteType (B.inclusion.map fbar) := inferInstance
   let : LocallyOfFiniteType (B.inclusion.map (U.obj.hom ≫ fbar)) := by
-    show LocallyOfFiniteType (B.inclusion.map U.obj.hom ≫ B.inclusion.map fbar)
+    change LocallyOfFiniteType (B.inclusion.map U.obj.hom ≫ B.inclusion.map fbar)
     infer_instance
   classical
   let ext := abelianExtensionByZero B Xbar.obj Xbar.property U
@@ -622,7 +622,7 @@ public theorem compactificationFShriekMap_naturality
   let : IsSeparated (B.inclusion.map fbar) := inferInstance
   let : LocallyOfFiniteType (B.inclusion.map fbar) := inferInstance
   let : LocallyOfFiniteType (B.inclusion.map (U.obj.hom ≫ fbar)) := by
-    show LocallyOfFiniteType (B.inclusion.map U.obj.hom ≫ B.inclusion.map fbar)
+    change LocallyOfFiniteType (B.inclusion.map U.obj.hom ≫ B.inclusion.map fbar)
     infer_instance
   let Fbar := ext.obj F
   let Hbar := ext.obj H
@@ -649,7 +649,7 @@ public theorem compactificationFShriekMap_naturality
   have hn : n ≫ GpullH.arrow = GpullF.arrow ≫ push.map (pull.map extMap) :=
     (fShriekMap B (U.obj.hom ≫ fbar) (pull.obj Fbar) (pull.obj Hbar) (pull.map extMap)).property
   have heta : phi ≫ eH = eF ≫ pull.map extMap := by
-    show phi ≫ unitH ≫ isoH = unitF ≫ isoF ≫ pull.map extMap
+    change phi ≫ unitH ≫ isoH = unitF ≫ isoF ≫ pull.map extMap
     have hunit : phi ≫ unitH =
         unitF ≫ (abelianRestriction B Xbar.obj Xbar.property U).map (ext.map phi) :=
       (abelianExtensionByZeroAdjunction B Xbar.obj Xbar.property U).unit.naturality phi
@@ -665,7 +665,7 @@ public theorem compactificationFShriekMap_naturality
   dsimp [compactificationFShriekMap]
   let openF := (openInclusionShriekMap B U.obj.hom fbar Fbar).val
   let openH := (openInclusionShriekMap B U.obj.hom fbar Hbar).val
-  show a ≫ (iH ≫ openH) = (iF ≫ openF) ≫ b
+  change a ≫ (iH ≫ openH) = (iF ≫ openF) ≫ b
   rw [← Category.assoc, hi, Category.assoc, Category.assoc, hb']
   exact congrArg (iF ≫ ·) (openInclusionShriekMap_naturality B U.obj.hom fbar Fbar Hbar extMap)
 

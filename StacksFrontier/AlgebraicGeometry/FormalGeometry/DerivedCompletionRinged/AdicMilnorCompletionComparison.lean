@@ -92,8 +92,9 @@ makes `IsIso c` local and canonical, which the lifted comparison was not, but do
 them.
 
 Accordingly the assertion in the module documentation of
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/DerivedCompletionRinged/KoszulAdicAffineSliceDerivedLimit.lean` that part (1) on the slices
-cannot be globalized because "there is no canonical map between two objects both presented as
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/DerivedCompletionRinged/`
+`KoszulAdicAffineSliceDerivedLimit.lean` that part (1) on the slices cannot be globalized
+because "there is no canonical map between two objects both presented as
 derived limits" does not apply to this route: `K^∧` is not merely *presented* as a derived limit,
 it has a universal property, and the derived limit it is compared against is named here rather
 than produced by `distinguished_cocone_triangle₁`.

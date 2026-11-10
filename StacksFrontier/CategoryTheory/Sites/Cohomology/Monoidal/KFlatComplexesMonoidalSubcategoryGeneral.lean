@@ -12,8 +12,8 @@ subcategory, and its quotient to `D(Mod(O))`.
 ## Implementation notes
 
 This is the part of
-`StacksFrontier.CategoryTheory.Sites.Cohomology.Monoidal.KFlatComplexesMonoidalSubcategory` that does
-not need `C` to be a `SmallCategory.{u}`, for a site `C : Type c` with `[Category.{u} C]`; the
+`StacksFrontier.CategoryTheory.Sites.Cohomology.Monoidal.KFlatComplexesMonoidalSubcategory` that
+does not need `C` to be a `SmallCategory.{u}`, for a site `C : Type c` with `[Category.{u} C]`; the
 statements and proofs are the same, in the namespace
 `Stacks.SheafOfModules.DerivedMonoidalGeneral`. This applies to the small étale ringed site of
 an algebraic space.

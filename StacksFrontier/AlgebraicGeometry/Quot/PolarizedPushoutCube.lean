@@ -204,7 +204,7 @@ theorem cubeCommonToTarget_comp_cubeTargetHom :
       cubeTargetHom i f x h e q hh hq) = eqToIso hobj ≪≫ Hom.lineBundleIso
         (cubeCommonToAmbient i f x g h e q hsq hg hh hq ≫ cubeAmbientHom i f x g e q hg hq) := by
     refine Iso.ext ?_
-    show (Scheme.Modules.pullbackComp _ _).inv.app x.lineBundle ≫
+    change (Scheme.Modules.pullbackComp _ _).inv.app x.lineBundle ≫
         (Scheme.Modules.pullback _).map (𝟙 _) ≫ 𝟙 _ =
       eqToHom hobj ≫ (Scheme.Modules.pullbackComp _ _).inv.app x.lineBundle ≫
         (Scheme.Modules.pullback _).map (𝟙 _) ≫
@@ -344,9 +344,9 @@ theorem existsUnique_glue_hom (hi : IsThickening (B.inclusion.map i))
   all_goals
     refine Hom.ext (Category.comp_id _) rfl (heq_of_eq (Iso.ext ?_))
     rw [comp_lineBundleIso_hom]
-    show _ ≫ _ ≫ 𝟙 _ = _
+    change _ ≫ _ ≫ 𝟙 _ = _
     rw [Category.comp_id]
-    show _ ≫ (Scheme.Modules.pullback _).map ℓ.hom = _
+    change _ ≫ (Scheme.Modules.pullback _).map ℓ.hom = _
     first | rw [hℓ₁] | rw [hℓ₂]
     simp
 

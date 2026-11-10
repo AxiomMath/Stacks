@@ -99,10 +99,10 @@ def baseChangeIso : baseChange f b' ≅ baseChange f b'' where
     (by rw [Category.assoc, ← he, Iso.inv_hom_id_assoc, pullback.condition])
   hom_inv_id := by
     apply pullback.hom_ext <;>
-      simp [pullback.lift_fst, pullback.lift_snd, pullback.lift_snd_assoc]
+      simp
   inv_hom_id := by
     apply pullback.hom_ext <;>
-      simp [pullback.lift_fst, pullback.lift_snd, pullback.lift_snd_assoc]
+      simp
 
 /-- The identification of the two base changes commutes with the projections to `X`. -/
 @[reassoc (attr := simp)]
@@ -139,7 +139,7 @@ theorem baseChangeIso_preimage_exceptionalComplement (hE : E'.comap e.hom = E) :
     (baseChangeIso f e he).hom ⁻¹ᵁ exceptionalComplement f b'' E' =
       exceptionalComplement f b' E := by
   refine TopologicalSpace.Opens.ext ?_
-  show (baseChangeIso f e he).hom.base ⁻¹' ((exceptionalComplement f b'' E' : Set _)) = _
+  change (baseChangeIso f e he).hom.base ⁻¹' ((exceptionalComplement f b'' E' : Set _)) = _
   rw [← compl_compl ((exceptionalComplement f b'' E' : Set (baseChange f b''))),
     ← exceptionalPreimage_eq_compl, Set.preimage_compl,
     baseChangeIso_preimage_exceptionalPreimage f e he E E' hE, exceptionalPreimage_eq_compl,

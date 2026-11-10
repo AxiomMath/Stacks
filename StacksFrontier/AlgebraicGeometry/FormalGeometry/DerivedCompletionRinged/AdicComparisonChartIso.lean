@@ -212,7 +212,7 @@ theorem isIso_of_comp_proj_completionFunctor_of_exists_factor
     G.map (adicQuotientReduction X (generatedIdealSheaf f) K (n + 1))
   have hφ : ∀ {m n : ℕ} (h : n ≤ m), φ m ≫ (T ⋙ G).map (homOfLE h).op = φ n := by
     intro m n h
-    show G.map _ ≫ G.map (((Stacks.SheafOfModules.derivedTensorProductFunctor X).obj K).map
+    change G.map _ ≫ G.map (((Stacks.SheafOfModules.derivedTensorProductFunctor X).obj K).map
       ((DerivedCategory.singleFunctor
           (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) 0).map
         ((adicQuotientTower X (generatedIdealSheaf f)).map (homOfLE h).op))) = _

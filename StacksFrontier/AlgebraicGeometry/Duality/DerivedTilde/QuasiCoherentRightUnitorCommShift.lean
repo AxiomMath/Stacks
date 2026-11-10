@@ -79,8 +79,8 @@ theorem commShift_rightUnitorNatIso_quasiCoherentDerivedMonoidal :
     (quasiCoherentCurriedTensorIso X)
     (Iso.refl (DerivedPushforward.derivedStructureSheaf X)) K
   simp only [Functor.whiskerRight_app, rightUnitorNatIso_hom_app, NatTrans.comp_app,
-    Functor.whiskerLeft_app, Iso.trans_inv, Iso.symm_inv, Functor.rightUnitor_hom_app,
-    Functor.leftUnitor_inv_app, Category.comp_id, Category.id_comp, ObjectProperty.ι_map]
+    Iso.trans_inv, Iso.symm_inv, Functor.rightUnitor_hom_app,
+    Functor.leftUnitor_inv_app, Category.comp_id, ObjectProperty.ι_map]
   rw [show (@MonoidalCategoryStruct.rightUnitor _ _
     (quasiCoherentDerivedMonoidal X).toMonoidalCategoryStruct K).hom = _ from hρ]
   have hw : (@MonoidalCategoryStruct.whiskerLeft _ _
@@ -88,7 +88,7 @@ theorem commShift_rightUnitorNatIso_quasiCoherentDerivedMonoidal :
         (𝟙 (DerivedPushforward.derivedStructureSheaf X))).hom = 𝟙 _ := by
     rw [@MonoidalCategory.whiskerLeft_id _ _ (ObjectProperty.fullMonoidalSubcategory _) K _]
     rfl
-  show 𝟙 _ ≫ (@MonoidalCategoryStruct.whiskerLeft _ _
+  change 𝟙 _ ≫ (@MonoidalCategoryStruct.whiskerLeft _ _
       (ObjectProperty.fullMonoidalSubcategory _).toMonoidalCategoryStruct K _ _
         (𝟙 (DerivedPushforward.derivedStructureSheaf X))).hom ≫ (ρ_ K.obj).hom =
     𝟙 _ ≫ (ρ_ K.obj).hom ≫ 𝟙 _

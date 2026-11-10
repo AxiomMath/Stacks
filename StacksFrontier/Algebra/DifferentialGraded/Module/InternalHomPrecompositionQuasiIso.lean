@@ -183,7 +183,7 @@ private theorem precompGraded_hom_shift (f : M ⟶ N) {I : DifferentialGradedMod
   apply LinearMap.ext
   intro z
   rw [precompGraded_apply]
-  show G.toFun (f.rightHom.toFun z) = _
+  change G.toFun (f.rightHom.toFun z) = _
   rw [hG]
 
 /-- The right orthogonal of the acyclic modules is stable under shifts, and the shift of the
@@ -193,7 +193,7 @@ private theorem rightOrthogonal_acyclic_shift {I : DifferentialGradedModule B}
     (acyclic' B).rightOrthogonal ((toHomotopyCategory B).obj (shift I n)) := by
   have hshift : (((toHomotopyCategory B).obj I)⟦n⟧) =
       (toHomotopyCategory B).obj (shift I n) := by
-    show ((CategoryTheory.shiftFunctor (HomotopyCategory B) n).obj
+    change ((CategoryTheory.shiftFunctor (HomotopyCategory B) n).obj
         ((toHomotopyCategory B).obj I)) =
       (toHomotopyCategory B).obj
         ((CategoryTheory.shiftFunctor (DifferentialGradedModule B) n).obj I)
@@ -254,7 +254,7 @@ theorem isQuasiIsomorphism_precompModuleHom (f : M ⟶ N)
             exact sub_eq_zero.2 hc.symm))
     refine ⟨z, hz, ?_⟩
     rw [hdz]
-    show y - _ = y - (precompModuleHom f I).toFun (x : (homPresentation N I).module.M)
+    change y - _ = y - (precompModuleHom f I).toFun (x : (homPresentation N I).module.M)
     rw [precompModuleHom_apply_grading f I n x]
   · -- a cocycle whose image is a coboundary is itself a coboundary
     intro x hx hdx ⟨z, hz, hdz⟩
@@ -266,7 +266,7 @@ theorem isQuasiIsomorphism_precompModuleHom (f : M ⟶ N)
         ⟨z, hz, by rw [hdz, ← precompModuleHom_apply_grading f I n ⟨x, hx⟩]⟩
     have hGzero : (toHomotopyCategory B).map G = 0 := by
       refine hbij.1 ?_
-      show (toHomotopyCategory B).map f.rightHom ≫ (toHomotopyCategory B).map G =
+      change (toHomotopyCategory B).map f.rightHom ≫ (toHomotopyCategory B).map G =
         (toHomotopyCategory B).map f.rightHom ≫ 0
       rw [Limits.comp_zero, ← (toHomotopyCategory B).map_comp]
       exact (toHomotopyCategory_map_eq_zero_iff (f.rightHom ≫ G)).2 hzero

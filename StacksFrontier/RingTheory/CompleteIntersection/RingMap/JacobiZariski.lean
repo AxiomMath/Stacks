@@ -141,7 +141,7 @@ private theorem cotangentMap_liftBaseChange_injective_of_flat
   have hIQ : I ≤ Q.ker := by
     rw [Ideal.map_le_iff_le_comap]
     intro x hx
-    show algebraMap Q.Ring T (algebraMap P.Ring Q.Ring x) = 0
+    change algebraMap Q.Ring T (algebraMap P.Ring Q.Ring x) = 0
     rw [halg, f.algebraMap_toRingHom]
     rw [show algebraMap P.Ring S x = 0 from hx, map_zero]
   let eI := LinearEquiv.ofBijective _ (idealMap_liftBaseChange_bijective (S := Q.Ring) P.ker)
@@ -156,17 +156,16 @@ private theorem cotangentMap_liftBaseChange_injective_of_flat
       g ∘ₗ eQ.toLinearMap := by
     apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
     | tmul t x =>
       dsimp only [I] at *
       simp only [eP, eQ, eI, g, LinearMap.comp_apply, LinearEquiv.coe_coe,
         LinearEquiv.trans_apply, AlgebraTensorModule.cancelBaseChange_symm_tmul,
-        LinearEquiv.baseChange_tmul, Extension.contangentEquiv_tmul,
+        LinearEquiv.baseChange_tmul, Extension.cotangentEquiv_tmul,
         one_smul, LinearMap.liftBaseChange_tmul, Extension.Cotangent.map_mk,
         LinearEquiv.ofBijective_apply]
-      show t • Extension.Cotangent.mk (P := Q) _ = t • Extension.Cotangent.mk (P := Q) _
+      change t • Extension.Cotangent.mk (P := Q) _ = t • Extension.Cotangent.mk (P := Q) _
       congr 2
       apply Subtype.ext
       simp [Algebra.idealMap_apply_coe, halg, Extension.Hom.toAlgHom_apply]
@@ -176,7 +175,7 @@ private theorem cotangentMap_liftBaseChange_injective_of_flat
   apply congrArg eP
   apply eQ.injective
   apply hg
-  show (g ∘ₗ eQ.toLinearMap) x = (g ∘ₗ eQ.toLinearMap) y
+  change (g ∘ₗ eQ.toLinearMap) x = (g ∘ₗ eQ.toLinearMap) y
   rw [← hcomm]
   exact hxy
 
@@ -199,7 +198,7 @@ private theorem inf_sq_eq_mul_of_surjective
       RingHom.ker q * RingHom.ker (p.comp q) := by
   have hle : RingHom.ker q ≤ RingHom.ker (p.comp q) := by
     intro x hx
-    show p (q x) = 0
+    change p (q x) = 0
     rw [show q x = 0 from hx, map_zero]
   apply Ideal.inf_sq_eq_mul_of_quotient_isH1RegularIdeal _ _ hle
   let e := q.quotientKerEquivOfSurjective hq
@@ -210,7 +209,7 @@ private theorem inf_sq_eq_mul_of_surjective
     exact RingHom.quotientKerEquivOfSurjective_apply_mk hq x
   rw [Ideal.map_map, he]
   have hk : Ideal.map q (RingHom.ker (p.comp q)) = RingHom.ker p := by
-    show Ideal.map q ((RingHom.ker p).comap q) = _
+    change Ideal.map q ((RingHom.ker p).comap q) = _
     exact Ideal.map_comap_of_surjective q hq _
   rwa [hk]
 
@@ -226,7 +225,7 @@ private theorem cotangentMap_toComp_injective_of_inf_sq
   let : Algebra α.toExtension.Ring (β.comp α).toExtension.Ring :=
     (β.toComp α).toExtensionHom.toRingHom.toAlgebra
   have : Module.Flat α.toExtension.Ring (β.comp α).toExtension.Ring := by
-    show @Module.Flat _ _ _ _ (β.toComp α).toAlgHom.toAlgebra.toModule
+    change @Module.Flat _ _ _ _ (β.toComp α).toAlgHom.toAlgebra.toModule
     rw [Generators.toComp_toAlgHom]
     exact flat_rename_inr T S
   exact cotangentMap_liftBaseChange_injective_of_flat α.toExtension (β.comp α).toExtension
@@ -293,7 +292,7 @@ private theorem sub_mem_mul_of_mem_map
   | add x y hx hy hx' hy' =>
     simpa only [map_add, add_sub_add_comm] using Ideal.add_mem _ hx' hy'
   | smul a x hx hx' =>
-    show a * x - f (a * x) ∈ _
+    change a * x - f (a * x) ∈ _
     have h₂ : (a - f a) * x ∈ I.map c * K := by
       have hxI : x ∈ I.map c := hx
       simpa only [mul_comm] using (Ideal.mul_mem_mul hxI (hK a))
@@ -338,12 +337,12 @@ private theorem polynomial_inf_sq_eq_mul_of_surjective_presentations
   have hlI : I.map l = I₀ := by simp only [I, I₀, Ideal.map_map, hlC]
   have hrI : I₀.map r = I := by simp only [I, I₀, Ideal.map_map, hrC]
   have hlK : K.map l ≤ K₀ := Ideal.map_le_iff_le_comap.2 fun x hx ↦ by
-    show p₀ (l x) = 0
+    change p₀ (l x) = 0
     rwa [← RingHom.comp_apply, hl]
   have hrK : K₀.map r ≤ K := Ideal.map_le_iff_le_comap.2 fun x hx ↦ by
-    show a (r x) = 0
+    change a (r x) = 0
     rwa [← RingHom.comp_apply, hr]
-  show I ⊓ K ^ 2 = I * K
+  change I ⊓ K ^ 2 = I * K
   apply le_antisymm
   · rintro x ⟨hxI, hxK⟩
     have hlxI : l x ∈ I₀ := hlI ▸ Ideal.mem_map_of_mem l hxI
@@ -360,7 +359,7 @@ private theorem polynomial_inf_sq_eq_mul_of_surjective_presentations
       apply sub_mem_mul_of_mem_map C Ibase K (r.comp l) _ _ hxI
       · rw [RingHom.comp_assoc, hlC, hrC]
       · intro y
-        show a (y - r (l y)) = 0
+        change a (y - r (l y)) = 0
         rw [map_sub, ← RingHom.comp_apply a r, hr,
           ← RingHom.comp_apply p₀ l, hl, sub_self]
     simpa only [sub_add_cancel] using Ideal.add_mem _ hdiff hrx
@@ -440,7 +439,7 @@ private theorem polynomialCocone_ker_le (i : J) :
   rw [sys.homIinf_apply] at he
   change eval₂Hom sys.gInf _root_.id (polynomialCocone sys i x) =
     sys.toSinf i (eval₂Hom (sys.g i) _root_.id x) at he
-  show eval₂Hom sys.gInf _root_.id (polynomialCocone sys i x) = 0
+  change eval₂Hom sys.gInf _root_.id (polynomialCocone sys i x) = 0
   rw [he, show eval₂Hom (sys.g i) _root_.id x = 0 from hx, map_zero]
 
 private def polynomialEquiv {D E : Type*} [CommRing D] [CommRing E]
@@ -480,7 +479,7 @@ private theorem polynomialEquiv_ker {D E : Type*} [CommRing D] [CommRing E]
       (polynomialEquiv sys eD eE).toRingHom =
       RingHom.ker (eval₂Hom sys.gInf _root_.id) := by
     ext x
-    show eval₂Hom g _root_.id (polynomialEquiv sys eD eE x) = 0 ↔
+    change eval₂Hom g _root_.id (polynomialEquiv sys eD eE x) = 0 ↔
       eval₂Hom sys.gInf _root_.id x = 0
     have hc := DFunLike.congr_fun (polynomialEquiv_eval sys eD eE g hcomm) x
     change eval₂Hom g _root_.id (polynomialEquiv sys eD eE x) =
@@ -604,11 +603,11 @@ private theorem pullback_comm
   apply Ring.DirectLimit.hom_ext
   intro i
   ext x
-  show eE (pullbackTargetEquiv sys eB q
+  change eE (pullbackTargetEquiv sys eB q
       ((pullbackSystem sys eB q).gInf ((pullbackSystem sys eB q).toRinf i x))) =
     g (q (pullbackSourceHom sys eB q ((pullbackSystem sys eB q).toRinf i x)))
   rw [← RingMapSystemUnbundled.toSinf_g, pullbackTargetEquiv_of, pullbackSourceHom_of]
-  show eE (sys.toSinf i (sys.g i x.1.2)) = g (q x.1.1)
+  change eE (sys.toSinf i (sys.g i x.1.2)) = g (q x.1.1)
   rw [sys.toSinf_g]
   have hc := DFunLike.congr_fun hcomm (sys.toRinf i x.1.2)
   change eE (sys.gInf (sys.toRinf i x.1.2)) = g (eB (sys.toRinf i x.1.2)) at hc
@@ -623,14 +622,14 @@ private abbrev pullbackPolynomial (i : J) :
 
 private theorem pullbackPolynomial_C (i : J) (x : (pullbackSystem sys eB q).R i) :
     pullbackPolynomial sys eB q eE i (C x) = C x.1.1 := by
-  show polynomialEquiv _ _ _ (polynomialCocone _ i (C x)) = _
+  change polynomialEquiv _ _ _ (polynomialCocone _ i (C x)) = _
   simp only [polynomialCocone, RingHom.comp_apply, map_C, rename_C,
     AlgHom.toRingHom_eq_coe, AlgHom.coe_toRingHom, polynomialEquiv_C]
   exact congrArg C (pullbackSourceHom_of sys eB q i x)
 
 private theorem pullbackPolynomial_X (i : J) (x : (pullbackSystem sys eB q).S i) :
     pullbackPolynomial sys eB q eE i (X x) = X (eE (sys.toSinf i x.down)) := by
-  show polynomialEquiv _ _ _ (polynomialCocone _ i (X x)) = _
+  change polynomialEquiv _ _ _ (polynomialCocone _ i (X x)) = _
   simp only [polynomialCocone, RingHom.comp_apply, map_X, rename_X,
     AlgHom.toRingHom_eq_coe, AlgHom.coe_toRingHom, polynomialEquiv_X,
     RingEquiv.trans_apply, pullbackTargetEquiv_of]
@@ -650,10 +649,10 @@ private theorem pullbackIdeal_map_le (i : J) :
       (RingHom.ker q).map (C (σ := E)) := by
   rw [pullbackIdeal, Ideal.map_map, Ideal.map_le_iff_le_comap]
   intro x hx
-  show pullbackPolynomial sys eB q eE i (C x) ∈ (RingHom.ker q).map C
+  change pullbackPolynomial sys eB q eE i (C x) ∈ (RingHom.ker q).map C
   rw [pullbackPolynomial_C]
   apply Ideal.mem_map_of_mem
-  show q x.1.1 = 0
+  change q x.1.1 = 0
   have hx : x.1.2 = 0 := hx
   rw [show q x.1.1 = eB (sys.toRinf i x.1.2) from x.2, hx, map_zero, map_zero]
 
@@ -663,11 +662,11 @@ private theorem pullbackIdeal_transition_le {i j : J} (hij : i ≤ j) :
       pullbackIdeal sys eB q j := by
   rw [pullbackIdeal, Ideal.map_map, Ideal.map_le_iff_le_comap]
   intro x hx
-  show polynomialTransition (pullbackSystem sys eB q) hij (C x) ∈ pullbackIdeal sys eB q j
+  change polynomialTransition (pullbackSystem sys eB q) hij (C x) ∈ pullbackIdeal sys eB q j
   simp only [polynomialTransition, RingHom.comp_apply, map_C, rename_C,
     AlgHom.toRingHom_eq_coe, AlgHom.coe_toRingHom]
   apply Ideal.mem_map_of_mem
-  show sys.fR hij x.1.2 = 0
+  change sys.fR hij x.1.2 = 0
   rw [show x.1.2 = 0 from hx, map_zero]
 
 private theorem pullbackIdeal_surjective {x : MvPolynomial E D}
@@ -680,7 +679,7 @@ private theorem pullbackIdeal_surjective {x : MvPolynomial E D}
       ((pullbackTargetEquiv sys eB q).trans eE)
     obtain ⟨i, p, hp⟩ := polynomialCocone_surjective (pullbackSystem sys eB q) (e.symm x)
     refine ⟨i, p, ?_⟩
-    show e (polynomialCocone _ i p) = x
+    change e (polynomialCocone _ i p) = x
     rw [hp, e.apply_symm_apply]
   change x ∈ Ideal.span (C '' (RingHom.ker q : Set D)) at hx
   induction hx using Submodule.span_induction with
@@ -708,7 +707,7 @@ private theorem pullbackIdeal_surjective {x : MvPolynomial E D}
     refine ⟨k, polynomialTransition _ hjk r * polynomialTransition _ hik p,
       Ideal.mul_mem_left _ _
         (pullbackIdeal_transition_le sys eB q hik (Ideal.mem_map_of_mem _ hp)), ?_⟩
-    show pullbackPolynomial sys eB q eE k (_ * _) = a * x
+    change pullbackPolynomial sys eB q eE k (_ * _) = a * x
     rw [map_mul, pullbackPolynomial_comp sys eB q eE hjk r,
       pullbackPolynomial_comp sys eB q eE hik p, hra, hpx]
 
@@ -748,7 +747,7 @@ private theorem canonical_polynomial_inf_sq_eq_mul (hq : Function.Surjective q)
   have hK : ∀ i, (RingHom.ker (eval₂Hom (ps.g i) _root_.id)).map
       (pullbackPolynomial sys eB q eE i) ≤ K := by
     intro i
-    show Ideal.map (e.toRingHom.comp (polynomialCocone ps i)) _ ≤ K
+    change Ideal.map (e.toRingHom.comp (polynomialCocone ps i)) _ ≤ K
     rw [← Ideal.map_map, ← heK]
     exact Ideal.map_mono (polynomialCocone_ker_le ps i)
   apply le_antisymm
@@ -757,7 +756,7 @@ private theorem canonical_polynomial_inf_sq_eq_mul (hq : Function.Surjective q)
     have hpK : polynomialCocone ps i p ∈ Kinf ^ 2 := by
       have hm : e (polynomialCocone ps i p) ∈ (Kinf ^ 2).map e.toRingHom := by
         rw [Ideal.map_pow, heK]
-        show pullbackPolynomial sys eB q eE i p ∈ K ^ 2
+        change pullbackPolynomial sys eB q eE i p ∈ K ^ 2
         rwa [hpx]
       have : polynomialCocone ps i p ∈ ((Kinf ^ 2).map e.toRingHom).comap e.toRingHom := hm
       rwa [Ideal.comap_map_of_bijective e.toRingHom e.bijective] at this
@@ -777,7 +776,7 @@ private theorem canonical_polynomial_inf_sq_eq_mul (hq : Function.Surjective q)
     apply Ideal.mul_mono _ le_rfl
     rw [Ideal.map_le_iff_le_comap]
     intro x hx
-    show eval₂Hom (g.comp q) _root_.id (C x) = 0
+    change eval₂Hom (g.comp q) _root_.id (C x) = 0
     simp [show q x = 0 from hx]
 
 end Pullback
@@ -806,7 +805,7 @@ public theorem cotangentMap_toComp_injective_of_isFilteredColimit_isLocalComplet
   let a := (algebraMap (β.comp α).Ring C).comp e.symm.toRingHom
   let f := (β.toComp α).toAlgHom.toRingHom
   have he : e.toRingHom.comp f = MvPolynomial.C := by
-    show (sumAlgEquiv A T S).toAlgHom.toRingHom.comp
+    change (sumAlgEquiv A T S).toAlgHom.toRingHom.comp
       (β.toComp α).toAlgHom.toRingHom = _
     rw [Generators.toComp_toAlgHom]
     exact congrArg AlgHom.toRingHom (sumAlgEquiv_comp_rename_inr A T S)
@@ -824,7 +823,7 @@ public theorem cotangentMap_toComp_injective_of_isFilteredColimit_isLocalComplet
     · simpa only [eval₂Hom_comp_C] using haC
     · rw [haC]
       intro x hx
-      show g (q x) = 0
+      change g (q x) = 0
       rw [show q x = 0 from hx, map_zero]
     · exact canonical_polynomial_inf_sq_eq_mul sys eB q eC g
         α.algebraMap_surjective hcomm h
@@ -834,7 +833,7 @@ public theorem cotangentMap_toComp_injective_of_isFilteredColimit_isLocalComplet
   have hK : (β.comp α).ker.map e.toRingHom = RingHom.ker a := by
     have hk : (RingHom.ker a).comap e.toRingHom = (β.comp α).ker := by
       ext x
-      show algebraMap (β.comp α).Ring C (e.symm (e x)) = 0 ↔
+      change algebraMap (β.comp α).Ring C (e.symm (e x)) = 0 ↔
         algebraMap (β.comp α).Ring C x = 0
       rw [e.symm_apply_apply]
     rw [← hk]
@@ -842,7 +841,7 @@ public theorem cotangentMap_toComp_injective_of_isFilteredColimit_isLocalComplet
   have hIK : α.ker.map f ≤ (β.comp α).ker := by
     rw [Ideal.map_le_iff_le_comap]
     intro x hx
-    show algebraMap (β.comp α).Ring C (f x) = 0
+    change algebraMap (β.comp α).Ring C (f x) = 0
     have hf := (β.toComp α).toExtensionHom.algebraMap_toRingHom x
     change algebraMap (β.comp α).Ring C (f x) =
       algebraMap B C (algebraMap α.Ring B x) at hf

@@ -58,7 +58,8 @@ Three results this file rests on used to bake the standard model into their type
 are now stated at a free model binder of their own, each proof having turned out to use only
 model-agnostic Mathlib:
 `StrongGeneration.derived_single_map_eq_zero`
-(`StacksFrontier/Homology/DerivedCategory/StrongGenerator.lean`) uses `DerivedCategory.Q.objPreimage`,
+(`StacksFrontier/Homology/DerivedCategory/StrongGenerator.lean`) uses
+`DerivedCategory.Q.objPreimage`,
 `DerivedCategory.quotientCompQhIso` and `CochainComplex.IsKProjective.Qh_map_bijective`;
 `PrincipalTorsionTower.homologyFunctor_map_Q_smul_id`
 (`StacksFrontier/Homology/DerivedComplete/PrincipalTorsionTower.lean`) uses

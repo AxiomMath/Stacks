@@ -107,7 +107,7 @@ theorem etale_field_map_factors
     Scheme.Spec.mapIso eK.toCommRingCatIso.op
   have hbIso : eSpec.hom = b := rfl
   have hsplitAt : q ≫ f = t ≫ b := by
-    rw [← hsplit, ← Category.assoc, ← ht, Category.assoc, Sigma.ι_desc]
+    rw [← hsplit, ← Category.assoc, ← ht, Category.assoc, Sigma.ι_comp_desc]
   let l : Spec (.of k) ⟶ V := eSpec.inv ≫ Sigma.ι Y i ≫ e.inv
   have hinv : e.inv ≫ f = Sigma.desc (fun j =>
       Spec.map (CommRingCat.ofHom (algebraMap k (K j)))) := by
@@ -115,7 +115,7 @@ theorem etale_field_map_factors
     simp
   have hl : l ≫ f = 𝟙 _ := by
     dsimp [l]
-    rw [Category.assoc, Category.assoc, hinv, Sigma.ι_desc]
+    rw [Category.assoc, Category.assoc, hinv, Sigma.ι_comp_desc]
     exact eSpec.inv_hom_id
   have hle : l ≫ e.hom = eSpec.inv ≫ Sigma.ι Y i := by
     simp only [l, Category.assoc, Iso.inv_hom_id, Category.comp_id]
@@ -185,11 +185,11 @@ theorem exists_geometricPoint_lift_of_isEtale
   let : Psize.IsClosedUnderIsomorphisms := ⟨by
     intro V W e hV
     change V.size < B.cutoff at hV
-    show W.size < B.cutoff
+    change W.size < B.cutoff
     rwa [← Scheme.size_congr e]⟩
   let : Psize.IsClosedUnderLimitsOfShape WalkingCospan := .mk' (by
     rintro _ ⟨F, hF⟩
-    show (limit F).size < B.cutoff
+    change (limit F).size < B.cutoff
     rw [Scheme.size_congr (HasLimit.isoOfNatIso (diagramIsoCospan F))]
     exact Scheme.size_pullback_lt _ _ (hF .left) (hF .right))
   let : HasPullbacks B.Schemes := inferInstance
@@ -273,7 +273,7 @@ theorem exists_geometricPoint_lift_of_isEtale
   have hVEtale : _root_.AlgebraicGeometry.Etale (G.map vToT0) := by
     have hId : Pe.presheaf (𝟙 (yoneda.obj V)) := by
       have h : Pe (𝟙 V) := by
-        show _root_.AlgebraicGeometry.Etale (G.map (𝟙 V))
+        change _root_.AlgebraicGeometry.Etale (G.map (𝟙 V))
         infer_instance
       simpa using (MorphismProperty.relative_map_iff (F := yoneda) (P := Pe)).2 h
     exact (MorphismProperty.relative_map_iff (F := yoneda) (P := Pe)).1
@@ -303,7 +303,7 @@ theorem exists_geometricPoint_lift_of_isEtale
       value := lOver }
   let gOver : pV.siteObject B S hS (yoneda.obj V) ⟶ T₀ := pV.value ≫ vToT0
   have hpreL : (B.inclusion.preimage lInclusion).hom = l := by
-    show B.inclusion.map (B.inclusion.preimage lInclusion) = l
+    change B.inclusion.map (B.inclusion.preimage lInclusion) = l
     simpa [lInclusion] using B.inclusion.map_preimage lInclusion
   have hqOver : pV.value = gOver ≫ lOver := by
     apply Over.OverMorphism.ext
@@ -377,7 +377,7 @@ theorem exists_geometricPoint_lift_of_isEtale
       xbar.val.value := by
     have h := congrArg (fun α : yoneda.obj T₀ ⟶ X =>
       α.app (Opposite.op T₀) (𝟙 T₀)) hmain
-    show φ.app (Opposite.op T₀)
+    change φ.app (Opposite.op T₀)
       (aToU.app (Opposite.op T₀) (lOver ≫ vToA)) = xbar.val.value
     rw [hvAsection]
     simpa [f, NatTrans.comp_app, types_comp_apply, z, yonedaEquiv_apply] using h

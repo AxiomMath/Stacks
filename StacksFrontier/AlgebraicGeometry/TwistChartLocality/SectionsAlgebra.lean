@@ -209,7 +209,7 @@ public theorem awayLocMap_mk (ψ : 𝒜 →+*ᵍ ℬ) (f x : A) (s : Submonoid.p
     (hs : ψ (s : A) ∈ Submonoid.powers (ψ f)) :
     awayLocMap 𝒜 ℬ ψ f (Localization.mk x s) =
       Localization.mk (ψ x) ⟨ψ (s : A), hs⟩ := by
-  show Localization.awayMap (ψ : A →+* B) f (Localization.mk x s) = _
+  change Localization.awayMap (ψ : A →+* B) f (Localization.mk x s) = _
   rw [Localization.mk_eq_mk', Localization.mk_eq_mk', Localization.awayMap,
     IsLocalization.Away.map, IsLocalization.map_mk']
   rfl
@@ -221,7 +221,7 @@ makes the module map below semilinear. -/
 public theorem val_awayLocMap (ψ : 𝒜 →+*ᵍ ℬ) (f : A) (r : Away 𝒜 f) :
     (HomogeneousLocalization.Away.map ψ f r).val = awayLocMap 𝒜 ℬ ψ f r.val := by
   obtain ⟨r, rfl⟩ := HomogeneousLocalization.mk_surjective r
-  show _ = Localization.awayMap (ψ : A →+* B) f _
+  change _ = Localization.awayMap (ψ : A →+* B) f _
   rw [HomogeneousLocalization.Away.map, HomogeneousLocalization.map_mk,
     HomogeneousLocalization.val_mk, HomogeneousLocalization.val_mk,
     Localization.mk_eq_mk', Localization.mk_eq_mk', Localization.awayMap,
@@ -252,7 +252,7 @@ public theorem awayModuleMap_mk (ψ : 𝒜 →+*ᵍ ℬ) (f x : A) (s : Submonoi
     (hs : ψ (s : A) ∈ Submonoid.powers (ψ f)) :
     awayModuleMap 𝒜 ℬ ψ f (LocalizedModule.mk x s) =
       LocalizedModule.mk (ψ x) ⟨ψ (s : A), hs⟩ := by
-  show (localizedAwayEquiv (ψ f)).symm (awayLocMap 𝒜 ℬ ψ f
+  change (localizedAwayEquiv (ψ f)).symm (awayLocMap 𝒜 ℬ ψ f
     (localizedAwayEquiv f (LocalizedModule.mk x s))) = _
   rw [localizedAwayEquiv_mk, awayLocMap_mk 𝒜 ℬ ψ f x s hs, localizedAwayEquiv_symm_mk]
 
@@ -263,7 +263,7 @@ public theorem awayModuleMap_smul_val (ψ : 𝒜 →+*ᵍ ℬ) (f : A) (r : Away
     (z : LocalizedModule.Away f A) :
     awayModuleMap 𝒜 ℬ ψ f (r.val • z) =
       (HomogeneousLocalization.Away.map ψ f r).val • awayModuleMap 𝒜 ℬ ψ f z := by
-  show (localizedAwayEquiv (ψ f)).symm (awayLocMap 𝒜 ℬ ψ f
+  change (localizedAwayEquiv (ψ f)).symm (awayLocMap 𝒜 ℬ ψ f
     (localizedAwayEquiv f (r.val • z))) = _
   rw [map_smul, smul_eq_mul, map_mul, ← val_awayLocMap, ← smul_eq_mul, map_smul]
   rfl
@@ -287,7 +287,7 @@ public theorem awayModuleMap_mem (ψ : 𝒜 →+*ᵍ ℬ) (f : A) (t : ℤ)
   | zero => simpa only [map_zero] using Submodule.zero_mem _
   | add a b _ _ ha hb => simpa only [map_add] using Submodule.add_mem _ ha hb
   | smul r a _ ha =>
-      show awayModuleMap 𝒜 ℬ ψ f (r.val • a) ∈ _
+      change awayModuleMap 𝒜 ℬ ψ f (r.val • a) ∈ _
       rw [awayModuleMap_smul_val]
       exact Submodule.smul_mem _ (HomogeneousLocalization.Away.map ψ f r) ha
 
@@ -317,7 +317,7 @@ public theorem twistDegreeZeroMap_degreeZeroFraction (ψ : 𝒜 →+*ᵍ ℬ) {f
       degreeZeroFraction ℬ (twistGrading (S := B) ℬ t) (mem_of_mem 𝒜 ℬ ψ hf) k (ψ m)
         (map_mem_twistGrading 𝒜 ℬ ψ t _ hm) := by
   refine Subtype.ext ?_
-  show awayModuleMap 𝒜 ℬ ψ f (LocalizedModule.mk m ⟨f ^ k, ⟨k, rfl⟩⟩) = _
+  change awayModuleMap 𝒜 ℬ ψ f (LocalizedModule.mk m ⟨f ^ k, ⟨k, rfl⟩⟩) = _
   rw [awayModuleMap_mk 𝒜 ℬ ψ f m _ (by rw [map_pow]; exact ⟨k, rfl⟩)]
   exact congrArg (LocalizedModule.mk (ψ m)) (Subtype.ext (map_pow ψ f k))
 

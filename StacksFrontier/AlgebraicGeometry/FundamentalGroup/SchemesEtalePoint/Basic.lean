@@ -84,10 +84,10 @@ private theorem factorization_spec_sigma_unique
   have hpoint : (g ≫ Sigma.ι Y i).base z = (h ≫ Sigma.ι Y j).base z :=
     congrArg (fun k : Spec (.of E) ⟶ ∐ fun i ↦ Y i => k.base z) hcomp
   have hleft : (g ≫ Sigma.ι Y i).base z ∈ (Sigma.ι Y i).opensRange := by
-    show ∃ y, (Sigma.ι Y i).base y = (g ≫ Sigma.ι Y i).base z
+    change ∃ y, (Sigma.ι Y i).base y = (g ≫ Sigma.ι Y i).base z
     exact ⟨g.base z, rfl⟩
   have hright : (h ≫ Sigma.ι Y j).base z ∈ (Sigma.ι Y j).opensRange := by
-    show ∃ y, (Sigma.ι Y j).base y = (h ≫ Sigma.ι Y j).base z
+    change ∃ y, (Sigma.ι Y j).base y = (h ≫ Sigma.ι Y j).base z
     exact ⟨h.base z, rfl⟩
   have hij : i = j := by
     by_contra hne
@@ -177,7 +177,7 @@ private theorem specHomEquivSigma_precomp
     _ = φ.symm q := by
       dsimp [φ, ψ, specHomEquivSigma]
       simp [q, p, Category.assoc]
-  show φ (h ≫ f) = q
+  change φ (h ≫ f) = q
   calc
     φ (h ≫ f) = φ (φ.symm q) := congrArg φ hdom
     _ = q := φ.apply_symm_apply q
@@ -248,7 +248,7 @@ private theorem isOpen_galois_stabilizer_specMap
       apply CommRingCat.hom_ext
       simp only [Spec.homEquiv_apply, Spec.preimage_comp, Spec.preimage_map,
         CommRingCat.hom_comp]
-      show (σ.toAlgHom.comp α).toRingHom = α.toRingHom
+      change (σ.toAlgHom.comp α).toRingHom = α.toRingHom
       exact congrArg AlgHom.toRingHom h
   rw [hset]
   exact isOpen_galois_comp_eq K L E α α
@@ -345,10 +345,10 @@ private noncomputable def overHomSigmaEquiv
     constructor
     · intro h
       rw [hfac] at h
-      simpa [q, f, Category.assoc, Sigma.ι_desc, Y, U] using h
+      simpa [q, f, Category.assoc, Sigma.ι_comp_desc, Y, U] using h
     · intro h
       rw [hfac]
-      simpa [q, f, Category.assoc, Sigma.ι_desc, Y, U] using h
+      simpa [q, f, Category.assoc, Sigma.ι_comp_desc, Y, U] using h
   exact η.trans ((Equiv.subtypeEquiv φ hprop).trans
     ((sigmaSubtypeDepEquiv (fun i ↦ Spec (.of L) ⟶ Y i) q).trans
       (Equiv.sigmaCongrRight fun i ↦ specMapOverFieldEquiv K L (E i))))
@@ -413,7 +413,7 @@ private theorem overHomSigmaEquiv_precomp
         Spec.map (CommRingCat.ofHom (algebraMap K L)) := by
       have h := g.w
       rw [hfac] at h
-      simpa [Category.assoc, Sigma.ι_desc, Y, U] using h
+      simpa [Category.assoc, Sigma.ι_comp_desc, Y, U] using h
     let q : {f : Spec (.of L) ⟶ Spec (.of (E p.1)) //
         f ≫ Spec.map (CommRingCat.ofHom (algebraMap K (E p.1))) =
           Spec.map (CommRingCat.ofHom (algebraMap K L))} := ⟨p.2, hpbase⟩
@@ -443,7 +443,7 @@ private theorem continuousGSet_stabilizer_open
     (Action.isContinuous_def (V := Type u) (G := Gal(L/K)) S.obj.obj).mp S.obj.property
   let f : Gal(L/K) → S.obj.obj.V := fun σ => ConcreteCategory.hom (S.obj.obj.ρ σ).asHom x
   have hf : Continuous f := by
-    show Continuous (fun σ => ((forget₂ (Type u) TopCat).map (S.obj.obj.ρ σ).asHom) x)
+    change Continuous (fun σ => ((forget₂ (Type u) TopCat).map (S.obj.obj.ρ σ).asHom) x)
     exact hcont.comp (continuous_id.prodMk continuous_const)
   have hset : {σ : Gal(L/K) | ConcreteCategory.hom (S.obj.obj.ρ σ).asHom x = x} =
       f ⁻¹' {x} := by ext σ; simp [f]
@@ -519,7 +519,7 @@ private theorem selfEquivSigmaOrbits_smul
   classical
   let D := MulAction.selfEquivSigmaOrbits G α
   have hi : (D (g • x)).1 = (D x).1 := by
-    show (Quotient.mk'' (g • x) : MulAction.orbitRel.Quotient G α) =
+    change (Quotient.mk'' (g • x) : MulAction.orbitRel.Quotient G α) =
       Quotient.mk'' x
     exact MulAction.orbitRel.Quotient.quotient_smul_eq
   have hOrbit : MulAction.orbit G (Quotient.out (D (g • x)).1) =
@@ -602,7 +602,7 @@ private theorem exists_gal_comp_eq_of_finite_separable
   intro x
   have hx := congrArg (fun φ : A →ₐ[K] L =>
       φ ⟨f x, f.mem_fieldRange.mpr ⟨x, rfl⟩⟩) hσ
-  show σ (f x) = g x
+  change σ (f x) = g x
   have he : (⟨f x, f.mem_fieldRange.mpr ⟨x, rfl⟩⟩ : A) = e x := by
     apply Subtype.ext
     rfl
@@ -655,7 +655,7 @@ private theorem equivariantMap_embeddings_of_finite_separable
     intro x
     have hm : h₀ x ∈ g.fieldRange :=
       hrange (h₀.mem_fieldRange.mpr ⟨x, rfl⟩)
-    show g (g.equivFieldRange.symm
+    change g (g.equivFieldRange.symm
       ((h₀.codRestrict g.fieldRange.toSubalgebra fun x => hrange
         (h₀.mem_fieldRange.mpr ⟨x, rfl⟩)) x)) = h₀ x
     have hx : g.equivFieldRange.symm
@@ -810,9 +810,9 @@ private theorem orbitEquivAlgHom_smul
     have hz' := congrArg (rep (σ • y)) hz
     change rep (σ • y) (((rep (σ • y))⁻¹ * (σ * rep y)) (z : L)) =
       rep (σ • y) (z : L) at hz'
-    show rep (σ • y) (z : L) = σ ((rep y) (z : L))
+    change rep (σ • y) (z : L) = σ ((rep y) (z : L))
     simpa [AlgEquiv.mul_apply] using hz'.symm
-  show (rep (σ • y)).toAlgHom.domRestrict E =
+  change (rep (σ • y)).toAlgHom.domRestrict E =
     σ.toAlgHom.comp ((rep y).toAlgHom.domRestrict E)
   rw [hres]
   apply AlgHom.ext
@@ -919,9 +919,9 @@ private theorem geometricPointAction_continuous
       {σ : Gal(L/K) |
         Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫ g = g} := by
     ext σ
-    show (σ • x = x) ↔ _
+    change (σ • x = x) ↔ _
     rw [Over.OverMorphism.ext_iff]
-    show (Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫ x.left = x.left) ↔ _
+    change (Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫ x.left = x.left) ↔ _
     rw [hx]
     constructor
     · intro h
@@ -1088,7 +1088,7 @@ private theorem continuousGSetOrbitPointsEquiv_smul
       (E i).fixingSubgroup := by
     apply SetLike.ext
     intro τ
-    show τ ∈ {γ : Gal(L/K) |
+    change τ ∈ {γ : Gal(L/K) |
       ConcreteCategory.hom (S.obj.obj.ρ γ).asHom (Quotient.out i) = Quotient.out i} ↔
         τ ∈ (E i).fixingSubgroup
     rw [continuousGSetOrbitField_stabilizer K L S i]
@@ -1100,7 +1100,7 @@ private theorem continuousGSetOrbitPointsEquiv_smul
   have hθ : θ (ConcreteCategory.hom (S.obj.obj.ρ σ).asHom x) =
       ⟨(θ x).1, σ.toAlgHom.comp (θ x).2⟩ := by
     have hsm : ConcreteCategory.hom (S.obj.obj.ρ σ).asHom x = σ • x := rfl
-    show η (MulAction.selfEquivSigmaOrbits (Gal(L/K)) S.obj.obj.V
+    change η (MulAction.selfEquivSigmaOrbits (Gal(L/K)) S.obj.obj.V
         (ConcreteCategory.hom (S.obj.obj.ρ σ).asHom x)) =
       ⟨(η (MulAction.selfEquivSigmaOrbits (Gal(L/K)) S.obj.obj.V x)).1,
         σ.toAlgHom.comp (η (MulAction.selfEquivSigmaOrbits (Gal(L/K)) S.obj.obj.V x)).2⟩
@@ -1109,7 +1109,7 @@ private theorem continuousGSetOrbitPointsEquiv_smul
     let D := MulAction.selfEquivSigmaOrbits (Gal(L/K)) S.obj.obj.V
     have h := orbitEquivAlgHom_smul K L (Quotient.out (D x).1) (E (D x).1)
       (hstab (D x).1) σ (D x).2
-    show (⟨(D x).1,
+    change (⟨(D x).1,
         orbitEquivAlgHom K L (Quotient.out (D x).1) (E (D x).1) (hstab (D x).1)
           (σ • (D x).2)⟩ : Σ i : I, (F i →ₐ[K] L)) =
       (⟨(D x).1, σ.toAlgHom.comp
@@ -1125,7 +1125,7 @@ private theorem continuousGSetOrbitPointsEquiv_smul
   let act (g : basePoint ⟶ coproductEtale) : basePoint ⟶ coproductEtale :=
     Over.homMk (U := basePoint) (V := coproductEtale)
       (Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫ g.left) (by
-      show (Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫ g.left) ≫
+      change (Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫ g.left) ≫
           coproductEtale.hom = basePoint.hom
       rw [Category.assoc, g.w]
       exact spec_map_galois_comp_algebraMap K L σ)
@@ -1138,7 +1138,7 @@ private theorem continuousGSetOrbitPointsEquiv_smul
   have hinv (q : Σ i : I, (F i →ₐ[K] L)) :
       Ψ.symm ⟨q.1, σ.toAlgHom.comp q.2⟩ = act (Ψ.symm q) :=
     Ψ.symm_apply_eq.mpr (hΨ q).symm
-  show Ψ.symm (θ (ConcreteCategory.hom (S.obj.obj.ρ σ).asHom x)) = _
+  change Ψ.symm (θ (ConcreteCategory.hom (S.obj.obj.ρ σ).asHom x)) = _
   apply Over.OverMorphism.ext
   rw [hθ]
   exact (congrArg Over.Hom.left (hinv (θ x))).trans (by rfl)
@@ -1172,9 +1172,9 @@ private theorem geometricPointSigmaEquiv_symm_smul
       ⟨p.1, σ.toAlgHom.comp p.2⟩ =
       σ • (geometricPointSigmaEquiv K L X I E e he).symm p := by
   apply Over.OverMorphism.ext
-  show _ = Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫ _
+  change _ = Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫ _
   rw [geometricPointSigmaEquiv_symm_left, geometricPointSigmaEquiv_symm_left]
-  show Spec.map (CommRingCat.ofHom (σ.toAlgHom.toRingHom.comp p.2.toRingHom)) ≫ _ = _
+  change Spec.map (CommRingCat.ofHom (σ.toAlgHom.toRingHom.comp p.2.toRingHom)) ≫ _ = _
   rw [CommRingCat.ofHom_comp, Spec.map_comp]
   simp only [Category.assoc]
   rfl
@@ -1284,7 +1284,7 @@ private theorem geometricPointFunctor_full
     congr 1
     apply Sigma.hom_ext
     intro i
-    simp only [Category.assoc, Sigma.ι_desc, Sigma.ι_desc_assoc, m]
+    simp only [Category.assoc, Sigma.ι_comp_desc, Sigma.ι_comp_desc_assoc, m]
     rw [← Spec.map_comp, ← CommRingCat.ofHom_comp]
     congr 1
     ext k
@@ -1300,15 +1300,15 @@ private theorem geometricPointFunctor_full
   obtain ⟨p, rfl⟩ := d.symm.surjective x
   have hp : h.hom (d.symm p) = d'.symm ⟨j p.1, p.2.comp (φ p.1)⟩ :=
     d'.eq_symm_apply.mpr (hφ p.1 p.2)
-  show ((geometricPointFunctor K L).map fEtale).hom (d.symm p) = h.hom (d.symm p)
+  change ((geometricPointFunctor K L).map fEtale).hom (d.symm p) = h.hom (d.symm p)
   rw [hp]
   apply Over.OverMorphism.ext
-  show (d.symm p).left ≫
+  change (d.symm p).left ≫
       ((Scheme.Etale.forget (Spec (.of K))).map fEtale).left = _
   have hmap : (Scheme.Etale.forget (Spec (.of K))).map fEtale = fOver :=
     Functor.map_preimage _ _
   rw [hmap]
-  show (d.symm p).left ≫ f = _
+  change (d.symm p).left ≫ f = _
   rw [geometricPointSigmaEquiv_symm_left, geometricPointSigmaEquiv_symm_left]
   dsimp only [f]
   calc
@@ -1319,7 +1319,7 @@ private theorem geometricPointFunctor_full
             rfl
     _ = _ := by
       simp only [Iso.inv_hom_id, Category.id_comp, m,
-        ← Category.assoc, Sigma.ι_desc, AlgHom.toRingHom_eq_coe,
+        ← Category.assoc, Sigma.ι_comp_desc, AlgHom.toRingHom_eq_coe,
         AlgHom.comp_toRingHom, CommRingCat.ofHom_comp, Spec.map_comp]
 
 /-- The geometric-points functor is essentially surjective. -/

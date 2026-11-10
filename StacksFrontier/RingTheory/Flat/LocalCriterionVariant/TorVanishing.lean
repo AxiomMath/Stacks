@@ -149,8 +149,7 @@ public theorem rTensor_subtype_map_injective {R : Type*} [CommRing R]
         exact ⟨w, by rw [hw]; exact (TensorProduct.smul_tmul _ _ _).symm⟩
   have hsurj : Function.Surjective σ := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact ⟨0, map_zero σ⟩
+    induction z using TensorProduct.inductionOn with
     | tmul x n => exact hgen x.1 x.2 n
     | add u v hu hv =>
         obtain ⟨w₁, h₁⟩ := hu
@@ -160,8 +159,7 @@ public theorem rTensor_subtype_map_injective {R : Type*} [CommRing R]
       (TensorProduct.lid A N) (LinearMap.rTensor N (I.map (algebraMap R A)).subtype (σ w))
         = (TensorProduct.lid R N) (LinearMap.rTensor N I.subtype w) := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | tmul i n =>
         rw [hσt]
         simp only [LinearMap.rTensor_tmul, TensorProduct.lid_tmul]
@@ -274,8 +272,7 @@ private theorem tor2_of_annihilated (I : Ideal R)
     have hall :
       ∀ t : ↥(LinearMap.ker (Finsupp.linearCombination R (id : M → M))) ⊗[R] Q, t = 0 := by
       intro t
-      induction t using TensorProduct.induction_on with
-      | zero => rfl
+      induction t using TensorProduct.inductionOn with
       | tmul a q => rw [hz q, TensorProduct.tmul_zero]
       | add a b ha hb => rw [ha, hb, add_zero]
     intro a b _
@@ -351,8 +348,7 @@ private theorem lTensor_range_subtype_le_smul_top {J : Ideal R} (K : Ideal R) (N
       rw [TensorProduct.tmul_add]
       exact Submodule.add_mem _ hy hz
   rintro _ ⟨z, rfl⟩
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul m y => simpa using key m _ (hsub (hN y.2))
   | add u v hu hv =>
     rw [map_add]; exact Submodule.add_mem _ hu hv

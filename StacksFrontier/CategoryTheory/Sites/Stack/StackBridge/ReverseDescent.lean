@@ -13,8 +13,8 @@ member of a covering *family* and glues them over *given* fibre products of the 
 cocycle condition over given triple overlaps.
 
 `CategoryTheory.Functor.DescentDatum.toSieve`
-(`StacksFrontier/CategoryTheory/Sites/Stack/StackBridge/ToSieve.lean`) reads a family-indexed datum as
-a sieve-indexed one. This file does the converse for the *tautological* family of a sieve — the
+(`StacksFrontier/CategoryTheory/Sites/Stack/StackBridge/ToSieve.lean`) reads a family-indexed datum
+as a sieve-indexed one. This file does the converse for the *tautological* family of a sieve — the
 family of **all** of its arrows, whose generated sieve is the sieve itself
 (`CategoryTheory.Sieve.ofArrows_category`) and whose index type lies in `Type (max u₁ v₁)`. Over a
 base with fibre products that family has all the overlaps the family-indexed notion needs, taken as

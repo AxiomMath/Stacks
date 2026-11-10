@@ -111,11 +111,11 @@ theorem pullbackIdealSubsheaf_eq_ker_cokernel :
   set P := pullbackIdealSubsheaf B S hS f hf I
   set adj := SheafOfModules.pullbackPushforwardAdjunction.{u} (smallBaseChangeSharp B S hS f hf)
   refine le_antisymm (pullbackIdealSubsheaf_le B S hS f hf I fun Q a ha => ?_) ?_
-  · show _ = (0 : (cokernel θ).val.obj _)
+  · change _ = (0 : (cokernel θ).val.obj _)
     have h := idealToPushforwardUnit_val_app B S hS f hf I Q ⟨a, ha⟩
     rw [idealToPushforwardUnit_eq] at h
     rw [← h]
-    show (θ ≫ cokernel.π θ).val.app _ _ = 0
+    change (θ ≫ cokernel.π θ).val.app _ _ = 0
     rw [cokernel.condition]
     rfl
   · -- the adjoint factors through `P`
@@ -124,10 +124,10 @@ theorem pullbackIdealSubsheaf_eq_ker_cokernel :
           (SheafOfModules.pushforward.{u} (smallBaseChangeSharp B S hS f hf)).map
             (cokernel.π P.ι) = 0 := by
         ext Q a
-        show (cokernel.π P.ι).val.app _ (P.ι.val.app _
+        change (cokernel.π P.ι).val.app _ (P.ι.val.app _
           ⟨chartIdealPullbackHom B S hS f hf Q.unop a.1,
             chartIdealPullbackHom_mem_pullbackIdealSubsheaf B S hS f hf I Q.unop a.2⟩) = 0
-        show (P.ι ≫ cokernel.π P.ι).val.app _ _ = 0
+        change (P.ι ≫ cokernel.π P.ι).val.app _ _ = 0
         rw [cokernel.condition]
         rfl
       have h1 := Adjunction.homEquiv_naturality_right_symm adj
@@ -139,7 +139,7 @@ theorem pullbackIdealSubsheaf_eq_ker_cokernel :
     intro W x hx
     have hx' : (cokernel.π P.ι).val.app W x = 0 := by
       rw [← cokernel.π_desc θ (cokernel.π P.ι) hc]
-      show (cokernel.desc θ (cokernel.π P.ι) hc).val.app W
+      change (cokernel.desc θ (cokernel.π P.ι) hc).val.app W
         ((cokernel.π θ).val.app W x) = 0
       rw [(SheafOfModules.Submodule.mem_ker _ W x).1 hx, map_zero]
     let k := SheafOfModules.Submodule.ker (cokernel.π P.ι)
@@ -148,7 +148,7 @@ theorem pullbackIdealSubsheaf_eq_ker_cokernel :
       k.ι (SheafOfModules.Submodule.ker_ι_comp _)
     have hxk : x ∈ k.obj W := hx'
     have hxl : P.ι.val.app W (l.val.app W ⟨x, hxk⟩) = x := by
-      show (l ≫ P.ι).val.app W ⟨x, hxk⟩ = x
+      change (l ≫ P.ι).val.app W ⟨x, hxk⟩ = x
       rw [show l ≫ P.ι = k.ι from hl]
       rfl
     rw [← hxl]

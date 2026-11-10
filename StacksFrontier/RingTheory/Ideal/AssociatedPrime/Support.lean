@@ -92,7 +92,7 @@ prime over `I`. -/
 private theorem minimal_mem_zeroLocus_iff {R : Type*} [CommRing R] {I : Ideal R}
     {q : PrimeSpectrum R} :
     Minimal (· ∈ PrimeSpectrum.zeroLocus (I : Set R)) q ↔ q.asIdeal ∈ I.minimalPrimes := by
-  show Minimal (fun p : PrimeSpectrum R ↦ I ≤ p.asIdeal) q ↔
+  change Minimal (fun p : PrimeSpectrum R ↦ I ≤ p.asIdeal) q ↔
     Minimal (fun J : Ideal R ↦ J.IsPrime ∧ I ≤ J) q.asIdeal
   exact ⟨fun hq ↦ ⟨⟨q.isPrime, hq.1⟩, fun p hp hpq ↦ hq.2 (y := ⟨p, hp.1⟩) hp.2 hpq⟩,
     fun hq ↦ ⟨hq.1.2, fun r hr hrq ↦ hq.2 ⟨r.isPrime, hr⟩ hrq⟩⟩
@@ -183,7 +183,7 @@ theorem zero_at_ass_zero (R : Type*) [CommRing R] [IsNoetherianRing R]
       refine Ideal.le_radical (Submodule.mem_colon.mpr fun c hc ↦ ?_)
       rwa [Set.mem_singleton_iff.mp hc, Submodule.mem_bot]
     refine s.property (hmem _ (Subtype.ext ?_))
-    show (s : R) • (n : M) = 0
+    change (s : R) • (n : M) = 0
     rw [← hr, smul_smul, mul_comm, ← smul_smul, hs, smul_zero]
   have : Subsingleton N := not_nontrivial_iff_subsingleton.mp fun _ ↦
     let ⟨q, hq⟩ := associatedPrimes.nonempty R N

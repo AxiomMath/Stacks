@@ -76,7 +76,8 @@ immersion of the smaller open subobject is `CategoryTheory.Over.w` of that inclu
 
 `HasExt` is an `abbrev` for a universally quantified statement, so
 `Stacks.Topology.hasExt_sheafOpens` cannot be registered as an instance and is introduced by
-`let` inside each proof, as in `StacksFrontier/Topology/Sheaves/Cohomology/CompactSubset/ProperFibrewiseVanishing.lean`.
+`let` inside each proof, as in
+`StacksFrontier/Topology/Sheaves/Cohomology/CompactSubset/ProperFibrewiseVanishing.lean`.
 
 ## References
 

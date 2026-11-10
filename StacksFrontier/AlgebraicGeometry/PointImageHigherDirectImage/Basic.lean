@@ -85,7 +85,7 @@ public theorem preimage_eq_top_or_eq_bot (g : U ⟶ S) (hg : ∀ u v : U, g.base
   by_cases h : ∃ u : U, g.base u ∈ V
   · obtain ⟨u₀, hu₀⟩ := h
     refine Or.inl (TopologicalSpace.Opens.ext (Set.eq_univ_of_forall fun u ↦ ?_))
-    show g.base u ∈ V
+    change g.base u ∈ V
     rwa [hg u u₀]
   · exact Or.inr
       (TopologicalSpace.Opens.ext (Set.eq_empty_of_forall_notMem fun u hu ↦ h ⟨u, hu⟩))

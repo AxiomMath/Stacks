@@ -240,9 +240,9 @@ instance isContinuous_overPost_ambientOpensMap :
       ((Opens.grothendieckTopology ↥X.left.thickening.target.scheme).over
         ((Opens.map X.hom.targetHom.hom.base).obj
           (⊤ : B.thickening.target.scheme.Opens))) := by
-  haveI : PreservesFiniteLimits (Opens.map X.hom.targetHom.hom.base) :=
+  have : PreservesFiniteLimits (Opens.map X.hom.targetHom.hom.base) :=
     preservesFiniteLimits_of_flat _
-  haveI : (Opens.map X.hom.targetHom.hom.base).PreservesOneHypercovers.{u}
+  have : (Opens.map X.hom.targetHom.hom.base).PreservesOneHypercovers.{u}
       (Opens.grothendieckTopology ↥B.thickening.target.scheme)
       (Opens.grothendieckTopology ↥X.left.thickening.target.scheme) :=
     Functor.PreservesOneHypercovers.of_coverPreserving
@@ -387,7 +387,7 @@ theorem ambientOpensOverRingHom_comp :
 right adjoint. -/
 instance isRightAdjoint_pushforward_ambientOpensOverRingHom (B : Thickening S) (X : Over B) :
     (SheafOfModules.pushforward.{u} (ambientOpensOverRingHom B X)).IsRightAdjoint := by
-  haveI : (PresheafOfModules.pushforward.{u} (ambientOpensOverRingHom B X).hom).IsRightAdjoint :=
+  have : (PresheafOfModules.pushforward.{u} (ambientOpensOverRingHom B X).hom).IsRightAdjoint :=
     inferInstanceAs (PresheafOfModules.pushforward.{u}
       (show ((B.ringRestrictionSheaf).over ⊤).obj ⟶
           (ambientOpensOverFunctor B X).op ⋙ ((X.left.ringRestrictionSheaf).over ⊤).obj from

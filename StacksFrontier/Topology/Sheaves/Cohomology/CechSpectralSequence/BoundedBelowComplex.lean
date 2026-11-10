@@ -42,8 +42,9 @@ documentation of
 `StacksFrontier/Topology/Sheaves/Cohomology/CechSpectralSequence/SequenceAndSecondPage.lean`.
 
 **Neither clause of [Stacks, Tag 08BN] is proved here, and nothing in this file carries that
-tag**; the second clause is assembled out of this file in
-`StacksFrontier.Topology.Sheaves.Cohomology.CechSpectralSequence.BoundedBelowComplexSpectralSequence`,
+tag**; the second clause is assembled out of this file in the module
+`BoundedBelowComplexSpectralSequence` of
+`StacksFrontier.Topology.Sheaves.Cohomology.CechSpectralSequence`,
 and the implementation notes say which further results that needs.
 
 ## Main definitions
@@ -75,8 +76,9 @@ below complex is bounded below in the degree of the resolved complex; it is carr
 hypothesis rather than derived, exactly as in `Stacks.Cech.int₂₃IsoCechBicomplex`, because the
 two bounds are properties of the application and not of the construction.
 
-The second clause of [Stacks, Tag 08BN] is proved out of this file, in
-`StacksFrontier.Topology.Sheaves.Cohomology.CechSpectralSequence.BoundedBelowComplexSpectralSequence`
+The second clause of [Stacks, Tag 08BN] is proved out of this file, in the module
+`BoundedBelowComplexSpectralSequence` of
+`StacksFrontier.Topology.Sheaves.Cohomology.CechSpectralSequence`
 (`Stacks.Cech.exists_cechSpectralSequence`), which is where that clause's tag sits.  The three
 pieces it adds to the construction and the second page recorded here are:
 
@@ -269,7 +271,7 @@ lemma isZero_cechTricomplexFunctor_X_X_of_neg (p : ℤ) (hp : p < 0) (q : ℤ) :
     IsZero ((((cechTricomplexFunctor U).obj L).X p).X q) :=
   isZero_of_forall_isZero_X _ fun _ =>
     HomologicalComplex.isZero_extend_X _ embeddingUpNat p fun i => by
-      show ((i : ℕ) : ℤ) ≠ p; omega
+      change ((i : ℕ) : ℤ) ≠ p; omega
 
 omit [∀ K : HomologicalComplex₂ AddCommGrpCat.{w} (up ℤ) (up ℤ), K.HasTotal (up ℤ)] in
 /-- The Čech triple complex vanishes below the bound of the resolved complex. -/

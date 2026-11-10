@@ -54,7 +54,7 @@ theorem cotangent_finite_projective_of_isLocalCompleteIntersection
   obtain ⟨_, n, p, hp, hreg⟩ := h
   refine Extension.cotangent_finite_projective_of_quasiregular _
     (Ideal.IsKoszulRegular.isQuasiregular ?_)
-  show Ideal.IsKoszulRegular P.ker
+  change Ideal.IsKoszulRegular P.ker
   rw [ker_eq_ker_aeval_val]
   exact RingHom.isKoszulRegularIdeal_ker_of_surjective_mvPolynomial
     p hp hreg (MvPolynomial.aeval P.val) P.aeval_val_surjective

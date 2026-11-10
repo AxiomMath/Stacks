@@ -52,6 +52,7 @@ variable {A : Type u₁} [Category.{v₁} A] [Abelian A]
   (P : A ⥤ B) [P.Additive] [P.PreservesInjectiveObjects] [PreservesFiniteLimits P]
   (Q : B ⥤ D) [Q.Additive] [PreservesFiniteLimits Q]
 
+omit [HasInjectiveResolutions A] in
 /-- **`Q` applied to the projection `Z¹(P I) ⟶ H¹(P I)` is an epimorphism when `R²Q (P X) = 0`.**
 The kernel of the projection is `coker (P X ⟶ (P I)⁰)`, whose first right derived functor is
 `R²Q (P X)` by dimension shifting along the injective `(P I)⁰`. -/

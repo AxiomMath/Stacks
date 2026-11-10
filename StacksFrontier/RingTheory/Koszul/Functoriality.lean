@@ -125,7 +125,7 @@ public theorem seqComplex_mulVec_iso {R : Type u} [CommRing R] {r : ℕ}
       Koszul.seqDual (Matrix.mulVec x f) := by
     apply LinearMap.ext
     intro v
-    show Koszul.seqDual f (e v) = Koszul.seqDual (Matrix.mulVec x f) v
+    change Koszul.seqDual f (e v) = Koszul.seqDual (Matrix.mulVec x f) v
     rw [he]
     simp only [Koszul.seqDual_apply, Matrix.mulVec, dotProduct, Matrix.transpose_apply]
     simp_rw [Finset.sum_mul, Finset.mul_sum]
@@ -145,7 +145,7 @@ public theorem seqComplex_mulVec_iso {R : Type u} [CommRing R] {r : ℕ}
   apply ModuleCat.hom_ext
   ext z
   change (⋀[R]^(j + 1) (Fin r → R)) at z
-  show Koszul.d (Koszul.seqDual f) j (exteriorPower.map (j + 1) e.toLinearMap z) =
+  change Koszul.d (Koszul.seqDual f) j (exteriorPower.map (j + 1) e.toLinearMap z) =
     exteriorPower.map j e.toLinearMap (Koszul.d (Koszul.seqDual (Matrix.mulVec x f)) j z)
   apply Subtype.ext
   simp only [exteriorPower.coe_map, Koszul.d_apply_coe]

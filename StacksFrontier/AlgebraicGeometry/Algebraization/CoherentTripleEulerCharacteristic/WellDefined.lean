@@ -99,7 +99,7 @@ private theorem specPullbackSectionsIso_natural
         ((moduleSpecΓFunctor (R := R)).map g))) := by
     have h : p.map g ≫ aH = aG ≫ p.map ((tilde.functor (R := R)).map
         ((moduleSpecΓFunctor (R := R)).map g)) := by
-      show p.map g ≫ p.map (asIso H.fromTildeΓ).inv =
+      change p.map g ≫ p.map (asIso H.fromTildeΓ).inv =
         p.map (asIso G.fromTildeΓ).inv ≫ p.map ((tilde.functor (R := R)).map
           ((moduleSpecΓFunctor (R := R)).map g))
       exact ((p.map_comp _ _).symm.trans
@@ -123,7 +123,7 @@ private theorem specPullbackSectionsIso_natural
     have h := ((tilde.toTildeΓNatIso (R := S)).symm.hom).naturality
       (E.map ((moduleSpecΓFunctor (R := R)).map g))
     simpa [cG, cH, E, N_R, N_S, Functor.comp_map, Functor.comp_obj] using h
-  show N_S.map (p.map g) ≫ N_S.map aH ≫ N_S.map bH.hom ≫ cH.hom =
+  change N_S.map (p.map g) ≫ N_S.map aH ≫ N_S.map bH.hom ≫ cH.hom =
     N_S.map aG ≫ N_S.map bG.hom ≫ cG.hom ≫
       E.map ((moduleSpecΓFunctor (R := R)).map g)
   calc
@@ -203,7 +203,7 @@ private lemma closedFibreQuotientIso_naturality
     apply TensorProduct.ext
     ext scalar value
     obtain ⟨scalar, rfl⟩ := Ideal.Quotient.mk_surjective scalar
-    show (TensorProduct.quotTensorEquivQuotSMul
+    change (TensorProduct.quotTensorEquivQuotSMul
         ((moduleSpecΓFunctor (R := .of A)).obj H) (Ideal.span {f}))
         (Ideal.Quotient.mk (Ideal.span {f}) scalar ⊗ₜ[A]
           ((moduleSpecΓFunctor (R := .of A)).map g).hom value) =

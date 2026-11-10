@@ -180,7 +180,7 @@ private lemma regularHom_add {A : Type u} [Ring A] {M : FPModule A}
   apply ModuleCat.homAddEquiv.injective
   apply LinearMap.ext
   intro a
-  show (regularHom (x + y)).hom.hom a =
+  change (regularHom (x + y)).hom.hom a =
     ((regularHom x).hom.hom + (regularHom y).hom.hom) a
   rw [LinearMap.add_apply, regularHom_apply]
   exact smul_add (MulOpposite.op a) x y
@@ -203,7 +203,7 @@ private lemma regularHom_comp {A : Type u} [Ring A] {M N : FPModule A}
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro a
-  show f.hom.hom ((MulOpposite.op a : Aᵐᵒᵖ) • x) =
+  change f.hom.hom ((MulOpposite.op a : Aᵐᵒᵖ) • x) =
     (MulOpposite.op a : Aᵐᵒᵖ) • f.hom.hom x
   exact f.hom.hom.map_smul (MulOpposite.op a) x
 
@@ -417,7 +417,7 @@ private lemma actionHomNatTransCore_id {A : Type u} {B : Type v} [Ring A]
   apply LinearMap.ext
   intro x
   dsimp [actionHomNatTransCore]
-  show (𝟙 K.carrier) ≫ x = x
+  change (𝟙 K.carrier) ≫ x = x
   exact Category.id_comp x
 
 private lemma actionHomNatTransCore_comp {A : Type u} {B : Type v} [Ring A]
@@ -430,13 +430,13 @@ private lemma actionHomNatTransCore_comp {A : Type u} {B : Type v} [Ring A]
   apply LinearMap.ext
   intro x
   dsimp [actionHomNatTransCore]
-  show (f.hom ≫ g.hom) ≫ x = f.hom ≫ (g.hom ≫ x)
+  change (f.hom ≫ g.hom) ≫ x = f.hom ≫ (g.hom ≫ x)
   exact Category.assoc _ _ _
 
 private lemma actionHomNatTrans_id {A : Type u} {B : Type v} [Ring A]
     [Category.{w} B] [Preadditive B] (K : ModuleAction A B) :
     actionHomNatTrans (𝟙 K) = 𝟙 (actionHomFunctor K) := by
-  show Functor.whiskerRight (actionHomNatTransCore (𝟙 K))
+  change Functor.whiskerRight (actionHomNatTransCore (𝟙 K))
       (ModuleCat.uliftFunctor.{u} Aᵐᵒᵖ) =
     𝟙 ((preadditiveCoyonedaObj K.carrier ⋙
       ModuleCat.restrictScalars (RingHom.op K.action)) ⋙
@@ -447,7 +447,7 @@ private lemma actionHomNatTrans_comp {A : Type u} {B : Type v} [Ring A]
     [Category.{w} B] [Preadditive B] {K L P : ModuleAction A B}
     (f : K ⟶ L) (g : L ⟶ P) :
     actionHomNatTrans (f ≫ g) = actionHomNatTrans g ≫ actionHomNatTrans f := by
-  show Functor.whiskerRight (actionHomNatTransCore (f ≫ g))
+  change Functor.whiskerRight (actionHomNatTransCore (f ≫ g))
       (ModuleCat.uliftFunctor.{u} Aᵐᵒᵖ) =
     Functor.whiskerRight (actionHomNatTransCore g)
         (ModuleCat.uliftFunctor.{u} Aᵐᵒᵖ) ≫
@@ -561,7 +561,7 @@ private lemma corepresentable_uniqueUpToIso_homEquiv {C : Type*} [Category C]
     e.homEquiv (e.uniqueUpToIso e').hom = e'.homEquiv (𝟙 Y) := by
   rw [Functor.CorepresentableBy.uniqueUpToIso_hom]
   simp only [Coyoneda.fullyFaithful_preimage]
-  show e.homEquiv (e.homEquiv.symm (e'.homEquiv (𝟙 Y))) = _
+  change e.homEquiv (e.homEquiv.symm (e'.homEquiv (𝟙 Y))) = _
   exact Equiv.apply_symm_apply _ _
 
 private lemma actionTensorRegularIso_homEquiv {A : Type u} {B : Type v} [Ring A]
@@ -577,7 +577,7 @@ private lemma actionTensorRegularIso_homEquiv {A : Type u} {B : Type v} [Ring A]
   let e₁ : R.CorepresentableBy ((actionTensorFunctor K).obj (regularModule A)) := by
     let := actionHom_leftAdjointObjIsDefined K (regularModule A)
     exact R.corepresentableBy
-  show e₁.homEquiv (e₁.uniqueUpToIso (actionHomRegularCorepresentableBy K)).hom = _
+  change e₁.homEquiv (e₁.uniqueUpToIso (actionHomRegularCorepresentableBy K)).hom = _
   exact corepresentable_uniqueUpToIso_homEquiv e₁ (actionHomRegularCorepresentableBy K)
 
 private lemma actionTensorRegularIso_comm {A : Type u} {B : Type v} [Ring A]
@@ -602,9 +602,9 @@ private lemma actionTensorRegularIso_comm {A : Type u} {B : Type v} [Ring A]
     rfl
   have ha : (u.hom xa).down = (K.action a).asHom := by
     have hx : xa = (MulOpposite.op a : Aᵐᵒᵖ) • x₁ := by
-      show ULift.up a = (MulOpposite.op a : Aᵐᵒᵖ) • ULift.up (1 : A)
+      change ULift.up a = (MulOpposite.op a : Aᵐᵒᵖ) • ULift.up (1 : A)
       ext
-      show a = (MulOpposite.op a : Aᵐᵒᵖ) • (1 : A)
+      change a = (MulOpposite.op a : Aᵐᵒᵖ) • (1 : A)
       rw [op_smul_eq_mul]
       simp
     have hfirst : (u.hom xa).down = (MulOpposite.op a • u.hom x₁).down := by
@@ -612,15 +612,15 @@ private lemma actionTensorRegularIso_comm {A : Type u} {B : Type v} [Ring A]
       exact congrArg ULift.down (u.hom.map_smul _ x₁)
     have hsecond : (MulOpposite.op a • u.hom x₁).down = (K.action a).asHom := by
       rw [hsmul, hux]
-      show (MulOpposite.op (K.action a) : (End K.carrier)ᵐᵒᵖ) •
+      change (MulOpposite.op (K.action a) : (End K.carrier)ᵐᵒᵖ) •
         (𝟙 K.carrier) = _
       rw [preadditiveCoyoneda_smul]
       simp
     exact hfirst.trans hsecond
-  show (u.hom (((L.map (regularEnd A a).asHom).hom.hom) x₁)).down =
+  change (u.hom (((L.map (regularEnd A a).asHom).hom.hom) x₁)).down =
     ((H.map (K.action a).asHom).hom (u.hom x₁)).down
   have hL : ((L.map (regularEnd A a).asHom).hom.hom) x₁ = xa := by
-    show ULift.up ((regularEnd A a).asHom.hom.hom (1 : A)) = ULift.up a
+    change ULift.up ((regularEnd A a).asHom.hom.hom (1 : A)) = ULift.up a
     congr 1
     simp [regularEnd, LinearMap.mulLeft_apply]
   rw [hL, ha, hux]
@@ -657,10 +657,10 @@ private lemma actionHomRegularCanonical_naturality {A : Type u} {B : Type v}
   let x₁ : (liftedModuleInclusion A).obj (regularModule A) := ULift.up (1 : A)
   have huL' : uL.hom x₁ = ULift.up (𝟙 L.carrier) := actionHomRegular_unit_one L
   have huK' : uK.hom x₁ = ULift.up (𝟙 K.carrier) := actionHomRegular_unit_one K
-  show uL ≫ (actionHomNatTrans f).app L.carrier =
+  change uL ≫ (actionHomNatTrans f).app L.carrier =
     uK ≫ (actionHomFunctor K).map f.hom
   apply (actionHomRegularEquiv K L.carrier).injective
-  show ((uL ≫ (actionHomNatTrans f).app L.carrier).hom x₁).down =
+  change ((uL ≫ (actionHomNatTrans f).app L.carrier).hom x₁).down =
     ((uK ≫ (actionHomFunctor K).map f.hom).hom x₁).down
   rw [ModuleCat.comp_apply, ModuleCat.comp_apply, huL', huK']
   have hpre : ((actionHomNatTrans f).app L.carrier).hom
@@ -673,12 +673,12 @@ private lemma actionHomRegularCanonical_naturality {A : Type u} {B : Type v}
     dsimp [actionHomFunctor, ModuleCat.uliftFunctor, ModuleCat.restrictScalars,
       ModuleCat.RestrictScalars.map', preadditiveCoyonedaObj]
     rfl
-  show (((actionHomNatTrans f).app L.carrier).hom
+  change (((actionHomNatTrans f).app L.carrier).hom
       (ULift.up (𝟙 L.carrier))).down =
     (((actionHomFunctor K).map f.hom).hom
       (ULift.up (𝟙 K.carrier))).down
   rw [hpre, hpost]
-  show f.hom ≫ 𝟙 L.carrier = 𝟙 K.carrier ≫ f.hom
+  change f.hom ≫ 𝟙 L.carrier = 𝟙 K.carrier ≫ f.hom
   simp
 
 private lemma actionTensorMapApp_regular_naturality {A : Type u} {B : Type v}
@@ -712,7 +712,7 @@ private lemma unitModuleHom_apply {A : Type u} {B : Type v} [Ring A]
     [Category.{w} B] [Preadditive B] [HasFiniteBiproducts B] [HasCokernels B]
     (F : FPModule A ⥤ᵣ B) (M : FPModule A) (x : ULift.{w} M.obj) :
     ((unitModuleHom F M).hom x).down = F.obj.map (regularHom x.down) := by
-  show ULift.down
+  change ULift.down
     (ULift.up (F.obj.map (regularHom x.down)) :
       ULift.{u} (F.obj.obj (regularModule A) ⟶ F.obj.obj M)) = _
   rfl
@@ -727,7 +727,7 @@ private lemma unitModuleHom_naturality {A : Type u} {B : Type v} [Ring A]
   apply LinearMap.ext
   intro x
   apply ULift.ext
-  show F.obj.map (regularHom x.down) ≫ F.obj.map f =
+  change F.obj.map (regularHom x.down) ≫ F.obj.map f =
     F.obj.map (regularHom (f.hom.hom x.down))
   rw [← F.obj.map_comp, regularHom_comp]
 
@@ -795,7 +795,7 @@ private lemma actionTensorComparison_regular_isIso {A : Type u} {B : Type v}
     unfold actionTensorComparisonHom
     simp only [Equiv.apply_symm_apply]
     exact hunit.trans (actionTensorRegularIso_homEquiv (evaluationObject A B F)).symm
-  show IsIso (actionTensorComparisonHom F (regularModule A))
+  change IsIso (actionTensorComparisonHom F (regularModule A))
   rw [h]
   infer_instance
 
@@ -831,7 +831,7 @@ private lemma unitModuleHom_naturality_rightExactMap {A : Type u} {B : Type v}
   apply LinearMap.ext
   intro x
   apply ULift.ext
-  show τ.hom.app (regularModule A) ≫ G.obj.map (regularHom x.down) =
+  change τ.hom.app (regularModule A) ≫ G.obj.map (regularHom x.down) =
     F.obj.map (regularHom x.down) ≫ τ.hom.app M
   exact (τ.hom.naturality (regularHom x.down)).symm
 

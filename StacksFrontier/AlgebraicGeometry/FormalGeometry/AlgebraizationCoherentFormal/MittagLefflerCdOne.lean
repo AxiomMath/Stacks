@@ -344,7 +344,7 @@ theorem ιModules_eq_sum_gradedSplitting {d : ℕ}
   refine Scheme.Modules.hom_ext _ _ fun V => ?_
   ext t
   rw [Stacks.Coherent.gradedSplittingEvalHom_app, Stacks.Coherent.gradedSplittingEval_eq]
-  show _ = (∑ σ ∈ (Stacks.ReesAlgebra.degreeMonomials r k).attach,
+  change _ = (∑ σ ∈ (Stacks.ReesAlgebra.degreeMonomials r k).attach,
     Stacks.Coherent.gradedSplittingComponentAt Ψ (Stacks.ReesAlgebra.mem_degreeMonomials.1 σ.2) ≫
       sectionSmul (scalarMap S (∏ j, f j ^ (σ.1 : Fin r →₀ ℕ) j)) (limit F.obj)).val.app (op V) t
   have happ : ∀ {κ : Type} {M : S.U.toScheme.Modules} (s : Finset κ)
@@ -357,7 +357,7 @@ theorem ιModules_eq_sum_gradedSplitting {d : ℕ}
     | insert a s ha ih =>
       rw [Finset.sum_insert ha, Finset.sum_insert ha, ← ih, Scheme.Modules.Hom.add_app]
       rfl
-  show _ = Scheme.Modules.Hom.app (∑ σ ∈ (Stacks.ReesAlgebra.degreeMonomials r k).attach,
+  change _ = Scheme.Modules.Hom.app (∑ σ ∈ (Stacks.ReesAlgebra.degreeMonomials r k).attach,
     Stacks.Coherent.gradedSplittingComponentAt Ψ (Stacks.ReesAlgebra.mem_degreeMonomials.1 σ.2) ≫
       sectionSmul (scalarMap S (∏ j, f j ^ (σ.1 : Fin r →₀ ℕ) j)) (limit F.obj)) V t
   rw [happ]
@@ -411,7 +411,7 @@ theorem sectionSmul_kerSub_eq_zero (n k : ℕ) {a : S.A} (ha : a ∈ S.I ^ k) :
   obtain ⟨u, hu, -⟩ := exists_transitionSmulUp F (Nat.le_add_left n k) (by omega)
     (restrictMemIdealPow_scalarMap S k ha)
   rw [← cancel_mono (kernel.ι (tr S F (Nat.le_add_left n k))), zero_comp, ← comp_sectionSmul]
-  show kernel.ι (tr S F (Nat.le_add_left n k)) ≫ sectionSmul _ _ = 0
+  change kernel.ι (tr S F (Nat.le_add_left n k)) ≫ sectionSmul _ _ = 0
   rw [← hu, ← Category.assoc, kernel.condition, zero_comp]
 
 /-- **The boundary map** `H⁰(U, F_n) ⟶ H¹(U, I^{n+1} F)`, over `A`. -/
@@ -446,7 +446,7 @@ theorem limπ_upMapOf (l : Fin r) (n : ℕ) :
     limπ S F n ≫ upMapOf S F f hfI l n =
       sectionSmul (scalarMap S (f l)) (limit F.obj) ≫ limπ S F (n + 1) := by
   rw [← limπ_tr S F (Nat.le_succ n), Category.assoc]
-  show limπ S F (n + 1) ≫ (succTrans S F n ≫ upMapOf S F f hfI l n) = _
+  change limπ S F (n + 1) ≫ (succTrans S F n ≫ upMapOf S F f hfI l n) = _
   rw [trans_upMapOf, comp_sectionSmul]
 
 include hfI in
@@ -545,7 +545,7 @@ def limRho (l : Fin r) (n : ℕ) :
 theorem limRho_comp_limMu (l : Fin r) (n : ℕ) (a : ↥(S.I ^ (n + 1))) :
     (limRho S F f hfI l n).comp (limMu S F n a) = limMu S F (n + 1) ⟨f l * a, by
       rw [pow_succ']; exact Ideal.mul_mem_mul (hfI l) a.2⟩ := by
-  show ((openCohomologyFunctor S 1).map (limKerUp S F f hfI l n)).hom.comp
+  change ((openCohomologyFunctor S 1).map (limKerUp S F f hfI l n)).hom.comp
     ((openCohomologyFunctor S 1).map (limKerMul S F n a.2)).hom = _
   rw [← ModuleCat.hom_comp, ← Functor.map_comp, limKerMul_up]
   rfl
@@ -554,7 +554,7 @@ theorem limRho_comp_limMu (l : Fin r) (n : ℕ) (a : ↥(S.I ^ (n + 1))) :
 theorem limRho_comm (l l' : Fin r) (n : ℕ) :
     (limRho S F f hfI l (n + 1)).comp (limRho S F f hfI l' n) =
       (limRho S F f hfI l' (n + 1)).comp (limRho S F f hfI l n) := by
-  show ((openCohomologyFunctor S 1).map _).hom.comp ((openCohomologyFunctor S 1).map _).hom =
+  change ((openCohomologyFunctor S 1).map _).hom.comp ((openCohomologyFunctor S 1).map _).hom =
     ((openCohomologyFunctor S 1).map _).hom.comp ((openCohomologyFunctor S 1).map _).hom
   rw [← ModuleCat.hom_comp, ← ModuleCat.hom_comp, ← Functor.map_comp, ← Functor.map_comp,
     limKerUp_comm]
@@ -709,7 +709,7 @@ theorem isMittagLefflerCategorical_globalSectionsSystem_of_cd_one
       (limRho_comm S F gen hfI) D hDP hDμ hDann)
     (fun n => (n + 1) * d - 1) (le_pred_succ_mul hd) ?_
   · intro l n x
-    show ((openSectionsFunctor S).map (upMapOf S F gen hfI l n) ≫
+    change ((openSectionsFunctor S).map (upMapOf S F gen hfI l n) ≫
       (openSectionsFunctor S).map (succTrans S F n)).hom x = gen l • x
     rw [← Functor.map_comp, upMapOf_trans]
     exact openSectionsFunctor_map_sectionSmul S (gen l) _ x
@@ -719,13 +719,13 @@ theorem isMittagLefflerCategorical_globalSectionsSystem_of_cd_one
         (S.I ^ k • ⊤ : Submodule S.A ((openCohomologyFunctor S 1).obj (limKer S F n))) := by
       have h0 : AdicCompletion.eval S.I _ k
           (AdicCompletion.of S.I _ (limBoundary S F n x)) = 0 := by
-        show AdicCompletion.eval S.I _ k
+        change AdicCompletion.eval S.I _ k
           ((AdicCompletion.of S.I _).comp (limBoundary S F n) x) = 0
         rw [hx, map_zero]
       rwa [AdicCompletion.eval_of, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero] at h0
     exact mem_range_tr_of_limBoundary_mem S F n k x hmem
   · intro l n x
-    show AdicCompletion.of S.I _ (limBoundary S F (n + 1)
+    change AdicCompletion.of S.I _ (limBoundary S F (n + 1)
       ((openSectionsFunctor S).map (upMapOf S F gen hfI l n) x)) = AdicCompletion.map S.I _
         (AdicCompletion.of S.I _ (limBoundary S F n x))
     rw [limBoundary_up, AdicCompletion.map_of]

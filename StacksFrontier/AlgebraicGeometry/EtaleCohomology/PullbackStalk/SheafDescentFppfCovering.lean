@@ -228,7 +228,7 @@ public theorem familyFiniteDominationBySections_of_exists (B : BigEtaleSite.{u})
   · have hz : z ∈ ⨆ c, U c := by rw [hUtop]; exact Opens.mem_top z
     obtain ⟨c, hc⟩ := Opens.mem_iSup.mp hz
     refine ⟨c, ?_⟩
-    show z ∈ Set.range (U c).ι
+    change z ∈ Set.range (U c).ι
     rwa [Scheme.Opens.range_ι]
   · obtain ⟨i, t, ht⟩ := hUfac c
     exact ⟨i, ObjectProperty.homMk t, ObjectProperty.hom_ext _ ht⟩

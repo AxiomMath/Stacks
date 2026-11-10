@@ -61,12 +61,14 @@ makes the item a *theorem* at Tag 03SC rather than part of the item. The definit
 therefore quantifies over an arbitrary scheme `X` with a morphism to the spectrum of an arbitrary
 field and an arbitrary abelian sheaf on its small étale site, and specialises to the source by
 taking the data of `Stacks.EtaleCohomology.TorsionSheafSituation`: for a situation `S` the
-source's item is `IsPrimePowerTorsionVanishing S.structureMorphism p S.F`. Nothing is weakened —
-no hypothesis of the item is dropped and no conclusion is restricted.
+source's item is `IsPrimePowerTorsionVanishing k p S.F` for the base field `k` of `S`. Nothing
+is weakened — no hypothesis of the item is dropped and no conclusion is restricted.
 
-The structure morphism `π` is carried even though the predicate's body does not mention it,
-because the item's hypothesis is `p = char(k)` for `k` *the base field of* `X`; without `π` the
-field would be unrelated to the scheme and the predicate would say something else.
+The predicate takes the field `k` explicitly and no structure morphism to `Spec k`: its body does
+not mention such a morphism, so the predicate does not depend on it. That `k` is *the base field
+of* `X` is part of the data the predicate is applied to, as in
+`isPrimePowerTorsionVanishing_of_curveCohomologyStatements`, where the morphism appears in the
+hypothesis.
 
 **What is and is not proved here.** Nothing in this file asserts that the item holds. That is Tag
 03SC, and it is not formalized in this library. For the `p`-power torsion coefficients of this
@@ -189,15 +191,16 @@ variable {k : Type u} [Field k] {X : Scheme.{u}}
 
 > `H^q_étale(X, F) = 0` for `q > 1` if `p = char(k) > 0` and `F` is `p`-power torsion.
 
-Here `X` is a scheme with a morphism `π` to the spectrum of a field `k` of characteristic `p`,
-and `F` is an abelian sheaf on the small étale site of `X`. The source states this as one entry
-of the list of eight statements that Situation 0A52 asks for, not as an assertion, so it is a
-predicate on the data; the situation's further hypotheses — `k` algebraically closed, `X`
-separated of finite type of dimension at most one, `F` torsion — are what make the item a
-theorem at Tag 03SC, and are not imposed here. -/
+Here `X` is a scheme over a field `k` of characteristic `p` (the predicate does not depend on the
+structure morphism, which is therefore not an argument), and `F` is an abelian sheaf on the
+small étale site of `X`. The source states this as one entry of the list of eight statements
+that Situation 0A52 asks for, not as an assertion, so it is a predicate on the data; the
+situation's further hypotheses — `k` algebraically closed, `X` separated of finite type of
+dimension at most one, `F` torsion — are what make the item a theorem at Tag 03SC, and are not
+imposed here. -/
 @[stacks 0A55 "item (3) of 0A52: H^q(X, F) = 0 for q > 1 if p = char(k) > 0 and F is p-power \
   torsion"]
-def IsPrimePowerTorsionVanishing (π : X ⟶ Spec (.of k)) (p : ℕ) [CharP k p]
+def IsPrimePowerTorsionVanishing (k : Type u) [Field k] (p : ℕ) [CharP k p]
     (F : Sheaf X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v})
     [HasExt.{w} (Sheaf X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v})] : Prop :=
   0 < p → Stacks.Torsion.IsPrimePowerTorsion X.smallEtaleTopology p F →
@@ -216,16 +219,16 @@ theorem isPrimePowerTorsionVanishing_of_curveCohomologyStatements {X' : Scheme.{
     [HasExt.{w} (Sheaf X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v})]
     [HasExt.{w} (Sheaf X'.smallEtaleTopology AddCommGrpCat.{max (u + 1) v})]
     (h : CurveCohomologyStatements.{u, v, w} i π p p' constructible F) :
-    IsPrimePowerTorsionVanishing.{u, v, w} π p F :=
+    IsPrimePowerTorsionVanishing.{u, v, w} k p F :=
   fun _ => h.vanishing_of_isPrimePowerTorsion
 
 /-- **Item (3) of Situation 0A52 is vacuous in characteristic zero.** Its hypothesis is that the
 characteristic of the base field is positive, and in characteristic zero the only `p` with
 `CharP k p` is `0`. -/
-theorem isPrimePowerTorsionVanishing_of_charP_zero (π : X ⟶ Spec (.of k)) [CharP k 0]
+theorem isPrimePowerTorsionVanishing_of_charP_zero (k : Type u) [Field k] [CharP k 0]
     (F : Sheaf X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v})
     [HasExt.{w} (Sheaf X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v})] :
-    IsPrimePowerTorsionVanishing.{u, v, w} π 0 F :=
+    IsPrimePowerTorsionVanishing.{u, v, w} k 0 F :=
   fun h => absurd h (lt_irrefl 0)
 
 end Stacks.EtaleCohomology

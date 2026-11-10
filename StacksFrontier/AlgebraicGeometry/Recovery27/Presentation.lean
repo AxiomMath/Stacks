@@ -115,7 +115,7 @@ public theorem pullbackPresentation_respects_isomorphic {S T : Scheme.{u}} {k n 
     (pullbackPresentation f q).Isomorphic (pullbackPresentation f q') := by
   rcases h with ⟨e, he⟩
   refine ⟨(Scheme.Modules.pullback f).mapIso e, ?_⟩
-  show (pullbackFreeIso f n).inv ≫ (Scheme.Modules.pullback f).map q.map ≫
+  change (pullbackFreeIso f n).inv ≫ (Scheme.Modules.pullback f).map q.map ≫
     (Scheme.Modules.pullback f).map e.hom =
       (pullbackFreeIso f n).inv ≫ (Scheme.Modules.pullback f).map q'.map
   have hm : (Scheme.Modules.pullback f).map q.map ≫
@@ -151,7 +151,7 @@ public theorem pullbackPresentation_isPullback {S T : Scheme.{u}} {k n : ℕ}
     (f : T ⟶ S) (q : QuotientPresentation S k n) :
     q.IsPullback f (pullbackPresentation f q) := by
   refine ⟨Iso.refl _, ?_⟩
-  show (Scheme.Modules.pullback f).map q.map =
+  change (Scheme.Modules.pullback f).map q.map =
     (pullbackFreeIso f n).hom ≫
       ((pullbackFreeIso f n).inv ≫ (Scheme.Modules.pullback f).map q.map)
   exact (Iso.hom_inv_id_assoc (pullbackFreeIso f n) _).symm
@@ -161,7 +161,7 @@ private theorem pullbackPresentation_id {S : Scheme.{u}} {k n : ℕ}
     (q : QuotientPresentation S k n) :
     (pullbackPresentation (𝟙 S) q).Isomorphic q := by
   refine ⟨(Scheme.Modules.pullbackId S).app q.target, ?_⟩
-  show (pullbackFreeIso (𝟙 S) n).inv ≫ (Scheme.Modules.pullback (𝟙 S)).map q.map ≫
+  change (pullbackFreeIso (𝟙 S) n).inv ≫ (Scheme.Modules.pullback (𝟙 S)).map q.map ≫
       ((Scheme.Modules.pullbackId S).app q.target).hom = q.map
   rw [Iso.app_hom, (Scheme.Modules.pullbackId S).hom.naturality q.map, pullbackFreeIso_id]
   exact Iso.inv_hom_id_app_assoc (Scheme.Modules.pullbackId S) _ ((𝟭 _).map q.map)
@@ -173,7 +173,7 @@ private theorem pullbackPresentation_comp {S T U : Scheme.{u}} {k n : ℕ}
       (pullbackPresentation (g ≫ f) q) := by
   let e := asIso ((Scheme.Modules.pullbackComp g f).hom.app q.target)
   refine ⟨e, ?_⟩
-  show (pullbackFreeIso g n).inv ≫
+  change (pullbackFreeIso g n).inv ≫
       (Scheme.Modules.pullback g).map
         ((pullbackFreeIso f n).inv ≫ (Scheme.Modules.pullback f).map q.map) ≫ e.hom =
     (pullbackFreeIso (g ≫ f) n).inv ≫
@@ -221,7 +221,7 @@ public theorem pullbackPointsMap_id {S : Scheme.{u}} (k n : ℕ) :
   funext x
   refine Quotient.inductionOn x ?_
   intro q
-  show (⟦pullbackPresentation (𝟙 S) q⟧ : Points S k n) = ⟦q⟧
+  change (⟦pullbackPresentation (𝟙 S) q⟧ : Points S k n) = ⟦q⟧
   exact Quotient.sound (.rel _ _ (pullbackPresentation_id q))
 
 /-- Pullback along a composite is the composite of the pullbacks. -/
@@ -232,7 +232,7 @@ public theorem pullbackPointsMap_comp {S T U : Scheme.{u}}
   funext x
   refine Quotient.inductionOn x ?_
   intro q
-  show (⟦pullbackPresentation (g ≫ f) q⟧ : Points U k n) =
+  change (⟦pullbackPresentation (g ≫ f) q⟧ : Points U k n) =
     ⟦pullbackPresentation g (pullbackPresentation f q)⟧
   exact Quotient.sound
     (Relation.EqvGen.symm _ _ (.rel _ _ (pullbackPresentation_comp f g q)))

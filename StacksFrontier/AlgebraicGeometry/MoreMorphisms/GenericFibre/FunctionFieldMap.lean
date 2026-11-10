@@ -89,7 +89,7 @@ theorem algebraMap_comp_residueFieldMapOfEq (R : CommRingCat.{u}) {X : Scheme.{u
     CommRingCat.ofHom (algebraMap R ((Spec R).residueField s)) ≫ f.residueFieldMapOfEq hs =
       (Scheme.ΓSpecIso R).inv ≫ f.appTop ≫ X.Γevaluation x := by
   subst hs
-  show ((Scheme.ΓSpecIso R).inv ≫ (Spec R).Γevaluation (f x)) ≫ f.residueFieldMapOfEq rfl = _
+  change ((Scheme.ΓSpecIso R).inv ≫ (Spec R).Γevaluation (f x)) ≫ f.residueFieldMapOfEq rfl = _
   rw [Scheme.Hom.residueFieldMapOfEq_rfl, Category.assoc, Scheme.Γevaluation_naturality f x]
 
 /-- The tower `R ⟶ κ(s) ⟶ κ(x)` defined by the canonical maps, for `f : X ⟶ Spec R` and a point

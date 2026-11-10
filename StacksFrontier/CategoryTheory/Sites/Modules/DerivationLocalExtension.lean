@@ -67,10 +67,10 @@ theorem exists_leibnizHom_extension_of_etale {A Bb : CommRingCat.{u}} (g : A ⟶
     (L.comp (KaehlerDifferential.tensorKaehlerEquivOfFormallyEtale ℤ A Bb).symm.toLinearMap).compDer
       (KaehlerDifferential.D ℤ Bb)
   refine ⟨D'.toLinearMap.toAddMonoidHom, fun x y => D'.leibniz x y, fun x => ?_⟩
-  show L ((KaehlerDifferential.tensorKaehlerEquivOfFormallyEtale ℤ A Bb).symm
+  change L ((KaehlerDifferential.tensorKaehlerEquivOfFormallyEtale ℤ A Bb).symm
     (KaehlerDifferential.D ℤ Bb (algebraMap A Bb x))) = δ x
   rw [KaehlerDifferential.tensorKaehlerEquivOfFormallyEtale_symm_D_algebraMap]
-  show (1 : Bb) • D.liftKaehlerDifferential (KaehlerDifferential.D ℤ A x) = δ x
+  change (1 : Bb) • D.liftKaehlerDifferential (KaehlerDifferential.D ℤ A x) = δ x
   rw [one_smul, Derivation.liftKaehlerDifferential_comp_D]
   rfl
 

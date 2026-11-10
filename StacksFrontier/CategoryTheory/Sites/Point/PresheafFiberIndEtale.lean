@@ -67,11 +67,11 @@ theorem ind_etale_presheafFiber {X₀ : C} (x₀ : Φ.fiber.obj X₀)
       apply MvPolynomial.ringHom_ext
       · intro r
         simp only [RingHom.comp_apply, σ₁, MvPolynomial.eval₂Hom_C]
-        show Φ.toPresheafFiber X₁ x₁ P (P.map g₁.op r) = f.right (π (MvPolynomial.C r))
+        change Φ.toPresheafFiber X₁ x₁ P (P.map g₁.op r) = f.right (π (MvPolynomial.C r))
         rw [Point.toPresheafFiber_w_apply, hx₁, hC]
         exact (ConcreteCategory.congr_hom f.w r).symm
       · intro k
-        show Φ.toPresheafFiber X₁ x₁ P (σ₁ (MvPolynomial.X k)) = _
+        change Φ.toPresheafFiber X₁ x₁ P (σ₁ (MvPolynomial.X k)) = _
         rw [MvPolynomial.eval₂Hom_X']
         exact hs k
     exact DFunLike.congr_fun h p
@@ -79,7 +79,7 @@ theorem ind_etale_presheafFiber {X₀ : C} (x₀ : Φ.fiber.obj X₀)
   obtain ⟨X₂, g₂, x₂, hx₂, hrel⟩ := Φ.exists_map_eq_zero_fin x₁ S.card
     (fun k => σ₁ (S.equivFin.symm k).1) (fun k => by
       rw [hσ₁]
-      show f.right (π _) = 0
+      change f.right (π _) = 0
       rw [show π _ = 0 from RingHom.mem_ker.mp (show _ ∈ RingHom.ker π.toRingHom from
         hS ▸ Ideal.subset_span (S.equivFin.symm k).2), map_zero])
   -- Refine to an étale neighbourhood.
@@ -92,7 +92,7 @@ theorem ind_etale_presheafFiber {X₀ : C} (x₀ : Φ.fiber.obj X₀)
     intro r hr
     have h := hrel (S.equivFin ⟨r, hr⟩)
     rw [Equiv.symm_apply_apply] at h
-    show P.map g₃.op (P.map g₂.op (σ₁ r)) = 0
+    change P.map g₃.op (P.map g₂.op (σ₁ r)) = 0
     rw [h, map_zero]
   let ψ : A.right →+* P.obj (op X₃) := (π.toRingHom.liftOfSurjective hπ) ⟨σ₃, hker⟩
   have hψ : ∀ p, ψ (π p) = σ₃ p := fun p =>
@@ -101,19 +101,19 @@ theorem ind_etale_presheafFiber {X₀ : C} (x₀ : Φ.fiber.obj X₀)
   refine ⟨Under.mk (P.map k₃.op), Under.homMk (CommRingCat.ofHom ψ) ?_,
     Under.homMk (Φ.toPresheafFiber X₃ x₃ P) ?_, ?_, het⟩
   · refine CommRingCat.hom_ext (RingHom.ext fun r => ?_)
-    show ψ (A.hom r) = P.map k₃.op r
+    change ψ (A.hom r) = P.map k₃.op r
     rw [← hC, hψ]
     simp only [σ₃, σ₁, RingHom.comp_apply, MvPolynomial.eval₂Hom_C, k₃, op_comp,
       Functor.map_comp, CommRingCat.hom_comp]
-  · show P.map k₃.op ≫ Φ.toPresheafFiber X₃ x₃ P = Φ.toPresheafFiber X₀ x₀ P
+  · change P.map k₃.op ≫ Φ.toPresheafFiber X₃ x₃ P = Φ.toPresheafFiber X₀ x₀ P
     rw [Point.toPresheafFiber_w]
     congr
     simp only [k₃, Functor.map_comp, types_comp_apply, hx₃, hx₂, hx₁]
   · refine Under.UnderMorphism.ext (CommRingCat.hom_ext (RingHom.ext fun a => ?_))
     obtain ⟨p, rfl⟩ := hπ a
-    show Φ.toPresheafFiber X₃ x₃ P (ψ (π p)) = f.right (π p)
+    change Φ.toPresheafFiber X₃ x₃ P (ψ (π p)) = f.right (π p)
     rw [hψ, ← hσ₁]
-    show Φ.toPresheafFiber X₃ x₃ P (P.map g₃.op (P.map g₂.op (σ₁ p))) = _
+    change Φ.toPresheafFiber X₃ x₃ P (P.map g₃.op (P.map g₂.op (σ₁ p))) = _
     rw [Point.toPresheafFiber_w_apply, Point.toPresheafFiber_w_apply, hx₃, hx₂]
 
 end CategoryTheory.GrothendieckTopology.Point

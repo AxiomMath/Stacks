@@ -186,14 +186,14 @@ end Algebra
 
 section BaseChangeUnit
 
-open scoped ChangeOfRings TensorProduct
+open scoped ChangeOfRings _root_.TensorProduct
 
 variable {B B' : Type u} [CommRing B] [CommRing B'] (ψ : B →+* B')
 
 variable {X' X'' : Scheme.{u}} {f' : X' ⟶ Spec (.of B)} [IsSeparated f']
   {f'' : X'' ⟶ Spec (.of B')} {g'' : X'' ⟶ X'}
   (hsq : IsPullback g'' f'' f' (Spec.map (CommRingCat.ofHom ψ))) (F : X'.Modules)
-  [F.IsQuasicoherent] {J : Type u} [Fintype J] [LinearOrder J] (V : J → X'.Opens)
+  [F.IsQuasicoherent] {J : Type u} [Finite J] [LinearOrder J] (V : J → X'.Opens)
   (hV : (⊤ : X'.Opens) = ⨆ i, V i) (hVaff : ∀ i, IsAffineOpen (V i)) (s : Γ(F, ⊤))
 
 /-- `c ⊗ x` in `B' ⊗_B M`, typed as an element of the extension of scalars. -/
@@ -218,7 +218,7 @@ def pulledSectionMap (f'' : X'' ⟶ Spec (.of B')) (g'' : X'' ⟶ X') :
         ((Scheme.Modules.pullback g'').obj F)
         (AlgebraicGeometry.pullbackSectionHom g'' F ⊤ ⊤ (by simp) s)))
 
-omit [SheafOfModules.IsQuasicoherent F] [Fintype J] [LinearOrder J] in
+omit [SheafOfModules.IsQuasicoherent F] [Finite J] [LinearOrder J] in
 /-- `pulledSectionMap` sends `c` to the Čech cochain of `c • g^* s`. -/
 theorem pulledSectionMap_apply (f'' : X'' ⟶ Spec (.of B')) (g'' : X'' ⟶ X') (c : B') :
     letI := Stacks.Cech.sectionsModule f'' ((Scheme.Modules.pullback g'').obj F) ⊤
@@ -237,7 +237,7 @@ theorem extendScalars_map_sectionUnitZero_comp :
       (baseAlternatingCechComplexBaseChangeIso ψ hsq F V hV hVaff).hom.f 0 =
       (ModuleCat.ExtendScalars.objSelfIso ψ).hom ≫ pulledSectionMap F V hV s f'' g'' := by
   refine ModuleCat.ExtendScalars.hom_ext_one_tmul ψ fun m => ?_
-  show (baseAlternatingCechComplexBaseChangeIso ψ hsq F V hV hVaff).hom.f 0
+  change (baseAlternatingCechComplexBaseChangeIso ψ hsq F V hV hVaff).hom.f 0
       (extTmul ψ (1 : B') (m • sectionCochain f' V hV F s)) =
     pulledSectionMap F V hV s f'' g'' ((ModuleCat.ExtendScalars.objSelfIso ψ).hom (extTmul ψ 1 m))
   refine (congrArg ((baseAlternatingCechComplexBaseChangeIso ψ hsq F V hV hVaff).hom.f 0)
@@ -332,7 +332,7 @@ theorem quasiIsoAt_zero_baseChange_sectionUnit
       rfl
     · simp only [kerRestrict_apply_coe]
       rw [hf0, hΨ]
-      show sectionsToModel f'' V'' hV'' F'' ((θ.hom (θ.inv c)) • t) = _
+      change sectionsToModel f'' V'' hV'' F'' ((θ.hom (θ.inv c)) • t) = _
       rw [← ModuleCat.comp_apply θ.inv, Iso.inv_hom_id, ModuleCat.id_apply]
       exact congrArg _ hc
 
@@ -457,8 +457,9 @@ private def homologyDerivedMappingConeIso {B : Type u} [CommRing B] (φ : A →+
       (CochainComplex.mappingCone.mapHomologicalComplexIso η
         (ModuleCat.extendScalars.{u, u, u} φ))
 
+omit [Fintype I] in
 /-- **The cone of the map of a section has its fibre cohomology in degree `1` only.** -/
-theorem finrank_derivedFibreHomology_mappingCone_eq_zero [IsSeparated f]
+theorem finrank_derivedFibreHomology_mappingCone_eq_zero [Finite I] [IsSeparated f]
     (hUaff : ∀ i, IsAffineOpen (U i)) (hflat : IsFlatOver f.toLRSHom.toShHom F) (s : Γ(F, ⊤))
     (p : Ideal A) [p.IsPrime] {Xp : Scheme.{u}} {fp : Xp ⟶ Spec (.of p.ResidueField)}
     {gp : Xp ⟶ X}
@@ -471,6 +472,7 @@ theorem finrank_derivedFibreHomology_mappingCone_eq_zero [IsSeparated f]
     (j : ℤ) (hj : j ≠ 1) :
     Module.finrank p.ResidueField (StacksDraft.Perfect.derivedFibreHomology.{u, u} p
       (DerivedCategory.Q.obj (CochainComplex.mappingCone (sectionUnit f U hU F s))) j) = 0 := by
+  let _ : Fintype I := Fintype.ofFinite I
   have : ((Scheme.Modules.pullback gp).obj F).IsQuasicoherent :=
     Stacks.AlgebraicGeometry.AffineBaseChange.isQuasicoherent_pullback gp F
   let ψ := algebraMap A p.ResidueField
@@ -531,6 +533,7 @@ theorem isZero_homology_singleFunctor {R : Type u} [CommRing R] (M : ModuleCat.{
         (((DerivedCategory.singleFunctorIsoCompQ (ModuleCat.{u} R) n).app M)) ≪≫
       (DerivedCategory.homologyFunctorFactors (ModuleCat.{u} R) j).app _)
 
+omit [Fintype I] in
 include hU in
 /-- **Near a point whose fibre has the cohomology of a curve, the Čech model has free homology.**
 Let `A` be Noetherian, `f : X ⟶ Spec A` proper and `F` a coherent `𝒪_X`-module flat over `A` with
@@ -538,7 +541,7 @@ a global section `s`, and let `p` be a prime of `A` such that on the fibre `X_p`
 `κ(p) ⟶ Γ(X_p, F_p)`, `c ↦ c • s` is bijective and `F_p` has no cohomology in degrees `≥ 2`. Then
 there is `g ∉ p` such that the base change to `A_g` of the Čech model of `RΓ(X, F)` has free
 homology of finite rank in every degree. -/
-theorem exists_away_free_homology [IsNoetherianRing A] [IsProper f] [F.IsCoherent]
+theorem exists_away_free_homology [Finite I] [IsNoetherianRing A] [IsProper f] [F.IsCoherent]
     (hUaff : ∀ i, IsAffineOpen (U i))
     (haff : ∀ (r : ℕ) (s : Fin (r + 1) → I), IsAffineOpen (⨅ k, U (s k)))
     (hflat : IsFlatOver f.toLRSHom.toShHom F) (s : Γ(F, ⊤))
@@ -559,6 +562,7 @@ theorem exists_away_free_homology [IsNoetherianRing A] [IsProper f] [F.IsCoheren
         ((((ModuleCat.extendScalars.{u, u, u}
           (algebraMap A (Localization.Away g))).mapHomologicalComplex
           (ComplexShape.up ℤ)).obj (baseAlternatingCechComplex f U hU F)).homology j) := by
+  let _ : Fintype I := Fintype.ofFinite I
   let η := sectionUnit f U hU F s
   have : ∀ i, Module.Flat A ((baseAlternatingCechComplex f U hU F).X i) :=
     flat_baseAlternatingCechComplex_X f U hU F hUaff hflat
@@ -594,7 +598,7 @@ theorem exists_away_free_homology [IsNoetherianRing A] [IsProper f] [F.IsCoheren
   · exact free_finite_of_isZero (ShortComplex.isZero_homology_of_isZero_X₂ _
       ((ModuleCat.extendScalars.{u, u, u} ψ).map_isZero
         (isZero_baseAlternatingCechComplex_X_of_neg f U hU F j hj)))
-  · have := Stacks.MappingConeSingle.isIso_homologyMap_of_isZero (E.map η) hL
+  · have := Stacks.MappingConeSingle.isIso_homologyMap_of_isZero (E.map η)
       (hcone (-1) (by omega)) (hcone 0 (by omega))
     exact free_finite_of_iso (asIso (HomologicalComplex.homologyMap (E.map η) 0)).symm
       (free_finite_homology_zero_extendScalars_singleA ψ)
@@ -628,7 +632,7 @@ theorem pullbackUnitIso_pullbackSectionHom_one :
     (((Scheme.Modules.pullbackPushforwardAdjunction h).unit.app (unitModule Z)).val.app
       (op ⊤) (show Γ(unitModule Z, ⊤) from (1 : Γ(Z, ⊤)))))
   refine hn.trans ?_
-  show Y.presheaf.map (homOfLE (show (⊤ : Y.Opens) ≤ h ⁻¹ᵁ ⊤ by simp)).op
+  change Y.presheaf.map (homOfLE (show (⊤ : Y.Opens) ≤ h ⁻¹ᵁ ⊤ by simp)).op
     (t.hom.val.app (op (h ⁻¹ᵁ ⊤)) _) = 1
   have h3 : t.hom.val.app (op (h ⁻¹ᵁ ⊤))
       (((Scheme.Modules.pullbackPushforwardAdjunction h).unit.app (unitModule Z)).val.app
@@ -683,6 +687,7 @@ end Unit
 
 section Curve
 
+omit [Fintype I] in
 include hU in
 /-- **The Čech model of `RΓ(X, 𝒪_X)` for a proper smooth family of geometrically connected curves
 over a Noetherian affine base has, Zariski locally on the base, free homology of finite rank in
@@ -694,7 +699,7 @@ intersections. Every prime `p` of `A` has `g ∉ p` such that the base change to
 This is the cohomological content of parts (a)–(c) of [Stacks, Tag 0GKA] for a smooth family:
 on the fibre `X_p` the functions are the constants ([Stacks, Tag 0BUG]) and there is no
 cohomology above the dimension `1` ([Stacks, Tag 02UZ]). -/
-theorem exists_away_free_homology_of_smooth [IsNoetherianRing A] [IsProper f] [Smooth f]
+theorem exists_away_free_homology_of_smooth [Finite I] [IsNoetherianRing A] [IsProper f] [Smooth f]
     [GeometricallyConnected f]
     (hdim : ∀ s, topologicalKrullDim (f.fiber s) ≤ ((1 : ℕ) : WithBot ℕ∞))
     (hUaff : ∀ i, IsAffineOpen (U i))

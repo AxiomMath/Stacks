@@ -253,7 +253,7 @@ private theorem flat_sections_restrict_of_affine {X : Scheme.{u}} (F : X.Modules
   have hstalk := (AlgebraicGeometry.SheafOfModules.isFlat_iff_stalk_flat X.sheaf F).mp hflat
   have hself : AlgebraicGeometry.IsFlatOver ((𝟙 X : X ⟶ X).toLRSHom.toShHom) F := by
     intro x
-    show @Module.Flat (X.presheaf.stalk ((𝟙 X : X ⟶ X).base x)) (F.presheaf.stalk x) _ _
+    change @Module.Flat (X.presheaf.stalk ((𝟙 X : X ⟶ X).base x)) (F.presheaf.stalk x) _ _
       (Module.compHom _ ((𝟙 X : X ⟶ X).stalkMap x).hom)
     rw [Scheme.Hom.stalkMap_id]
     exact hstalk x
@@ -272,7 +272,7 @@ private theorem flat_sections_restrict_of_affine {X : Scheme.{u}} (F : X.Modules
   have hone : ((𝟙 U.toScheme : U.toScheme ⟶ U.toScheme).appLE ⊤ ⊤ (by simp)) =
       𝟙 Γ(U.toScheme, ⊤) :=
     (Scheme.Hom.appLE_eq_app (𝟙 U.toScheme) (U := ⊤)).trans (Scheme.Hom.id_app ⊤)
-  show a • m = (((𝟙 U.toScheme : U.toScheme ⟶ U.toScheme).appLE ⊤ ⊤ (by simp)).hom a) • m
+  change a • m = (((𝟙 U.toScheme : U.toScheme ⟶ U.toScheme).appLE ⊤ ⊤ (by simp)).hom a) • m
   rw [hone]
   simp
 

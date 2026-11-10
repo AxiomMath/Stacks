@@ -164,7 +164,8 @@ def globalSectionsRightDerivedIso (f : X ⟶ Y) (F : Modules.{u, u} B S hS X.1 X
     have := hasInjectiveResolutions_modules B S hS X.1 X.2
     have := enoughInjectives_modules B S hS Y.1 Y.2
     ((modulePushforward B S hS f ⋙ globalSectionsFunctor.{u + 1, u, u, u}
-          ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O))).rightDerived n).obj F ≅
+          ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS Y.1
+              Y.2).O))).rightDerived n).obj F ≅
       (globalSectionsFunctor.{u + 1, u, u, u}
           ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O))).obj
         (((modulePushforward B S hS f).rightDerived n).obj F) :=
@@ -230,7 +231,8 @@ def cohomologyChartIsoSectionsHigherDirectImage (f : X ⟶ Y)
                 (chartBaseChangeTarget B S hS V).2).O))).rightDerived q).obj
         ((chartBaseChangeModulePullback B S hS f V).obj F) ≅
       (globalSectionsFunctor.{u + 1, u, u, u}
-          ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS (chartBaseChangeTarget B S hS V).1
+          ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS
+              (chartBaseChangeTarget B S hS V).1
             (chartBaseChangeTarget B S hS V).2).O))).obj
         ((etaleModulePullback B S hS (chartToSpace B S hS Y V)
             (isEtale_chartToSpace B S hS Y V)).obj
@@ -272,13 +274,15 @@ def cohomologyChartIsoSectionsHigherDirectImage_of_representable (f : X ⟶ Y)
       (chartSpace B S hS Y V).2
     ((modulePushforward B S hS (smallBaseChangeChartMap B S hS f hf V) ⋙
             globalSectionsFunctor.{u + 1, u, u, u}
-              ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS (chartSpace B S hS Y V).1
+              ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS (chartSpace B S
+                  hS Y V).1
                 (chartSpace B S hS Y V).2).O))).rightDerived q).obj
         ((etaleModulePullback B S hS
           (chartToSpace B S hS X ((smallBaseChange B S hS f hf).obj V))
           (isEtale_chartToSpace B S hS X ((smallBaseChange B S hS f hf).obj V))).obj F) ≅
       (globalSectionsFunctor.{u + 1, u, u, u}
-          ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS (chartSpace B S hS Y V).1
+          ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS (chartSpace B S hS Y
+              V).1
             (chartSpace B S hS Y V).2).O))).obj
         ((etaleModulePullback B S hS (chartToSpace B S hS Y V)
             (isEtale_chartToSpace B S hS Y V)).obj

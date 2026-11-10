@@ -114,7 +114,7 @@ immersion is surjective. -/
 theorem restrictedOpen_top (P : SchemeDeformationCategory (Λ := Λ) (k := k) X) :
     restrictedOpen P (⊤ : X.left.Opens) = ⊤ :=
   TopologicalSpace.Opens.ext <| by
-    show (⇑P.specialMap) '' ((⊤ : X.left.Opens) : Set X.left) = ((⊤ : P.scheme.Opens) : Set _)
+    change (⇑P.specialMap) '' ((⊤ : X.left.Opens) : Set X.left) = ((⊤ : P.scheme.Opens) : Set _)
     rw [TopologicalSpace.Opens.coe_top, TopologicalSpace.Opens.coe_top, Set.image_univ,
       (deformationSpecialMap_surjective P).range_eq]
 
@@ -287,7 +287,7 @@ theorem glueTwoOpenMap_preimage_restrictedOpen (U : X.left.Opens) :
     simpa using congrArg (fun g : X.left ⟶ P.scheme => g x)
       (specialMap_comp_glueTwoOpenMap a b hab hcover)
   ext y
-  show (∃ x ∈ U, P.specialMap x = glueTwoOpenMap a b hab hcover y) ↔
+  change (∃ x ∈ U, P.specialMap x = glueTwoOpenMap a b hab hcover y) ↔
     ∃ x ∈ U, Q.specialMap x = y
   constructor
   · rintro ⟨x, hxU, hx⟩
@@ -568,12 +568,12 @@ theorem glueDeformation_comparison_square :
   refine SchemeDeformationCategory.Hom.ext ?_ ?_
   · have h0 : glueBaseIso X U₁ U₂ Q ≫ Q.iso.hom.base = 𝟙 Q.y.base :=
       congrArg SchemeDeformationCategory.Hom.base Q.iso.inv_hom_id
-    show glueBaseIso X U₁ U₂ Q ≫ Q.iso.hom.base = (𝟙 _ ≫ 𝟙 _) ≫ 𝟙 _
+    change glueBaseIso X U₁ U₂ Q ≫ Q.iso.hom.base = (𝟙 _ ≫ 𝟙 _) ≫ 𝟙 _
     rw [h0, Category.id_comp, Category.comp_id]
   · refine (cancel_mono
       (nestedι (glueDeformation X U₁ U₂ Q hcover) (inf_le_left : U₁ ⊓ U₂ ≤ U₁) ≫
         restrictDeformationι U₁ (glueDeformation X U₁ U₂ Q hcover))).mp ?_
-    show (Q.iso.hom.map ≫
+    change (Q.iso.hom.map ≫
         ((openRestrictionLEFunctor (inf_le_left : U₁ ⊓ U₂ ≤ U₁)).map
           (restrictGlueDeformationLeft X U₁ U₂ Q hcover).hom).map) ≫
         (nestedι (glueDeformation X U₁ U₂ Q hcover) (inf_le_left : U₁ ⊓ U₂ ≤ U₁) ≫
@@ -605,8 +605,8 @@ theorem glueDeformation_comparison_square_inv :
   rw [← cancel_epi ((openRestrictionLEFunctor (inf_le_left : U₁ ⊓ U₂ ≤ U₁)).map
     (restrictGlueDeformationLeft X U₁ U₂ Q hcover).hom)]
   simp only [← Category.assoc]
-  rw [Iso.map_hom_inv_id, Category.id_comp, glueDeformation_comparison_square X U₁ U₂ Q hcover,
-    Category.assoc, Iso.map_hom_inv_id, Category.comp_id]
+  rw [Iso.hom_inv_id_map, Category.id_comp, glueDeformation_comparison_square X U₁ U₂ Q hcover,
+    Category.assoc, Iso.hom_inv_id_map, Category.comp_id]
 
 /-- **Stacks 0DYZ**, the glueing quasi-inverse on objects, as an isomorphism of the 2-fibre
 product: the two chart isomorphisms of the glued deformation are a single isomorphism

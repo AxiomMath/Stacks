@@ -13,9 +13,9 @@ Noetherian base, with the two inputs the source's own proof uses named as hypoth
 terms.  These statements are superseded and are not registered under the tag: [stacks 0E2G] in
 full, over an arbitrary base and with nothing carried, is
 `Dualizing.isIso_relativeHomothety_of_isRelativeDualizingComplex` of
-`StacksFrontier.RingTheory.Dualizing.RelativeHomothetyGeneral`.  The two inputs are the uniqueness of
-relative dualizing complexes, which is [stacks 0E2D], and the library's standing open input for the
-upper shriek formalism, through which [stacks 0E2E] identifies `ω_{A/R} = φ^!(R)` as a relative
+`StacksFrontier.RingTheory.Dualizing.RelativeHomothetyGeneral`.  The two inputs are the uniqueness
+of relative dualizing complexes, which is [stacks 0E2D], and the library's standing open input for
+the upper shriek formalism, through which [stacks 0E2E] identifies `ω_{A/R} = φ^!(R)` as a relative
 dualizing complex.
 
 ## What this adds to `StacksFrontier.RingTheory.Dualizing.RelativeHomothety`
@@ -174,8 +174,7 @@ theorem isIso_relativeHomothety_of_isRelativeDualizingComplex_of_nonempty_iso
   have hfin : (algebraMap R A).FiniteType := RingHom.finiteType_algebraMap.mpr inferInstance
   obtain ⟨p⟩ := nonempty_polynomialPresentation (algebraMap R A) hfin
   exact isIso_relativeHomothety_of_nonempty_iso_upperShriekFunctor_unit R A p K
-    (huniq K _ hK (p.relativeDualizingComplex_isRelativeDualizingComplex_of_flat hflat
-      (fun t => hProj R A p t.asIdeal.ResidueField) (hProj R A p A)))
+    (huniq K _ hK (p.relativeDualizingComplex_isRelativeDualizingComplex_of_flat hflat))
 
 /-- **The conclusion of [stacks 0E2G] over a Noetherian base, from uniqueness, over the one
 keystone.**  Superseded by `Dualizing.isIso_relativeHomothety_of_isRelativeDualizingComplex`; kept

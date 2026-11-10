@@ -76,11 +76,11 @@ variable {A : Type u} {C : Type v}
 is taut and topologically of finite type: condition (6) of Stacks 0GBW, which rig-étaleness
 includes, gives condition (2) of that lemma, which is condition (c) of Stacks 0ANU. -/
 theorem isTautTopologicallyOfFiniteTypeHom {φ : A →+* C} (hφ : RingHom.IsRigEtale φ)
-    (hcont : Continuous φ) (hA : TopologicalRing.IsAdic A) (hC : TopologicalRing.IsAdic C) :
+    (hA : TopologicalRing.IsAdic A) (hC : TopologicalRing.IsAdic C) :
     RingHom.IsTaut φ ∧ TopologicalRing.IsTopologicallyOfFiniteType φ := by
   obtain ⟨I, hI, -⟩ := hA.1
   obtain ⟨J, hJ, -⟩ := hC.1
-  exact ((Rig.adicFiniteType_tfae φ hcont hA hC ⟨I, hI, IsNoetherian.noetherian I⟩
+  exact ((Rig.adicFiniteType_tfae φ hA hC ⟨I, hI, IsNoetherian.noetherian I⟩
     ⟨J, hJ, IsNoetherian.noetherian J⟩).out 6 2).mp hφ.1
 
 end RingHom.IsRigEtale
@@ -127,7 +127,7 @@ theorem isLocallyOfFiniteType_of_isRigEtale_of_isLocallyNoetherian {X Y : FppfSh
   obtain ⟨hRadic, hRnoeth⟩ := isNoetherianAdic_of_isNoetherian_of_iso_formalSpectrum
     (isNoetherian_of_isLocallyNoetherian_of_isRepresentableEtale B S hS hX a hU ha) hR.1 E eU
   exact (hf U V hU hV a b t ha.1 hb.1 ha.2 hb.2 hsq A R hAadic hRadic hA D E eU eV g
-    hg).isTautTopologicallyOfFiniteTypeHom g.continuous hAadic hRadic
+    hg).isTautTopologicallyOfFiniteTypeHom hAadic hRadic
 
 end AlgebraicGeometry.FormalSpace
 

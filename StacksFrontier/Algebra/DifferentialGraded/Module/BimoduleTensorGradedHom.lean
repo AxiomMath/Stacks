@@ -120,7 +120,7 @@ theorem gradedPairHom_add (N N' : Bimodule A B) (M : DifferentialGradedModule.{u
     gradedPairHom N N' M s (x + x') =
       gradedPairHom N N' M s x + gradedPairHom N N' M s x' :=
   Subtype.ext (LinearMap.ext fun y => by
-    show (tensorPure N' M).toLinearMap ((x : M.M) + (x' : M.M)) _ = _
+    change (tensorPure N' M).toLinearMap ((x : M.M) + (x' : M.M)) _ = _
     rw [map_add]
     rfl)
 
@@ -129,7 +129,7 @@ theorem gradedPairHom_smul (N N' : Bimodule A B) (M : DifferentialGradedModule.{
     (s : GradedHom A B N N') {p : ℤ} (r : R) (x : M.grading p) :
     gradedPairHom N N' M s (r • x) = r • gradedPairHom N N' M s x :=
   Subtype.ext (LinearMap.ext fun y => by
-    show (tensorPure N' M).toLinearMap (r • (x : M.M)) _ = _
+    change (tensorPure N' M).toLinearMap (r • (x : M.M)) _ = _
     rw [map_smul]
     rfl)
 
@@ -170,7 +170,7 @@ theorem gradedCurryLinear_apply (N N' : Bimodule A B)
       ((((homPresentation N (tensorObj N' M)).homogeneousEquiv (p + 0)).symm
         (gradedPairHom N N' M s ⟨x, hx⟩)) :
           (homPresentation N (tensorObj N' M)).module.M) := by
-  show (DirectSum.toModule R ℤ _ (gradedCurryComponent N N' M s))
+  change (DirectSum.toModule R ℤ _ (gradedCurryComponent N N' M s))
     ((DirectSum.decomposeLinearEquiv M.grading) ((⟨x, hx⟩ : M.grading p) : M.M)) = _
   rw [DirectSum.decomposeLinearEquiv_apply_coe, DirectSum.toModule_lof]
   rfl

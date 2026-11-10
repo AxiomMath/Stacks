@@ -129,7 +129,7 @@ theorem bijective_smul_awayModule_prodGlobalSection_of_subset {S T : Finset (Fin
     (hST : S ⊆ T) (V : X.Cᵒᵖ) (n : ℕ) :
     Function.Bijective fun t : (awayModule X (prodGlobalSection f T)).val.obj V =>
       globalSectionVal (prodGlobalSection f S) V ^ n • t := by
-  show Function.Bijective fun t : (awaySheaf (prodGlobalSection f T)).obj.obj V =>
+  change Function.Bijective fun t : (awaySheaf (prodGlobalSection f T)).obj.obj V =>
     ((toAwaySheaf (prodGlobalSection f T)).hom.app V).hom
       (globalSectionVal (prodGlobalSection f S) V ^ n) * t
   exact IsUnit.isUnit_iff_mulLeft_bijective.1
@@ -197,12 +197,14 @@ variable (X : RingedSite.{u, u, u}) [HasWeakSheafify X.J CommRingCat.{u}] (U : X
   [HasWeakSheafify (X.over U).J CommRingCat.{u}] {r : ℕ}
   (f : Fin r → Presheaf.globalSections (X.O.obj ⋙ forget CommRingCat.{u}))
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] [HasWeakSheafify (X.over U).J CommRingCat.{u}] in
 /-- Restriction of sheaves of modules to a slice is additive: it is a sectionwise reindexing, so
 addition of morphisms is preserved on the nose. -/
 theorem additive_overFunctor :
     (SheafOfModules.overFunctor.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) U).Additive :=
   ⟨by intros; ext W; rfl⟩
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] [HasWeakSheafify (X.over U).J CommRingCat.{u}] in
 /-- Restriction of sheaves of modules to a slice preserves the finite products that form the
 terms of the extended alternating Čech complex: limits of sheaves of modules are computed
 sectionwise, and restriction is a reindexing of sections. -/

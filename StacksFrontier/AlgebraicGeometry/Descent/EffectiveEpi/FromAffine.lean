@@ -167,7 +167,7 @@ private theorem existsUnique_morphism_to_affineOpen
   obtain ⟨tV, htV, htVuniq⟩ :=
     existsUnique_morphism_to_affine X U f h_affine Y g V.1.toScheme ψ hψ
   refine ⟨tV ≫ V.1.ι, fun i => ?_, fun t' ht' => ?_⟩
-  · show π i ≫ (tV ≫ V.1.ι) = φ i
+  · change π i ≫ (tV ≫ V.1.ι) = φ i
     rw [← Category.assoc, htV i, hψfac i]
   · have hbase : ∀ y, t' y = h y := by
       intro y
@@ -268,7 +268,7 @@ private theorem existsUnique_morphism_from_affine_open
     let c := pullback.lift (a ≫ ri i) (b ≫ ri j) hbase
     have hcfst : c ≫ pullback.fst _ _ = a ≫ ri i := pullback.lift_fst _ _ _
     have hcsnd : c ≫ pullback.snd _ _ = b ≫ ri j := pullback.lift_snd _ _ _
-    show a ≫ (ri i ≫ φ i) = b ≫ (ri j ≫ φ j)
+    change a ≫ (ri i ≫ φ i) = b ≫ (ri j ≫ φ j)
     rw [← reassoc_of% hcfst, hpair i j, reassoc_of% hcsnd]
   have hfactor' : ∀ i x,
       h (w ((pullback.snd (AffineScheme.forgetToScheme.map (f i)) gi) x)) = ψ i x := by
@@ -277,7 +277,7 @@ private theorem existsUnique_morphism_from_affine_open
         (AffineScheme.forgetToScheme.map (f i)) gi ⟶ Y => k x) (hrsnd i)
     change pullback.snd (AffineScheme.forgetToScheme.map (f i)) g (ri i x) =
       w ((pullback.snd (AffineScheme.forgetToScheme.map (f i)) gi) x) at hx
-    show h (w ((pullback.snd (AffineScheme.forgetToScheme.map (f i)) gi) x)) =
+    change h (w ((pullback.snd (AffineScheme.forgetToScheme.map (f i)) gi) x)) =
       φ i (ri i x)
     rw [← hx]
     exact hfactor i (ri i x)
@@ -375,7 +375,7 @@ private theorem pullback_snd_comp_eq_of_cover
   apply Scheme.Cover.hom_ext
     (𝒰.pullback₁ (pullback.snd (AffineScheme.forgetToScheme.map (f i)) g))
   intro (k : 𝒰.I₀)
-  show pullback.fst (pullback.snd (AffineScheme.forgetToScheme.map (f i)) g) (𝒰.f k) ≫
+  change pullback.fst (pullback.snd (AffineScheme.forgetToScheme.map (f i)) g) (𝒰.f k) ≫
       pullback.snd (AffineScheme.forgetToScheme.map (f i)) g ≫ s =
     pullback.fst (pullback.snd (AffineScheme.forgetToScheme.map (f i)) g) (𝒰.f k) ≫ φ i
   obtain ⟨e, hefst, hesnd⟩ : ∃ e : pullback (pullback.snd

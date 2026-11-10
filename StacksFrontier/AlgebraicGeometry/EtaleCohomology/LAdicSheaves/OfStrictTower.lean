@@ -227,7 +227,15 @@ theorem strictTowerTransition_underlying_condition (H : ℕᵒᵖ ⥤ EtaleModul
     ← Category.assoc ((ℓ ^ (n + 1)) • 𝟙 ((padicForget B X ℓ).obj (towerObj H (n + 1)))), h0,
     zero_comp, comp_zero]
 
-omit [AlgebraicGeometry.IsNoetherian X.1] in
+omit [∀ (n : ℕ) (S T : B.Scheme) (g : T ⟶ S),
+    ((AlgebraicGeometry.smallEtaleBaseChange B g).sheafPushforwardContinuous
+      (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))
+      (SmallEtale.topology B S.1 S.property)
+      (SmallEtale.topology B T.1 T.property)).IsRightAdjoint]
+  [∀ (n : ℕ) (T : B.Scheme) (V : SmallEtale B T.1 T.property),
+    HasWeakSheafify ((SmallEtale.topology B T.1 T.property).over V)
+      (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
+  [AlgebraicGeometry.IsNoetherian X.1] in
 /-- **The compatibility condition of Tag 03UM** for the ℓ-adic sheaf of a strict tower. -/
 theorem strictTower_reduction_isIso (H : ℕᵒᵖ ⥤ EtaleModules.{u, 0} ℤ_[ℓ] X.1) (hH : IsStrict H ℓ)
     (n : ℕ) :

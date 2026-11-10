@@ -85,8 +85,7 @@ private theorem iteratedBaseChangeIso_pentagon {C : Type*} [Category* C] [HasPul
         (iteratedBaseChangeIso d bj bi hb Y).hom := by
   apply Over.OverMorphism.ext
   apply pullback.hom_ext
-  · simp [iteratedBaseChangeIso_hom_left, Over.pullback_map_left, Category.assoc,
-      pullback.lift_fst, pullback.lift_fst_assoc]
+  · simp [iteratedBaseChangeIso_hom_left, Over.pullback_map_left, Category.assoc]
   · exact (Over.w _).trans (Over.w _).symm
 
 /-- **The compatibility square of the fullness statement descends along a base change by an
@@ -417,7 +416,7 @@ public theorem exists_model_of_finitePresentation_affineBase
         (yoneda.map ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).map (c.π.app i)))
         (affineSystemLimitIso_inv_comp B S hS D c hc i) Yᵢ⟩⟩
 
-include hZ hc in
+include hc in
 /-- **Stacks 07SK, faithfulness, over the limit of a system of affine objects of the site.** Two
 morphisms of finite-presentation algebraic spaces over a stage that agree after base change to
 the Yoneda image of the cone point already agree after base change to some later stage. This is
@@ -440,11 +439,10 @@ public theorem eventually_eq_of_baseChange_eq_affineBase
           ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).map (D.map e)))).map f =
         (Over.pullback (yoneda.map
           ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).map (D.map e)))).map g :=
-  eventually_eq_of_baseChange_eq_aux B S hS hZ (affineSystem B S hS D)
+  eventually_eq_of_baseChange_eq_aux B S hS (affineSystem B S hS D)
     (fun i => isAlgebraicSpace_yoneda_inclusion B S hS (D.obj i))
     (fun {_ _} a => isAffineHom_yoneda_inclusion B S hS (D.map a))
     (fun i => isQuasiCompactSpace_yoneda_inclusion B S hS (D.obj i))
-    (fun i => isAbsolutelyQuasiSeparated_yoneda_inclusion B S hS hZ (D.obj i))
     (affineLimitFacts B S hS D c hc) i Yᵢ Zᵢ hY hZ' hYfp hZfp f g
     (baseChange_eq_of_baseChange_eq
       (yoneda.map ((AlgebraicGeometry.BigAffineFppf.inclusion B S hS).map (c.π.app i)))

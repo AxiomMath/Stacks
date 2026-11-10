@@ -304,7 +304,7 @@ private theorem exists_addEquiv_homology_derivedTensor_dual (A : Type u) [CommRi
         (scalarHomologyAddEquiv.{u, 0} A (d'.tensor.obj (E.inverse.obj L, W)) 0
           ((H0A.mapIso (tensorScalarIso A W D ψ L)).toLinearEquiv.toAddEquiv a)) := by
     simp only [LinearEquiv.coe_toAddEquiv]
-    show scalarHomologyAddEquiv.{u, 0} A (d'.tensor.obj (E.inverse.obj L', W)) 0
+    change scalarHomologyAddEquiv.{u, 0} A (d'.tensor.obj (E.inverse.obj L', W)) 0
         (H0A.map (tensorScalarIso A W D ψ L').hom
           (H0A.map ((overRingData A).tensor.map (f, 𝟙 D)) a)) = _
     rw [← Functor.map_comp_apply, tensorScalarIso_naturality A W D ψ f,
@@ -370,7 +370,7 @@ private theorem exists_addEquiv_homology_derivedTensorProduct {A : Type u} [Comm
     (β.app L)).toLinearEquiv.toAddEquiv).trans (e₁ L), fun L L' f c => ?_⟩
   have hβ : (derivedTensorProduct D).map f ≫ (β.app L').hom =
       (β.app L).hom ≫ (overRingData A).tensor.map (f, 𝟙 D) := β.hom.naturality f
-  show e₁ L' ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) 0).map (β.app L').hom
+  change e₁ L' ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) 0).map (β.app L').hom
       ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) 0).map
         ((derivedTensorProduct D).map f) c)) = _
   rw [← Functor.map_comp_apply, hβ, Functor.map_comp_apply]
@@ -418,7 +418,7 @@ public theorem exists_perfect_homologyOneEquiv (A : Type u) [CommRing A]
   let 𝓢 : DerivedCategory (ModuleCat.{u} A) ≌ DerivedCategory (ModuleCat.{u} A) :=
     CategoryTheory.shiftEquiv' (DerivedCategory (ModuleCat.{u} A)) (-1 : ℤ) 1 (by omega)
   have : 𝓢.functor.Additive := by
-    show (shiftFunctor (DerivedCategory (ModuleCat.{u} A)) (-1 : ℤ)).Additive
+    change (shiftFunctor (DerivedCategory (ModuleCat.{u} A)) (-1 : ℤ)).Additive
     infer_instance
   let e₄ : ∀ X : DerivedCategory (ModuleCat.{u} A),
       ((dualOverRing A K ⟶ X⟦(1 : ℤ)⟧) ≃+ ((dualOverRing A K)⟦(-1 : ℤ)⟧ ⟶ X)) := fun X =>
@@ -428,7 +428,7 @@ public theorem exists_perfect_homologyOneEquiv (A : Type u) [CommRing A]
       (k : dualOverRing A K ⟶ X⟦(1 : ℤ)⟧),
       e₄ X k = 𝓢.functor.map k ≫ (𝓢.counitIso.app X).hom := by
     intro X k
-    show (Iso.refl (𝓢.functor.obj (dualOverRing A K))).inv ≫
+    change (Iso.refl (𝓢.functor.obj (dualOverRing A K))).inv ≫
       𝓢.functor.map k ≫ (𝓢.counitIso.app X).hom = _
     rw [Iso.refl_inv, Category.id_comp]
   have he₄ : ∀ (X Y : DerivedCategory (ModuleCat.{u} A)) (g : X ⟶ Y)
@@ -452,7 +452,7 @@ public theorem exists_perfect_homologyOneEquiv (A : Type u) [CommRing A]
         Y := (𝓢.counitIso.app Y).hom
     have hc : sg ≫ cY = cX ≫ g := 𝓢.counitIso.hom.naturality g
     rw [he₄apply, he₄apply, Functor.map_comp]
-    show (mh ≫ sg) ≫ cY = (mh ≫ cX) ≫ g
+    change (mh ≫ sg) ≫ cY = (mh ≫ cX) ≫ g
     exact (Category.assoc _ _ _).trans ((mh ≫= hc).trans (Category.assoc _ _ _).symm)
   -- the commutation of the derived tensor product with the shift, with its naturality;
   -- both are abstracted so that later steps see one fixed spelling of the objects
@@ -505,7 +505,7 @@ public theorem exists_perfect_homologyOneEquiv (A : Type u) [CommRing A]
       fun k => by
         rw [← Category.assoc, hsh ((derivedTensorProduct K).obj X)
           ((derivedTensorProduct K).obj Y) ((derivedTensorProduct K).map g), Category.assoc]
-    show (DerivedCategory.homologyFunctor (ModuleCat.{u} A) 1).map
+    change (DerivedCategory.homologyFunctor (ModuleCat.{u} A) 1).map
           ((derivedTensorProduct K).map g) ≫
         (sh ((derivedTensorProduct K).obj Y)).hom ≫
           (DerivedCategory.homologyFunctor (ModuleCat.{u} A) 0).map (ι Y).hom =
@@ -527,7 +527,7 @@ public theorem exists_perfect_homologyOneEquiv (A : Type u) [CommRing A]
         ((ν X).hom a) := by
     have h := ConcreteCategory.congr_hom (hν X Y g) a
     simpa only [ConcreteCategory.comp_apply] using h
-  show e₄ Y (e₂ (Y⟦(1 : ℤ)⟧) ((ν Y).hom
+  change e₄ Y (e₂ (Y⟦(1 : ℤ)⟧) ((ν Y).hom
       ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) 1).map
         ((derivedTensorProduct K).map g) a))) =
     e₄ X (e₂ (X⟦(1 : ℤ)⟧) ((ν X).hom a)) ≫ g

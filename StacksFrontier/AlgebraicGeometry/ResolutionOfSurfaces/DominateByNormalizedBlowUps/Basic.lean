@@ -433,7 +433,7 @@ private lemma exists_common_finite_isomorphism_open
 
 private theorem exists_common_open_pullback_map
     {X Y Z : Scheme.{u}} (f : Y ⟶ X) (g : Z ⟶ X)
-    (U : X.Opens) (hf : IsIso (f ∣_ U)) (hg : IsIso (g ∣_ U)) :
+    (U : X.Opens) (hg : IsIso (g ∣_ U)) :
     ∃ r : (f ⁻¹ᵁ U).toScheme ⟶ Limits.pullback f g,
       r ≫ Limits.pullback.fst f g = (f ⁻¹ᵁ U).ι ∧
       r ≫ Limits.pullback.snd f g =
@@ -2177,7 +2177,7 @@ private theorem exists_common_normal_modification
   have hfpOpen : IsIso
       (Limits.pullback.fst l q ∣_ (l ⁻¹ᵁ U)) :=
     isIso_pullback_fst_over_open l q U hUq
-  obtain ⟨r, hrY, hrX⟩ := exists_common_open_pullback_map l q U hUl hUq
+  obtain ⟨r, hrY, hrX⟩ := exists_common_open_pullback_map l q U hUq
   have : IsOpenImmersion r :=
     isOpenImmersion_of_section_over_iso_open
       (Limits.pullback.fst l q) (l ⁻¹ᵁ U) hfpOpen r hrY
@@ -2272,19 +2272,19 @@ private lemma hasDominatingTail_of_transcendental_residue (n : ℕ)
       (∀ x : S, ∃ U : S.Opens, x ∈ U ∧ IsIntegral U.toScheme) →
       ∀ (l : T ⟶ S) [IsProper l], IsBirational l → topologicalKrullDim T ≤ 2 →
       (contractedPoints l).ncard < n → HasDominatingTail l) :
-    ∀ m {S T : Scheme.{u}} [IsNoetherian S] [IsNoetherian T] [IsNormal S] [IsNormal T]
-      (hNagataS : IsNagataScheme S) (hdimS : topologicalKrullDim S ≤ 2)
-      (hlocalS : ∀ x : S, ∃ U : S.Opens, x ∈ U ∧ IsIntegral U.toScheme)
-      (l : T ⟶ S) [IsProper l] (hl : IsBirational l)
-      (hdimT : topologicalKrullDim T ≤ 2)
-      (y : T) (hy : ¬ IsClosed ({y} : Set T)) (hly : IsClosed ({l y} : Set S))
-      (e : T.presheaf.stalk y ≃+* R) (a b : S.presheaf.stalk (l y))
-      (hb : e ((l.stalkMap y).hom b) ≠ 0)
-      (hab : e ((l.stalkMap y).hom a) = u * e ((l.stalkMap y).hom b))
-      (hu : letI := (IsLocalRing.ResidueField.map
+    ∀ m {S T : Scheme.{u}} [IsNoetherian S] [IsNoetherian T] [IsNormal S] [IsNormal T],
+      IsNagataScheme S → topologicalKrullDim S ≤ 2 →
+      (∀ x : S, ∃ U : S.Opens, x ∈ U ∧ IsIntegral U.toScheme) →
+      ∀ (l : T ⟶ S) [IsProper l], IsBirational l →
+      topologicalKrullDim T ≤ 2 →
+      ∀ (y : T), ¬ IsClosed ({y} : Set T) → IsClosed ({l y} : Set S) →
+      ∀ (e : T.presheaf.stalk y ≃+* R) (a b : S.presheaf.stalk (l y)),
+      e ((l.stalkMap y).hom b) ≠ 0 →
+      e ((l.stalkMap y).hom a) = u * e ((l.stalkMap y).hom b) →
+      (letI := (IsLocalRing.ResidueField.map
         (e.toRingHom.comp (l.stalkMap y).hom)).toAlgebra;
         Transcendental (IsLocalRing.ResidueField (S.presheaf.stalk (l y)))
-          (IsLocalRing.residue R u)),
+          (IsLocalRing.residue R u)) →
       (IsDiscreteValuationRing.addVal R (e ((l.stalkMap y).hom b))).toNat = m →
       (contractedPoints l).ncard ≤ n → HasDominatingTail l := by
   intro m

@@ -190,7 +190,7 @@ theorem Qh_map_mapHomotopyCategoryIso_hom_app {𝒜 ℬ : Type*} [Category 𝒜]
       (F.mapHomotopyCategoryFactors (ComplexShape.up ℤ)).hom.app K ≫
       (HomotopyCategory.quotient _ _).map ((NatTrans.mapHomologicalComplex e.hom _).app K) := by
     simp only [Functor.mapHomotopyCategoryFactors, Stacks.Homology.mapHomotopyCategoryIso,
-      Quotient.lift.isLift_hom, NatTrans.mapHomotopyCategory_app]
+      Quotient.lift.isLift_hom]
     exact (Category.comp_id _).trans (Category.id_comp _).symm
   rw [← Functor.map_comp_assoc, h, Functor.map_comp_assoc]
   exact congrArg (_ ≫ ·) ((DerivedCategory.quotientCompQhIso ℬ).hom.naturality _)

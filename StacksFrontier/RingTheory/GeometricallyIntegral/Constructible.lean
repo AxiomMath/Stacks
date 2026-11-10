@@ -89,7 +89,7 @@ theorem disjoint_range_comap_toSet_iff (φ : R →+* A) (C : BasicConstructibleS
   rw [Set.disjoint_left]
   constructor
   · intro h
-    show φ C.f ∈ ((Ideal.span (Set.range C.g)).map φ).radical
+    change φ C.f ∈ ((Ideal.span (Set.range C.g)).map φ).radical
     rw [← vanishingIdeal_zeroLocus_eq_radical, mem_vanishingIdeal]
     intro q hq
     by_contra hf

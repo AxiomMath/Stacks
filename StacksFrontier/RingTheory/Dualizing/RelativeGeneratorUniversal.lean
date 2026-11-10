@@ -239,7 +239,7 @@ theorem exists_isPostcompGenerator [Algebra.FinitePresentation R A]
     intro g
     refine ⟨smulRestrictedUnitSingle
       (Algebra.TensorProduct.lmul' R : A ⊗[R] A →ₐ[R] A).toRingHom (e g) 0, ?_⟩
-    show e g • e.symm 1 = g
+    change e g • e.symm 1 = g
     rw [← e.symm.map_smul, smul_eq_mul, mul_one, LinearEquiv.symm_apply_apply]
   exact ⟨_, hξ'.comp_iso ((shiftFunctorZero (DerivedCategory (ModuleCat.{u} (A ⊗[R] A))) ℤ).app
     ((diagonalDerivedExtension R A).obj K))⟩

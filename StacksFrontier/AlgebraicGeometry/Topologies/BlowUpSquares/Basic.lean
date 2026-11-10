@@ -126,7 +126,7 @@ public theorem isPullback :
       s.centerInclusion := by
   refine IsPullback.of_iso_pullback ⟨?_⟩ (s.centerIdeal.comapIso s.blowUpMorphism)
     (Scheme.IdealSheafData.comapIso_hom_fst _ _) rfl
-  show _ = ((s.centerIdeal.comapIso s.blowUpMorphism).hom ≫
+  change _ = ((s.centerIdeal.comapIso s.blowUpMorphism).hom ≫
     pullback.snd s.blowUpMorphism s.centerInclusion) ≫ s.centerInclusion
   rw [Category.assoc, ← pullback.condition, ← Category.assoc,
     Scheme.IdealSheafData.comapIso_hom_fst]

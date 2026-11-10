@@ -160,7 +160,7 @@ public theorem smallEtaleStructureMapRing_id_comp :
       𝟙 (structureSheaf B X.obj X.property) := by
   ext W : 3
   obtain ⟨W⟩ := W
-  show (forget₂ CommRingCat.{u} RingCat.{u}).map
+  change (forget₂ CommRingCat.{u} RingCat.{u}).map
         (Scheme.Γ.map (op (B.inclusion.map (Limits.pullback.fst W.obj.hom (𝟙 X))))) ≫
       (forget₂ CommRingCat.{u} RingCat.{u}).map
         (Scheme.Γ.map (op (B.inclusion.map
@@ -261,6 +261,8 @@ public theorem smallEtalePullbackFactoredCompIso_id_left {Y : B.Scheme} (b : X �
 
 /-! ### The identity law on sections over the final object -/
 
+set_option synthInstance.maxHeartbeats 200000 in
+-- instance synthesis in the final `simpa` over sheaves of modules exceeds the default budget
 /-- **The characterisation of
 `AlgebraicGeometry.SmallEtale.smallEtaleModulePullbackIdIso`**: its direct image, after the unit,
 is the inverse of the identification of the direct image with the identity.  This is
@@ -278,7 +280,6 @@ public theorem unit_comp_map_smallEtaleModulePullbackIdIso
     (SheafOfModules.pullbackPushforwardAdjunction.{u} (smallEtaleStructureMapRing B (𝟙 X)))
     (smallEtaleModulePullbackIdIso B X).hom N
   rw [Adjunction.conjugateEquiv_leftAdjointIdIso_hom] at h
-  set_option synthInstance.maxHeartbeats 200000 in
   simpa using h.symm
 
 /-- The unit along `ε_{𝟙 X}` over the final object, followed by the sections of the

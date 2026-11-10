@@ -287,7 +287,7 @@ private theorem exists_hasGenusTwo_iff_mem_image {G F : CurveFamily B hZ} (a : F
     rw [exists_lift_iff_forall_mem_opensOfOpenSubspace V₁ hV₁ c']
     refine forall_congr' fun z => ?_
     rw [← hc']
-    show ((𝒯).map j) (((𝒯).map c') z) ∈ _ ↔ _
+    change ((𝒯).map j) (((𝒯).map c') z) ∈ _ ↔ _
     exact ((𝒯).map j).isOpenEmbedding.injective.mem_set_image
   refine Iff.trans ?_ hRHS.symm
   have hcart := (G.baseChangeHom j).cartesian
@@ -421,7 +421,7 @@ theorem isOpenCurvesLocusWithin_hasStableFibres_of_dualizingSheaf_of_isAffine
       (B.residueField_spec_contains F.base.left.property y)
     obtain ⟨z⟩ : Nonempty ((𝒯).obj P.siteObject) := inferInstanceAs (Nonempty (Spec _))
     have hzy : ((𝒯).map (P.value ≫ a.baseMap)) z = ((𝒯).map a.baseMap) y := by
-      show ((𝒯).map a.baseMap) (((𝒯).map P.value) z) = _
+      change ((𝒯).map a.baseMap) (((𝒯).map P.value) z) = _
       rw [show ((𝒯).map P.value) z = y from Scheme.fromSpecResidueField_apply _ _]
     obtain ⟨A, hA⟩ := hexA _ (hx y)
     rw [← hzy] at hA ⊢

@@ -141,7 +141,7 @@ def reindexGlobalModuleCohomologyIso (M : SheafOfModules.{max u v r w} R) (n : �
   have : PreservesFiniteLimits Φ := inferInstance
   have : PreservesFiniteColimits Φ := inferInstance
   have hres := ((Functor.exact_tfae res).out 2 4).mp fun S hS => by
-    rwa [ShortComplex.ShortExact.moduleCat_exact_iff_function_exact] at hS ⊢
+    rw [ShortComplex.ShortExact.moduleCat_exact_iff_function_exact] at hS ⊢; assumption
   have : PreservesFiniteLimits res := hres.1
   have : PreservesFiniteColimits res := hres.2
   have : res.PreservesHomology := Functor.preservesHomologyOfExact res

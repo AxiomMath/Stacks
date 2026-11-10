@@ -239,7 +239,7 @@ theorem isIso_tensorBaseChangeMap_obj_of_isGE [QuasiCompact g] [QuasiSeparated g
   have := hT' X' ((pullback Λ f').obj ((pushforward Λ g).obj F))
   have := hT' Y ((pullback Λ e).obj F)
   let φ := Functor.whiskerLeft P (tensorBaseChangeNatTransLeft Λ f' g h e w F)
-  show IsIso (φ.app E)
+  change IsIso (φ.app E)
   refine (NatTrans.isIso_app_iff_of_iso φ eE).1 ?_
   refine Stacks.DerivedCategoryColimit.isIso_app_Q_obj_of_stupidTrunc φ K fun N => ?_
   refine step _ (-(N : ℤ)) (-(N : ℤ)) ?_ ?_ F

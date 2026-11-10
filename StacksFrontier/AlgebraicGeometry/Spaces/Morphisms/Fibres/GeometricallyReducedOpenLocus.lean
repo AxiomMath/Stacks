@@ -225,7 +225,7 @@ theorem stableUnderGeneralization_preimage_geometricallyReducedFibreLocus
       (isQuasiSeparated_of_isSeparated B S hS hproper'.1) (isDecentSpace_yoneda B S hS U)
   intro v v' hvv' hv
   change GeometricallyReduced (g.fiberToSpecResidueField v) at hv
-  show GeometricallyReduced (g.fiberToSpecResidueField v')
+  change GeometricallyReduced (g.fiberToSpecResidueField v')
   rw [geometricallyReduced_iff_forall_isGeometricallyReducedAt]
   intro z
   set a' := g.fiberι v' z with ha'
@@ -236,7 +236,7 @@ theorem stableUnderGeneralization_preimage_geometricallyReducedFibreLocus
     have hcl := hclosed _ (isClosed_closure (s := {x'}))
     have hmem : v' ∈ (fun x => eU (pointsMap B S hS _ f' x)) '' closure {x'} :=
       ⟨x', subset_closure rfl, by
-        show eU (pointsMap B S hS _ f' x') = v'
+        change eU (pointsMap B S hS _ f' x') = v'
         rw [hx', hpts, Homeomorph.apply_symm_apply, hga']⟩
     exact hvv'.mem_closed hcl hmem
   obtain ⟨p₀, rfl⟩ := hiS p

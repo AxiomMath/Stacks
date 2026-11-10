@@ -83,7 +83,7 @@ theorem notMem_supportOfSheaf_of_isZero_over (M : Modules.{u, u} B S hS X.1 X.2)
     exact congrArg _ ((pointsEquivScheme B S hS _).apply_symm_apply z).symm
   have : p ∈ pointsMap B S hS (chartSpace B S hS X W).1 (chartToSpace B S hS X W).hom ⁻¹'
       supportOfSheaf B S hS X.1 ((SheafOfModules.toSheaf _).obj M) := by
-    show pointsMap B S hS _ W.obj.hom p ∈
+    change pointsMap B S hS _ W.obj.hom p ∈
       supportOfSheaf B S hS X.1 ((SheafOfModules.toSheaf _).obj M)
     rw [← hp]
     exact hx

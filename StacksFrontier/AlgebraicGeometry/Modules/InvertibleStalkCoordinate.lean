@@ -96,7 +96,7 @@ theorem Γgerm_pullbackGlobalSections_eq_smul {y : Y} {s e : Γ(M, ⊤)}
       (f.stalkMap y).hom a •
         (((Scheme.Modules.pullback f).obj M).presheaf.Γgerm y).hom
           (pullbackGlobalSections f M e) := by
-  obtain ⟨V, hV, b, rfl⟩ := X.presheaf.germ_exist a
+  obtain ⟨V, hV, b, rfl⟩ := X.presheaf.exists_germ_eq a
   have h' : (M.presheaf.germ ⊤ (f y) trivial).hom s =
       (M.presheaf.germ V (f y) hV).hom (b • M.presheaf.map (homOfLE le_top).op e) := by
     rw [Scheme.Modules.germ_smul, M.presheaf.germ_res_apply]
@@ -207,6 +207,7 @@ section Calculus
 variable {M N : X.Modules} [Stacks.Ample.IsInvertibleModule X M]
   [Stacks.Ample.IsInvertibleModule X N]
 
+omit [Stacks.Ample.IsInvertibleModule X M] [Stacks.Ample.IsInvertibleModule X N] in
 /-- The germ of a product of global sections is the product of the germs. -/
 theorem Γgerm_tensorSectionsAt (x : X) (s : Γ(M, ⊤)) (t : Γ(N, ⊤)) :
     ((Scheme.Modules.tensorObj M N).presheaf.Γgerm x).hom
@@ -217,6 +218,7 @@ theorem Γgerm_tensorSectionsAt (x : X) (s : Γ(M, ⊤)) (t : Γ(N, ⊤)) :
     ((Stacks.SectionProduct.tensorStalkEquiv_germ_tensorSectionsAt M N x ⊤ trivial s t).trans
       (tensorStalkEquiv_tensorStalkTmul M N x _ _).symm)
 
+omit [Stacks.Ample.IsInvertibleModule X M] [Stacks.Ample.IsInvertibleModule X N] in
 /-- A product of sections not vanishing at `x` does not vanish at `x`. -/
 theorem mem_nonvanishingLocus_tensorSectionsAt {e : Γ(M, ⊤)} {e' : Γ(N, ⊤)} {x : X}
     (he : x ∈ Stacks.Ample.nonvanishingLocus M e)
@@ -266,7 +268,7 @@ theorem crossMultiplies_at_iff_stalkCoord {ι : Type*} {e : Γ(M, ⊤)} {e' : Γ
           (N.presheaf.Γgerm x).hom (t i)) ↔
       ∀ i j : ι, stalkCoord M he (s i) * stalkCoord N he' (t j) =
         stalkCoord M he (s j) * stalkCoord N he' (t i) :=
-  forall₂_congr fun i j => tmul_eq_tmul_iff_stalkCoord he he' _ _ _ _
+  forall₂_congr fun i j => tmul_eq_tmul_iff_stalkCoord he he' (s i) (s j) (t j) (t i)
 
 /-- **Isomorphisms preserve coordinates**: for an isomorphism `β : M ≅ N`, the coordinate of
 `β s` relative to `β e` is the coordinate of `s` relative to `e`. -/
@@ -279,6 +281,7 @@ theorem stalkCoord_app_hom (β : M ≅ N) {e : Γ(M, ⊤)} {x : X}
   rw [← Stacks.ModuleStalk.mapFun_Γgerm, ← Stacks.ModuleStalk.mapFun_Γgerm,
     ← Stacks.ModuleStalk.mapFun_smul, stalkCoord_smul_Γgerm]
 
+omit [Stacks.Ample.IsInvertibleModule X M] [Stacks.Ample.IsInvertibleModule X N] in
 /-- An isomorphism carries a section not vanishing at `x` to one not vanishing at `x`. -/
 theorem mem_nonvanishingLocus_app_hom_iff (β : M ≅ N) (s : Γ(M, ⊤)) (x : X) :
     x ∈ Stacks.Ample.nonvanishingLocus N (Scheme.Modules.Hom.app β.hom ⊤ s) ↔
@@ -294,6 +297,7 @@ section PullbackCoordinate
 
 variable {Y : Scheme.{u}} (f : Y ⟶ X) {M : X.Modules} [Stacks.Ample.IsInvertibleModule X M]
 
+omit [Stacks.Ample.IsInvertibleModule X M] in
 /-- The pullback of a section not vanishing at `f y` does not vanish at `y`. -/
 theorem mem_nonvanishingLocus_pullbackGlobalSections {e : Γ(M, ⊤)} {y : Y}
     (he : f y ∈ Stacks.Ample.nonvanishingLocus M e) :

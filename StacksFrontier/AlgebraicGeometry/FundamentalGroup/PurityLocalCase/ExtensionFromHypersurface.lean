@@ -127,7 +127,7 @@ public theorem exists_isPullback_finiteEtale_of_isEquivalence_of_fullyFaithful
           j₀ i
   let eV₀ : F.obj v ≅ J.obj y₀ := MorphismProperty.Over.isoMk
     (h₀.isoPullback ≪≫ pullbackSymmetry j₀ f₀) (by
-      show (h₀.isoPullback ≪≫ pullbackSymmetry j₀ f₀).hom ≫
+      change (h₀.isoPullback ≪≫ pullbackSymmetry j₀ f₀).hom ≫
         pullback.snd f₀ j₀ = pullback.snd pi i'
       simpa only [Iso.trans_hom, Category.assoc, pullbackSymmetry_hom_comp_snd] using
         h₀.isoPullback_hom_fst)
@@ -136,7 +136,7 @@ public theorem exists_isPullback_finiteEtale_of_isEquivalence_of_fullyFaithful
     (MorphismProperty.Over.forget (finiteEtale : MorphismProperty Scheme.{u}) ⊤ U).mapIso
         eVY ≪≫
       Over.isoMk (pullbackSymmetry y.hom j) (by
-        show (pullbackSymmetry y.hom j).hom ≫ pullback.fst j y.hom =
+        change (pullbackSymmetry y.hom j).hom ≫ pullback.fst j y.hom =
           pullback.snd y.hom j
         exact pullbackSymmetry_hom_comp_fst y.hom j)
   exact ⟨y.left, y.hom, eVYOver.hom.left ≫ pullback.snd j y.hom,

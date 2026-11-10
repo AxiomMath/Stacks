@@ -166,7 +166,7 @@ private theorem baseFiniteHomeo_apply (k : Type u) [Field k] {J : Type u} [Finit
       (TopCat.homeoOfIso (Scheme.forgetToTop.mapIso
         (asIso (sigmaSpec (fun _ : J => CommRingCat.of k)))))
         ((Sigma.ι (fun _ : J => Spec (.of k)) j) default) := by
-  show (TopCat.homeoOfIso (Scheme.forgetToTop.mapIso
+  change (TopCat.homeoOfIso (Scheme.forgetToTop.mapIso
       (asIso (sigmaSpec (fun _ : J => CommRingCat.of k)))))
       (AlgebraicGeometry.sigmaMk (fun _ : J => Spec (.of k)) ⟨j, default⟩) = _
   exact congrArg _ (AlgebraicGeometry.sigmaMk_mk (fun _ : J => Spec (.of k)) j default)
@@ -201,13 +201,13 @@ private theorem finiteProductPullback_isHomeomorph
     let z := h₁ (h₀ x)
     have hx : h₀ x = Sigma.ι β z.1 z.2 := by
       apply (AlgebraicGeometry.sigmaMk β).symm.injective
-      show z = (AlgebraicGeometry.sigmaMk β).symm (Sigma.ι β z.1 z.2)
+      change z = (AlgebraicGeometry.sigmaMk β).symm (Sigma.ι β z.1 z.2)
       rw [← AlgebraicGeometry.sigmaMk_mk β z.1 z.2]
       exact (AlgebraicGeometry.sigmaMk β).symm_apply_apply z |>.symm
     have hx' : ((finiteProdPullbackIso (CommRingCat.of k) X f).hom).base x =
         Sigma.ι β z.1 z.2 := hx
     apply Prod.ext
-    · show baseFiniteHomeo k (h₁ (h₀ x)).1 =
+    · change baseFiniteHomeo k (h₁ (h₀ x)).1 =
         (pullback.fst (Spec.map (CommRingCat.ofHom (algebraMap k (J → k)))) f).base x
       rw [baseFiniteHomeo_apply]
       have hSpec : f.base z.2 = (default : Spec (.of k)) := Subsingleton.elim _ _
@@ -235,7 +235,7 @@ private theorem finiteProductPullback_isHomeomorph
       rw [hx'] at hp
       have hcomp := congrArg (fun g : Scheme.Hom _ _ => g.base z.2) hι
       simp only [Scheme.Hom.comp_base, CategoryTheory.comp_apply] at hcomp
-      show (sigmaSpec (fun _ : J => CommRingCat.of k)).base
+      change (sigmaSpec (fun _ : J => CommRingCat.of k)).base
           (Sigma.ι (fun _ : J => Spec (.of k)) z.1 default) = _
       have hpoint := congrArg (fun p : Spec (.of k) =>
         (sigmaSpec (fun _ : J => CommRingCat.of k)).base
@@ -245,7 +245,7 @@ private theorem finiteProductPullback_isHomeomorph
               (Sigma.ι (fun _ : J => Spec (.of k)) z.1 (f.base z.2)) := hpoint.symm
         _ = (pullback.fst (Spec.map (CommRingCat.ofHom (algebraMap k (J → k)))) f).base x :=
           hcomp.symm.trans hp.symm
-    · show (h₁ (h₀ x)).2 =
+    · change (h₁ (h₀ x)).2 =
         (pullback.snd (Spec.map (CommRingCat.ofHom (algebraMap k (J → k)))) f).base x
       have hz : h₁ (Sigma.ι β z.1 z.2) = z := by
         dsimp [h₁]
@@ -260,7 +260,7 @@ private theorem finiteProductPullback_isHomeomorph
             (fun _ : J => 𝟙 X)).base
               ((finiteProdPullbackIso (CommRingCat.of k) X f).hom.base x) = z.2 := by
         rw [hx']
-        show ((Sigma.ι (fun _ : J => X) z.1 ≫
+        change ((Sigma.ι (fun _ : J => X) z.1 ≫
           Cofan.IsColimit.desc (coproductIsCoproduct (fun _ : J => X))
             (fun _ : J => 𝟙 X)).base) z.2 = z.2
         have hfac : Sigma.ι β z.1 ≫
@@ -342,14 +342,14 @@ private theorem finiteStagePullbackHomeo_apply
   have hfst : ePullSch.hom ≫ pullback.fst Bsch.hom f =
       pullback.fst Jsch.hom f ≫ eSpec.hom.left := by
     dsimp [Over.pullback]
-    show pullback.lift (pullback.fst Jsch.hom f ≫ eSpec.hom.left)
+    change pullback.lift (pullback.fst Jsch.hom f ≫ eSpec.hom.left)
       (pullback.snd Jsch.hom f) _ ≫ pullback.fst Bsch.hom f =
         pullback.fst Jsch.hom f ≫ eSpec.hom.left
     exact pullback.lift_fst _ _ _
   have hsnd : ePullSch.hom ≫ pullback.snd Bsch.hom f =
       pullback.snd Jsch.hom f := by
     dsimp [Over.pullback]
-    show pullback.lift (pullback.fst Jsch.hom f ≫ eSpec.hom.left)
+    change pullback.lift (pullback.fst Jsch.hom f ≫ eSpec.hom.left)
       (pullback.snd Jsch.hom f) _ ≫ pullback.snd Bsch.hom f =
         pullback.snd Jsch.hom f
     exact pullback.lift_snd _ _ _
@@ -376,8 +376,8 @@ private theorem finiteStagePullbackHomeo_apply
   let hSpecX : PrimeSpectrum (J → k) × X ≃ₜ basePts × X :=
     hSpec.prodCongr (Homeomorph.refl X)
   let hSwap := Homeomorph.prodComm basePts X
-  show hSwap (hSpecX (hFinite (hPull.symm x))) = _
-  show Equiv.prodComm basePts X
+  change hSwap (hSpecX (hFinite (hPull.symm x))) = _
+  change Equiv.prodComm basePts X
     (hSpec ((pullback.fst (Spec.map (CommRingCat.ofHom
       (algebraMap k (J → k)))) f).base (ePullSch.inv x)),
       (pullback.snd (Spec.map (CommRingCat.ofHom
@@ -385,13 +385,13 @@ private theorem finiteStagePullbackHomeo_apply
   rw [Equiv.prodComm_apply]
   simp only [Prod.swap_prod_mk]
   apply Prod.ext
-  · show (TopCat.Hom.hom (pullback.snd (Spec.map (CommRingCat.ofHom
+  · change (TopCat.Hom.hom (pullback.snd (Spec.map (CommRingCat.ofHom
       (algebraMap k (J → k)))) f).base)
       ((TopCat.Hom.hom ePullSch.inv.base) x) =
         (TopCat.Hom.hom (pullback.snd Bsch.hom f).base) x
     rw [← hsndInv]
     rfl
-  · show (TopCat.Hom.hom eSpec.hom.left.base)
+  · change (TopCat.Hom.hom eSpec.hom.left.base)
       ((TopCat.Hom.hom (pullback.fst Jsch.hom f).base)
         ((TopCat.Hom.hom ePullSch.inv.base) x)) =
         (TopCat.Hom.hom (pullback.fst Bsch.hom f).base) x
@@ -488,7 +488,7 @@ theorem isHomeomorph_pullback_to_product
     (PreservesLimit.preserves (K := D1) (F := Over.forget X) hC1A).some
   let : ∀ {i j : Iᵒᵖ} (g : i ⟶ j), IsAffineHom (DbaseSch.map g) := by
     intro i j g
-    show IsAffineHom (Spec.map ((commAlgCatEquivUnder (.of k)).functor.map
+    change IsAffineHom (Spec.map ((commAlgCatEquivUnder (.of k)).functor.map
       (F.map g.unop)).right)
     let : IsAffine (Spec (CommRingCat.of (F.obj j.unop))) := isAffine_Spec _
     let : IsAffine (Spec (CommRingCat.of (F.obj i.unop))) := isAffine_Spec _
@@ -545,7 +545,7 @@ theorem isHomeomorph_pullback_to_product
         simp only [DpullSch, D1, D0, DbaseSch, Functor.comp_map, Over.forget_map,
           Over.pullback_map_left]
         exact pullback.lift_fst _ _ _
-      show (TopCat.homeoOfIso (TopCat.prodIsoProd Xtop (DbaseTop.obj j))).symm
+      change (TopCat.homeoOfIso (TopCat.prodIsoProd Xtop (DbaseTop.obj j))).symm
           (finiteStagePullbackHomeo k (eLift j.unop) X f ((DpullSch.map g).base x)) =
         (ConcreteCategory.hom (prod.map (𝟙 Xtop) (DbaseTop.map g)))
           ((TopCat.homeoOfIso (TopCat.prodIsoProd Xtop (DbaseTop.obj i))).symm
@@ -566,11 +566,11 @@ theorem isHomeomorph_pullback_to_product
     apply TopCat.hom_ext
     apply ContinuousMap.ext
     intro x
-    show (ConcreteCategory.hom (prod.fst : Dprod.obj i ⟶ Xtop))
+    change (ConcreteCategory.hom (prod.fst : Dprod.obj i ⟶ Xtop))
       (((finiteStagePullbackHomeo k (eLift i.unop) X f).trans
         (TopCat.homeoOfIso (TopCat.prodIsoProd Xtop (DbaseTop.obj i))).symm) x) = _
     dsimp [DbaseTop, DbaseSch, D0]
-    show (ConcreteCategory.hom (prod.fst : Xtop ⨯ DbaseTop.obj i ⟶ Xtop))
+    change (ConcreteCategory.hom (prod.fst : Xtop ⨯ DbaseTop.obj i ⟶ Xtop))
       ((TopCat.homeoOfIso (TopCat.prodIsoProd Xtop (DbaseTop.obj i))).symm
         ((finiteStagePullbackHomeo k (eLift i.unop) X f) x)) = _
     rw [finiteStagePullbackHomeo_apply k (eLift i.unop) X f x]
@@ -581,11 +581,11 @@ theorem isHomeomorph_pullback_to_product
     apply TopCat.hom_ext
     apply ContinuousMap.ext
     intro x
-    show (ConcreteCategory.hom (prod.snd : Dprod.obj i ⟶ DbaseTop.obj i))
+    change (ConcreteCategory.hom (prod.snd : Dprod.obj i ⟶ DbaseTop.obj i))
       (((finiteStagePullbackHomeo k (eLift i.unop) X f).trans
         (TopCat.homeoOfIso (TopCat.prodIsoProd Xtop (DbaseTop.obj i))).symm) x) = _
     dsimp [DbaseTop, DbaseSch, D0]
-    show (ConcreteCategory.hom (prod.snd : Xtop ⨯ DbaseTop.obj i ⟶ DbaseTop.obj i))
+    change (ConcreteCategory.hom (prod.snd : Xtop ⨯ DbaseTop.obj i ⟶ DbaseTop.obj i))
       ((TopCat.homeoOfIso (TopCat.prodIsoProd Xtop (DbaseTop.obj i))).symm
         ((finiteStagePullbackHomeo k (eLift i.unop) X f) x)) = _
     rw [finiteStagePullbackHomeo_apply k (eLift i.unop) X f x]
@@ -665,7 +665,7 @@ theorem isHomeomorph_pullback_to_product
   let eFinal := hLim.trans (eProd.trans eSwap)
   have hfun (x : CpullTop.pt) :
       (TopCat.homeoOfIso eFinal) x = (pB x, pX x) := by
-    show (ConcreteCategory.hom eFinal.hom) x = _
+    change (ConcreteCategory.hom eFinal.hom) x = _
     simp only [eFinal, Iso.trans, hcanon, eProd, eSwap, TopCat.isoOfHomeo_hom,
       Homeomorph.prodComm]
     dsimp [canon, Cprod, prodF, prod.functor]
@@ -673,7 +673,7 @@ theorem isHomeomorph_pullback_to_product
     apply Prod.ext <;> simp [← ConcreteCategory.comp_apply]
   have hfun' : (TopCat.homeoOfIso eFinal).toFun =
       fun x : CpullTop.pt => (pB x, pX x) := funext hfun
-  show IsHomeomorph (fun x : CpullTop.pt => (pB x, pX x))
+  change IsHomeomorph (fun x : CpullTop.pt => (pB x, pX x))
   rw [← hfun']
   exact (TopCat.homeoOfIso eFinal).isHomeomorph
 

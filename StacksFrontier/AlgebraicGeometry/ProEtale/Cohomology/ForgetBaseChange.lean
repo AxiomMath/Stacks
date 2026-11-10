@@ -80,7 +80,7 @@ def proetaleForgetInverseImage {Z X : Scheme.{u}} (h : Z ⟶ X) :
 /-- The comparison `proetaleForgetInverseImage` between inverse images of sheaves of `Λ`-modules
 and of their underlying abelian sheaves is an isomorphism. -/
 instance isIso_proetaleForgetInverseImage {Z X : Scheme.{u}} (h : Z ⟶ X) :
-    IsIso (proetaleForgetInverseImage Λ h).natTrans := by
+    IsIso (proetaleForgetInverseImage Λ h) := by
   have hcolim (W : Z.ProEtᵒᵖ) : PreservesColimitsOfShape
       (CostructuredArrow (Scheme.proetaleBaseChange h).op W)
       (forget₂ (ModuleCat.{u + 1} Λ) AddCommGrpCat.{u + 1}) := by
@@ -110,12 +110,12 @@ open TwoSquare in
 underlying abelian sheaves, is the base change map of the underlying abelian sheaves, up to the
 comparisons of inverse images with passage to underlying abelian sheaves. -/
 theorem proetaleForget_baseChange_cube (S : Sheaf (Scheme.ProEt.topology X) (ModuleCat.{u + 1} Λ)) :
-    (proetaleForgetInverseImage Λ g).natTrans.app
+    (proetaleForgetInverseImage Λ g).app
           ((proetaleModuleDirectImage.{u, u + 1, 0} f).obj S) ≫
         (proetaleForget Λ Y').map ((proetaleModuleBaseChange.{u, u + 1, 0} f g f' g' w).app S) =
       (proetaleAbelianInverseImage g).map ((proetaleForgetDirectImage Λ f).inv.app S) ≫
         (proetaleAbelianBaseChange f g f' g' w).app ((proetaleForget Λ X).obj S) ≫
-        (proetaleAbelianDirectImage f').map ((proetaleForgetInverseImage Λ g').natTrans.app S) ≫
+        (proetaleAbelianDirectImage f').map ((proetaleForgetInverseImage Λ g').app S) ≫
         (proetaleForgetDirectImage Λ f').hom.app
           ((proetaleModuleInverseImage.{u, u + 1, 0} g' Λ).obj S) := by
   have key {Z W : Scheme.{u}} (k : Z ⟶ W) :
@@ -210,7 +210,7 @@ theorem isIso_proetaleModuleDerivedBaseChange_app_iff_forget
     (proetaleAbelianDerivedDirectImageUnit f) (proetaleAbelianDerivedDirectImageUnit f')
     (proetaleAbelianBaseChange f g f' g' w)
     (proetaleForget Λ X) (proetaleForget Λ X') (proetaleForget Λ Y) (proetaleForget Λ Y')
-    (proetaleForgetInverseImage Λ g').natTrans (proetaleForgetInverseImage Λ g).natTrans
+    (proetaleForgetInverseImage Λ g') (proetaleForgetInverseImage Λ g)
     (proetaleForgetDirectImage Λ f).inv (proetaleForgetDirectImage Λ f').hom
     (proetaleForget_baseChange_cube Λ f g f' g' w) I hI
     (isIso_proetaleAbelianDerivedDirectImageUnit_app_forget Λ f I n) t hJ'

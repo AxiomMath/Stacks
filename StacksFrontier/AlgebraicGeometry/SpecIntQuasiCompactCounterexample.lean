@@ -241,7 +241,7 @@ private theorem closedPrimePoint_not_mem_basicOpen (p : Nat.Primes) :
     closedPrimePoint p ∉ PrimeSpectrum.basicOpen (p.val : ℤ) := by
   rw [PrimeSpectrum.mem_basicOpen]
   push Not
-  show (p.val : ℤ) ∈ Ideal.span {(p.val : ℤ)}
+  change (p.val : ℤ) ∈ Ideal.span {(p.val : ℤ)}
   exact Ideal.mem_span_singleton_self _
 
 /-! A finite collection of members of the localization family misses a closed point.
@@ -255,7 +255,7 @@ private theorem primeLocalizationToSpecInt_range_subset_basicOpen
   intro x hx
   obtain ⟨y, rfl⟩ := hx
   rw [primeLocalizationToSpecInt_factors A p hp]
-  show PrimeSpectrum.comap (algebraMap ℤ (Localization.Away (p.val : ℤ)))
+  change PrimeSpectrum.comap (algebraMap ℤ (Localization.Away (p.val : ℤ)))
     ((Spec.map (CommRingCat.ofHom (primeLocalizationAwayMap A p hp))).base y) ∈ _
   rw [← PrimeSpectrum.localization_away_comap_range
     (Localization.Away (p.val : ℤ)) (p.val : ℤ)]
@@ -318,7 +318,7 @@ private theorem primeLocalizationOver_range {R : Type*} [CommRing R] [Algebra �
       rw [primeLocalizationSubmonoid, Submonoid.closure_le]
       rintro z ⟨p, hp, rfl⟩
       exact h p hp
-    show Disjoint _ _
+    change Disjoint _ _
     rw [Set.disjoint_left]
     rintro z ⟨w, hw, rfl⟩ hz
     exact hle hw hz
@@ -455,7 +455,7 @@ private theorem exists_eq_mk_of_fraction_on_primeLocalizationOver
     obtain ⟨t, ht⟩ := LocalizedModule.mk_eq.mp heq
     let W := PrimeSpectrum.basicOpen (algebraMap R (primeLocalizationOver R A.val) (s * t.val))
     have hyW : y ∈ W := by
-      show s * t.val ∉ x.asIdeal
+      change s * t.val ∉ x.asIdeal
       exact x.asIdeal.primeCompl.mul_mem hs t.property
     apply Filter.mem_of_superset (W.isOpen.mem_nhds hyW)
     intro z hz
@@ -516,7 +516,7 @@ private theorem localizedModule_ext_primes {R M : Type*} [CommRing R] [AddCommGr
   obtain ⟨z, hz⟩ := LocalizedModule.mk_eq.mp heq
   apply z.property
   apply hIp
-  show z.val • (t.val • a - s.val • b) = 0
+  change z.val • (t.val • a - s.val • b) = 0
   simpa only [smul_sub, sub_eq_zero, Submonoid.smul_def] using hz
 
 private theorem primeLocalizationOver_module_equalizer
@@ -558,7 +558,7 @@ private theorem primeLocalizationOver_module_equalizer
   apply (StructureSheaf.toOpenₗ_top_bijective (R := R) (M := M)).injective
   apply Subtype.ext
   funext p
-  show LocalizedModule.mk m' (1 : p.val.asIdeal.primeCompl) = LocalizedModule.mk m 1
+  change LocalizedModule.mk m' (1 : p.val.asIdeal.primeCompl) = LocalizedModule.mk m 1
   have h := congrArg
     (IsLocalizedModule.liftOfLE _ _ (hA p.val) (LocalizedModule.mkLinearMap _ M)
       (LocalizedModule.mkLinearMap p.val.asIdeal.primeCompl M))
@@ -598,11 +598,11 @@ private theorem localizedRingModuleEquiv_liftOfLE {R : Type*} [CommRing R]
         ⟨s.val, h s.property⟩)
     apply LinearMap.ext
     intro r
-    show localizedRingModuleEquiv T (LocalizedModule.liftOfLE S T h
+    change localizedRingModuleEquiv T (LocalizedModule.liftOfLE S T h
       (LocalizedModule.mk r 1)) =
         localizationMapOfLE S T h (localizedRingModuleEquiv S (LocalizedModule.mk r 1))
     rw [liftOfLE_mk]
-    show localizedRingModuleEquiv T (LocalizedModule.mk r 1) = _
+    change localizedRingModuleEquiv T (LocalizedModule.mk r 1) = _
     rw [localizedRingModuleEquiv_mk_one, localizedRingModuleEquiv_mk_one,
       localizationMapOfLE_algebraMap]
   exact LinearMap.congr_fun he m
@@ -704,7 +704,7 @@ private theorem primeLocalizationOver_affine_isEffectiveEpiFamily
       AffineScheme.ofHom (Spec.map (CommRingCat.ofHom (localizationMapOfLE _ _ hB).toRingHom))
     have hab : a ≫ f A = b ≫ f B := by
       apply AffineScheme.forgetToScheme.map_injective
-      show Spec.map (CommRingCat.ofHom (localizationMapOfLE _ _ hA).toRingHom) ≫
+      change Spec.map (CommRingCat.ofHom (localizationMapOfLE _ _ hA).toRingHom) ≫
           Spec.map (CommRingCat.ofHom (algebraMap R (primeLocalizationOver R A.val))) =
         Spec.map (CommRingCat.ofHom (localizationMapOfLE _ _ hB).toRingHom) ≫
           Spec.map (CommRingCat.ofHom (algebraMap R (primeLocalizationOver R B.val)))
@@ -721,7 +721,7 @@ private theorem primeLocalizationOver_affine_isEffectiveEpiFamily
         congrArg (fun k => AffineScheme.forgetToScheme.map k ≫ eY.hom) hc
       rw [Functor.map_comp, Functor.map_comp, Category.assoc, Category.assoc] at h1
       exact h1
-    show (s A ≫ CommRingCat.ofHom (localizationMapOfLE _ _ hA).toRingHom).hom =
+    change (s A ≫ CommRingCat.ofHom (localizationMapOfLE _ _ hA).toRingHom).hom =
       (s B ≫ CommRingCat.ofHom (localizationMapOfLE _ _ hB).toRingHom).hom
     apply congrArg CommRingCat.Hom.hom
     apply Spec.map_injective
@@ -735,16 +735,16 @@ private theorem primeLocalizationOver_affine_isEffectiveEpiFamily
   have htmap : AffineScheme.forgetToScheme.map t = tY :=
     AffineScheme.forgetToScheme.map_preimage _
   have htY : tY ≫ eY.hom = tS := by
-    show (tS ≫ eY.inv) ≫ eY.hom = tS
+    change (tS ≫ eY.inv) ≫ eY.hom = tS
     rw [Category.assoc, Iso.inv_hom_id, Category.comp_id]
   have ht (A) : f A ≫ t = g A := by
     apply AffineScheme.forgetToScheme.map_injective
     rw [Functor.map_comp, htmap]
     apply (cancel_mono eY.hom).mp
     rw [Category.assoc, htY]
-    show AffineScheme.forgetToScheme.map (f A) ≫ tS = gS A
+    change AffineScheme.forgetToScheme.map (f A) ≫ tS = gS A
     rw [← hs A]
-    show Spec.map (CommRingCat.ofHom (algebraMap R (primeLocalizationOver R A.val))) ≫
+    change Spec.map (CommRingCat.ofHom (algebraMap R (primeLocalizationOver R A.val))) ≫
       Spec.map (CommRingCat.ofHom r) = Spec.map (s A)
     rw [← Spec.map_comp]
     exact congrArg Spec.map (CommRingCat.hom_ext (hr A))
@@ -764,16 +764,16 @@ private theorem primeLocalizationOver_affine_isEffectiveEpiFamily
       exact h3
     apply congrArg CommRingCat.Hom.hom
     apply Spec.map_injective
-    show Spec.map (r' ≫ CommRingCat.ofHom
+    change Spec.map (r' ≫ CommRingCat.ofHom
       (algebraMap R (primeLocalizationOver R A.val))) = Spec.map (s A)
     rw [Spec.map_comp, hr'map, hs]
     exact key)
   apply AffineScheme.forgetToScheme.map_injective
   apply (cancel_mono eY.hom).mp
   rw [htmap, htY]
-  show t'Y = tS
+  change t'Y = tS
   rw [← hr'map]
-  show Spec.map r' = Spec.map (CommRingCat.ofHom r)
+  change Spec.map r' = Spec.map (CommRingCat.ofHom r)
   exact congrArg Spec.map (CommRingCat.hom_ext hr')
 
 private noncomputable def primeLocalizationBaseChangeMap {R : Type} [CommRing R]
@@ -791,7 +791,7 @@ private theorem primeLocalizationBaseChange_isPullback {R : Type} [CommRing R]
       (primeLocalizationToSpecInt A) := by
   have hloc : IsLocalization ((primeLocalizationSubmonoid A).map (algebraMap ℤ R))
       (primeLocalizationOver R A) := by
-    show IsLocalization (primeLocalizationSubmonoidOver R A)
+    change IsLocalization (primeLocalizationSubmonoidOver R A)
       (Localization (primeLocalizationSubmonoidOver R A))
     infer_instance
   apply isPullback_SpecMap_of_isPushout
@@ -909,7 +909,7 @@ private theorem primeLocalization_affineBaseChange_isQuotientMap
     (continuous_sigma fun A => (Limits.pullback.snd (primeLocalizationFamilyMap A) g).continuous)
   convert hc using 1
   funext p
-  show ((e p.1).hom ≫ Limits.pullback.snd (primeLocalizationFamilyMap p.1) g) p.2 = _
+  change ((e p.1).hom ≫ Limits.pullback.snd (primeLocalizationFamilyMap p.1) g) p.2 = _
   exact congrArg (fun k => k p.2) (hsq p.1).flip.isoPullback_hom_snd
 
 private theorem isUniversalEffectiveEpiFamily_iff_mem_canonicalTopology
@@ -972,7 +972,7 @@ private theorem primeLocalization_not_isQuasiCompactObject_of_cover
     (closedPrimePoint p)
   apply hp (φ.s₀ j).down ⟨j, rfl⟩
   refine ⟨(φ.h₀ j) y, ?_⟩
-  show (φ.h₀ j ≫ E.f (φ.s₀ j)) y = closedPrimePoint p
+  change (φ.h₀ j ≫ E.f (φ.s₀ j)) y = closedPrimePoint p
   rw [φ.w₀]
   exact hy
 

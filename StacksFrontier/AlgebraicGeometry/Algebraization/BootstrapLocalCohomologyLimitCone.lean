@@ -188,7 +188,7 @@ theorem nonempty_isLimit_mapCone_localCohomologyDerived [IsLocalRing A] (I : Ide
     have h2 : c.π.app (op n) = H.map ((localCohomologyDerived A (maximalIdeal A) hm).map
         ((DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).map
           (ModuleCat.ofHom (I ^ n • ⊤ : Submodule A M).mkQ))) := by
-      show Φ.map ((idealPowerQuotientCone.{u, u} I M).π.app (op n)) ≫ Φ.map (𝟙 _) = _
+      change Φ.map ((idealPowerQuotientCone.{u, u} I M).π.app (op n)) ≫ Φ.map (𝟙 _) = _
       rw [Φ.map_id, Category.comp_id]
       rfl
     exact h2.trans (h3.symm.trans h1.symm)

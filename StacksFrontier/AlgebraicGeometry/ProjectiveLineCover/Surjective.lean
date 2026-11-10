@@ -111,7 +111,7 @@ theorem genericForm_degree_ne_zero : (genericForm n ι).degree ≠ 0 := by
 
 /-- If `x` is a root of the generic binary form, then the coefficient `q_{n+1}` vanishes. -/
 theorem cof_top (hx : (genericForm n ι).eval x = 0) : cof n ι x (n + 1) = 0 := by
-  rw [cof_eq_sum, ← hx, genericForm, Polynomial.eval_finset_sum]
+  rw [cof_eq_sum, ← hx, genericForm, Polynomial.eval_finsetSum]
   refine Finset.sum_congr rfl fun m _ => ?_
   simp
 
@@ -147,10 +147,10 @@ theorem polyEval_mulForm (hx : (genericForm n ι).eval x = 0) (k : Fin (n + 2)) 
     polyEval n ι x (mulForm n 1 coordT k) = ι (tau.{u} n 0 k) := by
   rw [mulForm]
   by_cases hk : (k : ℕ) = 0
-  · simp only [hk, if_true, mul_zero, add_zero, map_one, one_mul]
+  · simp only [hk, ite_true, mul_zero, add_zero, map_one, one_mul]
     rw [polyEval_var n ι x hx 0 (by omega)]
     exact (map_tau_zero n ι).symm
-  · simp only [hk, if_false, map_add, map_mul, map_one, one_mul]
+  · simp only [hk, ite_false, map_add, map_mul, map_one, one_mul]
     rw [polyEval_var n ι x hx k (by omega), polyEval_var n ι x hx (k - 1) (by omega)]
     rw [show polyEval n ι x (C coordT) = x by simp [polyEval, lineEval_coordT]]
     obtain ⟨j, hj⟩ : ∃ j, (k : ℕ) = j + 1 := ⟨k - 1, by omega⟩
@@ -219,7 +219,7 @@ theorem exists_comap_chartMap_eq_bot :
   rw [Polynomial.IsRoot.def] at hx
   refine ⟨⟨RingHom.ker (chartPoint n ι x hx), RingHom.ker_isPrime _⟩, ?_⟩
   ext1
-  show (RingHom.ker (chartPoint n ι x hx)).comap (chartMap.{u} n) = ⊥
+  change (RingHom.ker (chartPoint n ι x hx)).comap (chartMap.{u} n) = ⊥
   rw [RingHom.comap_ker, chartPoint_comp_chartMap]
   exact (RingHom.injective_iff_ker_eq_bot ι).1
     ((algebraMap (FractionRing R) L).injective.comp (IsFractionRing.injective R (FractionRing R)))
@@ -254,7 +254,7 @@ theorem exists_dense_point_mem_range :
       (X_mem_one (ULift.{u} ℤ) (n + 1) 0)
     have h1 : mulMapX.{u} n coordT (ιS p) = ιR bot := by
       rw [← hp]
-      show (ιS ≫ mulMapX.{u} n coordT) p = _
+      change (ιS ≫ mulMapX.{u} n coordT) p = _
       rw [mulMapX, hsq]
       rfl
     have h2 : (projModelIso (chartRing.{u} 0) n).hom ≫ (pieceIso.{u} n 0).inv ≫ pieceι n 0 ≫

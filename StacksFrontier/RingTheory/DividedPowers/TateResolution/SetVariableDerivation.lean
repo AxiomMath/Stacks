@@ -726,28 +726,28 @@ private theorem IsStageDerivation.eq_of_subset
       (fun y : finiteVariableStage δ ι T S => D₁ y - D₂ ⟨(y : C), hle y.2⟩) hadd = 0 := by
     refine addHom_eq_zero_of_graded_leibniz hC S _ ?_ ?_ ?_ ?_ ?_
     · intro y hy
-      show D₁ y - D₂ ⟨(y : C), hle y.2⟩ = 0
+      change D₁ y - D₂ ⟨(y : C), hle y.2⟩ = 0
       rw [h₁.grade_zero y hy, h₂.grade_zero _ hy, sub_zero]
     · intro i k y z hy hz
-      show D₁ (y * z) - D₂ ⟨((y * z : finiteVariableStage δ ι T S) : C), hle (y * z).2⟩ =
+      change D₁ (y * z) - D₂ ⟨((y * z : finiteVariableStage δ ι T S) : C), hle (y * z).2⟩ =
         (D₁ y - D₂ ⟨(y : C), hle y.2⟩) * (z : C) +
           (-1 : R) ^ i • ((y : C) * (D₁ z - D₂ ⟨(z : C), hle z.2⟩))
       rw [mk_coe_mul hle, h₁.leibniz i k y z hy hz,
         h₂.leibniz i k ⟨(y : C), hle y.2⟩ ⟨(z : C), hle z.2⟩ hy hz, sub_mul, mul_sub, smul_sub]
       abel
     · intro a
-      show D₁ ⟨ι a, _⟩ - D₂ ⟨_, _⟩ = 0
+      change D₁ ⟨ι a, _⟩ - D₂ ⟨_, _⟩ = 0
       rw [h₁.map_coeff a, h₂.map_coeff a, sub_self]
     · intro j hj
-      show D₁ ⟨T j, _⟩ - D₂ ⟨_, _⟩ = 0
+      change D₁ ⟨T j, _⟩ - D₂ ⟨_, _⟩ = 0
       rw [h₁.map_generator j hj, h₂.map_generator j (hSU hj), sub_self]
     · intro j hj n
-      show D₁ ⟨δ.dpow n (T j), _⟩ - D₂ ⟨_, _⟩ = 0
+      change D₁ ⟨δ.dpow n (T j), _⟩ - D₂ ⟨_, _⟩ = 0
       rw [h₁.dpow_generator_eq hSU h₂ j hj n, sub_self]
   have := DFunLike.congr_fun hsub x
   rw [AddMonoidHom.zero_apply] at this
   exact sub_eq_zero.mp (by
-    show D₁ x - D₂ ⟨(x : C), hle x.2⟩ = 0
+    change D₁ x - D₂ ⟨(x : C), hle x.2⟩ = 0
     exact this)
 
 end StageDerivation

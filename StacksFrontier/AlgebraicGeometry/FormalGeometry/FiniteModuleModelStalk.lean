@@ -119,7 +119,7 @@ public theorem tildeToStalk_naturality {N N' : ModuleCat.{u} R} (g : N ⟶ N')
     (x : PrimeSpectrum.Top R) (n : N) :
     ((modulesStalkFunctor (Spec R) x).map (tilde.map g)).hom (tildeToStalk N x n) =
       tildeToStalk N' x (g n) := by
-  show ((modulesStalkFunctor (Spec R) x).map (tilde.map g)).hom
+  change ((modulesStalkFunctor (Spec R) x).map (tilde.map g)).hom
       (((tilde N).presheaf.germ ⊤ x trivial).hom ((tilde.toOpen N ⊤).hom n)) =
     ((tilde N').presheaf.germ ⊤ x trivial).hom ((tilde.toOpen N' ⊤).hom (g n))
   refine (modulesStalkFunctor_map_germ (X := Spec R) (tilde.map g) x ⊤ trivial _).trans ?_

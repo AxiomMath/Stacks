@@ -26,7 +26,8 @@ be an object of `Coh(Spec A, 𝒥)`, let `𝓕` be a coherent `𝒪_X`-module an
 `α : (𝒢_n) ⟶ (f_*𝓕)^` whose levelwise kernels and cokernels are annihilated by one power of
 `𝒦`. This file proves that bound, with `α` presented by the equation that characterises it:
 `α` composed with the comparison `(f_*𝓕)^ ⟶ f_*(𝓕^)` of the file
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/ExceptionalComparisonMapPushforwardAux.lean` is the map `γ` of
+`ExceptionalComparisonMapPushforwardAux.lean` (in this directory,
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/`) is the map `γ` of
 `StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/DirectImageComparison.lean`.
 
 The proof is the source's. Over a complete base the completion functor is essentially
@@ -293,7 +294,7 @@ public theorem exists_systemMap_isKernelCokernelAnnihilatedByPower_of_isAdicComp
         ((Scheme.Modules.pushforward f).map b.hom)) :=
       Functor.map_isIso (Scheme.Modules.restrictFunctor (Scheme.Opens.ι K.support.compl))
         ((Scheme.Modules.pushforward f).map b.hom)
-    show IsIso ((Scheme.Modules.restrictFunctor (Scheme.Opens.ι K.support.compl)).map
+    change IsIso ((Scheme.Modules.restrictFunctor (Scheme.Opens.ι K.support.compl)).map
       ((Scheme.Modules.pullbackPushforwardAdjunction f).unit.app Gc.obj ≫
         (Scheme.Modules.pushforward f).map b.hom))
     rw [Functor.map_comp]

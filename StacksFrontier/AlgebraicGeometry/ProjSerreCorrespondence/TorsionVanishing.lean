@@ -54,7 +54,7 @@ theorem subsingleton_moduleFiber_of_isIPowerTorsion
     (htor : IsIPowerTorsion S M (HomogeneousIdeal.irrelevant 𝒜).toIdeal)
     (x : ProjectiveSpectrum.top 𝒜) :
     Subsingleton (ModuleFiber (M := M) 𝒜 x) := by
-  obtain ⟨f, hfI, hfx⟩ := SetLike.not_le_iff_exists.mp x.not_irrelevant_le
+  obtain ⟨f, hfI, hfx⟩ := IsConcreteLE.not_le_iff_exists.mp x.not_irrelevant_le
   refine LocalizedModule.subsingleton_iff.mpr fun m => ?_
   obtain ⟨n, -, hn⟩ := htor m
   exact ⟨f ^ n, x.asHomogeneousIdeal.toIdeal.primeCompl.pow_mem hfx n,

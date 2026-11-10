@@ -144,7 +144,7 @@ public noncomputable def moduleExtensionAtBaseEquivOfAlgEquiv {T : CommAlgCat.{m
 public lemma moduleExtensionAtBaseEquivOfAlgEquiv_symm_apply {T : CommAlgCat.{max u v} A}
     (e : (T : Type (max u v)) ≃ₐ[A] ULift.{v} A) (M : ModuleCat.{w} A) (m : M) :
     (moduleExtensionAtBaseEquivOfAlgEquiv.{w} e M).symm m = (1 : (T : Type (max u v))) ⊗ₜ[A] m := by
-  show (TensorProduct.congr e.toLinearEquiv (LinearEquiv.refl A M)).symm
+  change (TensorProduct.congr e.toLinearEquiv (LinearEquiv.refl A M)).symm
       ((1 : ULift.{v} A) ⊗ₜ[A] m) = _
   rw [TensorProduct.congr_symm_tmul,
     show e.toLinearEquiv.symm (1 : ULift.{v} A) = 1 from map_one e.symm]
@@ -162,12 +162,9 @@ public lemma moduleExtension_map_eq_one_tmul {T Y : CommAlgCat.{max u v} A}
     (z : (T : Type (max u v)) ⊗[A] N) :
     (moduleExtension.{w, v} A N).map (u.op.op) z =
       (1 : (Y : Type (max u v))) ⊗ₜ[A] moduleExtensionAtBaseEquivOfAlgEquiv.{w} e N z := by
-  induction z using TensorProduct.induction_on with
-  | zero =>
-      show (0 : (Y : Type (max u v)) ⊗[A] N) = _
-      simp
+  induction z using TensorProduct.inductionOn with
   | tmul t n =>
-      show u.hom t ⊗ₜ[A] n = (1 : (Y : Type (max u v))) ⊗ₜ[A] ((e t).down • n)
+      change u.hom t ⊗ₜ[A] n = (1 : (Y : Type (max u v))) ⊗ₜ[A] ((e t).down • n)
       rw [algHom_apply_of_algEquiv e u t, ← TensorProduct.smul_tmul]
       simp [Algebra.smul_def]
   | add z t hz ht =>
@@ -206,15 +203,14 @@ public lemma moduleExtension_natTransOn_eq_map {M N : ModuleCat.{w} A}
   set Y := X.unop.unop
   set g : b.base ⟶ Y := b.hom Y
   set κ := moduleHomOfExtensionNatTransOn.{w} b η
-  induction x using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction x using TensorProduct.inductionOn with
   | tmul c m =>
     -- the section `1 ⊗ m` over `Y` is restricted from the base object
     have hg₁ : ((moduleExtensionFunctorOn.{w} ι).obj M).map (g.op.op)
         ((moduleExtensionAtBaseOnEquiv.{w} b M).symm m) =
           (1 : ((ι.op.op.obj X).unop.unop : Type (max u v))) ⊗ₜ[A] m := by
       rw [moduleExtensionAtBaseEquivOfAlgEquiv_symm_apply]
-      show (ι.map g).hom 1 ⊗ₜ[A] m = _
+      change (ι.map g).hom 1 ⊗ₜ[A] m = _
       rw [map_one]
     -- restricting the image of that section to `Y` is the pure tensor of `κ m`
     have hbase : ((moduleExtensionFunctorOn.{w} ι).obj N).map (g.op.op)
@@ -253,7 +249,7 @@ public lemma moduleExtension_natTransOn_eq_map {M N : ModuleCat.{w} A}
 public lemma moduleHomOfExtensionNatTransOn_map {M N : ModuleCat.{w} A} (f : M ⟶ N) :
     moduleHomOfExtensionNatTransOn.{w} b ((moduleExtensionFunctorOn.{w} ι).map f) = f := by
   ext m
-  show moduleExtensionAtBaseOnEquiv.{w} b N
+  change moduleExtensionAtBaseOnEquiv.{w} b N
       (((moduleExtensionFunctorOn.{w} ι).map f).app b.obj
         ((moduleExtensionAtBaseOnEquiv.{w} b M).symm m)) = f.hom m
   rw [moduleExtensionAtBaseEquivOfAlgEquiv_symm_apply,

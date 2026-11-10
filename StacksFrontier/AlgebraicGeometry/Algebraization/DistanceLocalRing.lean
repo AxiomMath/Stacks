@@ -116,9 +116,9 @@ public theorem distanceFunction_closedPoint_eq_coheight
   have hms : specPointToPrimeSpectrum ms = IsLocalRing.closedPoint A := rfl
   let Z : Closeds (Spec (.of A)) := ⟨{ms}, IsLocalRing.isClosed_singleton_closedPoint A⟩
   have hmax : IsGreatest (δ '' (Z : Set (Spec (.of A)))) 0 := by
-    show IsGreatest (δ '' ({ms} : Set (Spec (.of A)))) 0
+    change IsGreatest (δ '' ({ms} : Set (Spec (.of A)))) 0
     have hδm : δ ms = 0 := by
-      show deltaDim (specPointToPrimeSpectrum ms) = 0
+      change deltaDim (specPointToPrimeSpectrum ms) = 0
       rw [show specPointToPrimeSpectrum ms = (⊤ : PrimeSpectrum A) from rfl]
       simp [deltaDim, dimQuotient]
     rw [Set.image_singleton, hδm]
@@ -129,7 +129,7 @@ public theorem distanceFunction_closedPoint_eq_coheight
     (Set.mem_singleton ms : ms ∈ ({ms} : Set (Spec (.of A))))
   have hlower : (Order.coheight y : ℕ∞) ≤ distanceFunction (Spec (.of A)) Z ys := by
     have hcast : ((δ ys).toNat : ℕ∞) = Order.coheight y := by
-      show ((deltaDim (specPointToPrimeSpectrum ys)).toNat : ℕ∞) = _
+      change ((deltaDim (specPointToPrimeSpectrum ys)).toNat : ℕ∞) = _
       rw [hys]
       unfold deltaDim dimQuotient
       rw [Int.toNat_natCast]
@@ -141,7 +141,7 @@ public theorem distanceFunction_closedPoint_eq_coheight
     let f : ↥(closure ({ys} : Set (Spec (.of A)))) ≃o OrderDual ↥(Set.Ici y) := {
       toFun x := OrderDual.toDual ⟨specPointToPrimeSpectrum x.1,
         (by
-          show y ≤ specPointToPrimeSpectrum x.1
+          change y ≤ specPointToPrimeSpectrum x.1
           exact (PrimeSpectrum.le_iff_specializes _ _).mpr <|
             (specializes_specPointToPrimeSpectrum_iff ys x.1).mp
               (specializes_iff_mem_closure.mpr x.2))⟩
@@ -154,7 +154,7 @@ public theorem distanceFunction_closedPoint_eq_coheight
         exact (PrimeSpectrum.le_iff_specializes _ _).mp p.2
       left_inv x := by
         apply Subtype.ext
-        show e.symm (e x.1) = x.1
+        change e.symm (e x.1) = x.1
         exact e.symm_apply_apply _
       right_inv q := by
         apply OrderDual.ext
@@ -162,7 +162,7 @@ public theorem distanceFunction_closedPoint_eq_coheight
         simp [e, specPointToPrimeSpectrum,
           AlgebraicGeometry.specOrderIsoPrimeSpectrum]
       map_rel_iff' {a b} := by
-        show e a.1 ≤ e b.1 ↔ a.1 ≤ b.1
+        change e a.1 ≤ e b.1 ↔ a.1 ≤ b.1
         exact e.map_rel_iff
     }
     have hpoint :
@@ -170,7 +170,7 @@ public theorem distanceFunction_closedPoint_eq_coheight
           Order.coheight y := by
       have htop : (OrderDual.ofDual (f ⟨ms, hzy⟩) : Set.Ici y) = ⊤ := by
         apply Subtype.ext
-        show specPointToPrimeSpectrum ms = (⊤ : PrimeSpectrum A)
+        change specPointToPrimeSpectrum ms = (⊤ : PrimeSpectrum A)
         rw [hms]
         rfl
       calc
@@ -183,7 +183,7 @@ public theorem distanceFunction_closedPoint_eq_coheight
           ((Order.height_top_eq_krullDim).trans (Order.coheight_eq_krullDim_Ici y).symm)
     rw [← hpoint]
     simpa using hup
-  show distanceFunction (Spec (.of A)) Z ys = Order.coheight y
+  change distanceFunction (Spec (.of A)) Z ys = Order.coheight y
   exact le_antisymm hupper hlower
 
 /-! ### Distance two from the closed point, with no catenarity hypothesis -/
@@ -254,10 +254,10 @@ private theorem add_upCodimension_last_le_weight {Y : Scheme.{u}} [IsNoetherian 
       if (Fin.last s.k).val ≤ j.val then s.upCodimension j else 0) =
       s.upCodimension (Fin.last s.k) :=
     (Finset.sum_eq_single_of_mem (Fin.last s.k) (Finset.mem_univ _)
-      fun b _ hb => if_neg (not_le.mpr (Fin.val_lt_last hb))).trans (by simp)
+      fun b _ hb => ite_eq_right (not_le.mpr (Fin.val_lt_last hb))).trans (by simp)
   have hdown : (∑ j : Fin s.k,
       if (Fin.last s.k).val ≤ j.val then s.downCodimension j else 0) = 0 :=
-    Finset.sum_eq_zero fun j _ => if_neg (not_le.mpr j.isLt)
+    Finset.sum_eq_zero fun j _ => ite_eq_right (not_le.mpr j.isLt)
   have hterm := add_sub_le_weight s (Fin.last s.k)
   rwa [hup, hdown, Nat.sub_zero] at hterm
 
@@ -332,7 +332,7 @@ private theorem two_le_weight_of_chain_two {Y : Scheme.{u}} [IsNoetherian Y]
         have hupi0 : 2 + p2.length ≤
             s.upCodimension (⟨0, Nat.zero_lt_succ s.k⟩ : Fin (s.k + 1)) := by
           have hlen : (pch.smash p2 hconnect).length = 2 + p2.length := by
-            show pch.length + p2.length = 2 + p2.length
+            change pch.length + p2.length = 2 + p2.length
             rw [hchlen]
           rw [hlen] at hsmash
           have h : (((2 + p2.length : ℕ)) : ℕ∞) ≤
@@ -346,7 +346,7 @@ private theorem two_le_weight_of_chain_two {Y : Scheme.{u}} [IsNoetherian Y]
               if (⟨0, Nat.zero_lt_succ s.k⟩ : Fin (s.k + 1)).val ≤ j.val then
                 s.upCodimension j else 0 := by
           rw [Finset.sum_congr rfl (fun j (_ : j ∈ Finset.univ) =>
-            if_pos (Nat.zero_le j.val)), ← Finset.sum_pair
+            ite_eq_left (Nat.zero_le j.val)), ← Finset.sum_pair
             (show (⟨0, Nat.zero_lt_succ s.k⟩ : Fin (s.k + 1)) ≠ Fin.last s.k from
               fun hcon => absurd (congrArg Fin.val hcon) (by simp [hk1']))]
           exact Finset.sum_le_sum_of_subset (Finset.subset_univ _)
@@ -354,7 +354,7 @@ private theorem two_le_weight_of_chain_two {Y : Scheme.{u}} [IsNoetherian Y]
             if (⟨0, Nat.zero_lt_succ s.k⟩ : Fin (s.k + 1)).val ≤ j.val then
               s.downCodimension j else 0) = p2.length := by
           rw [Finset.sum_congr rfl (fun j (_ : j ∈ Finset.univ) =>
-            if_pos (Nat.zero_le j.val)), Finset.sum_eq_single_of_mem
+            ite_eq_left (Nat.zero_le j.val)), Finset.sum_eq_single_of_mem
             (⟨0, by omega⟩ : Fin s.k) (Finset.mem_univ _)
             (fun b _ hb => absurd (Fin.ext (show b.val = 0 by have := b.isLt; omega)) hb)]
           exact hdownval
@@ -398,18 +398,18 @@ public theorem two_le_distanceFunction_closedPoint_of_two_le_coheight
   have hbot : ∀ x : Spec (.of A), ms ≤ x := by
     intro x
     rw [← (AlgebraicGeometry.specOrderIsoPrimeSpectrum (.of A)).le_iff_le]
-    show OrderDual.toDual (IsLocalRing.closedPoint A) ≤
+    change OrderDual.toDual (IsLocalRing.closedPoint A) ≤
       OrderDual.toDual (specPointToPrimeSpectrum x)
     rw [OrderDual.toDual_le_toDual, htopm]
     exact le_top
   have hlt1 : ms < qs := by
     rw [← (AlgebraicGeometry.specOrderIsoPrimeSpectrum (.of A)).lt_iff_lt]
-    show OrderDual.toDual (IsLocalRing.closedPoint A) < OrderDual.toDual q
+    change OrderDual.toDual (IsLocalRing.closedPoint A) < OrderDual.toDual q
     rw [OrderDual.toDual_lt_toDual, htopm]
     exact hqtop
   have hlt2 : qs < ys := by
     rw [← (AlgebraicGeometry.specOrderIsoPrimeSpectrum (.of A)).lt_iff_lt]
-    show OrderDual.toDual q < OrderDual.toDual y
+    change OrderDual.toDual q < OrderDual.toDual y
     rw [OrderDual.toDual_lt_toDual]
     exact hyq
   obtain ⟨pch, hchead, hchlast, hchlen⟩ := exists_chain_two_of_lt_lt hlt1 hlt2
@@ -419,7 +419,7 @@ public theorem two_le_distanceFunction_closedPoint_of_two_le_coheight
     ⟨ms, closure_minimal (Set.singleton_subset_iff.mpr mem_connectedComponent)
       isClosed_connectedComponent (Scheme.le_iff_specializes.mp (hbot ys)).mem_closure,
       (Set.mem_singleton ms : ms ∈ ({ms} : Set (Spec (.of A))))⟩
-  show (2 : ℕ∞) ≤ distanceFunction (Spec (.of A)) Z ys
+  change (2 : ℕ∞) ≤ distanceFunction (Spec (.of A)) Z ys
   rw [distanceFunction_eq_iInf_of_nonempty (Spec (.of A)) Z ys hmeet]
   refine le_iInf fun s => ?_
   exact_mod_cast two_le_weight_of_chain_two hbot hZcoe pch hchead hchlast hchlen s

@@ -126,7 +126,7 @@ theorem toSpecAway_comp_ratioHom (t : Fin (n + 1) → Γ(N, ⊤))
   · rw [Category.assoc, ratioHom, pullback.lift_snd]
     have hR := congrArg (fun q => T.homOfLE hWt ≫ q) hchart
     rw [Category.assoc, Category.assoc]
-    show _ = T.homOfLE hWt ≫ (nvCover t i).ι ≫ p ≫ projectiveSpaceOver.toIntegralAtUniverse n B
+    change _ = T.homOfLE hWt ≫ (nvCover t i).ι ≫ p ≫ projectiveSpaceOver.toIntegralAtUniverse n B
     rw [hR, Stacks.ProjGlobalSectionsAppTop.hasPullbackNaturality _ _ _
         (Stacks.SectionsToProjectiveSpace.span_range_comp _ _ (span_range_specRatio a i)),
       Stacks.ProjGlobalSectionsAppTop.hasPullbackNaturality _ _ _
@@ -150,7 +150,7 @@ theorem nonvanishingOpen_eq_nvCover [IsInvertibleModule T N] (t : Fin (n + 1) �
     (hΦ : ∀ k, Φ.hom.app ⊤ (ψ.toFun 1 (a k)) = t k) :
     nonvanishingOpen T (natTensorPow M 1) (ψ.toFun 1 (a i)) = nvCover t i := by
   refine TopologicalSpace.Opens.ext ?_
-  show _ = Stacks.Ample.nonvanishingLocus N (t i)
+  change _ = Stacks.Ample.nonvanishingLocus N (t i)
   rw [← hΦ i]
   exact (Stacks.Ample.nonvanishingLocus_congr Φ _).symm
 

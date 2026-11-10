@@ -332,8 +332,8 @@ pole-order reduction, beside the `Finset`-measure loop lemma it is the sibling o
 The all-perfect-core (constant-numerator) lemmas that used to live here have moved to
 `StacksFrontier.RingTheory.DiscreteValuationRing.EppSharedFactorSync`, because finishing them needs
 the truncated lifting datum of
-`StacksFrontier.RingTheory.DiscreteValuationRing.ArtinSchreier`, which this file deliberately does not
-import.
+`StacksFrontier.RingTheory.DiscreteValuationRing.ArtinSchreier`, which this file deliberately
+does not import.
 
 ## References
 
@@ -803,7 +803,7 @@ theorem pow_notMem_frobeniusPowRange_two (hc₀ : c₀ ∉ frobeniusPowRange F p
   intro h
   obtain ⟨y, hy⟩ := mem_frobeniusPowRange.mp h
   refine hc₀ (mem_frobeniusPowRange.mpr ⟨y, frobenius_inj F p ?_⟩)
-  show (y ^ p ^ 1) ^ p = c₀ ^ p
+  change (y ^ p ^ 1) ^ p = c₀ ^ p
   rw [← pow_mul, ← hy]
   ring
 

@@ -123,8 +123,7 @@ theorem fLoc_psiEquiv (f : A) {M N : Type u} [AddCommGroup M] [Module A M]
     [AddCommGroup N] [Module A N] (d : M →ₗ[A] N) (z : B ⊗[A] Loc f M) :
     fLoc (algebraMap A B f) (LinearMap.baseChange B d) (psiEquiv (B := B) f M z) =
       psiEquiv (B := B) f N (LinearMap.baseChange B (fLoc f d) z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul b z =>
       have hbz : (b ⊗ₜ[A] z : B ⊗[A] Loc f M) = b • ((1 : B) ⊗ₜ[A] z) := by
         rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]

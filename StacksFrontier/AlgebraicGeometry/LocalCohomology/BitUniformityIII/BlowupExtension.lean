@@ -142,7 +142,7 @@ private theorem blowupHmodMap_map_comp_apply (i : ℕ) (q : ℤ) {X Y Z : Module
 
 section Lift
 
-variable [IsNoetherianRing A] {n c : ℕ} {M : ANCModule I n c} (P : TwoStepPresentation M)
+variable {n c : ℕ} {M : ANCModule I n c} (P : TwoStepPresentation M)
   {r : ℕ} (D : M.1 →ₗ[A ⧸ I ^ n] (Fin r → A ⧸ I ^ n))
   (hD : ∀ a ∈ Ideal.map (Ideal.Quotient.mk (I ^ n)) (I ^ c),
     ∃ h : (Fin r → A ⧸ I ^ n) →ₗ[A ⧸ I ^ n] M.1, ∀ z, h (D z) = a • z)
@@ -152,13 +152,11 @@ abbrev resLin {r s : ℕ} (g : (Fin r → A ⧸ I ^ n) →ₗ[A ⧸ I ^ n] (Fin 
     ModuleCat.of A (Fin r → A ⧸ I ^ n) ⟶ ModuleCat.of A (Fin s → A ⧸ I ^ n) :=
   ModuleCat.ofHom (g.restrictScalars A)
 
-omit [IsNoetherianRing A] in
 /-- `resLin` takes composition of `A ⧸ Iⁿ`-linear maps to composition of morphisms. -/
 theorem resLin_comp {r s t : ℕ} (g : (Fin r → A ⧸ I ^ n) →ₗ[A ⧸ I ^ n] (Fin s → A ⧸ I ^ n))
     (g' : (Fin s → A ⧸ I ^ n) →ₗ[A ⧸ I ^ n] (Fin t → A ⧸ I ^ n)) :
     resLin I g ≫ resLin I g' = resLin I (g' ∘ₗ g) := rfl
 
-omit [IsNoetherianRing A] in
 /-- `resLin I g` acts on a vector `v` as `g` does. -/
 theorem resLin_apply {r s : ℕ} (g : (Fin r → A ⧸ I ^ n) →ₗ[A ⧸ I ^ n] (Fin s → A ⧸ I ^ n))
     (v : Fin r → A ⧸ I ^ n) : (resLin I g).hom v = g v := rfl
@@ -268,9 +266,7 @@ theorem exists_presL_g_eq_twistedPullbackSecM (q₀ : ℕ) (h : IsBaseThreshold 
     ∃ x : blowupHmodTwistedPullback I (ModuleCat.of A (Fin PN.r₀ → A ⧸ I ^ n)) 0 (q : ℤ),
       blowupHmodMap I 0 ((twistedPullbackFunctor I (q : ℤ)).map PN.presL.resShortComplex.g) x =
         twistedPullbackSecM I q₀ h n c hcn PN.imageANC q t := by
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨0, (map_zero (blowupHmodMap I 0 ((twistedPullbackFunctor I (q : ℤ)).map
-      PN.presL.resShortComplex.g)).hom).trans (map_zero _).symm⟩
+  induction t using TensorProduct.inductionOn with
   | tmul a l =>
     obtain ⟨v, hv⟩ := PN.transD.surjective_rangeRestrict l
     refine ⟨blowupHmodMap I 0 ((twistedPullbackFunctor I (q : ℤ)).map (smulVecHom I v))
@@ -280,7 +276,7 @@ theorem exists_presL_g_eq_twistedPullbackSecM (q₀ : ℕ) (h : IsBaseThreshold 
     have hcomp : smulVecHom I v ≫ PN.presL.resShortComplex.g =
         resSmulHom I n PN.imageANC.1 l := by
       refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-      show PN.transD.rangeRestrict (x • v) = x • (l : PN.imageL)
+      change PN.transD.rangeRestrict (x • v) = x • (l : PN.imageL)
       rw [map_smul, hv]
       rfl
     rw [← hcomp]
@@ -296,7 +292,7 @@ end SecMLift
 
 section Cycles
 
-variable [IsNoetherianRing A] {S : ShortComplex (ModuleCat.{u} A)}
+variable {S : ShortComplex (ModuleCat.{u} A)}
 
 /-- `H⁰` of the inclusion `𝒢 ⊆ 𝒪_X(q) ⊗ p^*S₂~` commutes with twisting down. -/
 theorem blowupHmodMap_iCycles_blowupHGtr (i : ℕ) (q q' : ℤ) (hq : q' ≤ q)
@@ -370,7 +366,7 @@ private theorem exists_lift_transD_of_fiber_le_zero
     (shortExact_twistedPullbackKernelSequence I (t : ℤ)
       PN.presC.shortExact_resShortComplex) 0 s).1 (hF.elim _ _)
   obtain ⟨t', ht'⟩ := SW.surjective_secM PN.imageANC (show SW.d ≤ 1 by
-    show 0 ≤ 1; omega) (show SW.q₀ ≤ t by change q₀ ≤ t; omega) u
+    change 0 ≤ 1; omega) (show SW.q₀ ≤ t by change q₀ ≤ t; omega) u
   obtain ⟨x, hx⟩ := exists_presL_g_eq_twistedPullbackSecM I PN q₀ h hcn t t'
   refine ⟨x, ?_⟩
   rw [blowupHmodMap_transD_of_presL_g I PN _ x u (hx.trans ht'), blowupHtr_self,
@@ -424,7 +420,7 @@ theorem exists_lift_transD {t f : ℕ} (hft : f + d * c = t) (hq : q₀ + d * c 
       obtain rfl : d = 1 := by omega
       obtain rfl : f = t₁ := by omega
       obtain ⟨t', ht'⟩ := SW.surjective_secM PN.imageANC (show SW.d ≤ 1 by
-        show 1 ≤ 1; omega) (show SW.q₀ ≤ f by change q₀ ≤ f; omega) u
+        change 1 ≤ 1; omega) (show SW.q₀ ≤ f by change q₀ ≤ f; omega) u
       obtain ⟨x, hx⟩ := exists_presL_g_eq_twistedPullbackSecM I PN q₀ h hcn f t'
       exact ⟨x, (blowupHmodMap_transD_of_presL_g I PN _ x u (hx.trans ht')).trans hfu⟩
     · -- `d ≥ 2`: clause (5)
@@ -435,7 +431,7 @@ theorem exists_lift_transD {t f : ℕ} (hft : f + d * c = t) (hq : q₀ + d * c 
       have hmem := SW.range_Htr_le PN.imageANC (r := f) (q := (t₁ : ℤ)) hle₂ hk
         (show k + 1 = SW.d from rfl) (by rw [← hfk]; push_cast; ring)
         (show (SW.q₀ : ℤ) + k * c ≤ (t₁ : ℤ) by
-          show (q₀ : ℤ) + k * c ≤ (t₁ : ℤ)
+          change (q₀ : ℤ) + k * c ≤ (t₁ : ℤ)
           rw [add_mul, one_mul] at hq
           omega) ⟨u, rfl⟩
       obtain ⟨t', ht'⟩ := hmem
@@ -445,7 +441,7 @@ theorem exists_lift_transD {t f : ℕ} (hft : f + d * c = t) (hq : q₀ + d * c 
       have hnat := ConcreteCategory.congr_hom
         (blowupHtr_naturality I PN.presC.resShortComplex.f 0 (t₁ : ℤ) (f : ℤ) hle₂) u
       refine hnat.symm.trans ?_
-      show blowupHtr I PN.presC.resShortComplex.X₂ 0 (t₁ : ℤ) (f : ℤ) hle₂
+      change blowupHtr I PN.presC.resShortComplex.X₂ 0 (t₁ : ℤ) (f : ℤ) hle₂
         (blowupHmodMap I 0 ((twistedPullbackFunctor I (t₁ : ℤ)).map PN.presC.resShortComplex.f) u)
         = _
       rw [hfu]
@@ -464,7 +460,7 @@ theorem resLin_finTranspose_comp_evalVec {s r : ℕ}
     (E : (Fin s → A ⧸ I ^ n) →ₗ[A ⧸ I ^ n] (Fin r → A ⧸ I ^ n)) (w : Fin s → A ⧸ I ^ n) :
     resLin I (finTranspose E) ≫ evalVec I s w = evalVec I r (E w) := by
   refine ModuleCat.hom_ext (LinearMap.ext fun v => ?_)
-  show ∑ j, finTranspose E v j * w j = ∑ k, v k * E w k
+  change ∑ j, finTranspose E v j * w j = ∑ k, v k * E w k
   have hEw : E w = ∑ j, w j • E (Pi.single j 1) := by
     conv_lhs => rw [pi_eq_sum_univ w, map_sum]
     refine Finset.sum_congr rfl fun j _ => ?_
@@ -558,7 +554,7 @@ theorem exists_extension_of_split {d : ℕ}
   have hx' : blowupHmodMap I 0 ((twistedPullbackFunctor I (f : ℤ)).map (resLin I PN.transD)) x =
       blowupHtr I (ModuleCat.of A (Fin P.r₀ → A ⧸ I ^ n)) 0 (n : ℤ) (f : ℤ) hnf y := by
     rw [hx]
-    show blowupHtr I (ModuleCat.of A (Fin P.r₀ → A ⧸ I ^ n)) 0 (t : ℤ) (f : ℤ) htf
+    change blowupHtr I (ModuleCat.of A (Fin P.r₀ → A ⧸ I ^ n)) 0 (t : ℤ) (f : ℤ) htf
       (blowupHmodMap I 0
         (PN.presC.resShortComplex.map (twistedPullbackFunctor I (t : ℤ))).iCycles s) = _
     rw [hs]
@@ -567,7 +563,7 @@ theorem exists_extension_of_split {d : ℕ}
         htf hnt hnf) y
   refine ⟨readout I q₀ h hq x, fun z => ?_⟩
   obtain ⟨w, rfl⟩ := P.surjective_π z
-  show cdivInv I q₀ h n hq (blowupHmodTwistedPullbackQuotientEquiv I n 0 f
+  change cdivInv I q₀ h n hq (blowupHmodTwistedPullbackQuotientEquiv I n 0 f
     (blowupHmodMap I 0 ((twistedPullbackFunctor I (f : ℤ)).map (evalVec I r ((D ∘ₗ P.π) w))) x))
       = _
   have he : evalVec I r ((D ∘ₗ P.π) w) = resLin I PN.transD ≫ evalVec I P.r₀ w :=

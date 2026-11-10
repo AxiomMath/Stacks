@@ -40,6 +40,8 @@ variable {O O' O'' O₀ : Sheaf J CommRingCat.{u}} (g₁ : O ⟶ O') (g₂ : O' 
   {f₁₂ : O ⟶ O''} {f₂₃ : O' ⟶ O₀} {f : O ⟶ O₀} (h₁₂ : g₁ ≫ g₂ = f₁₂) (h₂₃ : g₂ ≫ g₃ = f₂₃)
   (h : f₁₂ ≫ g₃ = f) (h' : g₁ ≫ f₂₃ = f)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **Associativity of the identifications of restrictions of scalars, on complexes**: both
 composites are the identity on the underlying presheaves. -/
 theorem restrictScalarsCompIsoOf_mapHomologicalComplex_assoc
@@ -85,6 +87,7 @@ theorem restrictionOnDerivedCompFactors_hom_app_mapDerivedCategory {f' : O' ⟶ 
   simp only [restrictionOnDerivedCompFactors, restrictionOnDerived]
   simp
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **Associativity of the identifications of derived restrictions of scalars**, as natural
 transformations. -/
 theorem restrictionOnDerivedCompIso_assoc_natTrans :
@@ -131,6 +134,7 @@ theorem restrictionOnDerivedCompIso_assoc_natTrans :
     restrictScalarsCompIsoOf_mapHomologicalComplex_assoc g₁ g₂ g₃ h₁₂ h₂₃ h h' M]
   simp only [Functor.map_comp, Category.assoc]
 
+omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **Associativity of the identifications of derived restrictions of scalars.** -/
 theorem restrictionOnDerivedCompIso_assoc
     (Y : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O₀))) :

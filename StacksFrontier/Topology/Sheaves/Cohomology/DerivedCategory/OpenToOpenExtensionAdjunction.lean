@@ -151,7 +151,7 @@ theorem unit_comp_jStar_map_jShriekToJPush (U : Opens Z) (M : SheafOfModules.{u}
       (jStarPushIso U O).inv.app M := by
   have hu := (jShriekAdjunction U O).unit.naturality ((jStarPushIso U O).inv.app M)
   simp only [Functor.id_map, Functor.comp_map, Functor.id_obj, Functor.comp_obj] at hu
-  show (jShriekAdjunction U O).unit.app M ≫ (jStar U O).map
+  change (jShriekAdjunction U O).unit.app M ≫ (jStar U O).map
       ((jShriek U O).map ((jStarPushIso U O).inv.app M) ≫
         (jShriekAdjunction U O).counit.app ((jPush U O).obj M)) = _
   rw [Functor.map_comp, ← Category.assoc, ← hu, Category.assoc,

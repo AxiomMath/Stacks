@@ -13,8 +13,8 @@ Stacks Tag 055Q conditional on Tag 055P together with stability of `X⁰` under 
 (`AlgebraicGeometry.ConnectedAlongSection.locus_mem_nhdsSet_fiberComponent_of_specializes`).
 
 Feeding in Tag 055N as proved in
-`StacksFrontier.AlgebraicGeometry.MoreMorphisms.ConnectedComponentSection.Clopen` collapses the first
-of those
+`StacksFrontier.AlgebraicGeometry.MoreMorphisms.ConnectedComponentSection.Clopen` collapses
+the first of those
 hypotheses, so that the whole chain `055N → 055P → 055Q → 055R` rests on the conclusion of
 Tag 055G alone, plus — for 055Q and 055R — the stability of `X⁰` under generalization.
 

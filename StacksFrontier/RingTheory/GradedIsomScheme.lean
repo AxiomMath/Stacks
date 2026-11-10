@@ -90,8 +90,7 @@ variable {C} in
 theorem tensorEquivDualHom_rTensor {C' : Type*} [AddCommGroup C'] [Module R C']
     (g : C →ₗ[R] C') (w : C ⊗[R] Q) (ξ : Dual R Q) :
     tensorEquivDualHom C' Q (g.rTensor Q w) ξ = g (tensorEquivDualHom C Q w ξ) := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul c q => simp
   | add x y hx hy => simp [hx, hy]
 
@@ -109,7 +108,7 @@ is `ψ (p ⊗ ξ)`. -/
 @[simp]
 theorem tensorEquivDualHom_homTensorDualEquiv (ψ : P ⊗[R] Dual R Q →ₗ[R] C) (p : P)
     (ξ : Dual R Q) : tensorEquivDualHom C Q (homTensorDualEquiv C Q P ψ p) ξ = ψ (p ⊗ₜ ξ) := by
-  show tensorEquivDualHom C Q ((tensorEquivDualHom C Q).symm
+  change tensorEquivDualHom C Q ((tensorEquivDualHom C Q).symm
     ((lift.equiv (RingHom.id R) P (Dual R Q) C).symm ψ p)) ξ = _
   rw [LinearEquiv.apply_symm_apply]
   rfl
@@ -434,8 +433,7 @@ variable {Q P P' X : Type*} [AddCommGroup Q] [Module R Q] [AddCommGroup P] [Modu
 /-- Base change of `A ⊗ Q` along an algebra map `φ : A → C` is `φ`-semilinear. -/
 theorem rTensor_algHom_smul (φ : A →ₐ[R] C) (a : A) (x : A ⊗[R] Q) :
     φ.toLinearMap.rTensor Q (a • x) = φ a • φ.toLinearMap.rTensor Q x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a' q => simp [smul_tmul']
   | add x y hx hy => simp [smul_add, hx, hy]
 
@@ -443,12 +441,10 @@ theorem rTensor_algHom_smul (φ : A →ₐ[R] C) (a : A) (x : A ⊗[R] Q) :
 theorem rTensor_bilinBaseChange (φ : A →ₐ[R] C) (m : P →ₗ[R] P' →ₗ[R] X) (x : A ⊗[R] P)
     (y : A ⊗[R] P') : φ.toLinearMap.rTensor X (bilinBaseChange A m x y) =
       bilinBaseChange C m (φ.toLinearMap.rTensor P x) (φ.toLinearMap.rTensor P' y) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x x' hx hx' => simp [hx, hx']
   | tmul a p =>
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | add y y' hy hy' => simp [hy, hy']
     | tmul a' p' => simp
 
@@ -456,8 +452,7 @@ theorem rTensor_bilinBaseChange (φ : A →ₐ[R] C) (m : P →ₗ[R] P' →ₗ[
 theorem rTensor_liftBaseChange (φ : A →ₐ[R] C) (h : P →ₗ[R] A ⊗[R] Q) (w : A ⊗[R] P) :
     φ.toLinearMap.rTensor Q (h.liftBaseChange A w) =
       (φ.toLinearMap.rTensor Q ∘ₗ h).liftBaseChange C (φ.toLinearMap.rTensor P w) := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w using TensorProduct.inductionOn with
   | tmul a p => simp [rTensor_algHom_smul]
   | add x y hx hy => simp [hx, hy]
 

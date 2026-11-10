@@ -342,7 +342,7 @@ public theorem bijective_unit_app_app_of_image {X : Scheme.{u}} (V : X.Opens) (F
     exact isIso_presheaf_map_eqToHom F hU
   have h2 : IsIso (((Scheme.Modules.pushforward V.ι).map
       ((Scheme.Modules.restrictFunctorIsoPullback V.ι).hom.app F)).app U) := by
-    show IsIso (((Scheme.Modules.toPresheaf X).map
+    change IsIso (((Scheme.Modules.toPresheaf X).map
       ((Scheme.Modules.pushforward V.ι).map
         ((Scheme.Modules.restrictFunctorIsoPullback V.ι).hom.app F))).app (.op U))
     infer_instance
@@ -418,7 +418,7 @@ public theorem support_subset_preimage (V : X.Opens) (hV : Set.range i.base ⊆ 
     (nbhdTower i V hV).support ⊆ (V.ι ⁻¹ᵁ U : V.toScheme.Opens) := by
   intro x hx
   obtain ⟨y, rfl⟩ := hx
-  show V.ι.base ((nbhdImmersion i V hV).base y) ∈ (U : Set X)
+  change V.ι.base ((nbhdImmersion i V hV).base y) ∈ (U : Set X)
   exact Set.mem_of_eq_of_mem (congrFun (ι_comp_nbhdImmersion_base i V hV) y)
     (hU (Set.mem_range_self y))
 

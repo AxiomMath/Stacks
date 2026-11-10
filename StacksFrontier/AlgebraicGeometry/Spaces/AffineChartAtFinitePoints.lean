@@ -111,7 +111,7 @@ theorem exists_affine_etale_chart_at_finite_points
       Sigma.desc fun a : ULift.{u} (Fin n) =>
         (BigFppfOver.toScheme B S hS).map (j (k a.down)) := by
     refine Sigma.hom_ext _ _ fun a => ?_
-    rw [← Category.assoc, hce a, Sigma.ι_desc, ← Functor.map_comp, hd a]
+    rw [← Category.assoc, hce a, Sigma.ι_comp_desc, ← Functor.map_comp, hd a]
   have hEt : ∀ a : ULift.{u} (Fin n),
       Etale ((BigFppfOver.toScheme B S hS).map (j (k a.down))) := by
     intro a

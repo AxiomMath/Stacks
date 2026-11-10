@@ -118,7 +118,7 @@ theorem pointsMap_pointsEquivScheme_symm_genericPoint (hInt : IsIntegralSpace B 
       rw [Set.image_singleton, (genericPoint_spec ((BigFppfOver.toScheme B S hS).obj V)).def,
         Set.image_univ] at himg
       exact himg
-    show closure {j (_root_.genericPoint ((BigFppfOver.toScheme B S hS).obj V))} = Set.univ
+    change closure {j (_root_.genericPoint ((BigFppfOver.toScheme B S hS).obj V))} = Set.univ
     refine Set.eq_univ_of_univ_subset ?_
     rw [← hdense.closure_eq]
     exact closure_minimal hsub isClosed_closure
@@ -325,7 +325,7 @@ theorem properCyclePushforward_eq_zero_of_deltaValue_drop
     obtain ⟨p, rfl⟩ := hxV
     refine ⟨pointsEquivScheme D.site D.base D.base_mem Vo
       (pointsMap D.site D.base D.base_mem _ eV.inv p), ?_⟩
-    show pointsMap D.site D.base D.base_mem (yoneda.obj Vo) β
+    change pointsMap D.site D.base D.base_mem (yoneda.obj Vo) β
       ((pointsEquivScheme D.site D.base D.base_mem Vo).symm
         ((pointsEquivScheme D.site D.base D.base_mem Vo)
           (pointsMap D.site D.base D.base_mem _ eV.inv p))) = _
@@ -339,11 +339,11 @@ theorem properCyclePushforward_eq_zero_of_deltaValue_drop
         pointsMap D.site D.base D.base_mem _ (yoneda.map π)
           ((pointsEquivScheme D.site D.base D.base_mem Vo).symm v) := by
       refine (pointsEquivScheme D.site D.base D.base_mem To).symm_apply_eq.2 ?_
-      show πs v = pointsToScheme D.site D.base D.base_mem To _
+      change πs v = pointsToScheme D.site D.base D.base_mem To _
       rw [pointsToScheme_pointsMap_yoneda]
       congr 1
       exact ((pointsEquivScheme D.site D.base D.base_mem Vo).apply_symm_apply v).symm
-    show pointsMap D.site D.base D.base_mem _ α
+    change pointsMap D.site D.base D.base_mem _ α
         ((pointsEquivScheme D.site D.base D.base_mem To).symm (πs v)) = _
     rw [h1, ← pointsMap_comp_apply, hcomm, pointsMap_comp_apply]
     rfl
@@ -366,7 +366,7 @@ theorem properCyclePushforward_eq_zero_of_deltaValue_drop
     pointsMap_pointsEquivScheme_symm_genericPoint D.site D.base D.base_mem hW'.1 α hα hW'int
   have hlift : ∀ v, pointsMap D.site D.base D.base_mem W q (jV v) = ξ' →
       πs v = _root_.genericPoint Ts := fun v hv => hjTemb.injective (by
-    show jT _ = jT _
+    change jT _ = jT _
     rw [hnat, hv, hgT])
   have hπgen : πs (_root_.genericPoint Vs) = _root_.genericPoint Ts :=
     hlift _ (by rw [hgV, hqgen])
@@ -418,7 +418,7 @@ theorem properCyclePushforward_eq_zero_of_deltaValue_drop
   have hsum := Stacks.Chow.genericFibreDegreeVanishes C (𝟙 Ts) πs hdimV hdimT g hg0
   refine Subtype.ext (funext fun Z' => ?_)
   rw [properPushforward_apply]
-  show (∑ᶠ Z, (c : IntegralClosedSubspace D.site D.base D.base_mem W → ℤ) Z *
+  change (∑ᶠ Z, (c : IntegralClosedSubspace D.site D.base D.base_mem W → ℤ) Z *
     properCycleMult D sW hW sW' hW' q Z Z') = 0
   set Φ : Vs → IntegralClosedSubspace D.site D.base D.base_mem W := fun v =>
     integralClosedSubspaceOfPoint D.site D.base D.base_mem hW.1 hdec (jV v)
@@ -427,7 +427,7 @@ theorem properCyclePushforward_eq_zero_of_deltaValue_drop
     ((Φ v).isGenericPoint_ambientGenericPoint D.site D.base D.base_mem hW.1).eq
       (isGenericPoint_integralClosedSubspaceOfPoint D.site D.base D.base_mem hW.1 hdec (jV v))
   have hΦinj : Function.Injective Φ := fun v w h => hjVemb.injective (by
-    show jV v = jV w
+    change jV v = jV w
     rw [← hΦgen v, ← hΦgen w, h])
   have hK : ∀ Z : IntegralClosedSubspace D.site D.base D.base_mem W,
       (c : IntegralClosedSubspace D.site D.base D.base_mem W → ℤ) Z *
@@ -448,7 +448,7 @@ theorem properCyclePushforward_eq_zero_of_deltaValue_drop
     have hδζ : D.deltaValue sW' (pointsMap D.site D.base D.base_mem W q
         (Z.ambientGenericPoint D.site D.base D.base_mem)) = k := by
       rw [← hζ]
-      show deltaDimension D sW' Z' = k
+      change deltaDimension D sW' Z' = k
       rw [← himg, hδeq, hδZ]
     have hqz : pointsMap D.site D.base D.base_mem W q
         (Z.ambientGenericPoint D.site D.base D.base_mem) = ξ' := by
@@ -495,7 +495,7 @@ theorem properCyclePushforward_eq_zero_of_deltaValue_drop
       by_contra hne
       have h1 := c.2.2 (Φ v) hne
       have h2 : deltaDimension D sW (Φ v) = k + 1 := by
-        show D.deltaValue sW ((Φ v).ambientGenericPoint D.site D.base D.base_mem) = _
+        change D.deltaValue sW ((Φ v).ambientGenericPoint D.site D.base D.base_mem) = _
         rw [hzZ, hvg, hgV]
         exact hWd
       omega
@@ -514,7 +514,7 @@ theorem properCyclePushforward_eq_zero_of_deltaValue_drop
   have hδz : D.deltaValue sW (jV v) = k := deltaValue_eq_of_pointsMap_eq_genericPoint D sW hW
     hWint sW' hW' hW'int q hq k hWd hW'd (jV v) hqz hne
   have hδZ : deltaDimension D sW (Φ v) = k + 1 - 1 := by
-    show D.deltaValue sW ((Φ v).ambientGenericPoint D.site D.base D.base_mem) = _
+    change D.deltaValue sW ((Φ v).ambientGenericPoint D.site D.base D.base_mem) = _
     rw [hzZ, hδz]
     ring
   have hn : deltaDimensionClosed D sW hW Set.univ isClosed_univ = ((k + 1 : ℤ) : EInt) :=
@@ -526,7 +526,7 @@ theorem properCyclePushforward_eq_zero_of_deltaValue_drop
   have hcZ : (c : IntegralClosedSubspace D.site D.base D.base_mem W → ℤ) (Φ v) =
       E.ord hf.unit Z'' := by
     rw [hcf]
-    exact dif_pos hcod
+    exact dite_eq_left hcod
   have hgenZ'' : jV v = Z''.genericPoint D.site D.base D.base_mem W := by
     have h1 := Z''.isGenericPoint_genericPoint D.site D.base D.base_mem W
     have h2 := (Φ v).isGenericPoint_ambientGenericPoint D.site D.base D.base_mem hW.1
@@ -564,10 +564,10 @@ theorem properCyclePushforward_eq_zero_of_deltaValue_drop
     have hδ' : deltaDimension D sW' (IntegralClosedSubspace.closureImage D.site D.base D.base_mem
         hW'.1 (D.isDecentSpace_of_isGood sW' hW') q (Φ v)) = deltaDimension D sW (Φ v) := by
       rw [himg, hδZ]
-      show D.deltaValue sW' (Z'.ambientGenericPoint D.site D.base D.base_mem) = _
+      change D.deltaValue sW' (Z'.ambientGenericPoint D.site D.base D.base_mem) = _
       rw [hZ', hW'd]
       ring
-    rw [properCycleMult, if_pos himg, properCycleDegree, if_pos hδ', hfd]
+    rw [properCycleMult, ite_eq_left himg, properCycleDegree, ite_eq_left hδ', hfd]
   rw [hcZ, hmult, hord]
 
 end DimensionDrop

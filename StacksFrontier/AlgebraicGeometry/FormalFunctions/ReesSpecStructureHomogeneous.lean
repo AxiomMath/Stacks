@@ -105,7 +105,7 @@ public theorem ringSectionToGamma_baseRingToSections_top (a : A) :
       (X.hom.app (⊤ : (Spec (.of A)).Opens)) (specTopEquiv a) := by
   have h1 : (TopologicalSpace.Opens.leTop (⊤ : X.left.Opens)).op =
       𝟙 (op (⊤ : X.left.Opens)) := rfl
-  show (X.left.ringCatSheaf.obj.map (TopologicalSpace.Opens.leTop (⊤ : X.left.Opens)).op).hom
+  change (X.left.ringCatSheaf.obj.map (TopologicalSpace.Opens.leTop (⊤ : X.left.Opens)).op).hom
       (((Scheme.ΓSpecIso (.of A)).inv ≫ X.hom.appTop).hom a) = _
   rw [h1, CategoryTheory.Functor.map_id]
   rfl

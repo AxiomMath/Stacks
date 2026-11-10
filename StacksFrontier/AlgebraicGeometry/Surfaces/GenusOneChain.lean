@@ -396,7 +396,7 @@ private lemma matchesCoefficients_of_path (T : NumericalType) (hn : 3 ≤ T.comp
         = max (GenusOne.longWeight f T.componentCount a)
             (GenusOne.longWeight f T.componentCount b) := by
     intro a b hab h
-    simp only [GenusOne.longIntersection, if_neg hab]
+    simp only [GenusOne.longIntersection, ite_eq_right hab]
     rcases h with h | h
     · rw [min_eq_left (by omega), max_eq_right (by omega)]
       exact hedge a b h
@@ -408,7 +408,7 @@ private lemma matchesCoefficients_of_path (T : NumericalType) (hn : 3 ≤ T.comp
     intro a b hab h
     push Not at h
     have hv : a.val ≠ b.val := fun hc => hab (Fin.ext hc)
-    simp only [GenusOne.longIntersection, if_neg hab]
+    simp only [GenusOne.longIntersection, ite_eq_right hab]
     rcases Nat.lt_or_ge a.val b.val with hlt | hge
     · rw [min_eq_left (by omega), max_eq_right (by omega)]
       exact hzero a b (by omega)
@@ -1067,20 +1067,20 @@ private lemma chain_case_28 (T : NumericalType) (hn : 6 ≤ T.componentCount)
   refine isGenusOneConfiguration_of_chain T hn hminus v hvinj hchar .downUp
     (Or.inr (Or.inr rfl)) (T.multiplicity (v i0)) c (T.multiplicity_pos _) hc i0 iL h0 hL ?_
     (fun a hlo hhi => ?_) ?_ ?_ (fun a hlo hhi => ?_) ?_
-  · simp only [GenusOne.longMultiplicity, if_pos (Or.inl h0)]
+  · simp only [GenusOne.longMultiplicity, ite_eq_left (Or.inl h0)]
     ring
-  · simp only [GenusOne.longMultiplicity, if_neg (show ¬(a.val = 0 ∨
+  · simp only [GenusOne.longMultiplicity, ite_eq_right (show ¬(a.val = 0 ∨
       a.val = T.componentCount - 1) by omega)]
     linarith [hmid a hlo hhi]
-  · simp only [GenusOne.longMultiplicity, if_pos (Or.inr (show iL.val =
+  · simp only [GenusOne.longMultiplicity, ite_eq_left (Or.inr (show iL.val =
       T.componentCount - 1 from hL))]
     linarith
-  · simp only [GenusOne.longWeight, if_pos (Or.inl h0)]
+  · simp only [GenusOne.longWeight, ite_eq_left (Or.inl h0)]
     linarith
-  · simp only [GenusOne.longWeight, if_neg (show ¬(a.val = 0 ∨
+  · simp only [GenusOne.longWeight, ite_eq_right (show ¬(a.val = 0 ∨
       a.val = T.componentCount - 1) by omega)]
     linarith [hcint a hlo hhi]
-  · simp only [GenusOne.longWeight, if_pos (Or.inr (show iL.val =
+  · simp only [GenusOne.longWeight, ite_eq_left (Or.inr (show iL.val =
       T.componentCount - 1 from hL))]
     linarith
 
@@ -1103,22 +1103,22 @@ private lemma chain_case_26 (T : NumericalType) (hn : 6 ≤ T.componentCount)
   refine isGenusOneConfiguration_of_chain T hn hminus v hvinj hchar .upUp (Or.inl rfl)
     (T.multiplicity (v iL)) (T.weight (v i0)) (T.multiplicity_pos _) (T.weight_pos _)
     i0 iL h0 hL ?_ (fun a hlo hhi => ?_) ?_ ?_ (fun a hlo hhi => ?_) ?_
-  · simp only [GenusOne.longMultiplicity, if_neg (show ¬(i0.val =
+  · simp only [GenusOne.longMultiplicity, ite_eq_right (show ¬(i0.val =
       T.componentCount - 1) by omega)]
     linarith
-  · simp only [GenusOne.longMultiplicity, if_neg (show ¬(a.val =
+  · simp only [GenusOne.longMultiplicity, ite_eq_right (show ¬(a.val =
       T.componentCount - 1) by omega)]
     linarith [hmid a hlo hhi]
-  · simp only [GenusOne.longMultiplicity, if_pos (show iL.val =
+  · simp only [GenusOne.longMultiplicity, ite_eq_left (show iL.val =
       T.componentCount - 1 from hL)]
     ring
-  · simp only [GenusOne.longWeight, if_pos (show i0.val = 0 from h0)]
+  · simp only [GenusOne.longWeight, ite_eq_left (show i0.val = 0 from h0)]
     ring
-  · simp only [GenusOne.longWeight, if_neg (show ¬(a.val = 0) by omega),
-      if_neg (show ¬(a.val = T.componentCount - 1) by omega)]
+  · simp only [GenusOne.longWeight, ite_eq_right (show ¬(a.val = 0) by omega),
+      ite_eq_right (show ¬(a.val = T.componentCount - 1) by omega)]
     linarith [hcint a hlo hhi]
-  · simp only [GenusOne.longWeight, if_neg (show ¬(iL.val = 0) by omega),
-      if_pos (show iL.val = T.componentCount - 1 from hL)]
+  · simp only [GenusOne.longWeight, ite_eq_right (show ¬(iL.val = 0) by omega),
+      ite_eq_left (show iL.val = T.componentCount - 1 from hL)]
     linarith
 
 /-- A chain of at least six minus-two indices with interior weight `c` and constant interior
@@ -1177,12 +1177,12 @@ private lemma chain_case_27 (T : NumericalType) (hn : 6 ≤ T.componentCount)
     linarith [hmid a hlo hhi]
   · simp only [GenusOne.longMultiplicity]
     linarith
-  · simp only [GenusOne.longWeight, if_pos (Or.inl h0)]
+  · simp only [GenusOne.longWeight, ite_eq_left (Or.inl h0)]
     ring
-  · simp only [GenusOne.longWeight, if_neg (show ¬(a.val = 0 ∨
+  · simp only [GenusOne.longWeight, ite_eq_right (show ¬(a.val = 0 ∨
       a.val = T.componentCount - 1) by omega)]
     linarith [hcint a hlo hhi]
-  · simp only [GenusOne.longWeight, if_pos (Or.inr (show iL.val =
+  · simp only [GenusOne.longWeight, ite_eq_left (Or.inr (show iL.val =
       T.componentCount - 1 from hL))]
     linarith
 
@@ -1239,7 +1239,9 @@ to (21) for five components, and cases (26), (27) and (28) for six or more. From
 on, which of the three chains occurs is decided by the two end weights: both twice the interior
 weight gives (28), one half and one twice gives (26), both half gives (27), and an end weight
 equal to the interior weight is impossible. -/
-@[stacks 0C8T "the classification when every component meets at most two others and there are at least five of them: the cycle, cases (16) and (25), and the chains, cases (17)-(21) for five components and cases (26), (27) and (28) for six or more"]
+@[stacks 0C8T "the classification when every component meets at most two others and there are \
+at least five of them: the cycle, cases (16) and (25), and the chains, cases (17)-(21) for five \
+components and cases (26), (27) and (28) for six or more"]
 public theorem isMinimal_and_genus_eq_one_iff_of_neighborCount_le_two (T : NumericalType)
     (hn : 5 ≤ T.componentCount) (hdeg : ∀ i, neighborCount T i ≤ 2) :
     (IsMinimal T ∧ genus T = 1) ↔ IsGenusOneConfiguration T := by

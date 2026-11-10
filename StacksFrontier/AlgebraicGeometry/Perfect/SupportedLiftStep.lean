@@ -115,7 +115,7 @@ theorem cohomologySupportedOn_derivedPullback_homOfLE {U' U : X.Opens} (h : U' �
       (Subtype.val ⁻¹' T) ((derivedRestrict (X.homOfLE h).toLRSHom.toShHom).obj A) := by
   refine cohomologySupportedOn_derivedPullback_of_preimage_iff
     (X.homOfLE h).toLRSHom.toShHom A hAT fun z => ?_
-  show Subtype.val ((X.homOfLE h).toLRSHom.toShHom.hom.base z) ∈ T ↔ Subtype.val z ∈ T
+  change Subtype.val ((X.homOfLE h).toLRSHom.toShHom.hom.base z) ∈ T ↔ Subtype.val z ∈ T
   rw [show Subtype.val ((X.homOfLE h).toLRSHom.toShHom.hom.base z) = Subtype.val z from
     congrArg (fun φ : X.toRingedSpace.restrict U'.isOpenEmbedding ⟶ X.toRingedSpace =>
       φ.hom.base z) (Stacks.NestedRestrictionOfLE.homOfLE_toShHom_comp_ofRestrict X h)]
@@ -137,7 +137,7 @@ theorem cohomologySupportedOn_derivedPullback_restrictNested {U W : X.Opens} (hU
       ((derivedPullback (restrictNestedIsoRestrict U W hUW).hom).obj A) := by
   refine cohomologySupportedOn_derivedPullback_of_preimage_iff
     (restrictNestedIsoRestrict U W hUW).hom A hAT fun z => ?_
-  show Subtype.val ((restrictNestedIsoRestrict U W hUW).hom.hom.base z) ∈ T ↔
+  change Subtype.val ((restrictNestedIsoRestrict U W hUW).hom.hom.base z) ∈ T ↔
     Subtype.val (Subtype.val z) ∈ T
   rw [restrictNestedIsoRestrict_base_val]
 

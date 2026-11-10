@@ -141,7 +141,7 @@ theorem not_valuativeCriterion_existence_of_mem_maximalIdeal
     have h := congrArg yonedaEquiv (l.generic_comm.trans e.generic_comm)
     rw [← yonedaEquiv_naturality] at h
     refine h.trans ?_
-    show yonedaEquiv (yoneda.map e.genericOver ≫ yoneda.map a ≫ chart) = _
+    change yonedaEquiv (yoneda.map e.genericOver ≫ yoneda.map a ≫ chart) = _
     rw [← Category.assoc, ← Functor.map_comp, yonedaEquiv_comp, yonedaEquiv_yoneda_map]
   -- It lifts to the chart over a flat arrow through the closed point of `Spec R'`.
   have : Presheaf.IsLocallySurjective J chart := isLocallySurjective_quotientChart J F V jr
@@ -191,13 +191,13 @@ theorem not_valuativeCriterion_existence_of_mem_maximalIdeal
   let wK : N ⟶ TK := Over.homMk (⟨Spec.map (CommRingCat.ofHom ψ')⟩ :
       B.obj hN ⟶ B.obj e.square.field_mem) (by
     apply ObjectProperty.hom_ext
-    show Spec.map (CommRingCat.ofHom ψ') ≫ Spec.map (CommRingCat.ofHom (algebraMap R' K')) ≫
+    change Spec.map (CommRingCat.ofHom ψ') ≫ Spec.map (CommRingCat.ofHom (algebraMap R' K')) ≫
       e.square.base = C.fromSpecResidueField u' ≫ B.inclusion.map c.hom
     rw [← Category.assoc, ← Spec.map_comp, hψ', hψ, Category.assoc, hqw])
   have hcomm : wc ≫ q = wK ≫ ginc := by
     refine BigFppfOver.hom_ext ?_
     rw [Functor.map_comp, Functor.map_comp]
-    show C.fromSpecResidueField u' ≫ qm =
+    change C.fromSpecResidueField u' ≫ qm =
       Spec.map (CommRingCat.ofHom ψ') ≫ Spec.map (CommRingCat.ofHom (algebraMap R' K'))
     rw [← Spec.map_comp, hψ', hψ]
   -- The two lifts to the line of the point of the quotient over the residue field.
@@ -205,7 +205,7 @@ theorem not_valuativeCriterion_existence_of_mem_maximalIdeal
     rw [hchartnat wc ℓ, hℓ, hchartnat wK (e.genericOver ≫ a), ← hsgen,
       ← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp, ← op_comp, hcomm]
   have : Unique (F.obj N).left := by
-    show Unique (Spec (C.residueField u'))
+    change Unique (Spec (C.residueField u'))
     infer_instance
   have hrel : jr.Rel (F.map (wc ≫ ℓ)) (F.map (wK ≫ e.genericOver ≫ a)) :=
     (quotientChart_app_eq_iff_rel J F V jr
@@ -229,16 +229,16 @@ theorem not_valuativeCriterion_existence_of_mem_maximalIdeal
       (translationAction k (Multiplicative.ofAdd n)).asIso.hom) =
       (Scheme.ΓSpecIso (C.residueField u')).inv (ψ' (φ (algebraMap R K t)⁻¹) + n) := by
     refine (lineCoord_comp k _ _).trans ?_
-    show (F.map (wK ≫ e.genericOver ≫ a)).left.appTop
+    change (F.map (wK ≫ e.genericOver ≫ a)).left.appTop
       (((translationAction k (Multiplicative.ofAdd n)).asIso.hom.left).appTop
         (AffineSpace.coord (Spec (.of k)) PUnit.unit)) = _
     rw [translationAction_apply]
     refine ((F.map (wK ≫ e.genericOver ≫ a)).left.appTop.hom.map_add _ _).trans ?_
     rw [map_add]
     refine congrArg₂ (· + ·) ?_ ((map_intCast _ n).trans (map_intCast _ n).symm)
-    show lineCoord k (F.map wK ≫ F.map e.genericOver ≫ F.map a) = _
+    change lineCoord k (F.map wK ≫ F.map e.genericOver ≫ F.map a) = _
     rw [lineCoord_comp, lineCoord_comp k (F.map e.genericOver) (F.map a), hacoord]
-    show (Spec.map (CommRingCat.ofHom ψ')).appTop
+    change (Spec.map (CommRingCat.ofHom ψ')).appTop
       ((B.inclusion.map e.genericOver.left).appTop _) = _
     rw [e.genericOver_left, Scheme.specMap_appTop_ΓSpecIso_inv,
       Scheme.specMap_appTop_ΓSpecIso_inv]
@@ -249,11 +249,11 @@ theorem not_valuativeCriterion_existence_of_mem_maximalIdeal
   let tc : Γ(C, ⊤) := qm.appTop ((Scheme.ΓSpecIso (.of R')).inv (ρ t))
   have htc : C.Γevaluation u' tc = ψ' (φ (algebraMap R K t)) := by
     apply hinj
-    show (Scheme.ΓSpecIso (C.residueField u')).inv _ = (Scheme.ΓSpecIso _).inv _
+    change (Scheme.ΓSpecIso (C.residueField u')).inv _ = (Scheme.ΓSpecIso _).inv _
     rw [← Scheme.fromSpecResidueField_appTop_apply, ← CommRingCat.comp_apply,
       ← Scheme.Hom.comp_appTop, ← hψ, Scheme.specMap_appTop_ΓSpecIso_inv]
     congr 1
-    show g (ρ t) = _
+    change g (ρ t) = _
     rw [← hψ'0, RingHom.comp_apply, ← RingHom.comp_apply (algebraMap R' K') ρ, e.fraction_comm,
       RingHom.comp_apply]
   -- The function `t (A - n) - 1` vanishes at `u'`, hence at its specialization `u`.

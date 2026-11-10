@@ -96,7 +96,7 @@ theorem fiberι_preimage_closure_eq_fiberComponent
       (isClosed_closure.preimage (D.f.fiberι y).continuous)
       (Set.eq_univ_of_forall hcover) hdisj
   have hsection : D.sectionPoint y ∈ (D.f.fiberι y) ⁻¹' A := by
-    show D.f.fiberι y (D.sectionPoint y) ∈ A
+    change D.f.fiberι y (D.sectionPoint y) ∈ A
     rw [D.fiberι_sectionPoint]
     exact D.range_section_subset_closure_image_fiberComponent η hη ⟨y, rfl⟩
   have hconnSet : _root_.IsConnected ((D.f.fiberι y) ⁻¹' A) :=
@@ -181,7 +181,7 @@ theorem exists_open_isClopen_locus_of_geometricallyConnected
       exact ⟨e.symm z.1, z.2, congrArg Subtype.val (e.apply_symm_apply z.1)⟩
     · rintro ⟨w, hw, rfl⟩
       exact ⟨⟨e w, by
-        show e.symm (e w) ∈ W
+        change e.symm (e w) ∈ W
         rwa [e.symm_apply_apply]⟩, rfl⟩
   rw [hR]
   let K : {p : ↥(pullback D.f I.subschemeι) // pullback.snd D.f I.subschemeι p ∈ (W : Set D'.Y)} ≃ₜ
@@ -199,7 +199,7 @@ theorem exists_open_isClopen_locus_of_geometricallyConnected
         exact ⟨⟨p, by rwa [hsnd]⟩, Subtype.ext hfst⟩
   have hpre : K ⁻¹' {x | (x.1 : D.X) ∈ D.locus} = {p | (p.1 : D'.X) ∈ D'.locus} := by
     ext p
-    show pullback.fst D.f I.subschemeι p.1 ∈ D.locus ↔ p.1 ∈ D'.locus
+    change pullback.fst D.f I.subschemeι p.1 ∈ D.locus ↔ p.1 ∈ D'.locus
     rw [D.locus_baseChange]
     rfl
   have hK : IsClopen (K ⁻¹' {x | (x.1 : D.X) ∈ D.locus}) := by rwa [hpre]

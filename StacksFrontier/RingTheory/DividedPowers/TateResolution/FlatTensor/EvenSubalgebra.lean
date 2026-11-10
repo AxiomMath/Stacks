@@ -57,7 +57,7 @@ private theorem dividedPowers_extends_to_flatTensor
   let D : DividedPowerRing := ⟨B, I, γ⟩
   have hflat :
       (Algebra.TensorProduct.includeLeftRingHom : B →+* B ⊗[R] P).Flat := by
-    show (algebraMap B (B ⊗[R] P)).Flat
+    change (algebraMap B (B ⊗[R] P)).Flat
     exact RingHom.flat_algebraMap_iff.mpr inferInstance
   exact
     DividedPowerRing.dividedPowers_extends_of_map_eq_bot_or_isPrincipal_or_flat
@@ -131,7 +131,7 @@ private theorem ker_lTensor_inter_range_of_split
     exact ⟨t, rfl⟩
   · rintro z ⟨t, rfl⟩
     refine ⟨?_, _, rfl⟩
-    show (LinearMap.lTensor M q)
+    change (LinearMap.lTensor M q)
         ((LinearMap.rTensor P i ∘ₗ LinearMap.lTensor N q.ker.subtype) t) = 0
     calc
       _ = (LinearMap.rTensor Q i)
@@ -143,7 +143,7 @@ private theorem ker_lTensor_inter_range_of_split
       _ = 0 := by
         have hzero' : (LinearMap.lTensor N q)
             ((LinearMap.lTensor N q.ker.subtype) t) = 0 := by
-          show ((LinearMap.lTensor N q).comp
+          change ((LinearMap.lTensor N q).comp
             (LinearMap.lTensor N q.ker.subtype)) t = 0
           rw [← LinearMap.lTensor_comp, LinearMap.comp_ker_subtype]
           simp
@@ -164,15 +164,14 @@ private theorem tensorIdealKernel_range_le_mul
             (Algebra.TensorProduct.includeRight : P →ₐ[R] B ⊗[R] P)) := by
   intro z hz
   obtain ⟨t, rfl⟩ := hz
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul i f =>
       have hf : ((1 : B) ⊗ₜ[R] (f : P)) ∈
           (RingHom.ker q.toRingHom).map
             (Algebra.TensorProduct.includeRight : P →ₐ[R] B ⊗[R] P) := by
-        show (Algebra.TensorProduct.includeRight : P →ₐ[R] B ⊗[R] P) f ∈ _
+        change (Algebra.TensorProduct.includeRight : P →ₐ[R] B ⊗[R] P) f ∈ _
         exact Ideal.mem_map_of_mem _ f.property
-      show ((i : B) ⊗ₜ[R] (f : P)) ∈ _
+      change ((i : B) ⊗ₜ[R] (f : P)) ∈ _
       rw [show ((i : B) ⊗ₜ[R] (f : P)) =
           ((i : B) ⊗ₜ[R] (1 : P)) * ((1 : B) ⊗ₜ[R] (f : P)) by
         simp [Algebra.TensorProduct.tmul_mul_tmul]]
@@ -422,13 +421,13 @@ private theorem filtered_even_mem
   induction s using DirectSum.induction_on with
   | zero => simp
   | of i a =>
-      show ((DirectSum.decomposeLinearEquiv 𝒜).symm
+      change ((DirectSum.decomposeLinearEquiv 𝒜).symm
         (DFinsupp.filter Even (DFinsupp.single i a)) : A) ∈ evenPart 𝒜
       by_cases hi : Even i
       · obtain ⟨d, hd⟩ := hi
         have hi' : Even i := ⟨d, hd⟩
         rw [DFinsupp.filter_single_pos (β := fun j : ℕ => 𝒜 j) (p := Even) i a hi']
-        show ((DirectSum.decomposeLinearEquiv 𝒜).symm
+        change ((DirectSum.decomposeLinearEquiv 𝒜).symm
           ((DirectSum.lof R ℕ (fun j => 𝒜 j) i) a) : A) ∈ evenPart 𝒜
         rw [DirectSum.decomposeLinearEquiv_symm_lof]
         exact Submodule.mem_iSup_of_mem d (by simpa [hd, two_mul] using a.property)
@@ -456,14 +455,14 @@ private theorem evenProjection_of_mem_grade
     {i : ℕ} {a : A} (ha : a ∈ 𝒜 i) (hi : Even i) :
     (evenProjection 𝒜 a : A) = a := by
   unfold evenProjection
-  show (DirectSum.decomposeLinearEquiv 𝒜).symm
+  change (DirectSum.decomposeLinearEquiv 𝒜).symm
     (DFinsupp.filter Even ((DirectSum.decomposeLinearEquiv 𝒜) a)) = a
   rw [show a = (⟨a, ha⟩ : 𝒜 i) from rfl]
   rw [DirectSum.decomposeLinearEquiv_apply_coe]
-  show (DirectSum.decomposeLinearEquiv 𝒜).symm
+  change (DirectSum.decomposeLinearEquiv 𝒜).symm
     (DFinsupp.filter Even (DFinsupp.single i ⟨a, ha⟩)) = a
   rw [DFinsupp.filter_single_pos (β := fun j : ℕ => 𝒜 j) (p := Even) i ⟨a, ha⟩ hi]
-  show (DirectSum.decomposeLinearEquiv 𝒜).symm
+  change (DirectSum.decomposeLinearEquiv 𝒜).symm
     ((DirectSum.lof R ℕ (fun j => 𝒜 j) i) ⟨a, ha⟩) = a
   exact DirectSum.decomposeLinearEquiv_symm_lof 𝒜 i ⟨a, ha⟩
 
@@ -546,8 +545,7 @@ private def evenSubalgebraTensorHom
   refine Φ.codRestrict ((evenSubalgebra (R := P) 𝒜').restrictScalars R) ?_
   intro z
   change Φ z ∈ evenPart 𝒜'
-  induction z using TensorProduct.induction_on with
-  | zero => simp [Φ]
+  induction z using TensorProduct.inductionOn with
   | tmul b p =>
       have h : p ⊗ₜ[R] (b : A) ∈ (evenPart 𝒜).baseChange P :=
         Submodule.tmul_mem_baseChange_of_mem p b.property
@@ -585,7 +583,7 @@ private theorem evenSubalgebraTensorHom_tmul
       evenSubalgebra (R := P) (fun i => (𝒜 i).baseChange P)) : P ⊗[R] A) =
       p ⊗ₜ[R] (b : A) := by
   unfold evenSubalgebraTensorHom
-  show (Algebra.TensorProduct.comm R A P)
+  change (Algebra.TensorProduct.comm R A P)
     ((Algebra.TensorProduct.map (Subalgebra.val (evenSubalgebra 𝒜))
       (AlgHom.id R P)) (b ⊗ₜ[R] p)) = p ⊗ₜ[R] (b : A)
   simp only [Algebra.TensorProduct.map_tmul, Algebra.TensorProduct.comm_tmul,
@@ -600,8 +598,7 @@ private theorem evenTensorRetract_tensorHom
     (z : evenSubalgebra 𝒜 ⊗[R] P) :
     evenTensorRetract 𝒜 ((evenSubalgebraTensorHom 𝒜 z :
       evenSubalgebra (R := P) (fun i => (𝒜 i).baseChange P)) : P ⊗[R] A) = z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul b p =>
       rw [evenSubalgebraTensorHom_tmul]
       simp [evenTensorRetract_tmul, evenSubalgebraProjection_coe]
@@ -627,8 +624,7 @@ private theorem evenTensorHom_retract_of_mem
           (evenPart 𝒜).baseChange P) : P ⊗[R] A) by
     simpa only [ht] using h t
   intro t
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul p b =>
       rw [Submodule.coe_toBaseChange_tmul]
       have hb : (evenSubalgebraProjection 𝒜 (b : A) : evenSubalgebra 𝒜) = ⟨b, b.property⟩ :=

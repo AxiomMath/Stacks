@@ -215,6 +215,7 @@ theorem range_stalk_supportedImageMap {n k : ℕ} (h : n ≤ k) :
     rw [modulesStalkFunctor_map_germ]
     rfl
 
+omit [AlgebraicGeometry.IsNoetherian X] in
 /-- The germ span of a submodule annihilated by `ℐ(U)^c` is annihilated by `ℐ_y^c`. -/
 theorem smul_eq_zero_of_mem_germSpan {n c : ℕ}
     (W : Submodule Γ(X, U) ((sectionsTower F U).obj (op n)))

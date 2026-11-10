@@ -99,6 +99,8 @@ variable {X : RingedSite.{u, u, u}} [HasSheafify X.J AddCommGrpCat.{u}]
   [∀ W : X.C, HasSheafify (X.J.over W) AddCommGrpCat.{u}]
   [∀ W : X.C, (X.J.over W).WEqualsLocallyBijective AddCommGrpCat.{u}]
 
+omit [∀ W : X.C, HasSheafify (X.J.over W) AddCommGrpCat.{u}]
+  [∀ W : X.C, (X.J.over W).WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The splice representative of the inductive step.** Let `ℰ` be a strictly perfect complex
 vanishing below `m` and `α : Q(ℰ) ⟶ M` a morphism of `D(O)` invertible on cohomology above `m`
 and onto in degree `m`. Then `M` is represented by a K-flat complex `ℳ`, bounded above, with a
@@ -273,7 +275,7 @@ theorem isPseudoCoherentFrom_sub_one_of_approximation
       DerivedCategory.Q.obj Mc ⊗ DerivedCategory.Q.obj Nc :=
     (symmetricMonoidalDerived X.O).unitIso.hom ≫ γ.inv ≫ cmp.inv
   have hη : coevaluationUnitHom X Mc Nc hMk hNk η = γ.inv := by
-    show (symmetricMonoidalDerived X.O).unitIso.inv ≫
+    change (symmetricMonoidalDerived X.O).unitIso.inv ≫
       ((symmetricMonoidalDerived X.O).unitIso.hom ≫ γ.inv ≫ cmp.inv) ≫ cmp.hom = γ.inv
     simp
   refine isPseudoCoherentFrom_of_locally_general X M (m - 1) (fun U => ?_)

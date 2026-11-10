@@ -110,12 +110,7 @@ def extendScalarsObjIso
     { e' with
       map_smul' := by
         intro p z
-        induction z using TensorProduct.induction_on with
-        | zero =>
-            calc
-              e' (p • 0) = e' 0 := congrArg e' (smul_zero p)
-              _ = 0 := e'.map_zero
-              _ = p • e' 0 := by rw [e'.map_zero, smul_zero]
+        induction z using TensorProduct.inductionOn with
         | tmul q m => rfl
         | add x y hx hy =>
             calc
@@ -142,12 +137,7 @@ private def polynomialBaseChangeModuleIso
     { e.toAddEquiv with
       map_smul' := by
         intro p z
-        induction z using TensorProduct.induction_on with
-        | zero =>
-            calc
-              e (p • 0) = e 0 := congrArg e (smul_zero p)
-              _ = 0 := e.map_zero
-              _ = p • e 0 := by rw [e.map_zero, smul_zero]
+        induction z using TensorProduct.inductionOn with
         | tmul q s =>
             change e ((p * q) ⊗ₜ[R] s) = _
             have hp : algebraMap P (MvPolynomial (Fin n) S) p =
@@ -194,10 +184,7 @@ private def restrictTensorObjIso
       map_add' := fun _ _ ↦ rfl
       map_smul' := by
         intro r z
-        induction z using TensorProduct.induction_on with
-        | zero =>
-            change (algebraMap R P r) • (0 : A ⊗[R] M) = r • (0 : A ⊗[R] M)
-            rw [smul_zero, smul_zero]
+        induction z using TensorProduct.inductionOn with
         | tmul a m =>
             change ((algebraMap R P r) • a) ⊗ₜ[R] m = (r • a) ⊗ₜ[R] m
             rw [IsScalarTower.algebraMap_smul P r a]
@@ -227,11 +214,9 @@ private def cancelPolynomialBaseChangeNatIso
   intro M N f
   apply ModuleCat.hom_ext
   ext z
-  induction z using TensorProduct.induction_on with
-  | zero => rfl
+  induction z using TensorProduct.inductionOn with
   | tmul a m =>
-      induction m using TensorProduct.induction_on with
-      | zero => rfl
+      induction m using TensorProduct.inductionOn with
       | tmul p x => rfl
       | add x y hx hy =>
           rw [TensorProduct.tmul_add]
@@ -309,7 +294,7 @@ theorem torIndependent_mvPolynomialBaseChange
     ((NatIso.mapHomologicalComplex
       (cancelPolynomialBaseChangeNatIso (R := R) (P := P) (A := A))
       (ComplexShape.down ℕ)).app Q₀.complex) i
-  show Subsingleton (G.obj (C.homology i))
+  change Subsingleton (G.obj (C.homology i))
   exact ModuleCat.isZero_iff_subsingleton.mp ((hz₀.of_iso e₁).of_iso e₀)
 
 end TorIndependence

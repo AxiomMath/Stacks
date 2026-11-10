@@ -190,7 +190,7 @@ theorem preservesColimitsOfShape_secF
   have hB : PreservesColimitsOfShape Idx
       ((sheafSections (Opens.grothendieckTopology X) AddCommGrpCat.{u}).obj (op U)) :=
     preservesColimitsOfShape_sheafSections_addCommGrp (Idx := Idx) h1 h2 U hU
-  show PreservesColimitsOfShape Idx (SheafOfModules.toSheaf.{u} R ⋙
+  change PreservesColimitsOfShape Idx (SheafOfModules.toSheaf.{u} R ⋙
     (sheafSections (Opens.grothendieckTopology X) AddCommGrpCat.{u}).obj (op U))
   infer_instance
 

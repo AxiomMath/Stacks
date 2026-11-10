@@ -102,17 +102,17 @@ theorem exists_principalLocalCohomology_lift_of_smul_eq_zero (A : Type u) [CommR
     P.ι.map ((adj.homEquiv W X) T.mor₁)
   have ha : a ≫ adj.counit.app X = T.mor₁ := (adj.homEquiv W X).symm_apply_apply T.mor₁
   have hxzero : (H.map T.mor₂).hom x = 0 := by
-    show (H.map (η.app X)).hom x = 0
+    change (H.map (η.app X)).hom x = 0
     let e := (StacksDraft.DerivedCategoryHomology.mapDerivedCategoryHomologyIso F i).app X
     have hinj := (ModuleCat.mono_iff_injective e.hom).mp inferInstance
     apply hinj
-    show e.hom.hom ((H.map (η.app X)).hom x) = e.hom.hom 0
+    change e.hom.hom ((H.map (η.app X)).hom x) = e.hom.hom 0
     rw [map_zero]
     have hu := IsLocalizedModule.map_units
       (LocalizedModule.mkLinearMap (Submonoid.powers f) (H.obj X)) ⟨f, Submonoid.mem_powers f⟩
     have hinjf := (Module.End.isUnit_iff _).mp hu |>.1
     apply hinjf
-    show f • e.hom.hom ((H.map (η.app X)).hom x) = f • 0
+    change f • e.hom.hom ((H.map (η.app X)).hom x) = f • 0
     rw [smul_zero, ← map_smul, ← map_smul, hx, map_zero, map_zero]
   have hex : Function.Exact (H.map T.mor₁).hom (H.map T.mor₂).hom :=
     (ShortComplex.ShortExact.moduleCat_exact_iff_function_exact _).mp
@@ -237,7 +237,7 @@ theorem exists_closedSupport_principal_lift (A : Type u) [CommRing A] [IsNoether
     rw [PrimeSpectrum.zeroLocus_sup, PrimeSpectrum.zeroLocus_span]
   obtain ⟨y, hy⟩ := hresult
   refine ⟨(changeOfSupport A hset.subset K i).hom y, ?_⟩
-  show ((changeOfSupport A hset.subset K i ≫
+  change ((changeOfSupport A hset.subset K i ≫
     changeOfSupport A Set.inter_subset_left K i).hom) y = x
   rw [changeOfSupport_trans]
   exact hy

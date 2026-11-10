@@ -160,7 +160,7 @@ theorem associatedTriangle_mappingCone_eq (f : K ⟶ L)
     ext x
     rw [(connectingHom (coneInclusion f) (coneProjection f) h
       c.s c.π c.hs c.hπ c.hker).property x]
-    show (((cone f).coordinates
+    change (((cone f).coordinates
       ((coneModule f).d ((mappingConeGradedInr f).toFun x)))).1 = f.toFun x
     rw [(cone f).differential, mappingConeGradedInr_coordinates]
     simp

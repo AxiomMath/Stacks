@@ -78,7 +78,7 @@ theorem deRhamDifferential_ιMulti_dlogUnit {R B : Type u} [CommRing R] [CommRin
   have key : (exteriorPower.ιMulti B 1 fun _ => dlogUnit R v) =
       (![(↑v⁻¹ : B), (v : B)] 0) • exteriorPower.ιMulti B 1 fun i =>
         KaehlerDifferential.D R B (![(↑v⁻¹ : B), (v : B)] i.succ) := by
-    show _ = (↑v⁻¹ : B) • exteriorPower.ιMulti B 1 fun _ => KaehlerDifferential.D R B (v : B)
+    change _ = (↑v⁻¹ : B) • exteriorPower.ιMulti B 1 fun _ => KaehlerDifferential.D R B (v : B)
     rw [KaehlerDifferential.smul_ιMulti_one]
     rfl
   rw [key, deRhamDifferential_smul_ιMulti_D]
@@ -279,7 +279,7 @@ theorem exists_units_lineGen_res (c' : D.BaseChart) (h : c'.U.1 ≤ c.U.1) :
   have hw : c'.lineGen = w • c.lineGenAt (homOfLE h) := c.eq_lineCoord_smul (homOfLE h) _
   have hvw : v * w = 1 := by
     refine (c.bijective_smul_lineGen c'.U.1 h).1 ?_
-    show (v * w) • c.lineGenAt (homOfLE h) = (1 : D.X.ringCatSheaf.obj.obj (op c'.U.1)) •
+    change (v * w) • c.lineGenAt (homOfLE h) = (1 : D.X.ringCatSheaf.obj.obj (op c'.U.1)) •
       c.lineGenAt (homOfLE h)
     rw [one_smul, mul_smul, ← hw]
     exact hv.symm
@@ -317,7 +317,7 @@ theorem unit_res_eq (c' : D.BaseChart) (h : c'.U.1 ≤ c.U.1) (u : (Γ(D.X, c'.U
     Units.map (D.laurentSpectrum.sheaf.obj.map (D.laurentPreimageHom h).op).hom.toMonoidHom
         c.unit = D.laurentPullbackUnit c'.U.1 u * c'.unit := by
   ext
-  show (D.laurentSpectrum.sheaf.obj.map (D.laurentPreimageHom h).op).hom
+  change (D.laurentSpectrum.sheaf.obj.map (D.laurentPreimageHom h).op).hom
       (D.secR _ (c.unit : D.laurentSpectrum.sheaf.obj.obj
         (op (D.laurentSpectrumToBase ⁻¹ᵁ c.U.1)))) =
     D.laurentPullbackFunction c'.U.1 (u : Γ(D.X, c'.U.1)) *
@@ -424,11 +424,11 @@ theorem pullPart_weightZeroD (p : ℕ) (x : Γ(D.weightZero (p + 1), c.U.1)) :
         -D.dX p c.U.1 ((D.residueHom p).app c.U.1 x) := by
   refine c.pullPart_eq_of_eq (p + 1) _ _ _ ?_
   rw [D.weightZeroVal_weightZeroD, c.weightZeroVal_eq_pullPart, D.gradedDiff_add]
-  show c.model.dF (p + 1) (c.model.pull (p + 1) _) + D.gradedDiff (p + 1) c.U.1
+  change c.model.dF (p + 1) (c.model.pull (p + 1) _) + D.gradedDiff (p + 1) c.U.1
     (D.gradedWedge p c.U.1 (c.model.pull p _) c.dlogCoord) = _
   rw [c.model.dF_pull, D.gradedDiff_gradedWedge_of_gradedDiff_eq_zero p c.U.1 _ _
     c.gradedDiff_dlogCoord]
-  show _ + D.gradedWedge (p + 1) c.U.1 (c.model.dF p (c.model.pull p _)) c.dlogCoord = _
+  change _ + D.gradedWedge (p + 1) c.U.1 (c.model.dF p (c.model.pull p _)) c.dlogCoord = _
   rw [c.model.dF_pull]
   have hη : c.model.dG p (((-1 : ℤ) ^ p) • (D.residueHom p).app c.U.1 x) =
       ((-1 : ℤ) ^ (p + 1)) • -D.dX p c.U.1 ((D.residueHom p).app c.U.1 x) := by
@@ -443,7 +443,7 @@ theorem pullPart_pullbackHom (p : ℕ)
       (D.residueHom p).app c.U.1 ((D.pullbackHom (p + 1)).app c.U.1 α) = 0 := by
   refine c.pullPart_eq_of_eq p _ _ _ ?_
   rw [D.pullbackHom_app, smul_zero]
-  show _ = c.model.pull (p + 1) α + c.model.wedge p (c.model.pull p 0) c.dlogCoord
+  change _ = c.model.pull (p + 1) α + c.model.wedge p (c.model.pull p 0) c.dlogCoord
   rw [map_zero, c.model.wedge_zero_left, add_zero]
   rfl
 
@@ -477,7 +477,7 @@ abbrev idealTriv : Stacks.Divisors.IdealTrivialization I c.U.1 := c.lineTriv
 /-- The basis element of the ideal trivialization over `W ≤ U` is the restricted generator. -/
 theorem idealTriv_basisLE {W : X.Opens} (h : W ≤ c.U.1) :
     c.idealTriv.basisLE h = (idealSituation f I).L.val.map (homOfLE h).op c.lineGen := by
-  show (idealSituation f I).L.val.map (homOfLE h).op
+  change (idealSituation f I).L.val.map (homOfLE h).op
     ((LinearEquiv.ofBijective (LinearMap.toSpanSingleton _ _ (c.lineGenAt (𝟙 c.U.1)))
       (c.bijective_smul_lineGen c.U.1 le_rfl)) 1) = _
   exact congrArg ((idealSituation f I).L.val.map (homOfLE h).op)
@@ -491,7 +491,7 @@ theorem idealTriv_equationAt_res (c' : (idealSituation f I).BaseChart) (h : c'.U
       (show (idealSituation f I).X.ringCatSheaf.obj.obj (op c'.U.1) from (u : Γ(X, c'.U.1))) •
         c'.lineGen) :
     c.idealTriv.equationAt h = (u : Γ(X, c'.U.1)) * c'.idealTriv.equationAt le_rfl := by
-  show Scheme.Hom.negativeTwistSection I c'.U.1 (c.idealTriv.basisLE h) =
+  change Scheme.Hom.negativeTwistSection I c'.U.1 (c.idealTriv.basisLE h) =
     _ * Scheme.Hom.negativeTwistSection I c'.U.1 (c'.idealTriv.basisLE le_rfl)
   rw [c.idealTriv_basisLE h, c'.idealTriv_basisLE le_rfl]
   have hid : (idealSituation f I).L.val.map (homOfLE (le_refl c'.U.1)).op c'.lineGen =
@@ -538,7 +538,7 @@ theorem toLogPoles_res (c' : (idealSituation f I).BaseChart) (h : c'.U.1 ≤ c.U
         (((idealSituation f I).residueHom p).app c.U.1 x) :=
     PresheafOfModules.naturality_apply ((idealSituation f I).residueHom p).val (homOfLE h).op x
   rw [toLogPoles_apply, toLogPoles_apply, c.pullPart_res c' h u hu, hres]
-  show _ = (Scheme.Hom.logPolesForms f I (p + 1)).val.map (homOfLE h).op _
+  change _ = (Scheme.Hom.logPolesForms f I (p + 1)).val.map (homOfLE h).op _
   refine Eq.trans ?_ (c.idealTriv.logPolesChartForm_res le_rfl h _ _).symm
   exact (c.idealTriv.logPolesChartForm_eq_of_equationAt_eq_mul c'.idealTriv (h.trans le_rfl)
     le_rfl (show Γ(X, c'.U.1) from ↑u⁻¹) (show Γ(X, c'.U.1) from ↑u)
@@ -627,7 +627,7 @@ theorem weightZeroDAbHom_comp_toLogPolesHom (hlog : f.HasLogPolesDeRhamComplex I
       (Stacks.Perfect.AbelianFraction.abelianSheaf X).map (toLogPolesHom f I p) ≫
         Scheme.Hom.logDAbHom f I hI hlog (p + 1) :=
   (idealSituation f I).abelianSheaf_hom_ext fun c x => by
-    show (toLogPolesHom f I (p + 1)).app c.U.1
+    change (toLogPolesHom f I (p + 1)).app c.U.1
         ((idealSituation f I).weightZeroD (p + 1) c.U.1 x) =
       Scheme.Hom.logD hI hlog ((toLogPolesHom f I p).app c.U.1 x)
     rw [toLogPolesHom_app, toLogPolesHom_app]

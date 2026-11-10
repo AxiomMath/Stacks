@@ -41,7 +41,7 @@ theorem constantSheafToLocallyConstant_comp_locallyConstantToDirectImage :
         (constantSheafToSmallEtaleLocallyConstantMapsModule Λ X M) := by
   apply constantSheaf_hom_ext Λ M
   have h1 := constantSheafSection_comp_constantSelfMapTwist Λ M s
-  show constantSheafSection Λ M (Scheme.Etale.mk (𝟙 X)) ≫
+  change constantSheafSection Λ M (Scheme.Etale.mk (𝟙 X)) ≫
       (constantSheafToSmallEtaleLocallyConstantMapsModule Λ X M).hom.app _ ≫
         (locallyConstantToDirectImage Λ M s).hom.app _ =
     (constantSheafSection Λ M (Scheme.Etale.mk (𝟙 X)) ≫
@@ -49,7 +49,7 @@ theorem constantSheafToLocallyConstant_comp_locallyConstantToDirectImage :
         (constantSheafToSmallEtaleLocallyConstantMapsModule Λ X M).hom.app _
   rw [h1]
   ext m
-  show (locallyConstantToDirectImage Λ M s).hom.app _
+  change (locallyConstantToDirectImage Λ M s).hom.app _
       ((constantSheafToSmallEtaleLocallyConstantMapsModule Λ X M).hom.app _
         ((toSheafify X.smallEtaleTopology ((Functor.const X.Etaleᵒᵖ).obj M)).app _ m)) =
     (constantSheafToSmallEtaleLocallyConstantMapsModule Λ X M).hom.app _
@@ -93,7 +93,7 @@ theorem locallyConstantPushforwardMap_eq_map_comp :
         (etaleModuleDirectImageComp.{u, r} Λ a f f ha.symm).hom.app _ := by
   refine Sheaf.hom_ext (NatTrans.ext (funext fun W => ?_))
   rw [locallyConstantPushforwardMap_hom_app]
-  show _ =
+  change _ =
     (locallyConstantToDirectImage Λ M a).hom.app (op ((smallEtaleBaseChange f).obj W.unop)) ≫
     ((etaleModuleDirectImageComp.{u, r} Λ a f f ha.symm).hom.app
       (smallEtaleLocallyConstantMapsModuleSheaf.{u, r} Λ V M)).hom.app W

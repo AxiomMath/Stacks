@@ -144,13 +144,13 @@ abbrev fullPairHom : ξ.of.obj ⟶ ξ'.of.obj := ⟨fullBaseMap η, fullFiberMap
 /-- The pair `(f, φ)` is an isomorphism of the Grothendieck construction. -/
 instance isIso_fullPairHom : IsIso (fullPairHom η) := by
   refine isIso_of_isIso_base_of_isIso_fiber _ ?_ (isIso_fullFiberMap η)
-  haveI : IsIso ((ObjectProperty.ι _).map (fullBaseMap η)) := IsIso.of_groupoid _
+  have : IsIso ((ObjectProperty.ι _).map (fullBaseMap η)) := IsIso.of_groupoid _
   exact isIso_of_fully_faithful (ObjectProperty.ι _) _
 
 /-- The pair `(f, φ)`, as a morphism of polarized families, is an isomorphism. -/
 instance isIso_homMk_fullPairHom :
     IsIso (ObjectProperty.homMk (P := polarizationProperty B T) (fullPairHom η)) := by
-  haveI : IsIso ((ObjectProperty.ι (polarizationProperty B T)).map
+  have : IsIso ((ObjectProperty.ι (polarizationProperty B T)).map
       (ObjectProperty.homMk (P := polarizationProperty B T) (fullPairHom η))) :=
     isIso_fullPairHom η
   exact isIso_of_fully_faithful (ObjectProperty.ι _) _

@@ -183,7 +183,7 @@ theorem ringKrullDim_closedFibreEtaleLocalRing_eq_fiberStalk
   have hjac : (⊥ : Ideal (etaleLocalRing B S hS Y (geometricPointMap f x))).jacobson =
       IsLocalRing.maximalIdeal (etaleLocalRing B S hS Y (geometricPointMap f x)) :=
     IsLocalRing.jacobson_eq_maximalIdeal _ bot_ne_top
-  show ringKrullDim (etaleLocalRing B S hS X x ⧸
+  change ringKrullDim (etaleLocalRing B S hS X x ⧸
       Ideal.map (etaleLocalRingMap hX f x)
         (⊥ : Ideal (etaleLocalRing B S hS Y (geometricPointMap f x))).jacobson) = _
   rw [hjac]
@@ -243,6 +243,7 @@ theorem exists_chartSquare_ringKrullDim_closedFibreEtaleLocalRing_eq_fiberStalk
 /-! ### Geometric points of a fibre product -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site needs a deep search
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_EtaleLocalRingFibreDimension :
@@ -297,7 +298,7 @@ theorem exists_pointed_chart_over {W U : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} 
   set g : yoneda.obj V.chart.obj.left ⟶ U := V.chart.obj.hom ≫ k
   have hcompat : yoneda.map Q.point ≫ Q.chart.obj.hom = yoneda.map V.point ≫ g := by
     apply yonedaEquiv.injective
-    show Q.chart.obj.hom.app (Opposite.op w.val.siteObject) Q.point =
+    change Q.chart.obj.hom.app (Opposite.op w.val.siteObject) Q.point =
       k.app (Opposite.op w.val.siteObject)
         (V.chart.obj.hom.app (Opposite.op w.val.siteObject) V.point)
     rw [V.point_comp]
@@ -311,7 +312,7 @@ theorem exists_pointed_chart_over {W U : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} 
   have hsnd : Npoint ≫ Q.chart.property.rep.snd g = V.point :=
     Q.chart.property.rep.lift_snd _ _ hcompat
   have hNpc : Nchart.obj.hom.app (Opposite.op w.val.siteObject) Npoint = w.val.value := by
-    show V.chart.obj.hom.app _ (Npoint ≫ Q.chart.property.rep.snd g) = w.val.value
+    change V.chart.obj.hom.app _ (Npoint ≫ Q.chart.property.rep.snd g) = w.val.value
     rw [hsnd]
     exact V.point_comp
   refine ⟨⟨Nchart, Npoint, hNpc⟩,
@@ -320,7 +321,7 @@ theorem exists_pointed_chart_over {W U : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} 
   · rw [Q.chart.property.rep.map_fst' g, Q.chart.property.rep.w g, ← Category.assoc]
     rfl
   · refine yoneda.map_injective ?_
-    show yoneda.map Npoint ≫ yoneda.map (Q.chart.property.rep.fst' g) = yoneda.map Q.point
+    change yoneda.map Npoint ≫ yoneda.map (Q.chart.property.rep.fst' g) = yoneda.map Q.point
     rw [Q.chart.property.rep.map_fst' g]
     exact Q.chart.property.rep.lift_fst (yoneda.map Q.point) V.point hcompat
 

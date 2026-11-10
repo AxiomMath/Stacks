@@ -106,7 +106,7 @@ private theorem stalkUnitLinearEquiv_germ_one {X : TopCat.{u}}
   rw [← hpIso] at h
   have h' := congrArg (fun (f : _ ⟶ _) => (ConcreteCategory.hom f)
       (1 : ((O.obj.obj (Opposite.op ⊤) : RingCat) : Type u))) h
-  show addE
+  change addE
       ((TopCat.Presheaf.germ (SheafOfModules.unit O).val.presheaf ⊤ x (Set.mem_univ x)).hom
         (1 : ((O.obj.obj (Opposite.op ⊤) : RingCat) : Type u))) =
     (1 : ((TopCat.Presheaf.stalk O.obj x : RingCat) : Type u))
@@ -152,7 +152,7 @@ private theorem freeStalkLinearEquiv_symm_single {X : TopCat.{u}}
   simp only [LinearEquiv.apply_symm_apply]
   unfold freeStalkLinearEquiv
   simp only [LinearEquiv.trans_apply, CategoryTheory.Iso.toLinearEquiv_apply]
-  show Finsupp.single i 1 =
+  change Finsupp.single i 1 =
     (finsuppLEquivDirectSum
       (TopCat.Presheaf.stalk O.obj x : RingCat)
       (TopCat.Presheaf.stalk O.obj x : RingCat) I).symm
@@ -166,7 +166,7 @@ private theorem freeStalkLinearEquiv_symm_single {X : TopCat.{u}}
         (fun _ : I => (Z i : Type u)) i b :=
     (congrArg (fun f => f b) (ModuleCat.ι_coprodIsoDirectSum_hom Z i) :)
   rw [hcop ((stalkUnitLinearEquiv O x).symm 1)]
-  show Finsupp.single i 1 =
+  change Finsupp.single i 1 =
     (finsuppLEquivDirectSum
       (TopCat.Presheaf.stalk O.obj x : RingCat)
       (TopCat.Presheaf.stalk O.obj x : RingCat) I).symm
@@ -204,11 +204,11 @@ public theorem epi_iff_stalk_surjective {M N : SheafOfModules.{u} O_X} (f : M �
         (G.map q).hom m =
           (TopCat.Presheaf.germ Z.val.presheaf U.unop x hx).hom
             (q.val.app (Opposite.op U.unop) s) := by
-      show (TopCat.Presheaf.stalkFunctor AddCommGrpCat x).map
+      change (TopCat.Presheaf.stalkFunctor AddCommGrpCat x).map
           ((PresheafOfModules.toPresheaf O_X.obj).map q.val) _ = _
       exact TopCat.Presheaf.stalkFunctor_map_germ_apply U.unop x hx
         ((PresheafOfModules.toPresheaf O_X.obj).map q.val) s
-    show (TopCat.Presheaf.germ Z.val.presheaf U.unop x hx).hom
+    change (TopCat.Presheaf.germ Z.val.presheaf U.unop x hx).hom
         (g.val.app U s) =
       (TopCat.Presheaf.germ Z.val.presheaf U.unop x hx).hom (k.val.app U s)
     rw [← hgerm g, ← hgerm k, ← ht]
@@ -242,7 +242,7 @@ private theorem freeHom_stalk_single_germ (s : I → F.sections) (x : X) (i : I)
       congrArg (fun q => q.hom ((stalkUnitLinearEquiv O_X x).symm 1))
         (G.map_comp (SheafOfModules.ιFree i) f)
   rw [← hcomp_apply, hunit]
-  show (TopCat.Presheaf.stalkFunctor AddCommGrpCat x).map
+  change (TopCat.Presheaf.stalkFunctor AddCommGrpCat x).map
       ((PresheafOfModules.toPresheaf O_X.obj).map
         (SheafOfModules.ιFree i ≫ f).val)
       ((TopCat.Presheaf.germ (SheafOfModules.unit O_X).val.presheaf ⊤ x
@@ -278,7 +278,7 @@ public theorem freeHom_stalk_range (s : I → F.sections) (x : X) :
   have hq_single (i : I) : q (Finsupp.single i 1) =
         (TopCat.Presheaf.germ F.val.presheaf ⊤ x (Set.mem_univ x)).hom
         ((s i).eval (Opposite.op ⊤)) := freeHom_stalk_single_germ O_X F s x i
-  show q.range = Submodule.span
+  change q.range = Submodule.span
     (R := (TopCat.Presheaf.stalk O_X.obj x : RingCat)) (Set.range fun i ↦
         (TopCat.Presheaf.germ F.val.presheaf ⊤ x (Set.mem_univ x)).hom
       ((s i).eval (Opposite.op ⊤)))

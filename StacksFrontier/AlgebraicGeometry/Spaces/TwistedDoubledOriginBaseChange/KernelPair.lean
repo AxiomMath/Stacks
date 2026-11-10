@@ -10,8 +10,8 @@ The kernel pair of the map from two copies of the chart to the glued scheme, com
 blocks, and its identification with the base-changed relation, first in schemes and then in the
 slice category over the base.
 
-This is part of `StacksFrontier.AlgebraicGeometry.Spaces.TwistedDoubledOriginBaseChange`, whose module
-docstring describes the whole argument.
+This is part of `StacksFrontier.AlgebraicGeometry.Spaces.TwistedDoubledOriginBaseChange`, whose
+module docstring describes the whole argument.
 -/
 
 @[expose] public noncomputable section

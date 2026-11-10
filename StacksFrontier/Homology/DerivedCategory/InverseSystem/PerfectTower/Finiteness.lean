@@ -155,7 +155,7 @@ private lemma finite_homology_of_perfect {R : Type u} [CommRing R] [IsNoetherian
       ((ModuleCat.epi_iff_surjective _).mp inferInstance)
   have : Module.Finite R
       ((HomologicalComplex.homologyFunctor (ModuleCat.{v} R) (.up ℤ) i).obj P) := by
-    show Module.Finite R (P.homology i)
+    change Module.Finite R (P.homology i)
     infer_instance
   exact Module.Finite.equiv
     (((DerivedCategory.homologyFunctor (ModuleCat.{v} R) i).mapIso e) ≪≫
@@ -349,7 +349,7 @@ private lemma restrictHomologyIsoOfHom_comp_Q
   rw [Functor.map_comp, Category.assoc]
   rw [restrictHomologyIsoOfHom_hom_app_Q]
   simp only [Functor.map_comp, Category.assoc, Functor.comp_obj]
-  rw [Iso.map_inv_hom_id_assoc]
+  rw [Iso.inv_hom_id_map_assoc]
   -- Naturality, restated at the applied spelling: a `have` is checked at `default`
   -- transparency, so it is the one place the two spellings may meet.
   have hn : (DerivedCategory.homologyFunctor (ModuleCat.{v} R) i).map
@@ -367,14 +367,14 @@ private lemma restrictHomologyIsoOfHom_comp_Q
   rw [reassoc_of% hn]
   rw [restrictHomologyIsoOfHom_hom_app_Q, restrictHomologyIsoOfHom_hom_app_Q]
   simp only [Functor.map_comp, Category.assoc]
-  rw [Iso.map_inv_hom_id_assoc]
+  rw [Iso.inv_hom_id_map_assoc]
   rw [← Functor.map_comp_assoc _
     ((DerivedCategory.homologyFunctor (ModuleCat.{v} S) i).map
       (restrictDerivedFactors.{v} g P).inv)
     ((DerivedCategory.homologyFunctor (ModuleCat.{v} S) i).map
       (restrictDerivedFactors.{v} g P).hom),
     ← CategoryTheory.Functor.map_comp, Iso.inv_hom_id, CategoryTheory.Functor.map_id,
-    CategoryTheory.Functor.map_id, Category.id_comp, Iso.map_hom_inv_id_assoc]
+    CategoryTheory.Functor.map_id, Category.id_comp, Iso.hom_inv_id_map_assoc]
   have heid : e.hom.app P = 𝟙 _ := by ext j x; rfl
   -- `heid` identifies two spellings of a single object, so the morphism it replaces by an
   -- identity has its two ends spelled differently.  Cancelling it is therefore stated once as
@@ -392,7 +392,7 @@ private lemma restrictHomologyIsoOfHom_comp_Q
         ((DerivedCategory.homologyFunctor (ModuleCat.{v} R) i).map_id _)]
     exact Category.id_comp w
   rw [hid]
-  show (homologyFactors (((ModuleCat.restrictScalars.{v} (g.comp f)).mapHomologicalComplex
+  change (homologyFactors (((ModuleCat.restrictScalars.{v} (g.comp f)).mapHomologicalComplex
         (.up ℤ)).obj P) i).inv ≫
       ((P.sc i).mapHomologyIso
           (ModuleCat.restrictScalars.{v} g ⋙ ModuleCat.restrictScalars.{v} f)).hom ≫
@@ -437,7 +437,7 @@ lemma restrictHomologyIsoOfHom_comp
       Functor.whiskerLeft HA (ModuleCat.restrictScalarsComp'.{v} f g (g.comp f) rfl).inv
   have hQ (P : CochainComplex (ModuleCat.{v} A) ℤ) :
       α.app (DerivedCategory.Q.obj P) = β.app (DerivedCategory.Q.obj P) := by
-    show HR.map ((StacksDraft.DerivedInverseLimit.derivedRestrictScalarsComp.{0, v}
+    change HR.map ((StacksDraft.DerivedInverseLimit.derivedRestrictScalarsComp.{0, v}
       f g (g.comp f) rfl).hom.app (DerivedCategory.Q.obj P)) ≫
       (restrictHomologyIsoOfHom (g.comp f) i).hom.app (DerivedCategory.Q.obj P) = _
     dsimp only [β, NatTrans.comp_app, Functor.whiskerRight_app, Functor.whiskerLeft_app,

@@ -127,7 +127,7 @@ theorem exists_surjective_geometricFundamentalGroup_zmod [IsAlgClosure k K] [Com
   let A := (finiteTypeContinuousModuleToRes (ZMod (ℓ ^ j)) φ).obj triv
   have : Finite A.obj.obj.V := inferInstanceAs (Finite (ULift.{u + 1} (ZMod (ℓ ^ j))))
   have hcard : Nat.card A.obj.obj.V = ℓ ^ j := by
-    show Nat.card (ULift.{u + 1} (ZMod (ℓ ^ j))) = ℓ ^ j
+    change Nat.card (ULift.{u + 1} (ZMod (ℓ ^ j))) = ℓ ^ j
     rw [Nat.card_ulift, Nat.card_zmod]
   obtain ⟨c, hc, hopen, hsurj⟩ := exists_surjective_hom_of_trivial_of_degreeOne.{0, u + 1, u + 1}
     (ZMod (ℓ ^ j)) A (fun _ _ => rfl) z₁ (fun m hm => by rw [hcard]; exact hz m hm)
@@ -145,12 +145,12 @@ theorem exists_surjective_geometricFundamentalGroup_zmod [IsAlgClosure k K] [Com
   refine ⟨χ, ?_, fun t => ?_⟩
   · convert hopen using 1
     ext g
-    show Multiplicative.ofAdd _ = 1 ↔ c g = 0
+    change Multiplicative.ofAdd _ = 1 ↔ c g = 0
     rw [ofAdd_eq_one]
     exact ⟨fun h => ULift.ext h, fun h => congrArg ULift.down h⟩
   · obtain ⟨g, hg⟩ := hsurj (show A.obj.obj.V from ULift.up (Multiplicative.toAdd t))
     exact ⟨g, by
-      show Multiplicative.ofAdd (show ULift.{u + 1} (ZMod (ℓ ^ j)) from c g).down = t
+      change Multiplicative.ofAdd (show ULift.{u + 1} (ZMod (ℓ ^ j)) from c g).down = t
       rw [hg]
       rfl⟩
 

@@ -120,7 +120,7 @@ theorem mem_range_relativeMapSpaceHom_iff (T : BigFppfOver B S hS) (f : yoneda.o
     have hsec : dQ.sectionOfPoint T f r v hvπ = σ :=
       congrArg Subtype.val ((dQ.pointEquivProjOver T f r).apply_symm_apply ⟨σ, hσ⟩)
     have hd : IsDefinedOn dP dQ hψ.hom T f r v hvπ := by
-      show dQ.sectionOfPoint T f r v hvπ ⁻¹ᵁ (hψ.hom T f).relativeMapDomain = ⊤
+      change dQ.sectionOfPoint T f r v hvπ ⁻¹ᵁ (hψ.hom T f).relativeMapDomain = ⊤
       rw [hsec, Scheme.Hom.comp_preimage, Scheme.Opens.ι_preimage_self, Scheme.Hom.preimage_top]
     have hx : yonedaEquiv v ∈ hψ.relativeMapSubfunctor.obj (op a) :=
       (hψ.mem_relativeMapSubfunctor_iff T f r v hvπ).2 hd

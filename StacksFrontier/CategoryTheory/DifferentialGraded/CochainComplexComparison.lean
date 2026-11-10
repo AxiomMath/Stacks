@@ -249,7 +249,7 @@ public theorem homotopyCategoryEquivalence_functor :
 public theorem homotopyCategoryEquivalence_obj (A : CochainComplex B ℤ) :
     (homotopyCategoryEquivalence B).functor.obj
       ((HomotopyCategory.quotient B (.up ℤ)).obj A) = A := by
-  show ((HomotopyCategory.quotient B (.up ℤ)).obj A).as = A
+  change ((HomotopyCategory.quotient B (.up ℤ)).obj A).as = A
   exact HomotopyCategory.quotient_obj_as A
 
 /-- On morphisms, the comparison sends the homotopy class of a chain map to

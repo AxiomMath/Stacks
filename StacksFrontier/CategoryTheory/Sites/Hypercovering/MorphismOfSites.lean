@@ -85,7 +85,7 @@ private lemma locallySurjective_ulift
   apply J.superset_covering ?_ (Presheaf.imageSieve_mem J f (ULift.down s))
   rintro V g ⟨t, ht⟩
   refine ⟨ULift.up t, ?_⟩
-  show ULift.up (f.app _ t) = ULift.up (Q.map g.op (ULift.down s))
+  change ULift.up (f.app _ t) = ULift.up (Q.map g.op (ULift.down s))
   exact congrArg ULift.up ht
 
 /-- Pullback of sheaves sends the sheafification of a locally surjective map of presheaves to a
@@ -195,8 +195,8 @@ private noncomputable def evalCompIso {A : Type uA} [Category.{vA} A]
         Sigma.ι (fun j : Y.I => F.obj (Y.obj j)) (f.f i)))
   apply Sigma.hom_ext
   intro i
-  simp only [Category.assoc, Sigma.ι_desc_assoc, ι_comp_sigmaComparison,
-    ι_comp_sigmaComparison_assoc, ← G.map_comp, Sigma.ι_desc]
+  simp only [Category.assoc, Sigma.ι_comp_desc_assoc, ι_comp_sigmaComparison,
+    ι_comp_sigmaComparison_assoc, ← G.map_comp, Sigma.ι_comp_desc]
 
 private noncomputable def associatedEvalIso :
     associatedPresheafFunctor.{q, w} (C := C) ≅
@@ -245,7 +245,7 @@ private noncomputable def associatedHomIso (V : C) :
     Sigma.desc (fun i : X.I => uliftYoneda.{w}.map (f.φ i) ≫
       Sigma.ι (fun j : Y.I => uliftYoneda.{w}.obj (Y.obj j)) (f.f i))).app (op V))
         (ULift.up (s.φ PUnit.unit))
-  rw [Sigma.ι_desc]
+  rw [Sigma.ι_comp_desc]
   rfl
 
 private lemma preservesLimits_associated (I : Type*) [Category I] :
@@ -362,7 +362,7 @@ private lemma unit_comp_matchingCone_π
   have hnat : X.map i.hom ≫
       η.app ((SimplexCategory.Truncated.inclusion n).op.obj i.right) =
       η.app m ≫ ((SimplicialObject.cosk n).obj X).map i.hom := η.naturality i.hom
-  show η.app m ≫
+  change η.app m ≫
     (((SimplicialObject.cosk n).obj X).map i.hom ≫ ε.app i.right) = X.map i.hom
   refine (Category.assoc _ _ _).symm.trans ?_
   refine (congrArg (fun f ↦ f ≫ ε.app i.right) hnat.symm).trans ?_

@@ -311,7 +311,7 @@ theorem Space.OpenAffineChartSquare.finitePresentation_chartSections_of_isPseudo
     exact (Functor.map_isZero (modulePullback B S hS a) h0).of_iso (eE i)
   have hfp :=
     PseudoCoherence.finitePresentation_homology_succ_of_isPseudoCoherentFrom K (-1) hK hvan
-  show Module.FinitePresentation
+  change Module.FinitePresentation
     Γ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS X.1).obj c.U), ⊤)
     ((representedAffineSections B S hS ((SmallEtale.toOver B S hS X.1).obj c.U)).obj
       ((modulePullback B S hS a).obj F))
@@ -361,7 +361,7 @@ theorem CurveFamily.isInvertibleModule_relativeDualizingSheaf_of_base_eq (Y : Cu
   have hg₀ : yoneda.map g₀ = e.hom ≫ toBase.hom := Yoneda.fullyFaithful.map_preimage _
   have hcomm : e'.hom ≫ toBase = representedSpaceMap B integerBase hZ g₀ ≫ 𝟙 _ := by
     refine ObjectProperty.hom_ext _ ?_
-    show e.hom ≫ toBase.hom = yoneda.map g₀ ≫ 𝟙 _
+    change e.hom ≫ toBase.hom = yoneda.map g₀ ≫ 𝟙 _
     rw [hg₀]
     exact (Category.comp_id _).symm
   have sq : IsPullback e'.hom (representedSpaceMap B integerBase hZ g₀) toBase (𝟙 _) :=
@@ -468,7 +468,7 @@ theorem CurveFamily.hasEtaleLocalProperty_isGorenstein_residueFibre (X : CurveFa
     (isEtale_iff_presheaf_of_yoneda B integerBase hZ g).1
       (isEtale_hom_of_isIso B integerBase hZ (𝟙 (schemeSpace V)))
   have hcomm : a' ≫ f = yoneda.map h := by
-    show (a ≫ pullback.fst f g) ≫ f = _
+    change (a ≫ pullback.fst f g) ≫ f = _
     rw [Category.assoc, pullback.condition, ← Category.assoc, comm, Category.comp_id]
   have hlfp : LocallyOfFinitePresentation ((BigFppfOver.toScheme B integerBase hZ).map h) :=
     locallyOfFinitePresentation_chartDiagram_g X.toBase X.finitePresentation.1
@@ -478,7 +478,7 @@ theorem CurveFamily.hasEtaleLocalProperty_isGorenstein_residueFibre (X : CurveFa
       IsLocallyNoetherian (((BigFppfOver.toScheme B integerBase hZ).map h).fiber y) := fun y => by
     have : LocallyOfFiniteType
         (((BigFppfOver.toScheme B integerBase hZ).map h).fiberToSpecResidueField y) := by
-      show LocallyOfFiniteType (pullback.snd ((BigFppfOver.toScheme B integerBase hZ).map h)
+      change LocallyOfFiniteType (pullback.snd ((BigFppfOver.toScheme B integerBase hZ).map h)
         (((BigFppfOver.toScheme B integerBase hZ).obj V).fromSpecResidueField y))
       infer_instance
     exact LocallyOfFiniteType.isLocallyNoetherian
@@ -537,7 +537,7 @@ theorem CurveFamily.isInvertibleModule_modulePullback_pullbackFst_relativeDualiz
   have hj : j'.inv ≫ φ.totalMap = ObjectProperty.homMk (pullback.fst X.toBase.hom
       (yoneda.map φ.baseMap)) := by
     refine ObjectProperty.hom_ext _ ?_
-    show j.inv ≫ φ.totalMap.hom = pullback.fst _ _
+    change j.inv ≫ φ.totalMap.hom = pullback.fst _ _
     exact hpb.isoPullback_inv_fst
   have hinv := Y.isInvertibleModule_relativeDualizingSheaf_of_base_eq k hR
     (Space.hasEtaleLocalProperty_of_iso B integerBase hZ _ j.symm hGP) hYdim

@@ -66,9 +66,9 @@ No `@[stacks 0998]` attribute is attached here: the tag asserts that the rule
 `U ↦ {f | T(K|_U, f) = 0}` is a sheaf of ideals, and the sheaf condition is its other half. That
 half, and the sheaf of ideals itself —
 `AlgebraicGeometry.RingedSite.derivedCompleteIdealSheaf`, which carries the unscoped
-`@[stacks 0998]` — are in
-`StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.VanishingIdealSheafCondition`,
-which consumes `IsDerivedCompleteAtSection.restrict` below.
+`@[stacks 0998]` — are in the module `VanishingIdealSheafCondition` of
+`StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged`, which consumes
+`IsDerivedCompleteAtSection.restrict` below.
 
 ## References
 
@@ -106,11 +106,11 @@ theorem overMap_map_terminalSectionToEnd {C : Type u} [Category.{v} C]
     (terminalSection (R.over U) (Over.mk (𝟙 U)) Over.mkIdTerminal f)
     (terminalSection (R.over V) (Over.mk (𝟙 V)) Over.mkIdTerminal (R.obj.map a.op f))
     (fun W ↦ by
-      show (terminalSection (R.over V) (Over.mk (𝟙 V)) Over.mkIdTerminal
+      change (terminalSection (R.over V) (Over.mk (𝟙 V)) Over.mkIdTerminal
         (R.obj.map a.op f)).val W = _
       rw [terminalSection_over_val R V (R.obj.map a.op f) W,
         terminalSection_over_val R U f (op ((Over.map a).obj (unop W)))]
-      show R.obj.map ((unop W).hom).op (R.obj.map a.op f) =
+      change R.obj.map ((unop W).hom).op (R.obj.map a.op f) =
         R.obj.map ((unop W).hom ≫ a).op f
       rw [← RingCat.comp_apply, ← R.obj.map_comp, ← op_comp])
     M

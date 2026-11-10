@@ -174,7 +174,7 @@ theorem isIso_morphismRestrict_rangeOpens (i : Z ⟶ X) [IsClosedImmersion i]
     IsIso (i ∣_ rangeOpens i hE) := by
   have := isOpenImmersion_of_conormalRank_zero i hE
   refine (isIso_iff_isOpenImmersion_and_surjective _).2 ⟨inferInstance, ⟨fun y => ?_⟩⟩
-  show y ∈ Set.range (i ∣_ rangeOpens i hE).base
+  change y ∈ Set.range (i ∣_ rangeOpens i hE).base
   rw [range_morphismRestrict_base i (rangeOpens i hE)]
   exact y.2
 

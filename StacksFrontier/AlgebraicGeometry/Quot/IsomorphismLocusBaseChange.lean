@@ -87,12 +87,12 @@ theorem RelativeMorphism.baseChangeMap_ofBaseChange (q : Q' ⟶ Q)
         (pullbackBaseChangeIso q x p.base).hom := by
   refine pullback.hom_ext ?_ ?_
   · refine (RelativeMorphism.baseChangeMap_comp_fst (RelativeMorphism.ofBaseChange q p)).trans ?_
-    show pullback.fst (p.base ≫ q) z = ((pullbackBaseChangeIso q z p.base).inv ≫
+    change pullback.fst (p.base ≫ q) z = ((pullbackBaseChangeIso q z p.base).inv ≫
       p.baseChangeMap ≫ (pullbackBaseChangeIso q x p.base).hom) ≫ pullback.fst (p.base ≫ q) x
     rw [Category.assoc, Category.assoc, pullbackBaseChangeIso_hom_fst,
       RelativeMorphism.baseChangeMap_comp_fst, pullbackBaseChangeIso_inv_fst]
   · refine (RelativeMorphism.baseChangeMap_comp_snd (RelativeMorphism.ofBaseChange q p)).trans ?_
-    show (pullbackBaseChangeIso q z p.base).inv ≫ p.morphism ≫ pullback.snd q x =
+    change (pullbackBaseChangeIso q z p.base).inv ≫ p.morphism ≫ pullback.snd q x =
       ((pullbackBaseChangeIso q z p.base).inv ≫ p.baseChangeMap ≫
         (pullbackBaseChangeIso q x p.base).hom) ≫ pullback.snd (p.base ≫ q) x
     rw [Category.assoc, Category.assoc, pullbackBaseChangeIso_hom_snd,
@@ -149,9 +149,9 @@ theorem RelativeMorphism.transport_transport (e : Z₁ ≅ Z₂) (he : e.hom ≫
         ε.symm (by rw [Iso.symm_hom, ← hε, Iso.inv_hom_id_assoc])
         (RelativeMorphism.transport e he ε hε p) = p := by
   obtain ⟨a, b, hb⟩ := p
-  show RelativeMorphism.mk _ _ _ = RelativeMorphism.mk _ _ _
+  change RelativeMorphism.mk _ _ _ = RelativeMorphism.mk _ _ _
   congr 1
-  show transportSourceMap e.symm _ a ≫ (transportSourceMap e he a ≫ b ≫
+  change transportSourceMap e.symm _ a ≫ (transportSourceMap e he a ≫ b ≫
     ε.hom) ≫ ε.inv = b
   have hcomp : transportSourceMap e.symm
       (by rw [Iso.symm_hom, ← he, Iso.inv_hom_id_assoc]) a ≫
@@ -166,9 +166,9 @@ theorem RelativeMorphism.transport_restrict (e : Z₁ ≅ Z₂) (he : e.hom ≫ 
     (p : RelativeMorphism B S hS Z₁ X₁ Q z₁ x₁ T) :
     RelativeMorphism.transport e he ε hε (RelativeMorphism.restrict t p) =
       RelativeMorphism.restrict t (RelativeMorphism.transport e he ε hε p) := by
-  show RelativeMorphism.mk _ _ _ = RelativeMorphism.mk _ _ _
+  change RelativeMorphism.mk _ _ _ = RelativeMorphism.mk _ _ _
   congr 1
-  show transportSourceMap e he (t ≫ p.base) ≫
+  change transportSourceMap e he (t ≫ p.base) ≫
       (pullback.map (t ≫ p.base) z₁ p.base z₁ t (𝟙 Z₁) (𝟙 Q) (by simp) (by simp) ≫
         p.morphism) ≫ ε.hom =
     pullback.map (t ≫ p.base) z₂ p.base z₂ t (𝟙 Z₂) (𝟙 Q) (by simp) (by simp) ≫
@@ -191,13 +191,13 @@ theorem RelativeMorphism.baseChangeMap_transport (e : Z₁ ≅ Z₂) (he : e.hom
   refine pullback.hom_ext ?_ ?_
   · refine (RelativeMorphism.baseChangeMap_comp_fst
       (RelativeMorphism.transport e he ε hε p)).trans ?_
-    show pullback.fst p.base z₂ = (transportSourceMap e he p.base ≫ p.baseChangeMap ≫
+    change pullback.fst p.base z₂ = (transportSourceMap e he p.base ≫ p.baseChangeMap ≫
       pullback.map p.base x₁ p.base x₂ (𝟙 T) ε.hom (𝟙 Q) _ _) ≫ pullback.fst p.base x₂
     rw [Category.assoc, Category.assoc, pullback.map_fst, Category.comp_id,
       RelativeMorphism.baseChangeMap_comp_fst, pullback.map_fst, Category.comp_id]
   · refine (RelativeMorphism.baseChangeMap_comp_snd
       (RelativeMorphism.transport e he ε hε p)).trans ?_
-    show transportSourceMap e he p.base ≫ p.morphism ≫ ε.hom =
+    change transportSourceMap e he p.base ≫ p.morphism ≫ ε.hom =
       (transportSourceMap e he p.base ≫ p.baseChangeMap ≫
         pullback.map p.base x₁ p.base x₂ (𝟙 T) ε.hom (𝟙 Q) _ _) ≫ pullback.snd p.base x₂
     rw [Category.assoc, Category.assoc, pullback.map_snd,
@@ -269,7 +269,7 @@ theorem exists_isPullback_isomSubfunctor_of_isPullback (z : Z ⟶ Q) (x : X ⟶ 
       projection_sections T p :=
         (relativeHomData B S hS Z' X' Q' z' x' hZ' hX' hQ').projection_sections T p
       sections_map {T U} f p := sections_map_of_eq_restrict f (by
-        show RelativeMorphism.transport e he ε hε
+        change RelativeMorphism.transport e he ε hε
             (relativeHomSections B S hS Z' X' Q' z' x' hZ' hX' hQ' U
               ((relativeHom B S hS Z' X' Q' z' x' hZ' hX' hQ').map f.op p)) =
           RelativeMorphism.restrict (yoneda.map f) (RelativeMorphism.transport e he ε hε
@@ -280,7 +280,7 @@ theorem exists_isPullback_isomSubfunctor_of_isPullback (z : Z ⟶ Q) (x : X ⟶ 
   have heq : isomSubfunctor B S hS Z' X' Q' z' x' hZ' hX' hQ' =
       (isomSubfunctor B S hS Z X Q z x hZ hX hQ).preimage f := by
     ext T s
-    show (relativeHomSections B S hS Z' X' Q' z' x' hZ' hX' hQ' T.unop s).IsRelativeIso ↔
+    change (relativeHomSections B S hS Z' X' Q' z' x' hZ' hX' hQ' T.unop s).IsRelativeIso ↔
       (H.sections T.unop (f.app T s)).IsRelativeIso
     rw [sections_relativeHomOfBaseChange, RelativeMorphism.isRelativeIso_ofBaseChange_iff]
     exact (RelativeMorphism.isRelativeIso_transport_iff e he ε hε _).symm

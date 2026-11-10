@@ -55,9 +55,9 @@ theorem exists_familyIso_familyOf {k : Type u} [Field k] (E : PointedFamily (Spe
   obtain ⟨C, hC, e, hover, hzero⟩ :=
     AlgebraicGeometry.GenusOne.exists_weierstrassCurve_iso E.map h0 hg E.zero E.zero_map
   refine ⟨C, hC, ⟨⟨e.symm, ?_, ?_⟩⟩⟩
-  · show e.inv ≫ E.map = projectionOf C
+  · change e.inv ≫ E.map = projectionOf C
     rw [← hover, Iso.inv_hom_id_assoc]
-  · show zeroOf C ≫ e.inv = E.zero
+  · change zeroOf C ≫ e.inv = E.zero
     rw [← hzero, Category.assoc, Iso.hom_inv_id, Category.comp_id]
 
 /-- **The fibre of an elliptic curve at a point has a Weierstrass equation**, as a triple

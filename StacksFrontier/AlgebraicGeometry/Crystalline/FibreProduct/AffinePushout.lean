@@ -93,7 +93,7 @@ theorem affineDividedPowerPushoutComparison_fst
         (Spec.map (CommRingCat.ofHom f'.toRingHom)) = Spec.map (CommRingCat.ofHom g.toRingHom) := by
   let : Algebra A B := f.toRingHom.toAlgebra
   let : Algebra A B' := f'.toRingHom.toAlgebra
-  show Spec.map (CommRingCat.ofHom
+  change Spec.map (CommRingCat.ofHom
       (DividedPowerRing.tensorProductToPushout f f' g g' h.w)) ≫
     (pullbackSpecIso A B B').inv ≫
       pullback.fst (Spec.map (CommRingCat.ofHom (algebraMap A B)))
@@ -102,10 +102,10 @@ theorem affineDividedPowerPushoutComparison_fst
   congr 1
   apply CommRingCat.hom_ext
   ext b
-  show DividedPowerRing.tensorProductToPushout f f' g g' h.w
+  change DividedPowerRing.tensorProductToPushout f f' g g' h.w
     (b ⊗ₜ[A] (1 : B')) = g b
   rw [DividedPowerRing.tensorProductToPushout_tmul]
-  show g b * (g'.toRingHom 1) = g b
+  change g b * (g'.toRingHom 1) = g b
   rw [map_one, mul_one]
 
 theorem affineDividedPowerPushoutComparison_snd
@@ -117,7 +117,7 @@ theorem affineDividedPowerPushoutComparison_snd
       Spec.map (CommRingCat.ofHom g'.toRingHom) := by
   let : Algebra A B := f.toRingHom.toAlgebra
   let : Algebra A B' := f'.toRingHom.toAlgebra
-  show Spec.map (CommRingCat.ofHom
+  change Spec.map (CommRingCat.ofHom
       (DividedPowerRing.tensorProductToPushout f f' g g' h.w)) ≫
     (pullbackSpecIso A B B').inv ≫
       pullback.snd (Spec.map (CommRingCat.ofHom (algebraMap A B)))
@@ -126,10 +126,10 @@ theorem affineDividedPowerPushoutComparison_snd
   congr 1
   apply CommRingCat.hom_ext
   ext b
-  show DividedPowerRing.tensorProductToPushout f f' g g' h.w
+  change DividedPowerRing.tensorProductToPushout f f' g g' h.w
     ((1 : B) ⊗ₜ[A] b) = g' b
   rw [DividedPowerRing.tensorProductToPushout_tmul]
-  show (g.toRingHom 1) * g' b = g' b
+  change (g.toRingHom 1) * g' b = g' b
   rw [map_one, one_mul]
 
 theorem affineDividedPowerPushoutComparison_isClosedImmersion
@@ -138,7 +138,7 @@ theorem affineDividedPowerPushoutComparison_isClosedImmersion
     IsClosedImmersion (affineDividedPowerPushoutComparison f f' g g' h) := by
   let : Algebra A B := f.toRingHom.toAlgebra
   let : Algebra A B' := f'.toRingHom.toAlgebra
-  show IsClosedImmersion (Spec.map (CommRingCat.ofHom
+  change IsClosedImmersion (Spec.map (CommRingCat.ofHom
       (DividedPowerRing.tensorProductToPushout f f' g g' h.w)) ≫
     (pullbackSpecIso A B B').inv)
   have : IsClosedImmersion (Spec.map (CommRingCat.ofHom
@@ -186,17 +186,17 @@ private theorem affineDividedPowerPushoutClosedFiberComparison_fst
     (DividedPowerRing.quotientRingHom f').toAlgebra
   let e := DividedPowerRing.tensorProductQuotientEquivPushoutQuotient
     f f' g g' h
-  show Spec.map (CommRingCat.ofHom e.1.toRingHom) ≫
+  change Spec.map (CommRingCat.ofHom e.1.toRingHom) ≫
     (pullbackSpecIso (A ⧸ A.ideal) (B ⧸ B.ideal) (B' ⧸ B'.ideal)).inv ≫ _ = _
   rw [pullbackSpecIso_inv_fst, ← Spec.map_comp]
   congr 1
   apply CommRingCat.hom_ext
   ext b
-  show e.1 (Ideal.Quotient.mk B.ideal b ⊗ₜ[A ⧸ A.ideal]
+  change e.1 (Ideal.Quotient.mk B.ideal b ⊗ₜ[A ⧸ A.ideal]
       Ideal.Quotient.mk B'.ideal 1) =
     Ideal.Quotient.mk B''.ideal (g b)
   rw [e.2 b 1]
-  show Ideal.Quotient.mk B''.ideal ((g.toRingHom b) * (g'.toRingHom 1)) = _
+  change Ideal.Quotient.mk B''.ideal ((g.toRingHom b) * (g'.toRingHom 1)) = _
   rw [map_one, mul_one]
   rfl
 
@@ -217,17 +217,17 @@ private theorem affineDividedPowerPushoutClosedFiberComparison_snd
     (DividedPowerRing.quotientRingHom f').toAlgebra
   let e := DividedPowerRing.tensorProductQuotientEquivPushoutQuotient
     f f' g g' h
-  show Spec.map (CommRingCat.ofHom e.1.toRingHom) ≫
+  change Spec.map (CommRingCat.ofHom e.1.toRingHom) ≫
     (pullbackSpecIso (A ⧸ A.ideal) (B ⧸ B.ideal) (B' ⧸ B'.ideal)).inv ≫ _ = _
   rw [pullbackSpecIso_inv_snd, ← Spec.map_comp]
   congr 1
   apply CommRingCat.hom_ext
   ext b
-  show e.1 (Ideal.Quotient.mk B.ideal 1 ⊗ₜ[A ⧸ A.ideal]
+  change e.1 (Ideal.Quotient.mk B.ideal 1 ⊗ₜ[A ⧸ A.ideal]
       Ideal.Quotient.mk B'.ideal b) =
     Ideal.Quotient.mk B''.ideal (g' b)
   rw [e.2 1 b]
-  show Ideal.Quotient.mk B''.ideal ((g.toRingHom 1) * (g'.toRingHom b)) = _
+  change Ideal.Quotient.mk B''.ideal ((g.toRingHom 1) * (g'.toRingHom b)) = _
   rw [map_one, one_mul]
   rfl
 
@@ -241,7 +241,7 @@ private theorem affineDividedPowerPushoutClosedFiberComparison_isIso
     (DividedPowerRing.quotientRingHom f').toAlgebra
   let e := DividedPowerRing.tensorProductQuotientEquivPushoutQuotient
     f f' g g' h
-  show IsIso (Spec.map (CommRingCat.ofHom e.1.toRingHom) ≫
+  change IsIso (Spec.map (CommRingCat.ofHom e.1.toRingHom) ≫
     (pullbackSpecIso (A ⧸ A.ideal) (B ⧸ B.ideal) (B' ⧸ B'.ideal)).inv)
   have : IsIso (CommRingCat.ofHom e.1.toRingHom) :=
     (ConcreteCategory.isIso_iff_bijective _).2 e.1.bijective
@@ -541,7 +541,7 @@ private theorem dividedPowerRingAwayPushout_exists_desc
   have huB : IsUnit (φB.toRingHom b) := (dividedPowerRingAway_isUnit_self B b).map φ.toRingHom
   have huC : IsUnit (ψC.toRingHom c) := (dividedPowerRingAway_isUnit_self C c).map ψ.toRingHom
   have huq : IsUnit (k.toRingHom q) := by
-    show IsUnit (k.toRingHom (g.toRingHom b * g'.toRingHom c))
+    change IsUnit (k.toRingHom (g.toRingHom b * g'.toRingHom c))
     rw [map_mul, hgb, hgc]
     exact huB.mul huC
   let ell : dividedPowerRingAway D q ⟶ E :=
@@ -576,7 +576,7 @@ private theorem flatRestrictedDividedPowerRing_ideal_comp
     {C : Type w} [CommRing C] (f : A →+* B) (hf : f.Flat) (g : B →+* C) :
     (flatRestrictedDividedPowerRing f hf).ideal.map g =
       A.ideal.map (g.comp f) := by
-  show Ideal.map g (Ideal.map f A.ideal) = Ideal.map (g.comp f) A.ideal
+  change Ideal.map g (Ideal.map f A.ideal) = Ideal.map (g.comp f) A.ideal
   rw [Ideal.map_map]
 
 /-- Successive flat extensions preserve the original divided powers along the composite.

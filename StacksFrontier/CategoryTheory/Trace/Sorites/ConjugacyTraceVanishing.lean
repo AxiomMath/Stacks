@@ -59,7 +59,7 @@ theorem sum_smul_eq_card_stabilizer_nsmul {G : Type u} [Group G] [Fintype G] {X 
       have hk' : k.1 • b = k₀ • b := congrArg Subtype.val hk
       rw [mem_stabilizer_iff, mul_smul, hk', inv_smul_smul]
     · refine Finset.mem_filter.2 ⟨Finset.mem_univ _, Subtype.ext ?_⟩
-      show (k₀ * s) • b = k₀ • b
+      change (k₀ * s) • b = k₀ • b
       rw [mul_smul, mem_stabilizer_iff.1 s.2]
   rw [Finset.sum_congr rfl (fun k hk => by rw [(Finset.mem_filter.1 hk).2]), Finset.sum_const,
     hfib]
@@ -107,7 +107,7 @@ theorem map_eq_zero_of_conjugacyTrace_eq_zero
   have : NeZero (ℓ ^ n) := ⟨pow_ne_zero _ hℓ.ne_zero⟩
   set A := ZMod (ℓ ^ n)
   obtain ⟨x, rfl⟩ := QuotientAddGroup.mk_surjective T
-  show Ψ (additiveCommutatorQuotientMk A[G] x) = 0
+  change Ψ (additiveCommutatorQuotientMk A[G] x) = 0
   let X : G → ℕ := fun h => (x.coeff h).val
   let y : G → M := fun h => Ψ (additiveCommutatorQuotientMk A[G] (MonoidAlgebra.single h 1))
   have hy : ∀ h k : G, y (k⁻¹ * h * k) = y h := fun h k => by
@@ -174,7 +174,7 @@ theorem map_eq_zero_of_conjugacyTrace_eq_zero
         X h • y h = X h • y g := fun h hh => by
     obtain ⟨c, rfl⟩ := (hmem h).1 hh
     congr 1
-    show y (c • g) = y g
+    change y (c • g) = y g
     rw [ConjAct.smul_def]
     simpa using hy g (ConjAct.ofConjAct c)⁻¹
   rw [Finset.sum_congr rfl hfib, ← Finset.sum_smul, Finset.sum_subtype _ hmem X]

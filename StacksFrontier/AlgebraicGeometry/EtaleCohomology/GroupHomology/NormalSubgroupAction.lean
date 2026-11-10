@@ -135,7 +135,7 @@ public theorem smul_completedGroupAlgebra_smul (hV : IsSmoothFor G V) (γ : Γ)
       rw [quotientMapAlgebra_single, quotientAlgebraAction_single, quotientAlgebraAction_single,
         smul_comm γ b]
       congr 1
-      show γ • (g : Γ) • v = (γ * g * γ⁻¹) • γ • v
+      change γ • (g : Γ) • v = (γ * g * γ⁻¹) • γ • v
       rw [mul_smul, mul_smul, inv_smul_smul]
   all_goals exact continuous_coe_monoidHom c
 

@@ -93,7 +93,7 @@ noncomputable def freeSplitDesc {X : Type t} {M : ModuleCat.{max t w} R} (f : X 
 @[simp]
 lemma freeSplitDesc_apply {X : Type t} {M : ModuleCat.{max t w} R} (f : X → M) (x : X) :
     freeSplitDesc f (freeSplitMk x) = f x := by
-  show Finsupp.lift M R X f (Finsupp.single x 1) = f x
+  change Finsupp.lift M R X f (Finsupp.single x 1) = f x
   rw [Finsupp.lift_apply, Finsupp.sum_single_index] <;> simp
 
 /-- `(ModuleCat.freeSplit R).map f` sends the generator attached to `x` to the generator

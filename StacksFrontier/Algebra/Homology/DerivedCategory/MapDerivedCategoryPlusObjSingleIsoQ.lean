@@ -52,7 +52,7 @@ theorem ι_map_mapDerivedCategoryPlusObjSingleIso_hom (X : A) :
   rw [mapDerivedCategoryPlusObjSingleIso_hom]
   simp only [CategoryTheory.Functor.map_comp]
   rw [hd']
-  show F.mapDerivedCategory.map (DerivedCategory.Plus.ι.map
+  change F.mapDerivedCategory.map (DerivedCategory.Plus.ι.map
     ((singleFunctorPlusIsoCompQh (A := A) 0).hom.app X)) ≫ _ = _
   rw [hd X]
   have e1 : DerivedCategory.Plus.ι.map (F.mapDerivedCategoryPlusFactorsh.hom.app

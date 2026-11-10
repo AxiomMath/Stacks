@@ -85,11 +85,11 @@ theorem globalSmul_pushforward_eq_zero (i : Z ⟶ X) (G : Z.Modules) (c : Γ(X, 
   have h : i.app U (restrictTop c U) = 0 := by
     have hn := ConcreteCategory.congr_hom (i.naturality (homOfLE (le_top : U ≤ ⊤)).op) c
     rw [CommRingCat.comp_apply, CommRingCat.comp_apply] at hn
-    show (i.app U) (X.presheaf.map (homOfLE (le_top : U ≤ ⊤)).op c) = 0
+    change (i.app U) (X.presheaf.map (homOfLE (le_top : U ≤ ⊤)).op c) = 0
     rw [hn]
-    show (Z.presheaf.map _) (i.appTop c) = 0
+    change (Z.presheaf.map _) (i.appTop c) = 0
     rw [hc, map_zero]
-  show ((i.app U (restrictTop c U)) • (show Γ(G, i ⁻¹ᵁ U) from x) : Γ(G, i ⁻¹ᵁ U)) = 0
+  change ((i.app U (restrictTop c U)) • (show Γ(G, i ⁻¹ᵁ U) from x) : Γ(G, i ⁻¹ᵁ U)) = 0
   rw [h, zero_smul]
 
 /-- Acting by zero transports along an isomorphism. -/
@@ -107,7 +107,7 @@ theorem smul_eq_zero_of_mono (i : Z ⟶ X) [IsClosedImmersion i] (M : X.Modules)
   have hM := (Stacks.ClosedImmersion.pushforward_essImage_iff i M).1 ⟨G, ⟨e⟩⟩
   have : Mono (C := _root_.SheafOfModules X.ringCatSheaf) ι := ‹Mono ι›
   refine Stacks.SheafOfModules.injective_val_app_of_mono (R := X.ringCatSheaf) ι (op U) ?_
-  show ι.app U (b • t) = ι.app U 0
+  change ι.app U (b • t) = ι.app U 0
   rw [Scheme.Modules.Hom.app_smul, map_zero, hM U b hb]
 
 /-- **Cohomology of a direct image along a closed immersion is that of the module upstairs**,
@@ -156,7 +156,7 @@ theorem appTop_baseRingHom_eq_zero (J : Ideal R) {W : Scheme.{u}} (h : W ⟶ X)
           w.appTop) x := by rw [key]
     _ = 0 := by
       rw [CommRingCat.comp_apply]
-      show ((Scheme.ΓSpecIso (.of (R ⧸ J))).inv ≫ w.appTop) (Ideal.Quotient.mk J x) = 0
+      change ((Scheme.ΓSpecIso (.of (R ⧸ J))).inv ≫ w.appTop) (Ideal.Quotient.mk J x) = 0
       rw [Ideal.Quotient.eq_zero_iff_mem.2 hx, map_zero]
 
 variable [IsNoetherianRing R] [IsProper g]

@@ -210,7 +210,7 @@ spaces that is read off such a square reduces to the property `P` of a morphism 
 schemes over the stage, and the descent of `P` along the system of schemes is the input
 `hdescend`. -/
 private theorem exists_holdsOnSurjectiveEtaleChart_of_holdsOnEveryEtaleChart_limit
-    (hc : IsLimit ((BigAffineFppf.toScheme B S hS).mapCone c)) (i : I)
+    (i : I)
     (P : MorphismProperty Scheme.{u}) [P.RespectsIso] (R : MorphismProperty Scheme.{u})
     {Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (z : Z ⟶ yoneda.obj ((BigAffineFppf.inclusion B S hS).obj (D.obj i)))
@@ -277,7 +277,7 @@ theorem exists_isFlat_baseChange_of_isFlat_limit
       (D ⋙ BigAffineFppf.toScheme B S hS) ((BigAffineFppf.toScheme B S hS).mapCone c) i
       X₀ Y₀ f₀ hc
   obtain ⟨j, g, hj⟩ := exists_holdsOnSurjectiveEtaleChart_of_holdsOnEveryEtaleChart_limit
-    B S hS D hc i (@_root_.AlgebraicGeometry.Flat.{u}) (@LocallyOfFinitePresentation) z hZ hqc
+    B S hS D i (@_root_.AlgebraicGeometry.Flat.{u}) (@LocallyOfFinitePresentation) z hZ hqc
     hfp hdescend hflat
   refine ⟨j, g, (holdsOnEveryEtaleChart_iff_surjectiveChart B S hS _
     _root_.AlgebraicGeometry.Flat.isEtaleLocalOnSourceAndTarget
@@ -332,7 +332,7 @@ private theorem exists_hasRelativeDimensionLE_baseChange_of_holdsOnEveryEtaleCha
       AlgebraicGeometry.exists_fiberDimensionLE_baseChange_of_limitBaseChange
       (D ⋙ BigAffineFppf.toScheme B S hS) hc i X₀ Y₀ f₀ d hlim'
   obtain ⟨j, g, hj⟩ := exists_holdsOnSurjectiveEtaleChart_of_holdsOnEveryEtaleChart_limit
-    B S hS D hc i (AlgebraicGeometry.fiberDimensionLE d) (@LocallyOfFiniteType) z hZ hqc hft
+    B S hS D i (AlgebraicGeometry.fiberDimensionLE d) (@LocallyOfFiniteType) z hZ hqc hft
     hdescend hdim
   exact ⟨j, g, hasRelativeDimensionLE_of_holdsOnSurjectiveEtaleChart B S hS
     (isAlgebraicSpace_pullback B S hS _ z (isAlgebraicSpace_yoneda B S hS _) hZ

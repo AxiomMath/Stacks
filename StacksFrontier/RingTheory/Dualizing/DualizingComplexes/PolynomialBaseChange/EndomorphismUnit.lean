@@ -164,7 +164,7 @@ private theorem tensorComplex_map_smul_unit
     (P : CochainComplex (ModuleCat.{w} R) ℤ) (r : R) :
     (𝟙 P ⊗ₘ r • 𝟙 (𝟙_ (CochainComplex (ModuleCat.{w} R) ℤ))) =
       r • 𝟙 (P ⊗ 𝟙_ (CochainComplex (ModuleCat.{w} R) ℤ)) := by
-  show HomologicalComplex.mapBifunctorMap (𝟙 P)
+  change HomologicalComplex.mapBifunctorMap (𝟙 P)
       (r • 𝟙 (𝟙_ (CochainComplex (ModuleCat.{w} R) ℤ)))
       (moduleTensor R) (ComplexShape.up ℤ) =
     r • 𝟙 (tensorComplex P (𝟙_ (CochainComplex (ModuleCat.{w} R) ℤ)))
@@ -181,7 +181,7 @@ private theorem tensorComplex_map_smul_unit
       r • 𝟙 (((moduleTensor R).obj (P.X i)).obj
         ((𝟙_ (CochainComplex (ModuleCat.{w} R) ℤ)).X j)) := by
     apply ModuleCat.hom_ext
-    show LinearMap.lTensor (P.X i)
+    change LinearMap.lTensor (P.X i)
       (r • (LinearMap.id :
         ((𝟙_ (CochainComplex (ModuleCat.{w} R) ℤ)).X j) →ₗ[R]
           ((𝟙_ (CochainComplex (ModuleCat.{w} R) ℤ)).X j))) =
@@ -312,13 +312,13 @@ private theorem homZeroEquiv_map_smul
     rw [Linear.smul_comp, Category.id_comp]
   rw [hs, modelTensor_map_smul_left_unit K r] at hnat
   simp only [Linear.smul_comp] at hnat
-  show (D.tensorUnitLeft K).inv ≫ D.homEquiv U K M (r • a) =
+  change (D.tensorUnitLeft K).inv ≫ D.homEquiv U K M (r • a) =
     r • ((D.tensorUnitLeft K).inv ≫ D.homEquiv U K M a)
   rw [hnat]
   simp only [Linear.comp_smul]
   have hid : 𝟙 (D.tensor.obj (U, K)) ≫ D.homEquiv U K M a =
       D.homEquiv U K M a := Category.id_comp _
-  show r • ((D.tensorUnitLeft K).inv ≫ (𝟙 (D.tensor.obj (U, K)) ≫
+  change r • ((D.tensorUnitLeft K).inv ≫ (𝟙 (D.tensor.obj (U, K)) ≫
     D.homEquiv U K M a)) = r • ((D.tensorUnitLeft K).inv ≫
       D.homEquiv U K M a)
   rw [hid]
@@ -374,9 +374,9 @@ private theorem derivedUnitEndLinearEquiv_symm_apply
     let F := DerivedCategory.singleFunctor (ModuleCat.{w} R) 0
     let V := ModuleCat.of R R
     have hpre : F.preimage (𝟙 U) = 𝟙 V := by
-      show F.preimage (𝟙 (F.obj V)) = 𝟙 V
+      change F.preimage (𝟙 (F.obj V)) = 𝟙 V
       exact F.preimage_id
-    show (LinearMap.ringLmapEquivSelf R R R)
+    change (LinearMap.ringLmapEquivSelf R R R)
       (ModuleCat.homLinearEquiv (S := R)
         ((fullyFaithfulLinearEquiv (R := R)
           F V V).symm (𝟙 U))) = 1
@@ -430,7 +430,7 @@ theorem isIso_canonicalHomothety_of_endomorphism_iso_unit
     bijective_algebraMap_of_linearEquiv_self eEnd
   let c := (D.homZeroEquiv K K).symm (𝟙 K)
   have hc : e₃ c = 1 := by
-    show End.linearEquiv.symm (D.homZeroEquiv K K c) = 1
+    change End.linearEquiv.symm (D.homZeroEquiv K K c) = 1
     rw [AddEquiv.apply_symm_apply]
     rfl
   have hcomp (f : U ⟶ U) : e₃ (f ≫ c) =
@@ -466,7 +466,7 @@ theorem isIso_canonicalHomothety_of_endomorphism_iso_unit
   obtain ⟨f, hf⟩ := hpost.2 h.inv
   change f ≫ c = h.inv at hf
   have hleft : f ≫ d = 𝟙 U := by
-    show f ≫ (c ≫ h.hom) = 𝟙 U
+    change f ≫ (c ≫ h.hom) = 𝟙 U
     rw [← Category.assoc, hf]
     simp
   have hinjD : Function.Injective (fun f : U ⟶ U => f ≫ d) := by
@@ -482,7 +482,7 @@ theorem isIso_canonicalHomothety_of_endomorphism_iso_unit
       _ = (𝟙 U) ≫ d := by simp
   let i : U ≅ U := ⟨d, f, hright, hleft⟩
   have : IsIso (c ≫ h.hom) := by
-    show IsIso d
+    change IsIso d
     exact i.isIso_hom
   exact IsIso.of_isIso_comp_right c h.hom
 

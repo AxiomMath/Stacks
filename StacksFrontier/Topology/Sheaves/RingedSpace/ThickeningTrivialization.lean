@@ -148,11 +148,11 @@ private theorem exists_ringHom_of_additive_factorization
             apply H.isSeparated (unop U) _ hS
             intro V p hp
             obtain ⟨⟨a, ha⟩, ⟨a', ha'⟩⟩ := hp
-            show (H.obj.map p.op).hom (φ U (b * c)) =
+            change (H.obj.map p.op).hom (φ U (b * c)) =
               (H.obj.map p.op).hom (φ U b * φ U c)
             rw [(H.obj.map p.op).hom.map_mul, ← nat p.op, ← nat p.op, ← nat p.op,
               (G.obj.map p.op).hom.map_mul]
-            show φ (op V) ((G.obj.map p.op).hom b * (G.obj.map p.op).hom c) = _
+            change φ (op V) ((G.obj.map p.op).hom b * (G.obj.map p.op).hom c) = _
             rw [← ha, ← ha', ← (q.hom.app (op V)).hom.map_mul,
               fac, fac, fac, (f.hom.app (op V)).hom.map_mul] }
       naturality := by
@@ -301,7 +301,7 @@ theorem homEquiv_idealMap_comp_idealι (D : MorphismOfThickenings.{u}) :
   rw [D.idealMap.property]
   have hra : (SheafOfModules.pushforward (structureSheafHom D.f')).IsRightAdjoint :=
     modulePushforward_isRightAdjoint D.f'
-  show (modulePullbackPushforwardAdjunction D.f').homEquiv _ _
+  change (modulePullbackPushforwardAdjunction D.f').homEquiv _ _
     ((modulePullback D.f').map _ ≫ SheafOfModules.pullbackObjUnitToUnit _) = _
   rw [Adjunction.homEquiv_naturality_left]
   congr 1

@@ -79,8 +79,7 @@ theorem twistOne_injective (X : (SmoothProjectiveScheme k).FullSubcategory) :
 theorem twistOne_pullTw {X Y : (SmoothProjectiveScheme k).FullSubcategory} (f : X ⟶ Y)
     (x : tateTwist F 𝔇.tate (𝔇.H Y) 1) :
     Φ.twistOne X (𝔇.pullTw f 1 x) = 𝔇'.pullTw ((baseChange k k').map f) 1 (Φ.twistOne Y x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp [twistOne]
+  induction x using TensorProduct.inductionOn with
   | tmul v t =>
     simp only [twistOne, FirstChernClassData.pullTw, tateTwistMap, TensorProduct.map_tmul,
       LinearMap.id_coe, id_eq, AlgHom.toLinearMap_apply]
@@ -109,7 +108,7 @@ theorem pullbackAxiom (h : 𝔇'.PullbackAxiom) : 𝔇.PullbackAxiom := by
   intro X Y f L hL
   apply Φ.twistOne_injective X
   rw [Φ.twistOne_pullTw]
-  show 𝔇'.pullTw _ 1 (twistOneBaseChange _ _ _) = twistOneBaseChange _ _ _
+  change 𝔇'.pullTw _ 1 (twistOneBaseChange _ _ _) = twistOneBaseChange _ _ _
   rw [Φ.c₁_comm, Φ.c₁_comm, h]
   exact congrArg (𝔇'.c₁ _) (picardClassOf_eq_of_iso _ _ _ _ _ (pullbackBaseChangeIso f L))
 

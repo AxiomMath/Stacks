@@ -212,7 +212,7 @@ theorem exists_structureIso_of_hom (V : BigFppfOver 𝒞 S hS)
     (Over.isoMk ((BigFppfOver.toScheme 𝒞 S hS).mapIso (asIso Ψ.g)) hw), ?_⟩
   refine AlgebraicGeometry.Stack.FiniteCover.Hom.ext hf.symm ?_
   refine (BigFppfOver.toScheme 𝒞 S hS).map_injective ?_
-  show coverMap (𝟙 ((BigFppfOver.toScheme 𝒞 S hS).obj V))
+  change coverMap (𝟙 ((BigFppfOver.toScheme 𝒞 S hS).obj V))
       (toSpecΓ_id_naturality ((BigFppfOver.toScheme 𝒞 S hS).obj V)) _ =
     (BigFppfOver.toScheme 𝒞 S hS).map Ψ.g
   rw [← structureIsoEquivCoverIso_hom_left, Equiv.apply_symm_apply]

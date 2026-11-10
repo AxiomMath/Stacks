@@ -34,7 +34,8 @@ For an effective Cartier divisor `D ⊆ X` the normal cone `C_DX` is a line bund
 
 `Stacks.Conormal.conormalZeroSection` is the zero section of
 `Stacks.Conormal.conormalSituation`, hence a morphism into that situation's *total space*, and
-the implementation notes of `StacksFrontier.AlgebraicGeometry.Divisors.NormalCone.ConormalLineBundle`
+the implementation notes of
+`StacksFrontier.AlgebraicGeometry.Divisors.NormalCone.ConormalLineBundle`
 left the identification of that total space with the normal cone to the consumer. The two inputs
 are composed here, in the direction that lands on the cone:
 

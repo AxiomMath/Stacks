@@ -58,7 +58,7 @@ private theorem freeChain_exactAt_succ (D : FreeResolutionData R M) (hD : D.IsEx
     (freeChain D hD).ExactAt (n + 1) := by
   rw [HomologicalComplex.exactAt_iff' _ (n + 2) (n + 1) n (by simp) (by simp)]
   apply (ShortComplex.moduleCat_exact_iff_range_eq_ker _).2
-  show LinearMap.range (((freeChain D hD).d (n + 2) (n + 1)).hom) =
+  change LinearMap.range (((freeChain D hD).d (n + 2) (n + 1)).hom) =
     LinearMap.ker (((freeChain D hD).d (n + 1) n).hom)
   simp only [freeChain, ChainComplex.of.d, dite_true,
     show n + 2 = (n + 1) + 1 by omega]
@@ -76,7 +76,7 @@ private theorem freeChainAug_quasiIso (D : FreeResolutionData R M) (hD : D.IsExa
         ShortComplex.quasiIso_iff_of_zeros' _ (by rfl) (by rfl) (by rfl)]
       refine ⟨?_, ?_⟩
       · apply (ShortComplex.moduleCat_exact_iff_range_eq_ker _).2
-        show LinearMap.range (((freeChain D hD).d 1 0).hom) =
+        change LinearMap.range (((freeChain D hD).d 1 0).hom) =
           LinearMap.ker ((freeChainAug D hD).f 0).hom
         simp only [freeChain, freeChainAug]
         exact hD.2.1

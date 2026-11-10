@@ -192,10 +192,10 @@ theorem isPullback_opensRestrictDiag_homOfLE {U V : X.Opens} (h : V ≤ U) :
   refine IsOpenImmersion.isPullback _ _ _ _ ?_ ?_
   · rw [← cancel_mono (D.squareOpens U).ι, Category.assoc, Category.assoc,
       Scheme.homOfLE_ι]
-    show X.homOfLE h ≫ D.opensRestrictDiag U ≫ _ = D.opensRestrictDiag V ≫ _
+    change X.homOfLE h ≫ D.opensRestrictDiag U ≫ _ = D.opensRestrictDiag V ≫ _
     rw [opensRestrictDiag_ι, opensRestrictDiag_ι, Scheme.homOfLE_ι_assoc]
   · rw [Scheme.opensRange_homOfLE, Scheme.opensRange_homOfLE, ← Scheme.Hom.comp_preimage]
-    show (D.opensRestrictDiag U ≫ (D.squareOpens U).ι) ⁻¹ᵁ D.squareOpens V = _
+    change (D.opensRestrictDiag U ≫ (D.squareOpens U).ι) ⁻¹ᵁ D.squareOpens V = _
     rw [opensRestrictDiag_ι, Scheme.Hom.comp_preimage, diag_preimage_squareOpens]
 
 end AlgebraicGeometry.Scheme.Hom.DiagonalOpen

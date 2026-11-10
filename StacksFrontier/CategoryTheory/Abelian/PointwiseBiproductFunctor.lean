@@ -257,10 +257,10 @@ theorem shortExact_map_biprodMayerVietoris
       (by rw [← F.map_comp, ← F.map_comp, h]))
     (S₂ := (biprodMayerVietoris a b c d h).map F) ?_ hF
   refine ShortComplex.isoMk (Iso.refl _) (F.mapBiprod A B).symm (Iso.refl _) ?_ ?_
-  · show 𝟙 _ ≫ F.map (biprod.lift a (-b)) =
+  · change 𝟙 _ ≫ F.map (biprod.lift a (-b)) =
       biprod.lift (F.map a) (-(F.map b)) ≫ (F.mapBiprod A B).inv
     rw [Category.id_comp, ← F.map_neg, biprod.lift_mapBiprod]
-  · show (F.mapBiprod A B).inv ≫ F.map (biprod.desc c d) =
+  · change (F.mapBiprod A B).inv ≫ F.map (biprod.desc c d) =
       biprod.desc (F.map c) (F.map d) ≫ 𝟙 _
     rw [Category.comp_id, biprod.mapBiprod_inv_map_desc]
 

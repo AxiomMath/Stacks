@@ -736,7 +736,7 @@ theorem bundleFlatPullbackChow_perfectChernClass_exceptionalTest (hr : r ≠ 0)
     (chowGroupRestrict C _ _ (normalConeTestToExceptional sX i g 𝒩ᵢ)
       (normalConeTestToExceptional_comp_projection_assoc sX i g 𝒩ᵢ sX) k β)
   refine Eq.trans ?_ hx.symm
-  show chowGroupRestrict C _ _ Ψ.hom hΨ k (chowGroupRestrict C _ _ V.ι rfl k y) = _
+  change chowGroupRestrict C _ _ Ψ.hom hΨ k (chowGroupRestrict C _ _ V.ι rfl k y) = _
   rw [chowGroupRestrict_comp, hy', chowGroupRestrict_comp]
   refine Eq.trans ?_ (chowGroupRestrict_comp C _ _ _ _ k _ _ _ β).symm
   have hmor : (Ψ.hom ≫ V.ι) ≫ (exceptionalTestIso g φ hφ).inv =

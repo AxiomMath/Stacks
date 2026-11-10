@@ -136,7 +136,7 @@ An isomorphism is an open immersion, hence étale, and it is surjective; this is
 axiom of the étale pretopology. -/
 theorem Scheme.etalePrecoverage_hasIsos : Scheme.etalePrecoverage.{u}.HasIsos :=
   ⟨fun {_ T} f _ => by
-    show Presieve.singleton f ∈ Scheme.etalePretopology T
+    change Presieve.singleton f ∈ Scheme.etalePretopology T
     exact Scheme.etalePretopology.has_isos f⟩
 
 /-- The étale precoverage of schemes is stable under refinement by étale covering families:

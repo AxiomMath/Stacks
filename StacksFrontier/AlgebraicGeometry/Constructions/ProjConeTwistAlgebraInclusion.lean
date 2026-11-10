@@ -264,7 +264,7 @@ private theorem ungradedSheaf_hom_ext
   refine Stacks.GradedAlgebra.totalSheaf_hom_ext
     (nonnegTwistAlgebra 𝒜).toPresheafGradedAlgebra _ ?_
   refine NatTrans.ext (funext fun W => RingCat.hom_ext (RingHom.ext fun z => ?_))
-  show (ConcreteCategory.hom (g.hom.app W))
+  change (ConcreteCategory.hom (g.hom.app W))
       ((nonnegTwistAlgebra 𝒜).toPresheafGradedAlgebra.totalUnit
         (Opens.grothendieckTopology ↥(AlgebraicGeometry.Proj 𝒜)) W z) =
     (ConcreteCategory.hom (h.hom.app W))

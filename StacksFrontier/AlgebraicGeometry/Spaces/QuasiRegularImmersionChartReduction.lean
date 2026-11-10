@@ -149,7 +149,7 @@ theorem chartSectionIdeal_kernelIdealSheaf_openChart (k : Z ⟶ X)
       (openChart B S hS X.1 V O) =
       RingHom.ker ((BigFppfOver.toScheme B S hS).map
         (hk.snd (openChart B S hS X.1 V O).1.hom)).appTop.hom := by
-    show (kernelIdealSheaf B S hS k).obj (op (openChart B S hS X.1 V O)) = _
+    change (kernelIdealSheaf B S hS k).obj (op (openChart B S hS X.1 V O)) = _
     rw [kernelIdealSheaf_obj, ker_structureSharp_eq B S hS k hk _,
       chartPullbackRingHom_chartBaseChangeArrow]
     rfl

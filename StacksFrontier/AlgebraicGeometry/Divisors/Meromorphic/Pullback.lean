@@ -132,7 +132,7 @@ private lemma structureSheafSectionOver_germ_map
   let W : Opens ((Opens.toTopCat X.toTopCat).obj U) := ⊤
   let x' : ↑((Opens.toTopCat X.toTopCat).obj U) := x
   have htop : U.isOpenEmbedding.functor.obj W = U := by
-    show U.isOpenEmbedding.functor.obj
+    change U.isOpenEmbedding.functor.obj
       (⊤ : Opens ((Opens.toTopCat X.toTopCat).obj U)) = U
     exact Opens.isOpenEmbedding_obj_top U
   have hW : U.isOpenEmbedding.functor.obj W ≤ U := le_of_eq htop
@@ -146,7 +146,7 @@ private lemma structureSheafSectionOver_germ_map
       X.toPresheafedSpace U.isOpenEmbedding W x' trivial)
   rw [hval, hmapId] at h'
   have hres := X.presheaf.germ_res_apply (eqToHom htop) (U.inclusion' x') hxW s
-  show (X.restrictStalkIso U.isOpenEmbedding x).hom
+  change (X.restrictStalkIso U.isOpenEmbedding x).hom
       ((X.restrict U.isOpenEmbedding).presheaf.germ W x' trivial (sec.val (.op W))) =
     X.presheaf.germ U x.1 x.2 s
   rw [hval, hmapId]
@@ -194,7 +194,7 @@ theorem pullbacksMeromorphicSections_of_affine {X Y : Scheme.{u}} (f : X ⟶ Y)
       rfl
     have hV₀V : V₀ ≤ V := by
       dsimp only [V₀]
-      show Set.image (ConcreteCategory.hom V.inclusion') W.carrier ⊆ V.carrier
+      change Set.image (ConcreteCategory.hom V.inclusion') W.carrier ⊆ V.carrier
       rintro z ⟨w, hw, rfl⟩
       exact w.property
     refine ⟨V₀, hV₀V, by rw [← hV₀eq]; exact isAffineOpen_opensRange g, ⟨y', hyW, rfl⟩, ?_⟩
@@ -215,7 +215,7 @@ theorem pullbacksMeromorphicSections_of_affine {X Y : Scheme.{u}} (f : X ⟶ Y)
       X.presheaf.map (homOfLE hTU).op (pullbackSection f.toLRSHom U V h s) := by
     dsimp [pullbackSection]
     rw [hnat]
-    show X.presheaf.map (homOfLE hTV₀).op
+    change X.presheaf.map (homOfLE hTV₀).op
         (((TopCat.Presheaf.pushforward CommRingCat f.base).obj X.presheaf).map
           (homOfLE hV₀V).op ((f.toLRSHom).c.app (op V) s)) =
       X.presheaf.map (homOfLE hTU).op

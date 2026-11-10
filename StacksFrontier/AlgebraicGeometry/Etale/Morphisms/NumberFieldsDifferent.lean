@@ -132,7 +132,8 @@ theorem stalkwiseUnramifiedAt_ringOfIntegersSpecMap_iff_isUnramifiedAt
     let : PerfectField p.ResidueField := inferInstance
     let : Algebra (Localization.AtPrime p) (Localization.AtPrime q.asIdeal) :=
       Localization.AtPrime.algebraOfLiesOver p q.asIdeal
-    let : Localization.AtPrime.IsLiesOverAlgebra p q.asIdeal := inferInstance
+    let : IsScalarTower (𝓞 K) (Localization.AtPrime p) (Localization.AtPrime q.asIdeal) :=
+      inferInstance
     exact ⟨fun h => (Ideal.ramificationIdx_eq_one_iff (q := q.asIdeal)).1 (h hq).1,
       fun h _ => ⟨(Ideal.ramificationIdx_eq_one_iff (q := q.asIdeal)).2 h, inferInstance⟩⟩
 
@@ -326,7 +327,7 @@ theorem stalkwiseUnramified_flat_and_etale_differentOpen :
         zeroLocus (differentIdeal (𝓞 K) (𝓞 L) : Set (𝓞 L)) := x.2
     have h := isEtaleAt_of_notMem_zeroLocus_differentIdeal K L x.1 hx
     have hiso : IsIso ((differentOpen K L).ι.stalkMap x) := inferInstance
-    show (((differentOpen K L).ι ≫ ringOfIntegersSpecMap K L).stalkMap x).hom.Flat ∧
+    change (((differentOpen K L).ι ≫ ringOfIntegersSpecMap K L).stalkMap x).hom.Flat ∧
       (((differentOpen K L).ι ≫ ringOfIntegersSpecMap K L).stalkMap x).hom.FormallyUnramified ∧
       (((differentOpen K L).ι ≫ ringOfIntegersSpecMap K L).stalkMap x).hom.EssFiniteType
     rw [Scheme.Hom.stalkMap_comp]

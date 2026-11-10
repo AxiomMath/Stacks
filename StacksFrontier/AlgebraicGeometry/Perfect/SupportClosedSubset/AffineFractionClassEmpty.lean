@@ -152,7 +152,7 @@ theorem targetIsoEmpty_inv_Γ_quotientClassMap_sourceIsoEmpty (s : M) :
       (LocalizedModule.mk s ⟨∏ i, f i, Submonoid.mem_powers _⟩) = s :=
     (localizedEmptyEquiv f M).symm_apply_eq.2 rfl
   rw [Iso.toLinearEquiv_apply]
-  show (moduleSpecΓFunctor.map (quotientClassMap (specFunEmpty f) (tilde M))).hom
+  change (moduleSpecΓFunctor.map (quotientClassMap (specFunEmpty f) (tilde M))).hom
       ((moduleSpecΓFunctor.map (cokernel.π (equationsMap (specFunEmpty f) (tilde M)))).hom
         ((tilde.isoTop M).hom ((Submodule.quotEquivOfEqBot _ (span_range_empty_smul_top f M))
           (Submodule.Quotient.mk s)))) =

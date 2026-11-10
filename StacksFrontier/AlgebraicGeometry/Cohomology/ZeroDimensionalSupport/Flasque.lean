@@ -79,7 +79,7 @@ theorem exists_restrict_eq_of_support_dim_le_zero
     | none, some z => exact (hsub z _ inf_le_left inf_le_right).elim _ _
     | some z, none => exact (hsub z _ inf_le_right inf_le_left).elim _ _
     | some z, some w =>
-      show F.presheaf.map _ (F.presheaf.map _ s) = F.presheaf.map _ (F.presheaf.map _ s)
+      change F.presheaf.map _ (F.presheaf.map _ s) = F.presheaf.map _ (F.presheaf.map _ s)
       have hmaps : (homOfLE (inf_le_right : N z ⊓ U ≤ U)).op ≫
             (infLELeft (𝒰 (some z)) (𝒰 (some w))).op =
           (homOfLE (inf_le_right : N w ⊓ U ≤ U)).op ≫

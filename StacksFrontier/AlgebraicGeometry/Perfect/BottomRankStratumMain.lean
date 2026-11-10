@@ -155,7 +155,7 @@ theorem eq_zero_of_forall_exists_map_eq_zero (U : Y.Opens) (r : Γ(Y, U))
     r = 0 := by
   refine TopCat.Presheaf.section_ext Y.sheaf U r 0 fun y hy => ?_
   obtain ⟨V, hVU, hyV, hV⟩ := h y hy
-  show Y.presheaf.germ U y hy r = Y.presheaf.germ U y hy 0
+  change Y.presheaf.germ U y hy r = Y.presheaf.germ U y hy 0
   rw [← Y.presheaf.germ_res_apply (homOfLE hVU) y hyV, hV, map_zero, map_zero]
 
 /-- An element of `R` killing an `R`-module `M` kills every section of `M~`. -/
@@ -163,7 +163,7 @@ theorem tilde_smul_eq_zero {R : CommRingCat.{u}} (M : ModuleCat.{u} R) (t : R)
     (ht : ∀ m : M, t • m = 0) (U : (Spec R).Opens) (x : Γ(tilde M, U)) : t • x = 0 := by
   apply Subtype.ext
   funext p
-  show (algebraMap R (Localization.AtPrime p.val.asIdeal) t) • x.val p = 0
+  change (algebraMap R (Localization.AtPrime p.val.asIdeal) t) • x.val p = 0
   rw [algebraMap_smul]
   induction x.val p using LocalizedModule.induction_on with
   | h m s => simp [LocalizedModule.smul'_mk, ht]
@@ -216,7 +216,7 @@ theorem smul_eq_zero_of_mem_annihilatorSheaf (e : F.restrict w ≅ tilde M) (r :
     ((ConcreteCategory.bijective_of_isIso (F.restrictAppIso w ⊤).hom).1
       (hx.trans (map_zero _).symm))
   have hem : e.hom.app ⊤ m' = tilde.toOpen M ⊤ m := by
-    show (e.inv.app ⊤ ≫ e.hom.app ⊤) _ = _
+    change (e.inv.app ⊤ ≫ e.hom.app ⊤) _ = _
     rw [← Scheme.Modules.Hom.comp_app, e.inv_hom_id]
     rfl
   rw [Scheme.Modules.Hom.app_smul, map_zero, hem] at hx'
@@ -288,7 +288,7 @@ theorem mono_scalarAction_of_isFiniteLocallyFreeOfRank_one {E : DerivedCategory 
   refine ⟨w' ''ᵁ ⊤, hle, ?_, ?_⟩
   · obtain ⟨q, hq⟩ := hyw
     refine ⟨q, trivial, ?_⟩
-    show U'.ι.base (w.base q) = y
+    change U'.ι.base (w.base q) = y
     rw [hq]
     rfl
   have hmem : Y.presheaf.map (homOfLE hle).op s ∈

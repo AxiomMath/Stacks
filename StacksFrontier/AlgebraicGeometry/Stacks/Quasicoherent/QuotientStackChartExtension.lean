@@ -194,7 +194,7 @@ theorem map_chartedExtension (c : ChartedPoint G) {T' : BigFppfOver C S hS}
       (congrArg (pointwiseToQuotientStack G).map (ChartedPoint.special_restrict c k hT'))
   refine FibredSite.map_extendAlong' F hF c.chartMap c.hW c.hT H _ _ hn hT' _ _
     (fun x => ?_) σ
-  show H.val.map (c.restrict k hT').chartMap.op (chartSectionValue φ c.W x) =
+  change H.val.map (c.restrict k hT').chartMap.op (chartSectionValue φ c.W x) =
     H.val.map ((pointwiseToQuotientStack G).map (pointwiseSpecial G k c.pt)).op
       (H.val.map c.chartMap.op (chartSectionValue φ c.W x))
   rw [← hn]
@@ -419,7 +419,7 @@ theorem chartedExtension_naturality
   have h₂ : mK ≫ g₀ ≫ chartDiagramPoint G G.target.hom dT.U dT.V dT.g dT.comm =
       pointwiseSpecial G k c.pt ≫ q := by
     apply pointwiseHom_ext G.toGroupoidInFunctors
-    · show kV ≫ g₀.base ≫ dt = k ≫ q.base
+    · change kV ≫ g₀.base ≫ dt = k ≫ q.base
       rw [hg₀b, Category.id_comp, hg₂]
     · refine (pointwiseArrow_comp_of_left G _ _ hmK).trans ?_
       refine Eq.trans ?_ (pointwiseArrow_comp_of_left G _ _ rfl).symm
@@ -451,7 +451,7 @@ theorem chartedExtension_naturality
     (pointwiseSpecial G k c.pt ≫ q)) hW' hT') hx).trans ?_
   refine (FibredSite.extendAlong_map F hF
     ((pointwiseToQuotientStack G).map (pointwiseSpecial G k c.pt ≫ q)) hW' hT' H _ x).trans ?_
-  show H.val.map ((pointwiseToQuotientStack G).map (pointwiseSpecial G k c.pt ≫ q)).op
+  change H.val.map ((pointwiseToQuotientStack G).map (pointwiseSpecial G k c.pt ≫ q)).op
     (chartSectionValue φ W' x) = _
   rw [h0', op_comp]
   exact H.val.map_comp_apply _ _ _

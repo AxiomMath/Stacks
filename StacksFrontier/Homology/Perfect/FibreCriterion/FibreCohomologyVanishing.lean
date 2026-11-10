@@ -261,10 +261,10 @@ lemma lTensor_residueField_localization_injective
     Function.Injective ((LinearMap.baseChange (Localization.AtPrime p) d).lTensor
       (IsLocalRing.ResidueField (Localization.AtPrime p))) := by
   let A := Localization.AtPrime p
-  rw [← LinearMap.baseChange_eq_ltensor]
+  rw [← LinearMap.baseChange_eq_lTensor]
   have hfib : Function.Injective (LinearMap.baseChange p.ResidueField d) := by
-    rwa [LinearMap.baseChange_eq_ltensor]
-  show Function.Injective
+    rwa [LinearMap.baseChange_eq_lTensor]
+  change Function.Injective
     (LinearMap.baseChange p.ResidueField (LinearMap.baseChange A d))
   rw [LinearMap.baseChange_baseChange]
   exact ((TensorProduct.AlgebraTensorModule.cancelBaseChange R A p.ResidueField
@@ -331,10 +331,10 @@ private lemma mem_freeLocus_of_lTensor_residueField_injective
   have hexι : Function.Exact ι q := fun x =>
     (hex x).trans ⟨fun hx => ⟨⟨x, hx⟩, rfl⟩, by rintro ⟨y, rfl⟩; exact y.property⟩
   have hqA : Function.Surjective (LinearMap.baseChange A q) := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact LinearMap.lTensor_surjective A hq
   have hexA : Function.Exact (LinearMap.baseChange A ι) (LinearMap.baseChange A q) := by
-    simpa only [LinearMap.baseChange_eq_ltensor] using lTensor_exact A hexι hq
+    simpa only [LinearMap.baseChange_eq_lTensor] using lTensor_exact A hexι hq
   have : Module.Free A (A ⊗[R] W) :=
     Module.free_of_lTensor_residueField_injective
       (LinearMap.baseChange A ι) (LinearMap.baseChange A q) hqA hexA
@@ -358,8 +358,7 @@ private lemma subsingleton_tensor_of_smul_eq_zero
     {H : Type*} [AddCommGroup H] [Module R H] (r : R) (hr : IsUnit (algebraMap R A r))
     (hH : ∀ h : H, r • h = 0) : Subsingleton (A ⊗[R] H) := by
   refine subsingleton_of_forall_eq 0 fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => rfl
+  induction x using TensorProduct.inductionOn with
   | tmul a h =>
     obtain ⟨w, hw⟩ := hr
     have ha : a = r • ((↑w⁻¹ : A) * a) := by
@@ -385,14 +384,14 @@ private lemma exists_lTensor_residueField_eq_of_isZero_homology
     · intro hx
       exact (ShortComplex.moduleCat_exact_iff _).mp hex x hx
     · rintro ⟨y, rfl⟩
-      show (Pκ.d (i - 1) i ≫ Pκ.d i (i + 1)).hom y = 0
+      change (Pκ.d (i - 1) i ≫ Pκ.d i (i + 1)).hom y = 0
       rw [Pκ.d_comp_d]
       rfl
   change (let := (algebraMap R κ).toAlgebra;
     Function.Exact (LinearMap.baseChange κ (P.d (i - 1) i).hom)
       (LinearMap.baseChange κ (P.d i (i + 1)).hom)) at hexf
   rw [toAlgebra_algebraMap] at hexf
-  simp only [LinearMap.baseChange_eq_ltensor] at hexf
+  simp only [LinearMap.baseChange_eq_lTensor] at hexf
   exact fun x hx => (hexf x).mp hx
 
 /-- An element `r` with `D(f) ⊆ D(r)` becomes a unit in `R_f`. -/
@@ -427,7 +426,7 @@ private lemma exists_away_projective_opcycles_and_subsingleton_homology
     (ModuleCat.epi_iff_surjective (P.pOpcycles i)).mp inferInstance
   have hexπ : Function.Exact (P.d (i - 1) i).hom π := exact_d_pOpcycles P (i - 1) i (by simp)
   have hd : dbar ∘ₗ π = (P.d i (i + 1)).hom := by
-    show (P.pOpcycles i ≫ P.fromOpcycles i (i + 1)).hom = _
+    change (P.pOpcycles i ≫ P.fromOpcycles i (i + 1)).hom = _
     rw [P.p_fromOpcycles]
   have hinj : Function.Injective (dbar.lTensor κ) :=
     lTensor_injective_of_exact_lTensor κ _ _ π dbar hπ hexπ hd
@@ -466,7 +465,7 @@ private lemma exists_away_projective_opcycles_and_subsingleton_homology
     apply (ModuleCat.mono_iff_injective (P.homologyι i)).mp inferInstance
     rw [map_smul, map_zero]
     apply hker
-    show (P.homologyι i ≫ P.fromOpcycles i (i + 1)).hom h = 0
+    change (P.homologyι i ≫ P.fromOpcycles i (i + 1)).hom h = 0
     rw [P.homologyι_comp_fromOpcycles]
     rfl
 
@@ -541,7 +540,7 @@ private lemma truncGE_Q_obj_iso
     (DerivedCategory.triangleOfSES_distinguished h) (Iso.refl _) (n - 1) n
     (by infer_instance) (by infer_instance)
     (by
-      show (DerivedCategory.Q.obj (P.truncLE (n - 1))).IsLE (n - 1)
+      change (DerivedCategory.Q.obj (P.truncLE (n - 1))).IsLE (n - 1)
       infer_instance) h₃
   exact ⟨Triangle.π₃.mapIso e ≪≫ e₃⟩
 

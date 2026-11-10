@@ -123,7 +123,7 @@ public theorem finite_restrictScalars_ringEquiv_iff {R S : Type u} [Ring R] [Rin
     fun _ => Module.Finite.of_surjective (M := (N : Type u))
       ({ toFun := id, map_add' := fun _ _ => rfl,
          map_smul' := fun s x => by
-           show s • x = e (e.symm s) • x
+           change s • x = e (e.symm s) • x
            rw [e.apply_symm_apply] } :
         (N : Type u) →ₛₗ[(e.symm : S ≃+* R).toRingHom]
           ((ModuleCat.restrictScalars e.toRingHom).obj N))

@@ -118,7 +118,7 @@ lemma homTransfer_map (j : ℕ)
       ((frobeniusPullback T p hT).endoIter j).obj Q) :
     homTransfer p hY hT H eP eQ (j + 1) ((frobeniusPullback T p hT).map φ) =
       twist p hY (homTransfer p hY hT H eP eQ j φ) := by
-  show (Scheme.Modules.pullbackComp _ _).inv.app M ≫
+  change (Scheme.Modules.pullbackComp _ _).inv.app M ≫
       (Scheme.Modules.pullback (frobOf p hY (frobPow p hY H j))).map
         (frobIso p hY hT H eP j).inv ≫
       (Scheme.Modules.pullback (frobOf p hY (frobPow p hY H j))).map φ.hom ≫

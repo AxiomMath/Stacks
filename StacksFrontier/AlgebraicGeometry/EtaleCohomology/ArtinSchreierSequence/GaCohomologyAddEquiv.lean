@@ -65,7 +65,7 @@ abbrev etaleRestrict (U : X.Etale) (r : Γ(X, ⊤)) : Γ(U.left, ⊤) := U.hom.a
 `etaleRestrict V r`. -/
 theorem etaleRestrict_map {U V : X.Etale} (g : V ⟶ U) (r : Γ(X, ⊤)) :
     g.left.appTop (etaleRestrict U r) = etaleRestrict V r := by
-  show (g.left ≫ U.hom).appTop r = V.hom.appTop r
+  change (g.left ≫ U.hom).appTop r = V.hom.appTop r
   rw [MorphismProperty.Over.w g]
 
 /-- Multiplication by a global function, on `𝐆_a` at coefficients `AddCommGrpCat.{u}`. -/
@@ -121,7 +121,7 @@ theorem gaScalar_comp_frobeniusMap {p : ℕ} (hp : p.Prime) (hX : (p : Γ(X, ⊤
       frobeniusMap.{u, u + 1} X hp hX ≫ gaScalar (r ^ p) := by
   ext U x
   obtain ⟨x, rfl⟩ := ofSection_surjective.{u, u + 1} (U := U.unop) x
-  show ofSection.{u, u + 1} ((etaleRestrict U.unop r * x) ^ p) =
+  change ofSection.{u, u + 1} ((etaleRestrict U.unop r * x) ^ p) =
     ofSection.{u, u + 1} (etaleRestrict U.unop (r ^ p) * x ^ p)
   refine congrArg (ofSection.{u, u + 1} (U := U.unop)) ?_
   rw [mul_pow, etaleRestrict, etaleRestrict, map_pow]
@@ -342,7 +342,7 @@ theorem gaUliftAddEquiv_map_gaBaseScalar (r : Γ(X, ⊤)) (m : ℕ)
   have h := Stacks.Cohomology.CoefficientLift.sheafHUliftAddEquiv_map.{u, u, u + 1, u + 1}
     X.smallEtaleTopology (gaBaseScalar r) m y
   simp only [gaUliftAddEquiv, AddEquiv.trans_apply, sheafHAddEquivOfIso_apply]
-  show Sheaf.H.map _ m
+  change Sheaf.H.map _ m
     (Stacks.Cohomology.CoefficientLift.sheafHUliftAddEquiv.{u, u, u + 1, u + 1}
       X.smallEtaleTopology _ m (Sheaf.H.map (gaBaseScalar r) m y)) = _
   rw [h, ← Sheaf.H.map_comp_apply, map_gaBaseScalar_comp_uliftIso, Sheaf.H.map_comp_apply]
@@ -494,7 +494,7 @@ theorem gaCohomologyAddEquivSucc_map_gaScalar (a : k) (n : ℕ)
   have h4 := ConcreteCategory.congr_hom
     ((Stacks.Cohomology.ModuleComparison.rightDerivedEvaluationForgetIso X.ringCatSheaf ⊤
         (n + 1)).inv.naturality (moduleScalar r)) w
-  show ((Stacks.Cohomology.ModuleComparison.rightDerivedEvaluationForgetIso X.ringCatSheaf ⊤
+  change ((Stacks.Cohomology.ModuleComparison.rightDerivedEvaluationForgetIso X.ringCatSheaf ⊤
         (n + 1)).inv.app (Scheme.unitModule X))
       ((hgroupAssocIso n).inv (Sheaf.H.map (assocScalar r) (n + 1)
         ((hgroupAssocIso n).hom w))) =
@@ -542,7 +542,7 @@ theorem gaCohomologyAddEquivZero_map_gaScalar (a : k)
       a • gaCohomologyAddEquivZero k f x := by
   set r := fieldToSections k f a
   have h1 := (Sheaf.H.equiv₀_naturality (isTerminal_etaleSelf X) (gaScalar r) x).symm
-  show ((_root_.SheafOfModules.evaluation X.ringCatSheaf
+  change ((_root_.SheafOfModules.evaluation X.ringCatSheaf
       (op (⊤ : X.Opens))).rightDerivedZeroIsoSelf.inv.app (Scheme.unitModule X))
       (Sheaf.H.equiv₀ (additiveSheaf.{u, u + 1} X) (isTerminal_etaleSelf X)
         (Sheaf.H.map (gaScalar r) 0 x)).down =
@@ -566,10 +566,10 @@ theorem gaCohomologyAddEquivZero_map_gaScalar (a : k)
       𝟙 _ from by rw [show (homOfLE (le_top : (⊤ : X.Opens) ≤ ⊤)).op = 𝟙 _ from
         Subsingleton.elim _ _, CategoryTheory.Functor.map_id])
   have h4 : etaleRestrict (etaleSelf X) r = r := by
-    show (𝟙 X : X ⟶ X).appTop r = r
+    change (𝟙 X : X ⟶ X).appTop r = r
     rw [Scheme.Hom.id_appTop]
     rfl
-  show ((_root_.SheafOfModules.evaluation X.ringCatSheaf
+  change ((_root_.SheafOfModules.evaluation X.ringCatSheaf
       (op (⊤ : X.Opens))).rightDerivedZeroIsoSelf.inv.app (Scheme.unitModule X))
       ((show Γ(X, ⊤) from etaleRestrict (etaleSelf X) r) * y) = _
   rw [h4, ← h3]

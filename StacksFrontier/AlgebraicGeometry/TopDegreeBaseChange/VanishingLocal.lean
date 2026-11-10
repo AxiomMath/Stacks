@@ -94,7 +94,7 @@ theorem isZero_of_isZero_sections_of_isAffine {T : Scheme.{u}} [IsAffine T] (M :
     dsimp [M', Scheme.Modules.restrictFunctor, SheafOfModules.pushforward,
       PresheafOfModules.pushforward, PresheafOfModules.pushforward₀,
       PresheafOfModules.pushforward₀Obj]
-    show Subsingleton (M.val.obj (op (e.inv ''ᵁ (⊤ : (Spec Γ(T, ⊤)).Opens))))
+    change Subsingleton (M.val.obj (op (e.inv ''ᵁ (⊤ : (Spec Γ(T, ⊤)).Opens))))
     rw [Scheme.Hom.image_top_eq_opensRange, Scheme.Hom.opensRange_of_isIso]
     exact ModuleCat.isZero_iff_subsingleton.mp hΓ
   have hΓmodule : IsZero
@@ -117,7 +117,7 @@ theorem isZero_sections_of_isZero_cohomology_zero {X : Scheme.{u}} (M : X.Module
   let E := SheafOfModules.evaluation X.ringCatSheaf (op (⊤ : X.Opens))
   let G := forget₂ (ModuleCat (X.ringCatSheaf.obj.obj (op (⊤ : X.Opens)))) AddCommGrpCat
   have : PreservesFiniteLimits (secF X.ringCatSheaf ⊤) := by
-    show PreservesFiniteLimits (E ⋙ G)
+    change PreservesFiniteLimits (E ⋙ G)
     infer_instance
   have hΓ : IsZero ((secF X.ringCatSheaf ⊤).obj M) :=
     IsZero.of_iso (h : IsZero (((secF X.ringCatSheaf ⊤).rightDerived 0).obj M))
@@ -173,7 +173,7 @@ theorem isZero_rightDerivedPlus_pushforward_of_affineCase
   let UX := S.f ⁻¹ᵁ U y'
   let UY := S.f' ⁻¹ᵁ V y'
   have hsub : UY ≤ S.g' ⁻¹ᵁ UX := by
-    show S.f' ⁻¹ᵁ V y' ≤ S.g' ⁻¹ᵁ (S.f ⁻¹ᵁ U y')
+    change S.f' ⁻¹ᵁ V y' ≤ S.g' ⁻¹ᵁ (S.f ⁻¹ᵁ U y')
     calc
       _ ≤ S.f' ⁻¹ᵁ (S.g ⁻¹ᵁ U y') := S.f'.preimage_mono (hVle y')
       _ = S.g' ⁻¹ᵁ (S.f ⁻¹ᵁ U y') := by

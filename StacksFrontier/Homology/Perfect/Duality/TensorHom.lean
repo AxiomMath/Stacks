@@ -199,14 +199,14 @@ private theorem tensorHomComplex_apply
       (ρ_ L).hom.f b ((ιTensorObj L (unitComplex (R := R))
         p (b - p) b (by omega)).hom
           (x ⊗ₜ[ULift.{v} R] (φ.v a (b-p) (by omega)).hom m)) := by
-  show ((Stacks.HomComplex.TensorHomComparison.HomCxMapDeg P P (L ⊗ unitComplex (R := R)) L
+  change ((Stacks.HomComplex.TensorHomComparison.HomCxMapDeg P P (L ⊗ unitComplex (R := R)) L
     (𝟙 P) (ρ_ L).hom n
       (((Stacks.HomComplex.TensorHomComparison.theta L (unitComplex (R := R)) P).f n).hom
         ((ιTensorObj L (HomComplexR (ULift.{v} R) P (unitComplex (R := R)))
           p q n hpq).hom (x ⊗ₜ[ULift.{v} R] φ)))).v a b hab).hom m = _
   rw [Stacks.HomComplex.TensorHomComparison.HomCxMapDeg_v, HomologicalComplex.id_f,
     Category.id_comp]
-  show (ρ_ L).hom.f b
+  change (ρ_ L).hom.f b
     ((((Stacks.HomComplex.TensorHomComparison.thetaDeg L (unitComplex (R := R)) P n).hom
       ((ιTensorObj L (HomComplexR (ULift.{v} R) P (unitComplex (R := R)))
         p q n hpq).hom (x ⊗ₜ[ULift.{v} R] φ))).v a b hab).hom m) = _
@@ -229,7 +229,7 @@ private theorem uncurry_tensorHomComplex
   change GradedObject.Monoidal.ιTensorObj₃' L.X E.X P.X p q r n h ≫
     (α_ L E P).hom.f n = (α_ (L.X p) (E.X q) (P.X r)).hom ≫
       GradedObject.Monoidal.ιTensorObj₃ L.X E.X P.X p q r n h at ha
-  show _ = GradedObject.Monoidal.ιTensorObj₃' L.X E.X P.X p q r n h ≫
+  change _ = GradedObject.Monoidal.ιTensorObj₃' L.X E.X P.X p q r n h ≫
     (α_ L E P).hom.f n ≫ (L ◁ uncurryComplex (𝟙 E)).f n ≫ (ρ_ L).hom.f n
   rw [reassoc_of% ha]
   rw [GradedObject.Monoidal.ιTensorObj₃_eq L.X E.X P.X p q r n h (q+r) rfl,
@@ -237,12 +237,11 @@ private theorem uncurry_tensorHomComplex
   apply ModuleCat.hom_ext
   apply TensorProduct.ext'
   intro z m
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z z' hz hz' =>
     simpa only [TensorProduct.add_tmul, map_add] using congrArg₂ (· + ·) hz hz'
   | tmul x φ =>
-    show (uncurryComplex (tensorHomComplex P L)).f n
+    change (uncurryComplex (tensorHomComplex P L)).f n
       ((ιTensorObj (L ⊗ E) P (p+q) r n h).hom
         ((ιTensorObj L E p q (p+q) rfl).hom (x ⊗ₜ[ULift.{v} R] φ)
           ⊗ₜ[ULift.{v} R] m)) = _
@@ -253,7 +252,7 @@ private theorem uncurry_tensorHomComplex
       (x ⊗ₜ[ULift.{v} R]
         (ιTensorObj E P q r (q+r) rfl).hom (φ ⊗ₜ[ULift.{v} R] m))
     simp only [ModuleCat.comp_apply, ModuleCat.MonoidalCategory.whiskerLeft_apply] at hw
-    show _ = (ρ_ L).hom.f n
+    change _ = (ρ_ L).hom.f n
       ((L ◁ uncurryComplex (𝟙 E)).f n
         ((ιTensorObj L (E ⊗ P) p (q+r) n (by omega)).hom
           (x ⊗ₜ[ULift.{v} R]
@@ -288,7 +287,7 @@ private theorem tensorHomComplex_isIso_of_exactPairing
     rw [CochainComplex.LeftDual.tensorHomAdjunction, Adjunction.mkOfHomEquiv_homEquiv] at h
     change uncurryComplex (e.hom.app X) = a.counit.app X at h
     rw [h]
-    show (𝟙 (X ⊗ N) ▷ P) ≫ _ = _
+    change (𝟙 (X ⊗ N) ▷ P) ≫ _ = _
     rw [id_whiskerRight, Category.id_comp]
     rfl
   have hn {A B M : CochainComplex (ModuleCat.{max u v} (ULift.{v} R)) ℤ}
@@ -297,7 +296,7 @@ private theorem tensorHomComplex_isIso_of_exactPairing
     simpa only [tensorHomEquiv_eq_uncurry] using tensorHomEquiv_naturality_left f g
   have hi : (i.hom ▷ P) ≫ uncurryComplex (𝟙 E) = ε_ P N := by
     rw [← hn, Category.comp_id]
-    show uncurryComplex ((λ_ N).inv ≫ e.hom.app (unitComplex (R := R))) = _
+    change uncurryComplex ((λ_ N).inv ≫ e.hom.app (unitComplex (R := R))) = _
     rw [hn, he]
     monoidal
   have hf : (L ◁ i.hom) ≫ tensorHomComplex P L = e.hom.app L := by
@@ -365,7 +364,7 @@ private theorem evaluation_projective_model
   dsimp only at comparison
   rw [CategoryTheory.Functor.map_id, Category.id_comp] at comparison
   rw [← comparison, ← data.homEquiv_naturality_left]
-  show data.homEquiv _ _ _
+  change data.homEquiv _ _ _
       ((model.iso representative (unitComplex (R := R)) upper).hom ≫
         (model.iso representative (unitComplex (R := R)) upper).inv) =
     data.homEquiv _ _ _ (𝟙 _)
@@ -440,7 +439,7 @@ private theorem tensorHomComplex_naturality_target
         Stacks.HomComplex.TensorHomMap.postcomp (ULift.{v} R) representative target target' morphism
           := by
     ext degree element
-    show (Cochain.ofHom (𝟙 representative)).comp
+    change (Cochain.ofHom (𝟙 representative)).comp
       (element.comp (Cochain.ofHom morphism) (add_zero degree)) (zero_add degree) =
       element.comp (Cochain.ofHom morphism) (add_zero degree)
     rw [Cochain.id_comp]
@@ -476,7 +475,7 @@ private theorem tensorHom_projective_model
   let sourceIso := data.tensor.mapIso
     (coverIso.prod (Iso.refl (derivedDual (DerivedCategory.Q.obj representative))))
   apply (cancel_epi sourceIso.hom).mp
-  show data.tensor.map
+  change data.tensor.map
       (show (DerivedCategory.Q.obj cover, derivedDual (DerivedCategory.Q.obj representative)) ⟶
         (DerivedCategory.Q.obj target, derivedDual (DerivedCategory.Q.obj representative)) from
         (DerivedCategory.Q.map resolution, 𝟙 _)) ≫ _ =
@@ -563,7 +562,7 @@ private theorem tensorHom_representation
   dsimp only at modelComparison
   rw [reassoc_of% modelComparison, ← tensorHom_natural_left representation.hom]
   rw [← Category.assoc, data.tensor_map_comp]
-  show data.tensor.map
+  change data.tensor.map
       (show (DerivedCategory.Q.obj target, derivedDual object) ⟶
         (DerivedCategory.Q.obj target, derivedDual object) from
         (𝟙 (DerivedCategory.Q.obj target) ≫ 𝟙 (DerivedCategory.Q.obj target),

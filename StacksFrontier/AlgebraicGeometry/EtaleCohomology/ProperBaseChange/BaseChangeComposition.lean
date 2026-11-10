@@ -102,7 +102,7 @@ public lemma mateEquiv_whisker (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂)
     (α : TwoSquare G L₁ L₂ H) (φ : G' ⟶ G) (ψ : H ⟶ H') :
     mateEquiv adj₁ adj₂ ((α.whiskerTop φ).whiskerBottom ψ) =
       ((mateEquiv adj₁ adj₂ α).whiskerRight φ).whiskerLeft ψ := by
-  refine TwoSquare.ext _ _ fun d => ?_
+  refine NatTrans.ext (funext fun d => ?_)
   simp [TwoSquare.whiskerTop, TwoSquare.whiskerBottom, TwoSquare.whiskerLeft,
     TwoSquare.whiskerRight, mateEquiv]
 

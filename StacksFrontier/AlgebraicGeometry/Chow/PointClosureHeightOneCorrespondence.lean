@@ -83,7 +83,7 @@ theorem genericPoint_eq_top [IsIntegral W] : genericPoint W = (⊤ : W) := rfl
 /-- Every generization of `x` comes from a prime of `𝒪_{W, x}`. -/
 theorem exists_fromSpecStalk_eq {x z : W} (h : z ⤳ x) :
     ∃ p : Spec (W.presheaf.stalk x), W.fromSpecStalk x p = z := by
-  show z ∈ Set.range ⇑(W.fromSpecStalk x)
+  change z ∈ Set.range ⇑(W.fromSpecStalk x)
   rw [W.range_fromSpecStalk]
   exact h
 

@@ -82,7 +82,7 @@ theorem exists_lift_over_of_sections {I : Type u}
     { val := fun Y => G.val.map (Y.unop.hom ≫ homOfLE (hUV i)).op (a i)
       property := by
         intro Y Z g
-        show G.val.map g.unop.left.op
+        change G.val.map g.unop.left.op
           (G.val.map (Y.unop.hom ≫ homOfLE (hUV i)).op (a i)) = _
         rw [← G.val.map_comp_apply]
         congr 1 }
@@ -96,7 +96,7 @@ theorem exists_lift_over_of_sections {I : Type u}
   funext i
   simp only [Category.assoc, eU.hom_inv_id_assoc,
     SheafOfModules.freeHomEquiv_comp_apply, Equiv.apply_symm_apply]
-  show SheafOfModules.sectionsMap (p.over U) (t i) =
+  change SheafOfModules.sectionsMap (p.over U) (t i) =
     (F.over U).unitHomEquiv (SheafOfModules.ιFree i ≫ eU.hom ≫ q.over U)
   dsimp only [eU]
   rw [SheafOfModules.ιFree_mapFreeIso_hom_assoc
@@ -104,11 +104,11 @@ theorem exists_lift_over_of_sections {I : Type u}
   simp only [Iso.refl_hom]
   apply PresheafOfModules.sections_ext
   intro Y
-  show p.val.app (Opposite.op Y.unop.left)
+  change p.val.app (Opposite.op Y.unop.left)
     (G.val.map (Y.unop.hom ≫ homOfLE (hUV i)).op (a i)) =
     (F.freeHomEquiv q i).val (Opposite.op Y.unop.left)
   rw [PresheafOfModules.naturality_apply]
-  show F.val.map (Y.unop.hom ≫ homOfLE (hUV i)).op
+  change F.val.map (Y.unop.hom ≫ homOfLE (hUV i)).op
     (p.val.app (Opposite.op (V i)) (a i)) = _
   rw [ha i]
   exact (congrArg (fun z => F.val.map (Y.unop.hom ≫ homOfLE (hUV i)).op z)
@@ -145,7 +145,7 @@ theorem exists_local_lift [Epi p] (hE : IsDirectSummandOfFiniteFree E) :
   obtain ⟨n, ⟨ρ⟩⟩ := (isDirectSummandOfFiniteFree_iff_retract E).mp hE
   let e : finiteFree X n ≅
       SheafOfModules.free (R := structureSheafOfRings X) (ULift.{u} (Fin n)) := by
-    show (⨁ fun _ : Fin n => SheafOfModules.unit (structureSheafOfRings X)) ≅
+    change (⨁ fun _ : Fin n => SheafOfModules.unit (structureSheafOfRings X)) ≅
       ∐ (fun _ : ULift.{u} (Fin n) => SheafOfModules.unit (structureSheafOfRings X))
     exact (biproduct.whiskerEquiv
       (g := fun _ : ULift.{u} (Fin n) => SheafOfModules.unit (structureSheafOfRings X))
@@ -153,7 +153,7 @@ theorem exists_local_lift [Epi p] (hE : IsDirectSummandOfFiniteFree E) :
   obtain ⟨U, hxU, k, hk⟩ := exists_local_lift_of_free p (e.inv ≫ ρ.r ≫ f) x
   refine ⟨U, hxU, ρ.i.over U ≫ e.hom.over U ≫ k, ?_⟩
   rw [Category.assoc, Category.assoc, hk]
-  show (SheafOfModules.overFunctor (structureSheafOfRings X) U).map
+  change (SheafOfModules.overFunctor (structureSheafOfRings X) U).map
     (ρ.i ≫ e.hom ≫ e.inv ≫ ρ.r ≫ f) = _
   congr 1
   simp only [e.hom_inv_id_assoc]

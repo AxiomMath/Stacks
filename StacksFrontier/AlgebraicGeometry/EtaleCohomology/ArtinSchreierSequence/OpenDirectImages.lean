@@ -155,7 +155,7 @@ theorem openDirectImageRestriction_comp {Z V U : X.Opens} (h₁ : Z ≤ V) (h₂
       openDirectImageRestriction X h₂ ≫ openDirectImageRestriction X h₁ := by
   apply Sheaf.hom_ext
   refine NatTrans.ext (funext fun W => ?_)
-  show (Scheme.Γ ⋙ additiveCoefficients.{u, 0}).map
+  change (Scheme.Γ ⋙ additiveCoefficients.{u, 0}).map
       ((openPullbackNatTrans X (h₁.trans h₂)).app W.unop).op =
     (Scheme.Γ ⋙ additiveCoefficients.{u, 0}).map ((openPullbackNatTrans X h₂).app W.unop).op ≫
       (Scheme.Γ ⋙ additiveCoefficients.{u, 0}).map ((openPullbackNatTrans X h₁).app W.unop).op

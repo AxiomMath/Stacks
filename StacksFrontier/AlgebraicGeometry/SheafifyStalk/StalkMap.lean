@@ -158,6 +158,7 @@ public theorem pullbackIso_eq_leftAdjointUniq (f : X ⟶ Y) :
   rfl
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for sheafification and the Kan extension adjunction on `Opens` sheaves
 /-- **The unit of the constructed inverse-image adjunction, on underlying presheaves.**  The
 adjunction obtained by sheafifying the presheaf inverse image has unit the presheaf-level unit
 followed by the unit of sheafification.
@@ -192,6 +193,7 @@ public theorem sheafPullbackConstruction_unit_hom (f : X ⟶ Y) (F : TopCat.Shea
   exact Adjunction.comp_unit_app _ _ _
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for sheafification and the Kan extension adjunction on `Opens` sheaves
 /-- **The unit of the inverse-image/pushforward adjunction on sheaves, read on underlying
 presheaves.**  It is the presheaf-level unit, then the unit of sheafification, then the
 comparison `TopCat.Sheaf.pullbackIso` of the sheaf inverse image with that sheafification.

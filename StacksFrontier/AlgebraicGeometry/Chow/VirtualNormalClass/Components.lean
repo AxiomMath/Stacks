@@ -68,7 +68,7 @@ def clopenAmbient (V : Z.Opens) : X.Opens where
 /-- `i⁻¹(X ∖ i(Z ∖ V)) = V`. -/
 theorem preimage_clopenAmbient (V : Z.Opens) : i ⁻¹ᵁ clopenAmbient i V = V := by
   ext z
-  show i.base z ∈ (i.base '' (V : Set Z)ᶜ)ᶜ ↔ z ∈ V
+  change i.base z ∈ (i.base '' (V : Set Z)ᶜ)ᶜ ↔ z ∈ V
   rw [Set.mem_compl_iff, i.isClosedEmbedding.injective.mem_set_image, Set.mem_compl_iff,
     not_not]
   rfl
@@ -178,12 +178,12 @@ def componentFamily (p : ℤ) (k : _root_.ConnectedComponents Z) :
 /-- In degree `r_k` the family is `c(Z_k ⟶ W_k, 𝒩|_{Z_k})` on `Z_k`. -/
 theorem componentFamily_rank (k : _root_.ConnectedComponents Z) :
     𝒩.componentFamily C sX sZ hZ (𝒩.componentRank k) k = 𝒩.componentClass C sX sZ hZ k := by
-  rw [componentFamily, dif_pos rfl]
+  rw [componentFamily, dite_eq_left rfl]
 
 /-- In a degree `p ≠ r_k` the family vanishes on `Z_k`. -/
 theorem componentFamily_of_ne {p : ℤ} {k : _root_.ConnectedComponents Z}
     (h : (𝒩.componentRank k : ℤ) ≠ p) : 𝒩.componentFamily C sX sZ hZ p k = 0 := by
-  rw [componentFamily, dif_neg h]
+  rw [componentFamily, dite_eq_right h]
 
 /-- **The class `c_p ∈ A^p(Z ⟶ X)`**: the class whose restriction to `Z_k ⟶ W_k` is
 `c(Z_k ⟶ W_k, 𝒩|_{Z_k})` when `𝒩` has rank `p` on `Z_k`, and zero otherwise (Stacks 0FDZ). -/

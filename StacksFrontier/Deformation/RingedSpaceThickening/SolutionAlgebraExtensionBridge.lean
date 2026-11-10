@@ -277,7 +277,7 @@ theorem thickenedIdeal_bijective (U : (Opens X.carrier)ᵒᵖ) :
   · intro m
     obtain ⟨g, hg⟩ := hround.2 m
     have hx : Q.incl g ∈ kernelIdeal Q.thickenedSheafReduction.hom U := by
-      show (Q.thickenedReduction.app U).hom (Q.incl g) = 0
+      change (Q.thickenedReduction.app U).hom (Q.incl g) = 0
       rw [thickenedReduction_app]
       exact (congrArg _ (Q.reduction_incl g)).trans (map_zero _)
     refine ⟨⟨Q.incl g, hx⟩, ?_⟩
@@ -542,7 +542,7 @@ theorem thickenedIdeal_deformedBasePresheafMap (V : (Opens S'.carrier)ᵒᵖ)
           Q.comm.symm)) ((prescribedIdealMap c).val.app V y) := by
     rw [Q.idealMapTranspose_eq]
     exact Q.toMorphismOfThickenings.pushforwardComparison_val_app G V _
-  show Q.descendSection (Q.kernelSection _) = (prescribedIdealMap c).val.app V y
+  change Q.descendSection (Q.kernelSection _) = (prescribedIdealMap c).val.app V y
   rw [hks, hval]
   exact map_map_map_eq_self G _ _ _ _
 
@@ -707,7 +707,7 @@ theorem mul_eq_zero_of_reduction_eq_zero (U : (Opens X.carrier)ᵒᵖ)
 thickening.** -/
 theorem isFirstOrderThickening_thickening : IsFirstOrderThickening P.thickening := by
   refine ⟨⟨?_, ?_, ?_⟩, fun U => ?_⟩
-  · show IsIso (𝟙 X.carrier)
+  · change IsIso (𝟙 X.carrier)
     infer_instance
   · have h : Presheaf.IsLocallySurjective (Opens.grothendieckTopology P.space.carrier)
         ((PresheafOfModules.toPresheaf _).map
@@ -833,7 +833,7 @@ theorem homEquiv_idealMap_comp_thickeningKernelIso (ht : IsFirstOrderThickening 
     rw [← hc V s hs, ← P.ideal_idealIncl hP _ ((L.val.app V).hom y)]
     exact congrArg (P.ideal.app _) (Subtype.ext hLy)
   refine hLy'.trans ?_
-  show (prescribedIdealMap c).val.app V (baseIdealSection t V s hs) =
+  change (prescribedIdealMap c).val.app V (baseIdealSection t V s hs) =
     (D.pushforwardComparison G).val.app V ((prescribedIdealMap c).val.app V y)
   exact (congrArg ((prescribedIdealMap c).val.app V).hom hy.symm).trans
     ((map_self_eq G _ _).symm.trans (D.pushforwardComparison_val_app G V _).symm)

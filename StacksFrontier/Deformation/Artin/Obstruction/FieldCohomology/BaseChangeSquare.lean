@@ -62,7 +62,7 @@ public theorem bijective_extPushforward_of_isIso {A : Type u} [CommRing A]
   · exact fun α β hαβ => (cancel_mono q).mp (hαβ : α ≫ q = β ≫ q)
   · intro β
     refine ⟨β ≫ CategoryTheory.inv q, ?_⟩
-    show (β ≫ CategoryTheory.inv q) ≫ q = β
+    change (β ≫ CategoryTheory.inv q) ≫ q = β
     rw [Category.assoc, IsIso.inv_hom_id, Category.comp_id]
 
 /-- The pullback of an `Ext` class into a field across a change of source ring is the pullback
@@ -342,7 +342,7 @@ public theorem categoricalPullbackIsoFiberRestrict_full :
     have hfac : (CategoricalPullback.π₁ F G).map
         (CategoricalPullback.Hom.mk (s.obj.hom ≫ CategoryTheory.inv t.obj.hom)
           ν.hom.left hw) ≫ t.obj.hom = s.obj.hom := by
-      show (s.obj.hom ≫ CategoryTheory.inv t.obj.hom) ≫ t.obj.hom = s.obj.hom
+      change (s.obj.hom ≫ CategoryTheory.inv t.obj.hom) ≫ t.obj.hom = s.obj.hom
       rw [Category.assoc, IsIso.inv_hom_id, Category.comp_id]
     refine ⟨ObjectProperty.homMk (CostructuredArrow.homMk
       (CategoricalPullback.Hom.mk (s.obj.hom ≫ CategoryTheory.inv t.obj.hom)
@@ -358,7 +358,7 @@ public theorem categoricalPullbackIsoFiberRestrict_surjective :
       CostructuredArrow (CategoricalPullback.π₁ F G) x),
     show IsIso (𝟙 x) from inferInstance⟩, ?_⟩
   refine IsoFiber.ext rfl (heq_of_eq ?_)
-  show u.obj.hom ≫ F.map (𝟙 x) = u.obj.hom
+  change u.obj.hom ≫ F.map (𝟙 x) = u.obj.hom
   rw [F.map_id, Category.comp_id]
 
 /-- **Lifts across a categorical pullback square.** The lifts of `x` across the first
@@ -536,7 +536,7 @@ public theorem squareZeroRingBaseMap_isPullback (hbij : Function.Bijective ψ) :
   apply (Types.isPullback_iff _ _ _ _).2
   refine ⟨?_, ?_, ?_⟩
   · ext z
-    show f z.fst = (squareZeroRingBaseMap f ψ hψ z).fst
+    change f z.fst = (squareZeroRingBaseMap f ψ hψ z).fst
     rfl
   · intro a b hab
     change TrivSqZeroExt.fst a = TrivSqZeroExt.fst b ∧
@@ -546,7 +546,7 @@ public theorem squareZeroRingBaseMap_isPullback (hbij : Function.Bijective ψ) :
     change f a = TrivSqZeroExt.fst b at hab
     obtain ⟨m, hm⟩ := hbij.2 b.snd
     refine ⟨(a, m), rfl, ?_⟩
-    show squareZeroRingBaseMap f ψ hψ (a, m) = b
+    change squareZeroRingBaseMap f ψ hψ (a, m) = b
     exact TrivSqZeroExt.ext hab hm
 
 end BaseChangeSquare
@@ -648,7 +648,7 @@ public theorem algebraOverMap_comp_squareZeroArrow :
         squareZeroOverBaseMap f B S hS toS toS' hf M N ψ hψ := by
   apply Over.OverMorphism.ext
   apply ObjectProperty.hom_ext
-  show Spec.map (CommRingCat.ofHom f) ≫
+  change Spec.map (CommRingCat.ofHom f) ≫
       Spec.map (CommRingCat.ofHom (TrivSqZeroExt.fstHom A A M.obj).toRingHom) =
     Spec.map (CommRingCat.ofHom (TrivSqZeroExt.fstHom A' A' N.obj).toRingHom) ≫
       Spec.map (CommRingCat.ofHom (squareZeroRingBaseMap f ψ hψ))
@@ -715,11 +715,11 @@ public theorem baseChangeSquare_isEquivalence {X : Type v} [Category.{w} X]
     intro a ha b hb
     change a.fst = 0 at ha
     change b.fst = 0 at hb
-    show (a * b : TrivSqZeroExt A' N.obj) = 0
+    change (a * b : TrivSqZeroExt A' N.obj) = 0
     refine TrivSqZeroExt.ext ?_ ?_
-    · show a.fst * b.fst = 0
+    · change a.fst * b.fst = 0
       rw [ha, zero_mul]
-    · show a.fst • b.snd + MulOpposite.op b.fst • a.snd = 0
+    · change a.fst • b.snd + MulOpposite.op b.fst • a.snd = 0
       rw [ha, hb]
       simp
   have hsq : RingHom.ker ((BigAffineFppf.toScheme B S hS).map ga).appTop.hom ^ 2 = ⊥ :=

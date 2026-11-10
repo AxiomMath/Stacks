@@ -552,7 +552,7 @@ private theorem exists_twoGeneratorSquare (h4 : IsTwoGeneratorAlmostBlowUpSheaf 
   have hb1s : IsAlmostBlowUpSquare I12 (pullback.fst iX.hom bm) :=
     isAlmostBlowUpSquare_baseChange Im bm iX.hom hm
   have hI12 : I12.ideal ⟨⊤, isAffineOpen_top _⟩ = Ideal.span {f₁, f₂} := by
-    show ((Scheme.IdealSheafData.ofIdealTop ((Ideal.span {f₁, f₂}).map
+    change ((Scheme.IdealSheafData.ofIdealTop ((Ideal.span {f₁, f₂}).map
       (Scheme.ΓSpecIso Γ((𝒦).obj X, ⊤)).inv.hom)).comap ((𝒦).obj X).isoSpec.hom).ideal _ = _
     rw [Scheme.IdealSheafData.comap_isoSpec_hom_ofIdealTop]
     exact Scheme.IdealSheafData.equivOfIsAffine.apply_symm_apply _

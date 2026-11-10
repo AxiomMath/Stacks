@@ -45,10 +45,10 @@ variable {C : Type u₁} {D : Type u₂} {E : Type u₃} {F : Type u₄}
 public theorem mateEquiv_symm_hComp_eq_app
     (h : ((mateEquiv adj₁ adj₁' τ₁ ≫ᵥ β').whiskerRight σG).whiskerLeft σH =
       β ≫ᵥ mateEquiv adj₂ adj₂' τ₂) (c : C) :
-    τ₂.natTrans.app (G.obj c) ≫ ΦF.map (((mateEquiv adj₁ adj₂).symm β).natTrans.app c) =
-      L₂'.map (σG.app c) ≫ ((mateEquiv adj₁' adj₂').symm β').natTrans.app (ΦC.obj c) ≫
-        H'.map (τ₁.natTrans.app c) ≫ σH.app (L₁.obj c) := by
-  have e := congrArg (fun w => TwoSquare.natTrans w |>.app c)
+    τ₂.app (G.obj c) ≫ ΦF.map (((mateEquiv adj₁ adj₂).symm β).app c) =
+      L₂'.map (σG.app c) ≫ ((mateEquiv adj₁' adj₂').symm β').app (ΦC.obj c) ≫
+        H'.map (τ₁.app c) ≫ σH.app (L₁.obj c) := by
+  have e := congrArg (fun w => NatTrans.app w c)
     (mateEquiv_symm_hComp_eq adj₁ adj₂ adj₁' adj₂' τ₁ τ₂ σG σH β β' h)
   simp only [hComp_natTrans_app] at e
   simpa [TwoSquare.whiskerTop, TwoSquare.whiskerBottom, Category.assoc] using e

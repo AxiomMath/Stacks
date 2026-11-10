@@ -90,7 +90,8 @@ theorem rationallyEquivalentOn_firstChernCapCycleMap (T : Set (points D.site D.b
       (firstChernCapCycleMap D sX hX k (canonicalFirstChernRule D sX hX N hN k) α) 0 :=
   rationallyEquivalentOn_firstChernCapCycleMap_of_summand.{u + 1} D sX hX k _
     (fun V hV d hd => rationallyEquivalentOn_of_withinCanonical D
-      (isRationallyEquivalentToZeroWithinCanonical_firstChernCapCycleMap_integralClosedSubspacePushforward
+      (
+isRationallyEquivalentToZeroWithinCanonical_firstChernCapCycleMap_integralClosedSubspacePushforward
         D sX hX k N hN V d hV (hd.isPrincipalDivisorCycleOfGood D
           (isGood_integralClosedSubspace D sX hX V) V.isIntegralSpace))) T α hα
 
@@ -210,7 +211,7 @@ theorem rationallyEquivalentOn_flatPullbackMap_firstChernCapCycleMap (k : ℤ)
     (fun j => isRationallyEquivalentToZeroWithinCanonical_zsmul_flatChernDefect D sX hX sY hY f
       hbase r hflat hr L hL k j.1 (α.2.2 j.1 j.2) (α.1 j.1)) fun Z => ?_))
   · exact Set.iUnion_subset fun j => Set.preimage_mono (hαT j.1 j.2)
-  · show (flatPullbackMap D sX hX sY hY f hbase r hflat hr k (k + (r : ℤ)) rfl
+  · change (flatPullbackMap D sX hX sY hY f hbase r hflat hr k (k + (r : ℤ)) rfl
           (firstChernCapCycleMap D sY hY k _ α)).1 Z -
         (firstChernCapCycleMap D sX hX (k + (r : ℤ)) _
           (flatPullbackMap D sX hX sY hY f hbase r hflat hr (k + 1) (k + (r : ℤ) + 1) (by ring)
@@ -226,8 +227,8 @@ theorem rationallyEquivalentOn_flatPullbackMap_firstChernCapCycleMap (k : ℤ)
       (fun W => α.1 W ≠ 0)).symm
     refine finsum_congr fun W => ?_
     by_cases hW : α.1 W = 0
-    · rw [hW, zero_mul, finsum_eq_if, if_neg (not_not.2 rfl)]
-    · rw [finsum_eq_if, if_pos hW]
+    · rw [hW, zero_mul, finsum_eq_if, ite_eq_right (not_not.2 rfl)]
+    · rw [finsum_eq_if, ite_eq_left hW]
 
 end FlatPullback
 

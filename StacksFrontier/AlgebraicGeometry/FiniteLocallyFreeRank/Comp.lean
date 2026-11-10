@@ -96,7 +96,7 @@ theorem finrank_eq_finrank_sections_of_specField {k : Type u} [Field k] {Z : Sch
     rw [← Flat.SpecMap_iff, ← heq]
     infer_instance
   rw [Scheme.Hom.finrank_SpecMap_eq_finrank hfin hflat]
-  show Module.rankAtStalk (R := k) Γ(Z, ⊤) x = _
+  change Module.rankAtStalk (R := k) Γ(Z, ⊤) x = _
   rw [Module.rankAtStalk_eq_finrank_of_free]
   rfl
 

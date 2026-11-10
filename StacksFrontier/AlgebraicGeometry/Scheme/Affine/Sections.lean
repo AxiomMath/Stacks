@@ -58,8 +58,13 @@ add_to_ega "I 9.3.3" "special case" AlgebraicGeometry.StructureSheaf.IsLocalizat
 add_to_ega "III 1.2.2" "special case" AlgebraicGeometry.StructureSheaf.IsLocalization.to_basicOpen
 add_to_stacks 01HV "basic_open_module_sections"
   AlgebraicGeometry.tilde.instAwayCarrierCarrierObjOppositeOpensCarrierCarrierCommRingCatSpecModuleCatPresheafModulesSheafModulesSpecToSheafOpBasicOpenHomToOpen -- https://stacks.math.columbia.edu/tag/01HV
-add_to_ega "I 1.3.7"
-  AlgebraicGeometry.tilde.instAwayCarrierCarrierObjOppositeOpensCarrierCarrierCommRingCatSpecModuleCatPresheafModulesSheafModulesSpecToSheafOpBasicOpenHomToOpen
+-- The auto-generated instance name is longer than a line, so its identifier is assembled
+-- from two pieces before being handed to `add_to_ega`.
+run_cmd do
+  let decl := Lean.mkIdent <| .str `AlgebraicGeometry.tilde <|
+    "instAwayCarrierCarrierObjOppositeOpensCarrierCarrierCommRingCatSpecModuleCat" ++
+      "PresheafModulesSheafModulesSpecToSheafOpBasicOpenHomToOpen"
+  Lean.Elab.Command.elabCommand (← `(command| add_to_ega "I 1.3.7" $decl:ident))
 add_to_stacks 01HV "structure_stalk" AlgebraicGeometry.StructureSheaf.IsLocalization.to_stalk
 add_to_stacks 01HV "module_stalk"
   AlgebraicGeometry.tilde.instIsLocalizedModuleCarrierCarrierOfCarrierStalkAbPresheafPrimeComplAsIdealHomToStalk -- https://stacks.math.columbia.edu/tag/01HV
@@ -123,7 +128,7 @@ theorem map_basicOpen {R : CommRingCat.{u}} (M : ModuleCat.{u} R) (f g : R)
   let : IsScalarTower R (Localization.Away f)
       (LocalizedModule.Away (R := R) g M) :=
     IsScalarTower.of_algebraMap_smul fun r m => by
-      show φ (algebraMap R (Localization.Away f) r) • m = r • m
+      change φ (algebraMap R (Localization.Away f) r) • m = r • m
       rw [φ.commutes]
       exact IsScalarTower.algebraMap_smul (Localization.Away g) r m
   let ρ := ((modulesSpecToSheaf.obj (tilde M)).presheaf.map (homOfLE hfg).op).hom
@@ -143,7 +148,7 @@ theorem map_basicOpen {R : CommRingCat.{u}} (M : ModuleCat.{u} R) (f g : R)
         exact (AlgebraicGeometry.Scheme.Modules.isUnit_algebraMap_end_of_le_basicOpen
           (M := tilde M) (U := PrimeSpectrum.basicOpen g) f hfg).pow n) ?_
     ext m
-    show ρ (ef (LocalizedModule.mk m 1)) =
+    change ρ (ef (LocalizedModule.mk m 1)) =
       eg (PrimeSpectrum.moduleRestrictionMap f g hfg
         ((LocalizedModule.mkLinearMap (Submonoid.powers f) M) m))
     rw [IsLocalizedModule.iso_mk_one,

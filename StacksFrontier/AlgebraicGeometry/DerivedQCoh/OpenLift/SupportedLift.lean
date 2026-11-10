@@ -163,7 +163,7 @@ theorem exists_coneTower_restrict_iso_biprod (R : C ⥤ D) [R.CommShift ℤ] [R.
     obtain ⟨Z, g, h, hT⟩ := distinguished_cocone_triangle (s j • 𝟙 E)
     have hT' := R.map_distinguished _ hT
     have h0 : (R.mapTriangle.obj (Triangle.mk (s j • 𝟙 E) g h)).mor₁ = 0 := by
-      show R.map (s j • 𝟙 E) = 0
+      change R.map (s j • 𝟙 E) = 0
       rw [hR, Functor.map_id, hRE]
     obtain ⟨e⟩ := nonempty_iso_biprod_shift_of_mor₁_eq_zero _ hT' h0
     have hRZ : ∀ i, s' i • 𝟙 (R.obj Z) = 0 := fun i =>

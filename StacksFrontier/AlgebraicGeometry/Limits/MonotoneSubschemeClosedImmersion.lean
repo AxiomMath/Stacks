@@ -120,18 +120,18 @@ theorem exists_forall_ge_isClosedImmersion_subschemeι_comp [IsDirected ι (· �
       (monotoneSubschemeDiagramι K hK ≫ (Functor.const ιᵒᵖ).map j) =
       (Functor.const ιᵒᵖ).map (K₀.subschemeι ≫ j) := by
     ext i
-    show Scheme.IdealSheafData.inclusion (hle i.unop) ≫ (K i.unop).subschemeι ≫ j =
+    change Scheme.IdealSheafData.inclusion (hle i.unop) ≫ (K i.unop).subschemeι ≫ j =
       K₀.subschemeι ≫ j
     rw [Scheme.IdealSheafData.inclusion_subschemeι_assoc]
   have hD₁ : ∀ i, CompactSpace ((monotoneSubschemeDiagram K hK).obj i) := fun i => by
-    show CompactSpace (K i.unop).subscheme
+    change CompactSpace (K i.unop).subscheme
     exact QuasiCompact.compactSpace_of_compactSpace (K i.unop).subschemeι
   have hD₂ : ∀ i, QuasiSeparatedSpace ((monotoneSubschemeDiagram K hK).obj i) := fun i => by
-    show QuasiSeparatedSpace (K i.unop).subscheme
+    change QuasiSeparatedSpace (K i.unop).subscheme
     exact quasiSeparatedSpace_of_quasiSeparated (K i.unop).subschemeι
   have hD₃ : ∀ {i i' : ιᵒᵖ} (g : i ⟶ i'),
       IsClosedImmersion ((monotoneSubschemeDiagram K hK).map g) := fun {i i'} g => by
-    show IsClosedImmersion (Scheme.IdealSheafData.inclusion (hK (leOfHom g.unop)))
+    change IsClosedImmersion (Scheme.IdealSheafData.inclusion (hK (leOfHom g.unop)))
     have : IsClosedImmersion (Scheme.IdealSheafData.inclusion (hK (leOfHom g.unop)) ≫
         (K i'.unop).subschemeι) := by
       rw [Scheme.IdealSheafData.inclusion_subschemeι]
@@ -139,7 +139,7 @@ theorem exists_forall_ge_isClosedImmersion_subschemeι_comp [IsDirected ι (· �
     exact IsClosedImmersion.of_comp_isClosedImmersion _ (K i'.unop).subschemeι
   have hD₄ : ∀ i, LocallyOfFiniteType
       ((monotoneSubschemeDiagramι K hK ≫ (Functor.const ιᵒᵖ).map j).app i) := fun i => by
-    show LocallyOfFiniteType ((K i.unop).subschemeι ≫ j)
+    change LocallyOfFiniteType ((K i.unop).subschemeι ≫ j)
     infer_instance
   have hK₀' : IsClosedImmersion (X := (monotoneSubschemeCone K hK K₀ hle).pt)
       (K₀.subschemeι ≫ j) := hK₀

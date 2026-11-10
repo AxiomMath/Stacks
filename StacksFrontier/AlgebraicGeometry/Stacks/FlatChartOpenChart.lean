@@ -91,7 +91,7 @@ theorem mem_restrict (z : (schemeStack.{u, w} B S hS (restrictObj Q)).val.val.ob
   refine (h𝒰 ((Over.map (restrictHom Q)).obj z)).2 ?_
   have e : (BigFppfOver.toScheme B S hS).map ((Over.map (restrictHom Q)).obj z).hom =
       (BigFppfOver.toScheme B S hS).map z.hom ≫ Q.ι := by
-    show (BigFppfOver.toScheme B S hS).map (z.hom ≫ restrictHom Q) = _
+    change (BigFppfOver.toScheme B S hS).map (z.hom ≫ restrictHom Q) = _
     rw [Functor.map_comp, Space.openSubHom_toScheme]
   rintro _ ⟨y, rfl⟩
   rw [e, Scheme.Hom.comp_apply, ← Q.range_ι]
@@ -165,7 +165,7 @@ theorem isEquivalence_restrictLift :
           (IsHomLift.fac' 𝒳.val.val.p (eqToHom P.hy) (f.hom.hom.toFunctor.map b ≫ P.iso.inv))
         hb := hb
         w := by
-          show (f.hom.hom.toFunctor.map b ≫ P.iso.inv) ≫ P.iso.hom = 𝟙 _ ≫ _
+          change (f.hom.hom.toFunctor.map b ≫ P.iso.inv) ≫ P.iso.hom = 𝟙 _ ≫ _
           rw [Category.assoc, Iso.inv_hom_id, Category.comp_id]
           exact (Category.id_comp _).symm }
     have hΦ : (twoFibreProductSquareAlgebraicStacks B S hS (𝒰.inclusion B S hS)

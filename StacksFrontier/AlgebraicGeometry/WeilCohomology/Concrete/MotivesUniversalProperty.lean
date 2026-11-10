@@ -38,7 +38,8 @@ image of `F(c₂)`, the value at the Lefschetz motive `(X, c₂, 0) ≅ 𝟏(-1)
 invertible. The second step is the abstract result `CategoryTheory.InvertingObject.linearExistence`
 and `CategoryTheory.InvertingObject.uniqueness` for the functor `(X, p) ↦ (X, p, 0)`, whose
 hypotheses (`(X, c₂, 0) ⊗ 𝟏(1) ≅ 𝟏`, the symmetry of `𝟏(1) ⊗ 𝟏(1)` is the identity, every motive
-is `(Y, q, 0) ⊗ 𝟏(1)^{⊗ n}`) are proved in `StacksFrontier.CategoryTheory.Graded.TwistedKaroubiTate`.
+is `(Y, q, 0) ⊗ 𝟏(1)^{⊗ n}`) are proved in
+`StacksFrontier.CategoryTheory.Graded.TwistedKaroubiTate`.
 
 ## Implementation notes
 

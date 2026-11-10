@@ -147,10 +147,10 @@ theorem exists_noetherian_chart (h𝒳 : IsNoetherianStack.{u, w, w'} B S hS �
       (BigFppfOver.toScheme B S hS).obj U :=
     congrArg (BigFppfOver.toScheme B S hS).obj (Functor.congr_obj a.hom.hom.w (Over.mk (𝟙 U)))
   refine ⟨U, a, hsm, hsurj, ?_, ?_⟩
-  · show IsAffine _
+  · change IsAffine _
     rw [heq]
     exact hU
-  · show IsNoetherianRing
+  · change IsNoetherianRing
       Γ((BigFppfOver.toScheme B S hS).obj (𝒳.val.val.p.obj (chartObject a)), ⊤)
     rw [heq]
     exact IsLocallyNoetherian.component_noetherian ⟨⊤, isAffineOpen_top _⟩
@@ -279,7 +279,7 @@ theorem le_of_forall_exists_eq {F : quasicoherentModules B S hS 𝒳} {P Q : Sub
     obtain ⟨z, hz⟩ := h y
     have hc := congrArg (fun k => k.hom.val.app (op (chartObject a)) z)
       (cokernel.condition Q.arrow)
-    show (cokernel.π Q.arrow).hom.val.app (op (chartObject a))
+    change (cokernel.π Q.arrow).hom.val.app (op (chartObject a))
       (P.arrow.hom.val.app (op (chartObject a)) y) = 0
     rw [← hz]
     exact hc

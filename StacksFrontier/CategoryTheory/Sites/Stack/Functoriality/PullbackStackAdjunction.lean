@@ -74,7 +74,8 @@ source's. The specialization
 `CategoryTheory.Functor.equivalenceFibredMorPushforwardPullbackStack` restores all of the source's
 hypotheses: it assumes `𝒮` is a stack, spells Sites 00X6 as `Limits.HasFiniteLimits 𝒞`,
 `Limits.PreservesFiniteLimits u` and `u.IsContinuous J K` as
-`StacksFrontier.CategoryTheory.Sites.Stack.Functoriality.PullbackStack` (Stacks 04WJ) does, and names
+`StacksFrontier.CategoryTheory.Sites.Stack.Functoriality.PullbackStack` (Stacks 04WJ) does, and
+names
 the two sides `f_*𝒯` and `f⁻¹𝒮`. (2) The bases are the source's: the left-hand morphism category
 is taken over `𝒞`, the
 right-hand one over `𝒟`. (3) Both sides are `CategoryTheory.Functor.FibredMor`, the morphism

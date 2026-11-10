@@ -288,8 +288,10 @@ def replacementDegreeIso (C : Type u) [SmallCategory C] (n : ℕ) :
       (AddCommGrpCat.HasLimit.productLimitCone
         fun y : ComposableArrows C n ↦ F.obj (Opposite.op y.left)).cone.π.app x :=
     IsLimit.conePointUniqueUpToIso_hom_comp _ _ x
-  have hp : (replacementFamily.{u, v} C n ⋙ lim).map f ≫ limit.π ((replacementFamily.{u, v} C n).obj G) x =
-      limit.π ((replacementFamily.{u, v} C n).obj F) x ≫ ((replacementFamily.{u, v} C n).map f).app x :=
+  have hp : (replacementFamily.{u, v} C n ⋙ lim).map f ≫
+        limit.π ((replacementFamily.{u, v} C n).obj G) x =
+      limit.π ((replacementFamily.{u, v} C n).obj F) x ≫
+        ((replacementFamily.{u, v} C n).map f).app x :=
     limMap_π _ x
   rw [Category.assoc, Category.assoc]
   refine (congrArg (fun t ↦ _ ≫ t) hG).trans (Eq.trans ?_
@@ -892,7 +894,8 @@ theorem cochainReplacementPointAcyclic
     have hK : K.d i (i + 1) = AlgebraicTopology.AlternatingCofaceMapComplex.objD
         (replacementObj.{u, v} ((GrothendieckTopology.pointBot U).skyscraperPresheaf A)) i := by
       change (AlgebraicTopology.AlternatingCofaceMapComplex.obj
-        (replacementObj.{u, v} ((GrothendieckTopology.pointBot U).skyscraperPresheaf A))).d i (i + 1) = _
+        (replacementObj.{u, v} ((GrothendieckTopology.pointBot U).skyscraperPresheaf A))).d i
+          (i + 1) = _
       simp [AlgebraicTopology.AlternatingCofaceMapComplex.obj]
     have key : ∀ k : Fin (i + 2),
         (e i).hom ≫ (SimplicialObject.δ ((nerve (Under U)) ⋙ functionsFunctor A) k).unop =

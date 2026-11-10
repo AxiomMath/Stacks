@@ -105,8 +105,8 @@ theorem traceFormula_constantCoefficients_eq_weil
   have : CharP kbar p := charP_of_injective_algebraMap (algebraMap k kbar).injective p
   exact traceFormula_constantCoefficients_weil_of B hcard f kbar ℓ n hℓ
     (canonicalTraceFormula_constantCoefficients B hcard f kbar ℓ n hℓ)
-    (AlgebraicGeometry.CurveGraph.fixedPointIntersection_eq _ _ _ _
-      (geometricFrobeniusBaseChange_ne_id B hcard f kbar) ℓ (isUnit_natCast_of_ne_char kbar p ℓ hℓ))
+    (AlgebraicGeometry.CurveGraph.fixedPointIntersection_eq _ _ _ _ ℓ
+      (isUnit_natCast_of_ne_char kbar p ℓ hℓ))
 
 end Stacks.EtaleCohomology
 

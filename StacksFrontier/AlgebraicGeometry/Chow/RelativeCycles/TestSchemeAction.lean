@@ -105,7 +105,7 @@ theorem relativeCycleCap_add_family {T : Scheme.{u}} (g : T ⟶ Y) [LocallyOfFin
   apply Subtype.ext
   apply Function.locallyFinsuppWithin.ext
   intro x
-  show capCoeff (pullback.snd p g) (baseChangeFamily p g r (α₁ + α₂)) β.1 x =
+  change capCoeff (pullback.snd p g) (baseChangeFamily p g r (α₁ + α₂)) β.1 x =
     capCoeff (pullback.snd p g) (baseChangeFamily p g r α₁) β.1 x +
       capCoeff (pullback.snd p g) (baseChangeFamily p g r α₂) β.1 x
   rw [baseChangeFamily_add]

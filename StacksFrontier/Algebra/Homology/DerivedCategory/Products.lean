@@ -334,13 +334,13 @@ theorem preservesLimitsOfShape_shortComplexHomologyFunctor :
     intro i
     apply ShortComplex.Hom.ext
     · rw [ShortComplex.comp_τ₁, ShortComplex.mapNatTrans_τ₁]
-      show (preservesLimitIso ShortComplex.π₁ (Discrete.functor S)).hom ≫ limit.π _ i = _
+      change (preservesLimitIso ShortComplex.π₁ (Discrete.functor S)).hom ≫ limit.π _ i = _
       rw [preservesLimitIso_hom_π]; rfl
     · rw [ShortComplex.comp_τ₂, ShortComplex.mapNatTrans_τ₂]
-      show (preservesLimitIso ShortComplex.π₂ (Discrete.functor S)).hom ≫ limit.π _ i = _
+      change (preservesLimitIso ShortComplex.π₂ (Discrete.functor S)).hom ≫ limit.π _ i = _
       rw [preservesLimitIso_hom_π]; rfl
     · rw [ShortComplex.comp_τ₃, ShortComplex.mapNatTrans_τ₃]
-      show (preservesLimitIso ShortComplex.π₃ (Discrete.functor S)).hom ≫ limit.π _ i = _
+      change (preservesLimitIso ShortComplex.π₃ (Discrete.functor S)).hom ≫ limit.π _ i = _
       rw [preservesLimitIso_hom_π]; rfl
   let α : H.obj (∏ᶜ S) ≅ (∏ᶜ fun i => H.obj (S i) : A) :=
     H.mapIso μ ≪≫ (ShortComplex.homologyFunctorIso lim_A).app T ≪≫ HasLimit.isoOfNatIso ν
@@ -360,7 +360,7 @@ theorem preservesLimitsOfShape_shortComplexHomologyFunctor :
         = (T.mapHomologyIso ((evaluation (Discrete I) A).obj ⟨i⟩)).inv from by simp [ν]; rfl]
     have hnat := ShortComplex.homologyMap_mapNatTrans T (τ ⟨i⟩)
     rw [← hnat]
-    show H.map (Pi.π S i) = H.map μ.hom ≫ ShortComplex.homologyMap (T.mapNatTrans (τ ⟨i⟩))
+    change H.map (Pi.π S i) = H.map μ.hom ≫ ShortComplex.homologyMap (T.mapNatTrans (τ ⟨i⟩))
     rw [← ShortComplex.homologyFunctor_map, ← H.map_comp, hcomp ⟨i⟩]
   rw [hpi]
   infer_instance
@@ -397,7 +397,7 @@ theorem quasiIso_isStableUnderProductsOfShape :
   rw [quasiIsoAt_iff_isIso_homologyMap]
   have hpres := preservesLimitsOfShape_homologyFunctor (A := A) (I := I) n
   set F := HomologicalComplex.homologyFunctor A (ComplexShape.up ℤ) n with hF
-  show IsIso (F.map (Limits.Pi.map f))
+  change IsIso (F.map (Limits.Pi.map f))
   have hfj : ∀ j, IsIso (F.map (f j)) := by
     intro j
     have hq := hf j
@@ -1032,7 +1032,7 @@ theorem localizationPreservesProductsOfShape_of_leftCalculusOfFractions
     show sq₁.iso.inv = (Functor.compConstIso (Discrete I) L).hom
     rw [hsq1, Iso.symm_inv]
   have e1 : (CatCommSq.iso lim L' L limitFunctor).inv = compLimitFunctorIso.hom := by
-    show sq₂.iso.inv = compLimitFunctorIso.hom
+    change sq₂.iso.inv = compLimitFunctorIso.hom
     rw [show sq₂.iso = compLimitFunctorIso.symm from rfl, Iso.symm_inv]
   have hc : adj.counit.app (F ⋙ L) =
       (Functor.const (Discrete I)).map (compLimitFunctorIso.hom.app F) ≫
@@ -1105,7 +1105,7 @@ theorem quasiIso_homotopyCategory_isStableUnderProductsOfShape :
   have hsq : Limits.Pi.map f ≫ φ₂.hom = φ₁.hom ≫ Q.map (Limits.Pi.map g) := by
     refine (isLimitQuotientProductFan K₂).hom_ext (fun j => ?_)
     obtain ⟨i⟩ := j
-    show (Limits.Pi.map f ≫ φ₂.hom) ≫ Q.map (Pi.π K₂ i)
+    change (Limits.Pi.map f ≫ φ₂.hom) ≫ Q.map (Pi.π K₂ i)
       = (φ₁.hom ≫ Q.map (Limits.Pi.map g)) ≫ Q.map (Pi.π K₂ i)
     rw [Category.assoc, hπ₂ i, Limits.Pi.map_π]
     rw [Category.assoc, ← Functor.map_comp, Limits.Pi.map_π, Functor.map_comp,

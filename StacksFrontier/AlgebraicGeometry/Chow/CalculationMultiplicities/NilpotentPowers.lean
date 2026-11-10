@@ -74,7 +74,7 @@ private lemma powerKer_mono {R : Type u} [Ring R] {M : Type v}
     [AddCommGroup M] [Module R M] (φ : Module.End R M) {a b : ℕ} (hab : a ≤ b) :
     powerKer φ a ≤ powerKer φ b := by
   intro x hx
-  show (φ ^ b) x = 0
+  change (φ ^ b) x = 0
   obtain ⟨c, rfl⟩ := Nat.exists_eq_add_of_le hab
   rw [add_comm, ← power_apply_power]
   simp [LinearMap.mem_ker.mp hx]
@@ -99,7 +99,7 @@ private lemma kernel_grade_length {R : Type u} [Ring R] {M : Type v}
     ((φ ^ a).comp (powerKer φ (a + 1)).subtype).codRestrict (firstLayer φ a)
       (fun x => by
         constructor
-        · show φ ((φ ^ a) x.1) = 0
+        · change φ ((φ ^ a) x.1) = 0
           rw [← Module.End.mul_apply, ← pow_succ']
           exact x.2
         · exact ⟨x.1, rfl⟩)
@@ -107,7 +107,7 @@ private lemma kernel_grade_length {R : Type u} [Ring R] {M : Type v}
     intro y
     obtain ⟨x, hx⟩ := y.2.2
     have hk : x ∈ powerKer φ (a + 1) := by
-      show (φ ^ (a + 1)) x = 0
+      change (φ ^ (a + 1)) x = 0
       rw [← Nat.add_comm 1 a, ← power_apply_power φ 1 a, hx]
       exact y.2.1
     exact ⟨⟨x, hk⟩, Subtype.ext hx⟩
@@ -121,15 +121,15 @@ private lemma kernel_grade_length {R : Type u} [Ring R] {M : Type v}
       let z := (φ ^ b) y
       have hz : z ∈ powerRange φ b := ⟨y, rfl⟩
       have hk : (x : M) - z ∈ powerKer φ a := by
-        show (φ ^ a) ((x : M) - z) = 0
+        change (φ ^ a) ((x : M) - z) = 0
         rw [map_sub, power_apply_power φ a b, ← hy, sub_self]
       exact Submodule.mem_sup.mpr ⟨(x : M) - z, hk, z, hz, sub_add_cancel _ _⟩
     · intro hx
       obtain ⟨u, hu, v, hv, huv⟩ := Submodule.mem_sup.mp hx
       obtain ⟨y, hy⟩ := hv
-      show (φ ^ a) x.1 ∈ firstLayer φ (a + b)
+      change (φ ^ a) x.1 ∈ firstLayer φ (a + b)
       refine ⟨(F x).2.1, y, ?_⟩
-      show (φ ^ (a + b)) y = (φ ^ a) x.1
+      change (φ ^ (a + b)) y = (φ ^ a) x.1
       rw [← power_apply_power φ a b, hy]
       simpa [LinearMap.mem_ker.mp hu] using congrArg (φ ^ a) huv
   rw [← hpre]
@@ -182,7 +182,7 @@ private lemma kernelFiltration_length_sum {R : Type u} [Ring R] {M : Type v}
   | zero =>
       have h0 : kernelFiltration φ b 0 = powerRange φ b := by
         have hk0 : powerKer φ 0 = ⊥ := by
-          show LinearMap.ker (1 : Module.End R M) = ⊥
+          change LinearMap.ker (1 : Module.End R M) = ⊥
           exact LinearMap.ker_id
         simp [kernelFiltration, hk0]
       simp [h0]
@@ -233,7 +233,7 @@ private lemma powerRange_le_powerKer {R : Type u} [Ring R] {M : Type v}
     (n : ℕ) (hnil : φ ^ n = 0) (a b : ℕ) (hab : a + b = n) :
     powerRange φ b ≤ powerKer φ a := by
   rintro x ⟨y, rfl⟩
-  show (φ ^ a) ((φ ^ b) y) = 0
+  change (φ ^ a) ((φ ^ b) y) = 0
   rw [power_apply_power, hab, hnil, LinearMap.zero_apply]
 
 /-- The telescoping sum of successive differences of a sequence over the first `a`
@@ -340,14 +340,14 @@ private lemma firstLayer_base_ne_top {R : Type u} [Ring R] {M : Type v}
       (firstLayer φ (n - 1)).submoduleOf (firstLayer φ 0)) ≠ ⊤ := by
   have hfirst : firstLayer φ 0 = powerKer φ 1 := by
     have hr0 : powerRange φ 0 = ⊤ := by
-      show LinearMap.range (1 : Module.End R M) = ⊤
+      change LinearMap.range (1 : Module.End R M) = ⊤
       exact LinearMap.range_id
     unfold firstLayer
     rw [hr0, inf_top_eq]
   have hlast : firstLayer φ (n - 1) = powerRange φ (n - 1) :=
     inf_of_le_right (powerRange_le_powerKer φ n hnil 1 (n - 1) (by omega))
   rw [hfirst, hlast]
-  show Module.length R (↥(LinearMap.ker φ) ⧸
+  change Module.length R (↥(LinearMap.ker φ) ⧸
     (LinearMap.range (φ ^ (n - 1))).comap (LinearMap.ker φ).subtype) ≠ ⊤
   exact Module.length_ne_top_iff.mpr hfinite
 
@@ -407,7 +407,7 @@ public lemma periodicLength_powers_eq_zero_of_nilpotent {R : Type u} [Ring R]
   intro i hi
   have hbase := firstLayer_base_ne_top φ n hnpos hnil hfinite
   have hsym := kernel_quotient_length_symmetric φ n hnpos hnil hbase i hi
-  show ((Module.length R
+  change ((Module.length R
     ((twoPeriodicComplex (φ ^ i) (φ ^ (n - i))
       (by rw [← pow_add, Nat.add_sub_of_le hi, hnil])
       (by rw [← pow_add, Nat.sub_add_cancel hi, hnil])).homology (0 : ZMod 2))).toNat : ℤ) -

@@ -176,7 +176,7 @@ theorem projToSpecCoeff_eq_projModelToSpec (R : Type u) [CommRing R] (n : ℕ) :
   refine congrArg (fun φ => AlgebraicGeometry.Proj.toSpecZero
     (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) R) ≫ Spec.map φ) ?_
   refine CommRingCat.hom_ext (RingHom.ext fun r => Subtype.ext ?_)
-  show ((DirectSum.decompose (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) R)
+  change ((DirectSum.decompose (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) R)
       (MvPolynomial.C r)) 0 : MvPolynomial (Fin (n + 1)) R) = MvPolynomial.C r
   exact DirectSum.decompose_of_mem_same _
     ((MvPolynomial.mem_homogeneousSubmodule 0 _).2 (MvPolynomial.isHomogeneous_C _ r))

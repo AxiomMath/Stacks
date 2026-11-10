@@ -136,7 +136,7 @@ instance : Epi (c.baseChangeHom a) := by
 `baseChangeHom a` is an isomorphism. -/
 theorem isIsomorphismAfterBaseChange_iff :
     c.isoSituation.IsIsomorphismAfterBaseChange (Over.mk a) ↔ IsIso (c.baseChangeHom a) := by
-  show IsIso ((Scheme.Modules.pullback (pullback.fst c.g a)).map c.u) ↔ _
+  change IsIso ((Scheme.Modules.pullback (pullback.fst c.g a)).map c.u) ↔ _
   unfold baseChangeHom
   exact ⟨fun _ ↦ inferInstance, fun _ ↦
     IsIso.of_isIso_comp_left (pullbackCoproductUnitIso (pullback.fst c.g a) c.n).inv _⟩

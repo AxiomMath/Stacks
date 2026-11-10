@@ -140,7 +140,7 @@ noncomputable def transport (symb : RegularTameSymbol R) (e : R ≃ₐ[T] S) :
         (Units.map (e.symm : S →* R) u : Rˣ) := by
       simp only [symmNonZeroDivisor_val, RingEquiv.symm_mk, AlgEquiv.toEquiv_eq_coe,
         AlgEquiv.symm_toEquiv_eq_symm, hu, RingEquiv.coe_mk, EquivLike.coe_coe, Units.coe_map,
-        MonoidHom.coe_coe]
+        MonoidHom.coe_ofClass]
     have hord : (Ring.ord R (symmNonZeroDivisor e.toRingEquiv b : R)).toNat =
         (Ring.ord S (b : S)).toNat := by
       rw [← ord_of_ringEquiv e.toRingEquiv (symmNonZeroDivisor e.toRingEquiv b : R)]
@@ -149,8 +149,8 @@ noncomputable def transport (symb : RegularTameSymbol R) (e : R ≃ₐ[T] S) :
         AlgEquiv.apply_symm_apply]
     rw [symb.unit_left _ _ (Units.map (e.symm : S →* R) u) hu', hord, map_pow]
     exact congrArg (· ^ (Ring.ord S (b : S)).toNat)
-      (Units.ext (by simp only [RingHom.toMonoidHom_eq_coe, Units.coe_map, MonoidHom.coe_coe,
-        ResidueField.mapAlgEquiv'_residue, AlgEquiv.apply_symm_apply]))
+      (Units.ext (by simp only [RingHom.toMonoidHom_eq_coe, Units.coe_map,
+        MonoidHom.coe_ofClass, ResidueField.mapAlgEquiv'_residue, AlgEquiv.apply_symm_apply]))
   steinberg a b c hc := by
     have hc' : (symmNonZeroDivisor e.toRingEquiv c : R) =
         (symmNonZeroDivisor e.toRingEquiv b : R) - (symmNonZeroDivisor e.toRingEquiv a : R) := by
@@ -186,14 +186,15 @@ prime below `v` an algebra over `B_𝔮` compatibly with its algebra structure o
 theorem isScalarTower_localizationAtPrime_under (q : MaximalSpectrum B)
     (v : MaximalSpectrum (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl)))
     [Algebra (Localization.AtPrime q.asIdeal) (Localization.AtPrime (v.asIdeal.under C))]
-    [Localization.AtPrime.IsLiesOverAlgebra q.asIdeal (v.asIdeal.under C)] :
+    [IsScalarTower B (Localization.AtPrime q.asIdeal)
+      (Localization.AtPrime (v.asIdeal.under C))] :
     IsScalarTower A (Localization.AtPrime q.asIdeal)
       (Localization.AtPrime (v.asIdeal.under C)) := by
   refine IsScalarTower.of_algebraMap_eq fun x => ?_
   rw [IsScalarTower.algebraMap_apply A B (Localization.AtPrime q.asIdeal),
     IsScalarTower.algebraMap_apply A C (Localization.AtPrime (v.asIdeal.under C)),
     IsScalarTower.algebraMap_apply A B C,
-    Localization.AtPrime.IsLiesOverAlgebra.algebraMap_eq]
+    Localization.AtPrime.algebraMap_eq]
   exact (Localization.localRingHom_to_map q.asIdeal (v.asIdeal.under C) (algebraMap B C) _
     (algebraMap A B x)).symm
 
@@ -206,7 +207,7 @@ variable [∀ q : MaximalSpectrum B, IsNoetherianRing (Localization.AtPrime q.as
     Algebra (Localization.AtPrime q.asIdeal) (Localization.AtPrime (v.asIdeal.under C))]
   [∀ (q : MaximalSpectrum B)
       (v : MaximalSpectrum (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl))),
-    Localization.AtPrime.IsLiesOverAlgebra q.asIdeal (v.asIdeal.under C)]
+    IsScalarTower B (Localization.AtPrime q.asIdeal) (Localization.AtPrime (v.asIdeal.under C))]
 
 /-- **The maximal ideal of `C` below a maximal ideal of the semilocalization of `C` at `𝔮`.** -/
 abbrev fibrePoint (q : MaximalSpectrum B)

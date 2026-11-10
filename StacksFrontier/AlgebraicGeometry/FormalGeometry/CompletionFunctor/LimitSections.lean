@@ -161,10 +161,10 @@ public theorem completionSectionsEquiv_of (X : Scheme.{u}) [IsLocallyNoetherian 
     completionSectionsEquiv X I F U (AdicCompletion.of (I.ideal U) Γ(F.obj, U) s) =
       (completionToLimit X I F).val.app (op U.1) s := by
   refine Concrete.isLimit_ext _ (mapConeCompletionIsLimit X I F U) _ _ fun n => ?_
-  show (limit.π (C := X.Modules) ((completionFunctor X I).obj F).obj n).val.app (op U.1) _ =
+  change (limit.π (C := X.Modules) ((completionFunctor X I).obj F).obj n).val.app (op U.1) _ =
     (limit.π (C := X.Modules) ((completionFunctor X I).obj F).obj n).val.app (op U.1) _
   rw [completionSectionsEquiv_projection, AdicCompletion.eval_of]
-  show completionQuotientSectionsEquiv X I F n.unop U (Submodule.Quotient.mk s) = _
+  change completionQuotientSectionsEquiv X I F n.unop U (Submodule.Quotient.mk s) = _
   rw [completionQuotientSectionsEquiv_mk]
   exact (congrArg (fun f : F.obj ⟶ ((completionFunctor X I).obj F).obj.obj n =>
     f.val.app (op U.1) s) (completionToLimit_projection X I F n)).symm

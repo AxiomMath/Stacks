@@ -27,7 +27,8 @@ it, for an arbitrary contraction.
 ## Implementation notes
 
 `AlgebraicGeometry.pushoutInl_isIntegralHom` records integrality for the pushout *constructed* in
-`StacksFrontier/AlgebraicGeometry/Pushout/Gluing.lean`; `AlgebraicGeometry.isIntegralHom_of_isPushout`
+`StacksFrontier/AlgebraicGeometry/Pushout/Gluing.lean`;
+`AlgebraicGeometry.isIntegralHom_of_isPushout`
 transports it to an arbitrary pushout square on the same pair of morphisms, by the comparison
 isomorphism `CategoryTheory.IsPushout.isoIsPushout`, exactly as
 `AlgebraicGeometry.structureSheaf_isPullback_of_isPushout` transports the structure-sheaf

@@ -129,7 +129,7 @@ theorem finite_residueField_over_field_of_isClosed [LocallyOfFiniteType f] (x : 
   change LocallyOfFiniteType (Spec.map _) at hcomp
   rw [AlgebraicGeometry.HasRingHomProperty.Spec_iff (P := @LocallyOfFiniteType)] at hcomp
   have : Algebra.FiniteType k (X.residueField x) := by
-    show RingHom.FiniteType (algebraMap k (X.residueField x))
+    change RingHom.FiniteType (algebraMap k (X.residueField x))
     convert hcomp using 1
     simp only [RingHom.algebraMap_toAlgebra]
     rw [← Scheme.Γevaluation_naturality]
@@ -152,7 +152,7 @@ theorem fromSpecResidueField_comp_eq_id_of_bijective (x : X)
     (RingEquiv.ofBijective _ h).symm.toRingHom)
     (Scheme.Spec.algebraMap_residueFieldIso_inv (.of k) (f x))).trans ?_
   ext c
-  show (RingEquiv.ofBijective _ h).symm
+  change (RingEquiv.ofBijective _ h).symm
     ((f.residueFieldMap x) ((Spec (.of k)).Γevaluation (f x) ((Scheme.ΓSpecIso (.of k)).inv c))) = c
   rw [Scheme.Γevaluation_naturality_apply]
   exact (RingEquiv.ofBijective _ h).symm_apply_apply c
@@ -168,7 +168,7 @@ theorem normalizationFiberResidueMap_germ_top
           (Scheme.normalizationScheme X hX).presheaf).germ ⊤ x trivial a) =
       (Scheme.normalizationScheme X hX).Γevaluation y.1 a := by
   obtain ⟨y, rfl⟩ := y
-  show (Scheme.normalizationScheme X hX).residue y
+  change (Scheme.normalizationScheme X hX).residue y
       ((Scheme.normalizationScheme X hX).presheaf.stalkPushforward CommRingCat
         (Scheme.normalization X hX).base y
         (((Scheme.normalization X hX).base _*
@@ -326,7 +326,7 @@ private theorem skyscraperMapHomApp_comp_eq_id (x : X) {N N' : ModuleCat.{u} (X.
     OXModule.skyscraperMapHomApp x g U ≫ OXModule.skyscraperMapHomApp x g' U = 𝟙 _ := by
   classical
   by_cases h : x ∈ U.unop
-  · simp only [OXModule.skyscraperMapHomApp, dif_pos h, Category.assoc, eqToHom_trans_assoc,
+  · simp only [OXModule.skyscraperMapHomApp, dite_eq_left h, Category.assoc, eqToHom_trans_assoc,
       eqToHom_refl, Category.id_comp]
     rw [← Functor.map_comp_assoc, hg]
     simp
@@ -892,7 +892,7 @@ theorem exists_projectiveLine_normalization_of_genus_eq_zero (k : Type u) [Field
     (normalizationSchemeOverField k f).toSpecΓ
   have hf'top : (Scheme.ΓSpecIso (.of Γ(normalizationSchemeOverField k f, ⊤))).inv ≫ f'.appTop =
       𝟙 _ := by
-    show (Scheme.ΓSpecIso Γ(normalizationSchemeOverField k f, ⊤)).inv ≫
+    change (Scheme.ΓSpecIso Γ(normalizationSchemeOverField k f, ⊤)).inv ≫
       (normalizationSchemeOverField k f).toSpecΓ.appTop = 𝟙 _
     rw [Scheme.toSpecΓ_appTop, Iso.inv_hom_id]
   have hev' : Function.Bijective
@@ -907,7 +907,7 @@ theorem exists_projectiveLine_normalization_of_genus_eq_zero (k : Type u) [Field
   have hνf : normalizationOverField k f ≫ f =
       f' ≫ Spec.map (CommRingCat.ofHom (algebraMap k Γ(normalizationSchemeOverField k f, ⊤))) := by
     apply ext_to_Spec
-    show (Scheme.ΓSpecIso (.of k)).inv ≫ (normalizationOverField k f ≫ f).appTop =
+    change (Scheme.ΓSpecIso (.of k)).inv ≫ (normalizationOverField k f ≫ f).appTop =
       (Scheme.ΓSpecIso (.of k)).inv ≫ (f' ≫ Spec.map (CommRingCat.ofHom
         (algebraMap k Γ(normalizationSchemeOverField k f, ⊤)))).appTop
     rw [Scheme.Hom.comp_appTop (f := f'), ← Scheme.ΓSpecIso_inv_naturality_assoc, hf'top,
@@ -919,14 +919,14 @@ theorem exists_projectiveLine_normalization_of_genus_eq_zero (k : Type u) [Field
         CommRingCat.ofHom (algebraMap k Γ(normalizationSchemeOverField k f, ⊤)) := by
     ext t
     obtain ⟨c, rfl⟩ := hψ.2 t
-    show (RingEquiv.ofBijective _ hev').symm ((normalizationOverField k f).residueFieldMap y
+    change (RingEquiv.ofBijective _ hev').symm ((normalizationOverField k f).residueFieldMap y
       (X.Γevaluation _ (f.appTop ((Scheme.ΓSpecIso (.of k)).inv c)))) =
       algebraMap k Γ(normalizationSchemeOverField k f, ⊤)
         ((RingEquiv.ofBijective _ hψ).symm (RingEquiv.ofBijective _ hψ c))
     rw [RingEquiv.symm_apply_apply, RingEquiv.symm_apply_eq, Scheme.Γevaluation_naturality_apply]
     have h3 := ConcreteCategory.congr_hom hf'top
       (algebraMap k Γ(normalizationSchemeOverField k f, ⊤) c)
-    show _ = (normalizationSchemeOverField k f).Γevaluation y
+    change _ = (normalizationSchemeOverField k f).Γevaluation y
       ((f'.appTop) ((Scheme.ΓSpecIso (.of Γ(normalizationSchemeOverField k f, ⊤))).inv
         (algebraMap k Γ(normalizationSchemeOverField k f, ⊤) c)))
     simp only [CommRingCat.comp_apply, CommRingCat.id_apply] at h3

@@ -120,9 +120,9 @@ theorem split_sections_of_splitting (S : ShortComplex X.Modules) {U : X.Opens}
       rw [← hy', ← hc]
       exact (Scheme.Modules.Hom.app_smul S.f c m).symm
     · rintro ⟨c, rfl⟩
-      show S.g.app _ (c • S.f.app _ m) = 0
+      change S.g.app _ (c • S.f.app _ m) = 0
       rw [Scheme.Modules.Hom.app_smul, hzero, smul_zero]
-  · show e.symm (ρ (S.f.app _ m)) = 1
+  · change e.symm (ρ (S.f.app _ m)) = 1
     rw [fr, LinearEquiv.symm_apply_eq]
     exact (one_smul _ m).symm
 

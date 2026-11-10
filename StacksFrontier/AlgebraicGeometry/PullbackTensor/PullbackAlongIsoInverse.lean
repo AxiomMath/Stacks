@@ -126,7 +126,7 @@ private theorem congrIdIso_hom_compIso_inv_app_apply {A B : Scheme.{u}} (f : A �
 /-- The image under `e` of an open of `X'` lies in its inverse image along `e⁻¹`. -/
 theorem image_le_inv_preimage (U : X'.Opens) : e.hom ''ᵁ U ≤ e.inv ⁻¹ᵁ U := by
   rintro _ ⟨x, hx, rfl⟩
-  show (e.hom ≫ e.inv) x ∈ U
+  change (e.hom ≫ e.inv) x ∈ U
   rw [e.hom_inv_id]
   exact hx
 
@@ -154,7 +154,7 @@ theorem pullbackInvHom_unit (Φ : 𝒳 ⟶ restrictAlgebra e.hom 𝒞) (n : ℤ)
   have h1 := pullbackGradedAlgebraMap_pullbackUnit e.inv.toLRSHom.toShHom Φ n U s
   have h2 := pullbackIsoRestrict_hom_pullbackUnit e.inv
     ((restrictAlgebra e.hom 𝒞).piece n) U ((Φ.app n).val.app (op U) s)
-  show ((restrictAlgebraCongrIdIso (e.inv ≫ e.hom) e.inv_hom_id 𝒞).hom.app n).val.app
+  change ((restrictAlgebraCongrIdIso (e.inv ≫ e.hom) e.inv_hom_id 𝒞).hom.app n).val.app
       (op (e.inv ⁻¹ᵁ U))
       (((restrictAlgebraCompIso e.inv e.hom 𝒞).inv.app n).val.app (op (e.inv ⁻¹ᵁ U))
         (((pullbackIsoRestrict e.inv).hom.app ((restrictAlgebra e.hom 𝒞).piece n)).val.app
@@ -184,7 +184,7 @@ theorem restrictPullbackInvIso_hom_unit (𝒳 : SchemeGradedAlgebra X') (n : ℤ
         (((pullbackGradedAlgebra e.inv.toLRSHom.toShHom 𝒳).piece n).val.map
           (homOfLE (image_le_inv_preimage e U)).op
           (pullbackUnit e.inv.toLRSHom.toShHom (𝒳.piece n) (op U) s)) = s := by
-  show ((restrictAlgebraCongrIdIso (e.hom ≫ e.inv) e.hom_inv_id 𝒳).hom.app n).val.app (op U)
+  change ((restrictAlgebraCongrIdIso (e.hom ≫ e.inv) e.hom_inv_id 𝒳).hom.app n).val.app (op U)
       (((restrictAlgebraCompIso e.hom e.inv 𝒳).inv.app n).val.app (op U)
         (((pullbackIsoRestrict e.inv).hom.app (𝒳.piece n)).val.app (op (e.hom ''ᵁ U))
           (((pullbackGradedAlgebra e.inv.toLRSHom.toShHom 𝒳).piece n).val.map
@@ -233,7 +233,7 @@ theorem restrictBack_app (α : pullbackGradedAlgebra e.inv.toLRSHom.toShHom 𝒳
       (𝒞.piece n).val.map (homOfLE (image_le_inv_preimage e U)).op
         ((α.app n).val.app (op (e.inv ⁻¹ᵁ U))
           (pullbackUnit e.inv.toLRSHom.toShHom (𝒳.piece n) (op U) s)) := by
-  show (α.app n).val.app (op (e.hom ''ᵁ U))
+  change (α.app n).val.app (op (e.hom ''ᵁ U))
       (((restrictPullbackInvIso e 𝒳).inv.app n).val.app (op U) s) = _
   rw [restrictPullbackInvIso_inv_app]
   exact (PresheafOfModules.naturality_apply (α.app n).val _ _)

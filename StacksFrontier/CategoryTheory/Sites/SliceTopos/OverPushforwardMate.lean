@@ -93,8 +93,8 @@ adjunct is a bijection; so an isomorphism built by other means is *the* mate onc
 checked for it. -/
 theorem mateEquiv_eq_of_homEquiv_symm (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂)
     (α : TwoSquare Gf L₁ L₂ H) (β : TwoSquare R₁ H Gf R₂)
-    (h : ∀ d : B, (adj₂.homEquiv (Gf.obj (R₁.obj d)) (H.obj d)).symm (β.natTrans.app d) =
-      α.natTrans.app (R₁.obj d) ≫ H.map (adj₁.counit.app d)) :
+    (h : ∀ d : B, (adj₂.homEquiv (Gf.obj (R₁.obj d)) (H.obj d)).symm (β.app d) =
+      α.app (R₁.obj d) ≫ H.map (adj₁.counit.app d)) :
     mateEquiv adj₁ adj₂ α = β := by
   refine mateEquiv_eq_of_counit adj₁ adj₂ α β fun d => ?_
   exact (Adjunction.homEquiv_counit ..).symm.trans (h d)
@@ -107,10 +107,10 @@ structure map, which is an adjunct, is carried across a Beck–Chevalley square.
 theorem homEquiv_symm_mateEquiv (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂)
     (α : TwoSquare Gf L₁ L₂ H) {W : A} {Z : B} (φ : W ⟶ R₁.obj Z) :
     (adj₂.homEquiv (Gf.obj W) (H.obj Z)).symm
-        (Gf.map φ ≫ (mateEquiv adj₁ adj₂ α).natTrans.app Z) =
-      α.natTrans.app W ≫ H.map ((adj₁.homEquiv W Z).symm φ) := by
-  have hn : L₂.map (Gf.map φ) ≫ α.natTrans.app (R₁.obj Z) =
-      α.natTrans.app W ≫ H.map (L₁.map φ) := α.natTrans.naturality φ
+        (Gf.map φ ≫ (mateEquiv adj₁ adj₂ α).app Z) =
+      α.app W ≫ H.map ((adj₁.homEquiv W Z).symm φ) := by
+  have hn : L₂.map (Gf.map φ) ≫ α.app (R₁.obj Z) =
+      α.app W ≫ H.map (L₁.map φ) := α.naturality φ
   rw [Adjunction.homEquiv_counit, Functor.map_comp, Category.assoc,
     mateEquiv_counit adj₁ adj₂ α Z, ← Category.assoc, hn, Category.assoc,
     Adjunction.homEquiv_counit, Functor.map_comp]
@@ -121,8 +121,8 @@ terms of `CategoryTheory.mateEquiv`. -/
 theorem homEquiv_symm_mateEquiv_of_eq (adj₁ : L₁ ⊣ R₁) (adj₂ : L₂ ⊣ R₂)
     (α : TwoSquare Gf L₁ L₂ H) (β : TwoSquare R₁ H Gf R₂) (hm : mateEquiv adj₁ adj₂ α = β)
     {W : A} {Z : B} (φ : W ⟶ R₁.obj Z) :
-    (adj₂.homEquiv (Gf.obj W) (H.obj Z)).symm (Gf.map φ ≫ β.natTrans.app Z) =
-      α.natTrans.app W ≫ H.map ((adj₁.homEquiv W Z).symm φ) := by
+    (adj₂.homEquiv (Gf.obj W) (H.obj Z)).symm (Gf.map φ ≫ β.app Z) =
+      α.app W ≫ H.map ((adj₁.homEquiv W Z).symm φ) := by
   subst hm
   exact homEquiv_symm_mateEquiv adj₁ adj₂ α φ
 
@@ -196,18 +196,18 @@ theorem mateEquiv_transport (a : L₁ ⊣ R₁) (b : L₂ ⊣ R₂) (e : E' ≌ 
     (α₀ : TwoSquare G₀ L₁ L₂ H₀) (β₀ : TwoSquare R₁ H₀ G₀ R₂) (hm : mateEquiv a b α₀ = β₀)
     (α : TwoSquare G' L₁ ((e.functor ⋙ L₂) ⋙ g.inverse) H')
     (β : TwoSquare R₁ H' G' (g.functor ⋙ R₂ ⋙ e.inverse))
-    (hα : ∀ W, α.natTrans.app W =
-      g.inverse.map (L₂.map (ivG.hom.app W)) ≫ g.inverse.map (α₀.natTrans.app W) ≫
+    (hα : ∀ W, α.app W =
+      g.inverse.map (L₂.map (ivG.hom.app W)) ≫ g.inverse.map (α₀.app W) ≫
         g.inverse.map (ivF.inv.app (L₁.obj W)) ≫ g.unitIso.inv.app (H'.obj (L₁.obj W)))
-    (hβ : ∀ d, β.natTrans.app d =
+    (hβ : ∀ d, β.app d =
       e.unitIso.hom.app (G'.obj (R₁.obj d)) ≫ e.inverse.map (ivG.hom.app (R₁.obj d) ≫
-        β₀.natTrans.app d ≫ R₂.map (ivF.inv.app d))) :
+        β₀.app d ≫ R₂.map (ivF.inv.app d))) :
     mateEquiv a ((e.toAdjunction.comp b).comp g.symm.toAdjunction) α = β := by
   refine mateEquiv_eq_of_homEquiv_symm _ _ _ _ (fun d => ?_)
   rw [hβ d, hα (R₁.obj d), homEquiv_symm_comp_apply, homEquiv_symm_comp_apply,
     Adjunction.homEquiv_counit, Adjunction.homEquiv_counit, Adjunction.homEquiv_counit]
-  have key : L₂.map (β₀.natTrans.app d) ≫ b.counit.app (H₀.obj d) =
-      α₀.natTrans.app (R₁.obj d) ≫ H₀.map (a.counit.app d) :=
+  have key : L₂.map (β₀.app d) ≫ b.counit.app (H₀.obj d) =
+      α₀.app (R₁.obj d) ≫ H₀.map (a.counit.app d) :=
     hm ▸ mateEquiv_counit a b α₀ d
   have hT (T : e.functor.obj (G'.obj (R₁.obj d)) ⟶ R₂.obj (g.functor.obj (H'.obj d))) :
       e.functor.map (e.unitIso.hom.app (G'.obj (R₁.obj d)) ≫ e.inverse.map T) ≫
@@ -221,12 +221,12 @@ theorem mateEquiv_transport (a : L₁ ⊣ R₁) (b : L₂ ⊣ R₂) (e : E' ≌ 
         g.unitInv.app (H'.obj d) =
       g.unitIso.inv.app (H'.obj (L₁.obj (R₁.obj d))) ≫ H'.map (a.counit.app d) :=
     g.unitIso.inv.naturality (H'.map (a.counit.app d))
-  have s2 : L₂.map (ivG.hom.app (R₁.obj d) ≫ β₀.natTrans.app d ≫ R₂.map (ivF.inv.app d)) ≫
+  have s2 : L₂.map (ivG.hom.app (R₁.obj d) ≫ β₀.app d ≫ R₂.map (ivF.inv.app d)) ≫
         b.counit.app (g.functor.obj (H'.obj d)) =
-      L₂.map (ivG.hom.app (R₁.obj d)) ≫ α₀.natTrans.app (R₁.obj d) ≫
+      L₂.map (ivG.hom.app (R₁.obj d)) ≫ α₀.app (R₁.obj d) ≫
         ivF.inv.app (L₁.obj (R₁.obj d)) ≫ g.functor.map (H'.map (a.counit.app d)) := by
     rw [Functor.map_comp, Functor.map_comp, Category.assoc, Category.assoc, nat1,
-      ← Category.assoc (L₂.map (β₀.natTrans.app d)), key, Category.assoc, nat2]
+      ← Category.assoc (L₂.map (β₀.app d)), key, Category.assoc, nat2]
   simp only [Equivalence.symm_functor, Equivalence.symm_inverse, Equivalence.toAdjunction_counit,
     Equivalence.symm_counit]
   rw [hT, s2, Functor.map_comp, Functor.map_comp, Functor.map_comp, Category.assoc,
@@ -296,7 +296,7 @@ theorem mateEquiv_inverseImageCompToOverIso_inv :
       (f.mateEquiv_eqToHom_post_forget G)).symm ?_
   refine Eq.trans (iterated_mateEquiv_conjugateEquiv (forgetAdjToOver G)
     (forgetAdjToOver (f.inverseImage.obj G)) (f.over G).adj f.adj _) ?_
-  exact TwoSquare.ext _ _ fun x =>
+  exact NatTrans.ext <| funext fun x =>
     (congrFun (congrArg NatTrans.app (Stacks.CategoryTheory.rightAdjointUniq_eqRec_hom
       (Over.post_forget_eq_forget_comp f.inverseImage G)
       ((f.over G).adj.comp (forgetAdjToOver (f.inverseImage.obj G)))

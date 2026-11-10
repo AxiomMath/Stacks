@@ -82,7 +82,7 @@ theorem homologyFunctor_map_map_singleFunctor_map_eq_zero {M M' : C} (g : M ⟶ 
     (h : (homologyFunctor C' b).map (F.map ((singleFunctor C 0).map g)) = 0) :
     (homologyFunctor C' (b + q)).map (F.map ((singleFunctor C q).map g)) = 0 := by
   refine (NatIso.naturality_2 (singleFunctorCompHomologyShiftIso F q b) g).symm.trans ?_
-  show _ ≫ (homologyFunctor C' b).map (F.map ((singleFunctor C 0).map g)) ≫ _ = 0
+  change _ ≫ (homologyFunctor C' b).map (F.map ((singleFunctor C 0).map g)) ≫ _ = 0
   rw [h, zero_comp, comp_zero]
 
 omit [F.IsTriangulated] in
@@ -120,10 +120,10 @@ theorem isIso_homologyFunctor_map_of_distinguished {X Y Z W : DerivedCategory C'
     refine (HomologySequence.mono_homologyMap_mor₁_iff _ hT a b hab).2 ?_
     refine (cancel_epi ((homologyFunctor C' a).map u)).1 ?_
     rw [comp_zero]
-    show ((homologyFunctor C' 0).shift a).map u ≫
+    change ((homologyFunctor C' 0).shift a).map u ≫
       (homologyFunctor C' 0).shiftMap h a b (by omega) = 0
     rw [← Functor.shiftMap_comp', Functor.shiftMap]
-    show (homologyFunctor C' a).map (u ≫ h) ≫ _ = 0
+    change (homologyFunctor C' a).map (u ≫ h) ≫ _ = 0
     rw [huh]
     exact zero_comp
   exact isIso_of_mono_of_epi _
@@ -179,7 +179,7 @@ theorem stupidTruncLEι_comp_homOfDegreewiseSplit {C : Type*} [Category* C] [Abe
       (stupidTruncLEXIso K (p' + 1) p' (by omega)).hom ≫ K.d p' (p' + 1) ≫
         (stupidTruncLEXIso K (p' + 1) (p' + 1) le_rfl).inv :=
     K.stupidTrunc_d_eq (embeddingUpIntLE (p' + 1)) _ _
-  show (stupidTruncLEι K p').f p' ≫ (CochainComplex.homOfDegreewiseSplit _
+  change (stupidTruncLEι K p').f p' ≫ (CochainComplex.homOfDegreewiseSplit _
     (stupidTruncLESplitting K (p' + 1) p' rfl)).f p' = _
   rw [CochainComplex.homOfDegreewiseSplit_f, CochainComplex.cocycleOfDegreewiseSplit,
     CochainComplex.HomComplex.Cocycle.mk_coe, CochainComplex.HomComplex.Cochain.mk_v,
@@ -189,7 +189,7 @@ theorem stupidTruncLEι_comp_homOfDegreewiseSplit {C : Type*} [Category* C] [Abe
   dsimp only [ShortComplex.map_X₁, ShortComplex.map_X₂, ShortComplex.map_X₃,
     HomologicalComplex.eval_obj, stupidTruncLEShortComplex]
   simp only [stupidTruncLEι_f, single_map_f_self, Category.assoc, Iso.inv_hom_id_assoc]
-  simp [CochainComplex.singleFunctors, singleObjXSelf, singleObjXIsoOfEq]
+  simp [singleObjXSelf, singleObjXIsoOfEq]
 
 section Derived
 
@@ -259,7 +259,7 @@ theorem isIso_homologyFunctor_map_map_Q_map_stupidTruncLEι
         (by omega)).eq_of_tgt _ _)) ?_
   rw [← Category.assoc, ← F.map_comp, ← Category.assoc, ← Q.map_comp, hψ]
   simp only [Functor.map_comp, Category.assoc]
-  show (homologyFunctor C' (N + p')).map (F.map ((singleFunctor C p').map (K.d p' p))) ≫ _ = 0
+  change (homologyFunctor C' (N + p')).map (F.map ((singleFunctor C p').map (K.d p' p))) ≫ _ = 0
   rw [hd, zero_comp]
 
 end Derived
@@ -360,7 +360,7 @@ theorem topFormsToDeRham_comp_πStupidTrunc :
       (ComplexShape.embeddingUpIntLE D.n)).f D.n =
       (stupidTruncLEXIso (D.deRhamCx.extend ComplexShape.embeddingUpNat) D.n D.n le_rfl).inv :=
     πStupidTrunc_f _ _ (i := ((D.n : ℤ) - D.n).toNat)
-      (by show (D.n : ℤ) - (((D.n : ℤ) - D.n).toNat : ℤ) = D.n; omega)
+      (by change (D.n : ℤ) - (((D.n : ℤ) - D.n).toNat : ℤ) = D.n; omega)
   refine ((HomologicalComplex.comp_f _ _ _).trans ?_).trans (HomologicalComplex.comp_f _ _ _).symm
   rw [h₁, h₂, stupidTruncLEι_f, HomologicalComplex.single_map_f_self]
   simp only [HomologicalComplex.singleObjXSelf, HomologicalComplex.singleObjXIsoOfEq,
@@ -410,7 +410,7 @@ theorem isIso_homologyFunctor_map_derivedPushforward_Q_map_topFormsToDeRham
   have hfac := ((G.map_comp _ _).symm.trans
     (congrArg G.map D.topFormsToDeRham_comp_πStupidTrunc)).trans (G.map_comp _ _)
   rw [show (2 * D.n : ℤ) = D.n + D.n by ring]
-  show IsIso (G.map D.topFormsToDeRham)
+  change IsIso (G.map D.topFormsToDeRham)
   rw [← IsIso.eq_comp_inv] at hfac
   rw [hfac]
   exact IsIso.comp_isIso' (IsIso.comp_isIso' hu hι') (IsIso.inv_isIso (f := G.map _))

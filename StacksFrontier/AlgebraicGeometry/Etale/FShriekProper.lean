@@ -64,7 +64,7 @@ public theorem properSupportSections_of_isProper [IsProper (B.inclusion.map f)]
     properSupportSections B f F V s := by
   have := hasPullbacks_bigEtaleSite B
   have := preservesPullbacks_bigEtaleSiteInclusion B
-  show IsProper ((Scheme.IdealSheafData.vanishingIdeal _).subschemeι ≫
+  change IsProper ((Scheme.IdealSheafData.vanishingIdeal _).subschemeι ≫
     B.inclusion.map (pullback.fst V.obj.hom f))
   exact MorphismProperty.comp_mem (W := @IsProper) _ _ inferInstance
     (MorphismProperty.of_isPullback
@@ -102,7 +102,7 @@ public theorem compactlySupportedSections_eq_top_of_isProper :
     compactlySupportedSections k X f B hX F = ⊤ := by
   ext s
   simp only [AddSubgroup.mem_top, mem_compactlySupportedSections, iff_true]
-  show IsProper ((Scheme.IdealSheafData.vanishingIdeal _).subschemeι ≫ f)
+  change IsProper ((Scheme.IdealSheafData.vanishingIdeal _).subschemeι ≫ f)
   infer_instance
 
 end CompactSupport

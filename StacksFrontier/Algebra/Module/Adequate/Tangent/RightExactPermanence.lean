@@ -102,7 +102,7 @@ private lemma tangentModuleMap_properties
         (y : extensionValue A S.X₂ X)).mp hy'
       have hax : moduleValueMap A S.X₁ (squareZeroAugmentation A X) x = 0 := by
         apply PresheafOfModules.injective_of_mono S.f _
-        show S.f.app _ _ = S.f.app _ 0
+        change S.f.app _ _ = S.f.app _ 0
         rw [← nat S.f x, hx, y.2, map_zero]
       exact ⟨⟨x, hax⟩, Subtype.ext hx⟩
     · rintro ⟨x, rfl⟩
@@ -130,7 +130,7 @@ private lemma tangentModuleMap_properties
       rw [mem_tangentKernel, map_sub, nat S.f x', hsection, hx, sub_self]
     refine ⟨⟨y - S.f.app _ x', htan⟩, ?_⟩
     apply Subtype.ext
-    show S.g.app _ (y - S.f.app _ x') = (z : extensionValue A S.X₃ X)
+    change S.g.app _ (y - S.f.app _ x') = (z : extensionValue A S.X₃ X)
     have hz : S.g.app
         (Opposite.op (Opposite.op (CommAlgCat.of A (squareZeroAlgebra A X))))
         (S.f.app _ x') = 0 :=
@@ -180,7 +180,7 @@ private theorem tangentModuleMap_naturality
     tangentModuleMap α Y ((tangentFunctor A F).map f x) =
       ((tangentFunctor A G).map f) (tangentModuleMap α X x) := by
   apply Subtype.ext
-  show α.app _ ((tangentFunctor A F).map f x) =
+  change α.app _ ((tangentFunctor A F).map f x) =
     ((tangentFunctor A G).map f (tangentModuleMap α X x) : extensionValue A G Y)
   rw [(tangentFunctor A F).map_coe, (tangentFunctor A G).map_coe]
   exact PresheafOfModules.naturality_apply α
@@ -395,10 +395,10 @@ public lemma hasRightExactTangentFunctor_of_shortExact
   let q₃' := (AdequateFunctor.tangentModuleMap S.g X₃).toAddMonoidHom
   have hGprop := hG B T hT
   have hgF : Function.Surjective gF := by
-    show Function.Surjective ((AdequateFunctor.tangentFunctorAt A S.X₁ B).map T.g)
+    change Function.Surjective ((AdequateFunctor.tangentFunctorAt A S.X₁ B).map T.g)
     exact (AddCommGrpCat.epi_iff_surjective _).mp (hF B T hT).2
   have hgG : Function.Surjective gG := by
-    show Function.Surjective ((AdequateFunctor.tangentFunctorAt A S.X₂ B).map T.g)
+    change Function.Surjective ((AdequateFunctor.tangentFunctorAt A S.X₂ B).map T.g)
     exact (AddCommGrpCat.epi_iff_surjective _).mp hGprop.2
   have hexG : Function.Exact fG gG := (ShortComplex.ab_exact_iff_function_exact _).mp hGprop.1
   have hqp₂ : ∀ x, q₂' (p₂ x) = 0 := by
@@ -410,7 +410,7 @@ public lemma hasRightExactTangentFunctor_of_shortExact
     intro x
     have hmap := AdequateFunctor.tangentFunctor_map_eq_zero A S.X₃ (q₁ ≫ q₂)
       (congrArg (fun k => k.hom) T.zero)
-    show ((AdequateFunctor.tangentFunctor A S.X₃).map q₂)
+    change ((AdequateFunctor.tangentFunctor A S.X₃).map q₂)
       ((AdequateFunctor.tangentFunctor A S.X₃).map q₁ x) = 0
     rw [← (AdequateFunctor.tangentFunctor A S.X₃).map_comp]
     exact DFunLike.congr_fun hmap x
@@ -462,7 +462,7 @@ private lemma pullbackShortComplex_shortExact
       _ = (k ≫ pullback.snd S.g f) ≫ f := by simp [Category.assoc]
       _ = 0 := by rw [hk, zero_comp]
   have hKer : IsLimit (KernelFork.ofι T.f T.zero) := by
-    show IsLimit (KernelFork.ofι i hi)
+    change IsLimit (KernelFork.ofι i hi)
     refine KernelFork.IsLimit.ofι i hi ?_ ?_ ?_
     · intro W k hk
       change W ⟶ pullback S.g f at k
@@ -477,10 +477,10 @@ private lemma pullbackShortComplex_shortExact
         (KernelFork.IsLimit.lift' hS.fIsKernel (k ≫ pullback.fst S.g f) hk₁).2
       apply pullback.hom_ext
       · calc
-          m ≫ i ≫ pullback.fst S.g f = m ≫ S.f := by simp [i, pullback.lift_fst]
+          m ≫ i ≫ pullback.fst S.g f = m ≫ S.f := by simp [i]
           _ = k ≫ pullback.fst S.g f := hm
       · calc
-          m ≫ i ≫ pullback.snd S.g f = m ≫ 0 := by simp [i, pullback.lift_snd]
+          m ≫ i ≫ pullback.snd S.g f = m ≫ 0 := by simp [i]
           _ = k ≫ pullback.snd S.g f := by rw [hk, comp_zero]
     · intro W k hk m hm
       have := hS.mono_f
@@ -490,7 +490,7 @@ private lemma pullbackShortComplex_shortExact
       apply (cancel_mono S.f).1
       calc
         m ≫ S.f = m ≫ i ≫ pullback.fst S.g f := by
-          simp [i, pullback.lift_fst]
+          simp [i]
         _ = k ≫ pullback.fst S.g f := congrArg (fun x => x ≫ pullback.fst S.g f) hm
         _ = (KernelFork.IsLimit.lift' hS.fIsKernel (k ≫ pullback.fst S.g f) hk₁).1 ≫ S.f :=
           (KernelFork.IsLimit.lift' hS.fIsKernel (k ≫ pullback.fst S.g f) hk₁).2.symm

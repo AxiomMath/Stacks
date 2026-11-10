@@ -171,11 +171,13 @@ def lamProj (b : I) : Lam I →+* StageRing b := mapRingHom (van b).mkQ
 /-- The transition map of the target system, untwisted. -/
 def stageRingMap {a b : I} (h : b ≤ a) : StageRing a →+* StageRing b := mapRingHom (stageMap h)
 
+omit [WellFoundedLT I] in
 /-- The ring component of `stageRingMap h x` is that of `x`. -/
 @[simp]
 theorem fst_stageRingMap {a b : I} (h : b ≤ a) (x : StageRing a) :
     (stageRingMap h x).fst = x.fst := fst_mapRingHom _ x
 
+omit [WellFoundedLT I] in
 /-- The module component of `stageRingMap h x` is `stageMap h` applied to that of `x`. -/
 @[simp]
 theorem snd_stageRingMap {a b : I} (h : b ≤ a) (x : StageRing a) :
@@ -185,6 +187,7 @@ theorem snd_stageRingMap {a b : I} (h : b ≤ a) (x : StageRing a) :
 theorem lamProj_surjective (b : I) : Function.Surjective (lamProj b) :=
   surjective_mapRingHom (van b).mkQ_surjective
 
+omit [WellFoundedLT I] in
 /-- The transition maps of the target system are surjective. -/
 theorem stageRingMap_surjective {a b : I} (h : b ≤ a) : Function.Surjective (stageRingMap h) :=
   surjective_mapRingHom (stageMap_surjective h)
@@ -198,6 +201,7 @@ theorem stageRingMap_comp_lamProj {a b : I} (h : b ≤ a) (x : Lam I) :
   · rw [fst_stageRingMap, lamProj, lamProj, fst_mapRingHom, fst_mapRingHom]
   · rw [snd_stageRingMap, lamProj, lamProj, snd_mapRingHom, snd_mapRingHom, stageMap_mk]
 
+omit [WellFoundedLT I] in
 /-- The transition maps of the target system compose. -/
 theorem stageRingMap_comp {a b c : I} (hab : b ≤ a) (hbc : c ≤ b) (x : StageRing a) :
     stageRingMap hbc (stageRingMap hab x) = stageRingMap (hbc.trans hab) x := by
@@ -205,6 +209,7 @@ theorem stageRingMap_comp {a b c : I} (hab : b ≤ a) (hbc : c ≤ b) (x : Stage
   · rw [fst_stageRingMap, fst_stageRingMap, fst_stageRingMap]
   · rw [snd_stageRingMap, snd_stageRingMap, snd_stageRingMap, stageMap_comp]
 
+omit [WellFoundedLT I] in
 /-- The transition of the target system along the identity is the identity. -/
 @[simp]
 theorem stageRingMap_refl {a : I} (x : StageRing a) : stageRingMap (le_refl a) x = x := by
@@ -212,6 +217,7 @@ theorem stageRingMap_refl {a : I} (x : StageRing a) : stageRingMap (le_refl a) x
   · rw [fst_stageRingMap]
   · rw [snd_stageRingMap, stageMap_refl]
 
+omit [WellFoundedLT I] in
 /-- An element of the kernel of a transition of the target system has vanishing ring
 component. -/
 theorem fst_eq_zero_of_mem_ker_stageRingMap {a b : I} {h : b ≤ a} {x : StageRing a}
@@ -219,6 +225,7 @@ theorem fst_eq_zero_of_mem_ker_stageRingMap {a b : I} {h : b ≤ a} {x : StageRi
   have hz := RingHom.mem_ker.mp hx
   rw [← fst_stageRingMap h x, hz, fst_zero]
 
+omit [WellFoundedLT I] in
 /-- **Two elements killed by a transition of the target system multiply to zero.** -/
 theorem mul_eq_zero_of_stageRingMap_eq_zero {a b : I} (h : b ≤ a) (x y : StageRing a)
     (hx : stageRingMap h x = 0) (hy : stageRingMap h y = 0) : x * y = 0 := by
@@ -234,11 +241,13 @@ private theorem nilpotent_ker_of_mul_eq_zero {R S : Type*} [CommRing R] [CommRin
   rw [Ideal.mem_bot]
   exact hf r s (RingHom.mem_ker.mp hr) (RingHom.mem_ker.mp hs)
 
+omit [WellFoundedLT I] in
 /-- **The transitions of the target system have square-zero kernels.** -/
 theorem nilpotent_ker_stageRingMap {a b : I} (h : b ≤ a) :
     Ideal.Nilpotent (RingHom.ker (stageRingMap h)) :=
   nilpotent_ker_of_mul_eq_zero _ (mul_eq_zero_of_stageRingMap_eq_zero h)
 
+omit [WellFoundedLT I] in
 /-- The transitions of the target system have locally nilpotent kernels. -/
 theorem locallyNilpotent_ker_stageRingMap {a b : I} (h : b ≤ a) :
     (RingHom.ker (stageRingMap h)).LocallyNilpotent :=

@@ -44,7 +44,7 @@ theorem Scheme.SpecToEquivOfField_specMap_comp {X : Scheme.{u}} {K L : Type u} [
     Scheme.SpecToEquivOfField L X (Spec.map (CommRingCat.ofHom φ) ≫ t) =
       ⟨(Scheme.SpecToEquivOfField K X t).1,
         (Scheme.SpecToEquivOfField K X t).2 ≫ CommRingCat.ofHom φ⟩ := by
-  rw [Equiv.apply_eq_iff_eq_symm_apply]
+  rw [← Equiv.eq_symm_apply]
   conv_lhs => rw [← (Scheme.SpecToEquivOfField K X).symm_apply_apply t]
   simp only [Scheme.SpecToEquivOfField_symm_apply, Spec.map_comp, Category.assoc]
 
@@ -143,7 +143,7 @@ private theorem exists_fieldValuedPointsMap_eq_of_precomp_eq {K Ω : Type u} [Fi
       ((Scheme.SpecToEquivOfField Ω X t.1).2.hom.codRestrict _ hmem))
   have hι₀ : ι₀ ≫ CommRingCat.ofHom j.toRingHom = (Scheme.SpecToEquivOfField Ω X t.1).2 := by
     ext c
-    show j (eK.symm ⟨_, hmem c⟩) = _
+    change j (eK.symm ⟨_, hmem c⟩) = _
     exact congrArg Subtype.val (eK.apply_symm_apply ⟨_, hmem c⟩)
   have ht1 : Spec.map (Scheme.SpecToEquivOfField Ω X t.1).2 ≫
       X.fromSpecResidueField (Scheme.SpecToEquivOfField Ω X t.1).1 = t.1 := by
@@ -160,7 +160,7 @@ private theorem exists_fieldValuedPointsMap_eq_of_precomp_eq {K Ω : Type u} [Fi
   refine ⟨⟨Spec.map ι₀ ≫ X.fromSpecResidueField (Scheme.SpecToEquivOfField Ω X t.1).1,
     hover⟩, ?_⟩
   apply Subtype.ext
-  show Spec.map (CommRingCat.ofHom j.toRingHom) ≫ Spec.map ι₀ ≫
+  change Spec.map (CommRingCat.ofHom j.toRingHom) ≫ Spec.map ι₀ ≫
       X.fromSpecResidueField (Scheme.SpecToEquivOfField Ω X t.1).1 = t.1
   rw [← Category.assoc, ← Spec.map_comp, hι₀, ht1]
 

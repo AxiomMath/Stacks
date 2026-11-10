@@ -194,7 +194,7 @@ lemma homTwistDualCoefficientPairing_ρ (γ : Γ) (a : A.obj.obj.V)
     homTwistDualCoefficientPairing A n ((A.obj.obj.ρ γ).asHom.hom a)
       (((homTwistDualCoefficient A n).obj.obj.ρ γ).asHom.hom φ) =
       homTwistDualCoefficientPairing A n a φ := by
-  show φ ((A.obj.obj.ρ γ⁻¹).asHom.hom ((A.obj.obj.ρ γ).asHom.hom a)) = φ a
+  change φ ((A.obj.obj.ρ γ⁻¹).asHom.hom ((A.obj.obj.ρ γ).asHom.hom a)) = φ a
   rw [← continuousModuleRho_mul_apply, inv_mul_cancel, continuousModuleRho_one_apply]
 
 variable [IsAddCyclic A.obj.obj.V] {n} (hA : Nat.card A.obj.obj.V = n)
@@ -215,7 +215,7 @@ theorem exists_homTwistDualCoefficientPairing_eq_one :
     fun φ ↦ ?_⟩
   let ψ : A.obj.obj.V →+ ZMod n := φ
   refine ⟨(ψ g).val, AddMonoidHom.ext fun a ↦ ?_⟩
-  show ψ a = ((ψ g).val : ℤ) • e.symm a
+  change ψ a = ((ψ g).val : ℤ) • e.symm a
   conv_lhs => rw [hgen a, map_zsmul]
   rw [zsmul_eq_mul, zsmul_eq_mul, Int.cast_natCast, Int.cast_natCast, ZMod.natCast_zmod_val,
     ZMod.natCast_zmod_val, mul_comm]

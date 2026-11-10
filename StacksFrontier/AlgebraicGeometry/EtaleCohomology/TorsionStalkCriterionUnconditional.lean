@@ -55,7 +55,7 @@ def etaleStalkIsoSmallEtaleStalkAb (t : GeometricPoint X)
         AddCommGrpCat.{u + 1} (SmallEtale.topology B X hX) X.smallEtaleTopology).obj F).obj ≅
       (smallEtaleStalkAb t.hom).obj F :=
   Functor.Final.colimitIso (neighborhoodInclusionPublic B X hX t).op
-    ((CategoryOfElements.π (Scheme.pointSmallEtale t.hom).fiber).op ⋙ F.obj)
+    ((Functor.Elements.π (Scheme.pointSmallEtale t.hom).fiber).op ⋙ F.obj)
 
 end AlgebraicGeometry
 

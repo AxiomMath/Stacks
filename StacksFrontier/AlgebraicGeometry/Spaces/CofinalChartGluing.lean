@@ -176,8 +176,8 @@ def IsCofinalChartFamily (P : ∀ T : BigFppfOver B S hS, (yoneda.obj T ⟶ F) �
 /-- **The class of all charts is cofinal.**  This is
 `AlgebraicGeometry.BigFppfOver.exists_affine_etale_cover`; it is what makes the refinements below
 generalisations of the statements of
-`StacksFrontier/AlgebraicGeometry/Spaces/AffineChartGluing.lean` rather than variants of them, and it
-shows that `AlgebraicGeometry.Space.IsCofinalChartFamily` is satisfiable. -/
+`StacksFrontier/AlgebraicGeometry/Spaces/AffineChartGluing.lean` rather than variants of them, and
+it shows that `AlgebraicGeometry.Space.IsCofinalChartFamily` is satisfiable. -/
 theorem isCofinalChartFamily_top :
     IsCofinalChartFamily B S hS (F := F) fun _ _ => True := by
   intro R _ c _
@@ -317,7 +317,7 @@ theorem exists_hom_yoneda_of_chartHoms_of_cofinal (hP : IsCofinalChartFamily B S
     simpa only [Equiv.apply_symm_apply] using hsec i
   have hc : Sieve.generate (Presieve.ofArrows (fun i => pullback r (π i))
       fun i => pullback.fst r (π i)) ∈ BigFppfOver.topology B S hS T := by
-    show Sieve.ofArrows _ _ ∈ _
+    change Sieve.ofArrows _ _ ∈ _
     rw [Sieve.ofArrows_eq_pullback_of_isPullback π fun i => IsPullback.of_hasPullback r (π i)]
     exact (BigFppfOver.topology B S hS).pullback_stable r hcover
   refine hom_ext_of_cover B S hS hW T _ _ hc fun i => ?_

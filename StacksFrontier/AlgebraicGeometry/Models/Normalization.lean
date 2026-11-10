@@ -82,7 +82,7 @@ private theorem pullbackRightPullbackFstIso_inv_snd_eq_map {W X Y Z : Scheme.{u}
     (f : X ⟶ Z) (g : Y ⟶ Z) (f' : W ⟶ X) :
     (pullbackRightPullbackFstIso f g f').inv ≫ pullback.snd f' (pullback.fst f g) =
       pullback.map (f' ≫ f) g f g f' (𝟙 _) (𝟙 _) (by simp) (by simp) := by
-  apply pullback.hom_ext <;> simp [pullback.map, pullback.lift_fst, pullback.lift_snd]
+  apply pullback.hom_ext <;> simp [pullback.map]
 
 /-- The local rings of a normal scheme are normal rings. -/
 theorem isNormalRing_stalk {Y : Scheme.{u}} (hY : IsNormal Y) (y : Y) :
@@ -124,7 +124,7 @@ private theorem isExcellent_stalk_spec_of_eq_bot {A : Type u} [CommRing A] [IsDo
   refine isExcellent_stalk_spec_of_localization q ?_
   have hM : q.asIdeal.primeCompl = nonZeroDivisors A := by
     ext a
-    show a ∉ q.asIdeal ↔ a ∈ nonZeroDivisors A
+    change a ∉ q.asIdeal ↔ a ∈ nonZeroDivisors A
     rw [hq]
     simp [mem_nonZeroDivisors_iff_ne_zero]
   let : IsLocalization (nonZeroDivisors A) (Localization.AtPrime q.asIdeal) := by
@@ -207,7 +207,7 @@ private theorem isNormalRing_adicCompletion_stalk_of_isNormal_baseChange
     obtain ⟨y, hyν, -⟩ :=
       Scheme.exists_preimage_of_isPullback (IsPullback.of_hasPullback (ν ≫ p) i) x z
         (by
-          show (ν ≫ p).base x = PrimeSpectrum.comap (algebraMap R Rhat) z
+          change (ν ≫ p).base x = PrimeSpectrum.comap (algebraMap R Rhat) z
           exact hz.symm)
     have hNoeth : IsNoetherianRing Rhat := inferInstance
     have hRhat : IsExcellent Rhat := by

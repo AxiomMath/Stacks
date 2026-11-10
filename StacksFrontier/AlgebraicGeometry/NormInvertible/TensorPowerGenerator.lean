@@ -103,7 +103,7 @@ theorem generatorOfIso_restrict (L : SheafOfModules.{u} (structureSheafRing X))
   have hmap : (structureSheafRing X).obj.map (homOfLE h).op oneU = oneV :=
     ((structureSheafRing X).obj.map (homOfLE h).op).hom.map_one
   refine (PresheafOfModules.naturality_apply e.inv.val (homOfLE h).op oneU).symm.trans ?_
-  show e.inv.val.app (op V) ((structureSheafRing X).obj.map (homOfLE h).op oneU) =
+  change e.inv.val.app (op V) ((structureSheafRing X).obj.map (homOfLE h).op oneU) =
     e.inv.val.app (op V) oneV
   rw [hmap]
 

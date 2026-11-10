@@ -115,7 +115,7 @@ theorem isAffineOpen_chartCover {V : A.left.Opens} (hV : IsAffineOpen V) (ab : �
   convert h using 1
   rw [chartCover, Scheme.Hom.image_preimage_eq_opensRange_inf, Scheme.Opens.opensRange_ι]
   ext x
-  show x ∈ PV V ∧ x ∈ q A ⁻¹ᵁ coverB U ab ↔ x ∈ q A ⁻¹ᵁ coverB U ab ∧ x ∈ r A ⁻¹ᵁ V
+  change x ∈ PV V ∧ x ∈ q A ⁻¹ᵁ coverB U ab ↔ x ∈ q A ⁻¹ᵁ coverB U ab ∧ x ∈ r A ⁻¹ᵁ V
   exact and_comm
 
 omit [GrpObj A] [IsAbelianVariety k A] [Fintype ι] [DecidableEq ι] in

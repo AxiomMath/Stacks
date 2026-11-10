@@ -190,7 +190,7 @@ private theorem comapQuotientRestrict_surjective {A : Type*} [CommRing A] (J : I
   intro y
   obtain ⟨x, hx⟩ := Ideal.Quotient.mk_surjective (y : A ⧸ J)
   refine ⟨⟨x, ?_⟩, Subtype.ext hx⟩
-  show (Ideal.Quotient.mk J) x ∈ T
+  change (Ideal.Quotient.mk J) x ∈ T
   rw [hx]
   exact y.property
 
@@ -371,7 +371,7 @@ theorem lifts_localSquareZero_formallySmooth.{u, v, w}
       let : IsLocalHom gT := IsLocalHom.of_surjective gT gbar.rangeRestrict_surjective
       let fP : R →+* P := f.codRestrict P (by
         intro r
-        show (Ideal.Quotient.mk J) (f r) ∈ T
+        change (Ideal.Quotient.mk J) (f r) ∈ T
         rw [← RingHom.comp_apply, ← hcomm]
         exact ⟨φ r, rfl⟩)
       have : IsLocalHom fP := by
@@ -418,7 +418,7 @@ theorem lifts_localSquareZero_formallySmooth.{u, v, w}
           have hmk : e ((Ideal.Quotient.mk K) (g s)) = qP (g s) :=
             qP.quotientKerEquivOfSurjective_apply_mk hqP (g s)
           have hsec : e (gP s) = gT s := by
-            show e (e.symm (gT s)) = gT s
+            change e (e.symm (gT s)) = gT s
             exact e.apply_symm_apply _
           rwa [hmk, hsec] at he
         exact congrArg Subtype.val hq

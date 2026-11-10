@@ -165,7 +165,7 @@ theorem coversTop_representedAffineChartPiece (g : T ⟶ T')
   · obtain ⟨y, rfl⟩ := (pointsEquivScheme B S hS T).symm.surjective p
     obtain ⟨q, hq⟩ := hc y
     refine ⟨y, (pointsEquivScheme B S hS (specFppfOver B S hS (c y).hA (c y).gA)).symm q, ?_⟩
-    show pointsMap B S hS (yoneda.obj (specFppfOver B S hS (c y).hA (c y).gA))
+    change pointsMap B S hS (yoneda.obj (specFppfOver B S hS (c y).hA (c y).gA))
       (𝟙 _ ≫ yoneda.map (c y).α)
       ((pointsEquivScheme B S hS (specFppfOver B S hS (c y).hA (c y).gA)).symm q) = _
     rw [Category.id_comp, ChartBranch.pointsEquivScheme_symm_pointsMap, hq]

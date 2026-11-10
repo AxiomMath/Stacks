@@ -17,8 +17,8 @@ smooth projective scheme over `k`, equidimensional of dimension `d`. **Stacks 0F
   `∑_i (-1)^i dim_F H^i(X) = deg(Δ · Δ) = deg(c_d(𝒯_{X/k}))`.
 
 The right-hand equality is a statement about Chow groups alone, proved in
-`StacksFrontier.AlgebraicGeometry.WeilCohomology.Concrete.DiagonalSelfIntersection`. This file proves
-the left-hand equality, following the source:
+`StacksFrontier.AlgebraicGeometry.WeilCohomology.Concrete.DiagonalSelfIntersection`. This file
+proves the left-hand equality, following the source:
 
 * `deg([Δ] · [Δ]) = ∫_{X × X} γ([Δ] · [Δ])` by Stacks 0FHR on `X × X`,
   `= ∫_{X × X} γ([Δ]) ∪ γ([Δ])` by (C)(c), and `= ∫_X Δ^*γ([Δ])` since `γ([Δ]) = Δ_*1` (Stacks
@@ -85,9 +85,9 @@ theorem codimensionDegree_diag_mul_diag_eq_traceProj :
   rw [← h0]
   have hm := hC.mul (prod X X) d d (closedSubschemeClass (prod X X).obj.hom (diag X).hom.left d)
     (closedSubschemeClass (prod X X).obj.hom (diag X).hom.left d)
-  show W.trace (prod X X) (d + d) hP (W.cycleClass (prod X X) ((d : ℤ) + d) _) = _
+  change W.trace (prod X X) (d + d) hP (W.cycleClass (prod X X) ((d : ℤ) + d) _) = _
   rw [hm, trace_eq_traceProj]
-  show W.traceProj (prod X X) (d + d) hP
+  change W.traceProj (prod X X) (d + d) hP
     (W.twCoord (prod X X) (2 * ((d : ℤ) + d)) ((d : ℤ) + d) _ : W.H (prod X X)) = _
   rw [twCoord_cupTw, coe_cup]
   -- `γ([Δ]) = Δ_*1`, so `γ([Δ])` represents the trace pairing through the diagonal
@@ -110,8 +110,7 @@ def mulMap : W.H X ⊗[F] W.H X →ₗ[F] W.H X :=
 /-- **Remark 0FHD**: pulling back along the diagonal after the Künneth map is the cup product. -/
 theorem pull_diag_kunnethMap (x : W.H X ⊗[F] W.H X) :
     W.pull (diag X) (W.kunnethMap X X x) = W.mulMap X x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a b => rw [kunnethMap_tmul, pull_diag_mul]; rfl
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add]
 
@@ -155,8 +154,7 @@ variable {W X} {d : ℕ} (hX : IsNonemptyEquidimensional X d)
 theorem traceProj_mulMapGrade_of_ne (pq : ℤ × ℤ) (hpq : pq.1 + pq.2 ≠ 2 * (d : ℤ))
     (t : W.grade X pq.1 ⊗[F] W.grade X pq.2) :
     W.traceProj X d hX (W.mulMapGrade X pq t) = 0 := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul u v => exact W.traceProj_of_mem_ne X d hX (SetLike.GradedMul.mul_mem u.2 v.2) hpq
   | add t t' ht ht' => rw [map_add, map_add, ht, ht', add_zero]
 
@@ -203,7 +201,7 @@ theorem traceProj_mulMapGrade_diagonalKunnethPreimage (i : ℤ) :
         (W.diagonalKunnethCoordinates hB.kunnethIsomorphism X d i e l)))) =
       ((i.negOnePow : ℤ) : F) := fun l ↦ by
     have h := pairing_diagonalKunnethCoordinates hX hA hB hC i e l l
-    rw [pairing_eq_traceProj, if_pos rfl, mul_one] at h
+    rw [pairing_eq_traceProj, ite_eq_left rfl, mul_one] at h
     exact h
   simp only [hterm, Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul]
   ring

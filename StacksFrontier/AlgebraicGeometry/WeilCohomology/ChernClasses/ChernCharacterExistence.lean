@@ -692,7 +692,7 @@ theorem exists_isChernCharacter
       VectorBundleKZero.addHom_ext fun M hM => by
         simp only [AddMonoidHom.comp_apply, AddMonoidHom.zero_apply,
           QuotientAddGroup.mk'_apply, QuotientAddGroup.eq_zero_iff]
-        show PowerSeries.coeff n (ch X (VectorBundleKZero.classOf (S.obj X) M)) ∈
+        change PowerSeries.coeff n (ch X (VectorBundleKZero.classOf (S.obj X) M)) ∈
           𝔄.grade X n
         rw [hch X M hM]
         exact coeff_chernCharacterOfModule_mem_grade hq hc X M n

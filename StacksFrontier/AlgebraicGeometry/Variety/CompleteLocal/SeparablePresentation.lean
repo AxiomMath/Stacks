@@ -95,7 +95,7 @@ public theorem exists_quotient_mvPowerSeries_algEquiv_adicCompletion
       ((maximalIdeal A).fg_of_isNoetherianRing)
   have hker : RingHom.ker (AdicCompletion.evalOneₐ (maximalIdeal R)).toRingHom =
       maximalIdeal A := by
-    show RingHom.ker (AdicCompletion.evalOneₐ (maximalIdeal R)).toRingHom =
+    change RingHom.ker (AdicCompletion.evalOneₐ (maximalIdeal R)).toRingHom =
       maximalIdeal (AdicCompletion (maximalIdeal R) R)
     rw [AdicCompletion.ker_evalOneₐ_eq_map (maximalIdeal R)
       ((maximalIdeal R).fg_of_isNoetherianRing), AdicCompletion.maximalIdeal_eq_map]
@@ -128,20 +128,20 @@ public theorem exists_quotient_mvPowerSeries_algEquiv_adicCompletion
       commutes' := by
         intro c
         rw [MvPowerSeries.algebraMap_apply]
-        show F (MvPowerSeries.C (algebraMap k κ c)) = algebraMap k A c
+        change F (MvPowerSeries.C (algebraMap k κ c)) = algebraMap k A c
         rw [hFC]
         exact σ.commutes c }
   refine ⟨n, RingHom.ker Φ.toRingHom, ?_,
     Ideal.quotientKerAlgEquivOfSurjective hF, ?_⟩
   · intro p hp
-    show MvPowerSeries.constantCoeff p = 0
+    change MvPowerSeries.constantCoeff p = 0
     change F p = 0 at hp
     rw [← hres p, hp, map_zero]
     rfl
   · apply RingHom.ext
     intro p
     obtain ⟨q, rfl⟩ := Ideal.Quotient.mk_surjective p
-    show AdicCompletion.evalOneₐ (maximalIdeal R)
+    change AdicCompletion.evalOneₐ (maximalIdeal R)
       ((Ideal.quotientKerAlgEquivOfSurjective hF) (Ideal.Quotient.mk _ q)) =
         MvPowerSeries.constantCoeff q
     simpa [Ideal.quotientKerAlgEquivOfSurjective_mk, Φ] using hres q

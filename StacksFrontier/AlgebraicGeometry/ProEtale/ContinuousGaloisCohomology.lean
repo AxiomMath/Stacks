@@ -184,7 +184,7 @@ lemma isProDiscrete_of_quotientSystem : Stacks.ProfiniteCech.IsProDiscrete M := 
   intro f hf
   let N := quotientSystemSubgroup ρ D hopen
   obtain ⟨m, hm⟩ := hcomp (fun j ↦ (D.obj j).toSubmodule.mkQ (f (N j))) fun j j' g ↦ by
-    show (D.obj j').toSubmodule.mkQ (f (N j)) = (D.obj j').toSubmodule.mkQ (f (N j'))
+    change (D.obj j').toSubmodule.mkQ (f (N j)) = (D.obj j').toSubmodule.mkQ (f (N j'))
     rw [Submodule.mkQ_apply, Submodule.mkQ_apply, Submodule.Quotient.eq]
     exact hf (N j) (N j') (leOfHom (D.map g))
   refine ⟨m, fun N' ↦ ?_⟩
@@ -400,7 +400,7 @@ lemma profinite_hcomp (x : ∀ j, M ⧸ ((openStableDiagram ρ).obj j).toSubmodu
     {m | ((openStableDiagram ρ).obj j).toSubmodule.mkQ m = x j}
   have hC : ∀ j, C j = (fun m ↦ m - (x j).out) ⁻¹' (j.1.toSubmodule : Set M) := fun j ↦ by
     ext m
-    show ((openStableDiagram ρ).obj j).toSubmodule.mkQ m = x j ↔ _
+    change ((openStableDiagram ρ).obj j).toSubmodule.mkQ m = x j ↔ _
     conv_lhs => rw [← Quotient.out_eq (x j)]
     exact Submodule.Quotient.eq _
   have : Nonempty (OpenStable ρ) := ⟨⟨⊤, isOpen_univ⟩⟩
@@ -410,7 +410,7 @@ lemma profinite_hcomp (x : ∀ j, M ⧸ ((openStableDiagram ρ).obj j).toSubmodu
       (continuous_id.sub continuous_const)
   have hmono : ∀ k j : OpenStable ρ, k.1 ≤ j.1 → C k ⊆ C j := fun k j hkj m hm ↦ by
     have := hx k j (homOfLE (show k ≤ j from hkj))
-    show _ = x j
+    change _ = x j
     rw [← this, ← hm]
     rfl
   obtain ⟨m, hm⟩ := IsCompact.nonempty_iInter_of_directed_nonempty_isCompact_isClosed C

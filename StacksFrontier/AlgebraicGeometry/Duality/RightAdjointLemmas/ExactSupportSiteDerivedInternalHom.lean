@@ -2,7 +2,7 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.Duality.RightAdjointLemmas.ExactSupportDerivedInternalHom
 public import
-  StacksFrontier.AlgebraicGeometry.Duality.RightAdjointLemmas.ExactSupportDerivedInternalHomBifunctor
+StacksFrontier.AlgebraicGeometry.Duality.RightAdjointLemmas.ExactSupportDerivedInternalHomBifunctor
 
 /-!
 # The two forms of Stacks 0A77 are one isomorphism
@@ -39,11 +39,13 @@ arbitrary ringed site, and the ringed site of opens of a scheme is such a site. 
 [Stacks, Tag 0E2N] on the `X` side of `i` is available from the site-level theory
 **without replacing `X` by an affine open**: no localisation, no [Stacks, Tag 0A78], no ring-level
 [Stacks, Tag 0ATK]. The module documentation of
-`StacksFrontier/AlgebraicGeometry/Duality/RightAdjointLemmas/TensorHomTorAmplitude.lean` records what
+`StacksFrontier/AlgebraicGeometry/Duality/RightAdjointLemmas/TensorHomTorAmplitude.lean` records
+what
 still stands between that and the tag.
 
 Neither leg is proved here and no new mathematics is introduced: the content is that the two
-isomorphisms from the library compose, which they do because their left-hand sides are the same functor and
+isomorphisms from the library compose, which they do because their left-hand sides are the same
+functor and
 both files work at `CategoryTheory.HasDerivedCategory.standard`.
 
 ## References

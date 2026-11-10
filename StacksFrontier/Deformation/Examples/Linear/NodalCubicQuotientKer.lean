@@ -93,7 +93,7 @@ theorem exists_add_mul_zRoot (u : QOne) :
     ⟨(f %ₘ qPoly).coeff 0, (f %ₘ qPoly).coeff 1,
       Polynomial.eq_X_add_C_of_degree_le_one hdeg⟩
   refine ⟨a, b, ?_⟩
-  show AdjoinRoot.mk qPoly f = _
+  change AdjoinRoot.mk qPoly f = _
   rw [hmk, hr, map_add, map_mul]
   rw [add_comm]
   rfl

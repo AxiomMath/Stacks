@@ -45,7 +45,7 @@ theorem fromOfGlobalSections_eq_of_unit (f₁ f₂ : A →+* Γ(Y, ⊤)) (u : Γ
     toBasicOpenOfGlobalSections_eq_of_projAwayHom 𝒜 f₁ f₂ h0d hd heq.ge
       (projAwayHom_comp_of_scaling 𝒜 f₁ f₂ ((u : Γ(Y, ⊤)) ^ d) hd heq.ge (h d t hd)
         fun k p hp => by rw [h _ p hp, smul_eq_mul, ← pow_mul, mul_comm d k])
-  show (Y.basicOpen (f₂ t)).ι ≫ _ = (Y.basicOpen (f₂ t)).ι ≫ _
+  change (Y.basicOpen (f₂ t)).ι ≫ _ = (Y.basicOpen (f₂ t)).ι ≫ _
   rw [ι_comp_fromOfGlobalSections 𝒜 f₂ hf₂ h0d hd, ← key, Category.assoc,
     ← ι_comp_fromOfGlobalSections 𝒜 f₁ hf₁ h0d hd, ← Category.assoc, Scheme.homOfLE_ι]
 
@@ -72,13 +72,13 @@ theorem comp_fromOfGlobalSections {Y' : Scheme.{u}} (g : Y' ⟶ Y) (f : A →+* 
     have hv' : resTop (Y'.basicOpen (f' t)) (f' t) *
         (g.appLE _ _ he.le).hom (resTopBasicOpenInv (f t)) = 1 := by
       rw [← hstep, ← map_mul, hv, map_one]
-    show (g.appLE _ _ he.le).hom (projAwayHom 𝒜 f (Away.mk 𝒜 hd k p hp)) =
+    change (g.appLE _ _ he.le).hom (projAwayHom 𝒜 f (Away.mk 𝒜 hd k p hp)) =
       projAwayHom 𝒜 f' (Away.mk 𝒜 hd k p hp)
     rw [projAwayHom_apply_mk_of_mul_eq_one 𝒜 f hd k p hp hv,
       projAwayHom_apply_mk_of_mul_eq_one 𝒜 f' hd k p hp hv', map_mul, map_pow, appLE_resTop]
     rfl
   have key := toBasicOpenOfGlobalSections_eq_of_projAwayHom_resLE 𝒜 g f f' h0d hd he.le hψ
-  show (Y'.basicOpen (f' t)).ι ≫ g ≫ _ = (Y'.basicOpen (f' t)).ι ≫ _
+  change (Y'.basicOpen (f' t)).ι ≫ g ≫ _ = (Y'.basicOpen (f' t)).ι ≫ _
   rw [ι_comp_fromOfGlobalSections 𝒜 f' hgf h0d hd, ← key, Category.assoc,
     ← ι_comp_fromOfGlobalSections 𝒜 f hf h0d hd, ← Category.assoc (g.resLE _ _ _),
     Scheme.Hom.resLE_comp_ι, Category.assoc]
@@ -142,7 +142,7 @@ theorem chartRingHom_irrelevant (hrel : SatisfiesCubic C π s) (i : Fin 3) :
     (HomogeneousIdeal.irrelevant (gradingOf C)).toIdeal.map (chartRingHom hrel i) = ⊤ := by
   rw [Ideal.eq_top_iff_one]
   have h1 : chartRingHom hrel i (coordVar C i) = 1 := by
-    show chartRingHom hrel i (Ideal.Quotient.mk _ (MvPolynomial.X i)) = 1
+    change chartRingHom hrel i (Ideal.Quotient.mk _ (MvPolynomial.X i)) = 1
     rw [chartRingHom_mk, chartPolyHom, MvPolynomial.coe_eval₂Hom, MvPolynomial.eval₂_X,
       chartRatio_self]
   exact h1 ▸ Ideal.mem_map_of_mem _
@@ -169,7 +169,7 @@ private theorem comp_cubicChartHom_of_comp_chartPolyHom {X' : Scheme.{u}} {π' :
       (g.appTop.hom.comp (chartRingHom hrel i)) = ⊤ := by
     rw [hring]; exact chartRingHom_irrelevant _ i
   refine (comp_fromOfGlobalSections (gradingOf C) g _ _ hirr).trans ?_
-  show Proj.fromOfGlobalSections _ _ hirr = Proj.fromOfGlobalSections _ _ _
+  change Proj.fromOfGlobalSections _ _ hirr = Proj.fromOfGlobalSections _ _ _
   congr 1
 
 /-- On an overlap the two chart ring maps differ by the transition unit in each degree. -/
@@ -191,7 +191,7 @@ theorem chartRingHom_scaling (hrel : SatisfiesCubic C π s) (i j : Fin 3) (n : �
         X.Opens).toScheme, ⊤)) *
       (X.homOfLE (inf_le_right : nvCover s i ⊓ nvCover s j ≤ nvCover s j)).appTop.hom
         (chartRatio s j k) := funext fun k => chartRatio_agree s i j k
-  show MvPolynomial.eval₂ _ (fun k => _) P = _
+  change MvPolynomial.eval₂ _ (fun k => _) P = _
   rw [hfun]
   exact eval₂_of_isHomogeneous _ _ _ ((MvPolynomial.mem_homogeneousSubmodule _ _).mp hP)
 
@@ -240,13 +240,13 @@ theorem eq_toSpecΓ_comp_SpecMap {Y : Scheme.{u}} {S : CommRingCat.{u}} (g : Y �
 theorem cubicHomOfSections_projectionOf (hrel : SatisfiesCubic C π s)
     (hcov : IsOpenCover (nvCover s)) : cubicHomOfSections hrel hcov ≫ projectionOf C = π := by
   refine (X.openCoverOfIsOpenCover (nvCover s) hcov).hom_ext _ _ fun (i : Fin 3) => ?_
-  show (nvCover s i).ι ≫ cubicHomOfSections hrel hcov ≫ projectionOf C = (nvCover s i).ι ≫ π
+  change (nvCover s i).ι ≫ cubicHomOfSections hrel hcov ≫ projectionOf C = (nvCover s i).ι ≫ π
   rw [← Category.assoc, ι_cubicHomOfSections]
   have hring : ((chartRingHom hrel i).comp (algebraMap (gradingOf C 0) (coordRingOf C))).comp
       (toGradingZeroOf C) = openBase π (nvCover s i) := by
     ext a
     simp [toGradingZeroOf, chartPolyHom]
-  show Proj.fromOfGlobalSections (gradingOf C) (chartRingHom hrel i)
+  change Proj.fromOfGlobalSections (gradingOf C) (chartRingHom hrel i)
       (chartRingHom_irrelevant hrel i) ≫ Proj.toSpecZero (gradingOf C) ≫
       Spec.map (CommRingCat.ofHom (toGradingZeroOf C)) = _
   rw [Proj.fromOfGlobalSections_toSpecZero_assoc, ← Spec.map_comp, ← CommRingCat.ofHom_comp,
@@ -284,7 +284,7 @@ theorem chartRestrict_appTop_chartRatio (i k : Fin 3) :
   rw [chartRatio, chartRatio, h, ← Stacks.RatioPullback.resO_ratio_pullbackGlobalSections g L s i k
     le_rfl (nvCover_pullbackFamily s g i).le]
   congr 1
-  show (Y.presheaf.map (𝟙 _)) _ = _
+  change (Y.presheaf.map (𝟙 _)) _ = _
   rw [CategoryTheory.Functor.map_id]
   rfl
 
@@ -330,7 +330,7 @@ theorem comp_cubicHomOfSections (hrel : SatisfiesCubic C π s) (hcov : IsOpenCov
         (isOpenCover_pullbackFamily (g := g) hcov) := by
   refine (Y.openCoverOfIsOpenCover _ (isOpenCover_pullbackFamily (g := g) hcov)).hom_ext _ _
     fun (i : Fin 3) => ?_
-  show (nvCover (pullbackFamily s g) i).ι ≫ g ≫ cubicHomOfSections hrel hcov =
+  change (nvCover (pullbackFamily s g) i).ι ≫ g ≫ cubicHomOfSections hrel hcov =
     (nvCover (pullbackFamily s g) i).ι ≫ cubicHomOfSections _ _
   rw [ι_cubicHomOfSections, ← Category.assoc, ← Scheme.Hom.resLE_comp_ι g
     (nvCover_pullbackFamily s g i).le, Category.assoc, ι_cubicHomOfSections]
@@ -356,7 +356,7 @@ theorem fromOfGlobalSections_comp_mapMap {Y : Scheme.{u}} (f : coordRingOf (C.ma
   refine (Proj.openCoverOfMapIrrelevantEqTop (gradingOf C) _ hfφ).hom_ext _ _ fun c => ?_
   obtain ⟨d, t, h0d, hd⟩ := c
   have hφt : mapHom C φ t ∈ gradingOf (C.map φ) d := (mapHom C φ).2 hd
-  show (Y.basicOpen (f (mapHom C φ t))).ι ≫ Proj.fromOfGlobalSections (gradingOf (C.map φ)) f hf ≫
+  change (Y.basicOpen (f (mapHom C φ t))).ι ≫ Proj.fromOfGlobalSections (gradingOf (C.map φ)) f hf ≫
       Proj.map (mapHom C φ) (irrelevant_le_map_mapHom C φ) =
     (Y.basicOpen (f (mapHom C φ t))).ι ≫ Proj.fromOfGlobalSections (gradingOf C) _ hfφ
   refine Eq.trans ?_ (ι_comp_fromOfGlobalSections (gradingOf C) _ hfφ h0d hd).symm
@@ -413,7 +413,7 @@ theorem cubicHomOfSections_comp_mapMap (π' : X ⟶ Spec (.of S))
     (hrel' : SatisfiesCubic (C.map φ) π' s) (hcov : IsOpenCover (nvCover s)) :
     cubicHomOfSections hrel' hcov ≫ mapMap C φ = cubicHomOfSections hrel hcov := by
   refine (X.openCoverOfIsOpenCover (nvCover s) hcov).hom_ext _ _ fun (i : Fin 3) => ?_
-  show (nvCover s i).ι ≫ cubicHomOfSections hrel' hcov ≫ mapMap C φ =
+  change (nvCover s i).ι ≫ cubicHomOfSections hrel' hcov ≫ mapMap C φ =
     (nvCover s i).ι ≫ cubicHomOfSections hrel hcov
   rw [← Category.assoc, ι_cubicHomOfSections, ι_cubicHomOfSections]
   have hring : (chartRingHom hrel' i).comp
@@ -424,7 +424,7 @@ theorem cubicHomOfSections_comp_mapMap (π' : X ⟶ Spec (.of S))
     rw [hring]; exact chartRingHom_irrelevant hrel i
   refine (fromOfGlobalSections_comp_mapMap (C := C) φ _ (chartRingHom_irrelevant hrel' i)
     hirr).trans ?_
-  show Proj.fromOfGlobalSections _ _ hirr = Proj.fromOfGlobalSections _ _ _
+  change Proj.fromOfGlobalSections _ _ hirr = Proj.fromOfGlobalSections _ _ _
   congr 1
 
 /-- The chart ring maps of `C.map φ` over `π'` and of `C` over `π = π' ≫ Spec φ` agree on the
@@ -585,7 +585,7 @@ theorem cubicHomOfSections_iso (hrel : SatisfiesCubic C π s) (hcov : IsOpenCove
       cubicHomOfSections hrel hcov := by
   refine (X.openCoverOfIsOpenCover _ (isOpenCover_iso e hs hcov)).hom_ext _ _
     fun (i : Fin 3) => ?_
-  show (nvCover s' i).ι ≫ _ = (nvCover s' i).ι ≫ _
+  change (nvCover s' i).ι ≫ _ = (nvCover s' i).ι ≫ _
   rw [ι_cubicHomOfSections, ← Scheme.homOfLE_ι X (nvCover_iso e hs i).le, Category.assoc,
     ι_cubicHomOfSections]
   exact (comp_cubicChartHom_of_comp_chartPolyHom hrel (satisfiesCubic_iso e hs hrel) i _

@@ -105,7 +105,7 @@ theorem surjective_limitLift_cycles_of_isAlgebraizationIdeal (hA : IsAdicComplet
   let w' : ToType ((cechCyclesOneFunctor g).obj MC) := w
   refine ⟨w', Concrete.limit_ext _ _ _ fun n => ?_⟩
   induction n using Opposite.rec with | op n => ?_
-  show ConcreteCategory.hom (limit.lift L ((cechCyclesOneFunctor g).mapCone
+  change ConcreteCategory.hom (limit.lift L ((cechCyclesOneFunctor g).mapCone
     (idealPowerQuotientCone.{u, u} I MC)) ≫ limit.π L (op n)) w' = _
   rw [limit.lift_π]
   exact hw n
@@ -139,7 +139,7 @@ theorem serreOneAlternativeComparison : SerreOneAlternativeComparison.{u} := by
     exists_comparisonAt_eq_of_surjective_lift e' _ (cechCyclesOneFunctor g)
       (sectionsComplementCechCyclesIso hJ₀.le hg) (fun x hx => ?_)
       (surjective_limitLift_cycles_of_isAlgebraizationIdeal h.adicComplete hJ₀ g hg) s
-  show ¬ J₀ ≤ x.1.asIdeal
+  change ¬ J₀ ≤ x.1.asIdeal
   intro hJ
   have hmem : x.1 ∈ PrimeSpectrum.zeroLocus (J₀ : Set A) ∩
       PrimeSpectrum.zeroLocus (I : Set A) :=

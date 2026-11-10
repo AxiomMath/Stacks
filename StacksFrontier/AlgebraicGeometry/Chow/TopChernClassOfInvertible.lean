@@ -113,7 +113,7 @@ theorem bivariantConnectedComponentRestriction_eq_of_idRule_eq {p : ℤ}
       bivariantConnectedComponentRestriction C (gysinSystemOfInvertible C) sX sX (𝟙 X)
         (Category.id_comp sX) p (gysinSystemOfInvertible_isNaturalUnderOpenImmersion C) d i := by
   refine BivariantClass.ext C _ _ _ _ _ p fun {T} g _ k β ↦ ?_
-  show bivariantPieceRestrictionCap C _ sX sX (𝟙 X) (Category.id_comp sX) p _ _ _ _ i c g k β =
+  change bivariantPieceRestrictionCap C _ sX sX (𝟙 X) (Category.id_comp sX) p _ _ _ _ i c g k β =
     bivariantPieceRestrictionCap C _ sX sX (𝟙 X) (Category.id_comp sX) p _ _ _ _ i d g k β
   rw [bivariantPieceRestrictionCap_apply, bivariantPieceRestrictionCap_apply]
   refine congrArg _ ?_
@@ -186,9 +186,9 @@ theorem idRule_topChernTotalClass_of_mem (s p : ℕ) {T : Scheme.{u}} (m : T ⟶
   rw [res_topChernTotalClass_rankLocus]
   by_cases hp : p = s
   · subst hp
-    rw [if_pos rfl, if_pos rfl]
+    rw [ite_eq_left rfl, ite_eq_left rfl]
     exact hres _
-  · rw [if_neg hp, if_neg hp, BivariantClass.idRule_zero]
+  · rw [ite_eq_right hp, ite_eq_right hp, BivariantClass.idRule_zero]
     exact hzero _ (by rw [← hfac, Category.assoc])
 
 /-- **The top Chern class in degree `s` over the locus of rank `s`** operates by the cap product
@@ -202,7 +202,7 @@ theorem idRule_topChernTotalClass_self (s : ℕ) {T : Scheme.{u}} (m : T ⟶ X)
     (topChernTotalClass C sX E s).idRule C sX (gysinSystemOfInvertible C) m k α =
       GenuineChern.chernCap C s (m ≫ sX) ((Scheme.Modules.pullback m).obj E) k (Fin.last s)
         α := by
-  rw [idRule_topChernTotalClass_of_mem C sX E s s m hm k α, if_pos rfl,
+  rw [idRule_topChernTotalClass_of_mem C sX E s s m hm k α, ite_eq_left rfl,
     ← TotalChowClass.op_apply, op_totalChernOfFiniteLocallyFree_of_rank C sX E m s,
     GenuineChern.chernFamily, chernCapFamilyOnChow_of_le _ _ _ _ _ _ le_rfl]
   rfl
@@ -213,7 +213,7 @@ theorem idRule_topChernTotalClass_of_ne (s p : ℕ) (hp : p ≠ s) {T : Scheme.{
     [LocallyOfFiniteType m] (hm : ∀ t : T, m.base t ∈ rankLocus E s) (k : ℤ)
     (α : chowGroup C (m ≫ sX) k) :
     (topChernTotalClass C sX E p).idRule C sX (gysinSystemOfInvertible C) m k α = 0 := by
-  rw [idRule_topChernTotalClass_of_mem C sX E s p m hm k α, if_neg hp]
+  rw [idRule_topChernTotalClass_of_mem C sX E s p m hm k α, ite_eq_right hp]
 
 /-- **The cap product with the top Chern class, in degree `e`**, on the Chow groups of `X`: the
 operation `CH_k(X) ⟶ CH_{k-e}(X)` of the degree-`e` component of `c_top(E)`. It is the cap
@@ -308,7 +308,7 @@ theorem topChernClassOfInvertible_rankStratum (i : _root_.ConnectedComponents X)
           i := by
   refine ⟨Scheme.Modules.connectedComponentOpens_le_rankStratum E i, ?_⟩
   rw [topChernClassOfInvertible, DirectSum.of_eq_same,
-    bivariantConnectedComponentRestriction_topChernTotalClass, if_pos rfl]
+    bivariantConnectedComponentRestriction_topChernTotalClass, ite_eq_left rfl]
 
 /-- The top Chern class has no component in a degree other than the rank: on a connected component
 on which `E` has rank `r`, the degree-`p` part of `c_top(E)` vanishes for every `p ≠ r`. -/
@@ -367,8 +367,8 @@ theorem topChernClassDegreeOfInvertible_natCast (p : ℕ) :
     bivariantConnectedComponentRestriction_topChernTotalClass]
   by_cases hp : p = Scheme.Modules.rankOnConnectedComponent E i
   · subst hp
-    rw [if_pos rfl, (topChernClassOfInvertible_rankStratum C sX E i).2]
-  · rw [if_neg hp, topChernClassOfInvertible_of_ne_rank C sX E i p (by exact_mod_cast hp)]
+    rw [ite_eq_left rfl, (topChernClassOfInvertible_rankStratum C sX E i).2]
+  · rw [ite_eq_right hp, topChernClassOfInvertible_of_ne_rank C sX E i p (by exact_mod_cast hp)]
 
 /-- The cap product with the top Chern class in degree `e` is the operation of the degree-`e`
 part of the completed top Chern class on the identity test scheme. -/

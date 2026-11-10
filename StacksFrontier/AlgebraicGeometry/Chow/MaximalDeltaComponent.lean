@@ -90,7 +90,7 @@ private theorem schemeDeltaDimension_le_sub_one_aux (C : ChowSituation.{u})
           isClosed_of_mem_irreducibleComponents (V : Set Y) V.2⟩ : EInt)) ⟨T, hT⟩
     have hle' := WithBotTop.coe_le_coe.mp hle
     rwa [deltaDimension_eq_of_isGenericPoint C p _ _ hgenT] at hle'
-  show relativeDimension C.dimensionFunction (i ≫ p) W.2.1.genericPoint ≤ n - 1
+  change relativeDimension C.dimensionFunction (i ≫ p) W.2.1.genericPoint ≤ n - 1
   have hcomp :=
     relativeDimension_comp_closedImmersion C.dimensionFunction i p W.2.1.genericPoint
   omega

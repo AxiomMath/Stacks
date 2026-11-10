@@ -45,7 +45,7 @@ public theorem exists_residueDerivation_of_eq_zero_on_maximalIdeal
     · rw [D.leibniz]
       rfl
     · rw [D.leibniz, D.map_algebraMap, smul_zero, add_zero]
-      show residueHom R (algebraMap Λ R a) * D x = _
+      change residueHom R (algebraMap Λ R a) * D x = _
       rw [(residueHom R).commutes]
   have hker : ∀ a : R, residueHom R a = 0 → a ∈ maximalIdeal R := by
     intro a h
@@ -54,7 +54,7 @@ public theorem exists_residueDerivation_of_eq_zero_on_maximalIdeal
     exact h
   have hsurj : Function.Surjective (residueHom R) := fun x =>
     ⟨(IsLocalRing.residue_surjective (R.residueEquiv.symm x)).choose, by
-      show R.residueEquiv (IsLocalRing.residue R _) = x
+      change R.residueEquiv (IsLocalRing.residue R _) = x
       rw [(IsLocalRing.residue_surjective (R.residueEquiv.symm x)).choose_spec,
         R.residueEquiv.apply_symm_apply]⟩
   have hwd : ∀ a b : R, residueHom R a = residueHom R b → D a = D b := by
@@ -80,11 +80,11 @@ public theorem exists_residueDerivation_of_eq_zero_on_maximalIdeal
       hwd _ _ (by rw [hs, map_mul, (residueHom R).commutes, hs])
     rw [h1, hscal]
     rfl
-  · show D (s 1) = 0
+  · change D (s 1) = 0
     have h1 : D (s 1) = D 1 := hwd _ _ (by rw [hs, map_one])
     rw [h1, hone]
   · intro x y
-    show D (s (x * y)) = x • D (s y) + y • D (s x)
+    change D (s (x * y)) = x • D (s y) + y • D (s x)
     have h1 : D (s (x * y)) = D (s x * s y) := hwd _ _ (by rw [hs, map_mul, hs, hs])
     rw [h1, hleib, hs, hs]
     simp only [smul_eq_mul]

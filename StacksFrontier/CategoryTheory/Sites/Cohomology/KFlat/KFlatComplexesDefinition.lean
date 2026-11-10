@@ -14,7 +14,7 @@ complex `Tot(F ⊗_O K)` is acyclic for every acyclic complex `F` of `O`-modules
 
 ## Main definitions
 
-* `Stacks.SheafOfModules.KFlat.KFlat`: K-flatness of a complex of sheaves of `O`-modules.
+* `Stacks.SheafOfModules.KFlat`: K-flatness of a complex of sheaves of `O`-modules.
 
 ## Main results
 
@@ -94,7 +94,7 @@ variable [(Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, _, w, w} R).Additive]
 when the total tensor complex `Tot(F ⊗_O K)` is acyclic for every acyclic cochain complex `F`
 of sheaves of `O`-modules. -/
 @[stacks 06YN]
-abbrev KFlat
+abbrev _root_.Stacks.SheafOfModules.KFlat
     (K : CochainComplex (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R)) ℤ) :
       Prop :=
   ∀ F : CochainComplex (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R)) ℤ,

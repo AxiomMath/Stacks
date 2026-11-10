@@ -169,8 +169,8 @@ def derivedSectionsChaoticIso (x : AffineCategory B S hS 𝒳.val.val.p) :
       (HomotopyCategory.quasiIso (SheafOfModules.{u + 1} O) (ComplexShape.up ℤ)) := by
     refine Stacks.Cohomology.UnboundedComplexes.isRightDerivedFunctor_of_isIso_app_isKInjective
       _ DerivedCategory.Qh G β fun I hI => ?_
-    haveI := hI
-    haveI : CochainComplex.IsKInjective ((Φ₀.mapHomologicalComplex (ComplexShape.up ℤ)).obj I) :=
+    have := hI
+    have : CochainComplex.IsKInjective ((Φ₀.mapHomologicalComplex (ComplexShape.up ℤ)).obj I) :=
       Stacks.Injectives.isKInjective_mapHomologicalComplex_of_isEquivalence _ I
     have h3 : IsIso ((derivedEpsilonPushforwardUnit.{u + 1} R').app
         ((HomotopyCategory.quotient _ (ComplexShape.up ℤ)).obj
@@ -301,7 +301,7 @@ theorem hasAffineDerivedSectionsBaseChange_derivedModuleLowerShriekSucc_schemeSt
       (fun Y f => ObjectProperty.hom_ext _ ((Over.mkIdTerminal (X := X)).hom_ext _ _))
   have hξf : flatObject B S hS 𝒴.val ξ.obj :=
     (flatObject_schemeStack_iff.{u, w} B S hS X ξ.obj).2 (by
-      show Flat ((BigFppfOver.toScheme B S hS).map (𝟙 X))
+      change Flat ((BigFppfOver.toScheme B S hS).map (𝟙 X))
       have : AlgebraicGeometry.IsOpenImmersion ((BigFppfOver.toScheme B S hS).map (𝟙 X)) :=
         inferInstance
       infer_instance)

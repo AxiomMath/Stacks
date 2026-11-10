@@ -188,7 +188,7 @@ private lemma actionEnd_one {Λ : Type u} {k : Type w} {Γ : Type*}
     (X : FiniteProjectiveRepresentation.{u, v, w, m} Λ k Γ) :
     actionEnd X 1 = 𝟙 (forgetAction.obj X) := by
   refine FiniteProjectiveRepresentation.Hom.ext ?_ ?_
-  · show 𝟙 _ = _; simp
+  · change 𝟙 _ = _; simp
   exact congrArg LinearMap.toAddMonoidHom (map_one X.action)
 
 private lemma actionEnd_mul {Λ : Type u} {k : Type w} {Γ : Type*}
@@ -196,7 +196,7 @@ private lemma actionEnd_mul {Λ : Type u} {k : Type w} {Γ : Type*}
     (X : FiniteProjectiveRepresentation.{u, v, w, m} Λ k Γ) (γ δ : Γ) :
     actionEnd X (γ * δ) = actionEnd X δ ≫ actionEnd X γ := by
   refine FiniteProjectiveRepresentation.Hom.ext ?_ ?_
-  · show 𝟙 _ = _; simp
+  · change 𝟙 _ = _; simp
   exact congrArg LinearMap.toAddMonoidHom (map_mul X.action γ δ)
 
 private lemma actionEnd_naturality {Λ : Type u} {k : Type w} {Γ : Type*}
@@ -204,7 +204,7 @@ private lemma actionEnd_naturality {Λ : Type u} {k : Type w} {Γ : Type*}
     {X Y : FiniteProjectiveRepresentation.{u, v, w, m} Λ k Γ} (f : X ⟶ Y) (γ : Γ) :
     actionEnd X γ ≫ forgetAction.map f = forgetAction.map f ≫ actionEnd Y γ := by
   refine FiniteProjectiveRepresentation.Hom.ext ?_ ?_
-  · show 𝟙 _ ≫ f.base = f.base ≫ 𝟙 _; simp
+  · change 𝟙 _ ≫ f.base = f.base ≫ 𝟙 _; simp
   ext x
   exact f.equivariant γ x
 
@@ -364,10 +364,10 @@ private lemma modulePullback_of_residueEquiv {Λ : Type u} {k : Type w} {k' : Ty
     (IsPullback.of_isLimit hb).of_iso' (moduleProjection.mapIso i)
       (Iso.refl _) (Iso.refl _) (Iso.refl _)
       (by
-        show i.hom.base ≫ c.fst.base = (F.map l₁).base
+        change i.hom.base ≫ c.fst.base = (F.map l₁).base
         exact (congrArg (fun f => f.base) he₁).symm)
       (by
-        show i.hom.base ≫ c.snd.base = (F.map l₂).base
+        change i.hom.base ≫ c.snd.base = (F.map l₂).base
         exact (congrArg (fun f => f.base) he₂).symm)
       (by simp; rfl) (by simp; rfl)
   exact (hm'.of_map_of_faithful (changeResidueBase ε)).isLimit
@@ -487,10 +487,10 @@ private lemma liftRepresentationPullback {Λ : Type u} {k : Type w} {Γ : Type*}
     hc.fac _ WalkingCospan.right
   have hbase (γ : Γ) : (a γ).base = 𝟙 c.pt.base := by
     apply PullbackCone.IsLimit.hom_ext hb
-    · show (a γ).base ≫ c.fst.base = 𝟙 c.pt.base ≫ c.fst.base
+    · change (a γ).base ≫ c.fst.base = 𝟙 c.pt.base ≫ c.fst.base
       simpa only [module_comp_base, Category.comp_id, Category.id_comp] using
         congrArg (fun f => f.base) (ha₁ γ)
-    · show (a γ).base ≫ c.snd.base = 𝟙 c.pt.base ≫ c.snd.base
+    · change (a γ).base ≫ c.snd.base = 𝟙 c.pt.base ≫ c.snd.base
       simpa only [module_comp_base, Category.comp_id, Category.id_comp] using
         congrArg (fun f => f.base) (ha₂ γ)
   have hone : a 1 = 𝟙 c.pt := by

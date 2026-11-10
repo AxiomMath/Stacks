@@ -72,7 +72,7 @@ theorem isBaseChange_degreeZero_atPrime (hf : f ∈ 𝒜 1) :
   have : IsScalarTower B T Mp := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   have : IsScalarTower B Af Mp := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
   have : IsScalarTower S Af Mp := IsScalarTower.of_algebraMap_smul fun r m => by
-    show algebraMap Af T (algebraMap S Af r) • m = r • m
+    change algebraMap Af T (algebraMap S Af r) • m = r • m
     rw [← IsScalarTower.algebraMap_apply, algebraMap_smul]
   have hle : Submonoid.powers f ≤ p.primeCompl := (Submonoid.powers_le (P := p.primeCompl)).2 hp
   let h₀ : Mf →ₗ[S] Mp := IsLocalizedModule.liftOfLE (Submonoid.powers f) p.primeCompl hle

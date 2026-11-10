@@ -111,7 +111,8 @@ def coindRelSum (M : Stacks.Injectives.ContinuousModule.{u, v, max u v} R G) :
   (Stacks.GroupCohomology.homEquiv R G ((coind.{u, v, 0} R H').obj M)
       ((coind.{u, v, 0} R H).obj M)).symm
     ⟨coindRelSumLinearMap R h M.obj.obj.V, fun g f ↦ by
-      change coindRelSumLinearMap R h M.obj.obj.V (fun y ↦ (M.obj.obj.ρ g).asHom.hom (f (g⁻¹ • y))) =
+      change coindRelSumLinearMap R h M.obj.obj.V
+          (fun y ↦ (M.obj.obj.ρ g).asHom.hom (f (g⁻¹ • y))) =
         fun x ↦ (M.obj.obj.ρ g).asHom.hom (coindRelSumLinearMap R h M.obj.obj.V f (g⁻¹ • x))
       funext x
       exact coindRelSumLinearMap_translate R h _ g (M.obj.obj.ρ g).asHom.hom f x⟩

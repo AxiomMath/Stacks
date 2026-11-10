@@ -71,7 +71,8 @@ The source deduces (4) → (2) by shrinking a zero-dimensional open neighbourhoo
 basic open `D(g)`, observing that `S_g` is then artinian and that `Spec S_g` is therefore finite
 and discrete. The route taken here is purely topological and reaches (5) instead of (2): in a
 `T0` space of Krull dimension at most `0` the specialization order is trivial
-(`Stacks.Topology.Dimension.eq_of_specializes_of_topologicalKrullDim_le_zero`), and a Jacobson space has closed points in
+(`Stacks.Topology.Dimension.eq_of_specializes_of_topologicalKrullDim_le_zero`), and a Jacobson
+space has closed points in
 every nonempty locally closed subset, so a point at which a `T0` Jacobson space has dimension
 `0` is a closed point minimal for specialization
 (`isClosed_singleton_and_forall_specializes_of_topologicalKrullDimAt_le_zero`). Since `Spec S` is
@@ -142,7 +143,8 @@ private theorem isClosed_singleton_and_forall_specializes_of_topologicalKrullDim
   obtain ⟨⟨U, hxU, hU, hdim⟩, -⟩ := topologicalKrullDimAt_isLeast X x
   have hU0 : topologicalKrullDim ↥U ≤ 0 := hdim ▸ h
   have key : ∀ y ∈ U, ∀ z ∈ U, y ⤳ z → y = z := fun y hy z hz hyz ↦
-    congrArg Subtype.val (Stacks.Topology.Dimension.eq_of_specializes_of_topologicalKrullDim_le_zero hU0
+    congrArg Subtype.val
+      (Stacks.Topology.Dimension.eq_of_specializes_of_topologicalKrullDim_le_zero hU0
       (X := ↥U) (x := ⟨y, hy⟩) (y := ⟨z, hz⟩)
       (Topology.IsInducing.subtypeVal.specializes_iff.mp hyz))
   have hgen : ∀ y, y ⤳ x → y ∈ U := fun y hy ↦ by

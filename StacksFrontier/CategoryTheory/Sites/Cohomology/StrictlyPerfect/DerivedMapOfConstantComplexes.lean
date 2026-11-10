@@ -442,7 +442,7 @@ theorem exists_cover_overPullback_map_eq_constantSheaf_map
       p.1.1) (fun p => p.1.2) ⟨⟨Y, k⟩, hk⟩) hR, ?_⟩
   rintro ⟨⟨Y, k⟩, hk⟩
   obtain ⟨Z, h, f, hf, hh, -⟩ := id hk
-  show ∃ α : K ⟶ L, (J.overPullback (ModuleCat.{u} Λ) Y).mapDerivedCategory.map φ = _
+  change ∃ α : K ⟶ L, (J.overPullback (ModuleCat.{u} Λ) Y).mapDerivedCategory.map φ = _
   obtain ⟨g, hgn⟩ := hg Z f hf h hh
   refine ⟨eK.hom ≫ DerivedCategory.Q.map g ≫ eL.hom, ?_⟩
   have hroof : (J.overPullback (ModuleCat.{u} Λ) Y).mapDerivedCategory.map ψ =

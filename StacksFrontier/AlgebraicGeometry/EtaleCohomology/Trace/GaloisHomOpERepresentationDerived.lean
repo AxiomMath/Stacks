@@ -85,7 +85,7 @@ def galoisHomOpERepresentationDerivedIso [ConnectedSpace X.1] (x : GeometricPoin
     (Iso.refl _) hG' _ hω K₀.cocomplex K₀.ι (hι₀ := K₀.quasiIso) (natCast_eq_zero_of_zmodAlgebra Λ)
     rfl I _ rfl
 
-omit [CompactSpace (kbar ≃ₐ[k] kbar)] [Algebra (ZMod n) Λ]
+omit [Smooth f] [CompactSpace (kbar ≃ₐ[k] kbar)] [Algebra (ZMod n) Λ]
   [HasDerivedCategory.{w₁} (EtaleModules.{u, 0} Λᵐᵒᵖ (Over.mk f).left)]
   [HasDerivedCategory.{w₂} (GaloisModules Λᵐᵒᵖ k kbar)]
   [HasDerivedCategory.{w₃} (EtaleModules.{u, 0} Λᵐᵒᵖ (fieldBaseChange (Over.mk f) kbar))]

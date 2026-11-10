@@ -131,7 +131,7 @@ lemma isCompactObject_of_small_nonzero_index {K : D} (hK : IsCompactObject.{w'} 
   classical
   constructor
   intro I _ E _
-  show Function.Bijective (cofanMap K (Limits.Sigma.ι E))
+  change Function.Bijective (cofanMap K (Limits.Sigma.ι E))
   refine ⟨injective_cofanMap K _ (coproductIsCoproduct E), fun f => ?_⟩
   have := h E
   set p : I → Prop := fun i => ¬ IsZero (E i)

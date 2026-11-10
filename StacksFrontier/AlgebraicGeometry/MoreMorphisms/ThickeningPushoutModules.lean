@@ -679,9 +679,9 @@ private theorem over_isFinitePresentation_of_finite_global
   constructor
   intro j
   refine ⟨⟨?_⟩, ⟨?_⟩⟩
-  · show Finite Q.generators.I
+  · change Finite Q.generators.I
     exact hQ.isFiniteType_generators.finite
-  · show Finite Q.relations.I
+  · change Finite Q.relations.I
     exact hQ.isFiniteType_relations.finite
 
 /-- Finite presentation is local: a module of finite presentation on each member of a covering
@@ -780,7 +780,7 @@ private theorem flat_restrictScalars_ringEquiv
   let : Module R M := Module.compHom M φ
   let : Module S M := Module.compHom M (φ.comp e.toRingHom)
   let : IsScalarTower S R M := ⟨fun s r m ↦ by
-    show (φ (e s * r)) • m = φ (e s) • (φ r • m)
+    change (φ (e s * r)) • m = φ (e s) • (φ r • m)
     rw [map_mul, mul_smul]⟩
   let eL : S ≃ₗ[S] R := LinearEquiv.ofBijective (Algebra.linearMap S R) e.bijective
   let : Module.Flat S R := Module.Flat.of_linearEquiv eL.symm
@@ -1028,13 +1028,13 @@ private theorem moduleFinitePresentation_of_affine_fibreProduct_baseChange
   let fromD'' : D'' →+* D' := φ.toRingHom
   have hfac : fromD''.comp toD'' = s.toD' := by
     ext r
-    show φ (algebraMap base.fibreProduct D'' r) = s.toD' r
+    change φ (algebraMap base.fibreProduct D'' r) = s.toD' r
     exact φ.commutes r
   have hD''flat : @Module.Flat base.fibreProduct D'' _ _ (Module.compHom D'' toD'') := by
     have hmod : Module.compHom D'' toD'' = AddMonoidAlgebra.instModule :=
       Module.ext' (Module.compHom D'' toD'') AddMonoidAlgebra.instModule
         (fun r x ↦ by
-          show @SMul.smul base.fibreProduct D''
+          change @SMul.smul base.fibreProduct D''
               (Module.compHom D'' toD'').toDistribMulAction.toSMul r x =
             @SMul.smul base.fibreProduct D''
               AddMonoidAlgebra.instModule.toDistribMulAction.toSMul r x

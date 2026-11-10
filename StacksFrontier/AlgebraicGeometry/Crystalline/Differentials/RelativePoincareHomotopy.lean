@@ -220,7 +220,7 @@ theorem relativeFormsRetraction_decompositionGenerator_succ (i j n : ℕ)
         (dividedPowerPolynomialFormsEquiv A B W n
           (decompositionGenerator A B W i (j + 1) n hij L J omega)) = 0 := by
     rw [dividedPowerPolynomialFormsEquiv_decompositionGenerator, lof_eq_lof,
-      DirectSum.component.of, dif_neg hne]
+      DirectSum.component.of, dite_eq_right hne]
   simp only [relativeFormsRetraction, LinearMap.coe_comp, Function.comp_apply,
     LinearMap.coe_restrictScalars, LinearEquiv.coe_coe, hcomp, LinearEquiv.map_zero,
     LinearMap.map_zero]
@@ -287,7 +287,7 @@ theorem sectorGenerator_zero_zero (n : ℕ) (v : Fin 0 → W)
     sectorGenerator A B W (0 : W →₀ ℕ) n omega 0 v = coefficientFormsMap A B W n omega := by
   have hmono : dividedPowerPolynomialMonomial (B : Type uB) (0 : W →₀ ℕ) = 1 := by
     simp [dividedPowerPolynomialMonomial]
-  show dividedPowerPolynomialMonomial (B : Type uB) (0 : W →₀ ℕ) •
+  change dividedPowerPolynomialMonomial (B : Type uB) (0 : W →₀ ℕ) •
       exteriorPower.wedgeMul n 0 (coefficientFormsMap A B W n omega)
         (variableWedge A B W 0 v) = _
   rw [hmono, one_smul, wedgeMul_variableWedge_zero]

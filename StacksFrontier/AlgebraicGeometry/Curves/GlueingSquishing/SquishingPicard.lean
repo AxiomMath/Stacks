@@ -148,7 +148,7 @@ private theorem snd_eq_zero_of_isIntegralElem {k A : Type u} [Field k] [CommRing
     { ρ with commutes' := fun c => (congrArg ρ (halg c)).trans (hσρ c) }
   have hφ : ∀ x : A, φ x = ρ x := fun _ => rfl
   have hint : IsIntegral k a := by
-    show (algebraMap k A).IsIntegralElem a
+    change (algebraMap k A).IsIntegralElem a
     rwa [RingHom.algebraMap_toAlgebra]
   have hq : Squarefree (minpoly k a) :=
     (minpoly.isRadical k a).squarefree (minpoly.ne_zero hint)
@@ -222,7 +222,7 @@ private theorem comp_globalSectionsToDualNumber {k : Type u} [Field k] {X' : Sch
         Scheme.stalkClosedPointTo θ =
       CommRingCat.ofHom (algebraMap k (DualNumber k)) := by
     rw [step, key, ← Category.assoc, Iso.inv_hom_id, Category.id_comp]
-  show ((Scheme.ΓSpecIso (.of k)).inv ≫ (X' ↘ Spec (.of k)).appTop ≫
+  change ((Scheme.ΓSpecIso (.of k)).inv ≫ (X' ↘ Spec (.of k)).appTop ≫
     X'.presheaf.germ ⊤ (θ.base (IsLocalRing.closedPoint (DualNumber k))) trivial ≫
       Scheme.stalkClosedPointTo θ).hom c = _
   rw [main]
@@ -247,7 +247,7 @@ theorem epsilonCoefficientAt_eq_zero_of_isProper_of_isReduced
   obtain ⟨-, -, -, -, -, -, hθ, -⟩ := h
   have hint := Stacks.AlgebraicGeometry.ProperGeomConnected.isIntegral_toSpecΓ_algebraMap
     (k := k) (X' ↘ Spec (.of k))
-  show (globalSectionsToDualNumber θ s).snd = 0
+  change (globalSectionsToDualNumber θ s).snd = 0
   exact snd_eq_zero_of_isIntegralElem _ (globalSectionsToDualNumber θ)
     (comp_globalSectionsToDualNumber θ hθ) (hint s)
 

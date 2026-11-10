@@ -124,7 +124,7 @@ theorem zeroHom_polyGradedHom_comp
   rw [RingHom.comp_apply, RingHom.comp_apply, RingHom.comp_apply, coe_zeroHom_apply, hCr,
     projZeroRingHom'_coe_of_mem _ hmem,
     projZeroRingHom'_coe_of_mem _ (A.strHom_mem V r)]
-  show MvPolynomial.aeval x (MvPolynomial.C r) = _
+  change MvPolynomial.aeval x (MvPolynomial.C r) = _
   rw [MvPolynomial.aeval_C]
   exact hC r
 

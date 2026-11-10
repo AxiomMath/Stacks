@@ -367,7 +367,7 @@ def doubleShortComplexMap :
         Functor.mapCochainComplexSingleFunctor, singleMapHomologicalComplex_hom_app_self,
         single_map_f_self, mkHomFromSingle_f, doubleIdMap_f₁,
         Functor.map_comp, assoc,
-        Iso.map_inv_hom_id_assoc, Iso.inv_hom_id_assoc]
+        Iso.inv_hom_id_map_assoc, Iso.inv_hom_id_assoc]
   comm₂₃ := by
     apply to_single_hom_ext
     simp only [ShortComplex.map_X₂, ShortComplex.map_X₃, ShortComplex.map_g,
@@ -375,7 +375,7 @@ def doubleShortComplexMap :
       Functor.mapCochainComplexSingleFunctor, singleMapHomologicalComplex_hom_app_self,
       single_map_f_self, mkHomFromDouble_f₀, doubleIdMap_f₀,
       Functor.map_comp, assoc,
-      Iso.map_inv_hom_id_assoc, Iso.inv_hom_id_assoc]
+      Iso.inv_hom_id_map_assoc, Iso.inv_hom_id_assoc]
 
 /-- The middle component of `doubleShortComplexMap hi F φ` is `doubleIdMap hi F φ`. -/
 @[simp]

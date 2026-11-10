@@ -206,7 +206,7 @@ theorem cechPresheafRestrictNat_comp_augmentation :
       cechPresheafAugmentationNat R g hg := by
   refine HomologicalComplex.to_single_hom_ext ?_
   refine PresheafOfModules.hom_ext fun V => ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
-  show Stacks.LocalCohomology.cechTermZeroEquiv (f V) (ModuleCat.of (R.obj V) (R.obj V))
+  change Stacks.LocalCohomology.cechTermZeroEquiv (f V) (ModuleCat.of (R.obj V) (R.obj V))
       (Cech.cechTermRestrict (f V) (R.obj V) (g V) e (he V) 0 x) =
     Stacks.LocalCohomology.cechTermZeroEquiv (g V) (ModuleCat.of (R.obj V) (R.obj V)) x
   exact congrArg (fun m : (Cech.cechComplex (g V) (R.obj V)).X 0 ⟶

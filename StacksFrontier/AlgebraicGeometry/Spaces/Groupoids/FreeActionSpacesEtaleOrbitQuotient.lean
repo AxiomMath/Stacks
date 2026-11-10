@@ -473,7 +473,7 @@ theorem orbitQuotientActionEtale_comp (g g' : G) :
     orbitQuotientActionEtale hnat hW hfree g ≫ orbitQuotientActionEtale hnat hW hfree g' =
       orbitQuotientActionEtale hnat hW hfree (g' * g) := by
   refine ObjectProperty.hom_ext _ (Over.OverMorphism.ext (ObjectProperty.hom_ext _ ?_))
-  show actionHom B S hS G W hnat g ≫ actionHom B S hS G W hnat g' =
+  change actionHom B S hS G W hnat g ≫ actionHom B S hS G W hnat g' =
     actionHom B S hS G W hnat (g' * g)
   refine NatTrans.ext (funext fun T => ?_)
   exact ConcreteCategory.hom_ext _ _ fun x => (mul_smul g' g x).symm
@@ -483,7 +483,7 @@ theorem orbitQuotientActionEtale_comp (g g' : G) :
 theorem orbitQuotientActionEtale_one :
     orbitQuotientActionEtale hnat hW hfree (1 : G) = 𝟙 _ := by
   refine ObjectProperty.hom_ext _ (Over.OverMorphism.ext (ObjectProperty.hom_ext _ ?_))
-  show actionHom B S hS G W hnat (1 : G) = 𝟙 W
+  change actionHom B S hS G W hnat (1 : G) = 𝟙 W
   refine NatTrans.ext (funext fun T => ?_)
   exact ConcreteCategory.hom_ext _ _ fun x => one_smul G x
 

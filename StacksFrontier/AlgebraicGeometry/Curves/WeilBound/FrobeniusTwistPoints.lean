@@ -203,7 +203,7 @@ theorem closedPointsEquiv_frobeniusTwist_iterate (m : ℕ)
   | zero =>
     apply Subtype.ext
     simp only [fieldValuedPointsPrecomp, pow_zero]
-    show _ = Spec.map (𝟙 _) ≫ _
+    change _ = Spec.map (𝟙 _) ≫ _
     rw [Spec.map_id, Category.id_comp]
     rfl
   | succ m ih =>
@@ -222,11 +222,12 @@ theorem closedPointsEquiv_frobeniusTwist_iterate (m : ℕ)
 
 /-- **The closed points of `X_Ω` fixed by `Ψ ^ m` are counted by `X(K)`**, for any extension
 `K` of `k` of degree `m`. -/
-theorem natCard_fixed_frobeniusTwist (K : Type u) [Field K] [Fintype K] [Algebra k K]
+theorem natCard_fixed_frobeniusTwist (K : Type u) [Field K] [Finite K] [Algebra k K]
     (m : ℕ) (hm : Module.finrank k K = m) :
     Nat.card {x : geometricBaseChange Ω f | IsClosed ({x} : Set (geometricBaseChange Ω f)) ∧
         (frobeniusTwist Ω p e hq f).hom.base^[m] x = x} =
       Nat.card (fieldValuedPoints f K) := by
+  have := Fintype.ofFinite K
   have : Algebra.IsAlgebraic k K := Algebra.IsAlgebraic.of_finite k K
   let j : K →ₐ[k] Ω := IsAlgClosed.lift
   set σ := frobeniusAlgEquiv Ω p e hq

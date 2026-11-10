@@ -37,14 +37,17 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {W X Y : AlgebraicSpaces B S hS}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for discrete limits in presheaves on the small étale site
 /-- Discrete limits of presheaves of sets on the small étale site (instance search times out
 without this shortcut). -/
-local instance (priority := high) hasLimitsOfShape_discrete_InverseImageStructureSheafMapGlobalSection
+local instance (priority := high)
+    hasLimitsOfShape_discrete_InverseImageStructureSheafMapGlobalSection
     (Z : AlgebraicSpaces B S hS) (J : Type u) :
     HasLimitsOfShape (Discrete J) ((smallEtaleRingedTopos B S hS Z).Cᵒᵖ ⥤ Type u) :=
   inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of sheaves of sets on the small étale site
 /-- The terminal sheaf of sets on the small étale site (instance search times out without this
 shortcut). -/
 local instance (priority := high) hasTerminal_topos_InverseImageStructureSheafMapGlobalSection
@@ -56,6 +59,7 @@ local instance (priority := high) hasTerminal_topos_InverseImageStructureSheafMa
     (sheafToPresheaf (SmallEtale.topology B S hS Z.1) (Type u))
 
 set_option maxHeartbeats 800000 in
+-- elaborating the composite `sheafCompose` and topos inverse-image terms of the proof
 set_option synthInstance.maxHeartbeats 400000 in
 /-- **The map `(u ≫ h)⁻¹𝒪_Y ⟶ u⁻¹𝒪_X` on inverse images of global sections.** For a global
 section `t` of `𝒪_Y` (a morphism from the terminal sheaf of sets), the inverse image of `t` along

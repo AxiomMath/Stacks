@@ -135,11 +135,10 @@ theorem bijective_lift_of_coordinates
   let t : B' ⊗[B] (Fin r → B) ≃ₗ[B'] B' ⊗[B] C := LinearEquiv.baseChange B B' _ _ θ
   have key : ∀ x, μ (t x) = θ' (e x) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul c v =>
       simp only [t, e, μ, LinearEquiv.baseChange_tmul, Algebra.TensorProduct.lift_tmul]
-      show algebraMap B' C' c * ρ (θ v) = _
+      change algebraMap B' C' c * ρ (θ v) = _
       rw [hθ v, ← Algebra.smul_def, ← map_smul]
       congr 1
       funext i

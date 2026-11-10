@@ -98,20 +98,20 @@ theorem IntegralClosedSubspace.exists_preimageComponent_eq_iff_closureImage_eq
     have hPirr : IsIrreducible P := isIrreducible_preimage_of_isOpenEmbedding hemb hZirr hPne
     apply injective_integralClosedSubspaceSupport D.site D.base D.base_mem hX.1
     apply IrreducibleCloseds.ext
-    show subspacePointSet D.site D.base D.base_mem X (IntegralClosedSubspace.closureImage
+    change subspacePointSet D.site D.base D.base_mem X (IntegralClosedSubspace.closureImage
       D.site D.base D.base_mem hX.1 (D.isDecentSpace_of_isGood sX hX) j _).subspace =
         subspacePointSet D.site D.base D.base_mem X Z.subspace
     rw [IntegralClosedSubspace.subspacePointSet_closureImage,
       IntegralClosedSubspace.subspacePointSet_preimageComponent, hcomp hPirr C, Set.image_univ,
       Subtype.range_coe]
-    show closure (pointsMap D.site D.base D.base_mem U j '' (pointsMap D.site D.base D.base_mem
+    change closure (pointsMap D.site D.base D.base_mem U j '' (pointsMap D.site D.base D.base_mem
       U j ⁻¹' subspacePointSet D.site D.base D.base_mem X Z.subspace)) = _
     rw [Set.image_preimage_eq_inter_range]
     exact closure_inter_open_eq_of_isIrreducible hZirr hZcl hemb.isOpen_range hPne
   · intro h
     have hPW : P = subspacePointSet D.site D.base D.base_mem U W.subspace := by
       rw [hP]
-      show pointsMap D.site D.base D.base_mem U j ⁻¹'
+      change pointsMap D.site D.base D.base_mem U j ⁻¹'
         subspacePointSet D.site D.base D.base_mem X Z.subspace = _
       rw [← h, IntegralClosedSubspace.subspacePointSet_closureImage, hrec]
     have hPirr : IsIrreducible P := hPW ▸ hWirr
@@ -121,11 +121,11 @@ theorem IntegralClosedSubspace.exists_preimageComponent_eq_iff_closureImage_eq
     refine ⟨⟨Set.univ, huniv⟩, ?_⟩
     apply injective_integralClosedSubspaceSupport D.site D.base D.base_mem hU.1
     apply IrreducibleCloseds.ext
-    show subspacePointSet D.site D.base D.base_mem U (Z.preimageComponent D.site D.base
+    change subspacePointSet D.site D.base D.base_mem U (Z.preimageComponent D.site D.base
       D.base_mem j hU.1 (D.isDecentSpace_of_isGood sU hU) hX.1 _).subspace =
         subspacePointSet D.site D.base D.base_mem U W.subspace
     rw [IntegralClosedSubspace.subspacePointSet_preimageComponent]
-    show Subtype.val '' (Set.univ : Set P) = _
+    change Subtype.val '' (Set.univ : Set P) = _
     rw [Set.image_univ, Subtype.range_coe, hPW]
 
 open Classical in
@@ -161,7 +161,7 @@ theorem flatPullbackMap_eq_cycleGroupRestrict (hjc : j ≫ sX = sU) (k n : ℤ)
     IntegralClosedSubspace.preimageComponentsCycle_of_isOpenImmersion D sX hX sU hU hj,
     mul_ite, mul_one, mul_zero]
   rw [finsum_eq_single _ (IntegralClosedSubspace.closureImage D.site D.base D.base_mem hX.1
-    (D.isDecentSpace_of_isGood sX hX) j W) fun Z hZ => if_neg (Ne.symm hZ), if_pos rfl]
+    (D.isDecentSpace_of_isGood sX hX) j W) fun Z hZ => ite_eq_right (Ne.symm hZ), ite_eq_left rfl]
 
 end Components
 

@@ -62,7 +62,7 @@ public theorem bigZariskiOver_cover_sieve (B : BigZariskiSite.{u}) (S : Scheme.{
   let E : PreZeroHypercover T := { I₀ := V.I₀, X := W, f := a }
   refine ⟨W, a, fun i => by simp [W, BigZariskiOver.toScheme, BigZariskiOver.inclusion], ?_,
     fun i => by simp [W, a, BigZariskiOver.toScheme, BigZariskiOver.inclusion]⟩
-  show Sieve.generate E.presieve₀ ∈ (BigZariskiOver.precoverage B S hS).toGrothendieck T
+  change Sieve.generate E.presieve₀ ∈ (BigZariskiOver.precoverage B S hS).toGrothendieck T
   exact (BigZariskiOver.precoverage B S hS).generate_mem_toGrothendieck ⟨E, rfl, hV⟩
 
 /-- A morphism that factors through a member of the open cover attached to `U` lands in `U`. -/
@@ -155,7 +155,7 @@ public theorem smallZariski_cover_sieve (B : BigZariskiSite.{u}) (S : Scheme.{u}
     simp [W', a', BigZariskiOver.toScheme, BigZariskiOver.inclusion]
   have hWopen : ∀ i, IsOpenOver B S hS (W' i) := by
     intro i
-    show IsOpenImmersion (B.inclusion.map (V.f i ≫ T'.hom))
+    change IsOpenImmersion (B.inclusion.map (V.f i ≫ T'.hom))
     rw [Functor.map_comp]
     have : IsOpenImmersion (B.inclusion.map (V.f i)) := hVopen i
     have : IsOpenImmersion (B.inclusion.map T'.hom) := T.property
@@ -171,18 +171,18 @@ public theorem smallZariski_cover_sieve (B : BigZariskiSite.{u}) (S : Scheme.{u}
       (E.map (SmallZariski.inclusion B S hS)).map (BigZariskiOver.inclusion B S hS))
       (y := V) rfl HEq.rfl (heq_of_eq ?_)
     funext i
-    show (BigZariskiOver.inclusion B S hS).map
+    change (BigZariskiOver.inclusion B S hS).map
       ((SmallZariski.inclusion B S hS).map (a i)) = V.f i
     rw [ha i]
     rfl
   have hfamily : SmallZariski.IsCovering B S hS ⟨T, E⟩ := by
-    show B.IsCovering ⟨T'.left,
+    change B.IsCovering ⟨T'.left,
       (E.map (SmallZariski.inclusion B S hS)).map (BigZariskiOver.inclusion B S hS)⟩
     rwa [hEF]
   refine ⟨W, a, hobj, ?_, fun i y => ?_⟩
-  · show Sieve.generate E.presieve₀ ∈ (SmallZariski.precoverage B S hS).toGrothendieck T
+  · change Sieve.generate E.presieve₀ ∈ (SmallZariski.precoverage B S hS).toGrothendieck T
     exact (SmallZariski.precoverage B S hS).generate_mem_toGrothendieck ⟨E, rfl, hfamily⟩
-  · show (BigZariskiOver.toScheme B S hS).map
+  · change (BigZariskiOver.toScheme B S hS).map
       ((SmallZariski.inclusion B S hS).map (a i)) y = _
     rw [ha i]
     exact (congrArg (fun f => f y) (hmap i)).symm

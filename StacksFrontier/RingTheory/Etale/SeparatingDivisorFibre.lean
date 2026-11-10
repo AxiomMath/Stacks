@@ -53,7 +53,7 @@ theorem finite_aeval_one_tmul_of_isIntegralElem [Algebra.FiniteType A B] (a : A)
     (aeval ((1 : L) ⊗ₜ[A] t) : L[X] →ₐ[L] L ⊗[A] B).Finite := by
   let : Algebra L[X] (L ⊗[A] B) := (aeval ((1 : L) ⊗ₜ[A] t)).toRingHom.toAlgebra
   have : IsScalarTower L L[X] (L ⊗[A] B) := IsScalarTower.of_algebraMap_eq fun c => by
-    show _ = aeval ((1 : L) ⊗ₜ[A] t) (C c)
+    change _ = aeval ((1 : L) ⊗ₜ[A] t) (C c)
     rw [aeval_C]
   have hone : ∀ y : B, (aeval t : A[X] →ₐ[A] B).toRingHom.IsIntegralElem y →
       IsIntegral L[X] ((1 : L) ⊗ₜ[A] y) := by
@@ -68,8 +68,7 @@ theorem finite_aeval_one_tmul_of_isIntegralElem [Algebra.FiniteType A B] (a : A)
       (Algebra.TensorProduct.includeRight : B →ₐ[A] L ⊗[A] B).toRingHom y from rfl,
       ← hom_eval₂, hP, map_zero]
   have : Algebra.IsIntegral L[X] (L ⊗[A] B) := ⟨fun z => by
-    induction z using TensorProduct.induction_on with
-    | zero => exact isIntegral_zero
+    induction z using TensorProduct.inductionOn with
     | tmul c x =>
       obtain ⟨n, hn⟩ := hint x
       obtain ⟨u, hu⟩ := ha

@@ -275,7 +275,7 @@ theorem chernCharacter_secondAdams_kZero [∀ X : C, Algebra ℚ (𝔄.A X)]
       (AddMonoidHom.mk' (fun a : 𝔄.A X => (2 ^ n : ℕ) • a)
         fun a b => smul_add ((2 : ℕ) ^ n) a b).comp (hch.componentHom X n) := by
     refine VectorBundleKZero.addHom_ext fun E hE => ?_
-    show ch X (ψ X (VectorBundleKZero.classOf (S.obj X) E)) n =
+    change ch X (ψ X (VectorBundleKZero.classOf (S.obj X) E)) n =
       (2 ^ n : ℕ) • ch X (VectorBundleKZero.classOf (S.obj X) E) n
     exact secondAdams_classOf_of_sum ψ (fun f a m => hch.map_pull_kzero f a m)
       (fun P k L M hL hM hpic n => by

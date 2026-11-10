@@ -653,7 +653,7 @@ theorem specEquidimensional_quotients_and_isCatenary_of_flat_local
   have hspec : SpecEquidimensional B := specEquidimensional_iff_equidimensional.mpr hequi
   obtain ⟨hcatA, hequiA⟩ := flat_local_catenary_equidim_base A B hcat hspec
   refine ⟨fun p hp => ?_, hcatA, specEquidimensional_iff_equidimensional.mp hequiA⟩
-  haveI := hp
+  have := hp
   exact specEquidimensional_iff_equidimensional.mp
     (flat_local_catenary_equidim_fibre A B hcat hspec p)
 

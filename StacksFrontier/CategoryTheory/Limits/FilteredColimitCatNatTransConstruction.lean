@@ -136,8 +136,7 @@ lemma Functor.natTransOfArrow_app (H : C ⥤ Arrow D) {F G : C ⥤ D}
       eqToHom (Functor.congr_obj hF.symm x) ≫ (H.obj x).hom ≫
         eqToHom (Functor.congr_obj hG x) := by
   rw [Functor.natTransOfArrow]
-  simp only [NatTrans.comp_app, eqToHom_app, Functor.whiskerLeft_app, Arrow.leftToRight_app,
-    Category.assoc]
+  simp only [NatTrans.comp_app, eqToHom_app, Functor.whiskerLeft_app, Arrow.leftToRight_app]
 
 /-- **`CategoryTheory.Functor.natTransOfArrow` restricted along a functor `P` is the
 transformation whose arrow functor `H` restricts to.** The stagewise datum is stated at the
@@ -205,6 +204,7 @@ noncomputable def stagesArrowCocone : Cocone X where
           (map_comp_ι_comp X F r) (map_comp_ι_comp X G r) fun a => hσ r a).trans
           (Functor.comp_id _).symm }
 
+omit [HasColimit (X ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})] in
 /-- The colimit inclusion of a stage, followed by the functor
 `CategoryTheory.Cat.stagesArrowCocone` descends to, is the arrow functor of the stagewise
 transformation. -/
@@ -213,6 +213,7 @@ lemma ι_comp_desc_stagesArrowCocone (j : J) :
       (σ j).arrowFunctor :=
   congrArg Cat.Hom.toFunctor (colimit.ι_desc (stagesArrowCocone.{u, v, w} X σ hσ) j)
 
+omit [HasColimit (X ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})] in
 /-- Postcomposing the functor `CategoryTheory.Cat.stagesArrowCocone` descends to with `P` gives `K`
 as soon as this holds at every stage. -/
 private lemma desc_stagesArrowCocone_comp_eq (P : Arrow D ⥤ D) (K : ↑(colimit X) ⥤ D)
@@ -223,11 +224,13 @@ private lemma desc_stagesArrowCocone_comp_eq (P : Arrow D ⥤ D) (K : ↑(colimi
       (congrArg (fun L : X.obj j ⥤ Arrow D => L ⋙ P)
         (ι_comp_desc_stagesArrowCocone.{u, v, w} X σ hσ j)).trans (h j)
 
+omit [HasColimit (X ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})] in
 /-- The functor `CategoryTheory.Cat.stagesArrowCocone` descends to has `F` for its source. -/
 lemma desc_stagesArrowCocone_comp_leftFunc :
     (colimit.desc X (stagesArrowCocone.{u, v, w} X σ hσ)).toFunctor ⋙ Arrow.leftFunc = F :=
   desc_stagesArrowCocone_comp_eq X σ hσ _ _ fun _ => rfl
 
+omit [HasColimit (X ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})] in
 /-- The functor `CategoryTheory.Cat.stagesArrowCocone` descends to has `G` for its target. -/
 lemma desc_stagesArrowCocone_comp_rightFunc :
     (colimit.desc X (stagesArrowCocone.{u, v, w} X σ hσ)).toFunctor ⋙ Arrow.rightFunc = G :=
@@ -242,6 +245,7 @@ noncomputable def natTransOfStages : F ⟶ G :=
     (desc_stagesArrowCocone_comp_leftFunc.{u, v, w} X σ hσ)
     (desc_stagesArrowCocone_comp_rightFunc.{u, v, w} X σ hσ)
 
+omit [HasColimit (X ⋙ CategoryTheory.nerveFunctor.{max u v w, max u v w})] in
 /-- **`CategoryTheory.Cat.natTransOfStages` restricts to the given transformation at every
 stage.** -/
 lemma natTransOfStages_app (j : J) (a : X.obj j) :

@@ -100,7 +100,8 @@ That the module is finite locally free of rank `r` on `X_r` is not proved here b
 `AlgebraicGeometry.Space.isFiniteLocallyFreeOfRank_modulePullback_fittingRankStratumHom`, on the
 tag's own hypotheses: it is clause (3) of Stacks 0CZ9 read at the inclusion of the stratum
 itself.  The ideal-theoretic universal property of a closed subspace is Stacks 03MB, proved in
-`StacksFrontier/AlgebraicGeometry/Spaces/FactorThroughClosedSubspace.lean`, which asks nothing of the
+`StacksFrontier/AlgebraicGeometry/Spaces/FactorThroughClosedSubspace.lean`,
+which asks nothing of the
 source, and what clause (3) needs is its chart-diagram reading,
 `AlgebraicGeometry.Space.range_le_iff_forall_chartDiagram_definingIdealAt_le`.
 
@@ -401,7 +402,7 @@ theorem isAlgebraicSpace_fittingRankStratification (Z : ℕ → ClosedSubspaces 
       ∀ r : ℕ, Sigma.ι (fun k : ℕ ↦ fittingRankStratumSpace B S hS X Z k) r ≫
           fittingRankStratificationHom B S hS X Z = fittingRankStratumHom B S hS X Z r :=
   ⟨(fittingRankStratification B S hS X Z).property,
-    fun r ↦ Sigma.ι_desc _ r⟩
+    fun r ↦ Sigma.ι_comp_desc _ r⟩
 
 end AlgebraicGeometry.Space
 

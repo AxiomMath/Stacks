@@ -99,10 +99,10 @@ theorem relativeInvertibleDegreeHomAt_bcProj [IsProper f] [LocallyOfFiniteType f
     relativeInvertibleDegreeHomAt (bcProj f T) (topologicalKrullDim_fiber_bcProj_le f hdim T) t
       (Stacks.Picard.schemePullbackClass (bcProj f T) n) = 0 := by
   have : Subsingleton (Spec (T.left.residueField t)) := by
-    show Subsingleton (PrimeSpectrum (T.left.residueField t))
+    change Subsingleton (PrimeSpectrum (T.left.residueField t))
     infer_instance
   have : Nonempty (Spec (T.left.residueField t)) := by
-    show Nonempty (PrimeSpectrum (T.left.residueField t))
+    change Nonempty (PrimeSpectrum (T.left.residueField t))
     infer_instance
   have h0 : Stacks.Picard.schemePullbackClass (T.left.fromSpecResidueField t) n = 0 :=
     Stacks.Picard.eq_zero_of_subsingleton _
@@ -132,7 +132,7 @@ theorem hasInvertibleDirectImage_add_bcProj (h0B91 : PerfectDerivedPushforward.{
       (c + Stacks.Picard.schemePullbackClass (bcProj f T) n) =
       Stacks.Picard.schemePullbackClass (bcMap f g) c := by
     rw [Stacks.Picard.schemePullbackClass_add, schemePullbackClass_bcProj_natural]
-    show _ + Stacks.Picard.schemePullbackClass _ (Stacks.Picard.schemePullbackClass V.ι n) = _
+    change _ + Stacks.Picard.schemePullbackClass _ (Stacks.Picard.schemePullbackClass V.ι n) = _
     rw [hV, schemePullbackClass_zero, add_zero]
   refine (hU₂ _ g).1 ?_ ⟨⟨t, htV⟩, rfl⟩
   rw [hpull]
@@ -166,7 +166,7 @@ omit [Flat f] [LocallyOfFinitePresentation f] [IsProper f] in
 /-- The normalisation of a class is killed by pullback along the induced section. -/
 theorem schemePullbackClass_bcSection_normalize (T : Over S) (c : Stacks.Picard.ofScheme (bc f T)) :
     Stacks.Picard.schemePullbackClass (bcSection f σ hσ T) (normalize f σ hσ T c) = 0 := by
-  show Stacks.Picard.schemePullbackClassHom _ (normalize f σ hσ T c) = 0
+  change Stacks.Picard.schemePullbackClassHom _ (normalize f σ hσ T c) = 0
   rw [normalize, map_sub, sub_eq_zero]
   exact (schemePullbackClass_bcSection_bcProj f σ hσ T _).symm
 
@@ -177,13 +177,13 @@ theorem normalize_add_bcProj (T : Over S) (c : Stacks.Picard.ofScheme (bc f T))
     normalize f σ hσ T (c + Stacks.Picard.schemePullbackClass (bcProj f T) n) =
       normalize f σ hσ T c := by
   rw [normalize, normalize]
-  show _ - Stacks.Picard.schemePullbackClassHom _ (Stacks.Picard.schemePullbackClassHom _
+  change _ - Stacks.Picard.schemePullbackClassHom _ (Stacks.Picard.schemePullbackClassHom _
     (c + Stacks.Picard.schemePullbackClass (bcProj f T) n)) = _
   rw [map_add, map_add]
-  show _ - (_ + Stacks.Picard.schemePullbackClass _ (Stacks.Picard.schemePullbackClass _
+  change _ - (_ + Stacks.Picard.schemePullbackClass _ (Stacks.Picard.schemePullbackClass _
     (Stacks.Picard.schemePullbackClass _ n))) = _
   rw [schemePullbackClass_bcSection_bcProj]
-  letI : AddCommGroup (Stacks.Picard.ofScheme (bc f T)) := inferInstance
+  let : AddCommGroup (Stacks.Picard.ofScheme (bc f T)) := inferInstance
   abel
 
 omit [Flat f] [LocallyOfFinitePresentation f] [IsProper f] in
@@ -259,7 +259,7 @@ theorem abelNormalized_add_eq (θ : Stacks.Picard.ofScheme X) {d : ℕ} {T : Ove
   refine ⟨-Stacks.Picard.schemePullbackClass (bcSection f σ hσ T)
     (abelClass f Z - Stacks.Picard.schemePullbackClass (pullback.fst f T.hom) θ), ?_⟩
   rw [abelNormalized, normalize, schemePullbackClass_neg]
-  letI : AddCommGroup (Stacks.Picard.ofScheme (bc f T)) := inferInstance
+  let : AddCommGroup (Stacks.Picard.ofScheme (bc f T)) := inferInstance
   abel
 
 end Abel
@@ -363,7 +363,7 @@ theorem ext_functorZero {T : Over S} {z z' : (functorZero f hdim σ hσ ⋙ forg
         Stacks.Picard.smallOfScheme (bc f T)) =
       smallEquiv _ ((((Multiplicative.toAdd z' : groupZero f hdim σ hσ T) : group f σ hσ T)) :
         Stacks.Picard.smallOfScheme (bc f T))) : z = z' := by
-  show Multiplicative.ofAdd (Multiplicative.toAdd z : groupZero f hdim σ hσ T) =
+  change Multiplicative.ofAdd (Multiplicative.toAdd z : groupZero f hdim σ hσ T) =
     Multiplicative.ofAdd (Multiplicative.toAdd z' : groupZero f hdim σ hσ T)
   exact congrArg _ (Subtype.ext (Subtype.ext ((smallEquiv (bc f T)).injective h)))
 
@@ -446,7 +446,7 @@ theorem exists_representableBy_cohomologySubfunctorZero
         chartClass f σ hσ θ hH (a ≫ chartι W) := fun a => smallEquiv_mkZero _ _ _ _ _ _ _
   have hclsF : ∀ {T : Over S} (a : T ⟶ Over.mk (W.ι ≫ H.hom)), cls a ∈ F.obj (op T) := by
     intro T a
-    show IsCohomologyClass f θ T _
+    change IsCohomologyClass f θ T _
     rw [hcls, isCohomologyClass_chartClass_iff f σ hσ h0B91 hbc θ hH, hW]
     exact hmemW a
   let toF : ∀ {T : Over S}, (T ⟶ Over.mk (W.ι ≫ H.hom)) → F.toFunctor.obj (op T) := fun {T} a =>
@@ -467,10 +467,10 @@ theorem exists_representableBy_cohomologySubfunctorZero
             Stacks.Picard.schemePullbackClass (bcProj f T) n -
               Stacks.Picard.schemePullbackClass (bcProj f T) n' := by
         rw [← hn, ← chartClass, hc, chartClass, hn']
-        letI : AddCommGroup (Stacks.Picard.ofScheme (bc f T)) := inferInstance
+        let : AddCommGroup (Stacks.Picard.ofScheme (bc f T)) := inferInstance
         abel
       rw [h1, schemePullbackClass_sub]
-      letI : AddCommGroup (Stacks.Picard.ofScheme (bc f T)) := inferInstance
+      let : AddCommGroup (Stacks.Picard.ofScheme (bc f T)) := inferInstance
       abel
     have hm : a ≫ chartι W = a' ≫ chartι W := hH.family.injective hZ
     apply Over.OverMorphism.ext
@@ -490,20 +490,20 @@ theorem exists_representableBy_cohomologySubfunctorZero
       exact x.2
     let a : T ⟶ Over.mk (W.ι ≫ H.hom) := Over.homMk (IsOpenImmersion.lift W.ι m.left
       (by simpa using hmW)) (by
-        show IsOpenImmersion.lift W.ι m.left _ ≫ W.ι ≫ H.hom = T.hom
+        change IsOpenImmersion.lift W.ι m.left _ ≫ W.ι ≫ H.hom = T.hom
         rw [IsOpenImmersion.lift_fac_assoc, Over.w m])
     have ham : a ≫ chartι W = m := by
       apply Over.OverMorphism.ext
       exact IsOpenImmersion.lift_fac _ _ _
     refine ⟨a, Subtype.ext ?_⟩
-    show cls a = x.1
+    change cls a = x.1
     refine ext_functorZero f hdim σ hσ ?_
     rw [hcls a, ham, chartClass, hmZ, abelNormalized, hZ, add_sub_right_comm, add_sub_cancel_right,
       normalize_add_bcProj, normalize_eq_self f σ hσ T c hcrig]
   refine ⟨W, ⟨{ homEquiv := Equiv.ofBijective toF ⟨hinj, hsurj⟩, homEquiv_comp := ?_ }⟩⟩
   intro T T' b a
   apply Subtype.ext
-  show cls (b ≫ a) = (functorZero f hdim σ hσ ⋙ forget GrpCat).map b.op (cls a)
+  change cls (b ≫ a) = (functorZero f hdim σ hσ ⋙ forget GrpCat).map b.op (cls a)
   refine ext_functorZero f hdim σ hσ ?_
   rw [functorZero_map_val, hcls, hcls, Category.assoc, chartClass_comp]
 

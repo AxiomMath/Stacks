@@ -204,7 +204,7 @@ private theorem siteSpecKObj_post
     (iΛ : Spec (.of Λ) ⟶ S) (hk : (Spec (CommRingCat.of k)).size < B.cutoff) :
     (Over.post B.inclusion).obj (siteSpecKObj B hS iΛ hk) =
       Over.mk (Spec.map (CommRingCat.ofHom (algebraMap Λ k)) ≫ iΛ) := by
-  show Over.mk (B.inclusion.map (B.inclusion.preimage _)) = _
+  change Over.mk (B.inclusion.map (B.inclusion.preimage _)) = _
   congr 1
   exact B.inclusion.map_preimage _
 
@@ -214,7 +214,7 @@ private theorem siteSpecKObj_post_hom
     (iΛ : Spec (.of Λ) ⟶ S) (hk : (Spec (CommRingCat.of k)).size < B.cutoff) :
     ((Over.post B.inclusion).obj (siteSpecKObj B hS iΛ hk)).hom =
       Spec.map (CommRingCat.ofHom (algebraMap Λ k)) ≫ iΛ := by
-  show B.inclusion.map (B.inclusion.preimage _) = _
+  change B.inclusion.map (B.inclusion.preimage _) = _
   exact B.inclusion.map_preimage _
 
 private theorem siteSpecObj_post (B : AlgebraicGeometry.BigFppfSite.{u})
@@ -225,7 +225,7 @@ private theorem siteSpecObj_post (B : AlgebraicGeometry.BigFppfSite.{u})
     (hA : (Spec (CommRingCat.of A)).size < B.cutoff) :
     (Over.post B.inclusion).obj (siteSpecObj B hS iΛ A hA) =
       Over.mk (Spec.map (CommRingCat.ofHom (algebraMap Λ A)) ≫ iΛ) := by
-  show Over.mk (B.inclusion.map (B.inclusion.preimage _)) = _
+  change Over.mk (B.inclusion.map (B.inclusion.preimage _)) = _
   congr 1
   exact B.inclusion.map_preimage _
 
@@ -237,7 +237,7 @@ private theorem siteSpecObj_post_hom (B : AlgebraicGeometry.BigFppfSite.{u})
     (hA : (Spec (CommRingCat.of A)).size < B.cutoff) :
     ((Over.post B.inclusion).obj (siteSpecObj B hS iΛ A hA)).hom =
       Spec.map (CommRingCat.ofHom (algebraMap Λ A)) ≫ iΛ := by
-  show B.inclusion.map (B.inclusion.preimage _) = _
+  change B.inclusion.map (B.inclusion.preimage _) = _
   exact B.inclusion.map_preimage _
 
 /-- An object of the site over `S` is determined by its image under `Over.post B.inclusion`. -/
@@ -350,7 +350,7 @@ private theorem siteResidueMap_post
       Over.homMk (Spec.map (CommRingCat.ofHom (Deformation.Artin.residueMap A)))
         (siteResidueMap_triangle B hS iΛ A hA hk) := by
   apply Over.OverMorphism.ext
-  show B.inclusion.map (B.inclusion.preimage _) = _
+  change B.inclusion.map (B.inclusion.preimage _) = _
   exact B.inclusion.map_preimage _
 
 private theorem siteResidueMap_left
@@ -397,7 +397,7 @@ private theorem siteSpecMap_post
       Over.homMk (Spec.map (CommRingCat.ofHom f.hom.toRingHom))
         (siteSpecMap_triangle B hS iΛ hA hA' f) := by
   apply Over.OverMorphism.ext
-  show B.inclusion.map (B.inclusion.preimage _) = _
+  change B.inclusion.map (B.inclusion.preimage _) = _
   exact B.inclusion.map_preimage _
 
 private theorem siteSpecMap_left
@@ -432,7 +432,7 @@ private theorem siteResidueMap_comp_siteSpecMap
   rw [Functor.map_comp, siteResidueMap_post, siteSpecMap_post,
     siteResidueMap_post]
   apply Over.OverMorphism.ext
-  show Spec.map (CommRingCat.ofHom (Deformation.Artin.residueMap A')) ≫
+  change Spec.map (CommRingCat.ofHom (Deformation.Artin.residueMap A')) ≫
       Spec.map (CommRingCat.ofHom f.hom.toRingHom) =
     Spec.map (CommRingCat.ofHom (Deformation.Artin.residueMap A))
   rw [← Spec.map_comp, ← CommRingCat.ofHom_comp]
@@ -657,9 +657,9 @@ public theorem predeformationCategory_isPredeformationCategory
     have h := C.morphism_projection f
     rw [← h]
     simp
-  show Deformation.IsPredeformationCategory C.projection
+  change Deformation.IsPredeformationCategory C.projection
   refine ⟨?_, ?_⟩
-  · show C.projection.op.IsFiberedInGroupoids
+  · change C.projection.op.IsFiberedInGroupoids
     refine { exists_lift := ?_, unique_lift := ?_ }
     · intro V U f x hx
       let d := C.objects x.unop
@@ -695,7 +695,7 @@ public theorem predeformationCategory_isPredeformationCategory
         rw [show IsHomLift.domain_eq p s ψ = hySite from Subsingleton.elim _ _,
           show IsHomLift.codomain_eq p s ψ = hpoint from Subsingleton.elim _ _] at hfac
         rw [hfac]
-        show B.inclusion.map (Over.Hom.left r') ≫
+        change B.inclusion.map (Over.Hom.left r') ≫
           (B.inclusion.map (Over.Hom.left (eqToHom hySite)) ≫
             B.inclusion.map (Over.Hom.left s) ≫
             B.inclusion.map (Over.Hom.left (eqToHom hpoint.symm))) =
@@ -710,7 +710,7 @@ public theorem predeformationCategory_isPredeformationCategory
             (Over.Hom.left r).hom ≫ (Over.Hom.left s).hom =
               (Over.Hom.left
                 (siteResidueMap B hS iΛ d.algebra hA hk)).hom := by
-          show (Over.Hom.left (r ≫ s)).hom = _
+          change (Over.Hom.left (r ≫ s)).hom = _
           exact hresLeft
         have hmid : (Over.Hom.left r).hom ≫ (Over.Hom.left s).hom =
             eqToHom (congrArg Over.left (siteSpecKObj_post B hS iΛ hk)) ≫
@@ -764,7 +764,7 @@ public theorem predeformationCategory_isPredeformationCategory
                 eqToHom (congrArg Over.left d.base).symm := by
             rw [hfac]
             exact hleft
-          show eqToHom (congrArg Over.left e.base).symm ≫
+          change eqToHom (congrArg Over.left e.base).symm ≫
             B.inclusion.map (p.map ψ).left ≫ eqToHom (congrArg Over.left d.base) = _
           erw [hmap]
           exact eqToHom_conj_cancel (𝒞 := Scheme.{u}) _ _ _ _ _
@@ -791,10 +791,10 @@ public theorem predeformationCategory_isPredeformationCategory
         rw [construction_projection_map m', hm]
       apply Quiver.Hom.unop_inj
       simp only [unop_comp, eqToHom_unop, Functor.op_map]
-      show f.unop = eqToHom hx'.symm ≫ C.projection.map m' ≫ eqToHom hz
+      change f.unop = eqToHom hx'.symm ≫ C.projection.map m' ≫ eqToHom hz
       have hRing : m.ringHom ≫
           eqToHom (congrArg Deformation.Artin.DeformationObject.algebra hze) = g := by
-        show (transportDeformationMorphism rfl hze m₀).ringHom ≫
+        change (transportDeformationMorphism rfl hze m₀).ringHom ≫
           eqToHom (congrArg Deformation.Artin.DeformationObject.algebra hze) = g
         simp [transportDeformationMorphism_ringHom]
         rfl
@@ -909,7 +909,7 @@ public theorem predeformationCategory_isPredeformationCategory
               eqToHom (congrArg Over.left dz.base) ≫
                 Spec.map (CommRingCat.ofHom g.hom.toRingHom) ≫
                 eqToHom (congrArg Over.left dy.base).symm := by
-            show B.inclusion.map (p.map χ).left = _
+            change B.inclusion.map (p.map χ).left = _
             rw [hχmap]
             exact hsLeft
           have hc :
@@ -936,7 +936,7 @@ public theorem predeformationCategory_isPredeformationCategory
         arrow := χ
         triangle := htriangle
         arrow_base := by
-          show eqToHom (congrArg Over.left dz.base).symm ≫
+          change eqToHom (congrArg Over.left dz.base).symm ≫
             B.inclusion.map (p.map χ).left ≫
             eqToHom (congrArg Over.left dy.base) = _
           rw [hχmap, hsLeft]
@@ -959,7 +959,7 @@ public theorem predeformationCategory_isPredeformationCategory
       · exact congrArg Quiver.Hom.op hlcomp
       · intro t ht
         apply Quiver.Hom.unop_inj
-        show t.unop = l
+        change t.unop = l
         apply (C.morphisms y' z').injective
         apply DeformationMorphism.ext_of_components
         · rw [← C.morphism_projection, ← C.morphism_projection, hlmap]
@@ -975,7 +975,7 @@ public theorem predeformationCategory_isPredeformationCategory
             change C.projection.map t.unop = f.unop at htmap
             have htr : (C.morphisms y' z' t.unop).ringHom = g := by
               rw [← C.morphism_projection, htmap]
-            show B.inclusion.map (p.map (C.morphisms y' z' t.unop).arrow).left =
+            change B.inclusion.map (p.map (C.morphisms y' z' t.unop).arrow).left =
               B.inclusion.map s.left
             rw [hsLeft]
             have ha := (C.morphisms y' z' t.unop).arrow_base
@@ -1001,7 +1001,7 @@ public theorem predeformationCategory_isPredeformationCategory
         hd.symm ▸ hKiso
       have he := deformationObject_arrow_left d
       have : IsIso (B.inclusion.map (p.map d.arrow).left) := by
-        show IsIso (((p ⋙ Over.post B.inclusion).map d.arrow).left)
+        change IsIso (((p ⋙ Over.post B.inclusion).map d.arrow).left)
         rw [he]
         infer_instance
       have : IsIso (p.map d.arrow).left := isIso_of_reflects_iso _ B.inclusion

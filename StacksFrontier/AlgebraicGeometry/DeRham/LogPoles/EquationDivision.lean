@@ -86,7 +86,7 @@ theorem eq_zero_of_equationAt_smul_eq_zero (h : f.HasLogPolesDeRhamComplex I) {W
     hg.symm.trans ((congrArg (fun z => TopCat.Presheaf.germ
       (Scheme.Hom.relativeDifferentialForms f (p : ℤ)).val.presheaf W x hx z) hω).trans
         (map_zero _))
-  show TopCat.Presheaf.germ (Scheme.Hom.relativeDifferentialForms f (p : ℤ)).val.presheaf W x hx
+  change TopCat.Presheaf.germ (Scheme.Hom.relativeDifferentialForms f (p : ℤ)).val.presheaf W x hx
       ω = TopCat.Presheaf.germ (Scheme.Hom.relativeDifferentialForms f (p : ℤ)).val.presheaf W x hx
         0
   rw [map_zero]

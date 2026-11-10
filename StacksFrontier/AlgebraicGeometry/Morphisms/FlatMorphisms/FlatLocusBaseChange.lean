@@ -105,7 +105,7 @@ public lemma isFlatAt_pullback_fst_of_isFlatAt
   let _ : Algebra R B :=
     ((eqToHom (congrArg S.presheaf.stalk hsq)) ≫ g.stalkMap (pY.base t)).hom.toAlgebra
   let _ : Module.Flat R B := by
-    show (((g.stalkMap (pY.base t)).hom).comp
+    change (((g.stalkMap (pY.base t)).hom).comp
       (eqToHom (congrArg S.presheaf.stalk hsq)).hom).Flat
     exact RingHom.Flat.comp (.of_bijective (ConcreteCategory.bijective_of_isIso _)) hg
   obtain ⟨φ, hleft, -, M, hlocal⟩ := BaseChangeStalk.pullback_stalk_isLocalization f g t
@@ -119,7 +119,7 @@ public lemma isFlatAt_pullback_fst_of_isFlatAt
   let _ : Module.Flat T C := IsLocalization.flat C M
   have hAC : Module.Flat A C := Module.Flat.trans A T C
   change (φ.comp (algebraMap A T)).Flat at hAC
-  show ((pX.stalkMap t).hom).Flat
+  change ((pX.stalkMap t).hom).Flat
   rw [← hleft]
   exact hAC
 
@@ -152,20 +152,20 @@ public lemma isFlatOverAt_of_modulePullback
   have hpoint : f'.base x' = (Limits.pullback.snd f g).base t :=
     (congrArg (fun k : X' ⟶ S' => k.base x') h.isoPullback_hom_snd).symm
   have hg' : IsFlatAt g.toLRSHom.toShHom ((Limits.pullback.snd f g).base t) := by
-    show (g.stalkMap ((Limits.pullback.snd f g).base t)).hom.Flat
+    change (g.stalkMap ((Limits.pullback.snd f g).base t)).hom.Flat
     change (g.stalkMap (f'.base x')).hom.Flat at hg
     rw [← hpoint]
     exact hg
   have hpflat := isFlatAt_pullback_fst_of_isFlatAt f g t hg'
   have hgpflat : IsFlatAt g'.toLRSHom.toShHom x' := by
-    show (g'.stalkMap x').hom.Flat
+    change (g'.stalkMap x').hom.Flat
     rw [← show e.hom ≫ Limits.pullback.fst f g = g' by
       simp [e, h.isoPullback_hom_fst], Scheme.Hom.stalkMap_comp]
-    show (e.hom.stalkMap x').hom.comp ((Limits.pullback.fst f g).stalkMap t).hom |>.Flat
+    change (e.hom.stalkMap x').hom.comp ((Limits.pullback.fst f g).stalkMap t).hom |>.Flat
     exact RingHom.Flat.comp hpflat
       (.of_bijective (ConcreteCategory.bijective_of_isIso (e.hom.stalkMap x')))
   apply (isFlatOverAt_iff_modulePullback_isFlatOverAt g' f F x' hgpflat).2
-  show IsFlatOverAt (g'.toLRSHom.toShHom ≫ f.toLRSHom.toShHom)
+  change IsFlatOverAt (g'.toLRSHom.toShHom ≫ f.toLRSHom.toShHom)
     ((modulePullback g'.toLRSHom.toShHom).obj F) x'
   rw [← show f'.toLRSHom.toShHom ≫ g.toLRSHom.toShHom =
       g'.toLRSHom.toShHom ≫ f.toLRSHom.toShHom by
@@ -262,7 +262,7 @@ private lemma exists_isPullback_fiberHom_baseChange
   have hcomm : eX ≫ Stacks.Flatness.fiberHom f pY (g s') =
       Stacks.Flatness.fiberHom f' pY' s' ≫ eY := by
     refine Limits.pullback.hom_ext ?_ ?_
-    · show eX ≫ Stacks.Flatness.fiberHom f pY (g s') ≫ pY.fiberι (g s') =
+    · change eX ≫ Stacks.Flatness.fiberHom f pY (g s') ≫ pY.fiberι (g s') =
         (Stacks.Flatness.fiberHom f' pY' s' ≫ eY) ≫ pY.fiberι (g s')
       calc eX ≫ Stacks.Flatness.fiberHom f pY (g s') ≫ pY.fiberι (g s')
           = (eX ≫ (f ≫ pY).fiberι (g s')) ≫ f := by
@@ -273,7 +273,7 @@ private lemma exists_isPullback_fiberHom_baseChange
             rw [Stacks.Flatness.fiberHom_fiberι f' pY' s', Category.assoc]
         _ = (Stacks.Flatness.fiberHom f' pY' s' ≫ eY) ≫ pY.fiberι (g s') := by
             rw [Category.assoc, ← hAY, Category.assoc]
-    · show eX ≫ Stacks.Flatness.fiberHom f pY (g s') ≫ pY.fiberToSpecResidueField (g s') =
+    · change eX ≫ Stacks.Flatness.fiberHom f pY (g s') ≫ pY.fiberToSpecResidueField (g s') =
         (Stacks.Flatness.fiberHom f' pY' s' ≫ eY) ≫ pY.fiberToSpecResidueField (g s')
       calc eX ≫ Stacks.Flatness.fiberHom f pY (g s') ≫ pY.fiberToSpecResidueField (g s')
           = eX ≫ (f ≫ pY).fiberToSpecResidueField (g s') := by

@@ -196,7 +196,7 @@ theorem isGoodOver_of_forall_comp {Y : Scheme.{u}} (h : Y ⟶ S.X) {ι : Type*}
   refine ⟨hD, (isGoodTriple_pullback_iff h hD).2 fun y hy => ?_⟩
   obtain ⟨i, v, rfl⟩ := hq y
   have hv : v ∈ (S.D.comap (q i ≫ h)).supportSet := by
-    show v ∈ (S.D.comap (q i ≫ h)).support
+    change v ∈ (S.D.comap (q i ≫ h)).support
     rwa [Scheme.IdealSheafData.comap_comp, Scheme.IdealSheafData.support_comap]
   obtain ⟨C, V, hV, hvV, hprin⟩ :=
     (isGoodTriple_pullback_iff _ (hgood i).pullbackDefined).1 (hgood i).isGoodTriple v hv

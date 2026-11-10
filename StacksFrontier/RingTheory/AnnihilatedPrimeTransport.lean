@@ -56,7 +56,7 @@ theorem exists_prime_of_ringEquiv (e : C ≃+* D) (t : C) (𝔨 : Ideal D) [𝔨
     obtain ⟨c, rfl⟩ := Ideal.mem_span_singleton'.mp hb
     refine Submodule.mem_sup.mpr ⟨y - e.symm c * t, ?_, e.symm c * t,
       Ideal.mul_mem_left _ _ (Ideal.mem_span_singleton_self t), by ring⟩
-    show e (y - e.symm c * t) ∈ 𝔨
+    change e (y - e.symm c * t) ∈ 𝔨
     rw [map_sub, map_mul, e.apply_symm_apply, ← hab]
     simpa using ha
   exact hle (by simpa [Ideal.mem_comap] using hn)

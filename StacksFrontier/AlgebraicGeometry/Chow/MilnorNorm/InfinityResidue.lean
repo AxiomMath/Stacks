@@ -91,7 +91,7 @@ theorem infinityResidue_eq_zero_of_constants (i : ℕ)
     rw [List.map_map]
     exact List.map_congr_left fun c _ ↦
       Units.ext (projectiveLineChartInversion_constantsHom (c : k))
-  show (milnorKTransportEquiv (residueFieldAtOriginEquiv k) i).symm
+  change (milnorKTransportEquiv (residueFieldAtOriginEquiv k) i).symm
     (dvrMilnorTameSymbol (irreducible_algebraMap_X (k := k)) i
       (milnorKTransport (AlgebraicGeometry.projectiveLineChartInversion k).toRingHom
         (i + 1) y)) = 0

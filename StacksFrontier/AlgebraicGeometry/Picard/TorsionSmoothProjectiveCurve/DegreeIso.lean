@@ -45,7 +45,7 @@ theorem ofSchemeDegree_schemePullbackClass_of_isIso (k : Type u) [Field k] {X Y 
       Stacks.SheafOfModules.picardClass X.presheaf
         (Stacks.RingedSpace.structureIsSheaf X.toRingedSpace) L hL = c :=
     ⟨_, _, classOf_picardRepresentative X.toRingedSpace c⟩
-  show ofSchemeDegree k (e ≫ f) hY (pullbackClass e.toLRSHom.toShHom _) = _
+  change ofSchemeDegree k (e ≫ f) hY (pullbackClass e.toLRSHom.toShHom _) = _
   rw [pullbackClass_classOf e.toLRSHom.toShHom L hL]
   refine (ofSchemeDegree_picardClass k (e ≫ f) hY _ _).trans
     (Eq.trans ?_ (ofSchemeDegree_picardClass k f hX L hL).symm)

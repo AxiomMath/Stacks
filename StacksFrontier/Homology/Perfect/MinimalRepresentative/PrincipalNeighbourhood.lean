@@ -733,7 +733,7 @@ theorem exists_away_bounded_free_complex_representing_of_fibre_vanishing_below_o
   have hcomp : e.toRingEquiv.toRingHom.comp ((algebraMap Rf Lg).comp (algebraMap R Rf)) =
       algebraMap R Lh := by
     ext r
-    show e ((algebraMap Rf Lg) ((algebraMap R Rf) r)) = algebraMap R Lh r
+    change e ((algebraMap Rf Lg) ((algebraMap R Rf) r)) = algebraMap R Lh r
     rw [← IsScalarTower.algebraMap_apply R Rf Lg]
     exact e.commutes r
   have hDeIso : IsIso (De.comparison.app P) := De.comparison_isIso_of_projective P b'

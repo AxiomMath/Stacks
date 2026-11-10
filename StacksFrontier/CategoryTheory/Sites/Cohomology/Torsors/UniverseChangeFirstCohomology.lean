@@ -137,7 +137,7 @@ public theorem subsingleton_torsorIsoClasses_of_natAddEquiv
     obtain ⟨s, hs⟩ := (nonempty_globalSections_iff_sectionFamily F₀.shrink.presheaf).1 hsections
     refine (nonempty_globalSections_iff_sectionFamily F.1.presheaf).2
       ⟨fun U => F₀.shrinkEquiv U (s U), fun {U V} f => ?_⟩
-    show F₀.presheaf.map f (F₀.shrinkEquiv U (s U)) = F₀.shrinkEquiv V (s V)
+    change F₀.presheaf.map f (F₀.shrinkEquiv U (s U)) = F₀.shrinkEquiv V (s V)
     rw [← PseudoTorsor.shrinkEquiv_map F₀ f (s U), hs f]
   exact ⟨fun a b => Quotient.inductionOn₂ a b fun a b => (trivialOf a).symm.trans (trivialOf b)⟩
 

@@ -157,7 +157,7 @@ theorem exists_isFlatOver_modulePullback_relativeMap
         { app := fun A => Over.homMk (c.π.app A.left) (c.w A.hom)
           naturality := fun A A' k => by
             apply Over.OverMorphism.ext
-            show 𝟙 c.pt ≫ c.π.app A'.left = c.π.app A.left ≫ E.map k.left
+            change 𝟙 c.pt ≫ c.π.app A'.left = c.π.app A.left ≫ E.map k.left
             rw [Category.id_comp, c.w k.left] } }
   let E' := Over.post E ⋙ schemesOverStage (E.obj j)
   let c' := (schemesOverStage (E.obj j)).mapCone K

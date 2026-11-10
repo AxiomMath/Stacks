@@ -360,7 +360,7 @@ theorem rightCore_JIS_isFiltered (S : MorphismProperty D)
         ⟨ψ.s ≫ r, S.comp_mem _ _ ψ.hs hr, ?_⟩, trivial⟩
       · exact S.comp_mem _ _ hsa (S.comp_mem _ _ hgS hr)
       · rfl
-      · show sb ≫ ψ.s ≫ r = sa ≫ ψ.f ≫ r
+      · change sb ≫ ψ.s ≫ r = sa ≫ ψ.f ≫ r
         rw [← Category.assoc, ← Category.assoc, hψeq]
     · rintro ⟨A, sa, hsa, hAI⟩ ⟨B, sb, hsb, hBI⟩ f₁ f₂
       obtain ⟨C, u, hu, hCI, hfu⟩ :=
@@ -668,7 +668,7 @@ theorem leftCore_JPS_isCofiltered (S : MorphismProperty D)
         ⟨r ≫ ψ.f, S.comp_mem _ _ hr hfS, ?_⟩, trivial⟩
       · exact S.comp_mem _ _ hr (S.comp_mem _ _ ψ.hs hsa)
       · exact Category.assoc _ _ _
-      · show (r ≫ ψ.f) ≫ sb = r ≫ ψ.s ≫ sa
+      · change (r ≫ ψ.f) ≫ sb = r ≫ ψ.s ≫ sa
         rw [Category.assoc, ← hψeq]
     · rintro ⟨A, sa, hsa, hAP⟩ ⟨B, sb, hsb, hBP⟩ f₁ f₂
       obtain ⟨C, u, hu, hCP, hfu⟩ :=

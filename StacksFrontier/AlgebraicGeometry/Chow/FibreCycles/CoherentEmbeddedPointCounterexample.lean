@@ -252,7 +252,7 @@ theorem cycleAssociatedToCoherentSheaf_infinityFibreModule_fieldZeroSectionSheaf
   refine Subtype.ext (Function.locallyFinsuppWithin.ext fun y => ?_)
   rw [cycleAssociatedToCoherentSheaf_apply (fieldChowSituation K) (𝟙 (fieldChowSituation K).S)
     (infinityFibreModule (𝟙 (fieldChowSituation K).S) (fieldZeroSectionSheaf K)) 0 hInf y,
-    if_neg fun h => notMem_supp_infinityFibreModule_fieldZeroSectionSheaf K y h.1]
+    ite_eq_right fun h => notMem_supp_infinityFibreModule_fieldZeroSectionSheaf K y h.1]
   rfl
 
 /-- **The `0`-cycle of the zero fibre does not vanish.** The support of the zero fibre is the

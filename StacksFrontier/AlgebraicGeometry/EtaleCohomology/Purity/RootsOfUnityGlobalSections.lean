@@ -54,9 +54,9 @@ theorem natCard_sheafH_zero_rootsOfUnity_eq :
     intro y
     obtain ⟨a, ha⟩ := Stacks.Kummer.ofUnit_surjective
       (Sheaf.H.equiv₀ (Stacks.Kummer.multiplicativeSheaf.{u, 0} X) hT y)
-    show (Sheaf.H.equiv₀ _ hT (pw y)).down = ℓ • (Sheaf.H.equiv₀ _ hT y).down
+    change (Sheaf.H.equiv₀ _ hT (pw y)).down = ℓ • (Sheaf.H.equiv₀ _ hT y).down
     rw [← Sheaf.H.equiv₀_naturality, ← ha, Stacks.Kummer.powMap_app_ofUnit]
-    show Additive.ofMul (a ^ ℓ) = ℓ • Additive.ofMul a
+    change Additive.ofMul (a ^ ℓ) = ℓ • Additive.ofMul a
     rw [ofMul_pow]
   have hrange : ∀ y, y ∈ (Sheaf.H.map.{u + 1} (Stacks.Kummer.rootsOfUnityι.{u, 0} X ℓ) 0).range ↔
       ℓ • E y = 0 := by

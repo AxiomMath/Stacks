@@ -154,7 +154,7 @@ namespace Stacks.DerivedTensor.RingedSite
 variable (X : RingedSite.{u, u, u})
   [HasSheafify X.J AddCommGrpCat.{u}]
   [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
-  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u} X.O).Additive]
+  [hTensorAdditive : (Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u} X.O).Additive]
   [∀ A, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u} X.O).obj A).Additive]
   [∀ (K L : CochainComplex (Modules X.O) ℤ),
     HomologicalComplex.HasMapBifunctor K L (Stacks.SheafOfModules.Tensor.sheafTensor X.O)
@@ -307,7 +307,7 @@ law of total complexes.  The comparison of the exchanged pair that the commutati
 ends with is cancelled by the one the unit constraint on the right begins with, those two being
 equal by `comparisonRight_eq_comparison`. -/
 lemma leftUnitTrans_app_Q (L : CochainComplex (Modules X.O) ℤ)
-    (hL : Stacks.SheafOfModules.KFlat.KFlat X.O L) :
+    (hL : Stacks.SheafOfModules.IsKFlat X.O L) :
     (leftUnitTrans X T).app (DerivedCategory.Q.obj L) =
       (T.comparison (unitComplex X) L
           (Stacks.SheafOfModules.isKFlat_single_unit X.O) hL).hom ≫
@@ -380,6 +380,10 @@ lemma flatSingleLifting_hom_app_eq :
             L :=
   rfl
 
+omit hTensorAdditive
+  [∀ (K L : CochainComplex (Modules X.O) ℤ),
+    HomologicalComplex.HasMapBifunctor K L (Stacks.SheafOfModules.Tensor.sheafTensor X.O)
+      (ComplexShape.up ℤ)] in
 /-- The lifting isomorphism that `CategoryTheory.Localization.liftNatTrans_app` produces for
 `𝒪 ⊗_𝒪 -` is `CategoryTheory.Functor.mapDerivedCategoryFactors`.  The two are the same
 isomorphism — the `Localization.Lifting` instance is built from it — but not syntactically, so
@@ -455,7 +459,7 @@ comparison of `(𝒪[0], L)` followed by `Q` of a morphism of total complexes �
 `leftUnitTrans_app_Q` and `flatSingleLeftUnitTrans_app_Q` — the two comparisons agree by
 `comparisonLeft_eq_comparison`, and the two morphisms of complexes agree by
 `tensorComplexFlipIso_tensorComplexUnitIso`. -/
-lemma leftUnitTrans_app_eq_flatSingle_Q (hL : Stacks.SheafOfModules.KFlat.KFlat X.O L) :
+lemma leftUnitTrans_app_eq_flatSingle_Q (hL : Stacks.SheafOfModules.IsKFlat X.O L) :
     (leftUnitTrans X T).app (DerivedCategory.Q.obj L) =
       (flatSingleLeftUnitTrans X T).app (DerivedCategory.Q.obj L) := by
   rw [leftUnitTrans_app_Q X T L hL, flatSingleLeftUnitTrans_app_Q,

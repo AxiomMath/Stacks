@@ -128,8 +128,8 @@ checks that at default transparency.
 The two monoidal instances of this file are enabled separately.
 `Stacks.SheafInternalHom.braidedCategory` and `symmetricCategory` are local to the abstract-site
 section: with them in scope at the scheme spelling, synthesis of
-`MonoidalCategoryStruct (Stacks.ProjBundleInverseBaseChange.Mods X)` fails — with this module's import closure, not with
-`StacksFrontier.AlgebraicGeometry.ProjBundleInverseBaseChange.Basic`'s.
+`MonoidalCategoryStruct (Stacks.ProjBundleInverseBaseChange.Mods X)` fails — with this module's
+import closure, not with `StacksFrontier.AlgebraicGeometry.ProjBundleInverseBaseChange.Basic`'s.
 
 ## References
 
@@ -188,7 +188,7 @@ theorem negOneTensorInverse_snake
           (ρ_ (negOneTensorInverse O hO L).inv).hom =
       (negOneTensorInverse O hO L).mulIso'.hom ▷ (negOneTensorInverse O hO L).inv ≫
         (λ_ (negOneTensorInverse O hO L).inv).hom := by
-  show _ = (negOneMulIso O hO L).hom ▷ _ ≫ _
+  change _ = (negOneMulIso O hO L).hom ▷ _ ≫ _
   rw [negOneMulIso_eq_braiding]
   exact (Stacks.Monoidal.braidedSnakeHyp hb (negOneMulIso' O hO L)).symm
 

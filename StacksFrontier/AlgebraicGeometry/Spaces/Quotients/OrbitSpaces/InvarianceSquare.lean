@@ -297,12 +297,14 @@ theorem restrictTestPoint_val {b b' : FieldValuedPoint B S hS Z}
 variable {R U X : Over Z}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the default instance search for `HasPullbacks (Over Z)` runs out of heartbeats
 /-- The pullbacks of `Over Z`, found once (the default search runs out of heartbeats) and
 cached as a local instance. -/
 noncomputable local instance (priority := high) hasPullbacksOverPresheaf :
     HasPullbacks (Over Z) := inferInstance
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- the default instance search for `HasBinaryProducts (Over Z)` runs out of heartbeats
 /-- The binary products of `Over Z`, found once (the default search runs out of heartbeats)
 and cached as a local instance. -/
 noncomputable local instance (priority := high) hasBinaryProductsOverPresheaf :

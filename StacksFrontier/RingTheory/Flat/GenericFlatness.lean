@@ -107,7 +107,7 @@ image of `f`. -/
 private theorem isLocalization_away_algebraMap (f : R) :
     IsLocalization.Away (algebraMap R S f)
       (Localization (Algebra.algebraMapSubmonoid S (Submonoid.powers f))) := by
-  show IsLocalization (Submonoid.powers (algebraMap R S f)) _
+  change IsLocalization (Submonoid.powers (algebraMap R S f)) _
   rw [← Algebra.algebraMapSubmonoid_powers (S := S) f]
   exact Localization.isLocalization
 
@@ -585,7 +585,7 @@ private theorem exists_finite_of_isUnit_coeff [Nontrivial R]
   have hp : p.Monic := Polynomial.monic_of_isUnit_leadingCoeff_inv_smul hlc
   have hz : p.eval₂ (Algebra.ofId A S : A →+* S) z = 0 := by
     have : Θ h = 0 := by simp [Θ, h, hgπ]
-    show Polynomial.aeval z (hlc.unit⁻¹ • h) = 0
+    change Polynomial.aeval z (hlc.unit⁻¹ • h) = 0
     rw [Units.smul_def, map_smul, ← hΘz, this, smul_zero]
   let L := AdjoinRoot.liftAlgHom p (Algebra.ofId A S) z hz
   have hL : Function.Surjective L := by

@@ -255,7 +255,7 @@ theorem backMap_comp_map {p q : ℤ} (A : Idx r q) (B : Idx r p) (hAB : A.1 ⊆ 
     backMap F j hiso A B hAB hBA ≫ F.map (homOfLE hAB) =
       Pi.π (fun S : Idx r p => F.obj S.1) B := by
   have : IsIso (F.map (homOfLE hAB)) := hiso hAB hBA
-  show (Pi.π (fun S : Idx r p => F.obj S.1) B ≫ inv (F.map (homOfLE hAB))) ≫
+  change (Pi.π (fun S : Idx r p => F.obj S.1) B ≫ inv (F.map (homOfLE hAB))) ≫
     F.map (homOfLE hAB) = _
   rw [Category.assoc, IsIso.inv_hom_id, Category.comp_id]
 

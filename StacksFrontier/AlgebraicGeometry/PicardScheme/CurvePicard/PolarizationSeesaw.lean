@@ -107,7 +107,7 @@ theorem hasDegreeZero_endoBaseChangeMap (T : BigFppfOver B (Spec (.of k)) hk)
     at e
   rw [endoPicardMap_toPicardFunctor] at e
   rw [HasDegreeZero]
-  show (toPicardFunctor B hX hk f).app (op T) _ ∈ _
+  change (toPicardFunctor B hX hk f).app (op T) _ ∈ _
   rw [← e]
   exact SetLike.coe_mem _
 
@@ -145,6 +145,9 @@ instance smoothOfRelativeDimension_curveOver :
     SmoothOfRelativeDimension 1 (curveOver B hX hk f).hom :=
   smoothOfRelativeDimension_one_of_isCurve k (B.inclusion.map f)
 
+omit [GeometricallyIrreducible (B.inclusion.map f)] [Smooth (B.inclusion.map f)]
+  [IsProper (B.inclusion.map f)] [IsProjectiveVariety k (B.inclusion.map f)]
+  [(picardFunctor B hX hk f).IsRepresentable] [IsAlgClosed k] in
 theorem topologicalKrullDim_curveOver : topologicalKrullDim (curveOver B hX hk f).left = 1 :=
   IsCurve.topologicalKrullDim_eq_one (f := B.inclusion.map f)
 
@@ -218,16 +221,22 @@ abbrev powerHomJac {m : ℕ}
     powerObj B hX hk f m ⟶ picardSchemeDegreeComponent B hX hk f σ hσ 0 :=
   (fullyFaithful_overPost_bigFppfInclusion B (Spec (.of k)) hk).preimage y
 
+omit [IsCurve k (B.inclusion.map f)] [GeometricallyIrreducible (B.inclusion.map f)]
+  [Smooth (B.inclusion.map f)] [IsProjectiveVariety k (B.inclusion.map f)]
+  [(picardFunctor B hX hk f).IsRepresentable] [IsAlgClosed k] in
 theorem post_map_powerHomCurve {m : ℕ}
     (y : power (curveOver B hX hk f) m ⟶ curveOver B hX hk f) :
     (Over.post (X := B.obj hk) B.inclusion).map (powerHomCurve B hX hk f y) = y :=
   Functor.FullyFaithful.map_preimage _ _
 
+omit [IsAlgClosed k] in
 theorem post_map_powerHomJac {m : ℕ}
     (y : power (curveOver B hX hk f) m ⟶ (jacobianGrp B hX hk f σ hσ).X) :
     (Over.post (X := B.obj hk) B.inclusion).map (powerHomJac B hX hk f σ hσ y) = y :=
   Functor.FullyFaithful.map_preimage _ _
 
+omit [GeometricallyIrreducible (B.inclusion.map f)] [(picardFunctor B hX hk f).IsRepresentable]
+  [IsAlgClosed k] in
 /-- **The Abel–Jacobi class restricted to `C^m` along `y`** is `[Γ_y] - [Γ_{c₀}]`. -/
 theorem picardMap_abelJacobiClass {m : ℕ}
     (y : power (curveOver B hX hk f) m ⟶ curveOver B hX hk f) :
@@ -251,6 +260,10 @@ theorem picardMap_abelJacobiClass {m : ℕ}
   · exact Stacks.Hilbert.HilbertFamily.schemePullbackClass_picardClass _ _ _
       (Stacks.Hilbert.pointIdeal_comap_familyBaseChangeMap _ y _).symm
 
+omit [IsCurve k (B.inclusion.map f)] [GeometricallyIrreducible (B.inclusion.map f)]
+  [Smooth (B.inclusion.map f)] [IsProper (B.inclusion.map f)]
+  [IsProjectiveVariety k (B.inclusion.map f)] [(picardFunctor B hX hk f).IsRepresentable]
+  [IsAlgClosed k] in
 theorem comp_constantPoint {T : Over (Spec (.of k))} (y : T ⟶ curveOver B hX hk f) :
     y ≫ constantPoint B hX hk f σ hσ = toUnit T ≫ curvePowerZeroBasePoint B hX hk f σ hσ := by
   apply Over.OverMorphism.ext
@@ -272,6 +285,10 @@ theorem curvePowerZeroBasePoint_comp_abelJacobi :
   rw [picardMap_abelJacobiClass, comp_constantPoint, sub_eq_zero]
   congr 2
 
+omit [IsCurve k (B.inclusion.map f)] [GeometricallyIrreducible (B.inclusion.map f)]
+  [Smooth (B.inclusion.map f)] [IsProper (B.inclusion.map f)]
+  [IsProjectiveVariety k (B.inclusion.map f)] [(picardFunctor B hX hk f).IsRepresentable]
+  [IsAlgClosed k] in
 /-- The second projection `C^2 ⟶ C^1` is the reindexing by the second coordinate. -/
 theorem reindex_one_eq_snd :
     reindex (curveOver B hX hk f) (fun _ : Fin 1 => (1 : Fin 2)) =
@@ -318,6 +335,9 @@ abbrev sectionRestrict (c : power (curveOver B hX hk f) 0 ⟶ curveOver B hX hk 
     picardAt B hX hk f (powerObj B hX hk f 1) →+ PowerPic (curveOver B hX hk f) 1 :=
   Stacks.Picard.schemePullbackClassHom (insertPoint (curveOver B hX hk f) c 1 0).left
 
+omit [IsCurve k (B.inclusion.map f)] [GeometricallyIrreducible (B.inclusion.map f)]
+  [Smooth (B.inclusion.map f)] [IsProjectiveVariety k (B.inclusion.map f)]
+  [(picardFunctor B hX hk f).IsRepresentable] [IsAlgClosed k] in
 theorem insertPoint_comp_snd (c : power (curveOver B hX hk f) 0 ⟶ curveOver B hX hk f) :
     (insertPoint (curveOver B hX hk f) c 1 0).left ≫
       baseChangeProj B hX hk f (powerObj B hX hk f 1) = 𝟙 _ := by
@@ -330,6 +350,9 @@ theorem insertPoint_comp_snd (c : power (curveOver B hX hk f) 0 ⟶ curveOver B 
       0).trans (Category.id_comp _).symm)
   exact congrArg Over.Hom.left h
 
+omit [IsCurve k (B.inclusion.map f)] [GeometricallyIrreducible (B.inclusion.map f)]
+  [Smooth (B.inclusion.map f)] [IsProjectiveVariety k (B.inclusion.map f)]
+  [(picardFunctor B hX hk f).IsRepresentable] [IsAlgClosed k] in
 theorem sectionRestrict_pullSndP (c : power (curveOver B hX hk f) 0 ⟶ curveOver B hX hk f)
     (N : PowerPic (curveOver B hX hk f) 1) :
     sectionRestrict B hX hk f c (pullSndP B hX hk f N) = N := by
@@ -337,16 +360,20 @@ theorem sectionRestrict_pullSndP (c : power (curveOver B hX hk f) 0 ⟶ curveOve
     (baseChangeProj B hX hk f (powerObj B hX hk f 1)) N).trans ?_
   rw [insertPoint_comp_snd, Stacks.Picard.schemePullbackClass_id]
 
-omit [IsAlgClosed k] in
+omit [GeometricallyIrreducible (B.inclusion.map f)] [(picardFunctor B hX hk f).IsRepresentable]
+  [IsAlgClosed k] in
 theorem sectionRestrict_diagP (c : power (curveOver B hX hk f) 0 ⟶ curveOver B hX hk f) :
     sectionRestrict B hX hk f c (diagP B hX hk f) = pointClass (curveOver B hX hk f) c :=
   schemePullbackClass_insertPoint_diagClass (curveOver B hX hk f) c
 
-omit [IsAlgClosed k] in
+omit [GeometricallyIrreducible (B.inclusion.map f)] [(picardFunctor B hX hk f).IsRepresentable]
+  [IsAlgClosed k] in
 theorem sectionRestrict_fibreP (c : power (curveOver B hX hk f) 0 ⟶ curveOver B hX hk f) :
     sectionRestrict B hX hk f c (fibreP B hX hk f σ hσ) = 0 :=
   schemePullbackClass_insertPoint_fibreClass (curveOver B hX hk f) c _
 
+omit [GeometricallyIrreducible (B.inclusion.map f)] [(picardFunctor B hX hk f).IsRepresentable]
+  [IsAlgClosed k] in
 /-- The restriction of the Abel–Jacobi class along the coordinate `C^1 ⟶ C` is `Δ - F₀`. -/
 theorem picardMap_abelJacobiClass_coord :
     picardMap B hX hk f (powerHomCurve B hX hk f (coord (curveOver B hX hk f) 1 0))
@@ -445,7 +472,7 @@ theorem cubeBilin_abelJacobi_eq_graphCorrespondence :
     rw [reindex_one_eq_snd]
     rfl
   rw [graphCorrespondence, one_smul, e0, e1]
-  show _ = fibreP B hX hk f σ hσ +
+  change _ = fibreP B hX hk f σ hσ +
     pullSndP B hX hk f (pointClass (curveOver B hX hk f) (curvePowerZeroBasePoint B hX hk f σ hσ)) -
       diagP B hX hk f
   abel

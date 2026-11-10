@@ -123,12 +123,13 @@ variable {A : Type u} [CommRing A] {Z : Scheme.{u}} (h : Z ⟶ Spec (.of A)) {K 
 affine cover with affine finite intersections of a scheme proper over the base, has perfect
 image in `D(A)`** ([Stacks, Tag 07VK]): it is the Čech model of `RΓ(Z, L)`. -/
 theorem isPerfect_extend_alternatingCechModuleComplex [IsNoetherianRing A] [IsProper h]
-    [Fintype K] [LinearOrder K] (hV : (⊤ : Z.Opens) = ⨆ i, V i) (hVa : ∀ i, IsAffineOpen (V i))
+    [Finite K] [LinearOrder K] (hV : (⊤ : Z.Opens) = ⨆ i, V i) (hVa : ∀ i, IsAffineOpen (V i))
     (haff : ∀ (r : ℕ) (s : Fin (r + 1) → K), IsAffineOpen (⨅ k, V (s k))) [L.IsCoherent]
     (hflat : IsFlatOver h.toLRSHom.toShHom L) :
     StacksDraft.Perfect.IsPerfect (DerivedCategory.Q.obj
       ((ComplexShape.embeddingUpNat.extendFunctor (ModuleCat.{u} A)).obj
         (Stacks.Cech.alternatingCechModuleComplex h V L))) := by
+  have : Fintype K := Fintype.ofFinite K
   have : L.IsQuasicoherent :=
     (Stacks.AlgebraicGeometry.CoherentTFAE.isQuasicoherent_isFiniteType_of_isCoherent L).1
   exact StacksDraft.Perfect.isPerfect_of_iso

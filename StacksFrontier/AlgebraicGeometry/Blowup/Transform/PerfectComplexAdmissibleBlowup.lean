@@ -82,7 +82,7 @@ theorem Module.IsFiniteLocallyFreeOfRank.eq_zero_of_subsingleton {R : Type*} [Co
   by_contra hr
   have e : M ≃ₗ[R] (Fin 0 → R) := LinearEquiv.ofSubsingleton _ _
   have hfit := fittingIdeal_eq_of_linearEquiv e (r - 1)
-  rw [fittingIdeal_fin_eq_bot_or_top, if_neg (by omega),
+  rw [fittingIdeal_fin_eq_bot_or_top, ite_eq_right (by omega),
     show ((r - 1 : ℕ) : ℤ) = (r : ℤ) - 1 by omega, hbot] at hfit
   exact bot_ne_top hfit
 
@@ -348,7 +348,7 @@ theorem isEffectiveCartierDivisor_comap_fittingIdealOfRanks {m : ℤ}
 /-- The empty divisor pulls back along any morphism. -/
 theorem isPullbackDefined_ofPerfect {Y : Scheme.{u}} (f : Y ⟶ X) :
     Stacks.Divisors.IsPullbackDefined f (ofPerfect X E hE).D := by
-  show Stacks.Divisors.IsEffectiveCartierDivisor ((⊤ : X.IdealSheafData).comap f)
+  change Stacks.Divisors.IsEffectiveCartierDivisor ((⊤ : X.IdealSheafData).comap f)
   rw [Scheme.IdealSheafData.comap_top]
   exact Stacks.Divisors.isEffectiveCartierDivisor_top
 
@@ -463,7 +463,7 @@ theorem AffineChart.rank_eq_zero_of_lt (C : AffineChart (ofPerfect X E hE))
     (hCU : (C.U : X.Opens) ≤ U) [Nontrivial Γ(X, C.U)] {b : ℤ}
     (hb : ∀ j, b < j → C.complex.rank j = 0) (j : ℤ) (hj : b < j) : r j = 0 := by
   have hX : IsZero (C.complex.toCochainComplex.X j) := by
-    show IsZero (ModuleCat.of Γ(X, C.U) (Fin (C.complex.rank j) → Γ(X, C.U)))
+    change IsZero (ModuleCat.of Γ(X, C.U) (Fin (C.complex.rank j) → Γ(X, C.U)))
     rw [hb j hj]
     exact ModuleCat.isZero_of_subsingleton _
   have : Subsingleton (C.complex.toCochainComplex.homology j) :=

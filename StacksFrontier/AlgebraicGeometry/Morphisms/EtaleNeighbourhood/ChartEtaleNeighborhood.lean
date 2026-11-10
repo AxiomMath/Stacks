@@ -74,7 +74,7 @@ theorem IsAffineOpen.specMap_fromSpec_apply (hU : IsAffineOpen U) {x : X} (hxU :
     {D : Type u} [CommRing D] (r : Γ(X, U) →+* D) (u : PrimeSpectrum D)
     (hu : Ideal.comap r u.asIdeal = (hU.primeIdealOf ⟨x, hxU⟩).asIdeal) :
     (Spec.map (CommRingCat.ofHom r) ≫ hU.fromSpec) u = x := by
-  show hU.fromSpec (Spec.map (CommRingCat.ofHom r) u) = x
+  change hU.fromSpec (Spec.map (CommRingCat.ofHom r) u) = x
   rw [show Spec.map (CommRingCat.ofHom r) u = hU.primeIdealOf ⟨x, hxU⟩ from
     PrimeSpectrum.ext hu]
   exact hU.fromSpec_primeIdealOf ⟨x, hxU⟩
@@ -89,7 +89,7 @@ theorem IsAffineOpen.apply_fromSpec_of_comap_eq {Y : Scheme.{u}} (k : X ⟶ Y)
     (hq : Ideal.comap (k.appLE VY U hUV).hom q.asIdeal =
       (hVY.primeIdealOf ⟨y, hyV⟩).asIdeal) :
     k (hU.fromSpec q) = y := by
-  show (hU.fromSpec ≫ k) q = y
+  change (hU.fromSpec ≫ k) q = y
   rw [← IsAffineOpen.SpecMap_appLE_fromSpec k hVY hU hUV]
   exact hVY.specMap_fromSpec_apply hyV (k.appLE VY U hUV).hom q hq
 
@@ -220,7 +220,7 @@ theorem IsAffineOpen.stalkHom_etaleNeighborhoodOfChart (hU : IsAffineOpen U)
       Localization.localRingHom (hU.primeIdealOf ⟨x, hxU⟩).asIdeal u.asIdeal r hu.symm := by
     refine IsLocalization.ringHom_ext (hU.primeIdealOf ⟨x, hxU⟩).asIdeal.primeCompl
       (RingHom.ext fun a => ?_)
-    show (Spec.stalkIso (CommRingCat.of D) u).hom.hom
+    change (Spec.stalkIso (CommRingCat.of D) u).hom.hom
         ((hU.etaleNeighborhoodOfChart hxU r u hu).stalkHom (eX.symm
           (algebraMap Γ(X, U) (Localization.AtPrime (hU.primeIdealOf ⟨x, hxU⟩).asIdeal) a))) = _
     rw [hgerm a, hU.stalkIso_stalkHom_etaleNeighborhoodOfChart_germ hxU r u hu a,

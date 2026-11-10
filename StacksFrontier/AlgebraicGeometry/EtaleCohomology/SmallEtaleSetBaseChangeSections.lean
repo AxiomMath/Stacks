@@ -201,7 +201,7 @@ theorem smallEtaleSetBaseChange_app_smallEtaleInverseImageSections
     exact comp_chain_fst lh.left ((smallEtaleBaseChange h).map lf).left ι.left _ _ _ _ _
       lf.left h r _ r' hι h2 h3 h4 h5 hrr'
   refine (congrArg (L.obj.map lh.op) hnat).trans ?_
-  show L.obj.map lh.op (L.obj.map ((smallEtaleBaseChange h).map lf).op
+  change L.obj.map lh.op (L.obj.map ((smallEtaleBaseChange h).map lf).op
       (((smallEtaleSetBaseChange.{u, v} e h g f w).app F).hom.app _
         (smallEtaleUnitApp f _ W σ))) = _
   refine (congrArg (fun z => L.obj.map lh.op (L.obj.map ((smallEtaleBaseChange h).map lf).op z))

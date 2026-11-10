@@ -67,12 +67,12 @@ that point. -/
 theorem mem_range_kaehlerDifferent_subschemeι_iff_not_unramifiedAt {Y X : Scheme.{u}}
     (f : Y ⟶ X) [LocallyOfFiniteType f] (y : Y) :
     y ∈ Set.range (kaehlerDifferent f).subschemeι ↔ ¬ UnramifiedAt f y := by
-  show y ∈ Set.range (fittingIdeal (Scheme.Hom.relativeDifferentials f) 0).subschemeι ↔ _
+  change y ∈ Set.range (fittingIdeal (Scheme.Hom.relativeDifferentials f) 0).subschemeι ↔ _
   rw [Scheme.IdealSheafData.range_subschemeι,
     show ((fittingIdeal (Scheme.Hom.relativeDifferentials f) 0).support : Set Y) =
       SheafOfModules.supp (Scheme.Hom.relativeDifferentials f) from
       fittingIdeal_zero_support_eq_supp _]
-  show y ∈ SheafOfModules.supp
+  change y ∈ SheafOfModules.supp
       (show SheafOfModules.{u} Y.ringCatSheaf from Scheme.Hom.relativeDifferentials f) ↔ _
   rw [SheafOfModules.mem_supp_iff_nontrivial_stalk
       (F := show SheafOfModules.{u} Y.ringCatSheaf from Scheme.Hom.relativeDifferentials f),

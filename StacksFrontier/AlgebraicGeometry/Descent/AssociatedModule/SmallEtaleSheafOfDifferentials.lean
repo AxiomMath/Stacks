@@ -42,8 +42,8 @@ objects live one universe above the sections of its structure sheaf. The general
 `AlgebraicGeometry.SheafOfModules.derivationsFunctor_isCorepresentable` of Stacks 04BL, whose
 coefficient modules are constrained to that universe. The construction here is the same formula
 — sheafify the presheaf of sectionwise Kähler differentials — assembled from the
-universe-polymorphic `PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'` and
-`PresheafOfModules.sheafification`, so it lands at `u`, as does
+universe-polymorphic `PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'`
+and `PresheafOfModules.sheafification`, so it lands at `u`, as does
 `AlgebraicGeometry.Space.sheafOfDifferentials` on the small étale site of an algebraic space.
 
 `Stacks.Sheaves.Differentials.presheafDifferentialsEquiv` is stated for a small site

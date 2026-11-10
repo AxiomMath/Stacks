@@ -154,9 +154,10 @@ component of `X` has δ-dimension `d`. Then
   `A^p(X) ⟶ CH_{d-p}(X)`,   `c ↦ c ∩ [X]_d`,
 
 is an isomorphism for every `p ∈ ℤ`. -/
-@[stacks 0FCB "first clause, in full: S as in section 42.63 with field components allowed, X smooth \
-over S and equidimensional of dimension d (every irreducible component of δ-dimension d); bivariant \
-classes are those of the Gysin system of invertible modules, `Stacks.Chow.gysinSystemOfInvertible`"]
+@[stacks 0FCB "first clause, in full: S as in section 42.63 with field components allowed, X \
+smooth over S and equidimensional of dimension d (every irreducible component of δ-dimension \
+d); bivariant classes are those of the Gysin system of invertible modules, \
+`Stacks.Chow.gysinSystemOfInvertible`"]
 theorem chowCohomologyCapFundamentalClass_bijective_of_smooth_of_equidimensional (d : ℕ)
     (hd : ∀ V : irreducibleComponents X,
       deltaDimension C sX ⟨V, V.2.1, isClosed_of_mem_irreducibleComponents _ V.2⟩ = d)
@@ -194,7 +195,7 @@ theorem chowCohomologyCapFundamentalClass_bijective_of_smooth_of_equidimensional
           hS.2.2 _ fun hcl ↦ hX1 η.1 ⟨hcl, hgS⟩
         have hge : C.dimensionFunction ((W.ι ≫ sX).base η.1) ≤
             relativeDimension C.dimensionFunction (W.ι ≫ sX) η.1 := by
-          show _ ≤ C.dimensionFunction ((W.ι ≫ sX).base η.1) +
+          change _ ≤ C.dimensionFunction ((W.ι ≫ sX).base η.1) +
             (Cardinal.toNat (residueTrdeg (W.ι ≫ sX) η.1) : ℤ)
           omega
         rw [hη, hδ1, hd0] at hge
@@ -232,8 +233,8 @@ equidimensional of dimension `0` the part `X₁` is empty. -/
 one-dimensional part of S (all of X when S has no zero-dimensional component), with the \
 intersection product of section 42.64 formed with the Gysin class Δ^! of the diagonal; over a \
 zero-dimensional component the clause is false as stated, see \
-`Stacks.Chow.not_chowCohomologyCapFundamentalClass_mulId_fieldChowSituation`; S as in section 42.63 \
-with field components allowed, X smooth and equidimensional of dimension e + 1"]
+`Stacks.Chow.not_chowCohomologyCapFundamentalClass_mulId_fieldChowSituation`; S as in section \
+42.63 with field components allowed, X smooth and equidimensional of dimension e + 1"]
 theorem chowGroupRestrict_chowCohomologyCapFundamentalClass_mulId (e : ℕ)
     (hd : ∀ V : irreducibleComponents X,
       deltaDimension C sX ⟨V, V.2.1, isClosed_of_mem_irreducibleComponents _ V.2⟩ = e + 1)
@@ -273,7 +274,7 @@ theorem chowGroupRestrict_chowCohomologyCapFundamentalClass_mulId (e : ℕ)
   rw [chowGroupRestrict_chowCohomologyCapFundamentalClass C sX W (p + q) _ hdim,
     chowGroupRestrict_chowCohomologyCapFundamentalClass C sX W p _ hdim,
     chowGroupRestrict_chowCohomologyCapFundamentalClass C sX W q _ hdim]
-  show chowCohomologyCapFundamentalClass C (gysinSystemOfInvertible C) (W.ι ≫ sX) (e + 1)
+  change chowCohomologyCapFundamentalClass C (gysinSystemOfInvertible C) (W.ι ≫ sX) (e + 1)
       (p + q) (chowCohomologyRestriction C (gysinSystemOfInvertible C) sX W.ι (p + q)
         (gysinSystemOfInvertible_isNaturalUnderBaseChangeIso C) (a.mulId C sX b)) = _
   rw [chowCohomologyRestriction_mulId]
@@ -282,7 +283,7 @@ theorem chowGroupRestrict_chowCohomologyCapFundamentalClass_mulId (e : ℕ)
     (diagonalGysinClass_compFlatPullbackEqOne_snd C (W.ι ≫ sX) (W.ι ≫ sX) he (𝟙 C.S)
       (Category.comp_id _)) p q
     (fun c' ↦
-      isExteriorProductOverBase_bivariantCapBaseFundamentalClass_of_forall_not_isZeroDimensionalBasePoint
+      isExteriorProductOverBase_bivariantCapBaseFundamentalClass_of_forall_not_isZeroDimBasePoint
         (W.ι ≫ sX) _ hS hX1 c') _ _
 
 end IsDedekindChowBase
@@ -354,7 +355,7 @@ theorem not_chowCohomologyCapFundamentalClass_mulId_fieldChowSituation :
       refine ⟨fun x y ↦ Subtype.ext (Function.locallyFinsuppWithin.ext fun z ↦ ?_)⟩
       have hnn : 0 ≤ relativeDimension C.dimensionFunction
           (pullback.fst (𝟙 C.S) (𝟙 C.S) ≫ (𝟙 C.S ≫ 𝟙 C.S)) z := by
-        show 0 ≤ C.dimensionFunction _ + (Cardinal.toNat (residueTrdeg _ z) : ℤ)
+        change 0 ≤ C.dimensionFunction _ + (Cardinal.toNat (residueTrdeg _ z) : ℤ)
         have h0 : C.dimensionFunction ((pullback.fst (𝟙 C.S) (𝟙 C.S) ≫ (𝟙 C.S ≫ 𝟙 C.S)).base z)
             = 0 := rfl
         omega

@@ -97,7 +97,7 @@ theorem ev_lift {S T : Sheaf J (ModuleCat.{w} Λ)} {M : ModuleCat.{w} Λ} (h : M
     have := (sheafificationAdjunction J (ModuleCat.{w} Λ)).homEquiv_unit _ T (lift J h)
     rw [lift, Equiv.apply_symm_apply] at this
     exact this.symm
-  show evPresheaf S.obj m ≫ (toSheafify J _ ≫ (lift J h).hom) = (h m).hom
+  change evPresheaf S.obj m ≫ (toSheafify J _ ≫ (lift J h).hom) = (h m).hom
   rw [h₁, evPresheaf_liftPresheaf]
   rfl
 
@@ -118,7 +118,7 @@ theorem hom_ext {S T : Sheaf J (ModuleCat.{w} Λ)} {M : ModuleCat.{w} Λ}
 theorem ev_add (S : Sheaf J (ModuleCat.{w} Λ)) {M : ModuleCat.{w} Λ} (m m' : M) :
     ev J S (m + m') = ev J S m + ev J S m' := by
   apply Sheaf.hom_ext
-  show evPresheaf S.obj (m + m') ≫ toSheafify J _ =
+  change evPresheaf S.obj (m + m') ≫ toSheafify J _ =
     evPresheaf S.obj m ≫ toSheafify J _ + evPresheaf S.obj m' ≫ toSheafify J _
   rw [← Preadditive.add_comp]
   congr 1
@@ -129,7 +129,7 @@ theorem ev_add (S : Sheaf J (ModuleCat.{w} Λ)) {M : ModuleCat.{w} Λ} (m m' : M
 theorem ev_smul (S : Sheaf J (ModuleCat.{w} Λ)) {M : ModuleCat.{w} Λ} (r : Λ) (m : M) :
     ev J S (r • m) = r • ev J S m := by
   apply Sheaf.hom_ext
-  show evPresheaf S.obj (r • m) ≫ toSheafify J _ = r • (evPresheaf S.obj m ≫ toSheafify J _)
+  change evPresheaf S.obj (r • m) ≫ toSheafify J _ = r • (evPresheaf S.obj m ≫ toSheafify J _)
   rw [← Linear.smul_comp]
   congr 1
 
@@ -154,7 +154,7 @@ theorem sum_smul_ev (S : Sheaf J (ModuleCat.{w} Λ)) {M : ModuleCat.{w} Λ} {n :
 theorem ev_map_right (S : Sheaf J (ModuleCat.{w} Λ)) {M M' : ModuleCat.{w} Λ} (u : M ⟶ M')
     (m : M) : ev J S m ≫ ((sheafTensor J Λ).obj S).map u = ev J S (u m) := by
   apply Sheaf.hom_ext
-  show (evPresheaf S.obj m ≫ toSheafify J _) ≫ sheafifyMap J _ =
+  change (evPresheaf S.obj m ≫ toSheafify J _) ≫ sheafifyMap J _ =
     evPresheaf S.obj (u m) ≫ toSheafify J _
   rw [Category.assoc, ← toSheafify_naturality, ← Category.assoc]
   congr 1
@@ -164,7 +164,7 @@ theorem ev_map_right (S : Sheaf J (ModuleCat.{w} Λ)) {M M' : ModuleCat.{w} Λ} 
 theorem ev_map_left {S S' : Sheaf J (ModuleCat.{w} Λ)} (a : S ⟶ S') {M : ModuleCat.{w} Λ}
     (m : M) : ev J S m ≫ ((sheafTensor J Λ).map a).app M = a ≫ ev J S' m := by
   apply Sheaf.hom_ext
-  show (evPresheaf S.obj m ≫ toSheafify J _) ≫ sheafifyMap J _ =
+  change (evPresheaf S.obj m ≫ toSheafify J _) ≫ sheafifyMap J _ =
     a.hom ≫ evPresheaf S'.obj m ≫ toSheafify J _
   rw [Category.assoc, ← toSheafify_naturality, ← Category.assoc, ← Category.assoc]
   congr 1
@@ -245,7 +245,7 @@ theorem comparison_comp {C'' : Type u₃} [Category.{v₃} C''] (J'' : Grothendi
       comparison J' J'' H (G.obj S) M ≫ H.map (comparison J J' G S M) :=
   hom_ext J'' fun m => by
     rw [ev_comparison]
-    show H.map (G.map (ev J S m)) = ev J'' (H.obj (G.obj S)) m ≫ _
+    change H.map (G.map (ev J S m)) = ev J'' (H.obj (G.obj S)) m ≫ _
     rw [ev_comparison_assoc, ← H.map_comp, ev_comparison]
 
 /-- **The comparison is an isomorphism for a finitely generated projective module**: for `M`

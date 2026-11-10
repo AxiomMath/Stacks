@@ -126,7 +126,7 @@ private lemma comap_ideal_comap_eq {P X : Scheme.{u}} (p : P ⟶ X) (q' : X ⟶ 
     ⟨q' ⁻¹ᵁ U.1, U.2.preimage_of_isOpenImmersion q' hU'⟩ hle
     (U.2.preimage_of_isOpenImmersion (p ≫ q') hU)
   refine (congrArg (Ideal.comap ((p ≫ q').app U.1).hom) e).trans ?_
-  show Ideal.comap ((p.app (q' ⁻¹ᵁ U.1)).hom.comp (q'.app U.1).hom)
+  change Ideal.comap ((p.app (q' ⁻¹ᵁ U.1)).hom.comp (q'.app U.1).hom)
     (Ideal.map (p.app (q' ⁻¹ᵁ U.1)).hom _) = _
   rw [← Ideal.comap_comap,
     Ideal.comap_map_of_bijective _ (bijective_app_of_le_opensRange p _ hle)]

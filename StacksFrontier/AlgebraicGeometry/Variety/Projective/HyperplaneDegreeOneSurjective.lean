@@ -126,7 +126,7 @@ theorem surjective_restriction_of_restrictsOnto {X Y : Scheme.{u}} {j : X ⟶ Y}
   have hx' : θ₀.hom.app ⊤ (pullbackGlobalSections j M x)
       = (θ₀.symm ≪≫ θ).inv.app ⊤ y := hx
   refine ⟨x, ?_⟩
-  show θ.hom.app ⊤ (pullbackGlobalSections j M x) = y
+  change θ.hom.app ⊤ (pullbackGlobalSections j M x) = y
   have hθ : θ.hom = θ₀.hom ≫ (θ₀.symm ≪≫ θ).hom := by
     simp
   calc θ.hom.app ⊤ (pullbackGlobalSections j M x)
@@ -177,7 +177,7 @@ theorem restrictsOnto_comp {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z) {M :
       pullbackGlobalSections_eq_unit f N]
     exact Stacks.Divisors.pullbackGlobalSections_naturality f θg.hom
       (pullbackGlobalSections g M x)
-  show θf.hom.app ⊤ (((Scheme.Modules.pullback f).map θg.hom).app ⊤
+  change θf.hom.app ⊤ (((Scheme.Modules.pullback f).map θg.hom).app ⊤
     (((Scheme.Modules.pullbackComp f g).app M).inv.app ⊤
       (pullbackGlobalSections (f ≫ g) M x))) = y
   rw [hcomp, Scheme.Modules.app_inv_app_hom ((Scheme.Modules.pullbackComp f g).app M) ⊤,

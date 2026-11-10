@@ -134,7 +134,7 @@ theorem ringedSpaceStructureMap_comp_eq :
     (g ≫ f).hom.base).map (ringedSpaceStructureMap g))
     (homEquiv_ringedSpaceStructureMap (inverseImageSpaceHom f g))).symm
   apply Sheaf.hom_ext
-  show f.hom.c ≫ (TopCat.Presheaf.pushforward CommRingCat.{u} f.hom.base).map g.hom.c =
+  change f.hom.c ≫ (TopCat.Presheaf.pushforward CommRingCat.{u} f.hom.base).map g.hom.c =
     (f.hom.c ≫ (TopCat.Presheaf.pushforward CommRingCat.{u} f.hom.base).map
       ((adjP g.hom.base).unit.app X.sheaf).hom) ≫
       (TopCat.Presheaf.pushforward CommRingCat.{u} f.hom.base).map
@@ -308,7 +308,7 @@ theorem inverseImageBase_comp_inverseImageReduction :
       ((congrArg _ P.base_comp_reduction).trans (homEquiv_ringedSpaceStructureMap f))
   let Hf := TopCat.Sheaf.pushforward CommRingCat.{u} f.hom.base
   let Hg := TopCat.Sheaf.pushforward CommRingCat.{u} g.hom.base
-  show (adjP f.hom.base).homEquiv _ _ P.base ≫ Hf.map ((adjP g.hom.base).unit.app P.sheaf) ≫
+  change (adjP f.hom.base).homEquiv _ _ P.base ≫ Hf.map ((adjP g.hom.base).unit.app P.sheaf) ≫
       Hf.map (Hg.map (inverseImageReduction (g := g) P)) = _
   refine (congrArg (_ ≫ ·) (Hf.map_comp _ _).symm).trans ?_
   refine (congrArg (fun t => (adjP f.hom.base).homEquiv _ _ P.base ≫ Hf.map t) hu.symm).trans ?_
@@ -449,14 +449,14 @@ theorem exists_localRep (V : Opens Y.carrier) (s : (inverseImageRing (g := g) P)
     refine (NatTrans.naturality_apply π' iU.op _).symm.trans ?_
     refine (congrArg (π'.app (op W)).hom hab.symm).trans ?_
     refine (NatTrans.naturality_apply π' iV.op s).trans ?_
-    show (R₁.map iV.op).hom ((π'.app (op V)).hom s) = 0
+    change (R₁.map iV.op).hom ((π'.app (op V)).hom s) = 0
     rw [show (π'.app (op V)).hom s = 0 from hs, map_zero]
   have h0 : (R₁.map iU.op).hom (unitSec g X.sheaf U 0) = 0 :=
     (congrArg (R₁.map iU.op).hom (map_zero (unitSec g X.sheaf U))).trans (map_zero _)
   obtain ⟨U', hU', i₁, i₂, hU''⟩ := exists_eq_of_germ_unitSec_eq g X.sheaf _ _ y hgy hgy
     (germ_eq_of_map_eq _ iU iU hyW _ _ (hzero.trans h0.symm))
   have ha' : (P.sheaf.obj.map i₁.op).hom a ∈ kernelIdeal P.reduction.hom (op U') := by
-    show (P.reduction.hom.app (op U')).hom ((P.sheaf.obj.map i₁.op).hom a) = 0
+    change (P.reduction.hom.app (op U')).hom ((P.sheaf.obj.map i₁.op).hom a) = 0
     rw [NatTrans.naturality_apply P.reduction.hom i₁.op a]
     refine hU''.trans ?_
     exact map_zero _
@@ -477,7 +477,7 @@ theorem exists_glued_value (V : Opens Y.carrier) (s : (inverseImageRing (g := g)
       obtain ⟨r, hr⟩ := exists_localRep (P := P) V s hs y hy
       exact Opens.mem_iSup.2 ⟨r, hr⟩) (fun r => r.value P G c) (by
       intro r₁ r₂
-      show G.val.map (homOfLE inf_le_left).op (r₁.value P G c) =
+      change G.val.map (homOfLE inf_le_left).op (r₁.value P G c) =
         G.val.map (homOfLE inf_le_right).op (r₂.value P G c)
       unfold LocalRep.value
       rw [moduleMap_map G _ _ (homOfLE (inf_le_left.trans r₁.le_U)),
@@ -623,7 +623,7 @@ theorem idealMapValue_add (V : Opens Y.carrier)
       ⟨(P.sheaf.obj.map i₂.op).hom r₂.a.1, Stacks.Sites.Conormal.map_kernel P.reduction.hom
         i₂.op r₂.a.2⟩
   refine ⟨⟨W, inf_le_left.trans r₁.le_V, U, hWU, a, ?_⟩, ⟨hr₁, hr₂⟩, ?_⟩
-  · show (A'.map _).hom (s₁ + s₂) = (A'.map (homOfLE hWU).op).hom (unitSec g P.sheaf U
+  · change (A'.map _).hom (s₁ + s₂) = (A'.map (homOfLE hWU).op).hom (unitSec g P.sheaf U
       ((P.sheaf.obj.map i₁.op).hom r₁.a.1 + (P.sheaf.obj.map i₂.op).hom r₂.a.1))
     rw [map_add, map_add, map_add, ← localRep_map_eq_restrict r₁ i₁ (inf_le_left : W ≤ r₁.W) hWU,
       ← localRep_map_eq_restrict r₂ i₂ (inf_le_right : W ≤ r₂.W) hWU]
@@ -644,7 +644,7 @@ theorem idealMapValue_map {V V' : Opens Y.carrier} (i : V' ⟶ V)
   refine (eq_idealMapValue V' _ hs' _ fun y hy => ?_).symm
   obtain ⟨r, hr⟩ := exists_localRep (P := P) V s hs y (i.le hy)
   refine ⟨⟨r.W ⊓ V', inf_le_right, r.U, inf_le_left.trans r.le_U, r.a, ?_⟩, ⟨hr, hy⟩, ?_⟩
-  · show (A'.map (homOfLE inf_le_right).op).hom ((A'.map i.op).hom s) = _
+  · change (A'.map (homOfLE inf_le_right).op).hom ((A'.map i.op).hom s) = _
     rw [ringMap_map A' i (homOfLE inf_le_right) (homOfLE (inf_le_left.trans r.le_V))]
     exact r.map_eq inf_le_left
   · exact (moduleMap_map G i (homOfLE inf_le_right) (homOfLE (inf_le_left.trans r.le_V)) _).trans
@@ -701,7 +701,7 @@ theorem idealMapValue_mul (V : Opens Y.carrier)
       (A'.map (homOfLE hWU).op).hom (unitSec g P.sheaf U b₁) := by
     exact restrict_eq_unitSec_map iV₂ iU₂ b₀ hb i₂ inf_le_right hWU
   refine ⟨⟨W, inf_le_left.trans r.le_V, U, hWU, b₁ • a₁, ?_⟩, ⟨hr, hyW₂⟩, ?_⟩
-  · show (A'.map _).hom (b * s) = (A'.map (homOfLE hWU).op).hom (unitSec g P.sheaf U
+  · change (A'.map _).hom (b * s) = (A'.map (homOfLE hWU).op).hom (unitSec g P.sheaf U
       (b₁ * (P.sheaf.obj.map i₁.op).hom r.a.1))
     refine (map_mul _ b s).trans ((congrArg₂ (· * ·) hb'
       (localRep_map_eq_restrict r i₁ (inf_le_left : W ≤ r.W) hWU)).trans ?_)
@@ -713,7 +713,7 @@ theorem idealMapValue_mul (V : Opens Y.carrier)
         ((structureSheafRing Y).obj.map (homOfLE hWU).op).hom
           (show (structureSheafRing Y).obj.obj (op ((Opens.map g.hom.base).obj U)) from
             (g.hom.c.app (op U)).hom ((P.reduction.hom.app (op U)).hom b₁)) := by
-      show (Y.sheaf.obj.map _).hom _ = (Y.sheaf.obj.map _).hom _
+      change (Y.sheaf.obj.map _).hom _ = (Y.sheaf.obj.map _).hom _
       refine (NatTrans.naturality_apply σ (homOfLE (inf_le_left.trans r.le_V) : W ⟶ V).op
         _).symm.trans ?_
       refine (congrArg (σ.app (op W)).hom (NatTrans.naturality_apply π' _ b).symm).trans ?_

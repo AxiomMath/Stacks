@@ -170,7 +170,7 @@ theorem essentiallySmall_schemeBelow_of_small_out (bound : Cardinal.{u})
   let _ : Small.{w} carrier := inferInstance
   let _ : Small.{w} enlarged.out := small_out_cardinalMk carrier
   have bound_lt : max bound Cardinal.aleph0 < enlarged := by
-    show max bound Cardinal.aleph0 < Cardinal.mk (Set (ULift.{u} ℕ ⊕ bound.out))
+    change max bound Cardinal.aleph0 < Cardinal.mk (Set (ULift.{u} ℕ ⊕ bound.out))
     rw [Cardinal.mk_set, Cardinal.mk_sum]
     simp only [Cardinal.mk_uLift, Cardinal.mk_nat, Cardinal.mk_out, Cardinal.lift_id]
     simpa only [Cardinal.lift_aleph0] using
@@ -241,7 +241,7 @@ theorem essentiallySmall_schemeBelow_of_small_out (bound : Cardinal.{u})
       (Scheme.AffineZariskiSite.toOpensFunctor X.obj ⋙
         X.obj.presheaf.rightOp ⋙ Scheme.Spec)
       (fun U => by
-        show (Spec Γ(X.obj, U.1)).size < enlarged
+        change (Spec Γ(X.obj, U.1)).size < enlarged
         rw [Scheme.size_Spec]
         exact (max_le X.obj.aleph0_le_size
           (X.obj.mk_sections_le_size ⟨U.1, U.2⟩)).trans_lt X.property)

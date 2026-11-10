@@ -156,11 +156,11 @@ theorem exists_galoisCover_restriction_eq_zero [GeometricallyConnected f]
   let α₁ : S → (V₁ ⟶ V₁) := fun m => Etale.toFiniteEtaleOverHom hVfin hVfin (α m)
   have hα₁ : ∀ m m', α₁ (m + m') = α₁ m ≫ α₁ m' := fun m m' =>
     MorphismProperty.Over.Hom.ext (by
-      show (α (m + m')).left = (α m).left ≫ (α m').left
+      change (α (m + m')).left = (α m).left ≫ (α m').left
       rw [hα]
       rfl)
   have hα₁0 : α₁ 0 = 𝟙 V₁ := MorphismProperty.Over.Hom.ext (by
-    show (α 0).left = 𝟙 _
+    change (α 0).left = 𝟙 _
     rw [hα0]
     rfl)
   have htors₁ : ∀ (z : GeometricPoint (pullback (spectrumMap k E) f)) (a b : finiteEtaleFiber z V₁),
@@ -186,7 +186,7 @@ theorem exists_galoisCover_restriction_eq_zero [GeometricallyConnected f]
   have hα₂ : ∀ m m', α₂ (m + m') = α₂ m ≫ α₂ m' := fun m m' => by
     simp only [α₂, hα₁, Functor.map_comp]
   have hα₂0 : α₂ 0 = 𝟙 V₂ := by
-    show (finiteEtaleBaseChange g).map (α₁ 0) = 𝟙 _
+    change (finiteEtaleBaseChange g).map (α₁ 0) = 𝟙 _
     rw [hα₁0, CategoryTheory.Functor.map_id]
   let xE' := basePoint f E' x hx
   have hg : xE' ≫ g = spectrumMap E E' ≫ xE := basePoint_comp_pullbackSpectrumMap f E E' x hx

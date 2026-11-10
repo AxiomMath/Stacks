@@ -393,7 +393,7 @@ theorem extSectionsAddEquiv_cohomologyOfClosedMap_zero
         (colimit.ι (openNeighborhoodCohomology Z F 0) U x) =
       colimit.ι (neighborhoodSections F Z) U
         ((openNeighborhoodCohomologyZeroIso Z F).hom.app U x) :=
-    by rw [← ConcreteCategory.comp_apply, HasColimit.isoOfNatIso_ι_hom,
+    by rw [← ConcreteCategory.comp_apply, HasColimit.ι_isoOfNatIso_hom,
       ConcreteCategory.comp_apply]; rfl
   rw [cohomologyOfClosedMap_ι, hκ]
   exact (cohomologyOfClosedMapComp_zero_apply Z F U.unop x).trans

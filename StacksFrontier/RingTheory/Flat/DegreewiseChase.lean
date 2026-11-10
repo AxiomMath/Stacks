@@ -402,8 +402,7 @@ private theorem injective_rTensor_residue_localizedMapRp (u : Q →ₗ[S] M₂)
         (localizedMapRp (R := R) u q)) =
       (LinearMap.rTensor (ResidueFieldAt R (q.under R)) (localizedMapR (R := R) u q)) ∘ e₁ := by
     funext z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul x k => rfl
     | add a b ha hb =>
       simp only [Function.comp_apply, map_add] at ha hb ⊢
@@ -532,7 +531,7 @@ theorem exactAt_tensorModuleRight_iff_exact_rTensor {R : Type*} [CommRing R]
   have hprev : (ComplexShape.up ℤ).prev n = n - 1 := by simp [CochainComplex.prev]
   have hnext : (ComplexShape.up ℤ).next n = n + 1 := by simp [CochainComplex.next]
   rw [HomologicalComplex.exactAt_iff, ShortComplex.ShortExact.moduleCat_exact_iff_function_exact]
-  show Function.Exact (LinearMap.rTensor M (K.d ((ComplexShape.up ℤ).prev n) n).hom)
+  change Function.Exact (LinearMap.rTensor M (K.d ((ComplexShape.up ℤ).prev n) n).hom)
       (LinearMap.rTensor M (K.d n ((ComplexShape.up ℤ).next n)).hom) ↔ _
   rw [hprev, hnext]
 

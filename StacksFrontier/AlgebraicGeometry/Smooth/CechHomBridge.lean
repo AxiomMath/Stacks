@@ -309,7 +309,7 @@ theorem homRes_conormalResLE (c c' : Γ(T', (⊤ : T'.Opens)))
     refine IsLocalizedModule.ext (Submonoid.powers b)
       (restrictₗ (pullbackCotangentSheaf f a) (le_top : i ⁻¹ᵁ T'.basicOpen c ≤ ⊤)) hunit
       (LinearMap.ext fun y ↦ ?_)
-    show homRes f a hi c' ν (restrictₗ (pullbackCotangentSheaf f a) _
+    change homRes f a hi c' ν (restrictₗ (pullbackCotangentSheaf f a) _
         (restrictₗ (pullbackCotangentSheaf f a) (le_top : i ⁻¹ᵁ T'.basicOpen c ≤ ⊤) y))
       = conormalResLE hi hcc' (homRes f a hi c ν
         (restrictₗ (pullbackCotangentSheaf f a) (le_top : i ⁻¹ᵁ T'.basicOpen c ≤ ⊤) y))

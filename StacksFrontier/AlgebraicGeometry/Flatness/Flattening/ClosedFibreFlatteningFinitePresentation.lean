@@ -117,7 +117,7 @@ private theorem exists_closedPoint_iso_stalk {A : Type u} [CommRing A] [IsLocalR
   let p : Spec Γ(T, ⊤) := IsLocalRing.closedPoint Γ(T, ⊤)
   let t : T := T.isoSpec.inv p
   refine ⟨t, ?_, ?_⟩
-  · show (T.isoSpec.inv ≫ i) p = _
+  · change (T.isoSpec.inv ≫ i) p = _
     rw [← Scheme.isoSpec_inv_naturality, Scheme.isoSpec_Spec_inv, ← Spec.map_comp]
     exact AlgebraicGeometry.Spec_closedPoint (f := φ)
   · have := isIso_fromSpecStalk_closedPoint Γ(T, ⊤)

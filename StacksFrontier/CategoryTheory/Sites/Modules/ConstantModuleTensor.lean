@@ -118,7 +118,7 @@ instance additive_sheafTensor : (sheafTensor J Λ).Additive where
 theorem sheafTensor_map_smul {S S' : Sheaf J (ModuleCat.{w} Λ)} (r : Λ) (a : S ⟶ S') :
     (sheafTensor J Λ).map (r • a) = r • (sheafTensor J Λ).map a := by
   refine NatTrans.ext <| funext fun M => ?_
-  show (presheafToSheaf J _).map (((presheafTensor Λ).map (r • a.hom)).app M) =
+  change (presheafToSheaf J _).map (((presheafTensor Λ).map (r • a.hom)).app M) =
     r • (presheafToSheaf J _).map (((presheafTensor Λ).map a.hom).app M)
   rw [presheafTensor_map_smul, NatTrans.app_smul, Functor.map_smul]
 

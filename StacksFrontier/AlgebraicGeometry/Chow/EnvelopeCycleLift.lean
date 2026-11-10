@@ -83,13 +83,13 @@ theorem relativeDimension_eq_of_residueFieldMap_isIso (C : ChowSituation.{u})
   have he : ∀ a : C.S.residueField (sX.base (f.base y)),
       e (algebraMap _ _ a) = algebraMap _ _ a := by
     intro a
-    show (f.residueFieldMap y).hom ((sX.residueFieldMap (f.base y)).hom a) =
+    change (f.residueFieldMap y).hom ((sX.residueFieldMap (f.base y)).hom a) =
       ((f ≫ sX).residueFieldMap y).hom a
     rw [Scheme.residueFieldMap_comp]
     rfl
   let eA : X.residueField (f.base y) ≃ₐ[C.S.residueField (sX.base (f.base y))]
       Y.residueField y := AlgEquiv.ofRingEquiv (f := e) he
-  show C.dimensionFunction (sX.base (f.base y)) +
+  change C.dimensionFunction (sX.base (f.base y)) +
       (Cardinal.toNat (Algebra.trdeg (C.S.residueField (sX.base (f.base y)))
         (Y.residueField y)) : ℤ) =
     C.dimensionFunction (sX.base (f.base y)) +
@@ -104,7 +104,7 @@ theorem residueDegree_eq_one_of_residueFieldMap_isIso {X Y : Scheme.{u}} (f : Y 
   have hb : Function.Bijective (f.residueFieldMap y) :=
     ConcreteCategory.bijective_of_isIso (C := CommRingCat) (f.residueFieldMap y)
   let _ := (f.residueFieldMap y).hom.toAlgebra
-  show Module.finrank (X.residueField (f.base y)) (Y.residueField y) = 1
+  change Module.finrank (X.residueField (f.base y)) (Y.residueField y) = 1
   exact Module.finrank_of_bijective_algebraMap hb
 
 /-! ### The chosen preimage of a point -/
@@ -247,11 +247,11 @@ theorem envelopeCycleLift_pushforward (C : ChowSituation.{u}) {X Y : Scheme.{u}}
   have hdim₀ := relativeDimension_eq_of_residueFieldMap_isIso C sX f y₀ hres₀
   have hdeg₀ := residueDegree_eq_one_of_residueFieldMap_isIso f y₀ hres₀
   have hcoeff₀ : (envelopeCycleLift C sX f hcd k c).1 y₀ = c.1 x := by
-    show envelopeLiftCycleCoeff f hcd c.1 y₀ = c.1 x
+    change envelopeLiftCycleCoeff f hcd c.1 y₀ = c.1 x
     rw [envelopeLiftCycleCoeff_of_eq f hcd c.1 (by rw [hy₀, hy₀def]), hy₀]
   have hφ₀ : φ y₀ = c.1 x := by
     rw [hφdef]
-    show (envelopeCycleLift C sX f hcd k c).1 y₀ * _ = c.1 x
+    change (envelopeCycleLift C sX f hcd k c).1 y₀ * _ = c.1 x
     rw [ite_eq_left hdim₀, hdeg₀, hcoeff₀, Nat.cast_one, mul_one]
   rw [Finset.sum_singleton, hφ₀]
 

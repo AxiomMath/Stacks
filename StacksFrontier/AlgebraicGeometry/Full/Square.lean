@@ -68,7 +68,7 @@ change. -/
 theorem pullback_map_left_comp_fst {T T' : C} (r : T ⟶ T') {X Y : Over T'} (f : X ⟶ Y) :
     ((Over.pullback r).map f).left ≫ pullback.fst Y.hom r =
       pullback.fst X.hom r ≫ f.left := by
-  simp [Over.pullback_map_left, pullback.lift_fst]
+  simp [Over.pullback_map_left]
 
 /-- **The overlap equation for a compatible pair of base-changed morphisms.**  If `φ` and `ψ`
 base-change `X ⟶ Y` along `u` and along `p` respectively, and their further base changes to `V`

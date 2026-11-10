@@ -28,7 +28,7 @@ attribute [local instance] HasDerivedCategory.standard
 
 variable {k : Type u} [Field k] [Fintype k] {U : Scheme.{u}} (fU : U ⟶ Spec (.of k))
   [IsCurve k fU] [Smooth fU] [LocallyOfFiniteType fU] [QuasiCompact fU] [IsSeparated fU]
-  [ConnectedSpace U] (j : CompactificationOf (Over.mk fU)) (kbar : Type u) [Field kbar]
+  (j : CompactificationOf (Over.mk fU)) (kbar : Type u) [Field kbar]
   [Algebra k kbar] [IsAlgClosed kbar] (m : ℕ) [NeZero m] (p q : ℕ) [Fact p.Prime] [CharP k p]
   (hcard : Fintype.card k = p ^ q)
   (C : CoverCompactification k j.toBase j.immersion (𝟙 U))

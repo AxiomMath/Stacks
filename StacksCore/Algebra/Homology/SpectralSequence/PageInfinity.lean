@@ -1,6 +1,6 @@
 module
 
-public import Mathlib.Data.Int.LeastGreatest
+public import Mathlib.Order.Int.LeastGreatest
 public import StacksCore.Algebra.Homology.SpectralSequence.EdgeStep
 
 /-!

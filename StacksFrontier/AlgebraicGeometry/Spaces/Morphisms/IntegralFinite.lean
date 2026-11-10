@@ -198,7 +198,7 @@ theorem isFinite_coproduct {I : Type v} [Finite I]
       rw [← Functor.map_comp, hdfac]
     exact (congrArg (· ≫ T.map d) (BigFppfOver.toScheme_map_sigmaIncl B S hS V i)).symm.trans h
   have hd : T.map d = Sigma.desc fun i ↦ T.map (p i) :=
-    Sigma.hom_ext _ _ fun i ↦ (hdfacS i).trans (Sigma.ι_desc (fun j ↦ T.map (p j)) i).symm
+    Sigma.hom_ext _ _ fun i ↦ (hdfacS i).trans (Sigma.ι_comp_desc (fun j ↦ T.map (p j)) i).symm
   have : ∀ i, _root_.AlgebraicGeometry.IsFinite (T.map (p i)) := hp
   have hdfin : _root_.AlgebraicGeometry.IsFinite (T.map d) := by
     rw [hd]; exact isFinite_sigmaDesc

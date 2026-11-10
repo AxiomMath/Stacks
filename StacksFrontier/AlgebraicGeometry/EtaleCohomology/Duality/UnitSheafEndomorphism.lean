@@ -60,7 +60,7 @@ theorem unitSheafEndEquiv_nsmul (m : ℕ) (f : unitSheaf (X := X) N ⟶ unitShea
 theorem unitSheafEndEquiv_id (x : X) :
     unitSheafEndEquiv N (𝟙 (unitSheaf (X := X) N)) x = ULift.up 1 := by
   simp only [unitSheafEndEquiv, homUnitSheafEquiv, Equiv.trans_apply, Adjunction.homEquiv_unit]
-  show (unitSheafSectionsEquiv N) (((constantSheafAdj X.smallEtaleTopology
+  change (unitSheafSectionsEquiv N) (((constantSheafAdj X.smallEtaleTopology
     (ModuleCat.{u + 1} (ZMod N)) (etaleSiteTerminalIsTerminal X)).unit.app _).hom (ULift.up 1))
       x = _
   rw [Stacks.ConstantSheaf.constantSheafAdj_unit_app]
@@ -80,7 +80,7 @@ theorem exists_eq_smul_id [NeZero N] [PreconnectedSpace X]
     rw [e, unitSheafEndEquiv_nsmul, LocallyConstant.smul_apply, unitSheafEndEquiv_id,
       (unitSheafEndEquiv N w).apply_eq_of_preconnectedSpace x x₀]
     apply ULift.ext
-    show c = (c.val • (1 : ZMod N))
+    change c = (c.val • (1 : ZMod N))
     rw [nsmul_eq_mul, mul_one, ZMod.natCast_zmod_val]
   · have : IsEmpty X := not_nonempty_iff.mp hX
     refine ⟨0, (unitSheafEndEquiv N).injective ?_⟩

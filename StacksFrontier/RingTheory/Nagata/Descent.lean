@@ -137,7 +137,7 @@ private theorem isLocalizationAway_quotient {R Rₚ : Type u} [CommRing R] [Comm
   have hm : Algebra.algebraMapSubmonoid (R ⧸ p) (Submonoid.powers g)
       = Submonoid.powers (algebraMap R (R ⧸ p) g) := by
     rw [Algebra.algebraMapSubmonoid, Submonoid.map_powers]
-  show IsLocalization (Submonoid.powers (algebraMap R (R ⧸ p) g)) _
+  change IsLocalization (Submonoid.powers (algebraMap R (R ⧸ p) g)) _
   rw [← hm]
   infer_instance
 
@@ -387,8 +387,7 @@ private theorem finite_integralClosure_of_separable_fraction_extension
   have hφ : Function.Injective φ := by
     have heq : ∀ x, ψ₀ (Algebra.TensorProduct.comm A K B x) = φ x := by
       intro x
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul k b => simp [φ, ψ₀, mul_comm]
       | add x y hx hy => simp [hx, hy]
     intro x y hxy
@@ -400,7 +399,7 @@ private theorem finite_integralClosure_of_separable_fraction_extension
   let μ : K₁ ⊗[K] (K ⊗[A] B) →ₗ[K₁] T :=
     LinearMap.baseChange K₁ φ.toLinearMap
   have hμ : Function.Injective μ := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap φ.toLinearMap hφ
   let : Algebra L T := Algebra.TensorProduct.rightAlgebra
   have : IsScalarTower A L T := IsScalarTower.to₁₃₄ A K L T
@@ -415,8 +414,7 @@ private theorem finite_integralClosure_of_separable_fraction_extension
   have hθ₀ : Function.Injective θ₀ := by
     have heq : ∀ x, θ₀ x = μ (e (Algebra.TensorProduct.comm A B K₁ x)) := by
       intro x
-      induction x using TensorProduct.induction_on with
-      | zero => simp
+      induction x using TensorProduct.inductionOn with
       | tmul b k =>
           simp [θ₀, μ, e, φ, T, IsScalarTower.algebraMap_apply B L T,
             Algebra.TensorProduct.right_algebraMap_apply, mul_comm]
@@ -430,11 +428,10 @@ private theorem finite_integralClosure_of_separable_fraction_extension
   let ν : B ⊗[A] A₁ →ₗ[B] B ⊗[A] K₁ :=
     LinearMap.baseChange B (Subalgebra.val A₁).toLinearMap
   have hν : Function.Injective ν := by
-    simp [ν, LinearMap.baseChange_eq_ltensor]
+    simp [ν, LinearMap.baseChange_eq_lTensor]
   have hmem : ∀ z : B ⊗[A] A₁, θ₀ (ν z) ∈ integralClosure B T := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul b a =>
         have ha : IsIntegral B
             (Algebra.TensorProduct.includeLeft (R := K) (A := K₁) (B := L) (a : K₁)) :=
@@ -476,11 +473,11 @@ theorem of_isSeparable_fractionRing
   let : Algebra K K₁ :=
     RingHom.toAlgebra ((algebraMap (FractionRing A) K₁).comp e.symm.toRingHom)
   have : IsScalarTower A K K₁ := .of_algebraMap_eq fun a => by
-    show algebraMap A K₁ a = algebraMap (FractionRing A) K₁ (e.symm (algebraMap A K a))
+    change algebraMap A K₁ a = algebraMap (FractionRing A) K₁ (e.symm (algebraMap A K a))
     rw [e.symm.commutes]
     exact IsScalarTower.algebraMap_apply A (FractionRing A) K₁ a
   have : FiniteDimensional K K₁ := by
-    show Module.Finite K K₁
+    change Module.Finite K K₁
     rw [← RingHom.finite_algebraMap]
     exact (RingHom.finite_algebraMap.mpr inferInstance).comp
       (RingEquiv.finite e.symm.toRingEquiv)
@@ -492,7 +489,7 @@ theorem of_isSeparable_fractionRing
     intro x
     obtain ⟨n, y, hy⟩ := IsPurelyInseparable.pow_mem (FractionRing A) q x
     refine ⟨n, e y, ?_⟩
-    show algebraMap (FractionRing A) K₁ (e.symm (e y)) = x ^ q ^ n
+    change algebraMap (FractionRing A) K₁ (e.symm (e y)) = x ^ q ^ n
     simpa using hy
   have : (⊥ : Ideal B).IsPrime := Ideal.isPrime_bot
   exact finite_integralClosure_of_separable_fraction_extension A B K L

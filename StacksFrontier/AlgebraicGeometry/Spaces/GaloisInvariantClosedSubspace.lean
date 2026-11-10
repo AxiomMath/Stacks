@@ -76,7 +76,7 @@ theorem restrictYonedaIso_hom_naturality {Z Z' : Over A'} (w : Z ⟶ Z') :
     yoneda.map ((Over.pullback g).map w) ≫ (restrictYonedaIso g Z').hom =
       (restrictYonedaIso g Z).hom ≫ (relocalizeRestrict g).map (yoneda.map w) := by
   ext W v
-  show ((Over.mapPullbackAdj g).homEquiv (unop W) Z').symm (v ≫ (Over.pullback g).map w) =
+  change ((Over.mapPullbackAdj g).homEquiv (unop W) Z').symm (v ≫ (Over.pullback g).map w) =
     ((Over.mapPullbackAdj g).homEquiv (unop W) Z).symm v ≫ w
   exact (Over.mapPullbackAdj g).homEquiv_naturality_right_symm v w
 
@@ -120,18 +120,18 @@ private noncomputable def pointOfSchemeHom : FieldValuedPoint B S hS (yoneda.obj
 
 private theorem pointOfSchemeHom_toBase :
     (pointOfSchemeHom B S hS U κ hκ x).toBase = x ≫ B.inclusion.map U.hom := by
-  show B.inclusion.map (B.inclusion.preimage (X := B.obj hκ) (Y := U.left) x ≫ U.hom) = _
+  change B.inclusion.map (B.inclusion.preimage (X := B.obj hκ) (Y := U.left) x ≫ U.hom) = _
   rw [B.inclusion.map_comp, B.inclusion.map_preimage]
 
 private theorem pointOfSchemeHom_value_left :
     B.inclusion.map (pointOfSchemeHom B S hS U κ hκ x).value.left = x := by
-  show B.inclusion.map (B.inclusion.preimage (X := B.obj hκ) (Y := U.left) x) = x
+  change B.inclusion.map (B.inclusion.preimage (X := B.obj hκ) (Y := U.left) x) = x
   rw [B.inclusion.map_preimage]
 
 private theorem schemePoint_pointOfSchemeHom :
     schemePoint B S hS U (pointOfSchemeHom B S hS U κ hκ x) =
       x (IsLocalRing.closedPoint κ) := by
-  show (B.inclusion.map (B.inclusion.preimage (X := B.obj hκ) (Y := U.left) x))
+  change (B.inclusion.map (B.inclusion.preimage (X := B.obj hκ) (Y := U.left) x))
     (IsLocalRing.closedPoint κ) = x (IsLocalRing.closedPoint κ)
   rw [B.inclusion.map_preimage]
 
@@ -216,7 +216,7 @@ of `Spec K`. -/
 theorem FieldValuedPoint.galoisTwist_toBase :
     (FieldValuedPoint.galoisTwist B k K hk hK X σ p).toBase =
       p.toBase ≫ specMapAlgAut k K σ := by
-  show p.toBase ≫ B.inclusion.map (siteMapAlgAut B k K hK σ) = _
+  change p.toBase ≫ B.inclusion.map (siteMapAlgAut B k K hK σ) = _
   rw [map_siteMapAlgAut]
 
 /-- The Galois twist leaves the section of a representative untouched. The equality is
@@ -323,7 +323,7 @@ private theorem map_atlas_pointOfSchemeHom_comp
         (pointOfSchemeHom B (Spec (.of K)) hK Ubar κ hκ (x ≫ γ)).value.left = x ≫ γ :=
       pointOfSchemeHom_value_left B (Spec (.of K)) hK Ubar κ hκ (x ≫ γ)
     refine B.inclusion.map_injective ?_
-    show B.inclusion.map (pointOfSchemeHom B (Spec (.of K)) hK Ubar κ hκ (x ≫ γ)).value.left ≫
+    change B.inclusion.map (pointOfSchemeHom B (Spec (.of K)) hK Ubar κ hκ (x ≫ γ)).value.left ≫
         B.inclusion.map pU =
       B.inclusion.map (pointOfSchemeHom B (Spec (.of K)) hK Ubar κ hκ x).value.left ≫
         B.inclusion.map pU
@@ -451,7 +451,7 @@ private theorem pointsToScheme_ofRelocalizeRestrict
             a)).class B (Spec (.of k)) hk (yoneda.obj U)) =
       B.inclusion.map (baseChangeProj B k K hk hK U)
         (schemePoint B (Spec (.of K)) hK (baseChangeObj B k K hk hK U) a) := by
-  show B.inclusion.map
+  change B.inclusion.map
     ((OverShriek.restrictYonedaIso (fieldExtensionMap B k K hk hK) U).hom.app
       (op (a.siteObject B (Spec (.of K)) hK _)) a.value).left _ = _
   rw [OverShriek.restrictYonedaIso_hom_app_left, B.inclusion.map_comp]
@@ -694,10 +694,10 @@ private theorem mem_iff_of_pointsMap_eq (hX : IsAlgebraicSpace B (Spec (.of k)) 
                 (baseChangeObj B k K hk hK R)).fromSpecResidueField (eR.inv z₁))))) := by
     intro w
     rw [pointsMap_class]
-    show schemePoint B (Spec (.of k)) hk U
+    change schemePoint B (Spec (.of k)) hk U
       (FieldValuedPoint.map B (Spec (.of k)) hk (yoneda.obj R) (yoneda.map w) r₀) = _
     rw [schemePoint_map_yoneda, schemePoint_map_yoneda, hrbarpt]
-    show B.inclusion.map w.left (schemePoint B (Spec (.of k)) hk R r₀) =
+    change B.inclusion.map w.left (schemePoint B (Spec (.of k)) hk R r₀) =
       B.inclusion.map (baseChangeProj B k K hk hK U)
         (B.inclusion.map ((Over.pullback (fieldExtensionMap B k K hk hK)).map w).left
           (eR.inv z₁))

@@ -53,8 +53,9 @@ completion functor on `D(A)`.  See "What remains" below.
 subscheme read as a ringed space, which is the shape
 `Stacks.Cohomology.DerivedSectionsOverBase.derivedSectionsOver` takes.  Nothing is restated at
 the `AlgebraicGeometry.Scheme.Modules` spelling: sheaves of modules on `U` appear throughout as
-`SheafOfModules (structureSheafRing (puncturedSpectrumRingedSpace A))`, which is the presentation both the
-coherence predicate `SheafOfModules.IsCoherent` and the derived sections functor are stated at.
+`SheafOfModules (structureSheafRing (puncturedSpectrumRingedSpace A))`, which is the presentation
+both the coherence predicate `SheafOfModules.IsCoherent` and the derived sections functor are stated
+at.
 
 *"For all `i`".*  The degree `i` ranges over `ℤ`, and the conclusion is universally quantified
 over it; no degree is excluded and no boundedness hypothesis is imposed.
@@ -223,7 +224,7 @@ theorem epi_milnorDifference_of_isMittagLefflerCategorical {A : Type u} [Ring A]
   have hd : U.map d ≫ e.hom = e.hom ≫ d' := by
     apply Pi.hom_ext
     intro n
-    show (U.map d ≫ piComparison U X) ≫ Pi.π _ n = (piComparison U X ≫ d') ≫ Pi.π _ n
+    change (U.map d ≫ piComparison U X) ≫ Pi.π _ n = (piComparison U X ≫ d') ≫ Pi.π _ n
     rw [Category.assoc, piComparison_comp_π, ← U.map_comp]
     simp only [d, d', Pi.lift_comp_π, U.map_sub, U.map_comp, Category.assoc,
       Preadditive.comp_sub, piComparison_comp_π_assoc, piComparison_comp_π]
@@ -287,7 +288,8 @@ noncomputable local instance derivedCategoryModuleCatHasProductsNat :
 
 noncomputable local instance derivedCategorySheafOfModulesHasProductsNat :
     HasProductsOfShape ℕ
-      (DerivedCategory (SheafOfModules.{u} (structureSheafRing (puncturedSpectrumRingedSpace A)))) :=
+      (DerivedCategory
+        (SheafOfModules.{u} (structureSheafRing (puncturedSpectrumRingedSpace A)))) :=
   Stacks.KInjectiveProducts.hasProductsOfShape_derivedCategory_sheafOfModules
     (structureSheafRing (puncturedSpectrumRingedSpace A))
 

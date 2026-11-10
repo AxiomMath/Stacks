@@ -138,7 +138,7 @@ theorem unit_comp_pushforward_unit_thickening {X₁ X₂ : RingedSpace.{u, u}} (
   rw [Functor.map_comp, ← Category.assoc, unit_comp_unit_modulePullbackComp i₁ h M]
   refine (Category.assoc _ _ _).trans ?_
   congr 1
-  show (modulePushforward (i₁ ≫ h)).map ((modulePullbackComp i₁ h).hom.app M) ≫
+  change (modulePushforward (i₁ ≫ h)).map ((modulePullbackComp i₁ h).hom.app M) ≫
     (modulePushforward (i₁ ≫ h)).map (((modulePullbackComp i₁ h).symm.app M ≪≫
       (modulePullbackCongr rfl).app M).hom) = _
   rw [← Functor.map_comp]

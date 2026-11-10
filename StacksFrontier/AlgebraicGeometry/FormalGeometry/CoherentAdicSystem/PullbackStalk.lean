@@ -73,8 +73,7 @@ public theorem eq_zero_of_eq_zero_on_one_tmul {R A N T P : Type*} [CommSemiring 
     (h : ∀ m : N, α (e.symm ((1 : A) ⊗ₜ[R] m)) = 0) (z : T) : α z = 0 := by
   have key : ∀ t, α (e.symm t) = 0 := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | tmul a m =>
       have ha : (a ⊗ₜ[R] m : TensorProduct R A N) = a • ((1 : A) ⊗ₜ[R] m) := by
         rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]

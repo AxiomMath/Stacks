@@ -118,6 +118,8 @@ of `O` over `U` killed by `f`. -/
 abbrev kernelModule : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O) :=
   SheafOfModules.kerObj (structureModuleMap f)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] [HasSheafify J AddCommGrpCat]
+  [J.WEqualsLocallyBijective AddCommGrpCat] in
 include hsq in
 /-- The kernel of `f` is annihilated by itself, section by section: it has square zero. -/
 theorem kernelModule_smul_eq_zero (U : Cᵒᵖ) (a : O.obj.obj U)
@@ -148,12 +150,16 @@ def squareZeroIdealInclusion :
       SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O) :=
   (restrictSquareZeroIdealIso f hf hsq).hom ≫ SheafOfModules.kerIota (structureModuleMap f)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] [HasSheafify J AddCommGrpCat]
+  [J.WEqualsLocallyBijective AddCommGrpCat] in
 /-- The composite `I ⟶ O ⟶ O₀|_O` of the inclusion of the square-zero ideal with the structure
 map is zero. -/
 theorem squareZeroIdealInclusion_comp :
     squareZeroIdealInclusion f hf hsq ≫ structureModuleMap f = 0 := by
   rw [squareZeroIdealInclusion, Category.assoc, SheafOfModules.kerIota_comp, comp_zero]
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] [HasSheafify J AddCommGrpCat]
+  [J.WEqualsLocallyBijective AddCommGrpCat] in
 include hf in
 /-- The structure map `O ⟶ O₀|_O` is an epimorphism of sheaves of `O`-modules. -/
 theorem epi_structureModuleMap : Epi (structureModuleMap f) :=
@@ -163,6 +169,7 @@ theorem epi_structureModuleMap : Epi (structureModuleMap f) :=
       exact ⟨a, (structureModuleMap_val_app f (Opposite.op V) a).trans ha⟩)
       (Presheaf.imageSieve_mem J f.hom s)⟩
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The square-zero ideal sequence `0 ⟶ I ⟶ O ⟶ O₀ ⟶ 0` is short exact.** -/
 theorem shortExact_squareZeroIdealSequence :
     (idealSequenceOf f (squareZeroIdeal f hf hsq) (squareZeroIdealInclusion f hf hsq)

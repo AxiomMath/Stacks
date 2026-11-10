@@ -153,7 +153,7 @@ numerator has such a multiple in `I`
 right-hand sides agree by hypothesis. -/
 theorem ker_eq_ker_projMap_quotientMk_of_cover
     (hgen : Algebra.adjoin (𝒮 0) ((𝒮 1 : Set S)) = ⊤)
-    {ι : Type*} [Fintype ι] (g : ι → S) (hg : ∀ j, g j ∈ 𝒮 1)
+    {ι : Type*} [Finite ι] (g : ι → S) (hg : ∀ j, g j ∈ 𝒮 1)
     (hcov : ⨆ j, Proj.basicOpen 𝒮 (g j) = ⊤)
     {Z : Scheme.{u}} (i : Z ⟶ Proj 𝒮) [IsClosedImmersion i]
     (I : HomogeneousIdeal 𝒮) (hI : I.toIdeal = idealOfClosedSubscheme 𝒮 i)

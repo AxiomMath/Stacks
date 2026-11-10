@@ -87,7 +87,7 @@ theorem specExpand_app_specCoord (O : (Spec (.of (UnivRing.{u} d))).Opens) (i : 
   change (specExpand (ULift.{u} (Fin d)) p).app O ((Spec (.of (UnivRing.{u} d))).presheaf.map
       (homOfLE le_top).op _) = _ at h1
   rw [specCoord, h1]
-  show (Spec (.of (UnivRing.{u} d))).presheaf.map _
+  change (Spec (.of (UnivRing.{u} d))).presheaf.map _
       ((specExpand (ULift.{u} (Fin d)) p).appTop _) = _
   rw [← h2, map_pow]
   rfl
@@ -271,7 +271,7 @@ theorem exists_basis_kaehler_of_etale_chart (hWV : W ≤ g ⁻¹ᵁ V) (hV : IsA
   refine ⟨b, fun i => ?_⟩
   rw [hb]
   congr 1
-  show (W.ι.appIso U₀).inv.hom ((α.appLE ⊤ U₀ (α.le_preimage_top U₀)).hom (θ (MvPolynomial.X i)))
+  change (W.ι.appIso U₀).inv.hom ((α.appLE ⊤ U₀ (α.le_preimage_top U₀)).hom (θ (MvPolynomial.X i)))
       = _
   simp [θ]
 
@@ -333,7 +333,7 @@ variable (S : Scheme.{u}) (p : ℕ) [Fact p.Prime] (hS : IsInCharacteristic S p)
 
 include d in
 /-- The relative Frobenius of a morphism smooth of relative dimension `d` is finite (Stacks 0CCD).
-    -/
+-/
 theorem isFinite_relativeFrobenius : IsFinite (relativeFrobenius S p hS X).left :=
   have : Smooth X.hom := SmoothOfRelativeDimension.smooth d X.hom
   inferInstance
@@ -420,7 +420,7 @@ theorem exists_relFramedOpen_relativeFrobenius (x : ((frobeniusTwist S p hS).obj
       Γ(Spec (.of (UnivRing.{u} d)), specExpand (ULift.{u} (Fin d)) p ⁻¹ᵁ O)
       Γ(X.left, (relativeFrobenius S p hS X).left ⁻¹ᵁ (W.ι ''ᵁ U₀)) :=
     IsScalarTower.of_algebraMap_eq fun r => by
-      show (a ≫ (relativeFrobenius S p hS X).left.app (W.ι ''ᵁ U₀)).hom r =
+      change (a ≫ (relativeFrobenius S p hS X).left.app (W.ι ''ᵁ U₀)).hom r =
         b.hom (((specExpand (ULift.{u} (Fin d)) p).app O).hom r)
       rw [← hP.w]
       rfl
@@ -472,7 +472,7 @@ theorem exists_relFramedOpen_relativeFrobenius (x : ((frobeniusTwist S p hS).obj
         (α ≫ AffineSpace.toSpecMvPoly (ULift.{u} (Fin d)) V.toScheme).appLE ⊤ U₀
           ((α ≫ AffineSpace.toSpecMvPoly (ULift.{u} (Fin d)) V.toScheme).le_preimage_top U₀) :=
       Scheme.Hom.map_appLE _ _ _
-    show (W.ι.appIso U₀).inv.hom
+    change (W.ι.appIso U₀).inv.hom
       (((Spec (.of (UnivRing.{u} d))).presheaf.map (homOfLE (le_top : O ≤ ⊤)).op ≫
         (α ≫ AffineSpace.toSpecMvPoly (ULift.{u} (Fin d)) V.toScheme).appLE O U₀
           (hU₀le.trans inf_le_left)).hom
@@ -489,7 +489,7 @@ theorem exists_relFramedOpen_relativeFrobenius (x : ((frobeniusTwist S p hS).obj
       (relativeFrobenius S p hS X).left ⁻¹ᵁ (W.ι ''ᵁ U₀)) (a.hom (specCoord d O j)) =
       b.hom (specCoord d (specExpand (ULift.{u} (Fin d)) p ⁻¹ᵁ O) j) ^ p := by
     intro j
-    show (a ≫ (relativeFrobenius S p hS X).left.app (W.ι ''ᵁ U₀)).hom (specCoord d O j) = _
+    change (a ≫ (relativeFrobenius S p hS X).left.app (W.ι ''ᵁ U₀)).hom (specCoord d O j) = _
     rw [← hP.w, CommRingCat.comp_apply, specExpand_app_specCoord, map_pow]
   have hpB : (p : Γ(X.left, (relativeFrobenius S p hS X).left ⁻¹ᵁ (W.ι ''ᵁ U₀))) = 0 := by
     have h := congrArg (X.left.presheaf.map (homOfLE (le_top : (relativeFrobenius S p hS X).left

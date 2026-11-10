@@ -162,7 +162,7 @@ theorem iterateSectionsComonadLax_restriction {U V : Cᵒᵖ} (g : U ⟶ V) (n :
           (sectionsRestrictionSquare J f g) (n + 1) a
         have h3 := ((Functor.iterateLaxHom (sectionsComonadLax J V) (n + 1)).app
           (Under.mk f)).hom.commutes ((A.obj.map g).hom a)
-        show sectionsRestrictionHom J g _
+        change sectionsRestrictionHom J g _
             (((Functor.iterateLaxHom (sectionsComonadLax J U) (n + 1)).app
               (Under.mk f)).hom (algebraMap (A.obj.obj U) _ a)) =
           ((Functor.iterateLaxHom (sectionsComonadLax J V) (n + 1)).app (Under.mk f)).hom
@@ -417,7 +417,7 @@ theorem sectionsCotangentComplexComparison_restriction_degree {U V : Cᵒᵖ} (g
       (A.obj.obj U) (sectionsAlgebra J f U) n).inv).mp ?_
     refine CommAlgCat.cotangentTerm_hom_ext.{max u v w, max u v w} (A.obj.obj U)
       (sectionsAlgebra J f U) (op ⦋n⦌) _ _ fun p => ?_
-    show ((cotangentComplex J f).X (-(n : ℤ))).val.map g
+    change ((cotangentComplex J f).X (-(n : ℤ))).val.map g
         ((sectionsCotangentComplexComparison J f U).f (-(n : ℤ))
           (sectionsCotangentDifferential' J f U n p)) =
       (sectionsCotangentComplexComparison J f V).f (-(n : ℤ))

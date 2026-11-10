@@ -213,12 +213,12 @@ theorem preservesFiniteProjective_homFunctor {n : ℕ} [NeZero n] {Λ : Type} [R
   let r : (Fin k → Φ.obj Rw) →ₗ[Λ] Φ.obj P :=
     { toFun := fun g => ∑ j, (show X ⟶ Rw from g j) ≫ πj j
       map_add' := fun g g' => by
-        show ∑ j, ((g j : X ⟶ Rw) + g' j) ≫ πj j = ∑ j, _ + ∑ j, _
+        change ∑ j, ((g j : X ⟶ Rw) + g' j) ≫ πj j = ∑ j, _ + ∑ j, _
         rw [← Finset.sum_add_distrib]
         exact Finset.sum_congr rfl fun j _ => Preadditive.add_comp _ _ _ _ _ _
       map_smul' := fun l g => sum_comp_comp (dualRepRightAction (A := ZMod n) ρ l).unop.asHom _ _ }
   have hri : r.comp i = LinearMap.id := LinearMap.ext fun f => by
-    show ∑ j, ((show X ⟶ P from f) ≫ σj j) ≫ πj j = f
+    change ∑ j, ((show X ⟶ P from f) ≫ σj j) ≫ πj j = f
     rw [sum_comp_comp, hsum, Category.comp_id]
   let e : (Fin k → Φ.obj Rw) ≃ₗ[Λ] (Fin k → N) := LinearEquiv.piCongrRight fun _ =>
     (LinearEquiv.ofBijective _ (bijective_homFunctorRegularMap (n := n) ρ)).symm
@@ -240,7 +240,7 @@ theorem dualRepRightAction_algebraMap (a : A) :
   refine ModuleCat.hom_ext (LinearMap.ext fun φ => ?_)
   apply (DualRep.equiv (restrictRep (A := A) ρ)).injective
   ext y
-  show DualRep.equiv _ φ (algebraMap A Λ a • y) =
+  change DualRep.equiv _ φ (algebraMap A Λ a • y) =
     DualRep.equiv (restrictRep (A := A) ρ)
       (single (1 : H) a • (φ : DualRep (restrictRep (A := A) ρ))) y
   refine Eq.trans ?_ (single_smul_dualRep (restrictRep (A := A) ρ) (1 : H) a

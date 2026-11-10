@@ -146,13 +146,13 @@ theorem eq_of_comp_eq_of_preimage_le_range {P : (BigFppfOver B S hS)ᵒᵖ ⥤ T
       ∃ a'' : yoneda.obj Z ⟶ W.toFunctor, a'' ≫ γ₀ = a' ≫ eG.hom ≫ G.ι := by
     rintro a' ⟨t, ht⟩
     obtain ⟨ã, hã⟩ := (Subfunctor.mem_obj_iff_exists (C.preimage iE) (a' ≫ eG.hom ≫ G.ι)).1 (by
-      show iE.app _ (yonedaEquiv (a' ≫ eG.hom ≫ G.ι)) ∈ C.obj _
+      change iE.app _ (yonedaEquiv (a' ≫ eG.hom ≫ G.ι)) ∈ C.obj _
       rw [← yonedaEquiv_comp]
       simp only [Category.assoc]
       rw [← ht, yonedaEquiv_comp]
       exact (yonedaEquiv t).2)
     obtain ⟨χ, hχ⟩ := (Subfunctor.mem_obj_iff_exists (Subfunctor.range γ) ã).1 (hGR _ (by
-      show (C.preimage iE).ι.app _ (yonedaEquiv ã) ∈ G.obj _
+      change (C.preimage iE).ι.app _ (yonedaEquiv ã) ∈ G.obj _
       rw [← yonedaEquiv_comp, hã, ← Category.assoc, yonedaEquiv_comp]
       exact (yonedaEquiv (a' ≫ eG.hom)).2))
     refine ⟨χ ≫ inv (Subfunctor.toRange γ), ?_⟩
@@ -198,7 +198,7 @@ theorem exists_etaleChart_mono_over_closedSubspace {X : (BigFppfOver B S hS)ᵒ�
   have hγ₀ : γ₀ ≫ iE = W.ι ≫ C.1.ι := hsq.lift_fst _ _ _
   have hle : Subfunctor.range γ₀ ≤ CE := by
     rintro Z _ ⟨x, rfl⟩
-    show (γ₀ ≫ iE).app Z x ∈ C.1.obj Z
+    change (γ₀ ≫ iE).app Z x ∈ C.1.obj Z
     rw [hγ₀]
     exact (W.ι.app Z x).2
   let γ : W.toFunctor ⟶ CE.toFunctor := Subfunctor.lift γ₀ hle
@@ -288,7 +288,7 @@ theorem exists_isFinitePresentation_factorsZariskiLocallyThrough_of_closedSubspa
     obtain ⟨x, hxt, hyx⟩ := Set.mem_iUnion₂.1 (ht hy)
     refine Set.mem_iUnion.2 ⟨t.equivFin ⟨x, hxt⟩, ?_⟩
     have hσ : σ (t.equivFin ⟨x, hxt⟩) = x := by simp only [σ, Equiv.symm_apply_apply]
-    show y ∈ Set.range (pointsMap B S hS _ (g (σ (t.equivFin ⟨x, hxt⟩))))
+    change y ∈ Set.range (pointsMap B S hS _ (g (σ (t.equivFin ⟨x, hxt⟩))))
     rw [hσ]
     exact hyx
   obtain ⟨T, hTfp, hCT, hT, hJT⟩ := exists_isFinitePresentation_isEtaleSectionClosed B S hS hZ P

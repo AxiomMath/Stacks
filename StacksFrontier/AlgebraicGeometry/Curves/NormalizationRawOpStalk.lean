@@ -335,7 +335,7 @@ public theorem germ_rawOp_eq_of_leibniz
         Γ(Scheme.normalizationScheme X hfin, Scheme.normalization X hfin ⁻¹ᵁ U)
         (hU.primeIdealOf (⟨x, hxU⟩ : U)).asIdeal.primeCompl) _ g
       (rawOpStalkFun_mul hfin hxU d hnat hmul) hgmul fun a => by
-        show rawOpStalkFun hfin hxU d hnat
+        change rawOpStalkFun hfin hxU d hnat
             (((Scheme.normalization X hfin).base _*
               (Scheme.normalizationScheme X hfin).presheaf).germ U x hxU a)
           = g (((Scheme.normalization X hfin).base _*

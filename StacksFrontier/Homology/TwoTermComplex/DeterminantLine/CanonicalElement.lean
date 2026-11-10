@@ -67,7 +67,7 @@ private theorem kernelDeterminantEquiv_naturality
       a.zero.exact_subtype_ker_map ha.2).val
   obtain ⟨z, hz⟩ := (ExteriorAlgebra.map_surjective_iff.mpr ha.1) (eL₁ y : ExteriorAlgebra R L₁)
   apply eK₀.injective
-  show γ₀ (eM₀ (delta a.kernelDifferential hM x) ⊗ₜ[R] eL₀ (delta L hL y)) =
+  change γ₀ (eM₀ (delta a.kernelDifferential hM x) ⊗ₜ[R] eL₀ (delta L hL y)) =
     eK₀ (delta K hK (kernelDeterminantEquiv a.neg ha.1 (x ⊗ₜ[R] y)))
   have hγ₁ := (ProjectiveDeterminant.determinantTensorDeterminantEquiv_of_exact
     (LinearMap.ker a.neg).subtype a.neg (LinearMap.ker a.neg).injective_subtype
@@ -77,7 +77,7 @@ private theorem kernelDeterminantEquiv_naturality
       a.zero.exact_subtype_ker_map ha.2).property
       (eM₀ (delta a.kernelDifferential hM x)) (eL₀ (delta L hL y))
       (ExteriorAlgebra.map K z) (by
-        show ExteriorAlgebra.map a.zero (ExteriorAlgebra.map K z) =
+        change ExteriorAlgebra.map a.zero (ExteriorAlgebra.map K z) =
           ExteriorAlgebra.map L (eL₁ y : ExteriorAlgebra R L₁)
         calc
           _ = ExteriorAlgebra.map (a.zero.comp K) z :=
@@ -88,7 +88,7 @@ private theorem kernelDeterminantEquiv_naturality
           _ = _ := by rw [hz])
   apply Subtype.ext
   rw [hγ₀]
-  show ExteriorAlgebra.map (LinearMap.ker a.zero).subtype
+  change ExteriorAlgebra.map (LinearMap.ker a.zero).subtype
       (ExteriorAlgebra.map a.kernelDifferential (eM₁ x : ExteriorAlgebra R _)) *
       ExteriorAlgebra.map K z =
     ExteriorAlgebra.map K (γ₁ (eM₁ x ⊗ₜ[R] eL₁ y) : ExteriorAlgebra R K₁)
@@ -107,7 +107,7 @@ private theorem rankAtStalk_eq_ker_add
     Module.rankAtStalk (R := R) M =
       Module.rankAtStalk (R := R) (LinearMap.ker f) + Module.rankAtStalk (R := R) N := by
   obtain ⟨s, hs⟩ := Module.projective_lifting_property f LinearMap.id hf
-  let e : (LinearMap.ker f × N) ≃ₗ[R] M := LinearEquiv.ofLinear
+  let e : (LinearMap.ker f × N) ≃ₗ[R] M := LinearEquiv.ofLinearMap
     { toFun := fun z => z.1.1 + s z.2
       map_add' := by intros; simp; abel
       map_smul' := by intros; simp }
@@ -118,18 +118,18 @@ private theorem rankAtStalk_eq_ker_add
     (by
       apply LinearMap.ext
       intro x
-      show x - s (f x) + s (f x) = x
+      change x - s (f x) + s (f x) = x
       abel)
     (by
       apply LinearMap.ext
       rintro ⟨x, y⟩
       apply Prod.ext
       · apply Subtype.ext
-        show x.1 + s y - s (f (x.1 + s y)) = x.1
+        change x.1 + s y - s (f (x.1 + s y)) = x.1
         have hy := LinearMap.congr_fun hs y
         simp only [LinearMap.comp_apply, LinearMap.id_apply] at hy
         simp [hy]
-      · show f (x.1 + s y) = y
+      · change f (x.1 + s y) = y
         have := LinearMap.congr_fun hs y
         simp only [LinearMap.comp_apply, LinearMap.id_apply] at this
         simp [this])
@@ -210,13 +210,12 @@ public theorem determinantEquivOfSurjectiveQuasiIso_apply_delta
   apply LinearMap.congr_fun (t.injective ?_) y
   apply LinearMap.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul x y =>
-      show ddet x ⊗ₜ[R] D.equiv (delta K hK) y =
+      change ddet x ⊗ₜ[R] D.equiv (delta K hK) y =
         ddet x ⊗ₜ[R] delta L hL y
       apply (kernelDeterminantEquiv a.zero ha.2).injective
-      show kernelDeterminantEquiv a.zero ha.2
+      change kernelDeterminantEquiv a.zero ha.2
           (delta a.kernelDifferential D.kernelRankZero x ⊗ₜ[R]
             D.equiv (delta K hK) y) =
         kernelDeterminantEquiv a.zero ha.2

@@ -80,7 +80,7 @@ theorem Algebra.isGeometricallyIrreducible_of_ringEquiv_base {k k' A : Type u} [
   have : IsIso (CommRingCat.ofHom (e : k →+* k')) := e.toCommRingCatIso.isIso_hom
   have hcomp : (algebraMap k A) = (algebraMap k' A).comp (e : k →+* k') :=
     RingHom.ext fun a ↦ (he a).symm
-  show AlgebraicGeometry.GeometricallyIrreducible
+  change AlgebraicGeometry.GeometricallyIrreducible
     (Spec.map (CommRingCat.ofHom (algebraMap k A)))
   rw [hcomp, CommRingCat.ofHom_comp, Spec.map_comp]
   exact (MorphismProperty.cancel_right_of_respectsIso _ _ _).mpr h

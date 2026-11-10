@@ -359,7 +359,7 @@ theorem isContinuous_overPost_u :
   let : q.IsFibered := Functor.IsFibered.comp_functor (Over.forget (M.u.obj U)) M.p
   let : q'.IsFibered := Functor.IsFibered.comp_functor (Over.forget U) M.p'
   have hc : v ⋙ q = q' := by
-    show (Over.post M.u ⋙ Over.forget (M.u.obj U)) ⋙ M.p = _
+    change (Over.post M.u ⋙ Over.forget (M.u.obj U)) ⋙ M.p = _
     rw [Over.post_forget_eq_forget_comp, Functor.assoc, M.isFibredOneMorphism.comp_eq]
   have hu : q'.IsFibredOneMorphism q v :=
     { comp_eq := hc

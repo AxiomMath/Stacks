@@ -105,7 +105,7 @@ theorem whiskerRight_biprodLift_comp_biprodDiff :
     Functor.whiskerRight (Functor.pointwiseBiprod.lift ΦU ΦV ηU ηV) Γ ≫
       Functor.whiskerRight (Functor.pointwiseBiprod.desc ΦU ΦV cU (-cV)) Γ = 0 := by
   ext X
-  show Γ.map (biprod.lift (ηU.app X) (ηV.app X)) ≫ Γ.map (biprod.desc (cU.app X) (-cV.app X))
+  change Γ.map (biprod.lift (ηU.app X) (ηV.app X)) ≫ Γ.map (biprod.desc (cU.app X) (-cV.app X))
     = 0
   rw [← Γ.map_comp, hzero X, Γ.map_zero]
 
@@ -238,7 +238,7 @@ theorem epi_rightDerived_whiskerRight_of_natural_shortExact (X : A) (n : ℕ)
   obtain ⟨y, hy⟩ := hV ((NatTrans.rightDerived (Functor.whiskerRight cU Γ) n).app X x)
   obtain ⟨w, hw⟩ := hex ((NatTrans.rightDerived (Functor.whiskerRight inU Γ) n).app X x -
       (NatTrans.rightDerived (Functor.whiskerRight inV Γ) n).app X y) (by
-    show (NatTrans.rightDerived (Functor.whiskerRight
+    change (NatTrans.rightDerived (Functor.whiskerRight
       (Functor.pointwiseBiprod.desc ΦU ΦV cU (-cV)) Γ) n).app X _ = 0
     rw [map_sub, R, R, h4, h5, hy, sub_self])
   refine ⟨w, ?_⟩

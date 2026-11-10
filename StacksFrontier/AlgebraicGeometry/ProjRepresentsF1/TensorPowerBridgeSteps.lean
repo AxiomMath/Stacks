@@ -121,7 +121,7 @@ public theorem laurentGenerator_pullback :
       (Scheme.Modules.pullback g).map (laurentGenerator L) ≫ laurentPullback g L 1 := by
   have hone := laurentPullback_tensorPowerOneIso g L
   conv_lhs => unfold laurentGenerator Stacks.LineBundle.Situation.laurentGen laurentSituation
-  show (Stacks.SheafOfModules.TensorPower.tensorPowerOneIso
+  change (Stacks.SheafOfModules.TensorPower.tensorPowerOneIso
     T'.toRingedSpace.presheaf (isSheafStruct T') ((Scheme.Modules.pullback g).obj L)).inv = _
   refine ((Iso.comp_hom_eq_id (Stacks.SheafOfModules.TensorPower.tensorPowerOneIso
     T'.toRingedSpace.presheaf (isSheafStruct T')

@@ -84,12 +84,12 @@ theorem exists_natDegree_eq_coeff_eq_ite {A : Type*} [Semiring A] (b : ℕ → A
   classical
   have hc : ∀ j, (∑ k ∈ Finset.range (d + 1), monomial k (b k)).coeff j =
       if j ≤ d then b j else 0 := fun j => by
-    simp only [finset_sum_coeff, coeff_monomial, Finset.sum_ite_eq', Finset.mem_range,
+    simp only [finsetSum_coeff, coeff_monomial, Finset.sum_ite_eq', Finset.mem_range,
       Nat.lt_succ_iff]
   refine ⟨_, le_antisymm (natDegree_le_iff_coeff_eq_zero.2 fun j hj => ?_)
     (le_natDegree_of_ne_zero ?_), hc⟩
-  · rw [hc, if_neg (by exact_mod_cast not_le.2 hj)]
-  · rwa [hc, if_pos le_rfl]
+  · rw [hc, ite_eq_right (by exact_mod_cast not_le.2 hj)]
+  · rwa [hc, ite_eq_left le_rfl]
 
 /-- **Integral approximation with a prescribed reduction modulo `p`.** For primes `p ≠ ℓ`, every
 `S ∈ ℤ_ℓ[X]` is congruent modulo `ℓ^N` to an integral polynomial `R` of the same degree which is
@@ -105,7 +105,7 @@ theorem exists_intPoly_map_toZModPow_eq_modEq_const (p : ℕ) (hp : p.Prime) (hp
   obtain ⟨R, hRdeg, hRc⟩ := exists_natDegree_eq_coeff_eq_ite b S.natDegree hbd
   have hp1 : ¬ (p : ℤ) ∣ 1 := fun h => hp.not_dvd_one (by exact_mod_cast h)
   refine ⟨R, hRdeg, ⟨?_, fun k hk => ?_⟩, ?_⟩
-  · rw [hRc, if_pos (Nat.zero_le _)]
+  · rw [hRc, ite_eq_left (Nat.zero_le _)]
     exact fun h => hp1 (by simpa using dvd_sub h (hbp 0))
   · rw [hRc]
     split_ifs
@@ -164,7 +164,7 @@ theorem norm_resultant_eq_of_intPoly_of_dense (good : ℤ[X] → Prop)
       exact this
     rw [this, norm_mul]
     refine mul_le_of_le_one_right (norm_nonneg _) ?_
-    exact (PadicInt.padic_norm_e_of_padicInt y).trans_le (PadicInt.norm_le_one y)
+    exact (PadicInt.norm_coe y).trans_le (PadicInt.norm_le_one y)
   have hlim : ∀ F : ℚ_[ℓ][X], Tendsto (fun N => F.resultant (R' N)) atTop
       (𝓝 (F.resultant S')) := fun F => by
     have := ((continuous_resultant_sum_C_mul_X_pow F F.natDegree n).tendsto _).comp hconv

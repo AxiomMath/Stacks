@@ -177,7 +177,7 @@ public theorem evalₐ_eq_zero_of_mem_map_pow (I : Ideal R) (n : ℕ) {x : AdicC
     rw [Ideal.map_le_iff_le_comap]
     intro c hc
     simp only [Ideal.mem_comap, RingHom.mem_ker]
-    show evalₐ I n (of I R c) = 0
+    change evalₐ I n (of I R c) = 0
     rw [evalₐ_of]
     exact (Ideal.Quotient.eq_zero_iff_mem).mpr hc
   exact RingHom.mem_ker.mp (hle hx)

@@ -130,8 +130,8 @@ private lemma indEtale_appTop_sigmaDesc {I : Type u} [Finite I]
   let A := fun i ↦ Under.mk (f i).appTop
   let c : Fan A := Fan.mk (Under.mk (Sigma.desc f).appTop)
     (fun i ↦ Under.homMk (Sigma.ι X i).appTop (by
-      show (Sigma.desc f).appTop ≫ (Sigma.ι X i).appTop = (f i).appTop
-      rw [← Scheme.Hom.comp_appTop, Sigma.ι_desc]))
+      change (Sigma.desc f).appTop ≫ (Sigma.ι X i).appTop = (f i).appTop
+      rw [← Scheme.Hom.comp_appTop, Sigma.ι_comp_desc]))
   have hc : IsLimit c := by
     apply isLimitOfReflects (Under.forget Γ(S, ⊤))
     refine (isLimitMapConeFanMkEquiv (Under.forget Γ(S, ⊤)) A _).symm ?_
@@ -179,7 +179,7 @@ private def coproductCofan {I : Type u} [Finite I] (A : I → AffineIndEtaleProe
     indEtale_appTop_sigmaDesc X f (fun i ↦ (A i).property.2)
   let T : AffineIndEtaleProetale B S := ⟨⟨Over.mk g, hweak⟩, (inferInstance : IsAffine Y.obj), hind⟩
   exact Cofan.mk T fun i ↦ ObjectProperty.homMk (ObjectProperty.homMk (Over.homMk
-    (ObjectProperty.homMk (Sigma.ι X i)) (B.inclusion.map_injective (Sigma.ι_desc f i))))
+    (ObjectProperty.homMk (Sigma.ι X i)) (B.inclusion.map_injective (Sigma.ι_comp_desc f i))))
 
 /-- The disjoint union of affine ind-étale objects is their coproduct: the functor to schemes
 is fully faithful onto a subcategory closed under the construction, so it reflects the
@@ -234,7 +234,7 @@ theorem isCovering_pullback₂ [IsAffine S.obj] {U V : AffineIndEtaleProetale B 
     (E : PreZeroHypercover.{u + 1} U) (hE : IsCovering B S ⟨U, E⟩) (f : V ⟶ U) :
     IsCovering B S ⟨V, E.pullback₂ f⟩ := by
   refine ⟨⟨?_, hE.1.2⟩, hE.2⟩
-  show Presieve.ofArrows _ _ ∈ Scheme.proetalePrecoverage _
+  change Presieve.ofArrows _ _ ∈ Scheme.proetalePrecoverage _
   exact Precoverage.mem_coverings_of_isPullback
     (fun j ↦ B.inclusion.map (E.f j).hom.hom.left) hE.1.1
     (B.inclusion.map f.hom.hom.left)
@@ -349,7 +349,7 @@ theorem exists_section_sigmaDesc_of_isWeaklyContractible [IsAffine S.obj]
     (Precoverage.generate_mem_toGrothendieck ⟨E, rfl, hE⟩)
   rw [Sieve.generate_le_iff, Presieve.ofArrows_le_iff]
   intro j
-  exact ⟨_, Sigma.ι E.X j, Sigma.desc E.f, Presieve.singleton_self _, Sigma.ι_desc E.f j⟩
+  exact ⟨_, Sigma.ι E.X j, Sigma.desc E.f, Presieve.singleton_self _, Sigma.ι_comp_desc E.f j⟩
 
 /-- A sheaf of sets on the affine ind-étale site takes a finite coproduct, with index type
 within the covering bound of the ambient big site, to a product. -/

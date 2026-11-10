@@ -69,7 +69,7 @@ tensor. -/
 theorem cotangentDiagram_i_tmul (b : B) (ω : Ω[A⁄ℤ]) :
     (cotangentDiagram P).i (b ⊗ₜ ω) =
       b ⊗ₜ KaehlerDifferential.map ℤ ℤ A P.toExtension.Ring ω := by
-  show ((KaehlerDifferential.mapBaseChange ℤ A P.toExtension.Ring).baseChange B)
+  change ((KaehlerDifferential.mapBaseChange ℤ A P.toExtension.Ring).baseChange B)
     ((TensorProduct.AlgebraTensorModule.cancelBaseChange A P.toExtension.Ring B B Ω[A⁄ℤ]).symm
       (b ⊗ₜ ω)) = _
   simp [KaehlerDifferential.mapBaseChange_tmul]
@@ -198,7 +198,7 @@ theorem exteriorAlgebraBaseChange_symm_one_tmul_ιMulti (R A M : Type*) [CommRin
       Algebra.TensorProduct.includeRight
   have hF : ∀ m, F (ExteriorAlgebra.ι R m) = ExteriorAlgebra.ι A ((1 : A) ⊗ₜ[R] m) := fun m =>
     ProjectiveDeterminant.exteriorAlgebraBaseChange_symm_one_tmul_ι A M m
-  show F (ExteriorAlgebra.ιMulti R n v) = _
+  change F (ExteriorAlgebra.ιMulti R n v) = _
   rw [ExteriorAlgebra.ιMulti_apply, ExteriorAlgebra.ιMulti_apply, map_list_prod, List.map_ofFn]
   exact congrArg List.prod (congrArg List.ofFn (funext fun i => hF (v i)))
 
@@ -270,7 +270,7 @@ theorem twoTermDeterminantEquivDeterminantLine_baseChange (dM₁ : N₁ →ₗ[R
         (1 ⊗ₜ (determinantEquivExteriorPower n hN₁).symm (exteriorPower.ιMulti R₁ n bN)) := by
     rw [LinearEquiv.symm_apply_eq]
     apply Subtype.ext
-    show ExteriorAlgebra.ιMulti R₂ n bN' = ExteriorAlgebra.map en.toLinearMap _
+    change ExteriorAlgebra.ιMulti R₂ n bN' = ExteriorAlgebra.map en.toLinearMap _
     exact (congrArg _ (funext fun i => (hneg i).symm)).trans
       (ιMulti_eq_map_symm_baseChange en neg hen bN)
   rw [LinearEquiv.coe_coe, LinearEquiv.coe_coe, h1,
@@ -302,8 +302,7 @@ theorem twoTermDeterminant_hom_ext (bN : Module.Basis (Fin n) R₁ N₁)
     (h : F (exteriorPower.ιMulti R₁ n bZ ⊗ₜ basisTopDual bN) =
       G (exteriorPower.ιMulti R₁ n bZ ⊗ₜ basisTopDual bN)) : F = G := by
   refine LinearMap.ext fun t => ?_
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy]
   | tmul z φ =>
     have hz := eq_basisTopDual_smul bZ LinearMap.id z
@@ -326,8 +325,7 @@ theorem tensorKaehler_induction {R S : Type*} [CommRing R] [CommRing S] [Algebra
     {motive : S ⊗[R] Ω[R⁄ℤ] → Prop} (x : S ⊗[R] Ω[R⁄ℤ]) (zero : motive 0)
     (add : ∀ x y, motive x → motive y → motive (x + y))
     (tmul : ∀ (s : S) (r : R), motive (s ⊗ₜ KaehlerDifferential.D ℤ R r)) : motive x := by
-  induction x using TensorProduct.induction_on with
-  | zero => exact zero
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => exact add x y hx hy
   | tmul s ω =>
     have hω : ω ∈ Submodule.span R (Set.range (KaehlerDifferential.D ℤ R)) := by
@@ -416,8 +414,7 @@ theorem lTensor_map_eq_map_lTensor {R₁ R₂ : Type*} [CommRing R₁] [CommRing
     (e₂ : T₂ ≃ₗ[R₂] D₂) (he : ∀ t, e₂ (g t) = h (e₁ t)) (u : M₁ ⊗[R₁] T₁) :
     e₂.toLinearMap.lTensor M₂ (TensorProduct.map f g u) =
       TensorProduct.map f h (e₁.toLinearMap.lTensor M₁ u) := by
-  induction u using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction u using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul x t =>
     rw [TensorProduct.map_tmul, LinearMap.lTensor_tmul, LinearMap.lTensor_tmul,
@@ -484,7 +481,7 @@ of `ω` under `Ω[A⁄ℤ] → Ω[A'⁄ℤ]`. -/
 theorem formsBaseChangeMapₛₗ_tmul (b : B) (ω : Ω[A⁄ℤ]) :
     formsBaseChangeMapₛₗ A B A' B' (b ⊗ₜ ω) =
       algebraMap B B' b ⊗ₜ KaehlerDifferential.map ℤ ℤ A A' ω := by
-  show LinearMap.liftBaseChange B _ (b ⊗ₜ ω) = _
+  change LinearMap.liftBaseChange B _ (b ⊗ₜ ω) = _
   rw [LinearMap.liftBaseChange_tmul, LinearMap.comp_apply, LinearMap.restrictScalars_apply,
     TensorProduct.mk_apply, TensorProduct.smul_tmul', Algebra.smul_def, mul_one]
 
@@ -523,7 +520,7 @@ theorem polynomialFormsMapₛₗ_tmul_D (b : B) (q : P.toExtension.Ring) :
     IsScalarTower.of_algebraMap_eq (fun x ↦ (Φ.algebraMap_toRingHom x).symm)
   have := IsScalarTower.of_algebraMap_eq' (R := ℤ) (S := P.toExtension.Ring)
     (A := P'.toExtension.Ring) (RingHom.ext_int _ _)
-  show LinearMap.liftBaseChange B _ (b ⊗ₜ _) = _
+  change LinearMap.liftBaseChange B _ (b ⊗ₜ _) = _
   rw [LinearMap.liftBaseChange_tmul, LinearMap.comp_apply, LinearMap.restrictScalars_apply,
     KaehlerDifferential.map_D, TensorProduct.mk_apply, TensorProduct.smul_tmul', Algebra.smul_def,
     mul_one]
@@ -552,8 +549,7 @@ and the map `polynomialFormsMapₛₗ`. -/
 theorem cotangentSpaceMapₛₗ_π (x : B ⊗[P.toExtension.Ring] Ω[P.toExtension.Ring⁄ℤ]) :
     cotangentSpaceMapₛₗ P P' Φ ((cotangentDiagram P).π x) =
       (cotangentDiagram P').π (polynomialFormsMapₛₗ P P' Φ x) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul b ω =>
     have hω : ω ∈ Submodule.span P.toExtension.Ring
@@ -565,7 +561,7 @@ theorem cotangentSpaceMapₛₗ_π (x : B ⊗[P.toExtension.Ring] Ω[P.toExtensi
       rw [CotangentDiagram.cotangentDiagram_π_tmul, KaehlerDifferential.map_D,
         polynomialFormsMapₛₗ_tmul_D, CotangentDiagram.cotangentDiagram_π_tmul,
         KaehlerDifferential.map_D]
-      show Algebra.Extension.CotangentSpace.map Φ _ = _
+      change Algebra.Extension.CotangentSpace.map Φ _ = _
       rw [Algebra.Extension.CotangentSpace.map_tmul, Algebra.Extension.Hom.toAlgHom_apply]
       rfl
     | zero => simp only [TensorProduct.tmul_zero, map_zero]
@@ -579,7 +575,7 @@ theorem polynomialFormsMapₛₗ_d (x : P.toExtension.Cotangent) :
     polynomialFormsMapₛₗ P P' Φ ((cotangentDiagram P).d x) =
       (cotangentDiagram P').d (cotangentMapₛₗ P P' Φ x) := by
   obtain ⟨y, rfl⟩ := Algebra.Extension.Cotangent.mk_surjective x
-  show _ = (cotangentDiagram P').d (Algebra.Extension.Cotangent.map Φ _)
+  change _ = (cotangentDiagram P').d (Algebra.Extension.Cotangent.map Φ _)
   rw [CotangentDiagram.cotangentDiagram_d_mk, polynomialFormsMapₛₗ_tmul_D, map_one,
     Algebra.Extension.Cotangent.map_mk, CotangentDiagram.cotangentDiagram_d_mk]
   rfl
@@ -594,8 +590,7 @@ theorem kaehlerMapₛₗ_quotientEquiv
         (Submodule.Quotient.mk (polynomialFormsMapₛₗ P P' Φ x)) := by
   rw [CotangentDiagram.cotangentDiagram_quotientEquiv_mk,
     CotangentDiagram.cotangentDiagram_quotientEquiv_mk]
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul b ω =>
     have hω : ω ∈ Submodule.span P.toExtension.Ring
@@ -677,7 +672,7 @@ classes to the basis of relation classes. -/
 theorem cotangentMapₛₗ_cotangentBasis (hrel : ∀ i, Φ.toRingHom (P.relation i) = P'.relation i)
     (i : Fin n) : cotangentMapₛₗ P P' Φ (cotangentBasis P i) = cotangentBasis P' i := by
   rw [cotangentBasis_apply, cotangentBasis_apply]
-  show Algebra.Extension.Cotangent.mk _ = _
+  change Algebra.Extension.Cotangent.mk _ = _
   congr 1
   exact Subtype.ext (hrel i)
 

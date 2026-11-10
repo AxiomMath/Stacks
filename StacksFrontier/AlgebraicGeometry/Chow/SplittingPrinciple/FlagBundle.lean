@@ -389,9 +389,9 @@ private theorem exists_splittingMorphism_aux (C : ChowSituation.{u})
     have hchoose : (r i - 1).choose 2 + (r i - 1) = (r i).choose 2 := by
       obtain ⟨m, hm⟩ : ∃ m, r i = m + 1 := ⟨r i - 1, by omega⟩
       have key : (m + 1).choose 2 = m.choose 2 + m := by
-        show Nat.choose (m + 1) (1 + 1) = _
+        change Nat.choose (m + 1) (1 + 1) = _
         rw [Nat.choose_succ_succ, Nat.choose_one_right]
-        show m + Nat.choose m 2 = Nat.choose m 2 + m
+        change m + Nat.choose m 2 = Nat.choose m 2 + m
         omega
       rw [hm, Nat.add_sub_cancel, key]
     have hsplit : ∀ g : I → ℕ, ∑ j, g j = g i + ∑ j ∈ Finset.univ.erase i, g j := fun g ↦

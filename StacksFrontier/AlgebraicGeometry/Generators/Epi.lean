@@ -21,8 +21,8 @@ direct image along `i'` of the conormal sheaf of `i`.
 ideal sheaf … and the sheafification in the definition of the module pullback".
 
 **No part of that is needed.** With the affine quotient formula of
-`StacksFrontier.AlgebraicGeometry.ConormalAlgebra.Factorization`, surjectivity over an affine open is
-`Ideal.toCotangent_surjective` transported across
+`StacksFrontier.AlgebraicGeometry.ConormalAlgebra.Factorization`, surjectivity over an affine open
+is `Ideal.toCotangent_surjective` transported across
 `Stacks.Conormal.pushforwardConormalIsoCotangent`: every class in `I.Cotangent` is
 `I.toCotangent a` for some `a ∈ I`, every such `a` names a section of the ideal sheaf
 (`Stacks.Conormal.AffineCotangent.Sections.exists_idealSheaf_section_iff_mem_ker_ideal`), and the
@@ -38,8 +38,8 @@ adjunction unit is never mentioned, and neither is the pullback's sheafification
 * `Stacks.Conormal.Tag01R3Generators.isLocallySurjective_conormalQuotientMap`: hence locally
   surjective, affine opens being a basis
   (`AlgebraicGeometry.Scheme.isBasis_affineOpens`).
-* `Stacks.Conormal.Tag01R3Generators.conormalQuotientMap_epi`: **the statement of the tag**, carrying
-  the `stacks` attribute.
+* `Stacks.Conormal.Tag01R3Generators.conormalQuotientMap_epi`: **the statement of the tag**,
+  carrying the `stacks` attribute.
 
 ## Universe situation
 

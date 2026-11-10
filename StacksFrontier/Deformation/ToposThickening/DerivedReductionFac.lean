@@ -82,6 +82,7 @@ theorem baseChangeIso_fac (T T' : DerivedExtensionOfScalars.{d, d₀} f) :
   whiskerLeft_leftDerivedNatTrans_id_comp T.comparison T'.comparison
     (HomologicalComplex.quasiIso _ _)
 
+omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The identifications of two derived base changes in the two directions are inverse.** Both
 are instances of uniqueness of left derived functors at the identity isomorphism of degreewise
 extension of scalars, so their composite is the identity. This is what lets the transport of a
@@ -252,7 +253,6 @@ namespace Deformation.ComplexLift
 open AlgebraicGeometry.RingedSite Stacks.SheafOfModules
 
 variable {C : Type u'} [Category.{v'} C] {J : GrothendieckTopology C}
-variable [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
 variable [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
 variable {O : Sheaf J CommRingCat.{u}}
 variable [HasDerivedCategory.{d} (Modules.{u', v', u} (ringedSiteOf J O))]

@@ -132,7 +132,7 @@ theorem ofPolyGrading_C (r : Γ(S, V)) :
   have h1 := (Stacks.SymGraded.AffinePieces.symSectionAlgEquiv E hV hqc).symm.commutes r
   rw [Stacks.SymGraded.AffinePieces.algebraMap_sectionRingAlgebra] at h1
   rw [← h1]
-  show (Stacks.SymGraded.AffinePieces.symSectionRingEquiv E hV hqc).symm
+  change (Stacks.SymGraded.AffinePieces.symSectionRingEquiv E hV hqc).symm
       ((SymmetricAlgebra.equivMvPolynomial b).symm (MvPolynomial.C r)) = _
   rw [← MvPolynomial.algebraMap_eq, AlgEquiv.commutes]
   rfl
@@ -177,7 +177,7 @@ theorem chartPolyMap_comp_projToSpecCoeff :
     rw [GradedRing.coe_projZeroRingHom'_apply, GradedRing.projZeroRingHom_apply]
     exact DirectSum.decompose_of_mem_same _
       (MvPolynomial.C_mem_homogeneousSubmodule_zero (Fin (n + 1)) Γ(S, V) r)
-  show Stacks.AlgebraicGeometry.ProjectiveBundleCohomology.ofPolyGrading E hqc hV b
+  change Stacks.AlgebraicGeometry.ProjectiveBundleCohomology.ofPolyGrading E hqc hV b
       ((GradedRing.projZeroRingHom' (Stacks.ProjectiveCohomology.polyGrading Γ(S, V) n)
         (algebraMap Γ(S, V) (MvPolynomial (Fin (n + 1)) Γ(S, V)) r) :
           Stacks.ProjectiveCohomology.polyGrading Γ(S, V) n 0) :
@@ -392,7 +392,7 @@ variable {S : Scheme.{u}} [CompactSpace S] [QuasiSeparatedSpace S] (E : S.Module
   (hfree : Scheme.Modules.IsFiniteLocallyFreeOfRank E (n + 1))
 
 include hfree in
-omit [CompactSpace S] [QuasiSeparatedSpace S] in
+omit [CompactSpace S] [QuasiSeparatedSpace S] [E.IsQuasicoherent] in
 /-- Every point of the base lies in an affine open over which `ℰ` is free, with a basis of its
 sections, and `𝓛` is trivial. -/
 theorem exists_trivializing_affineOpen (y : S) :
@@ -449,7 +449,7 @@ theorem isIso_dualizingComparison :
       exact (Scheme.Hom.comp_apply _ _ v).symm.trans (congrArg (fun φ => φ v) h)
     obtain ⟨w, rfl⟩ := hx
     refine ⟨⟨V, b, eL⟩, sq.isoPullback.inv w, ?_⟩
-    show (polyChart E hqc hV b) (sq.isoPullback.inv w) = _
+    change (polyChart E hqc hV b) (sq.isoPullback.inv w) = _
     exact (Scheme.Hom.comp_apply _ _ w).symm.trans
       (congrArg (fun φ => φ w) sq.isoPullback_inv_fst)
   · have := isIso_restrict_dualizingComparison E hqc D hfree i.1.2 i.2.1 i.2.2

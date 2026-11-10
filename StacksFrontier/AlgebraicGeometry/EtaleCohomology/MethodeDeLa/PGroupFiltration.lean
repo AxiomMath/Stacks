@@ -74,7 +74,7 @@ private theorem p_dvd_card_of_nontrivial {p n : ℕ} [Fact p.Prime] {V : Type*}
   have hexp : Monoid.exponent (Multiplicative V) ∣ p ^ n := by
     apply Monoid.exponent_dvd_iff_forall_pow_eq_one.mpr
     intro x
-    show Multiplicative.ofAdd ((p ^ n) • (Multiplicative.toAdd x)) = 1
+    change Multiplicative.ofAdd ((p ^ n) • (Multiplicative.toAdd x)) = 1
     rw [← Nat.cast_smul_eq_nsmul (ZMod (p ^ n)) (p ^ n) (Multiplicative.toAdd x),
       ZMod.natCast_self, zero_smul]
     rfl
@@ -100,7 +100,7 @@ private theorem simple_module_pgroup_action_trivial {p n : ℕ} [Fact p.Prime]
   obtain ⟨w, hw, hw0⟩ := hH.exists_fixed_point_of_prime_dvd_card_of_fixed_point
     V hdvd (a := (0 : V)) (by
       intro g
-      show MonoidAlgebra.of (ZMod (p ^ n)) H g • (0 : V) = 0
+      change MonoidAlgebra.of (ZMod (p ^ n)) H g • (0 : V) = 0
       simp)
   have hwne : w ≠ 0 := by simpa using hw0.symm
   have hwfix : ∀ g : H, g • w = w := by
@@ -110,7 +110,7 @@ private theorem simple_module_pgroup_action_trivial {p n : ℕ} [Fact p.Prime]
     intro a
     induction a using MonoidAlgebra.induction_on with
     | of g =>
-        show g • w ∈ _
+        change g • w ∈ _
         rw [hwfix g]
         exact Submodule.subset_span (by simp)
     | add a b ha hb =>
@@ -122,11 +122,11 @@ private theorem simple_module_pgroup_action_trivial {p n : ℕ} [Fact p.Prime]
   obtain ⟨a, rfl⟩ := (isSimpleModule_iff_toSpanSingleton_surjective.mp
     (show IsSimpleModule (MonoidAlgebra (ZMod (p ^ n)) H) V from inferInstance)).2 w hwne v
   obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.mp (hspan a)
-  show MonoidAlgebra.of (ZMod (p ^ n)) H g • (a • w) = a • w
+  change MonoidAlgebra.of (ZMod (p ^ n)) H g • (a • w) = a • w
   rw [← hc]
-  show MonoidAlgebra.of (ZMod (p ^ n)) H g • (c • w) = c • w
+  change MonoidAlgebra.of (ZMod (p ^ n)) H g • (c • w) = c • w
   rw [smul_comm]
-  show c • (g • w) = c • w
+  change c • (g • w) = c • w
   rw [hwfix]
 
 private noncomputable def pGroupAlgebraAugmentationIdeal {R H : Type*} [CommRing R] [Group H] :
@@ -170,7 +170,7 @@ private theorem groupAlgebraAugmentationIdeal_eq_ker {R H : Type*}
   apply le_antisymm
   · apply Ideal.span_le.2
     rintro _ ⟨g, rfl⟩
-    show groupAlgebraAugmentationMap (R := R) (H := H)
+    change groupAlgebraAugmentationMap (R := R) (H := H)
       (MonoidAlgebra.of R H g - 1) = 0
     simp [groupAlgebraAugmentationMap]
   · intro a ha
@@ -193,7 +193,7 @@ private theorem groupAlgebraAugmentationSubmodule_eq_ker {R H : Type*}
   apply le_antisymm
   · apply Submodule.span_le.2
     rintro _ ⟨g, rfl⟩
-    show groupAlgebraAugmentationMap (R := R) (H := H)
+    change groupAlgebraAugmentationMap (R := R) (H := H)
       (MonoidAlgebra.of R H g - 1) = 0
     simp [groupAlgebraAugmentationMap]
   · intro a ha
@@ -214,7 +214,7 @@ private theorem pGroupAlgebra_augmentation_le_jacobson {p n : ℕ} [Fact p.Prime
     MonoidAlgebra.coeff_injective
   apply Ideal.span_le.2
   rintro _ ⟨g, rfl⟩
-  show MonoidAlgebra.of (ZMod (p ^ n)) H g - 1 ∈ Module.jacobson A A
+  change MonoidAlgebra.of (ZMod (p ^ n)) H g - 1 ∈ Module.jacobson A A
   rw [Module.jacobson, Submodule.mem_sInf]
   intro S hS
   let V := A ⧸ S
@@ -229,7 +229,7 @@ private theorem pGroupAlgebra_augmentation_le_jacobson {p n : ℕ} [Fact p.Prime
         Submodule.Quotient.mk_smul S _ _
       _ = _ := simple_module_pgroup_action_trivial (p := p) (n := n) hH g _
   apply (Submodule.Quotient.mk_eq_zero (p := S)).mp
-  show S.mkQ (MonoidAlgebra.of (ZMod (p ^ n)) H g - 1) = 0
+  change S.mkQ (MonoidAlgebra.of (ZMod (p ^ n)) H g - 1) = 0
   simpa only [map_sub, Submodule.mkQ_apply, sub_eq_zero] using hquot
 
 private theorem pGroupAlgebra_augmentation_nilpotent {p n : ℕ} [Fact p.Prime]
@@ -274,14 +274,14 @@ private theorem Module.exists_relSeries_trivial_action_subquotient_of_antitone
   · have hidx : N - i.val = N - (i.val + 1) + 1 := by
       have := i.isLt
       omega
-    show K (N - i.val) ≤ K (N - (i.val + 1)) ∧
+    change K (N - i.val) ≤ K (N - (i.val + 1)) ∧
       ∀ (g : H) (x : K (N - (i.val + 1))),
         MonoidAlgebra.single g (1 : Λ) • (x : M) - x ∈ K (N - i.val)
     rw [hidx]
     exact ⟨hK _, fun g x => hstep _ g x.1 x.2⟩
-  · show K N = ⊥
+  · change K N = ⊥
     exact hN
-  · show K (N - N) = ⊤
+  · change K (N - N) = ⊤
     simpa using h₀
 
 section AugmentationFiltration
@@ -345,7 +345,7 @@ private theorem smul_mem_augmentationFiltration_succ_of_mem_submodule {i : ℕ}
       rw [Ideal.IsTwoSided.pow_succ]
       exact Ideal.mul_mem_mul (Ideal.subset_span ⟨g, rfl⟩) c.2
     refine Submodule.subset_span ⟨⟨⟨_, hc⟩, x⟩, ?_⟩
-    show zmodGroupAlgebraEnd Λ H hM ((MonoidAlgebra.single g 1 - 1) * c.1) x =
+    change zmodGroupAlgebraEnd Λ H hM ((MonoidAlgebra.single g 1 - 1) * c.1) x =
       (MonoidAlgebra.single g (1 : Λ) - 1) • zmodGroupAlgebraEnd Λ H hM c x
     rw [map_mul, map_sub, map_one, sub_smul, one_smul, ← zmodGroupAlgebraEnd_single Λ H hM]
     rfl

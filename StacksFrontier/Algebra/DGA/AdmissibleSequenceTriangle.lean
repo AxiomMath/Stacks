@@ -746,7 +746,7 @@ theorem connectingMap_homotopic
     exact (gcast_heq _ _).trans (gcast_heq _ _)
   refine ⟨{ H := { toFun := Htf, map_smul := hHsmul }, rel := ?_ }⟩
   intro n x
-  show P.connectingMap.app n x - P'.connectingMap.app n x
+  change P.connectingMap.app n x - P'.connectingMap.app n x
       = (gcast (R := R) (obj := (K.shift).obj) (show (n + -1) + 1 = n by ring))
           ((K.shift).d (n + -1) (Htf n x))
         + (gcast (R := R) (obj := (K.shift).obj) (show (n + 1) + -1 = n by ring))
@@ -796,7 +796,7 @@ theorem associatedTriangle_iso_of_compatibleSplittings
       simp only [Hom.comp_app, HtpyEquiv.id, Hom.id_app]
       ext x
       simp only [LinearMap.coe_comp, Function.comp_apply, LinearMap.id_coe, id_eq]
-    show Homotopic ((Hom.shiftMap (HtpyEquiv.id K).hom).comp
+    change Homotopic ((Hom.shiftMap (HtpyEquiv.id K).hom).comp
       (P.associatedTriangle.mor₃)) ((P'.associatedTriangle.mor₃).comp (HtpyEquiv.id M).hom)
     rw [show P.associatedTriangle.mor₃ = P.connectingMap from rfl,
         show P'.associatedTriangle.mor₃ = P'.connectingMap from rfl]

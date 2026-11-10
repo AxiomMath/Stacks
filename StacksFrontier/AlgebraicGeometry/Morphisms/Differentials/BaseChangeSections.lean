@@ -75,7 +75,7 @@ pure tensors `1 ⊗ x` by `Submodule.span_induction` against
 `KaehlerDifferential.span_range_derivation` — the scalar step is
 `1 ⊗ a • y = algebraMap a • (1 ⊗ y)`, so only `B`-linearity is ever used, and no semilinearity of
 pulling a section back is needed — and then to all of `B ⊗[A] Ω[A⁄R]` by
-`TensorProduct.induction_on`.
+`TensorProduct.inductionOn`.
 
 No `@[stacks]` attribute is attached: this is the affine-local dictionary for the canonical map
 of Tag 01UV, not one of the numbered assertions.
@@ -203,8 +203,7 @@ theorem relativeDifferentialsMap_app_eq_mapBaseChange :
         rw [ihy]
   -- then on all of `B ⊗[A] Ω[A⁄R]`, since `b ⊗ x` is `b • (1 ⊗ x)`
   intro t
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | tmul b x =>
       rw [htmul]
       simp only [map_smul, Scheme.Modules.Hom.app_smul]

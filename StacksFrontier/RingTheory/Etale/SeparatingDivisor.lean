@@ -225,7 +225,7 @@ theorem exists_etale_divisor_of_locally_isStandardSmooth [IsDomain A] [IsNoether
     let : Algebra K[X] BK := (aeval t' : K[X] →ₐ[K] BK).toRingHom.toAlgebra
     let : Algebra A[X] BK := ((algebraMap B BK).comp (aeval t : A[X] →ₐ[A] B).toRingHom).toAlgebra
     have : IsScalarTower A[X] K[X] BK := IsScalarTower.of_algebraMap_eq fun q => by
-      show algebraMap B BK (aeval t q) = aeval t' (q.map (algebraMap A K))
+      change algebraMap B BK (aeval t q) = aeval t' (q.map (algebraMap A K))
       rw [aeval_map_algebraMap, ht'def, aeval_algebraMap_apply]
     obtain ⟨⟨_, c, hc, rfl⟩, hcx⟩ := IsIntegral.exists_multiple_integral_of_isLocalization
       ((nonZeroDivisors A).map C) (algebraMap B BK x) (hfin.to_isIntegral _)
@@ -235,7 +235,7 @@ theorem exists_etale_divisor_of_locally_isStandardSmooth [IsDomain A] [IsNoether
           algebraMap B BK (c • x) := by
         rw [Submonoid.smul_def, Algebra.smul_def, Algebra.smul_def, map_mul]
         congr 1
-        show algebraMap B BK (aeval t (C c)) = _
+        change algebraMap B BK (aeval t (C c)) = _
         rw [aeval_C, ← IsScalarTower.algebraMap_apply]
       rw [← this]
       exact hcx
@@ -245,7 +245,7 @@ theorem exists_etale_divisor_of_locally_isStandardSmooth [IsDomain A] [IsNoether
   let : Algebra A[X] B := (aeval t : A[X] →ₐ[A] B).toRingHom.toAlgebra
   have hintA : ∀ r : A, IsIntegral A[X] (algebraMap A B r) := fun r => by
     have : algebraMap A B r = algebraMap A[X] B (C r) := by
-      show _ = aeval t (C r)
+      change _ = aeval t (C r)
       rw [aeval_C]
     rw [this]
     exact isIntegral_algebraMap
@@ -360,8 +360,7 @@ theorem exists_etale_divisor_of_locally_isStandardSmooth [IsDomain A] [IsNoether
   have hspan : Submodule.span T' {(1 : T') ⊗ₜ[B'] KaehlerDifferential.D A' B' f''} = ⊤ := by
     rw [eq_top_iff]
     rintro z -
-    induction z using TensorProduct.induction_on with
-    | zero => exact zero_mem _
+    induction z using TensorProduct.inductionOn with
     | tmul τ ω' =>
       obtain ⟨y₁, hy₁, y₂, hy₂, hy⟩ := Submodule.mem_sup.1 (hcov' ω')
       obtain ⟨c, rfl⟩ := Submodule.mem_span_singleton.1 hy₁

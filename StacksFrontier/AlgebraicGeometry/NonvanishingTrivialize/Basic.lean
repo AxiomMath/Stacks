@@ -28,11 +28,13 @@ cannot be formed without it. Its proof is the one of the sibling file, transport
 
 * `Stacks.NonvanishingTrivialize.nonvanishingLocus` and
   `Stacks.NonvanishingTrivialize.nonvanishingOpen`: the locus `X_s` and, once openness is
-  available, the open subset. The locus is the tagged statement's definition verbatim, the module structure
+  available, the open subset. The locus is the tagged statement's definition verbatim, the module
+  structure
   on the stalk being the one named in `Stacks.NonvanishingTrivialize.stalkModule`.
 * `Stacks.NonvanishingTrivialize.moduleSections`: the action of `𝒪_X(U)` on `L(U)` at the
   spelling `X.presheaf.obj (op U)` of the ring of sections. Mathlib has this for a scheme
-  (`Module Γ(X, U) Γ(M, U)`) and not for a ringed space; see *The compiler option of the tagged statement*.
+  (`Module Γ(X, U) Γ(M, U)`) and not for a ringed space; see *The compiler option of the tagged
+  statement*.
 * `Stacks.NonvanishingTrivialize.res`: restriction of a section of `L`, landing in
   `L.val.obj (op W')` rather than in the restricted-scalars wrapper that
   `PresheafOfModules.map` produces.
@@ -43,7 +45,8 @@ cannot be formed without it. Its proof is the one of the sibling file, transport
 ## Main results
 
 * `Stacks.NonvanishingTrivialize.isIso_over_nonvanishingOpen`: **Stacks Tag 01CY, the
-  trivialization clause**, in the shape of the tagged statement, an instance as it is declared there:
+  trivialization clause**, in the shape of the tagged statement, an instance as it is declared
+  there:
   `IsIso ((L.unitHomEquiv.symm s).over (nonvanishingOpen X L s))`.
   `Stacks.NonvanishingTrivialize.isIso_over_of_le` is the same for an arbitrary open inside the
   nonvanishing locus, which is what the induction over the slice site consumes.
@@ -104,7 +107,8 @@ one of the `(-1)`-st over the ring `X.presheaf.obj (op U)`. The tensor product n
 **not synthesized**: the sections of the module are a `ModuleCat` over the `RingCat`-valued
 `(structureRingPresheaf X.presheaf).obj (op U)`, which is the same ring with another spelling,
 and instance search is syntactic. Relaxing transparency makes the search succeed, which is why
-the tagged statement needs the option for that clause. It is not the only repair: the missing instance is
+the tagged statement needs the option for that clause. It is not the only repair: the missing
+instance is
 exactly the ringed-space analogue of Mathlib's `Module Γ(X, U) Γ(M, U)` for a scheme
 (`Mathlib/AlgebraicGeometry/Modules/Sheaf.lean`), and supplying it -- as
 `Stacks.NonvanishingTrivialize.moduleSections` does here for `L` itself, and as one more line

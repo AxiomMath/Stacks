@@ -147,7 +147,7 @@ theorem isLocallySurjective_desc_of_isPullback
   let b : yoneda.obj (𝒱.X i) ⟶ F := yoneda.map (𝒱.f i) ≫ yonedaEquiv.symm p
   have hb0 : yoneda.map (pullback.snd f (𝒰.f i)) ≫ yoneda.map (𝒰.f i) = b ≫ π := by
     apply yonedaEquiv.injective
-    show pullback.snd f (𝒰.f i) ≫ 𝒰.f i = π.app _ (F.map (𝒱.f i).op p)
+    change pullback.snd f (𝒰.f i) ≫ 𝒰.f i = π.app _ (F.map (𝒱.f i).op p)
     exact pullback.condition.symm.trans
       (ConcreteCategory.congr_hom (π.naturality (𝒱.f i).op) p).symm
   have hb : b ≫ π = yoneda.map (pullback.snd f (𝒰.f i)) ≫ yoneda.map (𝒰.f i) := hb0.symm
@@ -158,7 +158,7 @@ theorem isLocallySurjective_desc_of_isPullback
     congrArg yonedaEquiv ((hpb i).lift_fst b (yoneda.map (pullback.snd f (𝒰.f i))) hb)
   refine ⟨(Sigma.ι (fun i => yoneda.obj (X i)) i).app _ m, ?_⟩
   exact (ConcreteCategory.congr_hom
-    (congrArg (fun α : _ ⟶ F => α.app (op (𝒱.X i))) (Sigma.ι_desc c i)) m).trans hm
+    (congrArg (fun α : _ ⟶ F => α.app (op (𝒱.X i))) (Sigma.ι_comp_desc c i)) m).trans hm
 
 end FromCover
 
@@ -368,7 +368,7 @@ theorem Fd.chartNat_comp_smallToBase :
     Fd.chartNat A U hU hk ≫ Fd.smallToBase (situationAlgebra A) (k : ℤ)
       = yoneda.map (Fd.chartBaseHom A U hU hk) ≫ yoneda.map U.ι :=
   NatTrans.ext (funext fun T => TypeCat.homEquiv.injective (funext fun φ => by
-    show (Fd.smallEquiv (situationAlgebra A) (k : ℤ) T.unop
+    change (Fd.smallEquiv (situationAlgebra A) (k : ℤ) T.unop
         ((Fd.smallEquiv (situationAlgebra A) (k : ℤ) T.unop).symm
           (Fd.chartOfHom A U hU hk T.unop φ))).1 = _
     rw [Equiv.apply_symm_apply, Fd.chartOfHom_fst]
@@ -422,7 +422,7 @@ def Fd.chartLift :
 theorem Fd.chartLift_comp_chartNat :
     Fd.chartLift A U hU hk s ≫ Fd.chartNat A U hU hk = s.fst :=
   NatTrans.ext (funext fun T => TypeCat.homEquiv.injective (funext fun w => by
-    show (Fd.smallEquiv (situationAlgebra A) (k : ℤ) T.unop).symm
+    change (Fd.smallEquiv (situationAlgebra A) (k : ℤ) T.unop).symm
         (Fd.chartOfHom A U hU hk T.unop ((Fd.chartLift A U hU hk s).app T w)) = _
     rw [Fd.chartLift_app, Fd.chartOfHom_chartHomOfFibre, Equiv.symm_apply_apply]
     rfl))
@@ -431,7 +431,7 @@ theorem Fd.chartLift_comp_chartNat :
 theorem Fd.chartLift_comp_chartBaseHom :
     Fd.chartLift A U hU hk s ≫ yoneda.map (Fd.chartBaseHom A U hU hk) = s.snd :=
   NatTrans.ext (funext fun T => TypeCat.homEquiv.injective (funext fun w => by
-    show (Fd.chartLift A U hU hk s).app T w ≫ Fd.chartBaseHom A U hU hk = _
+    change (Fd.chartLift A U hU hk s).app T w ≫ Fd.chartBaseHom A U hU hk = _
     rw [Fd.chartLift_app, Fd.chartHomOfFibre_comp_chartBaseHom]
     rfl))
 
@@ -449,7 +449,7 @@ theorem Fd.eq_chartLift
   have hA : Fd.chartOfHom A U hU hk T.unop (m.app T w)
       = Fd.smallEquiv (situationAlgebra A) (k : ℤ) T.unop (s.fst.app T w) := by
     rw [← h₁', Equiv.apply_symm_apply]
-  show m.app T w = (Fd.chartLift A U hU hk s).app T w
+  change m.app T w = (Fd.chartLift A U hU hk s).app T w
   rw [Fd.chartLift_app]
   exact Fd.eq_chartHomOfFibre A U hU hk T.unop (s.snd.app T w)
     (Fd.smallEquiv (situationAlgebra A) (k : ℤ) T.unop (s.fst.app T w))
@@ -508,10 +508,10 @@ by a scheme over `S`: there are a scheme `Y`, a morphism `p : Y ⟶ S` and a rep
 `F_d` by `Y` under which the morphism `T ⟶ Y` representing a class `ξ ∈ F_d(T)`, composed with
 `p`, is the morphism `T ⟶ S` recorded by `ξ`. -/
 @[stacks 01NV "THE TAG, UNCONDITIONALLY: for S a scheme, A a quasi-coherent graded O_S-algebra \
-(Situation 01NN) and d = k with 0 < k, the functor F_d of Section 01NS is representable by a scheme \
-over S. The conclusion is about Fd.functor, the genuine functor whose restriction maps are the \
-pullback of a quadruple, and it records that the representing morphism composed with p : Y -> S is \
-the class's own morphism to S."]
+(Situation 01NN) and d = k with 0 < k, the functor F_d of Section 01NS is representable by \
+a scheme over S. The conclusion is about Fd.functor, the genuine functor whose restriction maps \
+are the pullback of a quadruple, and it records that the representing morphism composed with \
+p : Y -> S is the class's own morphism to S."]
 theorem Fd.exists_representableBy_functor_of_pos :
     ∃ (Y : Scheme.{u}) (p : Y ⟶ S)
       (e : (Fd.functor (situationAlgebra A) (k : ℤ)).RepresentableBy Y),

@@ -155,14 +155,14 @@ private lemma exists_section_of_linearRepresentation
       e C hC (algebraMapValue L f hS hC ξ) = f.toLinearMap.comp (SymmetricAlgebra.ι A M) := by
     rw [hnat _ _ f hS hC ξ, show e _ hS ξ = _ from (e _ hS).apply_symm_apply _]
   have hwξ : ξ ∈ weightSpace Q (SymmetricAlgebra A M) hS hSL L (symmetricPower A M) 1 := by
-    show (LaurentPolynomial.T 1 : LaurentPolynomial (SymmetricAlgebra A M)) •
+    change (LaurentPolynomial.T 1 : LaurentPolynomial (SymmetricAlgebra A M)) •
       algebraMapValue L (constantLaurentMapLarge A (SymmetricAlgebra A M)) hS hSL ξ =
       algebraMapValue L (gradedLaurentMapLarge A (SymmetricAlgebra A M)
         (symmetricPower A M)) hS hSL ξ
     apply (e (LaurentPolynomial (SymmetricAlgebra A M)) hSL).injective
     rw [map_smul, hξe _ hSL, hξe _ hSL]
     refine LinearMap.ext fun m => ?_
-    show LaurentPolynomial.T 1 * LaurentPolynomial.C (SymmetricAlgebra.ι A M m) =
+    change LaurentPolynomial.T 1 * LaurentPolynomial.C (SymmetricAlgebra.ι A M m) =
       gradedLaurentMapLarge A (SymmetricAlgebra A M) (symmetricPower A M)
         (SymmetricAlgebra.ι A M m)
     rw [gradedLaurentMapLarge_symmetricAlgebra_eq_degreeOne A M (symmetricPower A M)
@@ -183,7 +183,7 @@ private lemma exists_section_of_linearRepresentation
     apply (e (SymmetricAlgebra A (M × M)) hT).injective
     rw [map_add, hξe _ hT, hξe _ hT, hξe _ hT]
     refine LinearMap.ext fun m => ?_
-    show symmetricMapLarge _ (SymmetricAlgebra.ι A M m) =
+    change symmetricMapLarge _ (SymmetricAlgebra.ι A M m) =
       symmetricMapLarge _ (SymmetricAlgebra.ι A M m) +
         symmetricMapLarge _ (SymmetricAlgebra.ι A M m)
     simp only [symmetricMapLarge, SymmetricAlgebra.lift_ι_apply, LinearMap.comp_apply,
@@ -211,7 +211,7 @@ private lemma exists_section_of_linearRepresentation
         (Q.ι.map g).hom hS D.property D'.property]
     refine algebraMapValue_congr E (SymmetricAlgebra.algHom_ext (LinearMap.ext fun m => ?_))
       hS D'.property θ
-    show SymmetricAlgebra.lift ((Q.ι.map g).hom.toLinearMap.comp
+    change SymmetricAlgebra.lift ((Q.ι.map g).hom.toLinearMap.comp
           (e (D.obj : Type (max u v)) D.property x)) (SymmetricAlgebra.ι A M m) =
       (Q.ι.map g).hom (SymmetricAlgebra.lift
         (e (D.obj : Type (max u v)) D.property x) (SymmetricAlgebra.ι A M m))
@@ -226,7 +226,7 @@ private lemma exists_section_of_linearRepresentation
       (by
         rintro ⟨⟨D⟩⟩ x a
         change Units (D.obj : Type (max u v)) at a
-        show s D ((a : (D.obj : Type (max u v))) • x) =
+        change s D ((a : (D.obj : Type (max u v))) • x) =
           (a : (D.obj : Type (max u v))) • s D x
         dsimp only [s]
         rw [map_smul]
@@ -237,9 +237,9 @@ private lemma exists_section_of_linearRepresentation
   ext D x
   have hsx := congrArg (fun τ => (τ.app D).hom x) hs'
   change s'.app D x = s D.unop.unop x at hsx
-  show p.app D (s'.app D x) = x
+  change p.app D (s'.app D x) = x
   rw [hsx]
-  show p.app (algObj Q (D.unop.unop.obj : Type (max u v)) D.unop.unop.property)
+  change p.app (algObj Q (D.unop.unop.obj : Type (max u v)) D.unop.unop.property)
     (algebraMapValue E (SymmetricAlgebra.lift
       (e (D.unop.unop.obj : Type (max u v)) D.unop.unop.property x)) hS
         D.unop.unop.property θ) = x

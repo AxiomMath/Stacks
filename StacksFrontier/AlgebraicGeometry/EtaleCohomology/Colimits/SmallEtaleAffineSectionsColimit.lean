@@ -177,12 +177,12 @@ theorem existsUnique_desc_of_affineSections :
   refine ⟨desc T lg hdir hlg hsurj hinj μ hμ, fun j => sheafHom_ext_of_affineEtale fun W => ?_,
     fun σ' hσ' => sheafHom_ext_of_affineEtale fun W => ?_⟩
   · ext t
-    show (desc T lg hdir hlg hsurj hinj μ hμ).hom.app _ ((lg j).hom.app _ t) = _
+    change (desc T lg hdir hlg hsurj hinj μ hμ).hom.app _ ((lg j).hom.app _ t) = _
     rw [desc_app, descApp_apply]
   · ext x
     obtain ⟨j, t, rfl⟩ := hsurj W x
     rw [desc_app, descApp_apply]
-    show ((lg j) ≫ σ').hom.app _ t = _
+    change ((lg j) ≫ σ').hom.app _ t = _
     rw [hσ' j]
 
 end Stacks.EtaleCohomology

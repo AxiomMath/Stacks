@@ -601,7 +601,7 @@ public theorem fiberBaseChangeSupportArrow_comp (sq : IsPullback p f' f g)
       fiberBaseChangeScheme B p f' f g sq V ∣_
         supportOpen B X.obj X.property (baseChange B f V) E.1
           (finiteSupport_isLocallyClosed B f V E) := by
-    show B.inclusion.map ((fiberBaseChangeSupportArrow B p f' f g sq V E).hom.left) ≫
+    change B.inclusion.map ((fiberBaseChangeSupportArrow B p f' f g sq V E).hom.left) ≫
       B.inclusion.map _ = _
     rw [← Functor.map_comp, fiberBaseChangeSupportArrow_proj, fiberBaseChangeOpenMap_map]
   rw [h1]
@@ -769,7 +769,7 @@ public theorem fiberBaseChangeSupportArrow_transition (sq : IsPullback p f' f g)
             (finiteSupport_isLocallyClosed B f V E₁) hle
             (finiteSupport_closedWithin B f V E E₁ hle))) := by
   refine baseChangeObj_hom_ext B p ?_
-  show ((openObjectHomOfLE B X'.obj X'.property (baseChange B f' (baseChange B g V))
+  change ((openObjectHomOfLE B X'.obj X'.property (baseChange B f' (baseChange B g V))
           (fiberBaseChangeSupportOpen_antitone B p f' f g sq V hle)).hom.left ≫
         (fiberBaseChangeSupportArrow B p f' f g sq V E).hom.left) ≫ _ =
       ((fiberBaseChangeSupportArrow B p f' f g sq V E₁).hom.left ≫

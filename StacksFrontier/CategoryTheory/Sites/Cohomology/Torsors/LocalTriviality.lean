@@ -148,7 +148,7 @@ lemma nonempty_globalSections_comp_forget_iff (P : Cᵒᵖ ⥤ Type t) (V : C) :
   · rintro ⟨x⟩
     refine ⟨fun W ↦ P.map (W.unop.hom).op x, ?_⟩
     intro W W' f
-    show P.map (f.unop.left).op (P.map (W.unop.hom).op x) = P.map (W'.unop.hom).op x
+    change P.map (f.unop.left).op (P.map (W.unop.hom).op x) = P.map (W'.unop.hom).op x
     rw [← Functor.map_comp_apply, ← op_comp, Over.w f.unop]
 
 /-- **The torsors trivial over an object.** A pseudo-torsor restricts to a trivial pseudo-torsor
@@ -167,7 +167,7 @@ lemma PseudoTorsor.isTrivial_of_terminal_section {V : C} (hV : Limits.IsTerminal
     ((Stacks.Cohomology.Torsors.nonempty_globalSections_iff_sectionFamily F.presheaf).2
       ⟨fun W ↦ F.presheaf.map (hV.from W.unop).op x, ?_⟩)
   intro W W' f
-  show F.presheaf.map f.unop.op (F.presheaf.map (hV.from W.unop).op x) =
+  change F.presheaf.map f.unop.op (F.presheaf.map (hV.from W.unop).op x) =
     F.presheaf.map (hV.from W'.unop).op x
   rw [← Functor.map_comp_apply, ← op_comp,
     hV.hom_ext (f.unop ≫ hV.from W.unop) (hV.from W'.unop)]
@@ -186,6 +186,7 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   [HasSheafify J AddCommGrpCat.{t}] [HasExt.{h} (Sheaf J AddCommGrpCat.{t})]
   (H : Sheaf J AddCommGrpCat.{t})
 
+omit [HasSheafify J AddCommGrpCat.{t}] [HasExt.{h} (Sheaf J AddCommGrpCat.{t})] in
 /-- An equivariant morphism of torsors preserves differences of sections. -/
 lemma torsorDifference_hom {F F' : AbelianTorsor H} (e : F.1.Hom F'.1) (V : Cᵒᵖ)
     (x y : F.1.presheaf.obj V) :
@@ -194,6 +195,7 @@ lemma torsorDifference_hom {F F' : AbelianTorsor H} (e : F.1.Hom F'.1) (V : Cᵒ
   exact (e.map_act V (Multiplicative.ofAdd (torsorDifference H F V x y)) y).symm.trans
     (congrArg _ (torsorDifference_act H F V x y))
 
+omit [HasSheafify J AddCommGrpCat.{t}] [HasExt.{h} (Sheaf J AddCommGrpCat.{t})] in
 /-- Differences of sections of a torsor satisfy the parallelogram identity: the two ways of
 comparing the pairs `(x, x')` and `(y, y')` agree, both being a decomposition of the difference
 of `x` and `y'`. -/
@@ -211,6 +213,7 @@ lemma act_zero (F : AbelianTorsor H) (V : Cᵒᵖ) (y : F.1.presheaf.obj V) :
     F.1.act V (Multiplicative.ofAdd (0 : H.obj.obj V)) y = y :=
   F.1.one_act V y
 
+omit [HasSheafify J AddCommGrpCat.{t}] [HasExt.{h} (Sheaf J AddCommGrpCat.{t})] in
 /-- Two sections of a torsor with vanishing difference are equal. -/
 lemma eq_of_torsorDifference_eq_zero (F : AbelianTorsor H) (V : Cᵒᵖ)
     (x y : F.1.presheaf.obj V) (hxy : torsorDifference H F V x y = 0) : x = y :=
@@ -249,7 +252,7 @@ lemma map_sectionRestriction (F : AbelianTorsor (G.over U))
       sectionRestriction E G F s k (j.succAbove m) := by
   have hc : faceProjection E k j ≫ Pi.π (fun b ↦ Over.mk (E.f (k (j.succAbove b)))) m =
       Pi.π (fun c ↦ Over.mk (E.f (k c))) (j.succAbove m) := Pi.lift_comp_π _ _
-  show F.1.presheaf.map (faceProjection E k j).op
+  change F.1.presheaf.map (faceProjection E k j).op
       (F.1.presheaf.map (Pi.π (fun b ↦ Over.mk (E.f (k (j.succAbove b)))) m).op
         (s (k (j.succAbove m)))) =
     F.1.presheaf.map (Pi.π (fun c ↦ Over.mk (E.f (k c))) (j.succAbove m)).op
@@ -265,7 +268,7 @@ lemma map_sectionRestriction_comp (F : AbelianTorsor (G.over U))
     (m : Fin (n + 1)) {W : Over U} (g : W ⟶ (∏ᶜ fun j ↦ Over.mk (E.f (k j)))) :
     F.1.presheaf.map g.op (sectionRestriction E G F s k m) =
       F.1.presheaf.map (g ≫ Pi.π (fun j ↦ Over.mk (E.f (k j))) m).op (s (k m)) := by
-  show F.1.presheaf.map g.op
+  change F.1.presheaf.map g.op
       (F.1.presheaf.map (Pi.π (fun j ↦ Over.mk (E.f (k j))) m).op (s (k m))) = _
   rw [← Functor.map_comp_apply, ← op_comp]
 
@@ -306,7 +309,8 @@ omit [HasProducts.{w} AddCommGrpCat.{t}] in
     rw [← map_sectionRestriction E G F s k j m, ← map_sectionRestriction E G F s' k j m']
     exact torsorDifference_naturality (G.over U) F (faceProjection E k j).op _ _
 
-omit [HasProducts.{w} AddCommGrpCat.{t}] in
+omit [HasProducts.{w} AddCommGrpCat.{t}] [HasSheafify (J.over U) AddCommGrpCat.{t}]
+  [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{t})] in
 /-- The restriction of the transition cochain along a face projection is the difference of the
 two corresponding restricted local sections. -/
 lemma map_face_transitionCochain (F : AbelianTorsor (G.over U))
@@ -318,6 +322,8 @@ lemma map_face_transitionCochain (F : AbelianTorsor (G.over U))
         (sectionRestriction E G F s k (j.succAbove 0)) :=
   map_face_torsorDifference_sectionRestriction E G F s s k j 1 0
 
+omit [HasSheafify (J.over U) AddCommGrpCat.{t}]
+  [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{t})] in
 /-- **The transition cochain is a Čech `1`-cocycle.** Over a triple fibre product the three
 restricted differences compose, which is exactly the Čech cocycle identity. -/
 lemma transitionCochain_mem_cocycles1 (F : AbelianTorsor (G.over U))
@@ -340,7 +346,8 @@ def sectionDifferenceCochain (F : AbelianTorsor (G.over U))
   fun l ↦ torsorDifference (G.over U) F (op (∏ᶜ fun j ↦ Over.mk (E.f (l j))))
     (sectionRestriction E G F s l 0) (sectionRestriction E G F s' l 0)
 
-omit [HasProducts.{w} AddCommGrpCat.{t}] in
+omit [HasProducts.{w} AddCommGrpCat.{t}] [HasSheafify (J.over U) AddCommGrpCat.{t}]
+  [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{t})] in
 /-- The restriction of the cochain of section differences along a face projection. -/
 lemma map_face_sectionDifferenceCochain (F : AbelianTorsor (G.over U))
     (s s' : ∀ i, F.1.presheaf.obj (op (Over.mk (E.f i)))) (k : Fin 2 → E.I₀) (j : Fin 2) :
@@ -351,6 +358,8 @@ lemma map_face_sectionDifferenceCochain (F : AbelianTorsor (G.over U))
         (sectionRestriction E G F s' k (j.succAbove 0)) :=
   map_face_torsorDifference_sectionRestriction E G F s s' k j 0 0
 
+omit [HasSheafify (J.over U) AddCommGrpCat.{t}]
+  [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{t})] in
 /-- **Two families of local sections have cohomologous transition cocycles.** Their transition
 cochains differ by the Čech coboundary of their cochain of differences. -/
 @[ega "IV 16.5.15" "special case"]
@@ -365,6 +374,8 @@ lemma cechDifferential_sectionDifferenceCochain (F : AbelianTorsor (G.over U))
     (sectionRestriction E G F s k 1) (sectionRestriction E G F s' k 1)
     (sectionRestriction E G F s k 0) (sectionRestriction E G F s' k 0)
 
+omit [HasSheafify (J.over U) AddCommGrpCat.{t}]
+  [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{t})] in
 /-- **The Čech class of the transition cocycle does not depend on the chosen local sections.** -/
 @[stacks 0A6G "variant: independence of the chosen local sections; \
 the tag is Stacks.CechSite.cechH1ToSliceH_injective_and_range_eq", ega "IV 16.5.15" "special case"]
@@ -374,18 +385,21 @@ lemma cls_transitionCocycle_congr (F : AbelianTorsor (G.over U))
   QuotientAddGroup.eq_iff_sub_mem.mpr ((mem_coboundaries1_iff E G.obj _).mpr
     ⟨sectionDifferenceCochain E G F s s', cechDifferential_sectionDifferenceCochain E G F s s'⟩)
 
-omit [HasProducts.{w} AddCommGrpCat.{t}] in
+omit [HasProducts.{w} AddCommGrpCat.{t}] [HasSheafify (J.over U) AddCommGrpCat.{t}]
+  [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{t})] in
 /-- The transition cochain is carried along an equivariant morphism of torsors. -/
 lemma transitionCochain_hom {F F' : AbelianTorsor (G.over U)} (e : F.1.Hom F'.1)
     (s : ∀ i, F.1.presheaf.obj (op (Over.mk (E.f i)))) :
     transitionCochain E G F' (fun i ↦ e.hom.app _ (s i)) = transitionCochain E G F s := by
   funext k
-  show torsorDifference (G.over U) F' _
+  change torsorDifference (G.over U) F' _
       (sectionRestriction E G F' (fun i ↦ e.hom.app _ (s i)) k 1)
       (sectionRestriction E G F' (fun i ↦ e.hom.app _ (s i)) k 0) = _
   rw [sectionRestriction_hom, sectionRestriction_hom]
   exact torsorDifference_hom (G.over U) e _ _ _
 
+omit [HasSheafify (J.over U) AddCommGrpCat.{t}]
+  [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{t})] in
 /-- **The Čech class of the transition cocycle depends only on the isomorphism class of the
 torsor.** -/
 @[stacks 0A6G "variant: independence of the torsor inside its isomorphism class; \
@@ -451,6 +465,8 @@ def cechClass (c : LocallyTrivialClass E G) : cechH1 E G.obj :=
   cls E G.obj (transitionCocycle E G (Classical.choose c.2)
     (fun i ↦ Classical.choice ((Classical.choose_spec c.2).2 i)))
 
+omit [HasSheafify (J.over U) AddCommGrpCat.{t}]
+  [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{t})] in
 /-- The Čech class of a locally trivial class is computed by any representative and any family
 of local sections of it. -/
 @[sga "4½ Cycle 1.1.2" "partial"]
@@ -463,7 +479,8 @@ lemma cechClass_mk (F : AbelianTorsor (G.over U))
   exact Quotient.exact (Classical.choose_spec
     (⟨F, rfl, hF⟩ : IsLocallyTrivialOn E G (Quotient.mk (torsorSetoid (G.over U)) F))).1
 
-omit [HasProducts.{w} AddCommGrpCat.{t}] in
+omit [HasProducts.{w} AddCommGrpCat.{t}] [HasSheafify (J.over U) AddCommGrpCat.{t}]
+  [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{t})] in
 /-- A compatible family of sections over all objects of `C/U` has vanishing transition
 cochain: its restrictions to a fibre product along the two projections agree. -/
 lemma transitionCochain_eq_zero_of_sectionFamily (F : AbelianTorsor (G.over U))
@@ -473,14 +490,15 @@ lemma transitionCochain_eq_zero_of_sectionFamily (F : AbelianTorsor (G.over U))
   funext k
   have heq : sectionRestriction E G F (fun i ↦ σ (op (Over.mk (E.f i)))) k 1 =
       sectionRestriction E G F (fun i ↦ σ (op (Over.mk (E.f i)))) k 0 := by
-    show F.1.presheaf.map _ (σ (op (Over.mk (E.f (k 1))))) =
+    change F.1.presheaf.map _ (σ (op (Over.mk (E.f (k 1))))) =
       F.1.presheaf.map _ (σ (op (Over.mk (E.f (k 0)))))
     rw [hσ, hσ]
-  show torsorDifference (G.over U) F _ _ _ = 0
+  change torsorDifference (G.over U) F _ _ _ = 0
   rw [heq]
   exact torsorDifference_self (G.over U) F _ _
 
-omit [HasProducts.{w} AddCommGrpCat.{t}] in
+omit [HasProducts.{w} AddCommGrpCat.{t}] [HasSheafify (J.over U) AddCommGrpCat.{t}]
+  [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{t})] in
   /-- A trivial torsor has a family of local sections with vanishing transition cochain. -/
   private lemma exists_transitionCochain_eq_zero_of_isTrivial (F : AbelianTorsor (G.over U))
       (hF : F.1.IsTrivial) :
@@ -490,6 +508,8 @@ omit [HasProducts.{w} AddCommGrpCat.{t}] in
     exact ⟨fun i ↦ σ (op (Over.mk (E.f i))),
       transitionCochain_eq_zero_of_sectionFamily E G F σ hσ⟩
 
+omit [HasSheafify (J.over U) AddCommGrpCat.{t}]
+  [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{t})] in
 /-- **A trivial torsor has vanishing Čech class.** A global section restricts to a family of
 local sections all of whose differences vanish. -/
 @[stacks 0A6G "variant: the trivial torsor has vanishing Čech class; \
@@ -515,7 +535,8 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C} {U : C}
   [HasSheafify (J.over U) AddCommGrpCat.{t}]
   [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{t})]
 
-omit [HasProducts.{w} AddCommGrpCat.{t}] in
+omit [HasProducts.{w} AddCommGrpCat.{t}] [HasSheafify (J.over U) AddCommGrpCat.{t}]
+  [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{t})] in
 /-- **The local sections agree on every common refinement.** If the transition cochain of a
 family of local sections vanishes then, for any object `W` of `C/U` and any two morphisms from
 `W` to members of the family, the two restrictions of the corresponding local sections agree:
@@ -549,11 +570,12 @@ lemma exists_hom_over_member {W : Over U} (f : W ⟶ Over.mk (𝟙 U))
   obtain ⟨Y, hh, g, hg, hcomp⟩ := hf
   obtain ⟨i⟩ := hg
   refine ⟨i, ⟨Over.homMk hh ?_⟩⟩
-  show hh ≫ E.f i = W.hom
+  change hh ≫ E.f i = W.hom
   rw [hcomp]
   simpa using Over.w f
 
-omit [HasProducts.{w} AddCommGrpCat.{t}] in
+omit [HasProducts.{w} AddCommGrpCat.{t}] [HasSheafify (J.over U) AddCommGrpCat.{t}]
+  [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{t})] in
 /-- **The glued value over a refinement.** For a family of local sections with vanishing
 transition cochain, an arrow of the covering sieve carries a section of the torsor which is the
 restriction of the local section along *any* morphism to *any* member of the family. -/
@@ -567,7 +589,8 @@ lemma exists_glueValue (F : AbelianTorsor (G.over U))
   exact ⟨F.1.presheaf.map a.op (s i),
     fun j b ↦ map_eq_of_transitionCochain_eq_zero E G F s hs ![j, i] b a⟩
 
-omit [HasProducts.{w} AddCommGrpCat.{t}] in
+omit [HasProducts.{w} AddCommGrpCat.{t}] [HasSheafify (J.over U) AddCommGrpCat.{t}]
+  [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{t})] in
 /-- **A vanishing transition cochain makes the torsor trivial.** The local sections then agree
 on every common refinement of two members of the covering, so the sheaf condition for the
 covering sieve glues them to a section over the terminal object of `C/U`, and a torsor with such
@@ -598,7 +621,8 @@ theorem isTrivial_of_transitionCochain_eq_zero (hE : E.sieve₀ ∈ J U)
     (J.overEquiv_symm_mem_over (Over.mk (𝟙 U)) E.sieve₀ hE) fam hcompat
   exact PseudoTorsor.isTrivial_of_terminal_section Over.mkIdTerminal F.1 x
 
-omit [HasProducts.{w} AddCommGrpCat.{t}] in
+omit [HasProducts.{w} AddCommGrpCat.{t}] [HasSheafify (J.over U) AddCommGrpCat.{t}]
+  [HasExt.{h} (Sheaf (J.over U) AddCommGrpCat.{t})] in
 /-- **Triviality in terms of the transition cocycle.** For a covering family, a torsor under
 `G|_U` with a section over every member of the family is trivial exactly when some family of
 local sections has vanishing transition cochain, that is, exactly when the local sections can be

@@ -79,7 +79,7 @@ private lemma move_entry (e : AdmissibleSequence R M)
   let g : AdmissibleSequence R M := ⟨swapEntries e.1 i b, admissible_swap e i b hbi ha⟩
   have hg (r : R) (hr : r ∈ IsLocalRing.maximalIdeal R) :
       r • g.1 b ∈ initialSpan (R := R) g.1 j.val := by
-    show r • swapEntries e.1 i b b ∈ initialSpan (R := R) (swapEntries e.1 i b) j.val
+    change r • swapEntries e.1 i b b ∈ initialSpan (R := R) (swapEntries e.1 i b) j.val
     rw [initialSpan_swap _ _ _ (by omega)]
     simpa [swapEntries] using hi r hr
   obtain ⟨f, hfspan, hfprev, hfj, hfsym⟩ := move_entry g j b hjb hg
@@ -87,7 +87,7 @@ private lemma move_entry (e : AdmissibleSequence R M)
   · exact initialSpan_swap _ _ _ (by simp only [Fin.is_lt])
   · intro k hk
     rw [hfprev k hk]
-    show swapEntries e.1 i b k = e.1 k
+    change swapEntries e.1 i b k = e.1 k
     have hki : k ≠ i := by intro h; subst k; omega
     have hkb : k ≠ b := by intro h; subst k; omega
     simp [swapEntries, Equiv.swap_apply_of_ne_of_ne hki hkb]
@@ -123,7 +123,7 @@ private lemma symbol_mem_of_agree (e f : AdmissibleSequence R M)
       (symbol_unitChange f i unit (e.1 a) y hiy hy hadm ▸ Submodule.mem_span_singleton_self _)
   have hgadm (r : R) (hr : r ∈ IsLocalRing.maximalIdeal R) :
       r • g.1 i ∈ initialSpan (R := R) g.1 a.val := by
-    show r • Function.update f.1 i (e.1 a) i ∈
+    change r • Function.update f.1 i (e.1 a) i ∈
       initialSpan (R := R) (Function.update f.1 i (e.1 a)) j
     rw [Function.update_self, initialSpan_update f.1 i (e.1 a) y unit hiy hy]
     exact hea r hr
@@ -138,7 +138,7 @@ private lemma symbol_mem_of_agree (e f : AdmissibleSequence R M)
         dsimp [a] at this
         omega
       rw [hf'prev k hkj]
-      show Function.update f.1 i (e.1 a) k = e.1 k
+      change Function.update f.1 i (e.1 a) k = e.1 k
       rw [Function.update_of_ne (show k ≠ i by intro heq; subst k; omega), hprev k hkj]
   have ih := symbol_mem_of_agree e f' (hf'span.trans hgspan) (j + 1) (by omega) hagree
   exact mem_span_singleton_trans (mem_span_singleton_trans ih hf'mem) hgmem

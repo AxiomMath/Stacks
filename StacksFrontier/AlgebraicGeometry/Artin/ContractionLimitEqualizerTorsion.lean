@@ -413,10 +413,10 @@ theorem appTop_eq_zero_of_forall_evalₐ_mem
         (Scheme.ΓSpecIso (.of (AdicCompletion I Γ((BigFppfOver.toScheme B S hS).obj V, ⊤)))).inv
           (algebraMap _ _ a) :=
       Scheme.appTop_specMap_comp_isoSpec_inv_apply _ _ a
-    show _ = ((BigFppfOver.toScheme B S hS).map (g ≫ adicCompletionObjHom B S hS V I)).appTop a
+    change _ = ((BigFppfOver.toScheme B S hS).map (g ≫ adicCompletionObjHom B S hS V I)).appTop a
     rw [Functor.map_comp, Scheme.Hom.comp_appTop, CommRingCat.comp_apply, e]
     rfl
-  show ψ x = 0
+  change ψ x = 0
   rw [AdicCompletion.map_eq_map_algebraMap_of_evalₐ_eq ψ (n := n)
     (fun a ha => (hψ a).trans (RingHom.mem_ker.mp (hn ha))) hcx.symm, hψ]
   exact hJn hc
@@ -462,11 +462,11 @@ theorem _root_.AlgebraicGeometry.Scheme.comp_specMap_eval₂_eq_iff {Y : Scheme.
   ext1
   refine Polynomial.ringHom_ext (fun a => ?_) ?_
   · simp only [RingHom.comp_apply, CommRingCat.hom_comp]
-    show (h ≫ _).appTop ((Scheme.ΓSpecIso (.of (Polynomial A))).inv _) =
+    change (h ≫ _).appTop ((Scheme.ΓSpecIso (.of (Polynomial A))).inv _) =
       (h ≫ _).appTop ((Scheme.ΓSpecIso (.of (Polynomial A))).inv _)
     rw [key, key, Polynomial.eval₂_C, Polynomial.eval₂_C]
   · simp only [RingHom.comp_apply, CommRingCat.hom_comp]
-    show (h ≫ _).appTop ((Scheme.ΓSpecIso (.of (Polynomial A))).inv _) =
+    change (h ≫ _).appTop ((Scheme.ΓSpecIso (.of (Polynomial A))).inv _) =
       (h ≫ _).appTop ((Scheme.ΓSpecIso (.of (Polynomial A))).inv _)
     rw [key, key, Polynomial.eval₂_X, Polynomial.eval₂_X, hc, map_zero, map_zero]
 
@@ -545,6 +545,7 @@ end AffineLine
 /-! ### Torsion of the formal functions vanishing on the equalizer -/
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for `HasPullbacks` of presheaves on the big fppf site needs the higher limit
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_ContractionLimitEqualizerTorsion :
@@ -655,7 +656,7 @@ theorem pullback_fst_comp_adicCompletionObjToAffineLine_eq
         (I : Set Γ((BigFppfOver.toScheme B S hS).obj V, ⊤)))
         (Spec.map (CommRingCat.ofHom (algebraMap Γ((BigFppfOver.toScheme B S hS).obj V, ⊤)
           (AdicCompletion I Γ((BigFppfOver.toScheme B S hS).obj V, ⊤)))) M)).mpr hIM
-    show pointsMap B S hS Y p (pointsMap B S hS _ (pullback.snd _ p) c) ∈ Z
+    change pointsMap B S hS Y p (pointsMap B S hS _ (pullback.snd _ p) c) ∈ Z
     rw [← Function.comp_apply (f := pointsMap B S hS Y p), ← pointsMap_comp,
       ← pullback.condition, pointsMap_comp, Function.comp_apply, hTI,
       pointsToScheme_pointsMap_yoneda, hcM]
@@ -675,7 +676,7 @@ theorem pullback_fst_comp_adicCompletionObjToAffineLine_eq
     ext Zo s
     obtain ⟨Zo⟩ := Zo
     obtain ⟨⟨y⟩, hy⟩ := s
-    show ULift.up ((pullback.fst (yoneda.map (adicCompletionObjHom B S hS V I)) p).app (op Zo) y ≫
+    change ULift.up ((pullback.fst (yoneda.map (adicCompletionObjHom B S hS V I)) p).app (op Zo) y ≫
         adicCompletionObjToAffineLine V I x) =
       ULift.up ((pullback.fst (yoneda.map (adicCompletionObjHom B S hS V I)) p).app (op Zo) y ≫
         adicCompletionObjToAffineLine V I 0)
@@ -759,7 +760,7 @@ theorem mem_openSubspaceOfPoints_compl_of_forall_not_mem {U : BigFppfOver B S hS
   obtain ⟨z, rfl⟩ := (schemePointsHomeomorph B S hS U).symm.surjective w
   have hy : yonedaEquiv.symm t = yoneda.map t := by
     rw [Equiv.symm_apply_eq, yonedaEquiv_yoneda_map]
-  show _ ∉ Z
+  change _ ∉ Z
   rw [hy, schemePointsHomeomorph_symm_naturality]
   intro hz
   rw [hTI, ← schemePointsHomeomorph_apply, Homeomorph.apply_symm_apply] at hz

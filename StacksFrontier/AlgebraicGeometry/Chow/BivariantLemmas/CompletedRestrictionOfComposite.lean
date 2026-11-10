@@ -191,7 +191,7 @@ class rule. -/
 def completedBivariantTransportSequence :
     completedBivariantGroup C (gysinSystemOfInvertible C) sA sW v hv →+
       ∀ n : ℤ, BivariantClass C (gysinSystemOfInvertible C) sB sW u hu n :=
-  (Pi.addMonoidHom fun n ↦ (bivariantTransportAddHom C (gysinSystemOfInvertible C) sA sB sW v hv
+  (AddMonoidHom.pi fun n ↦ (bivariantTransportAddHom C (gysinSystemOfInvertible C) sA sB sW v hv
     u hu θ hθ n (gysinSystemOfInvertible_isNaturalUnderBaseChangeIso C)).comp
       (Pi.evalAddMonoidHom _ n)).comp (completedBivariantSequenceOfInvertible C sA sW v hv)
 

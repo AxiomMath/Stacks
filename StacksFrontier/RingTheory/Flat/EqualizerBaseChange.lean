@@ -42,8 +42,7 @@ private theorem ext_of_one_tmul {A A' : Type*} [CommRing A] [CommRing A'] [Algeb
     {N M : Type*} [AddCommGroup N] [Module A N] [AddCommGroup M] [Module A' M]
     {f g : A' ⊗[A] N →ₗ[A'] M} (h : ∀ n, f (1 ⊗ₜ n) = g (1 ⊗ₜ n)) : f = g :=
   LinearMap.ext fun z => by
-    induction z using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul r n => rw [← mul_one r, ← smul_eq_mul, ← smul_tmul', map_smul, map_smul, h]
     | add x y hx hy => rw [map_add, map_add, hx, hy]
 

@@ -122,8 +122,7 @@ theorem constantSheaf_idealAction_sections (U : C) :
   have hleft : LinearMap.range m.hom ≤ I • (⊤ : Submodule R S) := by
     rintro _ ⟨t, rfl⟩
     obtain ⟨z, rfl⟩ := hc.surjective t
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | add z z' hz hz' => simpa using add_mem hz hz'
     | tmul s i =>
       rw [hpure]
@@ -171,7 +170,7 @@ theorem constantSheaf_idealAction_sections_of_fg (hI : I.FG) (U : C) :
   have hqf : q ≫ f = ∑ j : Fin n, g j • pj j := by
     apply ModuleCat.hom_ext
     rw [ModuleCat.hom_comp, ModuleCat.hom_sum]
-    show I.subtype.comp ql = _
+    change I.subtype.comp ql = _
     rw [hsub]
     exact Finset.sum_congr rfl fun j _ ↦ rfl
   have hleft : LinearMap.range (H.map f).hom ≤ I • (⊤ : Submodule R S) := by
@@ -232,7 +231,7 @@ theorem constantSheaf_quotientByConstantIdeal_hom_comp :
   let qIso : cokernel f₀ ≅ ModuleCat.of R (R ⧸ I) :=
     (ModuleCat.cokernelIsoRangeQuotient f₀) ≪≫ (Submodule.quotEquivOfEq _ _ hr).toModuleIso
   let hpres := isColimitOfHasCokernelOfPreservesColimit F f₀
-  show cokernel.π f ≫
+  change cokernel.π f ≫
       ((cokernelIsCokernel f).coconePointUniqueUpToIso hpres ≪≫ F.mapIso qIso).hom =
     F.map (ModuleCat.ofHom I.mkQ)
   rw [Iso.trans_hom, Functor.mapIso_hom, ← Category.assoc]
@@ -247,7 +246,7 @@ theorem constantSheaf_quotientByConstantIdeal_hom_comp :
       LinearEquiv.toModuleIso_hom, ← ModuleCat.ofHom_comp]
     apply ModuleCat.hom_ext
     ext
-    show ((ModuleCat.Hom.hom f₀).range.quotEquivOfEq I hr)
+    change ((ModuleCat.Hom.hom f₀).range.quotEquivOfEq I hr)
         (Submodule.Quotient.mk (1 : R)) = Submodule.Quotient.mk (1 : R)
     rw [Submodule.quotEquivOfEq_mk]
   rw [hquot', ← Functor.map_comp, hmodule]

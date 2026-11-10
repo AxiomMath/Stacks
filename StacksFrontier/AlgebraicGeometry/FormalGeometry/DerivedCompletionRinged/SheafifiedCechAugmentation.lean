@@ -136,7 +136,7 @@ theorem cechLocAugmentationEmpty_app_mk (V : Cᵒᵖ) (x : R.obj V) :
     ((cechLocAugmentationEmpty R f hf).app V).hom
         (LocalizedModule.mkLinearMap (Cech.cechSub (f V) (∅ : Finset (Fin r)))
           (R.obj V) x) = x := by
-  show Stacks.LocalCohomology.cechTermZeroEquiv (f V) (ModuleCat.of (R.obj V) (R.obj V))
+  change Stacks.LocalCohomology.cechTermZeroEquiv (f V) (ModuleCat.of (R.obj V) (R.obj V))
       (DirectSum.lof (R.obj V) (ExtendedAlternatingCech.Idx r 0)
         (fun s => Cech.cechMod (f V) (R.obj V) s.1) default
         (LocalizedModule.mkLinearMap (Cech.cechSub (f V) (∅ : Finset (Fin r)))
@@ -198,7 +198,8 @@ def cechPresheafComplexXZeroIso :
   (cechPresheafComplexNat X f).extendXIso ComplexShape.embeddingUpNat
     (show ComplexShape.embeddingUpNat.f 0 = (0 : ℤ) from rfl)
 
-omit [HasWeakSheafify X.J CommRingCat] in
+omit [HasWeakSheafify X.J CommRingCat] [HasWeakSheafify X.J AddCommGrpCat]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat] [HasSheafify X.J AddCommGrpCat] in
 /-- In degree zero, the augmentation of the `ℤ`-indexed presheaf of Čech complexes is
 `cechPresheafComplexXZeroIso` followed by `cechPresheafAugmentationZero` and the identification
 of the degree-zero term of the single complex on `𝒪` with `𝒪`. -/
@@ -216,7 +217,8 @@ def unitToCechPresheafTermZero :
       cechPresheafTerm X f 0 :=
   unitToCechSummandPresheaf X f ∅ ≫ cechSummandInclusion X f 0 default
 
-omit [HasWeakSheafify X.J CommRingCat] in
+omit [HasWeakSheafify X.J CommRingCat] [HasWeakSheafify X.J AddCommGrpCat]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat] [HasSheafify X.J AddCommGrpCat] in
 /-- The degree-zero Čech augmentation of the presheaf of complexes is split by the inclusion
 `unitToCechPresheafTermZero` of the summand at `∅`. -/
 theorem unitToCechPresheafTermZero_comp_augmentation :
@@ -226,7 +228,8 @@ theorem unitToCechPresheafTermZero_comp_augmentation :
   exact Stacks.CechPresheaf.cechLocAugmentationEmpty_app_mk X.O.obj (cechFamily X f)
     (cechFamily_map X f) V 1
 
-omit [HasWeakSheafify X.J CommRingCat] in
+omit [HasWeakSheafify X.J CommRingCat] [HasWeakSheafify X.J AddCommGrpCat]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat] [HasSheafify X.J AddCommGrpCat] in
 /-- The projection of `unitToCechPresheafTermZero` onto the summand indexed by `A` is the
 canonical map `𝒪 ⟶ 𝒪_{f_A}`. -/
 theorem unitToCechPresheafTermZero_comp_cechTermProj (A : AlternatingCech.Idx r 0) :
@@ -251,7 +254,7 @@ def unitToSheafifiedCechZero :
     SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ⟶ (sheafifiedCech X f).X 0 :=
   toModuleSheafification (unitToCechPresheafComplexZero X f)
 
-omit [HasWeakSheafify X.J CommRingCat] in
+omit [HasWeakSheafify X.J CommRingCat] [HasSheafify X.J AddCommGrpCat] in
 /-- In degree zero, the augmentation of the sheafified presheaf of Čech complexes is the
 sheafification of `cechPresheafComplexXZeroIso` followed by `cechPresheafAugmentationZero`, then
 the counit of the sheafification adjunction at `𝒪`, then the identification of the degree-zero
@@ -322,7 +325,7 @@ theorem toModuleSheafification_comp_map_comp_counit_comp
   rw [toModuleSheafification_comp_map_comp X can hψ]
   exact CategoryTheory.Iso.comp_eq_id_comp (toModuleSheafification_id_comp_counit X F) g
 
-omit [HasWeakSheafify X.J CommRingCat] in
+omit [HasWeakSheafify X.J CommRingCat] [HasSheafify X.J AddCommGrpCat] in
 /-- **The canonical map `𝒪 ⟶ K(f)^0` splits the augmentation `K(f) ⟶ 𝒪` in degree zero.** -/
 theorem unitToSheafifiedCechZero_comp_sheafifiedCechAugmentation_f_zero :
     unitToSheafifiedCechZero X f ≫ (sheafifiedCechAugmentation X f).f 0 =
@@ -337,7 +340,8 @@ theorem unitToSheafifiedCechZero_comp_sheafifiedCechAugmentation_f_zero :
         (unitToCechPresheafTermZero_comp_augmentation X f))
       _)
 
-omit [HasWeakSheafify X.J CommRingCat] in
+omit [HasWeakSheafify X.J CommRingCat] [HasWeakSheafify X.J AddCommGrpCat]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat] [HasSheafify X.J AddCommGrpCat] in
 /-- In degree zero, the identification of the presheaf of Čech complexes with the alternating
 Čech complex is `cechPresheafComplexXZeroIso` followed by `cechPresheafTermIsoTerm` in degree
 zero. -/
@@ -361,7 +365,7 @@ theorem unitToSheafifiedCechZero_comp_iso_hom_f_zero :
       (moduleSheafificationFunctor X).map ((cechPresheafComplexIsoAlternating X f).hom.f 0 ≫
           Pi.π (fun S : AlternatingCech.Idx r 0 => (cechSummandFunctor X f).obj S.1) A) ≫
         (cechSummandSheafificationIso X f A.1).hom := by
-    show ((moduleSheafificationFunctor X).map ((cechPresheafComplexIsoAlternating X f).hom.f 0) ≫
+    change ((moduleSheafificationFunctor X).map ((cechPresheafComplexIsoAlternating X f).hom.f 0) ≫
         (AlternatingCech.mapTermIso (moduleSheafificationFunctor X) (cechSummandFunctor X f)
             (0 : ℤ)).hom ≫
           AlternatingCech.mapTerm (cechSummandFunctorSheafificationIso X f).hom (0 : ℤ)) ≫

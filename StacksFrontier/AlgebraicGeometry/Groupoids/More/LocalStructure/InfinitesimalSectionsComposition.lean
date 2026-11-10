@@ -73,7 +73,8 @@ agree, and they do not determine an element of `C`.
 target is the identity on `K`, quantified over all infinitesimal sections.  This is
 [Stacks Project, Tag 0CKD], proved for groupoids in algebraic spaces as
 `AlgebraicGeometry.GroupoidInAlgebraicSpaces.conormalMap_sectionTarget_eq_conormalMap_id`, and
-it is the last step of the source's proof.  It is not available in the local model.  Writing `δ = e + θ · d` by the bijection of Tag 0CKE, the defect
+it is the last step of the source's proof.  It is not available in the local model.  Writing
+`δ = e + θ · d` by the bijection of Tag 0CKE, the defect
 `δ(t(k)) - k` of an infinitesimal section at `k ∈ K` is the value of `θ` on the class of
 `t(k) - s(k)` in `I/I²`; so `htarget` asks that every `A`-linear map `I/I² → K` kill those
 classes.  The local model records no compatibility between `source` and `target` on `K`, that is,

@@ -198,7 +198,7 @@ theorem tensorProductIso_refl (S : Scheme.{u}) (L M : SheafOfModules.{u} (ringSh
       Iso.refl _ := by
   let B := tensorProductBifunctor S.presheaf (ringSheafCond S)
   have hp : (Iso.refl L).prod (Iso.refl M) = Iso.refl (L, M) := by ext <;> simp
-  show B.mapIso ((Iso.refl L).prod (Iso.refl M)) = Iso.refl _
+  change B.mapIso ((Iso.refl L).prod (Iso.refl M)) = Iso.refl _
   exact (congrArg B.mapIso hp).trans (Functor.mapIso_refl B (L, M))
 
 attribute [local implicit_reducible] Stacks.SheafOfModules.TensorSheafification.structureSheaf
@@ -306,7 +306,7 @@ theorem tensorPowerMap_eq_powerMap (S : Scheme.{u}) {L M : SheafOfModules.{u} (r
   induction n with
   | zero => rfl
   | succ n ih =>
-    show (tensorPowerSuccIso S.presheaf (ringSheafCond S) L (n : ℤ)).symm ≪≫
+    change (tensorPowerSuccIso S.presheaf (ringSheafCond S) L (n : ℤ)).symm ≪≫
         tensorProductIso S.presheaf (ringSheafCond S) (tensorPowerMap S e n) e ≪≫
         tensorPowerSuccIso S.presheaf (ringSheafCond S) M (n : ℤ) =
       ((tensorPowerSuccIso S.presheaf (ringSheafCond S) L (n : ℤ)).symm ≪≫
@@ -347,7 +347,7 @@ theorem tensorTriv_congr (X : RingedSite.{u, u, u})
       al.hom ⊗ₘ bl.hom := by
     rw [MonoidalCategory.tensorHom_comp_tensorHom, he', hf']
   apply Iso.ext
-  show (powerMap X (tensorIsoOfModules X e f) n).hom ≫
+  change (powerMap X (tensorIsoOfModules X e f) n).hom ≫
       (((tpowTensorIso X L' M' n).hom ≫ (al'.hom ⊗ₘ bl'.hom)) ≫
         (ρ_ (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O))).hom) =
     ((tpowTensorIso X L M n).hom ≫ (al.hom ⊗ₘ bl.hom)) ≫
@@ -622,7 +622,7 @@ theorem tpowTensorIso_unit_rightUnitor (X : RingedSite.{u, u, u})
         ((𝟙_ (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))) ◁ z) ≫
         (ρ_ (𝟙_ (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))).hom) hγ0
     refine h0.trans ?_
-    show (ρ_ (𝟙_ (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))).inv ≫
+    change (ρ_ (𝟙_ (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))).inv ≫
         ((𝟙_ (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))) ◁
           (𝟙 (𝟙_ (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))))) ≫
         (ρ_ (𝟙_ (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))).hom =
@@ -694,7 +694,7 @@ theorem scalarIso_trans_mul (S : Scheme.{u}) (f g : (Scheme.Γ.obj (Opposite.op 
     rw [Iso.trans_hom, scalarIso_hom, scalarIso_hom, scalarIso_hom]
     ext U x
     let ρ := ((ringSheaf S).obj.map (Limits.isTerminalTop.from U.unop).op).hom
-    show ρ f.val • (ρ g.val • x) = ρ (f * g).val • x
+    change ρ f.val • (ρ g.val • x) = ρ (f * g).val • x
     rw [smul_smul, Units.val_mul]
     exact congrArg (fun r => r • x) (map_mul ρ f.val g.val).symm)
 
@@ -772,7 +772,7 @@ theorem tensorTriv_scalar (X : RingedSite.{u, u, u})
     tensorTriv X L M n (al ≪≫ a) (bl ≪≫ b) =
       tensorTriv X L M n al bl ≪≫ (b ≪≫ a) := by
   apply Iso.ext
-  show ((tpowTensorIso X L M n).hom ≫ ((al.hom ≫ a.hom) ⊗ₘ (bl.hom ≫ b.hom))) ≫
+  change ((tpowTensorIso X L M n).hom ≫ ((al.hom ≫ a.hom) ⊗ₘ (bl.hom ≫ b.hom))) ≫
       (ρ_ (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O))).hom =
     (((tpowTensorIso X L M n).hom ≫ (al.hom ⊗ₘ bl.hom)) ≫
       (ρ_ (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O))).hom) ≫ (b.hom ≫ a.hom)

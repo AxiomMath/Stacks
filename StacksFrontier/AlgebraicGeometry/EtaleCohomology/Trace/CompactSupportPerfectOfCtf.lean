@@ -91,7 +91,7 @@ theorem isPerfect_compactSupportFrobeniusCohomology_of_isCtf_of_isProjective
   have hrange : Set.range i.base = (Set.range j.immersion.base)ᶜ :=
     Scheme.IdealSheafData.range_subschemeι_vanishingIdeal _
   have hij : Set.range (B.inclusion.map jj).base = (Set.range (B.inclusion.map ii).base)ᶜ := by
-    show Set.range j.immersion.base = (Set.range i.base)ᶜ
+    change Set.range j.immersion.base = (Set.range i.base)ᶜ
     rw [hrange, compl_compl]
   exact isPerfect_compactSupportFrobeniusCohomology_of_isCtf B Λ j kbar hB hcurve hproj K
     (IsCtf.extensionByZero B Λ jj ii hij hK)

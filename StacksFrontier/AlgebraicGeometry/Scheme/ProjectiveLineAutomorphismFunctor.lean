@@ -197,7 +197,7 @@ theorem autFunctor_map_mobiusAutFunctor {B : Type u} [CommRing B] (h' : Spec (.o
   apply Aut.ext
   apply Iso.ext
   apply Scheme.endo_ext
-  show (Scheme.endBaseChange _ q (mobiusAutFunctor h M hM).asIso.hom).left ≫ pullback.fst _ _ =
+  change (Scheme.endBaseChange _ q (mobiusAutFunctor h M hM).asIso.hom).left ≫ pullback.fst _ _ =
     (mobiusAutFunctor h' _ hφM).asIso.hom.left ≫ pullback.fst _ _
   rw [Scheme.endBaseChange_left_fst, mobiusAutFunctor_hom_left_fst, mobiusAutFunctor_hom_left_fst]
   have L1 : projectiveLineBaseChangeHom h' ≫ Scheme.baseChangeMap _ q =
@@ -415,7 +415,8 @@ theorem exists_eq_mobiusAutFunctor_of_range
   set s := projectiveLineInfinitySection A ≫ (autFunctorToProjectiveLineIso h ψ).hom
   have hs : s ≫ (projectiveLine A ↘ Spec (.of A)) = 𝟙 _ := by
     rw [Category.assoc, show (autFunctorToProjectiveLineIso h ψ).hom ≫
-      (projectiveLine A ↘ Spec (.of A)) = _ from Over.w (autFunctorToProjectiveLineAut h ψ).asIso.hom]
+      (projectiveLine A ↘ Spec (.of A)) = _ from
+        Over.w (autFunctorToProjectiveLineAut h ψ).asIso.hom]
     exact projectiveLineInfinitySection_comp_structureMorphism _
   have hX := preimage_range_projectiveLineXChart (ringHomOfSpec h) X X
     toLaurent_X_mul_overlapInverseCoordinate_X (dvd_refl X)
@@ -469,7 +470,7 @@ theorem ringHomOfSpec_projectiveGeneralLinearTwoChartHom (p : Fin 2 × Fin 2) :
     ringHomOfSpec (projectiveGeneralLinearTwoChartHom k p) =
       projectiveGeneralLinearTwoChartStructure k p := by
   rw [projectiveGeneralLinearTwoChartHom]
-  show ringHomOfSpec (Spec.map (CommRingCat.ofHom (algebraMap _ _)) ≫
+  change ringHomOfSpec (Spec.map (CommRingCat.ofHom (algebraMap _ _)) ≫
     Spec.map (CommRingCat.ofHom (algebraMap k (projectiveGeneralLinearTwoRing k)))) = _
   rw [ringHomOfSpec_comp, ringHomOfSpec_Spec_map]
 
@@ -690,7 +691,7 @@ theorem autFunctor_map_evaluationOver_universalAut {A : Type u} [CommRing A]
   have hrange : Set.range ((entriesCover hM).f x ≫ (evaluationOver h M hM).left).base ⊆
       Set.range ((projectiveGeneralLinearTwoCover k).f x).base := by
     rintro _ ⟨y, rfl⟩
-    show PrimeSpectrum.comap ev (PrimeSpectrum.comap ν y) ∈
+    change PrimeSpectrum.comap ev (PrimeSpectrum.comap ν y) ∈
       Set.range (PrimeSpectrum.comap (algebraMap (projectiveGeneralLinearTwoRing k)
         (projectiveGeneralLinearTwoChartRing k x)))
     rw [PrimeSpectrum.localization_away_comap_range (projectiveGeneralLinearTwoChartRing k x)
@@ -707,7 +708,7 @@ theorem autFunctor_map_evaluationOver_universalAut {A : Type u} [CommRing A]
   let q : Scheme.coverOverObj (T := Over.mk h) (entriesCover hM) x ⟶
       Scheme.coverOverObj (projectiveGeneralLinearTwoCover k) x :=
     Over.homMk (Spec.map (CommRingCat.ofHom φ)) (by
-      show Spec.map (CommRingCat.ofHom φ) ≫ (projectiveGeneralLinearTwoCover k).f x ≫
+      change Spec.map (CommRingCat.ofHom φ) ≫ (projectiveGeneralLinearTwoCover k).f x ≫
         (projectiveGeneralLinearTwoScheme k).hom = (entriesCover hM).f x ≫ h
       rw [hφ, ← Category.assoc, hl, Category.assoc]
       exact congrArg (_ ≫ ·) (Over.w (evaluationOver h M hM)))

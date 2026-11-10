@@ -54,6 +54,7 @@ attribute [local instance] etaleModulePullback_additive
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for pullbacks of presheaves on the big fppf site exceeds the default limit
 /-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
 this shortcut). -/
 local instance hasPullbacks_presheaf_HigherDirectImageBound :
@@ -102,7 +103,7 @@ theorem exists_isZero_rightDerived_modulePushforward_of_isAffineSpace
           (ObjectProperty.homMk V.1.hom.hom :
             (⟨V.1.left.1, hsq.isAlgebraicSpace⟩ : AlgebraicSpaces B S hS) ⟶ X) ≫ h := by
         ext1
-        show f ≫ W.1.hom.hom ≫ h.hom = V.1.hom.hom ≫ h.hom
+        change f ≫ W.1.hom.hom ≫ h.hom = V.1.hom.hom ≫ h.hom
         rw [← Category.assoc, hcomp]
       refine isZero_rightDerived_succ_of_eds B S hS hsq (W.1.hom ≫ h) G q ?_ ?_ ?_
       · exact hNU _ (isQuasicoherentOnSite_etaleModulePullback B S hS (edsOpenHom B S hS hsq)

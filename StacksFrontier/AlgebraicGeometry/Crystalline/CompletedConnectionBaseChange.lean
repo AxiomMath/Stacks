@@ -368,8 +368,7 @@ public theorem rawBaseChange_smul (b' : D') (a : D' ⊗[D] M) :
       b' • rawBaseChange p D D' M Omega Omega' d' psi nabla hadd' hleib' hpsi a +
         correction p D D' M Omega' (d' b')
           (AdicCompletion.of (pAdicIdeal (A := D') p) (D' ⊗[D] M) a) := by
-  induction a using TensorProduct.induction_on with
-  | zero => simp
+  induction a using TensorProduct.inductionOn with
   | tmul c m =>
     rw [TensorProduct.smul_tmul', smul_eq_mul, rawBaseChange_tmul, rawBaseChange_tmul,
       of_tmul_eq_smul_inclusion, hleib' b' c, correction_add_form, correction_smul_form,
@@ -653,8 +652,7 @@ public theorem baseChangeValues_wedgeMap (i : ℕ) (omega : Om i)
             (wedge' i (psi i omega))
           (CompletedConnection.baseChangeTensor p D D' M (Om 1) (Om' 1) (psi 1) y) := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction y using TensorProduct.inductionOn with
     | tmul m eta =>
       change CompletedConnection.baseChangeInclusion p D D' M m ⊗ₜ[D']
           psi (i + 1) (wedge i omega eta) =
@@ -697,8 +695,7 @@ public theorem baseChangeTerm_comm (i : ℕ) :
         CompletedConnection.baseChangeValues p D D' M (Om (i + 1)) (Om' (i + 1)) (psi (i + 1))
           (rawDifferential p D Om wedge deRham M nabla hleib i y) := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction y using TensorProduct.inductionOn with
     | tmul m omega =>
       rw [CompletedConnection.baseChangeTensor, TensorProduct.map_tmul, rawDifferential_tmul,
         rawDifferential_tmul, map_add,

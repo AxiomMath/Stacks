@@ -227,7 +227,7 @@ public theorem infinitesimalBaseRingHom_eq_zero (f : X ⟶ Y) (y : Y) (n : ℕ)
     infinitesimalBaseRingHom f y n r = 0 := by
   have h : (Ideal.Quotient.mk (stalkMaximalIdeal y ^ n)) r = 0 :=
     Ideal.Quotient.eq_zero_iff_mem.mpr hr
-  show (((Scheme.ΓSpecIso (stalkQuotient y n)).inv ≫
+  change (((Scheme.ΓSpecIso (stalkQuotient y n)).inv ≫
     (infinitesimalStructure f y n).appTop).hom) ((Ideal.Quotient.mk _) r) = 0
   rw [h, map_zero]
 
@@ -293,7 +293,7 @@ public theorem infinitesimalFunctionsMap_comp (f : X ⟶ Y) (y : Y) {k m n : ℕ
     (h₂ : m ≤ n) (h₃ : k ≤ n) (x : infinitesimalFunctions f y n) :
     infinitesimalFunctionsMap f y k m h₁ (infinitesimalFunctionsMap f y m n h₂ x) =
       infinitesimalFunctionsMap f y k n h₃ x := by
-  show (infinitesimalTransition f y h₁).appTop.hom
+  change (infinitesimalTransition f y h₁).appTop.hom
       ((infinitesimalTransition f y h₂).appTop.hom x) =
     (infinitesimalTransition f y h₃).appTop.hom x
   rw [← CommRingCat.comp_apply, ← Scheme.Hom.comp_appTop, infinitesimalTransition_comp]
@@ -301,7 +301,7 @@ public theorem infinitesimalFunctionsMap_comp (f : X ⟶ Y) (y : Y) {k m n : ℕ
 /-- The transition map at a reflexive inequality is the identity. -/
 public theorem infinitesimalFunctionsMap_refl (f : X ⟶ Y) (y : Y) (n : ℕ) (h : n ≤ n)
     (x : infinitesimalFunctions f y n) : infinitesimalFunctionsMap f y n n h x = x := by
-  show (infinitesimalTransition f y h).appTop.hom x = x
+  change (infinitesimalTransition f y h).appTop.hom x = x
   rw [infinitesimalTransition_refl, Scheme.Hom.id_appTop]
   rfl
 
@@ -361,7 +361,7 @@ public theorem top_le_preimage_infinitesimalι (f : X ⟶ Y) (y : Y) (n : ℕ) (
     (hy : y ∈ U) :
     (⊤ : (infinitesimalNeighbourhood f y n).Opens) ≤ infinitesimalι f y n ⁻¹ᵁ (f ⁻¹ᵁ U) := by
   intro x _
-  show f.base ((infinitesimalι f y n).base x) ∈ U
+  change f.base ((infinitesimalι f y n).base x) ∈ U
   have hmem : f.base ((infinitesimalι f y n).base x) ∈
       Set.range (infinitesimalBase y n).base := by
     refine ⟨(infinitesimalStructure f y n).base x, ?_⟩
@@ -423,7 +423,7 @@ public theorem infinitesimalRestrict_res (f : X ⟶ Y) (y : Y) (n : ℕ) {U V : 
     infinitesimalRestrict f y n V hyV
         ((X.presheaf.map ((Opens.map f.base).map (homOfLE hVU)).op).hom s) =
       infinitesimalRestrict f y n U (hVU hyV) s := by
-  show ((infinitesimalι f y n).appLE (f ⁻¹ᵁ V) ⊤
+  change ((infinitesimalι f y n).appLE (f ⁻¹ᵁ V) ⊤
       (top_le_preimage_infinitesimalι f y n V hyV)).hom
     ((X.presheaf.map ((Opens.map f.base).map (homOfLE hVU)).op).hom s) = _
   rw [← CommRingCat.comp_apply, Scheme.Hom.map_appLE]
@@ -548,11 +548,11 @@ public theorem infinitesimalFunctionsMap_comp_infinitesimalStalkRestrict (f : X 
       infinitesimalStalkRestrict f y m := by
   refine LinearMap.ext fun a => ?_
   obtain ⟨U, hy, s, rfl⟩ := exists_pushforwardStalkGerm_eq f y a
-  show (infinitesimalTransition f y h).appTop.hom
+  change (infinitesimalTransition f y h).appTop.hom
       (infinitesimalStalkRestrict f y n (pushforwardStalkGerm f y U hy s)) =
     infinitesimalStalkRestrict f y m (pushforwardStalkGerm f y U hy s)
   rw [infinitesimalStalkRestrict_germ, infinitesimalStalkRestrict_germ]
-  show (infinitesimalTransition f y h).appTop.hom
+  change (infinitesimalTransition f y h).appTop.hom
       (((infinitesimalι f y n).appLE (f ⁻¹ᵁ U) ⊤
         (top_le_preimage_infinitesimalι f y n U hy)).hom s) = _
   rw [← CommRingCat.comp_apply, appLE_top_comp_appTop]
@@ -704,7 +704,7 @@ public theorem infinitesimalIdempotentFamily_restrict (f : X ⟶ Y) (y : Y) (e :
 public theorem top_le_preimage_fiberι (f : X ⟶ Y) (y : Y) (U : Y.Opens) (hy : y ∈ U) :
     (⊤ : (f.fiber y).Opens) ≤ f.fiberι y ⁻¹ᵁ (f ⁻¹ᵁ U) := by
   intro x _
-  show f.base ((f.fiberι y).base x) ∈ U
+  change f.base ((f.fiberι y).base x) ∈ U
   rw [← Scheme.Hom.comp_apply, Scheme.Hom.fiber_fac]
   simpa using hy
 

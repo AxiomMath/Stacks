@@ -322,7 +322,7 @@ theorem eq_of_unitApp_laws (hcov : P.coveringOpen = ⊤) (r : T ⟶ (relativePro
         (homOfLE (hle O)).op ((Φ n).app (r ⁻¹ᵁ O)
           (Stacks.AlgebraicGeometry.SectionRingBaseChange.unitApp r (Otw A n) O s)))
       (fun n O O' h s => ?_) (fun i j O s t => ?_) (fun V hV d hd a => ?_) n O s
-    · show _ = (tensorPowerModule T P.L n).presheaf.map
+    · change _ = (tensorPowerModule T P.L n).presheaf.map
         (homOfLE (P.coveringOpen.ι.image_mono
           ((P.globalMorphism (relativeProj A)).preimage_mono h))).op _
       rw [Stacks.AlgebraicGeometry.SectionRingBaseChange.unitApp_map,
@@ -333,7 +333,7 @@ theorem eq_of_unitApp_laws (hcov : P.coveringOpen = ⊤) (r : T ⟶ (relativePro
           (P.coveringOpen.ι.image_mono ((P.globalMorphism (relativeProj A)).preimage_mono h))
           (hle O) ((P.coveringOpen.ι.image_mono
             ((P.globalMorphism (relativeProj A)).preimage_mono h)).trans (hle O))]
-    · show (tensorPowerModule T P.L (i + j)).presheaf.map (homOfLE (hle O)).op _ = _
+    · change (tensorPowerModule T P.L (i + j)).presheaf.map (homOfLE (hle O)).op _ = _
       rw [hM i j O s t, Stacks.TensorPowerDivision.map_localMul]
       rfl
     · refine (congrArg ((tensorPowerModule T P.L d).presheaf.map

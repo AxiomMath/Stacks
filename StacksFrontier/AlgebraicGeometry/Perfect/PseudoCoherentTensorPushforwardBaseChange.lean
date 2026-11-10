@@ -125,8 +125,9 @@ available:
 `StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/ProjectionFormulaUnitCoherence.lean`
 states it for every object of `D(𝒪_Y)`, and
 `Stacks.Cohomology.DerivedProjectionFormula.rightUnitorCoherence_app_q` of
-`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/ProjectionFormulaUnitCoherenceMonoidal.lean` discharges the K-flat hypothesis it is reduced
-to. It is not used here, the invertibility route being shorter.
+`ProjectionFormulaUnitCoherenceMonoidal.lean` (in
+`StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/`) discharges the K-flat
+hypothesis it is reduced to. It is not used here, the invertibility route being shorter.
 
 **Why the pseudo-coherence half is absent.** The source proves it by approximation by perfect
 complexes, and the proof uses three inputs. All three are now in this library; their assembly
@@ -212,8 +213,9 @@ attribute [local instance 10000] HasDerivedCategory.standard
 
 /-- **[Stacks, Tag 0CSC], the base-change half of the conclusion.** Let `f : X ⟶ S` be a
 morphism of schemes of finite presentation, let `E` be a pseudo-coherent object of `D(𝒪_X)` and
-let `𝒢^•` be a bounded-above complex of finitely presented `𝒪_X`-modules, flat over `S`, with
-support proper over `S`. For every cartesian base-change square the canonical map
+let `𝒢^•` be a bounded-above complex of finitely presented `𝒪_X`-modules, flat over `S`. (The
+source also asks that the support of `𝒢^•` be proper over `S`; the base-change half does not use
+it, so it is not a hypothesis here.) For every cartesian base-change square the canonical map
 
 `Lg^*Rf_*(E ⊗^𝐋_{𝒪_X} 𝒢^•) ⟶ Rf'_*(L(g')^*E ⊗^𝐋_{𝒪_{X'}} (g')^*𝒢^•)`
 
@@ -241,10 +243,7 @@ public theorem isIso_tensorFlatBaseChangeMap_of_isPseudoCoherent
     (G : CochainComplex X.Modules ℤ)
     (hGminus : CochainComplex.minus X.Modules G)
     (hGfp : ∀ i : ℤ, (G.X i).IsFinitePresentation)
-    (hGflat : ∀ i : ℤ, IsFlatOver f.toLRSHom.toShHom (G.X i))
-    (hGsupp : letI : LocallyOfFinitePresentation f := hf.locallyOfFinitePresentation
-      ∃ Z : Closeds X, IsProperOver f Z ∧
-        ∀ i : ℤ, SheafOfModules.supp (G.X i) ⊆ (Z : Set X)) :
+    (hGflat : ∀ i : ℤ, IsFlatOver f.toLRSHom.toShHom (G.X i)) :
     IsIso (tensorFlatBaseChangeMap f g f' g' sq E G) :=
   have hGqcoh : ∀ i : ℤ, (G.X i).IsQuasicoherent := fun i =>
     let := hGfp i
@@ -301,7 +300,6 @@ public theorem isIso_tensorFlatBaseChangeMap_structure_of_isPseudoCoherent
     (ProperFlatBaseChange.isFinitePresentation_singleDegreeComplex _
       (ProperFlatBaseChange.isFinitePresentation_structureModule X))
     (ProperFlatBaseChange.isFlatOver_singleDegreeComplex f _ (isFlatOver_structureModule f))
-    ⟨⊤, isProperOver_top_of_isProper f, fun _ => by simp⟩
 
 /-! ### The unit-object transport -/
 

@@ -247,9 +247,9 @@ public theorem completionProjection_app_ker (X : Scheme.{u}) [IsLocallyNoetheria
   have : F.obj.IsCoherent := F.property
   have := isQuasicoherent_of_isCoherent F.obj
   ext s
-  show (completionProjection X I F n).val.app (op U.1) s = 0 ↔ _
+  change (completionProjection X I F n).val.app (op U.1) s = 0 ↔ _
   rw [completionProjection]
-  show (eqToHom (completionFunctor_obj X I F n).symm).val.app (op U.1)
+  change (eqToHom (completionFunctor_obj X I F n).symm).val.app (op U.1)
     ((cokernel.π (idealPowerMultiple I (n + 1) F.obj).ι).val.app (op U.1) s) = 0 ↔ _
   refine Iff.trans (eqToHom_val_app_eq_zero_iff (completionFunctor_obj X I F n).symm U.1 _) ?_
   refine Iff.trans (cokernel_π_app_eq_zero_iff F.obj (idealPowerMultiple I (n + 1) F.obj) U.1 s) ?_
@@ -310,7 +310,7 @@ public theorem completionQuotientSectionsEquiv_naturality (X : Scheme.{u})
         (Submodule.factorPow (I.ideal U) Γ(F.obj, U) (Nat.add_le_add_right h 1) x) := by
   induction x using Submodule.Quotient.induction_on with
   | H x =>
-    show _ = completionQuotientSectionsEquiv X I F m U (Submodule.Quotient.mk x)
+    change _ = completionQuotientSectionsEquiv X I F m U (Submodule.Quotient.mk x)
     rw [completionQuotientSectionsEquiv_mk, completionQuotientSectionsEquiv_mk]
     exact congrArg (fun f : F.obj ⟶ ((completionFunctor X I).obj F).obj.obj (op m) =>
       f.val.app (op U.1) x) (completionProjection_naturality_le X I F h)

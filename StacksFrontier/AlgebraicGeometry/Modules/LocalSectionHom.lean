@@ -119,7 +119,7 @@ theorem localSectionHom_natural (V : X.Opens) {F G : X.Modules} (s : Γ(F, V)) (
   intro W
   ext r
   change Γ(X, V.ι ''ᵁ W) at r
-  show f.val.app (Opposite.op (V.ι ''ᵁ W))
+  change f.val.app (Opposite.op (V.ι ''ᵁ W))
       (r • F.presheaf.map (homOfLE (V.ι_image_le W)).op s) =
     r • G.presheaf.map (homOfLE (V.ι_image_le W)).op (f.val.app (Opposite.op V) s)
   have h1 := (f.val.app (Opposite.op (V.ι ''ᵁ W))).hom.map_smul r
@@ -135,7 +135,7 @@ theorem localSectionHom_zero (V : X.Opens) (F : X.Modules) : localSectionHom V F
   intro W
   ext r
   change Γ(X, V.ι ''ᵁ W) at r
-  show r • F.presheaf.map (homOfLE (V.ι_image_le W)).op (0 : Γ(F, V)) = 0
+  change r • F.presheaf.map (homOfLE (V.ι_image_le W)).op (0 : Γ(F, V)) = 0
   simp
 
 /-- The dictionary between sections and morphisms out of the structure sheaf is additive. -/
@@ -145,7 +145,7 @@ theorem localSectionHom_add (V : X.Opens) (F : X.Modules) (s t : Γ(F, V)) :
   intro W
   ext r
   change Γ(X, V.ι ''ᵁ W) at r
-  show r • F.presheaf.map (homOfLE (V.ι_image_le W)).op (s + t) =
+  change r • F.presheaf.map (homOfLE (V.ι_image_le W)).op (s + t) =
     r • F.presheaf.map (homOfLE (V.ι_image_le W)).op s +
       r • F.presheaf.map (homOfLE (V.ι_image_le W)).op t
   simp [smul_add]
@@ -157,7 +157,7 @@ theorem localSectionHom_one (V : X.Opens) :
   intro W
   ext r
   change Γ(X, V.ι ''ᵁ W) at r
-  show (r : Γ(X, V.ι ''ᵁ W)) * X.presheaf.map (homOfLE (V.ι_image_le W)).op 1 = r
+  change (r : Γ(X, V.ι ''ᵁ W)) * X.presheaf.map (homOfLE (V.ι_image_le W)).op 1 = r
   simp
 
 /-- A morphism out of the structure sheaf is linear over each open: it carries a product
@@ -199,7 +199,7 @@ theorem restrict_unit_hom_eq_localSectionHom (V : X.Opens) {F : X.Modules}
   intro W
   ext r
   change Γ(X, V.ι ''ᵁ W) at r
-  show f.val.app (Opposite.op (V.ι ''ᵁ W)) r =
+  change f.val.app (Opposite.op (V.ι ''ᵁ W)) r =
     r • F.presheaf.map (homOfLE (V.ι_image_le W)).op (f.val.app (Opposite.op V) (1 : Γ(X, V)))
   rw [unit_hom_app_one_restrict f (V.ι_image_le W)]
   exact unit_hom_app_apply f (V.ι ''ᵁ W) r
@@ -232,7 +232,7 @@ theorem localSectionHom_precomp (V : X.Opens) (F : X.Modules) (s : Γ(F, V))
       F.presheaf.map (homOfLE (V.ι_image_le W)).op s at hm
   have hr := unit_hom_app_apply c (V.ι ''ᵁ W) r
   change c.val.app (Opposite.op (V.ι ''ᵁ W)) r = r * unitHomScalar c (V.ι ''ᵁ W) at hr
-  show @SMul.smul Γ(X, V.ι ''ᵁ W) Γ(F, V.ι ''ᵁ W) _
+  change @SMul.smul Γ(X, V.ι ''ᵁ W) Γ(F, V.ι ''ᵁ W) _
       (c.val.app (Opposite.op (V.ι ''ᵁ W)) r)
       (F.presheaf.map (homOfLE (V.ι_image_le W)).op s) =
     r • F.presheaf.map (homOfLE (V.ι_image_le W)).op (unitHomScalar c V • s)
@@ -306,7 +306,7 @@ theorem localSectionHom_surjective (V : X.Opens) (F : X.Modules) :
       ((congrArg (fun g => F.presheaf.map g
         (e.val.app (Opposite.op ⊤) (1 : Γ(X, V.ι ''ᵁ ⊤)))) hh).trans hn.symm)
   have hr := restrict_unit_app_apply V e W r
-  show (r • F.presheaf.map (homOfLE (V.ι_image_le W)).op
+  change (r • F.presheaf.map (homOfLE (V.ι_image_le W)).op
       (F.presheaf.map (eqToHom V.ι_image_top.symm).op
         (e.val.app (Opposite.op ⊤) (1 : Γ(X, V.ι ''ᵁ ⊤)))) : Γ(F, V.ι ''ᵁ W)) =
     e.val.app (Opposite.op W) r
@@ -375,11 +375,12 @@ theorem localFreeHom_precomp (V : X.Opens) (F : X.Modules) {ι : Type u} [Fintyp
   exact (map_sum f _ _).symm
 
 /-- A morphism out of `(𝒪_V)^ι` is determined by its `ι` coordinates. -/
-theorem localFreeHom_ext (V : X.Opens) {F : V.toScheme.Modules} {ι : Type u} [Fintype ι]
-    [DecidableEq ι]
+theorem localFreeHom_ext (V : X.Opens) {F : V.toScheme.Modules} {ι : Type u} [Finite ι]
     {f g : Scheme.Modules.restrict (SheafOfModules.free (R := X.ringCatSheaf) ι) V.ι ⟶ F}
     (h : ∀ i, (Scheme.Modules.restrictFunctor V.ι).map (SheafOfModules.ιFree i) ≫ f =
       (Scheme.Modules.restrictFunctor V.ι).map (SheafOfModules.ιFree i) ≫ g) : f = g := by
+  classical
+  have := Fintype.ofFinite ι
   have e : (∑ i : ι, (Scheme.Modules.restrictFunctor V.ι).map
       (SheafOfModules.freeProjection (R := X.ringCatSheaf) i) ≫
         (Scheme.Modules.restrictFunctor V.ι).map (SheafOfModules.ιFree i)) = 𝟙 _ := by
@@ -401,7 +402,7 @@ theorem localFreeHom_ext (V : X.Opens) {F : V.toScheme.Modules} {ι : Type u} [F
 
 /-- Restricting a linear combination of sections restricts both the coefficients and the
 sections. -/
-theorem restrict_linearCombination {ι : Type u} [Fintype ι] [DecidableEq ι] (F : X.Modules)
+theorem restrict_linearCombination {ι : Type u} [Fintype ι] (F : X.Modules)
     {V W : X.Opens} (hWV : W ≤ V) (t : ι → Γ(F, V))
     (c : SheafOfModules.unit X.ringCatSheaf ⟶ SheafOfModules.free (R := X.ringCatSheaf) ι) :
     F.presheaf.map (homOfLE hWV).op

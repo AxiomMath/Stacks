@@ -37,11 +37,13 @@ variable {I : Type v} [Preorder I] [Nonempty I] [IsDirected I (· ≤ ·)]
 attribute [local instance] isContinuous_levelMathlib isContinuous_transition
   isContinuous_limitSmallMathlib
 
+omit [IsDirected I (· ≤ ·)] hcont hcontL hequiv hequivL in
 include E in
 /-- The index category of the site system is nonempty. -/
 theorem nonempty_system_I : Nonempty E.system.I :=
   ⟨E.indexEquiv.inverse.obj (Opposite.op (Classical.arbitrary I))⟩
 
+omit [Nonempty I] hcont hcontL hequiv hequivL in
 include E in
 /-- Any two indices of the site system have a common lower bound. -/
 theorem system_I_cofiltered (j j' : E.system.I) :
@@ -60,13 +62,8 @@ theorem isColimitPresentation_levelLeg (𝓜 : Sheaf (smallEtaleTopology d.pt) A
       ((limitMathlibRestrict (c := c) (hX := hX)).obj ((smallEtalePullbackAb p).obj 𝓜))
       (fun j => (levelLeg E d p hp 𝓜 j).hom) := by
   have := nonempty_system_I E
-  have hcomp : IsCompatible.{v, v, max v (max u v + 1), max u v + 1} E.system (levelToLimit E)
-      (levelToLimit_transition E) (levelSystem E d 𝓜)
-      ((limitMathlibRestrict (c := c) (hX := hX)).obj ((smallEtalePullbackAb p).obj 𝓜)).obj
-      (fun j => (levelLeg E d p hp 𝓜 j).hom) :=
-    @levelLeg_isCompatible _ _ _ _ _ _ _ _ _ E d p hp _ _ 𝓜
   exact isColimitPresentation_of_isIso_systemLeg.{v, v, max u v + 1} (system_I_cofiltered E) _
-    hcomp (isIso_legTranspose E d p hp 𝓜)
+    (@levelLeg_isCompatible _ _ _ _ _ _ _ E d p hp _ _ 𝓜) (isIso_legTranspose E d p hp 𝓜)
 
 end Stacks.EtaleCohomology.TransitionBaseChange
 

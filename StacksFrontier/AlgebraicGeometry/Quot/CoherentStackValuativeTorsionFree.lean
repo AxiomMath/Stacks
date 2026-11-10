@@ -151,7 +151,7 @@ theorem isUnit_appTop_chart_baseChangeMap_of_isHomLift
   have hγ₀ : γ = γ₀ ≫ h.left := by
     refine yoneda.map_injective ?_
     rw [Functor.map_comp, ← hγ]
-    show _ = yoneda.map γ₀ ≫ ((schemeSpaceFunctor B S hS).map h.left).hom
+    change _ = yoneda.map γ₀ ≫ ((schemeSpaceFunctor B S hS).map h.left).hom
     rw [Functor.map_preimage]
     rfl
   rw [hγ₀, Functor.map_comp, Scheme.Hom.comp_appTop, CommRingCat.comp_apply]

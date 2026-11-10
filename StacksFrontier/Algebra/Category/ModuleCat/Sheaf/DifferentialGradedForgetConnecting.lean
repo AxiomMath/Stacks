@@ -94,7 +94,7 @@ private theorem derivedForget_map_inv_comp_map {P Q Z : DifferentialGradedModule
     inferInstanceAs (IsIso (DerivedCategory.Q.map f.toHomologicalComplex))
   rw [eqToHom_refl, Category.comp_id,
     map_inv_comp_map_of_comp_eq (toDerivedCategory_comp_derivedForget.{w} A)]
-  show (𝟙 _ ≫ inv ((homotopyForget.{w} A).map ((HomotopyCategory.quotient A).map f)) ≫
+  change (𝟙 _ ≫ inv ((homotopyForget.{w} A).map ((HomotopyCategory.quotient A).map f)) ≫
     (homotopyForget.{w} A).map ((HomotopyCategory.quotient A).map g) ≫ 𝟙 _) ≫ 𝟙 _ = _
   rw [Category.id_comp, Category.comp_id, Category.comp_id, eqToHom_refl, Category.comp_id]
   rfl

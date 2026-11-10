@@ -55,14 +55,16 @@ variable (R : Type u) [Ring R] {Γ : Type v} {Q : Type v'} [Group Γ] [Topologic
 
 private lemma rho_mul' (M : Stacks.Injectives.ContinuousModule.{u, v, w} R Γ) (g h : Γ)
     (x : M.obj.obj.V) :
-    (M.obj.obj.ρ (g * h)).asHom.hom x = (M.obj.obj.ρ g).asHom.hom ((M.obj.obj.ρ h).asHom.hom x) := by
+    (M.obj.obj.ρ (g * h)).asHom.hom x =
+      (M.obj.obj.ρ g).asHom.hom ((M.obj.obj.ρ h).asHom.hom x) := by
   rw [map_mul]
   rfl
 
 /-- A morphism of `R`-`Γ`-modules commutes with the action of `Γ`. -/
 private lemma hom_rho_apply {M M' : Stacks.Injectives.ContinuousModule.{u, v, w} R Γ}
     (f : M ⟶ M') (g : Γ) (x : M.obj.obj.V) :
-    f.hom.hom.hom.hom ((M.obj.obj.ρ g).asHom.hom x) = (M'.obj.obj.ρ g).asHom.hom (f.hom.hom.hom.hom x) :=
+    f.hom.hom.hom.hom ((M.obj.obj.ρ g).asHom.hom x) =
+      (M'.obj.obj.ρ g).asHom.hom (f.hom.hom.hom.hom x) :=
   ConcreteCategory.congr_hom (f.hom.hom.comm g) x
 
 /-- **The invariants `M^G` under the kernel `G` of `π`.** -/

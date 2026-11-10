@@ -111,7 +111,7 @@ inverse of `twistAux k m c' hc'`. -/
 theorem twistAux_comp (m : ℕ) (c c' : torusRing k) (hc : IsUnit c) (hc' : IsUnit c')
     (hcc' : c * c' = 1) (hfix : twistAux k m c hc c' = c') :
     (twistAux k m c hc).comp (twistAux k m c' hc') = AlgHom.id k (torusRing k) := by
-  apply AlgHom.coe_ringHom_injective
+  apply AlgHom.toRingHom_injective
   refine IsLocalization.ringHom_ext (Submonoid.powers
     (MvPolynomial.X 0 * MvPolynomial.X 1 : planeRing k)) ?_
   refine MvPolynomial.ringHom_ext (fun r ↦ ?_) (fun i ↦ ?_)
@@ -120,9 +120,9 @@ theorem twistAux_comp (m : ℕ) (c c' : torusRing k) (hc : IsUnit c) (hc' : IsUn
       rw [IsScalarTower.algebraMap_apply k (planeRing k) (torusRing k), MvPolynomial.algebraMap_eq]
     simp only [RingHom.comp_apply, AlgHom.coe_toRingHom, hr, AlgHom.commutes]
   · fin_cases i
-    · show twistAux k m c hc (twistAux k m c' hc' (torusX k)) = torusX k
+    · change twistAux k m c hc (twistAux k m c' hc' (torusX k)) = torusX k
       rw [twistAux_torusX, twistAux_torusX]
-    · show twistAux k m c hc (twistAux k m c' hc' (torusT k)) = torusT k
+    · change twistAux k m c hc (twistAux k m c' hc' (torusT k)) = torusT k
       rw [twistAux_torusT, map_mul, map_pow, twistAux_torusT, hfix, mul_assoc, ← mul_pow, hcc',
         one_pow, mul_one]
 
@@ -195,7 +195,7 @@ def torusMap : Localization.Away (X : k[X]) →ₐ[k] torusRing k :=
 /-- The map from the torus to the punctured line sends `t` to `t`. -/
 theorem torusMap_X : torusMap k (algebraMap k[X] (Localization.Away (X : k[X])) X) = torusT k := by
   rw [torusMap, IsLocalization.Away.liftAlgHom_apply, IsLocalization.Away.lift_eq]
-  show algebraMap (planeRing k) (torusRing k) (Polynomial.aeval (MvPolynomial.X 1) X) = _
+  change algebraMap (planeRing k) (torusRing k) (Polynomial.aeval (MvPolynomial.X 1) X) = _
   rw [Polynomial.aeval_X]
   rfl
 
@@ -288,7 +288,7 @@ theorem finiteType_planeMap (m : ℕ) : (planeMap k m).toRingHom.FiniteType := b
 
 /-- The restriction of the structure morphism to each chart is flat. -/
 instance (n : ℕ) : Flat (chartMap k n) := by
-  haveI : Flat (Spec.map (CommRingCat.ofHom (planeMap k (n + 1)).toRingHom)) := by
+  have : Flat (Spec.map (CommRingCat.ofHom (planeMap k (n + 1)).toRingHom)) := by
     rw [Flat.SpecMap_iff, CommRingCat.hom_ofHom]
     exact flat_planeMap k (n + 1)
   unfold chartMap
@@ -296,7 +296,7 @@ instance (n : ℕ) : Flat (chartMap k n) := by
 
 /-- The restriction of the structure morphism to each chart is locally of finite type. -/
 instance (n : ℕ) : LocallyOfFiniteType (chartMap k n) := by
-  haveI : LocallyOfFiniteType (Spec.map (CommRingCat.ofHom (planeMap k (n + 1)).toRingHom)) := by
+  have : LocallyOfFiniteType (Spec.map (CommRingCat.ofHom (planeMap k (n + 1)).toRingHom)) := by
     rw [HasRingHomProperty.Spec_iff (P := @LocallyOfFiniteType), CommRingCat.hom_ofHom]
     exact finiteType_planeMap k (n + 1)
   unfold chartMap
@@ -329,7 +329,7 @@ theorem opensRange_torusι (m : ℕ) :
   have h2 := Scheme.Hom.opensRange_localizationAway (R := CommRingCat.of (planeRing k))
     (MvPolynomial.X 0 * MvPolynomial.X 1 : planeRing k)
   ext x
-  show x ∈ Set.range (torusι k m) ↔ _
+  change x ∈ Set.range (torusι k m) ↔ _
   rw [torusι_eq]
   exact SetLike.ext_iff.mp (h1.trans h2) x
 
@@ -365,7 +365,7 @@ theorem preimage_baseChart (n : ℕ) : totalMap k ⁻¹ᵁ baseChart k n = total
     have hxy : (MvPolynomial.X 0 * MvPolynomial.X 1 : planeRing k) ∉ w.asIdeal := by
       intro h
       apply hX
-      show planeMap k (j + 1) X ∈ w.asIdeal
+      change planeMap k (j + 1) X ∈ w.asIdeal
       rw [planeMap, Polynomial.aeval_X, pow_succ, mul_assoc]
       exact w.asIdeal.mul_mem_left _ h
     obtain ⟨v', rfl⟩ : w ∈ (torusι k (j + 1)).opensRange := by
@@ -374,7 +374,7 @@ theorem preimage_baseChart (n : ℕ) : totalMap k ⁻¹ᵁ baseChart k n = total
     exact ⟨torusι k (n + 1) v', trivial,
       congrArg (fun φ : torus k ⟶ total k ↦ φ v') (torusι_totalι k n j)⟩
   · rintro x ⟨y, -, rfl⟩
-    show totalMap k (totalι k n y) ∈ baseChart k n
+    change totalMap k (totalι k n y) ∈ baseChart k n
     rw [← Scheme.Hom.comp_apply, totalι_totalMap, chartMap, Scheme.Hom.comp_apply]
     exact mem_baseChart k n _
 

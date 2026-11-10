@@ -71,7 +71,7 @@ theorem isLocalCompleteIntersectionMorphism_specMap {A B : CommRingCat.{u}} (φ 
     CommRingCat.ofHom (algebraMap A (MvPolynomial (Fin n) A))
   have hψsm : Smooth (Spec.map ψ) := by
     rw [HasRingHomProperty.Spec_iff (P := @Smooth)]
-    show RingHom.Smooth (algebraMap A (MvPolynomial (Fin n) A))
+    change RingHom.Smooth (algebraMap A (MvPolynomial (Fin n) A))
     rw [RingHom.smooth_algebraMap]
     exact ⟨inferInstance, inferInstance⟩
   have hcomm : ψ ≫ φP = φ := by

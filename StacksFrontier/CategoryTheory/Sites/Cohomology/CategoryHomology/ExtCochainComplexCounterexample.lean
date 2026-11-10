@@ -465,7 +465,7 @@ lemma extCochain_eq_zero_of_d_eq_zero (ψ : extCochain source target 2)
     (hψ : (extCochainComplex source target).d 2 3 ψ = 0) : ψ = 0 := by
   funext y
   refine LinearMap.ext fun s ↦ ?_
-  show ψ y s = 0
+  change ψ y s = 0
   rcases Bool.eq_false_or_eq_true (y.obj (Fin.last 2)) with h₂ | h₂
   swap
   · rw [source_eq_zero h₂ s, map_zero]

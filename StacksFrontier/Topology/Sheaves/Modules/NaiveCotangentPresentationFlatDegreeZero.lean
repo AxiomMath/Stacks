@@ -313,7 +313,7 @@ theorem isFlat_presentationTensorDifferentialsSheaf :
       (y : (presentationStalkGenerators A B a E α x).toExtension.CotangentSpace),
       e.symm c • y = c • y := by
     intro c y
-    show e (e.symm c) • y = c • y
+    change e (e.symm c) • y = c • y
     rw [e.apply_symm_apply]
   exact @Module.Flat.of_free _ _ _ _ _
     (Module.Free.of_basis

@@ -134,6 +134,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {c : ContractionSituation B S hS}
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- instance search for limits of presheaves on the big fppf site exceeds the default budget
 /-- Pullbacks of presheaves on the big fppf site (instance search times out without this
 shortcut). -/
 local instance hasPullbacks_presheaf_ContractionLimitStageWitness :
@@ -537,10 +538,10 @@ theorem StageModel.exists_y (hpt : IsAffine ((LocallyNoetherianOver.toScheme B S
     rw [← h3'', ← Category.assoc]
     congr 1
     apply pullback.hom_ext
-    · show pullback.lift _ _ _ ≫ _ = _
+    · change pullback.lift _ _ _ ≫ _ = _
       rw [pullback.lift_fst, Category.assoc, pullback.lift_fst, ← Category.assoc,
         IsPullback.isoPullback_hom_fst]
-    · show pullback.lift _ _ _ ≫ _ = _
+    · change pullback.lift _ _ _ ≫ _ = _
       rw [pullback.lift_snd, Category.assoc, pullback.lift_snd, IsPullback.isoPullback_hom_snd]
   refine ⟨k.left, k.hom, a'' ≫ pullback.fst _ _, ?_⟩
   rw [← Category.assoc, hak]
@@ -593,7 +594,7 @@ theorem exists_stageModel_isIso
     rw [M₃.preimage_Z]
     have h := w.isPullback_j.flip.isoPullback_hom_snd
     rw [← Iso.eq_inv_comp, Category.comp_id] at h
-    show IsIso (pullback.snd w.p (Space.openSubspaceOfPoints B S hS (yoneda.obj V) ξ.Zᶜ).ι)
+    change IsIso (pullback.snd w.p (Space.openSubspaceOfPoints B S hS (yoneda.obj V) ξ.Zᶜ).ι)
     rw [h]
     infer_instance
   obtain ⟨j, F, hF⟩ := Space.exists_stage_isIso_openSubspace_of_isLimit

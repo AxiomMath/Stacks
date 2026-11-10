@@ -225,21 +225,21 @@ private theorem fg_units_quotient_integralClosure (k : Type u) [Field k] (X : Sc
   let q : Spec (.of ↥A) ⟶ Spec (.of k) := Spec.map (CommRingCat.ofHom (algebraMap k ↥A))
   have hfactor : g ≫ q = f := by
     apply AlgebraicGeometry.ext_to_Spec
-    show (Scheme.ΓSpecIso (.of k)).inv ≫
+    change (Scheme.ΓSpecIso (.of k)).inv ≫
       (Spec.map (CommRingCat.ofHom (algebraMap k ↥A))).appTop ≫ g.appTop = _
     rw [← Category.assoc, ← Scheme.ΓSpecIso_inv_naturality
       (CommRingCat.ofHom (algebraMap k ↥A)), Category.assoc, hg]
-    show CommRingCat.ofHom (φ.comp (algebraMap k ↥A)) =
+    change CommRingCat.ofHom (φ.comp (algebraMap k ↥A)) =
       (Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop
     apply CommRingCat.Hom.ext
     ext x
-    show (algebraMap k Γ(X, ⊤)) x = fk x
+    change (algebraMap k Γ(X, ⊤)) x = fk x
     rfl
   have : LocallyOfFiniteType (g ≫ q) := hfactor ▸ (inferInstance : LocallyOfFiniteType f)
   have : LocallyOfFiniteType g := locallyOfFiniteType_of_comp g q
   let _ : Algebra ↥A Γ(X, ⊤) := φ.toAlgebra
   have hclosed : integralClosure ↥A Γ(X, ⊤) = ⊥ := by
-    show integralClosure ↥(integralClosure k Γ(X, ⊤)) Γ(X, ⊤) = ⊥
+    change integralClosure ↥(integralClosure k Γ(X, ⊤)) Γ(X, ⊤) = ⊥
     exact integralClosure_idem (R := k) (A := Γ(X, ⊤))
   have h1 : ∀ x : Γ(X, ⊤), φ.IsIntegralElem x → x ∈ Set.range φ := by
     intro x hx
@@ -326,7 +326,7 @@ private theorem isIntegralElem_of_isIntegralElem_of_compactSpace
     RingHom.IsIntegralElem.of_comp
       (f := Subring.inclusion (inf_le_right : S₁ ⊓ S₂ ≤ S₂)) (g := S₂.subtype) hCs
   have hclosed : integralClosure ↥S₂ Γ(X, ⊤) = ⊥ := by
-    show integralClosure ↥(integralClosure k₂ Γ(X, ⊤)) Γ(X, ⊤) = ⊥
+    change integralClosure ↥(integralClosure k₂ Γ(X, ⊤)) Γ(X, ⊤) = ⊥
     exact integralClosure_idem (R := k₂) (A := Γ(X, ⊤))
   have hmem : s ∈ integralClosure ↥S₂ Γ(X, ⊤) := hS₂s
   rw [hclosed, Algebra.mem_bot] at hmem

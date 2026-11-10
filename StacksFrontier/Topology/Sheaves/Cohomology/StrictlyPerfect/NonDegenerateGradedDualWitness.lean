@@ -99,6 +99,7 @@ theorem not_isZero_structureSheafComplex_X_zero_specULiftInt :
 
 /-- The graded dual pairing of [Stacks, Tag 0FP9] between the complex `𝒪[0]` on `Spec ℤ` and
 its graded dual. -/
+@[instance_reducible]
 def exactPairingDualGradedObjectSpecULiftInt :
     @ExactPairing _ _ (Strict.gradedMonoidalCategoryRingSheaf
         (specULiftIntRingedSpace.{u}).sheaf)

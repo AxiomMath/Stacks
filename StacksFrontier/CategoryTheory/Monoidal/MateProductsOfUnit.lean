@@ -147,7 +147,7 @@ theorem evaluation_exactPairingCongr_biproduct_unit :
          ExactPairing.biproduct)
         (biproduct.isoProduct _).symm (biproduct.isoProduct _).symm).evaluation' =
       ∑ a, (Pi.π (fun _ : A => 𝟙_ C) a ⊗ₘ Pi.π (fun _ : A => 𝟙_ C) a) ≫ (λ_ (𝟙_ C)).hom := by
-  show (∏ᶜ fun _ : A => 𝟙_ C) ◁ (biproduct.isoProduct _).inv ≫
+  change (∏ᶜ fun _ : A => 𝟙_ C) ◁ (biproduct.isoProduct _).inv ≫
       (biproduct.isoProduct _).inv ▷ _ ≫
         ∑ a, (biproduct.π (fun _ : A => 𝟙_ C) a ⊗ₘ biproduct.π (fun _ : A => 𝟙_ C) a) ≫
           (ρ_ (𝟙_ C)).hom = _

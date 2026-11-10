@@ -127,7 +127,7 @@ theorem isOpen_genusLocus_curveFamilyOfIsPullback (hX : IsPrestableCurveFamily B
     have hpt : (T.map (show P.siteObject ⟶ U from P.value)).base
         (IsLocalRing.closedPoint P.carrier) = u' := CurveFamily.schemePoint_residueFieldPoint XU u'
     rw [hpt] at hχ
-    show XU.HasGenusAt P g ↔ χ u' = 1 - (g : ℤ)
+    change XU.HasGenusAt P g ↔ χ u' = 1 - (g : ℤ)
     rw [show χ u' = _ from hχ]
     exact ⟨fun h => by rw [h.genus_eq v r hV],
       fun h => ⟨V, v, r, hV, by exact_mod_cast sub_right_injective h⟩⟩

@@ -70,7 +70,7 @@ theorem isTorsionBySet_powQuot_of_le (q : ℕ) {m n : ℕ} (hm : m ≤ n) :
   intro x a
   induction x using Submodule.Quotient.induction_on with
   | H y =>
-    show (Submodule.Quotient.mk ((a : A) • y) : powQuot I q m) = 0
+    change (Submodule.Quotient.mk ((a : A) • y) : powQuot I q m) = 0
     rw [Submodule.Quotient.mk_eq_zero]
     simp only [powSub, Submodule.mem_comap, Submodule.coe_subtype, SetLike.val_smul,
       smul_eq_mul]
@@ -442,7 +442,7 @@ theorem ext_one_powQuot_map_eq_zero {f : ℕ} (hf : f + (1 + S.d) * c = n) (hq :
   let v : K₀.1 ⟶ M₀.1 := ModuleCat.ofHom (LinearMap.range (L.d (-1) 0).hom).mkQ
   have hex : Function.Exact (L.d (-1) 0).hom v.hom := by
     intro y
-    show (LinearMap.range (L.d (-1) 0).hom).mkQ y = 0 ↔ _
+    change (LinearMap.range (L.d (-1) 0).hom).mkQ y = 0 ↔ _
     rw [Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
     rfl
   have hv : Function.Surjective v.hom := Submodule.mkQ_surjective _
@@ -456,7 +456,7 @@ theorem ext_one_powQuot_map_eq_zero {f : ℕ} (hf : f + (1 + S.d) * c = n) (hq :
   ext z
   have h1 : ψ (resMap I n (L.d (-1) 0) z) = powQuotLe I hfn ((toResHom I n n φcat) z) :=
     LinearMap.congr_fun hψ z
-  show powQuotMap I (le_refl f) (by omega : f + f ≤ f + n) (ψ (resMap I n (L.d (-1) 0) z)) =
+  change powQuotMap I (le_refl f) (by omega : f + f ≤ f + n) (ψ (resMap I n (L.d (-1) 0) z)) =
     powQuotMap I hfn (by omega : f + f ≤ n + n) ((toResHom I n n φcat) z)
   rw [h1]
   induction (toResHom I n n φcat) z using Submodule.Quotient.induction_on with

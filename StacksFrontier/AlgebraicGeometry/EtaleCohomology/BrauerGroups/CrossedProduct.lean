@@ -86,9 +86,9 @@ namespace Stacks.GaloisCohomology
 
 variable {K L : Type*} [Field K] [Field L] [Algebra K L]
 
--- The type does not depend on `c`; the twisting enters through the multiplication below.
+-- The type does not depend on the cocycle; the twisting enters through the multiplication below.
 /-- The underlying additive group of the crossed product. -/
-def CrossedProduct (c : Gal(L/K) × Gal(L/K) → Lˣ) : Type _ := Gal(L/K) → L
+def CrossedProduct (_ : Gal(L/K) × Gal(L/K) → Lˣ) : Type _ := Gal(L/K) → L
 
 namespace CrossedProduct
 
@@ -571,7 +571,7 @@ theorem exists_mem_card_support_lt {I : TwoSidedIdeal (CrossedProduct c)}
   have hzapply : ∀ ρ : Gal(L/K), z ρ = (a - ρ a) * y' ρ := by
     intro ρ
     rw [hzdef]
-    show (((incl a : CrossedProduct c) * y') ρ - (y' * (incl a : CrossedProduct c)) ρ) = _
+    change (((incl a : CrossedProduct c) * y') ρ - (y' * (incl a : CrossedProduct c)) ρ) = _
     rw [incl_mul_apply, mul_incl_apply]
     ring
   have hzI : z ∈ I := hzdef ▸ I.sub_mem (I.mul_mem_left _ _ hy'I) (I.mul_mem_right _ _ hy'I)

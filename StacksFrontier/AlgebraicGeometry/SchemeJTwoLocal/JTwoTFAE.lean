@@ -59,7 +59,7 @@ public theorem isOpen_regularLocus_spec_iff (R : Type u) [CommRing R] :
       {p : PrimeSpectrum R | IsRegularLocalRing (Localization.AtPrime p.asIdeal)} := by
     ext p
     let : p.asIdeal.IsPrime := p.2
-    show IsRegularLocalRing ((Spec (.of R)).presheaf.stalk p) ↔
+    change IsRegularLocalRing ((Spec (.of R)).presheaf.stalk p) ↔
       IsRegularLocalRing (Localization.AtPrime p.asIdeal)
     let e := (Spec.stalkIso (.of R) p).commRingCatIsoToRingEquiv
     exact ⟨fun _ => .of_ringEquiv e, fun _ => .of_ringEquiv e.symm⟩

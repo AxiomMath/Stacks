@@ -139,7 +139,8 @@ the ringed-*site* spelling `AlgebraicGeometry.RingedSite.IsPerfect` of Stacks 08
 local-models criteria (`isPerfect_of_forall_coveringFamily_strictlyPerfect`,
 `isPerfect_of_locally`) both ask for a local model that is already strictly perfect and the
 closure rules all consume a perfect object, so none of them bootstraps a nonzero one at the `u`
-of this file. The obstruction is not a universe pin to `SheafOfModules.{0}`: each criterion is stated at `RingedSite.{u, u, w}`, so
+of this file. The obstruction is not a universe pin to `SheafOfModules.{0}`: each criterion is
+stated at `RingedSite.{u, u, w}`, so
 each applies at the `u` of this file and still supplies nothing, the obstruction being the
 absence of a base case rather than a universe. The statement that would fix it, and which
 nothing in the library proves, is

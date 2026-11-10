@@ -146,7 +146,7 @@ private lemma preservesFiniteProducts_etaleRestrict {Z' Z : Scheme.{u}} (p : Z' 
   intro K
   have hcomp : PreservesLimitsOfShape (Discrete (Fin K))
       (etaleRestrict p hp A ⋙ sheafToPresheaf (smallEtaleTopology Z') A) := by
-    show PreservesLimitsOfShape (Discrete (Fin K))
+    change PreservesLimitsOfShape (Discrete (Fin K))
       (sheafToPresheaf (smallEtaleTopology Z) A ⋙
         (Functor.whiskeringLeft _ _ A).obj (etaleComp p hp).op)
     infer_instance
@@ -244,7 +244,7 @@ private lemma qSieve_mem_of_restriction {Z : Scheme.{u}} {A : Type*} [Category* 
       trivial
     obtain ⟨i, y, hy⟩ := Set.mem_iUnion.1 hx
     refine Set.mem_iUnion.2 ⟨i, y, ?_⟩
-    show (S i).hom y = x
+    change (S i).hom y = x
     rw [← hleft i]
     exact hy
   refine (smallEtaleTopology Z).superset_covering ?_ hcov
@@ -405,7 +405,7 @@ private lemma preservesFiniteProducts_constantSheaf_of_hasSheafify {C : Type*} [
     [CategoryTheory.Limits.HasFiniteLimits A] [HasSheafify J A] :
     CategoryTheory.Limits.PreservesFiniteProducts (constantSheaf J A) := by
   have hlim : CategoryTheory.Limits.PreservesFiniteLimits (constantSheaf J A) := by
-    show CategoryTheory.Limits.PreservesFiniteLimits
+    change CategoryTheory.Limits.PreservesFiniteLimits
       (Functor.const Cᵒᵖ ⋙ presheafToSheaf J A)
     infer_instance
   constructor

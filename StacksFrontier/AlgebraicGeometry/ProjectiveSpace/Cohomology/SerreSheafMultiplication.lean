@@ -127,7 +127,7 @@ theorem monomial_smul_laurentFrac (R : Type u) [CommRing R] (n : ℕ) (s : Finse
     intro i hi
     have h1 := hkin i hi
     have h2 := ha i
-    show 0 ≤ a i + k i + (clearDen s k : ℤ)
+    change 0 ≤ a i + k i + (clearDen s k : ℤ)
     omega
   have hnum : laurentToNatExp a + numExp s k (clearDen s k) = numExp s (a + k) (clearDen s k) := by
     refine Finsupp.ext fun i => Nat.cast_injective (R := ℤ) ?_
@@ -170,7 +170,7 @@ theorem coe_twistChartEquivTwistSections_laurentMul_single (R : Type u) [CommRin
       f a.1 • (⟨Finsupp.single (a.1 + k) 1, single_mem_twistChart (hmem a.1 a.2) 1⟩ :
         twistChart R n e (↑s : Set (Fin (n + 1)))) := by
     refine Subtype.ext ?_
-    rw [hw, laurentMul_apply, AddSubmonoidClass.coe_finset_sum,
+    rw [hw, laurentMul_apply, AddSubmonoidClass.coe_finsetSum,
       ← Finset.sum_attach f.support
         (fun a => f a • Finsupp.mapDomain (fun z => a + z) (Finsupp.single k 1))]
     refine Finset.sum_congr rfl fun a _ => ?_
@@ -179,7 +179,7 @@ theorem coe_twistChartEquivTwistSections_laurentMul_single (R : Type u) [CommRin
   have hLHS : ((twistChartEquivTwistSections R n e s w :
         LocalizedModule.Away (chartDenom R n s) (MvPolynomial (Fin (n + 1)) R)))
       = ∑ a ∈ f.support.attach, f a.1 • laurentFrac R n s (a.1 + k) := by
-    rw [hsum, map_sum, AddSubmonoidClass.coe_finset_sum]
+    rw [hsum, map_sum, AddSubmonoidClass.coe_finsetSum]
     refine Finset.sum_congr rfl fun a _ => ?_
     rw [map_smul, SetLike.val_smul,
       coe_twistChartEquivTwistSections_single R n e s (hmem a.1 a.2) _ rfl]
@@ -198,8 +198,8 @@ polynomial.** Through the identification
 `Stacks.ProjectiveSpace.Cohomology.twistChartEquivTwistSections` of the monomial chart with the
 degree-`d` part of `R[T₀, …, Tₙ][1/∏_{i ∈ s} Tᵢ]`, the map
 `Stacks.ProjectiveSpace.Cohomology.chartMul` of
-`StacksFrontier/AlgebraicGeometry/ProjectiveSpace/Cohomology/SerreFunctoriality.lean` becomes genuine
-multiplication by `Stacks.ProjectiveSpace.Cohomology.polyOfLaurent f` in the localization.
+`StacksFrontier/AlgebraicGeometry/ProjectiveSpace/Cohomology/SerreFunctoriality.lean` becomes
+genuine multiplication by `Stacks.ProjectiveSpace.Cohomology.polyOfLaurent f` in the localization.
 
 Both sides are `R`-linear, so it suffices to check this on the monomial basis
 `Stacks.ProjectiveSpace.Cohomology.twistSectionsBasis`, which is

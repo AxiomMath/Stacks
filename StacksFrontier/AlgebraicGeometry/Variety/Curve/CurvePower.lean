@@ -176,16 +176,16 @@ theorem isVariety_power_and_topologicalKrullDim : (m : ℕ) →
       topologicalKrullDim (power C m).left = m * topologicalKrullDim C.left
   | 0 => by
     refine ⟨?_, ?_⟩
-    · show IsVariety k (𝟙 (Spec (.of k)))
+    · change IsVariety k (𝟙 (Spec (.of k)))
       constructor
-    · show topologicalKrullDim (PrimeSpectrum k) = _
+    · change topologicalKrullDim (PrimeSpectrum k) = _
       rw [PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim, ringKrullDim_eq_zero_of_field]
       simp
   | m + 1 => by
     obtain ⟨hv, hd⟩ := isVariety_power_and_topologicalKrullDim m
     obtain ⟨hv', hd'⟩ := isVariety_and_topologicalKrullDim_pullback k C.hom (power C m).hom
     refine ⟨hv', ?_⟩
-    show topologicalKrullDim ↑(Limits.pullback C.hom (power C m).hom) = _
+    change topologicalKrullDim ↑(Limits.pullback C.hom (power C m).hom) = _
     rw [hd', hd]
     push_cast
     rw [add_mul, one_mul, add_comm]

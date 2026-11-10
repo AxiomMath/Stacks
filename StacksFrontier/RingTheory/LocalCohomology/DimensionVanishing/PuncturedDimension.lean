@@ -52,7 +52,7 @@ theorem topologicalKrullDim_lt_of_open_avoids_specializingPoint
     (hspec : ∀ y : X, x ∈ closure ({y} : Set X))
     (d : ℕ) (hd : topologicalKrullDim X ≤ (d : WithBot ℕ∞)) :
     topologicalKrullDim U < (d : WithBot ℕ∞) := by
-  show Order.krullDim (TopologicalSpace.IrreducibleCloseds U) < (d : WithBot ℕ∞)
+  change Order.krullDim (TopologicalSpace.IrreducibleCloseds U) < (d : WithBot ℕ∞)
   rw [Order.krullDim_lt_coe_iff]
   intro p
   let e := TopologicalSpace.IrreducibleCloseds.orderIsoOfIsOpenEmbedding

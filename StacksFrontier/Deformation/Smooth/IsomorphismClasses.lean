@@ -169,7 +169,7 @@ public theorem associatedClasses_map_lift
   let x : Fiber 𝓕.p.op (op A) := fiberToOppFiber 𝓕.p A (Fiber.mk ha)
   let y : Fiber 𝓕.p.op (op B) := fiberToOppFiber 𝓕.p B (Fiber.mk hb)
   apply (fiberIsoClassOppEquiv 𝓕.p B).injective
-  show (𝓕.p.op.isoClassPresheaf.map f.op.op (Functor.isoClassMk 𝓕.p.op x)) =
+  change (𝓕.p.op.isoClassPresheaf.map f.op.op (Functor.isoClassMk 𝓕.p.op x)) =
     Functor.isoClassMk 𝓕.p.op y
   rw [Functor.isoClassPresheaf_map_isoClassMk]
   have hlift : 𝓕.p.op.IsHomLift f.op g.op := isHomLift_op 𝓕.p f g (inst := hg)
@@ -282,7 +282,7 @@ public theorem associatedProjection_fiberValue
     Quotient.mk _ x := by
   rcases x with ⟨a, ha⟩
   dsimp [elementsFiberValue, fiberFunctor, associatedProjection]
-  show (associatedClassesFunctor 𝓕 h𝓕).map (eqToHom ha)
+  change (associatedClassesFunctor 𝓕 h𝓕).map (eqToHom ha)
       (Quotient.mk _ (Fiber.mk rfl : Fiber 𝓕.p (𝓕.p.obj a))) =
     Quotient.mk _ (Fiber.mk ha : Fiber 𝓕.p A)
   exact associatedClasses_map_lift 𝓕 h𝓕 (eqToHom ha) (𝟙 a) rfl ha

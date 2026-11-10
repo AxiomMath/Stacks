@@ -181,7 +181,7 @@ theorem nsmul_id_toSheaf_eq_zero {n : ℕ} (hn : (n : Λ) = 0)
     n • 𝟙 ((SheafOfModules.toSheaf.{u + 1} (etaleRing Λ X)).obj M) = 0 := by
   ext U x
   let y : M.val.obj U := x
-  show n • y = 0
+  change n • y = 0
   rw [← Nat.cast_smul_eq_nsmul ((etaleRing Λ X).obj.obj U), natCast_etaleRing_eq_zero Λ X hn,
     zero_smul]
 
@@ -221,7 +221,7 @@ theorem preservesColimitsOfShape_rightDerived_pushforwardToPoint (q : ℕ) (I : 
 /-- **Finite cohomological dimension of `X` and torsion coefficients bound the higher direct
 images to the point.** -/
 theorem exists_isZero_rightDerived_pushforwardToPoint
-    (hcd : Scheme.etaleCohomologicalDimension X < ⊤) (hΛ : AddMonoid.IsTorsion Λ) :
+    (hcd : Scheme.etaleCohomologicalDimension X < ⊤) (hΛ : IsAddTorsion Λ) :
     ∃ d : ℕ, ∀ q : ℕ, d ≤ q → ∀ M : SheafOfModules.{u + 1} (etaleRing Λ X),
       IsZero (((pushforwardToPoint Λ X).rightDerived q).obj M) := by
   obtain ⟨d, hd⟩ := exists_isZero_rightDerived_Γ_site X hcd
@@ -237,7 +237,7 @@ theorem exists_isZero_rightDerived_pushforwardToPoint
 with direct sums when `X` is quasi-compact and quasi-separated with `cd(X) < ∞` and `Λ` is a
 torsion ring. This is [Stacks, Tag 0F11] (2). -/
 theorem preservesColimitsOfShape_derivedPushforward_toPoint
-    (hcd : Scheme.etaleCohomologicalDimension X < ⊤) (hΛ : AddMonoid.IsTorsion Λ)
+    (hcd : Scheme.etaleCohomologicalDimension X < ⊤) (hΛ : IsAddTorsion Λ)
     (I : Type (u + 1)) :
     PreservesColimitsOfShape (Discrete I)
       (Stacks.Cohomology.DerivedPushforward.derivedPushforward (X := ringedTopos Λ X)

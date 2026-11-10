@@ -80,12 +80,12 @@ theorem comparisonAlgebraicSpacesModules_chartSection
       ℱ.val.map (comparisonMorphism B S hS p q eU eV a f g φ aSpace ha d).op s := by
   rw [← modulePullbackUnitSection_eq_modulePullbackChartSection,
     ← modulePullbackHomFMap_app]
-  show (modulePushforwardHomFMap B S hS aSpace _ _
+  change (modulePushforwardHomFMap B S hS aSpace _ _
     ((modulePullbackAdjunction B S hS aSpace).homEquiv _ _
       (comparisonAlgebraicSpacesModules B S hS p q r hp hq eU eV a f g hf hg φ aSpace ha hr hφ
         hab ℱ))).app d s = _
   rw [comparisonAlgebraicSpacesModules_adjoint]
-  show (modulePushforwardHomFMap B S hS aSpace _ _ (moduleFMapHom B S hS aSpace _ _ _)).app d s
+  change (modulePushforwardHomFMap B S hS aSpace _ _ (moduleFMapHom B S hS aSpace _ _ _)).app d s
     = _
   rw [modulePushforwardHomFMap_moduleFMapHom]
   rfl
@@ -125,7 +125,7 @@ private theorem isAffine_etaleChartToFibred (hf : p.IsFibredOneMorphism r f)
     IsAffine ((r ⋙ BigFppfOver.toScheme B S hS).obj
       ((etaleChartToFibred B S hS p eU f).obj W)) := by
   have h := Functor.congr_obj (etaleChartToFibred_comp B S hS p r eU f hf) W
-  show IsAffine ((BigFppfOver.toScheme B S hS).obj (r.obj _))
+  change IsAffine ((BigFppfOver.toScheme B S hS).obj (r.obj _))
   rw [show r.obj _ = _ from h]
   exact hW
 
@@ -180,9 +180,7 @@ theorem bijective_comparisonAlgebraicSpacesModules_app
   have hkey : ∀ z, (c.val.app (op d.U)).hom (modulePullbackChartBaseChange B S hS aSpace G d z) =
       (Stacks.PresheafOfModules.restrictionBaseChange (R := R) ℱ.val k.op).hom (T z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact (congrArg _ (map_zero _)).trans ((map_zero _).trans
-        ((congrArg _ (map_zero T)).trans (map_zero _)).symm)
+    induction z using TensorProduct.inductionOn with
     | tmul t s =>
       refine Eq.trans ?_ (Stacks.PresheafOfModules.restrictionBaseChange_tmul (R := R) ℱ.val k.op
         (β t) s).symm

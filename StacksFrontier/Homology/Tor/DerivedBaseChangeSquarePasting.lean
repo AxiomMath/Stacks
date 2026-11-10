@@ -168,7 +168,7 @@ public theorem pastedSquare_comm : (v.comp c).comp a = t.comp (e.comp b) := by
   have h1 := DFunLike.congr_fun sq
   have h2 := DFunLike.congr_fun sqb
   ext r
-  show v (c (a r)) = t (e (b r))
+  change v (c (a r)) = t (e (b r))
   rw [show c (a r) = d (b r) from h1 r]
   exact h2 (b r)
 
@@ -327,7 +327,7 @@ public theorem squareComparison_pasted_of_compat
   simp only [NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app,
     Functor.associator_inv_app, Functor.associator_hom_app, Category.id_comp, Category.assoc,
     Functor.comp_obj]
-  show (squareComparison.{u, w} a (e.comp b) (v.comp c) t
+  change (squareComparison.{u, w} a (e.comp b) (v.comp c) t
           (pastedSquare_comm a b c d e v t sq sqb)).app (DerivedCategory.Q.obj P) ≫
         (ModuleCat.restrictScalars.{u} t).mapDerivedCategory.map
           (extendComparisonApp.{u, w} (v.comp c) P) =

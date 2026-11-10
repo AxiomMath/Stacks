@@ -223,7 +223,7 @@ theorem isSchemeLimit_ofAffineSystem (hZ : B.Contains (⊤_ Scheme.{u})) :
     { app := fun k => toS.map (P k.unop)
       naturality := fun k k' f => by
         rw [hmor f]
-        show toS.map (R.W.map (homOfLE _).op) ≫ toS.map (P k'.unop) =
+        change toS.map (R.W.map (homOfLE _).op) ≫ toS.map (P k'.unop) =
           toS.map (P k.unop) ≫ toS.map (T.map (homOfLE _).op)
         rw [← toS.map_comp, ← toS.map_comp, hp] }
   let π₂ : R.W ⋙ toS ⟶ (Functor.const Kᵒᵖ).obj Zs :=
@@ -238,18 +238,18 @@ theorem isSchemeLimit_ofAffineSystem (hZ : B.Contains (⊤_ Scheme.{u})) :
     (fun k => (hsq k.unop).map toS) hL (isLimitConstCone _ _) (isLimitConstCone _ _)
     (hsqc.map toS)
     (fun k => by
-      show toS.map (R.c.π.app (op k.unop)) ≫ toS.map (P k.unop) =
+      change toS.map (R.c.π.app (op k.unop)) ≫ toS.map (P k.unop) =
         toS.map Pc ≫ toS.map (d.π.app (op k.unop.1))
       rw [← toS.map_comp, ← toS.map_comp, hπp])
     (fun k => by
-      show toS.map (R.c.π.app (op k.unop)) ≫ toS.map (R.q k.unop) = toS.map R.qc ≫ 𝟙 _
+      change toS.map (R.c.π.app (op k.unop)) ≫ toS.map (R.q k.unop) = toS.map R.qc ≫ 𝟙 _
       rw [← toS.map_comp, R.π_q, Category.comp_id])
     (fun k => by
-      show L.π.app k ≫ α₁.app k = L.π.app (op k₀) ≫ 𝟙 _
+      change L.π.app k ≫ α₁.app k = L.π.app (op k₀) ≫ 𝟙 _
       rw [Category.comp_id]
       exact L.w (homOfLE (hk₀ k.unop)).op)
     (fun k => by
-      show 𝟙 _ ≫ toS.map z₀ = toS.map z₀ ≫ 𝟙 _
+      change 𝟙 _ ≫ toS.map z₀ = toS.map z₀ ≫ 𝟙 _
       rw [Category.id_comp, Category.comp_id])
 
 /-! ### Properness of the base changes -/

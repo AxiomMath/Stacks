@@ -123,8 +123,8 @@ theorem graph_snd : graph hσ f ≫ pullback.snd _ _ = trivialIncl hσ f := pull
 /-- **The graph is a closed immersion**: it is the graph of `i'` over `Spec A`, a closed immersion
 because `X'` is separated over `A`, followed by the base change of the closed immersion `i`. -/
 instance isClosedImmersion_graph [IsSeparated f] : IsClosedImmersion (graph hσ f) := by
-  haveI : MorphismProperty.IsStableUnderComposition @IsClosedImmersion.{u} :=
-    ⟨fun _ _ hf hg => by haveI := hf; haveI := hg; infer_instance⟩
+  have : MorphismProperty.IsStableUnderComposition @IsClosedImmersion.{u} :=
+    ⟨fun _ _ hf hg => by have := hf; have := hg; infer_instance⟩
   have hmap : IsClosedImmersion (pullback.map (trivialIncl hσ f ≫ trivialMap σ f) (trivialMap σ f)
       f (trivialMap σ f) (specialIncl f) (𝟙 _) (𝟙 _) (by rw [Category.comp_id,
         specialIncl_comp hσ f]) (by simp)) :=

@@ -63,8 +63,8 @@ theorem CategoryTheory.Pretriangulated.IsHomotopyColimitWith.ofIsoSystem {D : Ty
     isomorphic_distinguished _ hT _ (Triangle.isoMk _ _ σ σ (Iso.refl _) ?_ ?_ ?_), fun n => ?_⟩
   · refine Limits.Sigma.hom_ext _ _ fun n => ?_
     simp only [Triangle.mk_obj₁, Triangle.mk_obj₂, Triangle.mk_mor₁, σ,
-      Limits.Sigma.ι_desc_assoc, Preadditive.sub_comp, Preadditive.comp_sub, Category.assoc,
-      Limits.Sigma.ι_desc]
+      Limits.Sigma.ι_comp_desc_assoc, Preadditive.sub_comp, Preadditive.comp_sub, Category.assoc,
+      Limits.Sigma.ι_comp_desc]
     rw [← NatTrans.naturality_assoc]
   · simp
   · simp only [Triangle.mk_obj₃, Triangle.mk_obj₁, Triangle.mk_mor₃, Iso.refl_hom,

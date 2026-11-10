@@ -532,7 +532,7 @@ theorem zariskiOverInverseImageComp_hom_app_comp (a : X ⟶ Y) (b : Y ⟶ Z) :
     rw [Category.assoc, ← Category.assoc ((zariskiOverInverseImageIso a).inv.app _),
       ← (zariskiOverInverseImageIso a).inv.naturality
         ((zariskiOverInverseImageIso b).hom.app OZ)]
-    simp [← Functor.map_comp]
+    simp [-Functor.map_comp]
   simp only [zariskiOverInverseImageComp, Iso.trans_hom, NatTrans.comp_app, Iso.symm_hom,
     Functor.isoWhiskerRight_hom, Functor.isoWhiskerLeft_hom, Functor.whiskerRight_app,
     Functor.whiskerLeft_app, restrictionComp_inv_app_zariskiOverStructureSheaf,

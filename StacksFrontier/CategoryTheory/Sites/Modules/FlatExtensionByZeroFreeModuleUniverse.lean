@@ -242,7 +242,7 @@ lemma extensionTensorObjIso_naturality_right :
         (extensionFunctor (ringPresheaf O) U).map
           (extensionTensorPullbackMapRight O U β M) := by
   refine PresheafOfModules.hom_ext fun X => ?_
-  show extensionTensorMapRightApp O U β M X ≫ (extensionTensorFiberIso O U F' M X).hom =
+  change extensionTensorMapRightApp O U β M X ≫ (extensionTensorFiberIso O U F' M X).hom =
     (extensionTensorFiberIso O U F M X).hom ≫ extensionTensorExtensionMapRight O U β M X
   refine extensionTensor_hom_ext O U F M _ _ fun p => ?_
   rw [extensionTensorι_comp_extensionTensorMapRightApp_assoc,
@@ -326,8 +326,7 @@ lemma presheafTensorLeft_naturality
       (tensorRight (O := O.obj) A).map γ ≫ (presheafTensorLeft J O G').map φ := by
   refine PresheafOfModules.hom_ext fun Y => ?_
   refine ModuleCat.hom_ext <| LinearMap.ext fun t => ?_
-  induction t using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction t using TensorProduct.inductionOn with
   | add x y hx hy =>
     exact (map_add _ x y).trans ((congrArg₂ (· + ·) hx hy).trans (map_add _ x y).symm)
   | tmul x y => rfl

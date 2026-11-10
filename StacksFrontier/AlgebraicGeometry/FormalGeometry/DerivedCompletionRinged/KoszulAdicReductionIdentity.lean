@@ -5,7 +5,7 @@ public import
 public import
   StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.KoszulAdicReductionUnit
 public import
-  StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.KoszulPerfectDualProjections
+StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.KoszulPerfectDualProjections
 public import StacksFrontier.CategoryTheory.Shift.SingleFunctorsPostcompComp
 public import
   StacksFrontier.CategoryTheory.Sites.Cohomology.StrictlyPerfect.HomComparisonStructureSheaf
@@ -127,6 +127,7 @@ def koszulShiftedToTopSingleComplexMap (n : ℕ) :
         (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))).shiftIso
       (r : ℤ) 0 (r : ℤ) (by ring)).hom.app ((koszulTopHomologySystem X f ℱ).obj (op n))
 
+omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The comparison across the shift by `r` is the class of a morphism of complexes.** The
 commutation isomorphism of `DerivedCategory.Q` with the shift, which has no formula, cancels
 against the one inside the shift isomorphism of the single functors of the derived category. -/
@@ -195,7 +196,6 @@ section Comparison
 
 variable (X : RingedSite.{u, u, u}) {r : ℕ}
   (f : Fin r → Presheaf.globalSections (X.O.obj ⋙ forget CommRingCat.{u}))
-  [HasWeakSheafify X.J CommRingCat.{u}]
 
 /-- The top degree of the Koszul complex, in the two spellings `r - 1 + 1` and `r`. -/
 theorem koszulTopDeg_eq : koszulTopDeg r = (r : ℤ) := by ring
@@ -417,7 +417,7 @@ theorem koszulDerivedSheafHomSystemComparison_app_comp_koszulTensorDualSystemIso
     ((asIso (koszulDerivedSheafHomSystemComparison X f
       ℱ)).hom_inv_id_app (op n))).trans ?_
   refine (Category.id_comp _).trans (congrArg DerivedCategory.Q.map ?_)
-  show (koszulDualSystemComplexMap X f ℱ).app (op n) = _
+  change (koszulDualSystemComplexMap X f ℱ).app (op n) = _
   exact NatTrans.ofOpSequence_app _ _ _
 
 end Named

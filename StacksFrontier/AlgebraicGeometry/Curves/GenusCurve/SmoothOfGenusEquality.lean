@@ -92,7 +92,7 @@ theorem smooth_of_geometricGenus_pullback_eq_genus [IsProper f]
   have : LocallyOfFiniteType c := inferInstance
   have hZdim : topologicalKrullDim (Z : Type u) = 1 :=
     (topologicalKrullDim_pullback_snd_eq F L φ f).trans hdim
-  rw [geometricGenus_eq_ite_genus_normalizationOverField L c hZdim.le, if_pos hZdim] at heq
+  rw [geometricGenus_eq_ite_genus_normalizationOverField L c hZdim.le, ite_eq_left hZdim] at heq
   have hfin := finite_irreducibleComponents_of_locallyOfFiniteType L c
   have : IsFinite (normalizationOverField L c) := isFinite_normalizationOverField L c
   have hbir : IsBirational (normalizationOverField L c) := Scheme.isBirational_normalization Z hfin

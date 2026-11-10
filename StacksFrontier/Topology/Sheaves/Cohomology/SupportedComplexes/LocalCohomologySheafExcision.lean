@@ -221,7 +221,8 @@ match that globalisation has to make.
   and `Stacks.Perfect.SupportedSectionsRestriction.exists_supportedSectionsRestrictIso`'s
   `choose_spec`), and cancelling it needs no instance at a mixed spelling.  Where the spelling
   *does* stand in the way is the same crossing in every degree, for the right derived functors:
-  see the implementation notes of `StacksFrontier/AlgebraicGeometry/Perfect/SupportClosedSubset/LocalCohomologyExcisionPullback.lean`.
+  see the implementation notes of
+  `StacksFrontier.AlgebraicGeometry.Perfect.SupportClosedSubset.LocalCohomologyExcisionPullback`.
 
 ## References
 

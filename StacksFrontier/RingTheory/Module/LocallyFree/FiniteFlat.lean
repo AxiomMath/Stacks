@@ -126,7 +126,7 @@ private lemma isOpen_rankAtStalk_le (M : Type v) [AddCommGroup M] [Module R M]
   rw [Module.notMem_support_iff] at hqs
   have hsurj : Function.Surjective (LocalizedModule.map q.asIdeal.primeCompl φ) := by
     rwa [LinearMap.localizedMap_surjective_iff_subsingleton_localized_coker]
-  show rankAtStalk M q ≤ n
+  change rankAtStalk M q ≤ n
   have : Nontrivial R := ⟨1, 0, fun h => q.isPrime.one_notMem (h ▸ q.asIdeal.zero_mem)⟩
   calc rankAtStalk M q
       = Module.finrank (Localization.AtPrime q.asIdeal)
@@ -306,7 +306,7 @@ private lemma flat_quotient_of_isPure (I : Ideal R)
       one_mem' := by simp
       mul_mem' := by
         intro a b ha hb
-        show a * b - 1 ∈ I
+        change a * b - 1 ∈ I
         rw [show a * b - 1 = (a - 1) * b + (b - 1) by ring]
         exact I.add_mem (I.mul_mem_right b ha) hb }
   have : IsLocalization S (R ⧸ I) := by
@@ -318,10 +318,10 @@ private lemma flat_quotient_of_isPure (I : Ideal R)
     · rw [Ideal.Quotient.algebraMap_eq, Ideal.Quotient.mk_eq_mk_iff_sub_mem] at hxy
       obtain ⟨t, ht, hxt⟩ := hI _ hxy
       have hmem : (1 - t) ∈ S := by
-        show (1 : R) - t - 1 ∈ I
+        change (1 : R) - t - 1 ∈ I
         simpa using neg_mem ht
       refine ⟨⟨1 - t, hmem⟩, ?_⟩
-      show (1 - t) * x = (1 - t) * y
+      change (1 - t) * x = (1 - t) * y
       linear_combination -hxt
   exact IsLocalization.flat (R ⧸ I) S
 

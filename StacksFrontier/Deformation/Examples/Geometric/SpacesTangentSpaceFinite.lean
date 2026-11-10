@@ -56,7 +56,7 @@ theorem spaceTangentSpace_finiteDimensional (hproper : Space.IsProper B (Spec (.
     letI : Fact (IsPredeformationCategory
         (BasedCategory.ofFunctor (spaceDeformationProjection B hΛ hSpec X hX toK)).p) :=
       ⟨(isDeformationCategory_spaceDeformationProjection B hΛ hSpec X hX toK).predeformation⟩
-    letI : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+    letI : Fact (SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
         (BasedCategory.ofFunctor (spaceDeformationProjection B hΛ hSpec X hX toK))
         (isDeformationCategory_spaceDeformationProjection B hΛ hSpec X hX
           toK).predeformation.cofibered))) :=
@@ -70,7 +70,7 @@ theorem spaceTangentSpace_finiteDimensional (hproper : Space.IsProper B (Spec (.
   let : Fact (IsPredeformationCategory
       (BasedCategory.ofFunctor (spaceDeformationProjection B hΛ hSpec X hX toK)).p) :=
     ⟨(isDeformationCategory_spaceDeformationProjection B hΛ hSpec X hX toK).predeformation⟩
-  let : Fact (SchlessingerConditionS2 (CategoryOfElements.π (isomorphismClasses
+  let : Fact (SchlessingerConditionS2 (Functor.Elements.π (isomorphismClasses
       (BasedCategory.ofFunctor (spaceDeformationProjection B hΛ hSpec X hX toK))
       (isDeformationCategory_spaceDeformationProjection B hΛ hSpec X hX
         toK).predeformation.cofibered))) :=

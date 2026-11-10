@@ -135,7 +135,7 @@ theorem mem_range_of_fibreRestrict_apply_ne_zero {m : ℤ} {n : ℕ} {y' : Y'}
     exact hx (milnorChainRestrict_apply_of_notMem _ hne)
   exact hpre ⟨y', hfx.symm⟩
 
-include hsq hpre in
+include hpre in
 omit [LocallyOfFiniteType sX] [IsOpenImmersion jX] [IsOpenImmersion jY] in
 /-- A chain on `X` supported over `jY y'` lives in the image of `jX`. -/
 theorem mem_range_of_fibreRestrict_eq_self {m : ℤ} {n : ℕ} {y' : Y'}
@@ -171,7 +171,7 @@ theorem fibreBoundaryLift_of_openSquare (hX : jX ≫ sX = sX') (hY : jY ≫ sY =
     rwa [fibreRestrict, openComap_milnorChainRestrict, hpref, openComap_openExtend]
   · refine eq_of_openComap_eq C sX jX
       (fun _ hx ↦ mem_range_of_fibreRestrict_apply_ne_zero C sX f jX jY hpre hx)
-      (fun _ hx ↦ mem_range_of_fibreRestrict_eq_self C sX f f' jX jY hsq hpre ha hx) ?_
+      (fun _ hx ↦ mem_range_of_fibreRestrict_eq_self C sX f jX jY hpre ha hx) ?_
     rw [fibreRestrict, openComap_milnorChainRestrict, hpref]
     have := DFunLike.congr_fun (milnorChainComap_pointwiseMilnorBoundary C sX jX k)
       (openExtend C sX jX (k + 2) 2 η')

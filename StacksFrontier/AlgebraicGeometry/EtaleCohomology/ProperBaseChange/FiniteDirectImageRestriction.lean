@@ -67,7 +67,7 @@ private lemma mapExtAddHom_comp_precomp {X X' Y : C} (φ : X ≅ X') (n : ℕ) :
       ((Ext.mk₀ (G.map φ.hom)).precomp (a := n) (b := n) (G.obj Y) (zero_add n)) ∘
         (G.mapExtAddHom X' Y n) := by
   funext e
-  show ((Ext.mk₀ φ.hom).comp e (zero_add n)).mapExactFunctor G =
+  change ((Ext.mk₀ φ.hom).comp e (zero_add n)).mapExactFunctor G =
     (Ext.mk₀ (G.map φ.hom)).comp (e.mapExactFunctor G) (zero_add n)
   rw [Ext.mapExactFunctor_comp, Ext.mapExactFunctor_mk₀]
 
@@ -137,13 +137,19 @@ variable {X X' Y Y' : Scheme.{u}} (f : X ⟶ Y) (g : Y' ⟶ Y) (g' : X' ⟶ X) (
 
 include f' h
 
+omit [PreservesFiniteColimits (etaleAbelianDirectImage.{u, v} f)]
+  [PreservesFiniteColimits (etaleAbelianDirectImage.{u, v} f')]
+  [HasExt.{w} (Sheaf X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v})]
+  [HasExt.{w} (Sheaf Y.smallEtaleTopology AddCommGrpCat.{max (u + 1) v})]
+  [HasExt.{w} (Sheaf X'.smallEtaleTopology AddCommGrpCat.{max (u + 1) v})]
+  [HasExt.{w} (Sheaf Y'.smallEtaleTopology AddCommGrpCat.{max (u + 1) v})] in
 private lemma isIso_twoSquare :
     IsIso (Stacks.CategoryTheory.BaseChange.twoSquare
       (etaleAbelianInverseImageDirectImageAdj.{u, v} f)
       (etaleAbelianInverseImageDirectImageAdj.{u, v} f')
       (etaleAbelianInverseImageCompIso.{u, v} f' g).symm
       ((etaleAbelianInverseImageCompIso.{u, v} g' f).symm ≪≫
-        eqToIso (congrArg (fun k : X' ⟶ Y ↦ etaleAbelianInverseImage.{u, v} k) h))).natTrans :=
+        eqToIso (congrArg (fun k : X' ⟶ Y ↦ etaleAbelianInverseImage.{u, v} k) h))) :=
   inferInstanceAs (IsIso (etaleAbelianBaseChange.{u, v} f g g' f' h))
 
 /-- The constant sheaf `ℤ` on `Y`, at the coefficients of this file. -/
@@ -213,6 +219,10 @@ variable {X X' Y Y' : Scheme.{u}} (f : X ⟶ Y) (g : Y' ⟶ Y) (g' : X' ⟶ X) (
 
 include f' sq
 
+omit [HasExt.{w} (Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1})]
+  [HasExt.{w} (Sheaf Y.smallEtaleTopology AddCommGrpCat.{u + 1})]
+  [HasExt.{w} (Sheaf X'.smallEtaleTopology AddCommGrpCat.{u + 1})]
+  [HasExt.{w} (Sheaf Y'.smallEtaleTopology AddCommGrpCat.{u + 1})] in
 private lemma isFinite_snd : IsFinite f' :=
   MorphismProperty.IsStableUnderBaseChange.of_isPullback sq ‹IsFinite f›
 

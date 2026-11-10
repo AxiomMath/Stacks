@@ -178,7 +178,7 @@ theorem representedAffine_map_smul_tensor (r : Γ((BigFppfOver.toScheme B S hS).
       representedAffineUnitTensorNatTrans B S hS U ≫ representedAffineAssociatedSmul B S hS U r from
     congrArg (fun φ => φ.app N) h
   refine Stacks.EilenbergWatts.natTrans_ext_of_app_unit ?_
-  show ((representedAffineTensor B S hS U).map ((representedAffineAssociated B S hS U).map
+  change ((representedAffineTensor B S hS U).map ((representedAffineAssociated B S hS U).map
         (r • 𝟙 _))).app _ ≫ (representedAffineUnitTensorIso B S hS U _).hom =
     (representedAffineUnitTensorIso B S hS U _).hom ≫
       (representedAffineAssociated B S hS U).map (r • 𝟙 _)
@@ -325,7 +325,7 @@ theorem representedAffineTensorSectionsNatTrans_app_unit :
         Γ((BigFppfOver.toScheme B S hS).obj U, ⊤)) := by
     ext
     simp [mul_comm]
-  show (representedAffineTensorSectionsMap B S hS U N _).hom (a ⊗ₜ n) = _
+  change (representedAffineTensorSectionsMap B S hS U N _).hom (a ⊗ₜ n) = _
   rw [representedAffineTensorSectionsMap_tmul, ModuleCat.hom_comp, LinearMap.comp_apply,
     ModuleCat.MonoidalCategory.leftUnitor_hom_apply, h, representedAffineTensorSections_map_smul,
     map_smul]

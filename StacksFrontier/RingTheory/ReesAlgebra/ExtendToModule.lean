@@ -145,13 +145,12 @@ private lemma idealPowerMapRaw_range {A R : Type*} [CommRing A] [CommRing R]
       Ideal.map (algebraMap A R) (I ^ c) := by
   apply le_antisymm
   · rintro _ ⟨x, rfl⟩
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simpa using Ideal.add_mem _ hx hy
     | tmul r x =>
         rw [idealPowerMapRaw_tmul I c r x]
         exact Ideal.mul_mem_left _ r (Ideal.mem_map_of_mem (algebraMap A R) x.property)
-  · show Ideal.map (algebraMap A R) (I ^ c) ≤ _
+  · change Ideal.map (algebraMap A R) (I ^ c) ≤ _
     apply Ideal.map_le_iff_le_comap.mpr
     intro x hx
     refine ⟨1 ⊗ₜ[A] ⟨x, hx⟩, ?_⟩
@@ -162,8 +161,7 @@ private lemma idealPowerMapRaw_smul_eq {A R : Type*} [CommRing A] [CommRing R]
     (z : R ⊗[A] (I ^ c : Ideal A)) :
     algebraMap A R (a ^ c) • z =
       (idealPowerMapRaw (A := A) (R := R) I c z) • (1 ⊗ₜ[A] ⟨a ^ c, ha⟩) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => rw [smul_add, hx, hy, map_add, add_smul]
   | tmul r x =>
       rw [idealPowerMapRaw_tmul]
@@ -244,8 +242,7 @@ private lemma tensorPowerRestrict_raw_comp {A R : Type*} [CommRing A] [CommRing 
       idealPowerMapRaw (A := A) (R := R) I (c + k) := by
   apply LinearMap.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => rw [map_add, map_add, hx, hy]
   | tmul r x =>
       simp [tensorPowerRestrict, idealPowerMapRaw_tmul]
@@ -256,8 +253,7 @@ private lemma tensorPowerRestrict_range_le_smul {A R : Type*} [CommRing A]
       (I.map (algebraMap A R) ^ k) •
         (⊤ : Submodule R (R ⊗[A] (I ^ c : Ideal A))) := by
   rintro _ ⟨x, rfl⟩
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => simpa using Submodule.add_mem _ hx hy
   | tmul r x =>
       simp only [tensorPowerRestrict, LinearMap.baseChange_tmul]
@@ -376,8 +372,7 @@ private lemma baseChangeToRing_sum_eq {A R : Type*} [CommRing A] [CommRing R]
     (z : R ⊗[A] (I ^ c : Ideal A)) :
     (∑ j, algebraMap A R (f j) * baseChangeToRing (R := R) (φ j) z) =
       idealPowerMapRaw (A := A) (R := R) I c z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add z w hz hw =>
       simp only [LinearMap.map_add, mul_add, Finset.sum_add_distrib, hz, hw,
         (idealPowerMapRaw (A := A) (R := R) I c).map_add]
@@ -451,7 +446,7 @@ private lemma exists_baseChanged_splitting {A R : Type*} [CommRing A]
         by
           rw [← Ideal.map_pow, ← idealPowerMapRaw_range]
           exact ⟨z, rfl⟩⟩ := Subtype.ext hraw.symm
-    show (descendBaseChangeLinearMapIdeal I c k (φ j) hkill) y = _
+    change (descendBaseChangeLinearMapIdeal I c k (φ j) hkill) y = _
     rw [hy, descendBaseChangeLinearMapIdeal_apply I c k (φ j) hkill z]
     have htensor : tensorPowerRestrict (A := A) (R := R) I c k z =
         1 ⊗ₜ[A] (⟨(g : A), Ideal.pow_le_pow_right (Nat.le_add_right c k) g.property⟩ :
@@ -564,7 +559,7 @@ private lemma reesModulePiece_linearMap_ext {A B N M : Type*} [CommRing A] [Comm
   let spanSet : Set B := (algebraMap A B) '' (K : Set A)
   let pieceVal (b : B) (hb : b ∈ Submodule.span B spanSet) (z : N) :=
     (⟨b • z, by
-      show b • z ∈ J ^ (n * c) • (⊤ : Submodule B N)
+      change b • z ∈ J ^ (n * c) • (⊤ : Submodule B N)
       exact Submodule.smul_mem_smul (by rwa [← hmapPow]) Submodule.mem_top⟩ :
         reesModulePiece (B := B) (N := N) I c n)
   have hspan : ∀ (b : B) (hb : b ∈ Submodule.span B spanSet) (z : N),
@@ -666,7 +661,7 @@ private lemma sum_polynomialSnd_smul_eq_snd_eval {B N : Type*} [CommRing B] [Add
     simp only [TrivSqZeroExt.fst_inl, TrivSqZeroExt.snd_inl, smul_zero, zero_add]
     rw [IsCentralScalar.op_smul_eq_smul, ← hcoeff m]
   rw [MvPolynomial.eval_eq']
-  show _ = TrivSqZeroExt.sndHom B N
+  change _ = TrivSqZeroExt.sndHom B N
     (∑ m ∈ v.support, v.coeff m * ∏ j, (algebraMap B (TrivSqZeroExt B N) (fB j)) ^ m j)
   rw [map_sum, Finset.sum_subset hsupport]
   · exact Finset.sum_congr rfl fun m _ => (hterm m).symm
@@ -678,8 +673,8 @@ private lemma sum_polynomialSnd_smul_eq_snd_eval {B N : Type*} [CommRing B] [Add
 section TrivSqZeroExt
 
 variable {A B N : Type*} [CommRing A] [CommRing B] [Algebra A B] [AddCommGroup N] [Module B N]
-  [Module Bᵐᵒᵖ N] [IsCentralScalar B N] [SMulCommClass B Bᵐᵒᵖ N]
-  [Algebra A (TrivSqZeroExt B N)] [IsScalarTower A B (TrivSqZeroExt B N)]
+  [Module Bᵐᵒᵖ N] [IsCentralScalar B N] [Algebra A (TrivSqZeroExt B N)]
+  [IsScalarTower A B (TrivSqZeroExt B N)]
 
 local notation "𝓡" => TrivSqZeroExt B N
 
@@ -723,7 +718,7 @@ private def reesFromPiece (I : Ideal A) (c n : ℕ) :
 private lemma reesFromPiece_val (I : Ideal A) (c n : ℕ)
     (y : reesModulePiece (B := B) (N := N) I c n) :
     (reesFromPiece I c n y : Polynomial 𝓡) = Polynomial.monomial n (TrivSqZeroExt.inr (y : N)) :=
-  rfl
+  Eq.refl (reesFromPiece I c n y : Polynomial 𝓡)
 
 private def moduleExtension (I : Ideal A) {r : ℕ} (c : ℕ)
     (ψ : Fin r → (I.map (algebraMap A 𝓡) ^ c : Ideal 𝓡) →ₗ[𝓡] 𝓡) (n : ℕ) :
@@ -739,7 +734,7 @@ private lemma moduleExtension_apply_of_ne (I : Ideal A) {r : ℕ} (c : ℕ)
   have hhom := extendLinearMaps_homogeneous _ ψ n (reesFromPiece I c n y) fun k hkn => by
     rw [reesFromPiece_val]
     simp [Polynomial.coeff_monomial, Ne.symm hkn]
-  show TrivSqZeroExt.snd ((extendLinearMaps _ ψ (reesFromPiece I c n y)).coeff m) = 0
+  change TrivSqZeroExt.snd ((extendLinearMaps _ ψ (reesFromPiece I c n y)).coeff m) = 0
   rw [hhom.coeff_eq_zero (show Finsupp.degree m ≠ n from hmn)]
   rfl
 
@@ -765,13 +760,13 @@ private lemma moduleExtension_smul_apply (I : Ideal A) {r : ℕ} (c : ℕ)
       mapReesAlgebra (I ^ c) _ (map_pow_pow_le I c) p *
         algebraMap 𝓡 (reesAlgebra (I.map (algebraMap A 𝓡) ^ c)) (TrivSqZeroExt.inr x) := by
     apply Subtype.ext
-    show Polynomial.monomial n
+    change Polynomial.monomial n
         (TrivSqZeroExt.inr (algebraMap A B ((p : Polynomial A).coeff n) • x)) =
       Polynomial.map (algebraMap A 𝓡) (p : Polynomial A) * Polynomial.C (TrivSqZeroExt.inr x)
     rw [hpEq]
     simp [Algebra.smul_def, TrivSqZeroExt.inr_smul, IsScalarTower.algebraMap_apply A B 𝓡,
       mul_comm]
-  show TrivSqZeroExt.snd ((extendLinearMaps _ ψ (reesFromPiece I c n ⟨_, hx⟩)).coeff m) = _
+  change TrivSqZeroExt.snd ((extendLinearMaps _ ψ (reesFromPiece I c n ⟨_, hx⟩)).coeff m) = _
   rw [hsource, map_mul, AlgHom.commutes, extendLinearMaps_mapReesAlgebra I c φ ψ hψ p,
     show algebraMap 𝓡 (MvPolynomial (Fin r) 𝓡) (TrivSqZeroExt.inr x) =
       MvPolynomial.C (TrivSqZeroExt.inr x) by simp,
@@ -867,7 +862,7 @@ public theorem exists_unique_extendLinearMaps_module
   let : Algebra A R := Algebra.compHom R (algebraMap A B)
   have : IsScalarTower A B R := IsScalarTower.of_algebraMap_eq fun _ => rfl
   have : Module.Finite B R := by
-    show Module.Finite B (B × N)
+    change Module.Finite B (B × N)
     infer_instance
   have : IsNoetherianRing R := IsNoetherianRing.of_finite B R
   have hIfg : I.FG := Submodule.fg_def.2 ⟨Set.range f, Set.finite_range f, by simp [hf]⟩

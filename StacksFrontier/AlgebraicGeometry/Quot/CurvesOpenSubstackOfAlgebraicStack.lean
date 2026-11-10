@@ -157,7 +157,7 @@ theorem isOpenSubspace_curvesBaseChangeSubfunctor (hP : IsOpenCurvesLocus B hZ P
   let top : BigFppfOver B V.left.1 V.left.2 := Over.mk (𝟙 V.left)
   let z' := z ⋙ F.toFunctor
   have hz' : z' ⋙ (curvesFiberedCategory B hZ).val.p = Over.map V.hom := by
-    show z ⋙ (F.toFunctor ⋙ (curvesFiberedCategory B hZ).val.p) = _
+    change z ⋙ (F.toFunctor ⋙ (curvesFiberedCategory B hZ).val.p) = _
     rw [F.w]
     exact hz
   obtain ⟨U, hUo, hU⟩ := hP.exists_isOpen_range_subset (z'.obj top)
@@ -181,12 +181,12 @@ theorem isOpenSubspace_curvesBaseChangeSubfunctor (hP : IsOpenCurvesLocus B hZ P
     rw [Space.mem_openSubspaceOfPoints_iff, CategoryTheory.yonedaEquiv_symm_eq_yoneda_map,
       Space.range_pointsMap_yoneda_subset_iff,
       Set.image_preimage_eq _ (Space.surjective_pointsToScheme B V.left.1 V.left.2 top)]
-    show P (z'.obj T.unop) ↔ _
+    change P (z'.obj T.unop) ↔ _
     rw [hU (z'.map x)]
     have hlift : (curvesFiberedCategory B hZ).val.p.IsHomLift ((Over.map V.hom).map x)
         (z'.map x) :=
       Functor.isHomLift_map_of_comp_eq hz' ((Over.map V.hom).map x) x
-    show Set.range ((BigFppfOver.toScheme B integerBase hZ).map
+    change Set.range ((BigFppfOver.toScheme B integerBase hZ).map
       ((curvesFiberedCategory B hZ).val.p.map (z'.map x))) ⊆ U ↔ _
     rw [IsHomLift.fac' (curvesFiberedCategory B hZ).val.p ((Over.map V.hom).map x) (z'.map x),
       Functor.map_comp, Functor.map_comp]

@@ -268,7 +268,7 @@ theorem restrictSection_smul (n : ℕ) (a : A) (t : Γ(natTensorPow E.zeroSheaf 
       φ a • E.restrictSection (Spec.map (CommRingCat.ofHom φ)) n t := by
   have key := congrArg (fun f => f.hom a) (appTop_fst_baseRingHom E φ)
   simp only [CommRingCat.hom_comp, RingHom.comp_apply, CommRingCat.hom_ofHom] at key
-  show transportSection _ (E.zeroSheafPullbackIso (Spec.map (CommRingCat.ofHom φ))) n
+  change transportSection _ (E.zeroSheafPullbackIso (Spec.map (CommRingCat.ofHom φ))) n
       ((Stacks.Cech.baseRingHom E.map ⊤).hom a • t) =
     (Stacks.Cech.baseRingHom (E.pullback (Spec.map (CommRingCat.ofHom φ))).map ⊤).hom (φ a) •
       transportSection _ (E.zeroSheafPullbackIso (Spec.map (CommRingCat.ofHom φ))) n t

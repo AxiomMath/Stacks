@@ -220,7 +220,7 @@ private theorem mem_pGoodSet_of_universalHomeomorphism
     · rw [hℓp] at hbℓ
       obtain ⟨j, rfl⟩ := Nat.exists_eq_succ_of_ne_zero (pos_of_not_mem_pGoodSet φ p hqb hbC).ne'
       refine hbC (mem_pGoodSet_of_pow_mem_pGoodSet φ p hqb ?_)
-      show b ^ p ^ (j + 1) ∈ C
+      change b ^ p ^ (j + 1) ∈ C
       rw [pow_succ', pow_mul]
       exact C.pow_mem hbℓ _
     · exact hbC (subring_mem_of_coprime_multiples C (primePower_coprime (k := k) hp hℓ hℓp) hℓb
@@ -304,7 +304,7 @@ private theorem universalHomeomorphism_of_locallyNilpotentKer_and_pow_mem_range
     rw [← ha]
     exact φ.isIntegralElem_map
   have hint : IsIntegralHom (Scheme.Spec.map (CommRingCat.ofHom φ).op) := by
-    show IsIntegralHom (Spec.map (CommRingCat.ofHom φ))
+    change IsIntegralHom (Spec.map (CommRingCat.ofHom φ))
     exact IsIntegralHom.SpecMap_iff.mpr hφInt
   let f : Spec (.of B) ⟶ Spec (.of A) :=
     Scheme.Spec.map (CommRingCat.ofHom φ).op

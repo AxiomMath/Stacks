@@ -82,7 +82,7 @@ noncomputable def starCompOverPostIso [HasBinaryProducts C] [HasBinaryProducts D
     (fun X => Over.isoMk (PreservesLimitPair.iso u V X) (by
       have h : ((Over.post u).obj ((Over.star V).obj X)).hom
           = u.map ((Over.star V).obj X).hom := rfl
-      simp [h, Over.star_obj_hom, PreservesLimitPair.iso_hom, prodComparison_fst]))
+      simp [Over.star_obj_hom, PreservesLimitPair.iso_hom, prodComparison_fst]))
     (fun {X Y} f => by
       ext
       dsimp

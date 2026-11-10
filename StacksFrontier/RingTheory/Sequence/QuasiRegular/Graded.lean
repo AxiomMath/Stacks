@@ -136,7 +136,7 @@ lemma pow_le_span_monSet {c : ℕ} (f : Fin c → R) (n : ℕ) :
           obtain ⟨e, he, rfl⟩ := ha
           obtain ⟨i, rfl⟩ := hb
           refine ⟨e + Finsupp.single i (1:ℕ), by rw [qrMdeg_addSingle, he], ?_⟩
-          show fpow f e * f i = _
+          change fpow f e * f i = _
           exact (mul_comm (fpow f e) (f i)).trans (fpow_add_single f e i).symm
 
 /-- **Definition 1: the canonical map `ψ`.**
@@ -235,7 +235,7 @@ theorem psi_surjective {c : ℕ} (f : Fin c → R) : Function.Surjective (psi (M
       have hsc : (⟨(b • x) • m, h⟩ : ↥((J^n) • (⊤ : Submodule R M)))
           = b • ⟨x • m, hsmem n x hx m⟩ := by
         ext
-        show (b • x) • m = b • (x • m)
+        change (b • x) • m = b • (x • m)
         rw [smul_eq_mul, mul_smul]
       rw [hsc, Submodule.Quotient.mk_smul, map_smul]
       exact Submodule.smul_mem _ b (phx _)
@@ -470,7 +470,7 @@ lemma gpiece_equiv_mk {c : ℕ} (f : Fin c → R) (n : ℕ)
   let := mbarModule (M := M) f
   intro hqx
   rw [gpiece_equiv]
-  show gpiece_relabel _ _ _ _ (gpiece_map_pow_smul (M := M) f n)
+  change gpiece_relabel _ _ _ _ (gpiece_map_pow_smul (M := M) f n)
       (gpiece_map_pow_smul (M := M) f (n+1))
       (gpiece_coreEquiv (IMsub (M := M) f).mkQ
         ((Ideal.span (Set.range f))^n • (⊤ : Submodule R M))
@@ -554,7 +554,7 @@ lemma source0_equiv_mk {c : ℕ} (f : Fin c → R) (m : M) :
   have heceq := map_topEquiv_submoduleOf_top (R := R) (X := Mbar (M := M) f)
     (((Ideal.span (Set.range (fbar f)))
       • (⊤ : Submodule (Rbar f) (Mbar (M := M) f))).restrictScalars R)
-  show (Submodule.Quotient.equiv _ _ Submodule.topEquiv heceq)
+  change (Submodule.Quotient.equiv _ _ Submodule.topEquiv heceq)
       ((gpiece_relabel _ _ _ _ hmapT hmap1)
         ((gpiece_coreEquiv (IMsub (M := M) f).mkQ (⊤ : Submodule R M)
           ((Ideal.span (Set.range f)) • (⊤ : Submodule R M)) hkerP)
@@ -677,7 +677,7 @@ lemma psi_compat_single {c : ℕ} (f : Fin c → R) (e : Fin c →₀ ℕ)
   congr 1
   apply congrArg (Submodule.Quotient.mk (p := _))
   apply Subtype.ext
-  show (IMsub (M := M) f).mkQ (fpow f e • m)
+  change (IMsub (M := M) f).mkQ (fpow f e • m)
       = fpow (fbar f) e • (IMsub (M := M) f).mkQ m
   rw [map_smul, ← mprod_fbar, mkQ_smul_eq]
 
@@ -714,7 +714,7 @@ theorem isMQuasiregular_iff_isMQuasiregular_quotient {c : ℕ} (f : Fin c → R)
   have hsq : ⇑(tgt_equiv (M := M) f) ∘ psi (M := M) f =
       psi (M := Mbar (M := M) f) (fbar f) ∘ src_equiv (M := M) f :=
     funext (psi_compat (M := M) f)
-  show Function.Bijective (psi (M := M) f) ↔
+  change Function.Bijective (psi (M := M) f) ↔
     Function.Bijective (psi (M := Mbar (M := M) f) (fbar f))
   rw [← EquivLike.comp_bijective (psi (M := M) f) (tgt_equiv (M := M) f), hsq,
     EquivLike.bijective_comp]

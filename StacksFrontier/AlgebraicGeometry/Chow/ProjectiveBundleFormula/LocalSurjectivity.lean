@@ -204,7 +204,7 @@ theorem bundleMap_surjective_of_pieces {I : Type u} (V : I → X.Opens)
   refine ⟨b + fun j ↦ properChowPushforward C (Y.subschemeι ≫ sX) sX Y.subschemeι rfl _
     (properPushforwardFactorsThroughRationalEquivalence_of_isProper C _ sX _ rfl _) (βY j), ?_⟩
   rw [map_add, ← properChowPushforward_bundleMap_comap C sX sP π hsP n hπ Y L k βY]
-  show _ + chowPushforwardOfIsClosedImmersion C _ sP _ rfl (k + n) _ = γ
+  change _ + chowPushforwardOfIsClosedImmersion C _ sP _ rfl (k + n) _ = γ
   rw [hε, hδdef]
   abel
 

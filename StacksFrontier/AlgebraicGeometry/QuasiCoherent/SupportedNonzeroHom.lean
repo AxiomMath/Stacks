@@ -118,12 +118,12 @@ private theorem exists_nonzero_linearMap_to_quotient
     intro hprev'
     have hmin := Nat.find_min' hpow hprev'
     omega
-  obtain ⟨a, haF, haI⟩ := SetLike.not_le_iff_exists.mp hprev
+  obtain ⟨a, haF, haI⟩ := IsConcreteLE.not_le_iff_exists.mp hprev
   have hqa : q a ∈ (Ideal.map q F).annihilator := by
     rw [Submodule.mem_annihilator]
     intro y hy
     obtain ⟨b, hb, rfl⟩ := (Ideal.mem_map_iff_of_surjective q q.surjective).mp hy
-    show q a * q b = 0
+    change q a * q b = 0
     rw [← map_mul]
     apply (Ideal.Quotient.eq_zero_iff_mem).2
     have hab : a * b ∈ F ^ k := by
@@ -143,7 +143,7 @@ private theorem exists_nonzero_linearMap_to_quotient
       _ = minorIdeal B n := by rw [hr]
       _ = Ideal.map q F := by
         rw [minorIdeal_transpose_eq]
-        show minorIdeal (A.map q) n = Ideal.map q (fittingIdeal (R := R) (M := M) 0)
+        change minorIdeal (A.map q) n = Ideal.map q (fittingIdeal (R := R) (M := M) 0)
         rw [hfit]
         exact (minorIdeal_map q A n).symm
   have hnotinj : ¬ Function.Injective B.mulVecLin := by
@@ -166,7 +166,7 @@ private theorem exists_nonzero_linearMap_to_quotient
     map_smul' := by
       intro r z
       ext i
-      show q (r * z i) = algebraMap R S r * q (z i)
+      change q (r * z i) = algebraMap R S r * q (z i)
       rw [map_mul]
       rfl }
   let ell : Module.Dual S (Fin n → S) := dotProductEquiv S (Fin n) v
@@ -175,7 +175,7 @@ private theorem exists_nonzero_linearMap_to_quotient
     intro z
     ext i
     rw [hg]
-    show q (∑ j : Fin m, A i j * z j) = ∑ j : Fin m, q (A i j) * q (z j)
+    change q (∑ j : Fin m, A i j * z j) = ∑ j : Fin m, q (A i j) * q (z j)
     rw [map_sum]
     apply Finset.sum_congr rfl
     intro j hj
@@ -183,9 +183,9 @@ private theorem exists_nonzero_linearMap_to_quotient
   have hcomp : h₀.comp g = 0 := by
     apply LinearMap.ext
     intro z
-    show ell (qPi (Fin n) (g z)) = 0
+    change ell (qPi (Fin n) (g z)) = 0
     rw [hqg z]
-    show dotProduct v ((A.map q).mulVec (qPi (Fin m) z)) = 0
+    change dotProduct v ((A.map q).mulVec (qPi (Fin m) z)) = 0
     rw [Matrix.dotProduct_mulVec, ← Matrix.mulVec_transpose (A.map q) v]
     have hv0 : B.mulVec v = 0 := by simpa [Matrix.mulVecLin_apply] using hvker
     exact (by simpa using congrArg (fun t => dotProduct t (qPi (Fin m) z)) hv0)
@@ -210,7 +210,7 @@ private theorem exists_nonzero_linearMap_to_quotient
         ext i
         exact hz i
       rw [← hz]
-      show h₀ z = 0
+      change h₀ z = 0
       exact congrArg (fun φ : (Fin n → R) →ₗ[R] S => φ z) hz'
     have hvzero : v = 0 := by
       apply (dotProductEquiv S (Fin n)).injective
@@ -309,7 +309,7 @@ private theorem stalk_support_pushforward_iff {X Y : Scheme.{u}} (f : X ⟶ Y)
       (∃ a : ((Scheme.Modules.pushforward f).obj M).presheaf.stalk (f x), a ≠ 0) := by
   let i : (X : TopCat) ⟶ (Y : TopCat) := f.toLRSHom.base
   have hi : Topology.IsInducing (ConcreteCategory.hom i) := by
-    show Topology.IsInducing ⇑(f.toLRSHom.base)
+    change Topology.IsInducing ⇑(f.toLRSHom.base)
     convert f.homeomorph.isInducing using 1
     funext z
     rfl
@@ -317,7 +317,7 @@ private theorem stalk_support_pushforward_iff {X Y : Scheme.{u}} (f : X ⟶ Y)
     TopCat.Presheaf.stalkPushforward.stalkPushforward_iso_of_isInducing Ab hi M.presheaf x
   let e : M.presheaf.stalk x ≃+
       ((Scheme.Modules.pushforward f).obj M).presheaf.stalk (f x) := by
-    show M.presheaf.stalk x ≃+
+    change M.presheaf.stalk x ≃+
       ((TopCat.Presheaf.pushforward Ab i).obj M.presheaf).stalk (i x)
     exact addEquivOfIso (asIso (TopCat.Presheaf.stalkPushforward Ab i M.presheaf x)).symm
   exact exists_ne_zero_iff_of_addEquiv e
@@ -439,7 +439,7 @@ theorem exists_nonzero_hom_of_supp_subset
       exact (cancel_mono iE.hom).1 (by simpa [zero_comp] using hc')
     have hm' : (AlgebraicGeometry.tilde.functor (R := Γ(X, ⊤))).map
         (ModuleCat.ofHom φ') = 0 := by
-      show AlgebraicGeometry.tilde.map (ModuleCat.ofHom φ') = 0
+      change AlgebraicGeometry.tilde.map (ModuleCat.ofHom φ') = 0
       exact hm
     have hlin : ModuleCat.ofHom φ' = 0 :=
       (AlgebraicGeometry.tilde.functor (R := Γ(X, ⊤))).map_injective <| by

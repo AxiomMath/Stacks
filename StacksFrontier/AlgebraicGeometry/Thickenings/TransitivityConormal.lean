@@ -131,7 +131,7 @@ theorem epi_transitivityConormalRightMap :
   have h := epi_immersionConormalSheafMap (relativeInclusion i p tZ tY) tZ.inclusion (𝟙 Z)
     (pullback.snd tY.inclusion (transitivityMap i p tZ tY))
     (isPullback_relativeInclusion_inclusion i p tZ tY)
-  show Epi (((modulePullbackId Z.toLocallyRingedSpace.toRingedSpace).app
+  change Epi (((modulePullbackId Z.toLocallyRingedSpace.toRingedSpace).app
       (conormalSheaf tZ.inclusion.liftCoborder.toLRSHom.toShHom)).inv ≫
     immersionConormalSheafMap (relativeInclusion i p tZ tY) tZ.inclusion (𝟙 Z)
       (pullback.snd tY.inclusion (transitivityMap i p tZ tY))
@@ -434,7 +434,7 @@ private theorem coborderRange_eq_top {Z₀ X₀ : Scheme.{u}} (f : Z₀ ⟶ X₀
     [IsClosedImmersion f] : f.coborderRange = ⊤ := by
   ext x
   refine ⟨fun _ => trivial, fun _ => ?_⟩
-  show x ∈ coborder (Set.range f.base)
+  change x ∈ coborder (Set.range f.base)
   rw [IsClosed.coborder_eq f.isClosedEmbedding.isClosed_range]
   trivial
 
@@ -570,7 +570,7 @@ private theorem transitivityConormalLeftMap_eq :
           (pullback.snd tY.inclusion (transitivityMap i p tZ tY))
           (relativeInclusion i p tZ tY) (𝟙 tZ.ambient)
           (toShHom_square (transitivityConormalSquareA i p tZ tY)) := by
-  show immersionConormalSheafMap tZ.inclusion tY.inclusion i (transitivityMap i p tZ tY)
+  change immersionConormalSheafMap tZ.inclusion tY.inclusion i (transitivityMap i p tZ tY)
       (toShHom_square (inclusion_comp_transitivityMap i p tZ tY).symm) = _
   rw [immersionConormalSheafMap_congr_left tZ.inclusion tY.inclusion
       (relativeInclusion_comp_fst i p tZ tY).symm (transitivityMap i p tZ tY)

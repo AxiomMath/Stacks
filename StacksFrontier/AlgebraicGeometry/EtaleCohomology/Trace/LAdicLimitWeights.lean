@@ -47,7 +47,7 @@ public theorem exact_extendScalars_padic {M N P : ModuleCat.{v} ℤ_[ℓ]} {f : 
     Function.Exact ((ModuleCat.extendScalars.{0, 0, v} (algebraMap ℤ_[ℓ] ℚ_[ℓ])).map f)
       ((ModuleCat.extendScalars.{0, 0, v} (algebraMap ℤ_[ℓ] ℚ_[ℓ])).map g) := by
   have : Module.Flat ℤ_[ℓ] ℚ_[ℓ] := IsLocalization.flat ℚ_[ℓ] (nonZeroDivisors ℤ_[ℓ])
-  show Function.Exact (LinearMap.lTensor ℚ_[ℓ] f.hom) (LinearMap.lTensor ℚ_[ℓ] g.hom)
+  change Function.Exact (LinearMap.lTensor ℚ_[ℓ] f.hom) (LinearMap.lTensor ℚ_[ℓ] g.hom)
   exact Module.Flat.lTensor_exact ℚ_[ℓ] h
 
 variable [HasLimitsOfShape ℕᵒᵖ (ModuleCat.{v} ℤ_[ℓ])] {A B C : ℕᵒᵖ ⥤ ModuleCat.{v} ℤ_[ℓ]}

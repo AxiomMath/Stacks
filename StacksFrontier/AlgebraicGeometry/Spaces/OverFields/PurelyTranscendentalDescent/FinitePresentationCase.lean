@@ -290,9 +290,9 @@ theorem exists_finitePresentation_model_of_isRepresentable_baseChange
       ((IsTerminal.isTerminalObj yoneda _ Over.mkIdTerminal).from (D.obj i)))
     (haff : ∀ {i j : Iᵒᵖ} (g : i ⟶ j),
       AlgebraicGeometry.Space.IsAffineHom B (Spec (.of k)) hk (D.map g)) :
-    ∃ (G : (AlgebraicGeometry.BigFppfOver B (Spec (.of k)) hk)ᵒᵖ ⥤ Type u)
-      (hG : AlgebraicGeometry.IsAlgebraicSpace B (Spec (.of k)) hk G)
-      (f : G ⟶ yoneda.obj (Over.mk (𝟙 (B.obj hk)))) (g : F ⟶ G),
+    ∃ (G : (AlgebraicGeometry.BigFppfOver B (Spec (.of k)) hk)ᵒᵖ ⥤ Type u),
+      AlgebraicGeometry.IsAlgebraicSpace B (Spec (.of k)) hk G ∧
+      ∃ (f : G ⟶ yoneda.obj (Over.mk (𝟙 (B.obj hk)))) (g : F ⟶ G),
       AlgebraicGeometry.Space.IsFinitePresentation B (Spec (.of k)) hk f ∧
       AlgebraicGeometry.Space.IsAffineHom B (Spec (.of k)) hk g ∧
       ((OverShriek.relocalizeRestrict T.hom).obj G).IsRepresentable := by
@@ -492,8 +492,7 @@ private theorem isFiniteLocallyFree_field_baseChange_projection
     (k L : Type u) [Field k] [Field L] [Algebra k L] [FiniteDimensional k L]
     (B : AlgebraicGeometry.BigFppfSite.{u}) (hk : B.Contains (Spec (.of k)))
     (hL : B.Contains (Spec (.of L)))
-    (F : (AlgebraicGeometry.BigFppfOver B (Spec (.of k)) hk)ᵒᵖ ⥤ Type u)
-    (hF : AlgebraicGeometry.IsAlgebraicSpace B (Spec (.of k)) hk F) :
+    (F : (AlgebraicGeometry.BigFppfOver B (Spec (.of k)) hk)ᵒᵖ ⥤ Type u) :
     let T : AlgebraicGeometry.BigFppfOver B (Spec (.of k)) hk :=
       Over.mk (ObjectProperty.homMk (Spec.map (CommRingCat.ofHom (algebraMap k L))) :
         B.obj hL ⟶ B.obj hk)
@@ -699,7 +698,7 @@ theorem isRepresentable_of_fg_baseChange_of_finitePresentation
   let X' : AlgebraicGeometry.AlgebraicSpaces B (Spec (.of k)) hk := ⟨H, hH⟩
   let π : X' ⟶ X := ObjectProperty.homMk prod.fst
   obtain ⟨hsp, hs⟩ := isSurjective_field_baseChange_projection k L B hk hL F hF
-  have hfl := isFiniteLocallyFree_field_baseChange_projection k L B hk hL F hF
+  have hfl := isFiniteLocallyFree_field_baseChange_projection k L B hk hL F
   apply (Space.mem_range_pointsMap_schematicLocus_iff_exists_isAffine_isOpenImmersion
     B (Spec (.of k)) hk π hsp hfl x).mpr
   obtain ⟨y, hy⟩ := hs x

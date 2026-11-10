@@ -89,10 +89,10 @@ variable (B S hS p hp) in
 property `Deformation.Artin.IsSquareZeroTowerEffectiveOnClasses`, asked for towers
 `⋯ → R₁ → R₀` with `Spec R₀ → S` locally of finite type. -/
 def IsSquareZeroTowerEffectiveOnClassesOfFiniteType : Prop :=
-  ∀ (R : ℕ → Type u) [∀ n, CommRing (R n)] (f : ∀ n, R (n + 1) →+* R n)
-    (hf : ∀ n, Function.Surjective (f n))
-    (hsq : ∀ n, RingHom.ker (SquareZeroTower.toBase f n) ^ 2 = ⊥)
-    (toS : Spec (.of (R 0)) ⟶ S) (hA : B.Contains (Spec (.of (R 0))))
+  ∀ (R : ℕ → Type u) [∀ n, CommRing (R n)] (f : ∀ n, R (n + 1) →+* R n),
+    (∀ n, Function.Surjective (f n)) →
+    (∀ n, RingHom.ker (SquareZeroTower.toBase f n) ^ 2 = ⊥) →
+    ∀ (toS : Spec (.of (R 0)) ⟶ S) (hA : B.Contains (Spec (.of (R 0))))
     (Λ : AugmentedSiteRing (R 0) B S hS toS hA) (β : ∀ n, Λ.ring →+* R n)
     (hβ : ∀ n, (f n).comp (β (n + 1)) = β n) (hβ0 : β 0 = Λ.aug)
     (hR : ∀ n, B.Contains (Spec (.of (R n)))),
@@ -156,7 +156,7 @@ theorem proj_surjective (n : ℕ) : Function.Surjective (proj f n) := by
   refine ⟨⟨r, fun m => ?_⟩, ?_⟩
   · rw [hr m, ← hr 0]
     rfl
-  · show r n = a
+  · change r n = a
     simp only [r, Function.update_self]
 
 variable {f hf hsq Λ β hβ hβ0 hR}
@@ -262,7 +262,7 @@ theorem exists_cocone_of_isSquareZeroTowerEffectiveOnClassesOfFiniteType
   let β : ∀ m, Γ(W, ⊤) →+* R m := fun m => (τ m).appTop.hom
   have hspec : ∀ m, Spec.map (CommRingCat.ofHom (β m)) ≫ (W : Scheme.{u}).isoSpec.inv ≫ W.ι =
       (VS.obj (Y m)).isoSpec.inv ≫ B.inclusion.map (Y m).hom := fun m => by
-    show Spec.map (τ m).appTop ≫ _ = _
+    change Spec.map (τ m).appTop ≫ _ = _
     rw [Scheme.isoSpec_inv_naturality_assoc, hτ]
   let Λ : AugmentedSiteRing (R 0) B S hS toS (hR 0) :=
     { ring := Γ(W, ⊤)
@@ -273,7 +273,7 @@ theorem exists_cocone_of_isSquareZeroTowerEffectiveOnClassesOfFiniteType
         (ObjectProperty.hom_ext _ (hspec 0))
       arrow_eq := rfl }
   have hβ : ∀ m, (fm m).comp (β (m + 1)) = β m := fun m => by
-    show ((VS.map (p.map (a m))).appTop.hom).comp ((τ (m + 1)).appTop.hom) = (τ m).appTop.hom
+    change ((VS.map (p.map (a m))).appTop.hom).comp ((τ (m + 1)).appTop.hom) = (τ m).appTop.hom
     rw [← CommRingCat.hom_comp, ← Scheme.Hom.comp_appTop, hτa]
   have hU : MapsIntoAffineOpen S toS := by
     refine ⟨W, hWaff, fun t => ?_⟩
@@ -300,7 +300,7 @@ theorem exists_cocone_of_isSquareZeroTowerEffectiveOnClassesOfFiniteType
   have harrow : ∀ m, isoA ≫ p.map (c m) = (L m).arrow ≫ isoL m := fun m => by
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
-    show (VS.obj (Y 0)).isoSpec.inv ≫ VS.map (p.map (c m)) =
+    change (VS.obj (Y 0)).isoSpec.inv ≫ VS.map (p.map (c m)) =
       Spec.map (CommRingCat.ofHom (SquareZeroTower.toBase fm m)) ≫ (VS.obj (Y m)).isoSpec.inv
     rw [htoBase, CommRingCat.ofHom_hom, Scheme.isoSpec_inv_naturality]
   -- an isomorphism of the base lifts to an isomorphism of `X`
@@ -331,7 +331,7 @@ theorem exists_cocone_of_isSquareZeroTowerEffectiveOnClassesOfFiniteType
     have hstep : isoL m ≫ p.map (a m) = T.right ≫ isoL (m + 1) := by
       apply Over.OverMorphism.ext
       apply ObjectProperty.hom_ext
-      show (VS.obj (Y m)).isoSpec.inv ≫ VS.map (p.map (a m)) =
+      change (VS.obj (Y m)).isoSpec.inv ≫ VS.map (p.map (a m)) =
         Spec.map (CommRingCat.ofHom (fm m)) ≫ (VS.obj (Y (m + 1))).isoSpec.inv
       rw [CommRingCat.ofHom_hom, Scheme.isoSpec_inv_naturality]
     have hθ : p.IsHomLift T.right θ := by
@@ -342,7 +342,7 @@ theorem exists_cocone_of_isSquareZeroTowerEffectiveOnClassesOfFiniteType
       simp only [IsIso.hom_inv_id_assoc]
     have hcart := hp.isStronglyCartesian_homLift T.right θ
     refine AugmentedSiteRing.map_eq_of_lift p x' hx' hp T (D (m + 1)) (D m) θ hcart ?_
-    show d m ≫ θ = d (m + 1)
+    change d m ≫ θ = d (m + 1)
     simp only [d, θ, Category.assoc, IsIso.inv_hom_id_assoc, hc]
   obtain ⟨ξc, hξc⟩ := hE R fm hf hsq toS (hR 0) Λ β hβ rfl hR hU htoS x' hx' b hb
   induction ξc using Quotient.inductionOn with
@@ -377,7 +377,7 @@ theorem exists_cocone_of_isSquareZeroTowerEffectiveOnClassesOfFiniteType
     refine isFirstOrderThickening_iso_comp _ _ ?_
     rw [hDhom]
     refine isFirstOrderThickening_map_eqToHom_comp _ _ _ ?_
-    show Stacks.Thickenings.IsFirstOrderThickening
+    change Stacks.Thickenings.IsFirstOrderThickening
       (Spec.map (CommRingCat.ofHom (SquareZeroTower.limitBase fm)))
     exact Stacks.Smooth.isFirstOrderThickening_specMap
       (CommRingCat.ofHom (SquareZeroTower.limitBase fm))

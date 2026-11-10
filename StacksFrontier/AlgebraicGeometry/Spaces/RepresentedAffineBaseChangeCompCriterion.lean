@@ -82,18 +82,21 @@ theorem isIso_representedAffineBaseChangeComp_iff
         ((representedAffineToposDerivedBaseChangeIso B S hS g₀').hom.app M ≫
           (representedAffineToposDerivedAssociated B S hS U').map φ)) ↔
       IsIso ((RingTheory.TorIndependence.ringHomSquareComparison
-          (representedAffineCommRingCatHom B S hS f₀).hom (representedAffineCommRingCatHom B S hS g₀).hom
-          (representedAffineCommRingCatHom B S hS g₀').hom (representedAffineCommRingCatHom B S hS f₀').hom
+          (representedAffineCommRingCatHom B S hS f₀).hom
+          (representedAffineCommRingCatHom B S hS g₀).hom
+          (representedAffineCommRingCatHom B S hS g₀').hom
+          (representedAffineCommRingCatHom B S hS f₀').hom
           ((representedAffineRingHom_square B S hS f₀ g₀ f₀' g₀' w₀).trans
             (representedAffineRingHom_comp B S hS f₀' g₀))).app M ≫
-        (ModuleCat.restrictScalars (representedAffineCommRingCatHom B S hS f₀').hom).mapDerivedCategory.map
+        (ModuleCat.restrictScalars
+            (representedAffineCommRingCatHom B S hS f₀').hom).mapDerivedCategory.map
           φ) := by
   refine (exists_isUnit_representedAffinePath B S hS f₀ g₀ f₀' g₀' w₀).elim fun c hch => ?_
   have hc := hch.1
   have hpath := hch.2
   have := isIso_representedAffineTransportUnit_of_isAffine B S hS f₀ M
   have := isIso_representedAffineTransportUnit_of_isAffine B S hS f₀' M'
-  haveI : (representedAffineToposDerivedAssociated B S hS V').ReflectsIsomorphisms :=
+  have : (representedAffineToposDerivedAssociated B S hS V').ReflectsIsomorphisms :=
     (representedAffineDerivedAdjunction B S hS V').fullyFaithfulLOfIsIsoUnit.reflectsIsomorphisms
   refine (Stacks.CategoryTheory.BaseChange.isIso_map_comp_iff_of_central
     (RingTheory.TorIndependence.totalDerivedExtensionScalarsAdjunction
@@ -101,11 +104,13 @@ theorem isIso_representedAffineBaseChangeComp_iff
     (RingTheory.TorIndependence.totalDerivedExtensionScalarsAdjunction
       (representedAffineCommRingCatHom B S hS f₀').hom)
     (RingTheory.TorIndependence.totalDerivedExtensionScalarsCompOfEq
-      (representedAffineCommRingCatHom B S hS g₀).hom (representedAffineCommRingCatHom B S hS f₀').hom
+      (representedAffineCommRingCatHom B S hS g₀).hom
+      (representedAffineCommRingCatHom B S hS f₀').hom
       (representedAffineCommRingCatHom B S hS (f₀' ≫ g₀)).hom
       (representedAffineRingHom_comp B S hS f₀' g₀).symm)
     (RingTheory.TorIndependence.totalDerivedExtensionScalarsCompOfEq
-      (representedAffineCommRingCatHom B S hS f₀).hom (representedAffineCommRingCatHom B S hS g₀').hom
+      (representedAffineCommRingCatHom B S hS f₀).hom
+      (representedAffineCommRingCatHom B S hS g₀').hom
       (representedAffineCommRingCatHom B S hS (f₀' ≫ g₀)).hom
       (representedAffineRingHom_square B S hS f₀ g₀ f₀' g₀' w₀))
     (smallEtaleDerivedModuleAdjunction B S hS (representedSpaceMap B S hS f₀))
@@ -223,12 +228,15 @@ noncomputable def representedAffineSectionsBaseChangeComp (w₀ : g₀' ≫ f₀
       ⟨yoneda.obj U', isAlgebraicSpace_yoneda B S hS U'⟩)))
     (φ : (smallEtaleDerivedModulePullback B S hS (representedSpaceMap B S hS g₀')).obj K ⟶ K') :=
   (RingTheory.TorIndependence.ringHomSquareComparison
-      (representedAffineCommRingCatHom B S hS f₀).hom (representedAffineCommRingCatHom B S hS g₀).hom
-      (representedAffineCommRingCatHom B S hS g₀').hom (representedAffineCommRingCatHom B S hS f₀').hom
+      (representedAffineCommRingCatHom B S hS f₀).hom
+      (representedAffineCommRingCatHom B S hS g₀).hom
+      (representedAffineCommRingCatHom B S hS g₀').hom
+      (representedAffineCommRingCatHom B S hS f₀').hom
       ((representedAffineRingHom_square B S hS f₀ g₀ f₀' g₀' w₀).trans
         (representedAffineRingHom_comp B S hS f₀' g₀))).app
       ((representedAffineDerivedSections B S hS U).obj K) ≫
-    (ModuleCat.restrictScalars (representedAffineCommRingCatHom B S hS f₀').hom).mapDerivedCategory.map
+    (ModuleCat.restrictScalars
+        (representedAffineCommRingCatHom B S hS f₀').hom).mapDerivedCategory.map
       (representedAffineSectionsBaseChangeMap B S hS g₀' K K' φ)
 
 end Sections
@@ -309,7 +317,8 @@ structure AffineChartwiseBaseChange (w : g' ≫ f = f' ≫ g)
       IsIso (representedAffineSectionsBaseChangeComp B S hS f₀ g₀ f₀' g₀' w₀
         ((smallEtaleDerivedModulePullback B S hS a).obj K)
         ((smallEtaleDerivedModulePullback B S hS a').obj K')
-        ((smallEtaleDerivedModulePullbackCompIso B S hS (representedSpaceMap B S hS g₀') a).hom.app K ≫
+        ((smallEtaleDerivedModulePullbackCompIso B S hS (representedSpaceMap B S hS g₀')
+            a).hom.app K ≫
           (smallEtaleDerivedModulePullbackCongr B S hS ha').hom.app K ≫
           (smallEtaleDerivedModulePullbackCompIso B S hS a' g').inv.app K ≫
           (smallEtaleDerivedModulePullback B S hS a').map φ))

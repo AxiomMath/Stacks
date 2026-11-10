@@ -89,7 +89,7 @@ under the co-Yoneda lemma to the image of the element. -/
 public lemma coyonedaEquiv_symm_comp {X : 𝒟} {A B : 𝒟 ⥤ Type v} (x : A.obj X) (η : A ⟶ B) :
     coyonedaEquiv.symm x ≫ η = coyonedaEquiv.symm (η.app X x) := by
   rw [Equiv.eq_symm_apply, coyonedaEquiv_apply]
-  show η.app X (A.map (𝟙 X) x) = _
+  change η.app X (A.map (𝟙 X) x) = _
   rw [A.map_id]
   rfl
 
@@ -126,7 +126,7 @@ public lemma seqHomColimToComp_app_seqStage (M : ℕᵒᵖ ⥤ 𝒟) {L : 𝒟} 
     (seqHomColimToComp F M).app L (seqStage M g) = seqStage (M ⋙ F) (n := n) (F.map g) := by
   have h₂ : (seqHomColimToComp F M).app (M.obj (op n)) (seqStage M (𝟙 _)) =
       seqStage (M ⋙ F) (n := n) (𝟙 (F.obj (M.obj (op n)))) := by
-    show (colimit.ι (M.op ⋙ coyoneda) (op (op n)) ≫ seqHomColimToComp F M).app _ (𝟙 _) = _
+    change (colimit.ι (M.op ⋙ coyoneda) (op (op n)) ≫ seqHomColimToComp F M).app _ (𝟙 _) = _
     rw [seqHomColimToComp, colimit.ι_desc]
     exact coyonedaEquiv.apply_symm_apply _
   rw [← seqHomColim_map_seqStage_id M g, NatTrans.naturality_apply, h₂]
@@ -180,7 +180,7 @@ public lemma lanSeqHomColimInv_app_seqStage_id (M : ℕᵒᵖ ⥤ 𝒟) (n : ℕ
     (lanSeqHomColimInv F M).app ((M ⋙ F).obj (op n))
         (seqStage (M ⋙ F) (n := n) (𝟙 ((M ⋙ F).obj (op n)))) =
       (F.lanUnit.app (seqHomColim M)).app (M.obj (op n)) (seqStage M (𝟙 (M.obj (op n)))) := by
-  show (colimit.ι ((M ⋙ F).op ⋙ coyoneda) (op (op n)) ≫ lanSeqHomColimInv F M).app _
+  change (colimit.ι ((M ⋙ F).op ⋙ coyoneda) (op (op n)) ≫ lanSeqHomColimInv F M).app _
     (𝟙 _) = _
   rw [lanSeqHomColimInv, colimit.ι_desc]
   exact coyonedaEquiv.apply_symm_apply _

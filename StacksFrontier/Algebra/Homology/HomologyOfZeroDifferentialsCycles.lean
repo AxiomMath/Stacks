@@ -43,7 +43,7 @@ theorem homologyπ_comp_homologyIsoX_hom (K : _root_.HomologicalComplex C c) (i 
         (ShortComplex.LeftHomologyData.ofZeros (K.sc' i j k) h₁ h₂).π =
       (K.sc' i j k).iCycles :=
     ShortComplex.LeftHomologyData.cyclesIso_hom_comp_i _
-  show K.homologyπ j ≫ (K.homologyIsoSc' i j k hi hk ≪≫
+  change K.homologyπ j ≫ (K.homologyIsoSc' i j k hi hk ≪≫
     (ShortComplex.LeftHomologyData.ofZeros (K.sc' i j k) h₁ h₂).homologyIso).hom = K.iCycles j
   rw [Iso.trans_hom, ← Category.assoc, _root_.HomologicalComplex.π_homologyIsoSc'_hom,
     Category.assoc, ShortComplex.LeftHomologyData.homologyπ_comp_homologyIso_hom, hci]

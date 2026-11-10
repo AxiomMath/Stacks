@@ -12,8 +12,8 @@ finite presentation `f' : X' ⟶ Y` and a closed immersion `i : X ⟶ X'` with `
 
 This is
 `AlgebraicGeometry.Space.exists_isClosedImmersion_isFinitePresentation_of_isLocallyOfFiniteType`,
-proved in `StacksFrontier.AlgebraicGeometry.Spaces.Limits.FiniteTypeClosedInFinitePresentation` along
-the source's proof (Stacks 07SU/09NS approximation, Stacks 0828 for the eventual monomorphism,
+proved in `StacksFrontier.AlgebraicGeometry.Spaces.Limits.FiniteTypeClosedInFinitePresentation`
+along the source's proof (Stacks 07SU/09NS approximation, Stacks 0828 for the eventual monomorphism,
 Stacks 0463 and 082J for quasi-affineness, Stacks 0871 and Stacks 03XQ), with no hypotheses
 beyond those of the source. This module registers it as Stacks 0872.
 

@@ -116,7 +116,7 @@ public def zariskiStalkCocone :
       forget₂ CommRingCat RingCat) := by
   classical
   let x := s.hom (closedPoint s.residueField)
-  let F := (CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+  let F := (Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
     (SmallEtale.structureSheaf B S hS).obj
   let D₀ := (TopologicalSpace.OpenNhds.inclusion x).op ⋙ S.presheaf
   let Q := forget₂ CommRingCat RingCat
@@ -164,7 +164,7 @@ public def zariskiStalkCocone :
 /-- The cocone on the étale neighbourhoods of a geometric point whose vertex is the field of the
 point, given by evaluating a section at the chosen lift of the point. -/
 public def geometricEvaluationCocone :
-    Cocone ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+    Cocone ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
       (SmallEtale.structureSheaf B S hS).obj) where
   pt := RingCat.of s.residueField
   ι :=
@@ -173,7 +173,7 @@ public def geometricEvaluationCocone :
       naturality := by
         intro U V f
         dsimp [SmallEtale.structureSheaf, Stacks.Sites.structurePresheaf,
-          CategoryOfElements.π]
+          Functor.Elements.π]
         apply RingCat.hom_ext
         ext a
         let g : (SmallEtale.toScheme B S hS).obj V.unop.1 ⟶
@@ -196,7 +196,7 @@ private theorem structureSheafStalkFromLocalRing_eq_of_opensIso (U : S.Opens)
     (hg : g ≫ Scheme.Opens.ι (X := S) U = B.inclusion.map N.1.obj.hom) (a : Γ(S, U)) :
     structureSheafStalkFromLocalRing B S hS s
         (S.presheaf.germ U (s.hom (closedPoint s.residueField)) hx a) =
-      (colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+      (colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
         (SmallEtale.structureSheaf B S hS).obj) (op N)).hom
           (g.appTop ((Scheme.Opens.topIso (X := S) U).inv a)) := by
   let Z := zariskiNeighborhood B S hS s (s.hom (closedPoint s.residueField)) rfl ⟨U, hx⟩
@@ -228,7 +228,7 @@ private theorem nonempty_comparison_of_indEtale (H A : Type u) [CommRing H] [Com
     (C₀ : CommAlgCat.AugmentedEtale A s.residueField)
     (hord : ∀ a : A, structureSheafStalkFromLocalRing B S hS s
         (algebraMap A ↥(S.presheaf.stalk (s.hom (closedPoint s.residueField))) a) =
-      (colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+      (colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
         (SmallEtale.structureSheaf B S hS).obj)
         (op (augmentedNeighborhood B S hS s A j hj C₀))).hom
           ((Scheme.ΓSpecIso (.of C₀.left.obj)).inv (algebraMap A C₀.left.obj a))) :
@@ -269,7 +269,7 @@ private theorem structureSheafStalkFromLocalRing_germ_eq_augmentedNeighborhood (
       s.hom) (a : Γ(S, U)) :
     structureSheafStalkFromLocalRing B S hS s
         (S.presheaf.germ U (s.hom (closedPoint s.residueField)) hx a) =
-      (colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+      (colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
         (SmallEtale.structureSheaf B S hS).obj)
         (op (augmentedNeighborhood B S hS s Γ(S, U) hU.fromSpec hj
           (CostructuredArrow.mk (Y := ⟨CommAlgCat.of Γ(S, U) Γ(S, U), inferInstance⟩)
@@ -290,7 +290,7 @@ private theorem structureSheafStalkFromLocalRing_germ_eq_augmentedNeighborhood (
     rw [Iso.inv_hom_id_apply]
   rw [structureSheafStalkFromLocalRing_eq_of_opensIso B S hS s U hx N hU.isoSpec.inv hf a]
   exact congrArg
-    ((colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
+    ((colimit.ι ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙
       (SmallEtale.structureSheaf B S hS).obj) (op N)).hom) hv
 
 /-- **Stacks Project, Tag 04HX.** The étale local ring at a geometric point admits an

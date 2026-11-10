@@ -115,8 +115,10 @@ functor provides. Sheaves of `𝒪'`-modules form a Grothendieck abelian categor
 The name records where it comes from, because there is a second route to the same conclusion under
 a hypothesis this one does not need:
 `AlgebraicGeometry.RingedToposHom.isTriangulated_derivedPushforward` of
-`StacksFrontier/AlgebraicGeometry/Simplicial/ComponentRingedTopos/HypercoveringModuleBoundedBelowEquivalence.lean` gets it from `Rf_*` being a right *adjoint*, and
-so holds only when `f^♯` is invertible. This statement is for an arbitrary morphism. -/
+`HypercoveringModuleBoundedBelowEquivalence.lean` (in
+`StacksFrontier/AlgebraicGeometry/Simplicial/ComponentRingedTopos/`) gets it from `Rf_*` being a
+right *adjoint*, and so holds only when `f^♯` is invertible. This statement is for an arbitrary
+morphism. -/
 theorem isTriangulated_derivedPushforward_rightDerivedFunctor :
     letI := Functor.IsRightDerivedFunctor.commShift
       (DerivedPushforward.derivedPushforward.{u, u, u, u, u, u} f)

@@ -252,16 +252,15 @@ public theorem exists_restrictScalarsRepCoefficientSheaf_isogeny_of_conj :
           ((restrictScalarsRepCoefficientSheaf B X x b σ₁ hσ₁).act o₁).asHom ≫ φ := by
   refine exists_representationSheafCommutantCoefficientSheaf_isogeny_of_conj B X x hσ₁ hσ₂ _ _ _
     (Units.map (restrictScalarsMonoidHom b m) g) (fun γ => ?_) (fun e => ?_)
-  · show Units.map (restrictScalarsMonoidHom b m) (σ₂ γ) = _
+  · change Units.map (restrictScalarsMonoidHom b m) (σ₂ γ) = _
     rw [hg γ, map_mul, map_mul, map_inv]
     rfl
-  · show restrictScalarsMatrix b (Matrix.scalar (Fin m) e) * restrictScalarsMatrix b g.val =
+  · change restrictScalarsMatrix b (Matrix.scalar (Fin m) e) * restrictScalarsMatrix b g.val =
       restrictScalarsMatrix b g.val * restrictScalarsMatrix b (Matrix.scalar (Fin m) e)
     rw [← restrictScalarsMatrix_mul, ← restrictScalarsMatrix_mul,
       (Matrix.scalar_commute e (fun _ => mul_comm _ _) g.val)]
 
 variable {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k))
-  [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
   (j : CompactificationOf (Over.mk f)) (kbar : Type u) [Field kbar] [Algebra k kbar] (i : ℤ)
 
 include hg in

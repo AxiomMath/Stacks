@@ -71,14 +71,14 @@ theorem pullback_canonicalSectionHom :
       (SheafOfModules.pullbackPushforwardAdjunction_homEquiv_pullbackObjUnitToUnit _))
   refine h1.trans (Eq.trans ?_ h2.symm)
   refine unit_hom_ext ?_
-  show Scheme.Modules.Hom.app (invertibleSheafPullbackIso f D).hom ⊤
+  change Scheme.Modules.Hom.app (invertibleSheafPullbackIso f D).hom ⊤
       ((adj.unit.app (invertibleSheaf' D)).app ⊤
         ((canonicalSectionHom D).val.app (op ⊤) (1 : Γ(Y, ⊤)))) =
     (canonicalSectionHom (D.comap f)).val.app (op ⊤) (f.appTop.hom (1 : Γ(Y, ⊤)))
   rw [canonicalSectionHom_app_one, map_one, canonicalSectionHom_app_one,
     ← invertibleSheafPullbackIso_canonicalSection]
   congr 1
-  show _ = ((Scheme.Modules.pullback f).obj (invertibleSheaf' D)).presheaf.map
+  change _ = ((Scheme.Modules.pullback f).obj (invertibleSheaf' D)).presheaf.map
     (𝟙 (op (⊤ : X.Opens))) (((Scheme.Modules.pullbackPushforwardAdjunction f).unit.app
       (invertibleSheaf' D)).app ⊤ ((canonicalSection' D).eval (op ⊤)))
   exact (Functor.map_id_apply _ _ _).symm

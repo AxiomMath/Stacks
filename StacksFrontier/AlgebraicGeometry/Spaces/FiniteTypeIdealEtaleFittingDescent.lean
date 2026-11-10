@@ -134,7 +134,7 @@ theorem disjoint_idealZeroLocus_fittingIdeal_zero {X Z : AlgebraicSpaces B S hS}
     have hz : pointsMap B S hS Z.1 τ.hom
         (pointsMap B S hS _ (hτr.fst V.1.hom) p) ∈ subspacePointSet B S hS X.1 U := by
       rw [← pointsMap_comp_apply, hτr.w, pointsMap_comp_apply]
-      show pointsMap B S hS _ (b ≫ U.ι) _ ∈ _
+      change pointsMap B S hS _ (b ≫ U.ι) _ ∈ _
       rw [pointsMap_comp_apply]
       exact ⟨_, rfl⟩
     exact Set.disjoint_left.1 h ⟨_, rfl⟩ hz
@@ -146,12 +146,12 @@ theorem disjoint_idealZeroLocus_fittingIdeal_zero {X Z : AlgebraicSpaces B S hS}
     have : Subsingleton ((finiteDirectImageUnit τ hτ).val.obj (op V)) :=
       (inferInstance : Subsingleton
         Γ((BigFppfOver.toScheme B S hS).obj (hτr.pullback V.1.hom), ⊤))
-    show _root_.fittingIdeal (R := chartRing B S hS X.1 X.2 V)
+    change _root_.fittingIdeal (R := chartRing B S hS X.1 X.2 V)
       (M := (finiteDirectImageUnit τ hτ).val.obj (op V)) ((0 : ℕ) : ℤ) = ⊤
     rw [Nat.cast_zero]
     exact fittingIdeal_zero_eq_top_of_subsingleton
   refine (mem_idealZeroLocus_iff B S hS X _ _).1 hx V hJ ⟨w, ?_⟩
-  show pointsMap B S hS _ (b ≫ U.ι) w = _
+  change pointsMap B S hS _ (b ≫ U.ι) w = _
   rw [pointsMap_comp_apply, hw]
 
 /-! ### The piece of `W ×_X Z` cut out by the graph -/
@@ -288,7 +288,7 @@ private theorem exists_closedSubspace_preimage_eq_of_isOpenImmersion
       rw [← pointsMap_comp_apply, IsIso.inv_hom_id, pointsMap_id]
       rfl
     refine Set.disjoint_left.1 hZWU hy₂ ?_
-    show w ∈ Set.range (pointsMap B S hS _ (U.preimage j).ι)
+    change w ∈ Set.range (pointsMap B S hS _ (U.preimage j).ι)
     rwa [range_pointsMap_preimage_ι, Set.mem_preimage, ← hjVι, pointsMap_comp_apply, hyw]
   obtain ⟨Z, hZc, hZfp, hZdisj, hZW⟩ := exists_closedSubspace_extension_disjoint hZ
     (X := ⟨Y, hY⟩) hYqc hYqs U Vj hU hVj hUqc hVjqc Z' hZ'c hZ'fp hWU
@@ -448,7 +448,7 @@ theorem exists_isFiniteTypeQuasicoherentIdeal_chartSectionsIdeal_eq_mul
     rw [Set.disjoint_left]
     rintro _ ⟨z, rfl⟩ hzU
     refine Set.disjoint_left.1 hZdisj ?_ (⟨z, rfl⟩ : pointsMap B S hS _ Z.ι z ∈ Set.range _)
-    show _ ∈ Set.range (pointsMap B S hS _ (U.preimage π).ι)
+    change _ ∈ Set.range (pointsMap B S hS _ (U.preimage π).ι)
     rwa [range_pointsMap_preimage_ι, Set.mem_preimage, ← pointsMap_comp_apply]
   obtain ⟨I', hI', hchart⟩ :=
     exists_isFiniteTypeQuasicoherentIdeal_chartSectionsIdeal_fittingIdeal_eq_mul φ hφet hY j hj π
@@ -577,7 +577,7 @@ theorem exists_isFinitePresentation_preimageClosedSubspace_eq_sumClosedSubspaces
       refine (definingIdealAt_preimage_eq_definingIdealAt_postcomp B S hS φ hφet ZX A).trans ?_
       rw [← definingIdealSheaf_obj, hZX]
       rfl
-    show definingIdealAt B S hS W (preimageClosedSubspace φ ZX) (op A) =
+    change definingIdealAt B S hS W (preimageClosedSubspace φ ZX) (op A) =
       definingIdealAt B S hS W (sumClosedSubspaces B S hS W ZW Z') (op A)
     rw [definingIdealAt_sumClosedSubspaces_of_isAffine B S hS W ZW Z' A m, h₁, hchart A hA, ← hZ']
     rfl

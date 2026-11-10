@@ -112,9 +112,9 @@ public theorem exists_restrictedJacobianChart
     (Ideal.map_symm e).symm
   have hJqC : P.ideal ≤ qC := by
     intro z hz
-    show e.symm z ∈ q
+    change e.symm z ∈ q
     refine hJq ?_
-    show e (e.symm z) ∈ P.ideal
+    change e (e.symm z) ∈ P.ideal
     rwa [e.apply_symm_apply]
   have hqC : ¬ I.map (algebraMap A P.completedPolynomialRing) ≤ qC :=
     not_map_le_comap I _ e.symm.toRingHom (coefficientRingHom I (Fin P.variableCount))
@@ -122,7 +122,7 @@ public theorem exists_restrictedJacobianChart
   obtain ⟨m, T, f, hfJ, hdet, hgen⟩ :=
     exists_jacobianChart_map_eq_span_atPrime B P hB qC hqC hJqC
   refine ⟨m, T, fun j ↦ e.symm (f j), fun j ↦ ?_, ?_, ?_⟩
-  · show e (e.symm (f j)) ∈ P.ideal
+  · change e (e.symm (f j)) ∈ P.ideal
     rw [e.apply_symm_apply]
     exact hfJ j
   · have hd : (Matrix.det fun i j : Fin m ↦
@@ -138,7 +138,7 @@ public theorem exists_restrictedJacobianChart
       (IsLocalization.AtPrime.isUnit_to_map_iff (Localization.AtPrime qC) qC _).mp hdet
     apply hnot
     rw [hd]
-    show e.symm (e _) ∈ q
+    change e.symm (e _) ∈ q
     rwa [e.symm_apply_apply]
   · rw [hJ]
     exact map_map_atPrime_eq_span e.symm.toRingHom q hgen
@@ -255,7 +255,7 @@ public theorem CompletedPolynomialPresentation.restrictedAlgHom_surjective_and_k
   refine ⟨P.toAlgHom_surjective.comp (adicCompletionAlgEquiv I (Fin P.variableCount)).surjective,
     ?_⟩
   ext x
-  show P.toAlgHom.toRingHom ((adicCompletionAlgEquiv I (Fin P.variableCount)) x) = 0 ↔ _
+  change P.toAlgHom.toRingHom ((adicCompletionAlgEquiv I (Fin P.variableCount)) x) = 0 ↔ _
   rw [← RingHom.mem_ker, show RingHom.ker P.toAlgHom.toRingHom = P.ideal from P.ker_eq_ideal]
   rfl
 
@@ -298,20 +298,20 @@ public theorem exists_localRingHom_bijective_of_ringEquiv {R R' : Type*} [CommRi
     Localization.localRingHom_to_map qR q e.toRingHom rfl
   have hq : q = qR.comap e.symm.toRingHom := by
     ext x
-    show x ∈ q ↔ e (e.symm x) ∈ q
+    change x ∈ q ↔ e (e.symm x) ∈ q
     rw [e.apply_symm_apply]
   let ℓ' := Localization.localRingHom q qR e.symm.toRingHom hq
   have h1 : ℓ'.comp ℓ = RingHom.id _ := by
     refine IsLocalization.ringHom_ext qR.primeCompl (RingHom.ext fun z ↦ ?_)
     simp only [RingHom.comp_apply, RingHom.id_apply]
     rw [hℓ, Localization.localRingHom_to_map]
-    show algebraMap _ _ (e.symm (e z)) = _
+    change algebraMap _ _ (e.symm (e z)) = _
     rw [e.symm_apply_apply]
   have h2 : ℓ.comp ℓ' = RingHom.id _ := by
     refine IsLocalization.ringHom_ext q.primeCompl (RingHom.ext fun z ↦ ?_)
     simp only [RingHom.comp_apply, RingHom.id_apply]
     rw [Localization.localRingHom_to_map]
-    show ℓ (algebraMap _ _ (e.symm z)) = _
+    change ℓ (algebraMap _ _ (e.symm z)) = _
     rw [hℓ, e.apply_symm_apply]
   exact ⟨ℓ, RingHom.ext hℓ, Function.bijective_iff_has_inverse.mpr
     ⟨ℓ', fun x ↦ congrArg (· x) h1, fun x ↦ congrArg (· x) h2⟩⟩
@@ -375,7 +375,7 @@ public theorem completedAwayMap_surjective_and_ker {R S : Type*} [CommRing R] [C
   have heq : RingHom.completedAwayMap π K f =
       adicCompletionMap φf (K.map (algebraMap R (Localization.Away f)))
         ((K.map π).map (algebraMap S (Localization.Away (π f)))) hmax.le := by
-    show Stacks.Nagata.PthRootDescent.mapAdicCompletion _ _ _ = _
+    change Stacks.Nagata.PthRootDescent.mapAdicCompletion _ _ _ = _
     exact mapAdicCompletion_eq_adicCompletionMap _ _ _
   have hsurj : Function.Surjective φf := by
     intro z
@@ -482,14 +482,14 @@ public theorem exists_restrictedPowerSeries_completedAway_surjective
   let ρ : RestrictedPowerSeries K (Fin n) →+* Bf := ρ₀.comp Ee.symm.toRingHom
   have hρk : RingHom.ker ρ = (P.ideal.comap
       (adicCompletionAlgEquiv I (Fin P.variableCount)).toRingHom).map Θ := by
-    show RingHom.ker (ρ₀.comp Ee.symm.toRingHom) = _
+    change RingHom.ker (ρ₀.comp Ee.symm.toRingHom) = _
     have hsymm : ∀ X : Ideal (CompletedAway (coefficientIdeal I (Fin n))
         (coefficientRingHom I (Fin n) f)), X.comap Ee.symm.toRingHom = X.map Ee.toRingHom :=
       fun X ↦ (Ideal.map_comap_of_equiv Ee).symm
     rw [← RingHom.comap_ker, hρ₀k, hsymm, hker, Ideal.map_map]
     rfl
   have hρΘ : ∀ x, ρ (Θ x) = algebraMap B.carrier Bf (π x) := fun x ↦ by
-    show ρ₀ (Ee.symm (E (algebraMap _ _ x))) = _
+    change ρ₀ (Ee.symm (E (algebraMap _ _ x))) = _
     rw [show Ee.symm (E (algebraMap _ _ x)) = algebraMap _ _ x from Ee.symm_apply_apply _]
     exact DFunLike.congr_fun hρ₀ x
   have hsq := restrictedPowerSeriesCompletedAwayHom_comp_algebraMap I hIfg (Fin n) f
@@ -549,7 +549,7 @@ public theorem flat_localization_atPrime_completedAway_of_isRigSmooth
       (coefficientIdeal I (Fin n)).map
         (restrictedPowerSeriesCompletedAwayHom I hIfg (Fin n) f) := by
     refine le_of_eq ?_
-    show (completedAwayCoefficientIdeal I f).map
+    change (completedAwayCoefficientIdeal I f).map
         (algebraMap (CompletedAway I f) (RestrictedPowerSeries K (Fin n))) =
       (I.map (algebraMap A (RestrictedPowerSeries I (Fin n)))).map _
     have h := congrArg (Ideal.map (algebraMap (CompletedAway I f)
@@ -663,7 +663,7 @@ public theorem isRigFlat_and_exists_isRegular_of_isRigSmooth
       (weaklyAdmissible_of_isAdicRing hB) φ hφ hft).mp ⟨I₀, hI₀, hsm₀⟩
   obtain ⟨J₀, hJ₀, -⟩ := hB.1
   have hφadic : _root_.RingHom.IsAdic φ ∧ TopologicalRing.IsTopologicallyOfFiniteType φ :=
-    ((adicFiniteType_tfae φ hφ hA hB ⟨I₀, hI₀, Ideal.fg_of_isNoetherianRing I₀⟩
+    ((adicFiniteType_tfae φ hA hB ⟨I₀, hI₀, Ideal.fg_of_isNoetherianRing I₀⟩
       ⟨J₀, hJ₀, Ideal.fg_of_isNoetherianRing J₀⟩).out 6 1).mp hft₀
   obtain ⟨K₀, hK₀⟩ := hA.1
   refine ⟨⟨hφadic.1, hφadic.2, fun I hI hIφ f ↦ ?_⟩, fun hft I hI P q _ hq hJq ↦ ?_⟩

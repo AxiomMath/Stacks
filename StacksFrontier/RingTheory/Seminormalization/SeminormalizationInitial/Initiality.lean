@@ -86,7 +86,7 @@ public theorem relativeSeminormalization_competitorChartMapToF_fromSource
     apply CommRingCat.hom_ext
     ext c
     exact relativeSeminormalization_competitorChartLift_val f F U.1 U.2 c
-  show Q.toSpecΓ ≫ Scheme.Spec.map (CommRingCat.ofHom
+  change Q.toSpecΓ ≫ Scheme.Spec.map (CommRingCat.ofHom
       ((relativeSeminormalization Γ(X, U.1) Γ(Y, Q)
         hdom).val.toRingHom)).op ≫
       Scheme.Spec.map (CommRingCat.ofHom ℓ).op ≫ hW.isoSpec.inv ≫ W.ι = _
@@ -183,7 +183,7 @@ public theorem relativeSeminormalization_competitorChartMapToF_compatible
       (F.toBase.preimage_mono hUV)
     change WU.toSpecΓ ≫ Scheme.Spec.map cUV.op =
       F.middle.homOfLE (F.toBase.preimage_mono hUV) ≫ WV.toSpecΓ at hn
-    show WU.toSpecΓ ≫ Scheme.Spec.map cUV.op ≫
+    change WU.toSpecΓ ≫ Scheme.Spec.map cUV.op ≫
       hWV.isoSpec.inv ≫ WV.ι = WU.toSpecΓ ≫ hWU.isoSpec.inv ≫ WU.ι
     have hstep := congrArg (fun q => q ≫ hWV.isoSpec.inv ≫ WV.ι) hn
     calc
@@ -199,7 +199,7 @@ public theorem relativeSeminormalization_competitorChartMapToF_compatible
   dsimp [relativeSeminormalizationGlueData,
     Scheme.AffineZariskiSite.relativeGluingData,
     relativeSeminormalization_competitorChartMapToF]
-  show Scheme.Spec.map ((relativeSeminormalizationDiagram f).map i.op).op ≫
+  change Scheme.Spec.map ((relativeSeminormalizationDiagram f).map i.op).op ≫
       Scheme.Spec.map (CommRingCat.ofHom
         (relativeSeminormalization_competitorChartLift f F V.1 V.2)).op ≫
       hWV.isoSpec.inv ≫ WV.ι =
@@ -257,7 +257,7 @@ public theorem relativeSeminormalization_competitorChartMapToF_toBase
       (relativeSeminormalization_competitorChartLift f F U.1 U.2)).op ≫
       Scheme.Spec.map (F.toBase.app U.1).op =
     Scheme.Spec.map (CommRingCat.ofHom (algebraMap A E)).op at hlocal
-  show Scheme.Spec.map (CommRingCat.ofHom
+  change Scheme.Spec.map (CommRingCat.ofHom
       (relativeSeminormalization_competitorChartLift f F U.1 U.2)).op ≫
       hW.isoSpec.inv ≫ W.ι ≫ F.toBase =
     (relativeSeminormalizationGlueData f).natTrans.app U ≫ U.1.ι
@@ -270,13 +270,13 @@ public theorem relativeSeminormalization_competitorChartMapToF_toBase
       (ℓ ≫ Scheme.Spec.map (F.toBase.app U.1).op) ≫ U.2.isoSpec.inv := by
     simpa only [Category.assoc] using congrArg (fun g => ℓ ≫ g) hq.symm
   have hq'' := congrArg (fun g => g ≫ U.1.ι) hq'
-  show ((ℓ ≫ hW.isoSpec.inv) ≫ (F.toBase ∣_ U.1)) ≫ U.1.ι =
+  change ((ℓ ≫ hW.isoSpec.inv) ≫ (F.toBase ∣_ U.1)) ≫ U.1.ι =
     (relativeSeminormalizationGlueData f).natTrans.app U ≫ U.1.ι
   rw [hq'']
   have hlocalℓ : ℓ ≫ Scheme.Spec.map (F.toBase.app U.1).op =
       Scheme.Spec.map (CommRingCat.ofHom (algebraMap A E)).op := by
     simpa [ℓ] using hlocal
-  show ((ℓ ≫ Scheme.Spec.map (F.toBase.app U.1).op) ≫ U.2.isoSpec.inv) ≫ U.1.ι =
+  change ((ℓ ≫ Scheme.Spec.map (F.toBase.app U.1).op) ≫ U.2.isoSpec.inv) ≫ U.1.ι =
     (Scheme.Spec.map (CommRingCat.ofHom (algebraMap A E)).op ≫
       U.2.isoSpec.inv) ≫ U.1.ι
   exact congrArg (fun g => (g ≫ U.2.isoSpec.inv) ≫ U.1.ι) hlocalℓ
@@ -290,7 +290,7 @@ public theorem relativeSeminormalization_comparison_toBase
   let d := relativeSeminormalizationGlueData f
   apply Scheme.Cover.hom_ext d.cover
   intro (U : X.AffineZariskiSite)
-  show Limits.colimit.ι d.functor U ≫
+  change Limits.colimit.ι d.functor U ≫
       relativeSeminormalization_comparison f F ≫ F.toBase =
     Limits.colimit.ι d.functor U ≫ d.toBase
   calc
@@ -314,9 +314,9 @@ public theorem relativeSeminormalization_comparison_fromSource
   intro U
   let V : X.AffineZariskiSite := ⟨U.1, U.2⟩
   let := (f.app V.1).hom.toAlgebra
-  show Limits.pullback.fst f U.1.ι ≫ _ = Limits.pullback.fst f U.1.ι ≫ F.toMiddle
+  change Limits.pullback.fst f U.1.ι ≫ _ = Limits.pullback.fst f U.1.ι ≫ F.toMiddle
   rw [← pullbackRestrictIsoRestrict_hom_ι (f := f) V.1]
-  show (pullbackRestrictIsoRestrict f V.1).hom ≫
+  change (pullbackRestrictIsoRestrict f V.1).hom ≫
       ((f ⁻¹ᵁ V.1).ι ≫ relativeSeminormalizationFromSource f ≫
         relativeSeminormalization_comparison f F) =
     (pullbackRestrictIsoRestrict f V.1).hom ≫
@@ -386,7 +386,7 @@ public theorem relativeSeminormalization_comparison_unique
   have hrange : Set.range gM.base ⊆ Set.range W.ι.base := by
     rintro y ⟨z, rfl⟩
     refine ⟨⟨gM.base z, ?_⟩, rfl⟩
-    show F.toBase.base (gM.base z) ∈ V.1
+    change F.toBase.base (gM.base z) ∈ V.1
     have hz : F.toBase.base (gM.base z) =
         V.1.ι.base ((d.natTrans.app V).base z) :=
       congrArg (fun k => k z) hbaseTop
@@ -442,7 +442,7 @@ public theorem relativeSeminormalization_comparison_unique
     exact (cancel_mono Q.toSpecΓ.appTop).1 hsourceApp
   have hsourceLocal : G_U.toMiddle ≫ localMap = F_U.toMiddle := by
     let : IsAffine F_U.middle := by
-      show IsAffine (Spec (CommRingCat.of C))
+      change IsAffine (Spec (CommRingCat.of C))
       infer_instance
     apply ext_of_isAffine
     exact hsourceApp'.trans (congrArg (fun k => k.appTop)

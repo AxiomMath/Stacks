@@ -125,7 +125,7 @@ theorem schemeSlicePoint_spacePointMap (p : Space.FieldValuedPoint B S hS (yoned
     schemeSlicePoint U (spacePointMap B S hS (yoneda.obj U) (schemeSlice B S hS U)
       (schemeSliceChart U) (p.class B S hS (yoneda.obj U))) = Space.schemePoint B S hS U p := by
   rw [spacePointMap_class]
-  show schemeSlicePointOfField U _ = _
+  change schemeSlicePointOfField U _ = _
   simp only [schemeSlicePointOfField, Iso.trans_inv, Functor.mapIso_inv, eqToIso.inv,
     BigFppfOver.toScheme, Functor.comp_map, BigFppfOver.forget, Over.forget_map,
     Over.eqToHom_left]
@@ -218,7 +218,7 @@ theorem forall_mem_of_hom_iff_range_subset {U : BigFppfOver B S hS}
     refine (hΩV _).2 (h ?_)
     refine ⟨B.inclusion.map ψ.left (((BigFppfOver.toScheme B S hS).mapIso
       (eqToIso r.over) ≪≫ r.isSpec).inv (IsLocalRing.closedPoint r.carrier)), ?_⟩
-    show _ = schemeSlicePointOfField U r
+    change _ = schemeSlicePointOfField U r
     unfold schemeSlicePointOfField
     rw [← Over.w ψ, B.inclusion.map_comp]
     rfl

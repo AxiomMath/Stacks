@@ -115,7 +115,7 @@ theorem isAlgebraicSpace_quotientSheaf_of_coveringAtlases
         (Over.post (X := B.obj hS) B.inclusion) j
         ((Over.post (X := B.obj hS) B.inclusion).map (gi i)) := by
     rw [hgmap]
-    exact Sigma.ι_desc _ i
+    exact Sigma.ι_comp_desc _ i
   have hfach (i : I) : (Sigma.ι Fsh i).hom ≫ gmap.hom =
       (Stacks.Groupoids.restrictQuotientSheafMap (BigFppfOver.topology B S hS)
         (Over.post (X := B.obj hS) B.inclusion) j
@@ -145,7 +145,7 @@ theorem isAlgebraicSpace_quotientSheaf_of_coveringAtlases
       Stacks.Groupoids.quotientChart (BigFppfOver.topology B S hS)
         (Over.post (X := B.obj hS) B.inclusion) U j := by
     refine Sigma.hom_ext _ _ fun i => ?_
-    rw [hα, Sigma.ι_desc_assoc, Sigma.ι_desc_assoc, Category.assoc, hfach i,
+    rw [hα, Sigma.ι_comp_desc_assoc, Sigma.ι_comp_desc_assoc, Category.assoc, hfach i,
       Stacks.Groupoids.quotientChart_comp_restrictQuotientSheafMap _ _ j (gi i)]
   have _ := hcovsurj
   have _ := hchart

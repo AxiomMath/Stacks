@@ -107,7 +107,7 @@ theorem presentationDetNLEquiv_cotangentDeterminantElement [Algebra.QuasiFinite 
     presentationDetNLEquiv P (cotangentDeterminantElement P) = NaiveCotangent.deltaNL A B := by
   have hK : TwoTermComplex.IsRankZero P.toExtension.cotangentComplex :=
     isRankZero_of_basis _ (nonempty_basis_cotangentSpace P) (nonempty_basis_cotangent P)
-  show (NaiveCotangent.detNLEquiv P.toExtension _).symm
+  change (NaiveCotangent.detNLEquiv P.toExtension _).symm
     (twoTermDeterminantEquivDeterminantLine n P.toExtension.cotangentComplex
       (nonempty_basis_cotangentSpace P) (nonempty_basis_cotangent P)
       (twoTermDeterminantElement B P.toExtension.cotangentComplex

@@ -157,8 +157,9 @@ countability enters: the finiteness of the index type is what turns the decompos
 identity into a *finite* sum, which additivity of the functor can carry across. -/
 theorem isZero_obj_op_biproduct {C D : Type*} [Category C] [Category D]
     [Preadditive C] [Preadditive D] (G : Cᵒᵖ ⥤ D) [G.Additive]
-    {J : Type} [Fintype J] (A : J → C) [HasBiproduct A]
+    {J : Type} [Finite J] (A : J → C) [HasBiproduct A]
     (hA : ∀ j, IsZero (G.obj (op (A j)))) : IsZero (G.obj (op (⨁ A))) := by
+  have := Fintype.ofFinite J
   rw [IsZero.iff_id_eq_zero, ← G.map_id]
   have hid : 𝟙 (op (⨁ A)) = (∑ j : J, biproduct.π A j ≫ biproduct.ι A j).op := by
     rw [biproduct.total]
@@ -173,7 +174,7 @@ annihilates.** This is `AlgebraicGeometry.RingedSite.isZero_obj_op_biproduct` re
 biproduct. -/
 theorem isZero_obj_op_pi {C D : Type*} [Category C] [Category D]
     [Preadditive C] [Preadditive D] (G : Cᵒᵖ ⥤ D) [G.Additive]
-    {J : Type} [Fintype J] (A : J → C) [HasProduct A]
+    {J : Type} [Finite J] (A : J → C) [HasProduct A]
     (hA : ∀ j, IsZero (G.obj (op (A j)))) : IsZero (G.obj (op (∏ᶜ A))) := by
   have : HasBiproduct A := HasBiproduct.of_hasProduct A
   exact (isZero_obj_op_biproduct G A hA).of_iso (G.mapIso (biproduct.isoProduct A).op)
@@ -333,7 +334,7 @@ because it is additive and the proof only uses the decomposition of the identity
 biproduct. -/
 theorem isZero_derivedSheafHom_single_pi
     (K : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))
-    (i : ℤ) {J : Type} [Fintype J]
+    (i : ℤ) {J : Type} [Finite J]
     (A : J → SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) [HasProduct A]
     (hA : ∀ j, IsZero (((derivedSheafHomBifunctor X).obj
       (op ((DerivedCategory.singleFunctor

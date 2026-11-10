@@ -181,7 +181,7 @@ public theorem exists_inverseImage_representationSheaf_isogeny
             Matrix.GeneralLinearGroup.map (PadicInt.Coe.ringHom (p := ℓ))
               (integralModel ρ hρ (φ₀ g)) * (P⁻¹ * Q) := by
         rw [map_integralModel, map_integralModel]
-        show Q⁻¹ * ρ (φ₀ g) * Q = (P⁻¹ * Q)⁻¹ * (P⁻¹ * ρ (φ₀ g) * P) * (P⁻¹ * Q)
+        change Q⁻¹ * ρ (φ₀ g) * Q = (P⁻¹ * Q)⁻¹ * (P⁻¹ * ρ (φ₀ g) * P) * (P⁻¹ * Q)
         group
       have h := congrArg Units.val key
       rw [Units.val_mul, Units.val_mul] at h
@@ -211,6 +211,7 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) (ℓ : ℕ) [Fact ℓ.Prime]
   (kbar : Type u) [Field kbar] [Algebra k kbar]
   (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
 
+omit [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- **Isogenous ℓ-adic sheaves have the same Frobenius characteristic polynomials on
 `Hⁱ_c(X_k̄, - ⊗ ℚ_ℓ)`.** -/
 theorem LAdicSheaf.charpoly_rationalGeometricCompactlySupportedFrobenius_eq_of_isogeny
@@ -242,6 +243,7 @@ theorem LAdicSheaf.charpoly_rationalGeometricCompactlySupportedFrobenius_eq_of_i
     exact this
   rw [hconj, LinearEquiv.charpoly_conj]
 
+omit [Fintype k] [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f] in
 /-- Isogenous ℓ-adic sheaves have the same finite dimensionality of `Hⁱ_c(X_k̄, - ⊗ ℚ_ℓ)`. -/
 theorem LAdicSheaf.finiteDimensional_rationalGeometricCompactlySupportedCohomology_of_isogeny
     {F G : LAdicSheaf B X ℓ} (φ : F ⟶ G) (ψ : G ⟶ F) (N : ℕ) (h₁ : φ ≫ ψ = (ℓ ^ N) • 𝟙 F)

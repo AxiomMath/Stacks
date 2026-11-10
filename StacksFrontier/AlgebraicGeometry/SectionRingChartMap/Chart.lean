@@ -159,7 +159,7 @@ private theorem mul_mem_grading {i j k : ℕ} (h : k = i + j) {x y : sectionRing
 
 /-- **The unit law.** `e 0 1` is the ratio of `a` by `a¹`, which is `1`. -/
 public theorem chartFamily_one (hV : V ≤ nvOpen L a) : chartFamily L a hV 0 1 = 1 := by
-  show numMapR L a hV 1 (Nat.le_add_left 1 0)
+  change numMapR L a hV 1 (Nat.le_add_left 1 0)
     (DirectSum.of (powSections L) d a * 1) = 1
   rw [mul_one, numMapR_of_self]
 
@@ -170,7 +170,7 @@ public theorem chartFamily_pow_mul (hV : V ≤ nvOpen L a) (n k : ℕ) (x : sect
       = chartFamily L a hV n x := by
   have hfx : DirectSum.of (powSections L) d a * x ∈ grading L (d * (n + 1)) :=
     mul_mem_grading L (by ring) (Stacks.ExternalGrading.of_mem_summand d a) hx
-  show numMapR L a hV (n + k + 1) (Nat.le_add_left 1 (n + k))
+  change numMapR L a hV (n + k + 1) (Nat.le_add_left 1 (n + k))
       (DirectSum.of (powSections L) d a *
         (DirectSum.of (powSections L) d a ^ k * x))
     = numMapR L a hV (n + 1) (Nat.le_add_left 1 n) (DirectSum.of (powSections L) d a * x)
@@ -191,7 +191,7 @@ public theorem chartFamily_mul (hV : V ≤ nvOpen L a) (n m : ℕ) (x y : sectio
   have hfxy : DirectSum.of (powSections L) d a * (x * y) ∈ grading L (d * (n + m + 1)) :=
     mul_mem_grading L (by ring) (Stacks.ExternalGrading.of_mem_summand d a)
       (mul_mem_grading L (k := (n + m) * d) (by ring) hx hy)
-  show numMapR L a hV (n + m + 1) (Nat.le_add_left 1 (n + m))
+  change numMapR L a hV (n + m + 1) (Nat.le_add_left 1 (n + m))
       (DirectSum.of (powSections L) d a * (x * y))
     = numMapR L a hV (n + 1) (Nat.le_add_left 1 n) (DirectSum.of (powSections L) d a * x)
       * numMapR L a hV (m + 1) (Nat.le_add_left 1 m) (DirectSum.of (powSections L) d a * y)

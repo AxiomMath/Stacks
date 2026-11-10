@@ -184,7 +184,7 @@ theorem genericPointOf_comap_integralComponentAt_of_isAffineSpaceBundle {ξ : X}
     rw [Scheme.IdealSheafData.range_subschemeι, coe_support_comap, Set.mem_preimage,
       hWdef, coe_support_integralComponentAt]
   obtain ⟨z, hz⟩ := (hrange ξ).2 (subset_closure rfl)
-  show (W.comap f).subschemeι.base (genericPoint (W.comap f).subscheme) = ξ
+  change (W.comap f).subschemeι.base (genericPoint (W.comap f).subscheme) = ξ
   set g := (W.comap f).subschemeι.base (genericPoint (W.comap f).subscheme) with hg
   have hgξ : g ⤳ ξ := by
     rw [← hz]
@@ -288,7 +288,7 @@ theorem pointClosureOrd_milnorKTransport_of_isAffineSpaceBundle [LocallyOfFinite
     refine Function.locallyFinsuppWithin.ext fun z ↦ ?_
     rw [flatPullback_apply, flatPullback_apply, show k + 1 - 1 + (r : ℤ) = k + r by ring]
     rfl
-  show principalDivisorPushforward C sX (W.comap f) hW'int g' w =
+  change principalDivisorPushforward C sX (W.comap f) hW'int g' w =
     AlgebraicCycle.map (W.comap f).subschemeι
       (relativeDimension C.dimensionFunction ((W.comap f).subschemeι ≫ sX))
       (relativeDimension C.dimensionFunction sX)
@@ -321,7 +321,7 @@ theorem pointwiseDivisorDifferential_bundleChainPullback (k : ℤ) (a : Pointwis
     AddEquiv.symm_apply_apply, pointwiseCycleEquiv_symm_pointwiseDivisorDifferential]
   set b := bundleChainPullback C sX sY f hbase hb (k + 1) (k + r + 1) (by ring) 1 a with hbdef
   refine Subtype.ext (Function.locallyFinsuppWithin.ext fun w ↦ ?_)
-  show (pointwiseDivisorSum C sX (k + r) b).1 w =
+  change (pointwiseDivisorSum C sX (k + r) b).1 w =
     (flatPullback C sX sY f hbase r hf k (pointwiseDivisorSum C sY k a)).1 w
   rw [pointwiseDivisorSum_apply, flatPullback_apply, pointwiseDivisorSum_apply,
     finsum_mul]

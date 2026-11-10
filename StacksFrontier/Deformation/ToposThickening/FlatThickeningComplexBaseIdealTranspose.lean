@@ -66,13 +66,18 @@ theorem basePullbackIdealIsoPullback_inv :
       eqToHom (congrArg (fun φ => (pullbackModules φ).obj
           ((pullbackModules f'.toModulesHom).obj ht.idealOfThickening.I))
           i.toModulesHom_eq_toRingedToposModulesHom).symm ≫
-      (eqToIso (basePullbackIdealIsoPullback._proof_3 t f ht) ≪≫
+      (eqToIso (basePullbackIdeal_eq_pullbackModules_toModulesHom t f ht) ≪≫
         ((MorphismOfThickenings.ofFirstOrderThickenings i t f f' hi ht comm).pullbackComparison.app
-          ht.idealOfThickening.I).symm).inv := by
-  unfold basePullbackIdealIsoPullback
-  exact iso_mpr_inv (fun φ => (pullbackModules φ).obj
+          ht.idealOfThickening.I).symm).inv :=
+  iso_mpr_inv (fun φ => (pullbackModules φ).obj
     ((pullbackModules f'.toModulesHom).obj ht.idealOfThickening.I))
-    i.toModulesHom_eq_toRingedToposModulesHom _ _
+    i.toModulesHom_eq_toRingedToposModulesHom
+    (eqToIso (basePullbackIdeal_eq_pullbackModules_toModulesHom t f ht) ≪≫
+        ((MorphismOfThickenings.ofFirstOrderThickenings i t f f' hi ht comm).pullbackComparison.app
+          ht.idealOfThickening.I).symm)
+    (congrArg (fun φ => basePullbackIdeal t f ht ≅ (pullbackModules φ).obj
+      ((pullbackModules f'.toModulesHom).obj ht.idealOfThickening.I))
+      i.toModulesHom_eq_toRingedToposModulesHom.symm)
 
 omit [X.J.HasSheafCompose (forget RingCat.{w})] in
 /-- Two mutually inverse transports, followed by a morphism. -/
@@ -94,7 +99,7 @@ theorem eqToHom_comp_basePullbackIdealIsoPullback_inv_eq :
       eqToHom (congrArg (fun φ => (pullbackModules φ).obj
           ((pullbackModules f'.toModulesHom).obj ht.idealOfThickening.I))
           i.toModulesHom_eq_toRingedToposModulesHom).symm ≫
-      (eqToIso (basePullbackIdealIsoPullback._proof_3 t f ht) ≪≫
+      (eqToIso (basePullbackIdeal_eq_pullbackModules_toModulesHom t f ht) ≪≫
         ((MorphismOfThickenings.ofFirstOrderThickenings i t f f' hi ht comm).pullbackComparison.app
           ht.idealOfThickening.I).symm).inv :=
   congrArg (fun x => eqToHom (congrArg (fun g => (pullbackModules g).obj
@@ -110,7 +115,7 @@ theorem eqToHom_comp_basePullbackIdealIsoPullback_inv :
           ((pullbackModules f'.toModulesHom).obj ht.idealOfThickening.I))
           i.toModulesHom_eq_toRingedToposModulesHom.symm).symm ≫
       (basePullbackIdealIsoPullback i t f f' hi ht comm).inv =
-      (eqToIso (basePullbackIdealIsoPullback._proof_3 t f ht) ≪≫
+      (eqToIso (basePullbackIdeal_eq_pullbackModules_toModulesHom t f ht) ≪≫
         ((MorphismOfThickenings.ofFirstOrderThickenings i t f f' hi ht comm).pullbackComparison.app
           ht.idealOfThickening.I).symm).inv :=
   (eqToHom_comp_basePullbackIdealIsoPullback_inv_eq i t f f' hi ht comm).trans

@@ -45,7 +45,7 @@ theorem exists_range_eq_of_isConstructible_finitePresentation {R : Type u} [Comm
     let : Algebra.FinitePresentation R (A i) :=
       Algebra.FinitePresentation.quotient hI
     have hq : (Ideal.Quotient.mk (Ideal.span (Set.range i.1.g))).FinitePresentation := by
-      show (algebraMap R (A i)).FinitePresentation
+      change (algebraMap R (A i)).FinitePresentation
       exact RingHom.finitePresentation_algebraMap.mpr inferInstance
     have hl : (algebraMap (A i) (B i)).FinitePresentation := by
       rw [RingHom.finitePresentation_algebraMap]

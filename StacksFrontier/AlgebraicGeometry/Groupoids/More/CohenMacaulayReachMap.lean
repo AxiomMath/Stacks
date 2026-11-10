@@ -116,7 +116,7 @@ public theorem exists_iso_reachMap_cohenMacaulay :
       pullback.snd (cohenMacaulayOpen G).ι G.target.left :=
     IsOpenImmersion.isoOfRangeEq_hom_fac _ _ hrange
   refine ⟨e₁ ≪≫ e₂, ?_⟩
-  show e₁.hom ≫ e₂.hom ≫ (G.target.left ⁻¹ᵁ cohenMacaulayOpen G).ι ≫ G.source.left = _
+  change e₁.hom ≫ e₂.hom ≫ (G.target.left ⁻¹ᵁ cohenMacaulayOpen G).ι ≫ G.source.left = _
   rw [← Category.assoc e₂.hom, he₂, ← Category.assoc, he₁, ← Over.comp_left]
 
 /-- A property stable under isomorphisms holds for the reach map of the Cohen–Macaulay open as

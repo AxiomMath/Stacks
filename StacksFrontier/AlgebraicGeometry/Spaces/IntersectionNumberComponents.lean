@@ -34,7 +34,7 @@ the Euler characteristics enters.
 
 ## Main results
 
-* `AlgebraicGeometry.Space.intersectionNumber_eq_finsum_mul_intersectionNumber_irreducibleComponents`:
+* `Space.intersectionNumber_eq_finsum_mul_intersectionNumber_irreducibleComponents`:
   **Stacks 0EDI**, `(L₁ ⋯ L_d · Z) = ∑ m_i (L₁ ⋯ L_d · Z_i)` over the irreducible components
   `Z_i` of `Z` of dimension `d`.
 * `AlgebraicGeometry.Space.moduleSupportSet_structureSheafPushforward_of_isClosedImmersion`: the
@@ -51,7 +51,7 @@ the Euler characteristics enters.
   `∑ m_j χ(X, (i_j)_*𝒪_{Z_j} ⊗ L^{⊗ n})` by a polynomial of total degree `< d`, where each
   `i_j : Z_j ⟶ X` is a closed subspace of dimension `d`, then
   `(L₁ ⋯ L_d · Z) = ∑ m_j (L₁ ⋯ L_d · Z_j)`.
-* `AlgebraicGeometry.Space.intersectionNumber_eq_finsum_mul_of_eval_eq_sub_finsum_irreducibleComponents`:
+* `Space.intersectionNumber_eq_finsum_mul_of_eval_eq_sub_finsum_irreducibleComponents`:
   the same comparison indexed by the irreducible components of a closed set `T ⊆ |X|` of
   dimension `d`, the closed subspaces being the reduced closed subspaces on the components of
   dimension `d`.  Its polynomial hypothesis is the conclusion of Stacks 0EDE, read through the
@@ -87,7 +87,7 @@ theorem sum_neg_one_pow_mul_eval_indicator_eq_zero_of_totalDegree_lt {d : ℕ}
   · simp
   rw [sum_neg_one_pow_mul_eval_indicator_eq_coeff_one P hP.le]
   refine coeff_eq_zero_of_totalDegree_lt (hP.trans_le (le_of_eq ?_))
-  show d = (Finsupp.equivFunOnFinite.symm fun _ : Fin d => 1).sum fun _ e => e
+  change d = (Finsupp.equivFunOnFinite.symm fun _ : Fin d => 1).sum fun _ e => e
   rw [Finsupp.sum_fintype _ _ fun _ => rfl]
   simp
 
@@ -284,7 +284,7 @@ theorem intersectionNumber_eq_finsum_mul_of_eval_eq_sub_finsum_irreducibleCompon
     · rw [hTd] at h
       exact Or.inr (by exact_mod_cast h)
   · rw [hP n]
-    simp only [Set.mem_setOf_eq, hTd]
+    simp only [Set.mem_ofPred_eq, hTd]
     rw [← finsum_subtype_eq_finsum_cond]
 
 /-- **Stacks 0EDI.**  Let `k` be a field, `X` a proper algebraic space over `k`, `i : Z ⟶ X` a

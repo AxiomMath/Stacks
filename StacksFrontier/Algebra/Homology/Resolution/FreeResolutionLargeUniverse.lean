@@ -116,10 +116,10 @@ noncomputable def buildResolution (L0 : Layer.{u, v} R) : FreeResolutionData R L
 /-- The assembled complex of stages is exact. -/
 theorem buildResolution_isExact (L0 : Layer.{u, v} R) : (buildResolution L0).IsExact := by
   refine ⟨(layers L0 0).hπ, ?_, ?_⟩
-  · show LinearMap.range (dd L0 0) = LinearMap.ker (layers L0 0).π
+  · change LinearMap.range (dd L0 0) = LinearMap.ker (layers L0 0).π
     exact dd_range L0 0
   · intro n
-    show LinearMap.range (dd L0 (n + 1)) = LinearMap.ker (dd L0 n)
+    change LinearMap.range (dd L0 (n + 1)) = LinearMap.ker (dd L0 n)
     rw [dd_range L0 (n + 1), dd_ker L0 n]
 
 /-- Every term of the assembled complex is free. -/

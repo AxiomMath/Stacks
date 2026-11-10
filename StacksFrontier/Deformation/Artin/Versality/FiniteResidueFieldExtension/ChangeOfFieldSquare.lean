@@ -179,7 +179,7 @@ private theorem specMap_eqToHom
       eqToHom (congrArg (fun A : Deformation.ArtinianLocalAlgCat.{u, u, u} R k =>
         Spec (.of A)) e).symm := by
   cases e
-  show Spec.map (𝟙 _) = 𝟙 _
+  change Spec.map (𝟙 _) = 𝟙 _
   simp
 
 /-- Precomposing a ring map with the cast along an equality of Artinian local algebras becomes,

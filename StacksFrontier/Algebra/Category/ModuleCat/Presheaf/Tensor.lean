@@ -285,7 +285,7 @@ lemma tensorHom_comp
     tensorHom leftHom rightHom ≫ tensorHom leftHom' rightHom' =
       tensorHom (leftHom ≫ leftHom') (rightHom ≫ rightHom') := by
   refine tensorObj_hom_ext fun sectionObj leftSection rightSection ↦ ?_
-  show Hom.app (tensorHom leftHom' rightHom') sectionObj
+  change Hom.app (tensorHom leftHom' rightHom') sectionObj
       (Hom.app (tensorHom leftHom rightHom) sectionObj (leftSection ⊗ₜ rightSection)) =
     Hom.app (tensorHom (leftHom ≫ leftHom') (rightHom ≫ rightHom')) sectionObj
       (leftSection ⊗ₜ rightSection)
@@ -384,7 +384,7 @@ lemma tensorBifunctor_uncurry_map (leftHom : F ⟶ F') (rightHom : G ⟶ G') :
     (Functor.uncurry.obj (tensorBifunctor O)).map
         ((leftHom, rightHom) : (F, G) ⟶ (F', G')) =
       tensorHom leftHom rightHom := by
-  show tensorHom leftHom (𝟙 G) ≫ tensorHom (𝟙 F') rightHom = _
+  change tensorHom leftHom (𝟙 G) ≫ tensorHom (𝟙 F') rightHom = _
   rw [tensorHom_comp, Category.comp_id, Category.id_comp]
 
 /-- For a fixed first factor, the tensor product is an additive functor of the second

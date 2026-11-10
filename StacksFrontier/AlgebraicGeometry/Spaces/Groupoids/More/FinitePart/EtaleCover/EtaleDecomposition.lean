@@ -206,7 +206,7 @@ private theorem subsingleton_pullback_of_singleton_purelyInseparable_fiber
         (g ≫ pullback.snd a f) (IsLocalRing.closedPoint K) = x := by
       apply Set.mem_singleton_iff.mp
       rw [← hf]
-      show f ((g ≫ pullback.snd a f) (IsLocalRing.closedPoint K)) = y
+      change f ((g ≫ pullback.snd a f) (IsLocalRing.closedPoint K)) = y
       exact (congrArg (fun k : Spec (.of K) ⟶ Y ↦ k (IsLocalRing.closedPoint K))
         (comp_snd_comp_eq_comp_fst_comp f a g)).trans (ha _)
     apply pullback.hom_ext
@@ -318,11 +318,11 @@ theorem exists_subset_of_etale_decomposition
     rcases hmem with hw | hd
     · obtain ⟨x, hx, hzx⟩ := hZ ⟨z, hz⟩
       have hwpoint : (W.ι ≫ pullback.snd f U.toBase) ⟨k z, hw⟩ = U.point := by
-        show (k ≫ pullback.snd f U.toBase) z = U.point
+        change (k ≫ pullback.snd f U.toBase) z = U.point
         rw [hksnd]
         exact hlpoint _
       refine (hW ⟨k z, hw⟩ hwpoint x hx ?_).elim
-      show (k ≫ pullback.fst f U.toBase) z = f.fiberι y x
+      change (k ≫ pullback.fst f U.toBase) z = f.fiberι y x
       rw [hkfst]
       exact hzx
     · obtain ⟨i, hi⟩ := Set.mem_iUnion.mp hd

@@ -116,7 +116,7 @@ theorem isBaseChange_includeLeft (N : SmallAlg A' κ) (hY : Cardinal.mk (N.obj �
         (Algebra.TensorProduct.includeLeft (S := A'))) where
   ker_eq := by
     rw [ker_thk, ker_thk, extIdeal]
-    show _ = Ideal.map ((Algebra.TensorProduct.includeLeft (S := A') :
+    change _ = Ideal.map ((Algebra.TensorProduct.includeLeft (S := A') :
       N.obj →ₐ[A'] N.obj ⊗[A'] F) : N.obj →+* N.obj ⊗[A'] F) (Ideal.map (algebraMap A' N.obj) I)
     rw [Ideal.map_map]
     congr 1

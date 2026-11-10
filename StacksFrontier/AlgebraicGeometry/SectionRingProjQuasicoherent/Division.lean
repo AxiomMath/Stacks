@@ -156,7 +156,7 @@ theorem powMul_eq_twistMul (F : X.Modules) {d : ℕ} (a : powSections L d) :
       eqToHom (Stacks.TwistedSections.twistPow_zero F L).symm ≫ twistMul (powSec L a k) 0 ≫
         eqToHom (congrArg (twistPow F L) (Nat.zero_add (d * k)))
   | 0 => by
-      show 𝟙 F = eqToHom rfl ≫ (ρ_ F).inv ≫ F ◁ 𝟙 (𝟙_ X.Modules) ≫ (ρ_ F).hom ≫ eqToHom rfl
+      change 𝟙 F = eqToHom rfl ≫ (ρ_ F).inv ≫ F ◁ 𝟙 (𝟙_ X.Modules) ≫ (ρ_ F).hom ≫ eqToHom rfl
       simp
   | k + 1 => by
       rw [powMul_succ, powMul_eq_twistMul F a k, Category.assoc, Category.assoc,
@@ -375,7 +375,7 @@ theorem map_localDivision {d : ℕ} (a : powSections L d) {U V : X.Opens} (hU : 
     ((divEquiv L F a hU n).symm
       (unitSec (Stacks.TwistedSections.twistCongr (Nat.mul_comm n d) t) U))
   refine hnat.trans ?_
-  show (twistPow F L (d * n)).presheaf.map i.op
+  change (twistPow F L (d * n)).presheaf.map i.op
       ((powMul L F a n).app U ((divEquiv L F a hU n).symm
         (unitSec (Stacks.TwistedSections.twistCongr (Nat.mul_comm n d) t) U))) = _
   rw [← divEquiv_apply L F a hU n, LinearEquiv.apply_symm_apply, map_unitSec]
@@ -501,7 +501,7 @@ theorem numer_smul {d : ℕ} (a : powSections L d) {U : X.Opens} (hU : U ≤ nvO
     _ = c • (powMul L F a n ≫ twistMul (powSec L a m) (d * n) ≫
           eqToHom (congrArg (twistPow F L) h)).app U u := by
         refine congrArg (fun s => c • s) ?_
-        show _ = (twistMul (powSec L a m) (d * n) ≫
+        change _ = (twistMul (powSec L a m) (d * n) ≫
           eqToHom (congrArg (twistPow F L) h)).app U ((powMul L F a n).app U u)
         rw [hpu, ← unitSec_comp, ← unitSec_comp, comp_twistMul_assoc]
 
@@ -545,7 +545,7 @@ theorem localDivision_change {d e j : ℕ} (a : powSections L d) (q : powSection
   rw [map_localDivision L F a hU i z, localDivision_fraction L F q hW z' N _ hz',
     LinearEquiv.symm_apply_eq, divEquiv_apply]
   rw [powMul_eq_comp_twistMul L F a q c n N h hring]
-  show _ = (twistMul c (d * n) ≫ eqToHom (congrArg (twistPow F L) h)).app W
+  change _ = (twistMul c (d * n) ≫ eqToHom (congrArg (twistPow F L) h)).app W
     ((powMul L F a n).app W (localDivision L F a ((leOfHom i).trans hU) z))
   rw [powMul_app_localDivision L F a _ z n t hz, ← unitSec_comp]
   exact congrArg (fun s => unitSec s W) (twistCongr_twistCongr_comp_twistMul L F t c hdeg h)
@@ -555,11 +555,11 @@ omit [Stacks.Ample.IsInvertibleModule X L] in
 theorem powMul_naturality {F G : X.Modules} (φ : F ⟶ G) {d : ℕ} (a : powSections L d) :
     ∀ k : ℕ, powMul L F a k ≫ twistPowMap L φ (d * k) = φ ≫ powMul L G a k
   | 0 => by
-      show 𝟙 F ≫ φ = φ ≫ 𝟙 G
+      change 𝟙 F ≫ φ = φ ≫ 𝟙 G
       simp
   | k + 1 => by
       rw [powMul_succ, powMul_succ, Category.assoc]
-      show powMul L F a k ≫ twistMul a (d * k) ≫ twistPowMap L φ (d * k + d) = _
+      change powMul L F a k ≫ twistMul a (d * k) ≫ twistPowMap L φ (d * k + d) = _
       rw [twistMul_comp_twistPowMap, ← Category.assoc, powMul_naturality φ a k, Category.assoc]
 
 /-- **The division is natural in the module.** -/
@@ -586,9 +586,9 @@ theorem localDivision_naturality {G : X.Modules} (φ : F ⟶ G) {d : ℕ} (a : p
     rw [hz', hz, LocalizedModule.map_mk, Stacks.TwistedSections.twistModuleLinearMap_apply,
       Stacks.TwistedSections.twistModuleHom_of]
   rw [localDivision_fraction L G a hU z' n _ hz'', LinearEquiv.symm_apply_eq, divEquiv_apply]
-  show _ = (φ ≫ powMul L G a n).app U (localDivision L F a hU z)
+  change _ = (φ ≫ powMul L G a n).app U (localDivision L F a hU z)
   rw [← powMul_naturality L φ a n]
-  show _ = (twistPowMap L φ (d * n)).app U ((powMul L F a n).app U (localDivision L F a hU z))
+  change _ = (twistPowMap L φ (d * n)).app U ((powMul L F a n).app U (localDivision L F a hU z))
   rw [powMul_app_localDivision L F a hU z n t hz, ← unitSec_comp]
   refine congrArg (fun s => unitSec s U) ?_
   simp only [Stacks.TwistedSections.twistCongr, Stacks.TwistedSections.twistSectionsMap,

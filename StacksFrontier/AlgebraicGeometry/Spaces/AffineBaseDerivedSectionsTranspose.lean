@@ -67,8 +67,8 @@ theorem homEquiv_symm_map_comp_conjugateIsoEquiv_hom_app {H : ℬ} {Y : ℬ'} {W
   have ha : a = ag'.unit.app H ≫ Rg'.map â := by
     rw [hâ]
     exact ((ag'.homEquiv _ _).apply_symm_apply a).symm.trans (ag'.homEquiv_unit _ _ _)
-  have hc : (Stacks.CategoryTheory.BaseChange.pullbackComparison e (Iso.refl _)).natTrans =
-      e.hom := by
+  have hc : (Stacks.CategoryTheory.BaseChange.pullbackComparison e (Iso.refl _) :
+      Lg ⋙ Lf' ⟶ Lf ⋙ Lg') = e.hom := by
     ext X
     simp [Stacks.CategoryTheory.BaseChange.pullbackComparison]
   have hβ := Stacks.CategoryTheory.BaseChange.homEquiv_map_eq_unit_comp adjf adjf' e (Iso.refl _)

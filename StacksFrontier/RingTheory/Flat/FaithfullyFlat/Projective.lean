@@ -459,7 +459,7 @@ private theorem exists_sSupIndep_projective_of_projective_baseChange
   obtain ⟨⟨hind, hmem, J, hJ⟩, hmax⟩ := h𝒩max
   refine ⟨𝒩, hind, ?_, fun N hN ↦ (hmem N hN).2⟩
   by_contra hne
-  obtain ⟨x, -, hx⟩ := SetLike.exists_of_lt (lt_top_iff_ne_top.mpr hne)
+  obtain ⟨x, -, hx⟩ := IsConcreteLE.exists_of_lt (lt_top_iff_ne_top.mpr hne)
   obtain ⟨C, hCdisj, hxC, hC, hgood⟩ := exists_projective_disjoint_of_baseChange_eq_iSup
     hQinternal hQtop (fun i ↦ (h𝒬 _ i.2).1) hJ x
   have hCnotmem : C ∉ 𝒩 := fun hC ↦ hx (sup_le le_rfl (le_sSup hC) hxC)
@@ -525,7 +525,8 @@ spelled the same way: the base change is the concrete tensor product `S ⊗[R] M
 `[Module.FaithfullyFlat R S]` (equivalently `(algebraMap R S).FaithfullyFlat`, by
 `RingHom.faithfullyFlat_algebraMap_iff`), and `S` is an explicit argument, since it does not occur
 in the conclusion and so cannot be inferred at a call site. Following that lemma and the
-neighbouring statements of Tags 0GVD, 05A3, 05A5 and 05A6, the base change factor is written on the left where
+neighbouring statements of Tags 0GVD, 05A3, 05A5 and 05A6, the base change factor is written
+on the left where
 the source writes `M ⊗_R S`; the two are identified by `TensorProduct.comm`, and only the
 left-hand order carries an `S`-module structure in Mathlib.
 

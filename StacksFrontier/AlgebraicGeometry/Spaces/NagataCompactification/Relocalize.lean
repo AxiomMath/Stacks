@@ -80,7 +80,7 @@ theorem hasCompactification_relocalize_iff (g : B.obj hS ⟶ B.obj hS')
     have hfψ : ψ.hom.app X ≫ Φ.map f = (E.functor.map f).left ≫ ψ.hom.app Y :=
       (ψ.hom.naturality f).symm
     let φj : E.functor.obj X ⟶ Xo := Over.homMk (ψ.hom.app X ≫ j') (by
-      show (ψ.hom.app X ≫ j') ≫ p' ≫ ψ.inv.app Y ≫ (E.functor.obj Y).hom = _
+      change (ψ.hom.app X ≫ j') ≫ p' ≫ ψ.inv.app Y ≫ (E.functor.obj Y).hom = _
       simp only [Category.assoc]
       rw [reassoc_of% hjp', reassoc_of% hfψ, Iso.hom_inv_id_app_assoc]
       exact Over.w (E.functor.map f))

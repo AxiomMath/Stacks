@@ -97,7 +97,7 @@ public theorem iteratedReduction_isLeftAdjoint (n k : ℕ) :
   | succ k hk =>
     have : (scalarReductionFunctor B X ℓ (n + k)).IsLeftAdjoint :=
       (scalarAdjunction B X ℓ (n + k)).isLeftAdjoint
-    show (scalarReductionFunctor B X ℓ (n + k) ⋙ iteratedReduction B X ℓ n k).IsLeftAdjoint
+    change (scalarReductionFunctor B X ℓ (n + k) ⋙ iteratedReduction B X ℓ n k).IsLeftAdjoint
     infer_instance
 
 end FiniteLevelSheaf
@@ -140,7 +140,7 @@ public theorem iteratedKernelReduction_epi {F G : LAdicSheaf.{u, u + 1} B X ℓ}
     have := h k
     have : (FiniteLevelSheaf.iteratedReduction B X ℓ n k).IsLeftAdjoint :=
       FiniteLevelSheaf.iteratedReduction_isLeftAdjoint B X ℓ n k
-    show Epi ((FiniteLevelSheaf.iteratedReduction B X ℓ n k).map (rawKernelReduction f (n + k))
+    change Epi ((FiniteLevelSheaf.iteratedReduction B X ℓ n k).map (rawKernelReduction f (n + k))
       ≫ iteratedKernelReduction f n k)
     infer_instance
 
@@ -240,7 +240,7 @@ public theorem stableKernelι_isIso_of_epi {F G : LAdicSheaf.{u, u + 1} B X ℓ}
     have : Epi (image.ι (iteratedKernelReduction f n k)) :=
       epi_of_epi_fac (image.fac (iteratedKernelReduction f n k))
     have : IsIso (image.ι (iteratedKernelReduction f n k)) := isIso_of_mono_of_epi _
-    show IsIso (imageSubobject (iteratedKernelReduction f n k)).arrow
+    change IsIso (imageSubobject (iteratedKernelReduction f n k)).arrow
     rw [← imageSubobject_arrow (iteratedKernelReduction f n k)]
     infer_instance
   let r := stableKernelLift f n (𝟙 _) (fun k => inv (rawKernelImage f n k).arrow)

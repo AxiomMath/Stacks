@@ -6,7 +6,8 @@ public import StacksFrontier.AlgebraicGeometry.GroupScheme.AbelianVariety.CubeRe
 /-!
 # Multiplication by `d` on an abelian variety is finite locally free, from the cube relation
 
-The chain of `StacksFrontier/AlgebraicGeometry/GroupScheme/AbelianVariety/ZPowFiniteLocallyFree.lean`
+The chain of
+`StacksFrontier/AlgebraicGeometry/GroupScheme/AbelianVariety/ZPowFiniteLocallyFree.lean`
 — `[d]` is finite, flat, finite locally free, of degree `|d| ^ (2 dim A)` and finite locally free
 of that rank, for `d ≠ 0` — takes `HasTheoremOfTheCube A` and uses it only through the closed form
 of the class of `[n]^*L` (`Stacks.Groupoids.zpowIdPicardClass_eq`, at the symmetric ample module).

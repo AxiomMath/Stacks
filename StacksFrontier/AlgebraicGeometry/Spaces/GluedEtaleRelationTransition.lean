@@ -160,15 +160,15 @@ lemma isPushout_of_isPullback_of_jointly_surjective {a : X ⟶ P} {b : Y ⟶ P}
         (show C.X j ⟶ T from by cases j <;> dsimp [C, binaryOpenCover] <;> assumption) := by
     intro i j
     cases i <;> cases j
-    · show pullback.fst b b ≫ y = pullback.snd b b ≫ y
+    · change pullback.fst b b ≫ y = pullback.snd b b ≫ y
       rw [(cancel_mono _).mp (pullback.condition (f := _) (g := _))]
-    · show pullback.fst b a ≫ y = pullback.snd b a ≫ x
+    · change pullback.fst b a ≫ y = pullback.snd b a ≫ x
       rw [← hp.flip.isoPullback_inv_fst, ← hp.flip.isoPullback_inv_snd]
       simpa only [Category.assoc] using congrArg (hp.flip.isoPullback.inv ≫ ·) h.symm
-    · show pullback.fst a b ≫ x = pullback.snd a b ≫ y
+    · change pullback.fst a b ≫ x = pullback.snd a b ≫ y
       rw [← hp.isoPullback_inv_fst, ← hp.isoPullback_inv_snd]
       simpa only [Category.assoc] using congrArg (hp.isoPullback.inv ≫ ·) h
-    · show pullback.fst a a ≫ x = pullback.snd a a ≫ x
+    · change pullback.fst a a ≫ x = pullback.snd a a ≫ x
       rw [(cancel_mono _).mp (pullback.condition (f := _) (g := _))]
   refine IsPushout.of_isColimit (PushoutCocone.IsColimit.mk hp.w
     (fun s ↦ C.glueMorphisms _ (compatible s.inl s.inr s.condition)) ?_ ?_ ?_)

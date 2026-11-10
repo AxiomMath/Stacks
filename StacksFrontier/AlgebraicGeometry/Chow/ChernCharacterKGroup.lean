@@ -65,7 +65,7 @@ theorem existsUnique_ringHom_of_tensorMultiplicative
       (φ := (liftAddHom ch hzero hadd).comp (AddMonoidHom.mulLeft (classOf X M)))
       (ψ := (AddMonoidHom.mulLeft (liftAddHom ch hzero hadd (classOf X M))).comp
         (liftAddHom ch hzero hadd)) fun N hN => ?_)
-    show liftAddHom ch hzero hadd (classOf X M * classOf X N) =
+    change liftAddHom ch hzero hadd (classOf X M * classOf X N) =
       liftAddHom ch hzero hadd (classOf X M) * liftAddHom ch hzero hadd (classOf X N)
     rw [classOf_mul M N hM hN, hclass, hclass, hclass, hmul M N hM hN]
   refine ⟨{ liftAddHom ch hzero hadd with
@@ -79,7 +79,7 @@ theorem existsUnique_ringHom_of_tensorMultiplicative
       (ψ := (AddMonoidHom.mulRight (liftAddHom ch hzero hadd b)).comp
         (liftAddHom ch hzero hadd)) fun M hM => hstep M hM b) a
   · intro g hg
-    refine RingHom.coe_addMonoidHom_injective (addHom_ext fun M hM => ?_)
+    refine RingHom.toAddMonoidHom_injective (addHom_ext fun M hM => ?_)
     exact (hg M hM).trans (hclass M).symm
 
 end AlgebraicGeometry.VectorBundleKZero

@@ -190,7 +190,7 @@ theorem stageLimitSchemeIso_inv_comp_fst :
   have he₂ : e₂.hom ≫ pullback.snd s.X.hom s.limitBaseChange.g =
       pullback.snd s.X.hom (s.limitIdentification.hom ≫ s.limitBaseChange.g) ≫
         s.limitIdentification.hom := pullback.lift_snd _ _ _
-  show e₂.inv ≫ (pullbackSymmetry (s.limitIdentification.hom ≫ s.limitBaseChange.g)
+  change e₂.inv ≫ (pullbackSymmetry (s.limitIdentification.hom ≫ s.limitBaseChange.g)
     s.X.hom).inv ≫ pullback.fst _ _ = _
   rw [pullbackSymmetry_inv_comp_fst]
   apply (cancel_epi e₂.hom).1
@@ -213,7 +213,7 @@ theorem stageLimitSchemeIso_inv_comp_snd :
       pullback.fst s.X.hom (s.limitIdentification.hom ≫ s.limitBaseChange.g) := by
     refine (pullback.lift_fst _ _ _).trans ?_
     simp
-  show e₂.inv ≫ (pullbackSymmetry (s.limitIdentification.hom ≫ s.limitBaseChange.g)
+  change e₂.inv ≫ (pullbackSymmetry (s.limitIdentification.hom ≫ s.limitBaseChange.g)
     s.X.hom).inv ≫ pullback.snd _ _ = _
   rw [pullbackSymmetry_inv_comp_snd]
   apply (cancel_epi e₂.hom).1
@@ -228,7 +228,7 @@ theorem stageSchemeConeOverX_π_comp_fst (i : I) :
     s.stageSchemeConeOverX.π.app i ≫ pullback.fst (s.stageToBase i) s.X.hom =
       pullback.fst (s.limitIdentification.hom ≫ s.limitBaseChange.g) s.X.hom ≫
         s.cone.π.app i := by
-  show pullback.lift
+  change pullback.lift
     (pullback.fst (s.limitIdentification.hom ≫ s.limitBaseChange.g) s.X.hom ≫ s.cone.π.app i)
     (pullback.snd (s.limitIdentification.hom ≫ s.limitBaseChange.g) s.X.hom) _ ≫
       pullback.fst (s.stageToBase i) s.X.hom = _
@@ -239,7 +239,7 @@ the projections to `X`. -/
 theorem stageSchemeConeOverX_π_comp_snd (i : I) :
     s.stageSchemeConeOverX.π.app i ≫ pullback.snd (s.stageToBase i) s.X.hom =
       pullback.snd (s.limitIdentification.hom ≫ s.limitBaseChange.g) s.X.hom := by
-  show pullback.lift
+  change pullback.lift
     (pullback.fst (s.limitIdentification.hom ≫ s.limitBaseChange.g) s.X.hom ≫ s.cone.π.app i)
     (pullback.snd (s.limitIdentification.hom ≫ s.limitBaseChange.g) s.X.hom) _ ≫
       pullback.snd (s.stageToBase i) s.X.hom = _
@@ -314,7 +314,7 @@ theorem exists_closedImmersion_model (Z' : Over (pullback s.X.hom s.limitBaseCha
   obtain ⟨i, Yᵢ, hclosed, hmodel⟩ := AlgebraicGeometry.exists_closedImmersion_model_of_isLimit
     s.stageSchemeDiagram s.stageSchemeCone s.isLimit_stageSchemeCone Z' hfp
   refine ⟨i, (Over.pullback (s.stageSchemeObjectIso i).inv).obj Yᵢ, ?_, ?_⟩
-  · show IsClosedImmersion (pullback.snd Yᵢ.hom (s.stageSchemeObjectIso i).inv)
+  · change IsClosedImmersion (pullback.snd Yᵢ.hom (s.stageSchemeObjectIso i).inv)
     infer_instance
   · obtain ⟨e⟩ := hmodel
     exact ⟨e.trans (s.stageProjection_comp_stageSchemeObjectIso_inv i ▸

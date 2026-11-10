@@ -212,7 +212,7 @@ theorem isPullback_localization_away
     apply away_localization_isLocalizedModule (fun r x => by
       rw [RingHom.toModule_smul, Algebra.smul_def]
       rfl) h (s g)
-    show (s.comp πB) h = s g
+    change (s.comp πB) h = s g
     simp [RingHom.comp_apply, hB]
   have hLocB' : IsLocalizedModule.Away h f₀ := by
     apply away_localization_isLocalizedModule (fun r x => by
@@ -258,13 +258,13 @@ theorem isPullback_localization_away
       rw [RingHom.comp_apply, hR']
       exact IsLocalization.Away.algebraMap_isUnit f)
   have hpBcompat (a : B') (x : Localization.Away h) : pB (a • x) = a • pB x := by
-    show pB (algebraMap B' (Localization.Away h) a * x) =
+    change pB (algebraMap B' (Localization.Away h) a * x) =
       ((algebraMap B (Localization.Away g)).comp πB) a * pB x
     rw [map_mul]
     congr 1
     simp [pB, Localization.awayLift, IsLocalization.Away.lift_eq, RingHom.comp_apply]
   have hpRcompat (a : B') (x : Localization.Away h) : pR (a • x) = a • pR x := by
-    show pR (algebraMap B' (Localization.Away h) a * x) =
+    change pR (algebraMap B' (Localization.Away h) a * x) =
       ((algebraMap R' (Localization.Away f)).comp πR') a * pR x
     rw [map_mul]
     congr 1
@@ -275,7 +275,7 @@ theorem isPullback_localization_away
     apply IsLocalizedModule.linearMap_ext (.powers h) f₀ (f₁.prodMap f₂)
     apply LinearMap.ext
     intro a
-    show U (f₀ a) = (LinearMap.prod pBlin pRlin) (f₀ a)
+    change U (f₀ a) = (LinearMap.prod pBlin pRlin) (f₀ a)
     rw [show U = IsLocalizedModule.map (.powers h) f₀ (f₁.prodMap f₂) u by rfl,
       IsLocalizedModule.map_apply]
     simp [pBlin, pRlin, ringHomLinearMap, LinearMap.prod_apply, f₀, f₁, f₂,
@@ -289,13 +289,13 @@ theorem isPullback_localization_away
       rw [RingHom.comp_apply, ← hcompat]
       exact IsLocalization.Away.algebraMap_isUnit (s g))
   have hbCompat (a : B') (x : Localization.Away g) : bMap (a • x) = a • bMap x := by
-    show bMap (((algebraMap B (Localization.Away g)).comp πB) a * x) =
+    change bMap (((algebraMap B (Localization.Away g)).comp πB) a * x) =
       ((algebraMap R (Localization.Away (s g))).comp (s.comp πB)) a * bMap x
     rw [map_mul]
     congr 1
     simp [bMap, IsLocalization.Away.map, RingHom.comp_apply]
   have hqCompat (a : B') (x : Localization.Away f) : qMap (a • x) = a • qMap x := by
-    show qMap (((algebraMap R' (Localization.Away f)).comp πR') a * x) =
+    change qMap (((algebraMap R' (Localization.Away f)).comp πR') a * x) =
       ((algebraMap R (Localization.Away (s g))).comp (s.comp πB)) a * qMap x
     rw [map_mul]
     congr 1
@@ -313,14 +313,14 @@ theorem isPullback_localization_away
       map_smul' := by
         intro a x
         rcases x with ⟨x, y⟩
-        show bLin (a • x) - qLin (a • y) = a • (bLin x - qLin y)
+        change bLin (a • x) - qLin (a • y) = a • (bLin x - qLin y)
         rw [bLin.map_smul, qLin.map_smul, smul_sub] }
   have hVeq : V = W := by
     apply IsLocalizedModule.linearMap_ext (.powers h) (f₁.prodMap f₂) f₃
     apply LinearMap.ext
     intro z
     rcases z with ⟨b, r'⟩
-    show V ((f₁.prodMap f₂) (b, r')) = W ((f₁.prodMap f₂) (b, r'))
+    change V ((f₁.prodMap f₂) (b, r')) = W ((f₁.prodMap f₂) (b, r'))
     rw [show V = IsLocalizedModule.map (.powers h) (f₁.prodMap f₂) f₃ v by rfl,
       IsLocalizedModule.map_apply]
     simp [W, bLin, qLin, ringHomLinearMap, f₁, f₂, f₃, scalarLocalizationMap,
@@ -338,7 +338,7 @@ theorem isPullback_localization_away
   · intro x y hxy
     change pBlin x = pBlin y ∧ pRlin x = pRlin y at hxy
     apply IsLocalizedModule.map_injective (.powers h) f₀ (f₁.prodMap f₂) u hu
-    show U x = U y
+    change U x = U y
     rw [hUeq]
     exact Prod.ext hxy.1 hxy.2
   · intro x₂ x₃ hx

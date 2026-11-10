@@ -162,7 +162,7 @@ public theorem range_comp_specMap_mapRingHom_subset {X : Scheme.{u}}
 public theorem schemeSizeBelow_laumonRingPlane_of_surjective (hφ : Function.Surjective φ)
     {κ : Cardinal.{u}} (hS : schemeSizeBelow κ (Spec (.of (Polynomial (Polynomial A))))) :
     schemeSizeBelow κ (Spec (.of (Polynomial (Polynomial A')))) := by
-  show (Spec (.of (Polynomial (Polynomial A')))).size < κ
+  change (Spec (.of (Polynomial (Polynomial A')))).size < κ
   change (Spec (.of (Polynomial (Polynomial A)))).size < κ at hS
   rw [Scheme.size_Spec] at hS ⊢
   refine lt_of_le_of_lt (max_le_max le_rfl ?_) hS
@@ -174,7 +174,7 @@ variable (A) in
 public theorem schemeSizeBelow_laumonRingLine_of_laumonRingPlane {κ : Cardinal.{u}}
     (hS : schemeSizeBelow κ (Spec (.of (Polynomial (Polynomial A))))) :
     schemeSizeBelow κ (Spec (.of (Polynomial A))) := by
-  show (Spec (.of (Polynomial A))).size < κ
+  change (Spec (.of (Polynomial A))).size < κ
   change (Spec (.of (Polynomial (Polynomial A)))).size < κ at hS
   rw [Scheme.size_Spec] at hS ⊢
   refine lt_of_le_of_lt (max_le_max le_rfl ?_) hS
@@ -194,7 +194,7 @@ have cardinality `max #k ℵ₀ ≤ #k'[x][t]`. -/
 public theorem schemeSizeBelow_laumonParamPlane_of_fieldExtension {κ : Cardinal.{u}}
     (hS : schemeSizeBelow κ (Spec (.of (Polynomial (Polynomial k'))))) :
     schemeSizeBelow κ (Spec (.of (Polynomial (Polynomial (Polynomial k))))) := by
-  show (Spec (.of (Polynomial (Polynomial (Polynomial k))))).size < κ
+  change (Spec (.of (Polynomial (Polynomial (Polynomial k))))).size < κ
   change (Spec (.of (Polynomial (Polynomial k')))).size < κ at hS
   rw [Scheme.size_Spec] at hS ⊢
   refine lt_of_le_of_lt (max_le (le_max_left _ _) ?_) hS
@@ -405,7 +405,7 @@ public theorem laumonFourierLineLisseFibreInput_of_lattice
       (hD V' U' (jV' ≫ πt) (jU ≫ π) g' jg' hrange' hpb' i s)
   have hfac : B.inclusion.map (laumonParamPlaneHom k k' B a hS hS₀) =
       B.inclusion.map π ≫ B.inclusion.map πρ := by
-    show Spec.map _ = Spec.map _ ≫ Spec.map _
+    change Spec.map _ = Spec.map _ ≫ Spec.map _
     rw [← Spec.map_comp, ← CommRingCat.ofHom_comp, Polynomial.mapRingHom_comp,
       Polynomial.mapRingHom_comp, hφ]
   have hcl' := IsExtensionSummandClosure.map

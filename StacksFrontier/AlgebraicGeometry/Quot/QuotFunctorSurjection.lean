@@ -165,6 +165,8 @@ instance epi_baseChangeModuleMap_comp_quotientProjection (T : SchemesOver D.Y)
     ((D.withModule G hG).epi_quotientProjection T L)
 
 set_option synthInstance.maxHeartbeats 400000 in
+-- `kernelSubobject` needs a `HasKernel` instance for the composite, found by instance search
+-- through the abelian structure of the module category over `T`.
 /-- The kernel of the quotient `F_T ⟶ G_T ⟶ G_T/L` of `F_T` induced by a quotient of `G_T`. -/
 def quotientSubobject (T : SchemesOver D.Y)
     (L : Subobject ((D.withModule G hG).baseChangeModule T)) :
@@ -212,7 +214,7 @@ theorem quotientSubobject_injective (T : SchemesOver D.Y) :
       (D.withModule G hG).quotientProjection T L' :=
     (cancel_epi (D.baseChangeModuleMap φ T)).1 (by rw [← Category.assoc]; exact he)
   rw [← kernelSubobject_cokernel_π L, ← kernelSubobject_cokernel_π L']
-  show kernelSubobject ((D.withModule G hG).quotientProjection T L) =
+  change kernelSubobject ((D.withModule G hG).quotientProjection T L) =
     kernelSubobject ((D.withModule G hG).quotientProjection T L')
   have : Mono e.hom := ⟨fun g h w => by
     simpa only [Category.assoc, Iso.hom_inv_id, Category.comp_id] using congrArg (· ≫ e.inv) w⟩
@@ -353,7 +355,7 @@ theorem exists_imageLocus_quotientInclusion (a : SchemesOver D.Y)
       exact ⟨r.left, rfl⟩
     · rintro ⟨r₀, hr₀⟩
       refine ⟨CostructuredArrow.homMk r₀ ?_, CostructuredArrow.hom_ext _ _ hr₀⟩
-      show (schemeSpaceFunctor B S hS).map r₀ ≫ (schemeSpaceFunctor B S hS).map s₀ ≫ a.hom =
+      change (schemeSpaceFunctor B S hS).map r₀ ≫ (schemeSpaceFunctor B S hS).map s₀ ≫ a.hom =
         c.hom
       rw [← Category.assoc, ← Functor.map_comp, hr₀]
       exact CostructuredArrow.w t

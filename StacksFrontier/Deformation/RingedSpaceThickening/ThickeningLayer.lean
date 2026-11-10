@@ -93,7 +93,7 @@ thickening is the open itself. -/
 theorem thickening_preimage_preimage (U : Opens X.carrier) :
     (Opens.map i.hom.base).obj ((Opens.map (thickeningHomeo i hi).inv).obj U) = U := by
   rw [← Opens.map_comp_obj]
-  show (Opens.map ((thickeningHomeo i hi).hom ≫ (thickeningHomeo i hi).inv)).obj U = U
+  change (Opens.map ((thickeningHomeo i hi).hom ≫ (thickeningHomeo i hi).inv)).obj U = U
   rw [Iso.hom_inv_id]
   rfl
 
@@ -102,7 +102,7 @@ is the open itself. -/
 theorem thickening_preimage_preimage' (W : Opens X'.carrier) :
     (Opens.map (thickeningHomeo i hi).inv).obj ((Opens.map i.hom.base).obj W) = W := by
   rw [← Opens.map_comp_obj]
-  show (Opens.map ((thickeningHomeo i hi).inv ≫ (thickeningHomeo i hi).hom)).obj W = W
+  change (Opens.map ((thickeningHomeo i hi).inv ≫ (thickeningHomeo i hi).hom)).obj W = W
   rw [Iso.inv_hom_id]
   rfl
 
@@ -193,7 +193,7 @@ theorem thickeningReduction_isLocallySurjective :
   have hVU : V ≤ U := fun z hz => hUW.le (iW.le hz)
   have hW'V := thickening_preimage_preimage' i hi W'
   refine ⟨V, homOfLE hVU, ⟨X'.presheaf.map (homOfLE hW'V.le).op t, ?_⟩, hyW'⟩
-  show (thickeningReduction i hi).hom.app (op V) (X'.presheaf.map (homOfLE hW'V.le).op t) =
+  change (thickeningReduction i hi).hom.app (op V) (X'.presheaf.map (homOfLE hW'V.le).op t) =
     X.presheaf.map (homOfLE hVU).op s
   rw [thickeningReduction_apply, c_app_map_apply, ht]
   change X.presheaf.map _ (X.presheaf.map _ (X.presheaf.map _ s')) = _
@@ -205,7 +205,7 @@ theorem thickeningReduction_squareZero (hfo : IsFirstOrderThickening i)
     (U : (Opens X.carrier)ᵒᵖ) :
     (RingHom.ker ((thickeningReduction i hfo.isThickening).hom.app U).hom) ^ 2 = ⊥ := by
   obtain ⟨U⟩ := U
-  show RingHom.ker ((X.presheaf.map (homOfLE
+  change RingHom.ker ((X.presheaf.map (homOfLE
     (thickening_preimage_preimage i hfo.isThickening U).ge).op).hom.comp
       (i.hom.c.app (op ((Opens.map (thickeningHomeo i hfo.isThickening).inv).obj U))).hom) ^ 2 = ⊥
   rw [RingHom.ker_comp_of_injective _ (presheaf_map_homOfLE_injective X.presheaf _
@@ -421,7 +421,7 @@ theorem thickeningKernelZero (U : (Opens X.carrier)ᵒᵖ) (m : G.val.obj U) :
       (show (thickenedRing i hi).obj.obj U from
         (thickeningKernelInclusion i hi G kernelIso).val.app U m) = 0 := by
   obtain ⟨U⟩ := U
-  show X.presheaf.map _ (i.hom.c.app _ (thickeningKernelInclusionApp i hi G kernelIso U m)) = 0
+  change X.presheaf.map _ (i.hom.c.app _ (thickeningKernelInclusionApp i hi G kernelIso U m)) = 0
   rw [thickeningKernelInclusionApp_comp, map_zero]
 
 /-- **The inclusion identifies the module with the kernel of the reduction, section by
@@ -509,7 +509,7 @@ theorem thickening_structure_le (hi : IsThickening i) (ht : IsThickening t) (V :
   have h1 : f'.hom.base z = t.hom.base (f.hom.base ((thickeningHomeo i hi).inv z)) := by
     conv_lhs => rw [← thickeningHomeo_inv_hom_apply i hi z]
     exact thickening_comm_apply i t f f' comm _
-  show (thickeningHomeo t ht).inv (f'.hom.base z) ∈ V
+  change (thickeningHomeo t ht).inv (f'.hom.base z) ∈ V
   rw [h1, thickeningHomeo_hom_inv_apply]
   exact hz
 
@@ -550,7 +550,7 @@ theorem thickeningStructure_comp_reduction (hi : IsThickening i) (ht : IsThicken
       thickeningReduction t ht ≫ comorphism f := by
   refine sheafHom_ext _ fun V a => ?_
   obtain ⟨V⟩ := V
-  show X.presheaf.map _ (i.hom.c.app _ (X'.presheaf.map _ (f'.hom.c.app _ a))) =
+  change X.presheaf.map _ (i.hom.c.app _ (X'.presheaf.map _ (f'.hom.c.app _ a))) =
     f.hom.c.app _ (S.presheaf.map _ (t.hom.c.app _ a))
   rw [c_app_map_apply i, c_app_map_apply f]
   exact (presheaf_map_map_apply X.presheaf _ _ _).trans (comp_c_congr comm _ _ _ a)

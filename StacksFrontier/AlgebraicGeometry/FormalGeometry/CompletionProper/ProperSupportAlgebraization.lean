@@ -432,7 +432,7 @@ public theorem hasProperSupport_properPushforwardCoherent {Y X S : Scheme.{u}}
   refine ⟨⟨_root_.SheafOfModules.supp (properPushforwardCoherent π G).obj,
     _root_.SheafOfModules.isClosed_supp _⟩, rfl,
     isProperOver_of_le f ?_ (isProperOver_closedImage π f Z hZp)⟩
-  show _root_.SheafOfModules.supp (properPushforwardCoherent π G).obj ⊆
+  change _root_.SheafOfModules.supp (properPushforwardCoherent π G).obj ⊆
     π.base '' (Z : Set Y)
   rw [hZ]
   exact Stacks.Chow.supp_pushforward_subset_image π G.obj
@@ -828,7 +828,7 @@ proper over `A` by
 with the complement of the support of the vanishing ideal sheaf of `X ∖ U`.
 
 `hTransport` is what the compactification of
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/ProperSupportCompactification.lean`
+`StacksFrontier.AlgebraicGeometry.FormalGeometry.CompletionProper.ProperSupportCompactification`
 is for: Chow's lemma produces `π` and `U`, the projective case of Grothendieck existence
 algebraizes the system pushed to `Y'`, and completeness of `A` keeps the support of that
 algebraization inside `j(Y)`, which is what makes it restrict to the `G` above. What is not in

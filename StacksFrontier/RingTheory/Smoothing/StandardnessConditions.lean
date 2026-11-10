@@ -180,7 +180,7 @@ private theorem firstPreSubmersivePresentation_jacobian {R A : Type*} [CommRing 
       Ideal.Quotient.mk _ (P.jacobianMinorPrincipal c hcn hcm) := by
   classical
   rw [Algebra.PreSubmersivePresentation.jacobian_eq_jacobiMatrix_det]
-  show _ = Ideal.Quotient.mk _ _
+  change _ = Ideal.Quotient.mk _ _
   rw [show (firstPreSubmersivePresentation P c hcn hcm).jacobiMatrix =
       Matrix.transpose (Matrix.of fun j i : Fin c =>
         MvPolynomial.pderiv (Fin.castLE hcn i) (P.f (Fin.castLE hcm j))) by
@@ -244,7 +244,7 @@ private theorem firstToAlgebra_ker {R A : Type*} [CommRing R] [CommRing A]
       Ideal.Quotient.mk_surjective).mp hz
     have hp' : Ideal.Quotient.mk (Ideal.span (Set.range P.f)) p = 0 :=
       (Ideal.Quotient.eq_zero_iff_mem).2 hp
-    show firstToAlgebra P c hcm (Ideal.Quotient.mk J p) = 0
+    change firstToAlgebra P c hcm (Ideal.Quotient.mk J p) = 0
     rw [firstToAlgebra_mk, hp', map_zero]
 
 /-- Condition (6) implies condition (4): an elementary standard element has a standard smooth
@@ -297,7 +297,7 @@ theorem isStandardSmooth_localizationAway_of_isElementaryStandard
   let _ : IsScalarTower S.R C S.A := IsScalarTower.of_algebraMap_eq'
     (R := S.R) (S := C) (A := S.A) (by
     ext r
-    show algebraMap S.R S.A r = q (algebraMap S.R C r)
+    change algebraMap S.R S.A r = q (algebraMap S.R C r)
     exact (q.commutes r).symm)
   have hΔA : IsUnit (algebraMap S.A (Localization.Away S.a) (P.lift Δ)) := by
     have hprod : IsUnit (algebraMap S.A (Localization.Away S.a) (a' * P.lift Δ)) := by
@@ -314,15 +314,15 @@ theorem isStandardSmooth_localizationAway_of_isElementaryStandard
     toRingHom := qlocRing
     commutes' := by
       intro r
-      show IsLocalization.Away.map E (Localization.Away S.a) q.toRingHom (d * ΔC)
+      change IsLocalization.Away.map E (Localization.Away S.a) q.toRingHom (d * ΔC)
         ((algebraMap C E) ((algebraMap S.R C) r)) = _
       rw [IsLocalization.Away.map, IsLocalization.map_eq]
-      show (algebraMap S.A (Localization.Away S.a))
+      change (algebraMap S.A (Localization.Away S.a))
         (q ((algebraMap S.R C) r)) = _
       rw [q.commutes r]
       exact IsScalarTower.algebraMap_apply S.R S.A (Localization.Away S.a) r }
   have hqloc_surj : Function.Surjective qloc := by
-    show Function.Surjective qlocRing
+    change Function.Surjective qlocRing
     rw [IsLocalization.Away.map_surjective_iff]
     intro a
     obtain ⟨b, hb⟩ := firstToAlgebra_surjective P c hcm a
@@ -333,7 +333,7 @@ theorem isStandardSmooth_localizationAway_of_isElementaryStandard
         Submonoid.powers (q (d * ΔC)) := by
       ext x
       simp [Submonoid.map_powers]
-    show RingHom.ker (IsLocalization.Away.map E (Localization.Away S.a)
+    change RingHom.ker (IsLocalization.Away.map E (Localization.Away S.a)
       q.toRingHom (d * ΔC)) = _
     exact IsLocalization.ker_map (Localization.Away S.a) q.toRingHom hpow
   let K : Ideal E := RingHom.ker qloc.toRingHom
@@ -348,7 +348,7 @@ theorem isStandardSmooth_localizationAway_of_isElementaryStandard
       _ = K := hkerloc.symm
   have hJker : J ≤ RingHom.ker ψ := by
     intro x hx
-    show algebraMap C E (Ideal.Quotient.mk J x) = 0
+    change algebraMap C E (Ideal.Quotient.mk J x) = 0
     rw [(Ideal.Quotient.eq_zero_iff_mem).2 hx, map_zero]
   have hJbot : Ideal.map ψ J = ⊥ := (Ideal.map_eq_bot_iff_le_ker ψ).2 hJker
   have hKspan : K = Ideal.span (Set.range (fun j : Fin P.m => ψ (P.f j))) := by
@@ -362,7 +362,7 @@ theorem isStandardSmooth_localizationAway_of_isElementaryStandard
     rw [hKspan]
     apply Ideal.span_le.mpr
     rintro _ ⟨j, rfl⟩
-    show ψ (P.f j) ∈ (Ideal.span (Set.range (fun j : Fin P.m => ψ (P.f j)))) ^ 2
+    change ψ (P.f j) ∈ (Ideal.span (Set.range (fun j : Fin P.m => ψ (P.f j)))) ^ 2
     by_cases hj : (j : ℕ) < c
     · let k : Fin c := ⟨j.1, hj⟩
       have hj' : Fin.castLE hcm k = j := by
@@ -392,16 +392,16 @@ theorem isStandardSmooth_localizationAway_of_isElementaryStandard
       have hprod : ψ p * ψ (P.f j) ∈ K ^ 2 := by
         simpa [map_mul] using hmaple (Ideal.mem_map_of_mem ψ htail')
       have hunit : IsUnit (ψ p) := by
-        show IsUnit (algebraMap C E d)
+        change IsUnit (algebraMap C E d)
         exact IsLocalization.Away.isUnit_of_dvd (d * ΔC) (dvd_mul_right d ΔC)
       simpa only [hKspan, ← mul_assoc, hunit.val_inv_mul, one_mul] using
         Ideal.mul_mem_left (K ^ 2) (↑(hunit.unit⁻¹)) hprod
   have hK_idem : IsIdempotentElem K := by
-    show K * K = K
+    change K * K = K
     exact le_antisymm (Ideal.mul_le_left) (by simpa [pow_two] using hK_le)
   obtain ⟨e, he, hKe⟩ := (Ideal.isIdempotentElem_iff_of_fg K hKfg).mp hK_idem
   have hkerEq : RingHom.ker qloc.toRingHom = Ideal.span ({e} : Set E) := by
-    show K = _
+    change K = _
     simpa [Ideal.submodule_span_eq] using hKe
   let Q := E ⧸ (Ideal.span ({1 - (1 - e)} : Set E))
   let _ : IsLocalization.Away (1 - e) Q :=

@@ -31,8 +31,8 @@ With it the change of chart is applicable to `Fd.chartEquiv`, which is what the 
   `AlgebraicGeometry.Proj` and for `AlgebraicGeometry.Proj.degreeOpen` as an open of it, in the
   two shapes `AlgebraicGeometry.Proj.degreeOpen_toScheme_congr` and
   `...degreeOpen_toScheme_congr_index` of
-  `StacksFrontier.AlgebraicGeometry.RelativeProjQcohSheaf.RestrictDegreeOpen` have for the degree-`d`
-  open alone.
+  `StacksFrontier.AlgebraicGeometry.RelativeProjQcohSheaf.RestrictDegreeOpen` have
+  for the degree-`d` open alone.
 * `Stacks.AlgebraicGeometry.RelativeProjQcohSheaf.toProj_classifyingHom_congr`: **the Tag 01N8
   classifying morphism transported along an identification of the graded ring**, with every
   instance an argument.
@@ -333,7 +333,7 @@ theorem Fd.toProj_chartEquiv_mk (hU : IsAffineOpen U) {k : ℕ} (hk : 0 < k) {T 
   have : IsAffine U.toScheme := hU
   have hqc : ∀ n : ℤ, ((situationAlgebra (A.restrict U.ι)).piece n).IsQuasicoherent :=
     fun n => (A.restrict U.ι).isQuasicoherent n
-  show (classifyingHom ((A.restrict U.ι).grading (⊤ : U.toScheme.Opens)) hk
+  change (classifyingHom ((A.restrict U.ι).grading (⊤ : U.toScheme.Opens)) hk
           (veroneseSections P.twisting)
           (Quadruple.iSup_nonvanishingOpen_psiSection_eq_top hqc P)
         ≫ eqToHom (SheafGradedAlgebra.restrict_ι_degreeOpen_toScheme A U k))

@@ -87,12 +87,12 @@ theorem problemStep {X : (BigFppfOver B (⊤_ Scheme.{u}) hZ)ᵒᵖ ⥤ Type u}
   have heW : eW ≫ a = ι := by
     apply (BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map_injective
     rw [map_openSiteObjectHom, Functor.map_comp]
-    show ((BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map a).isoOpensRange.inv ≫
+    change ((BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map a).isoOpensRange.inv ≫
       (BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map a = Wo.ι
     exact Scheme.Hom.isoOpensRange_inv_comp _
   have : IsIso eW := by
     have : IsIso ((BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map eW) := by
-      show IsIso ((BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map a).isoOpensRange.inv
+      change IsIso ((BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ).map a).isoOpensRange.inv
       infer_instance
     exact isIso_of_reflects_iso eW (BigFppfOver.toScheme B (⊤_ Scheme.{u}) hZ)
   let wU : yoneda.obj Ws ⟶ U.toFunctor := yoneda.map eW ≫ bW

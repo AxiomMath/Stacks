@@ -46,7 +46,7 @@ public theorem isLocallyNoetherian_fiber_of_locallyOfFinitePresentation {X S : S
     (f : X ⟶ S) [LocallyOfFinitePresentation f] (y : S) :
     IsLocallyNoetherian (f.fiber y) := by
   let _ : LocallyOfFiniteType (f.fiberToSpecResidueField y) := by
-    show LocallyOfFiniteType (Limits.pullback.snd f (S.fromSpecResidueField y))
+    change LocallyOfFiniteType (Limits.pullback.snd f (S.fromSpecResidueField y))
     infer_instance
   exact LocallyOfFiniteType.isLocallyNoetherian (f.fiberToSpecResidueField y)
 

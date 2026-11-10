@@ -116,7 +116,7 @@ private lemma coordinateGrpObj_mul (π : A) :
       comultiplication π := by
   let := coordinateGrpObj π
   apply (pointOfAlgHom_bijective π _).injective
-  show pointOfAlgHom π
+  change pointOfAlgHom π
     (((pointRepresentableBy π).homEquiv'.symm
       ((pointRepresentableBy π).homEquiv' (fst _ _) *
         (pointRepresentableBy π).homEquiv' (snd _ _))).unop.hom) = _
@@ -171,12 +171,12 @@ private lemma coordinateMap_isMonHom (π ρ : A)
         intro x
         apply Multiplicative.toAdd.injective
         obtain ⟨x, rfl⟩ := (pointOfAlgHom_bijective π R.unop.unop).surjective x.toAdd
-        show pointOfAlgHom ρ
+        change pointOfAlgHom ρ
             (((Equiv.ofBijective (pointOfAlgHom π)
               (pointOfAlgHom_bijective π S.unop.unop)).symm
                 (pointOfAlgHom π (g.unop.unop.hom.comp x))).comp f) = _
         rw [hsymm]
-        show pointOfAlgHom ρ ((g.unop.unop.hom.comp x).comp f) =
+        change pointOfAlgHom ρ ((g.unop.unop.hom.comp x).comp f) =
           pointOfAlgHom ρ (g.unop.unop.hom.comp
             (((Equiv.ofBijective (pointOfAlgHom π)
               (pointOfAlgHom_bijective π R.unop.unop)).symm (pointOfAlgHom π x)).comp f))
@@ -189,11 +189,11 @@ private lemma coordinateMap_isMonHom (π ρ : A)
     change ψ.hom.hom = _ at he
     refine he.trans ?_
     apply (pointRepresentableBy ρ).homEquiv'.injective
-    show (pointRepresentableBy ρ).homEquiv'
+    change (pointRepresentableBy ρ).homEquiv'
       ((pointRepresentableBy ρ).homEquiv'.symm _) = _
     rw [Equiv.apply_symm_apply]
     apply Multiplicative.toAdd.injective
-    show pointOfAlgHom ρ
+    change pointOfAlgHom ρ
       (((Equiv.ofBijective (pointOfAlgHom π)
         (pointOfAlgHom_bijective π (coordinateRing π))).symm
           (pointOfAlgHom π (AlgHom.id A _))).comp f) = pointOfAlgHom ρ f
@@ -243,7 +243,7 @@ lemma groupScheme_mul (π : A) :
       (pullbackSpecIso A (coordinateRing π) (coordinateRing π)).hom ≫
         Spec.map (CommRingCat.ofHom (comultiplication π).toRingHom) := by
   let := coordinateGrpObj π
-  show (Functor.LaxMonoidal.μ (algSpec (.of A)) _ _ ≫
+  change (Functor.LaxMonoidal.μ (algSpec (.of A)) _ _ ≫
     (algSpec (.of A)).map (MonObj.mul (X := Opposite.op
       (CommAlgCat.of A (coordinateRing π))))).left = _
   rw [Over.comp_left, μ_algSpec_left, algSpec_map_left]
@@ -363,7 +363,7 @@ private lemma kernel_isPullback :
       apply CommAlgCat.hom_ext
       apply (kernelAlgHomEquiv ℓ ζ hsplit s.pt.unop).injective
       apply Subtype.ext
-      show m.unop.hom.comp (Ideal.Quotient.mkₐ A _) = _
+      change m.unop.hom.comp (Ideal.Quotient.mkₐ A _) = _
       exact congrArg (fun g => g.unop.hom) (hm.trans (fac s).symm)))
 
 /-- The morphism of group schemes `f : G^{(ζ - 1)} → G^{((ζ - 1) ^ ℓ)}` over `Spec A`. -/
@@ -467,7 +467,7 @@ private lemma constantComponentOver_mul (i j : Multiplicative (ZMod ℓ)) :
   have hc : lift (c i) (c j) ≫ MonObj.mul = c (i * j) :=
     (constantGroupSchemeStructure.{u, 0} (Multiplicative (ZMod ℓ))).property i j
   rw [constantComponentOver_eq, constantComponentOver_eq, constantComponentOver_eq]
-  show lift (Functor.LaxMonoidal.ε F ≫ F.map (c i))
+  change lift (Functor.LaxMonoidal.ε F ≫ F.map (c i))
     (Functor.LaxMonoidal.ε F ≫ F.map (c j)) ≫
       (Functor.LaxMonoidal.μ F C C ≫ F.map MonObj.mul) = _
   rw [lift_ε_map_comp_mul, hc]
@@ -598,7 +598,7 @@ private lemma pointSection_mul (π : A) (x y : DeformedPoint π A) :
     apply Quiver.Hom.unop_inj
     apply CommAlgCat.hom_ext
     apply (pointOfAlgHom_bijective π A).injective
-    show pointOfAlgHom π
+    change pointOfAlgHom π
       ((Algebra.TensorProduct.lift (pointAlgHom π x) (pointAlgHom π y)
         (fun _ _ => Commute.all _ _)).comp
           (MonObj.mul (X := Opposite.op (CommAlgCat.of A (coordinateRing π)))).unop.hom) =
@@ -606,7 +606,7 @@ private lemma pointSection_mul (π : A) (x y : DeformedPoint π A) :
     rw [coordinateGrpObj_mul, pointOfAlgHom_comp_comultiplication,
       pointAlgHom_spec, pointAlgHom_spec, pointAlgHom_spec]
   let F := algSpec (CommRingCat.of A)
-  show lift (Functor.LaxMonoidal.ε F ≫ F.map sx)
+  change lift (Functor.LaxMonoidal.ε F ≫ F.map sx)
     (Functor.LaxMonoidal.ε F ≫ F.map sy) ≫
     (Functor.LaxMonoidal.μ F _ _ ≫ F.map MonObj.mul) = _
   rw [lift_ε_map_comp_mul, hxy]
@@ -692,7 +692,7 @@ private lemma exists_constantKernelIso
         (Ideal.span {isogeny ℓ ζ hsplit (coordinateGenerator ((ζ - 1) ^ ℓ))})) =
       pointAlgHom (ζ - 1) (constantPoint ℓ ζ hζ j.toAdd) := by
     apply coordinateAlgHom_ext
-    show e (Ideal.Quotient.mk _ (coordinateGenerator (ζ - 1))) j.toAdd = _
+    change e (Ideal.Quotient.mk _ (coordinateGenerator (ζ - 1))) j.toAdd = _
     rw [he, pointAlgHom_generator, coord_constantPoint]
   have key : (constantComponentOver (A := A) ℓ j).left ≫
       ((σ.hom.left :
@@ -779,7 +779,7 @@ theorem exists_shortExactSequence_of_groupSchemes (hℓ : ℓ.Prime) :
       simp
     exact (congrArg Over.Hom.left h).trans (isogenyGroupSchemeHom_left ℓ ζ hsplit)
   · intro j
-    show (Spec.preimage
+    change (Spec.preimage
       (constantComponentOver ℓ (Multiplicative.ofAdd j) ≫
         constantPointsMap ℓ ζ hζ ≫ 𝟙 _).left).hom
         (coordinateGenerator (ζ - 1)) = _

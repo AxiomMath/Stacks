@@ -86,7 +86,7 @@ theorem divBySection_homogeneousSection
   refine Stacks.SheafOfModules.divBySection_eq_of_smul_eq _ _ _ ?_
   apply Subtype.ext
   funext x
-  show Localization.mk (g ^ 1)
+  change Localization.mk (g ^ 1)
         ⟨f ^ 1, x.1.asHomogeneousIdeal.toIdeal.primeCompl.pow_mem x.2 1⟩ *
       Localization.mk f (1 : x.1.asHomogeneousIdeal.toIdeal.primeCompl)
     = Localization.mk g (1 : x.1.asHomogeneousIdeal.toIdeal.primeCompl)
@@ -188,7 +188,7 @@ theorem sectionsSubring_eq_top_of_divBySection_mem (n : ℕ) (i : Fin (n + 1))
     T = ⊤ := by
   have hcomap : T.comap (chartSectionsEquiv.{u} n i).toRingHom = ⊤ := by
     refine subring_eq_top_of_ratio_mem i _ fun a => ?_
-    show chartSectionsEquiv.{u} n i (ratio (ULift.{u} ℤ) i a) ∈ T
+    change chartSectionsEquiv.{u} n i (ratio (ULift.{u} ℤ) i a) ∈ T
     rw [chartSectionsEquiv_apply, ratio,
       ← divBySection_homogeneousSection (coordinateGrading.{u} n) (MvPolynomial.X i)
         (MvPolynomial.X a) (X_mem_degree_one _ i) (X_mem_degree_one _ a)]

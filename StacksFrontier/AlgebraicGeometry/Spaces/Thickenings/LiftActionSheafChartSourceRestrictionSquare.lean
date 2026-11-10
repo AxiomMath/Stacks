@@ -78,8 +78,9 @@ throughout, and three devices put it there, all three load-bearing:
   factorization's three factors are at *mixed* readings — its outer two at the chart's object of
   the site and its middle one at `ChartLiftPresentation.sub`, and its last factor is itself mixed,
   with `AlgebraicGeometry.Space.representedAssociatedModule` at the first spelling and the inverse
-  image at the second — so no instantiation of the three constituent squares produces them: whichever
-  reading the squares are pinned to, one of the two holes has to cross the junction inside a
+  image at the second — so no instantiation of the three constituent squares produces them:
+  whichever reading the squares are pinned to, one of the two holes has to cross the junction inside
+  a
   composite.  That is an `isDefEq` timeout which survives 1 000 000 heartbeats, with
   `CategoryTheory.Functor.leftAdjoint` and `structureSheaf` in its unfolding counts.
 * **Rewriting the assembled square** with `chartSourceIso_eq`: `rw` is a `whnf` timeout at the

@@ -240,25 +240,25 @@ theorem isConstructibleEtaleModule_etaleModuleExtensionByZero [IsNoetherianRing 
   · intro b
     cases b
     · exact B.isImmersion_map_locallyClosedHom Xb hCl
-    · show IsImmersion (B.inclusion.map ιb)
+    · change IsImmersion (B.inclusion.map ιb)
       rw [hιb]
       infer_instance
   · intro b
     cases b
-    · show Topology.IsConstructible (Set.range (B.inclusion.map cb).base)
+    · change Topology.IsConstructible (Set.range (B.inclusion.map cb).base)
       rw [hcr]
       exact hcons.compl
-    · show Topology.IsConstructible (Set.range (B.inclusion.map ιb).base)
+    · change Topology.IsConstructible (Set.range (B.inclusion.map ιb).base)
       rw [hιb]
       exact hcons
   · refine (Set.eq_univ_of_forall fun x ↦ ?_).symm
     by_cases hx : x ∈ Set.range ι.base
     · refine Set.mem_iUnion.2 ⟨true, ?_⟩
-      show x ∈ Set.range (B.inclusion.map ιb).base
+      change x ∈ Set.range (B.inclusion.map ιb).base
       rw [hιb]
       exact hx
     · refine Set.mem_iUnion.2 ⟨false, ?_⟩
-      show x ∈ Set.range (B.inclusion.map cb).base
+      change x ∈ Set.range (B.inclusion.map cb).base
       rw [hcr]
       exact hx
   · intro b

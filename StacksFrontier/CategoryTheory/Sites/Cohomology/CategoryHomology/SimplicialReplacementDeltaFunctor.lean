@@ -157,7 +157,7 @@ lemma replacementGroupMap_of {F G : Cᵒᵖ ⥤ AddCommGrpCat.{v}} (η : F ⟶ G
         (fun z => G.obj (Opposite.op z.right)) _ (Classical.decEq _) x)
         ((η.app (Opposite.op x.right)) a) := by
   classical
-  show (DirectSum.map fun z => (η.app (Opposite.op z.right)).hom)
+  change (DirectSum.map fun z => (η.app (Opposite.op z.right)).hom)
     (DirectSum.of (fun z : ComposableArrows C n => F.obj (Opposite.op z.right)) x a) = _
   rw [DirectSum.map_of]
 
@@ -271,7 +271,7 @@ theorem directSum_exact {ι : Type*} {A B D : ι → Type*}
     Function.Exact (DirectSum.map f) (DirectSum.map g) := by
   have hi : ∀ i, (f i).range = (g i).ker := fun i ↦ AddSubgroup.ext fun y ↦ (h i y).symm
   intro y
-  show y ∈ (DirectSum.map g).ker ↔ y ∈ (DirectSum.map f).range
+  change y ∈ (DirectSum.map g).ker ↔ y ∈ (DirectSum.map f).range
   rw [DirectSum.ker_map, DirectSum.range_map]
   simp only [hi]
 
@@ -290,7 +290,7 @@ theorem simplicialReplacementComplexFunctor_map_shortExact
       ((S.map E).map ((evaluation Cᵒᵖ AddCommGrpCat).obj (Opposite.op i.right))).ShortExact :=
     (hS.map_of_exact E).map_of_exact _
   refine { exact := ?_, mono_f := ?_, epi_g := ?_ }
-  · show (ShortComplex.mk (replacementGroupMap (E.map S.f) n)
+  · change (ShortComplex.mk (replacementGroupMap (E.map S.f) n)
       (replacementGroupMap (E.map S.g) n) _).Exact
     rw [ShortComplex.ab_exact_iff_function_exact]
     exact directSum_exact _ _ fun i ↦

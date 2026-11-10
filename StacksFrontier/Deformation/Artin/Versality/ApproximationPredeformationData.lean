@@ -299,7 +299,7 @@ public theorem approximationPoints_injective
     rwa [hgid]
   refine Deformation.Artin.completeLocalAlg_points_injective_of_eq hη1 g
     (fun A' a b hab => ?_) A α β he'
-  exact Deformation.CompleteLocalAlgCat.Hom.ext (AlgHom.coe_ringHom_injective
+  exact Deformation.CompleteLocalAlgCat.Hom.ext (AlgHom.toRingHom_injective
     (@pointMaps_injective A' _ _ _ a.hom.toRingHom b.hom.toRingHom a.isLocal b.isLocal hab))
 
 end ApproximationPackage

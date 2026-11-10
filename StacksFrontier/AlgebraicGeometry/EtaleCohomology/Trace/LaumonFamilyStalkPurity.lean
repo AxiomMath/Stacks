@@ -472,7 +472,6 @@ public theorem laumonFamily_isPure_restrictScalarsRep
   rw [hchar] at hz'
   have hnorm : ‖z'‖ = ((p ^ (n' * residueDegree fV v.1) : ℕ) : ℝ) ^ (((β + 1 : ℤ) : ℝ) / 2) := by
     first
-      | exact (hpure z' hz').norm_eq
       | exact hpure z' hz'
   refine hnorm.trans ?_
   rw [pow_mul, Nat.cast_pow, ← Real.rpow_natCast, ← Real.rpow_mul (Nat.cast_nonneg _)]

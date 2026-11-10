@@ -172,7 +172,7 @@ theorem tensorProductBraiding_hom_comp (Y : Scheme.{u})
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf Y.presheaf
         Y.ringCatSheaf.2).obj) :=
     PresheafOfModulesOfCommRing.symmetricCategory (R := Y.presheaf)
-  show (Stacks.SheafOfModules.TensorSheafification.sheafify Y.presheaf Y.ringCatSheaf.2).map
+  change (Stacks.SheafOfModules.TensorSheafification.sheafify Y.presheaf Y.ringCatSheaf.2).map
         (β_ A.val B.val).hom ≫
       (Stacks.SheafOfModules.TensorSheafification.sheafify Y.presheaf Y.ringCatSheaf.2).map
         (β_ B.val A.val).hom = _

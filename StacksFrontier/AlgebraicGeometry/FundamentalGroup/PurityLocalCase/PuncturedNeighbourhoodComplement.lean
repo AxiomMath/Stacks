@@ -138,12 +138,12 @@ theorem mem_of_mem_principalIdeal {W : S.X.Opens} (hW : S.IsNeighbourhood W)
   have hcomap : PrimeSpectrum.comap (Ideal.Quotient.mk S.principalIdeal)
       ⟨p.asIdeal.map (Ideal.Quotient.mk S.principalIdeal), hprime⟩ = p := by
     refine PrimeSpectrum.ext ?_
-    show Ideal.comap _ (p.asIdeal.map (Ideal.Quotient.mk S.principalIdeal)) = p.asIdeal
+    change Ideal.comap _ (p.asIdeal.map (Ideal.Quotient.mk S.principalIdeal)) = p.asIdeal
     rw [Ideal.comap_map_of_surjective _ Ideal.Quotient.mk_surjective,
       ← RingHom.ker_eq_comap_bot, Ideal.mk_ker, sup_eq_left.2 hspan]
   have hyU : (⟨p.asIdeal.map (Ideal.Quotient.mk S.principalIdeal), hprime⟩ :
       PrimeSpectrum S.quotientRing) ∈ S.U₀Open := by
-    show PrimeSpectrum.comap (Ideal.Quotient.mk S.principalIdeal) _ ∈ S.UOpen
+    change PrimeSpectrum.comap (Ideal.Quotient.mk S.principalIdeal) _ ∈ S.UOpen
     rw [hcomap]
     exact hp
   rw [← hcomap]
@@ -210,7 +210,7 @@ theorem eq_of_le_of_notMem_principalIdeal {W : S.X.Opens} (hW : S.IsNeighbourhoo
       ((IsLocalRing.maximalIdeal S.A).map (Ideal.Quotient.mk p.asIdeal)).height ≤ 1 :=
     Ideal.map_height_le_one_of_mem_minimalPrimes (S.closedPoint_mem_minimalPrimes hW hpW)
   have hqne : q.asIdeal.map (Ideal.Quotient.mk p.asIdeal) ≠ ⊥ := by
-    obtain ⟨a, haq, hap⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨a, haq, hap⟩ := IsConcreteLE.exists_of_lt hlt
     intro hbot
     exact hap ((Ideal.Quotient.eq_zero_iff_mem).1
       (by simpa [hbot] using Ideal.mem_map_of_mem (Ideal.Quotient.mk p.asIdeal) haq))

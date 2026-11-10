@@ -551,7 +551,7 @@ private theorem exists_strictlyPerfect_model_of_isZero_restrict (X : RingedSpace
     (structureSheafRing (X.restrict V.isOpenEmbedding)))
   have eQ : (jStar V (structureSheafRing X)).mapDerivedCategory.obj (QX.obj G) ≅
       QV.obj (RingedSpace.restrictComplex G V) := by
-    show (jStar V (structureSheafRing X)).mapDerivedCategory.obj (QX.obj G) ≅
+    change (jStar V (structureSheafRing X)).mapDerivedCategory.obj (QX.obj G) ≅
         QV.obj ((((jStar V (structureSheafRing X)).mapHomologicalComplex
           (ComplexShape.up ℤ)).obj G))
     exact ((jStar V (structureSheafRing X)).mapDerivedCategoryFactors).app G

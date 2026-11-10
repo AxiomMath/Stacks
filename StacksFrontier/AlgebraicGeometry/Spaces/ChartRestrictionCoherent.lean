@@ -153,7 +153,7 @@ theorem reindexBackSharp_hom_app_opensObj (A : SmallEtale B S hS X.1)
         (representedSchemeStructureSheaf B S hS (chartFppfObject B S hS X A))).hom.app
       (op (_root_.AlgebraicGeometry.SmallEtale.opensObj (associatedBigEtaleSite B)
         (chartScheme A) (chartFppfObject B S hS X A).left.property O)) = 𝟙 _ := by
-  show (representedSchemeStructureSheaf B S hS (chartFppfObject B S hS X A)).obj.map
+  change (representedSchemeStructureSheaf B S hS (chartFppfObject B S hS X A)).obj.map
     ((representedSmallEtaleEquivalence B S hS (chartFppfObject B S hS X A)).counit.app
       (_root_.AlgebraicGeometry.SmallEtale.opensObj (associatedBigEtaleSite B)
         (chartScheme A) (chartFppfObject B S hS X A).left.property O)).op = 𝟙 _
@@ -173,7 +173,7 @@ theorem sheafPushforwardContinuousNatTrans_openChartFunctorIso_app
         RingCat.{u} (Opens.grothendieckTopology ↥(chartScheme A))
         (SmallEtale.topology B S hS X.1)).app
       (structureRingSheaf B S hS X)).hom.app O = 𝟙 _ := by
-  show (structureRingSheaf B S hS X).obj.map
+  change (structureRingSheaf B S hS X).obj.map
     (eqToHom (openChartFunctor_obj_eq_chartComparisonFunctor_obj B S hS X A O.unop)).op = 𝟙 _
   exact (congrArg (structureRingSheaf B S hS X).obj.map (eqToHom_op _)).trans
     ((eqToHom_map (structureRingSheaf B S hS X).obj _).trans rfl)
@@ -190,7 +190,7 @@ theorem chartComparisonRingMap_comp_sheafPushforwardContinuousNatTrans
       chartSchemeRestrictionSheafHom B S hS X.2 A := by
   apply Sheaf.hom_ext
   refine NatTrans.ext (funext fun O => ?_)
-  show (chartComparisonRingMap B S hS X A).hom.app O ≫
+  change (chartComparisonRingMap B S hS X A).hom.app O ≫
       ((Functor.sheafPushforwardContinuousNatTrans
         (openChartFunctorIsoChartComparisonFunctor B S hS X A).hom
         RingCat.{u} (Opens.grothendieckTopology ↥(chartScheme A))
@@ -202,7 +202,7 @@ theorem chartComparisonRingMap_comp_sheafPushforwardContinuousNatTrans
   refine (Category.comp_id ((chartComparisonRingMap B S hS X A).hom.app O)).trans ?_
   refine RingCat.hom_ext ?_
   rw [chartComparisonRingMap_hom_app]
-  show RingHom.comp _ _ = _
+  change RingHom.comp _ _ = _
   rw [reindexBackSharp_hom_app_opensObj]
   rfl
 

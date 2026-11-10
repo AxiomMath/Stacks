@@ -1,7 +1,7 @@
 module
 
 public import
-  StacksFrontier.AlgebraicGeometry.FormalGeometry.CompletionUnitLocalCohomology.AdicCompletionFunctor
+ StacksFrontier.AlgebraicGeometry.FormalGeometry.CompletionUnitLocalCohomology.AdicCompletionFunctor
 public import StacksFrontier.AlgebraicGeometry.FormalGeometry.StabilizationReduction
 
 /-!
@@ -106,7 +106,7 @@ private def triangleHomOfNatTrans
     comm₁ := η.naturality T.mor₁
     comm₂ := η.naturality T.mor₂
     comm₃ := by
-      show T.mor₃ ≫ (shiftFunctor _ (1 : ℤ)).map (η.app T.obj₁) =
+      change T.mor₃ ≫ (shiftFunctor _ (1 : ℤ)).map (η.app T.obj₁) =
         η.app T.obj₃ ≫ F.map T.mor₃ ≫ (F.commShiftIso (1 : ℤ)).hom.app T.obj₁
       rw [← Category.assoc, ← η.naturality T.mor₃, Functor.id_map,
         Category.assoc, ← η.shift_app_comm]
@@ -128,10 +128,10 @@ private theorem isIso_homology_unit_of_zero_first_maps
     IsIso ((DerivedCategory.homologyFunctor C j).map (η.app T.obj₁)) := by
   let φ := triangleHomOfNatTrans F η T
   have : IsIso ((DerivedCategory.homologyFunctor C i).map φ.hom₂) := by
-    show IsIso ((DerivedCategory.homologyFunctor C i).map (η.app T.obj₂))
+    change IsIso ((DerivedCategory.homologyFunctor C i).map (η.app T.obj₂))
     infer_instance
   have : IsIso ((DerivedCategory.homologyFunctor C i).map φ.hom₃) := by
-    show IsIso ((DerivedCategory.homologyFunctor C i).map (η.app T.obj₃))
+    change IsIso ((DerivedCategory.homologyFunctor C i).map (η.app T.obj₃))
     infer_instance
   exact isIso_homologyMap_first_of_zero_first_maps hT (F.map_distinguished T hT) φ i j hij hz hz'
 
@@ -163,10 +163,10 @@ private theorem isIso_homologyMap_second_of_isIso_first
     ((H i).map φ.hom₃) ((H (i + 1)).map φ.hom₁)
     ((H 0).homologySequenceδ_naturality φ (i - 1) i (by omega)).symm
     (by
-      show (H i).map T.mor₁ ≫ _ = _ ≫ (H i).map T'.mor₁
+      change (H i).map T.mor₁ ≫ _ = _ ≫ (H i).map T'.mor₁
       rw [← Functor.map_comp, ← Functor.map_comp, φ.comm₁])
     (by
-      show (H i).map T.mor₂ ≫ _ = _ ≫ (H i).map T'.mor₂
+      change (H i).map T.mor₂ ≫ _ = _ ≫ (H i).map T'.mor₂
       rw [← Functor.map_comp, ← Functor.map_comp, φ.comm₂])
     ((H 0).homologySequenceδ_naturality φ i (i + 1) rfl).symm
   exact Abelian.isIso_of_epi_of_isIso_of_isIso_of_mono (he T hT) (he T' hT') ψ
@@ -188,13 +188,13 @@ private theorem isIso_homology_unit_second_of_isIso_first
     IsIso ((DerivedCategory.homologyFunctor C i).map (η.app T.obj₂)) := by
   let φ := triangleHomOfNatTrans F η T
   have : IsIso φ.hom₁ := by
-    show IsIso (η.app T.obj₁)
+    change IsIso (η.app T.obj₁)
     infer_instance
   have : IsIso ((DerivedCategory.homologyFunctor C (i - 1)).map φ.hom₃) := by
-    show IsIso ((DerivedCategory.homologyFunctor C (i - 1)).map (η.app T.obj₃))
+    change IsIso ((DerivedCategory.homologyFunctor C (i - 1)).map (η.app T.obj₃))
     infer_instance
   have : IsIso ((DerivedCategory.homologyFunctor C i).map φ.hom₃) := by
-    show IsIso ((DerivedCategory.homologyFunctor C i).map (η.app T.obj₃))
+    change IsIso ((DerivedCategory.homologyFunctor C i).map (η.app T.obj₃))
     infer_instance
   exact isIso_homologyMap_second_of_isIso_first hT (F.map_distinguished T hT) φ i
 
@@ -228,10 +228,10 @@ private theorem isIso_of_coreflections
   change h ≫ a = b at hh
   refine ⟨⟨h, ?_, ?_⟩⟩
   · apply haX
-    show (g ≫ h) ≫ a = (𝟙 X) ≫ a
+    change (g ≫ h) ≫ a = (𝟙 X) ≫ a
     rw [Category.assoc, hh, hg, Category.id_comp]
   · apply hbY
-    show (h ≫ g) ≫ b = (𝟙 Y) ≫ b
+    change (h ≫ g) ≫ b = (𝟙 Y) ≫ b
     rw [Category.assoc, hg, hh, Category.id_comp]
 
 /-- A functor whose counit admits a right inverse after composing is linear. -/
@@ -241,7 +241,7 @@ private theorem map_smul_of_counit_hom_injective
     (hε : Function.Injective (fun g : F.obj X ⟶ F.obj Y => g ≫ ε.app Y))
     (a : R) (f : X ⟶ Y) : F.map (a • f) = a • F.map f := by
   apply hε
-  show F.map (a • f) ≫ ε.app Y = (a • F.map f) ≫ ε.app Y
+  change F.map (a • f) ≫ ε.app Y = (a • F.map f) ≫ ε.app Y
   rw [ε.naturality, Functor.id_map]
   simpa only [Functor.id_map, Linear.smul_comp, Linear.comp_smul] using
     congrArg (fun g => a • g) (ε.naturality f).symm

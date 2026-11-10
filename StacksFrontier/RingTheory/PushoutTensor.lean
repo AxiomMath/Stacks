@@ -108,8 +108,7 @@ lemma linearEquivAux_tmul (a' : A') (m : M) :
 /-- The map `can` agrees with the additive bijection `linearEquivAux`. -/
 lemma can_eq_linearEquivAux (x : A' ⊗[A] M) :
     can A B A' B' M x = linearEquivAux A B A' B' M x := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul a' m => rw [can_tmul, linearEquivAux_tmul]
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 

@@ -175,7 +175,7 @@ public theorem idealPower_smul_sheafHom_section_eq_zero {X : Scheme.{u}}
     exact Ideal.mem_map_of_mem _ hr
   have hcomp : (X.presheaf.map i.op).hom (fRestr X.presheaf U.1 r V) =
       (X.presheaf.map (i ≫ V.unop.hom).op).hom r := by
-    show (X.presheaf.map i.op).hom ((X.presheaf.map V.unop.hom.op).hom r) = _
+    change (X.presheaf.map i.op).hom ((X.presheaf.map V.unop.hom.op).hom r) = _
     rw [← ConcreteCategory.comp_apply, ← Functor.map_comp]
     rfl
   rw [hcomp]
@@ -314,7 +314,7 @@ public theorem completionToLimit_completedSheafHomComparison :
       (sheafHomFunctor X (coherentObj G)).map (completionToLimit X I F) := by
   refine (isLimitOfPreserves (sheafHomFunctor X (coherentObj G))
     (limit.isLimit ((completionFunctor X I).obj F).obj)).hom_ext fun n => ?_
-  show (completionToLimit X I (internalHomCoherent X G F) ≫ completedSheafHomComparison G F) ≫
+  change (completionToLimit X I (internalHomCoherent X G F) ≫ completedSheafHomComparison G F) ≫
       (sheafHomFunctor X (coherentObj G)).map
         (limit.π ((completionFunctor X I).obj F).obj n) =
     (sheafHomFunctor X (coherentObj G)).map (completionToLimit X I F) ≫

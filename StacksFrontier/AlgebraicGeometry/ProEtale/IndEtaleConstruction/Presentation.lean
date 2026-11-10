@@ -103,7 +103,7 @@ lemma presentedAlgebra_etale {A : Type u} [CommRing A]
       relation := p.relations
       span_range_relation_eq_ker := by
         rw [Algebra.Generators.ker_eq_ker_aeval_val, hEval]
-        show Ideal.span (Set.range p.relations) = RingHom.ker (Ideal.Quotient.mk I)
+        change Ideal.span (Set.range p.relations) = RingHom.ker (Ideal.Quotient.mk I)
         rw [Ideal.mk_ker] }
   let Q₀ : Algebra.PreSubmersivePresentation A S (Fin n) (Fin n) :=
     { toPresentation := P
@@ -116,7 +116,7 @@ lemma presentedAlgebra_etale {A : Type u} [CommRing A]
             Ideal.Quotient.mk I (jacobianDeterminant p.relations) := by
           rw [Q₀.jacobian_eq_jacobiMatrix_det]
           rw [jacobiMatrix_eq_pderiv Q₀ fun _ ↦ rfl]
-          show MvPolynomial.aeval (Q₀.val)
+          change MvPolynomial.aeval (Q₀.val)
             (Matrix.det fun i j ↦ MvPolynomial.pderiv i (p.relations j)) = _
           rw [hEval]
           rfl
@@ -145,7 +145,7 @@ private lemma exists_square_submersive_presentation {A B : Type u}
   let erel : Fin (Fintype.card ι) ≃ σ := evar.trans emap.symm
   let Q := P.reindex evar erel
   refine ⟨Fintype.card ι, Q, fun i ↦ ?_⟩
-  show evar.symm (emap (emap.symm (evar i))) = i
+  change evar.symm (emap (emap.symm (evar i))) = i
   simp
 
 /-- The algebra presented by the relations of a submersive presentation is the presented

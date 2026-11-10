@@ -119,17 +119,17 @@ public lemma exists_hom_of_toScheme_fac {A C D : BigFppfOver B S hS} (p : D ⟶ 
   obtain ⟨v, hv⟩ := B.inclusion.map_surjective (X := C.left) (Y := D.left) t
   have hDhom : B.inclusion.map D.hom =
       (BigFppfOver.toScheme B S hS).map p ≫ B.inclusion.map A.hom := by
-    show B.inclusion.map D.hom = B.inclusion.map p.left ≫ B.inclusion.map A.hom
+    change B.inclusion.map D.hom = B.inclusion.map p.left ≫ B.inclusion.map A.hom
     rw [← Functor.map_comp, Over.w p]
   have hChom : (BigFppfOver.toScheme B S hS).map g ≫ B.inclusion.map A.hom =
       B.inclusion.map C.hom := by
-    show B.inclusion.map g.left ≫ B.inclusion.map A.hom = B.inclusion.map C.hom
+    change B.inclusion.map g.left ≫ B.inclusion.map A.hom = B.inclusion.map C.hom
     rw [← Functor.map_comp, Over.w g]
   have hw : v ≫ D.hom = C.hom := by
     refine B.inclusion.map_injective ?_
     rw [Functor.map_comp, hv, hDhom, ← Category.assoc, ht, hChom]
   refine ⟨Over.homMk v hw, Over.OverMorphism.ext ?_⟩
-  show v ≫ p.left = g.left
+  change v ≫ p.left = g.left
   refine B.inclusion.map_injective ?_
   rwa [Functor.map_comp, hv]
 

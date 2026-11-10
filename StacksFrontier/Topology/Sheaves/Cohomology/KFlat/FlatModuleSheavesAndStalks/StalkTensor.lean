@@ -446,8 +446,7 @@ noncomputable def presheafTensorStalkInv (M N : OXModule X) (x : X.carrier) :
   map_smul' := by
     intro r z
     simp only [RingHom.id_apply]
-    induction z using TensorProduct.induction_on with
-    | zero => rw [smul_zero, map_zero, smul_zero]
+    induction z using TensorProduct.inductionOn with
     | add a b ha hb => rw [smul_add, map_add, map_add, ha, hb, smul_add]
     | tmul μ ν =>
         rw [TensorProduct.smul_tmul']
@@ -520,9 +519,8 @@ theorem presheafTensorStalk_inv_fwd (M N : OXModule X) (x : X.carrier) :
         presheafTensorStalkCarrier M N x := ptsInv_germP M N x U hxU
   let composite := (presheafTensorStalkInv M N x).toAddMonoidHom.comp
     ((presheafTensorStalkFwd M N x).toAddMonoidHom.comp germMap)
-  show composite value = germMap value
-  induction value using TensorProduct.induction_on with
-  | zero => exact (map_zero composite).trans (map_zero germMap).symm
+  change composite value = germMap value
+  induction value using TensorProduct.inductionOn with
   | add left right left_eq right_eq =>
       exact (map_add composite left right).trans
         ((congrArg₂ (· + ·) left_eq right_eq).trans (map_add germMap left right).symm)
@@ -602,7 +600,7 @@ theorem mono_of_stalkMapAdd_injective (M N : OXModule X) (f : M ⟶ N)
       type_of% M ⥤ _).Faithful :=
     CategoryTheory.Functor.Faithful.comp _ _
   have hmono : Mono ((SheafOfModules.forget _ ⋙ PresheafOfModules.toPresheaf _).map f) := by
-    show Mono g; infer_instance
+    change Mono g; infer_instance
   exact Functor.mono_of_mono_map (SheafOfModules.forget _ ⋙ PresheafOfModules.toPresheaf _) hmono
 
 /-- The underlying `AddCommGrp` presheaf morphism of a monomorphism of `O_X`-modules
@@ -768,9 +766,8 @@ theorem presheafTensorStalkFwd_naturality (F M N : OXModule X) (f : M ⟶ N) (x 
     (stalkHom.comp sourceGerm)
   let rightComposite := (LinearMap.rTensor (F.stalk x) (stalkLinearMap M N f x)).toAddMonoidHom.comp
     ((presheafTensorStalkFwd M F x).toAddMonoidHom.comp sourceGerm)
-  show leftComposite value = rightComposite value
-  induction value using TensorProduct.induction_on with
-  | zero => exact (map_zero leftComposite).trans (map_zero rightComposite).symm
+  change leftComposite value = rightComposite value
+  induction value using TensorProduct.inductionOn with
   | add left right left_eq right_eq =>
       exact (map_add leftComposite left right).trans
         ((congrArg₂ (· + ·) left_eq right_eq).trans (map_add rightComposite left right).symm)
@@ -850,7 +847,7 @@ theorem tensorBy_stalk_injective_of_flat (F M N : OXModule X) (f : M ⟶ N)
     ((SheafOfModules.forget (ringSheaf X)).obj N ⊗ (SheafOfModules.forget (ringSheaf X)).obj
         F)).bijective
   -- The target stalk map is, by construction, the sheafify stalk map of `g`.
-  show Function.Injective
+  change Function.Injective
     (ConcreteCategory.hom (stalkMapAdd
       (sheafify.obj ((SheafOfModules.forget (ringSheaf X)).obj M ⊗ (SheafOfModules.forget
           (ringSheaf X)).obj F))

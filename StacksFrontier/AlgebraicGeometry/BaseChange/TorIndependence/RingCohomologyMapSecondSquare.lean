@@ -160,8 +160,7 @@ theorem baseChangeTensorRingMap_comp_secondSquareTensorMap :
       (algebraMap A' A₁').comp
         (baseChangeTensorRingMap (R := R) (A := A) (R' := R') (A' := A')) := by
   refine RingHom.ext fun t => ?_
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul a r =>
     simp only [RingHom.comp_apply, secondSquareTensorMap_tmul, baseChangeTensorRingMap_tmul,
@@ -193,9 +192,6 @@ theorem secondSquareHomologyMap_smul (K : DerivedCategory (ModuleCat.{u} A)) (n 
   have hadd : ∀ x y : H, θ (x + y) = θ x + θ y := fun x y =>
     (secondSquareHomologyMap (R := R) (R' := R') (R₁ := R₁) (A₁ := A₁) (R₁' := R₁')
       K n).hom.map_add x y
-  have hzero : θ 0 = 0 :=
-    (secondSquareHomologyMap (R := R) (R' := R') (R₁ := R₁) (A₁ := A₁) (R₁' := R₁') K
-      n).hom.map_zero
   have hR' : ∀ (r : R') (x : H), θ (r • x) = algebraMap R' R₁' r • θ x :=
     fun r x => (secondSquareHomologyMap (R := R) (R' := R') (R₁ := R₁) (A₁ := A₁) (R₁' := R₁')
       K n).hom.map_smul r x
@@ -205,8 +201,7 @@ theorem secondSquareHomologyMap_smul (K : DerivedCategory (ModuleCat.{u} A)) (n 
     fun a x => secondSquareHomologyMap_action K n a x
   change θ (t • m) = secondSquareTensorMap (R := R) (A := A) (R' := R') (R₁ := R₁) (A₁ := A₁)
       (R₁' := R₁') t • θ m
-  induction t using TensorProduct.induction_on generalizing m with
-  | zero => rw [zero_smul, hzero, map_zero, zero_smul]
+  induction t using TensorProduct.inductionOn generalizing m with
   | add x y hx hy => rw [add_smul, hadd, hx, hy, map_add, add_smul]
   | tmul a r =>
     rw [secondSquareTensorMap_tmul, tmul_eq_includeLeft_mul_includeRight (R := R₁),
@@ -437,8 +432,7 @@ def middleLinearMap (K : DerivedCategory (ModuleCat.{u} A)) (n : ℤ) :
     map_add' := θ.map_add
     map_smul' := fun t m => by
       change θ (t • m) = firstFactorRingHom (R := R) (A := A) (R' := R') (A₁ := A₁) t • θ m
-      induction t using TensorProduct.induction_on generalizing m with
-      | zero => rw [zero_smul, θ.map_zero, map_zero, zero_smul]
+      induction t using TensorProduct.inductionOn generalizing m with
       | add x y hx hy => rw [add_smul, θ.map_add, hx, hy, map_add, add_smul]
       | tmul a r =>
         have ht : a ⊗ₜ[R] r =
@@ -504,8 +498,7 @@ theorem isBaseChange_middleLinearMap [Module.Flat A A₁] (K : DerivedCategory (
       (fun y m => ((middleModuleData (R := R) (R' := R') (R₁ := R₁) (A₁ := A₁) K n).2.2 y m).symm)
       _ (fun _ => rfl)
   refine isBaseChange_of_isBaseChange_of_span (T := A) (T' := A₁) _ hj fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => exact Submodule.zero_mem _
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => exact Submodule.add_mem _ hx hy
   | tmul a r =>
     have : (a ⊗ₜ[R] r : C') = a • algebraMap C C' ((1 : A) ⊗ₜ[R] r) := by
@@ -632,10 +625,7 @@ def middleComparisonLinearMap (K : DerivedCategory (ModuleCat.{u} A)) (n : ℤ) 
         middleRingHom (R := R) (R' := R') (R₁ := R₁) (A₁ := A₁) (R₁' := R₁') t •
           (@id (baseChangeCohomologyOverBase (R := R₁) (R' := R₁')
             ((dext (algebraMap A A₁)).obj K) n) (q.hom m))
-      induction t using TensorProduct.induction_on generalizing m with
-      | zero =>
-        rw [zero_smul, q.hom.map_zero, map_zero, zero_smul]
-        all_goals rfl
+      induction t using TensorProduct.inductionOn generalizing m with
       | add x y hx hy =>
         rw [add_smul, q.hom.map_add, hx, hy, map_add, add_smul]
         all_goals rfl
@@ -702,8 +692,7 @@ theorem isBaseChange_middleComparisonLinearMap [Module.Flat R R₁]
   have hνtmul : ∀ (r : R₁) (s : R'), ν (r ⊗ₜ[R] s) = algebraMap R₁ A₁ r ⊗ₜ[R] s := fun _ _ => rfl
   have hTT' : ∀ t : T, ι' (κ t) = ψ (ν t) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
     | tmul r s =>
       rw [hνtmul, middleRingHom_tmul, baseChangeTensorRingMap_tmul]
@@ -722,8 +711,7 @@ theorem isBaseChange_middleComparisonLinearMap [Module.Flat R R₁]
   have : IsScalarTower T R₁' N := IsScalarTower.of_compHom _ _ _
   have hMT : ∀ (t : T) (m : M), ν t • m = t • m := by
     intro t m
-    induction t using TensorProduct.induction_on generalizing m with
-    | zero => rw [map_zero, zero_smul, zero_smul]
+    induction t using TensorProduct.inductionOn generalizing m with
     | add x y hx hy => rw [map_add, add_smul, add_smul, hx, hy]
     | tmul r s =>
       rw [hνtmul, tmul_eq_includeLeft_mul_includeRight (R := R) (algebraMap R₁ A₁ r) s,
@@ -756,8 +744,7 @@ theorem isBaseChange_middleComparisonLinearMap [Module.Flat R R₁]
     (IsBaseChange.iff_of_equiv_comm (LinearEquiv.refl T M) (LinearEquiv.refl R₁' N)
       (LinearMap.ext fun _ => rfl)).mp hfs
   refine isBaseChange_of_isBaseChange_of_span (T := T) (T' := R₁') _ hj fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => exact Submodule.zero_mem _
+  induction x using TensorProduct.inductionOn with
   | add x y hx hy => exact Submodule.add_mem _ hx hy
   | tmul a s =>
     have : (a ⊗ₜ[R₁] s : C₁) = s • algebraMap C C₁ (a ⊗ₜ[R] (1 : R')) := by
@@ -828,8 +815,7 @@ theorem isBaseChange_secondSquareLinearMap [Module.Flat R R₁] [Module.Flat A A
   let H₁ := baseChangeCohomologyOverBase (R := R₁) (R' := R₁') K₁ n
   have hσ : ∀ t : C, σ t = ψ (φ t) := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | add x y hx hy => rw [map_add, map_add, map_add, hx, hy]
     | tmul a r =>
       rw [secondSquareTensorMap_tmul]

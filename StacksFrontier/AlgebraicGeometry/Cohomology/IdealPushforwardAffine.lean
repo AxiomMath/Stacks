@@ -104,7 +104,7 @@ private theorem ideal_comap_affine {X Y : Scheme.{u}} (f : Y ⟶ X)
       morphismRestrict_ι]
   have htarget := Stacks.Divisors.ideal_comap_top_heq (I.comap f) V
   have hΓ (Z : Scheme.{u}) (W : Z.Opens) : Γ(W, ⊤) = Γ(Z, W) := by
-    show Γ(Z, (Scheme.Hom.opensFunctor W.ι).obj ⊤) = Γ(Z, W)
+    change Γ(Z, (Scheme.Hom.opensFunctor W.ι).obj ⊤) = Γ(Z, W)
     rw [Scheme.Opens.ι_image_top]
   rw [hcomp] at htarget
   exact eq_of_heq ((htarget.symm.trans (heq_of_eq
@@ -148,7 +148,7 @@ theorem ideal_smul_pushforward_sections_eq (f : Y ⟶ X) [IsAffineHom f]
     pushforwardIdealMultipleSections f I F U =
       pullbackIdealMultiplePushforwardSections f I F U := by
   ext s
-  show s ∈ (I.ideal U • (⊤ : Submodule Γ(X, U) Γ((Scheme.Modules.pushforward f).obj F, U))) ↔
+  change s ∈ (I.ideal U • (⊤ : Submodule Γ(X, U) Γ((Scheme.Modules.pushforward f).obj F, U))) ↔
     (Equiv.cast (congrArg (fun M ↦ ↑M) (Scheme.Modules.pushforward_obj_obj f F U))) s ∈
       (I.comap f).ideal ⟨f ⁻¹ᵁ U, U.2.preimage f⟩ •
         (⊤ : Submodule Γ(Y, f ⁻¹ᵁ U) Γ(F, f ⁻¹ᵁ U))
@@ -161,7 +161,7 @@ theorem ideal_smul_pushforward_sections_eq (f : Y ⟶ X) [IsAffineHom f]
   have h := Submodule.restrictScalars_map_smul_eq (R := Γ(Y, f ⁻¹ᵁ U))
     (S := Γ(X, U)) (M := Γ(F, f ⁻¹ᵁ U)) (I.ideal U)
     (⊤ : Submodule Γ(Y, f ⁻¹ᵁ U) Γ(F, f ⁻¹ᵁ U))
-  show s ∈ (I.ideal U • (⊤ : Submodule Γ(X, U) Γ(F, f ⁻¹ᵁ U))) ↔
+  change s ∈ (I.ideal U • (⊤ : Submodule Γ(X, U) Γ(F, f ⁻¹ᵁ U))) ↔
     s ∈ Ideal.map (f.app U).hom (I.ideal U) •
       (⊤ : Submodule Γ(Y, f ⁻¹ᵁ U) Γ(F, f ⁻¹ᵁ U))
   convert (Iff.of_eq (congrArg (fun N : Submodule Γ(X, U) Γ(F, f ⁻¹ᵁ U) => s ∈ N)

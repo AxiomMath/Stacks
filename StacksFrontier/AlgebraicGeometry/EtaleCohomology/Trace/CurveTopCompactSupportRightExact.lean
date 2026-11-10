@@ -37,7 +37,7 @@ namespace Stacks.EtaleCohomology
 attribute [local instance] HasDerivedCategory.standard
 
 variable {k : Type u} [Field k] [Fintype k] {X : Scheme.{u}}
-  (f : X ⟶ Spec (.of k)) [LocallyOfFiniteType f] [QuasiCompact f] [IsSeparated f]
+  (f : X ⟶ Spec (.of k)) [LocallyOfFiniteType f] [QuasiCompact f]
   (j : CompactificationOf (Over.mk f))
   (kbar : Type u) [Field kbar] [Algebra k kbar] [IsAlgClosed kbar] (m : ℕ) [NeZero m]
 

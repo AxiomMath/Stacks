@@ -85,7 +85,7 @@ private theorem completion_hom_bijective
       simpa using unit.naturality h
     apply (cancel_mono (unit.app target)).1
     rw [hg, hh, mapEquality]
-  · show unit.app source ≫ (completion.map map ≫ inv (unit.app target)) = map
+  · change unit.app source ≫ (completion.map map ≫ inv (unit.app target)) = map
     rw [← Category.assoc]
     have hm : unit.app source ≫ completion.map map = map ≫ unit.app target := by
       simpa using (unit.naturality map).symm
@@ -99,7 +99,7 @@ private theorem map_smul_of_unit_hom_injective
     (hη : Function.Injective (fun g : F.obj X ⟶ F.obj Y => η.app X ≫ g))
     (a : R) (f : X ⟶ Y) : F.map (a • f) = a • F.map f := by
   apply hη
-  show η.app X ≫ F.map (a • f) = η.app X ≫ (a • F.map f)
+  change η.app X ≫ F.map (a • f) = η.app X ≫ (a • F.map f)
   rw [← η.naturality, Functor.id_map]
   simpa only [Functor.id_map, Linear.smul_comp, Linear.comp_smul] using
     congrArg (fun g => a • g) (η.naturality f)
@@ -160,7 +160,7 @@ theorem isIso_completionFunctor_map_completionUnit (I : Ideal A) (hI : I.FG)
   have := IsIso.id ((Dualizing.derivedCompletion A I hI).obj X)
   have hL : IsIso ((Dualizing.derivedCompletion A I hI).map ((adicCompletionUnit A I hI).app X)) :=
     IsIso.of_isIso_fac_right htri
-  show IsIso ((Dualizing.derivedCompleteProperty A I).ι.map
+  change IsIso ((Dualizing.derivedCompleteProperty A I).ι.map
     ((Dualizing.derivedCompletion A I hI).map ((adicCompletionUnit A I hI).app X)))
   infer_instance
 
@@ -189,10 +189,10 @@ theorem exists_iso_of_reflections {C : Type*} [Category C]
   change ηG.app X ≫ β = ηF.app X at hβ
   refine ⟨⟨α, β, ?_, ?_⟩, hα⟩
   · refine (bF X (F.obj X) (hF X)).1 (a₁ := α ≫ β) (a₂ := 𝟙 _) ?_
-    show ηF.app X ≫ α ≫ β = ηF.app X ≫ 𝟙 _
+    change ηF.app X ≫ α ≫ β = ηF.app X ≫ 𝟙 _
     rw [← Category.assoc, hα, hβ, Category.comp_id]
   · refine (bG X (G.obj X) (hG X)).1 (a₁ := β ≫ α) (a₂ := 𝟙 _) ?_
-    show ηG.app X ≫ β ≫ α = ηG.app X ≫ 𝟙 _
+    change ηG.app X ≫ β ≫ α = ηG.app X ≫ 𝟙 _
     rw [← Category.assoc, hβ, hα, Category.comp_id]
 
 /-- **The Čech model of derived completion agrees with the reflection model.** Both are

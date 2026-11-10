@@ -177,14 +177,14 @@ private lemma geometricallyRegular_comp_ringEquiv
   let _ : IsScalarTower R S A := IsScalarTower.of_algebraMap_eq' rfl
   let _ : IsScalarTower R S K := IsScalarTower.of_algebraMap_eq' (by
     ext x
-    show algebraMap R K x = algebraMap R K (e.symm (e x))
+    change algebraMap R K x = algebraMap R K (e.symm (e x))
     rw [e.symm_apply_apply])
   let _ : Algebra.EssFiniteType S K := Algebra.EssFiniteType.of_comp R S K
   let _ : TensorProduct.CompatibleSMul R S K A := by
     constructor
     intro s k a
     obtain ⟨r, rfl⟩ := e.surjective s
-    show (algebraMap S K (e r) * k) ⊗ₜ[R] a =
+    change (algebraMap S K (e r) * k) ⊗ₜ[R] a =
       k ⊗ₜ[R] (algebraMap S A (e r) * a)
     rw [show algebraMap S K (e r) = algebraMap R K r from
         (IsScalarTower.algebraMap_apply R S K r).symm,
@@ -327,7 +327,7 @@ private lemma holds_of_equiv
     intro z
     apply ULift.ext
     exact (congrArg (fun t : A →+* D => t (e.symm z.down)) h).trans (by simp)
-  show P (RingHom.ulift g)
+  change P (RingHom.ulift g)
   rw [← heq]
   exact hh
 
@@ -474,7 +474,7 @@ private lemma holds_fiber_localization_iff
   let f : p.ResidueField →ₐ[R] q.asIdeal.ResidueField :=
     { Ideal.ResidueField.map p q.asIdeal (algebraMap R L) rfl with
       commutes' := fun r => by
-        show Ideal.ResidueField.map p q.asIdeal (algebraMap R L) rfl
+        change Ideal.ResidueField.map p q.asIdeal (algebraMap R L) rfl
           (algebraMap R p.ResidueField r) = algebraMap R q.asIdeal.ResidueField r
         rw [Ideal.ResidueField.map_algebraMap, ← IsScalarTower.algebraMap_apply] }
   let e := AlgEquiv.ofBijective f
@@ -492,7 +492,7 @@ private lemma holds_fiber_localization_iff
     intro z
     apply E.injective
     simpa only [RingHom.comp_apply, RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom,
-      RingEquiv.apply_symm_apply, AlgEquiv.coe_ringEquiv,
+      RingEquiv.apply_symm_apply, AlgEquiv.coe_toRingEquiv,
       AlgEquiv.apply_symm_apply] using (hE (e.symm z)).symm
 
 private lemma formalFibersHaveAt_localization_iff

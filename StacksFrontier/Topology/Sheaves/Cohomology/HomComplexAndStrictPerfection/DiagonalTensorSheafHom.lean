@@ -121,7 +121,7 @@ theorem tensorTotal_hom_ext
   refine ((PresheafOfModules.sheafificationAdjunction
     (𝟙 (structureSheaf Rc).obj)).homEquiv
       ((presheafTensorTotal Rc A B).X n) (T.X n)).injective ?_
-  show (PresheafOfModules.sheafificationAdjunction (𝟙 (structureSheaf Rc).obj)).unit.app
+  change (PresheafOfModules.sheafificationAdjunction (𝟙 (structureSheaf Rc).obj)).unit.app
       ((presheafTensorTotal Rc A B).X n) ≫ (f.f n).val =
     (PresheafOfModules.sheafificationAdjunction (𝟙 (structureSheaf Rc).obj)).unit.app
       ((presheafTensorTotal Rc A B).X n) ≫ (g.f n).val

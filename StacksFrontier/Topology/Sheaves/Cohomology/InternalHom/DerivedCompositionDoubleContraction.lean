@@ -132,7 +132,7 @@ theorem derivedSheafHomComposition_whiskerRight_comp_derivedSheafHomCounit_of_do
 /-- **(C) with middle object the structure sheaf, from the same single equation `htr`**: the
 previous theorem at `K := L`, `L := O_X` and `M := M`, with the right tensor factor
 `RSheafHom(L, O_X)` written as `derivedDual Rc L`. -/
-theorem derivedSheafHomComposition_structureSheafMiddle_whiskerRight_comp_derivedSheafHomCounit_of_doubleContraction
+theorem derivedSheafHomComposition_structSheafMiddle_whiskerRight_comp_counit_of_doubleContraction
     (L M : DerivedCategory (StructureSheafModules Rc))
     (htr : (derivedSheafHomTensorEquiv Rc
             (((derivedSheafHom Rc).obj

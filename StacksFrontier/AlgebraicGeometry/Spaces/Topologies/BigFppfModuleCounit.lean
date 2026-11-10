@@ -122,7 +122,7 @@ theorem isIso_counit_val_app_of_isAffineOverAffineEtale
   exact Stacks.AlgebraicGeometry.QcohRestrictEquiv.isIso_val_app_of_iso ε
     (Over.isoMk (f := Y) (g := (AffineSchemesOver.toOver T U).obj Ŷ) eY.symm
       (by
-        show eY.inv ≫ (eY.hom ≫ g.left) ≫ U.hom = Y.hom
+        change eY.inv ≫ (eY.hom ≫ g.left) ≫ U.hom = Y.hom
         rw [Category.assoc, eY.inv_hom_id_assoc, Over.w g])).symm hY'
 
 /-- **Stacks 0DGN (5), the counit: `a_X^*a_{X,*}H ⟶ H` is an isomorphism** for a quasi-coherent

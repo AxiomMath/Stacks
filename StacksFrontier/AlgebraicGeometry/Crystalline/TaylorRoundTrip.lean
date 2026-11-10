@@ -93,8 +93,7 @@ theorem exists_baseChange_lift (hN : IsAdicComplete (pAdicIdeal (A := R) p) N) (
     exact AdicCompletion.ofLinearEquiv_symm_of _ _
   have hlam_smul : ∀ (c' : D') (y : D' ⊗[D] M), lam (c' • y) = τ c' • lam y := by
     intro c' y
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul c m =>
       rw [TensorProduct.smul_tmul', smul_eq_mul]
       simp [hlam, baseChangeLiftRaw, smul_smul]
@@ -119,8 +118,7 @@ theorem baseChangeCarrier_ext (hN : IsHausdorff (pAdicIdeal (A := R) p) N)
     (h : ∀ m : M, ψ (baseChangeInclusion p D D' M m) = ψ' (baseChangeInclusion p D D' M m)) :
     ψ = ψ' := by
   refine addMonoidHom_ext_adicCompletion p hN fun y ↦ ?_
-  induction y using TensorProduct.induction_on with
-  | zero => simp
+  induction y using TensorProduct.inductionOn with
   | tmul c m =>
     rw [of_tmul_eq_smul_inclusion, hψ, hψ', h]
   | add y y' hy hy' => rw [_root_.map_add, _root_.map_add, _root_.map_add, hy, hy']
@@ -450,7 +448,7 @@ theorem coordOp_taylorRoundTrip (j : ι) (m : M) :
     have h1 : θN j (∑ K ∈ R, taylorSumTerm D thetaPow incl.toAddMonoidHom xi m K) =
         ∑ K ∈ R, (taylorMonomial D xi K • θN j (incl (thetaPow K m)) +
           b.repr (d (taylorMonomial D xi K)) j • incl (thetaPow K m)) := by
-      show θNj _ = _
+      change θNj _ = _
       rw [map_sum]
       refine Finset.sum_congr rfl fun K _ ↦ ?_
       simp only [hθNj, AddMonoidHom.mk'_apply, taylorSumTerm, hθN, coordOp_smul]
